@@ -225,7 +225,7 @@ void Viewer::SetupUI()
         m_tSliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &Viewer::OnThrustChanged));
     }
 
-    box->PackEnd(thrustSliderBox);
+	c->AddFloatingWidget(thrustSliderBox, vector2f(0.f, g_height-120.f), vector2f(250.f, 100.f));
     c->Layout();
 }
 
