@@ -36,13 +36,15 @@ noinst_HEADERS = \
 	Skin.h \
 	Slider.h \
 	TextLayout.h \
-	Widget.h
+	Widget.h \
+	WidgetSet.h
 
 libui_a_SOURCES = \
 	Align.cpp \
 	Background.cpp \
 	Box.cpp \
 	Button.cpp \
+	CellSpec.cpp \
 	CheckBox.cpp \
 	ColorBackground.cpp \
 	Container.cpp \
@@ -62,6 +64,7 @@ libui_a_SOURCES = \
 	Slider.cpp \
 	TextLayout.cpp \
 	Widget.cpp \
+	WidgetSet.cpp \
 	Lua.cpp \
 	LuaAlign.cpp \
 	LuaBackground.cpp \

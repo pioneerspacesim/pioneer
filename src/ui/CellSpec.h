@@ -1,3 +1,10 @@
+#ifndef _UI_CELLSPEC_H
+#define _UI_CELLSPEC_H
+
+#include <cassert>
+
+struct lua_State;
+
 namespace UI {
 
 class CellSpec {
@@ -38,9 +45,11 @@ public:
 
 	inline CellSpec(const float cp[], int n) : numCells(n) {
 		assert(n >= 0 && n <= 8);
-		for (int i = 0; i < 8; i++) cellPercent[i] = cp[i];
+		for (int i = 0; i < n; i++) cellPercent[i] = cp[i];
 		ClampCells();
 	}
+
+	static CellSpec FromLuaTable(lua_State *l, int idx);
 
 	int numCells;
 	float cellPercent[8];
@@ -57,3 +66,5 @@ private:
 };
 
 }
+
+#endif

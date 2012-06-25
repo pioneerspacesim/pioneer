@@ -6,6 +6,25 @@ namespace UI {
 class LuaSingle {
 public:
 
+	static int l_set_inner_widget(lua_State *l) {
+		Single *s = LuaObject<UI::Single>::CheckFromLua(1);
+		Widget *w = LuaObject<UI::Widget>::CheckFromLua(2);
+		s->SetInnerWidget(w);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
+	static int l_remove_inner_widget(lua_State *l) {
+		Single *s = LuaObject<UI::Single>::CheckFromLua(1);
+		s->RemoveInnerWidget();
+		return 0;
+	}
+
+	static int l_attr_inner_widget(lua_State *l) {
+		Single *s = LuaObject<UI::Single>::CheckFromLua(1);
+		LuaObject<UI::Widget>::PushToLua(s->GetInnerWidget());
+		return 1;
+	}
 };
 
 }
@@ -19,10 +38,16 @@ template <> void LuaObject<UI::Single>::RegisterClass()
 	static const char *l_parent = "UI.Container";
 
 	static const luaL_Reg l_methods[] = {
-
-        { 0, 0 }
+		{ "SetInnerWidget",    LuaSingle::l_set_inner_widget    },
+		{ "RemoveInnerWidget", LuaSingle::l_remove_inner_widget },
+		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
+	static const luaL_Reg l_attrs[] = {
+		{ "innerWidget", LuaSingle::l_attr_inner_widget },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<UI::Single>::DynamicCastPromotionTest);
 }

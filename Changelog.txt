@@ -5,14 +5,18 @@ Alpha 24
      * Fix scrolling in the mission list (#1292, #1291)
 
    * Script and model changes
+     * Lua console now provides autocompletion. Press <TAB> to cycle through
+       possible completions of the current identifier. (#1286)
      * Lua updated to 5.2.1 (#1293)
      * Renamed UI to Comms (#1288)
      * Limited libraries available to LMR to debug, string and math (#1289)
+     * Allow Characters to be created from random seed (#1299)
 
    * Internal changes
      * Abstracted out the normal Lua object type promotion test, and Lua
        ownership of refcounted objects (#1290)
      * Stop a broken Lua error handler triggering an infinite loop (#1289)
+     * Changed LuaGame and LuaEngine to use the LuaObject system (#1296)
 
 Alpha 23
 

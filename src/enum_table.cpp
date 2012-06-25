@@ -10,6 +10,7 @@
 #include "SpaceStation.h"
 #include "galaxy/StarSystem.h"
 #include "ui/Align.h"
+#include "ui/Box.h"
 #include "ui/Image.h"
 #include "ui/Widget.h"
 
@@ -311,6 +312,12 @@ const struct EnumItem ENUM_UIAlignDirection[] = {
 	{ "BOTTOM_LEFT", UI::Align::BOTTOM_LEFT },
 	{ "BOTTOM", UI::Align::BOTTOM },
 	{ "BOTTOM_RIGHT", UI::Align::BOTTOM_RIGHT },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIBoxFlags[] = {
+	{ "EXPAND", UI::Box::BOX_EXPAND },
+	{ "FILL", UI::Box::BOX_FILL },
 	{ 0, 0 },
 };
 

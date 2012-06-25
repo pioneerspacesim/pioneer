@@ -29,27 +29,13 @@ public:
 
 		UI::CellSpec rowSpec(0), colSpec(0);
 
-		float cellPercent[8];
-
-		if (lua_istable(l, 2)) {
-			for (size_t i = 0; i < 8 && i < lua_rawlen(l, 2); i++) {
-				lua_rawgeti(l, 2, i+1);
-				cellPercent[i] = luaL_checknumber(l, -1);
-				lua_pop(l, 1);
-			}
-			rowSpec = UI::CellSpec(cellPercent, lua_rawlen(l, 2));
-		}
+		if (lua_istable(l, 2))
+			rowSpec = UI::CellSpec::FromLuaTable(l, 2);
 		else
 			rowSpec = UI::CellSpec(luaL_checkinteger(l, 2));
 
-		if (lua_istable(l, 3)) {
-			for (size_t i = 0; i < 8 && i < lua_rawlen(l, 3); i++) {
-				lua_rawgeti(l, 3, i+1);
-				cellPercent[i] = luaL_checknumber(l, -1);
-				lua_pop(l, 1);
-			}
-			colSpec = UI::CellSpec(cellPercent, lua_rawlen(l, 3));
-		}
+		if (lua_istable(l, 3))
+			colSpec = UI::CellSpec::FromLuaTable(l, 3);
 		else
 			colSpec = UI::CellSpec(luaL_checkinteger(l, 3));
 

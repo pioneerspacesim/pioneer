@@ -18,7 +18,7 @@ public:
 	virtual vector2f PreferredSize();
 	virtual void Layout();
 
-	enum {
+	enum BoxFlags { // <enum scope='UI::Box' name=UIBoxFlags prefix=BOX_>
 		BOX_EXPAND = 0x1,   // if true, give this child a share of the leftover space
 		BOX_FILL   = 0x2    // if true, extra space will be given to the child.
 		                    // if false, extra space will be added as padding around the child

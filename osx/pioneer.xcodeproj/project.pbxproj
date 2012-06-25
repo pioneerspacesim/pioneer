@@ -99,6 +99,7 @@
 		4A24078513F524E6002A5C12 /* GuiStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24078213F524E6002A5C12 /* GuiStack.cpp */; };
 		4A305FD1151341170076D414 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A305FCC151341170076D414 /* FileSystem.cpp */; };
 		4A305FD2151341170076D414 /* FileSystemPosix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A305FCE151341170076D414 /* FileSystemPosix.cpp */; };
+		4A3AE8E5158FD22200EB13DE /* LuaComms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A3AE8E3158FD22200EB13DE /* LuaComms.cpp */; };
 		4A4007A41436015D004691A8 /* libGLEW.1.7.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4007A31436015D004691A8 /* libGLEW.1.7.0.dylib */; };
 		4A4007A614360180004691A8 /* libGLEW.1.7.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A4007A31436015D004691A8 /* libGLEW.1.7.0.dylib */; };
 		4A4F25D214F524D400FD14A6 /* Drawables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25B914F524D400FD14A6 /* Drawables.cpp */; };
@@ -229,7 +230,6 @@
 		4A9937661368355500EA0EE5 /* LuaStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937441368355500EA0EE5 /* LuaStar.cpp */; };
 		4A9937671368355500EA0EE5 /* LuaStarSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937461368355500EA0EE5 /* LuaStarSystem.cpp */; };
 		4A9937681368355500EA0EE5 /* LuaTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937481368355500EA0EE5 /* LuaTimer.cpp */; };
-		4A9937691368355500EA0EE5 /* LuaUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99374A1368355500EA0EE5 /* LuaUI.cpp */; };
 		4A99376A1368355500EA0EE5 /* LuaUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99374C1368355500EA0EE5 /* LuaUtils.cpp */; };
 		4A99893E1388BCD900647BA9 /* FontConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99893C1388BCD900647BA9 /* FontConfig.cpp */; };
 		4AAC9FE215458FE400116131 /* miniz.c in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FDE15458FE400116131 /* miniz.c */; };
@@ -540,6 +540,8 @@
 		4A305FCE151341170076D414 /* FileSystemPosix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemPosix.cpp; sourceTree = "<group>"; };
 		4A305FCF151341170076D414 /* LangStrings.inc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LangStrings.inc.h; sourceTree = "<group>"; };
 		4A305FD0151341170076D414 /* StringRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringRange.h; sourceTree = "<group>"; };
+		4A3AE8E3158FD22200EB13DE /* LuaComms.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaComms.cpp; sourceTree = "<group>"; };
+		4A3AE8E4158FD22200EB13DE /* LuaComms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaComms.h; sourceTree = "<group>"; };
 		4A4007A31436015D004691A8 /* libGLEW.1.7.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.7.0.dylib; path = ../../../../../opt/local/lib/libGLEW.1.7.0.dylib; sourceTree = "<group>"; };
 		4A4F25B914F524D400FD14A6 /* Drawables.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Drawables.cpp; sourceTree = "<group>"; };
 		4A4F25BA14F524D400FD14A6 /* Drawables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Drawables.h; sourceTree = "<group>"; };
@@ -796,8 +798,6 @@
 		4A9937471368355500EA0EE5 /* LuaStarSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaStarSystem.h; sourceTree = "<group>"; };
 		4A9937481368355500EA0EE5 /* LuaTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaTimer.cpp; sourceTree = "<group>"; };
 		4A9937491368355500EA0EE5 /* LuaTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaTimer.h; sourceTree = "<group>"; };
-		4A99374A1368355500EA0EE5 /* LuaUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaUI.cpp; sourceTree = "<group>"; };
-		4A99374B1368355500EA0EE5 /* LuaUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaUI.h; sourceTree = "<group>"; };
 		4A99374C1368355500EA0EE5 /* LuaUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaUtils.cpp; sourceTree = "<group>"; };
 		4A99374D1368355500EA0EE5 /* LuaUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaUtils.h; sourceTree = "<group>"; };
 		4A99374E1368355500EA0EE5 /* RefCounted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefCounted.h; sourceTree = "<group>"; };
@@ -1282,6 +1282,8 @@
 				4A99371E1368355500EA0EE5 /* LuaCargoBody.h */,
 				4A6C4CD013532FC300FDD53F /* LuaChatForm.cpp */,
 				4A6C4CD113532FC300FDD53F /* LuaChatForm.h */,
+				4A3AE8E3158FD22200EB13DE /* LuaComms.cpp */,
+				4A3AE8E4158FD22200EB13DE /* LuaComms.h */,
 				4A8DD539142E19B6006DD821 /* LuaConsole.cpp */,
 				4A8DD53A142E19B6006DD821 /* LuaConsole.h */,
 				4A99371F1368355500EA0EE5 /* LuaConstants.cpp */,
@@ -1337,8 +1339,6 @@
 				4A85A86613C4631D00C2B986 /* LuaSystemPath.h */,
 				4A9937481368355500EA0EE5 /* LuaTimer.cpp */,
 				4A9937491368355500EA0EE5 /* LuaTimer.h */,
-				4A99374A1368355500EA0EE5 /* LuaUI.cpp */,
-				4A99374B1368355500EA0EE5 /* LuaUI.h */,
 				4A99374C1368355500EA0EE5 /* LuaUtils.cpp */,
 				4A99374D1368355500EA0EE5 /* LuaUtils.h */,
 				4ADF51951557477400ACF5A0 /* LuaVector.cpp */,
@@ -1768,7 +1768,6 @@
 				4A9937661368355500EA0EE5 /* LuaStar.cpp in Sources */,
 				4A9937671368355500EA0EE5 /* LuaStarSystem.cpp in Sources */,
 				4A9937681368355500EA0EE5 /* LuaTimer.cpp in Sources */,
-				4A9937691368355500EA0EE5 /* LuaUI.cpp in Sources */,
 				4A99376A1368355500EA0EE5 /* LuaUtils.cpp in Sources */,
 				4A62EF2C136979E000919EBB /* DeadVideoLink.cpp in Sources */,
 				4A62EF2D136979E000919EBB /* FaceVideoLink.cpp in Sources */,
@@ -1945,6 +1944,7 @@
 				4A59B4DA1557EAF5009926E5 /* lbitlib.c in Sources */,
 				4A59B4DB1557EAF5009926E5 /* lcorolib.c in Sources */,
 				4A59B4DC1557EAF5009926E5 /* lctype.c in Sources */,
+				4A3AE8E5158FD22200EB13DE /* LuaComms.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
