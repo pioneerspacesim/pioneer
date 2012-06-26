@@ -106,6 +106,11 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
+	// catalog, stores widgets by name
+	void AddToCatalog(const std::string &name, Widget *widget);
+	void RemoveFromCatalog(const std::string &name);
+	Widget *GetFromCatalog(const std::string &name);
+
 	Graphics::Renderer *GetRenderer() const { return m_renderer; }
 	const Skin &GetSkin() const { return m_skin; }
 
@@ -127,6 +132,9 @@ private:
 	Skin m_skin;
 
 	RefCountedPtr<Text::TextureFont> m_font[FONT_SIZE_MAX];
+
+	typedef std::map< std::string,RefCountedPtr<Widget> > CatalogMap;
+	CatalogMap m_catalog;
 
 	// used by Container::Draw to set the keep widget drawing in its bounds
 	friend class Container;

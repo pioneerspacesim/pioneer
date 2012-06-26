@@ -76,6 +76,26 @@ void Context::Draw()
 	DisableScissor();
 }
 
+void Context::AddToCatalog(const std::string &name, Widget *widget)
+{
+	m_catalog.insert(std::make_pair(name, RefCountedPtr<Widget>(widget)));
+}
+
+void Context::RemoveFromCatalog(const std::string &name)
+{
+	CatalogMap::iterator i = m_catalog.find(name);
+	if (i != m_catalog.end())
+		m_catalog.erase(i);
+}
+
+Widget *Context::GetFromCatalog(const std::string &name)
+{
+	CatalogMap::iterator i = m_catalog.find(name);
+	if (i != m_catalog.end())
+		return (*i).second.Get();
+	return 0;
+}
+
 void Context::EnableScissor(const vector2f &pos, const vector2f &size)
 {
 	vector2f flippedPos(pos.x, m_height-pos.y-floorf(size.y));

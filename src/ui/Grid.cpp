@@ -12,6 +12,30 @@ Grid::Grid(Context *context, const CellSpec &rowSpec, const CellSpec &colSpec) :
 	Clear();
 }
 
+vector2f Grid::PreferredSize()
+{
+	vector2f preferredSize;
+
+	for (int rowNum = 0; rowNum < m_numRows; rowNum++) {
+		vector2f rowSize;
+
+		for (int colNum = 0; colNum < m_numCols; colNum++) {
+			const int n = rowNum*m_numCols+colNum;
+			Widget *w = m_widgets[n];
+			if (!w) continue;
+
+			const vector2f childPreferredSize = w->PreferredSize();
+			rowSize.x += childPreferredSize.x;
+			rowSize.y = std::max(rowSize.y, childPreferredSize.y);
+		}
+
+		preferredSize.x = std::max(preferredSize.x, rowSize.x);
+		preferredSize.y += rowSize.y;
+	}
+
+	return preferredSize;
+}
+
 void Grid::Layout()
 {
 	const vector2f size = GetSize();
