@@ -298,6 +298,17 @@ void LuaConsole::ExecOrContinue() {
 		return;
 	}
 
+	std::istringstream stmt_stream(stmt);
+	std::string string_buffer;
+
+	std::getline(stmt_stream, string_buffer);
+	AddOutput("> " + string_buffer);
+
+	while(!stmt_stream.eof()) {
+		std::getline(stmt_stream, string_buffer);
+		AddOutput("  " + string_buffer);
+	}
+
 	// perform a protected call
 	int top = lua_gettop(L) - 1; // -1 for the chunk itself
 	result = lua_pcall(L, 0, LUA_MULTRET, 0);
@@ -313,17 +324,6 @@ void LuaConsole::ExecOrContinue() {
 	} else if (result == LUA_ERRMEM) {
 		AddOutput("memory allocation failure");
 	} else {
-		std::istringstream stmt_stream(stmt);
-		std::string string_buffer;
-
-		std::getline(stmt_stream, string_buffer);
-		AddOutput("> " + string_buffer);
-
-		while(!stmt_stream.eof()) {
-			std::getline(stmt_stream, string_buffer);
-			AddOutput("  " + string_buffer);
-		}
-
 		int nresults = lua_gettop(L) - top;
 		if (nresults) {
 			std::ostringstream ss;
