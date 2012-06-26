@@ -50,6 +50,7 @@ void main(void)
 	specular = vec4(0.0);
 	ads(0, ecPos, norm);
 	ads(1, ecPos, norm);
+	light.a = 1.0;
 
 #ifdef MAP_COLOR
 	float pat = texture2D(texture3, uv0).r;
