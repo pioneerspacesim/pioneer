@@ -227,32 +227,20 @@ static void SplitTablePath(lua_State *l, const std::string &path)
 	LUA_DEBUG_END(l, 2);
 }
 
+int LuaObjectBase::l_tostring(lua_State *l)
+{
+	luaL_checktype(l, 1, LUA_TUSERDATA);
+	lua_getmetatable(l, 1);
+	lua_pushstring(l, "type");
+	lua_rawget(l, -2);
+	lua_pushfstring(l, "userdata [%s]: %p", lua_tostring(l, -1), lua_topointer(l, 1));
+	return 1;
+}
+
 static int dispatch_index(lua_State *l)
 {
-	bool typeless = false;
-
-	// tables get special treatment
-	if (lua_istable(l, 1)) {
-		// look for a typeless object
-		lua_getmetatable(l, 1);
-		lua_pushstring(l, "typeless");
-		lua_rawget(l, -2);
-
-		// not a typeless object, so they're peeking inside the method table
-		// directly (non-object call, currying, etc) and we should just mimic
-		// the standard lookup behaviour
-		if (lua_isnil(l, -1)) {
-			lua_rawget(l, 1);
-			return 1;
-		}
-
-		// its a typeless object
-		typeless = true;
-
-		lua_pop(l, 2);
-	}
-
-	// sanity check. it should be a userdatum
+	// userdata are typed, tables are not
+	bool typeless = lua_istable(l, 1);
 	assert(typeless || lua_isuserdata(l, 1));
 
 	// ensure we have enough stack space
@@ -334,10 +322,6 @@ static int dispatch_index(lua_State *l)
 	return 0;
 }
 
-static const luaL_Reg no_methods[] = {
-	{ 0, 0 }
-};
-
 void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta)
 {
 	lua_State *l = Pi::luaManager->GetLuaState();
@@ -346,7 +330,7 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 
 	// create "object"
 	lua_newtable(l);
-	luaL_setfuncs(l, methods ? methods : no_methods, 0);
+	if (methods) luaL_setfuncs(l, methods, 0);
 
 	// create metatable for it
 	lua_newtable(l);
@@ -366,11 +350,6 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 
 		lua_rawset(l, -3);
 	}
-
-	// note that this is a typeless object for the dispatcher
-	lua_pushstring(l, "typeless");
-	lua_pushboolean(l, true);
-	lua_rawset(l, -3);
 
 	// apply the metatable
 	lua_setmetatable(l, -2);
@@ -414,7 +393,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 
 	// create table, attach methods to it, leave it on the stack
 	lua_newtable(l);
-	luaL_setfuncs(l, methods ? methods : no_methods, 0);
+    if (methods) luaL_setfuncs(l, methods, 0);
 
 	// add the exists method
 	lua_pushstring(l, "exists");
@@ -434,7 +413,14 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 
 	// create the metatable, leave it on the stack
 	luaL_newmetatable(l, type);
-	// attach metamethods to it
+
+	// default tostring method. setting before setting up user-supplied
+	// metamethods because they might override it
+	lua_pushstring(l, "__tostring");
+	lua_pushcfunction(l, LuaObjectBase::l_tostring);
+	lua_rawset(l, -3);
+
+	// attach supplied metamethods
 	if (meta) luaL_setfuncs(l, meta, 0);
 
 	// add a generic garbage collector
