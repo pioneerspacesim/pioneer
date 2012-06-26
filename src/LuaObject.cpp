@@ -208,72 +208,50 @@ static int dispatch_index(lua_State *l)
 	// each type has a global method table, which we need access to
 	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 
-	// everything we need is in the metatable, so lets start with that
+	// everything we need is in the metatable
 	lua_getmetatable(l, 1);             // object, key, globals, metatable
+	assert(lua_istable(l, -1));
 
-	// loop until we find what we're looking for or we run out of metatables
-	while (!lua_isnil(l, -1)) {
+    // get the method table
+    if (typeless) {
+        // the object is the method table
+        lua_pushvalue(l, 1);            // object, key, globals, metatable, method table
+    }
 
-		// get the method table
-		if (typeless) {
-			// the object is the method table
-			lua_pushvalue(l, 1);            // object, key, globals, metatable, method table
-		}
+    else {
+        // get the object type from the metatable and use it to look up
+        // the method table
+        lua_pushstring(l, "type");
+        lua_rawget(l, -2);              // object, key, globals, metatable, type
 
-		else {
-			// get the object type from the metatable and use it to look up
-			// the method table
-			lua_pushstring(l, "type");
-			lua_rawget(l, -2);              // object, key, globals, metatable, type
+        lua_rawget(l, -3);              // object, key, globals, metatable, method table
+    }
 
-			lua_rawget(l, -3);              // object, key, globals, metatable, method table
-		}
+    lua_pushvalue(l, 2);
+    lua_rawget(l, -2);                  // object, key, globals, metatable, method table, method
 
+    // found something, return it
+    if (!lua_isnil(l, -1))
+        return 1;
+
+	lua_pop(l, 2);                      // object, key, globals, metatable
+
+	// didn't find a method, so now we go looking for an attribute handler in
+	// the attribute table
+	lua_pushstring(l, "attrs");
+	lua_rawget(l, -2);                  // object, key, globals, metatable, attr table
+
+	if (lua_istable(l, -1)) {
 		lua_pushvalue(l, 2);
-		lua_rawget(l, -2);                  // object, key, globals, metatable, method table, method
-    
-		// found something, return it
-		if (!lua_isnil(l, -1))
+		lua_rawget(l, -2);              // object, key, globals, metatable, attr table, attr handler
+
+		// found something. since its likely a regular attribute lookup and not a
+		// method call we have to do the call ourselves
+		if (lua_isfunction(l, -1)) {
+			lua_pushvalue(l, 1);
+			pi_lua_protected_call(l, 1, 1);
 			return 1;
-
-		lua_pop(l, 2);                      // object, key, globals, metatable
-
-		// didn't find a method, so now we go looking for an attribute handler in
-		// the attribute table
-		lua_pushstring(l, "attrs");
-		lua_rawget(l, -2);                  // object, key, globals, metatable, attr table
-
-		if (lua_istable(l, -1)) {
-			lua_pushvalue(l, 2);
-			lua_rawget(l, -2);              // object, key, globals, metatable, attr table, attr handler
-
-			// found something. since its likely a regular attribute lookup and not a
-			// method call we have to do the call ourselves
-			if (lua_isfunction(l, -1)) {
-				lua_pushvalue(l, 1);
-				pi_lua_protected_call(l, 1, 1);
-				return 1;
-			}
-
-			lua_pop(l, 2);                  // object, key, globals, metatable
 		}
-		else
-			lua_pop(l, 1);                  // object, key, globals, metatable
-
-		// didn't find anything. if the object has a parent object then we look
-		// there instead
-		lua_pushstring(l, "parent");
-		lua_rawget(l, -2);                  // object, key, globals, metatable, parent type
-
-		// not found means we have no parents and we can't search any further
-		if (lua_isnil(l, -1))
-			break;
-
-		// clean up the stack
-		lua_remove(l, -2);                  // object, key, globals, parent type
-
-		// get the parent metatable
-		lua_rawget(l, LUA_REGISTRYINDEX);   // object, key, globals, parent metatable
 	}
 
 	luaL_error(l, "unable to resolve method or attribute '%s'", lua_tostring(l, 2));
@@ -355,26 +333,85 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	}
 	lua_pop(l, 1);
 
-	// create table, attach methods to it, leave it on the stack
-	lua_newtable(l);
-	luaL_setfuncs(l, methods ? methods : no_methods, 0);
+	// if we have a parent, copy the contents of its method table to this one
+	if (parent) {
+		// get the parent's method table
+		lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 
-	// add the exists method
-	lua_pushstring(l, "exists");
-	lua_pushcfunction(l, LuaObjectBase::l_exists);
-	lua_rawset(l, -3);
+		lua_pushstring(l, parent);
+		lua_rawget(l, -2);
+		assert(lua_istable(l, -1));
 
-	// add the isa method
-	lua_pushstring(l, "isa");
-	lua_pushcfunction(l, LuaObjectBase::l_isa);
-	lua_rawset(l, -3);
+		// remove global table
+		lua_remove(l, -2);
 
-	// publish the method table as a global (and pop it from the stack)
-	lua_setglobal(l, type);
+		// stack: parent method table
 
-	// create the metatable, leave it on the stack
-	luaL_newmetatable(l, type);
-	// attach metamethods to it
+		// new method table
+		lua_newtable(l);
+        pi_lua_copy_table(l, -2, -1);
+
+		// stack: parent method table, new method table
+
+		// also need to copy in stuff from the metatable
+        luaL_newmetatable(l, type);
+        luaL_getmetatable(l, parent);
+        assert(lua_istable(l, -1));
+
+		// copy the whole metatable. will copy the attrs table pointer but
+		// we'll overwrite that shortly
+		pi_lua_copy_table(l, -1, -2);
+
+		// stack: parent method table, new method table, new metatable, parent metatable
+
+		lua_pushstring(l, "attrs");
+		lua_rawget(l, -2);
+		if (!lua_isnil(l, -1)) {
+			assert(lua_istable(l, -1));
+
+			// stack: parent method table, new method table, new metatable, parent metatable, parent attr table
+
+			lua_pushstring(l, "attrs");
+	
+			// new attribute table
+			lua_newtable(l);
+			pi_lua_copy_table(l, -3, -1);
+			
+			// get it into the metatable
+			lua_rawset(l, -4);
+		}
+		else {
+			// empty attrs
+			lua_pushstring(l, "attrs");
+			lua_newtable(l);
+			lua_rawset(l, -3);
+		}
+		lua_pop(l, 2);
+
+		// stack: parent method table, new method table, new metatable
+
+		// inheriting so record the name of the parent
+		lua_pushstring(l, "parent");
+		lua_pushstring(l, parent);
+		lua_rawset(l, -3);
+
+		lua_remove(l, -3);
+	}
+
+	else {
+		// new empty class
+		lua_newtable(l);
+		luaL_newmetatable(l, type);
+
+		// empty attrs table
+		lua_pushstring(l, "attrs");
+		lua_newtable(l);
+		lua_rawset(l, -3);
+	}
+
+	// stack: new method table, new metatable
+
+	// attach metamethods
 	if (meta) luaL_setfuncs(l, meta, 0);
 
 	// add a generic garbage collector
@@ -395,26 +432,35 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	lua_pushstring(l, type);
 	lua_rawset(l, -3);
 
-	// if we're inheriting, record the name of the base type
-	if (parent) {
-		lua_pushstring(l, "parent");
-		lua_pushstring(l, parent);
-		lua_rawset(l, -3);
-	}
-
 	// if they passed attributes hook them up too
 	if (attrs) {
 		lua_pushstring(l, "attrs");
+		lua_rawget(l, -2);
+		assert(lua_istable(l, -1));
 		
-		lua_newtable(l);
 		luaL_setfuncs(l, attrs, 0);
 
-		lua_rawset(l, -3);
-
+		lua_pop(l, 1);
 	}
 
 	// pop the metatable
 	lua_pop(l, 1);
+
+	// attach our methods to it
+	luaL_setfuncs(l, methods ? methods : no_methods, 0);
+
+	// add the exists method
+	lua_pushstring(l, "exists");
+	lua_pushcfunction(l, LuaObjectBase::l_exists);
+	lua_rawset(l, -3);
+
+	// add the isa method
+	lua_pushstring(l, "isa");
+	lua_pushcfunction(l, LuaObjectBase::l_isa);
+	lua_rawset(l, -3);
+
+	// publish the method table as a global (and pop it from the stack)
+	lua_setglobal(l, type);
 
 	LUA_DEBUG_END(l, 0);
 }

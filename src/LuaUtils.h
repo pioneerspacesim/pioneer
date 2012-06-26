@@ -57,6 +57,9 @@ int  pi_load_lua(lua_State *l);
 
 void pi_lua_warn(lua_State *l, const char *format, ...) __attribute((format(printf,2,3)));
 
+// shallow copy table at src to table at dst
+void pi_lua_copy_table(lua_State *l, int src, int dst);
+
 #ifdef DEBUG
 #include <stdlib.h> // for abort()
 # define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr)
