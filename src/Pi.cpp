@@ -280,6 +280,7 @@ static void LuaInit()
 
 	// XXX load everything. for now, just modules
 	pi_lua_dofile_recursive(l, "libs");
+	pi_lua_dofile_recursive(l, "ui");
 	pi_lua_dofile_recursive(l, "modules");
 
 	Pi::luaNameGen = new LuaNameGen(Pi::luaManager);
@@ -1147,11 +1148,11 @@ bool Pi::HandleMenuOption(int n)
 
 void Pi::Start()
 {
-	std::string version(PIONEER_VERSION);
-	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
-
 	Background::Container *background = new Background::Container(UNIVERSE_SEED);
 
+	ui->SetInnerWidget(ui->GetFromCatalog("MainMenu"));
+
+#if 0
 	static const int NUM_OPTIONS = 6;
 	UI::Button *buttons[NUM_OPTIONS];
 
@@ -1188,6 +1189,7 @@ void Pi::Start()
 		buttons[i]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuOption), i));
 		ui->AddShortcut(SDLKey(SDLK_1+i), buttons[i]);
 	}
+#endif
 
 #if 0
 	Gui::Fixed *menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
