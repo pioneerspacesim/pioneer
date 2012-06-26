@@ -55,6 +55,7 @@ Group: Src  {
    File: Body  (/home/robn/code/pioneer/src/LuaBody.cpp)
    File: CargoBody  (/home/robn/code/pioneer/src/LuaCargoBody.cpp)
    File: ChatForm  (/home/robn/code/pioneer/src/LuaChatForm.cpp)
+   File: Comms  (/home/robn/code/pioneer/src/LuaComms.cpp)
    File: Console  (/home/robn/code/pioneer/src/LuaConsole.cpp)
    File: Constants  (/home/robn/code/pioneer/src/LuaConstants.cpp)
    File: Engine  (/home/robn/code/pioneer/src/LuaEngine.cpp)
@@ -78,7 +79,6 @@ Group: Src  {
    File: SystemBody  (/home/robn/code/pioneer/src/LuaSystemBody.cpp)
    File: SystemPath  (/home/robn/code/pioneer/src/LuaSystemPath.cpp)
    File: Timer  (/home/robn/code/pioneer/src/LuaTimer.cpp)
-   File: UI  (/home/robn/code/pioneer/src/LuaUI.cpp)
    }  # Group: Src
 
 File: Character  (no auto-title, /home/robn/code/pioneer/data/libs/Characters.lua)
