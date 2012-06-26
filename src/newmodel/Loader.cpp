@@ -348,7 +348,6 @@ RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 	if (!decMat.Valid()) {
 		Graphics::MaterialDescriptor matDesc;
 		decMat.Reset(m_renderer->CreateMaterial(matDesc));
-		decMat->blend = true;
 	}
 	return decMat;
 }

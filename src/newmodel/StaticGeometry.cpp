@@ -8,6 +8,7 @@ namespace Newmodel {
 
 StaticGeometry::StaticGeometry()
 : Node(0x1)
+, m_blendMode(Graphics::BLEND_SOLID)
 {
 	m_mesh.Reset(new Graphics::StaticMesh(Graphics::TRIANGLES));
 }
@@ -24,6 +25,8 @@ void StaticGeometry::Accept(NodeVisitor &nv)
 void StaticGeometry::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
 {
 	r->SetTransform(trans);
+	if (m_blendMode != Graphics::BLEND_SOLID)
+		r->SetBlendMode(m_blendMode);
 	r->DrawStaticMesh(GetMesh());
 	if (rd->drawBoundingBoxes)
 		DrawBoundingBox(r, m_boundingBox);

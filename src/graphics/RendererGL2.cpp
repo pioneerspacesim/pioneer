@@ -134,8 +134,6 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 	else if (mat->newStyleHack) {
 		//XXX const will not make sense
 		static_cast<const MaterialGL2*>(mat)->Apply();
-		if (mat->blend)
-			SetBlendMode(BLEND_ALPHA);
 		return;
 	}
 	glPushAttrib(GL_ENABLE_BIT);
@@ -170,9 +168,6 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 	if (mat->texture0) {
 		static_cast<TextureGL*>(mat->texture0)->Bind();
 		s->SetUniform("texture0", 0);
-	}
-	if (mat->blend) {
-		SetBlendMode(BLEND_ALPHA);
 	}
 }
 

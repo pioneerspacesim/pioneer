@@ -5,6 +5,7 @@
  */
 #include "Node.h"
 #include "Aabb.h"
+#include "graphics/Renderer.h"
 #include "graphics/StaticMesh.h"
 #include "SmartPtr.h"
 
@@ -20,6 +21,7 @@ public:
 	virtual void Accept(NodeVisitor &nv);
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
 	Aabb m_boundingBox;
+	Graphics::BlendMode m_blendMode;
 
 protected:
 	~StaticGeometry();
