@@ -10,6 +10,8 @@ Material::Material() :
 	texture4(0),
 	diffuse(1.f), //default white
 	specular(0.f),
+	emissive(0.f),
+	shininess(200.0),
 	unlit(false),
 	twoSided(false),
 	vertexColors(false),
