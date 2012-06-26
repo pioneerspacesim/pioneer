@@ -12,7 +12,7 @@ Alpha 24
    * Script and model changes
      * Lua console now provides autocompletion. Press <TAB> to cycle through
        possible completions of the current identifier (#1286)
-     * Lua console now accepts expressions and prints their result (#1304)
+     * Lua console now accepts expressions and prints their result (#1304, #1313)
      * Lua updated to 5.2.1 (#1293)
      * Renamed UI to Comms (#1288)
      * Limited libraries available to LMR to debug, string and math (#1289)
