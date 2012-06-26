@@ -173,6 +173,7 @@ class TerrainColorGGSaturn;
 class TerrainColorGGUranus;
 class TerrainColorIce;
 class TerrainColorMethane;
+class TerrainColorMars;
 class TerrainColorRock2;
 class TerrainColorRock;
 class TerrainColorSolid;

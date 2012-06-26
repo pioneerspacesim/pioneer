@@ -122,6 +122,8 @@ namespace TerrainNoise {
 		return n;
 	}
 	
+
+
 	// Ridged octave noise with start spatial frequency specified.
 	inline double ridged_octavenoise(int octaves, double roughness, double lacunarity,double startSpatFreq, const vector3d &p) {
 		double n = 0;
@@ -182,6 +184,9 @@ namespace TerrainNoise {
 	}
 
 };
+
+// 0 at min to 1.0 at max
+#define TRANSITION(v,min,max) ((Clamp(v,min,max)-min)/(max-min))
 
 // common colours for earthlike worlds
 // XXX better way to do this?
