@@ -11,7 +11,8 @@ public:
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
 		UI::Widget::FontSize fontSize = static_cast<UI::Widget::FontSize>(LuaConstants::GetConstantFromArg(l, "UIFontSize", 2));
 		w->SetFontSize(fontSize);
-		return 0;
+		lua_pushvalue(l, 1);
+		return 1;
 	}
 
 };
