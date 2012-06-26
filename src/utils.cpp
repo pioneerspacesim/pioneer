@@ -4,6 +4,7 @@
 #include "gui/Gui.h"
 #include "Lang.h"
 #include "FileSystem.h"
+#include <sstream>
 
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
@@ -129,15 +130,22 @@ void SilentWarning(const char *format, ...)
 	fputs("\n", stderr);
 }
 
-std::string format_distance(double dist)
+std::string format_distance(double dist, int precision)
 {
+	std::ostringstream ss;
+	ss.setf(std::ios::fixed, std::ios::floatfield);
 	if (dist < 1000) {
-		return stringf("%0{f.0} m", dist);
-	} else if (dist < AU*0.1) {
-		return stringf("%0{f.2} km", dist*0.001);
+		ss.precision(0);
+		ss << dist << " m";
 	} else {
-		return stringf("%0{f.2} AU", dist/AU);
+		ss.precision(precision);
+		if (dist < AU*0.1) {
+			ss << (dist*0.001) << " km";
+		} else {
+			ss << (dist/AU) << " AU";
+		}
 	}
+	return ss.str();
 }
 
 void Screendump(const char* destFile, const int width, const int height)
