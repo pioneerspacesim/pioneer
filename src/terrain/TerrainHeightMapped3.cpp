@@ -294,7 +294,7 @@ double TerrainHeightFractal<TerrainHeightMapped3>::GetHeight(const vector3d &p)
 
 
 	// valles marineris - split up into two smaller areas if it includes too much of surrounding areas
-	if (1||CHECKIFWITHINREGION(2) )
+	if (CHECKIFWITHINREGION(2) )
 	{
 		//uses blend 2
 
