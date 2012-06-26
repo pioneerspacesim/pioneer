@@ -341,6 +341,18 @@ bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
 	return (posKeysInRange > 1 || rotKeysInRange > 1);
 }
 
+RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
+{
+	assert(index < NModel::MAX_DECAL_MATERIALS);
+	RefCountedPtr<Graphics::Material> &decMat = m_model->m_decalMaterials[index-1];
+	if (!decMat.Valid()) {
+		Graphics::MaterialDescriptor matDesc;
+		decMat.Reset(m_renderer->CreateMaterial(matDesc));
+		decMat->blend = true;
+	}
+	return decMat;
+}
+
 void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces, const aiScene *scene, NModel *model)
 {
 	//XXX sigh, workaround for obj loader
@@ -572,14 +584,27 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		//does this node have children? Add a group
 		StaticGeometry *geom = new StaticGeometry();
 		Graphics::StaticMesh *smesh = geom->GetMesh();
-		bool decal = starts_with(nodename, "decal_");
-		if (decal)
+		unsigned int numDecal = 0;
+		if (starts_with(nodename, "decal_")) {
+			if (nodename.compare(7,1, "1") == 0)
+				numDecal = 1;
+			else if (nodename.compare(7,1, "2") == 0)
+				numDecal = 2;
+			else if (nodename.compare(7,1, "3") == 0)
+				numDecal = 3;
+			else if (nodename.compare(7,1, "4") == 0)
+				numDecal = 4;
+			else
+				throw std::string("Model requires more than 4 different decals");
+		}
+		if (numDecal != 0)
 			geom->SetNodeMask(NODE_TRANSPARENT);
 
 		for(unsigned int i=0; i<node->mNumMeshes; i++) {
 			Graphics::Surface *surf = surfaces[node->mMeshes[i]];
-			if (decal) //XXX support one decal...
-				surf->SetMaterial(m_model->GetDecalMaterial(0));
+			if (numDecal != 0) {//XXX support one decal...
+				surf->SetMaterial(GetDecalMaterial(numDecal));
+			}
 			//update bounding box
 			Graphics::VertexArray *vts = surf->GetVertices();
 			for (unsigned int j=0; j<vts->position.size(); j++) {

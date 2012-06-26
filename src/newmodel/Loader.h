@@ -95,17 +95,19 @@ private:
 	Graphics::Renderer *m_renderer;
 	std::string m_curPath;
 	Graphics::Texture *GetWhiteTexture() const;
+	NModel *m_model;
+	Node *m_root;
+
+	bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
 	matrix4x4f ConvertMatrix(const aiMatrix4x4&) const;
 	NModel *CreateModel(ModelDefinition &def);
 	Node *LoadMesh(const std::string &filename, NModel *model, const AnimList &animDefs, TagList &modelTags); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
-	bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
+	RefCountedPtr<Graphics::Material> GetDecalMaterial(unsigned int index);
 	void ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*>&, const aiScene*, NModel*); //model is only for material lookup
 	void ConvertAnimations(const aiScene *, const AnimList &, NModel *);
 	void ConvertNodes(aiNode *node, Group *parent, std::vector<Graphics::Surface*>& meshes, const matrix4x4f&);
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
 	void FindTags(const aiNode *node, TagList &output); //locate tags from assimp structure
-	Node *m_root; //XXX temporary junk
-	NModel *m_model;
 };
 
 }

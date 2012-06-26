@@ -115,8 +115,6 @@ private:
 	std::vector<Animation *> m_activeAnimations;
 	std::vector<Animation *> m_animations;
 	std::vector<Group *> m_tags; //named attachment points
-
-	RefCountedPtr<Graphics::Material> GetDecalMaterial(unsigned int index);
 };
 
 typedef std::vector<Group *> TagContainer;

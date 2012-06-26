@@ -151,17 +151,4 @@ void NModel::StopAnimations()
 	}
 }
 
-RefCountedPtr<Graphics::Material> NModel::GetDecalMaterial(unsigned int idx)
-{
-	const unsigned int index = std::min(idx, MAX_DECAL_MATERIALS-1);
-	RefCountedPtr<Graphics::Material> &mat = m_decalMaterials[index];
-	if (!mat.Valid()) {
-		//new decal material. Texture will be set by model render parameters.
-		mat.Reset(new Graphics::Material());
-		mat->unlit = true;
-		mat->blend = true;
-	}
-	return mat;
-}
-
 }
