@@ -13,12 +13,14 @@ Alpha 24
      * Renamed UI to Comms (#1288)
      * Limited libraries available to LMR to debug, string and math (#1289)
      * Allow Characters to be created from random seed (#1299)
+     * Improve printing of core objects to include their type (#1301)
 
    * Internal changes
      * Abstracted out the normal Lua object type promotion test, and Lua
        ownership of refcounted objects (#1290)
      * Stop a broken Lua error handler triggering an infinite loop (#1289)
      * Changed LuaGame and LuaEngine to use the LuaObject system (#1296)
+     * Simplify logic in LuaObject (#1301)
 
 Alpha 23
 
