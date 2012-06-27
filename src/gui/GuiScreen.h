@@ -49,6 +49,8 @@ namespace Gui {
 		static RefCountedPtr<Text::TextureFont> GetDefaultFont() { return s_defaultFont; }
 
 		static float GetFontHeight(Text::TextureFont *font = 0);
+		static float GetFontDescender(Text::TextureFont *font = 0);
+
 		static void RenderString(const std::string &s, float xoff, float yoff, const Color &color = Color::WHITE, Text::TextureFont *font = 0);
 		static void MeasureString(const std::string &s, float &w, float &h, Text::TextureFont *font = 0);
 		static int PickCharacterInString(const std::string &s, float x, float y, Text::TextureFont *font = 0);

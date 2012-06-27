@@ -49,7 +49,7 @@
 #include "LuaLang.h"
 #include "LuaGame.h"
 #include "LuaEngine.h"
-#include "LuaUI.h"
+#include "LuaComms.h"
 #include "LuaFormat.h"
 #include "LuaSpace.h"
 #include "LuaTimer.h"
@@ -265,7 +265,7 @@ static void LuaInit()
 	LuaLang::Register();
 	LuaEngine::Register();
 	LuaGame::Register();
-	LuaUI::Register();
+	LuaComms::Register();
 	LuaFormat::Register();
 	LuaSpace::Register();
 	LuaMusic::Register();

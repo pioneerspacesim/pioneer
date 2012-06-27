@@ -192,7 +192,7 @@ local onEnterSystem = function (ship)
 			local engine = ship:GetEquip('ENGINE',1)
 			ship:RemoveEquip(engine)
 			ship:AddEquip('RUBBISH',EquipType.GetEquipType(engine).mass)
-			UI.Message(t("The ship's hyperdrive has been destroyed by a malfunction"))
+			Comms.Message(t("The ship's hyperdrive has been destroyed by a malfunction"))
 		end
 	end
 end

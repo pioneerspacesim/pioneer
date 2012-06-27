@@ -130,21 +130,22 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 
 void TextEntry::GetSizeRequested(float size[2])
 {
-	const float textHeightMs = (m_newlineCount * m_font->GetLineSpacing()) + 1.0f;
-	const float textHeightPx = textHeightMs * Gui::Screen::GetFontHeight(m_font.Get());
-	size[1] = textHeightPx + 2.0f;
+	size[1] = Gui::Screen::GetFontHeight(m_font.Get()) * (m_newlineCount+1) + Gui::Screen::GetFontDescender(m_font.Get());
 }
 
 bool TextEntry::OnMouseDown(MouseButtonEvent *e)
 {
-	m_clickout = RawEvents::onMouseDown.connect(sigc::mem_fun(this, &TextEntry::OnRawMouseDown));
-	GrabFocus();
-	m_justFocused = true;
+	if (e->button == SDL_BUTTON_LEFT) {
+		m_clickout = RawEvents::onMouseDown.connect(sigc::mem_fun(this, &TextEntry::OnRawMouseDown));
+		GrabFocus();
+		m_justFocused = true;
 
-	int i = Gui::Screen::PickCharacterInString(m_text, e->x - m_scroll, e->y, m_font.Get());
-	SetCursorPos(i);
+		int i = Gui::Screen::PickCharacterInString(m_text, e->x - m_scroll, e->y, m_font.Get());
+		SetCursorPos(i);
 
-	return false;
+		return false;
+	} else
+		return true;
 }
 
 void TextEntry::OnRawMouseDown(MouseButtonEvent *e)
@@ -206,13 +207,13 @@ void TextEntry::Draw()
 
 	SetScissor(true);
 
-	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 1.0f, c, m_font.Get());
+	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 0.0f, c, m_font.Get());
 
 	/* Cursor */
 	glColor3f(0.5f,0.5f,0.5f);
 	glBegin(GL_LINES);
-		glVertex2f(curs_x + 1.0f - m_scroll, curs_y - Gui::Screen::GetFontHeight(m_font.Get()) - 1.0f);
-		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + 1.0f);
+		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()) - Gui::Screen::GetFontHeight(m_font.Get()));
+		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()));
 	glEnd();
 	
 	SetScissor(false);
