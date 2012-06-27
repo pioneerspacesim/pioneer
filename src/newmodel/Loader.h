@@ -97,6 +97,7 @@ private:
 	Graphics::Texture *GetWhiteTexture() const;
 	NModel *m_model;
 	Node *m_root;
+	RefCountedPtr<Text::TextureFont> m_labelFont;
 
 	bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
 	matrix4x4f ConvertMatrix(const aiMatrix4x4&) const;

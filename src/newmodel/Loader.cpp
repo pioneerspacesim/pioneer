@@ -23,6 +23,7 @@ Loader::Loader(Graphics::Renderer *r) :
 	m_renderer(r),
 	m_model(0)
 {
+	m_labelFont.Reset(new Text::TextureFont(Text::FontDescriptor("Inconsolata.otf", 32, 32, true, 0.0f), r));
 }
 
 Loader::~Loader()
@@ -555,6 +556,15 @@ static void create_thruster(Group* parent, const matrix4x4f &m, Graphics::Render
 	parent->AddChild(trans);
 }
 
+static void create_label(Group *parent, const matrix4x4f &m, RefCountedPtr<Text::TextureFont> font)
+{
+	MatrixTransform *trans = new MatrixTransform(m * matrix4x4f::ScaleMatrix(0.1f)); //scale, since text is hueg
+	Label3D *label = new Label3D(font);
+	label->SetText("Boners");
+	trans->AddChild(label);
+	parent->AddChild(trans);
+}
+
 void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Surface*>& surfaces, const matrix4x4f &accum)
 {
 	Group *parent = _parent;
@@ -568,6 +578,8 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 			create_light(parent, m, m_renderer);
 		} else if (starts_with(nodename, "thruster_")) {
 			create_thruster(parent, m, m_renderer, accum, starts_with(nodename, "thruster_linear"));
+		} else if (starts_with(nodename, "label_")) {
+			create_label(parent, m, m_labelFont);
 		}
 		return;
 	}
@@ -596,7 +608,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 			else
 				throw std::string("Model requires more than 4 different decals");
 		}
-		if (numDecal != 0)
+		if (numDecal != 0) //XXX could add a simple DecalGeometry node
 			geom->SetNodeMask(NODE_TRANSPARENT);
 
 		for(unsigned int i=0; i<node->mNumMeshes; i++) {

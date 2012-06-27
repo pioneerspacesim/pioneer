@@ -2,6 +2,7 @@
 #define _NMODEL_H
 #include "NModel.h"
 #include "Billboard.h"
+#include "Label3D.h"
 #include "Loader.h"
 #include "MatrixTransform.h"
 #include "ModelNode.h"
