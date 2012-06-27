@@ -1,5 +1,8 @@
 Alpha 24
 
+   * New features
+     * Background stars fade out in daylight (#1300)
+
    * Minor changes and tweaks
      * Show orbital periapsis/apoapsis in system info with greater accuracy at
        small distances (#1311, #1303)
