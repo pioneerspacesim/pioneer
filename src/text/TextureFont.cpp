@@ -179,42 +179,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 
-	float px = x;
-	float py = y;
-
-	int i = 0;
-	while (str[i]) {
-		if (str[i] == '\n') {
-			px = x;
-			py += GetHeight();
-			i++;
-		}
-		
-		else {
-			Uint32 chr;
-			int n = utf8_decode_char(&chr, &str[i]);
-			assert(n);
-			i += n;
-
-			glfglyph_t *glyph = &m_glyphs[chr];
-			AddGlyphGeometry(&va, chr, roundf(px), py, color);
-
-			if (str[i]) {
-				Uint32 chr2;
-				n = utf8_decode_char(&chr2, &str[i]);
-				assert(n);
-
-				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
-
-				FT_Vector kern;
-				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
-				px += float(kern.x) / 64.0;
-			}
-
-			px += glyph->advx;
-		}
-	}
+	CreateGeometry(va, str, x, y, color);
 
 	m_renderer->DrawTriangles(&va, &m_mat);
 }
@@ -468,6 +433,46 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 	m_height = float(m_face->height) / 64.f * float(m_face->size->metrics.y_scale) / 65536.f;
 	m_descender = -float(m_face->descender) / 64.f * float(m_face->size->metrics.y_scale) / 65536.f;
+}
+
+void TextureFont::CreateGeometry(Graphics::VertexArray &va, const char *str, float x, float y, const Color &color)
+{
+	float px = x;
+	float py = y;
+
+	int i = 0;
+	while (str[i]) {
+		if (str[i] == '\n') {
+			px = x;
+			py += GetHeight();
+			i++;
+		}
+		
+		else {
+			Uint32 chr;
+			int n = utf8_decode_char(&chr, &str[i]);
+			assert(n);
+			i += n;
+
+			glfglyph_t *glyph = &m_glyphs[chr];
+			AddGlyphGeometry(&va, chr, roundf(px), py, color);
+
+			if (str[i]) {
+				Uint32 chr2;
+				n = utf8_decode_char(&chr2, &str[i]);
+				assert(n);
+
+				FT_UInt a = FT_Get_Char_Index(m_face, chr);
+				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
+
+				FT_Vector kern;
+				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				px += float(kern.x) / 64.0;
+			}
+
+			px += glyph->advx;
+		}
+	}
 }
 
 }
