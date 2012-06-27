@@ -4524,6 +4524,13 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 	luaL_requiref(L, LUA_STRLIBNAME, &luaopen_string, 1); // only used by data/models/selector.lua
 	lua_settop(L, 0);
 
+	// create an alias math.deg2rad = math.rad
+	lua_getglobal(L, LUA_MATHLIBNAME);
+	lua_getfield(L, -1, "rad");
+	assert(lua_isfunction(L, -1));
+	lua_setfield(L, -2, "deg2rad");
+	lua_pop(L, 1); // pop the math table
+
 	LuaConstants::Register(L);
 
 	LuaVector::Register(L);
