@@ -225,7 +225,7 @@ static int dispatch_index(lua_State *l)
 			return 1;
 		lua_pop(l, 1);                      // object, key, globals, metatable, method table
 
-		// didn't find a method, so now we go lookking for an attribute handler
+		// didn't find a method, so now we go looking for an attribute handler
 		lua_pushstring(l, (std::string("__attribute_")+lua_tostring(l, 2)).c_str());
 		lua_rawget(l, -2);                  // object, key, globals, metatable, method table, method
 
