@@ -125,10 +125,16 @@ static void fetch_keys_from_table(lua_State * l, int table_index, const std::str
 	table_index = lua_absindex(l, table_index);
 	lua_pushnil(l);
 	while(lua_next(l, table_index)) {
-		if (lua_isstring(l, -2) && (!only_functions || lua_isfunction(l, -1))) {
+		if (lua_isstring(l, -2)) {
 			std::string candidate(lua_tostring(l, -2));
-			if (candidate.substr(0, chunk.size()) == chunk)
-				completion_list.push_back(candidate.substr(chunk.size()));
+			bool attr = false;
+			if (candidate.substr(0, 12) == "__attribute_") {
+				candidate = candidate.substr(12, std::string::npos);
+				attr = true;
+			}
+			if (!only_functions || (lua_isfunction(l, -1) && !attr))
+				if (candidate.substr(0, chunk.size()) == chunk)
+					completion_list.push_back(candidate.substr(chunk.size()));
 		}
 		lua_pop(l, 1);
 	}
@@ -155,15 +161,8 @@ static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const 
 		lua_rawget(l, metatable_index);	// stuff, global, type
 		lua_rawget(l, -2);	// stuff, global, methods
         if (lua_istable(l, -1))
-            fetch_keys_from_table(l, -1, chunk, completion_list, false);
+            fetch_keys_from_table(l, -1, chunk, completion_list, only_functions);
 		lua_pop(l, 1);	// Kick out the methods.
-		if (!only_functions) {
-			lua_pushstring(l, "attrs");
-			lua_rawget(l, metatable_index);
-			if (lua_istable(l, -1))
-				fetch_keys_from_table(l, -1, chunk, completion_list, false);
-			lua_pop(l, 1);
-		}
 		// Do the same for the parent
 		lua_pushstring(l, "parent");
 		lua_rawget(l, metatable_index);
