@@ -33,34 +33,31 @@ mixing with 12*3 instructions on 3 integers than you can with 3 instructions
 on 1 byte), but shoehorning those bytes into integers efficiently is messy.
 -------------------------------------------------------------------------------
 */
-#define SELF_TEST 1
+/* #define SELF_TEST 1 */
+
+#include "lookup3.h"
 
 #include <stdio.h>      /* defines printf for tests */
 #include <time.h>       /* defines time_t for timings in the test */
-#include <stdint.h>     /* defines uint32_t etc */
-#include <sys/param.h>  /* attempt to define endianness */
-#ifdef linux
-# include <endian.h>    /* attempt to define endianness */
-#endif
 
-/*
- * My best guess at if you are big-endian or little-endian.  This may
- * need adjustment.
- */
-#if (defined(__BYTE_ORDER) && defined(__LITTLE_ENDIAN) && \
-     __BYTE_ORDER == __LITTLE_ENDIAN) || \
-    (defined(i386) || defined(__i386__) || defined(__i486__) || \
-     defined(__i586__) || defined(__i686__) || defined(vax) || defined(MIPSEL))
+#include <SDL/SDL_endian.h>
+
+#define hashword lookup3_hashword
+#define hashword2 lookup3_hashword2
+#define hashlittle lookup3_hashlittle
+#define hashlittle2 lookup3_hashlittle2
+#define hashbig lookup3_hashbig
+
+#if SDL_BYTEORDER == SDL_LIL_ENDIAN
 # define HASH_LITTLE_ENDIAN 1
 # define HASH_BIG_ENDIAN 0
-#elif (defined(__BYTE_ORDER) && defined(__BIG_ENDIAN) && \
-       __BYTE_ORDER == __BIG_ENDIAN) || \
-      (defined(sparc) || defined(POWERPC) || defined(mc68000) || defined(sel))
+#elif SDL_BYTEORDER == SDL_BIG_ENDIAN
 # define HASH_LITTLE_ENDIAN 0
 # define HASH_BIG_ENDIAN 1
 #else
 # define HASH_LITTLE_ENDIAN 0
 # define HASH_BIG_ENDIAN 0
+# error "Only big and little endian are supported"
 #endif
 
 #define hashsize(n) ((uint32_t)1<<(n))
@@ -767,7 +764,7 @@ uint32_t hashbig( const void *key, size_t length, uint32_t initval)
 #ifdef SELF_TEST
 
 /* used for timings */
-void driver1()
+static void driver1()
 {
   uint8_t buf[256];
   uint32_t i;
@@ -789,7 +786,7 @@ void driver1()
 #define HASHLEN   1
 #define MAXPAIR 60
 #define MAXLEN  70
-void driver2()
+static void driver2()
 {
   uint8_t qa[MAXLEN+1], qb[MAXLEN+2], *a = &qa[0], *b = &qb[1];
   uint32_t c[HASHSTATE], d[HASHSTATE], i=0, j=0, k, l, m=0, z;
@@ -859,7 +856,7 @@ void driver2()
 }
 
 /* Check for reading beyond the end of the buffer and alignment problems */
-void driver3()
+static void driver3()
 {
   uint8_t buf[MAXLEN+20], *b;
   uint32_t len;
@@ -950,7 +947,7 @@ void driver3()
 }
 
 /* check for problems with nulls */
- void driver4()
+static void driver4()
 {
   uint8_t buf[1];
   uint32_t h,i,state[HASHSTATE];
@@ -966,7 +963,7 @@ void driver3()
   }
 }
 
-void driver5()
+static void driver5()
 {
   uint32_t b,c;
   b=0, c=0, hashlittle2("", 0, &c, &b);
@@ -986,7 +983,6 @@ void driver5()
   c = hashlittle("Four score and seven years ago", 30, 1);
   printf("hash is %.8lx\n", c);   /* cd628161 */
 }
-
 
 int main()
 {
