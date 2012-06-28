@@ -1,6 +1,7 @@
 #include "LuaUtils.h"
 #include "libs.h"
 #include "FileSystem.h"
+#include "lookup3.h"
 
 static int _ro_table_error(lua_State *l)
 {
@@ -21,6 +22,60 @@ void pi_lua_table_ro(lua_State *l)
 	lua_pushboolean(l, false);
 	lua_rawset(l, -3);
 	lua_setmetatable(l, -2);
+}
+
+static int l_hash_random(lua_State *L)
+{
+	int numargs = lua_gettop(L);
+	uint32_t hashA = 0, hashB = 0;
+
+	luaL_checkany(L, 1);
+	switch (lua_type(L, 1)) {
+		case LUA_TNIL:
+			// random numbers!
+			hashA = 0xBF42B131u;
+			hashB = 0x2A40F7F2u;
+			break;
+		case LUA_TSTRING:
+		{
+			size_t sz;
+			const char *str = lua_tolstring(L, 1, &sz);
+			lookup3_hashlittle2(str, sz, &hashA, &hashB);
+			break;
+		}
+		case LUA_TNUMBER:
+		{
+			lua_Number n = lua_tonumber(L, 1);
+			assert(!is_nan(n));
+			lookup3_hashlittle2(&n, sizeof(n), &hashA, &hashB);
+			break;
+		}
+		default: return luaL_error(L, "expected a string or a number for argument 1");
+	}
+
+	// generate a value in the range 0 <= x < 1
+	double x = (hashA >> 5) * 67108864.0 + double(hashB >> 6);
+	x *= 1.0 / 9007199254740992.0;
+	if (numargs == 1) {
+		// return a value x: 0 <= x < 1
+		lua_pushnumber(L, x);
+		return 1;
+	} else {
+		int m, n;
+		if (numargs == 3) {
+			m = lua_tointeger(L, 2);
+			n = lua_tointeger(L, 3);
+		} else if (numargs == 2) {
+			m = 1;
+			n = lua_tointeger(L, 2);
+		} else {
+			assert(numargs > 3);
+			return luaL_error(L, "unknown argument to hash_random");
+		}
+		// return a value x: m <= x <= n
+		lua_pushinteger(L, m + int(x * (n - m + 1)));
+		return 1;
+	}
 }
 
 static const luaL_Reg STANDARD_LIBS[] = {
@@ -79,6 +134,9 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_getfield(L, -1, "rad");
 	assert(lua_isfunction(L, -1));
 	lua_setfield(L, -2, "deg2rad");
+	// define math.hash_random which is a bit safer than math.randomseed/math.random
+	lua_pushcfunction(L, &l_hash_random);
+	lua_setfield(L, -2, "hash_random");
 	lua_pop(L, 1); // pop the math table
 }
 
