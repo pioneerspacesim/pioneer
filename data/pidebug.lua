@@ -167,6 +167,8 @@ return {
 		function (message)
 			local trace = debug.traceback(message, 2) -- level 0 is debug.traceback; level 1 is error_handler
 
+			-- core dump disabled because the 'io' library is now restricted
+			--[[
 			fl = io.open(Engine.userdir .. '/lua-core-dump', 'w')
 			fl:write(message)
 			fl:write('\n\n')
@@ -174,6 +176,7 @@ return {
 			fl:write(dumpStack(2)) -- dump from level 2 (0 is dumpStack, 1 is error_handler)
 			fl:write('\n')
 			fl:close()
+			--]]
 			return (trace)
 		end
 }
