@@ -23,6 +23,65 @@ void pi_lua_table_ro(lua_State *l)
 	lua_setmetatable(l, -2);
 }
 
+static const luaL_Reg STANDARD_LIBS[] = {
+	{ "_G", luaopen_base },
+	{ LUA_COLIBNAME, luaopen_coroutine },
+	{ LUA_TABLIBNAME, luaopen_table },
+	{ LUA_STRLIBNAME, luaopen_string },
+	{ LUA_BITLIBNAME, luaopen_bit32 },
+	{ LUA_MATHLIBNAME, luaopen_math },
+	{ LUA_DBLIBNAME, luaopen_debug },
+	{ 0, 0 }
+};
+
+// excluded standard libraries:
+//  - package library: because we don't want scripts to load Lua code,
+//    or (worse) native dynamic libraries from arbitrary places on the system
+//    We want to be able to restrict library loading to use our own systems
+//    (for safety, and so that the FileSystem abstraction isn't bypassed, and
+//    so that installable mods continue to work)
+//  - io library: we definitely don't want Lua scripts to be able to read and
+//    (worse) write to arbitrary files on the host system
+//  - os library: we definitely definitely don't want Lua scripts to be able
+//    to run arbitrary shell commands, or rename or remove files on the host
+//    system
+//  - math.random/math.randomseed: these use the C library RNG, which is not
+//    guaranteed to be the same across platforms and is often low quality.
+//    Also, global RNGs are almost never a good idea because they make it
+//    almost impossible to produce robustly repeatable results
+//  - dofile(), loadfile(), require(): same reason as the package library
+
+// extra/custom functionality:
+//  - math.rad is aliased as math.deg2rad: I prefer the explicit name
+//  - math.hash_random(): a repeatable, safe, hash function based source of
+//    variation
+
+void pi_lua_open_standard_base(lua_State *L)
+{
+	for (const luaL_Reg *lib = STANDARD_LIBS; lib->func; ++lib) {
+		luaL_requiref(L, lib->name, lib->func, 1);
+		lua_pop(L, 1);
+	}
+
+	lua_pushnil(L);
+	lua_setglobal(L, "dofile");
+	lua_pushnil(L);
+	lua_setglobal(L, "loadfile");
+
+	// standard library adjustments (math library)
+	lua_getglobal(L, LUA_MATHLIBNAME);
+	// remove math.random and math.randomseed
+	lua_pushnil(L);
+	lua_setfield(L, -2, "random");
+	lua_pushnil(L);
+	lua_setfield(L, -2, "randomseed");
+	// alias math.deg2rad = math.rad
+	lua_getfield(L, -1, "rad");
+	assert(lua_isfunction(L, -1));
+	lua_setfield(L, -2, "deg2rad");
+	lua_pop(L, 1); // pop the math table
+}
+
 static int l_handle_error(lua_State *L)
 {
 	lua_getfield(L, LUA_REGISTRYINDEX, "PiDebug");
