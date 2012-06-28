@@ -508,11 +508,6 @@ static int l_set_combat_target(lua_State *l)
     return 0;
 }
 
-static bool promotion_test(DeleteEmitter *o)
-{
-	return dynamic_cast<Player*>(o);
-}
-
 template <> const char *LuaObject<Player>::s_type = "Player";
 
 template <> void LuaObject<Player>::RegisterClass()
@@ -541,5 +536,5 @@ template <> void LuaObject<Player>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, NULL, NULL);
-	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Player>::DynamicCastPromotionTest);
 }

@@ -42,8 +42,7 @@ define_model('cobra1', {
 
 			if lod > 2 then
 				use_material('bot')
-				local factor = 0.05*math.pi*os.clock() -- get_time('SECONDS') causes an asset error here.. strange!?!
-				call_model('scanner_+', v(0.013,3.3,5.641), v(math.cos(factor),0,math.sin(factor)), v(0,1,0),1.4)
+				call_model('scanner_+', v(0.013,3.3,5.641), v(1,0,0), v(0,1,0),1.4)
 			end
 		end
 	end,

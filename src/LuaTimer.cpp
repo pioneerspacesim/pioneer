@@ -77,9 +77,9 @@ void LuaTimer::Tick()
  * possible that game objects no longer exist. Consider this example:
  *
  * > local enemy = Space.SpawnShipNear("Eagle Long Range Fighter", Game.player, 20, 20)
- * > UI.ImportantMessage(enemy:GetLabel(), "You have 20 seconds to surrender or you will be destroyed.")
+ * > Comms.ImportantMessage(enemy:GetLabel(), "You have 20 seconds to surrender or you will be destroyed.")
  * > Timer:CallAt(Game.time+20, function ()
- * >     UI.ImportantMessage(enemy:GetLabel(), "You were warned. Prepare to die!")
+ * >     Comms.ImportantMessage(enemy:GetLabel(), "You were warned. Prepare to die!")
  * >     enemy:Kill(Game.player)
  * > end)
  *
@@ -135,7 +135,7 @@ static void _finish_timer_create(lua_State *l)
  * Example:
  *
  * > Timer:CallAt(Game.time+30, function ()
- * >     UI.Message("Special offer expired, sorry.")
+ * >     Comms.Message("Special offer expired, sorry.")
  * > end)
  *
  * Availability:

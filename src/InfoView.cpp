@@ -33,7 +33,7 @@ public:
 	}
 
 	virtual void UpdateInfo() {
-		const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.2f;
 		DeleteAllChildren();
 
 		Gui::Label *l = new Gui::Label(Lang::MISSIONS);
@@ -64,7 +64,7 @@ public:
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 
 		const std::list<const Mission*> &missions = Pi::player->missions.GetAll();
-		Gui::Fixed *innerbox = new Gui::Fixed(760, missions.size());
+		Gui::Fixed *innerbox = new Gui::Fixed(760, YSEP*3*missions.size());
 
 		float ypos = 0;
 		for (std::list<const Mission*>::const_iterator i = missions.begin(); i != missions.end(); ++i) {
@@ -121,7 +121,7 @@ public:
 	}
 
 	virtual void UpdateInfo() {
-		const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.2f;
 		DeleteAllChildren();
 		Add(new Gui::Label(Lang::CARGO_INVENTORY), 40, 40);
 		Add(new Gui::Label(Lang::JETTISON), 40, 40+YSEP*2);
@@ -191,7 +191,7 @@ public:
 	virtual void UpdateInfo() {
 		Sint64 crime, fine;
 		Polit::GetCrime(&crime, &fine);
-		const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.2f;
 		DeleteAllChildren();
 
 		float ypos = 40.0f;

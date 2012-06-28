@@ -22,7 +22,7 @@ SpaceStationView::SpaceStationView(): View()
 	m_statusBox = new Gui::Fixed(300, 300);
 	Add(m_statusBox, 10, 350);
 
-	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
+	const float YSEP = Gui::Screen::GetFontHeight() * 1.2f;
 
 	m_statusBox->Add(new Gui::Label(std::string("#007")+std::string(Lang::CASH)), 0, 0);
 	m_statusBox->Add(new Gui::Label(std::string("#007")+std::string(Lang::LEGAL_STATUS)), 0, 2*YSEP);

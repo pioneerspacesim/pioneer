@@ -110,6 +110,12 @@ typedef bool (*PromotionTest)(DeleteEmitter *o);
 class LuaObjectBase {
 	friend class LuaSerializer;
 
+public:
+	// creates a single "typeless" object and attaches the listed methods,
+	// attributes and metamethods to it. leaves the created object on the
+	// stack
+	static void CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta);
+
 protected:
 	// base class constructor, called by the wrapper Push* methods
 	LuaObjectBase(DeleteEmitter *o, const char *type) : m_object(o), m_type(type) {};
@@ -173,6 +179,10 @@ private:
 	// its only part of the class so that it can call Deregister()
 	static int l_gc(lua_State *l);
 
+	// default tostring. shows a little more info about the object, like its
+	// type
+	static int l_tostring(lua_State *l);
+
 	// pull an LuaObjectBase wrapper from the registry given an id. returns NULL
 	// if the object is not in the registry
 	static LuaObjectBase *Lookup(lid id);
@@ -205,6 +215,17 @@ public:
 	virtual void OnRelease(T *) {}
 };
 
+// acquirer baseclass for RefCounted types. subclass this when you need Lua to
+// take a reference to an object
+class LuaAcquirerRefCounted {
+public:
+	virtual void OnAcquire(RefCounted *o) {
+		o->IncRefCount();
+	}
+	virtual void OnRelease(RefCounted *o) {
+		o->DecRefCount();
+	}
+};
 
 // template for a wrapper class
 template <typename T>
@@ -233,6 +254,11 @@ public:
 
 	static inline T *CheckFromLua(int index) {
 		return dynamic_cast<T *>(LuaObjectBase::CheckFromLua(index, s_type));
+	}
+
+	// convenience promotion test
+	static inline bool DynamicCastPromotionTest(DeleteEmitter *o) {
+		return dynamic_cast<T *>(o);
 	}
 
 protected:
