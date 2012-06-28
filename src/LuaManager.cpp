@@ -14,7 +14,7 @@ LuaManager::LuaManager() : m_lua(NULL) {
 
 	m_lua = luaL_newstate();
 
-	luaL_openlibs(m_lua);
+	pi_lua_open_standard_base(m_lua);
 
 	lua_atpanic(m_lua, pi_lua_panic);
 
