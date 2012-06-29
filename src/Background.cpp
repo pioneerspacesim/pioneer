@@ -92,8 +92,6 @@ void Starfield::Fill(unsigned long seed)
 void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int &twinkling, double &time, double &effect)
 {
 
-
-
 	double light = 1.0; // light intensity relative to earths
 		
 	if (camera->GetLightBodies()[0].distance != -1.0){ // check if light is not an artificial light in systems without lights

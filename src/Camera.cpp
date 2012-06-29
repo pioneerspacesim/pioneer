@@ -154,11 +154,6 @@ void Camera::Draw(Renderer *renderer)
 		//check if camera is near a planet
 		Body *camParentBody = m_camFrame->m_parent->GetBodyFor();
 		if (camParentBody && camParentBody->IsType(Object::PLANET)) {
-			Planet *planet = static_cast<Planet*>(camParentBody);
-			const vector3f relpos(planet->GetPositionRelTo(m_camFrame));
-			double altitude(relpos.Length());
-			double pressure, density;
-			planet->GetAtmosphericState(altitude, &pressure, &density);
 
 			Pi::game->GetSpace()->GetBackground().CalcParameters(this, m_camFrame->m_parent,
 				bgIntensity, bgTwinkling, bgTime, bgEffect);
