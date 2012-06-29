@@ -33,7 +33,10 @@ namespace Background
 		Starfield();
 		Starfield(unsigned long seed);
 		~Starfield();
-		void Draw(Graphics::Renderer *r, Camera *camera);
+		void Draw(Graphics::Renderer *r, Camera *camera,
+			int twinkling, double time, double effect);
+		void Starfield::CalcParameters(Camera *camera, Frame *f,
+			double &brightness, int &twinkling, double &time, double &effect);
 		//create or recreate the starfield
 		void Fill(unsigned long seed);
 
@@ -69,9 +72,10 @@ namespace Background
 		// default constructor, needs Refresh with proper seed to show starfield
 		Container();
 		Container(unsigned long seed);
-		void Draw(Graphics::Renderer *r, const matrix4x4d &transform, Camera *camera) const;
+		void Draw(Graphics::Renderer *r, const matrix4x4d &transform, Camera *camera,
+			int twinkling, double time, double effect) const;
 		void Refresh(unsigned long seed);
-
+		void Container::CalcParameters(Camera *camera, Frame *f, double &brightness,int &twinkling, double &time, double &effect);
 		void SetIntensity(float intensity);
 
 	private:

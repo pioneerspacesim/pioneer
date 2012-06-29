@@ -20,7 +20,7 @@ Light::Light(LightType t, const vector3f &p, const Color &d, const Color &a, con
 
 }
 
-LightBody::LightBody(vector3d &p, double &d, SBody *s) :
+LightBody::LightBody(vector3d &p, double &d, SystemBody *s) :
 	position(p),
 	distance(d),
 	sbody(s)

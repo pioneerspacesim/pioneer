@@ -41,8 +41,8 @@ class LightBody {
 public:
 	vector3d position;
 	double distance;
-	SBody *sbody;
-	LightBody(vector3d &p, double &d, SBody *s);
+	SystemBody *sbody;
+	LightBody(vector3d &p, double &d, SystemBody *s);
 };
 
 #endif
