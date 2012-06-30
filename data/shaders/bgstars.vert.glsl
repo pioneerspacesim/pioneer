@@ -5,12 +5,9 @@ float noise2dtrig(vec2 x){
 }
 
 
-uniform float brightness;
 uniform float time;
 uniform bool twinkling;
 uniform float effect;
-
-
 
 void main(void)
 {
@@ -20,12 +17,12 @@ void main(void)
 	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 #endif
 
-float starSize = pow(gl_Color.r,4.0);
+	float starSize = pow(gl_Color.r,4.0);
 	float b = 1.0;
 	if (twinkling){
 		
- 		//create an id for each star
-		float p = (dot(vec3(gl_Vertex),vec3((20.0/1000.0))));
+ 		//id for each star sent in alpha channel
+		float p = gl_Color.a*100.0;
 		//p = permute(p);
 		//input time and star id as coordinates of 2d noise space
 		b = pow(0.4+0.6*noise2dtrig(vec2(p, time)),0.4);
@@ -36,6 +33,6 @@ float starSize = pow(gl_Color.r,4.0);
 	}
 
 	gl_PointSize = 1.0 + (b*2.5+0.8)*starSize; //b controls a portion of star size 
-	gl_FrontColor = vec4(gl_Color.rgb,gl_Color.a*gl_FrontMaterial.emission*b);
+	gl_FrontColor = vec4(gl_Color.rgb,gl_FrontMaterial.emission*b);
 }
 

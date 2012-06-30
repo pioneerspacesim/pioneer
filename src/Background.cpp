@@ -75,12 +75,17 @@ void Starfield::Fill(unsigned long seed)
 		// this is proper random distribution on a sphere's surface
 		const float theta = float(rand.Double(0.0, 2.0*M_PI));
 		const float u = float(rand.Double(-1.0, 1.0));
-
-		va->Add(vector3f(
+		
+		vector3f coords = vector3f(
 				1000.0f * sqrt(1.0f - u*u) * cos(theta),
 				1000.0f * u,
-				1000.0f * sqrt(1.0f - u*u) * sin(theta)
-			), Color(col, col, col,	1.f)
+				1000.0f * sqrt(1.0f - u*u) * sin(theta));
+
+		// Create star id for use in twinkling and send via alpha
+		const float x = 20.0/100000.0;
+		float starId = coords.Dot(vector3f(x,x,x));
+
+		va->Add(coords, Color(col, col, col, starId)
 		);
 	}
 }
@@ -105,15 +110,17 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int 
 			//light intensity proportional to: T^4 (see boltzman's law formula Power=Area sigma T^4), r^2 (area = 4 pi r^2), 1/(r^2) (attenuation with inverse square law)
 			// as a multiple of sunlight on earths' surface
 			double light_ = pow(double(lb->sbody->averageTemp)/5700.0,4.0)*(pow(double(lb->sbody->GetRadius()/SOL_RADIUS),2.0)/pow((lb->distance/1.0),2.0)); // distance in AU
-			if ((light_ >= 0.25) &&(light_<=1.0)) {light_ = 1.0;} //if light is in medium range increase as stars are still dark
+			if ((light_ >= 0.25) &&(light_<=1.0)) 
+				light_ = 1.0; //if light is in medium range increase as stars are still dark
+			 
 			double t2 = light_;
 
 			double sunAngle = lb->position.Normalized().Dot(-(f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Normalized()));
 			double t = sunAngle;
 
-			if (sunAngle > 0.25) {sunAngle = 1.0;}
-			else if ((sunAngle <= 0.25)&& (sunAngle >= -0.8)) {sunAngle = ((sunAngle+0.08)/0.33);}
-			else /*if (sunAngle < -0.8)*/ {sunAngle = 0.0;}
+			if (sunAngle > 0.25) sunAngle = 1.0;
+			else if ((sunAngle <= 0.25)&& (sunAngle >= -0.8)) sunAngle = ((sunAngle+0.08)/0.33);
+			else /*if (sunAngle < -0.8)*/ sunAngle = 0.0;
 			
 			light += light_*sunAngle;
 		}
@@ -122,7 +129,7 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int 
 		double height = (f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Length());
 		
 		double pressure, density; 
-		s->plnt->GetAtmosphericState(height,&pressure, &density);
+		s->planet_->GetAtmosphericState(height,&pressure, &density);
 
 		Color c; double surfaceDensity;
 		s->GetAtmosphereFlavor(&c, &surfaceDensity);

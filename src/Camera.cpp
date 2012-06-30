@@ -144,9 +144,9 @@ void Camera::Draw(Renderer *renderer)
 		Color col(1.f);
 		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col));
 		double d = -1.0;
-		m_lightBodies.push_back(LightBody(vector3d(0.0,0.0,0.0), d, NULL));
+		m_lightBodies.push_back(LightBody(vector3d(0.0,0.0,0.0), d, 0));
 	}
-        //here
+
 	//fade space background based on atmosphere thickness and light angle
 	double bgIntensity=1.0,bgTime=0.0, bgEffect=0.0; int bgTwinkling=0;
 
