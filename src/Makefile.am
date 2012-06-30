@@ -87,6 +87,7 @@ noinst_HEADERS = \
 	LuaSpaceStation.h \
 	LuaStar.h \
 	LuaStarSystem.h \
+	LuaTable.h \
 	LuaTimer.h \
 	LuaUtils.h \
 	MarketAgent.h \
@@ -222,6 +223,7 @@ pioneer_SOURCES	= \
 	LuaSpaceStation.cpp \
 	LuaStar.cpp \
 	LuaStarSystem.cpp \
+	LuaTable.cpp \
 	LuaTimer.cpp \
 	LuaUtils.cpp \
 	MarketAgent.cpp \
