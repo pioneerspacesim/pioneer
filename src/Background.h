@@ -34,9 +34,11 @@ namespace Background
 		Starfield(unsigned long seed);
 		~Starfield();
 		void Draw(Graphics::Renderer *r, Camera *camera,
-			int twinkling, double time, double effect);
+			int twinkling, double time, double effect,
+			int fade, vector3d upDir, double darklevel, double maxSunAngle);
 		void Starfield::CalcParameters(Camera *camera, Frame *f,
-			double &brightness, int &twinkling, double &time, double &effect);
+			double &brightness, int &twinkling, double &time, double &effect,
+			int &fade, vector3d &upDir, double &darklevel, double &maxSunAngle);
 		//create or recreate the starfield
 		void Fill(unsigned long seed);
 
@@ -73,9 +75,9 @@ namespace Background
 		Container();
 		Container(unsigned long seed);
 		void Draw(Graphics::Renderer *r, const matrix4x4d &transform, Camera *camera,
-			int twinkling, double time, double effect) const;
+			int twinkling, double time, double effect, int fade, vector3d upDir, double darklevel, double maxSunAngle) const;
 		void Refresh(unsigned long seed);
-		void Container::CalcParameters(Camera *camera, Frame *f, double &brightness,int &twinkling, double &time, double &effect);
+		void Container::CalcParameters(Camera *camera, Frame *f, double &brightness,int &twinkling, double &time, double &effect, int &fade, vector3d &upDir, double &darklevel, double &maxSunAngle);
 		void SetIntensity(float intensity);
 
 	private:

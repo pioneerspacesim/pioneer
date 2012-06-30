@@ -89,15 +89,17 @@ void Starfield::Fill(unsigned long seed)
 //The way this works is that brightness and twinkling are calibrated to look fine on Earth.
 //After that the way the brightness and twinkling change under different conditions
 //is calculated by mapping the way quantities change due to factors relative to Earth.
-void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int &twinkling, double &time, double &effect)
+void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int &twinkling, double &time, double &effect, int &fade, vector3d &upDir, double &darklevel, double &maxSunAngle)
 {
 
 	double light = 1.0; // light intensity relative to earths
-		
+
 	if (camera->GetLightBodies()[0].distance != -1.0){ // check if light is not an artificial light in systems without lights
 
 		std::vector<LightBody> &l = camera->GetLightBodies();
 		light = 0.0;
+
+		vector3d upDir = -(f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Normalized());
 
 		for (std::vector<LightBody>::iterator i = l.begin(); i != l.end(); ++i) {
 			LightBody *lb = &(*i);
@@ -109,7 +111,7 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int 
 			double t2 = light_;
 
 			double sunAngle = lb->position.Normalized().Dot(-(f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Normalized()));
-			double t = sunAngle;
+			if (sunAngle>maxSunAngle) {maxSunAngle = sunAngle;}
 
 			if (sunAngle > 0.25) {sunAngle = 1.0;}
 			else if ((sunAngle <= 0.25)&& (sunAngle >= -0.8)) {sunAngle = ((sunAngle+0.08)/0.33);}
@@ -134,6 +136,24 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int 
 		// brightness depends on optical depth and intensity of light from all the stars
 		brightness = Clamp(1.0-(opticalThicknessFraction*light),0.0,1.0);
 
+			
+        //stars are faded from sun level to the horizon to avoid 
+        // stars showing up in sunset lit area before the dark portion of the sky	
+        fade=(maxSunAngle < 0.3);
+	
+         if (fade){		
+#define Blend(u,v,a) (u*(1.0-a)+v*a)
+
+           //the dark level is the level stars are faded to - blend from overall brightness 	
+           // to brightness*density remaining rel earth so worlds with thin atmospheres have less fade	
+           darklevel = //Blend(brightness,
+           brightness*(Clamp((surfaceDensity-density)/EARTH_ATM_SURF_DEN,0.0,1.0));//,
+            //maxSunAngle/0.3);
+
+#undef Blend
+			printf("darklevel %f",Clamp((surfaceDensity-density)/EARTH_ATM_SURF_DEN,0.0,1.0));
+}
+
 		time = Pi::game->GetTime()*20.0*1e-5;
 		time = float((time-floor(time))*1e5);
 
@@ -152,7 +172,8 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int 
 	}
 }
 
-void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera, int twinkling, double time, double effect)
+void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera, int twinkling, double time, double effect,
+			int fade, vector3d upDir, double darklevel, double maxSunAngle)
 {
 	if (AreShadersEnabled()) {
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
@@ -161,7 +182,12 @@ void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera, int twinkling
 		m_shader->SetUniform("twinkling", int(twinkling));
 		m_shader->SetUniform("time", float(time));
 		m_shader->SetUniform("effect", float(effect));
-
+		m_shader->SetUniform("fade", (int(fade)>0)?1:0);
+		if (fade){
+		   m_shader->SetUniform("darklevel", float(darklevel));
+           m_shader->SetUniform("sunAngle", float(maxSunAngle));	
+           m_shader->SetUniform("upDir", upDir);
+		}
 		
 	} else {
 		glDisable(GL_POINT_SMOOTH); //too large if smoothing is on
@@ -300,7 +326,7 @@ void Container::Refresh(unsigned long seed)
 	m_starField.Fill(seed);
 }
 
-void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform, Camera *camera, int twinkling, double time, double effect) const
+void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform, Camera *camera, int twinkling, double time, double effect, int fade, vector3d upDir, double darklevel, double maxSunAngle) const
 {
 	//XXX not really const - renderer can modify the buffers
 	glPushMatrix();
@@ -312,15 +338,17 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform, 
 	matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
 	renderer->SetTransform(starTrans);
 	const_cast<Starfield&>(m_starField).Draw(renderer, camera,
-		twinkling, time, effect);
+		twinkling, time, effect, 
+		fade, upDir, darklevel, maxSunAngle);
 	Pi::renderer->SetDepthTest(true);
 	glPopMatrix();
 }
 
-void Container::CalcParameters(Camera *camera, Frame *f, double &brightness,int &twinkling, double &time, double &effect)
+void Container::CalcParameters(Camera *camera, Frame *f, double &brightness,int &twinkling, double &time, double &effect, int &fade, vector3d &upDir, double &darklevel, double &maxSunAngle)
 {
 	m_starField.CalcParameters(camera, f, brightness,
-							   twinkling, time, effect);
+							   twinkling, time, effect,
+							   fade, upDir, darklevel, maxSunAngle);
 }
 
 

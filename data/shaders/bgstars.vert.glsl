@@ -9,8 +9,10 @@ uniform float brightness;
 uniform float time;
 uniform bool twinkling;
 uniform float effect;
-
-
+uniform vec3 upDir;	
+uniform float sunAngle;
+uniform bool fade;
+uniform float darklevel;
 
 void main(void)
 {
@@ -35,7 +37,22 @@ float starSize = pow(gl_Color.r,4.0);
 		b = mix(1.0,b,effect);
 	}
 
+	vec4 col = vec4(0.0); col.a = 1.0;
+
+	if (1||fade){
+		vec4 pos = gl_ModelViewMatrix * gl_Vertex;
+		//pos.y = pos.y/0.4; // reverse scaling to increase density to represent milkyway
+		float angle = dot(upDir,normalize(vec3(pos)));    
+		float blend = clamp(angle-sunAngle-0.1,0.0,0.2)/0.2;
+		brightness = mix(b, darklevel, blend);
+
+		// debug
+		// set stars above angle to blue and below to red.
+		if (angle < 0.4){b=1.0;col.r = 1.0;}
+		else {b=1.0;col.b = 1.0;}
+	}
+
 	gl_PointSize = 1.0 + (b*2.5+0.8)*starSize; //b controls a portion of star size 
-	gl_FrontColor = vec4(gl_Color.rgb,gl_Color.a*gl_FrontMaterial.emission*b);
+	gl_FrontColor = col;//vec4(gl_Color.rgb,gl_Color.a*gl_FrontMaterial.emission*b);
 }
 
