@@ -32,7 +32,7 @@ FOREACH(CURVER ${VERSIONS})
 		NAMES sigc++config.h
 		HINTS ${CUR_HINTS}
 		PATH_SUFFIXES include include/sigc++ "include/sigc++-${CURVER}" sigc++/include "sigc++-${CURVER}/include"
-		PATHS /usr/local/lib /usr/lib /lib
+		PATHS /usr/local/lib/ /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE} /lib/${CMAKE_LIBRARY_ARCHITECTURE}
 	)
 	set(${FINDNAME}_INCLUDE_DIRS "${${FINDNAME}_INCLUDE_DIR}" "${${FINDNAME}_INCLUDE_DIR_CONFIG}")
 ENDFOREACH()
