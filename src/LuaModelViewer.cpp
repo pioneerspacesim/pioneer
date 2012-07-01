@@ -264,8 +264,8 @@ bool Viewer::OnReloadModel(UI::Widget *w)
         NModel *mo = loader.LoadModel(m_modelName);
         SetModel(mo, m_modelName);
         AddLog("Model loaded");
-    } catch (Newmodel::LoadingError &) {
-        PickModel(m_modelName, std::string("Could not find model: ") + m_modelName);
+    } catch (Newmodel::LoadingError &err) {
+        PickModel(m_modelName, stringf("Could not load model %0: %1", m_modelName, err.what()));
     }
     return true;
 }
@@ -538,8 +538,8 @@ void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *
         try {
             NModel *mo = load.LoadModel(name);
             SetModel(mo, name);
-        } catch (Newmodel::LoadingError &) {
-            errormsg->SetText("Could not find model: " + name);
+        } catch (Newmodel::LoadingError &err) {
+            errormsg->SetText(stringf("Could not load model %0: %1", name, err.what()));
         }
     }
 }
@@ -570,6 +570,7 @@ void Viewer::PickModel(const std::string &initial_name, const std::string &initi
         PollEvents();
         renderer->ClearScreen();
         Gui::Draw();
+		DrawLog();
         renderer->SwapBuffers();
     }
     Gui::Screen::RemoveBaseWidget(f);
@@ -874,8 +875,8 @@ int main(int argc, char **argv)
             Newmodel::Loader loader(renderer);
             NModel *mo = loader.LoadModel(name);
             viewer->SetModel(mo, name);
-        } catch (Newmodel::LoadingError &) {
-            viewer->PickModel(argv[3], std::string("Could not find model: ") + argv[3]);
+        } catch (Newmodel::LoadingError &err) {
+            viewer->PickModel(argv[3], stringf("Could not load model %0: %1", argv[3], err.what()));
         }
     } else {
         viewer->PickModel();

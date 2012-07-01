@@ -34,7 +34,7 @@ NModel *Loader::LoadModel(const std::string &filename)
 {
 	NModel *m = LoadModel(filename, "newmodels");
 	if (m) return m;
-	throw LoadingError();
+	throw LoadingError("Newmodel::LoadingError");
 }
 
 NModel *Loader::LoadModel(const std::string &filename, const std::string &basepath)
@@ -62,7 +62,7 @@ NModel *Loader::LoadModel(const std::string &filename, const std::string &basepa
 					p.Parse(&modelDefinition);
 				} catch (const std::string &str) {
 					std::cerr << str << std::endl;
-					throw LoadingError();
+					throw LoadingError(str);
 				}
 				modelDefinition.name = name.substr(0, name.length()-6);
 				return CreateModel(modelDefinition);
@@ -165,8 +165,8 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 				throw;
 			} catch (const std::string &s) {
 				delete model;
-				std::cout << s << std::endl;
-				throw LoadingError();
+				std::cerr << s << std::endl;
+				throw LoadingError(s);
 			}
 		}
 	}

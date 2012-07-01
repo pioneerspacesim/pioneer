@@ -56,7 +56,7 @@ namespace Newmodel
 {
 
 struct LoadingError : public std::runtime_error {
-	LoadingError() : std::runtime_error("NewModel::LoadingError") { }
+	LoadingError(const std::string &str) : std::runtime_error(str.c_str()) { }
 };
 
 typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > MaterialContainer;
