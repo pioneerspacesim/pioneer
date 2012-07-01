@@ -10,6 +10,12 @@ struct Glyph {
 };
 
 static std::map<char, Glyph> s_characters;
+static const float s_width = 4.f;
+static const float s_height = 4.f;
+static const float s_charW = 1.f/16.f;
+static const float s_charH = 1.f/8.f;
+static const int s_texWidth = 512;
+static const int s_texHeight = 256;
 
 Label3D::Label3D(Graphics::Texture *font)
 : Node(NODE_TRANSPARENT)
@@ -22,15 +28,10 @@ Label3D::Label3D(Graphics::Texture *font)
 
 	//XXX this is very unsatisfying. I'd rather export the offset values
 	//using the same tool that generates the font texture
-	const int texWidth = 512;
-	const int texHeight = 256;
-	const float charW = 1.f/16.f;
-	const float charH = 1.f/8.f;
-
 	int row = 0;
 	int col = 0;
 	for(char i=32; i<127; i++) {
-		s_characters[i] = Glyph(vector2f(col * charW, row * charH));
+		s_characters[i] = Glyph(vector2f(col * s_charW, row * s_charH));
 		col++;
 		if (col >= 16) {
 			row++;
@@ -60,30 +61,31 @@ void Label3D::Accept(NodeVisitor &nv)
 
 static void add_char(Graphics::VertexArray &va, const vector2f &pos, const vector2f &uv, const Color &c)
 {
-	const float w = 4.f;
-	const float h = 4.f;
-	const float charW = 1.f/16.f;
-	const float charH = 1.f/8.f;
+	const float w = s_width;
+	const float h = s_height;
 	const float u = uv.x;
 	const float v = uv.y;
-	va.Add(vector3f(pos.x + w, pos.y + h, 0.f), c, vector2f(u+charW, v+charH));
-	va.Add(vector3f(pos.x + w, pos.y, 0.f), c, vector2f(u+charW, v));
-	va.Add(vector3f(pos.x, pos.y, 0.f), c, vector2f(u, v));
 
-	va.Add(vector3f(pos.x, pos.y, 0.f), c, vector2f(u, v));
-	va.Add(vector3f(pos.x, h, 0.f), c, vector2f(u, v+charH));
-	va.Add(vector3f(pos.x + w, pos.y + h, 0.f), c, vector2f(u+charW, v+charH));
+	va.Add(vector3f(pos.x, pos.y, 0.f), c, vector2f(uv.x, uv.y+s_charH));
+	va.Add(vector3f(pos.x + w, pos.y, 0.f), c, vector2f(uv.x+s_charW, uv.y+s_charH));
+	va.Add(vector3f(pos.x, pos.y + h, 0.f), c, vector2f(uv.x, uv.y));
+
+	va.Add(vector3f(pos.x, pos.y + h, 0.f), c, vector2f(uv.x, uv.y));
+	va.Add(vector3f(pos.x + w, pos.y, 0.f), c, vector2f(uv.x+s_charW, uv.y+s_charH));
+	va.Add(vector3f(pos.x + w, pos.y + h, 0.f), c, vector2f(uv.x+s_charW, uv.y));
 }
 
 void Label3D::CreateGeometry(Graphics::VertexArray& va, const std::string& text, const Color &c)
 {
-	const float spacing = 1.5f;
+	const float spacing = 1.5;
+	const float yoff = -s_height/2.f;
+	const float xoff = (text.length() * spacing) / 2.f;
 	for(unsigned int i=0; i<text.length(); i++) {
 		const char chr = text.at(i);
 		std::map<char, Glyph>::const_iterator it = s_characters.find(chr);
 		if (it != s_characters.end()) {
 			const Glyph &glyph = it->second;
-			add_char(va, vector2f(i * spacing, 0.f), glyph.uv, c);
+			add_char(va, vector2f(i * spacing - xoff, yoff), glyph.uv, c);
 		}
 	}
 }

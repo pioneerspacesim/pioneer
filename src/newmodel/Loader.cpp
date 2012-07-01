@@ -608,8 +608,10 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 			else
 				throw std::string("Model requires more than 4 different decals");
 		}
-		if (numDecal != 0) //XXX could add a simple DecalGeometry node
+		if (numDecal != 0) {//XXX could add a simple DecalGeometry node
 			geom->SetNodeMask(NODE_TRANSPARENT);
+			geom->m_blendMode = Graphics::BLEND_ALPHA;
+		}
 
 		for(unsigned int i=0; i<node->mNumMeshes; i++) {
 			Graphics::Surface *surf = surfaces[node->mMeshes[i]];
