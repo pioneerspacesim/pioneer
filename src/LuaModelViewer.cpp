@@ -527,6 +527,7 @@ void Viewer::SetModel(NModel *model, const std::string &name)
     UpdatePatternList();
     OnModelColorsChanged();
     m_model->SetDecalTexture(m_decalTexture, 0);
+	m_model->SetLabel("Pioneer");
 }
 
 void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg)

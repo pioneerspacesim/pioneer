@@ -12,6 +12,7 @@ public:
 	Label3D(Graphics::Texture*);
 	void SetText(const std::string&);
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
+	virtual void Accept(NodeVisitor &v);
 
 private:
 	RefCountedPtr<Graphics::Material> m_material;

@@ -219,6 +219,7 @@
     <ClCompile Include="..\..\src\newmodel\NodeVisitor.cpp" />
     <ClCompile Include="..\..\src\newmodel\Parser.cpp" />
     <ClCompile Include="..\..\src\newmodel\StaticGeometry.cpp" />
+    <ClCompile Include="..\..\src\newmodel\Label3D.cpp" />
     <ClCompile Include="..\..\src\newmodel\Thruster.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\SDLWrappers.cpp" />
@@ -330,6 +331,7 @@
     <ClInclude Include="..\..\src\LuaVector.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\Model.h" />
+    <ClInclude Include="..\..\src\ModelViewer.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
     <ClInclude Include="..\..\src\newmodel\Animation.h" />
     <ClInclude Include="..\..\src\newmodel\AnimationChannel.h" />
@@ -349,6 +351,7 @@
     <ClInclude Include="..\..\src\newmodel\NodeVisitor.h" />
     <ClInclude Include="..\..\src\newmodel\Parser.h" />
     <ClInclude Include="..\..\src\newmodel\StaticGeometry.h" />
+    <ClInclude Include="..\..\src\newmodel\Label3D.h" />
     <ClInclude Include="..\..\src\newmodel\Thruster.h" />
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\SDLWrappers.h" />

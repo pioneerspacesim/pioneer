@@ -9,13 +9,15 @@ namespace Newmodel {
 class Node;
 class Group;
 class StaticGeometry;
+class Label3D;
 
 class NodeVisitor
 {
 public:
-	virtual void ApplyNode(Node &n);
-	virtual void ApplyGroup(Group &g);
-	virtual void ApplyStaticGeometry(StaticGeometry &g);
+	virtual void ApplyNode(Node&);
+	virtual void ApplyGroup(Group&);
+	virtual void ApplyStaticGeometry(StaticGeometry&);
+	virtual void ApplyLabel(Label3D&);
 };
 
 }

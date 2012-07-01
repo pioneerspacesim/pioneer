@@ -360,6 +360,9 @@
     <ClCompile Include="..\..\src\newmodel\Thruster.cpp">
       <Filter>src\newmodel</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\newmodel\Label3D.cpp">
+      <Filter>src\newmodel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -747,6 +750,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\newmodel\Thruster.h">
+      <Filter>src\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ModelViewer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\newmodel\Label3D.h">
       <Filter>src\newmodel</Filter>
     </ClInclude>
   </ItemGroup>

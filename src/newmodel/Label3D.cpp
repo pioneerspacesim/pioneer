@@ -1,4 +1,5 @@
-﻿#include "newmodel/Label3D.h"
+﻿#include "Label3D.h"
+#include "NodeVisitor.h"
 
 namespace Newmodel {
 
@@ -50,6 +51,11 @@ void Label3D::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData 
 	//needs alpha test!
 	r->SetTransform(trans);
 	r->DrawTriangles(m_geometry.Get(), m_material.Get());
+}
+
+void Label3D::Accept(NodeVisitor &nv)
+{
+	nv.ApplyLabel(*this);
 }
 
 static void add_char(Graphics::VertexArray &va, const vector2f &pos, const vector2f &uv, const Color &c)

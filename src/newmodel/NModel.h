@@ -43,9 +43,10 @@
  */
 #include "libs.h"
 #include "Model.h"
-#include "Group.h"
-#include "ColorMap.h"
 #include "Animation.h"
+#include "ColorMap.h"
+#include "Group.h"
+#include "Label3D.h"
 #include "graphics/Material.h"
 #include <stdexcept>
 
@@ -95,6 +96,7 @@ public:
 	void SetPattern(unsigned int index);
 	void SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &colors); //renderer needed for texture creation
 	void SetDecalTexture(Graphics::Texture *t, unsigned int index = 0);
+	void SetLabel(const std::string&);
 
 	void UpdateAnimations(double time); //change this to timestep or something
 	int PlayAnimation(const std::string &name, Animation::Direction = Animation::FORWARD); //immediately play an animation (forward), if found, returns count of animations triggered

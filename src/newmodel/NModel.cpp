@@ -5,6 +5,15 @@
 
 namespace Newmodel {
 
+class LabelUpdateVisitor : public NodeVisitor {
+public:
+	virtual void ApplyLabel(Label3D &l) {
+		l.SetText(label);
+	}
+
+	std::string label;
+};
+
 NModel::NModel(const std::string &name)
 : Model()
 , m_lastTime(0.0)
@@ -118,6 +127,13 @@ void NModel::SetDecalTexture(Graphics::Texture *t, unsigned int index)
 	index = std::min(index, MAX_DECAL_MATERIALS-1);
 	if (m_decalMaterials[index].Valid())
 		m_decalMaterials[index]->texture0 = t;
+}
+
+void NModel::SetLabel(const std::string &text)
+{
+	LabelUpdateVisitor vis;
+	vis.label = text;
+	m_root->Accept(vis);
 }
 
 void NModel::UpdateAnimations(const double time) //change this to use timestep or something
