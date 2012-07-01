@@ -81,12 +81,14 @@ void Starfield::Fill(unsigned long seed)
 				1000.0f * u,
 				1000.0f * sqrt(1.0f - u*u) * sin(theta));
 
-		// Create star id for use in twinkling and send via alpha
-		const float x = 20.0/100000.0;
-		float starId = coords.Dot(vector3f(x,x,x));
+		float starId = 1.0;
+		// Set star id for use in twinkling and send via alpha, if shaders are enabled
+		if (AreShadersEnabled()){	
+			const float x = 20.0/100000.0;
+			starId = coords.Dot(vector3f(x,x,x));
+		}
 
-		va->Add(coords, Color(col, col, col, starId)
-		);
+		va->Add(coords, Color(col, col, col, starId));
 	}
 }
  
@@ -112,11 +114,8 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int 
 			double light_ = pow(double(lb->sbody->averageTemp)/5700.0,4.0)*(pow(double(lb->sbody->GetRadius()/SOL_RADIUS),2.0)/pow((lb->distance/1.0),2.0)); // distance in AU
 			if ((light_ >= 0.25) &&(light_<=1.0)) 
 				light_ = 1.0; //if light is in medium range increase as stars are still dark
-			 
-			double t2 = light_;
 
 			double sunAngle = lb->position.Normalized().Dot(-(f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Normalized()));
-			double t = sunAngle;
 
 			if (sunAngle > 0.25) sunAngle = 1.0;
 			else if ((sunAngle <= 0.25)&& (sunAngle >= -0.8)) sunAngle = ((sunAngle+0.08)/0.33);
