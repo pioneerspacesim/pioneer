@@ -46,9 +46,9 @@ void main(void)
 		//float blend = clamp(angle-sunAngle-0.1,0.0,0.2)/0.2;
 		//brightness = mix(b, darklevel, blend);
 
-		vec4 pos = gl_ModelViewMatrix * gl_Vertex;
-		pos.y = pos.y/0.4; // reverse scaling (used to represent milkyway) 
+		vec4 pos = gl_ModelViewMatrix * gl_Vertex; 
 		float angle = dot(upDir,normalize(vec3(pos))); 
+
 		// debug
 		// set stars below angle to blue and above to red.
 		// stars to the zenith (upDir direction) should be blue and those to the horizon should be red
@@ -57,6 +57,7 @@ void main(void)
 	}
 
 	//gl_PointSize = 1.0 + (b*2.5+0.8)*starSize; //b controls a portion of star size 
+
 	gl_FrontColor = col; //vec4(gl_Color.rgb,gl_FrontMaterial.emission*b);
 }
 

@@ -108,7 +108,7 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int 
 		
 		matrix4x4d ft;
 		Frame::GetFrameRenderTransform(f,camera->GetFrame(),ft);
-		vector3d upDir = ((camera->GetOrientation()/*.InverseOf()*/ *ft*f->GetBodyFor()->GetInterpolatedPosition())).Normalized();//f->GetBodyFor()->GetPositionRelTo(camera->GetFrame())).Normalized());
+		vector3d upDir = ((camera->GetOrientation()/*.InverseOf()*/ *ft*f->GetBodyFor()->GetInterpolatedPosition()).Normalized());//f->GetBodyFor()->GetPositionRelTo(camera->GetFrame())).Normalized());
 
 		for (std::vector<LightBody>::iterator i = l.begin(); i != l.end(); ++i) {
 			LightBody *lb = &(*i);
