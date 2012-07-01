@@ -75,20 +75,129 @@ void Starfield::Fill(unsigned long seed)
 		// this is proper random distribution on a sphere's surface
 		const float theta = float(rand.Double(0.0, 2.0*M_PI));
 		const float u = float(rand.Double(-1.0, 1.0));
-
-		va->Add(vector3f(
+		
+		vector3f coords = vector3f(
 				1000.0f * sqrt(1.0f - u*u) * cos(theta),
 				1000.0f * u,
-				1000.0f * sqrt(1.0f - u*u) * sin(theta)
-			), Color(col, col, col,	1.f)
-		);
+				1000.0f * sqrt(1.0f - u*u) * sin(theta));
+
+		float starId = 1.0;
+		// Set star id for use in twinkling and send via alpha, if shaders are enabled
+		if (AreShadersEnabled()){	
+			const float x = 10.0/100000.0;
+			starId = (coords+vector3f(1001.0,1001.0,1001.0)).Dot(vector3f(x,x,x));
+		}
+
+		va->Add(coords, Color(col, col, col, starId));
+	}
+}
+ 
+//Calculates starfield brightness and star twinkling amount.
+//The way this works is that brightness and twinkling are calibrated to look fine on Earth.
+//After that the way the brightness and twinkling change under different conditions
+//is calculated by mapping the way quantities change due to factors relative to Earth.
+void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int &twinkling, double &time, double &effect, int &fade, vector3d &upDir, double &darklevel, double &maxSunAngle)
+{
+
+	double light = 1.0; // light intensity relative to earths
+
+	if (camera->GetLightBodies()[0].distance != -1.0){ // check if light is not an artificial light in systems without lights
+
+		std::vector<LightBody> &l = camera->GetLightBodies();
+		light = 0.0;
+		
+		matrix4x4d ft;
+		Frame::GetFrameRenderTransform(f,camera->GetFrame(),ft);
+		vector3d upDir = ((camera->GetOrientation()/*.InverseOf()*/ *ft*f->GetBodyFor()->GetInterpolatedPosition()).Normalized());//f->GetBodyFor()->GetPositionRelTo(camera->GetFrame())).Normalized());
+
+		for (std::vector<LightBody>::iterator i = l.begin(); i != l.end(); ++i) {
+			LightBody *lb = &(*i);
+
+			//light intensity proportional to: T^4 (see boltzman's law formula Power=Area sigma T^4), r^2 (area = 4 pi r^2), 1/(r^2) (attenuation with inverse square law)
+			// as a multiple of sunlight on earths' surface
+			double light_ = pow(double(lb->sbody->averageTemp)/5700.0,4.0)*(pow(double(lb->sbody->GetRadius()/SOL_RADIUS),2.0)/pow((lb->distance/1.0),2.0)); // distance in AU
+			if ((light_ >= 0.25) &&(light_<=1.0)) 
+				light_ = 1.0; //if light is in medium range increase as stars are still dark
+
+			double sunAngle = lb->position.Normalized().Dot(-(f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Normalized()));
+			if (sunAngle>maxSunAngle) {maxSunAngle = sunAngle;}
+
+			if (sunAngle > 0.25) sunAngle = 1.0;
+			else if ((sunAngle <= 0.25)&& (sunAngle >= -0.8)) sunAngle = ((sunAngle+0.08)/0.33);
+			else /*if (sunAngle < -0.8)*/ sunAngle = 0.0;
+			
+			light += light_*sunAngle;
+		}
+
+		SystemBody *s = f->GetSystemBodyFor();
+		double height = (f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Length());
+		
+		double pressure, density; 
+		static_cast<Planet*>(f->GetBodyFor())->GetAtmosphericState(height,&pressure, &density);
+
+		Color c; double surfaceDensity;
+		s->GetAtmosphereFlavor(&c, &surfaceDensity);
+
+		// approximate optical thickness fraction as fraction of density remaining relative to earths
+		double opticalThicknessFraction = 1.0-(surfaceDensity-density)/surfaceDensity;
+		// tweak optical thickness curve - lower exponent ==> higher altitude before stars show
+		opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
+		// brightness depends on optical depth and intensity of light from all the stars
+		brightness = Clamp(1.0-(opticalThicknessFraction*light),0.0,1.0);
+
+			
+        //stars are faded from sun level to the horizon to avoid 
+        // stars showing up in sunset lit area before the dark portion of the sky	
+        fade=(maxSunAngle < 0.3);
+	
+         if (fade){		
+#define Blend(u,v,a) (u*(1.0-a)+v*a)
+
+           //the dark level is the level stars are faded to - blend from overall brightness 	
+           // to brightness*density remaining rel earth so worlds with thin atmospheres have less fade	
+           darklevel = //Blend(brightness,
+           brightness*(Clamp((surfaceDensity-density)/EARTH_ATM_SURF_DEN,0.0,1.0));//,
+            //maxSunAngle/0.3);
+
+#undef Blend
+			//printf("darklevel %f",Clamp((surfaceDensity-density)/EARTH_ATM_SURF_DEN,0.0,1.0));
+}
+
+		time = Pi::game->GetTime()*20.0*1e-5;
+		time = float((time-floor(time))*1e5);
+
+		double temperature = double(s->averageTemp);
+
+		double radiusRatio = (s->GetRadius()/EARTH_RADIUS);
+
+		// set the amount of twinkling to decrease with height and be proportional to temp, rad, and surf den
+		effect = Clamp(pow((1.0-(std::min(height-s->GetRadius(),3000.0*radiusRatio)/(3000.0*radiusRatio))),0.3)
+			*(surfaceDensity/1.0)*(temperature/EARTH_AVG_SURFACE_TEMPERATURE),0.0,1.0);
+
+		if ((effect > 0.05) && (brightness > 0.1)){// turn on twinkling if effect is large enough 
+			twinkling = 1;
+		}
+		
 	}
 }
 
-void Starfield::Draw(Graphics::Renderer *renderer)
+void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera, int twinkling, double time, double effect,
+			int fade, vector3d upDir, double darklevel, double maxSunAngle)
 {
 	if (AreShadersEnabled()) {
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
+		
+		m_shader->Use();
+		m_shader->SetUniform("twinkling", int(twinkling));
+		m_shader->SetUniform("time", float(time));
+		m_shader->SetUniform("effect", float(effect));
+		m_shader->SetUniform("fade", (int(fade)>0)?1:0);
+		if (fade){
+		   m_shader->SetUniform("darklevel", float(darklevel));
+           m_shader->SetUniform("sunAngle", float(maxSunAngle));	
+           m_shader->SetUniform("upDir", upDir);
+		}
+		
 	} else {
 		glDisable(GL_POINT_SMOOTH); //too large if smoothing is on
 		glPointSize(1.0f);
@@ -96,7 +205,9 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
+		renderer->SetBlendMode(BLEND_ALPHA);
 		renderer->DrawStaticMesh(m_model);
+		renderer->SetBlendMode(BLEND_SOLID);
 	} else {
 		/* HYPERSPACING!!!!!!!!!!!!!!!!!!! */
 		/* all this jizz isn't really necessary, since the player will
@@ -224,7 +335,7 @@ void Container::Refresh(unsigned long seed)
 	m_starField.Fill(seed);
 }
 
-void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) const
+void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform, Camera *camera, int twinkling, double time, double effect, int fade, vector3d upDir, double darklevel, double maxSunAngle) const
 {
 	//XXX not really const - renderer can modify the buffers
 	glPushMatrix();
@@ -235,10 +346,20 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) 
 	// squeeze the starfield a bit to get more density near horizon
 	matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
 	renderer->SetTransform(starTrans);
-	const_cast<Starfield&>(m_starField).Draw(renderer);
+	const_cast<Starfield&>(m_starField).Draw(renderer, camera,
+		twinkling, time, effect, 
+		fade, upDir, darklevel, maxSunAngle);
 	Pi::renderer->SetDepthTest(true);
 	glPopMatrix();
 }
+
+void Container::CalcParameters(Camera *camera, Frame *f, double &brightness,int &twinkling, double &time, double &effect, int &fade, vector3d &upDir, double &darklevel, double &maxSunAngle)
+{
+	m_starField.CalcParameters(camera, f, brightness,
+							   twinkling, time, effect,
+							   fade, upDir, darklevel, maxSunAngle);
+}
+
 
 void Container::SetIntensity(float intensity)
 {

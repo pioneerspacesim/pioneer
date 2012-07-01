@@ -9,6 +9,7 @@ namespace Graphics {
 	class Shader;
 	class Material;
 }
+class Camera;
 
 /*
  * Classes to draw background stars and the milky way
@@ -32,7 +33,12 @@ namespace Background
 		Starfield();
 		Starfield(unsigned long seed);
 		~Starfield();
-		void Draw(Graphics::Renderer *r);
+		void Draw(Graphics::Renderer *r, Camera *camera,
+			int twinkling, double time, double effect,
+			int fade, vector3d upDir, double darklevel, double maxSunAngle);
+		void Starfield::CalcParameters(Camera *camera, Frame *f,
+			double &brightness, int &twinkling, double &time, double &effect,
+			int &fade, vector3d &upDir, double &darklevel, double &maxSunAngle);
 		//create or recreate the starfield
 		void Fill(unsigned long seed);
 
@@ -68,9 +74,10 @@ namespace Background
 		// default constructor, needs Refresh with proper seed to show starfield
 		Container();
 		Container(unsigned long seed);
-		void Draw(Graphics::Renderer *r, const matrix4x4d &transform) const;
+		void Draw(Graphics::Renderer *r, const matrix4x4d &transform, Camera *camera,
+			int twinkling, double time, double effect, int fade, vector3d upDir, double darklevel, double maxSunAngle) const;
 		void Refresh(unsigned long seed);
-
+		void Container::CalcParameters(Camera *camera, Frame *f, double &brightness,int &twinkling, double &time, double &effect, int &fade, vector3d &upDir, double &darklevel, double &maxSunAngle);
 		void SetIntensity(float intensity);
 
 	private:

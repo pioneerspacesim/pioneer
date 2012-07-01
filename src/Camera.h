@@ -35,6 +35,8 @@ public:
 	// get the frustum. use for projection
 	const Graphics::Frustum &GetFrustum() const { return m_frustum; }
 
+	std::vector<LightBody> & GetLightBodies(){return m_lightBodies;}
+
 protected:
 	bool m_showCameraBody;
 
@@ -45,11 +47,14 @@ private:
 	void DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	const Body *m_body;
+
 	float m_width;
 	float m_height;
 	float m_fovAng;
 	float m_zNear;
 	float m_zFar;
+
+	std::vector<LightBody>m_lightBodies;
 
 	Graphics::Frustum m_frustum;
 

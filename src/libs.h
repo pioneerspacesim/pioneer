@@ -67,8 +67,10 @@ inline int isfinite(double x) { return _finite(x); }
 #define EARTH_RADIUS	6378135.0
 #define EARTH_MASS	5.9742e24
 #define JUPITER_MASS	(317.8*EARTH_MASS)
+#define EARTH_ATM_SURF_DEN  1.225
 // brown dwarfs above 13 jupiter masses fuse deuterium
 #define MIN_BROWN_DWARF	(13.0*JUPITER_MASS)
+#define EARTH_AVG_SURFACE_TEMPERATURE 288.0
 #define SOL_RADIUS	6.955e8
 #define SOL_MASS	1.98892e30
 #define AU		149598000000.0
