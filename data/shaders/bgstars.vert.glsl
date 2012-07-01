@@ -12,6 +12,7 @@ uniform vec3 upDir;
 uniform float sunAngle;
 uniform bool fade;
 uniform float darklevel;
+
 void main(void)
 {
 #ifdef ZHACK
@@ -36,21 +37,26 @@ void main(void)
 	}
 
 	vec4 col = vec4(0.0); col.a = 1.0;
+	//float brightness;
+
+	//vec3 upDir = vec3(1.0,0.0,0.0);
 
 	if (1||fade){
-		vec4 pos = gl_ModelViewMatrix * gl_Vertex;
-		//pos.y = pos.y/0.4; // reverse scaling to increase density to represent milkyway
-		float angle = dot(upDir,normalize(vec3(pos)));    
-		float blend = clamp(angle-sunAngle-0.1,0.0,0.2)/0.2;
-		brightness = mix(b, darklevel, blend);
+				   
+		//float blend = clamp(angle-sunAngle-0.1,0.0,0.2)/0.2;
+		//brightness = mix(b, darklevel, blend);
 
+		vec4 pos = gl_ModelViewMatrix * gl_Vertex;
+		pos.y = pos.y/0.4; // reverse scaling (used to represent milkyway) 
+		float angle = dot(upDir,normalize(vec3(pos))); 
 		// debug
-		// set stars above angle to blue and below to red.
-		if (angle < 0.4){b=1.0;col.r = 1.0;}
-		else {b=1.0;col.b = 1.0;}
+		// set stars below angle to blue and above to red.
+		// stars to the zenith (upDir direction) should be blue and those to the horizon should be red
+		if ((angle < 0.4) && (angle > 0.0)){b=1.0;col.r = 1.0;}
+		else if (angle > 0.4) {b=1.0;col.b = 1.0;}
 	}
 
-	gl_PointSize = 1.0 + (b*2.5+0.8)*starSize; //b controls a portion of star size 
-	gl_FrontColor = vec4(gl_Color.rgb,gl_FrontMaterial.emission*b);
+	//gl_PointSize = 1.0 + (b*2.5+0.8)*starSize; //b controls a portion of star size 
+	gl_FrontColor = col; //vec4(gl_Color.rgb,gl_FrontMaterial.emission*b);
 }
 

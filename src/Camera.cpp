@@ -149,7 +149,7 @@ void Camera::Draw(Renderer *renderer)
 
 	//fade space background based on atmosphere thickness and light angle
 	double bgIntensity=1.0,bgTime=0.0, bgEffect=0.0; int bgTwinkling=0;
-	int bgFade = false; vector3d bgUpDir = vector3d(0.0,1.0,0.0);
+	int bgFade = 0; vector3d bgUpDir = vector3d(0.0,1.0,0.0);
     double bgDarklevel = 0.0, bgMaxSunAngle = -2.0;
 	if (m_camFrame->m_parent) {
 		//check if camera is near a planet

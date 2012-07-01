@@ -81,12 +81,14 @@ void Starfield::Fill(unsigned long seed)
 				1000.0f * u,
 				1000.0f * sqrt(1.0f - u*u) * sin(theta));
 
-		// Create star id for use in twinkling and send via alpha
-		const float x = 20.0/100000.0;
-		float starId = coords.Dot(vector3f(x,x,x));
+		float starId = 1.0;
+		// Set star id for use in twinkling and send via alpha, if shaders are enabled
+		if (AreShadersEnabled()){	
+			const float x = 20.0/100000.0;
+			starId = coords.Dot(vector3f(x,x,x));
+		}
 
-		va->Add(coords, Color(col, col, col, starId)
-		);
+		va->Add(coords, Color(col, col, col, starId));
 	}
 }
  
@@ -103,8 +105,10 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int 
 
 		std::vector<LightBody> &l = camera->GetLightBodies();
 		light = 0.0;
-
-		vector3d upDir = -(f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Normalized());
+		
+		matrix4x4d ft;
+		Frame::GetFrameRenderTransform(f,camera->GetFrame(),ft);
+		vector3d upDir = ((camera->GetOrientation()/*.InverseOf()*/ *ft*f->GetBodyFor()->GetInterpolatedPosition())).Normalized();//f->GetBodyFor()->GetPositionRelTo(camera->GetFrame())).Normalized());
 
 		for (std::vector<LightBody>::iterator i = l.begin(); i != l.end(); ++i) {
 			LightBody *lb = &(*i);
@@ -114,8 +118,6 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int 
 			double light_ = pow(double(lb->sbody->averageTemp)/5700.0,4.0)*(pow(double(lb->sbody->GetRadius()/SOL_RADIUS),2.0)/pow((lb->distance/1.0),2.0)); // distance in AU
 			if ((light_ >= 0.25) &&(light_<=1.0)) 
 				light_ = 1.0; //if light is in medium range increase as stars are still dark
-			 
-			double t2 = light_;
 
 			double sunAngle = lb->position.Normalized().Dot(-(f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Normalized()));
 			if (sunAngle>maxSunAngle) {maxSunAngle = sunAngle;}
@@ -158,7 +160,7 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int 
             //maxSunAngle/0.3);
 
 #undef Blend
-			printf("darklevel %f",Clamp((surfaceDensity-density)/EARTH_ATM_SURF_DEN,0.0,1.0));
+			//printf("darklevel %f",Clamp((surfaceDensity-density)/EARTH_ATM_SURF_DEN,0.0,1.0));
 }
 
 		time = Pi::game->GetTime()*20.0*1e-5;
