@@ -94,12 +94,13 @@ public:
 private:
 	Graphics::Renderer *m_renderer;
 	std::string m_curPath;
-	Graphics::Texture *GetWhiteTexture() const;
+	
 	NModel *m_model;
 	Node *m_root;
-	RefCountedPtr<Text::TextureFont> m_labelFont;
+	Graphics::Texture *m_labelTexture;
 
 	bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
+	Graphics::Texture *GetWhiteTexture() const;
 	matrix4x4f ConvertMatrix(const aiMatrix4x4&) const;
 	NModel *CreateModel(ModelDefinition &def);
 	Node *LoadMesh(const std::string &filename, NModel *model, const AnimList &animDefs, TagList &modelTags); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!

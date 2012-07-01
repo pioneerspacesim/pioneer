@@ -1,4 +1,4 @@
-#include "Loader.h"
+﻿#include "Loader.h"
 #include "FileSystem.h"
 #include "LOD.h"
 #include "Newmodel.h"
@@ -23,7 +23,7 @@ Loader::Loader(Graphics::Renderer *r) :
 	m_renderer(r),
 	m_model(0)
 {
-	m_labelFont.Reset(new Text::TextureFont(Text::FontDescriptor("Inconsolata.otf", 32, 32, true, 0.0f), r));
+	m_labelTexture = Graphics::TextureBuilder("textures/3dfont.png", Graphics::LINEAR_CLAMP, true, true, true).GetOrCreateTexture(r, "model");
 }
 
 Loader::~Loader()
@@ -556,9 +556,9 @@ static void create_thruster(Group* parent, const matrix4x4f &m, Graphics::Render
 	parent->AddChild(trans);
 }
 
-static void create_label(Group *parent, const matrix4x4f &m, RefCountedPtr<Text::TextureFont> font)
+static void create_label(Group *parent, const matrix4x4f &m, Graphics::Texture* font)
 {
-	MatrixTransform *trans = new MatrixTransform(m * matrix4x4f::ScaleMatrix(0.1f)); //scale, since text is hueg
+	MatrixTransform *trans = new MatrixTransform(m);
 	Label3D *label = new Label3D(font);
 	label->SetText("Boners");
 	trans->AddChild(label);
@@ -579,7 +579,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		} else if (starts_with(nodename, "thruster_")) {
 			create_thruster(parent, m, m_renderer, accum, starts_with(nodename, "thruster_linear"));
 		} else if (starts_with(nodename, "label_")) {
-			create_label(parent, m, m_labelFont);
+			create_label(parent, m, m_labelTexture);
 		}
 		return;
 	}
