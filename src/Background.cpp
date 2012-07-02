@@ -128,7 +128,7 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int 
 		double height = (f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Length());
 		
 		double pressure, density; 
-		s->planet_->GetAtmosphericState(height,&pressure, &density);
+		static_cast<Planet*>(f->GetBodyFor())->GetAtmosphericState(height,&pressure, &density);
 
 		Color c; double surfaceDensity;
 		s->GetAtmosphereFlavor(&c, &surfaceDensity);
