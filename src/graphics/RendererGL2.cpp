@@ -116,6 +116,8 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &desc)
 			ss << "#define MAP_EMISSIVE 1" << std::endl;
 		if (desc.usePatterns)
 			ss << "#define MAP_COLOR 1" << std::endl;
+		if (desc.alphaTest)
+			ss << "#define ALPHA_TEST 1" << std::endl;
 		s = new Shader("gl2/nm", ss.str().c_str());
 		progMap.push_back(std::make_pair<MaterialDescriptor, Shader *>(desc, s));
 	}

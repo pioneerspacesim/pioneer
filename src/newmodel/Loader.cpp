@@ -557,10 +557,10 @@ static void create_thruster(Group* parent, const matrix4x4f &m, Graphics::Render
 	parent->AddChild(trans);
 }
 
-static void create_label(Group *parent, const matrix4x4f &m, RefCountedPtr<Text::DistanceFieldFont> font)
+void Loader::CreateLabel(Group *parent, const matrix4x4f &m)
 {
 	MatrixTransform *trans = new MatrixTransform(m);
-	Label3D *label = new Label3D(font);
+	Label3D *label = new Label3D(m_labelFont, m_renderer);
 	label->SetText("Boners");
 	trans->AddChild(label);
 	parent->AddChild(trans);
@@ -580,7 +580,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		} else if (starts_with(nodename, "thruster_")) {
 			create_thruster(parent, m, m_renderer, accum, starts_with(nodename, "thruster_linear"));
 		} else if (starts_with(nodename, "label_")) {
-			create_label(parent, m, m_labelFont);
+			CreateLabel(parent, m);
 		}
 		return;
 	}

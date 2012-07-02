@@ -14,15 +14,11 @@ public:
 	bool glowMap;
 	bool specularMap;
 	bool usePatterns; //colour customization system
+	bool alphaTest;
 
-	MaterialDescriptor()
-	: glowMap(false)
-	, specularMap(false)
-	, usePatterns(false) { }
+	MaterialDescriptor();
 
-	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b) {
-		return (a.usePatterns == b.usePatterns && a.glowMap == b.glowMap && a.specularMap == b.specularMap);
-	}
+	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
 };
 
 /*

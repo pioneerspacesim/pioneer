@@ -60,6 +60,11 @@ void main(void)
 	vec4 base = texture2D(texture0, uv0);
 #endif
 
+#ifdef ALPHA_TEST
+	if (base.a < 0.5)
+		discard;
+#endif
+
 #ifdef TEXTURE0
 	gl_FragColor = base * light + specular;
 #else

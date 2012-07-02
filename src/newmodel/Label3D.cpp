@@ -3,14 +3,15 @@
 
 namespace Newmodel {
 
-Label3D::Label3D(RefCountedPtr<Text::DistanceFieldFont> font)
+Label3D::Label3D(RefCountedPtr<Text::DistanceFieldFont> font, Graphics::Renderer *r)
 : Node(NODE_TRANSPARENT)
 , m_font(font)
 {
-	m_geometry.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0));
-	m_material.Reset(new Graphics::Material);
+	Graphics::MaterialDescriptor matdesc;
+	matdesc.alphaTest = true;
+	m_geometry.Reset(font->CreateVertexArray());
+	m_material.Reset(r->CreateMaterial(matdesc));
 	m_material->texture0 = font->GetTexture();
-	m_material->twoSided = false;
 	m_material->diffuse = Color::WHITE;
 }
 

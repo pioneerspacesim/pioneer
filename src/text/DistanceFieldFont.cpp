@@ -23,6 +23,7 @@ DistanceFieldFont::DistanceFieldFont(const std::string &definition, Graphics::Te
 
 void DistanceFieldFont::GetGeometry(Graphics::VertexArray &va, const std::string &text, const vector2f &offset)
 {
+	assert(va.HasAttrib(Graphics::ATTRIB_NORMAL) && va.HasAttrib(Graphics::ATTRIB_UV0));
 	//using monospaced font
 	const float spacing = s_fontGeomSize.x;
 	vector2f offs(
@@ -37,6 +38,12 @@ void DistanceFieldFont::GetGeometry(Graphics::VertexArray &va, const std::string
 			AddGlyph(va, vector2f(i * spacing, 0.f) + offs, glyph);
 		}
 	}
+}
+
+// create a preferred format vertex array
+Graphics::VertexArray *DistanceFieldFont::CreateVertexArray() const
+{
+	return new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0);
 }
 
 //extract a quoted value
@@ -94,19 +101,19 @@ void DistanceFieldFont::ParseLine(const StringRange &r)
 
 void DistanceFieldFont::AddGlyph(Graphics::VertexArray &va, const vector2f &pos, const Glyph& g)
 {
-	const Color4f c = Color::RED; //XXX
+	vector3f n(0.f, 0.f, -1.f);
 	const vector2f &uv = g.uv; //uv offset
 	const float uWidth = g.uvSize.x;
 	const float vHeight = g.uvSize.y;
 	const float w = g.size.x;
 	const float h = g.size.y;
-	va.Add(vector3f(pos.x, pos.y, 0.f), c, vector2f(uv.x, uv.y+vHeight));
-	va.Add(vector3f(pos.x + w, pos.y, 0.f), c, vector2f(uv.x+uWidth, uv.y+vHeight));
-	va.Add(vector3f(pos.x, pos.y + h, 0.f), c, vector2f(uv.x, uv.y));
+	va.Add(vector3f(pos.x, pos.y, 0.f), n, vector2f(uv.x, uv.y+vHeight));
+	va.Add(vector3f(pos.x + w, pos.y, 0.f), n, vector2f(uv.x+uWidth, uv.y+vHeight));
+	va.Add(vector3f(pos.x, pos.y + h, 0.f), n, vector2f(uv.x, uv.y));
 
-	va.Add(vector3f(pos.x, pos.y + h, 0.f), c, vector2f(uv.x, uv.y));
-	va.Add(vector3f(pos.x + w, pos.y, 0.f), c, vector2f(uv.x+uWidth, uv.y+vHeight));
-	va.Add(vector3f(pos.x + w, pos.y + h, 0.f), c, vector2f(uv.x+uWidth, uv.y));
+	va.Add(vector3f(pos.x, pos.y + h, 0.f), n, vector2f(uv.x, uv.y));
+	va.Add(vector3f(pos.x + w, pos.y, 0.f), n, vector2f(uv.x+uWidth, uv.y+vHeight));
+	va.Add(vector3f(pos.x + w, pos.y + h, 0.f), n, vector2f(uv.x+uWidth, uv.y));
 }
 
 }

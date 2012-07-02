@@ -20,4 +20,22 @@ Material::Material() :
 {
 }
 
+MaterialDescriptor::MaterialDescriptor()
+: glowMap(false)
+, specularMap(false)
+, usePatterns(false)
+, alphaTest(false)
+{
+}
+
+bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
+{
+	return (
+		a.usePatterns == b.usePatterns
+		&& a.glowMap == b.glowMap
+		&& a.specularMap == b.specularMap
+		&& a.alphaTest == b.alphaTest
+		);
+}
+
 }

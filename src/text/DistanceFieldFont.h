@@ -21,6 +21,7 @@ public:
 	DistanceFieldFont(const std::string &definitionFileName, Graphics::Texture*);
 	void GetGeometry(Graphics::VertexArray&, const std::string&, const vector2f &offset);
 	Graphics::Texture *GetTexture() const { return m_texture; }
+	Graphics::VertexArray *CreateVertexArray() const;
 
 private:
 	struct Glyph {
