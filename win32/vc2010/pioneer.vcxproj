@@ -230,6 +230,7 @@
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
     <ClCompile Include="..\..\src\LuaChatForm.cpp" />
+    <ClCompile Include="..\..\src\LuaComms.cpp" />
     <ClCompile Include="..\..\src\LuaConsole.cpp" />
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
     <ClCompile Include="..\..\src\LuaEngine.cpp" />
@@ -257,7 +258,6 @@
     <ClCompile Include="..\..\src\LuaSystemBody.cpp" />
     <ClCompile Include="..\..\src\LuaSystemPath.cpp" />
     <ClCompile Include="..\..\src\LuaTimer.cpp" />
-    <ClCompile Include="..\..\src\LuaUI.cpp" />
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
     <ClCompile Include="..\..\src\LuaVector.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
@@ -496,6 +496,7 @@
     <ClInclude Include="..\..\src\LuaBody.h" />
     <ClInclude Include="..\..\src\LuaCargoBody.h" />
     <ClInclude Include="..\..\src\LuaChatForm.h" />
+    <ClInclude Include="..\..\src\LuaComms.h" />
     <ClInclude Include="..\..\src\LuaConsole.h" />
     <ClInclude Include="..\..\src\LuaConstants.h" />
     <ClInclude Include="..\..\src\LuaEngine.h" />
@@ -523,7 +524,6 @@
     <ClInclude Include="..\..\src\LuaSystemBody.h" />
     <ClInclude Include="..\..\src\LuaSystemPath.h" />
     <ClInclude Include="..\..\src\LuaTimer.h" />
-    <ClInclude Include="..\..\src\LuaUI.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
     <ClInclude Include="..\..\src\LuaVector.h" />
     <ClInclude Include="..\..\src\MarketAgent.h" />

@@ -11,6 +11,8 @@ struct Color4f {
 	operator const float *() const { return &r; }
 	Color4f &operator*=(const float v) { r*=v; g*=v; b*=v; a*=v; return *this; }
 
+	float GetLuminance() const;
+
 	static const Color4f BLACK;
 	static const Color4f WHITE;
 	static const Color4f RED;

@@ -8,7 +8,7 @@ Material::Material() :
 	texture2(0),
 	texture3(0),
 	texture4(0),
-	diffuse(1.f), //default white
+	diffuse(1.f),
 	specular(0.f),
 	emissive(0.f),
 	shininess(200.0),
@@ -35,7 +35,7 @@ bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
 		&& a.glowMap == b.glowMap
 		&& a.specularMap == b.specularMap
 		&& a.alphaTest == b.alphaTest
-		);
+	);
 }
 
 }

@@ -9,3 +9,8 @@ const Color4ub Color4ub::BLACK = Color4ub(0, 0, 0, 255);
 const Color4ub Color4ub::WHITE = Color4ub(255, 255, 255, 255);
 const Color4ub Color4ub::RED   = Color4ub(255, 0, 0, 255);
 const Color4ub Color4ub::GREEN = Color4ub(0, 255, 0, 255);
+
+float Color4f::GetLuminance() const
+{
+	return (0.299f * r) + (0.587f * g) + (0.114f * b);
+}

@@ -177,9 +177,6 @@
     <ClCompile Include="..\..\src\LuaTimer.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LuaUI.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LuaUtils.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -672,6 +669,9 @@
     <ClCompile Include="..\..\src\ModManager.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaComms.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\galaxy\CustomSystem.cpp">
       <Filter>src\galaxy</Filter>
     </ClCompile>
@@ -945,9 +945,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaTimer.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaUI.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaUtils.h">
@@ -1447,6 +1444,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\ui\Widget.h">
       <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaComms.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
