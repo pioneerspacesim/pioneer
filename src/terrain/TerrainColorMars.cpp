@@ -32,10 +32,10 @@ vector3d TerrainColorFractal<TerrainColorMars>::GetColor(const vector3d &p, doub
 	double dx = px-ix;
 	double dy = py-iy;
 		
-		// p0,3 p1,3 p2,3 p3,3
-		// p0,2 p1,2 p2,2 p3,2
-		// p0,1 p1,1 p2,1 p3,1							
-		// p0,0 p1,0 p2,0 p3,0
+	// p0,3 p1,3 p2,3 p3,3
+	// p0,2 p1,2 p2,2 p3,2
+	// p0,1 p1,1 p2,1 p3,1							
+	// p0,0 p1,0 p2,0 p3,0
 
 	double pp[4][4][4];
 	for (int x=-1; x<3; x++) {
@@ -99,32 +99,50 @@ vector3d TerrainColorFractal<TerrainColorMars>::GetColor(const vector3d &p, doub
 	v[0]; // height
 
 	double n = m_invMaxHeight*height/2;
+	height *= m_planetRadius;
 	const double flatness = pow(p.Dot(norm), 6.0);
 	const vector3d color_cliffs = m_rockColor[1];
 
-	// This is a copy of desert which isn't configured for mars with the poles replaced 
-	double equatorial_desert = (2.0-m_icyness)*(-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
-			1.0*(2.0-m_icyness)*(1.0-p.y*p.y);
-	vector3d col;
-	if (n > .4) {
-		n = n*n;
-		col = interpolate_color(equatorial_desert, vector3d(.8,.75,.5), vector3d(.52, .5, .3));
-		col = interpolate_color(n, col, vector3d(.1, .0, .0));
-		col = interpolate_color(flatness, color_cliffs, col);
-	} else if (n > .3) {
-		n = n*n;
-		col = interpolate_color(equatorial_desert, vector3d(.81, .68, .3), vector3d(.85, .7, 0));
-		col = interpolate_color(n, col, vector3d(-1.2,-.84,.35));
-		col = interpolate_color(flatness, color_cliffs, col);
-	} else if (n > .2) {
-		col = interpolate_color(equatorial_desert, vector3d(-0.4, -0.47, -0.6), vector3d(-.6, -.7, -2));
-		col = interpolate_color(n, col, vector3d(4, 3.95, 3.94));
-		col = interpolate_color(flatness, color_cliffs, col);
-	} else {
-		col = interpolate_color(equatorial_desert, vector3d(.78, .73, .68), vector3d(.8, .77, .5));
-		col = interpolate_color(n, col, vector3d(-2.0, -2.3, -2.4));
-		col = interpolate_color(flatness, color_cliffs, col);
+	// Mars with the poles have been replaced and a simple colour added.
+
+#define colour(a,b,c) (vector3d(a/255.0,b/255,c/255.0)) 
+//1. light yellowish full mars map www.solarviews.com/raw/mars/marscyl1.jpg
+//2. darker reddish full mars map planetpixelemporium.com
+
+#define lightcol1 colour(240.0,139.0,104.0)
+#define lightcol2 colour(230.0,145.0,44.0)
+#define lightroughcol1 colour(136.0,83.0,79.0)
+#define lightroughcol2 colour(127.0,98.0,66.0)
+#define darkcol1 colour(146.0,89.0,54.0)
+#define darkcol2 colour(177.0,132.0,68.0)
+#define darkroughcol1 colour(72.0,57.0,62.0)
+#define darkroughcol2 colour(63.0,58.0,64.0)
+
+	vector3d col,col_light, col_dark;
+
+	// go from reds to yellows for the Tharsis highlands
+	const double c1 = 25000.0;
+	double i1;
+
+	if (height > c1){
+		//col = interpolate_color(equatorial_desert, vector3d(.8,.75,.5), vector3d(.52, .5, .3));
+		i1 = (height-c1)*(1.0/(28000.0-c1));
 	}
+
+	col_light = lightcol1;//interpolate_color(i1, lightcol1, lightcol2);	
+	col_dark = darkcol1; //interpolate_color(i1, darkcol1, darkcol2);
+	//col = col_light;
+	col = interpolate_color(flatness, col_dark, col_light);
+	
+	double v1 = v[1]+v[2]+v[3];
+	v1*=1e4/3.0;
+	v1 = std::min(v1,3.0);
+	v1 = v1/(1.5+v[1]);
+	
+	col = interpolate_color(v1, col_light, col_dark);
+
+	//else col = vector3d(0.5,0.5,0.5);
+	
 
 	//special color regions
 	double cr=0.0;
@@ -137,6 +155,7 @@ vector3d TerrainColorFractal<TerrainColorMars>::GetColor(const vector3d &p, doub
 	double lon = longitude+M_PI; // 0 to 360
 	double blend = 0.0,blend2 = 0.0;
 
+/*
 	// Ridges near olympus mons 1 
 	//coord - min coord
 	la[0] = lat - DEG2RAD(23.6+90.0-58.5);// -58.5 needed to align with pioneer 
@@ -152,14 +171,16 @@ vector3d TerrainColorFractal<TerrainColorMars>::GetColor(const vector3d &p, doub
 	//max value - min value 
 	lawidth[1] = DEG2RAD(11.0);
 	lowidth[1] = DEG2RAD(10.0);
-
+*/
 	//valles marineris
 	//1.5, -49.9, -24.9(ok down to -16), -105.0
-	la[2] = lat - DEG2RAD(-24.9+90.0+15.0);// -58.5 needed to align with pioneer 
+	la[2] = lat - DEG2RAD(-24.9+90.0+28.0);// -58.5 needed to align with pioneer 
 	lo[2] = lon - DEG2RAD(-105.0+180.0+180.0); // +180 needed to align
 	//max value - min value 
-	lawidth[2] = DEG2RAD(26.4);
+	lawidth[2] = DEG2RAD(13.4);
 	lowidth[2] = DEG2RAD(55.1);
+
+
 
 // blending might not be the best way for colours, or it might involve selection of colour algorithms based on noise multiplied by blends
 #define	COMPUTEBLENDVAL(idx,blendlimit) \
@@ -167,8 +188,9 @@ vector3d TerrainColorFractal<TerrainColorMars>::GetColor(const vector3d &p, doub
 	double b = std::max(abs((la[idx]/lawidth[idx]) - 0.5),abs((lo[idx]/lowidth[idx]) - 0.5));\
 	b = (b< blendlimit)?1.0:(0.5-b)*(1.0/(0.5-blendlimit));
 
-/*
+
 #define CHECKIFWITHINREGION(idx) ((la[idx]>0.0)&&(lo[idx]>0.0)&& la[idx] < lawidth[idx] && lo[idx] < lowidth[idx])
+/*
 	// Ridges 
 	if (CHECKIFWITHINREGION(0) 
 		)
@@ -186,19 +208,28 @@ vector3d TerrainColorFractal<TerrainColorMars>::GetColor(const vector3d &p, doub
 		//cr
 	}
 
-
-	// valles marineris - split up into two smaller areas if it includes too much of surrounding areas
-	if (CHECKIFWITHINREGION(2) )
-	{
-		COMPUTEBLENDVAL(2,0.45);
-		//blend2 = b;
-		// terrain code after general terrain code
-	}
 */
+	// valles marineris - split up into two smaller areas if it includes too much of surrounding areas
+	if (CHECKIFWITHINREGION(2))
+	{
+		COMPUTEBLENDVAL(2,0.35);
+		//blend2 = b;
+		
+		// darken terrain with decreasing height in the valley area
+		// mask area based on height
+		double b2 = TRANSITION(height,20000.0,25000.0);
+		// mask trough based on high roughness
+		double b3 = TRANSITION(v[1],4e-5,5e-5);
+		b3 =0.2*b2*b*b3;
+
+		vector3d col1 = vector3d(1.0,1.0,1.0);
+		col = interpolate_color(b3, col, darkcol1);
+	}
+
 
 
 	// south pole - height and roughness indicate troughs not hills
-	vector3d spole = vector3d(0.00,-1.0,0.0).Normalized(); // ice is to one side of the pole, the other side called the 'cryptic region'
+	vector3d spole = vector3d(0.0,-1.0,0.0).Normalized(); // ice is to one side of the pole, the other side called the 'cryptic region'
 
 	// sp varies from 1 at p to 0 perpendicular to p to -1 at opposite pole
 	double sp = spole.Dot(p);
@@ -227,7 +258,6 @@ vector3d TerrainColorFractal<TerrainColorMars>::GetColor(const vector3d &p, doub
 				*TRANSITION(v[0]+400*b3,(9800.0-5.0),9800.0) // excude areas to avoid non circular shape
 				*((b3>0.55)?(1.0-TRANSITION(-(height*m_planetRadius-v[0])-0.0,4.9460e0,4.9461e0)):1.0) // ground colour in low lying areas near the pole circle
 				*flatness;
-			//ice *= (sp > cos(DEG2RAD(3.0)))?1.0-TRANSITION(v[0]-height*m_planetRadius,1.0-1.0,1.0):1.0;
 			vector3d c = interpolate_color(ice, col, vector3d(1,1,1));
 			//printf("height %f",(height*m_planetRadius));
 			return c;
