@@ -7,6 +7,7 @@
 #include "NModel.h"
 #include "graphics/Material.h"
 #include "graphics/Surface.h"
+#include "text/DistanceFieldFont.h"
 #include "assimp/types.h"
 
 struct aiNode;
@@ -97,7 +98,7 @@ private:
 	
 	NModel *m_model;
 	Node *m_root;
-	Graphics::Texture *m_labelTexture;
+	RefCountedPtr<Text::DistanceFieldFont> m_labelFont;
 
 	bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
 	Graphics::Texture *GetWhiteTexture() const;

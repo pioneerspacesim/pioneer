@@ -23,7 +23,8 @@ Loader::Loader(Graphics::Renderer *r) :
 	m_renderer(r),
 	m_model(0)
 {
-	m_labelTexture = Graphics::TextureBuilder("textures/3dfont.png", Graphics::LINEAR_CLAMP, true, true, true).GetOrCreateTexture(r, "model");
+	Graphics::Texture *sdfTex = Graphics::TextureBuilder("fonts/label3d.png", Graphics::LINEAR_CLAMP, true, true, true).GetOrCreateTexture(r, "model");
+	m_labelFont.Reset(new Text::DistanceFieldFont("fonts/sdf_definition.fnt", sdfTex));
 }
 
 Loader::~Loader()
@@ -525,7 +526,7 @@ matrix4x4f Loader::ConvertMatrix(const aiMatrix4x4& trans) const
 	return m;
 }
 
-//temporary junk
+//XXX temporary junk?
 static void create_light(Group* parent, const matrix4x4f &m, Graphics::Renderer *m_renderer)
 {
 		std::vector<vector3f> points;
@@ -549,14 +550,14 @@ static void create_thruster(Group* parent, const matrix4x4f &m, Graphics::Render
 	
 	//need the accumulated transform or the direction is off
 	const matrix4x4f transform = m * accum;
-	// note YZ swap. To be investigated...
+	// XXX YZ swap. To be investigated...
 	Thruster *thruster = new Thruster(m_renderer, linear,
 		vector3f(transform[12], transform[14], transform[13]), transform.Back());
 	trans->AddChild(thruster);
 	parent->AddChild(trans);
 }
 
-static void create_label(Group *parent, const matrix4x4f &m, Graphics::Texture* font)
+static void create_label(Group *parent, const matrix4x4f &m, RefCountedPtr<Text::DistanceFieldFont> font)
 {
 	MatrixTransform *trans = new MatrixTransform(m);
 	Label3D *label = new Label3D(font);
@@ -579,7 +580,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		} else if (starts_with(nodename, "thruster_")) {
 			create_thruster(parent, m, m_renderer, accum, starts_with(nodename, "thruster_linear"));
 		} else if (starts_with(nodename, "label_")) {
-			create_label(parent, m, m_labelTexture);
+			create_label(parent, m, m_labelFont);
 		}
 		return;
 	}
