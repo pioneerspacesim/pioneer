@@ -225,6 +225,7 @@
     <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\StringF.cpp" />
+    <ClCompile Include="..\..\src\text\DistanceFieldFont.cpp" />
     <ClCompile Include="..\..\src\text\Font.cpp" />
     <ClCompile Include="..\..\src\text\TextSupport.cpp" />
     <ClCompile Include="..\..\src\text\TextureFont.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="..\..\src\collider\CollisionSpace.h" />
     <ClInclude Include="..\..\src\collider\Geom.h" />
     <ClInclude Include="..\..\src\collider\GeomTree.h" />
+    <ClInclude Include="..\..\src\CollMesh.h" />
     <ClInclude Include="..\..\src\Color.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
@@ -358,6 +360,7 @@
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\StringF.h" />
     <ClInclude Include="..\..\src\StringRange.h" />
+    <ClInclude Include="..\..\src\text\DistanceFieldFont.h" />
     <ClInclude Include="..\..\src\text\Font.h" />
     <ClInclude Include="..\..\src\text\FontDescriptor.h" />
     <ClInclude Include="..\..\src\text\TextSupport.h" />

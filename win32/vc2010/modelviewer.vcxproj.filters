@@ -363,6 +363,9 @@
     <ClCompile Include="..\..\src\newmodel\Label3D.cpp">
       <Filter>src\newmodel</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\text\DistanceFieldFont.cpp">
+      <Filter>src\text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -757,6 +760,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\newmodel\Label3D.h">
       <Filter>src\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\text\DistanceFieldFont.h">
+      <Filter>src\text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\CollMesh.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
