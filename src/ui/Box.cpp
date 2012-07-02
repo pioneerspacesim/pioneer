@@ -111,6 +111,7 @@ void Box::Layout()
 
 Box *Box::PackStart(Widget *widget, Uint32 flags)
 {
+    assert(widget);
 	AddWidget(widget);
 	m_children.push_front(Child(widget, flags));
 	if (flags & BOX_EXPAND) m_countExpanded++;
@@ -128,6 +129,7 @@ Box *Box::PackStart(const WidgetSet &set, Uint32 flags)
 
 Box *Box::PackEnd(Widget *widget, Uint32 flags)
 {
+    assert(widget);
 	AddWidget(widget);
 	m_children.push_back(Child(widget, flags));
 	if (flags & BOX_EXPAND) m_countExpanded++;

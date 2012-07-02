@@ -76,12 +76,34 @@ static int l_engine_attr_userdir(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: version
+ *
+ * String describing the version of Pioneer
+ *
+ * Availability:
+ *
+ *   alpha 25
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_engine_attr_version(lua_State *l)
+{
+	std::string version(PIONEER_VERSION);
+	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
+    lua_pushlstring(l, version.c_str(), version.size());
+    return 1;
+}
+
 void LuaEngine::Register()
 {
 	static const luaL_Reg l_attrs[] = {
 		{ "rand",    l_engine_attr_rand    },
 		{ "ui",      l_engine_attr_ui      },
 		{ "userdir", l_engine_attr_userdir },
+        { "version", l_engine_attr_version },
 		{ 0, 0 }
 	};
 

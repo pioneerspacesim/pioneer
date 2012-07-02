@@ -135,14 +135,17 @@ void TextEntry::GetSizeRequested(float size[2])
 
 bool TextEntry::OnMouseDown(MouseButtonEvent *e)
 {
-	m_clickout = RawEvents::onMouseDown.connect(sigc::mem_fun(this, &TextEntry::OnRawMouseDown));
-	GrabFocus();
-	m_justFocused = true;
+	if (e->button == SDL_BUTTON_LEFT) {
+		m_clickout = RawEvents::onMouseDown.connect(sigc::mem_fun(this, &TextEntry::OnRawMouseDown));
+		GrabFocus();
+		m_justFocused = true;
 
-	int i = Gui::Screen::PickCharacterInString(m_text, e->x - m_scroll, e->y, m_font.Get());
-	SetCursorPos(i);
+		int i = Gui::Screen::PickCharacterInString(m_text, e->x - m_scroll, e->y, m_font.Get());
+		SetCursorPos(i);
 
-	return false;
+		return false;
+	} else
+		return true;
 }
 
 void TextEntry::OnRawMouseDown(MouseButtonEvent *e)
