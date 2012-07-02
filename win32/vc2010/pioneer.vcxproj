@@ -78,6 +78,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <StructMemberAlignment>Default</StructMemberAlignment>
       <BufferSecurityCheck>true</BufferSecurityCheck>
+      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -105,6 +106,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -128,6 +130,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <StructMemberAlignment>Default</StructMemberAlignment>
       <BufferSecurityCheck>false</BufferSecurityCheck>
+      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -358,9 +361,11 @@
     <ClCompile Include="..\..\src\text\TextSupport.cpp" />
     <ClCompile Include="..\..\src\text\TextureFont.cpp" />
     <ClCompile Include="..\..\src\text\VectorFont.cpp" />
+    <ClCompile Include="..\..\src\ui\Align.cpp" />
     <ClCompile Include="..\..\src\ui\Background.cpp" />
     <ClCompile Include="..\..\src\ui\Box.cpp" />
     <ClCompile Include="..\..\src\ui\Button.cpp" />
+    <ClCompile Include="..\..\src\ui\CellSpec.cpp" />
     <ClCompile Include="..\..\src\ui\CheckBox.cpp" />
     <ClCompile Include="..\..\src\ui\ColorBackground.cpp" />
     <ClCompile Include="..\..\src\ui\Container.cpp" />
@@ -372,6 +377,26 @@
     <ClCompile Include="..\..\src\ui\Image.cpp" />
     <ClCompile Include="..\..\src\ui\Label.cpp" />
     <ClCompile Include="..\..\src\ui\List.cpp" />
+    <ClCompile Include="..\..\src\ui\Lua.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaAlign.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaBackground.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaBox.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaButton.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaCheckBox.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaColorBackground.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaContainer.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaContext.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaDropDown.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaGrid.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaImage.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaLabel.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaList.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaMargin.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaMultiLineText.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaScroller.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaSingle.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaSlider.cpp" />
+    <ClCompile Include="..\..\src\ui\LuaWidget.cpp" />
     <ClCompile Include="..\..\src\ui\Margin.cpp" />
     <ClCompile Include="..\..\src\ui\MultiLineText.cpp" />
     <ClCompile Include="..\..\src\ui\Scroller.cpp" />
@@ -380,6 +405,7 @@
     <ClCompile Include="..\..\src\ui\Slider.cpp" />
     <ClCompile Include="..\..\src\ui\TextLayout.cpp" />
     <ClCompile Include="..\..\src\ui\Widget.cpp" />
+    <ClCompile Include="..\..\src\ui\WidgetSet.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\View.cpp" />
     <ClCompile Include="..\..\src\WorldView.cpp" />
@@ -587,6 +613,7 @@
     <ClInclude Include="..\..\src\text\TextSupport.h" />
     <ClInclude Include="..\..\src\text\TextureFont.h" />
     <ClInclude Include="..\..\src\text\VectorFont.h" />
+    <ClInclude Include="..\..\src\ui\Align.h" />
     <ClInclude Include="..\..\src\ui\Background.h" />
     <ClInclude Include="..\..\src\ui\Box.h" />
     <ClInclude Include="..\..\src\ui\Button.h" />
@@ -603,6 +630,7 @@
     <ClInclude Include="..\..\src\ui\Image.h" />
     <ClInclude Include="..\..\src\ui\Label.h" />
     <ClInclude Include="..\..\src\ui\List.h" />
+    <ClInclude Include="..\..\src\ui\Lua.h" />
     <ClInclude Include="..\..\src\ui\Margin.h" />
     <ClInclude Include="..\..\src\ui\MultiLineText.h" />
     <ClInclude Include="..\..\src\ui\Scroller.h" />
@@ -611,6 +639,7 @@
     <ClInclude Include="..\..\src\ui\Slider.h" />
     <ClInclude Include="..\..\src\ui\TextLayout.h" />
     <ClInclude Include="..\..\src\ui\Widget.h" />
+    <ClInclude Include="..\..\src\ui\WidgetSet.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector2.h" />
     <ClInclude Include="..\..\src\vector3.h" />
