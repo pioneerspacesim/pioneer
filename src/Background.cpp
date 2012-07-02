@@ -84,8 +84,8 @@ void Starfield::Fill(unsigned long seed)
 		float starId = 1.0;
 		// Set star id for use in twinkling and send via alpha, if shaders are enabled
 		if (AreShadersEnabled()){	
-			const float x = 20.0/100000.0;
-			starId = coords.Dot(vector3f(x,x,x));
+			const float x = 10.0/100000.0;
+			starId = (coords+vector3f(1001.0,1001.0,1001.0)).Dot(vector3f(x,x,x));
 		}
 
 		va->Add(coords, Color(col, col, col, starId));
@@ -133,7 +133,7 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int 
 		double height = (f->GetBodyFor()->GetPositionRelTo(camera->GetFrame()).Length());
 		
 		double pressure, density; 
-		s->planet_->GetAtmosphericState(height,&pressure, &density);
+		static_cast<Planet*>(f->GetBodyFor())->GetAtmosphericState(height,&pressure, &density);
 
 		Color c; double surfaceDensity;
 		s->GetAtmosphereFlavor(&c, &surfaceDensity);

@@ -13,6 +13,7 @@ uniform float sunAngle;
 uniform bool fade;
 uniform float darklevel;
 
+
 void main(void)
 {
 #ifdef ZHACK
@@ -26,8 +27,7 @@ void main(void)
 	if (twinkling){
 		
  		//id for each star sent in alpha channel
-		float p = gl_Color.a*100.0;
-		//p = permute(p);
+		float p = gl_Color.a*200.0;
 		//input time and star id as coordinates of 2d noise space
 		b = pow(0.4+0.6*noise2dtrig(vec2(p, time)),0.4);
 		// for small stars reduce range of change
