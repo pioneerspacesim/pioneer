@@ -703,7 +703,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// '/' focuses the search box
-	if (keysym->sym == SDLK_KP_MULTIPLY || keysym->sym == SDLK_SLASH) {
+	if (keysym->sym == SDLK_KP_DIVIDE || keysym->sym == SDLK_SLASH) {
 		m_searchBox->SetText("");
 		m_searchBox->GrabFocus();
 		return;
