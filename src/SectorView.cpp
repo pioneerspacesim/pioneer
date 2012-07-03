@@ -256,12 +256,12 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 
 	m_previousSearch = search;
 
-	//Try to detect if user entered a sector address, dot or space separated, strip parentheses
+	//Try to detect if user entered a sector address, comma or space separated, strip parentheses
 	//system index is unreliable, so it is not supported
 	RemoveChar(search, '(');
 	RemoveChar(search, ')');
 	std::vector<int> ints;
-	GetInts(search, '.', ints); //GetInts(search, ',', ints);
+	GetInts(search, ',', ints);
 	if (ints.size() == 3) {
 		GotoSector(SystemPath(ints[0], ints[1], ints[2]));
 		return;
