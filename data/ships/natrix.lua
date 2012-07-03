@@ -11,6 +11,7 @@ define_ship {
 	gun_mounts = {
 		{ v(0.000, 0.000, -9.342), v(0.000, 0.000, -1.000) },
 	},
+	max_atmoshield = 0,
 	max_cargo = 50,
 	max_laser = 1,
 	max_missile = 0,
