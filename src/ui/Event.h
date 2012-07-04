@@ -16,8 +16,7 @@ class MouseWheelEvent;
 // base event. can't be instantiated directly
 class Event {
 public:
-	enum Type {
-		NONE,
+	enum Type { // <enum scope='UI::Event' name=UIEventType prefix=STRETCH_>
 		KEYBOARD,
 		MOUSE_BUTTON,
 		MOUSE_MOTION,
