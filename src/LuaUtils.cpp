@@ -70,12 +70,23 @@ static int l_hash_random(lua_State *L)
 			n = lua_tointeger(L, 2);
 		} else {
 			assert(numargs > 3);
-			return luaL_error(L, "unknown argument to hash_random");
+			return luaL_error(L, "wrong number of arguments");
 		}
 		// return a value x: m <= x <= n
 		lua_pushinteger(L, m + int(x * (n - m + 1)));
 		return 1;
 	}
+}
+
+static const luaL_Reg UTIL_FUNCTIONS[] = {
+	{ "hash_random", l_hash_random },
+	{ 0, 0 }
+};
+
+static int luaopen_utils(lua_State *L)
+{
+	luaL_newlib(L, UTIL_FUNCTIONS);
+	return 1;
 }
 
 static const luaL_Reg STANDARD_LIBS[] = {
@@ -86,6 +97,7 @@ static const luaL_Reg STANDARD_LIBS[] = {
 	{ LUA_BITLIBNAME, luaopen_bit32 },
 	{ LUA_MATHLIBNAME, luaopen_math },
 	{ LUA_DBLIBNAME, luaopen_debug },
+	{ "util", luaopen_utils },
 	{ 0, 0 }
 };
 
@@ -108,7 +120,7 @@ static const luaL_Reg STANDARD_LIBS[] = {
 
 // extra/custom functionality:
 //  - math.rad is aliased as math.deg2rad: I prefer the explicit name
-//  - math.hash_random(): a repeatable, safe, hash function based source of
+//  - util.hash_random(): a repeatable, safe, hash function based source of
 //    variation
 
 void pi_lua_open_standard_base(lua_State *L)
@@ -125,18 +137,18 @@ void pi_lua_open_standard_base(lua_State *L)
 
 	// standard library adjustments (math library)
 	lua_getglobal(L, LUA_MATHLIBNAME);
+
 	// remove math.random and math.randomseed
 	lua_pushnil(L);
 	lua_setfield(L, -2, "random");
 	lua_pushnil(L);
 	lua_setfield(L, -2, "randomseed");
+
 	// alias math.deg2rad = math.rad
 	lua_getfield(L, -1, "rad");
 	assert(lua_isfunction(L, -1));
 	lua_setfield(L, -2, "deg2rad");
-	// define math.hash_random which is a bit safer than math.randomseed/math.random
-	lua_pushcfunction(L, &l_hash_random);
-	lua_setfield(L, -2, "hash_random");
+
 	lua_pop(L, 1); // pop the math table
 }
 
