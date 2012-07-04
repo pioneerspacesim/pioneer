@@ -158,13 +158,10 @@ public:
 	const std::string &GetId() const { return m_id; }
 	Widget *SetId(const std::string &id) { m_id = id; return this; }
 
-protected:
+
 	// this sigc accumulator calls all the handlers for an event. if any of
 	// them return true, it returns true (indicating the event was handled),
 	// otherwise it returns false
-	//
-	// declared protected so that widget subclasses can make their own
-	// event signals
 	struct EventHandlerResultAccumulator {
 		typedef bool result_type;
 		template <typename T>
@@ -176,7 +173,6 @@ protected:
 		}
 	};
 
-public:
 	
 	// raw key events
 	sigc::signal<bool,const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyDown;
