@@ -174,9 +174,6 @@
     <ClCompile Include="..\..\src\LuaTimer.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LuaUI.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LuaUtils.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -693,6 +690,9 @@
     <ClCompile Include="..\..\src\LuaSystemBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaComms.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\collider\BVHTree.h">
@@ -873,9 +873,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaTimer.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaUI.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaUtils.h">
@@ -1299,6 +1296,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaSystemBody.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaComms.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
