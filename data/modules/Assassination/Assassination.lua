@@ -1,3 +1,5 @@
+local VERSION = 1 -- Integer versioning; bump this up if the saved game format changes.
+
 -- Get the translator function
 local t = Translate:GetTranslator()
 
@@ -400,18 +402,48 @@ local onGameEnd = function ()
 end
 
 local serialize = function ()
-	return { ads = ads, missions = missions }
+	return {
+		VERSION = VERSION,
+		ads = ads,
+		missions = missions
+	}
 end
 
 local unserialize = function (data)
 	loaded_data = data
-	for k,mission in pairs(loaded_data.missions) do
-		if mission.ship and
-		   mission.ship:exists() and
-		   mission.timer == 'SET' then
-			Timer:CallAt(mission.due, function () if mission.ship:exists() then mission.ship:Undock()
-				mission.timer = nil end end)
+	if data.VERSION then
+		if data.VERSION < VERSION then
+			print('Old Assassination data loaded, converting...')
+			-- No upgrade code yet
+			print(('Assassination data converted to internal version {newversion}'):interp({newversion=VERSION}))
+			return
 		end
+		if data.VERSION > VERSION then
+			error(([[Assassination load error - saved game is more recent than installed files
+			Saved game internal version: {saveversion}
+			Installed internal version: {ourversion}]]):interp({saveversion=data.VERSION,ourversion=VERSION}))
+		end
+		for k,mission in pairs(loaded_data.missions) do
+			if mission.ship and
+		   	mission.ship:exists() and
+		   	mission.timer == 'SET' then
+				Timer:CallAt(mission.due, function () if mission.ship:exists() then mission.ship:Undock()
+					mission.timer = nil end end)
+			end
+		end
+	else
+		-- Hopefully, a few engine save-game bumps from now,
+		-- there will be no instance where this is acceptable,
+		-- and we can error() out of here (and delete this duplicate code).
+		for k,mission in pairs(loaded_data.missions) do
+			if mission.ship and
+		   	mission.ship:exists() and
+		   	mission.timer == 'SET' then
+				Timer:CallAt(mission.due, function () if mission.ship:exists() then mission.ship:Undock()
+					mission.timer = nil end end)
+			end
+		end
+		print('Pre-versioning Assassination data loaded')
 	end
 end
 
