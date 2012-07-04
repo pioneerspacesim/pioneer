@@ -16,7 +16,7 @@ static void init_clip_test()
 	if (glIsEnabled(GL_CLIP_PLANE1)) {
 		glGetClipPlane(GL_CLIP_PLANE1, _clip[0]);
 		glGetClipPlane(GL_CLIP_PLANE3, _clip[1]);
-		
+
 		glGetDoublev (GL_MODELVIEW_MATRIX, &m[0]);
 		_clipoffset.x = m[12];
 		_clipoffset.y = m[13];

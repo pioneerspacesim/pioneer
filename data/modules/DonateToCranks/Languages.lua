@@ -34,7 +34,7 @@ Translate:Add({ English = {
 })
 
   ---- POLISH / POLSKI ----
-  
+
 Translate:AddFlavour('Polski','DonateToCranks', {
   title = "WSPOMÓŻ! Kościół Latającego Potwora Spaghetti, potrzebuje TWOICH pieniędzy by móc szerzyć Słowo Boże.",
   message = "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Kościół Latającego Potwora Spaghetti.",

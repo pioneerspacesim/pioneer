@@ -28,7 +28,7 @@ local playRandomSongFromCategory = function (category)
 	-- if the category only has one song then the choice is simple
 	if #music[category] == 1 then
 		song = music[category][1]
-	
+
 	-- more than one so select at random
 	-- XXX base on system seed so you get the starting point for the system
 	else
@@ -77,7 +77,7 @@ local playAmbient = function ()
 	end
 end
 
-EventQueue.onGameStart:Connect(function () 
+EventQueue.onGameStart:Connect(function ()
 	music = {}
 
 	-- get all the interesting songs by category

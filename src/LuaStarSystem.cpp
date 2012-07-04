@@ -149,9 +149,9 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 		lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));
 		lua_rawset(l, -3);
 	}
-	
+
 	LUA_DEBUG_END(l, 1);
-	
+
 	return 1;
 }
 
@@ -275,7 +275,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 	}
 
 	LUA_DEBUG_END(l, 1);
-	
+
 	return 1;
 }
 
@@ -317,7 +317,7 @@ static int l_starsystem_distance_to(lua_State *l)
 
 	Sector sec1(loc1->sectorX, loc1->sectorY, loc1->sectorZ);
 	Sector sec2(loc2->sectorX, loc2->sectorY, loc2->sectorZ);
-	
+
 	double dist = Sector::DistanceBetween(&sec1, loc1->systemIndex, &sec2, loc2->systemIndex);
 
 	lua_pushnumber(l, dist);
@@ -345,7 +345,7 @@ static int l_starsystem_attr_name(lua_State *l)
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 	lua_pushstring(l, s->GetName().c_str());
 	return 1;
-} 
+}
 
 /*
  * Attribute: path

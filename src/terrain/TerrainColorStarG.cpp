@@ -42,7 +42,7 @@ vector3d TerrainColorFractal<TerrainColorStarG>::GetColor(const vector3d &p, dou
 		return col;
 	} else if (n > 0.05) {
 		n -= 0.05;
-		n *= 3.533;	
+		n *= 3.533;
 		col = interpolate_color(n, vector3d(.8, .8, .0), vector3d(.6, .6, .0) );
 		return col;
 	} else {

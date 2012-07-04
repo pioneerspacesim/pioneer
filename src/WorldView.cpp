@@ -49,7 +49,7 @@ void WorldView::InitObject()
 {
 	float size[2];
 	GetSizeRequested(size);
-	
+
 	m_showTargetActionsTimeout = 0;
 	m_showLowThrustPowerTimeout = 0;
 	m_numLights = 1;
@@ -206,7 +206,7 @@ void WorldView::InitObject()
 	m_externalCamera = new ExternalCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_siderealCamera = new SiderealCamera(Pi::player, camSize, fovY, znear, zfar);
 	SetCamType(m_camType); //set the active camera
-	
+
 	m_onHyperspaceTargetChangedCon =
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
 
@@ -396,7 +396,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				m_launchButton->Show();
 				m_flightControlButton->Hide();
 				break;
-				
+
 			case Ship::DOCKING:
 				m_flightStatus->SetText(Lang::DOCKING);
 				m_launchButton->Hide();
@@ -1150,7 +1150,7 @@ void WorldView::UpdateProjectedObjects()
 			HideIndicator(m_velIndicator);
 
 		// navtarget distance/target square indicator (displayed with navtarget label)
-		double dist = (navtarget->GetTargetIndicatorPosition(cam_frame) 
+		double dist = (navtarget->GetTargetIndicatorPosition(cam_frame)
 			- Pi::player->GetPositionRelTo(cam_frame)).Length();
 		m_navTargetIndicator.label->SetText(format_distance(dist).c_str());
 		UpdateIndicator(m_navTargetIndicator, navtarget->GetTargetIndicatorPosition(cam_frame));
@@ -1522,7 +1522,7 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 
 			// lead crosshairs
 			vector2f(x2-10*xd, y2-10*yd),
-			vector2f(x2+10*xd, y2+10*yd),  
+			vector2f(x2+10*xd, y2+10*yd),
 			vector2f(x2-10*yd, y2+10*xd),
 			vector2f(x2+10*yd, y2-10*xd),
 

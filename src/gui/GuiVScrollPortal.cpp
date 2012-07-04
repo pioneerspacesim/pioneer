@@ -119,7 +119,7 @@ void VScrollPortal::Draw()
 
 	float toScroll = m_childSizeY - size[1];
 	if (toScroll < 0) toScroll = 0;
-	
+
 	float scale[2];
 	Screen::GetCoords2Pixels(scale);
 

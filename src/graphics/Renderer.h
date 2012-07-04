@@ -131,7 +131,7 @@ public:
 	Texture *GetCachedTexture(const std::string &type, const std::string &name);
 	void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);
 	void RemoveCachedTexture(const std::string &type, const std::string &name);
- 
+
 	// output human-readable debug info to the given stream
 	virtual bool PrintDebugInfo(std::ostream &out) { return false; }
 

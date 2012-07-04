@@ -163,7 +163,7 @@ void ScannerWidget::Draw()
 	SetScissor(true);
 	float c2p[2];
 	Gui::Screen::GetCoords2Pixels(c2p);
-	
+
 	// draw objects below player (and below scanner)
 	if (!m_contacts.empty()) DrawBlobs(true);
 
@@ -327,7 +327,7 @@ void ScannerWidget::Update()
 				break;
 		}
 	}
-	
+
 	else
 		m_targetRange = m_manualRange;
 }
@@ -586,7 +586,7 @@ void UseEquipWidget::UpdateEquip()
 			Add(b, 32, 0);
 		}
 	}
-		
+
 }
 
 ///////////////////////////////////////////////
@@ -595,7 +595,7 @@ MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
 {
 	m_active = 0;
 	m_rg = new Gui::RadioGroup();
-	
+
 	m_buttons[0] = new Gui::ImageRadioButton(m_rg, "icons/multifunc_scanner.png", "icons/multifunc_scanner_on.png");
 	m_buttons[0]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_SCANNER));
 	m_buttons[0]->SetShortcut(SDLK_F9, KMOD_NONE);
