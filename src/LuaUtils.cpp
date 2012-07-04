@@ -154,10 +154,8 @@ void pi_lua_open_standard_base(lua_State *L)
 
 static int l_handle_error(lua_State *L)
 {
-	lua_getfield(L, LUA_REGISTRYINDEX, "PiDebug");
-	lua_getfield(L, -1, "error_handler");
-	lua_pushvalue(L, 1);
-	lua_pcall(L, 1, 1, 0);
+	const char *msg = lua_tostring(L, 1);
+	luaL_traceback(L, L, msg, 1);
 	return 1;
 }
 
