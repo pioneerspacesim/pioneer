@@ -1,6 +1,6 @@
 
 // From http://www.gamedev.net/community/forums/mod/journal/journal.asp?jn=263350&reply_id=3513134
-vec4 logarithmicTransform() 
+vec4 logarithmicTransform()
 {
 	vec4 vertexPosClip = gl_ModelViewProjectionMatrix * gl_Vertex;
 	gl_TexCoord[6] = vertexPosClip;
