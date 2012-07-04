@@ -9,7 +9,7 @@ template <>
 TerrainHeightFractal<TerrainHeightMapped3>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
 	//small fractal/high detail
-	SetFracDef(2, m_maxHeightInMeters*0.00000000001, 50, 50*m_fracmult);
+	//SetFracDef(2, m_maxHeightInMeters*0.00000000001, 50, 50*m_fracmult);
 }
 
 template <>
@@ -160,7 +160,7 @@ double TerrainHeightFractal<TerrainHeightMapped3>::GetHeight(const vector3d &p)
 	double lat = latitude+0.5*M_PI; // 0 at south pole to 180 at north pole
 	double lon = longitude+M_PI; // 0 to 360
 	double blend = 0.0,blend2 = 0.0;
-
+/*
 	// Ridges near olympus mons 1 
 	//coord - min coord
 	la[0] = lat - DEG2RAD(23.6+90.0-58.5);// -58.5 needed to align with pioneer 
@@ -176,6 +176,7 @@ double TerrainHeightFractal<TerrainHeightMapped3>::GetHeight(const vector3d &p)
 	//max value - min value 
 	lawidth[1] = DEG2RAD(11.0);
 	lowidth[1] = DEG2RAD(10.0);
+*/
 
 	//valles marineris
 	//1.5, -49.9, -24.9(ok down to -16), -105.0
@@ -192,6 +193,7 @@ double TerrainHeightFractal<TerrainHeightMapped3>::GetHeight(const vector3d &p)
 	b = (b< blendlimit)?1.0:(0.5-b)*(1.0/(0.5-blendlimit));
 
 #define CHECKIFWITHINREGION(idx) ((la[idx]>0.0)&&(lo[idx]>0.0)&& la[idx] < lawidth[idx] && lo[idx] < lowidth[idx])
+/*
 	// Ridges 
 	if (CHECKIFWITHINREGION(0)
 		)
@@ -208,7 +210,7 @@ double TerrainHeightFractal<TerrainHeightMapped3>::GetHeight(const vector3d &p)
 		//blend = b;
 		//hr = 0.01;
 	}
-
+*/
 	// valles marineris - split up into two smaller areas if it includes too much of surrounding areas
 	if (CHECKIFWITHINREGION(2) )
 	{
@@ -216,8 +218,6 @@ double TerrainHeightFractal<TerrainHeightMapped3>::GetHeight(const vector3d &p)
 		blend2 = b;
 		// terrain code after general terrain code
 	}
-
-
 	
 	// n pole
 	vector3d npole = vector3d(0.0,1.0,0.0).Normalized();
@@ -350,10 +350,6 @@ double TerrainHeightFractal<TerrainHeightMapped3>::GetHeight(const vector3d &p)
 
 	}
 	
-	
-
-	//printf(" h %f, v[0] %f, v[1] %f,v[2] %f    ",h, v[0],v[1],v[2]);
-	//hprintf("range %f, radius %f   ",double(pow(2.0,16.0))*m_heightScaling, m_planetRadius);
 	//printf("x: %f,y: %i",double(m_heightMapSizeX),m_heightMapSizeY);
 	//printf("h %f, v0 %f, v1 %f, v2 %f, v3 %f, r1 %f, a1 %f\n",h,v[0],3396000.0*v[1],3396000.0*v[2],3396000.0*v[3],r1,a1);
 

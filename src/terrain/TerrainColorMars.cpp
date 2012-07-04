@@ -103,46 +103,122 @@ vector3d TerrainColorFractal<TerrainColorMars>::GetColor(const vector3d &p, doub
 	const double flatness = pow(p.Dot(norm), 6.0);
 	const vector3d color_cliffs = m_rockColor[1];
 
-	// Mars with the poles have been replaced and a simple colour added.
+
+// Define colours
 
 #define colour(a,b,c) (vector3d(a/255.0,b/255,c/255.0)) 
-//1. light yellowish full mars map www.solarviews.com/raw/mars/marscyl1.jpg
-//2. darker reddish full mars map planetpixelemporium.com
 
+// light orange with a red contribution - sort of pink
 #define lightcol1 colour(240.0,139.0,104.0)
+//light orange-ochre
 #define lightcol2 colour(230.0,145.0,44.0)
+// lighter ochre than 2
+#define lightcol3 colour(240.0,153.0,104.0)
+// reddish pink
+#define lightcol4 colour(239.0,125.0,123.0)
+// reddish pink - more orange than 4
+#define lightcol5 colour(239.0,127.0,92.0)
+
+
 #define lightroughcol1 colour(136.0,83.0,79.0)
 #define lightroughcol2 colour(127.0,98.0,66.0)
-#define darkcol1 colour(146.0,89.0,54.0)
-#define darkcol2 colour(177.0,132.0,68.0)
+
+// light ochre
+#define darkcol1 colour(177.0,132.0,68.0)
+// dark ochre (but not dark grey)
+#define darkcol2 colour(146.0,89.0,54.0)
+// grey with a bluish tone
+#define darkcol3 colour(65.0,71.0,117.0)
+// lighter grey with a bluish tone
+#define darkcol4 colour(83.0,84.0,115.0)
+// dark ochre 
+#define darkcol5 colour(146.0,112.0,54.0)
+
 #define darkroughcol1 colour(72.0,57.0,62.0)
 #define darkroughcol2 colour(63.0,58.0,64.0)
 
+
 	vector3d col,col_light, col_dark;
 
-	// go from reds to yellows for the Tharsis highlands
-	const double c1 = 25000.0;
-	double i1;
+	col_light = lightcol1;	
+	col_dark = darkcol1; 
 
-	if (height > c1){
-		//col = interpolate_color(equatorial_desert, vector3d(.8,.75,.5), vector3d(.52, .5, .3));
-		i1 = (height-c1)*(1.0/(28000.0-c1));
-	}
+	// Extract areas of interest from roughness data 
+	// compression curves which focus on an area are used
+	// the contributions are then scaled/summed together to interpolate from light to dark
+	double v11 = v[1];
+	double v12;
+	double v21 = v[2];
+	double v22;
+	double v23;
+	double v31 = v[3];
+	double v32, v33;
+	double v4, v5, v6, v7, v8, v9, v10;
 
-	col_light = lightcol1;//interpolate_color(i1, lightcol1, lightcol2);	
-	col_dark = darkcol1; //interpolate_color(i1, darkcol1, darkcol2);
-	//col = col_light;
-	col = interpolate_color(flatness, col_dark, col_light);
-	
-	double v1 = v[1]+v[2]+v[3];
-	v1*=1e4/3.0;
-	v1 = std::min(v1,3.0);
-	v1 = v1/(1.5+v[1]);
-	
-	col = interpolate_color(v1, col_light, col_dark);
+	// multiply data by 1e4 to make things easier to work with
+	v11*=1e4;
+	v12=v11;
+	v21*=1e4;
+	v23 = v22 = v21;
+	v31*=1e4;
+	v33=v32=v31;
 
-	//else col = vector3d(0.5,0.5,0.5);
-	
+	// set maximums on data to reduce range
+	v11 = std::min(v11,0.4);
+	v12 = std::min(v12,2.0);
+	v21 = std::min(v21,0.2);
+	v22 = std::min(v22,0.8);
+	v23 = std::min(v23,2.8);
+	v31 = std::min(v31,0.3);
+	v32 = std::min(v32,0.8);
+
+	// extract details from various ranges in the roughness data
+	v11 = v11/(0.1+v11);
+	v12 = v12/(0.4+v12);
+
+	v21 = v21/(0.04+v21);
+	v22 = v22/(0.24+v22);
+	v23 = v23/(0.8+v23);
+
+	v31 = v31/(0.1+v31);
+	v32 = v32/(0.45+v32);
+	v33 = v33/(1.6+v33);
+
+	// Contributions
+	// scale contributions for each part of roughness scales
+	// different parts of each roughness scale add up to 1
+	// multipliers at the front of each expression for different roughness scales add up to 3.0
+	v4 = 1.2*(0.7*v11)*(1.0/0.9)*(1.0/3.0);
+	v5 = 1.2*(0.3*v12)*(1.0/0.9)*(1.0/3.0);
+
+	v6 = 1.0*(0.5*v21)*(1.0/0.8)*(1.0/3.0);
+	v7 = 1.0*(0.25*v22)*(1.0/0.8)*(1.0/3.0);
+	v8 = 1.0*(0.25*v23)*(1.0/0.8)*(1.0/3.0);
+
+	v9 = 0.8*(0.33*v31)*(1.0/0.8)*(1.0/3.0);
+	v10 = 0.8*(0.33*v32+0.33*v33)*(1.0/0.8)*(1.0/3.0);
+
+	// set non-zero minimums to avoid cases of everything being zero
+	v4 = std::max(0.00001,v4);
+	v5 = std::max(0.00001,v5);
+	v6 = std::max(0.00001,v6);
+	v7 = std::max(0.00001,v7);
+	v8 = std::max(0.00001,v8);
+	v9 = std::max(0.00001,v9);
+	v10 = std::max(0.00001,v10);
+
+	// calculate shade by associating light/dark colours with roughness scales
+	// and blending in proportion
+	col_light = (v4*lightcol5+v5*lightcol4
+		+v6*lightcol2+0.95*v7*lightcol5+v8*lightcol5  +v9*lightcol4+v10*lightcol4)/(v4+v5+v6+0.95*v7+v8+v9+v10);
+	col_dark = (v4*darkcol1+v5*darkcol2
+		+v6*darkcol3+v7*darkcol4+v8*darkcol3  +v9*darkcol4+v10*darkcol4)/(v4+v5+0.5*v6+v7+v8+v9+v10);
+
+	// darken based on roughness
+	col = interpolate_color(v4+v5+v6+v7+v8+v9+v10, col_light, col_dark);	
+
+	// darken cliffs
+	col = interpolate_color(flatness, darkroughcol2, col);
 
 	//special color regions
 	double cr=0.0;
@@ -209,6 +285,7 @@ vector3d TerrainColorFractal<TerrainColorMars>::GetColor(const vector3d &p, doub
 	}
 
 */
+
 	// valles marineris - split up into two smaller areas if it includes too much of surrounding areas
 	if (CHECKIFWITHINREGION(2))
 	{
@@ -222,7 +299,7 @@ vector3d TerrainColorFractal<TerrainColorMars>::GetColor(const vector3d &p, doub
 		double b3 = TRANSITION(v[1],4e-5,5e-5);
 		b3 =0.2*b2*b*b3;
 
-		vector3d col1 = vector3d(1.0,1.0,1.0);
+		//vector3d col1 = vector3d(1.0,1.0,1.0);
 		col = interpolate_color(b3, col, darkcol1);
 	}
 
@@ -258,8 +335,7 @@ vector3d TerrainColorFractal<TerrainColorMars>::GetColor(const vector3d &p, doub
 				*TRANSITION(v[0]+400*b3,(9800.0-5.0),9800.0) // excude areas to avoid non circular shape
 				*((b3>0.55)?(1.0-TRANSITION(-(height*m_planetRadius-v[0])-0.0,4.9460e0,4.9461e0)):1.0) // ground colour in low lying areas near the pole circle
 				*flatness;
-			vector3d c = interpolate_color(ice, col, vector3d(1,1,1));
-			//printf("height %f",(height*m_planetRadius));
+			vector3d c = interpolate_color(ice, col, vector3d(0.8,0.8,0.8));
 			return c;
 		}
 
@@ -287,13 +363,10 @@ vector3d TerrainColorFractal<TerrainColorMars>::GetColor(const vector3d &p, doub
 		double b3 = TRANSITION(b2,0.2,1.0);
 		// calc ice-ground transition. ground color at 0 ice at 1.0
 		double ice = (1.0-TRANSITION(v[1],0.20e-4,0.21e-4)) // ground colour with roughness
-				*TRANSITION(v[0]+0.0*400*b3,(1700.0-1.0),1800.0) // excude areas to avoid non circular shape
-				
+				*TRANSITION(v[0]+0.0*400*b3,(1700.0-1.0),1800.0) // excude areas to avoid non circular shape	
 				*flatness;
-		vector3d c = interpolate_color(ice, col, vector3d(1,1,1));
-		//printf("height %f",v[0]);
+		vector3d c = interpolate_color(ice, col, vector3d(0.8,0.8,0.8));
 		return c;
-		// height fractals here
 		// double hpole = 0.0;
 		//hr = 0.01;
 		//blend = b2;
