@@ -70,7 +70,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 
 	LUA_DEBUG_START(l);
 
-	idx = (idx < 0) ? lua_gettop(l)+idx+1 : idx;
+	idx = lua_absindex(l, idx);
 
 	if (lua_getmetatable(l, idx)) {
 		lua_getfield(l, -1, "class");
