@@ -225,22 +225,6 @@ void SectorView::Save(Serializer::Writer &wr)
 	wr.Bool(m_infoBoxVisible);
 }
 
-static void RemoveChar(std::string &str, const char c)
-{
-	str.erase(std::remove(str.begin(), str.end(), c), str.end());
-}
-
-//collect ints from a string into a vector
-static void GetInts(const std::string &str, const char delim, std::vector<int> &out)
-{
-	std::stringstream ss(str);
-	int i;
-	while(ss >> i) {
-		out.push_back(i);
-		if(ss.peek() == delim) ss.ignore();
-	}
-}
-
 void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 {
 	//remember the last search text, hotkey: up
@@ -258,12 +242,9 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 
 	//Try to detect if user entered a sector address, comma or space separated, strip parentheses
 	//system index is unreliable, so it is not supported
-	RemoveChar(search, '(');
-	RemoveChar(search, ')');
-	std::vector<int> ints;
-	GetInts(search, ',', ints);
-	if (ints.size() == 3) {
-		GotoSector(SystemPath(ints[0], ints[1], ints[2]));
+	SystemPath pathInput;
+	if (SystemPath::TryParse(pathInput, search.c_str())) {
+		GotoSector(pathInput);
 		return;
 	}
 	

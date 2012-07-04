@@ -5,6 +5,8 @@
 
 class SystemPath {
 public:
+	static bool TryParse(SystemPath &out, const char * const str);
+
 	SystemPath() :
 		sectorX(0), sectorY(0), sectorZ(0), systemIndex(Uint32(-1)), bodyIndex(Uint32(-1)) {}
 
