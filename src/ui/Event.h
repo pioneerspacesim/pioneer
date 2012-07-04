@@ -3,6 +3,8 @@
 
 #include "libs.h"
 
+struct lua_State;
+
 namespace UI {
 
 class Widget;
@@ -58,11 +60,14 @@ public:
 	KeyboardEvent(Action _action, const KeySym &_keysym) : Event(Event::KEYBOARD), action(_action), keysym(_keysym) {}
 	const Action action;
 	const KeySym keysym;
+
+	void ToLuaTable(lua_State *l);
 };
 
 class MouseEvent : public Event {
 public:
 	const vector2f pos; // relative to widget
+
 protected:
 	MouseEvent(Event::Type _type, const vector2f &_pos) : Event(_type), pos(_pos) {}
 };
@@ -81,11 +86,15 @@ public:
 	MouseButtonEvent(Action _action, ButtonType _button, const vector2f &_pos) : MouseEvent(Event::MOUSE_BUTTON, _pos), action(_action), button(_button) {}
 	const Action action;
 	const ButtonType button;
+
+	void ToLuaTable(lua_State *l);
 };
 
 class MouseMotionEvent : public MouseEvent {
 public:
 	MouseMotionEvent(const vector2f &_pos) : MouseEvent(Event::MOUSE_MOTION, _pos) {}
+
+	void ToLuaTable(lua_State *l);
 };
 
 class MouseWheelEvent : public MouseEvent {
@@ -96,6 +105,8 @@ public:
 	};
 	MouseWheelEvent(WheelDirection _direction, const vector2f &_pos) : MouseEvent(Event::MOUSE_WHEEL, _pos), direction(_direction) {}
 	WheelDirection direction;
+
+	void ToLuaTable(lua_State *l);
 };
 
 }
