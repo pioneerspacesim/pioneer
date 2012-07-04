@@ -148,7 +148,7 @@ Translate:Add({ English = {
 }, })
 
   ---- POLISH / POLSKI ----
-  
+
 Translate:AddFlavour('Polski','DeliverPackage', {
   adtext = "LECISZ DO systemu {system}? Zapłata za dostarczenie małej paczki.",
   introtext = "Cześć, nazywam się {name}. Zapłacę {cash} jeśli dostarczysz małą paczkę do {starport} w systemie {system} ({sectorx}, {sectory}, {sectorz}) .",

@@ -24,7 +24,7 @@ local terminus = CustomSystemBody:new('Terminus', 'PLANET_TERRESTRIAL')
 	:ocean_cover(f(3,10))
 	:ice_cover(f(0,10))
 	:life(f(0,10))
-	
+
 	local terminus_starports = {
 	CustomSystemBody:new('End of the Line', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(5,100))
@@ -33,7 +33,7 @@ local terminus = CustomSystemBody:new('Terminus', 'PLANET_TERRESTRIAL')
 		:semi_major_axis(f(6,100))
 		:rotation_period(f(11,24)),
 	}
-	
+
 	local melon = {
 	CustomSystemBody:new('Melon', 'PLANET_TERRESTRIAL')
 		:seed(191082)
@@ -56,8 +56,8 @@ local terminus = CustomSystemBody:new('Terminus', 'PLANET_TERRESTRIAL')
 		:rotation_period(f(11,24)),
 	},
 	}
-	
-	
+
+
 	s:bodies(agamemnon, {
 	terminus,
 		terminus_starports,

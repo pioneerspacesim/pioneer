@@ -17,7 +17,7 @@ define_model('diet_steakette', {
 		zbias(0)
 	end
 })
-		
+
 define_model('ad_sirius', {
 	info = {
 		bounding_radius = 1.0,
