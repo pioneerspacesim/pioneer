@@ -225,29 +225,13 @@ void SectorView::Save(Serializer::Writer &wr)
 	wr.Bool(m_infoBoxVisible);
 }
 
-static void RemoveChar(std::string &str, const char c)
-{
-	str.erase(std::remove(str.begin(), str.end(), c), str.end());
-}
-
-//collect ints from a string into a vector
-static void GetInts(const std::string &str, const char delim, std::vector<int> &out)
-{
-	std::stringstream ss(str);
-	int i;
-	while(ss >> i) {
-		out.push_back(i);
-		if(ss.peek() == delim) ss.ignore();
-	}
-}
-
 void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 {
 	//remember the last search text, hotkey: up
 	if (m_searchBox->GetText().empty() && keysym->sym == SDLK_UP && !m_previousSearch.empty())
 		m_searchBox->SetText(m_previousSearch);
 
-	if (keysym->sym != SDLK_RETURN)
+	if (keysym->sym != SDLK_KP_ENTER && keysym->sym != SDLK_RETURN)
 		return;
 
 	std::string search = m_searchBox->GetText();
@@ -258,15 +242,11 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 
 	//Try to detect if user entered a sector address, comma or space separated, strip parentheses
 	//system index is unreliable, so it is not supported
-	RemoveChar(search, '(');
-	RemoveChar(search, ')');
-	std::vector<int> ints;
-	GetInts(search, ',', ints);
-	if (ints.size() == 3) {
-		GotoSector(SystemPath(ints[0], ints[1], ints[2]));
+	try {
+		GotoSector(SystemPath::Parse(search.c_str()));
 		return;
-	}
-	
+	} catch (SystemPath::ParseFailure) {}
+
 	bool gotMatch = false, gotStartMatch = false;
 	SystemPath bestMatch;
 	const std::string *bestMatchName = 0;
@@ -697,13 +677,13 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	// ignore keypresses if they're typing
 	if (m_searchBox->IsFocused()) {
 		// but if they press enter then we want future keys
-		if (keysym->sym == SDLK_RETURN)
+		if (keysym->sym == SDLK_KP_ENTER || keysym->sym == SDLK_RETURN)
 			m_searchBox->Unfocus();
 		return;
 	}
 
 	// '/' focuses the search box
-	if (keysym->sym == SDLK_SLASH) {
+	if (keysym->sym == SDLK_KP_DIVIDE || keysym->sym == SDLK_SLASH) {
 		m_searchBox->SetText("");
 		m_searchBox->GrabFocus();
 		return;
@@ -729,7 +709,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// toggle selection mode
-	if (keysym->sym == SDLK_RETURN) {
+		if (keysym->sym == SDLK_KP_ENTER || keysym->sym == SDLK_RETURN) {
 		m_selectionFollowsMovement = !m_selectionFollowsMovement;
 		if (m_selectionFollowsMovement)
 			Pi::cpan->MsgLog()->Message("", Lang::ENABLED_AUTOMATIC_SYSTEM_SELECTION);

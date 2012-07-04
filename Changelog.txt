@@ -6,6 +6,7 @@ Alpha 24
    * Minor changes and tweaks
      * Show orbital periapsis/apoapsis in system info with greater accuracy at
        small distances (#1311, #1303)
+     * Sector view search box now supports the numpad (#1329, #1327)
 
    * Fixes
      * Fix flipped vbuilding glowmap (#1280, #1279)

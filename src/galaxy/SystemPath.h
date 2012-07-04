@@ -2,9 +2,15 @@
 #define _SYSTEMPATH_H
 
 #include "Serializer.h"
+#include <stdexcept>
 
 class SystemPath {
 public:
+	struct ParseFailure : public std::invalid_argument {
+		ParseFailure(): std::invalid_argument("invalid SystemPath format") {}
+	};
+	static SystemPath Parse(const char * const str);
+
 	SystemPath() :
 		sectorX(0), sectorY(0), sectorZ(0), systemIndex(Uint32(-1)), bodyIndex(Uint32(-1)) {}
 
