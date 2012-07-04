@@ -37,7 +37,7 @@ static int l_body_attr_label(lua_State *l)
 	Body *b = LuaBody::GetFromLua(1);
 	lua_pushstring(l, b->GetLabel().c_str());
 	return 1;
-} 
+}
 
 /*
  * Attribute: seed
@@ -216,7 +216,7 @@ static int l_body_attr_frame_rotating(lua_State *l)
 	return 1;
 }
 
-/* 
+/*
  * Method: IsDynamic
  *
  * Determine if the body is a dynamic body

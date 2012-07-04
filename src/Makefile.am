@@ -330,7 +330,7 @@ tests_SOURCES = \
 	test_FileSystem.cpp
 
 TESTS = tests
- 
+
 tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a
 
 INCLUDES = -isystem @top_srcdir@/contrib

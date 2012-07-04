@@ -15,7 +15,7 @@ namespace Gui {
 		virtual void OnActivate();
 		void SetPressed(bool s) { m_pressed = s; }
 		bool GetPressed() { return m_pressed != 0; }
-		
+
 		sigc::signal<void, ToggleButton *, bool> onChange;
 	private:
 		int m_pressed;

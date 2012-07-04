@@ -62,7 +62,7 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent)
 
 	f->m_oldOrient = f->m_orient;
 	f->m_oldAngDisplacement = vector3d(0.0);
-	
+
 	return f;
 }
 
@@ -131,7 +131,7 @@ vector3d Frame::GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo)
 	if (fFrom == fTo) return vector3d(0,0,0);
 	vector3d v1 = vector3d(0,0,0);
 	vector3d v2 = vector3d(0,0,0);
-	
+
 	matrix4x4d m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
@@ -173,7 +173,7 @@ void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &
 
 	m = m2 * m;
 }
-	
+
 void Frame::GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m)
 {
 	matrix4x4d m2 = matrix4x4d::Identity();
@@ -193,7 +193,7 @@ void Frame::GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix
 
 	m = m2 * m;
 }
-	
+
 void Frame::RotateInTimestep(double step)
 {
 	double ang = m_angVel.Length() * step;
@@ -256,7 +256,7 @@ void Frame::UpdateInterpolatedTransform(double alpha)
 	m_interpolatedTransform[12] = outPos.x;
 	m_interpolatedTransform[13] = outPos.y;
 	m_interpolatedTransform[14] = outPos.z;
-	
+
 	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		(*i)->UpdateInterpolatedTransform(alpha);
 	}

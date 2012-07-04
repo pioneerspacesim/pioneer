@@ -247,7 +247,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			pos = end + len;
 			break;
 		}
-			
+
 		case 't': {
 			lua_newtable(l);
 

@@ -219,7 +219,7 @@ static int dispatch_index(lua_State *l)
 
 		lua_pushvalue(l, 2);
 		lua_rawget(l, -2);                  // object, key, globals, metatable, method table, method
-    
+
 		// found something, return it
 		if (!lua_isnil(l, -1))
 			return 1;
@@ -356,7 +356,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 
 	// publish the method table as a global (and pop it from the stack)
 	lua_setglobal(l, type);
-	
+
 	// create the metatable, leave it on the stack
 	luaL_newmetatable(l, type);
 
@@ -447,7 +447,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 
 	bool have_promotions = true;
 	bool tried_promote = false;
-	
+
 	while (have_promotions && !tried_promote) {
 		std::map< std::string, std::map<std::string,PromotionTest> >::const_iterator base_iter = promotions->find(lo->m_type);
 		if (base_iter != promotions->end()) {
@@ -455,7 +455,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 
 			for (
 				std::map<std::string,PromotionTest>::const_iterator target_iter = (*base_iter).second.begin();
-				target_iter != (*base_iter).second.end(); 
+				target_iter != (*base_iter).second.end();
 				target_iter++)
 			{
 				if ((*target_iter).second(lo->m_object)) {

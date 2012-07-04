@@ -40,7 +40,7 @@ void Body::Load(Serializer::Reader &rd, Space *space)
 	m_label = rd.String();
 	m_dead = rd.Bool();
 	m_hasDoubleFrame = rd.Bool();
-}	
+}
 
 void Body::Serialize(Serializer::Writer &_wr, Space *space)
 {
@@ -189,16 +189,16 @@ void Body::UpdateFrame()
 			matrix4x4d rot;
 			GetRotMatrix(rot);
 			SetRotMatrix(m * rot);
-			
+
 			m.ClearToRotOnly();
-			SetVelocity(GetFrame()->GetVelocity() + m*(GetVelocity() - 
+			SetVelocity(GetFrame()->GetVelocity() + m*(GetVelocity() -
 				GetFrame()->GetStasisVelocityAtPosition(GetPosition())));
 
 			SetFrame(new_frame);
 			SetPosition(new_pos);
 
 			Pi::luaOnFrameChanged->Queue(this);
-			
+
 			return;
 		}
 	}
@@ -210,7 +210,7 @@ void Body::UpdateFrame()
 		Frame::GetFrameTransform(GetFrame(), kid, m);
 		vector3d pos = m * GetPosition();
 		if (!kid->IsLocalPosInFrame(pos)) continue;
-		
+
 		printf("%s enters frame %s\n", GetLabel().c_str(), kid->GetLabel().c_str());
 
 		SetPosition(pos);
@@ -219,7 +219,7 @@ void Body::UpdateFrame()
 		matrix4x4d rot;
 		GetRotMatrix(rot);
 		SetRotMatrix(m * rot);
-				
+
 		// get rid of transforms
 		m.ClearToRotOnly();
 		SetVelocity(m*(GetVelocity() - kid->GetVelocity())

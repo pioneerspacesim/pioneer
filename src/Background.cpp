@@ -122,7 +122,7 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 		}
 		VertexArray *va = m_model->GetSurface(0)->GetVertices();
 		for (int i=0; i<BG_STAR_MAX; i++) {
-			
+
 			vector3f v(va->position[i]);
 			v += vector3f(pz*hyperspaceProgress*mult);
 

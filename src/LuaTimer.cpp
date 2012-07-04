@@ -156,7 +156,7 @@ static int l_timer_call_at(lua_State *l)
 
 	if (at <= Pi::game->GetTime())
 		luaL_error(l, "Specified time is in the past");
-	
+
 	LUA_DEBUG_START(l);
 
 	lua_newtable(l);
@@ -219,7 +219,7 @@ static int l_timer_call_every(lua_State *l)
 
 	if (every <= 0)
 		luaL_error(l, "Specified interval must be greater than zero");
-	
+
 	LUA_DEBUG_START(l);
 
 	lua_newtable(l);

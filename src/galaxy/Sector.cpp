@@ -68,7 +68,7 @@ Sector::Sector(int x, int y, int z)
 			s.p.z = rng.Double(SIZE);
 			s.seed = 0;
 			s.customSys = 0;
-			
+
 			double spec = rng.Double(1000000.0);
 			// frequencies from wikipedia
 			/*if (spec < 100) { // should be 1 but that is boring
@@ -94,72 +94,72 @@ Sector::Sector(int x, int y, int z)
 			//	(sy > 50) || (sy < -50))
 
 			// Frequencies are low enough that we probably don't need this anymore.
-			if (isqrt(1+sx*sx+sy*sy) > 10) 
+			if (isqrt(1+sx*sx+sy*sy) > 10)
 			{
-				if (spec < 1) { 
+				if (spec < 1) {
 					s.starType[0] = SystemBody::TYPE_STAR_IM_BH;  // These frequencies are made up
 				} else if (spec < 3) {
-					s.starType[0] = SystemBody::TYPE_STAR_S_BH; 
+					s.starType[0] = SystemBody::TYPE_STAR_S_BH;
 				} else if (spec < 5) {
-					s.starType[0] = SystemBody::TYPE_STAR_O_WF; 
+					s.starType[0] = SystemBody::TYPE_STAR_O_WF;
 				} else if (spec < 8) {
-					s.starType[0] = SystemBody::TYPE_STAR_B_WF; 
+					s.starType[0] = SystemBody::TYPE_STAR_B_WF;
 				} else if (spec < 12) {
-					s.starType[0] = SystemBody::TYPE_STAR_M_WF; 
+					s.starType[0] = SystemBody::TYPE_STAR_M_WF;
 				} else if (spec < 15) {
-					s.starType[0] = SystemBody::TYPE_STAR_K_HYPER_GIANT; 
+					s.starType[0] = SystemBody::TYPE_STAR_K_HYPER_GIANT;
 				} else if (spec < 18) {
 					s.starType[0] = SystemBody::TYPE_STAR_G_HYPER_GIANT;
 				} else if (spec < 23) {
-					s.starType[0] = SystemBody::TYPE_STAR_O_HYPER_GIANT; 
+					s.starType[0] = SystemBody::TYPE_STAR_O_HYPER_GIANT;
 				} else if (spec < 28) {
 					s.starType[0] = SystemBody::TYPE_STAR_A_HYPER_GIANT;
 				} else if (spec < 33) {
 					s.starType[0] = SystemBody::TYPE_STAR_F_HYPER_GIANT;
 				} else if (spec < 41) {
-					s.starType[0] = SystemBody::TYPE_STAR_B_HYPER_GIANT; 
+					s.starType[0] = SystemBody::TYPE_STAR_B_HYPER_GIANT;
 				} else if (spec < 48) {
-					s.starType[0] = SystemBody::TYPE_STAR_M_HYPER_GIANT; 
+					s.starType[0] = SystemBody::TYPE_STAR_M_HYPER_GIANT;
 				} else if (spec < 58) {
-					s.starType[0] = SystemBody::TYPE_STAR_K_SUPER_GIANT; 
+					s.starType[0] = SystemBody::TYPE_STAR_K_SUPER_GIANT;
 				} else if (spec < 68) {
 					s.starType[0] = SystemBody::TYPE_STAR_G_SUPER_GIANT;
 				} else if (spec < 78) {
-					s.starType[0] = SystemBody::TYPE_STAR_O_SUPER_GIANT; 
+					s.starType[0] = SystemBody::TYPE_STAR_O_SUPER_GIANT;
 				} else if (spec < 88) {
 					s.starType[0] = SystemBody::TYPE_STAR_A_SUPER_GIANT;
 				} else if (spec < 98) {
 					s.starType[0] = SystemBody::TYPE_STAR_F_SUPER_GIANT;
 				} else if (spec < 108) {
-					s.starType[0] = SystemBody::TYPE_STAR_B_SUPER_GIANT; 
+					s.starType[0] = SystemBody::TYPE_STAR_B_SUPER_GIANT;
 				} else if (spec < 158) {
-					s.starType[0] = SystemBody::TYPE_STAR_M_SUPER_GIANT; 
+					s.starType[0] = SystemBody::TYPE_STAR_M_SUPER_GIANT;
 				} else if (spec < 208) {
-					s.starType[0] = SystemBody::TYPE_STAR_K_GIANT; 
+					s.starType[0] = SystemBody::TYPE_STAR_K_GIANT;
 				} else if (spec < 250) {
 					s.starType[0] = SystemBody::TYPE_STAR_G_GIANT;
 				} else if (spec < 300) {
-					s.starType[0] = SystemBody::TYPE_STAR_O_GIANT; 
+					s.starType[0] = SystemBody::TYPE_STAR_O_GIANT;
 				} else if (spec < 350) {
 					s.starType[0] = SystemBody::TYPE_STAR_A_GIANT;
 				} else if (spec < 400) {
 					s.starType[0] = SystemBody::TYPE_STAR_F_GIANT;
 				} else if (spec < 500) {
-					s.starType[0] = SystemBody::TYPE_STAR_B_GIANT; 
+					s.starType[0] = SystemBody::TYPE_STAR_B_GIANT;
 				} else if (spec < 700) {
-					s.starType[0] = SystemBody::TYPE_STAR_M_GIANT; 
+					s.starType[0] = SystemBody::TYPE_STAR_M_GIANT;
 				} else if (spec < 800) {
 					s.starType[0] = SystemBody::TYPE_STAR_O;  // should be 1 but that is boring
 				} else if (spec < 2000) { // spec < 1300 / 20500
-					s.starType[0] = SystemBody::TYPE_STAR_B;  
+					s.starType[0] = SystemBody::TYPE_STAR_B;
 				} else if (spec < 8000) { // spec < 7300
-					s.starType[0] = SystemBody::TYPE_STAR_A;  
+					s.starType[0] = SystemBody::TYPE_STAR_A;
 				} else if (spec < 37300) { // spec < 37300
-					s.starType[0] = SystemBody::TYPE_STAR_F;  
+					s.starType[0] = SystemBody::TYPE_STAR_F;
 				} else if (spec < 113300) { // spec < 113300
-					s.starType[0] = SystemBody::TYPE_STAR_G;  
+					s.starType[0] = SystemBody::TYPE_STAR_G;
 				} else if (spec < 234300) { // spec < 234300
-					s.starType[0] = SystemBody::TYPE_STAR_K;  
+					s.starType[0] = SystemBody::TYPE_STAR_K;
 				} else if (spec < 250000) { // spec < 250000
 					s.starType[0] = SystemBody::TYPE_WHITE_DWARF;
 				} else if (spec < 900000) {  //spec < 900000
@@ -200,9 +200,9 @@ Sector::Sector(int x, int y, int z)
 
 			if ((s.starType[0] <= SystemBody::TYPE_STAR_A) && (rng.Int32(10)==0)) {
 				// make primary a giant. never more than one giant in a system
-				// while 
+				// while
 				if (isqrt(1+sx*sx+sy*sy) > 10)
-				{			
+				{
 					if (rand.Int32(0,1000) >= 999) {
 						s.starType[0] = SystemBody::TYPE_STAR_B_HYPER_GIANT;
 					} else if (rand.Int32(0,1000) >= 998) {
@@ -227,7 +227,7 @@ Sector::Sector(int x, int y, int z)
 						s.starType[0] = SystemBody::TYPE_STAR_M_SUPER_GIANT;
 					} else {
 						s.starType[0] = SystemBody::TYPE_STAR_M_GIANT;
-					} 
+					}
 				} else if (isqrt(1+sx*sx+sy*sy) > 5) s.starType[0] = SystemBody::TYPE_STAR_M_GIANT;
 				else s.starType[0] = SystemBody::TYPE_STAR_M;
 
@@ -299,11 +299,11 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 		return buf;
 	} else if (rng.Int32(chance) < 1200) {
 		char buf[128];
-		snprintf(buf, sizeof(buf), "SC %d%+d%+d", rng.Int32(1000,9999),sx,sy); 
+		snprintf(buf, sizeof(buf), "SC %d%+d%+d", rng.Int32(1000,9999),sx,sy);
 		return buf;
 	} else {
 		char buf[128];
-		snprintf(buf, sizeof(buf), "DSC %d%+d%+d", rng.Int32(1000,9999),sx,sy); 
+		snprintf(buf, sizeof(buf), "DSC %d%+d%+d", rng.Int32(1000,9999),sx,sy);
 		return buf;
 	}
 }
