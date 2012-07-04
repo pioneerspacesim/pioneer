@@ -28,6 +28,10 @@ extern const struct EnumItem ENUM_BodySuperType[];
 extern const struct EnumItem ENUM_UIAlignDirection[];
 extern const struct EnumItem ENUM_UIBoxFlags[];
 extern const struct EnumItem ENUM_UIEventType[];
+extern const struct EnumItem ENUM_UIKeyboardAction[];
+extern const struct EnumItem ENUM_UIMouseButtonAction[];
+extern const struct EnumItem ENUM_UIMouseButtonType[];
+extern const struct EnumItem ENUM_UIMouseWheelDirection[];
 extern const struct EnumItem ENUM_UIImageStretchMode[];
 extern const struct EnumItem ENUM_UIFontSize[];
 

@@ -330,6 +330,31 @@ const struct EnumItem ENUM_UIEventType[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_UIKeyboardAction[] = {
+	{ "DOWN", UI::KeyboardEvent::KEY_DOWN },
+	{ "UP", UI::KeyboardEvent::KEY_UP },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIMouseButtonAction[] = {
+	{ "DOWN", UI::MouseButtonEvent::BUTTON_DOWN },
+	{ "UP", UI::MouseButtonEvent::BUTTON_UP },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIMouseButtonType[] = {
+	{ "LEFT", UI::MouseButtonEvent::BUTTON_LEFT },
+	{ "MIDDLE", UI::MouseButtonEvent::BUTTON_MIDDLE },
+	{ "RIGHT", UI::MouseButtonEvent::BUTTON_RIGHT },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIMouseWheelDirection[] = {
+	{ "UP", UI::MouseWheelEvent::WHEEL_UP },
+	{ "DOWN", UI::MouseWheelEvent::WHEEL_DOWN },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_UIImageStretchMode[] = {
 	{ "PRESERVE", UI::Image::STRETCH_PRESERVE },
 	{ "MAX", UI::Image::STRETCH_MAX },

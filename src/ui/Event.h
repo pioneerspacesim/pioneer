@@ -16,7 +16,7 @@ class MouseWheelEvent;
 // base event. can't be instantiated directly
 class Event {
 public:
-	enum Type { // <enum scope='UI::Event' name=UIEventType prefix=STRETCH_>
+	enum Type { // <enum scope='UI::Event' name=UIEventType>
 		KEYBOARD,
 		MOUSE_BUTTON,
 		MOUSE_MOTION,
@@ -51,7 +51,7 @@ private:
 // data for various events
 class KeyboardEvent : public Event {
 public:
-	enum Action {
+	enum Action { // <enum scope='UI::KeyboardEvent' name=UIKeyboardAction prefix=KEY_>
 		KEY_DOWN,
 		KEY_UP
 	};
@@ -69,11 +69,11 @@ protected:
 
 class MouseButtonEvent : public MouseEvent {
 public:
-	enum Action {
+	enum Action { // <enum scope='UI::MouseButtonEvent' name=UIMouseButtonAction prefix=BUTTON_>
 		BUTTON_DOWN,
 		BUTTON_UP
 	};
-	enum ButtonType {
+	enum ButtonType { // <enum scope='UI::MouseButtonEvent' name=UIMouseButtonType prefix=BUTTON_>
 		BUTTON_LEFT,
 		BUTTON_MIDDLE,
 		BUTTON_RIGHT
@@ -90,7 +90,7 @@ public:
 
 class MouseWheelEvent : public MouseEvent {
 public:
-	enum WheelDirection {
+	enum WheelDirection { // <enum scope='UI::MouseWheelEvent' name=UIMouseWheelDirection prefix=WHEEL_>
 		WHEEL_UP,
 		WHEEL_DOWN
 	};
