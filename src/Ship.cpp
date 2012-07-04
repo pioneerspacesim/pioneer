@@ -852,7 +852,7 @@ double Ship::GetHullTemperature() const
 {
 	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
 	if (m_equipment.Get(Equip::SLOT_ATMOSHIELD) == Equip::NONE) {
-		return dragGs / 30.0;
+		return dragGs / 5.0;
 	} else {
 		return dragGs / 300.0;
 	}
