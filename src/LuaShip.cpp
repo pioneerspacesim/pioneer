@@ -292,10 +292,8 @@ static int l_ship_explode(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	Ship *s = LuaShip::GetFromLua(1);
-	
-	Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(s));
-	Sfx::Add(s, Sfx::TYPE_EXPLOSION);
-	Sound::BodyMakeNoise(s, "Explosion_1", 1.0f);
+
+	s->Explode();
 
 	LUA_DEBUG_END(l, 0);
 
