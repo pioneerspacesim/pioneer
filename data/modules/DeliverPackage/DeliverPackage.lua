@@ -1,3 +1,5 @@
+local VERSION = 1 -- Integer versioning; bump this up if the saved game format changes.
+
 -- Get the translator function
 local t = Translate:GetTranslator()
 
@@ -296,11 +298,33 @@ local onGameEnd = function ()
 end
 
 local serialize = function ()
-	return { ads = ads, missions = missions }
+	return {
+		VERSION = VERSION,
+		ads = ads,
+		missions = missions,
+	}
 end
 
 local unserialize = function (data)
 	loaded_data = data
+	if data.VERSION then
+		if data.VERSION < VERSION then
+			print('Old DeliverPackage data loaded, converting...')
+			-- No upgrade code yet
+			print(('DeliverPackage data converted to internal version {newversion}'):interp({newversion=VERSION}))
+			return
+		end
+		if data.VERSION > VERSION then
+			error(([[DeliverPackage load error - saved game is more recent than installed files
+			Saved game internal version: {saveversion}
+			Installed internal version: {ourversion}]]):interp({saveversion=data.VERSION,ourversion=VERSION}))
+		end
+	else
+		-- Hopefully, a few engine save-game bumps from now,
+		-- there will be no instance where this is acceptable,
+		-- and we can error() out of here.
+		print('Pre-versioning DeliverPackage data loaded')
+	end
 end
 
 EventQueue.onCreateBB:Connect(onCreateBB)
