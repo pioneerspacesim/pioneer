@@ -1,26 +1,20 @@
 #include "SystemPath.h"
 #include <cstdlib>
 
-static const char *SkipSpace(const char *s)
-{ if (s) { while (isspace(*s)) { ++s; } } return s; }
-
-static const char *TryParseInt(int &out, const char * const str)
+static int ParseInt(const char *&ss)
 {
-	if (str) {
-		char *end = 0;
-		long n = strtol(str, &end, 10);
-		if (str != end) {
-			out = n;
-			return end;
-		} else {
-			return 0;
-		}
+	assert(ss);
+	char *end = 0;
+	long n = strtol(ss, &end, 10);
+	if (ss == end) {
+		throw SystemPath::ParseFailure();
 	} else {
-		return 0;
+		ss = end;
+		return n;
 	}
 }
 
-bool SystemPath::TryParse(SystemPath &out, const char * const str)
+SystemPath SystemPath::Parse(const char * const str)
 {
 	assert(str);
 
@@ -31,32 +25,27 @@ bool SystemPath::TryParse(SystemPath &out, const char * const str)
 
 	int x, y, z;
 
-	// TryParseInt returns a null pointer on failure
-	// SkipSpace and TryParseInt passes null pointers through
+	while (isspace(*s)) { ++s; }
+	if (*s == '(') { ++s; }
 
-	printf("@ '%s'\n", s);
-	s = SkipSpace(s);
-	if (s && (*s == '(')) { ++s; }
-	printf("@ '%s'\n", s);
-	s = SkipSpace(s);
-	s = TryParseInt(x, s);
-	printf("@ '%s'\n", s);
-	s = SkipSpace(s);
-	if (s && (*s == ',' || *s == '.')) { ++s; s = SkipSpace(s); }
-	s = TryParseInt(y, s);
-	printf("@ '%s'\n", s);
-	s = SkipSpace(s);
-	if (s && (*s == ',' || *s == '.')) { ++s; s = SkipSpace(s); }
-	s = TryParseInt(z, s);
-	printf("@ '%s'\n", s);
-	s = SkipSpace(s);
-	if (s && (*s == ')')) { ++s; }
-	s = SkipSpace(s);
-	printf("@ '%s'\n", s);
-	if (s && !*s) {
-		out = SystemPath(x, y, z);
-		return true;
-	} else {
-		return false;
-	}
+	x = ParseInt(s); // note: ParseInt (actually, strtol) skips leading whitespace itself
+
+	while (isspace(*s)) { ++s; }
+	if (*s == ',' || *s == '.') { ++s; }
+
+	y = ParseInt(s);
+
+	while (isspace(*s)) { ++s; }
+	if (*s == ',' || *s == '.') { ++s; }
+
+	z = ParseInt(s);
+
+	while (isspace(*s)) { ++s; }
+	if (*s == ')') { ++s; }
+	while (isspace(*s)) { ++s; }
+
+	if (*s) // extra unexpected text after the system path
+		throw SystemPath::ParseFailure();
+	else
+		return SystemPath(x, y, z);
 }

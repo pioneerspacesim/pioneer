@@ -242,12 +242,11 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 
 	//Try to detect if user entered a sector address, comma or space separated, strip parentheses
 	//system index is unreliable, so it is not supported
-	SystemPath pathInput;
-	if (SystemPath::TryParse(pathInput, search.c_str())) {
-		GotoSector(pathInput);
+	try {
+		GotoSector(SystemPath::Parse(search.c_str()));
 		return;
-	}
-	
+	} catch (SystemPath::ParseFailure) {}
+
 	bool gotMatch = false, gotStartMatch = false;
 	SystemPath bestMatch;
 	const std::string *bestMatchName = 0;
