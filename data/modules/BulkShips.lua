@@ -1,3 +1,5 @@
+local VERSION = 1 -- Integer versioning; bump this up if the saved game format changes.
+
 local loaded
 
 local spawnShips = function ()
@@ -57,11 +59,31 @@ local onGameStart = function ()
 end
 
 local serialize = function ()
-	return true
+    return {
+		VERSION = VERSION,
+	}
 end
 
 local unserialize = function (data)
 	loaded = true
+	if data.VERSION then
+		if data.VERSION < VERSION then
+			print('Old BulkShips data loaded, converting...')
+			-- No upgrade code yet
+			print(('BulkShips data converted to internal version {newversion}'):interp({newversion=VERSION}))
+			return
+		end
+		if data.VERSION > VERSION then
+			error(([[BulkShips load error - saved game is more recent than installed files
+			Saved game internal version: {saveversion}
+			Installed internal version: {ourversion}]]):interp({saveversion=data.VERSION,ourversion=VERSION}))
+		end
+	else
+		-- Hopefully, a few engine save-game bumps from now,
+		-- there will be no instance where this is acceptable,
+		-- and we can error() out of here.
+		print('Pre-versioning BulkShips data loaded')
+	end
 end
 
 EventQueue.onEnterSystem:Connect(onEnterSystem)
