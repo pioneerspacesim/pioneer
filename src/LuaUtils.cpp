@@ -52,7 +52,7 @@ void pi_lua_table_ro(lua_State *l)
  *
  * Availability:
  *
- *   not yet
+ *   alpha 24
  *
  * Status:
  *
