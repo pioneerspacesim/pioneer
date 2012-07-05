@@ -1,1 +1,1 @@
-SUBDIRS = lua miniz
+SUBDIRS = lua miniz jenkins

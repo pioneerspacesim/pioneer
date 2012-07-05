@@ -1,7 +1,10 @@
 #include "LuaUtils.h"
 #include "libs.h"
 #include "FileSystem.h"
-#include "lookup3.h"
+
+extern "C" {
+#include "jenkins/lookup3.h"
+}
 
 static int _ro_table_error(lua_State *l)
 {
