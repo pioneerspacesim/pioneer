@@ -65,7 +65,6 @@ libui_a_SOURCES = \
 	Slider.cpp \
 	TextLayout.cpp \
 	Widget.cpp \
-	WidgetSet.cpp \
 	Lua.cpp \
 	LuaAlign.cpp \
 	LuaBackground.cpp \
