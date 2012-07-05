@@ -1,7 +1,7 @@
 //http://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl
 
 float noise2dtrig(vec2 x){
-    return abs(fract(sin(dot(x.xy ,vec2(12.9898,78.233))) * 43758.5453));
+    return abs(0.5-fract(sin(dot(x.xy ,vec2(12.9898,78.233))) * 43758.5453));
 }
 
 
