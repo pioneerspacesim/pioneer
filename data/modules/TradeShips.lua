@@ -72,7 +72,13 @@ local addShipEquip = function (ship)
 
 	-- add standard equipment
 	ship:AddEquip(ship_type.defaultHyperdrive)
-	ship:AddEquip('ATMOSPHERIC_SHIELDING')
+	if ship:GetEquipSlotCapacity('ATMOSHIELD') > 0 then
+		ship:AddEquip('ATMOSPHERIC_SHIELDING')
+		trader.ATMOSHIELD = true -- flag this to save function calls later
+	else
+		-- This ship cannot safely land on a planet with an atmosphere.
+		trader.ATMOSHIELD = false
+	end
 	ship:AddEquip('SCANNER')
 	ship:AddEquip('AUTOPILOT')
 	ship:AddEquip('CARGO_LIFE_SUPPORT')
@@ -180,17 +186,26 @@ end
 local getNearestStarport = function (ship, current)
 	if #starports == 0 then return nil end
 	if #starports == 1 then return starports[1] end
-
+	
+	local trader = trade_ships[ship]
 	local starport = starports[1]
+	
+print ('*** ',ship.shipType,' ',trader.ATMOSHIELD)
+	-- Get distance to arbitrary first starport
 	local distance = ship:DistanceTo(starport)
+	local canland = (trader.ATMOSHIELD or (starport.type == 'STARPORT_ORBITAL') or (not starport.path:GetSystemBody().parent.hasAtmosphere))
+	-- Start comparing distances
 	for _, next_starport in ipairs(starports) do
 		local next_distance = ship:DistanceTo(next_starport)
-		if next_distance < distance and next_starport ~= current then
+		if (not canland) or (next_distance < distance and next_starport ~= current) then
 			starport, distance = next_starport, next_distance
+			if trader.ATMOSHIELD or (starport.type == 'STARPORT_ORBITAL') or (not starport.path:GetSystemBody().parent.hasAtmosphere) then
+				canland = true;
+			end
 		end
 	end
-
-	return starport
+	print('     ',starport and starport.label or starports[1].label)
+	return starport or starports[1]
 end
 
 local getSystem = function (ship)
@@ -341,6 +356,7 @@ local spawnInitialShips = function (game_start)
 					starport	= starport,
 					ship_name	= ship_name,
 				}
+				addShipEquip(ship)
 			else
 				-- the starport must have been full
 				ship = Space.SpawnShipNear(ship_name, starport, 10000000, 149598000) -- 10mkm - 1AU
@@ -349,6 +365,7 @@ local spawnInitialShips = function (game_start)
 					starport	= starport,
 					ship_name	= ship_name,
 				}
+				addShipEquip(ship)
 			end
 		elseif i < num_trade_ships * 0.75 then
 			-- spawn the first three quarters in space, or middle half if game start
@@ -360,9 +377,12 @@ local spawnInitialShips = function (game_start)
 			ship = Space.SpawnShip(ship_name, min_dist, min_dist + range)
 			trade_ships[ship] = {
 				status		= 'inbound',
-				starport	= getNearestStarport(ship),
 				ship_name	= ship_name,
 			}
+			-- Add ship equipment right now, because...
+			addShipEquip(ship)
+			-- ...this next call needs to see if there's an atmospheric shield.
+			trade_ships[ship].starport	= getNearestStarport(ship)
 		else
 			-- spawn the last quarter in hyperspace
 			local min_time = trade_ships.interval * (i - num_trade_ships * 0.75)
@@ -378,11 +398,11 @@ local spawnInitialShips = function (game_start)
 				from_path	= from,
 				ship_name	= ship_name,
 			}
+			addShipEquip(ship)
 		end
 		local trader = trade_ships[ship]
 
-		-- add equipment and cargo
-		addShipEquip(ship)
+		-- add cargo
 		local fuel_added = addFuel(ship)
 		if trader.status == 'docked' then
 			local delay = fuel_added + addShipCargo(ship, 'export')
