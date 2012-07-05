@@ -4449,7 +4449,7 @@ static Uint32 _calculate_all_models_checksum()
 	while (!files.Finished()) {
 		const FileSystem::FileInfo &info = files.Current();
 		assert(info.IsFile());
-		if (info.GetPath().substr(info.GetPath().size() - 4) != ".png") {
+		if (!ends_with(info.GetPath(), ".png")) {
 			RefCountedPtr<FileSystem::FileData> data = files.Current().Read();
 			crc.AddData(data->GetData(), data->GetSize());
 		}

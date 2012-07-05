@@ -140,7 +140,7 @@ void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath)
 			pi_lua_dofile_recursive(l, fpath);
 		} else {
 			assert(info.IsFile());
-			if ((fpath.size() > 4) && (fpath.substr(fpath.size() - 4) == ".lua")) {
+			if (ends_with(fpath, ".lua")) {
 				// XXX kill CurrentDirectory
 				lua_pushstring(l, basepath.empty() ? "." : basepath.c_str());
 				lua_setglobal(l, "CurrentDirectory");
@@ -166,7 +166,7 @@ int pi_load_lua(lua_State *l) {
 
 	if (info.IsDir()) {
 		pi_lua_dofile_recursive(l, path);
-	} else if (info.IsFile() && (path.size() > 4) && (path.substr(path.size() - 4) == ".lua")) {
+	} else if (info.IsFile() && ends_with(path, ".lua")) {
 		pi_lua_dofile(l, path);
 	} else if (info.IsFile()) {
 		return luaL_error(l, "load_lua('%s') called on a file without a .lua extension", path.c_str());

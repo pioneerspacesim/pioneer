@@ -30,6 +30,7 @@ Alpha 24
      * Changed LuaGame and LuaEngine to use the LuaObject system (#1296)
      * Simplify logic in LuaObject (#1301)
      * Change implementation of LuaObject attributes to allow overriding (#1312)
+     * Code style cleanups (#1335)
 
 Alpha 23
 
