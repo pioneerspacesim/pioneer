@@ -144,6 +144,7 @@ noinst_HEADERS = \
 	matrix4x4.h \
 	mtrand.h \
 	perlin.h \
+	lookup3.h \
 	utils.h \
 	vector2.h \
 	vector3.h \
@@ -267,6 +268,7 @@ pioneer_SOURCES	= \
 	main.cpp \
 	mtrand.cpp \
 	perlin.cpp \
+	lookup3.cpp \
 	utils.cpp \
 	enum_table.cpp
 
@@ -310,6 +312,7 @@ modelviewer_SOURCES = \
 	SDLWrappers.cpp \
 	StringF.cpp \
 	perlin.cpp \
+	lookup3.cpp \
 	utils.cpp \
 	enum_table.cpp
 modelviewer_LDADD = ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
