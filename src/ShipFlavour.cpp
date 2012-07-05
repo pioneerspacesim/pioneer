@@ -64,20 +64,8 @@ void ShipFlavour::MakeTrulyRandom(ShipFlavour &v, bool atmospheric)
 {
 	// only allow ships that can fit an atmospheric shield
 	if (atmospheric) {
-		std::vector<ShipType::Type> ships;
-		for (std::vector<ShipType::Type>::const_iterator it = ShipType::player_ships.begin();
-			it != ShipType::player_ships.end(); ++it) {
-			const ShipType &ship = ShipType::types[*it];
-			if (ship.equipSlotCapacity[Equip::SLOT_ATMOSHIELD] != 0)
-				ships.push_back(*it);
-		}
-		if (!ships.empty()) {
-			v = ShipFlavour(ships[Pi::rng.Int32(ships.size())]);
-		} else {
-			// Game should have at least some matching ships...
-			assert(false);
-			v = ShipFlavour(ShipType::player_ships.front());
-		}
+		const std::vector<ShipType::Type> &ships = ShipType::playable_atmospheric_ships;
+		v = ShipFlavour(ships[Pi::rng.Int32(ships.size())]);
 	} else {
 		const std::vector<ShipType::Type> &ships = ShipType::player_ships;
 		v = ShipFlavour(ships[Pi::rng.Int32(ships.size())]);
