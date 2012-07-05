@@ -61,7 +61,7 @@ public:
 	const Action action;
 	const KeySym keysym;
 
-	void ToLuaTable(lua_State *l);
+	void ToLuaTable(lua_State *l) const;
 };
 
 class MouseEvent : public Event {
@@ -87,14 +87,14 @@ public:
 	const Action action;
 	const ButtonType button;
 
-	void ToLuaTable(lua_State *l);
+	void ToLuaTable(lua_State *l) const;
 };
 
 class MouseMotionEvent : public MouseEvent {
 public:
 	MouseMotionEvent(const vector2f &_pos) : MouseEvent(Event::MOUSE_MOTION, _pos) {}
 
-	void ToLuaTable(lua_State *l);
+	void ToLuaTable(lua_State *l) const;
 };
 
 class MouseWheelEvent : public MouseEvent {
@@ -106,7 +106,7 @@ public:
 	MouseWheelEvent(WheelDirection _direction, const vector2f &_pos) : MouseEvent(Event::MOUSE_WHEEL, _pos), direction(_direction) {}
 	WheelDirection direction;
 
-	void ToLuaTable(lua_State *l);
+	void ToLuaTable(lua_State *l) const;
 };
 
 }

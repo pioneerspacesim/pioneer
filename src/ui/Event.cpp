@@ -15,7 +15,7 @@ static void _settable(lua_State *l, const char *key, const vector2f &value)
 	lua_rawset(l, -3);
 }
 
-void KeyboardEvent::ToLuaTable(lua_State *l)
+void KeyboardEvent::ToLuaTable(lua_State *l) const
 {
 	lua_newtable(l);
 	pi_lua_settable(l, "type", LuaConstants::GetConstantString(l, "UIEventType", type));
@@ -25,7 +25,7 @@ void KeyboardEvent::ToLuaTable(lua_State *l)
 	// XXX expose sym and mod constants
 }
 
-void MouseButtonEvent::ToLuaTable(lua_State *l)
+void MouseButtonEvent::ToLuaTable(lua_State *l) const
 {
 	lua_newtable(l);
 	pi_lua_settable(l, "type", LuaConstants::GetConstantString(l, "UIEventType", type));
@@ -36,7 +36,7 @@ void MouseButtonEvent::ToLuaTable(lua_State *l)
 	pi_lua_settable(l, "button", LuaConstants::GetConstantString(l, "UIMouseButtonType", button));
 }
 
-void MouseMotionEvent::ToLuaTable(lua_State *l)
+void MouseMotionEvent::ToLuaTable(lua_State *l) const
 {
 	lua_newtable(l);
 	pi_lua_settable(l, "type", LuaConstants::GetConstantString(l, "UIEventType", type));
@@ -44,7 +44,7 @@ void MouseMotionEvent::ToLuaTable(lua_State *l)
 	_settable(l, "pos", pos);
 }
 
-void MouseWheelEvent::ToLuaTable(lua_State *l)
+void MouseWheelEvent::ToLuaTable(lua_State *l) const
 {
 	lua_newtable(l);
 	pi_lua_settable(l, "type", LuaConstants::GetConstantString(l, "UIEventType", type));
