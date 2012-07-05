@@ -187,28 +187,25 @@ end
 local getNearestStarport = function (ship, current)
 	if #starports == 0 then return nil end
 	if #starports == 1 then return starports[1] end
-	
+
 	local trader = trade_ships[ship]
-	local starport = starports[1]
-	
-	-- Get distance to arbitrary first starport
-	local distance = ship:DistanceTo(starport)
-	local canland = (trader.ATMOSHIELD or (starport.type == 'STARPORT_ORBITAL') or (not starport.path:GetSystemBody().parent.hasAtmosphere))
-	-- Start comparing distances
-	for _, next_starport in ipairs(starports) do
-		local next_distance = ship:DistanceTo(next_starport)
-		if (not canland) or (next_distance < distance and next_starport ~= current) then
-			starport, distance = next_starport, next_distance
-			if trader.ATMOSHIELD or (starport.type == 'STARPORT_ORBITAL') or (not starport.path:GetSystemBody().parent.hasAtmosphere) then
-				canland = true;
+
+	-- Find the nearest starport that we can land at (other than current)
+	local starport, distance
+	for i = 1, #starports do
+		local next_starport = starports[i]
+		if next_starport ~= current then
+			local next_distance = ship:DistanceTo(next_starport)
+			local next_canland = (trader.ATMOSHIELD or
+				(next_starport.type == 'STARPORT_ORBITAL') or
+				(not next_starport.path:GetSystemBody().parent.hasAtmosphere))
+
+			if next_canland and ((starport == nil) or (next_distance < distance)) then
+				starport, distance = next_starport, next_distance
 			end
 		end
 	end
-	if canland then
-		return starport
-	else
-		return current or starport
-	end
+	return starport or current
 end
 
 local getSystem = function (ship)
