@@ -278,13 +278,18 @@ local getSystemAndJump = function (ship)
 	return jumpToSystem(ship, getSystem(ship))
 end
 
+local filterAcceptableShips = function (ship_type)
+	-- only accept ships with enough capacity that are capable of landing in atmospheres
+	return (ship_type.hullMass >= 100) and (ship_type:GetEquipSlotCapacity('ATMOSHIELD') > 0)
+end
+
 local spawnInitialShips = function (game_start)
 	-- check if the current system can be traded in
 	starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
 	if #starports == 0 then return nil end
 	local population = Game.system.population
 	if population == 0 then return nil end
-	local ship_names = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
+	local ship_names = ShipType.GetShipTypes('SHIP', filterAcceptableShips)
 	if #ship_names == 0 then return nil end
 
 	-- get a measure of the market size and build lists of imports and exports
@@ -424,7 +429,7 @@ end
 local spawnReplacement = function ()
 	-- spawn new ship in hyperspace
 	if #starports > 0 and Game.system.population > 0 and #imports > 0 and #exports > 0 then
-		local ship_names = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
+		local ship_names = ShipType.GetShipTypes('SHIP', filterAcceptableShips)
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 
 		local dest_time = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
