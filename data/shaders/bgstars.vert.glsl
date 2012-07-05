@@ -8,6 +8,7 @@ float noise2dtrig(vec2 x){
 uniform float time;
 uniform bool twinkling;
 uniform float effect;
+uniform float starScaling;
 
 
 void main(void)
@@ -32,7 +33,7 @@ void main(void)
 		b = mix(1.0,b,effect);
 	}
 
-	gl_PointSize = 1.0 + (b*2.5+0.8)*starSize; //b controls a portion of star size 
+	gl_PointSize = starScaling*(1.0 + (b*2.5+0.8)*starSize); //b controls a portion of star size 
 	gl_FrontColor = vec4(gl_Color.rgb,gl_FrontMaterial.emission*b);
 }
 

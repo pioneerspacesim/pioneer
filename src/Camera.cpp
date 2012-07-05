@@ -148,7 +148,7 @@ void Camera::Draw(Renderer *renderer)
 	}
 
 	//fade space background based on atmosphere thickness and light angle
-	double bgIntensity=1.0,bgTime=0.0, bgEffect=0.0; int bgTwinkling=0;
+	double bgIntensity=1.0,bgTime=0.0, bgEffect=0.0; int bgTwinkling=0; double bgStarScaling = 1.0;
 
 	if (m_camFrame->m_parent) {
 		//check if camera is near a planet
@@ -156,7 +156,7 @@ void Camera::Draw(Renderer *renderer)
 		if (camParentBody && camParentBody->IsType(Object::PLANET)) {
 
 			Pi::game->GetSpace()->GetBackground().CalcParameters(this, m_camFrame->m_parent,
-				bgIntensity, bgTwinkling, bgTime, bgEffect);
+				bgIntensity, bgStarScaling, bgTwinkling, bgTime, bgEffect);
 
 		}
 	}
@@ -164,7 +164,7 @@ void Camera::Draw(Renderer *renderer)
 	Pi::game->GetSpace()->GetBackground().SetIntensity(bgIntensity);
 
 	Pi::game->GetSpace()->GetBackground().Draw(renderer, trans2bg, this, 
-		bgTwinkling, bgTime, bgEffect);
+		bgStarScaling, bgTwinkling, bgTime, bgEffect);
 	
 	renderer->SetLights(lights.size(), &lights[0]);
 

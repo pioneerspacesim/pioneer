@@ -29,6 +29,9 @@ public:
 	void SetOrientation(const matrix4x4d &orient) { m_pose.SetRotationOnly(orient); }
 	matrix4x4d GetOrientation() const { matrix4x4d m(m_pose); m.ClearToRotOnly(); return m; }
 
+	// frustum width in pixels
+	float GetWidth() const { return m_width; }
+
 	// only valid between Update() and Draw()
 	const Frame *GetFrame() const { return m_camFrame; }
 

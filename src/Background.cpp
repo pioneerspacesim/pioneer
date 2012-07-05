@@ -96,7 +96,7 @@ void Starfield::Fill(unsigned long seed)
 //The way this works is that brightness and twinkling are calibrated to look fine on Earth.
 //After that the way the brightness and twinkling change under different conditions
 //is calculated by mapping the way quantities change due to factors relative to Earth.
-void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int &twinkling, double &time, double &effect)
+void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, double &starScaling, int &twinkling, double &time, double &effect)
 {
 
 	double light = 1.0; // light intensity relative to earths
@@ -156,9 +156,11 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, int 
 		}
 		
 	}
+	// scale size of stars relative to conditions of calibration
+	starScaling = (camera->GetWidth())/800.0;
 }
 
-void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera, int twinkling, double time, double effect)
+void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera, double starScaling, int twinkling, double time, double effect)
 {
 	if (AreShadersEnabled()) {
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
@@ -167,6 +169,7 @@ void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera, int twinkling
 		m_shader->SetUniform("twinkling", int(twinkling));
 		m_shader->SetUniform("time", float(time));
 		m_shader->SetUniform("effect", float(effect));
+		m_shader->SetUniform("starScaling", float(starScaling));
 
 		
 	} else {
@@ -306,7 +309,7 @@ void Container::Refresh(unsigned long seed)
 	m_starField.Fill(seed);
 }
 
-void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform, Camera *camera, int twinkling, double time, double effect) const
+void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform, Camera *camera, double starScaling, int twinkling, double time, double effect) const
 {
 	//XXX not really const - renderer can modify the buffers
 	glPushMatrix();
@@ -317,16 +320,16 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform, 
 	// squeeze the starfield a bit to get more density near horizon
 	matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
 	renderer->SetTransform(starTrans);
-	const_cast<Starfield&>(m_starField).Draw(renderer, camera,
-		twinkling, time, effect);
+	const_cast<Starfield&>(m_starField).Draw(renderer, camera, 
+		starScaling, twinkling, time, effect);
 	Pi::renderer->SetDepthTest(true);
 	glPopMatrix();
 }
 
-void Container::CalcParameters(Camera *camera, Frame *f, double &brightness,int &twinkling, double &time, double &effect)
+void Container::CalcParameters(Camera *camera, Frame *f, double &brightness, double &starScaling,int &twinkling, double &time, double &effect)
 {
-	m_starField.CalcParameters(camera, f, brightness,
-							   twinkling, time, effect);
+	m_starField.CalcParameters(camera, f, brightness, 
+								starScaling, twinkling, time, effect);
 }
 
 
