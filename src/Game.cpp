@@ -271,7 +271,7 @@ bool Game::UpdateTimeAccel()
 
 	// force down to timeaccel 1 during the docking sequence
 	else if (m_player->GetFlightState() == Ship::DOCKING) {
-		newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
+		newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
 		RequestTimeAccel(newTimeAccel);
 	}
 

@@ -7,6 +7,7 @@ Alpha 24
      * Show orbital periapsis/apoapsis in system info with greater accuracy at
        small distances (#1311, #1303)
      * Sector view search box now supports the numpad (#1329, #1327)
+     * Allow 10x timeaccel during docking sequence (#1332)
 
    * Fixes
      * Fix flipped vbuilding glowmap (#1280, #1279)
