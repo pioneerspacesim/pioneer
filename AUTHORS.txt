@@ -51,8 +51,8 @@ forums. You drive us crazy, but we still love you :)
 
 Pioneer includes the following third-party software:
 
-  Lua 5.2.0 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
-  Copyright (C) 1994-2011 Lua.org, PUC-Rio
+  Lua 5.2.1 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
+  Copyright (C) 1994-2012 Lua.org, PUC-Rio
   Licensed under the MIT licence (see lua.COPYING.txt)
 
   miniz by Rich Geldreich
