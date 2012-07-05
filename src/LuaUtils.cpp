@@ -34,6 +34,8 @@ void pi_lua_table_ro(lua_State *l)
 /*
  * Function: hash_random
  *
+ * > r = util.hash_random(seed, m, n)
+ *
  * Pick a number deterministically according to some input value.
  *
  * > accent = util.hash_random(person_seed .. 'accent', #accents)
