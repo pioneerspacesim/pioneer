@@ -4,13 +4,58 @@
 
 namespace UI {
 
+static inline void _trampoline_start(lua_State *l, int idx) {
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiUISignal");
+	assert(lua_istable(l, -1));
+
+	lua_rawgeti(l, -1, idx);
+	assert(lua_isfunction(l, -1));
+}
+
+static inline bool _trampoline_end(lua_State *l) {
+	bool ret = lua_toboolean(l, -1);
+	lua_pop(l, 2);
+	return ret;
+}
+
+template <typename T0, typename T1>
+class LuaSignalTrampoline {
+public:
+	static bool trampoline(T0 arg0, T1 arg1, lua_State *l, int idx) {
+		_trampoline_start(l, idx);
+		arg0.ToLuaTable(l);
+		arg1.ToLuaTable(l);
+		pi_lua_protected_call(l, 2, 1);
+		return _trampoline_end(l);
+	}
+};
+
+template <typename T0>
+class LuaSignalTrampoline<T0,sigc::nil> {
+public:
+	static bool trampoline(T0 arg0, lua_State *l, int idx) {
+		_trampoline_start(l, idx);
+		arg0.ToLuaTable(l);
+		pi_lua_protected_call(l, 1, 1);
+		return _trampoline_end(l);
+	}
+};
+
+template <>
+class LuaSignalTrampoline<sigc::nil,sigc::nil> {
+public:
+	static bool trampoline(lua_State *l, int idx) {
+		_trampoline_start(l, idx);
+		pi_lua_protected_call(l, 0, 1);
+		return _trampoline_end(l);
+	}
+};
+
 template <typename T0 = sigc::nil, typename T1 = sigc::nil>
 class LuaSignal {
 public:
 
 	typedef typename sigc::signal<bool,T0,T1>::template accumulated<UI::Widget::EventHandlerResultAccumulator> signal_type;
-
-	static bool trampoline(lua_State *l, int idx);
 
 	static int l_connect(lua_State *l) {
 		luaL_checktype(l, 1, LUA_TTABLE);
@@ -36,7 +81,7 @@ public:
 		lua_pushvalue(l, 2);
 		lua_rawseti(l, -2, idx);
 
-		signal->connect(sigc::bind(sigc::ptr_fun(&trampoline), l, idx));
+		signal->connect(sigc::bind(sigc::ptr_fun(&LuaSignalTrampoline<T0,T1>::trampoline), l, idx));
 
 		return 0;
 	}
@@ -54,25 +99,6 @@ public:
 	}
 };
 
-template <> bool LuaSignal<>::trampoline(lua_State *l, int idx) {
-	LUA_DEBUG_START(l);
-
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiUISignal");
-	assert(lua_istable(l, -1));
-
-	lua_rawgeti(l, -1, idx);
-	assert(lua_isfunction(l, -1));
-
-	pi_lua_protected_call(l, 0, 1);
-	bool ret = lua_toboolean(l, -1);
-
-	lua_pop(l, 2);
-
-	LUA_DEBUG_END(l, 0);
-
-	return ret;
-}
-
 
 class LuaWidget {
 public:
@@ -86,51 +112,58 @@ public:
 	}
 
 
-
-
 	static int l_attr_on_key_down(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
-		return 0;
+		LuaSignal<const KeyboardEvent &>().Wrap(l, w->onKeyDown);
+		return 1;
 	}
 
 	static int l_attr_on_key_up(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
-		return 0;
+		LuaSignal<const KeyboardEvent &>().Wrap(l, w->onKeyUp);
+		return 1;
 	}
 
 	static int l_attr_on_key_press(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
-		return 0;
+		LuaSignal<const KeyboardEvent &>().Wrap(l, w->onKeyPress);
+		return 1;
 	}
 
 	static int l_attr_on_mouse_down(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
-		return 0;
+		LuaSignal<const MouseButtonEvent &>().Wrap(l, w->onMouseDown);
+		return 1;
 	}
 
 	static int l_attr_on_mouse_up(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
-		return 0;
+		LuaSignal<const MouseButtonEvent &>().Wrap(l, w->onMouseUp);
+		return 1;
 	}
 
 	static int l_attr_on_mouse_move(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
-		return 0;
+		LuaSignal<const MouseMotionEvent &>().Wrap(l, w->onMouseMove);
+		return 1;
 	}
 
 	static int l_attr_on_mouse_wheel(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
-		return 0;
+		LuaSignal<const MouseWheelEvent &>().Wrap(l, w->onMouseWheel);
+		return 1;
 	}
 
 	static int l_attr_on_mouse_over(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
-		return 0;
+		LuaSignal<>().Wrap(l, w->onMouseOver);
+		return 1;
 	}
 
 	static int l_attr_on_mouse_out(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
-		return 0;
+		LuaSignal<>().Wrap(l, w->onMouseOut);
+		return 1;
 	}
 
 	static int l_attr_on_click(lua_State *l) {
