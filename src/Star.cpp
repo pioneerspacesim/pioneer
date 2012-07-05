@@ -31,7 +31,7 @@ void Star::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 	glPushMatrix();
 
 	double radius = GetClipRadius();
-	
+
 	double rad = radius;
 	vector3d fpos = viewCoords;
 	double len = fpos.Length();
@@ -44,7 +44,7 @@ void Star::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 	matrix4x4d trans = matrix4x4d::Identity();
 	trans.Translate(float(fpos.x), float(fpos.y), float(fpos.z));
-	
+
 	// face the camera dammit
 	vector3d zaxis = viewCoords.NormalizedSafe();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();

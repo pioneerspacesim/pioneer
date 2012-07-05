@@ -17,7 +17,7 @@ class LuaEvent : public LuaEventBase {
 public:
 	LuaEvent(T0 *arg0, T1 *arg1) : m_arg0(arg0), m_arg1(arg1) { }
 	virtual ~LuaEvent() {}
-	
+
 	T0 *m_arg0;
 	T1 *m_arg1;
 };
@@ -27,7 +27,7 @@ class LuaEvent<T0,void> : public LuaEventBase {
 public:
 	LuaEvent(T0 *arg0) : m_arg0(arg0) { }
 	virtual ~LuaEvent() {}
-	
+
 	T0 *m_arg0;
 };
 

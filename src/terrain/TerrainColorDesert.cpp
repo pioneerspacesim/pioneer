@@ -46,6 +46,6 @@ vector3d TerrainColorFractal<TerrainColorDesert>::GetColor(const vector3d &p, do
 		col = interpolate_color(n, col, vector3d(-2.0, -2.3, -2.4));
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
-	}	
+	}
 }
 

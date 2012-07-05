@@ -140,7 +140,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 			s.hyperdrive = Equip::Type(Equip::DRIVE_CLASS1+hyperclass-1);
 		}
 	}
-	
+
 	lua_pushstring(L, "gun_mounts");
 	lua_gettable(L, -2);
 	if (lua_istable(L, -1)) {

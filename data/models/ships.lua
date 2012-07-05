@@ -208,7 +208,7 @@ define_model('ladybird', {
 		{ cpoint_rear, v29 },
 		{ v32 }
 		)
-		quad(v29,v11,v31,v32) 
+		quad(v29,v11,v31,v32)
 		use_material('matvar2')
 		texture('ships/default_ship_textures/lbrear_l.png', v(.5,.4,0), v(.0165,0,0), v(0,0,1.2))
 		quad(v10,v06,v07,v30)
@@ -223,7 +223,7 @@ define_model('ladybird', {
 		{ cpoint_leadingedge1, leadingedge_mid },
 		{ cpoint_leadingedge2, wingtip_rear }
 		)
-		texture('ships/default_ship_textures/lbwing_l.png', v(.5,.5,0), v(.1,0,0), v(0,0,15))	
+		texture('ships/default_ship_textures/lbwing_l.png', v(.5,.5,0), v(.1,0,0), v(0,0,15))
 		zbias(1, v33, v(0,0,1))
 		set_material('engines',.3,.3,.3,1,.3,.3,.3,20)
 		use_material('engines')
@@ -508,7 +508,7 @@ define_model('interdictor', {
 		local v62 = v(-3.0, 0.0, 0.0)
 		--} },			// and tangents
 		local v63 = v(4.0, 0.0, 0.0)
-		--} },			// 
+		--} },			//
 
 		-- underside points
 		local v64 = v(-5.0, 0.0, -5.0)
@@ -526,7 +526,7 @@ define_model('interdictor', {
 		local v70 = v(-13.0, 0.0, 14.0)
 		--} },		// 70, rear underside centre
 		local v71 = v(-7.5, 0.0, -3.0)
-		--} },			// 71, vent outer edge 
+		--} },			// 71, vent outer edge
 
 		local v72 = v(-3.75, 0.7, 30.0)
 		--} },			// 72, engine midpoint
@@ -609,7 +609,7 @@ define_model('interdictor', {
 
 		-- engine back face
 		xref_flat(lvl, v(0,0,1),
-		{ v36+engine_back_cp1, v35+engine_back_cp2, v35 }, 
+		{ v36+engine_back_cp1, v35+engine_back_cp2, v35 },
 		{ v68 }, { v69 }, { v36 })
 
 		set_material('cockpit', .3,.3,.3,1, .3,.3,.3, 20)

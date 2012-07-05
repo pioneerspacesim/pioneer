@@ -11,7 +11,7 @@ void main(void)
 	vec3 eyepos = vec3(gl_TexCoord[0]);
 	vec3 tnorm = normalize(vec3(gl_TexCoord[1]));
 	vec4 diff = vec4(0.0);
-	
+
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		float nDotVP = max(0.0, dot(tnorm, normalize(vec3(gl_LightSource[i].position))));
 		diff += gl_LightSource[i].diffuse * nDotVP;
@@ -19,7 +19,7 @@ void main(void)
 
 	// when does the eye ray intersect atmosphere
 	float atmosStart = findSphereEyeRayEntryDistance(geosphereCenter, eyepos, geosphereAtmosTopRad);
-	
+
 	float fogFactor;
 	{
 		float atmosDist = geosphereScale * (length(eyepos) - atmosStart);

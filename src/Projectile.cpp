@@ -197,7 +197,7 @@ void Projectile::StaticUpdate(const float timeStep)
 	CollisionContact c;
 	vector3d vel = (m_baseVel+m_dirVel) * timeStep;
 	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c, 0);
-	
+
 	if (c.userData1) {
 		Object *o = static_cast<Object*>(c.userData1);
 
@@ -302,7 +302,7 @@ void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const 
 	p->m_parent = parent;
 	p->m_type = Equip::types[type].tableIndex;
 	p->SetFrame(parent->GetFrame());
-	
+
 	parent->GetRotMatrix(p->m_orient);
 	p->SetPosition(pos);
 	p->m_baseVel = baseVel;

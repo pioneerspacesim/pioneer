@@ -95,7 +95,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 
 			// Earth-like world
 			if ((body->m_life > fixed(7,10)) && (body->m_volatileGas > fixed(2,10))) {
-				// There would be no life on the surface without atmosphere 
+				// There would be no life on the surface without atmosphere
 
 				if (body->averageTemp > 240) {
 					const GeneratorInstancer choices[] = {
@@ -126,7 +126,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 				break;
 			}
 
-			// Harsh, habitable world 
+			// Harsh, habitable world
 			if ((body->m_volatileGas > fixed(2,10)) && (body->m_life > fixed(4,10)) ) {
 
 				if (body->averageTemp > 240) {
@@ -161,8 +161,8 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 				gi = choices[rand.Int32(10)];
 				break;
 			}
-			
-			// Marginally habitable world/ verging on mars like :) 
+
+			// Marginally habitable world/ verging on mars like :)
 			else if ((body->m_volatileGas > fixed(1,10)) && (body->m_life > fixed(1,10)) ) {
 
 				if (body->averageTemp > 240) {
@@ -514,7 +514,7 @@ Terrain::~Terrain()
  */
 void Terrain::SetFracDef(unsigned int index, double featureHeightMeters, double featureWidthMeters, double smallestOctaveMeters)
 {
-	// feature 
+	// feature
 	m_fracdef[index].amplitude = featureHeightMeters / (m_maxHeight * m_planetRadius);
 	m_fracdef[index].frequency = m_planetRadius / featureWidthMeters;
 	m_fracdef[index].octaves = std::max(1, int(ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0))));

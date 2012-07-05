@@ -39,7 +39,7 @@ namespace Gui {
 	public:
 		VBox(): Box(BOX_VERTICAL) {}
 	};
-	
+
 	class HBox: public Box {
 	public:
 		HBox(): Box(BOX_HORIZONTAL) {}

@@ -57,7 +57,7 @@ void Missile::Load(Serializer::Reader &rd, Space *space)
 void Missile::TimeStepUpdate(const float timeStep)
 {
 	Ship::TimeStepUpdate(timeStep);
-	
+
 	if (!m_target || !m_owner) {
 		Explode();
 	} else {

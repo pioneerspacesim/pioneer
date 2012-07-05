@@ -68,7 +68,7 @@
 //  - add the new file to the build system
 //
 //  - implement your lua methods in that file
-// 
+//
 //
 // if you want to understand how this works, read on :)
 //
