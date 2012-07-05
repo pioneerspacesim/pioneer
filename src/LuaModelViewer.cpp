@@ -120,21 +120,21 @@ public:
 			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickChangeView));
 			Add(b, 10, 10);
 			Add(new Gui::Label("[c] Change view (normal, collision mesh"), 30, 10);
-		} 
+		}
 		{
 			Gui::Button *b = new Gui::SolidButton();
 			b->SetShortcut(SDLK_r, KMOD_NONE);
 			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnResetAdjustments));
 			Add(b, 10, 30);
 			Add(new Gui::Label("[r] Reset thruster and anim sliders"), 30, 30);
-		} 
+		}
 		{
 			Gui::Button *b = new Gui::SolidButton();
 			b->SetShortcut(SDLK_m, KMOD_NONE);
 			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickRebuildCollMesh));
 			Add(b, 10, 50);
 			Add(new Gui::Label("[m] Rebuild collision mesh"), 30, 50);
-		} 
+		}
 		{
 			Gui::Button *b = new Gui::SolidButton();
 			b->SetShortcut(SDLK_p, KMOD_NONE);
@@ -164,7 +164,7 @@ public:
 			Add(b, 10, 30);
 			Add(new Gui::Label("[g] Toggle gear state"), 30, 30);
 		}
-#endif /* 0 */	
+#endif /* 0 */
 		{
 			Add(new Gui::Label("Linear thrust"), 0, Gui::Screen::GetHeight()-140.0f);
 			for (int i=0; i<3; i++) {
@@ -174,7 +174,7 @@ public:
 				v->SetAdjustment(m_linthrust[i]);
 				Add(v, float(i*25), Gui::Screen::GetHeight()-120.0f);
 			}
-			
+
 			Add(new Gui::Label("Angular thrust"), 100, Gui::Screen::GetHeight()-140.0f);
 			for (int i=0; i<3; i++) {
 				m_angthrust[i] = new Gui::Adjustment();
@@ -183,7 +183,7 @@ public:
 				v->SetAdjustment(m_angthrust[i]);
 				Add(v, float(100 + i*25), Gui::Screen::GetHeight()-120.0f);
 			}
-			
+
 			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"),
 					200, Gui::Screen::GetHeight()-140.0f);
 
@@ -538,11 +538,11 @@ void Viewer::MainLoop()
 		renderer->SetPerspectiveProjection(85, g_width/float(g_height), 1.f, 10000.f);
 		renderer->SetTransform(matrix4x4f::Identity());
 		renderer->ClearScreen();
-		
+
 		SetSbreParams();
 
 		int beforeDrawTriStats = LmrModelGetStatsTris();
-	
+
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
@@ -576,7 +576,7 @@ void Viewer::MainLoop()
 			char buf[256];
 			Aabb aabb = m_cmesh->GetAabb();
 			snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f\nGrid interval: %d metres",
-					(g_renderType == 0 ? 
+					(g_renderType == 0 ?
 						LmrModelGetStatsTris() - beforeDrawTriStats :
 						m_cmesh->m_numTris),
 					fps,
@@ -589,9 +589,9 @@ void Viewer::MainLoop()
 					int(gridInterval));
 			m_trisReadout->SetText(buf);
 		}
-		
+
 		Gui::Draw();
-		
+
 		renderer->SwapBuffers();
 		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;

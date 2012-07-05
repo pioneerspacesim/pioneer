@@ -33,7 +33,7 @@ public:
 	virtual void TimeStepUpdate(const float timeStep);
 	void CalcExternalForce();
 	void UndoTimestep();
-	
+
 	void SetMass(double);
 	void AddForce(const vector3d);
 	void AddTorque(const vector3d);
@@ -45,7 +45,7 @@ public:
 	void AddRelForce(const vector3d);
 	void AddRelTorque(const vector3d);
 	vector3d GetExternalForce() const { return m_externalForce; }
-	vector3d GetAtmosForce() const { return m_atmosForce; }		
+	vector3d GetAtmosForce() const { return m_atmosForce; }
 	vector3d GetGravityForce() const { return m_gravityForce; }
 	virtual void UpdateInterpolatedTransform(double alpha);
 
@@ -69,7 +69,7 @@ private:
 	//
 	vector3d m_externalForce;
 	vector3d m_atmosForce;
-	vector3d m_gravityForce;	
+	vector3d m_gravityForce;
 	// for time accel reduction fudge
 	vector3d m_lastForce;
 	vector3d m_lastTorque;

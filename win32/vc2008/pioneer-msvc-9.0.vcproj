@@ -578,6 +578,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaComms.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaConsole.cpp"
 				>
 			</File>
@@ -683,10 +687,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaTimer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaUI.cpp"
 				>
 			</File>
 			<File
@@ -1520,6 +1520,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaComms.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaConsole.h"
 				>
 			</File>
@@ -1629,10 +1633,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaTimer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaUI.h"
 				>
 			</File>
 			<File
@@ -2091,6 +2091,13 @@
 				<File
 					RelativePath="..\..\contrib\lua\lundump.h"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\contrib\lua\lvm.h"

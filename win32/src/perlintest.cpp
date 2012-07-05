@@ -6,7 +6,7 @@
 #include <vector>
 
 double testfunc()
-{	
+{
 	MTRand rng;
 	double r = 0.0;
 	for (int i=0; i<1000; i++)
@@ -15,7 +15,7 @@ double testfunc()
 }
 
 double testfunc2()
-{	
+{
 	MTRand rng;
 	double r = 0.0;
 	for (int i=0; i<1000; i++) {
@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 	t3 = ReadTSC();
 	r += testfunc();
 	t4 = ReadTSC();
-	
+
 	printf ("Times: %i, %i, %i: result %f\n", t2-t1, t3-t2, t4-t3, r);
 
 	t1 = ReadTSC();

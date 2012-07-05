@@ -1,8 +1,13 @@
 Alpha 24
 
+   * New features
+     * Background stars fade out in daylight (#1300)
+
    * Minor changes and tweaks
      * Show orbital periapsis/apoapsis in system info with greater accuracy at
        small distances (#1311, #1303)
+     * Sector view search box now supports the numpad (#1329, #1327)
+     * Allow 10x timeaccel during docking sequence (#1332)
 
    * Fixes
      * Fix flipped vbuilding glowmap (#1280, #1279)
@@ -12,12 +17,16 @@ Alpha 24
    * Script and model changes
      * Lua console now provides autocompletion. Press <TAB> to cycle through
        possible completions of the current identifier (#1286)
-     * Lua console now accepts expressions and prints their result (#1304)
+     * Lua console now accepts expressions and prints their result (#1304, #1313)
      * Lua updated to 5.2.1 (#1293)
      * Renamed UI to Comms (#1288)
      * Limited libraries available to LMR to debug, string and math (#1289)
      * Allow Characters to be created from random seed (#1299)
      * Improve printing of core objects to include their type (#1301)
+     * Excluded package, os, io and various bits of math libraries and certain other
+       core Lua functions for safety (see LuaUtils.cpp for rationale) (#1317)
+     * Aliased math.deg2rad to math.rad (#1317)
+     * Added util.hash_random to provide a repeatable source of "randomness" (#1317)
 
    * Internal changes
      * Abstracted out the normal Lua object type promotion test, and Lua
@@ -25,6 +34,8 @@ Alpha 24
      * Stop a broken Lua error handler triggering an infinite loop (#1289)
      * Changed LuaGame and LuaEngine to use the LuaObject system (#1296)
      * Simplify logic in LuaObject (#1301)
+     * Change implementation of LuaObject attributes to allow overriding (#1312)
+     * Code style cleanups (#1334, #1335)
 
 Alpha 23
 

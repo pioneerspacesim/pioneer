@@ -296,6 +296,7 @@ AC_CONFIG_FILES([
 	contrib/Makefile
 	contrib/lua/Makefile
 	contrib/miniz/Makefile
+	contrib/jenkins/Makefile
 	osx/Makefile
 	win32/Makefile
 	win32/src/Makefile

@@ -188,7 +188,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 	Sector sec(path.sectorX, path.sectorY, path.sectorZ);
 
 	GovType a = GOV_INVALID;
-	
+
 	/* from custom system definition */
 	if (sec.m_systems[path.systemIndex].customSys) {
 		Polit::GovType t = sec.m_systems[path.systemIndex].customSys->govType;

@@ -118,7 +118,7 @@ Game::Game(Serializer::Reader &rd) :
 	section = rd.RdSection("Space");
 	m_space.Reset(new Space(this, section));
 
-	
+
 	// game state and space transition state
 	section = rd.RdSection("Game");
 
@@ -128,7 +128,7 @@ Game::Game(Serializer::Reader &rd) :
 	Uint32 nclouds = section.Int32();
 	for (Uint32 i = 0; i < nclouds; i++)
 		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::Unserialize(section, 0)));
-	
+
 	m_time = section.Double();
 	m_state = State(section.Int32());
 
@@ -162,7 +162,7 @@ void Game::Serialize(Serializer::Writer &wr)
 	// leading signature
 	for (Uint32 i = 0; i < strlen(s_saveStart)+1; i++)
 		wr.Byte(s_saveStart[i]);
-	
+
 	// version
 	wr.Int32(s_saveVersion);
 
@@ -172,7 +172,7 @@ void Game::Serialize(Serializer::Writer &wr)
 	m_space->Serialize(section);
 	wr.WrSection("Space", section.GetData());
 
-	
+
 	// game state and space transition state
 	section = Serializer::Writer();
 
@@ -190,7 +190,7 @@ void Game::Serialize(Serializer::Writer &wr)
 	section.Double(m_hyperspaceProgress);
 	section.Double(m_hyperspaceDuration);
 	section.Double(m_hyperspaceEndTime);
-	
+
 	wr.WrSection("Game", section.GetData());
 
 
@@ -204,7 +204,7 @@ void Game::Serialize(Serializer::Writer &wr)
 	section = Serializer::Writer();
 	Pi::cpan->Save(section);
 	wr.WrSection("ShipCpanel", section.GetData());
-	
+
 	section = Serializer::Writer();
 	Pi::sectorView->Save(section);
 	wr.WrSection("SectorView", section.GetData());
@@ -271,7 +271,7 @@ bool Game::UpdateTimeAccel()
 
 	// force down to timeaccel 1 during the docking sequence
 	else if (m_player->GetFlightState() == Ship::DOCKING) {
-		newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
+		newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
 		RequestTimeAccel(newTimeAccel);
 	}
 
@@ -289,7 +289,7 @@ bool Game::UpdateTimeAccel()
 			for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i) {
 				if ((*i) == m_player) continue;
 				if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
-			
+
 				vector3d toBody = m_player->GetPosition() - (*i)->GetPositionRelTo(m_player->GetFrame());
 				double dist = toBody.Length();
 				double rad = (*i)->GetBoundingRadius();
@@ -312,7 +312,7 @@ bool Game::UpdateTimeAccel()
 	// no change
 	if (newTimeAccel == m_timeAccel)
 		return false;
-	
+
 	SetTimeAccel(newTimeAccel);
 	return true;
 }
@@ -486,7 +486,7 @@ void Game::SwitchToNormalSpace()
 					// near the body. the script should be issuing a dock or
 					// flyto command in onEnterSystem so it should sort it
 					// itself out long before the player can get near
-					
+
 					SystemBody *sbody = m_space->GetStarSystem()->GetBodyByPath(&sdest);
 					if (sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) {
 						ship->SetFrame(target_body->GetFrame());

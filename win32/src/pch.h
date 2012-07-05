@@ -19,7 +19,7 @@
 #include "gameconsts.h"
 #include "Gamma.h"
 #include "GeoSphere.h"
-//#include "glfreetype.h" 
+//#include "glfreetype.h"
 #include "gui/Gui.h"
 #include "gui/GuiAdjustment.h"
 #include "gui/GuiButton.h"

@@ -272,6 +272,7 @@ pioneer_SOURCES	= \
 
 pioneer_LDADD = \
 	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
 	collider/libcollider.a \
 	text/libtext.a \
 	gui/libgui.a \
@@ -313,7 +314,15 @@ modelviewer_SOURCES = \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-modelviewer_LDADD = ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a ui/libui.a \
+modelviewer_LDADD = \
+	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
+	collider/libcollider.a \
+	text/libtext.a \
+	gui/libgui.a \
+	graphics/libgraphics.a \
+	terrain/libterrain.a \
+	ui/libui.a \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA
@@ -341,6 +350,7 @@ uitest_LDADD = ui/libui.a gui/libgui.a text/libtext.a graphics/libgraphics.a \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
 TESTS = tests
+tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a
 
 INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA

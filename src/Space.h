@@ -59,7 +59,7 @@ public:
 	const BodyIterator BodiesBegin() const { return m_bodies.begin(); }
 	const BodyIterator BodiesEnd() const { return m_bodies.end(); }
 
-	const Background::Container& GetBackground() const { return m_background; }
+	Background::Container& GetBackground() { return m_background; }
 
 private:
 	void GenBody(SystemBody *b, Frame *f);

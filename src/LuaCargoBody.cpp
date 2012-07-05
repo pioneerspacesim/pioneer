@@ -18,7 +18,7 @@
  * Availability:
  *
  *  alpha 10
- * 
+ *
  * Status:
  *
  *  experimental

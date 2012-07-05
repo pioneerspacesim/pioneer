@@ -163,7 +163,7 @@ void Sfx::TimeStepAll(const float timeStep, Frame *f)
 			}
 		}
 	}
-	
+
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
 		TimeStepAll(timeStep, *i);
@@ -182,7 +182,7 @@ void Sfx::RenderAll(Renderer *renderer, const Frame *f, const Frame *camFrame)
 			}
 		}
 	}
-	
+
 	for (std::list<Frame*>::const_iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
 		RenderAll(renderer, *i, camFrame);

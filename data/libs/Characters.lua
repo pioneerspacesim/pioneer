@@ -68,55 +68,55 @@ Character = {
 --
 	player = false, -- Almost always.  One exception. (-:
 
--- 
+--
 -- Attribute: name
--- 
+--
 --   Name of character
--- 
+--
 -- Availability:
--- 
+--
 --   alpha 17
--- 
+--
 -- Status:
--- 
+--
 --   experimental
--- 
+--
 -- Attribute: female
--- 
+--
 --   Gender of character.  If true, character is female.  If false, male.
--- 
+--
 -- Availability:
--- 
+--
 --   alpha 17
--- 
+--
 -- Status:
--- 
+--
 --   experimental
--- 
+--
 -- Attribute: seed
--- 
+--
 --   Seed for predictable randomness, if one is required.
--- 
+--
 -- Availability:
--- 
+--
 --   alpha 17
--- 
+--
 -- Status:
--- 
+--
 --   experimental
--- 
+--
 -- Attribute: title
--- 
+--
 --   Job title, for use in BBS faces
--- 
+--
 -- Availability:
--- 
+--
 --   alpha 17
--- 
+--
 -- Status:
--- 
+--
 --   experimental
--- 
+--
 
 --
 -- Attribute: available
@@ -961,12 +961,12 @@ end
 -- To test it:
 --
 -- > -- returns true or false, depending on chance
--- > if some_character:TestRoll('geology') then success() end 
+-- > if some_character:TestRoll('geology') then success() end
 --
 -- This will work for characters who have not had "geology" defined:
 --
 -- > -- always returns false
--- > if other_character:TestRoll('geology') then success() end 
+-- > if other_character:TestRoll('geology') then success() end
 --
 
 EventQueue.onGameStart:Connect(onGameStart)

@@ -94,7 +94,7 @@ namespace TerrainNoise {
 		}
 		return (n+1.0)*0.5;
 	}
-	
+
 	inline double river_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p) {
 		double n = 0;
 		double octaveAmplitude = roughness;
@@ -106,7 +106,7 @@ namespace TerrainNoise {
 		}
 		return n;
 	}
-	
+
 	inline double ridged_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p) {
 		double n = 0;
 		double octaveAmplitude = roughness;
@@ -120,7 +120,7 @@ namespace TerrainNoise {
 		n *= n;
 		return n;
 	}
-	
+
 	inline double billow_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p) {
 		double n = 0;
 		double octaveAmplitude = roughness;
@@ -132,7 +132,7 @@ namespace TerrainNoise {
 		}
 		return (2.0 * fabs(n) - 1.0)+1.0;
 	}
-	
+
 	inline double voronoiscam_octavenoise(int octaves, double roughness, double lacunarity, const vector3d &p) {
 		double n = 0;
 		double octaveAmplitude = roughness;

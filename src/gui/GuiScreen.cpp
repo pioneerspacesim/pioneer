@@ -120,7 +120,7 @@ void Screen::EnterOrtho()
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
@@ -131,7 +131,7 @@ void Screen::EnterOrtho()
 }
 
 void Screen::LeaveOrtho()
-{	
+{
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
@@ -162,7 +162,7 @@ void Screen::RemoveBaseWidget(Widget *w)
 {
 	baseContainer->Remove(w);
 }
-	
+
 void Screen::SDLEventCoordToScreenCoord(int sdlev_x, int sdlev_y, float *x, float *y)
 {
 	*y = sdlev_y*height*invRealHeight;

@@ -20,7 +20,7 @@ double Gamma
 	{
 		std::stringstream os;
         os << "Invalid input argument " << x <<  ". Argument must be positive.";
-        throw std::invalid_argument( os.str() ); 
+        throw std::invalid_argument( os.str() );
 	}
 
     // Split the function domain into three intervals:
@@ -40,12 +40,12 @@ double Gamma
 
     ///////////////////////////////////////////////////////////////////////////
     // Second interval: [0.001, 12)
-    
+
 	if (x < 12.0)
     {
         // The algorithm directly approximates gamma over (1,2) and uses
         // reduction identities to reduce other arguments to this interval.
-		
+
 		double y = x;
         int n = 0;
         bool arg_was_less_than_one = (y < 1.0);
@@ -140,7 +140,7 @@ double LogGamma
 	{
 		std::stringstream os;
         os << "Invalid input argument " << x <<  ". Argument must be positive.";
-        throw std::invalid_argument( os.str() ); 
+        throw std::invalid_argument( os.str() );
 	}
 
     if (x < 12.0)
@@ -174,7 +174,7 @@ double LogGamma
     double series = sum/x;
 
     static const double halfLogTwoPi = 0.91893853320467274178032973640562;
-    double logGamma = (x - 0.5)*log(x) - x + halfLogTwoPi + series;    
+    double logGamma = (x - 0.5)*log(x) - x + halfLogTwoPi + series;
 	return logGamma;
 }
 
@@ -188,7 +188,7 @@ void TestGamma()
 		double expected;
 	};
 
-	TestCase test[] = 
+	TestCase test[] =
 	{
 		// Test near branches in code for (0, 0.001), [0.001, 12), (12, infinity)
 		{1e-20, 1e+20},
@@ -237,8 +237,8 @@ void TestGamma()
 			  << fabs(Gamma(x) - y)
 			  << "\nGamma( "
 		      <<  x
-			  << ") computed as " 
-			  << Gamma(x) 
+			  << ") computed as "
+			  << Gamma(x)
 			  << " but exact value is "
 			  << y
 			  << "\n";
@@ -250,8 +250,8 @@ void TestGamma()
 			  << (Gamma(x) - y) / y
 		      << "\nGamma( "
 		      <<  x
-			  << ") computed as " 
-			  << Gamma(x) 
+			  << ") computed as "
+			  << Gamma(x)
 			  << " but exact value is "
 			  << y
 			  << "\n";
@@ -265,7 +265,7 @@ void TestLogGamma()
 		double expected;
 	};
 
-	TestCase test[] = 
+	TestCase test[] =
 	{
 		{1e-12, 27.6310211159},
 		{0.9999, 5.77297915613e-05},
@@ -311,8 +311,8 @@ void TestLogGamma()
 			  << fabs(LogGamma(x) - y)
 			  << "\nGamma( "
 		      <<  x
-			  << ") computed as " 
-			  << LogGamma(x) 
+			  << ") computed as "
+			  << LogGamma(x)
 			  << " but exact value is "
 			  << y
 			  << "\n";
@@ -324,8 +324,8 @@ void TestLogGamma()
 			  << (LogGamma(x) - y) / y
 		      << "\nGamma( "
 		      <<  x
-			  << ") computed as " 
-			  << LogGamma(x) 
+			  << ") computed as "
+			  << LogGamma(x)
 			  << " but exact value is "
 			  << y
 			  << "\n";

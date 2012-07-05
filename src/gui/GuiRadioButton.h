@@ -7,7 +7,7 @@
 
 namespace Gui {
 	class RadioGroup;
-	
+
 	class RadioButton: public Button, public ISelectable {
 	public:
 		RadioButton(RadioGroup *);

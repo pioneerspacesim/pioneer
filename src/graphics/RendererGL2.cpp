@@ -116,11 +116,10 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 	//set parameters
 	if (flat)
 		s->SetUniform("color", mat->diffuse);
-	if (mat->unlit) {
-		//nothing to do right now
-	} else {
-		//specular etc properties
-	}
+
+	//specular etc properties
+	glMaterialfv(GL_FRONT, GL_EMISSION, &mat->emissive[0]);
+
 	if (mat->twoSided) {
 		glDisable(GL_CULL_FACE);
 	}
