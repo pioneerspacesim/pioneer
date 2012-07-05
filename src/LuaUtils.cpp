@@ -24,6 +24,35 @@ void pi_lua_table_ro(lua_State *l)
 	lua_setmetatable(l, -2);
 }
 
+
+/*
+ * Interface: util
+ *
+ * Utility functions available in all Lua contexts.
+ */
+
+/*
+ * Function: hash_random
+ *
+ * Pick a number deterministically according to some input value.
+ *
+ * > accent = util.hash_random(person_seed .. 'accent', #accents)
+ *
+ * Parameters:
+ *
+ *   seed - A string or a number. The output is deterministic based on this value.
+ *   m, n - optional. If called as hash_random(seed), the result is in the range 0 ≤ x < 1.
+ *          If called as hash_random(seed, n), the result is an integer in the range 1 ≤ x ≤ m.
+ *          If called as hash_random(seed, m, n), the result is an integer in the range m ≤ x ≤ n.
+ *
+ * Availability:
+ *
+ *   not yet
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_hash_random(lua_State *L)
 {
 	int numargs = lua_gettop(L);
