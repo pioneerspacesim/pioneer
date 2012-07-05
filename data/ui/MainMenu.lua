@@ -1,8 +1,24 @@
 local ui = Engine.ui
 local l = Lang.GetDictionary()
 
-local buttons = {}
-for i = 1,6 do buttons[i] = ui:Button() end
+local buttonDefs = {
+	{ l.MM_START_NEW_GAME_EARTH,     function () print("earth start") end },
+	{ l.MM_START_NEW_GAME_E_ERIDANI, function () print("eridani start") end },
+	{ l.MM_START_NEW_GAME_LAVE,      function () print("lave start") end },
+	{ l.MM_START_NEW_GAME_DEBUG,     function () print("debug start") end },
+	{ l.MM_LOAD_SAVED_GAME,          function () print("load game") end },
+	{ l.MM_QUIT,                     function () print("quit") end },
+}
+
+
+local buttonSet = {}
+for i = 1,#buttonDefs do
+    local def = buttonDefs[i]
+    local label = ui:Label(def[1])
+    local button = ui:Button()
+    button.onClick:Connect(def[2])
+    buttonSet[i] = ui:HBox():PackEnd({ button, label })
+end
 
 local menu = 
 	ui:Margin(10):SetInnerWidget(
@@ -23,14 +39,7 @@ local menu =
 			)
 			:SetCell(0,1,
 				ui:Align("MIDDLE"):SetInnerWidget(
-					ui:VBox():PackEnd({
-						ui:HBox():PackEnd({ buttons[1], ui:Label(l.MM_START_NEW_GAME_EARTH) }),
-						ui:HBox():PackEnd({ buttons[2], ui:Label(l.MM_START_NEW_GAME_E_ERIDANI) }),
-						ui:HBox():PackEnd({ buttons[3], ui:Label(l.MM_START_NEW_GAME_LAVE) }),
-						ui:HBox():PackEnd({ buttons[4], ui:Label(l.MM_START_NEW_GAME_DEBUG) }),
-						ui:HBox():PackEnd({ buttons[5], ui:Label(l.MM_LOAD_SAVED_GAME) }),
-						ui:HBox():PackEnd({ buttons[6], ui:Label(l.MM_QUIT) }),
-					})
+					ui:VBox():PackEnd(buttonSet)
 				)
 			)
 	)
