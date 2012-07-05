@@ -1252,7 +1252,7 @@ void Pi::Start()
 
 	menuDone = false;
 	game = 0;
-	while (!menuDone) {
+	while (!game && !menuDone) {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
