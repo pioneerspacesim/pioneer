@@ -190,7 +190,6 @@ local getNearestStarport = function (ship, current)
 	local trader = trade_ships[ship]
 	local starport = starports[1]
 	
-print ('*** ',ship.shipType,' ',trader.ATMOSHIELD)
 	-- Get distance to arbitrary first starport
 	local distance = ship:DistanceTo(starport)
 	local canland = (trader.ATMOSHIELD or (starport.type == 'STARPORT_ORBITAL') or (not starport.path:GetSystemBody().parent.hasAtmosphere))
@@ -204,7 +203,6 @@ print ('*** ',ship.shipType,' ',trader.ATMOSHIELD)
 			end
 		end
 	end
-	print('     ',starport and starport.label or starports[1].label)
 	return starport or starports[1]
 end
 
