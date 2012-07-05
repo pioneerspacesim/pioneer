@@ -5,6 +5,7 @@
 			spawnInitialShips
 		ship - object returned from Space:SpawnShip*
 			ship_name - of this ship type; string
+			ATMOSHIELD - flag indicating whether the ship has at atmospheric shield: boolean
 			starport - at which this ship intends to dock; SpaceStation object
 			dest_time - arrival time from hyperspace; number as Game.time
 			dest_path - for hyperspace; SystemPath object, may have body index
