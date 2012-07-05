@@ -204,7 +204,11 @@ local getNearestStarport = function (ship, current)
 			end
 		end
 	end
-	return starport or starports[1]
+	if canland then
+		return starport
+	else
+		return current or starport
+	end
 end
 
 local getSystem = function (ship)
