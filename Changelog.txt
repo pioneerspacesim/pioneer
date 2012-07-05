@@ -23,6 +23,10 @@ Alpha 24
      * Limited libraries available to LMR to debug, string and math (#1289)
      * Allow Characters to be created from random seed (#1299)
      * Improve printing of core objects to include their type (#1301)
+     * Excluded package, os, io and various bits of math libraries and certain other
+       core Lua functions for safety (see LuaUtils.cpp for rationale) (#1317)
+     * Aliased math.deg2rad to math.rad (#1317)
+     * Added util.hash_random to provide a repeatable source of "randomness" (#1317)
 
    * Internal changes
      * Abstracted out the normal Lua object type promotion test, and Lua

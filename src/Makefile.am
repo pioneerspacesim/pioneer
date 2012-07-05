@@ -272,6 +272,7 @@ pioneer_SOURCES	= \
 
 pioneer_LDADD = \
 	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
 	collider/libcollider.a \
 	text/libtext.a \
 	gui/libgui.a \
@@ -312,7 +313,14 @@ modelviewer_SOURCES = \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-modelviewer_LDADD = ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+modelviewer_LDADD = \
+	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
+	collider/libcollider.a \
+	text/libtext.a \
+	gui/libgui.a \
+	graphics/libgraphics.a \
+	terrain/libterrain.a \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA

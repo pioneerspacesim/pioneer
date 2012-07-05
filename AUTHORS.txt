@@ -70,6 +70,7 @@ Pioneer includes the following third-party software:
   Copyright (C) 2006, Raph Levien
   Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
 
+  lookup3.c, by Bob Jenkins, May 2006, Public Domain.
 
 Pioneer also makes use of these fine projects. Thanks a lot!
 
