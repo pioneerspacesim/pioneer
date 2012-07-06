@@ -59,17 +59,17 @@ StationShipEquipmentForm::StationShipEquipmentForm(FormController *controller) :
 			l->SetToolTip(Equip::types[i].description);
 		}
 		innerbox->Add(l,0,num*YSEP);
-		
+
 		innerbox->Add(new Gui::Label(format_money(m_station->GetPrice(type))), 200, num*YSEP);
 
 		innerbox->Add(new Gui::Label(format_money(REMOVAL_VALUE_PERCENT * m_station->GetPrice(type) / 100)),
 				275, num*YSEP);
-		
+
 		innerbox->Add(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", Equip::types[i].mass))), 360, num*YSEP);
 
 		ButtonPair pair;
 		pair.type = type;
-		
+
 		pair.add = new Gui::SolidButton();
 		pair.add->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipEquipmentForm::FitItem), type));
 		innerbox->Add(pair.add, 400, num*YSEP);
@@ -134,7 +134,7 @@ void StationShipEquipmentForm::FitItem(Equip::Type t)
 
 	const shipstats_t &stats = Pi::player->GetStats();
 	int freespace = Pi::player->m_equipment.FreeSpace(slot);
-	
+
 	if (Pi::player->GetMoney() < m_station->GetPrice(t)) {
 		Pi::cpan->MsgLog()->Message("", Lang::YOU_NOT_ENOUGH_MONEY);
 		return;
@@ -153,7 +153,7 @@ void StationShipEquipmentForm::FitItem(Equip::Type t)
 
 	FitItemForce(t);
 }
-	
+
 void StationShipEquipmentForm::RemoveItem(Equip::Type t) {
 	Equip::Slot slot = Equip::types[t].slot;
 

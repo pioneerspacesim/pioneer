@@ -751,7 +751,7 @@ EventQueue.onShipHit:Connect(onShipHit)
 local onShipCollided = function (ship, other)
 	if trade_ships[ship] == nil then return end
 	if other:isa('CargoBody') then return end
-	
+
 	if other:isa('Ship') and other:IsPlayer() then
 		onShipHit(ship, other)
 		return

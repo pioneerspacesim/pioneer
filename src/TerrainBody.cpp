@@ -8,20 +8,20 @@
 #include "graphics/Renderer.h"
 
 TerrainBody::TerrainBody(SystemBody *sbody) :
-	Body(), 
-	m_sbody(0), 
-	m_pos(vector3d(0,0,0)), 
-	m_mass(0), 
+	Body(),
+	m_sbody(0),
+	m_pos(vector3d(0,0,0)),
+	m_mass(0),
 	m_geosphere(0)
 {
 	InitTerrainBody(sbody);
 }
 
 TerrainBody::TerrainBody() :
-	Body(), 
-	m_sbody(0), 
-	m_pos(vector3d(0,0,0)), 
-	m_mass(0), 
+	Body(),
+	m_sbody(0),
+	m_pos(vector3d(0,0,0)),
+	m_mass(0),
 	m_geosphere(0)
 {
 }
@@ -112,7 +112,7 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const vector3d &viewCoord
 		SubRender(renderer, campos);
 
 		glDisable(GL_NORMALIZE);
-		
+
 		// if not using shader then z-buffer precision is hopeless and
 		// we can't place objects on the terrain without awful z artifacts
 		if (shrink || !Graphics::AreShadersEnabled()) {

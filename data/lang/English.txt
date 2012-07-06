@@ -256,7 +256,7 @@ DISPLAY_NAV_TUNNEL
 	Display navigation tunnel
 LANGUAGE_SELECTION
     Language (restart game to apply)
- 
+
 # Wares
 NONE
     None
@@ -328,14 +328,14 @@ RUBBISH
     Rubbish
 RADIOACTIVES
     Radioactive waste
- 
+
 # Hardware
 MISSILE_UNGUIDED
     R40 Unguided Rocket
 MISSILE_GUIDED
-    Guided Missile                                                     
+    Guided Missile
 MISSILE_SMART
-    Smart Missile                                                   
+    Smart Missile
 MISSILE_NAVAL
     Naval Missile
 ATMOSPHERIC_SHIELDING
@@ -596,7 +596,7 @@ POOR
     Poor
 AVERAGE
     Average
-ABOVE_AVERAGE 
+ABOVE_AVERAGE
     Above Average
 COMPETENT
     Competent
@@ -1047,7 +1047,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Semi-major axis
 TIME_POINT
-    Time point: 
+    Time point:
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     Unexplored system. System view unavailable.
 WHEELS_ARE_UP

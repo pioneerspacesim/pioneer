@@ -106,7 +106,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_flightState = FlightState(rd.Int32());
 	m_alertState = AlertState(rd.Int32());
 	m_lastFiringAlert = rd.Double();
-	
+
 	m_hyperspace.dest = SystemPath::Unserialize(rd);
 	m_hyperspace.countdown = rd.Float();
 
@@ -269,14 +269,14 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 
 			Explode();
 		}
-		
+
 		else {
 			if (attacker && attacker->IsType(Object::SHIP))
 				Polit::NotifyOfCrime(static_cast<Ship*>(attacker), Polit::CRIME_PIRACY);
 
 			if (Pi::rng.Double() < kgDamage)
 				Sfx::Add(this, Sfx::TYPE_DAMAGE);
-			
+
 			if (dam < 0.01 * float(GetShipType().hullMass))
 				Sound::BodyMakeNoise(this, "Hull_hit_Small", 1.0f);
 			else
@@ -427,7 +427,7 @@ void Ship::UpdateEquipStats()
 			m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 		} else {
 			// for the sake of hyperspace range, we count ships mass as 60% of original.
-			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass); 
+			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass);
 			m_stats.hyperspace_range = std::min(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, fuelType) /
 				(hyperclass * hyperclass));
 		}
@@ -471,7 +471,7 @@ static float distance_to_system(const SystemPath &dest)
 	SystemPath here = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 	assert(here.HasValidSystem());
 	assert(dest.HasValidSystem());
-	
+
 	Sector sec1(here.sectorX, here.sectorY, here.sectorZ);
 	Sector sec2(dest.sectorX, dest.sectorY, dest.sectorZ);
 
@@ -519,7 +519,7 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 
 		// Now mass has more of an effect on the time taken, this is mainly
 		// for gameplay considerations for courier missions and the like.
-		outDurationSecs = ((dist * dist * 0.5) / (m_stats.hyperspace_range_max * hyperclass)) * 
+		outDurationSecs = ((dist * dist * 0.5) / (m_stats.hyperspace_range_max * hyperclass)) *
 			(60.0 * 60.0 * 24.0 * sqrt(m_totalmass));
 		//float hours = outDurationSecs * 0.0002778;
 		//printf("%f LY in %f hours OR %d seconds \n", dist, hours, outDurationSecs);
@@ -620,7 +620,7 @@ bool Ship::FireMissile(int idx, Ship *target)
 	matrix4x4d m;
 	GetRotMatrix(m);
 	vector3d dir = m*vector3d(0,0,-1);
-	
+
 	ShipType::Type mtype;
 	switch (t) {
 		case Equip::MISSILE_SMART: mtype = ShipType::MISSILE_SMART; break;
@@ -655,7 +655,7 @@ void Ship::Blastoff()
 	m_testLanded = false;
 	m_dockedWith = 0;
 	m_launchLockTimeout = 2.0; // two second of applying thrusters
-	
+
 	vector3d up = GetPosition().Normalized();
 	Enable();
 	assert(GetFrame()->m_astroBody->IsType(Object::PLANET));
@@ -664,7 +664,7 @@ void Ship::Blastoff()
 	SetAngVelocity(vector3d(0, 0, 0));
 	SetForce(vector3d(0, 0, 0));
 	SetTorque(vector3d(0, 0, 0));
-	
+
 	Aabb aabb;
 	GetAabb(aabb);
 	// XXX hm. we need to be able to get sbre aabb
@@ -780,7 +780,7 @@ void Ship::DoThrusterSounds() const
 }
 
 // for timestep changes, to stop autopilot overshoot
-// either adds half of current accel or removes all of current accel 
+// either adds half of current accel or removes all of current accel
 void Ship::ApplyAccel(const float timeStep)
 {
 #ifdef DEBUG_AUTOPILOT
@@ -819,13 +819,13 @@ void Ship::FireWeapon(int num)
 	dir = m.ApplyRotationOnly(dir);
 	pos = m.ApplyRotationOnly(pos);
 	pos += GetPosition();
-	
+
 	Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, num);
 	const LaserType &lt = Equip::lasers[Equip::types[t].tableIndex];
 	m_gunRecharge[num] = lt.rechargeTime;
 	vector3d baseVel = GetVelocity();
 	vector3d dirVel = lt.speed * dir.Normalized();
-	
+
 	if (lt.flags & Equip::LASER_DUAL)
 	{
 		vector3d sep = dir.Cross(vector3d(m[4],m[5],m[6])).Normalized();
@@ -1012,11 +1012,11 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_equipment.Get(Equip::SLOT_CARGOLIFESUPPORT) != Equip::CARGO_LIFE_SUPPORT) {
 		// Hull is pressure-sealed, it just doesn't provide
 		// temperature regulation and breathable atmosphere
-		
+
 		// kill stuff roughly every 5 seconds
 		if ((!m_dockedWith) && (5.0*Pi::rng.Double() < timeStep)) {
 			Equip::Type t = (Pi::rng.Int32(2) ? Equip::LIVE_ANIMALS : Equip::SLAVES);
-			
+
 			if (m_equipment.Remove(t, 1)) {
 				m_equipment.Add(Equip::FERTILIZER);
 				if (this->IsType(Object::PLAYER)) {
@@ -1025,7 +1025,7 @@ void Ship::StaticUpdate(const float timeStep)
 			}
 		}
 	}
-	
+
 	if (m_flightState == FLYING)
 		m_launchLockTimeout -= timeStep;
 	if (m_launchLockTimeout < 0) m_launchLockTimeout = 0;
@@ -1160,7 +1160,7 @@ void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 {
 	if (IsDead() || (!IsEnabled() && !m_flightState)) return;
 	LmrObjParams &params = GetLmrObjParams();
-	
+
 	m_shipFlavour.ApplyTo(&params);
 	SetLmrTimeParams();
 	params.angthrust[0] = float(-m_angThrusters.x);
@@ -1252,7 +1252,7 @@ bool Ship::Jettison(Equip::Type t)
 		} else { // LANDED
 			// the cargo is lost
 			Pi::luaOnCargoUnload->Queue(GetFrame()->GetBodyFor(),
-				LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "EquipType", t));			
+				LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "EquipType", t));
 		}
 		return true;
 	} else {

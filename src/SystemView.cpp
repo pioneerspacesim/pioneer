@@ -26,17 +26,17 @@ SystemView::SystemView()
 
 	m_timePoint = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
 	Add(m_timePoint, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
-	
+
 	m_infoLabel = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
 	Add(m_infoLabel, 2, 0);
-	
+
 	m_infoText = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
 	Add(m_infoText, 200, 0);
-	
+
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
 	Add(m_zoomInButton, 700, 5);
-	
+
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
@@ -45,22 +45,22 @@ SystemView::SystemView()
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -10000000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	m_rightRegion2->Add(b, 0, 0);
-	
+
 	b = new Gui::ImageButton("icons/sysview_accel_r2.png", "icons/sysview_accel_r2_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -1000000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	m_rightRegion2->Add(b, 26, 0);
-	
+
 	b = new Gui::ImageButton("icons/sysview_accel_r1.png", "icons/sysview_accel_r1_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -100000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	m_rightRegion2->Add(b, 45, 0);
-	
+
 	b = new Gui::ImageButton("icons/sysview_accel_f1.png", "icons/sysview_accel_f1_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 100000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	m_rightRegion2->Add(b, 64, 0);
-	
+
 	b = new Gui::ImageButton("icons/sysview_accel_f2.png", "icons/sysview_accel_f2_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 1000000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
@@ -71,9 +71,9 @@ SystemView::SystemView()
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	m_rightRegion2->Add(b, 102, 0);
 
-	m_onMouseButtonDown = 
+	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SystemView::MouseButtonDown));
-	
+
 	ResetViewpoint();
 }
 
@@ -120,12 +120,12 @@ void SystemView::OnClickObject(SystemBody *b)
 	desc += std::string(Lang::NAME);
 	desc += ":\n";
 	data += b->name+"\n";
-	
+
 	desc += std::string(Lang::DAY_LENGTH);
 	desc += std::string(Lang::ROTATIONAL_PERIOD);
 	desc += ":\n";
 	data += stringf(Lang::N_DAYS, formatarg("days", b->rotationPeriod.ToFloat())) + "\n";
-	
+
 	desc += std::string(Lang::RADIUS);
 	desc += ":\n";
 	data += format_distance(b->GetRadius())+"\n";
@@ -273,7 +273,7 @@ void SystemView::Draw3D()
 {
 	m_renderer->SetPerspectiveProjection(50.f, Pi::GetScrAspect(), 1.f, 1000.f);
 	m_renderer->ClearScreen();
-	
+
 	SystemPath path = Pi::sectorView->GetSelectedSystem();
 	if (m_system) {
 		if (!m_system->GetPath().IsSameSystem(path)) {
@@ -300,7 +300,7 @@ void SystemView::Draw3D()
 	trans.Rotate(DEG2RAD(m_rot_x), 1, 0, 0);
 	trans.Rotate(DEG2RAD(m_rot_z), 0, 0, 1);
 	m_renderer->SetTransform(trans);
-	
+
 	vector3d pos(0,0,0);
 	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
 
@@ -326,10 +326,10 @@ void SystemView::Update()
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
 		if (Pi::KeyState(SDLK_EQUALS) ||
-			m_zoomInButton->IsPressed()) 
+			m_zoomInButton->IsPressed())
 				m_zoom *= pow(4.0f, ft);
 		if (Pi::KeyState(SDLK_MINUS) ||
-			m_zoomOutButton->IsPressed()) 
+			m_zoomOutButton->IsPressed())
 				m_zoom *= pow(0.25f, ft);
 	}
 	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
@@ -344,9 +344,9 @@ void SystemView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView()) {
 		const float ft = Pi::GetFrameTime();
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
 				m_zoom *= pow(0.25f, ft);
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
 				m_zoom *= pow(4.0f, ft);
 	}
 }

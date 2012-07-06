@@ -48,7 +48,7 @@ namespace Background
 		vector3f *m_hyperVtx;
 		Color *m_hyperCol;
 	};
-	
+
 	class MilkyWay : public BackgroundElement
 	{
 	public:

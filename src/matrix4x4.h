@@ -12,8 +12,8 @@ class matrix4x4 {
 	public:
 	matrix4x4 () {}
 	matrix4x4 (T val) {
-		cell[0] = cell[1] = cell[2] = cell[3] = cell[4] = cell[5] = cell[6] = 
-		cell[7] = cell[8] = cell[9] = cell[10] = cell[11] = cell[12] = cell[13] = 
+		cell[0] = cell[1] = cell[2] = cell[3] = cell[4] = cell[5] = cell[6] =
+		cell[7] = cell[8] = cell[9] = cell[10] = cell[11] = cell[12] = cell[13] =
 		cell[14] = cell[15] = val;
 	}
 	matrix4x4 (const T *vals) {
@@ -140,12 +140,12 @@ class matrix4x4 {
 		m[5] = cos_r;
 		m[6] = -sin_r;
 		m[7] = 0;
-		
+
 		m[8] = 0;
 		m[9] = sin_r;
 		m[10] = cos_r;
 		m[11] = 0;
-		
+
 		m[12] = 0;
 		m[13] = 0;
 		m[14] = 0;
@@ -165,7 +165,7 @@ class matrix4x4 {
 		m[5] = 1;
 		m[6] = 0;
 		m[7] = 0;
-		
+
 		m[8] = -sin_r;
 		m[9] = 0;
 		m[10] = cos_r;
@@ -185,17 +185,17 @@ class matrix4x4 {
 		m[1] = -sin_r;
 		m[2] = 0;
 		m[3] = 0;
-		
+
 		m[4] = sin_r;
 		m[5] = cos_r;
 		m[6] = 0;
 		m[7] = 0;
-		
+
 		m[8] = 0;
 		m[9] = 0;
 		m[10] = 1.0f;
 		m[11] = 0;
-		
+
 		m[12] = 0;
 		m[13] = 0;
 		m[14] = 0;

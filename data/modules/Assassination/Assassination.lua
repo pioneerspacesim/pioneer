@@ -37,14 +37,14 @@ local onChat = function (form, ref, option)
 		local sbody = ad.location:GetSystemBody()
 
 		form:SetMessage(string.interp(t("{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."), {
-		  target    = ad.target, 
+		  target    = ad.target,
 		  spaceport = sbody.name,
-		  system    = sys.name, 
-		  sectorX   = ad.location.sectorX, 
-		  sectorY   = ad.location.sectorY, 
-		  sectorZ   = ad.location.sectorZ, 
-		  date      = Format.Date(ad.due), 
-		  shipname  = ad.shipname, 
+		  system    = sys.name,
+		  sectorX   = ad.location.sectorX,
+		  sectorY   = ad.location.sectorY,
+		  sectorZ   = ad.location.sectorZ,
+		  date      = Format.Date(ad.due),
+		  shipname  = ad.shipname,
 		  shipregid = ad.shipregid,
 		  })
 		)
@@ -53,7 +53,7 @@ local onChat = function (form, ref, option)
 		local sbody = ad.location:GetSystemBody()
 
 		form:SetMessage(string.interp(t("It must be done after {target} leaves {spaceport}. Do not miss this opportunity."), {
-		  target    = ad.target, 
+		  target    = ad.target,
 		  spaceport = sbody.name,
       })
     )
@@ -376,7 +376,7 @@ local onUpdateBB = function (station)
 		makeAdvert(station)
 	end
 end
-	
+
 local loaded_data
 
 local onGameStart = function ()

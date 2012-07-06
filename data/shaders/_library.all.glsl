@@ -4,9 +4,9 @@ void DirectionalLight(in int i,
                        inout vec4 diffuse,
                        inout vec4 specular)
 {
-	float nDotVP; 
-	float nDotHV;         
-	float pf;             
+	float nDotVP;
+	float nDotHV;
+	float pf;
 	nDotVP = max(0.0, dot(normal, normalize(vec3(gl_LightSource[i].position))));
 	nDotHV = max(0.0, dot(normal, vec3(gl_LightSource[i].halfVector)));
 	if (nDotVP == 0.0) pf = 0.0;
@@ -47,7 +47,7 @@ float AtmosLengthDensityProduct(vec3 a, vec3 b, float surfaceDensity, float len)
 			exp(-ADF*(length(a + 0.8*dir)-0.985)) +
 			exp(-ADF*(length(b)-0.985)));
 	ldprod *= len / 6.0;
-	return ldprod;	
+	return ldprod;
 }
 
 float findSphereEyeRayEntryDistance(in vec3 sphereCenter, in vec3 eyeTo, in float radius)

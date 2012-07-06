@@ -70,7 +70,7 @@ private:
 		Gui::Label *label;
 		Indicator(): pos(0.0f, 0.0f), realpos(0.0f, 0.0f), side(INDICATOR_HIDDEN), label(0) {}
 	};
-	
+
 	void UpdateProjectedObjects();
 	void UpdateIndicator(Indicator &indicator, const vector3d &direction);
 	void HideIndicator(Indicator &indicator);
@@ -107,7 +107,7 @@ private:
 	void MouseButtonDown(int button, int x, int y);
 
 	NavTunnelWidget *m_navTunnel;
-	
+
 	Gui::ImageButton *m_hyperspaceButton;
 
 	Gui::Fixed *m_commsOptions;

@@ -58,7 +58,7 @@ void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, 
 	for (int flv=0; flv<CITYFLAVOURS; flv++) {
 		flavour = &cityflavour[flv];
 		buildings = &s_buildingLists[flavour->buildingListIdx];
-       
+
 		int tries;
 		for (tries=20; tries--; ) {
 			const citybuilding_t &bt = buildings->buildings[rand.Int32(buildings->numBuildings)];
@@ -68,7 +68,7 @@ void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, 
 			if (modelRadXZ < rad) break;
 			if (tries == 0) return;
 		}
-		
+
 		bool tooDistant = ((flavour->center - cent).Length()*(1.0/flavour->size) > rand.Double());
 		if (!tooDistant) break;
 		else flavour = 0;
@@ -184,7 +184,7 @@ void CityOnPlanet::Uninit()
 
 CityOnPlanet::~CityOnPlanet()
 {
-	// frame may be null (already removed from 
+	// frame may be null (already removed from
 	for (unsigned int i=0; i<m_buildings.size(); i++) {
 		m_frame->RemoveStaticGeom(m_buildings[i].geom);
 		delete m_buildings[i].geom;
@@ -208,13 +208,13 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 
 	Aabb aabb;
 	station->GetAabb(aabb);
-	
+
 	matrix4x4d m;
 	station->GetRotMatrix(m);
 
 	vector3d mx = m*vector3d(1,0,0);
 	vector3d mz = m*vector3d(0,0,1);
-		
+
 	MTRand rand;
 	rand.seed(seed);
 
@@ -223,7 +223,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	vector3d p1, p2, p3, p4;
 	double sizex = START_SEG_SIZE;// + rand.Int32((int)START_SEG_SIZE);
 	double sizez = START_SEG_SIZE;// + rand.Int32((int)START_SEG_SIZE);
-	
+
 	// always have random shipyard buildings around the space station
 	cityflavour[0].buildingListIdx = 0;//2;
 	cityflavour[0].center = p;
@@ -237,7 +237,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 		cityflavour[i].center = p + a*mx + b*mz;
 		cityflavour[i].size = rand.Int32(int(blist->minRadius), int(blist->maxRadius));
 	}
-	
+
 	for (int side=0; side<4; side++) {
 		/* put buildings on all sides of spaceport */
 		switch(side) {
@@ -283,7 +283,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, co
 		RemoveStaticGeomsFromCollisionSpace();
 		AddStaticGeomsToCollisionSpace();
 	}
-	
+
 	rot[0] = viewTransform * rot[0];
 	for (int i=1; i<4; i++) {
 		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*double(i));

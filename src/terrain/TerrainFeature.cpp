@@ -331,7 +331,7 @@ void crater_function_1pass(const vector3d &p, double &out, const double height)
 }
 
 // makes large and small craters across the entire planet.
-double crater_function(const fracdef_t &def, const vector3d &p) 
+double crater_function(const fracdef_t &def, const vector3d &p)
 {
 	double crater = 0.0;
 	double sz = def.frequency;
@@ -348,7 +348,7 @@ void impact_crater_function_1pass(const vector3d &p, double &out, const double h
 {
 	double n = fabs(noise(p));
 	const double ejecta_outer = 0.6;
-	const double outer = 0.9; 
+	const double outer = 0.9;
 	const double midrim = 0.93;
 	double hrim;
 	double descent;
@@ -366,7 +366,7 @@ void impact_crater_function_1pass(const vector3d &p, double &out, const double h
 }
 
 // makes large and small craters across the entire planet.
-double impact_crater_function(const fracdef_t &def, const vector3d &p) 
+double impact_crater_function(const fracdef_t &def, const vector3d &p)
 {
 	double crater = 0.0;
 	double sz = def.frequency;
@@ -383,7 +383,7 @@ void volcano_function_1pass(const vector3d &p, double &out, const double height)
 {
 	double n = fabs(noise(p));
 	const double ejecta_outer = 0.6;
-	const double outer = 0.9; 
+	const double outer = 0.9;
 	const double inner = 0.975;
 	const double midrim = 0.971;
 	if (n > inner) {

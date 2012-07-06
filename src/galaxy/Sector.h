@@ -16,7 +16,7 @@ public:
 	static void Init();
 	// Sector is within a bounding rectangle - used for SectorView m_sectorCache pruning.
 	bool WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const;
-		
+
 	class System {
 	public:
 		System() : customSys(0), m_queriedStarSystem(false), m_isInhabited(false) {};
@@ -26,7 +26,7 @@ public:
 		bool IsSetInhabited() const { return m_queriedStarSystem; }
 		void SetInhabited(bool inhabited) { m_isInhabited = inhabited; m_queriedStarSystem = true; }
 		bool IsInhabited() const { return m_isInhabited; }
-	
+
 		// public members
 		std::string name;
 		vector3f p;

@@ -46,7 +46,7 @@ private:
 		Gui::Label *starType;
 		Gui::Label *shortDesc;
 	};
-	
+
 	void DrawSector(int x, int y, int z, const vector3f &playerAbsPos, const matrix4x4f &trans);
 	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
 
@@ -92,12 +92,12 @@ private:
 	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
 	Graphics::VertexArray *m_disk;
-	
+
 	Gui::LabelSet *m_clickableLabels;
 
 	Gui::VBox *m_infoBox;
 	bool m_infoBoxVisible;
-	
+
 	SystemLabels m_currentSystemLabels;
 	SystemLabels m_selectedSystemLabels;
 	SystemLabels m_targetSystemLabels;

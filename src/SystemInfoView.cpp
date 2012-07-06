@@ -41,7 +41,7 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 	std::string desc, data;
 
 	m_infoBox->DeleteAllChildren();
-	
+
 	Gui::Fixed *outer = new Gui::Fixed(600, 200);
 	m_infoBox->PackStart(outer);
 	Gui::VBox *col1 = new Gui::VBox();
@@ -62,7 +62,7 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 		m_infoBox->PackStart(l);
 	}
 
-	_add_label_and_value(Lang::MASS, stringf(Lang::N_WHATEVER_MASSES, formatarg("mass", b->mass.ToDouble()), 
+	_add_label_and_value(Lang::MASS, stringf(Lang::N_WHATEVER_MASSES, formatarg("mass", b->mass.ToDouble()),
 		formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
 
 	if (b->type != SystemBody::TYPE_STARPORT_ORBITAL) {
@@ -111,7 +111,7 @@ void SystemInfoView::UpdateEconomyTab()
 	/* Economy info page */
 	StarSystem *s = m_system.Get();
 	std::string data;
-	
+
 /*	if (s->m_econType) {
 		data = "Economy: ";
 
@@ -220,7 +220,7 @@ void SystemInfoView::OnClickBackground(Gui::MouseButtonEvent *e)
 {
 	if (e->isdown) {
 		// XXX reinit view unnecessary - we only want to show
-		// the general system info text... 
+		// the general system info text...
 		m_refresh = true;
 	}
 }
@@ -232,7 +232,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 	if (!path.IsSystemPath())
 		return;
-	
+
 	m_system = StarSystem::GetCached(path);
 
 	m_sbodyInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-100));
@@ -252,7 +252,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 	m_econInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-100));
 	Gui::Fixed *demographicsTab = new Gui::Fixed();
-	
+
 	m_tabs = new Gui::Tabbed();
 	m_tabs->AddPage(new Gui::Label(Lang::PLANETARY_INFO), m_sbodyInfoTab);
 	m_tabs->AddPage(new Gui::Label(Lang::ECONOMIC_INFO), m_econInfoTab);
@@ -353,16 +353,16 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 		col1->Add((new Gui::Label(Lang::SYSTEM_TYPE))->Color(1,1,0), 0, 0);
 		col2->Add(new Gui::Label(m_system->GetShortDescription()), 0, 0);
-		
+
 		col1->Add((new Gui::Label(Lang::GOVERNMENT_TYPE))->Color(1,1,0), 0, YSEP);
 		col2->Add(new Gui::Label(m_system->GetSysPolit().GetGovernmentDesc()), 0, YSEP);
-		
+
 		col1->Add((new Gui::Label(Lang::ECONOMY_TYPE))->Color(1,1,0), 0, 2*YSEP);
 		col2->Add(new Gui::Label(m_system->GetSysPolit().GetEconomicDesc()), 0, 2*YSEP);
-		
+
 		col1->Add((new Gui::Label(Lang::ALLEGIANCE))->Color(1,1,0), 0, 3*YSEP);
 		col2->Add(new Gui::Label(m_system->GetSysPolit().GetAllegianceDesc()), 0, 3*YSEP);
-		
+
 		col1->Add((new Gui::Label(Lang::POPULATION))->Color(1,1,0), 0, 4*YSEP);
 		std::string popmsg;
 		fixed pop = m_system->m_totalPop;
