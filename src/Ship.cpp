@@ -267,9 +267,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 					Polit::NotifyOfCrime(static_cast<Ship*>(attacker), Polit::CRIME_MURDER);
 			}
 
-			Pi::game->GetSpace()->KillBody(this);
-			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
-			Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
+			Explode();
 		}
 
 		else {
@@ -335,6 +333,15 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	}
 
 	return DynamicBody::OnCollision(b, flags, relVel);
+}
+
+//destroy ship in an explosion
+void Ship::Explode()
+{
+	Pi::game->GetSpace()->KillBody(this);
+	Sfx::Add(this, Sfx::TYPE_EXPLOSION);
+	Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
+	ClearThrusterState();
 }
 
 void Ship::SetThrusterState(const vector3d &levels)
@@ -740,6 +747,9 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 void Ship::DoThrusterSounds() const
 {
+	// XXX any ship being the current camera body should emit sounds
+	// also, ship sounds could be split to internal and external sounds
+
 	// XXX sound logic could be part of a bigger class (ship internal sounds)
 	/* Ship engine noise. less loud inside */
 	float v_env = (Pi::worldView->GetActiveCamera()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
@@ -842,7 +852,7 @@ double Ship::GetHullTemperature() const
 {
 	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
 	if (m_equipment.Get(Equip::SLOT_ATMOSHIELD) == Equip::NONE) {
-		return dragGs / 30.0;
+		return dragGs / 5.0;
 	} else {
 		return dragGs / 300.0;
 	}
@@ -955,14 +965,15 @@ void Ship::UpdateFuel(const float timeStep)
 
 void Ship::StaticUpdate(const float timeStep)
 {
+	// do player sounds before dead check, so they also turn off
+	if (IsType(Object::PLAYER)) DoThrusterSounds();
+
 	if (IsDead()) return;
 
 	if (m_controller) m_controller->StaticUpdate(timeStep);
 
-	//XXX this produces no explosion nor sound
-	if (GetHullTemperature() > 1.0) {
-		Pi::game->GetSpace()->KillBody(this);
-	}
+	if (GetHullTemperature() > 1.0)
+		Explode();
 
 	UpdateAlertState();
 
@@ -1086,10 +1097,6 @@ void Ship::StaticUpdate(const float timeStep)
 		m_hyperspace.now = false;
 		EnterHyperspace();
 	}
-
-	// XXX any ship being the current camera body should emit sounds
-	// also, ship sounds could be split to internal and external sounds
-	if (IsType(Object::PLAYER)) DoThrusterSounds();
 }
 
 void Ship::NotifyRemoved(const Body* const removedBody)

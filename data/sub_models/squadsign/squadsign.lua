@@ -37,11 +37,11 @@ define_model('squadsign_1', {
         	bounding_radius = 1,
 			materials = {'squad'},
 			},
-			
+
 	static = function(lod)
-    
+
 	end,
-	
+
 	dynamic = function(lod)
 
 		selector1()
@@ -64,14 +64,14 @@ define_model('squadsign_1', {
 				end
 			end
 		end
-	
+
 
 	use_material('squad')
 	texture('sub_models/squadsign/squad_1.png', v(0,0,0), v(0,0,-1), v(0,-1,0))
 	zbias(100,v(0,0,0),v(0,0,0))
 	quad(v(0,0,0), v(0,1,0), v(0,1,1), v(0,0,1))
 	zbias(0)
-	end    
+	end
 })
 
 define_model('squadsign_2', {
@@ -79,11 +79,11 @@ define_model('squadsign_2', {
         	bounding_radius = 1,
 			materials = {'squad'},
 			},
-			
+
 	static = function(lod)
-    
+
 	end,
-	
+
 	dynamic = function(lod)
 
 		selector1()
@@ -106,14 +106,14 @@ define_model('squadsign_2', {
 				end
 			end
 		end
-	
+
 
 	use_material('squad')
 	texture('sub_models/squadsign/squad_2.png', v(0,0,0), v(0,0,-1), v(0,-1,0))
 	zbias(100,v(0,0,0),v(0,0,0))
 	quad(v(0,0,0), v(0,1,0), v(0,1,1), v(0,0,1))
 	zbias(0)
-	end    
+	end
 })
 
 define_model('squadsign_3', {
@@ -121,11 +121,11 @@ define_model('squadsign_3', {
         	bounding_radius = 1,
 			materials = {'squad'},
 			},
-			
+
 	static = function(lod)
-    
+
 	end,
-	
+
 	dynamic = function(lod)
 
 		selector1()
@@ -148,14 +148,14 @@ define_model('squadsign_3', {
 				end
 			end
 		end
-	
+
 
 	use_material('squad')
 	texture('sub_models/squadsign/squad_3.png', v(0,0,0), v(0,0,-1), v(0,-1,0))
 	zbias(100,v(0,0,0),v(0,0,0))
 	quad(v(0,0,0), v(0,1,0), v(0,1,1), v(0,0,1))
 	zbias(0)
-	end    
+	end
 })
 
 define_model('squadsign_4', {
@@ -163,11 +163,11 @@ define_model('squadsign_4', {
         	bounding_radius = 1,
 			materials = {'squad'},
 			},
-			
+
 	static = function(lod)
-    
+
 	end,
-	
+
 	dynamic = function(lod)
 
 		selector1()
@@ -190,12 +190,12 @@ define_model('squadsign_4', {
 				end
 			end
 		end
-	
+
 
 	use_material('squad')
 	texture('sub_models/squadsign/squad_4.png', v(0,0,0), v(0,0,-1), v(0,-1,0))
 	zbias(100,v(0,0,0),v(0,0,0))
 	quad(v(0,0,0), v(0,1,0), v(0,1,1), v(0,0,1))
 	zbias(0)
-	end    
+	end
 })
