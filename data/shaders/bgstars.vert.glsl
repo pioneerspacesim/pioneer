@@ -45,7 +45,7 @@ void main(void)
 		b = 1.75*pow(0.01+0.99*noise2dtrig(vec2(p, 0.0000005*time)),0.20);
 		//b = clamp(noise2dtrig(vec2(p, 0.000005*time)),0.0,0.2)/0.2;
 		// for small stars reduce range of change
-		b = mix(1.0,b,(clamp(starSize-0.61,0.0,0.04))*(1.0/0.04));
+		b = mix(1.0,b,(clamp(starSize-0.51,0.0,0.04))*(1.0/0.04));
 		// blend away from 1.0 with effect and twinkling mask
 		b = mix(1.0,b,effect*tw);
 	}
