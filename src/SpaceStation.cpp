@@ -344,19 +344,28 @@ void SpaceStation::ReplaceShipOnSale(int idx, const ShipFlavour *with)
 	onShipsForSaleChanged.emit();
 }
 
+// Fill the list of starships on sale. Ships that
+// can't fit atmo shields are only available in
+// atmosphereless environments
 void SpaceStation::UpdateShipyard()
 {
+	bool atmospheric = false;
+	if (IsGroundStation()) {
+		Body *planet = GetFrame()->m_astroBody;
+		atmospheric = planet->GetSystemBody()->HasAtmosphere();
+	}
+
 	if (m_shipsOnSale.size() == 0) {
 		// fill shipyard
 		for (int i=Pi::rng.Int32(20); i; i--) {
 			ShipFlavour s;
-			ShipFlavour::MakeTrulyRandom(s);
+			ShipFlavour::MakeTrulyRandom(s, atmospheric);
 			m_shipsOnSale.push_back(s);
 		}
 	} else if (Pi::rng.Int32(2)) {
 		// add one
 		ShipFlavour s;
-		ShipFlavour::MakeTrulyRandom(s);
+		ShipFlavour::MakeTrulyRandom(s, atmospheric);
 		m_shipsOnSale.push_back(s);
 	} else {
 		// remove one

@@ -124,7 +124,8 @@ local makeAdvert = function (station)
 	local due = Game.time + Engine.rand:Number(7*60*60*24, time * 31*60*60*24)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
-	local shiptypes = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= (danger * 17) end)
+	local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
+		return (t.hullMass >= (danger * 17)) and (t:GetEquipSlotCapacity('ATMOSHIELD') > 0) end)
 	local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
 
 	local ad = {
@@ -225,6 +226,7 @@ local onEnterSystem = function (ship)
 							return -- TODO
 						end
 						mission.ship:SetLabel(mission.shipregid)
+						mission.ship:AddEquip('ATMOSPHERIC_SHIELDING')
 						mission.ship:AddEquip(default_drive)
 						mission.ship:AddEquip(laser)
 						mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)

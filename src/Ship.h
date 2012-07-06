@@ -87,6 +87,7 @@ public:
 	void UpdateStats();
 	const shipstats_t &GetStats() const { return m_stats; }
 
+	void Explode();
 	void SetGunState(int idx, int state);
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
