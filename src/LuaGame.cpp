@@ -17,14 +17,21 @@
 
 static int l_game_start_game(lua_State *l)
 {
-	SystemPath *path = LuaSystemPath::GetFromLua(1);
-
 	if (Pi::game) {
 		luaL_error(l, "can't start a new game while a game is already running");
 		return 0;
 	}
 
-	Pi::game = new Game(*path);
+	SystemPath *path = LuaSystemPath::GetFromLua(1);
+
+	RefCountedPtr<StarSystem> system(StarSystem::GetCached(*path));
+	SystemBody *sbody = system->GetBodyByPath(path);
+
+	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STARPORT)
+		Pi::game = new Game(*path);
+	else
+		Pi::game = new Game(*path, vector3d(0, 1.5*sbody->GetRadius(), 0));
+
 	return 0;
 }
 
