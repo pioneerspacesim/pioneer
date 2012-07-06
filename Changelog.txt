@@ -4,7 +4,7 @@ Alpha 24
      * Background stars fade out in daylight (#1300)
      * Atmospheric flight restrictions. Ships that can't fit shielding can't
        purchased at atmosphere ports. Attempting to fly in atmosphere without
-       causes quick death (#1328)
+       causes quick death (#1328, #1240)
 
    * Minor changes and tweaks
      * Show orbital periapsis/apoapsis in system info with greater accuracy at
