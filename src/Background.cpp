@@ -70,7 +70,8 @@ void Starfield::Fill(unsigned long seed)
 
 	//fill the array
 	for (int i=0; i<BG_STAR_MAX; i++) {
-		float col = float(rand.Double(0.2,0.7));
+		float col = rand.Double(0.3,1.0);
+		float colr = pow(col,float(12.0));
 
 		// this is proper random distribution on a sphere's surface
 		const float theta = float(rand.Double(0.0, 2.0*M_PI));
@@ -85,10 +86,10 @@ void Starfield::Fill(unsigned long seed)
 		// Set star id for use in twinkling and send via alpha, if shaders are enabled
 		if (AreShadersEnabled()){	
 			const float x = 10.0/100000.0;
-			starId = (coords+vector3f(1001.0,1001.0,1001.0)).Dot(vector3f(x,x,x));
+			starId = abs((coords+vector3f(1001.0,1001.0,1001.0)).Dot(vector3f(x,x,x)));
 		}
 
-		va->Add(coords, Color(col, col, col, starId));
+		va->Add(coords, Color(colr, col, col, starId));
 	}
 }
  
@@ -157,7 +158,8 @@ void Starfield::CalcParameters(Camera *camera,Frame *f, double &brightness, doub
 		
 	}
 	// scale size of stars relative to conditions of calibration
-	starScaling = (camera->GetWidth())/800.0;
+	starScaling = (camera->GetWidth())/1024.0;
+	starScaling = std::max(starScaling,1.0);
 }
 
 void Starfield::Draw(Graphics::Renderer *renderer, Camera *camera, double starScaling, int twinkling, double time, double effect)
