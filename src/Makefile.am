@@ -338,7 +338,9 @@ tests_SOURCES = \
 	FileSystem.cpp \
 	FileSystemPosix.cpp \
 	test_FileSystem.cpp
+TESTS = tests
 tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a
+
 uitest_SOURCES = \
 	uitest.cpp \
 	Color.cpp \
@@ -349,8 +351,6 @@ uitest_LDADD = ui/libui.a gui/libgui.a text/libtext.a graphics/libgraphics.a \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
-TESTS = tests
-tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a
 
 INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA
