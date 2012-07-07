@@ -52,6 +52,33 @@ void Screendump(const char* destFile, const int w, const int h);
 // find string in bigger string, ignoring case
 const char *pi_strcasestr(const char *haystack, const char *needle);
 
+inline bool starts_with(const char *s, const char *t) {
+	assert(s && t);
+	while ((*s == *t) && *t) { ++s; ++t; }
+	return (*t == '\0');
+}
+
+inline bool starts_with(const std::string &s, const char *t) {
+	assert(t);
+	return starts_with(s.c_str(), t);
+}
+
+inline bool ends_with(const char *s, size_t ns, const char *t, size_t nt) {
+	return (ns >= nt) && (memcmp(s+(ns-nt), t, nt) == 0);
+}
+
+inline bool ends_with(const char *s, const char *t) {
+	return ends_with(s, strlen(s), t, strlen(t));
+}
+
+inline bool ends_with(const std::string &s, const char *t) {
+	return ends_with(s.c_str(), s.size(), t, strlen(t));
+}
+
+inline bool ends_with(const std::string &s, const std::string &t) {
+	return ends_with(s.c_str(), s.size(), t.c_str(), t.size());
+}
+
 // add a few things that MSVC is missing
 #ifdef _MSC_VER
 

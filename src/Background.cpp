@@ -20,6 +20,11 @@ using namespace Graphics;
 namespace Background
 {
 
+void BackgroundElement::SetIntensity(float intensity)
+{
+	m_material->emissive = Color(intensity);
+}
+
 Starfield::Starfield()
 {
 	Init();
@@ -35,7 +40,6 @@ Starfield::Starfield(unsigned long seed)
 Starfield::~Starfield()
 {
 	delete m_model;
-	delete m_shader;
 	delete[] m_hyperVtx;
 	delete[] m_hyperCol;
 }
@@ -45,11 +49,13 @@ void Starfield::Init()
 	// reserve some space for positions, colours
 	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
 	m_model = new StaticMesh(POINTS);
-	m_shader = new Shader("bgstars");
-	RefCountedPtr<Material> mat(new Material());
-	mat->shader = m_shader;
-	mat->unlit = true;
-	m_model->AddSurface(new Surface(POINTS, stars, mat));
+	m_shader.Reset(new Shader("bgstars"));
+	m_material.Reset(new Material());
+	m_material->unlit = true;
+	m_material->vertexColors = true;
+	m_material->shader = m_shader.Get();
+	m_material->emissive = Color::WHITE;
+	m_model->AddSurface(new Surface(POINTS, stars, m_material));
 
 	m_hyperVtx = 0;
 	m_hyperCol = 0;
@@ -116,7 +122,7 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 		}
 		VertexArray *va = m_model->GetSurface(0)->GetVertices();
 		for (int i=0; i<BG_STAR_MAX; i++) {
-			
+
 			vector3f v(va->position[i]);
 			v += vector3f(pz*hyperspaceProgress*mult);
 
@@ -133,7 +139,6 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 		glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	}
 }
-
 
 MilkyWay::MilkyWay()
 {
@@ -184,11 +189,13 @@ MilkyWay::MilkyWay()
 		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
 		dark);
 
-	RefCountedPtr<Material> mwmat(new Material);
-	mwmat->unlit = true;
-	mwmat->vertexColors = true;
-	m_model->AddSurface(new Surface(TRIANGLE_STRIP, bottom, mwmat));
-	m_model->AddSurface(new Surface(TRIANGLE_STRIP, top, mwmat));
+	m_material.Reset(new Material);
+	m_material->unlit = true;
+	m_material->vertexColors = true;
+	m_shader.Reset(new Shader("bgstars"));
+	m_material->shader = m_shader.Get();
+	m_model->AddSurface(new Surface(TRIANGLE_STRIP, bottom, m_material));
+	m_model->AddSurface(new Surface(TRIANGLE_STRIP, top, m_material));
 }
 
 MilkyWay::~MilkyWay()
@@ -199,7 +206,6 @@ MilkyWay::~MilkyWay()
 void MilkyWay::Draw(Graphics::Renderer *renderer)
 {
 	assert(m_model != 0);
-	renderer->SetBlendMode(BLEND_SOLID);
 	renderer->DrawStaticMesh(m_model);
 }
 
@@ -222,6 +228,7 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) 
 {
 	//XXX not really const - renderer can modify the buffers
 	glPushMatrix();
+	renderer->SetBlendMode(BLEND_SOLID);
 	renderer->SetDepthTest(false);
 	renderer->SetTransform(transform);
 	const_cast<MilkyWay&>(m_milkyWay).Draw(renderer);
@@ -231,6 +238,12 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) 
 	const_cast<Starfield&>(m_starField).Draw(renderer);
 	Pi::renderer->SetDepthTest(true);
 	glPopMatrix();
+}
+
+void Container::SetIntensity(float intensity)
+{
+	m_starField.SetIntensity(intensity);
+	m_milkyWay.SetIntensity(intensity);
 }
 
 }; //namespace Background

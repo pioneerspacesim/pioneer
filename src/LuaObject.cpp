@@ -219,22 +219,18 @@ static int dispatch_index(lua_State *l)
 
 		lua_pushvalue(l, 2);
 		lua_rawget(l, -2);                  // object, key, globals, metatable, method table, method
-    
+
 		// found something, return it
 		if (!lua_isnil(l, -1))
 			return 1;
+		lua_pop(l, 1);                      // object, key, globals, metatable, method table
 
-		lua_pop(l, 2);                      // object, key, globals, metatable
+		// didn't find a method, so now we go looking for an attribute handler
+		lua_pushstring(l, (std::string("__attribute_")+lua_tostring(l, 2)).c_str());
+		lua_rawget(l, -2);                  // object, key, globals, metatable, method table, method
 
-		// didn't find a method, so now we go looking for an attribute handler in
-		// the attribute table
-		lua_pushstring(l, "attrs");
-		lua_rawget(l, -2);                  // object, key, globals, metatable, attr table
-
-		if (lua_istable(l, -1)) {
-			lua_pushvalue(l, 2);
-			lua_rawget(l, -2);              // object, key, globals, metatable, attr table, attr handler
-
+		// found something, return it
+		if (!lua_isnil(l, -1)) {
 			// found something. since its likely a regular attribute lookup and not a
 			// method call we have to do the call ourselves
 			if (lua_isfunction(l, -1)) {
@@ -243,10 +239,12 @@ static int dispatch_index(lua_State *l)
 				return 1;
 			}
 
-			lua_pop(l, 2);                  // object, key, globals, metatable
+			// for the odd case where someone has set __attribute_foo to a
+			// non-function value
+			return 1;
 		}
-		else
-			lua_pop(l, 1);                  // object, key, globals, metatable
+
+		lua_pop(l, 2);                      // object, key, globals, metatable
 
 		// didn't find anything. if the object has a parent object then we look
 		// there instead
@@ -278,6 +276,15 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 	lua_newtable(l);
 	if (methods) luaL_setfuncs(l, methods, 0);
 
+	// add attributes
+	if (attrs) {
+		for (const luaL_Reg *attr = attrs; attr->name; attr++) {
+			lua_pushstring(l, (std::string("__attribute_")+attr->name).c_str());
+			lua_pushcfunction(l, attr->func);
+			lua_rawset(l, -3);
+		}
+	}
+
 	// create metatable for it
 	lua_newtable(l);
 	if (meta) luaL_setfuncs(l, meta, 0);
@@ -286,16 +293,6 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 	lua_pushstring(l, "__index");
 	lua_pushcfunction(l, dispatch_index);
 	lua_rawset(l, -3);
-
-	// if they passed attributes hook them up too
-	if (attrs) {
-		lua_pushstring(l, "attrs");
-		
-		lua_newtable(l);
-		luaL_setfuncs(l, attrs, 0);
-
-		lua_rawset(l, -3);
-	}
 
 	// apply the metatable
 	lua_setmetatable(l, -2);
@@ -338,6 +335,15 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	lua_newtable(l);
     if (methods) luaL_setfuncs(l, methods, 0);
 
+	// add attributes
+	if (attrs) {
+		for (const luaL_Reg *attr = attrs; attr->name; attr++) {
+			lua_pushstring(l, (std::string("__attribute_")+attr->name).c_str());
+			lua_pushcfunction(l, attr->func);
+			lua_rawset(l, -3);
+		}
+	}
+
 	// add the exists method
 	lua_pushstring(l, "exists");
 	lua_pushcfunction(l, LuaObjectBase::l_exists);
@@ -350,7 +356,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 
 	// publish the method table as a global (and pop it from the stack)
 	lua_setglobal(l, type);
-	
+
 	// create the metatable, leave it on the stack
 	luaL_newmetatable(l, type);
 
@@ -386,17 +392,6 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 		lua_pushstring(l, "parent");
 		lua_pushstring(l, parent);
 		lua_rawset(l, -3);
-	}
-
-	// if they passed attributes hook them up too
-	if (attrs) {
-		lua_pushstring(l, "attrs");
-		
-		lua_newtable(l);
-		luaL_setfuncs(l, attrs, 0);
-
-		lua_rawset(l, -3);
-
 	}
 
 	// pop the metatable
@@ -452,7 +447,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 
 	bool have_promotions = true;
 	bool tried_promote = false;
-	
+
 	while (have_promotions && !tried_promote) {
 		std::map< std::string, std::map<std::string,PromotionTest> >::const_iterator base_iter = promotions->find(lo->m_type);
 		if (base_iter != promotions->end()) {
@@ -460,7 +455,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 
 			for (
 				std::map<std::string,PromotionTest>::const_iterator target_iter = (*base_iter).second.begin();
-				target_iter != (*base_iter).second.end(); 
+				target_iter != (*base_iter).second.end();
 				target_iter++)
 			{
 				if ((*target_iter).second(lo->m_object)) {

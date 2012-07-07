@@ -59,7 +59,7 @@ protected:
 	double m_sealevel; // 0 - no water, 1 - 100% coverage
 	double m_icyness; // 0 - 1 (0% to 100% cover)
 	double m_volcanic;
-	
+
 	// heightmap stuff
 	// XXX unify heightmap types
 	// for the earth heightmap

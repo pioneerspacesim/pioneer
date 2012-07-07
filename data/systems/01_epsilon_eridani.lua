@@ -68,7 +68,7 @@ local newhope = CustomSystemBody:new('New Hope', 'PLANET_TERRESTRIAL')
 	:ocean_cover(f(45,100))
 	:ice_cover(f(6,10))
 	:life(f(9,10))
-	
+
 	local newhope_starports = {
 	CustomSystemBody:new('New Hope', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(31))
@@ -83,7 +83,7 @@ local newhope = CustomSystemBody:new('New Hope', 'PLANET_TERRESTRIAL')
 		:semi_major_axis(f(9068,100000000))
 		:rotation_period(f(11,24)),
 	}
-	
+
 	local hades = {
 	CustomSystemBody:new('Hades', 'PLANET_TERRESTRIAL')
 		:seed(191082)
@@ -103,7 +103,7 @@ local newhope = CustomSystemBody:new('New Hope', 'PLANET_TERRESTRIAL')
 		:rotation_period(f(11,24)),
 	},
 	}
-	
+
 local hercules = CustomSystemBody:new('Hercules', 'PLANET_GAS_GIANT')
 	:radius(f(14,1))
 	:mass(f(8115,10))
@@ -113,7 +113,7 @@ local hercules = CustomSystemBody:new('Hercules', 'PLANET_GAS_GIANT')
 	:inclination(math.deg2rad(1.305))
 	:rotation_period(f(4,10))
 	:axial_tilt(fixed.deg2rad(f(313,100)))
-	
+
 	local hale = {
 	CustomSystemBody:new('Halee', 'PLANET_TERRESTRIAL')
 		:seed(14782)
@@ -130,7 +130,7 @@ local hercules = CustomSystemBody:new('Hercules', 'PLANET_GAS_GIANT')
 		:ocean_cover(f(4,10))
 		:ice_cover(f(9,10))
 	}
-	
+
 	s:bodies(epserid, {
 	icarus,
 	atlantica,

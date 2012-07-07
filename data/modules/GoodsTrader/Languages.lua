@@ -3,7 +3,7 @@
 
 Translate:Add({ English = {
   ["Welcome to "] = "Welcome to ",
- 
+
  GOODS_TRADER = {
   "Honest {name}'s Goods Emporium",
   "{name}'s Trading House",
@@ -19,7 +19,7 @@ Translate:Add({ English = {
 
 Translate:Add({ Polski = {
   ["Welcome to "] = "Witamy w ",
- 
+
  GOODS_TRADER = {
   "Uczciwy {name}'s - Magazyn Towarów",
   "Dom Handlowy {name}'s",
@@ -35,7 +35,7 @@ Translate:Add({ Polski = {
 
 Translate:Add({ Spanish = {
   ["Welcome to "] = "Bienvenido a ",
- 
+
  GOODS_TRADER = {
   "Emporio del Honesto {name}",
   "Casa de Comercio {name}",
@@ -53,7 +53,7 @@ Translate:Add({ Spanish = {
 
 Translate:Add({ Magyar = {
   ["Welcome to "] = "Üdvözöllek nálunk: ",
- 
+
  GOODS_TRADER = {
   "Becsületes {name} áruház",
   "{name} kereskedőház",

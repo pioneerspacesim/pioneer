@@ -68,7 +68,7 @@ namespace Gui {
 			SDLKey sym;
 			SDLMod mod;
 		} m_shortcut;
-		
+
 		virtual std::string GetOverrideTooltip() { return ""; }
 		void UpdateOverriddenTooltip();
 	private:

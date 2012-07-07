@@ -11,12 +11,12 @@
 
 struct BVHNode {
 	Aabb aabb;
-	
+
 	/* if triIndicesStart == 0 then not leaf,
 	 * kids[] valid */
 	int numTris;
 	int *triIndicesStart;
-	
+
 	BVHNode *kids[2];
 
 	BVHNode() {

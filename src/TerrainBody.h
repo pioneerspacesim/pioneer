@@ -26,7 +26,7 @@ public:
 	GeoSphere *GetGeoSphere() const { return m_geosphere; }
 	double GetMaxFeatureRadius() const { // returns value in metres
 		return (m_geosphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
-	}	
+	}
 
 protected:
 	TerrainBody(SystemBody*);

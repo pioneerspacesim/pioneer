@@ -129,7 +129,7 @@ bool FileSourceZip::ReadDirectory(const std::string &path, std::vector<FileInfo>
 	std::string filename;
 	if (!FindDirectoryAndFile(path, dir, filename))
 		return false;
-	
+
 	{
 		std::map<std::string,Directory>::const_iterator i = dir->subdirs.find(filename);
 		if (i == dir->subdirs.end())
@@ -169,7 +169,7 @@ void FileSourceZip::AddFile(const std::string &path, const FileStat &fileStat)
 
 	if (fileStat.info.IsDir())
 		dir->subdirs.insert(std::make_pair(filename, Directory()));
-	
+
 	dir->files.insert(std::make_pair(filename, fileStat));
 }
 

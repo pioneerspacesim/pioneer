@@ -215,7 +215,7 @@ void TextEntry::Draw()
 		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()) - Gui::Screen::GetFontHeight(m_font.Get()));
 		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()));
 	glEnd();
-	
+
 	SetScissor(false);
 }
 

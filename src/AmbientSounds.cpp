@@ -149,7 +149,7 @@ void AmbientSounds::Update()
 					starNoise = Sound::Event();
 				}
 			}
-		} 
+		}
 		// when all the sounds are in we can use the body we are in frame of reference to
 		if (!starNoise.IsPlaying()) {
 			Frame *f = Pi::player->GetFrame();

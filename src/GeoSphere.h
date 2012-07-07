@@ -55,7 +55,7 @@ private:
 	SDL_mutex *m_vbosToDestroyLock;
 	void AddVBOToDestroy(GLuint vbo);
 	void DestroyVBOs();
-	
+
 	vector3d m_tempCampos;
 
 	SDL_mutex *m_updateLock;
