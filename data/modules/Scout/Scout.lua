@@ -67,7 +67,7 @@ local onChat = function (form, ref, option)
 
 		local mission = {
 			type	 = t("Recon"),
-			client	 = ad.client,
+			client	 = ad.client.name,
 			location = ad.location,
 			risk	 = ad.risk,
 			reward	 = ad.reward,
