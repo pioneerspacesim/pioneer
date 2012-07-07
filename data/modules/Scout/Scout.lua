@@ -212,7 +212,7 @@ local onFrameChanged = function (body)
 						mission.state = 1
 					end
 					if Dist > PhysBody.radius * 1.4 and mission.state == 1 then
-						Comms.Message(t("sensor sweep interrupted, too far from target!"), t("computer"))
+						Comms.Message(t("Sensor sweep interrupted, too far from target!"), t("computer"))
 						mission.state = 0
 						TimeUp = 0
 					end
