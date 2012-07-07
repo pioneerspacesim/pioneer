@@ -7,44 +7,11 @@
     <Filter Include="src">
       <UniqueIdentifier>{2ef8ea5b-7c53-4337-93b0-a929d9103bd6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\collider">
-      <UniqueIdentifier>{8d747d60-b061-4cb7-b5b2-6ccbcc7c1fc3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="win32\src">
       <UniqueIdentifier>{145bffe2-bca9-4615-88b1-195d2578d4d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\gui">
-      <UniqueIdentifier>{5f9ae661-2520-48e2-b510-4db78c61e4e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\terrain">
-      <UniqueIdentifier>{61866310-baa3-48ea-ad0b-a53ae7c23661}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\graphics">
-      <UniqueIdentifier>{5e0ff1e9-1c28-4f26-a9ca-abb32b781cf8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\text">
-      <UniqueIdentifier>{4355f088-f937-4b81-ab33-f12c9d91feac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\galaxy">
-      <UniqueIdentifier>{1c449c3b-5958-4830-aacc-fa13fe9953a7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\ui">
-      <UniqueIdentifier>{37d76185-c1c4-4591-9b58-4899e7f29e1d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\collider\BVHTree.cpp">
-      <Filter>src\collider</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\collider\CollisionSpace.cpp">
-      <Filter>src\collider</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\collider\Geom.cpp">
-      <Filter>src\collider</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\collider\GeomTree.cpp">
-      <Filter>src\collider</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\pch.cpp">
       <Filter>win32\src</Filter>
     </ClCompile>
@@ -273,78 +240,6 @@
     <ClCompile Include="..\..\src\WorldView.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\gui\Gui.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiBox.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiButton.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiContainer.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiFixed.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiImage.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiImageButton.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiImageRadioButton.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiLabel.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiLabelSet.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiMeterBar.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiMultiStateImageButton.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiRadioButton.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiRadioGroup.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiRepeaterButton.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiScreen.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiTabbed.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiTextEntry.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiTextLayout.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiToggleButton.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiToolTip.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiVScrollBar.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiVScrollPortal.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiWidget.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Background.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -368,9 +263,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\FormController.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiStack.cpp">
-      <Filter>src\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\StationPoliceForm.cpp">
       <Filter>src</Filter>
@@ -399,9 +291,6 @@
     <ClCompile Include="..\..\src\StationShipyardForm.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiGradient.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Lang.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -417,144 +306,6 @@
     <ClCompile Include="..\..\src\TerrainBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\terrain\Terrain.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorAsteroid.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorBandedRock.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorDeadWithWater.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorDesert.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorEarthLike.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorGGJupiter.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorGGNeptune.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorGGNeptune2.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorGGSaturn.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorGGSaturn2.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorGGUranus.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorIce.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorMethane.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorRock.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorRock2.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorSolid.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorStarBrownDwarf.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorStarG.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorStarK.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorStarM.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorStarWhiteDwarf.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorTFGood.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorTFPoor.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainColorVolcanic.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainFeature.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightAsteroid.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightFlat.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightHillsCraters.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightHillsCraters2.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightHillsDunes.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightHillsNormal.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightHillsRidged.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightHillsRivers.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightMapped.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsCraters.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsCraters2.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsNormal.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsRidged.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsRivers.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsRiversVolcano.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsVolcano.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightRuggedDesert.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightRuggedLava.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolid.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolidCanyons.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\enum_table.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -567,41 +318,8 @@
     <ClCompile Include="..\..\src\Light.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\terrain\TerrainHeightMapped2.cpp">
-      <Filter>src\terrain</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\FontCache.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\graphics\Drawables.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\graphics\Frustum.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\graphics\Graphics.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\graphics\Material.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\graphics\Renderer.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\graphics\RendererGL2.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\graphics\Shader.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\graphics\StaticMesh.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\graphics\VertexArray.cpp">
-      <Filter>src\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\FileSystem.cpp">
       <Filter>src</Filter>
@@ -614,15 +332,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Color.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\gui\GuiTexturedQuad.cpp">
-      <Filter>src\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\graphics\TextureBuilder.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\graphics\TextureGL.cpp">
-      <Filter>src\graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\FileSelectorWidget.cpp">
       <Filter>src</Filter>
@@ -651,38 +360,11 @@
     <ClCompile Include="..\..\src\View.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\text\Font.cpp">
-      <Filter>src\text</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\text\TextSupport.cpp">
-      <Filter>src\text</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\text\TextureFont.cpp">
-      <Filter>src\text</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\text\VectorFont.cpp">
-      <Filter>src\text</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\FileSourceZip.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ModManager.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LuaComms.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\galaxy\CustomSystem.cpp">
-      <Filter>src\galaxy</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\galaxy\Galaxy.cpp">
-      <Filter>src\galaxy</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\galaxy\Sector.cpp">
-      <Filter>src\galaxy</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\galaxy\StarSystem.cpp">
-      <Filter>src\galaxy</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaFixed.cpp">
       <Filter>src</Filter>
@@ -696,164 +378,11 @@
     <ClCompile Include="..\..\src\LuaSystemBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\graphics\MaterialGL2.cpp">
-      <Filter>src\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Background.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Box.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Button.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\CheckBox.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\ColorBackground.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Container.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Context.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\DropDown.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\EventDispatcher.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\FloatContainer.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Grid.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Image.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Label.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\List.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Margin.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\MultiLineText.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Scroller.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Single.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Skin.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Slider.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\TextLayout.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Widget.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Align.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\CellSpec.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\Lua.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaAlign.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaBackground.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaBox.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaButton.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaCheckBox.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaColorBackground.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaContainer.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaContext.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaDropDown.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaGrid.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaImage.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaLabel.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaList.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaMargin.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaMultiLineText.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaScroller.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaSingle.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaSlider.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\LuaWidget.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ui\WidgetSet.cpp">
-      <Filter>src\ui</Filter>
+    <ClCompile Include="..\..\src\LuaComms.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\collider\BVHTree.h">
-      <Filter>src\collider</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\collider\collider.h">
-      <Filter>src\collider</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\collider\CollisionContact.h">
-      <Filter>src\collider</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\collider\CollisionSpace.h">
-      <Filter>src\collider</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\collider\Geom.h">
-      <Filter>src\collider</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\collider\GeomTree.h">
-      <Filter>src\collider</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\pch.h">
       <Filter>win32\src</Filter>
     </ClInclude>
@@ -1130,87 +659,6 @@
     <ClInclude Include="..\..\src\View.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiWidget.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\Gui.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiAdjustment.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiBox.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiButton.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiContainer.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiEvents.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiFixed.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiImage.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiImageButton.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiImageRadioButton.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiISelectable.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiLabel.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiLabelSet.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiMeterBar.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiMultiStateImageButton.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiRadioButton.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiRadioGroup.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiRepeaterButton.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiScreen.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiTabbed.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiTextEntry.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiTextLayout.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiToggleButton.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiToolTip.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiVScrollBar.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiVScrollPortal.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Background.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1234,9 +682,6 @@
     </ClInclude>
     <ClInclude Include="..\..\src\FormController.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiStack.h">
-      <Filter>src\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\StationPoliceForm.h">
       <Filter>src</Filter>
@@ -1265,9 +710,6 @@
     <ClInclude Include="..\..\src\StationShipyardForm.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiGradient.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\LuaConsole.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1279,15 +721,6 @@
     </ClInclude>
     <ClInclude Include="..\..\src\TerrainBody.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\terrain\Terrain.h">
-      <Filter>src\terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\terrain\TerrainFeature.h">
-      <Filter>src\terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\terrain\TerrainNoise.h">
-      <Filter>src\terrain</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\enum_table.h">
       <Filter>src</Filter>
@@ -1319,54 +752,6 @@
     <ClInclude Include="..\..\src\FileSystem.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\graphics\Drawables.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\Frustum.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\Graphics.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\Material.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\Renderer.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\RendererGL2.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\RendererGLBuffers.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\RendererLegacy.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\Shader.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\StaticMesh.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\Surface.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\VertexArray.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\gui\GuiTexturedQuad.h">
-      <Filter>src\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\TextureGL.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\Texture.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\graphics\TextureBuilder.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\MathUtil.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1391,41 +776,11 @@
     <ClInclude Include="..\..\src\SDLWrappers.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\text\Font.h">
-      <Filter>src\text</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\text\FontDescriptor.h">
-      <Filter>src\text</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\text\TextSupport.h">
-      <Filter>src\text</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\text\TextureFont.h">
-      <Filter>src\text</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\text\VectorFont.h">
-      <Filter>src\text</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\FileSourceZip.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ModManager.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\galaxy\SystemPath.h">
-      <Filter>src\galaxy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\galaxy\CustomSystem.h">
-      <Filter>src\galaxy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\galaxy\Galaxy.h">
-      <Filter>src\galaxy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\galaxy\Sector.h">
-      <Filter>src\galaxy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\galaxy\StarSystem.h">
-      <Filter>src\galaxy</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaVector.h">
       <Filter>src</Filter>
@@ -1439,92 +794,8 @@
     <ClInclude Include="..\..\src\LuaSystemBody.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\graphics\MaterialGL2.h">
-      <Filter>src\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Background.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Box.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Button.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\CellSpec.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\CheckBox.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\ColorBackground.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Container.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Context.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\DropDown.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Event.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\EventDispatcher.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\FloatContainer.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Grid.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Image.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Label.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\List.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Margin.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\MultiLineText.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Scroller.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Single.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Skin.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Slider.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\TextLayout.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Widget.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\LuaComms.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Align.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\Lua.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ui\WidgetSet.h">
-      <Filter>src\ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
