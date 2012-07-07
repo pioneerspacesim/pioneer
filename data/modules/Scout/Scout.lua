@@ -73,7 +73,8 @@ local onChat = function (form, ref, option)
 			reward	 = ad.reward,
 			due	 = ad.due,
 			flavour	 = ad.flavour,
-			state = 0
+			state = 0,
+			status = 'ACTIVE',
 		}
 
 		local mref = Game.player:AddMission(mission)
@@ -269,6 +270,7 @@ local onFrameChanged = function (body)
 						if TimeUp > 3600 then
 							mission.state = 2
 							UI.ImportantMessage(t("Sensor sweep complete, data stored."), t("computer"))
+							mission.status = "COMPLETED"
 						end
 					end
 					if mission.state == 2 then
