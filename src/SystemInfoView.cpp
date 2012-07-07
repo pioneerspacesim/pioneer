@@ -189,6 +189,14 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 	if (body->type != SystemBody::TYPE_GRAVPOINT) {
 		BodyIcon *ib = new BodyIcon(body->GetIcon());
 		ib->SetRenderer(m_renderer);
+		if (body->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET) {
+			for (std::vector<SystemBody*>::iterator i = body->children.begin(); i != body->children.end(); ++i) {
+				if ((*i)->type == SystemBody::TYPE_STARPORT_SURFACE) {
+					ib->SetHasStarport();
+					break;
+				}
+			}
+		}
 		m_bodyIcons.push_back(std::pair<std::string, BodyIcon*>(body->name, ib));
 		ib->GetSize(size);
 		if (prevSize < 0) prevSize = size[!dir];
@@ -427,17 +435,17 @@ void SystemInfoView::UpdateIconSelections()
 }
 
 SystemInfoView::BodyIcon::BodyIcon(const char *img) :
-	Gui::ImageRadioButton(0, img, img)
+	Gui::ImageRadioButton(0, img, img), m_has_starport(false)
 {
 }
 
 void SystemInfoView::BodyIcon::Draw()
 {
 	Gui::ImageRadioButton::Draw();
-	if (!GetSelected()) return;
+	if (!GetSelected() && !HasStarport()) return;
 	float size[2];
 	GetSize(size);
-	Color green = Color(0.f, 1.f, 0.f, 1.f);
+	Color green = GetSelected() ? Color(0.f, 1.f, 0.f, 1.f) : Color(0.25f, 0.5f, 0.5f, 1.f);
 	const vector2f vts[] = {
 		vector2f(0.f, 0.f),
 		vector2f(size[0], 0.f),
