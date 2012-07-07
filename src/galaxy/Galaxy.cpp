@@ -13,7 +13,7 @@ const float SOL_OFFSET_Y = 0.0;
 
 static SDL_Surface *s_galaxybmp;
 
-void Init() 
+void Init()
 {
 	static const std::string filename("galaxy.bmp");
 

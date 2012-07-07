@@ -77,7 +77,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 	std::string charname = name;
 	if (charname.empty())
 		charname = Pi::luaNameGen->FullName((gender != 0), rand);
-	
+
 	m_characterInfo = new CharacterInfoText(w * 0.8f, h * 0.15f, charname, title);
 
 	int head  = rand.Int32(0,MAX_HEAD);

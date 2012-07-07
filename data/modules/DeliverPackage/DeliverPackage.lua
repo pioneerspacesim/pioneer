@@ -4,7 +4,7 @@ local t = Translate:GetTranslator()
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 30
 -- typical time for travel to a system max_delivery_dist away
-local typical_travel_time = 0.9 * max_delivery_dist * 24 * 60 * 60 
+local typical_travel_time = 0.9 * max_delivery_dist * 24 * 60 * 60
 -- typical reward for delivery to a system max_delivery_dist away
 local typical_reward = 25 * max_delivery_dist
 
@@ -42,7 +42,7 @@ local onChat = function (form, ref, option)
 
 	elseif option == 1 then
 		form:SetMessage(delivery_flavours[ad.flavour].whysomuchtext)
-	
+
 	elseif option == 2 then
 		form:SetMessage(t("It must be delivered by ")..Format.Date(ad.due))
 
@@ -58,7 +58,7 @@ local onChat = function (form, ref, option)
 		elseif ad.risk > 0.8 and ad.risk <= 1 then
 			form:SetMessage(t("This is very risky, you will almost certainly run into resistance."))
 		end
-	
+
 	elseif option == 3 then
 		form:RemoveAdvertOnClose()
 
@@ -192,7 +192,7 @@ local onEnterSystem = function (player)
 			elseif risk >= (0.7 + riskmargin) then ships = 2
 			elseif risk >= (0.5 + riskmargin) then ships = 1
 			end
-			
+
 			-- if there is some risk and still no ships, flip a tricoin
 			if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
 

@@ -248,7 +248,7 @@ INVERT_MOUSE_Y
     Odwróć Oś Y
 LANGUAGE_SELECTION
     Język (wymagany restart)
- 
+
 # Wares
 NONE
     Brak
@@ -320,14 +320,14 @@ RUBBISH
     Odpady
 RADIOACTIVES
     Odpady radioaktywne
- 
+
 # Hardware
 MISSILE_UNGUIDED
     Pocisk Niekierowany R40
 MISSILE_GUIDED
-    Pocisk Kierowany                                                     
+    Pocisk Kierowany
 MISSILE_SMART
-    Pocisk Samonaprowadzający                                                   
+    Pocisk Samonaprowadzający
 MISSILE_NAVAL
     Pocisk Bojowy
 ATMOSPHERIC_SHIELDING
@@ -585,7 +585,7 @@ POOR
     Żółtodziób
 AVERAGE
     Przeciętny
-ABOVE_AVERAGE 
+ABOVE_AVERAGE
     Ponadprzeciętny
 COMPETENT
     Fachowiec
@@ -1032,7 +1032,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Duża półoś
 TIME_POINT
-     "czas: " 
+     "czas: "
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     System nie zbadany. Dane systemu niedostępne.
 WHEELS_ARE_UP

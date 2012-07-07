@@ -78,7 +78,7 @@ public:
 	SystemBody *m_sbody; // points to SBodies in Pi::current_system
 	Body *m_astroBody; // if frame contains a star or planet or something
 	Sfx *m_sfx;
-	
+
 	enum { TEMP_VIEWING=1 };
 private:
 	void Init(Frame *parent, const char *label, unsigned int flags);

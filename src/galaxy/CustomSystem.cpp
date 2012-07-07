@@ -405,21 +405,11 @@ void CustomSystem::Init()
 	lua_State *L = luaL_newstate();
 	LUA_DEBUG_START(L);
 
-	luaL_requiref(L, "_G", &luaopen_base, 1);
-	luaL_requiref(L, LUA_DBLIBNAME, &luaopen_debug, 1);
-	luaL_requiref(L, LUA_MATHLIBNAME, &luaopen_math, 1);
-	lua_pop(L, 3);
+	pi_lua_open_standard_base(L);
 
 	LuaVector::Register(L);
 	LuaFixed::Register(L);
 	LuaConstants::Register(L);
-
-	// create an alias math.deg2rad = math.rad
-	lua_getglobal(L, LUA_MATHLIBNAME);
-	lua_getfield(L, -1, "rad");
-	assert(lua_isfunction(L, -1));
-	lua_setfield(L, -2, "deg2rad");
-	lua_pop(L, 1); // pop the math table
 
 	// create a shortcut f = fixed.new
 	lua_getglobal(L, LuaFixed::LibName);

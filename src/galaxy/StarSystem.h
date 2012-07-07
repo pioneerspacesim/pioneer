@@ -58,30 +58,30 @@ public:
 		TYPE_STAR_A = 7, //blue/white
 		TYPE_STAR_B = 8, //blue
 		TYPE_STAR_O = 9,  //blue/purple/white
-		TYPE_STAR_M_GIANT = 10, 
-		TYPE_STAR_K_GIANT = 11, 
-		TYPE_STAR_G_GIANT = 12, 
-		TYPE_STAR_F_GIANT = 13, 
-		TYPE_STAR_A_GIANT = 14, 
-		TYPE_STAR_B_GIANT = 15, 
+		TYPE_STAR_M_GIANT = 10,
+		TYPE_STAR_K_GIANT = 11,
+		TYPE_STAR_G_GIANT = 12,
+		TYPE_STAR_F_GIANT = 13,
+		TYPE_STAR_A_GIANT = 14,
+		TYPE_STAR_B_GIANT = 15,
 		TYPE_STAR_O_GIANT = 16,
-		TYPE_STAR_M_SUPER_GIANT = 17, 
-		TYPE_STAR_K_SUPER_GIANT = 18, 
+		TYPE_STAR_M_SUPER_GIANT = 17,
+		TYPE_STAR_K_SUPER_GIANT = 18,
 		TYPE_STAR_G_SUPER_GIANT = 19,
 		TYPE_STAR_F_SUPER_GIANT = 20,
-		TYPE_STAR_A_SUPER_GIANT = 21, 
-		TYPE_STAR_B_SUPER_GIANT = 22, 
-		TYPE_STAR_O_SUPER_GIANT = 23, 
-		TYPE_STAR_M_HYPER_GIANT = 24, 
-		TYPE_STAR_K_HYPER_GIANT = 25, 
-		TYPE_STAR_G_HYPER_GIANT = 26, 
-		TYPE_STAR_F_HYPER_GIANT = 27, 
-		TYPE_STAR_A_HYPER_GIANT = 28, 
-		TYPE_STAR_B_HYPER_GIANT = 29, 
+		TYPE_STAR_A_SUPER_GIANT = 21,
+		TYPE_STAR_B_SUPER_GIANT = 22,
+		TYPE_STAR_O_SUPER_GIANT = 23,
+		TYPE_STAR_M_HYPER_GIANT = 24,
+		TYPE_STAR_K_HYPER_GIANT = 25,
+		TYPE_STAR_G_HYPER_GIANT = 26,
+		TYPE_STAR_F_HYPER_GIANT = 27,
+		TYPE_STAR_A_HYPER_GIANT = 28,
+		TYPE_STAR_B_HYPER_GIANT = 29,
 		TYPE_STAR_O_HYPER_GIANT = 30, // these various stars do exist = they are transitional states and are rare
 		TYPE_STAR_M_WF = 31,  //Wolf-Rayet star
 		TYPE_STAR_B_WF = 32,  // while you do not specifically get class M,B or O WF stars,
-		TYPE_STAR_O_WF = 33, //  you do get red = blue and purple from the colour of the gasses = so spectral class is an easy way to define them. 
+		TYPE_STAR_O_WF = 33, //  you do get red = blue and purple from the colour of the gasses = so spectral class is an easy way to define them.
 		TYPE_STAR_S_BH = 34, //stellar blackhole
 		TYPE_STAR_IM_BH = 35, //Intermediate-mass blackhole
 		TYPE_STAR_SM_BH = 36, //Supermassive blackhole
@@ -96,7 +96,7 @@ public:
 		TYPE_STAR_MAX = TYPE_STAR_SM_BH, // <enum skip>
 		// XXX need larger atmosphereless thing
 	};
-	
+
 	enum BodySuperType { // <enum scope='SystemBody' prefix=SUPERTYPE_>
 		SUPERTYPE_NONE = 0,
 		SUPERTYPE_STAR = 1,
@@ -152,7 +152,7 @@ public:
 	Orbit orbit;
 	Uint32 seed; // Planet.cpp can use to generate terrain
 	std::string name;
-	fixed radius; 
+	fixed radius;
 	fixed mass; // earth masses if planet, solar masses if star
 	fixed orbMin, orbMax; // periapsism, apoapsis in AUs
 	fixed rotationPeriod; // in days
@@ -172,13 +172,13 @@ public:
 	fixed m_volcanicity; // 0 = none, 1.0 = fucking volcanic
 	fixed m_atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
 	fixed m_life; // 0.0 = dead, 1.0 = teeming
-	
+
 	/* economy type stuff */
 	fixed m_population;
 	fixed m_agricultural;
 
 	const char *heightMapFilename;
-	unsigned int heightMapFractal; 
+	unsigned int heightMapFractal;
 private:
 	Color m_atmosColor;
 	double m_atmosDensity;
@@ -213,7 +213,7 @@ public:
 	std::vector<SystemBody*> m_spaceStations;
 	// index into this will be the SystemBody ID used by SystemPath
 	std::vector<SystemBody*> m_bodies;
-	
+
 	fixed m_metallicity;
 	fixed m_industrial;
 	fixed m_agricultural;
@@ -226,7 +226,7 @@ public:
 	int m_seed;
 
 	bool m_unexplored;
-	
+
 	int GetCommodityBasePriceModPercent(int t) {
 		return m_tradeLevel[t];
 	}
@@ -260,5 +260,5 @@ private:
 	bool m_isCustom;
 	bool m_hasCustomBodies;
 };
-	
+
 #endif /* _STARSYSTEM_H */

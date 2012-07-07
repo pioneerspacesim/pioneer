@@ -13,7 +13,7 @@ public:
 	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
 
 	AICommand(Ship *ship, CmdName name) {
-	   	m_ship = ship; m_cmdName = name; 
+	   	m_ship = ship; m_cmdName = name;
 		m_child = 0;
 		m_ship->AIMessage(Ship::AIERROR_NONE);
 	}
@@ -21,7 +21,7 @@ public:
 
 	virtual bool TimeStepUpdate() = 0;
 	bool ProcessChild();				// returns false if child is active
-	virtual void GetStatusText(char *str) { 
+	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
 		else strcpy(str, "AI state unknown");
 	}
@@ -40,7 +40,7 @@ public:
 	virtual void OnDeleted(const Body *body) { if (m_child) m_child->OnDeleted(body); }
 
 protected:
-	CmdName m_cmdName;	
+	CmdName m_cmdName;
 	Ship *m_ship;
 	AICommand *m_child;
 
@@ -54,7 +54,7 @@ public:
 		m_target = target;
 		m_state = 0;
 	}
-	virtual void GetStatusText(char *str) { 
+	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "Dock: target %s, state %i", m_target->GetLabel().c_str(), m_state);
 	}
@@ -99,7 +99,7 @@ public:
 	AICmdFlyTo(Ship *ship, Body *target, double alt);		// orbit
 	AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent);
 
-	virtual void GetStatusText(char *str) { 
+	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "FlyTo: endvel %.1f, state %i", m_endvel/1000.0, m_state);
 	}
@@ -134,10 +134,10 @@ private:
 	int m_targframeIndex;	// used during deserialisation
 	vector3d m_posoff;	// offset in target frame
 	double m_endvel;	// target speed in direction of motion at end of path, positive only
-	int m_state;		// 
+	int m_state;		//
 	bool m_tangent;		// true if path is to a tangent of the target frame's body
 
-	Frame *m_frame;		// current frame of ship, used to check for changes	
+	Frame *m_frame;		// current frame of ship, used to check for changes
 	vector3d m_reldir;	// target direction relative to ship at last frame change
 };
 
@@ -150,10 +150,10 @@ public:
 	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff);
 	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff);
 
-	virtual void GetStatusText(char *str) { 
+	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "FlyAround: alt %.1f, targmode %i", m_alt/1000.0, m_targmode);
-	}	
+	}
 	virtual Frame *GetRiskFrame() {
 		if (m_child) return m_child->GetRiskFrame();
 		return m_obstructor->GetFrame();
@@ -193,7 +193,7 @@ protected:
 	vector3d Targpos();
 
 private:
-	Body *m_obstructor;		// body to fly around 
+	Body *m_obstructor;		// body to fly around
 	int m_obstructorIndex;	// deserialisation
 	double m_alt, m_vel;
 

@@ -87,6 +87,7 @@ public:
 	void UpdateStats();
 	const shipstats_t &GetStats() const { return m_stats; }
 
+	void Explode();
 	void SetGunState(int idx, int state);
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
@@ -225,7 +226,7 @@ public:
 	float GetFuel() const {	return m_thrusterFuel;	}
 	//0.0 - 1.0
 	void SetFuel(const float f) {	m_thrusterFuel = Clamp(f, 0.f, 1.f); }
-	
+
 	void EnterSystem();
 
 	HyperspaceCloud *GetHyperspaceCloud() const { return m_hyperspaceCloud; }

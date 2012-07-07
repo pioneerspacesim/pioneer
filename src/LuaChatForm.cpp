@@ -279,7 +279,7 @@ void LuaChatForm::Sold(Equip::Type t) {
  * >     -- option 0 is called when the form is first activated from the
  * >     -- bulletin board
  * >     if option == 0 then
- * >         
+ * >
  * >         form:SetTitle("Favourite colour")
  * >         form:SetMessage("What's your favourite colour?")
  * >
@@ -513,7 +513,7 @@ int LuaChatForm::l_luachatform_set_message(lua_State *l)
  *   alpha 10
  *
  * Status:
- *   
+ *
  *   stable
  */
 int LuaChatForm::l_luachatform_add_option(lua_State *l)
@@ -603,7 +603,7 @@ static inline void _check_trade_function(lua_State *l, int tableidx, const char 
  *
  *   getStock - returns the number of units of this commodity the script has
  *              available for trade
- *   
+ *
  *   getPrice - returns the price for a single unit of this commodity
  *
  *   onClickBuy - called immediately when the player clicks the "buy" button.
