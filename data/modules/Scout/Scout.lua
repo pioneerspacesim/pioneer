@@ -189,7 +189,7 @@ end
 	local Dist = MissBody:DistanceTo(Game.player)
 	if MissBody:isa("SystemBody") then
 		if Dist < MissBody.radius * 1.25 then
-			UI.ImportantMessage("distance reached", "computer")
+			Comms.Message("distance reached", "computer")
 		end
 	end
 
@@ -208,11 +208,11 @@ local onFrameChanged = function (body)
 					local MinChance = 0
 					local Dist = CurBody:DistanceTo(Game.player)
 					if Dist < PhysBody.radius * 1.3 and mission.state == 0 then
-						UI.ImportantMessage(t("Distance reached, starting long range sensor sweep. Maintain orbit for at least 60 minutes"), t("computer"))
+						Comms.Message(t("Distance reached, starting long range sensor sweep. Maintain orbit for at least 60 minutes"), t("computer"))
 						mission.state = 1
 					end
 					if Dist > PhysBody.radius * 1.4 and mission.state == 1 then
-						UI.ImportantMessage(t("sensor sweep interrupted, too far from target!"), t("computer"))
+						Comms.Message(t("sensor sweep interrupted, too far from target!"), t("computer"))
 						mission.state = 0
 						TimeUp = 0
 					end
@@ -259,7 +259,7 @@ local onFrameChanged = function (body)
 								if ship then
 									local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], {
 									client = mission.client, location = mission.location:GetSystemBody().name,})
-									UI.ImportantMessage(pirate_greeting, ship.label)
+									Comms.Message(pirate_greeting, ship.label)
 								end
 							end
 							-------------------------------------------------------------
@@ -269,7 +269,7 @@ local onFrameChanged = function (body)
 						end
 						if TimeUp > 3600 then
 							mission.state = 2
-							UI.ImportantMessage(t("Sensor sweep complete, data stored."), t("computer"))
+							Comms.Message(t("Sensor sweep complete, data stored."), t("computer"))
 							mission.status = "COMPLETED"
 						end
 					end
@@ -290,13 +290,13 @@ local onShipDocked = function (player, station)
 		end
 		if mission.state == 2 then
 			local scout_flavours = Translate:GetFlavours('Scout')
-			UI.ImportantMessage(scout_flavours[mission.flavour].successmsg, mission.client)
+			Comms.Message(scout_flavours[mission.flavour].successmsg, mission.client)
 			player:AddMoney(mission.reward)
 			player:RemoveMission(ref)
 			missions[ref] = nil
 		elseif mission.state == 3 then
 			local scout_flavours = Translate:GetFlavours('Scout')
-			UI.ImportantMessage(scout_flavours[mission.flavour].failuremsg, mission.client)
+			Comms.Message(scout_flavours[mission.flavour].failuremsg, mission.client)
 			player:RemoveMission(ref)
 			missions[ref] = nil
 		end
