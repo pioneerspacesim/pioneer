@@ -271,6 +271,7 @@ local onFrameChanged = function (body)
 							mission.state = 2
 							Comms.Message(t("Sensor sweep complete, data stored."), t("computer"))
 							mission.status = "COMPLETED"
+							Game.player:UpdateMission(ref,mission)
 						end
 					end
 					if mission.state == 2 then
