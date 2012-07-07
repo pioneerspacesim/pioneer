@@ -332,4 +332,4 @@ EventQueue.onFrameChanged:Connect(onFrameChanged)
 EventQueue.onShipDocked:Connect(onShipDocked)
 EventQueue.onGameStart:Connect(onGameStart)
 
-Serializer:Register("ScoutArea", serialize, unserialize)
+Serializer:Register("Scout", serialize, unserialize)
