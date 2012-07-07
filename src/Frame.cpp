@@ -3,8 +3,9 @@
 #include "Space.h"
 #include "collider/collider.h"
 #include "Sfx.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Pi.h"
+#include "Game.h"
 
 Frame::Frame()
 {
@@ -21,24 +22,24 @@ Frame::Frame(Frame *parent, const char *label, unsigned int flags)
 	Init(parent, label, flags);
 }
 
-void Frame::Serialize(Serializer::Writer &wr, Frame *f)
+void Frame::Serialize(Serializer::Writer &wr, Frame *f, Space *space)
 {
 	wr.Int32(f->m_flags);
 	wr.Double(f->m_radius);
 	wr.String(f->m_label);
 	for (int i=0; i<16; i++) wr.Double(f->m_orient[i]);
 	wr.Vector3d(f->m_angVel);
-	wr.Int32(Serializer::LookupSystemBody(f->m_sbody));
-	wr.Int32(Serializer::LookupBody(f->m_astroBody));
+	wr.Int32(space->GetIndexForSystemBody(f->m_sbody));
+	wr.Int32(space->GetIndexForBody(f->m_astroBody));
 	wr.Int32(f->m_children.size());
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
-		Serialize(wr, *i);
+		Serialize(wr, *i, space);
 	}
 	Sfx::Serialize(wr, f);
 }
 
-Frame *Frame::Unserialize(Serializer::Reader &rd, Frame *parent)
+Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent)
 {
 	Frame *f = new Frame();
 	f->m_parent = parent;
@@ -51,26 +52,26 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Frame *parent)
 		vector3d pos = rd.Vector3d();
 		f->m_orient.SetTranslate(pos);
 	}
-	f->m_sbody = Serializer::LookupSystemBody(rd.Int32());
+	f->m_sbody = space->GetSystemBodyByIndex(rd.Int32());
 	f->m_astroBodyIndex = rd.Int32();
 	f->m_vel = vector3d(0.0);
 	for (int i=rd.Int32(); i>0; --i) {
-		f->m_children.push_back(Unserialize(rd, f));
+		f->m_children.push_back(Unserialize(rd, space, f));
 	}
 	Sfx::Unserialize(rd, f);
 
 	f->m_oldOrient = f->m_orient;
 	f->m_oldAngDisplacement = vector3d(0.0);
-	
+
 	return f;
 }
 
-void Frame::PostUnserializeFixup(Frame *f)
+void Frame::PostUnserializeFixup(Frame *f, Space *space)
 {
-	f->m_astroBody = Serializer::LookupBody(f->m_astroBodyIndex);
+	f->m_astroBody = space->GetBodyByIndex(f->m_astroBodyIndex);
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
-		PostUnserializeFixup(*i);
+		PostUnserializeFixup(*i, space);
 	}
 }
 
@@ -130,14 +131,13 @@ vector3d Frame::GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo)
 	if (fFrom == fTo) return vector3d(0,0,0);
 	vector3d v1 = vector3d(0,0,0);
 	vector3d v2 = vector3d(0,0,0);
-	
+
 	matrix4x4d m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
-	const Frame *root = Space::rootFrame;
 
 	// move forwards from origin to root
-	while ((f!=root) && (fTo != f)) {
+	while (f->m_parent && fTo != f) {
 		v1 += m.ApplyRotationOnly(-f->GetVelocity());
 		m = m * f->m_orient.InverseOf();
 		f = f->m_parent;
@@ -160,9 +160,8 @@ void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &
 	m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
-	const Frame *root = Space::rootFrame;
 
-	while ((f!=root) && (fTo != f)) {
+	while (f->m_parent && fTo != f) {
 		f->ApplyLeavingTransform(m);
 		f = f->m_parent;
 	}
@@ -174,16 +173,15 @@ void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &
 
 	m = m2 * m;
 }
-	
+
 void Frame::GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m)
 {
 	matrix4x4d m2 = matrix4x4d::Identity();
 	m = matrix4x4d::Identity();
 
 	const Frame *f = fFrom;
-	const Frame *root = Space::rootFrame;
 
-	while ((f!=root) && (fTo != f)) {
+	while (f->m_parent && fTo != f) {
 		m = f->m_interpolatedTransform * m;
 		f = f->m_parent;
 	}
@@ -195,11 +193,11 @@ void Frame::GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix
 
 	m = m2 * m;
 }
-	
+
 void Frame::RotateInTimestep(double step)
 {
 	double ang = m_angVel.Length() * step;
-	if (float_is_zero_general(ang)) return;
+	if (is_zero_general(ang)) return;
 	vector3d rotAxis = m_angVel.Normalized();
 	matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(ang, rotAxis.x, rotAxis.y, rotAxis.z);
 
@@ -223,7 +221,7 @@ bool Frame::IsStationRotFrame() const
 
 // Find system body this frame is for.
 
-SBody *Frame::GetSBodyFor() const
+SystemBody *Frame::GetSystemBodyFor() const
 {
 	if (m_sbody) return m_sbody;
 	if (m_parent) return m_parent->m_sbody; // rotating frame of planet
@@ -235,7 +233,7 @@ SBody *Frame::GetSBodyFor() const
 Body *Frame::GetBodyFor() const
 {
 	if (m_astroBody) return m_astroBody;
-	if (m_sbody && !m_children.empty())
+	if (m_sbody && m_sbody->type != SystemBody::TYPE_GRAVPOINT && !m_children.empty())
 		return (*m_children.begin())->m_astroBody;
 	return 0;
 }
@@ -248,7 +246,7 @@ void Frame::UpdateInterpolatedTransform(double alpha)
 	m_interpolatedTransform = m_oldOrient;
 	{
 		double len = m_oldAngDisplacement.Length() * double(alpha);
-		if (! float_is_zero_general(len)) {
+		if (! is_zero_general(len)) {
 			vector3d rotAxis = m_oldAngDisplacement.Normalized();
 			matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(len,
 					rotAxis.x, rotAxis.y, rotAxis.z);
@@ -258,24 +256,23 @@ void Frame::UpdateInterpolatedTransform(double alpha)
 	m_interpolatedTransform[12] = outPos.x;
 	m_interpolatedTransform[13] = outPos.y;
 	m_interpolatedTransform[14] = outPos.z;
-	
+
 	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		(*i)->UpdateInterpolatedTransform(alpha);
 	}
 
 }
 
-void Frame::UpdateOrbitRails()
+void Frame::UpdateOrbitRails(double time, double timestep)
 {
-	double timestep = Pi::GetTimeStep();
 	m_oldOrient = m_orient;
 	m_oldAngDisplacement = m_angVel * timestep;
 	if (!m_parent) {
 		m_orient = matrix4x4d::Identity();
 	} else if (m_sbody) {
 		// this isn't very smegging efficient
-		vector3d pos = m_sbody->orbit.OrbitalPosAtTime(Pi::GetGameTime());
-		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(Pi::GetGameTime()+1.0);
+		vector3d pos = m_sbody->orbit.OrbitalPosAtTime(time);
+		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(time+1.0);
 		vector3d vel = pos2 - pos;
 		SetPosition(pos);
 		SetVelocity(vel);
@@ -283,7 +280,7 @@ void Frame::UpdateOrbitRails()
 	RotateInTimestep(timestep);
 
 	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		(*i)->UpdateOrbitRails();
+		(*i)->UpdateOrbitRails(time, timestep);
 	}
 }
 

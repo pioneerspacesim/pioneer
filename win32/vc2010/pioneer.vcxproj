@@ -52,14 +52,19 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\..\</OutDir>
+    <TargetName>$(ProjectName)-debug</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\..\</OutDir>
+    <TargetName>$(ProjectName)-prerelease</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\..\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -77,8 +82,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;miniz.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
@@ -103,8 +109,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;miniz.lib;shlwapi.lib;libogg_static_vc2010_debug.lib;libvorbis_static_vc2010_debug.lib;libvorbisfile_static_vc2010_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,7 +121,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
@@ -127,7 +134,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>lua.lib;shlwapi.lib;libogg_static_vc2010_release.lib;libvorbis_static_vc2010_release.lib;libvorbisfile_static_vc2010_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-2_2_8.lib;libpng15.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;miniz.lib;shlwapi.lib;libogg_static_vc2010_release.lib;libvorbis_static_vc2010_release.lib;libvorbisfile_static_vc2010_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2010-2_2_8.lib;libpng15_static.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -143,23 +150,48 @@
     <ClCompile Include="..\..\src\collider\CollisionSpace.cpp" />
     <ClCompile Include="..\..\src\collider\Geom.cpp" />
     <ClCompile Include="..\..\src\collider\GeomTree.cpp" />
+    <ClCompile Include="..\..\src\Color.cpp" />
     <ClCompile Include="..\..\src\CommodityTradeWidget.cpp" />
-    <ClCompile Include="..\..\src\CustomSystem.cpp" />
+    <ClCompile Include="..\..\src\CRC32.cpp" />
     <ClCompile Include="..\..\src\DeadVideoLink.cpp" />
     <ClCompile Include="..\..\src\DynamicBody.cpp" />
     <ClCompile Include="..\..\src\enum_table.cpp" />
     <ClCompile Include="..\..\src\EquipType.cpp" />
     <ClCompile Include="..\..\src\FaceVideoLink.cpp" />
-    <ClCompile Include="..\..\src\Font.cpp" />
+    <ClCompile Include="..\..\src\FileSelectorWidget.cpp" />
+    <ClCompile Include="..\..\src\FileSourceZip.cpp" />
+    <ClCompile Include="..\..\src\FileSystem.cpp" />
+    <ClCompile Include="..\..\src\FileSystemPosix.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\FontCache.cpp" />
     <ClCompile Include="..\..\src\FontConfig.cpp" />
-    <ClCompile Include="..\..\src\FontManager.cpp" />
     <ClCompile Include="..\..\src\FormController.cpp" />
     <ClCompile Include="..\..\src\Frame.cpp" />
     <ClCompile Include="..\..\src\GalacticView.cpp" />
-    <ClCompile Include="..\..\src\Galaxy.cpp" />
+    <ClCompile Include="..\..\src\galaxy\CustomSystem.cpp" />
+    <ClCompile Include="..\..\src\galaxy\Galaxy.cpp" />
+    <ClCompile Include="..\..\src\galaxy\Sector.cpp" />
+    <ClCompile Include="..\..\src\galaxy\StarSystem.cpp" />
+    <ClCompile Include="..\..\src\Game.cpp" />
     <ClCompile Include="..\..\src\GameConfig.cpp" />
+    <ClCompile Include="..\..\src\GameLoaderSaver.cpp" />
     <ClCompile Include="..\..\src\GameMenuView.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
+    <ClCompile Include="..\..\src\graphics\Drawables.cpp" />
+    <ClCompile Include="..\..\src\graphics\Frustum.cpp" />
+    <ClCompile Include="..\..\src\graphics\Graphics.cpp" />
+    <ClCompile Include="..\..\src\graphics\Material.cpp" />
+    <ClCompile Include="..\..\src\graphics\Renderer.cpp" />
+    <ClCompile Include="..\..\src\graphics\RendererGL2.cpp" />
+    <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp" />
+    <ClCompile Include="..\..\src\graphics\Shader.cpp" />
+    <ClCompile Include="..\..\src\graphics\StaticMesh.cpp" />
+    <ClCompile Include="..\..\src\graphics\TextureBuilder.cpp" />
+    <ClCompile Include="..\..\src\graphics\TextureGL.cpp" />
+    <ClCompile Include="..\..\src\graphics\VertexArray.cpp" />
     <ClCompile Include="..\..\src\gui\Gui.cpp" />
     <ClCompile Include="..\..\src\gui\GuiBox.cpp" />
     <ClCompile Include="..\..\src\gui\GuiButton.cpp" />
@@ -181,6 +213,7 @@
     <ClCompile Include="..\..\src\gui\GuiTabbed.cpp" />
     <ClCompile Include="..\..\src\gui\GuiTextEntry.cpp" />
     <ClCompile Include="..\..\src\gui\GuiTextLayout.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTexturedQuad.cpp" />
     <ClCompile Include="..\..\src\gui\GuiToggleButton.cpp" />
     <ClCompile Include="..\..\src\gui\GuiToolTip.cpp" />
     <ClCompile Include="..\..\src\gui\GuiVScrollBar.cpp" />
@@ -191,26 +224,29 @@
     <ClCompile Include="..\..\src\IniConfig.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
+    <ClCompile Include="..\..\src\Light.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
     <ClCompile Include="..\..\src\LuaChatForm.cpp" />
+    <ClCompile Include="..\..\src\LuaComms.cpp" />
     <ClCompile Include="..\..\src\LuaConsole.cpp" />
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
     <ClCompile Include="..\..\src\LuaEngine.cpp" />
     <ClCompile Include="..\..\src\LuaEquipType.cpp" />
     <ClCompile Include="..\..\src\LuaEventQueue.cpp" />
+    <ClCompile Include="..\..\src\LuaFixed.cpp" />
     <ClCompile Include="..\..\src\LuaFormat.cpp" />
     <ClCompile Include="..\..\src\LuaGame.cpp" />
     <ClCompile Include="..\..\src\LuaLang.cpp" />
     <ClCompile Include="..\..\src\LuaManager.cpp" />
+    <ClCompile Include="..\..\src\LuaMatrix.cpp" />
     <ClCompile Include="..\..\src\LuaMusic.cpp" />
     <ClCompile Include="..\..\src\LuaNameGen.cpp" />
     <ClCompile Include="..\..\src\LuaObject.cpp" />
     <ClCompile Include="..\..\src\LuaPlanet.cpp" />
     <ClCompile Include="..\..\src\LuaPlayer.cpp" />
     <ClCompile Include="..\..\src\LuaRand.cpp" />
-    <ClCompile Include="..\..\src\LuaSBody.cpp" />
     <ClCompile Include="..\..\src\LuaSerializer.cpp" />
     <ClCompile Include="..\..\src\LuaShip.cpp" />
     <ClCompile Include="..\..\src\LuaShipType.cpp" />
@@ -218,37 +254,33 @@
     <ClCompile Include="..\..\src\LuaSpaceStation.cpp" />
     <ClCompile Include="..\..\src\LuaStar.cpp" />
     <ClCompile Include="..\..\src\LuaStarSystem.cpp" />
+    <ClCompile Include="..\..\src\LuaSystemBody.cpp" />
     <ClCompile Include="..\..\src\LuaSystemPath.cpp" />
     <ClCompile Include="..\..\src\LuaTimer.cpp" />
-    <ClCompile Include="..\..\src\LuaUI.cpp" />
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
+    <ClCompile Include="..\..\src\LuaVector.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\MarketAgent.cpp" />
+    <ClCompile Include="..\..\src\MathUtil.cpp" />
     <ClCompile Include="..\..\src\Missile.cpp" />
     <ClCompile Include="..\..\src\ModelBody.cpp" />
+    <ClCompile Include="..\..\src\ModManager.cpp" />
     <ClCompile Include="..\..\src\mtrand.cpp" />
-    <ClCompile Include="..\..\src\MyLuaMathTypes.cpp" />
-    <ClCompile Include="..\..\src\NameGenerator.cpp" />
     <ClCompile Include="..\..\src\ObjectViewerView.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Pi.cpp" />
-    <ClCompile Include="..\..\src\PiLuaClasses.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
     <ClCompile Include="..\..\src\Player.cpp" />
     <ClCompile Include="..\..\src\Polit.cpp" />
     <ClCompile Include="..\..\src\Projectile.cpp" />
-    <ClCompile Include="..\..\src\render\Render.cpp" />
-    <ClCompile Include="..\..\src\render\RenderFrustum.cpp" />
-    <ClCompile Include="..\..\src\render\RenderShader.cpp" />
-    <ClCompile Include="..\..\src\render\RenderTarget.cpp" />
-    <ClCompile Include="..\..\src\render\RenderTexture.cpp" />
-    <ClCompile Include="..\..\src\Sector.cpp" />
+    <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
     <ClCompile Include="..\..\src\Serializer.cpp" />
     <ClCompile Include="..\..\src\Sfx.cpp" />
     <ClCompile Include="..\..\src\Ship-AI.cpp" />
     <ClCompile Include="..\..\src\Ship.cpp" />
     <ClCompile Include="..\..\src\ShipAICmd.cpp" />
+    <ClCompile Include="..\..\src\ShipController.cpp" />
     <ClCompile Include="..\..\src\ShipCpanel.cpp" />
     <ClCompile Include="..\..\src\ShipCpanelMultiFuncDisplays.cpp" />
     <ClCompile Include="..\..\src\ShipFlavour.cpp" />
@@ -260,7 +292,6 @@
     <ClCompile Include="..\..\src\SpaceStation.cpp" />
     <ClCompile Include="..\..\src\SpaceStationView.cpp" />
     <ClCompile Include="..\..\src\Star.cpp" />
-    <ClCompile Include="..\..\src\StarSystem.cpp" />
     <ClCompile Include="..\..\src\StationAdvertForm.cpp" />
     <ClCompile Include="..\..\src\StationBulletinBoardForm.cpp" />
     <ClCompile Include="..\..\src\StationCommodityMarketForm.cpp" />
@@ -310,6 +341,7 @@
     <ClCompile Include="..\..\src\terrain\TerrainHeightHillsRidged.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightHillsRivers.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightMapped.cpp" />
+    <ClCompile Include="..\..\src\terrain\TerrainHeightMapped2.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsCraters.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsCraters2.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightMountainsNormal.cpp" />
@@ -321,18 +353,21 @@
     <ClCompile Include="..\..\src\terrain\TerrainHeightRuggedLava.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolid.cpp" />
     <ClCompile Include="..\..\src\terrain\TerrainHeightWaterSolidCanyons.cpp" />
-    <ClCompile Include="..\..\src\TextureFont.cpp" />
-    <ClCompile Include="..\..\src\TextureManager.cpp" />
+    <ClCompile Include="..\..\src\text\Font.cpp" />
+    <ClCompile Include="..\..\src\text\TextSupport.cpp" />
+    <ClCompile Include="..\..\src\text\TextureFont.cpp" />
+    <ClCompile Include="..\..\src\text\VectorFont.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
-    <ClCompile Include="..\..\src\VectorFont.cpp" />
+    <ClCompile Include="..\..\src\View.cpp" />
     <ClCompile Include="..\..\src\WorldView.cpp" />
+    <ClCompile Include="..\..\src\WorldViewCamera.cpp" />
+    <ClCompile Include="..\src\FileSystemWin32.cpp" />
     <ClCompile Include="..\src\Gamma.cpp" />
     <ClCompile Include="..\src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\src\win32-dirent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h" />
@@ -342,6 +377,7 @@
     <ClInclude Include="..\..\src\Body.h" />
     <ClInclude Include="..\..\src\BufferObject.h" />
     <ClInclude Include="..\..\src\buildopts.h" />
+    <ClInclude Include="..\..\src\ByteRange.h" />
     <ClInclude Include="..\..\src\Camera.h" />
     <ClInclude Include="..\..\src\CargoBody.h" />
     <ClInclude Include="..\..\src\ChatForm.h" />
@@ -354,25 +390,48 @@
     <ClInclude Include="..\..\src\collider\GeomTree.h" />
     <ClInclude Include="..\..\src\Color.h" />
     <ClInclude Include="..\..\src\CommodityTradeWidget.h" />
-    <ClInclude Include="..\..\src\CustomSystem.h" />
+    <ClInclude Include="..\..\src\CRC32.h" />
     <ClInclude Include="..\..\src\DeadVideoLink.h" />
     <ClInclude Include="..\..\src\DeleteEmitter.h" />
     <ClInclude Include="..\..\src\DynamicBody.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
     <ClInclude Include="..\..\src\EquipType.h" />
     <ClInclude Include="..\..\src\FaceVideoLink.h" />
+    <ClInclude Include="..\..\src\FileSelectorWidget.h" />
+    <ClInclude Include="..\..\src\FileSourceZip.h" />
+    <ClInclude Include="..\..\src\FileSystem.h" />
     <ClInclude Include="..\..\src\fixed.h" />
-    <ClInclude Include="..\..\src\Font.h" />
+    <ClInclude Include="..\..\src\FontCache.h" />
     <ClInclude Include="..\..\src\FontConfig.h" />
-    <ClInclude Include="..\..\src\FontManager.h" />
     <ClInclude Include="..\..\src\FormController.h" />
     <ClInclude Include="..\..\src\Frame.h" />
     <ClInclude Include="..\..\src\GalacticView.h" />
-    <ClInclude Include="..\..\src\Galaxy.h" />
+    <ClInclude Include="..\..\src\galaxy\CustomSystem.h" />
+    <ClInclude Include="..\..\src\galaxy\Galaxy.h" />
+    <ClInclude Include="..\..\src\galaxy\Sector.h" />
+    <ClInclude Include="..\..\src\galaxy\StarSystem.h" />
+    <ClInclude Include="..\..\src\galaxy\SystemPath.h" />
+    <ClInclude Include="..\..\src\Game.h" />
     <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\gameconsts.h" />
+    <ClInclude Include="..\..\src\GameLoaderSaver.h" />
     <ClInclude Include="..\..\src\GameMenuView.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
+    <ClInclude Include="..\..\src\graphics\Drawables.h" />
+    <ClInclude Include="..\..\src\graphics\Frustum.h" />
+    <ClInclude Include="..\..\src\graphics\Graphics.h" />
+    <ClInclude Include="..\..\src\graphics\Material.h" />
+    <ClInclude Include="..\..\src\graphics\Renderer.h" />
+    <ClInclude Include="..\..\src\graphics\RendererGL2.h" />
+    <ClInclude Include="..\..\src\graphics\RendererGLBuffers.h" />
+    <ClInclude Include="..\..\src\graphics\RendererLegacy.h" />
+    <ClInclude Include="..\..\src\graphics\Shader.h" />
+    <ClInclude Include="..\..\src\graphics\StaticMesh.h" />
+    <ClInclude Include="..\..\src\graphics\Surface.h" />
+    <ClInclude Include="..\..\src\graphics\Texture.h" />
+    <ClInclude Include="..\..\src\graphics\TextureBuilder.h" />
+    <ClInclude Include="..\..\src\graphics\TextureGL.h" />
+    <ClInclude Include="..\..\src\graphics\VertexArray.h" />
     <ClInclude Include="..\..\src\gui\Gui.h" />
     <ClInclude Include="..\..\src\gui\GuiAdjustment.h" />
     <ClInclude Include="..\..\src\gui\GuiBox.h" />
@@ -397,6 +456,7 @@
     <ClInclude Include="..\..\src\gui\GuiTabbed.h" />
     <ClInclude Include="..\..\src\gui\GuiTextEntry.h" />
     <ClInclude Include="..\..\src\gui\GuiTextLayout.h" />
+    <ClInclude Include="..\..\src\gui\GuiTexturedQuad.h" />
     <ClInclude Include="..\..\src\gui\GuiToggleButton.h" />
     <ClInclude Include="..\..\src\gui\GuiToolTip.h" />
     <ClInclude Include="..\..\src\gui\GuiVScrollBar.h" />
@@ -407,26 +467,29 @@
     <ClInclude Include="..\..\src\IniConfig.h" />
     <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
+    <ClInclude Include="..\..\src\Light.h" />
     <ClInclude Include="..\..\src\LmrModel.h" />
     <ClInclude Include="..\..\src\LuaBody.h" />
     <ClInclude Include="..\..\src\LuaCargoBody.h" />
     <ClInclude Include="..\..\src\LuaChatForm.h" />
+    <ClInclude Include="..\..\src\LuaComms.h" />
     <ClInclude Include="..\..\src\LuaConsole.h" />
     <ClInclude Include="..\..\src\LuaConstants.h" />
     <ClInclude Include="..\..\src\LuaEngine.h" />
     <ClInclude Include="..\..\src\LuaEquipType.h" />
     <ClInclude Include="..\..\src\LuaEventQueue.h" />
+    <ClInclude Include="..\..\src\LuaFixed.h" />
     <ClInclude Include="..\..\src\LuaFormat.h" />
     <ClInclude Include="..\..\src\LuaGame.h" />
     <ClInclude Include="..\..\src\LuaLang.h" />
     <ClInclude Include="..\..\src\LuaManager.h" />
+    <ClInclude Include="..\..\src\LuaMatrix.h" />
     <ClInclude Include="..\..\src\LuaMusic.h" />
     <ClInclude Include="..\..\src\LuaNameGen.h" />
     <ClInclude Include="..\..\src\LuaObject.h" />
     <ClInclude Include="..\..\src\LuaPlanet.h" />
     <ClInclude Include="..\..\src\LuaPlayer.h" />
     <ClInclude Include="..\..\src\LuaRand.h" />
-    <ClInclude Include="..\..\src\LuaSBody.h" />
     <ClInclude Include="..\..\src\LuaSerializer.h" />
     <ClInclude Include="..\..\src\LuaShip.h" />
     <ClInclude Include="..\..\src\LuaShipType.h" />
@@ -434,23 +497,23 @@
     <ClInclude Include="..\..\src\LuaSpaceStation.h" />
     <ClInclude Include="..\..\src\LuaStar.h" />
     <ClInclude Include="..\..\src\LuaStarSystem.h" />
+    <ClInclude Include="..\..\src\LuaSystemBody.h" />
     <ClInclude Include="..\..\src\LuaSystemPath.h" />
     <ClInclude Include="..\..\src\LuaTimer.h" />
-    <ClInclude Include="..\..\src\LuaUI.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
+    <ClInclude Include="..\..\src\LuaVector.h" />
     <ClInclude Include="..\..\src\MarketAgent.h" />
+    <ClInclude Include="..\..\src\MathUtil.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\Missile.h" />
     <ClInclude Include="..\..\src\ModelBody.h" />
+    <ClInclude Include="..\..\src\ModManager.h" />
     <ClInclude Include="..\..\src\mtrand.h" />
-    <ClInclude Include="..\..\src\MyLuaMathTypes.h" />
-    <ClInclude Include="..\..\src\NameGenerator.h" />
     <ClInclude Include="..\..\src\Object.h" />
     <ClInclude Include="..\..\src\ObjectViewerView.h" />
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\PersistSystemData.h" />
     <ClInclude Include="..\..\src\Pi.h" />
-    <ClInclude Include="..\..\src\PiLuaClasses.h" />
     <ClInclude Include="..\..\src\Planet.h" />
     <ClInclude Include="..\..\src\Player.h" />
     <ClInclude Include="..\..\src\Polit.h" />
@@ -458,17 +521,13 @@
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\RefList.h" />
-    <ClInclude Include="..\..\src\render\Render.h" />
-    <ClInclude Include="..\..\src\render\RenderFrustum.h" />
-    <ClInclude Include="..\..\src\render\RenderShader.h" />
-    <ClInclude Include="..\..\src\render\RenderTarget.h" />
-    <ClInclude Include="..\..\src\render\RenderTexture.h" />
-    <ClInclude Include="..\..\src\Sector.h" />
+    <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\SectorView.h" />
     <ClInclude Include="..\..\src\Serializer.h" />
     <ClInclude Include="..\..\src\Sfx.h" />
     <ClInclude Include="..\..\src\Ship.h" />
     <ClInclude Include="..\..\src\ShipAICmd.h" />
+    <ClInclude Include="..\..\src\ShipController.h" />
     <ClInclude Include="..\..\src\ShipCpanel.h" />
     <ClInclude Include="..\..\src\ShipCpanelMultiFuncDisplays.h" />
     <ClInclude Include="..\..\src\ShipFlavour.h" />
@@ -481,7 +540,6 @@
     <ClInclude Include="..\..\src\SpaceStation.h" />
     <ClInclude Include="..\..\src\SpaceStationView.h" />
     <ClInclude Include="..\..\src\Star.h" />
-    <ClInclude Include="..\..\src\StarSystem.h" />
     <ClInclude Include="..\..\src\StationAdvertForm.h" />
     <ClInclude Include="..\..\src\StationBulletinBoardForm.h" />
     <ClInclude Include="..\..\src\StationCommodityMarketForm.h" />
@@ -493,23 +551,27 @@
     <ClInclude Include="..\..\src\StationShipViewForm.h" />
     <ClInclude Include="..\..\src\StationShipyardForm.h" />
     <ClInclude Include="..\..\src\StringF.h" />
+    <ClInclude Include="..\..\src\StringRange.h" />
     <ClInclude Include="..\..\src\SystemInfoView.h" />
     <ClInclude Include="..\..\src\SystemView.h" />
     <ClInclude Include="..\..\src\TerrainBody.h" />
     <ClInclude Include="..\..\src\terrain\Terrain.h" />
     <ClInclude Include="..\..\src\terrain\TerrainFeature.h" />
     <ClInclude Include="..\..\src\terrain\TerrainNoise.h" />
-    <ClInclude Include="..\..\src\TextureFont.h" />
-    <ClInclude Include="..\..\src\TextureManager.h" />
+    <ClInclude Include="..\..\src\text\Font.h" />
+    <ClInclude Include="..\..\src\text\FontDescriptor.h" />
+    <ClInclude Include="..\..\src\text\TextSupport.h" />
+    <ClInclude Include="..\..\src\text\TextureFont.h" />
+    <ClInclude Include="..\..\src\text\VectorFont.h" />
     <ClInclude Include="..\..\src\utils.h" />
+    <ClInclude Include="..\..\src\vector2.h" />
     <ClInclude Include="..\..\src\vector3.h" />
-    <ClInclude Include="..\..\src\VectorFont.h" />
     <ClInclude Include="..\..\src\VideoLink.h" />
     <ClInclude Include="..\..\src\View.h" />
     <ClInclude Include="..\..\src\WorldView.h" />
+    <ClInclude Include="..\..\src\WorldViewCamera.h" />
     <ClInclude Include="..\src\Gamma.h" />
     <ClInclude Include="..\src\pch.h" />
-    <ClInclude Include="..\src\win32-dirent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am" />

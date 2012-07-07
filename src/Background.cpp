@@ -1,99 +1,108 @@
 #include "Background.h"
 #include "perlin.h"
 #include "Pi.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Space.h"
 #include "Frame.h"
 #include "Player.h"
 #include <vector>
+#include "Game.h"
+#include "graphics/Graphics.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+#include "graphics/StaticMesh.h"
+#include "graphics/Surface.h"
+#include "graphics/VertexArray.h"
+#include "graphics/Shader.h"
+
+using namespace Graphics;
 
 namespace Background
 {
 
-Starfield::Starfield() :
-	m_shader(0)
+void BackgroundElement::SetIntensity(float intensity)
 {
-	//This is needed because there is no system seed for the main menu
-	unsigned long seed = Pi::IsGameStarted() ? Pi::currentSystem->m_seed : UNIVERSE_SEED;
-	
+	m_material->emissive = Color(intensity);
+}
+
+Starfield::Starfield()
+{
+	Init();
+	//starfield is not filled without a seed
+}
+
+Starfield::Starfield(unsigned long seed)
+{
+	Init();
+	Fill(seed);
+}
+
+Starfield::~Starfield()
+{
+	delete m_model;
+	delete[] m_hyperVtx;
+	delete[] m_hyperCol;
+}
+
+void Starfield::Init()
+{
+	// reserve some space for positions, colours
+	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
+	m_model = new StaticMesh(POINTS);
+	m_shader.Reset(new Shader("bgstars"));
+	m_material.Reset(new Material());
+	m_material->unlit = true;
+	m_material->vertexColors = true;
+	m_material->shader = m_shader.Get();
+	m_material->emissive = Color::WHITE;
+	m_model->AddSurface(new Surface(POINTS, stars, m_material));
+
+	m_hyperVtx = 0;
+	m_hyperCol = 0;
+}
+
+void Starfield::Fill(unsigned long seed)
+{
+	VertexArray *va = m_model->GetSurface(0)->GetVertices();
+	va->Clear(); // clear if previously filled
 	// Slight colour variation to stars based on seed
 	MTRand rand(seed);
 
 	//fill the array
 	for (int i=0; i<BG_STAR_MAX; i++) {
-		float col = float(rand.Double(0,1));
-
-		col *= col * col * 3.0;
-		col = (col > 0.725 ? 1.45-col : col);
-		col = Clamp(col, 0.00f, 0.725f);
-
-		if (i<6) {
-			col = 0.9;
-		} else if (i<21) {
-			col = 0.85;
-		} else if (i<46) {
-			col = 0.8;
-		}
-
-		m_stars[i].r = rand.Double(col-0.05f,col);
-		m_stars[i].g = rand.Double(col-0.1f,m_stars[i].r);
-		m_stars[i].b = rand.Double(col-0.05f,col);
+		float col = float(rand.Double(0.2,0.7));
 
 		// this is proper random distribution on a sphere's surface
-		// XXX TODO
-		// perhaps distribute stars to give greater density towards the galaxy's centre and in the galactic plane?
 		const float theta = float(rand.Double(0.0, 2.0*M_PI));
 		const float u = float(rand.Double(-1.0, 1.0));
 
-		m_stars[i].x = 1000.0f * sqrt(1.0f - u*u) * cos(theta);
-		m_stars[i].y = 1000.0f * u;
-		m_stars[i].z = 1000.0f * sqrt(1.0f - u*u) * sin(theta);
+		va->Add(vector3f(
+				1000.0f * sqrt(1.0f - u*u) * cos(theta),
+				1000.0f * u,
+				1000.0f * sqrt(1.0f - u*u) * sin(theta)
+			), Color(col, col, col,	1.f)
+		);
 	}
-
-	glGenBuffersARB(1, &m_vbo);
-	Render::BindArrayBuffer(m_vbo);
-	glBufferDataARB(GL_ARRAY_BUFFER, sizeof(Vertex)*BG_STAR_MAX, m_stars, GL_STATIC_DRAW);
-	Render::BindArrayBuffer(0);
-
-	m_shader = new Render::Shader("bgstars");
 }
 
-Starfield::~Starfield()
+void Starfield::Draw(Graphics::Renderer *renderer)
 {
-	if (m_shader) delete m_shader;
-	glDeleteBuffersARB(1, &m_vbo);
-}
-
-void Starfield::Draw()
-{
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_LIGHTING);
-
-	if (Render::AreShadersEnabled()) {
-		glError();
-		Render::State::UseProgram(m_shader);
-		glError();
+	if (AreShadersEnabled()) {
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	} else {
-		glDisable(GL_POINT_SMOOTH);
+		glDisable(GL_POINT_SMOOTH); //too large if smoothing is on
 		glPointSize(1.0f);
 	}
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-
-	if (!Pi::IsGameStarted() || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
-		glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
-		glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
-		glDrawArrays(GL_POINTS, 0, BG_STAR_MAX);
-		glBindBufferARB(GL_ARRAY_BUFFER, 0);
+	// XXX would be nice to get rid of the Pi:: stuff here
+	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
+		renderer->DrawStaticMesh(m_model);
 	} else {
 		/* HYPERSPACING!!!!!!!!!!!!!!!!!!! */
 		/* all this jizz isn't really necessary, since the player will
 		 * be in the root frame when hyperspacing... */
 		matrix4x4d m, rot;
-		Frame::GetFrameTransform(Space::rootFrame, Pi::player->GetFrame(), m);
+		Frame::GetFrameTransform(Pi::game->GetSpace()->GetRootFrame(), Pi::player->GetFrame(), m);
 		m.ClearToRotOnly();
 		Pi::player->GetRotMatrix(rot);
 		m = rot.InverseOf() * m;
@@ -102,133 +111,139 @@ void Starfield::Draw()
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
 		// it out by tweaking the numbers until it looked sort of right
-		double mult = 0.0015 / (Space::GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
+		double mult = 0.0015 / (Pi::player->GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
 
-		double hyperspaceAnim = Space::GetHyperspaceAnim();
+		double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
 
-		float *vtx = new float[BG_STAR_MAX*12];
-		for (int i=0; i<BG_STAR_MAX; i++) {
-			
-			vector3f v(m_stars[i].x, m_stars[i].y, m_stars[i].z);
-			v += vector3f(pz*hyperspaceAnim*mult);
-
-			vtx[i*12] = m_stars[i].x + v.x;
-			vtx[i*12+1] = m_stars[i].y + v.y;
-			vtx[i*12+2] = m_stars[i].z + v.z;
-
-			vtx[i*12+3] = m_stars[i].r;// * noise(v.x);
-			vtx[i*12+4] = m_stars[i].g;// * noise(v.y);
-			vtx[i*12+5] = m_stars[i].b;// * noise(v.z);
-
-			vtx[i*12+6] = v.x;
-			vtx[i*12+7] = v.y;
-			vtx[i*12+8] = v.z;
-
-			vtx[i*12+9] = m_stars[i].r;// * noise(v.x);
-			vtx[i*12+10] = m_stars[i].g;// * noise(v.y);
-			vtx[i*12+11] = m_stars[i].b;// * noise(v.z);
-
-			//glRotatef(0.00001*v.x, 1.0f, 0.0f, 0.0f); // rotate around x axis
-			//glRotatef(-0.00001*v.y, 0.0f, 1.0f, 0.0f); // rotate around y axis
-			//glRotatef(0.00001*v.z, 0.0f, 0.0f, 1.0f); // rotate around z axis
+		//XXX this is a lot of lines
+		if (m_hyperVtx == 0) {
+			m_hyperVtx = new vector3f[BG_STAR_MAX * 2];
+			m_hyperCol = new Color[BG_STAR_MAX * 2];
 		}
+		VertexArray *va = m_model->GetSurface(0)->GetVertices();
+		for (int i=0; i<BG_STAR_MAX; i++) {
 
-		glVertexPointer(3, GL_FLOAT, 6*sizeof(float), vtx);
-		glColorPointer(3, GL_FLOAT, 6*sizeof(float), vtx+3);
-		glDrawArrays(GL_LINES, 0, BG_STAR_MAX*2);
+			vector3f v(va->position[i]);
+			v += vector3f(pz*hyperspaceProgress*mult);
 
-		delete[] vtx;
+			m_hyperVtx[i*2] = va->position[i] + v;
+			m_hyperCol[i*2] = va->diffuse[i];
+
+			m_hyperVtx[i*2+1] = v;
+			m_hyperCol[i*2+1] = va->diffuse[i];
+		}
+		Pi::renderer->DrawLines(BG_STAR_MAX*2, m_hyperVtx, m_hyperCol);
 	}
 
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
-
-	if (Render::AreShadersEnabled()) {
-		Render::State::UseProgram(0);
+	if (AreShadersEnabled()) {
 		glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
-		glDisable(GL_POINT_SMOOTH);
 	}
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
 }
-
 
 MilkyWay::MilkyWay()
 {
-	//build milky way model in two strips
+	m_model = new StaticMesh(TRIANGLE_STRIP);
+
+	//build milky way model in two strips (about 256 verts)
+	//The model is built as a generic vertex array first. The renderer
+	//will reprocess this into buffered format as it sees fit. The old data is
+	//kept around as long as StaticMesh is alive (needed if the cache is to be regenerated)
+
+	VertexArray *bottom = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	VertexArray *top = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+
+	const Color dark(0.f);
+	const Color bright(0.05f, 0.05f, 0.05f, 0.05f);
+
 	//bottom
 	float theta;
-	for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
-		m_dataBottom.push_back(Vertex(
+	for (theta=0.0; theta < 2.f*float(M_PI); theta+=0.1f) {
+		bottom->Add(
 				vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
-				vector3f(0.0,0.0,0.0)));
-		m_dataBottom.push_back(Vertex(
+				dark);
+		bottom->Add(
 			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
-			vector3f(0.05,0.05,0.05)));
+			bright);
 	}
-	theta = 2.0*M_PI;
-	m_dataBottom.push_back(Vertex(
+	theta = 2.f*float(M_PI);
+	bottom->Add(
 		vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
-		vector3f(0.0,0.0,0.0)));
-	m_dataBottom.push_back(Vertex(
+		dark);
+	bottom->Add(
 		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
-		vector3f(0.05,0.05,0.05)));
+		bright);
 	//top
-	for (theta=0.0; theta < 2.0*M_PI; theta+=0.1) {
-		m_dataTop.push_back(Vertex(
+	for (theta=0; theta < 2.f*float(M_PI); theta+=0.1f) {
+		top->Add(
 			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
-			vector3f(0.05,0.05,0.05)));
-		m_dataTop.push_back(Vertex(
+			bright);
+		top->Add(
 			vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
-			vector3f(0.0,0.0,0.0)));
+			dark);
 	}
-	theta = 2.0*M_PI;
-	m_dataTop.push_back(Vertex(
+	theta = 2.f*float(M_PI);
+	top->Add(
 		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
-		vector3f(0.05,0.05,0.05)));
-	m_dataTop.push_back(Vertex(
+		bright);
+	top->Add(
 		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
-		vector3f(0.0,0.0,0.0)));
+		dark);
 
-	//both strips in one vbo
-	glGenBuffersARB(1, &m_vbo);
-	Render::BindArrayBuffer(m_vbo);
-	glBufferDataARB(GL_ARRAY_BUFFER,
-		sizeof(Vertex) * (m_dataBottom.size() + m_dataTop.size()),
-		NULL, GL_STATIC_DRAW);
-	glBufferSubDataARB(GL_ARRAY_BUFFER, 0,
-		sizeof(Vertex) * m_dataBottom.size(),
-		&m_dataBottom.front());
-	glBufferSubDataARB(GL_ARRAY_BUFFER, sizeof(Vertex) * m_dataBottom.size(),
-		sizeof(Vertex) * m_dataTop.size(),
-		&m_dataTop.front());
-	Render::BindArrayBuffer(0);
+	m_material.Reset(new Material);
+	m_material->unlit = true;
+	m_material->vertexColors = true;
+	m_shader.Reset(new Shader("bgstars"));
+	m_material->shader = m_shader.Get();
+	m_model->AddSurface(new Surface(TRIANGLE_STRIP, bottom, m_material));
+	m_model->AddSurface(new Surface(TRIANGLE_STRIP, top, m_material));
 }
 
 MilkyWay::~MilkyWay()
 {
-	glDeleteBuffersARB(1, &m_vbo);
+	delete m_model;
 }
 
-void MilkyWay::Draw()
+void MilkyWay::Draw(Graphics::Renderer *renderer)
 {
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_LIGHTING);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
+	assert(m_model != 0);
+	renderer->DrawStaticMesh(m_model);
+}
 
-	Render::BindArrayBuffer(m_vbo);
-	glVertexPointer(3, GL_FLOAT, sizeof(struct Vertex), 0);
-	glColorPointer(3, GL_FLOAT, sizeof(struct Vertex), reinterpret_cast<void *>(3*sizeof(float)));
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_dataBottom.size());
-	glDrawArrays(GL_TRIANGLE_STRIP, m_dataBottom.size(), m_dataTop.size());
-	Render::BindArrayBuffer(0);
+Container::Container()
+{
+}
 
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
+Container::Container(unsigned long seed)
+{
+	Refresh(seed);
+};
+
+void Container::Refresh(unsigned long seed)
+{
+	// redo starfield, milkyway stays normal for now
+	m_starField.Fill(seed);
+}
+
+void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) const
+{
+	//XXX not really const - renderer can modify the buffers
+	glPushMatrix();
+	renderer->SetBlendMode(BLEND_SOLID);
+	renderer->SetDepthTest(false);
+	renderer->SetTransform(transform);
+	const_cast<MilkyWay&>(m_milkyWay).Draw(renderer);
+	// squeeze the starfield a bit to get more density near horizon
+	matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
+	renderer->SetTransform(starTrans);
+	const_cast<Starfield&>(m_starField).Draw(renderer);
+	Pi::renderer->SetDepthTest(true);
+	glPopMatrix();
+}
+
+void Container::SetIntensity(float intensity)
+{
+	m_starField.SetIntensity(intensity);
+	m_milkyWay.SetIntensity(intensity);
 }
 
 }; //namespace Background

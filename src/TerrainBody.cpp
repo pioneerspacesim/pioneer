@@ -1,25 +1,27 @@
 #include "TerrainBody.h"
 #include "GeoSphere.h"
 #include "Pi.h"
-#include "render/Render.h"
 #include "WorldView.h"
 #include "Frame.h"
+#include "Game.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
 
-TerrainBody::TerrainBody(SBody *sbody) :
-	Body(), 
-	m_sbody(0), 
-	m_pos(vector3d(0,0,0)), 
-	m_mass(0), 
+TerrainBody::TerrainBody(SystemBody *sbody) :
+	Body(),
+	m_sbody(0),
+	m_pos(vector3d(0,0,0)),
+	m_mass(0),
 	m_geosphere(0)
 {
 	InitTerrainBody(sbody);
 }
 
 TerrainBody::TerrainBody() :
-	Body(), 
-	m_sbody(0), 
-	m_pos(vector3d(0,0,0)), 
-	m_mass(0), 
+	Body(),
+	m_sbody(0),
+	m_pos(vector3d(0,0,0)),
+	m_mass(0),
 	m_geosphere(0)
 {
 }
@@ -31,7 +33,7 @@ TerrainBody::~TerrainBody()
 }
 
 
-void TerrainBody::InitTerrainBody(SBody *sbody)
+void TerrainBody::InitTerrainBody(SystemBody *sbody)
 {
 	assert(!m_sbody);
 	m_sbody = sbody;
@@ -40,18 +42,18 @@ void TerrainBody::InitTerrainBody(SBody *sbody)
 		m_geosphere = new GeoSphere(sbody);
 }
 
-void TerrainBody::Save(Serializer::Writer &wr)
+void TerrainBody::Save(Serializer::Writer &wr, Space *space)
 {
-	Body::Save(wr);
+	Body::Save(wr, space);
 	wr.Vector3d(m_pos);
-	wr.Int32(Serializer::LookupSystemBody(m_sbody));
+	wr.Int32(space->GetIndexForSystemBody(m_sbody));
 }
 
-void TerrainBody::Load(Serializer::Reader &rd)
+void TerrainBody::Load(Serializer::Reader &rd, Space *space)
 {
-	Body::Load(rd);
+	Body::Load(rd, space);
 	m_pos = rd.Vector3d();
-	SBody *sbody = Serializer::LookupSystemBody(rd.Int32());
+	SystemBody *sbody = space->GetSystemBodyByIndex(rd.Int32());
 	InitTerrainBody(sbody);
 }
 
@@ -62,14 +64,14 @@ double TerrainBody::GetBoundingRadius() const
 	return m_sbody->GetRadius() * (1.1+m_geosphere->GetMaxFeatureHeight());
 }
 
-void TerrainBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void TerrainBody::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d ftran = viewTransform;
 	vector3d fpos = viewCoords;
 	double rad = m_sbody->GetRadius();
 
 	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
+	renderer->GetNearFarRange(znear, zfar);
 
 	double len = fpos.Length();
 	int shrink = 0;
@@ -104,17 +106,17 @@ void TerrainBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTrans
 		campos = campos * (1.0/rad);		// position of camera relative to planet "model"
 
 		// translation not applied until patch render to fix jitter
-		m_geosphere->Render(-campos, m_sbody->GetRadius(), scale);
+		m_geosphere->Render(renderer, -campos, m_sbody->GetRadius(), scale);
 		glTranslated(campos.x, campos.y, campos.z);
 
-		SubRender(campos);
+		SubRender(renderer, campos);
 
 		glDisable(GL_NORMALIZE);
-		
+
 		// if not using shader then z-buffer precision is hopeless and
 		// we can't place objects on the terrain without awful z artifacts
-		if (shrink || !Render::AreShadersEnabled()) {
-			glClear(GL_DEPTH_BUFFER_BIT);
+		if (shrink || !Graphics::AreShadersEnabled()) {
+			renderer->ClearDepthBuffer();
 		}
 	}
 	glPopMatrix();
@@ -142,7 +144,7 @@ double TerrainBody::GetTerrainHeight(const vector3d pos_) const
 	}
 }
 
-bool TerrainBody::IsSuperType(SBody::BodySuperType t) const
+bool TerrainBody::IsSuperType(SystemBody::BodySuperType t) const
 {
 	if (!m_sbody) return false;
 	else return m_sbody->GetSuperType() == t;

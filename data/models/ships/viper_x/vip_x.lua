@@ -110,13 +110,13 @@ define_model('vipx_pad', {
 		end
 		use_material('ncv')
 		texture('steel.png')
-		load_obj('vipx_pad0.obj',Matrix.rotate(.5*math.pi,v(0,0,1)))
+		load_obj('vipx_pad0.obj',matrix.rotate(.5*math.pi,v(0,0,1)))
 
 		texture('pad_1.png')
-		load_obj('vipx_pad1.obj',Matrix.rotate(.5*math.pi,v(0,0,1)))
+		load_obj('vipx_pad1.obj',matrix.rotate(.5*math.pi,v(0,0,1)))
 
 		texture('pad_2.png')
-		load_obj('vipx_pad2.obj',Matrix.rotate(.5*math.pi,v(0,0,1)))
+		load_obj('vipx_pad2.obj',matrix.rotate(.5*math.pi,v(0,0,1)))
 	end
 })
 
@@ -227,7 +227,7 @@ define_model('vipx_uc_l', {
 })
 
 --[[
-too sad that Matrix.translate will move the .obj out of it's normals :(
+too sad that matrix.translate will move the .obj out of it's normals :(
 --]]
 
 define_model('vipx_fl_q', {
@@ -396,32 +396,6 @@ define_model('viper_x', {
 		materials = {'win', 'cv0', 'ncv', 'chrome', 'black', 'layer', 'glow1', 'glow2a',
 		'glow2b', 'glow2c', 'glow2d', 'glow2e', 'glow2f', 'e_glow', 'sc_glow', 'glow', 'pit_0', 'pit_1', 'light'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Viper X',
-				forward_thrust = -9e6,
-				reverse_thrust = 3e6,
-				up_thrust = 3e6,
-				down_thrust = -2e6,
-				left_thrust = -2e6,
-				right_thrust = 2e6,
-				angular_thrust = 20e6,
-				gun_mounts =
-				{
-					{ v(0,-1.4,-28), v(0,0,-1) },
-					{ v(0,0,0), v(0,0,1) }
-				},
-				max_cargo = 55,
-				max_laser = 1,
-				max_missile = 4,
-				max_cargoscoop = 0,
-				max_fuelscoop = 1,
-				capacity = 55,
-				hull_mass = 40,
-				price = 90000,
-				hyperdrive_class = 2,
-			}
-		}
 	},
 
 	static = function(lod)

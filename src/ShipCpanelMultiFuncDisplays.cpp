@@ -6,11 +6,16 @@
 #include "Player.h"
 #include "Missile.h"
 #include "HyperspaceCloud.h"
-#include "Sector.h"
+#include "galaxy/Sector.h"
 #include "Sound.h"
 #include "Lang.h"
 #include "StringF.h"
 #include "KeyBindings.h"
+#include "Game.h"
+#include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
+
+using namespace Graphics;
 
 #define SCANNER_RANGE_MAX	100000.0f
 #define SCANNER_RANGE_MIN	1000.0f
@@ -20,14 +25,15 @@
 
 enum ScannerBlobWeight { WEIGHT_LIGHT, WEIGHT_HEAVY };
 
-static const GLfloat scannerNavTargetColour[3]     = { 0,      1.0f,   0      };
-static const GLfloat scannerCombatTargetColour[3]  = { 1.0f,   0,      0      };
-static const GLfloat scannerStationColour[3]       = { 1.0f,   1.0f,   1.0f   };
-static const GLfloat scannerShipColour[3]          = { 0.953f, 0.929f, 0.114f };
-static const GLfloat scannerMissileColour[3]       = { 0.941f, 0.149f, 0.196f };
-static const GLfloat scannerPlayerMissileColour[3] = { 0.953f, 0.929f, 0.114f };
-static const GLfloat scannerCargoColour[3]         = { 0.65f,  0.65f,  0.65f  };
-static const GLfloat scannerCloudColour[3]         = { 0.5f,   0.5f,   1.0f   };
+// XXX target colours should be unified throughout the game
+static const Color scannerNavTargetColour     = Color( 0,      1.0f,   0      );
+static const Color scannerCombatTargetColour  = Color( 1.0f,   0,      0      );
+static const Color scannerStationColour       = Color( 1.0f,   1.0f,   1.0f   );
+static const Color scannerShipColour          = Color( 0.953f, 0.929f, 0.114f );
+static const Color scannerMissileColour       = Color( 0.941f, 0.149f, 0.196f );
+static const Color scannerPlayerMissileColour = Color( 0.953f, 0.929f, 0.114f );
+static const Color scannerCargoColour         = Color( 0.65f,  0.65f,  0.65f  );
+static const Color scannerCloudColour         = Color( 0.5f,   0.5f,   1.0f   );
 
 MsgLogWidget::MsgLogWidget()
 {
@@ -61,8 +67,11 @@ void MsgLogWidget::ShowNext()
 	} else {
 		// current message expired and more in queue
 		Pi::BoinkNoise();
-		Pi::SetTimeAccel(1);
-		Pi::RequestTimeAccel(1);
+		// cancel time acceleration (but don't unpause)
+		if (Pi::game->GetTimeAccel() != Game::TIMEACCEL_PAUSED) {
+			Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
+			Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
+		}
 		message_t msg("","",NONE);
 		// use MUST_SEE messages first
 		for (std::list<message_t>::iterator i = m_msgQueue.begin();
@@ -99,11 +108,28 @@ void MsgLogWidget::GetSizeRequested(float size[2])
 
 /////////////////////////////////
 
-ScannerWidget::ScannerWidget()
+ScannerWidget::ScannerWidget(Graphics::Renderer *r) :
+	m_renderer(r)
 {
 	m_mode = SCANNER_MODE_AUTO;
 	m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
 
+	InitObject();
+}
+
+ScannerWidget::ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd) :
+	m_renderer(r)
+{
+	m_mode = ScannerMode(rd.Int32());
+	m_currentRange = rd.Float();
+	m_manualRange = rd.Float();
+	m_targetRange = rd.Float();
+
+	InitObject();
+}
+
+void ScannerWidget::InitObject()
+{
 	m_toggleScanModeConnection = KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
 }
 
@@ -120,7 +146,7 @@ void ScannerWidget::GetSizeRequested(float size[2])
 
 void ScannerWidget::ToggleMode()
 {
-	if (IsVisible() && !Pi::IsTimeAccelPause()) {
+	if (IsVisible() && Pi::game->GetTimeAccel() != Game::TIMEACCEL_PAUSED) {
 		if (m_mode == SCANNER_MODE_AUTO) m_mode = SCANNER_MODE_MANUAL;
 		else m_mode = SCANNER_MODE_AUTO;
 	}
@@ -134,31 +160,34 @@ void ScannerWidget::Draw()
 	GetSize(size);
 	m_x = size[0] * 0.5f;
 	m_y = size[1] * 0.5f;
-	Widget::SetClipping(size[0], size[1]);
+	SetScissor(true);
 	float c2p[2];
 	Gui::Screen::GetCoords2Pixels(c2p);
-	
+
 	// draw objects below player (and below scanner)
 	if (!m_contacts.empty()) DrawBlobs(true);
 
 	// disc
-	glEnable(GL_BLEND);
-	glColor4f(0, 1.0f, 0, 0.1f);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex2f(m_x, m_y);
-	for (float a = 0; a < 2 * M_PI; a += M_PI * 0.02) {
-		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+	m_renderer->SetBlendMode(BLEND_ALPHA);
+	Color green(0.f, 1.f, 0.f, 0.1f);
+
+	// XXX 2d vertices
+	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE, 128); //reserve some space for positions & colors
+	va.Add(vector3f(m_x, m_y, 0.f), green);
+	for (float a = 0; a < 2 * float(M_PI); a += float(M_PI) * 0.02f) {
+		va.Add(vector3f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
 	}
-	glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
-	glEnd();
-	glDisable(GL_BLEND);
+	va.Add(vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
+	m_renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+
+	m_renderer->SetBlendMode(BLEND_SOLID);
 
 	// circles and spokes
 	glLineWidth(1);
 	DrawRingsAndSpokes(false);
 	// draw blended in slightly different places to anti-alias
 	glPushMatrix();
-	glEnable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_ALPHA);
 	glTranslatef(0.5f * c2p[0], 0.5f * c2p[1], 0);
 	DrawRingsAndSpokes(true);
 	glTranslatef(0, -c2p[1], 0);
@@ -168,12 +197,12 @@ void ScannerWidget::Draw()
 	glTranslatef(0, c2p[1], 0);
 	DrawRingsAndSpokes(true);
 	glPopMatrix();
-	glDisable(GL_BLEND);
+	m_renderer->SetBlendMode(BLEND_SOLID);
 
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
 
-	Widget::EndClipping();
+	SetScissor(false);
 	glLineWidth(1.0f);
 	glPointSize(1.0f);
 }
@@ -188,11 +217,12 @@ void ScannerWidget::Update()
 		return;
 	}
 
+	// range priority is combat target > ship/missile > nav target > other
 	enum { RANGE_MAX, RANGE_FAR_OTHER, RANGE_NAV, RANGE_FAR_SHIP, RANGE_COMBAT } range_type = RANGE_MAX;
 	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
 
 	// collect the bodies to be displayed, and if AUTO, distances
-	for (Space::bodiesIter_t i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
 		if ((*i) == Pi::player) continue;
 
 		float dist = float((*i)->GetPositionRelTo(Pi::player).Length());
@@ -212,16 +242,17 @@ void ScannerWidget::Update()
 					break;
 				}
 
-				// fall through
+				// else fall through
 
 			case Object::SHIP: {
 				Ship *s = static_cast<Ship*>(*i);
 				if (s->GetFlightState() != Ship::FLYING && s->GetFlightState() != Ship::LANDED)
 					continue;
 
+				if ((*i) == Pi::player->GetCombatTarget()) c.isSpecial = true;
+
 				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_COMBAT) {
-					if ((*i) == Pi::player->GetCombatTarget()) {
-						c.isSpecial = true;
+					if (c.isSpecial == true) {
 						combat_dist = dist;
 						range_type = RANGE_COMBAT;
 					}
@@ -237,10 +268,10 @@ void ScannerWidget::Update()
 			case Object::CARGOBODY:
 			case Object::HYPERSPACECLOUD:
 
-				// XXX could maybe add orbital stations
-				if (m_mode == SCANNER_MODE_AUTO && range_type != RANGE_NAV && range_type != RANGE_COMBAT) {
-					if ((*i) == Pi::player->GetNavTarget()) {
-						c.isSpecial = true;
+				if ((*i) == Pi::player->GetNavTarget()) c.isSpecial = true;
+
+				if (m_mode == SCANNER_MODE_AUTO && range_type < RANGE_NAV) {
+					if (c.isSpecial == true) {
 						nav_dist = dist;
 						range_type = RANGE_NAV;
 					}
@@ -267,7 +298,7 @@ void ScannerWidget::Update()
 			m_manualRange = m_currentRange;
 		m_manualRange = Clamp(m_manualRange * 1.05f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 	}
-	else if (KeyBindings::decreaseScanRange.IsActive() && m_manualRange > SCANNER_RANGE_MIN) {
+	else if (KeyBindings::decreaseScanRange.IsActive()) {
 		if (m_mode == SCANNER_MODE_AUTO) {
 			m_manualRange = m_targetRange;
 			m_mode = SCANNER_MODE_MANUAL;
@@ -277,7 +308,6 @@ void ScannerWidget::Update()
 		m_manualRange = Clamp(m_manualRange * 0.95f, SCANNER_RANGE_MIN, SCANNER_RANGE_MAX);
 	}
 
-	// range priority is combat target > ship/missile > nav target > other
 	if (m_mode == SCANNER_MODE_AUTO) {
 		switch (range_type) {
 			case RANGE_COMBAT:
@@ -297,7 +327,7 @@ void ScannerWidget::Update()
 				break;
 		}
 	}
-	
+
 	else
 		m_targetRange = m_manualRange;
 }
@@ -307,55 +337,58 @@ void ScannerWidget::DrawBlobs(bool below)
 	for (std::list<Contact>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
 		ScannerBlobWeight weight = WEIGHT_LIGHT;
 
+		const Color *color = 0;
+
 		switch (i->type) {
 			case Object::SHIP:
 				if (i->isSpecial)
-					glColor3fv(scannerCombatTargetColour);
+					color = &scannerCombatTargetColour;
 				else
-					glColor3fv(scannerShipColour);
+					color = &scannerShipColour;
 				weight = WEIGHT_HEAVY;
 				break;
 
 			case Object::MISSILE:
 				if (i->isSpecial)
-					glColor3fv(scannerPlayerMissileColour);
+					color = &scannerPlayerMissileColour;
 				else
-					glColor3fv(scannerMissileColour);
+					color = &scannerMissileColour;
 				break;
 
 			case Object::SPACESTATION:
 				if (i->isSpecial)
-					glColor3fv(scannerNavTargetColour);
+					color = &scannerNavTargetColour;
 				else
-					glColor3fv(scannerStationColour);
+					color = &scannerStationColour;
 				weight = WEIGHT_HEAVY;
 				break;
 
 			case Object::CARGOBODY:
 				if (i->isSpecial)
-					glColor3fv(scannerNavTargetColour);
+					color = &scannerNavTargetColour;
 				else
-					glColor3fv(scannerCargoColour);
+					color = &scannerCargoColour;
 				break;
 
 			case Object::HYPERSPACECLOUD:
 				if (i->isSpecial)
-					glColor3fv(scannerNavTargetColour);
+					color = &scannerNavTargetColour;
 				else
-					glColor3fv(scannerCloudColour);
+					color = &scannerCloudColour;
 				break;
 
 			default:
 				continue;
 		}
 
+		float pointSize = 1.f;
 		if (weight == WEIGHT_LIGHT) {
 			glLineWidth(1);
-			glPointSize(3);
+			pointSize = 3.f;
 		}
 		else {
 			glLineWidth(2);
-			glPointSize(4);
+			pointSize = 4.f;
 		}
 
 		matrix4x4d rot;
@@ -369,14 +402,14 @@ void ScannerWidget::DrawBlobs(bool below)
 		float y_base = m_y + m_y * SCANNER_YSHRINK * float(pos.z) * m_scale;
 		float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
 
+		glColor3f(color->r, color->g, color->b);
 		glBegin(GL_LINES);
 		glVertex2f(x, y_base);
 		glVertex2f(x, y_blob);
 		glEnd();
 
-		glBegin(GL_POINTS);
-		glVertex2f(x, y_blob);
-		glEnd();
+		vector2f blob(x, y_blob);
+		m_renderer->DrawPoints2D(1, &blob, color, pointSize);
 	}
 }
 
@@ -386,32 +419,37 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 	static const float step = float(M_PI * 0.02); // 1/100th or 3.6 degrees
 
 	/* soicles */
-	if (blend) glColor4f(0, 0.4f, 0, 0.25f);
-	else glColor3f(0, 0.4f, 0);
 	/* inner soicle */
-	glBegin(GL_LINE_LOOP);
+	Color col(0.f, 0.4f, 0.f, 0.25f);
+
+	std::vector<vector2f> vts;
 	for (float a = 0; a < circle; a += step) {
-		glVertex2f(m_x + 0.1f * m_x * sin(a), m_y + SCANNER_YSHRINK * 0.1f * m_y * cos(a));
+		vts.push_back(vector2f(
+				m_x + 0.1f * m_x * sin(a),
+				m_y + SCANNER_YSHRINK * 0.1f * m_y * cos(a)));
 	}
-	glEnd();
+	m_renderer->DrawLines2D(vts.size(), &vts[0], col, LINE_LOOP);
+
 	/* dynamic soicles */
 	for (int p = 0; p < 7; ++p) {
+		std::vector<vector2f> circ;
 		float sz = (pow(2.0f, p) * 1000.0f) / m_currentRange;
 		if (sz <= 0.1f) continue;
 		if (sz >= 1.0f) break;
-		glBegin(GL_LINE_LOOP);
 		for (float a = 0; a < circle; a += step) {
-			glVertex2f(m_x + sz * m_x * sin(a), m_y + SCANNER_YSHRINK * sz * m_y * cos(a));
+			circ.push_back(vector2f(
+				m_x + sz * m_x * sin(a),
+				m_y + SCANNER_YSHRINK * sz * m_y * cos(a)));
 		}
-		glEnd();
+		m_renderer->DrawLines2D(circ.size(), &circ[0], col, LINE_LOOP);
 	}
 	/* schpokes */
-	glBegin(GL_LINES);
+	std::vector<vector2f> spokes;
 	for (float a = 0; a < circle; a += float(M_PI * 0.25)) {
-		glVertex2f(m_x + m_x * 0.1f * sin(a), m_y + 0.1f * SCANNER_YSHRINK * m_y * cos(a));
-		glVertex2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		spokes.push_back(vector2f(m_x + m_x * 0.1f * sin(a), m_y + 0.1f * SCANNER_YSHRINK * m_y * cos(a)));
+		spokes.push_back(vector2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a)));
 	}
-	glEnd();
+	m_renderer->DrawLines2D(spokes.size(), &spokes[0], col);
 
 	/* outer range soicle */
 	float range_percent = m_currentRange / SCANNER_RANGE_MAX;
@@ -426,34 +464,30 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 	}
 
 	/* draw bright range arg */
+	col = Color(0.7f, 0.7f, 0.f, 0.25f);
 	if (m_mode == SCANNER_MODE_AUTO) {
 		/* green like the scanner to indicate that the scanner is controlling the range */
-		if (blend) glColor4f(0, 0.7f, 0, 0.25f);
-		else glColor3f(0, 0.7f, 0);
-	} else {
-		if (blend) glColor4f(0.7f, 0.7f, 0, 0.25f);
-		else glColor3f(0.7f, 0.7f, 0);
+		col = Color(0.f, 0.7f, 0.f, 0.25f);
 	}
 
-	glBegin(GL_LINE_STRIP);
+	std::vector<vector2f> bg;
 	for (float a = 0; a < range_percent * circle; a += step) {
-		glVertex2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+		bg.push_back(vector2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a)));
 	}
-	glVertex2f(arc_end_x, arc_end_y);
-	glEnd();
+	bg.push_back(vector2f(arc_end_x, arc_end_y));
+	m_renderer->DrawLines2D(bg.size(), &bg[0], col, LINE_STRIP);
 
 	/* and dim surround for the remaining segment */
 	if (range_percent < 1.0f) {
-		if (blend) glColor4f(0.2f, 0.3f, 0.2f, 0.25f);
-		else glColor3f(0.2f, 0.3f, 0.2f);
-		glBegin(GL_LINE_STRIP);
-		glVertex2f(arc_end_x, arc_end_y);
+		col = Color(0.2f, 0.3f, 0.2f, 0.25f);
+		std::vector<vector2f> v;
+		v.push_back(vector2f(arc_end_x, arc_end_y));
 		for (float a = range_percent * circle; a < circle; a += step) {
-			glVertex2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a));
+			v.push_back(vector2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a)));
 		}
-		/* reconnect to the start */
-		glVertex2f(m_x, m_y + SCANNER_YSHRINK * m_y);
-		glEnd();
+		/* add the final segment to connect back to the bottom centre of the scanner */
+		v.push_back(vector2f(m_x, m_y + SCANNER_YSHRINK * m_y));
+		m_renderer->DrawLines2D(v.size(), &v[0], col, LINE_STRIP);
 	}
 }
 
@@ -475,13 +509,6 @@ void ScannerWidget::Save(Serializer::Writer &wr)
 	wr.Float(m_targetRange);
 }
 
-void ScannerWidget::Load(Serializer::Reader &rd)
-{
-	m_mode = ScannerMode(rd.Int32());
-	m_currentRange = rd.Float();
-	m_manualRange = rd.Float();
-	m_targetRange = rd.Float();
-}
 
 /////////////////////////////////
 
@@ -527,17 +554,17 @@ void UseEquipWidget::UpdateEquip()
 			Gui::Button *b;
 			switch (t) {
 				case Equip::MISSILE_UNGUIDED:
-					b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/missile_unguided.png");
+					b = new Gui::ImageButton("icons/missile_unguided.png");
 					break;
 				case Equip::MISSILE_GUIDED:
-					b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/missile_guided.png");
+					b = new Gui::ImageButton("icons/missile_guided.png");
 					break;
 				case Equip::MISSILE_SMART:
-					b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/missile_smart.png");
+					b = new Gui::ImageButton("icons/missile_smart.png");
 					break;
 				default:
 				case Equip::MISSILE_NAVAL:
-					b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/missile_naval.png");
+					b = new Gui::ImageButton("icons/missile_naval.png");
 					break;
 			}
 			Add(b, spacing * i, 40);
@@ -550,8 +577,8 @@ void UseEquipWidget::UpdateEquip()
 		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_ECM);
 		if (t != Equip::NONE) {
 			Gui::Button *b = 0;
-			if (t == Equip::ECM_BASIC) b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/ecm_basic.png");
-			else if (t == Equip::ECM_ADVANCED) b = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/ecm_advanced.png");
+			if (t == Equip::ECM_BASIC) b = new Gui::ImageButton("icons/ecm_basic.png");
+			else if (t == Equip::ECM_ADVANCED) b = new Gui::ImageButton("icons/ecm_advanced.png");
 			assert(b);
 
 			b->onClick.connect(sigc::mem_fun(Pi::player, &Ship::UseECM));
@@ -559,7 +586,7 @@ void UseEquipWidget::UpdateEquip()
 			Add(b, 32, 0);
 		}
 	}
-		
+
 }
 
 ///////////////////////////////////////////////
@@ -568,17 +595,17 @@ MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
 {
 	m_active = 0;
 	m_rg = new Gui::RadioGroup();
-	
-	m_buttons[0] = new Gui::ImageRadioButton(m_rg, PIONEER_DATA_DIR "/icons/multifunc_scanner.png", PIONEER_DATA_DIR "/icons/multifunc_scanner_on.png");
+
+	m_buttons[0] = new Gui::ImageRadioButton(m_rg, "icons/multifunc_scanner.png", "icons/multifunc_scanner_on.png");
 	m_buttons[0]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_SCANNER));
 	m_buttons[0]->SetShortcut(SDLK_F9, KMOD_NONE);
 	m_buttons[0]->SetSelected(true);
 
-	m_buttons[1] = new Gui::ImageRadioButton(m_rg, PIONEER_DATA_DIR "/icons/multifunc_equip.png", PIONEER_DATA_DIR "/icons/multifunc_equip_on.png");
+	m_buttons[1] = new Gui::ImageRadioButton(m_rg, "icons/multifunc_equip.png", "icons/multifunc_equip_on.png");
 	m_buttons[1]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_EQUIPMENT));
 	m_buttons[1]->SetShortcut(SDLK_F10, KMOD_NONE);
 
-	m_buttons[2] = new Gui::ImageRadioButton(m_rg, PIONEER_DATA_DIR "/icons/multifunc_msglog.png", PIONEER_DATA_DIR "/icons/multifunc_msglog_on.png");
+	m_buttons[2] = new Gui::ImageRadioButton(m_rg, "icons/multifunc_msglog.png", "icons/multifunc_msglog_on.png");
 	m_buttons[2]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_MSGLOG));
 	m_buttons[2]->SetShortcut(SDLK_F11, KMOD_NONE);
 

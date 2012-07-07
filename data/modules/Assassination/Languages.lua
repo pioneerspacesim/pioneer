@@ -273,3 +273,93 @@ Translate:Add({ Spanish = {
 		"Sargento",
 	 },
 }, })
+
+  ---- HUNGARIAN / MAGYAR ----
+
+Translate:AddFlavour('Magyar','Assassination', {
+  adtext = "KERESEK: Olyan személyt, aki eltávolítaná {target} személyét {system} rendszerből.",
+  introtext = "Helló, a nevem {name}. Fizetnék {cash} összeget, hogy megszabaduljak tőle: {target}.",
+  successmsg = "Úgy hallom,{target} hosszú szabadságra ment. Nagyszerű, máris elküldöm a fizetséget.",
+  failuremsg = "Nagyon elégedetlen vagyok azzal, hogy {target} még mindig életben van. Mondanom sem kell, hogy semmit nem kapsz.",
+  failuremsg2 = "{target} hajóját más valaki lőtte szét. Így neked nem jár fizetség sem.",
+})
+
+Translate:AddFlavour('Magyar','Assassination', {
+  adtext = "KERESEK: Olyat, aki megölné {target} nem kívánatos személyt a(z) {system} rendszerben.",
+  introtext = "Szeretném, ha {target} eltűnne örökre. Fizetek {cash} összeget, ha megteszed nekem.",
+  successmsg = "Sajnálattal hallottam hírét {target} halálának. Máris megkapod a fizetséged.",
+  failuremsg = "Úgy hallottam, hogy {target} jó egészségnek örvend. Ez sajnálattal tölt el.",
+  failuremsg2 = "{target} halálát nem te okoztad, így ne is kérd a fizetséget érte.",
+})
+
+Translate:AddFlavour('Magyar','Assassination', {
+  adtext = "ELTÁVOLÍTÁS: {target} eltávolítása {system} rendszerből.",
+  introtext = "A nevem {name}, és örömmel fizetek {cash} kreditet {target} megsemmisítéséért.",
+  successmsg = "A fontos megbízás sikeres teljesítéséért megkapod teljes fizetséged.",
+  failuremsg = "Nagyon sajnálatos, hogy {target} még mindig él, és jól van. Nem kapsz fizetséget, ha egyszer nem végezted el a feladatot.",
+  failuremsg2 = "A megbízást más teljesítette. Legközelebb légy gyorsabb!",
+})
+
+Translate:AddFlavour('Magyar','Assassination', {
+  adtext = "MEGSEMMISÍTÉS: Keresek valakit, aki eltenné láb alól: {target}.",
+  introtext = "A célpontnak: {target} űrhamuvá kell válnia. Ha megteszed, {cash} összeg üti a markod.",
+  successmsg = "{target} meghalt. Itt a jutalmad.",
+  failuremsg = "Még megfizetsz azért, hogy nem lőtted szét {target} hajóját!",
+  failuremsg2 = "Azért kérsz pénzt, amit nem is te végeztél el? Na takarodj innen.",
+})
+
+Translate:AddFlavour('Magyar','Assassination', {
+  adtext = "NYUGDÍJAZÁS: Valakinek nyugdíjazni kellene {target} személyét.",
+  introtext = "{cash} összegért cserébe szeretnénk, ha {target} végleg abbahagyná működését.",
+  successmsg = "{target} visszavonulásának híre örömmel tölt el. Itt van a pénzed.",
+  failuremsg = "{target} még mindig él, így nem adok semmi pénzt.",
+  failuremsg2 = "{target} nyugdíjazását más intézte el.",
+})
+
+Translate:AddFlavour('Magyar','Assassination', {
+  adtext = "BIOGRÁFIA: Néhány csodálója szeretné halottan látni {target} személyét.",
+  introtext = "Szeretnénk, ha {target} karrierjének vége lenne {system} rendszerben. Fizetünk {cash} kreditet, ha megteszed.",
+  successmsg = "{target} karrierjének vége. Itt a pénzed: {cash}.",
+  failuremsg = "Megtudtuk, hogy {target} még mindig munkálkodik. Ez szomorúan halljuk.",
+  failuremsg2 = "{target} karrierváltozását valaki más intézte.",
+})
+
+Translate:Add({ Magyar = {
+  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} {date} időpontban hagyja el a(z) {spaceport} dokkját a(z) {system} rendszerben ({sectorX}, {sectorY}, {sectorZ}). \n\nA hajó típusa: {shipname}, regisztrációs száma pedig {shipregid}.",
+  ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "Akkor kell elintézni, miután {target} elhagyta {spaceport} kikötőjét. Ne halaszd el a lehetőséget.",
+  ["Assassination"] = "Orgyilkosság",
+  ["Excellent."] = "Kitünő.",
+  ["Return here on the completion of the contract and you will be paid."] = "Térj vissza ide a megbízás teljesítése után, hogy megkapd a fizetséged.",
+  ["Where can I find {target}?"] = "Hol találhatom meg {target} hajóját?",
+  ["Could you repeat the original request?"] = "Megismételnéd az eredeti feladatot?",
+  ["How soon must it be done?"] = "Milyen hamar kell elvégezni?",
+  ["How will I be paid?"] = "Hogy leszek megfizetve?",
+  ["Ok, agreed."] = "Rendben, elfogadom.",
+  TITLE = {
+		"Admirális",
+		"Nagykövet",
+		"Dandártábornok",
+		"Kadét",
+		"Százados",
+		"Bíboros",
+		"Ezredes",
+		"Parancsnok",
+		"Tengernagy",
+		"Tizedes",
+		"Zászlós",
+		"Tábornok",
+		"Bíró",
+		"Ügyvéd",
+		"Hadnagy",
+		"Marsall",
+		"Kereskedő",
+		"Tisztviselő",
+		"Közlegény",
+		"Professzor",
+		"Ügyész",
+		"Felügyelő",
+		"Matróz",
+		"Szenátor",
+		"Őrmester",
+	 },
+}, })

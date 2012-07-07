@@ -5,17 +5,18 @@
 #include "Sfx.h"
 #include "Space.h"
 #include "LmrModel.h"
+#include "Game.h"
 
-void CargoBody::Save(Serializer::Writer &wr)
+void CargoBody::Save(Serializer::Writer &wr, Space *space)
 {
-	DynamicBody::Save(wr);
+	DynamicBody::Save(wr, space);
 	wr.Int32(static_cast<int>(m_type));
 	wr.Float(m_hitpoints);
 }
 
-void CargoBody::Load(Serializer::Reader &rd)
+void CargoBody::Load(Serializer::Reader &rd, Space *space)
 {
-	DynamicBody::Load(rd);
+	DynamicBody::Load(rd, space);
 	m_type = static_cast<Equip::Type>(rd.Int32());
 	Init();
 	m_hitpoints = rd.Float();
@@ -32,7 +33,7 @@ void CargoBody::Init()
 CargoBody::CargoBody(Equip::Type t)
 {
 	m_type = t;
-	Init();	
+	Init();
 	SetMass(1.0);
 }
 
@@ -40,7 +41,7 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage)
 {
 	m_hitpoints -= kgDamage*0.001f;
 	if (m_hitpoints < 0) {
-		Space::KillBody(this);
+		Pi::game->GetSpace()->KillBody(this);
 		Sfx::Add(this, Sfx::TYPE_EXPLOSION);
 	}
 	return true;
@@ -55,7 +56,7 @@ bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
 	return DynamicBody::OnCollision(b, flags, relVel);
 }
 
-void CargoBody::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void CargoBody::Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (!IsEnabled()) return;
 	GetLmrObjParams().label = Equip::types[m_type].name;

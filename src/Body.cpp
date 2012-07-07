@@ -11,6 +11,8 @@
 #include "Missile.h"
 #include "HyperspaceCloud.h"
 #include "Pi.h"
+#include "Space.h"
+#include "Game.h"
 
 Body::Body()
 {
@@ -24,23 +26,23 @@ Body::~Body()
 {
 }
 
-void Body::Save(Serializer::Writer &wr)
+void Body::Save(Serializer::Writer &wr, Space *space)
 {
-	wr.Int32(Serializer::LookupFrame(m_frame));
+	wr.Int32(space->GetIndexForFrame(m_frame));
 	wr.String(m_label);
 	wr.Bool(m_dead);
 	wr.Bool(m_hasDoubleFrame);
 }
 
-void Body::Load(Serializer::Reader &rd)
+void Body::Load(Serializer::Reader &rd, Space *space)
 {
-	m_frame = Serializer::LookupFrame(rd.Int32());
+	m_frame = space->GetFrameByIndex(rd.Int32());
 	m_label = rd.String();
 	m_dead = rd.Bool();
 	m_hasDoubleFrame = rd.Bool();
-}	
+}
 
-void Body::Serialize(Serializer::Writer &_wr)
+void Body::Serialize(Serializer::Writer &_wr, Space *space)
 {
 	Serializer::Writer wr;
 	wr.Int32(int(GetType()));
@@ -54,7 +56,7 @@ void Body::Serialize(Serializer::Writer &_wr)
 		case Object::CARGOBODY:
 		case Object::PROJECTILE:
 		case Object::HYPERSPACECLOUD:
-			Save(wr);
+			Save(wr, space);
 			break;
 		default:
 			assert(0);
@@ -66,7 +68,7 @@ void Body::Serialize(Serializer::Writer &_wr)
 	_wr.WrSection("Body", wr.GetData());
 }
 
-Body *Body::Unserialize(Serializer::Reader &_rd)
+Body *Body::Unserialize(Serializer::Reader &_rd, Space *space)
 {
 	Serializer::Reader rd = _rd.RdSection("Body");
 	Body *b = 0;
@@ -75,7 +77,8 @@ Body *Body::Unserialize(Serializer::Reader &_rd)
 		case Object::STAR:
 			b = new Star(); break;
 		case Object::PLANET:
-			b = new Planet(); break;
+			b = new Planet();
+			break;
 		case Object::SPACESTATION:
 			b = new SpaceStation(); break;
 		case Object::SHIP:
@@ -93,7 +96,7 @@ Body *Body::Unserialize(Serializer::Reader &_rd)
 		default:
 			assert(0);
 	}
-	b->Load(rd);
+	b->Load(rd, space);
 	// must SetFrame() correctly so ModelBodies can add geom to space
 	Frame *f = b->m_frame;
 	b->m_frame = 0;
@@ -129,6 +132,13 @@ vector3d Body::GetInterpolatedPositionRelTo(const Body *relTo) const
 vector3d Body::GetPositionRelTo(const Body *relTo) const
 {
 	return GetPositionRelTo(relTo->GetFrame()) - relTo->GetPosition();
+}
+
+matrix4x4d Body::GetInterpolatedTransformRelTo(const Frame *relTo) const
+{
+	matrix4x4d m;
+	Frame::GetFrameRenderTransform(m_frame, relTo, m);
+	return m * GetInterpolatedTransform();
 }
 
 void Body::OrientOnSurface(double radius, double latitude, double longitude)
@@ -167,7 +177,7 @@ void Body::UpdateFrame()
 
 	// falling out of frames
 	if (!GetFrame()->IsLocalPosInFrame(GetPosition())) {
-		printf("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel());
+		printf("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel().c_str());
 
 		Frame *new_frame = GetFrame()->m_parent;
 		if (new_frame) { // don't let fall out of root frame
@@ -179,16 +189,16 @@ void Body::UpdateFrame()
 			matrix4x4d rot;
 			GetRotMatrix(rot);
 			SetRotMatrix(m * rot);
-			
+
 			m.ClearToRotOnly();
-			SetVelocity(GetFrame()->GetVelocity() + m*(GetVelocity() - 
+			SetVelocity(GetFrame()->GetVelocity() + m*(GetVelocity() -
 				GetFrame()->GetStasisVelocityAtPosition(GetPosition())));
 
 			SetFrame(new_frame);
 			SetPosition(new_pos);
 
 			Pi::luaOnFrameChanged->Queue(this);
-			
+
 			return;
 		}
 	}
@@ -200,8 +210,8 @@ void Body::UpdateFrame()
 		Frame::GetFrameTransform(GetFrame(), kid, m);
 		vector3d pos = m * GetPosition();
 		if (!kid->IsLocalPosInFrame(pos)) continue;
-		
-		printf("%s enters frame %s\n", GetLabel().c_str(), kid->GetLabel());
+
+		printf("%s enters frame %s\n", GetLabel().c_str(), kid->GetLabel().c_str());
 
 		SetPosition(pos);
 		SetFrame(kid);
@@ -209,7 +219,7 @@ void Body::UpdateFrame()
 		matrix4x4d rot;
 		GetRotMatrix(rot);
 		SetRotMatrix(m * rot);
-				
+
 		// get rid of transforms
 		m.ClearToRotOnly();
 		SetVelocity(m*(GetVelocity() - kid->GetVelocity())
@@ -221,3 +231,7 @@ void Body::UpdateFrame()
 	}
 }
 
+vector3d Body::GetTargetIndicatorPosition(const Frame *relTo) const
+{
+	return GetInterpolatedPositionRelTo(relTo);
+}

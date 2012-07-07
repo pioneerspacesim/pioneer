@@ -8,7 +8,8 @@
 #include <vector>
 
 class StarSystem;
-class SBody;
+class SystemBody;
+namespace Graphics { class Renderer; }
 
 class SystemInfoView: public View {
 public:
@@ -23,13 +24,16 @@ private:
 		BodyIcon(const char* img);
 		virtual void Draw();
 		virtual void OnActivate();
+		void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
+	private:
+		Graphics::Renderer *m_renderer;
 	};
-	void SystemChanged(const RefCountedPtr<StarSystem> &s);
+	void SystemChanged(const SystemPath &path);
 	void UpdateEconomyTab();
-	void OnBodyViewed(SBody *b);
-	void OnBodySelected(SBody *b);
+	void OnBodyViewed(SystemBody *b);
+	void OnBodySelected(SystemBody *b);
 	void OnClickBackground(Gui::MouseButtonEvent *e);
-	void PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, float &prevSize);
+	void PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, float &prevSize);
 	void UpdateIconSelections();
 	Gui::VBox *m_infoBox;
 	Gui::Label *m_econInfo;

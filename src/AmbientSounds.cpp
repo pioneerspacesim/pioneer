@@ -7,6 +7,7 @@
 #include "Planet.h"
 #include "Sound.h"
 #include "SpaceStation.h"
+#include "Game.h"
 
 static int astroNoiseSeed;
 static Sound::Event stationNoise;
@@ -27,8 +28,7 @@ void AmbientSounds::Uninit()
 
 void AmbientSounds::Update()
 {
-	WorldView::CamType cam = Pi::worldView->GetCamType();
-	float v_env = (cam == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	float v_env = (Pi::worldView->GetActiveCamera()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 
 	if (Pi::player->GetFlightState() == Ship::DOCKED) {
 		if (starNoise.IsPlaying()) {
@@ -58,7 +58,7 @@ void AmbientSounds::Update()
 			};
 			// just use a random station noise until we have a
 			// concept of 'station size'
-			stationNoise.Play(sounds[Pi::player->GetDockedWith()->GetSBody()->seed % 3],
+			stationNoise.Play(sounds[Pi::player->GetDockedWith()->GetSystemBody()->seed % 3],
 					0.3f*v_env, 0.3f*v_env, true);
 		}
 	} else if (Pi::player->GetFlightState() == Ship::LANDED) {
@@ -84,7 +84,7 @@ void AmbientSounds::Update()
 
 		// lets try something random for the time being
 		if (!planetSurfaceNoise.IsPlaying()) {
-			SBody *sbody = Pi::player->GetFrame()->GetSBodyFor();
+			SystemBody *sbody = Pi::player->GetFrame()->GetSystemBodyFor();
 			assert(sbody);
 			const char *sample = NULL;
 
@@ -133,36 +133,41 @@ void AmbientSounds::Update()
 			stationNoise.VolumeAnimate(target, dv_dt);
 			stationNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
 		}
-		if (astroNoiseSeed != Pi::currentSystem->m_seed) {
-			// change sound!
-			astroNoiseSeed = Pi::currentSystem->m_seed;
-			float target[2] = {0.0f,0.0f};
-			float dv_dt[2] = {0.1f,0.1f};
-			starNoise.VolumeAnimate(target, dv_dt);
-			starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
-			// XXX the way Sound::Event works isn't totally obvious.
-			// to destroy the object doesn't stop the sound. it is
-			// really just a sound event reference
-			starNoise = Sound::Event();
-		} 
+		{
+			if (Pi::game->IsNormalSpace()) {
+				StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
+				if (astroNoiseSeed != s->m_seed) {
+					// change sound!
+					astroNoiseSeed = s->m_seed;
+					float target[2] = {0.0f,0.0f};
+					float dv_dt[2] = {0.1f,0.1f};
+					starNoise.VolumeAnimate(target, dv_dt);
+					starNoise.SetOp(Sound::OP_REPEAT | Sound::OP_STOP_AT_TARGET_VOLUME);
+					// XXX the way Sound::Event works isn't totally obvious.
+					// to destroy the object doesn't stop the sound. it is
+					// really just a sound event reference
+					starNoise = Sound::Event();
+				}
+			}
+		}
 		// when all the sounds are in we can use the body we are in frame of reference to
 		if (!starNoise.IsPlaying()) {
 			Frame *f = Pi::player->GetFrame();
 			if (!f) return; // When player has no frame (game abort) then get outta here!!
-			const SBody *sbody = f->GetSBodyFor();
+			const SystemBody *sbody = f->GetSystemBodyFor();
 			const char *sample = 0;
-			for (; sbody && !sample; sbody = f->GetSBodyFor()) {
+			for (; sbody && !sample; sbody = f->GetSystemBodyFor()) {
 				switch (sbody->type) {
-					case SBody::TYPE_BROWN_DWARF: sample = "Brown_Dwarf_Substellar_Object"; break;
-					case SBody::TYPE_STAR_M: sample = "M_Red_Star"; break;
-					case SBody::TYPE_STAR_K: sample = "K_Star"; break;
-					case SBody::TYPE_WHITE_DWARF: sample = "White_Dwarf_Star"; break;
-					case SBody::TYPE_STAR_G: sample = "G_Star"; break;
-					case SBody::TYPE_STAR_F: sample = "F_Star"; break;
-					case SBody::TYPE_STAR_A: sample = "A_Star"; break;
-					case SBody::TYPE_STAR_B: sample = "B_Hot_Blue_STAR"; break;
-					case SBody::TYPE_STAR_O: sample = "Blue_Super_Giant"; break;
-					case SBody::TYPE_PLANET_GAS_GIANT: {
+					case SystemBody::TYPE_BROWN_DWARF: sample = "Brown_Dwarf_Substellar_Object"; break;
+					case SystemBody::TYPE_STAR_M: sample = "M_Red_Star"; break;
+					case SystemBody::TYPE_STAR_K: sample = "K_Star"; break;
+					case SystemBody::TYPE_WHITE_DWARF: sample = "White_Dwarf_Star"; break;
+					case SystemBody::TYPE_STAR_G: sample = "G_Star"; break;
+					case SystemBody::TYPE_STAR_F: sample = "F_Star"; break;
+					case SystemBody::TYPE_STAR_A: sample = "A_Star"; break;
+					case SystemBody::TYPE_STAR_B: sample = "B_Hot_Blue_STAR"; break;
+					case SystemBody::TYPE_STAR_O: sample = "Blue_Super_Giant"; break;
+					case SystemBody::TYPE_PLANET_GAS_GIANT: {
 							if (sbody->mass > fixed(400,1)) {
 								sample = "Very_Large_Gas_Giant";
 							} else if (sbody->mass > fixed(80,1)) {

@@ -12,8 +12,8 @@ class matrix4x4 {
 	public:
 	matrix4x4 () {}
 	matrix4x4 (T val) {
-		cell[0] = cell[1] = cell[2] = cell[3] = cell[4] = cell[5] = cell[6] = 
-		cell[7] = cell[8] = cell[9] = cell[10] = cell[11] = cell[12] = cell[13] = 
+		cell[0] = cell[1] = cell[2] = cell[3] = cell[4] = cell[5] = cell[6] =
+		cell[7] = cell[8] = cell[9] = cell[10] = cell[11] = cell[12] = cell[13] =
 		cell[14] = cell[15] = val;
 	}
 	matrix4x4 (const T *vals) {
@@ -41,6 +41,13 @@ class matrix4x4 {
 		matrix4x4 m = matrix4x4(0.0);
 		m.cell[0] = m.cell[5] = m.cell[10] = m.cell[15] = 1.0f;
 		return m;
+	}
+	//glscale equivalent
+	void Scale(T x, T y, T z) {
+		*this = (*this) * ScaleMatrix (x, y, z);
+	}
+	void Scale(T s) {
+		*this = (*this) * ScaleMatrix (s, s, s);
 	}
 	static matrix4x4 ScaleMatrix(T x, T y, T z) {
 		matrix4x4 m;
@@ -90,6 +97,10 @@ class matrix4x4 {
 		m[ 3] =  0; m[ 7] =  0; m[11] = -1; m[15] = 0;
 		return m;
 	}
+	//glRotate equivalent (except radians instead of degrees)
+	void Rotate (T ang, T x, T y, T z) {
+		*this = (*this) * RotateMatrix (ang, x, y, z);
+	}
 	// (x,y,z) must be normalized
 	static matrix4x4 RotateMatrix (T ang, T x, T y, T z) {
 		matrix4x4 m;
@@ -129,12 +140,12 @@ class matrix4x4 {
 		m[5] = cos_r;
 		m[6] = -sin_r;
 		m[7] = 0;
-		
+
 		m[8] = 0;
 		m[9] = sin_r;
 		m[10] = cos_r;
 		m[11] = 0;
-		
+
 		m[12] = 0;
 		m[13] = 0;
 		m[14] = 0;
@@ -154,7 +165,7 @@ class matrix4x4 {
 		m[5] = 1;
 		m[6] = 0;
 		m[7] = 0;
-		
+
 		m[8] = -sin_r;
 		m[9] = 0;
 		m[10] = cos_r;
@@ -174,17 +185,17 @@ class matrix4x4 {
 		m[1] = -sin_r;
 		m[2] = 0;
 		m[3] = 0;
-		
+
 		m[4] = sin_r;
 		m[5] = cos_r;
 		m[6] = 0;
 		m[7] = 0;
-		
+
 		m[8] = 0;
 		m[9] = 0;
 		m[10] = 1.0f;
 		m[11] = 0;
-		
+
 		m[12] = 0;
 		m[13] = 0;
 		m[14] = 0;
@@ -196,8 +207,8 @@ class matrix4x4 {
 		vector3<T> y(cell[1], cell[5], cell[9]);
 		vector3<T> z(cell[2], cell[6], cell[10]);
 		x = x.Normalized();
-		z = vector3<T>::Cross(x, y).Normalized();
-		y = vector3<T>::Cross(z, x).Normalized();
+		z = x.Cross(y).Normalized();
+		y = z.Cross(x).Normalized();
 		cell[0] = x.x; cell[4] = x.y; cell[8] = x.z;
 		cell[1] = y.x; cell[5] = y.y; cell[9] = y.z;
 		cell[2] = z.x; cell[6] = z.y; cell[10] = z.z;
@@ -219,6 +230,11 @@ class matrix4x4 {
 	friend matrix4x4 operator- (const matrix4x4 &a, const matrix4x4 &b) {
 		matrix4x4 m;
 		for (int i=0; i<16; i++) m.cell[i] = a.cell[i] - b.cell[i];
+		return m;
+	}
+	friend matrix4x4 operator- (const matrix4x4 &a) {
+		matrix4x4 m;
+		for (int i = 0; i < 16; ++i) { m.cell[i] = -a.cell[i]; }
 		return m;
 	}
 	friend matrix4x4 operator* (const matrix4x4 &a, const matrix4x4 &b) {
@@ -274,6 +290,7 @@ class matrix4x4 {
 		out.z = cell[2]*v.x + cell[6]*v.y + cell[10]*v.z;
 		return out;
 	}
+	//gltranslate equivalent
 	void Translate(const vector3<T> &t) {
 		Translate(t.x, t.y, t.z);
 	}
@@ -282,7 +299,7 @@ class matrix4x4 {
 		m[12] = x;
 		m[13] = y;
 		m[14] = z;
-		*this = m * (*this);
+		*this = (*this) * m;
 	}
 	static matrix4x4 Translation(const vector3<T> &v) {
 		return Translation(v.x, v.y, v.z);

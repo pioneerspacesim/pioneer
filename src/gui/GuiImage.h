@@ -2,21 +2,20 @@
 #define _GUIIMAGE_H
 
 #include "GuiWidget.h"
-#include <string>
+#include "GuiTexturedQuad.h"
+#include "Color.h"
 
 namespace Gui {
 	class Image: public Widget {
 	public:
 		Image(const char *filename);
 		virtual void Draw();
-		virtual ~Image();
 		virtual void GetSizeRequested(float size[2]);
-		void SetModulateColor(float r, float g, float b, float a);
+		void SetModulateColor(const Color &color) { m_color = color; }
 	private:
-		GLuint m_tex;
-		int m_imgw, m_imgh;
-		float m_invtexw, m_invtexh;
-		float m_col[4];
+		ScopedPtr<TexturedQuad> m_quad;
+		Color m_color;
+		float m_width, m_height;
 	};
 }
 

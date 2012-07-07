@@ -1,6 +1,349 @@
+Alpha 24
+
+   * New features
+     * Background stars fade out in daylight (#1300)
+     * Atmospheric flight restrictions. Ships that can't fit shielding can't
+       purchased at atmosphere ports. Attempting to fly in atmosphere without
+       causes quick death (#1328, #1240)
+
+   * Minor changes and tweaks
+     * Show orbital periapsis/apoapsis in system info with greater accuracy at
+       small distances (#1311, #1303)
+     * Sector view search box now supports the numpad (#1329, #1327)
+     * Allow 10x timeaccel during docking sequence (#1332)
+
+   * Fixes
+     * Fix flipped vbuilding glowmap (#1280, #1279)
+     * Fix scrolling in the mission list (#1292, #1291)
+     * Fix UI elements responding to the mouse wheel as a click (#1307, #606)
+
+   * Script and model changes
+     * Lua console now provides autocompletion. Press <TAB> to cycle through
+       possible completions of the current identifier (#1286)
+     * Lua console now accepts expressions and prints their result (#1304, #1313)
+     * Lua updated to 5.2.1 (#1293)
+     * Renamed UI to Comms (#1288)
+     * Limited libraries available to LMR to debug, string and math (#1289)
+     * Allow Characters to be created from random seed (#1299)
+     * Improve printing of core objects to include their type (#1301)
+     * Excluded package, os, io and various bits of math libraries and certain other
+       core Lua functions for safety (see LuaUtils.cpp for rationale) (#1317)
+     * Aliased math.deg2rad to math.rad (#1317)
+     * Added util.hash_random to provide a repeatable source of "randomness" (#1317)
+
+   * Internal changes
+     * Abstracted out the normal Lua object type promotion test, and Lua
+       ownership of refcounted objects (#1290)
+     * Stop a broken Lua error handler triggering an infinite loop (#1289)
+     * Changed LuaGame and LuaEngine to use the LuaObject system (#1296)
+     * Simplify logic in LuaObject (#1301)
+     * Change implementation of LuaObject attributes to allow overriding (#1312)
+     * Code style cleanups (#1334, #1335)
+
+Alpha 23
+
+   * Minor changes and tweaks
+     * Show target indicator on docking waypoints when clearance has been
+       granted to assist with manual docking (#1260)
+     * Jump to sector by entering sector coordinates in search box (#1274, #1253)
+     * Optimised earthlike colour fractal when terrain textures enabled (#1277)
+
+   * Fixes
+     * Work around sector view crash on Radeon (#1062)
+     * Fix handling of deep folders in zip files (#1270)
+     * Fix redscreen hang (#1272)
+     * Fix text metrics code to calculate text height properly (#1273, #1276)
+
+   * Script and model changes
+     * Lua updated to 5.2.0 (#1246)
+     * Renamed Matrix and Vec classes to matrix and vector (#1245)
+     * Renamed CustomSBody to CustomSystemBody (#1245)
+     * Removed global data from Lua crash dump (#1272)
+
+   * Internal changes
+     * Fixed configure compiler warning tests for gcc and clang
+     * Removed OOLua. Replaced uses of it with explicit Lua calls. Various
+       other Lua-related cleanups and consistency fixes (#1245, #1246)
+     * Move system generation and related classes under galaxy/ (#1245)
+     * Renamed SBody to SystemBody, CustomSBody to CustomSystemBody (#1245)
+
+Alpha 22
+
+   * New features
+     * Support for attaching .zip files to the data directory. Allows users to
+       add mods to the game by putting a single file in <userdir>/mods (#1214)
+     * New 'Meteor' ship (#1219, #1239)
+
+   * Minor changes and tweaks
+     * Removed 'Walrus' ship (#1219)
+     * Updated 'Wave' ship textures (#1239, #1231)
+     * Increase probability of mining populations near Sol (#1236)
+     * Add possibility of starports/cities being generated on asteroids (#1236)
+     * Give mined cargo a velocity away from the asteroid so they float out
+       into space (#1236)
+     * Changed hyperspace entry point calculation to consider star radius and
+       position (#1207)
+
+   * Fixes
+     * Fixed crash when near planets with fuel scoop attached (#1200, #1201)
+     * Fixed timer setup for trade ships after game load (#1205, #1204)
+     * Fixed mission modules remembering nearby systems across game restarts
+       (#1212, #1211)
+     * Fixed bug where .obj model loader would create a new draw operation for
+       every triangle/quad (#1223)
+     * Fixed system metallicity in multiple-star systems (#1236, #1222)
+     * Fixed planet metallicity calculation based on star type (#1236)
+     * Fixed crash when crosshair-targetting an object that no longer exists
+       (#1232, #1210)
+     * Fixed crash when mission display is opened with lots of missions
+       (#1233, #1196)
+     * Don't take timesteps for dead ships. Stops the player firing during the
+       death screen (regression) (#1243, #1103, #1056)
+     * Fix crash when objectviewer activated with no target set (#1248)
+     * Fix modelviewer crash when animation sliders do not fit on screen (#1256)
+
+   * Script and model changes
+     * LMR "lathe" function radius and up vector now interpreted the same as
+       "cylinder" etc (#1185, #1037)
+     * Added support for emission (glow) maps in .obj files (#1223)
+
+   * Internal changes
+     * Better support for file enumeration across multiple directories (#1182)
+     * Model cache CRC32 calculation now includes files under data/sub_models
+       (#1182, #1181)
+     * Restructured text and font classes; decoupled font classes from font
+       config files (#1165)
+
+Alpha 21
+
+   * New features
+     * Elite systems (Lave etc) with a new start point (#682)
+     * Manual thrust power control. Use F8 and L-shift to limit thruster power
+       for finer control (#994, #129)
+     * Navtarget tunnels, a HUD feature to guide you to your destination. Enable
+       it in the "Controls" section of the settings screen (#1146, #1082)
+     * New small buildings (#1047)
+
+   * Minor changes and tweaks
+     * Various moons in the Sol system now appear in the right order on the map (#1050)
+     * Updated TradeShips module to handle accidental landings and fuel (#1064)
+     * More precise mouse control under different FoV settings (#1076)
+     * Added VSync config option (#1085)
+     * Made background stars less visible through star halos (#1093)
+     * Added Pioneer badge to menu screen (#1099)
+     * ObjectViewer updates: buttons to cycle/randomise seeds; don't show
+       attribute for non-terrain bodies (#1100)
+     * Several stars around Sol updated to use their "traditional"
+       (non-catalogue) names (#1068)
+     * Rear of Eagle ship now visible to player (#1125)
+     * Removed tech levels (#1131)
+     * Added a grid to the modelviewer to help visualise model size (#1132)
+     * Reverted DeliverPackage module to pre-Alpha 20 (#1162)
+
+   * Fixes
+     * Don't take timesteps for dead ships. Stops the player firing during the
+       death screen (#1056)
+     * Move all the custom stars into the right places (#1080, #1081)
+     * Fix autopilot handling of fast-moving bodies (#1090)
+     * Fixed hyperspace checks so they work during hyperspace and don't allow
+       hyperspace to be triggered at odd times (eg docked) (#1101, #999, #1030, #1088)
+     * Restore Jupiter and Neptune to their correct terrain types (#1100)
+     * Fixed various old bugs around frame movement, timesteps, AI velocity
+       correction and similar (#1090)
+     * Fix crash when script tries to set ship label > 16 chars (#1116, #1114)
+     * Limit max engines to 0 or 1 to prevent certain forms of lunacy (#1140)
+     * Fix view/panel draw order so that world elements do not draw over the
+       panel (#1141, #1161, #1160)
+     * Only update ship mass, fuel and equipment stats when necessary (#1112, #1155)
+     * Fixed huge mixer icon on Win32 (#1158, #860)
+
+   * Script changes
+     * New custom system option :explored to explicitly set a system's
+       explored state (#682)
+     * Lua serializer can now handle multiple references to the same table
+       (#1022, #1025)
+     * New ShipJumpStatus constants DRIVE_ACTIVE and SAFETY_LOCKOUT (#1101)
+     * New method Ship.GetHyperspaceDetails() to get hyperspace status,
+       duration and fuel use without regard to current flight state (#1101)
+     * New ship params 'front_camera' and 'rear_camera'. Sets the camera's
+       position on the ship, and causes the ship's body to be drawn (#1125)
+     * New attribute SpaceStation.numDocks to get number of docking ports (#1135)
+     * New SystemBody attributes gravity, hasAtmosphere and isScoopable (#1150,
+       #859)
+
+   * Internal changes
+     * configure tweaks for better optimisations and profiling support
+     * New filesystem abstraction. Files under data/ can now be overriden by
+       placing an identically-named file under <userdir>/data (#989, #1078,
+       #1079, #1077)
+     * Ship definitions separated from models (#1051)
+     * Partial keybinding cleanup to allow a sane init order
+     * Integrate texture management into renderer (#1061)
+     * Remove renderer dependencies on Pi and utils (#1071)
+     * Pack font glyphs into a single texture for faster text rendering (#1106,
+       #1084, #1107)
+     * Split world cameras out of WorldView (#1113, #1145)
+     * Use a fixed version and proper CRC for the model cache (#1119)
+     * Moved ship control code out of Player and Worldview into a new set of
+       ShipController classes (#1083, #1129)
+     * Silence warnings when building with GCC 4.7 (#1152)
+     * Various internal cleanups (#1139, #1142)
+
+Alpha 20
+
+   * New features
+     * Thrusters now require fuel to operate. Refuel when you dock or buy water
+       refuel during flight. Fuel club will refill and sell you water cheaply.
+       (#980, #993, #992, #1018, #1032, #1034, #1043, #1045)
+     * New thruster and laser graphics (#945, #962, #149, #148, #973)
+     * Heading-hold flight mode (press CTRL while changing flight mode) (#450, #990)
+     * Rewritten DeliverPackage mission module (#1027, #1041, #1042, #1044)
+     * Hungarian translation (#947, #894)
+
+   * Minor changes and tweaks
+     * LED effect on timeaccel buttons (#946, #153)
+     * Render projectiles out to 20km from the camera (#957)
+     * FOV is now specified vertically (and correctly) (#971)
+     * Cargo screen updates automatically when cargo changes (#982)
+     * Fewer background stars, but brighter. Looks about the same but takes
+       less effort to construct and draw (#1020)
+     * Change death spin to a simple zoom (#916, #1033)
+     * Assassinations module now uses character classes for character variety
+       and consistency (#953, #948)
+
+   * Fixes
+     * Updated zlib and libpng DLLs for MSVC to fix screenshot crash (#942, #645)
+     * Only allow missiles to be fired in open flight (#951)
+     * Assassination targets will now gracefully handle an autopilot failure
+       when taking off (#955, #950)
+     * HDR visuals removed (#939, #963)
+     * Fix projectile collision checks (#965)
+     * Various scanner range fixes (#944)
+     * Make sure all bodies have a minimum radius of at least 10km (#968, #321, #301)
+     * Fix crash when requesting system information whilst in hyperspace (#975)
+     * Messages no longer cause the game to un-pause when they clear (#966)
+     * Game no longer quits if you cancel loading from the main menu (#920)
+     * Fix game crash if a script tries to add or remove a negative amount of
+       cargo or equipment (#982)
+     * Fix flipped Hammerhead "neck" textures (#986)
+     * Don't show "fly to" option for combat target if the player does not
+       have an autopilot fitted (#988)
+     * Close comms menu on hyperspace (#996, #984)
+     * Fix game crash if game is loaded over a loaded game (#1014, #1015)
+     * Fix bulletin boards being re-created after game load (#1017)
+     * Don't allocate and deallocate hyperspace starfield every frame (#1020)
+     * Stop attacking ships continuing to fire on dead player (#1033, #57)
+     * Don't extend model textures to power-of-two sizes (#923)
+
+   * Script changes
+     * New FlightLog class that tracks systems and starports visited by the
+       (#1021)
+     * New method Ship.SetFuelPercent and attribute Ship.fuel to set and get
+       ship fuel amount. New event onShipFuelChanged to report fuel status (#980)
+     * New method Ship.Explode to destroy the ship immediately (#974)
+
+   * Internal changes
+     * New graphics/rendering infrastructure (#960, #913, #1001, #1002, #1013,
+       #1024, #1007)
+     * Silence MSVC warnings (#964)
+     * Remove dependencies on Pi from Texture (#969) and Font (#981)
+     * Move EquipSet into its own header (#991)
+     * Give float comparison functions consistent naming (#991)
+     * Use the correct size_t format specifier for the compiler (#991)
+
+
+Alpha 19
+
+   * New features
+     * Sidereal camera, an external camera that holds its position relative to
+       the stars. Great for screenshots! (#932)
+     * Moon height map. Now looks like the real thing! (#936)
+     * Lua-based body name generator. Planets and starports now have much more
+       interesting/varied names (#896, #926)
+     * Joystick deadzone support (#870)
+
+   * Minor changes and tweaks
+     * Roll keys now work while using mouse control (#904, #850, #278, #914, #919)
+     * Camera quick-switch using Shift+1-4 in the main view (#932)
+     * Sector view now shows line from current to target system (#843, #845)
+     * Optimised nearby system lookups for scripts. Significantly improves
+       game startup time (#937)
+     * Various TradeShips optimisiations and fixes (#917)
+
+   * Fixes
+     * Ensure bulletin board is created before ship docks with station (#899)
+     * Don't propogate mouse wheel events in one view to other views (#903, #225)
+     * Show distance to dock on target square when docking clearance is granted (#902)
+     * Fix crashes if Lua Space, Timer or UI methods are called before the
+       game loads (#885, #911)
+     * Fix background star jitter (#910)
+     * Fix "rough landing" sound being played globally (#925, #895, #865)
+     * Reduce the number of nearby system searches done by scripts (#927)
+     * Fixed HDR screen flicker (#928)
+     * Fixed autopilot hangs related to gravpoint frames and small bodies (#935, #921)
+     * Fixed crash where missile objects were destroyed while other objects
+       were holding a reference to them (#922, #735)
+     * Fixed hang when autopilot tried to start flying around a body from stopped (#934)
+     * Make sure the ship is above the body's max feature height before
+       attempting a flyaround
+
+   * Script changes
+     * Removed NameGen.PlanetName and replaced with NameGen.BodyName (#896)
+     * Added EventQueue.DebugTimer to enable event function call timing for
+       debugging purposes (#898)
+     * Added Ship.shipType attribute to get ship type (#912)
+
+   * Internal changes
+     * New Texture class and subclasses to manage all kinds of GL texture
+       creation and use (#892, #900, #901)
+     * Simplified autotools build system by using pkg-config for all
+       dependencies (#909, #353)
+     * Additional debug checks to ensure that bodies are not removed or
+       destroyed during destruction of another body (#922)
+
+Alpha 18
+
+   * New features
+     * Jettison cargo while landed/docked (#872)
+     * Multisampled antialiasing. Set the "AntiAliasingMode" config value or
+       change your graphics driver settings (#848)
+
+   * Minor changes and tweaks
+     * Target square now appears on specific docking port of station when
+       clearance is granted (#836, #835)
+     * OpenGL info saved to opengl.txt on game start (#857)
+     * Background stars are now denser along the galaxy strip as you'd expect (#844)
+     * Probability of hyperspace arrival now displayed during hyperspace (#55, #879)
+     * Be more accurate about the age of the universe (#891)
+
+   * Fixes
+     * Fix incorrect galaxy density on OSX (#867, #869)
+     * Fix crash in system info view if opened the first time on an unexplored
+       system (#783, #876)
+     * Fix memory overrun in modelviewer that would break z-bias when mouse
+       wheel is used (#880)
+     * Fall back to no-AA HDR and then no-HDR based on GPU features (#855,
+       #878, #877)
+     * Set minimal reverse thrust for Natrix so the autopilot doesn't get
+       confused (#856)
+
+   * Script changes
+     * New event onCargoUnload triggered when cargo is jettisoned while
+       landed/docked (#872)
+     * SystemPath.GetSystemBody now checks to make sure the path is valid
+       and throws a Lua error if it is not (#863, #864)
+
+   * Internal changes
+     * Refactored game and space state into discrete object (#833, #70)
+     * Background starfield & galaxy strip code cleanup (#844)
+
 Alpha 17
 
+  * Christmas edition!
+
   * New features
+    * New ship: "Natrix" (#816)
+    * French translation (#814)
     * Rewritten autopilot (#789)
     * Yellow indicator to show target orientation change by mouse
       movement (#216, #777)
@@ -11,11 +354,20 @@ Alpha 17
 
   * Minor changes and tweaks
     * Improved planet atmosphere rendering
+    * Window icon (#817)
+    * Increase difficulty of high-risk taxi missions (#800)
+    * Flip texture UV coordinates on object load (#818)
+    * Removed airport station
 
   * Fixes
     * Star halo now drawn properly in the world space (#768)
     * Allow equipment to be removed even if the station has none in stock (#780, #781)
     * Fix scanner drawing glitches with some recent NVidia drivers (#758)
+    * Fix textures and shaders on Intel and VMware (#711)
+    * Correctly order texture coordinates when loading models (#667)
+    * Reset breakdown service jump count to 0 when buying new drive (#820, #841)
+    * Fix crash when a script tries to obtain the parent of an object with no
+      parent (eg a star)
 
   * Script changes
     * New Character class to represent and test NPC attributes (#725, #787)
@@ -23,6 +375,7 @@ Alpha 17
       system-only paths (#795)
 
   * Internal changes
+    * Cleanups and general code improvements (#819)
     * Terrain color/height fractal refactor (#699)
     * SystemPath now has specific invalid values to indicate sector-only and
       system-only paths (#795)

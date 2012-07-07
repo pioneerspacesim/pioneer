@@ -1,22 +1,23 @@
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
-#include "render/RenderFrustum.h"
+#include "graphics/Frustum.h"
 #include "vector3.h"
 #include "matrix4x4.h"
 #include "Background.h"
 #include "Body.h"
 
 class Frame;
+namespace Graphics { class Renderer; }
 
 class Camera {
 public:
 	// create camera relative to the given body, for rendering to area width x height
-	Camera(const Body *body, float width, float height);
+	Camera(const Body *body, float width, float height, float fovY, float nearClip, float farClip);
 	virtual ~Camera();
 
 	void Update();
-	void Draw();
+	void Draw(Graphics::Renderer *r);
 
 	const Body *GetBody() const { return m_body; }
 
@@ -32,25 +33,27 @@ public:
 	const Frame *GetFrame() const { return m_camFrame; }
 
 	// get the frustum. use for projection
-	const Render::Frustum &GetFrustum() const { return m_frustum; }
+	const Graphics::Frustum &GetFrustum() const { return m_frustum; }
+
+protected:
+	bool m_showCameraBody;
 
 private:
+	void OnBodyDeleted();
+	sigc::connection m_onBodyDeletedConnection;
+
 	void DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	const Body *m_body;
-
 	float m_width;
 	float m_height;
 	float m_fovAng;
+	float m_zNear;
+	float m_zFar;
 
-	bool m_shadersEnabled;
-
-	Render::Frustum m_frustum;
+	Graphics::Frustum m_frustum;
 
 	matrix4x4d m_pose;
-
-	Background::Starfield m_starfield;
-	Background::MilkyWay m_milkyWay;
 
 	Frame *m_camFrame;
 
@@ -88,6 +91,8 @@ private:
 	};
 
 	std::list<BodyAttrs> m_sortedBodies;
+
+	Graphics::Renderer *m_renderer;
 };
 
 #endif

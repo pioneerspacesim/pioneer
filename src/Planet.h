@@ -3,24 +3,26 @@
 
 #include "TerrainBody.h"
 
+namespace Graphics { class Renderer; }
+
 class Planet: public TerrainBody {
 public:
 	OBJDEF(Planet, TerrainBody, PLANET);
-	Planet(SBody*);
+	Planet(SystemBody*);
 	Planet();
 	virtual ~Planet() {}
 
-	virtual void SubRender(const vector3d &camPos);
+	virtual void SubRender(Graphics::Renderer *r, const vector3d &camPos);
 
-	void GetAtmosphericState(double dist, double *outPressure, double *outDensity);
+	void GetAtmosphericState(double dist, double *outPressure, double *outDensity) const;
 
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 	friend class ObjectViewerView;
 #endif
 
 private:
-	void DrawGasGiantRings();
-	void DrawAtmosphere(const vector3d &camPos);
+	void DrawGasGiantRings(Graphics::Renderer *r);
+	void DrawAtmosphere(Graphics::Renderer *r, const vector3d &camPos);
 
 	GLuint m_ringsDList;
 };

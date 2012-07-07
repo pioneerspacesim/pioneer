@@ -1,64 +1,49 @@
-The Pioneer team are (9 December 2011, alpha 17):
+The Pioneer team, past and present, as at 13 July 2012 (alpha 24):
 
-Project leads: Tom Morton, John Jordan
-
-Maintainer: Robert Norris
-
-Testing and bug triage: Brian Ronald
-
-Programming:
-  John Jordan
-  Tom Morton
-  Dan Bennett
-  Robert Norris
-  Phil Howlett
-  Darren Salt
-  Kimmo Kotajärvi
-  Andrew Copland
-  Paul Mahol
-  John Bartholomew
-  Benjamin Hodgetts
-  Sean Bailey
-  Brian Ronald
-
-Art:
-  Gernot
-  John Jordan
-  Tom Morton
-  Dan Bennett
-  Brian Ronald
-  Tim Jones
-  Ulf Pettersson
-  Konrad Mruk
-  Marcel Tulloh
-  Michele Botticelli
-  Gareth Allnutt
-
-Music:
-  Dan Bennett
   Aaron Lewis
-  Leonardo Manna
-
-Translations:
-  Brian Ronald
-  Piotr Gredka
-  Blaga Cosmin
-  Vincent Teerling
+  Aaron Senese
+  Ae
   Alessandro Giachi
-  Paul Mahol
-
-Thanks to those that have moved on (we hope to see you back!)
-
-Programming:
-  Nic
-  Paul Roberts
-
-Art:
-  Peter Kurucz
+  Andrew Copland
+  Asier Basagoiti
+  Benamucki
+  Benjamin Hodgetts
+  Blaga Cosmin
+  Brian Ronald
+  C de Craen
+  Chris Dennett
+  Craig Thomson
+  Dan Bennett
+  Darren Salt
   Fran Morton
+  Gareth Allnutt
+  Gernot
+  John Bartholomew
+  John Jordan
+  Kimmo Kotajärvi
+  Konrad Mruk
+  Leonardo Manna
+  Marcel Tulloh
+  Marcus de Roos
+  Michele Botticelli
+  Nic
+  Paul Mahol
+  Paul Roberts
+  Peter Kurucz
+  Phil Howlett
+  Piotr Gredka
+  Robert Norris
+  Sean Bailey
+  Simon Chopin
   Steve Tyler
+  Sukender (Benoit Neil)
+  Taiki Kim
+  Thierry Dupré
+  Tim Jones
+  Tom Morton
+  Ulf Pettersson
   Uncle Bob
-
+  Vincent Teerling
 
 Thanks also to the ever-enthusiastic inhabitants of the SpaceSimCentral
 forums. You drive us crazy, but we still love you :)
@@ -66,13 +51,12 @@ forums. You drive us crazy, but we still love you :)
 
 Pioneer includes the following third-party software:
 
-  Lua 5.1.4 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
-  Copyright (C) 1994-2008 Lua.org, PUC-Rio
-  Licensed under the Expat licence (see lua.COPYING.txt)
+  Lua 5.2.1 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
+  Copyright (C) 1994-2012 Lua.org, PUC-Rio
+  Licensed under the MIT licence (see lua.COPYING.txt)
 
-  OOLua by Liam Devine
-  Copyright (C) 2009-2010 Liam Devine
-  Licensed under the Expat licence (see lua.COPYING.txt)
+  miniz by Rich Geldreich
+  Public domain (see contrib/miniz/miniz.h)
 
   Cousine font
   Copyright (C) 2010 Google, Inc
@@ -86,6 +70,7 @@ Pioneer includes the following third-party software:
   Copyright (C) 2006, Raph Levien
   Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
 
+  lookup3.c, by Bob Jenkins, May 2006, Public Domain.
 
 Pioneer also makes use of these fine projects. Thanks a lot!
 

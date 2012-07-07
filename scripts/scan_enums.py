@@ -5,7 +5,8 @@ import sys
 import os
 from optparse import OptionParser
 import re
-import fileinput
+import fnmatch
+import glob
 
 # splice lines (std: lex.phase -- Phases of translation: 2.1.1.2)
 def splice_lines(lines):
@@ -366,6 +367,27 @@ def extract_enums(lines):
             # are discarded
             lastcomment = ''
 
+def recursive_glob(basedir, pattern):
+    for root, dirnames, filenames in os.walk(basedir):
+        for name in fnmatch.filter(filenames, pattern):
+            yield os.path.join(root, name)
+
+def expand_dirs(args, pattern, recursive):
+    for path in args:
+        if path != '-' and os.path.isdir(path):
+            if not pattern:
+                sys.stderr.write("Warning: skipping directory input '" + path + "'\n")
+                continue
+
+            if recursive:
+                for name in recursive_glob(path, pattern):
+                    yield name
+            else:
+                for name in glob.iglob(os.path.join(path, pattern)):
+                    yield name
+        else:
+            yield path
+
 def main():
     oparse = OptionParser(usage='%prog [options] headers-to-scan')
     oparse.add_option('-o', '--output', type="string", dest="outfile", default='-',
@@ -375,6 +397,11 @@ def main():
           help="Specify the header file to write to. If the main output file is not stdout " +
                "then this defaults to a file of the same name with the extension changed to .h; " +
                "otherwise, then no header content is written.")
+    oparse.add_option('--pattern', type='string', dest='pattern',
+          help="Specify a file pattern to match for the input files (e.g., *.h). " +
+               "This pattern is used to scan any directory inputs.")
+    oparse.add_option('-r','--recursive', dest='recursive', action='store_true', default=False,
+          help="Scan directory inputs recursively (used with the --pattern argument).")
     (options, args) = oparse.parse_args()
 
     if options.headerfile is not None and options.outfile is None:
@@ -387,14 +414,20 @@ def main():
     # scan input files and record list of headers that have enums
     enums = []
     headers = []
-    for path in args:
+    allinputs = list(expand_dirs(args, options.pattern, options.recursive))
+    allinputs.sort()
+    for path in allinputs:
         if path == '-':
             es = list(extract_enums(sys.stdin))
         else:
             with open(path, 'rU') as fl:
                 es = list(extract_enums(fl))
             if es:
-                headers.append(os.path.basename(path))
+                if options.outfile == '-':
+                    hpath = os.path.basename(path)
+                else:
+                    hpath = os.path.relpath(path, os.path.dirname(options.outfile))
+                headers.append(hpath)
         enums += es
 
     if options.outfile == '-':

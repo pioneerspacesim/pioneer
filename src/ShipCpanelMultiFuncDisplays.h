@@ -7,6 +7,7 @@
 #include "Object.h"
 
 class Body;
+namespace Graphics { class Renderer; }
 
 enum multifuncfunc_t {
 	MFUNC_SCANNER,
@@ -55,7 +56,8 @@ private:
 
 class ScannerWidget: public IMultiFunc, public Gui::Widget {
 public:
-	ScannerWidget();
+	ScannerWidget(Graphics::Renderer *r);
+	ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd);
 	virtual ~ScannerWidget();
 	void GetSizeRequested(float size[2]);
 	void ToggleMode();
@@ -65,9 +67,10 @@ public:
 	void TimeStepUpdate(float step);
 
 	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
 
 private:
+	void InitObject();
+
 	void DrawBlobs(bool below);
 	void DrawRingsAndSpokes(bool blend);
 
@@ -88,6 +91,8 @@ private:
 
 	float m_x;
 	float m_y;
+
+	Graphics::Renderer *m_renderer;
 };
 
 class UseEquipWidget: public IMultiFunc, public Gui::Fixed {

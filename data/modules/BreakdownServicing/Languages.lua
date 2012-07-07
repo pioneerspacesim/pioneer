@@ -65,7 +65,7 @@ We can tune your {drive} for just {price}.  There's nobody cheaper!]],
 Translate:AddFlavour('English','BreakdownServicing', {
 	title = "Time and Space Engines, Inc.",
 	intro = [[Welcome to Time and Space.
-		
+
 We specialise in interstellar engines. All maintenance work guaranteed for two years.
 {lasttime}
 Servicing your {drive} will cost {price}.  Would you like to proceed?]],
@@ -150,7 +150,7 @@ Mogę wyregulować twój {drive} za jedyne {price}.  Nie znajdziesz nikogo tańs
 Translate:AddFlavour('Polski','BreakdownServicing', {
 	title = "Time and Space Engines, Inc.",
 	intro = [[Witamy w Time and Space.
-	
+
 Specjalizujemy się w napędach nadprzestrzennych. Dajemy dwuletnią gwarancje na wszystkie prace konserwacyjne.
 {lasttime}
 Za {drive} cena wynosi {price}.  Kontynuować?]],
@@ -235,7 +235,7 @@ Wir können Ihr {drive} pflegen für nur {price}.  Es gibt niemanden billiger!]]
 Translate:AddFlavour('Deutsch','BreakdownServicing', {
 	title = "Zeit und Raum Antriebe, Inc.",
 	intro = [[Wilkommen nach Zeit und Raum.
-		
+
 Wir spezialisieren uns auf interstellaren Antriebe.  Alle Wartungsarbeiten für zwei Jahre garantiert.
 
 {lasttime}
@@ -282,7 +282,7 @@ Garantie: 18 maanden
 		strength = 1.5,
 		baseprice = 6,
 })
-  
+
 Translate:AddFlavour('Nederlands','BreakdownServicing',{
 		title = "{proprietor}: Hyperaandrijving onderhouds-specialist",
 		intro = [[Ik ben {proprietor}.  Ik kan uw {drive} onderhouden, zodat deze er minstens een jaar tegenaan kan! De kosten bedragen {price}
@@ -292,7 +292,7 @@ Translate:AddFlavour('Nederlands','BreakdownServicing',{
 		strength = 1.2, -- Minstens een jaar... verborgen bonus!
 		baseprice = 4,
 })
-  
+
 Translate:AddFlavour('Nederlands','BreakdownServicing',{
 		title = "{proprietor} & Co. HyperMonteurs",
 		intro = [[Hallo.  Wij van {proprietor} & Co. zetten onze reputatie in op de kwaliteit van ons werk!
@@ -304,7 +304,7 @@ We kunnen uw {drive} een onderhoudsbeurt geven, waarna we 12 maanden dienst gara
 		strength = 1.0,
 		baseprice = 3,
 })
-  
+
 Translate:AddFlavour('Nederlands','BreakdownServicing',{
 		title = "SuperFix Onderhoud (afdeling {name})",
 		intro = [[Welkom bij SuperFix Onderhoud.
@@ -317,11 +317,11 @@ We kunnen uw {drive} onderhouden voor slechts {price}.  Niemand is goedkoper!]],
 		strength = 0.5,
 		baseprice = 2,
 })
-  
+
 Translate:AddFlavour('Nederlands','BreakdownServicing',{
 		title = "Tijd en Ruimte Motoren, B.V.",
 		intro = [[Welkom bij Tijd en Ruimte.
-		
+
 Wij specialiseren ons in interstellaire aandrijf-systemen. Op al ons onderhoudswerk zit een garantie van twee jaar.
 
 {lasttime}
@@ -344,7 +344,7 @@ Servicebeurt: {price}
 		strength = 0.0, -- Deze heren geven zeer slechte service
 		baseprice = 1.8,
 })
-	
+
 Translate:Add({ Nederlands = {
   ["I don't have enough money"] = "Ik heb niet genoeg geld",
   ["Manufacturer's warranty"] = "Fabrieksgarantie",
@@ -408,7 +408,7 @@ Podemos tunear su {drive} por solo {price}.  No hay nada mas barato!]],
 Translate:AddFlavour('Spanish','BreakdownServicing', {
 	title = "Motores Espacio Tiempo, Inc.",
 	intro = [[Bienvenido a Motores Espacio Tiempo.
-		
+
 Nos especializamos en motores interestelares. Garantía por dos años.
 {lasttime}
 La revisión de su {drive} le costará {price}.  Quiere continuar?]],
@@ -437,4 +437,89 @@ Translate:Add({ Spanish = {
 	["Your drive has not been serviced since it was installed on {date}"] = "Su motor no ha tenido ninguna revisión desde que fué instalado el {date}",
 	["You do not have a drive to service!"] = "No dispone de motor para revisar!",
 	["The ship's hyperdrive has been destroyed by a malfunction"] = "El motor de hiperimpulso de la nave se ha destruído por un mal funcionamiento",
+}, })
+
+---- HUNGARIAN / MAGYAR ----
+
+Translate:AddFlavour('Magyar','BreakdownServicing', {
+	title = "{name} hajtóműszervízelő társaság",
+	intro = [[Kerüld el a lerobbant hipermotor okozta kellemetlenségeket. Intézd el a szervízt még ma, a hivatalosan jóváhagyott {name} hajtóműszervízelő társaságnál.
+
+Hajtómű: {drive}
+Szervíz ára: {price}
+Garancia: 18 hónap
+{lasttime}]],
+	yesplease = "Hipermotor szervízelés",
+	response = "A hipermotor szervizelése megtörtént.",
+	strength = 1.5,
+	baseprice = 6,
+})
+
+Translate:AddFlavour('Magyar','BreakdownServicing', {
+	title = "{proprietor}: Hipermotor karbantartó specialista",
+	intro = [[{proprietor} vagyok. Meg tudom javítani a(z) {drive} hipermotort, garantálva, hogy legalább 1 évig problémamentesen fog működni. Ennek ára pedig {price}
+{lasttime}]],
+	yesplease = "Hipermotorszervízt kérnék",
+	response = "Megjavítottam a hipermotort.",
+	strength = 1.2, -- legalább egy évig... rejtett bónusz!
+	baseprice = 4,
+})
+
+Translate:AddFlavour('Magyar','BreakdownServicing', {
+	title = "{proprietor} & társa hiperszervízes",
+	intro = [[Üdv, és helló. Mi a(z) {proprietor} & társánál a munkánk minősége a hírnevünk.
+
+{lasttime}
+Fel tudjuk javítani a hajód {drive} hajtóművét, biztosítva, hogy 12 hónapon át problémamentesen működjön, mindössze {price} összegért. Én magam felügyelem a munkát, szóval biztos lehetsz benne, hogy jó munkát végzünk.]],
+	yesplease = "Kérlek javítsd fel a hipermotoromat a megadott árért",
+	response = "Szervíz befejezve. Köszönjük a vásárlást.",
+	strength = 1.0,
+	baseprice = 3,
+})
+
+Translate:AddFlavour('Magyar','BreakdownServicing', {
+	title = "SuperFix karbantartás ({name} fiók)",
+	intro = [[Üdvözöllek a Superfix karbantartásnál.
+
+{lasttime}
+Itt az idő a féléves ellenőrzésre? Engedd meg, hogy szuperfixáljuk a hipermotorod!
+Meg tudjuk bütykölni a(z) {drive} hajtóművedet csupán {price} összegért. Senki sem olcsóbb nálunk!]],
+	yesplease = "SuperFix módú javítást kérek!",
+	response = "A SuperFix javítás kész van, SuperFix garanciával!",
+	strength = 0.5,
+	baseprice = 2,
+})
+
+Translate:AddFlavour('Magyar','BreakdownServicing', {
+	title = "Idő és Tér hajtóművek Rt.",
+	intro = [[Üdv az Idő és Tér Rt.-nél.
+
+A mi specialitásunk a csillagközi hajtómű. Minden szervízelésünkre 2 év garanciát vállalunk.
+{lasttime}
+A hajó {drive} meghajtójának szervize {price} összegbe kerül. Belekezdjünk?]],
+	yesplease = "Igen, mehet a szervíz",
+	response = "Befejeztük a munkát a hipermotoron.",
+	strength = 2.1, -- these guys are good.
+	baseprice = 10,
+})
+
+Translate:AddFlavour('Magyar','BreakdownServicing', {
+	title = "{proprietor} hajtóműszervízelő társaság",
+	intro = [[Kerüld el a lerobbant hipermotor okozta kellemetlenségeket. Szervizeld még ma.
+
+Hajtómű: {drive}
+Szervíz ára: {price}
+{lasttime}]],
+	yesplease = "Hipermotor szervizelése",
+	response = "A hajtómű szervize kész.",
+	strength = 0.0, -- These guys just reset the jump count.  Shoddy.
+	baseprice = 1.8,
+})
+
+Translate:Add({ Magyar = {
+	["I don't have enough money"] = "Nincs annyi pénzem",
+	["Your drive was last serviced on {date} by {company}"] = "A hajtóművet {date} időpontban szervizelte a(z) {company}",
+	["Your drive has not been serviced since it was installed on {date}"] = "A hajtómű még egyszer sem volt szervizelve a beszerelése, {date} óta.",
+	["You do not have a drive to service!"] = "Nincs is szervizelni való hajtóműved!",
+	["The ship's hyperdrive has been destroyed by a malfunction"] = "A hajó hipermotorja megsemmisült egy meghibásodás miatt",
 }, })

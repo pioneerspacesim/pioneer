@@ -22,8 +22,7 @@ namespace Gui {
 		void SetSize(float w, float h) { m_size.w = w; m_size.h = h; onSetSize.emit(); }
 		void ResizeRequest();
 		void SetShortcut(SDLKey key, SDLMod mod);
-		void SetClipping(float width, float height);
-		void EndClipping();
+		void SetScissor(bool enabled);
 		bool GetEnabled() { return m_enabled; }
 		void SetEnabled(bool v) { m_enabled = v; }
 		virtual void GrabFocus();
@@ -54,9 +53,9 @@ namespace Gui {
 			EVENT_KEYUP = 1<<1,
 			EVENT_MOUSEDOWN = 1<<2,
 			EVENT_MOUSEUP = 1<<3,
-			EVENT_MOUSEMOTION = 1<<4, // needed for OnMouseEnter,Leave,IsMouseOver
-			EVENT_ALL = 0xffffffff
+			EVENT_MOUSEMOTION = 1<<4 // needed for OnMouseEnter,Leave,IsMouseOver
 		};
+		static const unsigned int EVENT_ALL = 0xffffffff;		// not in the enum because 0xffffffff is an unsigned int, and an enum is an int (before C++11 which allows strong-typed enums)
 		unsigned int GetEventMask() { return m_eventMask; }
 
 		sigc::signal<void> onMouseEnter;
@@ -69,7 +68,7 @@ namespace Gui {
 			SDLKey sym;
 			SDLMod mod;
 		} m_shortcut;
-		
+
 		virtual std::string GetOverrideTooltip() { return ""; }
 		void UpdateOverriddenTooltip();
 	private:

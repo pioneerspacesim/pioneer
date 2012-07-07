@@ -1,89 +1,83 @@
 #include "Camera.h"
 #include "Frame.h"
-#include "StarSystem.h"
-#include "render/Render.h"
+#include "galaxy/StarSystem.h"
 #include "Space.h"
 #include "Player.h"
 #include "Pi.h"
 #include "Sfx.h"
+#include "Game.h"
+#include "Light.h"
+#include "Planet.h"
+#include "graphics/Graphics.h"
+#include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
+#include "graphics/Material.h"
 
-Camera::Camera(const Body *body, float width, float height) :
+using namespace Graphics;
+
+Camera::Camera(const Body *body, float width, float height, float fovY, float znear, float zfar) :
+	m_showCameraBody(true),
 	m_body(body),
 	m_width(width),
 	m_height(height),
-	m_fovAng(Pi::config.Float("FOV")),
-	m_shadersEnabled(Render::AreShadersEnabled()),
-	m_frustum(m_width, m_height, m_fovAng),
+	m_fovAng(fovY),
+	m_zNear(znear),
+	m_zFar(zfar),
+	m_frustum(m_width, m_height, m_fovAng, znear, zfar),
 	m_pose(matrix4x4d::Identity()),
-	m_camFrame(0)
+	m_camFrame(0),
+	m_renderer(0)
 {
+	m_onBodyDeletedConnection = m_body->onDelete.connect(sigc::mem_fun(this, &Camera::OnBodyDeleted));
 }
 
 Camera::~Camera()
 {
+	if (m_onBodyDeletedConnection.connected())
+		m_onBodyDeletedConnection.disconnect();
+
 	if (m_camFrame) {
 		m_body->GetFrame()->RemoveChild(m_camFrame);
 		delete m_camFrame;
 	}
 }
 
-static void position_system_lights(Frame *camFrame, Frame *frame, int &lightNum)
+void Camera::OnBodyDeleted()
 {
-	if (lightNum > 3) return;
-	// not using frame->GetSBodyFor() because it snoops into parent frames,
-	// causing duplicate finds for static and rotating frame
-	SBody *body = frame->m_sbody;
+	m_onBodyDeletedConnection.disconnect();
+	m_body = 0;
+}
 
-	if (body && (body->GetSuperType() == SBody::SUPERTYPE_STAR)) {
-		int light;
-		switch (lightNum) {
-			case 3: light = GL_LIGHT3; break;
-			case 2: light = GL_LIGHT2; break;
-			case 1: light = GL_LIGHT1; break;
-			default: light = GL_LIGHT0; break;
-		}
-		// position light at sol
+static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Light> &lights)
+{
+	if (lights.size() > 3) return;
+	// not using frame->GetSystemBodyFor() because it snoops into parent frames,
+	// causing duplicate finds for static and rotating frame
+	SystemBody *body = frame->m_sbody;
+
+	if (body && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
 		matrix4x4d m;
 		Frame::GetFrameTransform(frame, camFrame, m);
 		vector3d lpos = (m * vector3d(0,0,0));
 		double dist = lpos.Length() / AU;
 		lpos *= 1.0/dist; // normalize
-		float lightPos[4];
-		lightPos[0] = float(lpos.x);
-		lightPos[1] = float(lpos.y);
-		lightPos[2] = float(lpos.z);
-		lightPos[3] = 0;
 
 		const float *col = StarSystem::starRealColors[body->type];
-		float lightCol[4] = { col[0], col[1], col[2], 0 };
-		float ambCol[4] = { 0,0,0,0 };
-		if (Render::IsHDREnabled()) {
-			for (int i=0; i<4; i++) {
-				// not too high or we overflow our float16 colorbuffer
-				lightCol[i] *= float(std::min(10.0*StarSystem::starLuminosities[body->type] / dist, 10000.0));
-			}
-		}
 
-		glLightfv(light, GL_POSITION, lightPos);
-		glLightfv(light, GL_DIFFUSE, lightCol);
-		glLightfv(light, GL_AMBIENT, ambCol);
-		glLightfv(light, GL_SPECULAR, lightCol);
-		glEnable(light);
-
-		lightNum++;
+		Color lightCol(col[0], col[1], col[2], 0.f);
+		Color ambCol(0.f);
+		vector3f lightpos(lpos.x, lpos.y, lpos.z);
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol));
 	}
 
 	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i!=frame->m_children.end(); ++i) {
-		position_system_lights(camFrame, *i, lightNum);
+		position_system_lights(camFrame, *i, lights);
 	}
 }
 
 void Camera::Update()
 {
-	if (m_shadersEnabled != Render::AreShadersEnabled()) {
-		m_frustum = Render::Frustum(m_width, m_height, m_fovAng);
-		m_shadersEnabled = !m_shadersEnabled;
-	}
+	if (!m_body) return;
 
 	// make temporary camera frame at the body
 	m_camFrame = new Frame(m_body->GetFrame(), "camera", Frame::TEMP_VIEWING);
@@ -96,10 +90,9 @@ void Camera::Update()
 	// make sure old orient and interpolated orient (rendering orient) are not rubbish
 	m_camFrame->ClearMovement();
 
-
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
-	for (std::list<Body*>::iterator i = Space::bodies.begin(); i != Space::bodies.end(); ++i) {
+	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
 		Body *b = *i;
 
 		// prepare attrs for sorting and drawing
@@ -116,157 +109,173 @@ void Camera::Update()
 	m_sortedBodies.sort();
 }
 
-void Camera::Draw()
+void Camera::Draw(Renderer *renderer)
 {
-	m_frustum.Enable();
+	if (!m_body) return;
+	if (!renderer) return;
+
+	m_renderer = renderer;
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	m_renderer->SetPerspectiveProjection(m_fovAng, m_width/m_height, m_zNear, m_zFar);
+	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_renderer->ClearScreen();
 
 	matrix4x4d trans2bg;
-	Frame::GetFrameTransform(Space::rootFrame, m_camFrame, trans2bg);
+	Frame::GetFrameRenderTransform(Pi::game->GetSpace()->GetRootFrame(), m_camFrame, trans2bg);
 	trans2bg.ClearToRotOnly();
-	glPushMatrix();
-	glMultMatrixd(&trans2bg[0]);
-	glPushMatrix();
-	glRotatef(40.0, 1.0,2.0,3.0);
-	m_milkyWay.Draw();
-	glPopMatrix();
-	m_starfield.Draw();
-	glPopMatrix();
 
-	int num_lights = 0;
-	position_system_lights(m_camFrame, Space::rootFrame, num_lights);
+	// Pick up to four suitable system light sources (stars)
+	std::vector<Light> lights;
+	lights.reserve(4);
+	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), lights);
 
-	if (num_lights == 0) {
-		// no lights means we're somewhere weird (eg hyperspace). fake one
+	if (lights.empty()) {
+		// no lights means we're somewhere weird (eg hyperspace).
 		// fake one up and give a little ambient light so that we can see and
 		// so that things that need lights don't explode
-		float lightPos[4] = { 0,0,0,0 };
-		float lightCol[4] = { 1.0, 1.0, 1.0, 0 };
-		float ambCol[4] = { 1.0,1.0,1.0,0 };
-
-		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightCol);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, ambCol);
-		glLightfv(GL_LIGHT0, GL_SPECULAR, lightCol);
-		glEnable(GL_LIGHT0);
-
-		num_lights++;
+		Color col(1.f);
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col));
 	}
 
-	Render::State::SetNumLights(num_lights);
+	//fade space background based on atmosphere thickness and light angle
+	float bgIntensity = 1.f;
+	if (m_camFrame->m_parent) {
+		//check if camera is near a planet
+		Body *camParentBody = m_camFrame->m_parent->GetBodyFor();
+		if (camParentBody && camParentBody->IsType(Object::PLANET)) {
+			Planet *planet = static_cast<Planet*>(camParentBody);
+			const vector3f relpos(planet->GetPositionRelTo(m_camFrame));
+			double altitude(relpos.Length());
+			double pressure, density;
+			planet->GetAtmosphericState(altitude, &pressure, &density);
 
-	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
-	Render::State::SetZnearZfar(znear, zfar);
+			//go through all lights to calculate something resembling light intensity
+			float angle = 0.f;
+			for(std::vector<Light>::const_iterator it = lights.begin();
+				it != lights.end(); ++it) {
+				const vector3f lightDir(it->GetPosition().Normalized());
+				angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * it->GetDiffuse().GetLuminance();
+			}
+			//calculate background intensity with some hand-tweaked fuzz applied
+			bgIntensity = Clamp(1.f - std::min(1.f, float(density) * (0.3f + angle)), 0.f, 1.f);
+		}
+	}
+
+	Pi::game->GetSpace()->GetBackground().SetIntensity(bgIntensity);
+	Pi::game->GetSpace()->GetBackground().Draw(renderer, trans2bg);
+
+	renderer->SetLights(lights.size(), &lights[0]);
 
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
 
-		double rad = attrs->body->GetClipRadius();
+		if (attrs->body == GetBody() && !m_showCameraBody) continue;
 
+		double rad = attrs->body->GetClipRadius();
 		if (!m_frustum.TestPointInfinite((*i).viewCoords, rad))
 			continue;
 
 		// draw spikes for far objects
 		double screenrad = 500 * rad / attrs->camDist;      // approximate pixel size
-		if (!attrs->body->IsType(Object::STAR) && screenrad < 2) {
-			if (!attrs->body->IsType(Object::PLANET)) continue;
+		if (attrs->body->IsType(Object::PLANET) && screenrad < 2) {
 			// absolute bullshit
 			double spikerad = (7 + 1.5*log10(screenrad)) * rad / screenrad;
 			DrawSpike(spikerad, attrs->viewCoords, attrs->viewTransform);
 		}
-		else
-			attrs->body->Render(attrs->viewCoords, attrs->viewTransform);
+		else if (screenrad >= 2 || attrs->body->IsType(Object::STAR) ||
+					(attrs->body->IsType(Object::PROJECTILE) && screenrad > 0.25))
+			attrs->body->Render(renderer, attrs->viewCoords, attrs->viewTransform);
 	}
 
-	Sfx::RenderAll(Space::rootFrame, m_camFrame);
-	Render::State::UseProgram(0);
-	Render::UnbindAllBuffers();
+	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
+	UnbindAllBuffers();
 
 	m_body->GetFrame()->RemoveChild(m_camFrame);
 	delete m_camFrame;
 	m_camFrame = 0;
 
-	glDisable(GL_LIGHT0);
-	glDisable(GL_LIGHT1);
-	glDisable(GL_LIGHT2);
-	glDisable(GL_LIGHT3);
-
 	glPopAttrib();
-
-	m_frustum.Disable();
 }
 
 void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	glPushMatrix();
+	// draw twinkly star-thing on faraway objects
+	// XXX this seems like a good case for drawing in 2D - use projected position, then the
+	// "face the camera dammit" bits can be skipped
+	if (!m_renderer) return;
 
-	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
-	double newdist = znear + 0.5f * (zfar - znear);
-	double scale = newdist / viewCoords.Length();
+	const double newdist = m_zNear + 0.5f * (m_zFar - m_zNear);
+	const double scale = newdist / viewCoords.Length();
 
-	glTranslatef(float(scale*viewCoords.x), float(scale*viewCoords.y), float(scale*viewCoords.z));
+	matrix4x4d trans = matrix4x4d::Identity();
+	trans.Translate(scale*viewCoords.x, scale*viewCoords.y, scale*viewCoords.z);
 
-	Render::State::UseProgram(0);
 	// face the camera dammit
 	vector3d zaxis = viewCoords.Normalized();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
 	vector3d yaxis = zaxis.Cross(xaxis);
 	matrix4x4d rot = matrix4x4d::MakeInvRotMatrix(xaxis, yaxis, zaxis);
-	glMultMatrixd(&rot[0]);
+	trans = trans * rot;
 
-	glDisable(GL_LIGHTING);
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
+	m_renderer->SetDepthTest(false);
+	m_renderer->SetBlendMode(BLEND_ALPHA_ONE);
 
 	// XXX WRONG. need to pick light from appropriate turd.
 	GLfloat col[4];
 	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
-	glColor4f(col[0], col[1], col[2], 1);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0,0,0);
-	glColor4f(col[0], col[1], col[2], 0);
+	col[3] = 1.f;
+
+	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+
+	const Color center(col[0], col[1], col[2], col[2]);
+	const Color edges(col[0], col[1], col[2], 0.f);
+
+	//center
+	va.Add(vector3f(0.f), center);
 
 	const float spikerad = float(scale*rad);
 
 	// bezier with (0,0,0) control points
 	{
-		vector3f p0(0,spikerad,0), p1(spikerad,0,0);
+		const vector3f p0(0,spikerad,0), p1(spikerad,0,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-			vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			glVertex3fv(&p[0]);
+			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+			va.Add(p, edges);
 		}
 	}
 	{
-		vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
+		const vector3f p0(spikerad,0,0), p1(0,-spikerad,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-			vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			glVertex3fv(&p[0]);
+			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+			va.Add(p, edges);
 		}
 	}
 	{
-		vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
+		const vector3f p0(0,-spikerad,0), p1(-spikerad,0,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-			vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			glVertex3fv(&p[0]);
+			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+			va.Add(p, edges);
 		}
 	}
 	{
-		vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
+		const vector3f p0(-spikerad,0,0), p1(0,spikerad,0);
 		float t=0.1f; for (int i=1; i<10; i++, t+= 0.1f) {
-			vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
-			glVertex3fv(&p[0]);
+			const vector3f p = (1-t)*(1-t)*p0 + t*t*p1;
+			va.Add(p, edges);
 		}
 	}
-	glEnd();
-	glDisable(GL_BLEND);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_DEPTH_TEST);
+
+	Material mat;
+	mat.unlit = true;
+	mat.vertexColors = true;
+
+	glPushMatrix();
+	m_renderer->SetTransform(trans);
+	m_renderer->DrawTriangles(&va, &mat, TRIANGLE_FAN);
+	m_renderer->SetBlendMode(BLEND_SOLID);
+	m_renderer->SetDepthTest(true);
 	glPopMatrix();
 }
 

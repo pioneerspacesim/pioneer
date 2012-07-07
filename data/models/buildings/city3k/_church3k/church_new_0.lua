@@ -5,7 +5,7 @@ define_model('church_new_clockhd', {
 			bounding_radius = 30,
    			},
 	static = function(lod)
-        load_obj('church_new_pyr.obj',Matrix.rotate(.5*math.pi,v(-1,0,0)))
+        load_obj('church_new_pyr.obj',matrix.rotate(.5*math.pi,v(-1,0,0)))
 	end
 })
 
@@ -19,14 +19,14 @@ define_model('church_new_clock', {
         set_material('hour', .7,.1,.1,1,.3,.3,.3,30)
 		set_material('min', .2,.5,.6,1,.3,.3,.3,30)
 		set_material('glow', .5,.5,.5,1,1,1.5,2,100,.6,1.2,1.2)
-		
+
 		use_material('glow')
   		if lod > 2 then
 			texture('glow.png')
 		elseif lod > 1 then
 		    texture('glow_s.png')
 		end
-		load_obj('church_new_win.obj',Matrix.translate(v(0,0,-.5)))
+		load_obj('church_new_win.obj',matrix.translate(v(0,0,-.5)))
 	end,
 	dynamic = function(lod)
         local minutePos = -2*math.pi * get_time('HOURS')
@@ -60,7 +60,7 @@ define_model('church_new_0', {
 	    	texture('concrete_s.png')
 	    	use_material('default')
 		end
-        load_obj('church_new_0.obj',Matrix.translate(v(0,0,-.5)))
+        load_obj('church_new_0.obj',matrix.translate(v(0,0,-.5)))
 
 		if lod > 2 then
    			texture('door.png',v(.5,.13,0),v(.445,0,0),v(0,.52,0))
@@ -73,9 +73,9 @@ define_model('church_new_0', {
 
 		if lod > 1 then
 			call_model('church_new_clock',v(0,0,0),v(1,0,0),v(0,1,0),1)
-			
 
-	        
+
+
 			if lod > 3 then
             	texture('church_new_clock.png',v(.5,.5,0), v(.05,0,0),v(0,0,1))
 			elseif lod > 2 then
@@ -84,16 +84,16 @@ define_model('church_new_0', {
 			    texture('church_new_clock_s.png',v(.5,.5,0), v(.05,0,0),v(0,0,1))
 			end
 			use_material('cutout')
-			sphere_slice(6*lod,3*lod, 0, math.pi, Matrix.translate(v(0,34,0)) * Matrix.scale(v(-8,-7,-8)))
+			sphere_slice(6*lod,3*lod, 0, math.pi, matrix.translate(v(0,34,0)) * matrix.scale(v(-8,-7,-8)))
 	        use_material('cutout')
-			sphere_slice(6*lod,3*lod, 0, math.pi, Matrix.translate(v(0,34,0)) * Matrix.scale(v(8.01,7.01,8.01)))
-			
-			
-			
-			
-			
-			
-			
+			sphere_slice(6*lod,3*lod, 0, math.pi, matrix.translate(v(0,34,0)) * matrix.scale(v(8.01,7.01,8.01)))
+
+
+
+
+
+
+
         end
 	end,
 	dynamic = function(lod)
@@ -120,8 +120,8 @@ define_model('church_new_1', {
 	    	texture('concrete_s.png')
 	    	use_material('default')
 		end
-        load_obj('church_new_1.obj',Matrix.translate(v(0,0,-.5)))
-        
+        load_obj('church_new_1.obj',matrix.translate(v(0,0,-.5)))
+
         if lod > 2 then
    			texture('door.png',v(.5,.13,0),v(.445,0,0),v(0,.52,0))
    		else
@@ -140,7 +140,7 @@ define_model('church_new_1', {
 			    texture('glow_s.png')
 			end
 	    	use_material('glow')
-	        load_obj('church_new_win.obj',Matrix.translate(v(0,0,-.5)))
+	        load_obj('church_new_win.obj',matrix.translate(v(0,0,-.5)))
 
 
 
@@ -152,9 +152,9 @@ define_model('church_new_1', {
 			    texture('church_new_clock_s.png',v(.5,.5,0), v(.05,0,0),v(0,0,1))
 			end
    			use_material('cutout')
-			sphere_slice(6*lod,3*lod, 0, math.pi, Matrix.translate(v(0,34,0)) * Matrix.scale(v(-8,-7,-8)))
+			sphere_slice(6*lod,3*lod, 0, math.pi, matrix.translate(v(0,34,0)) * matrix.scale(v(-8,-7,-8)))
 	        use_material('cutout')
-			sphere_slice(6*lod,3*lod, 0, math.pi, Matrix.translate(v(0,34,0)) * Matrix.scale(v(8.01,7.01,8.01)))
+			sphere_slice(6*lod,3*lod, 0, math.pi, matrix.translate(v(0,34,0)) * matrix.scale(v(8.01,7.01,8.01)))
 
         end
 	end

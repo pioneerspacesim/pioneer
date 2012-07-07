@@ -21,6 +21,10 @@ autom4te.cache/
 *.o
 *.a
 .deps
+/*.exe
+/*.dll
+/*.pdb
+/*.ilk
 Makefile
 Makefile.in
 .DS_Store
@@ -43,3 +47,4 @@ stamp-h1
 *~
 *.orig
 pioneer-*.tar.*
+Thumbs.db

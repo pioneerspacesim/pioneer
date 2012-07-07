@@ -1,19 +1,31 @@
 #include "libs.h"
 #include <map>
-#include "FontManager.h"
-#include "VectorFont.h"
+#include "FontCache.h"
+#include "text/VectorFont.h"
 #include "LmrModel.h"
 #include "collider/collider.h"
 #include "perlin.h"
-#include "render/Render.h"
 #include "BufferObject.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
+#include "LuaMatrix.h"
+#include "LuaVector.h"
 #include "EquipType.h"
+#include "EquipSet.h"
 #include "ShipType.h"
-#include "TextureManager.h"
+#include "FileSystem.h"
+#include "CRC32.h"
+#include "graphics/Graphics.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+#include "graphics/Shader.h"
+#include "graphics/VertexArray.h"
+#include "graphics/TextureBuilder.h"
+#include "graphics/TextureGL.h" // XXX temporary until LMR uses renderer drawing properly
 #include <set>
 #include <algorithm>
+
+static const Uint32 s_cacheVersion = 2;
 
 /*
  * Interface: LMR
@@ -37,104 +49,97 @@ struct RenderState {
 struct LmrUnknownMaterial {};
 
 namespace ShipThruster {
+	//vertices for thruster flare & glow
+	static Graphics::VertexArray *tVerts;
+	static Graphics::VertexArray *gVerts;
+	static Graphics::Material tMat;
+	static Graphics::Material glowMat;
+	//cool purple-ish
+	static Color color(0.7f, 0.6f, 1.f, 1.f);
+
+	static void Init(Graphics::Renderer *renderer) {
+		tVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+		gVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+
+		//set up materials
+		tMat.texture0 = Graphics::TextureBuilder::Billboard("textures/thruster.png").GetOrCreateTexture(renderer, "billboard");
+		tMat.unlit = true;
+		tMat.twoSided = true;
+		tMat.diffuse = color;
+
+		glowMat.texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(renderer, "billboard");
+		glowMat.unlit = true;
+		glowMat.twoSided = true;
+		glowMat.diffuse = color;
+
+		//zero at thruster center
+		//+x down
+		//+y right
+		//+z backwards (or thrust direction)
+		const float w = 0.5f;
+
+		vector3f one(0.f, -w, 0.f); //top left
+		vector3f two(0.f,  w, 0.f); //top right
+		vector3f three(0.f,  w, 1.f); //bottom right
+		vector3f four(0.f, -w, 1.f); //bottom left
+
+		//uv coords
+		const vector2f topLeft(0.f, 1.f);
+		const vector2f topRight(1.f, 1.f);
+		const vector2f botLeft(0.f, 0.f);
+		const vector2f botRight(1.f, 0.f);
+
+		//add four intersecting planes to create a volumetric effect
+		for (int i=0; i < 4; i++) {
+			tVerts->Add(one, topLeft);
+			tVerts->Add(two, topRight);
+			tVerts->Add(three, botRight);
+
+			tVerts->Add(three, botRight);
+			tVerts->Add(four, botLeft);
+			tVerts->Add(one, topLeft);
+
+			one.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+			two.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+			three.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+			four.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+		}
+
+		//create glow billboard for linear thrusters
+		const float gw = 1.0f; //0.4
+
+		const vector3f gone(-gw, -gw, 0.f); //top left
+		const vector3f gtwo(-gw,  gw, 0.f); //top right
+		const vector3f gthree(gw, gw, 0.f); //bottom right
+		const vector3f gfour(gw, -gw, 0.f); //bottom left
+
+		gVerts->Add(gone, topLeft);
+		gVerts->Add(gtwo, topRight);
+		gVerts->Add(gthree, botRight);
+
+		gVerts->Add(gthree, botRight);
+		gVerts->Add(gfour, botLeft);
+		gVerts->Add(gone, topLeft);
+	}
+
+	static void Uninit() {
+		delete tVerts;
+		delete gVerts;
+	}
+
 	struct Thruster
 	{
-		Thruster() : pos(0.0), dir(0.0), power(0) {}	// zero this shit to stop denormal-copying on resize
+		Thruster() : m_pos(0.0), m_dir(0.0), m_power(0) {}	// zero this shit to stop denormal-copying on resize
 		// cannot be used as an angular thruster
-		bool linear_only;
-		vector3f pos;
-		vector3f dir;
-		float power;
+		bool m_linear_only;
+		vector3f m_pos;
+		vector3f m_dir;
+		float m_power;
+		void Render(Graphics::Renderer *r, const RenderState *rstate, const LmrObjParams *params);
 	};
 
-	
-	static vector3f ResolveHermiteSpline (const vector3f &p0, const vector3f &p1, const vector3f &n0, const vector3f &n1, float t)
+	void Thruster::Render(Graphics::Renderer *renderer, const RenderState *rstate, const LmrObjParams *params)
 	{
-		float t2 = t*t, t3 = t*t*t;
-		vector3f tv1, tv2, tv;
-		tv1 = p0 * (2*t3-3*t2+1);
-		tv = n0 * (t3-2*t2+t);
-		tv1 = tv+tv1;
-		tv2 = p1 * (-2*t3+3*t2);
-		tv = n1 *  (t3-t2);
-		tv2 = tv + tv2;
-		return tv1 + tv2;
-	}
-
-	static const int pNumIndex[3] =
-		{ (2*4+1*8)*3, (2*8+5*16)*3, (2*16+13*32)*3 };
-
-	static vector3f pTVertex4pt[2*4+2];
-	static vector3f pTVertex8pt[6*8+2];
-	static vector3f pTVertex16pt[14*16+2];
-
-	static Uint16 pTIndex4pt[(2*4+1*8)*3];
-	static Uint16 pTIndex8pt[(2*8+5*16)*3];
-	static Uint16 pTIndex16pt[(2*16+13*32)*3];
-
-	static vector3f *ppTVertex[3] =
-		{ pTVertex4pt, pTVertex8pt, pTVertex16pt };
-
-	static Uint16 *ppTIndex[3] =
-		{ pTIndex4pt, pTIndex8pt, pTIndex16pt };
-
-
-	static void GenerateThrusters ()
-	{
-		vector3f pos0 = vector3f(0.0f, 0.0f, 0.0f);
-		vector3f pos1 = vector3f(0.0f, 0.0f, 1.0f);
-		vector3f tan0 = vector3f(0.0f, 1.0f, 0.2f);
-		vector3f tan1 = vector3f(0.0f, -0.2f, 1.0f);
-
-		int j, n;
-		for (j=0, n=4; j<3; j++, n<<=1)
-		{
-			vector3f *pCur = ppTVertex[j];
-			float t, incstep = 1.0f / (n-1);
-			int i; for (i=0, t=incstep; i<n-2; i++, t+=incstep)
-			{
-				vector3f *pos = pCur;
-				*pos = ResolveHermiteSpline (pos0, pos1, tan0, tan1, t);
-				pCur++;
-
-				float angstep = 2.0f * 3.141592f / n, ang = angstep;
-				for (int k=1; k<n; k++, ang+=angstep, pCur++)
-				{
-					pCur->x = sin(ang) * pos->y;
-					pCur->y = cos(ang) * pos->y;
-					pCur->z = pos->z;
-				}
-			}
-			*pCur = pos0; pCur++;
-			*pCur = pos1; pCur++;
-
-			int ni=0, k;
-			Uint16 *pIndex = ppTIndex[j];
-
-			for (k=0; k<n; k++) {
-				int k1 = k+1==n ? 0 : k+1;
-				pIndex[ni++] = (n-2)*n; pIndex[ni++] = k; pIndex[ni++] = k1;
-				pIndex[ni++] = (n-2)*n+1; pIndex[ni++] = k1+(n-3)*n; pIndex[ni++] = k+(n-3)*n;
-			}
-			for (i=0; i<n-3; i++)
-			{
-				for (k=0; k<n; k++) {
-					int k1 = k+1==n ? 0 : k+1;
-					pIndex[ni++] = k+i*n; pIndex[ni++] = k+i*n+n; pIndex[ni++] = k1+i*n;
-					pIndex[ni++] = k1+i*n; pIndex[ni++] = k+i*n+n;	pIndex[ni++] = k1+i*n+n;
-				}
-			}
-		}
-	}
-
-	static const float s_black[4] = { 0, 0, 0, 0 };
-	static const float s_alpha[4] = { 0, 0, 0, 0.6 };
-	static bool inittted = false;
-
-	static void RenderThruster(const RenderState *rstate, const LmrObjParams *params, Thruster *pThruster)
-	{
-		if (!inittted) GenerateThrusters();
-		inittted = true;
 		const float scale = 1.0;
 		// to find v(0,0,0) position of root model (when putting thrusters on sub-models)
 		vector3f compos = vector3f(rstate->subTransform[12], rstate->subTransform[13], rstate->subTransform[14]);
@@ -143,11 +148,11 @@ namespace ShipThruster {
 					vector3f(rstate->subTransform[4], rstate->subTransform[5], rstate->subTransform[6]),
 					vector3f(rstate->subTransform[8], rstate->subTransform[9], rstate->subTransform[10]));
 
-		vector3f start, end, dir = pThruster->dir;
-		start = pThruster->pos * scale;
+		vector3f start, end, dir = m_dir;
+		start = m_pos * scale;
 		float power = -dir.Dot(invSubModelMat * vector3f(params->linthrust));
 
-		if (!pThruster->linear_only) {
+		if (!m_linear_only) {
 			vector3f angdir, cpos;
 			const vector3f at = invSubModelMat * vector3f(params->angthrust);
 			cpos = compos + start;
@@ -164,8 +169,8 @@ namespace ShipThruster {
 
 		if (power <= 0.001f) return;
 		power *= scale;
-		float width = sqrt(power)*pThruster->power*0.6f;
-		float len = power*pThruster->power;
+		float width = sqrt(power)*m_power*0.6f;
+		float len = power*m_power;
 		end = dir * len;
 		end += start;
 
@@ -178,50 +183,66 @@ namespace ShipThruster {
 		m[0] = v1.x; m[4] = v2.x; m[8] = dir.x;
 		m[1] = v1.y; m[5] = v2.y; m[9] = dir.y;
 		m[2] = v1.z; m[6] = v2.z; m[10] = dir.z;
-		m2 = /*objorient **/ m;
+		m2 = m;
 
-		pos = /*objorient **/ start;
+		pos = start;
 
 		m2[12] = pos.x;
 		m2[13] = pos.y;
 		m2[14] = pos.z;
-		
+
 		glPushMatrix ();
 		glMultMatrixf (&m2[0]);
 
 		glScalef (width*0.5f, width*0.5f, len*0.666f);
-		
-		if (Render::IsHDREnabled())
-			glColor4f(0.0f, 40.0f, 100.0f, 0.9f);
-		else
-			glColor4f(0.0f, 0.4f, 1.0f, 0.9f);
 
-		glVertexPointer (3, GL_FLOAT, sizeof(vector3f), pTVertex8pt);
-		glDrawElements (GL_TRIANGLES, pNumIndex[1], GL_UNSIGNED_SHORT, pTIndex8pt);
+		matrix4x4f mv;
+		glGetFloatv(GL_MODELVIEW_MATRIX, &mv[0]);
+		vector3f viewdir = vector3f(-mv[2], -mv[6], -mv[10]).Normalized();
+		vector3f cdir(0.f, 0.f, -1.f);
+		//fade thruster out, when directly facing it
+		tMat.diffuse.a = 1.0 - powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len*2);
 
-		glScalef (2.0f, 2.0f, 1.5f);
-
-		if (Render::IsHDREnabled())
-			glColor4f(100.0f, 100.0f, 100.0f, 0.9f);
-		else
-			glColor4f(0.4f, 0.0f, 1.0f, 0.9f);
-
-		glVertexPointer (3, GL_FLOAT, sizeof(vector3f), pTVertex8pt);
-		glDrawElements (GL_TRIANGLES, pNumIndex[1], GL_UNSIGNED_SHORT, pTIndex8pt);
-
+		renderer->DrawTriangles(tVerts, &tMat);
 		glPopMatrix ();
-	}
 
-	struct CameraDistance {
-		Thruster *thruster;
-		float dist;
-	};
-	struct CameraDistanceCompare : public std::binary_function<CameraDistance, CameraDistance, bool> {
-		bool operator()(CameraDistance a, CameraDistance b)
-		{
-			return a.dist > b.dist;
+		// linear thrusters get a secondary glow billboard
+		if (m_linear_only) {
+			glowMat.diffuse.a = powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len);
+
+			glPushMatrix();
+			matrix4x4f rot;
+			glGetFloatv(GL_MODELVIEW_MATRIX, &rot[0]);
+			rot.ClearToRotOnly();
+			rot = rot.InverseOf();
+			const float sz = 0.20f*width;
+			const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);
+			const vector3f rotv2 = rot * vector3f(sz, -sz, 0.0f);
+			const vector3f rotv3 = rot * vector3f(-sz, -sz, 0.0f);
+			const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
+
+			//this might seem a bit confusing, but:
+			//update glow billboard vertices so they face the camera
+			vector3f vert = start+rotv4;
+
+			gVerts->position[0] = vector3f(vert.x, vert.y, vert.z);
+			gVerts->position[5] = vector3f(vert.x, vert.y, vert.z);
+
+			vert = start+rotv3;
+			gVerts->position[1] = vector3f(vert.x, vert.y, vert.z);
+
+			vert = start+rotv2;
+			gVerts->position[2] = vector3f(vert.x, vert.y, vert.z);
+			gVerts->position[3] = vector3f(vert.x, vert.y, vert.z);
+
+			vert = start+rotv1;
+			gVerts->position[4] = vector3f(vert.x, vert.y, vert.z);
+
+			renderer->DrawTriangles(gVerts, &glowMat);
+
+			glPopMatrix();
 		}
-	};
+	}
 }
 
 class LmrGeomBuffer;
@@ -237,8 +258,8 @@ static LmrShader *s_sunlightShader[4];
 static LmrShader *s_pointlightShader[4];
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
-static FontManager s_fontManager;
-static VectorFont *s_font;
+static FontCache s_fontCache;
+static RefCountedPtr<Text::VectorFont> s_font;
 static float NEWMODEL_ZBIAS = 0.0002f;
 static LmrGeomBuffer *s_curBuf;
 static const LmrObjParams *s_curParams;
@@ -247,6 +268,7 @@ static lua_State *sLua;
 static int s_numTrisRendered;
 static std::string s_cacheDir;
 static bool s_recompileAllModels = true;
+static Graphics::Renderer *s_renderer;
 
 struct Vertex {
 	Vertex() : v(0.0), n(0.0), tex_u(0.0), tex_v(0.0) {}		// zero this shit to stop denormal-copying on resize
@@ -266,10 +288,11 @@ void LmrNotifyScreenWidth(float width)
 
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
-	
+
+//binds shader and sets lmr specific uniforms
 void UseProgram(LmrShader *shader, bool Textured = false, bool Glowmap = false) {
-	if (Render::AreShadersEnabled()) {
-		Render::State::UseProgram(shader);
+	if (Graphics::AreShadersEnabled()) {
+		shader->Use();
 		if (Textured) shader->set_tex(0);
 		shader->set_usetex(Textured ? 1 : 0);
 		if (Glowmap) shader->set_texGlow(1);
@@ -286,6 +309,16 @@ static void _fwrite_string(const std::string &str, FILE *f)
 	fwrite(str.c_str(), sizeof(char), len, f);
 }
 
+static size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream)
+{
+	size_t read_count = fread(ptr, size, nmemb, stream);
+	if (read_count < nmemb) {
+		fprintf(stderr, "Error: failed to read file (%s)\n", (feof(stream) ? "truncated" : "read error"));
+		abort();
+	}
+	return read_count;
+}
+
 static std::string _fread_string(FILE *f)
 {
 	int len = 0;
@@ -296,7 +329,7 @@ static std::string _fread_string(FILE *f)
 	delete[] buf;
 	return str;
 }
-	
+
 class LmrGeomBuffer {
 public:
 	LmrGeomBuffer(LmrModel *model, bool isStatic) {
@@ -347,8 +380,8 @@ public:
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
 		int activeLights = 0;
 		s_numTrisRendered += m_indices.size()/3;
-		
-		LmrShader *curShader = s_sunlightShader[Render::State::GetNumLights()-1];
+
+		LmrShader *curShader = s_sunlightShader[Graphics::State::GetNumLights()-1];
 
 		BindBuffers();
 
@@ -358,46 +391,67 @@ public:
 		for (unsigned int i=0; i<opEndIdx; i++) {
 			const Op &op = m_ops[i];
 			switch (op.type) {
-			case OP_DRAW_ELEMENTS:
-				if (op.elems.texture != 0 ) {
-					UseProgram(curShader, true, op.elems.glowmap != 0);
-					glActiveTexture(GL_TEXTURE0);
+			case OP_DRAW_ELEMENTS: {
+				if (op.elems.textureFile) {
 					glEnable(GL_TEXTURE_2D);
-					op.elems.texture->BindTexture();
-					if (op.elems.glowmap != 0) {
+					if (!op.elems.texture)
+						op.elems.texture = Graphics::TextureBuilder::Model(*op.elems.textureFile).GetOrCreateTexture(s_renderer, "model");
+					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op.elems.texture)->GetTextureNum());
+					if (op.elems.glowmapFile) {
+						if (!op.elems.glowmap)
+							op.elems.glowmap = Graphics::TextureBuilder::Model(*op.elems.glowmapFile).GetOrCreateTexture(s_renderer, "model");
 						glActiveTexture(GL_TEXTURE1);
-						op.elems.glowmap->BindTexture();
+						glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op.elems.glowmap)->GetTextureNum());
 					}
+					UseProgram(curShader, true, op.elems.glowmapFile);
 				} else {
 					UseProgram(curShader, false);
 				}
 				if (m_isStatic) {
 					// from static VBO
-					glDrawElements(GL_TRIANGLES, 
+					glDrawElements(GL_TRIANGLES,
 							op.elems.count, GL_UNSIGNED_SHORT,
 							BUFFER_OFFSET((op.elems.start+m_boIndexBase)*sizeof(Uint16)));
 					//glDrawRangeElements(GL_TRIANGLES, m_boIndexBase + op.elems.elemMin,
 					//		m_boIndexBase + op.elems.elemMax, op.elems.count, GL_UNSIGNED_SHORT,
 					//		BUFFER_OFFSET((op.elems.start+m_boIndexBase)*sizeof(Uint16)));
-				//	glDrawRangeElements(GL_TRIANGLES, op.elems.elemMin, op.elems.elemMax, 
+				//	glDrawRangeElements(GL_TRIANGLES, op.elems.elemMin, op.elems.elemMax,
 				//		op.elems.count, GL_UNSIGNED_SHORT, BUFFER_OFFSET(op.elems.start*sizeof(Uint16)));
 				} else {
 					// otherwise regular index vertex array
 					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
 				}
-				if ( op.elems.texture != 0 ) {
+				if (op.elems.texture) {
+					if (op.elems.glowmap) {
+						glActiveTexture(GL_TEXTURE1);
+						glBindTexture(GL_TEXTURE_2D, 0);
+					}
 					glActiveTexture(GL_TEXTURE0);
+					glBindTexture(GL_TEXTURE_2D, 0);
 					glDisable(GL_TEXTURE_2D);
 				}
 				break;
-			case OP_DRAW_BILLBOARDS:
-				// XXX not using vbo yet
-				Render::UnbindAllBuffers();
-				op.billboards.texture->BindTexture();
-				Render::PutPointSprites(op.billboards.count, &m_vertices[op.billboards.start].v, op.billboards.size,
-						op.billboards.col, sizeof(Vertex));
+			}
+			case OP_DRAW_BILLBOARDS: {
+				Graphics::UnbindAllBuffers();
+				//XXX have to copy positions to a temporary array as
+				//renderer::drawpointsprites does not have a stride parameter
+				std::vector<vector3f> verts;
+				verts.reserve(op.billboards.count);
+				for (int j = 0; j < op.billboards.count; j++) {
+					verts.push_back(m_vertices[op.billboards.start + j].v);
+				}
+				if (!op.billboards.texture)
+					op.billboards.texture = Graphics::TextureBuilder::Model(*op.billboards.textureFile).GetOrCreateTexture(s_renderer, "billboard");
+				Graphics::Material mat;
+				mat.unlit = true;
+				mat.texture0 = op.billboards.texture;
+				mat.diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
+				s_renderer->DrawPointSprites(op.billboards.count, &verts[0], &mat, op.billboards.size);
 				BindBuffers();
 				break;
+			}
 			case OP_SET_MATERIAL:
 				{
 					const LmrMaterial &m = m_model->m_materials[op.col.material_idx];
@@ -406,14 +460,14 @@ public:
 					glMaterialfv (GL_FRONT, GL_EMISSION, m.emissive);
 					glMaterialf (GL_FRONT, GL_SHININESS, m.shininess);
 					if (m.diffuse[3] >= 1.0) {
-						glDisable(GL_BLEND);
+						s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 					} else {
-						glEnable(GL_BLEND);
+						s_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 					}
 				}
 				break;
 			case OP_ZBIAS:
-				if (float_is_zero_general(op.zbias.amount)) {
+				if (is_zero_general(op.zbias.amount)) {
 					glDepthRange(0.0, 1.0);
 				} else {
 				//	vector3f tv = cameraPos - vector3f(op.zbias.pos);
@@ -455,10 +509,10 @@ public:
 					}
 					activeLights = 0;
 				} else {
-					int numLights = Render::State::GetNumLights();
+					int numLights = Graphics::State::GetNumLights();
 					for (int j=0; j<numLights; j++) glEnable(GL_LIGHT0 + j);
 					for (int j=4; j<8; j++) glDisable(GL_LIGHT0 + j);
-					curShader = s_sunlightShader[Render::State::GetNumLights()-1];
+					curShader = s_sunlightShader[Graphics::State::GetNumLights()-1];
 				}
 				break;
 			case OP_USE_LIGHT:
@@ -482,49 +536,45 @@ public:
 				break;
 			}
 		}
-		
+
 		glDisableClientState (GL_VERTEX_ARRAY);
 		glDisableClientState (GL_NORMAL_ARRAY);
 		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
 
-		Render::UnbindAllBuffers();
+		Graphics::UnbindAllBuffers();
 
-		if (m_thrusters.size()) {
-			glDisable(GL_LIGHTING);
-			Render::State::UseProgram(Render::simpleShader);
-			RenderThrusters(rstate, cameraPos, params);
-		}
+		RenderThrusters(rstate, cameraPos, params);
 	}
 
 	void RenderThrusters(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
-		// depth sort thrusters so alpha doesn't look fucked up!!!
-		ShipThruster::CameraDistance *dists = static_cast<ShipThruster::CameraDistance*>(alloca (m_thrusters.size() * sizeof(ShipThruster::CameraDistance)));
+		if (m_thrusters.empty()) return;
 
-		for (unsigned int i=0; i<m_thrusters.size(); i++) {
-			dists[i].thruster = &m_thrusters[i];
-			dists[i].dist = (m_thrusters[i].pos - cameraPos).Length();
-		}
-		sort(dists, dists + m_thrusters.size(), ShipThruster::CameraDistanceCompare());
-
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);	
+		glDisable(GL_LIGHTING);
+		s_renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
+		s_renderer->SetDepthWrite(false);
 		glEnableClientState (GL_VERTEX_ARRAY);
+		glEnableClientState (GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState (GL_NORMAL_ARRAY);
-		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
-		glEnable (GL_BLEND);
+		glDisable(GL_CULL_FACE);
+		glEnable(GL_TEXTURE_2D);
 		for (unsigned int i=0; i<m_thrusters.size(); i++) {
-			ShipThruster::RenderThruster (rstate, params, dists[i].thruster);
+			m_thrusters[i].Render(s_renderer, rstate, params);
 		}
-		glDisable (GL_BLEND);
+		glDisable(GL_TEXTURE_2D);
+		glColor3f(1.f, 1.f, 1.f);
+		s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
+		s_renderer->SetDepthWrite(true);
+		glEnable(GL_CULL_FACE);
 		glDisableClientState (GL_VERTEX_ARRAY);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
 	}
 	void PushThruster(const vector3f &pos, const vector3f &dir, const float power, bool linear_only) {
 		unsigned int i = m_thrusters.size();
 		m_thrusters.resize(i+1);
-		m_thrusters[i].pos = pos;
-		m_thrusters[i].dir = dir;
-		m_thrusters[i].power = power;
-		m_thrusters[i].linear_only = linear_only;
+		m_thrusters[i].m_pos = pos;
+		m_thrusters[i].m_dir = dir;
+		m_thrusters[i].m_power = power;
+		m_thrusters[i].m_linear_only = linear_only;
 	}
 	int PushVertex(const vector3f &pos, const vector3f &normal) {
 		vector3f tex = curTexMatrix * pos;
@@ -551,7 +601,9 @@ public:
 	}
 	void SetTexture(const char *tex) {
 		if (tex) {
-			curTexture = TextureManager::GetTexture(tex);
+			if (!curTexture || (*curTexture != tex)) {
+				curTexture = new std::string(tex);
+			}
 		} else {
 			curTexture = 0;
 			curGlowmap = 0; //won't have these without textures
@@ -559,12 +611,14 @@ public:
 	}
 	void SetGlowMap(const char *tex) {
 		if (tex) {
-			curGlowmap = TextureManager::GetTexture(tex);
+			if (!curGlowmap || (*curGlowmap != tex)) {
+				curGlowmap = new std::string(tex);
+			}
 		} else {
 			curGlowmap = 0;
 		}
 	}
-	void SetTexMatrix(const matrix4x4f &texMatrix) { curTexMatrix = texMatrix; } 
+	void SetTexMatrix(const matrix4x4f &texMatrix) { curTexMatrix = texMatrix; }
 	void PushTri(int i1, int i2, int i3) {
 		OpDrawElements(3);
 		if (m_putGeomInsideout) {
@@ -581,7 +635,7 @@ public:
 	void SetInsideOut(bool a) {
 		m_putGeomInsideout = a;
 	}
-	
+
 	void PushZBias(float amount, const vector3f &pos, const vector3f &norm) {
 		if (curOp.type) m_ops.push_back(curOp);
 		curOp.type = OP_ZBIAS;
@@ -629,17 +683,18 @@ public:
 		PushIdx(i3);
 		m_triflags.push_back(curTriFlag);
 	}
-	
+
 	void PushBillboards(const char *texname, const float size, const vector3f &color, const int numPoints, const vector3f *points)
 	{
 		char buf[256];
-		snprintf(buf, sizeof(buf), PIONEER_DATA_DIR"/textures/%s", texname);
+		snprintf(buf, sizeof(buf), "textures/%s", texname);
 
 		if (curOp.type) m_ops.push_back(curOp);
 		curOp.type = OP_DRAW_BILLBOARDS;
 		curOp.billboards.start = m_vertices.size();
 		curOp.billboards.count = numPoints;
-		curOp.billboards.texture = TextureManager::GetTexture(buf, true);
+		curOp.billboards.textureFile = new std::string(buf);
+		curOp.billboards.texture = 0;
 		curOp.billboards.size = size;
 		curOp.billboards.col[0] = color.x;
 		curOp.billboards.col[1] = color.y;
@@ -707,7 +762,7 @@ public:
 
 		if (m_vertices.size()) {
 			c->pVertex = static_cast<float*>(realloc(c->pVertex, 3*sizeof(float)*c->nv));
-		
+
 			for (unsigned int i=0; i<m_vertices.size(); i++) {
 				const vector3f v = transform * m_vertices[i].v;
 				c->pVertex[3*vtxBase + 3*i] = v.x;
@@ -726,7 +781,7 @@ public:
 				c->pFlag[flagBase + i] = m_triflags[i];
 			}
 		}
-		
+
 		// go through Ops to see if we call other models
 		const unsigned int opEndIdx = m_ops.size();
 		for (unsigned int i=0; i<opEndIdx; i++) {
@@ -747,7 +802,7 @@ private:
 		if (m_isStatic) {
 			if (m_bo) m_bo->BindBuffersForDraw();
 		} else {
-			Render::UnbindAllBuffers();
+			Graphics::UnbindAllBuffers();
 			if (m_vertices.size()) {
 				glNormalPointer(GL_FLOAT, sizeof(Vertex), &m_vertices[0].n);
 				glVertexPointer(3, GL_FLOAT, sizeof(Vertex), &m_vertices[0].v);
@@ -757,15 +812,19 @@ private:
 	}
 
 	void OpDrawElements(int numIndices) {
-		if ((curOp.type != OP_DRAW_ELEMENTS) || (curOp.elems.texture != curTexture)) {
+		if ((curOp.type != OP_DRAW_ELEMENTS) ||
+				(curOp.elems.textureFile != curTexture) ||
+				(curOp.elems.glowmapFile != curGlowmap)) {
 			if (curOp.type) m_ops.push_back(curOp);
 			curOp.type = OP_DRAW_ELEMENTS;
 			curOp.elems.start = m_indices.size();
 			curOp.elems.count = 0;
 			curOp.elems.elemMin = 1<<30;
 			curOp.elems.elemMax = 0;
-			curOp.elems.texture = curTexture;
-			curOp.elems.glowmap = curGlowmap;
+			curOp.elems.textureFile = curTexture;
+			curOp.elems.texture = 0;
+			curOp.elems.glowmapFile = curGlowmap;
+			curOp.elems.glowmap = 0;
 		}
 		curOp.elems.count += numIndices;
 	}
@@ -784,11 +843,11 @@ private:
 	struct Op {
 		enum OpType type;
 		union {
-			struct { Texture *texture; Texture *glowmap; int start, count, elemMin, elemMax; } elems;
+			struct { std::string *textureFile; std::string *glowmapFile; mutable Graphics::Texture *texture; mutable Graphics::Texture *glowmap; int start, count, elemMin, elemMax; } elems;
 			struct { int material_idx; } col;
 			struct { float amount; float pos[3]; float norm[3]; } zbias;
 			struct { LmrModel *model; float transform[16]; float scale; } callmodel;
-			struct { Texture *texture; int start, count; float size; float col[4]; } billboards;
+			struct { std::string *textureFile; mutable Graphics::Texture *texture; int start, count; float size; float col[4]; } billboards;
 			struct { bool local; } lighting_type;
 			struct { int num; float quadratic_attenuation; float pos[4], col[4]; } light;
 		};
@@ -796,10 +855,10 @@ private:
 	/* this crap is only used at build time... could move this elsewhere */
 	Op curOp;
 	Uint16 curTriFlag;
-	Texture *curTexture;
-	Texture *curGlowmap;
+	std::string *curTexture;
+	std::string *curGlowmap;
 	matrix4x4f curTexMatrix;
-	// 
+	//
 	std::vector<Vertex> m_vertices;
 	std::vector<Uint16> m_indices;
 	std::vector<Uint16> m_triflags;
@@ -818,6 +877,7 @@ public:
 		int numTriflags = m_triflags.size();
 		int numThrusters = m_thrusters.size();
 		int numOps = m_ops.size();
+		assert(numOps < 1000);
 		fwrite(&numVertices, sizeof(numVertices), 1, f);
 		fwrite(&numIndices, sizeof(numIndices), 1, f);
 		fwrite(&numTriflags, sizeof(numTriflags), 1, f);
@@ -833,13 +893,13 @@ public:
 				if (m_ops[i].type == OP_CALL_MODEL) {
 					_fwrite_string(m_ops[i].callmodel.model->GetName(), f);
 				}
-				else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-					_fwrite_string(m_ops[i].elems.texture->GetFilename(), f);
-					if (m_ops[i].elems.glowmap)
-						_fwrite_string(m_ops[i].elems.glowmap->GetFilename(), f);
+				else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.textureFile)) {
+					_fwrite_string(*m_ops[i].elems.textureFile, f);
+					if (m_ops[i].elems.glowmapFile)
+						_fwrite_string(*m_ops[i].elems.glowmapFile, f);
 				}
-				else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-					_fwrite_string(m_ops[i].billboards.texture->GetFilename(), f);
+				else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.textureFile)) {
+					_fwrite_string(*m_ops[i].billboards.textureFile, f);
 				}
 			}
 		}
@@ -878,13 +938,18 @@ public:
 			if (m_ops[i].type == OP_CALL_MODEL) {
 				m_ops[i].callmodel.model = s_models[_fread_string(f)];
 			}
-			else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.texture)) {
-				m_ops[i].elems.texture = TextureManager::GetTexture(_fread_string(f));
-				if (m_ops[i].elems.glowmap)
-					m_ops[i].elems.glowmap = TextureManager::GetTexture(_fread_string(f));
+			else if ((m_ops[i].type == OP_DRAW_ELEMENTS) && (m_ops[i].elems.textureFile)) {
+				m_ops[i].elems.textureFile = new std::string(_fread_string(f));
+				m_ops[i].elems.texture = 0;
+
+				if (m_ops[i].elems.glowmapFile) {
+					m_ops[i].elems.glowmapFile = new std::string(_fread_string(f));
+					m_ops[i].elems.glowmap = 0;
+				}
 			}
-			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.texture)) {
-				m_ops[i].billboards.texture = TextureManager::GetTexture(_fread_string(f));
+			else if ((m_ops[i].type == OP_DRAW_BILLBOARDS) && (m_ops[i].billboards.textureFile)) {
+				m_ops[i].billboards.textureFile = new std::string(_fread_string(f));
+				m_ops[i].elems.texture = 0;
 			}
 		}
 	}
@@ -923,8 +988,11 @@ LmrModel::LmrModel(const char *model_name)
 				lua_pop(sLua, 1);
 				if (!is_num) break;
 				if (i > LMR_MAX_LOD) {
-					luaL_error(sLua, "Too many LODs (maximum %d)", LMR_MAX_LOD);
+					luaL_error(sLua, "Too many LODs (lod_pixels table should have between 1 and %d entries)", LMR_MAX_LOD);
 				}
+			}
+			if (m_numLods < 1) {
+				luaL_error(sLua, "Not enough LODs (lod_pixels table should have between 1 and %d entries)", LMR_MAX_LOD);
 			}
 		} else {
 			m_numLods = 1;
@@ -960,7 +1028,7 @@ LmrModel::LmrModel(const char *model_name)
 	} else {
 		luaL_error(sLua, "Could not find function %s_info()", model_name);
 	}
-	
+
 	snprintf(buf, sizeof(buf), "%s_dynamic", model_name);
 	lua_getglobal(sLua, buf);
 	m_hasDynamicFunc = lua_isfunction(sLua, -1);
@@ -974,7 +1042,7 @@ LmrModel::LmrModel(const char *model_name)
 		m_dynamicGeometry[i] = new LmrGeomBuffer(this, false);
 	}
 
-	const std::string cache_file = join_path(s_cacheDir.c_str(), model_name, 0) + ".bin";
+	const std::string cache_file = FileSystem::JoinPathBelow(s_cacheDir, model_name) + ".bin";
 
 	if (!s_recompileAllModels) {
 		// load cached model
@@ -1007,14 +1075,14 @@ LmrModel::LmrModel(const char *model_name)
 rebuild_model:
 		// run static build for each LOD level
 		FILE *f = fopen(cache_file.c_str(), "wb");
-		
+
 		for (int i=0; i<m_numLods; i++) {
 			LUA_DEBUG_START(sLua);
 			m_staticGeometry[i]->PreBuild();
 			s_curBuf = m_staticGeometry[i];
 			lua_pushcfunction(sLua, pi_lua_panic);
 			// call model static building function
-			lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_static").c_str());
+			lua_getglobal(sLua, (m_name+"_static").c_str());
 			// lod as first argument
 			lua_pushnumber(sLua, i+1);
 			lua_pcall(sLua, 1, 0, -3);
@@ -1024,14 +1092,14 @@ rebuild_model:
 			m_staticGeometry[i]->SaveToCache(f);
 			LUA_DEBUG_END(sLua, 0);
 		}
-		
+
 		const int numMaterials = m_materials.size();
 		fwrite(&numMaterials, sizeof(numMaterials), 1, f);
 		if (numMaterials) fwrite(&m_materials[0], sizeof(LmrMaterial), numMaterials, f);
 		const int numLights = m_lights.size();
 		fwrite(&numLights, sizeof(numLights), 1, f);
 		if (numLights) fwrite(&m_lights[0], sizeof(LmrLight), numLights, f);
-		
+
 		fclose(f);
 	}
 }
@@ -1092,7 +1160,7 @@ bool LmrModel::GetBoolAttribute(const char *attr_name) const
 		result = false;
 	} else {
 		result = lua_toboolean(sLua, -1) != 0;
-	}	
+	}
 	lua_pop(sLua, 2);
 	LUA_DEBUG_END(sLua, 0);
 	return result;
@@ -1160,7 +1228,6 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	glScalef(m_scale, m_scale, m_scale);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_LIGHTING);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 
 	float pixrad = 0.5f * s_scrWidth * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
 	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
@@ -1181,8 +1248,13 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	}
 	s_curBuf = 0;
 
+	Graphics::UnbindAllBuffers();
+	//XXX hack. Unuse any shader. Can be removed when LMR uses Renderer.
+	if (Graphics::AreShadersEnabled())
+		s_sunlightShader[0]->Unuse();
+
 	glDisable(GL_NORMALIZE);
-	glDisable(GL_BLEND);
+	s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	glPopMatrix();
 }
 
@@ -1195,7 +1267,7 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 		s_curParams = params;
 		lua_pushcfunction(sLua, pi_lua_panic);
 		// call model dynamic bits
-		lua_getfield(sLua, LUA_GLOBALSINDEX, (m_name+"_dynamic").c_str());
+		lua_getglobal(sLua, (m_name+"_dynamic").c_str());
 		// lod as first argument
 		lua_pushnumber(sLua, lod+1);
 		lua_pcall(sLua, 1, 0, -3);
@@ -1258,7 +1330,7 @@ LmrModel *LmrLookupModelByName(const char *name)
 		throw LmrModelNotFoundException();
 	}
 	return (*i).second;
-}	
+}
 
 namespace ModelFuncs {
 	/*
@@ -1299,19 +1371,19 @@ namespace ModelFuncs {
 		if (!m) {
 			luaL_error(L, "call_model() to undefined model '%s'. Referenced model must be registered before calling model", obj_name);
 		} else {
-			const vector3f *pos = MyLuaVec::checkVec(L, 2);
-			const vector3f *_xaxis = MyLuaVec::checkVec(L, 3);
-			const vector3f *_yaxis = MyLuaVec::checkVec(L, 4);
+			const vector3f pos = LuaVector::CheckFromLuaF(L, 2);
+			const vector3f _xaxis = LuaVector::CheckFromLuaF(L, 3);
+			const vector3f _yaxis = LuaVector::CheckFromLuaF(L, 4);
 			float scale = luaL_checknumber(L, 5);
 
-			vector3f zaxis = _xaxis->Cross(*_yaxis).Normalized();
-			vector3f xaxis = _yaxis->Cross(zaxis).Normalized();
+			vector3f zaxis = _xaxis.Cross(_yaxis).Normalized();
+			vector3f xaxis = _yaxis.Cross(zaxis).Normalized();
 			vector3f yaxis = zaxis.Cross(xaxis);
 
 			matrix4x4f trans = matrix4x4f::MakeInvRotMatrix(scale*xaxis, scale*yaxis, scale*zaxis);
-			trans[12] = pos->x;
-			trans[13] = pos->y;
-			trans[14] = pos->z;
+			trans[12] = pos.x;
+			trans[13] = pos.y;
+			trans[14] = pos.z;
 
 			s_curBuf->PushCallModel(m, trans, scale);
 		}
@@ -1354,9 +1426,9 @@ namespace ModelFuncs {
 			luaL_error(L, "set_light should have light number from 1 to 4.");
 		}
 		const float quadratic_attenuation = luaL_checknumber(L, 2);
-		const vector3f *pos = MyLuaVec::checkVec(L, 3);
-		const vector3f *col = MyLuaVec::checkVec(L, 4);
-		s_curBuf->SetLight(num, quadratic_attenuation, *pos, *col);
+		const vector3f pos = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f col = LuaVector::CheckFromLuaF(L, 4);
+		s_curBuf->SetLight(num, quadratic_attenuation, pos, col);
 		return 0;
 	}
 
@@ -1480,15 +1552,15 @@ namespace ModelFuncs {
 	static int lathe(lua_State *L)
 	{
 		const int steps = luaL_checkinteger(L, 1);
-		const vector3f *start = MyLuaVec::checkVec(L, 2);
-		const vector3f *end = MyLuaVec::checkVec(L, 3);
-		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 
 		if (!lua_istable(L, 5)) {
 			luaL_error(L, "lathe() takes a table of distance, radius numbers");
 		}
 
-		int num = lua_objlen(L, 5);
+		int num = lua_rawlen(L, 5);
 		if (num % 2) luaL_error(L, "lathe() passed list with unpaired distance, radius element");
 		if (num < 4) luaL_error(L, "lathe() passed list with insufficient distance, radius pairs");
 
@@ -1504,20 +1576,21 @@ namespace ModelFuncs {
 
 		const int vtxStart = s_curBuf->AllocVertices(steps*(num-2));
 
-		const vector3f dir = (*end-*start).Normalized();
-		const vector3f axis1 = updir->Normalized();
-		const vector3f axis2 = updir->Cross(dir).Normalized();
+		const vector3f dir = (end-start).Normalized();
+		const vector3f axis1 = updir.Normalized();
+		const vector3f axis2 = updir.Cross(dir).Normalized();
 		const float inc = 2.0f*M_PI / float(steps);
+		const float radmod = 1.0f / cosf(0.5f*inc);
 
 		for (int i=0; i<num-3; i+=2) {
-			const float rad1 = jizz[i+1];
-			const float rad2 = jizz[i+3];
-			const vector3f _start = *start + (*end-*start)*jizz[i];
-			const vector3f _end = *start + (*end-*start)*jizz[i+2];
-			bool shitty_normal = float_equal_absolute(jizz[i], jizz[i+2], 1e-4f);
+			const float rad1 = jizz[i+1] * radmod;
+			const float rad2 = jizz[i+3] * radmod;
+			const vector3f _start = start + (end-start)*jizz[i];
+			const vector3f _end = start + (end-start)*jizz[i+2];
+			bool shitty_normal = is_equal_absolute(jizz[i], jizz[i+2], 1e-4f);
 
 			const int basevtx = vtxStart + steps*i;
-			float ang = 0;
+			float ang = 0.5f*inc;
 			for (int j=0; j<steps; j++, ang += inc) {
 				const vector3f p1 = rad1 * (sin(ang)*axis1 + cos(ang)*axis2);
 				const vector3f p2 = rad2 * (sin(ang)*axis1 + cos(ang)*axis2);
@@ -1572,9 +1645,9 @@ namespace ModelFuncs {
 	 */
 	static int extrusion(lua_State *L)
 	{
-		const vector3f *start = MyLuaVec::checkVec(L, 1);
-		const vector3f *end = MyLuaVec::checkVec(L, 2);
-		const vector3f *updir = MyLuaVec::checkVec(L, 3);
+		const vector3f start = LuaVector::CheckFromLuaF(L, 1);
+		const vector3f end = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 3);
 		const float radius = luaL_checknumber(L, 4);
 
 #define EXTRUSION_MAX_VTX 32
@@ -1585,14 +1658,14 @@ namespace ModelFuncs {
 		vector3f evtx[EXTRUSION_MAX_VTX];
 
 		for (int i=0; i<steps; i++) {
-			evtx[i] = *MyLuaVec::checkVec(L, i+5);
+			evtx[i] = LuaVector::CheckFromLuaF(L, i+5);
 		}
 
 		const int vtxStart = s_curBuf->AllocVertices(6*steps);
 
-		vector3f yax = *updir;
+		vector3f yax = updir;
 		vector3f xax, zax;
-		zax = ((*end) - (*start)).Normalized();
+		zax = (end - start).Normalized();
 		xax = yax.Cross(zax);
 
 		for (int i=0; i<steps; i++) {
@@ -1602,8 +1675,8 @@ namespace ModelFuncs {
 			norm = norm + tv;
 
 			vector3f p1 = norm * radius;
-			s_curBuf->SetVertex(vtxStart + i, (*start) + p1, -zax);
-			s_curBuf->SetVertex(vtxStart + i + steps, (*end) + p1, zax);
+			s_curBuf->SetVertex(vtxStart + i, start + p1, -zax);
+			s_curBuf->SetVertex(vtxStart + i + steps, end + p1, zax);
 		}
 
 		for (int i=0; i<steps-1; i++) {
@@ -1633,7 +1706,7 @@ namespace ModelFuncs {
 
 		return 0;
 	}
-	
+
 	static vector3f eval_cubic_bezier_u(const vector3f p[4], float u)
 	{
 		vector3f out(0.0f);
@@ -1660,12 +1733,12 @@ namespace ModelFuncs {
 	static int _flat(lua_State *L, bool xref)
 	{
 		const int divs = luaL_checkinteger(L, 1);
-		const vector3f *normal = MyLuaVec::checkVec(L, 2);
+		const vector3f normal = LuaVector::CheckFromLuaF(L, 2);
 		vector3f xrefnorm(0.0f);
-		if (xref) xrefnorm = vector3f(-normal->x, normal->y, normal->z);
+		if (xref) xrefnorm = vector3f(-normal.x, normal.y, normal.z);
 #define FLAT_MAX_SEG 32
 		struct {
-			const vector3f *v[3];
+			vector3f v[3];
 			int nv;
 		} segvtx[FLAT_MAX_SEG];
 
@@ -1692,7 +1765,7 @@ namespace ModelFuncs {
 						lua_pop(L, 1);
 						break;
 					} else {
-						segvtx[seg].v[nv++] = MyLuaVec::checkVec(L, -1);
+						segvtx[seg].v[nv++] = LuaVector::CheckFromLuaF(L, -1);
 						lua_pop(L, 1);
 					}
 				}
@@ -1715,27 +1788,27 @@ namespace ModelFuncs {
 		const int vtxStart = s_curBuf->AllocVertices(xref ? 2*numPoints : numPoints);
 		int vtxPos = vtxStart;
 
-		const vector3f *prevSegEnd = segvtx[seg-1].v[ segvtx[seg-1].nv-1 ];
+		vector3f prevSegEnd = segvtx[seg-1].v[ segvtx[seg-1].nv-1 ];
 		// evaluate segments
 		int maxSeg = seg;
 		for (seg=0; seg<maxSeg; seg++) {
 			if (segvtx[seg].nv == 1) {
 				if (xref) {
-					vector3f p = *segvtx[seg].v[0]; p.x = -p.x;
+					vector3f p = segvtx[seg].v[0]; p.x = -p.x;
 					s_curBuf->SetVertex(vtxPos + numPoints, p, xrefnorm);
 				}
-				s_curBuf->SetVertex(vtxPos++, *segvtx[seg].v[0], *normal);
+				s_curBuf->SetVertex(vtxPos++, segvtx[seg].v[0], normal);
 				prevSegEnd = segvtx[seg].v[0];
 			} else if (segvtx[seg].nv == 2) {
 				vector3f _p[3];
-				_p[0] = *prevSegEnd;
-				_p[1] = *segvtx[seg].v[0];
-				_p[2] = *segvtx[seg].v[1];
+				_p[0] = prevSegEnd;
+				_p[1] = segvtx[seg].v[0];
+				_p[2] = segvtx[seg].v[1];
 				float inc = 1.0f / float(divs);
 				float u = inc;
 				for (int i=1; i<=divs; i++, u+=inc) {
 					vector3f p = eval_quadric_bezier_u(_p, u);
-					s_curBuf->SetVertex(vtxPos, p, *normal);
+					s_curBuf->SetVertex(vtxPos, p, normal);
 					if (xref) {
 						p.x = -p.x;
 						s_curBuf->SetVertex(vtxPos+numPoints, p, xrefnorm);
@@ -1745,15 +1818,15 @@ namespace ModelFuncs {
 				prevSegEnd = segvtx[seg].v[1];
 			} else if (segvtx[seg].nv == 3) {
 				vector3f _p[4];
-				_p[0] = *prevSegEnd;
-				_p[1] = *segvtx[seg].v[0];
-				_p[2] = *segvtx[seg].v[1];
-				_p[3] = *segvtx[seg].v[2];
+				_p[0] = prevSegEnd;
+				_p[1] = segvtx[seg].v[0];
+				_p[2] = segvtx[seg].v[1];
+				_p[3] = segvtx[seg].v[2];
 				float inc = 1.0f / float(divs);
 				float u = inc;
 				for (int i=1; i<=divs; i++, u+=inc) {
 					vector3f p = eval_cubic_bezier_u(_p, u);
-					s_curBuf->SetVertex(vtxPos, p, *normal);
+					s_curBuf->SetVertex(vtxPos, p, normal);
 					if (xref) {
 						p.x = -p.x;
 						s_curBuf->SetVertex(vtxPos+numPoints, p, xrefnorm);
@@ -1772,7 +1845,7 @@ namespace ModelFuncs {
 		}
 		return 0;
 	}
-	
+
 	/*
 	 * Function: flat
 	 *
@@ -1842,6 +1915,7 @@ namespace ModelFuncs {
 		}
 		return out;
 	}
+
 	template <int BEZIER_ORDER>
 	static void _bezier_triangle(lua_State *L, bool xref)
 	{
@@ -1850,11 +1924,11 @@ namespace ModelFuncs {
 		assert(divs > 0);
 		if (BEZIER_ORDER == 2) {
 			for (int i=0; i<6; i++) {
-				pts[i] = *MyLuaVec::checkVec(L, i+2);
+				pts[i] = LuaVector::CheckFromLuaF(L, i+2);
 			}
 		} else if (BEZIER_ORDER == 3) {
 			for (int i=0; i<10; i++) {
-				pts[i] = *MyLuaVec::checkVec(L, i+2);
+				pts[i] = LuaVector::CheckFromLuaF(L, i+2);
 			}
 		}
 
@@ -2027,7 +2101,7 @@ namespace ModelFuncs {
 		const int divs_u = luaL_checkinteger(L, 1);
 		const int divs_v = luaL_checkinteger(L, 2);
 		for (int i=0; i<9; i++) {
-			pts[i] = *MyLuaVec::checkVec(L, i+3);
+			pts[i] = LuaVector::CheckFromLuaF(L, i+3);
 		}
 
 		const int numVertsInPatch = (divs_u+1)*(divs_v+1);
@@ -2071,7 +2145,7 @@ namespace ModelFuncs {
 			}
 		}
 	}
-	
+
 
 	/*
 	 * Function: quadric_bezier_quad
@@ -2150,12 +2224,12 @@ namespace ModelFuncs {
 			for (int i=0; i<16; i++) {
 				lua_pushinteger(L, i+1);
 				lua_gettable(L, 3);
-				pts[i] = *MyLuaVec::checkVec(L, -1);
+				pts[i] = LuaVector::CheckFromLuaF(L, -1);
 				lua_pop(L, 1);
 			}
 		} else {
 			for (int i=0; i<16; i++) {
-				pts[i] = *MyLuaVec::checkVec(L, i+3);
+				pts[i] = LuaVector::CheckFromLuaF(L, i+3);
 			}
 		}
 
@@ -2383,16 +2457,16 @@ namespace ModelFuncs {
 			s_curBuf->SetTexture(0);
 		} else {
 			lua_getglobal(L, "CurrentDirectory");
-			std::string dir = luaL_checkstring(L, -1);
+			std::string dir = luaL_optstring(L, -1, ".");
 			lua_pop(L, 1);
 
 			const char *texfile = luaL_checkstring(L, 1);
-			std::string t = dir + std::string("/") + texfile;
+			std::string t = FileSystem::JoinPathBelow(dir, texfile);
 			if (nargs == 4) {
 				// texfile, pos, uaxis, vaxis
-				vector3f pos = *MyLuaVec::checkVec(L, 2);
-				vector3f uaxis = *MyLuaVec::checkVec(L, 3);
-				vector3f vaxis = *MyLuaVec::checkVec(L, 4);
+				vector3f pos = LuaVector::CheckFromLuaF(L, 2);
+				vector3f uaxis = LuaVector::CheckFromLuaF(L, 3);
+				vector3f vaxis = LuaVector::CheckFromLuaF(L, 4);
 				vector3f waxis = uaxis.Cross(vaxis);
 
 				matrix4x4f trans = matrix4x4f::MakeInvRotMatrix(uaxis, vaxis, waxis);
@@ -2463,7 +2537,7 @@ namespace ModelFuncs {
 	 * Function: text
 	 *
 	 * Draw three-dimensional text. For ship registration ID, landing bay numbers...
-	 * 
+	 *
 	 * Long strings can create a large number of triangles so try to be
 	 * economical.
 	 *
@@ -2494,15 +2568,15 @@ namespace ModelFuncs {
 	static int text(lua_State *L)
 	{
 		const char *str = luaL_checkstring(L, 1);
-		vector3f pos = *MyLuaVec::checkVec(L, 2);
-		vector3f *norm = MyLuaVec::checkVec(L, 3);
-		vector3f *textdir = MyLuaVec::checkVec(L, 4);
+		vector3f pos = LuaVector::CheckFromLuaF(L, 2);
+		vector3f norm = LuaVector::CheckFromLuaF(L, 3);
+		vector3f textdir = LuaVector::CheckFromLuaF(L, 4);
 		float scale = luaL_checknumber(L, 5);
-		vector3f yaxis = norm->Cross(*textdir).Normalized();
-		vector3f zaxis = textdir->Cross(yaxis).Normalized();
+		vector3f yaxis = norm.Cross(textdir).Normalized();
+		vector3f zaxis = textdir.Cross(yaxis).Normalized();
 		vector3f xaxis = yaxis.Cross(zaxis);
 		_textTrans = matrix4x4f::MakeInvRotMatrix(scale*xaxis, scale*yaxis, scale*zaxis);
-		
+
 		bool do_center = false;
 		if (lua_istable(L, 6)) {
 			lua_pushstring(L, "center");
@@ -2514,14 +2588,14 @@ namespace ModelFuncs {
 			lua_gettable(L, 6);
 			float xoff = lua_tonumber(L, -1);
 			lua_pop(L, 1);
-			
+
 			lua_pushstring(L, "yoffset");
 			lua_gettable(L, 6);
 			float yoff = lua_tonumber(L, -1);
 			lua_pop(L, 1);
 			pos += _textTrans * vector3f(xoff, yoff, 0);
 		}
-	
+
 		if (do_center) {
 			float xoff = 0, yoff = 0;
 			s_font->MeasureString(str, xoff, yoff);
@@ -2530,12 +2604,12 @@ namespace ModelFuncs {
 		_textTrans[12] = pos.x;
 		_textTrans[13] = pos.y;
 		_textTrans[14] = pos.z;
-		_textNorm = *norm;
+		_textNorm = norm;
 		s_font->GetStringGeometry(str, &_text_index_callback, &_text_vertex_callback);
 //text("some literal string", vector pos, vector norm, vector textdir, [xoff=, yoff=, scale=, onflag=])
 		return 0;
 	}
-	
+
 	/*
 	 * Function: geomflag
 	 *
@@ -2580,7 +2654,7 @@ namespace ModelFuncs {
 	/*
 	 * Function: zbias
 	 *
-	 * Fine-tune depth range. Overlapping geometry can be rendered without 
+	 * Fine-tune depth range. Overlapping geometry can be rendered without
 	 * z-fighting using this parameter.
 	 *
 	 * > zbias(amount, position, normal)
@@ -2613,9 +2687,9 @@ namespace ModelFuncs {
 		if (! amount) {
 			s_curBuf->PushZBias(0, vector3f(0.0), vector3f(0.0));
 		} else {
-			vector3f *pos = MyLuaVec::checkVec(L, 2);
-			vector3f *norm = MyLuaVec::checkVec(L, 3);
-			s_curBuf->PushZBias(float(amount), *pos, *norm);
+			vector3f pos = LuaVector::CheckFromLuaF(L, 2);
+			vector3f norm = LuaVector::CheckFromLuaF(L, 3);
+			s_curBuf->PushZBias(float(amount), pos, norm);
 		}
 		return 0;
 	}
@@ -2671,11 +2745,11 @@ namespace ModelFuncs {
 	static int circle(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		const vector3f *center = MyLuaVec::checkVec(L, 2);
-		const vector3f *normal = MyLuaVec::checkVec(L, 3);
-		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f center = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f normal = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius = lua_tonumber(L, 5);
-		_circle(steps, *center, *normal, *updir, radius);
+		_circle(steps, center, normal, updir, radius);
 		return 0;
 	}
 
@@ -2699,9 +2773,9 @@ namespace ModelFuncs {
 	static int xref_circle(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		vector3f center = *MyLuaVec::checkVec(L, 2);
-		vector3f normal = *MyLuaVec::checkVec(L, 3);
-		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		vector3f center = LuaVector::CheckFromLuaF(L, 2);
+		vector3f normal = LuaVector::CheckFromLuaF(L, 3);
+		vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius = lua_tonumber(L, 5);
 		_circle(steps, center, normal, updir, radius);
 		center.x = -center.x;
@@ -2747,18 +2821,18 @@ namespace ModelFuncs {
 		}
 		s_curBuf->PushTri(vtxStart+steps-1, vtxStart, vtxStart+2*steps-1);
 		s_curBuf->PushTri(vtxStart, vtxStart+steps, vtxStart+2*steps-1);
-		
+
 		s_curBuf->PushTri(vtxStart+3*steps-1, vtxStart+4*steps-1, vtxStart+2*steps);
 		s_curBuf->PushTri(vtxStart+2*steps, vtxStart+4*steps-1, vtxStart+3*steps);
 
 		for (int i=0; i<steps-1; i++) {
 			// 'start' end
 			s_curBuf->PushTri(vtxStart+4*steps+i, vtxStart+6*steps+i, vtxStart+4*steps+i+1);
-			
+
 			s_curBuf->PushTri(vtxStart+4*steps+i+1, vtxStart+6*steps+i, vtxStart+6*steps+i+1);
 			// 'end' end *cough*
 			s_curBuf->PushTri(vtxStart+5*steps+i, vtxStart+5*steps+i+1, vtxStart+7*steps+i);
-			
+
 			s_curBuf->PushTri(vtxStart+5*steps+i+1, vtxStart+7*steps+i+1, vtxStart+7*steps+i);
 		}
 		// 'start' end
@@ -2768,7 +2842,7 @@ namespace ModelFuncs {
 		s_curBuf->PushTri(vtxStart+6*steps-1, vtxStart+5*steps, vtxStart+8*steps-1);
 		s_curBuf->PushTri(vtxStart+5*steps, vtxStart+7*steps, vtxStart+8*steps-1);
 	}
-	
+
 	/*
 	 * Function: tube
 	 *
@@ -2801,12 +2875,12 @@ namespace ModelFuncs {
 	static int tube(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		const vector3f *start = MyLuaVec::checkVec(L, 2);
-		const vector3f *end = MyLuaVec::checkVec(L, 3);
-		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float inner_radius = lua_tonumber(L, 5);
 		float outer_radius = lua_tonumber(L, 6);
-		_tube(steps, *start, *end, *updir, inner_radius, outer_radius);
+		_tube(steps, start, end, updir, inner_radius, outer_radius);
 		return 0;
 	}
 
@@ -2830,9 +2904,9 @@ namespace ModelFuncs {
 	static int xref_tube(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		vector3f start = *MyLuaVec::checkVec(L, 2);
-		vector3f end = *MyLuaVec::checkVec(L, 3);
-		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float inner_radius = lua_tonumber(L, 5);
 		float outer_radius = lua_tonumber(L, 6);
 		_tube(steps, start, end, updir, inner_radius, outer_radius);
@@ -2914,12 +2988,12 @@ namespace ModelFuncs {
 	static int tapered_cylinder(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		const vector3f *start = MyLuaVec::checkVec(L, 2);
-		const vector3f *end = MyLuaVec::checkVec(L, 3);
-		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius1 = lua_tonumber(L, 5);
 		float radius2 = lua_tonumber(L, 6);
-		_tapered_cylinder(steps, *start, *end, *updir, radius1, radius2);
+		_tapered_cylinder(steps, start, end, updir, radius1, radius2);
 		return 0;
 	}
 
@@ -2942,9 +3016,9 @@ namespace ModelFuncs {
 	{
 		/* could optimise for x-reflection but fuck it */
 		int steps = luaL_checkinteger(L, 1);
-		vector3f start = *MyLuaVec::checkVec(L, 2);
-		vector3f end = *MyLuaVec::checkVec(L, 3);
-		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius1 = lua_tonumber(L, 5);
 		float radius2 = lua_tonumber(L, 6);
 		_tapered_cylinder(steps, start, end, updir, radius1, radius2);
@@ -2989,7 +3063,7 @@ namespace ModelFuncs {
 			s_curBuf->PushTri(vtxStart+3*steps, vtxStart+3*steps+i-1, vtxStart+3*steps+i);
 		}
 	}
-	
+
 	/*
 	 * Function: cylinder
 	 *
@@ -3022,11 +3096,11 @@ namespace ModelFuncs {
 	static int cylinder(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		const vector3f *start = MyLuaVec::checkVec(L, 2);
-		const vector3f *end = MyLuaVec::checkVec(L, 3);
-		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius = lua_tonumber(L, 5);
-		_cylinder(steps, *start, *end, *updir, radius);
+		_cylinder(steps, start, end, updir, radius);
 		return 0;
 	}
 
@@ -3049,9 +3123,9 @@ namespace ModelFuncs {
 	{
 		/* could optimise for x-reflection but fuck it */
 		int steps = luaL_checkinteger(L, 1);
-		vector3f start = *MyLuaVec::checkVec(L, 2);
-		vector3f end = *MyLuaVec::checkVec(L, 3);
-		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius = lua_tonumber(L, 5);
 		_cylinder(steps, start, end, updir, radius);
 		start.x = -start.x;
@@ -3120,11 +3194,11 @@ namespace ModelFuncs {
 	static int ring(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		const vector3f *start = MyLuaVec::checkVec(L, 2);
-		const vector3f *end = MyLuaVec::checkVec(L, 3);
-		const vector3f *updir = MyLuaVec::checkVec(L, 4);
+		const vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius = lua_tonumber(L, 5);
-		_ring(steps, *start, *end, *updir, radius);
+		_ring(steps, start, end, updir, radius);
 		return 0;
 	}
 
@@ -3146,9 +3220,9 @@ namespace ModelFuncs {
 	static int xref_ring(lua_State *L)
 	{
 		int steps = luaL_checkinteger(L, 1);
-		vector3f start = *MyLuaVec::checkVec(L, 2);
-		vector3f end = *MyLuaVec::checkVec(L, 3);
-		vector3f updir = *MyLuaVec::checkVec(L, 4);
+		vector3f start = LuaVector::CheckFromLuaF(L, 2);
+		vector3f end = LuaVector::CheckFromLuaF(L, 3);
+		vector3f updir = LuaVector::CheckFromLuaF(L, 4);
 		float radius = lua_tonumber(L, 5);
 		_ring(steps, start, end, updir, radius);
 		start.x = -start.x;
@@ -3186,14 +3260,14 @@ namespace ModelFuncs {
 	 */
 	static int invisible_tri(lua_State *L)
 	{
-		const vector3f *v1 = MyLuaVec::checkVec(L, 1);
-		const vector3f *v2 = MyLuaVec::checkVec(L, 2);
-		const vector3f *v3 = MyLuaVec::checkVec(L, 3);
-		
-		vector3f n = ((*v1)-(*v2)).Cross((*v1)-(*v3)).Normalized();
-		int i1 = s_curBuf->PushVertex(*v1, n);
-		int i2 = s_curBuf->PushVertex(*v2, n);
-		int i3 = s_curBuf->PushVertex(*v3, n);
+		const vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
+		const vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
+
+		vector3f n = (v1-v2).Cross(v1-v3).Normalized();
+		int i1 = s_curBuf->PushVertex(v1, n);
+		int i2 = s_curBuf->PushVertex(v2, n);
+		int i3 = s_curBuf->PushVertex(v3, n);
 		s_curBuf->PushInvisibleTri(i1, i2, i3);
 		return 0;
 	}
@@ -3226,18 +3300,18 @@ namespace ModelFuncs {
 	 */
 	static int tri(lua_State *L)
 	{
-		const vector3f *v1 = MyLuaVec::checkVec(L, 1);
-		const vector3f *v2 = MyLuaVec::checkVec(L, 2);
-		const vector3f *v3 = MyLuaVec::checkVec(L, 3);
-		
-		vector3f n = ((*v1)-(*v2)).Cross((*v1)-(*v3)).Normalized();
-		int i1 = s_curBuf->PushVertex(*v1, n);
-		int i2 = s_curBuf->PushVertex(*v2, n);
-		int i3 = s_curBuf->PushVertex(*v3, n);
+		const vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
+		const vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
+
+		vector3f n = (v1-v2).Cross(v1-v3).Normalized();
+		int i1 = s_curBuf->PushVertex(v1, n);
+		int i2 = s_curBuf->PushVertex(v2, n);
+		int i3 = s_curBuf->PushVertex(v3, n);
 		s_curBuf->PushTri(i1, i2, i3);
 		return 0;
 	}
-	
+
 	/*
 	 * Function: xref_tri
 	 *
@@ -3255,10 +3329,10 @@ namespace ModelFuncs {
 	 */
 	static int xref_tri(lua_State *L)
 	{
-		vector3f v1 = *MyLuaVec::checkVec(L, 1);
-		vector3f v2 = *MyLuaVec::checkVec(L, 2);
-		vector3f v3 = *MyLuaVec::checkVec(L, 3);
-		
+		vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
+		vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
+		vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
+
 		vector3f n = (v1-v2).Cross(v1-v3).Normalized();
 		int i1 = s_curBuf->PushVertex(v1, n);
 		int i2 = s_curBuf->PushVertex(v2, n);
@@ -3271,7 +3345,7 @@ namespace ModelFuncs {
 		s_curBuf->PushTri(i1, i3, i2);
 		return 0;
 	}
-	
+
 	/*
 	 * Function: quad
 	 *
@@ -3301,21 +3375,21 @@ namespace ModelFuncs {
 	 */
 	static int quad(lua_State *L)
 	{
-		const vector3f *v1 = MyLuaVec::checkVec(L, 1);
-		const vector3f *v2 = MyLuaVec::checkVec(L, 2);
-		const vector3f *v3 = MyLuaVec::checkVec(L, 3);
-		const vector3f *v4 = MyLuaVec::checkVec(L, 4);
-		
-		vector3f n = ((*v1)-(*v2)).Cross((*v1)-(*v3)).Normalized();
-		int i1 = s_curBuf->PushVertex(*v1, n);
-		int i2 = s_curBuf->PushVertex(*v2, n);
-		int i3 = s_curBuf->PushVertex(*v3, n);
-		int i4 = s_curBuf->PushVertex(*v4, n);
+		const vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
+		const vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
+		const vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
+		const vector3f v4 = LuaVector::CheckFromLuaF(L, 4);
+
+		vector3f n = (v1-v2).Cross(v1-v3).Normalized();
+		int i1 = s_curBuf->PushVertex(v1, n);
+		int i2 = s_curBuf->PushVertex(v2, n);
+		int i3 = s_curBuf->PushVertex(v3, n);
+		int i4 = s_curBuf->PushVertex(v4, n);
 		s_curBuf->PushTri(i1, i2, i3);
 		s_curBuf->PushTri(i1, i3, i4);
 		return 0;
 	}
-	
+
 	/*
 	 * Function: xref_quad
 	 *
@@ -3333,11 +3407,11 @@ namespace ModelFuncs {
 	 */
 	static int xref_quad(lua_State *L)
 	{
-		vector3f v1 = *MyLuaVec::checkVec(L, 1);
-		vector3f v2 = *MyLuaVec::checkVec(L, 2);
-		vector3f v3 = *MyLuaVec::checkVec(L, 3);
-		vector3f v4 = *MyLuaVec::checkVec(L, 4);
-		
+		vector3f v1 = LuaVector::CheckFromLuaF(L, 1);
+		vector3f v2 = LuaVector::CheckFromLuaF(L, 2);
+		vector3f v3 = LuaVector::CheckFromLuaF(L, 3);
+		vector3f v4 = LuaVector::CheckFromLuaF(L, 4);
+
 		vector3f n = (v1-v2).Cross(v1-v3).Normalized();
 		int i1 = s_curBuf->PushVertex(v1, n);
 		int i2 = s_curBuf->PushVertex(v2, n);
@@ -3359,7 +3433,7 @@ namespace ModelFuncs {
 	 * Function: thruster
 	 *
 	 * Define a position for a ship thruster.
-	 * 
+	 *
 	 * Thrusters are purely a visual effect and do not affect handling characteristics.
 	 *
 	 * > thruster(position, direction, size, linear_only)
@@ -3367,7 +3441,7 @@ namespace ModelFuncs {
 	 * Parameters:
 	 *
 	 *   position - position vector
-	 *   direction - direction vector, pointing "away" from the ship, 
+	 *   direction - direction vector, pointing "away" from the ship,
 	 *               determines also when the thruster is actually animated
 	 *   size - scale of the thruster flame
 	 *   linear_only - only appear for linear (back, forward) thrust
@@ -3388,14 +3462,14 @@ namespace ModelFuncs {
 	 */
 	static int thruster(lua_State *L)
 	{
-		const vector3f *pos = MyLuaVec::checkVec(L, 1);
-		const vector3f *dir = MyLuaVec::checkVec(L, 2);
+		const vector3f pos = LuaVector::CheckFromLuaF(L, 1);
+		const vector3f dir = LuaVector::CheckFromLuaF(L, 2);
 		const float power = luaL_checknumber(L, 3);
 		bool linear_only = false;
 		if (lua_isboolean(L, 4)) {
 			linear_only = lua_toboolean(L, 4) != 0;
 		}
-		s_curBuf->PushThruster(*pos, *dir, power, linear_only);
+		s_curBuf->PushThruster(pos, dir, power, linear_only);
 		return 0;
 	}
 
@@ -3416,16 +3490,16 @@ namespace ModelFuncs {
 	 */
 	static int xref_thruster(lua_State *L)
 	{
-		vector3f pos = *MyLuaVec::checkVec(L, 1);
-		const vector3f *dir = MyLuaVec::checkVec(L, 2);
+		vector3f pos = LuaVector::CheckFromLuaF(L, 1);
+		const vector3f dir = LuaVector::CheckFromLuaF(L, 2);
 		const float power = luaL_checknumber(L, 3);
 		bool linear_only = false;
 		if (lua_isboolean(L, 4)) {
 			linear_only = lua_toboolean(L, 4) != 0;
 		}
-		s_curBuf->PushThruster(pos, *dir, power, linear_only);
+		s_curBuf->PushThruster(pos, dir, power, linear_only);
 		pos.x = -pos.x;
-		s_curBuf->PushThruster(pos, *dir, power, linear_only);
+		s_curBuf->PushThruster(pos, dir, power, linear_only);
 		return 0;
 	}
 
@@ -3787,7 +3861,7 @@ namespace ModelFuncs {
 	 * Function: billboard
 	 *
 	 * Textured plane that always faces the camera.
-	 * 
+	 *
 	 * Does not use materials, will not affect collisions.
 	 *
 	 * > billboard(texture, size, color, points)
@@ -3818,7 +3892,7 @@ namespace ModelFuncs {
 //		billboard('texname', size, color, { p1, p2, p3, p4 })
 		const char *texname = luaL_checkstring(L, 1);
 		const float size = luaL_checknumber(L, 2);
-		const vector3f color = *MyLuaVec::checkVec(L, 3);
+		const vector3f color = LuaVector::CheckFromLuaF(L, 3);
 		std::vector<vector3f> points;
 
 		if (lua_istable(L, 4)) {
@@ -3829,7 +3903,7 @@ namespace ModelFuncs {
 					lua_pop(L, 1);
 					break;
 				}
-				points.push_back(*MyLuaVec::checkVec(L, -1));
+				points.push_back(LuaVector::CheckFromLuaF(L, -1));
 				lua_pop(L, 1);
 			}
 		}
@@ -3837,7 +3911,7 @@ namespace ModelFuncs {
 		return 0;
 	}
 	////////////////////////////////////////////////////////////////
-	
+
 #define ICOSX	0.525731112119133f
 #define ICOSZ	0.850650808352039f
 
@@ -3878,7 +3952,7 @@ namespace ModelFuncs {
 		if ((lua_gettop(l) < stackpos) || lua_isnil(l, stackpos)) {
 			trans = matrix4x4f::Identity();
 		} else {
-			trans = *MyLuaMatrix::checkMatrix(l, stackpos);
+			trans = *LuaMatrix::CheckFromLua(l, stackpos);
 		}
 	}
 
@@ -3924,7 +3998,7 @@ namespace ModelFuncs {
 			const vector3f &v = icosahedron_vertices[i];
 			vi[i] = s_curBuf->PushVertex(trans * v, trans.ApplyRotationOnly(v));
 		}
-			
+
 		for (i=0; i<20; i++) {
 			_sphere_subdivide (trans, icosahedron_vertices[icosahedron_faces[i][0]],
 					icosahedron_vertices[icosahedron_faces[i][1]],
@@ -3942,7 +4016,7 @@ namespace ModelFuncs {
 	 * Function: sphere_slice
 	 *
 	 * Partially sliced sphere. For domes and such.
-	 * 
+	 *
 	 * The resulting shape will be capped (closed).
 	 *
 	 * > sphere_slice(lat_segs, long_segs, angle1, angle2, transform)
@@ -4040,49 +4114,47 @@ namespace ModelFuncs {
 } /* namespace ModelFuncs */
 
 namespace ObjLoader {
-	static void trim(char *input) {
-		char *output = input;
-		char *end = output;
-		char c;
+	struct MtlMaterial {
+		std::string diffuse;
+		std::string emission;
+	};
 
-		while(*input && isspace(*input))
-			++input;
+	typedef std::map<std::string, MtlMaterial> MtlLibrary;
 
-		while(*input) {
-			c = *(output++) = *(input++);
-			if( !isspace(c) )
-				end = output;
-		}
-
-		*end = 0;
-	}
-
-	static std::map<std::string, std::string> load_mtl_file(lua_State *L, const char* mtl_file) {
-		std::map<std::string, std::string> mtl_map;
-		char buf[1024], name[1024] = "", file[1024];
+	static MtlLibrary load_mtl_file(lua_State *L, const char* mtl_file) {
+		MtlLibrary mtl_map;
+		char name[1024] = "", file[1024];
 
 		lua_getglobal(L, "CurrentDirectory");
-		std::string curdir = luaL_checkstring(L, -1);
+		std::string curdir = luaL_optstring(L, -1, ".");
 		lua_pop(L, 1);
 
-		snprintf(buf, sizeof(buf), "%s/%s", curdir.c_str(), mtl_file);
-		FILE *f = fopen(buf, "r");
-		if (!f) {
-			printf("Could not open %s\n", buf);
+		const std::string path = FileSystem::JoinPathBelow(curdir, mtl_file);
+		RefCountedPtr<FileSystem::FileData> mtlfiledata = FileSystem::gameDataFiles.ReadFile(path);
+		if (!mtlfiledata) {
+			printf("Could not open %s\n", path.c_str());
 			throw LmrUnknownMaterial();
 		}
 
-		for (int line_no=1; fgets(buf, sizeof(buf), f); line_no++) {
-			trim(buf);
-			if (!strncasecmp(buf, "newmtl ", 7)) {
-				PiVerify(1 == sscanf(buf, "newmtl %s", name));
+		std::string line;
+		StringRange mtlfilerange = mtlfiledata->AsStringRange();
+		for (int line_no=1; !mtlfilerange.Empty(); line_no++) {
+			line = mtlfilerange.ReadLine().StripSpace().ToString();
+
+			if (!strncasecmp(line.c_str(), "newmtl", 6)) {
+				PiVerify(1 == sscanf(line.c_str(), "newmtl %s", name));
+				mtl_map[name] = MtlMaterial();
 			}
-			if (!strncasecmp(buf, "map_K", 5) && strlen(name) > 0) {
-				PiVerify(1 == sscanf(buf, "map_Kd %s", file));
-				mtl_map[name] = file;
+			if (!strncasecmp(line.c_str(), "map_Kd", 6) && strlen(name)) {
+				PiVerify(1 == sscanf(line.c_str(), "map_Kd %s", file));
+				mtl_map[name].diffuse = file;
+			}
+			if (!strncasecmp(line.c_str(), "map_Ke", 6) && strlen(name)) {
+				PiVerify(1 == sscanf(line.c_str(), "map_Ke %s", file));
+				mtl_map[name].emission = file;
 			}
 		}
-		fclose(f);
+
 		return mtl_map;
 	}
 
@@ -4090,10 +4162,10 @@ namespace ObjLoader {
 	 * Function: load_obj
 	 *
 	 * Load a Wavefront OBJ model file.
-	 * 
+	 *
 	 * If an associated .mtl material definition file is found, Pioneer will
-	 * attempt to interpret it the best it can, including texture usage. Note that
-	 * Pioneer supports only one texture per .obj file.
+	 * use the diffuse and emission textures (map_Kd and map_Ke) from that file.
+	 * Other material settings in the .mtl file are currently ignored.
 	 *
 	 * > load_obj(modelname, transform)
 	 *
@@ -4117,35 +4189,47 @@ namespace ObjLoader {
 	 *   stable
 	 *
 	 */
+	struct objTriplet {	int v, n, uv; };
+	const bool operator< (const objTriplet &t1, const objTriplet &t2) {
+		if (t1.v < t2.v) return true; if (t1.v > t2.v) return false;
+		if (t1.n < t2.n) return true; if (t1.n > t2.n) return false;
+		if (t1.uv < t2.uv) return true; return false;
+	}
+
 	static int load_obj_file(lua_State *L)
 	{
 		const char *obj_name = luaL_checkstring(L, 1);
 		int numArgs = lua_gettop(L);
-		matrix4x4f *transform = 0;
+		const matrix4x4f *transform = 0;
 		if (numArgs > 1) {
-			transform = MyLuaMatrix::checkMatrix(L, 2);
+			transform = LuaMatrix::CheckFromLua(L, 2);
 		}
 
 		lua_getglobal(L, "CurrentDirectory");
-		std::string curdir = luaL_checkstring(L, -1);
+		const std::string curdir = luaL_optstring(L, -1, ".");
 		lua_pop(L, 1);
-	
-		char buf[1024];
-		snprintf(buf, sizeof(buf), "%s/%s", curdir.c_str(), obj_name);
-		FILE *f = fopen(buf, "r");
-		if (!f) {
-			Error("Could not open %s\n", buf);
+
+		const std::string path = FileSystem::JoinPathBelow(curdir, obj_name);
+		RefCountedPtr<FileSystem::FileData> objdata = FileSystem::gameDataFiles.ReadFile(path);
+		if (!objdata) {
+			Error("Could not open '%s'\n", path.c_str());
 		}
+
+		StringRange objdatabuf = objdata->AsStringRange();
+
 		std::vector<vector3f> vertices;
 		std::vector<vector3f> texcoords;
 		std::vector<vector3f> normals;
-		std::map<std::string, std::string> mtl_map;
-		std::string texture;
+		MtlLibrary mtl_map;
 
 		// maps obj file vtx_idx,norm_idx to a single GeomBuffer vertex index
-		std::map< std::pair<int,int>, int> vtxmap;
+		std::map<objTriplet, int> vtxmap;
 
-		for (int line_no=1; fgets(buf, sizeof(buf), f); line_no++) {
+		std::string line;
+		for (int line_no=1; !objdatabuf.Empty(); line_no++) {
+			line = objdatabuf.ReadLine().ToString();
+			const char *buf = line.c_str();
+
 			if ((buf[0] == 'v') && buf[1] == ' ') {
 				// vertex
 				vector3f v;
@@ -4164,13 +4248,15 @@ namespace ObjLoader {
 				// texture
 				vector3f v;
 				PiVerify(2 == sscanf(buf, "vt %f %f", &v.x, &v.y));
+				//max, blender use 0,0 as lower left so flip vertical
+				v.y = 1.0 - v.y;
 				texcoords.push_back(v);
 			}
 			else if ((buf[0] == 'f') && (buf[1] == ' ')) {
 				// how many vertices in this face?
 				const int MAX_VTX_FACE = 64;
-				char *bit[MAX_VTX_FACE];
-				char *pos = &buf[2];
+				const char *bit[MAX_VTX_FACE];
+				const char *pos = &buf[2];
 				int numBits = 0;
 				while ((pos[0] != '\0') && (numBits < MAX_VTX_FACE)) {
 					bit[numBits++] = pos;
@@ -4216,13 +4302,13 @@ namespace ObjLoader {
 							s_curBuf->SetVertex(vtxStart+1, b, n, texcoords[ti[i+1]].x, texcoords[ti[i+1]].y);
 							s_curBuf->SetVertex(vtxStart+2, c, n, texcoords[ti[i+2]].x, texcoords[ti[i+2]].y);
 						}
-						if (texture.size()) s_curBuf->SetTexture(texture.c_str());
 						s_curBuf->PushTri(vtxStart, vtxStart+1, vtxStart+2);
 					}
 				} else {
 					for (int i=0; i<numBits; i++) {
 						// SHARE THE PAIN!
-						std::map< std::pair<int, int>, int>::iterator it = vtxmap.find(std::pair<int,int>(vi[i], ni[i]));
+						objTriplet t = { vi[i], ni[i], ti[i] };
+						std::map<objTriplet, int>::iterator it = vtxmap.find(t);
 						if (it == vtxmap.end()) {
 							// insert the horrible thing
 							int vtxStart = s_curBuf->AllocVertices(1);
@@ -4232,13 +4318,12 @@ namespace ObjLoader {
 							} else {
 								s_curBuf->SetVertex(vtxStart, vertices[vi[i]], normals[ni[i]], texcoords[ti[i]].x, texcoords[ti[i]].y);
 							}
-							vtxmap[std::pair<int,int>(vi[i], ni[i])] = vtxStart;
+							vtxmap[t] = vtxStart;
 							realVtxIdx[i] = vtxStart;
 						} else {
 							realVtxIdx[i] = (*it).second;
 						}
 					}
-					if (texture.size()) s_curBuf->SetTexture(texture.c_str());
 					if (numBits == 3) {
 						s_curBuf->PushTri(realVtxIdx[0], realVtxIdx[1], realVtxIdx[2]);
 					} else if (numBits == 4) {
@@ -4252,33 +4337,47 @@ namespace ObjLoader {
 			else if (strncmp("mtllib ", buf, 7) == 0) {
 				char lib_name[128];
 				if (1 == sscanf(buf, "mtllib %s", lib_name)) {
-					mtl_map = load_mtl_file(L, lib_name);
+					try {
+						mtl_map = load_mtl_file(L, lib_name);
+					} catch (LmrUnknownMaterial) {
+						printf(".mtl file '%s' could not be found\n", lib_name);
+						mtl_map.clear();
+					}
 				}
 			}
 			else if (strncmp("usemtl ", buf, 7) == 0) {
 				char mat_name[128];
 				if (1 == sscanf(buf, "usemtl %s", mat_name)) {
-					if ( mtl_map.find(mat_name) != mtl_map.end() ) {
-						try {
-							char texfile[256];
-							snprintf(texfile, sizeof(texfile), "%s/%s", curdir.c_str(), mtl_map[mat_name].c_str());
-							texture = texfile;
-						} catch (LmrUnknownMaterial) {
-							printf("Warning: Missing material %s (%s) in %s\n", mtl_map[mat_name].c_str(), mat_name, obj_name);
+					MtlLibrary::const_iterator mat_iter = mtl_map.find(mat_name);
+					if ( mat_iter != mtl_map.end() ) {
+						const MtlMaterial &mat_info = mat_iter->second;
+						std::string diffuse_path, emission_path;
+
+						if (!mat_info.diffuse.empty()) {
+							diffuse_path = FileSystem::JoinPath(curdir, mat_info.diffuse);
 						}
+						if (!mat_info.emission.empty()) {
+							emission_path = FileSystem::JoinPath(curdir, mat_info.emission);
+						}
+
+						// not allowed to have a glow map with no diffuse map
+						// (I don't know why, maybe it would be fine... who knows with LMR?)
+						if (diffuse_path.empty()) { emission_path.clear(); }
+
+						s_curBuf->SetTexture(diffuse_path.empty() ? 0 : diffuse_path.c_str());
+						s_curBuf->SetGlowMap(emission_path.empty() ? 0 : emission_path.c_str());
 					}
 				} else {
 					Error("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
 				}
 			}
 		}
-		fclose(f);
 		return 0;
 	}
 }
 
 namespace UtilFuncs {
-	
+
 	int noise(lua_State *L) {
 		vector3d v;
 		if (lua_isnumber(L, 1)) {
@@ -4286,7 +4385,7 @@ namespace UtilFuncs {
 			v.y = lua_tonumber(L, 2);
 			v.z = lua_tonumber(L, 3);
 		} else {
-			v = vector3d(*MyLuaVec::checkVec(L, 1));
+			v = *LuaVector::CheckFromLua(L, 1);
 		}
 		lua_pushnumber(L, noise(v));
 		return 1;
@@ -4333,46 +4432,45 @@ static int define_model(lua_State *L)
 	lua_gettable(L, 2);
 	snprintf(buf, sizeof(buf), "%s_dynamic", model_name);
 	lua_setglobal(L, buf);
-	
+
 	s_models[model_name] = new LmrModel(model_name);
 	return 0;
 }
 
-static Uint32 s_allModelFilesCRC = 0;
-static void _makeModelFilesCRC(const std::string &dir, const std::string &filename)
-{
-	struct stat info;
-	if (stat(filename.c_str(), &info)) return;
+static Uint32 s_allModelFilesCRC;
 
-	if (S_ISDIR(info.st_mode)) {
-		foreach_file_in(filename, &_makeModelFilesCRC);
-	} else if (S_ISREG(info.st_mode) && (filename.substr(filename.size()-4) != ".png")) {
-		FILE *f = fopen(filename.c_str(), "rb");
-		if (f) {
-			fseek(f, 0, SEEK_END);
-			int size = ftell(f);
-			unsigned char *data = reinterpret_cast<unsigned char *>(malloc(size));
-			fseek(f, 0, SEEK_SET);
-			fread(data, 1, size, f);
-			for (int c=0; c<size; c++) s_allModelFilesCRC += data[c];
-			free(data);
-			fclose(f);
+static Uint32 _calculate_all_models_checksum()
+{
+	// do we need to rebuild the model cache?
+	CRC32 crc;
+	FileSystem::FileEnumerator files(FileSystem::gameDataFiles, FileSystem::FileEnumerator::Recurse);
+	files.AddSearchRoot("models");
+	files.AddSearchRoot("sub_models");
+	while (!files.Finished()) {
+		const FileSystem::FileInfo &info = files.Current();
+		assert(info.IsFile());
+		if (!ends_with(info.GetPath(), ".png")) {
+			RefCountedPtr<FileSystem::FileData> data = files.Current().Read();
+			crc.AddData(data->GetData(), data->GetSize());
 		}
+
+		files.Next();
 	}
+	return crc.GetChecksum();
 }
 
 static void _detect_model_changes()
 {
-	// do we need to rebuild the model cache?
-	foreach_file_in(PIONEER_DATA_DIR "/models", &_makeModelFilesCRC);
+	s_allModelFilesCRC = _calculate_all_models_checksum();
 
-	FILE *cache_sum_file = fopen(join_path(s_cacheDir.c_str(), "cache.sum", 0).c_str(), "rb");
+	FILE *cache_sum_file = fopen(FileSystem::JoinPath(s_cacheDir, "cache.sum").c_str(), "rb");
 	if (cache_sum_file) {
-		if ((_fread_string(cache_sum_file) == PIONEER_VERSION) &&
-		    (_fread_string(cache_sum_file) == PIONEER_EXTRAVERSION)) {
-			Uint32 crc;
-			fread_or_die(&crc, sizeof(crc), 1, cache_sum_file);
-			if (crc == s_allModelFilesCRC) {
+		Uint32 version;
+		fread_or_die(&version, sizeof(version), 1, cache_sum_file);
+		if (version == s_cacheVersion) {
+			Uint32 checksum;
+			fread_or_die(&checksum, sizeof(checksum), 1, cache_sum_file);
+			if (checksum == s_allModelFilesCRC) {
 				s_recompileAllModels = false;
 			}
 		}
@@ -4384,19 +4482,23 @@ static void _detect_model_changes()
 static void _write_model_crc_file()
 {
 	if (s_recompileAllModels) {
-		FILE *cache_sum_file = fopen(join_path(s_cacheDir.c_str(), "cache.sum", 0).c_str(), "wb");
+		FILE *cache_sum_file = fopen(FileSystem::JoinPath(s_cacheDir, "cache.sum").c_str(), "wb");
 		if (cache_sum_file) {
-			_fwrite_string(PIONEER_VERSION, cache_sum_file);
-			_fwrite_string(PIONEER_EXTRAVERSION, cache_sum_file);
+			fwrite(&s_cacheVersion, sizeof(s_cacheVersion), 1, cache_sum_file);
 			fwrite(&s_allModelFilesCRC, sizeof(s_allModelFilesCRC), 1, cache_sum_file);
 			fclose(cache_sum_file);
 		}
 	}
 }
 
-void LmrModelCompilerInit()
+void LmrModelCompilerInit(Graphics::Renderer *renderer)
 {
-	s_cacheDir = GetPiUserDir("model_cache");
+	s_renderer = renderer;
+
+	ShipThruster::Init(renderer);
+
+	s_cacheDir = FileSystem::GetUserDir("model_cache");
+	FileSystem::rawFileSystem.MakeDirectory(s_cacheDir);
 	_detect_model_changes();
 
 	s_staticBufferPool = new BufferObjectPool<sizeof(Vertex)>();
@@ -4409,23 +4511,27 @@ void LmrModelCompilerInit()
 	s_pointlightShader[2] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 3\n");
 	s_pointlightShader[3] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 4\n");
 
-	PiVerify(s_font = s_fontManager.GetVectorFont("WorldFont"));
+	PiVerify(s_font = s_fontCache.GetVectorFont("WorldFont"));
 
-	lua_State *L = lua_open();
+	lua_State *L = luaL_newstate();
 	sLua = L;
-	luaL_openlibs(L);
 
 	LUA_DEBUG_START(sLua);
 
+	pi_lua_open_standard_base(L);
+
 	LuaConstants::Register(L);
 
-	MyLuaVec::Vec_register(L);
-	lua_pop(L, 1); // why again?
-	MyLuaMatrix::Matrix_register(L);
-	lua_pop(L, 1); // why again?
-	// shorthand for Vec.new(x,y,z)
-	lua_register(L, "v", MyLuaVec::Vec_new);
-	lua_register(L, "norm", MyLuaVec::Vec_newNormalized);
+	LuaVector::Register(L);
+	lua_getglobal(L, LuaVector::LibName);
+	lua_getfield(L, -1, "new");
+	lua_setglobal(L, "v"); // alias v = vector.new
+	lua_getfield(L, -1, "unit");
+	lua_setglobal(L, "unitv"); // alias unitv = vector.unit
+	lua_settop(L, 0);
+
+	LuaMatrix::Register(L);
+
 	lua_register(L, "define_model", define_model);
 	lua_register(L, "set_material", ModelFuncs::set_material);
 	lua_register(L, "use_material", ModelFuncs::use_material);
@@ -4483,20 +4589,11 @@ void LmrModelCompilerInit()
 	lua_register(L, "use_light", ModelFuncs::use_light);
 
 	s_buildDynamic = false;
-	lua_pushstring(L, PIONEER_DATA_DIR);
-	lua_setglobal(L, "CurrentDirectory");
-	
-	// same as luaL_dofile, except we can pass an error handler
-	lua_pushcfunction(L, pi_lua_panic);
-	if (luaL_loadfile(L, (std::string(PIONEER_DATA_DIR) + "/pimodels.lua").c_str())) {
-		pi_lua_panic(L);
-	} else {
-		lua_pcall(L, 0, LUA_MULTRET, -2);
-	}
-	lua_pop(sLua, 1);  // remove panic func
+
+	pi_lua_dofile(L, "pimodels.lua");
 
 	LUA_DEBUG_END(sLua, 0);
-	
+
 	_write_model_crc_file();
 	s_buildDynamic = true;
 }
@@ -4508,14 +4605,16 @@ void LmrModelCompilerUninit()
 		delete s_sunlightShader[i];
 		delete s_pointlightShader[i];
 	}
-	// FontManager should be ok...
+	// FontCache should be ok...
 
 	std::map<std::string, LmrModel*>::iterator it_model;
 	for (it_model=s_models.begin(); it_model != s_models.end(); ++it_model)	{
 		delete (*it_model).second;
 	}
-	
+
 	lua_close(sLua); sLua = 0;
 
 	delete s_staticBufferPool;
+
+	ShipThruster::Uninit();
 }

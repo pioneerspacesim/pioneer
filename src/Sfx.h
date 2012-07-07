@@ -5,6 +5,12 @@
 #include "Serializer.h"
 
 class Frame;
+namespace Graphics {
+	class Renderer;
+	namespace Drawables {
+		class Sphere3D;
+	}
+}
 
 class Sfx {
 public:
@@ -12,17 +18,24 @@ public:
 
 	static void Add(const Body *, TYPE);
 	static void TimeStepAll(const float timeStep, Frame *f);
-	static void RenderAll(const Frame *f, const Frame *camFrame);
+	static void RenderAll(Graphics::Renderer *r, const Frame *f, const Frame *camFrame);
 	static void Serialize(Serializer::Writer &wr, const Frame *f);
 	static void Unserialize(Serializer::Reader &rd, Frame *f);
 
 	Sfx();
 	void SetPosition(vector3d p);
 	vector3d GetPosition() const { return m_pos; }
+
+	//create shared models
+	static void Init();
+	static void Uninit();
+	static Graphics::Drawables::Sphere3D *shieldEffect;
+	static Graphics::Drawables::Sphere3D *explosionEffect;
+
 private:
 	static Sfx *AllocSfxInFrame(Frame *f);
 
-	void Render(const matrix4x4d &transform);
+	void Render(Graphics::Renderer *r, const matrix4x4d &transform);
 	void TimeStepUpdate(const float timeStep);
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);

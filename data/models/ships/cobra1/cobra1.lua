@@ -5,31 +5,6 @@ define_model('cobra1', {
 		bounding_radius = 20,
 		materials = {'text', 'top', 'bot', 'posl', 'gun', 'engine_inside'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Cobra Mk I',
-				forward_thrust = -12e6,
-				reverse_thrust = 5e6,
-				up_thrust = 4e6,
-				down_thrust = -4e6,
-				left_thrust = -4e6,
-				right_thrust = 4e6,
-				angular_thrust = 28e6,
-				gun_mounts =
-				{
-					{ v(0,0,-13), v(0,0,-1) },
-					{ v(0,0,10), v(0,0,1) }
-				},
-				max_cargo = 60,
-				max_laser = 2,
-				max_missile = 2,
-				max_cargoscoop = 0,
-				capacity = 60,
-				hull_mass = 60,
-				price = 97000,
-				hyperdrive_class = 2,
-			}
-		}
 	},
 	static = function(lod)
 
@@ -67,8 +42,7 @@ define_model('cobra1', {
 
 			if lod > 2 then
 				use_material('bot')
-				local factor = 0.05*math.pi*os.clock() -- get_time('SECONDS') causes an asset error here.. strange!?!
-				call_model('scanner_+', v(0.013,3.3,5.641), v(math.cos(factor),0,math.sin(factor)), v(0,1,0),1.4)
+				call_model('scanner_+', v(0.013,3.3,5.641), v(1,0,0), v(0,1,0),1.4)
 			end
 		end
 	end,

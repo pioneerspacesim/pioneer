@@ -4,12 +4,15 @@
 #include <map>
 #include <vector>
 #include <sigc++/sigc++.h>
-#include "MyLuaMathTypes.h"
 
 // LMR = Lua Model Renderer
 class LmrGeomBuffer;
 class LmrCollMesh;
 class GeomTree;
+
+struct lua_State;
+
+namespace Graphics { class Renderer; }
 
 class EquipSet;
 
@@ -84,7 +87,7 @@ private:
 	friend class LmrGeomBuffer;
 };
 
-void LmrModelCompilerInit();
+void LmrModelCompilerInit(Graphics::Renderer *r);
 void LmrModelCompilerUninit();
 struct LmrModelNotFoundException {};
 LmrModel *LmrLookupModelByName(const char *name);

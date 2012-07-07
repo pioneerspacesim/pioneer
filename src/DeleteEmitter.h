@@ -14,7 +14,11 @@ public:
 	virtual ~DeleteEmitter() {
 		onDelete.emit();
 	}
-	sigc::signal<void> onDelete;
+
+	// onDelete is mutable since its not unusual to want to know when a const
+	// object is deleted, and attaching this signal does not conceptually
+	// affect the object's state
+	mutable sigc::signal<void> onDelete;
 
 private:
     // sigc++ signals cannot be copied, but long-standing design flaw means

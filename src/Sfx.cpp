@@ -2,12 +2,21 @@
 #include "Pi.h"
 #include "Sfx.h"
 #include "Frame.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Space.h"
-#include "TextureManager.h"
-#include "render/Render.h"
+#include "Pi.h"
+#include "graphics/Material.h"
+#include "graphics/Drawables.h"
+#include "graphics/Graphics.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+#include "graphics/TextureBuilder.h"
+
+using namespace Graphics;
 
 #define MAX_SFX_PER_FRAME 1024
+Graphics::Drawables::Sphere3D *Sfx::shieldEffect = 0;
+Graphics::Drawables::Sphere3D *Sfx::explosionEffect = 0;
 
 Sfx::Sfx()
 {
@@ -80,39 +89,39 @@ void Sfx::TimeStepUpdate(const float timeStep)
 	}
 }
 
-void Sfx::Render(const matrix4x4d &ftransform)
+void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 {
-	Texture *smokeTex = 0;
-	float col[4];
-
 	vector3d fpos = ftransform * GetPosition();
 
 	switch (m_type) {
 		case TYPE_NONE: break;
-		case TYPE_EXPLOSION:
+		case TYPE_EXPLOSION: {
+			//Explosion effect: A quick flash of three concentric coloured spheres. A bit retro.
 			glPushMatrix();
-			glTranslatef(fpos.x, fpos.y, fpos.z);
-			glPushAttrib(GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
-			glDisable(GL_LIGHTING);
-			glColor3f(1,1,0.5);
-			gluSphere(Pi::gluQuadric, 1000*m_age, 20,20);
-			glEnable(GL_BLEND);
-			glColor4f(1,0.5,0,0.66);
-			gluSphere(Pi::gluQuadric, 1500*m_age, 20,20);
-			glColor4f(1,0,0,0.33);
-			gluSphere(Pi::gluQuadric, 2000*m_age, 20,20);
-			glPopAttrib();
+			matrix4x4f trans = trans.Identity();
+			trans.Translate(fpos.x, fpos.y, fpos.z);
+			RefCountedPtr<Material> exmat = Sfx::explosionEffect->GetMaterial();
+			exmat->diffuse = Color(1.f, 1.f, 0.5f, 1.f);
+			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(1000*m_age));
+			Sfx::explosionEffect->Draw(renderer);
+			renderer->SetBlendMode(BLEND_ALPHA);
+			exmat->diffuse = Color(1.f, 0.5f, 0.f, 0.66f);
+			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(1500*m_age));
+			Sfx::explosionEffect->Draw(renderer);
+			exmat->diffuse = Color(1.f, 0.f, 0.f, 0.33f);
+			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(2000*m_age));
+			Sfx::explosionEffect->Draw(renderer);
 			glPopMatrix();
 			break;
+		}
 		case TYPE_DAMAGE:
-			col[0] = 1.0f;
-			col[1] = 1.0f;
-			col[2] = 0.0f;
-			col[3] = 1.0f-(m_age/2.0f);
 			vector3f pos(&fpos.x);
-			smokeTex = TextureManager::GetTexture(PIONEER_DATA_DIR"/textures/smoke.png");
-			smokeTex->BindTexture();
-			Render::PutPointSprites(1, &pos, 20.0f, col);
+			//XXX no need to recreate material every time
+			Material mat;
+			mat.texture0 = Graphics::TextureBuilder::Billboard("textures/smoke.png").GetOrCreateTexture(Pi::renderer, "billboard");
+			mat.unlit = true;
+			mat.diffuse = Color(1.f, 1.f, 0.f, 1.0f-(m_age/2.0f));
+			renderer->DrawPointSprites(1, &pos, &mat, 20.f);
 			break;
 	}
 }
@@ -154,14 +163,14 @@ void Sfx::TimeStepAll(const float timeStep, Frame *f)
 			}
 		}
 	}
-	
+
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
 		TimeStepAll(timeStep, *i);
 	}
 }
 
-void Sfx::RenderAll(const Frame *f, const Frame *camFrame)
+void Sfx::RenderAll(Renderer *renderer, const Frame *f, const Frame *camFrame)
 {
 	if (f->m_sfx) {
 		matrix4x4d ftran;
@@ -169,13 +178,30 @@ void Sfx::RenderAll(const Frame *f, const Frame *camFrame)
 
 		for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
 			if (f->m_sfx[i].m_type != TYPE_NONE) {
-				f->m_sfx[i].Render(ftran);
+				f->m_sfx[i].Render(renderer, ftran);
 			}
 		}
 	}
-	
+
 	for (std::list<Frame*>::const_iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
-		RenderAll(*i, camFrame);
+		RenderAll(renderer, *i, camFrame);
 	}
+}
+
+void Sfx::Init()
+{
+	//these are identical, but keeping separate anyway
+	RefCountedPtr<Graphics::Material> smat(new Graphics::Material);
+	smat->unlit = true;
+	shieldEffect = new Graphics::Drawables::Sphere3D(smat, 2);
+	RefCountedPtr<Graphics::Material> emat(new Graphics::Material);
+	emat->unlit = true;
+	explosionEffect = new Graphics::Drawables::Sphere3D(emat, 2);
+}
+
+void Sfx::Uninit()
+{
+	delete shieldEffect; shieldEffect = 0;
+	delete explosionEffect; explosionEffect = 0;
 }

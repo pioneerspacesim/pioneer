@@ -7,7 +7,7 @@ template <>
 const char *TerrainColorFractal<TerrainColorTFGood>::GetColorFractalName() const { return "TFGood"; }
 
 template <>
-TerrainColorFractal<TerrainColorTFGood>::TerrainColorFractal(const SBody *body) : Terrain(body)
+TerrainColorFractal<TerrainColorTFGood>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
 }
 
@@ -47,21 +47,21 @@ vector3d TerrainColorFractal<TerrainColorTFGood>::GetColor(const vector3d &p, do
 	}
 
 	// More sensitive height detection for application of colours
-	
+
 	if (n > 0.5) {
 	col = interpolate_color(equatorial_desert, m_rockColor[2], m_rockColor[4]);
 	col = interpolate_color(n, col, m_darkrockColor[6]);
 	col = interpolate_color(flatness, color_cliffs, col);
 	return col;
 	}
-	else if (n > 0.25) { 
+	else if (n > 0.25) {
 	color_cliffs = m_darkrockColor[1];
 	col = interpolate_color(equatorial_desert, m_darkrockColor[5], m_darkrockColor[7]);
 	col = interpolate_color(n, col, m_rockColor[1]);
 	col = interpolate_color(flatness, color_cliffs, col);
 	return col;
 	}
-	else if (n > 0.05) {  
+	else if (n > 0.05) {
 	col = interpolate_color(equatorial_desert, m_darkrockColor[5], m_darkrockColor[7]);
 	color_cliffs = col;
 	col = interpolate_color(equatorial_desert, vector3d(.45,.43, .2), vector3d(.4, .43, .2));
@@ -69,21 +69,21 @@ vector3d TerrainColorFractal<TerrainColorTFGood>::GetColor(const vector3d &p, do
 	col = interpolate_color(flatness, color_cliffs, col);
 	return col;
 	}
-	else if (n > 0.01) { 
+	else if (n > 0.01) {
 	color_cliffs = vector3d(0.2,0.28,0.2);
 	col = interpolate_color(equatorial_desert, vector3d(.15,.5, -.1), vector3d(.2, .6, -.1));
 	col = interpolate_color(n, col, vector3d(5,-5, 5));
 	col = interpolate_color(flatness, color_cliffs, col);
 	return col;
 	}
-	else if (n > 0.005) {   
+	else if (n > 0.005) {
 	color_cliffs = vector3d(0.25,0.28,0.2);
 	col = interpolate_color(equatorial_desert, vector3d(.45,.6,0), vector3d(.5, .6, .0));
 	col = interpolate_color(n, col, vector3d(-10,-10,0));
 	col = interpolate_color(flatness, color_cliffs, col);
 	return col;
 	}
-	else { 
+	else {
 	color_cliffs = vector3d(0.3,0.1,0.0);
 	col = interpolate_color(equatorial_desert, vector3d(.35,.3,0), vector3d(.4, .3, .0));
 	col = interpolate_color(n, col, vector3d(0,20,0));

@@ -2,7 +2,10 @@
 #define _GUIGRADIENT_H
 
 #include "GuiWidget.h"
+#include "graphics/Texture.h"
 #include <map>
+
+namespace Graphics { class Renderer; }
 
 namespace Gui {
 
@@ -16,20 +19,14 @@ namespace Gui {
 			HORIZONTAL,
 			VERTICAL
 		};
-		Gradient();
-		Gradient(float, float, const Color &begin, const Color &end, Direction dir = VERTICAL);
-		~Gradient();
-		void SetStop(const Color&, float);
-		Direction GetDirection() const { return m_direction; }
-		void SetDirection(Direction dir) { m_direction = dir; }
+
+		Gradient(float width, float height, const Color &beginColor, const Color &endColor, Direction direction = VERTICAL);
+
 		virtual void Draw();
 		virtual void GetSizeRequested(float size[2]);
-		GLuint GenerateTexture();
+
 	private:
-		GLuint GetTexture();
-		std::map<float, Color> m_stops;
-		Direction m_direction;
-		GLuint m_texture;
+		ScopedPtr<TexturedQuad> m_quad;
 	};
 
 }

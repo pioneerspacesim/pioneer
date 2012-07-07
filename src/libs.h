@@ -14,6 +14,9 @@
 #include <ctime>
 #include <cstdarg>
 #include <cstdlib>
+#include <cerrno>
+#include <string>
+#include <vector>
 
 /* on unix this would probably become $PREFIX/pioneer */
 #ifndef PIONEER_DATA_DIR
@@ -23,7 +26,13 @@
 #ifdef _WIN32
 #	include <malloc.h>
 
+#	ifdef _MSC_VER
+#		pragma warning(disable : 4244) // "conversion from x to x: possible loss of data"
+#		pragma warning(disable : 4800) // int-to-bool "performance warning"
+#	endif
+
 #	ifndef __MINGW32__
+#
 #		define alloca _alloca
 #		define strncasecmp _strnicmp
 #		define strcasecmp _stricmp
@@ -32,35 +41,22 @@
 #		ifndef isfinite
 inline int isfinite(double x) { return _finite(x); }
 #		endif
-
-#		include "win32-dirent.h"
-#	else
-#		include <dirent.h>
-#		include <sys/stat.h>
-#		include <stdexcept>
-#		define WINSHLWAPI
 #	endif /* __MINGW32__ */
-
-#else /* !_WIN32 */
-#	include <dirent.h>
-#	include <errno.h>
-#	include <sys/stat.h>
-#	include <sys/types.h>
 #endif
 
 #include "fixed.h"
+#include "vector2.h"
 #include "vector3.h"
 #include "Aabb.h"
 #include "matrix4x4.h"
 #include "Color.h"
 #include "mtrand.h"
 
-#include "utils.h"
 #include "FloatComparison.h"
 #include "SmartPtr.h"
 #include "RefCounted.h"
 
-#ifdef NDEBUG 
+#ifdef NDEBUG
 #define	PiVerify(x) ((void)(x))
 #else
 #define PiVerify(x) assert(x)
@@ -83,6 +79,7 @@ inline int isfinite(double x) { return _finite(x); }
 template<class T> inline const T& Clamp(const T& x, const T& min, const T& max) { return x > max ? max : (x < min ? min : x); }
 
 #define DEG_2_RAD	0.0174532925
-#define DEG2RAD(x) ((x)*M_PI/180.0)
+inline double DEG2RAD(double x) { return x*(M_PI/180.); }
+inline float  DEG2RAD(float  x) { return x*(float(M_PI)/180.f); }
 
 #endif /* _LIBS_H */

@@ -2,10 +2,10 @@
 #include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "LuaStarSystem.h"
-#include "LuaSBody.h"
-#include "SystemPath.h"
-#include "StarSystem.h"
-#include "Sector.h"
+#include "LuaSystemBody.h"
+#include "galaxy/SystemPath.h"
+#include "galaxy/StarSystem.h"
+#include "galaxy/Sector.h"
 
 /*
  * Class: SystemPath
@@ -44,9 +44,9 @@
  *
  *   sectorZ - galactic sector Z coordinate
  *
- *   systemIndex - the numeric index of the system within the sector
+ *   systemIndex - optional. the numeric index of the system within the sector
  *
- *   bodyIndex - optional, the numeric index of a specific body within the
+ *   bodyIndex - optional. the numeric index of a specific body within the
  *               system. Defaults to 0, which typically corresponds to the
  *               primary star.
  *
@@ -60,32 +60,39 @@
  */
 static int l_sbodypath_new(lua_State *l)
 {
-	int sector_x = luaL_checkinteger(l, 1);
-	int sector_y = luaL_checkinteger(l, 2);
-	int sector_z = luaL_checkinteger(l, 3);
-	int system_idx = luaL_checkinteger(l, 4);
+	Sint32 sector_x = luaL_checkinteger(l, 1);
+	Sint32 sector_y = luaL_checkinteger(l, 2);
+	Sint32 sector_z = luaL_checkinteger(l, 3);
 
-	int sbody_id = 0;
-	if (!lua_isnone(l, 5))
-		sbody_id = luaL_checkinteger(l, 5);
-	
-	Sector s(sector_x, sector_y, sector_z);
-	if (size_t(system_idx) >= s.m_systems.size())
-		luaL_error(l, "System %d in sector [%d,%d,%d] does not exist", system_idx, sector_x, sector_y, sector_z);
+	SystemPath path(sector_x, sector_y, sector_z);
 
-	// XXX explode if sbody_id doesn't exist in the target system?
-	
-	SystemPath *path = new SystemPath(sector_x, sector_y, sector_z, system_idx, sbody_id);
+	if (lua_gettop(l) > 3) {
+		path.systemIndex = luaL_checkinteger(l, 4);
 
-	LuaSystemPath::PushToLuaGC(path);
+		// if this is a system path, then check that the system exists
+		Sector s(sector_x, sector_y, sector_z);
+		if (size_t(path.systemIndex) >= s.m_systems.size())
+			luaL_error(l, "System %d in sector <%d,%d,%d> does not exist", path.systemIndex, sector_x, sector_y, sector_z);
 
+		if (lua_gettop(l) > 4) {
+			path.bodyIndex = luaL_checkinteger(l, 5);
+
+			// and if it's a body path, check that the body exists
+			RefCountedPtr<StarSystem> sys = StarSystem::GetCached(path);
+			if (size_t(path.bodyIndex) >= sys->m_bodies.size()) {
+				luaL_error(l, "Body %d in system <%d,%d,%d : %d ('%s')> does not exist",
+					path.bodyIndex, sector_x, sector_y, sector_z, path.systemIndex, sys->GetName().c_str());
+			}
+		}
+	}
+	LuaSystemPath::PushToLua(&path);
 	return 1;
 }
 
 /*
  * Method: IsSameSystem
  *
- * Determine if two <SystemPath> objects point to objects in the same system. 
+ * Determine if two <SystemPath> objects point to objects in the same system.
  *
  * > is_same = path:IsSameSystem(otherpath)
  *
@@ -235,7 +242,7 @@ static int l_sbodypath_distance_to(lua_State *l)
 
 	Sector sec1(loc1->sectorX, loc1->sectorY, loc1->sectorZ);
 	Sector sec2(loc2->sectorX, loc2->sectorY, loc1->sectorZ);
-	
+
 	double dist = Sector::DistanceBetween(&sec1, loc1->systemIndex, &sec2, loc2->systemIndex);
 
 	lua_pushnumber(l, dist);
@@ -295,9 +302,24 @@ static int l_sbodypath_get_star_system(lua_State *l)
 static int l_sbodypath_get_system_body(lua_State *l)
 {
 	SystemPath *path = LuaSystemPath::GetFromLua(1);
-	RefCountedPtr<StarSystem> s = StarSystem::GetCached(path);
-	SBody *sbody = s->GetBodyByPath(path);
-	LuaSBody::PushToLua(sbody);
+
+	if (path->IsSectorPath()) {
+		luaL_error(l, "Path <%d,%d,%d> does not name a system or body", path->sectorX, path->sectorY, path->sectorZ);
+		return 0;
+	}
+
+	RefCountedPtr<StarSystem> sys = StarSystem::GetCached(path);
+	if (path->IsSystemPath()) {
+		luaL_error(l, "Path <%d,%d,%d : %d ('%s')> does not name a body", path->sectorX, path->sectorY, path->sectorZ, path->systemIndex, sys->GetName().c_str());
+		return 0;
+	}
+
+	// Lua should never be able to get an invalid SystemPath
+	// (note: this may change if it becomes possible to remove systems during the game)
+	assert(size_t(path->bodyIndex) < sys->m_bodies.size());
+
+	SystemBody *sbody = sys->GetBodyByPath(path);
+	LuaSystemBody::PushToLua(sbody);
 	return 1;
 }
 
@@ -443,7 +465,7 @@ template <> const char *LuaObject<LuaUncopyable<SystemPath> >::s_type = "SystemP
 
 template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "New", l_sbodypath_new },
 
 		{ "IsSameSystem", l_sbodypath_is_same_system },
@@ -460,7 +482,7 @@ template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "sectorX",     l_sbodypath_attr_sector_x     },
 		{ "sectorY",     l_sbodypath_attr_sector_y     },
 		{ "sectorZ",     l_sbodypath_attr_sector_z     },
@@ -469,7 +491,7 @@ template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_meta[] = {
+	static const luaL_Reg l_meta[] = {
 		{ "__eq",  l_sbodypath_meta_eq },
 		{ "__tostring", l_sbodypath_meta_tostring },
 		{ 0, 0 }

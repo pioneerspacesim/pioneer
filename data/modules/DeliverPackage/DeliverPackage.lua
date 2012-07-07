@@ -4,7 +4,7 @@ local t = Translate:GetTranslator()
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 30
 -- typical time for travel to a system max_delivery_dist away
-local typical_travel_time = 0.9 * max_delivery_dist * 24 * 60 * 60 
+local typical_travel_time = 0.9 * max_delivery_dist * 24 * 60 * 60
 -- typical reward for delivery to a system max_delivery_dist away
 local typical_reward = 25 * max_delivery_dist
 
@@ -42,7 +42,7 @@ local onChat = function (form, ref, option)
 
 	elseif option == 1 then
 		form:SetMessage(delivery_flavours[ad.flavour].whysomuchtext)
-	
+
 	elseif option == 2 then
 		form:SetMessage(t("It must be delivered by ")..Format.Date(ad.due))
 
@@ -58,7 +58,7 @@ local onChat = function (form, ref, option)
 		elseif ad.risk > 0.8 and ad.risk <= 1 then
 			form:SetMessage(t("This is very risky, you will almost certainly run into resistance."))
 		end
-	
+
 	elseif option == 3 then
 		form:RemoveAdvertOnClose()
 
@@ -95,6 +95,7 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
+local nearbysystems
 local makeAdvert = function (station)
 	local reward, due, location, nearbysystem
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
@@ -115,7 +116,9 @@ local makeAdvert = function (station)
 		reward = 25 + (math.sqrt(dist) / 15000) * (1+urgency)
 		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
 	else
-		local nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
+		if nearbysystems == nil then
+			nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
+		end
 		if #nearbysystems == 0 then return end
 		nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 		local dist = nearbysystem:DistanceTo(Game.system)
@@ -185,11 +188,11 @@ local onEnterSystem = function (player)
 			local ships = 0
 
 			local riskmargin = Engine.rand:Number(-0.3,0.3) -- Add some random luck
-			if risk >= (0.5 + riskmargin) then ships = 1
+			if risk >= (1 + riskmargin) then ships = 3
 			elseif risk >= (0.7 + riskmargin) then ships = 2
-			elseif risk >= (1.0 + riskmargin) then ships = 3
+			elseif risk >= (0.5 + riskmargin) then ships = 1
 			end
-			
+
 			-- if there is some risk and still no ships, flip a tricoin
 			if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
 
@@ -225,7 +228,7 @@ local onEnterSystem = function (player)
 			if ship then
 				local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], {
 					client = mission.client, location = mission.location,})
-				UI.ImportantMessage(pirate_greeting, ship.label)
+				Comms.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
 
@@ -233,6 +236,12 @@ local onEnterSystem = function (player)
 			mission.status = 'FAILED'
 			player:UpdateMission(ref, mission)
 		end
+	end
+end
+
+local onLeaveSystem = function (ship)
+	if ship:IsPlayer() then
+		nearbysystems = nil
 	end
 end
 
@@ -245,9 +254,9 @@ local onShipDocked = function (player, station)
 		if mission.location == station.path then
 
 			if Game.time > mission.due then
-				UI.ImportantMessage(delivery_flavours[mission.flavour].failuremsg, mission.client)
+				Comms.ImportantMessage(delivery_flavours[mission.flavour].failuremsg, mission.client)
 			else
-				UI.ImportantMessage(delivery_flavours[mission.flavour].successmsg, mission.client)
+				Comms.ImportantMessage(delivery_flavours[mission.flavour].successmsg, mission.client)
 				player:AddMoney(mission.reward)
 			end
 
@@ -282,6 +291,10 @@ local onGameStart = function ()
 	loaded_data = nil
 end
 
+local onGameEnd = function ()
+	nearbysystems = nil
+end
+
 local serialize = function ()
 	return { ads = ads, missions = missions }
 end
@@ -293,7 +306,9 @@ end
 EventQueue.onCreateBB:Connect(onCreateBB)
 EventQueue.onUpdateBB:Connect(onUpdateBB)
 EventQueue.onEnterSystem:Connect(onEnterSystem)
+EventQueue.onLeaveSystem:Connect(onLeaveSystem)
 EventQueue.onShipDocked:Connect(onShipDocked)
 EventQueue.onGameStart:Connect(onGameStart)
+EventQueue.onGameEnd:Connect(onGameEnd)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)

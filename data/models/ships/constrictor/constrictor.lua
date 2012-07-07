@@ -164,7 +164,7 @@ define_model('conny_w_front', {
 
 				use_material('chrome')
 				texture('models/ships/constrictor/metal.png')
-				sphere_slice(3*lod,lod,0,.5*math.pi, Matrix.translate(v(0,-4,-1)))
+				sphere_slice(3*lod,lod,0,.5*math.pi, matrix.translate(v(0,-4,-1)))
 			end
 
 			call_model('conny_w_front_0',v(0,-2.2,-8),v(1,0,0),v(0,math.sin(wrot),math.cos(wrot)), 1.0)
@@ -203,7 +203,7 @@ define_model('conny_w_rear_0', {
 		extrusion(v(0,0,7),v(0,0,-7),v(0,1,0),1,v(.5,-.5,7),v(.5,.5,7),v(-.5,.5,7),v(-.5,-.5,7))
 
 		use_material('chrome')
-		sphere_slice(3*lod,lod,0,.5*math.pi, Matrix.translate(v(0,-.5,0))*Matrix.rotate(math.pi,v(1,0,0))*Matrix.scale(v(.5,.5,.5)))
+		sphere_slice(3*lod,lod,0,.5*math.pi, matrix.translate(v(0,-.5,0))*matrix.rotate(math.pi,v(1,0,0))*matrix.scale(v(.5,.5,.5)))
 
 		texture('tire.png', v(.495,.515,0), v(0,0,.95), v(0,.35,0))
 		cylinder(4*lod, v(.5,0,6), v(2,0,6), v(0,1,0), 1.8)
@@ -251,8 +251,8 @@ define_model('conny_w_rear_r', {
 
 				use_material('chrome')
 				texture('models/ships/constrictor/metal.png',v(.5,.5,0),v(0,0,.5),v(0,1,0))
-				sphere_slice(3*lod,lod,0,.5*math.pi, Matrix.translate(v(0,-4,8)))
-				sphere_slice(3*lod,lod,0,.5*math.pi, Matrix.translate(v(0,-4,-8)))
+				sphere_slice(3*lod,lod,0,.5*math.pi, matrix.translate(v(0,-4,8)))
+				sphere_slice(3*lod,lod,0,.5*math.pi, matrix.translate(v(0,-4,-8)))
 			end
 
 			tapered_cylinder(3*lod,v(0,-2.7+14.6*trans,0),v(0,-4,8),v(1,0,0),.3,.5)
@@ -312,8 +312,8 @@ define_model('conny_w_rear_l', {
 
 				use_material('chrome')
 				texture('models/ships/constrictor/metal.png',v(.5,.5,0),v(0,0,.5),v(0,1,0))
-				sphere_slice(3*lod,lod,0,.5*math.pi, Matrix.translate(v(0,-4,8)))
-				sphere_slice(3*lod,lod,0,.5*math.pi, Matrix.translate(v(0,-4,-8)))
+				sphere_slice(3*lod,lod,0,.5*math.pi, matrix.translate(v(0,-4,8)))
+				sphere_slice(3*lod,lod,0,.5*math.pi, matrix.translate(v(0,-4,-8)))
 			end
 
 			tapered_cylinder(3*lod,v(0,-2.7+14.6*trans,0),v(0,-4,8),v(1,0,0),.3,.5)
@@ -370,7 +370,7 @@ define_model('conny_gun', {
 		texture('grill.png',v(.5,.995,0),v(.5,0,0),v(0,0,-.8))
 		cylinder(3*lod,v(0,0,0),v(0,0,-2.5),v(0,1,0),.3)
 
-		sphere_slice(4*lod,2*lod,0,.5*math.pi,Matrix.rotate(math.pi,v(1,0,0))*Matrix.scale(v(1,.5,1)))
+		sphere_slice(4*lod,2*lod,0,.5*math.pi,matrix.rotate(math.pi,v(1,0,0))*matrix.scale(v(1,.5,1)))
 
 		texture(nil)
 		use_material('black')
@@ -793,32 +793,6 @@ define_model('conny', {
 		materials = {'text', 'cv0', 'cv1', 'ncv', 'chrome', 'matte', 'pit', 'pit_0', 'layer',
 		'radio', 'glass', 'win', 'black', 'glow', 'e_glow', 'null'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name = 'Constrictor',
-				forward_thrust = -259e5,
-				reverse_thrust = 118e5,
-				up_thrust = 6e6,
-				down_thrust = -6e6,
-				left_thrust = -6e6,
-				right_thrust = 6e6,
-				angular_thrust = 90e6,
-				gun_mounts =
-				{
-					{ v(0,-2,-26), v(0,0,-1) },
-					{ v(0,-2,19), v(0,0,1) }
-				},
-				max_cargo = 90,
-				max_laser = 2,
-				max_missile = 2,
-				max_fuelscoop = 1,
-				max_cargoscoop = 1,
-				capacity = 90,
-				hull_mass = 90,
-				price = 143000,
-				hyperdrive_class = 3,
-			}
-		}
 	},
 	static = function(lod)
 		local rwhl_r = v(9.902,-2,6.19)

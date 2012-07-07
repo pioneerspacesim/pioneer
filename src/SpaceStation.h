@@ -16,6 +16,7 @@ class CollMeshSet;
 class Ship;
 struct Mission;
 class CityOnPlanet;
+namespace Graphics { class Renderer; }
 
 struct SpaceStationType {
 	LmrModel *model;
@@ -28,7 +29,7 @@ struct SpaceStationType {
 	double *dockAnimStageDuration;
 	double *undockAnimStageDuration;
 	bool dockOneAtATimePlease;
-	
+
 	struct positionOrient_t {
 		vector3d pos;
 		vector3d xaxis;
@@ -60,7 +61,7 @@ struct BBAdvert {
 };
 
 
-class SBody;
+class SystemBody;
 
 class SpaceStation: public ModelBody, public MarketAgent {
 public:
@@ -76,13 +77,13 @@ public:
 		ANIM_DOCKING_BAY_4,
 	};
 
-	// Should point to SBody in Pi::currentSystem
-	SpaceStation(const SBody *);
+	// Should point to SystemBody in Pi::currentSystem
+	SpaceStation(const SystemBody *);
 	SpaceStation() {}
 	virtual ~SpaceStation();
 	virtual double GetBoundingRadius() const;
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	/** You should call Ship::Undock() rather than this.
 	 * Returns true on success, false if permission denied */
 	bool LaunchShip(Ship *ship, int port);
@@ -98,12 +99,13 @@ public:
 	bool CanBuy(Equip::Type t, bool verbose) const;
 	bool CanSell(Equip::Type t, bool verbose) const;
 	bool DoesSell(Equip::Type t) const;
-	virtual const SBody *GetSBody() const { return m_sbody; }
+	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
 	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
-	std::vector<ShipFlavour> &GetShipsOnSale() { return m_shipsOnSale; }
-	virtual void PostLoadFixup();
-	virtual void NotifyDeleted(const Body* const deletedBody);
-	int GetFreeDockingPort(); // returns -1 if none free
+	const std::vector<ShipFlavour> &GetShipsOnSale() const { return m_shipsOnSale; }
+	virtual void PostLoadFixup(Space *space);
+	virtual void NotifyRemoved(const Body* const removedBody);
+	int GetDockingPortCount() const { return m_type->numDockingPorts; }
+	int GetFreeDockingPort() const; // returns -1 if none free
 	int GetMyDockingPort(const Ship *s) const {
 		for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 			if (s == m_shipDocking[i].ship) return i;
@@ -125,10 +127,13 @@ public:
 	const BBAdvert *GetBBAdvert(int ref);
 	bool RemoveBBAdvert(int ref);
 	const std::list<const BBAdvert*> GetBBAdverts();
-	
+
+	// use docking bay position, if player has been granted permission
+	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const;
+
 protected:
-	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void Save(Serializer::Writer &wr, Space *space);
+	virtual void Load(Serializer::Reader &rd, Space *space);
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
@@ -159,7 +164,7 @@ private:
 	void PositionDockedShip(Ship *ship, int port);
 	void UpdateShipyard();
 	const SpaceStationType *m_type;
-	const SBody *m_sbody;
+	const SystemBody *m_sbody;
 	int m_equipmentStock[Equip::TYPE_MAX];
 	std::vector<ShipFlavour> m_shipsOnSale;
 	double m_lastUpdatedShipyard;

@@ -1,116 +1,13 @@
+#include "utils.h"
 #include "libs.h"
 #include "StringF.h"
 #include "gui/Gui.h"
+#include "Lang.h"
+#include "FileSystem.h"
+#include <sstream>
 
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
-
-// MinGW targets NT4 by default. We need to set some higher versions to ensure
-// that functions we need are available. Specifically, SHCreateDirectoryExA
-// requires Windows 2000 and IE5. We include w32api.h to get the symbolic
-// constants for these things.
-#ifdef __MINGW32__
-#	include <w32api.h>
-#	ifdef WINVER
-#		undef WINVER
-#	endif
-#	define WINVER Windows2000
-#	define _WIN32_IE IE5
-#endif
-
-#ifdef _WIN32
-// GetPiUserDir() needs these
-#include <shlobj.h>
-#include <shlwapi.h>
-#endif
-
-std::string GetPiUserDir(const std::string &subdir)
-{
-
-#if defined(_WIN32)
-
-	char appdata_path[MAX_PATH];
-	if (SHGetFolderPathA(0, CSIDL_PERSONAL, 0, SHGFP_TYPE_CURRENT, appdata_path) != S_OK) {
-		fprintf(stderr, "Couldn't get user documents folder path\n");
-		exit(-1);
-	}
-
-	std::string path(appdata_path);
-	path += "/Pioneer";
-
-	if (!PathFileExistsA(path.c_str())) {
-		if (SHCreateDirectoryExA(0, path.c_str(), 0) != ERROR_SUCCESS) {
-			fprintf(stderr, "Couldn't create user game folder '%s'", path.c_str());
-			exit(-1);
-		}
-	}
-
-	if (subdir.length() > 0) {
-		path += "/" + subdir;
-		if (!PathFileExistsA(path.c_str())) {
-			if (SHCreateDirectoryExA(0, path.c_str(), 0) != ERROR_SUCCESS) {
-				fprintf(stderr, "Couldn't create user game folder '%s'", path.c_str());
-				exit(-1);
-			}
-		}
-	}
-
-	return path + "/";
-
-#else
-
-	std::string path = getenv("HOME");
-
-#ifdef __APPLE__
-	path += "/Library/Application Support/Pioneer";
-#else
-	path += "/.pioneer";
-#endif
-
-	struct stat st;
-	if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) < 0) {
-		fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
-		exit(-1);
-	}
-
-	if (subdir.length() > 0) {
-		path += "/" + subdir;
-		if (stat(path.c_str(), &st) < 0 && mkdir(path.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) < 0) {
-			fprintf(stderr, "Couldn't create user dir '%s': %s\n", path.c_str(), strerror(errno));
-			exit(-1);
-		}
-	}
-
-	return path + "/";
-
-#endif
-
-}
-
-std::string PiGetDataDir()
-{
-	return PIONEER_DATA_DIR + std::string("/");
-}
-
-FILE *fopen_or_die(const char *filename, const char *mode)
-{
-	FILE *f = fopen(filename, mode);
-	if (!f) {
-		fprintf(stderr, "Error: could not open file '%s'\n", filename);
-		abort();
-	}
-	return f;
-}
-
-size_t fread_or_die(void* ptr, size_t size, size_t nmemb, FILE* stream, bool allow_truncated)
-{
-	size_t read_count = fread(ptr, size, nmemb, stream);
-	if ((read_count < nmemb) && (!allow_truncated || ferror(stream))) {
-		fprintf(stderr, "Error: failed to read file (%s)\n", (feof(stream) ? "truncated" : "read error"));
-		abort();
-	}
-	return read_count;
-}
 
 std::string format_money(Sint64 money)
 {
@@ -211,19 +108,6 @@ std::string string_join(std::vector<std::string> &v, std::string sep)
 	return out;
 }
 
-std::string join_path(const char *firstbit, ...)
-{
-	const char *bit;
-	va_list ap;
-	std::string out = firstbit;
-	va_start(ap, firstbit);
-	while ((bit = va_arg(ap, const char *))) {
-		out = out + "/" + std::string(bit);
-	}
-	va_end(ap);
-	return out;
-}
-
 void Error(const char *format, ...)
 {
 	char buf[1024];
@@ -236,17 +120,6 @@ void Error(const char *format, ...)
 	abort();
 }
 
-void Warning(const char *format, ...)
-{
-	char buf[1024];
-	va_list ap;
-	va_start(ap, format);
-	vsnprintf(buf, sizeof(buf), format, ap);
-	va_end(ap);
-	fprintf(stderr, "%s\n", buf);
-	Gui::Screen::ShowBadError(buf);
-}
-
 void SilentWarning(const char *format, ...)
 {
 	fputs("Warning: ", stderr);
@@ -257,70 +130,29 @@ void SilentWarning(const char *format, ...)
 	fputs("\n", stderr);
 }
 
-std::string format_distance(double dist)
+std::string format_distance(double dist, int precision)
 {
+	std::ostringstream ss;
+	ss.setf(std::ios::fixed, std::ios::floatfield);
 	if (dist < 1000) {
-		return stringf("%0{f.0} m", dist);
-	} else if (dist < AU*0.1) {
-		return stringf("%0{f.2} km", dist*0.001);
+		ss.precision(0);
+		ss << dist << " m";
 	} else {
-		return stringf("%0{f.2} AU", dist/AU);
-	}
-}
-
-bool is_file(const std::string &filename)
-{
-	struct stat info;
-	if (!stat(filename.c_str(), &info)) {
-		if (S_ISREG(info.st_mode)) {
-			return true;
+		ss.precision(precision);
+		if (dist < AU*0.1) {
+			ss << (dist*0.001) << " km";
+		} else {
+			ss << (dist/AU) << " AU";
 		}
 	}
-	return false;
-}
-
-bool is_dir(const std::string &filename)
-{
-	struct stat info;
-	if (!stat(filename.c_str(), &info)) {
-		if (S_ISDIR(info.st_mode)) {
-			return true;
-		}
-	}
-	return false;
-}
-
-void foreach_file_in(const std::string &directory, void (*callback)(const std::string &, const std::string &))
-{
-	DIR *dir;
-	struct dirent *entry;
-
-	if ((dir = opendir(directory.c_str()))==NULL) {
-		Error("Could not open directory %s", directory.c_str());
-	} 
-	while ((entry = readdir(dir)) != NULL) {
-		if (entry->d_name[0] != '.') {
-			std::string filename = directory + std::string("/") + entry->d_name;
-			(*callback)(entry->d_name, filename);
-		}
-	}
-	closedir(dir);
-}
-
-Uint32 ceil_pow2(Uint32 v) {
-	v--;
-	v |= v >> 1;
-	v |= v >> 2;
-	v |= v >> 4;
-	v |= v >> 8;
-	v |= v >> 16;
-	v++;
-	return v;
+	return ss.str();
 }
 
 void Screendump(const char* destFile, const int width, const int height)
 {
-	std::string fname = join_path(GetPiUserDir("screenshots").c_str(), destFile, 0);
+	std::string dir = FileSystem::GetUserDir("screenshots");
+	FileSystem::rawFileSystem.MakeDirectory(dir);
+	std::string fname = FileSystem::JoinPathBelow(dir, destFile);
 
 	// pad rows to 4 bytes, which is the default row alignment for OpenGL
 	const int stride = (3*width + 3) & ~3;
@@ -381,67 +213,6 @@ void Screendump(const char* destFile, const int width, const int height)
 	printf("Screenshot %s saved\n", fname.c_str());
 }
 
-// returns num bytes consumed, or 0 for end/bogus
-int conv_mb_to_wc(Uint32 *chr, const char *src)
-{
-	unsigned int c = *(reinterpret_cast<const unsigned char*>(src));
-	if (!c) { *chr = c; return 0; }
-	if (!(c & 0x80)) { *chr = c; return 1; }
-	else if (c >= 0xf0) {
-		if (!src[1] || !src[2] || !src[3]) return 0;
-		c = (c & 0x7) << 18;
-		c |= (src[1] & 0x3f) << 12;
-		c |= (src[2] & 0x3f) << 6;
-		c |= src[3] & 0x3f;
-		*chr = c; return 4;
-	}
-	else if (c >= 0xe0) {
-		if (!src[1] || !src[2]) return 0;
-		c = (c & 0xf) << 12;
-		c |= (src[1] & 0x3f) << 6;
-		c |= src[2] & 0x3f;
-		*chr = c; return 3;
-	}
-	else {
-		if (!src[1]) return 0;
-		c = (c & 0x1f) << 6;
-		c |= src[1] & 0x3f;
-		*chr = c; return 2;
-	}
-}
-
-// encode one Unicode code-point as UTF-8
-//  chr: the Unicode code-point
-//  buf: a character buffer, which must have space for at least 4 bytes
-//       (i.e., assigning to buf[3] must be a valid operation)
-//  returns: number of bytes in the encoded character
-int conv_wc_to_mb(Uint32 chr, char buf[4])
-{
-	unsigned char *ubuf = reinterpret_cast<unsigned char*>(buf);
-	if (chr <= 0x7f) {
-		ubuf[0] = chr;
-		return 1;
-	} else if (chr <= 0x7ff) {
-		ubuf[0] = 0xc0 | (chr >> 6);
-		ubuf[1] = 0x80 | (chr & 0x3f);
-		return 2;
-	} else if (chr <= 0xffff) {
-		ubuf[0] = 0xe0 | (chr >> 12);
-		ubuf[1] = 0x80 | ((chr >> 6) & 0x3f);
-		ubuf[2] = 0x80 | (chr & 0x3f);
-		return 3;
-	} else if (chr <= 0x10fff) {
-		ubuf[0] = 0xf0 | (chr >> 18);
-		ubuf[1] = 0x80 | ((chr >> 12) & 0x3f);
-		ubuf[2] = 0x80 | ((chr >> 6) & 0x3f);
-		ubuf[3] = 0x80 | (chr & 0x3f);
-		return 4;
-	} else {
-		assert(0 && "Invalid Unicode code-point.");
-		return 0;
-	}
-}
-
 // strcasestr() adapted from gnulib
 // (c) 2005 FSF. GPL2+
 
@@ -475,5 +246,35 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 					break;
 			}
 		}
+	}
+}
+
+
+#define HEXDUMP_CHUNK 16
+void hexdump(const unsigned char *buf, int len)
+{
+	int count;
+
+	for (int i = 0; i < len; i += HEXDUMP_CHUNK) {
+		fprintf(stderr, "0x%06x  ", i);
+
+		count = ((len-i) > HEXDUMP_CHUNK ? HEXDUMP_CHUNK : len-i);
+
+		for (int j = 0; j < count; j++) {
+			if (j == HEXDUMP_CHUNK/2) fputc(' ', stderr);
+			fprintf(stderr, "%02x ", buf[i+j]);
+		}
+
+		for (int j = count; j < HEXDUMP_CHUNK; j++) {
+			if (j == HEXDUMP_CHUNK/2) fputc(' ', stderr);
+			fprintf(stderr, "   ");
+		}
+
+		fputc(' ', stderr);
+
+		for (int j = 0; j < count; j++)
+			fprintf(stderr, "%c", isprint(buf[i+j]) ? buf[i+j] : '.');
+
+		fputc('\n', stderr);
 	}
 }

@@ -124,7 +124,7 @@ BULLETIN_BOARD
 WELCOME_TO_SOMEWHERE
     Willkommen auf %station
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Willkommen Reisende. Es gibt Vorfälle von Vandalismus und Schmierereien an Bord unserer Station. Falls die Beschilderung irreführend oder fehlerhaft beschriftet ist oder schlicht fehlt, wenden Sie sich bitte an das Stationspersonal. Wir halten zahlreiche Dienstleistungsangebote für Sie bereit.\n\nDie Atemluft ist zurzeit kostenlos.
+    Willkommen Reisende. Es gibt Vorfälle von Vandalismus und Schmierereien an Bord unserer Station. Falls die Beschilderung irreführend oder fehlerhaft beschriftet ist oder schlicht fehlt, wenden Sie sich bitte an das Stationspersonal. Wir halten zahlreiche Dienstleistungsangebote für Sie bereit.\nDie Atemluft ist zurzeit kostenlos.
 REQUEST_LAUNCH
     Starterlaubnis anfordern
 SHIPYARD
@@ -215,8 +215,6 @@ OTHER_GRAPHICS_SETTINGS
     Weitere Grafikeinstellungen
 USE_SHADERS
     Pixel-Shader aktivieren
-USE_HDR
-    HDR-Beleuchtung aktivieren
 SOUND_SETTINGS
     Sound-Einstellungen
 VOL_MASTER
@@ -919,10 +917,6 @@ VAST_STRIP_MINE
     Riesige Tagebau Kolonie.
 HIGH_POPULATION_OUTDOOR_WORLD
     Planet mit hoher Bevölkerungsdichte und Städten unter freiem Himmel.
-SOMEWHERE_SPACEPORT
-    %spaceport Raumhafen
-SOMEWHERE_STARPORT
-    %starport Sternhafen
 MASS
     Masse
 N_WHATEVER_MASSES

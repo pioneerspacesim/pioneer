@@ -25,8 +25,22 @@
  * > end
  */
 
-int LuaConstants::GetConstant(lua_State *l, const char *ns, const char *name)
+int LuaConstants::GetConstantFromArg(lua_State *l, const char *ns, int idx)
 {
+	LUA_DEBUG_START(l);
+	if (lua_type(l, idx) != LUA_TSTRING) {
+		// heuristic assumption that positive (absolute) stack indexes refer to function args
+		if (idx > 0) {
+			const char *emsg = lua_pushfstring(l, "argument #%d is invalid (expected a constant in namespace '%s')", idx, ns);
+			return luaL_argerror(l, idx, emsg);
+		} else {
+			return luaL_error(l, "value (stack #%d) is invalid (expected a constant in namespace '%s')", idx, ns);
+		}
+	}
+
+	// copy the value to top-of-stack so we know where it is
+	lua_pushvalue(l, idx);
+
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiConstants");
 	assert(lua_istable(l, -1));
 
@@ -34,17 +48,33 @@ int LuaConstants::GetConstant(lua_State *l, const char *ns, const char *name)
 	lua_rawget(l, -2);
 	assert(lua_istable(l, -1));
 
-	lua_pushstring(l, name);
+	// stack: arg-value, PiConstants, ConstTable
+	lua_replace(l, -2);
+	// stack: arg-value, ConstTable
+	lua_pushvalue(l, -2);
+	// stack: arg-value, ConstTable, arg-value
 	lua_rawget(l, -2);
-	if (lua_isnil(l, -1))
+	// stack: arg-value, ConstTable, const-value
+
+	if (lua_isnil(l, -1)) {
+		const char *name = lua_tostring(l, -3);
 		luaL_error(l, "couldn't find constant with name '%s' in namespace '%s'\n", name, ns);
+	}
 	assert(lua_isnumber(l, -1));
 
 	int value = lua_tointeger(l, -1);
 
 	lua_pop(l, 3);
-
+	LUA_DEBUG_END(l, 0);
 	return value;
+}
+
+int LuaConstants::GetConstant(lua_State *l, const char *ns, const char *name)
+{
+	lua_pushstring(l, name);
+	int val = GetConstantFromArg(l, ns, -1);
+	lua_pop(l, 1);
+	return val;
 }
 
 const char *LuaConstants::GetConstantString(lua_State *l, const char *ns, int value)
@@ -73,14 +103,16 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 {
 	LUA_DEBUG_START(l);
 
-	lua_getfield(l, LUA_GLOBALSINDEX, "Constants");
+	lua_getglobal(l, "Constants");
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		lua_newtable(l);
 	    pi_lua_table_ro(l);
+		lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 		lua_pushstring(l, "Constants");
-		lua_pushvalue(l, -2);
-		lua_rawset(l, LUA_GLOBALSINDEX);
+		lua_pushvalue(l, -3);
+		lua_rawset(l, -3);
+		lua_pop(l, 1);
 	}
 	assert(lua_istable(l, -1));
 
@@ -114,7 +146,7 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 		pi_lua_settable(l, value, c->name);
 		++value;
 
-		lua_pushinteger(l, lua_objlen(l, -3)+1);
+		lua_pushinteger(l, lua_rawlen(l, -3)+1);
 		lua_pushstring(l, c->name);
 		lua_rawset(l, -5);
 	}
@@ -481,10 +513,10 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 * REVERSE - front (fore) thruster
 	 * FORWARD - main/rear (aft) thruster
-	 * UP - bottom/underbelly (dorsal) thruster
-	 * DOWN - top/back (ventral) thruster
+	 * UP - bottom/underbelly (ventral) thruster
+	 * DOWN - top/back (dorsal) thruster
 	 * LEFT - right-side (starboard) thruster
-	 * RIGHT -left-side (port) thruster
+	 * RIGHT - left-side (port) thruster
 	 *
 	 * Availability:
 	 *
@@ -501,14 +533,17 @@ void LuaConstants::Register(lua_State *l)
 	 * Constants: ShipJumpStatus
 	 *
 	 * Reasons that that a hyperspace jump might succeed or fail. Returned by
-	 * <Ship.HyperspaceTo> and <Ship.CanHyperspaceTo>.
+	 * <Ship.HyperspaceTo>, <Ship.CheckHyperspaceTo> and <Ship.GetHyperspaceDetails>.
 	 *
 	 * OK - jump successful
 	 * CURRENT_SYSTEM - ship is already in the target system
 	 * NO_DRIVE - ship has no drive
+	 * DRIVE_ACTIVE - ship is already in hyperspace
 	 * OUT_OF_RANGE - target system is out of range
 	 * INSUFFICIENT_FUEL - target system is in range but the ship doesn't have
 	 *                     enough fuel
+	 * SAFETY_LOCKOUT - drive locked out for safety reasons
+	 *                  (currently this happens if landed, docked or docking)
 	 *
 	 * Availability:
 	 *
@@ -539,6 +574,25 @@ void LuaConstants::Register(lua_State *l)
 	 *   experimental
 	 */
 	_create_constant_table_nonconsecutive(l, "ShipAlertStatus", ENUM_ShipAlertStatus);
+
+	/*
+	 * Constants: ShipFuelStatus
+	 *
+	 * Current fuel status.
+	 *
+	 * OK - more than 5% fuel remaining
+	 * WARNING - less than 5% fuel remaining
+	 * EMPTY - no fuel remaining
+	 *
+	 * Availability:
+	 *
+	 *   alpha 20
+	 *
+	 * Status:
+	 *
+	 *   experimental
+	 */
+	_create_constant_table_nonconsecutive(l, "ShipFuelStatus", ENUM_ShipFuelStatus);
 
 	/*
 	 * Constants: ShipFlightState

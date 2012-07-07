@@ -124,6 +124,7 @@ local onShipEquipmentChanged = function (ship, equipment)
 		service_history.company = nil
 		service_history.lastdate = Game.time
 		service_history.service_period = oneyear
+		service_history.jumpcount = 0
 	end
 end
 
@@ -191,7 +192,7 @@ local onEnterSystem = function (ship)
 			local engine = ship:GetEquip('ENGINE',1)
 			ship:RemoveEquip(engine)
 			ship:AddEquip('RUBBISH',EquipType.GetEquipType(engine).mass)
-			UI.Message(t("The ship's hyperdrive has been destroyed by a malfunction"))
+			Comms.Message(t("The ship's hyperdrive has been destroyed by a malfunction"))
 		end
 	end
 end

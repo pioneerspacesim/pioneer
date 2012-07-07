@@ -112,7 +112,7 @@ void HScale::Draw()
 		glVertex2f(0.0f, size[1]);
 		glVertex2d(size[0]*pos, size[1]);
 		glVertex2d(size[0]*pos, 0.0f);
-		
+
 		glColor3f(0.0f, 0.0f, 0.2f);
 		glVertex2f(size[0]*pos, 0.0f);
 		glVertex2f(size[0]*pos, size[1]);

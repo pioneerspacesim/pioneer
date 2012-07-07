@@ -683,7 +683,7 @@ define_model('courier_flap_ll', {  -- left flap1 all models
 		set_material('courier', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('courier')
 		texture('c_shell_al.png')
-		load_obj('c_flap_ll.obj', Matrix.rotate(0.5*math.pi, v(-1,0,0)))
+		load_obj('c_flap_ll.obj', matrix.rotate(0.5*math.pi, v(-1,0,0)))
 	end
 })
 
@@ -698,7 +698,7 @@ define_model('courier_flap_lr', {  -- left flap2 all models
 		set_material('courier', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('courier')
 		texture('c_shell_al.png')
-		load_obj('c_flap_lr.obj', Matrix.rotate(0.5*math.pi, v(1,0,0)))
+		load_obj('c_flap_lr.obj', matrix.rotate(0.5*math.pi, v(1,0,0)))
 	end
 })
 
@@ -713,7 +713,7 @@ define_model('courier_flap_rr', {  -- right flap1 all models
 		set_material('courier', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('courier')
 		texture('c_shell_al.png')
-		load_obj('c_flap_rr.obj', Matrix.rotate(0.5*math.pi, v(1,0,0)))
+		load_obj('c_flap_rr.obj', matrix.rotate(0.5*math.pi, v(1,0,0)))
 	end
 })
 
@@ -728,7 +728,7 @@ define_model('courier_flap_rl', {  -- right flap2 all models
 		set_material('courier', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('courier')
 		texture('c_shell_al.png')
-		load_obj('c_flap_rl.obj', Matrix.rotate(0.5*math.pi, v(-1,0,0)))
+		load_obj('c_flap_rl.obj', matrix.rotate(0.5*math.pi, v(-1,0,0)))
 	end
 })
 
@@ -825,7 +825,7 @@ define_model('courier_eng_l', {      -- engine part left all models
 		set_material('e_glow2', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
 
 		if lod > 1 then
-			call_model('posl_red', v(-34,-11.16,7), v(0,0,1), v(-1,0.0),2.5)
+			call_model('posl_red', v(-34,-11.16,7), v(0,0,1), v(-1,0,0),2.5)
 			call_model('coll_warn', v(-31.58,-13.6,7), v(1,0,0), v(0,-1,0),2.5)
 		end
 
@@ -889,7 +889,7 @@ define_model('courier_eng_r', {      -- engine part right all models
 		set_material('e_glow2', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
 
 		if lod > 1 then
-			call_model('posl_green', v(34,-11.16,7), v(0,0,1), v(1,0.0),2.5)
+			call_model('posl_green', v(34,-11.16,7), v(0,0,1), v(1,0,0),2.5)
 			call_model('coll_warn', v(31.58,-13.6,7), v(1,0,0), v(0,-1,0),2.5)
 		end
 
@@ -1031,31 +1031,6 @@ define_model('courier', {
 		lod_pixels = {1, 50, 300, 0},
 		bounding_radius = 56,
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Imperial Courier',
-				forward_thrust = -50e6,
-				reverse_thrust = 15e6,
-				up_thrust = 15e6,
-				down_thrust = -8e6,
-				left_thrust = -8e6,
-				right_thrust = 8e6,
-				angular_thrust = 110e6,
-				gun_mounts =
-				{
-					{ v(0,0.6,-25), v(0,0,-1) },
-					{ v(0,0,16), v(0,0,1) },
-				},
-				max_cargo = 300,
-				max_laser = 2,
-				max_missile = 6,
-				max_cargoscoop = 0,
-				capacity = 300,
-				hull_mass = 300,
-				price = 611000,
-				hyperdrive_class = 4,
-			}
-		}
 	},
 	static = function(lod)
 		if lod == 1 then
@@ -1152,7 +1127,9 @@ define_model('trader', {
 				max_missile = 6,
 				max_cargoscoop = 0,
 				capacity = 450,
-				hull_mass = 450,
+				hull_mass = 300,
+				fuel_tank_mass = 150,
+				thruster_fuel_use = 0.0002,
 				price = 954000,
 				hyperdrive_class = 5,
 			}

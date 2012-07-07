@@ -127,7 +127,7 @@ WELCOME_TO_SOMEWHERE
 # write anything you like here.  It will appear in every space station
 # in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Witaj, podróżniku.  Witamy w stacji kosmicznej.  Mamy doniesienia o aktach wandalizmu i problemach graffiti.  Jeśli zauważysz oznakowanie wprowadzające w błąd, niepoprawne lub po prostu brakujące, prosimy o poinformowanie członka personelu.\n\nTlen jest obecnie bezpłatny.
+    Witaj, podróżniku.  Witamy w stacji kosmicznej.  Mamy doniesienia o aktach wandalizmu i problemach graffiti.  Jeśli zauważysz oznakowanie wprowadzające w błąd, niepoprawne lub po prostu brakujące, prosimy o poinformowanie członka personelu.\nTlen jest obecnie bezpłatny.
 REQUEST_LAUNCH
     Pozwolenie na start
 SHIPYARD
@@ -218,8 +218,6 @@ OTHER_GRAPHICS_SETTINGS
     Inne ustawienia graficzne
 USE_SHADERS
     Użyj cieniowania
-USE_HDR
-    Użyj HDR Lighting (fajnie wygląda)
 SOUND_SETTINGS
     Ustawienia dźwięku
 VOL_MASTER
@@ -250,7 +248,7 @@ INVERT_MOUSE_Y
     Odwróć Oś Y
 LANGUAGE_SELECTION
     Język (wymagany restart)
- 
+
 # Wares
 NONE
     Brak
@@ -322,14 +320,14 @@ RUBBISH
     Odpady
 RADIOACTIVES
     Odpady radioaktywne
- 
+
 # Hardware
 MISSILE_UNGUIDED
     Pocisk Niekierowany R40
 MISSILE_GUIDED
-    Pocisk Kierowany                                                     
+    Pocisk Kierowany
 MISSILE_SMART
-    Pocisk Samonaprowadzający                                                   
+    Pocisk Samonaprowadzający
 MISSILE_NAVAL
     Pocisk Bojowy
 ATMOSPHERIC_SHIELDING
@@ -351,7 +349,7 @@ ECM_ADVANCED_DESCRIPTION
 SHIELD_GENERATOR
     Generator Osłon
 X_SHIELD_GENERATORS
-    Genaratory Osłon [ %quantity ]
+    Genaratory Osłon [#0f0 %quantity #fff]
 SHIELD_GENERATOR_DESCRIPTION
     Zapewnia dodatkowa osłonę kadłuba wraz z dodawaniem kolejnych jednostek.
 LASER_COOLING_BOOSTER
@@ -587,7 +585,7 @@ POOR
     Żółtodziób
 AVERAGE
     Przeciętny
-ABOVE_AVERAGE 
+ABOVE_AVERAGE
     Ponadprzeciętny
 COMPETENT
     Fachowiec
@@ -941,10 +939,6 @@ VAST_STRIP_MINE
     Ogromne kolonie górnicze.
 HIGH_POPULATION_OUTDOOR_WORLD
     Zewnętrzny świat o wysokim zaludnieniu.
-SOMEWHERE_SPACEPORT
-    stacja kosmiczna %spaceport
-SOMEWHERE_STARPORT
-    port kosmiczny %starport
 MASS
     Masa
 N_WHATEVER_MASSES
@@ -1038,7 +1032,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Duża półoś
 TIME_POINT
-     "czas: " 
+     "czas: "
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     System nie zbadany. Dane systemu niedostępne.
 WHEELS_ARE_UP

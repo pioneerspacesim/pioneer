@@ -1,34 +1,20 @@
 #ifndef _SERIALIZE_H
 #define _SERIALIZE_H
 
-#include "libs.h"
+#include "utils.h"
 #include "Quaternion.h"
 #include <vector>
 
 class Frame;
 class Body;
 class StarSystem;
-class SBody;
+class SystemBody;
 
 struct SavedGameCorruptException {};
 struct CouldNotOpenFileException {};
+struct CouldNotWriteToFileException {};
 
 namespace Serializer {
-	
-	bool SaveGame(const char *filename);
-	void LoadGame(const char *filename);
-
-	void IndexFrames();
-	Frame *LookupFrame(uint32_t index);
-	uint32_t LookupFrame(const Frame *f);
-
-	void IndexBodies();
-	Body *LookupBody(uint32_t index);
-	uint32_t LookupBody(const Body *);
-
-	void IndexSystemBodies(StarSystem *);
-	SBody *LookupSystemBody(uint32_t index);
-	uint32_t LookupSystemBody(const SBody*);
 
 	class Writer {
 	public:
@@ -73,15 +59,15 @@ namespace Serializer {
 		float Float ();
 		double Double ();
 		std::string String();
-		char* Cstring() __attribute((malloc));
-		void Cstring2(char *buf, int len);
 		vector3d Vector3d();
 		Quaternionf RdQuaternionf();
 		Reader RdSection(const std::string &section_label_expected) {
 			if (section_label_expected != String()) {
 				throw SavedGameCorruptException();
 			}
-			return Reader(String());
+			Reader section = Reader(String());
+			section.SetStreamVersion(StreamVersion());
+			return section;
 		}
 		/** Best not to use these except in templates */
 		void Auto(Sint32 *x) { *x = Int32(); }

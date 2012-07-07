@@ -115,34 +115,6 @@ define_model('ip_shuttle', {
 		bounding_radius = 25,
 		materials = {'grey', 'win', 'alu', 'anth', 'matvar0', 'text', 'hole', 'dash_lit', 'projector'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Interplanetary Shuttle',
-				forward_thrust = -15e5,
-				reverse_thrust = 8e5,
-				up_thrust = 8e5,
-				down_thrust = -4e5,
-				left_thrust = -4e5,
-				right_thrust = 4e5,
-				angular_thrust = 28e5,
-				gun_mounts =
-				{
-					{ v(0,-0.3,-7.9) , v(0,0,-1) },
-					{ v(0,-0.3,7.5), v(0,0,1) },
-				},
-				max_cargo = 12,
-				max_laser = 1,
-				max_missile = 0,
-				max_fuelscoop = 0,
-				max_cargoscoop = 0,
-				max_ecm = 0,
-				max_engine = 0,
-				hyperdrive_class = 0,
-				capacity = 12,
-				hull_mass = 12,
-				price = 14000,
-			}
-		}
 	},
 
 	static = function(lod)
@@ -231,7 +203,7 @@ define_model('ip_shuttle', {
 		else
 			quad(v00,v04,v05,v01) -- upper front when far
 		end
-		texture('shut08.png', v(0.5,0.5,0), v(0,0.12,0), v(0.2,0.0))
+		texture('shut08.png', v(0.5,0.5,0), v(0,0.12,0), v(0.2,0.0,0.0))
 		quad(v07,v06,v02,v03) -- upper back
 		texture(nil)
 		if lod > 1 then
@@ -314,8 +286,8 @@ define_model('ip_shuttle', {
 
 		if lod > 1 then
 			use_material('projector')
-			sphere_slice(4*lod,lod, 0, 0.5*math.pi, Matrix.translate(v(0,-1.2,0)) * Matrix.rotate(math.pi,v(0,0,1)) * Matrix.scale(v(0.7,0.3,0.7)))
-			sphere_slice(4*lod,lod, 0, 0.5*math.pi, Matrix.translate(v(0,2.5,0)) * Matrix.scale(v(0.7,0.3,0.7)))
+			sphere_slice(4*lod,lod, 0, 0.5*math.pi, matrix.translate(v(0,-1.2,0)) * matrix.rotate(math.pi,v(0,0,1)) * matrix.scale(v(0.7,0.3,0.7)))
+			sphere_slice(4*lod,lod, 0, 0.5*math.pi, matrix.translate(v(0,2.5,0)) * matrix.scale(v(0.7,0.3,0.7)))
 
 			call_model('headlight', v(0,-0.9,-6.95), v(1,0,0), v(0,-0.5,-1),1.2)
 			call_model('posl_red', v(-3.64,0.2,1), v(0,0,1), v(-1,0.27,0),1)
@@ -471,7 +443,7 @@ define_model('ip_shuttle', {
 				if get_equipment('LASER', 1) then
 					use_material('alu')
 					cylinder(2*lod, v(0,-0.3,-7), v(0,-0.3,-7.9), v(0,1,0),0.08) -- laser
-					sphere_slice(2*lod,lod, 0, 0.5*math.pi, Matrix.translate(v(0,-0.3,-7.2)) * Matrix.rotate(0.5*math.pi,v(-1,0,0)) * Matrix.scale(v(0.2,0.3,0.2)))
+					sphere_slice(2*lod,lod, 0, 0.5*math.pi, matrix.translate(v(0,-0.3,-7.2)) * matrix.rotate(0.5*math.pi,v(-1,0,0)) * matrix.scale(v(0.2,0.3,0.2)))
 					set_material('hole', .1,.1,.1,1)
 					use_material('hole')
 					circle(2*lod, v(0,-0.3,-7.901), v(0,0,-1), v(0,1,0), 0.06)

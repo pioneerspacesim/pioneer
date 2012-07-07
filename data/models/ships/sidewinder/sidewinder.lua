@@ -245,8 +245,8 @@ define_model('rattle', {
 			xref_ring(3*lod, v(4,0,12.5), v(15,0,12.5), v(0,1,0), .2)
 			xref_cylinder(3*lod, v(4,0,12.71), v(4,0,12), v(1,0,0), .2)
 
-			sphere_slice(3*lod,lod, 0, .3*math.pi, Matrix.translate(v(4,0,11.3)) * Matrix.rotate(.5*math.pi,v(1,0,0)) * Matrix.scale(v(1.1,1.1,1.1)))
-			sphere_slice(3*lod,lod, 0, .3*math.pi, Matrix.translate(v(-4,0,11.3)) * Matrix.rotate(.5*math.pi,v(1,0,0)) * Matrix.scale(v(1.1,1.1,1.1)))
+			sphere_slice(3*lod,lod, 0, .3*math.pi, matrix.translate(v(4,0,11.3)) * matrix.rotate(.5*math.pi,v(1,0,0)) * matrix.scale(v(1.1,1.1,1.1)))
+			sphere_slice(3*lod,lod, 0, .3*math.pi, matrix.translate(v(-4,0,11.3)) * matrix.rotate(.5*math.pi,v(1,0,0)) * matrix.scale(v(1.1,1.1,1.1)))
 		end
 
 
@@ -403,7 +403,7 @@ define_model('rattle_pad_br', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('chrome')
 		texture('tex0.png')
-		sphere_slice(3*lod,2*lod, 0, .5*math.pi, Matrix.translate(v(0,.3,0)) * Matrix.scale(v(.4,.4,.4)))
+		sphere_slice(3*lod,2*lod, 0, .5*math.pi, matrix.translate(v(0,.3,0)) * matrix.scale(v(.4,.4,.4)))
 		use_material('pad')
 		texture('pad_br.png',v(.49,.5,0), v(.4,-.02,0), v(0,0,-1.15))
 		cylinder(6, v(0,0,0), v(0,.3,0), v(.5,0,1), 1.05)
@@ -435,7 +435,7 @@ define_model('rattle_pad_bl', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('chrome')
 		texture('tex0.png')
-		sphere_slice(3*lod,2*lod, 0, .5*math.pi, Matrix.translate(v(0,.3,0)) * Matrix.scale(v(.4,.4,.4)))
+		sphere_slice(3*lod,2*lod, 0, .5*math.pi, matrix.translate(v(0,.3,0)) * matrix.scale(v(.4,.4,.4)))
 		use_material('pad')
 		texture('pad_bl.png',v(.49,.5,0), v(.4,-.02,0), v(0,0,-1.15))
 		cylinder(6, v(0,0,0), v(0,.3,0), v(.5,0,1), 1.05)
@@ -468,7 +468,7 @@ define_model('rattle_pad_f', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('chrome')
 		texture('tex0.png')
-		sphere_slice(3*lod,2*lod, 0, .5*math.pi, Matrix.translate(v(0,.3,0)) * Matrix.scale(v(.4,.4,.4)))
+		sphere_slice(3*lod,2*lod, 0, .5*math.pi, matrix.translate(v(0,.3,0)) * matrix.scale(v(.4,.4,.4)))
 		use_material('pad')
 		texture('pad_f.png',v(.49,.5,0), v(.4,-.02,0), v(0,0,-1.15))
 		cylinder(6, v(0,0,0), v(0,.3,0), v(.5,0,1), 1.05)
@@ -650,32 +650,6 @@ define_model('rattlesnake', {
 		bounding_radius = 32,
 		materials = {'chrome', 'cabin', 'metal', 'no_shade', 'text', 'glow', 'e_glow', 'v_glow', 'win', 'black'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Sidewinder',
-				forward_thrust = -4e6,
-				reverse_thrust = 3e6,
-				up_thrust = 2e6,
-				down_thrust = -2e6,
-				left_thrust = -2e6,
-				right_thrust = 2e6,
-				angular_thrust = 10e6,
-				gun_mounts =
-				{
-					{ v(0,0,-16), v(0,0,-1) },
-					{ v(0,0,15), v(0,0,1) },
-				},
-				max_cargo = 30,
-				max_laser = 2,
-				max_missile = 0,
-				max_fuelscoop = 1,
-				max_cargoscoop = 1,
-				capacity = 30,
-				hull_mass = 30,
-				price = 44000,
-				hyperdrive_class = 2,
-			}
-		}
 	},
 
 	static = function(lod)

@@ -1,5 +1,6 @@
 #include "libs.h"
 #include "Gui.h"
+#include "vector2.h"
 
 #define MINIMUM_HEIGHT (100.0f)
 
@@ -109,15 +110,16 @@ bool VScrollPortal::OnMouseMotion(MouseMotionEvent *e)
 
 void VScrollPortal::Draw()
 {
+	SetScissor(true);
+
 	float size[2];
 	GetSize(size);
-	SetClipping(size[0], size[1]);
 
 	m_scrollY = vscrollAdjust.GetValue();
 
 	float toScroll = m_childSizeY - size[1];
 	if (toScroll < 0) toScroll = 0;
-	
+
 	float scale[2];
 	Screen::GetCoords2Pixels(scale);
 
@@ -126,7 +128,8 @@ void VScrollPortal::Draw()
 	glTranslatef(0, floor((-m_scrollY*toScroll)/scale[1])*scale[1], 0);
 	Container::Draw();
 	glPopMatrix();
-	EndClipping();
+
+	SetScissor(false);
 }
 
 }

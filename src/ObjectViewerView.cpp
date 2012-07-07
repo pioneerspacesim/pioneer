@@ -7,79 +7,90 @@
 #include "GeoSphere.h"
 #include "terrain/Terrain.h"
 #include "Planet.h"
+#include "Light.h"
+#include "graphics/Renderer.h"
 
-#if OBJECTVIEWER
+#if WITH_OBJECTVIEWER
 
 ObjectViewerView::ObjectViewerView(): View()
 {
 	SetTransparency(true);
 	viewingDist = 1000.0f;
 	m_camRot = matrix4x4d::Identity();
-	
+
 	m_infoLabel = new Gui::Label("");
 	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-66-Gui::Screen::GetFontHeight());
 
-	Gui::VBox *vbox = new Gui::VBox();
-	Add(vbox, 580, 2);
+	m_vbox = new Gui::VBox();
+	Add(m_vbox, 580, 2);
 
-	vbox->PackEnd(new Gui::Label("Mass (earths):"));
+	m_vbox->PackEnd(new Gui::Label("Mass (earths):"));
 	m_sbodyMass = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyMass);
+	m_vbox->PackEnd(m_sbodyMass);
 
-	vbox->PackEnd(new Gui::Label("Radius (earths):"));
+	m_vbox->PackEnd(new Gui::Label("Radius (earths):"));
 	m_sbodyRadius = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyRadius);
+	m_vbox->PackEnd(m_sbodyRadius);
 
-	vbox->PackEnd(new Gui::Label("Integer seed:"));
+	m_vbox->PackEnd(new Gui::Label("Integer seed:"));
 	m_sbodySeed = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodySeed);
+	m_vbox->PackEnd(m_sbodySeed);
 
-	vbox->PackEnd(new Gui::Label("Volatile gases (>= 0):"));
+	m_vbox->PackEnd(new Gui::Label("Volatile gases (>= 0):"));
 	m_sbodyVolatileGas = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyVolatileGas);
+	m_vbox->PackEnd(m_sbodyVolatileGas);
 
-	vbox->PackEnd(new Gui::Label("Volatile liquid (0-1):"));
+	m_vbox->PackEnd(new Gui::Label("Volatile liquid (0-1):"));
 	m_sbodyVolatileLiquid = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyVolatileLiquid);
+	m_vbox->PackEnd(m_sbodyVolatileLiquid);
 
-	vbox->PackEnd(new Gui::Label("Volatile ices (0-1):"));
+	m_vbox->PackEnd(new Gui::Label("Volatile ices (0-1):"));
 	m_sbodyVolatileIces = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyVolatileIces);
+	m_vbox->PackEnd(m_sbodyVolatileIces);
 
-	vbox->PackEnd(new Gui::Label("Life (0-1):"));
+	m_vbox->PackEnd(new Gui::Label("Life (0-1):"));
 	m_sbodyLife = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyLife);
+	m_vbox->PackEnd(m_sbodyLife);
 
-	vbox->PackEnd(new Gui::Label("Volcanicity (0-1):"));
+	m_vbox->PackEnd(new Gui::Label("Volcanicity (0-1):"));
 	m_sbodyVolcanicity = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyVolcanicity);
+	m_vbox->PackEnd(m_sbodyVolcanicity);
 
-	vbox->PackEnd(new Gui::Label("Crust metallicity (0-1):"));
+	m_vbox->PackEnd(new Gui::Label("Crust metallicity (0-1):"));
 	m_sbodyMetallicity = new Gui::TextEntry();
-	vbox->PackEnd(m_sbodyMetallicity);
+	m_vbox->PackEnd(m_sbodyMetallicity);
 
 	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label("Change planet terrain type"));
 	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnChangeTerrain));
-	vbox->PackEnd(b);
+	m_vbox->PackEnd(b);
+
+	Gui::HBox *hbox = new Gui::HBox();
+
+	b = new Gui::LabelButton(new Gui::Label("Prev Seed"));
+	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnPrevSeed));
+	hbox->PackEnd(b);
+
+	b = new Gui::LabelButton(new Gui::Label("Random Seed"));
+	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnRandomSeed));
+	hbox->PackEnd(b);
+
+	b = new Gui::LabelButton(new Gui::Label("Next Seed"));
+	b->onClick.connect(sigc::mem_fun(this, &ObjectViewerView::OnNextSeed));
+	hbox->PackEnd(b);
+
+	m_vbox->PackEnd(hbox);
 }
 
 void ObjectViewerView::Draw3D()
 {
-	static float rot;
-	rot += 0.1;
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+	m_renderer->ClearScreen();
 	float znear, zfar;
-	Render::GetNearFarClipPlane(znear, zfar);
-	float fracH = znear / Pi::GetScrAspect();
-	glFrustum(-znear, znear, -fracH, fracH, znear, zfar);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glEnable(GL_LIGHT0);
+	m_renderer->GetNearFarRange(znear, zfar);
+	m_renderer->SetPerspectiveProjection(75.f, Pi::GetScrAspect(), znear, zfar);
+	m_renderer->SetTransform(matrix4x4f::Identity());
 
-	Render::State::SetZnearZfar(znear, zfar);
+	Light light;
+	light.SetType(Light::LIGHT_DIRECTIONAL);
 
 	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int m[2];
@@ -87,19 +98,17 @@ void ObjectViewerView::Draw3D()
 		m_camRot = matrix4x4d::RotateXMatrix(-0.002*m[1]) *
 				matrix4x4d::RotateYMatrix(-0.002*m[0]) * m_camRot;
 	}
-		
+
 	Body *body = Pi::player->GetNavTarget();
 	if (body) {
-		float lightPos[4];
 		if (body->IsType(Object::STAR))
-			lightPos[0] = lightPos[1] = lightPos[2] = lightPos[3] = 0;
+			light.SetPosition(vector3f(0.f));
 		else {
-			lightPos[0] = lightPos[1] = lightPos[2] = 0.577f;
-			lightPos[3] = 0;
+			light.SetPosition(vector3f(0.577f));
 		}
-		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-	
-		body->Render(vector3d(0,0,-viewingDist), m_camRot);
+		m_renderer->SetLights(1, &light);
+
+		body->Render(m_renderer, vector3d(0,0,-viewingDist), m_camRot);
 	}
 }
 
@@ -110,8 +119,8 @@ void ObjectViewerView::OnSwitchTo()
 
 void ObjectViewerView::Update()
 {
-	if (Pi::KeyState(SDLK_EQUALS)) viewingDist *= 0.99;
-	if (Pi::KeyState(SDLK_MINUS)) viewingDist *= 1.01;
+	if (Pi::KeyState(SDLK_EQUALS)) viewingDist *= 0.99f;
+	if (Pi::KeyState(SDLK_MINUS)) viewingDist *= 1.01f;
 	viewingDist = Clamp(viewingDist, 10.0f, 1e12f);
 
 	char buf[128];
@@ -121,22 +130,25 @@ void ObjectViewerView::Update()
 		viewingDist = body->GetBoundingRadius() * 2.0f;
 		lastTarget = body;
 
-		if (body->IsType(Object::PLANET)) {
-			Planet *planet = static_cast<Planet*>(body);
-			const SBody *sbody = planet->GetSBody();
+		if (body->IsType(Object::TERRAINBODY)) {
+			TerrainBody *tbody = static_cast<TerrainBody*>(body);
+			const SystemBody *sbody = tbody->GetSystemBody();
 			m_sbodyVolatileGas->SetText(stringf("%0{f.3}", sbody->m_volatileGas.ToFloat()));
 			m_sbodyVolatileLiquid->SetText(stringf("%0{f.3}", sbody->m_volatileLiquid.ToFloat()));
 			m_sbodyVolatileIces->SetText(stringf("%0{f.3}", sbody->m_volatileIces.ToFloat()));
 			m_sbodyLife->SetText(stringf("%0{f.3}", sbody->m_life.ToFloat()));
 			m_sbodyVolcanicity->SetText(stringf("%0{f.3}", sbody->m_volcanicity.ToFloat()));
 			m_sbodyMetallicity->SetText(stringf("%0{f.3}", sbody->m_metallicity.ToFloat()));
-			m_sbodySeed->SetText(stringf("%0{u}", sbody->seed));
+			m_sbodySeed->SetText(stringf("%0{i}", int(sbody->seed)));
 			m_sbodyMass->SetText(stringf("%0{f}", sbody->mass.ToFloat()));
 			m_sbodyRadius->SetText(stringf("%0{f}", sbody->radius.ToFloat()));
 		}
 	}
 	snprintf(buf, sizeof(buf), "View dist: %s     Object: %s", format_distance(viewingDist).c_str(), (body ? body->GetLabel().c_str() : "<none>"));
 	m_infoLabel->SetText(buf);
+
+	if (body && body->IsType(Object::TERRAINBODY)) m_vbox->ShowAll();
+	else m_vbox->HideAll();
 }
 
 void ObjectViewerView::OnChangeTerrain()
@@ -155,7 +167,7 @@ void ObjectViewerView::OnChangeTerrain()
 	// sbody. one day objectviewer should be far more contained and not
 	// actually modify the space
 	Body *body = Pi::player->GetNavTarget();
-	SBody *sbody = const_cast<SBody*>(body->GetSBody());
+	SystemBody *sbody = const_cast<SystemBody*>(body->GetSystemBody());
 
 	sbody->seed = atoi(m_sbodySeed->GetText().c_str());
 	sbody->radius = radius;
@@ -168,8 +180,25 @@ void ObjectViewerView::OnChangeTerrain()
 	sbody->m_life = life;
 
 	// force reload
-	if (body->IsType(Object::TERRAINBODY))
-		static_cast<TerrainBody*>(body)->GetGeoSphere()->OnChangeDetailLevel();
+	static_cast<TerrainBody*>(body)->GetGeoSphere()->OnChangeDetailLevel();
+}
+
+void ObjectViewerView::OnRandomSeed()
+{
+	m_sbodySeed->SetText(stringf("%0{i}", int(Pi::rng.Int32())));
+	OnChangeTerrain();
+}
+
+void ObjectViewerView::OnNextSeed()
+{
+	m_sbodySeed->SetText(stringf("%0{i}", atoi(m_sbodySeed->GetText().c_str()) + 1));
+	OnChangeTerrain();
+}
+
+void ObjectViewerView::OnPrevSeed()
+{
+	m_sbodySeed->SetText(stringf("%0{i}", atoi(m_sbodySeed->GetText().c_str()) - 1));
+	OnChangeTerrain();
 }
 
 #endif

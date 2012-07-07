@@ -5,7 +5,7 @@
 #include "GuiTextLayout.h"
 #include <string>
 
-class TextureFont;
+namespace Text { class TextureFont; }
 
 namespace Gui {
 	class Label: public Widget {
@@ -18,7 +18,6 @@ namespace Gui {
 		void SetText(const char *text);
 		void SetText(const std::string &text);
 		Label *Shadow(bool isOn) { m_shadow = isOn; return this; }
-		Label *Color(const float rgb[3]);
 		Label *Color(float r, float g, float b);
 		Label *Color(const ::Color &);
 	private:
@@ -29,7 +28,7 @@ namespace Gui {
 		::Color m_color;
 		bool m_shadow;
 		GLuint m_dlist;
-		TextureFont *m_font;
+		RefCountedPtr<Text::TextureFont> m_font;
 		TextLayout *m_layout;
 		TextLayout::ColourMarkupMode m_colourMarkupMode;
 	};
