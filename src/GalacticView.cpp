@@ -26,11 +26,11 @@ GalacticView::GalacticView() :
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
 	Add(m_zoomInButton, 700, 5);
-	
+
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
-	
+
 	m_scaleReadout = new Gui::Label("");
 	Add(m_scaleReadout, 500.0f, 10.0f);
 
@@ -39,7 +39,7 @@ GalacticView::GalacticView() :
 	Add(m_labels, 0, 0);
 	Gui::Screen::PopFont();
 
-	m_onMouseButtonDown = 
+	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &GalacticView::MouseButtonDown));
 }
 
@@ -75,7 +75,7 @@ void GalacticView::PutLabels(vector3d offset)
 {
 	Gui::Screen::EnterOrtho();
 	glColor3f(1,1,1);
-	
+
 	for (int i=0; s_labels[i].label; i++) {
 		vector3d p = m_zoom * (s_labels[i].pos + offset);
 		vector3d pos;
@@ -104,7 +104,7 @@ void GalacticView::Draw3D()
 		matrix4x4f::Identity() *
 		matrix4x4f::ScaleMatrix(m_zoom, m_zoom, 0.f) *
 		matrix4x4f::Translation(-offset_x, -offset_y, 0.f));
-	
+
 	// galaxy image
 	m_quad.Draw(m_renderer, vector2f(-1.0f), vector2f(2.0f));
 
@@ -129,11 +129,11 @@ void GalacticView::Draw3D()
 
 	m_renderer->SetDepthTest(true);
 }
-	
+
 void GalacticView::Update()
 {
 	const float frameTime = Pi::GetFrameTime();
-	
+
 	if (m_zoomInButton->IsPressed()) m_zoom *= pow(4.0f, frameTime);
 	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(0.25f, frameTime);
 	// XXX ugly hack checking for console here
@@ -150,9 +150,9 @@ void GalacticView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView()) {
 		const float ft = Pi::GetFrameTime();
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
 				m_zoom *= pow(0.25f, ft);
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
 				m_zoom *= pow(4.0f, ft);
 	}
 }

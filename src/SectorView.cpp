@@ -25,7 +25,7 @@ using namespace Graphics;
 SectorView::SectorView()
 {
 	InitDefaults();
-	
+
 	m_rotX = m_rotXMovingTo = m_rotXDefault;
 	m_rotZ = m_rotZMovingTo = m_rotZDefault;
 	m_zoom = m_zoomMovingTo = m_zoomDefault;
@@ -78,7 +78,7 @@ void SectorView::InitDefaults()
 	m_zoomDefault = Clamp(m_zoomDefault, 0.1f, 5.0f);
 	m_previousSearch = "";
 }
-		
+
 void SectorView::InitObject()
 {
 	m_disk = new VertexArray(ATTRIB_POSITION);
@@ -94,11 +94,11 @@ void SectorView::InitObject()
 	Add(m_sectorLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()*2-66);
 	m_distanceLabel = new Gui::Label("");
 	Add(m_distanceLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
-	
+
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
 	Add(m_zoomInButton, 700, 5);
-	
+
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
@@ -119,7 +119,7 @@ void SectorView::InitObject()
 			0.f+cosf(DEG2RAD(i*5.f))*rad,
 			0.f));
 	}
-	
+
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
 	m_infoBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
@@ -191,9 +191,9 @@ void SectorView::InitObject()
 	systemBox->PackEnd(m_targetSystemLabels.shortDesc);
 	m_infoBox->PackEnd(systemBox);
 
-	m_onMouseButtonDown = 
+	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SectorView::MouseButtonDown));
-	
+
 	UpdateSystemLabels(m_currentSystemLabels, m_current);
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
@@ -225,29 +225,13 @@ void SectorView::Save(Serializer::Writer &wr)
 	wr.Bool(m_infoBoxVisible);
 }
 
-static void RemoveChar(std::string &str, const char c)
-{
-	str.erase(std::remove(str.begin(), str.end(), c), str.end());
-}
-
-//collect ints from a string into a vector
-static void GetInts(const std::string &str, const char delim, std::vector<int> &out)
-{
-	std::stringstream ss(str);
-	int i;
-	while(ss >> i) {
-		out.push_back(i);
-		if(ss.peek() == delim) ss.ignore();
-	}
-}
-
 void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 {
 	//remember the last search text, hotkey: up
 	if (m_searchBox->GetText().empty() && keysym->sym == SDLK_UP && !m_previousSearch.empty())
 		m_searchBox->SetText(m_previousSearch);
 
-	if (keysym->sym != SDLK_RETURN)
+	if (keysym->sym != SDLK_KP_ENTER && keysym->sym != SDLK_RETURN)
 		return;
 
 	std::string search = m_searchBox->GetText();
@@ -258,15 +242,11 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 
 	//Try to detect if user entered a sector address, comma or space separated, strip parentheses
 	//system index is unreliable, so it is not supported
-	RemoveChar(search, '(');
-	RemoveChar(search, ')');
-	std::vector<int> ints;
-	GetInts(search, ',', ints);
-	if (ints.size() == 3) {
-		GotoSector(SystemPath(ints[0], ints[1], ints[2]));
+	try {
+		GotoSector(SystemPath::Parse(search.c_str()));
 		return;
-	}
-	
+	} catch (SystemPath::ParseFailure) {}
+
 	bool gotMatch = false, gotStartMatch = false;
 	SystemPath bestMatch;
 	const std::string *bestMatchName = 0;
@@ -292,7 +272,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 
 				// partial match at start of name
 				if (!gotMatch || !gotStartMatch || bestMatchName->size() > ss->name.size()) {
-					
+
 					// don't already have one or its shorter than the previous
 					// one, take it
 					bestMatch = (*i).first;
@@ -318,7 +298,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 				}
 			}
 		}
-	
+
 	if (gotMatch) {
 		Pi::cpan->MsgLog()->Message("", stringf(Lang::NOT_FOUND_BEST_MATCH_X, formatarg("system", *bestMatchName)));
 		GotoSystem(bestMatch);
@@ -341,7 +321,7 @@ void SectorView::Draw3D()
 
 	matrix4x4f modelview = matrix4x4f::Identity();
 	m_renderer->ClearScreen();
-	
+
 	m_sectorLabel->SetText(stringf(Lang::SECTOR_X_Y_Z,
 		formatarg("x", int(floorf(m_pos.x))),
 		formatarg("y", int(floorf(m_pos.y))),
@@ -467,12 +447,12 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 
 	if (m_inSystem) {
 		const float dist = Sector::DistanceBetween(sec, path.systemIndex, playerSec, m_current.systemIndex);
-		
+
 		int fuelRequired;
 		double dur;
 		enum Ship::HyperjumpStatus jumpStatus
 			= Pi::player->GetHyperspaceDetails(&path, fuelRequired, dur);
-		const double DaysNeeded = dur*(1.0 / (24*60*60)); 
+		const double DaysNeeded = dur*(1.0 / (24*60*60));
 		const double HoursNeeded = (DaysNeeded - floor(DaysNeeded))*24;
 
 		switch (jumpStatus) {
@@ -548,7 +528,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			vector3f(Sector::SIZE, Sector::SIZE, 0.f),
 			vector3f(Sector::SIZE, 0.f, 0.f)
 		};
-	
+
 		m_renderer->DrawLines(4, vts, darkgreen, LINE_LOOP);
 	}
 
@@ -573,7 +553,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 			if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
 				RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
-				if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) ) 
+				if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) )
 				{
 					(*i).SetInhabited(true);
 				}
@@ -697,13 +677,13 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	// ignore keypresses if they're typing
 	if (m_searchBox->IsFocused()) {
 		// but if they press enter then we want future keys
-		if (keysym->sym == SDLK_RETURN)
+		if (keysym->sym == SDLK_KP_ENTER || keysym->sym == SDLK_RETURN)
 			m_searchBox->Unfocus();
 		return;
 	}
 
 	// '/' focuses the search box
-	if (keysym->sym == SDLK_SLASH) {
+	if (keysym->sym == SDLK_KP_DIVIDE || keysym->sym == SDLK_SLASH) {
 		m_searchBox->SetText("");
 		m_searchBox->GrabFocus();
 		return;
@@ -729,7 +709,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// toggle selection mode
-	if (keysym->sym == SDLK_RETURN) {
+		if (keysym->sym == SDLK_KP_ENTER || keysym->sym == SDLK_RETURN) {
 		m_selectionFollowsMovement = !m_selectionFollowsMovement;
 		if (m_selectionFollowsMovement)
 			Pi::cpan->MsgLog()->Message("", Lang::ENABLED_AUTOMATIC_SYSTEM_SELECTION);
@@ -800,7 +780,7 @@ void SectorView::Update()
 		float moveSpeed = 1.0;
 		if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
 		if (Pi::KeyState(SDLK_RSHIFT)) moveSpeed = 10.0;
-	
+
 		float move = moveSpeed*frameTime;
 		if (Pi::KeyState(SDLK_LEFT) || Pi::KeyState(SDLK_RIGHT))
 			m_posMovingTo += vector3f(Pi::KeyState(SDLK_LEFT) ? -move : move, 0,0) * rot;
@@ -814,7 +794,7 @@ void SectorView::Update()
 		if (m_zoomInButton->IsPressed()) m_zoomMovingTo -= move;
 		if (m_zoomOutButton->IsPressed()) m_zoomMovingTo += move;
 		m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, 5.0f);
-	
+
 		if (Pi::KeyState(SDLK_a) || Pi::KeyState(SDLK_d))
 			m_rotZMovingTo += (Pi::KeyState(SDLK_a) ? -0.5f : 0.5f) * moveSpeed;
 		if (Pi::KeyState(SDLK_w) || Pi::KeyState(SDLK_s))
@@ -896,9 +876,9 @@ void SectorView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView()) {
 		const float ft = Pi::GetFrameTime();
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
 				m_zoomMovingTo += 10.0*ft;
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
 				m_zoomMovingTo -= 10.0*ft;
 	}
 }
@@ -937,7 +917,7 @@ void SectorView::ShrinkCache()
 		//check_point_in_box
 		if (s && !s->WithinBox( xmin, xmax, ymin, ymax, zmin, zmax )) {
 			delete s;
-			m_sectorCache.erase( iter++ ); 
+			m_sectorCache.erase( iter++ );
 		} else {
 			iter++;
 		}

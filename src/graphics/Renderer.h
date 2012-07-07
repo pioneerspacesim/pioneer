@@ -134,7 +134,7 @@ public:
 	void RemoveCachedTexture(const std::string &type, const std::string &name);
 
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
- 
+
 	// output human-readable debug info to the given stream
 	virtual bool PrintDebugInfo(std::ostream &out) { return false; }
 

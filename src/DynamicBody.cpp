@@ -175,7 +175,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		m_angVel += double(timeStep) * m_torque * (1.0 / m_angInertia);
 		// angvel is always relative to non-rotating frame, so need to counter frame angvel
 		vector3d consideredAngVel = m_angVel - GetFrame()->GetAngVelocity();
-		
+
 		vector3d pos = GetPosition();
 		// applying angular velocity :-/
 		{

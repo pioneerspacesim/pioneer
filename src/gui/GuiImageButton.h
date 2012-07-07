@@ -3,7 +3,7 @@
 
 #include "GuiWidget.h"
 #include "GuiButton.h"
-		
+
 #include <string>
 
 namespace Gui {

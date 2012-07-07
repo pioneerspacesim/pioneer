@@ -26,7 +26,7 @@ local onChat = function (form, ref, option)
 		form:GotoPolice()
 		return false
 	end
-	
+
 	form:AddGoodsTrader({
 		-- can I trade this commodity?
 		canTrade = function (ref, commodity)

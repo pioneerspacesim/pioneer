@@ -344,19 +344,28 @@ void SpaceStation::ReplaceShipOnSale(int idx, const ShipFlavour *with)
 	onShipsForSaleChanged.emit();
 }
 
+// Fill the list of starships on sale. Ships that
+// can't fit atmo shields are only available in
+// atmosphereless environments
 void SpaceStation::UpdateShipyard()
 {
+	bool atmospheric = false;
+	if (IsGroundStation()) {
+		Body *planet = GetFrame()->m_astroBody;
+		atmospheric = planet->GetSystemBody()->HasAtmosphere();
+	}
+
 	if (m_shipsOnSale.size() == 0) {
 		// fill shipyard
 		for (int i=Pi::rng.Int32(20); i; i--) {
 			ShipFlavour s;
-			ShipFlavour::MakeTrulyRandom(s);
+			ShipFlavour::MakeTrulyRandom(s, atmospheric);
 			m_shipsOnSale.push_back(s);
 		}
 	} else if (Pi::rng.Int32(2)) {
 		// add one
 		ShipFlavour s;
-		ShipFlavour::MakeTrulyRandom(s);
+		ShipFlavour::MakeTrulyRandom(s, atmospheric);
 		m_shipsOnSale.push_back(s);
 	} else {
 		// remove one
@@ -396,7 +405,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 			}
 			continue;
 		}
-	
+
 		if (dt.stagePos > 1.0) {
 			dt.stagePos = 0;
 			if (dt.stage >= 0) dt.stage++;
@@ -409,7 +418,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 
 		SpaceStationType::positionOrient_t shipOrient;
 		bool onRails = m_type->GetDockAnimPositionOrient(i, dt.stage, dt.stagePos, dt.fromPos, shipOrient, dt.ship);
-		
+
 		if (onRails) {
 			dt.ship->SetPosition(GetPosition() + rot*shipOrient.pos);
 			wantRot = matrix4x4d::MakeRotMatrix(
@@ -507,7 +516,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 		CreateBB();
 		update = true;
 	}
-	
+
 	// if there is and it hasn't had an update for a while, update it
 	else if (Pi::game->GetTime() > m_lastUpdatedShipyard) {
 		Pi::luaOnUpdateBB->Queue(this);
@@ -582,7 +591,7 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port)
 		matrix4x4d rot;
 		GetRotMatrix(rot);
 		vector3d p = GetPosition() + rot*dport.pos;
-		
+
 		ship->SetFrame(GetFrame());
 		ship->SetPosition(p);
 		// duplicated from DoDockingAnimation()
@@ -599,7 +608,7 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port)
 		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport.xaxis, dport.yaxis, port_z);
 		// position slightly (1m) off landing surface
 		vector3d pos = GetPosition() + stationRot*(dport.pos +
-				dport.yaxis - 
+				dport.yaxis -
 				dport.yaxis*aabb.min.y);
 		ship->SetPosition(pos);
 		ship->SetRotMatrix(rot);
@@ -691,7 +700,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 		Ship *s = static_cast<Ship*>(b);
 		matrix4x4d rot;
 		GetRotMatrix(rot);
-		
+
 		bool canDock = true;
 		int port = -1;
 		for (int i=0; i<MAX_DOCKING_PORTS; i++) {
@@ -718,22 +727,22 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			// why stage 2? Because stage 1 is permission to dock
 			// granted, stage 2 is start of docking animation.
 			PiVerify(m_type->GetDockAnimPositionOrient(port, 2, 0.0f, vector3d(0.0), dport, s));
-		
+
 			double speed = s->GetVelocity().Length();
-			
+
 			// must be oriented sensibly and have wheels down
 			if (IsGroundStation()) {
 				matrix4x4d shiprot;
 				s->GetRotMatrix(shiprot);
 				matrix4x4d invShipRot = shiprot.InverseOf();
-				
+
 				vector3d dockingNormal = rot*dport.yaxis;
 
 				// check player is sortof sensibly oriented for landing
 				const double dot = vector3d(invShipRot[1], invShipRot[5], invShipRot[9]).Dot(dockingNormal);
 				if ((dot < 0.99) || (s->GetWheelState() < 1.0)) return false;
 			}
-			
+
 			if ((speed < MAX_LANDING_SPEED) &&
 			    (!s->GetDockedWith()) &&
 			    (m_shipDocking[port].stage == 1)) {
@@ -784,7 +793,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const vector3d &viewCoords, con
 	}
 
 	RenderLmrModel(r, viewCoords, viewTransform);
-	
+
 	/* don't render city if too far away */
 	if (viewCoords.Length() > 1000000.0) return;
 
@@ -796,7 +805,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const vector3d &viewCoords, con
 			// orbital spaceport -- don't make city turds
 		} else {
 			planet = static_cast<Planet*>(_planet);
-		
+
 			if (!m_adjacentCity) {
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}

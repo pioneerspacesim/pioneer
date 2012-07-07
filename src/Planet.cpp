@@ -46,7 +46,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	Color c;
 	double surfaceDensity;
 	double atmosDist = dist/(GetSystemBody()->GetRadius()*ATMOSPHERE_RADIUS);
-	
+
 	GetSystemBody()->GetAtmosphereFlavor(&c, &surfaceDensity);
 	// kg / m^3
 	// exp term should be the same as in AtmosLengthDensityProduct GLSL function
@@ -166,11 +166,11 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 
 	double noiseOffset = 256.0*rng.Double();
 	float baseCol[4];
-	
+
 	// just use a random gas giant flavour for the moment
 	GasGiantDef_t &ggdef = ggdefs[rng.Int32(0,4)];
 	ggdef.ringCol.GenCol(baseCol, rng);
-	
+
 	const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
 
 	if (rng.Double(1.0) < ggdef.ringProbability) {
@@ -200,7 +200,7 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	Color col;
 	double density;
 	GetSystemBody()->GetAtmosphereFlavor(&col, &density);
-	
+
 	const double rad1 = 0.999;
 	const double rad2 = 1.05;
 
@@ -283,6 +283,6 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 void Planet::SubRender(Renderer *r, const vector3d &camPos)
 {
 	if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings(r);
-	
+
 	if (!AreShadersEnabled()) DrawAtmosphere(r, camPos);
 }

@@ -169,7 +169,7 @@ static int l_equiptype_get_equip_types(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 1)));
-	
+
 	bool filter = false;
 	if (lua_gettop(l) >= 2) {
 		luaL_checktype(l, 2, LUA_TFUNCTION); // any type of function
@@ -178,7 +178,7 @@ static int l_equiptype_get_equip_types(lua_State *l)
 
 	lua_newtable(l);
 	pi_lua_table_ro(l);
-	
+
 	for (int i = Equip::NONE; i < Equip::TYPE_MAX; i++) {
 		EquipType *et = const_cast<EquipType*>(&(Equip::types[i]));
 		if (Equip::types[i].slot == slot) {

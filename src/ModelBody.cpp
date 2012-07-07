@@ -62,11 +62,13 @@ void ModelBody::RebuildCollisionMesh()
 		delete m_geom;
 	}
 	if (m_collMesh) delete m_collMesh;
+
 	m_collMesh = m_model->CreateCollisionMesh(&m_params);
-	
+
 	m_geom = new Geom(m_collMesh->GetGeomTree());
+
 	m_geom->SetUserData(static_cast<void*>(this));
-		
+
 	if (GetFrame()) {
 		if (m_isStatic) GetFrame()->AddStaticGeom(m_geom);
 		else GetFrame()->AddGeom(m_geom);
@@ -154,7 +156,7 @@ void ModelBody::SetFrame(Frame *f)
 		else f->AddGeom(m_geom);
 	}
 }
-	
+
 void ModelBody::TriMeshUpdateLastPos(const matrix4x4d &currentTransform)
 {
 	m_geom->MoveTo(currentTransform);

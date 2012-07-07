@@ -88,7 +88,7 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
 	}
 	else
 		m.status = static_cast<Mission::MissionState>(LuaConstants::GetConstant(l, "MissionStatus", luaL_checkstring(l, -1)));
-	
+
 	lua_pop(l, 2);
 
 	LUA_DEBUG_END(l, -1);
@@ -132,7 +132,7 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
  *
  *   status - a <Constants.MissionStatus> string for the current mission
  *            status
- * 
+ *
  * Return:
  *
  *   ref - an integer value for referring to the mission in the future
@@ -246,7 +246,7 @@ static int l_player_update_mission(lua_State *l)
 	const Mission *m = p->missions.Get(ref);
 	if (!m)
 		luaL_error(l, "mission with ref %d not found", ref);
-	
+
 	Mission upm = *m;
 	_table_to_mission(l, upm, false);
 
@@ -306,7 +306,7 @@ static int l_player_get_money(lua_State *l)
 	Player *p = LuaPlayer::GetFromLua(1);
 	lua_pushnumber(l, p->GetMoney()*0.01);
 	return 1;
-} 
+}
 
 /*
  * Method: SetMoney
@@ -333,7 +333,7 @@ static int l_player_set_money(lua_State *l)
 	float m = luaL_checknumber(l, 2);
 	p->SetMoney(Sint64(m*100.0));
 	return 0;
-} 
+}
 
 /*
  * Method: AddMoney
@@ -408,9 +408,9 @@ static int l_player_add_crime(lua_State *l)
  * Return:
  *
  *   target - nil, or a <Body>
- * 
+ *
  * Availability:
- * 
+ *
  *   alpha 15
  *
  * Status:
@@ -435,9 +435,9 @@ static int l_get_nav_target(lua_State *l)
  * Parameters:
  *
  *   target - a <Body> to which to set the navigation target
- * 
+ *
  * Availability:
- * 
+ *
  *   alpha 14
  *
  * Status:
@@ -463,9 +463,9 @@ static int l_set_nav_target(lua_State *l)
  * Return:
  *
  *   target - nil, or a <Body>
- * 
+ *
  * Availability:
- * 
+ *
  *   alpha 15
  *
  * Status:
@@ -490,9 +490,9 @@ static int l_get_combat_target(lua_State *l)
  * Parameters:
  *
  *   target - a <Body> to which to set the combat target
- * 
+ *
  * Availability:
- * 
+ *
  *   alpha 14
  *
  * Status:

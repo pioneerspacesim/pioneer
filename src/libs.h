@@ -32,7 +32,7 @@
 #		pragma warning(disable : 4800) // int-to-bool "performance warning"
 #		pragma warning(disable : 4355) // 'this' used in base member initializer list
 #	endif
- 
+
 #	ifndef __MINGW32__
 #
 #		define alloca _alloca
@@ -58,7 +58,7 @@ inline int isfinite(double x) { return _finite(x); }
 #include "SmartPtr.h"
 #include "RefCounted.h"
 
-#ifdef NDEBUG 
+#ifdef NDEBUG
 #define	PiVerify(x) ((void)(x))
 #else
 #define PiVerify(x) assert(x)

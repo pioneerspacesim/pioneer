@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui graphics galaxy newmodel terrain text ui
+SUBDIRS = collider gui graphics galaxy terrain text ui
 
 include $(top_srcdir)/Makefile.common
 
@@ -272,19 +272,19 @@ pioneer_SOURCES	= \
 
 pioneer_LDADD = \
 	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
 	collider/libcollider.a \
 	text/libtext.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \
 	galaxy/libgalaxy.a \
-	newmodel/libnewmodel.a \
 	terrain/libterrain.a \
 	ui/libui.a
 
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
-	$(PNG_LIBS) $(ASSIMP_LIBS)
+	$(PNG_LIBS)
 
 if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
@@ -299,14 +299,13 @@ modelviewer_SOURCES = \
 	FontConfig.cpp \
 	IniConfig.cpp \
 	Lang.cpp \
-	Light.cpp \
 	LuaMatrix.cpp \
 	LuaVector.cpp \
 	LuaFixed.cpp \
 	LmrModel.cpp \
-	LuaConstants.cpp \
 	LuaModelViewer.cpp \
 	LuaUtils.cpp \
+	LuaConstants.cpp \
 	ModManager.cpp \
 	EquipType.cpp \
 	ShipType.cpp \
@@ -315,22 +314,17 @@ modelviewer_SOURCES = \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-
 modelviewer_LDADD = \
 	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
 	collider/libcollider.a \
 	text/libtext.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \
 	terrain/libterrain.a \
 	ui/libui.a \
-	newmodel/libnewmodel.a
-
-modelviewer_LDADD += \
-	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
-	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) \
-	$(PNG_LIBS) $(ASSIMP_LIBS)
-
+		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA
 modelviewer_LDADD += ../contrib/lua/liblua.a
 endif
@@ -344,7 +338,9 @@ tests_SOURCES = \
 	FileSystem.cpp \
 	FileSystemPosix.cpp \
 	test_FileSystem.cpp
+TESTS = tests
 tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a
+
 uitest_SOURCES = \
 	uitest.cpp \
 	Color.cpp \
@@ -355,7 +351,6 @@ uitest_LDADD = ui/libui.a gui/libgui.a text/libtext.a graphics/libgraphics.a \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
-TESTS = tests
 
 INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA
@@ -371,3 +366,4 @@ if BUILD_POSIX
     pioneer_SOURCES += FileSystemPosix.cpp
     modelviewer_SOURCES += FileSystemPosix.cpp
 endif
+

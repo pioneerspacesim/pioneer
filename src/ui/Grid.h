@@ -23,6 +23,9 @@ public:
 	void ClearColumn(int colNum);
 	void Clear();
 
+	size_t GetNumRows() const { return m_numRows; }
+	size_t GetNumCols() const { return m_numCols; }
+
 private:
 	CellSpec m_rowSpec, m_colSpec;
 	int m_numRows, m_numCols;

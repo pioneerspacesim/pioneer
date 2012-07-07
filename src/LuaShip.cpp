@@ -31,7 +31,7 @@
  * Method: IsPlayer
  *
  * Determines if the ship is the player ship
- * 
+ *
  * > isplayer = ship:IsPlayer()
  *
  * Returns:
@@ -104,7 +104,7 @@ static int l_ship_get_stats(lua_State *l)
 
 	Ship *s = LuaShip::GetFromLua(1);
 	const shipstats_t &stats = s->GetStats();
-	
+
 	lua_newtable(l);
     pi_lua_table_ro(l);
 	pi_lua_settable(l, "maxCapacity",        stats.max_capacity);
@@ -128,8 +128,7 @@ static int l_ship_get_stats(lua_State *l)
 
 /* Method: SetShipType
  *
- * Replaces the ship with a new ship of the specified type. Can only be done
- * while docked.
+ * Replaces the ship with a new ship of the specified type.
  *
  * > ship:SetShipType(newtype)
  *
@@ -142,7 +141,7 @@ static int l_ship_get_stats(lua_State *l)
  * > ship:SetShipType('Sirius Interdictor')
  *
  * Availability:
- * 
+ *
  *   alpha 15
  *
  * Status:
@@ -158,9 +157,6 @@ static int l_ship_set_type(lua_State *l)
 	const char *type = luaL_checkstring(l, 2);
 	if (! ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
-
-	if (s->GetFlightState() != Ship::DOCKED)
-		luaL_error(l, "Cannot change ship type unless docked");
 
 	ShipFlavour f(type);
 
@@ -279,7 +275,7 @@ static int l_ship_set_fuel_percent(lua_State *l)
  * > ship:Explode()
  *
  * Availability:
- * 
+ *
  * 	alpha 20
  *
  * Status:
@@ -292,13 +288,9 @@ static int l_ship_explode(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	Ship *s = LuaShip::GetFromLua(1);
-	
-	Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(s));
-	Sfx::Add(s, Sfx::TYPE_EXPLOSION);
-	Sound::BodyMakeNoise(s, "Explosion_1", 1.0f);
+	s->Explode();
 
 	LUA_DEBUG_END(l, 0);
-
 	return 0;
 }
 
@@ -313,7 +305,7 @@ static int l_ship_explode(lua_State *l)
  * Parameters:
  *
  *   newlabel - the new label
- * 
+ *
  * Example:
  *
  * > ship:SetLabel("AB-1234")
@@ -401,7 +393,7 @@ static void _prepare_colour(lua_State *l, LmrMaterial &m)
  *
  *   blue - a real number describing the blue component of the colour. 0.0 is
  *          no blue component, 1.0 is full blue
- * 
+ *
  * Example:
  *
  * > ship:SetPrimaryColour("#002366")       -- royal blue
@@ -446,7 +438,7 @@ static int l_ship_set_primary_colour(lua_State *l)
  *
  *   blue - a real number describing the blue component of the colour. 0.0 is
  *          no blue component, 1.0 is full blue
- * 
+ *
  * Example:
  *
  * > ship:SetSecondaryColour("#002366")       -- royal blue
@@ -909,13 +901,13 @@ static int l_ship_fire_missile_at(lua_State *l)
 
 	if (e < Equip::MISSILE_UNGUIDED || e > Equip::MISSILE_NAVAL)
 		luaL_error(l, "Equipment type '%s' is not a valid missile type", lua_tostring(l, 2));
-	
+
 	int max_missiles = s->m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
 	int idx;
 	for (idx = 0; idx < max_missiles; idx++)
 		if (s->m_equipment.Get(Equip::SLOT_MISSILE, idx) == e)
 			break;
-	
+
 	if (idx == max_missiles) {
 		lua_pushboolean(l, false);
 		return 1;
@@ -1148,7 +1140,7 @@ static int l_ship_attr_fuel(lua_State *l)
 }
 
 
-/* 
+/*
  * Group: AI methods
  *
  * The AI methods are the script's equivalent of the autopilot. They are

@@ -428,7 +428,7 @@ void Pi::Init()
 	// no mode set, find an ok one
 	if ((width <= 0) || (height <= 0)) {
 		SDL_Rect **modes = SDL_ListModes(NULL, SDL_HWSURFACE | SDL_FULLSCREEN);
-		
+
 		if (modes == 0) {
 			fprintf(stderr, "It seems no video modes are available...");
 		}
@@ -457,7 +457,7 @@ void Pi::Init()
 			break;
 		default:
 			fprintf(stderr, "Invalid pixel depth: %d bpp\n", info->vfmt->BitsPerPixel);
-	} 
+	}
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	const int requestedSamples = config->Int("AntiAliasingMode");
@@ -589,6 +589,47 @@ void Pi::Init()
 		if (config->Int("MusicMuted")) GetMusicPlayer().SetEnabled(false);
 	}
 	draw_progress(1.0f);
+
+#if 0
+	// test code to produce list of ship stats
+
+	FILE *pStatFile = fopen("shipstat.csv","wt");
+	if (pStatFile)
+	{
+		fprintf(pStatFile, "name,lmrname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,sacc,aacc\n");
+		for (std::map<std::string, ShipType>::iterator i = ShipType::types.begin();
+				i != ShipType::types.end(); ++i)
+		{
+			ShipType *shipdef = &(i->second);
+			LmrModel *lmrModel = LmrLookupModelByName(shipdef->lmrModelName.c_str());
+			LmrObjParams lmrParams; memset(&lmrParams, 0, sizeof(LmrObjParams));
+			LmrCollMesh *collMesh = new LmrCollMesh(lmrModel, &lmrParams);
+			Aabb aabb = collMesh->GetAabb();
+
+			double hullmass = shipdef->hullMass;
+			double capacity = shipdef->capacity;
+			double xsize = aabb.max.x-aabb.min.x;
+			double ysize = aabb.max.y-aabb.min.y;
+			double zsize = aabb.max.z-aabb.min.z;
+			double fakevol = xsize*ysize*zsize;
+			double rescale = pow(fakevol/(100 * (hullmass+capacity)), 0.3333333333);
+			double brad = aabb.GetBoundingRadius();
+			double simass = (hullmass + capacity) * 1000.0;
+			double angInertia = (2/5.0)*simass*brad*brad;
+			double acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*simass);
+			double acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*simass);
+			double acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*simass);
+			double acc4 = shipdef->linThrust[ShipType::THRUSTER_RIGHT] / (9.81*simass);
+			double acca = shipdef->angThrust/angInertia;
+
+			fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.3f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f\n",
+				shipdef->name.c_str(), shipdef->lmrModelName.c_str(), hullmass, capacity,
+				fakevol, rescale, xsize, ysize, zsize, acc1, acc2, acc3, acc4, acca);
+			delete collMesh;
+		}
+		fclose(pStatFile);
+	}
+#endif
 
 	luaConsole = new LuaConsole(10);
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
@@ -939,7 +980,7 @@ void Pi::TombStoneLoop()
 		Pi::renderer->EndFrame();
 		Gui::Draw();
 		Pi::renderer->SwapBuffers();
-		
+
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
@@ -1204,13 +1245,13 @@ void Pi::Start()
 #endif
 
 	ui->Layout();
-	
+
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 
 	menuDone = false;
 	game = 0;
-	while (!menuDone) {
+	while (!game && !menuDone) {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
@@ -1229,7 +1270,7 @@ void Pi::Start()
 		ui->Draw();
 
 		Pi::renderer->SwapBuffers();
-		
+
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
@@ -1237,7 +1278,7 @@ void Pi::Start()
 
 #if 0
 	menu->HideAll();
-	
+
 	Gui::Screen::RemoveBaseWidget(menu);
 	delete menu;
 	delete background;
@@ -1305,7 +1346,7 @@ void Pi::MainLoop()
 		if (Pi::frameTime > 0.25) Pi::frameTime = 0.25;
 		currentTime = newTime;
 		accumulator += Pi::frameTime * Pi::game->GetTimeAccelRate();
-		
+
 		const float step = Pi::game->GetTimeStep();
 		if (step > 0.0f) {
 			int phys_ticks = 0;
@@ -1330,7 +1371,7 @@ void Pi::MainLoop()
 
 		Pi::renderer->BeginFrame();
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
-		
+
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
         // XXX should this be here? what is this anyway?
 		for (Space::BodyIterator i = game->GetSpace()->BodiesBegin(); i != game->GetSpace()->BodiesEnd(); ++i) {
@@ -1367,7 +1408,7 @@ void Pi::MainLoop()
 		// Pi::game. we can't continue.
 		if (!Pi::game)
 			return;
-		
+
 
 		if (Pi::game->UpdateTimeAccel())
 			accumulator = 0;				// fix for huge pauses 10000x -> 1x
@@ -1403,7 +1444,7 @@ void Pi::MainLoop()
 			int lua_memMB = int(lua_mem >> 20);
 
 			Pi::statSceneTris += LmrModelGetStatsTris();
-			
+
 			snprintf(
 				fps_readout, sizeof(fps_readout),
 				"%d fps, %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec\n"
@@ -1436,7 +1477,7 @@ void Pi::MainLoop()
 float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)
 {
 	// for the sake of hyperspace range, we count ships mass as 60% of original.
-	// Brian: "The 60% value was arrived at through trial and error, 
+	// Brian: "The 60% value was arrived at through trial and error,
 	// to scale the entire jump range calculation after things like ship mass,
 	// cargo mass, hyperdrive class, fuel use and fun were factored in."
 	return 200.0f * hyperclass * hyperclass / (total_mass_in_tonnes * 0.6f);

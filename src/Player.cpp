@@ -85,7 +85,7 @@ bool Player::FireMissile(int idx, Ship *target)
 {
 	if (!Ship::FireMissile(idx, target))
 		return false;
-	
+
 	Sound::PlaySfx("Missile_launch", 1.0f, 1.0f, 0);
 	return true;
 }

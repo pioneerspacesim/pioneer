@@ -59,10 +59,17 @@ ShipFlavour::ShipFlavour(ShipType::Type type_)
 	MakeRandomColor(secondaryColor);
 }
 
-void ShipFlavour::MakeTrulyRandom(ShipFlavour &v)
+// Pick a random ship type, and randomize the flavour
+void ShipFlavour::MakeTrulyRandom(ShipFlavour &v, bool atmospheric)
 {
-	const std::vector<ShipType::Type> &ships = ShipType::player_ships;
-	v = ShipFlavour(ships[Pi::rng.Int32(ships.size())]);
+	// only allow ships that can fit an atmospheric shield
+	if (atmospheric) {
+		const std::vector<ShipType::Type> &ships = ShipType::playable_atmospheric_ships;
+		v = ShipFlavour(ships[Pi::rng.Int32(ships.size())]);
+	} else {
+		const std::vector<ShipType::Type> &ships = ShipType::player_ships;
+		v = ShipFlavour(ships[Pi::rng.Int32(ships.size())]);
+	}
 }
 
 void ShipFlavour::ApplyTo(LmrObjParams *p) const

@@ -512,7 +512,7 @@ void RendererLegacy::ApplyMaterial(const Material *mat)
 
 	if (!mat->vertexColors)
 		glColor4f(mat->diffuse.r, mat->diffuse.g, mat->diffuse.b, mat->diffuse.a);
-	
+
 	if (mat->unlit) {
 		glDisable(GL_LIGHTING);
 	} else {

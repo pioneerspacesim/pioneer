@@ -50,6 +50,7 @@ libui_a_SOURCES = \
 	Container.cpp \
 	Context.cpp \
 	DropDown.cpp \
+	Event.cpp \
 	EventDispatcher.cpp \
 	FloatContainer.cpp \
 	Grid.cpp \
@@ -64,7 +65,6 @@ libui_a_SOURCES = \
 	Slider.cpp \
 	TextLayout.cpp \
 	Widget.cpp \
-	WidgetSet.cpp \
 	Lua.cpp \
 	LuaAlign.cpp \
 	LuaBackground.cpp \

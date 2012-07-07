@@ -32,7 +32,7 @@ void CargoBody::Init()
 CargoBody::CargoBody(Equip::Type t)
 {
 	m_type = t;
-	Init();	
+	Init();
 	SetMass(1.0);
 }
 

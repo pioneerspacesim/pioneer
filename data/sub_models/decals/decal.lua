@@ -1,4 +1,4 @@
---[[ sub-model for use in all models to place (cutout) decals on them, 
+--[[ sub-model for use in all models to place (cutout) decals on them,
 	 texture can have a alpha channel for a cutout decal but it's not a must
 	 if sequence is expandet so all squadrons can use all decals
 ]]--
@@ -8,9 +8,9 @@ define_model('decal', {
 			bounding_radius = 1,
 			materials = {'decal'}
 			},
-			
+
 	static = function(lod)
-			
+
 	end,
 
 	dynamic = function(lod)
@@ -18,7 +18,7 @@ define_model('decal', {
         selector1()  -- requests "random" number from selector function
 		set_material('decal', .7,.7,.7, 0.9, .3,.3,.3,5) -- creates semi-transparent material to cut out alpha channel, has to be < 1 but > 0
 		use_material('decal')
-	    
+
   		if select1 < 26 then
 	    	texture('sub_models/decals/decal_a.png', v(0,0,0), v(0,0,-1), v(0,-1,0)) -- calls the texture for the decal,
       	else

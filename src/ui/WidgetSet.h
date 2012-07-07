@@ -44,8 +44,6 @@ public:
 		for (int i = 0; i < n; i++) widgets[i] = w[i];
 	}
 
-	static WidgetSet FromLuaTable(lua_State *l, int idx);
-
 	int numWidgets;
 	Widget *widgets[8];
 };

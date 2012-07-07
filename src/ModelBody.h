@@ -33,12 +33,12 @@ public:
 	LmrObjParams &GetLmrObjParams() { return m_params; }
 	void SetLmrTimeParams();
 	void RebuildCollisionMesh();
-	
+
 	void TriMeshUpdateLastPos(const matrix4x4d &currentTransform);
 	void SetModel(const char *lmrModelName, bool isStatic = false);
 
 	void RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
-	
+
 	virtual void UpdateInterpolatedTransform(double alpha);
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);

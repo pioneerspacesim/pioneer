@@ -131,7 +131,7 @@ float GetSfxVolume()
 eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 {
 	vector3d pos;
-       
+
 	if (b == Pi::player) {
 		pos = vector3d(0.0);
 	} else {
@@ -425,7 +425,7 @@ static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 			}
 		}
 	}
-	
+
 	/* Convert float sample buffer to Sint16 samples the hardware likes */
 	for (int pos=0; pos<len_in_floats; pos++) {
 		const float val = m_masterVol * tmpbuf[pos];
@@ -516,7 +516,7 @@ bool Init ()
 	if (!isInitted) {
 		isInitted = true;
 		SDL_AudioSpec wanted;
-		
+
 		if (SDL_Init (SDL_INIT_AUDIO) == -1) {
 			fprintf (stderr, "Count not initialise SDL: %s.\n", SDL_GetError ());
 			return false;

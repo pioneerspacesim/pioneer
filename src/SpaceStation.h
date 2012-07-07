@@ -29,7 +29,7 @@ struct SpaceStationType {
 	double *dockAnimStageDuration;
 	double *undockAnimStageDuration;
 	bool dockOneAtATimePlease;
-	
+
 	struct positionOrient_t {
 		vector3d pos;
 		vector3d xaxis;
@@ -130,7 +130,7 @@ public:
 
 	// use docking bay position, if player has been granted permission
 	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const;
-	
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);

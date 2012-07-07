@@ -71,7 +71,7 @@ void ShipSpinnerWidget::Draw()
 		int(roundf((Gui::Screen::GetHeight() - pos[1] - m_height)/guiscale[1])),
 		int(m_width/guiscale[0]),
 		int(m_height/guiscale[1]));
-	
+
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(rot1);
 	rot.RotateY(rot2);
 	rot[14] = -1.5f * m_model->GetDrawClipRadius();

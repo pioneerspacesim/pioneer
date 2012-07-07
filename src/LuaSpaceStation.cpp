@@ -158,7 +158,7 @@ static int l_spacestation_add_advert(lua_State *l)
 
 	lua_pushinteger(l, ref);
 	return 1;
-} 
+}
 
 /*
  * Method: RemoveAdvert
@@ -197,7 +197,7 @@ static int l_spacestation_remove_advert(lua_State *l)
 		lua_pop(l, 1);
 		return 0;
 	}
-	
+
 	lua_pushinteger(l, ref);
 	lua_gettable(l, -2);
 	if (lua_isnil(l, -1)) {
@@ -224,7 +224,7 @@ static int l_spacestation_remove_advert(lua_State *l)
 	LUA_DEBUG_END(l,0);
 
 	return 0;
-} 
+}
 
 /*
  * Method: GetEquipmentPrice

@@ -3,6 +3,8 @@
 
 #include "libs.h"
 
+struct lua_State;
+
 namespace UI {
 
 class Widget;
@@ -16,8 +18,7 @@ class MouseWheelEvent;
 // base event. can't be instantiated directly
 class Event {
 public:
-	enum Type {
-		NONE,
+	enum Type { // <enum scope='UI::Event' name=UIEventType>
 		KEYBOARD,
 		MOUSE_BUTTON,
 		MOUSE_MOTION,
@@ -52,29 +53,32 @@ private:
 // data for various events
 class KeyboardEvent : public Event {
 public:
-	enum Action {
+	enum Action { // <enum scope='UI::KeyboardEvent' name=UIKeyboardAction prefix=KEY_>
 		KEY_DOWN,
 		KEY_UP
 	};
 	KeyboardEvent(Action _action, const KeySym &_keysym) : Event(Event::KEYBOARD), action(_action), keysym(_keysym) {}
 	const Action action;
 	const KeySym keysym;
+
+	void ToLuaTable(lua_State *l) const;
 };
 
 class MouseEvent : public Event {
 public:
 	const vector2f pos; // relative to widget
+
 protected:
 	MouseEvent(Event::Type _type, const vector2f &_pos) : Event(_type), pos(_pos) {}
 };
 
 class MouseButtonEvent : public MouseEvent {
 public:
-	enum Action {
+	enum Action { // <enum scope='UI::MouseButtonEvent' name=UIMouseButtonAction prefix=BUTTON_>
 		BUTTON_DOWN,
 		BUTTON_UP
 	};
-	enum ButtonType {
+	enum ButtonType { // <enum scope='UI::MouseButtonEvent' name=UIMouseButtonType prefix=BUTTON_>
 		BUTTON_LEFT,
 		BUTTON_MIDDLE,
 		BUTTON_RIGHT
@@ -82,21 +86,27 @@ public:
 	MouseButtonEvent(Action _action, ButtonType _button, const vector2f &_pos) : MouseEvent(Event::MOUSE_BUTTON, _pos), action(_action), button(_button) {}
 	const Action action;
 	const ButtonType button;
+
+	void ToLuaTable(lua_State *l) const;
 };
 
 class MouseMotionEvent : public MouseEvent {
 public:
 	MouseMotionEvent(const vector2f &_pos) : MouseEvent(Event::MOUSE_MOTION, _pos) {}
+
+	void ToLuaTable(lua_State *l) const;
 };
 
 class MouseWheelEvent : public MouseEvent {
 public:
-	enum WheelDirection {
+	enum WheelDirection { // <enum scope='UI::MouseWheelEvent' name=UIMouseWheelDirection prefix=WHEEL_>
 		WHEEL_UP,
 		WHEEL_DOWN
 	};
 	MouseWheelEvent(WheelDirection _direction, const vector2f &_pos) : MouseEvent(Event::MOUSE_WHEEL, _pos), direction(_direction) {}
 	WheelDirection direction;
+
+	void ToLuaTable(lua_State *l) const;
 };
 
 }

@@ -3,6 +3,7 @@
 #include "LuaUtils.h"
 #include "LuaPlayer.h"
 #include "LuaStarSystem.h"
+#include "LuaSystemPath.h"
 #include "Pi.h"
 #include "Game.h"
 
@@ -13,6 +14,36 @@
  * current game.
  *
  */
+
+static int l_game_start_game(lua_State *l)
+{
+	if (Pi::game) {
+		luaL_error(l, "can't start a new game while a game is already running");
+		return 0;
+	}
+
+	SystemPath *path = LuaSystemPath::GetFromLua(1);
+
+	RefCountedPtr<StarSystem> system(StarSystem::GetCached(*path));
+	SystemBody *sbody = system->GetBodyByPath(path);
+
+	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STARPORT)
+		Pi::game = new Game(*path);
+	else
+		Pi::game = new Game(*path, vector3d(0, 1.5*sbody->GetRadius(), 0));
+
+	return 0;
+}
+
+static int l_game_end_game(lua_State *l)
+{
+	if (!Pi::game)
+		return 0;
+	
+	// XXX stuff
+	
+	return 0;
+}
 
 /*
  * Attribute: player
@@ -82,6 +113,12 @@ static int l_game_attr_time(lua_State *l)
 
 void LuaGame::Register()
 {
+	static const luaL_Reg l_methods[] = {
+		{ "StartGame", l_game_start_game },
+		{ "EndGame",   l_game_end_game   },
+		{ 0, 0 }
+	};
+
 	static const luaL_Reg l_attrs[] = {
 		{ "player", l_game_attr_player },
 		{ "system", l_game_attr_system },
@@ -89,6 +126,6 @@ void LuaGame::Register()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateObject(0, l_attrs, 0);
+	LuaObjectBase::CreateObject(l_methods, l_attrs, 0);
 	lua_setglobal(Pi::luaManager->GetLuaState(), "Game");
 }

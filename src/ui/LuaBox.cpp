@@ -7,23 +7,8 @@ namespace UI {
 class LuaBox {
 public:
 
-	/*
-	Box *PackStart(Widget *child, Uint32 flags = 0);
-	Box *PackStart(const WidgetSet &set, Uint32 flags = 0);
-	Box *PackEnd(Widget *child, Uint32 flags = 0);
-	Box *PackEnd(const WidgetSet &set, Uint32 flags = 0);
-
-	void Remove(Widget *child);
-	void Clear();
-	*/
-
-	static inline void _unpack_pack_args(lua_State *l, WidgetSet &widgetSet, Uint32 &flags) {
-		if (lua_istable(l, 2))
-			widgetSet = UI::WidgetSet::FromLuaTable(l, 2);
-		else
-			widgetSet = UI::WidgetSet(LuaObject<UI::Widget>::CheckFromLua(2));
-
-		flags = 0;
+	static inline Uint32 _unpack_flags(lua_State *l) {
+		Uint32 flags = 0;
 
 		if (lua_gettop(l) > 2) {
 			luaL_checktype(l, 3, LUA_TTABLE);
@@ -35,16 +20,24 @@ public:
 			}
 			lua_pop(l, 1);
 		}
+
+		return flags;
 	}
 
 	static int l_pack_start(lua_State *l) {
 		UI::Box *b = LuaObject<UI::Box>::CheckFromLua(1);
 
-		WidgetSet widgetSet;
-		Uint32 flags;
-		_unpack_pack_args(l, widgetSet, flags);
+		Uint32 flags = _unpack_flags(l);
 
-		b->PackStart(widgetSet, flags);
+		if (lua_istable(l, 2)) {
+			for (size_t i = lua_rawlen(l, 2); i > 0; i--) {
+				lua_rawgeti(l, 2, i);
+				b->PackStart(LuaObject<UI::Widget>::CheckFromLua(-1), flags);
+				lua_pop(l, 1);
+			}
+		}
+		else
+			b->PackEnd(LuaObject<UI::Widget>::CheckFromLua(2), flags);
 
 		lua_pushvalue(l, 1);
 		return 1;
@@ -53,11 +46,17 @@ public:
 	static int l_pack_end(lua_State *l) {
 		UI::Box *b = LuaObject<UI::Box>::CheckFromLua(1);
 
-		WidgetSet widgetSet;
-		Uint32 flags;
-		_unpack_pack_args(l, widgetSet, flags);
+		Uint32 flags = _unpack_flags(l);
 
-		b->PackEnd(widgetSet, flags);
+		if (lua_istable(l, 2)) {
+			for (size_t i = 0; i < lua_rawlen(l, 2); i++) {
+				lua_rawgeti(l, 2, i+1);
+				b->PackEnd(LuaObject<UI::Widget>::CheckFromLua(-1), flags);
+				lua_pop(l, 1);
+			}
+		}
+		else
+			b->PackEnd(LuaObject<UI::Widget>::CheckFromLua(2), flags);
 
 		lua_pushvalue(l, 1);
 		return 1;
