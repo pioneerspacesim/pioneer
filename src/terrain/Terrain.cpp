@@ -93,7 +93,11 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 
 		case SystemBody::TYPE_PLANET_TERRESTRIAL: {
 
+			//Over-ride:
+			//gi = InstanceGenerator<TerrainHeightAsteroid3,TerrainColorRock>;
+			//break;
 			// Earth-like world
+			
 			if ((body->m_life > fixed(7,10)) && (body->m_volatileGas > fixed(2,10))) {
 				// There would be no life on the surface without atmosphere
 
@@ -369,7 +373,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 	if (!isfinite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
 	//             ^^^^ max mountain height for earth-like planet (same mass, radius)
 	// and then in sphere normalized jizz
-	m_maxHeight = std::min(0.5, m_maxHeightInMeters / rad);
+	m_maxHeight = std::min(1.0, m_maxHeightInMeters / rad);
 	//printf("%s: max terrain height: %fm [%f]\n", m_body->name.c_str(), m_maxHeightInMeters, m_maxHeight);
 	m_invMaxHeight = 1.0 / m_maxHeight;
 	m_planetRadius = rad;
