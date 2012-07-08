@@ -11,7 +11,7 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightAsteroid3>::GetHeightFractalName() const { return "Asteroid"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightAsteroid3>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightAsteroid3>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
 }
 
