@@ -25,11 +25,11 @@ private:
 		virtual void Draw();
 		virtual void OnActivate();
 		void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
-		bool HasStarport() { return m_has_starport; }
-		void SetHasStarport() { m_has_starport = true; }
+		bool HasStarport() { return m_hasStarport; }
+		void SetHasStarport() { m_hasStarport = true; }
 	private:
 		Graphics::Renderer *m_renderer;
-		bool m_has_starport;
+		bool m_hasStarport;
 	};
 	void SystemChanged(const SystemPath &path);
 	void UpdateEconomyTab();

@@ -435,7 +435,7 @@ void SystemInfoView::UpdateIconSelections()
 }
 
 SystemInfoView::BodyIcon::BodyIcon(const char *img) :
-	Gui::ImageRadioButton(0, img, img), m_has_starport(false)
+	Gui::ImageRadioButton(0, img, img), m_hasStarport(false)
 {
 }
 
@@ -445,14 +445,14 @@ void SystemInfoView::BodyIcon::Draw()
 	if (!GetSelected() && !HasStarport()) return;
 	float size[2];
 	GetSize(size);
-	Color green = GetSelected() ? Color(0.f, 1.f, 0.f, 1.f) : Color(0.25f, 0.5f, 0.5f, 1.f);
+	Color selectColor = GetSelected() ? Color(0.f, 1.f, 0.f, 1.f) : Color(0.25f, 0.5f, 0.5f, 1.f);
 	const vector2f vts[] = {
 		vector2f(0.f, 0.f),
 		vector2f(size[0], 0.f),
 		vector2f(size[0], size[1]),
 		vector2f(0.f, size[1]),
 	};
-	m_renderer->DrawLines2D(4, vts, green, Graphics::LINE_LOOP);
+	m_renderer->DrawLines2D(4, vts, selectColor, Graphics::LINE_LOOP);
 }
 
 void SystemInfoView::BodyIcon::OnActivate()
