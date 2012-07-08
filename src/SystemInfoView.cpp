@@ -11,6 +11,7 @@
 #include "StringF.h"
 #include "Game.h"
 #include "graphics/Renderer.h"
+#include "graphics/Drawables.h"
 
 SystemInfoView::SystemInfoView()
 {
@@ -445,14 +446,23 @@ void SystemInfoView::BodyIcon::Draw()
 	if (!GetSelected() && !HasStarport()) return;
 	float size[2];
 	GetSize(size);
-	Color selectColor = GetSelected() ? Color(0.f, 1.f, 0.f, 1.f) : Color(0.25f, 0.5f, 0.5f, 1.f);
-	const vector2f vts[] = {
-		vector2f(0.f, 0.f),
-		vector2f(size[0], 0.f),
-		vector2f(size[0], size[1]),
-		vector2f(0.f, size[1]),
-	};
-	m_renderer->DrawLines2D(4, vts, selectColor, Graphics::LINE_LOOP);
+	if (HasStarport()) {
+	    Color portColor = Color(0.25f, 0.5f, 0.5f, 1.f);
+	    // The -0.1f offset seems to be the best compromise to make the circles closed (e.g. around Mars), symmetric, fitting with selection
+	    // and not overlapping to much with asteroids
+	    Graphics::Drawables::Circle circle = Graphics::Drawables::Circle(size[0]*0.5f, size[0]*0.5f-0.1f, size[1]*0.5f, 0.f, portColor);
+	    circle.Draw(m_renderer);
+	}
+	if (GetSelected()) {
+	    Color selectColor = Color(0.f, 1.f, 0.f, 1.f);
+	    const vector2f vts[] = {
+		    vector2f(0.f, 0.f),
+		    vector2f(size[0], 0.f),
+		    vector2f(size[0], size[1]),
+		    vector2f(0.f, size[1]),
+	    };
+	    m_renderer->DrawLines2D(4, vts, selectColor, Graphics::LINE_LOOP);
+	}
 }
 
 void SystemInfoView::BodyIcon::OnActivate()
