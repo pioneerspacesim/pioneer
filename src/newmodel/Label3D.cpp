@@ -1,5 +1,7 @@
 ﻿#include "Label3D.h"
 #include "NodeVisitor.h"
+#include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
 
 namespace Newmodel {
 

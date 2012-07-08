@@ -5,6 +5,7 @@
  */
 #include "Node.h"
 #include "text/DistanceFieldFont.h"
+#include "graphics/Material.h"
 
 namespace Graphics {
 	class Renderer;

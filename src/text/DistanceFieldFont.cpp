@@ -1,5 +1,8 @@
-﻿#include "DistanceFieldFont.h"
+﻿
+#include "DistanceFieldFont.h"
 #include "graphics/Texture.h"
+#include "graphics/VertexArray.h"
+#include "utils.h"
 #include "FileSystem.h"
 #include "StringRange.h"
 #include <sstream>
