@@ -3304,6 +3304,7 @@
 			>
 			<Filter
 				Name="headers"
+				Filter="h;hpp;hxx;hm;inl;inc;xsd"
 				>
 				<File
 					RelativePath="..\..\contrib\jenkins\lookup3.h"
@@ -3312,6 +3313,7 @@
 			</Filter>
 			<Filter
 				Name="source"
+				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asm"
 				>
 				<File
 					RelativePath="..\..\contrib\jenkins\lookup3.c"
@@ -3322,7 +3324,7 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							UsePrecompiledHeader="0"
-							CompileAs="2"
+							ForcedIncludeFiles="$(NOINHERIT)"
 						/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -3331,7 +3333,16 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							UsePrecompiledHeader="0"
-							CompileAs="2"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="PreRelease|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
 						/>
 					</FileConfiguration>
 				</File>
