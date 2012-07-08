@@ -67,7 +67,7 @@ static int l_engine_attr_ui(lua_State *l)
  *
  * Status:
  *
- *   stable
+ *   deprecated
  */
 static int l_engine_attr_userdir(lua_State *l)
 {

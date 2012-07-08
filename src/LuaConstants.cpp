@@ -691,6 +691,25 @@ void LuaConstants::Register(lua_State *l)
 	 */
 	_create_constant_table_nonconsecutive(l, "MissionStatus", ENUM_MissionStatus);
 
+	/*
+	 * Constants: FileSystemRoot
+	 *
+	 * Specifier of filesystem base.
+	 *
+	 * USER - directory containing Pioneer's config, savefiles, mods and other
+	 * user-specific data
+	 * DATA - directory containing Pioneer's data files
+	 *
+	 * Availability:
+	 *
+	 *   alpha 25
+	 *
+	 * Status:
+	 *
+	 *   experimental
+	 */
+	_create_constant_table_nonconsecutive(l, "FileSystemRoot", ENUM_FileSystemRoot);
+
 	// XXX document these
 	_create_constant_table_nonconsecutive(l, "UIAlignDirection", ENUM_UIAlignDirection);
 	_create_constant_table_nonconsecutive(l, "UIBoxFlags", ENUM_UIBoxFlags);
@@ -701,6 +720,7 @@ void LuaConstants::Register(lua_State *l)
 	_create_constant_table_nonconsecutive(l, "UIMouseButtonAction", ENUM_UIMouseButtonAction);
 	_create_constant_table_nonconsecutive(l, "UIMouseButtonType", ENUM_UIMouseButtonType);
 	_create_constant_table_nonconsecutive(l, "UIMouseWheelDirection", ENUM_UIMouseWheelDirection);
+
 
 	LUA_DEBUG_END(l, 0);
 }
