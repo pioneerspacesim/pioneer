@@ -87,9 +87,20 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			break;
 		}
 
-		case SystemBody::TYPE_PLANET_ASTEROID:
-			gi = InstanceGenerator<TerrainHeightAsteroid,TerrainColorAsteroid>;
+		case SystemBody::TYPE_PLANET_ASTEROID: {
+			const GeneratorInstancer choices[] = {
+				InstanceGenerator<TerrainHeightAsteroid,TerrainColorAsteroid>,
+				InstanceGenerator<TerrainHeightAsteroid2,TerrainColorAsteroid>,
+				InstanceGenerator<TerrainHeightAsteroid3,TerrainColorAsteroid>,
+				InstanceGenerator<TerrainHeightAsteroid4,TerrainColorAsteroid>,
+				InstanceGenerator<TerrainHeightAsteroid,TerrainColorRock>,
+				InstanceGenerator<TerrainHeightAsteroid2,TerrainColorBandedRock>,
+				InstanceGenerator<TerrainHeightAsteroid3,TerrainColorRock>,
+				InstanceGenerator<TerrainHeightAsteroid4,TerrainColorBandedRock>
+			};
+			gi = choices[rand.Int32(8)];
 			break;
+		}
 
 		case SystemBody::TYPE_PLANET_TERRESTRIAL: {
 
@@ -124,9 +135,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 					InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorDesert>,
 					InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorDesert>,
 					InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorDesert>,
-					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorDesert>
+					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorDesert>//,
+					//InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorTFGood>
 				};
-				gi = choices[rand.Int32(8)];
+				gi = choices[rand.Int32(10)];
 				break;
 			}
 
@@ -144,9 +158,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 						InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorTFGood>,
 						InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorTFGood>,
 						InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorTFGood>,
-						InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFGood>
+						InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFGood>,
+						InstanceGenerator<TerrainHeightBarrenRock,TerrainColorTFGood>,
+						InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorTFGood>
+						//InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorTFGood>
 					};
-					gi = choices[rand.Int32(10)];
+					gi = choices[rand.Int32(12)];
 					break;
 				}
 
@@ -160,9 +177,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 					InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorIce>,
-					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorIce>
 				};
-				gi = choices[rand.Int32(10)];
+				gi = choices[rand.Int32(13)];
 				break;
 			}
 
@@ -180,9 +200,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 						InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorTFPoor>,
 						InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorTFPoor>,
 						InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorTFPoor>,
-						InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFPoor>
+						InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightBarrenRock,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorTFPoor>
 					};
-					gi = choices[rand.Int32(10)];
+					gi = choices[rand.Int32(13)];
 					break;
 				}
 
@@ -196,9 +219,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 					InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorIce>,
-					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorIce>
 				};
-				gi = choices[rand.Int32(10)];
+				gi = choices[rand.Int32(13)];
 				break;
 			}
 
@@ -210,9 +236,11 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorDesert>,
 					InstanceGenerator<TerrainHeightRuggedLava,TerrainColorDesert>,
 					InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorDesert>,
-					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorDesert>
+					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorDesert>
 				};
-				gi = choices[rand.Int32(6)];
+				gi = choices[rand.Int32(8)];
 				break;
 			}
 
@@ -224,9 +252,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 					InstanceGenerator<TerrainHeightMountainsCraters,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightWaterSolid,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightWaterSolidCanyons,TerrainColorIce>,
-					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorIce>
 				};
-				gi = choices[rand.Int32(6)];
+				gi = choices[rand.Int32(9)];
 				break;
 			}
 
@@ -256,9 +287,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 					InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorTFPoor>,
 					InstanceGenerator<TerrainHeightWaterSolid,TerrainColorTFPoor>,
 					InstanceGenerator<TerrainHeightRuggedLava,TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFPoor>
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFPoor>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorIce>
 				};
-				gi = choices[rand.Int32(11)];
+				gi = choices[rand.Int32(14)];
 				break;
 			};
 
@@ -266,17 +300,21 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 				const GeneratorInstancer choices[] = {
 					InstanceGenerator<TerrainHeightHillsNormal,TerrainColorRock>,
 					InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorRock>,
-					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorRock>
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorRock>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorRock>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorRock>,
+					InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorRock>
 				};
-				gi = choices[rand.Int32(3)];
+				gi = choices[rand.Int32(6)];
 				break;
 			}
 
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightHillsCraters2,TerrainColorRock>,
 				InstanceGenerator<TerrainHeightMountainsCraters2,TerrainColorRock>,
+				InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorRock>
 			};
-			gi = choices[rand.Int32(2)];
+			gi = choices[rand.Int32(3)];
 			break;
 		}
 
