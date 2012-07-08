@@ -69,7 +69,7 @@ NModel *Loader::LoadModel(const std::string &filename, const std::string &basepa
 				return CreateModel(modelDefinition);
 			}
 		}
-		
+
 	}
 	return 0;
 }
@@ -206,7 +206,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		colors.push_back(Color4ub(0, 0, 255, 0));
 		model->SetColors(m_renderer, colors);
 		model->SetPattern(0);
-	}	
+	}
 	return model;
 }
 
@@ -243,7 +243,7 @@ void Loader::FindPatterns(PatternContainer &output)
 		}
 	}
 	//std::cout << m_curPath << std::endl;
-	
+
 }
 
 Node *Loader::LoadMesh(const std::string &filename, NModel *model, const AnimList &animDefs, TagList &modelTags)
@@ -547,7 +547,7 @@ static void create_thruster(Group* parent, const matrix4x4f &m, Graphics::Render
 	//(it wouldn't really matter, it's a tiny amount of geometry)
 
 	MatrixTransform *trans = new MatrixTransform(m);
-	
+
 	//need the accumulated transform or the direction is off
 	const matrix4x4f transform = m * accum;
 	// XXX YZ swap. To be investigated...

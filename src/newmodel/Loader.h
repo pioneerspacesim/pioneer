@@ -95,7 +95,7 @@ public:
 private:
 	Graphics::Renderer *m_renderer;
 	std::string m_curPath;
-	
+
 	NModel *m_model;
 	Node *m_root;
 	RefCountedPtr<Text::DistanceFieldFont> m_labelFont;

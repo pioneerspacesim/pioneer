@@ -23,7 +23,7 @@ private:
 	std::ifstream m_file;
 	std::string m_path;
 
-	bool isComment(const std::string &s);	
+	bool isComment(const std::string &s);
 	bool match(const std::string &s, const std::string &what);
 	bool checkString(std::stringstream &ss, std::string &out, const std::string &what);
 	bool checkTexture(std::stringstream &ss, std::string &out);

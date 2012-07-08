@@ -34,7 +34,7 @@ void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, LmrOb
 	renderer->SetTransform(trans);
 	/*DrawVisitor vis(renderer);
 	m_root->Accept(vis);*/
-	//using the entire model bounding radius for all nodes at the moment. 
+	//using the entire model bounding radius for all nodes at the moment.
 	//BR could also be a property of Node.
 	params->boundingRadius = GetDrawClipRadius();
 	params->nodemask = 0x1;
