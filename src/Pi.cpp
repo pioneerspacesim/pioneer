@@ -18,6 +18,7 @@
 #include "SpaceStationView.h"
 #include "CargoBody.h"
 #include "InfoView.h"
+#include "Intro.h"
 #include "Serializer.h"
 #include "GeoSphere.h"
 #include "Sound.h"
@@ -893,58 +894,6 @@ void Pi::HandleEvents()
 	}
 }
 
-static void draw_intro(Background::Container *background, float _time)
-{
-	LmrMaterial m0 = { { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 };
-	LmrMaterial m1 = { { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
-	LmrMaterial m2 = { { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
-
-	LmrObjParams params;
-	params.animationNamespace = "ShipAnimation";
-	params.time = 0.0;
-	params.animValues[1] = 0.0;
-	params.label = Lang::PIONEER;
-	params.equipment = 0;
-	params.flightState = Ship::FLYING;
-	params.linthrust[0] = 0.0f; params.linthrust[1] = 0.0f; params.linthrust[2] = -1.0f;
-	params.angthrust[0] = 0.0f; params.angthrust[1] = 0.0f; params.angthrust[2] = 0.0f;
-	params.pMat[0] = m0;
-	params.pMat[1] = m1;
-	params.pMat[2] = m2;
-
-	EquipSet equipment;
-	// The finest parts that money can buy!
-	params.equipment = &equipment;
-	equipment.Add(Equip::ECM_ADVANCED, 1);
-	equipment.Add(Equip::HYPERCLOUD_ANALYZER, 1);
-	equipment.Add(Equip::ATMOSPHERIC_SHIELDING, 1);
-	equipment.Add(Equip::FUEL_SCOOP, 1);
-	equipment.Add(Equip::SCANNER, 1);
-	equipment.Add(Equip::RADAR_MAPPER, 1);
-	equipment.Add(Equip::MISSILE_NAVAL, 4);
-
-	// XXX all this stuff will be gone when intro uses a Camera
-	// rotate background by time, and a bit extra Z so it's not so flat
-	matrix4x4d brot = matrix4x4d::RotateXMatrix(-0.25*_time) * matrix4x4d::RotateZMatrix(0.6);
-	background->Draw(Pi::renderer, brot);
-
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
-
-	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
-	Pi::renderer->SetLights(1, &light);
-
-	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
-			matrix4x4f::RotateXMatrix(_time*0.7f);
-	rot[14] = -80.0;
-	Model *model = Pi::modelCache->FindModel("test_cobra");
-	if (model) model->Render(Pi::renderer, rot, &params);
-	//LmrLookupModelByName("lanner_ub")->Render(Pi::renderer, rot, &params);
-	glPopAttrib();
-}
-
 static void draw_tombstone(float _time)
 {
 	LmrMaterial m0 = { { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
@@ -1154,7 +1103,7 @@ bool Pi::HandleMenuOption(int n)
 
 void Pi::Start()
 {
-	Background::Container *background = new Background::Container(UNIVERSE_SEED);
+	ScopedPtr<Intro> intro(new Intro(Pi::renderer, vector2f(GetScrWidth(), GetScrHeight())));
 
 	ui->SetInnerWidget(ui->GetFromCatalog("MainMenu"));
 
@@ -1267,11 +1216,7 @@ void Pi::Start()
 				ui->DispatchSDLEvent(event);
 		}
 
-		Pi::renderer->BeginFrame();
-		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
-		Pi::renderer->SetTransform(matrix4x4f::Identity());
-		draw_intro(background, _time);
-		Pi::renderer->EndFrame();
+		intro->Render(_time);
 
 		ui->Update();
 		ui->Draw();

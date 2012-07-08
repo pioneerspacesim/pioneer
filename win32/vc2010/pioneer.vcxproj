@@ -277,6 +277,7 @@
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\Light.h" />
     <ClInclude Include="..\..\src\LmrModel.h" />
+    <ClInclude Include="..\..\src\LmrTypes.h" />
     <ClInclude Include="..\..\src\LuaBody.h" />
     <ClInclude Include="..\..\src\LuaCargoBody.h" />
     <ClInclude Include="..\..\src\LuaChatForm.h" />
