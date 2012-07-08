@@ -84,10 +84,10 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 		case SBody::TYPE_PLANET_TERRESTRIAL: {
 
 			//Over-ride:
-			gi = InstanceGenerator<TerrainHeightAsteroid3,TerrainColorRock>;
-			break;
+			//gi = InstanceGenerator<TerrainHeightAsteroid3,TerrainColorRock>;
+			//break;
 			// Earth-like world
-			/*
+			
 			if ((body->m_life > fixed(7,10)) && (body->m_volatileGas > fixed(2,10))) {
 				// There would be no life on the surface without atmosphere 
 
@@ -267,7 +267,7 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 				InstanceGenerator<TerrainHeightMountainsCraters2,TerrainColorRock>,
 			};
 			gi = choices[rand.Int32(2)];
-			break;*/
+			break;
 		}
 
 		default:
