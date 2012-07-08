@@ -179,21 +179,30 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	m_completionList.clear();
 	std::stack<std::string> chunks;
 	bool method = false;
+	bool expect_symbolname = false;
 	std::string::const_iterator current_end = statement.end();
 	std::string::const_iterator current_begin = statement.begin(); // To keep record when breaking off the loop.
 	for (std::string::const_reverse_iterator r_str_it = statement.rbegin();
 			r_str_it != statement.rend(); r_str_it++) {
-		if(is_alphanumunderscore(*r_str_it))
+		if(is_alphanumunderscore(*r_str_it)) {
+			expect_symbolname = false;
 			continue;
+		} else if (expect_symbolname) // Wrong syntax.
+			return;
 		if(*r_str_it != '.' && (!chunks.empty() || *r_str_it != ':')) { // We are out of the expression.
 			current_begin = r_str_it.base(); // Flag the symbol marking the beginning of the expression.
 			break;
 		}
+
+		expect_symbolname = true; // We hit a separator, there should be a symbol name before it.
 		chunks.push(std::string(r_str_it.base(), current_end));
 		if (*r_str_it == ':') // If it is a colon, we know chunks is empty so it is incomplete.
 			method = true;		// it must mean that we want to call a method.
 		current_end = (r_str_it+1).base(); // +1 in order to point on the CURRENT character.
 	}
+	if (expect_symbolname) // Again, a symbol was expected when we broke out of the loop.
+		return;
+
 	if (current_begin != current_end)
 		chunks.push(std::string(current_begin, current_end));
 

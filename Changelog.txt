@@ -1,3 +1,8 @@
+Alpha 25
+
+   * Fixes
+     * Fix some Lua console completion edge cases (#1339)
+
 Alpha 24
 
    * New features
