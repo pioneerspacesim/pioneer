@@ -3270,6 +3270,36 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="jenkins"
+			>
+			<Filter
+				Name="headers"
+				>
+				<File
+					RelativePath="..\..\contrib\jenkins\lookup3.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="source"
+				>
+				<File
+					RelativePath="..\..\contrib\jenkins\lookup3.c"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							CallingConvention="0"
+							CompileAs="2"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
