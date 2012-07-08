@@ -179,14 +179,17 @@ void SystemInfoView::UpdateEconomyTab()
 	m_econInfoTab->ResizeRequest();
 }
 
-void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, float &prevSize)
+void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, int &onSurface, float &prevSize)
 {
 	float size[2];
 	float myPos[2];
 	myPos[0] = pos[0];
 	myPos[1] = pos[1];
 	if (body->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) starports++;
-	if (body->type == SystemBody::TYPE_STARPORT_SURFACE) return;
+	if (body->type == SystemBody::TYPE_STARPORT_SURFACE) {
+		onSurface++;
+		return;
+	}
 	if (body->type != SystemBody::TYPE_GRAVPOINT) {
 		BodyIcon *ib = new BodyIcon(body->GetIcon());
 		ib->SetRenderer(m_renderer);
@@ -221,7 +224,7 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 	float prevSizeForKids = size[!dir];
 	for (std::vector<SystemBody*>::iterator i = body->children.begin();
 	     i != body->children.end(); ++i) {
-		PutBodies(*i, container, dir, myPos, majorBodies, starports, prevSizeForKids);
+		PutBodies(*i, container, dir, myPos, majorBodies, starports, onSurface, prevSizeForKids);
 	}
 }
 
@@ -271,22 +274,22 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 	m_sbodyInfoTab->onMouseButtonEvent.connect(sigc::mem_fun(this, &SystemInfoView::OnClickBackground));
 
 	m_bodyIcons.clear();
-	int majorBodies, starports;
+	int majorBodies, starports, onSurface;
 	{
 		float pos[2] = { 0, 0 };
 		float psize = -1;
-		majorBodies = starports = 0;
-		PutBodies(m_system->rootBody, m_econInfoTab, 1, pos, majorBodies, starports, psize);
+		majorBodies = starports = onSurface = 0;
+		PutBodies(m_system->rootBody, m_econInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
 
-		majorBodies = starports = 0;
+		majorBodies = starports = onSurface = 0;
 		pos[0] = pos[1] = 0;
 		psize = -1;
-		PutBodies(m_system->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, starports, psize);
+		PutBodies(m_system->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
 
-		majorBodies = starports = 0;
+		majorBodies = starports = onSurface = 0;
 		pos[0] = pos[1] = 0;
 		psize = -1;
-		PutBodies(m_system->rootBody, demographicsTab, 1, pos, majorBodies, starports, psize);
+		PutBodies(m_system->rootBody, demographicsTab, 1, pos, majorBodies, starports, onSurface, psize);
 	}
 
 	std::string _info = stringf(
@@ -295,7 +298,9 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		formatarg("body(s)", std::string(majorBodies == 1 ? Lang::BODY : Lang::BODIES)),
 		formatarg("portcount", starports),
 		formatarg("starport(s)", std::string(starports == 1 ? Lang::STARPORT : Lang::COUNT_STARPORTS)));
-	_info += "\n\n";
+	if (starports > 0)
+		_info += stringf(Lang::COUNT_ON_SURFACE, formatarg("surfacecount", onSurface));
+	_info += ".\n\n";
 	_info += m_system->GetLongDescription();
 
 	{
