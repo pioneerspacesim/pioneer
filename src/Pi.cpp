@@ -70,8 +70,10 @@
 #include "graphics/Renderer.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
+#include "ModelCache.h"
 #include "SDLWrappers.h"
 #include "ModManager.h"
+#include "newmodel/NModel.h"
 #include <fstream>
 
 float Pi::gameTickAlpha;
@@ -155,6 +157,7 @@ const char * const Pi::combatRating[] = {
 };
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
+ModelCache *Pi::modelCache;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -555,6 +558,7 @@ void Pi::Init()
 
 	LmrModelCompilerInit(Pi::renderer);
 	LmrNotifyScreenWidth(Pi::scrWidth);
+	modelCache = new ModelCache(Pi::renderer);
 	draw_progress(0.5f);
 
 //unsigned int control_word;
@@ -674,6 +678,7 @@ void Pi::Quit()
 	Graphics::Uninit();
 	LuaUninit();
 	Gui::Uninit();
+	delete Pi::modelCache;
 	delete Pi::renderer;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
@@ -934,7 +939,9 @@ static void draw_intro(Background::Container *background, float _time)
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
 			matrix4x4f::RotateXMatrix(_time*0.7f);
 	rot[14] = -80.0;
-	LmrLookupModelByName("lanner_ub")->Render(Pi::renderer, rot, &params);
+	Model *model = Pi::modelCache->FindModel("test_cobra");
+	if (model) model->Render(Pi::renderer, rot, &params);
+	//LmrLookupModelByName("lanner_ub")->Render(Pi::renderer, rot, &params);
 	glPopAttrib();
 }
 
