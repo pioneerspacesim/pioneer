@@ -13,7 +13,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 	if (body->heightMapFilename) {
 		const GeneratorInstancer choices[] = {
 			InstanceGenerator<TerrainHeightMapped,TerrainColorEarthLike>,
-			InstanceGenerator<TerrainHeightMapped2,TerrainColorRock>
+			InstanceGenerator<TerrainHeightMapped2,TerrainColorRock2>
 		};
 		assert(body->heightMapFractal < 2);
 		return choices[body->heightMapFractal](body);
