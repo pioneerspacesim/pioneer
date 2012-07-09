@@ -105,7 +105,7 @@ local moon = {
 }
 
 local mars = CustomSystemBody:new('Mars', 'PLANET_TERRESTRIAL')
-	:seed(4)
+	:seed(0)
 	:radius(f(533,1000))
 	:mass(f(107,1000))
 	:temp(278)
