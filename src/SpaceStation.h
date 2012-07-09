@@ -9,6 +9,7 @@
 #include "Quaternion.h"
 #include "Serializer.h"
 #include "RefList.h"
+#include "Camera.h"
 
 #define MAX_DOCKING_PORTS	4
 
@@ -83,7 +84,7 @@ public:
 	virtual ~SpaceStation();
 	virtual double GetBoundingRadius() const;
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
-	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	/** You should call Ship::Undock() rather than this.
 	 * Returns true on success, false if permission denied */
 	bool LaunchShip(Ship *ship, int port);
@@ -169,6 +170,7 @@ private:
 	std::vector<ShipFlavour> m_shipsOnSale;
 	double m_lastUpdatedShipyard;
 	CityOnPlanet *m_adjacentCity;
+	double m_distFromPlanet;
 	int m_numPoliceDocked;
 	enum { NUM_STATIC_SLOTS = 4 };
 	bool m_staticSlot[NUM_STATIC_SLOTS];

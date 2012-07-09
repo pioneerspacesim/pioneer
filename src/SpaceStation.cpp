@@ -781,7 +781,7 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 	}
 }
 
-void SpaceStation::Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	LmrObjParams &params = GetLmrObjParams();
 	params.label = GetLabel().c_str();
@@ -792,25 +792,91 @@ void SpaceStation::Render(Graphics::Renderer *r, const vector3d &viewCoords, con
 		params.animValues[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stagePos;
 	}
 
-	RenderLmrModel(viewCoords, viewTransform);
-
-	/* don't render city if too far away */
-	if (viewCoords.Length() > 1000000.0) return;
-
 	// find planet Body*
 	Planet *planet;
-	{
-		Body *_planet = GetFrame()->m_astroBody;
-		if ((!_planet) || !_planet->IsType(Object::PLANET)) {
-			// orbital spaceport -- don't make city turds
-		} else {
-			planet = static_cast<Planet*>(_planet);
+		
+	Body *_planet = GetFrame()->m_astroBody;
+	if ((!_planet) || !_planet->IsType(Object::PLANET)) {
+		// orbital spaceport -- don't make city turds or change lighting based on atmosohere
+		RenderLmrModel(viewCoords, viewTransform);
+	} else {	
+		//calculate lighting
+		std::vector<Light> lights, newLights;
+		newLights = lights = camera->GetLights();
+		int numLights = lights.size();
 
+		planet = static_cast<Planet*>(_planet);
+		vector3d upDir = -planet->GetInterpolatedPositionRelTo(GetFrame());
+		double dist = upDir.Length();
+		double pressure, density;
+		planet->GetAtmosphericState(dist, &pressure, &density);
+		double surfaceDensity;
+		Color cl;
+		_planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
+
+		//go through all lights to calculate something resembling light intensity
+		double light = 0.0;
+		Frame *nullFrame = 0;
+		for(std::vector<Light>::iterator l = lights.begin();
+			l != lights.end(); ++l) {
+				
+				double sunAngle;
+				// calculate the extent the sun is towards zenith
+				if (l->GetBody()){
+					const vector3d lightDir = (l->GetBody()->GetInterpolatedPositionRelTo(GetFrame()).Normalized());
+					sunAngle = lightDir.Dot(upDir);
+				} else 
+					// light is the default light for systems without lights
+					sunAngle = 1.0;
+
+				if (sunAngle > 0.25) sunAngle = 1.0;
+				else if ((sunAngle <= 0.25)&& (sunAngle >= -0.8)) sunAngle = ((sunAngle+0.08)/0.33);
+				else /*if (sunAngle < -0.8)*/ sunAngle = 0.0;
+				
+				light += sunAngle;
+		}
+
+		// approximate optical thickness fraction as fraction of density remaining relative to earths
+		double opticalThicknessFraction = 1.0-(surfaceDensity-density)/surfaceDensity;
+		// tweak optical thickness curve - lower exponent ==> higher altitude before stars show
+		opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
+		// brightness depends on optical depth and intensity of light from all the stars
+		double intensity = (Clamp((opticalThicknessFraction*light),0.0,1.0));
+
+		intensity = 0.00;
+		//fade diffuse component
+		for(int i = 0;i < numLights; i++) {
+			Color c = lights[i].GetDiffuse();
+			Color ca = lights[i].GetAmbient();
+			Color cs = lights[i].GetSpecular();
+			c.r*=float(intensity);
+			c.g*=float(intensity);
+			c.b*=float(intensity);
+			ca.r*=float(intensity);
+			ca.g*=float(intensity);
+			ca.b*=float(intensity);
+			cs.r*=float(intensity);
+			cs.g*=float(intensity);
+			cs.b*=float(intensity);
+			newLights[i].SetDiffuse(c);
+			newLights[i].SetAmbient(ca);
+			newLights[i].SetSpecular(cs);
+		}
+
+		r->SetLights(numLights, &newLights[0]);
+
+		RenderLmrModel(viewCoords, viewTransform);
+
+		/* don't render city if too far away */
+		if (viewCoords.Length() < 1000000.0){
 			if (!m_adjacentCity) {
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
-			m_adjacentCity->Render(r, this, viewCoords, viewTransform);
-		}
+			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
+		} 
+
+		// restore old lights
+		r->SetLights(numLights, &lights[0]);
 	}
 }
 
