@@ -260,8 +260,8 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 	}
 	//XXX should probably disable unused lights (for legacy renderer only)
 
-	Graphics::State::SetNumLights(numlights);
-
+	Graphics::State::SetLights(numlights, lights);
+	
 	return true;
 }
 

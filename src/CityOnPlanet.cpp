@@ -273,7 +273,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	AddStaticGeomsToCollisionSpace();
 }
 
-void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void CityOnPlanet::Render(Graphics::Renderer *r, Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d rot[4];
 	station->GetRotMatrix(rot[0]);
