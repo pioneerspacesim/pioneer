@@ -4,7 +4,6 @@
 #include "buildopts.h"
 #import <SDL/SDL.h>
 #import "SDLMain.h"
-#import <sys/param.h> /* for MAXPATHLEN */
 #import <unistd.h>
 
 static int    gArgc;
