@@ -14,7 +14,7 @@ static BOOL   gFinderLaunch;
 @implementation SDLApplication
 
 // Invoked from the Quit menu item
-- (void)terminate:(id)sender
+- (void)terminate:(__unused id)sender
 {
     // Posts a SDL_QUIT event so SDL shutsdown
     SDL_Event event;
@@ -27,7 +27,7 @@ static BOOL   gFinderLaunch;
 @implementation SDLMain
 
 // Called when the internal event loop has just started running
-- (void) applicationDidFinishLaunching: (NSNotification *) note
+- (void) applicationDidFinishLaunching: (__unused NSNotification *) note
 {
     int status;
 
