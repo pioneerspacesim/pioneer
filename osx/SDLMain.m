@@ -14,7 +14,7 @@ static BOOL   gFinderLaunch;
 @implementation SDLApplication
 
 // Invoked from the Quit menu item
-- (void)terminate:(__unused id)sender
+- (void)terminate:(id)sender
 {
     // Posts a SDL_QUIT event so SDL shutsdown
     SDL_Event event;
@@ -96,7 +96,7 @@ static BOOL   gFinderLaunch;
     }
 }
 
-- (IBAction)openAboutPanel:(id)sender
+- (IBAction)openAboutPanel:(__unused id)sender
 {
     NSDictionary *options;
     NSImage *img;
