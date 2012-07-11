@@ -51,7 +51,7 @@ static BOOL   gFinderLaunch;
     }
     else if ([[sender title] isEqualToString:@"pioneer Forums"])
     {
-        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://spacesimcentral.com/forum/forum/23-pioneer/"]];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/forum"]];
     }
     else if ([[sender title] isEqualToString:@"Chat with the dev team"])
     {
