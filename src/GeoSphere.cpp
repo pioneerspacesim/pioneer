@@ -1434,8 +1434,8 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 
 	// save old global ambient
 	// XXX add GetAmbient to renderer or save ambient in scene? (Space)
-	Color oldAmbient;
-	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
+	Color oldAmbient = Graphics::State::GetGlobalSceneAmbientColor();
+	//glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
 	float b = AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
 

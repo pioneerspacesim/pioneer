@@ -2,6 +2,7 @@
 #define _GRAPHICS_H
 
 #include "libs.h"
+#include "Color.h"
 
 /*
  * bunch of reused 3d drawy routines.
@@ -27,9 +28,9 @@ namespace Graphics {
 		static int m_numLights;
 		static float m_znear, m_zfar;
 		static std::vector<Light> m_lights;
+		static Color m_globalAmbientColor;
 	public:
 		static float m_invLogZfarPlus1; // for z-hack
-		//static void SetLights(int n, const Light *lights);
 		static void State::SetLights(int n, const Light *lights){
 			m_numLights = n;
 			m_lights.clear();
@@ -37,12 +38,13 @@ namespace Graphics {
 			for (int i = 0;i < n;i++) 
 				m_lights.push_back(lights[i]);
 		}
+		static void SetGlobalSceneAmbientColor(Color camb) { m_globalAmbientColor = camb; }
 		static void SetZnearZfar(float znear, float zfar) { m_znear = znear; m_zfar = zfar;
 			m_invLogZfarPlus1 = 1.0f / (log(m_zfar+1.0f)/log(2.0f));
 		}
 		static int GetNumLights() { return m_numLights; }
 		static std::vector<Light> GetLights() { return m_lights; }
-
+		static Color GetGlobalSceneAmbientColor() { return m_globalAmbientColor; }
 	};
 
 	extern Shader *simpleShader;

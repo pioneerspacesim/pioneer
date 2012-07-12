@@ -268,7 +268,7 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 bool RendererLegacy::SetAmbientColor(const Color &c)
 {
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, c);
-
+	Graphics::State::SetGlobalSceneAmbientColor(c);
 	return true;
 }
 
