@@ -8,7 +8,6 @@
 #include "terrain/Terrain.h"
 
 extern int GEOPATCH_EDGELEN;
-#define ATMOSPHERE_RADIUS 1.015 // XXX geosphere does not use this at all
 
 namespace Graphics { class Renderer; }
 class SystemBody;
