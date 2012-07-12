@@ -12,7 +12,7 @@ void ModManager::Init() {
 		const std::string &zipPath = info.GetPath();
 		if (ends_with(zipPath, ".zip")) {
 			printf("adding mod: %s\n", zipPath.c_str());
-			FileSystem::gameDataFiles.AppendSource(new FileSystem::FileSourceZip(FileSystem::JoinPathBelow(modFiles.GetRoot(), zipPath)));
+			FileSystem::gameDataFiles.PrependSource(new FileSystem::FileSourceZip(FileSystem::JoinPathBelow(modFiles.GetRoot(), zipPath)));
 		}
 	}
 }
