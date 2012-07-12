@@ -9,12 +9,13 @@ uniform float geosphereAtmosFogDensity;
 uniform float geosphereAtmosInvScaleHeight;
 
 varying vec4 varyingEyepos;
+varying vec3 varyingNormal;
 
 void main(void)
 {
-	vec3 eyepos = varyingEyepos.xyz;
+	vec3 eyepos = varyingEyepos;
 	vec3 eyenorm = normalize(eyepos);
-	vec3 tnorm = normalize(vec3(gl_TexCoord[1]));
+	vec3 tnorm = normalize(varyingNormal);
 	vec4 diff = vec4(0.0);
 
 	for (int i=0; i<NUM_LIGHTS; ++i) {
