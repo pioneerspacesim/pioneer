@@ -8,7 +8,7 @@ uniform vec3 geosphereCenter;
 uniform float geosphereAtmosFogDensity;
 uniform float geosphereAtmosInvScaleHeight;
 
-varying vec4 varyingEyepos;
+varying vec3 varyingEyepos;
 varying vec3 varyingNormal;
 
 void main(void)
