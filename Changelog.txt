@@ -25,6 +25,8 @@ Alpha 24
      * Fix flipped vbuilding glowmap (#1280, #1279)
      * Fix scrolling in the mission list (#1292, #1291)
      * Fix UI elements responding to the mouse wheel as a click (#1307, #606)
+     * Fix issues in the way multiple file sources (ie mods) are added to the
+       union filesystem (#1359)
 
    * Script and model changes
      * Lua console now provides autocompletion. Press <TAB> to cycle through
