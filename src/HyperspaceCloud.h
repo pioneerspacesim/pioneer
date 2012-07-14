@@ -5,6 +5,7 @@
 
 class Frame;
 class Ship;
+namespace Graphics { class Renderer; }
 
 /** XXX TODO XXX Not applied to yet... */
 #define HYPERCLOUD_DURATION (60.0*60.0*24.0*2.0)
@@ -20,7 +21,7 @@ public:
 	virtual void SetVelocity(vector3d v) { m_vel = v; }
 	virtual vector3d GetVelocity() const { return m_vel; }
 	virtual double GetBoundingRadius() const { return 1200.0; }
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void PostLoadFixup(Space *space);
 	virtual void TimeStepUpdate(const float timeStep);
 	Ship *GetShip() { return m_ship; }

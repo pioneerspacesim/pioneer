@@ -83,7 +83,7 @@ void CommodityTradeWidget::ShowAll()
 	}
 	Gui::Fixed *innerbox = new Gui::Fixed(450, NUM_ITEMS*YSEP);
 	innerbox->SetTransparency(true);
-	
+
 	const float iconOffset = 8.0f;
 	for (int i=Equip::FIRST_COMMODITY, num=0; i<=Equip::LAST_COMMODITY; i++) {
 		assert(Equip::types[i].slot == Equip::SLOT_CARGO);
@@ -93,7 +93,7 @@ void CommodityTradeWidget::ShowAll()
 
         std::map<Equip::Type,std::string>::iterator icon_iter = s_iconMap.find(Equip::Type(i));
 		if (icon_iter != s_iconMap.end()) {
-			Gui::Image *icon = new Gui::Image((PIONEER_DATA_DIR "/icons/goods/" + (*icon_iter).second + ".png").c_str());
+			Gui::Image *icon = new Gui::Image(("icons/goods/" + (*icon_iter).second + ".png").c_str());
 			innerbox->Add(icon, 0, num*YSEP);
 		}
 
@@ -111,12 +111,12 @@ void CommodityTradeWidget::ShowAll()
 		innerbox->Add(new Gui::Label(
 					format_money(m_seller->GetPrice(static_cast<Equip::Type>(i)))
 					), 200, num*YSEP+iconOffset);
-		
+
 		snprintf(buf, sizeof(buf), "%dt", stock*Equip::types[i].mass);
 		Gui::Label *stocklabel = new Gui::Label(buf);
 		m_stockLabels[i] = stocklabel;
 		innerbox->Add(stocklabel, 275, num*YSEP+iconOffset);
-		
+
 		snprintf(buf, sizeof(buf), "%dt", Pi::player->m_equipment.Count(Equip::SLOT_CARGO, static_cast<Equip::Type>(i))*Equip::types[i].mass);
 		Gui::Label *cargolabel = new Gui::Label(buf);
 		m_cargoLabels[i] = cargolabel;
@@ -129,7 +129,7 @@ void CommodityTradeWidget::ShowAll()
 	portal->ShowAll();
 
 	Gui::Fixed *heading = new Gui::Fixed(470, Gui::Screen::GetFontHeight());
-	const float *col = Gui::Theme::Colors::tableHeading;
+	const Color &col = Gui::Theme::Colors::tableHeading;
 	heading->Add((new Gui::Label(Lang::ITEM))->Color(col), 0, 0);
 	heading->Add((new Gui::Label(Lang::PRICE))->Color(col), 200, 0);
 	heading->Add((new Gui::Label(Lang::BUY))->Color(col), 380, 0);
@@ -153,7 +153,7 @@ void CommodityTradeWidget::UpdateStock(int commodity_type)
 	char buf[128];
 	snprintf(buf, sizeof(buf), "%dt", Pi::player->m_equipment.Count(Equip::SLOT_CARGO, static_cast<Equip::Type>(commodity_type))*Equip::types[commodity_type].mass);
 	m_cargoLabels[commodity_type]->SetText(buf);
-	
+
 	snprintf(buf, sizeof(buf), "%dt", m_seller->GetStock(static_cast<Equip::Type>(commodity_type))*Equip::types[commodity_type].mass);
 	m_stockLabels[commodity_type]->SetText(buf);
 }

@@ -6,6 +6,7 @@ struct lua_State;
 namespace LuaConstants {
 	void Register(lua_State *l);
 
+	int GetConstantFromArg(lua_State *l, const char *ns, int idx);
 	int GetConstant(lua_State *l, const char *ns, const char *name);
 	const char *GetConstantString(lua_State *l, const char *ns, int value);
 }

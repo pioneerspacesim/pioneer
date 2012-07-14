@@ -27,7 +27,7 @@ public:
 	void RemoveGeom(Geom*);
 	void AddStaticGeom(Geom*);
 	void RemoveStaticGeom(Geom*);
-	void TraceRay(const vector3d &start, const vector3d &dir, float len, CollisionContact *c, Geom *ignore = 0);
+	void TraceRay(const vector3d &start, const vector3d &dir, double len, CollisionContact *c, Geom *ignore = 0);
 	void Collide(void (*callback)(CollisionContact*));
 	void SetSphere(const vector3d &pos, double radius, void *user_data) {
 		sphere.pos = pos; sphere.radius = radius; sphere.userData = user_data;

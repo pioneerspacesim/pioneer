@@ -18,7 +18,10 @@
     <ClCompile Include="..\..\contrib\lua\lapi.c" />
     <ClCompile Include="..\..\contrib\lua\lauxlib.c" />
     <ClCompile Include="..\..\contrib\lua\lbaselib.c" />
+    <ClCompile Include="..\..\contrib\lua\lbitlib.c" />
     <ClCompile Include="..\..\contrib\lua\lcode.c" />
+    <ClCompile Include="..\..\contrib\lua\lcorolib.c" />
+    <ClCompile Include="..\..\contrib\lua\lctype.c" />
     <ClCompile Include="..\..\contrib\lua\ldblib.c" />
     <ClCompile Include="..\..\contrib\lua\ldebug.c" />
     <ClCompile Include="..\..\contrib\lua\ldo.c" />
@@ -44,22 +47,12 @@
     <ClCompile Include="..\..\contrib\lua\lundump.c" />
     <ClCompile Include="..\..\contrib\lua\lvm.c" />
     <ClCompile Include="..\..\contrib\lua\lzio.c" />
-    <ClCompile Include="..\..\contrib\lua\print.c" />
-    <ClCompile Include="..\..\contrib\oolua\class_from_stack.cpp" />
-    <ClCompile Include="..\..\contrib\oolua\lua_function.cpp" />
-    <ClCompile Include="..\..\contrib\oolua\lua_stack_dump.cpp" />
-    <ClCompile Include="..\..\contrib\oolua\lua_table.cpp" />
-    <ClCompile Include="..\..\contrib\oolua\oolua.cpp" />
-    <ClCompile Include="..\..\contrib\oolua\oolua_check_result.cpp" />
-    <ClCompile Include="..\..\contrib\oolua\oolua_error.cpp" />
-    <ClCompile Include="..\..\contrib\oolua\oolua_push_pull.cpp" />
-    <ClCompile Include="..\..\contrib\oolua\oolua_storage.cpp" />
-    <ClCompile Include="..\..\contrib\oolua\push_pointer_internal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\contrib\lua\lapi.h" />
     <ClInclude Include="..\..\contrib\lua\lauxlib.h" />
     <ClInclude Include="..\..\contrib\lua\lcode.h" />
+    <ClInclude Include="..\..\contrib\lua\lctype.h" />
     <ClInclude Include="..\..\contrib\lua\ldebug.h" />
     <ClInclude Include="..\..\contrib\lua\ldo.h" />
     <ClInclude Include="..\..\contrib\lua\lfunc.h" />
@@ -75,54 +68,12 @@
     <ClInclude Include="..\..\contrib\lua\ltable.h" />
     <ClInclude Include="..\..\contrib\lua\ltm.h" />
     <ClInclude Include="..\..\contrib\lua\lua.h" />
+    <ClInclude Include="..\..\contrib\lua\lua.hpp" />
     <ClInclude Include="..\..\contrib\lua\luaconf.h" />
     <ClInclude Include="..\..\contrib\lua\lualib.h" />
     <ClInclude Include="..\..\contrib\lua\lundump.h" />
     <ClInclude Include="..\..\contrib\lua\lvm.h" />
     <ClInclude Include="..\..\contrib\lua\lzio.h" />
-    <ClInclude Include="..\..\contrib\oolua\base_checker.h" />
-    <ClInclude Include="..\..\contrib\oolua\class_from_stack.h" />
-    <ClInclude Include="..\..\contrib\oolua\class_public_member.h" />
-    <ClInclude Include="..\..\contrib\oolua\cpp_constructor.h" />
-    <ClInclude Include="..\..\contrib\oolua\cpp_member_func.h" />
-    <ClInclude Include="..\..\contrib\oolua\determin_qualifier.h" />
-    <ClInclude Include="..\..\contrib\oolua\export_func_to_lua.h" />
-    <ClInclude Include="..\..\contrib\oolua\fwd_push_pull.h" />
-    <ClInclude Include="..\..\contrib\oolua\lua_function.h" />
-    <ClInclude Include="..\..\contrib\oolua\lua_includes.h" />
-    <ClInclude Include="..\..\contrib\oolua\lua_operator.h" />
-    <ClInclude Include="..\..\contrib\oolua\lua_ref.h" />
-    <ClInclude Include="..\..\contrib\oolua\lua_stack_dump.h" />
-    <ClInclude Include="..\..\contrib\oolua\lua_table.h" />
-    <ClInclude Include="..\..\contrib\oolua\lvd_types.h" />
-    <ClInclude Include="..\..\contrib\oolua\member_func_helper.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_char_arrays.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_check_result.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_config.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_c_func.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_error.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_exception.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_member_function.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_paramater_macros.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_parameter_helper.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_push_pull.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_registration.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_storage.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_typedefs.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_userdata.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_va_args.h" />
-    <ClInclude Include="..\..\contrib\oolua\oolua_version.h" />
-    <ClInclude Include="..\..\contrib\oolua\param_traits.h" />
-    <ClInclude Include="..\..\contrib\oolua\platform_check.h" />
-    <ClInclude Include="..\..\contrib\oolua\proxy_caller.h" />
-    <ClInclude Include="..\..\contrib\oolua\proxy_class.h" />
-    <ClInclude Include="..\..\contrib\oolua\push_pointer_internal.h" />
-    <ClInclude Include="..\..\contrib\oolua\typelist_structs.h" />
-    <ClInclude Include="..\..\contrib\oolua\type_list.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\contrib\oolua\Makefile.am" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5085B12D-F9AC-4878-9672-1FD4EB0EFB67}</ProjectGuid>
@@ -151,12 +102,18 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Debug.props" />
+    <Import Project="common.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="common.props" />
+    <Import Project="PreRelease.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="Release.props" />
+    <Import Project="common.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -172,13 +129,11 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
-      <StructMemberAlignment>4Bytes</StructMemberAlignment>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
+      <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4146</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -189,13 +144,10 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
-      <StructMemberAlignment>4Bytes</StructMemberAlignment>
-      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
+      <DisableSpecificWarnings>4146</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -204,17 +156,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <FloatingPointModel>Fast</FloatingPointModel>
       <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
-      <StructMemberAlignment>4Bytes</StructMemberAlignment>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
+      <DisableSpecificWarnings>4146</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -2,10 +2,17 @@
 #define _FONTCONFIG_H
 
 #include "IniConfig.h"
+#include "text/FontDescriptor.h"
 
 class FontConfig : public IniConfig {
 public:
-	FontConfig(const std::string &filename);
+	FontConfig();
+	explicit FontConfig(const std::string &filename);
+
+	Text::FontDescriptor GetDescriptor();
+
+private:
+	void SetDefaults();
 };
 
 #endif

@@ -13,7 +13,7 @@ define_model('eagle_gun', {
 		texture('tex8.png')
 		tapered_cylinder(4*lod,v(0,0,0),v(0,0,-9),v(0,1,0),.3,.2)
 		use_material('d_red')
-		sphere_slice(3*lod,2*lod, 0, .5*math.pi, Matrix.rotate(math.pi,v(1,0,0))*Matrix.scale(v(1,1,1.5)))
+		sphere_slice(3*lod,2*lod, 0, .5*math.pi, matrix.rotate(math.pi,v(1,0,0))*matrix.scale(v(1,1,1.5)))
 		if lod > 2 then
 			use_material('black')
 			texture(nil)
@@ -486,17 +486,17 @@ define_model('emk4_extras_v0', {
 		xref_quad(v42,v46,v54,v50)
 		-- mk4 tank tips
 		texture('tex12.png', v(.5,.5,0), v(.05,0,0), v(0,.05,0))
-		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(34.9,0,-15.8))
-		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, .4, .5*math.pi, matrix.translate(v(34.9,0,-15.8))
+		* matrix.rotate(0.5*math.pi, v(-1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 
-		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(-34.9,0,-15.8))
-		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, .4, .5*math.pi, matrix.translate(v(-34.9,0,-15.8))
+		* matrix.rotate(0.5*math.pi, v(-1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 
-		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(34.9,0,15.8))
-		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, 0, .5*math.pi, matrix.translate(v(34.9,0,15.8))
+		* matrix.rotate(0.5*math.pi, v(1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 
-		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(-34.9,0,15.8))
-		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, 0, .5*math.pi, matrix.translate(v(-34.9,0,15.8))
+		* matrix.rotate(0.5*math.pi, v(1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 	end
 })
 
@@ -523,17 +523,17 @@ define_model('emk4_extras_v1', {
 		xref_quad(v42,v46,v54,v50)
 		-- mk4 tank tips
 		texture('tex1e.png', v(.5,.5,0), v(.05,0,0), v(0,.05,0))
-		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(34.9,0,-15.8))
-		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, .4, .5*math.pi, matrix.translate(v(34.9,0,-15.8))
+		* matrix.rotate(0.5*math.pi, v(-1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 
-		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(-34.9,0,-15.8))
-		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, .4, .5*math.pi, matrix.translate(v(-34.9,0,-15.8))
+		* matrix.rotate(0.5*math.pi, v(-1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 
-		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(34.9,0,15.8))
-		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, 0, .5*math.pi, matrix.translate(v(34.9,0,15.8))
+		* matrix.rotate(0.5*math.pi, v(1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 
-		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(-34.9,0,15.8))
-		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, 0, .5*math.pi, matrix.translate(v(-34.9,0,15.8))
+		* matrix.rotate(0.5*math.pi, v(1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 	end
 })
 
@@ -734,8 +734,8 @@ define_model('eagle_cyl', {
 		set_material('chrome', .43,.5,.63,1,1,1.2,1.4,30)
 		use_material('chrome')
 		texture('tex8.png')
-		sphere_slice(3*lod, 2*lod, 0, math.pi, Matrix.translate(v(9,0,0)) * Matrix.scale(v(0.75,0.75,0.75)))
-		sphere_slice(3*lod, 2*lod, 0, math.pi, Matrix.translate(v(-9,0,0)) * Matrix.scale(v(0.75,0.75,0.75)))
+		sphere_slice(3*lod, 2*lod, 0, math.pi, matrix.translate(v(9,0,0)) * matrix.scale(v(0.75,0.75,0.75)))
+		sphere_slice(3*lod, 2*lod, 0, math.pi, matrix.translate(v(-9,0,0)) * matrix.scale(v(0.75,0.75,0.75)))
 	end,
 	dynamic = function(lod)
 		use_material('chrome')
@@ -1047,31 +1047,6 @@ define_model('eagle_lrf', {
 		bounding_radius = 30,
 		materials={'steel', 'cutout', 'win'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Eagle Long Range Fighter',
-				forward_thrust = -34e5,
-				reverse_thrust = 17e5,
-				up_thrust = 8e5,
-				down_thrust = -8e5,
-				left_thrust = -8e5,
-				right_thrust = 8e5,
-				angular_thrust = 64e5,
-				gun_mounts =
-				{
-					{ v(0,-.7,-40), v(0,0,-1) },
-					{ v(0,-.7,25), v(0,0,1) },
-				},
-				max_cargo = 20,
-				max_missile = 2,
-				max_fuelscoop = 0,
-				max_cargoscoop = 0,
-				capacity = 20,
-				hull_mass = 15,
-				price = 38000,
-				hyperdrive_class = 1,
-			}
-		}
 	},
 
 	static = function(lod)
@@ -1158,19 +1133,19 @@ define_model('eagle_lrf', {
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(1,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(-1.999,2.499,3.999)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(-1.999,2.499,3.999)))
 			zbias(0)
 		end
 		texture(nil)
 		use_material('win')
 		zbias(2,v(0,1,-24),v(0,1,0))
-		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2,2.5,4)))
+		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2,2.5,4)))
 		zbias(0)
 		if lod > 2 then
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(3,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2.001,2.501,4.001)))
 			zbias(0)
 		end
 
@@ -1197,31 +1172,6 @@ define_model('eagle_mk2', {
 		bounding_radius = 30,
 		materials={'chrome', 'cutout', 'win'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Eagle MK-II',
-				forward_thrust = -34e5,
-				reverse_thrust = 17e5,
-				up_thrust = 8e5,
-				down_thrust = -8e5,
-				left_thrust = -8e5,
-				right_thrust = 8e5,
-				angular_thrust = 64e5,
-				gun_mounts =
-				{
-					{ v(0,-.7,-40), v(0,0,-1) },
-					{ v(0,-.7,25), v(0,0,1) },
-				},
-				max_cargo = 22,
-				max_missile = 2,
-				max_fuelscoop = 0,
-				max_cargoscoop = 0,
-				capacity = 22,
-				hull_mass = 15,
-				price = 41000,
-				hyperdrive_class = 1,
-			}
-		}
 	},
 
 	static = function(lod)
@@ -1286,19 +1236,19 @@ define_model('eagle_mk2', {
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(1,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(-1.999,2.499,3.999)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(-1.999,2.499,3.999)))
 			zbias(0)
 		end
 		texture(nil)
 		use_material('win')
 		zbias(2,v(0,1,-24),v(0,1,0))
-		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2,2.5,4)))
+		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2,2.5,4)))
 		zbias(0)
 		if lod > 2 then
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(3,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2.001,2.501,4.001)))
 			zbias(0)
 		end
 
@@ -1330,31 +1280,6 @@ define_model('eagle_mk3', {
 		bounding_radius = 30,
 		materials={'chrome', 'e_glow', 'win', 'cutout'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Eagle MK-III',
-				forward_thrust = -36e5,
-				reverse_thrust = 25e5,
-				up_thrust = 8e5,
-				down_thrust = -8e5,
-				left_thrust = -8e5,
-				right_thrust = 8e5,
-				angular_thrust = 64e5,
-				gun_mounts =
-				{
-					{ v(0,-.7,-40), v(0,0,-1) },
-					{ v(0,-.7,25), v(0,0,1) },
-				},
-				max_cargo = 22,
-				max_missile = 2,
-				max_fuelscoop = 0,
-				max_cargoscoop = 0,
-				capacity = 22,
-				hull_mass = 15,
-				price = 43000,
-				hyperdrive_class = 1,
-			}
-		}
 	},
 
 	static = function(lod)
@@ -1429,19 +1354,19 @@ define_model('eagle_mk3', {
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(1,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(-1.999,2.499,3.999)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(-1.999,2.499,3.999)))
 			zbias(0)
 		end
 		texture(nil)
 		use_material('win')
 		zbias(2,v(0,1,-24),v(0,1,0))
-		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2,2.5,4)))
+		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2,2.5,4)))
 		zbias(0)
 		if lod > 2 then
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(3,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2.001,2.501,4.001)))
 			zbias(0)
 		end
 
@@ -1473,32 +1398,6 @@ define_model('eagle_mk4', {
 		bounding_radius = 30,
 		materials={'chrome', 'cv2', 'e_glow', 'win', 'cutout'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Eagle MK-IV "Bomber"',
-				forward_thrust = -50e5,
-				reverse_thrust = 25e5,
-				up_thrust = 14e5,
-				down_thrust = -12e5,
-				left_thrust = -12e5,
-				right_thrust = 12e5,
-				angular_thrust = 90e5,
-				gun_mounts =
-				{
-					{ v(0,-.7,-40), v(0,0,-1) },
-					{ v(0,-.7,25), v(0,0,1) },
-				},
-				max_cargo = 36,
-				max_laser = 2,
-				max_missile = 6,
-				max_fuelscoop = 1,
-				max_cargoscoop = 1,
-				capacity = 36,
-				hull_mass = 20,
-				price = 56000,
-				hyperdrive_class = 2,
-			}
-		}
 	},
 
 	static = function(lod)
@@ -1588,19 +1487,19 @@ define_model('eagle_mk4', {
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(1,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(-1.999,2.499,3.999)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(-1.999,2.499,3.999)))
 			zbias(0)
 		end
 		texture(nil)
 		use_material('win')
 		zbias(2,v(0,1,-24),v(0,1,0))
-		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2,2.5,4)))
+		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2,2.5,4)))
 		zbias(0)
 		if lod > 2 then
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(3,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2.001,2.501,4.001)))
 			zbias(0)
 		end
 		if lod > 1 then

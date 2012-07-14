@@ -176,9 +176,9 @@ GameMenuView::GameMenuView(): View()
 	mainTab->Add((new Gui::Label(Lang::PIONEER))->Shadow(true), 350, 10);
 	SetTransparency(false);
 	Gui::Label *l = new Gui::Label(Lang::PIONEER);
-	l->Color(1,.7,0);
+	l->Color(1,.7f,0);
 	m_rightRegion2->Add(l, 10, 0);
-	
+
 	{
 		Gui::LabelButton *b;
 		Gui::Box *hbox = new Gui::HBox();
@@ -212,7 +212,7 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(m_toggleFullscreen);
 		hbox->PackEnd(new Gui::Label(Lang::FULL_SCREEN));
 		vbox->PackEnd(hbox);
-		
+
 		vbox->PackEnd((new Gui::Label(Lang::OTHER_GRAPHICS_SETTINGS))->Color(1.0f,1.0f,0.0f));
 		m_toggleShaders = new Gui::ToggleButton();
 		m_toggleShaders->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleShaders));
@@ -221,22 +221,13 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(m_toggleShaders);
 		hbox->PackEnd(new Gui::Label(Lang::USE_SHADERS));
 		vbox->PackEnd(hbox);
-		
-		m_toggleHDR = new Gui::ToggleButton();
-		m_toggleHDR->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleHDR));
-		hbox = new Gui::HBox();
-		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(m_toggleHDR);
-		hbox->PackEnd(new Gui::Label(Lang::USE_HDR));
-		vbox->PackEnd(hbox);
-		if (!Render::IsHDRAvailable()) m_toggleHDR->SetEnabled(false);
-		
+
 		vbox->PackEnd((new Gui::Label(Lang::SOUND_SETTINGS))->Color(1.0f,1.0f,0.0f));
-		m_masterVolume = new VolumeControl(Lang::VOL_MASTER, Pi::config.Float("MasterVolume"), Pi::config.Int("MasterMuted"));
+		m_masterVolume = new VolumeControl(Lang::VOL_MASTER, Pi::config->Float("MasterVolume"), Pi::config->Int("MasterMuted"));
 		vbox->PackEnd(m_masterVolume);
-		m_sfxVolume = new VolumeControl(Lang::VOL_EFFECTS, Pi::config.Float("SfxVolume"), Pi::config.Int("SfxMuted"));
+		m_sfxVolume = new VolumeControl(Lang::VOL_EFFECTS, Pi::config->Float("SfxVolume"), Pi::config->Int("SfxMuted"));
 		vbox->PackEnd(m_sfxVolume);
-		m_musicVolume = new VolumeControl(Lang::VOL_MUSIC, Pi::config.Float("MusicVolume"), Pi::config.Int("MusicMuted"));
+		m_musicVolume = new VolumeControl(Lang::VOL_MUSIC, Pi::config->Float("MusicVolume"), Pi::config->Int("MusicMuted"));
 		vbox->PackEnd(m_musicVolume);
 
 		m_masterVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
@@ -253,7 +244,7 @@ GameMenuView::GameMenuView(): View()
 		// box to put the scroll portal and its scroll bar into
 		Gui::HBox *scrollHBox = new Gui::HBox();
 		vbox->PackEnd(scrollHBox);
-		
+
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
 		Gui::VScrollPortal *portal = new Gui::VScrollPortal(280);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
@@ -262,7 +253,7 @@ GameMenuView::GameMenuView(): View()
 
 		Gui::VBox *vbox2 = new Gui::VBox();
 		portal->Add(vbox2);
-		
+
 		for (int i=0; modes[i]; ++i) {
 			Gui::RadioButton *temp = new Gui::RadioButton(m_screenModesGroup);
 			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this,
@@ -316,7 +307,7 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
 		vbox->PackEnd(hbox);
 	}
-	
+
 	vbox = new Gui::VBox();
 	vbox->SetSpacing(5.0f);
 	detailBox->PackEnd(vbox);
@@ -350,10 +341,10 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(new Gui::Label(planet_fractal_desc[i]));
 		vbox->PackEnd(hbox);
 	}
-	
+
 
 	// language
-	
+
 	vbox = new Gui::VBox();
 	vbox->SetSizeRequest(300, 200);
 	mainTab->Add(vbox, 400, 250);
@@ -361,13 +352,13 @@ GameMenuView::GameMenuView(): View()
 	vbox->PackEnd((new Gui::Label(Lang::LANGUAGE_SELECTION))->Color(1.0f,1.0f,0.0f));
 
 	m_languageGroup = new Gui::RadioGroup();
-	const std::list<std::string> availableLanguages = Lang::GetAvailableLanguages();
+	const std::vector<std::string> &availableLanguages = Lang::GetAvailableLanguages();
 
 	{
 		// box to put the scroll portal and its scroll bar into
 		Gui::HBox *scrollHBox = new Gui::HBox();
 		vbox->PackEnd(scrollHBox);
-		
+
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
 		Gui::VScrollPortal *portal = new Gui::VScrollPortal(280);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
@@ -376,8 +367,8 @@ GameMenuView::GameMenuView(): View()
 
 		Gui::VBox *vbox2 = new Gui::VBox();
 		portal->Add(vbox2);
-		
-		for (std::list<std::string>::const_iterator i = availableLanguages.begin(); i != availableLanguages.end(); i++) {
+
+		for (std::vector<std::string>::const_iterator i = availableLanguages.begin(); i != availableLanguages.end(); i++) {
 			Gui::RadioButton *temp = new Gui::RadioButton(m_languageGroup);
 			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeLanguage), *i));
 			Gui::HBox *hbox = new Gui::HBox();
@@ -385,7 +376,7 @@ GameMenuView::GameMenuView(): View()
 			hbox->PackEnd(temp);
 			hbox->PackEnd(new Gui::Label(*i));
 			vbox2->PackEnd(hbox);
-			if ((*i) == Pi::config.String("Lang"))
+			if ((*i) == Pi::config->String("Lang"))
 				temp->SetSelected(true);
 		}
 	}
@@ -412,7 +403,7 @@ GameMenuView::GameMenuView(): View()
 			const char *function = KeyBindings::bindingProtos[i].function;
 
 			if (function) {
-				KeyBindings::KeyBinding kb = KeyBindings::KeyBindingFromString(Pi::config.String(function));
+				KeyBindings::KeyBinding kb = KeyBindings::KeyBindingFromString(Pi::config->String(function));
 				keyg = new KeyGetter(label, kb);
 				keyg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeKeyBinding), function));
 				box->PackEnd(keyg);
@@ -433,7 +424,7 @@ GameMenuView::GameMenuView(): View()
 			const char *function = KeyBindings::axisBindingProtos[i].function;
 
 			if (function) {
-				KeyBindings::AxisBinding ab = KeyBindings::AxisBindingFromString(Pi::config.String(function).c_str());
+				KeyBindings::AxisBinding ab = KeyBindings::AxisBindingFromString(Pi::config->String(function).c_str());
 				axisg = new AxisGetter(label, ab);
 				axisg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeAxisBinding), function));
 				box->PackEnd(axisg);
@@ -466,20 +457,31 @@ GameMenuView::GameMenuView(): View()
 		mybox->PackEnd(m_toggleMouseYInvert);
 		mybox->PackEnd(new Gui::Label(Lang::INVERT_MOUSE_Y));
 		box->PackEnd(mybox);
+
+		// Toggle nav tunnel
+		m_toggleNavTunnel = new Gui::ToggleButton();
+		m_toggleNavTunnel->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleNavTunnel));
+		box->PackEnd((new Gui::Label(Lang::HUD))->Color(1.0f,1.0f,0.0f));
+
+		Gui::HBox *guibox = new Gui::HBox();
+		guibox->SetSpacing(5.0f);
+		guibox->PackEnd(m_toggleNavTunnel);
+		guibox->PackEnd(new Gui::Label(Lang::DISPLAY_NAV_TUNNEL));
+		box->PackEnd(guibox);
 	}
 }
 
 void GameMenuView::OnChangeKeyBinding(const KeyBindings::KeyBinding &kb, const char *fnName)
 {
-	Pi::config.SetString(fnName, KeyBindings::KeyBindingToString(kb).c_str());
-	Pi::config.Save();
-	KeyBindings::OnKeyBindingsChanged();
+	Pi::config->SetString(fnName, KeyBindings::KeyBindingToString(kb).c_str());
+	Pi::config->Save();
+	KeyBindings::UpdateBindings();
 }
 
 void GameMenuView::OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const char *function) {
-	Pi::config.SetString(function, KeyBindings::AxisBindingToString(ab).c_str());
-	Pi::config.Save();
-	KeyBindings::OnKeyBindingsChanged();
+	Pi::config->SetString(function, KeyBindings::AxisBindingToString(ab).c_str());
+	Pi::config->Save();
+	KeyBindings::UpdateBindings();
 }
 
 void GameMenuView::OnChangeVolume()
@@ -507,22 +509,22 @@ void GameMenuView::OnChangeVolume()
 
 	Pi::GetMusicPlayer().SetVolume(musVol);
 
-	Pi::config.SetFloat("MasterVolume", masterVol);
-	Pi::config.SetFloat("SfxVolume", sfxVol);
-	Pi::config.SetFloat("MusicVolume", musVol);
-	Pi::config.SetFloat("MasterMuted", m_masterVolume->IsMuted());
-	Pi::config.SetFloat("SfxMuted", m_sfxVolume->IsMuted());
-	Pi::config.SetFloat("MusicMuted", m_musicVolume->IsMuted());
-	Pi::config.Save();
+	Pi::config->SetFloat("MasterVolume", masterVol);
+	Pi::config->SetFloat("SfxVolume", sfxVol);
+	Pi::config->SetFloat("MusicVolume", musVol);
+	Pi::config->SetFloat("MasterMuted", m_masterVolume->IsMuted());
+	Pi::config->SetFloat("SfxMuted", m_sfxVolume->IsMuted());
+	Pi::config->SetFloat("MusicMuted", m_musicVolume->IsMuted());
+	Pi::config->Save();
 }
-	
+
 void GameMenuView::OnChangePlanetDetail(int level)
 {
 	if (level == Pi::detail.planets) return;
 	m_changedDetailLevel = true;
 	Pi::detail.planets = level;
-	Pi::config.SetInt("DetailPlanets", level);
-	Pi::config.Save();
+	Pi::config->SetInt("DetailPlanets", level);
+	Pi::config->Save();
 }
 
 void GameMenuView::OnChangePlanetTextures(int level)
@@ -530,16 +532,16 @@ void GameMenuView::OnChangePlanetTextures(int level)
 	if (level == Pi::detail.textures) return;
 	m_changedDetailLevel = true;
 	Pi::detail.textures = level;
-	Pi::config.SetInt("Textures", level);
-	Pi::config.Save();
+	Pi::config->SetInt("Textures", level);
+	Pi::config->Save();
 }
 void GameMenuView::OnChangeFractalMultiple(int level)
 {
 	if (level == Pi::detail.fracmult) return;
 	m_changedDetailLevel = true;
 	Pi::detail.fracmult = level;
-	Pi::config.SetInt("FractalMultiple", level);
-	Pi::config.Save();
+	Pi::config->SetInt("FractalMultiple", level);
+	Pi::config->Save();
 }
 
 void GameMenuView::OnChangeCityDetail(int level)
@@ -547,28 +549,28 @@ void GameMenuView::OnChangeCityDetail(int level)
 	if (level == Pi::detail.cities) return;
 	m_changedDetailLevel = true;
 	Pi::detail.cities = level;
-	Pi::config.SetInt("DetailCities", level);
-	Pi::config.Save();
+	Pi::config->SetInt("DetailCities", level);
+	Pi::config->Save();
 }
 
 void GameMenuView::OnChangeLanguage(std::string &lang)
 {
-	Pi::config.SetString("Lang", lang.c_str());
-	Pi::config.Save();
+	Pi::config->SetString("Lang", lang.c_str());
+	Pi::config->Save();
 }
 
 void GameMenuView::OnChangeVideoResolution(int res)
 {
 	SDL_Rect **modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
-	Pi::config.SetInt("ScrWidth", modes[res]->w);
-	Pi::config.SetInt("ScrHeight", modes[res]->h);
-	Pi::config.Save();
+	Pi::config->SetInt("ScrWidth", modes[res]->w);
+	Pi::config->SetInt("ScrHeight", modes[res]->h);
+	Pi::config->Save();
 }
 
 void GameMenuView::OnToggleFullscreen(Gui::ToggleButton *b, bool state)
 {
-	Pi::config.SetInt("StartFullscreen", (state ? 1 : 0));
-	Pi::config.Save();
+	Pi::config->SetInt("StartFullscreen", (state ? 1 : 0));
+	Pi::config->Save();
 //#ifndef _WIN32
 	// XXX figure out how to do it in windows
 //	SDL_WM_ToggleFullScreen(Pi::scrSurface);
@@ -577,30 +579,29 @@ void GameMenuView::OnToggleFullscreen(Gui::ToggleButton *b, bool state)
 
 void GameMenuView::OnToggleShaders(Gui::ToggleButton *b, bool state)
 {
-	Pi::config.SetInt("DisableShaders", (state ? 0 : 1));
-	Pi::config.Save();
-	Render::ToggleShaders();
-}
-
-void GameMenuView::OnToggleHDR(Gui::ToggleButton *b, bool state)
-{
-	Pi::config.SetInt("EnableHDR", (state ? 1 : 0));
-	Pi::config.Save();
-	Render::ToggleHDR();
+	Pi::config->SetInt("DisableShaders", (state ? 0 : 1));
+	Pi::config->Save();
 }
 
 void GameMenuView::OnToggleJoystick(Gui::ToggleButton *b, bool state)
 {
-	Pi::config.SetInt("EnableJoystick", (state ? 1 : 0));
-	Pi::config.Save();
+	Pi::config->SetInt("EnableJoystick", (state ? 1 : 0));
+	Pi::config->Save();
 	Pi::SetJoystickEnabled(state);
 }
 
 void GameMenuView::OnToggleMouseYInvert(Gui::ToggleButton *b, bool state)
 {
-	Pi::config.SetInt("InvertMouseY", (state ? 1 : 0));
-	Pi::config.Save();
+	Pi::config->SetInt("InvertMouseY", (state ? 1 : 0));
+	Pi::config->Save();
 	Pi::SetMouseYInvert(state);
+}
+
+void GameMenuView::OnToggleNavTunnel(Gui::ToggleButton *b, bool state) {
+	Pi::config->SetInt("DisplayNavTunnel", (state ? 1 : 0));
+	Pi::config->Save();
+	if (Pi::game && Pi::worldView)
+		Pi::worldView->SetNavTunnelDisplayed(state);
 }
 
 void GameMenuView::HideAll()
@@ -654,10 +655,10 @@ void GameMenuView::OnSwitchTo() {
 		m_planetTextureGroup->SetSelected(Pi::detail.textures);
 		m_planetFractalGroup->SetSelected(Pi::detail.fracmult);
 		m_cityDetailGroup->SetSelected(Pi::detail.cities);
-		m_toggleShaders->SetPressed(Render::AreShadersEnabled());
-		m_toggleHDR->SetPressed(Render::IsHDREnabled());
-		m_toggleFullscreen->SetPressed(Pi::config.Int("StartFullscreen") != 0);
+		m_toggleShaders->SetPressed(Pi::config->Int("DisableShaders") == 0);
+		m_toggleFullscreen->SetPressed(Pi::config->Int("StartFullscreen") != 0);
 		m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
 		m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
+		m_toggleNavTunnel->SetPressed(Pi::worldView->IsNavTunnelDisplayed());
 	}
 }

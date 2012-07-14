@@ -7,7 +7,7 @@ template <>
 const char *TerrainColorFractal<TerrainColorStarWhiteDwarf>::GetColorFractalName() const { return "StarWhiteDwarf"; }
 
 template <>
-TerrainColorFractal<TerrainColorStarWhiteDwarf>::TerrainColorFractal(const SBody *body) : Terrain(body)
+TerrainColorFractal<TerrainColorStarWhiteDwarf>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
 	double height = m_maxHeightInMeters*0.1;
 	SetFracDef(0, height, 3e9, 100.0*m_fracmult); //why on Earth we need a feature size of 3,000,000 KM (2.2x the sun) I don't know, but we do... :)

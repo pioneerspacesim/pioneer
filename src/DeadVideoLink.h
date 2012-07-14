@@ -2,6 +2,10 @@
 #define _DEADVIDEOLINK
 
 #include "VideoLink.h"
+#include "graphics/Texture.h"
+#include "gui/GuiTexturedQuad.h"
+#include "RefCounted.h"
+#include "SmartPtr.h"
 
 class DeadVideoLink : public VideoLink {
 public:
@@ -12,11 +16,13 @@ public:
 
 private:
 	void DrawMessage();
-	void PutRandomCrapIntoTexture();
+	void UpdateWhiteNoise();
 
 	Uint32 m_created;
-	GLuint m_tex;
 	Gui::ToolTip *m_message;
+
+	RefCountedPtr<Graphics::Texture> m_texture;
+	ScopedPtr<Gui::TexturedQuad> m_quad;
 };
 
 #endif

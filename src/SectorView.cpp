@@ -2,16 +2,22 @@
 #include "gui/Gui.h"
 #include "Pi.h"
 #include "SectorView.h"
-#include "Sector.h"
+#include "galaxy/Sector.h"
 #include "SystemInfoView.h"
 #include "Player.h"
 #include "Serializer.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "GalacticView.h"
 #include "Lang.h"
 #include "StringF.h"
 #include "ShipCpanel.h"
 #include "Game.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+#include <algorithm>
+#include <sstream>
+
+using namespace Graphics;
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
@@ -19,7 +25,7 @@
 SectorView::SectorView()
 {
 	InitDefaults();
-	
+
 	m_rotX = m_rotXMovingTo = m_rotXDefault;
 	m_rotZ = m_rotZMovingTo = m_rotZDefault;
 	m_zoom = m_zoomMovingTo = m_zoomDefault;
@@ -65,15 +71,17 @@ SectorView::SectorView(Serializer::Reader &rd)
 
 void SectorView::InitDefaults()
 {
-	m_rotXDefault = Pi::config.Float("SectorViewXRotation");
-	m_rotZDefault = Pi::config.Float("SectorViewZRotation");
-	m_zoomDefault = Pi::config.Float("SectorViewZoom");
+	m_rotXDefault = Pi::config->Float("SectorViewXRotation");
+	m_rotZDefault = Pi::config->Float("SectorViewZRotation");
+	m_zoomDefault = Pi::config->Float("SectorViewZoom");
 	m_rotXDefault = Clamp(m_rotXDefault, -170.0f, -10.0f);
 	m_zoomDefault = Clamp(m_zoomDefault, 0.1f, 5.0f);
+	m_previousSearch = "";
 }
-		
+
 void SectorView::InitObject()
 {
+	m_disk = new VertexArray(ATTRIB_POSITION);
 	SetTransparency(true);
 
 	Gui::Screen::PushFont("OverlayFont");
@@ -86,12 +94,12 @@ void SectorView::InitObject()
 	Add(m_sectorLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()*2-66);
 	m_distanceLabel = new Gui::Label("");
 	Add(m_distanceLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
-	
-	m_zoomInButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_in.png");
+
+	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
 	Add(m_zoomInButton, 700, 5);
-	
-	m_zoomOutButton = new Gui::ImageButton(PIONEER_DATA_DIR "/icons/zoom_out.png");
+
+	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	Add(m_zoomOutButton, 732, 5);
 
@@ -100,11 +108,18 @@ void SectorView::InitObject()
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
 	Add(m_searchBox, 700, 500);
 
-	m_gluDiskDlist = glGenLists(1);
-	glNewList(m_gluDiskDlist, GL_COMPILE);
-	gluDisk(Pi::gluQuadric, 0.0, 0.2, 40, 1);
-	glEndList();
-	
+	// selection highlight disk
+	// (wound counterclockwise)
+	// color will be determined by a material
+	m_disk->Add(vector3f(0.f, 0.f, 0.f));
+	const float rad = 0.2f;
+	for (int i = 72; i >= 0; i--) {
+		m_disk->Add(vector3f(
+			0.f+sinf(DEG2RAD(i*5.f))*rad,
+			0.f+cosf(DEG2RAD(i*5.f))*rad,
+			0.f));
+	}
+
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
 	m_infoBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
@@ -176,9 +191,9 @@ void SectorView::InitObject()
 	systemBox->PackEnd(m_targetSystemLabels.shortDesc);
 	m_infoBox->PackEnd(systemBox);
 
-	m_onMouseButtonDown = 
+	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SectorView::MouseButtonDown));
-	
+
 	UpdateSystemLabels(m_currentSystemLabels, m_current);
 	UpdateSystemLabels(m_selectedSystemLabels, m_selected);
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
@@ -188,7 +203,7 @@ void SectorView::InitObject()
 
 SectorView::~SectorView()
 {
-	glDeleteLists(m_gluDiskDlist, 1);
+	delete m_disk;
 	m_onMouseButtonDown.disconnect();
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
@@ -212,13 +227,26 @@ void SectorView::Save(Serializer::Writer &wr)
 
 void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 {
-	if (keysym->sym != SDLK_RETURN)
+	//remember the last search text, hotkey: up
+	if (m_searchBox->GetText().empty() && keysym->sym == SDLK_UP && !m_previousSearch.empty())
+		m_searchBox->SetText(m_previousSearch);
+
+	if (keysym->sym != SDLK_KP_ENTER && keysym->sym != SDLK_RETURN)
 		return;
 
-	const std::string search = m_searchBox->GetText();
+	std::string search = m_searchBox->GetText();
 	if (!search.size())
 		return;
-	
+
+	m_previousSearch = search;
+
+	//Try to detect if user entered a sector address, comma or space separated, strip parentheses
+	//system index is unreliable, so it is not supported
+	try {
+		GotoSector(SystemPath::Parse(search.c_str()));
+		return;
+	} catch (SystemPath::ParseFailure) {}
+
 	bool gotMatch = false, gotStartMatch = false;
 	SystemPath bestMatch;
 	const std::string *bestMatchName = 0;
@@ -244,7 +272,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 
 				// partial match at start of name
 				if (!gotMatch || !gotStartMatch || bestMatchName->size() > ss->name.size()) {
-					
+
 					// don't already have one or its shorter than the previous
 					// one, take it
 					bestMatch = (*i).first;
@@ -270,7 +298,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 				}
 			}
 		}
-	
+
 	if (gotMatch) {
 		Pi::cpan->MsgLog()->Message("", stringf(Lang::NOT_FOUND_BEST_MATCH_X, formatarg("system", *bestMatchName)));
 		GotoSystem(bestMatch);
@@ -289,15 +317,11 @@ void SectorView::Draw3D()
 {
 	m_clickableLabels->Clear();
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(40, Pi::GetScrAspect(), 1.0, 100.0);
-	
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+	m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 100.f);
+
+	matrix4x4f modelview = matrix4x4f::Identity();
+	m_renderer->ClearScreen();
+
 	m_sectorLabel->SetText(stringf(Lang::SECTOR_X_Y_Z,
 		formatarg("x", int(floorf(m_pos.x))),
 		formatarg("y", int(floorf(m_pos.y))),
@@ -311,37 +335,28 @@ void SectorView::Draw3D()
 		m_distanceLabel->SetText("");
 	}
 
-	glDisable(GL_LIGHTING);
-
 	// units are lightyears, my friend
-	glTranslatef(0, 0, -10-10*m_zoom);
-	glRotatef(m_rotX, 1, 0, 0);
-	glRotatef(m_rotZ, 0, 0, 1);
-	glTranslatef(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
+	modelview.Translate(0.f, 0.f, -10.f-10.f*m_zoom);
+	modelview.Rotate(DEG2RAD(m_rotX), 1.f, 0.f, 0.f);
+	modelview.Rotate(DEG2RAD(m_rotZ), 0.f, 0.f, 1.f);
+	modelview.Translate(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
+	m_renderer->SetTransform(modelview);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
-	
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glEnable(GL_LINE_SMOOTH);
+	m_renderer->SetBlendMode(BLEND_ALPHA);
 
-	vector3d playerPos;
+	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
 
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
 			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
-				glPushMatrix();
-				glTranslatef(Sector::SIZE*sx, Sector::SIZE*sy, Sector::SIZE*sz);
-				DrawSector(int(floorf(m_pos.x))+sx, int(floorf(m_pos.y))+sy, int(floorf(m_pos.z))+sz);
-				glPopMatrix();
+				DrawSector(int(floorf(m_pos.x))+sx, int(floorf(m_pos.y))+sy, int(floorf(m_pos.z))+sz, playerPos,
+					modelview * matrix4x4f::Translation(Sector::SIZE*sx, Sector::SIZE*sy, Sector::SIZE*sz));
 			}
 		}
 	}
 
-	glDisable(GL_LINE_SMOOTH);
-
-	glDisable(GL_BLEND);
-	glEnable(GL_LIGHTING);
+	m_renderer->SetBlendMode(BLEND_SOLID);
 }
 
 void SectorView::SetHyperspaceTarget(const SystemPath &path)
@@ -376,6 +391,11 @@ void SectorView::ResetHyperspaceTarget()
 		onHyperspaceTargetChanged.emit();
 		UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 	}
+}
+
+void SectorView::GotoSector(const SystemPath &path)
+{
+	m_posMovingTo = vector3f(path.sectorX, path.sectorY, path.sectorZ);
 }
 
 void SectorView::GotoSystem(const SystemPath &path)
@@ -427,12 +447,12 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 
 	if (m_inSystem) {
 		const float dist = Sector::DistanceBetween(sec, path.systemIndex, playerSec, m_current.systemIndex);
-		
+
 		int fuelRequired;
 		double dur;
-		enum Ship::HyperjumpStatus jumpStatus;
-		Pi::player->CanHyperspaceTo(&path, fuelRequired, dur, &jumpStatus);
-		const double DaysNeeded = dur*(1.0 / (24*60*60)); 
+		enum Ship::HyperjumpStatus jumpStatus
+			= Pi::player->GetHyperspaceDetails(&path, fuelRequired, dur);
+		const double DaysNeeded = dur*(1.0 / (24*60*60));
 		const double HoursNeeded = (DaysNeeded - floor(DaysNeeded))*24;
 
 		switch (jumpStatus) {
@@ -441,18 +461,21 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 				labels.distance->SetText(stringf(format,
 					formatarg("distance", dist), formatarg("mass", fuelRequired), formatarg("days", floor(DaysNeeded)), formatarg("hours", HoursNeeded)));
 				labels.distance->Color(0.0f, 1.0f, 0.2f);
+				m_jumpLine.SetColor(Color(0.f, 1.f, 0.2f, 1.f));
 				break;
 			case Ship::HYPERJUMP_INSUFFICIENT_FUEL:
 				snprintf(format, sizeof(format), "[ %s | %s ]", Lang::NUMBER_LY, Lang::NUMBER_TONNES);
 				labels.distance->SetText(stringf(format,
 					formatarg("distance", dist), formatarg("mass", fuelRequired)));
 				labels.distance->Color(1.0f, 1.0f, 0.0f);
+				m_jumpLine.SetColor(Color(1.f, 1.f, 0.f, 1.f));
 				break;
 			case Ship::HYPERJUMP_OUT_OF_RANGE:
 				snprintf(format, sizeof(format), "[ %s ]", Lang::NUMBER_LY);
 				labels.distance->SetText(stringf(format,
 					formatarg("distance", dist)));
 				labels.distance->Color(1.0f, 0.0f, 0.0f);
+				m_jumpLine.SetColor(Color(1.f, 0.f, 0.f, 1.f));
 				break;
 			default:
 				labels.distance->SetText("");
@@ -490,47 +513,25 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		m_infoBox->ShowAll();
 }
 
-static void _draw_arrow(const vector3f &direction)
+void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
 {
-	// ^^^^ !sol
-	const float headRadius = 0.25f;
-	glBegin(GL_LINE_STRIP);
-		glVertex3f(direction.x, direction.y, direction.z);
-		glVertex3f(0, 0, 0);
-	glEnd();
-	glDisable(GL_CULL_FACE);
-	const vector3f axis1 = direction.Cross(vector3f(0,1.0f,0)).Normalized();
-	const vector3f axis2 = direction.Cross(axis1).Normalized();
-	vector3f p;
-	glBegin(GL_TRIANGLE_FAN);
-		glVertex3f(direction.x, direction.y, direction.z);
-		for (float f=2*M_PI; f>0; f-=0.6) {
-			p = 0.8f*direction + headRadius*sin(f)*axis1 + headRadius*cos(f)*axis2;
-			glVertex3fv(&p.x);
-		}
-		p = 0.8f*direction + headRadius*axis2;
-		glVertex3fv(&p.x);
-	glEnd();
-	glEnable(GL_CULL_FACE);
-}
-
-void SectorView::DrawSector(int sx, int sy, int sz)
-{
+	m_renderer->SetTransform(trans);
 	Sector* ps = GetCached(sx, sy, sz);
 
 	int cz = int(floor(m_pos.z+0.5f));
 
 	if (cz == sz) {
-		glColor3f(0,0.2f,0);
-		glBegin(GL_LINE_LOOP);
-			glVertex3f(0, 0, 0);
-			glVertex3f(0, Sector::SIZE, 0);
-			glVertex3f(Sector::SIZE, Sector::SIZE, 0);
-			glVertex3f(Sector::SIZE, 0, 0);
-		glEnd();
+		const Color darkgreen(0.f, 0.2f, 0.f, 1.f);
+		const vector3f vts[] = {
+			vector3f(0.f, 0.f, 0.f),
+			vector3f(0.f, Sector::SIZE, 0.f),
+			vector3f(Sector::SIZE, Sector::SIZE, 0.f),
+			vector3f(Sector::SIZE, 0.f, 0.f)
+		};
+
+		m_renderer->DrawLines(4, vts, darkgreen, LINE_LOOP);
 	}
 
-	if (!(sx || sy)) glColor3f(1,1,0);
 	Uint32 num=0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++num) {
 		SystemPath current = SystemPath(sx, sy, sz, num);
@@ -552,7 +553,7 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 			if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
 				RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
-				if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) ) 
+				if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) )
 				{
 					(*i).SetInhabited(true);
 				}
@@ -562,12 +563,15 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 				}
 			}
 		}
-		
-		glPushMatrix();
-		glTranslatef((*i).p.x, (*i).p.y, (*i).p.z);
 
+		matrix4x4f systrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
+		m_renderer->SetTransform(systrans);
+
+		glDisable(GL_LIGHTING);
+
+		// draw system "leg"
 		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-		glBegin(GL_LINES);
+		glBegin(GL_LINE_STRIP);
 			float z = -(*i).p.z;
 			if (sz <= cz)
 				z = z+abs(cz-sz)*Sector::SIZE;
@@ -575,59 +579,62 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 				z = z-abs(cz-sz)*Sector::SIZE;
 
 			glVertex3f(0, 0, z);
+			glColor4f(0.2f, 0.2f, 0.2f, 0.2f);
+			glVertex3f(0, 0, z * 0.5);
+			glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
 			glVertex3f(0, 0, 0);
+		glEnd();
 
+		//cross at other end
+		glBegin(GL_LINES);
 			glVertex3f(-0.1f, -0.1f, z);
 			glVertex3f(0.1f, 0.1f, z);
 			glVertex3f(-0.1f, 0.1f, z);
 			glVertex3f(0.1f, -0.1f, z);
 		glEnd();
 
-		if (current == m_selected && current != SystemPath(0,0,0,0)) {
-			glColor4f(0, 0.8f, 0, 1.0f);
-			_draw_arrow(-3.0f*sysAbsPos.Normalized());
+		if (current == m_selected) {
+			m_jumpLine.SetStart(vector3f(0.f, 0.f, 0.f));
+			m_jumpLine.SetEnd(playerAbsPos - sysAbsPos);
+			m_jumpLine.Draw(m_renderer);
 		}
 
+		Material mat;
+		mat.unlit = true;
+
 		// draw star blob itself
-		glColor3fv(StarSystem::starColors[(*i).starType[0]]);
-		glPushMatrix();
-		glRotatef(-m_rotZ, 0, 0, 1);
-		glRotatef(-m_rotX, 1, 0, 0);
-		glScalef((StarSystem::starScale[(*i).starType[0]]),
-			(StarSystem::starScale[(*i).starType[0]]),
-			(StarSystem::starScale[(*i).starType[0]]));
-		glCallList(m_gluDiskDlist);
-		glScalef(2,2,2);
+		systrans.Rotate(DEG2RAD(-m_rotZ), 0, 0, 1);
+		systrans.Rotate(DEG2RAD(-m_rotX), 1, 0, 0);
+		systrans.Scale((StarSystem::starScale[(*i).starType[0]]));
+		m_renderer->SetTransform(systrans);
+
+		float *col = StarSystem::starColors[(*i).starType[0]];
+		mat.diffuse = Color(col[0], col[1], col[2]);
+		m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
 
 		// player location indicator
 		if (m_inSystem && current == m_current) {
-			glPushMatrix();
 			glDepthRange(0.2,1.0);
-			glColor3f(0,0,0.8);
-			glScalef(3,3,3);
-			glCallList(m_gluDiskDlist);
-			glPopMatrix();
+			mat.diffuse = Color(0.f, 0.f, 0.8f);
+			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(3.f));
+			m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
 		}
 		// selected indicator
 		if (current == m_selected) {
-			glPushMatrix();
 			glDepthRange(0.1,1.0);
-			glColor3f(0,0.8,0);
-			glScalef(2,2,2);
-			glCallList(m_gluDiskDlist);
-			glPopMatrix();
+			mat.diffuse = Color(0.f, 0.8f, 0.0f);
+			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
+			m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
 		}
 		// hyperspace target indicator (if different from selection)
 		if (current == m_hyperspaceTarget && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
-			glPushMatrix();
 			glDepthRange(0.1,1.0);
-			glColor3f(0.3,0.3,0.3);
-			glScalef(2,2,2);
-			glCallList(m_gluDiskDlist);
-			glPopMatrix();
+			mat.diffuse = Color(0.3f);
+			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
+			m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
 		}
+
 		glDepthRange(0,1);
-		glPopMatrix();
 
 		Color labelColor(0.8f,0.8f,0.8f,0.5f);
 		if ((*i).IsSetInhabited() && (*i).IsInhabited()) {
@@ -642,9 +649,6 @@ void SectorView::DrawSector(int sx, int sy, int sz)
 		}
 
 		PutClickableLabel((*i).name, labelColor, current);
-		glDisable(GL_LIGHTING);
-
-		glPopMatrix();
 	}
 }
 
@@ -673,13 +677,13 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	// ignore keypresses if they're typing
 	if (m_searchBox->IsFocused()) {
 		// but if they press enter then we want future keys
-		if (keysym->sym == SDLK_RETURN)
+		if (keysym->sym == SDLK_KP_ENTER || keysym->sym == SDLK_RETURN)
 			m_searchBox->Unfocus();
 		return;
 	}
 
 	// '/' focuses the search box
-	if (keysym->sym == SDLK_SLASH) {
+	if (keysym->sym == SDLK_KP_DIVIDE || keysym->sym == SDLK_SLASH) {
 		m_searchBox->SetText("");
 		m_searchBox->GrabFocus();
 		return;
@@ -705,7 +709,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// toggle selection mode
-	if (keysym->sym == SDLK_RETURN) {
+		if (keysym->sym == SDLK_KP_ENTER || keysym->sym == SDLK_RETURN) {
 		m_selectionFollowsMovement = !m_selectionFollowsMovement;
 		if (m_selectionFollowsMovement)
 			Pi::cpan->MsgLog()->Message("", Lang::ENABLED_AUTOMATIC_SYSTEM_SELECTION);
@@ -776,7 +780,7 @@ void SectorView::Update()
 		float moveSpeed = 1.0;
 		if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
 		if (Pi::KeyState(SDLK_RSHIFT)) moveSpeed = 10.0;
-	
+
 		float move = moveSpeed*frameTime;
 		if (Pi::KeyState(SDLK_LEFT) || Pi::KeyState(SDLK_RIGHT))
 			m_posMovingTo += vector3f(Pi::KeyState(SDLK_LEFT) ? -move : move, 0,0) * rot;
@@ -790,7 +794,7 @@ void SectorView::Update()
 		if (m_zoomInButton->IsPressed()) m_zoomMovingTo -= move;
 		if (m_zoomOutButton->IsPressed()) m_zoomMovingTo += move;
 		m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, 5.0f);
-	
+
 		if (Pi::KeyState(SDLK_a) || Pi::KeyState(SDLK_d))
 			m_rotZMovingTo += (Pi::KeyState(SDLK_a) ? -0.5f : 0.5f) * moveSpeed;
 		if (Pi::KeyState(SDLK_w) || Pi::KeyState(SDLK_s))
@@ -858,7 +862,7 @@ void SectorView::Update()
 
 	ShrinkCache();
 
-	m_playerHyperspaceRange = Pi::player->CalcStats()->hyperspace_range;
+	m_playerHyperspaceRange = Pi::player->GetStats().hyperspace_range;
 }
 
 void SectorView::ShowAll()
@@ -872,9 +876,9 @@ void SectorView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView()) {
 		const float ft = Pi::GetFrameTime();
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
 				m_zoomMovingTo += 10.0*ft;
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
 				m_zoomMovingTo -= 10.0*ft;
 	}
 }
@@ -913,7 +917,7 @@ void SectorView::ShrinkCache()
 		//check_point_in_box
 		if (s && !s->WithinBox( xmin, xmax, ymin, ymax, zmin, zmax )) {
 			delete s;
-			m_sectorCache.erase( iter++ ); 
+			m_sectorCache.erase( iter++ );
 		} else {
 			iter++;
 		}

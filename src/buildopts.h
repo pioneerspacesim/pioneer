@@ -3,7 +3,7 @@
 
 // game version. usually defined by configure
 #ifndef PIONEER_VERSION
-#define PIONEER_VERSION "alpha 19 dev"
+#define PIONEER_VERSION "alpha 25 dev"
 #endif
 #ifndef PIONEER_EXTRAVERSION
 #define PIONEER_EXTRAVERSION ""
@@ -17,6 +17,12 @@
 // define to include various extra keybindings for dev functions
 #ifndef WITH_DEVKEYS
 #define WITH_DEVKEYS 1
+#endif
+
+#ifdef _MSC_VER // MSVC doesn't support the %z specifier, but has its own %I specifier
+#define SIZET_FMT "%Iu"
+#else
+#define SIZET_FMT "%zu"
 #endif
 
 #endif

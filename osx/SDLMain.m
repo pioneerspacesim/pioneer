@@ -4,7 +4,6 @@
 #include "buildopts.h"
 #import <SDL/SDL.h>
 #import "SDLMain.h"
-#import <sys/param.h> /* for MAXPATHLEN */
 #import <unistd.h>
 
 static int    gArgc;
@@ -26,31 +25,10 @@ static BOOL   gFinderLaunch;
 
 @implementation SDLMain
 
-// Set the working directory to the Resources folder in the app bundle
-- (void) setupWorkingDirectory:(BOOL)shouldChdir
-{
-    if (shouldChdir)
-    {
-        char parentdir[MAXPATHLEN];
-        CFURLRef url = CFBundleCopyBundleURL(CFBundleGetMainBundle());
-        CFURLRef url2 = CFURLCreateCopyDeletingLastPathComponent(0, url);
-        if (CFURLGetFileSystemRepresentation(url2, 1, (UInt8 *)parentdir, MAXPATHLEN)) {
-            chdir(parentdir);   /* chdir to the binary app's parent */
-        }
-        CFRelease(url);
-        CFRelease(url2);
-    }
-    
-    NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
-    [[NSFileManager defaultManager] changeCurrentDirectoryPath:resourcePath];
-}
-
 // Called when the internal event loop has just started running
-- (void) applicationDidFinishLaunching: (NSNotification *) note
+- (void) applicationDidFinishLaunching: (__unused NSNotification *) note
 {
     int status;
-
-    [self setupWorkingDirectory:gFinderLaunch];
 
     // Hand off to main application code
     status = SDL_main (gArgc, gArgv);
@@ -73,7 +51,7 @@ static BOOL   gFinderLaunch;
     }
     else if ([[sender title] isEqualToString:@"pioneer Forums"])
     {
-        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.spacesimcentral.com/forum/viewforum.php?f=35"]];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/forum"]];
     }
     else if ([[sender title] isEqualToString:@"Chat with the dev team"])
     {
@@ -117,7 +95,7 @@ static BOOL   gFinderLaunch;
     }
 }
 
-- (IBAction)openAboutPanel:(id)sender
+- (IBAction)openAboutPanel:(__unused id)sender
 {
     NSDictionary *options;
     NSImage *img;
@@ -159,7 +137,7 @@ int main (int argc, char * argv[])
         gFinderLaunch = NO;
     }
 
-    NSApplicationMain (argc, argv);
+    NSApplicationMain (argc, (const char **)argv);
     return 0;
 }
 

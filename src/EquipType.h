@@ -135,16 +135,17 @@ struct EquipType {
 	int mass;
 	int pval; // hello angband. used for general 'power' attribute...
 	int econType;
-	int techLevel; /* 0-5 */
+	bool purchasable;
 	float rechargeTime;			// to be eliminated maybe
 };
 
 struct LaserType {
-	float lifespan;
-	float speed;
+	float lifespan;		// seconds
+	float speed;		// m/s
 	float damage;
-	float rechargeTime;
-	float psize;
+	float rechargeTime;	// seconds
+	float length;		// meters
+	float width;		// meters
 	int flags;
 	Color color;
 };

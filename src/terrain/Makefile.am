@@ -24,6 +24,7 @@ libterrain_a_SOURCES = \
 	TerrainHeightHillsRidged.cpp \
 	TerrainHeightHillsRivers.cpp \
 	TerrainHeightMapped.cpp \
+	TerrainHeightMapped2.cpp \
 	TerrainHeightMountainsCraters2.cpp \
 	TerrainHeightMountainsCraters.cpp \
 	TerrainHeightMountainsNormal.cpp \

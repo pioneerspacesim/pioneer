@@ -9,6 +9,7 @@
 #include "SpaceStation.h"
 #include "Space.h"
 #include "LuaConstants.h"
+#include "KeyBindings.h"
 
 
 
@@ -22,7 +23,7 @@ void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
 	GetRotMatrix(rot);
 	vector3d angVel = desiredAngVel - rot.InverseOf() * GetAngVelocity();
 
-	vector3d thrust; 
+	vector3d thrust;
 	for (int axis=0; axis<3; axis++) {
 		if (angAccel * softTimeStep >= fabs(angVel[axis])) {
 			thrust[axis] = angVel[axis] / (softTimeStep * angAccel);
@@ -106,6 +107,12 @@ void Ship::AIGetStatusText(char *str)
 	else m_curAICmd->GetStatusText(str);
 }
 
+Frame *Ship::AIGetRiskFrame()
+{
+	if (!m_curAICmd) return 0;
+	else return m_curAICmd->GetRiskFrame();
+}
+
 void Ship::AIKamikaze(Body *target)
 {
 	AIClearInstructions();
@@ -119,7 +126,7 @@ void Ship::AIKill(Ship *target)
 }
 
 /*
-void Ship::AIJourney(SBodyPath &dest)
+void Ship::AIJourney(SystemBodyPath &dest)
 {
 	AIClearInstructions();
 //	m_curAICmd = new AICmdJourney(this, dest);
@@ -296,11 +303,11 @@ bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
 	if (maxAccel <= 0.0) return 0.0;
 	double frameAccel = maxAccel * timeStep;
-	
+
 	matrix4x4d rot; GetRotMatrix(rot);
 	if (dir.Dot(vector3d(rot[8], rot[9], rot[10])) > -0.999999)
 		{ AIFaceDirection(dir); return false; }
-	
+
 	vector3d uphead = (updir * rot).Normalized();		// create desired object-space updir
 	vector3d dav(0.0, 0.0, 0.0);			// desired angular velocity
 	double ang = 0.0;
@@ -340,7 +347,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
 
 	double ang = 0.0;
-	if (head.z > -0.99999999)			
+	if (head.z > -0.99999999)
 	{
 		ang = acos (Clamp(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
 		double iangvel = av + sqrt (2.0 * maxAccel * ang);	// ideal angvel at current time
@@ -359,7 +366,14 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 //	vector3d cav = GetAngVelocity() * rot;				// current obj-rel angvel
 	vector3d diff = (dav - cav) / frameAccel;					// find diff between current & desired angvel
 
-	diff.z = m_angThrusters.z;  // Leave roll unchanged
+	// If the player is pressing a roll key, don't override roll.
+	// XXX this really shouldn't be here. a better way would be to have a
+	// field in Ship describing the wanted angvel adjustment from input. the
+	// baseclass version in Ship would always be 0. the version in Player
+	// would be constructed from user input. that adjustment could then be
+	// considered by this method when computing the required change
+	if (IsType(Object::PLAYER) && (KeyBindings::rollLeft.IsActive() || KeyBindings::rollRight.IsActive()))
+		diff.z = m_angThrusters.z;
 	SetAngThrusterState(diff);
 	return ang;
 }
@@ -403,7 +417,7 @@ double Ship::AITravelTime(const vector3d &reldir, double targdist, const vector3
 	// time to reduce speed to zero after target reached:
 	time3 = -targspeed / raccel;
 	dist += 0.5 * time3 * -targspeed;
-	
+
 	// now time to cover distance between zero-vel points
 	// midpoint = intercept of two gradients
 	double m = dist*raccel / (faccel+raccel);

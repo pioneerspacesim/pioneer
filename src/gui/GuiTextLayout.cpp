@@ -1,7 +1,8 @@
 #include "Gui.h"
+#include "text/TextSupport.h"
+#include "utils.h"
 
-#define LINE_SPACING      1.25f
-#define PARAGRAPH_SPACING 1.75f
+static const float PARAGRAPH_SPACING = 1.5f;
 
 namespace Gui {
 
@@ -15,7 +16,7 @@ static void init_clip_test()
 	if (glIsEnabled(GL_CLIP_PLANE1)) {
 		glGetClipPlane(GL_CLIP_PLANE1, _clip[0]);
 		glGetClipPlane(GL_CLIP_PLANE3, _clip[1]);
-		
+
 		glGetDoublev (GL_MODELVIEW_MATRIX, &m[0]);
 		_clipoffset.x = m[12];
 		_clipoffset.y = m[13];
@@ -39,7 +40,7 @@ static bool line_clip_test(float topy, float bottomy)
 	return false;
 }
 
-TextLayout::TextLayout(const char *_str, TextureFont *font, ColourMarkupMode markup)
+TextLayout::TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font, ColourMarkupMode markup)
 {
 	// XXX ColourMarkupSkip not correctly implemented yet
 	assert(markup != ColourMarkupSkip);
@@ -70,11 +71,11 @@ TextLayout::TextLayout(const char *_str, TextureFont *font, ColourMarkupMode mar
 			}
 
 			Uint32 chr;
-			int n = conv_mb_to_wc(&chr, &str[i]);
+			int n = Text::utf8_decode_char(&chr, &str[i]);
 			assert(n);
 			i += n;
 
-			const TextureFont::glfglyph_t &glyph = m_font->GetGlyph(chr);
+			const Text::TextureFont::glfglyph_t &glyph = m_font->GetGlyph(chr);
 			wordWidth += glyph.advx;
 
 			// XXX this should do kerning
@@ -98,7 +99,7 @@ void TextLayout::MeasureSize(const float width, float outSize[2]) const
 	outSize[1] = ceil(outSize[1] * fontScale[1]);
 }
 
-void TextLayout::Render(const float width) const
+void TextLayout::Render(const float width, const Color &color) const
 {
 	float fontScale[2];
 	Gui::Screen::GetCoords2Pixels(fontScale);
@@ -111,11 +112,11 @@ void TextLayout::Render(const float width) const
 	glTranslatef(floor(x/fontScale[0])*fontScale[0],
 			floor(y/fontScale[1])*fontScale[1], 0);
 	glScalef(fontScale[0], fontScale[1], 1);
-	_RenderRaw(width / fontScale[0]);
+	_RenderRaw(width / fontScale[0], color);
 	glPopMatrix();
 }
 
-void TextLayout::_RenderRaw(float maxWidth) const
+void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 {
 	float py = 0;
 	init_clip_test();
@@ -123,6 +124,8 @@ void TextLayout::_RenderRaw(float maxWidth) const
 	glPushMatrix();
 
 	const float spaceWidth = m_font->GetGlyph(' ').advx;
+
+	Color c = color;
 
 	std::list<word_t>::const_iterator wpos = this->words.begin();
 	// build lines of text
@@ -163,9 +166,9 @@ void TextLayout::_RenderRaw(float maxWidth) const
 			for (int j=0; j<num; j++) {
 				if ((*wpos).word) {
 					if (m_colourMarkup == ColourMarkupUse)
-						m_font->RenderMarkup((*wpos).word, round(px), round(py));
+						c = m_font->RenderMarkup((*wpos).word, round(px), round(py), c);
 					else
-						m_font->RenderString((*wpos).word, round(px), round(py));
+						m_font->RenderString((*wpos).word, round(px), round(py), c);
 				}
 				px += (*wpos).advx + _spaceWidth;
 				wpos++;
@@ -173,7 +176,7 @@ void TextLayout::_RenderRaw(float maxWidth) const
 		} else {
 			for (int j=0; j<num; j++) wpos++;
 		}
-		py += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : LINE_SPACING);
+		py += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
 	}
 	glPopMatrix();
 }
@@ -226,7 +229,7 @@ void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) cons
 			wpos++;
 		}
 		if (lineLen > outSize[0]) outSize[0] = lineLen;
-		outSize[1] += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : LINE_SPACING);
+		outSize[1] += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
 	}
 	if (outSize[1] > 0.0f)
 		outSize[1] += m_font->GetDescender();

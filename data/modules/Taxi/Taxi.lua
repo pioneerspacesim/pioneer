@@ -125,6 +125,7 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
+local nearbysystems
 local makeAdvert = function (station)
 	local reward, due, location
 	local taxi_flavours = Translate:GetFlavours('Taxi')
@@ -138,7 +139,9 @@ local makeAdvert = function (station)
 		group = Engine.rand:Integer(2,max_group)
 	end
 
-	local nearbysystems = Game.system:GetNearbySystems(max_taxi_dist, function (s) return #s:GetStationPaths() > 0 end)
+	if nearbysystems == nil then
+		nearbysystems = Game.system:GetNearbySystems(max_taxi_dist, function (s) return #s:GetStationPaths() > 0 end)
+	end
 	if #nearbysystems == 0 then return end
 	location = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local dist = location:DistanceTo(Game.system)
@@ -244,15 +247,21 @@ local onEnterSystem = function (player)
 
 			if ship then
 				local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], { client = mission.boss,})
-				UI.ImportantMessage(pirate_greeting, ship.label)
+				Comms.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
 
 		if not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
 			player:UpdateMission(ref, mission)
-			UI.ImportantMessage(taxi_flavours[mission.flavour].wherearewe, mission.boss)
+			Comms.ImportantMessage(taxi_flavours[mission.flavour].wherearewe, mission.boss)
 		end
+	end
+end
+
+local onLeaveSystem = function (ship)
+	if ship:IsPlayer() then
+		nearbysystems = nil
 	end
 end
 
@@ -264,9 +273,9 @@ local onShipDocked = function (player, station)
 			local taxi_flavours = Translate:GetFlavours('Taxi')
 
 			if Game.time > mission.due then
-				UI.ImportantMessage(taxi_flavours[mission.flavour].failuremsg, mission.boss)
+				Comms.ImportantMessage(taxi_flavours[mission.flavour].failuremsg, mission.boss)
 			else
-				UI.ImportantMessage(taxi_flavours[mission.flavour].successmsg, mission.boss)
+				Comms.ImportantMessage(taxi_flavours[mission.flavour].successmsg, mission.boss)
 				player:AddMoney(mission.reward)
 			end
 
@@ -286,7 +295,7 @@ local onShipUndocked = function (player, station)
 	for ref,mission in pairs(missions) do
 		remove_passengers(mission.group)
 
-		UI.ImportantMessage(t("Hey!?! You are going to pay for this!!!"), mission.boss)
+		Comms.ImportantMessage(t("Hey!?! You are going to pay for this!!!"), mission.boss)
 		player:RemoveMission(ref)
 		missions[ref] = nil
 	end
@@ -314,6 +323,10 @@ local onGameStart = function ()
 	loaded_data = nil
 end
 
+local onGameEnd = function ()
+	nearbysystems = nil
+end
+
 local serialize = function ()
 	return { ads = ads, missions = missions, passengers = passengers }
 end
@@ -325,8 +338,10 @@ end
 EventQueue.onCreateBB:Connect(onCreateBB)
 EventQueue.onUpdateBB:Connect(onUpdateBB)
 EventQueue.onEnterSystem:Connect(onEnterSystem)
+EventQueue.onLeaveSystem:Connect(onLeaveSystem)
 EventQueue.onShipUndocked:Connect(onShipUndocked)
 EventQueue.onShipDocked:Connect(onShipDocked)
 EventQueue.onGameStart:Connect(onGameStart)
+EventQueue.onGameEnd:Connect(onGameEnd)
 
 Serializer:Register("Taxi", serialize, unserialize)

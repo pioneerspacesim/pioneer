@@ -2,13 +2,7 @@
 #define _LUAUTILS_H
 
 #include <string>
-
-extern "C" {
-#include "lua/lua.h"
-#include "lua/lauxlib.h"
-#include "lua/lualib.h"
-}
-
+#include "lua/lua.hpp"
 #include "utils.h"
 
 inline void pi_lua_settable(lua_State *l, const char *key, int value)
@@ -55,8 +49,11 @@ inline void pi_lua_settable(lua_State *l, const char *key, const char *value)
 
 void pi_lua_table_ro(lua_State *l);
 
+void pi_lua_open_standard_base(lua_State *l);
+
 int  pi_lua_panic(lua_State *l) __attribute((noreturn));
 void pi_lua_protected_call(lua_State* state, int nargs, int nresults);
+void pi_lua_dofile(lua_State *l, const std::string &path);
 void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath);
 int  pi_load_lua(lua_State *l);
 
@@ -74,9 +71,11 @@ void pi_lua_warn(lua_State *l, const char *format, ...) __attribute((format(prin
 			abort(); \
 		} \
 	} while (0)
+# define LUA_DEBUG_CHECK(luaptr, expectedStackDiff) LUA_DEBUG_END(luaptr, expectedStackDiff)
 #else
 # define LUA_DEBUG_START(luaptr)
 # define LUA_DEBUG_END(luaptr, expectedStackDiff)
+# define LUA_DEBUG_CHECK(luaptr, expectedStackDiff)
 #endif
 
 #endif

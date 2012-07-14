@@ -40,7 +40,7 @@ void Body::Load(Serializer::Reader &rd, Space *space)
 	m_label = rd.String();
 	m_dead = rd.Bool();
 	m_hasDoubleFrame = rd.Bool();
-}	
+}
 
 void Body::Serialize(Serializer::Writer &_wr, Space *space)
 {
@@ -77,7 +77,8 @@ Body *Body::Unserialize(Serializer::Reader &_rd, Space *space)
 		case Object::STAR:
 			b = new Star(); break;
 		case Object::PLANET:
-			b = new Planet(); break;
+			b = new Planet();
+			break;
 		case Object::SPACESTATION:
 			b = new SpaceStation(); break;
 		case Object::SHIP:
@@ -133,6 +134,13 @@ vector3d Body::GetPositionRelTo(const Body *relTo) const
 	return GetPositionRelTo(relTo->GetFrame()) - relTo->GetPosition();
 }
 
+matrix4x4d Body::GetInterpolatedTransformRelTo(const Frame *relTo) const
+{
+	matrix4x4d m;
+	Frame::GetFrameRenderTransform(m_frame, relTo, m);
+	return m * GetInterpolatedTransform();
+}
+
 void Body::OrientOnSurface(double radius, double latitude, double longitude)
 {
 	vector3d up = vector3d(cos(latitude)*cos(longitude), sin(latitude)*cos(longitude), sin(longitude));
@@ -169,7 +177,7 @@ void Body::UpdateFrame()
 
 	// falling out of frames
 	if (!GetFrame()->IsLocalPosInFrame(GetPosition())) {
-		printf("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel());
+		printf("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel().c_str());
 
 		Frame *new_frame = GetFrame()->m_parent;
 		if (new_frame) { // don't let fall out of root frame
@@ -181,16 +189,16 @@ void Body::UpdateFrame()
 			matrix4x4d rot;
 			GetRotMatrix(rot);
 			SetRotMatrix(m * rot);
-			
+
 			m.ClearToRotOnly();
-			SetVelocity(GetFrame()->GetVelocity() + m*(GetVelocity() - 
+			SetVelocity(GetFrame()->GetVelocity() + m*(GetVelocity() -
 				GetFrame()->GetStasisVelocityAtPosition(GetPosition())));
 
 			SetFrame(new_frame);
 			SetPosition(new_pos);
 
 			Pi::luaOnFrameChanged->Queue(this);
-			
+
 			return;
 		}
 	}
@@ -202,8 +210,8 @@ void Body::UpdateFrame()
 		Frame::GetFrameTransform(GetFrame(), kid, m);
 		vector3d pos = m * GetPosition();
 		if (!kid->IsLocalPosInFrame(pos)) continue;
-		
-		printf("%s enters frame %s\n", GetLabel().c_str(), kid->GetLabel());
+
+		printf("%s enters frame %s\n", GetLabel().c_str(), kid->GetLabel().c_str());
 
 		SetPosition(pos);
 		SetFrame(kid);
@@ -211,7 +219,7 @@ void Body::UpdateFrame()
 		matrix4x4d rot;
 		GetRotMatrix(rot);
 		SetRotMatrix(m * rot);
-				
+
 		// get rid of transforms
 		m.ClearToRotOnly();
 		SetVelocity(m*(GetVelocity() - kid->GetVelocity())

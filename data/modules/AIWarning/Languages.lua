@@ -37,3 +37,15 @@ Translate:Add({
 		['Cannot compute orbit parameters']     = 'Imposible calcular los parámetros orbitales',
 	}
 })
+
+ ---- HUNGARIAN / MAGYAR ----
+
+
+Translate:Add({
+	Magyar = {
+
+		['Cannot compensate for local gravity'] = 'Nem kompenzálható a helyi gravitáció',
+		['Starport refused docking permission'] = 'A kikötő nem adott dokkolási engedélyt',
+		['Cannot compute orbit parameters']     = 'Nem lehet kiszámítani a keringési paramétereket',
+	}
+})

@@ -10,14 +10,15 @@
 extern int GEOPATCH_EDGELEN;
 #define ATMOSPHERE_RADIUS 1.015
 
-class SBody;
+namespace Graphics { class Renderer; }
+class SystemBody;
 class GeoPatch;
 class GeoPatchContext;
 class GeoSphere {
 public:
-	GeoSphere(const SBody *body);
+	GeoSphere(const SystemBody *body);
 	~GeoSphere();
-	void Render(vector3d campos, const float radius, const float scale);
+	void Render(Graphics::Renderer *r, vector3d campos, const float radius, const float scale);
 	inline double GetHeight(vector3d p) {
 		const double h = m_terrain->GetHeight(p);
 		s_vtxGenCount++;
@@ -41,7 +42,7 @@ private:
 	void BuildFirstPatches();
 	GeoPatch *m_patches[6];
 	float m_diffColor[4], m_ambColor[4];
-	const SBody *m_sbody;
+	const SystemBody *m_sbody;
 
 	/* all variables for GetHeight(), GetColor() */
 	Terrain *m_terrain;
@@ -54,7 +55,7 @@ private:
 	SDL_mutex *m_vbosToDestroyLock;
 	void AddVBOToDestroy(GLuint vbo);
 	void DestroyVBOs();
-	
+
 	vector3d m_tempCampos;
 
 	SDL_mutex *m_updateLock;

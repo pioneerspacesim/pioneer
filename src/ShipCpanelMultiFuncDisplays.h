@@ -7,6 +7,7 @@
 #include "Object.h"
 
 class Body;
+namespace Graphics { class Renderer; }
 
 enum multifuncfunc_t {
 	MFUNC_SCANNER,
@@ -55,8 +56,8 @@ private:
 
 class ScannerWidget: public IMultiFunc, public Gui::Widget {
 public:
-	ScannerWidget();
-	ScannerWidget(Serializer::Reader &rd);
+	ScannerWidget(Graphics::Renderer *r);
+	ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd);
 	virtual ~ScannerWidget();
 	void GetSizeRequested(float size[2]);
 	void ToggleMode();
@@ -90,6 +91,8 @@ private:
 
 	float m_x;
 	float m_y;
+
+	Graphics::Renderer *m_renderer;
 };
 
 class UseEquipWidget: public IMultiFunc, public Gui::Fixed {

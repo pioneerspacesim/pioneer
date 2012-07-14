@@ -33,7 +33,7 @@ define_model('asps_flap_r_0', {
 		if lod > 1 then
 			texture('asps_skin.png')
 		end
-		load_obj('asps_flap_r.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+		load_obj('asps_flap_r.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 	end
 })
 
@@ -46,7 +46,7 @@ define_model('asps_flap_l_0', {
 		if lod > 1 then
 			texture('asps_skin.png')
 		end
-		load_obj('asps_flap_l.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+		load_obj('asps_flap_l.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 	end
 })
 
@@ -97,15 +97,15 @@ define_model('asps_wheel_r_r', {
 	},
 	static = function(lod)
 		if lod == 1 then
-			load_obj('asps_wrr_coll.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wrr_coll.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 		else
 			texture('asps_skin.png')
 			use_material('cv_0')
-			load_obj('asps_wheel_r_r_1.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wheel_r_r_1.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 
 			set_material('non_cv', .63,.7,.83,1,.83,.9,1.03,30)
 			use_material('non_cv')
-			load_obj('asps_wheel_r_r_0.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wheel_r_r_0.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 		end
 	end,
 	dynamic = function(lod)
@@ -128,15 +128,15 @@ define_model('asps_wheel_r_l', {
 	},
 	static = function(lod)
 		if lod == 1 then
-			load_obj('asps_wrl_coll.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wrl_coll.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 		else
 			texture('asps_skin.png')
 			use_material('cv_0')
-			load_obj('asps_wheel_r_l_1.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wheel_r_l_1.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 
 			set_material('non_cv',.63,.7,.83,1,.83,.9,1.03,30)
 			use_material('non_cv')
-			load_obj('asps_wheel_r_l_0.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wheel_r_l_0.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 		end
 	end,
 	dynamic = function(lod)
@@ -301,32 +301,6 @@ define_model('asp_sparks', {
 		bounding_radius = 38,
 		materials = {'chrome', 'non_cv', 'metal', 'layer', 'win', 'glow_0', 'e_glow', 'scoop', 'text'},
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Asp Explorer',
-				forward_thrust = -220e5,
-				reverse_thrust = 100e5,
-				up_thrust = 60e5,
-				down_thrust = -60e5,
-				left_thrust = -60e5,
-				right_thrust = 60e5,
-				angular_thrust = 600e5,
-				gun_mounts =
-				{
-					{ v(0,2.57,-21.35), v(0,0,-1) },
-					{ v(0,-4.42,26.04), v(0,0,1) },
-				},
-				max_cargo = 120,
-				max_missile = 1,
-				max_laser = 2,
-				max_cargoscoop = 0,
-				max_fuelscoop = 1,
-				capacity = 120,
-				hull_mass = 100,
-				price = 187000,
-				hyperdrive_class = 3,
-			}
-		}
 	},
 	static = function(lod)
 		if lod == 1 then

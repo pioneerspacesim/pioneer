@@ -236,7 +236,7 @@ void LuaMusic::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_reg methods[]= {
+	static const luaL_Reg methods[]= {
 		{ "GetSongName", l_music_get_song },
 		{ "GetSongList", l_music_get_song_list },
 		{ "Play", l_music_play },
@@ -247,8 +247,8 @@ void LuaMusic::Register()
 		{0, 0}
 	};
 
-	luaL_register(l, "Music", methods);
-	lua_pop(l, 1);
+	luaL_newlib(l, methods);
+	lua_setglobal(l, "Music");
 
 	LUA_DEBUG_END(l, 0);
 }

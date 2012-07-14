@@ -9,6 +9,6 @@ local messages = {
 EventQueue.onAICompleted:Connect(function (s, e)
 	if e == 'NONE' then return end
 	if not s:IsPlayer() then return end
-	
-	UI.ImportantMessage(t(messages[e]), t('AUTOPILOT'))
+
+	Comms.ImportantMessage(t(messages[e]), t('AUTOPILOT'))
 end)

@@ -7,7 +7,7 @@ template <>
 const char *TerrainColorFractal<TerrainColorRock2>::GetColorFractalName() const { return "Rock2"; }
 
 template <>
-TerrainColorFractal<TerrainColorRock2>::TerrainColorFractal(const SBody *body) : Terrain(body)
+TerrainColorFractal<TerrainColorRock2>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
 }
 
@@ -16,7 +16,7 @@ vector3d TerrainColorFractal<TerrainColorRock2>::GetColor(const vector3d &p, dou
 {
 	double n = m_invMaxHeight*height/2;
 
-	if (n <= 0) return m_greyrockColor[1];		
+	if (n <= 0) return m_greyrockColor[1];
 
 	const double flatness = pow(p.Dot(norm), 6.0);
 	const vector3d color_cliffs = m_greyrockColor[1];

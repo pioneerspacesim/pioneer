@@ -22,7 +22,7 @@ define_model('adder_piston_f', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('chrome')
 		texture('steel.png')
-		sphere_slice(3*lod,lod, 0, .75*math.pi,Matrix.rotate(math.pi,v(1,0,0))*Matrix.translate(v(0,-.3,0)))
+		sphere_slice(3*lod,lod, 0, .75*math.pi,matrix.rotate(math.pi,v(1,0,0))*matrix.translate(v(0,-.3,0)))
 	end,
 	dynamic = function(lod)
 		local trans = 3*math.clamp((get_animation_position('WHEEL_STATE')),.2,1)
@@ -44,7 +44,7 @@ define_model('adder_piston_r', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('chrome')
 		texture('steel.png')
-		sphere_slice(3*lod,lod, 0, .75*math.pi,Matrix.rotate(math.pi,v(1,0,0))*Matrix.translate(v(0,-.3,0)))
+		sphere_slice(3*lod,lod, 0, .75*math.pi,matrix.rotate(math.pi,v(1,0,0))*matrix.translate(v(0,-.3,0)))
 	end,
 	dynamic = function(lod)
 		local trans = 2.45*math.clamp((get_animation_position('WHEEL_STATE')),.2,1)
@@ -133,7 +133,7 @@ define_model('adder_f_flap', {
 	},
 	static = function(lod)
 		texture('f_flap0.png')
-		load_obj('f_flap.obj',Matrix.rotate(0.5*math.pi, v(0,1,0)))
+		load_obj('f_flap.obj',matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
@@ -144,7 +144,7 @@ define_model('adder_rl_flap1', {
 	},
 	static = function(lod)
 		texture('rl_flap0.png')
-		load_obj('rl_flap1.obj',Matrix.rotate(0.5*math.pi, v(0,1,0)))
+		load_obj('rl_flap1.obj',matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
@@ -155,7 +155,7 @@ define_model('adder_rl_flap2', {
 	},
 	static = function(lod)
 		texture('rl_flap0.png')
-		load_obj('rl_flap2.obj',Matrix.rotate(0.5*math.pi, v(0,1,0)))
+		load_obj('rl_flap2.obj',matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
@@ -166,7 +166,7 @@ define_model('adder_rr_flap1', {
 	},
 	static = function(lod)
 		texture('rr_flap0.png')
-		load_obj('rr_flap1.obj',Matrix.rotate(0.5*math.pi, v(0,1,0)))
+		load_obj('rr_flap1.obj',matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
@@ -177,7 +177,7 @@ define_model('adder_rr_flap2', {
 	},
 	static = function(lod)
 		texture('rr_flap0.png')
-		load_obj('rr_flap2.obj',Matrix.rotate(0.5*math.pi, v(0,1,0)))
+		load_obj('rr_flap2.obj',matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
@@ -502,32 +502,6 @@ define_model('adder', {
 		lod_pixels = {.1,30,100,0},
 		bounding_radius = 44,
 		tags = {'ship'},
-		ship_defs = {
-			{
-				name='Adder',
-				forward_thrust = -100e5,
-				reverse_thrust = 51e5,
-				up_thrust = 3e6,
-				down_thrust = -2e6,
-				left_thrust = -2e6,
-				right_thrust = 2e6,
-				angular_thrust = 22e6,
-				gun_mounts =
-				{
-					{ v(0,0,-26), v(0,0,-1) },
-					{ v(0,-2,9), v(0,0,1) },
-				},
-				max_cargo = 50,
-				max_laser = 1,
-				max_missile = 2,
-				max_cargoscoop = 1,
-				max_fuelscoop = 1,
-				capacity = 50,
-				hull_mass = 40,
-				price = 60000,
-				hyperdrive_class = 2,
-			}
-		}
 	},
 	static = function(lod)
 		if lod == 1 then

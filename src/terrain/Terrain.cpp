@@ -1,13 +1,23 @@
 #include "Terrain.h"
 #include "perlin.h"
 #include "Pi.h"
+#include "FileSystem.h"
 
 // static instancer. selects the best height and color classes for the body
-Terrain *Terrain::InstanceTerrain(const SBody *body)
+Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 {
 	// special case for heightmaps
-	if (body->heightMapFilename)
-		return new TerrainGenerator<TerrainHeightMapped,TerrainColorEarthLike>(body);
+	// XXX this is terrible but will do for now until we get a unified
+	// heightmap setup. if you add another height fractal, remember to change
+	// the check in CustomSystem::l_height_map
+	if (body->heightMapFilename) {
+		const GeneratorInstancer choices[] = {
+			InstanceGenerator<TerrainHeightMapped,TerrainColorEarthLike>,
+			InstanceGenerator<TerrainHeightMapped2,TerrainColorRock>
+		};
+		assert(body->heightMapFractal < 2);
+		return choices[body->heightMapFractal](body);
+	}
 
 	MTRand rand(body->seed);
 
@@ -15,18 +25,18 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 
 	switch (body->type) {
 
-		case SBody::TYPE_BROWN_DWARF:
+		case SystemBody::TYPE_BROWN_DWARF:
 			gi = InstanceGenerator<TerrainHeightFlat,TerrainColorStarBrownDwarf>;
 			break;
 
-		case SBody::TYPE_WHITE_DWARF:
+		case SystemBody::TYPE_WHITE_DWARF:
 			gi = InstanceGenerator<TerrainHeightFlat,TerrainColorStarWhiteDwarf>;
 			break;
 
-		case SBody::TYPE_STAR_M:
-		case SBody::TYPE_STAR_M_GIANT:
-		case SBody::TYPE_STAR_M_SUPER_GIANT:
-		case SBody::TYPE_STAR_M_HYPER_GIANT: {
+		case SystemBody::TYPE_STAR_M:
+		case SystemBody::TYPE_STAR_M_GIANT:
+		case SystemBody::TYPE_STAR_M_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_M_HYPER_GIANT: {
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarM>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarM>,
@@ -37,10 +47,10 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 			break;
 		}
 
-		case SBody::TYPE_STAR_K:
-		case SBody::TYPE_STAR_K_GIANT:
-		case SBody::TYPE_STAR_K_SUPER_GIANT:
-		case SBody::TYPE_STAR_K_HYPER_GIANT: {
+		case SystemBody::TYPE_STAR_K:
+		case SystemBody::TYPE_STAR_K_GIANT:
+		case SystemBody::TYPE_STAR_K_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_K_HYPER_GIANT: {
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarM>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarK>,
@@ -51,10 +61,10 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 			break;
 		}
 
-		case SBody::TYPE_STAR_G:
-		case SBody::TYPE_STAR_G_GIANT:
-		case SBody::TYPE_STAR_G_SUPER_GIANT:
-		case SBody::TYPE_STAR_G_HYPER_GIANT: {
+		case SystemBody::TYPE_STAR_G:
+		case SystemBody::TYPE_STAR_G_GIANT:
+		case SystemBody::TYPE_STAR_G_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_G_HYPER_GIANT: {
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarWhiteDwarf>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarG>
@@ -63,7 +73,7 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 			break;
 		}
 
-		case SBody::TYPE_PLANET_GAS_GIANT: {
+		case SystemBody::TYPE_PLANET_GAS_GIANT: {
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightFlat,TerrainColorGGJupiter>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>,
@@ -77,15 +87,15 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 			break;
 		}
 
-		case SBody::TYPE_PLANET_ASTEROID:
+		case SystemBody::TYPE_PLANET_ASTEROID:
 			gi = InstanceGenerator<TerrainHeightAsteroid,TerrainColorAsteroid>;
 			break;
 
-		case SBody::TYPE_PLANET_TERRESTRIAL: {
+		case SystemBody::TYPE_PLANET_TERRESTRIAL: {
 
 			// Earth-like world
 			if ((body->m_life > fixed(7,10)) && (body->m_volatileGas > fixed(2,10))) {
-				// There would be no life on the surface without atmosphere 
+				// There would be no life on the surface without atmosphere
 
 				if (body->averageTemp > 240) {
 					const GeneratorInstancer choices[] = {
@@ -116,7 +126,7 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 				break;
 			}
 
-			// Harsh, habitable world 
+			// Harsh, habitable world
 			if ((body->m_volatileGas > fixed(2,10)) && (body->m_life > fixed(4,10)) ) {
 
 				if (body->averageTemp > 240) {
@@ -151,8 +161,8 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 				gi = choices[rand.Int32(10)];
 				break;
 			}
-			
-			// Marginally habitable world/ verging on mars like :) 
+
+			// Marginally habitable world/ verging on mars like :)
 			else if ((body->m_volatileGas > fixed(1,10)) && (body->m_life > fixed(1,10)) ) {
 
 				if (body->averageTemp > 240) {
@@ -274,20 +284,63 @@ Terrain *Terrain::InstanceTerrain(const SBody *body)
 	return gi(body);
 }
 
-Terrain::Terrain(const SBody *body) : m_body(body), m_rand(body->seed), m_heightMap(0) {
+static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &buf)
+{
+	size_t read_count = buf.read(reinterpret_cast<char*>(ptr), size, nmemb);
+	if (read_count < nmemb) {
+		fprintf(stderr, "Error: failed to read file (truncated)\n");
+		abort();
+	}
+	return read_count;
+}
+
+Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_heightMap(0), m_heightMapScaled(0), m_heightScaling(0), m_minh(0) {
 
 	// load the heightmap
 	if (m_body->heightMapFilename) {
-		FILE *f;
-		f = fopen_or_die(m_body->heightMapFilename, "rb");
+		RefCountedPtr<FileSystem::FileData> fdata = FileSystem::gameDataFiles.ReadFile(m_body->heightMapFilename);
+		if (!fdata) {
+			fprintf(stderr, "Error: could not open file '%s'\n", m_body->heightMapFilename);
+			abort();
+		}
+
+		ByteRange databuf = fdata->AsByteRange();
+
 		// read size!
 		Uint16 v;
-		fread_or_die(&v, 2, 1, f); m_heightMapSizeX = v;
-		fread_or_die(&v, 2, 1, f); m_heightMapSizeY = v;
-		m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
-		// XXX TODO XXX what about bigendian archs...
-		fread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, f);
-		fclose(f);
+
+		// XXX unify heightmap types
+		switch (m_body->heightMapFractal) {
+			case 0: {
+				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
+				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
+
+				m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
+				bufread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, databuf);
+				break;
+			}
+
+			case 1: {
+				// XXX x and y reversed from above *sigh*
+				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
+				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
+
+				// read height scaling and min height which are doubles
+				double te;
+				bufread_or_die(&te, 8, 1, databuf);
+				m_heightScaling = te;
+				bufread_or_die(&te, 8, 1, databuf);
+				m_minh = te;
+
+				m_heightMapScaled = new Uint16[m_heightMapSizeX * m_heightMapSizeY];
+				bufread_or_die(m_heightMapScaled, sizeof(Uint16), m_heightMapSizeX * m_heightMapSizeY, databuf);
+
+				break;
+			}
+
+			default:
+				assert(0);
+		}
 	}
 
 	switch (Pi::detail.textures) {
@@ -450,6 +503,8 @@ Terrain::~Terrain()
 {
 	if (m_heightMap)
 		delete [] m_heightMap;
+	if (m_heightMapScaled)
+		delete [] m_heightMapScaled;
 }
 
 
@@ -459,7 +514,7 @@ Terrain::~Terrain()
  */
 void Terrain::SetFracDef(unsigned int index, double featureHeightMeters, double featureWidthMeters, double smallestOctaveMeters)
 {
-	// feature 
+	// feature
 	m_fracdef[index].amplitude = featureHeightMeters / (m_maxHeight * m_planetRadius);
 	m_fracdef[index].frequency = m_planetRadius / featureWidthMeters;
 	m_fracdef[index].octaves = std::max(1, int(ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0))));

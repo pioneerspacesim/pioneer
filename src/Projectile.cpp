@@ -2,18 +2,21 @@
 #include "Pi.h"
 #include "Projectile.h"
 #include "Frame.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Space.h"
 #include "Serializer.h"
 #include "collider/collider.h"
-#include "render/Render.h"
 #include "CargoBody.h"
 #include "Planet.h"
 #include "Sfx.h"
 #include "Ship.h"
-#include "TextureCache.h"
 #include "Pi.h"
 #include "Game.h"
+#include "graphics/Graphics.h"
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
+#include "graphics/TextureBuilder.h"
 
 Projectile::Projectile(): Body()
 {
@@ -21,7 +24,73 @@ Projectile::Projectile(): Body()
 	m_type = 1;
 	m_age = 0;
 	m_parent = 0;
+	m_radius = 0;
 	m_flags |= FLAG_DRAW_LAST;
+
+	//set up materials
+	m_sideMat.texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
+	m_sideMat.unlit = true;
+	m_sideMat.twoSided = true;
+	m_glowMat.texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
+	m_glowMat.unlit = true;
+	m_glowMat.twoSided = true;
+
+	//zero at projectile position
+	//+x down
+	//+y right
+	//+z forwards (or projectile direction)
+	const float w = 0.5f;
+
+	vector3f one(0.f, -w, 0.f); //top left
+	vector3f two(0.f,  w, 0.f); //top right
+	vector3f three(0.f,  w, -1.f); //bottom right
+	vector3f four(0.f, -w, -1.f); //bottom left
+
+	//uv coords
+	const vector2f topLeft(0.f, 1.f);
+	const vector2f topRight(1.f, 1.f);
+	const vector2f botLeft(0.f, 0.f);
+	const vector2f botRight(1.f, 0.f);
+
+	m_sideVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
+	m_glowVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
+
+	//add four intersecting planes to create a volumetric effect
+	for (int i=0; i < 4; i++) {
+		m_sideVerts->Add(one, topLeft);
+		m_sideVerts->Add(two, topRight);
+		m_sideVerts->Add(three, botRight);
+
+		m_sideVerts->Add(three, botRight);
+		m_sideVerts->Add(four, botLeft);
+		m_sideVerts->Add(one, topLeft);
+
+		one.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+		two.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+		three.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+		four.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
+	}
+
+	//create quads for viewing on end
+	float gw = 0.5f;
+	float gz = -0.1f;
+
+	for (int i=0; i < 4; i++) {
+		m_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
+		m_glowVerts->Add(vector3f(-gw, gw, gz), topRight);
+		m_glowVerts->Add(vector3f(gw, gw, gz), botRight);
+
+		m_glowVerts->Add(vector3f(gw, gw, gz), botRight);
+		m_glowVerts->Add(vector3f(gw, -gw, gz), botLeft);
+		m_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
+
+		gw -= 0.1f; // they get smaller
+		gz -= 0.2f; // as they move back
+	}
+}
+
+Projectile::~Projectile()
+{
 }
 
 void Projectile::Save(Serializer::Writer &wr, Space *space)
@@ -49,6 +118,7 @@ void Projectile::Load(Serializer::Reader &rd, Space *space)
 void Projectile::PostLoadFixup(Space *space)
 {
 	m_parent = space->GetBodyByIndex(m_parentIndex);
+	m_radius = GetRadius();
 }
 
 void Projectile::UpdateInterpolatedTransform(double alpha)
@@ -91,7 +161,14 @@ float Projectile::GetDamage() const
 //	return 0.01f;
 }
 
-static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const vector3d &pos)
+double Projectile::GetRadius() const
+{
+	float length = Equip::lasers[m_type].length;
+	float width = Equip::lasers[m_type].width;
+	return sqrt(length*length + width*width);
+}
+
+static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, const vector3d &pos)
 {
 	Equip::Type t;
 	if (20*Pi::rng.Fixed() < asteroid->m_metallicity) {
@@ -108,16 +185,19 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const ve
 	CargoBody *cargo = new CargoBody(t);
 	cargo->SetFrame(f);
 	cargo->SetPosition(pos);
-	cargo->SetVelocity(Pi::rng.Double(100.0,200.0)*vector3d(Pi::rng.Double()-.5, Pi::rng.Double()-.5, Pi::rng.Double()-.5));
+	const double x = Pi::rng.Double();
+	vector3d dir = pos.Normalized();
+	dir.ArbRotate(vector3d(x, 1-x, 0), Pi::rng.Double()-.5);
+	cargo->SetVelocity(Pi::rng.Double(100.0,200.0) * dir);
 	Pi::game->GetSpace()->AddBody(cargo);
 }
 
 void Projectile::StaticUpdate(const float timeStep)
 {
 	CollisionContact c;
-	vector3d vel = m_dirVel * 0.1;
+	vector3d vel = (m_baseVel+m_dirVel) * timeStep;
 	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c, 0);
-	
+
 	if (c.userData1) {
 		Object *o = static_cast<Object*>(c.userData1);
 
@@ -138,12 +218,12 @@ void Projectile::StaticUpdate(const float timeStep)
 		// need to test for terrain hit
 		if (GetFrame()->m_astroBody && GetFrame()->m_astroBody->IsType(Object::PLANET)) {
 			Planet *const planet = static_cast<Planet*>(GetFrame()->m_astroBody);
-			const SBody *b = planet->GetSBody();
+			const SystemBody *b = planet->GetSystemBody();
 			vector3d pos = GetPosition();
 			double terrainHeight = planet->GetTerrainHeight(pos.Normalized());
 			if (terrainHeight > pos.Length()) {
 				// hit the fucker
-				if (b->type == SBody::TYPE_PLANET_ASTEROID) {
+				if (b->type == SystemBody::TYPE_PLANET_ASTEROID) {
 					vector3d n = GetPosition().Normalized();
 					MiningLaserSpawnTastyStuff(planet->GetFrame(), b, n*terrainHeight + 5.0*n);
 					Sfx::Add(this, Sfx::TYPE_EXPLOSION);
@@ -154,25 +234,66 @@ void Projectile::StaticUpdate(const float timeStep)
 	}
 }
 
-void Projectile::Render(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Projectile::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	ModelTexture *tex = Pi::textureCache->GetModelTexture(PIONEER_DATA_DIR"/textures/laser.png");
+	vector3d _from = viewTransform * GetInterpolatedPosition();
+	vector3d _to = viewTransform * (GetInterpolatedPosition() + m_dirVel);
+	vector3d _dir = _to - _from;
+	vector3f from(&_from.x);
+	vector3f dir = vector3f(_dir).Normalized();
 
-	vector3d from = viewTransform * GetInterpolatedPosition();
-	vector3d to = viewTransform * (GetInterpolatedPosition() + 0.1*m_dirVel);
-	vector3d dir = to - from;
+	vector3f v1, v2;
+	matrix4x4f m = matrix4x4f::Identity();
+	v1.x = dir.y; v1.y = dir.z; v1.z = dir.x;
+	v2 = v1.Cross(dir).Normalized();
+	v1 = v2.Cross(dir);
+	m[0] = v1.x; m[4] = v2.x; m[8] = dir.x;
+	m[1] = v1.y; m[5] = v2.y; m[9] = dir.y;
+	m[2] = v1.z; m[6] = v2.z; m[10] = dir.z;
 
-	vector3f _from(&from.x);
-	vector3f _dir(&dir.x);
-	vector3f points[50];
-	float p = 0;
-	for (int i=0; i<50; i++, p+=0.02) {
-		points[i] = _from + p*_dir;
+	m[12] = from.x;
+	m[13] = from.y;
+	m[14] = from.z;
+
+	renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
+	renderer->SetDepthWrite(false);
+
+	glPushMatrix();
+	glMultMatrixf(&m[0]);
+
+	// increase visible size based on distance from camera, z is always negative
+	// allows them to be smaller while maintaining visibility for game play
+	const float dist_scale = float(viewCoords.z / -500);
+	const float length = Equip::lasers[m_type].length + dist_scale;
+	const float width = Equip::lasers[m_type].width + dist_scale;
+	glScalef(width, width, length);
+
+	Color color = Equip::lasers[m_type].color;
+	// fade them out as they age so they don't suddenly disappear
+	// this matches the damage fall-off calculation
+	const float base_alpha = sqrt(1.0f - m_age/Equip::lasers[m_type].lifespan);
+	// fade out side quads when viewing nearly edge on
+	vector3f view_dir = vector3f(viewCoords).Normalized();
+	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(view_dir)), length));
+
+	if (color.a > 0.01f) {
+		m_sideMat.diffuse = color;
+		renderer->DrawTriangles(m_sideVerts.Get(), &m_sideMat);
 	}
-	Color col = Equip::lasers[m_type].color;
-	col.a = 1.0f - m_age/Equip::lasers[m_type].lifespan;
-	tex->Bind();
-	Render::PutPointSprites(50, points, Equip::lasers[m_type].psize, col);
+
+	// fade out glow quads when viewing nearly edge on
+	// these and the side quads fade at different rates
+	// so that they aren't both at the same alpha as that looks strange
+	color.a = base_alpha * powf(fabs(dir.Dot(view_dir)), width);
+
+	if (color.a > 0.01f) {
+		m_glowMat.diffuse = color;
+		renderer->DrawTriangles(m_glowVerts.Get(), &m_glowMat);
+	}
+
+	glPopMatrix();
+	renderer->SetBlendMode(Graphics::BLEND_SOLID);
+	renderer->SetDepthWrite(true);
 }
 
 void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const vector3d &baseVel, const vector3d &dirVel)
@@ -181,10 +302,11 @@ void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const 
 	p->m_parent = parent;
 	p->m_type = Equip::types[type].tableIndex;
 	p->SetFrame(parent->GetFrame());
-	
+
 	parent->GetRotMatrix(p->m_orient);
 	p->SetPosition(pos);
 	p->m_baseVel = baseVel;
 	p->m_dirVel = dirVel;
+	p->m_radius = p->GetRadius();
 	Pi::game->GetSpace()->AddBody(p);
 }

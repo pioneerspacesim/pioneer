@@ -9,7 +9,9 @@ Translate:AddFlavour('English','FuelClub',{
 	* Our own stocks of fuel, independent of the general market
 	* {hydrogen} at discount prices
 	* {military_fuel} at discount prices
+	* {water} at discount prices
 	* {radioactives}, free disposal (conditions apply)
+	* Fuel tank refilling, where necessary
 
 Join now! Annual membership costs only {membership_fee}]],
 	member_intro = [[You may purhase fuel and dispose of {radioactives} here.]],
@@ -29,7 +31,7 @@ Translate:Add({English = {
   ---- POLISH / POLSKI ----
 
 Translate:AddFlavour('Polski','FuelClub',{
-	
+
 	clubname = "Spółdzielnia Paliwowa",
 	welcome = 'Witamy w Spółdzielni Paliwowej',
 	nonmember_intro = [[{clubname} jest niezależną organizacją, udostępniającą swoim członkom własne zapasy paliwa, posiadamy filie w całej galaktyce. Korzyści płynące z członkostwa:
@@ -64,8 +66,8 @@ Translate:AddFlavour('Spanish','FuelClub',{
 	nonmember_intro = [[{clubname} es una organización independiente dedicada a proveer descuentos en combustible a sus miembros. Sus sedes se encuentran por toda la galaxia. Los beneficios de afiliación incluyen:
 
 	* Existencias de combustible propias, independientes del mercado general
-	* Descuento de precios en {hydrogen} 
-	* Descuento de precios en {military_fuel} 
+	* Descuento de precios en {hydrogen}
+	* Descuento de precios en {military_fuel}
 	* {radioactives}, disponibilidad libre (bajo condiciones)
 
 Apúntese! Afiliación anual por solo {membership_fee}]],
@@ -82,4 +84,34 @@ Translate:Add({Spanish = {
 	["You must buy our {military_fuel} before we will take your {radioactives}"] = "Debe adquirir nuestro {military_fuel} para dispensarle {radioactives}",
 	["Begin trade"] = "Comenzar transacción",
 }})
-   
+
+
+  ---- HUNGARIAN / MAGYAR ----
+
+Translate:AddFlavour('Magyar','FuelClub',{
+
+	clubname = "Csillagközi pilóták üzemanyagegyüttműködése",
+	welcome = 'Üdvözlünk a(z) {clubname} klubban.',
+	nonmember_intro = [[{clubname} egy független szervezet, amely olcsón kínál űrhajóüzemanyagot tagjainak. A fiókok szerte megtalálhatóak a galaxisban. A tagság előnyei a következők:
+
+	* Saját üzemanyagraktárunk árai függetlenek a piactól
+	* {hydrogen} diszkontáron kapható
+	* {military_fuel} diszkontáron kapható
+	* {radioactives} megsemmisítése ingyen (feltételekkel)
+
+Csatlakozz most! Az éves tagsági díj csak {membership_fee}]],
+	member_intro = [[Továbbá vehetsz üzemanyagot és {radioactives} megsemmisítést is vállalunk.]],
+
+	annual_fee = 400,
+})
+
+Translate:Add({Magyar = {
+	["What conditions apply to {radioactives} disposal?"] = "Mik a feltételei a {radioactives} kezelésének?",
+	["We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."] = "Annyi tonna {radioactives} semlegesítését vállaljuk, amennyi {military_fuel} vásárolsz tőlünk.",
+	["Apply for membership"] = "Tagságigénylés",
+	["Your membership application has been declined."] = "A tagságigénylésedet visszautasítottuk.",
+	["You are now a member. Your membership will expire on {expiry_date}."] = "Immáron tag vagy. A tagságod {expiry_date} napján jár le.",
+	["You must buy our {military_fuel} before we will take your {radioactives}"] = "Venned kell: {military_fuel} mielőtt átvennénk tőled: {radioactives}",
+	["Begin trade"] = "Üzlet megkezdése",
+}})
+

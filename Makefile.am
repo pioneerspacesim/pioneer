@@ -1,5 +1,10 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = contrib src data osx win32
+if BUILD_WIN32
+    PLATFORM_SUBDIRS = win32
+endif
+SUBDIRS = contrib $(PLATFORM_SUBDIRS) src data osx
+
+PATH := @MXE_PATH@:$(PATH)
 
 include $(top_srcdir)/Makefile.common
 
@@ -9,7 +14,7 @@ codedoc:
 
 .PHONY: enums
 enums:
-	python scripts/scan_enums.py -o src/enum_table.cpp src/*.h
+	python scripts/scan_enums.py -r --pattern=*.h -o src/enum_table.cpp src
 
 EXTRA_DIST = \
 	AUTHORS.txt \

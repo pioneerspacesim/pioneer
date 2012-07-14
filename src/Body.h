@@ -10,6 +10,7 @@
 class Frame;
 class ObjMesh;
 class Space;
+namespace Graphics { class Renderer; }
 
 class Body: public Object {
 public:
@@ -44,7 +45,7 @@ public:
 	// as you can't test for collisions if different objects are on different 'steps'
 	virtual void StaticUpdate(const float timeStep) {}
 	virtual void TimeStepUpdate(const float timeStep) {}
-	virtual void Render(const vector3d &viewCoords, const matrix4x4d &viewTransform) = 0;
+	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform) = 0;
 
 	virtual void SetFrame(Frame *f) { m_frame = f; }
 	Frame *GetFrame() const { return m_frame; }
@@ -54,14 +55,15 @@ public:
 	vector3d GetVelocityRelTo(const Frame *f) const;
 	vector3d GetPositionRelTo(const Frame *) const;
 	vector3d GetPositionRelTo(const Body *) const;
+
 	// Should return pointer in Pi::currentSystem
-	virtual const SBody *GetSBody() const { return 0; }
+	virtual const SystemBody *GetSystemBody() const { return 0; }
 	// for putting on planet surface, oriented +y up
 	void OrientOnSurface(double radius, double latitude, double longitude);
 
-	void SetLabel(const char *label) { m_label = label; }
+	void SetLabel(const std::string &label) { m_label = label; }
 	const std::string &GetLabel() const { return m_label; }
-	unsigned int GetFlags() { return m_flags; }
+	unsigned int GetFlags() const { return m_flags; }
 	// Only Space::KillBody() should call this method.
 	void MarkDead() { m_dead = true; }
 	bool IsDead() const { return m_dead; }
@@ -73,6 +75,7 @@ public:
 	}
 	vector3d GetInterpolatedPositionRelTo(const Frame *relTo) const;
 	vector3d GetInterpolatedPositionRelTo(const Body *relTo) const;
+	matrix4x4d GetInterpolatedTransformRelTo(const Frame *relTo) const;
 	// should set m_interpolatedTransform to the smoothly interpolated
 	// value (interpolated by 0 <= alpha <=1) between the previous and current
 	//  physics tick
@@ -90,6 +93,7 @@ public:
 	enum { FLAG_CAN_MOVE_FRAME = (1<<0),
                FLAG_LABEL_HIDDEN = (1<<1),
 	       FLAG_DRAW_LAST = (1<<2) }; // causes the body drawn after other bodies in the z-sort
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);

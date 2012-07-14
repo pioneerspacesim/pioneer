@@ -7,7 +7,7 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightMapped>::GetHeightFractalName() const { return "Mapped"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightMapped>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightMapped>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
 	//textures
 	if (textures) {
@@ -78,7 +78,7 @@ double TerrainHeightFractal<TerrainHeightMapped>::GetHeight(const vector3d &p)
 		double a2 = 0.5*d0 + 0.5*d2;
 		double a3 = -(1/6.0)*d0 - 0.5*d2 + (1/6.0)*d3;
 		double v = a0 + a1*dy + a2*dy*dy + a3*dy*dy*dy;
-		
+
 		v = (v<0 ? 0 : v);
 		double h = v;
 
@@ -97,10 +97,10 @@ double TerrainHeightFractal<TerrainHeightMapped>::GetHeight(const vector3d &p)
 				100.0*ridged_octavenoise(GetFracDef(5-m_fracnum), 0.5, p);
 		}
 		//high altitude detail/mountains
-		//v += Clamp(h, 0.0, 0.5)*octavenoise(GetFracDef(2-m_fracnum), 0.5, p);	
-		
+		//v += Clamp(h, 0.0, 0.5)*octavenoise(GetFracDef(2-m_fracnum), 0.5, p);
+
 		//low altitude detail/dunes
-		//v += h*0.000003*ridged_octavenoise(GetFracDef(2-m_fracnum), Clamp(1.0-h*0.002, 0.0, 0.5), p);			
+		//v += h*0.000003*ridged_octavenoise(GetFracDef(2-m_fracnum), Clamp(1.0-h*0.002, 0.0, 0.5), p);
 		if (v < 10.0){
 			v += 2.0*v*dunes_octavenoise(GetFracDef(6-m_fracnum), 0.5, p)
 				*octavenoise(GetFracDef(6-m_fracnum), 0.5, p);
@@ -111,7 +111,7 @@ double TerrainHeightFractal<TerrainHeightMapped>::GetHeight(const vector3d &p)
 			v += (50.0/v)*(50.0/v)*(50.0/v)*(50.0/v)*(50.0/v)
 				*20.0*dunes_octavenoise(GetFracDef(6-m_fracnum), 0.5, p)
 				*octavenoise(GetFracDef(6-m_fracnum), 0.5, p);
-		}		
+		}
 		if (v<40.0) {
 			//v = v;
 		} else if (v <60.0){
@@ -119,12 +119,12 @@ double TerrainHeightFractal<TerrainHeightMapped>::GetHeight(const vector3d &p)
 			//printf("V/height: %f\n", Clamp(v-20.0, 0.0, 1.0));
 		} else {
 			v += (30.0/v)*(30.0/v)*(30.0/v)*20.0*billow_octavenoise(GetFracDef(5-m_fracnum), 0.5, p);
-		}		
-		
+		}
+
 		//ridges and bumps
-		//v += h*0.1*ridged_octavenoise(GetFracDef(6-m_fracnum), Clamp(h*0.0002, 0.3, 0.5), p) 
+		//v += h*0.1*ridged_octavenoise(GetFracDef(6-m_fracnum), Clamp(h*0.0002, 0.3, 0.5), p)
 		//	* Clamp(h*0.0002, 0.1, 0.5);
-		v += h*0.2*voronoiscam_octavenoise(GetFracDef(5-m_fracnum), Clamp(1.0-(h*0.0002), 0.0, 0.6), p) 
+		v += h*0.2*voronoiscam_octavenoise(GetFracDef(5-m_fracnum), Clamp(1.0-(h*0.0002), 0.0, 0.6), p)
 			* Clamp(1.0-(h*0.0006), 0.0, 1.0);
 		//polar ice caps with cracks
 		if ((m_icyness*0.5)+(fabs(p.y*p.y*p.y*0.38)) > 0.6) {
