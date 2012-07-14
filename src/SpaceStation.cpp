@@ -17,6 +17,7 @@
 #include "StringF.h"
 #include <algorithm>
 #include "Game.h"
+#include "Graphics/Graphics.h"
 
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
@@ -781,6 +782,68 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 	}
 }
 
+void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensity, std::vector<Light> &lights)
+{
+	Planet *planet = static_cast<Planet*>(_planet);
+	// position relative to the rotating frame of the planet
+	vector3d upDir = GetPosition();
+	double dist = upDir.Length();
+	upDir = upDir.Normalized();
+	double pressure, density;
+	planet->GetAtmosphericState(dist, &pressure, &density);
+	double surfaceDensity;
+	Color cl;
+	_planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
+
+	//step through all the lights and calculate contributions taking into account sun position
+	double light = 0.0;
+	double light2 = 0.0;
+
+	for(std::vector<Light>::iterator l = lights.begin();
+		l != lights.end(); ++l) {
+			
+			double sunAngle;
+			// calculate the extent the sun is towards zenith
+			if (l->GetBody()){
+				// relative to the rotating frame of the planet
+				const vector3d lightDir = (l->GetBody()->GetInterpolatedPositionRelTo(planet->GetFrame()).Normalized());
+				sunAngle = lightDir.Dot(upDir);
+			} else 
+				// light is the default light for systems without lights
+				sunAngle = 1.0;
+
+			//0 to 1 as sunangle goes from 0.0 to 1.0
+			double sunAngle2 = (Clamp(sunAngle, 0.0,1.0)+0.0)/1.0;
+
+			//0 to 1 as sunAngle goes from -0.08 to 0.30
+			sunAngle = (Clamp(sunAngle, -0.08,0.30)+0.08)/0.38;
+			
+			light += sunAngle;
+			light2 += sunAngle2;
+	}
+
+	// approximate optical thickness fraction as fraction of density remaining relative to earths
+	double opticalThicknessFraction = 1.0-(surfaceDensity-density)/1.225;
+	// tweak optical thickness curve - lower exponent ==> higher altitude before ambient level drops
+	opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
+	// brightness depends on optical depth and intensity of light from all the stars
+	intensity = (Clamp((light),0.0,1.0));
+
+
+	// ambient light fraction
+	// alter ratio between directly and ambiently lit portions towards ambiently lit as sun sets
+	double fraction = (0.6+0.4*(
+						1.0-light2*(Clamp((opticalThicknessFraction),0.0,1.0))
+						)*0.8+0.2); //fraction goes from 0.6 to 1.0
+					  
+	
+	// fraction of light left over to be lit directly
+	intensity = (1.0-fraction)*intensity;
+
+	// scale ambient by amount of light
+	ambient = fraction*(Clamp((light),0.0,1.0));
+}
+
 void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	LmrObjParams &params = GetLmrObjParams();
@@ -797,64 +860,33 @@ void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d 
 		
 	Body *_planet = GetFrame()->m_astroBody;
 	if ((!_planet) || !_planet->IsType(Object::PLANET)) {
-		// orbital spaceport -- don't make city turds or change lighting based on atmosohere
+		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
 		RenderLmrModel(viewCoords, viewTransform);
-	} else {	
+	} else {
+		planet = static_cast<Planet*>(_planet);
+
 		//calculate lighting
 		std::vector<Light> lights, newLights;
 		newLights = lights = camera->GetLights();
 		int numLights = lights.size();
+		
+		double ambient, intensity;
 
-		planet = static_cast<Planet*>(_planet);
-		vector3d upDir = -planet->GetInterpolatedPositionRelTo(GetFrame());
-		double dist = upDir.Length();
-		double pressure, density;
-		planet->GetAtmosphericState(dist, &pressure, &density);
-		double surfaceDensity;
-		Color cl;
-		_planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
+		CalcLighting(_planet, ambient, intensity, lights);
 
-		//go through all lights to calculate something resembling light intensity
-		double light = 0.0;
-		Frame *nullFrame = 0;
-		for(std::vector<Light>::iterator l = lights.begin();
-			l != lights.end(); ++l) {
-				
-				double sunAngle;
-				// calculate the extent the sun is towards zenith
-				if (l->GetBody()){
-					const vector3d lightDir = (l->GetBody()->GetInterpolatedPositionRelTo(GetFrame()).Normalized());
-					sunAngle = lightDir.Dot(upDir);
-				} else 
-					// light is the default light for systems without lights
-					sunAngle = 1.0;
-
-				if (sunAngle > 0.25) sunAngle = 1.0;
-				else if ((sunAngle <= 0.25)&& (sunAngle >= -0.8)) sunAngle = ((sunAngle+0.08)/0.33);
-				else /*if (sunAngle < -0.8)*/ sunAngle = 0.0;
-				
-				light += sunAngle;
-		}
-
-		// approximate optical thickness fraction as fraction of density remaining relative to earths
-		double opticalThicknessFraction = 1.0-(surfaceDensity-density)/surfaceDensity;
-		// tweak optical thickness curve - lower exponent ==> higher altitude before stars show
-		opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
-		// brightness depends on optical depth and intensity of light from all the stars
-		double intensity = (Clamp((opticalThicknessFraction*light),0.0,1.0));
-
-		intensity = 0.00;
+		//ambient = 0;
+		//intensity = 0.00;
 		//fade diffuse component
 		for(int i = 0;i < numLights; i++) {
 			Color c = lights[i].GetDiffuse();
 			Color ca = lights[i].GetAmbient();
 			Color cs = lights[i].GetSpecular();
+			ca.r = c.r * float(ambient);
+			ca.g = c.g * float(ambient);
+			ca.b = c.b * float(ambient);
 			c.r*=float(intensity);
 			c.g*=float(intensity);
 			c.b*=float(intensity);
-			ca.r*=float(intensity);
-			ca.g*=float(intensity);
-			ca.b*=float(intensity);
 			cs.r*=float(intensity);
 			cs.g*=float(intensity);
 			cs.b*=float(intensity);
@@ -867,6 +899,12 @@ void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d 
 
 		RenderLmrModel(viewCoords, viewTransform);
 
+		// turn off global ambient color
+		Color oldAmbient;
+		oldAmbient = Graphics::State::GetGlobalSceneAmbientColor();
+
+		r->SetAmbientColor(Color(0.0, 0.0, 0.0, 1.0));
+
 		/* don't render city if too far away */
 		if (viewCoords.Length() < 1000000.0){
 			if (!m_adjacentCity) {
@@ -877,6 +915,9 @@ void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d 
 
 		// restore old lights
 		r->SetLights(numLights, &lights[0]);
+
+		// restore old ambient color
+		r->SetAmbientColor(oldAmbient);
 	}
 }
 
