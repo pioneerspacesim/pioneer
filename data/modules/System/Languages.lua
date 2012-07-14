@@ -13,3 +13,11 @@ Translate:Add({ Spanish = {
 	["Your fuel tank is empty."] = "Tu tanque de fuel está vacío.",
 }
 })
+
+---- POLISH / POLSKI ----
+
+Translate:Add({ Polish = {
+	["Your fuel tank is almost empty."] = "Zbiornik paliwa jest prawie pusty.",
+	["Your fuel tank is empty."] = "Zbiornik paliwa jest pusty.",
+}
+})
