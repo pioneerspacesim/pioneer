@@ -387,6 +387,9 @@
     <ClCompile Include="..\..\src\Intro.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaFileSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\pch.h">
@@ -809,7 +812,7 @@
     <ClInclude Include="..\..\src\Intro.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\LmrTypes.h">
+    <ClInclude Include="..\..\src\LuaFileSystem.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

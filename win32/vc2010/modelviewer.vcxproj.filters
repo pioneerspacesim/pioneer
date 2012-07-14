@@ -176,8 +176,5 @@
     <ClInclude Include="..\..\src\LuaMatrix.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Light.h">
-      <Filter>src</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
