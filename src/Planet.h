@@ -12,7 +12,7 @@ public:
 	Planet();
 	virtual ~Planet() {}
 
-	virtual void SubRender(Graphics::Renderer *r, const vector3d &camPos);
+	virtual void SubRender(Graphics::Renderer *r, Camera *camera, const vector3d &camPos);
 
 	void GetAtmosphericState(double dist, double *outPressure, double *outDensity) const;
 
@@ -21,7 +21,7 @@ public:
 #endif
 
 private:
-	void DrawGasGiantRings(Graphics::Renderer *r);
+	void DrawGasGiantRings(Graphics::Renderer *r, Camera *camera);
 	void DrawAtmosphere(Graphics::Renderer *r, const vector3d &camPos);
 
 	GLuint m_ringsDList;

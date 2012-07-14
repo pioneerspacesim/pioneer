@@ -141,6 +141,7 @@ protected:
 private:
 	void DoDockingAnimation(const double timeStep);
 	void DoLawAndOrder();
+	void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensity, std::vector<Light> &lights);
 
 	/* Stage 0 means docking port empty
 	 * Stage 1 means docking clearance granted to ->ship

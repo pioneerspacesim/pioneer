@@ -166,7 +166,7 @@ static void DrawRing(double inner, double outer, const Color &color, Renderer *r
 	r->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
 }
 
-void Planet::DrawGasGiantRings(Renderer *renderer)
+void Planet::DrawGasGiantRings(Renderer *renderer, Camera *camera)
 {
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 	glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT );
@@ -176,8 +176,8 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	Material mat;
 	mat.unlit = true;
 	mat.twoSided = true;
-	// XXX worldview numlights always 1!
-	mat.shader = Graphics::planetRingsShader[Pi::worldView->GetNumLights()-1];
+	// XXX should get number of lights through camera when object viewer draw doesn't pass a null pointer
+	mat.shader = Graphics::planetRingsShader[Graphics::State::GetNumLights()-1];
 
 //	MTRand rng((int)Pi::game->GetTime());
 	MTRand rng(GetSystemBody()->seed+965467);
@@ -298,9 +298,9 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	glPopMatrix();
 }
 
-void Planet::SubRender(Renderer *r, const vector3d &camPos)
+void Planet::SubRender(Renderer *r, Camera *camera, const vector3d &camPos)
 {
-	if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings(r);
+	if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings(r, camera);
 
 	if (!AreShadersEnabled()) DrawAtmosphere(r, camPos);
 }
