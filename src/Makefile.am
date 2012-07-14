@@ -335,11 +335,13 @@ tests_SOURCES = \
 	test_StringF.cpp \
 	FileSystem.cpp \
 	FileSystemPosix.cpp \
+	FileSourceZip.cpp \
 	test_FileSystem.cpp
 
 TESTS = tests
 
-tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a
+tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+	../contrib/miniz/libminiz.a
 
 INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA

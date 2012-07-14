@@ -114,6 +114,7 @@ namespace FileSystem {
 		m_dirLen(0),
 		m_type(type)
 	{
+		assert((m_path.size() <= 1) || (m_path[m_path.size()-1] != '/'));
 		std::size_t slashpos = m_path.rfind('/');
 		if (slashpos != std::string::npos) {
 			m_dirLen = slashpos + 1;
@@ -172,6 +173,11 @@ namespace FileSystem {
 		return RefCountedPtr<FileData>();
 	}
 
+	// Merge two sets of FileInfo's, by path.
+	// Input vectors must be sorted. Output will be sorted.
+	// Where a path is present in both inputs, directories are selected
+	// in preference to non-directories; otherwise, the FileInfo from the
+	// first vector is selected in preference to the second vector.
 	static void file_union_merge(
 			std::vector<FileInfo>::const_iterator a, std::vector<FileInfo>::const_iterator aend,
 			std::vector<FileInfo>::const_iterator b, std::vector<FileInfo>::const_iterator bend,
@@ -207,24 +213,24 @@ namespace FileSystem {
 		}
 
 		bool founddir = false;
-		size_t headsize = output.size();
 
 		std::vector<FileInfo> merged;
 		for (std::vector<FileSource*>::const_iterator
 			it = m_sources.begin(); it != m_sources.end(); ++it)
 		{
-			size_t prevsize = output.size();
-			assert(prevsize >= headsize);
-			std::vector<FileInfo> temp1;
-			if ((*it)->ReadDirectory(path, temp1))
+			std::vector<FileInfo> nextfiles;
+			if ((*it)->ReadDirectory(path, nextfiles)) {
 				founddir = true;
 
-			std::vector<FileInfo> temp2;
-			temp2.swap(merged);
-			file_union_merge(
-				temp1.begin(), temp1.end(),
-				temp2.begin(), temp2.end(),
-				merged);
+				std::vector<FileInfo> prevfiles;
+				prevfiles.swap(merged);
+				// merge order is important
+				// file_union_merge selects from its first input preferentially
+				file_union_merge(
+					prevfiles.begin(), prevfiles.end(),
+					nextfiles.begin(), nextfiles.end(),
+					merged);
+			}
 		}
 
 		output.reserve(output.size() + merged.size());

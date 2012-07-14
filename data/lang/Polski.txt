@@ -174,6 +174,8 @@ CANCEL
     Wróć
 SELECT_FILENAME_TO_SAVE
     Wybierz plik do zapisu lub podaj nowa nazwę pliku
+CANT_SAVE_IN_HYPERSPACE
+	Nie można zapisać gry w czasie skoku
 GAME_SAVED_TO
     "Gra zapisana do "
 SELECT_FILENAME_TO_LOAD
@@ -184,6 +186,8 @@ GAME_LOAD_CORRUPT
     Ten zapis nie może zostać wczytany ponieważ zawiera błędy.
 GAME_LOAD_CANNOT_OPEN
     Ten zapis nie może być wczytany z powodu braku uprawnień bądź z innej przyczyny...
+GAME_SAVE_CANNOT_WRITE
+	Nie można zapisać gry z powodu błędu systemu.
 VERY_LOW
     Bardzo mała
 LOW
@@ -246,6 +250,10 @@ MOUSE_INPUT
     Opcje myszy
 INVERT_MOUSE_Y
     Odwróć Oś Y
+HUD
+	HUD
+DISPLAY_NAV_TUNNEL
+	Wyświetl tunel nawigacyjny
 LANGUAGE_SELECTION
     Język (wymagany restart)
 
@@ -406,7 +414,6 @@ DRIVE_CLASS8
     Napęd Klasy 8
 DRIVE_CLASS9
     Napęd Klasy 9
-# Miałeś rację OSH, tak wygląda lepiej.
 DRIVE_MIL1
     Napęd Wojskowy Klasy 1
 DRIVE_MIL2
@@ -459,6 +466,8 @@ CARGO_INVENTORY
     Towary:
 JETTISON
     Wystrzel
+REFUEL
+    Zatankuj
 JETTISONED_1T_OF_X
     %commodity: 1 tona wyrzucona za burtę
 COMBAT_RATING
@@ -522,9 +531,7 @@ TARGET_OBJECT_IN_SIGHTS
 FIRE_LASER
     Strzał lasera
 SHIP_ORIENTATION
-    Orientacja statku
-FAST_ROTATION_CONTROL
-    Szybka rotacja
+    Manewrowanie
 PITCH_UP
     Ruch w górę
 PITCH_DOWN
@@ -551,6 +558,8 @@ THRUSTER_PORT
     Ciąg w lewo
 THRUSTER_STARBOARD
     Ciąg w prawo
+USE_LOW_THRUST
+    Precyzyjne sterowanie ciągiem
 SPEED_CONTROL_MODE
     Tryb sterowania prędkością
 INCREASE_SET_SPEED
@@ -558,15 +567,17 @@ INCREASE_SET_SPEED
 DECREASE_SET_SPEED
     Zmniejsz ustawioną prędkość
 SCANNER_CONTROL
-	  Opcje skanera
+	Opcje skanera
 TOGGLE_SCAN_MODE
   	Zmiana trybu skanera
 INCREASE_SCAN_RANGE
-	  Zwiększa zasięg skanera
+	Zwiększa zasięg skanera
 DECREASE_SCAN_RANGE
-	  Zmniejsza zasięg skanera
+	Zmniejsza zasięg skanera
 TOGGLE_LUA_CONSOLE
     Aktywacja konsoli
+TOGGLE_HUD_MODE
+    Zmiana trybu HUD
 JOYSTICK_INPUT
     Ustawienia Joysticka
 PITCH
@@ -603,6 +614,8 @@ MM_START_NEW_GAME_EARTH
     Nowa gra: rozpocznij na Ziemi
 MM_START_NEW_GAME_E_ERIDANI
     Nowa gra: rozpocznij na Epsilon Eridani
+MM_START_NEW_GAME_LAVE
+    Nowa gra: rozpocznij na Lave
 MM_START_NEW_GAME_DEBUG
     Nowa gra: rozpocznij z debug point
 MM_LOAD_SAVED_GAME
@@ -733,6 +746,8 @@ REAR_VIEW
     Widok z tylu
 EXTERNAL_VIEW
     Widok zewnętrzny
+SIDEREAL_VIEW
+    Widok radialny
 NAVIGATION_STAR_MAPS
     Nawigacja i mapy gwiezdne
 COMMS
@@ -997,6 +1012,8 @@ DEMOGRAPHICS
     Demografia
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
     Stabilny system z %bodycount %{body(s)} i %portcount %{starport(s)}.
+COUNT_ON_SURFACE
+    " (%surfacecount na powierzchni)"
 BODY
     ciałem
 BODIES
@@ -1043,6 +1060,10 @@ OBJECT_LABELS_ARE_ON
     Oznaczenia obiektów włączone
 OBJECT_LABELS_ARE_OFF
     Oznaczenia obiektów wyłączone
+SELECT_LOW_THRUST_POWER_LEVEL
+    Siła ciągu w trybie precyzyjnym
+SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT
+    Siła ciągu w trybie precyzyjnym %power%%
 HYPERSPACE_JUMP
     Skok w nadprzestrzeń
 TAKEOFF
@@ -1051,6 +1072,8 @@ MANUAL_CONTROL
     Kontrola manualna
 COMPUTER_SPEED_CONTROL
     Automatyczna kontrola prędkości
+COMPUTER_HEADING_CONTROL
+    Automatyczna kontrola pozycji
 AUTOPILOT_ON
     Autopilot włączony
 SHIP_VELOCITY_BY_REFERENCE_OBJECT
@@ -1069,6 +1092,8 @@ HULL_INTEGRITY
     Integr. kadłuba
 SHIELD_INTEGRITY
     Integr. osłon
+FUEL
+    Paliwo
 LAUNCH_PERMISSION_DENIED_BUSY
     Brak pozwolenia na lądowanie: doki zajęte.
 HYPERSPACE_JUMP_ABORTED
@@ -1081,6 +1106,10 @@ DOCKED
     Zacumowany
 HYPERSPACE
     Skok w nadprzestrzeń
+HEADING_LOCK_FORWARD
+    Utrzymaj pozycję (przód)
+HEADING_LOCK_BACKWARD
+    Utrzymaj pozycję (tył)
 SET_SPEED_KM_S
     Prędkość: %speed{f.2} km/s
 SET_SPEED_M_S
@@ -1091,8 +1120,12 @@ M_S_RELATIVE_TO
     %speed{f.0} m/s względem %frame
 N_DISTANCE_TO_TARGET
     %distance do celu
+IN_TRANSIT
+    Przelot
 IN_TRANSIT_TO_N_X_X_X
     Przelot do %system [%x,%y,%z]
+PROBABILITY_OF_ARRIVAL_X_PERCENT
+    Prawdopodobieństwo przylotu: %probability%%
 ALT_IN_METRES
     Wys: %altitude{f.0}m
 PRESSURE_N_BAR
