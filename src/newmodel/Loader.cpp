@@ -55,6 +55,10 @@ NModel *Loader::LoadModel(const std::string &filename, const std::string &basepa
 			const std::string name = info.GetName();
 			//XXX hmm
 			m_curPath = info.GetDir();
+			//strip trailing slash
+			if (!m_curPath.empty() && m_curPath[m_curPath.length()-1] == '/') {
+				m_curPath = m_curPath.substr(0, m_curPath.length()-1);
+			}
 			if (filename == name.substr(0, name.length()-6)) {
 				ModelDefinition modelDefinition;
 				try {
