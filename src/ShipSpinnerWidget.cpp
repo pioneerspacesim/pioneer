@@ -1,8 +1,9 @@
 #include "ShipSpinnerWidget.h"
 #include "Pi.h"
 #include "Game.h"
-#include "Ship.h"
 #include "Light.h"
+#include "Pi.h"
+#include "Ship.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 
@@ -10,7 +11,7 @@ ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, fl
 	m_width(width),
 	m_height(height)
 {
-	m_model = LmrLookupModelByName(ShipType::types[flavour.type].lmrModelName.c_str());
+	m_model = Pi::FindModel(ShipType::types[flavour.type].lmrModelName.c_str());
 
 	memset(&m_params, 0, sizeof(LmrObjParams));
 	m_params.animationNamespace = "ShipAnimation";

@@ -81,16 +81,7 @@ void ModelBody::SetModel(const char *modelName, bool isStatic)
 {
 	m_isStatic = isStatic;
 
-	// Try LMR models first, then NewModel
-	try {
-		m_model = LmrLookupModelByName(modelName);
-	} catch (LmrModelNotFoundException) {
-		try {
-			m_model = Pi::modelCache->FindModel(modelName);
-		} catch (ModelCache::ModelNotFoundException) {
-			Error("Could not find model %s", modelName);
-		}
-	}
+	m_model = Pi::FindModel(modelName);
 
 	RebuildCollisionMesh();
 }

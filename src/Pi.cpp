@@ -352,6 +352,23 @@ std::string Pi::GetSaveDir()
 	return FileSystem::GetUserDir("savefiles");
 }
 
+Model *Pi::FindModel(const std::string &name)
+{
+	// Try LMR models first, then NewModel
+	Model *m = 0;
+	try {
+		m = LmrLookupModelByName(name.c_str());
+	} catch (LmrModelNotFoundException) {
+		try {
+			m = Pi::modelCache->FindModel(name);
+		} catch (ModelCache::ModelNotFoundException) {
+			Error("Could not find model %s", name);
+		}
+	}
+
+	return m;
+}
+
 void Pi::RedirectStdio()
 {
 	std::string stdout_file = FileSystem::JoinPath(FileSystem::GetUserDir(), "stdout.txt");
@@ -918,7 +935,7 @@ static void draw_tombstone(float _time)
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
 	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
-	LmrLookupModelByName("tombstone")->Render(Pi::renderer, rot, &params);
+	Pi::FindModel("tombstone")->Render(Pi::renderer, rot, &params);
 	glPopAttrib();
 }
 
