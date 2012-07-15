@@ -128,6 +128,7 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &desc)
 
 void RendererGL2::ApplyMaterial(const Material *mat)
 {
+	glPushAttrib(GL_ENABLE_BIT);
 	if (!mat) {
 		simpleShader->Use();
 		return;
@@ -138,7 +139,6 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 		static_cast<const MaterialGL2*>(mat)->Apply();
 		return;
 	}
-	glPushAttrib(GL_ENABLE_BIT);
 
 	const bool flat = !mat->vertexColors;
 
@@ -174,6 +174,7 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 
 void RendererGL2::UnApplyMaterial(const Material *mat)
 {
+	glPopAttrib();
 	if (mat) {
 		//XXX hack, obviously
 		if (mat->newStyleHack) {
@@ -185,7 +186,7 @@ void RendererGL2::UnApplyMaterial(const Material *mat)
 			static_cast<TextureGL*>(mat->texture0)->Unbind();
 		}
 	}
-	glPopAttrib();
+
 	// XXX won't be necessary
 	m_currentShader = 0;
 	glUseProgram(0);

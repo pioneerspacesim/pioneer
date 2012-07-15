@@ -161,8 +161,7 @@ void ModelBody::TriMeshUpdateLastPos(const matrix4x4d &currentTransform)
 
 void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	glPushMatrix(); //XXX stuff leaks
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	glPushMatrix();
 	matrix4x4d t = viewTransform * GetInterpolatedTransform();
 	matrix4x4f trans;
 	for (int i=0; i<12; i++) trans[i] = float(t[i]);
@@ -172,6 +171,5 @@ void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords
 	trans[15] = 1.0f;
 
 	m_model->Render(r, trans, &m_params);
-	glPopMatrix(); //XXX stuff leaks
-	glPopAttrib();
+	glPopMatrix();
 }
