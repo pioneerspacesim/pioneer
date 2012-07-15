@@ -1343,17 +1343,37 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 		m_sbody->GetAtmosphereFlavor(&atmosCol, &atmosDensity);
 		atmosDensity *= 1e-5;
 
-		// calculate (inverse) atmosphere scale height
+		// Calculate parameters used in the atmospheric model for shaders
+		// Isothermal atmospheric model
+		// See http://en.wikipedia.org/wiki/Atmospheric_pressure#Altitude_atmospheric_pressure_variation
+		// This model features an exponential decrease in pressure and density with altitude.
+		// The scale height is 1/the exponential coefficient.
+
+		// The equation for pressure is:
+		// Pressure at height h = Pressure surface * e^((-Mg/RT)*h)
+
+		// calculate (inverse) atmosphere scale height		
+		// The formula for scale height is:
+		// h = RT / Mg
+		// h is height above the surface in meters
+		// R is the universal gas constant
+		// T is the surface temperature in Kelvin
+		// g is the gravity in m/s^2
+		// M is the molar mass of air in kg/mol
+		
+		// calculate gravity
+		// radius of the planet
+		const double radiusPlanet_in_m = (m_sbody->radius.ToDouble()*EARTH_RADIUS);
+		const double massPlanet_in_kg = (m_sbody->mass.ToDouble()*EARTH_MASS);
+		const double g = G*massPlanet_in_kg/(radiusPlanet_in_m*radiusPlanet_in_m);
+
+		const double T = static_cast<double>(m_sbody->averageTemp);
+
 		// XXX just use earth's composition for now
-		const float atmosMolarMass = 28.97f;
-		// This is just the isothermal atmosphere formula for scale height:
-		// h = kT / mg,
-		// giving h in meters, but taking m in atomic mass units, and g in
-		// earth masses per earth radius squared.
-		const float atmosScaleHeight =
-			(855.0f * static_cast<float>(m_sbody->averageTemp)) /
-			(atmosMolarMass * m_sbody->mass.ToDouble()/
-			 (m_sbody->radius.ToDouble() * m_sbody->radius.ToDouble()));
+		const double M = 0.02897f; // in kg/mol
+
+		const float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R*T/(M*g));
+
 		// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
 		const float atmosInvScaleHeight = std::max(20.0f, static_cast<float>(m_sbody->GetRadius() / atmosScaleHeight));
 		// integrate atmospheric density between surface and this radius. this is 10x the scale
