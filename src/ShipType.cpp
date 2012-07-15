@@ -174,11 +174,13 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 
 	//this shouldn't necessarily be a fatal problem, could just warn+mark ship unusable
 	//or replace with proxy geometry
+#if 0
 	try {
 		LmrLookupModelByName(s.lmrModelName.c_str());
 	} catch (LmrModelNotFoundException &) {
 		return luaL_error(L, "Model %s is not defined", s.lmrModelName.c_str());
 	}
+#endif
 
 	ShipType::types[s.name] = s;
 	list->push_back(s.name);

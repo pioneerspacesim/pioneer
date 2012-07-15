@@ -10,6 +10,8 @@
 #include "Serializer.h"
 #include "Space.h"
 #include "WorldView.h"
+#include "ModelCache.h"
+#include "newmodel/NModel.h"
 
 ModelBody::ModelBody() :
 	Body(),
@@ -75,15 +77,19 @@ void ModelBody::RebuildCollisionMesh()
 	}
 }
 
-void ModelBody::SetModel(const char *lmrModelName, bool isStatic)
+void ModelBody::SetModel(const char *modelName, bool isStatic)
 {
 	m_isStatic = isStatic;
 
+	// Try LMR models first, then NewModel
 	try {
-		m_model = LmrLookupModelByName(lmrModelName);
+		m_model = LmrLookupModelByName(modelName);
 	} catch (LmrModelNotFoundException) {
-		printf("Could not find model '%s'.\n", lmrModelName);
-		Pi::Quit();
+		try {
+			m_model = Pi::modelCache->FindModel(modelName);
+		} catch (ModelCache::ModelNotFoundException) {
+			Error("Could not find model %s", modelName);
+		}
 	}
 
 	RebuildCollisionMesh();
@@ -164,6 +170,8 @@ void ModelBody::TriMeshUpdateLastPos(const matrix4x4d &currentTransform)
 
 void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
+	glPushMatrix(); //XXX stuff leaks
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	matrix4x4d t = viewTransform * GetInterpolatedTransform();
 	matrix4x4f trans;
 	for (int i=0; i<12; i++) trans[i] = float(t[i]);
@@ -173,4 +181,6 @@ void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords
 	trans[15] = 1.0f;
 
 	m_model->Render(r, trans, &m_params);
+	glPopMatrix(); //XXX stuff leaks
+	glPopAttrib();
 }

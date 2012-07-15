@@ -17,10 +17,14 @@ Newmodel::NModel *ModelCache::FindModel(const std::string &name)
 	ModelMap::iterator it = m_models.find(name);
 
 	if (it == m_models.end()) {
-		Newmodel::Loader loader(m_renderer);
-		Newmodel::NModel *m = loader.LoadModel(name);
-		m_models[name] = m;
-		return m;
+		try {
+			Newmodel::Loader loader(m_renderer);
+			Newmodel::NModel *m = loader.LoadModel(name);
+			m_models[name] = m;
+			return m;
+		} catch (Newmodel::LoadingError &err) {
+			throw ModelNotFoundException();
+		}
 	}
 	return it->second;
 }

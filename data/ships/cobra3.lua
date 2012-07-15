@@ -1,6 +1,6 @@
 define_ship {
 	name='Cobra Mk III',
-	model='cobra_mk3',
+	model='test_cobra',
 	forward_thrust = -16e6,
 	reverse_thrust = 8e6,
 	up_thrust = 4e6,
