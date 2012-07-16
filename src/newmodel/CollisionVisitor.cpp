@@ -1,9 +1,10 @@
 #include "CollisionVisitor.h"
+#include "CollMesh.h"
+#include "Group.h"
+#include "MatrixTransform.h"
 #include "StaticGeometry.h"
 #include "graphics/StaticMesh.h"
 #include "graphics/Surface.h"
-#include "CollMesh.h"
-#include "Group.h"
 
 namespace Newmodel {
 
@@ -14,8 +15,17 @@ CollisionVisitor::CollisionVisitor()
 
 void CollisionVisitor::ApplyStaticGeometry(StaticGeometry &g)
 {
-	m_collMesh->GetAabb().Update(g.m_boundingBox.min);
-	m_collMesh->GetAabb().Update(g.m_boundingBox.max);
+	if (m_matrixStack.empty()) {
+		m_collMesh->GetAabb().Update(g.m_boundingBox.min);
+		m_collMesh->GetAabb().Update(g.m_boundingBox.max);
+	} else {
+		//XXX should transform each corner instead?
+		const matrix4x4f &matrix = m_matrixStack.back();
+		vector3f min = vector3f(g.m_boundingBox.min) * matrix;
+		vector3f max = vector3f(g.m_boundingBox.max) * matrix;
+		m_collMesh->GetAabb().Update(vector3d(min));
+		m_collMesh->GetAabb().Update(vector3d(max));
+	}
 	m_boundingRadius = m_collMesh->GetAabb().GetBoundingRadius();
 #if 0
 	const Graphics::StaticMesh *mesh = g.GetMesh();
@@ -46,6 +56,16 @@ void CollisionVisitor::ApplyStaticGeometry(StaticGeometry &g)
 	}
 	assert(m_flags.size() == m_indices.size()/3);
 #endif
+}
+
+void CollisionVisitor::ApplyMatrixTransform(MatrixTransform &m)
+{
+	matrix4x4f matrix = matrix4x4f::Identity();
+	if (!m_matrixStack.empty()) matrix = m_matrixStack.back();
+
+	m_matrixStack.push_back(matrix * m.GetTransform());
+	m.Traverse(*this);
+	m_matrixStack.pop_back();
 }
 
 CollMesh *CollisionVisitor::CreateCollisionMesh()
