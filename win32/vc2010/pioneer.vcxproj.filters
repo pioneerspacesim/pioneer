@@ -815,6 +815,9 @@
     <ClInclude Include="..\..\src\LuaFileSystem.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Model.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">

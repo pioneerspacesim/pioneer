@@ -82,7 +82,7 @@
     <ClCompile Include="..\..\..\src\newmodel\Billboard.cpp" />
     <ClCompile Include="..\..\..\src\newmodel\CollisionVisitor.cpp" />
     <ClCompile Include="..\..\..\src\newmodel\ColorMap.cpp" />
-    <ClCompile Include="..\..\..\src\newmodel\DrawVisitor.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\DumpVisitor.cpp" />
     <ClCompile Include="..\..\..\src\newmodel\Group.cpp" />
     <ClCompile Include="..\..\..\src\newmodel\Label3D.cpp" />
     <ClCompile Include="..\..\..\src\newmodel\Loader.cpp" />
@@ -108,7 +108,7 @@
     <ClInclude Include="..\..\..\src\newmodel\Billboard.h" />
     <ClInclude Include="..\..\..\src\newmodel\CollisionVisitor.h" />
     <ClInclude Include="..\..\..\src\newmodel\ColorMap.h" />
-    <ClInclude Include="..\..\..\src\newmodel\DrawVisitor.h" />
+    <ClInclude Include="..\..\..\src\newmodel\DumpVisitor.h" />
     <ClInclude Include="..\..\..\src\newmodel\Group.h" />
     <ClInclude Include="..\..\..\src\newmodel\Label3D.h" />
     <ClInclude Include="..\..\..\src\newmodel\Loader.h" />

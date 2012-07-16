@@ -1,6 +1,5 @@
 #include "NModel.h"
 #include "CollisionVisitor.h"
-#include "DrawVisitor.h"
 #include "graphics/Renderer.h"
 
 namespace Newmodel {

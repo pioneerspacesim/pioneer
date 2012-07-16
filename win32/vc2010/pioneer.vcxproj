@@ -319,6 +319,7 @@
     <ClInclude Include="..\..\src\MathUtil.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\Missile.h" />
+    <ClInclude Include="..\..\src\Model.h" />
     <ClInclude Include="..\..\src\ModelBody.h" />
     <ClInclude Include="..\..\src\ModelCache.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
