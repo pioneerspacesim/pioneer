@@ -6,6 +6,7 @@ Alpha 25
 
    * Fixes
      * Fix some Lua console completion edge cases (#1339)
+     * Fix Lua error report format for missing objects (#1366)
 
 Alpha 24
 
