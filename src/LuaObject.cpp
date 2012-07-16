@@ -158,8 +158,11 @@ int LuaObjectBase::l_isa(lua_State *l)
 	lid *idp = static_cast<lid*>(lua_touserdata(l, 1));
 
 	LuaObjectBase *lo = Lookup(*idp);
-	if (!lo)
-		luaL_error(l, "Lua object with id 0x%08x not found in registry", *idp);
+	if (!lo) {
+		char objectCode[16];
+		snprintf(objectCode, sizeof(objectCode), "0x%08x", *idp);
+		luaL_error(l, "Lua object with id %s not found in registry", objectCode);
+	}
 
 	lua_pushboolean(l, lo->Isa(luaL_checkstring(l, 2)));
 	return 1;
@@ -542,8 +545,11 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 		luaL_error(l, "Lua value on stack is of type userdata but has no userdata associated with it");
 
 	LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
-	if (!lo)
-		luaL_error(l, "Lua object with id 0x%08x not found in registry", *idp);
+	if (!lo) {
+		char objectCode[16];
+		snprintf(objectCode, sizeof(objectCode), "0x%08x", *idp);
+		luaL_error(l, "Lua object with id %s not found in registry", objectCode);
+	}
 
 	LUA_DEBUG_END(l, 0);
 
