@@ -69,6 +69,10 @@ Node* Group::FindNode(const std::string &name)
 void Group::Accept(NodeVisitor &nv)
 {
 	nv.ApplyGroup(*this);
+}
+
+void Group::Traverse(NodeVisitor &nv)
+{
 	for(std::vector<Node*>::iterator itr = m_children.begin();
 		itr != m_children.end();
 		++itr)

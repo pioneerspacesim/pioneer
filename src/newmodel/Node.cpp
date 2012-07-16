@@ -20,6 +20,10 @@ void Node::Accept(NodeVisitor &v)
 	v.ApplyNode(*this);
 }
 
+void Node::Traverse(NodeVisitor &v)
+{
+}
+
 Node* Node::FindNode(const std::string &name)
 {
 	if (m_name == name)

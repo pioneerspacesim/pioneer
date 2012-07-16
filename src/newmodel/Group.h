@@ -15,6 +15,7 @@ public:
 	virtual bool RemoveChild(Node *node); //true on success
 	virtual bool RemoveChildAt(unsigned int position); //true on success
 	virtual void Accept(NodeVisitor &v);
+	virtual void Traverse(NodeVisitor &v);
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
 	unsigned int GetNumChildren() const { return m_children.size(); }
 	virtual Node* FindNode(const std::string &);
