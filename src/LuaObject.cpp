@@ -159,6 +159,8 @@ int LuaObjectBase::l_isa(lua_State *l)
 
 	LuaObjectBase *lo = Lookup(*idp);
 	if (!lo) {
+		// luaL_error format codes are very limited (can't handle width or fill specifiers),
+		// so we use snprintf here to do the real formatting
 		char objectCode[16];
 		snprintf(objectCode, sizeof(objectCode), "0x%08x", *idp);
 		luaL_error(l, "Lua object with id %s not found in registry", objectCode);
@@ -546,6 +548,8 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 
 	LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
 	if (!lo) {
+		// luaL_error format codes are very limited (can't handle width or fill specifiers),
+		// so we use snprintf here to do the real formatting
 		char objectCode[16];
 		snprintf(objectCode, sizeof(objectCode), "0x%08x", *idp);
 		luaL_error(l, "Lua object with id %s not found in registry", objectCode);
