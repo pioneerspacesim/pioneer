@@ -1,9 +1,12 @@
 #include "NodeVisitor.h"
+#include "Billboard.h"
 #include "Group.h"
 #include "Label3D.h"
+#include "LOD.h"
 #include "MatrixTransform.h"
 #include "Node.h"
 #include "StaticGeometry.h"
+#include "Thruster.h"
 
 namespace Newmodel {
 
@@ -30,6 +33,21 @@ void NodeVisitor::ApplyLabel(Label3D &l)
 void NodeVisitor::ApplyMatrixTransform(MatrixTransform &m)
 {
 	ApplyGroup(static_cast<Group&>(m));
+}
+
+void NodeVisitor::ApplyBillboard(Billboard &b)
+{
+	ApplyNode(static_cast<Node&>(b));
+}
+
+void NodeVisitor::ApplyThruster(Thruster &t)
+{
+	ApplyNode(static_cast<Node&>(t));
+}
+
+void NodeVisitor::ApplyLOD(LOD &l)
+{
+	ApplyGroup(static_cast<Group&>(l));
 }
 
 }
