@@ -28,6 +28,8 @@ public:
 	// The caller is expected to clean it up itself.
 	void PushCopyToStack() const;
 
+	lua_State * GetLua() const { return m_lua; }
+
 	static void Init(lua_State * l);
 	static void Uninit(lua_State * l);
 
