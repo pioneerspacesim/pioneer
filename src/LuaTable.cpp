@@ -39,6 +39,20 @@ LuaTable::~LuaTable() {
 	CheckCopyCount();
 }
 
+bool LuaTable::operator==(const LuaTable & ref) const {
+	if (ref.m_lua != m_lua)
+		return false;
+	if (ref.m_id == m_id)
+		return true;
+
+	assert(m_lua == g_lua);
+	ref.PushCopyToStack();
+	PushCopyToStack();
+	bool return_value = lua_compare(m_lua, -1, -2, LUA_OPEQ);
+	lua_pop(m_lua, 2);
+	return return_value;
+}
+
 void LuaTable::CheckCopyCount() {
 	if (g_copy_count[m_id] <= 0) {
 		PushGlobalToStack();

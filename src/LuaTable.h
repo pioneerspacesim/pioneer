@@ -18,6 +18,11 @@ public:
 	~LuaTable();
 
 	const LuaTable & operator=(const LuaTable & ref);
+	bool operator==(const LuaTable & ref) const;
+	bool operator<(const LuaTable & ref) const {
+		assert(g_lua && m_lua == g_lua && ref.m_lua == g_lua);
+		return m_id < ref.m_id;
+	}
 
 	// Push a copy of the current table on the top of the stack.
 	// The caller is expected to clean it up itself.
