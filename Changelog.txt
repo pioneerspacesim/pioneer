@@ -3,6 +3,7 @@ Alpha 25
    * New features
      * Planets with surface ports are now displayed with a blue ring in the
        system info view (F2,F7) (#1345)
+     * Catalan translation (#1371)
 
    * Fixes
      * Fix some Lua console completion edge cases (#1339)
