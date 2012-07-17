@@ -32,6 +32,8 @@ private:
 	static std::vector<int> g_copy_count;
 
 	void PushGlobalToStack() const;
+
+	void CheckCopyCount();
 };
 
 #endif

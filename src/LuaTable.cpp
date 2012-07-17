@@ -22,15 +22,19 @@ LuaTable::LuaTable(const LuaTable & ref): m_id(ref.m_id), m_lua(ref.m_lua) {
 
 LuaTable::~LuaTable() {
 	if (m_id == 0 || g_lua == 0 || m_lua != g_lua)
-        return;
-    g_copy_count[m_id]--;
-    if (g_copy_count[m_id] <= 0) {
-        PushGlobalToStack();
-        lua_pushinteger(m_lua, m_id);
-        lua_pushnil(m_lua);
-        lua_settable(m_lua, -3);
-        lua_pop(m_lua, 1);
-    }
+		return;
+	g_copy_count[m_id]--;
+	CheckCopyCount();
+}
+
+void LuaTable::CheckCopyCount() {
+	if (g_copy_count[m_id] <= 0) {
+		PushGlobalToStack();
+		lua_pushinteger(g_lua, m_id);
+		lua_pushnil(g_lua);
+		lua_settable(g_lua, -3);
+		lua_pop(g_lua, 1);
+	}
 }
 
 LuaTable::LuaTable(lua_State * l, int index): m_id(++id_count), m_lua(l) {
