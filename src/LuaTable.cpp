@@ -1,27 +1,27 @@
 #include "LuaTable.h"
 
-lua_State * LuaTable::g_lua = NULL;
+lua_State * LuaTable::g_lua = 0;
 static int id_count = 0;
 std::vector<int> LuaTable::g_copy_count(1, 0);
 
 void LuaTable::Init(lua_State * l) {
-	assert(g_lua == NULL); // Only one Lua stack is supported
+	assert(g_lua == 0); // Only one Lua stack is supported
 	g_lua = l;
 }
 
 void LuaTable::Uninit(lua_State * l) {
 	assert(g_lua == l);
-	g_lua = NULL;
+	g_lua = 0;
 }
 
-LuaTable::LuaTable(): m_id(0), m_lua(NULL) {}
+LuaTable::LuaTable(): m_id(0), m_lua(0) {}
 
 LuaTable::LuaTable(const LuaTable & ref): m_id(ref.m_id), m_lua(ref.m_lua) {
 	g_copy_count[m_id]++;
 }
 
 LuaTable::~LuaTable() {
-    if (m_id == 0 || g_lua == NULL || m_lua != g_lua)
+	if (m_id == 0 || g_lua == 0 || m_lua != g_lua)
         return;
     g_copy_count[m_id]--;
     if (g_copy_count[m_id] <= 0) {
