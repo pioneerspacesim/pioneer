@@ -1080,7 +1080,6 @@ DISTANCE_FROM_SHIP_TO_NAV_TARGET
     Distància de la nau a l'objectiu de navegació
 SHIP_ALTITUDE_ABOVE_TERRAIN
     Alçada de la nau sobre el terreny
-c
 EXTERNAL_ATMOSPHERIC_PRESSURE
     Pressió atmosfèrica externa
 HULL_TEMP
