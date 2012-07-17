@@ -23,6 +23,9 @@ public:
 		assert(g_lua && m_lua == g_lua && ref.m_lua == g_lua);
 		return m_id < ref.m_id;
 	}
+	template <class Key> void PushValueToStack(const Key & key) const;
+	template <class Value, class Key> Value Get(const Key & key) const;
+	template <class Value, class Key> void Set(const Key & key, const Value & value);
 
 	// Push a copy of the current table on the top of the stack.
 	// The caller is expected to clean it up itself.
@@ -44,5 +47,30 @@ private:
 
 	void CheckCopyCount();
 };
+
+#include "LuaPushPull.h"
+
+template <class Key> void LuaTable::PushValueToStack(const Key & key) const {
+	PushCopyToStack();
+	lua_push(m_lua, key);
+	lua_gettable(m_lua, -2);
+	lua_remove(m_lua, -2);
+}
+
+template <class Value, class Key> Value LuaTable::Get(const Key & key) const {
+	Value return_value;
+	PushValueToStack(key);
+	lua_pull(m_lua, -1, return_value);
+	lua_pop(m_lua, 1);
+	return return_value;
+}
+
+template <class Value, class Key> void LuaTable::Set(const Key & key, const Value & value) {
+	PushCopyToStack();
+	lua_push(m_lua, key);
+	lua_push(m_lua, value);
+	lua_settable(m_lua, -3);
+	lua_pop(m_lua, 1);
+}
 
 #endif

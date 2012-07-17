@@ -77,6 +77,7 @@ noinst_HEADERS = \
 	LuaObject.h \
 	LuaPlanet.h \
 	LuaPlayer.h \
+	LuaPushPull.h \
 	LuaRand.h \
 	LuaSystemBody.h \
 	LuaSystemPath.h \
