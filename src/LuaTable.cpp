@@ -20,6 +20,18 @@ LuaTable::LuaTable(const LuaTable & ref): m_id(ref.m_id), m_lua(ref.m_lua) {
 	g_copy_count[m_id]++;
 }
 
+const LuaTable & LuaTable::operator=(const LuaTable & ref) {
+	if (m_id != 0 && g_lua != 0 && m_lua == g_lua) {
+		g_copy_count[m_id]--;
+		CheckCopyCount();
+	}
+	m_id = ref.m_id;
+	m_lua = ref.m_lua; 
+	if(m_lua && m_id)
+		g_copy_count[m_id]++;
+	return *this;
+}
+
 LuaTable::~LuaTable() {
 	if (m_id == 0 || g_lua == 0 || m_lua != g_lua)
 		return;
