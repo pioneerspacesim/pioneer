@@ -235,11 +235,11 @@ VIDEO_RESOLUTION
 X_BY_X
     %{x}x%{y}
 PLANET_DETAIL_DISTANCE
-    Distancia del detalle planetario:
+    Dist. detalle planetario:
 CITY_DETAIL_LEVEL
-    Nivel de detalle urbano:
+    Detalle urbano:
 PLANET_TEXTURES
-    Texturas planetarias:
+    Tex. planetarias:
 FRACTAL_DETAIL
     Detalle Fractal:
 CONTROLS
