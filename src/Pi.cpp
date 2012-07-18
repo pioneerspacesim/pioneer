@@ -1,75 +1,77 @@
-#include "libs.h"
 #include "Pi.h"
-#include "gui/Gui.h"
-#include "Player.h"
-#include "Space.h"
-#include "Planet.h"
-#include "Star.h"
-#include "Frame.h"
-#include "ShipCpanel.h"
-#include "ShipType.h"
-#include "SectorView.h"
-#include "SystemView.h"
-#include "SystemInfoView.h"
-#include "WorldView.h"
-#include "ObjectViewerView.h"
-#include "galaxy/StarSystem.h"
-#include "SpaceStation.h"
-#include "SpaceStationView.h"
-#include "CargoBody.h"
-#include "InfoView.h"
-#include "Serializer.h"
-#include "GeoSphere.h"
-#include "Sound.h"
-#include "Polit.h"
-#include "GalacticView.h"
-#include "galaxy/Galaxy.h"
-#include "GameMenuView.h"
-#include "Missile.h"
-#include "LmrModel.h"
+#include "libs.h"
 #include "AmbientSounds.h"
-#include "galaxy/CustomSystem.h"
-#include "CityOnPlanet.h"
-#include "LuaManager.h"
-#include "LuaBody.h"
-#include "LuaShip.h"
-#include "LuaSpaceStation.h"
-#include "LuaPlanet.h"
-#include "LuaStar.h"
-#include "LuaPlayer.h"
-#include "LuaCargoBody.h"
-#include "LuaStarSystem.h"
-#include "LuaSystemPath.h"
-#include "LuaSystemBody.h"
-#include "LuaShipType.h"
-#include "LuaEquipType.h"
-#include "LuaChatForm.h"
-#include "LuaSpace.h"
-#include "LuaConstants.h"
-#include "LuaLang.h"
-#include "LuaGame.h"
-#include "LuaEngine.h"
-#include "LuaComms.h"
-#include "LuaFormat.h"
-#include "LuaSpace.h"
-#include "LuaTimer.h"
-#include "LuaRand.h"
-#include "LuaNameGen.h"
-#include "LuaMusic.h"
-#include "LuaConsole.h"
-#include "SoundMusic.h"
 #include "Background.h"
-#include "Lang.h"
-#include "StringF.h"
+#include "CargoBody.h"
+#include "CityOnPlanet.h"
+#include "FileSystem.h"
+#include "Frame.h"
+#include "GalacticView.h"
 #include "Game.h"
 #include "GameLoaderSaver.h"
-#include "FileSystem.h"
+#include "GameMenuView.h"
+#include "GeoSphere.h"
+#include "InfoView.h"
+#include "Lang.h"
 #include "Light.h"
+#include "LmrModel.h"
+#include "LuaBody.h"
+#include "LuaCargoBody.h"
+#include "LuaChatForm.h"
+#include "LuaComms.h"
+#include "LuaConsole.h"
+#include "LuaConstants.h"
+#include "LuaEngine.h"
+#include "LuaEquipType.h"
+#include "LuaFormat.h"
+#include "LuaGame.h"
+#include "LuaLang.h"
+#include "LuaManager.h"
+#include "LuaMusic.h"
+#include "LuaNameGen.h"
+#include "LuaPlanet.h"
+#include "LuaPlayer.h"
+#include "LuaRand.h"
+#include "LuaShip.h"
+#include "LuaShipType.h"
+#include "LuaSpace.h"
+#include "LuaSpace.h"
+#include "LuaSpaceStation.h"
+#include "LuaStar.h"
+#include "LuaStarSystem.h"
+#include "LuaSystemBody.h"
+#include "LuaSystemPath.h"
+#include "LuaTimer.h"
+#include "Missile.h"
+#include "ModManager.h"
+#include "ObjectViewerView.h"
+#include "OS.h"
+#include "Planet.h"
+#include "Player.h"
+#include "Polit.h"
+#include "SDLWrappers.h"
+#include "SectorView.h"
+#include "Serializer.h"
 #include "Sfx.h"
+#include "ShipCpanel.h"
+#include "ShipType.h"
+#include "Sound.h"
+#include "SoundMusic.h"
+#include "Space.h"
+#include "SpaceStation.h"
+#include "SpaceStationView.h"
+#include "Star.h"
+#include "StringF.h"
+#include "SystemInfoView.h"
+#include "SystemView.h"
+#include "WorldView.h"
+#include "galaxy/CustomSystem.h"
+#include "galaxy/Galaxy.h"
+#include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
-#include "SDLWrappers.h"
-#include "ModManager.h"
+#include "gui/Gui.h"
+
 #include <fstream>
 
 float Pi::gameTickAlpha;
@@ -367,19 +369,6 @@ void Pi::RedirectStdio()
 	}
 }
 
-void Pi::LoadWindowIcon()
-{
-#ifdef WIN32
-	// SDL doc says "Win32 icons must be 32x32".
-	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge32-8b.png");
-#else
-	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge.png");
-#endif
-	if (surface) {
-		SDL_WM_SetIcon(surface.Get(), 0);
-	}
-}
-
 void Pi::Init()
 {
 	FileSystem::Init();
@@ -461,7 +450,7 @@ void Pi::Init()
 	Uint32 flags = SDL_OPENGL;
 	if (config->Int("StartFullscreen")) flags |= SDL_FULLSCREEN;
 
-	LoadWindowIcon();
+	OS::LoadWindowIcon();
 
 	// attempt sequence is:
 	// 1- requested mode

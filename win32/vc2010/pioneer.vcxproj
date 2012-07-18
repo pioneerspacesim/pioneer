@@ -179,6 +179,11 @@
     <ClCompile Include="..\..\src\ModManager.cpp" />
     <ClCompile Include="..\..\src\mtrand.cpp" />
     <ClCompile Include="..\..\src\ObjectViewerView.cpp" />
+    <ClCompile Include="..\..\src\OSPosix.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Pi.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
@@ -222,6 +227,7 @@
     <ClCompile Include="..\..\src\View.cpp" />
     <ClCompile Include="..\..\src\win32\FileSystemWin32.cpp" />
     <ClCompile Include="..\..\src\win32\Gamma.cpp" />
+    <ClCompile Include="..\..\src\win32\OSWin32.cpp" />
     <ClCompile Include="..\..\src\win32\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
@@ -316,6 +322,7 @@
     <ClInclude Include="..\..\src\mtrand.h" />
     <ClInclude Include="..\..\src\Object.h" />
     <ClInclude Include="..\..\src\ObjectViewerView.h" />
+    <ClInclude Include="..\..\src\OS.h" />
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\PersistSystemData.h" />
     <ClInclude Include="..\..\src\Pi.h" />

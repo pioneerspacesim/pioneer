@@ -378,6 +378,12 @@
     <ClCompile Include="..\..\src\win32\pch.cpp">
       <Filter>src\win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\win32\OSWin32.cpp">
+      <Filter>src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPosix.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -793,6 +799,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\win32\pch.h">
       <Filter>src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OS.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

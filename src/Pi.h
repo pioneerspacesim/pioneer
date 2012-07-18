@@ -57,7 +57,6 @@ class Pi {
 public:
 	static void Init();
 	static void RedirectStdio();
-	static void LoadWindowIcon();
 	static void InitGame();
 	static void StarportStart(Uint32 starport);
 	static void StartGame();
