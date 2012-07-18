@@ -83,11 +83,10 @@
     <ClCompile Include="..\..\..\src\collider\CollisionSpace.cpp" />
     <ClCompile Include="..\..\..\src\collider\Geom.cpp" />
     <ClCompile Include="..\..\..\src\collider\GeomTree.cpp" />
-    <ClCompile Include="..\..\src\pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +96,7 @@
     <ClInclude Include="..\..\..\src\collider\CollisionSpace.h" />
     <ClInclude Include="..\..\..\src\collider\Geom.h" />
     <ClInclude Include="..\..\..\src\collider\GeomTree.h" />
+    <ClInclude Include="..\..\..\src\win32\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

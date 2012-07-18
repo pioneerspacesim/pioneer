@@ -5,7 +5,7 @@
     <ClCompile Include="..\..\..\src\collider\CollisionSpace.cpp" />
     <ClCompile Include="..\..\..\src\collider\Geom.cpp" />
     <ClCompile Include="..\..\..\src\collider\GeomTree.cpp" />
-    <ClCompile Include="..\..\src\pch.cpp">
+    <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
   </ItemGroup>
@@ -16,6 +16,9 @@
     <ClInclude Include="..\..\..\src\collider\CollisionSpace.h" />
     <ClInclude Include="..\..\..\src\collider\Geom.h" />
     <ClInclude Include="..\..\..\src\collider\GeomTree.h" />
+    <ClInclude Include="..\..\..\src\win32\pch.h">
+      <Filter>win32</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

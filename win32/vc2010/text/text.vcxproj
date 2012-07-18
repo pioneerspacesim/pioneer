@@ -82,13 +82,10 @@
     <ClCompile Include="..\..\..\src\text\TextSupport.cpp" />
     <ClCompile Include="..\..\..\src\text\TextureFont.cpp" />
     <ClCompile Include="..\..\..\src\text\VectorFont.cpp" />
-    <ClCompile Include="..\..\src\pch.cpp">
+    <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +94,7 @@
     <ClInclude Include="..\..\..\src\text\TextSupport.h" />
     <ClInclude Include="..\..\..\src\text\TextureFont.h" />
     <ClInclude Include="..\..\..\src\text\VectorFont.h" />
+    <ClInclude Include="..\..\..\src\win32\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

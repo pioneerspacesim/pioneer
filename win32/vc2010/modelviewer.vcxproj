@@ -133,8 +133,8 @@
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\StringF.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
-    <ClCompile Include="..\src\FileSystemWin32.cpp" />
-    <ClCompile Include="..\src\pch.cpp">
+    <ClCompile Include="..\..\src\win32\FileSystemWin32.cpp" />
+    <ClCompile Include="..\..\src\win32\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -168,7 +168,7 @@
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\src\vector2.h" />
     <ClInclude Include="..\..\src\vector3.h" />
-    <ClInclude Include="..\src\pch.h" />
+    <ClInclude Include="..\..\src\win32\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
