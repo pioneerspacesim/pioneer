@@ -189,7 +189,6 @@
 		4A6C4E9213532FC300FDD53F /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6E13532FC300FDD53F /* utils.cpp */; };
 		4A6C4E9313532FC300FDD53F /* WorldView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D7213532FC300FDD53F /* WorldView.cpp */; };
 		4A6C4EA2135452FF00FDD53F /* libsigc-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
-		4A6C4EA8135453E400FDD53F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA7135453E400FDD53F /* OpenGL.framework */; };
 		4A6C55151354655000FDD53F /* data in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A6C55141354655000FDD53F /* data */; };
 		4A82AA861386969B0028CCED /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA7D1386969B0028CCED /* GameConfig.cpp */; };
 		4A84CB7D14595D850051C848 /* enum_table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A84CB7B14595D850051C848 /* enum_table.cpp */; };
@@ -308,6 +307,7 @@
 		4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
 		4AE9706714369D7500424F91 /* LuaLang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AE9706514369D7500424F91 /* LuaLang.cpp */; };
 		4AED721D14E1501D004D171E /* TerrainHeightMapped2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AED721C14E1501D004D171E /* TerrainHeightMapped2.cpp */; };
+		4AF3618815AD9E5600BDFE63 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF3618515AD9E2E00BDFE63 /* OpenGL.framework */; };
 		4AF999A31496D51F009821AF /* FileSelectorWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999B1496D51F009821AF /* FileSelectorWidget.cpp */; };
 		4AF999A41496D51F009821AF /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999D1496D51F009821AF /* Game.cpp */; };
 		4AF999A51496D51F009821AF /* GameLoaderSaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999F1496D51F009821AF /* GameLoaderSaver.cpp */; };
@@ -722,7 +722,6 @@
 		4A6C4D7213532FC300FDD53F /* WorldView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldView.cpp; sourceTree = "<group>"; };
 		4A6C4D7313532FC300FDD53F /* WorldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldView.h; sourceTree = "<group>"; };
 		4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libsigc-2.0.0.dylib"; path = "/opt/local/lib/libsigc-2.0.0.dylib"; sourceTree = "<absolute>"; };
-		4A6C4EA7135453E400FDD53F /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = SDKs/MacOSX10.6.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		4A6C55141354655000FDD53F /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = "<group>"; };
 		4A82AA7D1386969B0028CCED /* GameConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameConfig.cpp; sourceTree = "<group>"; };
 		4A82AA7E1386969B0028CCED /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
@@ -903,6 +902,7 @@
 		4AE9706514369D7500424F91 /* LuaLang.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaLang.cpp; sourceTree = "<group>"; };
 		4AE9706614369D7500424F91 /* LuaLang.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaLang.h; sourceTree = "<group>"; };
 		4AED721C14E1501D004D171E /* TerrainHeightMapped2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightMapped2.cpp; sourceTree = "<group>"; };
+		4AF3618515AD9E2E00BDFE63 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		4AF9999B1496D51F009821AF /* FileSelectorWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSelectorWidget.cpp; sourceTree = "<group>"; };
 		4AF9999C1496D51F009821AF /* FileSelectorWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSelectorWidget.h; sourceTree = "<group>"; };
 		4AF9999D1496D51F009821AF /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
@@ -918,8 +918,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AF3618815AD9E5600BDFE63 /* OpenGL.framework in Frameworks */,
 				4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */,
-				4A6C4EA8135453E400FDD53F /* OpenGL.framework in Frameworks */,
 				4A61E16113978FA900193E43 /* libpng14.14.dylib in Frameworks */,
 				4A5619D513867033002A904C /* libvorbisfile.3.dylib in Frameworks */,
 				4A5619CF13866622002A904C /* libfreetype.6.dylib in Frameworks */,
@@ -1115,7 +1115,7 @@
 		4A20B0E4135319770020F43E /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4A6C4EA7135453E400FDD53F /* OpenGL.framework */,
+				4AF3618515AD9E2E00BDFE63 /* OpenGL.framework */,
 				4A20B0E2135319770020F43E /* Cocoa.framework */,
 				4A20B0E5135319770020F43E /* AppKit.framework */,
 				4A20B0E6135319770020F43E /* CoreData.framework */,

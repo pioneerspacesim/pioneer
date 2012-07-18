@@ -24,6 +24,16 @@ public:
 			m_verts.push_back(vector3f(radius*sin(theta), radius*cos(theta), 0));
 		}
 	}
+	Circle(float radius, float x, float y, float z, const Color &c) : m_color(c) {
+		for (float theta=0; theta < 2*float(M_PI); theta += 0.05f*float(M_PI)) {
+			m_verts.push_back(vector3f(radius*sin(theta) + x, radius*cos(theta) + y, z));
+		}
+	}
+	Circle(float radius, const vector3f &center, const Color &c) : m_color(c) {
+		for (float theta=0; theta < 2*float(M_PI); theta += 0.05f*float(M_PI)) {
+			m_verts.push_back(vector3f(radius*sin(theta) + center.x, radius*cos(theta) + center.y, center.z));
+		}
+	}
 	virtual ~Circle() {}
 	virtual void Draw(Renderer *renderer) {
 		renderer->DrawLines(m_verts.size(), &m_verts[0], m_color, LINE_LOOP);

@@ -1011,7 +1011,9 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Demografía
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Sistema estable con %bodycount %{body(s)} principales y %portcount %{starport(s)}.
+    Sistema estable con %bodycount %{body(s)} principales y %portcount %{starport(s)}
+COUNT_ON_SURFACE
+    " (%surfacecount en superficie)"
 BODY
     cuerpo
 BODIES

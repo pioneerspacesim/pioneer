@@ -1,0 +1,1202 @@
+# General
+SUGGESTED_RESPONSES
+    Triar resposta:
+CASH
+    Diners
+LEGAL_STATUS
+    Estatus legal
+CARGO_SPACE
+    Espai a la càrrega
+ITEM
+    Element
+SHIP
+    Nau
+PRICE
+    Preu
+BUY
+    Comprar
+SELL
+    Vendre
+STOCK
+    Estoc
+CARGO
+    Càrrega
+VID_LINK_DOWN
+    Enllaç de vídeo tancat
+VID_LINK_ESTABLISHED
+    Enllaç de vídeo establert
+VID_CONNECTING
+    Connectant-se...
+BOUGHT_1T_OF
+    Has comprat 1t de %commodity.
+SOLD_1T_OF
+    Has venut 1t de %commodity.
+WELCOME_TO_MARKET
+    Benvingut al mercat de bens de %station
+GO_BACK
+    Anar enrere
+FITTING
+    "Acoblant "
+REMOVING
+    "Retirant "
+FIT_TO_WHICH_MOUNT
+    A quina arma voleu acoblar el làser?
+REMOVE_FROM_WHICH_MOUNT
+    De quina arma voleu eliminar el làser?
+YOU_NOT_ENOUGH_MONEY
+    No teniu suficients diners.
+TRADER_NOT_ENOUGH_MONEY
+    El mercader no té prou diners.
+NO_SPACE_ON_SHIP
+    No teniu prou espai a la nau.
+SOMEWHERE_SERVICES
+    Serveis de %station
+SOMEWHERE_SHIPYARD
+    Drassanes de %station
+SOMEWHERE_SHIP_REPAIRS
+    Reparacions de naus de %station
+PRICE_TO_FIT
+    $ per acoblar
+PRICE_TO_REMOVE
+    $ per retirar
+WT
+    Wt
+FIT
+    Acoblar
+REMOVE
+    Retirar
+BUY_THIS_SHIP
+    Comprar aquesta nau
+SHIP_TYPE
+    Tipus de nau
+REGISTRATION_ID
+    Identificador
+WEIGHT_EMPTY
+    Pes en buit
+NUMBER_TONNES
+    %{mass}t
+WEIGHT_FULLY_LADEN
+    Pes carregat al màxim
+CAPACITY
+    Capacitat
+FORWARD_ACCEL_EMPTY
+    Acceleració davantera (buit)
+NUMBER_G
+    %acceleració{f.1} G
+FORWARD_ACCEL_LADEN
+    Acceleració davantera (amb càrrega)
+REVERSE_ACCEL_EMPTY
+    Acceleració revers (buit)
+REVERSE_ACCEL_LADEN
+    Acceleració revers (amb càrrega)
+HYPERDRIVE_FITTED
+    Hipermotor acoblat:
+HYPERSPACE_RANGE_LADEN
+   Rang d'hiperespai (amb càrrega):
+THANKS_AND_REMEMBER_TO_BUY_FUEL
+    Gràcies per la vostra compra. Recordeu-vos D'acoblar els elements i carregar el combustible.
+CLASS_NUMBER
+    Classe %class
+NUMBER_LY
+    %distance{f.2} anys llum
+SHIP_IS_ALREADY_FULLY_REPAIRED
+    La vostra nau està en perfecte estat.
+REPAIR_1_PERCENT_HULL
+    Reparar l'1.0% dels danys del casc.
+REPAIR_ENTIRE_HULL
+    Reparar tot els danys del casc (%repairpercent{f.1}%%)
+REPAIR
+    Reparar
+PART_EX
+    Intercanvi de components
+VIEW
+    Veure
+SHIP_EQUIPMENT
+    Equipament de la nau
+SOMEWHERE_SHIP_EQUIPMENT
+    Equipament de %station
+REPAIRS_AND_SERVICING
+    Reparacions i manteniment
+NEW_AND_RECONDITIONED_SHIPS
+    Naus noves i restaurades
+BULLETIN_BOARD
+    Tauler de notícies
+WELCOME_TO_SOMEWHERE
+    Benvingut a %station
+# This next translation does not have to be a real translation.  You can
+# write anything you like here.  It will appear in every space station
+# in the whole galaxy.
+SPACESTATION_LONG_WELCOME_MESSAGE
+    Hola viatger/a! Benvinguts a la nostra petita base. Si aquesta és la primera vegada que sou aquí, doneu-vos el plaer de conèixer els residents. Esperem que gaudiu de la vostra estada.\nNo oblideu que estem fent reformes i hi hauran canvis entre les vostres visites.
+REQUEST_LAUNCH
+    Sol·licitar llançament
+SHIPYARD
+    Drassana
+COMMODITIES_MARKET
+    Mercat de bens
+SOMEWHERE_COMMODITIES_MARKET
+    Mercat de bens de %station
+SOMEWHERE_SHIP_MARKET
+    Mercat de naus de %station
+CONTACT_LOCAL_POLICE
+    Contactar la Policia Local
+COMMS_LINK
+    Enllaç de comunicacions
+ZOOM_IN
+    Apropar
+ZOOM_OUT
+    Allunyar
+NORMA_ARM
+    Anell de Norma
+PERSEUS_ARM
+    Anell de Perseus
+OUTER_ARM
+    Anell Exterior
+SAGITTARIUS_ARM
+    Anell de Sagitari
+SCUTUM_CENTAURUS_ARM
+    Anell de Scutum-Centaure
+INT_LY
+    %scale anys llum
+SEARCH
+    Cerca
+
+# Config / game control
+PRESS_BUTTON_WANTED_FOR
+    "Premeu el botó que voleu utilitzar per "
+MOVE_AXIS_WANTED_FOR
+    "Moveu l'eix del comandament que voleu utilitzar per "
+SAVE
+    Desa
+LOAD
+    Carrega
+CANCEL
+    Cancel·la
+SELECT_FILENAME_TO_SAVE
+    Seleccioneu el nom de l'arxiu per guardar o introduïu ne un de nou
+CANT_SAVE_IN_HYPERSPACE
+    No es pot guardar la partida en l'hiperespai
+GAME_SAVED_TO
+    "Partida guardada a "
+SELECT_FILENAME_TO_LOAD
+    Seleccioneu la partida que voleu carregar
+COULD_NOT_OPEN_FILENAME
+    No s'ha pogut carregar %path
+GAME_LOAD_CORRUPT
+    Aquesta partida no es pot carregar ja que conté errors.
+GAME_LOAD_CANNOT_OPEN
+    Aquesta partida no es pot carregar ja que s'hi ha denegat l'accés.
+GAME_SAVE_CANNOT_WRITE
+    Aquesta partida no es pot desar degut a un problema del sistema
+VERY_LOW
+    Molt baix
+LOW
+    Baix
+MEDIUM
+    Mitjà
+HIGH
+    Alt
+VERY_HIGH
+    Molt alt
+VERY_VERY_HIGH
+    Molt i molt alt
+ON
+    Activat
+OFF
+    Desactivat
+SIGHTS_SOUNDS_SAVES
+    Vistes, so, i partides
+PIONEER
+    PIONEER
+SAVE_THE_GAME
+    [S] Desa la partida
+LOAD_A_GAME
+    [L] Carrega una partida
+EXIT_THIS_GAME
+    Sortir de la partida
+WINDOW_OR_FULLSCREEN
+    En una finestra o pantalla completa (reiniciar per aplicar)
+FULL_SCREEN
+    Pantalla completa
+OTHER_GRAPHICS_SETTINGS
+    Altres opcions de gràfics
+USE_SHADERS
+    Utilitza shaders (reiniciar per aplicar)
+SOUND_SETTINGS
+    Configuració del so
+VOL_MASTER
+    Principal
+VOL_EFFECTS
+    Efectes
+VOL_MUSIC
+    Música
+VIDEO_RESOLUTION
+    Resolució del vídeo (reiniciar per aplicar)
+X_BY_X
+    %{x}x%{y}
+PLANET_DETAIL_DISTANCE
+    Distància del detall dels planetes
+CITY_DETAIL_LEVEL
+    Nivell de detall de les ciutats
+PLANET_TEXTURES
+    Textures dels planetes
+FRACTAL_DETAIL
+    Detalls dels fractals
+CONTROLS
+    Controls
+ENABLE_JOYSTICK
+    Activar control per joystick
+MOUSE_INPUT
+    Entada del ratolí
+INVERT_MOUSE_Y
+    Invertir MouseY
+HUD
+    HUD
+DISPLAY_NAV_TUNNEL
+    Mostrar el túnel de navegació
+LANGUAGE_SELECTION
+    Idioma (reinicia per aplicar)
+
+# Wares
+NONE
+    Cap
+HYDROGEN
+    Hidrogen
+HYDROGEN_DESCRIPTION
+    L'hidrogen s'utilitza com a principal combustible de fusió
+LIQUID_OXYGEN
+    Oxigen líquid
+LIQUID_OXYGEN_DESCRIPTION
+    L'oxigen s'utilitza per sistemes de vida i per algunes indústries
+METAL_ORE
+    Metall brut
+CARBON_ORE
+    Carbó brut
+CARBON_ORE_DESCRIPTION
+    Els hidrocarburs (carbó i petroli) s'utilitzen per a la síntesi de molts productes químics útils, com plàstics, fustes sintètiques, medicaments i productes tèxtils.
+METAL_ALLOYS
+    Aliatges de metalls
+PLASTICS
+    Plàstics
+FRUIT_AND_VEG
+    Fruites i verdures
+ANIMAL_MEAT
+    Carn animal
+LIVE_ANIMALS
+    Animals vius
+LIQUOR
+    Licors
+GRAIN
+    Cereals
+TEXTILES
+    Productes tèxtils
+FERTILIZER
+    Fems
+WATER
+    Aigua
+MEDICINES
+    Medicines
+CONSUMER_GOODS
+    Bens de consum
+COMPUTERS
+    Ordinadors
+ROBOTS
+    Robots
+PRECIOUS_METALS
+    Metalls preciosos
+INDUSTRIAL_MACHINERY
+    Maquinària industrial
+FARM_MACHINERY
+    Maquinària agrícola
+MINING_MACHINERY
+    Maquinària minera
+AIR_PROCESSORS
+    Processadors d'aire
+SLAVES
+    Esclaus
+HAND_WEAPONS
+    Armes de foc
+BATTLE_WEAPONS
+    Armes de batalla
+NERVE_GAS
+    Gas lacrimogen
+NARCOTICS
+    Narcòtics
+MILITARY_FUEL
+    Combustible militar
+RUBBISH
+    Deixalles
+RADIOACTIVES
+    Deixalla radioactiva
+
+# Hardware
+MISSILE_UNGUIDED
+    Torpede R40
+MISSILE_GUIDED
+    Míssil guiat
+MISSILE_SMART
+    Míssil intel·ligent
+MISSILE_NAVAL
+    Míssil naval
+ATMOSPHERIC_SHIELDING
+    Escuts atmosfèrics
+ATMOSPHERIC_SHIELDING_DESCRIPTION
+    Protegeix la vostra nau de les atmosferes al re-entrar als planetes.
+ECM_BASIC
+    Sistema ECM
+ECM_BASIC_DESCRIPTION
+    Sistema de contraatac de míssils. Els detecta i destrueix.
+SCANNER
+    Escànner
+SCANNER_DESCRIPTION
+    Mostra un mapa 3D de les naus properes.
+ECM_ADVANCED
+    Sistema ECM avançat
+ECM_ADVANCED_DESCRIPTION
+    Sistema de contraatac de míssils, capaç de destruir els tipus de míssils més avançats.
+SHIELD_GENERATOR
+    Generador d'escut
+X_SHIELD_GENERATORS
+    %quantity generadors d'escut
+SHIELD_GENERATOR_DESCRIPTION
+    Cada unitat acoblada proporciona una protecció extra.
+LASER_COOLING_BOOSTER
+    Refrigerador de làser
+LASER_COOLING_BOOSTER_DESCRIPTION
+    Un sistema de refrigeració pel vostre làser millorat
+CARGO_LIFE_SUPPORT
+    Suport vital de la bodega
+CARGO_LIFE_SUPPORT_DESCRIPTION
+    Permet el transport d'éssers vius
+AUTOPILOT
+    Pilot automàtic
+AUTOPILOT_DESCRIPTION
+    Un ordinador de bord.
+RADAR_MAPPER
+    Mapejador del radar
+RADAR_MAPPER_DESCRIPTION
+    Inspecciona l'equipament, estat i càrrega de les altres naus.
+FUEL_SCOOP
+    Succionadora de combustible
+FUEL_SCOOP_DESCRIPTION
+    Permet succionar combustible dels pous d'aquest.
+CARGO_SCOOP
+    Succionadora de càrrega
+CARGO_SCOOP_DESCRIPTION
+    Permet succionar càpsules de càrrega de l'espai.
+HYPERCLOUD_ANALYZER
+    Analitzador d'hipernúvols
+HYPERCLOUD_ANALYZER_DESCRIPTION
+    Analitza els núvols de l'hiperespai per determinar el destí i hora d'arribada o sortida.
+HULL_AUTOREPAIR
+    Sistema d'autorreparació del casc
+HULL_AUTOREPAIR_DESCRIPTION
+    Repara automàticament els danys del casc
+SHIELD_ENERGY_BOOSTER
+    Millorador de l'energia de l'escut
+SHIELD_ENERGY_BOOSTER_DESCRIPTION
+    Fa que l'escut es carregui més ràpidament.
+DRIVE_CLASS1
+    Hipermotor de Classe 1
+DRIVE_CLASS2
+    Hipermotor de Classe 2
+DRIVE_CLASS3
+    Hipermotor de Classe 3
+DRIVE_CLASS4
+    Hipermotor de Classe 4
+DRIVE_CLASS5
+    Hipermotor de Classe 5
+DRIVE_CLASS6
+    Hipermotor de Classe 6
+DRIVE_CLASS7
+    Hipermotor de Classe 7
+DRIVE_CLASS8
+    Hipermotor de Classe 8
+DRIVE_CLASS9
+    Hipermotor de Classe 9
+DRIVE_MIL1
+    Motor militar de Classe 1
+DRIVE_MIL2
+    Motor militar de Classe 2
+DRIVE_MIL3
+    Motor militar de Classe 3
+DRIVE_MIL4
+    Motor militar de Classe 4
+PULSECANNON_1MW
+    Canó de pulses d'1MW
+PULSECANNON_DUAL_1MW
+    Canó de pulses d'1MW, doble
+PULSECANNON_2MW
+    Canó de pulses de 2MW
+PULSECANNON_RAPID_2MW
+    Canó de pulses de 2MW ràpid
+PULSECANNON_4MW
+    Canó de pulses de 4MW
+PULSECANNON_10MW
+    Canó de pulses de 10MW
+PULSECANNON_20MW
+    Canó de pulses de 20MW
+MININGCANNON_17MW
+    Canó d'impacte de 17MW
+MININGCANNON_17MW_DESCRIPTION
+    S'utilitza per destruir asteroides minerals.
+SMALL_PLASMA_ACCEL
+    Accelerador de plasma petit
+LARGE_PLASMA_ACCEL
+    Accelerador de plasma gran
+CLEAN
+    Net
+HYPERSPACE_ARRIVAL_CLOUD
+    Núvol d'arribada d'hiperespai
+HYPERSPACE_DEPARTURE_CLOUD
+    Núvol de sortida d'hiperespai
+TYPE
+    Tipus
+CLIENT
+    Client
+LOCATION
+    Localització
+DUE
+    Fins a
+REWARD
+    Recompensa
+STATUS
+    Estat
+CARGO_INVENTORY
+    Inventari de la bodega:
+JETTISON
+    Jettison
+REFUEL
+    Repostar
+JETTISONED_1T_OF_X
+    Jettisoned 1 tonne of %commodity
+COMBAT_RATING
+    Valoració en combat:
+CRIMINAL_RECORD
+    Historial criminal:
+SHIP_INFORMATION_HEADER
+    "Informació de la nau: "
+HYPERDRIVE
+    Hipermotor
+FREE
+    Lliure
+USED
+    En ús
+TOTAL_WEIGHT
+    Pes total
+FRONT_WEAPON
+    Arma posterior
+REAR_WEAPON
+    Arma 
+HYPERSPACE_RANGE
+    Abast en hiperespai
+NO_MOUNTING
+    No s'ha acoblat
+N_LIGHT_YEARS_N_MAX
+    %distance{f.1} anys llum (%maxdistance{f.1} màx)
+SHIP_INFORMATION
+    Informació de la nau
+REPUTATION
+    Reputació
+MISSIONS
+    Missions
+SHIFT
+    "maj "
+CTRL
+    "ctrl "
+ALT
+    "alt "
+META
+    "meta "
+JOY
+    Joy
+BUTTON
+     " botó "
+HAT
+     " Hat"
+DIRECTION
+     " Dir "
+X
+    X
+Y
+    Y
+Z
+    Z
+AXIS
+     " Eix"
+WEAPONS
+    Armes
+TARGET_OBJECT_IN_SIGHTS
+    Apuntar els objectes amb una creu
+FIRE_LASER
+    Disparar el làser
+SHIP_ORIENTATION
+    Orientació de la nau
+PITCH_UP
+    Pitch up
+PITCH_DOWN
+    Pitch down
+YAW_LEFT
+    Yaw left
+YAW_RIGHT
+    Yaw right
+ROLL_LEFT
+    Roll left
+ROLL_RIGHT
+    Roll right
+MANUAL_CONTROL_MODE
+    Control manual
+THRUSTER_MAIN
+    Accelerar cap endavant
+THRUSTER_RETRO
+    Accelerar cap enrere
+THRUSTER_VENTRAL
+    Accelerar cap amunt
+THRUSTER_DORSAL
+    Accelerar cap avall
+THRUSTER_PORT
+    Accelerar cap a l'esquerra
+THRUSTER_STARBOARD
+    Accelerar cap a la dreta
+USE_LOW_THRUST
+    Accelerar menys
+SPEED_CONTROL_MODE
+    Mètode de control de velocitat
+INCREASE_SET_SPEED
+    Incrementar velocitat
+DECREASE_SET_SPEED
+    Disminuir velocitat
+SCANNER_CONTROL
+    Mode d'escaneig
+TOGGLE_SCAN_MODE
+    Canviar el mode d'escanneig
+INCREASE_SCAN_RANGE
+    Incrementar l'abast de l'escànner
+DECREASE_SCAN_RANGE
+    Decrementar l'abast de l'escànner
+TOGGLE_LUA_CONSOLE
+    Visualitza o amaga la consola Lua
+TOGGLE_HUD_MODE
+    Canvia el mode del HUD
+JOYSTICK_INPUT
+    Entrada del comandament de jocs
+PITCH
+    Pitch
+ROLL
+    Roll
+YAW
+    Yaw
+MISSILE
+    míssil
+HARMLESS
+    Inofensiu
+MOSTLY_HARMLESS
+    Pràcticament inofensiu
+POOR
+    Pobre
+AVERAGE
+    Normal
+ABOVE_AVERAGE
+    Més del normal
+COMPETENT
+    Competent
+DANGEROUS
+    Perillós
+DEADLY
+    Mortal
+ELITE
+    ÈLIT
+SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
+    Simulant l'evolució de l'univers: %age{f.1}00 milions d'anys ;-)
+TOMBSTONE_EPITAPH
+    RIP OLD BEAN
+MM_START_NEW_GAME_EARTH
+    Nova partida des de la Terra
+MM_START_NEW_GAME_E_ERIDANI
+    Nova partida des d'Epsilon Eridani
+MM_START_NEW_GAME_LAVE
+    Nova partida des de Lave
+MM_LOAD_SAVED_GAME
+    Carrega una partida
+MM_QUIT
+    Surt
+SCREENSHOT_FILENAME_TEMPLATE
+    captura%index{d08}.png
+PIONEERING_PILOTS_GUILD
+    Gremi de Pilots Pioners
+RIGHT_ON_COMMANDER
+    Bona feina comandant! La vostra qualificació de pilot ha millorat!
+ALERT_CANCELLED
+    Alerta cancel·lada.
+SHIP_DETECTED_NEARBY
+    S'ha detectat una nau propera.
+DOWNGRADING_ALERT_STATUS
+    No s'ha detectat foc durant els últims seixanta segons, per tant s'ha abaixat el nivell d'alerta.
+LASER_FIRE_DETECTED
+    S'ha detectat foc de làser.
+SOMEWHERE_POLICE
+    Policia de %station
+WE_HAVE_NO_BUSINESS_WITH_YOU
+    De moment no tenim negocis per fer amb tu.
+YOU_MUST_PAY_FINE_OF_N_CREDITS
+    No tolerem actitud criminal. Heu de pagar una multa de %fine.
+PAY_THE_FINE_NOW
+    Pagar la multa ara.
+HANG_UP
+    Acabar la conversa.
+TRADING_ILLEGAL_GOODS
+    Traficant bens il·legals.
+UNLAWFUL_WEAPONS_DISCHARGE
+    Disparar armes il·legals
+PIRACY
+    Pirateria
+MURDER
+    Assassinat
+INDEPENDENT
+    Independent
+EARTH_FEDERATION
+    Federació Terrícola
+INDEPENDENT_CONFEDERATION
+    Confederació de Sistemes Independents
+EMPIRE
+    L'Imperi
+NO_ESTABLISHED_ORDER
+    Sense ordre establert
+HARD_CAPITALIST
+    Completament capitalista. No hi ha provisió econòmica del govern.
+CAPITALIST
+    Capitalista
+MIXED_ECONOMY
+    Economia mixta
+PLANNED_ECONOMY
+    Economia centralista
+NO_CENTRAL_GOVERNANCE
+    Sense govern central
+EARTH_FEDERATION_COLONIAL_RULE
+    Govern Colonial de la Federació Terrestre
+EARTH_FEDERATION_DEMOCRACY
+    Democràcia de la Federació Terrestre
+IMPERIAL_RULE
+    Govern Imperial
+LIBERAL_DEMOCRACY
+    Democràcia liberal
+SOCIAL_DEMOCRACY
+    Social-democràcia
+CORPORATE_SYSTEM
+    Sistema corporatiu
+MILITARY_DICTATORSHIP
+    Dictadura militar
+COMMUNIST
+    Comunista
+PLUTOCRATIC_DICTATORSHIP
+    Plutocràcia dictatorial
+VIOLENT_ANARCHY
+    Desordre - Control basat en la violència.
+X_CANNOT_BE_TOLERATED_HERE
+        %crime no és tolerat aqui
+SECTOR_X_Y_Z
+    Sector: %x,%y,%z
+CURRENT_SYSTEM
+    Sistema actual
+SELECTED_SYSTEM
+    Sistema sel·leccionat
+HYPERSPACE_TARGET
+    Objectiu hiperespacial
+FOLLOWING_SELECTION
+    seguint la sel·lecció
+LOCKED
+    bloquejat
+EXACT_MATCH_X
+    Resultat exacte: %system
+NOT_FOUND_BEST_MATCH_X
+    No s'ha trobat. Suggeriment: %system
+NOT_FOUND
+    No s'ha trobat
+NUMBER_HOURS
+    %hours{f.1} hores
+NUMBER_DAYS
+    %days{f.0} dies
+QUADRUPLE_SYSTEM
+    Sistema quadruple
+TRIPLE_SYSTEM
+    Sistema triple
+BINARY_SYSTEM
+    Sistema binari
+ENABLED_AUTOMATIC_SYSTEM_SELECTION
+    S'ha activat la sellecció automàtica del sistema.
+DISABLED_AUTOMATIC_SYSTEM_SELECTION
+    S'ha desactivat la sellecció automàtica del sistema.
+FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
+    S'ha activat la succionadora de combustible. Ara teniu %quantity tones d'hidrogen.
+CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED
+    S'ha activat la succionadora de càrrega. S'ha succionat una tona de %item.
+CARGO_BAY_LIFE_SUPPORT_LOST
+    Els sensors comuniquen estat crític del suport vital de la bodega.
+NO_FREE_SPACE_FOR_ITEM
+    No teniu espai per aquest objecte.
+SHIP_IS_FULLY_LADEN
+    La vostra nau està completament carregada.
+YOU_DO_NOT_HAVE_ANY_X
+    No teniu cap %item.
+FRONT_VIEW
+    Vista anterior
+REAR_VIEW
+    Vista posterior
+EXTERNAL_VIEW
+    Vista externa
+SIDEREAL_VIEW
+    Vista sideral
+NAVIGATION_STAR_MAPS
+    Navegació i mapes estel·lars
+COMMS
+    Comms
+GALAXY_SECTOR_VIEW
+    Vista del Sector galàctic
+SYSTEM_ORBIT_VIEW
+    Vista orbital del Sistema
+STAR_SYSTEM_INFORMATION
+    Informació del Sistema Estel·lar
+GALACTIC_VIEW
+    Vista galàctica
+NO_ALERT
+    Cap alerta
+SHIP_NEARBY
+    Nau propera
+DOCKING_CLEARANCE_EXPIRED
+    Ha caducat la petició d'amarratge. Si voleu amarrar repetiu la petició.
+MESSAGE_FROM_X
+    Missatge de %sender:
+SELECT_A_TARGET
+    Seleccioneu un objectiu
+FRONT
+    Davant
+REAR
+    Darrera
+POLICE_SHIP_REGISTRATION
+    POLICIA
+CLEARANCE_ALREADY_GRANTED_BAY_N
+    Ja teniu permís per amarrar al moll %bay.
+CLEARANCE_GRANTED_BAY_N
+    Se us ha donat permís per amarrar al moll %bay.
+CLEARANCE_DENIED_NO_BAYS
+    Permís denegat: no hi ha cap moll lliure.
+ITEM_IS_OUT_OF_STOCK
+    Objecte fora d'estoc
+BROWN_DWARF
+    Objecte sub-estel·lar marró nan
+WHITE_DWARF
+    White dwarf stellar remnant
+STAR_M
+    Estrella Vermella de tipus 'M'
+STAR_K
+    Estrella Taronja de tipus 'K'
+STAR_G
+    Estrella Groga de tipus 'G'
+STAR_F
+    Estrella Blanca de tipus 'F'
+STAR_A
+    Estrella calenta Blanca de tipus 'A'
+STAR_B
+    Estrella Blava Brillant de tipus 'B'
+STAR_O
+    Estrella Gegant del tipus 'O'
+STAR_M_GIANT
+    Estrella Gegant Vermella
+STAR_K_GIANT
+    Estrella Gegant Taronja de tipus 'K' - Inestable
+STAR_G_GIANT
+    Estrella Gegant Groga
+STAR_AF_GIANT
+    Estrella Gegant Vermella
+STAR_B_GIANT
+    Estrella Gegant Blava
+STAR_O_GIANT
+    Estrella Gegant Blava Calenta
+STAR_M_SUPER_GIANT
+    Estrella Gegant Vermella Calenta
+STAR_K_SUPER_GIANT
+    Super Gegant Taronja
+STAR_G_SUPER_GIANT
+    Super Gegant Groga
+STAR_AF_SUPER_GIANT
+    Super Gegant Blanca
+STAR_B_SUPER_GIANT
+    Super Gegant Blava
+STAR_O_SUPER_GIANT
+    Super Gegant Blava Calenta
+STAR_M_HYPER_GIANT
+    Hiper Gegant Blava
+STAR_K_HYPER_GIANT
+    Hiper Gegant Blava - Inestable
+STAR_G_HYPER_GIANT
+    Hiper Gegant Groga - Inestable
+STAR_AF_HYPER_GIANT
+    Hiper Gegant Blanca
+STAR_B_HYPER_GIANT
+    Hiper Gegant Blava
+STAR_O_HYPER_GIANT
+    Hiper Gegant Blava Càlida
+STAR_M_WF
+    Estrella Wolf-Rayet - Inestable
+STAR_B_WF
+    Estrella Wolf-Rayet - Col·lapse probable
+STAR_O_WF
+    Estrella Wolf-Rayet - Col·lapse imminent
+STAR_S_BH
+    Forat negre estel·lar
+STAR_IM_BH
+    Forat negre de massa mitjana
+STAR_SM_BH
+    La nostra àncora
+VERY_LARGE_GAS_GIANT
+    Gegant de gas molt gran
+LARGE_GAS_GIANT
+    Gegant de gas gran
+MEDIUM_GAS_GIANT
+    Gegant de gas mitjana
+SMALL_GAS_GIANT
+    Gegant de gas petita
+ASTEROID
+    Asteroide
+MASSIVE
+    Immens
+LARGE
+    Gran
+TINY
+    Minúscul
+SMALL
+    Petit
+COMMA_HIGHLY_VOLCANIC
+    , altament volcànic
+HIGHLY_VOLCANIC
+    Altament volcànic
+ICE_WORLD
+     " món de gel"
+ROCKY_PLANET
+     " planeta rocós"
+OCEANICWORLD
+     " món oceànic"
+PLANET_CONTAINING_LIQUID_WATER
+     " planeta que conté aigua líquida"
+PLANET_WITH_SOME_ICE
+     " planeta amb quelcom gel"
+ROCKY_PLANET_CONTAINING_COME_LIQUIDS
+     " planeta rocós que conté alguns líquids,"
+WITH_NO_SIGNIFICANT_ATMOSPHERE
+     " sense atmosfera important"
+TENUOUS
+    tènue
+THIN
+    prim
+THICK
+    ample
+VERY_DENSE
+    molt dens
+WITH_A
+     " amb "
+O2_ATMOSPHERE
+     " atmosfera d'oxigen"
+CO2_ATMOSPHERE
+     " atmosfera de diòxid de carboni"
+CO_ATMOSPHERE
+     " atmosfera de monòxid de carboni"
+CH4_ATMOSPHERE
+     " atmosfera de metà"
+H_ATMOSPHERE
+     " atmosfera d'hidrogen"
+HE_ATMOSPHERE
+     " atmosfera d'heli"
+AR_ATMOSPHERE
+     " atmosfera d'argó"
+S_ATMOSPHERE
+     " atmosfera de sulfur"
+N_ATMOSPHERE
+     " atmosfera de nitrogen"
+AND_HIGHLY_COMPLEX_ECOSYSTEM
+     " i un ecosistema molt complex"
+AND_INDIGENOUS_PLANT_LIFE
+     " i amb plantes indígenes."
+AND_INDIGENOUS_MICROBIAL_LIFE
+     " i amb vida microbiòtica indígenes."
+ORBITAL_STARPORT
+    Port estel·lar orbital
+STARPORT
+    Port estel·lar
+UNKNOWN
+    <desconegut>
+UNEXPLORED_SYSTEM_NO_DATA
+    Sistema inexplorat. No se'n coneix informació.
+SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS
+    Prospeccions a petita escala. No hi ha colònies registrades.
+SMALL_INDUSTRIAL_OUTPOST
+    Estació industrial petita.
+SOME_ESTABLISHED_MINING
+    Poca mineria establerta.
+YOUNG_FARMING_COLONY
+    Colònia minera de poca edat.
+INDUSTRIAL_COLONY
+    Colònia industrial.
+MINING_COLONY
+    Colònia minera.
+OUTDOOR_AGRICULTURAL_WORLD
+    Món rural a l'aire lliure.
+HEAVY_INDUSTRY
+    Indústria pesada.
+EXTENSIVE_MINING
+    Operacions mineres extenses.
+THRIVING_OUTDOOR_WORLD
+    Món exterior actiu.
+INDUSTRIAL_HUB_SYSTEM
+    Sistema d'enllaç industrial.
+VAST_STRIP_MINE
+    Colònia minera massiva.
+HIGH_POPULATION_OUTDOOR_WORLD
+    Món exterior molt poblat.
+MASS
+    Massa
+N_WHATEVER_MASSES
+    %mass{f.3} massa %units
+SOLAR
+    Solar
+EARTH
+    Terra
+SURFACE_GRAVITY
+    Gravetat a la superfície
+SURFACE_TEMPERATURE
+    Temperatura a la superfície
+N_CELSIUS
+    %temperature C
+N_YEARS
+    %years{f.1} anys
+N_DAYS
+    %days{f.1} dies
+ORBITAL_PERIOD
+    Període orbital
+PERIAPSIS_DISTANCE
+    Periàpsis
+APOAPSIS_DISTANCE
+    Apoapsis
+ECCENTRICITY
+    Excentricitat
+AXIAL_TILT
+    Inclinació
+N_DEGREES
+    %angle{f.1} graus
+DAY_LENGTH
+    Duració del dia
+N_EARTH_DAYS
+    %days{f.1} anys terrícoles
+COUNT_STARPORTS
+    port estel·lars
+STARPORTS
+    Ports estel·lars
+MAJOR_IMPORTS
+    Importacions majoritàries:
+MINOR_IMPORTS
+    Importacions minoritàries:
+MAJOR_EXPORTS
+    Exportacions minoritàries:
+MINOR_EXPORTS
+    Exportacions minoritàries:
+ILLEGAL_GOODS
+    Bens il·legals:
+UNEXPLORED_SYSTEM_STAR_INFO_ONLY
+    Sistema inexplorat. La informació de les estrelles s'ha recollit per telescopi, però no tenim informació dels planetes.
+PLANETARY_INFO
+    Informació planetària
+ECONOMIC_INFO
+    Informació econòmica
+DEMOGRAPHICS
+    Població
+STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
+    Sistema estable amb %bodycount grans %{body(s)} and %portcount %{starport(s)}
+COUNT_ON_SURFACE
+    " (%surfacecount a la superfície)"
+BODY
+    cos
+BODIES
+    cossos
+SYSTEM_TYPE
+    Tipus de sistema:
+GOVERNMENT_TYPE
+    Tipus de govern:
+ECONOMY_TYPE
+    Tipus d'economia:
+ALLEGIANCE
+    Aliances:
+POPULATION
+    Població:
+OVER_N_BILLION
+    Més de %population.000 milions
+OVER_N_MILLION
+    Més de %population milions
+A_FEW_THOUSAND
+    Alguns milers
+NO_REGISTERED_INHABITANTS
+    Sense població registrada
+SECTOR_COORDINATES
+    Coordenades del sector
+SYSTEM_NUMBER
+    Número de sistema:
+NAME
+    Nom
+ROTATIONAL_PERIOD
+     " (període rotacional)"
+RADIUS
+    Radi
+SEMI_MAJOR_AXIS
+    Eix semi-major
+TIME_POINT
+    Punt de temps:
+UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
+    Sistema inexplorat. No es pot activar la vista de sistema.
+WHEELS_ARE_UP
+    Tren d'aterratge amagat
+WHEELS_ARE_DOWN
+    Tren d'aterratge preparat
+OBJECT_LABELS_ARE_ON
+    Etiquetes dels objectes activades
+OBJECT_LABELS_ARE_OFF
+    Etiquetes dels objectes desactivades
+SELECT_LOW_THRUST_POWER_LEVEL
+    Seleccioneu el nivell de baixa acceleració
+SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT
+    Nivell de baixa acceleració és %power%%
+HYPERSPACE_JUMP
+    Salt Hiperespacial
+TAKEOFF
+    Enlairar-se
+MANUAL_CONTROL
+    Control Manual
+COMPUTER_SPEED_CONTROL
+    Control de velocitat automàtic
+COMPUTER_HEADING_CONTROL
+    Control d'orientació automàtic
+AUTOPILOT_ON
+    Pilot automàtic activat
+SHIP_VELOCITY_BY_REFERENCE_OBJECT
+    Velocitat de la nau en referència a un objecte
+DISTANCE_FROM_SHIP_TO_NAV_TARGET
+    Distància de la nau a l'objectiu de navegació
+SHIP_ALTITUDE_ABOVE_TERRAIN
+    Alçada de la nau sobre el terreny
+EXTERNAL_ATMOSPHERIC_PRESSURE
+    Pressió atmosfèrica externa
+HULL_TEMP
+    Temp. del casc
+WEAPON_TEMP
+    Temp. de l'arma
+HULL_INTEGRITY
+    Integritat del casc
+SHIELD_INTEGRITY
+    Integritat de l'escut
+FUEL
+    Combustible
+LAUNCH_PERMISSION_DENIED_BUSY
+    Permís per enlairament degegat: moll de càrrega ocupat.
+HYPERSPACE_JUMP_ABORTED
+    S'ha avortat el salt hiperespacial.
+LANDED
+    Aterrat
+DOCKING
+    Amarrant
+DOCKED
+    Amarrat
+HYPERSPACE
+    Hiperespai
+HEADING_LOCK_FORWARD
+    Bloqueig direcc. (dav.)
+HEADING_LOCK_BACKWARD
+    Bloqueig direcc. (darr.)
+SET_SPEED_KM_S
+    Velocitat: %speed{f.2} km/s
+SET_SPEED_M_S
+    Velocitat: %speed{f.0} m/s
+KM_S_RELATIVE_TO
+    %speed{f.2} km/s en rel. a %frame
+M_S_RELATIVE_TO
+    %speed{f.0} m/s en rel. a %frame
+N_DISTANCE_TO_TARGET
+    %distance per objectiu
+IN_TRANSIT
+    En trànsit
+IN_TRANSIT_TO_N_X_X_X
+    En trànsit a %system [%x,%y,%z]
+PROBABILITY_OF_ARRIVAL_X_PERCENT
+    Probabilitat d'arribada: %probability%%
+ALT_IN_METRES
+    Alç: %altitude{f.0}m
+PRESSURE_N_BAR
+    P: %pressure{f.2} bar
+NO_HYPERDRIVE
+    Sense hipermotor
+MASS_N_TONNES
+    Massa: %{mass}t
+SHIELD_STRENGTH_N
+    Força de l'escut: %shields{f.2}
+CARGO_N
+    Càrrega: %{mass}t
+HYPERSPACE_ARRIVAL_CLOUD_REMNANT
+    Residu de nau hiperespacial d'arribada
+SHIP_MASS_N_TONNES
+    Massa de la nau: %{mass}t
+DATE_DUE_N
+    Data de venciment: %date
+SOURCE
+    Origen
+DESTINATION
+    Destinació
+HYPERSPACING_IN_N_SECONDS
+    Hiperspai en %countdown{f.0} seconds
+NAVIGATION_TARGETS_IN_THIS_SYSTEM
+    Objectius de navegació en aquest sistema
+YOU_NO_MONEY
+    No teniu diners.
+FINE_PAID_N_BUT_N_REMAINING
+    Ja heu pagat %paid però encara teniu pendents %fine.
+FINE_PAID_N
+    Heu pagat una multa de %fine.
+SET_HYPERSPACE_DESTINATION_TO
+    "Fixar el destí d'hiperespai a %system"
+NO_TARGET_SELECTED
+    Ordinador de bord: No heu seleccionat l'objectiu
+REQUEST_DOCKING_CLEARANCE
+    Sol·licitar permís per amarrar
+AUTOPILOT_DOCK_WITH_STATION
+    Pilot automàtic: Amarrar amb aquesta estació espacial
+PAY_FINE_REMOTELY
+    Pagar la multa amb transferència remota (%amount)
+AUTOPILOT_FLY_TO_VICINITY_OF
+    Pilot automàtic: Anar a prop de %target
+AUTOPILOT_ENTER_LOW_ORBIT_AROUND
+    Pilot automàtic: Òrbita baixa sobrevolant %target
+    Autopilot: Enter low orbit around %target
+AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
+    Pilot automàtic: Òrbita mitjana sobrevolant %target
+    Autopilot: Enter medium orbit around %target
+AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
+    Pilot automàtic: Òrbita alta sobrevolant %target
+SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
+    Analitzador de núvols hiperespacials: Fixar objectiu hiperespacial d'aquesta sortida
+FAILED
+    Fallida
+COMPLETED
+    Completada
+ACTIVE
+    Activa
+DISTANCE_LY
+    Distància: %distance{f.2} ly
+SYSTEM
+    Sistema
+UNOCCUPIED_CABIN
+    Cabina de passatgers extra
+X_UNOCCUPIED_CABINS
+    %quantity cabines de passatgers extra
+UNOCCUPIED_CABIN_DESCRIPTION
+    Necessària per transportar viatgers individuals
+PASSENGER_CABIN
+    Cabina de passatgers ocupada
+X_PASSENGER_CABINS
+    %quantity cabines de passatgers ocupades
+CABINS
+    Cabines
