@@ -2,6 +2,7 @@
 local t = Translate:GetTranslator()
 
 local ads = {}
+local stockneeded = {}
 
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
@@ -10,6 +11,7 @@ local onChat = function (form, ref, option)
 	local setMessage = function (message)
 		form:SetMessage(message:interp({
 			CommodityNeeded = commodityneeded,
+			Price = ad.commodityneededprice,
 			Name = ad.Trader.name,
 		}))
 	end
@@ -23,26 +25,9 @@ local onChat = function (form, ref, option)
 		form:Clear()
 		form:SetTitle(string.interp(t('{CommodityNeeded} needed.'), {CommodityNeeded = commodityneeded}))
 		form:SetFace(ad.Trader)
-		if ad.playerstock == 0 then
-			setMessage(t('I need {CommodityNeeded}, but like i see you cannot help me.'))
-			form:AddOption(t('HANG_UP'),-1)
-			return
-		end
-		if ad.sellcount == ad.tonsneeded then
-			form:SetMessage(t('Announcement outdated.'))
-			form:AddOption(t('HANG_UP'),-1)
-			form:RemoveAdvertOnClose()
-			else
-			setMessage(t("Hi, I'm {Name}. I'll need {CommodityNeeded}."))
-			form:AddOption(t('Why not buy on the stock market?'),2)
-			form:AddOption(t('HANG_UP'),-1)
-			return
-		end
-	end
-	if option == 2 then
-		setMessage(ad.flavours[ad.flavour].whyneededtext)
+		setMessage(t("Hi, I'm {Name}. I'll need {CommodityNeeded}, I will pay {Price} for ton."))
 		form:AddOption((t('Sell {CommodityNeeded}'):interp({CommodityNeeded = commodityneeded})),1)
-		form:AddOption(t('GO_BACK'),0)
+		form:AddOption(t('HANG_UP'),-1)
 	end
 	if option == 1 then
 		form:Clear()
@@ -57,20 +42,16 @@ local onChat = function (form, ref, option)
 				return ad.price[commodity]
 			end,
 			onClickBuy = function (ref, commodity)
-				return false
+				return ad.price[commodity]
 			end,
 			onClickSell = function (ref, commodity)
-				if ad.stock[commodity] == 0 then
-   	 			return false
-  	 		end
 				return ad.price[commodity]
 			end,
 			bought = function (ref, commodity)
 				ad.stock[commodity] = ad.stock[commodity] + 1
-				ad.sellcount = ad.sellcount + 1
 			end,
 			sold = function (ref, commodity)
-				return false
+				ad.stock[commodity] = ad.stock[commodity] - 1
 			end,
 		})
 	end
@@ -83,43 +64,24 @@ local onDelete = function (ref)
 end
 
 local makeAdvert = function (station)
-	local commodity = {}
+
+	if #stockneeded == 0 then return end
 	
-	for k,v in pairs(Game.system:GetCommodityBasePriceAlterations()) do
-		if v > 10	then
-			table.insert(commodity, k)
-			elseif v > 10 == nil and v > 2 then
-			table.insert(commodity, k)
-			elseif v > 10 == nil and v > 2 == nil then
-			table.insert(commodity, k)
-		end
-	end
-	if #commodity == 0 then return end
-	
-	local commodityneeded = commodity[Engine.rand:Integer(1, #commodity)]
-	local flavours = Translate:GetFlavours('Bargain')
+	local commodityneeded = stockneeded
 	local Trader = Character.New()
-	local tonsneeded = Game.player:GetEquipCount('CARGO', commodityneeded)
-	local flavour = Engine.rand:Integer(1,#flavours)
-	local commodityneededprice = station:GetEquipmentPrice(commodityneeded) * (1 + flavours[flavour].bargain / 10)
-	local stock = {[commodityneeded] = -tonsneeded}
+	local commodityneededprice = station:GetEquipmentPrice(commodityneeded) * (1 + (Engine.rand:Integer(5, 10)) / 10)
+	local stock = {[commodityneeded] = 0}
 	local price = {[commodityneeded] = commodityneededprice}
 	local advert = string.interp(t('{CommodityNeeded} needed.'), {CommodityNeeded = EquipType.GetEquipType(commodityneeded).name})
-	local playerstock = Game.player:GetEquipCount('CARGO', commodityneeded)
-	local sellcount = sellcount or 0
 
 	local ad = {
-		adverttime = Game.time + 60*60,
+		adverttime = Game.time + 24*60*60,
 		Trader = Trader,
-		playerstock = playerstock,
-		sellcount = sellcount,
 		advert = advert,
 		price = price,
 		stock = stock,
-		tonsneeded = tonsneeded,
 		commodityneeded = commodityneeded,
-		flavours = flavours,
-		flavour = flavour,
+		commodityneededprice = commodityneededprice,
 		station = station,
 	}
 
@@ -127,8 +89,23 @@ local makeAdvert = function (station)
 	ads[ref] = ad
 end
 
-local onCreateBB = function (station)
-	if Engine.rand:Integer(1,2) == 1 then
+local onShipDocked = function (player, station)
+	if not player:IsPlayer() then return end
+	
+	if Engine.rand:Integer(1,3) == 1 then
+		local stock = {}
+		for k,v in pairs(Game.system:GetCommodityBasePriceAlterations()) do
+			if v > 10	then
+				table.insert(stock, k)
+				elseif v > 10 == nil and v > 2 then
+				table.insert(stock, k)
+				elseif v > 10 == nil and v > 2 == nil then
+				table.insert(stock, k)
+			end
+		end
+		if #stock == 0 then return end
+		stockneeded = stock[Engine.rand:Integer(1, #stock)]
+		-- station:SetEquipmentPrice(stockneeded, 0)
 		makeAdvert(station)
 	end
 end
@@ -143,6 +120,7 @@ end
 
 local onShipUndocked = function (player, station)
 	if not player:IsPlayer() then return end
+
 	for ref,ad in pairs(ads) do
 		ad.station:RemoveAdvert(ref)
 	end
@@ -169,7 +147,7 @@ local unserialize = function (data)
 	loaded_data = data
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
+EventQueue.onShipDocked:Connect(onShipDocked)
 EventQueue.onUpdateBB:Connect(onUpdateBB)
 EventQueue.onShipUndocked:Connect(onShipUndocked)
 EventQueue.onGameStart:Connect(onGameStart)
