@@ -782,6 +782,16 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 	}
 }
 
+// Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location
+// 1. Calculates the amount of direct illumination available taking into account
+//    * multiple suns 
+//    * sun positions relative to up direction i.e. light is dimmed as suns set 
+//    * Thickness of the atmosphere overhead i.e. as atmospheres get thicker light starts dimming earlier as sun sets, without atmosphere the light switches off at point of sunset
+// 2. Calculates the split between ambient and directly lit portions taking into account
+//    * Atmosphere density (optical thickness) of the sky dome overhead
+//        as optical thickness increases the fraction of ambient light increases
+//        this takes altitude into account automatically
+//    * As suns set the split is biased towards ambient 
 void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensity, std::vector<Light> &lights)
 {
 	Planet *planet = static_cast<Planet*>(_planet);
@@ -794,6 +804,11 @@ void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensit
 	double surfaceDensity;
 	Color cl;
 	_planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
+
+	// approximate optical thickness fraction as fraction of density remaining relative to earths
+	double opticalThicknessFraction = density/1.225;
+	// tweak optical thickness curve - lower exponent ==> higher altitude before ambient level drops
+	opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
 
 	//step through all the lights and calculate contributions taking into account sun position
 	double light = 0.0;
@@ -815,24 +830,30 @@ void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensit
 			//0 to 1 as sunangle goes from 0.0 to 1.0
 			double sunAngle2 = (Clamp(sunAngle, 0.0,1.0)+0.0)/1.0;
 
-			//0 to 1 as sunAngle goes from -0.08 to 0.30
-			sunAngle = (Clamp(sunAngle, -0.08,0.30)+0.08)/0.38;
+			//0 to 1 as sunAngle goes from endAngle to startAngle
+
+// angle at which light begins to fade on Earth
+#define startAngle 0.3
+// angle at which sun set completes, which should be after sun has dipped below the horizon on Earth
+#define endAngle -0.08
+
+			const double start = std::min((startAngle*opticalThicknessFraction),1.0);
+			const double end = std::max((endAngle*opticalThicknessFraction),-0.2);
+
+			sunAngle = (Clamp(sunAngle, end, start)-end)/(start-end);
 			
 			light += sunAngle;
 			light2 += sunAngle2;
 	}
 
-	// approximate optical thickness fraction as fraction of density remaining relative to earths
-	double opticalThicknessFraction = 1.0-(surfaceDensity-density)/1.225;
-	// tweak optical thickness curve - lower exponent ==> higher altitude before ambient level drops
-	opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
+
 	// brightness depends on optical depth and intensity of light from all the stars
 	intensity = (Clamp((light),0.0,1.0));
 
 
 	// ambient light fraction
 	// alter ratio between directly and ambiently lit portions towards ambiently lit as sun sets
-	double fraction = (0.6+0.4*(
+	double fraction = (0.4+0.4*(
 						1.0-light2*(Clamp((opticalThicknessFraction),0.0,1.0))
 						)*0.8+0.2); //fraction goes from 0.6 to 1.0
 					  
@@ -842,6 +863,24 @@ void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensit
 
 	// scale ambient by amount of light
 	ambient = fraction*(Clamp((light),0.0,1.0));
+}
+
+// if twilight or night fade in model at close ranges by increasing scene ambient lighting to minIllumination
+// dist is distance in meters to model in camera space
+void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, double fadeInStart, double fadeInLength, double illumination, double minIllumination)
+{
+	if (illumination <= minIllumination) {
+		
+		const double fadeInEnd = std::max(modelRadius,10.0);
+		const double fadeInStart = fadeInLength+fadeInEnd;
+		// 0 to 1 as dist goes from fadeInEnd to fadeInStart
+		double sceneAmbient = 1.0-(Clamp(dist, fadeInEnd, fadeInStart)-fadeInEnd)/((fadeInStart-fadeInEnd));
+		
+		//set scene ambient to the amount needed to take illumination level to 0.2
+		sceneAmbient*= minIllumination-illumination;
+
+		r->SetAmbientColor(Color(sceneAmbient, sceneAmbient, sceneAmbient, 1.0));
+	}
 }
 
 void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
@@ -874,9 +913,7 @@ void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d 
 
 		CalcLighting(_planet, ambient, intensity, lights);
 
-		//ambient = 0;
-		//intensity = 0.00;
-		//fade diffuse component
+		//fade lights
 		for(int i = 0;i < numLights; i++) {
 			Color c = lights[i].GetDiffuse();
 			Color ca = lights[i].GetAmbient();
@@ -895,9 +932,9 @@ void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d 
 			newLights[i].SetSpecular(cs);
 		}
 
-		r->SetLights(numLights, &newLights[0]);
+		double overallLighting = ambient+intensity;
 
-		RenderLmrModel(viewCoords, viewTransform);
+		r->SetLights(numLights, &newLights[0]);
 
 		// turn off global ambient color
 		Color oldAmbient;
@@ -905,12 +942,24 @@ void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d 
 
 		r->SetAmbientColor(Color(0.0, 0.0, 0.0, 1.0));
 
+		// as the camera gets close adjust scene ambient so that intensity+ambient = minIllumination
+		#define minIllumination 0.2
+		#define fadeInStart 800.0
+		#define fadeInLength 1000.0
+		FadeInModelIfDark(r, GetLmrCollMesh()->GetBoundingRadius(),
+							viewCoords.Length(), fadeInStart, fadeInLength,  overallLighting, minIllumination);
+
+		RenderLmrModel(viewCoords, viewTransform);
+
+		// reset ambient colour as Fade-in model may change it
+		r->SetAmbientColor(Color(0.0, 0.0, 0.0, 1.0));
+
 		/* don't render city if too far away */
 		if (viewCoords.Length() < 1000000.0){
 			if (!m_adjacentCity) {
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
-			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
+			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform, overallLighting, minIllumination);
 		} 
 
 		// restore old lights
