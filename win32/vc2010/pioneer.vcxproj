@@ -374,6 +374,7 @@
     <ClInclude Include="..\..\src\View.h" />
     <ClInclude Include="..\..\src\win32\Gamma.h" />
     <ClInclude Include="..\..\src\win32\pch.h" />
+    <ClInclude Include="..\..\src\win32\TextUtils.h" />
     <ClInclude Include="..\..\src\WorldView.h" />
     <ClInclude Include="..\..\src\WorldViewCamera.h" />
   </ItemGroup>

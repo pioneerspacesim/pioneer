@@ -803,6 +803,9 @@
     <ClInclude Include="..\..\src\OS.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\win32\TextUtils.h">
+      <Filter>src\win32</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">

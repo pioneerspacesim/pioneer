@@ -8,6 +8,8 @@
 
 namespace OS {
 
+	void Error(const char *format, ...);  __attribute((format(printf,1,2))) __attribute((noreturn));
+	void Warning(const char *format, ...);  __attribute((format(printf,1,2)));
 	void LoadWindowIcon();
 
 }
