@@ -51,7 +51,7 @@ bool Shader::CheckGLSLErrors(const char *filename, GLuint obj)
 #ifndef NDEBUG
 		OS::Warning("%s: %s", filename, infoLog);
 #else
-		SilentWarning("%s: %s", filename, infoLog);
+		fprintf(stderr, "%s: %s", filename, infoLog);
 #endif
 	}
 
