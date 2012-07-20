@@ -7,12 +7,12 @@
 
 static GLuint boundArrayBufferObject = 0;
 static GLuint boundElementArrayBufferObject = 0;
-static SDL_Surface *scrSurface = 0;
 
 namespace Graphics {
 
 static bool initted = false;
 
+SDL_Surface *scrSurface = 0;
 Shader *simpleShader;
 Shader *planetRingsShader[4];
 

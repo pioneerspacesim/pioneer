@@ -35,7 +35,7 @@ namespace Graphics {
 		static int GetNumLights() { return m_numLights; }
 	};
 
-	static SDL_Surface *scrSurface;
+	extern SDL_Surface *scrSurface;
 
 	extern Shader *simpleShader;
 	// one for each number of lights (stars in system)

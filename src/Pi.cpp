@@ -49,7 +49,6 @@
 #include "Planet.h"
 #include "Player.h"
 #include "Polit.h"
-#include "SDLWrappers.h"
 #include "SectorView.h"
 #include "Serializer.h"
 #include "Sfx.h"
