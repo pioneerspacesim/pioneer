@@ -5,11 +5,22 @@
 
 /*
  * bunch of reused 3d drawy routines.
+ * XXX most of this is to be removed
  */
 namespace Graphics {
 
 	class Renderer;
 	class Shader;
+
+	// requested video settings
+	struct Settings {
+		bool fullscreen;
+		bool shaders;
+		int vsync;
+		int requestedSamples;
+		int height;
+		int width;
+	};
 
 	/* static */ class State {
 	private:
@@ -24,12 +35,14 @@ namespace Graphics {
 		static int GetNumLights() { return m_numLights; }
 	};
 
+	static SDL_Surface *scrSurface;
+
 	extern Shader *simpleShader;
 	// one for each number of lights (stars in system)
 	extern Shader *planetRingsShader[4];
 
-	// constructs renderer
-	Renderer* Init(int screen_width, int screen_height, bool wantShaders);
+	// does SDL video init, constructs appropriate Renderer
+	Renderer* Init(const Settings&);
 	void Uninit();
 	bool AreShadersEnabled();
 
