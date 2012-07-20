@@ -71,4 +71,14 @@ private:
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 };
 
+struct atmosphereParameters {
+	float atmosRadius;
+	float atmosInvScaleHeight;
+	float atmosDensity;
+	Color atmosCol;
+};
+
+// XXX Floating function used in model rendering as well. Needs to be relocated as part of a atmosphere refactor.
+void CalcAtmosphereParams(SystemBody *sbody, atmosphereParameters &outAtmosParams);
+
 #endif /* _GEOSPHERE_H */
