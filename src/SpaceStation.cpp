@@ -326,11 +326,17 @@ void SpaceStation::InitStation()
 	} else {
 		m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
 	}
-	GetLmrObjParams().animStages[ANIM_DOCKING_BAY_1] = 1;
-	GetLmrObjParams().animValues[ANIM_DOCKING_BAY_1] = 1.0;
+
+	LmrObjParams &params = GetLmrObjParams();
+	params.animStages[ANIM_DOCKING_BAY_1] = 1;
+	params.animValues[ANIM_DOCKING_BAY_1] = 1.0;
 	// XXX the animation namespace must match that in LuaConstants
-	GetLmrObjParams().animationNamespace = "SpaceStationAnimation";
+	params.animationNamespace = "SpaceStationAnimation";
 	SetModel(m_type->modelName, true);
+
+	CalcAtmosphereParams(m_sbody, params.atmosParams);
+	if (params.atmosParams.atmosDensity > 0.0)
+		params.atmosphericModel = true;
 }
 
 SpaceStation::~SpaceStation()
@@ -903,6 +909,9 @@ void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d 
 		RenderLmrModel(viewCoords, viewTransform);
 	} else {
 		planet = static_cast<Planet*>(_planet);
+		
+		
+
 
 		//calculate lighting
 		std::vector<Light> lights, newLights;
