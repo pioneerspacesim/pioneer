@@ -17,7 +17,11 @@ void Error(const char *format, ...)
 	va_end(ap);
 	fprintf(stderr, "Error: %s\n", buf);
 	MessageBoxW(0, transcode_utf8_to_utf16(buf, strlen(buf)).c_str(), L"Error", MB_ICONERROR|MB_OK);
+#ifndef NDEBUG
 	abort();
+#else
+	exit(-1);
+#endif
 }
 
 // Call MessageBox with warning icon
