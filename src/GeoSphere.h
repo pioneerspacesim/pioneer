@@ -79,6 +79,6 @@ struct atmosphereParameters {
 };
 
 // XXX Floating function used in model rendering as well. Needs to be relocated as part of a atmosphere refactor.
-void CalcAtmosphereParams(SystemBody *sbody, atmosphereParameters &outAtmosParams);
+void CalcAtmosphereParams(const SystemBody *sbody, atmosphereParameters &outAtmosParams);
 
 #endif /* _GEOSPHERE_H */
