@@ -8,6 +8,7 @@ Alpha 25
    * Fixes
      * Fix some Lua console completion edge cases (#1339)
      * Fix Lua error report format for missing objects (#1366)
+     * Fix bug which prevented some Polish texts showing up (#1382)
 
 Alpha 24
 
