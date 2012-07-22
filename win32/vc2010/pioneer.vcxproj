@@ -116,11 +116,6 @@
     <ClCompile Include="..\..\src\FileSelectorWidget.cpp" />
     <ClCompile Include="..\..\src\FileSourceZip.cpp" />
     <ClCompile Include="..\..\src\FileSystem.cpp" />
-    <ClCompile Include="..\..\src\FileSystemPosix.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\src\FontCache.cpp" />
     <ClCompile Include="..\..\src\FontConfig.cpp" />
     <ClCompile Include="..\..\src\FormController.cpp" />
@@ -179,16 +174,21 @@
     <ClCompile Include="..\..\src\ModManager.cpp" />
     <ClCompile Include="..\..\src\mtrand.cpp" />
     <ClCompile Include="..\..\src\ObjectViewerView.cpp" />
-    <ClCompile Include="..\..\src\OSPosix.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Pi.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
     <ClCompile Include="..\..\src\Player.cpp" />
     <ClCompile Include="..\..\src\Polit.cpp" />
+    <ClCompile Include="..\..\src\posix\FileSystemPosix.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\posix\OSPosix.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\src\Projectile.cpp" />
     <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />

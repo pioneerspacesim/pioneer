@@ -7,6 +7,9 @@
     <Filter Include="src\win32">
       <UniqueIdentifier>{f2675b10-6915-4adf-a013-56d40d18140b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\posix">
+      <UniqueIdentifier>{cc1a9ac4-420d-47a4-ab19-eb8890777dbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LmrModel.cpp">
@@ -45,9 +48,6 @@
     <ClCompile Include="..\..\src\enum_table.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FileSystemPosix.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\FileSystem.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -83,6 +83,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\win32\pch.cpp">
       <Filter>src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\posix\FileSystemPosix.cpp">
+      <Filter>src\posix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\posix\OSPosix.cpp">
+      <Filter>src\posix</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

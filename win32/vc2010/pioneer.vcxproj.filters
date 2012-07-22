@@ -7,6 +7,9 @@
     <Filter Include="src\win32">
       <UniqueIdentifier>{172c1b95-e18a-4158-8227-10b5cc882b62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\posix">
+      <UniqueIdentifier>{6d264ce7-1454-4144-a050-a665481a0a20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\AmbientSounds.cpp">
@@ -315,9 +318,6 @@
     <ClCompile Include="..\..\src\FileSystem.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FileSystemPosix.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Color.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -381,8 +381,11 @@
     <ClCompile Include="..\..\src\win32\OSWin32.cpp">
       <Filter>src\win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\OSPosix.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\..\src\posix\FileSystemPosix.cpp">
+      <Filter>src\posix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\posix\OSPosix.cpp">
+      <Filter>src\posix</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
