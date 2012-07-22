@@ -1,18 +1,19 @@
 #include "libs.h"
-#include "gui/Gui.h"
-#include "collider/collider.h"
-#include "LmrModel.h"
-#include "ShipType.h"
 #include "EquipType.h"
-#include "Ship.h" // for the flight state and ship animation enums
-#include "SpaceStation.h" // for the space station animation enums
 #include "FileSystem.h"
+#include "LmrModel.h"
 #include "ModManager.h"
+#include "OS.h"
+#include "Ship.h" // for the flight state and ship animation enums
+#include "ShipType.h"
+#include "SpaceStation.h" // for the space station animation enums
+#include "collider/collider.h"
 #include "graphics/Drawables.h"
-#include "graphics/Material.h"
 #include "graphics/Graphics.h"
+#include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "gui/Gui.h"
 
 using namespace Graphics;
 
@@ -30,7 +31,6 @@ static const char *ANIMATION_NAMESPACES[] = {
 
 static const int LMR_ARG_MAX = 40;
 
-static SDL_Surface *g_screen;
 static int g_width, g_height;
 static int g_mouseMotion[2];
 static char g_keyState[SDLK_LAST];
@@ -626,7 +626,8 @@ static void PollEvents()
                         exit(0);
                     }
 				}
-				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
+				//XXX can't reliably fullscreen
+				//if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
 				g_keyState[event.key.keysym.sym] = 1;
 				break;
 			case SDL_KEYUP:
@@ -708,37 +709,19 @@ int main(int argc, char **argv)
 	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
 	ModManager::Init();
 
-	const SDL_VideoInfo *info = NULL;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		fprintf(stderr, "Video initialization failed: %s\n", SDL_GetError());
-		exit(-1);
+		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
 	}
 
-	info = SDL_GetVideoInfo();
+	Graphics::Settings videoSettings = {};
+	videoSettings.width = g_width;
+	videoSettings.height = g_height;
+	videoSettings.shaders = true;
 
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	renderer = Graphics::Init(videoSettings);
+
 	g_zbias = 2.0/(1<<16);
 
-	Uint32 flags = SDL_OPENGL;
-
-	if ((g_screen = SDL_SetVideoMode(g_width, g_height, info->vfmt->BitsPerPixel, flags)) == 0) {
-		// fall back on 16-bit depth buffer...
-		SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
-		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer.\n", SDL_GetError());
-		if ((g_screen = SDL_SetVideoMode(g_width, g_height, info->vfmt->BitsPerPixel, flags)) == 0) {
-			fprintf(stderr, "Video mode set failed: %s\n", SDL_GetError());
-		}
-	}
-	glewInit();
-
-	renderer = Graphics::Init(g_width, g_height, true);
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
 	LmrModelCompilerInit(renderer);
@@ -759,6 +742,7 @@ int main(int argc, char **argv)
 	}
 
 	g_viewer->MainLoop();
+	//XXX looks like this is never reached
 	FileSystem::Uninit();
 	delete renderer;
 	return 0;

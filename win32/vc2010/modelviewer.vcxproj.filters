@@ -4,17 +4,14 @@
     <Filter Include="src">
       <UniqueIdentifier>{408363ad-8810-4809-9acb-38c5ddc4b9db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="win32">
-      <UniqueIdentifier>{8c51b711-ab01-4922-9660-0e4c6f59ce28}</UniqueIdentifier>
+    <Filter Include="src\win32">
+      <UniqueIdentifier>{f2675b10-6915-4adf-a013-56d40d18140b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="win32\src">
-      <UniqueIdentifier>{2f04a4de-46b7-414c-8325-3bb64b79304f}</UniqueIdentifier>
+    <Filter Include="src\posix">
+      <UniqueIdentifier>{cc1a9ac4-420d-47a4-ab19-eb8890777dbb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\pch.cpp">
-      <Filter>win32\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LmrModel.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -51,14 +48,8 @@
     <ClCompile Include="..\..\src\enum_table.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FileSystemPosix.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\FileSystem.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\FileSystemWin32.cpp">
-      <Filter>win32\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Color.cpp">
       <Filter>src</Filter>
@@ -87,11 +78,20 @@
     <ClCompile Include="..\..\src\LuaVector.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\win32\FileSystemWin32.cpp">
+      <Filter>src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\win32\pch.cpp">
+      <Filter>src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\posix\FileSystemPosix.cpp">
+      <Filter>src\posix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\posix\OSPosix.cpp">
+      <Filter>src\posix</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\pch.h">
-      <Filter>win32\src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\libs.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -172,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\LuaMatrix.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\win32\pch.h">
+      <Filter>src\win32</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
