@@ -1,5 +1,8 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui graphics galaxy terrain text
+if BUILD_WIN32
+    PLATFORM_SUBDIRS = win32
+endif
+SUBDIRS = collider gui graphics galaxy terrain text $(PLATFORM_SUBDIRS)
 
 include $(top_srcdir)/Makefile.common
 
@@ -90,6 +93,7 @@ noinst_HEADERS = \
 	ModManager.h \
 	Object.h \
 	ObjectViewerView.h \
+	OS.h \
 	PersistSystemData.h \
 	Pi.h \
 	Planet.h \
@@ -354,7 +358,11 @@ if BUILD_WIN32
 endif
 
 if BUILD_POSIX
-    pioneer_SOURCES += FileSystemPosix.cpp
-    modelviewer_SOURCES += FileSystemPosix.cpp
+    pioneer_SOURCES += \
+    FileSystemPosix.cpp \
+    OSPosix.cpp
+    modelviewer_SOURCES += \
+    FileSystemPosix.cpp \
+    OSPosix.cpp
 endif
 
