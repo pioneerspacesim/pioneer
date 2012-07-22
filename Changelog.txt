@@ -456,7 +456,7 @@ Alpha 16
     * Only randomise goods trader stock levels when bulletin board is created (#772, #776)
     * Clear breakdown servicing state on game start to avoid state leak
       between games (#775)
-  
+
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
     * Module translations (#640)
@@ -549,7 +549,7 @@ Alpha 15
     * Lua Lang interface to access core translated strings (#579, #575, #553)
     * Lua Translate interface to let modules provide translations (#580, #625, #629)
     * LMR methods fully documented (#615)
- 
+
   * Internal changes
     * Lots of internal cleanups; silences many warnings under GCC (#477,
       #484, #604) and MSVC (#483)
@@ -738,7 +738,7 @@ Alpha 11
       font (Cousine Bold) (#105, #114, #115, #138)
     * New star images in system info view (#159)
     * Manual thruster adjustments can now be made in set-speed mode (#118)
-    * 5 new ground based starports (1, 2, 3, 4 landing pad configs. 
+    * 5 new ground based starports (1, 2, 3, 4 landing pad configs.
       1 Airport config) (#120)
     * Major upgrade to coriolis station model (#158)
     * Clicking on the hyperspace icon a second time after a hyperspace is
@@ -788,7 +788,7 @@ Alpha 10
     * Ships and other small objects not shown beyond a certain range
     * Unguided missiles work again
     * Option to invert mouse look
- 
+
   * Under the hood
     * Rewritten Lua module API (with documentation!)
     * Hundreds of bugfixes and code cleanups
