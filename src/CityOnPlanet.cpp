@@ -27,7 +27,7 @@ struct citybuildinglist_t {
 	citybuilding_t *buildings;
 };
 
-citybuildinglist_t s_buildingLists[MAX_BUILDING_LISTS] = {
+static citybuildinglist_t s_buildingLists[MAX_BUILDING_LISTS] = {
 	{ "city_building", 800, 2000, 0, 0 },
 	//{ "city_power", 100, 250, 0, 0 },
 	//{ "city_starport_building", 300, 400, 0, 0 },
