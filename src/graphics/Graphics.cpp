@@ -12,7 +12,6 @@ namespace Graphics {
 
 static bool initted = false;
 
-SDL_Surface *scrSurface = 0;
 Shader *simpleShader;
 Shader *planetRingsShader[4];
 
@@ -107,7 +106,7 @@ Renderer* Init(const Settings &vs)
 
 	// attempt sequence is:
 	// 1- requested mode
-	scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
+	SDL_Surface *scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
 
 	// 2- requested mode with no anti-aliasing (skipped if no AA was requested anyway)
 	if (!scrSurface && vs.requestedSamples) {

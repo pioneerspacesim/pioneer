@@ -422,7 +422,6 @@ void Pi::Init()
 
 	Pi::rng.seed(time(0));
 
-	// Non-video parts of SDL initialization
 	InitJoysticks();
 	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
