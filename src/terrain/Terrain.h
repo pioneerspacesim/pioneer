@@ -64,12 +64,15 @@ protected:
 	// XXX unify heightmap types
 	// for the earth heightmap
 	Sint16 *m_heightMap;
-	// For the moon and other bodies (with height scaling)
+	// For the moon and other bodies (with height scaling and/or roughness data)
 	Uint16 *m_heightMapScaled;
 	double m_heightScaling, m_minh;
 
 	int m_heightMapSizeX;
 	int m_heightMapSizeY;
+
+	double m_roughMin[3];
+	double m_roughnessScaling[3];
 
 	/** General attributes */
 	double m_maxHeight;
@@ -144,6 +147,7 @@ class TerrainHeightHillsRidged;
 class TerrainHeightHillsRivers;
 class TerrainHeightMapped;
 class TerrainHeightMapped2;
+class TerrainHeightMapped3;
 class TerrainHeightMountainsCraters2;
 class TerrainHeightMountainsCraters;
 class TerrainHeightMountainsNormal;
@@ -169,6 +173,7 @@ class TerrainColorGGSaturn;
 class TerrainColorGGUranus;
 class TerrainColorIce;
 class TerrainColorMethane;
+class TerrainColorMars;
 class TerrainColorRock2;
 class TerrainColorRock;
 class TerrainColorSolid;
