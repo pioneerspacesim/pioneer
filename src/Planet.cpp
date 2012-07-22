@@ -168,7 +168,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	float baseCol[4];
 
 	// just use a random gas giant flavour for the moment
-	GasGiantDef_t &ggdef = ggdefs[rng.Int32(0,4)];
+	GasGiantDef_t &ggdef = ggdefs[rng.Int32(COUNTOF(ggdefs))];
 	ggdef.ringCol.GenCol(baseCol, rng);
 
 	const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));

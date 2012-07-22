@@ -317,7 +317,7 @@ SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 void SpaceStation::InitStation()
 {
 	m_adjacentCity = 0;
-	for(int i=0; i<4; i++) m_staticSlot[i] = false;
+	for(int i=0; i<NUM_STATIC_SLOTS; i++) m_staticSlot[i] = false;
 	MTRand rand(m_sbody->seed);
 	if (m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) {
 		m_type = &orbitalStationTypes[ rand.Int32(orbitalStationTypes.size()) ];
@@ -819,7 +819,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const vector3d &viewCoords, con
 // great place for this, but its gotta be tracked somewhere
 bool SpaceStation::AllocateStaticSlot(int& slot)
 {
-	for (int i=0; i<4; i++) {
+	for (int i=0; i<NUM_STATIC_SLOTS; i++) {
 		if (!m_staticSlot[i]) {
 			m_staticSlot[i] = true;
 			slot = i;

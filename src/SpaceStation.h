@@ -170,7 +170,8 @@ private:
 	double m_lastUpdatedShipyard;
 	CityOnPlanet *m_adjacentCity;
 	int m_numPoliceDocked;
-	bool m_staticSlot[4];
+	enum { NUM_STATIC_SLOTS = 4 };
+	bool m_staticSlot[NUM_STATIC_SLOTS];
 
 	std::vector<BBAdvert> m_bbAdverts;
 	bool m_bbCreated, m_bbShuffled;
