@@ -81,7 +81,7 @@ void WorldView::InitObject()
 	m_lowThrustPowerOptions = new Gui::Fixed(size[0], size[1]/2);
 	m_lowThrustPowerOptions->SetTransparency(true);
 	Add(m_lowThrustPowerOptions, 10, 200);
-	for (int i = 0; i < int(sizeof(LOW_THRUST_LEVELS)/sizeof(LOW_THRUST_LEVELS[0])); ++i) {
+	for (int i = 0; i < COUNTOF(LOW_THRUST_LEVELS); ++i) {
 		assert(i < 9); // otherwise the shortcuts break
 		const int ypos = i*32;
 
@@ -1484,7 +1484,7 @@ void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)
 		vector2f(px, py+sz),
 		vector2f(px, py+0.5f*sz)
 	};
-	m_renderer->DrawLines2D(8, vts, c);
+	m_renderer->DrawLines2D(COUNTOF(vts), vts, c);
 }
 
 void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c)
@@ -1559,7 +1559,7 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 		vector2f(x2, y2),
 		vector2f(x1, y2)
 	};
-	m_renderer->DrawLines2D(4, vts, c, Graphics::LINE_LOOP);
+	m_renderer->DrawLines2D(COUNTOF(vts), vts, c, Graphics::LINE_LOOP);
 }
 
 void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
@@ -1580,7 +1580,7 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
 			vector2f(posx-sz, posy+sz),
 			vector2f(posx-0.5f*sz, posy+0.5f*sz)
 		};
-		m_renderer->DrawLines2D(8, vts, c);
+		m_renderer->DrawLines2D(COUNTOF(vts), vts, c);
 	} else
 		DrawEdgeMarker(marker, c);
 
@@ -1693,7 +1693,8 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 		c,
 		black
 	};
-	m_worldView->m_renderer->DrawLines(8, vts, col, Graphics::LINE_LOOP);
+	assert(COUNTOF(col) == COUNTOF(vts));
+	m_worldView->m_renderer->DrawLines(COUNTOF(vts), vts, col, Graphics::LINE_LOOP);
 }
 
 void NavTunnelWidget::GetSizeRequested(float size[2]) {
