@@ -7,10 +7,18 @@ Alpha 25
      * Hyperjumps now have sound effects (#1379)
      * Terrains have been update, and more terrains added for asteroids (#1349)
 
+   * Minor changes and tweaks
+     * On Windows, error messages for graphics are shown in a message box,
+       so they can be read when the game graphics aren't working (#1362)
+
    * Fixes
      * Fix some Lua console completion edge cases (#1339)
      * Fix Lua error report format for missing objects (#1366)
      * Fix bug which prevented some Polish texts showing up (#1382)
+
+   * Internal changes
+     * Move platform specific code into src/{win32,posix} dirs (#1362, #1369)
+     * Move video initialisation into Graphics::Init (#1362, #1370)
 
 Alpha 24
 

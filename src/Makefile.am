@@ -1,5 +1,11 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui graphics galaxy terrain text
+if BUILD_WIN32
+    PLATFORM_SUBDIRS = win32
+endif
+if BUILD_POSIX
+    PLATFORM_SUBDIRS = posix
+endif
+SUBDIRS = collider gui graphics galaxy terrain text $(PLATFORM_SUBDIRS)
 
 include $(top_srcdir)/Makefile.common
 
@@ -90,6 +96,7 @@ noinst_HEADERS = \
 	ModManager.h \
 	Object.h \
 	ObjectViewerView.h \
+	OS.h \
 	PersistSystemData.h \
 	Pi.h \
 	Planet.h \
@@ -334,13 +341,17 @@ tests_SOURCES = \
 	test_Frame.cpp \
 	test_StringF.cpp \
 	FileSystem.cpp \
-	FileSystemPosix.cpp \
+	posix/FileSystemPosix.cpp \
 	FileSourceZip.cpp \
 	test_FileSystem.cpp
 
 TESTS = tests
 
-tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+tests_LDADD = \
+	collider/libcollider.a \
+	gui/libgui.a \
+	graphics/libgraphics.a \
+	terrain/libterrain.a \
 	../contrib/miniz/libminiz.a
 
 INCLUDES = -isystem @top_srcdir@/contrib
@@ -349,12 +360,12 @@ INCLUDES += -isystem @top_srcdir@/contrib/lua
 endif
 
 if BUILD_WIN32
-    pioneer_LDADD += ../win32/src/libwin32.a $(MINGW_LIBS)
-    modelviewer_LDADD += ../win32/src/libwin32.a $(MINGW_LIBS)
+    pioneer_LDADD += win32/libwin32.a $(MINGW_LIBS)
+    modelviewer_LDADD += win32/libwin32.a $(MINGW_LIBS)
 endif
 
 if BUILD_POSIX
-    pioneer_SOURCES += FileSystemPosix.cpp
-    modelviewer_SOURCES += FileSystemPosix.cpp
+    pioneer_LDADD += posix/libposix.a
+    modelviewer_LDADD += posix/libposix.a
 endif
 

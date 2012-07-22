@@ -1,7 +1,9 @@
 #include "Shader.h"
-#include "Graphics.h"
 #include "FileSystem.h"
+#include "Graphics.h"
+#include "OS.h"
 #include "StringRange.h"
+#include "utils.h"
 #include <cstring>
 
 namespace Graphics {
@@ -10,22 +12,51 @@ bool shadersEnabled;
 bool shadersAvailable;
 Shader *m_currentShader = 0;
 
-void Shader::PrintGLSLCompileError(const char *filename, GLuint obj)
+// Check and warn about compile & link errors
+bool Shader::CheckGLSLErrors(const char *filename, GLuint obj)
 {
+	//check if shader or program
+	bool isShader = (glIsShader(obj) == GL_TRUE);
+
 	int infologLength = 0;
 	char infoLog[1024];
 
-	if (glIsShader(obj))
+	if (isShader)
 		glGetShaderInfoLog(obj, 1024, &infologLength, infoLog);
 	else
 		glGetProgramInfoLog(obj, 1024, &infologLength, infoLog);
 
-	if (infologLength > 0) {
-		fprintf(stderr, "Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s\nPioneer will run with shaders disabled\n",
-				filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+	GLint status;
+	if (isShader)
+		glGetShaderiv(obj, GL_COMPILE_STATUS, &status);
+	else
+		glGetProgramiv(obj, GL_LINK_STATUS, &status);
+
+	if (status == GL_FALSE) {
+#ifndef NDEBUG
+		OS::Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
+			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+#else
+		OS::Warning("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s\n\nS"
+			"Pioneer will not work as intended. Try disabling shaders in the options or the config file.\n",
+			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+#endif
 		shadersAvailable = false;
 		shadersEnabled = false;
+		return false;
 	}
+
+	// Log warnings even if successfully compiled
+	// Sometimes the log is full of junk "success" messages so
+	// this is not a good use for OS::Warning
+#ifndef NDEBUG
+	if (infologLength > 0) {
+		if (pi_strcasestr("infoLog", "warning"))
+			fprintf(stderr, "%s: %s", filename, infoLog);
+	}
+#endif
+
+	return true;
 }
 
 static RefCountedPtr<FileSystem::FileData> s_lib_fs;
@@ -107,10 +138,8 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 
 	vs = glCreateShader(GL_VERTEX_SHADER);
 	shader_src.Compile(vs);
-	GLint status;
-	glGetShaderiv(vs, GL_COMPILE_STATUS, &status);
-	if (!status) {
-		PrintGLSLCompileError((name + ".vert.glsl").c_str(), vs);
+
+	if (!CheckGLSLErrors((name + ".vert.glsl").c_str(), vs)) {
 		m_program = 0;
 		return false;
 	}
@@ -127,9 +156,7 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 
 		ps = glCreateShader(GL_FRAGMENT_SHADER);
 		shader_src.Compile(ps);
-		glGetShaderiv(ps, GL_COMPILE_STATUS, &status);
-		if (!status) {
-			PrintGLSLCompileError((name + ".frag.glsl").c_str(), ps);
+		if (!CheckGLSLErrors((name + ".frag.glsl").c_str(), ps)) {
 			m_program = 0;
 			return false;
 		}
@@ -139,9 +166,8 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	glAttachShader(m_program, vs);
 	if (pscode) glAttachShader(m_program, ps);
 	glLinkProgram(m_program);
-	glGetProgramiv(m_program, GL_LINK_STATUS, &status);
-	if (!status) {
-		PrintGLSLCompileError(name.c_str(), m_program);
+
+	if (!CheckGLSLErrors(name.c_str(), m_program)) {
 		m_program = 0;
 		return false;
 	}
