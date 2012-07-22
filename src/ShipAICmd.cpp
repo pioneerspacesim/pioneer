@@ -498,7 +498,7 @@ static Frame *GetNonRotFrame(Body *body)
 
 static double MaxFeatureRad(Body *body)
 {
-	assert(body);
+	if(!body) return 0.0;
 	if(!body->IsType(Object::TERRAINBODY)) return body->GetBoundingRadius();
 	return static_cast<TerrainBody *>(body)->GetMaxFeatureRadius() + 200.0;		// + building height
 }
