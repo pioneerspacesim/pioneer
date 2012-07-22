@@ -168,7 +168,7 @@ static void DrawRing(double inner, double outer, const Color &color, Renderer *r
 
 void Planet::DrawGasGiantRings(Renderer *renderer)
 {
-	renderer->SetBlendMode(BLEND_ALPHA_ONE);
+	renderer->SetBlendMode(BLEND_ALPHA_PREMULT);
 	glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT );
 	renderer->SetDepthTest(true);
 	glEnable(GL_NORMALIZE);
