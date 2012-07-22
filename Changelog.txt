@@ -15,6 +15,7 @@ Alpha 25
      * Fix some Lua console completion edge cases (#1339)
      * Fix Lua error report format for missing objects (#1366)
      * Fix bug which prevented some Polish texts showing up (#1382)
+     * Fix crash when autopilot tried to fly around a gravpoint (#1347, #1344)
 
    * Internal changes
      * Move platform specific code into src/{win32,posix} dirs (#1362, #1369)
