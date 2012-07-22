@@ -82,4 +82,22 @@ template<class T> inline const T& Clamp(const T& x, const T& min, const T& max) 
 inline double DEG2RAD(double x) { return x*(M_PI/180.); }
 inline float  DEG2RAD(float  x) { return x*(float(M_PI)/180.f); }
 
+// --- typesafe compile time array length
+// by Ivan J. Johnson
+// http://www.drdobbs.com/cpp/counting-array-elements-at-compile-time/197800525
+class Bad_arg_to_COUNTOF
+{
+public:
+   class Is_pointer;  // intentionally incomplete type
+   class Is_array {};
+   template<typename T>
+   static Is_pointer check_type(const T*, const T* const*);
+   static Is_array check_type(const void*, const void*);
+};
+
+#define COUNTOF(x) \
+  ( 0 * sizeof( reinterpret_cast<const ::Bad_arg_to_COUNTOF*>(x) ) \
+  + 0 * sizeof( ::Bad_arg_to_COUNTOF::check_type((x), &(x))      ) \
+  + sizeof(x) / sizeof((x)[0]) )
+
 #endif /* _LIBS_H */
