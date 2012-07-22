@@ -78,6 +78,24 @@ inline bool ends_with(const std::string &s, const std::string &t) {
 	return ends_with(s.c_str(), s.size(), t.c_str(), t.size());
 }
 
+// --- typesafe compile time array length
+// by Ivan J. Johnson
+// http://www.drdobbs.com/cpp/counting-array-elements-at-compile-time/197800525
+class Bad_arg_to_COUNTOF
+{
+public:
+   class Is_pointer;  // intentionally incomplete type
+   class Is_array {};
+   template<typename T>
+   static Is_pointer check_type(const T*, const T* const*);
+   static Is_array check_type(const void*, const void*);
+};
+
+#define COUNTOF(x) \
+  ( 0 * sizeof( reinterpret_cast<const ::Bad_arg_to_COUNTOF*>(x) ) \
+  + 0 * sizeof( ::Bad_arg_to_COUNTOF::check_type((x), &(x))      ) \
+  + sizeof(x) / sizeof((x)[0]) )
+
 // add a few things that MSVC is missing
 #ifdef _MSC_VER
 
