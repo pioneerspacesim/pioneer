@@ -46,14 +46,15 @@ bool Shader::CheckGLSLErrors(const char *filename, GLuint obj)
 		return false;
 	}
 
-	// Always log warnings
-	if (infologLength > 0) {
+	// Log warnings even if successfully compiled
+	// Sometimes the log is full of junk "success" messages so
+	// this is not a good use for OS::Warning
 #ifndef NDEBUG
-		OS::Warning("%s: %s", filename, infoLog);
-#else
-		fprintf(stderr, "%s: %s", filename, infoLog);
-#endif
+	if (infologLength > 0) {
+		if (pi_strcasestr("infoLog", "warning"))
+			fprintf(stderr, "%s: %s", filename, infoLog);
 	}
+#endif
 
 	return true;
 }
