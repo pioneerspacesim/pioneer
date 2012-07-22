@@ -914,6 +914,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\galaxy\SystemPath.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\SystemView.cpp"
 				>
 			</File>
@@ -1027,6 +1031,30 @@
 			</File>
 			<File
 				RelativePath="..\..\src\terrain\TerrainHeightAsteroid.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightAsteroid2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightAsteroid3.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightAsteroid4.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightBarrenRock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightBarrenRock2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightBarrenRock3.cpp"
 				>
 			</File>
 			<File
@@ -2216,6 +2244,7 @@
 							Name="VCCLCompilerTool"
 							UsePrecompiledHeader="0"
 							WarnAsError="false"
+							CompileAs="1"
 							ForcedIncludeFiles="$(NOINHERIT)"
 						/>
 					</FileConfiguration>
@@ -3269,6 +3298,55 @@
 				RelativePath="..\..\src\graphics\VertexArray.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="jenkins"
+			>
+			<Filter
+				Name="headers"
+				Filter="h;hpp;hxx;hm;inl;inc;xsd"
+				>
+				<File
+					RelativePath="..\..\contrib\jenkins\lookup3.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="source"
+				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asm"
+				>
+				<File
+					RelativePath="..\..\contrib\jenkins\lookup3.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="PreRelease|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

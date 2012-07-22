@@ -5,6 +5,7 @@ Alpha 25
        system info view (F2,F7) (#1345)
      * Catalan translation (#1371)
      * Hyperjumps now have sound effects (#1379)
+     * Terrains have been update, and more terrains added for asteroids (#1349)
 
    * Fixes
      * Fix some Lua console completion edge cases (#1339)
