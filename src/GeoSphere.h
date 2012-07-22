@@ -8,7 +8,6 @@
 #include "terrain/Terrain.h"
 
 extern int GEOPATCH_EDGELEN;
-#define ATMOSPHERE_RADIUS 1.015
 
 namespace Graphics { class Renderer; }
 class SystemBody;
