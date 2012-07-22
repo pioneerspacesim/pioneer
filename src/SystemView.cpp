@@ -101,7 +101,7 @@ void SystemView::PutOrbit(SystemBody *b, vector3d offset)
 {
 	vector3f vts[100];
 	Color green(0.f, 1.f, 0.f, 1.f);
-	for (int i = 0; i < COUNTOF(vts); ++i) {
+	for (int i = 0; i < int(COUNTOF(vts)); ++i) {
 		const double t = double(i) / double(COUNTOF(vts));
 		vector3d pos = b->orbit.EvenSpacedPosAtTime(t);
 		vts[i] = vector3f(offset + pos * double(m_zoom));

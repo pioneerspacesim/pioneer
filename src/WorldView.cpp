@@ -81,7 +81,7 @@ void WorldView::InitObject()
 	m_lowThrustPowerOptions = new Gui::Fixed(size[0], size[1]/2);
 	m_lowThrustPowerOptions->SetTransparency(true);
 	Add(m_lowThrustPowerOptions, 10, 200);
-	for (int i = 0; i < COUNTOF(LOW_THRUST_LEVELS); ++i) {
+	for (int i = 0; i < int(COUNTOF(LOW_THRUST_LEVELS)); ++i) {
 		assert(i < 9); // otherwise the shortcuts break
 		const int ypos = i*32;
 
