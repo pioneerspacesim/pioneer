@@ -99,16 +99,14 @@ void SystemView::ResetViewpoint()
 
 void SystemView::PutOrbit(SystemBody *b, vector3d offset)
 {
-	std::vector<vector3f> vts;
+	vector3f vts[100];
 	Color green(0.f, 1.f, 0.f, 1.f);
-	int vcount = 0;
-	for (double t=0.0; t<1.0; t += 0.01) {
+	for (int i = 0; i < int(COUNTOF(vts)); ++i) {
+		const double t = double(i) / double(COUNTOF(vts));
 		vector3d pos = b->orbit.EvenSpacedPosAtTime(t);
-		pos = offset + pos * double(m_zoom);
-		vts.push_back(vector3f(pos));
-		vcount++;
+		vts[i] = vector3f(offset + pos * double(m_zoom));
 	}
-	m_renderer->DrawLines(vcount-1, &vts[0], green, LINE_LOOP);
+	m_renderer->DrawLines(COUNTOF(vts), vts, green, LINE_LOOP);
 }
 
 void SystemView::OnClickObject(SystemBody *b)

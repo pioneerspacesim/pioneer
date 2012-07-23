@@ -3832,6 +3832,8 @@ namespace ModelFuncs {
 	{
 		assert(s_curParams != 0);
 		int n = luaL_checkinteger(L, 1);
+		if (n < 0 || n > int(COUNTOF(s_curParams->pMat)))
+			return luaL_error(L, "argument #1 of get_arg_material is out of range");
 		lua_createtable (L, 11, 0);
 
 		const LmrMaterial &mat = s_curParams->pMat[n];
