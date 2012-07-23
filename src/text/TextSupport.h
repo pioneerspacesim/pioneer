@@ -20,6 +20,12 @@ int utf8_decode_char(Uint32 *chr, const char *src);
 //  returns: number of bytes in the encoded character
 int utf8_encode_char(Uint32 chr, char buf[4]);
 
+// returns true if the char c is an ASCII letter, a digit
+// or an underscore.
+inline bool is_alphanumunderscore(char c) {
+	return (c == '_' || (c >= '0' && c <= '9') || (c  >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+}
+
 }
 
 #endif

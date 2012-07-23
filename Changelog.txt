@@ -6,6 +6,8 @@ Alpha 25
      * Catalan translation (#1371)
      * Hyperjumps now have sound effects (#1379)
      * Terrains have been update, and more terrains added for asteroids (#1349)
+     * Text entry widgets (notably the Lua console) now support CTRL+LEFT and
+       CTRL+RIGHT arrows to jump to word boundaries (#1392, #1372)
 
    * Minor changes and tweaks
      * On Windows, error messages for graphics are shown in a message box,
