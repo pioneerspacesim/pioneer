@@ -731,14 +731,18 @@ void Pi::HandleEvents()
 				Pi::onKeyRelease.emit(&event.key.keysym);
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				Pi::mouseButton[event.button.button] = 1;
-				Pi::onMouseButtonDown.emit(event.button.button,
-						event.button.x, event.button.y);
+				if (event.button.button < COUNTOF(Pi::mouseButton)) {
+					Pi::mouseButton[event.button.button] = 1;
+					Pi::onMouseButtonDown.emit(event.button.button,
+							event.button.x, event.button.y);
+				}
 				break;
 			case SDL_MOUSEBUTTONUP:
-				Pi::mouseButton[event.button.button] = 0;
-				Pi::onMouseButtonUp.emit(event.button.button,
-						event.button.x, event.button.y);
+				if (event.button.button < COUNTOF(Pi::mouseButton)) {
+					Pi::mouseButton[event.button.button] = 0;
+					Pi::onMouseButtonUp.emit(event.button.button,
+							event.button.x, event.button.y);
+				}
 				break;
 			case SDL_MOUSEMOTION:
 				Pi::mouseMotion[0] += event.motion.xrel;
