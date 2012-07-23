@@ -318,7 +318,10 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 void Planet::SubRender(Renderer *r, const vector3d &camPos)
 {
-	if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings(r);
+	const SystemBody *sbody = GetSystemBody();
+	if ((sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) || (sbody->m_ringStyle > SystemBody::RING_STYLE_NONE)) {
+		DrawGasGiantRings(r);
+	}
 
 	if (!AreShadersEnabled()) DrawAtmosphere(r, camPos);
 }
