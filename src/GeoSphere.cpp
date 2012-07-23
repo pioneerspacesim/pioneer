@@ -1331,7 +1331,7 @@ void CalcAtmosphereParams(const SystemBody *sbody, atmosphereParameters &outAtmo
 	double atmosDensity;
 
 	sbody->GetAtmosphereFlavor(&outAtmosParams.atmosCol, &atmosDensity);
-	atmosDensity *= 1e-5;
+	atmosDensity *= 1e-4;
 
 	outAtmosParams.atmosDensity = static_cast<float>(atmosDensity);
 
@@ -1371,6 +1371,8 @@ void CalcAtmosphereParams(const SystemBody *sbody, atmosphereParameters &outAtmo
 	// integrate atmospheric density between surface and this radius. this is 10x the scale
 	// height, which should be a height at which the atmospheric density is negligible
 	outAtmosParams.atmosRadius = 1.0f + static_cast<float>(10.0f * atmosScaleHeight) / sbody->GetRadius();
+
+	outAtmosParams.planetRadius = static_cast<float>(radiusPlanet_in_m);
 }
 
 void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, const float scale) {

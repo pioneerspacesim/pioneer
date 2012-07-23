@@ -75,6 +75,7 @@ struct atmosphereParameters {
 	float atmosRadius;
 	float atmosInvScaleHeight;
 	float atmosDensity;
+	float planetRadius;
 	Color atmosCol;
 };
 

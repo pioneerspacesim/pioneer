@@ -297,6 +297,13 @@ void CityOnPlanet::Render(Graphics::Renderer *r, Camera *camera, const SpaceStat
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
 	cityobj_params.time = Pi::game->GetTime();
 
+	SpaceStation *station_ = const_cast<SpaceStation *>(station);
+	cityobj_params.atmosphericModel = station_->GetLmrObjParams().atmosphericModel;
+	cityobj_params.atmosParams = station_->GetLmrObjParams().atmosParams;
+	cityobj_params.directLight = station_->GetLmrObjParams().directLight;
+	cityobj_params.ambientLight = station_->GetLmrObjParams().ambientLight;
+	cityobj_params.planetCenter = station_->GetLmrObjParams().planetCenter;
+	
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
 			i != m_buildings.end(); ++i) {
 
@@ -309,11 +316,19 @@ void CityOnPlanet::Render(Graphics::Renderer *r, Camera *camera, const SpaceStat
 		Color oldSceneAmbientColor;
 		if (illumination <= minIllumination)
 			oldSceneAmbientColor = Graphics::State::GetGlobalSceneAmbientColor();
-// fade conditions for models
-#define fadeInStart 10.0
-#define fadeInLength 200.0
 
-		FadeInModelIfDark(r, (*i).clipRadius, pos.Length(), fadeInStart, fadeInLength, illumination, minIllumination);
+		// fade conditions for models
+		double fadeInEnd, fadeInLength;
+		if (Graphics::AreShadersEnabled()) {
+			fadeInEnd = 10.0;
+			fadeInLength = 200.0;
+		}
+		else {
+			fadeInEnd = 2000.0;
+			fadeInLength = 6000.0;
+		}
+
+		FadeInModelIfDark(r, (*i).clipRadius, pos.Length(), fadeInEnd, fadeInLength, illumination, minIllumination);
 
 		matrix4x4f _rot;
 		for (int e=0; e<16; e++) _rot[e] = float(rot[(*i).rotation][e]);

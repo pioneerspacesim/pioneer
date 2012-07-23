@@ -63,8 +63,12 @@ struct LmrObjParams
 
 	struct LmrMaterial pMat[3];
 
+	// for models in atmospheres
 	bool atmosphericModel;
-	atmosphereParameters atmosParams;
+	atmosphereParameters atmosParams; // set by 
+	vector3f planetCenter; // in camera space
+	float directLight;
+	float ambientLight;
 };
 
 struct RenderState;

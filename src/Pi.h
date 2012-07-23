@@ -153,6 +153,7 @@ public:
 	static LuaConsole *luaConsole;
 	static ShipCpanel *cpan;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
+	static bool modelsInAtmosphere;
 	static Graphics::Renderer* renderer; // blargh
 
 #if WITH_OBJECTVIEWER

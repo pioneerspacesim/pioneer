@@ -151,6 +151,8 @@ const char * const Pi::combatRating[] = {
 	Lang::DEADLY,
 	Lang::ELITE
 };
+bool Pi::modelsInAtmosphere = true;
+
 Graphics::Renderer *Pi::renderer;
 
 #if WITH_OBJECTVIEWER
