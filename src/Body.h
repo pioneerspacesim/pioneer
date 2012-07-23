@@ -68,6 +68,9 @@ public:
 	void MarkDead() { m_dead = true; }
 	bool IsDead() const { return m_dead; }
 
+	// all Bodies are in space... except where they're not (Ships hidden in hyperspace clouds)
+	virtual bool IsInSpace() const { return true; }
+
 	// Interpolated between physics ticks.
 	const matrix4x4d &GetInterpolatedTransform() const { return m_interpolatedTransform; }
 	vector3d GetInterpolatedPosition() const {
