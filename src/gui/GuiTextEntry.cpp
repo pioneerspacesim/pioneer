@@ -61,14 +61,14 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 			while(current != ending) {
 				bool alphanum;
 
-				current += direction;
 				alphanum = Text::is_alphanumunderscore(m_text[current]);
-				found_word = found_word || alphanum; // You need to be in a word before finding its boudaries.
 
 				if (found_word && !alphanum) { // Word boundary.
 					current -= inspect_offset; // Make up for the initial offset.
 					break;
 				}
+				current += direction;
+				found_word = found_word || alphanum; // You need to be in a word before finding its boudaries.
 			}
 			SetCursorPos(current);
 		}
