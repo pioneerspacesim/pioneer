@@ -115,6 +115,29 @@ void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 		m_completionList.clear();
 	}
 
+	if ((sym->sym == SDLK_LEFT || sym->sym == SDLK_RIGHT) &&  (sym->mod & KMOD_CTRL)) {
+		bool forward = sym->sym == SDLK_RIGHT;
+		int direction = (forward) ? 1 : -1;
+		int inspect_offset = (forward) ? 0 : -1; // When going back, we need the character before the cursor.
+		int ending = (forward) ? m_entryField->GetText().size() : 0;
+		std::string text = m_entryField->GetText();
+		int current = m_entryField->GetCursorPos()+inspect_offset;
+		bool found_word = false;
+
+		while(current != ending) {
+			bool alphanum;
+
+			current += direction;
+			alphanum = is_alphanumunderscore(text[current]);
+			found_word = found_word || alphanum; // You need to be in a word before finding its boudaries.
+
+			if (found_word && !alphanum) { // Word boundary.
+				current -= inspect_offset; // Make up for the initial offset.
+				break;
+			}
+		}
+		m_entryField->SetCursorPos(current);
+	}
 
 	if (((sym->unicode == '\n') || (sym->unicode == '\r')) && ((sym->mod & KMOD_CTRL) == 0)) {
 		ExecOrContinue();
