@@ -151,7 +151,7 @@ const char * const Pi::combatRating[] = {
 	Lang::DEADLY,
 	Lang::ELITE
 };
-bool Pi::modelsInAtmosphere = true;
+bool Pi::modelsInAtmosphere = false;
 
 Graphics::Renderer *Pi::renderer;
 
@@ -439,6 +439,8 @@ void Pi::Init()
 
 	CustomSystem::Init();
 	draw_progress(0.4f);
+
+	Pi::modelsInAtmosphere = (Pi::config->Int("EnableModelsInAtmosphereShader")==1)?true:false;
 
 	LmrModelCompilerInit(Pi::renderer);
 	LmrNotifyScreenWidth(Pi::scrWidth);
