@@ -6,6 +6,7 @@
 #include "gui/GuiTextEntry.h"
 #include "gui/GuiLabel.h"
 #include "text/TextureFont.h"
+#include "text/TextSupport.h"
 #include "KeyBindings.h"
 #include <sstream>
 #include <stack>
@@ -44,10 +45,6 @@ bool LuaConsole::IsActive() const {
 
 bool LuaConsole::OnFilterKeys(const SDL_keysym *sym) {
 	return !KeyBindings::toggleLuaConsole.binding.Matches(sym);
-}
-
-static bool is_alphanumunderscore(char c) {
-	return (c == '_' || (c >= '0' && c <= '9') || (c  >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
 void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
@@ -128,7 +125,7 @@ void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 			bool alphanum;
 
 			current += direction;
-			alphanum = is_alphanumunderscore(text[current]);
+			alphanum = Text::is_alphanumunderscore(text[current]);
 			found_word = found_word || alphanum; // You need to be in a word before finding its boudaries.
 
 			if (found_word && !alphanum) { // Word boundary.
@@ -207,7 +204,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	std::string::const_iterator current_begin = statement.begin(); // To keep record when breaking off the loop.
 	for (std::string::const_reverse_iterator r_str_it = statement.rbegin();
 			r_str_it != statement.rend(); r_str_it++) {
-		if(is_alphanumunderscore(*r_str_it)) {
+		if(Text::is_alphanumunderscore(*r_str_it)) {
 			expect_symbolname = false;
 			continue;
 		} else if (expect_symbolname) // Wrong syntax.
