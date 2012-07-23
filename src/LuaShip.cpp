@@ -292,6 +292,8 @@ static int l_ship_explode(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:Explode() cannot be called on a ship in hyperspace");
 	s->Explode();
 
 	LUA_DEBUG_END(l, 0);
@@ -804,6 +806,8 @@ static int l_ship_get_equip_free(lua_State *l)
 static int l_ship_jettison(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:Jettison() cannot be called on a ship in hyperspace");
 	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
 
 	lua_pushboolean(l, s->Jettison(e));
@@ -900,6 +904,8 @@ static int l_ship_undock(lua_State *l)
 static int l_ship_fire_missile_at(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:FireMissileAt() cannot be called on a ship in hyperspace");
 	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
 	Ship *target = LuaShip::GetFromLua(3);
 
@@ -1186,6 +1192,8 @@ static int l_ship_attr_fuel(lua_State *l)
 static int l_ship_ai_kill(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIKill() cannot be called on a ship in hyperspace");
 	Ship *target = LuaShip::GetFromLua(2);
 	s->AIKill(target);
 	return 0;
@@ -1213,6 +1221,8 @@ static int l_ship_ai_kill(lua_State *l)
 static int l_ship_ai_fly_to(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIFlyTo() cannot be called on a ship in hyperspace");
 	Body *target = LuaBody::GetFromLua(2);
 	s->AIFlyTo(target);
 	return 0;
@@ -1240,6 +1250,8 @@ static int l_ship_ai_fly_to(lua_State *l)
 static int l_ship_ai_dock_with(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIDockWith() cannot be called on a ship in hyperspace");
 	SpaceStation *target = LuaSpaceStation::GetFromLua(2);
 	s->AIDock(target);
 	return 0;
@@ -1267,6 +1279,8 @@ static int l_ship_ai_dock_with(lua_State *l)
 static int l_ship_ai_enter_low_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIEnterLowOrbit() cannot be called on a ship in hyperspace");
 	Body *target = LuaBody::GetFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
@@ -1296,6 +1310,8 @@ static int l_ship_ai_enter_low_orbit(lua_State *l)
 static int l_ship_ai_enter_medium_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIEnterMediumOrbit() cannot be called on a ship in hyperspace");
 	Body *target = LuaBody::GetFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
@@ -1325,6 +1341,8 @@ static int l_ship_ai_enter_medium_orbit(lua_State *l)
 static int l_ship_ai_enter_high_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIEnterHighOrbit() cannot be called on a ship in hyperspace");
 	Body *target = LuaBody::GetFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
