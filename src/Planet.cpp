@@ -71,6 +71,7 @@ struct GasGiantDef_t {
 	ColRangeObj_t poleCol;
 };
 
+// order of GasGiantDefs must match order of values in SystemBody::RingStyle
 static GasGiantDef_t ggdefs[] = {
 {
 	/* jupiter */
@@ -78,7 +79,7 @@ static GasGiantDef_t ggdefs[] = {
 	20, 30,
 	0, 0,
 	0.5,
-	{ { .61f,.48f,.384f,.4f }, {0,0,0,.2f}, 0.3f },
+	{ { .61f,.48f,.384f,.7f }, {0,0,0,.15f}, 0.3f },
 	{ { .99f,.76f,.62f,1 }, { 0,.1f,.1f,0 }, 0.3f },
 	{ { .99f,.76f,.62f,.5f }, { 0,.1f,.1f,0 }, 0.3f },
 	{ { .99f,.76f,.62f,1 }, { 0,.1f,.1f,0 }, 0.7f },
@@ -89,7 +90,7 @@ static GasGiantDef_t ggdefs[] = {
 	8, 20, // blob range
 	0.2f, 0.2f, // pole size
 	0.5,
-	{ { .61f,.48f,.384f,.75f }, {0,0,0,.2f}, 0.3f },
+	{ { .61f,.48f,.384f,.85f }, {0,0,0,.1f}, 0.3f },
 	{ { .87f, .68f, .39f, 1 }, { .2f,0,0,.3f }, 0.1f },
 	{ { .87f, .68f, .39f, 1 }, { 0,0,.2f,.1f }, 0.1f },
 	{ { .87f, .68f, .39f, 1 }, { .1f,0,0,.1f }, 0.1f },
@@ -100,7 +101,7 @@ static GasGiantDef_t ggdefs[] = {
 	2, 6,
 	0, 0,
 	0.5,
-	{ { .71f,.68f,.684f,.4f }, {0,0,0,.2f}, 0.3f },
+	{ { .71f,.68f,.684f,.65f }, {0,0,0,.15f}, 0.3f },
 	{ { .31f,.44f,.73f,1 }, {0,0,0,0}, .05f}, // body col
 	{ { .31f,.74f,.73f,0.5f }, {0,0,0,0}, .1f},// hoop col
 	{ { .21f,.34f,.54f,1 }, {0,0,0,0}, .05f},// blob col
@@ -111,7 +112,7 @@ static GasGiantDef_t ggdefs[] = {
 	1, 2,
 	0, 0,
 	0.5,
-	{ { .51f,.48f,.384f,.4f }, {0,0,0,.3f}, 0.3f },
+	{ { .51f,.48f,.384f,.65f }, {0,0,0,.15f}, 0.3f },
 	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
 	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
 	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
@@ -122,7 +123,7 @@ static GasGiantDef_t ggdefs[] = {
 	10, 20,
 	0.2f, 0.2f,
 	0.5,
-	{ { .81f,.48f,.384f,.5f }, {0,0,0,.3f}, 0.3f },
+	{ { .81f,.48f,.384f,.7f }, {0,0,0,.15f}, 0.3f },
 	{ { .4f,.1f,0,1 }, {0,0,0,0}, 0.1f },
 	{ { .4f,.1f,0,1 }, {0,0,0,0}, 0.1f },
 	{ { .4f,.1f,0,1 }, {0,0,0,0}, 0.1f },
@@ -150,7 +151,7 @@ static void DrawRing(double inner, double outer, const Color &color, Renderer *r
 
 void Planet::DrawGasGiantRings(Renderer *renderer)
 {
-	renderer->SetBlendMode(BLEND_ALPHA_ONE);
+	renderer->SetBlendMode(BLEND_ALPHA);
 	glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT );
 	renderer->SetDepthTest(true);
 	glEnable(GL_NORMALIZE);
@@ -162,18 +163,35 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	mat.shader = Graphics::planetRingsShader[Pi::worldView->GetNumLights()-1];
 
 //	MTRand rng((int)Pi::game->GetTime());
-	MTRand rng(GetSystemBody()->seed+965467);
+	MTRand rng(GetSystemBody()->seed+9654678);
 
 	double noiseOffset = 256.0*rng.Double();
 	float baseCol[4];
 
 	// just use a random gas giant flavour for the moment
-	GasGiantDef_t &ggdef = ggdefs[rng.Int32(COUNTOF(ggdefs))];
-	ggdef.ringCol.GenCol(baseCol, rng);
+	const SystemBody::RingStyle ringStyle = GetSystemBody()->m_ringStyle;
+	int ggdefid;
+	bool hasRings;
+	switch (ringStyle) {
+		case SystemBody::RING_STYLE_FROM_SEED:
+			ggdefid = rng.Int32(COUNTOF(ggdefs));
+			hasRings = (rng.Double(1.0) < ggdefs[ggdefid].ringProbability);
+			break;
+		case SystemBody::RING_STYLE_NONE:
+			hasRings = false;
+			break;
+		default:
+			ggdefid = int(ringStyle) - SystemBody::RING_STYLE_JUPITER;
+			hasRings = true;
+			break;
+	}
 
-	const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
+	if (hasRings) {
+		GasGiantDef_t &ggdef = ggdefs[ggdefid];
+		ggdef.ringCol.GenCol(baseCol, rng);
 
-	if (rng.Double(1.0) < ggdef.ringProbability) {
+		const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
+
 		float rpos = float(rng.Double(1.15,1.5));
 		float end = rpos + float(rng.Double(0.1, 1.0));
 		end = std::min(end, 2.5f);
@@ -282,7 +300,10 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 void Planet::SubRender(Renderer *r, const vector3d &camPos)
 {
-	if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings(r);
+	const SystemBody *sbody = GetSystemBody();
+	if ((sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) || (sbody->m_ringStyle > SystemBody::RING_STYLE_NONE)) {
+		DrawGasGiantRings(r);
+	}
 
 	if (!AreShadersEnabled()) DrawAtmosphere(r, camPos);
 }

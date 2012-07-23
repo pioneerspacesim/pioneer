@@ -1,4 +1,4 @@
-﻿#ifdef _WIN32
+#ifdef _WIN32
 
 #ifndef _WIN32_TEXTUTILS_H
 #define _WIN32_TEXTUTILS_H
