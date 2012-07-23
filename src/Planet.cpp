@@ -108,6 +108,7 @@ struct GasGiantDef_t {
 	ColRangeObj_t ringCol;
 };
 
+// order of GasGiantDefs must match order of values in SystemBody::RingStyle
 static const int NUM_GGDEFS = 5;
 static GasGiantDef_t ggdefs[NUM_GGDEFS] = {
 {
@@ -186,12 +187,29 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	float baseCol[4];
 
 	// just use a random gas giant flavour for the moment
-	GasGiantDef_t &ggdef = ggdefs[rng.Int32(COUNTOF(ggdefs))];
-	ggdef.ringCol.GenCol(baseCol, rng);
+	const SystemBody::RingStyle ringStyle = GetSystemBody()->m_ringStyle;
+	int ggdefid;
+	bool hasRings;
+	switch (ringStyle) {
+		case SystemBody::RING_STYLE_FROM_SEED:
+			ggdefid = rng.Int32(COUNTOF(ggdefs));
+			hasRings = (rng.Double(1.0) < ggdefs[ggdefid].ringProbability);
+			break;
+		case SystemBody::RING_STYLE_NONE:
+			hasRings = false;
+			break;
+		default:
+			ggdefid = int(ringStyle) - SystemBody::RING_STYLE_JUPITER;
+			hasRings = true;
+			break;
+	}
 
-	const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
+	if (hasRings) {
+		GasGiantDef_t &ggdef = ggdefs[ggdefid];
+		ggdef.ringCol.GenCol(baseCol, rng);
 
-	if (rng.Double(1.0) < ggdef.ringProbability) {
+		const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
+
 		float rpos = float(rng.Double(1.15,1.5));
 		float end = rpos + float(rng.Double(0.1, 1.0));
 		end = std::min(end, 2.5f);
