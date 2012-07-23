@@ -927,13 +927,14 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		if (kid->type == SystemBody::TYPE_PLANET_ASTEROID) kid->mass /= 100000;
 
 		kid->m_metallicity    = csbody->metallicity;
-		kid->m_volatileGas    = csbody->volatileGas;
+		//multiple of Earth's surface density
+		kid->m_volatileGas    = csbody->volatileGas*fixed(1225,1000);
 		kid->m_volatileLiquid = csbody->volatileLiquid;
 		kid->m_volatileIces   = csbody->volatileIces;
 		kid->m_volcanicity    = csbody->volcanicity;
 		kid->m_atmosOxidizing = csbody->atmosOxidizing;
 		kid->m_life           = csbody->life;
-
+		
 		kid->rotationPeriod = csbody->rotationPeriod;
 		kid->eccentricity = csbody->eccentricity;
 		kid->orbitalOffset = csbody->orbitalOffset;
@@ -968,6 +969,7 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->orbMax = 2*csbody->semiMajorAxis - kid->orbMin;
 
 		kid->PickAtmosphere();
+		
 
 		CustomGetKidsOf(kid, csbody->children, outHumanInfestedness, rand);
 	}
@@ -1158,7 +1160,12 @@ void SystemBody::PickAtmosphere()
 			} else {
 				m_atmosColor = Color(0.0, 0.0, 0.0, 0.0f);
 			}
-			m_atmosDensity = m_volatileGas.ToDouble();
+
+			m_atmosDensity = m_volatileGas.ToDouble(); 
+			
+			
+			
+
 			//printf("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);
 			//printf("-------------------------------\n");
 			break;
