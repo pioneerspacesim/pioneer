@@ -429,6 +429,16 @@ def main():
                 es = list(extract_enums(sys.stdin))
             else:
                 with open(path, 'rU') as fl:
+                    # skip an optional UTF-8 Byte Order Mark
+                    if sys.version_info[0] >= 3:
+                        hasbom = (fl.read(1) == '\uFEFF')
+                    else:
+                        hasbom = (fl.read(3) == '\xef\xbb\xbf')
+                    if hasbom:
+                        sys.stderr.write("Warning: file '" + path + "' uses a UTF-8 Byte Order Mark\n")
+                    else:
+                        fl.seek(0)
+
                     es = list(extract_enums(fl))
                 if es:
                     if options.outfile == '-':
