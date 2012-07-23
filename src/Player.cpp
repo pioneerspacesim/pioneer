@@ -12,6 +12,10 @@
 #include "SpaceStationView.h"
 #include "WorldView.h"
 
+//Some player specific sounds
+static Sound::Event s_soundUndercarriage;
+static Sound::Event s_soundHyperdrive;
+
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
 	SetController(new PlayerShipController());
@@ -72,10 +76,9 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 //XXX all ships should make this sound
 bool Player::SetWheelState(bool down)
 {
-	static Sound::Event sndev;
 	bool did = Ship::SetWheelState(down);
 	if (did) {
-		sndev.Play(down ? "UC_out" : "UC_in", 1.0f, 1.0f, 0);
+		s_soundUndercarriage.Play(down ? "UC_out" : "UC_in", 1.0f, 1.0f, 0);
 	}
 	return did;
 }
@@ -190,6 +193,7 @@ Sint64 Player::GetPrice(Equip::Type t) const
 //XXX ui stuff
 void Player::OnEnterHyperspace()
 {
+	s_soundHyperdrive.Play("Hyperdrive_Jump");
 	SetNavTarget(0);
 	SetCombatTarget(0);
 
@@ -239,3 +243,19 @@ void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 	Pi::onPlayerChangeTarget.emit();
 }
 //temporary targeting stuff ends
+
+Ship::HyperjumpStatus Player::StartHyperspaceCountdown(const SystemPath &dest)
+{
+	HyperjumpStatus status = Ship::StartHyperspaceCountdown(dest);
+
+	if (status == HYPERJUMP_OK)
+		s_soundHyperdrive.Play("Hyperdrive_Charge");
+
+	return status;
+}
+
+void Player::ResetHyperspaceCountdown()
+{
+	s_soundHyperdrive.Play("Hyperdrive_Abort");
+	Ship::ResetHyperspaceCountdown();
+}

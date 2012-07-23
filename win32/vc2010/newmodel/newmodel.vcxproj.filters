@@ -6,9 +6,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\pch.cpp">
-      <Filter>win32</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\newmodel\Thruster.cpp" />
     <ClCompile Include="..\..\..\src\newmodel\StaticGeometry.cpp" />
     <ClCompile Include="..\..\..\src\newmodel\Parser.cpp" />
@@ -26,6 +23,9 @@
     <ClCompile Include="..\..\..\src\newmodel\Billboard.cpp" />
     <ClCompile Include="..\..\..\src\newmodel\Animation.cpp" />
     <ClCompile Include="..\..\..\src\newmodel\DumpVisitor.cpp" />
+    <ClCompile Include="..\..\..\src\win32\pch.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\newmodel\Thruster.h" />
@@ -48,5 +48,8 @@
     <ClInclude Include="..\..\..\src\newmodel\AnimationChannel.h" />
     <ClInclude Include="..\..\..\src\newmodel\Animation.h" />
     <ClInclude Include="..\..\..\src\newmodel\DumpVisitor.h" />
+    <ClInclude Include="..\..\..\src\win32\pch.h">
+      <Filter>win32</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

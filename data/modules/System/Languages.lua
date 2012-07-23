@@ -16,7 +16,7 @@ Translate:Add({ Spanish = {
 
 ---- POLISH / POLSKI ----
 
-Translate:Add({ Polish = {
+Translate:Add({ Polski = {
 	["Your fuel tank is almost empty."] = "Zbiornik paliwa jest prawie pusty.",
 	["Your fuel tank is empty."] = "Zbiornik paliwa jest pusty.",
 }

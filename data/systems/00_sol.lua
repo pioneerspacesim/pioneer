@@ -9,6 +9,7 @@ local sol = CustomSystemBody:new('Sol', 'STAR_G')
 	:temp(5700)
 
 local mercury = CustomSystemBody:new('Mercury', 'PLANET_TERRESTRIAL')
+	:seed(1601554287)
 	:radius(f(38,100))
 	:mass(f(55,1000))
 	:temp(340)
@@ -104,7 +105,7 @@ local moon = {
 }
 
 local mars = CustomSystemBody:new('Mars', 'PLANET_TERRESTRIAL')
-	:seed(4)
+	:seed(0)
 	:radius(f(533,1000))
 	:mass(f(107,1000))
 	:temp(278)
@@ -136,6 +137,7 @@ local mars_starports = {
 
 local mars_moons = {
 	CustomSystemBody:new('Phobos', 'PLANET_ASTEROID')
+		:seed(439771126)
 		:radius(f(21,10000))
 		:mass(f(18,100000))
 		:temp(233)
@@ -166,7 +168,7 @@ local mars_moons = {
 }
 
 local jupiter = CustomSystemBody:new('Jupiter', 'PLANET_GAS_GIANT')
-	:seed(31)
+	:seed(128)
 	:radius(f(11,1))
 	:mass(f(3178,10))
 	:temp(165)
@@ -201,7 +203,7 @@ local jupiter_moons = {
 			:longitude(math.deg2rad(26.2)),
 	},
 	CustomSystemBody:new('Europa', 'PLANET_TERRESTRIAL')
-		:seed(10)
+		:seed(1319391771)
 		:radius(f(245,1000))
 		:mass(f(8,1000))
 		:temp(102)
@@ -220,7 +222,7 @@ local jupiter_moons = {
 			:rotation_period(f(1,24*60*3)),
 	},
 	CustomSystemBody:new('Ganymede', 'PLANET_TERRESTRIAL')
-		:seed(2)
+		:seed(-194927805)
 		:radius(f(413,1000))
 		:mass(f(25,1000))
 		:temp(180)
@@ -239,9 +241,11 @@ local jupiter_moons = {
 			:longitude(math.deg2rad(96)),
 	},
 	CustomSystemBody:new('Callisto', 'PLANET_TERRESTRIAL')
+		:seed(1272712740)
 		:radius(f(378,1000))
 		:mass(f(18,1000))
 		:temp(134)
+		:metallicity(f(1,4))
 		:semi_major_axis(f(126,10000))
 		:eccentricity(f(74,10000))
 		:inclination(math.deg2rad(0.192))
@@ -264,9 +268,11 @@ local saturn = CustomSystemBody:new('Saturn', 'PLANET_GAS_GIANT')
 
 local saturn_moons = {
 	CustomSystemBody:new('Dione', 'PLANET_TERRESTRIAL')
+		:seed(-562018355)
 		:radius(f(881,10000))
 		:mass(f(328,1000000))
 		:temp(87)
+		:metallicity(f(1,2))
 		:semi_major_axis(f(252,100000))
 		:eccentricity(f(22,10000))
 		:inclination(math.deg2rad(0.019))
@@ -304,9 +310,11 @@ local saturn_moons = {
 			:rotation_period(f(11,9)),
 	},
 	CustomSystemBody:new('Iapetus', 'PLANET_TERRESTRIAL')
+		:seed(763979898)
 		:radius(f(1155,10000))
 		:mass(f(3,10000))
 		:temp(115)
+		:metallicity(f(4,5))
 		:semi_major_axis(f(238,10000))
 		:eccentricity(f(29,1000))
 		:inclination(math.deg2rad(15.47))
@@ -373,6 +381,8 @@ local neptune = CustomSystemBody:new('Neptune', 'PLANET_GAS_GIANT')
 
 local neptune_moons = {
 	CustomSystemBody:new('Proteus', 'PLANET_ASTEROID')
+		:seed(1251043226)
+		:metallicity(f(7,10))
 		:radius(f(310,10000))
 		:mass(f(710,1000))
 		:temp(51)

@@ -129,10 +129,10 @@
     <ClCompile Include="..\..\src\ui\Slider.cpp" />
     <ClCompile Include="..\..\src\ui\TextLayout.cpp" />
     <ClCompile Include="..\..\src\ui\Widget.cpp" />
-    <ClCompile Include="..\src\pch.cpp">
+    <ClCompile Include="..\..\src\win32\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +163,7 @@
     <ClInclude Include="..\..\src\ui\TextLayout.h" />
     <ClInclude Include="..\..\src\ui\Widget.h" />
     <ClInclude Include="..\..\src\ui\WidgetSet.h" />
+    <ClInclude Include="..\..\src\win32\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

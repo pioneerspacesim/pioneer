@@ -46,7 +46,7 @@
     <ClCompile Include="..\..\src\ui\Slider.cpp" />
     <ClCompile Include="..\..\src\ui\TextLayout.cpp" />
     <ClCompile Include="..\..\src\ui\Widget.cpp" />
-    <ClCompile Include="..\src\pch.cpp">
+    <ClCompile Include="..\..\src\win32\pch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
   </ItemGroup>
@@ -78,6 +78,9 @@
     <ClInclude Include="..\..\src\ui\TextLayout.h" />
     <ClInclude Include="..\..\src\ui\Widget.h" />
     <ClInclude Include="..\..\src\ui\WidgetSet.h" />
+    <ClInclude Include="..\..\src\win32\pch.h">
+      <Filter>win32</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

@@ -48,14 +48,23 @@
     <ClCompile Include="..\..\..\src\terrain\TerrainHeightRuggedLava.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainHeightWaterSolid.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainHeightWaterSolidCanyons.cpp" />
-    <ClCompile Include="..\..\src\pch.cpp">
+    <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightAsteroid2.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightAsteroid3.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightAsteroid4.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightBarrenRock.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightBarrenRock2.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightBarrenRock3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\terrain\Terrain.h" />
     <ClInclude Include="..\..\..\src\terrain\TerrainFeature.h" />
     <ClInclude Include="..\..\..\src\terrain\TerrainNoise.h" />
+    <ClInclude Include="..\..\..\src\win32\pch.h">
+      <Filter>win32</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">
