@@ -46,6 +46,10 @@ bool LuaConsole::OnFilterKeys(const SDL_keysym *sym) {
 	return !KeyBindings::toggleLuaConsole.binding.Matches(sym);
 }
 
+static bool is_alphanumunderscore(char c) {
+	return (c == '_' || (c >= '0' && c <= '9') || (c  >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+}
+
 void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 	// XXX totally horrible doing this on every key press
 	ResizeRequest();
@@ -115,10 +119,6 @@ void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 	if (((sym->unicode == '\n') || (sym->unicode == '\r')) && ((sym->mod & KMOD_CTRL) == 0)) {
 		ExecOrContinue();
 	}
-}
-
-static bool is_alphanumunderscore(char c) {
-	return (c == '_' || (c >= '0' && c <= '9') || (c  >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
 static void fetch_keys_from_table(lua_State * l, int table_index, const std::string & chunk, std::vector<std::string> & completion_list, bool only_functions) {
