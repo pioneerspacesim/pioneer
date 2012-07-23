@@ -1331,7 +1331,8 @@ void CalcAtmosphereParams(const SystemBody *sbody, atmosphereParameters &outAtmo
 	double atmosDensity;
 
 	sbody->GetAtmosphereFlavor(&outAtmosParams.atmosCol, &atmosDensity);
-	atmosDensity *= 1e-4;
+	// adjust global atmosphere opacity
+	atmosDensity *= 1e-5;
 
 	outAtmosParams.atmosDensity = static_cast<float>(atmosDensity);
 
