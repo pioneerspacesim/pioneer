@@ -334,9 +334,15 @@ void SpaceStation::InitStation()
 	params.animationNamespace = "SpaceStationAnimation";
 	SetModel(m_type->modelName, true);
 
-	CalcAtmosphereParams(m_sbody, params.atmosParams);
-	if (params.atmosParams.atmosDensity > 0.0)
-		params.atmosphericModel = true;
+	// If spacestation is a surface starport enable atmosphere version of
+	// model shader and calculate non-per frame uniforms
+	
+	if (m_sbody->type == SystemBody::TYPE_STARPORT_SURFACE) {
+		CalcAtmosphereParams(m_sbody->parent, params.atmosParams);
+		if (params.atmosParams.atmosDensity > 0.0){
+			params.atmosphericModel = true;
+		}
+	}
 }
 
 SpaceStation::~SpaceStation()
@@ -873,11 +879,11 @@ void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensit
 
 // if twilight or night fade in model at close ranges by increasing scene ambient lighting to minIllumination
 // dist is distance in meters to model in camera space
-void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, double fadeInStart, double fadeInLength, double illumination, double minIllumination)
+void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, double fadeInEnd, double fadeInLength, double illumination, double minIllumination)
 {
 	if (illumination <= minIllumination) {
 		
-		const double fadeInEnd = std::max(modelRadius,10.0);
+		fadeInEnd = std::max(std::max(modelRadius,10.0), fadeInEnd);
 		const double fadeInStart = fadeInLength+fadeInEnd;
 		// 0 to 1 as dist goes from fadeInEnd to fadeInStart
 		double sceneAmbient = 1.0-(Clamp(dist, fadeInEnd, fadeInStart)-fadeInEnd)/((fadeInStart-fadeInEnd));
@@ -888,7 +894,13 @@ void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, d
 		r->SetAmbientColor(Color(sceneAmbient, sceneAmbient, sceneAmbient, 1.0));
 	}
 }
-
+// Renders space station and adjacent city if applicable
+// For orbital starports: renders as normal
+// For surface starports: 
+//	Lighting: Calculates available light for model and splits light between directly and ambiently lit
+//            Lighting is done by manipulating global lights or setting uniforms in atmospheric models shader
+//            Adds an ambient light at close ranges if dark by manipulating the global ambient level
+//	Atmosphere: Models are rendered using models-in-atmosphere shader if it is enabled in options 
 void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	LmrObjParams &params = GetLmrObjParams();
@@ -910,10 +922,8 @@ void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d 
 	} else {
 		planet = static_cast<Planet*>(_planet);
 		
-		
-
-
-		//calculate lighting
+		// calculate lighting
+		// available light is calculated and split between directly (diffusely/specularly) lit and ambiently lit
 		std::vector<Light> lights, newLights;
 		newLights = lights = camera->GetLights();
 		int numLights = lights.size();
@@ -922,28 +932,40 @@ void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d 
 
 		CalcLighting(_planet, ambient, intensity, lights);
 
-		//fade lights
-		for(int i = 0;i < numLights; i++) {
-			Color c = lights[i].GetDiffuse();
-			Color ca = lights[i].GetAmbient();
-			Color cs = lights[i].GetSpecular();
-			ca.r = c.r * float(ambient);
-			ca.g = c.g * float(ambient);
-			ca.b = c.b * float(ambient);
-			c.r*=float(intensity);
-			c.g*=float(intensity);
-			c.b*=float(intensity);
-			cs.r*=float(intensity);
-			cs.g*=float(intensity);
-			cs.b*=float(intensity);
-			newLights[i].SetDiffuse(c);
-			newLights[i].SetAmbient(ca);
-			newLights[i].SetSpecular(cs);
+		// if atmosphere shaders are disabled or no shaders implement lighting by manipulating lights
+		// otherwise save lighting and other uniforms for use in models in atmosphere shader
+		if (!(Graphics::AreShadersEnabled() && Pi::modelsInAtmosphere)){
+			for(int i = 0;i < numLights; i++) {
+				Color c = lights[i].GetDiffuse();
+				Color ca = lights[i].GetAmbient();
+				Color cs = lights[i].GetSpecular();
+				ca.r = c.r * float(ambient);
+				ca.g = c.g * float(ambient);
+				ca.b = c.b * float(ambient);
+				c.r*=float(intensity);
+				c.g*=float(intensity);
+				c.b*=float(intensity);
+				cs.r*=float(intensity);
+				cs.g*=float(intensity);
+				cs.b*=float(intensity);
+				newLights[i].SetDiffuse(c);
+				newLights[i].SetAmbient(ca);
+				newLights[i].SetSpecular(cs);
+			}
+			r->SetLights(numLights, &newLights[0]);
+		} else {
+			// calculate planet center coords in camera space
+			// the space station's frame is the planet's rotating frame
+			// the view transform is the transform from the space station's frame to camera
+			// therefore just find the frame's center in camera space
+			vector3d center = viewTransform*vector3d(0.0, 0.0, 0.0);
+			params.planetCenter = vector3f(center);
+
+			params.directLight = intensity;
+			params.ambientLight = ambient;
 		}
 
 		double overallLighting = ambient+intensity;
-
-		r->SetLights(numLights, &newLights[0]);
 
 		// turn off global ambient color
 		Color oldAmbient;
@@ -952,11 +974,20 @@ void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d 
 		r->SetAmbientColor(Color(0.0, 0.0, 0.0, 1.0));
 
 		// as the camera gets close adjust scene ambient so that intensity+ambient = minIllumination
-		#define minIllumination 0.2
-		#define fadeInStart 800.0
-		#define fadeInLength 1000.0
+		double fadeInEnd, fadeInLength, minIllumination;
+		if (Graphics::AreShadersEnabled()) {
+			minIllumination = 0.2;
+			fadeInEnd = 800.0;
+			fadeInLength = 1000.0;
+		}
+		else {
+			minIllumination = 0.3;
+			fadeInEnd = 1500.0;
+			fadeInLength = 3000.0;
+		}
+
 		FadeInModelIfDark(r, GetLmrCollMesh()->GetBoundingRadius(),
-							viewCoords.Length(), fadeInStart, fadeInLength,  overallLighting, minIllumination);
+							viewCoords.Length(), fadeInEnd, fadeInLength, overallLighting, minIllumination);
 
 		RenderLmrModel(viewCoords, viewTransform);
 
@@ -971,8 +1002,10 @@ void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d 
 			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform, overallLighting, minIllumination);
 		} 
 
-		// restore old lights
-		r->SetLights(numLights, &lights[0]);
+		if (!(Graphics::AreShadersEnabled() && Pi::modelsInAtmosphere)){
+			// restore old lights
+			r->SetLights(numLights, &lights[0]);
+		}
 
 		// restore old ambient color
 		r->SetAmbientColor(oldAmbient);
