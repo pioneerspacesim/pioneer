@@ -128,6 +128,15 @@ static int l_csb_height_map(lua_State *L)
 	return 1;
 }
 
+static int l_csb_rings(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	csb->ringStyle = static_cast<SystemBody::RingStyle>(
+		LuaConstants::GetConstantFromArg(L, "PlanetRingStyle", 2));
+	lua_settop(L, 1);
+	return 1;
+}
+
 static int l_csb_gc(lua_State *L)
 {
 	CustomSystemBody **csbptr = static_cast<CustomSystemBody**>(
@@ -160,6 +169,7 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "ocean_cover", &l_csb_ocean_cover },
 	{ "ice_cover", &l_csb_ice_cover },
 	{ "life", &l_csb_life },
+	{ "rings", &l_csb_rings },
 	{ "__gc", &l_csb_gc },
 	{ 0, 0 }
 };
@@ -475,6 +485,7 @@ CustomSystemBody::CustomSystemBody():
 	want_rand_offset(true),
 	latitude(0.0),
 	longitude(0.0),
+	ringStyle(SystemBody::RING_STYLE_FROM_SEED),
 	seed(0),
 	want_rand_seed(true)
 {}
