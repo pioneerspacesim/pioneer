@@ -105,6 +105,17 @@ public:
 		SUPERTYPE_STARPORT = 4,
 	};
 
+	// WARNING: the order of the items must match the order of GasGiantDefs in Planet.cpp
+	enum RingStyle { // <enum scope=SystemBody name=PlanetRingStyle prefix='RING_STYLE_'>
+		RING_STYLE_FROM_SEED = 0,
+		RING_STYLE_NONE = 1,
+		RING_STYLE_JUPITER = 2,
+		RING_STYLE_SATURN = 3,
+		RING_STYLE_NEPTUNE = 4,
+		RING_STYLE_URANUS = 5,
+		RING_STYLE_BROWN_DWARF = 6
+	};
+
 	std::string GetAstroDescription() const;
 	const char *GetIcon() const;
 	BodySuperType GetSuperType() const;
@@ -172,6 +183,8 @@ public:
 	fixed m_volcanicity; // 0 = none, 1.0 = fucking volcanic
 	fixed m_atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
 	fixed m_life; // 0.0 = dead, 1.0 = teeming
+
+	RingStyle m_ringStyle;
 
 	/* economy type stuff */
 	fixed m_population;

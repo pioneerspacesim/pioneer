@@ -934,6 +934,7 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->m_volcanicity    = csbody->volcanicity;
 		kid->m_atmosOxidizing = csbody->atmosOxidizing;
 		kid->m_life           = csbody->life;
+		kid->m_ringStyle      = csbody->ringStyle;
 
 		kid->rotationPeriod = csbody->rotationPeriod;
 		kid->eccentricity = csbody->eccentricity;
@@ -1063,6 +1064,7 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, MTR
 
 SystemBody::SystemBody()
 {
+	m_ringStyle = RING_STYLE_FROM_SEED;
 	heightMapFilename = 0;
 	heightMapFractal = 0;
 }
