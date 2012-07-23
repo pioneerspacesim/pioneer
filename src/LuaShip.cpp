@@ -1108,6 +1108,26 @@ static int l_ship_attr_alert_status(lua_State *l)
 }
 
 /*
+ * Attribute: flightState
+ *
+ * The current flight state of the ship. A <Constants.ShipFlightState> string.
+ *
+ * Availability:
+ *
+ *  alpha 25
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_attr_flight_state(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipFlightState", s->GetFlightState()));
+	return 1;
+}
+
+/*
  * Attribute: shipType
  *
  * The type of the ship. This value can be passed to <ShipType.GetShipType>
@@ -1434,6 +1454,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 	static const luaL_Reg l_attrs[] = {
 		{ "alertStatus", l_ship_attr_alert_status },
+		{ "flightState", l_ship_attr_flight_state },
 		{ "shipType",    l_ship_attr_ship_type },
 		{ "fuel",        l_ship_attr_fuel },
 		{ 0, 0 }
