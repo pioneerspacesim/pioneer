@@ -22,7 +22,7 @@ Newmodel::NModel *ModelCache::FindModel(const std::string &name)
 			Newmodel::NModel *m = loader.LoadModel(name);
 			m_models[name] = m;
 			return m;
-		} catch (Newmodel::LoadingError &err) {
+		} catch (Newmodel::LoadingError &) {
 			throw ModelNotFoundException();
 		}
 	}

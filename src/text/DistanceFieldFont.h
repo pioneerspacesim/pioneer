@@ -7,7 +7,7 @@
  * http://www.angelcode.com/products/bmfont/ combined with
  * http://bitsquid.blogspot.ca/2010/04/distance-field-based-rendering-of.html
  */
-#include "RefCounted.h"
+#include "libs.h"
 #include "StringRange.h"
 
 namespace Graphics {
