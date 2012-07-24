@@ -46,6 +46,7 @@ Planet::Planet(SystemBody *sbody): TerrainBody(sbody)
  */
 void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDensity) const
 {
+#if 0
 	static int bool atmosphereTableShown = false;
 	if (!atmosphereTableShown) {
 		for (double h = -1000; h <= 50000; h = h+1000.0) {
@@ -55,6 +56,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 		}
 		atmosphereTableShown = true;
 	}
+#endif
 
 	double surfaceDensity;
 	const double SPECIFIC_HEAT_AIR_CP=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
