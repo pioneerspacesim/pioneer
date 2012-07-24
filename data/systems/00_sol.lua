@@ -117,7 +117,7 @@ local mars = CustomSystemBody:new('Mars', 'PLANET_TERRESTRIAL')
 	-- XXX composition copied from earth until there's a way to indicate terraformed
 	:metallicity(f(4,5))
 	:volcanicity(f(2,10))
-	:atmos_density(f(3,5))
+	:atmos_density(f(9,50))
 	:atmos_oxidizing(f(950001,1000000))
 	:ocean_cover(f(38,100))
 	:ice_cover(f(678,1000))
@@ -213,7 +213,7 @@ local jupiter_moons = {
 		:ocean_cover(f(9,10))
 		:ice_cover(f(1,1))
 		:atmos_density(f(1,12))
-		:atmos_oxidizing(f(1,1))
+		:atmos_oxidizing(f(98,100))
 		:metallicity(f(3,4))
 		:volcanicity(f(0,1)),
 	{

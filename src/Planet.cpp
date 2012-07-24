@@ -9,6 +9,7 @@
 #include "graphics/VertexArray.h"
 
 using namespace Graphics;
+static const double ATMOSPHERE_RADIUS = 1.015;
 
 struct ColRangeObj_t {
 	float baseCol[4]; float modCol[4]; float modAll;
@@ -65,68 +66,45 @@ struct GasGiantDef_t {
 	float poleMin, poleMax; // size range in radians. zero for no poles.
 	float ringProbability;
 	ColRangeObj_t ringCol;
-	ColRangeObj_t bodyCol;
-	ColRangeObj_t hoopCol;
-	ColRangeObj_t blobCol;
-	ColRangeObj_t poleCol;
 };
 
-static GasGiantDef_t ggdefs[] = {
+static const int NUM_GGDEFS = 5;
+static GasGiantDef_t ggdefs[NUM_GGDEFS] = {
 {
 	/* jupiter */
 	30, 40, 0.05f,
 	20, 30,
 	0, 0,
 	0.5,
-	{ { .61f,.48f,.384f,.4f }, {0,0,0,.2f}, 0.3f },
-	{ { .99f,.76f,.62f,1 }, { 0,.1f,.1f,0 }, 0.3f },
-	{ { .99f,.76f,.62f,.5f }, { 0,.1f,.1f,0 }, 0.3f },
-	{ { .99f,.76f,.62f,1 }, { 0,.1f,.1f,0 }, 0.7f },
-    { { 0.0f,0.0f,0.0f,0 }, { 0,0.0f,0.0f,0}, 0.0f}
+    { { .61f,.48f,.384f,.8f }, {0,0,0,.2}, 0.3f },
 }, {
 	/* saturnish */
 	10, 25, 0.05f,
 	8, 20, // blob range
 	0.2f, 0.2f, // pole size
 	0.5,
-	{ { .61f,.48f,.384f,.75f }, {0,0,0,.2f}, 0.3f },
-	{ { .87f, .68f, .39f, 1 }, { .2f,0,0,.3f }, 0.1f },
-	{ { .87f, .68f, .39f, 1 }, { 0,0,.2f,.1f }, 0.1f },
-	{ { .87f, .68f, .39f, 1 }, { .1f,0,0,.1f }, 0.1f },
-	{ { .77f, .58f, .29f, 1 }, { .1f,.1f,0,.2f }, 0.2f },
+	{ { .61f,.48f,.384f,.85f }, {0,0,0,.1}, 0.3f },
 }, {
 	/* neptunish */
 	3, 6, 0.25f,
 	2, 6,
 	0, 0,
 	0.5,
-	{ { .71f,.68f,.684f,.4f }, {0,0,0,.2f}, 0.3f },
-	{ { .31f,.44f,.73f,1 }, {0,0,0,0}, .05f}, // body col
-	{ { .31f,.74f,.73f,0.5f }, {0,0,0,0}, .1f},// hoop col
-	{ { .21f,.34f,.54f,1 }, {0,0,0,0}, .05f},// blob col
-    { { 0.0f,0.0f,0.0f,0 }, { 0,0.0f,0.0f,0}, 0.0f}
+    { { .71f,.68f,.684f,.8f }, {0,0,0,.1f}, 0.3f },
 }, {
 	/* uranus-like *wink* */
 	2, 3, 0.1f,
 	1, 2,
 	0, 0,
 	0.5,
-	{ { .51f,.48f,.384f,.4f }, {0,0,0,.3f}, 0.3f },
-	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
-	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
-	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
-	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 }
+	{ { .51f,.48f,.384f,.8f }, {0,0,0,.1f}, 0.3f },
 }, {
 	/* brown dwarf-like */
 	0, 0, 0.05f,
 	10, 20,
 	0.2f, 0.2f,
 	0.5,
-	{ { .81f,.48f,.384f,.5f }, {0,0,0,.3f}, 0.3f },
-	{ { .4f,.1f,0,1 }, {0,0,0,0}, 0.1f },
-	{ { .4f,.1f,0,1 }, {0,0,0,0}, 0.1f },
-	{ { .4f,.1f,0,1 }, {0,0,0,0}, 0.1f },
-    { { 0.0f,0.0f,0.0f,0 }, { 0,0.0f,0.0f,0}, 0.0f}
+    { { .81f,.48f,.384f,.8f }, {0,0,0,.1f}, 0.3f },
 },
 };
 

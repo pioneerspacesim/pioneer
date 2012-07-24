@@ -8,6 +8,7 @@ Alpha 25
      * Terrains have been update, and more terrains added for asteroids (#1349)
      * Text entry widgets (notably the Lua console) now support CTRL+LEFT and
        CTRL+RIGHT arrows to jump to word boundaries (#1392, #1372)
+     * Atmospheric height and appearance is now more realistic (#972, #1278, #1357)
 
    * Minor changes and tweaks
      * On Windows, error messages for graphics are shown in a message box,
