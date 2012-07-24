@@ -114,6 +114,8 @@ public:
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
 
+	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
+
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
 	double GetHyperspaceDuration() const { return m_hyperspace.duration; }

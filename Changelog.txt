@@ -19,6 +19,7 @@ Alpha 25
      * Fix Lua error report format for missing objects (#1366)
      * Fix bug which prevented some Polish texts showing up (#1382)
      * Fix crash when autopilot tried to fly around a gravpoint (#1347, #1344)
+     * Fix crash when calculating distance to a ship in hyperspace (#1393, #1388)
 
    * Internal changes
      * Move platform specific code into src/{win32,posix} dirs (#1362, #1369)
