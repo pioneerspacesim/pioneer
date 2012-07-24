@@ -41,23 +41,63 @@ Planet::Planet(SystemBody *sbody): TerrainBody(sbody)
 /*
  * dist = distance from centre
  * returns pressure in earth atmospheres
+ * function is slightly different from the isothermal earth-based approximation used in shaders,
+ * but it isn't visually noticeable.
  */
 void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDensity) const
 {
-	Color c;
-	double surfaceDensity;
-	double atmosDist = dist/(GetSystemBody()->GetRadius()*ATMOSPHERE_RADIUS);
+#if 0
+	static int bool atmosphereTableShown = false;
+	if (!atmosphereTableShown) {
+		for (double h = -1000; h <= 50000; h = h+1000.0) {
+			double p = 0.0, d = 0.0;
+			GetAtmosphericState(h+this->GetSystemBody()->GetRadius(),&p,&d);
+			printf("height(m): %f, pressure(kpa): %f, density: %f\n", h, p*101325.0/1000.0, d);
+		}
+		atmosphereTableShown = true;
+	}
+#endif
 
-	GetSystemBody()->GetAtmosphereFlavor(&c, &surfaceDensity);
-	// kg / m^3
-	// exp term should be the same as in AtmosLengthDensityProduct GLSL function
-	*outDensity = 1.15*surfaceDensity * exp(-500.0 * (atmosDist - (2.0 - ATMOSPHERE_RADIUS)));
+	double surfaceDensity;
+	const double SPECIFIC_HEAT_AIR_CP=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
 	// XXX using earth's molar mass of air...
-	const double GAS_MOLAR_MASS = 28.97;
-	const double GAS_CONSTANT = 8.314;
-	const double KPA_2_ATMOS = 1.0 / 101.325;
-	// atmospheres
-	*outPressure = KPA_2_ATMOS*(*outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*double(GetSystemBody()->averageTemp);
+	const double GAS_MOLAR_MASS = 0.02897;
+	const double GAS_CONSTANT = 8.3144621;
+	const double PA_2_ATMOS = 1.0 / 101325.0;
+
+	// surface gravity = -G*M/planet radius^2
+	const double surfaceGravity_g = -G*this->GetSystemBody()->GetMass()/pow((this->GetSystemBody()->GetRadius()),2); // should be stored in sbody
+	// lapse rate http://en.wikipedia.org/wiki/Adiabatic_lapse_rate#Dry_adiabatic_lapse_rate
+	// the wet adiabatic rate can be used when cloud layers are incorporated
+	// fairly accurate in the troposphere
+	const double lapseRate_L = -surfaceGravity_g/SPECIFIC_HEAT_AIR_CP; // negative deg/m
+
+	const double height_h = (dist-GetSystemBody()->GetRadius()); // height in m
+	const double surfaceTemperature_T0 = this->GetSystemBody()->averageTemp; //K
+
+	Color c;
+	GetSystemBody()->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
+	// convert to moles/m^3
+	surfaceDensity/=GAS_MOLAR_MASS;
+
+	const double adiabaticLimit = surfaceTemperature_T0/lapseRate_L; //should be stored
+
+	// This model has no atmosphere beyond the adiabetic limit
+	if (height_h >= adiabaticLimit) {*outDensity = 0.0; *outPressure = 0.0; return;}
+
+	//P = density*R*T=(n/V)*R*T
+	const double surfaceP_p0 = PA_2_ATMOS*((surfaceDensity)*GAS_CONSTANT*surfaceTemperature_T0); // in atmospheres
+
+	// height below zero should not occur
+	if (height_h < 0.0) { *outPressure = surfaceP_p0; *outDensity = surfaceDensity; return; }
+
+	//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
+	*outPressure = pow(surfaceP_p0*(1-lapseRate_L*height_h/surfaceTemperature_T0),(-surfaceGravity_g*GAS_MOLAR_MASS/(GAS_CONSTANT*lapseRate_L)));// in ATM since p0 was in ATM
+	//                                                                               ^^g used is abs(g)
+	// temperature at height
+	double temp = surfaceTemperature_T0+lapseRate_L*height_h;
+
+	*outDensity = (*outPressure/(PA_2_ATMOS*GAS_CONSTANT*temp))*GAS_MOLAR_MASS;
 }
 
 struct GasGiantDef_t {

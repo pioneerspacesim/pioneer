@@ -37,7 +37,7 @@ local venus = CustomSystemBody:new('Venus', 'PLANET_TERRESTRIAL')
 	:axial_tilt(fixed.deg2rad(f(26,10)))
 	:metallicity(f(1,2))
 	:volcanicity(f(8,10))
-	:atmos_density(f(93,1))
+	:atmos_density(f(759,10))
 	:atmos_oxidizing(f(12,100))
 	:ocean_cover(f(0,1))
 	:ice_cover(f(0,1))
@@ -117,7 +117,7 @@ local mars = CustomSystemBody:new('Mars', 'PLANET_TERRESTRIAL')
 	-- XXX composition copied from earth until there's a way to indicate terraformed
 	:metallicity(f(4,5))
 	:volcanicity(f(2,10))
-	:atmos_density(f(9,50))
+	:atmos_density(f(489,1000))
 	:atmos_oxidizing(f(950001,1000000))
 	:ocean_cover(f(38,100))
 	:ice_cover(f(678,1000))
@@ -172,7 +172,7 @@ local jupiter = CustomSystemBody:new('Jupiter', 'PLANET_GAS_GIANT')
 	:radius(f(11,1))
 	:mass(f(3178,10))
 	:temp(165)
-	:atmos_density(f(2,1))
+	:atmos_density(f(163,100))
 	:atmos_oxidizing(f(8,10))
 	:semi_major_axis(f(5204,1000))
 	:eccentricity(f(488,10000))
@@ -192,7 +192,7 @@ local jupiter_moons = {
 		:rotation_period(f(177,100))
 		:metallicity(f(7,10))
 		:volcanicity(f(1,1))
-		:atmos_density(f(1,10))
+		:atmos_density(f(100,1225))
 		:atmos_oxidizing(f(12,100))
 		:ocean_cover(f(1,5))
 		:ice_cover(f(0,1))
@@ -212,8 +212,8 @@ local jupiter_moons = {
 		:rotation_period(f(355,100))
 		:ocean_cover(f(9,10))
 		:ice_cover(f(1,1))
-		:atmos_density(f(1,12))
-		:atmos_oxidizing(f(98,100))
+		:atmos_density(f(7,100))
+		:atmos_oxidizing(f(1,1))
 		:metallicity(f(3,4))
 		:volcanicity(f(0,1)),
 	{
@@ -233,7 +233,7 @@ local jupiter_moons = {
 		:semi_major_axis(f(72,10000))
 		:eccentricity(f(13,10000))
 		:inclination(math.deg2rad(0.2))
-		:atmos_density(f(10,98))
+		:atmos_density(f(83,1000))
 		:rotation_period(f(72,10)),
 	{
 		CustomSystemBody:new('Enki Catena', 'STARPORT_SURFACE')
@@ -285,7 +285,7 @@ local saturn_moons = {
 		:eccentricity(f(126,100000))
 		:inclination(math.deg2rad(0.345))
 		:rotation_period(f(452,100))
-		:atmos_density(f(1,10)),
+		:atmos_density(f(82,1000)),
 	CustomSystemBody:new('Titan', 'PLANET_TERRESTRIAL')
 		:seed(7)
 		:radius(f(400,1000))
@@ -294,7 +294,7 @@ local saturn_moons = {
 		:semi_major_axis(f(82,10000))
 		:eccentricity(f(288,10000))
 		:inclination(math.deg2rad(0.34854))
-		:atmos_density(f(15,1))
+		:atmos_density(f(122,10))
 		:atmos_oxidizing(f(6,10))
 		:rotation_period(f(15945,1000)),
 	{
@@ -357,7 +357,7 @@ local uranus_moons = {
 		:eccentricity(f(11,10000))
 		:inclination(math.deg2rad(0.34))
 		:rotation_period(f(87,10))
-		:atmos_density(f(1,10)),
+		:atmos_density(f(82,1000)),
 	CustomSystemBody:new('Oberon', 'PLANET_TERRESTRIAL')
 		:radius(f(1194,10000))
 		:mass(f(5046,10000000))
@@ -399,7 +399,7 @@ local neptune_moons = {
 		:volcanicity(f(3,10)) -- Cryovolcanos!
 		:inclination(math.deg2rad(156.885))
 		:rotation_period(f(141,24))
-		:atmos_density(f(1,10))
+		:atmos_density(f(100,1225))
 		:atmos_oxidizing(f(1,20)),
 	{
 		CustomSystemBody:new('Poseidon Station', 'STARPORT_ORBITAL')
