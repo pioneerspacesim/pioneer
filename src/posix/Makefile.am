@@ -6,6 +6,7 @@ AM_CXXFLAGS += $(WARN_CXXFLAGS)
 
 INCLUDES = -I$(top_srcdir)/src
 
-noinst_LIBRARIES = libwin32.a
-libwin32_a_SOURCES = \
-	FileSystemWin32.cpp
+noinst_LIBRARIES = libposix.a
+libposix_a_SOURCES = \
+	FileSystemPosix.cpp \
+	OSPosix.cpp

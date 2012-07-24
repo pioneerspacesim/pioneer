@@ -107,7 +107,7 @@ void Unserialize(Serializer::Reader &rd)
 /* The drawbacks of stuffing stuff into integers */
 static int GetCrimeIdxFromEnum(enum Crime crime)
 {
-	PiVerify(crime);
+	assert(crime);
 	for (int i=0; i<64; i++) {
 		if (crime & (1<<i)) return i;
 	}

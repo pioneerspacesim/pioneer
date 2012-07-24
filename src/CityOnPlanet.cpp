@@ -19,7 +19,6 @@ struct citybuilding_t {
 	const LmrCollMesh *collMesh;
 };
 
-#define MAX_BUILDING_LISTS 1
 struct citybuildinglist_t {
 	const char *modelTagName;
 	double minRadius, maxRadius;
@@ -27,7 +26,7 @@ struct citybuildinglist_t {
 	citybuilding_t *buildings;
 };
 
-citybuildinglist_t s_buildingLists[MAX_BUILDING_LISTS] = {
+static citybuildinglist_t s_buildingLists[] = {
 	{ "city_building", 800, 2000, 0, 0 },
 	//{ "city_power", 100, 250, 0, 0 },
 	//{ "city_starport_building", 300, 400, 0, 0 },
@@ -166,7 +165,7 @@ void CityOnPlanet::Init()
 	/* Resolve city model numbers since it is a bit expensive */
 	if (!s_cityBuildingsInitted) {
 		s_cityBuildingsInitted = true;
-		for (int i=0; i<MAX_BUILDING_LISTS; i++) {
+		for (unsigned int i=0; i<COUNTOF(s_buildingLists); i++) {
 			lookupBuildingListModels(&s_buildingLists[i]);
 		}
 	}
@@ -174,7 +173,7 @@ void CityOnPlanet::Init()
 
 void CityOnPlanet::Uninit()
 {
-	for (int list=0; list<MAX_BUILDING_LISTS; list++) {
+	for (unsigned int list=0; list<COUNTOF(s_buildingLists); list++) {
 		for (int build=0; build<s_buildingLists[list].numBuildings; build++) {
 			delete s_buildingLists[list].buildings[build].collMesh;
 		}
@@ -201,7 +200,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	/* Resolve city model numbers since it is a bit expensive */
 	if (!s_cityBuildingsInitted) {
 		s_cityBuildingsInitted = true;
-		for (int i=0; i<MAX_BUILDING_LISTS; i++) {
+		for (unsigned int i=0; i<COUNTOF(s_buildingLists); i++) {
 			lookupBuildingListModels(&s_buildingLists[i]);
 		}
 	}
@@ -230,7 +229,8 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	cityflavour[0].size = 500;
 
 	for (int i=1; i<CITYFLAVOURS; i++) {
-		cityflavour[i].buildingListIdx = MAX_BUILDING_LISTS>1 ? rand.Int32(MAX_BUILDING_LISTS-1) : 0;
+		cityflavour[i].buildingListIdx =
+			(COUNTOF(s_buildingLists) > 1 ? rand.Int32(COUNTOF(s_buildingLists)) : 0);
 		citybuildinglist_t *blist = &s_buildingLists[cityflavour[i].buildingListIdx];
 		double a = rand.Int32(-1000,1000);
 		double b = rand.Int32(-1000,1000);

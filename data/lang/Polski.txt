@@ -18,7 +18,7 @@ BUY
 SELL
     Sprzedaj
 STOCK
-    Magazyn
+    Zasoby
 CARGO
     Ładownia
 VID_LINK_DOWN
@@ -32,7 +32,7 @@ BOUGHT_1T_OF
 SOLD_1T_OF
     Sprzedałeś 1t: %commodity.
 WELCOME_TO_MARKET
-    Witamy w sklepie %station
+    Stacja %station. Witamy w sklepie.
 GO_BACK
     Powrót
 FITTING
@@ -50,11 +50,11 @@ TRADER_NOT_ENOUGH_MONEY
 NO_SPACE_ON_SHIP
     Nie masz wolnego miejsca na statku
 SOMEWHERE_SERVICES
-    Usługi dostępne w %station
+    Stacja %station. Dostępne usługi.
 SOMEWHERE_SHIPYARD
-    Stocznia %station
+    Stacja %station. Stocznia.
 SOMEWHERE_SHIP_REPAIRS
-    Usługi remontowe %station
+    Stacja %station. Stocznia. Usługi remontowe.
 PRICE_TO_FIT
     $ za montaż
 PRICE_TO_REMOVE
@@ -62,9 +62,9 @@ PRICE_TO_REMOVE
 WT
     Waga
 FIT
-    Zm.
+    [+]
 REMOVE
-    Usuń
+    [-]
 BUY_THIS_SHIP
     Kup statek
 SHIP_TYPE
@@ -78,7 +78,7 @@ NUMBER_TONNES
 WEIGHT_FULLY_LADEN
     Masa całkowita
 CAPACITY
-    Ładowność
+    Udźwig
 FORWARD_ACCEL_EMPTY
     Ciąg główny (pusty)
 NUMBER_G
@@ -114,7 +114,7 @@ VIEW
 SHIP_EQUIPMENT
     Wyposażenie statku
 SOMEWHERE_SHIP_EQUIPMENT
-    Wyposażenie statku dostępne w %station
+    Stacja %station. Stocznia. Dostępne wyposażenie statku.
 REPAIRS_AND_SERVICING
     Naprawy i serwis
 NEW_AND_RECONDITIONED_SHIPS
@@ -122,12 +122,12 @@ NEW_AND_RECONDITIONED_SHIPS
 BULLETIN_BOARD
     Ogłoszenia
 WELCOME_TO_SOMEWHERE
-    Witamy w %station
+    Stacja %station. Witamy.
 # This next translation does not have to be a real translation.  You can
 # write anything you like here.  It will appear in every space station
 # in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Witaj, podróżniku.  Witamy w stacji kosmicznej.  Mamy doniesienia o aktach wandalizmu i problemach graffiti.  Jeśli zauważysz oznakowanie wprowadzające w błąd, niepoprawne lub po prostu brakujące, prosimy o poinformowanie członka personelu.\nTlen jest obecnie bezpłatny.
+    Witaj, podróżniku.  Witamy na stacji kosmicznej.  Mamy doniesienia o aktach wandalizmu i problemach graffiti.  Jeśli zauważysz oznakowanie wprowadzające w błąd, niepoprawne lub po prostu brakujące, prosimy o poinformowanie członka personelu.\nTlen jest obecnie bezpłatny.
 REQUEST_LAUNCH
     Pozwolenie na start
 SHIPYARD
@@ -135,9 +135,9 @@ SHIPYARD
 COMMODITIES_MARKET
     Giełda towarów
 SOMEWHERE_COMMODITIES_MARKET
-    Towary dostępne w %station
+    Stacja %station. Dostępne towary.
 SOMEWHERE_SHIP_MARKET
-    Statki dostępne w %station
+    Stacja %station. Stocznia. Dostępne statki.
 CONTACT_LOCAL_POLICE
     Kontakt z lokalną policją
 COMMS_LINK
@@ -221,7 +221,7 @@ FULL_SCREEN
 OTHER_GRAPHICS_SETTINGS
     Inne ustawienia graficzne
 USE_SHADERS
-    Użyj cieniowania
+    Użyj cieniowania (wymagany restart)
 SOUND_SETTINGS
     Ustawienia dźwięku
 VOL_MASTER
@@ -251,9 +251,9 @@ MOUSE_INPUT
 INVERT_MOUSE_Y
     Odwróć Oś Y
 HUD
-	HUD
+    HUD
 DISPLAY_NAV_TUNNEL
-	Wyświetl tunel nawigacyjny
+    Wyświetl tunel nawigacyjny
 LANGUAGE_SELECTION
     Język (wymagany restart)
 
@@ -527,7 +527,7 @@ AXIS
 WEAPONS
     Bronie
 TARGET_OBJECT_IN_SIGHTS
-    Namierzenie nacelowanego obiektu
+    Zaznacz widoczny objekt
 FIRE_LASER
     Strzał lasera
 SHIP_ORIENTATION
@@ -567,13 +567,13 @@ INCREASE_SET_SPEED
 DECREASE_SET_SPEED
     Zmniejsz ustawioną prędkość
 SCANNER_CONTROL
-	Opcje skanera
+    Opcje skanera
 TOGGLE_SCAN_MODE
   	Zmiana trybu skanera
 INCREASE_SCAN_RANGE
-	Zwiększa zasięg skanera
+    Zwiększa zasięg skanera
 DECREASE_SCAN_RANGE
-	Zmniejsza zasięg skanera
+    Zmniejsza zasięg skanera
 TOGGLE_LUA_CONSOLE
     Aktywacja konsoli
 TOGGLE_HUD_MODE
@@ -609,7 +609,7 @@ ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Symulacja ewolucji wszechświata: %age{f.1} miliardów lat ;-)
 TOMBSTONE_EPITAPH
-    ŚWIĘTEJ PAMIĘCI
+    SPOCZYWAJ W POKOJU
 MM_START_NEW_GAME_EARTH
     Nowa gra: rozpocznij na Ziemi
 MM_START_NEW_GAME_E_ERIDANI
@@ -637,7 +637,7 @@ DOWNGRADING_ALERT_STATUS
 LASER_FIRE_DETECTED
     Statek pod ostrzałem!
 SOMEWHERE_POLICE
-    Policja %station
+    Stacja %station. Policja.
 WE_HAVE_NO_BUSINESS_WITH_YOU
     W tej chwili nie mamy do ciebie żadnych spraw.
 YOU_MUST_PAY_FINE_OF_N_CREDITS
@@ -1089,9 +1089,9 @@ HULL_TEMP
 WEAPON_TEMP
     Temp. broni
 HULL_INTEGRITY
-    Integr. kadłuba
+    Stan kadłuba
 SHIELD_INTEGRITY
-    Integr. osłon
+    Stan osłon
 FUEL
     Paliwo
 LAUNCH_PERMISSION_DENIED_BUSY

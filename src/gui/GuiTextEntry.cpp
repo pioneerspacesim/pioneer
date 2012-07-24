@@ -47,12 +47,31 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 	int oldNewlineCount = m_newlineCount;
 
 	// XXX moving the cursor is not UTF-8 safe
-	if (sym->sym == SDLK_LEFT) {
-		SetCursorPos(m_cursPos-1);
-		accepted = true;
-	}
-	if (sym->sym == SDLK_RIGHT) {
-		SetCursorPos(m_cursPos+1);
+	if (sym->sym == SDLK_LEFT || sym->sym == SDLK_RIGHT) {
+		bool forward = (sym->sym == SDLK_RIGHT);
+		int direction = (forward) ? 1 : -1;
+		if (!(sym->mod & KMOD_CTRL)) {
+			SetCursorPos(m_cursPos + direction);
+		} else {
+			int inspect_offset = (forward) ? 0 : -1; // When going back, we need the character before the cursor.
+			int ending = (forward) ? m_text.size() : 0;
+			int current = m_cursPos+inspect_offset;
+			bool found_word = false;
+
+			while(current != ending) {
+				bool alphanum;
+
+				alphanum = Text::is_alphanumunderscore(m_text[current]);
+
+				if (found_word && !alphanum) { // Word boundary.
+					current -= inspect_offset; // Make up for the initial offset.
+					break;
+				}
+				current += direction;
+				found_word = found_word || alphanum; // You need to be in a word before finding its boudaries.
+			}
+			SetCursorPos(current);
+		}
 		accepted = true;
 	}
 

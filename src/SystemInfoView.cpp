@@ -466,7 +466,7 @@ void SystemInfoView::BodyIcon::Draw()
 		    vector2f(size[0], size[1]),
 		    vector2f(0.f, size[1]),
 	    };
-	    m_renderer->DrawLines2D(4, vts, selectColor, Graphics::LINE_LOOP);
+	    m_renderer->DrawLines2D(COUNTOF(vts), vts, selectColor, Graphics::LINE_LOOP);
 	}
 }
 

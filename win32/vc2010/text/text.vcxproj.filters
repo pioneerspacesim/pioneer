@@ -5,7 +5,7 @@
     <ClCompile Include="..\..\..\src\text\TextSupport.cpp" />
     <ClCompile Include="..\..\..\src\text\TextureFont.cpp" />
     <ClCompile Include="..\..\..\src\text\VectorFont.cpp" />
-    <ClCompile Include="..\..\src\pch.cpp">
+    <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
   </ItemGroup>
@@ -15,6 +15,9 @@
     <ClInclude Include="..\..\..\src\text\TextSupport.h" />
     <ClInclude Include="..\..\..\src\text\TextureFont.h" />
     <ClInclude Include="..\..\..\src\text\VectorFont.h" />
+    <ClInclude Include="..\..\..\src\win32\pch.h">
+      <Filter>win32</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

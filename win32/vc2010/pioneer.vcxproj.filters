@@ -1,20 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="win32">
-      <UniqueIdentifier>{c6f6480b-e8ec-4bbe-93f1-690ffac911c2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{2ef8ea5b-7c53-4337-93b0-a929d9103bd6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="win32\src">
-      <UniqueIdentifier>{145bffe2-bca9-4615-88b1-195d2578d4d0}</UniqueIdentifier>
+    <Filter Include="src\win32">
+      <UniqueIdentifier>{172c1b95-e18a-4158-8227-10b5cc882b62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\posix">
+      <UniqueIdentifier>{6d264ce7-1454-4144-a050-a665481a0a20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\pch.cpp">
-      <Filter>win32\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\AmbientSounds.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -312,9 +309,6 @@
     <ClCompile Include="..\..\src\Camera.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Gamma.cpp">
-      <Filter>win32\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Light.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -323,12 +317,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\FileSystem.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\FileSystemPosix.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\FileSystemWin32.cpp">
-      <Filter>win32\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Color.cpp">
       <Filter>src</Filter>
@@ -381,11 +369,26 @@
     <ClCompile Include="..\..\src\LuaComms.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\win32\FileSystemWin32.cpp">
+      <Filter>src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\win32\Gamma.cpp">
+      <Filter>src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\win32\pch.cpp">
+      <Filter>src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\win32\OSWin32.cpp">
+      <Filter>src\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\posix\FileSystemPosix.cpp">
+      <Filter>src\posix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\posix\OSPosix.cpp">
+      <Filter>src\posix</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\pch.h">
-      <Filter>win32\src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Aabb.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -728,9 +731,6 @@
     <ClInclude Include="..\..\src\Camera.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Gamma.h">
-      <Filter>win32\src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\SmartPtr.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -796,6 +796,18 @@
     </ClInclude>
     <ClInclude Include="..\..\src\LuaComms.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\win32\Gamma.h">
+      <Filter>src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\win32\pch.h">
+      <Filter>src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OS.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\win32\TextUtils.h">
+      <Filter>src\win32</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
