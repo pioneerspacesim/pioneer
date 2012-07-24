@@ -24,6 +24,7 @@ Alpha 25
      * Move platform specific code into src/{win32,posix} dirs (#1362, #1369)
      * Move video initialisation into Graphics::Init (#1362, #1370)
      * Add COUNTOF macro to safely get number of elements in a static array (1386)
+     * Update scan_enums.py to deal with Unicode byte-order marks (#1389)
 
 Alpha 24
 
