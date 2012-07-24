@@ -298,11 +298,6 @@ void CityOnPlanet::Render(Graphics::Renderer *r, Camera *camera, const SpaceStat
 	cityobj_params.time = Pi::game->GetTime();
 
 	SpaceStation *station_ = const_cast<SpaceStation *>(station);
-	cityobj_params.atmosphericModel = station_->GetLmrObjParams().atmosphericModel;
-	cityobj_params.atmosParams = station_->GetLmrObjParams().atmosParams;
-	cityobj_params.directLight = station_->GetLmrObjParams().directLight;
-	cityobj_params.ambientLight = station_->GetLmrObjParams().ambientLight;
-	cityobj_params.planetCenter = station_->GetLmrObjParams().planetCenter;
 	
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
 			i != m_buildings.end(); ++i) {

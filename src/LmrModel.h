@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 #include <sigc++/sigc++.h>
-#include "GeoSphere.h"
 
 // LMR = Lua Model Renderer
 class LmrGeomBuffer;
@@ -35,18 +34,6 @@ struct LmrLight {
 
 struct LmrObjParams
 {
-	LmrObjParams(): 
-			animationNamespace(0),
-			time(0.0),
-			label(0),
-			equipment(0),
-			flightState(0),
-			atmosphericModel(false) 
-	{
-		linthrust[0] = linthrust[1] = linthrust[2] = 0.0; 
-		angthrust[0] = angthrust[1] = angthrust[2] = 0.0;
-	};
-
 	enum { LMR_ANIMATION_MAX = 10 };
 
 	const char *animationNamespace; // the namespace to look up animation names in, from LuaConstants
@@ -62,13 +49,6 @@ struct LmrObjParams
 	float angthrust[3];		// 1.0 to -1.0
 
 	struct LmrMaterial pMat[3];
-
-	// for models in atmospheres
-	bool atmosphericModel;
-	atmosphereParameters atmosParams; // set by 
-	vector3f planetCenter; // in camera space
-	float directLight;
-	float ambientLight;
 };
 
 struct RenderState;

@@ -151,8 +151,6 @@ const char * const Pi::combatRating[] = {
 	Lang::DEADLY,
 	Lang::ELITE
 };
-bool Pi::modelsInAtmosphere = false;
-
 Graphics::Renderer *Pi::renderer;
 
 #if WITH_OBJECTVIEWER
@@ -439,8 +437,6 @@ void Pi::Init()
 
 	CustomSystem::Init();
 	draw_progress(0.4f);
-
-	Pi::modelsInAtmosphere = (Pi::config->Int("EnableModelsInAtmosphereShader")==1)?true:false;
 
 	LmrModelCompilerInit(Pi::renderer);
 	LmrNotifyScreenWidth(Pi::scrWidth);
@@ -783,22 +779,20 @@ void Pi::HandleEvents()
 
 static void draw_intro(Background::Container *background, float _time)
 {
-	LmrObjParams params;
-	params.animationNamespace = "ShipAnimation";
-	params.animValues[0] = 0.0;
-	params.animValues[1] = 1.0;
-	params.label = Lang::PIONEER;
-
-	params.flightState = Ship::FLYING;
-	params.linthrust[2] = -1.0f; // other members are initialised 0
-	LmrMaterial pMat[3] = {	// pColor[3]
-							{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
-							{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-							{ { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } 
-						  };
-	params.pMat[0] = pMat[0]; params.pMat[1] = pMat[1]; params.pMat[2] = pMat[2];
-
-
+	LmrObjParams params = {
+		"ShipAnimation", // animation namespace
+		0.0, // time
+		{ }, // animation stages
+		{ 0.0, 1.0 }, // animation positions
+		Lang::PIONEER, // label
+		0, // equipment
+		Ship::FLYING, // flightState
+		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f }, // thrust
+		{	// pColor[3]
+		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
+		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+	};
 	EquipSet equipment;
 	// The finest parts that money can buy!
 	params.equipment = &equipment;
@@ -832,17 +826,20 @@ static void draw_intro(Background::Container *background, float _time)
 
 static void draw_tombstone(float _time)
 {
-	LmrObjParams params;
-	params.label = Lang::TOMBSTONE_EPITAPH;
-	params.linthrust[3] = 1.0f; // other members are initialised 0
-	LmrMaterial pMat[3] = {	// pColor[3] pmat3
-							{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-							{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-							{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } 
-						   };
-	params.pMat[0] = pMat[0]; params.pMat[1] = pMat[1]; params.pMat[2] = pMat[2];
-
-
+	LmrObjParams params = {
+		0, // animation namespace
+		0.0, // time
+		{}, // animation stages
+		{}, // animation positions
+		Lang::TOMBSTONE_EPITAPH, // label
+		0, // equipment
+		0, // flightState
+		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
+		{	// pColor[3]
+		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+	};
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
