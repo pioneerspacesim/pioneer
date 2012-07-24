@@ -109,15 +109,14 @@ struct GasGiantDef_t {
 };
 
 // order of GasGiantDefs must match order of values in SystemBody::RingStyle
-static const int NUM_GGDEFS = 5;
-static GasGiantDef_t ggdefs[NUM_GGDEFS] = {
+static GasGiantDef_t ggdefs[] = {
 {
 	/* jupiter */
 	30, 40, 0.05f,
 	20, 30,
 	0, 0,
 	0.5,
-    { { .61f,.48f,.384f,.8f }, {0,0,0,.2f}, 0.3f },
+	{ { .61f,.48f,.384f,.8f }, {0,0,0,.2f}, 0.3f },
 }, {
 	/* saturnish */
 	10, 25, 0.05f,
@@ -131,7 +130,7 @@ static GasGiantDef_t ggdefs[NUM_GGDEFS] = {
 	2, 6,
 	0, 0,
 	0.5,
-    { { .71f,.68f,.684f,.8f }, {0,0,0,.1f}, 0.3f },
+	{ { .71f,.68f,.684f,.8f }, {0,0,0,.1f}, 0.3f },
 }, {
 	/* uranus-like *wink* */
 	2, 3, 0.1f,
@@ -145,11 +144,9 @@ static GasGiantDef_t ggdefs[NUM_GGDEFS] = {
 	10, 20,
 	0.2f, 0.2f,
 	0.5,
-    { { .81f,.48f,.384f,.8f }, {0,0,0,.1f}, 0.3f },
+	{ { .81f,.48f,.384f,.8f }, {0,0,0,.1f}, 0.3f },
 },
 };
-
-#define PLANET_AMBIENT	0.1f
 
 static void DrawRing(double inner, double outer, const Color &color, Renderer *r, const Material &mat)
 {
