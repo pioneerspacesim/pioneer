@@ -35,8 +35,8 @@ public:
 	const Frame *GetFrame() const { return m_camFrame; }
 
 	// lights with properties in camera space
-	std::vector<Light> GetLights() { return m_lights; }
-	const int GetNumLights() { return m_lights.size(); }
+	const std::vector<Light> &GetLights() const { return m_lights; }
+	const int GetNumLights() const { return m_lights.size(); }
 
 	// get the frustum. use for projection
 	const Graphics::Frustum &GetFrustum() const { return m_frustum; }

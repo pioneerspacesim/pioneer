@@ -17,7 +17,7 @@
 #include "StringF.h"
 #include <algorithm>
 #include "Game.h"
-#include "Graphics/Graphics.h"
+#include "graphics/Graphics.h"
 
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
@@ -794,7 +794,7 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 //        as optical thickness increases the fraction of ambient light increases
 //        this takes altitude into account automatically
 //    * As suns set the split is biased towards ambient 
-void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensity, std::vector<Light> &lights)
+void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensity, const std::vector<Light> &lights)
 {
 	Planet *planet = static_cast<Planet*>(_planet);
 	// position relative to the rotating frame of the planet
@@ -808,15 +808,15 @@ void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensit
 	_planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
 
 	// approximate optical thickness fraction as fraction of density remaining relative to earths
-	double opticalThicknessFraction = density/1.225;
+	double opticalThicknessFraction = density/EARTH_ATMOSPHERE_SURFACE_DENSITY;
 	// tweak optical thickness curve - lower exponent ==> higher altitude before ambient level drops
 	opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
 
 	//step through all the lights and calculate contributions taking into account sun position
 	double light = 0.0;
-	double light2 = 0.0;
+	double light_clamped = 0.0;
 
-	for(std::vector<Light>::iterator l = lights.begin();
+	for(std::vector<Light>::const_iterator l = lights.begin();
 		l != lights.end(); ++l) {
 			
 			double sunAngle;
@@ -830,14 +830,14 @@ void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensit
 				sunAngle = 1.0;
 
 			//0 to 1 as sunangle goes from 0.0 to 1.0
-			double sunAngle2 = (Clamp(sunAngle, 0.0,1.0)+0.0)/1.0;
+			double sunAngle2 = (Clamp(sunAngle, 0.0,1.0))/1.0;
 
 			//0 to 1 as sunAngle goes from endAngle to startAngle
 
-// angle at which light begins to fade on Earth
-#define startAngle 0.3
-// angle at which sun set completes, which should be after sun has dipped below the horizon on Earth
-#define endAngle -0.08
+			// angle at which light begins to fade on Earth
+			const double startAngle = 0.3;
+			// angle at which sun set completes, which should be after sun has dipped below the horizon on Earth
+			const double endAngle = -0.08;
 
 			const double start = std::min((startAngle*opticalThicknessFraction),1.0);
 			const double end = std::max((endAngle*opticalThicknessFraction),-0.2);
@@ -845,7 +845,7 @@ void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensit
 			sunAngle = (Clamp(sunAngle, end, start)-end)/(start-end);
 			
 			light += sunAngle;
-			light2 += sunAngle2;
+			light_clamped += sunAngle2;
 	}
 
 
@@ -856,7 +856,7 @@ void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensit
 	// ambient light fraction
 	// alter ratio between directly and ambiently lit portions towards ambiently lit as sun sets
 	double fraction = (0.4+0.4*(
-						1.0-light2*(Clamp((opticalThicknessFraction),0.0,1.0))
+						1.0-light_clamped*(Clamp((opticalThicknessFraction),0.0,1.0))
 						)*0.8+0.2); //fraction goes from 0.6 to 1.0
 					  
 	
@@ -890,7 +890,7 @@ void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, d
 //	Lighting: Calculates available light for model and splits light between directly and ambiently lit
 //            Lighting is done by manipulating global lights or setting uniforms in atmospheric models shader
 //            Adds an ambient light at close ranges if dark by manipulating the global ambient level
-void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	LmrObjParams &params = GetLmrObjParams();
 	params.label = GetLabel().c_str();
@@ -913,8 +913,8 @@ void SpaceStation::Render(Graphics::Renderer *r, Camera *camera, const vector3d 
 		
 		// calculate lighting
 		// available light is calculated and split between directly (diffusely/specularly) lit and ambiently lit
-		std::vector<Light> lights, newLights;
-		newLights = lights = camera->GetLights();
+		const std::vector<Light> &lights = camera->GetLights();
+		std::vector<Light> newLights = lights;
 		int numLights = lights.size();
 		
 		double ambient, intensity;

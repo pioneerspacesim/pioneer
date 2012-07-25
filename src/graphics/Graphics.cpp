@@ -15,7 +15,6 @@ static bool initted = false;
 Shader *simpleShader;
 Shader *planetRingsShader[4];
 
-int State::m_numLights = 1;
 float State::m_znear = 10.0f;
 float State::m_zfar = 1e6f;
 float State::m_invLogZfarPlus1;
@@ -204,7 +203,11 @@ bool AreShadersEnabled()
 	return shadersEnabled;
 }
 
+void Graphics::State::SetLights(int n, const Light *lights){
+			m_lights.clear();
+			m_lights.reserve(n);
+			for (int i = 0;i < n;i++) 
+				m_lights.push_back(lights[i]);
 }
 
-
-
+}

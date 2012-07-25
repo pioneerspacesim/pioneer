@@ -25,24 +25,17 @@ namespace Graphics {
 
 	/* static */ class State {
 	private:
-		static int m_numLights;
 		static float m_znear, m_zfar;
 		static std::vector<Light> m_lights;
 		static Color m_globalAmbientColor;
 	public:
 		static float m_invLogZfarPlus1; // for z-hack
-		static void State::SetLights(int n, const Light *lights){
-			m_numLights = n;
-			m_lights.clear();
-			m_lights.reserve(4);
-			for (int i = 0;i < n;i++) 
-				m_lights.push_back(lights[i]);
-		}
+		static void SetLights(int n, const Light *lights);
 		static void SetGlobalSceneAmbientColor(Color camb) { m_globalAmbientColor = camb; }
 		static void SetZnearZfar(float znear, float zfar) { m_znear = znear; m_zfar = zfar;
 			m_invLogZfarPlus1 = 1.0f / (log(m_zfar+1.0f)/log(2.0f));
 		}
-		static int GetNumLights() { return m_numLights; }
+		static int GetNumLights() { return m_lights.size(); }
 		static std::vector<Light> GetLights() { return m_lights; }
 		static Color GetGlobalSceneAmbientColor() { return m_globalAmbientColor; }
 	};
