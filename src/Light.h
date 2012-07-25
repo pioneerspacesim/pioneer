@@ -26,7 +26,7 @@ public:
 
 	LightType GetType() const { return m_type; }
 	const vector3f &GetPosition() const { return m_position; }
-	const Body *GetBody() { return m_body; }
+	const Body *GetBody() const { return m_body; }
 	const Color &GetDiffuse() const { return m_diffuse; }
 	const Color &GetAmbient() const { return m_ambient; }
 	const Color &GetSpecular() const { return m_specular; }

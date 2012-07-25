@@ -204,7 +204,12 @@ bool AreShadersEnabled()
 	return shadersEnabled;
 }
 
+void Graphics::State::SetLights(int n, const Light *lights){
+			m_numLights = n;
+			m_lights.clear();
+			m_lights.reserve(n);
+			for (int i = 0;i < n;i++) 
+				m_lights.push_back(lights[i]);
 }
 
-
-
+}

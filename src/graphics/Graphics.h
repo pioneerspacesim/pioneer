@@ -31,13 +31,7 @@ namespace Graphics {
 		static Color m_globalAmbientColor;
 	public:
 		static float m_invLogZfarPlus1; // for z-hack
-		static void State::SetLights(int n, const Light *lights){
-			m_numLights = n;
-			m_lights.clear();
-			m_lights.reserve(4);
-			for (int i = 0;i < n;i++) 
-				m_lights.push_back(lights[i]);
-		}
+		static void SetLights(int n, const Light *lights);
 		static void SetGlobalSceneAmbientColor(Color camb) { m_globalAmbientColor = camb; }
 		static void SetZnearZfar(float znear, float zfar) { m_znear = znear; m_zfar = zfar;
 			m_invLogZfarPlus1 = 1.0f / (log(m_zfar+1.0f)/log(2.0f));

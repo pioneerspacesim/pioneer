@@ -25,7 +25,7 @@ double Star::GetClipRadius() const
 	return sbody->GetRadius() * 8 * wf;
 }
 
-void Star::Render(Graphics::Renderer *renderer, Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	renderer->SetDepthTest(false);
 	glPushMatrix();

@@ -84,7 +84,7 @@ public:
 	virtual ~SpaceStation();
 	virtual double GetBoundingRadius() const;
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
-	virtual void Render(Graphics::Renderer *r, Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	/** You should call Ship::Undock() rather than this.
 	 * Returns true on success, false if permission denied */
 	bool LaunchShip(Ship *ship, int port);
@@ -141,7 +141,7 @@ protected:
 private:
 	void DoDockingAnimation(const double timeStep);
 	void DoLawAndOrder();
-	void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensity, std::vector<Light> &lights);
+	void CalcLighting(Body *_planet, double &ambient, double &intensity, const std::vector<Light> &lights);
 
 	/* Stage 0 means docking port empty
 	 * Stage 1 means docking clearance granted to ->ship

@@ -1326,7 +1326,7 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 
 // Calculate parameters used in the atmospheric model for shaders
 // used by both LmrModels and Geosphere
-void CalcAtmosphereParams(const SystemBody *sbody, atmosphereParameters &outAtmosParams) 
+void CalcAtmosphereParams(const SystemBody *sbody, AtmosphereParameters &outAtmosParams) 
 {
 	double atmosDensity;
 
@@ -1390,7 +1390,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 
-		atmosphereParameters ap;
+		AtmosphereParameters ap;
 		CalcAtmosphereParams(m_sbody, ap);
 		
 		if (ap.atmosDensity > 0.0) {
