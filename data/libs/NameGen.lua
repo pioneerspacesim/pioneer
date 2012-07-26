@@ -271,7 +271,7 @@ NameGen.surnames = {
 	'Fan', 'Chung', 'Wang', 'Tai', 'Liao', 'Fang', 'Chin', 'Hsai', 'Chia',
 	'Tsou', 'Shih', 'Hsiung', 'Yen', 'Hou', 'Lei', 'Lung', 'Tuan', 'Hao',
 	'Shao', 'Shih', 'Mao', 'Wan', 'Kang', 'Yen', 'Yin', 'Shih', 'Niu', 'Hung',
-	'Kung',
+	'Kung', 'Bumgardner',
 }
 
 NameGen.outdoorPlanetFormats = {
