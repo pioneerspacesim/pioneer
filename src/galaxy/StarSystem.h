@@ -113,7 +113,9 @@ public:
 		RING_STYLE_SATURN = 3,
 		RING_STYLE_NEPTUNE = 4,
 		RING_STYLE_URANUS = 5,
-		RING_STYLE_BROWN_DWARF = 6
+		RING_STYLE_BROWN_DWARF = 6,
+
+		RING_STYLE_FIRST = RING_STYLE_JUPITER
 	};
 
 	std::string GetAstroDescription() const;
