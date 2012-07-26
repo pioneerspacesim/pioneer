@@ -183,12 +183,12 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	double noiseOffset = 256.0*rng.Double();
 	float baseCol[4];
 
-	// just use a random gas giant flavour for the moment
 	const SystemBody::RingStyle ringStyle = GetSystemBody()->m_ringStyle;
 	int ggdefid;
 	bool hasRings;
 	switch (ringStyle) {
 		case SystemBody::RING_STYLE_FROM_SEED:
+			// just use a random gas giant flavour for the moment
 			ggdefid = rng.Int32(COUNTOF(ggdefs));
 			hasRings = (rng.Double(1.0) < ggdefs[ggdefid].ringProbability);
 			break;
