@@ -1878,7 +1878,10 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		affinity *= rand.Fixed();
 		// producing consumables is wise
 		for (int j=0; j<NUM_CONSUMABLES; j++) {
-			if (i == consumables[j]) affinity *= 2; break;
+			if (i == consumables[j]) {
+				affinity *= 2;
+				break;
+			}
 		}
 		assert(affinity >= 0);
 		/* workforce... */
