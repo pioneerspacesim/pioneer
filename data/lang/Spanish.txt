@@ -1128,8 +1128,8 @@ PROBABILITY_OF_ARRIVAL_X_PERCENT
     Probabilidad de llegada: %probability%%
 ALT_IN_METRES
     Alt: %altitude{f.0}m
-PRESSURE_N_BAR
-    P: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    P: %pressure{f.2} atm
 NO_HYPERDRIVE
     Sin motor hiperespacial
 MASS_N_TONNES
