@@ -1091,7 +1091,6 @@ void SystemBody::PickAtmosphere()
 			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.0005f);
 			m_atmosDensity = 14.0;
 			break;
-		case SystemBody::SUPERTYPE_STAR:
 		case SystemBody::TYPE_PLANET_ASTEROID:
 			m_atmosColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
 			m_atmosDensity = 0.0;
