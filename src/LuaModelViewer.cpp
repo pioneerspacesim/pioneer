@@ -494,7 +494,7 @@ void Viewer::MainLoop()
 	g_camorient = matrix4x4f::Identity();
 	matrix4x4f modelRot = matrix4x4f::Identity();
 
-	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
+	printf("Geom tree build in %ums\n", SDL_GetTicks() - t);
 
 	for (;;) {
 		PollEvents();
