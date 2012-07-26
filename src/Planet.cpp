@@ -177,7 +177,6 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	// XXX worldview numlights always 1!
 	mat.shader = Graphics::planetRingsShader[Pi::worldView->GetNumLights()-1];
 
-//	MTRand rng((int)Pi::game->GetTime());
 	MTRand rng(GetSystemBody()->seed+965467);
 
 	double noiseOffset = 256.0*rng.Double();
