@@ -100,13 +100,13 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	*outDensity = (*outPressure/(PA_2_ATMOS*GAS_CONSTANT*temp))*GAS_MOLAR_MASS;
 }
 
-struct GasGiantDef_t {
+struct RingStyleConfig {
 	float ringProbability;
 	ColRangeObj_t ringCol;
 };
 
-// order of GasGiantDefs must match order of values in SystemBody::RingStyle
-static GasGiantDef_t ggdefs[] = {
+// order of RING_STYLES must match order of values in SystemBody::RingStyle
+static const RingStyleConfig RING_STYLES[] = {
 {
 	/* jupiter */
 	0.5,
@@ -164,27 +164,18 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	double noiseOffset = 256.0*rng.Double();
 	float baseCol[4];
 
-	const SystemBody::RingStyle ringStyle = GetSystemBody()->m_ringStyle;
-	int ggdefid;
-	bool hasRings;
-	switch (ringStyle) {
-		case SystemBody::RING_STYLE_FROM_SEED:
-			// just use a random gas giant flavour for the moment
-			ggdefid = rng.Int32(COUNTOF(ggdefs));
-			hasRings = (rng.Double(1.0) < ggdefs[ggdefid].ringProbability);
-			break;
-		case SystemBody::RING_STYLE_NONE:
-			hasRings = false;
-			break;
-		default:
-			ggdefid = int(ringStyle) - SystemBody::RING_STYLE_JUPITER;
-			hasRings = true;
-			break;
+	int ringStyle = GetSystemBody()->m_ringStyle;
+	if (ringStyle == SystemBody::RING_STYLE_FROM_SEED) {
+		int which = rng.Int32(COUNTOF(RING_STYLES));
+		if (rng.Double(1.0) < RING_STYLES[which].ringProbability)
+			ringStyle = which + SystemBody::RING_STYLE_FIRST;
+		else
+			ringStyle = SystemBody::RING_STYLE_NONE;
 	}
 
-	if (hasRings) {
-		GasGiantDef_t &ggdef = ggdefs[ggdefid];
-		ggdef.ringCol.GenCol(baseCol, rng);
+	if (ringStyle >= SystemBody::RING_STYLE_FIRST) {
+		const RingStyleConfig &ringconf = RING_STYLES[ringStyle];
+		ringconf.ringCol.GenCol(baseCol, rng);
 
 		const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
 
