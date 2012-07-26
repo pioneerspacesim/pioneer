@@ -101,9 +101,6 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 }
 
 struct GasGiantDef_t {
-	int hoopMin, hoopMax; float hoopWobble;
-	int blobMin, blobMax;
-	float poleMin, poleMax; // size range in radians. zero for no poles.
 	float ringProbability;
 	ColRangeObj_t ringCol;
 };
@@ -112,37 +109,22 @@ struct GasGiantDef_t {
 static GasGiantDef_t ggdefs[] = {
 {
 	/* jupiter */
-	30, 40, 0.05f,
-	20, 30,
-	0, 0,
 	0.5,
 	{ { .61f,.48f,.384f,.8f }, {0,0,0,.2f}, 0.3f },
 }, {
 	/* saturnish */
-	10, 25, 0.05f,
-	8, 20, // blob range
-	0.2f, 0.2f, // pole size
 	0.5,
 	{ { .61f,.48f,.384f,.85f }, {0,0,0,.1f}, 0.3f },
 }, {
 	/* neptunish */
-	3, 6, 0.25f,
-	2, 6,
-	0, 0,
 	0.5,
 	{ { .71f,.68f,.684f,.8f }, {0,0,0,.1f}, 0.3f },
 }, {
 	/* uranus-like *wink* */
-	2, 3, 0.1f,
-	1, 2,
-	0, 0,
 	0.5,
 	{ { .51f,.48f,.384f,.8f }, {0,0,0,.1f}, 0.3f },
 }, {
 	/* brown dwarf-like */
-	0, 0, 0.05f,
-	10, 20,
-	0.2f, 0.2f,
 	0.5,
 	{ { .81f,.48f,.384f,.8f }, {0,0,0,.1f}, 0.3f },
 },
