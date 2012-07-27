@@ -13,7 +13,6 @@ using namespace Graphics;
 
 static const Graphics::AttributeSet RING_VERTEX_ATTRIBS
 	= Graphics::ATTRIB_POSITION
-	| Graphics::ATTRIB_NORMAL
 	| Graphics::ATTRIB_UV0;
 
 Planet::Planet(): TerrainBody(), m_ringVertices(RING_VERTEX_ATTRIBS)
@@ -117,16 +116,15 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	const float inner = sbody->m_rings.minRadius.ToFloat();
 	const float outer = sbody->m_rings.maxRadius.ToFloat();
 	int segments = 64 * (Pi::detail.planets + 1);
-	const vector3f normal(0.0f, 1.0f, 0.0f);
 	for (int i = 0; i < segments; ++i) {
 		const float a = (2.0f*float(M_PI)) * (float(i) / float(segments));
 		const float ca = cosf(a);
 		const float sa = sinf(a);
-		m_ringVertices.Add(vector3f(inner*sa, 0.0f, inner*ca), normal, vector2f(float(i), 0.0f));
-		m_ringVertices.Add(vector3f(outer*sa, 0.0f, outer*ca), normal, vector2f(float(i), 1.0f));
+		m_ringVertices.Add(vector3f(inner*sa, 0.0f, inner*ca), vector2f(float(i), 0.0f));
+		m_ringVertices.Add(vector3f(outer*sa, 0.0f, outer*ca), vector2f(float(i), 1.0f));
 	}
-	m_ringVertices.Add(vector3f(0.0f, 0.0f, inner), normal, vector2f(float(segments), 0.0f));
-	m_ringVertices.Add(vector3f(0.0f, 0.0f, outer), normal, vector2f(float(segments), 1.0f));
+	m_ringVertices.Add(vector3f(0.0f, 0.0f, inner), vector2f(float(segments), 0.0f));
+	m_ringVertices.Add(vector3f(0.0f, 0.0f, outer), vector2f(float(segments), 1.0f));
 
 	// generate the ring texture
 	const int RING_TEXTURE_LENGTH = 256;
