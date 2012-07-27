@@ -153,7 +153,7 @@ public:
 	}
 
 	bool HasRings() const { return bool(m_rings.maxRadius.v); }
-	void PickRings();
+	void PickRings(bool forceRings = false);
 
 	bool IsScoopable() const;
 

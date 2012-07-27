@@ -969,8 +969,25 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->orbMax = 2*csbody->semiMajorAxis - kid->orbMin;
 
 		kid->PickAtmosphere();
-		// XXX take custom system body ring settings into account here
-		kid->PickRings();
+
+		// pick or specify rings
+		switch (csbody->ringStatus) {
+			case CustomSystemBody::WANT_NO_RINGS:
+				kid->m_rings.minRadius = fixed(0);
+				kid->m_rings.maxRadius = fixed(0);
+				break;
+			case CustomSystemBody::WANT_RINGS:
+				kid->PickRings(true);
+				break;
+			case CustomSystemBody::WANT_RANDOM_RINGS:
+				kid->PickRings(false);
+				break;
+			case CustomSystemBody::WANT_CUSTOM_RINGS:
+				kid->m_rings.minRadius = csbody->ringInnerRadius;
+				kid->m_rings.maxRadius = csbody->ringOuterRadius;
+				kid->m_rings.baseColor = csbody->ringColor;
+				break;
+		}
 
 		CustomGetKidsOf(kid, csbody->children, outHumanInfestedness, rand);
 	}
@@ -1172,7 +1189,7 @@ static const unsigned char RANDOM_RING_COLORS[][4] = {
 	{ 207, 122,  98, 217 }  // brown dwarf-like
 };
 
-void SystemBody::PickRings()
+void SystemBody::PickRings(bool forceRings)
 {
 	m_rings.minRadius = fixed(0);
 	m_rings.maxRadius = fixed(0);
@@ -1182,8 +1199,8 @@ void SystemBody::PickRings()
 		MTRand ringRng(seed + 965467);
 
 		// today's forecast: 50% chance of rings
-		if (true) {
-		//if (ringRng.Double() < 0.5) {
+		double rings_die = ringRng.Double();
+		if (forceRings || (rings_die < 0.5)) {
 			const unsigned char * const baseCol
 				= RANDOM_RING_COLORS[ringRng.Int32(COUNTOF(RANDOM_RING_COLORS))];
 			m_rings.baseColor.r = baseCol[0];
