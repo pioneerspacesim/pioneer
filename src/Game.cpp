@@ -566,7 +566,7 @@ void Game::CreatePlayer()
 
 	if (startPath.IsSameSystem(SystemPath(-2,1,90,0))) {
 		// Lave
-		m_player.Reset(new Player("ladybird"));
+		m_player.Reset(new Player("cobra_mk3"));
 		m_player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS3);
 		m_player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
 		m_player->m_equipment.Add(Equip::HYDROGEN, 2);
