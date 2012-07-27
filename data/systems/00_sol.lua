@@ -179,6 +179,7 @@ local jupiter = CustomSystemBody:new('Jupiter', 'PLANET_GAS_GIANT')
 	:inclination(math.deg2rad(1.305))
 	:rotation_period(f(4,10))
 	:axial_tilt(fixed.deg2rad(f(313,100)))
+	:rings(f(11176,10000), f(11769,10000), {0.61, 0.48, 0.384, 0.8})
 
 local jupiter_moons = {
 	CustomSystemBody:new('Io', 'PLANET_TERRESTRIAL')
@@ -265,6 +266,7 @@ local saturn = CustomSystemBody:new('Saturn', 'PLANET_GAS_GIANT')
 	:inclination(math.deg2rad(2.485))
 	:rotation_period(f(4,10))
 	:axial_tilt(fixed.deg2rad(f(2673,100)))
+	:rings(f(1298,1000), f(18,10), {0.435, 0.412, 0.335, 0.9})
 
 local saturn_moons = {
 	CustomSystemBody:new('Dione', 'PLANET_TERRESTRIAL')
@@ -331,6 +333,7 @@ local uranus = CustomSystemBody:new('Uranus', 'PLANET_GAS_GIANT')
 	:inclination(math.deg2rad(0.772))
 	:rotation_period(f(7,10))
 	:axial_tilt(fixed.deg2rad(f(9777,100)))
+	:rings(f(17528,10000), f(2,1), {0.51, 0.48, 0.384, 0.8})
 
 local uranus_moons = {
 	CustomSystemBody:new('Ariel', 'PLANET_TERRESTRIAL')
@@ -378,6 +381,7 @@ local neptune = CustomSystemBody:new('Neptune', 'PLANET_GAS_GIANT')
 	:inclination(math.deg2rad(1.768))
 	:rotation_period(f(75,100))
 	:axial_tilt(fixed.deg2rad(f(2832,100)))
+	:rings(f(2195,1000), f(236,100), {0.71, 0.68, 0.684, 0.75})
 
 local neptune_moons = {
 	CustomSystemBody:new('Proteus', 'PLANET_ASTEROID')
