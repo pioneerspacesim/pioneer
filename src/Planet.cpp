@@ -130,11 +130,13 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	const int RING_TEXTURE_LENGTH = 256;
 	ScopedMalloc<unsigned char> buf(malloc(RING_TEXTURE_LENGTH*4));
 
+	const float ringScale = (outer-inner)*sbody->GetRadius() / 1.5e7f;
+
 	MTRand rng(GetSystemBody()->seed+4609837);
 	Color4f baseCol = sbody->m_rings.baseColor.ToColor4f();
 	double noiseOffset = 256.0 * rng.Double();
 	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {
-		const float alpha = float(i) / float(RING_TEXTURE_LENGTH);
+		const float alpha = (float(i) / float(RING_TEXTURE_LENGTH)) * ringScale;
 		const float n = 0.5 +
 			0.475 * noise( 5.0*alpha, noiseOffset, 0.0) +
 			0.025 * noise(10.0*alpha, noiseOffset, 0.0);
