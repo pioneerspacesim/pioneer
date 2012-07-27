@@ -37,8 +37,6 @@ public:
 	fixed atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
 	fixed life; // 0.0 = dead, 1.0 = teeming
 
-	SystemBody::RingStyle ringStyle;
-
 	Uint32 seed;
 	bool   want_rand_seed;
 };

@@ -131,8 +131,8 @@ static int l_csb_height_map(lua_State *L)
 static int l_csb_rings(lua_State *L)
 {
 	CustomSystemBody *csb = l_csb_check(L, 1);
-	csb->ringStyle = static_cast<SystemBody::RingStyle>(
-		LuaConstants::GetConstantFromArg(L, "PlanetRingStyle", 2));
+	const fixed *minRadius = LuaFixed::CheckFromLua(L, 2);
+	const fixed *maxRadius = LuaFixed::CheckFromLua(L, 3);
 	lua_settop(L, 1);
 	return 1;
 }
@@ -485,7 +485,6 @@ CustomSystemBody::CustomSystemBody():
 	want_rand_offset(true),
 	latitude(0.0),
 	longitude(0.0),
-	ringStyle(SystemBody::RING_STYLE_FROM_SEED),
 	seed(0),
 	want_rand_seed(true)
 {}
