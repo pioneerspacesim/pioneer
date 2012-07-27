@@ -137,15 +137,19 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	double noiseOffset = 2048.0 * rng.Double();
 	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {
 		const float alpha = (float(i) / float(RING_TEXTURE_LENGTH)) * ringScale;
-		const float n = 0.5 +
-			0.475 * noise( 5.0*alpha, noiseOffset, 0.0) +
-			0.025 * noise(10.0*alpha, noiseOffset, 0.0);
+		const float n = 0.25 +
+			0.60 * noise( 5.0 * alpha, noiseOffset, 0.0) +
+			0.15 * noise(10.0 * alpha, noiseOffset, 0.0);
+
+		const float LOG_SCALE = 1.0f/sqrtf(sqrtf(log1pf(1.0f)));
+		const float v = LOG_SCALE*sqrtf(sqrtf(log1pf(n)));
 
 		unsigned char *rgba = buf.Get() + i*4;
-		rgba[0] = (n*baseCol.r)*255.0f;
-		rgba[1] = (n*baseCol.g)*255.0f;
-		rgba[2] = (n*baseCol.b)*255.0f;
-		rgba[3] = (((n*0.25f)+0.75f)*baseCol.a)*255.0f;
+		rgba[0] = (v*baseCol.r)*255.0f;
+		rgba[1] = (v*baseCol.g)*255.0f;
+		rgba[2] = (v*baseCol.b)*255.0f;
+		rgba[3] = (((v*0.25f)+0.75f)*baseCol.a)*255.0f;
+	}
 
 	// first and last pixel are forced to zero, to give a slightly smoother ring edge
 	{
