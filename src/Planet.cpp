@@ -6,18 +6,33 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/Graphics.h"
+#include "graphics/Texture.h"
 #include "graphics/VertexArray.h"
 
 using namespace Graphics;
 
-Planet::Planet(): TerrainBody()
+static const Graphics::AttributeSet RING_VERTEX_ATTRIBS
+	= Graphics::ATTRIB_POSITION
+	| Graphics::ATTRIB_NORMAL
+	| Graphics::ATTRIB_UV0;
+
+Planet::Planet(): TerrainBody(), m_ringVertices(RING_VERTEX_ATTRIBS)
 {
+	m_clipRadius = GetBoundingRadius();
 }
 
-Planet::Planet(SystemBody *sbody): TerrainBody(sbody)
+Planet::Planet(SystemBody *sbody): TerrainBody(sbody), m_ringVertices(RING_VERTEX_ATTRIBS)
 {
 	m_hasDoubleFrame = true;
+	if (sbody->HasRings()) {
+		m_clipRadius = sbody->GetRadius() * sbody->m_rings.maxRadius.ToDouble();
+		GenerateRings();
+	} else {
+		m_clipRadius = GetBoundingRadius();
+	}
 }
+
+Planet::~Planet() {}
 
 /*
  * dist = distance from centre
@@ -81,45 +96,26 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	*outDensity = (*outPressure/(PA_2_ATMOS*GAS_CONSTANT*temp))*GAS_MOLAR_MASS;
 }
 
-static void DrawRing(float inner, float outer, const Color &color, Renderer *r, const Material &mat)
+void Planet::GenerateRings()
 {
-	float step = 0.1f / (Pi::detail.planets + 1);
-
-	VertexArray vts(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL);
-	const vector3f normal(0.f, 1.f, 0.f);
-	for (float ang=0; ang < 2*M_PI; ang += step) {
-		vts.Add(vector3f(inner*sinf(ang), 0.f, inner*cosf(ang)), color, normal);
-		vts.Add(vector3f(outer*sinf(ang), 0.f, outer*cosf(ang)), color, normal);
-	}
-	vts.Add(vector3f(0.f, 0.f, inner), color, normal);
-	vts.Add(vector3f(0.f, 0.f, outer), color, normal);
-
-	r->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
-}
-
-void Planet::DrawGasGiantRings(Renderer *renderer)
-{
-	renderer->SetBlendMode(BLEND_ALPHA_PREMULT);
-	glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT );
-	renderer->SetDepthTest(true);
-	glEnable(GL_NORMALIZE);
-
-	Material mat;
-	mat.unlit = true;
-	mat.twoSided = true;
-	// XXX worldview numlights always 1!
-	mat.shader = Graphics::planetRingsShader[Pi::worldView->GetNumLights()-1];
-
 	const SystemBody *sbody = GetSystemBody();
-	assert(sbody->HasRings());
 
-	Color color = sbody->m_rings.baseColor.ToColor4f();
-	//const double planetR = sbody->GetRadius();
-	const double r0 = sbody->m_rings.minRadius.ToDouble();
-	const double r1 = sbody->m_rings.maxRadius.ToDouble();
+	// generate the ring geometry
+	const float inner = sbody->m_rings.minRadius.ToFloat();
+	const float outer = sbody->m_rings.maxRadius.ToFloat();
+	int segments = 64 * (Pi::detail.planets + 1);
+	const vector3f normal(0.0f, 1.0f, 0.0f);
+	for (int i = 0; i < segments; ++i) {
+		const float a = (2.0f*float(M_PI)) * (float(i) / float(segments));
+		const float ca = cosf(a);
+		const float sa = sinf(a);
+		m_ringVertices.Add(vector3f(inner*sa, 0.0f, inner*ca), normal, vector2f(float(i), 0.0f));
+		m_ringVertices.Add(vector3f(outer*sa, 0.0f, outer*ca), normal, vector2f(float(i), 1.0f));
+	}
+	m_ringVertices.Add(vector3f(0.0f, 0.0f, inner), normal, vector2f(float(segments), 0.0f));
+	m_ringVertices.Add(vector3f(0.0f, 0.0f, outer), normal, vector2f(float(segments), 1.0f));
 
-	DrawRing(r0, r1, color, renderer, mat);
-
+	// generate the ring texture
 #if 0
 	MTRand rng(GetSystemBody()->seed+4609837);
 	double noiseOffset = 256.0*rng.Double();
@@ -156,6 +152,26 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 		}
 	}
 #endif
+}
+
+void Planet::DrawGasGiantRings(Renderer *renderer)
+{
+	renderer->SetBlendMode(BLEND_ALPHA_PREMULT);
+	glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT );
+	renderer->SetDepthTest(true);
+	glEnable(GL_NORMALIZE);
+
+	Material mat;
+	mat.unlit = true;
+	mat.twoSided = true;
+	// XXX worldview numlights always 1!
+	mat.shader = Graphics::planetRingsShader[Pi::worldView->GetNumLights()-1];
+
+	const SystemBody *sbody = GetSystemBody();
+	assert(sbody->HasRings());
+
+	Color color = sbody->m_rings.baseColor.ToColor4f();
+	renderer->DrawTriangles(&m_ringVertices, &mat, TRIANGLE_STRIP);
 
 	glPopAttrib();
 	renderer->SetBlendMode(BLEND_SOLID);
