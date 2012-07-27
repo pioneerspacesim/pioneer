@@ -9,25 +9,6 @@
 #include "graphics/VertexArray.h"
 
 using namespace Graphics;
-static const double ATMOSPHERE_RADIUS = 1.015;
-
-struct ColRangeObj_t {
-	float baseCol[4]; float modCol[4]; float modAll;
-
-	void GenCol(float col[4], MTRand &rng) const {
-		float ma = 1 + float(rng.Double(modAll*2)-modAll);
-		for (int i=0; i<4; i++) col[i] = baseCol[i] + float(rng.Double(-modCol[i], modCol[i]));
-		for (int i=0; i<3; i++) col[i] = Clamp(ma*col[i], 0.0f, 1.0f);
-	}
-};
-
-ColRangeObj_t barrenBodyCol = { { .3f,.3f,.3f,1 },{0,0,0,0},.3f };
-ColRangeObj_t barrenContCol = { { .2f,.2f,.2f,1 },{0,0,0,0},.3f };
-ColRangeObj_t barrenEjectaCraterCol = { { .5f,.5f,.5f,1 },{0,0,0,0},.2f };
-float darkblue[4] = { .05f, .05f, .2f, 1 };
-float blue[4] = { .2f, .2f, 1, 1 };
-float green[4] = { .2f, .8f, .2f, 1 };
-float white[4] = { 1, 1, 1, 1 };
 
 Planet::Planet(): TerrainBody()
 {
@@ -100,48 +81,18 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	*outDensity = (*outPressure/(PA_2_ATMOS*GAS_CONSTANT*temp))*GAS_MOLAR_MASS;
 }
 
-struct RingStyleConfig {
-	float ringProbability;
-	ColRangeObj_t ringCol;
-};
-
-// order of RING_STYLES must match order of values in SystemBody::RingStyle
-static const RingStyleConfig RING_STYLES[] = {
-{
-	/* jupiter */
-	0.5,
-	{ { .61f,.48f,.384f,.8f }, {0,0,0,.2f}, 0.3f },
-}, {
-	/* saturnish */
-	0.5,
-	{ { .61f,.48f,.384f,.85f }, {0,0,0,.1f}, 0.3f },
-}, {
-	/* neptunish */
-	0.5,
-	{ { .71f,.68f,.684f,.8f }, {0,0,0,.1f}, 0.3f },
-}, {
-	/* uranus-like *wink* */
-	0.5,
-	{ { .51f,.48f,.384f,.8f }, {0,0,0,.1f}, 0.3f },
-}, {
-	/* brown dwarf-like */
-	0.5,
-	{ { .81f,.48f,.384f,.8f }, {0,0,0,.1f}, 0.3f },
-},
-};
-
-static void DrawRing(double inner, double outer, const Color &color, Renderer *r, const Material &mat)
+static void DrawRing(float inner, float outer, const Color &color, Renderer *r, const Material &mat)
 {
 	float step = 0.1f / (Pi::detail.planets + 1);
 
 	VertexArray vts(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL);
 	const vector3f normal(0.f, 1.f, 0.f);
-	for (float ang=0; ang<2*M_PI; ang+=step) {
-		vts.Add(vector3f(float(inner)*sin(ang), 0.f, float(inner)*cos(ang)), color, normal);
-		vts.Add(vector3f(float(outer)*sin(ang), 0.f, float(outer)*cos(ang)), color, normal);
+	for (float ang=0; ang < 2*M_PI; ang += step) {
+		vts.Add(vector3f(inner*sinf(ang), 0.f, inner*cosf(ang)), color, normal);
+		vts.Add(vector3f(outer*sinf(ang), 0.f, outer*cosf(ang)), color, normal);
 	}
-	vts.Add(vector3f(0.f, 0.f, float(inner)), color, normal);
-	vts.Add(vector3f(0.f, 0.f, float(outer)), color, normal);
+	vts.Add(vector3f(0.f, 0.f, inner), color, normal);
+	vts.Add(vector3f(0.f, 0.f, outer), color, normal);
 
 	r->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
 }
@@ -159,8 +110,18 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	// XXX worldview numlights always 1!
 	mat.shader = Graphics::planetRingsShader[Pi::worldView->GetNumLights()-1];
 
-	MTRand rng(GetSystemBody()->seed+965467);
+	const SystemBody *sbody = GetSystemBody();
+	assert(sbody->HasRings());
 
+	Color color = sbody->m_rings.baseColor.ToColor4f();
+	//const double planetR = sbody->GetRadius();
+	const double r0 = sbody->m_rings.minRadius.ToDouble();
+	const double r1 = sbody->m_rings.maxRadius.ToDouble();
+
+	DrawRing(r0, r1, color, renderer, mat);
+
+#if 0
+	MTRand rng(GetSystemBody()->seed+4609837);
 	double noiseOffset = 256.0*rng.Double();
 	float baseCol[4];
 
@@ -194,6 +155,7 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 			rpos += size;
 		}
 	}
+#endif
 
 	glPopAttrib();
 	renderer->SetBlendMode(BLEND_SOLID);
@@ -287,10 +249,6 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 void Planet::SubRender(Renderer *r, const vector3d &camPos)
 {
-	const SystemBody *sbody = GetSystemBody();
-	if ((sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) || (sbody->m_ringStyle > SystemBody::RING_STYLE_NONE)) {
-		DrawGasGiantRings(r);
-	}
-
+	if (GetSystemBody()->HasRings()) { DrawGasGiantRings(r); }
 	if (!AreShadersEnabled()) DrawAtmosphere(r, camPos);
 }

@@ -934,7 +934,6 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->m_volcanicity    = csbody->volcanicity;
 		kid->m_atmosOxidizing = csbody->atmosOxidizing;
 		kid->m_life           = csbody->life;
-		kid->m_ringStyle      = csbody->ringStyle;
 
 		kid->rotationPeriod = csbody->rotationPeriod;
 		kid->eccentricity = csbody->eccentricity;
@@ -970,6 +969,8 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->orbMax = 2*csbody->semiMajorAxis - kid->orbMin;
 
 		kid->PickAtmosphere();
+		// XXX take custom system body ring settings into account here
+		kid->PickRings();
 
 		CustomGetKidsOf(kid, csbody->children, outHumanInfestedness, rand);
 	}
@@ -1064,7 +1065,6 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, MTR
 
 SystemBody::SystemBody()
 {
-	m_ringStyle = RING_STYLE_FROM_SEED;
 	heightMapFilename = 0;
 	heightMapFractal = 0;
 }
@@ -1108,56 +1108,48 @@ void SystemBody::PickAtmosphere()
 					r = 1.0f + ((0.95f-atmo)*15.0f);
 					g = 0.95f + ((0.95f-atmo)*10.0f);
 					b = atmo*atmo*atmo*atmo*atmo;
-					m_atmosColor = Color(r, g, b, 1.0);
 				} else if (atmo > 0.7) {
 					// co2
 					r = atmo+0.05f;
 					g = 1.0f + (0.7f-atmo);
 					b = 0.8f;
-					m_atmosColor = Color(r, g, b, 1.0f);
 				} else if (atmo > 0.65) {
 					// co
 					r = 1.0f + (0.65f-atmo);
 					g = 0.8f;
 					b = atmo + 0.25f;
-					m_atmosColor = Color(r, g, b, 1.0f);
 				} else if (atmo > 0.55) {
 					// ch4
 					r = 1.0f + ((0.55f-atmo)*5.0);
 					g = 0.35f - ((0.55f-atmo)*5.0);
 					b = 0.4f;
-					m_atmosColor = Color(r, g, b, 1.0f);
 				} else if (atmo > 0.3) {
 					// h
 					r = 1.0f;
 					g = 1.0f;
 					b = 1.0f;
-					m_atmosColor = Color(r, g, b, 1.0f);
 				} else if (atmo > 0.2) {
 					// he
 					r = 1.0f;
 					g = 1.0f;
 					b = 1.0f;
-					m_atmosColor = Color(r, g, b, 1.0f);
 				} else if (atmo > 0.15) {
 					// ar
 					r = 0.5f - ((0.15f-atmo)*5.0);
 					g = 0.0f;
 					b = 0.5f + ((0.15f-atmo)*5.0);
-					m_atmosColor = Color(r, g, b, 1.0f);
 				} else if (atmo > 0.1) {
 					// s
 					r = 0.8f - ((0.1f-atmo)*4.0);
 					g = 1.0f;
 					b = 0.5f - ((0.1f-atmo)*10.0);
-					m_atmosColor = Color(r, g, b, 1.0f);
 				} else {
 					// n
 					r = 1.0f;
 					g = 1.0f;
 					b = 1.0f;
-					m_atmosColor = Color(r, g, b, 1.0f);
 				}
+				m_atmosColor = Color(r, g, b, 1.0f);
 			} else {
 				m_atmosColor = Color(0.0, 0.0, 0.0, 0.0f);
 			}
@@ -1169,6 +1161,58 @@ void SystemBody::PickAtmosphere()
 			m_atmosColor = Color(0.6f, 0.6f, 0.6f, 1.0f);
 			m_atmosDensity = m_body->m_volatileGas.ToDouble();
 			break;*/
+	}
+}
+
+static const unsigned char RANDOM_RING_COLORS[][4] = {
+	{ 156, 122,  98, 217 }, // jupiter-like
+	{ 156, 122,  98, 217 }, // saturn-like
+	{ 181, 173, 174, 217 }, // neptune-like
+	{ 130, 122,  98, 217 }, // uranus-like
+	{ 207, 122,  98, 217 }  // brown dwarf-like
+};
+
+void SystemBody::PickRings()
+{
+	m_rings.minRadius = fixed(0);
+	m_rings.maxRadius = fixed(0);
+	m_rings.baseColor = Color4ub(255,255,255,255);
+
+	if (type == SystemBody::TYPE_PLANET_GAS_GIANT) {
+		MTRand ringRng(seed + 965467);
+
+		// today's forecast: 50% chance of rings
+		if (true) {
+		//if (ringRng.Double() < 0.5) {
+			const unsigned char * const baseCol = RANDOM_RING_COLORS[ringRng.Int32(COUNTOF(RANDOM_RING_COLORS))];
+			m_rings.baseColor.r = baseCol[0];
+			m_rings.baseColor.g = baseCol[1];
+			m_rings.baseColor.b = baseCol[2];
+			m_rings.baseColor.a = baseCol[3];
+
+			// from wikipedia: http://en.wikipedia.org/wiki/Roche_limit
+			// basic Roche limit calculation assuming a rigid satellite
+			// d = R (2 p_M / p_m)^{1/3}
+			// 
+			// where R is the radius of the primary, p_M is the density of
+			// the primary and p_m is the density of the satellite
+			//
+			// I assume a satellite density of 500 kg/m^3
+			// (which Wikipedia says is an average comet density)
+			//
+			// also, I can't be bothered to think about unit conversions right now,
+			// so I'm going to ignore the real density of the primary and take it as 1100 kg/m^3
+			// (note: density of Saturn is ~687, Jupiter ~1,326, Neptune ~1,638, Uranus ~1,318)
+			//
+			// This gives: d = 1.638642 * R
+			fixed innerMin = fixed(110, 100);
+			fixed innerMax = fixed(145, 100);
+			fixed outerMin = fixed(150, 100);
+			fixed outerMax = fixed(168642, 100000);
+
+			m_rings.minRadius = innerMin + (innerMax - innerMin)*ringRng.Fixed();
+			m_rings.maxRadius = outerMin + (outerMax - outerMin)*ringRng.Fixed();
+		}
 	}
 }
 
@@ -1701,6 +1745,7 @@ void SystemBody::PickPlanetType(MTRand &rand)
 	}
 
     PickAtmosphere();
+	PickRings();
 }
 
 void StarSystem::MakeShortDescription(MTRand &rand)
