@@ -1184,7 +1184,8 @@ void SystemBody::PickRings()
 		// today's forecast: 50% chance of rings
 		if (true) {
 		//if (ringRng.Double() < 0.5) {
-			const unsigned char * const baseCol = RANDOM_RING_COLORS[ringRng.Int32(COUNTOF(RANDOM_RING_COLORS))];
+			const unsigned char * const baseCol
+				= RANDOM_RING_COLORS[ringRng.Int32(COUNTOF(RANDOM_RING_COLORS))];
 			m_rings.baseColor.r = baseCol[0];
 			m_rings.baseColor.g = baseCol[1];
 			m_rings.baseColor.b = baseCol[2];
