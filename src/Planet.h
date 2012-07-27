@@ -26,6 +26,9 @@ public:
 	friend class ObjectViewerView;
 #endif
 
+protected:
+	virtual void Load(Serializer::Reader &rd, Space *space);
+
 private:
 	void GenerateRings();
 	void DrawGasGiantRings(Graphics::Renderer *r);

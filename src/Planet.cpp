@@ -18,7 +18,6 @@ static const Graphics::AttributeSet RING_VERTEX_ATTRIBS
 
 Planet::Planet(): TerrainBody(), m_ringVertices(RING_VERTEX_ATTRIBS)
 {
-	m_clipRadius = GetBoundingRadius();
 }
 
 Planet::Planet(SystemBody *sbody): TerrainBody(sbody), m_ringVertices(RING_VERTEX_ATTRIBS)
@@ -33,6 +32,19 @@ Planet::Planet(SystemBody *sbody): TerrainBody(sbody), m_ringVertices(RING_VERTE
 }
 
 Planet::~Planet() {}
+
+void Planet::Load(Serializer::Reader &rd, Space *space)
+{
+	TerrainBody::Load(rd, space);
+
+	const SystemBody *sbody = GetSystemBody();
+	assert(sbody);
+	if (sbody->HasRings()) {
+		m_clipRadius = sbody->GetRadius() * sbody->m_rings.maxRadius.ToDouble();
+	} else {
+		m_clipRadius = GetBoundingRadius();
+	}
+}
 
 /*
  * dist = distance from centre
