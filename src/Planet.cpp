@@ -142,9 +142,8 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {
 		const float alpha = float(i) / float(RING_TEXTURE_LENGTH);
 		const float n = 0.5 +
-			0.5   * noise(10.0*alpha, noiseOffset, 0.0) +
-			0.25  * noise(20.0*alpha, noiseOffset, 0.0) +
-			0.125 * noise(40.0*alpha, noiseOffset, 0.0);
+			0.5   * noise( 5.0*alpha, noiseOffset, 0.0) +
+			0.125 * noise(10.0*alpha, noiseOffset, 0.0);
 
 		unsigned char *rgba = buf.Get() + i*4;
 		rgba[0] = (n*baseCol.r)*255.0f;
