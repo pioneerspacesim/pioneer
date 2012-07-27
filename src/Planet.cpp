@@ -25,7 +25,6 @@ Planet::Planet(SystemBody *sbody): TerrainBody(sbody), m_ringVertices(RING_VERTE
 	m_hasDoubleFrame = true;
 	if (sbody->HasRings()) {
 		m_clipRadius = sbody->GetRadius() * sbody->m_rings.maxRadius.ToDouble();
-		GenerateRings();
 	} else {
 		m_clipRadius = GetBoundingRadius();
 	}
@@ -108,9 +107,11 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	*outDensity = (*outPressure/(PA_2_ATMOS*GAS_CONSTANT*temp))*GAS_MOLAR_MASS;
 }
 
-void Planet::GenerateRings()
+void Planet::GenerateRings(Graphics::Renderer *renderer)
 {
 	const SystemBody *sbody = GetSystemBody();
+
+	m_ringVertices.Clear();
 
 	// generate the ring geometry
 	const float inner = sbody->m_rings.minRadius.ToFloat();
@@ -128,42 +129,38 @@ void Planet::GenerateRings()
 	m_ringVertices.Add(vector3f(0.0f, 0.0f, outer), normal, vector2f(float(segments), 1.0f));
 
 	// generate the ring texture
-#if 0
+	const int RING_TEXTURE_LENGTH = 256;
+	ScopedMalloc<unsigned char> buf(malloc(RING_TEXTURE_LENGTH*4));
+
 	MTRand rng(GetSystemBody()->seed+4609837);
-	double noiseOffset = 256.0*rng.Double();
-	float baseCol[4];
+	Color4f baseCol = sbody->m_rings.baseColor.ToColor4f();
+	baseCol.r += float(rng.Double(-0.15f, 0.15f));
+	baseCol.g += float(rng.Double(-0.15f, 0.15f));
+	baseCol.b += float(rng.Double(-0.15f, 0.15f));
+	baseCol.a += float(rng.Double(-0.1f, 0.1f));
+	double noiseOffset = 256.0 * rng.Double();
+	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {
+		const float alpha = float(i) / float(RING_TEXTURE_LENGTH);
+		const float n = 0.5 +
+			0.5   * noise(10.0*alpha, noiseOffset, 0.0) +
+			0.25  * noise(20.0*alpha, noiseOffset, 0.0) +
+			0.125 * noise(40.0*alpha, noiseOffset, 0.0);
 
-	int ringStyle = GetSystemBody()->m_ringStyle;
-	if (ringStyle == SystemBody::RING_STYLE_FROM_SEED) {
-		int which = rng.Int32(COUNTOF(RING_STYLES));
-		if (rng.Double(1.0) < RING_STYLES[which].ringProbability)
-			ringStyle = which + SystemBody::RING_STYLE_FIRST;
-		else
-			ringStyle = SystemBody::RING_STYLE_NONE;
+		unsigned char *rgba = buf.Get() + i*4;
+		rgba[0] = (n*baseCol.r)*255.0f;
+		rgba[1] = (n*baseCol.g)*255.0f;
+		rgba[2] = (n*baseCol.b)*255.0f;
+		rgba[3] = (((n/2.0f)+0.5f)*baseCol.a)*255.0f;
 	}
 
-	if (ringStyle >= SystemBody::RING_STYLE_FIRST) {
-		const RingStyleConfig &ringconf = RING_STYLES[ringStyle];
-		ringconf.ringCol.GenCol(baseCol, rng);
+	const vector2f texSize(1.0f, RING_TEXTURE_LENGTH);
+	const Graphics::TextureDescriptor texDesc(
+			Graphics::TEXTURE_RGBA, texSize, Graphics::LINEAR_REPEAT, true);
 
-		const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
-
-		float rpos = float(rng.Double(1.15,1.5));
-		float end = rpos + float(rng.Double(0.1, 1.0));
-		end = std::min(end, 2.5f);
-		while (rpos < end) {
-			float size = float(rng.Double(maxRingWidth));
-			float n =
-				0.5 + 0.5*(
-					noise(10.0*rpos, noiseOffset, 0.0) +
-					0.5*noise(20.0*rpos, noiseOffset, 0.0) +
-					0.25*noise(40.0*rpos, noiseOffset, 0.0));
-			Color col(baseCol[0] * n, baseCol[1] * n, baseCol[2] * n, baseCol[3] * n);
-			DrawRing(rpos, rpos+size, col, renderer, mat);
-			rpos += size;
-		}
-	}
-#endif
+	m_ringTexture.Reset(renderer->CreateTexture(texDesc));
+	m_ringTexture->Update(
+			static_cast<void*>(buf.Get()), texSize,
+			Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
 }
 
 void Planet::DrawGasGiantRings(Renderer *renderer)
@@ -173,9 +170,14 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	renderer->SetDepthTest(true);
 	glEnable(GL_NORMALIZE);
 
+	if (!m_ringTexture) {
+		GenerateRings(renderer);
+	}
+
 	Material mat;
 	mat.unlit = true;
 	mat.twoSided = true;
+	mat.texture0 = m_ringTexture.Get();
 	// XXX worldview numlights always 1!
 	mat.shader = Graphics::planetRingsShader[Pi::worldView->GetNumLights()-1];
 

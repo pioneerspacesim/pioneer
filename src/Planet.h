@@ -30,7 +30,7 @@ protected:
 	virtual void Load(Serializer::Reader &rd, Space *space);
 
 private:
-	void GenerateRings();
+	void GenerateRings(Graphics::Renderer *renderer);
 	void DrawGasGiantRings(Graphics::Renderer *r);
 	void DrawAtmosphere(Graphics::Renderer *r, const vector3d &camPos);
 
