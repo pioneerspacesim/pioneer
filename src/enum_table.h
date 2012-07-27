@@ -25,6 +25,5 @@ extern const struct EnumItem ENUM_SpaceStationAnimation[];
 extern const struct EnumItem ENUM_EconType[];
 extern const struct EnumItem ENUM_BodyType[];
 extern const struct EnumItem ENUM_BodySuperType[];
-extern const struct EnumItem ENUM_PlanetRingStyle[];
 
 #endif

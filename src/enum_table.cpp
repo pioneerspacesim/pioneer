@@ -298,14 +298,3 @@ const struct EnumItem ENUM_BodySuperType[] = {
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_PlanetRingStyle[] = {
-	{ "FROM_SEED", SystemBody::RING_STYLE_FROM_SEED },
-	{ "NONE", SystemBody::RING_STYLE_NONE },
-	{ "JUPITER", SystemBody::RING_STYLE_JUPITER },
-	{ "SATURN", SystemBody::RING_STYLE_SATURN },
-	{ "NEPTUNE", SystemBody::RING_STYLE_NEPTUNE },
-	{ "URANUS", SystemBody::RING_STYLE_URANUS },
-	{ "BROWN_DWARF", SystemBody::RING_STYLE_BROWN_DWARF },
-	{ 0, 0 },
-};
-

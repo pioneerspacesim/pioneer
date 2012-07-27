@@ -257,30 +257,6 @@ void LuaConstants::Register(lua_State *l)
 
 
 	/*
-	 * Constants: PlanetRingStyle
-	 *
-	 * Describes the style (composition) of planetary rings.
-	 *
-	 * FROM_SEED - ring style is chosen randomly from the planet seed.
-	 * NONE - planet has no rings
-	 * JUPITER - Jupiter-like rings
-	 * SATURN - Saturn-like rings
-	 * NEPTUNE - Neptune-like rings
-	 * URANUS - Uranus-like rings
-	 * BROWN_DWARF - Generic rings
-	 *
-	 * Availability:
-	 *
-	 *   alpha 25
-	 *
-	 * Status:
-	 *
-	 *   experimental
-	 */
-	 _create_constant_table_nonconsecutive(l, "PlanetRingStyle", ENUM_PlanetRingStyle);
-
-
-	/*
 	 * Constants: PolitCrime
 	 *
 	 * Crimes
