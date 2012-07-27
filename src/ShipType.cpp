@@ -16,10 +16,10 @@ std::vector<ShipType::Type> ShipType::missile_ships;
 
 std::vector<ShipType::Type> ShipType::playable_atmospheric_ships;
 
-std::string ShipType::LADYBIRD				= "Ladybird Starfighter";
-std::string ShipType::SIRIUS_INTERDICTOR	= "Sirius Interdictor";
-std::string ShipType::EAGLE_LRF				= "Eagle Long Range Fighter";
-std::string ShipType::EAGLE_MK3				= "Eagle MK-III";
+std::string ShipType::LADYBIRD				= "ladybird";
+std::string ShipType::SIRIUS_INTERDICTOR	= "interdictor";
+std::string ShipType::EAGLE_LRF				= "eagle_lrf";
+std::string ShipType::EAGLE_MK3				= "eagle_mk3";
 std::string ShipType::MISSILE_GUIDED		= "MISSILE_GUIDED";
 std::string ShipType::MISSILE_NAVAL			= "MISSILE_NAVAL";
 std::string ShipType::MISSILE_SMART			= "MISSILE_SMART";
@@ -180,8 +180,8 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 		return luaL_error(L, "Model %s is not defined", s.lmrModelName.c_str());
 	}
 
-	ShipType::types[s.name] = s;
-	list->push_back(s.name);
+	ShipType::types[s.lmrModelName] = s;
+	list->push_back(s.lmrModelName);
 	return 0;
 }
 
