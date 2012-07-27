@@ -146,6 +146,13 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 		rgba[1] = (n*baseCol.g)*255.0f;
 		rgba[2] = (n*baseCol.b)*255.0f;
 		rgba[3] = (((n*0.25f)+0.75f)*baseCol.a)*255.0f;
+
+	// first and last pixel are forced to zero, to give a slightly smoother ring edge
+	{
+		unsigned char *rgba = buf.Get();
+		rgba[0] = rgba[1] = rgba[2] = rgba[3] = 0;
+		rgba = buf.Get() + (RING_TEXTURE_LENGTH-1)*4;
+		rgba[0] = rgba[1] = rgba[2] = rgba[3] = 0;
 	}
 
 	const vector2f texSize(1.0f, RING_TEXTURE_LENGTH);
