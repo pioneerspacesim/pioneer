@@ -1203,10 +1203,10 @@ void SystemBody::PickRings(bool forceRings)
 		if (forceRings || (rings_die < 0.5)) {
 			const unsigned char * const baseCol
 				= RANDOM_RING_COLORS[ringRng.Int32(COUNTOF(RANDOM_RING_COLORS))];
-			m_rings.baseColor.r = baseCol[0];
-			m_rings.baseColor.g = baseCol[1];
-			m_rings.baseColor.b = baseCol[2];
-			m_rings.baseColor.a = baseCol[3];
+			m_rings.baseColor.r = Clamp(baseCol[0] + ringRng.Int32(-20,20), 0, 255);
+			m_rings.baseColor.g = Clamp(baseCol[1] + ringRng.Int32(-20,20), 0, 255);
+			m_rings.baseColor.b = Clamp(baseCol[2] + ringRng.Int32(-20,10), 0, 255);
+			m_rings.baseColor.a = Clamp(baseCol[3] + ringRng.Int32(-5,5), 0, 255);
 
 			// from wikipedia: http://en.wikipedia.org/wiki/Roche_limit
 			// basic Roche limit calculation assuming a rigid satellite
