@@ -15,6 +15,7 @@ Alpha 25
      * On Windows, error messages for graphics are shown in a message box,
        so they can be read when the game graphics aren't working (#1362)
      * Atmospheric pressure is now displayed in atmospheres instead of bar (#1363)
+     * Added essential surname-based humour to the name generator (#1403)
 
    * Fixes
      * Fix some Lua console completion edge cases (#1339)
