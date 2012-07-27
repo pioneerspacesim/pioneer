@@ -115,7 +115,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	// generate the ring geometry
 	const float inner = sbody->m_rings.minRadius.ToFloat();
 	const float outer = sbody->m_rings.maxRadius.ToFloat();
-	int segments = 64 * (Pi::detail.planets + 1);
+	int segments = 200;
 	for (int i = 0; i < segments; ++i) {
 		const float a = (2.0f*float(M_PI)) * (float(i) / float(segments));
 		const float ca = cosf(a);
