@@ -131,8 +131,28 @@ static int l_csb_height_map(lua_State *L)
 static int l_csb_rings(lua_State *L)
 {
 	CustomSystemBody *csb = l_csb_check(L, 1);
-	const fixed *minRadius = LuaFixed::CheckFromLua(L, 2);
-	const fixed *maxRadius = LuaFixed::CheckFromLua(L, 3);
+	if (lua_isboolean(L, 2)) {
+		if (lua_toboolean(L, 2)) {
+			csb->ringStatus = CustomSystemBody::WANT_RINGS;
+		} else {
+			csb->ringStatus = CustomSystemBody::WANT_NO_RINGS;
+		}
+	} else {
+		csb->ringStatus = CustomSystemBody::WANT_CUSTOM_RINGS;
+		csb->ringInnerRadius = *LuaFixed::CheckFromLua(L, 2);
+		csb->ringOuterRadius = *LuaFixed::CheckFromLua(L, 3);
+		luaL_checktype(L, 4, LUA_TTABLE);
+		Color4f col;
+		lua_rawgeti(L, 4, 1);
+		col.r = luaL_checknumber(L, -1);
+		lua_rawgeti(L, 4, 2);
+		col.g = luaL_checknumber(L, -1);
+		lua_rawgeti(L, 4, 3);
+		col.b = luaL_checknumber(L, -1);
+		lua_rawgeti(L, 4, 4);
+		col.a = luaL_optnumber(L, -1, 0.85); // default alpha value
+		csb->ringColor = col;
+	}
 	lua_settop(L, 1);
 	return 1;
 }
@@ -485,6 +505,7 @@ CustomSystemBody::CustomSystemBody():
 	want_rand_offset(true),
 	latitude(0.0),
 	longitude(0.0),
+	ringStatus(WANT_RANDOM_RINGS),
 	seed(0),
 	want_rand_seed(true)
 {}
