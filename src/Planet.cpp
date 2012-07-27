@@ -142,14 +142,14 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {
 		const float alpha = float(i) / float(RING_TEXTURE_LENGTH);
 		const float n = 0.5 +
-			0.5   * noise( 5.0*alpha, noiseOffset, 0.0) +
-			0.125 * noise(10.0*alpha, noiseOffset, 0.0);
+			0.475 * noise( 5.0*alpha, noiseOffset, 0.0) +
+			0.025 * noise(10.0*alpha, noiseOffset, 0.0);
 
 		unsigned char *rgba = buf.Get() + i*4;
 		rgba[0] = (n*baseCol.r)*255.0f;
 		rgba[1] = (n*baseCol.g)*255.0f;
 		rgba[2] = (n*baseCol.b)*255.0f;
-		rgba[3] = (((n/2.0f)+0.5f)*baseCol.a)*255.0f;
+		rgba[3] = (((n*0.25f)+0.75f)*baseCol.a)*255.0f;
 	}
 
 	const vector2f texSize(1.0f, RING_TEXTURE_LENGTH);
