@@ -177,7 +177,6 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	const SystemBody *sbody = GetSystemBody();
 	assert(sbody->HasRings());
 
-	Color color = sbody->m_rings.baseColor.ToColor4f();
 	renderer->DrawTriangles(&m_ringVertices, &mat, TRIANGLE_STRIP);
 
 	glPopAttrib();
