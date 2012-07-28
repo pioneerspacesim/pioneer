@@ -814,7 +814,7 @@ static void draw_intro(Background::Container *background, float _time)
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), 0, lc, lc, lc);
 	Pi::renderer->SetLights(1, &light);
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
@@ -845,7 +845,7 @@ static void draw_tombstone(float _time)
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), 0, lc, lc, lc);
 	Pi::renderer->SetLights(1, &light);
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
@@ -1096,6 +1096,11 @@ void Pi::Start()
 
 	menuDone = false;
 	game = 0;
+
+	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
+	// for some models
+	Pi::renderer->SetAmbientColor(Color(0.2f, 0.2f, 0.2f, 1.f));
+
 	while (!menuDone) {
 		Pi::HandleEvents();
 		Pi::renderer->BeginFrame();
