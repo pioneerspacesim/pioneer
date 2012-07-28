@@ -677,14 +677,14 @@ bool RendererLegacy::PrintDebugInfo(std::ostream &out)
 {
 	out << "OpenGL version " << glGetString(GL_VERSION);
 	out << ", running on " << glGetString(GL_VENDOR);
-	out << " " << glGetString(GL_RENDERER) << std::endl;
+	out << " " << glGetString(GL_RENDERER) << "\n";
 
-	out << "Available extensions:" << std::endl;
+	out << "Available extensions:" << "\n";
 	GLint numext = 0;
 	glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
 	if (glewIsSupported("GL_VERSION_3_0")) {
 		for (int i = 0; i < numext; ++i) {
-			out << "  " << glGetStringi(GL_EXTENSIONS, i) << std::endl;
+			out << "  " << glGetStringi(GL_EXTENSIONS, i) << "\n";
 		}
 	}
 	else {
