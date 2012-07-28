@@ -794,9 +794,8 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 //        as optical thickness increases the fraction of ambient light increases
 //        this takes altitude into account automatically
 //    * As suns set the split is biased towards ambient 
-void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensity, const std::vector<Camera::Light> &lights)
+void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::Light> &lights)
 {
-	Planet *planet = static_cast<Planet*>(_planet);
 	// position relative to the rotating frame of the planet
 	vector3d upDir = GetPosition();
 	double dist = upDir.Length();
@@ -805,7 +804,7 @@ void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensit
 	planet->GetAtmosphericState(dist, &pressure, &density);
 	double surfaceDensity;
 	Color cl;
-	_planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
+	planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
 
 	// approximate optical thickness fraction as fraction of density remaining relative to earths
 	double opticalThicknessFraction = density/EARTH_ATMOSPHERE_SURFACE_DENSITY;
@@ -901,15 +900,16 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		params.animValues[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stagePos;
 	}
 
-	// find planet Body*
-	Planet *planet;
-		
-	Body *_planet = GetFrame()->m_astroBody;
-	if ((!_planet) || !_planet->IsType(Object::PLANET)) {
+	Body *b = GetFrame()->m_astroBody;
+	assert(b);
+
+	if (!b->IsType(Object::PLANET)) {
 		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
 		RenderLmrModel(viewCoords, viewTransform);
-	} else {
-		planet = static_cast<Planet*>(_planet);
+	}
+	
+	else {
+		Planet *planet = static_cast<Planet*>(b);
 		
 		// calculate lighting
 		// available light is calculated and split between directly (diffusely/specularly) lit and ambiently lit
@@ -919,7 +919,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		
 		double ambient, intensity;
 
-		CalcLighting(_planet, ambient, intensity, lights);
+		CalcLighting(planet, ambient, intensity, lights);
 
 		for(int i = 0;i < numLights; i++) {
 			Color c = lights[i].GetDiffuse();
