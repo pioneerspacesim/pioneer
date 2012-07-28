@@ -108,7 +108,7 @@ void ObjectViewerView::Draw3D()
 		}
 		m_renderer->SetLights(1, &light);
 
-		body->Render(m_renderer, vector3d(0,0,-viewingDist), m_camRot);
+		body->Render(m_renderer, 0, vector3d(0,0,-viewingDist), m_camRot);
 	}
 }
 

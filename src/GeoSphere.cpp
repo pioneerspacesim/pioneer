@@ -1324,6 +1324,58 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 	glPopMatrix();
 }
 
+// Calculate parameters used in the atmospheric model for shaders
+// used by both LmrModels and Geosphere
+void CalcAtmosphereParams(const SystemBody *sbody, AtmosphereParameters &outAtmosParams) 
+{
+	double atmosDensity;
+
+	sbody->GetAtmosphereFlavor(&outAtmosParams.atmosCol, &atmosDensity);
+	// adjust global atmosphere opacity
+	atmosDensity *= 1e-5;
+
+	outAtmosParams.atmosDensity = static_cast<float>(atmosDensity);
+
+	// Calculate parameters used in the atmospheric model for shaders
+	// Isothermal atmospheric model
+	// See http://en.wikipedia.org/wiki/Atmospheric_pressure#Altitude_atmospheric_pressure_variation
+	// This model features an exponential decrease in pressure and density with altitude.
+	// The scale height is 1/the exponential coefficient.
+
+	// The equation for pressure is:
+	// Pressure at height h = Pressure surface * e^((-Mg/RT)*h)
+
+	// calculate (inverse) atmosphere scale height		
+	// The formula for scale height is:
+	// h = RT / Mg
+	// h is height above the surface in meters
+	// R is the universal gas constant
+	// T is the surface temperature in Kelvin
+	// g is the gravity in m/s^2
+	// M is the molar mass of air in kg/mol
+
+	// calculate gravity
+	// radius of the planet
+	const double radiusPlanet_in_m = (sbody->radius.ToDouble()*EARTH_RADIUS);
+	const double massPlanet_in_kg = (sbody->mass.ToDouble()*EARTH_MASS);
+	const double g = G*massPlanet_in_kg/(radiusPlanet_in_m*radiusPlanet_in_m);
+
+	const double T = static_cast<double>(sbody->averageTemp);
+
+	// XXX just use earth's composition for now
+	const double M = 0.02897f; // in kg/mol
+
+	const float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R*T/(M*g));
+
+	// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
+	outAtmosParams.atmosInvScaleHeight = std::max(20.0f, static_cast<float>(sbody->GetRadius() / atmosScaleHeight));
+	// integrate atmospheric density between surface and this radius. this is 10x the scale
+	// height, which should be a height at which the atmospheric density is negligible
+	outAtmosParams.atmosRadius = 1.0f + static_cast<float>(10.0f * atmosScaleHeight) / sbody->GetRadius();
+
+	outAtmosParams.planetRadius = static_cast<float>(radiusPlanet_in_m);
+}
+
 void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, const float scale) {
 	glPushMatrix();
 	glTranslated(-campos.x, -campos.y, -campos.z);
@@ -1334,61 +1386,22 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	GeosphereShader *shader = 0;
 
 	if (AreShadersEnabled()) {
-		Color atmosCol;
-		double atmosDensity;
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 
-		m_sbody->GetAtmosphereFlavor(&atmosCol, &atmosDensity);
-		atmosDensity *= 1e-5;
-
-		// Calculate parameters used in the atmospheric model for shaders
-		// Isothermal atmospheric model
-		// See http://en.wikipedia.org/wiki/Atmospheric_pressure#Altitude_atmospheric_pressure_variation
-		// This model features an exponential decrease in pressure and density with altitude.
-		// The scale height is 1/the exponential coefficient.
-
-		// The equation for pressure is:
-		// Pressure at height h = Pressure surface * e^((-Mg/RT)*h)
-
-		// calculate (inverse) atmosphere scale height		
-		// The formula for scale height is:
-		// h = RT / Mg
-		// h is height above the surface in meters
-		// R is the universal gas constant
-		// T is the surface temperature in Kelvin
-		// g is the gravity in m/s^2
-		// M is the molar mass of air in kg/mol
+		AtmosphereParameters ap;
+		CalcAtmosphereParams(m_sbody, ap);
 		
-		// calculate gravity
-		// radius of the planet
-		const double radiusPlanet_in_m = (m_sbody->radius.ToDouble()*EARTH_RADIUS);
-		const double massPlanet_in_kg = (m_sbody->mass.ToDouble()*EARTH_MASS);
-		const double g = G*massPlanet_in_kg/(radiusPlanet_in_m*radiusPlanet_in_m);
-
-		const double T = static_cast<double>(m_sbody->averageTemp);
-
-		// XXX just use earth's composition for now
-		const double M = 0.02897f; // in kg/mol
-
-		const float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R*T/(M*g));
-
-		// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
-		const float atmosInvScaleHeight = std::max(20.0f, static_cast<float>(m_sbody->GetRadius() / atmosScaleHeight));
-		// integrate atmospheric density between surface and this radius. this is 10x the scale
-		// height, which should be a height at which the atmospheric density is negligible
-		const float atmosRadius = 1.0f + static_cast<float>(10.0f * atmosScaleHeight) / m_sbody->GetRadius();
-
-		if (atmosDensity > 0.0) {
+		if (ap.atmosDensity > 0.0) {
 			shader = s_geosphereSkyShader[Graphics::State::GetNumLights()-1];
 			shader->Use();
 			shader->set_geosphereScale(scale);
 			shader->set_geosphereScaledRadius(radius / scale);
-			shader->set_geosphereAtmosTopRad(atmosRadius);
-			shader->set_geosphereAtmosInvScaleHeight(atmosInvScaleHeight);
-			shader->set_geosphereAtmosFogDensity(atmosDensity);
-			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
+			shader->set_geosphereAtmosTopRad(ap.atmosRadius);
+			shader->set_geosphereAtmosInvScaleHeight(ap.atmosInvScaleHeight);
+			shader->set_geosphereAtmosFogDensity(ap.atmosDensity);
+			shader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
 			shader->set_geosphereCenter(center.x, center.y, center.z);
 
 			Material atmoMat;
@@ -1399,7 +1412,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, campos, atmosRadius*1.01, &atmoMat);
+			DrawAtmosphereSurface(renderer, campos, ap.atmosRadius*1.01, &atmoMat);
 			renderer->SetDepthWrite(true);
 			renderer->SetBlendMode(BLEND_SOLID);
 		}
@@ -1417,10 +1430,10 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 			shader->Use();
 			shader->set_geosphereScale(scale);
 			shader->set_geosphereScaledRadius(radius / scale);
-			shader->set_geosphereAtmosTopRad(atmosRadius);
-			shader->set_geosphereAtmosInvScaleHeight(atmosInvScaleHeight);
-			shader->set_geosphereAtmosFogDensity(atmosDensity);
-			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
+			shader->set_geosphereAtmosTopRad(ap.atmosRadius);
+			shader->set_geosphereAtmosInvScaleHeight(ap.atmosInvScaleHeight);
+			shader->set_geosphereAtmosFogDensity(ap.atmosDensity);
+			shader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
 			shader->set_geosphereCenter(center.x, center.y, center.z);
 		}
 	}
@@ -1434,8 +1447,8 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 
 	// save old global ambient
 	// XXX add GetAmbient to renderer or save ambient in scene? (Space)
-	Color oldAmbient;
-	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
+	Color oldAmbient = Graphics::State::GetGlobalSceneAmbientColor();
+	//glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
 	float b = AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
 

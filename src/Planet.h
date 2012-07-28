@@ -18,7 +18,7 @@ public:
 	virtual ~Planet();
 
 	virtual double GetClipRadius() const { return m_clipRadius; }
-	virtual void SubRender(Graphics::Renderer *r, const vector3d &camPos);
+	virtual void SubRender(Graphics::Renderer *r, const Camera *camera, const vector3d &camPos);
 
 	void GetAtmosphericState(double dist, double *outPressure, double *outDensity) const;
 
@@ -31,7 +31,7 @@ protected:
 
 private:
 	void GenerateRings(Graphics::Renderer *renderer);
-	void DrawGasGiantRings(Graphics::Renderer *r);
+	void DrawGasGiantRings(Graphics::Renderer *r, const Camera *camera);
 	void DrawAtmosphere(Graphics::Renderer *r, const vector3d &camPos);
 
 	double m_clipRadius;

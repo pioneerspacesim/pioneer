@@ -174,7 +174,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 			Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
 }
 
-void Planet::DrawGasGiantRings(Renderer *renderer)
+void Planet::DrawGasGiantRings(Renderer *renderer, const Camera *camera)
 {
 	renderer->SetBlendMode(BLEND_ALPHA_PREMULT);
 	glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT );
@@ -189,8 +189,8 @@ void Planet::DrawGasGiantRings(Renderer *renderer)
 	mat.unlit = true;
 	mat.twoSided = true;
 	mat.texture0 = m_ringTexture.Get();
-	// XXX worldview numlights always 1!
-	mat.shader = Graphics::planetRingsShader[Pi::worldView->GetNumLights()-1];
+	// XXX should get number of lights through camera when object viewer draw doesn't pass a null pointer
+	mat.shader = Graphics::planetRingsShader[Graphics::State::GetNumLights()-1];
 
 	const SystemBody *sbody = GetSystemBody();
 	assert(sbody->HasRings());
@@ -287,8 +287,8 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	glPopMatrix();
 }
 
-void Planet::SubRender(Renderer *r, const vector3d &camPos)
+void Planet::SubRender(Renderer *r, const Camera *camera, const vector3d &camPos)
 {
-	if (GetSystemBody()->HasRings()) { DrawGasGiantRings(r); }
+	if (GetSystemBody()->HasRings()) { DrawGasGiantRings(r, camera); }
 	if (!AreShadersEnabled()) DrawAtmosphere(r, camPos);
 }
