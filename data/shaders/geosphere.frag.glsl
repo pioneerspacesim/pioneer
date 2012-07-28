@@ -49,7 +49,5 @@ void main(void)
 	gl_FragColor = (fogFactor) * ((diff)*gl_Color + gl_LightModel.ambient*gl_Color) +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor) + gl_FrontMaterial.emission;
 
-#ifdef ZHACK
 	SetFragDepth();
-#endif
 }
