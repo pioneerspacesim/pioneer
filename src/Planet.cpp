@@ -9,6 +9,11 @@
 #include "graphics/Texture.h"
 #include "graphics/VertexArray.h"
 
+#ifdef _MSC_VER
+	#include "win32/WinMath.h"
+	#define log1pf LogOnePlusX
+#endif // _MSC_VER
+
 using namespace Graphics;
 
 static const Graphics::AttributeSet RING_VERTEX_ATTRIBS

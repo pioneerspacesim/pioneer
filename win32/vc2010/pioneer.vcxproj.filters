@@ -372,9 +372,6 @@
     <ClCompile Include="..\..\src\win32\FileSystemWin32.cpp">
       <Filter>src\win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\win32\Gamma.cpp">
-      <Filter>src\win32</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\win32\pch.cpp">
       <Filter>src\win32</Filter>
     </ClCompile>
@@ -386,6 +383,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\posix\OSPosix.cpp">
       <Filter>src\posix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\win32\WinMath.cpp">
+      <Filter>src\win32</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -797,9 +797,6 @@
     <ClInclude Include="..\..\src\LuaComms.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\win32\Gamma.h">
-      <Filter>src\win32</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\win32\pch.h">
       <Filter>src\win32</Filter>
     </ClInclude>
@@ -807,6 +804,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\win32\TextUtils.h">
+      <Filter>src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\win32\WinMath.h">
       <Filter>src\win32</Filter>
     </ClInclude>
   </ItemGroup>
