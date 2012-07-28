@@ -141,7 +141,7 @@ protected:
 private:
 	void DoDockingAnimation(const double timeStep);
 	void DoLawAndOrder();
-	void CalcLighting(Body *_planet, double &ambient, double &intensity, const std::vector<Light> &lights);
+	void CalcLighting(Body *_planet, double &ambient, double &intensity, const std::vector<Camera::Light> &lights);
 
 	/* Stage 0 means docking port empty
 	 * Stage 1 means docking clearance granted to ->ship

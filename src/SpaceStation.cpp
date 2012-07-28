@@ -794,7 +794,7 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 //        as optical thickness increases the fraction of ambient light increases
 //        this takes altitude into account automatically
 //    * As suns set the split is biased towards ambient 
-void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensity, const std::vector<Light> &lights)
+void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensity, const std::vector<Camera::Light> &lights)
 {
 	Planet *planet = static_cast<Planet*>(_planet);
 	// position relative to the rotating frame of the planet
@@ -816,7 +816,7 @@ void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensit
 	double light = 0.0;
 	double light_clamped = 0.0;
 
-	for(std::vector<Light>::const_iterator l = lights.begin();
+	for(std::vector<Camera::Light>::const_iterator l = lights.begin();
 		l != lights.end(); ++l) {
 			
 			double sunAngle;
@@ -913,8 +913,8 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		
 		// calculate lighting
 		// available light is calculated and split between directly (diffusely/specularly) lit and ambiently lit
-		const std::vector<Light> &lights = camera->GetLights();
-		std::vector<Light> newLights = lights;
+		const std::vector<Camera::Light> &lights = camera->GetLights();
+		std::vector<Camera::Light> newLights = lights;
 		int numLights = lights.size();
 		
 		double ambient, intensity;

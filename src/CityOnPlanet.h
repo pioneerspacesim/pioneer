@@ -10,6 +10,7 @@ class Planet;
 class SpaceStation;
 class Frame;
 class Geom;
+class Camera;
 namespace Graphics { class Renderer; }
 
 #define CITY_ON_PLANET_RADIUS 5000.0

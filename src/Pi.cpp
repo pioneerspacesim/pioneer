@@ -13,7 +13,6 @@
 #include "GeoSphere.h"
 #include "InfoView.h"
 #include "Lang.h"
-#include "Light.h"
 #include "LmrModel.h"
 #include "LuaBody.h"
 #include "LuaCargoBody.h"
@@ -69,6 +68,7 @@
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "graphics/Light.h"
 #include "gui/Gui.h"
 
 #include <fstream>
@@ -814,7 +814,7 @@ static void draw_intro(Background::Container *background, float _time)
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), 0, lc, lc, lc);
+	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
 	Pi::renderer->SetLights(1, &light);
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
@@ -845,7 +845,7 @@ static void draw_tombstone(float _time)
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), 0, lc, lc, lc);
+	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
 	Pi::renderer->SetLights(1, &light);
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);

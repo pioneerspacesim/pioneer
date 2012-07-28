@@ -3,6 +3,7 @@
 
 #include "libs.h"
 #include "Color.h"
+#include "Light.h"
 
 /*
  * bunch of reused 3d drawy routines.
