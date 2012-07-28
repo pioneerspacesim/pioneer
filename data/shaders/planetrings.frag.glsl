@@ -14,7 +14,6 @@ void main(void)
 	}
 	col.a = texCol.a;
 	gl_FragColor = col;
-#ifdef ZHACK
-	SetFragDepth(gl_TexCoord[6].z);
-#endif
+
+	SetFragDepth();
 }

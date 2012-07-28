@@ -129,7 +129,6 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 	}
 
 	if (additional_defines) shader_src.Append(additional_defines);
-	shader_src.Append("#define ZHACK 1\n");
 	shader_src.Append(s_lib_all->AsStringRange());
 	shader_src.Append(s_lib_vs->AsStringRange());
 
@@ -148,7 +147,6 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 		shader_src.Clear();
 
 		if (additional_defines) { shader_src.Append(additional_defines); }
-		shader_src.Append("#define ZHACK 1\n");
 		shader_src.Append(s_lib_all->AsStringRange());
 		shader_src.Append(s_lib_fs->AsStringRange());
 		if (allcode) { shader_src.Append(allcode->AsStringRange()); }

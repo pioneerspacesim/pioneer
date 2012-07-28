@@ -15,6 +15,8 @@ Alpha 25
      * On Windows, error messages for graphics are shown in a message box,
        so they can be read when the game graphics aren't working (#1362)
      * Atmospheric pressure is now displayed in atmospheres instead of bar (#1363)
+     * Added essential surname-based humour to the name generator (#1403)
+     * Include more limits and capability information in opengl.txt (#1408, #1410)
 
    * Fixes
      * Fix some Lua console completion edge cases (#1339)
@@ -22,12 +24,14 @@ Alpha 25
      * Fix bug which prevented some Polish texts showing up (#1382)
      * Fix crash when autopilot tried to fly around a gravpoint (#1347, #1344)
      * Fix crash when calculating distance to a ship in hyperspace (#1393, #1388)
+     * Fix shaders to avoid 'varying' value limits on some hardware (#1407, #1409)
 
    * Internal changes
      * Move platform specific code into src/{win32,posix} dirs (#1362, #1369)
      * Move video initialisation into Graphics::Init (#1362, #1370)
      * Add COUNTOF macro to safely get number of elements in a static array (1386)
      * Update scan_enums.py to deal with Unicode byte-order marks (#1389)
+     * Always used logarithmic depth buffer with shaders (#1410)
 
 Alpha 24
 
