@@ -51,6 +51,12 @@
     <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightAsteroid2.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightAsteroid3.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightAsteroid4.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightBarrenRock.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightBarrenRock2.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightBarrenRock3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\terrain\Terrain.h" />
