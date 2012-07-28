@@ -6,6 +6,7 @@
 // Note that the functions Gamma and LogGamma are mutually dependent.
 double LogGamma(double);
 double Gamma(double);
+double LogOnePlusX(double x);
 
 #endif
 

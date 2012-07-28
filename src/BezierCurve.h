@@ -5,7 +5,7 @@
 #include "Serializer.h"
 
 #ifdef _MSC_VER
-	#include "win32/Gamma.h"
+	#include "win32/WinMath.h"
 	#define lgamma LogGamma
 #endif // _MSC_VER
 

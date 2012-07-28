@@ -6,10 +6,9 @@ Alpha 25
      * Catalan translation (#1371)
      * Hyperjumps now have sound effects (#1379)
      * Terrains have been update, and more terrains added for asteroids (#1349)
-     * Text entry widgets (notably the Lua console) now support CTRL+LEFT and
-       CTRL+RIGHT arrows to jump to word boundaries (#1392, #1372)
      * Atmospheric height and appearance is now more realistic (#972, #1278, #1357)
      * Atmospheric pressure and temperature now follows a dry adiabatic model (#1363)
+     * Rewritten gas giant rings, with better transparency and shadows (#1404)
 
    * Minor changes and tweaks
      * On Windows, error messages for graphics are shown in a message box,
@@ -17,6 +16,8 @@ Alpha 25
      * Atmospheric pressure is now displayed in atmospheres instead of bar (#1363)
      * Added essential surname-based humour to the name generator (#1403)
      * Include more limits and capability information in opengl.txt (#1408, #1410)
+     * Text entry widgets (notably the Lua console) now support CTRL+LEFT and
+       CTRL+RIGHT arrows to jump to word boundaries (#1392, #1372)
 
    * Fixes
      * Fix some Lua console completion edge cases (#1339)
@@ -25,6 +26,10 @@ Alpha 25
      * Fix crash when autopilot tried to fly around a gravpoint (#1347, #1344)
      * Fix crash when calculating distance to a ship in hyperspace (#1393, #1388)
      * Fix shaders to avoid 'varying' value limits on some hardware (#1407, #1409)
+
+   * Script and model changes
+     * Gas giant rings can now be defined in a custom system using the :rings
+       parameter (#1404)
 
    * Internal changes
      * Move platform specific code into src/{win32,posix} dirs (#1362, #1369)

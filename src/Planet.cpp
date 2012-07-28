@@ -6,36 +6,47 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/Graphics.h"
+#include "graphics/Texture.h"
 #include "graphics/VertexArray.h"
 
+#ifdef _MSC_VER
+	#include "win32/WinMath.h"
+	#define log1pf LogOnePlusX
+#endif // _MSC_VER
+
 using namespace Graphics;
-static const double ATMOSPHERE_RADIUS = 1.015;
 
-struct ColRangeObj_t {
-	float baseCol[4]; float modCol[4]; float modAll;
+static const Graphics::AttributeSet RING_VERTEX_ATTRIBS
+	= Graphics::ATTRIB_POSITION
+	| Graphics::ATTRIB_UV0;
 
-	void GenCol(float col[4], MTRand &rng) const {
-		float ma = 1 + float(rng.Double(modAll*2)-modAll);
-		for (int i=0; i<4; i++) col[i] = baseCol[i] + float(rng.Double(-modCol[i], modCol[i]));
-		for (int i=0; i<3; i++) col[i] = Clamp(ma*col[i], 0.0f, 1.0f);
-	}
-};
-
-ColRangeObj_t barrenBodyCol = { { .3f,.3f,.3f,1 },{0,0,0,0},.3f };
-ColRangeObj_t barrenContCol = { { .2f,.2f,.2f,1 },{0,0,0,0},.3f };
-ColRangeObj_t barrenEjectaCraterCol = { { .5f,.5f,.5f,1 },{0,0,0,0},.2f };
-float darkblue[4] = { .05f, .05f, .2f, 1 };
-float blue[4] = { .2f, .2f, 1, 1 };
-float green[4] = { .2f, .8f, .2f, 1 };
-float white[4] = { 1, 1, 1, 1 };
-
-Planet::Planet(): TerrainBody()
+Planet::Planet(): TerrainBody(), m_ringVertices(RING_VERTEX_ATTRIBS)
 {
 }
 
-Planet::Planet(SystemBody *sbody): TerrainBody(sbody)
+Planet::Planet(SystemBody *sbody): TerrainBody(sbody), m_ringVertices(RING_VERTEX_ATTRIBS)
 {
 	m_hasDoubleFrame = true;
+	if (sbody->HasRings()) {
+		m_clipRadius = sbody->GetRadius() * sbody->m_rings.maxRadius.ToDouble();
+	} else {
+		m_clipRadius = GetBoundingRadius();
+	}
+}
+
+Planet::~Planet() {}
+
+void Planet::Load(Serializer::Reader &rd, Space *space)
+{
+	TerrainBody::Load(rd, space);
+
+	const SystemBody *sbody = GetSystemBody();
+	assert(sbody);
+	if (sbody->HasRings()) {
+		m_clipRadius = sbody->GetRadius() * sbody->m_rings.maxRadius.ToDouble();
+	} else {
+		m_clipRadius = GetBoundingRadius();
+	}
 }
 
 /*
@@ -100,113 +111,91 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	*outDensity = (*outPressure/(PA_2_ATMOS*GAS_CONSTANT*temp))*GAS_MOLAR_MASS;
 }
 
-struct GasGiantDef_t {
-	int hoopMin, hoopMax; float hoopWobble;
-	int blobMin, blobMax;
-	float poleMin, poleMax; // size range in radians. zero for no poles.
-	float ringProbability;
-	ColRangeObj_t ringCol;
-};
-
-static const int NUM_GGDEFS = 5;
-static GasGiantDef_t ggdefs[NUM_GGDEFS] = {
+void Planet::GenerateRings(Graphics::Renderer *renderer)
 {
-	/* jupiter */
-	30, 40, 0.05f,
-	20, 30,
-	0, 0,
-	0.5,
-    { { .61f,.48f,.384f,.8f }, {0,0,0,.2}, 0.3f },
-}, {
-	/* saturnish */
-	10, 25, 0.05f,
-	8, 20, // blob range
-	0.2f, 0.2f, // pole size
-	0.5,
-	{ { .61f,.48f,.384f,.85f }, {0,0,0,.1}, 0.3f },
-}, {
-	/* neptunish */
-	3, 6, 0.25f,
-	2, 6,
-	0, 0,
-	0.5,
-    { { .71f,.68f,.684f,.8f }, {0,0,0,.1f}, 0.3f },
-}, {
-	/* uranus-like *wink* */
-	2, 3, 0.1f,
-	1, 2,
-	0, 0,
-	0.5,
-	{ { .51f,.48f,.384f,.8f }, {0,0,0,.1f}, 0.3f },
-}, {
-	/* brown dwarf-like */
-	0, 0, 0.05f,
-	10, 20,
-	0.2f, 0.2f,
-	0.5,
-    { { .81f,.48f,.384f,.8f }, {0,0,0,.1f}, 0.3f },
-},
-};
+	const SystemBody *sbody = GetSystemBody();
 
-#define PLANET_AMBIENT	0.1f
+	m_ringVertices.Clear();
 
-static void DrawRing(double inner, double outer, const Color &color, Renderer *r, const Material &mat)
-{
-	float step = 0.1f / (Pi::detail.planets + 1);
-
-	VertexArray vts(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL);
-	const vector3f normal(0.f, 1.f, 0.f);
-	for (float ang=0; ang<2*M_PI; ang+=step) {
-		vts.Add(vector3f(float(inner)*sin(ang), 0.f, float(inner)*cos(ang)), color, normal);
-		vts.Add(vector3f(float(outer)*sin(ang), 0.f, float(outer)*cos(ang)), color, normal);
+	// generate the ring geometry
+	const float inner = sbody->m_rings.minRadius.ToFloat();
+	const float outer = sbody->m_rings.maxRadius.ToFloat();
+	int segments = 200;
+	for (int i = 0; i < segments; ++i) {
+		const float a = (2.0f*float(M_PI)) * (float(i) / float(segments));
+		const float ca = cosf(a);
+		const float sa = sinf(a);
+		m_ringVertices.Add(vector3f(inner*sa, 0.0f, inner*ca), vector2f(float(i), 0.0f));
+		m_ringVertices.Add(vector3f(outer*sa, 0.0f, outer*ca), vector2f(float(i), 1.0f));
 	}
-	vts.Add(vector3f(0.f, 0.f, float(inner)), color, normal);
-	vts.Add(vector3f(0.f, 0.f, float(outer)), color, normal);
+	m_ringVertices.Add(vector3f(0.0f, 0.0f, inner), vector2f(float(segments), 0.0f));
+	m_ringVertices.Add(vector3f(0.0f, 0.0f, outer), vector2f(float(segments), 1.0f));
 
-	r->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
+	// generate the ring texture
+	const int RING_TEXTURE_LENGTH = 256;
+	ScopedMalloc<unsigned char> buf(malloc(RING_TEXTURE_LENGTH*4));
+
+	const float ringScale = (outer-inner)*sbody->GetRadius() / 1.5e7f;
+
+	MTRand rng(GetSystemBody()->seed+4609837);
+	Color4f baseCol = sbody->m_rings.baseColor.ToColor4f();
+	double noiseOffset = 2048.0 * rng.Double();
+	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {
+		const float alpha = (float(i) / float(RING_TEXTURE_LENGTH)) * ringScale;
+		const float n = 0.25 +
+			0.60 * noise( 5.0 * alpha, noiseOffset, 0.0) +
+			0.15 * noise(10.0 * alpha, noiseOffset, 0.0);
+
+		const float LOG_SCALE = 1.0f/sqrtf(sqrtf(log1pf(1.0f)));
+		const float v = LOG_SCALE*sqrtf(sqrtf(log1pf(n)));
+
+		unsigned char *rgba = buf.Get() + i*4;
+		rgba[0] = (v*baseCol.r)*255.0f;
+		rgba[1] = (v*baseCol.g)*255.0f;
+		rgba[2] = (v*baseCol.b)*255.0f;
+		rgba[3] = (((v*0.25f)+0.75f)*baseCol.a)*255.0f;
+	}
+
+	// first and last pixel are forced to zero, to give a slightly smoother ring edge
+	{
+		unsigned char *rgba = buf.Get();
+		rgba[0] = rgba[1] = rgba[2] = rgba[3] = 0;
+		rgba = buf.Get() + (RING_TEXTURE_LENGTH-1)*4;
+		rgba[0] = rgba[1] = rgba[2] = rgba[3] = 0;
+	}
+
+	const vector2f texSize(1.0f, RING_TEXTURE_LENGTH);
+	const Graphics::TextureDescriptor texDesc(
+			Graphics::TEXTURE_RGBA, texSize, Graphics::LINEAR_REPEAT, true);
+
+	m_ringTexture.Reset(renderer->CreateTexture(texDesc));
+	m_ringTexture->Update(
+			static_cast<void*>(buf.Get()), texSize,
+			Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
 }
 
 void Planet::DrawGasGiantRings(Renderer *renderer)
 {
-	renderer->SetBlendMode(BLEND_ALPHA_ONE);
+	renderer->SetBlendMode(BLEND_ALPHA_PREMULT);
 	glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT );
 	renderer->SetDepthTest(true);
 	glEnable(GL_NORMALIZE);
 
+	if (!m_ringTexture) {
+		GenerateRings(renderer);
+	}
+
 	Material mat;
 	mat.unlit = true;
 	mat.twoSided = true;
+	mat.texture0 = m_ringTexture.Get();
 	// XXX worldview numlights always 1!
 	mat.shader = Graphics::planetRingsShader[Pi::worldView->GetNumLights()-1];
 
-//	MTRand rng((int)Pi::game->GetTime());
-	MTRand rng(GetSystemBody()->seed+965467);
+	const SystemBody *sbody = GetSystemBody();
+	assert(sbody->HasRings());
 
-	double noiseOffset = 256.0*rng.Double();
-	float baseCol[4];
-
-	// just use a random gas giant flavour for the moment
-	GasGiantDef_t &ggdef = ggdefs[rng.Int32(COUNTOF(ggdefs))];
-	ggdef.ringCol.GenCol(baseCol, rng);
-
-	const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
-
-	if (rng.Double(1.0) < ggdef.ringProbability) {
-		float rpos = float(rng.Double(1.15,1.5));
-		float end = rpos + float(rng.Double(0.1, 1.0));
-		end = std::min(end, 2.5f);
-		while (rpos < end) {
-			float size = float(rng.Double(maxRingWidth));
-			float n =
-				0.5 + 0.5*(
-					noise(10.0*rpos, noiseOffset, 0.0) +
-					0.5*noise(20.0*rpos, noiseOffset, 0.0) +
-					0.25*noise(40.0*rpos, noiseOffset, 0.0));
-			Color col(baseCol[0] * n, baseCol[1] * n, baseCol[2] * n, baseCol[3] * n);
-			DrawRing(rpos, rpos+size, col, renderer, mat);
-			rpos += size;
-		}
-	}
+	renderer->DrawTriangles(&m_ringVertices, &mat, TRIANGLE_STRIP);
 
 	glPopAttrib();
 	renderer->SetBlendMode(BLEND_SOLID);
@@ -300,7 +289,6 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 void Planet::SubRender(Renderer *r, const vector3d &camPos)
 {
-	if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings(r);
-
+	if (GetSystemBody()->HasRings()) { DrawGasGiantRings(r); }
 	if (!AreShadersEnabled()) DrawAtmosphere(r, camPos);
 }
