@@ -6,6 +6,8 @@
 #include "matrix4x4.h"
 #include "Background.h"
 #include "Body.h"
+#include "Light.h"
+
 
 class Frame;
 namespace Graphics { class Renderer; }
@@ -31,6 +33,10 @@ public:
 
 	// only valid between Update() and Draw()
 	const Frame *GetFrame() const { return m_camFrame; }
+
+	// lights with properties in camera space
+	const std::vector<Light> &GetLights() const { return m_lights; }
+	const int GetNumLights() const { return m_lights.size(); }
 
 	// get the frustum. use for projection
 	const Graphics::Frustum &GetFrustum() const { return m_frustum; }
@@ -89,8 +95,10 @@ private:
 			return a.camDist > b.camDist;
 		}
 	};
-
+	
 	std::list<BodyAttrs> m_sortedBodies;
+
+	std::vector<Light> m_lights;
 
 	Graphics::Renderer *m_renderer;
 };

@@ -254,8 +254,27 @@ SHADER_CLASS_BEGIN(LmrShader)
 	SHADER_UNIFORM_SAMPLER(texGlow)
 SHADER_CLASS_END()
 
+SHADER_CLASS_BEGIN(LmrAtmosShader)
+	SHADER_UNIFORM_INT(usetex)
+	SHADER_UNIFORM_INT(useglow)
+	SHADER_UNIFORM_SAMPLER(tex)
+	SHADER_UNIFORM_SAMPLER(texGlow)
+
+	//SHADER_UNIFORM_FLOAT(lmrScale)
+	SHADER_UNIFORM_FLOAT(planetScaledRadius)
+	SHADER_UNIFORM_FLOAT(planetAtmosTopRad)
+	SHADER_UNIFORM_FLOAT(planetAtmosInvScaleHeight)
+	SHADER_UNIFORM_FLOAT(planetAtmosFogDensity)
+	SHADER_UNIFORM_VEC4(atmosColor)
+	SHADER_UNIFORM_VEC3(planetCenter)
+	
+	SHADER_UNIFORM_FLOAT(ambient)
+	SHADER_UNIFORM_FLOAT(intensity)
+SHADER_CLASS_END()
+
 static LmrShader *s_sunlightShader[4];
 static LmrShader *s_pointlightShader[4];
+static LmrAtmosShader *s_sunlitModelsInAtmosphereShader[4];
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
 static FontCache s_fontCache;
@@ -289,14 +308,36 @@ void LmrNotifyScreenWidth(float width)
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
 
-//binds shader and sets lmr specific uniforms
-void UseProgram(LmrShader *shader, bool Textured = false, bool Glowmap = false) {
+//picks shader and sets uniforms
+void UseProgram(Graphics::Shader *s, const LmrObjParams *p, bool Textured = false, bool Glowmap = false) {
 	if (Graphics::AreShadersEnabled()) {
-		shader->Use();
-		if (Textured) shader->set_tex(0);
-		shader->set_usetex(Textured ? 1 : 0);
-		if (Glowmap) shader->set_texGlow(1);
-		shader->set_useglow(Glowmap ? 1 : 0);
+		if (!(Pi::modelsInAtmosphere && p->atmosphericModel)) {
+			LmrShader *shader = static_cast<LmrShader *>(s);
+			shader->Use();
+			if (Textured) shader->set_tex(0);
+			shader->set_usetex(Textured ? 1 : 0);
+			if (Glowmap) shader->set_texGlow(1);
+			shader->set_useglow(Glowmap ? 1 : 0);
+		} else if (Pi::modelsInAtmosphere && p->atmosphericModel) {
+			LmrAtmosShader *shader = static_cast<LmrAtmosShader *>(s);
+			shader->Use();
+			// model uniforms
+			if (Textured) shader->set_tex(0);
+			shader->set_usetex(Textured ? 1 : 0);
+			if (Glowmap) shader->set_texGlow(1);
+			shader->set_useglow(Glowmap ? 1 : 0);
+			// atmosphere uniforms
+			shader->set_planetScaledRadius(p->atmosParams.planetRadius);
+			shader->set_planetAtmosTopRad(p->atmosParams.atmosRadius);
+			shader->set_planetAtmosInvScaleHeight(p->atmosParams.atmosInvScaleHeight);
+			shader->set_planetAtmosFogDensity(p->atmosParams.atmosDensity);
+			shader->set_atmosColor(p->atmosParams.atmosCol.r, p->atmosParams.atmosCol.g,
+								   p->atmosParams.atmosCol.b, p->atmosParams.atmosCol.a);
+			shader->set_planetCenter(p->planetCenter.x, p->planetCenter.y, p->planetCenter.z);
+			// lighting
+			shader->set_ambient(p->ambientLight);
+			shader->set_intensity(p->directLight);
+		}
 	}
 }
 
@@ -380,8 +421,12 @@ public:
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
 		int activeLights = 0;
 		s_numTrisRendered += m_indices.size()/3;
-
-		LmrShader *curShader = s_sunlightShader[Graphics::State::GetNumLights()-1];
+		
+		Graphics::Shader *curShader;
+		if (params->atmosphericModel && Pi::modelsInAtmosphere)
+			curShader = static_cast<Graphics::Shader *>(s_sunlitModelsInAtmosphereShader[Graphics::State::GetNumLights()-1]);	
+		else
+			curShader = static_cast<Graphics::Shader *>(s_sunlightShader[Graphics::State::GetNumLights()-1]);
 
 		BindBuffers();
 
@@ -404,9 +449,9 @@ public:
 						glActiveTexture(GL_TEXTURE1);
 						glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op.elems.glowmap)->GetTextureNum());
 					}
-					UseProgram(curShader, true, op.elems.glowmapFile);
+					UseProgram(curShader, params, true, op.elems.glowmapFile);
 				} else {
-					UseProgram(curShader, false);
+					UseProgram(curShader, params, false);
 				}
 				if (m_isStatic) {
 					// from static VBO
@@ -512,7 +557,10 @@ public:
 					int numLights = Graphics::State::GetNumLights();
 					for (int j=0; j<numLights; j++) glEnable(GL_LIGHT0 + j);
 					for (int j=4; j<8; j++) glDisable(GL_LIGHT0 + j);
-					curShader = s_sunlightShader[Graphics::State::GetNumLights()-1];
+					if (params->atmosphericModel && Pi::modelsInAtmosphere)
+						curShader = static_cast<Graphics::Shader *>(s_sunlitModelsInAtmosphereShader[Graphics::State::GetNumLights()-1]);	
+					else
+						curShader = static_cast<Graphics::Shader *>(s_sunlightShader[Graphics::State::GetNumLights()-1]);
 				}
 				break;
 			case OP_USE_LIGHT:
@@ -1249,9 +1297,10 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	s_curBuf = 0;
 
 	Graphics::UnbindAllBuffers();
-	//XXX hack. Unuse any shader. Can be removed when LMR uses Renderer.
-	if (Graphics::AreShadersEnabled())
+	//XXX hack. Unuse all shaders. Can be removed when LMR uses Renderer.
+	if (Graphics::AreShadersEnabled()){
 		s_sunlightShader[0]->Unuse();
+	}
 
 	glDisable(GL_NORMALIZE);
 	s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
@@ -4508,6 +4557,10 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 	s_sunlightShader[1] = new LmrShader("model", "#define NUM_LIGHTS 2\n");
 	s_sunlightShader[2] = new LmrShader("model", "#define NUM_LIGHTS 3\n");
 	s_sunlightShader[3] = new LmrShader("model", "#define NUM_LIGHTS 4\n");
+	s_sunlitModelsInAtmosphereShader[0] = new LmrAtmosShader("model-in-atmosphere", "#define NUM_LIGHTS 1\n");
+	s_sunlitModelsInAtmosphereShader[1] = new LmrAtmosShader("model-in-atmosphere", "#define NUM_LIGHTS 2\n");
+	s_sunlitModelsInAtmosphereShader[2] = new LmrAtmosShader("model-in-atmosphere", "#define NUM_LIGHTS 3\n");
+	s_sunlitModelsInAtmosphereShader[3] = new LmrAtmosShader("model-in-atmosphere", "#define NUM_LIGHTS 4\n");
 	s_pointlightShader[0] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 1\n");
 	s_pointlightShader[1] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 2\n");
 	s_pointlightShader[2] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 3\n");

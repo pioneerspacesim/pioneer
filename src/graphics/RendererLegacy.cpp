@@ -260,15 +260,15 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 	}
 	//XXX should probably disable unused lights (for legacy renderer only)
 
-	Graphics::State::SetNumLights(numlights);
-
+	Graphics::State::SetLights(numlights, lights);
+	
 	return true;
 }
 
 bool RendererLegacy::SetAmbientColor(const Color &c)
 {
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, c);
-
+	Graphics::State::SetGlobalSceneAmbientColor(c);
 	return true;
 }
 
