@@ -105,6 +105,12 @@
     <ClCompile Include="..\..\..\src\terrain\TerrainColorVolcanic.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainFeature.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainHeightAsteroid.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightAsteroid2.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightAsteroid3.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightAsteroid4.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightBarrenRock.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightBarrenRock2.cpp" />
+    <ClCompile Include="..\..\..\src\terrain\TerrainHeightBarrenRock3.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainHeightFlat.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainHeightHillsCraters.cpp" />
     <ClCompile Include="..\..\..\src\terrain\TerrainHeightHillsCraters2.cpp" />
