@@ -80,6 +80,6 @@ void main(void)
 	if ( usetex )
 		gl_FragColor *= texture2D(tex, gl_TexCoord[0].st);
 #ifdef ZHACK
-	SetFragDepth(gl_TexCoord[6].z);
+	SetFragDepth();
 #endif
 }
