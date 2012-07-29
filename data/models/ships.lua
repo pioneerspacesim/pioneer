@@ -1,4 +1,4 @@
-define_model('missile', {
+define_model('missile_unguided', {
 	info = {
 		bounding_radius = 4,
 		materials={ 'body' },
@@ -12,7 +12,47 @@ define_model('missile', {
 	end
 })
 
+define_model('missile_guided', {
+	info = {
+		bounding_radius = 4,
+		materials={ 'body' },
+		tags = {'missile'},
+	},
+	static = function(lod)
+		set_material('body', 1,1,1,1)
+		use_material('body')
+		cylinder(8, v(0,0,1), v(0,0,-3), v(0,1,0), .25)
+		thruster(v(0,0,1), v(0,0,1), 10, true)
+	end
+})
 
+define_model('missile_smart', {
+	info = {
+		bounding_radius = 4,
+		materials={ 'body' },
+		tags = {'missile'},
+	},
+	static = function(lod)
+		set_material('body', 1,1,1,1)
+		use_material('body')
+		cylinder(8, v(0,0,1), v(0,0,-3), v(0,1,0), .25)
+		thruster(v(0,0,1), v(0,0,1), 10, true)
+	end
+})
+
+define_model('missile_naval', {
+	info = {
+		bounding_radius = 4,
+		materials={ 'body' },
+		tags = {'missile'},
+	},
+	static = function(lod)
+		set_material('body', 1,1,1,1)
+		use_material('body')
+		cylinder(8, v(0,0,1), v(0,0,-3), v(0,1,0), .25)
+		thruster(v(0,0,1), v(0,0,1), 10, true)
+	end
+})
 
 define_model('nosewheel', {
 	info = {

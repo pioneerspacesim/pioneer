@@ -20,10 +20,10 @@ std::string ShipType::LADYBIRD				= "ladybird";
 std::string ShipType::SIRIUS_INTERDICTOR	= "interdictor";
 std::string ShipType::EAGLE_LRF				= "eagle_lrf";
 std::string ShipType::EAGLE_MK3				= "eagle_mk3";
-std::string ShipType::MISSILE_GUIDED		= "MISSILE_GUIDED";
-std::string ShipType::MISSILE_NAVAL			= "MISSILE_NAVAL";
-std::string ShipType::MISSILE_SMART			= "MISSILE_SMART";
-std::string ShipType::MISSILE_UNGUIDED		= "MISSILE_UNGUIDED";
+std::string ShipType::MISSILE_GUIDED		= "missile_guided";
+std::string ShipType::MISSILE_NAVAL			= "missile_naval";
+std::string ShipType::MISSILE_SMART			= "missile_smart";
+std::string ShipType::MISSILE_UNGUIDED		= "missile_unguided";
 
 static void _get_string_attrib(lua_State *L, const char *key, std::string &output,
 		const char *default_output)
