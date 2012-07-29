@@ -1,6 +1,5 @@
 ﻿#include "Intro.h"
 #include "libs.h"
-#include "Light.h"
 #include "Background.h"
 #include "Pi.h" //for modelcache
 #include "ModelCache.h"
@@ -37,7 +36,7 @@ Intro::Intro(Graphics::Renderer *r, const vector2f &size)
 	m_model = model;
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
 	m_lights.push_back(light);
 }
 

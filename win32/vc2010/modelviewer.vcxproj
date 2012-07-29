@@ -118,7 +118,6 @@
     <ClCompile Include="..\..\src\FontConfig.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
-    <ClCompile Include="..\..\src\Light.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
     <ClCompile Include="..\..\src\LuaFixed.cpp" />
@@ -161,7 +160,6 @@
     <ClInclude Include="..\..\src\IniConfig.h" />
     <ClInclude Include="..\..\src\Lang.h" />
     <ClInclude Include="..\..\src\libs.h" />
-    <ClInclude Include="..\..\src\Light.h" />
     <ClInclude Include="..\..\src\LmrModel.h" />
     <ClInclude Include="..\..\src\LuaConstants.h" />
     <ClInclude Include="..\..\src\LuaFixed.h" />

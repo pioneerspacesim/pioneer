@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib"
+				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib;../../src/win32"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -216,7 +216,7 @@
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib"
+				AdditionalIncludeDirectories="../../src;../../win32/include;../../contrib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
@@ -370,7 +370,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\FileSystemWin32.cpp"
+				RelativePath="..\..\src\win32\FileSystemWin32.cpp"
 				>
 			</File>
 			<File
@@ -730,7 +730,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\win32\src\pch.cpp"
+				RelativePath="..\..\src\win32\OSWin32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\pch.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1720,7 +1724,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\win32\src\pch.h"
+				RelativePath="..\..\src\OS.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\pch.h"
 				>
 			</File>
 			<File

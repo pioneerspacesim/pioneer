@@ -1,4 +1,4 @@
-﻿#ifndef _OS_H
+#ifndef _OS_H
 #define _OS_H
 /*
  * Operating system specific functionality, such as

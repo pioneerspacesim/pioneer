@@ -15,10 +15,12 @@ static bool initted = false;
 Shader *simpleShader;
 Shader *planetRingsShader[4];
 
-int State::m_numLights = 1;
 float State::m_znear = 10.0f;
 float State::m_zfar = 1e6f;
 float State::m_invLogZfarPlus1;
+std::vector<Light> State::m_lights;
+// default opengl global ambient colour
+Color State::m_globalAmbientColor(0.2,0.2,0.2,1.0);
 
 void BindArrayBuffer(GLuint bo)
 {
@@ -177,7 +179,7 @@ Renderer* Init(const Settings &vs)
 		planetRingsShader[2] = new Shader("planetrings", "#define NUM_LIGHTS 3\n");
 		planetRingsShader[3] = new Shader("planetrings", "#define NUM_LIGHTS 4\n");
 	}
-
+	
 	return renderer;
 }
 
@@ -199,6 +201,13 @@ void SwapBuffers()
 bool AreShadersEnabled()
 {
 	return shadersEnabled;
+}
+
+void Graphics::State::SetLights(int n, const Light *lights){
+			m_lights.clear();
+			m_lights.reserve(n);
+			for (int i = 0;i < n;i++) 
+				m_lights.push_back(lights[i]);
 }
 
 }

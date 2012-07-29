@@ -81,7 +81,7 @@ void WorldView::InitObject()
 	m_lowThrustPowerOptions = new Gui::Fixed(size[0], size[1]/2);
 	m_lowThrustPowerOptions->SetTransparency(true);
 	Add(m_lowThrustPowerOptions, 10, 200);
-	for (int i = 0; i < int(sizeof(LOW_THRUST_LEVELS)/sizeof(LOW_THRUST_LEVELS[0])); ++i) {
+	for (int i = 0; i < int(COUNTOF(LOW_THRUST_LEVELS)); ++i) {
 		assert(i < 9); // otherwise the shortcuts break
 		const int ypos = i*32;
 
@@ -374,18 +374,19 @@ void WorldView::RefreshHyperspaceButton() {
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	Pi::cpan->ClearOverlay();
-	if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
-	}
 
 	if (!Pi::player || Pi::player->IsDead() || !Pi::game) {
 		HideAll();
 		return;
 	}
 	else {
+		if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
+			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
+			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
+			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
+			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
+		}
+
 		m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
 
 		RefreshHyperspaceButton();
@@ -567,7 +568,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				double pressure, density;
 				reinterpret_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
 
-				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_BAR, formatarg("pressure", pressure)));
+				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
 
 				m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
 				m_hudHullTemp->Show();
@@ -1484,7 +1485,7 @@ void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)
 		vector2f(px, py+sz),
 		vector2f(px, py+0.5f*sz)
 	};
-	m_renderer->DrawLines2D(8, vts, c);
+	m_renderer->DrawLines2D(COUNTOF(vts), vts, c);
 }
 
 void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c)
@@ -1559,7 +1560,7 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 		vector2f(x2, y2),
 		vector2f(x1, y2)
 	};
-	m_renderer->DrawLines2D(4, vts, c, Graphics::LINE_LOOP);
+	m_renderer->DrawLines2D(COUNTOF(vts), vts, c, Graphics::LINE_LOOP);
 }
 
 void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
@@ -1580,7 +1581,7 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
 			vector2f(posx-sz, posy+sz),
 			vector2f(posx-0.5f*sz, posy+0.5f*sz)
 		};
-		m_renderer->DrawLines2D(8, vts, c);
+		m_renderer->DrawLines2D(COUNTOF(vts), vts, c);
 	} else
 		DrawEdgeMarker(marker, c);
 
@@ -1693,7 +1694,8 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 		c,
 		black
 	};
-	m_worldView->m_renderer->DrawLines(8, vts, col, Graphics::LINE_LOOP);
+	assert(COUNTOF(col) == COUNTOF(vts));
+	m_worldView->m_renderer->DrawLines(COUNTOF(vts), vts, col, Graphics::LINE_LOOP);
 }
 
 void NavTunnelWidget::GetSizeRequested(float size[2]) {

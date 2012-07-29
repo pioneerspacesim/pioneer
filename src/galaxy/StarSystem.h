@@ -38,6 +38,14 @@ struct Orbit {
 	matrix4x4d rotMatrix;
 };
 
+struct RingStyle {
+	// note: radius values are given as proportions of the planet radius
+	// (e.g., 1.6)
+	fixed minRadius;
+	fixed maxRadius;
+	Color4ub baseColor;
+};
+
 class SystemBody {
 public:
 	SystemBody();
@@ -137,12 +145,29 @@ public:
 	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
 	void PopulateAddStations(StarSystem *system);
 
+	bool HasRings() const { return bool(m_rings.maxRadius.v); }
+	void PickRings(bool forceRings = false);
+
+
+	// XXX merge all this atmosphere stuff
 	bool HasAtmosphere() const;
+
 	void PickAtmosphere();
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		*outColor = m_atmosColor;
 		*outDensity = m_atmosDensity;
 	}
+
+	struct AtmosphereParameters {
+		float atmosRadius;
+		float atmosInvScaleHeight;
+		float atmosDensity;
+		float planetRadius;
+		Color atmosCol;
+	};
+
+	AtmosphereParameters CalcAtmosphereParams() const;
+
 
 	bool IsScoopable() const;
 
@@ -172,6 +197,8 @@ public:
 	fixed m_volcanicity; // 0 = none, 1.0 = fucking volcanic
 	fixed m_atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
 	fixed m_life; // 0.0 = dead, 1.0 = teeming
+
+	RingStyle m_rings;
 
 	/* economy type stuff */
 	fixed m_population;

@@ -81,6 +81,7 @@
     <ClCompile Include="..\..\..\src\graphics\Drawables.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Frustum.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Graphics.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\Light.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Material.cpp" />
     <ClCompile Include="..\..\..\src\graphics\MaterialGL2.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Renderer.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
     <ClInclude Include="..\..\..\src\graphics\Frustum.h" />
     <ClInclude Include="..\..\..\src\graphics\Graphics.h" />
+    <ClInclude Include="..\..\..\src\graphics\Light.h" />
     <ClInclude Include="..\..\..\src\graphics\Material.h" />
     <ClInclude Include="..\..\..\src\graphics\MaterialGL2.h" />
     <ClInclude Include="..\..\..\src\graphics\Renderer.h" />

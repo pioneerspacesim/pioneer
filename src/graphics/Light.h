@@ -4,6 +4,8 @@
 #include "Color.h"
 #include "vector3.h"
 
+namespace Graphics {
+
 class Light
 {
 public:
@@ -13,10 +15,8 @@ public:
 		LIGHT_DIRECTIONAL
 	};
 	Light();
-	Light(LightType t, const vector3f &position,
-		const Color &diffuse,
-		const Color &ambient,
-		const Color &specular);
+	Light(LightType t, const vector3f &position, const Color &diffuse, const Color &ambient, const Color &specular);
+	virtual ~Light() {}
 	void SetType(LightType t) { m_type = t; }
 	void SetPosition(const vector3f &p) { m_position = p; }
 	void SetDiffuse(const Color &c) { m_diffuse = c; }
@@ -35,5 +35,7 @@ private:
 	Color m_ambient;
 	Color m_specular;
 };
+
+}
 
 #endif

@@ -2,19 +2,20 @@
 #include "libs.h"
 #include "utils.h"
 #include "FileSystem.h"
-#include "Light.h"
 #include "ModManager.h"
 #include "OS.h"
 #include "StringF.h"
-#include "graphics/Graphics.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
+#include "graphics/Graphics.h"
+#include "graphics/Light.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include <sstream>
 
+using Graphics::Light;
 using Graphics::Renderer;
 using Newmodel::NModel;
 

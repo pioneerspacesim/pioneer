@@ -18,7 +18,7 @@ namespace Gui {
 
 		sigc::signal<void, ToggleButton *, bool> onChange;
 	private:
-		int m_pressed;
+		bool m_pressed;
 	};
 }
 

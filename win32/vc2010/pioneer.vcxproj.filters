@@ -5,10 +5,10 @@
       <UniqueIdentifier>{2ef8ea5b-7c53-4337-93b0-a929d9103bd6}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\win32">
-      <UniqueIdentifier>{944714c9-8096-4467-9cdd-9c7372648352}</UniqueIdentifier>
+      <UniqueIdentifier>{172c1b95-e18a-4158-8227-10b5cc882b62}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\posix">
-      <UniqueIdentifier>{c0d1a357-9c77-408a-94f1-d03be60b3aca}</UniqueIdentifier>
+      <UniqueIdentifier>{6d264ce7-1454-4144-a050-a665481a0a20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -309,9 +309,6 @@
     <ClCompile Include="..\..\src\Camera.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Light.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\FontCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -369,14 +366,14 @@
     <ClCompile Include="..\..\src\LuaComms.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\ModelCache.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\..\src\win32\FileSystemWin32.cpp">
+      <Filter>src\win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Intro.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\..\src\win32\pch.cpp">
+      <Filter>src\win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LuaFileSystem.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\..\src\win32\OSWin32.cpp">
+      <Filter>src\win32</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\posix\FileSystemPosix.cpp">
       <Filter>src\posix</Filter>
@@ -384,17 +381,17 @@
     <ClCompile Include="..\..\src\posix\OSPosix.cpp">
       <Filter>src\posix</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\win32\FileSystemWin32.cpp">
+    <ClCompile Include="..\..\src\win32\WinMath.cpp">
       <Filter>src\win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\win32\Gamma.cpp">
-      <Filter>src\win32</Filter>
+    <ClCompile Include="..\..\src\Intro.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\win32\OSWin32.cpp">
-      <Filter>src\win32</Filter>
+    <ClCompile Include="..\..\src\LuaFileSystem.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\win32\pch.cpp">
-      <Filter>src\win32</Filter>
+    <ClCompile Include="..\..\src\ModelCache.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -743,9 +740,6 @@
     <ClInclude Include="..\..\src\SmartPtr.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Light.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\vector2.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -806,10 +800,19 @@
     <ClInclude Include="..\..\src\LuaComms.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\ModelCache.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\..\src\win32\pch.h">
+      <Filter>src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\win32\TextUtils.h">
+      <Filter>src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\win32\WinMath.h">
+      <Filter>src\win32</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Intro.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ModelCache.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaFileSystem.h">
@@ -817,15 +820,6 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Model.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\win32\Gamma.h">
-      <Filter>src\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\win32\pch.h">
-      <Filter>src\win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\win32\TextUtils.h">
-      <Filter>src\win32</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

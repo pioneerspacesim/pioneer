@@ -4,7 +4,7 @@
  * Game intro
  */
 #include "libs.h"
-#include "Light.h"
+#include "graphics/Light.h"
 
 namespace Graphics {
 	class Renderer;
@@ -27,7 +27,7 @@ private:
 	Model *m_model;
 
 	//scene properties
-	std::vector<Light> m_lights;
+	std::vector<Graphics::Light> m_lights;
 	Color4f m_ambientColor;
 };
 #endif

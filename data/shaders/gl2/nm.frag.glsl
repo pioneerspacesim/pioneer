@@ -70,5 +70,5 @@ void main(void)
 #else
 	gl_FragColor = light + specular;
 #endif
-	SetFragDepth(gl_TexCoord[6].z);
+	SetFragDepth();
 }

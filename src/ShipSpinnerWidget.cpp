@@ -1,8 +1,6 @@
 #include "ShipSpinnerWidget.h"
 #include "Pi.h"
 #include "Game.h"
-#include "Light.h"
-#include "Pi.h"
 #include "Ship.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
@@ -25,7 +23,7 @@ ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, fl
 	m_light.SetAmbient(lc);
 	m_light.SetSpecular(lc);
 	m_light.SetPosition(vector3f(1.f, 1.f, 0.f));
-	m_light.SetType(Light::LIGHT_DIRECTIONAL);
+	m_light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);
 }
 
 void ShipSpinnerWidget::Draw()

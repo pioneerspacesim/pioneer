@@ -1128,8 +1128,8 @@ PROBABILITY_OF_ARRIVAL_X_PERCENT
     Prawdopodobieństwo przylotu: %probability%%
 ALT_IN_METRES
     Wys: %altitude{f.0}m
-PRESSURE_N_BAR
-    C: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    C: %pressure{f.2} atm
 NO_HYPERDRIVE
     Brak hipernapędu
 MASS_N_TONNES

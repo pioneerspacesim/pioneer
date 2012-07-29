@@ -14,7 +14,6 @@
 #include "InfoView.h"
 #include "Intro.h"
 #include "Lang.h"
-#include "Light.h"
 #include "LmrModel.h"
 #include "LuaBody.h"
 #include "LuaCargoBody.h"
@@ -74,6 +73,7 @@
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "graphics/Light.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
 #include "newmodel/NModel.h"
@@ -765,14 +765,18 @@ void Pi::HandleEvents()
 				Pi::onKeyRelease.emit(&event.key.keysym);
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				Pi::mouseButton[event.button.button] = 1;
-				Pi::onMouseButtonDown.emit(event.button.button,
-						event.button.x, event.button.y);
+				if (event.button.button < COUNTOF(Pi::mouseButton)) {
+					Pi::mouseButton[event.button.button] = 1;
+					Pi::onMouseButtonDown.emit(event.button.button,
+							event.button.x, event.button.y);
+				}
 				break;
 			case SDL_MOUSEBUTTONUP:
-				Pi::mouseButton[event.button.button] = 0;
-				Pi::onMouseButtonUp.emit(event.button.button,
-						event.button.x, event.button.y);
+				if (event.button.button < COUNTOF(Pi::mouseButton)) {
+					Pi::mouseButton[event.button.button] = 0;
+					Pi::onMouseButtonUp.emit(event.button.button,
+							event.button.x, event.button.y);
+				}
 				break;
 			case SDL_MOUSEMOTION:
 				Pi::mouseMotion[0] += event.motion.xrel;
@@ -809,22 +813,22 @@ void Pi::HandleEvents()
 
 static void draw_tombstone(float _time)
 {
-	LmrMaterial m0 = { { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
-	LmrMaterial m1 = { { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
-	LmrMaterial m2 = { { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
-
+ 	LmrMaterial m0 = { { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+ 	LmrMaterial m1 = { { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+ 	LmrMaterial m2 = { { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+ 
 	LmrObjParams params;
-	params.label = Lang::TOMBSTONE_EPITAPH;
-	params.pMat[0] = m0;
-	params.pMat[1] = m1;
-	params.pMat[2] = m2;
+ 	params.label = Lang::TOMBSTONE_EPITAPH;
+ 	params.pMat[0] = m0;
+ 	params.pMat[1] = m1;
+ 	params.pMat[2] = m2;
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
 	Pi::renderer->SetLights(1, &light);
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
@@ -1118,8 +1122,13 @@ void Pi::Start()
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 
+	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
+	// for some models
+	Pi::renderer->SetAmbientColor(Color(0.2f, 0.2f, 0.2f, 1.f));
+
 	menuDone = false;
 	game = 0;
+
 	while (!game && !menuDone) {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {

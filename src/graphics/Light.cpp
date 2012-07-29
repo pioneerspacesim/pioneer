@@ -1,5 +1,7 @@
 #include "Light.h"
 
+namespace Graphics {
+
 Light::Light() :
 	m_type(LIGHT_POINT),
 	m_position(0.f),
@@ -17,5 +19,7 @@ Light::Light(LightType t, const vector3f &p, const Color &d, const Color &a, con
 	m_ambient(a),
 	m_specular(s)
 {
+
+}
 
 }
