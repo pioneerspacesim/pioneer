@@ -314,7 +314,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		double fadeInEnd, fadeInLength;
 		if (Graphics::AreShadersEnabled()) {
 			fadeInEnd = 10.0;
-			fadeInLength = 200.0;
+			fadeInLength = 500.0;
 		}
 		else {
 			fadeInEnd = 2000.0;

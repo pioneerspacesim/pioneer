@@ -951,12 +951,12 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		// as the camera gets close adjust scene ambient so that intensity+ambient = minIllumination
 		double fadeInEnd, fadeInLength, minIllumination;
 		if (Graphics::AreShadersEnabled()) {
-			minIllumination = 0.2;
+			minIllumination = 0.125;
 			fadeInEnd = 800.0;
-			fadeInLength = 1000.0;
+			fadeInLength = 2000.0;
 		}
 		else {
-			minIllumination = 0.3;
+			minIllumination = 0.25;
 			fadeInEnd = 1500.0;
 			fadeInLength = 3000.0;
 		}
