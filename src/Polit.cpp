@@ -108,8 +108,9 @@ void Unserialize(Serializer::Reader &rd)
 static int GetCrimeIdxFromEnum(enum Crime crime)
 {
 	assert(crime);
-	for (int i=0; i<64; i++) {
-		if (crime & (1<<i)) return i;
+	for (int i = 0; i < 64; ++i) {
+		if (crime & 1) return i;
+		crime = Crime(crime >> 1); // cast needed because this gets promoted to 'int'
 	}
 	return 0;
 }

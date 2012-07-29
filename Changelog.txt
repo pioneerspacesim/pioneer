@@ -40,6 +40,7 @@ Alpha 25
      * Always used logarithmic depth buffer with shaders (#1410)
      * Camera now passed to object rendering methods to make per-object
        lighting and other effects easier (#1390)
+     * Many fixes identified by static analysis with PVS-Studio (#1402, #1399)
 
 Alpha 24
 
