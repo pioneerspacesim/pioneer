@@ -65,7 +65,7 @@ struct LmrObjParams
 
 	// for models in atmospheres
 	bool atmosphericModel;
-	atmosphereParameters atmosParams; // set by 
+	SystemBody::AtmosphereParameters atmosParams; // set by SpaceStation::
 	vector3f planetCenter; // in camera space
 	float directLight;
 	float ambientLight;

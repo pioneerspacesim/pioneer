@@ -6,7 +6,6 @@
 #include "Pi.h"
 #include "Sfx.h"
 #include "Game.h"
-#include "Light.h"
 #include "Planet.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
@@ -48,7 +47,7 @@ void Camera::OnBodyDeleted()
 	m_body = 0;
 }
 
-static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Light> &lights)
+static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::Light> &lights)
 {
 	if (lights.size() > 3) return;
 	// not using frame->GetSystemBodyFor() because it snoops into parent frames,
@@ -67,8 +66,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Li
 		Color lightCol(col[0], col[1], col[2], 0.f);
 		Color ambCol(0.f);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, lightpos, frame->m_astroBody,
-			lightCol, ambCol, lightCol));
+		lights.push_back(Camera::Light(frame->m_astroBody, Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol));
 	}
 
 	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i!=frame->m_children.end(); ++i) {
@@ -137,7 +135,7 @@ void Camera::Draw(Renderer *renderer)
 		// fake one up and give a little ambient light so that we can see and
 		// so that things that need lights don't explode
 		Color col(1.f);
-		m_lights.push_back(Light(Light::LIGHT_DIRECTIONAL, vector3f(0.f), 0, col, col, col));
+		m_lights.push_back(Light(0, Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col));
 	}
 
 	//fade space background based on atmosphere thickness and light angle

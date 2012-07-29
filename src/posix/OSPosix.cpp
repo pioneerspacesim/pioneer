@@ -1,4 +1,4 @@
-﻿#include "OS.h"
+#include "OS.h"
 #include "SDLWrappers.h"
 #include <SDL.h>
 

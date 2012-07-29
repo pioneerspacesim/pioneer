@@ -15,7 +15,5 @@ void main(void)
 	gl_FragColor *= gl_FrontMaterial.emission * gl_FrontMaterial.emission * 10.0;
 	//gl_FragColor = vec4(clamp(gl_FragColor.x, 0.0, 10000.0), clamp(gl_FragColor.y, 0.0, 10000.0), //clamp(gl_FragColor.z, 0.0, 10000.0), clamp(gl_FragColor.w, 0.0, 100.0));
 
-#ifdef ZHACK
-	SetFragDepth(gl_TexCoord[6].z);
-#endif
+	SetFragDepth();
 }

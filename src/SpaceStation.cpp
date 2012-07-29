@@ -338,7 +338,7 @@ void SpaceStation::InitStation()
 	// model shader and calculate non-per frame uniforms
 	
 	if (m_sbody->type == SystemBody::TYPE_STARPORT_SURFACE) {
-		CalcAtmosphereParams(m_sbody->parent, params.atmosParams);
+		params.atmosParams = m_sbody->parent->CalcAtmosphereParams();
 		if (params.atmosParams.atmosDensity > 0.0){
 			params.atmosphericModel = true;
 		}
@@ -804,9 +804,8 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 //        as optical thickness increases the fraction of ambient light increases
 //        this takes altitude into account automatically
 //    * As suns set the split is biased towards ambient 
-void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensity, const std::vector<Light> &lights)
+void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::Light> &lights)
 {
-	Planet *planet = static_cast<Planet*>(_planet);
 	// position relative to the rotating frame of the planet
 	vector3d upDir = GetPosition();
 	double dist = upDir.Length();
@@ -815,7 +814,7 @@ void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensit
 	planet->GetAtmosphericState(dist, &pressure, &density);
 	double surfaceDensity;
 	Color cl;
-	_planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
+	planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
 
 	// approximate optical thickness fraction as fraction of density remaining relative to earths
 	double opticalThicknessFraction = density/EARTH_ATMOSPHERE_SURFACE_DENSITY;
@@ -826,7 +825,7 @@ void SpaceStation::CalcLighting(Body *_planet, double &ambient, double &intensit
 	double light = 0.0;
 	double light_clamped = 0.0;
 
-	for(std::vector<Light>::const_iterator l = lights.begin();
+	for(std::vector<Camera::Light>::const_iterator l = lights.begin();
 		l != lights.end(); ++l) {
 			
 			double sunAngle;
@@ -912,25 +911,25 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		params.animValues[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stagePos;
 	}
 
-	// find planet Body*
-	Planet *planet;
-		
-	Body *_planet = GetFrame()->m_astroBody;
-	if ((!_planet) || !_planet->IsType(Object::PLANET)) {
+	Body *b = GetFrame()->m_astroBody;
+	assert(b);
+
+	if (!b->IsType(Object::PLANET)) {
 		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
 		RenderLmrModel(viewCoords, viewTransform);
-	} else {
-		planet = static_cast<Planet*>(_planet);
+	}	
+	else {
+		Planet *planet = static_cast<Planet*>(b);
 		
 		// calculate lighting
 		// available light is calculated and split between directly (diffusely/specularly) lit and ambiently lit
-		const std::vector<Light> &lights = camera->GetLights();
-		std::vector<Light> newLights = lights;
+		const std::vector<Camera::Light> &lights = camera->GetLights();
+		std::vector<Camera::Light> newLights = lights;
 		int numLights = lights.size();
 		
 		double ambient, intensity;
 
-		CalcLighting(_planet, ambient, intensity, lights);
+		CalcLighting(planet, ambient, intensity, lights);
 
 		// if atmosphere shaders are disabled or no shaders implement lighting by manipulating lights
 		// otherwise save lighting and other uniforms for use in models in atmosphere shader
@@ -976,18 +975,18 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		// as the camera gets close adjust scene ambient so that intensity+ambient = minIllumination
 		double fadeInEnd, fadeInLength, minIllumination;
 		if (Graphics::AreShadersEnabled()) {
-			minIllumination = 0.2;
+			minIllumination = 0.125;
 			fadeInEnd = 800.0;
-			fadeInLength = 1000.0;
+			fadeInLength = 2000.0;
 		}
 		else {
-			minIllumination = 0.3;
+			minIllumination = 0.25;
 			fadeInEnd = 1500.0;
 			fadeInLength = 3000.0;
 		}
 
 		FadeInModelIfDark(r, GetLmrCollMesh()->GetBoundingRadius(),
-							viewCoords.Length(), fadeInEnd, fadeInLength, overallLighting, minIllumination);
+								viewCoords.Length(), fadeInEnd, fadeInLength, overallLighting, minIllumination);
 
 		RenderLmrModel(viewCoords, viewTransform);
 
@@ -999,7 +998,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			if (!m_adjacentCity) {
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
-			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform, overallLighting, minIllumination);
+			m_adjacentCity->Render(r, camera, const_cast<SpaceStation *>(this), viewCoords, viewTransform, overallLighting, minIllumination);
 		} 
 
 		if (!(Graphics::AreShadersEnabled() && Pi::modelsInAtmosphere)){

@@ -69,6 +69,7 @@ void main(void)
 	if ( usetex )
 		fragCol *= texture2D(tex, gl_TexCoord[0].st);
 
+
 	// Calculate the effect of atmosphere in between the model surface and the camera
 	// adds a fogging effect with increasing amount of atmosphere (ldprod) in this atmosphere model
 	// this is the same as for geosphere terrain except:
@@ -105,7 +106,5 @@ void main(void)
 	gl_FragColor = (fogFactor) * (fragCol) +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
 
-#ifdef ZHACK
-	SetFragDepth(gl_TexCoord[6].z);
-#endif
+	SetFragDepth();
 }
