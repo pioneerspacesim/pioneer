@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "collider/Geom.h"
 #include "graphics/Frustum.h"
+#include "graphics/Graphics.h"
 
 #define START_SEG_SIZE CITY_ON_PLANET_RADIUS
 #define MIN_SEG_SIZE 50.0
@@ -273,7 +274,8 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	AddStaticGeomsToCollisionSpace();
 }
 
-void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+//Note: models get some ambient colour added when dark as the camera moves closer
+void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform, double illumination, double minIllumination)
 {
 	matrix4x4d rot[4];
 	station->GetRotMatrix(rot[0]);
@@ -294,15 +296,32 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, co
 
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
 	cityobj_params.time = Pi::game->GetTime();
-
+	
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
 			i != m_buildings.end(); ++i) {
 
 		if (!(*i).isEnabled) continue;
-
+		
 		vector3d pos = viewTransform * (*i).pos;
 		if (!frustum.TestPoint(pos, (*i).clipRadius))
 			continue;
+
+		Color oldSceneAmbientColor;
+		if (illumination <= minIllumination)
+			oldSceneAmbientColor = Graphics::State::GetGlobalSceneAmbientColor();
+
+		// fade conditions for models
+		double fadeInEnd, fadeInLength;
+		if (Graphics::AreShadersEnabled()) {
+			fadeInEnd = 10.0;
+			fadeInLength = 500.0;
+		}
+		else {
+			fadeInEnd = 2000.0;
+			fadeInLength = 6000.0;
+		}
+
+		FadeInModelIfDark(r, (*i).clipRadius, pos.Length(), fadeInEnd, fadeInLength, illumination, minIllumination);
 
 		matrix4x4f _rot;
 		for (int e=0; e<16; e++) _rot[e] = float(rot[(*i).rotation][e]);
@@ -310,6 +329,10 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, co
 		_rot[13] = float(pos.y);
 		_rot[14] = float(pos.z);
 		(*i).model->Render(_rot, &cityobj_params);
+
+		// restore old ambient colour
+		if (illumination <= minIllumination) 
+			r->SetAmbientColor(oldSceneAmbientColor);
 	}
 }
 

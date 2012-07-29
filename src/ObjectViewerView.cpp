@@ -7,7 +7,7 @@
 #include "GeoSphere.h"
 #include "terrain/Terrain.h"
 #include "Planet.h"
-#include "Light.h"
+#include "graphics/Light.h"
 #include "graphics/Renderer.h"
 
 #if WITH_OBJECTVIEWER
@@ -89,8 +89,8 @@ void ObjectViewerView::Draw3D()
 	m_renderer->SetPerspectiveProjection(75.f, Pi::GetScrAspect(), znear, zfar);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
-	Light light;
-	light.SetType(Light::LIGHT_DIRECTIONAL);
+	Graphics::Light light;
+	light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);
 
 	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int m[2];
@@ -108,7 +108,7 @@ void ObjectViewerView::Draw3D()
 		}
 		m_renderer->SetLights(1, &light);
 
-		body->Render(m_renderer, vector3d(0,0,-viewingDist), m_camRot);
+		body->Render(m_renderer, 0, vector3d(0,0,-viewingDist), m_camRot);
 	}
 }
 

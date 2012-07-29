@@ -2,10 +2,12 @@
 #define _CAMERA_H
 
 #include "graphics/Frustum.h"
+#include "graphics/Light.h"
 #include "vector3.h"
 #include "matrix4x4.h"
 #include "Background.h"
 #include "Body.h"
+
 
 class Frame;
 namespace Graphics { class Renderer; }
@@ -31,6 +33,23 @@ public:
 
 	// only valid between Update() and Draw()
 	const Frame *GetFrame() const { return m_camFrame; }
+
+	// camera-specific light with attached body
+	class Light : public Graphics::Light {
+	public:
+		Light(const Body *b, Graphics::Light::LightType t, const vector3f &pos, const Color &diffuse, const Color &ambient, const Color &specular) :
+			Graphics::Light(t, pos, diffuse, ambient, specular), m_body(b)
+		{}
+		
+		const Body *GetBody() const { return m_body; }
+	
+	private:
+		const Body *m_body;
+	};
+
+	// lights with properties in camera space
+	const std::vector<Light> &GetLights() const { return m_lights; }
+	const int GetNumLights() const { return m_lights.size(); }
 
 	// get the frustum. use for projection
 	const Graphics::Frustum &GetFrustum() const { return m_frustum; }
@@ -89,8 +108,10 @@ private:
 			return a.camDist > b.camDist;
 		}
 	};
-
+	
 	std::list<BodyAttrs> m_sortedBodies;
+
+	std::vector<Camera::Light> m_lights;
 
 	Graphics::Renderer *m_renderer;
 };

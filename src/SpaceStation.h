@@ -9,12 +9,14 @@
 #include "Quaternion.h"
 #include "Serializer.h"
 #include "RefList.h"
+#include "Camera.h"
 
 #define MAX_DOCKING_PORTS	4
 
 class CollMeshSet;
 class Ship;
 struct Mission;
+class Planet;
 class CityOnPlanet;
 namespace Graphics { class Renderer; }
 
@@ -83,7 +85,7 @@ public:
 	virtual ~SpaceStation();
 	virtual double GetBoundingRadius() const;
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
-	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	/** You should call Ship::Undock() rather than this.
 	 * Returns true on success, false if permission denied */
 	bool LaunchShip(Ship *ship, int port);
@@ -140,6 +142,7 @@ protected:
 private:
 	void DoDockingAnimation(const double timeStep);
 	void DoLawAndOrder();
+	void CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::Light> &lights);
 
 	/* Stage 0 means docking port empty
 	 * Stage 1 means docking clearance granted to ->ship
@@ -169,6 +172,7 @@ private:
 	std::vector<ShipFlavour> m_shipsOnSale;
 	double m_lastUpdatedShipyard;
 	CityOnPlanet *m_adjacentCity;
+	double m_distFromPlanet;
 	int m_numPoliceDocked;
 	enum { NUM_STATIC_SLOTS = 4 };
 	bool m_staticSlot[NUM_STATIC_SLOTS];
@@ -176,5 +180,7 @@ private:
 	std::vector<BBAdvert> m_bbAdverts;
 	bool m_bbCreated, m_bbShuffled;
 };
+
+void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, double fadeInEnd, double fadeInLength, double illumination, double minIllumination);
 
 #endif /* _SPACESTATION_H */

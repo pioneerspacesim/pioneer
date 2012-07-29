@@ -9,6 +9,7 @@ Alpha 25
      * Atmospheric height and appearance is now more realistic (#972, #1278, #1357)
      * Atmospheric pressure and temperature now follows a dry adiabatic model (#1363)
      * Rewritten gas giant rings, with better transparency and shadows (#1404)
+     * Fade building illumination depending on time of day and atmosphere (1390)
 
    * Minor changes and tweaks
      * On Windows, error messages for graphics are shown in a message box,
@@ -37,6 +38,8 @@ Alpha 25
      * Add COUNTOF macro to safely get number of elements in a static array (1386)
      * Update scan_enums.py to deal with Unicode byte-order marks (#1389)
      * Always used logarithmic depth buffer with shaders (#1410)
+     * Camera now passed to object rendering methods to make per-object
+       lighting and other effects easier (#1390)
 
 Alpha 24
 

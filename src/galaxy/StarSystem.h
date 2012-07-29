@@ -145,15 +145,29 @@ public:
 	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
 	void PopulateAddStations(StarSystem *system);
 
+	bool HasRings() const { return bool(m_rings.maxRadius.v); }
+	void PickRings(bool forceRings = false);
+
+
+	// XXX merge all this atmosphere stuff
 	bool HasAtmosphere() const;
+
 	void PickAtmosphere();
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		*outColor = m_atmosColor;
 		*outDensity = m_atmosDensity;
 	}
 
-	bool HasRings() const { return bool(m_rings.maxRadius.v); }
-	void PickRings(bool forceRings = false);
+	struct AtmosphereParameters {
+		float atmosRadius;
+		float atmosInvScaleHeight;
+		float atmosDensity;
+		float planetRadius;
+		Color atmosCol;
+	};
+
+	AtmosphereParameters CalcAtmosphereParams() const;
+
 
 	bool IsScoopable() const;
 

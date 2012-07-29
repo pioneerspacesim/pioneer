@@ -6,7 +6,6 @@
 #include "Pi.h"
 #include "Sfx.h"
 #include "Game.h"
-#include "Light.h"
 #include "Planet.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
@@ -48,7 +47,7 @@ void Camera::OnBodyDeleted()
 	m_body = 0;
 }
 
-static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Light> &lights)
+static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::Light> &lights)
 {
 	if (lights.size() > 3) return;
 	// not using frame->GetSystemBodyFor() because it snoops into parent frames,
@@ -67,7 +66,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Li
 		Color lightCol(col[0], col[1], col[2], 0.f);
 		Color ambCol(0.f);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol));
+		lights.push_back(Camera::Light(frame->m_astroBody, Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol));
 	}
 
 	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i!=frame->m_children.end(); ++i) {
@@ -127,16 +126,16 @@ void Camera::Draw(Renderer *renderer)
 	trans2bg.ClearToRotOnly();
 
 	// Pick up to four suitable system light sources (stars)
-	std::vector<Light> lights;
-	lights.reserve(4);
-	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), lights);
+	m_lights.clear();
+	m_lights.reserve(4);
+	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), m_lights);
 
-	if (lights.empty()) {
+	if (m_lights.empty()) {
 		// no lights means we're somewhere weird (eg hyperspace).
 		// fake one up and give a little ambient light so that we can see and
 		// so that things that need lights don't explode
 		Color col(1.f);
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col));
+		m_lights.push_back(Light(0, Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col));
 	}
 
 	//fade space background based on atmosphere thickness and light angle
@@ -153,8 +152,8 @@ void Camera::Draw(Renderer *renderer)
 
 			//go through all lights to calculate something resembling light intensity
 			float angle = 0.f;
-			for(std::vector<Light>::const_iterator it = lights.begin();
-				it != lights.end(); ++it) {
+			for(std::vector<Light>::const_iterator it = m_lights.begin();
+				it != m_lights.end(); ++it) {
 				const vector3f lightDir(it->GetPosition().Normalized());
 				angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * it->GetDiffuse().GetLuminance();
 			}
@@ -166,7 +165,7 @@ void Camera::Draw(Renderer *renderer)
 	Pi::game->GetSpace()->GetBackground().SetIntensity(bgIntensity);
 	Pi::game->GetSpace()->GetBackground().Draw(renderer, trans2bg);
 
-	renderer->SetLights(lights.size(), &lights[0]);
+	renderer->SetLights(m_lights.size(), &m_lights[0]);
 
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
@@ -186,7 +185,7 @@ void Camera::Draw(Renderer *renderer)
 		}
 		else if (screenrad >= 2 || attrs->body->IsType(Object::STAR) ||
 					(attrs->body->IsType(Object::PROJECTILE) && screenrad > 0.25))
-			attrs->body->Render(renderer, attrs->viewCoords, attrs->viewTransform);
+			attrs->body->Render(renderer, this, attrs->viewCoords, attrs->viewTransform);
 	}
 
 	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
