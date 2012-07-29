@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "collider/Geom.h"
 #include "graphics/Frustum.h"
+#include "graphics/Graphics.h"
 
 #define START_SEG_SIZE CITY_ON_PLANET_RADIUS
 #define MIN_SEG_SIZE 50.0
@@ -19,7 +20,6 @@ struct citybuilding_t {
 	const LmrCollMesh *collMesh;
 };
 
-#define MAX_BUILDING_LISTS 1
 struct citybuildinglist_t {
 	const char *modelTagName;
 	double minRadius, maxRadius;
@@ -27,7 +27,7 @@ struct citybuildinglist_t {
 	citybuilding_t *buildings;
 };
 
-citybuildinglist_t s_buildingLists[MAX_BUILDING_LISTS] = {
+static citybuildinglist_t s_buildingLists[] = {
 	{ "city_building", 800, 2000, 0, 0 },
 	//{ "city_power", 100, 250, 0, 0 },
 	//{ "city_starport_building", 300, 400, 0, 0 },
@@ -166,7 +166,7 @@ void CityOnPlanet::Init()
 	/* Resolve city model numbers since it is a bit expensive */
 	if (!s_cityBuildingsInitted) {
 		s_cityBuildingsInitted = true;
-		for (int i=0; i<MAX_BUILDING_LISTS; i++) {
+		for (unsigned int i=0; i<COUNTOF(s_buildingLists); i++) {
 			lookupBuildingListModels(&s_buildingLists[i]);
 		}
 	}
@@ -174,7 +174,7 @@ void CityOnPlanet::Init()
 
 void CityOnPlanet::Uninit()
 {
-	for (int list=0; list<MAX_BUILDING_LISTS; list++) {
+	for (unsigned int list=0; list<COUNTOF(s_buildingLists); list++) {
 		for (int build=0; build<s_buildingLists[list].numBuildings; build++) {
 			delete s_buildingLists[list].buildings[build].collMesh;
 		}
@@ -201,7 +201,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	/* Resolve city model numbers since it is a bit expensive */
 	if (!s_cityBuildingsInitted) {
 		s_cityBuildingsInitted = true;
-		for (int i=0; i<MAX_BUILDING_LISTS; i++) {
+		for (unsigned int i=0; i<COUNTOF(s_buildingLists); i++) {
 			lookupBuildingListModels(&s_buildingLists[i]);
 		}
 	}
@@ -230,7 +230,8 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	cityflavour[0].size = 500;
 
 	for (int i=1; i<CITYFLAVOURS; i++) {
-		cityflavour[i].buildingListIdx = MAX_BUILDING_LISTS>1 ? rand.Int32(MAX_BUILDING_LISTS-1) : 0;
+		cityflavour[i].buildingListIdx =
+			(COUNTOF(s_buildingLists) > 1 ? rand.Int32(COUNTOF(s_buildingLists)) : 0);
 		citybuildinglist_t *blist = &s_buildingLists[cityflavour[i].buildingListIdx];
 		double a = rand.Int32(-1000,1000);
 		double b = rand.Int32(-1000,1000);
@@ -273,7 +274,8 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	AddStaticGeomsToCollisionSpace();
 }
 
-void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+//Note: models get some ambient colour added when dark as the camera moves closer
+void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform, double illumination, double minIllumination)
 {
 	matrix4x4d rot[4];
 	station->GetRotMatrix(rot[0]);
@@ -294,15 +296,32 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, co
 
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
 	cityobj_params.time = Pi::game->GetTime();
-
+	
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
 			i != m_buildings.end(); ++i) {
 
 		if (!(*i).isEnabled) continue;
-
+		
 		vector3d pos = viewTransform * (*i).pos;
 		if (!frustum.TestPoint(pos, (*i).clipRadius))
 			continue;
+
+		Color oldSceneAmbientColor;
+		if (illumination <= minIllumination)
+			oldSceneAmbientColor = Graphics::State::GetGlobalSceneAmbientColor();
+
+		// fade conditions for models
+		double fadeInEnd, fadeInLength;
+		if (Graphics::AreShadersEnabled()) {
+			fadeInEnd = 10.0;
+			fadeInLength = 500.0;
+		}
+		else {
+			fadeInEnd = 2000.0;
+			fadeInLength = 6000.0;
+		}
+
+		FadeInModelIfDark(r, (*i).clipRadius, pos.Length(), fadeInEnd, fadeInLength, illumination, minIllumination);
 
 		matrix4x4f _rot;
 		for (int e=0; e<16; e++) _rot[e] = float(rot[(*i).rotation][e]);
@@ -310,6 +329,10 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, co
 		_rot[13] = float(pos.y);
 		_rot[14] = float(pos.z);
 		(*i).model->Render(_rot, &cityobj_params);
+
+		// restore old ambient colour
+		if (illumination <= minIllumination) 
+			r->SetAmbientColor(oldSceneAmbientColor);
 	}
 }
 

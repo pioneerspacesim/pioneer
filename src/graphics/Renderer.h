@@ -4,8 +4,6 @@
 #include "libs.h"
 #include <map>
 
-class Light;
-
 namespace Graphics {
 
 /*
@@ -33,6 +31,7 @@ namespace Graphics {
  * Reboot postprocessing, again
  */
 
+class Light;
 class Material;
 class RendererLegacy;
 class StaticMesh;

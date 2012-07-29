@@ -1,5 +1,11 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui graphics galaxy terrain text ui
+if BUILD_WIN32
+    PLATFORM_SUBDIRS = win32
+endif
+if BUILD_POSIX
+    PLATFORM_SUBDIRS = posix
+endif
+SUBDIRS = collider gui graphics galaxy terrain text ui $(PLATFORM_SUBDIRS)
 
 include $(top_srcdir)/Makefile.common
 
@@ -48,7 +54,6 @@ noinst_HEADERS = \
 	KeyBindings.h \
 	Lang.h \
 	LangStrings.inc.h \
-	Light.h \
 	LmrModel.h \
 	LuaBody.h \
 	LuaCargoBody.h \
@@ -91,6 +96,7 @@ noinst_HEADERS = \
 	ModManager.h \
 	Object.h \
 	ObjectViewerView.h \
+	OS.h \
 	PersistSystemData.h \
 	Pi.h \
 	Planet.h \
@@ -182,7 +188,6 @@ pioneer_SOURCES	= \
 	IniConfig.cpp \
 	GameConfig.cpp \
 	KeyBindings.cpp \
-	Light.cpp \
 	Lang.cpp \
 	LmrModel.cpp \
 	LuaBody.cpp \
@@ -338,20 +343,28 @@ tests_SOURCES = \
 	test_Frame.cpp \
 	test_StringF.cpp \
 	FileSystem.cpp \
-	FileSystemPosix.cpp \
 	FileSourceZip.cpp \
 	test_FileSystem.cpp
 TESTS = tests
-tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+tests_LDADD = \
+	collider/libcollider.a \
+	gui/libgui.a \
+	graphics/libgraphics.a \
+	terrain/libterrain.a \
+    posix/libposix.a \
 	../contrib/miniz/libminiz.a
 
 uitest_SOURCES = \
 	uitest.cpp \
 	Color.cpp \
 	FileSystem.cpp \
-	FileSystemPosix.cpp \
-	SDLWrappers.cpp
-uitest_LDADD = ui/libui.a gui/libgui.a text/libtext.a graphics/libgraphics.a \
+	SDLWrappers.cpp \
+	FontCache.cpp \
+	FontConfig.cpp \
+	IniConfig.cpp \
+	StringF.cpp \
+    utils.cpp
+uitest_LDADD = ui/libui.a gui/libgui.a text/libtext.a graphics/libgraphics.a posix/libposix.a \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
@@ -362,12 +375,12 @@ INCLUDES += -isystem @top_srcdir@/contrib/lua
 endif
 
 if BUILD_WIN32
-    pioneer_LDADD += ../win32/src/libwin32.a $(MINGW_LIBS)
-    modelviewer_LDADD += ../win32/src/libwin32.a $(MINGW_LIBS)
+    pioneer_LDADD += win32/libwin32.a $(MINGW_LIBS)
+    modelviewer_LDADD += win32/libwin32.a $(MINGW_LIBS)
 endif
 
 if BUILD_POSIX
-    pioneer_SOURCES += FileSystemPosix.cpp
-    modelviewer_SOURCES += FileSystemPosix.cpp
+    pioneer_LDADD += posix/libposix.a
+    modelviewer_LDADD += posix/libposix.a
 endif
 

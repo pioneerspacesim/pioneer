@@ -1,85 +1,87 @@
-#include "libs.h"
 #include "Pi.h"
-#include "gui/Gui.h"
-#include "Player.h"
-#include "Space.h"
-#include "Planet.h"
-#include "Star.h"
-#include "Frame.h"
-#include "ShipCpanel.h"
-#include "ShipType.h"
-#include "SectorView.h"
-#include "SystemView.h"
-#include "SystemInfoView.h"
-#include "WorldView.h"
-#include "ObjectViewerView.h"
-#include "galaxy/StarSystem.h"
-#include "SpaceStation.h"
-#include "SpaceStationView.h"
-#include "CargoBody.h"
-#include "InfoView.h"
-#include "Serializer.h"
-#include "GeoSphere.h"
-#include "Sound.h"
-#include "Polit.h"
-#include "GalacticView.h"
-#include "galaxy/Galaxy.h"
-#include "GameMenuView.h"
-#include "Missile.h"
-#include "LmrModel.h"
+#include "libs.h"
 #include "AmbientSounds.h"
-#include "galaxy/CustomSystem.h"
+#include "Background.h"
+#include "CargoBody.h"
 #include "CityOnPlanet.h"
-#include "LuaManager.h"
+#include "FileSystem.h"
+#include "Frame.h"
+#include "GalacticView.h"
+#include "Game.h"
+#include "GameLoaderSaver.h"
+#include "GameMenuView.h"
+#include "GeoSphere.h"
+#include "InfoView.h"
+#include "Lang.h"
+#include "LmrModel.h"
 #include "LuaBody.h"
-#include "LuaShip.h"
-#include "LuaSpaceStation.h"
-#include "LuaPlanet.h"
-#include "LuaStar.h"
-#include "LuaPlayer.h"
 #include "LuaCargoBody.h"
-#include "LuaStarSystem.h"
-#include "LuaSystemPath.h"
-#include "LuaSystemBody.h"
-#include "LuaShipType.h"
-#include "LuaEquipType.h"
 #include "LuaChatForm.h"
-#include "LuaSpace.h"
+#include "LuaComms.h"
+#include "LuaConsole.h"
 #include "LuaConstants.h"
-#include "LuaLang.h"
-#include "LuaGame.h"
 #include "LuaEngine.h"
 #include "LuaFileSystem.h"
 #include "LuaComms.h"
+#include "LuaEquipType.h"
 #include "LuaFormat.h"
-#include "LuaSpace.h"
-#include "LuaTimer.h"
-#include "LuaRand.h"
-#include "LuaNameGen.h"
+#include "LuaGame.h"
+#include "LuaLang.h"
+#include "LuaManager.h"
 #include "LuaMusic.h"
-#include "LuaConsole.h"
-#include "SoundMusic.h"
-#include "Background.h"
-#include "Lang.h"
-#include "StringF.h"
-#include "Game.h"
-#include "GameLoaderSaver.h"
-#include "FileSystem.h"
-#include "Light.h"
+#include "LuaNameGen.h"
+#include "LuaPlanet.h"
+#include "LuaPlayer.h"
+#include "LuaRand.h"
+#include "LuaShip.h"
+#include "LuaShipType.h"
+#include "LuaSpace.h"
+#include "LuaSpace.h"
+#include "LuaSpaceStation.h"
+#include "LuaStar.h"
+#include "LuaStarSystem.h"
+#include "LuaSystemBody.h"
+#include "LuaSystemPath.h"
+#include "LuaTimer.h"
+#include "Missile.h"
+#include "ModManager.h"
+#include "ObjectViewerView.h"
+#include "OS.h"
+#include "Planet.h"
+#include "Player.h"
+#include "Polit.h"
+#include "SectorView.h"
+#include "Serializer.h"
 #include "Sfx.h"
+#include "ShipCpanel.h"
+#include "ShipType.h"
+#include "Sound.h"
+#include "SoundMusic.h"
+#include "Space.h"
+#include "SpaceStation.h"
+#include "SpaceStationView.h"
+#include "Star.h"
+#include "StringF.h"
+#include "SystemInfoView.h"
+#include "SystemView.h"
+#include "WorldView.h"
+#include "galaxy/CustomSystem.h"
+#include "galaxy/Galaxy.h"
+#include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
 #include "SDLWrappers.h"
 #include "ModManager.h"
+#include "graphics/Light.h"
+#include "gui/Gui.h"
 #include <fstream>
 
 float Pi::gameTickAlpha;
 int Pi::scrWidth;
 int Pi::scrHeight;
 float Pi::scrAspect;
-SDL_Surface *Pi::scrSurface;
 sigc::signal<void, SDL_keysym*> Pi::onKeyPress;
 sigc::signal<void, SDL_keysym*> Pi::onKeyRelease;
 sigc::signal<void, int, int, int> Pi::onMouseButtonUp;
@@ -376,19 +378,6 @@ void Pi::RedirectStdio()
 	}
 }
 
-void Pi::LoadWindowIcon()
-{
-#ifdef WIN32
-	// SDL doc says "Win32 icons must be 32x32".
-	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge32-8b.png");
-#else
-	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge.png");
-#endif
-	if (surface) {
-		SDL_WM_SetIcon(surface.Get(), 0);
-	}
-}
-
 void Pi::Init()
 {
 	FileSystem::Init();
@@ -410,140 +399,49 @@ void Pi::Init()
 	Pi::detail.fracmult = config->Int("FractalMultiple");
 	Pi::detail.cities = config->Int("DetailCities");
 
-	int width = config->Int("ScrWidth");
-	int height = config->Int("ScrHeight");
-	const SDL_VideoInfo *info = NULL;
+	// Initialize SDL
 	Uint32 sdlInitFlags = SDL_INIT_VIDEO | SDL_INIT_JOYSTICK;
 #if defined(DEBUG) || defined(_DEBUG)
 	sdlInitFlags |= SDL_INIT_NOPARACHUTE;
 #endif
 	if (SDL_Init(sdlInitFlags) < 0) {
-		fprintf(stderr, "Video initialization failed: %s\n", SDL_GetError());
-		exit(-1);
+		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
 	}
 
-	InitJoysticks();
-	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
+	// Do rest of SDL video initialization and create Renderer
+	Graphics::Settings videoSettings = {};
+	videoSettings.width = config->Int("ScrWidth");
+	videoSettings.height = config->Int("ScrHeight");
+	videoSettings.fullscreen = (config->Int("StartFullscreen") != 0);
+	videoSettings.shaders = (config->Int("DisableShaders") == 0);
+	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
+	videoSettings.vsync = (config->Int("VSync") != 0);
 
-	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
-
-	// no mode set, find an ok one
-	if ((width <= 0) || (height <= 0)) {
-		SDL_Rect **modes = SDL_ListModes(NULL, SDL_HWSURFACE | SDL_FULLSCREEN);
-
-		if (modes == 0) {
-			fprintf(stderr, "It seems no video modes are available...");
-		}
-		if (modes == reinterpret_cast<SDL_Rect **>(-1)) {
-			// hm. all modes available. odd. try 800x600
-			width = 800; height = 600;
-		} else {
-			width = modes[0]->w;
-			height = modes[0]->h;
-		}
-	}
-
-	info = SDL_GetVideoInfo();
-	printf("SDL_GetVideoInfo says %d bpp\n", info->vfmt->BitsPerPixel);
-	switch (info->vfmt->BitsPerPixel) {
-		case 16:
-			SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-			SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
-			SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-			break;
-		case 24:
-		case 32:
-			SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-			SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-			SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-			break;
-		default:
-			fprintf(stderr, "Invalid pixel depth: %d bpp\n", info->vfmt->BitsPerPixel);
-	}
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	const int requestedSamples = config->Int("AntiAliasingMode");
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, requestedSamples ? 1 : 0);
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, requestedSamples);
-	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, config->Int("VSync"));
-
-	Uint32 flags = SDL_OPENGL;
-	if (config->Int("StartFullscreen")) flags |= SDL_FULLSCREEN;
-
-	LoadWindowIcon();
-
-	// attempt sequence is:
-	// 1- requested mode
-	Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
-
-	// 2- requested mode with no anti-aliasing (skipped if no AA was requested anyway)
-	if (!Pi::scrSurface && requestedSamples) {
-		fprintf(stderr, "Failed to set video mode. (%s). Re-trying without multisampling.\n", SDL_GetError());
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
-
-		Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
-	}
-
-	// 3- requested mode with 16 bit depth buffer
-	if (!Pi::scrSurface) {
-		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer\n", SDL_GetError());
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, requestedSamples ? 1 : 0);
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, requestedSamples);
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-
-		Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
-	}
-
-	// 4- requested mode with 16-bit depth buffer and no anti-aliasing
-	//    (skipped if no AA was requested anyway)
-	if (!Pi::scrSurface && requestedSamples) {
-		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer and no multisampling\n", SDL_GetError());
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-
-		Pi::scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
-	}
-
-	// 5- abort!
-	if (!Pi::scrSurface) {
-		fprintf(stderr, "Failed to set video mode: %s", SDL_GetError());
-		abort();
-	}
-
-	// this valuable is not reliable if antialiasing settings are overridden by
-	// nvidia/ati/whatever settings
-	int actualSamples = 0;
-	SDL_GL_GetAttribute(SDL_GL_MULTISAMPLESAMPLES, &actualSamples);
-	if (requestedSamples != actualSamples)
-		fprintf(stderr, "Requested AA mode: %dx, actual: %dx\n", requestedSamples, actualSamples);
-
-	glewInit();
-	SDL_WM_SetCaption("Pioneer","Pioneer");
-	Pi::scrWidth = width;
-	Pi::scrHeight = height;
-	Pi::scrAspect = width / float(height);
-
-	Pi::rng.seed(time(NULL));
-
-	bool wantShaders = (config->Int("DisableShaders") == 0);
-	Pi::renderer = Graphics::Init(width, height, wantShaders);
-
+	Pi::renderer = Graphics::Init(videoSettings);
 	{
 		std::ofstream out;
 		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(), "opengl.txt")).c_str());
 		renderer->PrintDebugInfo(out);
 	}
 
+	OS::LoadWindowIcon();
+	SDL_WM_SetCaption("Pioneer","Pioneer");
+
+	Pi::scrWidth = videoSettings.width;
+	Pi::scrHeight = videoSettings.height;
+	Pi::scrAspect = videoSettings.width / float(videoSettings.height);
+
+	Pi::rng.seed(time(0));
+
+	InitJoysticks();
+	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
+	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
+
 	Pi::ui.Reset(new UI::Context(Pi::renderer, scrWidth, scrHeight));
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
 	Gui::Init(renderer, scrWidth, scrHeight, 800, 600);
-	if (!glewIsSupported("GL_ARB_vertex_buffer_object")) {
-		Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
-	}
 
 	LuaInit();
 
@@ -848,14 +746,18 @@ void Pi::HandleEvents()
 				Pi::onKeyRelease.emit(&event.key.keysym);
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				Pi::mouseButton[event.button.button] = 1;
-				Pi::onMouseButtonDown.emit(event.button.button,
-						event.button.x, event.button.y);
+				if (event.button.button < COUNTOF(Pi::mouseButton)) {
+					Pi::mouseButton[event.button.button] = 1;
+					Pi::onMouseButtonDown.emit(event.button.button,
+							event.button.x, event.button.y);
+				}
 				break;
 			case SDL_MOUSEBUTTONUP:
-				Pi::mouseButton[event.button.button] = 0;
-				Pi::onMouseButtonUp.emit(event.button.button,
-						event.button.x, event.button.y);
+				if (event.button.button < COUNTOF(Pi::mouseButton)) {
+					Pi::mouseButton[event.button.button] = 0;
+					Pi::onMouseButtonUp.emit(event.button.button,
+							event.button.x, event.button.y);
+				}
 				break;
 			case SDL_MOUSEMOTION:
 				Pi::mouseMotion[0] += event.motion.xrel;
@@ -927,7 +829,7 @@ static void draw_intro(Background::Container *background, float _time)
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
 	Pi::renderer->SetLights(1, &light);
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
@@ -958,7 +860,7 @@ static void draw_tombstone(float _time)
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Light light(Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
 	Pi::renderer->SetLights(1, &light);
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
@@ -1247,6 +1149,10 @@ void Pi::Start()
 	menu->ShowAll();
 #endif
 
+	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
+	// for some models
+	Pi::renderer->SetAmbientColor(Color(0.2f, 0.2f, 0.2f, 1.f));
+
 	ui->Layout();
 
 	Uint32 last_time = SDL_GetTicks();
@@ -1317,7 +1223,6 @@ void Pi::EndGame()
 
 	StarSystem::ShrinkCache();
 }
-
 
 void Pi::MainLoop()
 {
@@ -1411,7 +1316,6 @@ void Pi::MainLoop()
 		// Pi::game. we can't continue.
 		if (!Pi::game)
 			return;
-
 
 		if (Pi::game->UpdateTimeAccel())
 			accumulator = 0;				// fix for huge pauses 10000x -> 1x

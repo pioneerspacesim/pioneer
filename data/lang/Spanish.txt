@@ -235,11 +235,11 @@ VIDEO_RESOLUTION
 X_BY_X
     %{x}x%{y}
 PLANET_DETAIL_DISTANCE
-    Distancia del detalle planetario:
+    Dist. detalle planetario:
 CITY_DETAIL_LEVEL
-    Nivel de detalle urbano:
+    Detalle urbano:
 PLANET_TEXTURES
-    Texturas planetarias:
+    Tex. planetarias:
 FRACTAL_DETAIL
     Detalle Fractal:
 CONTROLS
@@ -1128,8 +1128,8 @@ PROBABILITY_OF_ARRIVAL_X_PERCENT
     Probabilidad de llegada: %probability%%
 ALT_IN_METRES
     Alt: %altitude{f.0}m
-PRESSURE_N_BAR
-    P: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    P: %pressure{f.2} atm
 NO_HYPERDRIVE
     Sin motor hiperespacial
 MASS_N_TONNES

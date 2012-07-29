@@ -293,12 +293,12 @@ AC_CONFIG_FILES([
 	src/terrain/Makefile
 	src/text/Makefile
 	src/ui/Makefile
+	src/win32/Makefile
+	src/posix/Makefile
 	contrib/Makefile
 	contrib/lua/Makefile
 	contrib/miniz/Makefile
 	contrib/jenkins/Makefile
 	osx/Makefile
-	win32/Makefile
-	win32/src/Makefile
-])
+	win32/Makefile])
 AC_OUTPUT

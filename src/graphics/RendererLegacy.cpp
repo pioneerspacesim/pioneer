@@ -260,15 +260,15 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 	}
 	//XXX should probably disable unused lights (for legacy renderer only)
 
-	Graphics::State::SetNumLights(numlights);
-
+	Graphics::State::SetLights(numlights, lights);
+	
 	return true;
 }
 
 bool RendererLegacy::SetAmbientColor(const Color &c)
 {
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, c);
-
+	Graphics::State::SetGlobalSceneAmbientColor(c);
 	return true;
 }
 
@@ -673,18 +673,44 @@ void RendererLegacy::PopState()
 	glPopMatrix();
 }
 
+static void dump_opengl_value(std::ostream &out, const char *name, GLenum id, int num_elems)
+{
+	assert(num_elems > 0 && num_elems <= 4);
+	assert(name);
+
+	GLdouble e[4];
+	glGetDoublev(id, e);
+
+	GLenum err = glGetError();
+	if (err == GL_NO_ERROR) {
+		out << name << " = " << e[0];
+		for (int i = 1; i < num_elems; ++i)
+			out << ", " << e[i];
+		out << "\n";
+	} else {
+		while (err != GL_NO_ERROR) {
+			if (err == GL_INVALID_ENUM) { out << name << " -- not supported\n"; }
+			else { out << name << " -- unexpected error (" << err << ") retrieving value\n"; }
+			err = glGetError();
+		}
+	}
+}
+
 bool RendererLegacy::PrintDebugInfo(std::ostream &out)
 {
 	out << "OpenGL version " << glGetString(GL_VERSION);
 	out << ", running on " << glGetString(GL_VENDOR);
-	out << " " << glGetString(GL_RENDERER) << std::endl;
+	out << " " << glGetString(GL_RENDERER) << "\n";
 
-	out << "Available extensions:" << std::endl;
+	if (glewIsSupported("GL_VERSION_2_0"))
+		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION_ARB) << "\n";
+
+	out << "Available extensions:" << "\n";
 	GLint numext = 0;
 	glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
 	if (glewIsSupported("GL_VERSION_3_0")) {
 		for (int i = 0; i < numext; ++i) {
-			out << "  " << glGetStringi(GL_EXTENSIONS, i) << std::endl;
+			out << "  " << glGetStringi(GL_EXTENSIONS, i) << "\n";
 		}
 	}
 	else {
@@ -695,6 +721,58 @@ bool RendererLegacy::PrintDebugInfo(std::ostream &out)
 			std::istream_iterator<std::string>(),
 			std::ostream_iterator<std::string>(out, "\n  "));
 	}
+
+	out << "\nImplementation Limits:\n";
+
+	// first, clear all OpenGL error flags
+	while (glGetError() != GL_NO_ERROR) {}
+
+#define DUMP_GL_VALUE(name) dump_opengl_value(out, #name, name, 1)
+#define DUMP_GL_VALUE2(name) dump_opengl_value(out, #name, name, 2)
+
+	DUMP_GL_VALUE(GL_MAX_3D_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_ATTRIB_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_CLIENT_ATTRIB_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_CLIP_PLANES);
+	DUMP_GL_VALUE(GL_MAX_COLOR_ATTACHMENTS_EXT);
+	DUMP_GL_VALUE(GL_MAX_COLOR_MATRIX_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_CUBE_MAP_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_DRAW_BUFFERS);
+	DUMP_GL_VALUE(GL_MAX_ELEMENTS_INDICES);
+	DUMP_GL_VALUE(GL_MAX_ELEMENTS_VERTICES);
+	DUMP_GL_VALUE(GL_MAX_EVAL_ORDER);
+	DUMP_GL_VALUE(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(GL_MAX_LIGHTS);
+	DUMP_GL_VALUE(GL_MAX_LIST_NESTING);
+	DUMP_GL_VALUE(GL_MAX_MODELVIEW_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_NAME_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_PIXEL_MAP_TABLE);
+	DUMP_GL_VALUE(GL_MAX_PROJECTION_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_RENDERBUFFER_SIZE_EXT);
+	DUMP_GL_VALUE(GL_MAX_SAMPLES_EXT);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_COORDS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_LOD_BIAS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_VARYING_FLOATS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_ATTRIBS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(GL_NUM_COMPRESSED_TEXTURE_FORMATS);
+	DUMP_GL_VALUE(GL_SAMPLE_BUFFERS);
+	DUMP_GL_VALUE(GL_SAMPLES);
+	DUMP_GL_VALUE2(GL_ALIASED_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(GL_ALIASED_POINT_SIZE_RANGE);
+	DUMP_GL_VALUE2(GL_MAX_VIEWPORT_DIMS);
+	DUMP_GL_VALUE2(GL_SMOOTH_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(GL_SMOOTH_POINT_SIZE_RANGE);
+
+#undef DUMP_GL_VALUE
+#undef DUMP_GL_VALUE2
 
 	return true;
 }

@@ -249,7 +249,7 @@ Translate:AddFlavour('Polski','DeliverPackage', {
 })
 
 Translate:AddFlavour('Polski','DeliverPackage', {
-  adtext = "PILNA PSZESYŁKA. Przewóz nietrwałych produktów do {starport}.",
+  adtext = "PILNA PRZESYŁKA. Przewóz nietrwałych produktów do {starport}.",
   introtext = "Witamy, zalegamy z wysyłką naszych produktów i potrzebujemy ich szybkiej dostawy do  {starport}. Zapłacimy {cash} za fatygę.",
   whysomuchtext = "Od tego zależy nasze utrzymanie.",
   successmsg = "Imponujące! Natychmiast rozpoczynamy rozładunek. Przelew jest właśnie realizowany.",

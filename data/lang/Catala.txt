@@ -1126,8 +1126,8 @@ PROBABILITY_OF_ARRIVAL_X_PERCENT
     Probabilitat d'arribada: %probability%%
 ALT_IN_METRES
     Alç: %altitude{f.0}m
-PRESSURE_N_BAR
-    P: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    P: %pressure{f.2} atm
 NO_HYPERDRIVE
     Sense hipermotor
 MASS_N_TONNES

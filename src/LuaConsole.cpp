@@ -6,6 +6,7 @@
 #include "gui/GuiTextEntry.h"
 #include "gui/GuiLabel.h"
 #include "text/TextureFont.h"
+#include "text/TextSupport.h"
 #include "KeyBindings.h"
 #include <sstream>
 #include <stack>
@@ -117,10 +118,6 @@ void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
 	}
 }
 
-static bool is_alphanumunderscore(char c) {
-	return (c == '_' || (c >= '0' && c <= '9') || (c  >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
-}
-
 static void fetch_keys_from_table(lua_State * l, int table_index, const std::string & chunk, std::vector<std::string> & completion_list, bool only_functions) {
 	table_index = lua_absindex(l, table_index);
 	lua_pushnil(l);
@@ -184,7 +181,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	std::string::const_iterator current_begin = statement.begin(); // To keep record when breaking off the loop.
 	for (std::string::const_reverse_iterator r_str_it = statement.rbegin();
 			r_str_it != statement.rend(); r_str_it++) {
-		if(is_alphanumunderscore(*r_str_it)) {
+		if(Text::is_alphanumunderscore(*r_str_it)) {
 			expect_symbolname = false;
 			continue;
 		} else if (expect_symbolname) // Wrong syntax.

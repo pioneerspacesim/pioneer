@@ -150,7 +150,7 @@ public:
 	  return (rand_int32()%(1+max-min))+min;
   }
   // [0,max)
-  unsigned int Int32(int max) { return rand_int32()%max; }
+  unsigned int Int32(int max) { assert(max > 0); return rand_int32()%max; }
   unsigned int Int32() { return rand_int32(); }
 private:
   MTRand(const MTRand&); // copy constructor not defined

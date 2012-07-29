@@ -117,7 +117,15 @@ int main(int argc, char **argv)
 
 	SDL_WM_SetCaption("uitest", "uitest");
 
-	Graphics::Renderer *r = Graphics::Init(WIDTH, HEIGHT, true);
+	Graphics::Settings videoSettings;
+	videoSettings.width = WIDTH;
+	videoSettings.height = HEIGHT;
+	videoSettings.fullscreen = false;
+	videoSettings.shaders = false;
+	videoSettings.requestedSamples = 0;
+	videoSettings.vsync = false;
+	Graphics::Renderer *r = Graphics::Init(videoSettings);
+
 	RefCountedPtr<UI::Context> c(new UI::Context(r, WIDTH, HEIGHT));
 
 #if 0

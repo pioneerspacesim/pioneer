@@ -58,7 +58,6 @@ class Pi {
 public:
 	static void Init();
 	static void RedirectStdio();
-	static void LoadWindowIcon();
 	static void InitGame();
 	static void StarportStart(Uint32 starport);
 	static void StartGame();
@@ -189,7 +188,6 @@ private:
 	static float frameTime;
 	static int scrWidth, scrHeight;
 	static float scrAspect;
-	static SDL_Surface *scrSurface;
 	static char keyState[SDLK_LAST];
 	static int keyModState;
 	static char mouseButton[6];

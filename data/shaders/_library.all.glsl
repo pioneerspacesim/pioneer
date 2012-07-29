@@ -31,22 +31,19 @@ void DirectionalLight(in int i,
 // b - end coord " "
 // centerDensity - atmospheric density at centre of sphere
 // length - real length of line in meters
-float AtmosLengthDensityProduct(vec3 a, vec3 b, float surfaceDensity, float len)
+float AtmosLengthDensityProduct(vec3 a, vec3 b, float surfaceDensity, float len, float invScaleHeight)
 {
 	/* 4 samples */
 	float ldprod = 0.0;
 	vec3 dir = b-a;
-	/* altitude density falloff */
-	const float ADF = 500.0;
-	// 0.985 = 2.0 - ATMOSPHERE_RADIUS...
 	ldprod = surfaceDensity * (
-			exp(-ADF*(length(a)-0.985)) +
-			exp(-ADF*(length(a + 0.2*dir)-0.985)) +
-			exp(-ADF*(length(a + 0.4*dir)-0.985)) +
-			exp(-ADF*(length(a + 0.6*dir)-0.985)) +
-			exp(-ADF*(length(a + 0.8*dir)-0.985)) +
-			exp(-ADF*(length(b)-0.985)));
-	ldprod *= len / 6.0;
+			exp(-invScaleHeight*(length(a)-1.0)) +
+			exp(-invScaleHeight*(length(a + 0.2*dir)-1.0)) +
+			exp(-invScaleHeight*(length(a + 0.4*dir)-1.0)) +
+			exp(-invScaleHeight*(length(a + 0.6*dir)-1.0)) +
+			exp(-invScaleHeight*(length(a + 0.8*dir)-1.0)) +
+			exp(-invScaleHeight*(length(b)-1.0)));
+	ldprod *= len;
 	return ldprod;
 }
 
