@@ -188,7 +188,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			// methods to deal with this
 			if (lo->Isa("SystemPath")) {
 				SystemPath *sbp = dynamic_cast<SystemPath*>(lo->m_object);
-				snprintf(buf, sizeof(buf), "SystemPath\n%d\n%d\n%d\n%d\n%d\n",
+				snprintf(buf, sizeof(buf), "SystemPath\n%d\n%d\n%d\n%u\n%u\n",
 					sbp->sectorX, sbp->sectorY, sbp->sectorZ, sbp->systemIndex, sbp->bodyIndex);
 				out += buf;
 				break;
@@ -196,7 +196,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 
 			if (lo->Isa("Body")) {
 				Body *b = dynamic_cast<Body*>(lo->m_object);
-				snprintf(buf, sizeof(buf), "Body\n%d\n", Pi::game->GetSpace()->GetIndexForBody(b));
+				snprintf(buf, sizeof(buf), "Body\n%u\n", Pi::game->GetSpace()->GetIndexForBody(b));
 				out += buf;
 				break;
 			}

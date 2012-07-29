@@ -1110,7 +1110,6 @@ void SystemBody::PickAtmosphere()
 			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.0005f);
 			m_atmosDensity = 14.0;
 			break;
-		case SystemBody::SUPERTYPE_STAR:
 		case SystemBody::TYPE_PLANET_ASTEROID:
 			m_atmosColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
 			m_atmosDensity = 0.0;
@@ -2001,7 +2000,10 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		affinity *= rand.Fixed();
 		// producing consumables is wise
 		for (int j=0; j<NUM_CONSUMABLES; j++) {
-			if (i == consumables[j]) affinity *= 2; break;
+			if (i == consumables[j]) {
+				affinity *= 2;
+				break;
+			}
 		}
 		assert(affinity >= 0);
 		/* workforce... */

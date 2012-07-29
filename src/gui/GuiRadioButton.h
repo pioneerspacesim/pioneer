@@ -17,9 +17,9 @@ namespace Gui {
 		virtual bool OnMouseDown(MouseButtonEvent *e);
 		virtual void OnActivate();
 		virtual void SetSelected(bool state) { m_pressed = state; }
-		bool GetSelected() { return m_pressed != 0; }
+		bool GetSelected() { return m_pressed; }
 	protected:
-		int m_pressed;
+		bool m_pressed;
 	};
 
 }
