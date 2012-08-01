@@ -131,7 +131,6 @@
     <ClCompile Include="..\..\src\IniConfig.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
-    <ClCompile Include="..\..\src\Light.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
@@ -278,7 +277,6 @@
     <ClInclude Include="..\..\src\IniConfig.h" />
     <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
-    <ClInclude Include="..\..\src\Light.h" />
     <ClInclude Include="..\..\src\LmrModel.h" />
     <ClInclude Include="..\..\src\LuaBody.h" />
     <ClInclude Include="..\..\src\LuaCargoBody.h" />
