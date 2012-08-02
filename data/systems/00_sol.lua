@@ -266,7 +266,7 @@ local saturn = CustomSystemBody:new('Saturn', 'PLANET_GAS_GIANT')
 	:inclination(math.deg2rad(2.485))
 	:rotation_period(f(4,10))
 	:axial_tilt(fixed.deg2rad(f(2673,100)))
-	:rings(f(1298,1000), f(18,10), {0.435, 0.412, 0.335, 0.9})
+	:rings(f(1298,1000), f(2383,1000), {0.435, 0.412, 0.335, 0.9})
 
 local saturn_moons = {
 	CustomSystemBody:new('Dione', 'PLANET_TERRESTRIAL')

@@ -8,7 +8,7 @@ Alpha 25
      * Terrains have been update, and more terrains added for asteroids (#1349)
      * Atmospheric height and appearance is now more realistic (#972, #1278, #1357)
      * Atmospheric pressure and temperature now follows a dry adiabatic model (#1363)
-     * Rewritten gas giant rings, with better transparency and shadows (#1404)
+     * Rewritten gas giant rings, with better transparency and shadows (#1404, #1415)
      * Fade building illumination depending on time of day and atmosphere (1390)
 
    * Minor changes and tweaks
