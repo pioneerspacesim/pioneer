@@ -82,7 +82,7 @@ CAPACITY
 FORWARD_ACCEL_EMPTY
     Acceleració davantera (buit)
 NUMBER_G
-    %acceleració{f.1} G
+    %acceleration{f.1} G
 FORWARD_ACCEL_LADEN
     Acceleració davantera (amb càrrega)
 REVERSE_ACCEL_EMPTY
