@@ -55,6 +55,8 @@ public:
 	bool operator==(const PersistentTable & ref) const;
 
 	const LuaTable GetLuaTable() { PushCopyToStack(); return LuaTable(m_lua, lua_gettop(m_lua)); }
+
+	lua_State * GetLua() const { return m_lua; }
 private:
     lua_State * m_lua;
 	int m_id;
