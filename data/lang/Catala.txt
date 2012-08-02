@@ -82,7 +82,7 @@ CAPACITY
 FORWARD_ACCEL_EMPTY
     Acceleració davantera (buit)
 NUMBER_G
-    %acceleració{f.1} G
+    %acceleration{f.1} G
 FORWARD_ACCEL_LADEN
     Acceleració davantera (amb càrrega)
 REVERSE_ACCEL_EMPTY
@@ -616,6 +616,8 @@ MM_START_NEW_GAME_E_ERIDANI
     Nova partida des d'Epsilon Eridani
 MM_START_NEW_GAME_LAVE
     Nova partida des de Lave
+MM_START_NEW_GAME_DEBUG
+    Nova pardita des de punt de depuració
 MM_LOAD_SAVED_GAME
     Carrega una partida
 MM_QUIT
@@ -1170,10 +1172,8 @@ AUTOPILOT_FLY_TO_VICINITY_OF
     Pilot automàtic: Anar a prop de %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
     Pilot automàtic: Òrbita baixa sobrevolant %target
-    Autopilot: Enter low orbit around %target
 AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
     Pilot automàtic: Òrbita mitjana sobrevolant %target
-    Autopilot: Enter medium orbit around %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Pilot automàtic: Òrbita alta sobrevolant %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
