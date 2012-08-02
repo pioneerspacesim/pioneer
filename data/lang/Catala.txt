@@ -1170,10 +1170,8 @@ AUTOPILOT_FLY_TO_VICINITY_OF
     Pilot automàtic: Anar a prop de %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
     Pilot automàtic: Òrbita baixa sobrevolant %target
-    Autopilot: Enter low orbit around %target
 AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
     Pilot automàtic: Òrbita mitjana sobrevolant %target
-    Autopilot: Enter medium orbit around %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
     Pilot automàtic: Òrbita alta sobrevolant %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
