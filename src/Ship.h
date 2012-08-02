@@ -16,6 +16,7 @@
 #include "ShipType.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
+#include "LuaTable.h"
 #include <list>
 #include <unordered_map>
 
@@ -129,6 +130,8 @@ public:
 	float GetWheelState() const { return m_wheelState; }
 	int GetWheelTransition() const { return m_wheelTransition; }
 	bool SpawnCargo(CargoBody * c_body) const;
+
+	LuaRef GetEquipSet() const { return m_equipSet; }
 
 	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
 
@@ -300,6 +303,8 @@ protected:
 
 	ShipController *m_controller;
 
+	LuaRef m_equipSet;
+
 private:
 	float GetECMRechargeTime();
 	void DoThrusterSounds() const;
@@ -309,7 +314,7 @@ private:
 	void TestLanded();
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep, const vector3d &thrust);
-    void SetShipId(const ShipType::Id &shipId);
+	void SetShipId(const ShipType::Id &shipId);
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);

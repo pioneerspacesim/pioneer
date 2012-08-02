@@ -310,4 +310,8 @@ template <> inline void LuaTable::VecIter<LuaTable>::CleanCache() {
 	}
 	m_dirtyCache = true;
 }
+
+inline void pi_lua_generic_push(lua_State* l, const LuaTable & value) {
+    lua_pushvalue(l, value.GetIndex());
+}
 #endif

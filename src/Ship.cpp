@@ -6,6 +6,7 @@
 #include "Lang.h"
 #include "EnumStrings.h"
 #include "LuaEvent.h"
+#include "LuaUtils.h"
 #include "Missile.h"
 #include "Player.h"
 #include "Projectile.h"
@@ -160,6 +161,11 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 	p.Set("mass", 0);
+	p.PushLuaTable();
+	lua_State *l = Lua::manager->GetLuaState();
+	lua_getfield(l, -1, "equipSet");
+	m_equipSet = LuaRef(l, -1);
+	lua_pop(l, 2);
 
 	m_controller = 0;
 	const ShipController::Type ctype = static_cast<ShipController::Type>(rd.Int32());
@@ -273,6 +279,19 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;
 	m_angThrusters.x = m_angThrusters.y = m_angThrusters.z = 0;
 	m_equipment.InitSlotSizes(shipId);
+
+	{
+		lua_State * l = Lua::manager->GetLuaState();
+		LUA_DEBUG_START(l);
+		pi_lua_import(l, "EquipSet");
+		LuaTable es_class(l, -1);
+		LuaTable slots = LuaTable(l).LoadMap(GetShipType()->slots.begin(), GetShipType()->slots.end());
+		m_equipSet =  es_class.Call<LuaRef>("New", slots);
+		Properties().Set("equipSet", ScopedTable(m_equipSet));
+		lua_pop(l, 2);
+		LUA_DEBUG_END(l, 0);
+	}
+
 	m_hyperspace.countdown = 0;
 	m_hyperspace.now = false;
 	m_hyperspace.ignoreFuel = false;
@@ -1438,6 +1457,7 @@ void Ship::OnEnterSystem() {
 void Ship::SetShipId(const ShipType::Id &shipId)
 {
 	m_type = &ShipType::types[shipId];
+
 	Properties().Set("shipId", shipId);
 }
 
@@ -1452,6 +1472,17 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	onFlavourChanged.emit();
 	if (IsType(Object::PLAYER))
 		Pi::worldView->SetCamType(Pi::worldView->GetCamType());
+	// We cannot export it to Init() since it gets reloaded on its own
+	lua_State * l = Lua::manager->GetLuaState();
+	pi_lua_import(l, "EquipSet");
+	lua_pushstring(l, "New");
+	lua_gettable(l, -2);
+	LuaTable(l).LoadMap(GetShipType()->slots.begin(), GetShipType()->slots.end());
+	lua_call(l, 1, 1);
+	Properties().Set("equipSet", LuaTable(l, -1));
+	m_equipSet = LuaRef(l, -1);
+	lua_pop(l, 2);
+
 	LuaEvent::Queue("onShipTypeChanged", this);
 }
 
