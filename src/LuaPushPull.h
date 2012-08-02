@@ -14,7 +14,7 @@ inline void lua_push(lua_State * l, const char * value) { lua_pushstring(l, valu
 inline void lua_push(lua_State * l, const std::string & value) { lua_pushstring(l, value.c_str()); }
 inline void lua_push(lua_State * l, LuaTable value) {
 	assert(value.GetLua() == l);
-	value.PushCopyToStack();
+	lua_pushvalue(l, value.GetIndex());
 }
 template <class T> void lua_push(lua_State * l, T* value) {
 	assert(l == Pi::luaManager->GetLuaState());
@@ -30,8 +30,8 @@ inline void lua_pull(lua_State * l, int index, double & out) { out = lua_tonumbe
 inline void lua_pull(lua_State * l, int index, const char * & out) { out = lua_tostring(l, index); }
 inline void lua_pull(lua_State * l, int index, std::string & out) { out = lua_tostring(l, index); }
 inline void lua_pull(lua_State * l, int index, LuaTable & out) {
-	assert(out.GetLua() == l);
-	out.PushCopyToStack();
+	out.SetLua(l);
+	out.SetIndex(index);
 }
 template <class T> void lua_pull(lua_State * l, int index, T* & out) {
 	assert(l == Pi::luaManager->GetLuaState());

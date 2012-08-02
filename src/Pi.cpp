@@ -193,7 +193,7 @@ static void LuaInit()
 	Pi::luaManager = new LuaManager();
 
 	lua_State *l = Pi::luaManager->GetLuaState();
-	LuaTable::Init(l);
+	PersistentTable::Init(l);
 
 	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
@@ -310,7 +310,7 @@ static void LuaUninit() {
 
 	delete Pi::luaSerializer;
 	delete Pi::luaTimer;
-	LuaTable::Uninit(Pi::luaManager->GetLuaState());
+	PersistentTable::Uninit(Pi::luaManager->GetLuaState());
 
 	delete Pi::luaManager;
 }
