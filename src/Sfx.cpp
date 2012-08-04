@@ -17,6 +17,7 @@ using namespace Graphics;
 Graphics::Drawables::Sphere3D *Sfx::shieldEffect = 0;
 Graphics::Drawables::Sphere3D *Sfx::explosionEffect = 0;
 Graphics::Material *Sfx::damageParticle = 0;
+Graphics::Material *Sfx::ecmParticle = 0;
 
 Sfx::Sfx()
 {
@@ -194,6 +195,8 @@ void Sfx::Init(Graphics::Renderer *r)
 	explosionEffect = new Graphics::Drawables::Sphere3D(explosionMat, 2);
 	damageParticle = r->CreateMaterial(desc);
 	damageParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/smoke.png").GetOrCreateTexture(r, "billboard");
+	ecmParticle = r->CreateMaterial(desc);
+	ecmParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/ecm.png").GetOrCreateTexture(r, "billboard");
 }
 
 void Sfx::Uninit()
@@ -201,4 +204,5 @@ void Sfx::Uninit()
 	delete shieldEffect; shieldEffect = 0;
 	delete explosionEffect; explosionEffect = 0;
 	delete damageParticle; damageParticle = 0;
+	delete ecmParticle; ecmParticle = 0;
 }
