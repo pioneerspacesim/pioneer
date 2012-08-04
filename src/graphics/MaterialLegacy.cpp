@@ -12,7 +12,7 @@ void MaterialLegacy::Apply()
 {
 	glPushAttrib(GL_LIGHTING_BIT | GL_ENABLE_BIT);
 
-	if (vertexColors)
+	if (!vertexColors)
 		glColor4f(diffuse.r, diffuse.g, diffuse.b, diffuse.a);
 
 	if (unlit) {

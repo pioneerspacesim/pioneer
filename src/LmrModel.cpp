@@ -52,8 +52,8 @@ namespace ShipThruster {
 	//vertices for thruster flare & glow
 	static Graphics::VertexArray *tVerts;
 	static Graphics::VertexArray *gVerts;
-	static Graphics::Material tMat;
-	static Graphics::Material glowMat;
+	static Graphics::Material *tMat;
+	static Graphics::Material *glowMat;
 	//cool purple-ish
 	static Color color(0.7f, 0.6f, 1.f, 1.f);
 
@@ -62,15 +62,15 @@ namespace ShipThruster {
 		gVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 		//set up materials
-		tMat.texture0 = Graphics::TextureBuilder::Billboard("textures/thruster.png").GetOrCreateTexture(renderer, "billboard");
-		tMat.unlit = true;
-		tMat.twoSided = true;
-		tMat.diffuse = color;
+		Graphics::MaterialDescriptor desc;
+		desc.twoSided = true;
+		tMat = renderer->CreateMaterial(desc);
+		tMat->texture0 = Graphics::TextureBuilder::Billboard("textures/thruster.png").GetOrCreateTexture(renderer, "billboard");
+		tMat->diffuse = color;
 
-		glowMat.texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(renderer, "billboard");
-		glowMat.unlit = true;
-		glowMat.twoSided = true;
-		glowMat.diffuse = color;
+		glowMat = renderer->CreateMaterial(desc);
+		glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(renderer, "billboard");
+		glowMat->diffuse = color;
 
 		//zero at thruster center
 		//+x down
@@ -125,6 +125,8 @@ namespace ShipThruster {
 	static void Uninit() {
 		delete tVerts;
 		delete gVerts;
+		delete tMat;
+		delete glowMat;
 	}
 
 	struct Thruster
@@ -201,14 +203,14 @@ namespace ShipThruster {
 		vector3f viewdir = vector3f(-mv[2], -mv[6], -mv[10]).Normalized();
 		vector3f cdir(0.f, 0.f, -1.f);
 		//fade thruster out, when directly facing it
-		tMat.diffuse.a = 1.0 - powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len*2);
+		tMat->diffuse.a = 1.0 - powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len*2);
 
-		renderer->DrawTriangles(tVerts, &tMat);
+		renderer->DrawTriangles(tVerts, tMat);
 		glPopMatrix ();
 
 		// linear thrusters get a secondary glow billboard
 		if (m_linear_only) {
-			glowMat.diffuse.a = powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len);
+			glowMat->diffuse.a = powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len);
 
 			glPushMatrix();
 			matrix4x4f rot;
@@ -238,7 +240,7 @@ namespace ShipThruster {
 			vert = start+rotv1;
 			gVerts->position[4] = vector3f(vert.x, vert.y, vert.z);
 
-			renderer->DrawTriangles(gVerts, &glowMat);
+			renderer->DrawTriangles(gVerts, glowMat);
 
 			glPopMatrix();
 		}
