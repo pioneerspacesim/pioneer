@@ -1,8 +1,9 @@
 #include "Graphics.h"
-#include "Shader.h"
-#include "RendererLegacy.h"
-#include "RendererGL2.h"
 #include "FileSystem.h"
+#include "Material.h"
+#include "RendererGL2.h"
+#include "RendererLegacy.h"
+#include "Shader.h"
 #include "OS.h"
 
 static GLuint boundArrayBufferObject = 0;
@@ -14,6 +15,7 @@ static bool initted = false;
 
 Shader *simpleShader;
 Shader *planetRingsShader[4];
+Material *vtxColorMaterial;
 
 float State::m_znear = 10.0f;
 float State::m_zfar = 1e6f;
@@ -178,6 +180,10 @@ Renderer* Init(const Settings &vs)
 		planetRingsShader[1] = new Shader("planetrings", "#define NUM_LIGHTS 2\n");
 		planetRingsShader[2] = new Shader("planetrings", "#define NUM_LIGHTS 3\n");
 		planetRingsShader[3] = new Shader("planetrings", "#define NUM_LIGHTS 4\n");
+
+		MaterialDescriptor desc;
+		desc.vertexColors = true;
+		vtxColorMaterial = renderer->CreateMaterial(desc);
 	}
 	
 	return renderer;

@@ -13,6 +13,7 @@ namespace Graphics {
 
 	class Renderer;
 	class Shader;
+	class Material;
 
 	// requested video settings
 	struct Settings {
@@ -44,6 +45,7 @@ namespace Graphics {
 	extern Shader *simpleShader;
 	// one for each number of lights (stars in system)
 	extern Shader *planetRingsShader[4];
+	extern Material *vtxColorMaterial;
 
 	// does SDL video init, constructs appropriate Renderer
 	Renderer* Init(const Settings&);
