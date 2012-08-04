@@ -558,10 +558,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Light.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\LmrModel.cpp"
 				>
 			</File>
@@ -1162,6 +1158,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\win32\WinMath.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\WorldView.cpp"
 				>
 			</File>
@@ -1529,10 +1529,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\libs.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Light.h"
 				>
 			</File>
 			<File
@@ -2005,6 +2001,10 @@
 			</File>
 			<File
 				RelativePath="..\..\win32\src\win32-dirent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\WinMath.h"
 				>
 			</File>
 			<File
@@ -3220,6 +3220,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\graphics\Graphics.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Light.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Light.h"
 				>
 			</File>
 			<File
