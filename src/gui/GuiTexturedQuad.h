@@ -6,7 +6,10 @@
 #include "RefCounted.h"
 #include "Color.h"
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+	class Material;
+}
 
 namespace Gui {
 
@@ -23,6 +26,7 @@ public:
 	void Draw(Graphics::Renderer *r, const vector2f &pos, const vector2f &size, const vector2f &texPos, const vector2f &texSize, const Color &tint = Color::WHITE);
 private:
 	RefCountedPtr<Graphics::Texture> m_texture;
+	ScopedPtr<Graphics::Material> m_material;
 };
 
 }

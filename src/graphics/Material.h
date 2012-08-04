@@ -61,6 +61,7 @@ public:
 	bool lighting;
 	bool vertexColors;
 	bool twoSided;
+	int texture; //texture0 type? texture count? don't know yet
 };
 
 }
