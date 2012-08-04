@@ -3,8 +3,10 @@
 #include "Light.h"
 #include "Material.h"
 #include "MaterialLegacy.h"
+#include "OS.h"
 #include "RendererGLBuffers.h"
 #include "StaticMesh.h"
+#include "StringF.h"
 #include "Surface.h"
 #include "Texture.h"
 #include "TextureGL.h"
@@ -84,36 +86,42 @@ bool RendererLegacy::EndFrame()
 	return true;
 }
 
+static std::string glerr_to_string(GLenum err)
+{
+	switch (err)
+	{
+	case GL_INVALID_ENUM:
+		return "GL_INVALID_ENUM";
+	case GL_INVALID_VALUE:
+		return "GL_INVALID_VALUE";
+	case GL_INVALID_OPERATION:
+		return "GL_INVALID_OPERATION";
+	case GL_OUT_OF_MEMORY:
+		return "GL_OUT_OF_MEMORY";
+	case GL_STACK_OVERFLOW: //deprecated in GL3
+		return "GL_STACK_OVERFLOW";
+	case GL_STACK_UNDERFLOW: //deprecated in GL3
+		return "GL_STACK_UNDERFLOW";
+	case GL_INVALID_FRAMEBUFFER_OPERATION_EXT:
+		return "GL_INVALID_FRAMEBUFFER_OPERATION";
+	default:
+		return stringf("Unknown error 0x0%0{x}", err);
+	}
+}
+
 bool RendererLegacy::SwapBuffers()
 {
 #ifndef NDEBUG
 	GLenum err;
 	err = glGetError();
-	while (err != GL_NO_ERROR) {
-		switch (err) {
-			case GL_INVALID_ENUM:
-				fprintf(stderr, "GL_INVALID_ENUM\n");
-				break;
-			case GL_INVALID_VALUE:
-				fprintf(stderr, "GL_INVALID_VALUE\n");
-				break;
-			case GL_INVALID_OPERATION:
-				fprintf(stderr, "GL_INVALID_OPERATION\n");
-				break;
-			case GL_OUT_OF_MEMORY:
-				fprintf(stderr, "GL_OUT_OF_MEMORY\n");
-				break;
-			case GL_STACK_OVERFLOW: //deprecated in GL3
-				fprintf(stderr, "GL_STACK_OVERFLOW\n");
-				break;
-			case GL_STACK_UNDERFLOW: //deprecated in GL3
-				fprintf(stderr, "GL_STACK_UNDERFLOW\n");
-				break;
-			case GL_INVALID_FRAMEBUFFER_OPERATION_EXT:
-				fprintf(stderr, "GL_INVALID_FRAMEBUFFER_OPERATION\n");
-				break;
+	if (err != GL_NO_ERROR) {
+		std::stringstream ss;
+		ss << "OpenGL error(s) during frame:\n";
+		while (err != GL_NO_ERROR) {
+			ss << glerr_to_string(err) << '\n';
+			err = glGetError();
 		}
-		err = glGetError();
+		OS::Error(ss.str().c_str());
 	}
 #endif
 
