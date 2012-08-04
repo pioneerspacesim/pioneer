@@ -459,7 +459,7 @@ void Pi::Init()
 	SpaceStation::Init();
 	draw_progress(0.9f);
 
-	Sfx::Init();
+	Sfx::Init(Pi::renderer);
 	draw_progress(0.95f);
 
 	if (!config->Int("DisableSound")) {
