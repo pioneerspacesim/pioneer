@@ -258,6 +258,7 @@ SHADER_CLASS_END()
 
 static LmrShader *s_sunlightShader[4];
 static LmrShader *s_pointlightShader[4];
+static Graphics::Material *s_billboardMaterial;
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
 static FontCache s_fontCache;
@@ -446,11 +447,10 @@ public:
 				}
 				if (!op.billboards.texture)
 					op.billboards.texture = Graphics::TextureBuilder::Model(*op.billboards.textureFile).GetOrCreateTexture(s_renderer, "billboard");
-				Graphics::Material mat;
-				mat.unlit = true;
-				mat.texture0 = op.billboards.texture;
-				mat.diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
-				s_renderer->DrawPointSprites(op.billboards.count, &verts[0], &mat, op.billboards.size);
+
+				s_billboardMaterial->texture0 = op.billboards.texture;
+				s_billboardMaterial->diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
+				s_renderer->DrawPointSprites(op.billboards.count, &verts[0], s_billboardMaterial, op.billboards.size);
 				BindBuffers();
 				break;
 			}
@@ -4515,6 +4515,10 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 	s_pointlightShader[2] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 3\n");
 	s_pointlightShader[3] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 4\n");
 
+	Graphics::MaterialDescriptor desc;
+	desc.texture = 1;
+	s_billboardMaterial = renderer->CreateMaterial(desc);
+
 	PiVerify(s_font = s_fontCache.GetVectorFont("WorldFont"));
 
 	lua_State *L = luaL_newstate();
@@ -4609,6 +4613,7 @@ void LmrModelCompilerUninit()
 		delete s_sunlightShader[i];
 		delete s_pointlightShader[i];
 	}
+	delete s_billboardMaterial;
 	// FontCache should be ok...
 
 	std::map<std::string, LmrModel*>::iterator it_model;

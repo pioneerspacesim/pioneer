@@ -5,12 +5,12 @@
 #include "Color.h"
 #include "graphics/Texture.h"
 #include "graphics/Material.h"
+#include "graphics/VertexArray.h"
 #include <map>
 
 namespace Graphics {
 	class Material;
 	class Renderer;
-	class VertexArray;
 }
 
 namespace Text {
