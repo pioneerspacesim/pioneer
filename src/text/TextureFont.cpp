@@ -177,7 +177,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 void TextureFont::RenderString(const char *str, float x, float y, const Color &color)
 {
 	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+	m_vertices.Clear();
 
 	float px = x;
 	float py = y;
@@ -197,7 +197,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			AddGlyphGeometry(&va, chr, roundf(px), py, color);
+			AddGlyphGeometry(&m_vertices, chr, roundf(px), py, color);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -216,13 +216,13 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 		}
 	}
 
-	m_renderer->DrawTriangles(&va, m_mat.Get());
+	m_renderer->DrawTriangles(&m_vertices, m_mat.Get());
 }
 
 Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &color)
 {
 	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+	m_vertices.Clear();
 
 	float px = x;
 	float py = y;
@@ -255,7 +255,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			AddGlyphGeometry(&va, chr, roundf(px), py, c);
+			AddGlyphGeometry(&m_vertices, chr, roundf(px), py, c);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
@@ -275,11 +275,14 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 		}
 	}
 
-	m_renderer->DrawTriangles(&va, m_mat.Get());
+	m_renderer->DrawTriangles(&m_vertices, m_mat.Get());
 	return c;
 }
 
-TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer) : Font(descriptor), m_renderer(renderer)
+TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer)
+	: Font(descriptor)
+	, m_renderer(renderer)
+	, m_vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0)
 {
 	int err; // used to store freetype error return codes
 	const int a_width = GetDescriptor().pixelWidth;

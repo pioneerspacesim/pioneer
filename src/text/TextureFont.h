@@ -52,6 +52,7 @@ private:
 	int m_texSize;
 	RefCountedPtr<Graphics::Texture> m_texture;
 	ScopedPtr<Graphics::Material> m_mat;
+	Graphics::VertexArray m_vertices;
 
 	static int s_glyphCount;
 	std::map<Uint32,glfglyph_t> m_glyphs;
