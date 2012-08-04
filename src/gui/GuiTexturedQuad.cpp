@@ -23,7 +23,6 @@ void TexturedQuad::Draw(Graphics::Renderer *renderer, const vector2f &pos, const
 		m_material.Reset(renderer->CreateMaterial(desc));
 		m_material->texture0 = m_texture.Get();
 	}
-	Graphics::Material m;
 	m_material->diffuse = tint;
 	renderer->DrawTriangles(&va, m_material.Get(), TRIANGLE_STRIP);
 }
