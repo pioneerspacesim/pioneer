@@ -1,12 +1,11 @@
 #include "Background.h"
+#include "Frame.h"
+#include "galaxy/StarSystem.h"
+#include "Game.h"
 #include "perlin.h"
 #include "Pi.h"
-#include "galaxy/StarSystem.h"
-#include "Space.h"
-#include "Frame.h"
 #include "Player.h"
-#include <vector>
-#include "Game.h"
+#include "Space.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
@@ -14,6 +13,7 @@
 #include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
 #include "graphics/Shader.h"
+#include <vector>
 
 using namespace Graphics;
 
@@ -25,15 +25,15 @@ void BackgroundElement::SetIntensity(float intensity)
 	m_material->emissive = Color(intensity);
 }
 
-Starfield::Starfield()
+Starfield::Starfield(Graphics::Renderer *r)
 {
-	Init();
+	Init(r);
 	//starfield is not filled without a seed
 }
 
-Starfield::Starfield(unsigned long seed)
+Starfield::Starfield(Graphics::Renderer *r, unsigned long seed)
 {
-	Init();
+	Init(r);
 	Fill(seed);
 }
 
@@ -44,15 +44,16 @@ Starfield::~Starfield()
 	delete[] m_hyperCol;
 }
 
-void Starfield::Init()
+void Starfield::Init(Graphics::Renderer *r)
 {
 	// reserve some space for positions, colours
 	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
 	m_model = new StaticMesh(POINTS);
 	m_shader.Reset(new Shader("bgstars"));
-	m_material.Reset(new Material());
-	m_material->unlit = true;
-	m_material->vertexColors = true;
+	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_STARFIELD;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
 	m_material->shader = m_shader.Get();
 	m_material->emissive = Color::WHITE;
 	m_model->AddSurface(new Surface(POINTS, stars, m_material));
@@ -89,9 +90,6 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 {
 	if (AreShadersEnabled()) {
 		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
-	} else {
-		glDisable(GL_POINT_SMOOTH); //too large if smoothing is on
-		glPointSize(1.0f);
 	}
 
 	// XXX would be nice to get rid of the Pi:: stuff here
@@ -140,7 +138,7 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 	}
 }
 
-MilkyWay::MilkyWay()
+MilkyWay::MilkyWay(Graphics::Renderer *r)
 {
 	m_model = new StaticMesh(TRIANGLE_STRIP);
 
@@ -189,9 +187,10 @@ MilkyWay::MilkyWay()
 		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
 		dark);
 
-	m_material.Reset(new Material);
-	m_material->unlit = true;
-	m_material->vertexColors = true;
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
+	//actually, this just needs variable intensity/opacity
 	m_shader.Reset(new Shader("bgstars"));
 	m_material->shader = m_shader.Get();
 	m_model->AddSurface(new Surface(TRIANGLE_STRIP, bottom, m_material));
@@ -209,11 +208,15 @@ void MilkyWay::Draw(Graphics::Renderer *renderer)
 	renderer->DrawStaticMesh(m_model);
 }
 
-Container::Container()
+Container::Container(Graphics::Renderer *r)
+: m_milkyWay(r)
+, m_starField(r)
 {
 }
 
-Container::Container(unsigned long seed)
+Container::Container(Graphics::Renderer *r, unsigned long seed)
+: m_milkyWay(r)
+, m_starField(r)
 {
 	Refresh(seed);
 };

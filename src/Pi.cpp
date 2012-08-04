@@ -1035,7 +1035,7 @@ void Pi::HandleMenuKey(int n)
 
 void Pi::Start()
 {
-	Background::Container *background = new Background::Container(UNIVERSE_SEED);
+	Background::Container *background = new Background::Container(Pi::renderer, UNIVERSE_SEED);
 
 	Gui::Fixed *menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	Gui::Screen::AddBaseWidget(menu, 0, 0);

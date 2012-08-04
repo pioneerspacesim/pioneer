@@ -8,6 +8,12 @@ namespace Graphics {
 
 class Texture;
 class Shader;
+class MaterialDescriptor;
+
+enum EffectType {
+	EFFECT_DEFAULT,
+	EFFECT_STARFIELD
+};
 
 /*
  * Materials define shading parameters. For example, when you
@@ -41,6 +47,18 @@ public:
 
 	//custom glsl prog
 	Shader *shader;
+
+	bool newStyleHack; //is this material created using RequestMaterial or not
+};
+
+// Renderer creates a material that best matches these requirements.
+// EffectType may override some of the other flags.
+class MaterialDescriptor {
+public:
+	MaterialDescriptor();
+	EffectType effect;
+	bool lighting;
+	bool vertexColors;
 };
 
 }

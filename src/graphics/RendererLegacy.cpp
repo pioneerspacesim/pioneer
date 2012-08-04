@@ -1,13 +1,14 @@
 #include "RendererLegacy.h"
+#include "Graphics.h"
 #include "Light.h"
 #include "Material.h"
-#include "Graphics.h"
+#include "MaterialLegacy.h"
 #include "RendererGLBuffers.h"
 #include "StaticMesh.h"
 #include "Surface.h"
 #include "Texture.h"
-#include "VertexArray.h"
 #include "TextureGL.h"
+#include "VertexArray.h"
 #include <stddef.h> //for offsetof
 #include <ostream>
 #include <sstream>
@@ -504,6 +505,12 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 
 void RendererLegacy::ApplyMaterial(const Material *mat)
 {
+	if (mat && mat->newStyleHack) {
+		Material *m = const_cast<Material*>(mat);
+		static_cast<MaterialLegacy*>(m)->Apply();
+		return;
+	}
+
 	glPushAttrib(GL_LIGHTING_BIT | GL_ENABLE_BIT);
 	if (!mat) {
 		glDisable(GL_LIGHTING);
@@ -530,6 +537,12 @@ void RendererLegacy::ApplyMaterial(const Material *mat)
 
 void RendererLegacy::UnApplyMaterial(const Material *mat)
 {
+	if (mat && mat->newStyleHack) {
+		Material *m = const_cast<Material*>(mat);
+		static_cast<MaterialLegacy*>(m)->Unapply();
+		return;
+	}
+
 	glPopAttrib();
 	if (!mat) return;
 	if (mat->texture0)
@@ -644,6 +657,19 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	mesh->cached = true;
 
 	return true;
+}
+
+Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
+{
+	MaterialLegacy *m;
+	if (desc.effect == EFFECT_STARFIELD)
+		m = new StarfieldMaterialLegacy();
+	else
+		m = new MaterialLegacy();
+	m->newStyleHack = true;
+	m->vertexColors = desc.vertexColors;
+	m->unlit = !desc.lighting;
+	return m;
 }
 
 Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)

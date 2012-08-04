@@ -9,7 +9,15 @@ Material::Material() :
 	unlit(false),
 	twoSided(false),
 	vertexColors(false),
-	shader(0)
+	shader(0),
+	newStyleHack(false)
+{
+}
+
+MaterialDescriptor::MaterialDescriptor()
+: effect(EFFECT_DEFAULT)
+, lighting(false)
+, vertexColors(false)
 {
 }
 

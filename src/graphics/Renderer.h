@@ -33,12 +33,13 @@ namespace Graphics {
 
 class Light;
 class Material;
+class MaterialDescriptor;
 class RendererLegacy;
 class StaticMesh;
 class Surface;
-class VertexArray;
 class Texture;
 class TextureDescriptor;
+class VertexArray;
 
 // first some enums
 enum LineType {
@@ -125,6 +126,7 @@ public:
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
 
+	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
 
 	Texture *GetCachedTexture(const std::string &type, const std::string &name);

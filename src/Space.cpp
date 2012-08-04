@@ -26,7 +26,7 @@ Space::Space(Game *game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
-	, m_background(UNIVERSE_SEED)
+	, m_background(Pi::renderer, UNIVERSE_SEED)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -43,6 +43,7 @@ Space::Space(Game *game, const SystemPath &path)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
+	, m_background(Pi::renderer)
 {
 	m_starSystem = StarSystem::GetCached(path);
 	m_background.Refresh(m_starSystem->m_seed);
@@ -65,6 +66,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
+	, m_background(Pi::renderer)
 {
 	m_starSystem = StarSystem::Unserialize(rd);
 	m_background.Refresh(m_starSystem->m_seed);

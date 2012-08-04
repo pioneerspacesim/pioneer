@@ -52,6 +52,7 @@ public:
 	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size);
 	virtual bool DrawStaticMesh(StaticMesh *thing);
 
+	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor);
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor);
 
 	virtual bool PrintDebugInfo(std::ostream &out);
