@@ -8,6 +8,7 @@
 #include <map>
 
 namespace Graphics {
+	class Material;
 	class Renderer;
 	class VertexArray;
 }
@@ -50,7 +51,7 @@ private:
 	float m_descender;
 	int m_texSize;
 	RefCountedPtr<Graphics::Texture> m_texture;
-	Graphics::Material m_mat;
+	ScopedPtr<Graphics::Material> m_mat;
 
 	static int s_glyphCount;
 	std::map<Uint32,glfglyph_t> m_glyphs;

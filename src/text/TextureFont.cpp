@@ -216,7 +216,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 		}
 	}
 
-	m_renderer->DrawTriangles(&va, &m_mat);
+	m_renderer->DrawTriangles(&va, m_mat.Get());
 }
 
 Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &color)
@@ -275,7 +275,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 		}
 	}
 
-	m_renderer->DrawTriangles(&va, &m_mat);
+	m_renderer->DrawTriangles(&va, m_mat.Get());
 	return c;
 }
 
@@ -301,11 +301,12 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	std::vector<unsigned char> pixBuf(4*sz*sz);
 	std::fill(pixBuf.begin(), pixBuf.end(), 0);
 
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true; //to allow per-character colors
+	m_mat.Reset(m_renderer->CreateMaterial(desc));
 	Graphics::TextureDescriptor textureDescriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
 	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
-	m_mat.texture0 = m_texture.Get();
-	m_mat.unlit = true;
-	m_mat.vertexColors = true; //to allow per-character colors
+	m_mat->texture0 = m_texture.Get();
 
 	bool outline = GetDescriptor().outline;
 
