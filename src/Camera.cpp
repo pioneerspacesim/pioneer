@@ -221,7 +221,8 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	m_renderer->SetDepthTest(false);
 	m_renderer->SetBlendMode(BLEND_ALPHA_ONE);
 
-	// XXX WRONG. need to pick light from appropriate turd.
+	// XXX this is supposed to pick a correct light colour for the object twinkle.
+	// This is, of course, broken
 	GLfloat col[4];
 	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
 	col[3] = 1.f;

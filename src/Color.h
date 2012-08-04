@@ -15,6 +15,8 @@ struct Color4f {
 
 	static const Color4f BLACK;
 	static const Color4f WHITE;
+	static const Color4f RED;
+	static const Color4f BLUE;
 };
 
 struct Color4ub {

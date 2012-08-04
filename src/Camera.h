@@ -110,9 +110,7 @@ private:
 	};
 	
 	std::list<BodyAttrs> m_sortedBodies;
-
 	std::vector<Camera::Light> m_lights;
-
 	Graphics::Renderer *m_renderer;
 };
 
