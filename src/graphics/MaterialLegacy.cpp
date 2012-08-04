@@ -37,11 +37,6 @@ void MaterialLegacy::Unapply()
 		static_cast<TextureGL*>(texture0)->Unbind();
 }
 
-StarfieldMaterialLegacy::StarfieldMaterialLegacy()
-: MaterialLegacy()
-{
-}
-
 void StarfieldMaterialLegacy::Apply()
 {
 	//XXX this probably isn't enough to ensure correct appearance
@@ -49,11 +44,6 @@ void StarfieldMaterialLegacy::Apply()
 	glDisable(GL_POINT_SMOOTH); //too large if smoothing is on
 	glPointSize(1.0f);
 	glDisable(GL_LIGHTING);
-}
-
-void StarfieldMaterialLegacy::Unapply()
-{
-	glPopAttrib();
 }
 
 }

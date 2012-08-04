@@ -172,32 +172,32 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	m_ringTexture->Update(
 			static_cast<void*>(buf.Get()), texSize,
 			Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
+
+	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_PLANETRING;
+	desc.lighting = false;
+	desc.twoSided = true;
+	m_ringMaterial.Reset(renderer->CreateMaterial(desc));
+	m_ringMaterial->texture0 = m_ringTexture.Get();
 }
 
 void Planet::DrawGasGiantRings(Renderer *renderer, const Camera *camera)
 {
 	renderer->SetBlendMode(BLEND_ALPHA_PREMULT);
-	glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT );
 	renderer->SetDepthTest(true);
-	glEnable(GL_NORMALIZE);
 
 	if (!m_ringTexture) {
 		GenerateRings(renderer);
 	}
 
-	Material mat;
-	mat.unlit = true;
-	mat.twoSided = true;
-	mat.texture0 = m_ringTexture.Get();
 	// XXX should get number of lights through camera when object viewer draw doesn't pass a null pointer
-	mat.shader = Graphics::planetRingsShader[Graphics::State::GetNumLights()-1];
+	m_ringMaterial->shader = Graphics::planetRingsShader[Graphics::State::GetNumLights()-1];
 
 	const SystemBody *sbody = GetSystemBody();
 	assert(sbody->HasRings());
 
-	renderer->DrawTriangles(&m_ringVertices, &mat, TRIANGLE_STRIP);
+	renderer->DrawTriangles(&m_ringVertices, m_ringMaterial.Get(), TRIANGLE_STRIP);
 
-	glPopAttrib();
 	renderer->SetBlendMode(BLEND_SOLID);
 }
 

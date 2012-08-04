@@ -12,7 +12,8 @@ class MaterialDescriptor;
 
 enum EffectType {
 	EFFECT_DEFAULT,
-	EFFECT_STARFIELD
+	EFFECT_STARFIELD,
+	EFFECT_PLANETRING
 };
 
 /*
@@ -59,6 +60,7 @@ public:
 	EffectType effect;
 	bool lighting;
 	bool vertexColors;
+	bool twoSided;
 };
 
 }

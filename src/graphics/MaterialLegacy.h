@@ -14,10 +14,7 @@ public:
 
 class StarfieldMaterialLegacy : public MaterialLegacy {
 public:
-	StarfieldMaterialLegacy();
-
 	virtual void Apply();
-	virtual void Unapply();
 };
 
 };

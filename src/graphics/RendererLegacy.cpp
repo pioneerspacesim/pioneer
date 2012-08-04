@@ -669,6 +669,7 @@ Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 	m->newStyleHack = true;
 	m->vertexColors = desc.vertexColors;
 	m->unlit = !desc.lighting;
+	m->twoSided = desc.twoSided;
 	return m;
 }
 

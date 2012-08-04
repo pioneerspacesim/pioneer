@@ -18,6 +18,7 @@ MaterialDescriptor::MaterialDescriptor()
 : effect(EFFECT_DEFAULT)
 , lighting(false)
 , vertexColors(false)
+, twoSided(false)
 {
 }
 
