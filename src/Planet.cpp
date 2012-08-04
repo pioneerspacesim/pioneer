@@ -255,7 +255,17 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 	rot = matrix4x4d::RotateZMatrix(angStep);
 
-	VertexArray vts(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL);
+	if (!m_atmosphereVertices.Valid()) {
+		m_atmosphereVertices.Reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL));
+		Graphics::MaterialDescriptor desc;
+		desc.vertexColors = true;
+		desc.twoSided = true;
+		m_atmosphereMaterial.Reset(renderer->CreateMaterial(desc));
+	}
+
+	VertexArray &vts = *m_atmosphereVertices.Get();
+	vts.Clear();
+
 	for (float ang=0; ang<2*M_PI; ang+=float(angStep)) {
 		const vector3d norm = r1.Normalized();
 		const vector3f n = vector3f(norm.x, norm.y, norm.z);
@@ -274,14 +284,9 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 		r2 = rot * r2;
 	}
 
-	Material mat;
-	mat.unlit = true;
-	mat.twoSided = true;
-	mat.vertexColors = true;
-
 	renderer->SetTransform(trans);
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
-	renderer->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
+	renderer->DrawTriangles(m_atmosphereVertices.Get(), m_atmosphereMaterial.Get(), TRIANGLE_STRIP);
 	renderer->SetBlendMode(BLEND_SOLID);
 
 	glPopMatrix();
