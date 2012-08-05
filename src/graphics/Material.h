@@ -50,6 +50,9 @@ public:
 	Shader *shader;
 
 	bool newStyleHack; //is this material created using RequestMaterial or not
+
+	virtual void Apply() { }
+	virtual void Unapply() { }
 };
 
 // Renderer creates a material that best matches these requirements.
@@ -62,6 +65,8 @@ public:
 	bool vertexColors;
 	bool twoSided;
 	int texture; //texture0 type? texture count? don't know yet
+
+	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
 };
 
 }

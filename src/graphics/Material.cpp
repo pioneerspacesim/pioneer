@@ -22,4 +22,14 @@ MaterialDescriptor::MaterialDescriptor()
 {
 }
 
+bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
+{
+	return (
+		a.effect == b.effect &&
+		a.lighting == b.lighting &&
+		a.vertexColors == b.vertexColors &&
+		a.twoSided == b.twoSided
+	);
+}
+
 }

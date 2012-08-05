@@ -6,8 +6,12 @@
 #include "Texture.h"
 #include "TextureGL.h"
 #include "VertexArray.h"
+#include "gl2/Program.h"
+#include "gl2/Material.h"
 
 namespace Graphics {
+
+typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterator ProgramIterator;
 
 Shader *simpleTextured;
 Shader *flatProg;
@@ -31,6 +35,8 @@ RendererGL2::~RendererGL2()
 	delete simpleTextured;
 	delete flatProg;
 	delete flatTextured;
+
+	while (!m_programs.empty()) delete m_programs.back().second, m_programs.pop_back();
 }
 
 bool RendererGL2::BeginFrame()
@@ -88,8 +94,41 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 	return true;
 }
 
+Material *RendererGL2::CreateMaterial(const MaterialDescriptor &desc)
+{
+	// search cache first
+	GL2::Program *p = 0;
+	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
+		if ((*it).first == desc) {
+			p = (*it).second;
+			break;
+		}
+	}
+
+	// build defines
+	if (!p) {
+		try {
+			p = new GL2::Program("test");
+			m_programs.push_back(std::make_pair(desc, p));
+		} catch (GL2::ShaderException &) {
+			// in release builds, the game does not quit instantly but attempts to revert
+			// to a 'shaderless' state
+			return RendererLegacy::CreateMaterial(desc);
+		}
+	}
+
+	// Create the material
+	GL2::Material *mat = new GL2::Material();
+	mat->m_program = p;
+	mat->newStyleHack = true;
+	return mat;
+}
+
 void RendererGL2::ApplyMaterial(const Material *mat)
 {
+	assert(mat && mat->newStyleHack);
+	const_cast<Material*>(mat)->Apply();
+#if 0
 	glPushAttrib(GL_ENABLE_BIT);
 
 	if (!mat) {
@@ -127,10 +166,15 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 		static_cast<TextureGL*>(mat->texture0)->Bind();
 		s->SetUniform("texture0", 0);
 	}
+#endif
 }
 
 void RendererGL2::UnApplyMaterial(const Material *mat)
 {
+	const_cast<Material*>(mat)->Apply();
+#if 0
+	prog->Unuse();
+	return;
 	glPopAttrib();
 	if (mat) {
 		if (mat->texture0) {
@@ -140,6 +184,7 @@ void RendererGL2::UnApplyMaterial(const Material *mat)
 	// XXX won't be necessary
 	m_currentShader = 0;
 	glUseProgram(0);
+#endif
 }
 
 }
