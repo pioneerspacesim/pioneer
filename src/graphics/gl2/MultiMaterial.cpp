@@ -26,6 +26,7 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc)
 void MultiProgram::InitUniforms()
 {
 	Program::InitUniforms();
+	diffuse.Init("material.diffuse", m_program);
 	texture0.Init("texture0", m_program);
 }
 
@@ -34,6 +35,7 @@ void MultiMaterial::Apply()
 	MultiProgram *p = static_cast<MultiProgram*>(m_program);
 	p->Use();
 	p->invLogZfarPlus1.Set(State::m_invLogZfarPlus1);
+	p->diffuse.Set(this->diffuse);
 
 	//set some uniforms
 	if (texture0) {

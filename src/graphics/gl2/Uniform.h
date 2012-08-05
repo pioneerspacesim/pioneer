@@ -12,8 +12,9 @@ namespace Graphics {
 			void Init(const char *name, GLuint program);
 			void Set(int);
 			void Set(float);
+			void Set(const Color4f&);
 
-		private:
+		//private:
 			GLint m_location;
 		};
 	}

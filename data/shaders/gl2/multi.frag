@@ -5,12 +5,18 @@ varying vec2 texCoord0;
 #ifdef VERTEXCOLOR
 varying vec4 vertexColor;
 #endif
+
+struct Material {
+	vec4 diffuse;
+};
+uniform Material material;
+
 void main(void)
 {
 #ifdef VERTEXCOLOR
 	vec4 color = vertexColor;
 #else
-	vec4 color = vec4(1.0);
+	vec4 color = material.diffuse;
 #endif
 #ifdef TEXTURE0
 	color *= texture2D(texture0, texCoord0);

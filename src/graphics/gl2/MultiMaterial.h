@@ -16,6 +16,7 @@ namespace Graphics {
 			MultiProgram(const MaterialDescriptor &);
 
 			// Uniforms
+			Uniform diffuse;
 			Uniform texture0;
 
 		protected:
