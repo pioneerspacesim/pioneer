@@ -105,8 +105,8 @@ namespace Graphics {
 		}
 	protected:
 		GLuint m_program;
-	private:
-		bool CheckGLSLErrors(const char *filename, GLuint obj);
+	public:
+		static bool CheckGLSLErrors(const char *filename, GLuint obj);
 	};
 
 	extern Shader *m_currentShader;
