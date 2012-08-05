@@ -6,6 +6,7 @@
 #include "vector3.h"
 #include "mtrand.h"
 #include "terrain/Terrain.h"
+#include "graphics/Material.h"
 
 extern int GEOPATCH_EDGELEN;
 
@@ -69,6 +70,8 @@ private:
 	static int s_vtxGenCount;
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
+
+	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
 };
 
 #endif /* _GEOSPHERE_H */

@@ -1178,6 +1178,9 @@ GeoSphere::GeoSphere(const SystemBody *body)
 	m_abort = false;
 
 	s_allGeospheres.push_back(this);
+
+	Graphics::MaterialDescriptor desc;
+	m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(desc));
 }
 
 GeoSphere::~GeoSphere()
@@ -1351,15 +1354,16 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 			shader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
 			shader->set_geosphereCenter(center.x, center.y, center.z);
 
+			/*m_atmosphereMaterial->shader
 			Material atmoMat;
-			atmoMat.shader = shader;
+			atmoMat.shader = shader;*/
 
 			renderer->SetBlendMode(BLEND_ALPHA_ONE);
 			renderer->SetDepthWrite(false);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, campos, ap.atmosRadius*1.01, &atmoMat);
+			DrawAtmosphereSurface(renderer, campos, ap.atmosRadius*1.01, m_atmosphereMaterial.Get());
 			renderer->SetDepthWrite(true);
 			renderer->SetBlendMode(BLEND_SOLID);
 		}
