@@ -2,8 +2,10 @@
 #define _GRAPHICS_GL2PROGRAM_H
 /*
  * The new 'Shader' class
+ * This is a base class without specific uniforms
  */
 #include "libs.h"
+#include "Uniform.h"
 
 namespace Graphics {
 
@@ -13,6 +15,7 @@ namespace Graphics {
 
 		class Program {
 		public:
+			Program();
 			Program(const std::string &name);
 			virtual ~Program();
 			void Reload();
@@ -20,10 +23,8 @@ namespace Graphics {
 			virtual void Unuse();
 
 		protected:
-			void LoadShaders(const std::string&);
+			void LoadShaders(const std::string&, const std::string &defines);
 			virtual void InitUniforms();
-
-		private:
 			std::string m_name;
 			std::string m_defines;
 			GLuint m_program;

@@ -19,6 +19,7 @@ struct Shader {
 			OS::Error("Could not load %s", filename.c_str());
 
 		AppendSource(s_glslVersion);
+		AppendSource(defines.c_str());
 		AppendSource(code->AsStringRange());
 		shader = glCreateShader(type);
 		Compile(shader);
@@ -58,10 +59,17 @@ private:
 	std::vector<GLint> block_sizes;
 };
 
+Program::Program()
+: m_name("")
+, m_defines("")
+, m_program(0)
+{
+}
+
 Program::Program(const std::string &name)
 : m_name(name)
 {
-	LoadShaders(name);
+	LoadShaders(name, "");
 	InitUniforms();
 }
 
@@ -74,7 +82,7 @@ void Program::Reload()
 {
 	Unuse();
 	glDeleteProgram(m_program);
-	LoadShaders(m_name);
+	LoadShaders(m_name, m_defines);
 	InitUniforms();
 }
 
@@ -89,13 +97,13 @@ void Program::Unuse()
 }
 
 //load, compile and link
-void Program::LoadShaders(const std::string &name)
+void Program::LoadShaders(const std::string &name, const std::string &defines)
 {
 	const std::string filename = std::string("shaders/gl2/") + name;
 
 	//load, create and compile shaders
-	Shader vs(GL_VERTEX_SHADER, filename + ".vert", "");
-	Shader fs(GL_FRAGMENT_SHADER, filename + ".frag", "");
+	Shader vs(GL_VERTEX_SHADER, filename + ".vert", defines);
+	Shader fs(GL_FRAGMENT_SHADER, filename + ".frag", defines);
 
 	//create program, attach shaders and link
 	m_program = glCreateProgram();

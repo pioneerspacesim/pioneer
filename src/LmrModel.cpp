@@ -64,6 +64,7 @@ namespace ShipThruster {
 		//set up materials
 		Graphics::MaterialDescriptor desc;
 		desc.twoSided = true;
+		desc.texture = 1;
 		tMat = renderer->CreateMaterial(desc);
 		tMat->texture0 = Graphics::TextureBuilder::Billboard("textures/thruster.png").GetOrCreateTexture(renderer, "billboard");
 		tMat->diffuse = color;

@@ -6,8 +6,9 @@
 #include "Texture.h"
 #include "TextureGL.h"
 #include "VertexArray.h"
-#include "gl2/Program.h"
 #include "gl2/Material.h"
+#include "gl2/MultiMaterial.h"
+#include "gl2/Program.h"
 
 namespace Graphics {
 
@@ -105,10 +106,10 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &desc)
 		}
 	}
 
-	// build defines
+	// Pick & create a new program
 	if (!p) {
 		try {
-			p = new GL2::Program("test");
+			p = new GL2::MultiProgram(desc);
 			m_programs.push_back(std::make_pair(desc, p));
 		} catch (GL2::ShaderException &) {
 			// in release builds, the game does not quit instantly but attempts to revert
@@ -118,7 +119,7 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &desc)
 	}
 
 	// Create the material
-	GL2::Material *mat = new GL2::Material();
+	GL2::Material *mat = new GL2::MultiMaterial();
 	mat->m_program = p;
 	mat->newStyleHack = true;
 	return mat;

@@ -306,6 +306,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 	Graphics::MaterialDescriptor desc;
 	desc.vertexColors = true; //to allow per-character colors
+	desc.texture = 1;
 	m_mat.Reset(m_renderer->CreateMaterial(desc));
 	Graphics::TextureDescriptor textureDescriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
 	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
