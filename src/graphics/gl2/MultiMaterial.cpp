@@ -42,10 +42,15 @@ void MultiMaterial::Apply()
 		static_cast<TextureGL*>(texture0)->Bind();
 		p->texture0.Set(0);
 	}
+
+	glPushAttrib(GL_ENABLE_BIT);
+	if (this->twoSided)
+		glDisable(GL_CULL_FACE);
 }
 
 void MultiMaterial::Unapply()
 {
+	glPopAttrib();
 	if (texture0) {
 		static_cast<TextureGL*>(texture0)->Unbind();
 	}

@@ -175,8 +175,8 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 
 	Graphics::MaterialDescriptor desc;
 	desc.effect = Graphics::EFFECT_PLANETRING;
-	desc.lighting = false;
 	desc.twoSided = true;
+	desc.texture = 1;
 	m_ringMaterial.Reset(renderer->CreateMaterial(desc));
 	m_ringMaterial->texture0 = m_ringTexture.Get();
 }
