@@ -18,8 +18,17 @@ struct Shader {
 		if (!code)
 			OS::Error("Could not load %s", filename.c_str());
 
+		// Load some common code
+		RefCountedPtr<FileSystem::FileData> logzCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/logz.glsl");
+		assert(logzCode);
+
 		AppendSource(s_glslVersion);
 		AppendSource(defines.c_str());
+		if (type == GL_VERTEX_SHADER)
+			AppendSource("#define VERTEX_SHADER\n");
+		else
+			AppendSource("#define FRAGMENT_SHADER\n");
+		AppendSource(logzCode->AsStringRange());
 		AppendSource(code->AsStringRange());
 		shader = glCreateShader(type);
 		Compile(shader);
@@ -118,7 +127,8 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 
 void Program::InitUniforms()
 {
-
+	//Init generic uniforms, like matrices
+	invLogZfarPlus1.Init("invLogZfarPlus1", m_program);
 }
 
 } // GL2

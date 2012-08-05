@@ -9,4 +9,5 @@ void main(void)
 	color = texture2D(texture0, texCoord0);
 #endif
 	gl_FragColor = color;
+	SetFragDepth();
 }

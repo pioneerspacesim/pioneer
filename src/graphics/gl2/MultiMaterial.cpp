@@ -1,6 +1,7 @@
 #include "MultiMaterial.h"
 #include "graphics/Material.h"
 #include "graphics/TextureGL.h"
+#include "graphics/Graphics.h"
 #include <sstream>
 
 namespace Graphics {
@@ -29,6 +30,7 @@ void MultiMaterial::Apply()
 {
 	MultiProgram *p = static_cast<MultiProgram*>(m_program);
 	p->Use();
+	p->invLogZfarPlus1.Set(State::m_invLogZfarPlus1);
 
 	//set some uniforms
 	if (texture0) {

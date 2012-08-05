@@ -22,6 +22,8 @@ namespace Graphics {
 			virtual void Use();
 			virtual void Unuse();
 
+			Uniform invLogZfarPlus1;
+
 		protected:
 			void LoadShaders(const std::string&, const std::string &defines);
 			virtual void InitUniforms();

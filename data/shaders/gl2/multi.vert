@@ -4,7 +4,7 @@ varying vec2 texCoord0;
 
 void main(void)
 {
-	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+	gl_Position = logarithmicTransform();
 #ifdef TEXTURE0
 	texCoord0 = gl_MultiTexCoord0.xy;
 #endif
