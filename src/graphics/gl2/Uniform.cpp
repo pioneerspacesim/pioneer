@@ -19,5 +19,11 @@ void Uniform::Set(int i)
 		glUniform1i(m_location, i);
 }
 
+void Uniform::Set(float f)
+{
+	if (m_location != -1)
+		glUniform1f(m_location, f);
+}
+
 }
 }

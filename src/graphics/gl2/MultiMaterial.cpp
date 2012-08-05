@@ -12,7 +12,9 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc)
 	//build some defines
 	std::stringstream ss;
 	if (desc.texture > 0)
-		ss << "#define TEXTURE0 1\n";
+		ss << "#define TEXTURE0\n";
+	if (desc.vertexColors)
+		ss << "#define VERTEXCOLOR\n";
 
 	m_name = "multi";
 	m_defines = ss.str();
@@ -23,6 +25,7 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc)
 
 void MultiProgram::InitUniforms()
 {
+	Program::InitUniforms();
 	texture0.Init("texture0", m_program);
 }
 

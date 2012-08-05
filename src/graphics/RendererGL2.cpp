@@ -172,7 +172,7 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 
 void RendererGL2::UnApplyMaterial(const Material *mat)
 {
-	const_cast<Material*>(mat)->Apply();
+	const_cast<Material*>(mat)->Unapply();
 #if 0
 	prog->Unuse();
 	return;

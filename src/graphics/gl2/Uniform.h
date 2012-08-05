@@ -11,6 +11,7 @@ namespace Graphics {
 			Uniform();
 			void Init(const char *name, GLuint program);
 			void Set(int);
+			void Set(float);
 
 		private:
 			GLint m_location;
