@@ -513,48 +513,13 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 
 void RendererLegacy::ApplyMaterial(const Material *mat)
 {
-	if (mat && mat->newStyleHack) {
-		Material *m = const_cast<Material*>(mat);
-		static_cast<MaterialLegacy*>(m)->Apply();
-		return;
-	}
-
-	glPushAttrib(GL_LIGHTING_BIT | GL_ENABLE_BIT);
-	if (!mat) {
-		glDisable(GL_LIGHTING);
-		return;
-	}
-
-	if (!mat->vertexColors)
-		glColor4f(mat->diffuse.r, mat->diffuse.g, mat->diffuse.b, mat->diffuse.a);
-
-	if (mat->unlit) {
-		glDisable(GL_LIGHTING);
-	} else {
-		glEnable(GL_LIGHTING);
-		glMaterialfv (GL_FRONT, GL_DIFFUSE, &mat->diffuse[0]);
-		//todo: the rest
-	}
-	if (mat->twoSided) {
-		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-		glDisable(GL_CULL_FACE);
-	}
-	if (mat->texture0)
-		static_cast<TextureGL*>(mat->texture0)->Bind();
+	assert(mat && mat->newStyleHack);
+	static_cast<MaterialLegacy*>(const_cast<Material*>(mat))->Apply();
 }
 
 void RendererLegacy::UnApplyMaterial(const Material *mat)
 {
-	if (mat && mat->newStyleHack) {
-		Material *m = const_cast<Material*>(mat);
-		static_cast<MaterialLegacy*>(m)->Unapply();
-		return;
-	}
-
-	glPopAttrib();
-	if (!mat) return;
-	if (mat->texture0)
-		static_cast<TextureGL*>(mat->texture0)->Unbind();
+	static_cast<MaterialLegacy*>(const_cast<Material*>(mat))->Unapply();
 }
 
 void RendererLegacy::EnableClientStates(const VertexArray *v)
