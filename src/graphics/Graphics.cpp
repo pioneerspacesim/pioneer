@@ -180,11 +180,10 @@ Renderer* Init(const Settings &vs)
 		planetRingsShader[1] = new Shader("planetrings", "#define NUM_LIGHTS 2\n");
 		planetRingsShader[2] = new Shader("planetrings", "#define NUM_LIGHTS 3\n");
 		planetRingsShader[3] = new Shader("planetrings", "#define NUM_LIGHTS 4\n");
-
-		MaterialDescriptor desc;
-		desc.vertexColors = true;
-		vtxColorMaterial = renderer->CreateMaterial(desc);
 	}
+	MaterialDescriptor desc;
+	desc.vertexColors = true;
+	vtxColorMaterial = renderer->CreateMaterial(desc);
 	
 	return renderer;
 }
@@ -196,6 +195,7 @@ void Uninit()
 	delete planetRingsShader[1];
 	delete planetRingsShader[2];
 	delete planetRingsShader[3];
+	delete vtxColorMaterial;
 	FreeLibs();
 }
 
