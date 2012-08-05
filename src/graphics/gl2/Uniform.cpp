@@ -3,6 +3,11 @@
 namespace Graphics {
 namespace GL2 {
 
+Uniform::Uniform()
+: m_location(-1)
+{
+}
+
 void Uniform::Init(const char *name, GLuint program)
 {
 	m_location = glGetUniformLocation(program, name);

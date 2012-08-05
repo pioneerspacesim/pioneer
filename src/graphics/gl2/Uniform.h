@@ -8,11 +8,12 @@ namespace Graphics {
 	namespace GL2 {
 		class Uniform {
 		public:
+			Uniform();
 			void Init(const char *name, GLuint program);
 			void Set(int);
 
 		private:
-			GLuint m_location;
+			GLint m_location;
 		};
 	}
 }
