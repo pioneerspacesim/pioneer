@@ -8,6 +8,7 @@
       <AdditionalIncludeDirectories>../../../src;../../src;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4305</DisableSpecificWarnings>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />

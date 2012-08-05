@@ -80,6 +80,10 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\graphics\Drawables.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Frustum.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\gl2\Material.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\gl2\MultiMaterial.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\gl2\Program.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\gl2\Uniform.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Graphics.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Light.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Material.cpp" />
@@ -102,6 +106,10 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
     <ClInclude Include="..\..\..\src\graphics\Frustum.h" />
+    <ClInclude Include="..\..\..\src\graphics\gl2\Material.h" />
+    <ClInclude Include="..\..\..\src\graphics\gl2\MultiMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\gl2\Program.h" />
+    <ClInclude Include="..\..\..\src\graphics\gl2\Uniform.h" />
     <ClInclude Include="..\..\..\src\graphics\Graphics.h" />
     <ClInclude Include="..\..\..\src\graphics\Light.h" />
     <ClInclude Include="..\..\..\src\graphics\Material.h" />

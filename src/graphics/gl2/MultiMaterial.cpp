@@ -33,7 +33,6 @@ void MultiMaterial::Apply()
 	//set some uniforms
 	if (texture0) {
 		static_cast<TextureGL*>(texture0)->Bind();
-		assert(p->texture0.m_location != -1);
 		p->texture0.Set(0);
 	}
 }
