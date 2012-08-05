@@ -10,7 +10,6 @@ namespace Graphics {
 
 bool shadersEnabled;
 bool shadersAvailable;
-Shader *m_currentShader = 0;
 
 // Check and warn about compile & link errors
 bool Shader::CheckGLSLErrors(const char *filename, GLuint obj)
@@ -175,11 +174,10 @@ bool Shader::Compile(const char *shader_name, const char *additional_defines)
 
 bool Shader::Use()
 {
-	if (!shadersEnabled || m_currentShader == this) return false;
+	if (!shadersEnabled) return false;
 
 	glUseProgram(m_program);
 	set_invLogZfarPlus1(State::m_invLogZfarPlus1);
-	m_currentShader = this;
 	return true;
 }
 
@@ -187,7 +185,6 @@ void Shader::Unuse()
 {
 	if (shadersEnabled)
 		glUseProgram(0);
-	m_currentShader = 0;
 }
 
 }
