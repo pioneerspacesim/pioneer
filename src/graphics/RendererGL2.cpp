@@ -111,17 +111,6 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &desc)
 	return mat;
 }
 
-void RendererGL2::ApplyMaterial(const Material *mat)
-{
-	assert(mat);
-	const_cast<Material*>(mat)->Apply();
-}
-
-void RendererGL2::UnApplyMaterial(const Material *mat)
-{
-	const_cast<Material*>(mat)->Unapply();
-}
-
 GL2::Program *RendererGL2::GetOrCreateProgram(const MaterialDescriptor &desc)
 {
 	// search cache first

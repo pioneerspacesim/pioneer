@@ -61,9 +61,6 @@ protected:
 	virtual void PushState();
 	virtual void PopState();
 
-	//XXX switch to Material::Apply when the stars are right
-	virtual void ApplyMaterial(const Material *mat);
-	virtual void UnApplyMaterial(const Material *mat);
 	//figure out states from a vertex array and enable them
 	//also sets vertex pointers
 	virtual void EnableClientStates(const VertexArray *v);

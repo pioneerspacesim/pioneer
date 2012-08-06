@@ -400,12 +400,12 @@ bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, Prim
 {
 	if (!v || v->position.size() < 3) return false;
 
-	ApplyMaterial(m);
+	const_cast<Material*>(m)->Apply();
 	EnableClientStates(v);
 
 	glDrawArrays(t, 0, v->GetNumVerts());
 
-	UnApplyMaterial(m);
+	const_cast<Material*>(m)->Unapply();
 	DisableClientStates();
 
 	return true;
@@ -418,12 +418,12 @@ bool RendererLegacy::DrawSurface(const Surface *s)
 	const Material *m = s->GetMaterial().Get();
 	const VertexArray *v = s->GetVertices();
 
-	ApplyMaterial(m);
+	const_cast<Material*>(m)->Apply();
 	EnableClientStates(v);
 
 	glDrawElements(s->GetPrimtiveType(), s->GetNumIndices(), GL_UNSIGNED_SHORT, s->GetIndexPointer());
 
-	UnApplyMaterial(m);
+	const_cast<Material*>(m)->Unapply();
 	DisableClientStates();
 
 	return true;
@@ -495,31 +495,20 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 	for (StaticMesh::SurfaceIterator surface = t->SurfacesBegin(); surface != t->SurfacesEnd(); ++surface) {
 		SurfaceRenderInfo *surfaceInfo = static_cast<SurfaceRenderInfo*>((*surface)->GetRenderInfo());
 
-		ApplyMaterial((*surface)->GetMaterial().Get());
+		const_cast<Material*>((*surface)->GetMaterial().Get())->Apply();
 		if (meshInfo->ibuf) {
 			meshInfo->vbuf->DrawIndexed(t->GetPrimtiveType(), surfaceInfo->glOffset, surfaceInfo->glAmount);
 		} else {
 			//draw unindexed per surface
 			meshInfo->vbuf->Draw(t->GetPrimtiveType(), surfaceInfo->glOffset, surfaceInfo->glAmount);
 		}
-		UnApplyMaterial((*surface)->GetMaterial().Get());
+		const_cast<Material*>((*surface)->GetMaterial().Get())->Unapply();
 	}
 	if (meshInfo->ibuf)
 		meshInfo->ibuf->Unbind();
 	meshInfo->vbuf->Unbind();
 
 	return true;
-}
-
-void RendererLegacy::ApplyMaterial(const Material *mat)
-{
-	assert(mat);
-	static_cast<MaterialLegacy*>(const_cast<Material*>(mat))->Apply();
-}
-
-void RendererLegacy::UnApplyMaterial(const Material *mat)
-{
-	static_cast<MaterialLegacy*>(const_cast<Material*>(mat))->Unapply();
 }
 
 void RendererLegacy::EnableClientStates(const VertexArray *v)
