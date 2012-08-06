@@ -39,6 +39,7 @@ protected:
 	virtual void UnApplyMaterial(const Material *mat);
 
 private:
+	GL2::Program *GetOrCreateProgram(const MaterialDescriptor &desc);
 	std::vector<std::pair<MaterialDescriptor, GL2::Program*> > m_programs;
 };
 

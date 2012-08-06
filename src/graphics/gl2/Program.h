@@ -22,7 +22,11 @@ namespace Graphics {
 			virtual void Use();
 			virtual void Unuse();
 
+			// Some generic uniforms.
+			// to be added: matrices etc.
 			Uniform invLogZfarPlus1;
+			Uniform diffuse;
+			Uniform texture0;
 
 		protected:
 			void LoadShaders(const std::string&, const std::string &defines);

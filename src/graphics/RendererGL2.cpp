@@ -14,9 +14,9 @@ namespace Graphics {
 
 typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterator ProgramIterator;
 
-Shader *simpleTextured;
-Shader *flatProg;
-Shader *flatTextured;
+// for material-less line and point drawing
+GL2::Program *vtxColorProg;
+GL2::Program *flatColorProg;
 
 RendererGL2::RendererGL2(int w, int h) :
 	RendererLegacy(w, h)
@@ -26,17 +26,15 @@ RendererGL2::RendererGL2(int w, int h) :
 	//http://www.gamedev.net/blog/73/entry-2006307-tip-of-the-day-logarithmic-zbuffer-artifacts-fix/
 	m_minZNear = 0.0001f;
 	m_maxZFar = 10000000.0f;
-	simpleTextured = new Shader("simpleTextured");
-	flatProg = new Shader("flat");
-	flatTextured = new Shader("flat", "#define TEXTURE0 1\n");
+
+	MaterialDescriptor desc;
+	desc.vertexColors = true;
+	vtxColorProg = GetOrCreateProgram(desc);
+	flatColorProg = GetOrCreateProgram(MaterialDescriptor());
 }
 
 RendererGL2::~RendererGL2()
 {
-	delete simpleTextured;
-	delete flatProg;
-	delete flatTextured;
-
 	while (!m_programs.empty()) delete m_programs.back().second, m_programs.pop_back();
 }
 
@@ -67,7 +65,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineTy
 {
 	if (count < 2 || !v) return false;
 
-	simpleShader->Use();
+	vtxColorProg->Use();
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
@@ -75,7 +73,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineTy
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
-	simpleShader->Unuse();
+	vtxColorProg->Unuse();
 
 	return true;
 }
@@ -84,38 +82,26 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 {
 	if (count < 2 || !v) return false;
 
-	flatProg->Use();
-	flatProg->SetUniform("color", c);
+	flatColorProg->Use();
+	flatColorProg->diffuse.Set(c);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	flatProg->Unuse();
+	flatColorProg->Unuse();
 
 	return true;
 }
 
 Material *RendererGL2::CreateMaterial(const MaterialDescriptor &desc)
 {
-	// search cache first
 	GL2::Program *p = 0;
-	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
-		if ((*it).first == desc) {
-			p = (*it).second;
-			break;
-		}
-	}
-
-	// Pick & create a new program
-	if (!p) {
-		try {
-			p = new GL2::MultiProgram(desc);
-			m_programs.push_back(std::make_pair(desc, p));
-		} catch (GL2::ShaderException &) {
-			// in release builds, the game does not quit instantly but attempts to revert
-			// to a 'shaderless' state
-			return RendererLegacy::CreateMaterial(desc);
-		}
+	try {
+		p = GetOrCreateProgram(desc);
+	} catch (GL2::ShaderException &) {
+		// in release builds, the game does not quit instantly but attempts to revert
+		// to a 'shaderless' state
+		return RendererLegacy::CreateMaterial(desc);
 	}
 
 	// Create the material
@@ -129,63 +115,32 @@ void RendererGL2::ApplyMaterial(const Material *mat)
 {
 	assert(mat && mat->newStyleHack);
 	const_cast<Material*>(mat)->Apply();
-#if 0
-	glPushAttrib(GL_ENABLE_BIT);
-
-	if (!mat) {
-		simpleShader->Use();
-		return;
-	}
-
-	const bool flat = !mat->vertexColors;
-
-	//choose shader
-	Shader *s = 0;
-	if (mat->shader) {
-		s = mat->shader;
-	} else {
-		if (flat && mat->texture0) s = flatTextured;
-		else if (flat && !mat->texture0) s = flatProg;
-		else if (!flat && mat->texture0) s = simpleTextured;
-		else s = simpleShader;
-	}
-
-	assert(s);
-	s->Use();
-
-	//set parameters
-	if (flat)
-		s->SetUniform("color", mat->diffuse);
-
-	//specular etc properties
-	glMaterialfv(GL_FRONT, GL_EMISSION, &mat->emissive[0]);
-
-	if (mat->twoSided) {
-		glDisable(GL_CULL_FACE);
-	}
-	if (mat->texture0) {
-		static_cast<TextureGL*>(mat->texture0)->Bind();
-		s->SetUniform("texture0", 0);
-	}
-#endif
 }
 
 void RendererGL2::UnApplyMaterial(const Material *mat)
 {
 	const_cast<Material*>(mat)->Unapply();
-#if 0
-	prog->Unuse();
-	return;
-	glPopAttrib();
-	if (mat) {
-		if (mat->texture0) {
-			static_cast<TextureGL*>(mat->texture0)->Unbind();
+}
+
+GL2::Program *RendererGL2::GetOrCreateProgram(const MaterialDescriptor &desc)
+{
+	// search cache first
+	GL2::Program *p = 0;
+	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
+		if ((*it).first == desc) {
+			p = (*it).second;
+			break;
 		}
 	}
-	// XXX won't be necessary
-	m_currentShader = 0;
-	glUseProgram(0);
-#endif
+
+	// Pick & create a new program
+	if (!p) {
+		p = new GL2::MultiProgram(desc);
+		m_programs.push_back(std::make_pair(desc, p));
+	}
+
+	assert(p != 0);
+	return p;
 }
 
 }

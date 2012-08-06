@@ -13,7 +13,6 @@ namespace Graphics {
 
 static bool initted = false;
 
-Shader *simpleShader;
 Shader *planetRingsShader[4];
 Material *vtxColorMaterial;
 
@@ -175,7 +174,6 @@ Renderer* Init(const Settings &vs)
 
 	//XXX to be moved
 	if (shadersEnabled) {
-		simpleShader = new Shader("simple");
 		planetRingsShader[0] = new Shader("planetrings", "#define NUM_LIGHTS 1\n");
 		planetRingsShader[1] = new Shader("planetrings", "#define NUM_LIGHTS 2\n");
 		planetRingsShader[2] = new Shader("planetrings", "#define NUM_LIGHTS 3\n");
@@ -190,7 +188,6 @@ Renderer* Init(const Settings &vs)
 
 void Uninit()
 {
-	delete simpleShader;
 	delete planetRingsShader[0];
 	delete planetRingsShader[1];
 	delete planetRingsShader[2];

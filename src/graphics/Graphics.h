@@ -42,7 +42,6 @@ namespace Graphics {
 		static Color GetGlobalSceneAmbientColor() { return m_globalAmbientColor; }
 	};
 
-	extern Shader *simpleShader;
 	// one for each number of lights (stars in system)
 	extern Shader *planetRingsShader[4];
 	extern Material *vtxColorMaterial;

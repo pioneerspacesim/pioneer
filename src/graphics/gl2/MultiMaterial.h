@@ -14,13 +14,6 @@ namespace Graphics {
 		class MultiProgram : public Program {
 		public:
 			MultiProgram(const MaterialDescriptor &);
-
-			// Uniforms
-			Uniform diffuse;
-			Uniform texture0;
-
-		protected:
-			virtual void InitUniforms();
 		};
 
 		class MultiMaterial : public Material {

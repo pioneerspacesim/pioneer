@@ -23,13 +23,6 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc)
 	InitUniforms();
 }
 
-void MultiProgram::InitUniforms()
-{
-	Program::InitUniforms();
-	diffuse.Init("material.diffuse", m_program);
-	texture0.Init("texture0", m_program);
-}
-
 void MultiMaterial::Apply()
 {
 	MultiProgram *p = static_cast<MultiProgram*>(m_program);
