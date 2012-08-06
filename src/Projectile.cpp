@@ -29,7 +29,7 @@ Projectile::Projectile(): Body()
 
 	//set up materials
 	Graphics::MaterialDescriptor desc;
-	desc.texture = 1;
+	desc.textures = 1;
 	desc.twoSided = true;
 	m_sideMat.Reset(Pi::renderer->CreateMaterial(desc));
 	m_glowMat.Reset(Pi::renderer->CreateMaterial(desc));

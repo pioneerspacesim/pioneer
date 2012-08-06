@@ -19,7 +19,7 @@ void TexturedQuad::Draw(Graphics::Renderer *renderer, const vector2f &pos, const
 	// Create material on first use. Bit of a hack.
 	if (!m_material.Valid()) {
 		Graphics::MaterialDescriptor desc;
-		desc.texture = 1;
+		desc.textures = 1;
 		m_material.Reset(renderer->CreateMaterial(desc));
 		m_material->texture0 = m_texture.Get();
 	}

@@ -106,14 +106,14 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &desc)
 
 	// Create the material
 	GL2::Material *mat = new GL2::MultiMaterial();
+	mat->twoSided = desc.twoSided;
 	mat->m_program = p;
-	mat->newStyleHack = true;
 	return mat;
 }
 
 void RendererGL2::ApplyMaterial(const Material *mat)
 {
-	assert(mat && mat->newStyleHack);
+	assert(mat);
 	const_cast<Material*>(mat)->Apply();
 }
 

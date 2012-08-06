@@ -513,7 +513,7 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 
 void RendererLegacy::ApplyMaterial(const Material *mat)
 {
-	assert(mat && mat->newStyleHack);
+	assert(mat);
 	static_cast<MaterialLegacy*>(const_cast<Material*>(mat))->Apply();
 }
 
@@ -639,7 +639,7 @@ Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 		m = new StarfieldMaterialLegacy();
 	else
 		m = new MaterialLegacy();
-	m->newStyleHack = true;
+
 	m->vertexColors = desc.vertexColors;
 	m->unlit = !desc.lighting;
 	m->twoSided = desc.twoSided;

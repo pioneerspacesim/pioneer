@@ -64,7 +64,7 @@ namespace ShipThruster {
 		//set up materials
 		Graphics::MaterialDescriptor desc;
 		desc.twoSided = true;
-		desc.texture = 1;
+		desc.textures = 1;
 		tMat = renderer->CreateMaterial(desc);
 		tMat->texture0 = Graphics::TextureBuilder::Billboard("textures/thruster.png").GetOrCreateTexture(renderer, "billboard");
 		tMat->diffuse = color;
@@ -4517,7 +4517,7 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 	s_pointlightShader[3] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 4\n");
 
 	Graphics::MaterialDescriptor desc;
-	desc.texture = 1;
+	desc.textures = 1;
 	s_billboardMaterial = renderer->CreateMaterial(desc);
 
 	PiVerify(s_font = s_fontCache.GetVectorFont("WorldFont"));

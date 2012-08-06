@@ -9,8 +9,7 @@ Material::Material() :
 	unlit(false),
 	twoSided(false),
 	vertexColors(false),
-	shader(0),
-	newStyleHack(false)
+	shader(0)
 {
 }
 
@@ -19,7 +18,7 @@ MaterialDescriptor::MaterialDescriptor()
 , lighting(false)
 , vertexColors(false)
 , twoSided(false)
-, texture(0)
+, textures(0)
 {
 }
 
@@ -30,7 +29,7 @@ bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
 		a.lighting == b.lighting &&
 		a.vertexColors == b.vertexColors &&
 		a.twoSided == b.twoSided &&
-		a.texture == b.texture
+		a.textures == b.textures
 	);
 }
 
