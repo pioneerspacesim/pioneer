@@ -16,7 +16,7 @@ namespace Graphics {
 typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterator ProgramIterator;
 
 // for material-less line and point drawing
-GL2::Program *vtxColorProg;
+GL2::MultiProgram *vtxColorProg;
 GL2::Program *flatColorProg;
 
 RendererGL2::RendererGL2(int w, int h) :
@@ -29,9 +29,11 @@ RendererGL2::RendererGL2(int w, int h) :
 	m_maxZFar = 10000000.0f;
 
 	MaterialDescriptor desc;
+	flatColorProg = new GL2::MultiProgram(desc);
+	m_programs.push_back(std::make_pair(desc, flatColorProg));
 	desc.vertexColors = true;
-	vtxColorProg = GetOrCreateProgram(desc);
-	flatColorProg = GetOrCreateProgram(MaterialDescriptor());
+	vtxColorProg = new GL2::MultiProgram(desc);
+	m_programs.push_back(std::make_pair(desc, vtxColorProg));
 }
 
 RendererGL2::~RendererGL2()
@@ -134,27 +136,6 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 
 	mat->m_program = p;
 	return mat;
-}
-
-GL2::Program *RendererGL2::GetOrCreateProgram(const MaterialDescriptor &desc)
-{
-	// search cache first
-	GL2::Program *p = 0;
-	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
-		if ((*it).first == desc) {
-			p = (*it).second;
-			break;
-		}
-	}
-
-	// Pick & create a new program
-	if (!p) {
-		p = new GL2::MultiProgram(desc);
-		m_programs.push_back(std::make_pair(desc, p));
-	}
-
-	assert(p != 0);
-	return p;
 }
 
 }
