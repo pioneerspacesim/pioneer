@@ -42,8 +42,6 @@ namespace Graphics {
 		static Color GetGlobalSceneAmbientColor() { return m_globalAmbientColor; }
 	};
 
-	// one for each number of lights (stars in system)
-	extern Shader *planetRingsShader[4];
 	extern Material *vtxColorMaterial;
 
 	// does SDL video init, constructs appropriate Renderer

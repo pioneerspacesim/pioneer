@@ -16,7 +16,9 @@ namespace Graphics {
 		class Material : public Graphics::Material {
 		public:
 			Material() { }
+			// Create an appropriate program for this material.
 			virtual Program *CreateProgram(const MaterialDescriptor &) = 0;
+			// bind textures, set uniforms
 			virtual void Apply();
 			virtual void Unapply();
 

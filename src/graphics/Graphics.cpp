@@ -13,7 +13,6 @@ namespace Graphics {
 
 static bool initted = false;
 
-Shader *planetRingsShader[4];
 Material *vtxColorMaterial;
 
 float State::m_znear = 10.0f;
@@ -172,13 +171,6 @@ Renderer* Init(const Settings &vs)
 
 	initted = true;
 
-	//XXX to be moved
-	if (shadersEnabled) {
-		planetRingsShader[0] = new Shader("planetrings", "#define NUM_LIGHTS 1\n");
-		planetRingsShader[1] = new Shader("planetrings", "#define NUM_LIGHTS 2\n");
-		planetRingsShader[2] = new Shader("planetrings", "#define NUM_LIGHTS 3\n");
-		planetRingsShader[3] = new Shader("planetrings", "#define NUM_LIGHTS 4\n");
-	}
 	MaterialDescriptor desc;
 	desc.vertexColors = true;
 	vtxColorMaterial = renderer->CreateMaterial(desc);
@@ -188,10 +180,6 @@ Renderer* Init(const Settings &vs)
 
 void Uninit()
 {
-	delete planetRingsShader[0];
-	delete planetRingsShader[1];
-	delete planetRingsShader[2];
-	delete planetRingsShader[3];
 	delete vtxColorMaterial;
 	FreeLibs();
 }

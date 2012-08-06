@@ -191,9 +191,6 @@ void Planet::DrawGasGiantRings(Renderer *renderer, const Camera *camera)
 		GenerateRings(renderer);
 	}
 
-	// XXX should get number of lights through camera when object viewer draw doesn't pass a null pointer
-	m_ringMaterial->shader = Graphics::planetRingsShader[Graphics::State::GetNumLights()-1];
-
 	const SystemBody *sbody = GetSystemBody();
 	assert(sbody->HasRings());
 
