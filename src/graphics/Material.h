@@ -58,6 +58,7 @@ public:
 	bool vertexColors;
 	bool twoSided;
 	int textures; //texture count
+	int dirLights;
 
 	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
 };

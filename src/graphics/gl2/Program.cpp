@@ -21,6 +21,8 @@ struct Shader {
 		// Load some common code
 		RefCountedPtr<FileSystem::FileData> logzCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/logz.glsl");
 		assert(logzCode);
+		RefCountedPtr<FileSystem::FileData> libsCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/lib.glsl");
+		assert(libsCode);
 
 		AppendSource(s_glslVersion);
 		AppendSource(defines.c_str());
@@ -29,6 +31,7 @@ struct Shader {
 		else
 			AppendSource("#define FRAGMENT_SHADER\n");
 		AppendSource(logzCode->AsStringRange());
+		AppendSource(libsCode->AsStringRange());
 		AppendSource(code->AsStringRange());
 		shader = glCreateShader(type);
 		Compile(shader);
@@ -75,10 +78,12 @@ Program::Program()
 {
 }
 
-Program::Program(const std::string &name)
+Program::Program(const std::string &name, const std::string &defines)
 : m_name(name)
+, m_defines(defines)
+, m_program(0)
 {
-	LoadShaders(name, "");
+	LoadShaders(name, defines);
 	InitUniforms();
 }
 

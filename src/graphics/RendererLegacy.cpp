@@ -46,7 +46,8 @@ struct SurfaceRenderInfo : public RenderInfo {
 RendererLegacy::RendererLegacy(int w, int h) :
 	Renderer(w, h),
 	m_minZNear(10.f),
-	m_maxZFar(1000000.0f)
+	m_maxZFar(1000000.0f),
+	m_numDirLights(0)
 {
 	glShadeModel(GL_SMOOTH);
 	glCullFace(GL_BACK);
@@ -266,6 +267,9 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 		glLightfv(GL_LIGHT0+i, GL_AMBIENT, l.GetAmbient());
 		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular());
 		glEnable(GL_LIGHT0+i);
+
+		if (l.GetType() == Light::LIGHT_DIRECTIONAL)
+			m_numDirLights++;
 	}
 	//XXX should probably disable unused lights (for legacy renderer only)
 

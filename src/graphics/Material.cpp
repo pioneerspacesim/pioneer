@@ -19,6 +19,7 @@ MaterialDescriptor::MaterialDescriptor()
 , vertexColors(false)
 , twoSided(false)
 , textures(0)
+, dirLights(0)
 {
 }
 
@@ -29,7 +30,8 @@ bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
 		a.lighting == b.lighting &&
 		a.vertexColors == b.vertexColors &&
 		a.twoSided == b.twoSided &&
-		a.textures == b.textures
+		a.textures == b.textures &&
+		a.dirLights == b.dirLights
 	);
 }
 

@@ -16,6 +16,7 @@ namespace Graphics {
 		class Material : public Graphics::Material {
 		public:
 			Material() { }
+			virtual Program *CreateProgram(const MaterialDescriptor &) = 0;
 			virtual void Apply();
 			virtual void Unapply();
 

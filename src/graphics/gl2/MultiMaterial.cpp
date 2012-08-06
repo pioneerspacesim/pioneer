@@ -23,6 +23,11 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc)
 	InitUniforms();
 }
 
+Program *MultiMaterial::CreateProgram(const MaterialDescriptor &desc)
+{
+	return new MultiProgram(desc);
+}
+
 void MultiMaterial::Apply()
 {
 	MultiProgram *p = static_cast<MultiProgram*>(m_program);

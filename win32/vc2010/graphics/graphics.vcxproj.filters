@@ -30,10 +30,10 @@
     <ClCompile Include="..\..\..\src\graphics\gl2\Uniform.cpp">
       <Filter>gl2</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\MultiMaterial.h">
+    <ClCompile Include="..\..\..\src\graphics\gl2\MultiMaterial.cpp">
       <Filter>gl2</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\gl2\MultiMaterial.cpp">
+    <ClCompile Include="..\..\..\src\graphics\gl2\RingMaterial.cpp">
       <Filter>gl2</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,6 +68,9 @@
       <Filter>gl2</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\gl2\MultiMaterial.h">
+      <Filter>gl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\gl2\RingMaterial.h">
       <Filter>gl2</Filter>
     </ClInclude>
   </ItemGroup>

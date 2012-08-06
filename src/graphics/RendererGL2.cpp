@@ -9,6 +9,7 @@
 #include "gl2/Material.h"
 #include "gl2/MultiMaterial.h"
 #include "gl2/Program.h"
+#include "gl2/RingMaterial.h"
 
 namespace Graphics {
 
@@ -93,20 +94,44 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 	return true;
 }
 
-Material *RendererGL2::CreateMaterial(const MaterialDescriptor &desc)
+Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 {
+	MaterialDescriptor desc = d;
+
+	GL2::Material *mat = 0;
 	GL2::Program *p = 0;
-	try {
-		p = GetOrCreateProgram(desc);
-	} catch (GL2::ShaderException &) {
-		// in release builds, the game does not quit instantly but attempts to revert
-		// to a 'shaderless' state
-		return RendererLegacy::CreateMaterial(desc);
+
+	if (desc.lighting) {
+		desc.dirLights = m_numDirLights;
 	}
 
-	// Create the material
-	GL2::Material *mat = new GL2::MultiMaterial();
-	mat->twoSided = desc.twoSided;
+	if (desc.effect == EFFECT_PLANETRING) {
+		mat = new GL2::RingMaterial();
+	} else {
+		// Create the material
+		mat = new GL2::MultiMaterial();
+		mat->twoSided = desc.twoSided;
+	}
+
+	//find an existing program or create a new one
+	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
+		if ((*it).first == desc) {
+			p = (*it).second;
+			break;
+		}
+	}
+
+	if (!p) {
+		try {
+			p = mat->CreateProgram(desc);
+			m_programs.push_back(std::make_pair(desc, p));
+		} catch (GL2::ShaderException &) {
+			// in release builds, the game does not quit instantly but attempts to revert
+			// to a 'shaderless' state
+			return RendererLegacy::CreateMaterial(desc);
+		}
+	}
+
 	mat->m_program = p;
 	return mat;
 }
