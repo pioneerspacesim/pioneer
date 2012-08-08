@@ -1637,6 +1637,11 @@ void StarSystem::MakePlanetsAround(SystemBody *primary, MTRand &rand)
 			mass = mass_from_disk_area(a, b, discMax);
 			mass *= rand.Fixed() * discDensity;
 		}
+		if (mass < 0) {// hack around overflow
+			fprintf(stderr, "WARNING: planetary mass has overflowed! (child of %s)\n", primary->name.c_str());
+			mass = fixed(Sint64(0x7fFFffFFffFFffFFull));
+		}
+		assert(mass >= 0);
 
 		SystemBody *planet = NewBody();
 		planet->eccentricity = ecc;
