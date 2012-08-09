@@ -304,11 +304,11 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				Sint32 systemNum = strtol(pos, const_cast<char**>(&end), 0);
+				Uint32 systemNum = strtoul(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				Sint32 sbodyId = strtol(pos, const_cast<char**>(&end), 0);
+				Uint32 sbodyId = strtoul(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
@@ -321,7 +321,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			if (len == 4 && strncmp(pos, "Body", 4) == 0) {
 				pos = end;
 
-				int n = strtol(pos, const_cast<char**>(&end), 0);
+				Uint32 n = strtoul(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
