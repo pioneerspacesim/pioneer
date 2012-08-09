@@ -28,6 +28,7 @@ Alpha 25
      * Fix crash when autopilot tried to fly around a gravpoint (#1347, #1344)
      * Fix crash when calculating distance to a ship in hyperspace (#1393, #1388)
      * Fix shaders to avoid 'varying' value limits on some hardware (#1407, #1409)
+     * Clamp planetary mass values to supportable range (#1423, #854)
 
    * Script and model changes
      * Gas giant rings can now be defined in a custom system using the :rings
