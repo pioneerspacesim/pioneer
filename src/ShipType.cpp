@@ -107,8 +107,8 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 	_get_float_attrib(L, "right_thrust", s.linThrust[ShipType::THRUSTER_RIGHT], 0.0f);
 	_get_float_attrib(L, "angular_thrust", s.angThrust, 0.0f);
 	s.angThrust = s.angThrust / 2;		// fudge
-	_get_vec_attrib(L, "cockkpit_front", s.frontViewOffset, vector3d(0.0));
-	_get_vec_attrib(L, "cockkpit_rear", s.rearViewOffset, vector3d(0.0));
+	_get_vec_attrib(L, "cockpit_front", s.frontViewOffset, vector3d(0.0));
+	_get_vec_attrib(L, "cockpit_rear", s.rearViewOffset, vector3d(0.0));
 	_get_vec_attrib(L, "front_camera", s.frontCameraOffset, vector3d(0.0));
 	_get_vec_attrib(L, "rear_camera", s.rearCameraOffset, vector3d(0.0));
 	_get_vec_attrib(L, "left_camera", s.leftCameraOffset, vector3d(0.0));
