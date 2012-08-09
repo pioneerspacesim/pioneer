@@ -740,10 +740,22 @@ SHIP_IS_FULLY_LADEN
     Ładownia jest pełna.
 YOU_DO_NOT_HAVE_ANY_X
     Nie masz %item.
-FRONT_VIEW
-    Widok z przodu
-REAR_VIEW
+FRONT_COCKPIT_VIEW
+	Front cockpit view
+REAR_COCKPIT_VIEW
     Widok z tyłu
+CAMERA_FRONT_VIEW
+	Przednia kamera
+CAMERA_REAR_VIEW
+	Tylna kamera
+CAMERA_LEFT_VIEW
+	Lewa camera
+CAMERA_TOP_VIEW
+	Górna kamera
+CAMERA_RIGHT_VIEW
+	Prawa kamera
+CAMERA_BOTTOM_VIEW
+	Dolna kamera
 EXTERNAL_VIEW
     Widok zewnętrzny
 SIDEREAL_VIEW

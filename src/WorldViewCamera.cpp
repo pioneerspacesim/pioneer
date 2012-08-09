@@ -10,6 +10,39 @@ WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY
 
 }
 
+FrontCockpitView::FrontCockpitView(const Ship *s, const vector2f &size, float fovY, float near, float far) :
+	WorldViewCamera(s, size, fovY, near, far)
+{
+	Activate();
+}
+
+void FrontCockpitView::Activate()
+{
+	const vector3d &offs = static_cast<const Ship*>(GetBody())->GetFrontViewOffset();
+	SetPosition(offs);
+	//if offset is zero (unspecified) the camera would be in the middle of the model,
+	//and it would be undesirable to render the ship
+	if (offs.ExactlyEqual(vector3d(0.0)))
+		m_showCameraBody = false;
+}
+
+RearCockpitView::RearCockpitView(const Ship *s, const vector2f &size, float fovY, float near, float far) :
+	WorldViewCamera(s, size, fovY, near, far)
+{
+	SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
+	Activate();
+}
+
+void RearCockpitView::Activate()
+{
+	const vector3d &offs = static_cast<const Ship*>(GetBody())->GetRearViewOffset();
+	SetPosition(offs);
+	//if offset is zero (unspecified) the camera would be in the middle of the model,
+	//and it would be undesirable to render the ship
+	if (offs.ExactlyEqual(vector3d(0.0)))
+		m_showCameraBody = false;
+}
+
 FrontCamera::FrontCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	WorldViewCamera(s, size, fovY, near, far)
 {
@@ -36,6 +69,66 @@ RearCamera::RearCamera(const Ship *s, const vector2f &size, float fovY, float ne
 void RearCamera::Activate()
 {
 	const vector3d &offs = static_cast<const Ship*>(GetBody())->GetRearCameraOffset();
+	SetPosition(offs);
+	if (offs.ExactlyEqual(vector3d(0.0)))
+		m_showCameraBody = false;
+}
+
+LeftCamera::LeftCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
+	WorldViewCamera(s, size, fovY, near, far)
+{
+	SetOrientation(matrix4x4d::RotateYMatrix((M_PI/2)*3));
+	Activate();
+}
+
+void LeftCamera::Activate()
+{
+	const vector3d &offs = static_cast<const Ship*>(GetBody())->GetLeftCameraOffset();
+	SetPosition(offs);
+	if (offs.ExactlyEqual(vector3d(0.0)))
+		m_showCameraBody = false;
+}
+
+RightCamera::RightCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
+	WorldViewCamera(s, size, fovY, near, far)
+{
+	SetOrientation(matrix4x4d::RotateYMatrix(M_PI/2));
+	Activate();
+}
+
+void RightCamera::Activate()
+{
+	const vector3d &offs = static_cast<const Ship*>(GetBody())->GetRightCameraOffset();
+	SetPosition(offs);
+	if (offs.ExactlyEqual(vector3d(0.0)))
+		m_showCameraBody = false;
+}
+
+TopCamera::TopCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
+	WorldViewCamera(s, size, fovY, near, far)
+{
+	SetOrientation(matrix4x4d::RotateXMatrix((M_PI/2)*3));
+	Activate();
+}
+
+void TopCamera::Activate()
+{
+	const vector3d &offs = static_cast<const Ship*>(GetBody())->GetTopCameraOffset();
+	SetPosition(offs);
+	if (offs.ExactlyEqual(vector3d(0.0)))
+		m_showCameraBody = false;
+}
+
+BottomCamera::BottomCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
+	WorldViewCamera(s, size, fovY, near, far)
+{
+	SetOrientation(matrix4x4d::RotateXMatrix(M_PI/2));
+	Activate();
+}
+
+void BottomCamera::Activate()
+{
+	const vector3d &offs = static_cast<const Ship*>(GetBody())->GetBottomCameraOffset();
 	SetPosition(offs);
 	if (offs.ExactlyEqual(vector3d(0.0)))
 		m_showCameraBody = false;

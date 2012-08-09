@@ -31,7 +31,7 @@ public:
 	static const double PICK_OBJECT_RECT_SIZE;
 	void DrawBgStars();
 	virtual void Save(Serializer::Writer &wr);
-	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL, CAM_SIDEREAL };
+	enum CamType { COCKPIT_FRONT, COCKPIT_REAR, CAM_FRONT, CAM_REAR, CAM_LEFT, CAM_RIGHT, CAM_TOP, CAM_BOTTOM, CAM_EXTERNAL, CAM_SIDEREAL };
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const { return m_camType; }
 	WorldViewCamera *GetActiveCamera() const { return m_activeCamera; }
@@ -141,8 +141,14 @@ private:
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;
 
+	FrontCockpitView *m_frontCockpitView;
+	RearCockpitView *m_rearCockpitView;
 	FrontCamera *m_frontCamera;
 	RearCamera *m_rearCamera;
+	LeftCamera *m_leftCamera;
+	RightCamera *m_rightCamera;
+	TopCamera *m_topCamera;
+	BottomCamera *m_bottomCamera;
 	ExternalCamera *m_externalCamera;
 	SiderealCamera *m_siderealCamera;
 	WorldViewCamera *m_activeCamera; //one of the above

@@ -107,8 +107,14 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 	_get_float_attrib(L, "right_thrust", s.linThrust[ShipType::THRUSTER_RIGHT], 0.0f);
 	_get_float_attrib(L, "angular_thrust", s.angThrust, 0.0f);
 	s.angThrust = s.angThrust / 2;		// fudge
+	_get_vec_attrib(L, "cockkpit_front", s.frontViewOffset, vector3d(0.0));
+	_get_vec_attrib(L, "cockkpit_rear", s.rearViewOffset, vector3d(0.0));
 	_get_vec_attrib(L, "front_camera", s.frontCameraOffset, vector3d(0.0));
 	_get_vec_attrib(L, "rear_camera", s.rearCameraOffset, vector3d(0.0));
+	_get_vec_attrib(L, "left_camera", s.leftCameraOffset, vector3d(0.0));
+	_get_vec_attrib(L, "right_camera", s.rightCameraOffset, vector3d(0.0));
+	_get_vec_attrib(L, "top_camera", s.topCameraOffset, vector3d(0.0));
+	_get_vec_attrib(L, "bottom_camera", s.bottomCameraOffset, vector3d(0.0));
 
 	for (int i=0; i<Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
 	_get_int_attrib(L, "max_cargo", s.equipSlotCapacity[Equip::SLOT_CARGO], 0);

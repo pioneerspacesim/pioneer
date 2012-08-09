@@ -157,8 +157,14 @@ void Ship::Init()
 	m_stats.shield_mass_left = 0;
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 	m_hyperspaceCloud = 0;
+	m_frontViewOffset = stype.frontViewOffset;
+	m_rearViewOffset = stype.rearViewOffset;
 	m_frontCameraOffset = stype.frontCameraOffset;
 	m_rearCameraOffset = stype.rearCameraOffset;
+	m_leftCameraOffset = stype.leftCameraOffset;
+	m_rightCameraOffset = stype.rightCameraOffset;
+	m_topCameraOffset = stype.topCameraOffset;
+	m_bottomCameraOffset = stype.bottomCameraOffset;
 }
 
 void Ship::PostLoadFixup(Space *space)

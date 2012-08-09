@@ -125,8 +125,14 @@ void ShipCpanel::InitObject()
 	m_camButton = new Gui::MultiStateImageButton();
 	m_leftButtonGroup->Add(m_camButton);
 	m_camButton->SetSelected(true);
-	m_camButton->AddState(WorldView::CAM_FRONT, "icons/cam_front.png", "icons/cam_front_on.png", Lang::FRONT_VIEW);
-	m_camButton->AddState(WorldView::CAM_REAR, "icons/cam_rear.png", "icons/cam_rear_on.png", Lang::REAR_VIEW);
+	m_camButton->AddState(WorldView::COCKPIT_FRONT, "icons/coc_front.png", "icons/coc_front_on.png", Lang::FRONT_COCKPIT_VIEW);
+	m_camButton->AddState(WorldView::COCKPIT_REAR, "icons/coc_rear.png", "icons/coc_rear_on.png", Lang::REAR_COCKPIT_VIEW);
+	m_camButton->AddState(WorldView::CAM_FRONT, "icons/cam_front.png", "icons/cam_front_on.png", Lang::CAMERA_FRONT_VIEW);
+	m_camButton->AddState(WorldView::CAM_REAR, "icons/cam_rear.png", "icons/cam_rear_on.png", Lang::CAMERA_REAR_VIEW);
+	m_camButton->AddState(WorldView::CAM_LEFT, "icons/cam_left.png", "icons/cam_left_on.png", Lang::CAMERA_LEFT_VIEW);
+	m_camButton->AddState(WorldView::CAM_TOP, "icons/cam_top.png", "icons/cam_top_on.png", Lang::CAMERA_TOP_VIEW);
+	m_camButton->AddState(WorldView::CAM_RIGHT, "icons/cam_right.png", "icons/cam_right_on.png", Lang::CAMERA_RIGHT_VIEW);
+	m_camButton->AddState(WorldView::CAM_BOTTOM, "icons/cam_bottom.png", "icons/cam_bottom_on.png", Lang::CAMERA_BOTTOM_VIEW);
 	m_camButton->AddState(WorldView::CAM_EXTERNAL, "icons/cam_external.png", "icons/cam_external_on.png", Lang::EXTERNAL_VIEW);
 	m_camButton->AddState(WorldView::CAM_SIDEREAL, "icons/cam_sidereal.png", "icons/cam_sidereal_on.png", Lang::SIDEREAL_VIEW);
 	m_camButton->SetShortcut(SDLK_F1, KMOD_NONE);
@@ -211,17 +217,35 @@ void ShipCpanel::InitObject()
 	Add(img, 780, 37);
 	m_alertLights[2] = img;
 
-	CameraSwitchWidget *camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_FRONT);
+	CameraSwitchWidget *camSwitcher = new CameraSwitchWidget(this, WorldView::COCKPIT_FRONT);
 	camSwitcher->SetShortcut(SDLK_1, KMOD_LSHIFT);
 	Add(camSwitcher,0,0);
-	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_REAR);
+	camSwitcher = new CameraSwitchWidget(this, WorldView::COCKPIT_REAR);
 	camSwitcher->SetShortcut(SDLK_2, KMOD_LSHIFT);
 	Add(camSwitcher,0,0);
-	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_EXTERNAL);
+	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_FRONT);
 	camSwitcher->SetShortcut(SDLK_3, KMOD_LSHIFT);
 	Add(camSwitcher,0,0);
-	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_SIDEREAL);
+	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_REAR);
 	camSwitcher->SetShortcut(SDLK_4, KMOD_LSHIFT);
+	Add(camSwitcher,0,0);
+	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_LEFT);
+	camSwitcher->SetShortcut(SDLK_5, KMOD_LSHIFT);
+	Add(camSwitcher,0,0);
+	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_TOP);
+	camSwitcher->SetShortcut(SDLK_6, KMOD_LSHIFT);
+	Add(camSwitcher,0,0);
+	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_RIGHT);
+	camSwitcher->SetShortcut(SDLK_7, KMOD_LSHIFT);
+	Add(camSwitcher,0,0);
+	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_BOTTOM);
+	camSwitcher->SetShortcut(SDLK_8, KMOD_LSHIFT);
+	Add(camSwitcher,0,0);
+	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_EXTERNAL);
+	camSwitcher->SetShortcut(SDLK_9, KMOD_LSHIFT);
+	Add(camSwitcher,0,0);
+	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_SIDEREAL);
+	camSwitcher->SetShortcut(SDLK_0, KMOD_LSHIFT);
 	Add(camSwitcher,0,0);
 
 	m_overlay[OVERLAY_TOP_LEFT]     = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -331,6 +355,54 @@ void ShipCpanel::SwitchToCamera(WorldView::CamType t)
 
 void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 {
+	Pi::BoinkNoise();
+	int newState = b->GetState();
+	if (Pi::KeyState(SDLK_LCTRL) && (Pi::KeyState(SDLK_LSHIFT))) {
+		switch (newState) {
+			case WorldView::COCKPIT_FRONT: newState = WorldView::CAM_EXTERNAL;
+			case WorldView::COCKPIT_REAR: newState = WorldView::CAM_EXTERNAL;
+			case WorldView::CAM_FRONT: newState = WorldView::CAM_EXTERNAL;
+			case WorldView::CAM_REAR: newState = WorldView::CAM_EXTERNAL;
+			case WorldView::CAM_LEFT: newState = WorldView::CAM_EXTERNAL;
+			case WorldView::CAM_TOP: newState = WorldView::CAM_EXTERNAL;
+			case WorldView::CAM_RIGHT: newState = WorldView::CAM_EXTERNAL;
+			case WorldView::CAM_BOTTOM: newState = WorldView::CAM_EXTERNAL;
+			case WorldView::CAM_EXTERNAL: break;
+			case WorldView::CAM_SIDEREAL: break;
+			default: break;
+		}
+	}
+	else if (Pi::KeyState(SDLK_LCTRL)) {
+		switch (newState) {
+			case WorldView::COCKPIT_FRONT: newState = WorldView::CAM_LEFT;
+			case WorldView::COCKPIT_REAR: newState = WorldView::CAM_LEFT;
+			case WorldView::CAM_FRONT: newState = WorldView::CAM_LEFT;
+			case WorldView::CAM_REAR: newState = WorldView::CAM_LEFT;
+			case WorldView::CAM_LEFT: break;
+			case WorldView::CAM_TOP: break;
+			case WorldView::CAM_RIGHT: break;
+			case WorldView::CAM_BOTTOM: break;
+			case WorldView::CAM_EXTERNAL: newState = WorldView::CAM_LEFT;
+			case WorldView::CAM_SIDEREAL: newState = WorldView::CAM_LEFT;
+			default: break;
+		}
+	}
+	else {
+		switch (newState) {
+			case WorldView::COCKPIT_FRONT: break;
+			case WorldView::COCKPIT_REAR: break;
+			case WorldView::CAM_FRONT: break;
+			case WorldView::CAM_REAR: break;
+			case WorldView::CAM_LEFT: newState = WorldView::COCKPIT_FRONT;
+			case WorldView::CAM_TOP: newState = WorldView::COCKPIT_FRONT;
+			case WorldView::CAM_RIGHT: newState = WorldView::COCKPIT_FRONT;
+			case WorldView::CAM_BOTTOM: newState = WorldView::COCKPIT_FRONT;
+			case WorldView::CAM_EXTERNAL: newState = WorldView::COCKPIT_FRONT;
+			case WorldView::CAM_SIDEREAL: newState = WorldView::COCKPIT_FRONT;
+			default: break;
+		}
+	}
+	b->SetActiveState(newState);
 	SwitchToCamera(WorldView::CamType(b->GetState()));
 	Pi::SetView(Pi::worldView);
 }

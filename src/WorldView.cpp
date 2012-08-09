@@ -33,7 +33,7 @@ static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user set
 
 WorldView::WorldView(): View()
 {
-	m_camType = CAM_FRONT;
+	m_camType = COCKPIT_FRONT;
 	InitObject();
 }
 
@@ -208,8 +208,14 @@ void WorldView::InitObject()
 
 	const float fovY = Pi::config->Float("FOVVertical");
 	const vector2f camSize(Pi::GetScrWidth(), Pi::GetScrHeight());
+	m_frontCockpitView = new FrontCockpitView(Pi::player, camSize, fovY, znear, zfar);
+	m_rearCockpitView = new RearCockpitView(Pi::player, camSize, fovY, znear, zfar);
 	m_frontCamera = new FrontCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_rearCamera = new RearCamera(Pi::player, camSize, fovY, znear, zfar);
+	m_leftCamera = new LeftCamera(Pi::player, camSize, fovY, znear, zfar);
+	m_rightCamera = new RightCamera(Pi::player, camSize, fovY, znear, zfar);
+	m_topCamera = new TopCamera(Pi::player, camSize, fovY, znear, zfar);
+	m_bottomCamera = new BottomCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_externalCamera = new ExternalCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_siderealCamera = new SiderealCamera(Pi::player, camSize, fovY, znear, zfar);
 	SetCamType(m_camType); //set the active camera
@@ -230,8 +236,14 @@ void WorldView::InitObject()
 
 WorldView::~WorldView()
 {
+	delete m_frontCockpitView;
+	delete m_rearCockpitView;
 	delete m_frontCamera;
 	delete m_rearCamera;
+	delete m_leftCamera;
+	delete m_rightCamera;
+	delete m_topCamera;
+	delete m_bottomCamera;
 	delete m_externalCamera;
 	delete m_siderealCamera;
 
@@ -254,13 +266,25 @@ void WorldView::SetCamType(enum CamType c)
 		//only allow front camera when docked inside space stations. External
 		//cameras would clip through the station model.
 		if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation()) {
-			c = CAM_FRONT;
+			c = COCKPIT_FRONT;
 		}
 		m_camType = c;
 		Pi::player->GetPlayerController()->SetMouseForRearView(c == CAM_REAR);
 		onChangeCamType.emit();
 	}
 	switch(m_camType) {
+		case CAM_BOTTOM:
+			m_activeCamera = m_bottomCamera;
+			break;
+		case CAM_TOP:
+			m_activeCamera = m_topCamera;
+			break;
+		case CAM_RIGHT:
+			m_activeCamera = m_rightCamera;
+			break;
+		case CAM_LEFT:
+			m_activeCamera = m_leftCamera;
+			break;
 		case CAM_REAR:
 			m_activeCamera = m_rearCamera;
 			break;
@@ -270,8 +294,14 @@ void WorldView::SetCamType(enum CamType c)
 		case CAM_SIDEREAL:
 			m_activeCamera = m_siderealCamera;
 			break;
-		default:
+		case CAM_FRONT:
 			m_activeCamera = m_frontCamera;
+			break;
+		case COCKPIT_REAR:
+			m_activeCamera = m_rearCockpitView;
+			break;
+		default:
+			m_activeCamera = m_frontCockpitView;
 	}
 	m_activeCamera->Activate();
 }
@@ -1092,9 +1122,15 @@ Body* WorldView::PickBody(const double screenX, const double screenY) const
 int WorldView::GetActiveWeapon() const
 {
 	switch (GetCamType()) {
-		case CAM_REAR: return 1;
+		case CAM_BOTTOM: return 1;
+		case CAM_TOP:
+		case CAM_RIGHT:
+		case CAM_LEFT:
+		case CAM_REAR:
 		case CAM_EXTERNAL:
 		case CAM_FRONT:
+		case COCKPIT_REAR:
+		case COCKPIT_FRONT:
 		default: return 0;
 	}
 }
@@ -1207,8 +1243,10 @@ void WorldView::UpdateProjectedObjects()
 		// calculate firing solution and relative velocity along our z axis
 		int laser;
 		switch (GetCamType()) {
+			case COCKPIT_FRONT: laser = 0; break;
 			case CAM_FRONT: laser = 0; break;
 			case CAM_REAR: laser = 1; break;
+			case COCKPIT_REAR: laser = 1; break;
 			default: laser = -1; break;
 		}
 		if (laser >= 0) {
@@ -1471,10 +1509,14 @@ void WorldView::Draw()
 	glLineWidth(1.0f);
 
 	// normal crosshairs
-	if (GetCamType() == WorldView::CAM_FRONT)
-		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
-	else if (GetCamType() == WorldView::CAM_REAR)
+	if (GetCamType() == WorldView::COCKPIT_FRONT)
 		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
+	else if (GetCamType() == WorldView::CAM_FRONT)
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
+	else if (GetCamType() == WorldView::COCKPIT_REAR)
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
+	else if (GetCamType() == WorldView::CAM_REAR)
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
 
 	glPopAttrib();
 
