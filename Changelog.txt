@@ -19,6 +19,7 @@ Alpha 25
      * Include more limits and capability information in opengl.txt (#1408, #1410)
      * Text entry widgets (notably the Lua console) now support CTRL+LEFT and
        CTRL+RIGHT arrows to jump to word boundaries (#1392, #1372)
+     * Scale all textures to power-of-two dimensions (#1422, #1251, #1035, #923)
 
    * Fixes
      * Fix some Lua console completion edge cases (#1339)
