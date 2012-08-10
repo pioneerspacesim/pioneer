@@ -36,7 +36,7 @@ WELCOME_TO_MARKET
 GO_BACK
     Powrót
 FITTING
-    "Montuje "
+    "Montuję "
 REMOVING
     "Usuwam "
 FIT_TO_WHICH_MOUNT
