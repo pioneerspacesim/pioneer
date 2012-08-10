@@ -203,27 +203,27 @@ Sector::Sector(int x, int y, int z)
 				// while
 				if ((sx*sx + sy*sy + sz*sz) > 15*15)
 				{
-					if (rand.Int32(0,1000) >= 999) {
+					if (rand.Int32(0,1000000) >= 999999) {
 						s.starType[0] = SystemBody::TYPE_STAR_B_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 998) {
+					} else if (rand.Int32(0,1000000) >= 999998) {
 						s.starType[0] = SystemBody::TYPE_STAR_O_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 997) {
+					} else if (rand.Int32(0,1000000) >= 999997) {
 						s.starType[0] = SystemBody::TYPE_STAR_K_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 995) {
+					} else if (rand.Int32(0,1000000) >= 999995) {
 						s.starType[0] = SystemBody::TYPE_STAR_B_SUPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 993) {
+					} else if (rand.Int32(0,1000000) >= 999993) {
 						s.starType[0] = SystemBody::TYPE_STAR_O_SUPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 990) {
+					} else if (rand.Int32(0,1000000) >= 999990) {
 						s.starType[0] = SystemBody::TYPE_STAR_K_SUPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 985) {
+					} else if (rand.Int32(0,1000000) >= 999985) {
 						s.starType[0] = SystemBody::TYPE_STAR_B_GIANT;
-					} else if (rand.Int32(0,1000) >= 980) {
+					} else if (rand.Int32(0,1000000) >= 999980) {
 						s.starType[0] = SystemBody::TYPE_STAR_O_GIANT;
-					} else if (rand.Int32(0,1000) >= 975) {
+					} else if (rand.Int32(0,1000000) >= 999975) {
 						s.starType[0] = SystemBody::TYPE_STAR_K_GIANT;
-					} else if (rand.Int32(0,1000) >= 950) {
+					} else if (rand.Int32(0,1000000) >= 999850) {
 						s.starType[0] = SystemBody::TYPE_STAR_M_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 875) {
+					} else if (rand.Int32(0,1000000) >= 999075) {
 						s.starType[0] = SystemBody::TYPE_STAR_M_SUPER_GIANT;
 					} else {
 						s.starType[0] = SystemBody::TYPE_STAR_M_GIANT;
