@@ -24,8 +24,8 @@ void Sector::GetCustomSystems()
 		System s;
 		s.p = SIZE*cs->pos;
 		s.name = cs->name;
-		if ((!s.name.find("Gliese", 0)) || (!s.name.find("HD", 0))
-			 || (!s.name.find("NN", 0)) || (!s.name.find("Gj", 0)))
+		if (starts_with(s.name, "Gliese") || starts_with(s.name, "HD")
+		    || starts_with(s.name, "NN") || starts_with(s.name, "Gj"))
 		{
 			//s.name = Sector::GenName(s, rng);  size_t pos = 0
 			s.name = "";
