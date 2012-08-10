@@ -6,7 +6,7 @@
 #include "Texture.h"
 #include "TextureGL.h"
 #include "VertexArray.h"
-#include "gl2/Material.h"
+#include "gl2/GL2Material.h"
 #include "gl2/MultiMaterial.h"
 #include "gl2/Program.h"
 #include "gl2/RingMaterial.h"

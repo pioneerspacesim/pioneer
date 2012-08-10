@@ -8,7 +8,9 @@
 #include "graphics/Material.h"
 
 namespace Graphics {
+
 	class RendererGL2;
+
 	namespace GL2 {
 		
 		class Program;
@@ -23,7 +25,7 @@ namespace Graphics {
 			virtual void Unapply();
 
 		protected:
-			friend class RendererGL2;
+			friend class Graphics::RendererGL2;
 			Program *m_program;
 		};
 	}

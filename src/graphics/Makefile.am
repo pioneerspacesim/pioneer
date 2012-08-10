@@ -16,13 +16,19 @@ noinst_HEADERS = \
 	Light.h \
 	Shader.h \
 	Material.h \
+	MaterialLegacy.h \
 	StaticMesh.h \
 	Surface.h \
 	VertexArray.h \
 	Texture.h \
 	TextureGL.h \
 	TextureBuilder.h \
-	Drawables.h
+	Drawables.h \
+	gl2/GL2Material.h \
+	gl2/MultiMaterial.h \
+	gl2/Program.h \
+	gl2/RingMaterial.h \
+	gl2/Uniform.h
 
 libgraphics_a_SOURCES = \
 	Graphics.cpp \
@@ -33,8 +39,14 @@ libgraphics_a_SOURCES = \
 	Light.cpp \
 	Shader.cpp \
 	Material.cpp \
+	MaterialLegacy.cpp \
 	StaticMesh.cpp \
 	VertexArray.cpp \
 	TextureGL.cpp \
 	TextureBuilder.cpp \
-	Drawables.cpp
+	Drawables.cpp \
+	gl2/GL2Material.cpp \
+	gl2/MultiMaterial.cpp \
+	gl2/Program.cpp \
+	gl2/RingMaterial.cpp \
+	gl2/Uniform.cpp

@@ -4,7 +4,7 @@
  * A generic material & program for simple uses
  * textured/untextured, vertex colors or no...
  */
-#include "Material.h"
+#include "GL2Material.h"
 #include "Program.h"
 
 namespace Graphics {

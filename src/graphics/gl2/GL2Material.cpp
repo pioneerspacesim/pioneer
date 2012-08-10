@@ -1,5 +1,6 @@
-#include "Material.h"
+#include "GL2Material.h"
 #include "Program.h"
+#include "graphics/RendererGL2.h"
 
 namespace Graphics {
 namespace GL2 {
