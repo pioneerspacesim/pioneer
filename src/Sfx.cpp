@@ -193,6 +193,8 @@ void Sfx::Init(Graphics::Renderer *r)
 	RefCountedPtr<Graphics::Material> explosionMat(r->CreateMaterial(desc));
 	shieldEffect = new Graphics::Drawables::Sphere3D(shieldMat, 2);
 	explosionEffect = new Graphics::Drawables::Sphere3D(explosionMat, 2);
+
+	desc.textures = 1;
 	damageParticle = r->CreateMaterial(desc);
 	damageParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/smoke.png").GetOrCreateTexture(r, "billboard");
 	ecmParticle = r->CreateMaterial(desc);
