@@ -381,7 +381,9 @@ public:
 		int activeLights = 0;
 		s_numTrisRendered += m_indices.size()/3;
 
-		LmrShader *curShader = s_sunlightShader[Graphics::State::GetNumLights()-1];
+		const unsigned int numLights = Graphics::State::GetNumLights();
+		assert(numLights > 0 && numLights <= COUNTOF(s_sunlightShader));
+		LmrShader *curShader = s_sunlightShader[numLights - 1];
 
 		BindBuffers();
 
@@ -509,9 +511,8 @@ public:
 					}
 					activeLights = 0;
 				} else {
-					int numLights = Graphics::State::GetNumLights();
-					for (int j=0; j<numLights; j++) glEnable(GL_LIGHT0 + j);
-					for (int j=4; j<8; j++) glDisable(GL_LIGHT0 + j);
+					for (unsigned int j=0; j<numLights; j++) glEnable(GL_LIGHT0 + j);
+					for (unsigned int j=4; j<8; j++) glDisable(GL_LIGHT0 + j);
 					curShader = s_sunlightShader[Graphics::State::GetNumLights()-1];
 				}
 				break;
