@@ -3,7 +3,7 @@
 
 // game version. usually defined by configure
 #ifndef PIONEER_VERSION
-#define PIONEER_VERSION "alpha 25 freeze"
+#define PIONEER_VERSION "alpha 25"
 #endif
 #ifndef PIONEER_EXTRAVERSION
 #define PIONEER_EXTRAVERSION ""
