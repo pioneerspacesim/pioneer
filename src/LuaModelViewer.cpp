@@ -724,6 +724,10 @@ int main(int argc, char **argv)
 
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
+	const Color lc(1.f, 1.f, 1.f, 0.f);
+	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	renderer->SetLights(1, &light);
+
 	LmrModelCompilerInit(renderer);
 	LmrNotifyScreenWidth(g_width);
 
