@@ -1,3 +1,8 @@
+Alpha 26
+
+   * Fixes
+     * Fix atmospheric pressure calculations (#1431, #1395)
+
 Alpha 25
 
    * New features
