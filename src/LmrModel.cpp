@@ -18,7 +18,6 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/Shader.h"
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/TextureGL.h" // XXX temporary until LMR uses renderer drawing properly
@@ -78,6 +77,7 @@ Program *CreateShader(const ShaderKey &key) {
 	else
 		p = new Program("lmr-dirlight", ss.str());
 	s_shaders.push_back(std::make_pair(key, p));
+	//could sort s_shaders.
 	return p;
 }
 
@@ -326,15 +326,6 @@ namespace ShipThruster {
 
 class LmrGeomBuffer;
 
-SHADER_CLASS_BEGIN(LmrShader)
-	SHADER_UNIFORM_INT(usetex)
-	SHADER_UNIFORM_INT(useglow)
-	SHADER_UNIFORM_SAMPLER(tex)
-	SHADER_UNIFORM_SAMPLER(texGlow)
-SHADER_CLASS_END()
-
-static LmrShader *s_sunlightShader[4];
-static LmrShader *s_pointlightShader[4];
 static Graphics::Material *s_billboardMaterial;
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
@@ -368,17 +359,6 @@ void LmrNotifyScreenWidth(float width)
 
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
-
-//binds shader and sets lmr specific uniforms
-void UseProgram(LmrShader *shader, bool Textured = false, bool Glowmap = false) {
-	if (Graphics::AreShadersEnabled()) {
-		shader->Use();
-		if (Textured) shader->set_tex(0);
-		shader->set_usetex(Textured ? 1 : 0);
-		if (Glowmap) shader->set_texGlow(1);
-		shader->set_useglow(Glowmap ? 1 : 0);
-	}
-}
 
 #define BUFFER_OFFSET(i) (reinterpret_cast<const GLvoid *>(i))
 
@@ -461,7 +441,7 @@ public:
 		int activeLights = 0;
 		s_numTrisRendered += m_indices.size()/3;
 
-		s_shaderKey = {};
+		memset(&s_shaderKey, 0, sizeof(ShaderKey));
 		s_shaderKey.numlights = Graphics::State::GetNumLights();
 		assert(s_shaderKey.numlights > 0 && s_shaderKey.numlights < 5);
 
@@ -4592,14 +4572,6 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 	_detect_model_changes();
 
 	s_staticBufferPool = new BufferObjectPool<sizeof(Vertex)>();
-	s_sunlightShader[0] = new LmrShader("model", "#define NUM_LIGHTS 1\n");
-	s_sunlightShader[1] = new LmrShader("model", "#define NUM_LIGHTS 2\n");
-	s_sunlightShader[2] = new LmrShader("model", "#define NUM_LIGHTS 3\n");
-	s_sunlightShader[3] = new LmrShader("model", "#define NUM_LIGHTS 4\n");
-	s_pointlightShader[0] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 1\n");
-	s_pointlightShader[1] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 2\n");
-	s_pointlightShader[2] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 3\n");
-	s_pointlightShader[3] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 4\n");
 
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
@@ -4695,10 +4667,6 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 
 void LmrModelCompilerUninit()
 {
-	for (int i=0; i<4; i++) {
-		delete s_sunlightShader[i];
-		delete s_pointlightShader[i];
-	}
 	while (!s_shaders.empty()) delete s_shaders.back().second, s_shaders.pop_back();
 	delete s_billboardMaterial;
 	// FontCache should be ok...
