@@ -58,14 +58,14 @@ void Planet::Load(Serializer::Reader &rd, Space *space)
 void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDensity) const
 {
 #if 0
-	static int bool atmosphereTableShown = false;
+	static bool atmosphereTableShown = false;
 	if (!atmosphereTableShown) {
+		atmosphereTableShown = true;
 		for (double h = -1000; h <= 50000; h = h+1000.0) {
 			double p = 0.0, d = 0.0;
 			GetAtmosphericState(h+this->GetSystemBody()->GetRadius(),&p,&d);
 			printf("height(m): %f, pressure(kpa): %f, density: %f\n", h, p*101325.0/1000.0, d);
 		}
-		atmosphereTableShown = true;
 	}
 #endif
 
@@ -100,10 +100,10 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	const double surfaceP_p0 = PA_2_ATMOS*((surfaceDensity)*GAS_CONSTANT*surfaceTemperature_T0); // in atmospheres
 
 	// height below zero should not occur
-	if (height_h < 0.0) { *outPressure = surfaceP_p0; *outDensity = surfaceDensity; return; }
+	if (height_h < 0.0) { *outPressure = surfaceP_p0; *outDensity = surfaceDensity*GAS_MOLAR_MASS; return; }
 
 	//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
-	*outPressure = pow(surfaceP_p0*(1-lapseRate_L*height_h/surfaceTemperature_T0),(-surfaceGravity_g*GAS_MOLAR_MASS/(GAS_CONSTANT*lapseRate_L)));// in ATM since p0 was in ATM
+	*outPressure = surfaceP_p0*pow((1-lapseRate_L*height_h/surfaceTemperature_T0),(-surfaceGravity_g*GAS_MOLAR_MASS/(GAS_CONSTANT*lapseRate_L)));// in ATM since p0 was in ATM
 	//                                                                               ^^g used is abs(g)
 	// temperature at height
 	double temp = surfaceTemperature_T0+lapseRate_L*height_h;
