@@ -162,9 +162,9 @@ void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vec
 	// XXX could just alter the scale instead of recreating the model
 	const float radius = 1000.0f + 200.0f*float(noise(10.0*preciseTime, 0, 0));
 	m_graphic.vertices->Clear();
-	Color4f color = m_isArrival ? Color::BLUE : Color::RED;
-	color.a = 0.f;
-	make_circle_thing(*m_graphic.vertices.Get(), radius, Color(1.0,1.0,1.0,1.0), Color(0.0,0.0,1.0,0.0));
+	Color4f outerColor = m_isArrival ? Color::BLUE : Color::RED;
+	outerColor.a = 0.f;
+	make_circle_thing(*m_graphic.vertices.Get(), radius, Color(1.0,1.0,1.0,1.0), outerColor);
 	renderer->DrawTriangles(m_graphic.vertices.Get(), m_graphic.material.Get(), TRIANGLE_FAN);
 	renderer->SetBlendMode(BLEND_SOLID);
 	glPopMatrix();
