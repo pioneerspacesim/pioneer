@@ -14,6 +14,7 @@ namespace Graphics { class Renderer; }
 class SystemBody;
 class GeoPatch;
 class GeoPatchContext;
+class GeosphereShader;
 class GeoSphere {
 public:
 	GeoSphere(const SystemBody *body);
@@ -72,6 +73,11 @@ private:
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
 	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
+
+	//Shaders - to be moved
+	GeosphereShader *m_surfaceShader;
+	GeosphereShader *m_atmosphereShader;
+	void SetUpMaterials();
 };
 
 #endif /* _GEOSPHERE_H */

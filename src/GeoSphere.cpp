@@ -1067,7 +1067,7 @@ void GeoSphere::Init()
 	s_geosphereSkyShader[1] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 2\n");
 	s_geosphereSkyShader[2] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 3\n");
 	s_geosphereSkyShader[3] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 4\n");
-	s_geosphereStarShader = new GeosphereShader("geosphere_star");
+	s_geosphereStarShader = new GeosphereShader("geosphere_star"); // this doesn't do anything special, except ridiculous emission overload
 	s_geosphereDimStarShader[0] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 1\n");
 	s_geosphereDimStarShader[1] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 2\n");
 	s_geosphereDimStarShader[2] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 3\n");
@@ -1165,6 +1165,8 @@ void GeoSphere::OnChangeDetailLevel()
 #define GEOSPHERE_TYPE	(m_sbody->type)
 
 GeoSphere::GeoSphere(const SystemBody *body)
+: m_surfaceShader(0)
+, m_atmosphereShader(0)
 {
 	m_terrain = Terrain::InstanceTerrain(body);
 	print_info(body, m_terrain);
@@ -1181,6 +1183,8 @@ GeoSphere::GeoSphere(const SystemBody *body)
 
 	Graphics::MaterialDescriptor desc;
 	m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(desc));
+
+	//SetUpMaterials is not called until first Render since light count is zero :)
 }
 
 GeoSphere::~GeoSphere()
@@ -1337,6 +1341,10 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	GeosphereShader *shader = 0;
 
 	if (AreShadersEnabled()) {
+		//First draw - create materials (they do not change afterwards)
+		if (!m_surfaceShader)
+			SetUpMaterials();
+
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
@@ -1368,25 +1376,15 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 			renderer->SetBlendMode(BLEND_SOLID);
 		}
 
-		if ((m_sbody->type == SystemBody::TYPE_BROWN_DWARF) ||
-			(m_sbody->type == SystemBody::TYPE_STAR_M)){
-			shader = s_geosphereDimStarShader[Graphics::State::GetNumLights()-1];
-			shader->Use();
-		}
-		else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
-			shader = s_geosphereStarShader;
-			shader->Use();
-		} else {
-			shader = s_geosphereSurfaceShader[Graphics::State::GetNumLights()-1];
-			shader->Use();
-			shader->set_geosphereScale(scale);
-			shader->set_geosphereScaledRadius(radius / scale);
-			shader->set_geosphereAtmosTopRad(ap.atmosRadius);
-			shader->set_geosphereAtmosInvScaleHeight(ap.atmosInvScaleHeight);
-			shader->set_geosphereAtmosFogDensity(ap.atmosDensity);
-			shader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
-			shader->set_geosphereCenter(center.x, center.y, center.z);
-		}
+		//XXX why the flipping heck is this inside a push/popmatrix
+		m_surfaceShader->Use();
+		m_surfaceShader->set_geosphereScale(scale);
+		m_surfaceShader->set_geosphereScaledRadius(radius / scale);
+		m_surfaceShader->set_geosphereAtmosTopRad(ap.atmosRadius);
+		m_surfaceShader->set_geosphereAtmosInvScaleHeight(ap.atmosInvScaleHeight);
+		m_surfaceShader->set_geosphereAtmosFogDensity(ap.atmosDensity);
+		m_surfaceShader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
+		m_surfaceShader->set_geosphereCenter(center.x, center.y, center.z);
 	}
 	glPopMatrix();
 
@@ -1464,3 +1462,20 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 #endif /* !GEOSPHERE_USE_THREADING */
 }
 
+void GeoSphere::SetUpMaterials()
+{
+	//Pick an appropriate surface shader - to be moved
+	if (Graphics::AreShadersEnabled()) {
+		const unsigned int numLights = Graphics::State::GetNumLights()-1;
+		assert(numLights >= 0 && numLights <= 4);
+		if ((m_sbody->type == SystemBody::TYPE_BROWN_DWARF) ||
+			(m_sbody->type == SystemBody::TYPE_STAR_M)) {
+			m_surfaceShader = s_geosphereDimStarShader[numLights];
+		}
+		else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+			m_surfaceShader = s_geosphereStarShader;
+		} else {
+			m_surfaceShader = s_geosphereSurfaceShader[numLights];
+		}
+	}
+}
