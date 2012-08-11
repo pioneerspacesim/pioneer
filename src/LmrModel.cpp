@@ -1292,37 +1292,42 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	glPushMatrix();
 	glMultMatrixf(&trans[0]);
 	glScalef(m_scale, m_scale, m_scale);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_LIGHTING);
 
 	float pixrad = 0.5f * s_scrWidth * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
 	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
 
-	int lod = m_numLods-1;
-	for (int i=lod-1; i>=0; i--) {
-		if (pixrad < m_lodPixelSize[i]) lod = i;
+	if (pixrad > 2.f) { //Camera.cpp uses 2px as well
+		int lod = m_numLods-1;
+		for (int i=lod-1; i>=0; i--) {
+			if (pixrad < m_lodPixelSize[i]) lod = i;
+		}
+		//printf("%s: lod %d\n", m_name.c_str(), lod);
+
+		Build(lod, params);
+
+		const vector3f modelRelativeCamPos = trans.InverseOf() * cameraPos;
+
+		//100% fixed function stuff
+		glEnable(GL_NORMALIZE);
+		glEnable(GL_LIGHTING);
+
+		m_staticGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
+		if (m_hasDynamicFunc) {
+			m_dynamicGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
+		}
+		s_curBuf = 0;
+
+		glDisable(GL_NORMALIZE);
 	}
-	//printf("%s: lod %d\n", m_name.c_str(), lod);
-
-	Build(lod, params);
-
-	const vector3f modelRelativeCamPos = trans.InverseOf() * cameraPos;
-
-	m_staticGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
-	if (m_hasDynamicFunc) {
-		m_dynamicGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
-	}
-	s_curBuf = 0;
 
 	Graphics::UnbindAllBuffers();
-
 	//XXX hack. Unuse any shader. Can be removed when LMR uses Renderer.
 	//XXX 2012-08-11 LMR is more likely to be destroyed
 	if (Graphics::AreShadersEnabled())
 		glUseProgram(0);
 
-	glDisable(GL_NORMALIZE);
 	s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
+
 	glPopMatrix();
 }
 
