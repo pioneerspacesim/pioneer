@@ -55,16 +55,16 @@ public:
 	bool operator==(const PersistentTable & ref) const;
 
 	const LuaTable GetLuaTable() { PushCopyToStack(); return LuaTable(m_lua, lua_gettop(m_lua)); }
+	void PushCopyToStack() const;
 
 	lua_State * GetLua() const { return m_lua; }
 private:
-    lua_State * m_lua;
+	lua_State * m_lua;
 	int m_id;
 	static std::vector<int> g_copy_count;
 	static lua_State * g_lua;
 
 	void PushGlobalToStack() const;
-	virtual void PushCopyToStack() const;
 
 	void CheckCopyCount();
 };
