@@ -135,6 +135,7 @@ void Program::InitUniforms()
 	//Init generic uniforms, like matrices
 	invLogZfarPlus1.Init("invLogZfarPlus1", m_program);
 	diffuse.Init("material.diffuse", m_program);
+	emission.Init("material.emission", m_program);
 	texture0.Init("texture0", m_program);
 	texture1.Init("texture1", m_program);
 }

@@ -8,7 +8,6 @@
 #include "Program.h"
 
 namespace Graphics {
-	class MaterialDescriptor;
 
 	namespace GL2 {
 		class MultiProgram : public Program {

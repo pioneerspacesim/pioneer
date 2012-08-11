@@ -28,6 +28,7 @@ noinst_HEADERS = \
 	gl2/MultiMaterial.h \
 	gl2/Program.h \
 	gl2/RingMaterial.h \
+	gl2/StarfieldMaterial.h \
 	gl2/Uniform.h
 
 libgraphics_a_SOURCES = \

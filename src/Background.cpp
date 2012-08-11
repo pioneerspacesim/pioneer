@@ -12,7 +12,6 @@
 #include "graphics/StaticMesh.h"
 #include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
-#include "graphics/Shader.h"
 #include <vector>
 
 using namespace Graphics;
@@ -49,7 +48,6 @@ void Starfield::Init(Graphics::Renderer *r)
 	// reserve some space for positions, colours
 	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
 	m_model = new StaticMesh(POINTS);
-	m_shader.Reset(new Shader("bgstars"));
 	Graphics::MaterialDescriptor desc;
 	desc.effect = Graphics::EFFECT_STARFIELD;
 	desc.vertexColors = true;
@@ -87,10 +85,6 @@ void Starfield::Fill(unsigned long seed)
 
 void Starfield::Draw(Graphics::Renderer *renderer)
 {
-	if (AreShadersEnabled()) {
-		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
-	}
-
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		renderer->DrawStaticMesh(m_model);
@@ -98,6 +92,7 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 		/* HYPERSPACING!!!!!!!!!!!!!!!!!!! */
 		/* all this jizz isn't really necessary, since the player will
 		 * be in the root frame when hyperspacing... */
+		//XXX so why is this here if it's not necessary? HELP
 		matrix4x4d m, rot;
 		Frame::GetFrameTransform(Pi::game->GetSpace()->GetRootFrame(), Pi::player->GetFrame(), m);
 		m.ClearToRotOnly();
@@ -130,10 +125,6 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 			m_hyperCol[i*2+1] = va->diffuse[i];
 		}
 		Pi::renderer->DrawLines(BG_STAR_MAX*2, m_hyperVtx, m_hyperCol);
-	}
-
-	if (AreShadersEnabled()) {
-		glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 	}
 }
 
@@ -189,8 +180,7 @@ MilkyWay::MilkyWay(Graphics::Renderer *r)
 	Graphics::MaterialDescriptor desc;
 	desc.vertexColors = true;
 	m_material.Reset(r->CreateMaterial(desc));
-	//actually, this just needs variable intensity/opacity
-	//m_shader.Reset(new Shader("bgstars"));
+	//This doesn't fade. Could add a generic opacity/intensity value.
 	m_model->AddSurface(new Surface(TRIANGLE_STRIP, bottom, m_material));
 	m_model->AddSurface(new Surface(TRIANGLE_STRIP, top, m_material));
 }

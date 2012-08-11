@@ -18,6 +18,7 @@ Program *RingMaterial::CreateProgram(const MaterialDescriptor &desc)
 
 void RingMaterial::Apply()
 {
+	//setting cull mode here just to demonstrate materials are allowed control over this sort of thing
 	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_CULL_FACE);
 	m_program->Use();

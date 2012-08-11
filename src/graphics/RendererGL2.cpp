@@ -10,6 +10,7 @@
 #include "gl2/MultiMaterial.h"
 #include "gl2/Program.h"
 #include "gl2/RingMaterial.h"
+#include "gl2/StarfieldMaterial.h"
 
 namespace Graphics {
 
@@ -107,15 +108,21 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 		desc.dirLights = m_numDirLights;
 	}
 
-	if (desc.effect == EFFECT_PLANETRING) {
+	// Create the material. It will be also used to create the shader,
+	// like a tiny factory
+	switch (desc.effect) {
+	case EFFECT_PLANETRING:
 		mat = new GL2::RingMaterial();
-	} else {
-		// Create the material
+		break;
+	case EFFECT_STARFIELD:
+		mat = new GL2::StarfieldMaterial();
+		break;
+	default:
 		mat = new GL2::MultiMaterial();
 		mat->twoSided = desc.twoSided;
 	}
 
-	//find an existing program or create a new one
+	// Find an existing program...
 	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
 		if ((*it).first == desc) {
 			p = (*it).second;
@@ -123,6 +130,7 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 		}
 	}
 
+	// ...or create a new one
 	if (!p) {
 		try {
 			p = mat->CreateProgram(desc);

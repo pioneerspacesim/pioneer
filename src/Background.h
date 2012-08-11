@@ -6,7 +6,6 @@
 namespace Graphics {
 	class Renderer;
 	class StaticMesh;
-	class Shader;
 	class Material;
 }
 
@@ -40,7 +39,6 @@ namespace Background
 		void Init(Graphics::Renderer *);
 		static const int BG_STAR_MAX = 10000;
 		Graphics::StaticMesh *m_model;
-		ScopedPtr<Graphics::Shader> m_shader;
 
 		//hyperspace animation vertex data
 		//allocated when animation starts and thrown away
@@ -58,7 +56,6 @@ namespace Background
 
 	private:
 		Graphics::StaticMesh *m_model;
-		ScopedPtr<Graphics::Shader> m_shader;
 	};
 
 	// contains starfield, milkyway, possibly other Background elements
@@ -78,6 +75,6 @@ namespace Background
 		MilkyWay m_milkyWay;
 	};
 
-}; //namespace Background
+} //namespace Background
 
 #endif

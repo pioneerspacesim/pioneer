@@ -26,6 +26,7 @@ namespace Graphics {
 			// to be added: matrices etc.
 			Uniform invLogZfarPlus1;
 			Uniform diffuse;
+			Uniform emission;
 			Uniform texture0;
 			Uniform texture1;
 
