@@ -27,6 +27,7 @@ namespace Graphics {
 			Uniform invLogZfarPlus1;
 			Uniform diffuse;
 			Uniform texture0;
+			Uniform texture1;
 
 		protected:
 			void LoadShaders(const std::string&, const std::string &defines);

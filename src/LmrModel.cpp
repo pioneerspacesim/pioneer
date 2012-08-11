@@ -22,8 +22,84 @@
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/TextureGL.h" // XXX temporary until LMR uses renderer drawing properly
+//XXX obviously this should not be visible to LMR. I just want
+//to get rid of the old Shader class
+#include "graphics/gl2/Program.h"
 #include <set>
 #include <algorithm>
+#include <sstream>
+#include "StringF.h"
+
+// I forgot how bitfields work. Here's a == version instead.
+struct ShaderKey {
+	bool pointLighting; //false = dirlight
+	bool texture;
+	bool glowmap;
+	unsigned int numlights; //Uint8 caused a sign-promo warning with stringf :(
+
+	friend bool operator ==
+	(const ShaderKey &a, const ShaderKey &b)
+	{
+		return (
+			a.pointLighting == b.pointLighting &&
+			a.texture == b.texture &&
+			a.glowmap == b.glowmap &&
+			a.numlights == b.numlights
+		);
+	}
+};
+
+using Graphics::GL2::Program;
+static std::vector<std::pair<ShaderKey, Program*> > s_shaders;
+typedef std::vector<std::pair<ShaderKey, Program*> >::const_iterator ShaderIterator;
+
+// this is used to pick the correct program
+static ShaderKey s_shaderKey = {};
+
+// create a program from a key and insert it into s_shaders
+Program *CreateShader(const ShaderKey &key) {
+	assert(key.numlights > 0 && key.numlights < 5);
+	Program *p = 0;
+
+	std::stringstream ss;
+	if (key.texture) {
+		ss << "#define TEXTURE\n";
+	}
+	if (key.glowmap) {
+		assert(key.texture);
+		ss << "#define GLOWMAP\n";
+	}
+
+	//lights
+	ss << stringf("#define NUM_LIGHTS %0{u}\n", key.numlights);
+
+	if (key.pointLighting)
+		p = new Program("lmr-pointlight", ss.str());
+	else
+		p = new Program("lmr-dirlight", ss.str());
+	s_shaders.push_back(std::make_pair(key, p));
+	return p;
+}
+
+// pick and apply a program
+void ApplyShader() {
+	if (!Graphics::AreShadersEnabled()) return;
+
+	Program *p = 0;
+	for (ShaderIterator it = s_shaders.begin(); it != s_shaders.end(); ++it) {
+		if ((*it).first == s_shaderKey) {
+			p = (*it).second;
+			break;
+		}
+	}
+
+	if (!p) p = CreateShader(s_shaderKey);
+	assert(p);
+	p->Use();
+	p->invLogZfarPlus1.Set(Graphics::State::m_invLogZfarPlus1);
+	p->texture0.Set(0);
+	p->texture1.Set(1);
+}
 
 static const Uint32 s_cacheVersion = 2;
 
@@ -385,7 +461,9 @@ public:
 		int activeLights = 0;
 		s_numTrisRendered += m_indices.size()/3;
 
-		LmrShader *curShader = s_sunlightShader[Graphics::State::GetNumLights()-1];
+		s_shaderKey = {};
+		s_shaderKey.numlights = Graphics::State::GetNumLights();
+		assert(s_shaderKey.numlights > 0 && s_shaderKey.numlights < 5);
 
 		BindBuffers();
 
@@ -402,16 +480,19 @@ public:
 						op.elems.texture = Graphics::TextureBuilder::Model(*op.elems.textureFile).GetOrCreateTexture(s_renderer, "model");
 					glActiveTexture(GL_TEXTURE0);
 					glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op.elems.texture)->GetTextureNum());
+					s_shaderKey.texture = true;
 					if (op.elems.glowmapFile) {
 						if (!op.elems.glowmap)
 							op.elems.glowmap = Graphics::TextureBuilder::Model(*op.elems.glowmapFile).GetOrCreateTexture(s_renderer, "model");
 						glActiveTexture(GL_TEXTURE1);
 						glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op.elems.glowmap)->GetTextureNum());
 					}
-					UseProgram(curShader, true, op.elems.glowmapFile);
-				} else {
-					UseProgram(curShader, false);
 				}
+
+				s_shaderKey.texture = (op.elems.textureFile != 0);
+				s_shaderKey.glowmap = (op.elems.glowmapFile != 0);
+				ApplyShader();
+
 				if (m_isStatic) {
 					// from static VBO
 					glDrawElements(GL_TRIANGLES,
@@ -515,7 +596,8 @@ public:
 					int numLights = Graphics::State::GetNumLights();
 					for (int j=0; j<numLights; j++) glEnable(GL_LIGHT0 + j);
 					for (int j=4; j<8; j++) glDisable(GL_LIGHT0 + j);
-					curShader = s_sunlightShader[Graphics::State::GetNumLights()-1];
+					s_shaderKey.numlights = numLights;
+					assert(s_shaderKey.numlights > 0 && s_shaderKey.numlights < 5);
 				}
 				break;
 			case OP_USE_LIGHT:
@@ -529,7 +611,8 @@ public:
 					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_POSITION, l.position);
 					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_DIFFUSE, l.color);
 					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_SPECULAR, l.color);
-					curShader = s_pointlightShader[activeLights++];
+					s_shaderKey.numlights++;
+					s_shaderKey.pointLighting  = true;
 					if (activeLights > 4) {
 						Error("Too many active lights in model '%s' (maximum 4)", m_model->GetName());
 					}
@@ -1252,9 +1335,11 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	s_curBuf = 0;
 
 	Graphics::UnbindAllBuffers();
+
 	//XXX hack. Unuse any shader. Can be removed when LMR uses Renderer.
+	//XXX 2012-08-11 LMR is more likely to be destroyed
 	if (Graphics::AreShadersEnabled())
-		s_sunlightShader[0]->Unuse();
+		glUseProgram(0);
 
 	glDisable(GL_NORMALIZE);
 	s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
@@ -4614,6 +4699,7 @@ void LmrModelCompilerUninit()
 		delete s_sunlightShader[i];
 		delete s_pointlightShader[i];
 	}
+	while (!s_shaders.empty()) delete s_shaders.back().second, s_shaders.pop_back();
 	delete s_billboardMaterial;
 	// FontCache should be ok...
 
