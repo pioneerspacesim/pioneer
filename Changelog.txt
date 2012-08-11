@@ -4,6 +4,9 @@ Alpha 26
      * Fix atmospheric pressure calculations (#1431, #1395)
      * Fix lighting glitches in systems with multiple stars (#1430, #1411)
 
+   * Minor changes and tweaks
+     * Updated station splash advert (#1429)
+
 Alpha 25
 
    * New features
