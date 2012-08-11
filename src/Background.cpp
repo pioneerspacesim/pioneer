@@ -54,7 +54,6 @@ void Starfield::Init(Graphics::Renderer *r)
 	desc.effect = Graphics::EFFECT_STARFIELD;
 	desc.vertexColors = true;
 	m_material.Reset(r->CreateMaterial(desc));
-	m_material->shader = m_shader.Get();
 	m_material->emissive = Color::WHITE;
 	m_model->AddSurface(new Surface(POINTS, stars, m_material));
 
@@ -191,8 +190,7 @@ MilkyWay::MilkyWay(Graphics::Renderer *r)
 	desc.vertexColors = true;
 	m_material.Reset(r->CreateMaterial(desc));
 	//actually, this just needs variable intensity/opacity
-	m_shader.Reset(new Shader("bgstars"));
-	m_material->shader = m_shader.Get();
+	//m_shader.Reset(new Shader("bgstars"));
 	m_model->AddSurface(new Surface(TRIANGLE_STRIP, bottom, m_material));
 	m_model->AddSurface(new Surface(TRIANGLE_STRIP, top, m_material));
 }

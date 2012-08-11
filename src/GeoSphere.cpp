@@ -1352,19 +1352,17 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
 		
 		if (ap.atmosDensity > 0.0) {
-			shader = s_geosphereSkyShader[Graphics::State::GetNumLights()-1];
-			shader->Use();
-			shader->set_geosphereScale(scale);
-			shader->set_geosphereScaledRadius(radius / scale);
-			shader->set_geosphereAtmosTopRad(ap.atmosRadius);
-			shader->set_geosphereAtmosInvScaleHeight(ap.atmosInvScaleHeight);
-			shader->set_geosphereAtmosFogDensity(ap.atmosDensity);
-			shader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
-			shader->set_geosphereCenter(center.x, center.y, center.z);
+			m_atmosphereShader->Use();
+			m_atmosphereShader->set_geosphereScale(scale);
+			m_atmosphereShader->set_geosphereScaledRadius(radius / scale);
+			m_atmosphereShader->set_geosphereAtmosTopRad(ap.atmosRadius);
+			m_atmosphereShader->set_geosphereAtmosInvScaleHeight(ap.atmosInvScaleHeight);
+			m_atmosphereShader->set_geosphereAtmosFogDensity(ap.atmosDensity);
+			m_atmosphereShader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
+			m_atmosphereShader->set_geosphereCenter(center.x, center.y, center.z);
 
-			/*m_atmosphereMaterial->shader
-			Material atmoMat;
-			atmoMat.shader = shader;*/
+			//XXX hack
+			m_atmosphereMaterial->shader = m_atmosphereShader;
 
 			renderer->SetBlendMode(BLEND_ALPHA_ONE);
 			renderer->SetDepthWrite(false);
@@ -1477,5 +1475,9 @@ void GeoSphere::SetUpMaterials()
 		} else {
 			m_surfaceShader = s_geosphereSurfaceShader[numLights];
 		}
+
+		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
+		if (ap.atmosDensity > 0.0)
+			m_atmosphereShader = s_geosphereSkyShader[numLights];
 	}
 }
