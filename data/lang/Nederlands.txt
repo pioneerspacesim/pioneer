@@ -705,9 +705,9 @@ SHIP_IS_FULLY_LADEN
     Uw schip is volledig beladen.
 YOU_DO_NOT_HAVE_ANY_X
     U heeft geen %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Zicht voorzijde
-REAR_VIEW
+CAMERA_REAR_VIEW
     Zicht achterzijde
 EXTERNAL_VIEW
     Extern zicht

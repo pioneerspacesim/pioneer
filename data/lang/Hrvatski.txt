@@ -721,9 +721,9 @@ SHIP_IS_FULLY_LADEN
     Vaš brod je pun.
 YOU_DO_NOT_HAVE_ANY_X
     Nemate niti jedan %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Prednji pogled
-REAR_VIEW
+CAMERA_REAR_VIEW
     Stražnji pogled
 EXTERNAL_VIEW
     Vanjski pogled

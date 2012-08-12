@@ -741,9 +741,9 @@ SHIP_IS_FULLY_LADEN
 YOU_DO_NOT_HAVE_ANY_X
     Nie masz %item.
 FRONT_COCKPIT_VIEW
-	Front cockpit view
+	Widok z kokpitu - przód
 REAR_COCKPIT_VIEW
-    Widok z tyłu
+	Widok z kokpitu - tył
 CAMERA_FRONT_VIEW
 	Przednia kamera
 CAMERA_REAR_VIEW
