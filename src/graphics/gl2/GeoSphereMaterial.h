@@ -27,6 +27,13 @@ namespace Graphics {
 		protected:
 			virtual void InitUniforms();
 		};
+
+		class GeoSphereSkyMaterial : public Material {
+		public:
+			Program *CreateProgram(const MaterialDescriptor &);
+			virtual void Apply() { }
+			virtual void Unapply() { }
+		};
 	}
 }
 #endif

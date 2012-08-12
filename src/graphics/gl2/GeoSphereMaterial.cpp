@@ -35,5 +35,10 @@ void GeoSphereProgram::InitUniforms()
 	geosphereScaledRadius.Init("geosphereScaledRadius", m_program);
 }
 
+Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
+{
+	return 0;
+}
+
 }
 }

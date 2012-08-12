@@ -1186,9 +1186,6 @@ GeoSphere::GeoSphere(const SystemBody *body)
 
 	s_allGeospheres.push_back(this);
 
-	Graphics::MaterialDescriptor desc;
-	m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(desc));
-
 	//SetUpMaterials is not called until first Render since light count is zero :)
 }
 
@@ -1353,28 +1350,19 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 
+		//XXX no need to calculate every frame
 		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
 
 		if (ap.atmosDensity > 0.0) {
 			m_atmosphereShader->Use();
 			m_atmosphereShader->SetUniforms(radius, scale, center, ap);
-			/*
-			m_atmosphereShader->set_geosphereScale(scale);
-			m_atmosphereShader->set_geosphereScaledRadius(radius / scale);
-			m_atmosphereShader->set_geosphereAtmosTopRad(ap.atmosRadius);
-			m_atmosphereShader->set_geosphereAtmosInvScaleHeight(ap.atmosInvScaleHeight);
-			m_atmosphereShader->set_geosphereAtmosFogDensity(ap.atmosDensity);
-			m_atmosphereShader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
-			m_atmosphereShader->set_geosphereCenter(center.x, center.y, center.z);
-			*/
-			//Set material's m_program...
 
 			renderer->SetBlendMode(BLEND_ALPHA_ONE);
 			renderer->SetDepthWrite(false);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			//DrawAtmosphereSurface(renderer, campos, ap.atmosRadius*1.01, m_atmosphereMaterial.Get());
+			DrawAtmosphereSurface(renderer, campos, ap.atmosRadius*1.01, m_atmosphereMaterial.Get());
 			renderer->SetDepthWrite(true);
 			renderer->SetBlendMode(BLEND_SOLID);
 		}
@@ -1382,15 +1370,6 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 		//XXX why the flipping heck is this inside a push/popmatrix
 		m_surfaceShader->Use();
 		m_surfaceShader->SetUniforms(radius, scale, center, ap);
-		/*
-		m_surfaceShader->set_geosphereScale(scale);
-		m_surfaceShader->set_geosphereScaledRadius(radius / scale);
-		m_surfaceShader->set_geosphereAtmosTopRad(ap.atmosRadius);
-		m_surfaceShader->set_geosphereAtmosInvScaleHeight(ap.atmosInvScaleHeight);
-		m_surfaceShader->set_geosphereAtmosFogDensity(ap.atmosDensity);
-		m_surfaceShader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
-		m_surfaceShader->set_geosphereCenter(center.x, center.y, center.z);
-		*/
 	}
 	glPopMatrix();
 
@@ -1472,8 +1451,12 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 
 void GeoSphere::SetUpMaterials()
 {
-	//Pick an appropriate surface shader - to be moved
 	if (Graphics::AreShadersEnabled()) {
+		Graphics::MaterialDescriptor desc;
+		desc.effect = EFFECT_GEOSPHERE_SKY;
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(desc));
+
+		//Pick an appropriate surface shader - to be moved
 		const unsigned int numLights = Graphics::State::GetNumLights()-1;
 		assert(numLights >= 0 && numLights <= 4);
 		if ((m_sbody->type == SystemBody::TYPE_BROWN_DWARF) ||
