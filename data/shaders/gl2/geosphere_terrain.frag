@@ -51,8 +51,9 @@ void main(void)
 
 	gl_FragColor =
 		gl_FrontMaterial.emission +
-		(gl_LightModel.ambient * vertexColor) +
-		(diff * vertexColor) +
+		fogFactor *
+		((gl_LightModel.ambient * vertexColor) +
+		(diff * vertexColor)) +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
 #else // atmosphere-less planetoids and dim stars
 	gl_FragColor =
