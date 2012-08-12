@@ -40,10 +40,10 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
+	, m_background(Pi::renderer)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
-	, m_background(Pi::renderer)
 {
 	m_starSystem = StarSystem::GetCached(path);
 	m_background.Refresh(m_starSystem->m_seed);
@@ -63,10 +63,10 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
+	, m_background(Pi::renderer)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
-	, m_background(Pi::renderer)
 {
 	m_starSystem = StarSystem::Unserialize(rd);
 	m_background.Refresh(m_starSystem->m_seed);

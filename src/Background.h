@@ -71,8 +71,8 @@ namespace Background
 		void SetIntensity(float intensity);
 
 	private:
-		Starfield m_starField;
 		MilkyWay m_milkyWay;
+		Starfield m_starField;
 	};
 
 } //namespace Background
