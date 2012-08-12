@@ -43,11 +43,11 @@ struct SurfaceRenderInfo : public RenderInfo {
 	int glAmount; //index count OR vertex amount
 };
 
-RendererLegacy::RendererLegacy(int w, int h) :
-	Renderer(w, h),
-	m_minZNear(10.f),
-	m_maxZFar(1000000.0f),
-	m_numDirLights(0)
+RendererLegacy::RendererLegacy(int w, int h)
+: Renderer(w, h)
+, m_numDirLights(0)
+, m_minZNear(10.f)
+, m_maxZFar(1000000.0f)
 {
 	glShadeModel(GL_SMOOTH);
 	glCullFace(GL_BACK);
@@ -122,7 +122,7 @@ bool RendererLegacy::SwapBuffers()
 			ss << glerr_to_string(err) << '\n';
 			err = glGetError();
 		}
-		OS::Error(ss.str().c_str());
+		OS::Error("%s", ss.str().c_str());
 	}
 #endif
 
