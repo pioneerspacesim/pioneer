@@ -1,5 +1,5 @@
 #ifdef FRAGMENT_SHADER
-//Currently used by: planet ring shader
+//Currently used by: planet ring shader, geosphere shaders
 float findSphereEyeRayEntryDistance(in vec3 sphereCenter, in vec3 eyeTo, in float radius)
 {
 	vec3 v = -sphereCenter;
@@ -16,5 +16,27 @@ float findSphereEyeRayEntryDistance(in vec3 sphereCenter, in vec3 eyeTo, in floa
 		}
 	}
 	return entryDist;
+}
+
+// Used by: geosphere shaders
+// Calculate length*density product of a line through the atmosphere
+// a - start coord (normalized relative to atmosphere radius)
+// b - end coord " "
+// centerDensity - atmospheric density at centre of sphere
+// length - real length of line in meters
+float AtmosLengthDensityProduct(vec3 a, vec3 b, float surfaceDensity, float len, float invScaleHeight)
+{
+	/* 4 samples */
+	float ldprod = 0.0;
+	vec3 dir = b-a;
+	ldprod = surfaceDensity * (
+			exp(-invScaleHeight*(length(a)-1.0)) +
+			exp(-invScaleHeight*(length(a + 0.2*dir)-1.0)) +
+			exp(-invScaleHeight*(length(a + 0.4*dir)-1.0)) +
+			exp(-invScaleHeight*(length(a + 0.6*dir)-1.0)) +
+			exp(-invScaleHeight*(length(a + 0.8*dir)-1.0)) +
+			exp(-invScaleHeight*(length(b)-1.0)));
+	ldprod *= len;
+	return ldprod;
 }
 #endif

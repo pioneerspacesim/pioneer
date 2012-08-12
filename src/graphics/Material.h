@@ -7,7 +7,6 @@
 namespace Graphics {
 
 class Texture;
-class Shader;
 class MaterialDescriptor;
 
 enum EffectType {
@@ -40,9 +39,6 @@ public:
 	bool twoSided;
 	// ignore material color and use vertex colors instead
 	bool vertexColors;
-
-	//custom glsl prog
-	Shader *shader;
 
 	virtual void Apply() { }
 	virtual void Unapply() { }

@@ -17,7 +17,6 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/Shader.h"
 #include "graphics/TextureBuilder.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f

@@ -1,17 +1,18 @@
 #include "libs.h"
 #include "GeoSphere.h"
+#include "galaxy/StarSystem.h"
 #include "perlin.h"
 #include "Pi.h"
-#include "galaxy/StarSystem.h"
 #include "RefCounted.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/VertexArray.h"
-#include "graphics/Shader.h"
+#include "graphics/gl2/GeoSphereMaterial.h"
 #include <deque>
 #include <algorithm>
+#include <sstream>
 
 using namespace Graphics;
 
@@ -32,17 +33,7 @@ static const int detail_edgeLen[5] = {
 
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
-SHADER_CLASS_BEGIN(GeosphereShader)
-	SHADER_UNIFORM_VEC4(atmosColor)
-	SHADER_UNIFORM_FLOAT(geosphereScale)
-	SHADER_UNIFORM_FLOAT(geosphereScaledRadius) // (planet radius) / scale
-	SHADER_UNIFORM_FLOAT(geosphereAtmosTopRad) // in planet radii
-	SHADER_UNIFORM_VEC3(geosphereCenter)
-	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
-	SHADER_UNIFORM_FLOAT(geosphereAtmosInvScaleHeight);
-SHADER_CLASS_END()
-
-static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader, *s_geosphereDimStarShader[4];
+static Graphics::GL2::GeoSphereProgram *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader, *s_geosphereDimStarShader[4];
 
 #pragma pack(4)
 struct VBOVertex
@@ -1057,21 +1048,35 @@ int GeoSphere::UpdateLODThread(void *data)
 	return 0;
 }
 
+static Graphics::GL2::GeoSphereProgram *create_program(bool sky, unsigned int numLights, bool atmosphere = true)
+{
+	assert(numLights < 5);
+	std::stringstream ss;
+	ss << stringf("#define NUM_LIGHTS %0{u}\n", numLights);
+	if (atmosphere)
+		ss << "#define ATMOSPHERE\n";
+
+	return new Graphics::GL2::GeoSphereProgram(sky ? "geosphere_sky" : "geosphere_terrain", ss.str());
+}
+
 void GeoSphere::Init()
 {
-	s_geosphereSurfaceShader[0] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 1\n");
-	s_geosphereSurfaceShader[1] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 2\n");
-	s_geosphereSurfaceShader[2] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 3\n");
-	s_geosphereSurfaceShader[3] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 4\n");
-	s_geosphereSkyShader[0] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 1\n");
-	s_geosphereSkyShader[1] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 2\n");
-	s_geosphereSkyShader[2] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 3\n");
-	s_geosphereSkyShader[3] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 4\n");
-	s_geosphereStarShader = new GeosphereShader("geosphere_star"); // this doesn't do anything special, except ridiculous emission overload
-	s_geosphereDimStarShader[0] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 1\n");
-	s_geosphereDimStarShader[1] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 2\n");
-	s_geosphereDimStarShader[2] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 3\n");
-	s_geosphereDimStarShader[3] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 4\n");
+	s_geosphereSurfaceShader[0] = create_program(false, 1);
+	s_geosphereSurfaceShader[1] = create_program(false, 2);
+	s_geosphereSurfaceShader[2] = create_program(false, 3);
+	s_geosphereSurfaceShader[3] = create_program(false, 4);
+	s_geosphereSkyShader[0] = create_program(true, 1);
+	s_geosphereSkyShader[1] = create_program(true, 2);
+	s_geosphereSkyShader[2] = create_program(true, 3);
+	s_geosphereSkyShader[3] = create_program(true, 4);
+
+	s_geosphereStarShader = create_program(false, 0);
+
+	s_geosphereDimStarShader[0] = create_program(false, 1, false);
+	s_geosphereDimStarShader[1] = create_program(false, 2, false);
+	s_geosphereDimStarShader[2] = create_program(false, 3, false);
+	s_geosphereDimStarShader[3] = create_program(false, 4, false); //XXX does this make ever sense - 5 lights?
+
 	s_geosphereUpdateQueueLock = SDL_CreateMutex();
 
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
@@ -1338,7 +1343,6 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
-	GeosphereShader *shader = 0;
 
 	if (AreShadersEnabled()) {
 		//First draw - create materials (they do not change afterwards)
@@ -1350,9 +1354,11 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 
 		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
-		
+
 		if (ap.atmosDensity > 0.0) {
 			m_atmosphereShader->Use();
+			m_atmosphereShader->SetUniforms(radius, scale, center, ap);
+			/*
 			m_atmosphereShader->set_geosphereScale(scale);
 			m_atmosphereShader->set_geosphereScaledRadius(radius / scale);
 			m_atmosphereShader->set_geosphereAtmosTopRad(ap.atmosRadius);
@@ -1360,22 +1366,23 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 			m_atmosphereShader->set_geosphereAtmosFogDensity(ap.atmosDensity);
 			m_atmosphereShader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
 			m_atmosphereShader->set_geosphereCenter(center.x, center.y, center.z);
-
-			//XXX hack
-			m_atmosphereMaterial->shader = m_atmosphereShader;
+			*/
+			//Set material's m_program...
 
 			renderer->SetBlendMode(BLEND_ALPHA_ONE);
 			renderer->SetDepthWrite(false);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, campos, ap.atmosRadius*1.01, m_atmosphereMaterial.Get());
+			//DrawAtmosphereSurface(renderer, campos, ap.atmosRadius*1.01, m_atmosphereMaterial.Get());
 			renderer->SetDepthWrite(true);
 			renderer->SetBlendMode(BLEND_SOLID);
 		}
 
 		//XXX why the flipping heck is this inside a push/popmatrix
 		m_surfaceShader->Use();
+		m_surfaceShader->SetUniforms(radius, scale, center, ap);
+		/*
 		m_surfaceShader->set_geosphereScale(scale);
 		m_surfaceShader->set_geosphereScaledRadius(radius / scale);
 		m_surfaceShader->set_geosphereAtmosTopRad(ap.atmosRadius);
@@ -1383,6 +1390,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 		m_surfaceShader->set_geosphereAtmosFogDensity(ap.atmosDensity);
 		m_surfaceShader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
 		m_surfaceShader->set_geosphereCenter(center.x, center.y, center.z);
+		*/
 	}
 	glPopMatrix();
 
@@ -1431,7 +1439,9 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	for (int i=0; i<6; i++) {
 		m_patches[i]->Render(campos, frustum);
 	}
-	if (shader) shader->Unuse();
+
+	if (m_surfaceShader)
+		m_surfaceShader->Unuse();
 
 	glDisable(GL_COLOR_MATERIAL);
 	renderer->SetAmbientColor(oldAmbient);

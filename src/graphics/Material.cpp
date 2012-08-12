@@ -8,8 +8,7 @@ Material::Material() :
 	emissive(Color::BLACK),
 	unlit(false),
 	twoSided(false),
-	vertexColors(false),
-	shader(0)
+	vertexColors(false)
 {
 }
 

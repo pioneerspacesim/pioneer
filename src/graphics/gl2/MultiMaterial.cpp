@@ -30,10 +30,6 @@ Program *MultiMaterial::CreateProgram(const MaterialDescriptor &desc)
 
 void MultiMaterial::Apply()
 {
-	//XXX atmosphere hack
-	if (this->shader) {
-		return;
-	}
 	MultiProgram *p = static_cast<MultiProgram*>(m_program);
 	p->Use();
 	p->invLogZfarPlus1.Set(State::m_invLogZfarPlus1);
@@ -52,11 +48,6 @@ void MultiMaterial::Apply()
 
 void MultiMaterial::Unapply()
 {
-	//XXX atmosphere hack
-	if (this->shader) {
-		return;
-	}
-
 	glPopAttrib();
 	if (texture0) {
 		static_cast<TextureGL*>(texture0)->Unbind();

@@ -12,6 +12,8 @@ namespace Graphics {
 			void Init(const char *name, GLuint program);
 			void Set(int);
 			void Set(float);
+			void Set(const vector3f&);
+			void Set(const vector3d&);
 			void Set(const Color4f&);
 
 		//private:

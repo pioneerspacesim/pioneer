@@ -10,11 +10,15 @@
 
 extern int GEOPATCH_EDGELEN;
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+	namespace GL2 {
+		class GeoSphereProgram;
+	}
+}
 class SystemBody;
 class GeoPatch;
 class GeoPatchContext;
-class GeosphereShader;
 class GeoSphere {
 public:
 	GeoSphere(const SystemBody *body);
@@ -75,8 +79,8 @@ private:
 	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
 
 	//Shaders - to be moved
-	GeosphereShader *m_surfaceShader;
-	GeosphereShader *m_atmosphereShader;
+	Graphics::GL2::GeoSphereProgram *m_surfaceShader;
+	Graphics::GL2::GeoSphereProgram *m_atmosphereShader;
 	void SetUpMaterials();
 };
 

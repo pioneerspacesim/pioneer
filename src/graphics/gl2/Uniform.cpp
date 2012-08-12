@@ -25,6 +25,18 @@ void Uniform::Set(float f)
 		glUniform1f(m_location, f);
 }
 
+void Uniform::Set(const vector3f &v)
+{
+	if (m_location != -1)
+		glUniform3f(m_location, v.x, v.y, v.z);
+}
+
+void Uniform::Set(const vector3d &v)
+{
+	if (m_location != -1)
+		glUniform3f(m_location, v.x, v.y, v.z); //yes, 3f
+}
+
 void Uniform::Set(const Color4f &c)
 {
 	if (m_location != -1)
