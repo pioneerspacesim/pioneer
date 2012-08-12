@@ -14,8 +14,6 @@
 #include <algorithm>
 #include <sstream>
 
-using namespace Graphics;
-
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
 #define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15
@@ -856,7 +854,7 @@ public:
 		else return e->kids[we_are];
 	}
 
-	void Render(vector3d &campos, const Frustum &frustum) {
+	void Render(vector3d &campos, const Graphics::Frustum &frustum) {
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		if (kids[0]) {
 			for (int i=0; i<4; i++) kids[i]->Render(campos, frustum);
@@ -1277,7 +1275,8 @@ void GeoSphere::BuildFirstPatches()
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
 
-static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, float rad, Material *mat)
+static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
+	const vector3d &campos, float rad, Graphics::Material *mat)
 {
 	const int LAT_SEGS = 20;
 	const int LONG_SEGS = 20;
@@ -1305,7 +1304,7 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 	}
 
 	/* Tri-fan above viewer */
-	VertexArray va(ATTRIB_POSITION);
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
 	va.Add(vector3f(0.f, 1.f, 0.f));
 	for (int i=0; i<=LONG_SEGS; i++) {
 		va.Add(vector3f(
@@ -1313,12 +1312,12 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 			cos(latDiff),
 			-sin(latDiff)*sinCosTable[i][1]));
 	}
-	renderer->DrawTriangles(&va, mat, TRIANGLE_FAN);
+	renderer->DrawTriangles(&va, mat, Graphics::TRIANGLE_FAN);
 
 	/* and wound latitudinal strips */
 	double lat = latDiff;
 	for (int j=1; j<LAT_SEGS; j++, lat += latDiff) {
-		VertexArray v(ATTRIB_POSITION);
+		Graphics::VertexArray v(Graphics::ATTRIB_POSITION);
 		float cosLat = cos(lat);
 		float sinLat = sin(lat);
 		float cosLat2 = cos(lat+latDiff);
@@ -1327,21 +1326,21 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 			v.Add(vector3f(sinLat*sinCosTable[i][0], cosLat, -sinLat*sinCosTable[i][1]));
 			v.Add(vector3f(sinLat2*sinCosTable[i][0], cosLat2, -sinLat2*sinCosTable[i][1]));
 		}
-		renderer->DrawTriangles(&v, mat, TRIANGLE_STRIP);
+		renderer->DrawTriangles(&v, mat, Graphics::TRIANGLE_STRIP);
 	}
 
 	glPopMatrix();
 }
 
-void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, const float scale) {
+void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale) {
 	glPushMatrix();
 	glTranslated(-campos.x, -campos.y, -campos.z);
-	Frustum frustum = Frustum::FromGLState();
+	Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
 
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
 
-	if (AreShadersEnabled()) {
+	if (Graphics::AreShadersEnabled()) {
 		//First draw - create materials (they do not change afterwards)
 		if (!m_surfaceShader)
 			SetUpMaterials();
@@ -1357,14 +1356,14 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 			m_atmosphereShader->Use();
 			m_atmosphereShader->SetUniforms(radius, scale, center, ap);
 
-			renderer->SetBlendMode(BLEND_ALPHA_ONE);
+			renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 			renderer->SetDepthWrite(false);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
 			DrawAtmosphereSurface(renderer, campos, ap.atmosRadius*1.01, m_atmosphereMaterial.Get());
 			renderer->SetDepthWrite(true);
-			renderer->SetBlendMode(BLEND_SOLID);
+			renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		}
 
 		//XXX why the flipping heck is this inside a push/popmatrix
@@ -1384,7 +1383,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	Color oldAmbient = Graphics::State::GetGlobalSceneAmbientColor();
 	//glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
-	float b = AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
+	float b = Graphics::AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
 
 	if ((m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (m_sbody->type == SystemBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
@@ -1453,7 +1452,7 @@ void GeoSphere::SetUpMaterials()
 {
 	if (Graphics::AreShadersEnabled()) {
 		Graphics::MaterialDescriptor desc;
-		desc.effect = EFFECT_GEOSPHERE_SKY;
+		desc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(desc));
 
 		//Pick an appropriate surface shader - to be moved
