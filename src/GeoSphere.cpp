@@ -1383,15 +1383,13 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 	Color oldAmbient = Graphics::State::GetGlobalSceneAmbientColor();
 	//glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
-	float b = Graphics::AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
-
 	if ((m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (m_sbody->type == SystemBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 0.2f;
 		ambient.a = 1.0f;
-		emission[0] = StarSystem::starRealColors[m_sbody->type][0] * 0.5f * b;
-		emission[1] = StarSystem::starRealColors[m_sbody->type][1] * 0.5f * b;
-		emission[2] = StarSystem::starRealColors[m_sbody->type][2] * 0.5f * b;
+		emission[0] = StarSystem::starRealColors[m_sbody->type][0];
+		emission[1] = StarSystem::starRealColors[m_sbody->type][1];
+		emission[2] = StarSystem::starRealColors[m_sbody->type][2];
 		emission[3] = 0.5f;
 	}
 
