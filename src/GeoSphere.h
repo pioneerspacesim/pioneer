@@ -8,8 +8,6 @@
 #include "terrain/Terrain.h"
 #include "graphics/Material.h"
 
-extern int GEOPATCH_EDGELEN;
-
 namespace Graphics {
 	class Renderer;
 	namespace GL2 {
@@ -46,7 +44,6 @@ public:
 private:
 	void BuildFirstPatches();
 	GeoPatch *m_patches[6];
-	float m_diffColor[4], m_ambColor[4];
 	const SystemBody *m_sbody;
 
 	/* all variables for GetHeight(), GetColor() */
