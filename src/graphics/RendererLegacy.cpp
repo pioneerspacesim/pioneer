@@ -628,10 +628,16 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 {
 	MaterialLegacy *m;
-	if (desc.effect == EFFECT_STARFIELD)
+	switch (desc.effect) {
+	case EFFECT_STARFIELD:
 		m = new StarfieldMaterialLegacy();
-	else
+		break;
+	case EFFECT_GEOSPHERE_TERRAIN:
+		m = new GeoSphereSurfaceMaterialLegacy();
+		break;
+	default:
 		m = new MaterialLegacy();
+	}
 
 	m->vertexColors = desc.vertexColors;
 	m->unlit = !desc.lighting;

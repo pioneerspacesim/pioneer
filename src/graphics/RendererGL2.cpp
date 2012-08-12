@@ -117,12 +117,15 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 	case EFFECT_STARFIELD:
 		mat = new GL2::StarfieldMaterial();
 		break;
+	case EFFECT_GEOSPHERE_TERRAIN: //these two are dummy materials ATM
+		mat = new GL2::GeoSphereSurfaceMaterial();
+		break;
 	case EFFECT_GEOSPHERE_SKY:
 		mat = new GL2::GeoSphereSkyMaterial();
 		break;
 	default:
 		mat = new GL2::MultiMaterial();
-		mat->twoSided = desc.twoSided;
+		mat->twoSided = desc.twoSided; //other mats don't care about this
 	}
 
 	// Find an existing program...

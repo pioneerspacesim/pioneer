@@ -28,11 +28,15 @@ namespace Graphics {
 			virtual void InitUniforms();
 		};
 
-		class GeoSphereSkyMaterial : public Material {
-		public:
+		class GeoSphereSurfaceMaterial : public Material {
 			Program *CreateProgram(const MaterialDescriptor &);
-			virtual void Apply() { }
+			virtual void Apply();
 			virtual void Unapply() { }
+		};
+
+		class GeoSphereSkyMaterial : public GeoSphereSurfaceMaterial {
+		public:
+			virtual void Apply() { }
 		};
 	}
 }

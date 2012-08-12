@@ -35,9 +35,15 @@ void GeoSphereProgram::InitUniforms()
 	geosphereScaledRadius.Init("geosphereScaledRadius", m_program);
 }
 
-Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
+Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
 	return 0;
+}
+
+void GeoSphereSurfaceMaterial::Apply()
+{
+	//XXX bit of a hack, since shader is set up in GeoSphere ATM
+	glMaterialfv (GL_FRONT, GL_EMISSION, &emissive[0]);
 }
 
 }

@@ -1340,11 +1340,11 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
 
-	if (Graphics::AreShadersEnabled()) {
-		//First draw - create materials (they do not change afterwards)
-		if (!m_surfaceShader)
-			SetUpMaterials();
+	//First draw - create materials (they do not change afterwards)
+	if (!m_surfaceMaterial.Valid())
+		SetUpMaterials();
 
+	if (Graphics::AreShadersEnabled()) {
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
@@ -1374,9 +1374,8 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 
 	if (!m_patches[0]) BuildFirstPatches();
 
-	const float black[4] = { 0,0,0,0 };
 	Color ambient;
-	float emission[4] = { 0,0,0,0 };
+	Color &emission = m_surfaceMaterial->emissive;
 
 	// save old global ambient
 	// XXX add GetAmbient to renderer or save ambient in scene? (Space)
@@ -1387,10 +1386,10 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 0.2f;
 		ambient.a = 1.0f;
-		emission[0] = StarSystem::starRealColors[m_sbody->type][0];
-		emission[1] = StarSystem::starRealColors[m_sbody->type][1];
-		emission[2] = StarSystem::starRealColors[m_sbody->type][2];
-		emission[3] = 0.5f;
+		emission.r = StarSystem::starRealColors[m_sbody->type][0];
+		emission.g = StarSystem::starRealColors[m_sbody->type][1];
+		emission.b = StarSystem::starRealColors[m_sbody->type][2];
+		emission.a = 0.5f; //XXX WTF
 	}
 
 	else {
@@ -1405,21 +1404,19 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 	}
 
 	renderer->SetAmbientColor(ambient);
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-	glMaterialfv (GL_FRONT, GL_SPECULAR, black);
-	glMaterialfv (GL_FRONT, GL_EMISSION, emission);
-	glEnable(GL_COLOR_MATERIAL);
+	// this is pretty much the only place where a non-renderer is allowed to call Apply()
+	// to be removed when someone rewrites terrain
+	m_surfaceMaterial->Apply();
 
-//	glLineWidth(1.0);
-//	glPolygonMode(GL_FRONT, GL_LINE);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->Render(campos, frustum);
 	}
 
+	m_surfaceMaterial->Unapply();
+
 	if (m_surfaceShader)
 		m_surfaceShader->Unuse();
 
-	glDisable(GL_COLOR_MATERIAL);
 	renderer->SetAmbientColor(oldAmbient);
 
 	// if the update thread has deleted any geopatches, destroy the vbos
@@ -1448,6 +1445,17 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 
 void GeoSphere::SetUpMaterials()
 {
+	// What to specify:
+	// - effect type: surface or sky
+	// - precense of atmosphere
+	// - lit or unlit (for stars)
+	// - number of lights, although renderer should be smart enough for
+	//   handling light variations
+	Graphics::MaterialDescriptor surfDesc;
+	surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
+	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
+
+	//Shader-less atmosphere is drawn in Planet
 	if (Graphics::AreShadersEnabled()) {
 		Graphics::MaterialDescriptor desc;
 		desc.effect = Graphics::EFFECT_GEOSPHERE_SKY;

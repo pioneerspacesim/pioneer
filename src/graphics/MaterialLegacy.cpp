@@ -46,4 +46,19 @@ void StarfieldMaterialLegacy::Apply()
 	glDisable(GL_LIGHTING);
 }
 
+void GeoSphereSurfaceMaterialLegacy::Apply()
+{
+	glPushAttrib(GL_ENABLE_BIT);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	glMaterialfv (GL_FRONT, GL_SPECULAR, &Color::BLACK[0]);
+	glMaterialfv (GL_FRONT, GL_EMISSION, &emissive[0]);
+}
+
+void GeoSphereSurfaceMaterialLegacy::Unapply()
+{
+	glPopAttrib(); //lighting, color_material
+}
+
 }

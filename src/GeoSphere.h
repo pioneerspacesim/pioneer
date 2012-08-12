@@ -76,6 +76,7 @@ private:
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
+	ScopedPtr<Graphics::Material> m_surfaceMaterial;
 	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
 
 	//Shaders - to be moved

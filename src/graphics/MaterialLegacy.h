@@ -17,6 +17,12 @@ public:
 	virtual void Apply();
 };
 
+class GeoSphereSurfaceMaterialLegacy : public MaterialLegacy {
+public:
+	virtual void Apply();
+	virtual void Unapply();
+};
+
 };
 
 #endif
