@@ -1,4 +1,3 @@
-#include "Shader.h"
 #include "Material.h"
 #include "Graphics.h"
 #include "RendererGL2.h"

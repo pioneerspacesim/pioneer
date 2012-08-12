@@ -3,13 +3,60 @@
 #include "StringRange.h"
 #include "StringF.h"
 #include "OS.h"
-#include "graphics/Shader.h"
+#include "Graphics.h"
 
 namespace Graphics {
 
 namespace GL2 {
 
 static const char *s_glslVersion = "#version 120\n";
+
+// Check and warn about compile & link errors
+static bool check_glsl_errors(const char *filename, GLuint obj)
+{
+	//check if shader or program
+	bool isShader = (glIsShader(obj) == GL_TRUE);
+
+	int infologLength = 0;
+	char infoLog[1024];
+
+	if (isShader)
+		glGetShaderInfoLog(obj, 1024, &infologLength, infoLog);
+	else
+		glGetProgramInfoLog(obj, 1024, &infologLength, infoLog);
+
+	GLint status;
+	if (isShader)
+		glGetShaderiv(obj, GL_COMPILE_STATUS, &status);
+	else
+		glGetProgramiv(obj, GL_LINK_STATUS, &status);
+
+	if (status == GL_FALSE) {
+#ifndef NDEBUG
+		OS::Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
+			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+#else
+		OS::Warning("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s\n\nS"
+			"Pioneer will not work as intended. Try disabling shaders in the options or the config file.\n",
+			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+#endif
+		shadersAvailable = false;
+		shadersEnabled = false;
+		return false;
+	}
+
+	// Log warnings even if successfully compiled
+	// Sometimes the log is full of junk "success" messages so
+	// this is not a good use for OS::Warning
+#ifndef NDEBUG
+	if (infologLength > 0) {
+		if (pi_strcasestr("infoLog", "warning"))
+			fprintf(stderr, "%s: %s", filename, infoLog);
+	}
+#endif
+
+	return true;
+}
 
 struct Shader {
 	Shader(GLenum type, const std::string &filename, const std::string &defines) {
@@ -37,7 +84,7 @@ struct Shader {
 		Compile(shader);
 
 		// CheckGLSL may use OS::Warning instead of OS::Error so the game may still (attempt to) run
-		if (!Graphics::Shader::CheckGLSLErrors(filename.c_str(), shader))
+		if (!check_glsl_errors(filename.c_str(), shader))
 			throw ShaderException();
 	};
 
@@ -125,7 +172,7 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 	glAttachShader(m_program, fs.shader);
 	glLinkProgram(m_program);
 
-	Graphics::Shader::CheckGLSLErrors(name.c_str(), m_program);
+	check_glsl_errors(name.c_str(), m_program);
 
 	//shaders may now be deleted
 }

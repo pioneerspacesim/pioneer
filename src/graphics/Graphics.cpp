@@ -3,7 +3,6 @@
 #include "Material.h"
 #include "RendererGL2.h"
 #include "RendererLegacy.h"
-#include "Shader.h"
 #include "OS.h"
 
 static GLuint boundArrayBufferObject = 0;
@@ -12,7 +11,8 @@ static GLuint boundElementArrayBufferObject = 0;
 namespace Graphics {
 
 static bool initted = false;
-
+bool shadersAvailable = false;
+bool shadersEnabled = false;
 Material *vtxColorMaterial;
 
 float State::m_znear = 10.0f;
@@ -181,7 +181,6 @@ Renderer* Init(const Settings &vs)
 void Uninit()
 {
 	delete vtxColorMaterial;
-	FreeLibs();
 }
 
 void SwapBuffers()

@@ -42,6 +42,8 @@ namespace Graphics {
 		static Color GetGlobalSceneAmbientColor() { return m_globalAmbientColor; }
 	};
 
+	extern bool shadersAvailable;
+	extern bool shadersEnabled;
 	extern Material *vtxColorMaterial;
 
 	// does SDL video init, constructs appropriate Renderer
