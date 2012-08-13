@@ -8,7 +8,6 @@
     <ClCompile Include="..\..\..\src\graphics\Renderer.cpp" />
     <ClCompile Include="..\..\..\src\graphics\RendererGL2.cpp" />
     <ClCompile Include="..\..\..\src\graphics\RendererLegacy.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\Shader.cpp" />
     <ClCompile Include="..\..\..\src\graphics\StaticMesh.cpp" />
     <ClCompile Include="..\..\..\src\graphics\TextureBuilder.cpp" />
     <ClCompile Include="..\..\..\src\graphics\TextureGL.cpp" />
@@ -21,9 +20,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\graphics\Light.cpp" />
     <ClCompile Include="..\..\..\src\graphics\MaterialLegacy.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\Material.cpp">
-      <Filter>gl2</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\graphics\gl2\Program.cpp">
       <Filter>gl2</Filter>
     </ClCompile>
@@ -36,6 +32,12 @@
     <ClCompile Include="..\..\..\src\graphics\gl2\RingMaterial.cpp">
       <Filter>gl2</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\gl2\GeoSphereMaterial.cpp">
+      <Filter>gl2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\gl2\GL2Material.cpp">
+      <Filter>gl2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -46,7 +48,6 @@
     <ClInclude Include="..\..\..\src\graphics\RendererGL2.h" />
     <ClInclude Include="..\..\..\src\graphics\RendererGLBuffers.h" />
     <ClInclude Include="..\..\..\src\graphics\RendererLegacy.h" />
-    <ClInclude Include="..\..\..\src\graphics\Shader.h" />
     <ClInclude Include="..\..\..\src\graphics\StaticMesh.h" />
     <ClInclude Include="..\..\..\src\graphics\Surface.h" />
     <ClInclude Include="..\..\..\src\graphics\Texture.h" />
@@ -58,9 +59,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\Light.h" />
     <ClInclude Include="..\..\..\src\graphics\MaterialLegacy.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\Material.h">
-      <Filter>gl2</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\gl2\Program.h">
       <Filter>gl2</Filter>
     </ClInclude>
@@ -71,6 +69,15 @@
       <Filter>gl2</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\gl2\RingMaterial.h">
+      <Filter>gl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\gl2\GeoSphereMaterial.h">
+      <Filter>gl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Material.h">
+      <Filter>gl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\gl2\StarfieldMaterial.h">
       <Filter>gl2</Filter>
     </ClInclude>
   </ItemGroup>

@@ -18,7 +18,7 @@ typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterat
 
 // for material-less line and point drawing
 GL2::MultiProgram *vtxColorProg;
-GL2::Program *flatColorProg;
+GL2::MultiProgram *flatColorProg;
 
 RendererGL2::RendererGL2(int w, int h) :
 	RendererLegacy(w, h)

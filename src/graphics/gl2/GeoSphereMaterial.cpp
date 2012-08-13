@@ -1,5 +1,5 @@
 #include "GeoSphereMaterial.h"
-#include "Graphics.h"
+#include "graphics/Graphics.h"
 
 namespace Graphics {
 namespace GL2 {

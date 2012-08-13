@@ -3,7 +3,7 @@
 #include "StringRange.h"
 #include "StringF.h"
 #include "OS.h"
-#include "Graphics.h"
+#include "graphics/Graphics.h"
 
 namespace Graphics {
 
