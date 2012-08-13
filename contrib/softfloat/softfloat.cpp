@@ -27,11 +27,11 @@ void sfloat::FromSint64(Sint64 a)
 
 void sfloat::FromDouble(double a)
 {
-	Uint64 *p = (Uint64 *)&a;
-	exp = (Uint32)((*p>>52) & 0x7ff);
+	Uint64 p; memcpy(&p, &a, 8);
+	exp = (Uint32)((p>>52) & 0x7ff);
 	if (!exp) { exp = 0; mant = 0; return; }					// zero/denormal special case
-	exp = (exp + EXPOFFSET - 0x3ff) | (Uint32)(*p>>32) & (1<<31);	// exp | sign
-	mant = (Uint32)(*p>>21) | (1<<31);								// add hidden bit
+	exp = (exp + EXPOFFSET - 0x3ff) | (Uint32)(p>>32) & (1<<31);	// exp | sign
+	mant = (Uint32)(p>>21) | (1<<31);								// add hidden bit
 }
 
 double sfloat::ToDouble() const
@@ -42,7 +42,7 @@ double sfloat::ToDouble() const
 	Uint64 r = (Uint64)(mant & ~(1<<31)) << 21;
 	r |= (Uint64)(e + 0x3ff - EXPOFFSET) << 52;
 	r |= ((Uint64)(exp & (1<<31)) << 32);
-	return *(double *)&r;
+	double a; memcpy(&a, &r, 8); return a;
 }
 
 float sfloat::ToFloat() const
@@ -53,7 +53,7 @@ float sfloat::ToFloat() const
 	Uint32 r = (mant & ~(1<<31)) >> 8;
 	r |= (e + 0x7f - EXPOFFSET) << 23;
 	r |= (exp & (1<<31));
-	return *(float *)&r;
+	float a; memcpy(&a, &r, 4); return a;
 }
 
 Sint64 sfloat::ToInt64() const
