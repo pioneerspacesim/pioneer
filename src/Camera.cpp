@@ -47,7 +47,7 @@ void Camera::OnBodyDeleted()
 	m_body = 0;
 }
 
-static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::Light> &lights)
+static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::LightSource> &lights)
 {
 	if (lights.size() > 3) return;
 	// not using frame->GetSystemBodyFor() because it snoops into parent frames,
@@ -66,7 +66,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 		Color lightCol(col[0], col[1], col[2], 0.f);
 		Color ambCol(0.f);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
-		lights.push_back(Camera::Light(frame->m_astroBody, Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol));
+		lights.push_back(Camera::LightSource(frame->m_astroBody, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol)));
 	}
 
 	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i!=frame->m_children.end(); ++i) {
@@ -126,16 +126,16 @@ void Camera::Draw(Renderer *renderer)
 	trans2bg.ClearToRotOnly();
 
 	// Pick up to four suitable system light sources (stars)
-	m_lights.clear();
-	m_lights.reserve(4);
-	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), m_lights);
+	m_lightSources.clear();
+	m_lightSources.reserve(4);
+	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), m_lightSources);
 
-	if (m_lights.empty()) {
+	if (m_lightSources.empty()) {
 		// no lights means we're somewhere weird (eg hyperspace).
 		// fake one up and give a little ambient light so that we can see and
 		// so that things that need lights don't explode
 		Color col(1.f);
-		m_lights.push_back(Light(0, Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col));
+		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col)));
 	}
 
 	//fade space background based on atmosphere thickness and light angle
@@ -152,10 +152,10 @@ void Camera::Draw(Renderer *renderer)
 
 			//go through all lights to calculate something resembling light intensity
 			float angle = 0.f;
-			for(std::vector<Light>::const_iterator it = m_lights.begin();
-				it != m_lights.end(); ++it) {
-				const vector3f lightDir(it->GetPosition().Normalized());
-				angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * it->GetDiffuse().GetLuminance();
+			for(std::vector<LightSource>::const_iterator it = m_lightSources.begin();
+				it != m_lightSources.end(); ++it) {
+				const vector3f lightDir(it->GetLight().GetPosition().Normalized());
+				angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * it->GetLight().GetDiffuse().GetLuminance();
 			}
 			//calculate background intensity with some hand-tweaked fuzz applied
 			bgIntensity = Clamp(1.f - std::min(1.f, float(density) * (0.3f + angle)), 0.f, 1.f);
@@ -165,7 +165,12 @@ void Camera::Draw(Renderer *renderer)
 	Pi::game->GetSpace()->GetBackground().SetIntensity(bgIntensity);
 	Pi::game->GetSpace()->GetBackground().Draw(renderer, trans2bg);
 
-	renderer->SetLights(m_lights.size(), &m_lights[0]);
+	{
+		std::vector<Graphics::Light> rendererLights;
+		for (size_t i = 0; i < m_lightSources.size(); i++)
+			rendererLights.push_back(m_lightSources[i].GetLight());
+		renderer->SetLights(rendererLights.size(), &rendererLights[0]);
+	}
 
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);

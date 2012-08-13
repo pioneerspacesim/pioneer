@@ -1,3 +1,12 @@
+Alpha 26
+
+   * Fixes
+     * Fix atmospheric pressure calculations (#1431, #1395)
+     * Fix lighting glitches in systems with multiple stars (#1430, #1411)
+
+   * Minor changes and tweaks
+     * Updated station splash advert (#1429)
+
 Alpha 25
 
    * New features
@@ -9,7 +18,8 @@ Alpha 25
      * Atmospheric height and appearance is now more realistic (#972, #1278, #1357)
      * Atmospheric pressure and temperature now follows a dry adiabatic model (#1363)
      * Rewritten gas giant rings, with better transparency and shadows (#1404, #1415)
-     * Fade building illumination depending on time of day and atmosphere (1390)
+     * Fade building illumination depending on time of day and atmosphere (#1390,
+       #1428, #1427)
 
    * Minor changes and tweaks
      * On Windows, error messages for graphics are shown in a message box,
@@ -19,6 +29,7 @@ Alpha 25
      * Include more limits and capability information in opengl.txt (#1408, #1410)
      * Text entry widgets (notably the Lua console) now support CTRL+LEFT and
        CTRL+RIGHT arrows to jump to word boundaries (#1392, #1372)
+     * Scale all textures to power-of-two dimensions (#1422, #1251, #1035, #923)
 
    * Fixes
      * Fix some Lua console completion edge cases (#1339)
@@ -27,6 +38,8 @@ Alpha 25
      * Fix crash when autopilot tried to fly around a gravpoint (#1347, #1344)
      * Fix crash when calculating distance to a ship in hyperspace (#1393, #1388)
      * Fix shaders to avoid 'varying' value limits on some hardware (#1407, #1409)
+     * Fix savegames not loading under certain circumstances (#1425, #1412, #1424)
+     * Clamp planetary mass values to supportable range (#1423, #854)
 
    * Script and model changes
      * Gas giant rings can now be defined in a custom system using the :rings
