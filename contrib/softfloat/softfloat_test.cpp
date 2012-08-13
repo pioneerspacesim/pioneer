@@ -42,6 +42,7 @@ int main()
 	i64 = -0x230000; assert(i64 == sfloat(i64).ToInt32());
 	i64 = 0x7fffffff00000000; assert(i64 == sfloat(i64).ToInt64());
 	i64 = -0x7fffffff00000000; assert(i64 == sfloat(i64).ToInt64());
+	i64 = 0x40000000; assert(i64 == sfloat(i64).ToInt64());
 	i64 = 0x80000000; assert(i64 == sfloat(i64).ToInt64());
 	i64 = 0x100000000; assert(i64 == sfloat(i64).ToInt64());
 

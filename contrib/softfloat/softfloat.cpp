@@ -8,11 +8,11 @@ void sfloat::FromSint64(Sint64 a)
 	if (a < 0) { exp |= SIGNMASK; a = -a; }				// note, fails on a = LONG_MIN
 	if (a < ((Sint64)1<<32)) {							// normalize mantissa
 		mant = (Uint32)a;
-		if (mant < (1<<16)) { mant <<= 16; exp -= 16; }
-		if (mant < (1<<24)) { mant <<= 8; exp -= 8; }
-		if (mant < (1<<28)) { mant <<= 4; exp -= 4; }
-		if (mant < (1<<30)) { mant <<= 2; exp -= 2; }
-		if (mant < (1<<31)) { mant <<= 1; exp -= 1; }
+		if (mant < ((Uint32)1<<16)) { mant <<= 16; exp -= 16; }
+		if (mant < ((Uint32)1<<24)) { mant <<= 8; exp -= 8; }
+		if (mant < ((Uint32)1<<28)) { mant <<= 4; exp -= 4; }
+		if (mant < ((Uint32)1<<30)) { mant <<= 2; exp -= 2; }
+		if (mant < ((Uint32)1<<31)) { mant <<= 1; exp -= 1; }
 	}
 	else {
 		a >>= 1; exp += 1;
@@ -60,6 +60,7 @@ Sint64 sfloat::ToInt64() const
 {
 	Uint32 e = exp & EXPMASK; Sint64 r = mant;
 	assert(e < EXPOFFSET + 63);						// sint64 overflow
+	if (EXPOFFSET > e) return 0;					// avoid C99 oversized right shifts
 	if (e <= EXPOFFSET + 31) r >>= (31 + EXPOFFSET - e);
 	else r <<= (e - EXPOFFSET - 31);
 	if (exp & SIGNMASK) return -r;
@@ -70,6 +71,7 @@ Sint32 sfloat::ToInt32() const
 {
 	Uint32 e = exp & EXPMASK;
 	assert(e < EXPOFFSET + 31);						// sint32 overflow
+	if (EXPOFFSET > e) return 0;					// avoid C99 oversized right shifts
 	Sint32 r = mant >> (31 + EXPOFFSET - e);
 	if (exp & SIGNMASK) return -r;
 	else return r;
@@ -194,7 +196,7 @@ sfloat sfloat::Sqrt() const
 		0xbd, 0xc2, 0xc6, 0xcb, 0xcf, 0xd4, 0xd8, 0xdc, 0xe1, 0xe5, 0xe9, 0xed, 0xf1, 0xf5, 0xf9, 0xfd,
 	};	
 
-	assert(mant >= 0);													// negative sqrt
+	assert(!(exp & SIGNMASK));										// negative sqrt
 	if (!mant) return sfloat(0,0);									// arguably unnecessary
 	Uint32 index = ((mant >> 26) & 0x1f) | ((exp & 1) << 5);
 	Uint32 rmant = (sqrttable[index] << 23) | (1<<31);
