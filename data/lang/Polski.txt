@@ -527,7 +527,7 @@ AXIS
 WEAPONS
     Bronie
 TARGET_OBJECT_IN_SIGHTS
-    Zaznacz widoczny objekt
+    Zaznacz widoczny obiekt
 FIRE_LASER
     Strzał lasera
 SHIP_ORIENTATION
@@ -535,7 +535,7 @@ SHIP_ORIENTATION
 PITCH_UP
     Ruch w górę
 PITCH_DOWN
-    Ruch w dól
+    Ruch w dół
 YAW_LEFT
     Odchylenie w lewo
 YAW_RIGHT
@@ -553,7 +553,7 @@ THRUSTER_RETRO
 THRUSTER_VENTRAL
     Ciąg w górę
 THRUSTER_DORSAL
-    Ciąg w dól
+    Ciąg w dół
 THRUSTER_PORT
     Ciąg w lewo
 THRUSTER_STARBOARD
@@ -1157,7 +1157,7 @@ YOU_NO_MONEY
 FINE_PAID_N_BUT_N_REMAINING
     Zapłaciłeś %paid kary, lecz wciąż jesteś winien %fine.
 FINE_PAID_N
-    Przelełeś na konto policji %fine.
+    Przelałeś na konto policji %fine.
 SET_HYPERSPACE_DESTINATION_TO
     "Ustawiono cel skoku na %system"
 NO_TARGET_SELECTED
@@ -1171,11 +1171,11 @@ PAY_FINE_REMOTELY
 AUTOPILOT_FLY_TO_VICINITY_OF
     Autopilot: Leć w pobliże %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
-    Autopilot: Wejdź na niską orbitę do okoła %target
+    Autopilot: Wejdź na niską orbitę dookoła %target
 AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
-    Autopilot: Wejdź na średnią orbitę do okoła %target
+    Autopilot: Wejdź na średnią orbitę dookoła %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
-    Autopilot: Wejdź na wysoką orbitę do okoła %target
+    Autopilot: Wejdź na wysoką orbitę dookoła %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Analizator chmury nadprzestrzennej: Ustaw cel skoku na miejsce docelowe chmury nadprzestrzennej
 FAILED
