@@ -17,18 +17,12 @@ namespace Graphics {
  * To Do:
  * Move statistics collection here: fps, number of triangles etc.
  * Screenshot function (at least read framebuffer, write to file elsewhere)
- * Move SDL video init here (pass a GraphicsSettings struct or similar to Renderer's constructor)
- * ToggleFullscreen
  * The 2D varieties of DrawPoints, DrawLines might have to go - it seemed
  * like a good idea to allow the possibility for optimizing these cases but
  * right now there isn't much of a difference.
- * Renderer::RequestMaterial approach to Materials to get rid of the shader hack (see comments in Material.h)
- * LMR is tricky because it's both a model compiler and renderer. The draw ops can be quite easily
- * converted to use StaticMeshes, Materials etc. but it would lose some of the quirks
- * like changing lighting mid-mesh (without hacks which are not useful outside LMR)
  * Terrain: not necessarily tricky to convert, but let's see if it's going to be
  * rewritten first... Terrain would likely get a special DrawTerrain(GeoPatch *) function.
- * Reboot postprocessing, again
+ * Reboot postprocessing, again (I'd like this to be a non-optional part of GL2 renderer)
  */
 
 class Light;

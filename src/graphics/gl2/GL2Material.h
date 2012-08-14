@@ -2,7 +2,12 @@
 #define _GL2_MATERIAL_H
 /*
  * Multi-purpose GL2 material.
- * Sets program parameters
+ *
+ * Generally, the idea is that a Program contains uniforms but
+ * a material sets them, using the standard parameters of Graphics::Material
+ * or whatever necessary to achieve an effect
+ *
+ * Programs are owned by the renderer, since they are shared between materials.
  */
 #include "libs.h"
 #include "graphics/Material.h"

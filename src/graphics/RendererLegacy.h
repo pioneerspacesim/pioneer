@@ -1,13 +1,14 @@
 #ifndef _RENDERER_LEGACY_H
 #define _RENDERER_LEGACY_H
-
+/*
+ * Fixed function renderer (GL1.5 approx)
+ */
 #include "Renderer.h"
 
 namespace Graphics {
 
 class Texture;
 
-// Fixed function renderer
 class RendererLegacy : public Renderer
 {
 public:

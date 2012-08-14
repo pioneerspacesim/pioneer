@@ -5,6 +5,7 @@ namespace Graphics {
 
 MaterialLegacy::MaterialLegacy()
 : Material()
+, vertexColors(false)
 {
 }
 
