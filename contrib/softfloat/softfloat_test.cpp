@@ -127,8 +127,18 @@ int main()
 	printf ("calc1 = %.9f\ncalc2 = %.9f\n", sf1.ToDouble(), pow(4.91, 1/3.0));
 	sf1 = sfloat(7.13).CubeRoot();
 	printf ("calc1 = %.9f\ncalc2 = %.9f\n", sf1.ToDouble(), pow(7.13, 1/3.0));
-	getchar();
 
+	// string initialization test
+
+	printf ("String initialization test:\n");
+	printf ("calc1 = %.9f\ncalc2 = %.9f\n", sfloat("1.").ToDouble(), 1.);
+	printf ("calc1 = %.9f\ncalc2 = %.9f\n", sfloat("23.0029").ToDouble(), 23.0029);
+	printf ("calc1 = %.9f\ncalc2 = %.9f\n", sfloat("-38200.15008").ToDouble(), -38200.15008);
+	printf ("calc1 = %.9f\ncalc2 = %.9f\n", sfloat("1.67e-4").ToDouble(), 1.67e-4);
+	printf ("calc1 = %.9f\ncalc2 = %.9f\n", sfloat("5.28e17").ToDouble(), 5.28e17);
+
+
+	getchar();
 	return 0;
 }
 

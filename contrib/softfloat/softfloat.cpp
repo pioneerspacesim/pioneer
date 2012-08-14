@@ -1,6 +1,69 @@
 #include <assert.h>
 #include "softfloat.h"
 
+static const sfloat sfn[11] = { sfloat(0), sfloat(1), sfloat(2), sfloat(3), sfloat(4),
+	sfloat(5), sfloat(6), sfloat(7), sfloat(8), sfloat(9), sfloat(10) };
+
+static const sfloat sfdivten = sfloat(1) / sfloat(10);
+
+static const sfloat sf1e2 = sfloat(100);
+static const sfloat sf1e4 = sfloat(10000);
+static const sfloat sf1e8 = sfloat(100000000);
+static const sfloat sf1e2neg = sfloat(1) / sfloat(100);
+static const sfloat sf1e4neg = sfloat(1) / sfloat(10000);
+static const sfloat sf1e8neg = sfloat(1) / sfloat(100000000);
+
+
+sfloat::sfloat(const char *s)
+{
+	sfloat sf = sfloat(0,0);
+	bool neg = false;
+	if (*s == '-') { neg = true; s++; }
+	else if (*s == '+') s++;
+
+	while (*s >= '0' && *s <= '9') {
+		sf = sf * sfn[10] + sfn[*s - '0'];
+		s++;
+	}
+
+	if (*s == '.') {
+		sfloat frac = sfloat(0,0);
+		s++; while (*s >= '0' && *s <= '9') s++;		// find end of fraction
+		const char *sd = s - 1;
+		while (*sd != '.') {
+			frac = (frac + sfn[*sd - '0']) * sfdivten;
+			sd--;
+		}
+		sf = sf + frac;
+	}
+
+	if (*s == 'e') {
+		bool eneg = false;
+		s++; if (*s == '-') { eneg = true; s++; }
+		else if (*s == '+') s++;
+
+		int exp = 0;
+		while (*s >= '0' && *s <= '9') {
+			exp = exp * 10 + (*s - '0');
+			s++;
+		}
+		if (eneg) {
+			while (exp >= 8) { exp -= 8; sf = sf * sf1e8neg; }
+			if (exp >= 4) { exp -= 4; sf = sf * sf1e4neg; }
+			if (exp >= 2) { exp -= 2; sf = sf * sf1e2neg; }
+			if (exp >= 1) { exp -= 1; sf = sf * sfdivten; }
+		} else {
+			while (exp >= 8) { exp -= 8; sf = sf * sf1e8; }
+			if (exp >= 4) { exp -= 4; sf = sf * sf1e4; }
+			if (exp >= 2) { exp -= 2; sf = sf * sf1e2; }
+			if (exp >= 1) { exp -= 1; sf = sf * sfn[10]; }
+		}
+	}
+
+	mant = sf.mant; exp = sf.exp;
+	if (neg && mant) exp |= SIGNMASK;
+}
+
 void sfloat::FromSint64(Sint64 a)
 {
 	if (!a) { exp = 0; mant = 0; return; }				// zero special case
@@ -203,7 +266,7 @@ sfloat sfloat::Sqrt() const
 	Uint32 rexp = ((exp & EXPMASK) >> 1) + (EXPOFFSET >> 1);
 
 	sfloat r = sfloat(rexp, rmant);
-	const sfloat sfhalf = sfloat(EXPOFFSET-1, (1<<31));
+	static const sfloat sfhalf = sfloat(EXPOFFSET-1, (1<<31));
 
 	r = (r + *this/r) * sfhalf;
 	r = (r + *this/r) * sfhalf;		// NR steps
@@ -227,7 +290,7 @@ sfloat sfloat::CubeRoot() const
 	Uint32 rexp = ((exp & EXPMASK) / 3) + (2 * EXPOFFSET / 3);
 
 	sfloat r = sfloat(rexp, rmant);
-	const sfloat sfthird = sfloat(1/3.0);
+	static const sfloat sfthird = sfloat(1/3.0);
 
 	r = (r.Shift(1) + *this/(r*r)) * sfthird;
 	r = (r.Shift(1) + *this/(r*r)) * sfthird;	// NR steps

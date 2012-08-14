@@ -29,6 +29,7 @@ class sfloat
 	sfloat(float a) { FromDouble((double)a); }
 	sfloat(Sint64 a) { FromSint64(a); }
 	sfloat(int a) { FromSint64((Sint64)a); }
+	sfloat(const char *s);			// form: [-]aaaaa[.bbbbbb][e[-]cccccc]
 
 	double ToDouble() const;
 	float ToFloat() const;
