@@ -1122,14 +1122,14 @@ Body* WorldView::PickBody(const double screenX, const double screenY) const
 int WorldView::GetActiveWeapon() const
 {
 	switch (GetCamType()) {
-		case CAM_BOTTOM: return 1;
+		case COCKPIT_REAR: return 1;
+		case CAM_REAR: return 1;
+		case CAM_BOTTOM: 
 		case CAM_TOP:
 		case CAM_RIGHT:
 		case CAM_LEFT:
-		case CAM_REAR:
 		case CAM_EXTERNAL:
 		case CAM_FRONT:
-		case COCKPIT_REAR:
 		case COCKPIT_FRONT:
 		default: return 0;
 	}
@@ -1244,9 +1244,9 @@ void WorldView::UpdateProjectedObjects()
 		int laser;
 		switch (GetCamType()) {
 			case COCKPIT_FRONT: laser = 0; break;
+			case COCKPIT_REAR: laser = 1; break;
 			case CAM_FRONT: laser = 0; break;
 			case CAM_REAR: laser = 1; break;
-			case COCKPIT_REAR: laser = 1; break;
 			default: laser = -1; break;
 		}
 		if (laser >= 0) {
