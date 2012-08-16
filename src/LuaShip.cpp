@@ -778,6 +778,36 @@ static int l_ship_get_equip_free(lua_State *l)
 }
 
 /*
+ * Method: SpawnCargo
+ *
+ * Spawns a container right next to the ship.
+ *
+ * > success = ship:SpawnCargo(item)
+ *
+ * Parameters:
+ *
+ *  item - the item to put in the container.
+ *
+ * Result:
+ *
+ *   success: true if the container was spawned, false otherwise.
+ *
+ * Availability:
+ *
+ *   alpha 26
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_ship_spawn_cargo(lua_State *l) {
+	Ship *s = LuaShip::GetFromLua(1);
+	CargoBody * c_body = new CargoBody(static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2))));
+    lua_pushboolean(l, s->SpawnCargo(c_body));
+    return 1;
+}
+
+/*
  * Method: Jettison
  *
  * Jettison one unit of the given cargo type
@@ -1429,6 +1459,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetEquipFree",     l_ship_get_equip_free      },
 
 		{ "Jettison", l_ship_jettison },
+        { "SpawnCargo", l_ship_spawn_cargo },
 
 		{ "FireMissileAt", l_ship_fire_missile_at },
 
