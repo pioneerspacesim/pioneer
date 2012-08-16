@@ -466,10 +466,12 @@ void Viewer::SetSbreParams()
 
 void VisualCollisionMesh::Render(const LmrCollMesh *m)
 {
+	renderer->SetBlendMode(Graphics::BLEND_SOLID);
+
 	if (!vertices.Valid()) {
 		vertices.Reset(new VertexArray(ATTRIB_POSITION, m->ni * 3));
-		material.Reset(renderer->CreateMaterial(Graphics::MaterialDescriptor()));
-		material->diffuse = Color(1.f, 0.f, 1.f);
+		Graphics::MaterialDescriptor desc; //flat colour
+		material.Reset(renderer->CreateMaterial(desc));
 	}
 
 	vertices->Clear();
@@ -481,6 +483,7 @@ void VisualCollisionMesh::Render(const LmrCollMesh *m)
 		vertices->Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+1]]));
 		vertices->Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+2]]));
 	}
+	material->diffuse = Color(1.f, 0.f, 1.f, 1.f);
 	renderer->DrawTriangles(vertices.Get(), material.Get());
 
 	material->diffuse = Color(1.f);
