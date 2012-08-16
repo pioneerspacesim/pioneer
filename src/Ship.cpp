@@ -1221,6 +1221,21 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	}
 }
 
+bool Ship::SpawnCargo(CargoBody * c_body) const {
+	if (m_flightState != FLYING)
+		return false;
+	Aabb aabb;
+	GetAabb(aabb);
+	matrix4x4d rot;
+	GetRotMatrix(rot);
+	vector3d pos = rot * vector3d(0, aabb.min.y - 5, 0);
+	c_body->SetFrame(GetFrame());
+	c_body->SetPosition(GetPosition()+pos);
+	c_body->SetVelocity(GetVelocity()+rot*vector3d(0, -10, 0));
+	Pi::game->GetSpace()->AddBody(c_body);
+	return true;
+}
+
 bool Ship::Jettison(Equip::Type t)
 {
 	if (m_flightState != FLYING && m_flightState != DOCKED && m_flightState != LANDED) return false;
@@ -1231,17 +1246,8 @@ bool Ship::Jettison(Equip::Type t)
 		UpdateEquipStats();
 
 		if (m_flightState == FLYING) {
-			// create a cargo body in space
-			Aabb aabb;
-			GetAabb(aabb);
-			matrix4x4d rot;
-			GetRotMatrix(rot);
-			vector3d pos = rot * vector3d(0, aabb.min.y-5, 0);
 			CargoBody *cargo = new CargoBody(t);
-			cargo->SetFrame(GetFrame());
-			cargo->SetPosition(GetPosition()+pos);
-			cargo->SetVelocity(GetVelocity()+rot*vector3d(0,-10,0));
-			Pi::game->GetSpace()->AddBody(cargo);
+			SpawnCargo(cargo);
 
 			Pi::luaOnJettison->Queue(this, cargo);
 		} else if (m_flightState == DOCKED) {

@@ -16,6 +16,7 @@ class SpaceStation;
 class HyperspaceCloud;
 class AICommand;
 class ShipController;
+class CargoBody;
 namespace Graphics { class Renderer; }
 
 struct shipstats_t {
@@ -114,6 +115,7 @@ public:
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
+	bool SpawnCargo(CargoBody * c_body) const;
 
 	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
 
