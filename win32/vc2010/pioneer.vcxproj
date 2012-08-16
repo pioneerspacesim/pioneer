@@ -131,7 +131,6 @@
     <ClCompile Include="..\..\src\IniConfig.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
-    <ClCompile Include="..\..\src\Light.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
@@ -226,13 +225,13 @@
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\View.cpp" />
     <ClCompile Include="..\..\src\win32\FileSystemWin32.cpp" />
-    <ClCompile Include="..\..\src\win32\Gamma.cpp" />
     <ClCompile Include="..\..\src\win32\OSWin32.cpp" />
     <ClCompile Include="..\..\src\win32\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\src\win32\WinMath.cpp" />
     <ClCompile Include="..\..\src\WorldView.cpp" />
     <ClCompile Include="..\..\src\WorldViewCamera.cpp" />
   </ItemGroup>
@@ -278,7 +277,6 @@
     <ClInclude Include="..\..\src\IniConfig.h" />
     <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
-    <ClInclude Include="..\..\src\Light.h" />
     <ClInclude Include="..\..\src\LmrModel.h" />
     <ClInclude Include="..\..\src\LuaBody.h" />
     <ClInclude Include="..\..\src\LuaCargoBody.h" />
@@ -372,9 +370,9 @@
     <ClInclude Include="..\..\src\vector3.h" />
     <ClInclude Include="..\..\src\VideoLink.h" />
     <ClInclude Include="..\..\src\View.h" />
-    <ClInclude Include="..\..\src\win32\Gamma.h" />
     <ClInclude Include="..\..\src\win32\pch.h" />
     <ClInclude Include="..\..\src\win32\TextUtils.h" />
+    <ClInclude Include="..\..\src\win32\WinMath.h" />
     <ClInclude Include="..\..\src\WorldView.h" />
     <ClInclude Include="..\..\src\WorldViewCamera.h" />
   </ItemGroup>

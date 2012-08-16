@@ -11,5 +11,5 @@ void main(void)
 #else
 	gl_FragColor = color * color.a;
 #endif
-	SetFragDepth(gl_TexCoord[6].z);
+	SetFragDepth();
 }

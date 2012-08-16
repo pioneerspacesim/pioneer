@@ -73,6 +73,8 @@ inline int isfinite(double x) { return _finite(x); }
 #define SOL_MASS	1.98892e30
 #define AU		149598000000.0
 #define G		6.67428e-11
+#define GAS_CONSTANT_R 8.3144621
+#define EARTH_ATMOSPHERE_SURFACE_DENSITY 1.225
 
 #define HUD_ALPHA 0.34f
 

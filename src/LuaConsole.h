@@ -41,4 +41,4 @@ private:
 	unsigned int m_currentCompletion;
 };
 
-#endif /* _LUACHATFORM_H */
+#endif /* _LUACONSOLE_H */

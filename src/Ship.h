@@ -9,6 +9,7 @@
 #include "galaxy/SystemPath.h"
 #include "BezierCurve.h"
 #include "Serializer.h"
+#include "Camera.h"
 #include <list>
 
 class SpaceStation;
@@ -59,7 +60,7 @@ public:
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
 	int GetDockingPort() const { return m_dockedWithPort; }
-	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	const vector3d &GetFrontCameraOffset() const { return m_frontCameraOffset; }
 	const vector3d &GetRearCameraOffset() const { return m_rearCameraOffset; }
@@ -113,6 +114,8 @@ public:
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
+
+	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
 
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }

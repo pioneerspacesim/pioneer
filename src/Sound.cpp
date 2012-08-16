@@ -155,7 +155,7 @@ eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 	v[0] = Clamp(v[0], 0.0f, 1.0f);
 	v[1] = Clamp(v[1], 0.0f, 1.0f);
 
-	return Sound::PlaySfx(sfx, v[0], v[1], false);
+	return Sound::PlaySfx(sfx, v[0], v[1], 0);
 }
 
 struct SoundEvent {

@@ -374,18 +374,19 @@ void WorldView::RefreshHyperspaceButton() {
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	Pi::cpan->ClearOverlay();
-	if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
-	}
 
 	if (!Pi::player || Pi::player->IsDead() || !Pi::game) {
 		HideAll();
 		return;
 	}
 	else {
+		if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
+			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
+			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
+			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
+			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
+		}
+
 		m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
 
 		RefreshHyperspaceButton();
@@ -567,7 +568,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				double pressure, density;
 				reinterpret_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
 
-				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_BAR, formatarg("pressure", pressure)));
+				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
 
 				m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
 				m_hudHullTemp->Show();

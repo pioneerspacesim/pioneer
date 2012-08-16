@@ -495,7 +495,7 @@ void Viewer::MainLoop()
 	g_camorient = matrix4x4f::Identity();
 	matrix4x4f modelRot = matrix4x4f::Identity();
 
-	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
+	printf("Geom tree build in %ums\n", SDL_GetTicks() - t);
 
 	for (;;) {
 		PollEvents();
@@ -724,6 +724,10 @@ int main(int argc, char **argv)
 	g_zbias = 2.0/(1<<16);
 
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
+
+	const Color lc(1.f, 1.f, 1.f, 0.f);
+	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	renderer->SetLights(1, &light);
 
 	LmrModelCompilerInit(renderer);
 	LmrNotifyScreenWidth(g_width);

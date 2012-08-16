@@ -13,6 +13,7 @@ noinst_HEADERS = \
 	RendererGL2.h \
 	RendererLegacy.h \
 	Frustum.h \
+	Light.h \
 	Shader.h \
 	Material.h \
 	StaticMesh.h \
@@ -29,6 +30,7 @@ libgraphics_a_SOURCES = \
 	RendererGL2.cpp \
 	RendererLegacy.cpp \
 	Frustum.cpp \
+	Light.cpp \
 	Shader.cpp \
 	Material.cpp \
 	StaticMesh.cpp \
