@@ -77,7 +77,7 @@ local playAmbient = function ()
 	end
 end
 
-EventQueue.onGameStart:Connect(function ()
+EventQueue.onGameStart.Connect(function ()
 	music = {}
 
 	-- get all the interesting songs by category
@@ -94,17 +94,17 @@ EventQueue.onGameStart:Connect(function ()
 end)
 
 -- if a song finishes fall back to ambient music
-EventQueue.onSongFinished:Connect(function ()
+EventQueue.onSongFinished.Connect(function ()
 	playAmbient()
 end)
 
 -- start some ambient music when first arriving in system
-EventQueue.onEnterSystem:Connect(function ()
+EventQueue.onEnterSystem.Connect(function ()
 	playAmbient()
 end)
 
 -- ship or player destruction (aka game over)
-EventQueue.onShipDestroyed:Connect(function (ship, attacker)
+EventQueue.onShipDestroyed.Connect(function (ship, attacker)
 	if ship:IsPlayer() then
 		playRandomSongFromCategory("player-destroyed")
 	elseif attacker:isa("Ship") and attacker:IsPlayer() then
@@ -113,19 +113,19 @@ EventQueue.onShipDestroyed:Connect(function (ship, attacker)
 end)
 
 -- player docked
-EventQueue.onShipDocked:Connect(function (ship, station)
+EventQueue.onShipDocked.Connect(function (ship, station)
 	if not ship:IsPlayer() then return end
 	playRandomSongFromCategory("docked")
 end)
 
 -- player undocked
-EventQueue.onShipUndocked:Connect(function (ship, station)
+EventQueue.onShipUndocked.Connect(function (ship, station)
 	if not ship:IsPlayer() then return end
 	playRandomSongFromCategory("undocked")
 end)
 
 -- ship near the player
-EventQueue.onShipAlertChanged:Connect(function (ship, alert)
+EventQueue.onShipAlertChanged.Connect(function (ship, alert)
 	if not ship:IsPlayer() then return end
 	if alert == "SHIP_NEARBY" then
 		playRandomSongFromCategory("ship-nearby")
@@ -135,7 +135,7 @@ EventQueue.onShipAlertChanged:Connect(function (ship, alert)
 end)
 
 -- player changed frame and might be near a planet or orbital station
-EventQueue.onFrameChanged:Connect(function (body)
+EventQueue.onFrameChanged.Connect(function (body)
 	if not body:isa("Ship") then return end
 	if not body:IsPlayer() then return end
 

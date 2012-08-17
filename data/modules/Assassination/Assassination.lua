@@ -417,17 +417,17 @@ local unserialize = function (data)
 	end
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onGameStart:Connect(onGameStart)
-EventQueue.onEnterSystem:Connect(onEnterSystem)
-EventQueue.onLeaveSystem:Connect(onLeaveSystem)
-EventQueue.onShipDestroyed:Connect(onShipDestroyed)
-EventQueue.onShipUndocked:Connect(onShipUndocked)
-EventQueue.onAICompleted:Connect(onAICompleted)
-EventQueue.onShipDocked:Connect(onShipDocked)
-EventQueue.onShipHit:Connect(onShipHit)
-EventQueue.onUpdateBB:Connect(onUpdateBB)
-EventQueue.onGameEnd:Connect(onGameEnd)
+EventQueue.onCreateBB.Connect(onCreateBB)
+EventQueue.onGameStart.Connect(onGameStart)
+EventQueue.onEnterSystem.Connect(onEnterSystem)
+EventQueue.onLeaveSystem.Connect(onLeaveSystem)
+EventQueue.onShipDestroyed.Connect(onShipDestroyed)
+EventQueue.onShipUndocked.Connect(onShipUndocked)
+EventQueue.onAICompleted.Connect(onAICompleted)
+EventQueue.onShipDocked.Connect(onShipDocked)
+EventQueue.onShipHit.Connect(onShipHit)
+EventQueue.onUpdateBB.Connect(onUpdateBB)
+EventQueue.onGameEnd.Connect(onGameEnd)
 
 
 Serializer:Register("Assassination", serialize, unserialize)

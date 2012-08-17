@@ -6,7 +6,7 @@ local messages = {
 	ORBIT_IMPOSSIBLE = 'Cannot compute orbit parameters',
 }
 
-EventQueue.onAICompleted:Connect(function (s, e)
+EventQueue.onAICompleted.Connect(function (s, e)
 	if e == 'NONE' then return end
 	if not s:IsPlayer() then return end
 

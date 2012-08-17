@@ -37,4 +37,4 @@ local onEnterSystem = function (player)
 	end
 end
 
-EventQueue.onEnterSystem:Connect(onEnterSystem)
+EventQueue.onEnterSystem.Connect(onEnterSystem)

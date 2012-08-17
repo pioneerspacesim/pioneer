@@ -4,15 +4,15 @@ EventQueue = {
 		local callbacks = {}
 
 		EventQueue["on"..name] = {
-			Connect = function (self, cb)
+			Connect = function (cb)
 				callbacks[cb] = cb
 			end,
 
-			Disconnect = function (self, cb)
+			Disconnect = function (cb)
 				callbacks[cb] = nil
 			end,
 
-			DebugTimer = function (self, enabled)
+			DebugTimer = function (enabled)
 				-- implement this
 			end,
 
