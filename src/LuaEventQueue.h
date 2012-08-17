@@ -59,11 +59,11 @@ protected:
 
 	virtual ~LuaEventQueueBase() {}
 
-	void QueueSingleEvent(LuaEventBase *e);
-	void EmitSingleEvent(LuaEventBase *e);
+	void QueueSingleEvent(const LuaEventBase &eb);
+	void EmitSingleEvent(const LuaEventBase &eb);
 
 private:
-	virtual void PrepareLuaStack(lua_State *l, const LuaEventBase *e) = 0;
+	virtual void PrepareLuaStack(lua_State *l, const LuaEventBase &eb) = 0;
 
 	const char *m_name;
 };
@@ -74,17 +74,17 @@ public:
 	LuaEventQueue(const char *name) : LuaEventQueueBase(name) { }
 
 	inline void Queue(T0 *arg0, T1 *arg1) {
-        QueueSingleEvent(new LuaEvent<T0,T1>(arg0, arg1));
+        QueueSingleEvent(LuaEvent<T0,T1>(arg0, arg1));
 	}
 	inline void Signal(T0 *arg0, T1 *arg1) {
-		EmitSingleEvent(new LuaEvent<T0,T1>(arg0, arg1));
+		EmitSingleEvent(LuaEvent<T0,T1>(arg0, arg1));
 	}
 
 protected:
-	inline void PrepareLuaStack(lua_State *l, const LuaEventBase *eb) {
-		const LuaEvent<T0,T1> *e = static_cast<const LuaEvent<T0,T1>*>(eb);
-		LuaObject<T0>::PushToLua(e->m_arg0);
-		LuaObject<T1>::PushToLua(e->m_arg1);
+	inline void PrepareLuaStack(lua_State *l, const LuaEventBase &eb) {
+		const LuaEvent<T0,T1> &e = static_cast<const LuaEvent<T0,T1>&>(eb);
+		LuaObject<T0>::PushToLua(e.m_arg0);
+		LuaObject<T1>::PushToLua(e.m_arg1);
 	}
 };
 
@@ -94,16 +94,16 @@ public:
 	LuaEventQueue(const char *name) : LuaEventQueueBase(name) { }
 
 	inline void Queue(T0 *arg0) {
-		QueueSingleEvent(new LuaEvent<T0,void>(arg0));
+		QueueSingleEvent(LuaEvent<T0,void>(arg0));
 	}
 	inline void Signal(T0 *arg0) {
-		EmitSingleEvent(new LuaEvent<T0,void>(arg0));
+		EmitSingleEvent(LuaEvent<T0,void>(arg0));
 	}
 
 protected:
-	inline void PrepareLuaStack(lua_State *l, const LuaEventBase *eb) {
-		const LuaEvent<T0,void> *e = static_cast<const LuaEvent<T0,void>*>(eb);
-		LuaObject<T0>::PushToLua(e->m_arg0);
+	inline void PrepareLuaStack(lua_State *l, const LuaEventBase &eb) {
+		const LuaEvent<T0,void> &e = static_cast<const LuaEvent<T0,void>&>(eb);
+		LuaObject<T0>::PushToLua(e.m_arg0);
 	}
 };
 
@@ -113,17 +113,17 @@ public:
 	LuaEventQueue(const char *name) : LuaEventQueueBase(name) { }
 
 	inline void Queue(T0 *arg0, const char *arg1) {
-		QueueSingleEvent(new LuaEvent<T0,const char *>(arg0, arg1));
+		QueueSingleEvent(LuaEvent<T0,const char *>(arg0, arg1));
 	}
 	inline void Signal(T0 *arg0, const char *arg1) {
-		EmitSingleEvent(new LuaEvent<T0,const char *>(arg0, arg1));
+		EmitSingleEvent(LuaEvent<T0,const char *>(arg0, arg1));
 	}
 
 protected:
-	inline void PrepareLuaStack(lua_State *l, const LuaEventBase *eb) {
-		const LuaEvent<T0,const char *> *e = static_cast<const LuaEvent<T0,const char *>*>(eb);
-		LuaObject<T0>::PushToLua(e->m_arg0);
-		lua_pushstring(l, e->m_arg1);
+	inline void PrepareLuaStack(lua_State *l, const LuaEventBase &eb) {
+		const LuaEvent<T0,const char *> &e = static_cast<const LuaEvent<T0,const char *>&>(eb);
+		LuaObject<T0>::PushToLua(e.m_arg0);
+		lua_pushstring(l, e.m_arg1);
 	}
 };
 
@@ -133,14 +133,14 @@ public:
 	LuaEventQueue(const char *name) : LuaEventQueueBase(name) { }
 
 	inline void Queue() {
-		QueueSingleEvent(new LuaEvent<void,void>());
+		QueueSingleEvent(LuaEvent<void,void>());
 	}
 	inline void Signal() {
-		EmitSingleEvent(new LuaEvent<void,void>());
+		EmitSingleEvent(LuaEvent<void,void>());
 	}
 
 protected:
-	inline void PrepareLuaStack(lua_State *l, const LuaEventBase *eb) { }
+	inline void PrepareLuaStack(lua_State *l, const LuaEventBase &eb) { }
 };
 
 #endif
