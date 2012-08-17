@@ -7,75 +7,59 @@
 #include "LuaConsole.h"
 #include "StringF.h"
 
-void LuaEventQueueBase::RegisterEventQueue()
-{
-	lua_State *l = Pi::luaManager->GetLuaState();
-
+static void _get_method_onto_stack(lua_State *l, const char *queue, const char *method) {
 	LUA_DEBUG_START(l);
 
-	// get the eventqueue table, or create it if it doesn't exist
-	lua_getglobal(l, "EventQueue");
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		lua_newtable(l);
-		lua_pushvalue(l, -1);
-		lua_setglobal(l, "EventQueue");
-	}
+	int top = lua_gettop(l);
 
-	lua_pushstring(l, m_name);
-	LuaObject<LuaEventQueueBase>::PushToLua(this);
-	lua_rawset(l, -3);
+	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
+	lua_pushstring(l, "EventQueue");
+	lua_rawget(l, -2);
+	lua_pushstring(l, queue);
+	lua_rawget(l, -2);
+	lua_pushstring(l, method);
+	lua_rawget(l, -2);
 
-	lua_pop(l, 1);
+	lua_insert(l, top+1);
+	lua_settop(l, top+1);
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		lua_newtable(l);
-		lua_setfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
-		lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
-	}
-
-	lua_pushstring(l, m_name);
-	lua_newtable(l);
-	lua_rawset(l, -3);
-
-	lua_pop(l, 1);
-
-	LUA_DEBUG_END(l, 0);
+	LUA_DEBUG_END(l, 1);
 }
 
 void LuaEventQueueBase::ClearEvents()
 {
-	while (m_events.size()) {
-		LuaEventBase *e = m_events.front();
-		m_events.pop_front();
-		delete e;
-	}
+	lua_State *l = Pi::luaManager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+	_get_method_onto_stack(l, m_name, "ClearEvents");
+	pi_lua_protected_call(l, 0, 0);
+	LUA_DEBUG_END(l, 0);
 }
 
-inline void LuaEventQueueBase::DoEventCall(lua_State *l, LuaEventBase *e)
+void LuaEventQueueBase::Emit()
 {
-	if (m_debugTimer) {
-		int top = lua_gettop(l);
+	lua_State *l = Pi::luaManager->GetLuaState();
 
-		lua_pushvalue(l, -1);
-		lua_Debug ar;
-		lua_getinfo(l, ">S", &ar);
+	LUA_DEBUG_START(l);
+	_get_method_onto_stack(l, m_name, "Emit");
+	pi_lua_protected_call(l, 0, 0);
+	LUA_DEBUG_END(l, 0);
+}
 
-		PrepareLuaStack(l, e);
+void LuaEventQueueBase::QueueSingleEvent(LuaEventBase *e)
+{
+	lua_State *l = Pi::luaManager->GetLuaState();
 
-		Uint32 start = SDL_GetTicks();
-		pi_lua_protected_call(l, lua_gettop(l) - top, 0);
-		Uint32 end = SDL_GetTicks();
+	LUA_DEBUG_START(l);
+	_get_method_onto_stack(l, m_name, "Queue");
 
-		Pi::luaConsole->AddOutput(stringf("DEBUG: %0 %1{u}ms %2:%3{d}", m_name, end-start, ar.source, ar.linedefined));
-	}
-	else {
-		int top = lua_gettop(l);
-		PrepareLuaStack(l, e);
-		pi_lua_protected_call(l, lua_gettop(l) - top, 0);
-	}
+	int top = lua_gettop(l);
+	PrepareLuaStack(l, e);
+	pi_lua_protected_call(l, lua_gettop(l) - top, 0);
+
+	LUA_DEBUG_END(l, 0);
+	
+	delete e;
 }
 
 void LuaEventQueueBase::EmitSingleEvent(LuaEventBase *e)
@@ -83,52 +67,18 @@ void LuaEventQueueBase::EmitSingleEvent(LuaEventBase *e)
 	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
+	_get_method_onto_stack(l, m_name, "Signal");
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
-	assert(lua_istable(l, -1));
-	lua_getfield(l, -1, m_name);
-	assert(lua_istable(l, -1));
-
-	lua_pushnil(l);
-	while (lua_next(l, -2) != 0)
-		DoEventCall(l, e);
-
-	lua_pop(l, 2);
+	int top = lua_gettop(l);
+	PrepareLuaStack(l, e);
+	pi_lua_protected_call(l, lua_gettop(l) - top, 0);
 
 	LUA_DEBUG_END(l, 0);
-
+	
 	delete e;
 }
 
-void LuaEventQueueBase::Emit()
-{
-	if (!m_events.size()) return;
-
-	lua_State *l = Pi::luaManager->GetLuaState();
-
-	LUA_DEBUG_START(l);
-
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiEventQueue");
-	assert(lua_istable(l, -1));
-	lua_getfield(l, -1, m_name);
-	assert(lua_istable(l, -1));
-
-	while (m_events.size()) {
-		LuaEventBase *e = m_events.front();
-		m_events.pop_front();
-
-		lua_pushnil(l);
-		while (lua_next(l, -2) != 0)
-			DoEventCall(l, e);
-
-		delete e;
-	}
-
-	lua_pop(l, 2);
-
-	LUA_DEBUG_END(l, 0);
-}
-
+#if 0
 /*
  * Class: EventQueue
  *
@@ -797,3 +747,4 @@ template <> void LuaObject<LuaEventQueueBase>::RegisterClass()
 
 	LuaObjectBase::CreateClass(s_type, NULL, l_methods, NULL, NULL);
 }
+#endif

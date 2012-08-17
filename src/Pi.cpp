@@ -207,7 +207,6 @@ static void LuaInit()
 	LuaRand::RegisterClass();
 
 	LuaObject<LuaChatForm>::RegisterClass();
-	LuaObject<LuaEventQueueBase>::RegisterClass();
 
 	Pi::luaSerializer = new LuaSerializer();
 	Pi::luaTimer = new LuaTimer();
@@ -237,29 +236,6 @@ static void LuaInit()
 	Pi::luaOnShipFlavourChanged = new LuaEventQueue<Ship>("onShipFlavourChanged");
 	Pi::luaOnShipEquipmentChanged = new LuaEventQueue<Ship,const char *>("onShipEquipmentChanged");
 	Pi::luaOnShipFuelChanged = new LuaEventQueue<Ship,const char *>("onShipFuelChanged");
-
-	Pi::luaOnGameStart->RegisterEventQueue();
-	Pi::luaOnGameEnd->RegisterEventQueue();
-	Pi::luaOnEnterSystem->RegisterEventQueue();
-	Pi::luaOnLeaveSystem->RegisterEventQueue();
-	Pi::luaOnFrameChanged->RegisterEventQueue();
-	Pi::luaOnShipDestroyed->RegisterEventQueue();
-	Pi::luaOnShipHit->RegisterEventQueue();
-	Pi::luaOnShipCollided->RegisterEventQueue();
-	Pi::luaOnShipDocked->RegisterEventQueue();
-	Pi::luaOnShipLanded->RegisterEventQueue();
-	Pi::luaOnShipTakeOff->RegisterEventQueue();
-	Pi::luaOnShipUndocked->RegisterEventQueue();
-	Pi::luaOnShipAlertChanged->RegisterEventQueue();
-	Pi::luaOnJettison->RegisterEventQueue();
-	Pi::luaOnCargoUnload->RegisterEventQueue();
-	Pi::luaOnAICompleted->RegisterEventQueue();
-	Pi::luaOnCreateBB->RegisterEventQueue();
-	Pi::luaOnUpdateBB->RegisterEventQueue();
-	Pi::luaOnSongFinished->RegisterEventQueue();
-	Pi::luaOnShipFlavourChanged->RegisterEventQueue();
-	Pi::luaOnShipEquipmentChanged->RegisterEventQueue();
-	Pi::luaOnShipFuelChanged->RegisterEventQueue();
 
 	LuaConstants::Register(Pi::luaManager->GetLuaState());
 	LuaLang::Register();

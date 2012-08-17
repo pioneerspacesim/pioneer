@@ -5,8 +5,6 @@
 #include "LuaObject.h"
 #include "DeleteEmitter.h"
 
-#include <list>
-
 class LuaEventBase {
 public:
 	virtual ~LuaEventBase() {}
@@ -49,38 +47,25 @@ public:
 };
 
 
-class LuaEventQueueBase : public DeleteEmitter {
-	friend class LuaObject<LuaEventQueueBase>;
-
+class LuaEventQueueBase {
 public:
-	void RegisterEventQueue();
 	void ClearEvents();
 	void Emit();
 
-	void DebugTimer(bool enabled) { m_debugTimer = enabled; }
-
 protected:
 	LuaEventQueueBase(const char *name) :
-		m_name(name),
-		m_debugTimer(false)
+		m_name(name)
 	{}
 
-	virtual ~LuaEventQueueBase() { ClearEvents(); }
+	virtual ~LuaEventQueueBase() {}
 
+	void QueueSingleEvent(LuaEventBase *e);
 	void EmitSingleEvent(LuaEventBase *e);
 
-	std::list<LuaEventBase*> m_events;
-
 private:
-	static int l_connect(lua_State *l);
-	static int l_disconnect(lua_State *l);
-	static int l_debug_timer(lua_State *l);
-
 	virtual void PrepareLuaStack(lua_State *l, const LuaEventBase *e) = 0;
-	void DoEventCall(lua_State *l, LuaEventBase *e);
 
 	const char *m_name;
-	bool m_debugTimer;
 };
 
 template <typename T0=void, typename T1=void>
@@ -89,7 +74,7 @@ public:
 	LuaEventQueue(const char *name) : LuaEventQueueBase(name) { }
 
 	inline void Queue(T0 *arg0, T1 *arg1) {
-		m_events.push_back(new LuaEvent<T0,T1>(arg0, arg1));
+        QueueSingleEvent(new LuaEvent<T0,T1>(arg0, arg1));
 	}
 	inline void Signal(T0 *arg0, T1 *arg1) {
 		EmitSingleEvent(new LuaEvent<T0,T1>(arg0, arg1));
@@ -109,7 +94,7 @@ public:
 	LuaEventQueue(const char *name) : LuaEventQueueBase(name) { }
 
 	inline void Queue(T0 *arg0) {
-		m_events.push_back(new LuaEvent<T0,void>(arg0));
+		QueueSingleEvent(new LuaEvent<T0,void>(arg0));
 	}
 	inline void Signal(T0 *arg0) {
 		EmitSingleEvent(new LuaEvent<T0,void>(arg0));
@@ -128,7 +113,7 @@ public:
 	LuaEventQueue(const char *name) : LuaEventQueueBase(name) { }
 
 	inline void Queue(T0 *arg0, const char *arg1) {
-		m_events.push_back(new LuaEvent<T0,const char *>(arg0, arg1));
+		QueueSingleEvent(new LuaEvent<T0,const char *>(arg0, arg1));
 	}
 	inline void Signal(T0 *arg0, const char *arg1) {
 		EmitSingleEvent(new LuaEvent<T0,const char *>(arg0, arg1));
@@ -148,7 +133,7 @@ public:
 	LuaEventQueue(const char *name) : LuaEventQueueBase(name) { }
 
 	inline void Queue() {
-		m_events.push_back(new LuaEvent<void,void>());
+		QueueSingleEvent(new LuaEvent<void,void>());
 	}
 	inline void Signal() {
 		EmitSingleEvent(new LuaEvent<void,void>());
