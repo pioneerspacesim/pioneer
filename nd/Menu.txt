@@ -60,7 +60,6 @@ Group: Src  {
    File: Constants  (/home/robn/code/pioneer/src/LuaConstants.cpp)
    File: Engine  (/home/robn/code/pioneer/src/LuaEngine.cpp)
    File: EquipType  (/home/robn/code/pioneer/src/LuaEquipType.cpp)
-   File: EventQueue  (/home/robn/code/pioneer/src/LuaEventQueue.cpp)
    File: Format  (/home/robn/code/pioneer/src/LuaFormat.cpp)
    File: Game  (/home/robn/code/pioneer/src/LuaGame.cpp)
    File: Lang  (/home/robn/code/pioneer/src/LuaLang.cpp)
@@ -79,9 +78,11 @@ Group: Src  {
    File: SystemBody  (/home/robn/code/pioneer/src/LuaSystemBody.cpp)
    File: SystemPath  (/home/robn/code/pioneer/src/LuaSystemPath.cpp)
    File: Timer  (/home/robn/code/pioneer/src/LuaTimer.cpp)
+   File: util  (/home/robn/code/pioneer/src/LuaUtils.cpp)
    }  # Group: Src
 
 File: Character  (no auto-title, /home/robn/code/pioneer/data/libs/Characters.lua)
+File: EventQueue  (/home/robn/code/pioneer/data/libs/00-EventQueue.lua)
 File: FlightLog  (/home/robn/code/pioneer/data/libs/FlightLog.lua)
 File: NameGen  (/home/robn/code/pioneer/data/libs/NameGen.lua)
 File: Translate  (/home/robn/code/pioneer/data/libs/Translate.lua)
