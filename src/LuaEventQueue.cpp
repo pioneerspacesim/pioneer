@@ -15,10 +15,15 @@ static void _get_method_onto_stack(lua_State *l, const char *queue, const char *
 	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 	lua_pushstring(l, "EventQueue");
 	lua_rawget(l, -2);
+	assert(lua_istable(l, -1));
+
 	lua_pushstring(l, queue);
 	lua_rawget(l, -2);
+	assert(lua_istable(l, -1));
+
 	lua_pushstring(l, method);
 	lua_rawget(l, -2);
+	assert(lua_isfunction(l, -1));
 
 	lua_insert(l, top+1);
 	lua_settop(l, top+1);
