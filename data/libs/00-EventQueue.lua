@@ -134,12 +134,43 @@ EventQueue = {
 				do_callback = enabled and do_callback_timed or do_callback_normal
 			end,
 
-			-- XXX document this
+			--
+			-- Method: Queue
+			--
+			-- Push an event onto the queue. The next time <Emit> is called, the
+			-- connected functions will be called with the arguments that were
+			-- passed to <Queue>.
+			--
+			-- > onEvent.Queue(...)
+			--
+			-- Availability:
+			--
+			--   alpha 26
+			--
+			-- Status:
+			--
+			--   experimental
+			--
 			Queue = function (...)
 				table.insert(events, {...})
 			end,
 
-			-- XXX document this
+			--
+			-- Method: Signal
+			--
+			-- Immediately trigger an event. The connected functions will be called with
+			-- the arguments that were passed to <Signal>.
+			--
+			-- > onEvent.Signal(...)
+			--
+			-- Availability:
+			--
+			--   alpha 26
+			--
+			-- Status:
+			--
+			--   experimental
+			--
 			Signal = function (...)
 				local e = {...}
 				for cb,_ in pairs(callbacks) do
@@ -147,7 +178,23 @@ EventQueue = {
 				end
 			end,
 
-			-- XXX document this
+			--
+			-- Method: Emit
+			--
+			-- Distribute all queued events to connected functions. The connected
+			-- functions will be called in no particular order and will each receive
+			-- the parameters that were passed to <Queue>.
+			--
+			-- > onEvent.Emit()
+			--
+			-- Availability:
+			--
+			--   alpha 26
+			--
+			-- Status:
+			--
+			--   experimental
+			--
 			Emit = function ()
 				while #events > 0 do
 					local e = table.remove(events, 1)
@@ -157,7 +204,21 @@ EventQueue = {
 				end
 			end,
 
-			-- XXX document this
+			--
+			-- Method: Clear
+			--
+			-- Delete all queued events.
+			--
+			-- > onEvent.Clear()
+			--
+			-- Availability:
+			--
+			--   alpha 26
+			--
+			-- Status:
+			--
+			--   experimental
+			--
 			Clear = function ()
 				events = {}
 			end,
