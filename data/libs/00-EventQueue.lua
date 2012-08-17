@@ -27,10 +27,27 @@
 --
 EventQueue = {
 	Create = function (name)
+		local on = "on"..name
+
 		local events = {}
 		local callbacks = {}
 
-		EventQueue["on"..name] = {
+		local do_callback_normal = function (cb, e)
+			cb(table.unpack(e))
+		end
+		local do_callback_timed = function (cb, e)
+			local d = debug.getinfo(cb)
+
+			local tstart = Engine.ticks
+			cb(table.unpack(e))
+			local tend = Engine.ticks
+
+			print(string.format("DEBUG: %s %dms %s:%d", on, tend-tstart, d.source, d.linedefined))
+		end
+
+		local do_callback = do_callback_normal
+
+		EventQueue[on] = {
 
 			--
 			-- Method: Connect
@@ -114,7 +131,7 @@ EventQueue = {
 			--   debug
 			--
 			DebugTimer = function (enabled)
-				-- XXX implement this
+				do_callback = enabled and do_callback_timed or do_callback_normal
 			end,
 
 			-- XXX document this
@@ -126,7 +143,7 @@ EventQueue = {
 			Signal = function (...)
 				local e = {...}
 				for cb,_ in pairs(callbacks) do
-					cb(table.unpack(e))
+					do_callback(cb, e)
 				end
 			end,
 
@@ -135,7 +152,7 @@ EventQueue = {
 				while #events > 0 do
 					local e = table.remove(events, 1)
 					for cb,_ in pairs(callbacks) do
-						cb(table.unpack(e))
+						do_callback(cb, e)
 					end
 				end
 			end,
