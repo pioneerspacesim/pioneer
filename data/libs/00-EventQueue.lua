@@ -55,18 +55,18 @@ EventQueue = {
 			-- Connect a function to an event queue. When the queue emits an event, the
 			-- function will be called.
 			--
-			-- > onEvent:Connect(function)
+			-- > onEvent.Connect(function)
 			--
 			-- Parameters:
 			--
 			--   function - function to call when the queue emits an event. The function
-			--			  will recieve a copy of the parameters attached to the event
+			--              will recieve a copy of the parameters attached to the event
 			--
 			--
 			-- Example:
 			--
-			-- > EventQueue.onEnterSystem:Connect(function (ship)
-			-- >	 print("welcome to "..Game.system.name..", "..ship.label)
+			-- > EventQueue.onEnterSystem.Connect(function (ship)
+			-- >     print("welcome to "..Game.system.name..", "..ship.label)
 			-- > end)
 			--
 			-- Availability:
@@ -89,7 +89,7 @@ EventQueue = {
 			--
 			-- If the function is not connected to the queue this method does nothing.
 			--
-			-- > onEvent:Disconnect(function)
+			-- > onEvent.Disconnect(function)
 			--
 			-- Parameters:
 			--
@@ -115,7 +115,7 @@ EventQueue = {
 			-- will display the amount of time that each function attached to this queue
 			-- takes to run.
 			--
-			-- > onEvent:DebugTimer(enabled)
+			-- > onEvent.DebugTimer(enabled)
 			--
 			-- Parameters:
 			--
