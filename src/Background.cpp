@@ -89,16 +89,10 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		renderer->DrawStaticMesh(m_model);
 	} else {
-		/* HYPERSPACING!!!!!!!!!!!!!!!!!!! */
-		/* all this jizz isn't really necessary, since the player will
-		 * be in the root frame when hyperspacing... */
-		//XXX so why is this here if it's not necessary? HELP
-		matrix4x4d m, rot;
-		Frame::GetFrameTransform(Pi::game->GetSpace()->GetRootFrame(), Pi::player->GetFrame(), m);
-		m.ClearToRotOnly();
-		Pi::player->GetRotMatrix(rot);
-		m = rot.InverseOf() * m;
-		vector3d pz(m[2], m[6], m[10]);
+		matrix4x4d m;
+		Pi::player->GetRotMatrix(m);
+		m = m.InverseOf();
+		vector3d pz(m[2], m[6], m[10]); //back vector
 
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
@@ -124,7 +118,7 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 			m_hyperVtx[i*2+1] = v;
 			m_hyperCol[i*2+1] = va->diffuse[i];
 		}
-		Pi::renderer->DrawLines(BG_STAR_MAX*2, m_hyperVtx, m_hyperCol);
+		renderer->DrawLines(BG_STAR_MAX*2, m_hyperVtx, m_hyperCol);
 	}
 }
 
@@ -227,7 +221,7 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) 
 	matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
 	renderer->SetTransform(starTrans);
 	const_cast<Starfield&>(m_starField).Draw(renderer);
-	Pi::renderer->SetDepthTest(true);
+	renderer->SetDepthTest(true);
 	glPopMatrix();
 }
 
