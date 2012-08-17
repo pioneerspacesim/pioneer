@@ -288,26 +288,26 @@ static void LuaUninit() {
 }
 
 static void LuaInitGame() {
-	Pi::luaOnGameStart->ClearEvents();
-	Pi::luaOnGameEnd->ClearEvents();
-	Pi::luaOnFrameChanged->ClearEvents();
-	Pi::luaOnShipDestroyed->ClearEvents();
-	Pi::luaOnShipHit->ClearEvents();
-	Pi::luaOnShipCollided->ClearEvents();
-	Pi::luaOnShipDocked->ClearEvents();
-	Pi::luaOnShipUndocked->ClearEvents();
-	Pi::luaOnShipLanded->ClearEvents();
-	Pi::luaOnShipTakeOff->ClearEvents();
-	Pi::luaOnShipAlertChanged->ClearEvents();
-	Pi::luaOnJettison->ClearEvents();
-	Pi::luaOnCargoUnload->ClearEvents();
-	Pi::luaOnAICompleted->ClearEvents();
-	Pi::luaOnCreateBB->ClearEvents();
-	Pi::luaOnUpdateBB->ClearEvents();
-	Pi::luaOnSongFinished->ClearEvents();
-	Pi::luaOnShipFlavourChanged->ClearEvents();
-	Pi::luaOnShipEquipmentChanged->ClearEvents();
-	Pi::luaOnShipFuelChanged->ClearEvents();
+	Pi::luaOnGameStart->Clear();
+	Pi::luaOnGameEnd->Clear();
+	Pi::luaOnFrameChanged->Clear();
+	Pi::luaOnShipDestroyed->Clear();
+	Pi::luaOnShipHit->Clear();
+	Pi::luaOnShipCollided->Clear();
+	Pi::luaOnShipDocked->Clear();
+	Pi::luaOnShipUndocked->Clear();
+	Pi::luaOnShipLanded->Clear();
+	Pi::luaOnShipTakeOff->Clear();
+	Pi::luaOnShipAlertChanged->Clear();
+	Pi::luaOnJettison->Clear();
+	Pi::luaOnCargoUnload->Clear();
+	Pi::luaOnAICompleted->Clear();
+	Pi::luaOnCreateBB->Clear();
+	Pi::luaOnUpdateBB->Clear();
+	Pi::luaOnSongFinished->Clear();
+	Pi::luaOnShipFlavourChanged->Clear();
+	Pi::luaOnShipEquipmentChanged->Clear();
+	Pi::luaOnShipFuelChanged->Clear();
 }
 
 std::string Pi::GetSaveDir()

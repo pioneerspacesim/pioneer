@@ -31,12 +31,12 @@ static void _get_method_onto_stack(lua_State *l, const char *queue, const char *
 	LUA_DEBUG_END(l, 1);
 }
 
-void LuaEventQueueBase::ClearEvents()
+void LuaEventQueueBase::Clear()
 {
 	lua_State *l = Pi::luaManager->GetLuaState();
 
 	LUA_DEBUG_START(l);
-	_get_method_onto_stack(l, m_name, "ClearEvents");
+	_get_method_onto_stack(l, m_name, "Clear");
 	pi_lua_protected_call(l, 0, 0);
 	LUA_DEBUG_END(l, 0);
 }

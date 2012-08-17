@@ -158,7 +158,7 @@ EventQueue = {
 			end,
 
 			-- XXX document this
-			ClearEvents = function ()
+			Clear = function ()
 				events = {}
 			end,
 		}

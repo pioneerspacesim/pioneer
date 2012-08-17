@@ -49,7 +49,7 @@ public:
 
 class LuaEventQueueBase {
 public:
-	void ClearEvents();
+	void Clear();
 	void Emit();
 
 protected:
