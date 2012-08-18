@@ -130,8 +130,12 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	}
 
 	// generate the ring texture
+	// NOTE: texture width must be > 1 to avoid graphical glitches with Intel GMA 900 systems
+	//       this is something to do with mipmapping (probably mipmap generation going wrong)
+	//       (if the texture is generated without mipmaps then a 1xN texture works)
+	const int RING_TEXTURE_WIDTH = 4;
 	const int RING_TEXTURE_LENGTH = 256;
-	ScopedMalloc<unsigned char> buf(malloc(RING_TEXTURE_LENGTH*4));
+	ScopedMalloc<Uint32> buf(malloc(RING_TEXTURE_WIDTH * RING_TEXTURE_LENGTH * 4));
 
 	const float ringScale = (outer-inner)*sbody->GetRadius() / 1.5e7f;
 
@@ -147,22 +151,30 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 		const float LOG_SCALE = 1.0f/sqrtf(sqrtf(log1pf(1.0f)));
 		const float v = LOG_SCALE*sqrtf(sqrtf(log1pf(n)));
 
-		unsigned char *rgba = buf.Get() + i*4;
+		unsigned char rgba[4];
 		rgba[0] = (v*baseCol.r)*255.0f;
 		rgba[1] = (v*baseCol.g)*255.0f;
 		rgba[2] = (v*baseCol.b)*255.0f;
 		rgba[3] = (((v*0.25f)+0.75f)*baseCol.a)*255.0f;
+		Uint32 colour;
+		memcpy(&colour, rgba, 4);
+
+		Uint32 *row = buf.Get() + i * RING_TEXTURE_WIDTH;
+		for (int j = 0; j < RING_TEXTURE_WIDTH; ++j) {
+			row[j] = colour;
+		}
 	}
 
 	// first and last pixel are forced to zero, to give a slightly smoother ring edge
 	{
-		unsigned char *rgba = buf.Get();
-		rgba[0] = rgba[1] = rgba[2] = rgba[3] = 0;
-		rgba = buf.Get() + (RING_TEXTURE_LENGTH-1)*4;
-		rgba[0] = rgba[1] = rgba[2] = rgba[3] = 0;
+		Uint32* row;
+		row = buf.Get();
+		memset(row, 0, RING_TEXTURE_WIDTH * 4);
+		row = buf.Get() + (RING_TEXTURE_LENGTH - 1) * RING_TEXTURE_WIDTH;
+		memset(row, 0, RING_TEXTURE_WIDTH * 4);
 	}
 
-	const vector2f texSize(1.0f, RING_TEXTURE_LENGTH);
+	const vector2f texSize(RING_TEXTURE_WIDTH, RING_TEXTURE_LENGTH);
 	const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA, texSize, Graphics::LINEAR_REPEAT, true);
 
