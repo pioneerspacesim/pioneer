@@ -126,7 +126,7 @@ local makeAdvert = function (station)
 	local reward = Engine.rand:Number(2100, 7000) * danger
 	local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
 		return (t.hullMass >= (danger * 17)) and (t:GetEquipSlotCapacity('ATMOSHIELD') > 0) end)
-	local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+	local shipname = ShipType.GetShipType(shiptypes[Engine.rand:Integer(1,#shiptypes)]).name
 
 	local ad = {
 		client = client,

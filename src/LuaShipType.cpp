@@ -216,7 +216,7 @@ int l_shiptype_get_equip_slot_capacity(lua_State *l)
  *
  * Example:
  *
- * > local shiptype = ShipType.GetShipType("Eagle Long Range Fighter")
+ * > local shiptype = ShipType.GetShipType("eagle_lrf")
  *
  * Availability:
  *
