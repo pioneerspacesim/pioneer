@@ -2,6 +2,7 @@
 #include "LmrModel.h"
 #include "LuaVector.h"
 #include "LuaUtils.h"
+#include "FileSystem.h"
 #include "utils.h"
 #include "Lang.h"
 
@@ -85,8 +86,13 @@ static void _get_vec_attrib(lua_State *L, const char *key, vector3d &output,
 	LUA_DEBUG_END(L, 0);
 }
 
+static std::string s_currentShipFile;
+
 int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *list)
 {
+	if (s_currentShipFile.empty())
+		return luaL_error(L, "ship file contains multiple ship definitions");
+
 	ShipType s;
 	s.tag = tag;
 
@@ -180,8 +186,15 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 		return luaL_error(L, "Model %s is not defined", s.lmrModelName.c_str());
 	}
 
-	ShipType::types[s.name] = s;
-	list->push_back(s.name);
+	const std::string& id = s_currentShipFile;
+	typedef std::map<ShipType::Type, ShipType>::iterator iter;
+	std::pair<iter, bool> result = ShipType::types.insert(std::make_pair(id, s));
+	if (result.second)
+		list->push_back(s_currentShipFile);
+	else
+		return luaL_error(L, "Ship '%s' was already defined by a different file", id.c_str());
+	s_currentShipFile.clear();
+
 	return 0;
 }
 
@@ -235,9 +248,17 @@ void ShipType::Init()
 	LUA_DEBUG_CHECK(l, 0);
 
 	// load all ship definitions
-	lua_pushstring(l, PIONEER_DATA_DIR);
-	lua_setglobal(l, "CurrentDirectory");
-	pi_lua_dofile_recursive(l, "ships");
+	namespace fs = FileSystem;
+	for (fs::FileEnumerator files(fs::gameDataFiles, "ships", fs::FileEnumerator::Recurse);
+			!files.Finished(); files.Next()) {
+		const fs::FileInfo &info = files.Current();
+		if (ends_with(info.GetPath(), ".lua")) {
+			const std::string name = info.GetName();
+			s_currentShipFile = name.substr(0, name.size()-4);
+			pi_lua_dofile(l, info.GetPath());
+			s_currentShipFile.clear();
+		}
+	}
 
 	LUA_DEBUG_END(l, 0);
 
