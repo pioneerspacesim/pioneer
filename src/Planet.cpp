@@ -8,6 +8,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Texture.h"
 #include "graphics/VertexArray.h"
+#include "Color.h"
 
 #ifdef _MSC_VER
 	#include "win32/WinMath.h"
@@ -135,7 +136,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	//       (if the texture is generated without mipmaps then a 1xN texture works)
 	const int RING_TEXTURE_WIDTH = 4;
 	const int RING_TEXTURE_LENGTH = 256;
-	ScopedMalloc<Uint32> buf(malloc(RING_TEXTURE_WIDTH * RING_TEXTURE_LENGTH * 4));
+	ScopedMalloc<Color4ub> buf(malloc(RING_TEXTURE_WIDTH * RING_TEXTURE_LENGTH * 4));
 
 	const float ringScale = (outer-inner)*sbody->GetRadius() / 1.5e7f;
 
@@ -151,23 +152,21 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 		const float LOG_SCALE = 1.0f/sqrtf(sqrtf(log1pf(1.0f)));
 		const float v = LOG_SCALE*sqrtf(sqrtf(log1pf(n)));
 
-		unsigned char rgba[4];
-		rgba[0] = (v*baseCol.r)*255.0f;
-		rgba[1] = (v*baseCol.g)*255.0f;
-		rgba[2] = (v*baseCol.b)*255.0f;
-		rgba[3] = (((v*0.25f)+0.75f)*baseCol.a)*255.0f;
-		Uint32 colour;
-		memcpy(&colour, rgba, 4);
+		Color4ub color;
+		color.r = (v*baseCol.r)*255.0f;
+		color.g = (v*baseCol.g)*255.0f;
+		color.b = (v*baseCol.b)*255.0f;
+		color.a = (((v*0.25f)+0.75f)*baseCol.a)*255.0f;
 
-		Uint32 *row = buf.Get() + i * RING_TEXTURE_WIDTH;
+		Color4ub *row = buf.Get() + i * RING_TEXTURE_WIDTH;
 		for (int j = 0; j < RING_TEXTURE_WIDTH; ++j) {
-			row[j] = colour;
+			row[j] = color;
 		}
 	}
 
 	// first and last pixel are forced to zero, to give a slightly smoother ring edge
 	{
-		Uint32* row;
+		Color4ub* row;
 		row = buf.Get();
 		memset(row, 0, RING_TEXTURE_WIDTH * 4);
 		row = buf.Get() + (RING_TEXTURE_LENGTH - 1) * RING_TEXTURE_WIDTH;
