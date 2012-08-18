@@ -5,8 +5,9 @@
 
 #include "vector3.h"
 #include "mtrand.h"
-#include "terrain/Terrain.h"
+#include "galaxy/StarSystem.h"
 #include "graphics/Material.h"
+#include "terrain/Terrain.h"
 
 namespace Graphics {
 	class Renderer;
@@ -41,6 +42,7 @@ public:
 	double GetMaxFeatureHeight() const { return m_terrain->GetMaxHeight(); }
 	static int GetVtxGenCount() { return s_vtxGenCount; }
 	static void ClearVtxGenCount() { s_vtxGenCount = 0; }
+
 private:
 	void BuildFirstPatches();
 	GeoPatch *m_patches[6];
@@ -75,6 +77,8 @@ private:
 
 	ScopedPtr<Graphics::Material> m_surfaceMaterial;
 	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
+	//special parameters for shaders
+	SystemBody::AtmosphereParameters m_atmosphereParameters;
 
 	//Shaders - to be moved
 	Graphics::GL2::GeoSphereProgram *m_surfaceShader;

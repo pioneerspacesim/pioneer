@@ -48,6 +48,8 @@ public:
 
 	//in practice disables backface culling
 	bool twoSided;
+
+	void *specialParameter0; //this can be whatever. Bit of a hack.
 };
 
 // Renderer creates a material that best matches these requirements.

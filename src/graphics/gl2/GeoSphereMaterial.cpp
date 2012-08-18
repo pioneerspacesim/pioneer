@@ -1,5 +1,6 @@
 #include "GeoSphereMaterial.h"
 #include "graphics/Graphics.h"
+#include "GeoSphere.h"
 
 namespace Graphics {
 namespace GL2 {
@@ -37,13 +38,36 @@ void GeoSphereProgram::InitUniforms()
 
 Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
-	return 0;
+	return 0; //XXX created in GS.cpp manually
 }
 
 void GeoSphereSurfaceMaterial::Apply()
 {
-	//XXX bit of a hack, since shader is set up in GeoSphere ATM
+	//XXX replace with actual material parameter
 	glMaterialfv (GL_FRONT, GL_EMISSION, &emissive[0]);
+
+	SetGSUniforms();
+}
+
+void GeoSphereSurfaceMaterial::SetGSUniforms()
+{
+	GeoSphereProgram *p = static_cast<GeoSphereProgram*>(m_program);
+	const SystemBody::AtmosphereParameters ap = *static_cast<SystemBody::AtmosphereParameters*>(this->specialParameter0);
+
+	p->Use();
+	p->invLogZfarPlus1.Set(State::m_invLogZfarPlus1);
+	p->atmosColor.Set(ap.atmosCol);
+	p->geosphereAtmosFogDensity.Set(ap.atmosDensity);
+	p->geosphereAtmosInvScaleHeight.Set(ap.atmosInvScaleHeight);
+	p->geosphereAtmosTopRad.Set(ap.atmosRadius);
+	p->geosphereCenter.Set(ap.center);
+	p->geosphereScaledRadius.Set(ap.planetRadius / ap.scale);
+	p->geosphereScale.Set(ap.scale);
+}
+
+void GeoSphereSkyMaterial::Apply()
+{
+	SetGSUniforms();
 }
 
 }

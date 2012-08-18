@@ -31,12 +31,14 @@ namespace Graphics {
 		class GeoSphereSurfaceMaterial : public Material {
 			Program *CreateProgram(const MaterialDescriptor &);
 			virtual void Apply();
-			virtual void Unapply() { }
+
+		protected:
+			void SetGSUniforms();
 		};
 
 		class GeoSphereSkyMaterial : public GeoSphereSurfaceMaterial {
 		public:
-			virtual void Apply() { }
+			virtual void Apply();
 		};
 	}
 }

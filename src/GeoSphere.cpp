@@ -1,6 +1,5 @@
 #include "libs.h"
 #include "GeoSphere.h"
-#include "galaxy/StarSystem.h"
 #include "perlin.h"
 #include "Pi.h"
 #include "RefCounted.h"
@@ -1347,28 +1346,32 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 	if (Graphics::AreShadersEnabled()) {
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
-		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 
-		//XXX no need to calculate every frame
-		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
+		//Update material parameters
+		//XXX no need to calculate AP every frame
+		m_atmosphereParameters = m_sbody->CalcAtmosphereParams();
+		m_atmosphereParameters.center = modelMatrix * vector3d(0.0, 0.0, 0.0);
+		m_atmosphereParameters.planetRadius = radius;
+		m_atmosphereParameters.scale = scale;
 
-		if (ap.atmosDensity > 0.0) {
-			m_atmosphereShader->Use();
-			m_atmosphereShader->SetUniforms(radius, scale, center, ap);
+		m_surfaceMaterial->specialParameter0 = &m_atmosphereParameters;
+		//horrible hax
+		static_cast<Graphics::GL2::GeoSphereSurfaceMaterial*>(m_surfaceMaterial.Get())->SetProgram(m_surfaceShader);
+
+		if (m_atmosphereParameters.atmosDensity > 0.0) {
+			//horrible hax
+			static_cast<Graphics::GL2::GeoSphereSkyMaterial*>(m_atmosphereMaterial.Get())->SetProgram(m_atmosphereShader);
+			m_atmosphereMaterial->specialParameter0 = &m_atmosphereParameters;
 
 			renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 			renderer->SetDepthWrite(false);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, campos, ap.atmosRadius*1.01, m_atmosphereMaterial.Get());
+			DrawAtmosphereSurface(renderer, campos, m_atmosphereParameters.atmosRadius*1.01, m_atmosphereMaterial.Get());
 			renderer->SetDepthWrite(true);
 			renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		}
-
-		//XXX why the flipping heck is this inside a push/popmatrix
-		m_surfaceShader->Use();
-		m_surfaceShader->SetUniforms(radius, scale, center, ap);
 	}
 	glPopMatrix();
 
@@ -1380,7 +1383,6 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 	// save old global ambient
 	// XXX add GetAmbient to renderer or save ambient in scene? (Space)
 	Color oldAmbient = Graphics::State::GetGlobalSceneAmbientColor();
-	//glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
 	if ((m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (m_sbody->type == SystemBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
@@ -1413,9 +1415,6 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 	}
 
 	m_surfaceMaterial->Unapply();
-
-	if (m_surfaceShader)
-		m_surfaceShader->Unuse();
 
 	renderer->SetAmbientColor(oldAmbient);
 

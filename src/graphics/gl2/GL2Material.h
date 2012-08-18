@@ -29,6 +29,7 @@ namespace Graphics {
 			virtual void Apply();
 			virtual void Unapply();
 
+			void SetProgram(Program *p) { m_program = p; } //hack, remove
 		protected:
 			friend class Graphics::RendererGL2;
 			Program *m_program;
