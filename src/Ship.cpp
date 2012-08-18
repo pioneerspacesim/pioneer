@@ -1236,36 +1236,6 @@ bool Ship::SpawnCargo(CargoBody * c_body) const {
 	return true;
 }
 
-bool Ship::Jettison(Equip::Type t)
-{
-	if (m_flightState != FLYING && m_flightState != DOCKED && m_flightState != LANDED) return false;
-	if (t == Equip::NONE) return false;
-	Equip::Slot slot = Equip::types[int(t)].slot;
-	if (m_equipment.Count(slot, t) > 0) {
-		m_equipment.Remove(t, 1);
-		UpdateEquipStats();
-
-		if (m_flightState == FLYING) {
-			CargoBody *cargo = new CargoBody(t);
-			SpawnCargo(cargo);
-
-			Pi::luaOnJettison->Queue(this, cargo);
-		} else if (m_flightState == DOCKED) {
-			// XXX should move the cargo to the station's temporary storage
-			// (can't be recovered at this moment)
-			Pi::luaOnCargoUnload->Queue(GetDockedWith(),
-				LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "EquipType", t));
-		} else { // LANDED
-			// the cargo is lost
-			Pi::luaOnCargoUnload->Queue(GetFrame()->GetBodyFor(),
-				LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "EquipType", t));
-		}
-		return true;
-	} else {
-		return false;
-	}
-}
-
 void Ship::OnEquipmentChange(Equip::Type e)
 {
 	Pi::luaOnShipEquipmentChanged->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "EquipType", e));
