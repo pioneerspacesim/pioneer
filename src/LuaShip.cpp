@@ -808,43 +808,6 @@ static int l_ship_spawn_cargo(lua_State *l) {
 }
 
 /*
- * Method: Jettison
- *
- * Jettison one unit of the given cargo type
- *
- * > success = ship:Jettison(item)
- *
- * On sucessful jettison, the <EventQueue.onJettison> event is triggered.
- *
- * Parameters:
- *
- *   item - the item to jettison
- *
- * Result:
- *
- *   success - true if the item was jettisoned, false if the ship has no items
- *             of that type or the ship is not in open flight
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
- */
-static int l_ship_jettison(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	if (s->GetFlightState() == Ship::HYPERSPACE)
-		return luaL_error(l, "Ship:Jettison() cannot be called on a ship in hyperspace");
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
-
-	lua_pushboolean(l, s->Jettison(e));
-	return 1;
-}
-
-/*
  * Method: GetDockedWith
  *
  * Get the station that the ship is currently docked with
@@ -1458,8 +1421,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetEquipCount",    l_ship_get_equip_count     },
 		{ "GetEquipFree",     l_ship_get_equip_free      },
 
-		{ "Jettison", l_ship_jettison },
-        { "SpawnCargo", l_ship_spawn_cargo },
+		{ "SpawnCargo", l_ship_spawn_cargo },
 
 		{ "FireMissileAt", l_ship_fire_missile_at },
 
