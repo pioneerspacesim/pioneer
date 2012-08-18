@@ -121,15 +121,13 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	const float inner = sbody->m_rings.minRadius.ToFloat();
 	const float outer = sbody->m_rings.maxRadius.ToFloat();
 	int segments = 200;
-	for (int i = 0; i < segments; ++i) {
+	for (int i = 0; i <= segments; ++i) {
 		const float a = (2.0f*float(M_PI)) * (float(i) / float(segments));
 		const float ca = cosf(a);
 		const float sa = sinf(a);
 		m_ringVertices.Add(vector3f(inner*sa, 0.0f, inner*ca), vector2f(float(i), 0.0f));
 		m_ringVertices.Add(vector3f(outer*sa, 0.0f, outer*ca), vector2f(float(i), 1.0f));
 	}
-	m_ringVertices.Add(vector3f(0.0f, 0.0f, inner), vector2f(float(segments), 0.0f));
-	m_ringVertices.Add(vector3f(0.0f, 0.0f, outer), vector2f(float(segments), 1.0f));
 
 	// generate the ring texture
 	const int RING_TEXTURE_LENGTH = 256;
