@@ -290,6 +290,8 @@ pioneer_LDADD += \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 	$(PNG_LIBS)
 
+pioneer_LDFLAGS = -Wl,-Map=pioneer.map
+
 if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
 endif
@@ -331,6 +333,8 @@ modelviewer_LDADD = \
 if !HAVE_LUA
 modelviewer_LDADD += ../contrib/lua/liblua.a
 endif
+
+modelviewer_LDFLAGS = -Wl,-Map=modelviewer.map
 
 check_PROGRAMS = tests
 tests_SOURCES = \

@@ -8,6 +8,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Texture.h"
 #include "graphics/VertexArray.h"
+#include "Color.h"
 
 #ifdef _MSC_VER
 	#include "win32/WinMath.h"
@@ -121,19 +122,21 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	const float inner = sbody->m_rings.minRadius.ToFloat();
 	const float outer = sbody->m_rings.maxRadius.ToFloat();
 	int segments = 200;
-	for (int i = 0; i < segments; ++i) {
+	for (int i = 0; i <= segments; ++i) {
 		const float a = (2.0f*float(M_PI)) * (float(i) / float(segments));
 		const float ca = cosf(a);
 		const float sa = sinf(a);
 		m_ringVertices.Add(vector3f(inner*sa, 0.0f, inner*ca), vector2f(float(i), 0.0f));
 		m_ringVertices.Add(vector3f(outer*sa, 0.0f, outer*ca), vector2f(float(i), 1.0f));
 	}
-	m_ringVertices.Add(vector3f(0.0f, 0.0f, inner), vector2f(float(segments), 0.0f));
-	m_ringVertices.Add(vector3f(0.0f, 0.0f, outer), vector2f(float(segments), 1.0f));
 
 	// generate the ring texture
+	// NOTE: texture width must be > 1 to avoid graphical glitches with Intel GMA 900 systems
+	//       this is something to do with mipmapping (probably mipmap generation going wrong)
+	//       (if the texture is generated without mipmaps then a 1xN texture works)
+	const int RING_TEXTURE_WIDTH = 4;
 	const int RING_TEXTURE_LENGTH = 256;
-	ScopedMalloc<unsigned char> buf(malloc(RING_TEXTURE_LENGTH*4));
+	ScopedMalloc<Color4ub> buf(malloc(RING_TEXTURE_WIDTH * RING_TEXTURE_LENGTH * 4));
 
 	const float ringScale = (outer-inner)*sbody->GetRadius() / 1.5e7f;
 
@@ -149,22 +152,28 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 		const float LOG_SCALE = 1.0f/sqrtf(sqrtf(log1pf(1.0f)));
 		const float v = LOG_SCALE*sqrtf(sqrtf(log1pf(n)));
 
-		unsigned char *rgba = buf.Get() + i*4;
-		rgba[0] = (v*baseCol.r)*255.0f;
-		rgba[1] = (v*baseCol.g)*255.0f;
-		rgba[2] = (v*baseCol.b)*255.0f;
-		rgba[3] = (((v*0.25f)+0.75f)*baseCol.a)*255.0f;
+		Color4ub color;
+		color.r = (v*baseCol.r)*255.0f;
+		color.g = (v*baseCol.g)*255.0f;
+		color.b = (v*baseCol.b)*255.0f;
+		color.a = (((v*0.25f)+0.75f)*baseCol.a)*255.0f;
+
+		Color4ub *row = buf.Get() + i * RING_TEXTURE_WIDTH;
+		for (int j = 0; j < RING_TEXTURE_WIDTH; ++j) {
+			row[j] = color;
+		}
 	}
 
 	// first and last pixel are forced to zero, to give a slightly smoother ring edge
 	{
-		unsigned char *rgba = buf.Get();
-		rgba[0] = rgba[1] = rgba[2] = rgba[3] = 0;
-		rgba = buf.Get() + (RING_TEXTURE_LENGTH-1)*4;
-		rgba[0] = rgba[1] = rgba[2] = rgba[3] = 0;
+		Color4ub* row;
+		row = buf.Get();
+		memset(row, 0, RING_TEXTURE_WIDTH * 4);
+		row = buf.Get() + (RING_TEXTURE_LENGTH - 1) * RING_TEXTURE_WIDTH;
+		memset(row, 0, RING_TEXTURE_WIDTH * 4);
 	}
 
-	const vector2f texSize(1.0f, RING_TEXTURE_LENGTH);
+	const vector2f texSize(RING_TEXTURE_WIDTH, RING_TEXTURE_LENGTH);
 	const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA, texSize, Graphics::LINEAR_REPEAT, true);
 

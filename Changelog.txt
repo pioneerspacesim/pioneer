@@ -1,11 +1,17 @@
 Alpha 26
 
+   * Minor changes and tweaks
+     * Updated station splash advert (#1429)
+
    * Fixes
      * Fix atmospheric pressure calculations (#1431, #1395)
      * Fix lighting glitches in systems with multiple stars (#1430, #1411)
+     * Fix flipped EYE ship texture (#1436)
+     * Fix Caribou laser position (#1435)
+     * Fix broken planet ring textures on Intel GMA 900 chips (#1442, #1439)
 
-   * Minor changes and tweaks
-     * Updated station splash advert (#1429)
+   * Internal changes
+     * Show frame time in the stats overlay (#1437)
 
 Alpha 25
 
