@@ -438,11 +438,12 @@ public:
 	}
 
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
-		int activeLights = 0;
+		int activeLights = 0; //point lights
+		const unsigned int numLights = Graphics::State::GetNumLights(); //directional lights
 		s_numTrisRendered += m_indices.size()/3;
 
 		memset(&s_shaderKey, 0, sizeof(ShaderKey));
-		s_shaderKey.numlights = Graphics::State::GetNumLights();
+		s_shaderKey.numlights = numLights;
 		assert(s_shaderKey.numlights > 0 && s_shaderKey.numlights < 5);
 
 		BindBuffers();
@@ -460,7 +461,6 @@ public:
 						op.elems.texture = Graphics::TextureBuilder::Model(*op.elems.textureFile).GetOrCreateTexture(s_renderer, "model");
 					glActiveTexture(GL_TEXTURE0);
 					glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op.elems.texture)->GetTextureNum());
-					s_shaderKey.texture = true;
 					if (op.elems.glowmapFile) {
 						if (!op.elems.glowmap)
 							op.elems.glowmap = Graphics::TextureBuilder::Model(*op.elems.glowmapFile).GetOrCreateTexture(s_renderer, "model");
@@ -478,15 +478,11 @@ public:
 					glDrawElements(GL_TRIANGLES,
 							op.elems.count, GL_UNSIGNED_SHORT,
 							BUFFER_OFFSET((op.elems.start+m_boIndexBase)*sizeof(Uint16)));
-					//glDrawRangeElements(GL_TRIANGLES, m_boIndexBase + op.elems.elemMin,
-					//		m_boIndexBase + op.elems.elemMax, op.elems.count, GL_UNSIGNED_SHORT,
-					//		BUFFER_OFFSET((op.elems.start+m_boIndexBase)*sizeof(Uint16)));
-				//	glDrawRangeElements(GL_TRIANGLES, op.elems.elemMin, op.elems.elemMax,
-				//		op.elems.count, GL_UNSIGNED_SHORT, BUFFER_OFFSET(op.elems.start*sizeof(Uint16)));
 				} else {
 					// otherwise regular index vertex array
 					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
 				}
+				//unbind textures
 				if (op.elems.texture) {
 					if (op.elems.glowmap) {
 						glActiveTexture(GL_TEXTURE1);
@@ -523,7 +519,7 @@ public:
 					glMaterialfv (GL_FRONT, GL_SPECULAR, m.specular);
 					glMaterialfv (GL_FRONT, GL_EMISSION, m.emissive);
 					glMaterialf (GL_FRONT, GL_SHININESS, m.shininess);
-					if (m.diffuse[3] >= 1.0) {
+					if (m.diffuse[3] > 0.99f) {
 						s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 					} else {
 						s_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
@@ -557,11 +553,12 @@ public:
 				break;
 			case OP_LIGHTING_TYPE:
 				if (op.lighting_type.local) {
+					//disable directional lights
 					glDisable(GL_LIGHT0);
 					glDisable(GL_LIGHT1);
 					glDisable(GL_LIGHT2);
 					glDisable(GL_LIGHT3);
-					float zilch[4] = { 0.0f,0.0f,0.0f,0.0f };
+					const float zilch[4] = { 0.0f,0.0f,0.0f,0.0f };
 					for (int j=4; j<8; j++) {
 						// so why are these set each
 						// time? because the shader
@@ -573,9 +570,8 @@ public:
 					}
 					activeLights = 0;
 				} else {
-					int numLights = Graphics::State::GetNumLights();
-					for (int j=0; j<numLights; j++) glEnable(GL_LIGHT0 + j);
-					for (int j=4; j<8; j++) glDisable(GL_LIGHT0 + j);
+					for (unsigned int j=0; j<numLights; j++) glEnable(GL_LIGHT0 + j);
+					for (unsigned int j=4; j<8; j++) glDisable(GL_LIGHT0 + j);
 					s_shaderKey.numlights = numLights;
 					assert(s_shaderKey.numlights > 0 && s_shaderKey.numlights < 5);
 				}
@@ -591,7 +587,8 @@ public:
 					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_POSITION, l.position);
 					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_DIFFUSE, l.color);
 					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_SPECULAR, l.color);
-					s_shaderKey.numlights++;
+					activeLights++;
+					s_shaderKey.numlights = activeLights;
 					s_shaderKey.pointLighting  = true;
 					if (activeLights > 4) {
 						Error("Too many active lights in model '%s' (maximum 4)", m_model->GetName());
@@ -615,24 +612,18 @@ public:
 	void RenderThrusters(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
 		if (m_thrusters.empty()) return;
 
-		glDisable(GL_LIGHTING);
 		s_renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
 		s_renderer->SetDepthWrite(false);
-		glEnableClientState (GL_VERTEX_ARRAY);
-		glEnableClientState (GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState (GL_NORMAL_ARRAY);
-		glDisable(GL_CULL_FACE);
-		glEnable(GL_TEXTURE_2D);
+		glPushAttrib(GL_ENABLE_BIT);
 		for (unsigned int i=0; i<m_thrusters.size(); i++) {
 			m_thrusters[i].Render(s_renderer, rstate, params);
 		}
-		glDisable(GL_TEXTURE_2D);
-		glColor3f(1.f, 1.f, 1.f);
 		s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		s_renderer->SetDepthWrite(true);
-		glEnable(GL_CULL_FACE);
+		glPopAttrib();
 		glDisableClientState (GL_VERTEX_ARRAY);
 		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState (GL_NORMAL_ARRAY);
 	}
 	void PushThruster(const vector3f &pos, const vector3f &dir, const float power, bool linear_only) {
 		unsigned int i = m_thrusters.size();
@@ -1296,29 +1287,27 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	float pixrad = 0.5f * s_scrWidth * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
 	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
 
-	if (pixrad > 2.f) { //Camera.cpp uses 2px as well
-		int lod = m_numLods-1;
-		for (int i=lod-1; i>=0; i--) {
-			if (pixrad < m_lodPixelSize[i]) lod = i;
-		}
-		//printf("%s: lod %d\n", m_name.c_str(), lod);
-
-		Build(lod, params);
-
-		const vector3f modelRelativeCamPos = trans.InverseOf() * cameraPos;
-
-		//100% fixed function stuff
-		glEnable(GL_NORMALIZE);
-		glEnable(GL_LIGHTING);
-
-		m_staticGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
-		if (m_hasDynamicFunc) {
-			m_dynamicGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
-		}
-		s_curBuf = 0;
-
-		glDisable(GL_NORMALIZE);
+	int lod = m_numLods-1;
+	for (int i=lod-1; i>=0; i--) {
+		if (pixrad < m_lodPixelSize[i]) lod = i;
 	}
+	//printf("%s: lod %d\n", m_name.c_str(), lod);
+
+	Build(lod, params);
+
+	const vector3f modelRelativeCamPos = trans.InverseOf() * cameraPos;
+
+	//100% fixed function stuff
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHTING);
+
+	m_staticGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
+	if (m_hasDynamicFunc) {
+		m_dynamicGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
+	}
+	s_curBuf = 0;
+
+	glDisable(GL_NORMALIZE);
 
 	Graphics::UnbindAllBuffers();
 	//XXX hack. Unuse any shader. Can be removed when LMR uses Renderer.
