@@ -252,6 +252,7 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 	if (numlights < 1) return false;
 
 	m_numLights = numlights;
+	m_numDirLights = 0;
 
 	for (int i=0; i < numlights; i++) {
 		const Light &l = lights[i];
@@ -270,6 +271,8 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 
 		if (l.GetType() == Light::LIGHT_DIRECTIONAL)
 			m_numDirLights++;
+
+		assert(m_numDirLights < 5);
 	}
 	//XXX should probably disable unused lights (for legacy renderer only)
 
