@@ -207,7 +207,6 @@ static void LuaInit()
 	LuaRand::RegisterClass();
 
 	LuaObject<LuaChatForm>::RegisterClass();
-	LuaObject<LuaEventQueueBase>::RegisterClass();
 
 	Pi::luaSerializer = new LuaSerializer();
 	Pi::luaTimer = new LuaTimer();
@@ -237,29 +236,6 @@ static void LuaInit()
 	Pi::luaOnShipFlavourChanged = new LuaEventQueue<Ship>("onShipFlavourChanged");
 	Pi::luaOnShipEquipmentChanged = new LuaEventQueue<Ship,const char *>("onShipEquipmentChanged");
 	Pi::luaOnShipFuelChanged = new LuaEventQueue<Ship,const char *>("onShipFuelChanged");
-
-	Pi::luaOnGameStart->RegisterEventQueue();
-	Pi::luaOnGameEnd->RegisterEventQueue();
-	Pi::luaOnEnterSystem->RegisterEventQueue();
-	Pi::luaOnLeaveSystem->RegisterEventQueue();
-	Pi::luaOnFrameChanged->RegisterEventQueue();
-	Pi::luaOnShipDestroyed->RegisterEventQueue();
-	Pi::luaOnShipHit->RegisterEventQueue();
-	Pi::luaOnShipCollided->RegisterEventQueue();
-	Pi::luaOnShipDocked->RegisterEventQueue();
-	Pi::luaOnShipLanded->RegisterEventQueue();
-	Pi::luaOnShipTakeOff->RegisterEventQueue();
-	Pi::luaOnShipUndocked->RegisterEventQueue();
-	Pi::luaOnShipAlertChanged->RegisterEventQueue();
-	Pi::luaOnJettison->RegisterEventQueue();
-	Pi::luaOnCargoUnload->RegisterEventQueue();
-	Pi::luaOnAICompleted->RegisterEventQueue();
-	Pi::luaOnCreateBB->RegisterEventQueue();
-	Pi::luaOnUpdateBB->RegisterEventQueue();
-	Pi::luaOnSongFinished->RegisterEventQueue();
-	Pi::luaOnShipFlavourChanged->RegisterEventQueue();
-	Pi::luaOnShipEquipmentChanged->RegisterEventQueue();
-	Pi::luaOnShipFuelChanged->RegisterEventQueue();
 
 	LuaConstants::Register(Pi::luaManager->GetLuaState());
 	LuaLang::Register();
@@ -312,26 +288,26 @@ static void LuaUninit() {
 }
 
 static void LuaInitGame() {
-	Pi::luaOnGameStart->ClearEvents();
-	Pi::luaOnGameEnd->ClearEvents();
-	Pi::luaOnFrameChanged->ClearEvents();
-	Pi::luaOnShipDestroyed->ClearEvents();
-	Pi::luaOnShipHit->ClearEvents();
-	Pi::luaOnShipCollided->ClearEvents();
-	Pi::luaOnShipDocked->ClearEvents();
-	Pi::luaOnShipUndocked->ClearEvents();
-	Pi::luaOnShipLanded->ClearEvents();
-	Pi::luaOnShipTakeOff->ClearEvents();
-	Pi::luaOnShipAlertChanged->ClearEvents();
-	Pi::luaOnJettison->ClearEvents();
-	Pi::luaOnCargoUnload->ClearEvents();
-	Pi::luaOnAICompleted->ClearEvents();
-	Pi::luaOnCreateBB->ClearEvents();
-	Pi::luaOnUpdateBB->ClearEvents();
-	Pi::luaOnSongFinished->ClearEvents();
-	Pi::luaOnShipFlavourChanged->ClearEvents();
-	Pi::luaOnShipEquipmentChanged->ClearEvents();
-	Pi::luaOnShipFuelChanged->ClearEvents();
+	Pi::luaOnGameStart->Clear();
+	Pi::luaOnGameEnd->Clear();
+	Pi::luaOnFrameChanged->Clear();
+	Pi::luaOnShipDestroyed->Clear();
+	Pi::luaOnShipHit->Clear();
+	Pi::luaOnShipCollided->Clear();
+	Pi::luaOnShipDocked->Clear();
+	Pi::luaOnShipUndocked->Clear();
+	Pi::luaOnShipLanded->Clear();
+	Pi::luaOnShipTakeOff->Clear();
+	Pi::luaOnShipAlertChanged->Clear();
+	Pi::luaOnJettison->Clear();
+	Pi::luaOnCargoUnload->Clear();
+	Pi::luaOnAICompleted->Clear();
+	Pi::luaOnCreateBB->Clear();
+	Pi::luaOnUpdateBB->Clear();
+	Pi::luaOnSongFinished->Clear();
+	Pi::luaOnShipFlavourChanged->Clear();
+	Pi::luaOnShipEquipmentChanged->Clear();
+	Pi::luaOnShipFuelChanged->Clear();
 }
 
 std::string Pi::GetSaveDir()
@@ -1283,9 +1259,9 @@ void Pi::MainLoop()
 
 			snprintf(
 				fps_readout, sizeof(fps_readout),
-				"%d fps, %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec\n"
+				"%d fps (%.1f ms/f), %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec\n"
 				"Lua mem usage: %d MB + %d KB + %d bytes",
-				frame_stat, phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
+				frame_stat, (1000.0/frame_stat), phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
 				GeoSphere::GetVtxGenCount(), Text::TextureFont::GetGlyphCount(),
 				lua_memMB, lua_memKB, lua_memB
 			);
