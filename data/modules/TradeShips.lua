@@ -515,7 +515,7 @@ local onEnterSystem = function (ship)
 		end
 	end
 end
-EventQueue.onEnterSystem.Connect(onEnterSystem)
+EventQueue.onEnterSystem:Connect(onEnterSystem)
 
 local onLeaveSystem = function (ship)
 	if ship:IsPlayer() then
@@ -546,7 +546,7 @@ local onLeaveSystem = function (ship)
 		spawnReplacement()
 	end
 end
-EventQueue.onLeaveSystem.Connect(onLeaveSystem)
+EventQueue.onLeaveSystem:Connect(onLeaveSystem)
 
 local onFrameChanged = function (ship)
 	if not ship:isa("Ship") or trade_ships[ship] == nil then return end
@@ -561,7 +561,7 @@ local onFrameChanged = function (ship)
 		end
 	end
 end
-EventQueue.onFrameChanged.Connect(onFrameChanged)
+EventQueue.onFrameChanged:Connect(onFrameChanged)
 
 local onShipDocked = function (ship, starport)
 	if trade_ships[ship] == nil then return end
@@ -608,7 +608,7 @@ local onShipDocked = function (ship, starport)
 		Timer:CallAt(trader.delay, function () doUndock(ship) end)
 	end
 end
-EventQueue.onShipDocked.Connect(onShipDocked)
+EventQueue.onShipDocked:Connect(onShipDocked)
 
 local onShipUndocked = function (ship, starport)
 	if trade_ships[ship] == nil then return end
@@ -618,7 +618,7 @@ local onShipUndocked = function (ship, starport)
 
 	trade_ships[ship]['status'] = 'outbound'
 end
-EventQueue.onShipUndocked.Connect(onShipUndocked)
+EventQueue.onShipUndocked:Connect(onShipUndocked)
 
 local onAICompleted = function (ship, ai_error)
 	if trade_ships[ship] == nil then return end
@@ -648,7 +648,7 @@ local onAICompleted = function (ship, ai_error)
 		if ai_error == 'REFUSED_PERM' then doOrbit(ship) end
 	end
 end
-EventQueue.onAICompleted.Connect(onAICompleted)
+EventQueue.onAICompleted:Connect(onAICompleted)
 
 local onShipLanded = function (ship, body)
 	if trade_ships[ship] == nil then return end
@@ -656,7 +656,7 @@ local onShipLanded = function (ship, body)
 
 	doOrbit(ship)
 end
-EventQueue.onShipLanded.Connect(onShipLanded)
+EventQueue.onShipLanded:Connect(onShipLanded)
 
 local onShipAlertChanged = function (ship, alert)
 	if trade_ships[ship] == nil then return end
@@ -686,7 +686,7 @@ local onShipAlertChanged = function (ship, alert)
 		end
 	end
 end
-EventQueue.onShipAlertChanged.Connect(onShipAlertChanged)
+EventQueue.onShipAlertChanged:Connect(onShipAlertChanged)
 
 local onShipHit = function (ship, attacker)
 	-- XXX this whole thing might be better if based on amount of damage sustained
@@ -746,7 +746,7 @@ local onShipHit = function (ship, attacker)
 		end
 	end
 end
-EventQueue.onShipHit.Connect(onShipHit)
+EventQueue.onShipHit:Connect(onShipHit)
 
 local onShipCollided = function (ship, other)
 	if trade_ships[ship] == nil then return end
@@ -760,7 +760,7 @@ local onShipCollided = function (ship, other)
 	-- try to get away from body, onAICompleted will take over if we succeed
 	ship:AIFlyTo(other)
 end
-EventQueue.onShipCollided.Connect(onShipCollided)
+EventQueue.onShipCollided:Connect(onShipCollided)
 
 local onShipDestroyed = function (ship, attacker)
 	if trade_ships[ship] ~= nil then
@@ -799,7 +799,7 @@ local onShipDestroyed = function (ship, attacker)
 		end
 	end
 end
-EventQueue.onShipDestroyed.Connect(onShipDestroyed)
+EventQueue.onShipDestroyed:Connect(onShipDestroyed)
 
 local onGameStart = function ()
 	-- create tables for data on the current system
@@ -861,14 +861,14 @@ local onGameStart = function ()
 		end
 	end
 end
-EventQueue.onGameStart.Connect(onGameStart)
+EventQueue.onGameStart:Connect(onGameStart)
 
 local onGameEnd = function ()
 	-- drop the references for our data so Lua can free them
 	-- and so we can start fresh if the player starts another game
 	trade_ships, system_updated, from_paths, starports, imports, exports = nil, nil, nil, nil, nil, nil
 end
-EventQueue.onGameEnd.Connect(onGameEnd)
+EventQueue.onGameEnd:Connect(onGameEnd)
 
 local serialize = function ()
 	-- all we need to save is trade_ships, the rest can be rebuilt on load

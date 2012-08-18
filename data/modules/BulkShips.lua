@@ -64,7 +64,7 @@ local unserialize = function (data)
 	loaded = true
 end
 
-EventQueue.onEnterSystem.Connect(onEnterSystem)
-EventQueue.onGameStart.Connect(onGameStart)
+EventQueue.onEnterSystem:Connect(onEnterSystem)
+EventQueue.onGameStart:Connect(onGameStart)
 
 Serializer:Register("BulkShips", serialize, unserialize)

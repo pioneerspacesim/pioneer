@@ -55,7 +55,7 @@ EventQueue = {
 			-- Connect a function to an event queue. When the queue emits an event, the
 			-- function will be called.
 			--
-			-- > onEvent.Connect(function)
+			-- > onEvent:Connect(function)
 			--
 			-- Parameters:
 			--
@@ -65,7 +65,7 @@ EventQueue = {
 			--
 			-- Example:
 			--
-			-- > EventQueue.onEnterSystem.Connect(function (ship)
+			-- > EventQueue.onEnterSystem:Connect(function (ship)
 			-- >     print("welcome to "..Game.system.name..", "..ship.label)
 			-- > end)
 			--
@@ -77,7 +77,7 @@ EventQueue = {
 			--
 			--   stable
 			--
-			Connect = function (cb)
+			Connect = function (_, cb)
 				callbacks[cb] = cb
 			end,
 
@@ -89,7 +89,7 @@ EventQueue = {
 			--
 			-- If the function is not connected to the queue this method does nothing.
 			--
-			-- > onEvent.Disconnect(function)
+			-- > onEvent:Disconnect(function)
 			--
 			-- Parameters:
 			--
@@ -104,7 +104,7 @@ EventQueue = {
 			--
 			--   stable
 			--
-			Disconnect = function (cb)
+			Disconnect = function (_, cb)
 				callbacks[cb] = nil
 			end,
 
@@ -115,7 +115,7 @@ EventQueue = {
 			-- will display the amount of time that each function attached to this queue
 			-- takes to run.
 			--
-			-- > onEvent.DebugTimer(enabled)
+			-- > onEvent:DebugTimer(enabled)
 			--
 			-- Parameters:
 			--
@@ -130,7 +130,7 @@ EventQueue = {
 			--
 			--   debug
 			--
-			DebugTimer = function (enabled)
+			DebugTimer = function (_, enabled)
 				do_callback = enabled and do_callback_timed or do_callback_normal
 			end,
 
@@ -141,7 +141,7 @@ EventQueue = {
 			-- connected functions will be called with the arguments that were
 			-- passed to <Queue>.
 			--
-			-- > onEvent.Queue(...)
+			-- > onEvent:Queue(...)
 			--
 			-- Availability:
 			--
@@ -151,7 +151,7 @@ EventQueue = {
 			--
 			--   experimental
 			--
-			Queue = function (...)
+			Queue = function (_, ...)
 				table.insert(events, {...})
 			end,
 
@@ -161,7 +161,7 @@ EventQueue = {
 			-- Immediately trigger an event. The connected functions will be called with
 			-- the arguments that were passed to <Signal>.
 			--
-			-- > onEvent.Signal(...)
+			-- > onEvent:Signal(...)
 			--
 			-- Availability:
 			--
@@ -171,7 +171,7 @@ EventQueue = {
 			--
 			--   experimental
 			--
-			Signal = function (...)
+			Signal = function (_, ...)
 				local e = {...}
 				for cb,_ in pairs(callbacks) do
 					do_callback(cb, e)
@@ -185,7 +185,7 @@ EventQueue = {
 			-- functions will be called in no particular order and will each receive
 			-- the parameters that were passed to <Queue>.
 			--
-			-- > onEvent.Emit()
+			-- > onEvent:Emit()
 			--
 			-- Availability:
 			--
@@ -209,7 +209,7 @@ EventQueue = {
 			--
 			-- Delete all queued events.
 			--
-			-- > onEvent.Clear()
+			-- > onEvent:Clear()
 			--
 			-- Availability:
 			--

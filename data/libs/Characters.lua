@@ -969,5 +969,5 @@ end
 -- > if other_character:TestRoll('geology') then success() end
 --
 
-EventQueue.onGameStart.Connect(onGameStart)
+EventQueue.onGameStart:Connect(onGameStart)
 Serializer:Register("Characters", serialize, unserialize)

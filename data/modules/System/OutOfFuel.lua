@@ -14,4 +14,4 @@ local onShipFuelChanged = function (ship, state)
 	end
 end
 
-EventQueue.onShipFuelChanged.Connect(onShipFuelChanged)
+EventQueue.onShipFuelChanged:Connect(onShipFuelChanged)

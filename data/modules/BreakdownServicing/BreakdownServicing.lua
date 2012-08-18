@@ -205,10 +205,10 @@ local unserialize = function (data)
 	loaded_data = data
 end
 
-EventQueue.onCreateBB.Connect(onCreateBB)
-EventQueue.onGameStart.Connect(onGameStart)
-EventQueue.onShipFlavourChanged.Connect(onShipFlavourChanged)
-EventQueue.onShipEquipmentChanged.Connect(onShipEquipmentChanged)
-EventQueue.onEnterSystem.Connect(onEnterSystem)
+EventQueue.onCreateBB:Connect(onCreateBB)
+EventQueue.onGameStart:Connect(onGameStart)
+EventQueue.onShipFlavourChanged:Connect(onShipFlavourChanged)
+EventQueue.onShipEquipmentChanged:Connect(onShipEquipmentChanged)
+EventQueue.onEnterSystem:Connect(onEnterSystem)
 
 Serializer:Register("BreakdownServicing", serialize, unserialize)

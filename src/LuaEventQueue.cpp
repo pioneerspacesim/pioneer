@@ -59,6 +59,7 @@ void LuaEventQueueBase::QueueSingleEvent(const LuaEventBase &eb)
 	_get_method_onto_stack(l, m_name, "Queue");
 
 	int top = lua_gettop(l);
+	lua_pushnil(l);
 	PrepareLuaStack(l, eb);
 	pi_lua_protected_call(l, lua_gettop(l) - top, 0);
 
@@ -73,6 +74,7 @@ void LuaEventQueueBase::EmitSingleEvent(const LuaEventBase &eb)
 	_get_method_onto_stack(l, m_name, "Signal");
 
 	int top = lua_gettop(l);
+	lua_pushnil(l);
 	PrepareLuaStack(l, eb);
 	pi_lua_protected_call(l, lua_gettop(l) - top, 0);
 

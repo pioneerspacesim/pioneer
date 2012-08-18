@@ -212,7 +212,7 @@ local unserialize = function (data)
 	loaded_data = data
 end
 
-EventQueue.onCreateBB.Connect(onCreateBB)
-EventQueue.onGameStart.Connect(onGameStart)
+EventQueue.onCreateBB:Connect(onCreateBB)
+EventQueue.onGameStart:Connect(onGameStart)
 
 Serializer:Register("FuelClub", serialize, unserialize)
