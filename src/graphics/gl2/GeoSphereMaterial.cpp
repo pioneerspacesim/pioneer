@@ -51,7 +51,7 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	const SystemBody::AtmosphereParameters ap = *static_cast<SystemBody::AtmosphereParameters*>(this->specialParameter0);
 
 	p->Use();
-	p->invLogZfarPlus1.Set(State::m_invLogZfarPlus1);
+	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 	p->sceneAmbient.Set(m_renderer->GetAmbientColor());
 	p->atmosColor.Set(ap.atmosCol);
 	p->geosphereAtmosFogDensity.Set(ap.atmosDensity);

@@ -22,7 +22,7 @@ void RingMaterial::Apply()
 	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_CULL_FACE);
 	m_program->Use();
-	m_program->invLogZfarPlus1.Set(State::m_invLogZfarPlus1);
+	m_program->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 	assert(this->texture0);
 	static_cast<TextureGL*>(texture0)->Bind();
 	m_program->texture0.Set(0);

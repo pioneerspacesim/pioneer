@@ -20,8 +20,9 @@ typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterat
 GL2::MultiProgram *vtxColorProg;
 GL2::MultiProgram *flatColorProg;
 
-RendererGL2::RendererGL2(int w, int h) :
-	RendererLegacy(w, h)
+RendererGL2::RendererGL2(int w, int h)
+: RendererLegacy(w, h)
+, m_invLogZfarPlus1(0.f)
 {
 	//the range is very large due to a "logarithmic z-buffer" trick used
 	//http://outerra.blogspot.com/2009/08/logarithmic-z-buffer.html
@@ -61,7 +62,9 @@ bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, 
 	glFrustum(xmin, xmax, ymin, ymax, near, far);
 
 	// update values for log-z hack
-	Graphics::State::SetZnearZfar(near, far);
+	m_invLogZfarPlus1 = 1.0f / (log(far+1.0f)/log(2.0f));
+	//LMR reads the value from Graphics::State
+	Graphics::State::invLogZfarPlus1 = m_invLogZfarPlus1;
 	return true;
 }
 

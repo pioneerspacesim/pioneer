@@ -98,7 +98,7 @@ void ApplyShader() {
 	if (!p) p = CreateShader(s_shaderKey);
 	assert(p);
 	p->Use();
-	p->invLogZfarPlus1.Set(Graphics::State::m_invLogZfarPlus1);
+	p->invLogZfarPlus1.Set(Graphics::State::invLogZfarPlus1);
 	p->sceneAmbient.Set(s_renderer->GetAmbientColor());
 	p->texture0.Set(0);
 	p->texture1.Set(1);

@@ -2,6 +2,7 @@
 #include "graphics/Material.h"
 #include "graphics/TextureGL.h"
 #include "graphics/Graphics.h"
+#include "graphics/RendererGL2.h"
 #include <sstream>
 
 namespace Graphics {
@@ -32,7 +33,7 @@ void MultiMaterial::Apply()
 {
 	MultiProgram *p = static_cast<MultiProgram*>(m_program);
 	p->Use();
-	p->invLogZfarPlus1.Set(State::m_invLogZfarPlus1);
+	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 	p->diffuse.Set(this->diffuse);
 
 	//set some uniforms

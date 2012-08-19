@@ -14,7 +14,11 @@
 namespace Graphics {
 
 namespace GL2 {
+	class GeoSphereSurfaceMaterial;
+	class GeoSphereSkyMaterial;
+	class MultiMaterial;
 	class Program;
+	class RingMaterial;
 }
 
 class RendererGL2 : public RendererLegacy
@@ -37,7 +41,12 @@ public:
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor);
 
 private:
+	friend class GL2::GeoSphereSurfaceMaterial;
+	friend class GL2::GeoSphereSkyMaterial;
+	friend class GL2::MultiMaterial;
+	friend class GL2::RingMaterial;
 	std::vector<std::pair<MaterialDescriptor, GL2::Program*> > m_programs;
+	float m_invLogZfarPlus1;
 };
 
 }

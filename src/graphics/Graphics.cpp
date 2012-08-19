@@ -15,9 +15,7 @@ bool shadersAvailable = false;
 bool shadersEnabled = false;
 Material *vtxColorMaterial;
 
-float State::m_znear = 10.0f;
-float State::m_zfar = 1e6f;
-float State::m_invLogZfarPlus1;
+float State::invLogZfarPlus1;
 std::vector<Light> State::m_lights;
 
 void BindArrayBuffer(GLuint bo)
