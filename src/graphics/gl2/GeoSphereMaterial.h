@@ -29,7 +29,7 @@ namespace Graphics {
 		};
 
 		class GeoSphereSurfaceMaterial : public Material {
-			Program *CreateProgram(const MaterialDescriptor &);
+			virtual Program *CreateProgram(const MaterialDescriptor &);
 			virtual void Apply();
 
 		protected:
@@ -38,6 +38,7 @@ namespace Graphics {
 
 		class GeoSphereSkyMaterial : public GeoSphereSurfaceMaterial {
 		public:
+			virtual Program *CreateProgram(const MaterialDescriptor &);
 			virtual void Apply();
 		};
 	}

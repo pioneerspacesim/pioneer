@@ -11,7 +11,7 @@ Program *RingMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
 	assert(desc.textures == 1);
 	//pick light count and some defines
-	unsigned int numLights = Clamp(desc.dirLights, 1, 4);
+	unsigned int numLights = Clamp(desc.dirLights, 1u, 4u);
 	std::string defines = stringf("#define NUM_LIGHTS %0{u}\n", numLights);
 	return new Program("planetrings", defines);
 }

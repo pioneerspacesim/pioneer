@@ -1,6 +1,8 @@
 #include "GeoSphereMaterial.h"
 #include "graphics/Graphics.h"
 #include "GeoSphere.h"
+#include "StringF.h"
+#include <sstream>
 
 namespace Graphics {
 namespace GL2 {
@@ -63,6 +65,16 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	p->geosphereCenter.Set(ap.center);
 	p->geosphereScaledRadius.Set(ap.planetRadius / ap.scale);
 	p->geosphereScale.Set(ap.scale);
+}
+
+Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
+{
+	assert(desc.effect == EFFECT_GEOSPHERE_SKY);
+	assert(desc.dirLights > 0 && desc.dirLights < 5);
+	std::stringstream ss;
+	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
+	ss << "#define ATMOSPHERE\n";
+	return new Graphics::GL2::GeoSphereProgram("geosphere_sky", ss.str());
 }
 
 void GeoSphereSkyMaterial::Apply()

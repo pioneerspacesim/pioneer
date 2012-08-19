@@ -82,7 +82,6 @@ private:
 
 	//Shaders - to be moved
 	Graphics::GL2::GeoSphereProgram *m_surfaceShader;
-	Graphics::GL2::GeoSphereProgram *m_atmosphereShader;
 	void SetUpMaterials();
 };
 

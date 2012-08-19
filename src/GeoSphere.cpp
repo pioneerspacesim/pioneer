@@ -30,7 +30,7 @@ static const int detail_edgeLen[5] = {
 
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
-static Graphics::GL2::GeoSphereProgram *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader, *s_geosphereDimStarShader[4];
+static Graphics::GL2::GeoSphereProgram *s_geosphereSurfaceShader[4], *s_geosphereStarShader, *s_geosphereDimStarShader[4];
 
 #pragma pack(4)
 struct VBOVertex
@@ -1062,10 +1062,6 @@ void GeoSphere::Init()
 	s_geosphereSurfaceShader[1] = create_program(false, 2);
 	s_geosphereSurfaceShader[2] = create_program(false, 3);
 	s_geosphereSurfaceShader[3] = create_program(false, 4);
-	s_geosphereSkyShader[0] = create_program(true, 1);
-	s_geosphereSkyShader[1] = create_program(true, 2);
-	s_geosphereSkyShader[2] = create_program(true, 3);
-	s_geosphereSkyShader[3] = create_program(true, 4);
 
 	s_geosphereStarShader = create_program(false, 0);
 
@@ -1102,7 +1098,6 @@ void GeoSphere::Uninit()
 	SDL_DestroyMutex(s_geosphereUpdateQueueLock);
 	for (int i=0; i<4; i++) delete s_geosphereDimStarShader[i];
 	delete s_geosphereStarShader;
-	for (int i=0; i<4; i++) delete s_geosphereSkyShader[i];
 	for (int i=0; i<4; i++) delete s_geosphereSurfaceShader[i];
 }
 
@@ -1168,7 +1163,6 @@ void GeoSphere::OnChangeDetailLevel()
 
 GeoSphere::GeoSphere(const SystemBody *body)
 : m_surfaceShader(0)
-, m_atmosphereShader(0)
 {
 	m_terrain = Terrain::InstanceTerrain(body);
 	print_info(body, m_terrain);
@@ -1359,8 +1353,6 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 		static_cast<Graphics::GL2::GeoSphereSurfaceMaterial*>(m_surfaceMaterial.Get())->SetProgram(m_surfaceShader);
 
 		if (m_atmosphereParameters.atmosDensity > 0.0) {
-			//horrible hax
-			static_cast<Graphics::GL2::GeoSphereSkyMaterial*>(m_atmosphereMaterial.Get())->SetProgram(m_atmosphereShader);
 			m_atmosphereMaterial->specialParameter0 = &m_atmosphereParameters;
 
 			renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
@@ -1456,9 +1448,10 @@ void GeoSphere::SetUpMaterials()
 
 	//Shader-less atmosphere is drawn in Planet
 	if (Graphics::AreShadersEnabled()) {
-		Graphics::MaterialDescriptor desc;
-		desc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
-		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(desc));
+		Graphics::MaterialDescriptor skyDesc;
+		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
+		skyDesc.lighting = true;
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc));
 
 		//Pick an appropriate surface shader - to be moved
 		const unsigned int numLights = Graphics::State::GetNumLights()-1;
@@ -1472,9 +1465,5 @@ void GeoSphere::SetUpMaterials()
 		} else {
 			m_surfaceShader = s_geosphereSurfaceShader[numLights];
 		}
-
-		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
-		if (ap.atmosDensity > 0.0)
-			m_atmosphereShader = s_geosphereSkyShader[numLights];
 	}
 }

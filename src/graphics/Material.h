@@ -62,7 +62,7 @@ public:
 	bool vertexColors;
 	bool twoSided;
 	int textures; //texture count
-	int dirLights;
+	unsigned int dirLights; //set by rendererGL2 if lighting == true
 
 	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
 };

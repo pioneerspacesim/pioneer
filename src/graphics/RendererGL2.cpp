@@ -117,7 +117,7 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 	case EFFECT_STARFIELD:
 		mat = new GL2::StarfieldMaterial();
 		break;
-	case EFFECT_GEOSPHERE_TERRAIN: //these two are dummy materials ATM
+	case EFFECT_GEOSPHERE_TERRAIN:
 		mat = new GL2::GeoSphereSurfaceMaterial();
 		break;
 	case EFFECT_GEOSPHERE_SKY:
