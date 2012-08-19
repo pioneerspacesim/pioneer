@@ -32,6 +32,7 @@ namespace Graphics {
 		protected:
 			friend class Graphics::RendererGL2;
 			Program *m_program;
+			RendererGL2 *m_renderer;
 		};
 	}
 }

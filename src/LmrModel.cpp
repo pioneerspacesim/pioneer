@@ -29,7 +29,9 @@
 #include <sstream>
 #include "StringF.h"
 
-// I forgot how bitfields work. Here's a == version instead.
+static Graphics::Renderer *s_renderer;
+
+// This is used to pick (or create new) a shader for every draw op.
 struct ShaderKey {
 	bool pointLighting; //false = dirlight
 	bool texture;
@@ -97,6 +99,7 @@ void ApplyShader() {
 	assert(p);
 	p->Use();
 	p->invLogZfarPlus1.Set(Graphics::State::m_invLogZfarPlus1);
+	p->sceneAmbient.Set(s_renderer->GetAmbientColor());
 	p->texture0.Set(0);
 	p->texture1.Set(1);
 }
@@ -339,7 +342,6 @@ static lua_State *sLua;
 static int s_numTrisRendered;
 static std::string s_cacheDir;
 static bool s_recompileAllModels = true;
-static Graphics::Renderer *s_renderer;
 
 struct Vertex {
 	Vertex() : v(0.0), n(0.0), tex_u(0.0), tex_v(0.0) {}		// zero this shit to stop denormal-copying on resize

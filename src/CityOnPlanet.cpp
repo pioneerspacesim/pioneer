@@ -291,7 +291,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*double(i));
 	}
 
-	Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
+	const Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
 	//modelview seems to be always identity
 
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
@@ -306,9 +306,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		if (!frustum.TestPoint(pos, (*i).clipRadius))
 			continue;
 
-		Color oldSceneAmbientColor;
-		if (illumination <= minIllumination)
-			oldSceneAmbientColor = Graphics::State::GetGlobalSceneAmbientColor();
+		const Color &oldSceneAmbientColor = r->GetAmbientColor();
 
 		// fade conditions for models
 		double fadeInEnd, fadeInLength;

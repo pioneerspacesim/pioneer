@@ -1,4 +1,14 @@
 #ifdef FRAGMENT_SHADER
+//scene uniform parameters
+struct Scene {
+	vec4 ambient;
+};
+
+//material uniform parameters
+//struct Material {
+//	...
+//};
+
 //Currently used by: planet ring shader, geosphere shaders
 float findSphereEyeRayEntryDistance(in vec3 sphereCenter, in vec3 eyeTo, in float radius)
 {

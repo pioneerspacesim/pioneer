@@ -185,6 +185,7 @@ void Program::InitUniforms()
 	emission.Init("material.emission", m_program);
 	texture0.Init("texture0", m_program);
 	texture1.Init("texture1", m_program);
+	sceneAmbient.Init("scene.ambient", m_program);
 }
 
 } // GL2

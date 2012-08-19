@@ -13,8 +13,6 @@ namespace Graphics {
 		class GeoSphereProgram : public Program {
 		public:
 			GeoSphereProgram(const std::string &filename, const std::string &defines);
-			void SetUniforms(float radius, float scale,
-				const vector3d &center, const SystemBody::AtmosphereParameters &);
 
 			Uniform atmosColor;
 			Uniform geosphereAtmosFogDensity;

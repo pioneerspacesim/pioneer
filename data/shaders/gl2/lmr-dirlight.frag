@@ -7,6 +7,8 @@ uniform sampler2D texture0;
 uniform sampler2D texture1;
 #endif
 
+uniform Scene scene;
+
 void main(void)
 {
 	vec3 tnorm = normalize(norm);
@@ -29,10 +31,10 @@ void main(void)
 #endif
 
 	gl_FragColor =
-		gl_LightModel.ambient * gl_FrontMaterial.ambient +
-		amb * gl_FrontMaterial.ambient +
-		diff * gl_FrontMaterial.diffuse +
-		spec * gl_FrontMaterial.specular +
+		(scene.ambient * gl_FrontMaterial.ambient) +
+		(amb * gl_FrontMaterial.ambient) +
+		(diff * gl_FrontMaterial.diffuse) +
+		(spec * gl_FrontMaterial.specular) +
 		emission;
 	gl_FragColor.w = gl_FrontMaterial.diffuse.w;
 

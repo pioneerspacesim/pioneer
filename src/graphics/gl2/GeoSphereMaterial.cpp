@@ -1,7 +1,8 @@
 #include "GeoSphereMaterial.h"
-#include "graphics/Graphics.h"
 #include "GeoSphere.h"
 #include "StringF.h"
+#include "graphics/Graphics.h"
+#include "graphics/RendererGL2.h"
 #include <sstream>
 
 namespace Graphics {
@@ -11,19 +12,6 @@ GeoSphereProgram::GeoSphereProgram(const std::string &filename, const std::strin
 {
 	LoadShaders(filename, defines);
 	InitUniforms();
-}
-
-void GeoSphereProgram::SetUniforms(float radius, float scale,
-	const vector3d &center, const SystemBody::AtmosphereParameters &ap)
-{
-	invLogZfarPlus1.Set(State::m_invLogZfarPlus1);
-	atmosColor.Set(ap.atmosCol);
-	geosphereAtmosFogDensity.Set(ap.atmosDensity);
-	geosphereAtmosInvScaleHeight.Set(ap.atmosInvScaleHeight);
-	geosphereAtmosTopRad.Set(ap.atmosRadius);
-	geosphereCenter.Set(center);
-	geosphereScaledRadius.Set(radius / scale);
-	geosphereScale.Set(scale);
 }
 
 void GeoSphereProgram::InitUniforms()
@@ -64,6 +52,7 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 
 	p->Use();
 	p->invLogZfarPlus1.Set(State::m_invLogZfarPlus1);
+	p->sceneAmbient.Set(m_renderer->GetAmbientColor());
 	p->atmosColor.Set(ap.atmosCol);
 	p->geosphereAtmosFogDensity.Set(ap.atmosDensity);
 	p->geosphereAtmosInvScaleHeight.Set(ap.atmosInvScaleHeight);

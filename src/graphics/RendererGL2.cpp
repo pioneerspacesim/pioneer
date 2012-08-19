@@ -65,6 +65,12 @@ bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, 
 	return true;
 }
 
+bool RendererGL2::SetAmbientColor(const Color &c)
+{
+	m_ambient = c;
+	return true;
+}
+
 bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineType t)
 {
 	if (count < 2 || !v) return false;
@@ -127,6 +133,8 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 		mat = new GL2::MultiMaterial();
 		mat->twoSided = desc.twoSided; //other mats don't care about this
 	}
+
+	mat->m_renderer = this;
 
 	// Find an existing program...
 	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {

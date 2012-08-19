@@ -1341,8 +1341,8 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 	Color &emission = m_surfaceMaterial->emissive;
 
 	// save old global ambient
-	// XXX add GetAmbient to renderer or save ambient in scene? (Space)
-	Color oldAmbient = Graphics::State::GetGlobalSceneAmbientColor();
+	//XXX could just add to emissive
+	const Color &oldAmbient = renderer->GetAmbientColor();
 
 	if ((m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (m_sbody->type == SystemBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance

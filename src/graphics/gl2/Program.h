@@ -30,6 +30,8 @@ namespace Graphics {
 			Uniform texture0;
 			Uniform texture1;
 
+			Uniform sceneAmbient;
+
 		protected:
 			void LoadShaders(const std::string&, const std::string &defines);
 			virtual void InitUniforms();

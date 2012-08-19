@@ -8,6 +8,8 @@ uniform vec3 geosphereCenter;
 uniform float geosphereAtmosFogDensity;
 uniform float geosphereAtmosInvScaleHeight;
 
+uniform Scene scene;
+
 varying vec3 varyingEyepos;
 varying vec3 varyingNormal;
 varying vec4 vertexColor;
@@ -52,13 +54,13 @@ void main(void)
 	gl_FragColor =
 		gl_FrontMaterial.emission +
 		fogFactor *
-		((gl_LightModel.ambient * vertexColor) +
+		((scene.ambient * vertexColor) +
 		(diff * vertexColor)) +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
 #else // atmosphere-less planetoids and dim stars
 	gl_FragColor =
 		gl_FrontMaterial.emission +
-		(gl_LightModel.ambient * vertexColor) +
+		(scene.ambient * vertexColor) +
 		(diff * vertexColor);
 #endif //ATMOSPHERE
 

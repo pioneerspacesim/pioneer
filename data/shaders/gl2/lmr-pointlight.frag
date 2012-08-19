@@ -8,6 +8,8 @@ uniform sampler2D texture0;
 uniform sampler2D texture1;
 #endif
 
+uniform Scene scene;
+
 #define APPLY_LIGHT(i) \
 	/* direction of maximum highlights */							\
 	/* Compute vector from surface to light position */				\
@@ -77,10 +79,10 @@ void main(void)
 #endif
 
 	gl_FragColor =
-		gl_LightModel.ambient * gl_FrontMaterial.ambient +
-		amb * gl_FrontMaterial.ambient +
-		diff * gl_FrontMaterial.diffuse +
-		spec * gl_FrontMaterial.specular +
+		(scene.ambient * gl_FrontMaterial.ambient) +
+		(amb * gl_FrontMaterial.ambient) +
+		(diff * gl_FrontMaterial.diffuse) +
+		(spec * gl_FrontMaterial.specular) +
 		emission;
 	gl_FragColor.w = gl_FrontMaterial.diffuse.w;
 

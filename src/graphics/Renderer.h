@@ -99,6 +99,7 @@ public:
 
 	virtual bool SetLights(int numlights, const Light *l) { return false; }
 	virtual bool SetAmbientColor(const Color &c) { return false; }
+	const Color &GetAmbientColor() const { return m_ambient; }
 
 	virtual bool SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0) { return false; }
 
@@ -146,6 +147,7 @@ public:
 protected:
 	int m_width;
 	int m_height;
+	Color m_ambient;
 
 	virtual void PushState() = 0;
 	virtual void PopState() = 0;
