@@ -403,16 +403,16 @@ bool RendererLegacy::DrawPoints2D(int count, const vector2f *points, const Color
 	return true;
 }
 
-bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, PrimitiveType t)
+bool RendererLegacy::DrawTriangles(const VertexArray *v, Material *m, PrimitiveType t)
 {
 	if (!v || v->position.size() < 3) return false;
 
-	const_cast<Material*>(m)->Apply();
+	m->Apply();
 	EnableClientStates(v);
 
 	glDrawArrays(t, 0, v->GetNumVerts());
 
-	const_cast<Material*>(m)->Unapply();
+	m->Unapply();
 	DisableClientStates();
 
 	return true;
@@ -436,7 +436,7 @@ bool RendererLegacy::DrawSurface(const Surface *s)
 	return true;
 }
 
-bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, const Material *material, float size)
+bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, Material *material, float size)
 {
 	if (count < 1 || !material || !material->texture0) return false;
 
