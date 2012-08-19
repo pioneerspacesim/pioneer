@@ -40,7 +40,13 @@ void GeoSphereProgram::InitUniforms()
 
 Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
-	return 0; //XXX created in GS.cpp manually
+	assert(desc.effect == EFFECT_GEOSPHERE_TERRAIN);
+	assert(desc.dirLights < 5);
+	std::stringstream ss;
+	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
+	if (desc.atmosphere)
+		ss << "#define ATMOSPHERE\n";
+	return new Graphics::GL2::GeoSphereProgram("geosphere_terrain", ss.str());
 }
 
 void GeoSphereSurfaceMaterial::Apply()

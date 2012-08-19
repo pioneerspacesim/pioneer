@@ -13,6 +13,7 @@ Material::Material() :
 
 MaterialDescriptor::MaterialDescriptor()
 : effect(EFFECT_DEFAULT)
+, atmosphere(false)
 , lighting(false)
 , vertexColors(false)
 , twoSided(false)
@@ -25,6 +26,7 @@ bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
 {
 	return (
 		a.effect == b.effect &&
+		a.atmosphere == b.atmosphere &&
 		a.lighting == b.lighting &&
 		a.vertexColors == b.vertexColors &&
 		a.twoSided == b.twoSided &&

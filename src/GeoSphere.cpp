@@ -27,10 +27,7 @@ static const int detail_edgeLen[5] = {
 	7, 15, 25, 35, 55
 };
 
-
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
-
-static Graphics::GL2::GeoSphereProgram *s_geosphereSurfaceShader[4], *s_geosphereStarShader, *s_geosphereDimStarShader[4];
 
 #pragma pack(4)
 struct VBOVertex
@@ -1045,31 +1042,8 @@ int GeoSphere::UpdateLODThread(void *data)
 	return 0;
 }
 
-static Graphics::GL2::GeoSphereProgram *create_program(bool sky, unsigned int numLights, bool atmosphere = true)
-{
-	assert(numLights < 5);
-	std::stringstream ss;
-	ss << stringf("#define NUM_LIGHTS %0{u}\n", numLights);
-	if (atmosphere)
-		ss << "#define ATMOSPHERE\n";
-
-	return new Graphics::GL2::GeoSphereProgram(sky ? "geosphere_sky" : "geosphere_terrain", ss.str());
-}
-
 void GeoSphere::Init()
 {
-	s_geosphereSurfaceShader[0] = create_program(false, 1);
-	s_geosphereSurfaceShader[1] = create_program(false, 2);
-	s_geosphereSurfaceShader[2] = create_program(false, 3);
-	s_geosphereSurfaceShader[3] = create_program(false, 4);
-
-	s_geosphereStarShader = create_program(false, 0);
-
-	s_geosphereDimStarShader[0] = create_program(false, 1, false);
-	s_geosphereDimStarShader[1] = create_program(false, 2, false);
-	s_geosphereDimStarShader[2] = create_program(false, 3, false);
-	s_geosphereDimStarShader[3] = create_program(false, 4, false); //XXX does this make ever sense - 5 lights?
-
 	s_geosphereUpdateQueueLock = SDL_CreateMutex();
 
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
@@ -1096,9 +1070,6 @@ void GeoSphere::Uninit()
 	s_patchContext.Reset();
 
 	SDL_DestroyMutex(s_geosphereUpdateQueueLock);
-	for (int i=0; i<4; i++) delete s_geosphereDimStarShader[i];
-	delete s_geosphereStarShader;
-	for (int i=0; i<4; i++) delete s_geosphereSurfaceShader[i];
 }
 
 static void print_info(const SystemBody *sbody, const Terrain *terrain)
@@ -1162,7 +1133,6 @@ void GeoSphere::OnChangeDetailLevel()
 #define GEOSPHERE_TYPE	(m_sbody->type)
 
 GeoSphere::GeoSphere(const SystemBody *body)
-: m_surfaceShader(0)
 {
 	m_terrain = Terrain::InstanceTerrain(body);
 	print_info(body, m_terrain);
@@ -1349,8 +1319,6 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 		m_atmosphereParameters.scale = scale;
 
 		m_surfaceMaterial->specialParameter0 = &m_atmosphereParameters;
-		//horrible hax
-		static_cast<Graphics::GL2::GeoSphereSurfaceMaterial*>(m_surfaceMaterial.Get())->SetProgram(m_surfaceShader);
 
 		if (m_atmosphereParameters.atmosDensity > 0.0) {
 			m_atmosphereMaterial->specialParameter0 = &m_atmosphereParameters;
@@ -1436,14 +1404,26 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 
 void GeoSphere::SetUpMaterials()
 {
-	// What to specify:
-	// - effect type: surface or sky
-	// - precense of atmosphere
-	// - lit or unlit (for stars)
-	// - number of lights, although renderer should be smart enough for
-	//   handling light variations
+	// Request material for this star or planet, with or without
+	// atmosphere. Separate material for surface and sky.
 	Graphics::MaterialDescriptor surfDesc;
 	surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
+	if ((m_sbody->type == SystemBody::TYPE_BROWN_DWARF) ||
+		(m_sbody->type == SystemBody::TYPE_STAR_M)) {
+		//dim star (emits and receives light)
+		surfDesc.lighting = true;
+		surfDesc.atmosphere = false;
+	}
+	else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+		//normal star
+		surfDesc.lighting = false;
+		surfDesc.atmosphere = false;
+	} else {
+		//planetoid with or without atmosphere
+		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
+		surfDesc.lighting = true;
+		surfDesc.atmosphere = (ap.atmosDensity > 0.0);
+	}
 	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
 
 	//Shader-less atmosphere is drawn in Planet
@@ -1452,18 +1432,5 @@ void GeoSphere::SetUpMaterials()
 		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		skyDesc.lighting = true;
 		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc));
-
-		//Pick an appropriate surface shader - to be moved
-		const unsigned int numLights = Graphics::State::GetNumLights()-1;
-		assert(numLights >= 0 && numLights <= 4);
-		if ((m_sbody->type == SystemBody::TYPE_BROWN_DWARF) ||
-			(m_sbody->type == SystemBody::TYPE_STAR_M)) {
-			m_surfaceShader = s_geosphereDimStarShader[numLights];
-		}
-		else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
-			m_surfaceShader = s_geosphereStarShader;
-		} else {
-			m_surfaceShader = s_geosphereSurfaceShader[numLights];
-		}
 	}
 }

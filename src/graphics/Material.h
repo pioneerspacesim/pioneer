@@ -58,6 +58,7 @@ class MaterialDescriptor {
 public:
 	MaterialDescriptor();
 	EffectType effect;
+	bool atmosphere;
 	bool lighting;
 	bool vertexColors;
 	bool twoSided;

@@ -9,12 +9,7 @@
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
 
-namespace Graphics {
-	class Renderer;
-	namespace GL2 {
-		class GeoSphereProgram;
-	}
-}
+namespace Graphics { class Renderer; }
 class SystemBody;
 class GeoPatch;
 class GeoPatchContext;
@@ -75,14 +70,11 @@ private:
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
+	void SetUpMaterials();
 	ScopedPtr<Graphics::Material> m_surfaceMaterial;
 	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
 	//special parameters for shaders
 	SystemBody::AtmosphereParameters m_atmosphereParameters;
-
-	//Shaders - to be moved
-	Graphics::GL2::GeoSphereProgram *m_surfaceShader;
-	void SetUpMaterials();
 };
 
 #endif /* _GEOSPHERE_H */
