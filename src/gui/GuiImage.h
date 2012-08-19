@@ -12,6 +12,7 @@ namespace Gui {
 		virtual void Draw();
 		virtual void GetSizeRequested(float size[2]);
 		void SetModulateColor(const Color &color) { m_color = color; }
+		void SetRenderDimensions(const float wide, const float high);
 	private:
 		ScopedPtr<TexturedQuad> m_quad;
 		Color m_color;

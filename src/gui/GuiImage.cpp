@@ -23,6 +23,12 @@ void Image::GetSizeRequested(float size[2])
 	size[1] = m_height;
 }
 
+void Image::SetRenderDimensions(const float wide, const float high)
+{
+	m_width = wide;
+	m_height = high;
+}
+
 void Image::Draw()
 {
 	float allocSize[2];
