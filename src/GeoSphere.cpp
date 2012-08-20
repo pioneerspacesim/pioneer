@@ -2,18 +2,16 @@
 #include "GeoSphere.h"
 #include "perlin.h"
 #include "Pi.h"
-#include "galaxy/StarSystem.h"
 #include "RefCounted.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/VertexArray.h"
-#include "graphics/Shader.h"
+#include "graphics/gl2/GeoSphereMaterial.h"
 #include <deque>
 #include <algorithm>
-
-using namespace Graphics;
+#include <sstream>
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
@@ -29,20 +27,7 @@ static const int detail_edgeLen[5] = {
 	7, 15, 25, 35, 55
 };
 
-
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
-
-SHADER_CLASS_BEGIN(GeosphereShader)
-	SHADER_UNIFORM_VEC4(atmosColor)
-	SHADER_UNIFORM_FLOAT(geosphereScale)
-	SHADER_UNIFORM_FLOAT(geosphereScaledRadius) // (planet radius) / scale
-	SHADER_UNIFORM_FLOAT(geosphereAtmosTopRad) // in planet radii
-	SHADER_UNIFORM_VEC3(geosphereCenter)
-	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
-	SHADER_UNIFORM_FLOAT(geosphereAtmosInvScaleHeight);
-SHADER_CLASS_END()
-
-static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader, *s_geosphereDimStarShader[4];
 
 #pragma pack(4)
 struct VBOVertex
@@ -865,7 +850,7 @@ public:
 		else return e->kids[we_are];
 	}
 
-	void Render(vector3d &campos, const Frustum &frustum) {
+	void Render(vector3d &campos, const Graphics::Frustum &frustum) {
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		if (kids[0]) {
 			for (int i=0; i<4; i++) kids[i]->Render(campos, frustum);
@@ -1059,19 +1044,6 @@ int GeoSphere::UpdateLODThread(void *data)
 
 void GeoSphere::Init()
 {
-	s_geosphereSurfaceShader[0] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 1\n");
-	s_geosphereSurfaceShader[1] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 2\n");
-	s_geosphereSurfaceShader[2] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 3\n");
-	s_geosphereSurfaceShader[3] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 4\n");
-	s_geosphereSkyShader[0] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 1\n");
-	s_geosphereSkyShader[1] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 2\n");
-	s_geosphereSkyShader[2] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 3\n");
-	s_geosphereSkyShader[3] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 4\n");
-	s_geosphereStarShader = new GeosphereShader("geosphere_star");
-	s_geosphereDimStarShader[0] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 1\n");
-	s_geosphereDimStarShader[1] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 2\n");
-	s_geosphereDimStarShader[2] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 3\n");
-	s_geosphereDimStarShader[3] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 4\n");
 	s_geosphereUpdateQueueLock = SDL_CreateMutex();
 
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
@@ -1098,10 +1070,6 @@ void GeoSphere::Uninit()
 	s_patchContext.Reset();
 
 	SDL_DestroyMutex(s_geosphereUpdateQueueLock);
-	for (int i=0; i<4; i++) delete s_geosphereDimStarShader[i];
-	delete s_geosphereStarShader;
-	for (int i=0; i<4; i++) delete s_geosphereSkyShader[i];
-	for (int i=0; i<4; i++) delete s_geosphereSurfaceShader[i];
 }
 
 static void print_info(const SystemBody *sbody, const Terrain *terrain)
@@ -1178,6 +1146,8 @@ GeoSphere::GeoSphere(const SystemBody *body)
 	m_abort = false;
 
 	s_allGeospheres.push_back(this);
+
+	//SetUpMaterials is not called until first Render since light count is zero :)
 }
 
 GeoSphere::~GeoSphere()
@@ -1268,7 +1238,8 @@ void GeoSphere::BuildFirstPatches()
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
 
-static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, float rad, Material *mat)
+static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
+	const vector3d &campos, float rad, Graphics::Material *mat)
 {
 	const int LAT_SEGS = 20;
 	const int LONG_SEGS = 20;
@@ -1296,7 +1267,7 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 	}
 
 	/* Tri-fan above viewer */
-	VertexArray va(ATTRIB_POSITION);
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
 	va.Add(vector3f(0.f, 1.f, 0.f));
 	for (int i=0; i<=LONG_SEGS; i++) {
 		va.Add(vector3f(
@@ -1304,12 +1275,12 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 			cos(latDiff),
 			-sin(latDiff)*sinCosTable[i][1]));
 	}
-	renderer->DrawTriangles(&va, mat, TRIANGLE_FAN);
+	renderer->DrawTriangles(&va, mat, Graphics::TRIANGLE_FAN);
 
 	/* and wound latitudinal strips */
 	double lat = latDiff;
 	for (int j=1; j<LAT_SEGS; j++, lat += latDiff) {
-		VertexArray v(ATTRIB_POSITION);
+		Graphics::VertexArray v(Graphics::ATTRIB_POSITION);
 		float cosLat = cos(lat);
 		float sinLat = sin(lat);
 		float cosLat2 = cos(lat+latDiff);
@@ -1318,95 +1289,69 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 			v.Add(vector3f(sinLat*sinCosTable[i][0], cosLat, -sinLat*sinCosTable[i][1]));
 			v.Add(vector3f(sinLat2*sinCosTable[i][0], cosLat2, -sinLat2*sinCosTable[i][1]));
 		}
-		renderer->DrawTriangles(&v, mat, TRIANGLE_STRIP);
+		renderer->DrawTriangles(&v, mat, Graphics::TRIANGLE_STRIP);
 	}
 
 	glPopMatrix();
 }
 
-void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, const float scale) {
+void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale) {
 	glPushMatrix();
 	glTranslated(-campos.x, -campos.y, -campos.z);
-	Frustum frustum = Frustum::FromGLState();
+	Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
 
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
-	GeosphereShader *shader = 0;
 
-	if (AreShadersEnabled()) {
+	//First draw - create materials (they do not change afterwards)
+	if (!m_surfaceMaterial.Valid())
+		SetUpMaterials();
+
+	if (Graphics::AreShadersEnabled()) {
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
-		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 
-		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
-		
-		if (ap.atmosDensity > 0.0) {
-			shader = s_geosphereSkyShader[Graphics::State::GetNumLights()-1];
-			shader->Use();
-			shader->set_geosphereScale(scale);
-			shader->set_geosphereScaledRadius(radius / scale);
-			shader->set_geosphereAtmosTopRad(ap.atmosRadius);
-			shader->set_geosphereAtmosInvScaleHeight(ap.atmosInvScaleHeight);
-			shader->set_geosphereAtmosFogDensity(ap.atmosDensity);
-			shader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
-			shader->set_geosphereCenter(center.x, center.y, center.z);
+		//Update material parameters
+		//XXX no need to calculate AP every frame
+		m_atmosphereParameters = m_sbody->CalcAtmosphereParams();
+		m_atmosphereParameters.center = modelMatrix * vector3d(0.0, 0.0, 0.0);
+		m_atmosphereParameters.planetRadius = radius;
+		m_atmosphereParameters.scale = scale;
 
-			Material atmoMat;
-			atmoMat.shader = shader;
+		m_surfaceMaterial->specialParameter0 = &m_atmosphereParameters;
 
-			renderer->SetBlendMode(BLEND_ALPHA_ONE);
+		if (m_atmosphereParameters.atmosDensity > 0.0) {
+			m_atmosphereMaterial->specialParameter0 = &m_atmosphereParameters;
+
+			renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 			renderer->SetDepthWrite(false);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, campos, ap.atmosRadius*1.01, &atmoMat);
+			DrawAtmosphereSurface(renderer, campos, m_atmosphereParameters.atmosRadius*1.01, m_atmosphereMaterial.Get());
 			renderer->SetDepthWrite(true);
-			renderer->SetBlendMode(BLEND_SOLID);
-		}
-
-		if ((m_sbody->type == SystemBody::TYPE_BROWN_DWARF) ||
-			(m_sbody->type == SystemBody::TYPE_STAR_M)){
-			shader = s_geosphereDimStarShader[Graphics::State::GetNumLights()-1];
-			shader->Use();
-		}
-		else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
-			shader = s_geosphereStarShader;
-			shader->Use();
-		} else {
-			shader = s_geosphereSurfaceShader[Graphics::State::GetNumLights()-1];
-			shader->Use();
-			shader->set_geosphereScale(scale);
-			shader->set_geosphereScaledRadius(radius / scale);
-			shader->set_geosphereAtmosTopRad(ap.atmosRadius);
-			shader->set_geosphereAtmosInvScaleHeight(ap.atmosInvScaleHeight);
-			shader->set_geosphereAtmosFogDensity(ap.atmosDensity);
-			shader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
-			shader->set_geosphereCenter(center.x, center.y, center.z);
+			renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		}
 	}
 	glPopMatrix();
 
 	if (!m_patches[0]) BuildFirstPatches();
 
-	const float black[4] = { 0,0,0,0 };
 	Color ambient;
-	float emission[4] = { 0,0,0,0 };
+	Color &emission = m_surfaceMaterial->emissive;
 
 	// save old global ambient
-	// XXX add GetAmbient to renderer or save ambient in scene? (Space)
-	Color oldAmbient = Graphics::State::GetGlobalSceneAmbientColor();
-	//glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
-
-	float b = AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
+	//XXX could just add to emissive
+	const Color &oldAmbient = renderer->GetAmbientColor();
 
 	if ((m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (m_sbody->type == SystemBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 0.2f;
 		ambient.a = 1.0f;
-		emission[0] = StarSystem::starRealColors[m_sbody->type][0] * 0.5f * b;
-		emission[1] = StarSystem::starRealColors[m_sbody->type][1] * 0.5f * b;
-		emission[2] = StarSystem::starRealColors[m_sbody->type][2] * 0.5f * b;
-		emission[3] = 0.5f;
+		emission.r = StarSystem::starRealColors[m_sbody->type][0];
+		emission.g = StarSystem::starRealColors[m_sbody->type][1];
+		emission.b = StarSystem::starRealColors[m_sbody->type][2];
+		emission.a = 0.5f; //XXX WTF
 	}
 
 	else {
@@ -1421,19 +1366,16 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	}
 
 	renderer->SetAmbientColor(ambient);
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-	glMaterialfv (GL_FRONT, GL_SPECULAR, black);
-	glMaterialfv (GL_FRONT, GL_EMISSION, emission);
-	glEnable(GL_COLOR_MATERIAL);
+	// this is pretty much the only place where a non-renderer is allowed to call Apply()
+	// to be removed when someone rewrites terrain
+	m_surfaceMaterial->Apply();
 
-//	glLineWidth(1.0);
-//	glPolygonMode(GL_FRONT, GL_LINE);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->Render(campos, frustum);
 	}
-	if (shader) shader->Unuse();
 
-	glDisable(GL_COLOR_MATERIAL);
+	m_surfaceMaterial->Unapply();
+
 	renderer->SetAmbientColor(oldAmbient);
 
 	// if the update thread has deleted any geopatches, destroy the vbos
@@ -1460,3 +1402,35 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 #endif /* !GEOSPHERE_USE_THREADING */
 }
 
+void GeoSphere::SetUpMaterials()
+{
+	// Request material for this star or planet, with or without
+	// atmosphere. Separate material for surface and sky.
+	Graphics::MaterialDescriptor surfDesc;
+	surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
+	if ((m_sbody->type == SystemBody::TYPE_BROWN_DWARF) ||
+		(m_sbody->type == SystemBody::TYPE_STAR_M)) {
+		//dim star (emits and receives light)
+		surfDesc.lighting = true;
+		surfDesc.atmosphere = false;
+	}
+	else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+		//normal star
+		surfDesc.lighting = false;
+		surfDesc.atmosphere = false;
+	} else {
+		//planetoid with or without atmosphere
+		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
+		surfDesc.lighting = true;
+		surfDesc.atmosphere = (ap.atmosDensity > 0.0);
+	}
+	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
+
+	//Shader-less atmosphere is drawn in Planet
+	if (Graphics::AreShadersEnabled()) {
+		Graphics::MaterialDescriptor skyDesc;
+		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
+		skyDesc.lighting = true;
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc));
+	}
+}

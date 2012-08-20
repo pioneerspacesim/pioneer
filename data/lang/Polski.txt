@@ -36,7 +36,7 @@ WELCOME_TO_MARKET
 GO_BACK
     Powrót
 FITTING
-    "Montuje "
+    "Montuję "
 REMOVING
     "Usuwam "
 FIT_TO_WHICH_MOUNT
@@ -58,7 +58,7 @@ SOMEWHERE_SHIP_REPAIRS
 PRICE_TO_FIT
     $ za montaż
 PRICE_TO_REMOVE
-    $ za usuniecie
+    $ za usunięcie
 WT
     Waga
 FIT
@@ -173,7 +173,7 @@ LOAD
 CANCEL
     Wróć
 SELECT_FILENAME_TO_SAVE
-    Wybierz plik do zapisu lub podaj nowa nazwę pliku
+    Wybierz plik do zapisu lub podaj nową nazwę pliku
 CANT_SAVE_IN_HYPERSPACE
 	Nie można zapisać gry w czasie skoku
 GAME_SAVED_TO
@@ -359,7 +359,7 @@ SHIELD_GENERATOR
 X_SHIELD_GENERATORS
     Genaratory Osłon [#0f0 %quantity #fff]
 SHIELD_GENERATOR_DESCRIPTION
-    Zapewnia dodatkowa osłonę kadłuba wraz z dodawaniem kolejnych jednostek.
+    Zapewnia dodatkową osłonę kadłuba wraz z dodawaniem kolejnych jednostek.
 LASER_COOLING_BOOSTER
     Wspomaganie Chłodzenia Lasera
 LASER_COOLING_BOOSTER_DESCRIPTION
@@ -527,7 +527,7 @@ AXIS
 WEAPONS
     Bronie
 TARGET_OBJECT_IN_SIGHTS
-    Zaznacz widoczny objekt
+    Zaznacz widoczny obiekt
 FIRE_LASER
     Strzał lasera
 SHIP_ORIENTATION
@@ -535,7 +535,7 @@ SHIP_ORIENTATION
 PITCH_UP
     Ruch w górę
 PITCH_DOWN
-    Ruch w dól
+    Ruch w dół
 YAW_LEFT
     Odchylenie w lewo
 YAW_RIGHT
@@ -553,7 +553,7 @@ THRUSTER_RETRO
 THRUSTER_VENTRAL
     Ciąg w górę
 THRUSTER_DORSAL
-    Ciąg w dól
+    Ciąg w dół
 THRUSTER_PORT
     Ciąg w lewo
 THRUSTER_STARBOARD
@@ -633,7 +633,7 @@ ALERT_CANCELLED
 SHIP_DETECTED_NEARBY
     Wykryto statek w pobliżu.
 DOWNGRADING_ALERT_STATUS
-    Brak zagrożenia przez 60 sekund, odwołuje alarm.
+    Brak zagrożenia przez 60 sekund, odwołuję alarm.
 LASER_FIRE_DETECTED
     Statek pod ostrzałem!
 SOMEWHERE_POLICE
@@ -743,7 +743,7 @@ YOU_DO_NOT_HAVE_ANY_X
 FRONT_VIEW
     Widok z przodu
 REAR_VIEW
-    Widok z tylu
+    Widok z tyłu
 EXTERNAL_VIEW
     Widok zewnętrzny
 SIDEREAL_VIEW
@@ -887,15 +887,15 @@ ROCKY_PLANET_CONTAINING_COME_LIQUIDS
 WITH_NO_SIGNIFICANT_ATMOSPHERE
      " bez znaczącej atmosfery"
 TENUOUS
-    śladową
+    śladowa
 THIN
     rozrzedzona
 THICK
-    gęstą
+    gęsta
 VERY_DENSE
-    bardzo gęstą
+    bardzo gęsta
 WITH_A
-     " z "
+     ", "
 O2_ATMOSPHERE
      " atmosfera oparta na tlenie"
 CO2_ATMOSPHERE
@@ -911,15 +911,15 @@ HE_ATMOSPHERE
 AR_ATMOSPHERE
      " atmosfera oparta na argonie"
 S_ATMOSPHERE
-     " atmosfera przepełnioną siarka"
+     " atmosfera przepełniona siarką"
 N_ATMOSPHERE
      " atmosfera oparta na azocie"
 AND_HIGHLY_COMPLEX_ECOSYSTEM
-     " i bardzo złożonym ekosystemem."
+     " i bardzo złożony ekosystem."
 AND_INDIGENOUS_PLANT_LIFE
-     " i lokalna roślinnością."
+     " i lokalna roślinność."
 AND_INDIGENOUS_MICROBIAL_LIFE
-     " i lokalnymi mikroorganizmami."
+     " i lokalne mikroorganizmy."
 ORBITAL_STARPORT
     Stacja orbitalna
 STARPORT
@@ -1081,7 +1081,7 @@ SHIP_VELOCITY_BY_REFERENCE_OBJECT
 DISTANCE_FROM_SHIP_TO_NAV_TARGET
     Odległość statku od celu
 SHIP_ALTITUDE_ABOVE_TERRAIN
-    Wysokość statku nad powierzchnia
+    Wysokość statku nad powierzchnią
 EXTERNAL_ATMOSPHERIC_PRESSURE
     Zewnętrzne ciśnienie atmosferyczne
 HULL_TEMP
@@ -1157,7 +1157,7 @@ YOU_NO_MONEY
 FINE_PAID_N_BUT_N_REMAINING
     Zapłaciłeś %paid kary, lecz wciąż jesteś winien %fine.
 FINE_PAID_N
-    Przelełeś na konto policji %fine.
+    Przelałeś na konto policji %fine.
 SET_HYPERSPACE_DESTINATION_TO
     "Ustawiono cel skoku na %system"
 NO_TARGET_SELECTED
@@ -1171,11 +1171,11 @@ PAY_FINE_REMOTELY
 AUTOPILOT_FLY_TO_VICINITY_OF
     Autopilot: Leć w pobliże %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
-    Autopilot: Wejdź na niską orbitę do okoła %target
+    Autopilot: Wejdź na niską orbitę dookoła %target
 AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
-    Autopilot: Wejdź na średnią orbitę do okoła %target
+    Autopilot: Wejdź na średnią orbitę dookoła %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
-    Autopilot: Wejdź na wysoką orbitę do okoła %target
+    Autopilot: Wejdź na wysoką orbitę dookoła %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Analizator chmury nadprzestrzennej: Ustaw cel skoku na miejsce docelowe chmury nadprzestrzennej
 FAILED

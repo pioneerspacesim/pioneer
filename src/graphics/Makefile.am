@@ -14,16 +14,22 @@ noinst_HEADERS = \
 	RendererLegacy.h \
 	Frustum.h \
 	Light.h \
-	Shader.h \
-	MaterialGL2.h \
 	Material.h \
+	MaterialLegacy.h \
 	StaticMesh.h \
 	Surface.h \
 	VertexArray.h \
 	Texture.h \
 	TextureGL.h \
 	TextureBuilder.h \
-	Drawables.h
+	Drawables.h \
+	gl2/GL2Material.h \
+	gl2/GeoSphereMaterial.h \
+	gl2/MultiMaterial.h \
+	gl2/Program.h \
+	gl2/RingMaterial.h \
+	gl2/StarfieldMaterial.h \
+	gl2/Uniform.h
 
 libgraphics_a_SOURCES = \
 	Graphics.cpp \
@@ -32,11 +38,16 @@ libgraphics_a_SOURCES = \
 	RendererLegacy.cpp \
 	Frustum.cpp \
 	Light.cpp \
-	Shader.cpp \
 	Material.cpp \
-	MaterialGL2.cpp \
+	MaterialLegacy.cpp \
 	StaticMesh.cpp \
 	VertexArray.cpp \
 	TextureGL.cpp \
 	TextureBuilder.cpp \
-	Drawables.cpp
+	Drawables.cpp \
+	gl2/GL2Material.cpp \
+	gl2/GeoSphereMaterial.cpp \
+	gl2/MultiMaterial.cpp \
+	gl2/Program.cpp \
+	gl2/RingMaterial.cpp \
+	gl2/Uniform.cpp

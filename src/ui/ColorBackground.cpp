@@ -19,11 +19,14 @@ void ColorBackground::Draw()
 	va.Add(vector3f(size.x, 0,      0));
 	va.Add(vector3f(size.x, size.y, 0));
 
-	Graphics::Material mat;
-	mat.diffuse = m_color;
-	mat.unlit = true;
+	//XXX flat colour material is such a generic case could put the material in Context
+	if(!m_material.Valid()) {
+		Graphics::MaterialDescriptor desc;
+		m_material.Reset(GetContext()->GetRenderer()->CreateMaterial(desc));
+	}
+	m_material->diffuse = m_color;
 
-	GetContext()->GetRenderer()->DrawTriangles(&va, &mat, Graphics::TRIANGLE_STRIP);
+	GetContext()->GetRenderer()->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
 
 	Container::Draw();
 }

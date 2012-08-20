@@ -3,6 +3,7 @@
 
 #include "Single.h"
 #include "Color.h"
+#include "graphics/Material.h"
 
 namespace UI {
 
@@ -18,6 +19,7 @@ protected:
 
 private:
 	Color m_color;
+	ScopedPtr<Graphics::Material> m_material;
 };
 
 }

@@ -28,12 +28,13 @@ Projectile::Projectile(): Body()
 	m_flags |= FLAG_DRAW_LAST;
 
 	//set up materials
-	m_sideMat.texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
-	m_sideMat.unlit = true;
-	m_sideMat.twoSided = true;
-	m_glowMat.texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
-	m_glowMat.unlit = true;
-	m_glowMat.twoSided = true;
+	Graphics::MaterialDescriptor desc;
+	desc.textures = 1;
+	desc.twoSided = true;
+	m_sideMat.Reset(Pi::renderer->CreateMaterial(desc));
+	m_glowMat.Reset(Pi::renderer->CreateMaterial(desc));
+	m_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
+	m_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
 
 	//zero at projectile position
 	//+x down
@@ -277,8 +278,8 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(view_dir)), length));
 
 	if (color.a > 0.01f) {
-		m_sideMat.diffuse = color;
-		renderer->DrawTriangles(m_sideVerts.Get(), &m_sideMat);
+		m_sideMat->diffuse = color;
+		renderer->DrawTriangles(m_sideVerts.Get(), m_sideMat.Get());
 	}
 
 	// fade out glow quads when viewing nearly edge on
@@ -287,8 +288,8 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	color.a = base_alpha * powf(fabs(dir.Dot(view_dir)), width);
 
 	if (color.a > 0.01f) {
-		m_glowMat.diffuse = color;
-		renderer->DrawTriangles(m_glowVerts.Get(), &m_glowMat);
+		m_glowMat->diffuse = color;
+		renderer->DrawTriangles(m_glowVerts.Get(), m_glowMat.Get());
 	}
 
 	glPopMatrix();

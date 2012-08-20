@@ -1,13 +1,14 @@
 #ifndef _RENDERER_LEGACY_H
 #define _RENDERER_LEGACY_H
-
+/*
+ * Fixed function renderer (GL1.5 approx)
+ */
 #include "Renderer.h"
 
 namespace Graphics {
 
 class Texture;
 
-// Fixed function renderer
 class RendererLegacy : public Renderer
 {
 public:
@@ -47,13 +48,13 @@ public:
 	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, LineType type=LINE_SINGLE);
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, float pointSize=1.f);
 	virtual bool DrawPoints2D(int count, const vector2f *points, const Color *colors, float pointSize=1.f);
-	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
+	virtual bool DrawTriangles(const VertexArray *vertices, Material *material, PrimitiveType type=TRIANGLES);
 	virtual bool DrawSurface(const Surface *surface);
-	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size);
+	virtual bool DrawPointSprites(int count, const vector3f *positions, Material *material, float size);
 	virtual bool DrawStaticMesh(StaticMesh *thing);
 
-	virtual Texture *CreateTexture(const TextureDescriptor &descriptor);
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor);
+	virtual Texture *CreateTexture(const TextureDescriptor &descriptor);
 
 	virtual bool PrintDebugInfo(std::ostream &out);
 
@@ -61,14 +62,13 @@ protected:
 	virtual void PushState();
 	virtual void PopState();
 
-	virtual void ApplyMaterial(const Material *mat);
-	virtual void UnApplyMaterial(const Material *mat);
 	//figure out states from a vertex array and enable them
 	//also sets vertex pointers
 	virtual void EnableClientStates(const VertexArray *v);
 	//disable previously enabled
 	virtual void DisableClientStates();
 	int m_numLights;
+	int m_numDirLights;
 	std::vector<GLenum> m_clientStates;
 	virtual bool BufferStaticMesh(StaticMesh *m);
 	float m_minZNear;

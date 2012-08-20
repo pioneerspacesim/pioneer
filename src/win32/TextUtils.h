@@ -1,7 +1,7 @@
-#ifdef _WIN32
-
 #ifndef _WIN32_TEXTUTILS_H
 #define _WIN32_TEXTUTILS_H
+
+#include "Win32Setup.h"
 
 #include <windows.h>
 
@@ -34,5 +34,3 @@ static std::string transcode_utf16_to_utf8(const std::wstring &s)
 }
 
 #endif // _WIN32_TEXTUTILS_H
-
-#endif // _WIN32

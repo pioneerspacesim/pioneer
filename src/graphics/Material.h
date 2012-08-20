@@ -1,36 +1,55 @@
 #ifndef _MATERIAL_H
 #define _MATERIAL_H
-
+/*
+ * Materials are used to apply an appropriate shader and other rendering parameters.
+ * Users request materials from the renderer by filling a MaterialDescriptor structure,
+ * and calling Renderer::CreateMaterial.
+ * Users are responsible for deleting a material they have requested. This is because materials
+ * are rarely shareable.
+ * Material::Apply is called by renderer before drawing, and Unapply after drawing (to restore state).
+ * For the GL2 renderer, a Material is always accompanied by a Program.
+ */
 #include "libs.h"
 #include <RefCounted.h>
 
 namespace Graphics {
 
 class Texture;
-class Shader;
 
+// Shorthand for unique effects
+// The other descriptor parameters may or may not have effect,
+// depends on the effect
+enum EffectType {
+	EFFECT_DEFAULT,
+	EFFECT_STARFIELD,
+	EFFECT_PLANETRING,
+	EFFECT_GEOSPHERE_TERRAIN,
+	EFFECT_GEOSPHERE_SKY
+};
+
+// Renderer creates a material that best matches these requirements.
+// EffectType may override some of the other flags.
 class MaterialDescriptor {
 public:
-	bool glowMap;
-	bool specularMap;
-	bool usePatterns; //colour customization system
-	bool alphaTest;
-
 	MaterialDescriptor();
+	EffectType effect;
+	bool alphaTest;
+	bool atmosphere;
+	bool glowMap;
+	bool lighting;
+	bool specularMap;
+	bool twoSided;
+	bool usePatterns; //pattern/color system
+	bool vertexColors;
+	int textures; //texture count
+	unsigned int dirLights; //set by rendererGL2 if lighting == true
 
 	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
 };
 
 /*
- * Materials define shading parameters. For example, when you
- * want to draw unlit geometry, define a material with the
- * 'unlit' flag set.
- * It is possible to override the shader choice with the
- * shader parameter (this is a hack, since Render::Shader is GL2 specific)
+ * A generic material with some generic parameters.
  */
-//XXX I think renderer::RequestMaterial(...), renderer->RequestRenderTarget(...) style
-//style approach would be better, but not doing that yet so objects don't need knowledge
-//of renderer outside their Render() method.
 class Material : public RefCounted {
 public:
 	Material();
@@ -41,28 +60,24 @@ public:
 	Texture *texture2;
 	Texture *texture3;
 	Texture *texture4;
+
 	Color diffuse;
-	//Color ambient;
 	Color specular;
 	Color emissive;
-	int shininess;
+	int shininess; //specular power
 
-	//etc. Implement stuff when you need it, and also support
-	//in renderers
+	virtual void Apply() { }
+	virtual void Unapply() { }
 
-	//this could be replaced with shade model: flat, phong etc.
-	bool unlit;
 	//in practice disables backface culling
 	bool twoSided;
-	// ignore material color and use vertex colors instead
-	bool vertexColors;
 
-	//custom glsl prog
-	Shader *shader;
+	void *specialParameter0; //this can be whatever. Bit of a hack.
 
-	bool newStyleHack; //material will be requested with Renderer::CreateMaterial(desciptor)
-	const MaterialDescriptor &GetDescriptor() const { return descriptor; }
-	MaterialDescriptor descriptor;
+	const MaterialDescriptor &GetDescriptor() const { return m_descriptor; } //XXX may not be necessary
+
+private:
+	MaterialDescriptor m_descriptor;
 };
 
 }

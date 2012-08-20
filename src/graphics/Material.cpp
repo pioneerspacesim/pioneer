@@ -8,33 +8,44 @@ Material::Material() :
 	texture2(0),
 	texture3(0),
 	texture4(0),
-	diffuse(1.f),
-	specular(0.f),
-	emissive(0.f),
-	shininess(200.0),
-	unlit(false),
+	diffuse(Color::WHITE),
+	specular(Color::BLACK),
+	emissive(Color::BLACK),
+	shininess(100.0), //somewhat sharp
 	twoSided(false),
-	vertexColors(false),
-	shader(0),
-	newStyleHack(false)
+	specialParameter0(0)
 {
 }
 
 MaterialDescriptor::MaterialDescriptor()
-: glowMap(false)
-, specularMap(false)
-, usePatterns(false)
+: effect(EFFECT_DEFAULT)
 , alphaTest(false)
+, atmosphere(false)
+, glowMap(false)
+, lighting(false)
+, specularMap(false)
+, twoSided(false)
+, usePatterns(false)
+, vertexColors(false)
+, textures(0)
+, dirLights(0)
 {
 }
 
 bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
 {
 	return (
-		a.usePatterns == b.usePatterns
-		&& a.glowMap == b.glowMap
-		&& a.specularMap == b.specularMap
-		&& a.alphaTest == b.alphaTest
+		a.effect == b.effect &&
+		a.alphaTest == b.alphaTest &&
+		a.atmosphere == b.atmosphere &&
+		a.glowMap == b.glowMap &&
+		a.lighting == b.lighting &&
+		a.specularMap == b.specularMap &&
+		a.twoSided == b.twoSided &&
+		a.usePatterns == b.usePatterns &&
+		a.vertexColors == b.vertexColors &&
+		a.textures == b.textures &&
+		a.dirLights == b.dirLights
 	);
 }
 

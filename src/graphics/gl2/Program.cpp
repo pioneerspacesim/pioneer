@@ -1,0 +1,193 @@
+#include "Program.h"
+#include "FileSystem.h"
+#include "StringRange.h"
+#include "StringF.h"
+#include "OS.h"
+#include "graphics/Graphics.h"
+
+namespace Graphics {
+
+namespace GL2 {
+
+static const char *s_glslVersion = "#version 120\n";
+
+// Check and warn about compile & link errors
+static bool check_glsl_errors(const char *filename, GLuint obj)
+{
+	//check if shader or program
+	bool isShader = (glIsShader(obj) == GL_TRUE);
+
+	int infologLength = 0;
+	char infoLog[1024];
+
+	if (isShader)
+		glGetShaderInfoLog(obj, 1024, &infologLength, infoLog);
+	else
+		glGetProgramInfoLog(obj, 1024, &infologLength, infoLog);
+
+	GLint status;
+	if (isShader)
+		glGetShaderiv(obj, GL_COMPILE_STATUS, &status);
+	else
+		glGetProgramiv(obj, GL_LINK_STATUS, &status);
+
+	if (status == GL_FALSE) {
+#ifndef NDEBUG
+		OS::Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
+			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+#else
+		OS::Warning("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s\n\nS"
+			"Pioneer will not work as intended. Try disabling shaders in the options or the config file.\n",
+			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+#endif
+		shadersAvailable = false;
+		shadersEnabled = false;
+		return false;
+	}
+
+	// Log warnings even if successfully compiled
+	// Sometimes the log is full of junk "success" messages so
+	// this is not a good use for OS::Warning
+#ifndef NDEBUG
+	if (infologLength > 0) {
+		if (pi_strcasestr("infoLog", "warning"))
+			fprintf(stderr, "%s: %s", filename, infoLog);
+	}
+#endif
+
+	return true;
+}
+
+struct Shader {
+	Shader(GLenum type, const std::string &filename, const std::string &defines) {
+		RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(filename);
+
+		if (!code)
+			OS::Error("Could not load %s", filename.c_str());
+
+		// Load some common code
+		RefCountedPtr<FileSystem::FileData> logzCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/logz.glsl");
+		assert(logzCode);
+		RefCountedPtr<FileSystem::FileData> libsCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/lib.glsl");
+		assert(libsCode);
+
+		AppendSource(s_glslVersion);
+		AppendSource(defines.c_str());
+		if (type == GL_VERTEX_SHADER)
+			AppendSource("#define VERTEX_SHADER\n");
+		else
+			AppendSource("#define FRAGMENT_SHADER\n");
+		AppendSource(logzCode->AsStringRange());
+		AppendSource(libsCode->AsStringRange());
+		AppendSource(code->AsStringRange());
+		shader = glCreateShader(type);
+		Compile(shader);
+
+		// CheckGLSL may use OS::Warning instead of OS::Error so the game may still (attempt to) run
+		if (!check_glsl_errors(filename.c_str(), shader))
+			throw ShaderException();
+	};
+
+	~Shader() {
+		glDeleteShader(shader);
+	}
+
+	GLuint shader;
+
+private:
+	void AppendSource(const char *str)
+	{
+		blocks.push_back(str);
+		block_sizes.push_back(std::strlen(str));
+	}
+
+	void AppendSource(StringRange str)
+	{
+		blocks.push_back(str.begin);
+		block_sizes.push_back(str.Size());
+	}
+
+	void Compile(GLuint shader_id)
+	{
+		assert(blocks.size() == block_sizes.size());
+		glShaderSource(shader_id, blocks.size(), &blocks[0], &block_sizes[0]);
+		glCompileShader(shader_id);
+	}
+
+	std::vector<const char*> blocks;
+	std::vector<GLint> block_sizes;
+};
+
+Program::Program()
+: m_name("")
+, m_defines("")
+, m_program(0)
+{
+}
+
+Program::Program(const std::string &name, const std::string &defines)
+: m_name(name)
+, m_defines(defines)
+, m_program(0)
+{
+	LoadShaders(name, defines);
+	InitUniforms();
+}
+
+Program::~Program()
+{
+	glDeleteProgram(m_program);
+}
+
+void Program::Reload()
+{
+	Unuse();
+	glDeleteProgram(m_program);
+	LoadShaders(m_name, m_defines);
+	InitUniforms();
+}
+
+void Program::Use()
+{
+	glUseProgram(m_program);
+}
+
+void Program::Unuse()
+{
+	glUseProgram(0);
+}
+
+//load, compile and link
+void Program::LoadShaders(const std::string &name, const std::string &defines)
+{
+	const std::string filename = std::string("shaders/gl2/") + name;
+
+	//load, create and compile shaders
+	Shader vs(GL_VERTEX_SHADER, filename + ".vert", defines);
+	Shader fs(GL_FRAGMENT_SHADER, filename + ".frag", defines);
+
+	//create program, attach shaders and link
+	m_program = glCreateProgram();
+	glAttachShader(m_program, vs.shader);
+	glAttachShader(m_program, fs.shader);
+	glLinkProgram(m_program);
+
+	check_glsl_errors(name.c_str(), m_program);
+
+	//shaders may now be deleted
+}
+
+void Program::InitUniforms()
+{
+	//Init generic uniforms, like matrices
+	invLogZfarPlus1.Init("invLogZfarPlus1", m_program);
+	diffuse.Init("material.diffuse", m_program);
+	emission.Init("material.emission", m_program);
+	texture0.Init("texture0", m_program);
+	texture1.Init("texture1", m_program);
+	sceneAmbient.Init("scene.ambient", m_program);
+}
+
+} // GL2
+
+} // Graphics

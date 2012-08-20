@@ -17,7 +17,6 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/Shader.h"
 #include "graphics/TextureBuilder.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
@@ -1194,7 +1193,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	}
 
 	if (m_ecmRecharge > 0.0f) {
-		// pish effect
+		// ECM effect: a cloud of particles for a sparkly effect
 		vector3f v[100];
 		for (int i=0; i<100; i++) {
 			const double r1 = Pi::rng.Double()-0.5;
@@ -1212,12 +1211,8 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 			c.a = m_ecmRecharge / totalRechargeTime;
 		}
 
-		// XXX no need to recreate material every time
-		Graphics::Material mat;
-		mat.texture0 = Graphics::TextureBuilder::Model("textures/ecm.png").GetOrCreateTexture(Pi::renderer, "model");
-		mat.unlit = true;
-		mat.diffuse = c;
-		renderer->DrawPointSprites(100, v, &mat, 50.f);
+		Sfx::ecmParticle->diffuse = c;
+		renderer->DrawPointSprites(100, v, Sfx::ecmParticle, 50.f);
 	}
 }
 

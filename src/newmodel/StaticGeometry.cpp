@@ -1,5 +1,6 @@
 #include "StaticGeometry.h"
 #include "NodeVisitor.h"
+#include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/Surface.h"
 #include "graphics/Material.h"
@@ -58,9 +59,8 @@ void StaticGeometry::DrawBoundingBox(Graphics::Renderer *r, const Aabb &bb)
 	vts->Add(rbl, c); //6
 	vts->Add(rbr, c); //7
 
-	RefCountedPtr<Graphics::Material> mat(new Graphics::Material);
-	mat->unlit = true;
-	//mat->twoSided = true;
+	RefCountedPtr<Graphics::Material> mat;
+	mat.Reset(Graphics::vtxColorMaterial);
 	Graphics::Surface surf(Graphics::TRIANGLES, vts, mat);
 
 	//indices

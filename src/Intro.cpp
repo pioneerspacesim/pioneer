@@ -18,7 +18,7 @@ Intro::Intro(Graphics::Renderer *r, const vector2f &size)
 , m_aspectRatio(size.x/size.y)
 , m_ambientColor(Color4f::BLACK)
 {
-	m_background = new Background::Container(UNIVERSE_SEED);
+	m_background = new Background::Container(r, UNIVERSE_SEED);
 	Newmodel::NModel *model = Pi::modelCache->FindModel("test_cobra");
 	std::vector<Color4ub> shipColors;
 	shipColors.push_back(random_color());

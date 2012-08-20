@@ -52,10 +52,11 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 	}
 
 	//set up materials
-	m_tMat.Reset(new Graphics::Material());
+	Graphics::MaterialDescriptor desc;
+	desc.textures = 1;
+	desc.twoSided = true;
+	m_tMat.Reset(r->CreateMaterial(desc));
 	m_tMat->texture0 = Graphics::TextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(r, "model");
-	m_tMat->unlit = true;
-	m_tMat->twoSided = true;
 	m_tMat->diffuse = color;
 }
 

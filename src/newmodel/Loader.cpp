@@ -531,14 +531,16 @@ matrix4x4f Loader::ConvertMatrix(const aiMatrix4x4& trans) const
 }
 
 //XXX temporary junk?
+//yeah, definitely
 static void create_light(Group* parent, const matrix4x4f &m, Graphics::Renderer *m_renderer)
 {
 		std::vector<vector3f> points;
 		points.push_back(m.GetTranslate());
-		RefCountedPtr<Graphics::Material> mat(new Graphics::Material());
+		Graphics::MaterialDescriptor desc;
+		desc.twoSided = true;
+		desc.textures = 1;
+		RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial(desc));
 		mat->texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(m_renderer, "billboard");
-		mat->twoSided = true;
-		mat->unlit = true;
 		mat->diffuse = Color(1.f, 0.f, 0.f, 1.f);
 		Billboard *bill = new Billboard(points, mat, 1.f);
 		parent->AddChild(bill);

@@ -47,8 +47,8 @@ private:
 
 	ScopedPtr<Graphics::VertexArray> m_sideVerts;
 	ScopedPtr<Graphics::VertexArray> m_glowVerts;
-	Graphics::Material m_sideMat;
-	Graphics::Material m_glowMat;
+	ScopedPtr<Graphics::Material> m_sideMat;
+	ScopedPtr<Graphics::Material> m_glowMat;
 };
 
 #endif /* _PROJECTILE_H */
