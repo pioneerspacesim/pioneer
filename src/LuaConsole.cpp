@@ -137,9 +137,13 @@ static void fetch_keys_from_table(lua_State * l, int table_index, const std::str
 	}
 }
 
+class RecursionLimit {};
+
+#define COMPLETION_RECURSION_LIMIT 300
 static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const std::string & chunk, std::vector<std::string> & completion_list, bool only_functions) {
 	metatable_index = lua_absindex(l, metatable_index);
 	int original_height = lua_gettop(l);
+	int recursion_count = 0;
 	lua_pushvalue(l, metatable_index);
 	while(true) {
 		//First, determin whether where are stored the methods and attributes
@@ -149,10 +153,14 @@ static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const 
 			fetch_keys_from_table(l, -1, chunk, completion_list, only_functions);
 			if (lua_getmetatable(l, -1)) { // meta, meta.__index, meta^2
 				// Avoid the weird cases where the metatable contains itself.
-				if (!lua_compare(l, -1, metatable_index, LUA_OPEQ)) {
+				if (!lua_compare(l, -1, metatable_index, LUA_OPEQ) && recursion_count < COMPLETION_RECURSION_LIMIT) {
+					recursion_count++;
 					lua_replace(l, original_height+1);
 					lua_pop(l, 1);
 					continue;
+				} else {
+					lua_pop(l, lua_gettop(l)-original_height);
+					throw RecursionLimit();
 				}
 			}
 		} else if (lua_iscfunction(l, -1)) {
@@ -178,6 +186,7 @@ static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const 
 	}
 	lua_pop(l, lua_gettop(l) - original_height);
 }
+#undef COMPLETION_RECURSION_LIMIT
 
 void LuaConsole::UpdateCompletion(const std::string & statement) {
 	// First, split the statement into chunks.
@@ -229,7 +238,12 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	if (lua_istable(l, -1))
 		fetch_keys_from_table(l, -1, chunks.top(), m_completionList, method);
 	if (lua_getmetatable(l, -1)) {
-		fetch_keys_from_metatable(l, -1, chunks.top(), m_completionList, method);
+		try {
+			fetch_keys_from_metatable(l, -1, chunks.top(), m_completionList, method);
+		} catch (RecursionLimit & e) {
+			AddOutput("Warning: The recursion limit has been hit during the completion run.");
+			AddOutput("         There is most likely a recursion within the metatable structure.");
+		}
 	}
 	if(!m_completionList.empty()) {
 		std::sort(m_completionList.begin(), m_completionList.end());
