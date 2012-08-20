@@ -146,7 +146,9 @@ static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const 
 	if (lua_istable(l, -1)) {
 		// Deal with inheritance first
 		if (lua_getmetatable(l, -1)) {
-			fetch_keys_from_metatable(l, -1, chunk, completion_list, only_functions);
+			// Avoid the weird cases where the metatable contains itself.
+			if (!lua_compare(l, -1, metatable_index, LUA_OPEQ))
+				fetch_keys_from_metatable(l, -1, chunk, completion_list, only_functions);
 			lua_pop(l, 1);
 		}
 		fetch_keys_from_table(l, -1, chunk, completion_list, only_functions);
