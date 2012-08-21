@@ -9,7 +9,7 @@ namespace Graphics {
 
 namespace GL2 {
 
-static const char *s_glslVersion = "#version 120\n";
+static const char *s_glslVersion = "#version 110\n";
 
 // Check and warn about compile & link errors
 static bool check_glsl_errors(const char *filename, GLuint obj)
