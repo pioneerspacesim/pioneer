@@ -105,11 +105,14 @@ private:
 	void SelectBody(Body *, bool reselectIsDeselect);
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseButtonDown(int button, int x, int y);
+	void ShowCameraName(SDL_keysym *keysym);
 
 	NavTunnelWidget *m_navTunnel;
 
 	Gui::ImageButton *m_hyperspaceButton;
 
+	bool m_cameraNameVisible;
+	Gui::Label *m_showCameraName;
 	Gui::Fixed *m_commsOptions;
 	Gui::VBox *m_commsNavOptions;
 	Gui::HBox *m_commsNavOptionsContainer;
@@ -137,6 +140,7 @@ private:
 	sigc::connection m_onPlayerChangeTargetCon;
 	sigc::connection m_onChangeFlightControlStateCon;
 	sigc::connection m_onMouseButtonDown;
+	sigc::connection m_onKeyPressConnection;
 
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;
