@@ -616,6 +616,8 @@ MM_START_NEW_GAME_E_ERIDANI
     Comenzar Juego Nuevo en Epsilon Eridani
 MM_START_NEW_GAME_LAVE
     Comenzar Juego Nuevo en Lave
+MM_START_NEW_GAME_EMPIRE
+	Comenzar Juego Nuevo en Achernar
 MM_START_NEW_GAME_DEBUG
     Comenzar Juego Nuevo en punto de depuración
 MM_LOAD_SAVED_GAME

@@ -941,7 +941,13 @@ void Pi::HandleMenuKey(int n)
 			break;
 		}
 
-		case 3: // Debug start point
+		case 3: // Empire start point
+		{
+			game = new Game(SystemPath(4,-9,-16,0,16));  // Achernar
+			break;
+		}
+
+		case 4: // Debug start point
 		{
 			game = new Game(SystemPath(1,-1,-1,0,4), vector3d(0,2*EARTH_RADIUS,0));  // somewhere over New Hope
 
@@ -1013,7 +1019,7 @@ void Pi::HandleMenuKey(int n)
 			break;
 		}
 
-		case 4: // Load game
+		case 5: // Load game
 		{
 			GameLoader loader;
 			loader.DialogMainLoop();
@@ -1067,18 +1073,22 @@ void Pi::Start()
 	opts[4]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 4));
 	opts[5] = new Gui::SolidButton(); opts[5]->SetShortcut(SDLK_6, KMOD_NONE);
 	opts[5]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 5));
+	opts[6] = new Gui::SolidButton(); opts[6]->SetShortcut(SDLK_7, KMOD_NONE);
+	opts[6]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 6));
 	menu->Add(opts[0], w, h-80);
 	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EARTH), w+32, h-80);
 	menu->Add(opts[1], w, h-48);
 	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-48);
 	menu->Add(opts[2], w, h-16);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_LAVE), w+32, h-16);
-	menu->Add(opts[3], w, h+16);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h+16);
-	menu->Add(opts[4], w, h+48);
-	menu->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+48);
-	menu->Add(opts[5], w, h+80);
-	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+80);
+ 	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_LAVE), w+32, h-16);
+ 	menu->Add(opts[3], w, h+16);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EMPIRE), w+32, h+16);
+ 	menu->Add(opts[4], w, h+48);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h+48);
+ 	menu->Add(opts[5], w, h+80);
+	menu->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+80);
+	menu->Add(opts[6], w, h+112);
+	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+112);
 
 	std::string version("Pioneer " PIONEER_VERSION);
 	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
