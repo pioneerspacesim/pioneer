@@ -607,10 +607,6 @@ bool Ship::FireMissile(int idx, Ship *target)
 	m_equipment.Set(Equip::SLOT_MISSILE, idx, Equip::NONE);
 	UpdateEquipStats();
 
-	matrix4x4d m;
-	GetRotMatrix(m);
-	vector3d dir = m*vector3d(0,0,-1);
-
 	ShipType::Type mtype;
 	switch (t) {
 		case Equip::MISSILE_SMART: mtype = ShipType::MISSILE_SMART; break;
@@ -619,7 +615,17 @@ bool Ship::FireMissile(int idx, Ship *target)
 		default:
 		case Equip::MISSILE_GUIDED: mtype = ShipType::MISSILE_GUIDED; break;
 	}
-	Missile *missile = new Missile(mtype, this, target);
+	return SpawnMissile(new Missile(mtype, this, target));
+}
+
+bool Ship::SpawnMissile(Missile * missile) {
+	if (GetFlightState() != FLYING)
+		return false;
+
+	matrix4x4d m;
+	GetRotMatrix(m);
+	vector3d dir = m*vector3d(0, 0, -1);
+
 	missile->SetRotMatrix(m);
 	missile->SetFrame(GetFrame());
 	// XXX DODGY! need to put it in a sensible location
