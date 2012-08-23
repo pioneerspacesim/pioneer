@@ -132,6 +132,8 @@ public:
 	// output human-readable debug info to the given stream
 	virtual bool PrintDebugInfo(std::ostream &out) { return false; }
 
+	virtual bool ReloadShaders() { return false; }
+
 	// take a ticket representing the current renderer state. when the ticket
 	// is deleted, the renderer state is restored
 	class StateTicket {

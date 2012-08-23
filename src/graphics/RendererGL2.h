@@ -40,6 +40,8 @@ public:
 
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor);
 
+	virtual bool ReloadShaders();
+
 private:
 	friend class GL2::GeoSphereSurfaceMaterial;
 	friend class GL2::GeoSphereSkyMaterial;

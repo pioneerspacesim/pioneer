@@ -174,7 +174,7 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 
 	check_glsl_errors(name.c_str(), m_program);
 
-	//shaders may now be deleted
+	//shaders may now be deleted by Shader destructor
 }
 
 void Program::InitUniforms()

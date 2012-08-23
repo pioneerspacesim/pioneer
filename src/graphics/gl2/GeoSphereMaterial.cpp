@@ -10,6 +10,8 @@ namespace GL2 {
 
 GeoSphereProgram::GeoSphereProgram(const std::string &filename, const std::string &defines)
 {
+	m_name = filename;
+	m_defines = defines;
 	LoadShaders(filename, defines);
 	InitUniforms();
 }
