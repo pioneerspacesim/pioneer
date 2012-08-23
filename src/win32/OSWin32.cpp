@@ -1,4 +1,4 @@
-#ifdef _WIN32
+#include "Win32Setup.h"
 
 #include "OS.h"
 #include "SDLWrappers.h"
@@ -46,5 +46,3 @@ void LoadWindowIcon()
 }
 
 } // namespace OS
-
-#endif

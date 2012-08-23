@@ -34,22 +34,22 @@ public:
 	// only valid between Update() and Draw()
 	const Frame *GetFrame() const { return m_camFrame; }
 
-	// camera-specific light with attached body
-	class Light : public Graphics::Light {
+	// camera-specific light with attached source body
+	class LightSource {
 	public:
-		Light(const Body *b, Graphics::Light::LightType t, const vector3f &pos, const Color &diffuse, const Color &ambient, const Color &specular) :
-			Graphics::Light(t, pos, diffuse, ambient, specular), m_body(b)
-		{}
+		LightSource(const Body *b, Graphics::Light light) : m_body(b), m_light(light) {}
 		
 		const Body *GetBody() const { return m_body; }
+		const Graphics::Light &GetLight() const { return m_light; }
 	
 	private:
 		const Body *m_body;
+		Graphics::Light m_light;
 	};
 
 	// lights with properties in camera space
-	const std::vector<Light> &GetLights() const { return m_lights; }
-	const int GetNumLights() const { return m_lights.size(); }
+	const std::vector<LightSource> &GetLightSources() const { return m_lightSources; }
+	const int GetNumLightSources() const { return m_lightSources.size(); }
 
 	// get the frustum. use for projection
 	const Graphics::Frustum &GetFrustum() const { return m_frustum; }
@@ -111,7 +111,7 @@ private:
 	
 	std::list<BodyAttrs> m_sortedBodies;
 
-	std::vector<Camera::Light> m_lights;
+	std::vector<LightSource> m_lightSources;
 
 	Graphics::Renderer *m_renderer;
 };

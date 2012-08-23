@@ -794,7 +794,7 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 //        as optical thickness increases the fraction of ambient light increases
 //        this takes altitude into account automatically
 //    * As suns set the split is biased towards ambient 
-void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::Light> &lights)
+void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::LightSource> &lightSources)
 {
 	// position relative to the rotating frame of the planet
 	vector3d upDir = GetPosition();
@@ -815,8 +815,8 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 	double light = 0.0;
 	double light_clamped = 0.0;
 
-	for(std::vector<Camera::Light>::const_iterator l = lights.begin();
-		l != lights.end(); ++l) {
+	for(std::vector<Camera::LightSource>::const_iterator l = lightSources.begin();
+		l != lightSources.end(); ++l) {
 			
 			double sunAngle;
 			// calculate the extent the sun is towards zenith
@@ -913,18 +913,20 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		
 		// calculate lighting
 		// available light is calculated and split between directly (diffusely/specularly) lit and ambiently lit
-		const std::vector<Camera::Light> &lights = camera->GetLights();
-		std::vector<Camera::Light> newLights = lights;
-		int numLights = lights.size();
-		
+		const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
 		double ambient, intensity;
+		CalcLighting(planet, ambient, intensity, lightSources);
 
-		CalcLighting(planet, ambient, intensity, lights);
+		std::vector<Graphics::Light> origLights, newLights;
+		
+		for(size_t i = 0; i < lightSources.size(); i++) {
+			Graphics::Light light(lightSources[i].GetLight());
 
-		for(int i = 0;i < numLights; i++) {
-			Color c = lights[i].GetDiffuse();
-			Color ca = lights[i].GetAmbient();
-			Color cs = lights[i].GetSpecular();
+			origLights.push_back(light);
+
+			Color c = light.GetDiffuse();
+			Color ca = light.GetAmbient();
+			Color cs = light.GetSpecular();
 			ca.r = c.r * float(ambient);
 			ca.g = c.g * float(ambient);
 			ca.b = c.b * float(ambient);
@@ -934,11 +936,14 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			cs.r*=float(intensity);
 			cs.g*=float(intensity);
 			cs.b*=float(intensity);
-			newLights[i].SetDiffuse(c);
-			newLights[i].SetAmbient(ca);
-			newLights[i].SetSpecular(cs);
+			light.SetDiffuse(c);
+			light.SetAmbient(ca);
+			light.SetSpecular(cs);
+
+			newLights.push_back(light);
 		}
-		r->SetLights(numLights, &newLights[0]);
+
+		r->SetLights(newLights.size(), &newLights[0]);
 
 		double overallLighting = ambient+intensity;
 
@@ -978,7 +983,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		} 
 
 		// restore old lights
-		r->SetLights(numLights, &lights[0]);
+		r->SetLights(origLights.size(), &origLights[0]);
 
 		// restore old ambient color
 		r->SetAmbientColor(oldAmbient);

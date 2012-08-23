@@ -1,5 +1,7 @@
 // Visit http://www.johndcook.com/stand_alone_code.html for the source of this code and more like it.
 
+#include "Win32Setup.h"
+
 #include "libs.h"
 #include "Pi.h"
 #include <cmath>

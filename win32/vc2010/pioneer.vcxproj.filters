@@ -309,9 +309,6 @@
     <ClCompile Include="..\..\src\Camera.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Light.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\FontCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -732,9 +729,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\SmartPtr.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Light.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\vector2.h">
