@@ -8,6 +8,14 @@ define_ship {
 	left_thrust = -2e6,
 	right_thrust = 2e6,
 	angular_thrust = 10e6,
+	cockpit_front = v(0,2.5,0),
+	cockpit_rear = v(0,3.5,2),
+	front_camera = v(0,0,-13),
+	rear_camera = v(0,-3,10),
+	left_camera = v(-20,0,9.5),
+	right_camera = v(20,0,9.5),
+	top_camera = v(0,4,6),
+	bottom_camera = v(0,-4,6),
 	gun_mounts =
 	{
 		{ v(0,0,-16), v(0,0,-1) },
