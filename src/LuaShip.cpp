@@ -1210,6 +1210,35 @@ static int l_ship_ai_kill(lua_State *l)
 }
 
 /*
+ * Method: AIKamikaze
+ *
+ * Crash into the target ship.
+ *
+ * > ship:AIKamikaze(target)
+ *
+ * Parameters:
+ *
+ *   target - the <Ship> to destroy
+ *
+ * Availability:
+ *
+ *  alpha 26
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_ai_kamikaze(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIKamikaze() cannot be called on a ship in hyperspace");
+	Ship *target = LuaShip::GetFromLua(2);
+	s->AIKamikaze(target);
+	return 0;
+}
+
+/*
  * Method: AIFlyTo
  *
  * Fly to the vicinity of a given physics body
@@ -1428,6 +1457,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "Explode", l_ship_explode },
 
 		{ "AIKill",             l_ship_ai_kill               },
+		{ "AIKamikaze",         l_ship_ai_kamikaze           },
 		{ "AIFlyTo",            l_ship_ai_fly_to             },
 		{ "AIDockWith",         l_ship_ai_dock_with          },
 		{ "AIEnterLowOrbit",    l_ship_ai_enter_low_orbit    },
