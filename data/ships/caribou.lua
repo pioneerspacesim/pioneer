@@ -12,8 +12,8 @@ define_ship {
 	cockpit_rear = v(0,10,-25),
 	front_camera = v(0,-7,-53),
 	rear_camera = v(0,1,52),
-	left_camera = v(-26,0,-0.2),
-	right_camera = v(26,0,-0.2),
+	left_camera = v(-26,0,-.2),
+	right_camera = v(26,0,-.2),
 	top_camera = v(0,11,0),
 	bottom_camera = v(0,-13,0),
 	gun_mounts =

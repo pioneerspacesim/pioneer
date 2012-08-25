@@ -745,11 +745,11 @@ FRONT_COCKPIT_VIEW
 REAR_COCKPIT_VIEW
 	Widok z kokpitu - tył
 CAMERA_FRONT_VIEW
-	Przednia kamera
+	Kamera dziobowa
 CAMERA_REAR_VIEW
-	Tylna kamera
+	Kamera rufowa
 CAMERA_LEFT_VIEW
-	Lewa camera
+	Lewa kamera
 CAMERA_TOP_VIEW
 	Górna kamera
 CAMERA_RIGHT_VIEW
