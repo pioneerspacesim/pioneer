@@ -1,7 +1,7 @@
 #ifndef _RENDERER_GL2_H
 #define _RENDERER_GL2_H
 /*
- * OpenGL 2.1 renderer (GLSL 120)
+ * OpenGL 2.X renderer (2.0, GLSL 1.10 at the moment)
  *  - no fixed function support (shaders for everything)
  *  The plan is: make this more like GL3/ES2
  *  - try to stick to bufferobjects
@@ -39,6 +39,8 @@ public:
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE);
 
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor);
+
+	virtual bool ReloadShaders();
 
 private:
 	friend class GL2::GeoSphereSurfaceMaterial;

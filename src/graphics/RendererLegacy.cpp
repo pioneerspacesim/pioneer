@@ -113,6 +113,9 @@ static std::string glerr_to_string(GLenum err)
 bool RendererLegacy::SwapBuffers()
 {
 #ifndef NDEBUG
+	// Check if an error occurred during the frame. This is not very useful for
+	// determining *where* the error happened. For that purpose, try GDebugger or
+	// the GL_KHR_DEBUG extension
 	GLenum err;
 	err = glGetError();
 	if (err != GL_NO_ERROR) {

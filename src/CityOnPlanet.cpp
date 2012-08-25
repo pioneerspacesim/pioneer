@@ -306,7 +306,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		if (!frustum.TestPoint(pos, (*i).clipRadius))
 			continue;
 
-		const Color &oldSceneAmbientColor = r->GetAmbientColor();
+		const Color oldSceneAmbientColor = r->GetAmbientColor();
 
 		// fade conditions for models
 		double fadeInEnd, fadeInLength;

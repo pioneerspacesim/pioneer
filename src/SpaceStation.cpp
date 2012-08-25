@@ -948,7 +948,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		double overallLighting = ambient+intensity;
 
 		// turn off global ambient color
-		const Color &oldAmbient = r->GetAmbientColor();
+		const Color oldAmbient = r->GetAmbientColor();
 		r->SetAmbientColor(Color::BLACK);
 
 		// as the camera gets close adjust scene ambient so that intensity+ambient = minIllumination

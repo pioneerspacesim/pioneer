@@ -11,7 +11,6 @@
 #include "graphics/gl2/GeoSphereMaterial.h"
 #include <deque>
 #include <algorithm>
-#include <sstream>
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
@@ -1341,8 +1340,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 	Color &emission = m_surfaceMaterial->emissive;
 
 	// save old global ambient
-	//XXX could just add to emissive
-	const Color &oldAmbient = renderer->GetAmbientColor();
+	const Color oldAmbient = renderer->GetAmbientColor();
 
 	if ((m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (m_sbody->type == SystemBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
@@ -1351,7 +1349,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 		emission.r = StarSystem::starRealColors[m_sbody->type][0];
 		emission.g = StarSystem::starRealColors[m_sbody->type][1];
 		emission.b = StarSystem::starRealColors[m_sbody->type][2];
-		emission.a = 0.5f; //XXX WTF
+		emission.a = 1.f;
 	}
 
 	else {
