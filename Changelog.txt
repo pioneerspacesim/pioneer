@@ -12,6 +12,8 @@ Alpha 26
 
    * Internal changes
      * Show frame time in the stats overlay (#1437)
+     * Update COUNTOF macro to fix avoid warnings when compiling with
+       compiling with optimisations on GCC (#1451, #1450)
 
 Alpha 25
 
