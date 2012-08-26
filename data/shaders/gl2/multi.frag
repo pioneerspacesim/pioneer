@@ -10,11 +10,6 @@ varying vec3 eyePos;
 varying vec3 normal;
 #endif
 
-struct Material {
-	vec4 diffuse;
-	vec4 specular;
-	float shininess;
-};
 uniform Material material;
 
 #if (NUM_LIGHTS > 0)

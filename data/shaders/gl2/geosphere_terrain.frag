@@ -8,6 +8,7 @@ uniform vec3 geosphereCenter;
 uniform float geosphereAtmosFogDensity;
 uniform float geosphereAtmosInvScaleHeight;
 
+uniform Material material;
 uniform Scene scene;
 
 varying vec3 varyingEyepos;
@@ -52,21 +53,21 @@ void main(void)
 	atmosDiffuse.a = 1.0;
 
 	gl_FragColor =
-		gl_FrontMaterial.emission +
+		material.emission +
 		fogFactor *
 		((scene.ambient * vertexColor) +
 		(diff * vertexColor)) +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
 #else // atmosphere-less planetoids and dim stars
 	gl_FragColor =
-		gl_FrontMaterial.emission +
+		material.emission +
 		(scene.ambient * vertexColor) +
 		(diff * vertexColor);
 #endif //ATMOSPHERE
 
 #else // NUM_LIGHTS > 0 -- unlit rendering - stars
 	//emission is used to boost colour of stars, which is a bit odd
-	gl_FragColor = gl_FrontMaterial.emission + vertexColor;
+	gl_FragColor = material.emission + vertexColor;
 #endif
 	SetFragDepth();
 }

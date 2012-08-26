@@ -5,9 +5,12 @@ struct Scene {
 };
 
 //material uniform parameters
-//struct Material {
-//	...
-//};
+struct Material {
+	vec4 diffuse;
+	vec4 emission;
+	vec4 specular;
+	float shininess;
+};
 
 //Currently used by: planet ring shader, geosphere shaders
 float findSphereEyeRayEntryDistance(in vec3 sphereCenter, in vec3 eyeTo, in float radius)

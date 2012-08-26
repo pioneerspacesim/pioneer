@@ -816,15 +816,15 @@ void Pi::HandleEvents()
 
 static void draw_tombstone(float _time)
 {
- 	LmrMaterial m0 = { { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
- 	LmrMaterial m1 = { { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
- 	LmrMaterial m2 = { { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
- 
+	LmrMaterial m0 = { { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+	LmrMaterial m1 = { { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+	LmrMaterial m2 = { { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+
 	LmrObjParams params;
- 	params.label = Lang::TOMBSTONE_EPITAPH;
- 	params.pMat[0] = m0;
- 	params.pMat[1] = m1;
- 	params.pMat[2] = m2;
+	params.label = Lang::TOMBSTONE_EPITAPH;
+	params.pMat[0] = m0;
+	params.pMat[1] = m1;
+	params.pMat[2] = m2;
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 

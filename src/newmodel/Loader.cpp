@@ -103,12 +103,12 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 
 		Graphics::MaterialDescriptor matDesc;
 		matDesc.lighting = true;
-#if 0
+
 		if ((*it).use_pattern) {
 			patternsUsed = true;
 			matDesc.usePatterns = true;
 		}
-#endif
+
 		if (!diffTex.empty())
 			matDesc.textures = 1;
 #if 0
