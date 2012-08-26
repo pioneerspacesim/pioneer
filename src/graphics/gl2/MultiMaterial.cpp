@@ -18,6 +18,9 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc)
 		ss << "#define VERTEXCOLOR\n";
 	if (desc.alphaTest)
 		ss << "#define ALPHA_TEST\n";
+	//using only one light
+	if (desc.lighting)
+		ss << "#define NUM_LIGHTS 1\n";
 
 	m_name = "multi";
 	m_defines = ss.str();
@@ -37,8 +40,10 @@ void MultiMaterial::Apply()
 	p->Use();
 	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 	p->diffuse.Set(this->diffuse);
+	p->emission.Set(this->emissive);
+	p->specular.Set(this->specular);
+	p->shininess.Set(float(this->shininess));
 
-	//set some uniforms
 	if (texture0) {
 		static_cast<TextureGL*>(texture0)->Bind();
 		p->texture0.Set(0);
