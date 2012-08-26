@@ -21,6 +21,11 @@ void main(void)
 #ifdef TEXTURE0
 	color *= texture2D(texture0, texCoord0);
 #endif
+
+#ifdef ALPHA_TEST
+	if (color.a < 0.5)
+		discard;
+#endif
 	gl_FragColor = color;
 	SetFragDepth();
 }

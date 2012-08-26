@@ -16,6 +16,8 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc)
 		ss << "#define TEXTURE0\n";
 	if (desc.vertexColors)
 		ss << "#define VERTEXCOLOR\n";
+	if (desc.alphaTest)
+		ss << "#define ALPHA_TEST\n";
 
 	m_name = "multi";
 	m_defines = ss.str();

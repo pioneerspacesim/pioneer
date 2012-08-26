@@ -10,6 +10,7 @@ Label3D::Label3D(RefCountedPtr<Text::DistanceFieldFont> font, Graphics::Renderer
 , m_font(font)
 {
 	Graphics::MaterialDescriptor matdesc;
+	matdesc.textures = 1;
 	matdesc.alphaTest = true;
 	m_geometry.Reset(font->CreateVertexArray());
 	m_material.Reset(r->CreateMaterial(matdesc));

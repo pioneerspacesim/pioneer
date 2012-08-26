@@ -102,19 +102,28 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		const std::string &glowTex = (*it).tex_glow;
 
 		Graphics::MaterialDescriptor matDesc;
+		matDesc.lighting = true;
+#if 0
 		if ((*it).use_pattern) {
 			patternsUsed = true;
 			matDesc.usePatterns = true;
 		}
+#endif
+		if (!diffTex.empty())
+			matDesc.textures = 1;
+#if 0
 		matDesc.glowMap = !glowTex.empty();
 		matDesc.specularMap = !specTex.empty();
-
+#endif
 		RefCountedPtr<Material> mat(m_renderer->CreateMaterial(matDesc));
 		mat->diffuse = (*it).diffuse;
 		mat->specular = (*it).specular;
 		mat->emissive = (*it).emissive;
 		mat->shininess = (*it).shininess;
 
+		if (!diffTex.empty())
+			mat->texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
+#if 0 //remove white texture workaround
 		//XXX white texture is sort of a workaround when all textures are not specified
 		if (!diffTex.empty())
 			mat->texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
@@ -124,6 +133,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 			mat->texture1 = Graphics::TextureBuilder::Model(specTex).GetOrCreateTexture(m_renderer, "model");
 		if (!glowTex.empty())
 			mat->texture2 = Graphics::TextureBuilder::Model(glowTex).GetOrCreateTexture(m_renderer, "model");
+#endif
 
 		model->m_materials.push_back(std::make_pair<std::string, RefCountedPtr<Material> >((*it).name, mat));
 	}
@@ -353,6 +363,7 @@ RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 	RefCountedPtr<Graphics::Material> &decMat = m_model->m_decalMaterials[index-1];
 	if (!decMat.Valid()) {
 		Graphics::MaterialDescriptor matDesc;
+		matDesc.textures = 1;
 		decMat.Reset(m_renderer->CreateMaterial(matDesc));
 	}
 	return decMat;
