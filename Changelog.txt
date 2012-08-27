@@ -14,6 +14,8 @@ Alpha 26
      * Show frame time in the stats overlay (#1437)
      * Update COUNTOF macro to fix avoid warnings when compiling with
        compiling with optimisations on GCC (#1451, #1450)
+     * Force commodity icons to scale to their bounds regardless of their
+       initial size. Allows hi-res icons (#1448)
 
 Alpha 25
 
