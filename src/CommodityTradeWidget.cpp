@@ -94,6 +94,8 @@ void CommodityTradeWidget::ShowAll()
         std::map<Equip::Type,std::string>::iterator icon_iter = s_iconMap.find(Equip::Type(i));
 		if (icon_iter != s_iconMap.end()) {
 			Gui::Image *icon = new Gui::Image(("icons/goods/" + (*icon_iter).second + ".png").c_str());
+			// this forces the on-screen rendering to fit within (rescale) to these dimensions
+			icon->SetRenderDimensions(38.0f, 32.0f);
 			innerbox->Add(icon, 0, num*YSEP);
 		}
 
