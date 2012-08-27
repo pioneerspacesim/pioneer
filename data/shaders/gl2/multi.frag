@@ -14,6 +14,7 @@ varying vec3 eyePos;
 varying vec3 normal;
 #endif
 
+uniform Scene scene;
 uniform Material material;
 
 #if (NUM_LIGHTS > 0)
@@ -51,10 +52,16 @@ void main(void)
 
 	//lighting - only one light right now
 #if (NUM_LIGHTS > 0)
-	vec4 light = vec4(0.0);
+	vec4 light = scene.ambient +
+//ambient and emissive only make sense with lighting
+#ifdef MAP_EMISSIVE
+		texture2D(texture2, texCoord0) * material.emission; //glow map
+#else
+		material.emission; //just emissive parameter
+#endif
 	vec4 specular = vec4(0.0);
 	ads(0, eyePos, normal, light, specular);
-#endif
+#endif //NUM_LIGHTS
 
 #if (NUM_LIGHTS > 0)
 	gl_FragColor = color * light + specular;
