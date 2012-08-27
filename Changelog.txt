@@ -10,6 +10,9 @@ Alpha 26
      * Fix Caribou laser position (#1435)
      * Fix broken planet ring textures on Intel GMA 900 chips (#1442, #1439)
 
+   * Script changes
+     * Ships now identified by the filename the ship is defined in (#1444)
+
    * Internal changes
      * Show frame time in the stats overlay (#1437)
      * Update COUNTOF macro to fix avoid warnings when compiling with

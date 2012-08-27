@@ -346,7 +346,7 @@ local spawnInitialShips = function (game_start)
 
 	-- spawn the initial trade ships
 	for i = 0, num_trade_ships do
-		-- get the name of a ship, for example 'Imperial Courier'
+		-- get the name of a ship, for example 'imperial_courier'
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 		local ship = nil
 
