@@ -44,6 +44,12 @@ void main(void)
 #ifdef TEXTURE0
 	color *= texture2D(texture0, texCoord0);
 #endif
+//patterns - simple lookup
+#ifdef MAP_COLOR
+	float pat = texture2D(texture3, texCoord0).r;
+	vec4 mapColor = texture2D(texture4, vec2(pat, 0.0));
+	color *= mapColor;
+#endif
 
 #ifdef ALPHA_TEST
 	if (color.a < 0.5)

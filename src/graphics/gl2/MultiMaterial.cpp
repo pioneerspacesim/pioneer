@@ -25,6 +25,8 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc)
 		ss << "#define MAP_SPECULAR\n";
 	if (desc.glowMap)
 		ss << "#define MAP_EMISSIVE\n";
+	if (desc.usePatterns)
+		ss << "#define MAP_COLOR\n";
 
 	m_name = "multi";
 	m_defines = ss.str();
