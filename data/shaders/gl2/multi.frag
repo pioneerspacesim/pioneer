@@ -1,5 +1,9 @@
 #ifdef TEXTURE0
-uniform sampler2D texture0;
+uniform sampler2D texture0; //diffuse
+uniform sampler2D texture1; //specular
+uniform sampler2D texture2; //glow
+uniform sampler2D texture3; //pattern
+uniform sampler2D texture4; //color
 varying vec2 texCoord0;
 #endif
 #ifdef VERTEXCOLOR
@@ -22,7 +26,7 @@ void ads(in int lightNum, in vec3 pos, in vec3 n, inout vec4 light, inout vec4 s
 	vec3 h = normalize(v + s);
 	light += gl_LightSource[lightNum].diffuse * material.diffuse * max(dot(s, n), 0.0);
 #ifdef MAP_SPECULAR
-	specular += texture2D(texture1, uv0) * material.specular * gl_LightSource[lightNum].diffuse * pow(max(dot(h, n), 0.0), material.shininess);
+	specular += texture2D(texture1, texCoord0) * material.specular * gl_LightSource[lightNum].diffuse * pow(max(dot(h, n), 0.0), material.shininess);
 #else
 	specular += material.specular * gl_LightSource[lightNum].diffuse * pow(max(dot(h, n), 0.0), material.shininess);
 #endif

@@ -96,6 +96,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 	for(std::vector<MaterialDefinition>::const_iterator it = def.matDefs.begin();
 		it != def.matDefs.end(); ++it)
 	{
+		//Build material descriptor
 		assert(!(*it).name.empty());
 		const std::string &diffTex = (*it).tex_diff;
 		const std::string &specTex = (*it).tex_spec;
@@ -109,12 +110,12 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 			matDesc.usePatterns = true;
 		}
 
-		if (!diffTex.empty())
-			matDesc.textures = 1;
-#if 0
-		matDesc.glowMap = !glowTex.empty();
+		//diffuse texture is a must. Will create a white dummy texture if one is not supplied
+		matDesc.textures = 1;
 		matDesc.specularMap = !specTex.empty();
-#endif
+		matDesc.glowMap = !glowTex.empty();
+
+		//Create material and set parameters
 		RefCountedPtr<Material> mat(m_renderer->CreateMaterial(matDesc));
 		mat->diffuse = (*it).diffuse;
 		mat->specular = (*it).specular;
@@ -123,17 +124,14 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 
 		if (!diffTex.empty())
 			mat->texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
-#if 0 //remove white texture workaround
-		//XXX white texture is sort of a workaround when all textures are not specified
-		if (!diffTex.empty())
-			mat->texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
 		else
 			mat->texture0 = GetWhiteTexture();
 		if (!specTex.empty())
 			mat->texture1 = Graphics::TextureBuilder::Model(specTex).GetOrCreateTexture(m_renderer, "model");
 		if (!glowTex.empty())
 			mat->texture2 = Graphics::TextureBuilder::Model(glowTex).GetOrCreateTexture(m_renderer, "model");
-#endif
+		//texture3 is reserved for pattern
+		//texture4 is reserved for color gradient
 
 		model->m_materials.push_back(std::make_pair<std::string, RefCountedPtr<Material> >((*it).name, mat));
 	}

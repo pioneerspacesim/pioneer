@@ -5,6 +5,9 @@
  */
 #include "libs.h"
 namespace Graphics {
+
+	class Texture;
+
 	namespace GL2 {
 		class Uniform {
 		public:
@@ -15,6 +18,7 @@ namespace Graphics {
 			void Set(const vector3f&);
 			void Set(const vector3d&);
 			void Set(const Color4f&);
+			void Set(Texture *t, unsigned int unit);
 
 		//private:
 			GLint m_location;

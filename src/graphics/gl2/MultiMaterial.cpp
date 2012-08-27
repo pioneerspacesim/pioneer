@@ -21,6 +21,8 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc)
 	//using only one light
 	if (desc.lighting)
 		ss << "#define NUM_LIGHTS 1\n";
+	if (desc.specularMap)
+		ss << "#define MAP_SPECULAR\n";
 
 	m_name = "multi";
 	m_defines = ss.str();
@@ -44,10 +46,11 @@ void MultiMaterial::Apply()
 	p->specular.Set(this->specular);
 	p->shininess.Set(float(this->shininess));
 
-	if (texture0) {
-		static_cast<TextureGL*>(texture0)->Bind();
-		p->texture0.Set(0);
-	}
+	p->texture0.Set(this->texture0, 0);
+	p->texture1.Set(this->texture1, 1);
+	p->texture2.Set(this->texture2, 2);
+	p->texture3.Set(this->texture3, 3);
+	p->texture4.Set(this->texture4, 4);
 
 	glPushAttrib(GL_ENABLE_BIT);
 	if (this->twoSided)
@@ -57,6 +60,24 @@ void MultiMaterial::Apply()
 void MultiMaterial::Unapply()
 {
 	glPopAttrib();
+	//Might not be necessary to unbind textures, but let's not
+	//confuse UI and LMR
+	if (texture4) {
+		static_cast<TextureGL*>(texture4)->Unbind();
+		glActiveTexture(GL_TEXTURE3);
+	}
+	if (texture3) {
+		static_cast<TextureGL*>(texture3)->Unbind();
+		glActiveTexture(GL_TEXTURE2);
+	}
+	if (texture2) {
+		static_cast<TextureGL*>(texture2)->Unbind();
+		glActiveTexture(GL_TEXTURE1);
+	}
+	if (texture1) {
+		static_cast<TextureGL*>(texture1)->Unbind();
+		glActiveTexture(GL_TEXTURE0);
+	}
 	if (texture0) {
 		static_cast<TextureGL*>(texture0)->Unbind();
 	}

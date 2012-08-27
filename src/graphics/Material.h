@@ -15,6 +15,8 @@
 namespace Graphics {
 
 class Texture;
+class RendererLegacy;
+class RendererGL2;
 
 // Shorthand for unique effects
 // The other descriptor parameters may or may not have effect,
@@ -74,9 +76,12 @@ public:
 
 	void *specialParameter0; //this can be whatever. Bit of a hack.
 
-	const MaterialDescriptor &GetDescriptor() const { return m_descriptor; } //XXX may not be necessary
+	//XXX may not be necessary. Used by newmodel to check if a material uses patterns
+	const MaterialDescriptor &GetDescriptor() const { return m_descriptor; }
 
 private:
+	friend class RendererLegacy;
+	friend class RendererGL2;
 	MaterialDescriptor m_descriptor;
 };
 
