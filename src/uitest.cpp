@@ -414,7 +414,7 @@ int main(int argc, char **argv)
             c->Grid(2,2)
                 ->SetRow(0, UI::WidgetSet(c->Label("one"), c->Label("two")))
                 ->SetRow(1, UI::WidgetSet(c->Label("three"), c->Label("four")))
-        )->PackEnd(c->ColorBackground(Color(0.8f,0.2f,0.2f)), UI::Box::BOX_EXPAND)
+        )->PackEnd(c->ColorBackground(Color(0.8f,0.2f,0.2f)), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
     );
 
     int count = 0;
