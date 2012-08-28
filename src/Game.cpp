@@ -510,7 +510,7 @@ void Game::SwitchToNormalSpace()
 
 			m_space->AddBody(ship);
 
-			Pi::luaOnEnterSystem->Queue(ship);
+			LuaEvent::Queue("onEnterSystem", ship);
 		}
 	}
 	m_hyperspaceClouds.clear();

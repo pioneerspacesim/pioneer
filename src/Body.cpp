@@ -197,7 +197,7 @@ void Body::UpdateFrame()
 			SetFrame(new_frame);
 			SetPosition(new_pos);
 
-			Pi::luaOnFrameChanged->Queue(this);
+			LuaEvent::Queue("onFrameChanged", this);
 
 			return;
 		}
@@ -225,7 +225,7 @@ void Body::UpdateFrame()
 		SetVelocity(m*(GetVelocity() - kid->GetVelocity())
 			+ kid->GetStasisVelocityAtPosition(pos));
 
-		Pi::luaOnFrameChanged->Queue(this);
+		LuaEvent::Queue("onFrameChanged", this);
 
 		break;
 	}

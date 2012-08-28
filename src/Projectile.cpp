@@ -210,7 +210,7 @@ void Projectile::StaticUpdate(const float timeStep)
 				hit->OnDamage(m_parent, GetDamage());
 				Pi::game->GetSpace()->KillBody(this);
 				if (hit->IsType(Object::SHIP))
-					Pi::luaOnShipHit->Queue(dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
+					LuaEvent::Queue("onShipHit", dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
 			}
 		}
 	}
