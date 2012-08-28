@@ -1,3 +1,58 @@
+local pending = {}
+local callbacks = {}
+local do_callback = {}
+
+local do_callback_normal = function (cb, p)
+	cb(table.unpack(p.event))
+end
+local do_callback_timed = function (cb, p)
+	local d = debug.getinfo(cb)
+
+	local tstart = Engine.ticks
+	cb(table.unpack(p.event))
+	local tend = Engine.ticks
+
+	print(string.format("DEBUG: %s %dms %s:%d", p.name, tend-tstart, d.source, d.linedefined))
+end
+
+Event = {
+	Queue = function (name, ...)
+		pending.insert({ name = name, event = {...} })
+	end,
+
+	Connect = function (name, cb)
+		if not callbacks[name] then callbacks[name] = {} end
+		callbacks[name][cb] = cb;
+        if not do_callback[name] then do_callback[name] = do_callback_normal end
+	end,
+
+	Disconnect = function (name, cb)
+		if not callbacks[name] then return end
+		callbacks[name][cb] = nil
+	end,
+
+    DebugTimer = function (name, enabled)
+		do_callback[name] = enabled and do_callback_timed or do_callback_normal
+	end,
+
+	-- internal method, called from C++
+	_Clear = function ()
+		pending = {}
+	end,
+
+	-- internal method, called from C++
+	_Emit = function ()
+		while #pending > 0 do
+			local p = table.remove(pending, 1)
+			if callbacks[p.name] then
+				for cb,_ in pairs(callbacks[p.name]) do
+					do_callback(cb, p)
+				end
+			end
+		end
+	end
+}
+
 --
 -- Class: EventQueue
 --
@@ -29,24 +84,6 @@ EventQueue = {
 	Create = function (name)
 		local on = "on"..name
 
-		local events = {}
-		local callbacks = {}
-
-		local do_callback_normal = function (cb, e)
-			cb(table.unpack(e))
-		end
-		local do_callback_timed = function (cb, e)
-			local d = debug.getinfo(cb)
-
-			local tstart = Engine.ticks
-			cb(table.unpack(e))
-			local tend = Engine.ticks
-
-			print(string.format("DEBUG: %s %dms %s:%d", on, tend-tstart, d.source, d.linedefined))
-		end
-
-		local do_callback = do_callback_normal
-
 		EventQueue[on] = {
 
 			--
@@ -75,10 +112,10 @@ EventQueue = {
 			--
 			-- Status:
 			--
-			--   stable
+			--   deprecated  
 			--
 			Connect = function (_, cb)
-				callbacks[cb] = cb
+				Event.Connect(name, cb)
 			end,
 
 			--
@@ -102,125 +139,10 @@ EventQueue = {
 			--
 			-- Status:
 			--
-			--   stable
+			--   deprecated
 			--
 			Disconnect = function (_, cb)
-				callbacks[cb] = nil
-			end,
-
-			--
-			-- Method: DebugTimer
-			--
-			-- Enables the function timer for this event queue. When enabled the console
-			-- will display the amount of time that each function attached to this queue
-			-- takes to run.
-			--
-			-- > onEvent:DebugTimer(enabled)
-			--
-			-- Parameters:
-			--
-			--   enabled - a true value to enable the timer, or a false value to disable
-			--             it.
-			--
-			-- Availability:
-			--
-			--   alpha 19
-			--
-			-- Status:
-			--
-			--   debug
-			--
-			DebugTimer = function (_, enabled)
-				do_callback = enabled and do_callback_timed or do_callback_normal
-			end,
-
-			--
-			-- Method: Queue
-			--
-			-- Push an event onto the queue. The next time <Emit> is called, the
-			-- connected functions will be called with the arguments that were
-			-- passed to <Queue>.
-			--
-			-- > onEvent:Queue(...)
-			--
-			-- Availability:
-			--
-			--   alpha 26
-			--
-			-- Status:
-			--
-			--   experimental
-			--
-			Queue = function (_, ...)
-				table.insert(events, {...})
-			end,
-
-			--
-			-- Method: Signal
-			--
-			-- Immediately trigger an event. The connected functions will be called with
-			-- the arguments that were passed to <Signal>.
-			--
-			-- > onEvent:Signal(...)
-			--
-			-- Availability:
-			--
-			--   alpha 26
-			--
-			-- Status:
-			--
-			--   experimental
-			--
-			Signal = function (_, ...)
-				local e = {...}
-				for cb,_ in pairs(callbacks) do
-					do_callback(cb, e)
-				end
-			end,
-
-			--
-			-- Method: Emit
-			--
-			-- Distribute all queued events to connected functions. The connected
-			-- functions will be called in no particular order and will each receive
-			-- the parameters that were passed to <Queue>.
-			--
-			-- > onEvent:Emit()
-			--
-			-- Availability:
-			--
-			--   alpha 26
-			--
-			-- Status:
-			--
-			--   experimental
-			--
-			Emit = function ()
-				while #events > 0 do
-					local e = table.remove(events, 1)
-					for cb,_ in pairs(callbacks) do
-						do_callback(cb, e)
-					end
-				end
-			end,
-
-			--
-			-- Method: Clear
-			--
-			-- Delete all queued events.
-			--
-			-- > onEvent:Clear()
-			--
-			-- Availability:
-			--
-			--   alpha 26
-			--
-			-- Status:
-			--
-			--   experimental
-			--
-			Clear = function ()
-				events = {}
+				Event.Disconnect(name, cb)
 			end,
 		}
 	end
