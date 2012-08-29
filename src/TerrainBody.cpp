@@ -67,7 +67,10 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 {
 	matrix4x4d ftran = viewTransform;
 	vector3d fpos = viewCoords;
-	double rad = m_sbody->GetRadius();
+	// The polar radius (distance from center to poles) 
+	// is used as stars can have a larger equatorial radius which is handled by 
+	// the terrain code
+	double rad = m_sbody->GetGeosphereBaseRadius();
 
 	float znear, zfar;
 	renderer->GetNearFarRange(znear, zfar);

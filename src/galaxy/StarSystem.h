@@ -122,6 +122,15 @@ public:
 		else
 			return radius.ToDouble() * EARTH_RADIUS;
 	}
+	// The radius which scales the model output by terrain code such that a unit sphere maps to a sphere of this radius
+	double GetGeosphereBaseRadius() const {
+		// For stars the ellipsoid terrain code assumes scaling is such that a unit sphere is mapped to 
+		// the Polar radius 
+		if (GetSuperType() <= SUPERTYPE_STAR)
+			return (radius.ToDouble() / aspectRatio.ToDouble()) * SOL_RADIUS;
+		else // For other bodies return the normal radius
+			return radius.ToDouble() * EARTH_RADIUS;
+	}
 	double GetMass() const {
 		if (GetSuperType() <= SUPERTYPE_STAR)
 			return mass.ToDouble() * SOL_MASS;
@@ -179,7 +188,8 @@ public:
 	Orbit orbit;
 	Uint32 seed; // Planet.cpp can use to generate terrain
 	std::string name;
-	fixed radius;
+	fixed radius; // in earth radii for planets, sol radii for stars. equatorial radius in case of bodies which are flattened at the poles
+	fixed aspectRatio; // ratio between equatorial and polar radius for bodies with eqatorial bulges
 	fixed mass; // earth masses if planet, solar masses if star
 	fixed orbMin, orbMax; // periapsism, apoapsis in AUs
 	fixed rotationPeriod; // in days

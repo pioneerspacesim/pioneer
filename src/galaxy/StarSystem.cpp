@@ -920,6 +920,7 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->parent = parent;
 		kid->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
 		kid->radius = csbody->radius;
+		kid->aspectRatio = csbody->aspectRatio;
 		kid->averageTemp = csbody->averageTemp;
 		kid->name = csbody->name;
 
@@ -1004,9 +1005,11 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 	rootBody->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
 	rootBody->seed = rand.Int32();
 	rootBody->radius = csbody->radius;
+	rootBody->aspectRatio = csbody->aspectRatio;
 	rootBody->mass = csbody->mass;
 	rootBody->averageTemp = csbody->averageTemp;
 	rootBody->name = csbody->name;
+	printf("ar %f, name %s\n",rootBody->aspectRatio.ToDouble(),rootBody->name.c_str());
 
 	int humanInfestedness = 0;
 	CustomGetKidsOf(rootBody, csbody->children, &humanInfestedness, rand);
@@ -1084,6 +1087,7 @@ SystemBody::SystemBody()
 {
 	heightMapFilename = 0;
 	heightMapFractal = 0;
+	aspectRatio = fixed(1,1);
 }
 
 bool SystemBody::HasAtmosphere() const
