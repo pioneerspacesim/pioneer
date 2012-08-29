@@ -29,11 +29,11 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 	switch (body->type) {
 
 		case SystemBody::TYPE_BROWN_DWARF:
-			gi = InstanceGenerator<TerrainHeightFlat,TerrainColorStarBrownDwarf>;
+			gi = InstanceGenerator<TerrainHeightEllipsoid,TerrainColorStarBrownDwarf>;
 			break;
 
 		case SystemBody::TYPE_WHITE_DWARF:
-			gi = InstanceGenerator<TerrainHeightFlat,TerrainColorStarWhiteDwarf>;
+			gi = InstanceGenerator<TerrainHeightEllipsoid,TerrainColorStarWhiteDwarf>;
 			break;
 
 		case SystemBody::TYPE_STAR_M:
@@ -41,10 +41,10 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		case SystemBody::TYPE_STAR_M_SUPER_GIANT:
 		case SystemBody::TYPE_STAR_M_HYPER_GIANT: {
 			const GeneratorInstancer choices[] = {
-				InstanceGenerator<TerrainHeightFlat,TerrainColorStarM>,
-				InstanceGenerator<TerrainHeightFlat,TerrainColorStarM>,
-				InstanceGenerator<TerrainHeightFlat,TerrainColorStarK>,
-				InstanceGenerator<TerrainHeightFlat,TerrainColorStarG>
+				InstanceGenerator<TerrainHeightEllipsoid,TerrainColorStarM>,
+				InstanceGenerator<TerrainHeightEllipsoid,TerrainColorStarM>,
+				InstanceGenerator<TerrainHeightEllipsoid,TerrainColorStarK>,
+				InstanceGenerator<TerrainHeightEllipsoid,TerrainColorStarG>
 			};
 			gi = choices[rand.Int32(COUNTOF(choices))];
 			break;
@@ -55,10 +55,10 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		case SystemBody::TYPE_STAR_K_SUPER_GIANT:
 		case SystemBody::TYPE_STAR_K_HYPER_GIANT: {
 			const GeneratorInstancer choices[] = {
-				InstanceGenerator<TerrainHeightFlat,TerrainColorStarM>,
-				InstanceGenerator<TerrainHeightFlat,TerrainColorStarK>,
-				InstanceGenerator<TerrainHeightFlat,TerrainColorStarK>,
-				InstanceGenerator<TerrainHeightFlat,TerrainColorStarG>
+				InstanceGenerator<TerrainHeightEllipsoid,TerrainColorStarM>,
+				InstanceGenerator<TerrainHeightEllipsoid,TerrainColorStarK>,
+				InstanceGenerator<TerrainHeightEllipsoid,TerrainColorStarK>,
+				InstanceGenerator<TerrainHeightEllipsoid,TerrainColorStarG>
 			};
 			gi = choices[rand.Int32(COUNTOF(choices))];
 			break;
@@ -69,12 +69,32 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		case SystemBody::TYPE_STAR_G_SUPER_GIANT:
 		case SystemBody::TYPE_STAR_G_HYPER_GIANT: {
 			const GeneratorInstancer choices[] = {
-				InstanceGenerator<TerrainHeightFlat,TerrainColorStarWhiteDwarf>,
-				InstanceGenerator<TerrainHeightFlat,TerrainColorStarG>
+				InstanceGenerator<TerrainHeightEllipsoid,TerrainColorStarWhiteDwarf>,
+				InstanceGenerator<TerrainHeightEllipsoid,TerrainColorStarG>
 			};
 			gi = choices[rand.Int32(COUNTOF(choices))];
 			break;
 		}
+
+		case SystemBody::TYPE_STAR_F:
+		case SystemBody::TYPE_STAR_F_GIANT:
+		case SystemBody::TYPE_STAR_F_HYPER_GIANT:
+		case SystemBody::TYPE_STAR_F_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_A:
+		case SystemBody::TYPE_STAR_A_GIANT:
+		case SystemBody::TYPE_STAR_A_HYPER_GIANT:
+		case SystemBody::TYPE_STAR_A_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_B:
+		case SystemBody::TYPE_STAR_B_GIANT:
+		case SystemBody::TYPE_STAR_B_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_B_WF:
+		case SystemBody::TYPE_STAR_O:
+		case SystemBody::TYPE_STAR_O_GIANT:
+		case SystemBody::TYPE_STAR_O_HYPER_GIANT:
+		case SystemBody::TYPE_STAR_O_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_O_WF:
+			gi = InstanceGenerator<TerrainHeightEllipsoid,TerrainColorSolid>;
+		break;
 
 		case SystemBody::TYPE_PLANET_GAS_GIANT: {
 			const GeneratorInstancer choices[] = {
