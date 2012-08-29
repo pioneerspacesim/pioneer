@@ -1105,6 +1105,7 @@ SystemBody::SystemBody()
 {
 	heightMapFilename = 0;
 	heightMapFractal = 0;
+	aspectRatio = fixed(1,1);
 	rotationalPhaseAtStart = fixed(0);
 	orbitalPhaseAtStart = fixed(0);
 	orbMin = fixed(0);
