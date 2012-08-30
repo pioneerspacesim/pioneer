@@ -139,7 +139,8 @@ static void fetch_keys_from_table(lua_State * l, int table_index, const std::str
 
 class RecursionLimit {};
 
-#define COMPLETION_RECURSION_LIMIT 300
+static const int COMPLETION_RECURSION_LIMIT = 300;
+
 static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const std::string & chunk, std::vector<std::string> & completion_list, bool only_functions) {
 	metatable_index = lua_absindex(l, metatable_index);
 	int original_height = lua_gettop(l);
@@ -186,7 +187,6 @@ static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const 
 	}
 	lua_pop(l, lua_gettop(l) - original_height);
 }
-#undef COMPLETION_RECURSION_LIMIT
 
 void LuaConsole::UpdateCompletion(const std::string & statement) {
 	// First, split the statement into chunks.
