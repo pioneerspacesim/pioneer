@@ -9,6 +9,7 @@
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Ship.h"
+#include "Missile.h"
 #include "SpaceStation.h"
 #include "ShipType.h"
 #include "Sfx.h"
@@ -864,6 +865,60 @@ static int l_ship_undock(lua_State *l)
 	return 1;
 }
 
+/* Method: SpawnMissile
+ *
+ * Spawn a missile near the ship.
+ *
+ * > missile = ship:SpawnMissile(type, target, power)
+ * 
+ * Parameters:
+ *
+ *   shiptype - a string for the missile type. specifying an
+ *          ship that is not a missile will result in a Lua error
+ *
+ *   target - the <Ship> to fire the missile at
+ *
+ *   power - the power of the missile. If unspecified, the default power for the
+ *
+ * Return:
+ *
+ *   missile - The missile spawned, or nil if it was unsuccessful.
+ *
+ * Availability:
+ *
+ *   alpha 26
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_ship_spawn_missile(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:SpawnMissile() cannot be called on a ship in hyperspace");
+	ShipType::Type missile_type(lua_tostring(l, 2));
+	Ship *target = LuaShip::GetFromLua(3);
+
+	if (missile_type != ShipType::MISSILE_UNGUIDED &&
+			missile_type != ShipType::MISSILE_GUIDED &&
+			missile_type != ShipType::MISSILE_SMART &&
+			missile_type != ShipType::MISSILE_NAVAL)
+		luaL_error(l, "Ship type '%s' is not a valid missile type", lua_tostring(l, 2));
+	Missile * missile;
+	if (lua_isnone(l, 4))
+		missile = new Missile(missile_type, s, target);
+	else
+		missile = new Missile(missile_type, s, target, lua_tointeger(l, 4));
+
+	if (s->SpawnMissile(missile))
+		LuaShip::PushToLua(missile);
+	else {
+		lua_pushnil(l);
+		delete missile;
+	}
+	return 1;
+}
 /*
  * Method: FireMissileAt
  *
@@ -1450,6 +1505,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SpawnCargo", l_ship_spawn_cargo },
 
 		{ "FireMissileAt", l_ship_fire_missile_at },
+		{ "SpawnMissile", l_ship_spawn_missile },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },
