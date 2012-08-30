@@ -139,7 +139,6 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 	assert(lua_istable(l, -1));
 
 	lua_newtable(l); // 'Constants' table, enum table, 'PiConstants' table, mapping table
-	//pi_lua_table_ro(l);
 	lua_pushstring(l, ns);
 	lua_pushvalue(l, -2);
 	lua_rawset(l, -4);
