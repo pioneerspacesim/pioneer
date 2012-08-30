@@ -41,7 +41,7 @@ TerrainHeightFractal<TerrainHeightEllipsoid>::TerrainHeightFractal(const SystemB
 //                                sin(t)^2 = (y_/size(x_,y_))^2 = size(y_)^2/size(x_,y_)^2 = y_^2/1.0^2
 //                                sin(t)^2 = y_^2 (eqn . 8)
 //
-//                                R(t) = ar/sqrt(ar^2*x_^2+y_^2) (eqn. 8) (substituting using eqn. 7 and eqn. 8)
+//                                R(t) = ar/sqrt(x_^2+ar^2*y_^2) (eqn. 9) (substituting using eqn. 7 and eqn. 8)
 
 template <>
 double TerrainHeightFractal<TerrainHeightEllipsoid>::GetHeight(const vector3d &p)
@@ -51,7 +51,7 @@ double TerrainHeightFractal<TerrainHeightEllipsoid>::GetHeight(const vector3d &p
 	const double x_squared = (p.x*p.x+p.z*p.z); 
 	// y_ = p.y
 	const double y_squared = p.y*p.y;
-	const double distFromCenter_R = ar/sqrt(x_squared+ar*ar*y_squared);
+	const double distFromCenter_R = ar/sqrt(x_squared+ar*ar*y_squared); // (eqn. 9)
 	// GetHeight must return the difference in the distance from center between a point in a sphere of 
 	// Polar radius (in coords scaled to a unit sphere) and the point on the ellipsoid surface.
 	const double h = distFromCenter_R-1.0;
