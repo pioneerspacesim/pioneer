@@ -1011,7 +1011,9 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Demographics
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}.
+    Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}
+COUNT_ON_SURFACE
+    " (%surfacecount on surface)"
 BODY
     body
 BODIES
@@ -1126,8 +1128,8 @@ PROBABILITY_OF_ARRIVAL_X_PERCENT
     Probability of arrival: %probability%%
 ALT_IN_METRES
     Alt: %altitude{f.0}m
-PRESSURE_N_BAR
-    P: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    P: %pressure{f.2} atm
 NO_HYPERDRIVE
     No hyperdrive
 MASS_N_TONNES

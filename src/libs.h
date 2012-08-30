@@ -73,6 +73,8 @@ inline int isfinite(double x) { return _finite(x); }
 #define SOL_MASS	1.98892e30
 #define AU		149598000000.0
 #define G		6.67428e-11
+#define GAS_CONSTANT_R 8.3144621
+#define EARTH_ATMOSPHERE_SURFACE_DENSITY 1.225
 
 #define HUD_ALPHA 0.34f
 
@@ -81,5 +83,13 @@ template<class T> inline const T& Clamp(const T& x, const T& min, const T& max) 
 #define DEG_2_RAD	0.0174532925
 inline double DEG2RAD(double x) { return x*(M_PI/180.); }
 inline float  DEG2RAD(float  x) { return x*(float(M_PI)/180.f); }
+
+// --- typesafe compile time array length
+// by Ivan J. Johnson
+// from StackOverflow: http://stackoverflow.com/a/1500517/52251
+// Q: "Compile time sizeof_array without using a macro"
+template <typename T, size_t N>
+char ( &COUNTOF_Helper( T (&array)[N] ))[N];
+#define COUNTOF( array ) (sizeof( COUNTOF_Helper( array ) ))
 
 #endif /* _LIBS_H */

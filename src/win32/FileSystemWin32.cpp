@@ -1,7 +1,8 @@
-#ifdef _WIN32
+#include "Win32Setup.h"
 
 #include "libs.h"
 #include "FileSystem.h"
+#include "TextUtils.h"
 #include <cassert>
 #include <algorithm>
 #include <cerrno>
@@ -9,53 +10,10 @@
 // I hate macros. I just hate them. Hate hate hate.
 #undef FT_FILE
 
-// MinGW targets NT4 by default. We need to set some higher versions to ensure
-// that functions we need are available. Specifically, SHCreateDirectoryExA
-// requires Windows 2000 and IE5. We include w32api.h to get the symbolic
-// constants for these things.
-#ifdef __MINGW32__
-#	include <w32api.h>
-#	ifdef WINVER
-#		undef WINVER
-#	endif
-#	define WINVER Windows2000
-#	define _WIN32_IE IE5
-#endif
-
-#ifdef _WIN32
 #include <windows.h>
 // GetPiUserDir() needs these
 #include <shlobj.h>
 #include <shlwapi.h>
-#endif
-
-static std::wstring transcode_utf8_to_utf16(const char *s, size_t nbytes)
-{
-	std::wstring buf(nbytes, L'x');
-	int reqchars = MultiByteToWideChar(CP_UTF8, 0, s, nbytes, &buf[0], buf.size());
-	if (!reqchars) { fprintf(stderr, "failed to transcode UTF-8 to UTF-16\n"); abort(); }
-	buf.resize(reqchars);
-	return buf;
-}
-
-static std::wstring transcode_utf8_to_utf16(const std::string &s)
-{
-	return transcode_utf8_to_utf16(s.c_str(), s.size());
-}
-
-static std::string transcode_utf16_to_utf8(const wchar_t *s, size_t nchars)
-{
-	std::string buf(nchars * 2, 'x');
-	int reqbytes = WideCharToMultiByte(CP_UTF8, 0, s, nchars, &buf[0], buf.size(), 0, 0);
-	if (!reqbytes) { fprintf(stderr, "failed to transcode UTF-16 to UTF-8\n"); abort(); }
-	buf.resize(reqbytes);
-	return buf;
-}
-
-static std::string transcode_utf16_to_utf8(const std::wstring &s)
-{
-	return transcode_utf16_to_utf8(s.c_str(), s.size());
-}
 
 namespace FileSystem {
 
@@ -268,5 +226,3 @@ namespace FileSystem {
 		return make_directory_raw(wfullpath);
 	}
 }
-
-#endif /* _WIN32 */

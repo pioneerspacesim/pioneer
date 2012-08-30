@@ -28,6 +28,8 @@ struct Color4ub {
 	operator unsigned char*() { return &r; }
 	operator const unsigned char*() const { return &r; }
 
+	Color4f ToColor4f() const { return Color4f(r/255.0f, g/255.0f, b/255.0f, a/255.0f); }
+
 	static const Color4ub BLACK;
 	static const Color4ub WHITE;
 };

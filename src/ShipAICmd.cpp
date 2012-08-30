@@ -589,6 +589,7 @@ static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, 
 	// ship is in obstructor's frame anyway, so is tpos
 	if (pathdist < 100.0) return 0;
 	Body *body = ship->GetFrame()->GetBodyFor();
+	if (!body) return 0;
 	vector3d spos = ship->GetPosition();
 	double tlen = tpos.Length(), slen = spos.Length();
 	double fr = MaxFeatureRad(body);
@@ -797,9 +798,11 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	}
 
 	// if dangerously close to local body, pretend target isn't moving
-	double localdist = m_ship->GetPosition().Length();
-	if (targdist > localdist && localdist < 1.5*MaxFeatureRad(body))
-		relvel += targvel;
+	if (body) {
+		double localdist = m_ship->GetPosition().Length();
+		if (targdist > localdist && localdist < 1.5*MaxFeatureRad(body))
+			relvel += targvel;
+	}
 
 	// regenerate state to flipmode if we're off course
 	bool overshoot = CheckOvershoot(m_ship, reldir, targdist, relvel, endvel);

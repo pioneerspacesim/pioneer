@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib"
+				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib;../../src/win32"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -216,7 +216,7 @@
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib"
+				AdditionalIncludeDirectories="../../src;../../win32/include;../../contrib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
@@ -370,7 +370,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\FileSystemWin32.cpp"
+				RelativePath="..\..\src\win32\FileSystemWin32.cpp"
 				>
 			</File>
 			<File
@@ -558,10 +558,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Light.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\LmrModel.cpp"
 				>
 			</File>
@@ -730,7 +726,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\win32\src\pch.cpp"
+				RelativePath="..\..\src\win32\OSWin32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\pch.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -914,6 +914,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\galaxy\SystemPath.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\SystemView.cpp"
 				>
 			</File>
@@ -1030,6 +1034,30 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\terrain\TerrainHeightAsteroid2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightAsteroid3.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightAsteroid4.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightBarrenRock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightBarrenRock2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightBarrenRock3.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\terrain\TerrainHeightFlat.cpp"
 				>
 			</File>
@@ -1127,6 +1155,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\View.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\WinMath.cpp"
 				>
 			</File>
 			<File
@@ -1500,10 +1532,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Light.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\LmrModel.h"
 				>
 			</File>
@@ -1692,7 +1720,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\win32\src\pch.h"
+				RelativePath="..\..\src\OS.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\pch.h"
 				>
 			</File>
 			<File
@@ -1972,6 +2004,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\win32\WinMath.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\WorldView.h"
 				>
 			</File>
@@ -2216,6 +2252,7 @@
 							Name="VCCLCompilerTool"
 							UsePrecompiledHeader="0"
 							WarnAsError="false"
+							CompileAs="1"
 							ForcedIncludeFiles="$(NOINHERIT)"
 						/>
 					</FileConfiguration>
@@ -3186,6 +3223,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\graphics\Light.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Light.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\graphics\Material.cpp"
 				>
 			</File>
@@ -3269,6 +3314,55 @@
 				RelativePath="..\..\src\graphics\VertexArray.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="jenkins"
+			>
+			<Filter
+				Name="headers"
+				Filter="h;hpp;hxx;hm;inl;inc;xsd"
+				>
+				<File
+					RelativePath="..\..\contrib\jenkins\lookup3.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="source"
+				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asm"
+				>
+				<File
+					RelativePath="..\..\contrib\jenkins\lookup3.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="PreRelease|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

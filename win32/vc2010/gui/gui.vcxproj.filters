@@ -28,7 +28,7 @@
     <ClCompile Include="..\..\..\src\gui\GuiVScrollBar.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiVScrollPortal.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiWidget.cpp" />
-    <ClCompile Include="..\..\src\pch.cpp">
+    <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,6 +63,9 @@
     <ClInclude Include="..\..\..\src\gui\GuiVScrollBar.h" />
     <ClInclude Include="..\..\..\src\gui\GuiVScrollPortal.h" />
     <ClInclude Include="..\..\..\src\gui\GuiWidget.h" />
+    <ClInclude Include="..\..\..\src\win32\pch.h">
+      <Filter>win32</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

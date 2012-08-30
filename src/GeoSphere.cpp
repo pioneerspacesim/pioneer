@@ -35,9 +35,11 @@ static const int detail_edgeLen[5] = {
 SHADER_CLASS_BEGIN(GeosphereShader)
 	SHADER_UNIFORM_VEC4(atmosColor)
 	SHADER_UNIFORM_FLOAT(geosphereScale)
-	SHADER_UNIFORM_FLOAT(geosphereAtmosTopRad)
+	SHADER_UNIFORM_FLOAT(geosphereScaledRadius) // (planet radius) / scale
+	SHADER_UNIFORM_FLOAT(geosphereAtmosTopRad) // in planet radii
 	SHADER_UNIFORM_VEC3(geosphereCenter)
 	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
+	SHADER_UNIFORM_FLOAT(geosphereAtmosInvScaleHeight);
 SHADER_CLASS_END()
 
 static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader, *s_geosphereDimStarShader[4];
@@ -1327,29 +1329,26 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	glTranslated(-campos.x, -campos.y, -campos.z);
 	Frustum frustum = Frustum::FromGLState();
 
-	const float atmosRadius = float(ATMOSPHERE_RADIUS);
-
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
 	GeosphereShader *shader = 0;
 
 	if (AreShadersEnabled()) {
-		Color atmosCol;
-		double atmosDensity;
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 
-		m_sbody->GetAtmosphereFlavor(&atmosCol, &atmosDensity);
-		atmosDensity *= 0.00005;
-
-		if (atmosDensity > 0.0) {
+		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
+		
+		if (ap.atmosDensity > 0.0) {
 			shader = s_geosphereSkyShader[Graphics::State::GetNumLights()-1];
 			shader->Use();
 			shader->set_geosphereScale(scale);
-			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
-			shader->set_geosphereAtmosFogDensity(atmosDensity);
-			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
+			shader->set_geosphereScaledRadius(radius / scale);
+			shader->set_geosphereAtmosTopRad(ap.atmosRadius);
+			shader->set_geosphereAtmosInvScaleHeight(ap.atmosInvScaleHeight);
+			shader->set_geosphereAtmosFogDensity(ap.atmosDensity);
+			shader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
 			shader->set_geosphereCenter(center.x, center.y, center.z);
 
 			Material atmoMat;
@@ -1360,7 +1359,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, campos, atmosRadius*1.01, &atmoMat);
+			DrawAtmosphereSurface(renderer, campos, ap.atmosRadius*1.01, &atmoMat);
 			renderer->SetDepthWrite(true);
 			renderer->SetBlendMode(BLEND_SOLID);
 		}
@@ -1377,9 +1376,11 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 			shader = s_geosphereSurfaceShader[Graphics::State::GetNumLights()-1];
 			shader->Use();
 			shader->set_geosphereScale(scale);
-			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
-			shader->set_geosphereAtmosFogDensity(atmosDensity);
-			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
+			shader->set_geosphereScaledRadius(radius / scale);
+			shader->set_geosphereAtmosTopRad(ap.atmosRadius);
+			shader->set_geosphereAtmosInvScaleHeight(ap.atmosInvScaleHeight);
+			shader->set_geosphereAtmosFogDensity(ap.atmosDensity);
+			shader->set_atmosColor(ap.atmosCol.r, ap.atmosCol.g, ap.atmosCol.b, ap.atmosCol.a);
 			shader->set_geosphereCenter(center.x, center.y, center.z);
 		}
 	}
@@ -1393,8 +1394,8 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 
 	// save old global ambient
 	// XXX add GetAmbient to renderer or save ambient in scene? (Space)
-	Color oldAmbient;
-	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
+	Color oldAmbient = Graphics::State::GetGlobalSceneAmbientColor();
+	//glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
 
 	float b = AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
 

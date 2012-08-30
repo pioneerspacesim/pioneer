@@ -51,7 +51,6 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\common.props" />
-    <Import Project="..\Release.props" />
     <Import Project="..\PreRelease.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -82,6 +81,7 @@
     <ClCompile Include="..\..\..\src\graphics\Drawables.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Frustum.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Graphics.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\Light.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Material.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Renderer.cpp" />
     <ClCompile Include="..\..\..\src\graphics\RendererGL2.cpp" />
@@ -91,19 +91,18 @@
     <ClCompile Include="..\..\..\src\graphics\TextureBuilder.cpp" />
     <ClCompile Include="..\..\..\src\graphics\TextureGL.cpp" />
     <ClCompile Include="..\..\..\src\graphics\VertexArray.cpp" />
-    <ClCompile Include="..\..\src\pch.cpp">
+    <ClCompile Include="..\..\..\src\win32\OSWin32.cpp" />
+    <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
     <ClInclude Include="..\..\..\src\graphics\Frustum.h" />
     <ClInclude Include="..\..\..\src\graphics\Graphics.h" />
+    <ClInclude Include="..\..\..\src\graphics\Light.h" />
     <ClInclude Include="..\..\..\src\graphics\Material.h" />
     <ClInclude Include="..\..\..\src\graphics\Renderer.h" />
     <ClInclude Include="..\..\..\src\graphics\RendererGL2.h" />
@@ -116,6 +115,7 @@
     <ClInclude Include="..\..\..\src\graphics\TextureBuilder.h" />
     <ClInclude Include="..\..\..\src\graphics\TextureGL.h" />
     <ClInclude Include="..\..\..\src\graphics\VertexArray.h" />
+    <ClInclude Include="..\..\..\src\win32\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -177,7 +177,6 @@ static int l_equiptype_get_equip_types(lua_State *l)
 	}
 
 	lua_newtable(l);
-	pi_lua_table_ro(l);
 
 	for (int i = Equip::NONE; i < Equip::TYPE_MAX; i++) {
 		EquipType *et = const_cast<EquipType*>(&(Equip::types[i]));

@@ -1156,7 +1156,7 @@ bool Ship::SetWheelState(bool down)
 	return true;
 }
 
-void Ship::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (IsDead() || (!IsEnabled() && !m_flightState)) return;
 	LmrObjParams &params = GetLmrObjParams();
@@ -1314,6 +1314,7 @@ void Ship::EnterHyperspace() {
 }
 
 void Ship::OnEnterHyperspace() {
+	Sound::BodyMakeNoise(this, "Hyperdrive_Jump", 1.f);
 	m_hyperspaceCloud = new HyperspaceCloud(this, Pi::game->GetTime() + m_hyperspace.duration, false);
 	m_hyperspaceCloud->SetFrame(GetFrame());
 	m_hyperspaceCloud->SetPosition(GetPosition());

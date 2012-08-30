@@ -26,8 +26,14 @@ FileSourceZip::FileSourceZip(const std::string &zipPath) : FileSource(zipPath), 
 	for (Uint32 i = 0; i < numFiles; i++) {
 		if (mz_zip_reader_file_stat(zip, i, &zipStat)) {
 			bool is_dir = mz_zip_reader_is_file_a_directory(zip, i);
-			if (!mz_zip_reader_is_file_encrypted(zip, i))
-				AddFile(zipStat.m_filename, FileStat(i, zipStat.m_uncomp_size, MakeFileInfo(zipStat.m_filename, is_dir ? FileInfo::FT_DIR : FileInfo::FT_FILE)));
+			if (!mz_zip_reader_is_file_encrypted(zip, i)) {
+				std::string fname = zipStat.m_filename;
+				if ((fname.size() > 1) && (fname[fname.size()-1] == '/')) {
+					fname.resize(fname.size() - 1);
+				}
+				AddFile(zipStat.m_filename, FileStat(i, zipStat.m_uncomp_size,
+					MakeFileInfo(fname, is_dir ? FileInfo::FT_DIR : FileInfo::FT_FILE)));
+			}
 		}
 	}
 

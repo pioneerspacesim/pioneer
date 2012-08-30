@@ -1,4 +1,4 @@
-The Pioneer team, past and present, as at 13 July 2012 (alpha 24):
+The Pioneer team, past and present, as at 10 August 2012 (alpha 25):
 
   Aaron Lewis
   Aaron Senese
@@ -15,6 +15,7 @@ The Pioneer team, past and present, as at 13 July 2012 (alpha 24):
   Craig Thomson
   Dan Bennett
   Darren Salt
+  Enric Morales
   Fran Morton
   Gareth Allnutt
   Gernot
@@ -22,6 +23,8 @@ The Pioneer team, past and present, as at 13 July 2012 (alpha 24):
   John Jordan
   Kimmo Kotajärvi
   Konrad Mruk
+  Lee Reilly
+  Lars Westerhoff
   Leonardo Manna
   Marcel Tulloh
   Marcus de Roos

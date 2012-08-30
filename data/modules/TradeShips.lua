@@ -346,7 +346,7 @@ local spawnInitialShips = function (game_start)
 
 	-- spawn the initial trade ships
 	for i = 0, num_trade_ships do
-		-- get the name of a ship, for example 'Imperial Courier'
+		-- get the name of a ship, for example 'imperial_courier'
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 		local ship = nil
 
@@ -635,7 +635,7 @@ local onAICompleted = function (ship, ai_error)
 		if ai_error == 'NONE' then
 			trader['delay'] = Game.time + 21600 -- 6 hours
 			Timer:CallAt(trader.delay, function ()
-				if ship:exists() then
+				if ship:exists() and ship.flightState ~= 'HYPERSPACE' then
 					trader['starport'] = getNearestStarport(ship, trader.starport)
 					ship:AIDockWith(trader.starport)
 					trader['status'] = 'inbound'
@@ -849,7 +849,7 @@ local onGameStart = function ()
 					Timer:CallAt(trader.delay, function () doUndock(ship) end)
 				elseif trader.status == 'orbit' then
 					Timer:CallAt(trader.delay, function ()
-						if ship:exists() then
+						if ship:exists() and ship.flightState ~= 'HYPERSPACE' then
 							trader['starport'] = getNearestStarport(ship)
 							ship:AIDockWith(trader.starport)
 							trader['status'] = 'inbound'

@@ -5,7 +5,7 @@ dnl Setup
 dnl ###########################################################################
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [alpha-25-dev], [pioneer@pioneerspacesim.net])
+AC_INIT([pioneer], [alpha-26-dev], [pioneer@pioneerspacesim.net])
 dnl AC_CONFIG_HEADERS([config.h])
 
 AC_DEFUN([MXE_SETUP], [
@@ -292,11 +292,12 @@ AC_CONFIG_FILES([
 	src/galaxy/Makefile
 	src/terrain/Makefile
 	src/text/Makefile
+	src/win32/Makefile
+	src/posix/Makefile
 	contrib/Makefile
 	contrib/lua/Makefile
 	contrib/miniz/Makefile
 	contrib/jenkins/Makefile
 	osx/Makefile
-	win32/Makefile
-	win32/src/Makefile])
+	win32/Makefile])
 AC_OUTPUT
