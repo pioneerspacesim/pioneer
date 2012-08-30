@@ -122,7 +122,7 @@ static void fetch_keys_from_table(lua_State * l, int table_index, const std::str
 	table_index = lua_absindex(l, table_index);
 	lua_pushnil(l);
 	while(lua_next(l, table_index)) {
-		if (lua_isstring(l, -2)) {
+		if (lua_type(l, -2) == LUA_TSTRING) {
 			std::string candidate(lua_tostring(l, -2));
 			bool attr = false;
 			if (candidate.substr(0, 12) == "__attribute_") {
