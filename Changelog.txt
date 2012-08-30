@@ -9,9 +9,19 @@ Alpha 26
      * Fix flipped EYE ship texture (#1436)
      * Fix Caribou laser position (#1435)
      * Fix broken planet ring textures on Intel GMA 900 chips (#1442, #1439)
+     * Fix Lua console tab completion for some oddly constructed tables (#1447)
+     * Fix Lua console tab completion for tables with numeric indices (#1461, #1462)
+
+   * Script changes
+     * Ships now identified by the filename the ship is defined in (#1444)
 
    * Internal changes
      * Show frame time in the stats overlay (#1437)
+     * Update COUNTOF macro to fix avoid warnings when compiling with
+       compiling with optimisations on GCC (#1451, #1450)
+     * Force commodity icons to scale to their bounds regardless of their
+       initial size. Allows hi-res icons (#1448)
+     * Reimplemented Lua read-only tables (#1460)
 
 Alpha 25
 

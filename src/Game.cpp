@@ -34,7 +34,7 @@ Game::Game(const SystemPath &path) :
 	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
 	assert(station);
 
-    m_player.Reset(new Player("Interplanetary Shuttle"));
+    m_player.Reset(new Player("ip_shuttle"));
 
 	m_space->AddBody(m_player.Get());
 

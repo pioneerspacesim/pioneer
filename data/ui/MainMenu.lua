@@ -1,5 +1,5 @@
 local setupPlayerEagle = function ()
-	Game.player:SetShipType("Eagle Long Range Fighter")
+	Game.player:SetShipType("eagle_lrf")
 	Game.player:AddEquip("PULSECANNON_1MW")
 	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
 	Game.player:AddEquip("AUTOPILOT")
@@ -10,7 +10,7 @@ local setupPlayerEagle = function ()
 end
 
 local setupPlayerCobra = function ()
-	Game.player:SetShipType("Cobra Mk III")
+	Game.player:SetShipType("cobra3")
 	Game.player:AddEquip("PULSECANNON_1MW")
 	Game.player:AddEquip("SCANNER")
 	Game.player:AddEquip("MISSILE_GUIDED", 2)
@@ -19,7 +19,7 @@ local setupPlayerCobra = function ()
 end
 
 local addDebugEnemy = function ()
-	local enemy = Space.SpawnShipNear("Eagle Long Range Fighter", Game.player, 9, 9)
+	local enemy = Space.SpawnShipNear("eagle_lrf", Game.player, 9, 9)
 	enemy:AddEquip("PULSECANNON_1MW")
 	enemy:AddEquip("ATMOSPHERIC_SHIELDING")
 	enemy:AddEquip("AUTOPILOT")
