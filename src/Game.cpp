@@ -15,6 +15,7 @@
 #include "SystemInfoView.h"
 #include "SpaceStationView.h"
 #include "InfoView.h"
+#include "LuaEvent.h"
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
@@ -510,7 +511,7 @@ void Game::SwitchToNormalSpace()
 
 			m_space->AddBody(ship);
 
-			Pi::luaOnEnterSystem->Queue(ship);
+			LuaEvent::Queue("onEnterSystem", ship);
 		}
 	}
 	m_hyperspaceClouds.clear();
