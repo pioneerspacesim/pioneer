@@ -50,6 +50,8 @@ static int l_lang_get_dictionary(lua_State *l)
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		_build_dictionary_table(l);
+		pi_lua_readonly_table_proxy(l, -1);
+		lua_remove(l, -2); // pop the underlying table
 		lua_pushvalue(l, -1);
 		lua_setfield(l, LUA_REGISTRYINDEX, "LangCoreDictionary");
 	}
