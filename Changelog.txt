@@ -9,6 +9,7 @@ Alpha 26
      * Fix flipped EYE ship texture (#1436)
      * Fix Caribou laser position (#1435)
      * Fix broken planet ring textures on Intel GMA 900 chips (#1442, #1439)
+     * Fix Lua console tab completion for some oddly constructed tables (#1447)
 
    * Script changes
      * Ships now identified by the filename the ship is defined in (#1444)
