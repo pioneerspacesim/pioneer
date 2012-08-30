@@ -1,3 +1,26 @@
+--
+-- Interface: Event
+--
+-- The majority of the work done by a Pioneer Lua module is in response to
+-- events. The typical structure of a module will be to define a number of
+-- event handler functions and then register them to receive a specific types
+-- of event.
+--
+-- When events occur within the game, such as a ship docking or the player
+-- coming under attack, an event is added to the event queue. At the end of
+-- each physics frame, queued events are processed by calling the handlers
+-- registered with for each type of event.
+--
+-- An event usually has one or more parameters attached to it that describe
+-- the details of the event. For example, the <onShipDocked> event has two
+-- parameters, the <Ship> that docked, and the <SpaceStation> it docked with.
+--
+-- Many of these events are triggered as a result of something happening to a
+-- <Ship>. The same events are used when something happens to a <Player>
+-- (which is also a <Ship>). Call the <Ship.IsPlayer> method on the <Ship> if
+-- your module needs to know the difference.
+--
+
 local pending = {}
 local callbacks = {}
 local do_callback = {}
@@ -16,20 +39,127 @@ local do_callback_timed = function (cb, p)
 end
 
 Event = {
-	Queue = function (name, ...)
-		table.insert(pending, { name = name, event = {...} })
-	end,
-
-	Connect = function (name, cb)
+	--
+	-- Function: Register
+	--
+	-- Register a function with a specific type of event. When an event with
+	-- the named type is processed, the function will be called.
+	--
+	-- > Event.Register(name, function)
+	--
+	-- Parameters:
+	--
+	--   name - the name (type) of the event
+	--
+	--   function - function to call when an event of the named type is processed.
+	--              The function will recieve a copy of the parameters attached to
+	--              the event.
+	--
+	--
+	-- Example:
+	--
+	-- > Event.Register("onEnterSystem", function (ship)
+	-- >     print("welcome to "..Game.system.name..", "..ship.label)
+	-- > end)
+	--
+	-- Availability:
+	--
+	--   alpha 26
+	--
+	-- Status:
+	--
+	--   stable  
+	--
+	Register = function (name, cb)
 		if not callbacks[name] then callbacks[name] = {} end
 		callbacks[name][cb] = cb;
         if not do_callback[name] then do_callback[name] = do_callback_normal end
 	end,
 
-	Disconnect = function (name, cb)
+	--
+	-- Function: Deregister
+	--
+	-- Deregisters a function from an event type. The funtion will no longer
+	-- receive events of the named type.
+	--
+	-- If the function is not registered this method does nothing.
+	--
+	-- > Event.Deregister(name, function)
+	--
+	-- Parameters:
+	--
+	--   name - the name (type) of the event
+	--
+	--   function - a function that was previously connected to this queue with
+	--              <Connect>
+	--
+	-- Availability:
+	--
+	--   alpha 26
+	--
+	-- Status:
+	--
+	--   stable
+	--
+	Deregister = function (name, cb)
 		if not callbacks[name] then return end
 		callbacks[name][cb] = nil
 	end,
+
+    --
+	-- Function: Queue
+	--
+	-- Add an event to the queue of pending events. The event will be
+	-- distributed to the handlers when the queue is processed.
+	--
+	-- > Event.Queue(name, ...)
+	--
+	-- Parameters:
+	--
+	--   name - the name (type) of the event
+	--
+	--   ... - zero or more arguments to be passed to the handlers
+	--
+	-- Example:
+	--
+	-- > Event.Queue("onEnterSystem", ship)
+	--
+	-- Availability:
+	--
+	--   alpha 26
+	--
+	-- Status:
+	--
+	--   stable
+	--
+	Queue = function (name, ...)
+		table.insert(pending, { name = name, event = {...} })
+	end,
+
+	--
+	-- Function: DebugTimer
+	--
+	-- Enables the function timer for this event type. When enabled the console
+	-- will display the amount of time that each handler for this event type
+	-- takes to run.
+	--
+	-- > Event.DebugTimer(name, enabled)
+	--
+	-- Parameters:
+	--
+	--   name - name (type) of the event
+	--
+	--   enabled - a true value to enable the timer, or a false value to
+	--             disable it.
+	--
+	-- Availability:
+	--
+	--   alpha 26
+	--
+	-- Status:
+	--
+	--   debug
+    --
 
     DebugTimer = function (name, enabled)
 		do_callback[name] = enabled and do_callback_timed or do_callback_normal
@@ -53,96 +183,22 @@ Event = {
 	end
 }
 
---
--- Class: EventQueue
---
--- A class to manage a queue of events.
---
--- The majority of the work done by a Pioneer Lua module is in response to
--- events. The typical structure of a module will be to define a number of
--- event handler functions and then register them with the appropriate event
--- queues.
---
--- When particular events occur within the game, such as a ship docking or the
--- player coming under attack, the appropriate <EventQueue> object is
--- triggered. This causes all functions registered with the event queue to be
--- called, in no particular order.
---
--- An event usually has one or more parameters attached to it that describe
--- the details of the event. For example, the <onShipDocked> event has two
--- parameters, the <Ship> that docked, and the <SpaceStation> it docked with.
---
--- Many of these events are triggered as a result of something happening to a
--- <Ship>. The same events are used when something happens to a <Player>
--- (which is also a <Ship>). Call the <Ship.IsPlayer> method on the <Ship> if
--- your module needs to know the difference.
---
--- The <EventQueue> objects are available under the global EventQueue
--- namespace.
---
+-- XXX remove in alpha 27
+-- XXX documentation is at the bottom of this file so that naturaldocs
+--     produces something with a decent structure. doesn't matter since
+--     this is going away soon
 EventQueue = {
 	Create = function (name)
 		local on = "on"..name
 
 		EventQueue[on] = {
 
-			--
-			-- Method: Connect
-			--
-			-- Connect a function to an event queue. When the queue emits an event, the
-			-- function will be called.
-			--
-			-- > onEvent:Connect(function)
-			--
-			-- Parameters:
-			--
-			--   function - function to call when the queue emits an event. The function
-			--              will recieve a copy of the parameters attached to the event
-			--
-			--
-			-- Example:
-			--
-			-- > EventQueue.onEnterSystem:Connect(function (ship)
-			-- >     print("welcome to "..Game.system.name..", "..ship.label)
-			-- > end)
-			--
-			-- Availability:
-			--
-			--   alpha 10
-			--
-			-- Status:
-			--
-			--   deprecated  
-			--
 			Connect = function (_, cb)
-				Event.Connect(on, cb)
+				Event.Register(on, cb)
 			end,
 
-			--
-			-- Method: Disconnect
-			--
-			-- Disconnects a function from an event queue. The function will no long
-			-- receive events emitted by the queue.
-			--
-			-- If the function is not connected to the queue this method does nothing.
-			--
-			-- > onEvent:Disconnect(function)
-			--
-			-- Parameters:
-			--
-			--   function - a function that was previously connected to this queue with
-			--              <Connect>
-			--
-			-- Availability:
-			--
-			--   alpha 10
-			--
-			-- Status:
-			--
-			--   deprecated
-			--
 			Disconnect = function (_, cb)
-				Event.Disconnect(on, cb)
+				Event.Deregister(on, cb)
 			end,
 		}
 	end
@@ -154,7 +210,7 @@ EventQueue = {
 -- Triggered when the game is first initialised.
 --
 -- > local onGameStart = function () ... end
--- > EventQueue.onGameStart:Connect(onGameStart)
+-- > Event.Register("onGameStart", onGameStart)
 --
 -- onGameStart is triggered just after the physics <Body> objects (including
 -- the <Player>) are placed.
@@ -179,7 +235,7 @@ EventQueue.Create("GameStart");
 -- Triggered when game is finished.
 --
 -- > local onGameEnd = function () ... end
--- > EventQueue.onGameEnd:Connect(onGameEnd)
+-- > Event.Register("onGameEnd", onGameEnd)
 --
 -- Triggered just before the physics <Body> objects (include the <Player>) are
 -- destroyed and Pioneer returns to the main menu.
@@ -204,7 +260,7 @@ EventQueue.Create("GameEnd");
 -- Triggered when a ship enters a system after hyperspace.
 --
 -- > local onEnterSystem = function (ship) ... end
--- > EventQueue.onEnterSystem:Connect(onEnterSystem)
+-- > Event.Register("onEnterSystem", onEnterSystem)
 --
 -- This is the place to spawn pirates and other attack ships to give the
 -- illusion that the ship was followed through hyperspace.
@@ -231,7 +287,7 @@ EventQueue.Create("EnterSystem");
 -- Triggered immediately before ship leaves a system and enters hyperspace.
 --
 -- > local onLeaveSystem = function (ship) ... end
--- > EventQueue.onLeaveSystem:Connect(onLeaveSystem)
+-- > Event.Register("onLeaveSystem", onLeaveSystem)
 --
 -- If the ship was the player then all physics <Body> objects are invalid after
 -- this method returns.
@@ -256,7 +312,7 @@ EventQueue.Create("LeaveSystem");
 -- Triggered as a dynamic <Body> moves between frames of reference.
 --
 -- > local onFrameChanged = function (body) ... end
--- > EventQueue.onFrameChanged:Connect(onFrameChanged)
+-- > Event.Register("onFrameChanged", onFrameChanged)
 --
 -- Details of the new frame itself can be obtained from the body's
 -- <Body.frameBody> and <Body.frameRotating> attributes.
@@ -281,7 +337,7 @@ EventQueue.Create("FrameChanged");
 -- Triggered when a ship is destroyed.
 --
 -- > local onShipDestroyed = function (ship, attacker) ... end
--- > EventQueue.onShipDestroyed:Connect(onShipDestroyed)
+-- > Event.Register("onShipDestroyed", onShipDestroyed)
 --
 -- Parameters:
 --
@@ -308,7 +364,7 @@ EventQueue.Create("ShipDestroyed");
 -- Triggered when a ship is hit by laser fire or a missile.
 --
 -- > local onShipHit = function (ship, attacker) ... end
--- > EventQueue.onShipHit:Connect(onShipHit)
+-- > Event.Register("onShipHit", onShipHit)
 --
 -- Parameters:
 --
@@ -332,7 +388,7 @@ EventQueue.Create("ShipHit");
 -- Triggered when a ship collides with an object.
 --
 -- > local onShipCollided = function (ship, other) ... end
--- > EventQueue.onShipCollided:Connect(onShipCollided)
+-- > Event.Register("onShipCollided", onShipCollided)
 --
 -- If the ship collides with a city building on a planet it will register as
 -- as collision with the planet itself.
@@ -365,7 +421,7 @@ EventQueue.Create("ShipCollided");
 -- Triggered when a ship docks with a space station.
 --
 -- > local onShipDocked = function (ship, station) ... end
--- > EventQueue.onShipDocked:Connect(onShipDocked)
+-- > Event.Register("onShipDocked", onShipDocked)
 --
 -- Parameters:
 --
@@ -389,7 +445,7 @@ EventQueue.Create("ShipDocked");
 -- Triggered when a ship undocks with a space station.
 --
 -- > local onShipUndocked = function (ship, station) ... end
--- > EventQueue.onShipUndocked:Connect(onShipUndocked)
+-- > Event.Register("onShipUndocked", onShipUndocked)
 --
 -- Parameters:
 --
@@ -414,7 +470,7 @@ EventQueue.Create("ShipUndocked");
 -- (not on a spaceport).
 --
 -- > local onShipLanded = function (ship, body) ... end
--- > EventQueue.onShipLanded:Connect(onShipLanded)
+-- > Event.Register("onShipLanded", onShipLanded)
 --
 -- Parameters:
 --
@@ -438,8 +494,8 @@ EventQueue.Create("ShipLanded");
 -- Triggered when a ship takes off from a surface
 -- (not from a spaceport).
 --
--- > local onBlastOff = function (ship, body) ... end
--- > EventQueue.onShipTakeOff:Connect(onBlastOff)
+-- > local onShipTakeOff = function (ship, body) ... end
+-- > Event.Register("onShipTakeOff", onShipTakeOff)
 --
 -- Parameters:
 --
@@ -463,7 +519,7 @@ EventQueue.Create("ShipTakeOff");
 -- Triggered when a ship's alert status changes.
 --
 -- > local onShipAlertChanged = function (ship, alert) ... end
--- > EventQueue.onShipAlertChanged:Connect(onShipAlertChanged)
+-- > Event.Register("onShipAlertChanged", onShipAlertChanged)
 --
 -- Parameters:
 --
@@ -487,7 +543,7 @@ EventQueue.Create("ShipAlertChanged");
 -- Triggered when a ship jettisons a cargo item.
 --
 -- > local onJettison = function (ship, cargo) ... end
--- > EventQueue.onJettison:Connect(onJettison)
+-- > Event.Register("onJettison", onJettison)
 --
 -- Parameters:
 --
@@ -511,7 +567,7 @@ EventQueue.Create("Jettison");
 -- Triggered when the player unloads a cargo item while docked or landed.
 --
 -- > local onUnload = function (body, cargoType) ... end
--- > EventQueue.onCargoUnload:Connect(onUnload)
+-- > Event.Register("onCargoUnload", onCargoUnload)
 --
 -- Parameters:
 --
@@ -535,7 +591,7 @@ EventQueue.Create("CargoUnload");
 -- Triggered when a ship AI completes
 --
 -- > local onAICompleted = function (ship, error) ... end
--- > EventQueue.onAICompleted:Connect(onAICompleted)
+-- > Event.Register("onAICompleted", onAICompleted)
 --
 -- Parameters:
 --
@@ -559,7 +615,7 @@ EventQueue.Create("AICompleted");
 -- Triggered when a space station bulletin board is created.
 --
 -- > local onCreateBB = function (station) ... end
--- > EventQueue.onCreateBB:Connect(onCreateBB)
+-- > Event.Register("onCreateBB", onCreateBB)
 --
 -- The usual function of a <onCreateBB> event handler is to call
 -- <SpaceStation.AddAdvert> to populate the bulletin board with ads.
@@ -588,7 +644,7 @@ EventQueue.Create("CreateBB");
 -- Triggered every 1-2 hours of game time to update the bulletin board.
 --
 -- > local onUpdateBB = function (station) ... end
--- > EventQueue.onUpdateBB:Connect(onUpdateBB)
+-- > Event.Register("onUpdateBB", onUpdateBB)
 --
 -- The usual function of a <onUpdateBB> event handler is to call
 -- <SpaceStation.AddAdvert> and <SpaceStation.RemoveAdvert> to update the
@@ -621,7 +677,7 @@ EventQueue.Create("UpdateBB");
 -- Triggered when a ship's type, registration or graphical flavour changes.
 --
 -- > local onShipFlavourChanged = function (ship) ... end
--- > EventQueue.onShipFlavourChanged:Connect(onShipFlavourChanged)
+-- > Event.Register("onShipFlavourChanged", onShipFlavourChanged)
 --
 -- Parameters:
 --
@@ -643,7 +699,7 @@ EventQueue.Create("ShipFlavourChanged");
 -- Triggered when a ship's equipment set changes.
 --
 -- > local onShipEquipmentChanged = function (ship, equipType) ... end
--- > EventQueue.onShipEquipmentChanged:Connect(onShipEquipmentChanged)
+-- > Event.Register("onShipEquipmentChanged", onShipEquipmentChanged)
 --
 -- Parameters:
 --
@@ -668,7 +724,7 @@ EventQueue.Create("ShipEquipmentChanged");
 -- Triggered when a ship's fuel status changes.
 --
 -- > local onShipFuelChanged = function (ship, fuelStatus) ... end
--- > EventQueue.onShipFuelChanged:Connect(onShipFuelChanged)
+-- > Event.Register("onShipFuelChanged", onShipFuelChanged)
 --
 -- Parameters:
 --
@@ -688,3 +744,52 @@ EventQueue.Create("ShipFuelChanged");
 
 -- XXX document this
 EventQueue.Create("SongFinished");
+
+--
+-- Class: EventQueue
+--
+-- WARNING: This class is deprecated in favour of <Event>. It will be removed
+-- entirely in alpha 27.
+--
+-- Method: Connect
+--
+-- Connect a function to an event queue. When the queue emits an event, the
+-- function will be called.
+--
+-- > onEvent:Connect(function)
+--
+-- Parameters:
+--
+--   function - function to call when the queue emits an event. The function
+--              will recieve a copy of the parameters attached to the event
+--
+-- Availability:
+--
+--   alpha 10
+--
+-- Status:
+--
+--   deprecated  
+--
+-- Method: Disconnect
+--
+-- Disconnects a function from an event queue. The function will no long
+-- receive events emitted by the queue.
+--
+-- If the function is not connected to the queue this method does nothing.
+--
+-- > onEvent:Disconnect(function)
+--
+-- Parameters:
+--
+--   function - a function that was previously connected to this queue with
+--              <Connect>
+--
+-- Availability:
+--
+--   alpha 10
+--
+-- Status:
+--
+--   deprecated
+--
