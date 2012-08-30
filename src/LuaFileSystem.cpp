@@ -42,7 +42,7 @@ static int l_filesystem_read_dir(lua_State *l)
 	if (lua_gettop(l) > 1)
 		path = luaL_checkstring(l, 2);
 
-	FileSystem::FileSourceFS userFiles(FileSystem::FileSourceFS(FileSystem::GetUserDir()));
+	FileSystem::FileSourceFS userFiles(FileSystem::GetUserDir());
 	FileSystem::FileSource *fs;
 	switch (root) {
 		case LuaFileSystem::ROOT_USER:
