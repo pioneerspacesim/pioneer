@@ -196,11 +196,6 @@ static void draw_progress(float progress)
 
 static void LuaInit()
 {
-	Pi::luaManager = new LuaManager();
-
-	lua_State *l = Pi::luaManager->GetLuaState();
-	PersistentTable::Init(l);
-
 	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
 	LuaSpaceStation::RegisterClass();
@@ -286,6 +281,7 @@ static void LuaInit()
 	UI::LuaInit();
 
 	// XXX load everything. for now, just modules
+	lua_State *l = Pi::luaManager->GetLuaState();
 	pi_lua_dofile_recursive(l, "libs");
 	pi_lua_dofile_recursive(l, "ui");
 	pi_lua_dofile_recursive(l, "modules");
@@ -441,13 +437,20 @@ void Pi::Init()
 	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
 
-	Pi::ui.Reset(new UI::Context(Pi::renderer, scrWidth, scrHeight));
+    // XXX UI requires Lua (and PersistentTable), but Pi::ui must exist before
+    // we start loading templates. so now we have crap everywhere :/
+	Pi::luaManager = new LuaManager();
+
+	lua_State *l = Pi::luaManager->GetLuaState();
+	PersistentTable::Init(l);
+
+	Pi::ui.Reset(new UI::Context(Pi::luaManager, Pi::renderer, scrWidth, scrHeight));
+
+	LuaInit();
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
 	Gui::Init(renderer, scrWidth, scrHeight, 800, 600);
-
-	LuaInit();
 
 	draw_progress(0.1f);
 
@@ -1058,7 +1061,7 @@ void Pi::Start()
 {
 	Background::Container *background = new Background::Container(UNIVERSE_SEED);
 
-	ui->SetInnerWidget(ui->GetFromCatalog("MainMenu"));
+	ui->SetInnerWidget(ui->CallTemplate("MainMenu"));
 
 #if 0
 	static const int NUM_OPTIONS = 6;

@@ -75,4 +75,4 @@ local menu =
 			)
 	)
 
-ui:AddToCatalog("MainMenu", menu);
+ui.templates.MainMenu = function () return menu end

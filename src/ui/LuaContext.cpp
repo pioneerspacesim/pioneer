@@ -138,29 +138,11 @@ public:
 		return 1;
 	}
 
-	static int l_add_to_catalog(lua_State *l) {
+	static int l_attr_templates(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-		const std::string name(luaL_checkstring(l, 2));
-		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(3);
-		c->AddToCatalog(name, w);
-		return 0;
-	}
-
-	static int l_remove_from_catalog(lua_State *l) {
-		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-		const std::string name(luaL_checkstring(l, 2));
-		c->RemoveFromCatalog(name);
-		return 0;
-	}
-
-	static int l_get_from_catalog(lua_State *l) {
-		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-		const std::string name(luaL_checkstring(l, 2));
-		UI::Widget *w = c->GetFromCatalog(name);
-		LuaObject<UI::Widget>::PushToLua(w);
+		c->GetTemplateStore().PushCopyToStack();
 		return 1;
 	}
-
 };
 
 }
@@ -191,14 +173,14 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "VSlider",         LuaContext::l_vslider         },
 		{ "List",            LuaContext::l_list            },
 		{ "DropDown",        LuaContext::l_dropdown        },
-
-		{ "AddToCatalog",      LuaContext::l_add_to_catalog      },
-		{ "RemoveFromCatalog", LuaContext::l_remove_from_catalog },
-		{ "GetFromCatalog",    LuaContext::l_get_from_catalog    },
-
         { 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
+	static const luaL_Reg l_attrs[] = {
+		{ "templates", LuaContext::l_attr_templates },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<UI::Context>::DynamicCastPromotionTest);
 }

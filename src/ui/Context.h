@@ -27,7 +27,9 @@
 #include "DropDown.h"
 
 #include "Lua.h"
+#include "LuaTable.h"
 
+class LuaManager;
 namespace Graphics { class Renderer; }
 
 namespace UI {
@@ -54,7 +56,7 @@ namespace UI {
 
 class Context : public Single {
 public:
-	Context(Graphics::Renderer *renderer, int width, int height);
+	Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height);
 	virtual ~Context();
 
 	// general purpose containers
@@ -106,10 +108,8 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
-	// catalog, stores widgets by name
-	void AddToCatalog(const std::string &name, Widget *widget);
-	void RemoveFromCatalog(const std::string &name);
-	Widget *GetFromCatalog(const std::string &name);
+	PersistentTable GetTemplateStore() const { return m_templateStore; }
+    Widget *CallTemplate(const char *name);
 
 	Graphics::Renderer *GetRenderer() const { return m_renderer; }
 	const Skin &GetSkin() const { return m_skin; }
@@ -131,10 +131,11 @@ private:
 	EventDispatcher m_eventDispatcher;
 	Skin m_skin;
 
-	RefCountedPtr<Text::TextureFont> m_font[FONT_SIZE_MAX];
+	LuaManager *m_lua;
 
-	typedef std::map< std::string,RefCountedPtr<Widget> > CatalogMap;
-	CatalogMap m_catalog;
+	PersistentTable m_templateStore;
+
+	RefCountedPtr<Text::TextureFont> m_font[FONT_SIZE_MAX];
 
 	// used by Container::Draw to set the keep widget drawing in its bounds
 	friend class Container;

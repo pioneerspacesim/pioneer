@@ -1,18 +1,20 @@
 #include "Context.h"
 #include "FileSystem.h"
 #include "text/FontDescriptor.h"
-#include "LuaObject.h"
+#include "Lua.h"
 
 namespace UI {
 
-Context::Context(Graphics::Renderer *renderer, int width, int height) : Single(this),
+Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height) : Single(this),
 	m_renderer(renderer),
 	m_width(float(width)),
 	m_height(float(height)),
 	m_needsLayout(false),
 	m_float(new FloatContainer(this)),
 	m_eventDispatcher(this),
-	m_skin("textures/widgets.png", renderer)
+	m_skin("textures/widgets.png", renderer),
+	m_lua(lua),
+	m_templateStore(lua->GetLuaState(), 0)
 {
 	SetSize(vector2f(m_width,m_height));
 
@@ -76,26 +78,6 @@ void Context::Draw()
 	DisableScissor();
 }
 
-void Context::AddToCatalog(const std::string &name, Widget *widget)
-{
-	m_catalog.insert(std::make_pair(name, RefCountedPtr<Widget>(widget)));
-}
-
-void Context::RemoveFromCatalog(const std::string &name)
-{
-	CatalogMap::iterator i = m_catalog.find(name);
-	if (i != m_catalog.end())
-		m_catalog.erase(i);
-}
-
-Widget *Context::GetFromCatalog(const std::string &name)
-{
-	CatalogMap::iterator i = m_catalog.find(name);
-	if (i != m_catalog.end())
-		return (*i).second.Get();
-	return 0;
-}
-
 void Context::EnableScissor(const vector2f &pos, const vector2f &size)
 {
 	vector2f flippedPos(pos.x, m_height-pos.y-floorf(size.y));
@@ -105,6 +87,15 @@ void Context::EnableScissor(const vector2f &pos, const vector2f &size)
 void Context::DisableScissor()
 {
 	m_renderer->SetScissor(false);
+}
+
+Widget *Context::CallTemplate(const char *name) {
+	const LuaTable t(m_templateStore.GetLuaTable());
+	if (!t.Get<bool,const char *>(name))
+		return 0;
+	t.PushValueToStack<const char*>(name);
+	pi_lua_protected_call(m_lua->GetLuaState(), 0, 1);
+	return LuaObject<UI::Widget>::CheckFromLua(-1);
 }
 
 }
