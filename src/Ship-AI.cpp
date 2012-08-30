@@ -9,8 +9,8 @@
 #include "SpaceStation.h"
 #include "Space.h"
 #include "LuaConstants.h"
+#include "LuaEvent.h"
 #include "KeyBindings.h"
-
 
 
 void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)

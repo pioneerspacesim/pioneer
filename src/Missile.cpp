@@ -6,6 +6,7 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "Game.h"
+#include "LuaEvent.h"
 
 Missile::Missile(ShipType::Type type, Body *owner, Body *target): Ship(type)
 {

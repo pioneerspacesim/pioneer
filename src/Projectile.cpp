@@ -12,6 +12,7 @@
 #include "Ship.h"
 #include "Pi.h"
 #include "Game.h"
+#include "LuaEvent.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"

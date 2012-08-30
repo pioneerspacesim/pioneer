@@ -15,6 +15,7 @@
 #include "SystemInfoView.h"
 #include "SpaceStationView.h"
 #include "InfoView.h"
+#include "LuaEvent.h"
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 

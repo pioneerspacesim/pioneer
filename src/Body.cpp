@@ -13,6 +13,7 @@
 #include "Pi.h"
 #include "Space.h"
 #include "Game.h"
+#include "LuaEvent.h"
 
 Body::Body()
 {

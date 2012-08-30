@@ -1,6 +1,7 @@
 #include "SoundMusic.h"
 #include "libs.h" //for clamp
 #include "Pi.h"
+#include "LuaEvent.h"
 #include <map>
 
 namespace Sound {

@@ -11,6 +11,7 @@
 #include "Polit.h"
 #include "LmrModel.h"
 #include "LuaVector.h"
+#include "LuaEvent.h"
 #include "Polit.h"
 #include "Space.h"
 #include "Lang.h"

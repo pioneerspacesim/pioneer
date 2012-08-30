@@ -41,6 +41,7 @@
 #include "LuaSystemBody.h"
 #include "LuaSystemPath.h"
 #include "LuaTimer.h"
+#include "LuaEvent.h"
 #include "Missile.h"
 #include "ModManager.h"
 #include "ObjectViewerView.h"

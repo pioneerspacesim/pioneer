@@ -17,7 +17,7 @@ end
 
 Event = {
 	Queue = function (name, ...)
-		pending.insert({ name = name, event = {...} })
+		table.insert(pending, { name = name, event = {...} })
 	end,
 
 	Connect = function (name, cb)
@@ -46,7 +46,7 @@ Event = {
 			local p = table.remove(pending, 1)
 			if callbacks[p.name] then
 				for cb,_ in pairs(callbacks[p.name]) do
-					do_callback(cb, p)
+					do_callback[p.name](cb, p)
 				end
 			end
 		end
@@ -115,7 +115,7 @@ EventQueue = {
 			--   deprecated  
 			--
 			Connect = function (_, cb)
-				Event.Connect(name, cb)
+				Event.Connect(on, cb)
 			end,
 
 			--
@@ -142,7 +142,7 @@ EventQueue = {
 			--   deprecated
 			--
 			Disconnect = function (_, cb)
-				Event.Disconnect(name, cb)
+				Event.Disconnect(on, cb)
 			end,
 		}
 	end

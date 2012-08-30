@@ -3,6 +3,7 @@
 #include "Planet.h"
 #include "Lang.h"
 #include "LuaConstants.h"
+#include "LuaEvent.h"
 #include "Missile.h"
 #include "Projectile.h"
 #include "ShipAICmd.h"
@@ -865,7 +866,7 @@ void Ship::UpdateAlertState()
 		// clear existing alert state if there was one
 		if (GetAlertState() != ALERT_NONE) {
 			SetAlertState(ALERT_NONE);
-			LuaEvent("onShipAlertChanged", this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", ALERT_NONE));
+			LuaEvent::Queue("onShipAlertChanged", this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", ALERT_NONE));
 		}
 		return;
 	}
@@ -936,7 +937,7 @@ void Ship::UpdateAlertState()
 	}
 
 	if (changed)
-		LuaEvent("onShipAlertChanged", this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", GetAlertState()));
+		LuaEvent::Queue("onShipAlertChanged", this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", GetAlertState()));
 }
 
 void Ship::UpdateFuel(const float timeStep)
