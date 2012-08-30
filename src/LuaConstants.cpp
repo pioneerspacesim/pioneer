@@ -698,6 +698,25 @@ void LuaConstants::Register(lua_State *l)
 	 */
 	_create_constant_table_nonconsecutive(l, "MissionStatus", ENUM_MissionStatus);
 
+	/*
+	 * Constants: FileSystemRoot
+	 *
+	 * Specifier of filesystem base.
+	 *
+	 * USER - directory containing Pioneer's config, savefiles, mods and other
+	 * user-specific data
+	 * DATA - directory containing Pioneer's data files
+	 *
+	 * Availability:
+	 *
+	 *   alpha 25
+	 *
+	 * Status:
+	 *
+	 *   experimental
+	 */
+	_create_constant_table_nonconsecutive(l, "FileSystemRoot", ENUM_FileSystemRoot);
+
 
 	LUA_DEBUG_END(l, 0);
 }
