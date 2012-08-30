@@ -160,7 +160,7 @@ static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const 
 					lua_pop(l, 1);
 					continue;
 				} else {
-					lua_pop(l, lua_gettop(l)-original_height);
+					lua_settop(l, original_height);
 					throw RecursionLimit();
 				}
 			}
@@ -185,7 +185,7 @@ static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const 
 		}
 		break;
 	}
-	lua_pop(l, lua_gettop(l) - original_height);
+	lua_settop(l, original_height);
 }
 
 void LuaConsole::UpdateCompletion(const std::string & statement) {
