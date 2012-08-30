@@ -194,10 +194,12 @@ EventQueue = {
 		EventQueue[on] = {
 
 			Connect = function (_, cb)
+				print(string.format("WARNING: EventQueue.%s:Connect is deprecated, use Event.Register('%s') instead", on, on))
 				Event.Register(on, cb)
 			end,
 
 			Disconnect = function (_, cb)
+				print(string.format("WARNING: EventQueue.%s:Disconnect is deprecated, use Event.Deregister('%s') instead", on, on))
 				Event.Deregister(on, cb)
 			end,
 		}
