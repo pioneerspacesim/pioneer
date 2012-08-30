@@ -116,7 +116,8 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 	}
 	assert(lua_istable(l, -1));
 
-	lua_newtable(l);
+	lua_newtable(l); // 'Constants' table, enum table
+	int enum_table_idx = lua_gettop(l);
 	//pi_lua_table_ro(l);
 	lua_pushstring(l, ns);
 	lua_pushvalue(l, -2);
@@ -132,13 +133,14 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 	}
 	assert(lua_istable(l, -1));
 
-	lua_newtable(l);
+	lua_newtable(l); // 'Constants' table, enum table, 'PiConstants' table, mapping table
 	//pi_lua_table_ro(l);
 	lua_pushstring(l, ns);
 	lua_pushvalue(l, -2);
 	lua_rawset(l, -4);
 
 	int value = 0;
+	int index = 1;
 	for (; c->name; c++) {
 		if (! consecutive)
 			value = c->value;
@@ -146,9 +148,10 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 		pi_lua_settable(l, value, c->name);
 		++value;
 
-		lua_pushinteger(l, lua_rawlen(l, -3)+1);
+		lua_pushinteger(l, index);
 		lua_pushstring(l, c->name);
-		lua_rawset(l, -5);
+		lua_rawset(l, enum_table_idx);
+		++index;
 	}
 
 	lua_pop(l, 4);
