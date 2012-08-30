@@ -6,28 +6,6 @@ extern "C" {
 #include "jenkins/lookup3.h"
 }
 
-static int _ro_table_error(lua_State *l)
-{
-	luaL_error(l, "Attempt to modify read-only table");
-	return 0;
-}
-
-void pi_lua_table_ro(lua_State *l)
-{
-	lua_newtable(l);
-	lua_pushstring(l, "__index");
-	lua_pushvalue(l, -3);
-	lua_rawset(l, -3);
-	lua_pushstring(l, "__newindex");
-	lua_pushcfunction(l, _ro_table_error);
-	lua_rawset(l, -3);
-	lua_pushstring(l, "__metatable");
-	lua_pushboolean(l, false);
-	lua_rawset(l, -3);
-	lua_setmetatable(l, -2);
-}
-
-
 /*
  * Interface: util
  *
@@ -184,6 +162,61 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setfield(L, -2, "deg2rad");
 
 	lua_pop(L, 1); // pop the math table
+}
+
+static int l_readonly_table_newindex(lua_State *l)
+{
+	return luaL_error(l, "attempting to write to a read-only table");
+}
+
+static int l_readonly_table_len(lua_State *l)
+{
+	lua_getuservalue(l, 1);
+	lua_pushunsigned(l, lua_rawlen(l, -1));
+	return 1;
+}
+
+static int l_readonly_table_pairs(lua_State *l)
+{
+	lua_getglobal(l, "pairs");
+	lua_getuservalue(l, 1);
+	lua_call(l, 1, 3);
+	return 3;
+}
+
+void pi_lua_readonly_table_proxy(lua_State *l, int table_idx)
+{
+	table_idx = lua_absindex(l, table_idx);
+
+	LUA_DEBUG_START(l);
+	lua_newuserdata(l, 0); // proxy
+	lua_pushvalue(l, table_idx);
+	lua_setuservalue(l, -2);
+
+	lua_createtable(l, 0, 5); // metatable
+	lua_pushliteral(l, "__index");
+	lua_pushvalue(l, table_idx);
+	lua_rawset(l, -3);
+	lua_pushliteral(l, "__len");
+	lua_pushcfunction(l, &l_readonly_table_len);
+	lua_rawset(l, -3);
+	lua_pushliteral(l, "__pairs");
+	lua_pushcfunction(l, &l_readonly_table_pairs);
+	lua_rawset(l, -3);
+	lua_pushliteral(l, "__newindex");
+	lua_pushcfunction(l, &l_readonly_table_newindex);
+	lua_rawset(l, -3);
+	lua_pushliteral(l, "__metatable");
+	lua_pushboolean(l, false);
+	lua_rawset(l, -3);
+
+	lua_setmetatable(l, -2);
+	LUA_DEBUG_END(l, 1);
+}
+
+void pi_lua_readonly_table_original(lua_State *l, int index)
+{
+	lua_getuservalue(l, index);
 }
 
 static int l_handle_error(lua_State *L)

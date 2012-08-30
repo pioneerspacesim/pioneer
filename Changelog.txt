@@ -21,6 +21,7 @@ Alpha 26
        compiling with optimisations on GCC (#1451, #1450)
      * Force commodity icons to scale to their bounds regardless of their
        initial size. Allows hi-res icons (#1448)
+     * Reimplemented Lua read-only tables (#1460)
 
 Alpha 25
 
