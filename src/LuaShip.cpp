@@ -919,58 +919,6 @@ static int l_ship_spawn_missile(lua_State *l)
 	}
 	return 1;
 }
-/*
- * Method: FireMissileAt
- *
- * Fire a missile at the given target
- *
- * > fired = ship:FireMissileAt(type, target)
- *
- * Parameters:
- *
- *   type - a <Constants.EquipType> string for the missile type. specifying an
- *          equipment that is not a missile will result in a Lua error
- *
- *   target - the <Ship> to fire the missile at
- *
- * Return:
- *
- *   fired - true if the missile was fired, false if the ship has no missile
- *           of the requested type
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
- */
-static int l_ship_fire_missile_at(lua_State *l)
-{
-	Ship *s = LuaShip::GetFromLua(1);
-	if (s->GetFlightState() == Ship::HYPERSPACE)
-		return luaL_error(l, "Ship:FireMissileAt() cannot be called on a ship in hyperspace");
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
-	Ship *target = LuaShip::GetFromLua(3);
-
-	if (e < Equip::MISSILE_UNGUIDED || e > Equip::MISSILE_NAVAL)
-		luaL_error(l, "Equipment type '%s' is not a valid missile type", lua_tostring(l, 2));
-
-	int max_missiles = s->m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
-	int idx;
-	for (idx = 0; idx < max_missiles; idx++)
-		if (s->m_equipment.Get(Equip::SLOT_MISSILE, idx) == e)
-			break;
-
-	if (idx == max_missiles) {
-		lua_pushboolean(l, false);
-		return 1;
-	}
-
-	lua_pushboolean(l, s->FireMissile(idx, target));
-	return 1;
-}
 
 /*
  * Method: CheckHyperspaceTo
@@ -1504,7 +1452,6 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "SpawnCargo", l_ship_spawn_cargo },
 
-		{ "FireMissileAt", l_ship_fire_missile_at },
 		{ "SpawnMissile", l_ship_spawn_missile },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
