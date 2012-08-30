@@ -43,11 +43,11 @@ function Ship:Jettison(equip)
 	end
 	if self.flightState == "FLYING" then
 		self:SpawnCargo(equip)
-		EventQueue.onJettison:Queue(self, equip)
+		Event.Queue("onJettison", self, equip)
 	elseif self.flightState == "DOCKED" then
-		EventQueue.onCargoUnload:Queue(self, equip)
+		Event.Queue("onCargoUnload", self, equip)
 	else -- LANDED
-		EventQueue.onCargoUnload:Queue(self, equip)
+		Event.Queue("onCargoUnload", self, equip)
 	end
 end
 
