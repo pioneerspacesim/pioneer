@@ -6,28 +6,6 @@ extern "C" {
 #include "jenkins/lookup3.h"
 }
 
-static int _ro_table_error(lua_State *l)
-{
-	luaL_error(l, "Attempt to modify read-only table");
-	return 0;
-}
-
-void pi_lua_table_ro(lua_State *l)
-{
-	lua_newtable(l);
-	lua_pushstring(l, "__index");
-	lua_pushvalue(l, -3);
-	lua_rawset(l, -3);
-	lua_pushstring(l, "__newindex");
-	lua_pushcfunction(l, _ro_table_error);
-	lua_rawset(l, -3);
-	lua_pushstring(l, "__metatable");
-	lua_pushboolean(l, false);
-	lua_rawset(l, -3);
-	lua_setmetatable(l, -2);
-}
-
-
 /*
  * Interface: util
  *

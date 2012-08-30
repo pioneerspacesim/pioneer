@@ -47,8 +47,6 @@ inline void pi_lua_settable(lua_State *l, const char *key, const char *value)
 	lua_rawset(l, -3);
 }
 
-void pi_lua_table_ro(lua_State *l);
-
 void pi_lua_open_standard_base(lua_State *l);
 
 int  pi_lua_panic(lua_State *l) __attribute((noreturn));
