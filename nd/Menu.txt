@@ -82,7 +82,7 @@ Group: Src  {
    }  # Group: Src
 
 File: Character  (no auto-title, /home/robn/code/pioneer/data/libs/Characters.lua)
-File: EventQueue  (/home/robn/code/pioneer/data/libs/00-EventQueue.lua)
+File: Event  (/home/robn/code/pioneer/data/libs/00-Event.lua)
 File: FlightLog  (/home/robn/code/pioneer/data/libs/FlightLog.lua)
 File: NameGen  (/home/robn/code/pioneer/data/libs/NameGen.lua)
 File: Translate  (/home/robn/code/pioneer/data/libs/Translate.lua)

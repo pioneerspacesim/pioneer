@@ -32,4 +32,4 @@ local onShipDocked = function (ship, station)
 	end
 end
 
-EventQueue.onShipDocked:Connect(onShipDocked)
+Event.Register("onShipDocked", onShipDocked)

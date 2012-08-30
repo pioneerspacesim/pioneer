@@ -63,7 +63,7 @@ noinst_HEADERS = \
 	LuaConstants.h \
 	LuaEngine.h \
 	LuaEquipType.h \
-	LuaEventQueue.h \
+	LuaEvent.h \
 	LuaFormat.h \
 	LuaGame.h \
 	LuaLang.h \
@@ -197,7 +197,7 @@ pioneer_SOURCES	= \
 	LuaConstants.cpp \
 	LuaEngine.cpp \
 	LuaEquipType.cpp \
-	LuaEventQueue.cpp \
+	LuaEvent.cpp \
 	LuaFormat.cpp \
 	LuaGame.cpp \
 	LuaLang.cpp \

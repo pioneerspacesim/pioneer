@@ -139,7 +139,7 @@ static int l_ship_get_stats(lua_State *l)
  *
  * Example:
  *
- * > ship:SetShipType('Sirius Interdictor')
+ * > ship:SetShipType('sirius_interdictor')
  *
  * Availability:
  *
