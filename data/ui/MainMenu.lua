@@ -75,4 +75,4 @@ local menu =
 			)
 	)
 
-ui.templates.MainMenu = function () return menu end
+ui.templates.MainMenu = function (args) return menu end

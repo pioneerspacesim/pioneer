@@ -89,13 +89,30 @@ void Context::DisableScissor()
 	m_renderer->SetScissor(false);
 }
 
-Widget *Context::CallTemplate(const char *name) {
+Widget *Context::CallTemplate(const char *name, const LuaTable &args)
+{
 	const LuaTable t(m_templateStore.GetLuaTable());
 	if (!t.Get<bool,const char *>(name))
 		return 0;
+
+	lua_State *l = m_lua->GetLuaState();
+
 	t.PushValueToStack<const char*>(name);
-	pi_lua_protected_call(m_lua->GetLuaState(), 0, 1);
+
+	// XXX gigantic hack around LuaTable brokenness
+	if (args.GetIndex()+1 >= lua_gettop(l))
+		lua_newtable(l);
+	else
+		lua_pushvalue(l, args.GetIndex());
+
+	pi_lua_protected_call(m_lua->GetLuaState(), 1, 1);
+
 	return LuaObject<UI::Widget>::CheckFromLua(-1);
+}
+
+Widget *Context::CallTemplate(const char *name)
+{
+	return CallTemplate(name, LuaTable(m_lua->GetLuaState(), 0));
 }
 
 }

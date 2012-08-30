@@ -109,7 +109,8 @@ public:
 	virtual void Draw();
 
 	PersistentTable GetTemplateStore() const { return m_templateStore; }
-    Widget *CallTemplate(const char *name);
+	Widget *CallTemplate(const char *name, const LuaTable &args);
+	Widget *CallTemplate(const char *name);
 
 	Graphics::Renderer *GetRenderer() const { return m_renderer; }
 	const Skin &GetSkin() const { return m_skin; }
