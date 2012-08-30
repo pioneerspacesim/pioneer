@@ -13,7 +13,7 @@
 /*
  * Method: ReadDirectory
  *
- * > local files, dirs = FileSystem.ReadDir(root, path)
+ * > local files, dirs = FileSystem.ReadDirectory(root, path)
  *
  * Return a list of files and dirs in the specified directory.
  *
