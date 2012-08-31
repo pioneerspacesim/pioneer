@@ -7,12 +7,11 @@ ui.templates.FileDialog = function (args)
 
 	print(string.format("FileDialog: title %s root %s path %s", title, root, path))
 
-	local files, dirs = FileSystem.ReadDirectory(root, path)
+	local files, _ = FileSystem.ReadDirectory(root, path)
 
-	local list = ui:VBox()
+	local list = ui:List()
 
-	for i = 1,#dirs do list:PackEnd(ui:Label(dirs[i].."/")) end
-	for i = 1,#files do list:PackEnd(ui:Label(files[i])) end
+	for i = 1,#files do list:AddOption(files[i]) end
 
 	local dialog =
 		ui:Grid(3, 3)
