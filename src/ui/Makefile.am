@@ -29,6 +29,7 @@ noinst_HEADERS = \
 	Label.h \
 	List.h \
 	Lua.h \
+	LuaSignal.h \
 	Margin.h \
 	MultiLineText.h \
 	Scroller.h \
