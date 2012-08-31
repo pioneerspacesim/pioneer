@@ -46,7 +46,7 @@ static int l_engine_attr_rand(lua_State *l)
  *
  * Status:
  *
- *   stable
+ *   deprecated
  */
 static int l_engine_attr_userdir(lua_State *l)
 {

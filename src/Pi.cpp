@@ -21,6 +21,8 @@
 #include "LuaConsole.h"
 #include "LuaConstants.h"
 #include "LuaEngine.h"
+#include "LuaFileSystem.h"
+#include "LuaComms.h"
 #include "LuaEquipType.h"
 #include "LuaFormat.h"
 #include "LuaGame.h"
@@ -196,6 +198,7 @@ static void LuaInit()
 	LuaConstants::Register(Pi::luaManager->GetLuaState());
 	LuaLang::Register();
 	LuaEngine::Register();
+	LuaFileSystem::Register();
 	LuaGame::Register();
 	LuaComms::Register();
 	LuaFormat::Register();
