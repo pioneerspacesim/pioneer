@@ -212,7 +212,6 @@
 		4A9937531368355500EA0EE5 /* LuaConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371F1368355500EA0EE5 /* LuaConstants.cpp */; };
 		4A9937541368355500EA0EE5 /* LuaEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937211368355500EA0EE5 /* LuaEngine.cpp */; };
 		4A9937551368355500EA0EE5 /* LuaEquipType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937231368355500EA0EE5 /* LuaEquipType.cpp */; };
-		4A9937561368355500EA0EE5 /* LuaEventQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937251368355500EA0EE5 /* LuaEventQueue.cpp */; };
 		4A9937571368355500EA0EE5 /* LuaFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937271368355500EA0EE5 /* LuaFormat.cpp */; };
 		4A9937581368355500EA0EE5 /* LuaGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937291368355500EA0EE5 /* LuaGame.cpp */; };
 		4A9937591368355500EA0EE5 /* LuaManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99372B1368355500EA0EE5 /* LuaManager.cpp */; };
@@ -314,6 +313,8 @@
 		4AE9706714369D7500424F91 /* LuaLang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AE9706514369D7500424F91 /* LuaLang.cpp */; };
 		4AEC8A1A15C7886A00B281C3 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AEC8A1815C7886A00B281C3 /* Light.cpp */; };
 		4AED721D14E1501D004D171E /* TerrainHeightMapped2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AED721C14E1501D004D171E /* TerrainHeightMapped2.cpp */; };
+		4AF0058B15F0F30400CC19C0 /* LuaEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0058915F0F30400CC19C0 /* LuaEvent.cpp */; };
+		4AF0059315F17C6700CC19C0 /* LuaFileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0059115F17C6700CC19C0 /* LuaFileSystem.cpp */; };
 		4AF3618815AD9E5600BDFE63 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF3618515AD9E2E00BDFE63 /* OpenGL.framework */; };
 		4AF999A31496D51F009821AF /* FileSelectorWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999B1496D51F009821AF /* FileSelectorWidget.cpp */; };
 		4AF999A41496D51F009821AF /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999D1496D51F009821AF /* Game.cpp */; };
@@ -773,8 +774,6 @@
 		4A9937221368355500EA0EE5 /* LuaEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaEngine.h; sourceTree = "<group>"; };
 		4A9937231368355500EA0EE5 /* LuaEquipType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaEquipType.cpp; sourceTree = "<group>"; };
 		4A9937241368355500EA0EE5 /* LuaEquipType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaEquipType.h; sourceTree = "<group>"; };
-		4A9937251368355500EA0EE5 /* LuaEventQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaEventQueue.cpp; sourceTree = "<group>"; };
-		4A9937261368355500EA0EE5 /* LuaEventQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaEventQueue.h; sourceTree = "<group>"; };
 		4A9937271368355500EA0EE5 /* LuaFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaFormat.cpp; sourceTree = "<group>"; };
 		4A9937281368355500EA0EE5 /* LuaFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaFormat.h; sourceTree = "<group>"; };
 		4A9937291368355500EA0EE5 /* LuaGame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaGame.cpp; sourceTree = "<group>"; };
@@ -916,6 +915,10 @@
 		4AEC8A1815C7886A00B281C3 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
 		4AEC8A1915C7886A00B281C3 /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 		4AED721C14E1501D004D171E /* TerrainHeightMapped2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightMapped2.cpp; sourceTree = "<group>"; };
+		4AF0058915F0F30400CC19C0 /* LuaEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaEvent.cpp; sourceTree = "<group>"; };
+		4AF0058A15F0F30400CC19C0 /* LuaEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaEvent.h; sourceTree = "<group>"; };
+		4AF0059115F17C6700CC19C0 /* LuaFileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaFileSystem.cpp; sourceTree = "<group>"; };
+		4AF0059215F17C6700CC19C0 /* LuaFileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaFileSystem.h; sourceTree = "<group>"; };
 		4AF3618515AD9E2E00BDFE63 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		4AF9999B1496D51F009821AF /* FileSelectorWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSelectorWidget.cpp; sourceTree = "<group>"; };
 		4AF9999C1496D51F009821AF /* FileSelectorWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSelectorWidget.h; sourceTree = "<group>"; };
@@ -1320,8 +1323,10 @@
 				4A9937221368355500EA0EE5 /* LuaEngine.h */,
 				4A9937231368355500EA0EE5 /* LuaEquipType.cpp */,
 				4A9937241368355500EA0EE5 /* LuaEquipType.h */,
-				4A9937251368355500EA0EE5 /* LuaEventQueue.cpp */,
-				4A9937261368355500EA0EE5 /* LuaEventQueue.h */,
+				4AF0058915F0F30400CC19C0 /* LuaEvent.cpp */,
+				4AF0058A15F0F30400CC19C0 /* LuaEvent.h */,
+				4AF0059115F17C6700CC19C0 /* LuaFileSystem.cpp */,
+				4AF0059215F17C6700CC19C0 /* LuaFileSystem.h */,
 				4ADF518F1557477400ACF5A0 /* LuaFixed.cpp */,
 				4ADF51901557477400ACF5A0 /* LuaFixed.h */,
 				4A9937271368355500EA0EE5 /* LuaFormat.cpp */,
@@ -1796,7 +1801,6 @@
 				4A9937531368355500EA0EE5 /* LuaConstants.cpp in Sources */,
 				4A9937541368355500EA0EE5 /* LuaEngine.cpp in Sources */,
 				4A9937551368355500EA0EE5 /* LuaEquipType.cpp in Sources */,
-				4A9937561368355500EA0EE5 /* LuaEventQueue.cpp in Sources */,
 				4A9937571368355500EA0EE5 /* LuaFormat.cpp in Sources */,
 				4A9937581368355500EA0EE5 /* LuaGame.cpp in Sources */,
 				4A9937591368355500EA0EE5 /* LuaManager.cpp in Sources */,
@@ -1999,6 +2003,8 @@
 				4ADB0D1615C50DF000AE2123 /* FileSystemPosix.cpp in Sources */,
 				4ADB0D1815C50DF000AE2123 /* OSPosix.cpp in Sources */,
 				4AEC8A1A15C7886A00B281C3 /* Light.cpp in Sources */,
+				4AF0058B15F0F30400CC19C0 /* LuaEvent.cpp in Sources */,
+				4AF0059315F17C6700CC19C0 /* LuaFileSystem.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

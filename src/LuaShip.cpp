@@ -106,7 +106,6 @@ static int l_ship_get_stats(lua_State *l)
 	const shipstats_t &stats = s->GetStats();
 
 	lua_newtable(l);
-    pi_lua_table_ro(l);
 	pi_lua_settable(l, "maxCapacity",        stats.max_capacity);
 	pi_lua_settable(l, "usedCapacity",       stats.used_capacity);
 	pi_lua_settable(l, "usedCargo",          stats.used_cargo);
@@ -139,7 +138,7 @@ static int l_ship_get_stats(lua_State *l)
  *
  * Example:
  *
- * > ship:SetShipType('Sirius Interdictor')
+ * > ship:SetShipType('sirius_interdictor')
  *
  * Availability:
  *
@@ -557,7 +556,6 @@ static int l_ship_get_equip(lua_State *l)
 	} else {
 		// 1-argument version; returns table of equipment items
 		lua_newtable(l);
-		pi_lua_table_ro(l);
 
 		for (int idx = 0; idx < size; idx++) {
 			lua_pushinteger(l, idx+1);

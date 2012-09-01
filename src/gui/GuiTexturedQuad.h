@@ -24,6 +24,8 @@ public:
 	void Draw(Graphics::Renderer *r, const Color &tint) { Draw(r, vector2f(0.0f), vector2f(1.0f), tint); }
 	void Draw(Graphics::Renderer *r, const vector2f &pos, const vector2f &size, const Color &tint = Color::WHITE) { Draw(r, pos, size, vector2f(0.0f), m_texture->GetDescriptor().texSize, tint); }
 	void Draw(Graphics::Renderer *r, const vector2f &pos, const vector2f &size, const vector2f &texPos, const vector2f &texSize, const Color &tint = Color::WHITE);
+
+	const Graphics::Texture* GetTexture() const { return m_texture.Get(); }
 private:
 	RefCountedPtr<Graphics::Texture> m_texture;
 	ScopedPtr<Graphics::Material> m_material;
