@@ -16,6 +16,8 @@ Alpha 26
      * Ships now identified by the filename the ship is defined in (#1444)
      * New Event system allowing Lua scripts to broadcast their own events.
        EventQueue is deprecated, for removal in alpha 27 (#1441)
+     * New FileSystem module so scripts can list data files (including files
+       from mods) and files in the game's configuration directory (#1350)
 
    * Internal changes
      * Show frame time in the stats overlay (#1437)

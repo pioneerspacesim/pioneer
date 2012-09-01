@@ -24,7 +24,6 @@
 #include "LuaConstants.h"
 #include "LuaEngine.h"
 #include "LuaFileSystem.h"
-#include "LuaComms.h"
 #include "LuaEquipType.h"
 #include "LuaFormat.h"
 #include "LuaGame.h"
