@@ -14,10 +14,11 @@ noinst_HEADERS = \
 	Billboard.h \
 	CollisionVisitor.h \
 	ColorMap.h \
-	DrawVisitor.h \
+	DumpVisitor.h \
+	Label3D.h \
 	Group.h \
-	LOD.h \
 	Loader.h \
+	LOD.h \
 	MatrixTransform.h \
 	ModelNode.h \
 	Newmodel.h \
@@ -34,8 +35,9 @@ libnewmodel_a_SOURCES = \
 	Billboard.cpp \
 	CollisionVisitor.cpp \
 	ColorMap.cpp \
-	DrawVisitor.cpp \
+	DumpVisitor.cpp \
 	Group.cpp \
+	Label3D.cpp \
 	Loader.cpp \
 	LOD.cpp \
 	MatrixTransform.cpp \

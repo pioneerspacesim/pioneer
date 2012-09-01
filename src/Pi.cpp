@@ -252,7 +252,7 @@ Model *Pi::FindModel(const std::string &name)
 		try {
 			m = Pi::modelCache->FindModel(name);
 		} catch (ModelCache::ModelNotFoundException) {
-			Error("Could not find model %s", name);
+			Error("Could not find model %s", name.c_str());
 		}
 	}
 

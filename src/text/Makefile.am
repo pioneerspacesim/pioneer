@@ -8,6 +8,7 @@ INCLUDES = -I$(srcdir)/..
 
 noinst_LIBRARIES = libtext.a
 noinst_HEADERS = \
+	DistanceFieldFont.h \
 	FontDescriptor.h \
 	Font.h \
 	TextSupport.h \
@@ -15,6 +16,7 @@ noinst_HEADERS = \
 	VectorFont.h
 
 libtext_a_SOURCES = \
+	DistanceFieldFont.cpp \
 	Font.cpp \
 	TextSupport.cpp \
 	TextureFont.cpp \
