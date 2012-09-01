@@ -165,7 +165,7 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 
 bool RendererGL2::ReloadShaders()
 {
-	printf("Reloading %d programs...\n", m_programs.size());
+	printf("Reloading " SIZET_FMT " programs...\n", m_programs.size());
 	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
 		it->second->Reload();
 	}
