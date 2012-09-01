@@ -107,19 +107,25 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		lua_newtable(l);
-	    pi_lua_table_ro(l);
+
+		// publish a read-only proxy wrapper
 		lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 		lua_pushstring(l, "Constants");
-		lua_pushvalue(l, -3);
+		pi_lua_readonly_table_proxy(l, -3);
 		lua_rawset(l, -3);
 		lua_pop(l, 1);
+	} else {
+		pi_lua_readonly_table_original(l, -1);
+		lua_remove(l, -2);
 	}
 	assert(lua_istable(l, -1));
 
-	lua_newtable(l);
-	pi_lua_table_ro(l);
+	lua_newtable(l); // 'Constants' table, enum table
+	int enum_table_idx = lua_gettop(l);
+
+	// publish a read-only proxy to the enum table
 	lua_pushstring(l, ns);
-	lua_pushvalue(l, -2);
+	pi_lua_readonly_table_proxy(l, enum_table_idx);
 	lua_rawset(l, -4);
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "PiConstants");
@@ -132,13 +138,13 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 	}
 	assert(lua_istable(l, -1));
 
-	lua_newtable(l);
-	pi_lua_table_ro(l);
+	lua_newtable(l); // 'Constants' table, enum table, 'PiConstants' table, mapping table
 	lua_pushstring(l, ns);
 	lua_pushvalue(l, -2);
 	lua_rawset(l, -4);
 
 	int value = 0;
+	int index = 1;
 	for (; c->name; c++) {
 		if (! consecutive)
 			value = c->value;
@@ -146,9 +152,10 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 		pi_lua_settable(l, value, c->name);
 		++value;
 
-		lua_pushinteger(l, lua_rawlen(l, -3)+1);
+		lua_pushinteger(l, index);
 		lua_pushstring(l, c->name);
-		lua_rawset(l, -5);
+		lua_rawset(l, enum_table_idx);
+		++index;
 	}
 
 	lua_pop(l, 4);

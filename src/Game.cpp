@@ -15,6 +15,7 @@
 #include "SystemInfoView.h"
 #include "SpaceStationView.h"
 #include "InfoView.h"
+#include "LuaEvent.h"
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
@@ -34,7 +35,7 @@ Game::Game(const SystemPath &path) :
 	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
 	assert(station);
 
-    m_player.Reset(new Player("Interplanetary Shuttle"));
+    m_player.Reset(new Player("ip_shuttle"));
 
 	m_space->AddBody(m_player.Get());
 
@@ -510,7 +511,7 @@ void Game::SwitchToNormalSpace()
 
 			m_space->AddBody(ship);
 
-			Pi::luaOnEnterSystem->Queue(ship);
+			LuaEvent::Queue("onEnterSystem", ship);
 		}
 	}
 	m_hyperspaceClouds.clear();

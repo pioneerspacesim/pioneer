@@ -80,10 +80,10 @@ void Box::Layout()
 			float allocation = sizeRemaining / candidates;
 
 			for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-				if (!(*i).flags & BOX_EXPAND) continue;
+				if (!((*i).flags & BOX_EXPAND)) continue;
 
 				float amountAdded;
-				if (!(*i).flags & BOX_FILL) {
+				if (!((*i).flags & BOX_FILL)) {
 					(*i).padding += allocation * 0.5;
 					amountAdded = allocation;
 				}

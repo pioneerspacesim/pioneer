@@ -37,6 +37,27 @@ static int l_engine_attr_rand(lua_State *l)
 }
 
 /*
+ * Attribute: ticks
+ *
+ * Number of milliseconds since Pioneer was started. This should be used for
+ * debugging purposes only (eg timing) and should never be used for game logic
+ * of any kind.
+ *
+ * Availability:
+ *
+ *   alpha 26
+ *
+ * Status:
+ *
+ *   debug
+ */
+static int l_engine_attr_ticks(lua_State *l)
+{
+	lua_pushinteger(l, SDL_GetTicks());
+	return 1;
+}
+
+/*
  * Attribute: ui
  *
  * The global <UI.Context> object. New UI widgets are created through this
@@ -101,6 +122,7 @@ void LuaEngine::Register()
 {
 	static const luaL_Reg l_attrs[] = {
 		{ "rand",    l_engine_attr_rand    },
+		{ "ticks",   l_engine_attr_ticks   },
 		{ "ui",      l_engine_attr_ui      },
 		{ "userdir", l_engine_attr_userdir },
         { "version", l_engine_attr_version },

@@ -117,7 +117,15 @@ int main(int argc, char **argv)
 
 	SDL_WM_SetCaption("uitest", "uitest");
 
-	Graphics::Renderer *r = Graphics::Init(WIDTH, HEIGHT, true);
+	Graphics::Settings videoSettings;
+	videoSettings.width = WIDTH;
+	videoSettings.height = HEIGHT;
+	videoSettings.fullscreen = false;
+	videoSettings.shaders = false;
+	videoSettings.requestedSamples = 0;
+	videoSettings.vsync = false;
+	Graphics::Renderer *r = Graphics::Init(videoSettings);
+
 	RefCountedPtr<UI::Context> c(new UI::Context(r, WIDTH, HEIGHT));
 
 #if 0
@@ -406,7 +414,7 @@ int main(int argc, char **argv)
             c->Grid(2,2)
                 ->SetRow(0, UI::WidgetSet(c->Label("one"), c->Label("two")))
                 ->SetRow(1, UI::WidgetSet(c->Label("three"), c->Label("four")))
-        )->PackEnd(c->ColorBackground(Color(0.8f,0.2f,0.2f)), UI::Box::BOX_EXPAND)
+        )->PackEnd(c->ColorBackground(Color(0.8f,0.2f,0.2f)), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
     );
 
     int count = 0;

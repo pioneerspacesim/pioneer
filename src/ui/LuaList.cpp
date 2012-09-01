@@ -6,6 +6,13 @@ namespace UI {
 class LuaList {
 public:
 
+	static int l_add_option(lua_State *l) {
+		UI::List *list = LuaObject<UI::List>::CheckFromLua(1);
+		list->AddOption(luaL_checkstring(l, 2));
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
 };
 
 }
@@ -19,7 +26,7 @@ template <> void LuaObject<UI::List>::RegisterClass()
 	static const char *l_parent = "UI.Container";
 
 	static const luaL_Reg l_methods[] = {
-
+		{ "AddOption", LuaList::l_add_option },
         { 0, 0 }
 	};
 

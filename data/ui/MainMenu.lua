@@ -1,5 +1,5 @@
 local setupPlayerEagle = function ()
-	Game.player:SetShipType("Eagle Long Range Fighter")
+	Game.player:SetShipType("eagle_lrf")
 	Game.player:AddEquip("PULSECANNON_1MW")
 	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
 	Game.player:AddEquip("AUTOPILOT")
@@ -10,7 +10,7 @@ local setupPlayerEagle = function ()
 end
 
 local setupPlayerCobra = function ()
-	Game.player:SetShipType("Cobra Mk III")
+	Game.player:SetShipType("cobra3")
 	Game.player:AddEquip("PULSECANNON_1MW")
 	Game.player:AddEquip("SCANNER")
 	Game.player:AddEquip("MISSILE_GUIDED", 2)
@@ -19,7 +19,7 @@ local setupPlayerCobra = function ()
 end
 
 local addDebugEnemy = function ()
-	local enemy = Space.SpawnShipNear("Eagle Long Range Fighter", Game.player, 9, 9)
+	local enemy = Space.SpawnShipNear("eagle_lrf", Game.player, 9, 9)
 	enemy:AddEquip("PULSECANNON_1MW")
 	enemy:AddEquip("ATMOSPHERIC_SHIELDING")
 	enemy:AddEquip("AUTOPILOT")
@@ -37,7 +37,7 @@ local buttonDefs = {
 	{ l.MM_START_NEW_GAME_E_ERIDANI, function () Game.StartGame(SystemPath.New(1,-1,-1,0,4))  setupPlayerEagle()                 end },
 	{ l.MM_START_NEW_GAME_LAVE,      function () Game.StartGame(SystemPath.New(-2,1,90,0,2))  setupPlayerCobra()                 end },
 	{ l.MM_START_NEW_GAME_DEBUG,     function () Game.StartGame(SystemPath.New(-1,9,-22,0,5)) setupPlayerEagle() addDebugEnemy() end },
-	{ l.MM_LOAD_SAVED_GAME,          function () print("load game") end },
+	{ l.MM_LOAD_SAVED_GAME,          function () ui:SetInnerWidget(ui.templates.FileDialog({ title = "Load game...", path = "savefiles" })) end },
 	{ l.MM_QUIT,                     function () print("quit") end },
 }
 
@@ -75,4 +75,4 @@ local menu =
 			)
 	)
 
-ui:AddToCatalog("MainMenu", menu);
+ui.templates.MainMenu = function (args) return menu end

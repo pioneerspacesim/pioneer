@@ -5,7 +5,7 @@ endif
 if BUILD_POSIX
     PLATFORM_SUBDIRS = posix
 endif
-SUBDIRS = collider gui graphics galaxy terrain text newmodel ui $(PLATFORM_SUBDIRS)
+SUBDIRS = collider gui graphics galaxy terrain text ui $(PLATFORM_SUBDIRS)
 
 include $(top_srcdir)/Makefile.common
 
@@ -63,7 +63,7 @@ noinst_HEADERS = \
 	LuaConstants.h \
 	LuaEngine.h \
 	LuaEquipType.h \
-	LuaEventQueue.h \
+	LuaEvent.h \
 	LuaFileSystem.h \
 	LuaFormat.h \
 	LuaGame.h \
@@ -77,6 +77,7 @@ noinst_HEADERS = \
 	LuaObject.h \
 	LuaPlanet.h \
 	LuaPlayer.h \
+	LuaPushPull.h \
 	LuaRand.h \
 	LuaSystemBody.h \
 	LuaSystemPath.h \
@@ -87,6 +88,7 @@ noinst_HEADERS = \
 	LuaSpaceStation.h \
 	LuaStar.h \
 	LuaStarSystem.h \
+	LuaTable.h \
 	LuaTimer.h \
 	LuaUtils.h \
 	MarketAgent.h \
@@ -198,7 +200,7 @@ pioneer_SOURCES	= \
 	LuaConstants.cpp \
 	LuaEngine.cpp \
 	LuaEquipType.cpp \
-	LuaEventQueue.cpp \
+	LuaEvent.cpp \
 	LuaFileSystem.cpp \
 	LuaFormat.cpp \
 	LuaGame.cpp \
@@ -222,6 +224,7 @@ pioneer_SOURCES	= \
 	LuaSpaceStation.cpp \
 	LuaStar.cpp \
 	LuaStarSystem.cpp \
+	LuaTable.cpp \
 	LuaTimer.cpp \
 	LuaUtils.cpp \
 	MarketAgent.cpp \
@@ -313,6 +316,7 @@ modelviewer_SOURCES = \
 	LuaFixed.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
+	LuaTable.cpp \
 	LuaUtils.cpp \
 	LuaConstants.cpp \
 	ModManager.cpp \
@@ -347,25 +351,28 @@ tests_SOURCES = \
 	test_Frame.cpp \
 	test_StringF.cpp \
 	FileSystem.cpp \
-	posix/FileSystemPosix.cpp \
 	FileSourceZip.cpp \
 	test_FileSystem.cpp
 TESTS = tests
-
 tests_LDADD = \
 	collider/libcollider.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \
 	terrain/libterrain.a \
+    posix/libposix.a \
 	../contrib/miniz/libminiz.a
 
 uitest_SOURCES = \
 	uitest.cpp \
 	Color.cpp \
 	FileSystem.cpp \
-	FileSystemPosix.cpp \
-	SDLWrappers.cpp
-uitest_LDADD = ui/libui.a gui/libgui.a text/libtext.a graphics/libgraphics.a \
+	SDLWrappers.cpp \
+	FontCache.cpp \
+	FontConfig.cpp \
+	IniConfig.cpp \
+	StringF.cpp \
+    utils.cpp
+uitest_LDADD = ui/libui.a gui/libgui.a text/libtext.a graphics/libgraphics.a posix/libposix.a \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
