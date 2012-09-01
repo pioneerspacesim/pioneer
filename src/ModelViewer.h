@@ -1,5 +1,6 @@
 #include "collider/collider.h"
 #include "gui/Gui.h"
+#include "LuaManager.h"
 #include "newmodel/Newmodel.h"
 #include "ui/Context.h"
 
@@ -38,6 +39,7 @@ private: //data members
 	Newmodel::NModel *m_model;
 	Options m_options;
 	RefCountedPtr<Newmodel::ModelNode> m_gunModelNode;
+	ScopedPtr<LuaManager> m_luaManager;
 	ScopedPtr<Model> m_gunModel;
 	std::list<std::string> m_logLines;
 	std::string m_logString;

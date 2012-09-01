@@ -109,7 +109,10 @@ void Viewer::SetupUI()
     /*
      * To do: stats display
      */
-    m_ui = new UI::Context(renderer, g_width, g_height);
+	m_luaManager.Reset(new LuaManager());
+	m_ui = new UI::Context(m_luaManager.Get(), renderer, g_width, g_height);
+	UI::LuaInit();
+
     UI::Context *c = m_ui;
     UI::Box *box;
     UI::Box *buttBox; //it was for buttons...

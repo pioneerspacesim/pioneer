@@ -90,9 +90,6 @@
     <ClCompile Include="..\..\src\LuaEquipType.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LuaEventQueue.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LuaFormat.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -387,10 +384,16 @@
     <ClCompile Include="..\..\src\Intro.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaEvent.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\LuaFileSystem.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ModelCache.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaTable.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -501,9 +504,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaEquipType.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaEventQueue.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaFormat.h">
@@ -815,10 +815,16 @@
     <ClInclude Include="..\..\src\ModelCache.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LuaEvent.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\LuaFileSystem.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Model.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaTable.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

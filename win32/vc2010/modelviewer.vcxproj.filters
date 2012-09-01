@@ -90,6 +90,15 @@
     <ClCompile Include="..\..\src\posix\OSPosix.cpp">
       <Filter>src\posix</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaTable.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaObject.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\libs.h">
@@ -175,6 +184,18 @@
     </ClInclude>
     <ClInclude Include="..\..\src\win32\pch.h">
       <Filter>src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ModelViewer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaTable.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaObject.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
