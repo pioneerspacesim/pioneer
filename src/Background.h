@@ -6,7 +6,6 @@
 namespace Graphics {
 	class Renderer;
 	class StaticMesh;
-	class Shader;
 	class Material;
 }
 
@@ -29,18 +28,17 @@ namespace Background
 	{
 	public:
 		//does not Fill the starfield
-		Starfield();
-		Starfield(unsigned long seed);
+		Starfield(Graphics::Renderer *r);
+		Starfield(Graphics::Renderer *r, unsigned long seed);
 		~Starfield();
 		void Draw(Graphics::Renderer *r);
 		//create or recreate the starfield
 		void Fill(unsigned long seed);
 
 	private:
-		void Init();
+		void Init(Graphics::Renderer *);
 		static const int BG_STAR_MAX = 10000;
 		Graphics::StaticMesh *m_model;
-		ScopedPtr<Graphics::Shader> m_shader;
 
 		//hyperspace animation vertex data
 		//allocated when animation starts and thrown away
@@ -52,13 +50,12 @@ namespace Background
 	class MilkyWay : public BackgroundElement
 	{
 	public:
-		MilkyWay();
+		MilkyWay(Graphics::Renderer*);
 		~MilkyWay();
 		void Draw(Graphics::Renderer *r);
 
 	private:
 		Graphics::StaticMesh *m_model;
-		ScopedPtr<Graphics::Shader> m_shader;
 	};
 
 	// contains starfield, milkyway, possibly other Background elements
@@ -66,18 +63,18 @@ namespace Background
 	{
 	public:
 		// default constructor, needs Refresh with proper seed to show starfield
-		Container();
-		Container(unsigned long seed);
+		Container(Graphics::Renderer*);
+		Container(Graphics::Renderer*, unsigned long seed);
 		void Draw(Graphics::Renderer *r, const matrix4x4d &transform) const;
 		void Refresh(unsigned long seed);
 
 		void SetIntensity(float intensity);
 
 	private:
-		Starfield m_starField;
 		MilkyWay m_milkyWay;
+		Starfield m_starField;
 	};
 
-}; //namespace Background
+} //namespace Background
 
 #endif

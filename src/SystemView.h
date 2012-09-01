@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "View.h"
+#include "graphics/Drawables.h"
 
 class StarSystem;
 class SystemBody;
@@ -18,7 +19,7 @@ public:
 private:
 	static const double PICK_OBJECT_RECT_SIZE;
 	void PutOrbit(SystemBody *b, vector3d offset);
-	void PutBody(SystemBody *b, vector3d offset);
+	void PutBody(SystemBody *b, vector3d offset, const matrix4x4f &trans);
 	void PutLabel(SystemBody *b, vector3d offset);
 	void PutSelectionBox(const SystemBody *b, const vector3d &rootPos, const Color &col);
 	void PutSelectionBox(const vector3d &worldPos, const Color &col);
@@ -41,6 +42,8 @@ private:
 	Gui::Label *m_infoText;
 	Gui::LabelSet *m_objectLabels;
 	sigc::connection m_onMouseButtonDown;
+
+	ScopedPtr<Graphics::Drawables::Disk> m_bodyIcon;
 };
 
 #endif /* _SYSTEMVIEW_H */

@@ -1,17 +1,18 @@
-#include "libs.h"
 #include "ShipCpanelMultiFuncDisplays.h"
-#include "ShipCpanel.h"
-#include "Space.h"
+#include "galaxy/Sector.h"
+#include "Game.h"
+#include "HyperspaceCloud.h"
+#include "KeyBindings.h"
+#include "Lang.h"
+#include "libs.h"
+#include "Missile.h"
 #include "Pi.h"
 #include "Player.h"
-#include "Missile.h"
-#include "HyperspaceCloud.h"
-#include "galaxy/Sector.h"
+#include "ShipCpanel.h"
 #include "Sound.h"
-#include "Lang.h"
+#include "Space.h"
 #include "StringF.h"
-#include "KeyBindings.h"
-#include "Game.h"
+#include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 
@@ -178,7 +179,7 @@ void ScannerWidget::Draw()
 		va.Add(vector3f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
 	}
 	va.Add(vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
-	m_renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	m_renderer->SetBlendMode(BLEND_SOLID);
 
