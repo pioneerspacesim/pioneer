@@ -703,6 +703,7 @@ static void draw_intro(Background::Container *background, float _time)
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
+	const Color oldSceneAmbientColor = Graphics::State::GetGlobalSceneAmbientColor();
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
@@ -714,6 +715,7 @@ static void draw_intro(Background::Container *background, float _time)
 	rot[14] = -80.0;
 	LmrLookupModelByName("lanner_ub")->Render(rot, &params);
 	glPopAttrib();
+	Pi::renderer->SetAmbientColor(oldSceneAmbientColor);
 }
 
 static void draw_tombstone(float _time)
@@ -734,6 +736,7 @@ static void draw_tombstone(float _time)
 	};
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
+	const Color oldSceneAmbientColor = Graphics::State::GetGlobalSceneAmbientColor();
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
@@ -744,6 +747,7 @@ static void draw_tombstone(float _time)
 	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
 	LmrLookupModelByName("tombstone")->Render(rot, &params);
 	glPopAttrib();
+	Pi::renderer->SetAmbientColor(oldSceneAmbientColor);
 }
 
 void Pi::TombStoneLoop()
