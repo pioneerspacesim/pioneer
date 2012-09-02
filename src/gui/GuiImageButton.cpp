@@ -55,8 +55,10 @@ void ImageButton::Draw()
 
 void ImageButton::SetRenderDimensions(const float wide, const float high)
 {
-	if(m_imgNormal) {m_imgNormal->SetRenderDimensions(wide, high);}
-	if(m_imgPressed) {m_imgPressed->SetRenderDimensions(wide, high);}
+	assert(m_imgNormal);
+	m_imgNormal->SetRenderDimensions(wide, high);
+	if(m_imgPressed)
+		m_imgPressed->SetRenderDimensions(wide, high);
 }
 
 }

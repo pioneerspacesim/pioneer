@@ -104,8 +104,9 @@ std::string MultiStateImageButton::GetOverrideTooltip()
 void MultiStateImageButton::SetRenderDimensions(const float wide, const float high)
 {
 	for (std::vector<State>::iterator i = m_states.begin(); i != m_states.end(); ++i) {
-		if((*i).activeImage) {(*i).activeImage->SetRenderDimensions(wide, high);}
-		if((*i).inactiveImage) {(*i).inactiveImage->SetRenderDimensions(wide, high);}
+		assert((*i).activeImage && (*i).inactiveImage);
+		(*i).activeImage->SetRenderDimensions(wide, high);
+		(*i).inactiveImage->SetRenderDimensions(wide, high);
 	}
 }
 
