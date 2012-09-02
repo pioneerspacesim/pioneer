@@ -66,9 +66,13 @@ void MultiStateImageButton::GetSizeRequested(float size[2])
 
 void MultiStateImageButton::Draw()
 {
+	float sz[2];
+	GetSize(sz);
 	if (m_isSelected) {
+		m_states[m_curState].activeImage->SetSize(sz[0], sz[1]);
 		m_states[m_curState].activeImage->Draw();
 	} else {
+		m_states[m_curState].inactiveImage->SetSize(sz[0], sz[1]);
 		m_states[m_curState].inactiveImage->Draw();
 	}
 }

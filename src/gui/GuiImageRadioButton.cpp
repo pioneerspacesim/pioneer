@@ -26,9 +26,13 @@ void ImageRadioButton::GetSizeRequested(float size[2])
 
 void ImageRadioButton::Draw()
 {
+	float sz[2];
+	GetSize(sz);
 	if (m_pressed) {
+		m_imgPressed->SetSize(sz[0], sz[1]);
 		m_imgPressed->Draw();
 	} else {
+		m_imgNormal->SetSize(sz[0], sz[1]);
 		m_imgNormal->Draw();
 	}
 }
