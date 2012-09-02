@@ -309,13 +309,15 @@ void Viewer::ClearModel()
     }
 }
 
+//Draw grid and axes
 void Viewer::DrawGrid(matrix4x4f& trans, double radius)
 {
     const float dist = abs(m_campos.z);
 
     const float max = std::min(powf(10, ceilf(log10f(dist))), ceilf(radius/m_options.gridInterval)*m_options.gridInterval);
 
-    std::vector<vector3f> points;
+    static std::vector<vector3f> points;
+	points.clear();
 
     for (float x = -max; x <= max; x += m_options.gridInterval) {
         points.push_back(vector3f(x,0,-max));

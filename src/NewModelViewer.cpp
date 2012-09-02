@@ -47,12 +47,12 @@ void ModelViewer::Run(int argc, char** argv)
 	if ((argc<=1) || (0==strcmp(argv[1],"--help"))) {
 		printf("Usage:\nmodelviewer <width> <height> <model name>\n");
 	}
+#endif
 	if (argc >= 3) {
 		width = atoi(argv[1]);
 		height = atoi(argv[2]);
 	}
-#endif
-	const std::string modelName = argv[1];
+	const std::string modelName = argv[3];
 
 	//init components
 	FileSystem::Init();
@@ -91,6 +91,7 @@ void ModelViewer::Run(int argc, char** argv)
 
 void ModelViewer::DrawBackground()
 {
+	m_renderer->SetDepthWrite(false);
 	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	m_renderer->SetOrthographicProjection(0.f, 1.f, 0.f, 1.f, -1.f, 1.f);
 
@@ -109,6 +110,43 @@ void ModelViewer::DrawBackground()
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
 }
 
+struct Poptions {
+	Poptions() : gridInterval(10.f) { }
+	float gridInterval;
+};
+static Poptions m_options;
+
+//Draw grid and axes
+void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
+{
+    const float dist = abs(m_camPos.z);
+
+    const float max = std::min(powf(10, ceilf(log10f(dist))), ceilf(radius/m_options.gridInterval)*m_options.gridInterval);
+
+    static std::vector<vector3f> points;
+	points.clear();
+
+    for (float x = -max; x <= max; x += m_options.gridInterval) {
+        points.push_back(vector3f(x,0,-max));
+        points.push_back(vector3f(x,0,max));
+        points.push_back(vector3f(0,x,-max));
+        points.push_back(vector3f(0,x,max));
+
+        points.push_back(vector3f(x,-max,0));
+        points.push_back(vector3f(x,max,0));
+        points.push_back(vector3f(0,-max,x));
+        points.push_back(vector3f(0,max,x));
+
+        points.push_back(vector3f(-max,x,0));
+        points.push_back(vector3f(max,x,0));
+        points.push_back(vector3f(-max,0,x));
+        points.push_back(vector3f(max,0,x));
+    }
+
+    m_renderer->SetTransform(trans);
+    m_renderer->DrawLines(points.size(), &points[0], Color(0.5f));//Color(0.0f,0.2f,0.0f,1.0f));
+}
+
 void ModelViewer::DrawModel()
 {
 	assert(m_model);
@@ -119,8 +157,13 @@ void ModelViewer::DrawModel()
 	m_renderer->GetNearFarRange(znear, zfar);
 	m_renderer->SetPerspectiveProjection(85, m_width/float(m_height), znear, zfar);
 	m_renderer->SetDepthTest(true);
+	m_renderer->SetDepthWrite(true);
+	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 
 	const matrix4x4f mv = matrix4x4f::Translation(-m_camPos) * m_modelRot.InverseOf();
+
+	DrawGrid(mv, m_model->GetDrawClipRadius());
+
 	m_model->Render(m_renderer, mv, &m_modelParams);
 }
 

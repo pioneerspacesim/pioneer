@@ -21,6 +21,7 @@ public:
 
 private:
 	void DrawBackground();
+	void DrawGrid(const matrix4x4f &trans, float radius);
 	void DrawModel();
 	void MainLoop();
 	void PollEvents();
