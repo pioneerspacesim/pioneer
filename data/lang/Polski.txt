@@ -756,6 +756,8 @@ CAMERA_RIGHT_VIEW
 	Prawa kamera
 CAMERA_BOTTOM_VIEW
 	Dolna kamera
+INTERNAL_VIEW
+    Widok wewnętrzny	
 EXTERNAL_VIEW
     Widok zewnętrzny
 SIDEREAL_VIEW

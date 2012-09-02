@@ -40,6 +40,7 @@ WorldView::WorldView(Serializer::Reader &rd): View()
 {
 	m_camType = CamType(rd.Int32());
 	InitObject();
+	m_internalCamera->Load(rd);
 	m_externalCamera->Load(rd);
 	m_siderealCamera->Load(rd);
 	m_cameraNameVisible = rd.Bool();
@@ -208,14 +209,7 @@ void WorldView::InitObject()
 
 	const float fovY = Pi::config->Float("FOVVertical");
 	const vector2f camSize(Pi::GetScrWidth(), Pi::GetScrHeight());
-	m_frontCockpitView = new FrontCockpitView(Pi::player, camSize, fovY, znear, zfar);
-	m_rearCockpitView = new RearCockpitView(Pi::player, camSize, fovY, znear, zfar);
-	m_frontCamera = new FrontCamera(Pi::player, camSize, fovY, znear, zfar);
-	m_rearCamera = new RearCamera(Pi::player, camSize, fovY, znear, zfar);
-	m_leftCamera = new LeftCamera(Pi::player, camSize, fovY, znear, zfar);
-	m_rightCamera = new RightCamera(Pi::player, camSize, fovY, znear, zfar);
-	m_topCamera = new TopCamera(Pi::player, camSize, fovY, znear, zfar);
-	m_bottomCamera = new BottomCamera(Pi::player, camSize, fovY, znear, zfar);
+	m_internalCamera = new InternalCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_externalCamera = new ExternalCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_siderealCamera = new SiderealCamera(Pi::player, camSize, fovY, znear, zfar);
 	SetCamType(m_camType); //set the active camera
@@ -236,14 +230,7 @@ void WorldView::InitObject()
 
 WorldView::~WorldView()
 {
-	delete m_frontCockpitView;
-	delete m_rearCockpitView;
-	delete m_frontCamera;
-	delete m_rearCamera;
-	delete m_leftCamera;
-	delete m_rightCamera;
-	delete m_topCamera;
-	delete m_bottomCamera;
+	delete m_internalCamera;
 	delete m_externalCamera;
 	delete m_siderealCamera;
 
@@ -257,6 +244,7 @@ WorldView::~WorldView()
 void WorldView::Save(Serializer::Writer &wr)
 {
 	wr.Int32(int(m_camType));
+	m_internalCamera->Save(wr);
 	m_externalCamera->Save(wr);
 	m_siderealCamera->Save(wr);
 	wr.Bool(m_cameraNameVisible);
@@ -275,48 +263,19 @@ void WorldView::SetCamType(enum CamType c)
 		onChangeCamType.emit();
 	}
 
-	std::string cameraName;
 	switch(m_camType) {
-		case CAM_BOTTOM:
-			m_activeCamera = m_bottomCamera;
-			cameraName = Lang::CAMERA_BOTTOM_VIEW;
-			break;
-		case CAM_TOP:
-			m_activeCamera = m_topCamera;
-			cameraName = Lang::CAMERA_TOP_VIEW;
-			break;
-		case CAM_RIGHT:
-			m_activeCamera = m_rightCamera;
-			cameraName = Lang::CAMERA_RIGHT_VIEW;
-			break;
-		case CAM_LEFT:
-			m_activeCamera = m_leftCamera;
-			cameraName = Lang::CAMERA_LEFT_VIEW;
-			break;
-		case CAM_REAR:
-			m_activeCamera = m_rearCamera;
-			cameraName = Lang::CAMERA_REAR_VIEW;
-			break;
 		case CAM_EXTERNAL:
 			m_activeCamera = m_externalCamera;
 			cameraName = Lang::EXTERNAL_VIEW;
-			break;
+		break;
 		case CAM_SIDEREAL:
 			m_activeCamera = m_siderealCamera;
 			cameraName = Lang::SIDEREAL_VIEW;
-			break;
-		case CAM_FRONT:
-			m_activeCamera = m_frontCamera;
-			cameraName = Lang::CAMERA_FRONT_VIEW;
-			break;
-		case COCKPIT_REAR:
-			m_activeCamera = m_rearCockpitView;
-			cameraName = "";
-			break;
+		break;
 		default:
-			m_activeCamera = m_frontCockpitView;
-			cameraName = "";
-	}
+		case CAM_INTERNAL:
+			m_activeCamera = m_internalCamera;
+		}
 	m_activeCamera->Activate();
 
 	int i;
@@ -821,22 +780,33 @@ void WorldView::Update()
 	} else {
 		// XXX ugly hack checking for console here
 		if (!Pi::IsConsoleActive()) {
-			if (Pi::KeyState(SDLK_UP)) m_activeCamera->RotateUp(frameTime);
-			if (Pi::KeyState(SDLK_DOWN)) m_activeCamera->RotateDown(frameTime);
-			if (Pi::KeyState(SDLK_LEFT)) m_activeCamera->RotateLeft(frameTime);
-			if (Pi::KeyState(SDLK_RIGHT)) m_activeCamera->RotateRight(frameTime);
+			if (m_activeCamera->IsExternal() == false) {
+			if (Pi::KeyState(SDLK_KP7)) {m_activeCamera->Front_Cockpit(); SetCamType(COCKPIT_FRONT); cameraName = Lang::FRONT_COCKPIT_VIEW;}
+			if (Pi::KeyState(SDLK_KP1)) {m_activeCamera->Rear_Cockpit(); SetCamType(COCKPIT_REAR); cameraName = Lang::REAR_COCKPIT_VIEW;}
+			if (Pi::KeyState(SDLK_KP8)) {m_activeCamera->Front(); SetCamType(CAM_FRONT); cameraName = Lang::CAMERA_FRONT_VIEW;}
+			if (Pi::KeyState(SDLK_KP2)) {m_activeCamera->Rear(); SetCamType(CAM_REAR); cameraName = Lang::CAMERA_REAR_VIEW;}
+			if (Pi::KeyState(SDLK_KP4)) {m_activeCamera->Left(); SetCamType(CAM_LEFT); cameraName = Lang::CAMERA_LEFT_VIEW;}
+			if (Pi::KeyState(SDLK_KP6)) {m_activeCamera->Right(); SetCamType(CAM_RIGHT); cameraName = Lang::CAMERA_RIGHT_VIEW;}
+			if (Pi::KeyState(SDLK_KP9)) {m_activeCamera->Top(); SetCamType(CAM_TOP); cameraName = Lang::CAMERA_TOP_VIEW;}
+			if (Pi::KeyState(SDLK_KP3)) {m_activeCamera->Bottom(); SetCamType(CAM_BOTTOM); cameraName = Lang::CAMERA_BOTTOM_VIEW;}
+			} else {
+			if (Pi::KeyState(SDLK_KP8)) m_activeCamera->RotateUp(frameTime);
+			if (Pi::KeyState(SDLK_KP2)) m_activeCamera->RotateDown(frameTime);
+			if (Pi::KeyState(SDLK_KP4)) m_activeCamera->RotateLeft(frameTime);
+			if (Pi::KeyState(SDLK_KP6)) m_activeCamera->RotateRight(frameTime);
 			if (Pi::KeyState(SDLK_KP_MINUS)) m_activeCamera->ZoomOut(frameTime);
 			if (Pi::KeyState(SDLK_KP_PLUS)) m_activeCamera->ZoomIn(frameTime);
-			if (Pi::KeyState(SDLK_COMMA)) m_activeCamera->RollLeft(frameTime);
-			if (Pi::KeyState(SDLK_PERIOD)) m_activeCamera->RollRight(frameTime);
+			if (Pi::KeyState(SDLK_KP1)) m_activeCamera->RollLeft(frameTime);
+			if (Pi::KeyState(SDLK_KP3)) m_activeCamera->RollRight(frameTime);
 			if (Pi::KeyState(SDLK_HOME)) m_activeCamera->Reset();
-
+			}
 			// note if we have to target the object in the crosshairs
 			targetObject = KeyBindings::targetObject.IsActive();
 		}
 	}
 
 	m_activeCamera->UpdateTransform();
+	m_activeCamera->Activate();
 	m_activeCamera->Update();
 	UpdateProjectedObjects();
 

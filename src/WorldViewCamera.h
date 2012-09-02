@@ -11,14 +11,7 @@ class WorldViewCamera : public Camera
 {
 public:
 	enum Type { //can be used for serialization & identification
-		FRONT_COC,
-		REAR_COC,
-		FRONT,
-		REAR,
-		LEFT,
-		RIGHT,
-		TOP,
-		BOTTOM,
+		INTERNAL,
 		EXTERNAL,
 		SIDEREAL
 	};
@@ -26,6 +19,14 @@ public:
 	//it is not strictly necessary, but WW cameras are now restricted to Ships
 	WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	virtual Type GetType() const = 0;
+	virtual void Front_Cockpit() { }
+	virtual void Rear_Cockpit() { }
+	virtual void Front() { }
+	virtual void Rear() { }
+	virtual void Left() { }
+	virtual void Right() { }
+	virtual void Top() { }
+	virtual void Bottom() { }
 	virtual void RollLeft(float frameTime) { }
 	virtual void RollRight(float frameTime) { }
 	virtual void RotateDown(float frameTime) { }
@@ -51,67 +52,24 @@ public:
 };
 
 // Front view from the cockpit.
-class FrontCockpitView : public WorldViewCamera {
+class InternalCamera : public WorldViewCamera {
 public:
-	FrontCockpitView(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
-	Type GetType() const { return FRONT_COC; }
+	InternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
+	Type GetType() const { return INTERNAL; }
+	void Front_Cockpit();
+	void Rear_Cockpit();
+	void Front();
+	void Rear();
+	void Left();
+	void Right();
+	void Top();
+	void Bottom();
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
 	void Activate();
-};
-
-// Rear view from the cockpit.
-class RearCockpitView : public WorldViewCamera {
-public:
-	RearCockpitView(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
-	Type GetType() const { return REAR_COC; }
-	void Activate();
-};
-
-// Forward-facing view
-class FrontCamera : public WorldViewCamera {
-public:
-	FrontCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
-	Type GetType() const { return FRONT; }
-	void Activate();
-};
-
-// Rear-facing view
-class RearCamera : public WorldViewCamera {
-public:
-	RearCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
-	Type GetType() const { return REAR; }
-	void Activate();
-};
-
-// Left-facing view
-class LeftCamera : public WorldViewCamera {
-public:
-	LeftCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
-	Type GetType() const { return LEFT; }
-	void Activate();
-};
-
-// Right-facing view
-class RightCamera : public WorldViewCamera {
-public:
-	RightCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
-	Type GetType() const { return RIGHT; }
-	void Activate();
-};
-
-// Top-facing view
-class TopCamera : public WorldViewCamera {
-public:
-	TopCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
-	Type GetType() const { return TOP; }
-	void Activate();
-};
-
-// Botom-facing view
-class BottomCamera : public WorldViewCamera {
-public:
-	BottomCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
-	Type GetType() const { return BOTTOM; }
-	void Activate();
+private:
+	matrix4x4d m_orient;
+	vector3d m_offs;
 };
 
 // Zoomable, rotatable orbit camera, always looks at the ship
