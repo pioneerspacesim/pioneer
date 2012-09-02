@@ -1,0 +1,11 @@
+local f = Faction:new('Red')
+	:description_short('Not Blue')
+	:description('The RED team are not Blue')	
+	:govtype('EMPIRERULE')
+	:homeworld(4,-9,-16,0,16)
+	:foundingDate(0.0)
+	:expansionRate(1)
+	:military_name('Red Fleet')
+	:police_name('Red Right Hands')
+
+f:add_to_factions('Red')
