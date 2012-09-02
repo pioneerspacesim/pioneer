@@ -1,0 +1,267 @@
+#include "Factions.h"
+#include "galaxy/SystemPath.h"
+
+#include "LuaUtils.h"
+#include "LuaVector.h"
+#include "LuaFixed.h"
+#include "LuaConstants.h"
+#include "Polit.h"
+#include "FileSystem.h"
+#include <map>
+
+
+static Faction::FactionMap s_factionMap;
+
+// ------- Faction --------
+
+static const char LuaFaction_TypeName[] = "Faction";
+
+static Faction **l_fac_check_ptr(lua_State *L, int idx) {
+	Faction **csbptr = static_cast<Faction**>(
+			luaL_checkudata(L, idx, LuaFaction_TypeName));
+	if (!(*csbptr)) {
+		abort();
+		luaL_argerror(L, idx, "invalid body (this body has already been used)");
+	}
+	return csbptr;
+}
+
+static Faction *l_fac_check(lua_State *L, int idx)
+{ return *l_fac_check_ptr(L, idx); }
+
+static int l_fac_new(lua_State *L)
+{
+	const char *pName = luaL_checkstring(L, 2);
+	
+	Faction **csbptr = static_cast<Faction**>(lua_newuserdata(L, sizeof(Faction*)));
+	*csbptr = new Faction;
+	luaL_setmetatable(L, LuaFaction_TypeName);
+
+	(*csbptr)->name = pName;
+
+	return 1;
+}
+
+#define LFAC_FIELD_SETTER_FIXED(luaname, fieldname)         \
+	static int l_fac_ ## luaname (lua_State *L) {          \
+		Faction *csb = l_fac_check(L, 1);				   \
+		const fixed *value = LuaFixed::CheckFromLua(L, 2); \
+		csb->fieldname = *value;                           \
+		lua_settop(L, 1); return 1;                        \
+	}
+
+#define LFAC_FIELD_SETTER_FLOAT(luaname, fieldname)         \
+	static int l_fac_ ## luaname (lua_State *L) {          \
+		Faction *csb = l_fac_check(L, 1);				   \
+		double value = luaL_checknumber(L, 2);             \
+		csb->fieldname = value;                            \
+		lua_settop(L, 1); return 1;                        \
+	}
+
+#define LFAC_FIELD_SETTER_INT(luaname, fieldname)           \
+	static int l_fac_ ## luaname (lua_State *L) {          \
+		Faction *csb = l_fac_check(L, 1);				   \
+		int value = luaL_checkinteger(L, 2);               \
+		csb->fieldname = value;                            \
+		lua_settop(L, 1); return 1;                        \
+	}
+
+static int l_fac_description_short(lua_State *L)
+{
+	Faction *csb = l_fac_check(L, 1);
+	csb->description_short = luaL_checkstring(L, 2);
+	lua_settop(L, 1);
+	return 1;
+}
+
+static int l_fac_description(lua_State *L)
+{
+	Faction *csb = l_fac_check(L, 1);
+	csb->description = luaL_checkstring(L, 2);
+	lua_settop(L, 1);
+	return 1;
+}
+
+static int l_fac_govtype(lua_State *L)
+{
+	Faction *csb = l_fac_check(L, 1);
+	csb->govType = static_cast<Polit::GovType>(LuaConstants::GetConstantFromArg(L, "PolitGovType", 2));
+	lua_settop(L, 1);
+	return 1;
+}
+
+// sector(x,y,x) + system index + body index = location in a (custom?) system of homeworld
+static int l_fac_homeworld (lua_State *L) 
+{
+	Faction *csb = l_fac_check(L, 1);
+	int value1 = luaL_checkinteger(L, 2);
+	int value2 = luaL_checkinteger(L, 3);
+	int value3 = luaL_checkinteger(L, 4);
+	int value4 = luaL_checkinteger(L, 5);
+	int value5 = luaL_checkinteger(L, 6);
+	csb->homeworld = SystemPath(value1,value2,value3,value4,value5);
+	csb->hasHomeworld = true;
+	lua_settop(L, 1); 
+	return 1;
+}
+
+LFAC_FIELD_SETTER_FLOAT(foundingDate,foundingDate)		// date faction came into existence
+LFAC_FIELD_SETTER_FLOAT(expansionRate,expansionRate)		// lightyears per year that the volume expands.
+
+static int l_fac_military_name(lua_State *L)
+{
+	Faction *csb = l_fac_check(L, 1);
+	csb->military_name = luaL_checkstring(L, 2);
+	lua_settop(L, 1);
+	return 1;
+}
+//military logo
+static int l_fac_police_name(lua_State *L)
+{
+	Faction *csb = l_fac_check(L, 1);
+	csb->police_name = luaL_checkstring(L, 2);
+	lua_settop(L, 1);
+	return 1;
+}
+//police logo
+//goods/equipment availability (1-per-economy-type: aka agricultural, industrial, tourist, etc)
+//goods/equipment legality
+//ship availability
+
+#undef LFAC_FIELD_SETTER_FIXED
+#undef LFAC_FIELD_SETTER_FLOAT
+#undef LFAC_FIELD_SETTER_INT
+
+static int l_csys_add_to_factions(lua_State *L)
+{
+	Faction **csptr = l_fac_check_ptr(L, 1);
+
+	const std::string FactionName = luaL_checkstring(L, 2);
+
+	printf("l_csys_add_to_factions: %s added under name: %s\n", (*csptr)->name.c_str(), FactionName.c_str());
+
+	s_factionMap[FactionName] = (*csptr);
+	*csptr = 0;
+	return 0;
+}
+
+static int l_fac_gc(lua_State *L)
+{
+	Faction **csbptr = static_cast<Faction**>(
+			luaL_checkudata(L, 1, LuaFaction_TypeName));
+	delete *csbptr; // does nothing if *csbptr is null
+	*csbptr = 0;
+	return 0;
+}
+
+static luaL_Reg LuaFaction_meta[] = {
+	{ "new", &l_fac_new },
+	{ "description_short", &l_fac_description_short },
+	{ "description", &l_fac_description },
+	{ "govtype", &l_fac_govtype },
+	{ "homeworld", &l_fac_homeworld },
+	{ "foundingDate", &l_fac_foundingDate },
+	{ "expansionRate", &l_fac_expansionRate },
+	{ "military_name", &l_fac_military_name },
+	{ "police_name", &l_fac_police_name },
+	{ "add_to_factions", &l_csys_add_to_factions },
+	{ "__gc", &l_fac_gc },
+	{ 0, 0 }
+};
+
+// ------ Factions initialisation ------
+
+static void register_class(lua_State *L, const char *tname, luaL_Reg *meta)
+{
+	LUA_DEBUG_START(L);
+	luaL_newmetatable(L, tname);
+	luaL_setfuncs(L, meta, 0);
+
+	// map the metatable to its own __index
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -2, "__index");
+
+	// publish the metatable
+	lua_setglobal(L, tname);
+
+	LUA_DEBUG_END(L, 0);
+}
+
+static void RegisterFactionsAPI(lua_State *L)
+{
+	register_class(L, LuaFaction_TypeName, LuaFaction_meta);
+}
+
+void Faction::Init()
+{
+	lua_State *L = luaL_newstate();
+	LUA_DEBUG_START(L);
+
+	luaL_requiref(L, "_G", &luaopen_base, 1);
+	luaL_requiref(L, LUA_DBLIBNAME, &luaopen_debug, 1);
+	luaL_requiref(L, LUA_MATHLIBNAME, &luaopen_math, 1);
+	lua_pop(L, 3);
+
+	LuaVector::Register(L);
+	LuaFixed::Register(L);
+	LuaConstants::Register(L);
+
+	// create an alias math.deg2rad = math.rad
+	lua_getglobal(L, LUA_MATHLIBNAME);
+	lua_getfield(L, -1, "rad");
+	assert(lua_isfunction(L, -1));
+	lua_setfield(L, -2, "deg2rad");
+	lua_pop(L, 1); // pop the math table
+
+	// create a shortcut f = fixed.new
+	lua_getglobal(L, LuaFixed::LibName);
+	lua_getfield(L, -1, "new");
+	assert(lua_iscfunction(L, -1));
+	lua_setglobal(L, "f");
+	lua_pop(L, 1); // pop the fixed table
+
+	// provide shortcut vector constructor: v = vector.new
+	lua_getglobal(L, LuaVector::LibName);
+	lua_getfield(L, -1, "new");
+	assert(lua_iscfunction(L, -1));
+	lua_setglobal(L, "v");
+	lua_pop(L, 1); // pop the vector table
+
+	LUA_DEBUG_CHECK(L, 0);
+
+	RegisterFactionsAPI(L);
+
+	LUA_DEBUG_CHECK(L, 0);
+	pi_lua_dofile_recursive(L, "factions");
+
+	LUA_DEBUG_END(L, 0);
+	lua_close(L);
+
+	printf("Number of factions added: %u\n", s_factionMap.size());
+}
+
+void Faction::Uninit()
+{
+	for (Faction::FactionMap::iterator	facIter = s_factionMap.begin(); facIter != s_factionMap.end(); ++facIter) {
+		delete (*facIter).second;
+	}
+	s_factionMap.clear();
+}
+
+const Faction *Faction::GetFaction(const std::string &nameIdx)
+{
+	return (s_factionMap[nameIdx]) ? s_factionMap[nameIdx] : NULL;
+}
+
+Faction::Faction() :
+	govType(Polit::GOV_NONE), 
+	hasHomeworld(false), 
+	foundingDate(0.0),
+	expansionRate(0.0)
+{
+}
+
+Faction::~Faction()
+{
+	Uninit();
+}
