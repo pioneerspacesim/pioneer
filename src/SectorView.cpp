@@ -97,10 +97,12 @@ void SectorView::InitObject()
 
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
+	m_zoomInButton->SetRenderDimensions(30, 22);
 	Add(m_zoomInButton, 700, 5);
 
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
+	m_zoomOutButton->SetRenderDimensions(30, 22);
 	Add(m_zoomOutButton, 732, 5);
 
 	Add(new Gui::Label(Lang::SEARCH), 650, 500);
