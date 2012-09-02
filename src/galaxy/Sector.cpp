@@ -16,12 +16,25 @@ void Sector::GetCustomSystems()
 {
 	const std::vector<CustomSystem*> &systems = CustomSystem::GetCustomSystemsForSector(sx, sy, sz);
 	if (systems.size() == 0) return;
+	unsigned long _init[4] = { sx, sy, sz, UNIVERSE_SEED };
+	MTRand rng(_init, 4);
 
 	for (std::vector<CustomSystem*>::const_iterator it = systems.begin(); it != systems.end(); it++) {
 		const CustomSystem *cs = *it;
 		System s;
 		s.p = SIZE*cs->pos;
 		s.name = cs->name;
+		if (starts_with(s.name, "Gliese") || starts_with(s.name, "HD")
+		    || starts_with(s.name, "NN") || starts_with(s.name, "Gj"))
+		{
+			//s.name = Sector::GenName(s, rng);  size_t pos = 0
+			s.name = "";
+			int len = rng.Int32(2,3);
+			for (int i=0; i<len; i++) {
+				s.name += sys_names[rng.Int32(0,SYS_NAME_FRAGS-1)];
+			}
+			s.name[0] = toupper(s.name[0]);
+		}
 		for (s.numStars=0; s.numStars<cs->numStars; s.numStars++) {
 			if (cs->primaryType[s.numStars] == 0) break;
 			s.starType[s.numStars] = cs->primaryType[s.numStars];
@@ -94,7 +107,7 @@ Sector::Sector(int x, int y, int z)
 			//	(sy > 50) || (sy < -50))
 
 			// Frequencies are low enough that we probably don't need this anymore.
-			if (isqrt(1+sx*sx+sy*sy) > 10)
+			if ((sx*sx + sy*sy + sz*sz) > 15*15)
 			{
 				if (spec < 1) {
 					s.starType[0] = SystemBody::TYPE_STAR_IM_BH;  // These frequencies are made up
@@ -201,35 +214,37 @@ Sector::Sector(int x, int y, int z)
 			if ((s.starType[0] <= SystemBody::TYPE_STAR_A) && (rng.Int32(10)==0)) {
 				// make primary a giant. never more than one giant in a system
 				// while
-				if (isqrt(1+sx*sx+sy*sy) > 10)
+				if ((sx*sx + sy*sy + sz*sz) > 15*15)
 				{
-					if (rand.Int32(0,1000) >= 999) {
+					if (rand.Int32(0,1000000) >= 999999) {
 						s.starType[0] = SystemBody::TYPE_STAR_B_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 998) {
+					} else if (rand.Int32(0,1000000) >= 999998) {
 						s.starType[0] = SystemBody::TYPE_STAR_O_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 997) {
+					} else if (rand.Int32(0,1000000) >= 999997) {
 						s.starType[0] = SystemBody::TYPE_STAR_K_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 995) {
+					} else if (rand.Int32(0,1000000) >= 999995) {
 						s.starType[0] = SystemBody::TYPE_STAR_B_SUPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 993) {
+					} else if (rand.Int32(0,1000000) >= 999993) {
 						s.starType[0] = SystemBody::TYPE_STAR_O_SUPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 990) {
+					} else if (rand.Int32(0,1000000) >= 999990) {
 						s.starType[0] = SystemBody::TYPE_STAR_K_SUPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 985) {
+					} else if (rand.Int32(0,1000000) >= 999985) {
 						s.starType[0] = SystemBody::TYPE_STAR_B_GIANT;
-					} else if (rand.Int32(0,1000) >= 980) {
+					} else if (rand.Int32(0,1000000) >= 999980) {
 						s.starType[0] = SystemBody::TYPE_STAR_O_GIANT;
-					} else if (rand.Int32(0,1000) >= 975) {
+					} else if (rand.Int32(0,1000000) >= 999975) {
 						s.starType[0] = SystemBody::TYPE_STAR_K_GIANT;
-					} else if (rand.Int32(0,1000) >= 950) {
+					} else if (rand.Int32(0,1000000) >= 999850) {
 						s.starType[0] = SystemBody::TYPE_STAR_M_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 875) {
+					} else if (rand.Int32(0,1000000) >= 999075) {
 						s.starType[0] = SystemBody::TYPE_STAR_M_SUPER_GIANT;
 					} else {
 						s.starType[0] = SystemBody::TYPE_STAR_M_GIANT;
 					}
-				} else if (isqrt(1+sx*sx+sy*sy) > 5) s.starType[0] = SystemBody::TYPE_STAR_M_GIANT;
-				else s.starType[0] = SystemBody::TYPE_STAR_M;
+				} else if ((sx*sx + sy*sy + sz*sz) > 5*5)
+					s.starType[0] = SystemBody::TYPE_STAR_M_GIANT;
+				else
+					s.starType[0] = SystemBody::TYPE_STAR_M;
 
 				//printf("%d: %d%\n", sx, sy);
 			}
