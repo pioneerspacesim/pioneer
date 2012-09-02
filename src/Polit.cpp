@@ -199,7 +199,12 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 		if (path == SystemPath(0,0,0,0)) {
 			a = Polit::GOV_EARTHDEMOC;
 		} else if (human_infestedness > 0) {
-			a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
+			const Faction *pFaction = Faction::GetNearestFaction(path);
+			if( pFaction ) {
+				a = pFaction->govType;
+			} else {
+				a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
+			}
 		} else {
 			a = GOV_NONE;
 		}

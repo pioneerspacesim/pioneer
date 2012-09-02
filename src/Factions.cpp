@@ -9,8 +9,9 @@
 #include "FileSystem.h"
 #include <map>
 
-
-static Faction::FactionMap s_factionMap;
+typedef std::map<std::string, Faction*>				FactionMap;
+typedef std::map<std::string, Faction*>::iterator	FactionMapIterator;
+std::map<std::string, Faction*>						s_factionMap;
 
 // ------- Faction --------
 
@@ -192,6 +193,7 @@ static void RegisterFactionsAPI(lua_State *L)
 	register_class(L, LuaFaction_TypeName, LuaFaction_meta);
 }
 
+//static 
 void Faction::Init()
 {
 	lua_State *L = luaL_newstate();
@@ -240,17 +242,58 @@ void Faction::Init()
 	printf("Number of factions added: %u\n", s_factionMap.size());
 }
 
+//static 
 void Faction::Uninit()
 {
-	for (Faction::FactionMap::iterator	facIter = s_factionMap.begin(); facIter != s_factionMap.end(); ++facIter) {
+	for (FactionMapIterator facIter = s_factionMap.begin(); facIter != s_factionMap.end(); ++facIter) {
 		delete (*facIter).second;
 	}
 	s_factionMap.clear();
 }
 
+//static 
 const Faction *Faction::GetFaction(const std::string &nameIdx)
 {
 	return (s_factionMap[nameIdx]) ? s_factionMap[nameIdx] : NULL;
+}
+
+//static 
+const Faction *Faction::GetNearestFaction(const SystemPath& sysPath)
+{
+	// Iterate through all of the factions and find the one nearest to the system we're checking it against.
+	const vector3f sysPos(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
+	Faction *pFoundFaction = nullptr;
+	Sint32 nearestDistance = INT_MAX;
+
+	// get the current year
+	const int current_year = get_year(Pi::game->GetTime());
+
+	// iterate
+	for (FactionMapIterator facIter = s_factionMap.begin(); facIter != s_factionMap.end(); ++facIter) {
+		const Faction *ptr = (*facIter).second;
+		assert(ptr);
+		if( !ptr->hasHomeworld && nullptr==pFoundFaction )
+		{
+			pFoundFaction = (*facIter).second;
+		}
+		else if( ptr->hasHomeworld )
+		{
+			// get the distance
+			const vector3f hm(ptr->homeworld.sectorX, ptr->homeworld.sectorY, ptr->homeworld.sectorZ);
+			const Sint32 distance = (sysPos - hm).Length();
+
+			// 
+			double radius = (current_year - ptr->foundingDate) * ptr->expansionRate;
+
+			// check we've found a closer faction
+			if( distance <= radius && distance < nearestDistance ) {
+				nearestDistance = distance;
+				pFoundFaction = (*facIter).second;
+			}
+		}
+	}
+
+	return pFoundFaction;
 }
 
 Faction::Faction() :

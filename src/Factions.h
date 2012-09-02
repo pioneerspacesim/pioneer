@@ -8,12 +8,12 @@
 
 class Faction {
 public:
-	typedef std::map<std::string, Faction*> FactionMap;
 	static void Init();
 	static void Uninit();
 
 	// XXX this is not as const-safe as it should be
 	static const Faction *GetFaction(const std::string& nameIdx);
+	static const Faction *GetNearestFaction(const SystemPath& sysPath);
 
 	Faction();
 	~Faction();

@@ -23,6 +23,7 @@ public:
 	timedate &operator=(int stamp);
 	std::string fmt_time_date();
 	std::string fmt_date();
+	int get_year() const;
 private:
 	int hour, minute, second, day, month, year;
 
@@ -82,6 +83,11 @@ std::string timedate::fmt_date()
 	return buf;
 }
 
+int timedate::get_year() const
+{
+	return year;
+}
+
 
 std::string format_date(double t)
 {
@@ -93,6 +99,12 @@ std::string format_date_only(double t)
 {
 	timedate stamp = int(t);
 	return stamp.fmt_date();
+}
+
+int get_year(double t)
+{
+	timedate stamp = int(t);
+	return stamp.get_year();
 }
 
 std::string string_join(std::vector<std::string> &v, std::string sep)
