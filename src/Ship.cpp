@@ -866,7 +866,7 @@ void Ship::UpdateAlertState()
 		// clear existing alert state if there was one
 		if (GetAlertState() != ALERT_NONE) {
 			SetAlertState(ALERT_NONE);
-			LuaEvent::Queue("onShipAlertChanged", this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", ALERT_NONE));
+			LuaEvent::Queue("onShipAlertChanged", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipAlertStatus", ALERT_NONE));
 		}
 		return;
 	}
@@ -937,7 +937,7 @@ void Ship::UpdateAlertState()
 	}
 
 	if (changed)
-		LuaEvent::Queue("onShipAlertChanged", this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", GetAlertState()));
+		LuaEvent::Queue("onShipAlertChanged", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipAlertStatus", GetAlertState()));
 }
 
 void Ship::UpdateFuel(const float timeStep)
@@ -961,7 +961,7 @@ void Ship::UpdateFuel(const float timeStep)
 	UpdateFuelStats();
 
 	if (currentState != lastState)
-		LuaEvent::Queue("onShipFuelChanged", this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipFuelStatus", currentState));
+		LuaEvent::Queue("onShipFuelChanged", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipFuelStatus", currentState));
 }
 
 void Ship::StaticUpdate(const float timeStep)
@@ -1249,11 +1249,11 @@ bool Ship::Jettison(Equip::Type t)
 			// XXX should move the cargo to the station's temporary storage
 			// (can't be recovered at this moment)
 			LuaEvent::Queue("onCargoUnload", GetDockedWith(),
-				LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "EquipType", t));
+				LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "EquipType", t));
 		} else { // LANDED
 			// the cargo is lost
 			LuaEvent::Queue("onCargoUnload", GetFrame()->GetBodyFor(),
-				LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "EquipType", t));
+				LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "EquipType", t));
 		}
 		return true;
 	} else {
@@ -1263,7 +1263,7 @@ bool Ship::Jettison(Equip::Type t)
 
 void Ship::OnEquipmentChange(Equip::Type e)
 {
-	LuaEvent::Queue("onShipEquipmentChanged", this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "EquipType", e));
+	LuaEvent::Queue("onShipEquipmentChanged", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "EquipType", e));
 }
 
 void Ship::UpdateFlavour(const ShipFlavour *f)

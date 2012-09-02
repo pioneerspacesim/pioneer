@@ -3,7 +3,6 @@
 #include "LuaManager.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "Pi.h"
 
 namespace LuaEvent {
 
@@ -29,7 +28,7 @@ static void _get_method_onto_stack(lua_State *l, const char *method) {
 
 void Clear()
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 	_get_method_onto_stack(l, "_Clear");
@@ -39,7 +38,7 @@ void Clear()
 
 void Emit()
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 	_get_method_onto_stack(l, "_Emit");
@@ -49,7 +48,7 @@ void Emit()
 
 void Queue(const char *event, const ArgsBase &args)
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 	_get_method_onto_stack(l, "Queue");
