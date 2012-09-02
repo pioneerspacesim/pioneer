@@ -79,6 +79,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineTy
 	if (count < 2 || !v) return false;
 
 	vtxColorProg->Use();
+	vtxColorProg->invLogZfarPlus1.Set(m_invLogZfarPlus1);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
@@ -97,6 +98,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 
 	flatColorProg->Use();
 	flatColorProg->diffuse.Set(c);
+	flatColorProg->invLogZfarPlus1.Set(m_invLogZfarPlus1);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
 	glDrawArrays(t, 0, count);
