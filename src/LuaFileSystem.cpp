@@ -98,5 +98,5 @@ void LuaFileSystem::Register()
 	};
 
 	LuaObjectBase::CreateObject(l_methods, 0, 0);
-	lua_setglobal(Pi::luaManager->GetLuaState(), "FileSystem");
+	lua_setglobal(Lua::manager->GetLuaState(), "FileSystem");
 }

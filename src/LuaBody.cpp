@@ -4,7 +4,6 @@
 #include "LuaConstants.h"
 #include "Body.h"
 #include "galaxy/StarSystem.h"
-#include "Pi.h"
 #include "Frame.h"
 
 /*

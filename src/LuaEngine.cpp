@@ -86,5 +86,5 @@ void LuaEngine::Register()
 	};
 
 	LuaObjectBase::CreateObject(0, l_attrs, 0);
-	lua_setglobal(Pi::luaManager->GetLuaState(), "Engine");
+	lua_setglobal(Lua::manager->GetLuaState(), "Engine");
 }

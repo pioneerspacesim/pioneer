@@ -224,7 +224,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 		return;
 	}
 
-	lua_State * l = Pi::luaManager->GetLuaState();
+	lua_State * l = Lua::manager->GetLuaState();
 	int stackheight = lua_gettop(l);
 	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 	// Loading the tables in which to do the name lookup
@@ -284,7 +284,7 @@ void LuaConsole::AddOutput(const std::string &line) {
 void LuaConsole::ExecOrContinue() {
 	const std::string stmt = m_entryField->GetText();
 	int result;
-	lua_State *L = Pi::luaManager->GetLuaState();
+	lua_State *L = Lua::manager->GetLuaState();
 
     // If the statement is an expression, print its final value.
 	result = luaL_loadbuffer(L, ("return " + stmt).c_str(), stmt.size()+7, "console");
@@ -464,7 +464,7 @@ static int l_console_print(lua_State *L) {
 
 void LuaConsole::Register()
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
