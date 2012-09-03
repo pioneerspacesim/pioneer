@@ -7,6 +7,7 @@
 
 ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int height)
 : m_done(false)
+, m_screenshotQueued(false)
 , m_collMesh(0)
 , m_frameTime(0.f)
 , m_renderer(r)
@@ -186,7 +187,12 @@ void ModelViewer::MainLoop()
 		if (m_model)
 			DrawModel();
 
-		m_ui->Draw();
+		if (!m_screenshotQueued) {
+			m_ui->Draw();
+		} else {
+			m_screenshotQueued = false;
+			Screenshot();
+		}
 
 		m_renderer->SwapBuffers();
 	}
@@ -205,7 +211,6 @@ void ModelViewer::PollEvents()
 	 * Planned:
 	 * numpad - preset camera views, blenderish
 	 * g - grid
-	 * printscr - screenshot
 	 * tab - toggle ui (always invisible on screenshots)
 	 */
 	m_mouseMotion[0] = m_mouseMotion[1] = 0;
@@ -239,6 +244,9 @@ void ModelViewer::PollEvents()
 			case SDLK_SPACE:
 				ResetCamera();
 				break;
+			case SDLK_PRINT:
+				m_screenshotQueued = true;
+				break;
 			}
 			m_keyStates[event.key.keysym.sym] = true;
 			break;
@@ -259,6 +267,16 @@ void ModelViewer::ResetCamera()
 		m_camPos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius() * 1.5f);
 	//m_camOrient = matrix4x4f::Identity();
 	m_modelRot = matrix4x4f::Identity();
+}
+
+void ModelViewer::Screenshot()
+{
+	char buf[256];
+	const time_t t = time(0);
+	const struct tm *_tm = localtime(&t);
+	strftime(buf, sizeof(buf), "modelviewer-%Y%m%d-%H%M%S.png", _tm);
+	Screendump(buf, m_width, m_height);
+	//AddLog("Screenshot saved");
 }
 
 void ModelViewer::SetModel(const std::string &filename)

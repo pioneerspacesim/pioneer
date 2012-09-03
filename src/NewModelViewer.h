@@ -26,11 +26,13 @@ private:
 	void MainLoop();
 	void PollEvents();
 	void ResetCamera();
+	void Screenshot();
 	void SetModel(const std::string& name);
 	void SetupUI();
 	void UpdateCamera();
 
 	bool m_done;
+	bool m_screenshotQueued;
 	CollMesh *m_collMesh;
 	float m_frameTime;
 	Graphics::Renderer *m_renderer;
