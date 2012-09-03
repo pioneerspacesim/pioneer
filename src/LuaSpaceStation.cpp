@@ -3,13 +3,12 @@
 #include "SpaceStation.h"
 #include "LuaChatForm.h"
 #include "LuaConstants.h"
-#include "Pi.h"
 
 static std::map<SpaceStation*,sigc::connection> _station_delete_conns;
 
 static void _delete_station_ads(SpaceStation *s)
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

@@ -6,7 +6,7 @@
 void LuaTimer::Tick()
 {
 	assert(Pi::game);
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
