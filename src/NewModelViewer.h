@@ -20,6 +20,7 @@ public:
 	static void Run(int argc, char** argv);
 
 private:
+	bool OnToggleGrid(UI::Widget *);
 	void DrawBackground();
 	void DrawGrid(const matrix4x4f &trans, float radius);
 	void DrawModel();
@@ -30,7 +31,15 @@ private:
 	void SetModel(const std::string& name);
 	void SetupUI();
 	void UpdateCamera();
+	void UpdateLights();
 
+	struct Options {
+		bool showGrid;
+		float gridInterval;
+		int lightPreset;
+
+		Options();
+	};
 	bool m_done;
 	bool m_screenshotQueued;
 	CollMesh *m_collMesh;
@@ -41,6 +50,7 @@ private:
 	matrix4x4f m_modelRot;
 	ModelParams m_modelParams;
 	Newmodel::NModel *m_model;
+	Options m_options;
 	RefCountedPtr<UI::Context> m_ui;
 	vector3f m_camPos;
 

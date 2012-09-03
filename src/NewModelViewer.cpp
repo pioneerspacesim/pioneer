@@ -1,9 +1,29 @@
 #include "NewModelViewer.h"
 #include "FileSystem.h"
 #include "graphics/Graphics.h"
+#include "graphics/Light.h"
 #include "newmodel/Newmodel.h"
 #include "OS.h"
 #include "Pi.h"
+
+//default options
+ModelViewer::Options::Options()
+: showGrid(false)
+, gridInterval(10.f)
+, lightPreset(0)
+{
+}
+
+namespace {
+	vector3f az_el_to_dir(float yaw, float pitch) {
+		//0,0 points to "right" (1,0,0)
+		vector3f v;
+		v.x = cos(DEG2RAD(yaw)) * cos(DEG2RAD(pitch));
+		v.y = sin(DEG2RAD(pitch));
+		v.z = sin(DEG2RAD(yaw)) * cos(DEG2RAD(pitch));
+		return v;
+	}
+}
 
 ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int height)
 : m_done(false)
@@ -90,11 +110,31 @@ void ModelViewer::Run(int argc, char** argv)
 	SDL_Quit();
 }
 
+bool ModelViewer::OnToggleGrid(UI::Widget *)
+{
+	if (!m_options.showGrid) {
+		m_options.showGrid = true;
+		m_options.gridInterval = 1.0f;
+	}
+	else {
+		m_options.gridInterval = powf(10, ceilf(log10f(m_options.gridInterval))+1);
+		if (m_options.gridInterval >= 10000.0f) {
+			m_options.showGrid = false;
+			m_options.gridInterval = 0.0f;
+		}
+	}
+	/*AddLog(m_options.showGrid
+		? stringf("Grid: %0{d}", int(m_options.gridInterval))
+		: "Grid: off");*/
+	return m_options.showGrid;
+}
+
 void ModelViewer::DrawBackground()
 {
 	m_renderer->SetDepthWrite(false);
 	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	m_renderer->SetOrthographicProjection(0.f, 1.f, 0.f, 1.f, -1.f, 1.f);
+	m_renderer->SetTransform(matrix4x4f::Identity());
 
 	static Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
 	va.Clear();
@@ -111,16 +151,11 @@ void ModelViewer::DrawBackground()
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
 }
 
-//fake options for now
-struct Poptions {
-	Poptions() : gridInterval(10.f) { }
-	float gridInterval;
-};
-static Poptions m_options;
-
 //Draw grid and axes
 void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 {
+	assert(m_options.showGrid);
+
 	const float dist = abs(m_camPos.z);
 
 	const float max = std::min(powf(10, ceilf(log10f(dist))), ceilf(radius/m_options.gridInterval)*m_options.gridInterval);
@@ -191,7 +226,8 @@ void ModelViewer::DrawModel()
 
 	const matrix4x4f mv = matrix4x4f::Translation(-m_camPos) * m_modelRot.InverseOf();
 
-	DrawGrid(mv, m_model->GetDrawClipRadius());
+	if (m_options.showGrid)
+		DrawGrid(mv, m_model->GetDrawClipRadius());
 
 	m_renderer->SetDepthTest(true);
 	m_renderer->SetDepthWrite(true);
@@ -210,6 +246,7 @@ void ModelViewer::MainLoop()
 
 		PollEvents();
 		UpdateCamera();
+		UpdateLights();
 
 		DrawBackground();
 
@@ -337,8 +374,22 @@ void ModelViewer::SetModel(const std::string &filename)
 
 void ModelViewer::SetupUI()
 {
-	m_ui->SetInnerWidget(nameLabel = m_ui->Label("Pie"));
+	UI::VBox* box = m_ui->VBox();
+	UI::Button *toggleGridButton;
+	box->PackEnd(nameLabel = m_ui->Label("Pie"));
+	box->PackEnd(
+		m_ui->HBox()->PackEnd(
+			UI::WidgetSet(
+				toggleGridButton = m_ui->Button(),
+				m_ui->Label("Grid mode")
+			)
+		)
+	);
+	m_ui->SetInnerWidget(box);
 	m_ui->Layout();
+
+	//event handlers
+	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));
 }
 
 void ModelViewer::UpdateCamera()
@@ -363,4 +414,30 @@ void ModelViewer::UpdateCamera()
 		m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(rx);
 		m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(ry);
 	}
+}
+
+void ModelViewer::UpdateLights()
+{
+	using Graphics::Light;
+	Light lights[2];
+
+	switch(m_options.lightPreset) {
+	case 0:
+		//Front white
+		lights[0] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(90,0), Color(1.0f, 1.0f, 1.0f), Color(0.f), Color(1.f));
+		lights[1] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0,-90), Color(0.05, 0.05f, 0.1f), Color(0.f), Color(1.f));
+		break;
+	case 1:
+		//Two-point
+		lights[0] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(120,0), Color(0.9f, 0.8f, 0.8f), Color(0.f), Color(1.f));
+		lights[1] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(-30,-90), Color(0.7f, 0.5f, 0.0f), Color(0.f), Color(1.f));
+		break;
+	case 2:
+		//Backlight
+		lights[0] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(-75,20), Color(1.f), Color(0.f), Color(1.f));
+		lights[1] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0,-90), Color(0.05, 0.05f, 0.1f), Color(0.f), Color(1.f));
+		break;
+	};
+
+	m_renderer->SetLights(2, &lights[0]);
 }
