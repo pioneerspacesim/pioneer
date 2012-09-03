@@ -616,8 +616,6 @@ MM_START_NEW_GAME_E_ERIDANI
     Nowa gra: rozpocznij na Epsilon Eridani
 MM_START_NEW_GAME_LAVE
     Nowa gra: rozpocznij na Lave
-MM_START_NEW_GAME_EMPIRE
-	Nowa gra: rozpocznij na Achernar
 MM_START_NEW_GAME_DEBUG
     Nowa gra: rozpocznij z debug point
 MM_LOAD_SAVED_GAME
