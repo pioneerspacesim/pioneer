@@ -86,7 +86,7 @@ double TerrainHeightFractal<TerrainHeightMountainsVolcano>::GetHeight(const vect
 		if (n < 0.01) n += mountains * n * 60.0f ;
 		else n += mountains * 0.6f ;
 	}
-
 	n = m_maxHeight*n;
+	APPLY_SIMPLE_HEIGHT_REGIONS(n);
 	return (n > 0.0 ? n : 0.0);
 }

@@ -156,7 +156,7 @@ double TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::GetHeight(cons
 		if (n < 0.2) n += mountains * n * 5.0f ;
 		else n += mountains  ;
 	}
-
 	n = m_maxHeight*n;
+	APPLY_SIMPLE_HEIGHT_REGIONS(n);
 	return (n > 0.0 ? n : 0.0);
 }

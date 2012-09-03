@@ -20,7 +20,8 @@ template <>
 double TerrainHeightFractal<TerrainHeightBarrenRock2>::GetHeight(const vector3d &p)
 {
 
-	float heightmap = billow_octavenoise(16, 0.3*octavenoise(8, 0.4, 2.5, p),Clamp(5.0*ridged_octavenoise(8, 0.377, 4.0, p), 1.0, 5.0), p);
-
-	return m_maxHeight*heightmap;
+	float n = billow_octavenoise(16, 0.3*octavenoise(8, 0.4, 2.5, p),Clamp(5.0*ridged_octavenoise(8, 0.377, 4.0, p), 1.0, 5.0), p);
+	n *= m_maxHeight;
+	APPLY_SIMPLE_HEIGHT_REGIONS(n);
+	return (n > 0.0) ? n : 0.0;
 }

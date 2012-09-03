@@ -18,6 +18,20 @@ TerrainColorFractal<TerrainColorEarthLike>::TerrainColorFractal(const SystemBody
 template <>
 vector3d TerrainColorFractal<TerrainColorEarthLike>::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
+
+/*  // Example colour code
+	// if within city region set colour to grey
+	for(int ii = 0; ii < int(m_positions.size());ii++){ //used for 2 vecs
+			if(m_regionTypes[ii].Valid){
+				vector3d pos = m_positions[ii];
+				if (pos.Dot(p) >= m_regionTypes[ii].inner){
+					// can place checks for regionTypes[ii].Type to determine how colours are set
+					return vector3d(0.3,0.3,0.3);
+				}
+            }
+	}
+*/
+
 	double n = m_invMaxHeight*height;
 	double flatness = pow(p.Dot(norm), 8.0);
 
