@@ -724,7 +724,6 @@
 		4A6C4D6A13532FC300FDD53F /* SystemInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemInfoView.h; sourceTree = "<group>"; };
 		4A6C4D6B13532FC300FDD53F /* SystemView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemView.cpp; sourceTree = "<group>"; };
 		4A6C4D6C13532FC300FDD53F /* SystemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemView.h; sourceTree = "<group>"; };
-		4A6C4D6D13532FC300FDD53F /* tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tests.cpp; sourceTree = "<group>"; };
 		4A6C4D6E13532FC300FDD53F /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cpp; sourceTree = "<group>"; };
 		4A6C4D6F13532FC300FDD53F /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		4A6C4D7013532FC300FDD53F /* vector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vector3.h; sourceTree = "<group>"; };
@@ -1505,7 +1504,6 @@
 				4AB7D5CF1472A83E00158DE4 /* terrain */,
 				4AB3DF8714346952001B783A /* TerrainBody.cpp */,
 				4AB3DF8814346952001B783A /* TerrainBody.h */,
-				4A6C4D6D13532FC300FDD53F /* tests.cpp */,
 				4ACC6D1115401E7000C59914 /* text */,
 				4A6C4D6E13532FC300FDD53F /* utils.cpp */,
 				4A6C4D6F13532FC300FDD53F /* utils.h */,
