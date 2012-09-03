@@ -610,6 +610,8 @@ MM_START_NEW_GAME_E_ERIDANI
     Nouvelle partie, débute sur Espilon Eridani
 MM_START_NEW_GAME_LAVE
     Nouvelle partie, débute sur Lave
+MM_START_NEW_GAME_EMPIRE
+	Nouvelle partie, débute sur Achernar
 MM_START_NEW_GAME_DEBUG
     Nouvelle partie, point de débogage
 MM_LOAD_SAVED_GAME
