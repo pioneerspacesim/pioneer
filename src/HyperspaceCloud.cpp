@@ -54,7 +54,7 @@ vector3d HyperspaceCloud::GetPosition() const
 	return m_pos;
 }
 
-void HyperspaceCloud::SetPosition(vector3d p)
+void HyperspaceCloud::SetPosition(const vector3d &p)
 {
 	m_pos = p;
 }

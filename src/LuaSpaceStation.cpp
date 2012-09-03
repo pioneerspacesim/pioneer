@@ -16,7 +16,7 @@ static void _delete_station_ads(SpaceStation *s)
 	assert(lua_istable(l, -1));
 
 	const std::list<const BBAdvert*> bbadverts = s->GetBBAdverts();
-	for (std::list<const BBAdvert*>::const_iterator i = bbadverts.begin(); i != bbadverts.end(); i++) {
+	for (std::list<const BBAdvert*>::const_iterator i = bbadverts.begin(); i != bbadverts.end(); ++i) {
 		lua_pushinteger(l, (*i)->ref);
 		lua_gettable(l, -2);
         if (lua_isnil(l, -1)) {

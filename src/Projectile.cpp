@@ -134,7 +134,7 @@ void Projectile::UpdateInterpolatedTransform(double alpha)
 	m_interpolatedTransform[14] = p.z;
 }
 
-void Projectile::SetPosition(vector3d p)
+void Projectile::SetPosition(const vector3d &p)
 {
 	m_orient[12] = p.x;
 	m_orient[13] = p.y;

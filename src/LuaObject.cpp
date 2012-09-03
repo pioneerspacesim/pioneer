@@ -460,7 +460,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 			for (
 				std::map<std::string,PromotionTest>::const_iterator target_iter = (*base_iter).second.begin();
 				target_iter != (*base_iter).second.end();
-				target_iter++)
+				++target_iter)
 			{
 				if ((*target_iter).second(lo->m_object)) {
 					lo->m_type = (*target_iter).first.c_str();

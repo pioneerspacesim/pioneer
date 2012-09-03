@@ -113,7 +113,7 @@ void StationShipEquipmentForm::ShowAll()
 
 void StationShipEquipmentForm::RecalcButtonVisibility()
 {
-	for (std::list<ButtonPair>::iterator i = m_buttons.begin(); i != m_buttons.end(); i++) {
+	for (std::list<ButtonPair>::iterator i = m_buttons.begin(); i != m_buttons.end(); ++i) {
 		Equip::Slot slot = Equip::types[(*i).type].slot;
 
 		if (Pi::player->m_equipment.FreeSpace(slot) && m_station->GetStock((*i).type))
