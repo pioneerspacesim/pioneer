@@ -399,6 +399,9 @@
     <ClCompile Include="..\..\src\NewModelViewer.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Lua.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -834,6 +837,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LmrTypes.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Lua.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

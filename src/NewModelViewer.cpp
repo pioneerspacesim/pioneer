@@ -80,8 +80,8 @@ void ModelViewer::Run(int argc, char** argv)
 	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
-	Pi::luaManager = new LuaManager();
-	lua_State *l = Pi::luaManager->GetLuaState();
+	Lua::Init();
+	lua_State *l = Lua::manager->GetLuaState();
 	PersistentTable::Init(l);
 
 	//video
@@ -97,13 +97,13 @@ void ModelViewer::Run(int argc, char** argv)
 	SDL_WM_SetCaption("Newmodelviewer","Newmodelviewer");
 
 	//run main loop until quit
-	viewer = new ModelViewer(renderer, Pi::luaManager, width, height);
+	viewer = new ModelViewer(renderer, Lua::manager, width, height);
 	viewer->SetModel(modelName);
 	viewer->MainLoop();
 
 	//uninit components
-	PersistentTable::Uninit(Pi::luaManager->GetLuaState());
-	delete Pi::luaManager;
+	PersistentTable::Uninit(Lua::manager->GetLuaState());
+	Lua::Uninit();
 	delete renderer;
 	Graphics::Uninit();
 	FileSystem::Uninit();

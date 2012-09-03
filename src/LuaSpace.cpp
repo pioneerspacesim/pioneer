@@ -511,7 +511,7 @@ static int l_space_get_bodies(lua_State *l)
 
 void LuaSpace::Register()
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

@@ -133,7 +133,7 @@ static int l_lang_get_current_language(lua_State *l)
 
 void LuaLang::Register()
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

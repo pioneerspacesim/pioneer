@@ -20,6 +20,7 @@ class VolumeControl : public Gui::HBox
 			m_muteButton->AddState(0, "icons/volume_unmuted.png", "Mute");
 			m_muteButton->AddState(1, "icons/volume_muted.png", "Unmute");
 			m_muteButton->SetActiveState(muted ? 1 : 0);
+			m_muteButton->SetRenderDimensions(32, 32);
 			PackEnd(m_muteButton);
 			m_adjustment = new Gui::Adjustment();
 			m_adjustment->SetValue(volume);

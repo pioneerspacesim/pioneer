@@ -94,7 +94,6 @@ sigc::signal<void> Pi::onPlayerChangeTarget;
 sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 sigc::signal<void> Pi::onPlayerChangeEquipment;
 sigc::signal<void, const SpaceStation*> Pi::onDockingClearanceExpired;
-LuaManager *Pi::luaManager;
 LuaSerializer *Pi::luaSerializer;
 LuaTimer *Pi::luaTimer;
 LuaNameGen *Pi::luaNameGen;
@@ -177,6 +176,10 @@ static void draw_progress(float progress)
 
 static void LuaInit()
 {
+	Lua::Init();
+
+	lua_State *l = Lua::manager->GetLuaState();
+
 	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
 	LuaSpaceStation::RegisterClass();
@@ -199,7 +202,7 @@ static void LuaInit()
 	LuaObject<LuaSerializer>::RegisterClass();
 	LuaObject<LuaTimer>::RegisterClass();
 
-	LuaConstants::Register(Pi::luaManager->GetLuaState());
+	LuaConstants::Register(Lua::manager->GetLuaState());
 	LuaLang::Register();
 	LuaEngine::Register();
 	LuaFileSystem::Register();
@@ -215,12 +218,11 @@ static void LuaInit()
 	UI::LuaInit();
 
 	// XXX load everything. for now, just modules
-	lua_State *l = Pi::luaManager->GetLuaState();
 	pi_lua_dofile_recursive(l, "libs");
 	pi_lua_dofile_recursive(l, "ui");
 	pi_lua_dofile_recursive(l, "modules");
 
-	Pi::luaNameGen = new LuaNameGen(Pi::luaManager);
+	Pi::luaNameGen = new LuaNameGen(Lua::manager);
 }
 
 static void LuaUninit() {
@@ -228,9 +230,8 @@ static void LuaUninit() {
 
 	delete Pi::luaSerializer;
 	delete Pi::luaTimer;
-	PersistentTable::Uninit(Pi::luaManager->GetLuaState());
 
-	delete Pi::luaManager;
+	Lua::Uninit();
 }
 
 static void LuaInitGame() {
@@ -348,12 +349,10 @@ void Pi::Init()
 
     // XXX UI requires Lua (and PersistentTable), but Pi::ui must exist before
     // we start loading templates. so now we have crap everywhere :/
-	Pi::luaManager = new LuaManager();
-
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 	PersistentTable::Init(l);
 
-	Pi::ui.Reset(new UI::Context(Pi::luaManager, Pi::renderer, scrWidth, scrHeight));
+	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, scrWidth, scrHeight));
 
 	LuaInit();
 
@@ -727,6 +726,7 @@ static void draw_tombstone(float _time)
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
+	const Color oldSceneAmbientColor = Pi::renderer->GetAmbientColor();
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
@@ -737,6 +737,7 @@ static void draw_tombstone(float _time)
 	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
 	Pi::FindModel("tombstone")->Render(Pi::renderer, rot, &params);
 	glPopAttrib();
+	Pi::renderer->SetAmbientColor(oldSceneAmbientColor);
 }
 
 void Pi::TombStoneLoop()
@@ -1089,7 +1090,7 @@ void Pi::EndGame()
 	LuaEvent::Queue("onGameEnd");
 	LuaEvent::Emit();
 
-	Pi::luaManager->CollectGarbage();
+	Lua::manager->CollectGarbage();
 
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
@@ -1223,7 +1224,7 @@ void Pi::MainLoop()
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {
-			size_t lua_mem = Pi::luaManager->GetMemoryUsage();
+			size_t lua_mem = Lua::manager->GetMemoryUsage();
 			int lua_memB = int(lua_mem & ((1u << 10) - 1));
 			int lua_memKB = int(lua_mem >> 10) % 1024;
 			int lua_memMB = int(lua_mem >> 20);

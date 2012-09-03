@@ -104,24 +104,28 @@ void WorldView::InitObject()
 	m_wheelsButton->AddState(0, "icons/wheels_up.png", Lang::WHEELS_ARE_UP);
 	m_wheelsButton->AddState(1, "icons/wheels_down.png", Lang::WHEELS_ARE_DOWN);
 	m_wheelsButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeWheelsState));
+	m_wheelsButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_wheelsButton, 34, 2);
 
 	Gui::ImageButton *set_low_thrust_power_button = new Gui::ImageButton("icons/set_low_thrust_power.png");
 	set_low_thrust_power_button->SetShortcut(SDLK_F8, KMOD_NONE);
 	set_low_thrust_power_button->SetToolTip(Lang::SELECT_LOW_THRUST_POWER_LEVEL);
 	set_low_thrust_power_button->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickLowThrustPower));
+	set_low_thrust_power_button->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(set_low_thrust_power_button, 98, 2);
 
 	m_hyperspaceButton = new Gui::ImageButton("icons/hyperspace_f8.png");
 	m_hyperspaceButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_hyperspaceButton->SetToolTip(Lang::HYPERSPACE_JUMP);
 	m_hyperspaceButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickHyperspace));
+	m_hyperspaceButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_hyperspaceButton, 66, 2);
 
 	m_launchButton = new Gui::ImageButton("icons/blastoff.png");
 	m_launchButton->SetShortcut(SDLK_F5, KMOD_NONE);
 	m_launchButton->SetToolTip(Lang::TAKEOFF);
 	m_launchButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickBlastoff));
+	m_launchButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_launchButton, 2, 2);
 
 	m_flightControlButton = new Gui::MultiStateImageButton();
@@ -133,6 +137,7 @@ void WorldView::InitObject()
 	m_flightControlButton->AddState(CONTROL_FIXHEADING_BACKWARD, "icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
 	m_flightControlButton->AddState(CONTROL_AUTOPILOT, "icons/autopilot.png", Lang::AUTOPILOT_ON);
 	m_flightControlButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeFlightState));
+	m_flightControlButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
 
 	m_flightStatus = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
