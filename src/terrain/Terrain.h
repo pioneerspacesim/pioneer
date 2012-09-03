@@ -16,6 +16,16 @@ struct fracdef_t {
 	int octaves;
 };
 
+// data about regions from feature to heightmap code go here
+struct RegionType{
+	bool Valid;
+	double height;
+	double heightVariation;
+	double inner;
+	double outer;
+	int Type;
+};
+
 
 template <typename,typename> class TerrainGenerator;
 
@@ -37,13 +47,14 @@ public:
 
 	double GetMaxHeight() const { return m_maxHeight; }
 
+	void InitCityRegions();
+
 private:
 	template <typename HeightFractal, typename ColorFractal>
 	static Terrain *InstanceGenerator(const SystemBody *body) { return new TerrainGenerator<HeightFractal,ColorFractal>(body); }
 
 	typedef Terrain* (*GeneratorInstancer)(const SystemBody *);
-
-
+	
 protected:
 	Terrain(const SystemBody *body);
 
@@ -98,6 +109,10 @@ protected:
 	/* XXX you probably shouldn't increase this. If you are
 	   using more than 10 then things will be slow as hell */
 	fracdef_t m_fracdef[10];
+
+	// used for region based terrain e.g. cities
+	std::vector<vector3d> m_positions;
+	std::vector<RegionType> m_regionTypes;
 };
 
 
@@ -127,7 +142,10 @@ private:
 template <typename HeightFractal, typename ColorFractal>
 class TerrainGenerator : public TerrainHeightFractal<HeightFractal>, public TerrainColorFractal<ColorFractal> {
 public:
-	TerrainGenerator(const SystemBody *body) : Terrain(body), TerrainHeightFractal<HeightFractal>(body), TerrainColorFractal<ColorFractal>(body) {}
+	TerrainGenerator(const SystemBody *body) : Terrain(body), TerrainHeightFractal<HeightFractal>(body), TerrainColorFractal<ColorFractal>(body) 
+	{
+		InitCityRegions();
+	}
 
 private:
 	TerrainGenerator() {}
