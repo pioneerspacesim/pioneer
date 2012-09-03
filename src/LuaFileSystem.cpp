@@ -79,7 +79,7 @@ static int l_filesystem_read_dir(lua_State *l)
 	for (; !files.Finished(); files.Next()) {
 		const FileSystem::FileInfo &info = files.Current();
 
-		lua_pushlstring(l, info.GetPath().c_str(), info.GetPath().size());
+		lua_pushlstring(l, info.GetName().c_str(), info.GetName().size());
 		
 		if (info.IsDir())
 			lua_rawseti(l, dirsTable, lua_rawlen(l, dirsTable)+1);
