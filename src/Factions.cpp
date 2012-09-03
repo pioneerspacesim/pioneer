@@ -262,11 +262,14 @@ const Faction *Faction::GetNearestFaction(const SystemPath& sysPath)
 {
 	// Iterate through all of the factions and find the one nearest to the system we're checking it against.
 	const vector3f sysPos(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
-	Faction *pFoundFaction = nullptr;
+	const Faction *pFoundFaction = nullptr;
 	Sint32 nearestDistance = INT_MAX;
 
 	// get the current year
-	const int current_year = get_year(Pi::game->GetTime());
+	// NB: cannot access the PI::game->GetTime() method here as game is NULL when deserialised from save game -
+	//	- I had hoped to use this to give a simple expanding spherical volume to each faction. Use 3200 as the-
+	//	- base year, all factions should have come into existence prior to this date.
+	const double current_year = 3200;//get_year(Pi::game->GetTime());
 
 	// iterate
 	for (FactionMapIterator facIter = s_factionMap.begin(); facIter != s_factionMap.end(); ++facIter) {
@@ -274,10 +277,19 @@ const Faction *Faction::GetNearestFaction(const SystemPath& sysPath)
 		assert(ptr);
 		if( !ptr->hasHomeworld && nullptr==pFoundFaction )
 		{
-			pFoundFaction = (*facIter).second;
+			// We've not yet found a faction that we're within the radius of
+			// and we're currently iterating over a faction that is decentralised (probably Independent)
+			pFoundFaction = ptr;
 		}
 		else if( ptr->hasHomeworld )
 		{
+			// We can end early here if they're the same as factions homeworld like Earth or Achernar
+			// or should this be ptr->homeworld.IsSameSystem(sysPath) ???
+			if( ptr->homeworld.IsSameSector(sysPath) ) { 
+				pFoundFaction = ptr;
+				return pFoundFaction;
+			}
+
 			// get the distance
 			const vector3f hm(ptr->homeworld.sectorX, ptr->homeworld.sectorY, ptr->homeworld.sectorZ);
 			const Sint32 distance = (sysPos - hm).Length();
@@ -288,7 +300,7 @@ const Faction *Faction::GetNearestFaction(const SystemPath& sysPath)
 			// check we've found a closer faction
 			if( distance <= radius && distance < nearestDistance ) {
 				nearestDistance = distance;
-				pFoundFaction = (*facIter).second;
+				pFoundFaction = ptr;
 			}
 		}
 	}
@@ -297,7 +309,7 @@ const Faction *Faction::GetNearestFaction(const SystemPath& sysPath)
 }
 
 Faction::Faction() :
-	govType(Polit::GOV_NONE), 
+	govType(Polit::GOV_INVALID), 
 	hasHomeworld(false), 
 	foundingDate(0.0),
 	expansionRate(0.0)

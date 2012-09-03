@@ -4,7 +4,7 @@ local f = Faction:new('Federation')
 	:govtype('EARTHDEMOC')
 	:homeworld(0,0,0,0,4)
 	:foundingDate(3050.0)
-	:expansionRate(1)
+	:expansionRate(1.0)
 	:military_name('United Nations Space Force')
 	:police_name('Police')
 

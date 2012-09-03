@@ -3,6 +3,7 @@
 #include "Polit.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Sector.h"
+#include "Factions.h"
 #include "Space.h"
 #include "Ship.h"
 #include "ShipCpanel.h"
@@ -200,7 +201,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 			a = Polit::GOV_EARTHDEMOC;
 		} else if (human_infestedness > 0) {
 			const Faction *pFaction = Faction::GetNearestFaction(path);
-			if( pFaction ) {
+			if( pFaction && GOV_INVALID != pFaction->govType ) {
 				a = pFaction->govType;
 			} else {
 				a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
