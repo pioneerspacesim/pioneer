@@ -14,7 +14,7 @@ Alpha 26
      * Fix ambient light state leak from intro/tombstone (#1472, #1445)
 
    * Script changes
-     * Ships now identified by the filename the ship is defined in (#1444)
+     * Ships now identified by the filename the ship is defined in (#1444, #1474)
      * New Event system allowing Lua scripts to broadcast their own events.
        EventQueue is deprecated, for removal in alpha 27 (#1441)
      * New FileSystem module so scripts can list data files (including files
