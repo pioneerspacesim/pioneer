@@ -27,7 +27,7 @@ void Geom::MoveTo(const matrix4x4d &m)
 	m_invOrient = m.InverseOf();
 }
 
-void Geom::MoveTo(const matrix4x4d &m, const vector3d pos)
+void Geom::MoveTo(const matrix4x4d &m, const vector3d &pos)
 {
 	m_orient = m;
 	m_orient[12] = pos.x;

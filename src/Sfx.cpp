@@ -69,7 +69,7 @@ void Sfx::Unserialize(Serializer::Reader &rd, Frame *f)
 	}
 }
 
-void Sfx::SetPosition(vector3d p)
+void Sfx::SetPosition(const vector3d &p)
 {
 	m_pos = p;
 }

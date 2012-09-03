@@ -24,7 +24,7 @@ public:
 	static void Unserialize(Serializer::Reader &rd, Frame *f);
 
 	Sfx();
-	void SetPosition(vector3d p);
+	void SetPosition(const vector3d &p);
 	vector3d GetPosition() const { return m_pos; }
 
 	//create shared models

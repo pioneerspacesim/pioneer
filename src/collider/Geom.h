@@ -14,7 +14,7 @@ class Geom {
 public:
 	Geom(const GeomTree *);
 	void MoveTo(const matrix4x4d &m);
-	void MoveTo(const matrix4x4d &m, const vector3d pos);
+	void MoveTo(const matrix4x4d &m, const vector3d &pos);
 	const matrix4x4d &GetInvTransform() const { return m_invOrient; }
 	const matrix4x4d &GetTransform() const { return m_orient; }
 	matrix4x4d GetRotation() const;

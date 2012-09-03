@@ -197,7 +197,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	std::string::const_iterator current_end = statement.end();
 	std::string::const_iterator current_begin = statement.begin(); // To keep record when breaking off the loop.
 	for (std::string::const_reverse_iterator r_str_it = statement.rbegin();
-			r_str_it != statement.rend(); r_str_it++) {
+			r_str_it != statement.rend(); ++r_str_it) {
 		if(Text::is_alphanumunderscore(*r_str_it)) {
 			expect_symbolname = false;
 			continue;

@@ -29,6 +29,7 @@ Alpha 26
      * Reimplemented Lua read-only tables (#1460)
      * Move the global Lua context so it can be used from modelviewer (#1473)
      * Rewritten material and shader infrastructure (#1432)
+     * Many minor optimisations identified by PVS-Studio (#1480, #1399)
 
 Alpha 25
 

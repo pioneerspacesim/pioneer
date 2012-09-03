@@ -912,7 +912,7 @@ SystemPath StarSystem::GetPathOf(const SystemBody *sbody) const
 
 void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, MTRand &rand)
 {
-	for (std::vector<CustomSystemBody*>::const_iterator i = children.begin(); i != children.end(); i++) {
+	for (std::vector<CustomSystemBody*>::const_iterator i = children.begin(); i != children.end(); ++i) {
 		const CustomSystemBody *csbody = *i;
 
 		SystemBody *kid = NewBody();

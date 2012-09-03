@@ -295,7 +295,7 @@ static int l_shiptype_get_ship_types(lua_State *l)
 
 	lua_newtable(l);
 
-	for (std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.begin(); i != ShipType::types.end(); i++)
+	for (std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.begin(); i != ShipType::types.end(); ++i)
 	{
 		ShipType *st = &((*i).second);
 		if (tag == ShipType::TAG_NONE || tag == st->tag) {
