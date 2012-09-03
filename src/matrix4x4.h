@@ -19,7 +19,7 @@ class matrix4x4 {
 	matrix4x4 (const T *vals) {
 		memcpy(cell, vals, sizeof(T)*16);
 	}
-	void SetTranslate(const vector3<T> v) { cell[12] = v.x; cell[13] = v.y; cell[14] = v.z; }
+	void SetTranslate(const vector3<T> &v) { cell[12] = v.x; cell[13] = v.y; cell[14] = v.z; }
 	vector3<T> GetTranslate() const { return vector3<T>(cell[12], cell[13], cell[14]); }
 	void SetRotationOnly(const matrix4x4& m) {
 		for (int i=0; i<12; i++) cell[i] = m.cell[i];
