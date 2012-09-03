@@ -33,6 +33,7 @@ public:
 	static void Init();
 	static void Uninit();
 	static void OnChangeDetailLevel();
+	Terrain * GetTerrain() const { return m_terrain; }
 	// in sbody radii
 	double GetMaxFeatureHeight() const { return m_terrain->GetMaxHeight(); }
 	static int GetVtxGenCount() { return s_vtxGenCount; }
