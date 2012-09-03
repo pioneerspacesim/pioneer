@@ -1,7 +1,7 @@
 #ifndef _LUAEVENT_H
 #define _LUAEVENT_H
 
-#include "LuaManager.h"
+#include "Lua.h"
 #include "LuaObject.h"
 #include "DeleteEmitter.h"
 #include "Pi.h"
@@ -54,7 +54,7 @@ namespace LuaEvent {
 
 		inline void PrepareStack() const {
 			LuaObject<T0>::PushToLua(arg0);
-			lua_pushstring(Pi::luaManager->GetLuaState(), arg1);
+			lua_pushstring(Lua::manager->GetLuaState(), arg1);
 		}
 	};
 

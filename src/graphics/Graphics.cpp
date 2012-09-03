@@ -1,8 +1,8 @@
 #include "Graphics.h"
-#include "Shader.h"
-#include "RendererLegacy.h"
-#include "RendererGL2.h"
 #include "FileSystem.h"
+#include "Material.h"
+#include "RendererGL2.h"
+#include "RendererLegacy.h"
 #include "OS.h"
 
 static GLuint boundArrayBufferObject = 0;
@@ -11,16 +11,12 @@ static GLuint boundElementArrayBufferObject = 0;
 namespace Graphics {
 
 static bool initted = false;
+bool shadersAvailable = false;
+bool shadersEnabled = false;
+Material *vtxColorMaterial;
 
-Shader *simpleShader;
-Shader *planetRingsShader[4];
-
-float State::m_znear = 10.0f;
-float State::m_zfar = 1e6f;
-float State::m_invLogZfarPlus1;
+float State::invLogZfarPlus1;
 std::vector<Light> State::m_lights;
-// default opengl global ambient colour
-Color State::m_globalAmbientColor(0.2,0.2,0.2,1.0);
 
 void BindArrayBuffer(GLuint bo)
 {
@@ -171,26 +167,16 @@ Renderer* Init(const Settings &vs)
 
 	initted = true;
 
-	//XXX to be moved
-	if (shadersEnabled) {
-		simpleShader = new Shader("simple");
-		planetRingsShader[0] = new Shader("planetrings", "#define NUM_LIGHTS 1\n");
-		planetRingsShader[1] = new Shader("planetrings", "#define NUM_LIGHTS 2\n");
-		planetRingsShader[2] = new Shader("planetrings", "#define NUM_LIGHTS 3\n");
-		planetRingsShader[3] = new Shader("planetrings", "#define NUM_LIGHTS 4\n");
-	}
+	MaterialDescriptor desc;
+	desc.vertexColors = true;
+	vtxColorMaterial = renderer->CreateMaterial(desc);
 	
 	return renderer;
 }
 
 void Uninit()
 {
-	delete simpleShader;
-	delete planetRingsShader[0];
-	delete planetRingsShader[1];
-	delete planetRingsShader[2];
-	delete planetRingsShader[3];
-	FreeLibs();
+	delete vtxColorMaterial;
 }
 
 void SwapBuffers()
@@ -203,11 +189,12 @@ bool AreShadersEnabled()
 	return shadersEnabled;
 }
 
-void Graphics::State::SetLights(int n, const Light *lights){
-			m_lights.clear();
-			m_lights.reserve(n);
-			for (int i = 0;i < n;i++) 
-				m_lights.push_back(lights[i]);
+void Graphics::State::SetLights(int n, const Light *lights)
+{
+	m_lights.clear();
+	m_lights.reserve(n);
+	for (int i = 0;i < n;i++)
+		m_lights.push_back(lights[i]);
 }
 
 }

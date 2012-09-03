@@ -20,10 +20,10 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 {
 	m_texture.Reset(Graphics::TextureBuilder::UI(filename).GetOrCreateTexture(m_renderer, "ui"));
 
-	m_material.Reset(new Graphics::Material);
-	m_material->unlit = true;
+	Graphics::MaterialDescriptor desc;
+	desc.textures = 1;
+	m_material.Reset(m_renderer->CreateMaterial(desc));
 	m_material->texture0 = m_texture.Get();
-	m_material->vertexColors = false;
 	m_material->diffuse = Color::WHITE;
 }
 

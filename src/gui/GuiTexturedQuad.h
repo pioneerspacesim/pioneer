@@ -6,7 +6,10 @@
 #include "RefCounted.h"
 #include "Color.h"
 
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Renderer;
+	class Material;
+}
 
 namespace Gui {
 
@@ -25,6 +28,7 @@ public:
 	const Graphics::Texture* GetTexture() const { return m_texture.Get(); }
 private:
 	RefCountedPtr<Graphics::Texture> m_texture;
+	ScopedPtr<Graphics::Material> m_material;
 };
 
 }

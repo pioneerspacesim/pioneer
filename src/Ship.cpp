@@ -18,7 +18,6 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/Shader.h"
 #include "graphics/TextureBuilder.h"
 
 #define TONS_HULL_PER_SHIELD 10.0f
@@ -866,7 +865,7 @@ void Ship::UpdateAlertState()
 		// clear existing alert state if there was one
 		if (GetAlertState() != ALERT_NONE) {
 			SetAlertState(ALERT_NONE);
-			LuaEvent::Queue("onShipAlertChanged", this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", ALERT_NONE));
+			LuaEvent::Queue("onShipAlertChanged", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipAlertStatus", ALERT_NONE));
 		}
 		return;
 	}
@@ -937,7 +936,7 @@ void Ship::UpdateAlertState()
 	}
 
 	if (changed)
-		LuaEvent::Queue("onShipAlertChanged", this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAlertStatus", GetAlertState()));
+		LuaEvent::Queue("onShipAlertChanged", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipAlertStatus", GetAlertState()));
 }
 
 void Ship::UpdateFuel(const float timeStep)
@@ -961,7 +960,7 @@ void Ship::UpdateFuel(const float timeStep)
 	UpdateFuelStats();
 
 	if (currentState != lastState)
-		LuaEvent::Queue("onShipFuelChanged", this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipFuelStatus", currentState));
+		LuaEvent::Queue("onShipFuelChanged", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipFuelStatus", currentState));
 }
 
 void Ship::StaticUpdate(const float timeStep)
@@ -1195,7 +1194,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	}
 
 	if (m_ecmRecharge > 0.0f) {
-		// pish effect
+		// ECM effect: a cloud of particles for a sparkly effect
 		vector3f v[100];
 		for (int i=0; i<100; i++) {
 			const double r1 = Pi::rng.Double()-0.5;
@@ -1213,12 +1212,8 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 			c.a = m_ecmRecharge / totalRechargeTime;
 		}
 
-		// XXX no need to recreate material every time
-		Graphics::Material mat;
-		mat.texture0 = Graphics::TextureBuilder::Model("textures/ecm.png").GetOrCreateTexture(Pi::renderer, "model");
-		mat.unlit = true;
-		mat.diffuse = c;
-		renderer->DrawPointSprites(100, v, &mat, 50.f);
+		Sfx::ecmParticle->diffuse = c;
+		renderer->DrawPointSprites(100, v, Sfx::ecmParticle, 50.f);
 	}
 }
 
@@ -1249,11 +1244,11 @@ bool Ship::Jettison(Equip::Type t)
 			// XXX should move the cargo to the station's temporary storage
 			// (can't be recovered at this moment)
 			LuaEvent::Queue("onCargoUnload", GetDockedWith(),
-				LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "EquipType", t));
+				LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "EquipType", t));
 		} else { // LANDED
 			// the cargo is lost
 			LuaEvent::Queue("onCargoUnload", GetFrame()->GetBodyFor(),
-				LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "EquipType", t));
+				LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "EquipType", t));
 		}
 		return true;
 	} else {
@@ -1263,7 +1258,7 @@ bool Ship::Jettison(Equip::Type t)
 
 void Ship::OnEquipmentChange(Equip::Type e)
 {
-	LuaEvent::Queue("onShipEquipmentChanged", this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "EquipType", e));
+	LuaEvent::Queue("onShipEquipmentChanged", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "EquipType", e));
 }
 
 void Ship::UpdateFlavour(const ShipFlavour *f)

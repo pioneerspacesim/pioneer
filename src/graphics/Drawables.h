@@ -44,6 +44,20 @@ private:
 	Color m_color;
 };
 
+// Two-dimensional filled circle
+class Disk : public Drawable {
+public:
+	Disk(Graphics::Renderer *r, const Color &c, float radius);
+	virtual ~Disk() { }
+	virtual void Draw(Graphics::Renderer *r);
+
+	void SetColor(const Color&);
+
+private:
+	ScopedPtr<Graphics::VertexArray> m_vertices;
+	RefCountedPtr<Material> m_material;
+};
+
 //A three dimensional line between two points
 class Line3D : public Drawable {
 public:

@@ -127,5 +127,5 @@ void LuaGame::Register()
 	};
 
 	LuaObjectBase::CreateObject(l_methods, l_attrs, 0);
-	lua_setglobal(Pi::luaManager->GetLuaState(), "Game");
+	lua_setglobal(Lua::manager->GetLuaState(), "Game");
 }

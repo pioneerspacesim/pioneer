@@ -4,6 +4,7 @@
 #include "FileSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "Lua.h"
 #include <typeinfo>
 
 static const int WIDTH  = 1024;
@@ -126,7 +127,10 @@ int main(int argc, char **argv)
 	videoSettings.vsync = false;
 	Graphics::Renderer *r = Graphics::Init(videoSettings);
 
-	RefCountedPtr<UI::Context> c(new UI::Context(r, WIDTH, HEIGHT));
+	Lua::Init();
+	PersistentTable::Init(Lua::manager->GetLuaState());
+
+	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
 #if 0
 	UI::Button *b1, *b2, *b3;
@@ -158,7 +162,6 @@ int main(int argc, char **argv)
 	b3->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b3));
 #endif
 
-#if 0
 	UI::Image *image;
 	UI::Slider *slider;
 	c->SetInnerWidget(
@@ -190,7 +193,6 @@ int main(int argc, char **argv)
 
 	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
-#endif
 
 #if 0
 	UI::Slider *red, *green, *blue;
@@ -409,6 +411,7 @@ int main(int argc, char **argv)
 	);
 #endif
 
+#if 0
     c->SetInnerWidget(
         c->VBox()->PackEnd(
             c->Grid(2,2)
@@ -416,6 +419,7 @@ int main(int argc, char **argv)
                 ->SetRow(1, UI::WidgetSet(c->Label("three"), c->Label("four")))
         )->PackEnd(c->ColorBackground(Color(0.8f,0.2f,0.2f)), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
     );
+#endif
 
     int count = 0;
 
@@ -455,6 +459,8 @@ int main(int argc, char **argv)
 	}
 
 	c.Reset();
+	PersistentTable::Uninit(Lua::manager->GetLuaState());
+	Lua::Uninit();
 	delete r;
 
 	SDL_Quit();

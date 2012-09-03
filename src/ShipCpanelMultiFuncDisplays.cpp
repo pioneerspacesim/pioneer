@@ -1,17 +1,18 @@
-#include "libs.h"
 #include "ShipCpanelMultiFuncDisplays.h"
-#include "ShipCpanel.h"
-#include "Space.h"
+#include "galaxy/Sector.h"
+#include "Game.h"
+#include "HyperspaceCloud.h"
+#include "KeyBindings.h"
+#include "Lang.h"
+#include "libs.h"
+#include "Missile.h"
 #include "Pi.h"
 #include "Player.h"
-#include "Missile.h"
-#include "HyperspaceCloud.h"
-#include "galaxy/Sector.h"
+#include "ShipCpanel.h"
 #include "Sound.h"
-#include "Lang.h"
+#include "Space.h"
 #include "StringF.h"
-#include "KeyBindings.h"
-#include "Game.h"
+#include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 
@@ -178,7 +179,7 @@ void ScannerWidget::Draw()
 		va.Add(vector3f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
 	}
 	va.Add(vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
-	m_renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	m_renderer->SetBlendMode(BLEND_SOLID);
 
@@ -551,7 +552,7 @@ void UseEquipWidget::UpdateEquip()
 			const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_MISSILE, i);
 			if (t == Equip::NONE) continue;
 
-			Gui::Button *b;
+			Gui::ImageButton *b;
 			switch (t) {
 				case Equip::MISSILE_UNGUIDED:
 					b = new Gui::ImageButton("icons/missile_unguided.png");
@@ -570,18 +571,20 @@ void UseEquipWidget::UpdateEquip()
 			Add(b, spacing * i, 40);
 			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &UseEquipWidget::FireMissile), i));
 			b->SetToolTip(Equip::types[t].name);
+			b->SetRenderDimensions(16, 16);
 		}
 	}
 
 	{
 		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_ECM);
 		if (t != Equip::NONE) {
-			Gui::Button *b = 0;
+			Gui::ImageButton *b = 0;
 			if (t == Equip::ECM_BASIC) b = new Gui::ImageButton("icons/ecm_basic.png");
 			else if (t == Equip::ECM_ADVANCED) b = new Gui::ImageButton("icons/ecm_advanced.png");
 			assert(b);
 
 			b->onClick.connect(sigc::mem_fun(Pi::player, &Ship::UseECM));
+			b->SetRenderDimensions(32, 32);
 
 			Add(b, 32, 0);
 		}
@@ -600,14 +603,17 @@ MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
 	m_buttons[0]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_SCANNER));
 	m_buttons[0]->SetShortcut(SDLK_F9, KMOD_NONE);
 	m_buttons[0]->SetSelected(true);
+	m_buttons[0]->SetRenderDimensions(34, 17);
 
 	m_buttons[1] = new Gui::ImageRadioButton(m_rg, "icons/multifunc_equip.png", "icons/multifunc_equip_on.png");
 	m_buttons[1]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_EQUIPMENT));
 	m_buttons[1]->SetShortcut(SDLK_F10, KMOD_NONE);
+	m_buttons[1]->SetRenderDimensions(34, 17);
 
 	m_buttons[2] = new Gui::ImageRadioButton(m_rg, "icons/multifunc_msglog.png", "icons/multifunc_msglog_on.png");
 	m_buttons[2]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_MSGLOG));
 	m_buttons[2]->SetShortcut(SDLK_F11, KMOD_NONE);
+	m_buttons[2]->SetRenderDimensions(34, 17);
 
 	UpdateButtons();
 

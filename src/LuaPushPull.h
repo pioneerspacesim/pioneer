@@ -17,7 +17,7 @@ inline void lua_push(lua_State * l, LuaTable value) {
 	lua_pushvalue(l, value.GetIndex());
 }
 template <class T> void lua_push(lua_State * l, T* value) {
-	assert(l == Pi::luaManager->GetLuaState());
+	assert(l == Lua::manager->GetLuaState());
 	if (value)
 		LuaObject<T>::PushToLua(value);
 	else
@@ -34,7 +34,7 @@ inline void lua_pull(lua_State * l, int index, LuaTable & out) {
 	out.SetIndex(index);
 }
 template <class T> void lua_pull(lua_State * l, int index, T* & out) {
-	assert(l == Pi::luaManager->GetLuaState());
+	assert(l == Lua::manager->GetLuaState());
 	out = LuaObject<T>::GetFromLua(index);
 }
 

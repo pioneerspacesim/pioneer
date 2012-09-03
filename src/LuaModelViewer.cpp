@@ -30,6 +30,13 @@ static const char *ANIMATION_NAMESPACES[] = {
 	"SpaceStationAnimation",
 };
 
+struct VisualCollisionMesh {
+	ScopedPtr<Graphics::VertexArray> vertices;
+	ScopedPtr<Graphics::Material> material;
+
+	void Render(const LmrCollMesh*);
+};
+
 static const int LMR_ARG_MAX = 40;
 
 static int g_width, g_height;
@@ -284,6 +291,7 @@ private:
 	void DrawGrid(matrix4x4f& trans, double radius);
 	bool m_showBoundingRadius;
 	bool m_showGrid;
+	VisualCollisionMesh m_collisionVisualizer;
 };
 
 void Viewer::SetModel(LmrModel *model)
@@ -457,25 +465,32 @@ void Viewer::SetSbreParams()
 	g_params.angthrust[2] = 2.0f * (m_angthrust[2]->GetValue() - 0.5f);
 }
 
-
-static void render_coll_mesh(const LmrCollMesh *m)
+void VisualCollisionMesh::Render(const LmrCollMesh *m)
 {
-	Material mat;
-	mat.unlit = true;
-	mat.diffuse = Color(1.f, 0.f, 1.f);
-	glDepthRange(0.0+g_zbias,1.0);
-	VertexArray va(ATTRIB_POSITION, m->ni * 3);
-	for (int i=0; i<m->ni; i+=3) {
-		va.Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i]]));
-		va.Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+1]]));
-		va.Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+2]]));
-	}
-	renderer->DrawTriangles(&va, &mat);
+	renderer->SetBlendMode(Graphics::BLEND_SOLID);
 
-	mat.diffuse = Color(1.f);
+	if (!vertices.Valid()) {
+		vertices.Reset(new VertexArray(ATTRIB_POSITION, m->ni * 3));
+		Graphics::MaterialDescriptor desc; //flat colour
+		material.Reset(renderer->CreateMaterial(desc));
+	}
+
+	vertices->Clear();
+
+	glDepthRange(0.0+g_zbias,1.0);
+
+	for (int i=0; i<m->ni; i+=3) {
+		vertices->Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i]]));
+		vertices->Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+1]]));
+		vertices->Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+2]]));
+	}
+	material->diffuse = Color(1.f, 0.f, 1.f, 1.f);
+	renderer->DrawTriangles(vertices.Get(), material.Get());
+
+	material->diffuse = Color(1.f);
 	glDepthRange(0,1.0f-g_zbias);
 	renderer->SetWireFrameMode(true);
-	renderer->DrawTriangles(&va, &mat);
+	renderer->DrawTriangles(vertices.Get(), material.Get());
 	renderer->SetWireFrameMode(false);
 	glDepthRange(0,1);
 }
@@ -557,7 +572,7 @@ void Viewer::MainLoop()
 			glPushMatrix();
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			glMultMatrixf(&m[0]);
-			render_coll_mesh(m_cmesh);
+			m_collisionVisualizer.Render(m_cmesh);
 			glPopMatrix();
 		}
 
@@ -691,7 +706,6 @@ void Viewer::DrawGrid(matrix4x4f& trans, double radius)
 	renderer->SetTransform(trans);
 	renderer->DrawLines(points.size(), &points[0], Color(0.0f,0.2f,0.0f,1.0f));
 }
-
 
 int main(int argc, char **argv)
 {
