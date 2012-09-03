@@ -13,7 +13,7 @@ public:
 	OBJDEF(ModelBody, Body, MODELBODY);
 	ModelBody();
 	virtual ~ModelBody();
-	void SetPosition(vector3d p);
+	void SetPosition(const vector3d &p);
 	virtual void SetRotMatrix(const matrix4x4d &r);
 	vector3d GetPosition() const;
 	virtual double GetBoundingRadius() const;

@@ -130,7 +130,7 @@ void TerrainBody::SetFrame(Frame *f)
 	}
 }
 
-double TerrainBody::GetTerrainHeight(const vector3d pos_) const
+double TerrainBody::GetTerrainHeight(const vector3d &pos_) const
 {
 	double radius = m_sbody->GetRadius();
 	if (m_geosphere) {
