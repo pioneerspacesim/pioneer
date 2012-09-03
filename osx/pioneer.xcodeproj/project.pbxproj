@@ -110,7 +110,6 @@
 		4A4F25D714F524D400FD14A6 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25C214F524D400FD14A6 /* Renderer.cpp */; };
 		4A4F25D814F524D400FD14A6 /* RendererGL2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25C414F524D400FD14A6 /* RendererGL2.cpp */; };
 		4A4F25D914F524D400FD14A6 /* RendererLegacy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25C714F524D400FD14A6 /* RendererLegacy.cpp */; };
-		4A4F25DB14F524D400FD14A6 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25CB14F524D400FD14A6 /* Shader.cpp */; };
 		4A4F25DC14F524D400FD14A6 /* StaticMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25CD14F524D400FD14A6 /* StaticMesh.cpp */; };
 		4A4F25DD14F524D400FD14A6 /* VertexArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25D014F524D400FD14A6 /* VertexArray.cpp */; };
 		4A5619CF13866622002A904C /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5619CE13866622002A904C /* libfreetype.6.dylib */; };
@@ -230,6 +229,14 @@
 		4A9937681368355500EA0EE5 /* LuaTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937481368355500EA0EE5 /* LuaTimer.cpp */; };
 		4A99376A1368355500EA0EE5 /* LuaUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99374C1368355500EA0EE5 /* LuaUtils.cpp */; };
 		4A99893E1388BCD900647BA9 /* FontConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99893C1388BCD900647BA9 /* FontConfig.cpp */; };
+		4AAB881315F4AD3500AAF8A8 /* GeoSphereMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880415F4AD3500AAF8A8 /* GeoSphereMaterial.cpp */; };
+		4AAB881415F4AD3500AAF8A8 /* GL2Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880615F4AD3500AAF8A8 /* GL2Material.cpp */; };
+		4AAB881515F4AD3500AAF8A8 /* MultiMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880815F4AD3500AAF8A8 /* MultiMaterial.cpp */; };
+		4AAB881615F4AD3500AAF8A8 /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880A15F4AD3500AAF8A8 /* Program.cpp */; };
+		4AAB881715F4AD3500AAF8A8 /* RingMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880C15F4AD3500AAF8A8 /* RingMaterial.cpp */; };
+		4AAB881815F4AD3500AAF8A8 /* Uniform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880F15F4AD3500AAF8A8 /* Uniform.cpp */; };
+		4AAB881915F4AD3500AAF8A8 /* MaterialLegacy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB881115F4AD3500AAF8A8 /* MaterialLegacy.cpp */; };
+		4AAB881D15F4AD7700AAF8A8 /* Lua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB881A15F4AD7700AAF8A8 /* Lua.cpp */; };
 		4AAC9FE215458FE400116131 /* miniz.c in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FDE15458FE400116131 /* miniz.c */; };
 		4AAC9FE91545901D00116131 /* FileSourceZip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FE51545901D00116131 /* FileSourceZip.cpp */; };
 		4AAC9FEA1545901D00116131 /* ModManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FE71545901D00116131 /* ModManager.cpp */; };
@@ -570,8 +577,6 @@
 		4A4F25C614F524D400FD14A6 /* RendererGLBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererGLBuffers.h; sourceTree = "<group>"; };
 		4A4F25C714F524D400FD14A6 /* RendererLegacy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RendererLegacy.cpp; sourceTree = "<group>"; };
 		4A4F25C814F524D400FD14A6 /* RendererLegacy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RendererLegacy.h; sourceTree = "<group>"; };
-		4A4F25CB14F524D400FD14A6 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
-		4A4F25CC14F524D400FD14A6 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		4A4F25CD14F524D400FD14A6 /* StaticMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticMesh.cpp; sourceTree = "<group>"; };
 		4A4F25CE14F524D400FD14A6 /* StaticMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticMesh.h; sourceTree = "<group>"; };
 		4A4F25CF14F524D400FD14A6 /* Surface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Surface.h; sourceTree = "<group>"; };
@@ -811,6 +816,24 @@
 		4A99374F1368355500EA0EE5 /* RefList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefList.h; sourceTree = "<group>"; };
 		4A99893C1388BCD900647BA9 /* FontConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FontConfig.cpp; sourceTree = "<group>"; };
 		4A99893D1388BCD900647BA9 /* FontConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontConfig.h; sourceTree = "<group>"; };
+		4AAB880415F4AD3500AAF8A8 /* GeoSphereMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeoSphereMaterial.cpp; sourceTree = "<group>"; };
+		4AAB880515F4AD3500AAF8A8 /* GeoSphereMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSphereMaterial.h; sourceTree = "<group>"; };
+		4AAB880615F4AD3500AAF8A8 /* GL2Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2Material.cpp; sourceTree = "<group>"; };
+		4AAB880715F4AD3500AAF8A8 /* GL2Material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GL2Material.h; sourceTree = "<group>"; };
+		4AAB880815F4AD3500AAF8A8 /* MultiMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiMaterial.cpp; sourceTree = "<group>"; };
+		4AAB880915F4AD3500AAF8A8 /* MultiMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiMaterial.h; sourceTree = "<group>"; };
+		4AAB880A15F4AD3500AAF8A8 /* Program.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Program.cpp; sourceTree = "<group>"; };
+		4AAB880B15F4AD3500AAF8A8 /* Program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Program.h; sourceTree = "<group>"; };
+		4AAB880C15F4AD3500AAF8A8 /* RingMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RingMaterial.cpp; sourceTree = "<group>"; };
+		4AAB880D15F4AD3500AAF8A8 /* RingMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RingMaterial.h; sourceTree = "<group>"; };
+		4AAB880E15F4AD3500AAF8A8 /* StarfieldMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarfieldMaterial.h; sourceTree = "<group>"; };
+		4AAB880F15F4AD3500AAF8A8 /* Uniform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Uniform.cpp; sourceTree = "<group>"; };
+		4AAB881015F4AD3500AAF8A8 /* Uniform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Uniform.h; sourceTree = "<group>"; };
+		4AAB881115F4AD3500AAF8A8 /* MaterialLegacy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialLegacy.cpp; sourceTree = "<group>"; };
+		4AAB881215F4AD3500AAF8A8 /* MaterialLegacy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialLegacy.h; sourceTree = "<group>"; };
+		4AAB881A15F4AD7700AAF8A8 /* Lua.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lua.cpp; sourceTree = "<group>"; };
+		4AAB881B15F4AD7700AAF8A8 /* Lua.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lua.h; sourceTree = "<group>"; };
+		4AAB881C15F4AD7700AAF8A8 /* OS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OS.h; sourceTree = "<group>"; };
 		4AAC9FDE15458FE400116131 /* miniz.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = miniz.c; sourceTree = "<group>"; };
 		4AAC9FDF15458FE400116131 /* miniz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = miniz.h; sourceTree = "<group>"; };
 		4AAC9FE51545901D00116131 /* FileSourceZip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSourceZip.cpp; sourceTree = "<group>"; };
@@ -1168,6 +1191,9 @@
 		4A4F25B814F524D400FD14A6 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				4AAB880315F4AD3500AAF8A8 /* gl2 */,
+				4AAB881115F4AD3500AAF8A8 /* MaterialLegacy.cpp */,
+				4AAB881215F4AD3500AAF8A8 /* MaterialLegacy.h */,
 				4A4F25B914F524D400FD14A6 /* Drawables.cpp */,
 				4A4F25BA14F524D400FD14A6 /* Drawables.h */,
 				4A4F25BB14F524D400FD14A6 /* Frustum.cpp */,
@@ -1185,8 +1211,6 @@
 				4A4F25C614F524D400FD14A6 /* RendererGLBuffers.h */,
 				4A4F25C714F524D400FD14A6 /* RendererLegacy.cpp */,
 				4A4F25C814F524D400FD14A6 /* RendererLegacy.h */,
-				4A4F25CB14F524D400FD14A6 /* Shader.cpp */,
-				4A4F25CC14F524D400FD14A6 /* Shader.h */,
 				4A4F25CD14F524D400FD14A6 /* StaticMesh.cpp */,
 				4A4F25CE14F524D400FD14A6 /* StaticMesh.h */,
 				4A4F25CF14F524D400FD14A6 /* Surface.h */,
@@ -1307,6 +1331,8 @@
 				4A6C4C7213532FC300FDD53F /* libs.h */,
 				4A6C4C7313532FC300FDD53F /* LmrModel.cpp */,
 				4A6C4C7413532FC300FDD53F /* LmrModel.h */,
+				4AAB881A15F4AD7700AAF8A8 /* Lua.cpp */,
+				4AAB881B15F4AD7700AAF8A8 /* Lua.h */,
 				4A99371B1368355400EA0EE5 /* LuaBody.cpp */,
 				4A99371C1368355400EA0EE5 /* LuaBody.h */,
 				4A99371D1368355400EA0EE5 /* LuaCargoBody.cpp */,
@@ -1393,6 +1419,7 @@
 				4A6C4CE813532FC300FDD53F /* Object.h */,
 				4A6C4CE913532FC300FDD53F /* ObjectViewerView.cpp */,
 				4A6C4CEA13532FC300FDD53F /* ObjectViewerView.h */,
+				4AAB881C15F4AD7700AAF8A8 /* OS.h */,
 				4A6C4D2C13532FC300FDD53F /* perlin.cpp */,
 				4A6C4D2D13532FC300FDD53F /* perlin.h */,
 				4A6C4D2E13532FC300FDD53F /* PersistSystemData.h */,
@@ -1526,6 +1553,26 @@
 				4A9822AA142DF93D00B423F1 /* AUTHORS.txt */,
 			);
 			name = "Misc TXT files";
+			sourceTree = "<group>";
+		};
+		4AAB880315F4AD3500AAF8A8 /* gl2 */ = {
+			isa = PBXGroup;
+			children = (
+				4AAB880415F4AD3500AAF8A8 /* GeoSphereMaterial.cpp */,
+				4AAB880515F4AD3500AAF8A8 /* GeoSphereMaterial.h */,
+				4AAB880615F4AD3500AAF8A8 /* GL2Material.cpp */,
+				4AAB880715F4AD3500AAF8A8 /* GL2Material.h */,
+				4AAB880815F4AD3500AAF8A8 /* MultiMaterial.cpp */,
+				4AAB880915F4AD3500AAF8A8 /* MultiMaterial.h */,
+				4AAB880A15F4AD3500AAF8A8 /* Program.cpp */,
+				4AAB880B15F4AD3500AAF8A8 /* Program.h */,
+				4AAB880C15F4AD3500AAF8A8 /* RingMaterial.cpp */,
+				4AAB880D15F4AD3500AAF8A8 /* RingMaterial.h */,
+				4AAB880E15F4AD3500AAF8A8 /* StarfieldMaterial.h */,
+				4AAB880F15F4AD3500AAF8A8 /* Uniform.cpp */,
+				4AAB881015F4AD3500AAF8A8 /* Uniform.h */,
+			);
+			path = gl2;
 			sourceTree = "<group>";
 		};
 		4AAC9FDC15458FE400116131 /* miniz */ = {
@@ -1673,7 +1720,7 @@
 		4A20B0D01353194B0020F43E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1960,7 +2007,6 @@
 				4A4F25D714F524D400FD14A6 /* Renderer.cpp in Sources */,
 				4A4F25D814F524D400FD14A6 /* RendererGL2.cpp in Sources */,
 				4A4F25D914F524D400FD14A6 /* RendererLegacy.cpp in Sources */,
-				4A4F25DB14F524D400FD14A6 /* Shader.cpp in Sources */,
 				4A4F25DC14F524D400FD14A6 /* StaticMesh.cpp in Sources */,
 				4A4F25DD14F524D400FD14A6 /* VertexArray.cpp in Sources */,
 				4A305FD1151341170076D414 /* FileSystem.cpp in Sources */,
@@ -2005,6 +2051,14 @@
 				4AEC8A1A15C7886A00B281C3 /* Light.cpp in Sources */,
 				4AF0058B15F0F30400CC19C0 /* LuaEvent.cpp in Sources */,
 				4AF0059315F17C6700CC19C0 /* LuaFileSystem.cpp in Sources */,
+				4AAB881315F4AD3500AAF8A8 /* GeoSphereMaterial.cpp in Sources */,
+				4AAB881415F4AD3500AAF8A8 /* GL2Material.cpp in Sources */,
+				4AAB881515F4AD3500AAF8A8 /* MultiMaterial.cpp in Sources */,
+				4AAB881615F4AD3500AAF8A8 /* Program.cpp in Sources */,
+				4AAB881715F4AD3500AAF8A8 /* RingMaterial.cpp in Sources */,
+				4AAB881815F4AD3500AAF8A8 /* Uniform.cpp in Sources */,
+				4AAB881915F4AD3500AAF8A8 /* MaterialLegacy.cpp in Sources */,
+				4AAB881D15F4AD7700AAF8A8 /* Lua.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2076,7 +2130,6 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_PROFILING_CODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../src/**",
@@ -2100,7 +2153,6 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
@@ -2131,7 +2183,6 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_PROFILING_CODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"../src/**",
@@ -2156,7 +2207,6 @@
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
