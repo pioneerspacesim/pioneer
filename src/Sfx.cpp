@@ -1,11 +1,10 @@
-#include "libs.h"
-#include "Pi.h"
 #include "Sfx.h"
 #include "Frame.h"
 #include "galaxy/StarSystem.h"
-#include "Space.h"
+#include "libs.h"
 #include "Pi.h"
-#include "graphics/Material.h"
+#include "Pi.h"
+#include "Space.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
@@ -17,6 +16,8 @@ using namespace Graphics;
 #define MAX_SFX_PER_FRAME 1024
 Graphics::Drawables::Sphere3D *Sfx::shieldEffect = 0;
 Graphics::Drawables::Sphere3D *Sfx::explosionEffect = 0;
+Graphics::Material *Sfx::damageParticle = 0;
+Graphics::Material *Sfx::ecmParticle = 0;
 
 Sfx::Sfx()
 {
@@ -116,12 +117,8 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 		}
 		case TYPE_DAMAGE:
 			vector3f pos(&fpos.x);
-			//XXX no need to recreate material every time
-			Material mat;
-			mat.texture0 = Graphics::TextureBuilder::Billboard("textures/smoke.png").GetOrCreateTexture(Pi::renderer, "billboard");
-			mat.unlit = true;
-			mat.diffuse = Color(1.f, 1.f, 0.f, 1.0f-(m_age/2.0f));
-			renderer->DrawPointSprites(1, &pos, &mat, 20.f);
+			damageParticle->diffuse = Color(1.f, 1.f, 0.f, 1.0f-(m_age/2.0f));
+			renderer->DrawPointSprites(1, &pos, damageParticle, 20.f);
 			break;
 	}
 }
@@ -189,19 +186,25 @@ void Sfx::RenderAll(Renderer *renderer, const Frame *f, const Frame *camFrame)
 	}
 }
 
-void Sfx::Init()
+void Sfx::Init(Graphics::Renderer *r)
 {
-	//these are identical, but keeping separate anyway
-	RefCountedPtr<Graphics::Material> smat(new Graphics::Material);
-	smat->unlit = true;
-	shieldEffect = new Graphics::Drawables::Sphere3D(smat, 2);
-	RefCountedPtr<Graphics::Material> emat(new Graphics::Material);
-	emat->unlit = true;
-	explosionEffect = new Graphics::Drawables::Sphere3D(emat, 2);
+	Graphics::MaterialDescriptor desc;
+	RefCountedPtr<Graphics::Material> shieldMat(r->CreateMaterial(desc));
+	RefCountedPtr<Graphics::Material> explosionMat(r->CreateMaterial(desc));
+	shieldEffect = new Graphics::Drawables::Sphere3D(shieldMat, 2);
+	explosionEffect = new Graphics::Drawables::Sphere3D(explosionMat, 2);
+
+	desc.textures = 1;
+	damageParticle = r->CreateMaterial(desc);
+	damageParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/smoke.png").GetOrCreateTexture(r, "billboard");
+	ecmParticle = r->CreateMaterial(desc);
+	ecmParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/ecm.png").GetOrCreateTexture(r, "billboard");
 }
 
 void Sfx::Uninit()
 {
 	delete shieldEffect; shieldEffect = 0;
 	delete explosionEffect; explosionEffect = 0;
+	delete damageParticle; damageParticle = 0;
+	delete ecmParticle; ecmParticle = 0;
 }

@@ -175,28 +175,28 @@ void SystemView::PutLabel(SystemBody *b, vector3d offset)
 // i don't know how to name it
 #define ROUGH_SIZE_OF_TURD	10.0
 
-matrix4x4f s_invRot;
-
-void SystemView::PutBody(SystemBody *b, vector3d offset)
+void SystemView::PutBody(SystemBody *b, vector3d offset, const matrix4x4f &trans)
 {
 	if (b->type == SystemBody::TYPE_STARPORT_SURFACE) return;
 	if (b->type != SystemBody::TYPE_GRAVPOINT) {
-		glGetFloatv (GL_MODELVIEW_MATRIX, &s_invRot[0]);
-		s_invRot[12] = s_invRot[13] = s_invRot[14] = 0;
-		s_invRot = s_invRot.InverseOf();
 
-		// Draw a filled circle
-		VertexArray va(ATTRIB_POSITION);
-		Material mat;
-		mat.unlit = true;
-		mat.diffuse = Color(1.f);
-		const double radius = b->GetRadius() * m_zoom;
-		const vector3f offsetf(offset);
-		for (float ang=0; ang<2.0f*float(M_PI); ang+=float(M_PI)*0.05f) {
-			vector3f p = offsetf + s_invRot * vector3f(radius*sin(ang), -radius*cos(ang), 0);
-			va.Add(p);
+		if (!m_bodyIcon.Valid()) {
+			m_bodyIcon.Reset(new Graphics::Drawables::Disk(m_renderer, Color::WHITE, 1.0f));
 		}
-		m_renderer->DrawTriangles(&va, &mat, TRIANGLE_FAN);
+
+		const double radius = b->GetRadius() * m_zoom;
+
+		matrix4x4f invRot = trans;
+		invRot.ClearToRotOnly();
+		invRot = invRot.InverseOf();
+
+		matrix4x4f bodyTrans = trans;
+		bodyTrans.Translate(vector3f(offset));
+		bodyTrans.Scale(radius);
+		m_renderer->SetTransform(bodyTrans * invRot);
+		m_bodyIcon->Draw(m_renderer);
+
+		m_renderer->SetTransform(trans);
 
 		PutLabel(b, offset);
 	}
@@ -213,7 +213,7 @@ void SystemView::PutBody(SystemBody *b, vector3d offset)
 		pos *= double(m_zoom);
 		//glTranslatef(pos.x, pos.y, pos.z);
 
-		PutBody(*kid, offset + pos);
+		PutBody(*kid, offset + pos, trans);
 	}
 }
 
@@ -314,7 +314,7 @@ void SystemView::Draw3D()
 	if (m_system->m_unexplored)
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
 	else if (m_system->rootBody) {
-		PutBody(m_system->rootBody, pos);
+		PutBody(m_system->rootBody, pos, trans);
 		if (Pi::game->GetSpace()->GetStarSystem() == m_system) {
 			const Body *navTarget = Pi::player->GetNavTarget();
 			const SystemBody *navTargetSystemBody = navTarget ? navTarget->GetSystemBody() : 0;

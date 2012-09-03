@@ -181,32 +181,30 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	m_ringTexture->Update(
 			static_cast<void*>(buf.Get()), texSize,
 			Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
+
+	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_PLANETRING;
+	desc.lighting = true;
+	desc.twoSided = true;
+	desc.textures = 1;
+	m_ringMaterial.Reset(renderer->CreateMaterial(desc));
+	m_ringMaterial->texture0 = m_ringTexture.Get();
 }
 
 void Planet::DrawGasGiantRings(Renderer *renderer, const Camera *camera)
 {
 	renderer->SetBlendMode(BLEND_ALPHA_PREMULT);
-	glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT );
 	renderer->SetDepthTest(true);
-	glEnable(GL_NORMALIZE);
 
 	if (!m_ringTexture) {
 		GenerateRings(renderer);
 	}
 
-	Material mat;
-	mat.unlit = true;
-	mat.twoSided = true;
-	mat.texture0 = m_ringTexture.Get();
-	// XXX should get number of lights through camera when object viewer draw doesn't pass a null pointer
-	mat.shader = Graphics::planetRingsShader[Graphics::State::GetNumLights()-1];
-
 	const SystemBody *sbody = GetSystemBody();
 	assert(sbody->HasRings());
 
-	renderer->DrawTriangles(&m_ringVertices, &mat, TRIANGLE_STRIP);
+	renderer->DrawTriangles(&m_ringVertices, m_ringMaterial.Get(), TRIANGLE_STRIP);
 
-	glPopAttrib();
 	renderer->SetBlendMode(BLEND_SOLID);
 }
 
@@ -264,7 +262,17 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 	rot = matrix4x4d::RotateZMatrix(angStep);
 
-	VertexArray vts(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL);
+	if (!m_atmosphereVertices.Valid()) {
+		m_atmosphereVertices.Reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL));
+		Graphics::MaterialDescriptor desc;
+		desc.vertexColors = true;
+		desc.twoSided = true;
+		m_atmosphereMaterial.Reset(renderer->CreateMaterial(desc));
+	}
+
+	VertexArray &vts = *m_atmosphereVertices.Get();
+	vts.Clear();
+
 	for (float ang=0; ang<2*M_PI; ang+=float(angStep)) {
 		const vector3d norm = r1.Normalized();
 		const vector3f n = vector3f(norm.x, norm.y, norm.z);
@@ -283,14 +291,9 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 		r2 = rot * r2;
 	}
 
-	Material mat;
-	mat.unlit = true;
-	mat.twoSided = true;
-	mat.vertexColors = true;
-
 	renderer->SetTransform(trans);
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
-	renderer->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
+	renderer->DrawTriangles(m_atmosphereVertices.Get(), m_atmosphereMaterial.Get(), TRIANGLE_STRIP);
 	renderer->SetBlendMode(BLEND_SOLID);
 
 	glPopMatrix();

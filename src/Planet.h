@@ -8,6 +8,7 @@
 namespace Graphics {
 	class Renderer;
 	class Texture;
+	class Material;
 }
 
 class Planet: public TerrainBody {
@@ -37,6 +38,11 @@ private:
 	double m_clipRadius;
 	RefCountedPtr<Graphics::Texture> m_ringTexture;
 	Graphics::VertexArray m_ringVertices;
+	ScopedPtr<Graphics::Material> m_ringMaterial;
+
+	// Legacy renderer visuals
+	ScopedPtr<Graphics::VertexArray> m_atmosphereVertices;
+	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
 };
 
 #endif /* _PLANET_H */

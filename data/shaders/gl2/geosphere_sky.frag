@@ -45,7 +45,7 @@ void main(void)
 		ldprod = AtmosLengthDensityProduct(a, b, atmosColor.a * geosphereAtmosFogDensity, atmosDist, geosphereAtmosInvScaleHeight);
 	}
 	float fogFactor = 1.0 / exp(ldprod);
-	vec4 atmosDiffuse = vec4(0.0,0.0,0.0,1.0);
+	vec4 atmosDiffuse = vec4(0.0);
 	{
 		vec3 surfaceNorm = normalize(skyNear * eyenorm - geosphereCenter);
 		for (int i=0; i<NUM_LIGHTS; ++i) {
@@ -54,7 +54,7 @@ void main(void)
 	}
 	atmosDiffuse.a = 1.0;
 	gl_FragColor = (1.0-fogFactor) * (atmosDiffuse*
-		vec4(atmosColor.r, atmosColor.g, atmosColor.b, 1.0));
+		vec4(atmosColor.rgb, 1.0));
 
 	SetFragDepth();
 }
