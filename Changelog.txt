@@ -24,8 +24,8 @@ Alpha 26
      * Show frame time in the stats overlay (#1437)
      * Update COUNTOF macro to fix avoid warnings when compiling with
        compiling with optimisations on GCC (#1451, #1450)
-     * Force commodity icons to scale to their bounds regardless of their
-       initial size. Allows hi-res icons (#1448)
+     * Force most icons to scale to their bounds regardless of their
+       initial size. Allows hi-res icons (#1448, #1470)
      * Reimplemented Lua read-only tables (#1460)
      * Move the global Lua context so it can be used from modelviewer (#1473)
 
