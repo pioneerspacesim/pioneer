@@ -7,6 +7,7 @@
 class Frame;
 namespace Graphics {
 	class Renderer;
+	class Material;
 	namespace Drawables {
 		class Sphere3D;
 	}
@@ -27,10 +28,12 @@ public:
 	vector3d GetPosition() const { return m_pos; }
 
 	//create shared models
-	static void Init();
+	static void Init(Graphics::Renderer *r);
 	static void Uninit();
 	static Graphics::Drawables::Sphere3D *shieldEffect;
 	static Graphics::Drawables::Sphere3D *explosionEffect;
+	static Graphics::Material *damageParticle;
+	static Graphics::Material *ecmParticle;
 
 private:
 	static Sfx *AllocSfxInFrame(Frame *f);

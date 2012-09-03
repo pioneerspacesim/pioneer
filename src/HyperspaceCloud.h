@@ -5,7 +5,11 @@
 
 class Frame;
 class Ship;
-namespace Graphics { class Renderer; }
+namespace Graphics {
+	class Material;
+	class Renderer;
+	class VertexArray;
+}
 
 /** XXX TODO XXX Not applied to yet... */
 #define HYPERCLOUD_DURATION (60.0*60.0*24.0*2.0)
@@ -33,6 +37,7 @@ public:
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
+
 private:
 	Ship *m_ship;
 	vector3d m_pos;
@@ -40,6 +45,12 @@ private:
 	double m_birthdate;
 	double m_due;
 	bool m_isArrival;
+
+	struct Graphic {
+		ScopedPtr<Graphics::VertexArray> vertices;
+		ScopedPtr<Graphics::Material> material;
+	};
+	Graphic m_graphic;
 };
 
 #endif /* _HYPERSPACECLOUD_H */

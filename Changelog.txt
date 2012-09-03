@@ -28,6 +28,7 @@ Alpha 26
        initial size. Allows hi-res icons (#1448, #1470)
      * Reimplemented Lua read-only tables (#1460)
      * Move the global Lua context so it can be used from modelviewer (#1473)
+     * Rewritten material and shader infrastructure (#1432)
 
 Alpha 25
 

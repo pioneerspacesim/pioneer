@@ -1,8 +1,13 @@
 varying vec3 norm;
-uniform sampler2D tex;
-uniform sampler2D texGlow;
-uniform bool usetex;
-uniform bool useglow;
+varying vec2 texCoord;
+#ifdef TEXTURE
+uniform sampler2D texture0;
+#endif
+#ifdef GLOWMAP
+uniform sampler2D texture1;
+#endif
+
+uniform Scene scene;
 
 void main(void)
 {
@@ -19,20 +24,23 @@ void main(void)
 		spec += gl_LightSource[i].specular * pf;
 	}
 
+#ifdef GLOWMAP
+	vec4 emission = texture2D(texture1, texCoord);
+#else
 	vec4 emission = gl_FrontMaterial.emission;
-	if ( useglow )
-		emission = texture2D(texGlow, gl_TexCoord[0].st);
+#endif
 
 	gl_FragColor =
-		gl_LightModel.ambient * gl_FrontMaterial.ambient +
-		amb * gl_FrontMaterial.ambient +
-		diff * gl_FrontMaterial.diffuse +
-		spec * gl_FrontMaterial.specular +
+		(scene.ambient * gl_FrontMaterial.ambient) +
+		(amb * gl_FrontMaterial.ambient) +
+		(diff * gl_FrontMaterial.diffuse) +
+		(spec * gl_FrontMaterial.specular) +
 		emission;
 	gl_FragColor.w = gl_FrontMaterial.diffuse.w;
 
-	if ( usetex )
-		gl_FragColor *= texture2D(tex, gl_TexCoord[0].st);
+#ifdef TEXTURE
+	gl_FragColor *= texture2D(texture0, texCoord);
+#endif
 
 	SetFragDepth();
 }

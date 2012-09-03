@@ -91,7 +91,8 @@ private:
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
-	Graphics::VertexArray *m_disk;
+
+	ScopedPtr<Graphics::Drawables::Disk> m_disk;
 
 	Gui::LabelSet *m_clickableLabels;
 

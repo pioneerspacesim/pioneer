@@ -350,7 +350,7 @@ void Pi::Init()
 	SpaceStation::Init();
 	draw_progress(0.9f);
 
-	Sfx::Init();
+	Sfx::Init(Pi::renderer);
 	draw_progress(0.95f);
 
 	if (!config->Int("DisableSound")) {
@@ -592,6 +592,9 @@ void Pi::HandleEvents()
 						case SDLK_F11:
 							// XXX only works on X11
 							//SDL_WM_ToggleFullScreen(Pi::scrSurface);
+#if WITH_DEVKEYS
+							renderer->ReloadShaders();
+#endif
 							break;
 						case SDLK_F9: // Quicksave
 						{
@@ -702,7 +705,7 @@ static void draw_intro(Background::Container *background, float _time)
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	const Color oldSceneAmbientColor = Graphics::State::GetGlobalSceneAmbientColor();
+	const Color oldSceneAmbientColor = Pi::renderer->GetAmbientColor();
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
@@ -735,7 +738,7 @@ static void draw_tombstone(float _time)
 	};
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	const Color oldSceneAmbientColor = Graphics::State::GetGlobalSceneAmbientColor();
+	const Color oldSceneAmbientColor = Pi::renderer->GetAmbientColor();
 	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
@@ -933,7 +936,7 @@ void Pi::HandleMenuKey(int n)
 
 void Pi::Start()
 {
-	Background::Container *background = new Background::Container(UNIVERSE_SEED);
+	Background::Container *background = new Background::Container(Pi::renderer, UNIVERSE_SEED);
 
 	Gui::Fixed *menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	Gui::Screen::AddBaseWidget(menu, 0, 0);

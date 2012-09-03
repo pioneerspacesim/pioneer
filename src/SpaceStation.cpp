@@ -949,10 +949,8 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		double overallLighting = ambient+intensity;
 
 		// turn off global ambient color
-		Color oldAmbient;
-		oldAmbient = Graphics::State::GetGlobalSceneAmbientColor();
-
-		r->SetAmbientColor(Color(0.0, 0.0, 0.0, 1.0));
+		const Color oldAmbient = r->GetAmbientColor();
+		r->SetAmbientColor(Color::BLACK);
 
 		// as the camera gets close adjust scene ambient so that intensity+ambient = minIllumination
 		double fadeInEnd, fadeInLength, minIllumination;
@@ -973,7 +971,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		RenderLmrModel(viewCoords, viewTransform);
 
 		// reset ambient colour as Fade-in model may change it
-		r->SetAmbientColor(Color(0.0, 0.0, 0.0, 1.0));
+		r->SetAmbientColor(Color::BLACK);
 
 		/* don't render city if too far away */
 		if (viewCoords.Length() < 1000000.0){
