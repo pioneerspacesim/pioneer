@@ -1720,7 +1720,7 @@
 		4A20B0D01353194B0020F43E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2130,7 +2130,6 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_PROFILING_CODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../src/**",
@@ -2154,7 +2153,6 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
@@ -2185,7 +2183,6 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_PROFILING_CODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"../src/**",
@@ -2210,7 +2207,6 @@
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_CFLAGS = "-Wextra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx10.7;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
