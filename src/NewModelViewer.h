@@ -20,9 +20,12 @@ public:
 	static void Run(int argc, char** argv);
 
 private:
+	bool OnReloadModel(UI::Widget *w);
 	bool OnToggleGrid(UI::Widget *);
+	void AddLog(const std::string &line);
 	void DrawBackground();
 	void DrawGrid(const matrix4x4f &trans, float radius);
+	void DrawLog();
 	void DrawModel();
 	void MainLoop();
 	void PollEvents();
@@ -33,6 +36,7 @@ private:
 	void UpdateCamera();
 	void UpdateLights();
 
+	//toggleable options
 	struct Options {
 		bool showGrid;
 		float gridInterval;
@@ -52,6 +56,9 @@ private:
 	Newmodel::NModel *m_model;
 	Options m_options;
 	RefCountedPtr<UI::Context> m_ui;
+	std::list<std::string> m_logLines;
+	std::string m_logString;
+	std::string m_modelName;
 	vector3f m_camPos;
 
 	//undecided on this input stuff

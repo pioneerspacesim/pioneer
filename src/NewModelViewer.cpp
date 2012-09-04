@@ -5,6 +5,7 @@
 #include "newmodel/Newmodel.h"
 #include "OS.h"
 #include "Pi.h"
+#include <sstream>
 
 //default options
 ModelViewer::Options::Options()
@@ -34,6 +35,8 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 , m_width(width)
 , m_height(height)
 , m_model(0)
+, m_logString("")
+, m_modelName("")
 , m_camPos(0.f)
 {
 	//LOD system needs to know the screen width
@@ -110,6 +113,12 @@ void ModelViewer::Run(int argc, char** argv)
 	SDL_Quit();
 }
 
+bool ModelViewer::OnReloadModel(UI::Widget *w)
+{
+	SetModel(m_modelName);
+	return true;
+}
+
 bool ModelViewer::OnToggleGrid(UI::Widget *)
 {
 	if (!m_options.showGrid) {
@@ -127,6 +136,21 @@ bool ModelViewer::OnToggleGrid(UI::Widget *)
 		? stringf("Grid: %0{d}", int(m_options.gridInterval))
 		: "Grid: off");*/
 	return m_options.showGrid;
+}
+
+void ModelViewer::AddLog(const std::string &line)
+{
+    m_logLines.push_back(line);
+    if (m_logLines.size() > 8) m_logLines.pop_front();
+
+    std::stringstream ss;
+    for(std::list<std::string>::const_iterator it = m_logLines.begin();
+        it != m_logLines.end();
+        ++it)
+    {
+        ss << *it << std::endl;
+    }
+    m_logString = ss.str();
 }
 
 void ModelViewer::DrawBackground()
@@ -214,6 +238,13 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 	m_renderer->DrawLines(numAxVerts, &vts[0], &col[0]);
 }
 
+void ModelViewer::DrawLog()
+{
+	const Color4f yellowish = Color4f(0.9, 0.9, 0.3f, 1.f);
+	m_renderer->SetTransform(matrix4x4f::Identity());
+	m_ui->GetContext()->GetFont()->RenderString(m_logString.c_str(), m_width - 512.f, 10.f, yellowish);
+}
+
 void ModelViewer::DrawModel()
 {
 	assert(m_model);
@@ -256,6 +287,7 @@ void ModelViewer::MainLoop()
 
 		if (!m_screenshotQueued) {
 			m_ui->Draw();
+			DrawLog(); //assuming the screen is pixel sized ortho after UI
 		} else {
 			m_screenshotQueued = false;
 			Screenshot();
@@ -343,11 +375,12 @@ void ModelViewer::Screenshot()
 	const struct tm *_tm = localtime(&t);
 	strftime(buf, sizeof(buf), "modelviewer-%Y%m%d-%H%M%S.png", _tm);
 	Screendump(buf, m_width, m_height);
-	//AddLog("Screenshot saved");
+	AddLog(stringf("Screenshot %0 saved", buf));
 }
 
 void ModelViewer::SetModel(const std::string &filename)
 {
+	AddLog(stringf("Loading model %0...", filename));
 	if (m_model) {
 		delete m_model;
 		m_model = 0;
@@ -363,33 +396,52 @@ void ModelViewer::SetModel(const std::string &filename)
 		nameLabel->SetText(filename);
 		//needed to get camera distance right
 		m_collMesh = m_model->CreateCollisionMesh(0);
+		m_modelName = filename;
+		AddLog("Done.");
 	} catch (Newmodel::LoadingError &err) {
 		// report the error and show model picker.
 		m_model = 0;
-		nameLabel->SetText(stringf("Could not load model %0: %1", filename.c_str(), err.what()).c_str());
+		AddLog(stringf("Could not load model %0: %1", filename, err.what()));
 	}
 
 	ResetCamera();
+}
+
+//add a horizontal button/label pair to a box
+static void add_pair(RefCountedPtr<UI::Context> c, UI::Box *box, UI::Widget *widget, const std::string &label)
+{
+	box->PackEnd(
+		c->HBox()->PackEnd(
+			UI::WidgetSet(
+				widget,
+				c->Label(label)
+			)
+		)
+	);
 }
 
 void ModelViewer::SetupUI()
 {
 	UI::VBox* box = m_ui->VBox();
 	UI::Button *toggleGridButton;
+	UI::Button *reloadButton;
 	box->PackEnd(nameLabel = m_ui->Label("Pie"));
-	box->PackEnd(
+	add_pair(m_ui, box, reloadButton = m_ui->Button(), "Reload model");
+	add_pair(m_ui, box, toggleGridButton = m_ui->Button(), "Grid mode");
+	/*box->PackEnd(
 		m_ui->HBox()->PackEnd(
 			UI::WidgetSet(
 				toggleGridButton = m_ui->Button(),
 				m_ui->Label("Grid mode")
 			)
 		)
-	);
+	);*/
 	m_ui->SetInnerWidget(box);
 	m_ui->Layout();
 
 	//event handlers
 	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));
+	reloadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnReloadModel), reloadButton));
 }
 
 void ModelViewer::UpdateCamera()
