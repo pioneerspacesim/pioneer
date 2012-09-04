@@ -741,9 +741,9 @@ SHIP_IS_FULLY_LADEN
 YOU_DO_NOT_HAVE_ANY_X
     Nie masz %item.
 FRONT_COCKPIT_VIEW
-	Widok z kokpitu - przód
+	Kokpit przód
 REAR_COCKPIT_VIEW
-	Widok z kokpitu - tył
+	Kokpit tył
 CAMERA_FRONT_VIEW
 	Kamera dziobowa
 CAMERA_REAR_VIEW
@@ -762,6 +762,16 @@ EXTERNAL_VIEW
     Widok zewnętrzny
 SIDEREAL_VIEW
     Widok radialny
+ROTATE_UP
+	Obrót w górę
+ROTATE_DOWN
+	Obrót w dół
+ROTATE_LEFT
+    Obrót w lewo	
+ROTATE_RIGHT
+    Obrót w prawo
+RESET
+    Reset
 NAVIGATION_STAR_MAPS
     Nawigacja i mapy gwiezdne
 COMMS

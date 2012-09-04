@@ -781,24 +781,24 @@ void WorldView::Update()
 		// XXX ugly hack checking for console here
 		if (!Pi::IsConsoleActive()) {
 			if (m_activeCamera->IsExternal() == false) {
-			if (Pi::KeyState(SDLK_KP7)) {m_activeCamera->Front_Cockpit(); SetCamType(COCKPIT_FRONT); cameraName = Lang::FRONT_COCKPIT_VIEW;}
-			if (Pi::KeyState(SDLK_KP1)) {m_activeCamera->Rear_Cockpit(); SetCamType(COCKPIT_REAR); cameraName = Lang::REAR_COCKPIT_VIEW;}
-			if (Pi::KeyState(SDLK_KP8)) {m_activeCamera->Front(); SetCamType(CAM_FRONT); cameraName = Lang::CAMERA_FRONT_VIEW;}
-			if (Pi::KeyState(SDLK_KP2)) {m_activeCamera->Rear(); SetCamType(CAM_REAR); cameraName = Lang::CAMERA_REAR_VIEW;}
-			if (Pi::KeyState(SDLK_KP4)) {m_activeCamera->Left(); SetCamType(CAM_LEFT); cameraName = Lang::CAMERA_LEFT_VIEW;}
-			if (Pi::KeyState(SDLK_KP6)) {m_activeCamera->Right(); SetCamType(CAM_RIGHT); cameraName = Lang::CAMERA_RIGHT_VIEW;}
-			if (Pi::KeyState(SDLK_KP9)) {m_activeCamera->Top(); SetCamType(CAM_TOP); cameraName = Lang::CAMERA_TOP_VIEW;}
-			if (Pi::KeyState(SDLK_KP3)) {m_activeCamera->Bottom(); SetCamType(CAM_BOTTOM); cameraName = Lang::CAMERA_BOTTOM_VIEW;}
+			if (KeyBindings::frontCockpit.IsActive()) {m_activeCamera->Front_Cockpit(); SetCamType(COCKPIT_FRONT); cameraName = Lang::FRONT_COCKPIT_VIEW;}
+			if (KeyBindings::rearCockpit.IsActive()) {m_activeCamera->Rear_Cockpit(); SetCamType(COCKPIT_REAR); cameraName = Lang::REAR_COCKPIT_VIEW;}
+			if (KeyBindings::frontCamera.IsActive()) {m_activeCamera->Front(); SetCamType(CAM_FRONT); cameraName = Lang::CAMERA_FRONT_VIEW;}
+			if (KeyBindings::rearCamera.IsActive()) {m_activeCamera->Rear(); SetCamType(CAM_REAR); cameraName = Lang::CAMERA_REAR_VIEW;}
+			if (KeyBindings::leftCamera.IsActive()) {m_activeCamera->Left(); SetCamType(CAM_LEFT); cameraName = Lang::CAMERA_LEFT_VIEW;}
+			if (KeyBindings::rightCmaera.IsActive()) {m_activeCamera->Right(); SetCamType(CAM_RIGHT); cameraName = Lang::CAMERA_RIGHT_VIEW;}
+			if (KeyBindings::topCamera.IsActive()) {m_activeCamera->Top(); SetCamType(CAM_TOP); cameraName = Lang::CAMERA_TOP_VIEW;}
+			if (KeyBindings::bottomCamera.IsActive()) {m_activeCamera->Bottom(); SetCamType(CAM_BOTTOM); cameraName = Lang::CAMERA_BOTTOM_VIEW;}
 			} else {
-			if (Pi::KeyState(SDLK_KP8)) m_activeCamera->RotateUp(frameTime);
-			if (Pi::KeyState(SDLK_KP2)) m_activeCamera->RotateDown(frameTime);
-			if (Pi::KeyState(SDLK_KP4)) m_activeCamera->RotateLeft(frameTime);
-			if (Pi::KeyState(SDLK_KP6)) m_activeCamera->RotateRight(frameTime);
-			if (Pi::KeyState(SDLK_KP_MINUS)) m_activeCamera->ZoomOut(frameTime);
-			if (Pi::KeyState(SDLK_KP_PLUS)) m_activeCamera->ZoomIn(frameTime);
-			if (Pi::KeyState(SDLK_KP1)) m_activeCamera->RollLeft(frameTime);
-			if (Pi::KeyState(SDLK_KP3)) m_activeCamera->RollRight(frameTime);
-			if (Pi::KeyState(SDLK_HOME)) m_activeCamera->Reset();
+			if (KeyBindings::cameraRotateUp.IsActive()) m_activeCamera->RotateUp(frameTime);
+			if (KeyBindings::cameraRotateDown.IsActive()) m_activeCamera->RotateDown(frameTime);
+			if (KeyBindings::cameraRotateLeft.IsActive()) m_activeCamera->RotateLeft(frameTime);
+			if (KeyBindings::cameraRotateRight.IsActive()) m_activeCamera->RotateRight(frameTime);
+			if (KeyBindings::cameraZoomOut.IsActive()) m_activeCamera->ZoomOut(frameTime);
+			if (KeyBindings::cameraZoomIn.IsActive()) m_activeCamera->ZoomIn(frameTime);
+			if (KeyBindings::cameraRollLeft.IsActive()) m_activeCamera->RollLeft(frameTime);
+			if (KeyBindings::cameraRollRight.IsActive()) m_activeCamera->RollRight(frameTime);
+			if (KeyBindings::resetCamera.IsActive()) m_activeCamera->Reset();
 			}
 			// note if we have to target the object in the crosshairs
 			targetObject = KeyBindings::targetObject.IsActive();

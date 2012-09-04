@@ -762,6 +762,16 @@ EXTERNAL_VIEW
     External view
 SIDEREAL_VIEW
     Sidereal view
+ROTATE_UP
+	Rotate Up
+ROTATE_DOWN
+	Rotate Down
+ROTATE_LEFT
+    Rotate Left	
+ROTATE_RIGHT
+    Rotate Right
+RESET
+    Reset
 NAVIGATION_STAR_MAPS
     Navigation and star maps
 COMMS

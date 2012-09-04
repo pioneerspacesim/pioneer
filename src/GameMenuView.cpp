@@ -382,7 +382,7 @@ GameMenuView::GameMenuView(): View()
 	}
 
 
-	// key binding tab
+	// key binding tab 1
 	{
 		Gui::Fixed *keybindingTab = new Gui::Fixed(800, 600);
 		tabs->AddPage(new Gui::Label(Lang::CONTROLS), keybindingTab);
@@ -468,6 +468,34 @@ GameMenuView::GameMenuView(): View()
 		guibox->PackEnd(m_toggleNavTunnel);
 		guibox->PackEnd(new Gui::Label(Lang::DISPLAY_NAV_TUNNEL));
 		box->PackEnd(guibox);
+	}
+
+	// key binding tab 2
+	{
+		Gui::Fixed *keybindingTab = new Gui::Fixed(800, 600);
+		tabs->AddPage(new Gui::Label(Lang::VIEW), keybindingTab);
+
+		Gui::VBox *box1 = new Gui::VBox();
+		box1->SetSpacing(5.0f);
+		keybindingTab->Add(box1, 10, 10);
+
+		Gui::VBox *box = box1;
+		KeyGetter *keyg;
+
+		for (int i=0; KeyBindings::camBindingProtos[i].label; i++) {
+			const char *label = KeyBindings::camBindingProtos[i].label;
+			const char *function = KeyBindings::camBindingProtos[i].function;
+
+			if (function) {
+				KeyBindings::KeyBinding kb = KeyBindings::KeyBindingFromString(Pi::config->String(function));
+				keyg = new KeyGetter(label, kb);
+				keyg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeKeyBinding), function));
+				box->PackEnd(keyg);
+			} else {
+				// section
+				box->PackEnd((new Gui::Label(label))->Color(1.0f, 1.0f, 0.0f));
+			}
+		}
 	}
 }
 
