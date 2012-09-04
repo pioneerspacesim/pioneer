@@ -973,10 +973,10 @@ void Pi::Start()
 	menu->Add(opts[1], w, h-48);
 	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-48);
 	menu->Add(opts[2], w, h-16);
- 	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_LAVE), w+32, h-16);
- 	menu->Add(opts[3], w, h+16);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_LAVE), w+32, h-16);
+	menu->Add(opts[3], w, h+16);
 	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h+16);
- 	menu->Add(opts[4], w, h+48);
+	menu->Add(opts[4], w, h+48);
 	menu->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+48);
 	menu->Add(opts[5], w, h+80);
 	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+80);

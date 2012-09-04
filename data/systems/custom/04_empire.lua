@@ -12,7 +12,7 @@ local Achernar = CustomSystemBody:new("Achernar",'STAR_B')
    :radius(f(2479,1000))
    :mass(f(2161,100))
    :temp(20273)
-   
+
 -- Achernar1 - rocky planet with a thin atmosphere
 -- Mass: 0.15 Earth masses
 -- Surface temp: 1208 deg C
@@ -181,7 +181,7 @@ local Achernar6_moons = {
 		CustomSystemBody:new('Schmidt', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(-0.5))
 			:longitude(math.deg2rad(26.2)),
-	
+
 		-- Baker Terminal - Orbital trading post
 		-- Type: Enclosed station
 		-- Orbital period: 20 days
@@ -192,8 +192,8 @@ local Achernar6_moons = {
 			:eccentricity(f(0,1))
 			:rotation_period(f(547,10000)),
 	},
-		
-	
+
+
 	-- New World - Small sustained terraformed world
 	-- Mass: 0.20 Earth masses
 	-- Surface temp: 22 deg C
@@ -222,12 +222,12 @@ local Achernar6_moons = {
 		CustomSystemBody:new('Hoopertown', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(-0.5))
 			:longitude(math.deg2rad(26.2)),
-		
+
 		-- Major Starport: Swallow Landing
 		CustomSystemBody:new('Swallow Landing', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(187.3))
 			:longitude(math.deg2rad(17.0)),
-	
+
 		-- Bell Terminal - Orbital city
 		-- Orbital period: 13 hours
 		-- Orbital radius: 0.000AU
@@ -237,7 +237,7 @@ local Achernar6_moons = {
 			:eccentricity(f(0,1))
 			:rotation_period(f(13,10000)),
 	},
-	
+
 	-- Conversion - Terraformed world with introduced life
 	-- Mass: 0.69 Earth masses
 	-- Surface temp: 22 deg C
@@ -266,22 +266,22 @@ local Achernar6_moons = {
 		CustomSystemBody:new('Shepherd City', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(-0.5))
 			:longitude(math.deg2rad(21.2)),
-		
+
 		-- Major Starport: Newtown
 		CustomSystemBody:new('Newtown', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(155.5))
 			:longitude(math.deg2rad(11.0)),
-		
+
 		-- Major Starport: Morris base
 		CustomSystemBody:new('Morris base', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(45.3))
 			:longitude(math.deg2rad(-37.0)),
-		
+
 		-- Major Starport: Chekovport
 		CustomSystemBody:new('Chekovport', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(-7.3))
 			:longitude(math.deg2rad(81.0)),
-	
+
 		-- Macmillan Terminal - Orbital city
 		-- Orbital period: 7 hours
 		-- Orbital radius: 0.000AU
@@ -291,7 +291,7 @@ local Achernar6_moons = {
 			:eccentricity(f(0,1))
 			:rotation_period(f(7,10000)),
 	},
-	
+
 	-- Capitol - World with indigenous life and oxygen atmosphere
 	-- Mass: 0.55 Earth masses
 	-- Surface temp: 19 deg C
@@ -320,22 +320,22 @@ local Achernar6_moons = {
 		CustomSystemBody:new('Duval City', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(-0.5))
 			:longitude(math.deg2rad(21.2)),
-		
+
 		-- Major Starport: Fortress Cambridge
 		CustomSystemBody:new('Fortress Cambridge', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(155.5))
 			:longitude(math.deg2rad(11.0)),
-		
+
 		-- Major Starport: Camp Denver
 		CustomSystemBody:new('Camp Denver', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(45.3))
 			:longitude(math.deg2rad(-37.0)),
-		
+
 		-- Major Starport: Maxwell's Camp
 		CustomSystemBody:new('Maxwell\'s Camp', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(-7.3))
 			:longitude(math.deg2rad(81.0)),
-	
+
 		-- Fort Donalds - Orbital city
 		-- Type: Hammer4 station
 		-- Orbital period: 8 hours
@@ -346,7 +346,7 @@ local Achernar6_moons = {
 			:eccentricity(f(0,1))
 			:rotation_period(f(8,10000)),
 	},
-		
+
 }
 
 -- Achernar7 - Medium gas giant
@@ -414,7 +414,7 @@ local Achernar10 = CustomSystemBody:new('Achernar10', 'PLANET_GAS_GIANT')
    :inclination(math.deg2rad(351.2))
 
 -- Add the CustomSystemBody(ies) we've created to the CustomSystem
-sys:bodies(Achernar, { 
+sys:bodies(Achernar, {
 	Achernar1,
 	Achernar2,
 	Achernar3,
