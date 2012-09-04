@@ -300,7 +300,7 @@ local Achernar6_moons = {
 	-- Orbital radius: 0.320AU
 	-- Orbit Ecc. and Incl.: 0.000, 5.2 deg C
 	CustomSystemBody:new('Capitol', 'PLANET_TERRESTRIAL')
-	   :seed(1181663)
+	   :seed(-1420311881)
 	   :radius(f(285,100))
 	   :mass(f(55,100))
 	   :temp(292)
