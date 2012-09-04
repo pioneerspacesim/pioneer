@@ -8,17 +8,17 @@ define_model('courier_tip', {     -- engine tips
 			},
 
 	static = function(lod)
-        	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
 		set_material('glow', 0,0,0,1,1,1,1.5,100,1.5,2,1)
-        	set_material('grey', .5,.5,.5,1,.3,.3,.3,10)
+		set_material('grey', .5,.5,.5,1,.3,.3,.3,10)
 
 		texture('courier.png')
-        	use_material('courier')
+		use_material('courier')
 		load_obj('c_tip1.obj')
 
 		if lod > 2 then
 			load_obj('c_nazzle.obj')
-        		load_obj('c_tip_n_out.obj')
+			load_obj('c_tip_n_out.obj')
 
 			use_material('grey')
 			load_obj('c_tip_n_in.obj')
@@ -27,7 +27,7 @@ define_model('courier_tip', {     -- engine tips
 		use_material('glow')
 		load_obj('c_tip2.obj')
 
-        	local vMainThruster = v(0,-15,0)
+		local vMainThruster = v(0,-15,0)
 		local vRetroThruster1 = v(3.5,6.3,0)
 		local vRetroThruster2 = v(-3.5,6.3,0)
 		local vRetroThruster3 = v(0,6.3,3.5)
@@ -35,9 +35,9 @@ define_model('courier_tip', {     -- engine tips
 
 		thruster(vMainThruster, v(0,-1,0), 30, true)
 		thruster(vRetroThruster1, v(0,1,0), 6, true)
-        	thruster(vRetroThruster2, v(0,1,0), 6, true)
-        	thruster(vRetroThruster3, v(0,1,0), 6, true)
-        	thruster(vRetroThruster4, v(0,1,0), 6, true)
+		thruster(vRetroThruster2, v(0,1,0), 6, true)
+		thruster(vRetroThruster3, v(0,1,0), 6, true)
+		thruster(vRetroThruster4, v(0,1,0), 6, true)
 	end
 })
 
@@ -49,9 +49,9 @@ define_model('courier_lwp5', {  -- leftwing part 5 all models
 
 	static = function(lod)
 		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
-        	use_material('courier')
+		use_material('courier')
 		texture('courier.png')
-        	load_obj('c_lwp_5.obj')
+		load_obj('c_lwp_5.obj')
 	end
 })
 
@@ -62,8 +62,8 @@ define_model('courier_rwp5', {  -- rightwing part 5 all models
 			},
 
 	static = function(lod)
-        	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
-        	use_material('courier')
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		use_material('courier')
 		texture('courier.png')
 		load_obj('c_rwp_5.obj')
 	end
@@ -76,8 +76,8 @@ define_model('courier_lwp4', {  -- leftwing part 4 all models
 			},
 
 	static = function(lod)
-        	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
-        	use_material('courier')
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		use_material('courier')
 		texture('courier.png')
 		zbias(1,v(0,0,0),v(0,0,0)) -- each wing part needs a higher zbias, to avoid z-fighting when wings are fold in
 		load_obj('c_lwp_4.obj')
@@ -91,10 +91,10 @@ define_model('courier_rwp4', {  -- rightwing part 4 all models
 			},
 
 	static = function(lod)
-            	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
-            	use_material('courier')
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		use_material('courier')
 		texture('courier.png')
-  		zbias(1,v(0,0,0),v(0,0,0))
+		zbias(1,v(0,0,0),v(0,0,0))
 		load_obj('c_rwp_4.obj')
 	end
 })
@@ -106,8 +106,8 @@ define_model('courier_lwp3', {  -- leftwing part 3 all models
 			},
 
 	static = function(lod)
-        	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
-        	use_material('courier')
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		use_material('courier')
 		texture('courier.png')
 		zbias(2,v(0,0,0),v(0,0,0))
 		load_obj('c_lwp_3.obj')
@@ -121,8 +121,8 @@ define_model('courier_rwp3', {  -- rightwing part 3 all models
 			},
 
 	static = function(lod)
-        	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
-        	use_material('courier')
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		use_material('courier')
 		texture('courier.png')
 		zbias(2,v(0,0,0),v(0,0,0))
 		load_obj('c_rwp_3.obj')
@@ -136,10 +136,10 @@ define_model('courier_lwp2', {  -- leftwing part 2 all models
 			},
 
 	static = function(lod)
-        	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
-        	use_material('courier')
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		use_material('courier')
 		texture('courier.png')
-        	zbias(3,v(0,0,0),v(0,0,0))
+		zbias(3,v(0,0,0),v(0,0,0))
 		load_obj('c_lwp_2.obj')
 	end
 })
@@ -151,8 +151,8 @@ define_model('courier_rwp2', {  -- rightwing part 2 all models
 			},
 
 	static = function(lod)
-        	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
-        	use_material('courier')
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		use_material('courier')
 		texture('courier.png')
 		zbias(3,v(0,0,0),v(0,0,0))
 		load_obj('c_rwp_2.obj')
@@ -196,14 +196,14 @@ define_model('courier_body', {    -- courier shell
 			materials = {'courier','text'},
 			},
 	static = function(lod)
-    		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
 		set_material('text', .7,.7,.7,.7,.3,.3,.3,10)
 
 		call_model('courier_top', v(0,0,0), v(1,0,0), v(0,1,0),1)
 
 		use_material('courier')
 		texture('courier.png')
-        	zbias(4,v(0,0,0),v(0,-1,0))
+		zbias(4,v(0,0,0),v(0,-1,0))
 		load_obj('c_bot.obj')
 		zbias(0)
 
@@ -223,7 +223,7 @@ define_model('courier_body', {    -- courier shell
 				text(reg, v(-8.7, .28, 1.6), v(0,-1,0), v(-1,0.052,0), 1.3, {center=true})
 				zbias(0)
 		end
- 	end
+	end
 })
 
 define_model('trader_body', {    --trader shell
@@ -233,16 +233,16 @@ define_model('trader_body', {    --trader shell
 			materials = {'courier', 'text'},
 			},
 	static = function(lod)
-  		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
 		set_material('text', .7,.7,.7,.7,.3,.3,.3,10)
 
 		call_model('trader_top', v(0,0,0), v(1,0,0), v(0,1,0),1)
 
-    		use_material('courier')
+		use_material('courier')
 		texture('courier.png')
 		zbias(4,v(0,0,0),v(0,-1,0))
-        	load_obj('c_bot.obj')
-        	zbias(0)
+		load_obj('c_bot.obj')
+		zbias(0)
 
 		if lod > 2 then
 			call_model('imp_sign_1', v(-9,1.82,6), v(-.08,1,0), v(0,.02,-1),2.5)
@@ -260,7 +260,7 @@ define_model('trader_body', {    --trader shell
 				text(reg, v(-8.7, .28, 1.6), v(0,-1,0), v(-1,0.052,0), 1.3, {center=true})
 				zbias(0)
 		end
- 	end
+	end
 })
 
 define_model('courier_flap_ll', {  -- left flap1 all models
@@ -270,10 +270,10 @@ define_model('courier_flap_ll', {  -- left flap1 all models
 			},
 
 	static = function(lod)
-	    	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
 		use_material('courier')
 		texture('courier.png')
-  		zbias(2,v(0,0,0),v(0,-1,0))
+		zbias(2,v(0,0,0),v(0,-1,0))
 		load_obj('c_flap_ll.obj', matrix.rotate(0.5*math.pi, v(-1,0,0)))
 		zbias(0)
 	end
@@ -289,7 +289,7 @@ define_model('courier_flap_lr', {  -- left flap2 all models
 	    set_material('courier', .63,.7,.83,1,1.26,1.4,1.66,30)
 		use_material('courier')
 		texture('courier.png')
-  		zbias(2,v(0,0,0),v(0,-1,0))
+		zbias(2,v(0,0,0),v(0,-1,0))
 		load_obj('c_flap_lr.obj', matrix.rotate(0.5*math.pi, v(1,0,0)))
 		zbias(0)
 	end
@@ -302,10 +302,10 @@ define_model('courier_flap_rr', {  -- right flap1 all models
 			},
 
 	static = function(lod)
-	    	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
 		use_material('courier')
 		texture('courier.png')
-  		zbias(2,v(0,0,0),v(0,-1,0))
+		zbias(2,v(0,0,0),v(0,-1,0))
 		load_obj('c_flap_rr.obj', matrix.rotate(0.5*math.pi, v(1,0,0)))
 		zbias(0)
 	end
@@ -318,10 +318,10 @@ define_model('courier_flap_rl', {  -- right flap2 all models
 			},
 
 	static = function(lod)
-	    	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
 		use_material('courier')
 		texture('courier.png')
-  		zbias(2,v(0,0,0),v(0,-1,0))
+		zbias(2,v(0,0,0),v(0,-1,0))
 		load_obj('c_flap_rl.obj', matrix.rotate(0.5*math.pi, v(-1,0,0)))
 		zbias(0)
 	end
@@ -334,8 +334,8 @@ define_model('courier_wheels_l', {    -- wheels left all models
 			},
 
 	static = function(lod)
-        	set_material('black', .05,.05,.05,1,.3,.3,.3,10)
-        	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		set_material('black', .05,.05,.05,1,.3,.3,.3,10)
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
 
 		texture('courier.png')
 		use_material('courier')
@@ -353,11 +353,11 @@ define_model('courier_wheels_r', {    -- wheels right all models
 			},
 
 	static = function(lod)
-        	set_material('black', .05,.05,.05,1,.3,.3,.3,10)
-        	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		set_material('black', .05,.05,.05,1,.3,.3,.3,10)
+		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
 
 		texture('courier.png')
-  		use_material('courier')
+		use_material('courier')
 		load_obj('c_sledge_r.obj')
 
 		use_material('black')
@@ -383,9 +383,9 @@ define_model('courier_uc_l', {
 			local trans1 = 8*math.clamp(get_animation_position('WHEEL_STATE')-.5, 0, 1)
 			local trans2 = 18*math.clamp(get_animation_position('WHEEL_STATE')-.7, 0, 1)
 
-  			texture('models/ships/courier/piston.png',v(.5,.75,0),v(3,0,0),v(0,-.15,0))
+			texture('models/ships/courier/piston.png',v(.5,.75,0),v(3,0,0),v(0,-.15,0))
 			use_material('courier')
-	        	lathe(3*lod,v(-31.584,-11,15),v(-31.584,-12.043-trans1,13.139-trans2),v(1,0,0),{0,.28, .25,.28, .25,.23, .5,.23, .5,.18, .75,.18, .75,.13, 1,.13})
+			lathe(3*lod,v(-31.584,-11,15),v(-31.584,-12.043-trans1,13.139-trans2),v(1,0,0),{0,.28, .25,.28, .25,.23, .5,.23, .5,.18, .75,.18, .75,.13, 1,.13})
 			lathe(3*lod,v(-31.584,-11,9),v(-31.584,-12.043-trans1,13.139-trans2),v(1,0,0), {0,.28, .25,.28, .25,.23, .5,.23, .5,.18, .75,.18, .75,.13, 1,.13})
 
 			call_model('courier_wheels_l',v(0,-trans1,-trans2), v(1,0,0), v(0,1,0), 1)
@@ -409,12 +409,12 @@ define_model('courier_uc_r', {
 		call_model('courier_flap_rr', v(32.419, -13.172,13.141), v(math.cos(rot),math.sin(rot),0), v(0.0175,-0.0435,-1),1)
 
 		if get_animation_position('WHEEL_STATE') ~= 0 then
-	  		local trans1 = 8*math.clamp(get_animation_position('WHEEL_STATE')-.5, 0, 1)
+			local trans1 = 8*math.clamp(get_animation_position('WHEEL_STATE')-.5, 0, 1)
 			local trans2 = 18*math.clamp(get_animation_position('WHEEL_STATE')-.7, 0, 1)
 
-  			texture('models/ships/courier/piston.png',v(.5,.75,0),v(3,0,0),v(0,-.15,0))
+			texture('models/ships/courier/piston.png',v(.5,.75,0),v(3,0,0),v(0,-.15,0))
 			use_material('courier')
-	        	lathe(3*lod,v(31.584,-11,15),v(31.584,-12.043-trans1,13.139-trans2),v(1,0,0),{0,.28, .25,.28, .25,.23, .5,.23, .5,.18, .75,.18, .75,.13, 1,.13})
+			lathe(3*lod,v(31.584,-11,15),v(31.584,-12.043-trans1,13.139-trans2),v(1,0,0),{0,.28, .25,.28, .25,.23, .5,.23, .5,.18, .75,.18, .75,.13, 1,.13})
 			lathe(3*lod,v(31.584,-11,9),v(31.584,-12.043-trans1,13.139-trans2),v(1,0,0), {0,.28, .25,.28, .25,.23, .5,.23, .5,.18, .75,.18, .75,.13, 1,.13})
 
 			call_model('courier_wheels_r',v(0,-trans1,-trans2), v(1,0,0), v(0,1,0), 1)
@@ -434,7 +434,7 @@ define_model('courier_eng_l', {      -- engine part left all models
 		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
 
 		texture('courier.png')
-  		use_material('iron')
+		use_material('iron')
 		load_obj('c_cage_l.obj')
 
 		call_model('courier_uc_l',v(0,0,0),v(1,0,0),v(0,1,0),1)
@@ -446,7 +446,7 @@ define_model('courier_eng_l', {      -- engine part left all models
 		zbias(0)
 
 		texture('courier.png')
-  		use_material('courier')
+		use_material('courier')
 		load_obj('c_eng_l.obj')
 
 		use_material('e_glow1')
@@ -455,7 +455,7 @@ define_model('courier_eng_l', {      -- engine part left all models
 		use_material('e_glow2')
 		load_obj('c_e_glow_l.obj')
 
-        	if lod > 2 then
+		if lod > 2 then
 			set_material('nazzle', .63,.7,.83,1,1.26,1.4,1.66,10)
 			use_material('nazzle')
 			call_model('nazzle_n', v(-31.58,-8.9,19), v(1,0,0), v(0,1,0), .3)
@@ -464,11 +464,11 @@ define_model('courier_eng_l', {      -- engine part left all models
 			call_model('nazzle_n', v(-33.83,-11.16,19), v(0,1,0), v(-1,0,0), .3)
 		end
 
- 		local LeftBackTopThrust = v(-31.58, -8.7, 19)
-   		local LeftBackBottomThrust = v(-31.58, -13.6, 19)
+		local LeftBackTopThrust = v(-31.58, -8.7, 19)
+		local LeftBackBottomThrust = v(-31.58, -13.6, 19)
 
 		thruster(LeftBackTopThrust, v(0,1,0), 5)
-  		thruster(LeftBackBottomThrust, v(0,-1,0), 5)
+		thruster(LeftBackBottomThrust, v(0,-1,0), 5)
 
 		local BackLeftThrust = v(-34.03, -11.16, 19)
 		local BackRightThrust = v(-29.13, -11.16, 19)
@@ -477,22 +477,22 @@ define_model('courier_eng_l', {      -- engine part left all models
 		thruster(BackRightThrust, v(1,0,0), 5)
 
 		if lod > 2 then
-         		call_model('posl_green', v(-33.7,-11.156,13.6), v(0,0,1), v(-1,0,0),1.5)
-       			call_model('coll_warn', v(-33.6,-11.156,15.2), v(0,0,1), v(-1,0,0),1.5)
-      		end
+			call_model('posl_green', v(-33.7,-11.156,13.6), v(0,0,1), v(-1,0,0),1.5)
+			call_model('coll_warn', v(-33.6,-11.156,15.2), v(0,0,1), v(-1,0,0),1.5)
+		end
 	end,
 
 	dynamic = function(lod)
 
 		set_material('e_glow1', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }))
-        set_material('e_glow2', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
+	set_material('e_glow2', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1, .7, 1.5 }, {0, 0, 0, 1, 0, 0, 0, 0, .7, 1, 1.5 }))
 
 		if get_animation_position('WHEEL_STATE') >= .99 then
-        	    call_model('courier_tip', v(-31.584, -11.156, 6.25), v(0,1,0), v(0,0,-1),1)
+		    call_model('courier_tip', v(-31.584, -11.156, 6.25), v(0,1,0), v(0,0,-1),1)
 		else
 		    local rot = math.pi*get_time('SECONDS')/1.5
 		    call_model('courier_tip', v(-31.584, -11.156, 6.25), v(math.cos(rot),math.sin(rot),0), v(0,0,-1),1)
-     		end
+		end
 	end
 })
 
@@ -508,7 +508,7 @@ define_model('courier_eng_r', {      -- engine part right all models
 		set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
 
 		texture('courier.png')
-  		use_material('iron')
+		use_material('iron')
 		load_obj('c_cage_r.obj')
 
 		call_model('courier_uc_r',v(0,0,0),v(1,0,0),v(0,1,0),1)
@@ -538,11 +538,11 @@ define_model('courier_eng_r', {      -- engine part right all models
 			call_model('nazzle_n', v(33.83,-11.16,19), v(0,1,0), v(1,0,0), .3)
 		end
 
-  		local LeftBackTopThrust = v(31.58, -8.7, 19)
-   		local LeftBackBottomThrust = v(31.58, -13.6, 19)
+		local LeftBackTopThrust = v(31.58, -8.7, 19)
+		local LeftBackBottomThrust = v(31.58, -13.6, 19)
 
 		thruster(LeftBackTopThrust, v(0,1,0), 5)
-  		thruster(LeftBackBottomThrust, v(0,-1,0), 5)
+		thruster(LeftBackBottomThrust, v(0,-1,0), 5)
 
 		local BackLeftThrust = v(34.03, -11.16, 19)
 		local BackRightThrust = v(29.13, -11.16, 19)
@@ -551,9 +551,9 @@ define_model('courier_eng_r', {      -- engine part right all models
 		thruster(BackRightThrust, v(-1,0,0), 5)
 
 		if lod > 2 then
-            		call_model('posl_red', v(33.7,-11.156,13.6), v(0,0,1), v(1,0,0),1.5)
-       			call_model('coll_warn', v(33.6,-11.156,15.2), v(0,0,1), v(1,0,0),1.5)
-   		end
+			call_model('posl_red', v(33.7,-11.156,13.6), v(0,0,1), v(1,0,0),1.5)
+			call_model('coll_warn', v(33.6,-11.156,15.2), v(0,0,1), v(1,0,0),1.5)
+		end
     end,
 
 	dynamic = function(lod)
@@ -561,25 +561,25 @@ define_model('courier_eng_r', {      -- engine part right all models
 		set_material('e_glow1', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1.2, 1.5, 2 }, {0, 0, 0, 1, 0, 0, 0, 0, 1.5, 1.2, 2 }))
 		set_material('e_glow2', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1.5, 1.2, 2 }, {0, 0, 0, 1, 0, 0, 0, 0, 1.2, 1.5, 2 }))
 
-        	if get_animation_position('WHEEL_STATE') >= .99 then
-        	    call_model('courier_tip', v(31.584, -11.156, 6.25), v(1,0,0), v(0,0,-1),1)
+		if get_animation_position('WHEEL_STATE') >= .99 then
+		    call_model('courier_tip', v(31.584, -11.156, 6.25), v(1,0,0), v(0,0,-1),1)
 		else
 		    local rot = math.pi*get_time('SECONDS')/1.5
 		    call_model('courier_tip', v(31.584, -11.156, 6.25), v(math.sin(rot),math.cos(rot),0), v(0,0,-1),1)
-     		end
+		end
 	end
 })
 
 define_model('trader_eng', {   -- trader middle engine part
 	info = {
 			bounding_radius = 95,
-         	materials = {'courier', 'e_glow1', 'e_glow2'},
-         	},
+		materials = {'courier', 'e_glow1', 'e_glow2'},
+		},
 
 	static = function(lod)
 
-        set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
-        	use_material('courier')
+	set_material('courier', .85,.9,1,1,1.7,1.8,2,30)
+		use_material('courier')
 		texture('courier.png')
 		load_obj('t_eng.obj')
 
@@ -588,18 +588,18 @@ define_model('trader_eng', {   -- trader middle engine part
 
 		use_material('e_glow1')
 		load_obj('t_e_glow.obj')
-  	end,
+	end,
 
     dynamic = function(lod)
-	    	set_material('e_glow1', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1.2, 1.5, 2 }, {0, 0, 0, 1, 0, 0, 0, 0, 1.5, 1.2, 2 }))
+		set_material('e_glow1', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1.2, 1.5, 2 }, {0, 0, 0, 1, 0, 0, 0, 0, 1.5, 1.2, 2 }))
 		set_material('e_glow2', lerp_materials(get_time('SECONDS')*0.5, {0, 0, 0, 1, 0, 0, 0, 0, 1.5, 1.2, 2 }, {0, 0, 0, 1, 0, 0, 0, 0, 1.2, 1.5, 2 }))
 
 		if get_animation_position('WHEEL_STATE') >= .99 then
-        	    call_model('courier_tip', v(0,11.467,13.2), v(1,-1,0), v(0,0,-1),1)
+		    call_model('courier_tip', v(0,11.467,13.2), v(1,-1,0), v(0,0,-1),1)
 		else
 		    local rot = math.pi*get_time('SECONDS')/1.5
 		    call_model('courier_tip', v(0,11.467,13.2), v(math.sin(rot),math.cos(rot),0), v(0,0,-1),1)
-     		end
+		end
 	end
 })
 
@@ -612,14 +612,14 @@ define_model('courier_pit', {
 	static = function(lod)
 		set_material('pit', .5,.5,.45,1,.3,.3,.3,10)
 		set_light(1, 0.05, v(0,3.2,-17), v(6,6,6))
-        	set_local_lighting(true)
-        	use_light(1)
+		set_local_lighting(true)
+		use_light(1)
 
 		texture('courier.png')
 		use_material('pit')
 		load_obj('c_pit.obj')
 
-        	set_local_lighting(false)
+		set_local_lighting(false)
 	end
 })
 
@@ -654,26 +654,26 @@ define_model('courier_sub', {     -- courier sub-model, all models
 			set_material('nazzle', .85,.9,1,1,1.7,1.8,2,10)
 			use_material('nazzle') -- needs to be called for each model, else the material gets lost, if that's still true
 			call_model('nazzle_n', v(-3.5,1.2,-15), v(1,0,0), v(0,1,0), .3)
-            		use_material('nazzle')
+			use_material('nazzle')
 			call_model('nazzle_n', v(-3.5,.5,-15), v(1,0,0), v(0,-1,0), .3)
-            		use_material('nazzle')
+			use_material('nazzle')
 			call_model('nazzle_n', v(3.5,1.2,-15), v(1,0,0), v(0,1,0), .3)
-            		use_material('nazzle')
+			use_material('nazzle')
 			call_model('nazzle_n', v(3.5,.5,-15), v(1,0,0), v(0,-1,0), .3)
-            		use_material('nazzle')
+			use_material('nazzle')
 			call_model('nazzle_n', v(-4,.82,-15), v(0,1,0), v(-1,0,0), .3)
-            		use_material('nazzle')
+			use_material('nazzle')
 			call_model('nazzle_n', v(4,.82,-15), v(0,1,0), v(1,0,0), .3)
 		end
 
- 		local LeftFrontTopThrust = v(-3.5,1.4,-15)
-        	local RightFrontTopThrust = v(3.5,1.4, -15)
+		local LeftFrontTopThrust = v(-3.5,1.4,-15)
+		local RightFrontTopThrust = v(3.5,1.4, -15)
 		local LeftFrontBottomThrust = v(-3.5,.3, -15)
-        	local RightFrontBottomThrust = v(3.5,.3, -15)
+		local RightFrontBottomThrust = v(3.5,.3, -15)
 
-  		thruster(LeftFrontTopThrust, v(0,1,0), 5)
-        	thruster(RightFrontTopThrust, v(0,1,0), 5)
-        	thruster(LeftFrontBottomThrust, v(0,-1,0), 5)
+		thruster(LeftFrontTopThrust, v(0,1,0), 5)
+		thruster(RightFrontTopThrust, v(0,1,0), 5)
+		thruster(LeftFrontBottomThrust, v(0,-1,0), 5)
 		thruster(RightFrontBottomThrust, v(0,-1,0), 5)
 
 		local FrontLeftThrust = v(-4.2,.82, -15)
@@ -681,21 +681,21 @@ define_model('courier_sub', {     -- courier sub-model, all models
 
 		thruster(FrontLeftThrust, v(-1,0,0), 5)
 		thruster(FrontRightThrust, v(1,0,0), 5)
-  	end,
+	end,
 
 	dynamic = function(lod)
-      		local trans1 = math.clamp(get_animation_position('WHEEL_STATE'), 0, 1)
+		local trans1 = math.clamp(get_animation_position('WHEEL_STATE'), 0, 1)
 		local trans2 = math.clamp(get_animation_position('WHEEL_STATE'), .5, 1)
 		local trans3 = math.clamp(get_animation_position('WHEEL_STATE'), 0, .5)
 
 		call_model('courier_eng_l', v(trans1*9.5,trans1*8,trans1*-5), v(1,0,0), v(0,1,0),1)
-     		call_model('courier_lwp5', v(trans1*9.5,trans1*7.7,trans1*-4.5), v(1,0,0), v(0,1,0),1)
+		call_model('courier_lwp5', v(trans1*9.5,trans1*7.7,trans1*-4.5), v(1,0,0), v(0,1,0),1)
 		call_model('courier_lwp4', v(trans1*7.3,trans1*5.9,trans1*-3.4), v(1,0,0), v(0,1,0),1)
 		call_model('courier_lwp3', v(trans1*4.95,trans1*4,trans1*-2.4), v(1,0,0), v(0,1,0),1)
 		call_model('courier_lwp2', v(trans1*2.4,trans1*1.95,trans1*-1.15), v(1,0,0), v(0,1,0),1)
 
 		call_model('courier_eng_r', v(trans1*-9.5,trans1*8,trans1*-5), v(1,0,0), v(0,1,0),1)
-     		call_model('courier_rwp5', v(trans1*-9.5,trans1*7.7,trans1*-4.5), v(1,0,0), v(0,1,0),1)
+		call_model('courier_rwp5', v(trans1*-9.5,trans1*7.7,trans1*-4.5), v(1,0,0), v(0,1,0),1)
 		call_model('courier_rwp4', v(trans1*-7.3,trans1*5.9,trans1*-3.4), v(1,0,0), v(0,1,0),1)
 		call_model('courier_rwp3', v(trans1*-4.95,trans1*4,trans1*-2.4), v(1,0,0), v(0,1,0),1)
 		call_model('courier_rwp2', v(trans1*-2.4,trans1*1.95,trans1*-1.15), v(1,0,0), v(0,1,0),1)
@@ -720,7 +720,7 @@ define_model('courier_sub', {     -- courier sub-model, all models
 			if get_equipment('ECM') == 'ECM_ADVANCED' then
 				call_model('ecm_2a',v(-13.5,.824,-.5),v(1,0,0),v(0,1,0),1)
 			elseif get_equipment('ECM') == 'ECM_BASIC' then
-			    	call_model('ecm_1a',v(-13.5,.824,-.5),v(1,0,0),v(0,1,0),1)
+				call_model('ecm_1a',v(-13.5,.824,-.5),v(1,0,0),v(0,1,0),1)
 			end
 		end
 	end
@@ -798,7 +798,7 @@ it's not such a high poly model that it really would be needed to do so
 				call_model('posl_white', v(0,6.35,11), v(1,0,0), v(0,1,0),1.5)
 			end
 		end
-   	end,
+	end,
 	dynamic = function(lod)
 		if lod == 1 then
 			local trans1 = math.clamp(get_animation_position('WHEEL_STATE'), 0, 1)
@@ -826,15 +826,15 @@ it's not such a high poly model that it really would be needed to do so
 			xref_tapered_cylinder(3, v26, v27, v(0,1,0), 2, 1.5)
 			xref_tapered_cylinder(3, v27, v28, v(0,1,0), 1.3, .9)
 			xref_quad(v29,v30,v31,v32)
-        	else
+		else
 			if lod > 2 then
-  		    		if get_animation_position('WHEEL_STATE') ~= 0 then
+				if get_animation_position('WHEEL_STATE') ~= 0 then
 					set_material('win', 0,0,.05,.91-math.clamp(.5*get_animation_position('WHEEL_STATE'),0,1),1,1,1.5,100)
 				else
 					set_material('win', 0,0,.05,1,1,1,1.5,100)
 				end
 			else
-			   	set_material('win', 0,0,.05,1,1,1,1.5,100)
+				set_material('win', 0,0,.05,1,1,1,1.5,100)
 			end
 		end
 	end
@@ -868,9 +868,9 @@ define_model('trader', {
 			local v11 = v(0,11.5,-9)
 			local v12 = v(0,11.5,13)
 			local v13 = v(0,11.5,28)
-	    		local v14 = v(0,6,14)  -- trader
-	    		local v15 = v(0,10,18) -- trader
-	    		local v16 = v(0,10,20) --trader
+			local v14 = v(0,6,14)  -- trader
+			local v15 = v(0,10,18) -- trader
+			local v16 = v(0,10,20) --trader
 
 			xref_quad(v8,v7,v1b,v1)
 			xref_quad(v8,v5,v6,v7)
@@ -886,10 +886,10 @@ define_model('trader', {
 			tapered_cylinder(3, v11, v12, v(0,1,0), 0.5, 3.5)
 			tapered_cylinder(3, v12, v13, v(0,1,0), 2.5, 1.5)
 			xref_quad(v10,v14,v15,v16)
-        	else
+		else
 
-        		call_model('trader_body', v(0,0,0), v(1,0,0), v(0,1,0),1)
-        		call_model('trader_eng', v(0,0,0), v(1,0,0), v(0,1,0),1)
+			call_model('trader_body', v(0,0,0), v(1,0,0), v(0,1,0),1)
+			call_model('trader_eng', v(0,0,0), v(1,0,0), v(0,1,0),1)
 			call_model('courier_sub', v(0,0,0), v(1,0,0), v(0,1,0),1)
 
 			if lod > 2 then
@@ -907,19 +907,19 @@ define_model('trader', {
 				--]]
 			end
 
-            		texture(nil)
+			texture(nil)
 			use_material('win')
 			zbias(1,v(0,0,0),v(0,1,0))
 			load_obj('c_win.obj')
 
-   			if lod > 2 then
+			if lod > 2 then
 				call_model('posl_white', v(0,13.55,20.6), v(1,0,0), v(0,1,0),1.5)
 			end
 		end
-   	end,
+	end,
 
 	dynamic = function(lod)
-        if lod == 1 then
+	if lod == 1 then
 			local trans1 = math.clamp(get_animation_position('WHEEL_STATE'), 0, 1)
 			local trans2 = math.clamp(get_animation_position('WHEEL_STATE'), .5, 1)
 			local trans3 = math.clamp(get_animation_position('WHEEL_STATE'), 0, .5)
@@ -941,16 +941,16 @@ define_model('trader', {
 			xref_tapered_cylinder(3, v24, v25, v(0,1,0), 0.5, 3.5)
 			xref_tapered_cylinder(3, v25, v26, v(0,1,0), 2.5, 1.5)
 			xref_quad(v27,v28,v29,v30)
-  		else
-  		    if lod > 2 then
-  		    		if get_animation_position('WHEEL_STATE') ~= 0 then
+		else
+		    if lod > 2 then
+				if get_animation_position('WHEEL_STATE') ~= 0 then
 					set_material('win', 0,0,.05,.91-math.clamp(.5*get_animation_position('WHEEL_STATE'),0,1),1,1,1.5,100)
 				else
-				    	set_material('win', 0,0,.05,1,1,1,1.5,100)
+					set_material('win', 0,0,.05,1,1,1,1.5,100)
 				end
 			else
-			    	set_material('win', 0,0,.05,1,1,1,1.5,100)
+				set_material('win', 0,0,.05,1,1,1,1.5,100)
 			end
-  		end
+		end
 	end
 })
