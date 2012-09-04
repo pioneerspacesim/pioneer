@@ -12,9 +12,9 @@ function squad_color(self)
 
 	selector1()
 	if select1 < 201 then
-        set_material('squad', .5,0,0,.999,.6,.6,.6,30)
-		elseif select1 < 401 then
-        set_material('squad', .45,.35,.01,.999,.6,.6,.6,30)
+		set_material('squad', .5,0,0,.999,.6,.6,.6,30)
+	elseif select1 < 401 then
+		set_material('squad', .45,.35,.01,.999,.6,.6,.6,30)
 	elseif select1 < 601 then
 		set_material('squad', 0,.15,.7,.999,.6,.6,.6,30)
 	elseif select1 < 801 then
@@ -191,7 +191,7 @@ define_model('imp_sign_1', {
 		if select1 < 201 then
 			call_model('imp_sign_a',v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif select1 < 401 then
-            call_model('imp_sign_b',v(0,0,0),v(1,0,0),v(0,1,0),1)
+			call_model('imp_sign_b',v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif select1 < 601 then
 			call_model('imp_sign_c',v(0,0,0),v(1,0,0),v(0,1,0),1)
 		elseif select1 < 801 then
