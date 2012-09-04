@@ -1,5 +1,8 @@
 Alpha 26
 
+   * New features
+     * Achernar (4,-9,-16) is now a fully custom system (#1452)
+
    * Minor changes and tweaks
      * Updated station splash advert (#1429)
 
