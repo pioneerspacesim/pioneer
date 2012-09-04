@@ -18,7 +18,7 @@ ui.templates.FileDialog = function (args)
 			:SetCell(1,1,
 				ui:VBox():PackEnd({
                     ui:Background():SetInnerWidget(ui:Label(title)),
-					list,
+                    ui:Scroller():SetInnerWidget(list),
 					ui:HBox():PackEnd({
 						ui:Align("LEFT"):SetInnerWidget(loadButton),
 						ui:Align("RIGHT"):SetInnerWidget(cancelButton),
