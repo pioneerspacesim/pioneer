@@ -10,6 +10,7 @@
 //default options
 ModelViewer::Options::Options()
 : showGrid(false)
+, showUI(true)
 , gridInterval(10.f)
 , lightPreset(0)
 {
@@ -254,6 +255,8 @@ void ModelViewer::DrawModel()
 	float znear, zfar;
 	m_renderer->GetNearFarRange(znear, zfar);
 	m_renderer->SetPerspectiveProjection(85, m_width/float(m_height), znear, zfar);
+	m_renderer->SetTransform(matrix4x4f::Identity());
+	UpdateLights();
 
 	const matrix4x4f mv = matrix4x4f::Translation(-m_camPos) * m_modelRot.InverseOf();
 
@@ -262,6 +265,7 @@ void ModelViewer::DrawModel()
 
 	m_renderer->SetDepthTest(true);
 	m_renderer->SetDepthWrite(true);
+
 	m_model->Render(m_renderer, mv, &m_modelParams);
 }
 
@@ -277,7 +281,6 @@ void ModelViewer::MainLoop()
 
 		PollEvents();
 		UpdateCamera();
-		UpdateLights();
 
 		DrawBackground();
 
@@ -285,10 +288,11 @@ void ModelViewer::MainLoop()
 		if (m_model)
 			DrawModel();
 
-		if (!m_screenshotQueued) {
+		if (m_options.showUI && !m_screenshotQueued) {
 			m_ui->Draw();
 			DrawLog(); //assuming the screen is pixel sized ortho after UI
-		} else {
+		}
+		if (m_screenshotQueued) {
 			m_screenshotQueued = false;
 			Screenshot();
 		}
@@ -342,6 +346,9 @@ void ModelViewer::PollEvents()
 				break;
 			case SDLK_SPACE:
 				ResetCamera();
+				break;
+			case SDLK_TAB:
+				m_options.showUI = !m_options.showUI;
 				break;
 			case SDLK_PRINT:
 				m_screenshotQueued = true;

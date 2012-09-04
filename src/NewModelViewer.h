@@ -39,6 +39,7 @@ private:
 	//toggleable options
 	struct Options {
 		bool showGrid;
+		bool showUI;
 		float gridInterval;
 		int lightPreset;
 
