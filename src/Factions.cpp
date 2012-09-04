@@ -7,11 +7,10 @@
 #include "LuaConstants.h"
 #include "Polit.h"
 #include "FileSystem.h"
-#include <map>
 
-typedef std::map<std::string, Faction*>				FactionMap;
-typedef std::map<std::string, Faction*>::iterator	FactionMapIterator;
-std::map<std::string, Faction*>						s_factionMap;
+typedef std::vector<Faction*>	TFactions;
+typedef TFactions::iterator		TFactionsIterator;
+TFactions						s_factions;
 
 // ------- Faction --------
 
@@ -141,7 +140,7 @@ static int l_csys_add_to_factions(lua_State *L)
 
 	printf("l_csys_add_to_factions: %s added under name: %s\n", (*csptr)->name.c_str(), FactionName.c_str());
 
-	s_factionMap[FactionName] = (*csptr);
+	s_factions.push_back(*csptr);
 	*csptr = 0;
 	return 0;
 }
@@ -239,26 +238,38 @@ void Faction::Init()
 	LUA_DEBUG_END(L, 0);
 	lua_close(L);
 
-	printf("Number of factions added: %u\n", s_factionMap.size());
+	printf("Number of factions added: %u\n", s_factions.size());
 }
 
 //static 
 void Faction::Uninit()
 {
-	for (FactionMapIterator facIter = s_factionMap.begin(); facIter != s_factionMap.end(); ++facIter) {
-		delete (*facIter).second;
+	for (TFactionsIterator facIter = s_factions.begin(); facIter != s_factions.end(); ++facIter) {
+		delete (*facIter);
 	}
-	s_factionMap.clear();
+	s_factions.clear();
 }
 
 //static 
 const Faction *Faction::GetFaction(const std::string &nameIdx)
 {
-	return (s_factionMap[nameIdx]) ? s_factionMap[nameIdx] : NULL;
+	for (TFactionsIterator facIter = s_factions.begin(); facIter != s_factions.end(); ++facIter) {
+		if( (*facIter)->name == nameIdx ) {
+			delete (*facIter);
+		}
+	}
+	return NULL;
 }
 
 //static 
-const Faction *Faction::GetNearestFaction(const SystemPath& sysPath)
+const Faction *Faction::GetFaction(const Uint32 index)
+{
+	assert( index<s_factions.size() );
+	return s_factions[index];
+}
+
+//static 
+const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 {
 	// Iterate through all of the factions and find the one nearest to the system we're checking it against.
 	const vector3f sysPos(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
@@ -272,14 +283,16 @@ const Faction *Faction::GetNearestFaction(const SystemPath& sysPath)
 	const double current_year = 3200;//get_year(Pi::game->GetTime());
 
 	// iterate
-	for (FactionMapIterator facIter = s_factionMap.begin(); facIter != s_factionMap.end(); ++facIter) {
-		const Faction *ptr = (*facIter).second;
+	Uint32 ret_index = 0;
+	for (Uint32 index = 0;  index<s_factions.size(); ++index) {
+		const Faction *ptr = s_factions[index];
 		assert(ptr);
 		if( !ptr->hasHomeworld && nullptr==pFoundFaction )
 		{
 			// We've not yet found a faction that we're within the radius of
 			// and we're currently iterating over a faction that is decentralised (probably Independent)
 			pFoundFaction = ptr;
+			ret_index = index;
 		}
 		else if( ptr->hasHomeworld )
 		{
@@ -287,7 +300,7 @@ const Faction *Faction::GetNearestFaction(const SystemPath& sysPath)
 			// or should this be ptr->homeworld.IsSameSystem(sysPath) ???
 			if( ptr->homeworld.IsSameSector(sysPath) ) { 
 				pFoundFaction = ptr;
-				return pFoundFaction;
+				return index;
 			}
 
 			// get the distance
@@ -301,11 +314,12 @@ const Faction *Faction::GetNearestFaction(const SystemPath& sysPath)
 			if( distance <= radius && distance < nearestDistance ) {
 				nearestDistance = distance;
 				pFoundFaction = ptr;
+				ret_index = index;
 			}
 		}
 	}
 
-	return pFoundFaction;
+	return ret_index;
 }
 
 Faction::Faction() :

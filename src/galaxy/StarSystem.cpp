@@ -1,5 +1,6 @@
 #include "StarSystem.h"
 #include "Sector.h"
+#include "Factions.h"
 
 #include "Serializer.h"
 #include "Pi.h"
@@ -1296,7 +1297,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(const SystemPath &path) : m_path(path)
+StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(0)
 {
 	assert(path.IsSystemPath());
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
@@ -1872,6 +1873,11 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 	}
 }
 
+const char *StarSystem::GetFactionName() const { 
+	const Faction *ptr = Faction::GetFaction(m_factionIdx);
+	return ptr ? ptr->name.c_str() : "";
+}
+
 /* percent */
 #define MAX_COMMODITY_BASE_PRICE_ADJUSTMENT 25
 
@@ -1888,6 +1894,9 @@ void StarSystem::Populate(bool addSpaceStations)
 	m_econType = ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
 	m_agricultural = 0;
+
+	// find the faction we're probably aligned with
+	m_factionIdx = Faction::GetNearestFactionIndex(m_path);
 
 	/* system attributes */
 	m_totalPop = fixed(0);

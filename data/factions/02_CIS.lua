@@ -1,0 +1,11 @@
+local f = Faction:new('Confederation of Independent Systems')
+	:description_short('Socially democratic grouping of independent Star Systems')
+	:description('Socially democratic grouping of independent Star Systems, I dunno, added them because they seem hard coded into the politics.')
+	:govtype('CISSOCDEM')
+	:homeworld(6,12,0,1,3)
+	:foundingDate(3125.0)
+	:expansionRate(1.0)
+	:military_name('Independent Fleet')
+	:police_name('Federal Police')
+
+f:add_to_factions('CIS')

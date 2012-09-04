@@ -200,10 +200,12 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 		if (path == SystemPath(0,0,0,0)) {
 			a = Polit::GOV_EARTHDEMOC;
 		} else if (human_infestedness > 0) {
-			const Faction *pFaction = Faction::GetNearestFaction(path);
+			const Faction *pFaction = Faction::GetFaction( s->GetFactionIndex() );
 			if( pFaction && GOV_INVALID != pFaction->govType ) {
+				// found valid faction
 				a = pFaction->govType;
 			} else {
+				// found an invalid faction, meaning index 0 and thus independent, pick something at random
 				a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
 			}
 		} else {

@@ -13,7 +13,8 @@ public:
 
 	// XXX this is not as const-safe as it should be
 	static const Faction *GetFaction(const std::string& nameIdx);
-	static const Faction *GetNearestFaction(const SystemPath& sysPath);
+	static const Faction *GetFaction(const Uint32 index);
+	static const Uint32 GetNearestFactionIndex(const SystemPath& sysPath);
 
 	Faction();
 	~Faction();
