@@ -2,6 +2,7 @@
 #include "FileSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
+#include "graphics/TextureBuilder.h"
 #include "newmodel/Newmodel.h"
 #include "OS.h"
 #include "Pi.h"
@@ -49,6 +50,12 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 	m_keyStates.fill(false);
 	m_mouseMotion.fill(0);
 	m_mouseButton.fill(false);
+
+	//sweet pioneer badge for decal testing
+	m_decalTexture = Graphics::TextureBuilder(
+		"icons/badge.png",
+		Graphics::LINEAR_CLAMP,
+		true, true, false).GetOrCreateTexture(m_renderer, "model");
 }
 
 ModelViewer::~ModelViewer()
@@ -133,9 +140,9 @@ bool ModelViewer::OnToggleGrid(UI::Widget *)
 			m_options.gridInterval = 0.0f;
 		}
 	}
-	/*AddLog(m_options.showGrid
+	AddLog(m_options.showGrid
 		? stringf("Grid: %0{d}", int(m_options.gridInterval))
-		: "Grid: off");*/
+		: "Grid: off");
 	return m_options.showGrid;
 }
 
@@ -301,6 +308,11 @@ void ModelViewer::MainLoop()
 	}
 }
 
+void ModelViewer::OnLightPresetChanged(unsigned int index, const std::string &)
+{
+	m_options.lightPreset = std::min<unsigned int>(index, 2);
+}
+
 void ModelViewer::PollEvents()
 {
 	/*
@@ -404,6 +416,7 @@ void ModelViewer::SetModel(const std::string &filename)
 		//needed to get camera distance right
 		m_collMesh = m_model->CreateCollisionMesh(0);
 		m_modelName = filename;
+		m_model->SetDecalTexture(m_decalTexture, 0);
 		AddLog("Done.");
 	} catch (Newmodel::LoadingError &err) {
 		// report the error and show model picker.
@@ -435,20 +448,23 @@ void ModelViewer::SetupUI()
 	box->PackEnd(nameLabel = m_ui->Label("Pie"));
 	add_pair(m_ui, box, reloadButton = m_ui->Button(), "Reload model");
 	add_pair(m_ui, box, toggleGridButton = m_ui->Button(), "Grid mode");
-	/*box->PackEnd(
-		m_ui->HBox()->PackEnd(
-			UI::WidgetSet(
-				toggleGridButton = m_ui->Button(),
-				m_ui->Label("Grid mode")
-			)
-		)
-	);*/
+
+	//light dropdown
+	UI::DropDown *lightSelector;
+	box->PackEnd(m_ui->Label("Lights:"));
+	box->PackEnd(
+		lightSelector = m_ui->DropDown()
+			->AddOption("1  Front white")
+			->AddOption("2  Two-point")
+			->AddOption("3  Backlight")
+	);
 	m_ui->SetInnerWidget(box);
 	m_ui->Layout();
 
 	//event handlers
 	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));
 	reloadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnReloadModel), reloadButton));
+	lightSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnLightPresetChanged));
 }
 
 void ModelViewer::UpdateCamera()

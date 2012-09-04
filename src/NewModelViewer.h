@@ -6,6 +6,7 @@
  */
 #include "libs.h"
 #include "graphics/Renderer.h"
+#include "graphics/Texture.h"
 #include "LmrTypes.h"
 #include "LuaManager.h"
 #include "newmodel/NModel.h"
@@ -28,6 +29,7 @@ private:
 	void DrawLog();
 	void DrawModel();
 	void MainLoop();
+	void OnLightPresetChanged(unsigned int index, const std::string &);
 	void PollEvents();
 	void ResetCamera();
 	void Screenshot();
@@ -50,6 +52,7 @@ private:
 	CollMesh *m_collMesh;
 	float m_frameTime;
 	Graphics::Renderer *m_renderer;
+	Graphics::Texture *m_decalTexture;
 	int m_height;
 	int m_width;
 	matrix4x4f m_modelRot;
@@ -63,11 +66,12 @@ private:
 	vector3f m_camPos;
 
 	//undecided on this input stuff
+	//updating the states of all inputs during PollEvents
 	std::array<bool, SDLK_LAST> m_keyStates;
 	std::array<int, 2> m_mouseMotion;
 	std::array<bool, SDL_BUTTON_WHEELDOWN + 1> m_mouseButton; //buttons + scroll start at 1
 
-	//unorganized interface stuff
+	//interface stuff that needs to be accessed later (unorganized)
 	UI::Label *nameLabel;
 };
 
