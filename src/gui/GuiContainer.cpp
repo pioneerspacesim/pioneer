@@ -124,7 +124,7 @@ void Container::PrependChild(Widget *child, float x, float y)
 	child->SetParent(this);
 	m_children.push_front(wp);
 }
-	
+
 void Container::AppendChild(Widget *child, float x, float y)
 {
 	widget_pos wp;
@@ -157,7 +157,7 @@ void Container::RemoveChild(Widget *child)
 	}
 }
 
-	
+
 void Container::Draw()
 {
 	float size[2];
@@ -195,7 +195,7 @@ void Container::Draw()
 #ifdef GUI_DEBUG_CONTAINER
 		float csize[2];
 		(*i).w->GetSize(csize);
-		
+
 		glBegin(GL_LINE_LOOP);
 			glColor3f(0,0,1);
 			glVertex2f(0, csize[1]);

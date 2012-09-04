@@ -4,7 +4,7 @@
 #define BUTTON_SIZE	16
 
 namespace Gui {
-Button::Button() 
+Button::Button()
 {
 	m_isPressed = false;
 	m_eventMask = EVENT_MOUSEDOWN | EVENT_MOUSEUP | EVENT_MOUSEMOTION;

@@ -59,7 +59,7 @@ void AmbientSounds::Update()
 			// just use a random station noise until we have a
 			// concept of 'station size'
 			stationNoise.Play(sounds[Pi::player->GetDockedWith()->GetSystemBody()->seed % 3],
-					0.3f*v_env, 0.3f*v_env, true);
+					0.3f*v_env, 0.3f*v_env, Sound::OP_REPEAT);
 		}
 	} else if (Pi::player->GetFlightState() == Ship::LANDED) {
 		/* Planet surface noise on rough-landing */
@@ -149,7 +149,7 @@ void AmbientSounds::Update()
 					starNoise = Sound::Event();
 				}
 			}
-		} 
+		}
 		// when all the sounds are in we can use the body we are in frame of reference to
 		if (!starNoise.IsPlaying()) {
 			Frame *f = Pi::player->GetFrame();

@@ -7,7 +7,7 @@
 #include "GeoSphere.h"
 #include "terrain/Terrain.h"
 #include "Planet.h"
-#include "Light.h"
+#include "graphics/Light.h"
 #include "graphics/Renderer.h"
 
 #if WITH_OBJECTVIEWER
@@ -17,7 +17,7 @@ ObjectViewerView::ObjectViewerView(): View()
 	SetTransparency(true);
 	viewingDist = 1000.0f;
 	m_camRot = matrix4x4d::Identity();
-	
+
 	m_infoLabel = new Gui::Label("");
 	Add(m_infoLabel, 2, Gui::Screen::GetHeight()-66-Gui::Screen::GetFontHeight());
 
@@ -89,8 +89,8 @@ void ObjectViewerView::Draw3D()
 	m_renderer->SetPerspectiveProjection(75.f, Pi::GetScrAspect(), znear, zfar);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
-	Light light;
-	light.SetType(Light::LIGHT_DIRECTIONAL);
+	Graphics::Light light;
+	light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);
 
 	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int m[2];
@@ -98,7 +98,7 @@ void ObjectViewerView::Draw3D()
 		m_camRot = matrix4x4d::RotateXMatrix(-0.002*m[1]) *
 				matrix4x4d::RotateYMatrix(-0.002*m[0]) * m_camRot;
 	}
-		
+
 	Body *body = Pi::player->GetNavTarget();
 	if (body) {
 		if (body->IsType(Object::STAR))
@@ -107,8 +107,8 @@ void ObjectViewerView::Draw3D()
 			light.SetPosition(vector3f(0.577f));
 		}
 		m_renderer->SetLights(1, &light);
-	
-		body->Render(m_renderer, vector3d(0,0,-viewingDist), m_camRot);
+
+		body->Render(m_renderer, 0, vector3d(0,0,-viewingDist), m_camRot);
 	}
 }
 

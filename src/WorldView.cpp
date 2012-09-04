@@ -49,7 +49,7 @@ void WorldView::InitObject()
 {
 	float size[2];
 	GetSizeRequested(size);
-	
+
 	m_showTargetActionsTimeout = 0;
 	m_showLowThrustPowerTimeout = 0;
 	m_numLights = 1;
@@ -81,7 +81,7 @@ void WorldView::InitObject()
 	m_lowThrustPowerOptions = new Gui::Fixed(size[0], size[1]/2);
 	m_lowThrustPowerOptions->SetTransparency(true);
 	Add(m_lowThrustPowerOptions, 10, 200);
-	for (int i = 0; i < int(sizeof(LOW_THRUST_LEVELS)/sizeof(LOW_THRUST_LEVELS[0])); ++i) {
+	for (int i = 0; i < int(COUNTOF(LOW_THRUST_LEVELS)); ++i) {
 		assert(i < 9); // otherwise the shortcuts break
 		const int ypos = i*32;
 
@@ -104,24 +104,28 @@ void WorldView::InitObject()
 	m_wheelsButton->AddState(0, "icons/wheels_up.png", Lang::WHEELS_ARE_UP);
 	m_wheelsButton->AddState(1, "icons/wheels_down.png", Lang::WHEELS_ARE_DOWN);
 	m_wheelsButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeWheelsState));
+	m_wheelsButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_wheelsButton, 34, 2);
 
 	Gui::ImageButton *set_low_thrust_power_button = new Gui::ImageButton("icons/set_low_thrust_power.png");
 	set_low_thrust_power_button->SetShortcut(SDLK_F8, KMOD_NONE);
 	set_low_thrust_power_button->SetToolTip(Lang::SELECT_LOW_THRUST_POWER_LEVEL);
 	set_low_thrust_power_button->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickLowThrustPower));
+	set_low_thrust_power_button->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(set_low_thrust_power_button, 98, 2);
 
 	m_hyperspaceButton = new Gui::ImageButton("icons/hyperspace_f8.png");
 	m_hyperspaceButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_hyperspaceButton->SetToolTip(Lang::HYPERSPACE_JUMP);
 	m_hyperspaceButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickHyperspace));
+	m_hyperspaceButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_hyperspaceButton, 66, 2);
 
 	m_launchButton = new Gui::ImageButton("icons/blastoff.png");
 	m_launchButton->SetShortcut(SDLK_F5, KMOD_NONE);
 	m_launchButton->SetToolTip(Lang::TAKEOFF);
 	m_launchButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickBlastoff));
+	m_launchButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_launchButton, 2, 2);
 
 	m_flightControlButton = new Gui::MultiStateImageButton();
@@ -133,6 +137,7 @@ void WorldView::InitObject()
 	m_flightControlButton->AddState(CONTROL_FIXHEADING_BACKWARD, "icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
 	m_flightControlButton->AddState(CONTROL_AUTOPILOT, "icons/autopilot.png", Lang::AUTOPILOT_ON);
 	m_flightControlButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeFlightState));
+	m_flightControlButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
 
 	m_flightStatus = (new Gui::Label(""))->Color(1.0f, 0.7f, 0.0f);
@@ -206,7 +211,7 @@ void WorldView::InitObject()
 	m_externalCamera = new ExternalCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_siderealCamera = new SiderealCamera(Pi::player, camSize, fovY, znear, zfar);
 	SetCamType(m_camType); //set the active camera
-	
+
 	m_onHyperspaceTargetChangedCon =
 		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
 
@@ -374,18 +379,19 @@ void WorldView::RefreshHyperspaceButton() {
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	Pi::cpan->ClearOverlay();
-	if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
-	}
 
 	if (!Pi::player || Pi::player->IsDead() || !Pi::game) {
 		HideAll();
 		return;
 	}
 	else {
+		if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
+			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
+			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
+			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
+			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
+		}
+
 		m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
 
 		RefreshHyperspaceButton();
@@ -396,7 +402,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				m_launchButton->Show();
 				m_flightControlButton->Hide();
 				break;
-				
+
 			case Ship::DOCKING:
 				m_flightStatus->SetText(Lang::DOCKING);
 				m_launchButton->Hide();
@@ -567,7 +573,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				double pressure, density;
 				reinterpret_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);
 
-				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_BAR, formatarg("pressure", pressure)));
+				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
 
 				m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
 				m_hudHullTemp->Show();
@@ -1150,7 +1156,7 @@ void WorldView::UpdateProjectedObjects()
 			HideIndicator(m_velIndicator);
 
 		// navtarget distance/target square indicator (displayed with navtarget label)
-		double dist = (navtarget->GetTargetIndicatorPosition(cam_frame) 
+		double dist = (navtarget->GetTargetIndicatorPosition(cam_frame)
 			- Pi::player->GetPositionRelTo(cam_frame)).Length();
 		m_navTargetIndicator.label->SetText(format_distance(dist).c_str());
 		UpdateIndicator(m_navTargetIndicator, navtarget->GetTargetIndicatorPosition(cam_frame));
@@ -1484,7 +1490,7 @@ void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)
 		vector2f(px, py+sz),
 		vector2f(px, py+0.5f*sz)
 	};
-	m_renderer->DrawLines2D(8, vts, c);
+	m_renderer->DrawLines2D(COUNTOF(vts), vts, c);
 }
 
 void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c)
@@ -1522,7 +1528,7 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 
 			// lead crosshairs
 			vector2f(x2-10*xd, y2-10*yd),
-			vector2f(x2+10*xd, y2+10*yd),  
+			vector2f(x2+10*xd, y2+10*yd),
 			vector2f(x2-10*yd, y2+10*xd),
 			vector2f(x2+10*yd, y2-10*xd),
 
@@ -1559,7 +1565,7 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 		vector2f(x2, y2),
 		vector2f(x1, y2)
 	};
-	m_renderer->DrawLines2D(4, vts, c, Graphics::LINE_LOOP);
+	m_renderer->DrawLines2D(COUNTOF(vts), vts, c, Graphics::LINE_LOOP);
 }
 
 void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
@@ -1580,7 +1586,7 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
 			vector2f(posx-sz, posy+sz),
 			vector2f(posx-0.5f*sz, posy+0.5f*sz)
 		};
-		m_renderer->DrawLines2D(8, vts, c);
+		m_renderer->DrawLines2D(COUNTOF(vts), vts, c);
 	} else
 		DrawEdgeMarker(marker, c);
 
@@ -1693,7 +1699,8 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 		c,
 		black
 	};
-	m_worldView->m_renderer->DrawLines(8, vts, col, Graphics::LINE_LOOP);
+	assert(COUNTOF(col) == COUNTOF(vts));
+	m_worldView->m_renderer->DrawLines(COUNTOF(vts), vts, col, Graphics::LINE_LOOP);
 }
 
 void NavTunnelWidget::GetSizeRequested(float size[2]) {

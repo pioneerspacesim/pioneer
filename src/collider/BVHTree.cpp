@@ -74,9 +74,9 @@ void BVHTree::BuildNode(BVHNode *node,
 
 	for (;;) {
 		splitAxis = 0;
-	
+
 		vector3d boxSize = splitBox.max - splitBox.min;
-	
+
 		if (boxSize[1] > boxSize[0]) splitAxis = 1;
 		if ((boxSize[2] > boxSize[1]) && (boxSize[2] > boxSize[0])) splitAxis = 2;
 

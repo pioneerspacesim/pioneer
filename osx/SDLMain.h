@@ -13,5 +13,5 @@
 @end
 
 @interface SDLApplication : NSApplication
-- (IBAction) terminate:(id)sender;
+
 @end

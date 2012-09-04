@@ -43,7 +43,7 @@ public:
 	};
 	const Edge *GetEdges() const { return m_edges; }
 	int GetNumEdges() const { return m_numEdges; }
-	
+
 	const int m_numVertices;
 	const float *m_vertices;
 	static int stats_rayTriIntersections;
@@ -55,7 +55,7 @@ private:
 
 	double m_radius;
 	Aabb m_aabb;
-	
+
 	int m_numEdges;
 	Edge *m_edges;
 

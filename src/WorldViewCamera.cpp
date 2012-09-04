@@ -71,7 +71,7 @@ void ExternalCamera::RotateRight(float frameTime)
 
 void ExternalCamera::ZoomIn(float frameTime)
 {
-	
+
 	m_dist -= 400*frameTime;
 	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
 }

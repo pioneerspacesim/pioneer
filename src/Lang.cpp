@@ -203,7 +203,7 @@ static std::vector<std::string> EnumAvailableLanguages()
 	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "lang"); !files.Finished(); files.Next()) {
 		assert(files.Current().IsFile());
 		const std::string &path = files.Current().GetPath();
-		if ((path.size() > 4) && (path.substr(path.size() - 4) == ".txt")) {
+		if (ends_with(path, ".txt")) {
 			const std::string name = files.Current().GetName();
 			languages.push_back(name.substr(0, name.size() - 4));
 		}

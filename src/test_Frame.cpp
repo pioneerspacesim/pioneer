@@ -34,10 +34,10 @@ void test_frames()
 	vector3d a,b;
 	Frame *root = new Frame(0, "Root");
 	Space::rootFrame = root;
-	
+
 	Frame *fa1 = new Frame(root, "Fa1");
 	fa1->SetVelocity(vector3d(0,0,10));
-	
+
 	Frame *fa2 = new Frame(fa1, "Fa2");
 	fa2->SetVelocity(vector3d(0,0,1));
 
@@ -46,7 +46,7 @@ void test_frames()
 
 	Frame *fb2 = new Frame(fb1, "Fb2");
 	fb2->SetVelocity(vector3d(0,0,5));
-		
+
 	a = Frame::GetFrameRelativeVelocity(fb1, root);
 	b = Frame::GetFrameRelativeVelocity(root, fb1);
 	test(a, vector3d(0,0,-10));
@@ -61,20 +61,20 @@ void test_frames()
 	test(a, vector3d(0, 0, -4));
 	test(b, vector3d(0, 0, 4));
 
-	
+
 	// ----------- make some frames rotated --------
 	m = matrix4x4d::RotateYMatrix(M_PI/2);
 	fb2->SetOrientation(m);
 	m = matrix4x4d::RotateYMatrix(M_PI);
 	fb1->SetOrientation(m);
-	
+
 	a = Frame::GetFrameRelativeVelocity(fb2, root);
 	b = Frame::GetFrameRelativeVelocity(root, fb2);
 	test(a, vector3d(-10, 0, -5));
 	test(b, vector3d(5, 0, -10));
 
-	a = Frame::GetFrameRelativeVelocity(fb2, fa2);	
-	b = Frame::GetFrameRelativeVelocity(fa2, fb2);	
+	a = Frame::GetFrameRelativeVelocity(fb2, fa2);
+	b = Frame::GetFrameRelativeVelocity(fa2, fb2);
 	test(a, vector3d(-21, 0, -5));
 	test(b, vector3d(5, 0, -21));
 }

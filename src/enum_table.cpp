@@ -3,6 +3,7 @@
 
 #include "enum_table.h"
 #include "EquipType.h"
+#include "LuaFileSystem.h"
 #include "Player.h"
 #include "Polit.h"
 #include "Ship.h"
@@ -108,6 +109,12 @@ const struct EnumItem ENUM_EquipType[] = {
 	{ "MININGCANNON_17MW", Equip::MININGCANNON_17MW },
 	{ "SMALL_PLASMA_ACCEL", Equip::SMALL_PLASMA_ACCEL },
 	{ "LARGE_PLASMA_ACCEL", Equip::LARGE_PLASMA_ACCEL },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_FileSystemRoot[] = {
+	{ "USER", LuaFileSystem::ROOT_USER },
+	{ "DATA", LuaFileSystem::ROOT_DATA },
 	{ 0, 0 },
 };
 

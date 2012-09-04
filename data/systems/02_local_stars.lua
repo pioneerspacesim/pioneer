@@ -89,7 +89,7 @@ CustomSystem:new('Gliese 103',{'STAR_K'}):add_to_sector(2,-3,-4,v(0.113,0.352,0.
 CustomSystem:new('Upsilon Andromedae',{'STAR_F'}):add_to_sector(1,-4,3,v(0.688,0.243,0.632))
 CustomSystem:new('Luyten\'s Star',{'STAR_M'}):add_to_sector(1,0,0,v(0.431,0.574,0.141))
 CustomSystem:new('44 Boötis',{'STAR_G','STAR_G'}):add_to_sector(-3,2,3,v(0.482,0.436,0.844))
--- 44 Boötis B/C are a W-Ursae-Majoris-type shallow contact binary system, both G class, 
+-- 44 Boötis B/C are a W-Ursae-Majoris-type shallow contact binary system, both G class,
 CustomSystem:new('Gliese 22',{'STAR_M','STAR_M'}):add_to_sector(0,-2,3,v(0.225,0.418,0.807))
 CustomSystem:new('NN 4360',{'STAR_M'}):add_to_sector(-1,-4,-2,v(0.778,0.479,0.977))
 CustomSystem:new('Gliese 413.1',{'STAR_M'}):add_to_sector(0,3,-2,v(0.865,0.867,0.186))

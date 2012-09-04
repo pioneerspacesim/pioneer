@@ -58,6 +58,9 @@ public:
 	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
 	void SetNavTarget(Body* const target, bool setSpeedTo = false);
 
+	virtual Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
+	virtual void ResetHyperspaceCountdown();
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);

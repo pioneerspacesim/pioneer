@@ -9,7 +9,7 @@ class StationAdvertForm : public ChatForm {
 public:
 	StationAdvertForm(FormController *controller, SpaceStation *station, const BBAdvert &ad) :
 		ChatForm(controller), m_adTaken(false), m_station(station), m_advert(ad) { }
-	
+
 	virtual void OnOptionClicked(int option) = 0;
 
 	bool AdTaken() { return m_adTaken; }

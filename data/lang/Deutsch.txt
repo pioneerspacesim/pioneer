@@ -1073,8 +1073,8 @@ IN_TRANSIT_TO_N_X_X_X
     Auf dem Weg nach %system [%x,%y,%z]
 ALT_IN_METRES
     Höhe: %altitude{f.0}m
-PRESSURE_N_BAR
-    Druck: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    Druck: %pressure{f.2} atm
 NO_HYPERDRIVE
     Kein Hyperraumantrieb
 MASS_N_TONNES

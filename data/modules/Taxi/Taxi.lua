@@ -335,13 +335,13 @@ local unserialize = function (data)
 	loaded_data = data
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onUpdateBB:Connect(onUpdateBB)
-EventQueue.onEnterSystem:Connect(onEnterSystem)
-EventQueue.onLeaveSystem:Connect(onLeaveSystem)
-EventQueue.onShipUndocked:Connect(onShipUndocked)
-EventQueue.onShipDocked:Connect(onShipDocked)
-EventQueue.onGameStart:Connect(onGameStart)
-EventQueue.onGameEnd:Connect(onGameEnd)
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onUpdateBB", onUpdateBB)
+Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onLeaveSystem", onLeaveSystem)
+Event.Register("onShipUndocked", onShipUndocked)
+Event.Register("onShipDocked", onShipDocked)
+Event.Register("onGameStart", onGameStart)
+Event.Register("onGameEnd", onGameEnd)
 
 Serializer:Register("Taxi", serialize, unserialize)

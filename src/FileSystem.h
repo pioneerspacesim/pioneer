@@ -176,6 +176,9 @@ namespace FileSystem {
 		FileSourceUnion();
 		~FileSourceUnion();
 
+		// add and remove sources
+		// note: order is important. The array of sources works like a PATH array:
+		// that is, earlier sources take priority over later sources
 		void PrependSource(FileSource *fs);
 		void AppendSource(FileSource *fs);
 		void RemoveSource(FileSource *fs);

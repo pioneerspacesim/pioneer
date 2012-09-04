@@ -216,7 +216,7 @@ int l_shiptype_get_equip_slot_capacity(lua_State *l)
  *
  * Example:
  *
- * > local shiptype = ShipType.GetShipType("Eagle Long Range Fighter")
+ * > local shiptype = ShipType.GetShipType("eagle_lrf")
  *
  * Availability:
  *
@@ -233,7 +233,7 @@ static int l_shiptype_get_ship_type(lua_State *l)
 	std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.find(type);
 	if (i == ShipType::types.end())
 		luaL_error(l, "Invalid ship name '%s'", type);
-	
+
 	LuaShipType::PushToLua(&((*i).second));
 	return 1;
 }
@@ -292,11 +292,10 @@ static int l_shiptype_get_ship_types(lua_State *l)
 		luaL_checktype(l, 2, LUA_TFUNCTION); // any type of function
 		filter = true;
 	}
-	
+
 	lua_newtable(l);
-	pi_lua_table_ro(l);
-	
-	for (std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.begin(); i != ShipType::types.end(); i++)
+
+	for (std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.begin(); i != ShipType::types.end(); ++i)
 	{
 		ShipType *st = &((*i).second);
 		if (tag == ShipType::TAG_NONE || tag == st->tag) {

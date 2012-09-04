@@ -20,13 +20,14 @@
 #include "Lang.h"
 #include "Game.h"
 #include "MathUtil.h"
+#include "LuaEvent.h"
 
 Space::Space(Game *game)
 	: m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
-	, m_background(UNIVERSE_SEED)
+	, m_background(Pi::renderer, UNIVERSE_SEED)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -40,6 +41,7 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
+	, m_background(Pi::renderer)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -62,6 +64,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
+	, m_background(Pi::renderer)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -180,7 +183,7 @@ void Space::RebuildFrameIndex()
 
 	if (m_rootFrame)
 		AddFrameToIndex(m_rootFrame.Get());
-	
+
 	m_frameIndexValid = true;
 }
 
@@ -315,7 +318,7 @@ static Frame *find_frame_with_sbody(Frame *f, const SystemBody *b)
 	else {
 		for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
-			
+
 			Frame *found = find_frame_with_sbody(*i, b);
 			if (found) return found;
 		}
@@ -368,7 +371,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		//printf("\t\t\t%s has frame size %.0fkm, body radius %.0fkm\n", sbody->name.c_str(),
 		//	(frameRadius ? frameRadius : 10*sbody->GetRadius())*0.001f,
 		//	sbody->GetRadius()*0.001f);
-	
+
 		assert(sbody->rotationPeriod != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		// rotating frame has size of GeoSphere terrain bounding sphere
@@ -396,7 +399,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		orbFrame->m_sbody = sbody;
 //		orbFrame->SetRadius(10*sbody->GetRadius());
 		orbFrame->SetRadius(frameRadius);
-	
+
 		assert(sbody->rotationPeriod != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		rotFrame->SetRadius(1000.0);
@@ -506,7 +509,7 @@ static void hitCallback(CollisionContact *c)
 		const vector3d linVel2 = b2->GetVelocity();
 		const vector3d angVel1 = b1->GetAngVelocity();
 		const vector3d angVel2 = b2->GetAngVelocity();
-		
+
 		const double coeff_rest = 0.5;
 		// step back
 //		mover->UndoTimestep();
@@ -531,7 +534,7 @@ static void hitCallback(CollisionContact *c)
 
 		const double j = numerator / (term1 + term2 + term3 + term4);
 		const vector3d force = j * c->normal;
-					
+
 		b1->SetVelocity(linVel1 + force*invMass1);
 		b1->SetAngVelocity(angVel1 + hitPos1.Cross(force)*invAngInert1);
 		b2->SetVelocity(linVel2 - force*invMass2);
@@ -552,7 +555,7 @@ static void hitCallback(CollisionContact *c)
 		const double coeff_rest = 0.5;
 		const vector3d linVel1 = mover->GetVelocity();
 		const vector3d angVel1 = mover->GetAngVelocity();
-		
+
 		// step back
 //		mover->UndoTimestep();
 
@@ -570,7 +573,7 @@ static void hitCallback(CollisionContact *c)
 
 		const double j = numerator / (term1 + term3);
 		const vector3d force = j * c->normal;
-					
+
 		mover->SetVelocity(linVel1 + force*invMass1);
 		mover->SetAngVelocity(angVel1 + hitPos1.Cross(force)*invAngInert);
 	}
@@ -645,33 +648,14 @@ void Space::TimeStep(float step)
 
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
-	
+
 	// XXX don't emit events in hyperspace. this is mostly to maintain the
 	// status quo. in particular without this onEnterSystem will fire in the
 	// frame immediately before the player leaves hyperspace and the system is
 	// invalid when Lua goes and queries for it. we need to consider whether
 	// there's anything useful that can be done with events in hyperspace
 	if (m_starSystem) {
-		Pi::luaOnEnterSystem->Emit();
-		Pi::luaOnLeaveSystem->Emit();
-		Pi::luaOnFrameChanged->Emit();
-		Pi::luaOnShipHit->Emit();
-		Pi::luaOnShipCollided->Emit();
-		Pi::luaOnShipDestroyed->Emit();
-		Pi::luaOnShipDocked->Emit();
-		Pi::luaOnShipAlertChanged->Emit();
-		Pi::luaOnShipUndocked->Emit();
-		Pi::luaOnShipLanded->Emit();
-		Pi::luaOnShipTakeOff->Emit();
-		Pi::luaOnJettison->Emit();
-		Pi::luaOnCargoUnload->Emit();
-		Pi::luaOnAICompleted->Emit();
-		Pi::luaOnCreateBB->Emit();
-		Pi::luaOnUpdateBB->Emit();
-		Pi::luaOnShipFlavourChanged->Emit();
-		Pi::luaOnShipEquipmentChanged->Emit();
-		Pi::luaOnShipFuelChanged->Emit();
-
+		LuaEvent::Emit();
 		Pi::luaTimer->Tick();
 	}
 

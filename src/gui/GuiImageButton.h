@@ -3,7 +3,7 @@
 
 #include "GuiWidget.h"
 #include "GuiButton.h"
-		
+
 #include <string>
 
 namespace Gui {
@@ -14,6 +14,7 @@ namespace Gui {
 		virtual void Draw();
 		virtual ~ImageButton();
 		virtual void GetSizeRequested(float size[2]);
+		void SetRenderDimensions(const float wide, const float high);
 	private:
 		void LoadImages(const char *img_normal, const char *img_pressed);
 		Image *m_imgNormal;

@@ -37,14 +37,14 @@ local onChat = function (form, ref, option)
 		local sbody = ad.location:GetSystemBody()
 
 		form:SetMessage(string.interp(t("{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."), {
-		  target    = ad.target, 
+		  target    = ad.target,
 		  spaceport = sbody.name,
-		  system    = sys.name, 
-		  sectorX   = ad.location.sectorX, 
-		  sectorY   = ad.location.sectorY, 
-		  sectorZ   = ad.location.sectorZ, 
-		  date      = Format.Date(ad.due), 
-		  shipname  = ad.shipname, 
+		  system    = sys.name,
+		  sectorX   = ad.location.sectorX,
+		  sectorY   = ad.location.sectorY,
+		  sectorZ   = ad.location.sectorZ,
+		  date      = Format.Date(ad.due),
+		  shipname  = ad.shipname,
 		  shipregid = ad.shipregid,
 		  })
 		)
@@ -53,7 +53,7 @@ local onChat = function (form, ref, option)
 		local sbody = ad.location:GetSystemBody()
 
 		form:SetMessage(string.interp(t("It must be done after {target} leaves {spaceport}. Do not miss this opportunity."), {
-		  target    = ad.target, 
+		  target    = ad.target,
 		  spaceport = sbody.name,
       })
     )
@@ -124,7 +124,8 @@ local makeAdvert = function (station)
 	local due = Game.time + Engine.rand:Number(7*60*60*24, time * 31*60*60*24)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
-	local shiptypes = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= (danger * 17) end)
+	local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
+		return (t.hullMass >= (danger * 17)) and (t:GetEquipSlotCapacity('ATMOSHIELD') > 0) end)
 	local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
 
 	local ad = {
@@ -225,6 +226,7 @@ local onEnterSystem = function (ship)
 							return -- TODO
 						end
 						mission.ship:SetLabel(mission.shipregid)
+						mission.ship:AddEquip('ATMOSPHERIC_SHIELDING')
 						mission.ship:AddEquip(default_drive)
 						mission.ship:AddEquip(laser)
 						mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
@@ -374,7 +376,7 @@ local onUpdateBB = function (station)
 		makeAdvert(station)
 	end
 end
-	
+
 local loaded_data
 
 local onGameStart = function ()
@@ -415,17 +417,17 @@ local unserialize = function (data)
 	end
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onGameStart:Connect(onGameStart)
-EventQueue.onEnterSystem:Connect(onEnterSystem)
-EventQueue.onLeaveSystem:Connect(onLeaveSystem)
-EventQueue.onShipDestroyed:Connect(onShipDestroyed)
-EventQueue.onShipUndocked:Connect(onShipUndocked)
-EventQueue.onAICompleted:Connect(onAICompleted)
-EventQueue.onShipDocked:Connect(onShipDocked)
-EventQueue.onShipHit:Connect(onShipHit)
-EventQueue.onUpdateBB:Connect(onUpdateBB)
-EventQueue.onGameEnd:Connect(onGameEnd)
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onGameStart", onGameStart)
+Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onLeaveSystem", onLeaveSystem)
+Event.Register("onShipDestroyed", onShipDestroyed)
+Event.Register("onShipUndocked", onShipUndocked)
+Event.Register("onAICompleted", onAICompleted)
+Event.Register("onShipDocked", onShipDocked)
+Event.Register("onShipHit", onShipHit)
+Event.Register("onUpdateBB", onUpdateBB)
+Event.Register("onGameEnd", onGameEnd)
 
 
 Serializer:Register("Assassination", serialize, unserialize)

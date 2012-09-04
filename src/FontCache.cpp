@@ -18,7 +18,7 @@ RefCountedPtr<Text::TextureFont> FontCache::GetTextureFont(const std::string &na
 	std::map< std::string,RefCountedPtr<Text::TextureFont> >::iterator i = m_textureFonts.find(name);
 	if (i != m_textureFonts.end())
 		return (*i).second;
-	
+
 	float scale[2];
 	Gui::Screen::GetCoords2Pixels(scale);
 

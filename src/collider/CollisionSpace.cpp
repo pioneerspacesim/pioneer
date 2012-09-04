@@ -6,12 +6,12 @@
 /* volnode!!!!!!!!!!! */
 struct BvhNode {
 	Aabb aabb;
-	
+
 	/* if geomStart == 0 then not leaf,
 	 * kids[] valid */
 	int numGeoms;
 	Geom **geomStart;
-	
+
 	BvhNode *kids[2];
 
 	BvhNode() {
@@ -42,7 +42,7 @@ struct BvhNode {
 
 };
 
-/* 
+/*
  * Tree of objects in collision space (one tree for static objects, one for
  * dynamic)
  */
@@ -168,7 +168,7 @@ void BvhTree::BuildNode(BvhNode *node, const std::list<Geom*> &a_geoms, int &out
 	node->numGeoms = numGeoms;
 	node->aabb = aabb;
 
-	// side 1 has all nodes. just make a fucking child 
+	// side 1 has all nodes. just make a fucking child
 	if ((side[0].size() == 0) || (side[1].size() == 0)) {
 		node->geomStart = &m_geoms[outGeomPos];
 
@@ -260,7 +260,7 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 {
 	vector3d invDir(1.0/dir.x, 1.0/dir.y, 1.0/dir.z);
 	c->dist = len;
-	
+
 	BvhNode *vn_stack[16];
 	BvhNode *node = m_staticObjectTree->m_root;
 	int stackPos = -1;
@@ -285,18 +285,18 @@ void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double
 				vector3d md = invTrans.ApplyRotationOnly(dir);
 				vector3f modelStart = vector3f(ms.x, ms.y, ms.z);
 				vector3f modelDir = vector3f(md.x, md.y, md.z);
-		
+
 				isect_t isect;
 				isect.dist = float(c->dist);
 				isect.triIdx = -1;
 				g->GetGeomTree()->TraceRay(modelStart, modelDir, &isect);
 				if (isect.triIdx != -1) {
 					c->pos = start + dir*double(isect.dist);
-					
+
 					vector3f n = g->GetGeomTree()->GetTriNormal(isect.triIdx);
 					c->normal = vector3d(n.x, n.y, n.z);
 					c->normal = g->GetTransform().ApplyRotationOnly(c->normal);
-					
+
 					c->depth = len - isect.dist;
 					c->triIdx = isect.triIdx;
 					c->userData1 = g->GetUserData();
@@ -323,18 +323,18 @@ pop_jizz:
 			vector3d md = invTrans.ApplyRotationOnly(dir);
 			vector3f modelStart = vector3f(ms.x, ms.y, ms.z);
 			vector3f modelDir = vector3f(md.x, md.y, md.z);
-	
+
 			isect_t isect;
 			isect.dist = float(c->dist);
 			isect.triIdx = -1;
 			(*i)->GetGeomTree()->TraceRay(modelStart, modelDir, &isect);
 			if (isect.triIdx != -1) {
 				c->pos = start + dir*double(isect.dist);
-				
+
 				vector3f n = (*i)->GetGeomTree()->GetTriNormal(isect.triIdx);
 				c->normal = vector3d(n.x, n.y, n.z);
 				c->normal = (*i)->GetTransform().ApplyRotationOnly(c->normal);
-				
+
 				c->depth = len - isect.dist;
 				c->triIdx = isect.triIdx;
 				c->userData1 = (*i)->GetUserData();
@@ -399,7 +399,7 @@ void CollisionSpace::RebuildObjectTrees()
 void CollisionSpace::Collide(void (*callback)(CollisionContact*))
 {
 	RebuildObjectTrees();
-	
+
 	int mailboxMin = 0;
 	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
 		(*i)->SetMailboxIndex(mailboxMin++);

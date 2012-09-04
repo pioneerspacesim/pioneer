@@ -21,4 +21,5 @@ libgalaxy_a_SOURCES = \
 	CustomSystem.cpp \
 	Galaxy.cpp \
 	Sector.cpp \
-	StarSystem.cpp
+	StarSystem.cpp \
+	SystemPath.cpp

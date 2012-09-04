@@ -66,9 +66,13 @@ void MultiStateImageButton::GetSizeRequested(float size[2])
 
 void MultiStateImageButton::Draw()
 {
+	float sz[2];
+	GetSize(sz);
 	if (m_isSelected) {
+		m_states[m_curState].activeImage->SetSize(sz[0], sz[1]);
 		m_states[m_curState].activeImage->Draw();
 	} else {
+		m_states[m_curState].inactiveImage->SetSize(sz[0], sz[1]);
 		m_states[m_curState].inactiveImage->Draw();
 	}
 }
@@ -99,6 +103,15 @@ void MultiStateImageButton::AddState(int state, const char *inactiveImage, const
 std::string MultiStateImageButton::GetOverrideTooltip()
 {
 	return m_states[m_curState].tooltip;
+}
+
+void MultiStateImageButton::SetRenderDimensions(const float wide, const float high)
+{
+	for (std::vector<State>::iterator i = m_states.begin(); i != m_states.end(); ++i) {
+		assert((*i).activeImage && (*i).inactiveImage);
+		(*i).activeImage->SetRenderDimensions(wide, high);
+		(*i).inactiveImage->SetRenderDimensions(wide, high);
+	}
 }
 
 }

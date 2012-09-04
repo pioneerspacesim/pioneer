@@ -138,7 +138,7 @@ define_model('caribou', {
 
 				if get_equipment('LASER', 1) then
 					use_material('steel')
-					call_model('largegun1',v(0,-2.56,-19),v(1,0,0),v(0,1,0),.34)
+					call_model('largegun1',v(0,-0.1,-16.5),v(1,0,0),v(0,1,0),.34)
 				end
 
 				if get_equipment('LASER', 2) then

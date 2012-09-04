@@ -14,7 +14,7 @@ namespace Gui {
 		virtual bool OnMouseDown(MouseButtonEvent *e);
 		virtual bool OnMouseUp(MouseButtonEvent *e);
 		virtual void OnActivate();
-		
+
 		// onClick only happens when press and release are both on widget (release can be elsewhere)
 		sigc::signal<void> onPress;
 		sigc::signal<void> onRelease;

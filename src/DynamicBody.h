@@ -13,13 +13,13 @@ public:
 	virtual ~DynamicBody();
 	virtual void SetRotMatrix(const matrix4x4d &r);
 	virtual void GetRotMatrix(matrix4x4d &m) const;
-	virtual void SetVelocity(vector3d v);
-	virtual void SetPosition(vector3d p);
+	virtual void SetVelocity(const vector3d &v);
+	virtual void SetPosition(const vector3d &p);
 	virtual vector3d GetPosition() const;
 	virtual vector3d GetVelocity() const;
 	matrix4x4d GetTransformRelTo(const Frame *relTo) const;
 	vector3d GetAngVelocity() const;
-	void SetAngVelocity(vector3d v);
+	void SetAngVelocity(const vector3d &v);
 	void SetMesh(ObjMesh *m);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	vector3d GetAngularMomentum() const;
@@ -33,19 +33,19 @@ public:
 	virtual void TimeStepUpdate(const float timeStep);
 	void CalcExternalForce();
 	void UndoTimestep();
-	
+
 	void SetMass(double);
-	void AddForce(const vector3d);
-	void AddTorque(const vector3d);
-	void SetForce(const vector3d);
-	void SetTorque(const vector3d);
+	void AddForce(const vector3d &);
+	void AddTorque(const vector3d &);
+	void SetForce(const vector3d &);
+	void SetTorque(const vector3d &);
 	vector3d GetLastForce() const { return m_lastForce; }
 	vector3d GetLastTorque() const { return m_lastTorque; }
 	// body-relative forces
-	void AddRelForce(const vector3d);
-	void AddRelTorque(const vector3d);
+	void AddRelForce(const vector3d &);
+	void AddRelTorque(const vector3d &);
 	vector3d GetExternalForce() const { return m_externalForce; }
-	vector3d GetAtmosForce() const { return m_atmosForce; }		
+	vector3d GetAtmosForce() const { return m_atmosForce; }
 	vector3d GetGravityForce() const { return m_gravityForce; }
 	virtual void UpdateInterpolatedTransform(double alpha);
 
@@ -69,7 +69,7 @@ private:
 	//
 	vector3d m_externalForce;
 	vector3d m_atmosForce;
-	vector3d m_gravityForce;	
+	vector3d m_gravityForce;
 	// for time accel reduction fudge
 	vector3d m_lastForce;
 	vector3d m_lastTorque;

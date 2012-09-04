@@ -16,7 +16,7 @@ define_model('lathed_tower', {
 		if lod == 2 then
 			cylinder(8, v(0,0,0), v(0,110,0), v(0,0,1), 8)
 		end
-		if lod == 3 then 
+		if lod == 3 then
 			for i = 0,10 do
 				tapered_cylinder(8, v(0,i*10,0), v(0,(i+1)*10,0),
 					v(0,0,1), math.abs(noise(5*i,0,0))*3+5,

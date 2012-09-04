@@ -23,6 +23,7 @@ namespace Gui {
 		void SetText(const std::string &text);
 		std::string GetText() const { return m_text; }
 		void SetCursorPos(int pos) { m_cursPos = Clamp(pos, 0, signed(m_text.size())); }
+		int GetCursorPos() const { return m_cursPos; };
 		virtual bool OnKeyPress(const SDL_keysym *);
 		virtual void Show() { GrabFocus(); Widget::Show(); }
 		virtual void GrabFocus();

@@ -256,7 +256,7 @@ DISPLAY_NAV_TUNNEL
 	Display navigation tunnel
 LANGUAGE_SELECTION
     Language (restart game to apply)
- 
+
 # Wares
 NONE
     None
@@ -328,14 +328,14 @@ RUBBISH
     Rubbish
 RADIOACTIVES
     Radioactive waste
- 
+
 # Hardware
 MISSILE_UNGUIDED
     R40 Unguided Rocket
 MISSILE_GUIDED
-    Guided Missile                                                     
+    Guided Missile
 MISSILE_SMART
-    Smart Missile                                                   
+    Smart Missile
 MISSILE_NAVAL
     Naval Missile
 ATMOSPHERIC_SHIELDING
@@ -596,7 +596,7 @@ POOR
     Poor
 AVERAGE
     Average
-ABOVE_AVERAGE 
+ABOVE_AVERAGE
     Above Average
 COMPETENT
     Competent
@@ -1011,7 +1011,9 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Demographics
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}.
+    Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}
+COUNT_ON_SURFACE
+    " (%surfacecount on surface)"
 BODY
     body
 BODIES
@@ -1047,7 +1049,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Semi-major axis
 TIME_POINT
-    Time point: 
+    Time point:
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     Unexplored system. System view unavailable.
 WHEELS_ARE_UP
@@ -1126,8 +1128,8 @@ PROBABILITY_OF_ARRIVAL_X_PERCENT
     Probability of arrival: %probability%%
 ALT_IN_METRES
     Alt: %altitude{f.0}m
-PRESSURE_N_BAR
-    P: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    P: %pressure{f.2} atm
 NO_HYPERDRIVE
     No hyperdrive
 MASS_N_TONNES

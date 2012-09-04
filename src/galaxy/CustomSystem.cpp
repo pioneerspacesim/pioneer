@@ -128,6 +128,35 @@ static int l_csb_height_map(lua_State *L)
 	return 1;
 }
 
+static int l_csb_rings(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	if (lua_isboolean(L, 2)) {
+		if (lua_toboolean(L, 2)) {
+			csb->ringStatus = CustomSystemBody::WANT_RINGS;
+		} else {
+			csb->ringStatus = CustomSystemBody::WANT_NO_RINGS;
+		}
+	} else {
+		csb->ringStatus = CustomSystemBody::WANT_CUSTOM_RINGS;
+		csb->ringInnerRadius = *LuaFixed::CheckFromLua(L, 2);
+		csb->ringOuterRadius = *LuaFixed::CheckFromLua(L, 3);
+		luaL_checktype(L, 4, LUA_TTABLE);
+		Color4f col;
+		lua_rawgeti(L, 4, 1);
+		col.r = luaL_checknumber(L, -1);
+		lua_rawgeti(L, 4, 2);
+		col.g = luaL_checknumber(L, -1);
+		lua_rawgeti(L, 4, 3);
+		col.b = luaL_checknumber(L, -1);
+		lua_rawgeti(L, 4, 4);
+		col.a = luaL_optnumber(L, -1, 0.85); // default alpha value
+		csb->ringColor = col;
+	}
+	lua_settop(L, 1);
+	return 1;
+}
+
 static int l_csb_gc(lua_State *L)
 {
 	CustomSystemBody **csbptr = static_cast<CustomSystemBody**>(
@@ -160,6 +189,7 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "ocean_cover", &l_csb_ocean_cover },
 	{ "ice_cover", &l_csb_ice_cover },
 	{ "life", &l_csb_life },
+	{ "rings", &l_csb_rings },
 	{ "__gc", &l_csb_gc },
 	{ 0, 0 }
 };
@@ -405,21 +435,11 @@ void CustomSystem::Init()
 	lua_State *L = luaL_newstate();
 	LUA_DEBUG_START(L);
 
-	luaL_requiref(L, "_G", &luaopen_base, 1);
-	luaL_requiref(L, LUA_DBLIBNAME, &luaopen_debug, 1);
-	luaL_requiref(L, LUA_MATHLIBNAME, &luaopen_math, 1);
-	lua_pop(L, 3);
+	pi_lua_open_standard_base(L);
 
 	LuaVector::Register(L);
 	LuaFixed::Register(L);
 	LuaConstants::Register(L);
-
-	// create an alias math.deg2rad = math.rad
-	lua_getglobal(L, LUA_MATHLIBNAME);
-	lua_getfield(L, -1, "rad");
-	assert(lua_isfunction(L, -1));
-	lua_setfield(L, -2, "deg2rad");
-	lua_pop(L, 1); // pop the math table
 
 	// create a shortcut f = fixed.new
 	lua_getglobal(L, LuaFixed::LibName);
@@ -485,6 +505,7 @@ CustomSystemBody::CustomSystemBody():
 	want_rand_offset(true),
 	latitude(0.0),
 	longitude(0.0),
+	ringStatus(WANT_RANDOM_RINGS),
 	seed(0),
 	want_rand_seed(true)
 {}

@@ -30,7 +30,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 		if (triflags[i] >= 0x8000) continue;
 		activeTris.push_back(i*3);
 	}
-	
+
 	std::map< std::pair<int,int>, int > edges;
 #define ADD_EDGE(_i1,_i2,_triflag) \
 	if ((_i1) < (_i2)) edges[std::pair<int,int>(_i1,_i2)] = _triflag; \
@@ -76,7 +76,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 		}
 	}
 	m_radius = sqrt(m_radius);
-	
+
 	Aabb *aabbs = new Aabb[activeTris.size()];
 	for (unsigned int i=0; i<activeTris.size(); i++) {
 		vector3d v1 = vector3d(&m_vertices[3*m_indices[activeTris[i]]]);
@@ -86,12 +86,12 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 		aabbs[i].Update(v2);
 		aabbs[i].Update(v3);
 	}
-	
+
 	//int t = SDL_GetTicks();
 	m_triTree = new BVHTree(activeTris.size(), &activeTris[0], aabbs);
 	delete [] aabbs;
 	//printf("Tri tree of %d tris build in %dms\n", activeTris.size(), SDL_GetTicks() - t);
-	
+
 	m_numEdges = edges.size();
 	m_edges = new Edge[m_numEdges];
 	// to build Edge bvh tree with.
@@ -115,7 +115,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, int *indices, uns
 		m_edges[pos].triFlag = triflag;
 		m_edges[pos].len = float(len);
 		m_edges[pos].dir = vector3f(float(dir.x), float(dir.y), float(dir.z));
-		
+
 		edgeIdxs[pos] = pos;
 		aabbs[pos].min = aabbs[pos].max = v1;
 		aabbs[pos].Update(v2);
@@ -261,6 +261,6 @@ vector3f GeomTree::GetTriNormal(int triIdx) const
 	const vector3f a(&m_vertices[3*m_indices[3*triIdx]]);
 	const vector3f b(&m_vertices[3*m_indices[3*triIdx+1]]);
 	const vector3f c(&m_vertices[3*m_indices[3*triIdx+2]]);
-	
+
 	return (b-a).Cross(c-a).Normalized();
 }

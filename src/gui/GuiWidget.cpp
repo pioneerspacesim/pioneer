@@ -89,7 +89,7 @@ void Widget::GetAbsolutePosition(float pos[2]) const
 		pos[0] = pos[1] = 0;
 	}
 }
-	
+
 void Widget::OnMouseEnter()
 {
 	m_mouseOver = true;

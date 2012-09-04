@@ -33,7 +33,7 @@ define_model('old_clock', {
 	static = function(lod)
 		set_material('face',.5,.5,.5,1,.3,.3,.3,5)
 		set_material('numbers',.3,.27,.15,1,.4,.35,.1,50,.25,.2,.05)
-				
+
 		texture('antik.png')
         use_material('numbers')
 		zbias(1,v(0,0,0),v(0,0,1))
@@ -52,7 +52,7 @@ define_model('old_clock', {
 		text("Potsmoke66 Watches", v(0,-1,0), v(0,0,1), v(1,0,0), 0.3, {center=true})
 		text("Switzerland", v(0,-1.5,0), v(0,0,1), v(1,0,0), 0.3, {center=true})
 		zbias(0)
-		
+
 		use_material('face')
 		texture('old_clock.png',v(.496,.495,0),v(.0855,0,0),v(0,.086,0))
 		circle(8*lod,v(0,0,0),v(0,0,1),v(0,1,0),5.5)

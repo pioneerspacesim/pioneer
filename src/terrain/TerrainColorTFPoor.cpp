@@ -44,7 +44,7 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		}
 	// water
 	if (n <= 0) {
-		if (m_heightMap) {	
+		if (m_heightMap) {
 			// waves
 			if (textures) {
 				n += water;
@@ -59,7 +59,7 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		col = interpolate_color(n, vector3d(0,0.0,0.1), vector3d(0,0.5,0.5));
 		return col;
 	}
-	// More sensitive height detection for application of colours	
+	// More sensitive height detection for application of colours
 	if (n > 0.5) {
 		n -= 0.5; n *= 2.0;
 		//color_cliffs = m_rockColor[1];
@@ -72,7 +72,7 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		} else col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 	}
-	else if (n > 0.25) { 
+	else if (n > 0.25) {
 		n -= 0.25; n *= 4.0;
 		color_cliffs = m_rockColor[3];
 		col = interpolate_color(equatorial_desert, m_darkrockColor[4], m_darksandColor[6]);
@@ -84,7 +84,7 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		} else col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 	}
-	else if (n > 0.05) {  
+	else if (n > 0.05) {
 		n -= 0.05; n *= 5.0;
 		col = interpolate_color(equatorial_desert, m_darkrockColor[5], m_darksandColor[7]);
 		color_cliffs = col;
@@ -109,7 +109,7 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		} else col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 	}
-	else if (n > 0.005) {   
+	else if (n > 0.005) {
 		n -= 0.005; n *= 200.0;
 		color_cliffs = m_plantColor[0];
 		col = interpolate_color(equatorial_desert, m_darkplantColor[0], m_sandColor[1]);
@@ -121,7 +121,7 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		} else col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 	}
-	else { 
+	else {
 		n *= 200.0;
 		color_cliffs = m_darksandColor[0];
 		col = interpolate_color(equatorial_desert, m_sandColor[0], m_sandColor[1]);

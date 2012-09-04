@@ -4,7 +4,7 @@
 #include "GuiContainer.h"
 
 namespace Gui {
-	class Tabbed: public Container 
+	class Tabbed: public Container
 	{
 	public:
 		Tabbed();

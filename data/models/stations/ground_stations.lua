@@ -86,7 +86,7 @@ define_model('ground_station_1', {
 			elseif stage == 2 then
 				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
-		end,	
+		end,
 	},
 	static = function(lod)
 		-- Control Tower
@@ -119,7 +119,7 @@ define_model('ground_station_2', {
 			elseif stage == 2 then
 				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
-		end,	
+		end,
 	},
 	static = function(lod)
 		-- Control Tower
@@ -153,7 +153,7 @@ define_model('ground_station_3', {
 			elseif stage == 2 then
 				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
-		end,	
+		end,
 	},
 	static = function(lod)
 		-- Control Tower
@@ -187,7 +187,7 @@ define_model('ground_station_4', {
 			elseif stage == 2 then
 				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
-		end,	
+		end,
 	},
 	static = function(lod)
 		-- Control Tower

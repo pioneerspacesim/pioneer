@@ -4,6 +4,31 @@ namespace Graphics {
 
 namespace Drawables {
 
+Disk::Disk(Graphics::Renderer *r, const Color &c, float rad)
+{
+	m_vertices.Reset(new VertexArray(ATTRIB_POSITION));
+	m_material.Reset(r->CreateMaterial(MaterialDescriptor()));
+	m_material->diffuse = c;
+
+	m_vertices->Add(vector3f(0.f, 0.f, 0.f));
+	for (int i = 72; i >= 0; i--) {
+		m_vertices->Add(vector3f(
+			0.f+sinf(DEG2RAD(i*5.f))*rad,
+			0.f+cosf(DEG2RAD(i*5.f))*rad,
+			0.f));
+	}
+}
+
+void Disk::Draw(Renderer *r)
+{
+	r->DrawTriangles(m_vertices.Get(), m_material.Get(), TRIANGLE_FAN);
+}
+
+void Disk::SetColor(const Color4f &c)
+{
+	m_material->diffuse = c;
+}
+
 Line3D::Line3D()
 {
 	m_points[0] = vector3f(0.f);

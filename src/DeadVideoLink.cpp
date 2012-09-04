@@ -14,7 +14,7 @@ DeadVideoLink::DeadVideoLink(float w, float h) : VideoLink(w, h)
 	m_quad.Reset(new Gui::TexturedQuad(m_texture.Get()));
 
 	UpdateWhiteNoise();
-}	
+}
 
 DeadVideoLink::~DeadVideoLink()
 {

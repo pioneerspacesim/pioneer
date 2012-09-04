@@ -22,7 +22,7 @@ bool MarketAgent::SellTo(MarketAgent *other, Equip::Type t, bool verbose)
 		return true;
 	} else return false;
 }
-	
+
 bool MarketAgent::BuyFrom(MarketAgent *other, Equip::Type t, bool verbose)
 {
 	if (other->CanSell(t, verbose) && CanBuy(t, verbose) && Pay(other, GetPrice(t), verbose)) {
@@ -31,7 +31,7 @@ bool MarketAgent::BuyFrom(MarketAgent *other, Equip::Type t, bool verbose)
 		return true;
 	} else return false;
 }
-	
+
 bool MarketAgent::Pay(MarketAgent *b, Sint64 amount, bool verbose) {
 	if (m_money < amount) {
 		if (verbose) {

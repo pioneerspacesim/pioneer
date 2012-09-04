@@ -13,6 +13,7 @@ define_ship {
 		{ v(0,-5.8,-11), v(0,0,-1) },
 		{ v(0,0,10), v(0,0,1) },
 	},
+	max_atmoshield = 0,
 	max_cargo = 80,
 	max_laser = 2,
 	max_missile = 0,

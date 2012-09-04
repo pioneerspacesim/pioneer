@@ -18,7 +18,7 @@ void LuaChatForm::OnOptionClicked(int option)
 {
     SetMoney(1000000000);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -45,7 +45,7 @@ void LuaChatForm::OnOptionClicked(int option)
 void LuaChatForm::OnClose() {
 	StationAdvertForm::OnClose();
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 	int ref = GetAdvert()->ref;
 
 	LUA_DEBUG_START(l);
@@ -123,7 +123,7 @@ bool LuaChatForm::CanSell(Equip::Type t, bool verbose) const {
 	return (GetStock(t) > 0) && DoesSell(t);
 }
 bool LuaChatForm::DoesSell(Equip::Type t) const {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -142,7 +142,7 @@ bool LuaChatForm::DoesSell(Equip::Type t) const {
 }
 
 int LuaChatForm::GetStock(Equip::Type t) const {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -161,7 +161,7 @@ int LuaChatForm::GetStock(Equip::Type t) const {
 }
 
 Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -180,7 +180,7 @@ Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
 }
 
 void LuaChatForm::OnClickBuy(int t) {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -204,7 +204,7 @@ void LuaChatForm::OnClickBuy(int t) {
 }
 
 void LuaChatForm::OnClickSell(int t) {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -228,7 +228,7 @@ void LuaChatForm::OnClickSell(int t) {
 }
 
 void LuaChatForm::Bought(Equip::Type t) {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -242,7 +242,7 @@ void LuaChatForm::Bought(Equip::Type t) {
 }
 
 void LuaChatForm::Sold(Equip::Type t) {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -279,7 +279,7 @@ void LuaChatForm::Sold(Equip::Type t) {
  * >     -- option 0 is called when the form is first activated from the
  * >     -- bulletin board
  * >     if option == 0 then
- * >         
+ * >
  * >         form:SetTitle("Favourite colour")
  * >         form:SetMessage("What's your favourite colour?")
  * >
@@ -513,7 +513,7 @@ int LuaChatForm::l_luachatform_set_message(lua_State *l)
  *   alpha 10
  *
  * Status:
- *   
+ *
  *   stable
  */
 int LuaChatForm::l_luachatform_add_option(lua_State *l)
@@ -603,7 +603,7 @@ static inline void _check_trade_function(lua_State *l, int tableidx, const char 
  *
  *   getStock - returns the number of units of this commodity the script has
  *              available for trade
- *   
+ *
  *   getPrice - returns the price for a single unit of this commodity
  *
  *   onClickBuy - called immediately when the player clicks the "buy" button.

@@ -6,7 +6,6 @@
 namespace Graphics {
 	class Renderer;
 	class StaticMesh;
-	class Shader;
 	class Material;
 }
 class Camera;
@@ -19,9 +18,6 @@ namespace Background
 {
 	class BackgroundElement
 	{
-	public:
-		void SetIntensity(float intensity);
-
 	protected:
 		RefCountedPtr<Graphics::Material> m_material;
 	};
@@ -30,39 +26,53 @@ namespace Background
 	{
 	public:
 		//does not Fill the starfield
-		Starfield();
-		Starfield(unsigned long seed);
+		Starfield(Graphics::Renderer *r);
+		Starfield(Graphics::Renderer *r, unsigned long seed);
 		~Starfield();
-		void Draw(Graphics::Renderer *r, Camera *camera,
-			double starScaling, int twinkling, double time, double effect);
-		void Starfield::CalcParameters(Camera *camera, Frame *f,
-			double &brightness, double &starScaling, int &twinkling, double &time, double &effect);
+		void Draw(Graphics::Renderer *r,const Camera *camera);
+		void Starfield::CalcParameters(const Camera *camera);
 		//create or recreate the starfield
 		void Fill(unsigned long seed);
 
+		struct StarfieldParameters {
+					bool twinkling;
+					float brightness;
+					float time;
+					float effect;
+					float starScaling;
+		};
+		
+		const Starfield::StarfieldParameters &GetStarfieldParams() const {
+			return m_starfieldParams;
+		}
+
 	private:
-		void Init();
+		void Init(Graphics::Renderer *);
 		static const int BG_STAR_MAX = 10000;
 		Graphics::StaticMesh *m_model;
-		ScopedPtr<Graphics::Shader> m_shader;
 
 		//hyperspace animation vertex data
 		//allocated when animation starts and thrown away
 		//when starfield is destroyed (on exiting hyperspace)
 		vector3f *m_hyperVtx;
 		Color *m_hyperCol;
+
+		StarfieldParameters m_starfieldParams;
 	};
-	
+
 	class MilkyWay : public BackgroundElement
 	{
 	public:
-		MilkyWay();
+		MilkyWay(Graphics::Renderer *r);
 		~MilkyWay();
 		void Draw(Graphics::Renderer *r);
+		void SetIntensity(const Starfield::StarfieldParameters &sp) {
+			m_brightness = sp.brightness;
+		}
 
 	private:
+		float m_brightness;
 		Graphics::StaticMesh *m_model;
-		ScopedPtr<Graphics::Shader> m_shader;
 	};
 
 	// contains starfield, milkyway, possibly other Background elements
@@ -70,19 +80,16 @@ namespace Background
 	{
 	public:
 		// default constructor, needs Refresh with proper seed to show starfield
-		Container();
-		Container(unsigned long seed);
-		void Draw(Graphics::Renderer *r, const matrix4x4d &transform, Camera *camera, double starScaling,
-			int twinkling, double time, double effect) const;
+		Container(Graphics::Renderer*);
+		Container(Graphics::Renderer*, unsigned long seed);
+		void Draw(Graphics::Renderer *r, const matrix4x4d &transform,const Camera *camera);
 		void Refresh(unsigned long seed);
-		void Container::CalcParameters(Camera *camera, Frame *f, double &brightness,double &starScaling,int &twinkling, double &time, double &effect);
-		void SetIntensity(float intensity);
 
 	private:
-		Starfield m_starField;
 		MilkyWay m_milkyWay;
+		Starfield m_starField;
 	};
 
-}; //namespace Background
+} //namespace Background
 
 #endif

@@ -120,16 +120,6 @@ void Error(const char *format, ...)
 	abort();
 }
 
-void SilentWarning(const char *format, ...)
-{
-	fputs("Warning: ", stderr);
-	va_list ap;
-	va_start(ap, format);
-	vfprintf(stderr, format, ap);
-	va_end(ap);
-	fputs("\n", stderr);
-}
-
 std::string format_distance(double dist, int precision)
 {
 	std::ostringstream ss;

@@ -11,7 +11,7 @@ define_model('station_splash', {
 		set_light(1, 0.00005, v(0,0,1), v(1,1,1))
 		set_local_lighting(true)
 		use_light(1)
-	
+
 		zbias(1, v(0,0,0), v(0,0,1))
 		texture('ships/default_ship_textures/station_splash.png', v(.5,.5,0),v(.5,0,0),v(0,-1,0))
 		quad(v(-1,-0.5,0),v(1,-0.5,0),v(1,0.5,0),v(-1,0.5,0))

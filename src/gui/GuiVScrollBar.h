@@ -28,7 +28,7 @@ namespace Gui {
 	public:
 		VScrollBar(): ScrollBar(false) {}
 	};
-	
+
 	class HScrollBar: public ScrollBar {
 	public:
 		HScrollBar(): ScrollBar(true) {}
@@ -38,7 +38,7 @@ namespace Gui {
 	public:
 		HScale(): ScrollBar(true) {}
 		virtual void Draw();
-	};	
+	};
 }
 
 #endif /* _GUIVSCROLLBAR */

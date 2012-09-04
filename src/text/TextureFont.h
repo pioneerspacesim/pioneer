@@ -5,11 +5,12 @@
 #include "Color.h"
 #include "graphics/Texture.h"
 #include "graphics/Material.h"
+#include "graphics/VertexArray.h"
 #include <map>
 
 namespace Graphics {
+	class Material;
 	class Renderer;
-	class VertexArray;
 }
 
 namespace Text {
@@ -50,7 +51,8 @@ private:
 	float m_descender;
 	int m_texSize;
 	RefCountedPtr<Graphics::Texture> m_texture;
-	Graphics::Material m_mat;
+	ScopedPtr<Graphics::Material> m_mat;
+	Graphics::VertexArray m_vertices;
 
 	static int s_glyphCount;
 	std::map<Uint32,glfglyph_t> m_glyphs;

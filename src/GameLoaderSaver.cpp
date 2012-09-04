@@ -34,7 +34,7 @@ void GameLoaderSaver::DialogMainLoop()
 	m_done = false;
 	while (!m_done)
 		Gui::MainLoopIteration();
-	
+
 	Gui::Screen::RemoveBaseWidget(background);
 	delete background;
 }

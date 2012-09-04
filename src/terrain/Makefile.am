@@ -16,6 +16,12 @@ libterrain_a_SOURCES = \
 	Terrain.cpp \
 	TerrainFeature.cpp \
 	TerrainHeightAsteroid.cpp \
+	TerrainHeightAsteroid2.cpp \
+	TerrainHeightAsteroid3.cpp \
+	TerrainHeightAsteroid4.cpp \
+	TerrainHeightBarrenRock.cpp \
+	TerrainHeightBarrenRock2.cpp \
+	TerrainHeightBarrenRock3.cpp \
 	TerrainHeightFlat.cpp \
 	TerrainHeightHillsCraters2.cpp \
 	TerrainHeightHillsCraters.cpp \

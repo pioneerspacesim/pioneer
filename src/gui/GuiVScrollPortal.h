@@ -4,7 +4,7 @@
 #include "GuiContainer.h"
 
 namespace Gui {
-	class VScrollPortal: public Container 
+	class VScrollPortal: public Container
 	{
 	public:
 		VScrollPortal(float forceWidth);

@@ -27,7 +27,7 @@ define_model('woods_0', {
 		large  = 3:2
 		wide   = 2:3
 		--]]
-		
+
         gelati(v(10,0,15),0,v(20,40,20))
 		gelati(v(-15,0,20),.3,v(17,25,17)) -- large
         broccoli(v(20,0,5),0,v(15,10,15)) -- wide
@@ -68,5 +68,5 @@ define_model('woods_1', {
 		broccoli(v(-5,0,-20),1.2,v(6,6,6))
 		broccoli(v(5,0,-20),.7,v(6,6,6))
 	end
-})	
+})
 

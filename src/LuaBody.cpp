@@ -4,7 +4,6 @@
 #include "LuaConstants.h"
 #include "Body.h"
 #include "galaxy/StarSystem.h"
-#include "Pi.h"
 #include "Frame.h"
 
 /*
@@ -37,7 +36,7 @@ static int l_body_attr_label(lua_State *l)
 	Body *b = LuaBody::GetFromLua(1);
 	lua_pushstring(l, b->GetLabel().c_str());
 	return 1;
-} 
+}
 
 /*
  * Attribute: seed
@@ -216,7 +215,7 @@ static int l_body_attr_frame_rotating(lua_State *l)
 	return 1;
 }
 
-/* 
+/*
  * Method: IsDynamic
  *
  * Determine if the body is a dynamic body
@@ -280,6 +279,10 @@ static int l_body_distance_to(lua_State *l)
 {
 	Body *b1 = LuaBody::GetFromLua(1);
 	Body *b2 = LuaBody::GetFromLua(2);
+	if (!b1->IsInSpace())
+		return luaL_error(l, "Body:DistanceTo() arg #1 is not in space (probably a ship in hyperspace)");
+	if (!b2->IsInSpace())
+		return luaL_error(l, "Body:DistanceTo() arg #2 is not in space (probably a ship in hyperspace)");
 	lua_pushnumber(l, b1->GetPositionRelTo(b2).Length());
 	return 1;
 }

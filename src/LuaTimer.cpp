@@ -6,7 +6,7 @@
 void LuaTimer::Tick()
 {
 	assert(Pi::game);
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -76,7 +76,7 @@ void LuaTimer::Tick()
  * Because timer functions are called outside of the normal event model, it is
  * possible that game objects no longer exist. Consider this example:
  *
- * > local enemy = Space.SpawnShipNear("Eagle Long Range Fighter", Game.player, 20, 20)
+ * > local enemy = Space.SpawnShipNear("eagle_lrf", Game.player, 20, 20)
  * > Comms.ImportantMessage(enemy:GetLabel(), "You have 20 seconds to surrender or you will be destroyed.")
  * > Timer:CallAt(Game.time+20, function ()
  * >     Comms.ImportantMessage(enemy:GetLabel(), "You were warned. Prepare to die!")
@@ -156,7 +156,7 @@ static int l_timer_call_at(lua_State *l)
 
 	if (at <= Pi::game->GetTime())
 		luaL_error(l, "Specified time is in the past");
-	
+
 	LUA_DEBUG_START(l);
 
 	lua_newtable(l);
@@ -219,7 +219,7 @@ static int l_timer_call_every(lua_State *l)
 
 	if (every <= 0)
 		luaL_error(l, "Specified interval must be greater than zero");
-	
+
 	LUA_DEBUG_START(l);
 
 	lua_newtable(l);

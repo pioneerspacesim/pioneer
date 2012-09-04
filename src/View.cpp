@@ -8,7 +8,7 @@ View::View(): Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetH
 
 	m_rightRegion2 = new Gui::Fixed(126, 17);
 	m_rightRegion2->SetTransparency(true);
-	
+
 	m_rightRegion1 = new Gui::Fixed(122, 17);
 	m_rightRegion1->SetTransparency(true);
 }

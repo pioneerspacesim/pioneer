@@ -1,5 +1,11 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui graphics galaxy terrain text
+if BUILD_WIN32
+    PLATFORM_SUBDIRS = win32
+endif
+if BUILD_POSIX
+    PLATFORM_SUBDIRS = posix
+endif
+SUBDIRS = collider gui graphics galaxy terrain text $(PLATFORM_SUBDIRS)
 
 include $(top_srcdir)/Makefile.common
 
@@ -48,8 +54,8 @@ noinst_HEADERS = \
 	KeyBindings.h \
 	Lang.h \
 	LangStrings.inc.h \
-	Light.h \
 	LmrModel.h \
+	Lua.h \
 	LuaBody.h \
 	LuaCargoBody.h \
 	LuaChatForm.h \
@@ -58,7 +64,8 @@ noinst_HEADERS = \
 	LuaConstants.h \
 	LuaEngine.h \
 	LuaEquipType.h \
-	LuaEventQueue.h \
+	LuaEvent.h \
+	LuaFileSystem.h \
 	LuaFormat.h \
 	LuaGame.h \
 	LuaLang.h \
@@ -90,6 +97,7 @@ noinst_HEADERS = \
 	ModManager.h \
 	Object.h \
 	ObjectViewerView.h \
+	OS.h \
 	PersistSystemData.h \
 	Pi.h \
 	Planet.h \
@@ -181,9 +189,9 @@ pioneer_SOURCES	= \
 	IniConfig.cpp \
 	GameConfig.cpp \
 	KeyBindings.cpp \
-	Light.cpp \
 	Lang.cpp \
 	LmrModel.cpp \
+	Lua.cpp \
 	LuaBody.cpp \
 	LuaCargoBody.cpp \
 	LuaChatForm.cpp \
@@ -192,7 +200,8 @@ pioneer_SOURCES	= \
 	LuaConstants.cpp \
 	LuaEngine.cpp \
 	LuaEquipType.cpp \
-	LuaEventQueue.cpp \
+	LuaEvent.cpp \
+	LuaFileSystem.cpp \
 	LuaFormat.cpp \
 	LuaGame.cpp \
 	LuaLang.cpp \
@@ -272,6 +281,7 @@ pioneer_SOURCES	= \
 
 pioneer_LDADD = \
 	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
 	collider/libcollider.a \
 	text/libtext.a \
 	gui/libgui.a \
@@ -283,6 +293,8 @@ pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 	$(PNG_LIBS)
+
+pioneer_LDFLAGS = -Wl,-Map=pioneer.map
 
 if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
@@ -312,12 +324,21 @@ modelviewer_SOURCES = \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-modelviewer_LDADD = ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+modelviewer_LDADD = \
+	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
+	collider/libcollider.a \
+	text/libtext.a \
+	gui/libgui.a \
+	graphics/libgraphics.a \
+	terrain/libterrain.a \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA
 modelviewer_LDADD += ../contrib/lua/liblua.a
 endif
+
+modelviewer_LDFLAGS = -Wl,-Map=modelviewer.map
 
 check_PROGRAMS = tests
 tests_SOURCES = \
@@ -326,12 +347,18 @@ tests_SOURCES = \
 	test_Frame.cpp \
 	test_StringF.cpp \
 	FileSystem.cpp \
-	FileSystemPosix.cpp \
+	posix/FileSystemPosix.cpp \
+	FileSourceZip.cpp \
 	test_FileSystem.cpp
 
 TESTS = tests
- 
-tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a
+
+tests_LDADD = \
+	collider/libcollider.a \
+	gui/libgui.a \
+	graphics/libgraphics.a \
+	terrain/libterrain.a \
+	../contrib/miniz/libminiz.a
 
 INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA
@@ -339,12 +366,12 @@ INCLUDES += -isystem @top_srcdir@/contrib/lua
 endif
 
 if BUILD_WIN32
-    pioneer_LDADD += ../win32/src/libwin32.a $(MINGW_LIBS)
-    modelviewer_LDADD += ../win32/src/libwin32.a $(MINGW_LIBS)
+    pioneer_LDADD += win32/libwin32.a $(MINGW_LIBS)
+    modelviewer_LDADD += win32/libwin32.a $(MINGW_LIBS)
 endif
 
 if BUILD_POSIX
-    pioneer_SOURCES += FileSystemPosix.cpp
-    modelviewer_SOURCES += FileSystemPosix.cpp
+    pioneer_LDADD += posix/libposix.a
+    modelviewer_LDADD += posix/libposix.a
 endif
 

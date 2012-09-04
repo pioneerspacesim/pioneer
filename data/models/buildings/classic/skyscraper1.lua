@@ -58,7 +58,7 @@ define_model('skyscraper1', {
 		local fd = v(-30,210,15)
 		quad(d2,c2,f2,e2)
 		quad(fc,fd,h2,g2)
-		
+
 		-- tri fan on front face
 		xref_tri(g2,f2,c2)
 		xref_tri(g2,c2,b2)

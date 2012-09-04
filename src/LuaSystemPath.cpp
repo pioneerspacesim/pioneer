@@ -92,7 +92,7 @@ static int l_sbodypath_new(lua_State *l)
 /*
  * Method: IsSameSystem
  *
- * Determine if two <SystemPath> objects point to objects in the same system. 
+ * Determine if two <SystemPath> objects point to objects in the same system.
  *
  * > is_same = path:IsSameSystem(otherpath)
  *
@@ -242,7 +242,7 @@ static int l_sbodypath_distance_to(lua_State *l)
 
 	Sector sec1(loc1->sectorX, loc1->sectorY, loc1->sectorZ);
 	Sector sec2(loc2->sectorX, loc2->sectorY, loc1->sectorZ);
-	
+
 	double dist = Sector::DistanceBetween(&sec1, loc1->systemIndex, &sec2, loc2->systemIndex);
 
 	lua_pushnumber(l, dist);

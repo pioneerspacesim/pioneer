@@ -44,7 +44,7 @@ public:
 	virtual Uint32 GetFaceSeed() const { return m_faceSeed; }
 	virtual std::string const& GetCharacterName() const { return m_characterName; }
 	virtual std::string const& GetCharacterTitle() const { return m_characterTitle; }
-	
+
 	void SetFaceFlags(Uint32 flags) { m_faceFlags = flags; }
 	void SetFaceSeed(Uint32 seed) { m_faceSeed = seed; }
 	void SetCharacterName(const std::string& name) { m_characterName = name; }

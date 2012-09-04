@@ -15,7 +15,7 @@ struct CouldNotOpenFileException {};
 struct CouldNotWriteToFileException {};
 
 namespace Serializer {
-	
+
 	class Writer {
 	public:
 		Writer() {}

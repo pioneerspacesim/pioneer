@@ -33,7 +33,7 @@ public:
 		assert(GetVertexSpaceLeft() >= numVertices);
 
 		Graphics::BindArrayBuffer(m_vertexArrayBufferObject);
-		glBufferSubDataARB(GL_ARRAY_BUFFER_ARB, m_vertexPos*VERTEX_SIZE, 
+		glBufferSubDataARB(GL_ARRAY_BUFFER_ARB, m_vertexPos*VERTEX_SIZE,
 			numVertices * VERTEX_SIZE, vtxData);
 		Graphics::BindArrayBuffer(0);
 
