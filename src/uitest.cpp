@@ -162,6 +162,7 @@ int main(int argc, char **argv)
 	b3->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b3));
 #endif
 
+#if 0
 	UI::Image *image;
 	UI::Slider *slider;
 	c->SetInnerWidget(
@@ -193,6 +194,7 @@ int main(int argc, char **argv)
 
 	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
+#endif
 
 #if 0
 	UI::Slider *red, *green, *blue;
@@ -421,6 +423,13 @@ int main(int argc, char **argv)
     );
 #endif
 
+	UI::MultiLineText *text;
+	c->SetInnerWidget(
+		c->Scroller()->SetInnerWidget(
+			(text = c->MultiLineText(""))
+		)
+	);
+
     int count = 0;
 
 	while (1) {
@@ -456,6 +465,9 @@ int main(int argc, char **argv)
 		else if (count < 400 && count % 10 == 0)
 			printf("%d\n", count);
 #endif
+
+		if (++count % 10 == 0)
+			text->AppendText("line\n");
 	}
 
 	c.Reset();

@@ -28,4 +28,17 @@ void MultiLineText::Draw()
 	m_layout->Draw(GetSize());
 }
 
+MultiLineText *MultiLineText::SetText(const std::string &text)
+{
+	m_text = text;
+	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFontSize()), m_text));
+	GetContext()->RequestLayout();
+	return this;
+}
+
+MultiLineText *MultiLineText::AppendText(const std::string &text)
+{
+	return SetText(m_text + text);
+}
+
 }
