@@ -3,7 +3,7 @@
 
 local ui = Engine.ui
 
-_DefaultSort = function (self, cmp)
+local _DefaultSort = function (self, cmp)
 	if not cmp then
 		cmp = function (a,b) return a.data[col] <= b.data[col] end
 	end
@@ -11,10 +11,10 @@ _DefaultSort = function (self, cmp)
 	self.table = stable_sort(self.table, cmp)
 end
 
-_DefaultCellWidget = function (data)
+local _DefaultCellWidget = function (data)
 	return ui:Label(data) end
 
-UI.SmartTable = {
+local SmartTable = {
 
 New = function (rowspec)
 	local self = {}
@@ -90,3 +90,5 @@ SetSortFunction = function (self, f)
 	self.sortFunction = f
 end,
 }
+
+return SmartTable

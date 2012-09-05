@@ -47,7 +47,9 @@
 -- and counted with the # operator.  The player's sheet is stored as
 -- PersistentCharacters.player, and is the special case.
 
-Character = {
+local Event = import("Event")
+
+local Character = {
 
 --
 -- Group: Attributes
@@ -1167,3 +1169,5 @@ end
 
 Event.Register("onGameStart", onGameStart)
 Serializer:Register("Characters", serialize, unserialize)
+
+return Character

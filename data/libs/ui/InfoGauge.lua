@@ -3,7 +3,7 @@
 
 local ui = Engine.ui
 
-UI.InfoGauge = {
+local InfoGauge = {
 
 New = function (args)
 	args = args or {}
@@ -43,3 +43,5 @@ SetValue = function (self, v)
 end
 
 }
+
+return InfoGauge

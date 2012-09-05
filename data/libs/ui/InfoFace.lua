@@ -26,7 +26,7 @@ local setFaceInfo = function (face, character)
 	)
 end
 
-UI.InfoFace = {
+local InfoFace = {
 
 New = function (character)
 	testCharacter(character)
@@ -56,3 +56,5 @@ UpdateInfo = function (self, character)
 end,
 
 }
+
+return InfoFace

@@ -3,7 +3,7 @@
 
 local ui = Engine.ui
 
-UI.SmallLabeledButton = {
+local SmallLabeledButton = {
 
 New = function (text)
 	local self = {
@@ -21,3 +21,5 @@ New = function (text)
 end,
 
 }
+
+return SmallLabeledButton

@@ -16,7 +16,7 @@
 -- Registered mission type data go here
 local MissionRegister = {}
 
-Mission = {
+local Mission = {
 --
 -- Group: Attributes
 --
@@ -344,3 +344,5 @@ Mission.meta = {
 	__index = Mission,
 	class = "Mission",
 }
+
+return Mission

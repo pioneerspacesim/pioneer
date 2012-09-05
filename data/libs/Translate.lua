@@ -4,7 +4,7 @@
 --
 -- Class: Translate
 --
-Translate = {
+local Translate = {
 	language = Lang.GetCurrentLanguage(), -- Default
 	dictionary = {}, -- Initialise the dictionary table
 	flavours = {English = {}}, -- Explicitly initialise the English flavours table
@@ -262,3 +262,5 @@ Translate.dictionary[Translate.language] = {}
 for token, definition in pairs(Lang.GetDictionary()) do
 	Translate.dictionary[Translate.language][token] = definition
 end
+
+return Translate

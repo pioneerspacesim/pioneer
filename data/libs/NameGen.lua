@@ -7,9 +7,11 @@
 -- Functions for generating names.
 --
 
+import("StringInterp")
+
 local r = function (t, rand) return t[rand:Integer(1,#t)] end
 
-NameGen = {
+local NameGen = {
 	firstNames = {
 		male   = {},
 		female = {},
@@ -339,3 +341,5 @@ NameGen.surfaceStarportFormats = {
 	"{name}ton",
 	"{name}ville",
 }
+
+return NameGen

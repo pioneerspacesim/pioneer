@@ -16,7 +16,7 @@ local _FindTabNum = function (self, id)
 	return nil
 end
 
-UI.TabGroup = {
+local TabGroup = {
 
 New = function ()
 
@@ -159,3 +159,5 @@ Refresh = function (self)
 end
 
 }
+
+return TabGroup

@@ -41,7 +41,7 @@ local do_callback_timed = function (cb, p)
 	print(string.format("DEBUG: %s %dms %s:%d", p.name, tend-tstart, d.source, d.linedefined))
 end
 
-Event = {
+local Event = {
 	--
 	-- Function: Register
 	--
@@ -704,3 +704,5 @@ Event = {
 --
 
 -- XXX document SongFinished
+
+return Event
