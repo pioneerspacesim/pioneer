@@ -53,6 +53,9 @@ bool LuaRef::operator==(const LuaRef & ref) const {
 
 void LuaRef::CheckCopyCount() {
 	if (*m_copycount <= 0) {
+		delete m_copycount;
+		if (!m_lua)
+			return;
 		PushGlobalToStack();
 		luaL_unref(m_lua, -1, m_id);
 		lua_pop(m_lua, 1);
