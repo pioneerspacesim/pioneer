@@ -23,8 +23,8 @@ LuaRef::LuaRef(const LuaRef & ref): m_lua(ref.m_lua), m_id(ref.m_id), m_copycoun
 const LuaRef & LuaRef::operator=(const LuaRef & ref) {
 	if (m_id != 0 && g_lua != 0 && m_lua == g_lua) {
 		--(*m_copycount);
-		CheckCopyCount();
 	}
+	CheckCopyCount();
 	m_lua = ref.m_lua;
 	m_id = ref.m_id;
 	if(m_lua && m_id)
