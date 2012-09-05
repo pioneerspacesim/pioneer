@@ -8,6 +8,7 @@ Alpha 26
      * Updated station splash advert (#1429)
      * Updated the Imperial Courier model (#1069)
      * Updated the "pilot" and "squadsign" sub-models (#1069)
+     * Updated surface stations (#983)
 
    * Fixes
      * Fix atmospheric pressure calculations (#1431, #1395)
