@@ -24,7 +24,6 @@ private:
 	lua_State * m_lua;
 	int m_id;
 	int * m_copycount;
-	static lua_State * g_lua;
 
 	void PushGlobalToStack() const;
 

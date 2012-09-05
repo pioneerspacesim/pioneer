@@ -747,7 +747,6 @@ int main(int argc, char **argv)
 	LmrNotifyScreenWidth(g_width);
 
 	lua_State * l = luaL_newstate();
-	LuaRef::Init(l);
 
 	ShipType::Init();
 

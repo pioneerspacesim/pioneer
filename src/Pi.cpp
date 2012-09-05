@@ -172,7 +172,6 @@ static void LuaInit()
 	Lua::Init();
 
 	lua_State *l = Lua::manager->GetLuaState();
-	LuaRef::Init(l);
 
 	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
@@ -220,7 +219,6 @@ static void LuaUninit() {
 
 	delete Pi::luaSerializer;
 	delete Pi::luaTimer;
-	LuaRef::Uninit(Lua::manager->GetLuaState());
 
 	Lua::Uninit();
 }

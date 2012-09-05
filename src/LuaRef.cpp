@@ -1,25 +1,13 @@
 #include "LuaRef.h"
 #include <cassert>
 
-lua_State * LuaRef::g_lua = 0;
-
-void LuaRef::Init(lua_State * l) {
-	assert(g_lua == 0); // Only one Lua stack is supported for now.
-	g_lua = l;
-}
-
-void LuaRef::Uninit(lua_State * l) {
-	assert(g_lua == l);
-	g_lua = 0;
-}
-
 LuaRef::LuaRef(const LuaRef & ref): m_lua(ref.m_lua), m_id(ref.m_id), m_copycount(ref.m_copycount) {
-	if (m_lua && g_lua == m_lua && m_id)
+	if (m_lua && m_id)
 		++(*m_copycount);
 }
 
 const LuaRef & LuaRef::operator=(const LuaRef & ref) {
-	if (m_id != 0 && g_lua != 0 && m_lua == g_lua) {
+	if (m_id && m_lua) {
 		--(*m_copycount);
 	}
 	CheckCopyCount();
@@ -31,7 +19,7 @@ const LuaRef & LuaRef::operator=(const LuaRef & ref) {
 }
 
 LuaRef::~LuaRef() {
-	if (m_id == 0 || g_lua == 0 || m_lua != g_lua)
+	if (m_id == 0 || m_lua == 0)
 		return;
 	--(*m_copycount);
 	CheckCopyCount();
@@ -43,7 +31,6 @@ bool LuaRef::operator==(const LuaRef & ref) const {
 	if (ref.m_id == m_id)
 		return true;
 
-	assert(m_lua == g_lua);
 	ref.PushCopyToStack();
 	PushCopyToStack();
 	bool return_value = lua_compare(m_lua, -1, -2, LUA_OPEQ);
@@ -63,7 +50,7 @@ void LuaRef::CheckCopyCount() {
 }
 
 LuaRef::LuaRef(lua_State * l, int index): m_lua(l), m_id(0) {
-	assert(g_lua && m_lua == g_lua && index != 0);
+	assert(m_lua && index);
 	index = lua_absindex(m_lua, index);
 
 	PushGlobalToStack();
@@ -76,7 +63,7 @@ LuaRef::LuaRef(lua_State * l, int index): m_lua(l), m_id(0) {
 
 
 void LuaRef::PushCopyToStack() const {
-	assert(g_lua && m_lua == g_lua);
+	assert(m_lua && m_id);
 	PushGlobalToStack();
 	lua_pushinteger(m_lua, m_id);
 	lua_gettable(m_lua, -2);
