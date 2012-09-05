@@ -72,6 +72,26 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			gi = choices[rand.Int32(COUNTOF(choices))];
 			break;
 		}
+												
+		case SystemBody::TYPE_STAR_F:
+		case SystemBody::TYPE_STAR_F_GIANT:
+		case SystemBody::TYPE_STAR_F_HYPER_GIANT:
+		case SystemBody::TYPE_STAR_F_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_A:
+		case SystemBody::TYPE_STAR_A_GIANT:
+		case SystemBody::TYPE_STAR_A_HYPER_GIANT:
+		case SystemBody::TYPE_STAR_A_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_B:
+		case SystemBody::TYPE_STAR_B_GIANT:
+		case SystemBody::TYPE_STAR_B_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_B_WF:
+		case SystemBody::TYPE_STAR_O:
+		case SystemBody::TYPE_STAR_O_GIANT:
+		case SystemBody::TYPE_STAR_O_HYPER_GIANT:
+		case SystemBody::TYPE_STAR_O_SUPER_GIANT:
+		case SystemBody::TYPE_STAR_O_WF:
+			gi = InstanceGenerator<TerrainHeightEllipsoid,TerrainColorSolid>;
+		break;
 
 		case SystemBody::TYPE_PLANET_GAS_GIANT: {
 			const GeneratorInstancer choices[] = {

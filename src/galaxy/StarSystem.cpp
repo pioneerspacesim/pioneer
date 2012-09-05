@@ -1009,7 +1009,6 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 	rootBody->mass = csbody->mass;
 	rootBody->averageTemp = csbody->averageTemp;
 	rootBody->name = csbody->name;
-	printf("ar %f, name %s\n",rootBody->aspectRatio.ToDouble(),rootBody->name.c_str());
 
 	int humanInfestedness = 0;
 	CustomGetKidsOf(rootBody, csbody->children, &humanInfestedness, rand);
