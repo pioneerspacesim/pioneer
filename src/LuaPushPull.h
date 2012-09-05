@@ -30,8 +30,7 @@ inline void lua_pull(lua_State * l, int index, double & out) { out = lua_tonumbe
 inline void lua_pull(lua_State * l, int index, const char * & out) { out = lua_tostring(l, index); }
 inline void lua_pull(lua_State * l, int index, std::string & out) { out = lua_tostring(l, index); }
 inline void lua_pull(lua_State * l, int index, LuaTable & out) {
-	out.SetLua(l);
-	out.SetIndex(index);
+	out = LuaTable(l, index);
 }
 template <class T> void lua_pull(lua_State * l, int index, T* & out) {
 	assert(l == Pi::luaManager->GetLuaState());
