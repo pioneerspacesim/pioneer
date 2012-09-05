@@ -15,7 +15,7 @@
 #include "Lang.h"
 #include "LmrModel.h"
 #include "LuaManager.h"
-#include "LuaTable.h"
+#include "LuaRef.h"
 #include "LuaBody.h"
 #include "LuaCargoBody.h"
 #include "LuaChatForm.h"
@@ -193,7 +193,7 @@ static void LuaInit()
 	Pi::luaManager = new LuaManager();
 
 	lua_State *l = Pi::luaManager->GetLuaState();
-	PersistentTable::Init(l);
+	LuaRef::Init(l);
 
 	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
@@ -310,7 +310,7 @@ static void LuaUninit() {
 
 	delete Pi::luaSerializer;
 	delete Pi::luaTimer;
-	PersistentTable::Uninit(Pi::luaManager->GetLuaState());
+	LuaRef::Uninit(Pi::luaManager->GetLuaState());
 
 	delete Pi::luaManager;
 }

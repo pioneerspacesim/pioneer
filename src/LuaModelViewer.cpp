@@ -4,7 +4,7 @@
 #include "LmrModel.h"
 #include "ModManager.h"
 #include "OS.h"
-#include "LuaTable.h"
+#include "LuaRef.h"
 #include "Ship.h" // for the flight state and ship animation enums
 #include "ShipType.h"
 #include "SpaceStation.h" // for the space station animation enums
@@ -733,7 +733,7 @@ int main(int argc, char **argv)
 	LmrNotifyScreenWidth(g_width);
 
 	lua_State * l = luaL_newstate();
-	PersistentTable::Init(l);
+	LuaRef::Init(l);
 
 	ShipType::Init();
 
@@ -752,7 +752,7 @@ int main(int argc, char **argv)
 	g_viewer->MainLoop();
 	//XXX looks like this is never reached
 	FileSystem::Uninit();
-	PersistentTable::Uninit(l);
+	LuaRef::Uninit(l);
 	lua_close(l);
 	delete renderer;
 	return 0;

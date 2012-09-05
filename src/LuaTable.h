@@ -2,7 +2,6 @@
 #define _LUATABLE_H
 
 #include <exception>
-#include <vector>
 #include <cassert>
 
 #include "lua/lua.hpp"
@@ -39,33 +38,6 @@ protected:
 	lua_State * m_lua;
 	int m_index;
 
-};
-
-class PersistentTable {
-public:
-	static void Init(lua_State * l);
-	static void Uninit(lua_State * l);
-
-	PersistentTable(): m_lua(0), m_id(0) {}
-	PersistentTable(lua_State * l, int index);
-	PersistentTable(const PersistentTable & ref);
-	~PersistentTable();
-	const PersistentTable & operator=(const PersistentTable & ref);
-	bool operator==(const PersistentTable & ref) const;
-
-	const LuaTable GetLuaTable() { PushCopyToStack(); return LuaTable(m_lua, lua_gettop(m_lua)); }
-	void PushCopyToStack() const;
-
-	lua_State * GetLua() const { return m_lua; }
-private:
-	lua_State * m_lua;
-	int m_id;
-	static std::vector<int> g_copy_count;
-	static lua_State * g_lua;
-
-	void PushGlobalToStack() const;
-
-	void CheckCopyCount();
 };
 
 #include "LuaPushPull.h"

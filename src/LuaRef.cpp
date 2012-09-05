@@ -1,26 +1,27 @@
-#include "LuaTable.h"
+#include "LuaRef.h"
+#include <cassert>
 
-lua_State * PersistentTable::g_lua = 0;
+lua_State * LuaRef::g_lua = 0;
 static int id_count = 0;
-std::vector<int> PersistentTable::g_copy_count(1, 0);
+std::vector<int> LuaRef::g_copy_count(1, 0);
 
-void PersistentTable::Init(lua_State * l) {
-	assert(g_lua == 0); // Only one Lua stack is supported
+void LuaRef::Init(lua_State * l) {
+	assert(g_lua == 0); // Only one Lua stack is supported for now.
 	g_lua = l;
 }
 
-void PersistentTable::Uninit(lua_State * l) {
+void LuaRef::Uninit(lua_State * l) {
 	assert(g_lua == l);
 	g_lua = 0;
 }
 
 
-PersistentTable::PersistentTable(const PersistentTable & ref): m_lua(ref.m_lua), m_id(ref.m_id) {
+LuaRef::LuaRef(const LuaRef & ref): m_lua(ref.m_lua), m_id(ref.m_id) {
     if (m_lua && g_lua == m_lua && m_id)
         g_copy_count[m_id]++;
 }
 
-const PersistentTable & PersistentTable::operator=(const PersistentTable & ref) {
+const LuaRef & LuaRef::operator=(const LuaRef & ref) {
 	if (m_id != 0 && g_lua != 0 && m_lua == g_lua) {
 		g_copy_count[m_id]--;
 		CheckCopyCount();
@@ -32,14 +33,14 @@ const PersistentTable & PersistentTable::operator=(const PersistentTable & ref) 
 	return *this;
 }
 
-PersistentTable::~PersistentTable() {
+LuaRef::~LuaRef() {
 	if (m_id == 0 || g_lua == 0 || m_lua != g_lua)
 		return;
 	g_copy_count[m_id]--;
 	CheckCopyCount();
 }
 
-bool PersistentTable::operator==(const PersistentTable & ref) const {
+bool LuaRef::operator==(const LuaRef & ref) const {
 	if (ref.m_lua != m_lua)
 		return false;
 	if (ref.m_id == m_id)
@@ -53,7 +54,7 @@ bool PersistentTable::operator==(const PersistentTable & ref) const {
 	return return_value;
 }
 
-void PersistentTable::CheckCopyCount() {
+void LuaRef::CheckCopyCount() {
 	if (g_copy_count[m_id] <= 0) {
 		PushGlobalToStack();
 		lua_pushinteger(g_lua, m_id);
@@ -63,7 +64,7 @@ void PersistentTable::CheckCopyCount() {
 	}
 }
 
-PersistentTable::PersistentTable(lua_State * l, int index): m_lua(l), m_id((g_lua && m_lua == g_lua)? ++id_count : 0) {
+LuaRef::LuaRef(lua_State * l, int index): m_lua(l), m_id((g_lua && m_lua == g_lua)? ++id_count : 0) {
 	assert(g_lua && m_lua == g_lua);
 	if (index != 0)
 		index = lua_absindex(m_lua, index);
@@ -81,7 +82,7 @@ PersistentTable::PersistentTable(lua_State * l, int index): m_lua(l), m_id((g_lu
 }
 
 
-void PersistentTable::PushCopyToStack() const {
+void LuaRef::PushCopyToStack() const {
 	assert(g_lua && m_lua == g_lua);
 	PushGlobalToStack();
 	lua_pushinteger(m_lua, m_id);
@@ -89,13 +90,13 @@ void PersistentTable::PushCopyToStack() const {
 	lua_remove(m_lua, -2);
 }
 
-void PersistentTable::PushGlobalToStack() const {
-	lua_pushstring(m_lua, "LuaTable");
+void LuaRef::PushGlobalToStack() const {
+	lua_pushstring(m_lua, "LuaRef");
 	lua_gettable(m_lua, LUA_REGISTRYINDEX);
 	if (lua_isnil(m_lua, -1)) {
 		lua_pop(m_lua, 1);
 		lua_newtable(m_lua);
-		lua_pushstring(m_lua, "LuaTable");
+		lua_pushstring(m_lua, "LuaRef");
 		lua_pushvalue(m_lua, -2);
 		lua_settable(m_lua, LUA_REGISTRYINDEX);
 	}
