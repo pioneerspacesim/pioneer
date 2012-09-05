@@ -7,6 +7,7 @@ local Game = import("Game")
 local Comms = import("Comms")
 local Event = import("Event")
 local NameGen = import("NameGen")
+local Format = import("Format")
 import("StringInterp")
 
 -- Get the translator function

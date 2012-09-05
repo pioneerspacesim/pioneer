@@ -3,6 +3,7 @@
 
 local Translate = import("Translate")
 local Engine = import("Engine")
+local Game = import("Game")
 
 local ui = Engine.ui
 local t = Translate:GetTranslator()

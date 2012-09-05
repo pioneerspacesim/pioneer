@@ -119,8 +119,10 @@ void LuaFormat::Register()
 		{ 0, 0 }
 	};
 
+	lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
 	LuaObjectBase::CreateObject(l_methods, 0, 0);
-	lua_setglobal(l, "Format");
+	lua_setfield(l, -2, "Format");
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }

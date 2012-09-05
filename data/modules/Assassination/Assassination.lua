@@ -4,11 +4,13 @@
 local Translate = import("Translate")
 local Engine = import("Engine")
 local Game = import("Game")
+local Space = import("Space")
 local Comms = import("Comms")
 local Event = import("Event")
 local Mission = import("Mission")
 local NameGen = import("NameGen")
 local Character = import("Character")
+local Format = import("Format")
 import("StringInterp")
 
 -- Get the translator function

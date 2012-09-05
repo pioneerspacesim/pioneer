@@ -4,6 +4,8 @@
 --
 -- Class: Translate
 --
+local Lang = import("Lang")
+
 local Translate
 Translate = {
 	language = Lang.GetCurrentLanguage(), -- Default

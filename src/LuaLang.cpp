@@ -147,8 +147,10 @@ void LuaLang::Register()
 		{ 0, 0 }
 	};
 
+	lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
 	LuaObjectBase::CreateObject(l_methods, 0, 0);
-	lua_setglobal(l, "Lang");
+	lua_setfield(l, -2, "Lang");
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }

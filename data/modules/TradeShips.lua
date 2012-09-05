@@ -3,6 +3,7 @@
 
 local Engine = import("Engine")
 local Game = import("Game")
+local Space = import("Space")
 local Comms = import("Comms")
 local Event = import("Event")
 

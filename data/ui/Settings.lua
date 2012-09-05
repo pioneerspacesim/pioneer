@@ -3,6 +3,7 @@
 
 local Translate = import("Translate")
 local Engine = import("Engine")
+local Lang = import("Lang")
 
 local ui = Engine.ui
 local l = Lang.GetDictionary()

@@ -3,6 +3,7 @@
 
 local Engine = import("Engine")
 local Game = import("Game")
+local Music = import("Music")
 local Event = import("Event")
 
 local music = {}

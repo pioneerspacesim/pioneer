@@ -7,6 +7,7 @@ local Comms = import("Comms")
 local Translate = import("Translate")
 local Event = import("Event")
 local Character = import("Character")
+local Format = import("Format")
 import("StringInterp")
 
 ---------------
