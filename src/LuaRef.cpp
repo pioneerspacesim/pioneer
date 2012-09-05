@@ -69,10 +69,7 @@ LuaRef::LuaRef(lua_State * l, int index): m_lua(l), m_id(++id_count) {
 
 	PushGlobalToStack();
 	lua_pushinteger(m_lua, m_id);
-	if (index == 0)
-		lua_newtable(m_lua);
-	else
-		lua_pushvalue(m_lua, index);
+	lua_pushvalue(m_lua, index);
 	lua_settable(m_lua, -3);
 	lua_pop(m_lua, 1);
 
