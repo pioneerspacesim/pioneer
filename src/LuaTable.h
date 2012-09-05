@@ -27,11 +27,6 @@ public:
 	virtual ~LuaTable() {};
 
 	const LuaTable & operator=(const LuaTable & ref) { m_lua = ref.m_lua; m_index = ref.m_index; return *this;}
-	bool operator==(const LuaTable & ref) const;
-	bool operator<(const LuaTable & ref) const {
-		assert(m_lua && ref.m_lua == m_lua);
-		return m_index < ref.m_index;
-	}
 	template <class Key> void PushValueToStack(const Key & key) const;
 	template <class Value, class Key> Value Get(const Key & key) const;
 	template <class Value, class Key> void Set(const Key & key, const Value & value) const;
