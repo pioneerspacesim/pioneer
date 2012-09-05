@@ -4,6 +4,8 @@
 local Translate = import("Translate")
 local Event = import("Event")
 local Mission = import("Mission")
+local NameGen = import("NameGen")
+import("StringInterp")
 
 -- Get the translator function
 local t = Translate:GetTranslator()

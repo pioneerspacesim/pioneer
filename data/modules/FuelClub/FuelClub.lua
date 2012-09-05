@@ -3,6 +3,8 @@
 
 local Translate = import("Translate")
 local Event = import("Event")
+local Character = import("Character")
+import("StringInterp")
 
 ---------------
 -- Fuel Club --

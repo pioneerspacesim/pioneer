@@ -3,6 +3,8 @@
 
 local Translate = import("Translate")
 local Event = import("Event")
+local NameGen = import("NameGen")
+import("StringInterp")
 
 -- Get the translator function
 local t = Translate:GetTranslator()
