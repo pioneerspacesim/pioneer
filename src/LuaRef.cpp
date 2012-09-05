@@ -3,7 +3,6 @@
 
 lua_State * LuaRef::g_lua = 0;
 static int id_count = 0;
-std::vector<int> LuaRef::g_copy_count(1, 0);
 
 void LuaRef::Init(lua_State * l) {
 	assert(g_lua == 0); // Only one Lua stack is supported for now.
@@ -16,27 +15,27 @@ void LuaRef::Uninit(lua_State * l) {
 }
 
 
-LuaRef::LuaRef(const LuaRef & ref): m_lua(ref.m_lua), m_id(ref.m_id) {
-    if (m_lua && g_lua == m_lua && m_id)
-        g_copy_count[m_id]++;
+LuaRef::LuaRef(const LuaRef & ref): m_lua(ref.m_lua), m_id(ref.m_id), m_copycount(ref.m_copycount) {
+	if (m_lua && g_lua == m_lua && m_id)
+		++(*m_copycount);
 }
 
 const LuaRef & LuaRef::operator=(const LuaRef & ref) {
 	if (m_id != 0 && g_lua != 0 && m_lua == g_lua) {
-		g_copy_count[m_id]--;
+		--(*m_copycount);
 		CheckCopyCount();
 	}
-    m_lua = ref.m_lua;
+	m_lua = ref.m_lua;
 	m_id = ref.m_id;
 	if(m_lua && m_id)
-		g_copy_count[m_id]++;
+		++(*m_copycount);
 	return *this;
 }
 
 LuaRef::~LuaRef() {
 	if (m_id == 0 || g_lua == 0 || m_lua != g_lua)
 		return;
-	g_copy_count[m_id]--;
+	--(*m_copycount);
 	CheckCopyCount();
 }
 
@@ -55,7 +54,7 @@ bool LuaRef::operator==(const LuaRef & ref) const {
 }
 
 void LuaRef::CheckCopyCount() {
-	if (g_copy_count[m_id] <= 0) {
+	if (*m_copycount <= 0) {
 		PushGlobalToStack();
 		lua_pushinteger(g_lua, m_id);
 		lua_pushnil(g_lua);
@@ -64,10 +63,9 @@ void LuaRef::CheckCopyCount() {
 	}
 }
 
-LuaRef::LuaRef(lua_State * l, int index): m_lua(l), m_id((g_lua && m_lua == g_lua)? ++id_count : 0) {
-	assert(g_lua && m_lua == g_lua);
-	if (index != 0)
-		index = lua_absindex(m_lua, index);
+LuaRef::LuaRef(lua_State * l, int index): m_lua(l), m_id(++id_count) {
+	assert(g_lua && m_lua == g_lua && index != 0);
+	index = lua_absindex(m_lua, index);
 
 	PushGlobalToStack();
 	lua_pushinteger(m_lua, m_id);
@@ -78,7 +76,7 @@ LuaRef::LuaRef(lua_State * l, int index): m_lua(l), m_id((g_lua && m_lua == g_lu
 	lua_settable(m_lua, -3);
 	lua_pop(m_lua, 1);
 
-	g_copy_count.push_back(1);
+	m_copycount = new int(1);
 }
 
 
