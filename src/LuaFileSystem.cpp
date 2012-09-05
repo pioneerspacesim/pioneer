@@ -11,7 +11,7 @@
  */
 
 /*
- * Method: ReadDirectory
+ * Function: ReadDirectory
  *
  * > local files, dirs = FileSystem.ReadDirectory(root, path)
  *
@@ -79,7 +79,7 @@ static int l_filesystem_read_dir(lua_State *l)
 	for (; !files.Finished(); files.Next()) {
 		const FileSystem::FileInfo &info = files.Current();
 
-		lua_pushlstring(l, info.GetPath().c_str(), info.GetPath().size());
+		lua_pushlstring(l, info.GetName().c_str(), info.GetName().size());
 		
 		if (info.IsDir())
 			lua_rawseti(l, dirsTable, lua_rawlen(l, dirsTable)+1);
@@ -90,10 +90,43 @@ static int l_filesystem_read_dir(lua_State *l)
 	return 2;
 }
 
+/*
+ * Function: JoinPath
+ *
+ * > local path = FileSystem.JoinPath(...)
+ *
+ * Join the passed arguments into a path, correctly handling separators and .
+ * and .. special dirs.
+ *
+ * Availability:
+ *
+ *   alpha 26
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_filesystem_join_path(lua_State *l)
+{
+	try {
+		std::string path;
+		for (int i = 1; i <= lua_gettop(l); i++)
+			path = FileSystem::JoinPath(path, luaL_checkstring(l, i));
+		path = FileSystem::NormalisePath(path);
+		lua_pushlstring(l, path.c_str(), path.size());
+		return 1;
+	}
+	catch (std::invalid_argument) {
+		luaL_error(l, "result is not a valid path");
+		return 0;
+	}
+}
+
 void LuaFileSystem::Register()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "ReadDirectory", l_filesystem_read_dir },
+		{ "JoinPath",      l_filesystem_join_path },
 		{ 0, 0 }
 	};
 
