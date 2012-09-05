@@ -48,6 +48,7 @@
 -- PersistentCharacters.player, and is the special case.
 
 local Event = import("Event")
+local NameGen = import("NameGen")
 
 local Character;
 Character = {
