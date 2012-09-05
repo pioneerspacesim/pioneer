@@ -1,13 +1,10 @@
 #ifndef _LUATABLE_H
 #define _LUATABLE_H
 
-#include <exception>
 #include <cassert>
 
 #include "lua/lua.hpp"
 #include "LuaRef.h"
-
-class UninitalizedLuaTable: std::exception {};
 
 class LuaTable {
 public:
