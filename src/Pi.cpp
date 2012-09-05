@@ -199,7 +199,6 @@ static void LuaInit()
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
-	pi_lua_dofile_recursive(l, "libs");
 	pi_lua_dofile_recursive(l, "ui");
 	pi_lua_dofile_recursive(l, "modules");
 

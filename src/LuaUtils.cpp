@@ -107,6 +107,29 @@ static int luaopen_utils(lua_State *L)
 	return 1;
 }
 
+static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nret = 0);
+
+static int l_base_import(lua_State *L)
+{
+	std::string importname(luaL_checkstring(L, 1));
+	std::string path(FileSystem::JoinPath("libs", importname+".lua"));
+
+	RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(path);
+	if (!code) {
+		luaL_error(L, "import: %s: could not read file", path.c_str());
+		return 0;
+	}
+
+	pi_lua_dofile(L, *code, 1);
+
+	if (!lua_istable(L, -1)) {
+		luaL_error(L, "import: %s: did not return a table", path.c_str());
+		return 0;
+	}
+
+	return 1;
+}
+
 static const luaL_Reg STANDARD_LIBS[] = {
 	{ "_G", luaopen_base },
 	{ LUA_COLIBNAME, luaopen_coroutine },
@@ -140,6 +163,7 @@ static const luaL_Reg STANDARD_LIBS[] = {
 //  - dofile(), loadfile(), load(): same reason as the package library
 
 // extra/custom functionality:
+//  - import(): library/dependency loader
 //  - math.rad is aliased as math.deg2rad: I prefer the explicit name
 //  - util.hash_random(): a repeatable, safe, hash function based source of
 //    variation
@@ -160,6 +184,9 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setglobal(L, "load");
 	lua_pushnil(L);
 	lua_setglobal(L, "loadstring");
+
+	lua_pushcfunction(L, l_base_import);
+	lua_setglobal(L, "import");
 
 	// standard library adjustments (math library)
 	lua_getglobal(L, LUA_MATHLIBNAME);
@@ -292,7 +319,7 @@ void pi_lua_protected_call(lua_State* L, int nargs, int nresults) {
 	}
 }
 
-static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
+static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nret)
 {
 	assert(l);
 	LUA_DEBUG_START(l);
@@ -312,10 +339,11 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
 	bool trusted = code.GetInfo().GetSource().IsTrusted();
 	const std::string chunkName = (trusted ? "[T] @" : "@") + path;
 
+	int panicidx = lua_absindex(l, -1);
 	if (luaL_loadbuffer(l, source.begin, source.Size(), chunkName.c_str())) {
 		pi_lua_panic(l);
 	} else {
-		int ret = lua_pcall(l, 0, 0, -2);
+		int ret = lua_pcall(l, 0, nret, -2);
 		if (ret) {
 			const char *emsg = lua_tostring(l, -1);
 			if (emsg) { fprintf(stderr, "lua error: %s\n", emsg); }
@@ -337,8 +365,8 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
 			lua_pop(l, 1);
 		}
 	}
-	lua_pop(l, 1);
-	LUA_DEBUG_END(l, 0);
+	lua_remove(l, panicidx);
+	LUA_DEBUG_END(l, nret);
 }
 
 void pi_lua_dofile(lua_State *l, const std::string &path)
