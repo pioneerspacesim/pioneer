@@ -32,7 +32,6 @@ TerrainBody::~TerrainBody()
 		delete m_geosphere;
 }
 
-
 void TerrainBody::InitTerrainBody(SystemBody *sbody)
 {
 	assert(!m_sbody);
@@ -101,7 +100,7 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 		ftran.ClearToRotOnly();
 		campos = ftran.InverseOf() * campos;
 		glMultMatrixd(&ftran[0]);
-		glEnable(GL_NORMALIZE);
+
 		glScaled(rad, rad, rad);			// rad = real_rad / scale
 		campos = campos * (1.0/rad);		// position of camera relative to planet "model"
 
@@ -110,8 +109,6 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 		glTranslated(campos.x, campos.y, campos.z);
 
 		SubRender(renderer, camera, campos);
-
-		glDisable(GL_NORMALIZE);
 
 		// if not using shader then z-buffer precision is hopeless and
 		// we can't place objects on the terrain without awful z artifacts
@@ -133,7 +130,7 @@ void TerrainBody::SetFrame(Frame *f)
 	}
 }
 
-double TerrainBody::GetTerrainHeight(const vector3d pos_) const
+double TerrainBody::GetTerrainHeight(const vector3d &pos_) const
 {
 	double radius = m_sbody->GetRadius();
 	if (m_geosphere) {

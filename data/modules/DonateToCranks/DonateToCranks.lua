@@ -84,7 +84,7 @@ local unserialize = function (data)
 	loaded_data = data
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onGameStart:Connect(onGameStart)
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onGameStart", onGameStart)
 
 Serializer:Register("DonateToCranks", serialize, unserialize)

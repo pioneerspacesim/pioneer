@@ -55,6 +55,7 @@ noinst_HEADERS = \
 	Lang.h \
 	LangStrings.inc.h \
 	LmrModel.h \
+	Lua.h \
 	LuaBody.h \
 	LuaCargoBody.h \
 	LuaChatForm.h \
@@ -63,7 +64,8 @@ noinst_HEADERS = \
 	LuaConstants.h \
 	LuaEngine.h \
 	LuaEquipType.h \
-	LuaEventQueue.h \
+	LuaEvent.h \
+	LuaFileSystem.h \
 	LuaFormat.h \
 	LuaGame.h \
 	LuaLang.h \
@@ -192,6 +194,7 @@ pioneer_SOURCES	= \
 	KeyBindings.cpp \
 	Lang.cpp \
 	LmrModel.cpp \
+	Lua.cpp \
 	LuaBody.cpp \
 	LuaCargoBody.cpp \
 	LuaChatForm.cpp \
@@ -200,7 +203,8 @@ pioneer_SOURCES	= \
 	LuaConstants.cpp \
 	LuaEngine.cpp \
 	LuaEquipType.cpp \
-	LuaEventQueue.cpp \
+	LuaEvent.cpp \
+	LuaFileSystem.cpp \
 	LuaFormat.cpp \
 	LuaGame.cpp \
 	LuaLang.cpp \
@@ -294,6 +298,8 @@ pioneer_LDADD += \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 	$(PNG_LIBS)
 
+pioneer_LDFLAGS = -Wl,-Map=pioneer.map
+
 if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
 endif
@@ -336,6 +342,8 @@ modelviewer_LDADD = \
 if !HAVE_LUA
 modelviewer_LDADD += ../contrib/lua/liblua.a
 endif
+
+modelviewer_LDFLAGS = -Wl,-Map=modelviewer.map
 
 check_PROGRAMS = tests
 tests_SOURCES = \

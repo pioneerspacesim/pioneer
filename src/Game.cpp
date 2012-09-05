@@ -15,10 +15,11 @@
 #include "SystemInfoView.h"
 #include "SpaceStationView.h"
 #include "InfoView.h"
+#include "LuaEvent.h"
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 51;
+static const int  s_saveVersion   = 52;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -510,7 +511,7 @@ void Game::SwitchToNormalSpace()
 
 			m_space->AddBody(ship);
 
-			Pi::luaOnEnterSystem->Queue(ship);
+			LuaEvent::Queue("onEnterSystem", ship);
 		}
 	}
 	m_hyperspaceClouds.clear();
@@ -566,7 +567,7 @@ void Game::CreatePlayer()
 
 	if (startPath.IsSameSystem(SystemPath(-2,1,90,0))) {
 		// Lave
-		m_player.Reset(new Player("Cobra Mk III"));
+		m_player.Reset(new Player("cobra3"));
 		m_player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS3);
 		m_player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
 		m_player->m_equipment.Add(Equip::HYDROGEN, 2);
@@ -576,7 +577,7 @@ void Game::CreatePlayer()
 	}
 
 	else {
-		m_player.Reset(new Player("Eagle Long Range Fighter"));
+		m_player.Reset(new Player("eagle_lrf"));
 		m_player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
 		m_player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
 		m_player->m_equipment.Add(Equip::HYDROGEN, 1);

@@ -1,6 +1,6 @@
 define_ship {
-	name='Imperial Courier',
-	model='courier',
+	name = 'Imperial Courier',
+	model = 'courier',
 	forward_thrust = -50e6,
 	reverse_thrust = 15e6,
 	up_thrust = 15e6,
@@ -14,7 +14,7 @@ define_ship {
 		{ v(0,0,16), v(0,0,1) },
 	},
 	max_cargo = 300,
-	max_laser = 2,
+	max_laser = 1,
 	max_missile = 6,
 	max_cargoscoop = 0,
 	capacity = 300,

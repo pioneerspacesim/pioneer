@@ -23,7 +23,6 @@ static void _mission_to_table(lua_State *l, const Mission &m)
 	LUA_DEBUG_START(l);
 
 	lua_newtable(l);
-	pi_lua_table_ro(l);
 
 	pi_lua_settable(l, "ref", m.ref);
 	pi_lua_settable(l, "due", m.due);

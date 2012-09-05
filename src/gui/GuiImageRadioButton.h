@@ -13,6 +13,7 @@ namespace Gui {
 		virtual ~ImageRadioButton();
 		virtual void Draw();
 		virtual void GetSizeRequested(float size[2]);
+		void SetRenderDimensions(const float wide, const float high);
 	private:
 		Image *m_imgNormal;
 		Image *m_imgPressed;

@@ -1,11 +1,42 @@
 Alpha 26
 
-   * Fixes
-     * Fix atmospheric pressure calculations (#1431, #1395)
-     * Fix lighting glitches in systems with multiple stars (#1430, #1411)
+   * New features
+     * Achernar (4,-9,-16) is now a fully custom system (#1452)
+     * New Imperial Trader (a variant of the Imperial Courier) (#1069)
 
    * Minor changes and tweaks
      * Updated station splash advert (#1429)
+     * Updated the Imperial Courier model (#1069)
+     * Updated the "pilot" and "squadsign" sub-models (#1069)
+
+   * Fixes
+     * Fix atmospheric pressure calculations (#1431, #1395)
+     * Fix lighting glitches in systems with multiple stars (#1430, #1411)
+     * Fix flipped EYE ship texture (#1436)
+     * Fix Caribou laser position (#1435)
+     * Fix broken planet ring textures on Intel GMA 900 chips (#1442, #1439)
+     * Fix Lua console tab completion for some oddly constructed tables (#1447)
+     * Fix Lua console tab completion for tables with numeric indices (#1461, #1462)
+     * Fix ambient light state leak from intro/tombstone (#1472, #1445)
+     * Fix blank UI after game load failure (#1481, #1479)
+
+   * Script changes
+     * Ships now identified by the filename the ship is defined in (#1444, #1474)
+     * New Event system allowing Lua scripts to broadcast their own events.
+       EventQueue is deprecated, for removal in alpha 27 (#1441)
+     * New FileSystem module so scripts can list data files (including files
+       from mods) and files in the game's configuration directory (#1350, #1483)
+
+   * Internal changes
+     * Show frame time in the stats overlay (#1437)
+     * Update COUNTOF macro to fix avoid warnings when compiling with
+       compiling with optimisations on GCC (#1451, #1450)
+     * Force most icons to scale to their bounds regardless of their
+       initial size. Allows hi-res icons (#1448, #1470)
+     * Reimplemented Lua read-only tables (#1460)
+     * Move the global Lua context so it can be used from modelviewer (#1473)
+     * Rewritten material and shader infrastructure (#1432)
+     * Many minor optimisations identified by PVS-Studio (#1480, #1399)
 
 Alpha 25
 

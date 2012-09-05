@@ -12,6 +12,7 @@
 #include "Ship.h"
 #include "Pi.h"
 #include "Game.h"
+#include "LuaEvent.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
@@ -28,12 +29,13 @@ Projectile::Projectile(): Body()
 	m_flags |= FLAG_DRAW_LAST;
 
 	//set up materials
-	m_sideMat.texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
-	m_sideMat.unlit = true;
-	m_sideMat.twoSided = true;
-	m_glowMat.texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
-	m_glowMat.unlit = true;
-	m_glowMat.twoSided = true;
+	Graphics::MaterialDescriptor desc;
+	desc.textures = 1;
+	desc.twoSided = true;
+	m_sideMat.Reset(Pi::renderer->CreateMaterial(desc));
+	m_glowMat.Reset(Pi::renderer->CreateMaterial(desc));
+	m_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
+	m_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
 
 	//zero at projectile position
 	//+x down
@@ -132,7 +134,7 @@ void Projectile::UpdateInterpolatedTransform(double alpha)
 	m_interpolatedTransform[14] = p.z;
 }
 
-void Projectile::SetPosition(vector3d p)
+void Projectile::SetPosition(const vector3d &p)
 {
 	m_orient[12] = p.x;
 	m_orient[13] = p.y;
@@ -210,7 +212,7 @@ void Projectile::StaticUpdate(const float timeStep)
 				hit->OnDamage(m_parent, GetDamage());
 				Pi::game->GetSpace()->KillBody(this);
 				if (hit->IsType(Object::SHIP))
-					Pi::luaOnShipHit->Queue(dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
+					LuaEvent::Queue("onShipHit", dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
 			}
 		}
 	}
@@ -277,8 +279,8 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(view_dir)), length));
 
 	if (color.a > 0.01f) {
-		m_sideMat.diffuse = color;
-		renderer->DrawTriangles(m_sideVerts.Get(), &m_sideMat);
+		m_sideMat->diffuse = color;
+		renderer->DrawTriangles(m_sideVerts.Get(), m_sideMat.Get());
 	}
 
 	// fade out glow quads when viewing nearly edge on
@@ -287,8 +289,8 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	color.a = base_alpha * powf(fabs(dir.Dot(view_dir)), width);
 
 	if (color.a > 0.01f) {
-		m_glowMat.diffuse = color;
-		renderer->DrawTriangles(m_glowVerts.Get(), &m_glowMat);
+		m_glowMat->diffuse = color;
+		renderer->DrawTriangles(m_glowVerts.Get(), m_glowMat.Get());
 	}
 
 	glPopMatrix();

@@ -85,7 +85,7 @@ void ModelBody::SetModel(const char *lmrModelName, bool isStatic)
 	RebuildCollisionMesh();
 }
 
-void ModelBody::SetPosition(vector3d p)
+void ModelBody::SetPosition(const vector3d &p)
 {
 	matrix4x4d m;
 	GetRotMatrix(m);

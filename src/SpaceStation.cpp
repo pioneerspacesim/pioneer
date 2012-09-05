@@ -11,6 +11,7 @@
 #include "Polit.h"
 #include "LmrModel.h"
 #include "LuaVector.h"
+#include "LuaEvent.h"
 #include "Polit.h"
 #include "Space.h"
 #include "Lang.h"
@@ -438,7 +439,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 			if (dt.stage >= 0) {
 				// set docked
 				dt.ship->SetDockedWith(this, i);
-				Pi::luaOnShipDocked->Queue(dt.ship, this);
+				LuaEvent::Queue("onShipDocked", dt.ship, this);
 			} else {
 				if (!dt.ship->IsEnabled()) {
 					// launch ship
@@ -453,7 +454,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 						dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
 						dt.ship->SetThrusterState(2, -1.0);		// forward
 					}
-					Pi::luaOnShipUndocked->Queue(dt.ship, this);
+					LuaEvent::Queue("onShipUndocked", dt.ship, this);
 				}
 			}
 		}
@@ -522,7 +523,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 
 	// if there is and it hasn't had an update for a while, update it
 	else if (Pi::game->GetTime() > m_lastUpdatedShipyard) {
-		Pi::luaOnUpdateBB->Queue(this);
+		LuaEvent::Queue("onUpdateBB", this);
 		update = true;
 	}
 
@@ -765,7 +766,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->SetFlightState(Ship::DOCKING);
 				} else {
 					s->SetDockedWith(this, port);
-					Pi::luaOnShipDocked->Queue(s, this);
+					LuaEvent::Queue("onShipDocked", s, this);
 				}
 			}
 		}
@@ -948,10 +949,8 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		double overallLighting = ambient+intensity;
 
 		// turn off global ambient color
-		Color oldAmbient;
-		oldAmbient = Graphics::State::GetGlobalSceneAmbientColor();
-
-		r->SetAmbientColor(Color(0.0, 0.0, 0.0, 1.0));
+		const Color oldAmbient = r->GetAmbientColor();
+		r->SetAmbientColor(Color::BLACK);
 
 		// as the camera gets close adjust scene ambient so that intensity+ambient = minIllumination
 		double fadeInEnd, fadeInLength, minIllumination;
@@ -972,7 +971,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		RenderLmrModel(viewCoords, viewTransform);
 
 		// reset ambient colour as Fade-in model may change it
-		r->SetAmbientColor(Color(0.0, 0.0, 0.0, 1.0));
+		r->SetAmbientColor(Color::BLACK);
 
 		/* don't render city if too far away */
 		if (viewCoords.Length() < 1000000.0){
@@ -1021,7 +1020,7 @@ void SpaceStation::CreateBB()
 		}
 	}
 
-	Pi::luaOnCreateBB->Queue(this);
+	LuaEvent::Queue("onCreateBB", this);
 	m_bbCreated = true;
 }
 
@@ -1046,7 +1045,7 @@ int SpaceStation::AddBBAdvert(std::string description, AdvertFormBuilder builder
 
 const BBAdvert *SpaceStation::GetBBAdvert(int ref)
 {
-	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
 		if (i->ref == ref)
 			return &(*i);
 	return NULL;
@@ -1054,7 +1053,7 @@ const BBAdvert *SpaceStation::GetBBAdvert(int ref)
 
 bool SpaceStation::RemoveBBAdvert(int ref)
 {
-	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
 		if (i->ref == ref) {
 			BBAdvert ad = (*i);
 			m_bbAdverts.erase(i);
@@ -1072,7 +1071,7 @@ const std::list<const BBAdvert*> SpaceStation::GetBBAdverts()
 	}
 
 	std::list<const BBAdvert*> ads;
-	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
 		ads.push_back(&(*i));
 	return ads;
 }

@@ -3,13 +3,12 @@
 #include "SpaceStation.h"
 #include "LuaChatForm.h"
 #include "LuaConstants.h"
-#include "Pi.h"
 
 static std::map<SpaceStation*,sigc::connection> _station_delete_conns;
 
 static void _delete_station_ads(SpaceStation *s)
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -17,7 +16,7 @@ static void _delete_station_ads(SpaceStation *s)
 	assert(lua_istable(l, -1));
 
 	const std::list<const BBAdvert*> bbadverts = s->GetBBAdverts();
-	for (std::list<const BBAdvert*>::const_iterator i = bbadverts.begin(); i != bbadverts.end(); i++) {
+	for (std::list<const BBAdvert*>::const_iterator i = bbadverts.begin(); i != bbadverts.end(); ++i) {
 		lua_pushinteger(l, (*i)->ref);
 		lua_gettable(l, -2);
         if (lua_isnil(l, -1)) {

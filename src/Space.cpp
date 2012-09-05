@@ -20,13 +20,14 @@
 #include "Lang.h"
 #include "Game.h"
 #include "MathUtil.h"
+#include "LuaEvent.h"
 
 Space::Space(Game *game)
 	: m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
-	, m_background(UNIVERSE_SEED)
+	, m_background(Pi::renderer, UNIVERSE_SEED)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -40,6 +41,7 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
+	, m_background(Pi::renderer)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -62,6 +64,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
+	, m_background(Pi::renderer)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -652,26 +655,7 @@ void Space::TimeStep(float step)
 	// invalid when Lua goes and queries for it. we need to consider whether
 	// there's anything useful that can be done with events in hyperspace
 	if (m_starSystem) {
-		Pi::luaOnEnterSystem->Emit();
-		Pi::luaOnLeaveSystem->Emit();
-		Pi::luaOnFrameChanged->Emit();
-		Pi::luaOnShipHit->Emit();
-		Pi::luaOnShipCollided->Emit();
-		Pi::luaOnShipDestroyed->Emit();
-		Pi::luaOnShipDocked->Emit();
-		Pi::luaOnShipAlertChanged->Emit();
-		Pi::luaOnShipUndocked->Emit();
-		Pi::luaOnShipLanded->Emit();
-		Pi::luaOnShipTakeOff->Emit();
-		Pi::luaOnJettison->Emit();
-		Pi::luaOnCargoUnload->Emit();
-		Pi::luaOnAICompleted->Emit();
-		Pi::luaOnCreateBB->Emit();
-		Pi::luaOnUpdateBB->Emit();
-		Pi::luaOnShipFlavourChanged->Emit();
-		Pi::luaOnShipEquipmentChanged->Emit();
-		Pi::luaOnShipFuelChanged->Emit();
-
+		LuaEvent::Emit();
 		Pi::luaTimer->Tick();
 	}
 
