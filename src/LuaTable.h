@@ -34,7 +34,7 @@ public:
 	lua_State * GetLua() const { return m_lua; }
 	int GetIndex() const { return m_index; }
 
-protected:
+private:
 	LuaTable(): m_lua(0), m_index(0) {} //Protected : invalid tables shouldn't be out there.
 	lua_State * m_lua;
 	int m_index;
