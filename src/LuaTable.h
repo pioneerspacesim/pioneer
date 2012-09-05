@@ -56,14 +56,14 @@ template <class Key> void LuaTable::PushValueToStack(const Key & key) const {
 template <class Value, class Key> Value LuaTable::Get(const Key & key) const {
 	Value return_value;
 	PushValueToStack(key);
-	lua_pull(m_lua, -1, return_value);
+	pi_lua_generic_pull(m_lua, -1, return_value);
 	lua_pop(m_lua, 1);
 	return return_value;
 }
 
 template <class Value, class Key> void LuaTable::Set(const Key & key, const Value & value) const {
-	lua_push(m_lua, key);
-	lua_push(m_lua, value);
+	pi_lua_generic_push(m_lua, key);
+	pi_lua_generic_push(m_lua, value);
 	lua_settable(m_lua, m_index);
 }
 
