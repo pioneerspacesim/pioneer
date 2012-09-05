@@ -108,8 +108,10 @@ void LuaComms::Register()
 		{ 0, 0 }
 	};
 
+	lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
 	luaL_newlib(l, methods);
-	lua_setglobal(l, "Comms");
+	lua_setfield(l, -2, "Comms");
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }
