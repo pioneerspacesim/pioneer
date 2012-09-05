@@ -111,7 +111,7 @@ static int l_filesystem_join_path(lua_State *l)
 	try {
 		std::string path;
 		for (int i = 1; i <= lua_gettop(l); i++)
-			path = FileSystem::JoinPath(path, lua_tostring(l, i));
+			path = FileSystem::JoinPath(path, luaL_checkstring(l, i));
 		path = FileSystem::NormalisePath(path);
 		lua_pushlstring(l, path.c_str(), path.size());
 		return 1;
