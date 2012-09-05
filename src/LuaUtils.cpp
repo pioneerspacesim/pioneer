@@ -114,13 +114,7 @@ static bool _import(lua_State *L, const std::string &importname)
 	LUA_DEBUG_START(L);
 
 	lua_getfield(L, LUA_REGISTRYINDEX, "Imports");
-	if (lua_isnil(L, -1)) {
-		lua_pop(L, 1);
-		lua_newtable(L);
-		lua_pushstring(L, "Imports");
-		lua_pushvalue(L, -2);
-		lua_rawset(L, LUA_REGISTRYINDEX);
-	}
+	assert(lua_istable(L, -1));
 
 	lua_getfield(L, -1, importname.c_str());
 	if (lua_istable(L, -1)) {
@@ -226,8 +220,14 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_pushnil(L);
 	lua_setglobal(L, "loadstring");
 
+
+	// import table and function
+	lua_newtable(L);
+	lua_setfield(L, LUA_REGISTRYINDEX, "Imports");
+
 	lua_pushcfunction(L, l_base_import);
 	lua_setglobal(L, "import");
+
 
 	// standard library adjustments (math library)
 	lua_getglobal(L, LUA_MATHLIBNAME);
