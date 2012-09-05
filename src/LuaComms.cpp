@@ -102,14 +102,14 @@ void LuaComms::Register()
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_Reg methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "Message",          l_comms_message           },
 		{ "ImportantMessage", l_comms_important_message },
 		{ 0, 0 }
 	};
 
 	lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
-	luaL_newlib(l, methods);
+	LuaObjectBase::CreateObject(l_methods, 0, 0);
 	lua_setfield(l, -2, "Comms");
 	lua_pop(l, 1);
 
