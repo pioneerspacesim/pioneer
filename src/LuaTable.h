@@ -5,6 +5,7 @@
 #include <cassert>
 
 #include "lua/lua.hpp"
+#include "LuaRef.h"
 
 class UninitalizedLuaTable: std::exception {};
 
@@ -12,6 +13,11 @@ class LuaTable {
 public:
 	// For now, every lua_State * can only be NULL or Pi::LuaManager->GetLuaState();
 	LuaTable(const LuaTable & ref): m_lua(ref.m_lua), m_index(ref.m_index) {} // Copy constructor.
+	LuaTable(const LuaRef & r): m_lua(table.GetLua()) {
+		r.PushCopyToStack();
+		m_index = lua_gettop(m_lua);
+	}
+		
 	LuaTable(lua_State * l, int index): m_lua(l), m_index(lua_absindex(l, index)) {assert(lua_istable(m_lua, m_index));}
 	explicit LuaTable(lua_State * l): m_lua(l) {
 		lua_newtable(m_lua);
