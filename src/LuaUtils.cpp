@@ -112,6 +112,23 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nr
 static int l_base_import(lua_State *L)
 {
 	std::string importname(luaL_checkstring(L, 1));
+
+	lua_getfield(L, LUA_REGISTRYINDEX, "Imports");
+	if (lua_isnil(L, -1)) {
+		lua_pop(L, 1);
+		lua_newtable(L);
+		lua_pushstring(L, "Imports");
+		lua_pushvalue(L, -2);
+		lua_rawset(L, LUA_REGISTRYINDEX);
+	}
+
+	lua_getfield(L, -1, importname.c_str());
+	if (lua_istable(L, -1)) {
+		lua_remove(L, -2);
+		return 1;
+	}
+	lua_pop(L, 1);
+
 	std::string path(FileSystem::JoinPath("libs", importname+".lua"));
 
 	RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(path);
@@ -127,6 +144,10 @@ static int l_base_import(lua_State *L)
 		return 0;
 	}
 
+	lua_pushvalue(L, -1);
+	lua_setfield(L, -3, importname.c_str());
+
+	lua_remove(L, -2);
 	return 1;
 }
 

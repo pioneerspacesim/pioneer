@@ -508,11 +508,6 @@ int LuaSerializer::l_register(lua_State *l)
 		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
 	}
 
-	lua_getfield(l, -1, key.c_str());
-	if(!(lua_isnil(l, -1)))
-		luaL_error(l, "Lua serializer functions for '%s' are already registered\n", key.c_str());
-	lua_pop(l, 1);
-
 	lua_newtable(l);
 
 	lua_pushinteger(l, 1);
