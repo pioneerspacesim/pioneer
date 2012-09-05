@@ -4,7 +4,8 @@
 --
 -- Class: Translate
 --
-local Translate = {
+local Translate
+Translate = {
 	language = Lang.GetCurrentLanguage(), -- Default
 	dictionary = {}, -- Initialise the dictionary table
 	flavours = {English = {}}, -- Explicitly initialise the English flavours table

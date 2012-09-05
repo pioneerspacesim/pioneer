@@ -16,7 +16,8 @@
 -- Registered mission type data go here
 local MissionRegister = {}
 
-local Mission = {
+local Mission
+Mission = {
 --
 -- Group: Attributes
 --

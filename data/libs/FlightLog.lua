@@ -18,7 +18,8 @@ local FlightLogStationQueueLength = 1000
 local FlightLogSystem = {}
 local FlightLogStation = {}
 
-local FlightLog = {
+local FlightLog
+FlightLog = {
 
 --
 -- Group: Methods

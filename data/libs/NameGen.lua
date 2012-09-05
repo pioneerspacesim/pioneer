@@ -11,7 +11,8 @@ import("StringInterp")
 
 local r = function (t, rand) return t[rand:Integer(1,#t)] end
 
-local NameGen = {
+local NameGen
+NameGen = {
 	firstNames = {
 		male   = {},
 		female = {},

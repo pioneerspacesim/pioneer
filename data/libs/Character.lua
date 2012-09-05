@@ -49,7 +49,8 @@
 
 local Event = import("Event")
 
-local Character = {
+local Character;
+Character = {
 
 --
 -- Group: Attributes
