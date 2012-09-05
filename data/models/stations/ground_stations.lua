@@ -326,12 +326,11 @@ define_model('control_tower', {
 	end
 })
 
-function createLandingPad(padNum, position, lod)
+function createLandingPadStatic(padNum, position, lod)
 	-- padNum: The landing pad number (zero based)
 	-- position: vector of the landing pad v(0,0,0) is where the ship lands
 
 	local padId = 'DOCKING_BAY_' .. (padNum + 1)
-	local stage = get_animation_stage(padId) -- used to determine landing lights
 	local div0 = 2*lod
 	local div1 = 4*lod
 	-- draw landing pad
@@ -339,7 +338,7 @@ function createLandingPad(padNum, position, lod)
 	use_material('pad')
 	geomflag(0x10 + padNum)
 	if lod > 1 then
-		texture('models/stations/textures/seamless_texture_07.png', v(.5,.5,0),v(0,0.125,0),v(0,0,1.25))
+		texture('textures/seamless_texture_07.png', v(.5,.5,0),v(0,0.125,0),v(0,0,1.25))
 	end
 	cylinder(10, position + v(0,0,0), position + v(0,-.4,0), v(0,0,1), 50)
 	if lod > 1 then
@@ -351,7 +350,7 @@ function createLandingPad(padNum, position, lod)
 	--windows
 	--frames
 	if lod > 1 then
-		texture('models/stations/textures/bot5.png', v(.5,.5,0), v(.02,0,0), v(0,0,1))
+		texture('textures/bot5.png', v(.5,.5,0), v(.02,0,0), v(0,0,1))
 		cuboid(position + v(-51.1,-4,8), v(0,-.1,-16))
 		--cuboid(position + v(-51.1,-4,7.9), v(0,-.1,-16.1))
 		cuboid(position + v(51,-4,8), v(.1,-.1,-16))
@@ -375,7 +374,7 @@ function createLandingPad(padNum, position, lod)
 	--interior
 		set_material('screen', 0,0,1,1,0,0,0,5,0.7,0.7,1)
 		use_material('screen')
-		texture('models/stations/textures/tex12.png', v(.5,.5,0), v(0,0,.3), v(.3,0,0))
+		texture('textures/tex12.png', v(.5,.5,0), v(0,0,.3), v(.3,0,0))
 		quad(position + v(-47,-4.49,16), position + v(-47,-3.01,16), position + v(-47,-3.01,-16), position + v(-47,-4.49,-16))--w wall
 		quad(position + v(47,-4.49,16), position + v(47,-4.49,-16), position + v(47,-3.01,-16), position + v(47,-3.01,16))--e wall
 		quad(position + v(-51.1,-4.49,16), position + v(51.1,-4.49,16), position + v(51.1,-4.49,-16), position + v(-51.1,-4.49,-16))--floor
@@ -405,13 +404,13 @@ function createLandingPad(padNum, position, lod)
 		quad(position + v(51.2,-4,-6), position + v(51.2,-4,-6.9), position + v(51.2,-3,-6.9), position + v(51.2,-3,-6))
 		quad(position + v(51.2,-4,-7.1), position + v(51.2,-4,-8), position + v(51.2,-3,-8), position + v(51.2,-3,-7.1))
 	-- draw out the pad number
-		texture('models/stations/textures/seamless_texture_07.png', v(.5,.5,0),v(0,0.125,0),v(0,0,1.25))
+		texture('textures/seamless_texture_07.png', v(.5,.5,0),v(0,0.125,0),v(0,0,1.25))
 		set_material('text', 1, 1, 1, 1)
 		use_material('text')
 		zbias(1, position + v(0,0,0), v(0,1,0))
 		text(padNum+1, position + v(0,0,0), v(0,1,0), v(1,0,0), 20.0, {center=true})
 		-- starport name
-		text(get_label(), position + v(0,0,-35), v(0,1,0), v(1,0,0), 5.0, {center=true})
+		-- note: actual starport name is added in the dynamic section where it can use get_label()
 		text("ACME", position + v(0,0,35), v(0,1,0), v(1,0,0), 5, {center=true})
 		text("Inc", position + v(0,0,39), v(0,1,0), v(1,0,0), 4, {center=true})
 		-- elevator labels
@@ -421,7 +420,7 @@ function createLandingPad(padNum, position, lod)
 		text("D", position + v(44.4,0,8), v(0,1,0), v(0,0,1), 4, {center=true})
 		zbias(0)
 	--pad body
-		texture('models/stations/textures/bot5.png', v(.5,.5,0), v(.02,0,0), v(0,0,1))
+		texture('textures/bot5.png', v(.5,.5,0), v(.02,0,0), v(0,0,1))
 	end
 	cylinder(10, position + v(0,-.5,0), position + v(0,-10.5,0), v(0,0,1), 51.15)
 	--pad pylon
@@ -568,7 +567,7 @@ function createLandingPad(padNum, position, lod)
 		tube(div0, position + v(51,-10,16.5), position + v(51,-.3,16.5), v(1,0,0), .9, 1)
 		tube(div0, position + v(51,-10,-16.5), position + v(51,-.3,-16.5), v(1,0,0), .9, 1)
 	--vent grills
-		texture('models/stations/textures/tex7Uruboros.png', v(.5,.5,0), v(.5,0,0), v(0,0,1))
+		texture('textures/tex7Uruboros.png', v(.5,.5,0), v(.5,0,0), v(0,0,1))
 		circle(div0, position + v(0,-.38,-53.5), v(0,1,0), v(1,0,0), .9)
 		circle(div0, position + v(0,-.38,53.5), v(0,1,0), v(1,0,0), .9)
 		circle(div0, position + v(-31.4,-.38,-43.3), v(0,1,0), v(1,0,0), .9)
@@ -580,10 +579,10 @@ function createLandingPad(padNum, position, lod)
 		circle(div0, position + v(51,-.38,16.5), v(0,1,0), v(1,0,0), .9)
 		circle(div0, position + v(51,-.38,-16.5), v(0,1,0), v(1,0,0), .9)
 	--border vent grills
-		texture('models/stations/textures/metal_7280826.png', v(.5,.5,0), v(.07,0,0), v(0,0,1))
+		texture('textures/metal_7280826.png', v(.5,.5,0), v(.07,0,0), v(0,0,1))
 		circle(10, position + v(0,-.49,0), v(0,1,0),v(0,0,1), 50.85)
 	--elevator frames
-		texture('models/stations/textures/tex4.png', v(.5,.5,0),v(0,.6,0),v(0,0,1))
+		texture('textures/tex4.png', v(.5,.5,0),v(0,.6,0),v(0,0,1))
 		cuboid(position + v(-48,0,14), v(-.4,.05,-12))
 		cuboid(position + v(-39.6,0,14), v(-.4,.05,-12))
 		cuboid(position + v(-48.4,0,14), v(8.8,.05,.4))
@@ -633,32 +632,13 @@ function createLandingPad(padNum, position, lod)
 
 -- draw the pad body
 	if lod > 1 then
-		texture('models/stations/textures/tex12.png', v(.5,.5,0), v(.005,0,0), v(0,.02,0))
+		texture('textures/tex12.png', v(.5,.5,0), v(.005,0,0), v(0,.02,0))
 	end
 	set_material('body', .3, .3, .3, 1)
 	use_material('body')
 	lathe(10, position + v(0,-30.5,0), position + v(0,-100,0), v(0,0,1), {0,10, 1,20})
 	if lod > 1 then
-		if (math.fmod(get_time('SECONDS'), 2) > 1) then
-			local color
-		--local light
-			if stage > 1 or stage < 0 then
-				color = v(1,0,0) -- red
-			elseif stage == 1 then
-				color = v(0,1,0) -- green
-			else
-				color = v(1,0.5,0) -- orange
-			end
-		--landing lights
-			texture(nil)
-			set_material('lit_lamp', 1,0.5,0.5,1,1,0.5,0.5,5,1,0.5,0.5)
-			use_material('lit_lamp')
-			tapered_cylinder(div1, position + v(-30,.05,30), position + v(-30,.15,30), v(0,0,1), .6, .25)
-			tapered_cylinder(div1, position + v(30,.05,30), position + v(30,.15,30), v(0,0,1), .6, .25)
-			tapered_cylinder(div1, position + v(-30,.05,-30), position + v(-30,.15,-30), v(0,0,1), .6, .25)
-			tapered_cylinder(div1, position + v(30,.05,-30), position + v(30,.15,-30), v(0,0,1), .6, .25)
-			billboard('smoke.png', 50, color, { position + v(-30,3,30), position + v(30,3,30), position + v(-30,3,-30), position + v(30,3,-30) })
-		end
+		texture(nil)
 		set_material('lens', .2, .2, 0, .35, .2, .2, 0, 100, .2, .2, 0)
 		use_material('lens')
 		tapered_cylinder(16, position + v(-30,.05,30), position + v(-30,.15,30), v(0,0,1), .6, .25)
@@ -686,14 +666,63 @@ function createLandingPad(padNum, position, lod)
 		circle(6 , position + v(-30,0.1,0), v(0,1,0), v(0,0,1), .3)
 		circle(6 , position + v(-22,0.1,0), v(0,1,0), v(0,0,1), .3)
 		circle(6 , position + v(-14,0.1,0), v(0,1,0), v(0,0,1), .3)
+	end
+end
+
+function createLandingPadDynamic(padNum, position, lod)
+	-- padNum: The landing pad number (zero based)
+	-- position: vector of the landing pad v(0,0,0) is where the ship lands
+	local padId = 'DOCKING_BAY_' .. (padNum + 1)
+	local stage = get_animation_stage(padId) -- used to determine landing lights
+	local div0 = 2*lod
+	local div1 = 4*lod
+
+	-- station name label
+	if lod > 1 then
+		texture('models/stations/textures/seamless_texture_07.png', v(.5,.5,0),v(0,0.125,0),v(0,0,1.25))
+		set_material('text', 1, 1, 1, 1)
+		use_material('text')
+		zbias(1, position + v(0,0,0), v(0,1,0))
+		-- starport name
+		text(get_label(), position + v(0,0,-35), v(0,1,0), v(1,0,0), 5.0, {center=true})
+		zbias(0)
+	end
+
+	-- dynamic lights
+	if lod > 1 then
+		if (math.fmod(get_time('SECONDS'), 2) > 1) then
+			local color
+			--local light
+			if stage > 1 or stage < 0 then
+				color = v(1,0,0) -- red
+			elseif stage == 1 then
+				color = v(0,1,0) -- green
+			else
+				color = v(1,0.5,0) -- orange
+			end
+			--landing lights
+			texture(nil)
+			set_material('lit_lamp', 1,0.5,0.5,1,1,0.5,0.5,5,1,0.5,0.5)
+			use_material('lit_lamp')
+			tapered_cylinder(div1, position + v(-30,.05,30), position + v(-30,.15,30), v(0,0,1), .6, .25)
+			tapered_cylinder(div1, position + v(30,.05,30), position + v(30,.15,30), v(0,0,1), .6, .25)
+			tapered_cylinder(div1, position + v(-30,.05,-30), position + v(-30,.15,-30), v(0,0,1), .6, .25)
+			tapered_cylinder(div1, position + v(30,.05,-30), position + v(30,.15,-30), v(0,0,1), .6, .25)
+			billboard('smoke.png', 50, color, {
+				position + v(-30,3,30),
+				position + v(30,3,30),
+				position + v(-30,3,-30),
+				position + v(30,3,-30) })
+		end
+
 		local freq0 = math.fmod(get_time('SECONDS'),1)
 		local freq1 = math.sin(freq0*50)
 		if stage == 1 then
-				billboard('smoke.png', 20, v(0,freq1*2,0), {
+			billboard('smoke.png', 20, v(0,freq1*2,0), {
 				vlerp(freq0, position + v(0,0.15,50), position + v(0,0.15,10)),
 				vlerp(freq0, position + v(0,0.15,-50), position + v(0,0.15,-10))})
 
-				billboard('smoke.png', 20, v(0,freq1*2,0), {
+			billboard('smoke.png', 20, v(0,freq1*2,0), {
 				vlerp(freq0, position + v(50,0.15,0), position + v(10,0.15,0)),
 				vlerp(freq0, position + v(-50,0.15,0), position + v(-10,0.15,0))})
 		end
@@ -728,10 +757,11 @@ define_model('ground_station_1', {
 	static = function(lod)
 		-- Control Tower
 		call_model('control_tower', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
+		createLandingPadStatic(0, v(-150,50,0), lod)
 	end,
 	dynamic = function(lod)
-		-- Landing pads (these are dynamic due to the landind lights)
-		createLandingPad(0, v(-150,50,0), lod)
+		-- display dynamic landing lights
+		createLandingPadDynamic(0, v(-150,50,0), lod)
 	end,
 })
 
@@ -762,11 +792,13 @@ define_model('ground_station_2', {
 	static = function(lod)
 		-- Control Tower
 		call_model('control_tower', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
+		createLandingPadStatic(0, v(-150,50,0),lod)
+		createLandingPadStatic(1, v(150,50,0),lod)
 	end,
 	dynamic = function(lod)
-		-- Landing pads (these are dynamic due to the landind lights)
-		createLandingPad(0, v(-150,50,0),lod)
-		createLandingPad(1, v(150,50,0),lod)
+		-- display dynamic landing lights
+		createLandingPadDynamic(0, v(-150,50,0),lod)
+		createLandingPadDynamic(1, v(150,50,0),lod)
 	end,
 })
 
@@ -797,12 +829,15 @@ define_model('ground_station_3', {
 	static = function(lod)
 		-- Control Tower
 		call_model('control_tower', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
+		createLandingPadStatic(0, v(-150,50,0),lod)
+		createLandingPadStatic(1, v(150,50,0),lod)
+		createLandingPadStatic(2, v(0,50,-150),lod)
 	end,
 	dynamic = function(lod)
-		-- Landing pads (these are dynamic due to the landind lights)
-		createLandingPad(0, v(-150,50,0),lod)
-		createLandingPad(1, v(150,50,0),lod)
-		createLandingPad(2, v(0,50,-150),lod)
+		-- display dynamic landing lights
+		createLandingPadDynamic(0, v(-150,50,0),lod)
+		createLandingPadDynamic(1, v(150,50,0),lod)
+		createLandingPadDynamic(2, v(0,50,-150),lod)
 	end,
 })
 define_model('ground_station_4', {
@@ -832,12 +867,16 @@ define_model('ground_station_4', {
 	static = function(lod)
 		-- Control Tower
 		call_model('control_tower', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
+		createLandingPadStatic(0, v(-150,50,0),lod)
+		createLandingPadStatic(1, v(150,50,0),lod)
+		createLandingPadStatic(2, v(0,50,-150),lod)
+		createLandingPadStatic(3, v(0,50,150),lod)
 	end,
 	dynamic = function(lod)
-		-- Landing pads (these are dynamic due to the landind lights)
-		createLandingPad(0, v(-150,50,0),lod)
-		createLandingPad(1, v(150,50,0),lod)
-		createLandingPad(2, v(0,50,-150),lod)
-		createLandingPad(3, v(0,50,150),lod)
+		-- display dynamic landing lights
+		createLandingPadDynamic(0, v(-150,50,0),lod)
+		createLandingPadDynamic(1, v(150,50,0),lod)
+		createLandingPadDynamic(2, v(0,50,-150),lod)
+		createLandingPadDynamic(3, v(0,50,150),lod)
 	end,
 })
