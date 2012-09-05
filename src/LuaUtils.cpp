@@ -349,6 +349,7 @@ void pi_lua_dofile(lua_State *l, const std::string &path)
 	RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(path);
 	if (!code) {
 		fprintf(stderr, "could not read Lua file '%s'\n", path.c_str());
+		return;
 	}
 
 	pi_lua_dofile(l, *code);
