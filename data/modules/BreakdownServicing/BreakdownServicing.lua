@@ -2,6 +2,8 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Translate = import("Translate")
+local Engine = import("Engine")
+local Game = import("Game")
 local Comms = import("Comms")
 local Event = import("Event")
 local NameGen = import("NameGen")

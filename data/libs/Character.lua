@@ -47,6 +47,8 @@
 -- and counted with the # operator.  The player's sheet is stored as
 -- PersistentCharacters.player, and is the special case.
 
+local Engine = import("Engine")
+local Game = import("Game")
 local Event = import("Event")
 local NameGen = import("NameGen")
 

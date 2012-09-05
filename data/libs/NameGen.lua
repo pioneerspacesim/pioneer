@@ -7,6 +7,7 @@
 -- Functions for generating names.
 --
 
+local Engine = import("Engine")
 import("StringInterp")
 
 local r = function (t, rand) return t[rand:Integer(1,#t)] end

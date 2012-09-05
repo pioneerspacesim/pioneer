@@ -24,6 +24,8 @@
 -- your module needs to know the difference.
 --
 
+local Engine = import("Engine")
+
 local pending = {}
 local callbacks = {}
 local do_callback = {}

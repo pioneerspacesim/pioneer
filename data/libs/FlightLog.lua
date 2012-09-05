@@ -8,6 +8,7 @@
 -- player. Can be used by scripts to find out where the player has been
 -- recently.
 
+local Game = import("Game")
 local Event = import("Event")
 
 -- default values (private)

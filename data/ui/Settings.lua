@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Translate = import("Translate")
+local Engine = import("Engine")
 
 local ui = Engine.ui
 local l = Lang.GetDictionary()
