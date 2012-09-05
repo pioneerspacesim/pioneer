@@ -111,6 +111,8 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nr
 
 static int l_base_import(lua_State *L)
 {
+	LUA_DEBUG_START(L);
+
 	std::string importname(luaL_checkstring(L, 1));
 
 	lua_getfield(L, LUA_REGISTRYINDEX, "Imports");
@@ -148,6 +150,9 @@ static int l_base_import(lua_State *L)
 	lua_setfield(L, -3, importname.c_str());
 
 	lua_remove(L, -2);
+
+	LUA_DEBUG_END(L, 1);
+
 	return 1;
 }
 
