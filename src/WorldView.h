@@ -40,7 +40,6 @@ public:
 		CAM_RIGHT,
 		CAM_TOP,
 		CAM_BOTTOM,
-		CAM_INTERNAL,
 		CAM_EXTERNAL,
 		CAM_SIDEREAL
 	};
@@ -117,13 +116,11 @@ private:
 	void SelectBody(Body *, bool reselectIsDeselect);
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseButtonDown(int button, int x, int y);
-	void ShowCameraName(SDL_keysym *keysym);
 
 	NavTunnelWidget *m_navTunnel;
 
 	Gui::ImageButton *m_hyperspaceButton;
 
-	bool m_cameraNameVisible;
 	Gui::Label *m_showCameraName;
 	Gui::Fixed *m_commsOptions;
 	Gui::VBox *m_commsNavOptions;
@@ -138,6 +135,7 @@ private:
 	int m_numLights;
 	Uint32 m_showTargetActionsTimeout;
 	Uint32 m_showLowThrustPowerTimeout;
+	Uint32 m_showCameraNameTimeout;
 
 #if WITH_DEVKEYS
 	Gui::Label *m_debugInfo;
@@ -152,7 +150,6 @@ private:
 	sigc::connection m_onPlayerChangeTargetCon;
 	sigc::connection m_onChangeFlightControlStateCon;
 	sigc::connection m_onMouseButtonDown;
-	sigc::connection m_onKeyPressConnection;
 
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;

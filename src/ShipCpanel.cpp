@@ -125,7 +125,7 @@ void ShipCpanel::InitObject()
 	m_camButton = new Gui::MultiStateImageButton();
 	m_leftButtonGroup->Add(m_camButton);
 	m_camButton->SetSelected(true);
-	m_camButton->AddState(WorldView::CAM_INTERNAL, "icons/cam_internal.png", "icons/cam_internal_on.png", Lang::INTERNAL_VIEW);
+	m_camButton->AddState(WorldView::COCKPIT_FRONT, "icons/cam_internal.png", "icons/cam_internal_on.png", Lang::INTERNAL_VIEW);
 	m_camButton->AddState(WorldView::CAM_EXTERNAL, "icons/cam_external.png", "icons/cam_external_on.png", Lang::EXTERNAL_VIEW);
 	m_camButton->AddState(WorldView::CAM_SIDEREAL, "icons/cam_sidereal.png", "icons/cam_sidereal_on.png", Lang::SIDEREAL_VIEW);
 	m_camButton->SetShortcut(SDLK_F1, KMOD_NONE);

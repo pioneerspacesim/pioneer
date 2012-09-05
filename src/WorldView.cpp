@@ -32,7 +32,6 @@ static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
 WorldView::WorldView(): View()
 {
 	m_camType = COCKPIT_FRONT;
-	m_cameraNameVisible = true;
 	InitObject();
 }
 
@@ -43,7 +42,6 @@ WorldView::WorldView(Serializer::Reader &rd): View()
 	m_internalCamera->Load(rd);
 	m_externalCamera->Load(rd);
 	m_siderealCamera->Load(rd);
-	m_cameraNameVisible = rd.Bool();
 }
 
 static const float LOW_THRUST_LEVELS[] = { 0.75, 0.5, 0.25, 0.1, 0.05, 0.01 };
@@ -55,6 +53,7 @@ void WorldView::InitObject()
 
 	m_showTargetActionsTimeout = 0;
 	m_showLowThrustPowerTimeout = 0;
+	m_showCameraNameTimeout = 0;
 	m_numLights = 1;
 	m_labelsOn = true;
 	SetTransparency(true);
@@ -238,7 +237,6 @@ WorldView::~WorldView()
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
 	m_onMouseButtonDown.disconnect();
-	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
 
 void WorldView::Save(Serializer::Writer &wr)
@@ -247,7 +245,6 @@ void WorldView::Save(Serializer::Writer &wr)
 	m_internalCamera->Save(wr);
 	m_externalCamera->Save(wr);
 	m_siderealCamera->Save(wr);
-	wr.Bool(m_cameraNameVisible);
 }
 
 void WorldView::SetCamType(enum CamType c)
@@ -262,8 +259,48 @@ void WorldView::SetCamType(enum CamType c)
 		Pi::player->GetPlayerController()->SetMouseForRearView(c == CAM_REAR);
 		onChangeCamType.emit();
 	}
-
+	
 	switch(m_camType) {
+		case COCKPIT_FRONT:
+			m_activeCamera = m_internalCamera;
+			m_activeCamera->Front_Cockpit();
+			cameraName = Lang::FRONT_COCKPIT_VIEW;
+		break;
+		case COCKPIT_REAR:
+			m_activeCamera = m_internalCamera;
+			m_activeCamera->Rear_Cockpit();
+			cameraName = Lang::REAR_COCKPIT_VIEW;
+		break;
+		case CAM_FRONT:
+			m_activeCamera = m_internalCamera;
+			m_activeCamera->Front();
+			cameraName = Lang::CAMERA_FRONT_VIEW;
+		break;
+		case CAM_REAR:
+			m_activeCamera = m_internalCamera;
+			m_activeCamera->Rear();
+			cameraName = Lang::CAMERA_REAR_VIEW;
+		break;
+		case CAM_LEFT:
+			m_activeCamera = m_internalCamera;
+			m_activeCamera->Left();
+			cameraName = Lang::CAMERA_LEFT_VIEW;
+		break;
+		case CAM_RIGHT:
+			m_activeCamera = m_internalCamera;
+			m_activeCamera->Right();
+			cameraName = Lang::CAMERA_RIGHT_VIEW;
+		break;
+		case CAM_TOP:
+			m_activeCamera = m_internalCamera;
+			m_activeCamera->Top();
+			cameraName = Lang::CAMERA_TOP_VIEW;
+		break;
+		case CAM_BOTTOM:
+			m_activeCamera = m_internalCamera;
+			m_activeCamera->Bottom();
+			cameraName = Lang::CAMERA_BOTTOM_VIEW;
+		break;
 		case CAM_EXTERNAL:
 			m_activeCamera = m_externalCamera;
 			cameraName = Lang::EXTERNAL_VIEW;
@@ -272,11 +309,7 @@ void WorldView::SetCamType(enum CamType c)
 			m_activeCamera = m_siderealCamera;
 			cameraName = Lang::SIDEREAL_VIEW;
 		break;
-		default:
-		case CAM_INTERNAL:
-			m_activeCamera = m_internalCamera;
-		}
-	m_activeCamera->Activate();
+	}
 
 	int i;
 	for (i=0; cameraName[i]; i++)
@@ -286,23 +319,10 @@ void WorldView::SetCamType(enum CamType c)
 		Remove(m_showCameraName);
 	m_showCameraName = new Gui::Label("#09f"+cameraName);
 	Add(m_showCameraName, (Gui::Screen::GetWidth()/2-4*strlen(cameraName.c_str())), 20);
-}
+	
+	m_showCameraNameTimeout = SDL_GetTicks();
 
-void WorldView::ShowCameraName(SDL_keysym *keysym)
-{
-	if (Pi::GetView() != this) {
-		m_onKeyPressConnection.disconnect();
-		return;
-	}
-
-	if (keysym->sym == SDLK_TAB) {
-		m_cameraNameVisible = !m_cameraNameVisible;
-		if (m_cameraNameVisible)
-			m_showCameraName->Show();
-		else
-			m_showCameraName->Hide();
-		return;
-	}
+	m_activeCamera->Activate();
 }
 
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
@@ -380,16 +400,11 @@ void WorldView::OnToggleLabels()
 	if (Pi::GetView() == this) {
 		m_labelsOn = !m_labelsOn;
 	}
-	if (!m_onKeyPressConnection.connected())
-		m_onKeyPressConnection =
-			Pi::onKeyPress.connect(sigc::mem_fun(this, &WorldView::ShowCameraName));
 }
 
 void WorldView::ShowAll()
 {
 	View::ShowAll(); // by default, just delegate back to View
-	if (!m_cameraNameVisible)
-		m_showCameraName->Hide();
 	RefreshButtonStateAndVisibility();
 }
 
@@ -781,14 +796,14 @@ void WorldView::Update()
 		// XXX ugly hack checking for console here
 		if (!Pi::IsConsoleActive()) {
 			if (m_activeCamera->IsExternal() == false) {
-			if (KeyBindings::frontCockpit.IsActive()) {m_activeCamera->Front_Cockpit(); SetCamType(COCKPIT_FRONT); cameraName = Lang::FRONT_COCKPIT_VIEW;}
-			if (KeyBindings::rearCockpit.IsActive()) {m_activeCamera->Rear_Cockpit(); SetCamType(COCKPIT_REAR); cameraName = Lang::REAR_COCKPIT_VIEW;}
-			if (KeyBindings::frontCamera.IsActive()) {m_activeCamera->Front(); SetCamType(CAM_FRONT); cameraName = Lang::CAMERA_FRONT_VIEW;}
-			if (KeyBindings::rearCamera.IsActive()) {m_activeCamera->Rear(); SetCamType(CAM_REAR); cameraName = Lang::CAMERA_REAR_VIEW;}
-			if (KeyBindings::leftCamera.IsActive()) {m_activeCamera->Left(); SetCamType(CAM_LEFT); cameraName = Lang::CAMERA_LEFT_VIEW;}
-			if (KeyBindings::rightCmaera.IsActive()) {m_activeCamera->Right(); SetCamType(CAM_RIGHT); cameraName = Lang::CAMERA_RIGHT_VIEW;}
-			if (KeyBindings::topCamera.IsActive()) {m_activeCamera->Top(); SetCamType(CAM_TOP); cameraName = Lang::CAMERA_TOP_VIEW;}
-			if (KeyBindings::bottomCamera.IsActive()) {m_activeCamera->Bottom(); SetCamType(CAM_BOTTOM); cameraName = Lang::CAMERA_BOTTOM_VIEW;}
+			if (KeyBindings::frontCockpit.IsActive()) {SetCamType(COCKPIT_FRONT);}
+			if (KeyBindings::rearCockpit.IsActive()) {SetCamType(COCKPIT_REAR);}
+			if (KeyBindings::frontCamera.IsActive()) {SetCamType(CAM_FRONT);}
+			if (KeyBindings::rearCamera.IsActive()) {SetCamType(CAM_REAR);}
+			if (KeyBindings::leftCamera.IsActive()) {SetCamType(CAM_LEFT);}
+			if (KeyBindings::rightCmaera.IsActive()) {SetCamType(CAM_RIGHT);}
+			if (KeyBindings::topCamera.IsActive()) {SetCamType(CAM_TOP);}
+			if (KeyBindings::bottomCamera.IsActive()) {SetCamType(CAM_BOTTOM);}
 			} else {
 			if (KeyBindings::cameraRotateUp.IsActive()) m_activeCamera->RotateUp(frameTime);
 			if (KeyBindings::cameraRotateDown.IsActive()) m_activeCamera->RotateDown(frameTime);
@@ -805,8 +820,16 @@ void WorldView::Update()
 		}
 	}
 
+	if (m_showCameraNameTimeout) {
+		if (SDL_GetTicks() - m_showCameraNameTimeout > 20000) {
+			m_showCameraName->Hide();
+			m_showCameraNameTimeout = 0;
+		} else {
+			m_showCameraName->Show();
+		}
+	}
+
 	m_activeCamera->UpdateTransform();
-	m_activeCamera->Activate();
 	m_activeCamera->Update();
 	UpdateProjectedObjects();
 
@@ -817,8 +840,6 @@ void WorldView::Update()
 		Body* const target = PickBody(double(Gui::Screen::GetWidth())/2.0, double(Gui::Screen::GetHeight())/2.0);
 		SelectBody(target, false);
 	}
-	if (m_cameraNameVisible)
-		m_showCameraName->Show();
 }
 
 void WorldView::OnSwitchTo()
