@@ -109,11 +109,9 @@ static int luaopen_utils(lua_State *L)
 
 static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code, int nret = 0);
 
-static int l_base_import(lua_State *L)
+static bool _import(lua_State *L, const std::string &importname)
 {
 	LUA_DEBUG_START(L);
-
-	std::string importname(luaL_checkstring(L, 1));
 
 	lua_getfield(L, LUA_REGISTRYINDEX, "Imports");
 	if (lua_isnil(L, -1)) {
@@ -135,15 +133,15 @@ static int l_base_import(lua_State *L)
 
 	RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(path);
 	if (!code) {
-		luaL_error(L, "import: %s: could not read file", path.c_str());
-		return 0;
+		lua_pushfstring(L, "import: %s: could not read file", path.c_str());
+		return false;
 	}
 
 	pi_lua_dofile(L, *code, 1);
 
 	if (!lua_istable(L, -1)) {
-		luaL_error(L, "import: %s: did not return a table", path.c_str());
-		return 0;
+		lua_pushfstring(L, "import: %s: did not return a table", path.c_str());
+		return false;
 	}
 
 	lua_pushvalue(L, -1);
@@ -153,7 +151,24 @@ static int l_base_import(lua_State *L)
 
 	LUA_DEBUG_END(L, 1);
 
+	return true;
+}
+
+static int l_base_import(lua_State *L)
+{
+	if (!_import(L, luaL_checkstring(L, 1)))
+		return lua_error(L);
 	return 1;
+}
+
+bool pi_lua_import(lua_State *L, const std::string &importname)
+{
+	if (!_import(L, importname)) {
+		fprintf(stderr, "%s\n", lua_tostring(L, -1));
+		lua_pop(L, 1);
+		return false;
+	}
+	return true;
 }
 
 static const luaL_Reg STANDARD_LIBS[] = {

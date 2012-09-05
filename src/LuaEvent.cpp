@@ -14,20 +14,12 @@ static bool _get_method_onto_stack(lua_State *l, const char *method) {
 
 	int top = lua_gettop(l);
 
-	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
-	lua_pushstring(l, "Event");
-	lua_rawget(l, -2);
-
-	if (!lua_istable(l, -1)) {
-		lua_pop(l, 2);
-		LUA_DEBUG_END(l, 0);
+	if (!pi_lua_import(l, "Event"))
 		return false;
-	}
 
-	lua_pushstring(l, method);
-	lua_rawget(l, -2);
-    if (!lua_isfunction(l, -1)) {
-		lua_pop(l, 3);
+	lua_getfield(l, -1, method);
+	if (!lua_isfunction(l, -1)) {
+		lua_pop(l, 2);
 		LUA_DEBUG_END(l, 0);
 		return false;
 	}
