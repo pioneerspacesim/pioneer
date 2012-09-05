@@ -1045,7 +1045,7 @@ int SpaceStation::AddBBAdvert(std::string description, AdvertFormBuilder builder
 
 const BBAdvert *SpaceStation::GetBBAdvert(int ref)
 {
-	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
 		if (i->ref == ref)
 			return &(*i);
 	return NULL;
@@ -1053,7 +1053,7 @@ const BBAdvert *SpaceStation::GetBBAdvert(int ref)
 
 bool SpaceStation::RemoveBBAdvert(int ref)
 {
-	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
 		if (i->ref == ref) {
 			BBAdvert ad = (*i);
 			m_bbAdverts.erase(i);
@@ -1071,7 +1071,7 @@ const std::list<const BBAdvert*> SpaceStation::GetBBAdverts()
 	}
 
 	std::list<const BBAdvert*> ads;
-	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
 		ads.push_back(&(*i));
 	return ads;
 }

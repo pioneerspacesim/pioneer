@@ -126,6 +126,6 @@ void LuaGame::Register()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateObject(0, l_attrs, 0);
+	LuaObjectBase::CreateObject(l_methods, l_attrs, 0);
 	lua_setglobal(Lua::manager->GetLuaState(), "Game");
 }

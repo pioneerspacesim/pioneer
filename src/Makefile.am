@@ -378,11 +378,29 @@ uitest_SOURCES = \
 	FontConfig.cpp \
 	IniConfig.cpp \
 	StringF.cpp \
-    utils.cpp
-uitest_LDADD = ui/libui.a gui/libgui.a text/libtext.a graphics/libgraphics.a posix/libposix.a \
+	Lua.cpp \
+	LuaManager.cpp \
+	LuaUtils.cpp \
+	LuaTable.cpp \
+	LuaObject.cpp \
+	LuaConstants.cpp \
+	enum_table.cpp \
+	utils.cpp
+uitest_LDADD = \
+	../contrib/jenkins/libjenkins.a \
+	ui/libui.a \
+	gui/libgui.a \
+	text/libtext.a \
+	graphics/libgraphics.a \
+	posix/libposix.a
+
+uitest_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 
+if !HAVE_LUA
+uitest_LDADD += ../contrib/lua/liblua.a
+endif
 
 INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA

@@ -176,10 +176,6 @@ static void draw_progress(float progress)
 
 static void LuaInit()
 {
-	Lua::Init();
-
-	lua_State *l = Lua::manager->GetLuaState();
-
 	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
 	LuaSpaceStation::RegisterClass();
@@ -218,6 +214,7 @@ static void LuaInit()
 	UI::LuaInit();
 
 	// XXX load everything. for now, just modules
+	lua_State *l = Lua::manager->GetLuaState();
 	pi_lua_dofile_recursive(l, "libs");
 	pi_lua_dofile_recursive(l, "ui");
 	pi_lua_dofile_recursive(l, "modules");
@@ -230,6 +227,7 @@ static void LuaUninit() {
 
 	delete Pi::luaSerializer;
 	delete Pi::luaTimer;
+	PersistentTable::Uninit(Lua::manager->GetLuaState());
 
 	Lua::Uninit();
 }
@@ -349,8 +347,8 @@ void Pi::Init()
 
     // XXX UI requires Lua (and PersistentTable), but Pi::ui must exist before
     // we start loading templates. so now we have crap everywhere :/
-	lua_State *l = Lua::manager->GetLuaState();
-	PersistentTable::Init(l);
+	Lua::Init();
+	PersistentTable::Init(Lua::manager->GetLuaState());
 
 	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, scrWidth, scrHeight));
 

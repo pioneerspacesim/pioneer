@@ -81,7 +81,16 @@ void Screen::ClearFocus()
 
 void Screen::ShowBadError(const char *msg)
 {
-	baseContainer->HideChildren();
+	// to make things simple for ourselves, we want to hide all the existing widgets
+	// however, if we do it through baseContainer->HideChildren() then we lose track of
+	// which widgets should be shown again when the red-screen is cleared.
+	// So to avoid this problem we don't hide anything, we just temporarily swap to
+	// a different base container which is just used for this red-screen
+
+	Gui::Fixed *oldBaseContainer = Screen::baseContainer;
+	Screen::baseContainer = new Gui::Fixed();
+	Screen::baseContainer->SetSize(float(Screen::width), float(Screen::height));
+	Screen::baseContainer->Show();
 
 	Gui::Fixed *f = new Gui::Fixed(6*GetWidth()/8.0f, 6*GetHeight()/8.0f);
 	Gui::Screen::AddBaseWidget(f, GetWidth()/8, GetHeight()/8);
@@ -100,8 +109,9 @@ void Screen::ShowBadError(const char *msg)
 		SDL_Delay(10);
 	} while (!okButton->IsPressed());
 
-	Gui::Screen::RemoveBaseWidget(f);
-	delete f;
+	delete f; // Gui::Fixed does a horrible thing and calls Gui::Screen::RemoveBaseWidget(this) in its destructor
+	delete Screen::baseContainer;
+	Screen::baseContainer = oldBaseContainer;
 }
 
 bool Screen::Project(const vector3d &in, vector3d &out)

@@ -4,6 +4,7 @@
 #include "FileSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "Lua.h"
 #include <typeinfo>
 
 static const int WIDTH  = 1024;
@@ -126,7 +127,10 @@ int main(int argc, char **argv)
 	videoSettings.vsync = false;
 	Graphics::Renderer *r = Graphics::Init(videoSettings);
 
-	RefCountedPtr<UI::Context> c(new UI::Context(r, WIDTH, HEIGHT));
+	Lua::Init();
+	PersistentTable::Init(Lua::manager->GetLuaState());
+
+	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
 #if 0
 	UI::Button *b1, *b2, *b3;
@@ -409,6 +413,7 @@ int main(int argc, char **argv)
 	);
 #endif
 
+#if 0
     c->SetInnerWidget(
         c->VBox()->PackEnd(
             c->Grid(2,2)
@@ -416,6 +421,14 @@ int main(int argc, char **argv)
                 ->SetRow(1, UI::WidgetSet(c->Label("three"), c->Label("four")))
         )->PackEnd(c->ColorBackground(Color(0.8f,0.2f,0.2f)), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
     );
+#endif
+
+	UI::MultiLineText *text;
+	c->SetInnerWidget(
+		c->Scroller()->SetInnerWidget(
+			(text = c->MultiLineText(""))
+		)
+	);
 
     int count = 0;
 
@@ -452,9 +465,14 @@ int main(int argc, char **argv)
 		else if (count < 400 && count % 10 == 0)
 			printf("%d\n", count);
 #endif
+
+		if (++count % 10 == 0)
+			text->AppendText("line\n");
 	}
 
 	c.Reset();
+	PersistentTable::Uninit(Lua::manager->GetLuaState());
+	Lua::Uninit();
 	delete r;
 
 	SDL_Quit();

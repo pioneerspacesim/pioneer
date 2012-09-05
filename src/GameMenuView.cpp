@@ -368,7 +368,7 @@ GameMenuView::GameMenuView(): View()
 		Gui::VBox *vbox2 = new Gui::VBox();
 		portal->Add(vbox2);
 
-		for (std::vector<std::string>::const_iterator i = availableLanguages.begin(); i != availableLanguages.end(); i++) {
+		for (std::vector<std::string>::const_iterator i = availableLanguages.begin(); i != availableLanguages.end(); ++i) {
 			Gui::RadioButton *temp = new Gui::RadioButton(m_languageGroup);
 			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeLanguage), *i));
 			Gui::HBox *hbox = new Gui::HBox();

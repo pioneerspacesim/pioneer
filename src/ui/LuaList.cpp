@@ -1,5 +1,6 @@
 #include "List.h"
 #include "LuaObject.h"
+#include "LuaSignal.h"
 
 namespace UI {
 
@@ -10,6 +11,19 @@ public:
 		UI::List *list = LuaObject<UI::List>::CheckFromLua(1);
 		list->AddOption(luaL_checkstring(l, 2));
 		lua_pushvalue(l, 1);
+		return 1;
+	}
+
+	static int l_attr_selected_option(lua_State *l) {
+		UI::List *list = LuaObject<UI::List>::CheckFromLua(1);
+		const std::string &selectedOption(list->GetSelectedOption());
+		lua_pushlstring(l, selectedOption.c_str(), selectedOption.size());
+		return 1;
+	}
+
+	static int l_attr_on_option_selected(lua_State *l) {
+		UI::List *list = LuaObject<UI::List>::CheckFromLua(1);
+		LuaSignal<unsigned int,const std::string &>().Wrap(l, list->onOptionSelected);
 		return 1;
 	}
 
@@ -30,6 +44,12 @@ template <> void LuaObject<UI::List>::RegisterClass()
         { 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
+	static const luaL_Reg l_attrs[] = {
+		{ "selectedOption",   LuaList::l_attr_selected_option    },
+		{ "onOptionSelected", LuaList::l_attr_on_option_selected },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<UI::List>::DynamicCastPromotionTest);
 }

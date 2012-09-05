@@ -11,14 +11,13 @@ class ColorBackground : public Single {
 public:
 	virtual void Draw();
 
-	void SetColor(const Color &color) { m_color = color; }
+	void SetColor(const Color &color) { m_material->diffuse = color; }
 
 protected:
 	friend class Context;
-	ColorBackground(Context *context, const Color &color) : Single(context), m_color(color) {}
+	ColorBackground(Context *context, const Color &color);
 
 private:
-	Color m_color;
 	ScopedPtr<Graphics::Material> m_material;
 };
 

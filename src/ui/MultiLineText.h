@@ -14,6 +14,9 @@ public:
 	virtual void Layout();
 	virtual void Draw();
 
+	MultiLineText *SetText(const std::string &text);
+	MultiLineText *AppendText(const std::string &text);
+
 protected:
 	friend class Context;
 	MultiLineText(Context *context, const std::string &text);

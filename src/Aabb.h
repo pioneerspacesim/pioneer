@@ -9,7 +9,7 @@ struct Aabb {
 		: min(DBL_MAX, DBL_MAX, DBL_MAX)
 		, max(-DBL_MAX, -DBL_MAX, -DBL_MAX)
 	{ }
-	void Update(vector3d p) {
+	void Update(const vector3d &p) {
 		if (max.x < p.x) max.x = p.x;
 		if (max.y < p.y) max.y = p.y;
 		if (max.z < p.z) max.z = p.z;
@@ -26,7 +26,7 @@ struct Aabb {
 		if (min.z > z) min.z = z;
 	}
 	template <typename T>
-	bool IsIn (const vector3<T> p) const {
+	bool IsIn (const vector3<T> &p) const {
 		return ((p.x >= min.x) && (p.x <= max.x) &&
 		    (p.y >= min.y) && (p.y <= max.y) &&
 		    (p.z >= min.z) && (p.z <= max.z));
