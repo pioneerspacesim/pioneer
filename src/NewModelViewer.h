@@ -24,6 +24,7 @@ private:
 	bool OnReloadModel(UI::Widget *w);
 	bool OnToggleGrid(UI::Widget *);
 	void AddLog(const std::string &line);
+	void ChangeCameraPreset(SDLKey);
 	void DrawBackground();
 	void DrawGrid(const matrix4x4f &trans, float radius);
 	void DrawLog();

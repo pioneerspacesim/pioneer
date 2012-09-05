@@ -161,6 +161,42 @@ void ModelViewer::AddLog(const std::string &line)
     m_logString = ss.str();
 }
 
+void ModelViewer::ChangeCameraPreset(SDLKey key)
+{
+	if (!m_model) return;
+
+	//Blender is:
+	//1 - front (+ctrl back)
+	//7 - top (+ctrl bottom)
+	//3 - right (+ctrl left)
+	//2,4,6,8 incrementally rotate (+ctrl pan)
+	//
+	//Hoever the presets below are actually different
+	switch (key)
+	{
+	case SDLK_KP4:
+		m_modelRot = matrix4x4f::RotateYMatrix(M_PI/2);
+		AddLog("Left view");
+		break;
+	case SDLK_KP8:
+		m_modelRot = matrix4x4f::RotateXMatrix(M_PI/2);
+		AddLog("Top view");
+		break;
+	case SDLK_KP6:
+		m_modelRot = matrix4x4f::RotateYMatrix(-M_PI/2);
+		AddLog("Right view");
+		break;
+	case SDLK_KP2:
+		m_modelRot = matrix4x4f::RotateXMatrix(-M_PI/2);
+		AddLog("Bottom view");
+		break;
+	default:
+		break;
+		//no others yet
+	}
+	m_camPos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius() * 1.5f);
+}
+
 void ModelViewer::DrawBackground()
 {
 	m_renderer->SetDepthWrite(false);
@@ -265,7 +301,7 @@ void ModelViewer::DrawModel()
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	UpdateLights();
 
-	const matrix4x4f mv = matrix4x4f::Translation(-m_camPos) * m_modelRot.InverseOf();
+	matrix4x4f mv = matrix4x4f::Translation(-m_camPos) * m_modelRot.InverseOf();
 
 	if (m_options.showGrid)
 		DrawGrid(mv, m_model->GetDrawClipRadius());
@@ -322,11 +358,14 @@ void ModelViewer::PollEvents()
 	 * Keyboard: rotate view
 	 * plus/minus: zoom view
 	 * Shift: zoom faster
+	 * printscr - screenshots
+	 * tab - toggle ui (always invisible on screenshots)
+	 * g - grid
 	 *
 	 * Planned:
 	 * numpad - preset camera views, blenderish
-	 * g - grid
-	 * tab - toggle ui (always invisible on screenshots)
+	 * numpad 5 - ortho/perspective (pointless, but I said blenderish)
+	 *
 	 */
 	m_mouseMotion[0] = m_mouseMotion[1] = 0;
 
@@ -364,6 +403,15 @@ void ModelViewer::PollEvents()
 				break;
 			case SDLK_PRINT:
 				m_screenshotQueued = true;
+				break;
+			case SDLK_g:
+				OnToggleGrid(0);
+				break;
+			case SDLK_KP4:
+			case SDLK_KP8:
+			case SDLK_KP6:
+			case SDLK_KP2:
+				ChangeCameraPreset(event.key.keysym.sym);
 				break;
 			}
 			m_keyStates[event.key.keysym.sym] = true;
@@ -469,7 +517,7 @@ void ModelViewer::SetupUI()
 
 void ModelViewer::UpdateCamera()
 {
-	float rate = 5.f * m_frameTime;
+	float rate = 10.f * m_frameTime;
 	if (m_keyStates[SDLK_LSHIFT]) rate = 50.f * m_frameTime;
 
 	//zoom
