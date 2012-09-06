@@ -7,11 +7,15 @@ local sys = CustomSystem:new('Achernar',{'STAR_B'})
 -- Achernar - Type 'B' hot blue star
 -- Mass: 7186786.11 Earth masses (== 21.60733079 solar masses)
 -- Surface temp: 20000 deg C
+-- Equatorial to polar aspect ratio: 1.56
+--    Citation from wiki: "On the Determination of the Rotational Oblateness of Achernar", The Astrophysical Journal, Carciofi, A. C. et al. (March 2008)
+--    http://iopscience.iop.org/1538-4357/676/1/L41/pdf/1538-4357_676_1_L41.pdf
 local Achernar = CustomSystemBody:new("Achernar",'STAR_B')
    :seed(5437)
    :radius(f(2479,1000))
    :mass(f(2161,100))
    :temp(20273)
+   :equatorial_to_polar_radius_aspect_ratio(f(156,100))
 
 -- Achernar1 - rocky planet with a thin atmosphere
 -- Mass: 0.15 Earth masses

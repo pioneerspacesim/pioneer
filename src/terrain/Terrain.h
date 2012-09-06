@@ -150,6 +150,8 @@ class TerrainHeightBarrenRock3;
  http://i.imgur.com/qeEuS.png
  */
 
+class TerrainHeightEllipsoid;
+
 // Newish terrains, 6 months or so :
 class TerrainHeightHillsCraters2;
 class TerrainHeightHillsCraters;

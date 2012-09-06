@@ -67,7 +67,12 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 {
 	matrix4x4d ftran = viewTransform;
 	vector3d fpos = viewCoords;
+	
 	double rad = m_sbody->GetRadius();
+
+	// the scaling radius is what the terrain code assumes is used to scale the model. 
+	// this is different from the normal radius for ellipsoid terrains where the terrain code assumes the polar radius is used.
+	double scalingRadius = m_sbody->GetGeosphereBaseRadius();
 
 	float znear, zfar;
 	renderer->GetNearFarRange(znear, zfar);
@@ -84,6 +89,7 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 		if (dist_to_horizon < zfar*0.5) break;
 
 		rad *= 0.25;
+		scalingRadius *= 0.25;
 		fpos = 0.25*fpos;
 		len *= 0.25;
 		scale *= 4.0f;
@@ -101,8 +107,8 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 		campos = ftran.InverseOf() * campos;
 		glMultMatrixd(&ftran[0]);
 
-		glScaled(rad, rad, rad);			// rad = real_rad / scale
-		campos = campos * (1.0/rad);		// position of camera relative to planet "model"
+		glScaled(scalingRadius, scalingRadius, scalingRadius);	// rad = real_rad / scale
+		campos = campos * (1.0/scalingRadius);		            // position of camera relative to planet "model"
 
 		// translation not applied until patch render to fix jitter
 		m_geosphere->Render(renderer, -campos, m_sbody->GetRadius(), scale);

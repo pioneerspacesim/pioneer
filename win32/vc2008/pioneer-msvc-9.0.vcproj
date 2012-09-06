@@ -1066,6 +1066,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\terrain\TerrainHeightEllipsoid.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\terrain\TerrainHeightFlat.cpp"
 				>
 			</File>
