@@ -988,7 +988,8 @@ void Pi::Start()
 	std::string version("Pioneer " PIONEER_VERSION);
 	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
 	version += "\n";
-	version += Pi::renderer->GetName();
+	version += "Dedicated to the memory of Neil Armstrong (1930-2012)";
+
 
 	menu->Add(new Gui::Label(version), 30+badgeSize[0]+20, Gui::Screen::GetHeight()-badgeSize[1]-10);
 
