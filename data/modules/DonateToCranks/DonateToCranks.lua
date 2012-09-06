@@ -6,6 +6,7 @@ local Game = import("Game")
 local Comms = import("Comms")
 local Translate = import("Translate")
 local Event = import("Event")
+local Serializer = import("Serializer")
 
 -- Get the translator function
 local t = Translate:GetTranslator()

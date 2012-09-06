@@ -6,6 +6,7 @@ local Engine = import("Engine")
 local Game = import("Game")
 local Event = import("Event")
 local NameGen = import("NameGen")
+local Serializer = import("Serializer")
 import("StringInterp")
 
 -- Get the translator function

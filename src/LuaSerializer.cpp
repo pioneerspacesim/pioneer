@@ -532,10 +532,19 @@ template <> const char *LuaObject<LuaSerializer>::s_type = "Serializer";
 
 template <> void LuaObject<LuaSerializer>::RegisterClass()
 {
+	lua_State *l = Lua::manager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
 	static const luaL_Reg l_methods[] = {
 		{ "Register", LuaSerializer::l_register },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, 0, l_methods, 0, 0);
+	lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
+	LuaObjectBase::CreateObject(l_methods, 0, 0);
+	lua_setfield(l, -2, "Serializer");
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
 }

@@ -11,6 +11,7 @@
 local Game = import("Game")
 local Event = import("Event")
 local Format = import("Format")
+local Serializer = import("Serializer")
 
 -- default values (private)
 local FlightLogSystemQueueLength = 1000

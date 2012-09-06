@@ -8,6 +8,7 @@ local Translate = import("Translate")
 local Event = import("Event")
 local Character = import("Character")
 local Format = import("Format")
+local Serializer = import("Serializer")
 import("StringInterp")
 
 ---------------

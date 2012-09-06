@@ -8,6 +8,7 @@ local Comms = import("Comms")
 local Event = import("Event")
 local NameGen = import("NameGen")
 local Format = import("Format")
+local Serializer = import("Serializer")
 import("StringInterp")
 
 -- Get the translator function
