@@ -2,12 +2,12 @@
 #include <cassert>
 
 LuaRef::LuaRef(const LuaRef & ref): m_lua(ref.m_lua), m_id(ref.m_id), m_copycount(ref.m_copycount) {
-	if (m_lua && m_id)
+	if (m_lua && m_id != LUA_NOREF)
 		++(*m_copycount);
 }
 
 const LuaRef & LuaRef::operator=(const LuaRef & ref) {
-	if (m_id && m_lua) {
+	if (m_id != LUA_NOREF && m_lua) {
 		--(*m_copycount);
 	}
 	CheckCopyCount();
@@ -19,9 +19,8 @@ const LuaRef & LuaRef::operator=(const LuaRef & ref) {
 }
 
 LuaRef::~LuaRef() {
-	if (m_id == 0 || m_lua == 0)
-		return;
-	--(*m_copycount);
+	if (m_id != LUA_NOREF && m_lua)
+		--(*m_copycount);
 	CheckCopyCount();
 }
 
@@ -63,7 +62,7 @@ LuaRef::LuaRef(lua_State * l, int index): m_lua(l), m_id(0) {
 
 
 void LuaRef::PushCopyToStack() const {
-	assert(m_lua && m_id);
+	assert(m_lua && m_id == LUA_NOREF);
 	PushGlobalToStack();
 	lua_pushinteger(m_lua, m_id);
 	lua_gettable(m_lua, -2);
