@@ -77,7 +77,9 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			const char *cl = lua_tostring(l, -1);
 			snprintf(buf, sizeof(buf), "o%s\n", cl);
 
-			lua_getglobal(l, cl);
+			lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
+
+			lua_getfield(l, -1, cl);
 			if (lua_isnil(l, -1))
 				luaL_error(l, "No Serialize method found for class '%s'\n", cl);
 
@@ -91,7 +93,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			lua_remove(l, idx);
 			lua_insert(l, idx);
 
-			lua_pop(l, 3);
+			lua_pop(l, 4);
 
 			if (lua_isnil(l, idx)) {
 				LUA_DEBUG_END(l, 0);
@@ -365,8 +367,8 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			// unpickle the object, and insert it beneath the method table value
 			pos = unpickle(l, end);
 
-			// get _G[typename]
-			lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
+			// get Imports[typename]
+			lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
 			lua_pushlstring(l, cl, len);
 			lua_gettable(l, -2);
 			lua_remove(l, -2);
