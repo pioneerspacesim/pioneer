@@ -712,10 +712,14 @@ static void draw_intro(Background::Container *background, float _time)
 	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
 	Pi::renderer->SetLights(1, &light);
 
-	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
-			matrix4x4f::RotateXMatrix(_time*0.7f);
-	rot[14] = -80.0;
-	LmrLookupModelByName("apollo")->Render(rot, &params);
+	matrix4x4f trans =
+		matrix4x4f::Translation(0.0f, 0.0f, -80.0f) *
+		matrix4x4f::RotateYMatrix(_time) *
+		matrix4x4f::RotateZMatrix(0.6f*_time) *
+		matrix4x4f::RotateXMatrix(_time*0.7f) *
+		matrix4x4f::Translation(0.0f, -20.0f, 0.0f);
+	LmrLookupModelByName("apollo")->Render(trans, &params);
+
 	glPopAttrib();
 	Pi::renderer->SetAmbientColor(oldSceneAmbientColor);
 }
