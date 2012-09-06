@@ -15,6 +15,7 @@ const LuaRef & LuaRef::operator=(const LuaRef & ref) {
 	CheckCopyCount();
 	m_lua = ref.m_lua;
 	m_id = ref.m_id;
+	m_copycount = ref.m_copycount;
 	if(m_lua && m_id)
 		++(*m_copycount);
 	return *this;
