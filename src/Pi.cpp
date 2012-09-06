@@ -715,7 +715,7 @@ static void draw_intro(Background::Container *background, float _time)
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
 			matrix4x4f::RotateXMatrix(_time*0.7f);
 	rot[14] = -80.0;
-	LmrLookupModelByName("lanner_ub")->Render(rot, &params);
+	LmrLookupModelByName("apollo")->Render(rot, &params);
 	glPopAttrib();
 	Pi::renderer->SetAmbientColor(oldSceneAmbientColor);
 }
