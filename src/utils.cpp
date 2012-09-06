@@ -26,15 +26,25 @@ public:
 private:
 	int hour, minute, second, day, month, year;
 
-	static const char months[37];
+	static const char * const months[12];
 	static const unsigned char days[2][12];
 };
 
-// This string of months needs to be made translatable.
-// It can always be an array of char with 37 elements,
-// as all languages can use just the first three letters
-// of the name of each month.
-const char timedate::months[37] = "JanFebMarAprMayJunJulAugSepOctNovDec";
+const char * const timedate::months[] = {
+	Lang::MONTH_JAN,
+	Lang::MONTH_FEB,
+	Lang::MONTH_MAR,
+	Lang::MONTH_APR,
+	Lang::MONTH_MAY,
+	Lang::MONTH_JUN,
+	Lang::MONTH_JUL,
+	Lang::MONTH_AUG,
+	Lang::MONTH_SEP,
+	Lang::MONTH_OCT,
+	Lang::MONTH_NOV,
+	Lang::MONTH_DEC
+};
+
 const unsigned char timedate::days[2][12] = {
 	{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
 	{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
@@ -69,16 +79,16 @@ timedate &timedate::operator=(int stamp)
 std::string timedate::fmt_time_date()
 {
 	char buf[32];
-	snprintf(buf, sizeof (buf), "%02d:%02d:%02d %d %.3s %d",
-	         hour, minute, second, day + 1, months + month * 3, year);
+	snprintf(buf, sizeof (buf), "%02d:%02d:%02d %d %s %d",
+	         hour, minute, second, day + 1, months[month], year);
 	return buf;
 }
 
 std::string timedate::fmt_date()
 {
 	char buf[16];
-	snprintf(buf, sizeof (buf), "%d %.3s %d",
-	         day + 1, months + month * 3, year);
+	snprintf(buf, sizeof (buf), "%d %s %d",
+	         day + 1, months[month], year);
 	return buf;
 }
 
