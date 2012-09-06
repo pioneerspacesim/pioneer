@@ -15,8 +15,8 @@ local onEnterSystem = function (player)
 	while max_pirates > 0 and Engine.rand:Number(1) < lawlessness do
 		max_pirates = max_pirates-1
 
-		local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-		local shiptype = ShipType.GetShipType(shipname)
+		local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+		local shiptype = ShipType.GetShipType(shipid)
 		local default_drive = shiptype.defaultHyperdrive
 
 		-- select a laser. this is naive - it simply chooses at random from
@@ -30,7 +30,7 @@ local onEnterSystem = function (player)
 		end)
 		local laser = lasers[Engine.rand:Integer(1,#lasers)]
 
-		local ship = Space.SpawnShip(shipname, 8, 12)
+		local ship = Space.SpawnShip(shipid, 8, 12)
 		ship:AddEquip(default_drive)
 		ship:AddEquip(laser)
 		ship:AIKill(Game.player)
