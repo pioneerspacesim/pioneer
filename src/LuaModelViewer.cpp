@@ -4,7 +4,6 @@
 #include "LmrModel.h"
 #include "ModManager.h"
 #include "OS.h"
-#include "LuaRef.h"
 #include "Ship.h" // for the flight state and ship animation enums
 #include "ShipType.h"
 #include "SpaceStation.h" // for the space station animation enums
@@ -746,8 +745,6 @@ int main(int argc, char **argv)
 	LmrModelCompilerInit(renderer);
 	LmrNotifyScreenWidth(g_width);
 
-	lua_State * l = luaL_newstate();
-
 	ShipType::Init();
 
 	g_viewer = new Viewer();
@@ -765,7 +762,6 @@ int main(int argc, char **argv)
 	g_viewer->MainLoop();
 	//XXX looks like this is never reached
 	FileSystem::Uninit();
-	lua_close(l);
 	delete renderer;
 	return 0;
 }
