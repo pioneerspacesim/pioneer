@@ -38,6 +38,7 @@ Alpha 26
      * Move the global Lua context so it can be used from modelviewer (#1473)
      * Rewritten material and shader infrastructure (#1432)
      * Many minor optimisations identified by PVS-Studio (#1480, #1399)
+     * Fix a warning when building with clang (#1488)
 
 Alpha 25
 
