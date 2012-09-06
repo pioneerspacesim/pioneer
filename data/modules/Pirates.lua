@@ -5,6 +5,7 @@ local Engine = import("Engine")
 local Game = import("Game")
 local Space = import("Space")
 local Event = import("Event")
+local ShipType = import("ShipType")
 
 local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end

@@ -4,6 +4,7 @@
 local Engine = import("Engine")
 local Game = import("Game")
 local Comms = import("Comms")
+local Rand = import("Rand")
 local Translate = import("Translate")
 local Event = import("Event")
 local Character = import("Character")

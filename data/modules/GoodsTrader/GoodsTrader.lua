@@ -6,6 +6,7 @@ local Engine = import("Engine")
 local Game = import("Game")
 local Event = import("Event")
 local NameGen = import("NameGen")
+local Rand = import("Rand")
 local Serializer = import("Serializer")
 import("StringInterp")
 

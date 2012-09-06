@@ -154,7 +154,7 @@ static void SplitTablePath(lua_State *l, const std::string &path)
 
 	std::string last;
 
-	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
+	lua_getfield(l, LUA_REGISTRYINDEX, "Imports");
 
 	size_t start = 0, end = 0;
 	while (end != std::string::npos) {
