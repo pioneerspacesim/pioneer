@@ -6,8 +6,6 @@
 
 class LuaRef {
 public:
-	static void Init(lua_State * l);
-	static void Uninit(lua_State * l);
 
 	LuaRef(): m_lua(0), m_id(0), m_copycount(new int(0)) {}
 	LuaRef(lua_State * l, int index);

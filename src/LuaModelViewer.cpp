@@ -765,7 +765,6 @@ int main(int argc, char **argv)
 	g_viewer->MainLoop();
 	//XXX looks like this is never reached
 	FileSystem::Uninit();
-	LuaRef::Uninit(l);
 	lua_close(l);
 	delete renderer;
 	return 0;
