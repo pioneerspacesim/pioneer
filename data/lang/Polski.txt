@@ -1200,3 +1200,27 @@ X_PASSENGER_CABINS
     Zajęte kabiny pasażerskie [#ff0 %quantity #fff]
 CABINS
     Kabiny
+MONTH_JAN
+    Sty
+MONTH_FEB
+    Lut
+MONTH_MAR
+    Mar
+MONTH_APR
+    Kwi
+MONTH_MAY
+    Maj
+MONTH_JUN
+    Cze
+MONTH_JUL
+    Lip
+MONTH_AUG
+    Sie
+MONTH_SEP
+    Wrz
+MONTH_OCT
+    Paź
+MONTH_NOV
+    Lis
+MONTH_DEC
+    Gru
