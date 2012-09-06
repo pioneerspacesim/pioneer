@@ -974,7 +974,6 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform, overallLighting, minIllumination);
 		} 
 
-		// reset ambient colour as Fade-in model may change it
 		r->SetAmbientColor(Color::BLACK);
 
 		FadeInModelIfDark(r, GetLmrCollMesh()->GetBoundingRadius(),
