@@ -1,3 +1,5 @@
+local VERSION = 1 -- Integer versioning; bump this up if the saved game format changes.
+
 --
 -- Class: FlightLog
 --
@@ -213,11 +215,33 @@ local onGameStart = function ()
 end
 
 local serialize = function ()
-    return { System = FlightLogSystem, Station = FlightLogStation }
+    return {
+		VERSION = VERSION,
+		System = FlightLogSystem,
+		Station = FlightLogStation,
+	}
 end
 
 local unserialize = function (data)
     loaded_data = data
+	if data.VERSION then
+		if data.VERSION < VERSION then
+			print('Old FlightLog data loaded, converting...')
+			-- No upgrade code yet
+			print(('FlightLog data converted to internal version {newversion}'):interp({newversion=VERSION}))
+			return
+		end
+		if data.VERSION > VERSION then
+			error(([[FlightLog load error - saved game is more recent than installed files
+			Saved game internal version: {saveversion}
+			Installed internal version: {ourversion}]]):interp({saveversion=data.VERSION,ourversion=VERSION}))
+		end
+	else
+		-- Hopefully, a few engine save-game bumps from now,
+		-- there will be no instance where this is acceptable,
+		-- and we can error() out of here.
+		print('Pre-versioning FlightLog data loaded')
+	end
 end
 
 Event.Register("onEnterSystem", AddSystemArrivalToLog)

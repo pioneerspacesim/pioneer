@@ -1,3 +1,5 @@
+local VERSION = 1 -- Integer versioning; bump this up if the saved game format changes.
+
 --[[
 	trade_ships
 		interval - is minimum amount of time between hyperspace arrivals,
@@ -872,11 +874,30 @@ Event.Register("onGameEnd", onGameEnd)
 
 local serialize = function ()
 	-- all we need to save is trade_ships, the rest can be rebuilt on load
-	return trade_ships
+    return {
+		VERSION = VERSION,
+		trade_ships=trade_ships,
+	}
 end
 
 local unserialize = function (data)
-	trade_ships = data
+	if data.VERSION then
+		if data.VERSION < VERSION then
+			print('Old TradeShips data loaded, converting...')
+			-- No upgrade code yet
+			print(('TradeShips data converted to internal version {newversion}'):interp({newversion=VERSION}))
+			return
+		end
+		if data.VERSION > VERSION then
+			error(([[TradeShips load error - saved game is more recent than installed files
+			Saved game internal version: {saveversion}
+			Installed internal version: {ourversion}]]):interp({saveversion=data.VERSION,ourversion=VERSION}))
+		end
+		trade_ships = data.trade_ships
+	else
+		print('Pre-versioning TradeShips data loaded')
+		trade_ships = data
+	end
 end
 
 Serializer:Register("TradeShips", serialize, unserialize)
