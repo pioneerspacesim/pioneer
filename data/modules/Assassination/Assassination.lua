@@ -75,6 +75,7 @@ local onChat = function (form, ref, option)
 			flavour		= ad.flavour,
 			location	= ad.location,
 			reward		= ad.reward,
+			shipid		= ad.shipid,
 			shipname	= ad.shipname,
 			shipregid	= ad.shipregid,
 			status		= 'ACTIVE',
@@ -126,7 +127,8 @@ local makeAdvert = function (station)
 	local reward = Engine.rand:Number(2100, 7000) * danger
 	local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
 		return (t.hullMass >= (danger * 17)) and (t:GetEquipSlotCapacity('ATMOSHIELD') > 0) end)
-	local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+	local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+	local shipname = ShipType.GetShipType(shipid).name
 
 	local ad = {
 		client = client,
@@ -137,6 +139,7 @@ local makeAdvert = function (station)
 		isfemale = isfemale,
 		location = location,
 		reward = reward,
+		shipid = shipid,
 		shipname = shipname,
 		shipregid = RandomShipRegId(),
 		station = station,
@@ -215,13 +218,13 @@ local onEnterSystem = function (ship)
 				if mission.due > Game.time then
 					if mission.location:IsSameSystem(syspath) then -- spawn our target ship
 						local station = Space.GetBody(mission.location.bodyIndex)
-						local shiptype = ShipType.GetShipType(mission.shipname)
+						local shiptype = ShipType.GetShipType(mission.shipid)
 						local default_drive = shiptype.defaultHyperdrive
 						local lasers = EquipType.GetEquipTypes('LASER', function (e,et) return et.slot == "LASER" end)
 						local count = tonumber(string.sub(default_drive, -1)) ^ 2
 						local laser = lasers[mission.danger]
 
-						mission.ship = Space.SpawnShipDocked(mission.shipname, station)
+						mission.ship = Space.SpawnShipDocked(mission.shipid, station)
 						if mission.ship == nil then
 							return -- TODO
 						end

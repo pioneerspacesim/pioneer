@@ -387,6 +387,9 @@
     <ClCompile Include="..\..\src\LuaFileSystem.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Lua.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\Factions.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -810,6 +813,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaFileSystem.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Lua.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Factions.h">

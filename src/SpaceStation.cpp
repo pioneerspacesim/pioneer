@@ -965,21 +965,21 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			fadeInLength = 3000.0;
 		}
 
-		FadeInModelIfDark(r, GetLmrCollMesh()->GetBoundingRadius(),
-							viewCoords.Length(), fadeInEnd, fadeInLength, overallLighting, minIllumination);
-
-		RenderLmrModel(viewCoords, viewTransform);
-
-		// reset ambient colour as Fade-in model may change it
-		r->SetAmbientColor(Color::BLACK);
-
 		/* don't render city if too far away */
 		if (viewCoords.Length() < 1000000.0){
+			r->SetAmbientColor(Color::BLACK);
 			if (!m_adjacentCity) {
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
 			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform, overallLighting, minIllumination);
 		} 
+
+		r->SetAmbientColor(Color::BLACK);
+
+		FadeInModelIfDark(r, GetLmrCollMesh()->GetBoundingRadius(),
+							viewCoords.Length(), fadeInEnd, fadeInLength, overallLighting, minIllumination);
+
+		RenderLmrModel(viewCoords, viewTransform);
 
 		// restore old lights
 		r->SetLights(origLights.size(), &origLights[0]);
@@ -1045,7 +1045,7 @@ int SpaceStation::AddBBAdvert(std::string description, AdvertFormBuilder builder
 
 const BBAdvert *SpaceStation::GetBBAdvert(int ref)
 {
-	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
 		if (i->ref == ref)
 			return &(*i);
 	return NULL;
@@ -1053,7 +1053,7 @@ const BBAdvert *SpaceStation::GetBBAdvert(int ref)
 
 bool SpaceStation::RemoveBBAdvert(int ref)
 {
-	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
 		if (i->ref == ref) {
 			BBAdvert ad = (*i);
 			m_bbAdverts.erase(i);
@@ -1071,7 +1071,7 @@ const std::list<const BBAdvert*> SpaceStation::GetBBAdverts()
 	}
 
 	std::list<const BBAdvert*> ads;
-	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
 		ads.push_back(&(*i));
 	return ads;
 }

@@ -604,7 +604,7 @@ void LuaConstants::Register(lua_State *l)
 	/*
 	 * Constants: ShipAIError
 	 *
-	 * AI command error/result code passed to EventQueue.onAICompleted
+	 * AI command error/result code passed to Event.onAICompleted
 	 *
 	 * NONE             - AI completed successfully
 	 * GRAV_TOO_HIGH    - AI can not compensate for gravity

@@ -13,7 +13,7 @@ class TerrainBody : public Body {
 public:
 	OBJDEF(TerrainBody, Body, TERRAINBODY);
 
-	virtual void SetPosition(vector3d pos) { m_pos = pos; }
+	virtual void SetPosition(const vector3d &pos) { m_pos = pos; }
 	virtual vector3d GetPosition() const { return m_pos; }
 	virtual double GetBoundingRadius() const;
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
@@ -21,7 +21,7 @@ public:
 	virtual void SetFrame(Frame *f);
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) { return true; }
 	virtual double GetMass() const { return m_mass; }
-	double GetTerrainHeight(const vector3d pos) const;
+	double GetTerrainHeight(const vector3d &pos) const;
 	bool IsSuperType(SystemBody::BodySuperType t) const;
 	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
 	GeoSphere *GetGeoSphere() const { return m_geosphere; }

@@ -206,13 +206,13 @@ int l_shiptype_get_equip_slot_capacity(lua_State *l)
 /*
  * Function: GetShipType
  *
- * Get a description object for the given ship name
+ * Get a description object for the given ship id
  *
- * > shiptype = ShipType.GetShipType(name)
+ * > shiptype = ShipType.GetShipType(id)
  *
  * Parameters:
  *
- *   name - the name of the ship to get the description object for
+ *   id - the id of the ship to get the description object for
  *
  * Example:
  *
@@ -295,7 +295,7 @@ static int l_shiptype_get_ship_types(lua_State *l)
 
 	lua_newtable(l);
 
-	for (std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.begin(); i != ShipType::types.end(); i++)
+	for (std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.begin(); i != ShipType::types.end(); ++i)
 	{
 		ShipType *st = &((*i).second);
 		if (tag == ShipType::TAG_NONE || tag == st->tag) {
