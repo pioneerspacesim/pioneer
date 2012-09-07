@@ -681,7 +681,7 @@ static void draw_intro(Background::Container *background, float _time)
 		Lang::PIONEER, // label
 		0, // equipment
 		Ship::FLYING, // flightState
-		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f }, // thrust
+		{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, // thrust
 		{	// pColor[3]
 		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
 		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
