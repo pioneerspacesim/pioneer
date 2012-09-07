@@ -566,8 +566,8 @@ void Terrain::InitCityRegions() {
 			
 			// set up regions which contain the details for region implementation
 			RegionType rt;
-			double height = sb->GetRadius()*terrain->GetHeight(pos);
-			rt.height = height/sb->GetRadius(); // height in planet radii
+
+			rt.height = terrain->GetHeight(pos); // height in planet radii
 
 			// Calculate average variation of four points about star port
 			// points do not need to be on the planet surface
