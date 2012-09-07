@@ -52,7 +52,7 @@ double TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeight(const vector3d
 
 	//n = (n<0.0 ? 0.0 : m_maxHeight*n);
 	n = m_maxHeight*n;
-	APPLY_SIMPLE_HEIGHT_REGIONS(n);
+	ApplySimpleHeightRegions(n, p);
 	return n;
 }
 

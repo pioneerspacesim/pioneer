@@ -6,7 +6,6 @@
 
 namespace TerrainNoise {
 
-	#define blend(a,b,v) a*(1.0-v)+b*v
 	// octavenoise functions return range [0,1] if roughness = 0.5
 	inline double octavenoise(const fracdef_t &def, double roughness, const vector3d &p) {
 		double n = 0;
@@ -169,42 +168,5 @@ namespace TerrainNoise {
 #define forest octavenoise(GetFracDef(1), 0.65, p)*voronoiscam_octavenoise(GetFracDef(2), 0.65, p)
 #define water  dunes_octavenoise(GetFracDef(6), 0.6, p)
 
-#define APPLY_SIMPLE_HEIGHT_REGIONS(h) \
-{\
-	for (unsigned int i = 0; i < m_positions.size(); i++) {\
-		if (m_regionTypes[i].Valid) {\
-			const vector3d pos = m_positions[i];\
-			RegionType &rt = m_regionTypes[i];\
-			double th = rt.height; /*target height*/\
-			if (pos.Dot(p) > rt.outer) {\
-				const double outer = rt.outer;\
-				const double inner = rt.inner;\
-				/* maximum variation in height with respect to target height*/\
-				const double dynamicRangeHeight = 60.0/m_planetRadius; /*in radii*/\
-				const double delta_h = fabs(h-th); \
-				const double neg = (h-th>0.0) ? 1.0 : -1.0;\
-				/* Make up an expression to compress delta_h: */\
-				/* Compress delta_h between 0 and 1*/\
-				/*    1.1 use compression of the form c = (delta_h+a)/(a+(delta_h+a)) (eqn. 1)*/\
-				/*    1.2 this gives c in the interval [0.5, 1] for delta_h [0, +inf] with c=0.5 at delta_h=0.*/\
-				/*  2.0 Use compressed_h = dynamic range*(sign(h-th)*(c-0.5)) (eqn. 2) to get h between th-0.5*dynamic range, th+0.5*dynamic range*/\
-				/**/\
-				/* Choosing a value for a*/\
-				/*    3.1 c [0.5, 0.8] occurs when delta_h [a to 3a] (3x difference) which is roughly the expressible range (above or below that the function changes slowly)*/\
-				/*    3.2 Find an expression for the expected variation and divide by around 3*/\
-				\
-				/* It may become necessary calculate expected variation based on intermediate quantities generated (e.g. distribution fractals)*/\
-				/* or to store a per planet estimation of variation when fracdefs are calculated.*/\
-				const double variationEstimate = rt.heightVariation;\
-				const double a = variationEstimate*(1.0/3.0); /* point 3.2 */\
-				\
-				double hn = h;\
-				const double c = (delta_h+a)/(2.0*a+delta_h);/* point 1.1 */\
-				const double compressed_h = dynamicRangeHeight*(neg*(c-0.5))+th;/* point 1.3*/\
-				h = blend(h, compressed_h, Clamp((pos.Dot(p)-outer)/(inner-outer), 0.0, 1.0)); break; /* blends from compressed height-terrain height as pos goes inner to outer*/\
-			}\
-		}\
-	}\
-}
 
 #endif

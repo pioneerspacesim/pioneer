@@ -74,7 +74,7 @@ double TerrainHeightFractal<TerrainHeightMapped2>::GetHeight(const vector3d &p)
 		h += 30000.0*v*v*v*v*v*v*v*ridged_octavenoise(16, 5.0*v, 20.0*v, p);
 		h += v;
 		h -= 0.09;
-		APPLY_SIMPLE_HEIGHT_REGIONS(h)
+		ApplySimpleHeightRegions(h, p);
 		return (h > 0.0 ? h : 0.0);
 	}
 }

@@ -40,6 +40,6 @@ double TerrainHeightFractal<TerrainHeightHillsRidged>::GetHeight(const vector3d 
 	// was n -= 0.001*ridged_octavenoise(GetFracDef(6), 0.55*distrib*m, p);
 	//n += 0.001*ridged_octavenoise(GetFracDef(6), 0.55*distrib*m, p);
 	n *= m_maxHeight;
-	APPLY_SIMPLE_HEIGHT_REGIONS(n);
+	ApplySimpleHeightRegions(n, p);
 	return (n > 0.0 ? n : 0.0);
 }

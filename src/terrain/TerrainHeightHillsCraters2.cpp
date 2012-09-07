@@ -42,6 +42,6 @@ double TerrainHeightFractal<TerrainHeightHillsCraters2>::GetHeight(const vector3
 	n += crater_function(GetFracDef(7), p);
 	n += crater_function(GetFracDef(8), p);
 	n *= m_maxHeight;
-	APPLY_SIMPLE_HEIGHT_REGIONS(n);
+	ApplySimpleHeightRegions(n, p);
 	return (n > 0.0 ? n : 0.0);
 }

@@ -27,8 +27,8 @@ double TerrainHeightFractal<TerrainHeightAsteroid>::GetHeight(const vector3d &p)
 	//float heightmap = octavenoise(8, 0.2*octavenoise(1, 0.3, 3.7, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 15.0*octavenoise(1, 0.5, 4.0, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), (p.x*2.0-p.y, p.y*2.0-p.x, p.z)) -
 		//0.75*billow_octavenoise(8*octavenoise(1, 0.275, 3.2, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 0.4*octavenoise(1, 0.4, 3.0, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 4.0*octavenoise(1, 0.35, 3.7, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), (p.x*2.0-p.y, p.y*2.0-p.x, p.z));
 
-	float n = octavenoise(8, 0.4, 2.4, p);
+	double n = octavenoise(8, 0.4, 2.4, p);
 	n *= m_maxHeight;
-	APPLY_SIMPLE_HEIGHT_REGIONS(n);
+	ApplySimpleHeightRegions(n, p);
 	return (n > 0.0) ? n : 0.0;
 }
