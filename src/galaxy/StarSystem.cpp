@@ -1297,7 +1297,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(0)
+StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(UINT_MAX)
 {
 	assert(path.IsSystemPath());
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
@@ -1923,6 +1923,11 @@ void StarSystem::Populate(bool addSpaceStations)
 //	}
 //	printf("System total population %.3f billion\n", m_totalPop.ToFloat());
 	Polit::GetSysPolitStarSystem(this, m_totalPop, m_polit);
+	/*if(m_factionIdx<UINT_MAX) {
+		const Faction *ptr = Faction::GetFaction(m_factionIdx);
+		const Uint32 uiGovType = ptr->govType;
+		assert(m_polit.govType == uiGovType);
+	}*/
 
 	if (addSpaceStations) {
 		rootBody->PopulateAddStations(this);

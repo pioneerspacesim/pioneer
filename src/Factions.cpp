@@ -269,6 +269,12 @@ const Faction *Faction::GetFaction(const Uint32 index)
 }
 
 //static 
+const Uint32 Faction::GetNumFactions()
+{
+	return s_factions.size();
+}
+
+//static 
 const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 {
 	// Iterate through all of the factions and find the one nearest to the system we're checking it against.

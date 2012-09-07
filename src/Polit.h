@@ -16,14 +16,6 @@ namespace Polit {
 		CRIME_MURDER = (1<<3),
 	};
 
-	enum Bloc { // <enum scope='Polit' name=PolitBloc prefix=BLOC_>
-		BLOC_NONE,
-		BLOC_EARTHFED,
-		BLOC_CIS,
-		BLOC_EMPIRE,
-		BLOC_MAX // <enum skip>
-	};
-
 	enum PolitEcon { // <enum scope='Polit' name=PolitEcon prefix=ECON_>
 		ECON_NONE,
 		ECON_VERY_CAPITALIST,

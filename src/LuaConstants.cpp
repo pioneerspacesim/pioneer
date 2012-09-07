@@ -283,27 +283,6 @@ void LuaConstants::Register(lua_State *l)
 	 */
 	_create_constant_table_nonconsecutive(l, "PolitCrime", ENUM_PolitCrime);
 
-
-	/*
-	 * Constants: PolitBloc
-	 *
-	 * Political alignment
-	 *
-	 * NONE - independent
-	 * EARTHFED - Federation
-	 * CIS - Confederation of Independent Systems
-	 * EMPIRE - Empire
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   experimental
-	 */
-	_create_constant_table_nonconsecutive(l, "PolitBloc", ENUM_PolitBloc);
-
 	/*
 	 * Constants: PolitEcon
 	 *
