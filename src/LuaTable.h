@@ -21,7 +21,7 @@ public:
 		m_index = lua_gettop(l); 
 	}
 
-	virtual ~LuaTable() {};
+	~LuaTable() {};
 
 	const LuaTable & operator=(const LuaTable & ref) { m_lua = ref.m_lua; m_index = ref.m_index; return *this;}
 	template <class Key> void PushValueToStack(const Key & key) const;
