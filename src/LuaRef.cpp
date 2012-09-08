@@ -65,9 +65,9 @@ LuaRef::LuaRef(lua_State * l, int index): m_lua(l), m_id(0) {
 
 
 void LuaRef::PushCopyToStack() const {
-	assert(m_lua && m_id == LUA_NOREF);
+	assert(m_lua && m_id != LUA_NOREF);
 	PushGlobalToStack();
-	lua_rawgeti(m_lua, -2, m_id);
+	lua_rawgeti(m_lua, -1, m_id);
 	lua_remove(m_lua, -2);
 }
 
