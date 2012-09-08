@@ -230,7 +230,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	// Loading the tables in which to do the name lookup
 	while (chunks.size() > 1) {
 		if (!lua_istable(l, -1) && !lua_isuserdata(l, -1))
-			return;
+			break; // Goes directly to the cleanup code anyway.
 		lua_pushstring(l, chunks.top().c_str());
 		lua_gettable(l, -2);
 		chunks.pop();
