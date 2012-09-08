@@ -23,6 +23,7 @@
 #include "graphics/Drawables.h"
 #include "matrix4x4.h"
 #include "Quaternion.h"
+#include <algorithm>
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
@@ -311,9 +312,7 @@ void WorldView::SetCamType(enum CamType c)
 		break;
 	}
 
-	int i;
-	for (i=0; cameraName[i]; i++)
-		cameraName[i] = toupper(cameraName[i]);
+	std::transform(cameraName.begin(), cameraName.end(), cameraName.begin(), toupper);
 
 	if (m_showCameraName)
 		Remove(m_showCameraName);
