@@ -22,7 +22,9 @@ private:
 	int m_id;
 	int * m_copycount;
 
-	void PushGlobalToStack() const;
+	// Does everything we need: get the table, or create it if it doesn't exist.
+	// Yay lua aux lib !
+	void PushGlobalToStack() const {luaL_getsubtable(m_lua, LUA_REGISTRYINDEX, "LuaRef");}
 
 	void CheckCopyCount();
 };

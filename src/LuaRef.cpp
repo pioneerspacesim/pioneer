@@ -71,15 +71,3 @@ void LuaRef::PushCopyToStack() const {
 	lua_remove(m_lua, -2);
 }
 
-void LuaRef::PushGlobalToStack() const {
-	lua_pushstring(m_lua, "LuaRef");
-	lua_gettable(m_lua, LUA_REGISTRYINDEX);
-	if (lua_isnil(m_lua, -1)) {
-		lua_pop(m_lua, 1);
-		lua_newtable(m_lua);
-		lua_pushstring(m_lua, "LuaRef");
-		lua_pushvalue(m_lua, -2);
-		lua_settable(m_lua, LUA_REGISTRYINDEX);
-	}
-}
-
