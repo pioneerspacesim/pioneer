@@ -77,13 +77,13 @@ void InternalCamera::Activate()
 void InternalCamera::Save(Serializer::Writer &wr)
 {
 	for (int i = 0; i < 16; i++) wr.Float(float(m_orient[i]));
-	for (int i = 0; i < 16; i++) wr.Float(float(m_offs[i]));
+	for (int i = 0; i < 3; i++) wr.Float(float(m_offs[i]));
 }
 
 void InternalCamera::Load(Serializer::Reader &rd)
 {
 	for (int i = 0; i < 16; i++) m_orient[i] = rd.Float();
-	for (int i = 0; i < 16; i++) m_offs[i] = rd.Float();
+	for (int i = 0; i < 3; i++) m_offs[i] = rd.Float();
 }
 
 ExternalCamera::ExternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
