@@ -349,6 +349,21 @@ void ModelViewer::OnLightPresetChanged(unsigned int index, const std::string &)
 	m_options.lightPreset = std::min<unsigned int>(index, 2);
 }
 
+static Color4ub get_slider_color(UI::Slider *r, UI::Slider *g, UI::Slider *b)
+{
+	return Color4ub(r->GetValue() * 255.f, g->GetValue() * 255.f, b->GetValue() * 255.f);
+}
+
+void ModelViewer::OnModelColorsChanged(float)
+{
+	//don't care about the float. Fetch values from all sliders.
+	std::vector<Color4ub> colors;
+	colors.push_back(get_slider_color(colorSliders[0], colorSliders[1], colorSliders[2]));
+	colors.push_back(get_slider_color(colorSliders[3], colorSliders[4], colorSliders[5]));
+	colors.push_back(get_slider_color(colorSliders[6], colorSliders[7], colorSliders[8]));
+	m_model->SetColors(m_renderer, colors);
+}
+
 void ModelViewer::PollEvents()
 {
 	/*
@@ -506,6 +521,50 @@ void ModelViewer::SetupUI()
 			->AddOption("2  Two-point")
 			->AddOption("3  Backlight")
 	);
+
+	//// 3x3 colour sliders
+	// I don't quite understand the packing, so I set both fill & expand and it seems to work.
+	// It's a floating widget, because I can't quite position a Grid how I want (bottom of the screen)
+	// I'd prefer a hide button somewhere - maybe I can float the sliders away
+    const Uint32 all = UI::Box::BOX_FILL | UI::Box::BOX_EXPAND;
+    const float spacing = 5.f;
+
+	UI::Context *c = m_ui.Get();
+
+	c->AddFloatingWidget(
+		c->HBox()->PackEnd( //three columns
+			c->VBox()->PackEnd(UI::WidgetSet( //three rows
+				c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[0] = c->HSlider(), all),
+				c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[1] = c->HSlider(), all),
+				c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[2] = c->HSlider(), all)
+				)), all
+		)->PackEnd(
+			c->VBox()->PackEnd(UI::WidgetSet( //three rows
+				c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[3] = c->HSlider(), all),
+				c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[4] = c->HSlider(), all),
+				c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[5] = c->HSlider(), all)
+				)), all
+		)->PackEnd(
+			c->VBox()->PackEnd(UI::WidgetSet( //three rows
+				c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[6] = c->HSlider(), all),
+				c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[7] = c->HSlider(), all),
+				c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[8] = c->HSlider(), all)
+				)), all
+		)
+	, vector2f(m_width-520.f, m_height-100.f), vector2f(500.f, 300.f));
+
+	//connect slider signals, set initial values (RGB)
+	const float values[] = {
+		1.f, 0.f, 0.f,
+		0.f, 1.f, 0.f,
+		0.f, 0.f, 1.f
+	};
+	for(unsigned int i=0; i<3*3; i++) {
+		colorSliders[i]->SetValue(values[i]);
+		colorSliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnModelColorsChanged));
+	}
+	//// slidems end
+
 	m_ui->SetInnerWidget(box);
 	m_ui->Layout();
 

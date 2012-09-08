@@ -31,6 +31,7 @@ private:
 	void DrawModel();
 	void MainLoop();
 	void OnLightPresetChanged(unsigned int index, const std::string &);
+	void OnModelColorsChanged(float);
 	void PollEvents();
 	void ResetCamera();
 	void Screenshot();
@@ -74,6 +75,7 @@ private:
 
 	//interface stuff that needs to be accessed later (unorganized)
 	UI::Label *nameLabel;
+	UI::Slider* colorSliders[9];
 };
 
 #endif
