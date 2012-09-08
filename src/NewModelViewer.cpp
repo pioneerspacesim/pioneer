@@ -479,7 +479,13 @@ void ModelViewer::SetModel(const std::string &filename)
 		//needed to get camera distance right
 		m_collMesh = m_model->CreateCollisionMesh(0);
 		m_modelName = filename;
+
+		//set decal textures, max 4 supported.
+		//Identical texture at the moment
 		m_model->SetDecalTexture(m_decalTexture, 0);
+		m_model->SetDecalTexture(m_decalTexture, 1);
+		m_model->SetDecalTexture(m_decalTexture, 2);
+		m_model->SetDecalTexture(m_decalTexture, 3);
 		AddLog("Done.");
 	} catch (Newmodel::LoadingError &err) {
 		// report the error and show model picker.
@@ -526,8 +532,8 @@ void ModelViewer::SetupUI()
 	// I don't quite understand the packing, so I set both fill & expand and it seems to work.
 	// It's a floating widget, because I can't quite position a Grid how I want (bottom of the screen)
 	// I'd prefer a hide button somewhere - maybe I can float the sliders away
-    const Uint32 all = UI::Box::BOX_FILL | UI::Box::BOX_EXPAND;
-    const float spacing = 5.f;
+	const Uint32 all = UI::Box::BOX_FILL | UI::Box::BOX_EXPAND;
+	const float spacing = 5.f;
 
 	UI::Context *c = m_ui.Get();
 

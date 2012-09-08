@@ -622,7 +622,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 			else if (nodename.compare(7,1, "4") == 0)
 				numDecal = 4;
 			else
-				throw std::string("Model requires more than 4 different decals");
+				throw std::string("More than 4 different decals");
 		}
 		if (numDecal != 0) {//XXX could add a simple DecalGeometry node
 			geom->SetNodeMask(NODE_TRANSPARENT);
@@ -631,7 +631,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 
 		for(unsigned int i=0; i<node->mNumMeshes; i++) {
 			Graphics::Surface *surf = surfaces[node->mMeshes[i]];
-			if (numDecal != 0) {//XXX support one decal...
+			if (numDecal > 0) {
 				surf->SetMaterial(GetDecalMaterial(numDecal));
 			}
 			//update bounding box
