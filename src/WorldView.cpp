@@ -224,7 +224,7 @@ void WorldView::InitObject()
 	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
 
-	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_REAR);
+	Pi::player->GetPlayerController()->SetMouseForRearView((GetCamType() == CAM_REAR) || (GetCamType() == COCKPIT_REAR));
 	KeyBindings::toggleHudMode.onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
 }
 
@@ -257,7 +257,7 @@ void WorldView::SetCamType(enum CamType c)
 			c = COCKPIT_FRONT;
 		}
 		m_camType = c;
-		Pi::player->GetPlayerController()->SetMouseForRearView(c == CAM_REAR);
+		Pi::player->GetPlayerController()->SetMouseForRearView((GetCamType() == CAM_REAR) || (GetCamType() == COCKPIT_REAR));
 		onChangeCamType.emit();
 	}
 	
@@ -1218,7 +1218,7 @@ void WorldView::UpdateProjectedObjects()
 	// orientation according to mouse
 	if (Pi::player->GetPlayerController()->IsMouseActive()) {
 		vector3d mouseDir = Pi::player->GetPlayerController()->GetMouseDir() * cam_rot;
-		if (GetCamType() == CAM_REAR)
+		if ((GetCamType() == CAM_REAR) || (GetCamType() == COCKPIT_REAR))
 			mouseDir = -mouseDir;
 		UpdateIndicator(m_mouseDirIndicator, (Pi::player->GetBoundingRadius() * 1.5) * mouseDir);
 	} else
