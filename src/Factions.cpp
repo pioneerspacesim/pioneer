@@ -126,6 +126,26 @@ static int l_fac_police_name(lua_State *L)
 //police logo
 //goods/equipment availability (1-per-economy-type: aka agricultural, industrial, tourist, etc)
 //goods/equipment legality
+static int l_fac_illegal_goods_probability(lua_State *L)
+{
+	Faction *csb = l_fac_check(L, 1);
+	const char *typeName = luaL_checkstring(L, 2);
+	const Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(L, "EquipType", typeName));
+	const int probability = luaL_checkinteger(L, 3);
+	const bool equality_test = luaL_checkinteger(L, 4)==0;
+
+	if (e < 0 || e >= Equip::MISSILE_UNGUIDED) {
+		pi_lua_warn(L,
+			"argument out of range: Faction{%s}:IllegalGoodsProbability('%s', %d, %d)",
+			csb->name, typeName, probability, equality_test);
+		return 0;
+	}
+
+	csb->equip_legality[e] = Faction::ProbEqualityPair(probability,equality_test);
+	lua_settop(L, 1); 
+
+	return 1;
+}
 //ship availability
 
 #undef LFAC_FIELD_SETTER_FIXED
@@ -164,6 +184,7 @@ static luaL_Reg LuaFaction_meta[] = {
 	{ "expansionRate", &l_fac_expansionRate },
 	{ "military_name", &l_fac_military_name },
 	{ "police_name", &l_fac_police_name },
+	{ "illegal_goods_probability", &l_fac_illegal_goods_probability },
 	{ "add_to_factions", &l_csys_add_to_factions },
 	{ "__gc", &l_fac_gc },
 	{ 0, 0 }

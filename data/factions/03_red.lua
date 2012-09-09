@@ -7,5 +7,12 @@ local f = Faction:new('Red')
 	:expansionRate(3.0)
 	:military_name('Red Fleet')
 	:police_name('Red Right Hands')
+	
+f:illegal_goods_probability('LIQUOR',8,1)	-- independent/empire
+f:illegal_goods_probability('HAND_WEAPONS',2,0)	-- empire/etc
+f:illegal_goods_probability('BATTLE_WEAPONS',0,0)	--empire/etc
+f:illegal_goods_probability('NERVE_GAS',10,0)--empire
+f:illegal_goods_probability('NARCOTICS',2,0)--empire
+f:illegal_goods_probability('SLAVES',16,0)--empire
 
 f:add_to_factions('Red')

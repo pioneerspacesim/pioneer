@@ -1873,11 +1873,6 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 	}
 }
 
-const char *StarSystem::GetFactionName() const { 
-	const Faction *ptr = Faction::GetFaction(m_factionIdx);
-	return ptr ? ptr->name.c_str() : "";
-}
-
 /* percent */
 #define MAX_COMMODITY_BASE_PRICE_ADJUSTMENT 25
 

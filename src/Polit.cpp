@@ -87,7 +87,7 @@ void Init()
 		s_vplayerPerBlocCrimeRecord[i].fine = 0;
 	}
 
-	// now setup the fcation links, hopefully.
+	// now setup the faction links, hopefully.
 	for (Uint32 i=0; i<numFactions; i++) {
 		const Faction *ptr = Faction::GetFaction(i);
 		if( ptr ) {
@@ -243,36 +243,45 @@ bool IsCommodityLegal(const StarSystem *s, Equip::Type t)
 
 	Polit::GovType a = s->GetSysPolit().govType;
 	const Uint32 b = s_govDesc[a].faction;
+	const Faction *ptr = Faction::GetFaction( b );
 
 	if (a == GOV_NONE) return true;
 
-	switch (t) {
-		case Equip::ANIMAL_MEAT:
-		case Equip::LIVE_ANIMALS:
-			if ((b == 1) || (b == 2)) return rand.Int32(4)!=0;
-			else return true;
-		case Equip::LIQUOR:
-			if ((b != 1) && (b != 2)) return rand.Int32(8)!=0;
-			else return true;
-		case Equip::HAND_WEAPONS:
-			if (b == 1) return false;
-			if (b == 2) return rand.Int32(3)!=0;
-			else return rand.Int32(2) == 0;
-		case Equip::BATTLE_WEAPONS:
-			if ((b != 1) && (b != 2)) return rand.Int32(3)==0;
-			return false;
-		case Equip::NERVE_GAS:
-			if ((b != 1) && (b != 2)) return rand.Int32(10)==0;
-			return false;
-		case Equip::NARCOTICS:
-			if (b == 1) return false;
-			if (b == 2) return rand.Int32(7)==0;
-			else return rand.Int32(2)==0;
-		case Equip::SLAVES:
-			if ((b != 1) && (b != 2)) return rand.Int32(16)==0;
-			return false;
-		default: return true;
+	if( b != UINT_MAX && ptr ) {
+		Faction::EquipProbMap::const_iterator iter = ptr->equip_legality.find(t);
+		if( iter != ptr->equip_legality.end() ) {
+			Faction::ProbEqualityPair per = (*iter).second;
+			if( 0==per.first ) {
+				// the probabilty is 0 so we know that this isn't a legal item
+				return false;
+			} else {
+				// choose between equality tests
+				if( per.second ) {
+					return rand.Int32(per.first)==0;
+				} else {
+					return rand.Int32(per.first)!=0;
+				}
+			}
+		}
 	}
+	else
+	{
+		// this is a non-faction system - do some hardcoded test
+		switch (t) {
+			case Equip::HAND_WEAPONS:
+				return rand.Int32(2) == 0;
+			case Equip::BATTLE_WEAPONS:
+				return rand.Int32(3)==0;
+			case Equip::NERVE_GAS:
+				return rand.Int32(10)==0;
+			case Equip::NARCOTICS:
+				return rand.Int32(2)==0;
+			case Equip::SLAVES:
+				return rand.Int32(16)==0;
+			default: return true;
+		}
+	}
+	return true;
 }
 
 }
@@ -293,6 +302,6 @@ const char *SysPolit::GetAllegianceDesc() const
 		const Faction *ptr = Faction::GetFaction( Polit::s_govDesc[govType].faction );
 		return ptr ? ptr->name.c_str() : Lang::NO_CENTRAL_GOVERNANCE;
 	}
-	return Lang::NO_CENTRAL_GOVERNANCE;
+	return Polit::s_govDesc[govType].description;
 }
 

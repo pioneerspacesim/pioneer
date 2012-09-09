@@ -5,6 +5,8 @@
 #include "Polit.h"
 #include "vector3.h"
 #include "fixed.h"
+#include <map>
+#include <utility>
 
 class Faction {
 public:
@@ -33,9 +35,12 @@ public:
 	std::string				police_name;		// "Police", "Polizia Locale"...
 	//police logo
 	//goods/equipment availability (1-per-economy-type: aka agricultural, industrial, tourist, etc)
-	static const int		SC_NUM_ECONOMY_TYPES = 3;
-	EquipType				types[SC_NUM_ECONOMY_TYPES][Equip::TYPE_MAX];
+	//static const int		SC_NUM_ECONOMY_TYPES = 3;
+	//EquipType				types[SC_NUM_ECONOMY_TYPES][Equip::TYPE_MAX];
 	//goods/equipment legality
+	typedef std::pair<int32_t, bool> ProbEqualityPair;
+	typedef std::map<Equip::Type, ProbEqualityPair> EquipProbMap;
+	EquipProbMap			equip_legality;
 	//ship availability
 };
 
