@@ -364,6 +364,12 @@ void ModelViewer::OnModelColorsChanged(float)
 	m_model->SetColors(m_renderer, colors);
 }
 
+void ModelViewer::OnPatternChanged(unsigned int index, const std::string &value)
+{
+	assert(index < m_model->GetPatterns().size());
+	m_model->SetPattern(index);
+}
+
 void ModelViewer::PollEvents()
 {
 	/*
@@ -493,6 +499,7 @@ void ModelViewer::SetModel(const std::string &filename)
 		AddLog(stringf("Could not load model %0: %1", filename, err.what()));
 	}
 
+	UpdatePatternList();
 	ResetCamera();
 }
 
@@ -518,6 +525,11 @@ void ModelViewer::SetupUI()
 	add_pair(m_ui, box, reloadButton = m_ui->Button(), "Reload model");
 	add_pair(m_ui, box, toggleGridButton = m_ui->Button(), "Grid mode");
 
+	//pattern selector - visible regardless of available patterns...
+	UI::Context *c = m_ui.Get();
+	box->PackEnd(c->Label("Pattern:"));
+	box->PackEnd(patternSelector = c->DropDown()->AddOption("Default"));
+
 	//light dropdown
 	UI::DropDown *lightSelector;
 	box->PackEnd(m_ui->Label("Lights:"));
@@ -534,8 +546,6 @@ void ModelViewer::SetupUI()
 	// I'd prefer a hide button somewhere - maybe I can float the sliders away
 	const Uint32 all = UI::Box::BOX_FILL | UI::Box::BOX_EXPAND;
 	const float spacing = 5.f;
-
-	UI::Context *c = m_ui.Get();
 
 	c->AddFloatingWidget(
 		c->HBox()->PackEnd( //three columns
@@ -578,6 +588,7 @@ void ModelViewer::SetupUI()
 	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));
 	reloadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnReloadModel), reloadButton));
 	lightSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnLightPresetChanged));
+	patternSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnPatternChanged));
 }
 
 void ModelViewer::UpdateCamera()
@@ -628,4 +639,18 @@ void ModelViewer::UpdateLights()
 	};
 
 	m_renderer->SetLights(2, &lights[0]);
+}
+
+void ModelViewer::UpdatePatternList()
+{
+	patternSelector->Clear();
+
+	if (m_model) {
+		const Newmodel::PatternContainer &pats = m_model->GetPatterns();
+		for(unsigned int i=0; i<pats.size(); i++) {
+			patternSelector->AddOption(pats[i].name);
+		}
+	}
+
+	m_ui->Layout();
 }

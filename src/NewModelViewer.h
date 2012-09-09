@@ -32,6 +32,7 @@ private:
 	void MainLoop();
 	void OnLightPresetChanged(unsigned int index, const std::string &);
 	void OnModelColorsChanged(float);
+	void OnPatternChanged(unsigned int, const std::string&);
 	void PollEvents();
 	void ResetCamera();
 	void Screenshot();
@@ -39,6 +40,7 @@ private:
 	void SetupUI();
 	void UpdateCamera();
 	void UpdateLights();
+	void UpdatePatternList();
 
 	//toggleable options
 	struct Options {
@@ -75,7 +77,8 @@ private:
 
 	//interface stuff that needs to be accessed later (unorganized)
 	UI::Label *nameLabel;
-	UI::Slider* colorSliders[9];
+	UI::Slider *colorSliders[9];
+	UI::DropDown *patternSelector;
 };
 
 #endif
