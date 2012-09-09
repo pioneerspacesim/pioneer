@@ -14,6 +14,8 @@
 #include "InfoView.h"
 #include "Lang.h"
 #include "LmrModel.h"
+#include "LuaManager.h"
+#include "LuaRef.h"
 #include "LuaBody.h"
 #include "LuaCargoBody.h"
 #include "LuaChatForm.h"
