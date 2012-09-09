@@ -78,7 +78,9 @@ noinst_HEADERS = \
 	LuaObject.h \
 	LuaPlanet.h \
 	LuaPlayer.h \
+	LuaPushPull.h \
 	LuaRand.h \
+	LuaRef.h \
 	LuaSystemBody.h \
 	LuaSystemPath.h \
 	LuaSerializer.h \
@@ -88,6 +90,7 @@ noinst_HEADERS = \
 	LuaSpaceStation.h \
 	LuaStar.h \
 	LuaStarSystem.h \
+	LuaTable.h \
 	LuaTimer.h \
 	LuaUtils.h \
 	MarketAgent.h \
@@ -215,6 +218,7 @@ pioneer_SOURCES	= \
 	LuaPlanet.cpp \
 	LuaPlayer.cpp \
 	LuaRand.cpp \
+	LuaRef.cpp \
 	LuaSystemBody.cpp \
 	LuaSystemPath.cpp \
 	LuaSerializer.cpp \
@@ -314,6 +318,7 @@ modelviewer_SOURCES = \
 	LuaFixed.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
+	LuaRef.cpp \
 	LuaUtils.cpp \
 	LuaConstants.cpp \
 	ModManager.cpp \
