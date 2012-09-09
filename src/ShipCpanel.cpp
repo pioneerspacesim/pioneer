@@ -321,13 +321,6 @@ void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 	int newState = b->GetState();
 		switch (newState) {
 			case WorldView::COCKPIT_FRONT: break;
-			case WorldView::COCKPIT_REAR: newState = WorldView::CAM_EXTERNAL;
-			case WorldView::CAM_FRONT: newState = WorldView::CAM_EXTERNAL;
-			case WorldView::CAM_REAR: newState = WorldView::CAM_EXTERNAL;
-			case WorldView::CAM_LEFT: newState = WorldView::CAM_EXTERNAL;
-			case WorldView::CAM_TOP: newState = WorldView::CAM_EXTERNAL;
-			case WorldView::CAM_RIGHT: newState = WorldView::CAM_EXTERNAL;
-			case WorldView::CAM_BOTTOM: newState = WorldView::CAM_EXTERNAL;
 			case WorldView::CAM_EXTERNAL:
 			case WorldView::CAM_SIDEREAL:
 			default: break;

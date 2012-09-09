@@ -317,7 +317,9 @@ void WorldView::SetCamType(enum CamType c)
 	if (m_showCameraName)
 		Remove(m_showCameraName);
 	m_showCameraName = new Gui::Label("#09f"+cameraName);
-	Add(m_showCameraName, (Gui::Screen::GetWidth()/2-4*strlen(cameraName.c_str())), 20);
+	float w, h;
+	Gui::Screen::MeasureString(cameraName, w, h);
+	Add(m_showCameraName, 0.5f*(Gui::Screen::GetWidth()-w), 20);
 	
 	m_showCameraNameTimeout = SDL_GetTicks();
 
@@ -795,14 +797,14 @@ void WorldView::Update()
 		// XXX ugly hack checking for console here
 		if (!Pi::IsConsoleActive()) {
 			if (m_activeCamera->IsExternal() == false) {
-			if (KeyBindings::frontCockpit.IsActive()) {SetCamType(COCKPIT_FRONT);}
-			if (KeyBindings::rearCockpit.IsActive()) {SetCamType(COCKPIT_REAR);}
-			if (KeyBindings::frontCamera.IsActive()) {SetCamType(CAM_FRONT);}
-			if (KeyBindings::rearCamera.IsActive()) {SetCamType(CAM_REAR);}
-			if (KeyBindings::leftCamera.IsActive()) {SetCamType(CAM_LEFT);}
-			if (KeyBindings::rightCmaera.IsActive()) {SetCamType(CAM_RIGHT);}
-			if (KeyBindings::topCamera.IsActive()) {SetCamType(CAM_TOP);}
-			if (KeyBindings::bottomCamera.IsActive()) {SetCamType(CAM_BOTTOM);}
+			if (KeyBindings::frontCockpit.IsActive()) SetCamType(COCKPIT_FRONT);
+			if (KeyBindings::rearCockpit.IsActive()) SetCamType(COCKPIT_REAR);
+			if (KeyBindings::frontCamera.IsActive()) SetCamType(CAM_FRONT);
+			if (KeyBindings::rearCamera.IsActive()) SetCamType(CAM_REAR);
+			if (KeyBindings::leftCamera.IsActive()) SetCamType(CAM_LEFT);
+			if (KeyBindings::rightCmaera.IsActive()) SetCamType(CAM_RIGHT);
+			if (KeyBindings::topCamera.IsActive()) SetCamType(CAM_TOP);
+			if (KeyBindings::bottomCamera.IsActive()) SetCamType(CAM_BOTTOM);
 			} else {
 			if (KeyBindings::cameraRotateUp.IsActive()) m_activeCamera->RotateUp(frameTime);
 			if (KeyBindings::cameraRotateDown.IsActive()) m_activeCamera->RotateDown(frameTime);
