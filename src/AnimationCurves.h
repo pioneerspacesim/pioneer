@@ -5,8 +5,8 @@
 
 namespace AnimationCurves {
 
-	/// Animates a value with "approach style" over time (zooming).
-	/// The speeds must be positive. Function will not go further than target.
+	// Animates a value with "approach style" over time (zooming).
+	// The speeds must be positive. Function will not go further than target.
 	template<class T>
 	inline void Approach(T & cur, const T target, float frameTime, const T deltaFactor=10, T targetFactor=1) {
 		//static_assert(static_cast<T>(-1) <0);		// Assert type is signed
