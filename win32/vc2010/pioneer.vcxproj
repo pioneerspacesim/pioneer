@@ -259,6 +259,7 @@
     <ClInclude Include="..\..\src\CargoBody.h" />
     <ClInclude Include="..\..\src\ChatForm.h" />
     <ClInclude Include="..\..\src\CityOnPlanet.h" />
+    <ClInclude Include="..\..\src\CollMesh.h" />
     <ClInclude Include="..\..\src\Color.h" />
     <ClInclude Include="..\..\src\CommodityTradeWidget.h" />
     <ClInclude Include="..\..\src\CRC32.h" />

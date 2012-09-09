@@ -27,35 +27,6 @@ void CollisionVisitor::ApplyStaticGeometry(StaticGeometry &g)
 		m_collMesh->GetAabb().Update(vector3d(max));
 	}
 	m_boundingRadius = m_collMesh->GetAabb().GetBoundingRadius();
-#if 0
-	const Graphics::StaticMesh *mesh = g.GetMesh();
-	for (Graphics::StaticMesh::SurfaceIterator surface = mesh->SurfacesBegin();
-		surface != mesh->SurfacesEnd();
-		++surface)
-	{
-		const Graphics::VertexArray *vts = (*surface)->GetVertices();
-		for (unsigned int v = 0; v < vts->GetNumVerts(); v++) {
-			const vector3f pos(vts->position[v]);
-			m_vertices.push_back(pos.x);
-			m_vertices.push_back(pos.y);
-			m_vertices.push_back(pos.z);
-			m_collMesh->GetAabb().Update(vector3d(pos));
-		}
-		const std::vector<unsigned short> &indices = (*surface)->GetIndices();
-		for (std::vector<unsigned short>::const_iterator it = indices.begin();
-			it != indices.end();
-			++it)
-		{
-			m_indices.push_back(m_offset + (*it));
-		}
-		//XXX cheat some collision flags
-		for(unsigned int i = 0; i < indices.size()/3; i++) {
-			m_flags.push_back(0);
-		}
-		m_offset += m_vertices.size();
-	}
-	assert(m_flags.size() == m_indices.size()/3);
-#endif
 }
 
 void CollisionVisitor::ApplyMatrixTransform(MatrixTransform &m)

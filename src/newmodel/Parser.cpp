@@ -28,7 +28,7 @@ Parser::~Parser()
 void Parser::Parse(ModelDefinition *m)
 {
 	m_model = m;
-	char line[1024];
+	char line[1024]; //that's a long line
 	int lineno = 0;
 	while (m_file.good()) {
 		lineno++;
@@ -119,8 +119,7 @@ bool Parser::parseLine(const std::string &line)
 			m_curMat->name = matname;
 			return true;
 		} else if(match(token, "lod")) {
-			m_isMaterial = false;
-			m_curMat = 0;
+			endMaterial();
 			float featuresize;
 			if (ss >> featuresize == 0)
 				throw std::string("Detail level must specify a pixel size");
@@ -130,8 +129,7 @@ bool Parser::parseLine(const std::string &line)
 			return true;
 		} else if(match(token, "mesh")) {
 			//mesh definitionss only contain a filename
-			m_isMaterial = false;
-			m_curMat = 0;
+			endMaterial();
 			string meshname;
 			checkMesh(ss, meshname);
 			//model might not have specified lods at all.
@@ -139,6 +137,13 @@ bool Parser::parseLine(const std::string &line)
 				m_model->lodDefs.push_back(LodDefinition(100.f));
 			}
 			m_model->lodDefs.back().meshNames.push_back(meshname);
+			return true;
+		} else if(match(token, "collision")) {
+			//collision mesh definitions contain also only a filename
+			endMaterial();
+			string cmeshname;
+			checkMesh(ss, cmeshname);
+			m_model->collisionDefs.push_back(cmeshname);
 			return true;
 		} else if(match(token, "anim")) {
 			//anims should only affect the previously defined mesh but eh
@@ -196,6 +201,12 @@ bool Parser::parseLine(const std::string &line)
 		//empty line, skip
 		return true;
 	}
+}
+
+void Parser::endMaterial()
+{
+	m_isMaterial = false;
+	m_curMat = 0;
 }
 
 }

@@ -1,7 +1,10 @@
 #ifndef _COLLISIONVISITOR_H
 #define _COLLISIONVISITOR_H
 /*
- * Collision mesh "collector"
+ * Creates a new collision mesh based on bounding boxes
+ * This is for uses when a precise collision mesh is not supplied
+ * with the model
+ * This can be improved to create a smarter cmesh if someone feels like it.
  */
 #include "NodeVisitor.h"
 #include "libs.h"
@@ -26,13 +29,9 @@ public:
 	float m_boundingRadius;
 
 private:
-	//std::vector<float> m_vertices;
-	//std::vector<int> m_indices;
-	//std::vector<unsigned int> m_flags; //1 per triangle
 	//geomtree is not built until all nodes are visited and
 	//BuildCollMesh called
 	CollMesh *m_collMesh;
-	//int m_offset; //growing index offset for multiple surfaces
 	std::vector<matrix4x4f> m_matrixStack;
 };
 

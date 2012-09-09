@@ -27,7 +27,6 @@ class StaticGeometry;
 
 class Loader {
 public:
-	//renderer needed for texture loading...
 	Loader(Graphics::Renderer *r);
 	~Loader();
 	//find & attempt to load a model, based on filename (without path or .model suffix)
@@ -51,9 +50,10 @@ private:
 	void ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*>&, const aiScene*, NModel*); //model is only for material lookup
 	void ConvertAnimations(const aiScene *, const AnimList &, NModel *);
 	void ConvertNodes(aiNode *node, Group *parent, std::vector<Graphics::Surface*>& meshes, const matrix4x4f&);
+	void CreateLabel(Group *parent, const matrix4x4f &);
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
 	void FindTags(const aiNode *node, TagList &output); //locate tags from assimp structure
-	void CreateLabel(Group *parent, const matrix4x4f &);
+	void LoadCollision(const std::string &filename);
 };
 
 }

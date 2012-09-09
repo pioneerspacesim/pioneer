@@ -11,6 +11,7 @@
 //default options
 ModelViewer::Options::Options()
 : attachGuns(false)
+, showCollMesh(false)
 , showGrid(false)
 , showUI(true)
 , gridInterval(10.f)
@@ -140,6 +141,12 @@ bool ModelViewer::OnReloadModel(UI::Widget *w)
 	return true;
 }
 
+bool ModelViewer::OnToggleCollMesh(UI::CheckBox *w)
+{
+	m_options.showCollMesh = !m_options.showCollMesh;
+	return m_options.showCollMesh;
+}
+
 bool ModelViewer::OnToggleGrid(UI::Widget *)
 {
 	if (!m_options.showGrid) {
@@ -257,6 +264,25 @@ void ModelViewer::DrawBackground()
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
 }
 
+// Draw collision mesh as a wireframe overlay
+void ModelViewer::DrawCollisionMesh()
+{
+	CollMesh *mesh = m_model->GetCollisionMesh();
+	if(!mesh) return;
+
+	std::vector<vector3f> &vertices = mesh->m_vertices;
+	std::vector<int> &indices = mesh->m_indices;
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, indices.size() * 3);
+	for(int i=0; i<indices.size(); i++) {
+		va.Add(vertices.at(indices.at(i)), Color::WHITE);
+	}
+
+	//might want to add some offset
+	m_renderer->SetWireFrameMode(true);
+	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
+	m_renderer->SetWireFrameMode(false);
+}
+
 //Draw grid and axes
 void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 {
@@ -348,6 +374,11 @@ void ModelViewer::DrawModel()
 	m_renderer->SetDepthWrite(true);
 
 	m_model->Render(m_renderer, mv, &m_modelParams);
+
+	if (m_options.showCollMesh) {
+		m_renderer->SetTransform(mv);
+		DrawCollisionMesh();
+	}
 }
 
 void ModelViewer::MainLoop()
@@ -560,9 +591,11 @@ void ModelViewer::SetupUI()
 	UI::Button *toggleGridButton;
 	UI::Button *reloadButton;
 	UI::CheckBox *gunsCheck;
+	UI::CheckBox *collMeshCheck;
 	box->PackEnd(nameLabel = m_ui->Label("Pie"));
 	add_pair(m_ui, box, reloadButton = m_ui->Button(), "Reload model");
 	add_pair(m_ui, box, toggleGridButton = m_ui->Button(), "Grid mode");
+	add_pair(m_ui, box, (collMeshCheck = m_ui->CheckBox()), "Collision mesh");
 
 	//pattern selector - visible regardless of available patterns...
 	box->PackEnd(m_ui->Label("Pattern:"));
@@ -626,11 +659,12 @@ void ModelViewer::SetupUI()
 	m_ui->Layout();
 
 	//event handlers
-	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));
-	reloadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnReloadModel), reloadButton));
+	collMeshCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleCollMesh), collMeshCheck));
+	gunsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGuns), gunsCheck));
 	lightSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnLightPresetChanged));
 	patternSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnPatternChanged));
-	gunsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGuns), gunsCheck));
+	reloadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnReloadModel), reloadButton));
+	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));
 }
 
 void ModelViewer::UpdateCamera()

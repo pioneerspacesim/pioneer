@@ -90,6 +90,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 	if (def.lodDefs.empty()) return 0;
 
 	NModel *model = new NModel(def.name);
+	m_model = model;
 	bool patternsUsed = false;
 
 	//create materials from definitions
@@ -182,6 +183,17 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 				throw LoadingError(s);
 			}
 		}
+	}
+
+	// Load collision meshes
+	for (std::vector<std::string>::const_iterator it = def.collisionDefs.begin();
+		it != def.collisionDefs.end(); ++it)
+	{
+		LoadCollision(*it);
+	}
+	// No CM supplied? Autogenerate a simple BB.
+	if (!m_model->m_collMesh.Valid()) {
+		m_model->m_collMesh.Reset(m_model->CreateCollisionMesh(0));
 	}
 
 	Animation *anim = 0;
@@ -650,6 +662,69 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		aiNode *child = node->mChildren[i];
 		ConvertNodes(child, parent, surfaces, m * accum);
 	}
+}
+
+void Loader::LoadCollision(const std::string &filename)
+{
+	//Convert all found aiMeshes into a geomtree. Materials,
+	//Animations and node structure can be ignored
+	assert(m_model);
+
+	if (!m_model->m_collMesh.Valid())
+		m_model->m_collMesh.Reset(new CollMesh());
+
+	//Should use assimp::removecomponents to remove everything unnecessary
+	Assimp::Importer importer;
+	const aiScene *scene = importer.ReadFile(
+		FileSystem::JoinPath(FileSystem::GetDataDir(), filename),
+		aiProcess_Triangulate   |
+		aiProcess_PreTransformVertices //"bake" transformations so we can disregard the structure
+		);
+
+	if(!scene)
+		throw std::string("Couldn't load " + filename);
+
+	if(scene->mNumMeshes == 0)
+		throw std::string(filename + " has no geometry");
+
+	//note geomtree keeps a pointer to the arrays but doesn't own them
+	//geomtree does not use vector3, so watch out
+	std::vector<int> &indices = m_model->m_collMesh->m_indices;
+	std::vector<vector3f> &vertices = m_model->m_collMesh->m_vertices;
+	std::vector<unsigned int> &triFlags = m_model->m_collMesh->m_flags;
+	unsigned int indexOffset = 0;
+
+	for(unsigned int i=0; i<scene->mNumMeshes; i++) {
+		aiMesh* mesh = scene->mMeshes[i];
+
+		//copy indices
+		//we assume aiProcess_Triangulate does its job
+		for (unsigned int f = 0; f < mesh->mNumFaces; f++) {
+			const aiFace *face = &mesh->mFaces[f];
+			for (unsigned int j = 0; j < face->mNumIndices; j++) {
+				indices.push_back(indexOffset + face->mIndices[j]);
+			}
+			//add some default collision flags. We do not care about this much now.
+			triFlags.push_back(0);
+		}
+		indexOffset += mesh->mNumFaces*3;
+
+		//vertices
+		for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
+			const aiVector3D &vtx = mesh->mVertices[v];
+			vertices.push_back(vector3f(vtx.x, vtx.y, vtx.z));
+		}
+	}
+
+	GeomTree *tree = new GeomTree(
+		vertices.size(),
+		indices.size()/3,
+		&(m_model->m_collMesh->m_vertices[0].x),
+		&(m_model->m_collMesh->m_indices[0]),
+		&(m_model->m_collMesh->m_flags[0])
+	);
+	m_model->m_collMesh->SetGeomTree(tree);
+	m_model->m_boundingRadius = m_model->m_collMesh->GetGeomTree()->GetAabb().GetBoundingRadius();
 }
 
 }

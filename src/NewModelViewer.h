@@ -23,11 +23,13 @@ public:
 
 private:
 	bool OnReloadModel(UI::Widget *w);
+	bool OnToggleCollMesh(UI::CheckBox *w);
 	bool OnToggleGrid(UI::Widget *);
 	bool OnToggleGuns(UI::CheckBox *w);
 	void AddLog(const std::string &line);
 	void ChangeCameraPreset(SDLKey);
 	void DrawBackground();
+	void DrawCollisionMesh();
 	void DrawGrid(const matrix4x4f &trans, float radius);
 	void DrawLog();
 	void DrawModel();
@@ -47,6 +49,7 @@ private:
 	//toggleable options
 	struct Options {
 		bool attachGuns;
+		bool showCollMesh;
 		bool showGrid;
 		bool showUI;
 		float gridInterval;

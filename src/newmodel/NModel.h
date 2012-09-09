@@ -80,6 +80,7 @@ public:
 	//might be worthwhile to implement Visitors (DrawVisitor, CreateCollisionMeshVisitor)
 	void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params);
 	CollMesh *CreateCollisionMesh(const LmrObjParams *p);
+	CollMesh *GetCollisionMesh() const { return m_collMesh.Get(); }
 	RefCountedPtr<Group> GetRoot() { return m_root; }
 	//materials used in the nodes should be accessible from here for convenience
 	RefCountedPtr<Graphics::Material> GetMaterialByName(const std::string &name) const;
@@ -113,6 +114,7 @@ private:
 	RefCountedPtr<Graphics::Material> m_decalMaterials[MAX_DECAL_MATERIALS]; //spaceship insignia, advertising billboards
 	RefCountedPtr<Group> m_root;
 	RenderData *m_renderData;
+	ScopedPtr<CollMesh> m_collMesh;
 	std::string m_name;
 	std::vector<Animation *> m_activeAnimations;
 	std::vector<Animation *> m_animations;
