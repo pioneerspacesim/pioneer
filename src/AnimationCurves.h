@@ -5,19 +5,6 @@
 
 namespace AnimationCurves {
 
-	/// Animates linearily a value over time, given a speed.
-	/// The speed must be "towards" the target value. Function will not go further than target.
-	template<class T>
-	inline void Linear(T & cur, const T target, const T speed, const float frameTime) {
-		//static_assert(static_cast<T>(-1) <0);		// Assert type is signed
-		const T delta(target - cur);
-		assert(delta * speed >=0);
-		cur += pow(speed, frameTime);
-		// Check for arrival
-		const T newDelta(target - cur);
-		if (newDelta*delta <0) cur = target;
-	}
-
 	/// Animates a value with "approach style" over time (zooming).
 	/// The speeds must be positive. Function will not go further than target.
 	template<class T>
