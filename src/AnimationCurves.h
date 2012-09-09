@@ -9,8 +9,8 @@ namespace AnimationCurves {
 	// The speeds must be positive. Function will not go further than target.
 	template<class T>
 	inline void Approach(T & cur, const T target, float frameTime, const T deltaFactor=10, T targetFactor=1) {
-		//static_assert(static_cast<T>(-1) <0);		// Assert type is signed
-		if (frameTime>1) frameTime = 1;		// Clamp in case game hangs for a second
+		//static_assert(static_cast<T>(-1) <0); // Assert type is signed
+		if (frameTime>1) frameTime = 1; // Clamp in case game hangs for a second
 		assert(deltaFactor>0 && targetFactor >=0);
 		if (is_equal_exact(target, cur))
 			return;
