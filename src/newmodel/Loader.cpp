@@ -275,15 +275,20 @@ Node *Loader::LoadMesh(const std::string &filename, NModel *model, const AnimLis
 	m_model = model;
 
 	Assimp::Importer importer;
+
+	//Removing components is suggested to optimize loading. We do not care about vtx colors now.
+	importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_COLORS);
+
 	//assimp needs the data dir too...
 	//XXX check user dir first
 	//XXX x2 the greater goal is not to use ReadFile but the other assimp data read functions + FileSystem. See assimp docs.
 	const aiScene *scene = importer.ReadFile(
 		FileSystem::JoinPath(FileSystem::GetDataDir(), filename),
-		aiProcess_Triangulate   |
-		aiProcess_SortByPType   | //ignore point, line primitive types (collada dummy nodes seem to be fine)
-		aiProcess_GenUVCoords   | //only if they don't exist
-		aiProcess_FlipUVs		|
+		aiProcess_RemoveComponent |
+		aiProcess_Triangulate	  |
+		aiProcess_SortByPType	  | //ignore point, line primitive types (collada dummy nodes seem to be fine)
+		aiProcess_GenUVCoords	  | //only if they don't exist
+		aiProcess_FlipUVs		  |
 		aiProcess_GenSmoothNormals); //only if normals not specified
 
 	if(!scene)
@@ -673,11 +678,19 @@ void Loader::LoadCollision(const std::string &filename)
 	if (!m_model->m_collMesh.Valid())
 		m_model->m_collMesh.Reset(new CollMesh());
 
-	//Should use assimp::removecomponents to remove everything unnecessary
 	Assimp::Importer importer;
+
+	//discard extra data
+	importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
+		aiComponent_COLORS    |
+		aiComponent_TEXCOORDS |
+		aiComponent_NORMALS   |
+		aiComponent_MATERIALS
+		);
 	const aiScene *scene = importer.ReadFile(
 		FileSystem::JoinPath(FileSystem::GetDataDir(), filename),
-		aiProcess_Triangulate   |
+		aiProcess_RemoveComponent |
+		aiProcess_Triangulate     |
 		aiProcess_PreTransformVertices //"bake" transformations so we can disregard the structure
 		);
 
