@@ -2,9 +2,13 @@
 #define _LOADER_H
 /*
  * Load models using the model config files under data/newmodels/
+ *  .model files are simple text files
+ *  they are read into definition structures using a crummy parser, and
+ *  then a scenegraph can be created with meshes loaded by assimp.
  */
 #include "libs.h"
 #include "NModel.h"
+#include "LoaderDefinitions.h"
 #include "graphics/Material.h"
 #include "graphics/Surface.h"
 #include "text/DistanceFieldFont.h"
@@ -20,68 +24,6 @@ namespace Graphics { class Renderer; }
 namespace Newmodel {
 
 class StaticGeometry;
-
-struct MaterialDefinition {
-	MaterialDefinition() :
-		name(""),
-		tex_diff(""),
-		tex_spec(""),
-		tex_glow(""),
-		diffuse(Color(1.f)),
-		specular(Color(1.f)),
-		ambient(Color(0.f)),
-		emissive(Color(0.f)),
-		shininess(200),
-		use_pattern(false)
-	{ }
-	std::string name;
-	std::string tex_diff;
-	std::string tex_spec;
-	std::string tex_glow;
-	Color diffuse;
-	Color specular;
-	Color ambient;
-	Color emissive;
-	int shininess; //specular power, 0+
-	bool use_pattern;
-};
-
-struct LodDefinition {
-	LodDefinition(float size) : pixelSize(size)
-	{ }
-	float pixelSize;
-	std::vector<std::string> meshNames;
-};
-
-struct TagDefinition {
-	TagDefinition(const std::string &tagname, const vector3f &pos) : name(tagname), position(pos)
-	{ }
-	std::string name;
-	vector3f position;
-};
-typedef std::vector<TagDefinition> TagList;
-
-struct AnimDefinition {
-	AnimDefinition(const std::string &name_, double start_, double end_, bool loop_) :
-		name(name_),
-		start(start_),
-		end(end_),
-		loop(loop_)
-	{ }
-	std::string name;
-	double start;
-	double end;
-	bool loop;
-};
-typedef std::vector<AnimDefinition> AnimList;
-
-struct ModelDefinition {
-	std::string name;
-	std::vector<LodDefinition> lodDefs;
-	std::vector<MaterialDefinition> matDefs;
-	AnimList animDefs;
-	TagList tagDefs;
-};
 
 class Loader {
 public:

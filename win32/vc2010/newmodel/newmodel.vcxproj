@@ -112,6 +112,7 @@
     <ClInclude Include="..\..\..\src\newmodel\Group.h" />
     <ClInclude Include="..\..\..\src\newmodel\Label3D.h" />
     <ClInclude Include="..\..\..\src\newmodel\Loader.h" />
+    <ClInclude Include="..\..\..\src\newmodel\LoaderDefinitions.h" />
     <ClInclude Include="..\..\..\src\newmodel\LOD.h" />
     <ClInclude Include="..\..\..\src\newmodel\MatrixTransform.h" />
     <ClInclude Include="..\..\..\src\newmodel\ModelNode.h" />
