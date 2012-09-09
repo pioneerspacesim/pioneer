@@ -16,7 +16,6 @@
 ModelBody::ModelBody() :
 	Body(),
 	m_isStatic(false),
-	m_collMesh(0),
 	m_geom(0),
 	m_model(0)
 {
@@ -26,7 +25,6 @@ ModelBody::ModelBody() :
 ModelBody::~ModelBody()
 {
 	SetFrame(0);	// Will remove geom from frame if necessary.
-	if (m_collMesh) delete m_collMesh;
 	delete m_geom;
 }
 
@@ -63,7 +61,6 @@ void ModelBody::RebuildCollisionMesh()
 		else GetFrame()->RemoveGeom(m_geom);
 		delete m_geom;
 	}
-	if (m_collMesh) delete m_collMesh;
 
 	m_collMesh = m_model->CreateCollisionMesh(&m_params);
 

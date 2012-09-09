@@ -29,7 +29,7 @@ public:
 	void GetAabb(Aabb &aabb) const;
 	Geom *GetGeom() { return m_geom; }
 	Model *GetModel() { return m_model; }
-	CollMesh *GetCollMesh() { return m_collMesh; }
+	CollMesh *GetCollMesh() { return m_collMesh.Get(); }
 	LmrObjParams &GetLmrObjParams() { return m_params; }
 	void SetLmrTimeParams();
 	void RebuildCollisionMesh();
@@ -45,7 +45,7 @@ protected:
 	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
 	bool m_isStatic;
-	CollMesh *m_collMesh;
+	RefCountedPtr<CollMesh> m_collMesh;
 	Geom *m_geom;
 	LmrObjParams m_params;
 	Model *m_model;

@@ -79,7 +79,7 @@ public:
 	//Render begins the graph traversal. Only geometry nodes actually render something.
 	//might be worthwhile to implement Visitors (DrawVisitor, CreateCollisionMeshVisitor)
 	void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params);
-	CollMesh *CreateCollisionMesh(const LmrObjParams *p);
+	RefCountedPtr<CollMesh> CreateCollisionMesh(const LmrObjParams *p);
 	CollMesh *GetCollisionMesh() const { return m_collMesh.Get(); }
 	RefCountedPtr<Group> GetRoot() { return m_root; }
 	//materials used in the nodes should be accessible from here for convenience
@@ -111,10 +111,10 @@ private:
 	float m_boundingRadius;
 	MaterialContainer m_materials; //materials are shared throughout the model graph
 	PatternContainer m_patterns;
+	RefCountedPtr<CollMesh> m_collMesh;
 	RefCountedPtr<Graphics::Material> m_decalMaterials[MAX_DECAL_MATERIALS]; //spaceship insignia, advertising billboards
 	RefCountedPtr<Group> m_root;
 	RenderData *m_renderData;
-	ScopedPtr<CollMesh> m_collMesh;
 	std::string m_name;
 	std::vector<Animation *> m_activeAnimations;
 	std::vector<Animation *> m_animations;

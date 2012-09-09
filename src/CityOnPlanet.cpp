@@ -17,7 +17,7 @@ struct citybuilding_t {
 	const char *modelname;
 	double xzradius;
 	LmrModel *resolvedModel;
-	const CollMesh *collMesh;
+	RefCountedPtr<CollMesh> collMesh;
 };
 
 struct citybuildinglist_t {
@@ -64,7 +64,7 @@ void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, 
 			const citybuilding_t &bt = buildings->buildings[rand.Int32(buildings->numBuildings)];
 			model = bt.resolvedModel;
 			modelRadXZ = bt.xzradius;
-			cmesh = bt.collMesh;
+			cmesh = bt.collMesh.Get();
 			if (modelRadXZ < rad) break;
 			if (tries == 0) return;
 		}
@@ -151,9 +151,8 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	int i = 0;
 	for (std::vector<LmrModel*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
-		CollMesh *collMesh = (*m)->CreateCollisionMesh(&cityobj_params);
-		list->buildings[i].collMesh = collMesh;
-		const Aabb &aabb = collMesh->GetAabb();
+		list->buildings[i].collMesh = (*m)->CreateCollisionMesh(&cityobj_params);
+		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
 		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
 		const double maxy = std::max(fabs(aabb.max.z), fabs(aabb.min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
@@ -175,9 +174,6 @@ void CityOnPlanet::Init()
 void CityOnPlanet::Uninit()
 {
 	for (unsigned int list=0; list<COUNTOF(s_buildingLists); list++) {
-		for (int build=0; build<s_buildingLists[list].numBuildings; build++) {
-			delete s_buildingLists[list].buildings[build].collMesh;
-		}
 		delete[] s_buildingLists[list].buildings;
 	}
 }

@@ -42,13 +42,13 @@ void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, LmrOb
 	m_root->Render(renderer, trans, params);
 }
 
-CollMesh *NModel::CreateCollisionMesh(const LmrObjParams *p)
+RefCountedPtr<CollMesh> NModel::CreateCollisionMesh(const LmrObjParams *p)
 {
 	CollisionVisitor cv;
 	m_root->Accept(cv);
-	CollMesh *m = cv.CreateCollisionMesh();
+	m_collMesh = RefCountedPtr<CollMesh>(cv.CreateCollisionMesh());
 	m_boundingRadius = cv.m_boundingRadius;
-	return m;
+	return m_collMesh;
 }
 
 RefCountedPtr<Graphics::Material> NModel::GetMaterialByName(const std::string &name) const

@@ -29,7 +29,7 @@ public:
 	virtual ~LmrModel();
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params);
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, LmrObjParams *params);
-	virtual CollMesh *CreateCollisionMesh(const LmrObjParams *p);
+	virtual RefCountedPtr<CollMesh> CreateCollisionMesh(const LmrObjParams *p);
 	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params);
 	virtual float GetDrawClipRadius() const { return m_drawClipRadius; }
 	float GetFloatAttribute(const char *attr_name) const;

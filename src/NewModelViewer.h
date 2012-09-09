@@ -59,7 +59,6 @@ private:
 	};
 	bool m_done;
 	bool m_screenshotQueued;
-	CollMesh *m_collMesh;
 	float m_frameTime;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;

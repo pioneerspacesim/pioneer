@@ -1,10 +1,10 @@
 #ifndef _COLLMESH_H
 #define _COLLMESH_H
-
+#include "RefCounted.h"
 #include "Aabb.h"
 #include "collider/GeomTree.h"
 
-class CollMesh {
+class CollMesh : public RefCounted {
 public:
 	CollMesh() : m_radius(0.f), m_geomTree(0) { }
 	virtual ~CollMesh() {

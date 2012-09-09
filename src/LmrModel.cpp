@@ -1343,9 +1343,11 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 	}
 }
 
-CollMesh *LmrModel::CreateCollisionMesh(const LmrObjParams *params)
+RefCountedPtr<CollMesh> LmrModel::CreateCollisionMesh(const LmrObjParams *params)
 {
-	return new LmrCollMesh(this, params);
+	RefCountedPtr<CollMesh> mesh;
+	mesh.Reset(new LmrCollMesh(this, params));
+	return mesh;
 }
 
 void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params)

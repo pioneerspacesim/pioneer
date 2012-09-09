@@ -193,7 +193,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 	}
 	// No CM supplied? Autogenerate a simple BB.
 	if (!m_model->m_collMesh.Valid()) {
-		m_model->m_collMesh.Reset(m_model->CreateCollisionMesh(0));
+		m_model->CreateCollisionMesh(0);
 	}
 
 	Animation *anim = 0;

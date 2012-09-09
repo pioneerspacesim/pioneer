@@ -33,7 +33,6 @@ namespace {
 ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int height)
 : m_done(false)
 , m_screenshotQueued(false)
-, m_collMesh(0)
 , m_frameTime(0.f)
 , m_renderer(r)
 , m_width(width)
@@ -542,17 +541,11 @@ void ModelViewer::SetModel(const std::string &filename)
 		delete m_model;
 		m_model = 0;
 	}
-	if (m_collMesh) {
-		delete m_collMesh;
-		m_collMesh = 0;
-	}
 
 	try {
 		Newmodel::Loader loader(m_renderer);
 		m_model = loader.LoadModel(filename);
 		nameLabel->SetText(filename);
-		//needed to get camera distance right
-		m_collMesh = m_model->CreateCollisionMesh(0);
 		m_modelName = filename;
 
 		//set decal textures, max 4 supported.
