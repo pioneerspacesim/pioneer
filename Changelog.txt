@@ -1,7 +1,23 @@
+Alpha 27
+
+   * Script changes
+     * EventQueue, which was deprecated in alpha 26, has been removed (#1485)
+
+   * Internal changes
+     * Terrain generation thread now sleeps until being signalled (#1169)
+
 Alpha 26
+
+   * New features
+     * Achernar (4,-9,-16) is now a fully custom system (#1452)
+     * New Imperial Trader (a variant of the Imperial Courier) (#1069, #1496)
 
    * Minor changes and tweaks
      * Updated station splash advert (#1429)
+     * Updated the Imperial Courier model (#1069)
+     * Updated the "pilot" and "squadsign" sub-models (#1069)
+     * Updated surface stations (#983)
+     * Made month names translatable (#1490)
 
    * Fixes
      * Fix atmospheric pressure calculations (#1431, #1395)
@@ -13,13 +29,16 @@ Alpha 26
      * Fix Lua console tab completion for tables with numeric indices (#1461, #1462)
      * Fix ambient light state leak from intro/tombstone (#1472, #1445)
      * Fix blank UI after game load failure (#1481, #1479)
+     * Draw the city before its starport to avoid a glaring graphical bug (#1487)
+     * Fix Lua stack leak in console completion (#1492)
 
    * Script changes
-     * Ships now identified by the filename the ship is defined in (#1444, #1474)
+     * Ships now identified by the filename the ship is defined in (#1444,
+       #1474, #1491)
      * New Event system allowing Lua scripts to broadcast their own events.
        EventQueue is deprecated, for removal in alpha 27 (#1441)
      * New FileSystem module so scripts can list data files (including files
-       from mods) and files in the game's configuration directory (#1350)
+       from mods) and files in the game's configuration directory (#1350, #1483)
 
    * Internal changes
      * Show frame time in the stats overlay (#1437)
@@ -31,6 +50,7 @@ Alpha 26
      * Move the global Lua context so it can be used from modelviewer (#1473)
      * Rewritten material and shader infrastructure (#1432)
      * Many minor optimisations identified by PVS-Studio (#1480, #1399)
+     * Fix a warning when building with clang (#1488)
 
 Alpha 25
 

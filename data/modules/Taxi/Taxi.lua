@@ -221,8 +221,8 @@ local onEnterSystem = function (player)
 				ships = ships-1
 
 				if Engine.rand:Number(1) <= risk then
-					local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-					local shiptype = ShipType.GetShipType(shipname)
+					local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+					local shiptype = ShipType.GetShipType(shipid)
 					local default_drive = shiptype.defaultHyperdrive
 
 					local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
@@ -231,7 +231,7 @@ local onEnterSystem = function (player)
 					end)
 					local laser = lasers[Engine.rand:Integer(1,#lasers)]
 
-					ship = Space.SpawnShipNear(shipname, Game.player, 50, 100)
+					ship = Space.SpawnShipNear(shipid, Game.player, 50, 100)
 					ship:AddEquip(default_drive)
 					ship:AddEquip(laser)
 					ship:AddEquip('SHIELD_GENERATOR', math.ceil(risk * 3))

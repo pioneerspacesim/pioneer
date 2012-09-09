@@ -1200,3 +1200,27 @@ X_PASSENGER_CABINS
     %quantity Occupied Passenger Cabins
 CABINS
     Cabins
+MONTH_JAN
+    Jan
+MONTH_FEB
+    Feb
+MONTH_MAR
+    Mar
+MONTH_APR
+    Apr
+MONTH_MAY
+    May
+MONTH_JUN
+    Jun
+MONTH_JUL
+    Jul
+MONTH_AUG
+    Aug
+MONTH_SEP
+    Sep
+MONTH_OCT
+    Oct
+MONTH_NOV
+    Nov
+MONTH_DEC
+    Dec
