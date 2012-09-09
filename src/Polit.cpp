@@ -235,7 +235,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 
 #define POLIT_SALT 0x8732abdf
 
-bool IsCommodityLegal(const StarSystem *s, Equip::Type t)
+bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 {
 	SystemPath path = s->GetPath();
 	const unsigned long _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SALT };

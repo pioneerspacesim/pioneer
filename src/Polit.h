@@ -50,7 +50,7 @@ namespace Polit {
 
 	void NotifyOfCrime(Ship *s, enum Crime c);
 	void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit);
-	bool IsCommodityLegal(const StarSystem *s, Equip::Type t);
+	bool IsCommodityLegal(const StarSystem *s, const Equip::Type t);
 	void Init();
 	void Serialize(Serializer::Writer &wr);
 	void Unserialize(Serializer::Reader &rd);
