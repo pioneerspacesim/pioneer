@@ -42,6 +42,7 @@ public:
 	typedef std::map<Equip::Type, ProbEqualityPair> EquipProbMap;
 	EquipProbMap			equip_legality;
 	//ship availability
+	Color					colour;
 };
 
 #endif /* _FACTIONS_H */

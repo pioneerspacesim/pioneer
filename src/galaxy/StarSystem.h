@@ -232,6 +232,7 @@ public:
 	int GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 	const Uint32 GetFactionIndex() const { return m_factionIdx; }
+	const Color GetFactionColour() const;
 
 	static float starColors[][3];
 	static float starRealColors[][3];

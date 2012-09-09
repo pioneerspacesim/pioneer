@@ -551,6 +551,9 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				{
 					(*i).SetInhabited(false);
 				}
+				if( pSS->GetFactionIndex() != UINT_MAX ) {
+					(*i).factionColour = pSS->GetFactionColour();
+				}
 			}
 		}
 
@@ -623,10 +626,10 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 		glDepthRange(0,1);
 
-		Color labelColor(0.8f,0.8f,0.8f,0.5f);
+		Color labelColor(0.8f,0.8f,0.8f,0.25f);
 		if ((*i).IsSetInhabited() && (*i).IsInhabited()) {
-			labelColor.r = 0.5;
-			labelColor.b = labelColor.g = 1.0f;
+			labelColor = (*i).factionColour;
+			labelColor.a = 0.25f;
 		}
 
 		if (m_inSystem) {

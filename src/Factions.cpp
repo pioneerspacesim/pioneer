@@ -148,6 +148,20 @@ static int l_fac_illegal_goods_probability(lua_State *L)
 }
 //ship availability
 
+static int l_fac_colour(lua_State *L)
+{
+	Faction *csb = l_fac_check(L, 1);
+	const float r = luaL_checknumber(L, 2);
+	const float g = luaL_checknumber(L, 3);
+	const float b = luaL_checknumber(L, 4);
+
+	csb->colour = Color(r,g,b);
+
+	lua_settop(L, 1); 
+
+	return 1;
+}
+
 #undef LFAC_FIELD_SETTER_FIXED
 #undef LFAC_FIELD_SETTER_FLOAT
 #undef LFAC_FIELD_SETTER_INT
@@ -185,6 +199,7 @@ static luaL_Reg LuaFaction_meta[] = {
 	{ "military_name", &l_fac_military_name },
 	{ "police_name", &l_fac_police_name },
 	{ "illegal_goods_probability", &l_fac_illegal_goods_probability },
+	{ "colour", &l_fac_colour },
 	{ "add_to_factions", &l_csys_add_to_factions },
 	{ "__gc", &l_fac_gc },
 	{ 0, 0 }
