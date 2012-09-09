@@ -2,7 +2,7 @@
 #include "Ship.h"
 #include "Pi.h"
 #include "Game.h"
-#include "Animation.h"
+#include "AnimationCurves.h"
 
 WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	Camera(s, size.x, size.y, fovY, near, far)
@@ -90,7 +90,7 @@ void ExternalCamera::ZoomEvent(float amount)
 
 void ExternalCamera::ZoomEventUpdate(float frameTime)
 {
-	Animation::Approach(m_dist, m_distTo, frameTime, 4.0, 50./std::max(m_distTo, 1e-7));		// std::max() here just avoid dividing by 0.
+	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50./std::max(m_distTo, 1e-7));		// std::max() here just avoid dividing by 0.
 	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
 }
 
@@ -191,7 +191,7 @@ void SiderealCamera::ZoomEvent(float amount)
 
 void SiderealCamera::ZoomEventUpdate(float frameTime)
 {
-	Animation::Approach(m_dist, m_distTo, frameTime, 4.0, 50./std::max(m_distTo, 1e-7));		// std::max() here just avoid dividing by 0.
+	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50./std::max(m_distTo, 1e-7));		// std::max() here just avoid dividing by 0.
 	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
 }
 

@@ -10,7 +10,7 @@
 #include "galaxy/Galaxy.h"
 #include "Lang.h"
 #include "StringF.h"
-#include "Animation.h"
+#include "AnimationCurves.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
@@ -150,7 +150,7 @@ void GalacticView::Update()
 	}
 	m_zoomTo = Clamp(m_zoomTo, 0.5f, 100.0f);
 	m_zoom = Clamp(m_zoom, 0.5f, 100.0f);
-	Animation::Approach(m_zoom, m_zoomTo, frameTime);
+	AnimationCurves::Approach(m_zoom, m_zoomTo, frameTime);
 
 	m_scaleReadout->SetText(stringf(Lang::INT_LY, formatarg("scale", int(0.5*Galaxy::GALAXY_RADIUS/m_zoom))));
 }

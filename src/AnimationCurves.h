@@ -1,12 +1,12 @@
-#ifndef ANIMATION_H
-#define ANIMATION_H
+#ifndef ANIMATIONCURVES_H
+#define ANIMATIONCURVES_H
 
 #include "FloatComparison.h"
 
 /// Namespace contains simple functions for value animation.
 /// This is very simple implementation, which could be improved in the future.
 ///\todo Many interesting things could be added, such as play/pause/reset animations, loop/mirror animation, interpolations, etc. But implementations exist, and if we need something tougher, we should have a look at them instead of reinventing the wheel.
-namespace Animation {
+namespace AnimationCurves {
 
 	/// Animates linearily a value over time, given a speed.
 	/// The speed must be "towards" the target value. Function will not go further than target.
@@ -38,6 +38,6 @@ namespace Animation {
 		if (newDelta*delta <0) cur = target;
 	}
 
-} // namespace Animation
+}
 
-#endif		// ANIMATION_H
+#endif
