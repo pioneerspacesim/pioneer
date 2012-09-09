@@ -30,3 +30,5 @@ shininess 150
 
 lod 1000
 mesh lod3.x
+
+collision collision.obj
