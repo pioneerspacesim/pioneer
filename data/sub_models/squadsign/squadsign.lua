@@ -9,18 +9,23 @@ model & texture, gernot
 -- this is used if you only like to get the "squad sign" (flightgroup colors) materials and replaces the "squad_color" model which didn't works no more. it's used also in the scripts below.
 
 function squad_color(self)
+	-- note: alpha value is set to .99; this is deliberate
+	--  If it goes above .99, then LMR switches alpha-blending off,
+	--  even though the texture itself has alpha.
+	--  The result is that instead of getting a texture-masked decal,
+	--  you get a solid square of the material colour.
 
 	selector1()
 	if select1 < 201 then
-		set_material('squad', .5,0,0,.999,.6,.6,.6,30)
+		set_material('squad', .5,0,0,.99,.6,.6,.6,30)
 	elseif select1 < 401 then
-		set_material('squad', .45,.35,.01,.999,.6,.6,.6,30)
+		set_material('squad', .45,.35,.01,.99,.6,.6,.6,30)
 	elseif select1 < 601 then
-		set_material('squad', 0,.15,.7,.999,.6,.6,.6,30)
+		set_material('squad', 0,.15,.7,.99,.6,.6,.6,30)
 	elseif select1 < 801 then
-		set_material('squad', .06,.35,0,.999,.6,.6,.6,30)
+		set_material('squad', .06,.35,0,.99,.6,.6,.6,30)
 	elseif select1 > 800 then
-		set_material('squad', .2,0,.35,.999,.6,.6,.6,30)
+		set_material('squad', .2,0,.35,.99,.6,.6,.6,30)
 	end
 end
 
