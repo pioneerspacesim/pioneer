@@ -31,12 +31,12 @@ local onChat = function (form, ref, option)
 	end
 
 	if Game.player:GetMoney() < option then
-		UI.Message(t("You do not have enough money."))
+		Comms.Message(t("You do not have enough money."))
 	else
 		if option >= 10000 then
-			UI.Message(t("Wow! That was very generous."))
+			Comms.Message(t("Wow! That was very generous."))
 		else
-			UI.Message(t("Thank you. All donations are welcome."))
+			Comms.Message(t("Thank you. All donations are welcome."))
 		end
 		Game.player:AddMoney(-option)
 	end
@@ -84,7 +84,7 @@ local unserialize = function (data)
 	loaded_data = data
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onGameStart:Connect(onGameStart)
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onGameStart", onGameStart)
 
 Serializer:Register("DonateToCranks", serialize, unserialize)

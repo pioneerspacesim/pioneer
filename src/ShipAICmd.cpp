@@ -122,7 +122,7 @@ bool AICmdKill::TimeStepUpdate()
 	}
 
 // have the following things to pass from higher-level function:
-// 1. whether to evade or counter-evade 
+// 1. whether to evade or counter-evade
 // 2. desired separation (based on relative ship sizes + random)
 
 	// long term factors:
@@ -140,7 +140,7 @@ bool AICmdKill::TimeStepUpdate()
 
 	// Immediate factors:
 	// if their laser temperature is high, counter-evade and close range
-	
+
 	// if our laser temperature is high, full evade and increase range
 
 	// if outmatched, run away?
@@ -151,14 +151,14 @@ bool AICmdKill::TimeStepUpdate()
 
 	// if not visible to opponent and close, may attempt to stay in blind spot?
 
-	
+
 	if (rval) {			// current pattern complete, pick which to use next
 
 
-		// danger metrics: damage taken, target heading & range, 
+		// danger metrics: damage taken, target heading & range,
 		// separate danger from target and danger from elsewhere?
 
-		// *could* check 		
+		// *could* check
 	}
 }
 */
@@ -230,7 +230,7 @@ bool AICmdKill::TimeStepUpdate()
 	matrix4x4d rot; m_ship->GetRotMatrix(rot);				// some world-space params
 	const ShipType &stype = m_ship->GetShipType();
 	vector3d targpos = m_target->GetPositionRelTo(m_ship);
-	vector3d targvel = m_target->GetVelocityRelTo(m_ship);		
+	vector3d targvel = m_target->GetVelocityRelTo(m_ship);
 	vector3d targdir = targpos.NormalizedSafe();
 	vector3d heading = vector3d(-rot[8], -rot[9], -rot[10]);
 	// Accel will be wrong for a frame on timestep changes, but it doesn't matter
@@ -286,7 +286,7 @@ bool AICmdKill::TimeStepUpdate()
 				evadethrust.x = objvel.x > 0.0 ? 1.0 : -1.0;
 				evadethrust.y = objvel.y > 0.0 ? 1.0 : -1.0;
 			}
-		}			
+		}
 		else
 		{
 			skillEvade += targpos.Length() / 2000;				// 0.25 per 500m
@@ -306,7 +306,7 @@ bool AICmdKill::TimeStepUpdate()
 			}
 			// else no evade thrust
 		}
-	}		
+	}
 	else evadethrust = m_ship->GetThrusterState();
 
 
@@ -317,7 +317,7 @@ bool AICmdKill::TimeStepUpdate()
 		if (heading.Dot(targdir) < 0.7) skillEvade += 0.5;		// not in view
 
 		m_closeTime = Pi::game->GetTime() + skillEvade * Pi::rng.Double(1.0,5.0);
-	
+
 		double reqdist = 500.0 + skillEvade * Pi::rng.Double(-500.0, 250);
 		double dist = targpos.Length(), ispeed;
 		double rearaccel = stype.linThrust[ShipType::THRUSTER_REVERSE] / m_ship->GetMass();
@@ -390,7 +390,7 @@ bool AICmdKill::TimeStepUpdate()
 // every time period, hit forward or reverse thruster or neither
 
 // actually just use real one except only occasionally and with randomised distances
-// 
+//
 
 
 
@@ -421,7 +421,7 @@ bool AICmdKill::TimeStepUpdate()
 	// just generate preferred evasion and range vectors and span accordingly?
 	// never mind that, just consider each thruster axis individually?
 
-	// get representation of approximate angular distance 
+	// get representation of approximate angular distance
 	// dot product of direction and enemy heading?
 	// ideally use enemy angvel arc too - try to stay out of arc and away from heading
 
@@ -446,7 +446,7 @@ bool AICmdKill::TimeStepUpdate()
 		evade2 = eav.Normalized();
 		if (targpos.Dot(eav * targpos.Dot(eav)) > 0.0) evade2 *= -1.0;
 	}
-	else evade2 = evade1;	
+	else evade2 = evade1;
 
 	// only do this if on target
 	if (leaddir.z < -0.98)
@@ -540,7 +540,7 @@ static vector3d GetVelInFrame(Frame *frame, Frame *target, const vector3d &offse
 	return (m.ApplyRotationOnly(vel) + Frame::GetFrameRelativeVelocity(frame, target));
 }
 
-// generates from (0,0,0) to spos, in plane of target 
+// generates from (0,0,0) to spos, in plane of target
 // formula uses similar triangles
 // shiptarg in ship's frame
 // output in targframe
@@ -589,6 +589,7 @@ static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, 
 	// ship is in obstructor's frame anyway, so is tpos
 	if (pathdist < 100.0) return 0;
 	Body *body = ship->GetFrame()->GetBodyFor();
+	if (!body) return 0;
 	vector3d spos = ship->GetPosition();
 	double tlen = tpos.Length(), slen = spos.Length();
 	double fr = MaxFeatureRad(body);
@@ -611,7 +612,7 @@ static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, 
 	// now for the intercept calc
 	// find closest point to obstructor
 	double tanlen = -spos.Dot(pathdir);
-	if (tanlen < 0 || tanlen > pathdist) return 0;		// closest point outside path 
+	if (tanlen < 0 || tanlen > pathdist) return 0;		// closest point outside path
 
 	vector3d perpdir = (tanlen*pathdir + spos).Normalized();
 	double perpspeed = ship->GetVelocity().Dot(perpdir);
@@ -795,11 +796,13 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 			ProcessChild(); m_state = -5; return false;
 		}
 	}
-	
+
 	// if dangerously close to local body, pretend target isn't moving
-	double localdist = m_ship->GetPosition().Length();
-	if (targdist > localdist && localdist < 1.5*MaxFeatureRad(body))
-		relvel += targvel;
+	if (body) {
+		double localdist = m_ship->GetPosition().Length();
+		if (targdist > localdist && localdist < 1.5*MaxFeatureRad(body))
+			relvel += targvel;
+	}
 
 	// regenerate state to flipmode if we're off course
 	bool overshoot = CheckOvershoot(m_ship, reldir, targdist, relvel, endvel);
@@ -830,7 +833,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	// set heading according to current state
 	if (m_state < 2) {		// this shit still needed? yeah, sort of
 		vector3d newrelpos = targpos - m_ship->AIGetNextFramePos();
-		if ((newrelpos + reldir*100.0).Dot(relpos) <= 0.0) 
+		if ((newrelpos + reldir*100.0).Dot(relpos) <= 0.0)
 			m_ship->AIFaceDirection(reldir);			// last frames turning workaround
 		else m_ship->AIFaceDirection(newrelpos);
 	}
@@ -933,7 +936,7 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int targmod
 {
 	m_obstructor = obstructor; m_alt = alt; m_vel = vel;
 	m_targmode = targmode; m_target = target; m_targframe = targframe; m_posoff = posoff;
-	
+
 	// generate suitable velocity if none provided
 	double minacc = (targmode == 3) ? 0 : m_ship->GetAccelMin();
 	double mass = obstructor->IsType(Object::TERRAINBODY) ? obstructor->GetMass() : 0;

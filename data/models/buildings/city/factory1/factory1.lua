@@ -1,7 +1,7 @@
 --[[
 --updated 05/08/2010
 define_model('rotor', {
-	info = {	
+	info = {
 			lod_pixels = {20, 40, 100, 0},
 			scale=1,
 			bounding_radius = 3,
@@ -11,7 +11,7 @@ define_model('rotor', {
     	set_material('alu', .5,.52,.55,1,.45,.5,.55,50)
     	use_material('alu')
 		circle(4*lod, v(0,0,0), v(0,1,0), v(0,0,1),.3)
-		xref_tri(v(0,0,0), v(1.3,0,.25), v(1.3,0,-.25)) 
+		xref_tri(v(0,0,0), v(1.3,0,.25), v(1.3,0,-.25))
 		tri(v(0,0,0), v(-.25,0,1.3), v(.25,0,1.3))
 		tri(v(0,0,0), v(.25,0,-1.3), v(-.25,0,-1.3))
 		xref_tri(v(0,0,0), v(-1.1,0,.7), v(-.7,0,1.1))
@@ -22,9 +22,9 @@ define_model('rotor', {
 define_model('factory1', {
 	info = {
 			lod_pixels = {20, 40, 100, 0},
-			scale=1.25, 
+			scale=1.25,
 			bounding_radius = 50,
-			materials = {'clay', 'concrete', 'blood', 'snow', 'coal', 'alu', 'nausea', 'sea', 
+			materials = {'clay', 'concrete', 'blood', 'snow', 'coal', 'alu', 'nausea', 'sea',
 						'dandelion', 'kentucky1', 'kentucky2', 'kentucky3', 'kentucky4', 'roof'},
 			tags = {'city_building', 'city_power'}
 			},
@@ -51,7 +51,7 @@ define_model('factory1', {
 		local v13 = v(-20,21,20)
 		local v14 = v(20,1,20)
 		local v15 = v(-20,1,20)
-		
+
 		--walls
 		if lod > 2 then
 	  		texture('corrosion3.png', v(.5,.97,0), v(.025,0,0), v(0,-.036,0))
@@ -70,7 +70,7 @@ define_model('factory1', {
 			texture('concrete.png', v(0,0,0), v(.05,0,0), v(0,0,.5))
 		end
 	    use_material('roof')
-		quad(v2,v3,v5,v4)                                
+		quad(v2,v3,v5,v4)
 		quad(v6,v7,v9,v8)
 		xref_quad(v2,v4,v6,v8)
 
@@ -121,7 +121,7 @@ define_model('factory1', {
 		extrusion(v(0,0,0), v(0,0,10), v(0,1,0), 1, v(10,21,0), v(12,21,0), v(12,22,0), v(10,22,0))
 		extrusion(v(0,0,10), v(0,0,14), v(0,1,0), 1, v(-13,21,0), v(-9,21,0), v(-9,22,0), v(-13,22,0))
 		extrusion(v(0,0,10), v(0,0,14), v(0,1,0), 1, v(9,21,0), v(13,21,0), v(13,22,0), v(9,22,0))
-		
+
 		--tubes
 		if lod > 2 then
 			texture('alu_tiled.png', v(0,0,0), v(-.15,0,0), v(0,-.1,0))
@@ -151,7 +151,7 @@ define_model('factory1', {
 		circle(6*lod, v(24,15,14), v(0,1,0), v(0,0,1), 4)
 		circle(6*lod, v(24,15,4), v(0,1,0), v(0,0,1), 4)
 		texture(nil)
-	
+
 		--sign
 		use_material('sea')
 		zbias(1,v(0,18.8,20.01),v(0,0,1))
@@ -183,7 +183,7 @@ define_model('factory1', {
 		xref_quad(v(-7.5,24.7,0.01), v(-4.5,24.7,0.01), v(-4.5,26,0.01), v(-7.5,26,0.01))
 		xref_quad(v(-20.01,24.7,-9), v(-20.01,24.7,-6), v(-20.01,26,-6), v(-20.01,26,-9))
 		quad(v(-20.01,6.3,-1), v(-20.01,6.3,2), v(-20.01,7.6,2), v(-20.01,7.6,-1))
-	
+
 		use_material('kentucky2')
 		xref_quad(v(-11.5,1.7,20.01), v(-8.5,1.7,20.01), v(-8.5,3,20.01), v(-11.5,3,20.01))
 		xref_quad(v(-3.5,1.7,20.01), v(-.5,1.7,20.01), v(-.5,3,20.01), v(-3.5,3,20.01))
@@ -200,7 +200,7 @@ define_model('factory1', {
 		xref_quad(v(-11.5,24.7,0.01), v(-8.5,24.7,0.01), v(-8.5,26,0.01), v(-11.5,26,0.01))
 		xref_quad(v(-20.01,6.3,-9), v(-20.01,6.3,-6), v(-20.01,7.6,-6), v(-20.01,7.6,-9))
 		xref_quad(v(-7.5,8.6,20.01), v(-4.5,8.6,20.01), v(-4.5,9.9,20.01), v(-7.5,9.9,20.01))
-	
+
 		use_material('kentucky3')
 		xref_quad(v(-19.5,4,20.01), v(-16.5,4,20.01), v(-16.5,5.3,20.01), v(-19.5,5.3,20.01))
 		xref_quad(v(-11.5,4,20.01), v(-8.5,4,20.01), v(-8.5,5.3,20.01), v(-11.5,5.3,20.01))
@@ -217,7 +217,7 @@ define_model('factory1', {
 	    xref_quad(v(-20.01,1.7,-9), v(-20.01,1.7,-6), v(-20.01,3,-6), v(-20.01,3,-9))
 	    xref_quad(v(-7.5,6.3,20.01), v(-4.5,6.3,20.01), v(-4.5,7.6,20.01), v(-7.5,7.6,20.01))
 	    quad(v(-20.01,8.6,-5), v(-20.01,8.6,-2), v(-20.01,9.9,-2), v(-20.01,9.9,-5))
-	
+
 	    use_material('kentucky4')
 	    xref_quad(v(-7.5,1.7,20.01), v(-4.5,1.7,20.01), v(-4.5,3,20.01), v(-7.5,3,20.01))
 	    xref_quad(v(-15.5,6.3,20.01), v(-12.5,6.3,20.01), v(-12.5,7.6,20.01), v(-15.5,7.6,20.01))
@@ -246,7 +246,7 @@ dynamic = function(lod)
         set_material('kentucky1', .2, .25, .3, 1, .95, 1, 1.2, 100,.4,.45,.5)
         set_material('kentucky2', .2, .25, .3, 1, .95, 1, 1.2, 100,.4,.45,.5)
         set_material('kentucky3', .2, .25, .3, 1, .95, 1, 1.2, 100,.4,.45,.5)
-        set_material('kentucky4', .2, .25, .3, 1, .95, 1, 1.2, 100,.4,.45,.5) 
+        set_material('kentucky4', .2, .25, .3, 1, .95, 1, 1.2, 100,.4,.45,.5)
 	else
         set_material('clay', .56,.48,.18,1,.3,.3,.3,5)
         set_material('concrete',.5,.5,.4,1,.3,.3,.3,5)
@@ -256,7 +256,7 @@ dynamic = function(lod)
         set_material('kentucky1', .07, .09, .1, 1, .7, .72, .75, 100,.3,.35,.4)
         set_material('kentucky2', .07, .09, .1, 1, .7, .72, .75, 100,.3,.35,.4)
         set_material('kentucky3', .07, .09, .1, 1, .7, .72, .75, 100,.3,.35,.4)
-        set_material('kentucky4', .07, .09, .1, 1, .7, .72, .75, 100,.3,.35,.4) 
+        set_material('kentucky4', .07, .09, .1, 1, .7, .72, .75, 100,.3,.35,.4)
     end
 
     if lod > 2 then
@@ -276,28 +276,28 @@ dynamic = function(lod)
 		if lod > 2 then
 	    	set_material('kentucky1', .2, .25, .3, 1, .95, 1, 1.2, 100)
        	else
-       	    set_material('kentucky1', .07, .09, .1, 1, .7, .72, .75, 100) 
+       	    set_material('kentucky1', .07, .09, .1, 1, .7, .72, .75, 100)
        	end
    	else
 		if switch < .51 then
 	    	if lod > 2 then
-	    		set_material('kentucky2', .2, .25, .3, 1, .95, 1, 1.2, 100) 
+	    		set_material('kentucky2', .2, .25, .3, 1, .95, 1, 1.2, 100)
        		else
-       	    	 set_material('kentucky2', .07, .09, .1, 1, .7, .72, .75, 100) 
+       	    	 set_material('kentucky2', .07, .09, .1, 1, .7, .72, .75, 100)
        		end
 	    else
 			if switch < .76 then
 		        if lod > 2 then
-	    			set_material('kentucky3', .2, .25, .3, 1, .95, 1, 1.2, 100) 
+	    			set_material('kentucky3', .2, .25, .3, 1, .95, 1, 1.2, 100)
        			else
-       	    		set_material('kentucky3', .07, .09, .1, 1, .7, .72, .75, 100) 
+       	    		set_material('kentucky3', .07, .09, .1, 1, .7, .72, .75, 100)
        			end
 		    else
 			    if switch > .75 then
 			        if lod > 2 then
-	    				set_material('kentucky4', .2, .25, .3, 1, .95, 1, 1.2, 100) 
+	    				set_material('kentucky4', .2, .25, .3, 1, .95, 1, 1.2, 100)
        				else
-       	    			set_material('kentucky4', .07, .09, .1, 1, .7, .72, .75, 100) 	
+       	    			set_material('kentucky4', .07, .09, .1, 1, .7, .72, .75, 100)
        				end
 			    end
 			end

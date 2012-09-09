@@ -16,7 +16,7 @@ define_model('ad_cola_1', {
 		use_material('glow1')
 		texture('wtr.png', v(.5,.5,0),v(.5,0,0),v(0,1,0))
 		quad(v0,v1,v2,v3)
-		
+
 		use_material('glow2')
 		texture('coolcola.png', v(.5,0,0),v(.5,0,0),v(0,-1,0))
 		zbias(1,v(0,.5,0), v(0,0,1))
@@ -149,7 +149,7 @@ define_model('ad_acme_1', {
 	end,
 	dynamic = function(lod)
 		set_material('glow1',lerp_materials(get_time('SECONDS')*0.1, {0,0,0,1,0,0,0,0,2.5,1.2,.6},
-								{0,0,0,1,0,0,0,0,1.5,1.8,.6}))	
+								{0,0,0,1,0,0,0,0,1.5,1.8,.6}))
 	end
 })
 
@@ -167,9 +167,9 @@ define_model('ad_acme_2', {
 
 		set_material('glow1', 0,0,0,.99,0,0,0,0,2,1.8,.6)
 
-		texture('acme_1.png', v(.5,0,0),v(.5,0,0),v(0,-1,0))	
-		use_material('glow1')	
-		quad(v0,v1,v2,v3)	
+		texture('acme_1.png', v(.5,0,0),v(.5,0,0),v(0,-1,0))
+		use_material('glow1')
+		quad(v0,v1,v2,v3)
 	end
 })
 
@@ -277,7 +277,7 @@ define_model('ad_sirius_1', {
 		local v3 = v(-1,0,0)
 
 		set_material('glow2', 0,0,0,.99,0,0,0,0,.8,1,1.2)
-		
+
 		use_material('glow1')
 		texture('tie-d_b.png', v(0,0,0),v(.25,0,0),v(0,1,0))
 		quad(v0,v1,v2,v3)
@@ -308,8 +308,8 @@ define_model('ad_sirius_2', {
 		set_material('glow1', 0,0,0,.99,0,0,0,0,1,1.5,2)
 
 		texture('sirius_3.png', v(.5,0,0),v(.5,0,0),v(0,-1,0))
-		use_material('glow1')	
-		quad(v0,v1,v2,v3)	
+		use_material('glow1')
+		quad(v0,v1,v2,v3)
 	end
 })
 

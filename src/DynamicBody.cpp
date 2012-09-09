@@ -27,27 +27,27 @@ DynamicBody::DynamicBody(): ModelBody()
 	m_lastTorque = vector3d(0.0);
 }
 
-void DynamicBody::SetForce(const vector3d f)
+void DynamicBody::SetForce(const vector3d &f)
 {
 	m_force = f;
 }
 
-void DynamicBody::AddForce(const vector3d f)
+void DynamicBody::AddForce(const vector3d &f)
 {
 	m_force += f;
 }
 
-void DynamicBody::AddTorque(const vector3d t)
+void DynamicBody::AddTorque(const vector3d &t)
 {
 	m_torque += t;
 }
 
-void DynamicBody::AddRelForce(const vector3d f)
+void DynamicBody::AddRelForce(const vector3d &f)
 {
 	m_force += m_orient.ApplyRotationOnly(f);
 }
 
-void DynamicBody::AddRelTorque(const vector3d t)
+void DynamicBody::AddRelTorque(const vector3d &t)
 {
 	m_torque += m_orient.ApplyRotationOnly(t);
 }
@@ -86,7 +86,7 @@ void DynamicBody::PostLoadFixup(Space *space)
 	CalcExternalForce();
 }
 
-void DynamicBody::SetTorque(const vector3d t)
+void DynamicBody::SetTorque(const vector3d &t)
 {
 	m_torque = t;
 }
@@ -98,7 +98,7 @@ void DynamicBody::SetMass(double mass)
 	m_angInertia = (2/5.0)*m_mass*m_massRadius*m_massRadius;
 }
 
-void DynamicBody::SetPosition(vector3d p)
+void DynamicBody::SetPosition(const vector3d &p)
 {
 	m_orient[12] = p.x;
 	m_orient[13] = p.y;
@@ -175,7 +175,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		m_angVel += double(timeStep) * m_torque * (1.0 / m_angInertia);
 		// angvel is always relative to non-rotating frame, so need to counter frame angvel
 		vector3d consideredAngVel = m_angVel - GetFrame()->GetAngVelocity();
-		
+
 		vector3d pos = GetPosition();
 		// applying angular velocity :-/
 		{
@@ -296,12 +296,12 @@ vector3d DynamicBody::GetVelocity() const
 	return m_vel;
 }
 
-void DynamicBody::SetVelocity(vector3d v)
+void DynamicBody::SetVelocity(const vector3d &v)
 {
 	m_vel = v;
 }
 
-void DynamicBody::SetAngVelocity(vector3d v)
+void DynamicBody::SetAngVelocity(const vector3d &v)
 {
 	m_angVel = v;
 }
@@ -311,7 +311,7 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 {
 	// don't bother doing collision damage from a missile that will now explode, or may have already
 	// also avoids an occasional race condition where destruction event of this could be queued twice
-	// returning true to insure that the missile can react to the collision
+	// returning true to ensure that the missile can react to the collision
 	if (o->IsType(Object::MISSILE)) return true;
 
 	double kineticEnergy = 0;

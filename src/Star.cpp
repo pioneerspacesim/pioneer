@@ -1,8 +1,8 @@
 #include "Star.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
-#include "gui/Gui.h"
 #include "graphics/VertexArray.h"
+#include "gui/Gui.h"
 
 using namespace Graphics;
 
@@ -10,7 +10,7 @@ Star::Star() : TerrainBody()
 {
 }
 
-Star::Star(SBody *sbody): TerrainBody(sbody)
+Star::Star(SystemBody *sbody): TerrainBody(sbody)
 {
 	m_hasDoubleFrame = false;
 }
@@ -18,20 +18,20 @@ Star::Star(SBody *sbody): TerrainBody(sbody)
 double Star::GetClipRadius() const
 {
 
-	const SBody *sbody = GetSBody();
+	const SystemBody *sbody = GetSystemBody();
 
 	// if star is wolf-rayet it gets a very large halo effect
-	const float wf = (sbody->type < SBody::TYPE_STAR_S_BH && sbody->type > SBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f;
+	const float wf = (sbody->type < SystemBody::TYPE_STAR_S_BH && sbody->type > SystemBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f;
 	return sbody->GetRadius() * 8 * wf;
 }
 
-void Star::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	renderer->SetDepthTest(false);
 	glPushMatrix();
 
 	double radius = GetClipRadius();
-	
+
 	double rad = radius;
 	vector3d fpos = viewCoords;
 	double len = fpos.Length();
@@ -44,7 +44,7 @@ void Star::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 	matrix4x4d trans = matrix4x4d::Identity();
 	trans.Translate(float(fpos.x), float(fpos.y), float(fpos.z));
-	
+
 	// face the camera dammit
 	vector3d zaxis = viewCoords.NormalizedSafe();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
@@ -53,7 +53,7 @@ void Star::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 
 	renderer->SetTransform(trans * rot);
 
-	const float *col = StarSystem::starRealColors[GetSBody()->type];
+	const float *col = StarSystem::starRealColors[GetSystemBody()->type];
 
 	MTRand(rand);
 
@@ -70,11 +70,11 @@ void Star::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, cons
 	}
 	va.Add(vector3f(0.f, rad, 0.f), dark);
 
-	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+	renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 	renderer->SetBlendMode(BLEND_SOLID);
 
 	glPopMatrix();
 	renderer->SetDepthTest(true);
 
-	TerrainBody::Render(renderer, viewCoords, viewTransform);
+	TerrainBody::Render(renderer, camera, viewCoords, viewTransform);
 }

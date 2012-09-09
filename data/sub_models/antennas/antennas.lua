@@ -39,7 +39,7 @@ define_model('antenna_1', {
 			},
 	static = function(lod)
    			texture('metal.png')
-			--sphere_slice(3*lod, 2*lod, 0, 0.4*math.pi, Matrix.scale(v(.3,.2,.3)))
+			--sphere_slice(3*lod, 2*lod, 0, 0.4*math.pi, matrix.scale(v(.3,.2,.3)))
 			set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,10)
 			use_material('chrome')
 			cylinder(3*lod, v(0,0,.1), v(0,0,-1), v(0,1,1), .03)
@@ -60,7 +60,7 @@ define_model('antenna_2', {
 			},
 	static = function(lod)
    			texture('metal.png')
-			sphere_slice(3*lod, 2*lod, 0, 0.4*math.pi, Matrix.translate(v(0,0,.13)) * Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.scale(v(.2,.1,.2)))
+			sphere_slice(3*lod, 2*lod, 0, 0.4*math.pi, matrix.translate(v(0,0,.13)) * matrix.rotate(0.5*math.pi, v(-1,0,0)) * matrix.scale(v(.2,.1,.2)))
 			set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,10)
 			use_material('chrome')
 			cylinder(3*lod, v(0,0,.1), v(0,0,-1), v(0,1,1), .03)

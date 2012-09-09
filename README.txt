@@ -1,4 +1,4 @@
-Pioneer Space Simulator - alpha 20
+Pioneer Space Simulator - alpha 26
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Pioneer is a space adventure game set in the Milky Way galaxy at the turn of
@@ -18,10 +18,10 @@ Follow Pioneer on Google+:
   http://pioneerspacesim.net/+
 
 Join the community:
-  http://www.spacesimcentral.com/forum/viewforum.php?f=35
+  http://pioneerspacesim.net/forum
 
 Bugs? Ideas? Log an issue:
-  https://github.com/pioneerspacesim/pioneer/issues
+  http://pioneerspacesim.net/issues
 
 Chat with the team:
   http://pioneerspacesim.net/irc

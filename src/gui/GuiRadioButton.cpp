@@ -12,13 +12,16 @@ RadioButton::RadioButton(Gui::RadioGroup *g)
 }
 RadioButton::~RadioButton()
 {
-	
+
 }
 bool RadioButton::OnMouseDown(MouseButtonEvent *e)
 {
-	onPress.emit();
-	OnActivate();
-	return false;
+	if (e->button == SDL_BUTTON_LEFT) {
+		onPress.emit();
+		OnActivate();
+		return false;
+	} else
+		return true;
 }
 void RadioButton::OnActivate()
 {

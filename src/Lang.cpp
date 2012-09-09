@@ -3,7 +3,7 @@
 #include "FileSystem.h"
 #include "StringRange.h"
 #include "utils.h"
-#include "TextSupport.h"
+#include "text/TextSupport.h"
 #include <map>
 #include <set>
 
@@ -64,7 +64,7 @@ static int valid_utf8(StringRange data)
 	int line = 1;
 	while (c != data.end) {
 		Uint32 chr;
-		int n = conv_mb_to_wc(&chr, c);
+		int n = Text::utf8_decode_char(&chr, c);
 		if (!n) return line;
 		if (chr == '\n') ++line;
 		c += n;
@@ -203,7 +203,7 @@ static std::vector<std::string> EnumAvailableLanguages()
 	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "lang"); !files.Finished(); files.Next()) {
 		assert(files.Current().IsFile());
 		const std::string &path = files.Current().GetPath();
-		if ((path.size() > 4) && (path.substr(path.size() - 4) == ".txt")) {
+		if (ends_with(path, ".txt")) {
 			const std::string name = files.Current().GetName();
 			languages.push_back(name.substr(0, name.size() - 4));
 		}

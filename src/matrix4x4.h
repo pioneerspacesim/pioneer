@@ -12,14 +12,14 @@ class matrix4x4 {
 	public:
 	matrix4x4 () {}
 	matrix4x4 (T val) {
-		cell[0] = cell[1] = cell[2] = cell[3] = cell[4] = cell[5] = cell[6] = 
-		cell[7] = cell[8] = cell[9] = cell[10] = cell[11] = cell[12] = cell[13] = 
+		cell[0] = cell[1] = cell[2] = cell[3] = cell[4] = cell[5] = cell[6] =
+		cell[7] = cell[8] = cell[9] = cell[10] = cell[11] = cell[12] = cell[13] =
 		cell[14] = cell[15] = val;
 	}
 	matrix4x4 (const T *vals) {
 		memcpy(cell, vals, sizeof(T)*16);
 	}
-	void SetTranslate(const vector3<T> v) { cell[12] = v.x; cell[13] = v.y; cell[14] = v.z; }
+	void SetTranslate(const vector3<T> &v) { cell[12] = v.x; cell[13] = v.y; cell[14] = v.z; }
 	vector3<T> GetTranslate() const { return vector3<T>(cell[12], cell[13], cell[14]); }
 	void SetRotationOnly(const matrix4x4& m) {
 		for (int i=0; i<12; i++) cell[i] = m.cell[i];
@@ -140,12 +140,12 @@ class matrix4x4 {
 		m[5] = cos_r;
 		m[6] = -sin_r;
 		m[7] = 0;
-		
+
 		m[8] = 0;
 		m[9] = sin_r;
 		m[10] = cos_r;
 		m[11] = 0;
-		
+
 		m[12] = 0;
 		m[13] = 0;
 		m[14] = 0;
@@ -165,7 +165,7 @@ class matrix4x4 {
 		m[5] = 1;
 		m[6] = 0;
 		m[7] = 0;
-		
+
 		m[8] = -sin_r;
 		m[9] = 0;
 		m[10] = cos_r;
@@ -185,17 +185,17 @@ class matrix4x4 {
 		m[1] = -sin_r;
 		m[2] = 0;
 		m[3] = 0;
-		
+
 		m[4] = sin_r;
 		m[5] = cos_r;
 		m[6] = 0;
 		m[7] = 0;
-		
+
 		m[8] = 0;
 		m[9] = 0;
 		m[10] = 1.0f;
 		m[11] = 0;
-		
+
 		m[12] = 0;
 		m[13] = 0;
 		m[14] = 0;
@@ -230,6 +230,11 @@ class matrix4x4 {
 	friend matrix4x4 operator- (const matrix4x4 &a, const matrix4x4 &b) {
 		matrix4x4 m;
 		for (int i=0; i<16; i++) m.cell[i] = a.cell[i] - b.cell[i];
+		return m;
+	}
+	friend matrix4x4 operator- (const matrix4x4 &a) {
+		matrix4x4 m;
+		for (int i = 0; i < 16; ++i) { m.cell[i] = -a.cell[i]; }
 		return m;
 	}
 	friend matrix4x4 operator* (const matrix4x4 &a, const matrix4x4 &b) {

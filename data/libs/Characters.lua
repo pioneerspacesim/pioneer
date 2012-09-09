@@ -68,55 +68,55 @@ Character = {
 --
 	player = false, -- Almost always.  One exception. (-:
 
--- 
+--
 -- Attribute: name
--- 
+--
 --   Name of character
--- 
+--
 -- Availability:
--- 
+--
 --   alpha 17
--- 
+--
 -- Status:
--- 
+--
 --   experimental
--- 
+--
 -- Attribute: female
--- 
+--
 --   Gender of character.  If true, character is female.  If false, male.
--- 
+--
 -- Availability:
--- 
+--
 --   alpha 17
--- 
+--
 -- Status:
--- 
+--
 --   experimental
--- 
+--
 -- Attribute: seed
--- 
+--
 --   Seed for predictable randomness, if one is required.
--- 
+--
 -- Availability:
--- 
+--
 --   alpha 17
--- 
+--
 -- Status:
--- 
+--
 --   experimental
--- 
+--
 -- Attribute: title
--- 
+--
 --   Job title, for use in BBS faces
--- 
+--
 -- Availability:
--- 
+--
 --   alpha 17
--- 
+--
 -- Status:
--- 
+--
 --   experimental
--- 
+--
 
 --
 -- Attribute: available
@@ -373,7 +373,7 @@ Character = {
 -- Returns a new character sheet, inheriting from Character, based on an
 -- optional template.
 --
--- character = Character.New(template)
+-- character = Character.New(template,rand)
 --
 -- Return:
 --
@@ -382,6 +382,7 @@ Character = {
 -- Parameters:
 --
 --   template - (optional) a table containing default values
+--   rand     - (optional) the Rand object to use to generate values. If omitted, Engine.rand will be used
 --
 -- Example:
 --
@@ -397,10 +398,14 @@ Character = {
 --
 --   experimental
 --
-	New = function (template)
+	New = function (template,rand)
 		if template and (type(template) ~= 'table') then
 			error("Character template must be a table")
 		end
+		if rand and (type(rand) ~= 'userdata') then
+			error("Character's Rand isn't correct")
+		end
+		local rand = rand or Engine.rand
 		local test = getmetatable(template)
 		if(test and (test.class == 'Character')) then
 			error("Won't use a character as a template.  use Clone() instead.")
@@ -415,9 +420,9 @@ Character = {
 		-- set inherited characteristics (inherit from class only, not self)
 		setmetatable(newCharacter,Character.meta)
 		-- initialize face characteristics if they weren't fully specified
-		if newCharacter.female == nil then newCharacter.female = (Engine.rand:Integer(1) ==1) end
-		newCharacter.name = newCharacter.name or NameGen.FullName(newCharacter.female)
-		newCharacter.seed = newCharacter.seed or Engine.rand:Integer()
+		if newCharacter.female == nil then newCharacter.female = (rand:Integer(1) ==1) end
+		newCharacter.name = newCharacter.name or NameGen.FullName(newCharacter.female,rand)
+		newCharacter.seed = newCharacter.seed or rand:Integer()
 		newCharacter.armour = newCharacter.armour or false
 		newCharacter.player = false -- Explicitly set this, if you need it.
 		return newCharacter
@@ -592,7 +597,7 @@ Character = {
 --
 -- Example:
 --
--- > if (player:TestRoll('lawfulness',20)) then UI.Message('A fellow criminal!')
+-- > if (player:TestRoll('lawfulness',20)) then Comms.Message('A fellow criminal!')
 --
 	TestRoll = function (self,attribute,modifier)
 		local modifier = modifier or 0
@@ -640,7 +645,7 @@ Character = {
 --
 -- Example:
 --
--- > if (player:SafeRoll('lawfulness',20)) then UI.Message('A fellow criminal!')
+-- > if (player:SafeRoll('lawfulness',20)) then Comms.Message('A fellow criminal!')
 --
 	SafeRoll = function (self,attribute,modifier)
 		local modifier = modifier or 0
@@ -956,13 +961,13 @@ end
 -- To test it:
 --
 -- > -- returns true or false, depending on chance
--- > if some_character:TestRoll('geology') then success() end 
+-- > if some_character:TestRoll('geology') then success() end
 --
 -- This will work for characters who have not had "geology" defined:
 --
 -- > -- always returns false
--- > if other_character:TestRoll('geology') then success() end 
+-- > if other_character:TestRoll('geology') then success() end
 --
 
-EventQueue.onGameStart:Connect(onGameStart)
+Event.Register("onGameStart", onGameStart)
 Serializer:Register("Characters", serialize, unserialize)

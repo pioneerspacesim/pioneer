@@ -192,7 +192,7 @@ local onEnterSystem = function (ship)
 			local engine = ship:GetEquip('ENGINE',1)
 			ship:RemoveEquip(engine)
 			ship:AddEquip('RUBBISH',EquipType.GetEquipType(engine).mass)
-			UI.Message(t("The ship's hyperdrive has been destroyed by a malfunction"))
+			Comms.Message(t("The ship's hyperdrive has been destroyed by a malfunction"))
 		end
 	end
 end
@@ -205,10 +205,10 @@ local unserialize = function (data)
 	loaded_data = data
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onGameStart:Connect(onGameStart)
-EventQueue.onShipFlavourChanged:Connect(onShipFlavourChanged)
-EventQueue.onShipEquipmentChanged:Connect(onShipEquipmentChanged)
-EventQueue.onEnterSystem:Connect(onEnterSystem)
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onGameStart", onGameStart)
+Event.Register("onShipFlavourChanged", onShipFlavourChanged)
+Event.Register("onShipEquipmentChanged", onShipEquipmentChanged)
+Event.Register("onEnterSystem", onEnterSystem)
 
 Serializer:Register("BreakdownServicing", serialize, unserialize)

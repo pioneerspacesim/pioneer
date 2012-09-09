@@ -4,7 +4,6 @@
 #include "buildopts.h"
 #import <SDL/SDL.h>
 #import "SDLMain.h"
-#import <sys/param.h> /* for MAXPATHLEN */
 #import <unistd.h>
 
 static int    gArgc;
@@ -27,7 +26,7 @@ static BOOL   gFinderLaunch;
 @implementation SDLMain
 
 // Called when the internal event loop has just started running
-- (void) applicationDidFinishLaunching: (NSNotification *) note
+- (void) applicationDidFinishLaunching: (__unused NSNotification *) note
 {
     int status;
 
@@ -52,7 +51,7 @@ static BOOL   gFinderLaunch;
     }
     else if ([[sender title] isEqualToString:@"pioneer Forums"])
     {
-        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.spacesimcentral.com/forum/viewforum.php?f=35"]];
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/forum"]];
     }
     else if ([[sender title] isEqualToString:@"Chat with the dev team"])
     {
@@ -96,7 +95,7 @@ static BOOL   gFinderLaunch;
     }
 }
 
-- (IBAction)openAboutPanel:(id)sender
+- (IBAction)openAboutPanel:(__unused id)sender
 {
     NSDictionary *options;
     NSImage *img;
@@ -138,7 +137,7 @@ int main (int argc, char * argv[])
         gFinderLaunch = NO;
     }
 
-    NSApplicationMain (argc, argv);
+    NSApplicationMain (argc, (const char **)argv);
     return 0;
 }
 

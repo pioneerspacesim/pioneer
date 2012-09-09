@@ -33,7 +33,7 @@ public:
 	}
 
 	virtual void UpdateInfo() {
-		const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.2f;
 		DeleteAllChildren();
 
 		Gui::Label *l = new Gui::Label(Lang::MISSIONS);
@@ -41,16 +41,16 @@ public:
 
 		l = new Gui::Label(Lang::TYPE);
 		Add(l, 20, 20+YSEP*2);
-		
+
 		l = new Gui::Label(Lang::CLIENT);
 		Add(l, 100, 20+YSEP*2);
-		
+
 		l = new Gui::Label(Lang::LOCATION);
 		Add(l, 260, 20+YSEP*2);
-		
+
 		l = new Gui::Label(Lang::DUE);
 		Add(l, 420, 20+YSEP*2);
-		
+
 		l = new Gui::Label(Lang::REWARD);
 		Add(l, 580, 20+YSEP*2);
 
@@ -64,7 +64,7 @@ public:
 		scroll->SetAdjustment(&portal->vscrollAdjust);
 
 		const std::list<const Mission*> &missions = Pi::player->missions.GetAll();
-		Gui::Fixed *innerbox = new Gui::Fixed(760, YSEP*3 * missions.size());
+		Gui::Fixed *innerbox = new Gui::Fixed(760, YSEP*3*missions.size());
 
 		float ypos = 0;
 		for (std::list<const Mission*>::const_iterator i = missions.begin(); i != missions.end(); ++i) {
@@ -73,16 +73,16 @@ public:
 
 			l = new Gui::Label((*i)->type);
 			innerbox->Add(l, 0, ypos);
-			
+
 			l = new Gui::Label((*i)->client);
 			innerbox->Add(l, 80, ypos);
-			
+
 			if (!path.IsBodyPath())
 				l = new Gui::Label(stringf("%0 [%1{d},%2{d},%3{d}]", s->GetName().c_str(), path.sectorX, path.sectorY, path.sectorZ));
 			else
 				l = new Gui::Label(stringf("%0\n%1 [%2{d},%3{d},%4{d}]", s->GetBodyByPath(&path)->name.c_str(), s->GetName().c_str(), path.sectorX, path.sectorY, path.sectorZ));
 			innerbox->Add(l, 240, ypos);
-			
+
 			l = new Gui::Label(format_date((*i)->due));
 			innerbox->Add(l, 400, ypos);
 
@@ -99,11 +99,13 @@ public:
 
 			ypos += YSEP*3;
 		}
-		Add(portal, 20, 20 + YSEP*3);
-		Add(scroll, 780, 20 + YSEP*3);
-		scroll->ShowAll();
 		portal->Add(innerbox);
-		portal->ShowAll();
+
+		Gui::HBox *body = new Gui::HBox();
+		body->PackEnd(portal);
+		body->PackEnd(scroll);
+		body->ShowAll();
+		Add(body, 20, 20+YSEP*3);
 	}
 };
 
@@ -119,7 +121,7 @@ public:
 	}
 
 	virtual void UpdateInfo() {
-		const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.2f;
 		DeleteAllChildren();
 		Add(new Gui::Label(Lang::CARGO_INVENTORY), 40, 40);
 		Add(new Gui::Label(Lang::JETTISON), 40, 40+YSEP*2);
@@ -189,7 +191,7 @@ public:
 	virtual void UpdateInfo() {
 		Sint64 crime, fine;
 		Polit::GetCrime(&crime, &fine);
-		const float YSEP = Gui::Screen::GetFontHeight() * 1.5f;
+		const float YSEP = Gui::Screen::GetFontHeight() * 1.2f;
 		DeleteAllChildren();
 
 		float ypos = 40.0f;
@@ -245,7 +247,7 @@ public:
 		col1 += ":\n\n";
         col1 += std::string(Lang::HYPERSPACE_RANGE);
         col1 += ":\n\n";
-		
+
 		col2 = "\n\n";
 
 		Equip::Type e = Pi::player->m_equipment.Get(Equip::SLOT_ENGINE);
@@ -304,7 +306,7 @@ public:
 						break;
 				}
 				col1 += stringf("\n");
-			} 
+			}
 		}
 
 		info1->SetText(col1);
@@ -329,15 +331,15 @@ InfoView::InfoView(): View(),
 	page = new PersonalPage(this);
 	m_pages.push_back(page);
 	m_tabs->AddPage(new Gui::Label(Lang::REPUTATION), page);
-	
+
 	page = new CargoPage(this);
 	m_pages.push_back(page);
 	m_tabs->AddPage(new Gui::Label(Lang::CARGO), page);
-	
+
 	page = new MissionPage(this);
 	m_pages.push_back(page);
 	m_tabs->AddPage(new Gui::Label(Lang::MISSIONS), page);
-	
+
 	Add(m_tabs, 0, 0);
 
 	m_doUpdate = true;

@@ -6,7 +6,7 @@
 void LuaTimer::Tick()
 {
 	assert(Pi::game);
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -76,10 +76,10 @@ void LuaTimer::Tick()
  * Because timer functions are called outside of the normal event model, it is
  * possible that game objects no longer exist. Consider this example:
  *
- * > local enemy = Space.SpawnShipNear("Eagle Long Range Fighter", Game.player, 20, 20)
- * > UI.ImportantMessage(enemy:GetLabel(), "You have 20 seconds to surrender or you will be destroyed.")
+ * > local enemy = Space.SpawnShipNear("eagle_lrf", Game.player, 20, 20)
+ * > Comms.ImportantMessage(enemy:GetLabel(), "You have 20 seconds to surrender or you will be destroyed.")
  * > Timer:CallAt(Game.time+20, function ()
- * >     UI.ImportantMessage(enemy:GetLabel(), "You were warned. Prepare to die!")
+ * >     Comms.ImportantMessage(enemy:GetLabel(), "You were warned. Prepare to die!")
  * >     enemy:Kill(Game.player)
  * > end)
  *
@@ -108,7 +108,7 @@ static void _finish_timer_create(lua_State *l)
 	}
 
 	lua_insert(l, -2);
-	lua_pushinteger(l, lua_objlen(l, -2) + 1);
+	lua_pushinteger(l, lua_rawlen(l, -2) + 1);
 	lua_insert(l, -2);
 	lua_settable(l, -3);
 
@@ -135,7 +135,7 @@ static void _finish_timer_create(lua_State *l)
  * Example:
  *
  * > Timer:CallAt(Game.time+30, function ()
- * >     UI.Message("Special offer expired, sorry.")
+ * >     Comms.Message("Special offer expired, sorry.")
  * > end)
  *
  * Availability:
@@ -152,12 +152,11 @@ static int l_timer_call_at(lua_State *l)
 		luaL_error(l, "Game is not started");
 
 	double at = luaL_checknumber(l, 2);
-	if (!lua_isfunction(l, 3))
-		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
-	
+	luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function
+
 	if (at <= Pi::game->GetTime())
 		luaL_error(l, "Specified time is in the past");
-	
+
 	LUA_DEBUG_START(l);
 
 	lua_newtable(l);
@@ -216,12 +215,11 @@ static int l_timer_call_every(lua_State *l)
 		luaL_error(l, "Game is not started");
 
 	double every = luaL_checknumber(l, 2);
-	if (!lua_isfunction(l, 3))
-		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
-	
+	luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function
+
 	if (every <= 0)
 		luaL_error(l, "Specified interval must be greater than zero");
-	
+
 	LUA_DEBUG_START(l);
 
 	lua_newtable(l);
@@ -239,7 +237,7 @@ template <> const char *LuaObject<LuaTimer>::s_type = "Timer";
 
 template <> void LuaObject<LuaTimer>::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "CallAt",    l_timer_call_at    },
 		{ "CallEvery", l_timer_call_every },
 		{ 0, 0 }

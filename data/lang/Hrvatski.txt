@@ -102,7 +102,7 @@ NUMBER_LY
 SHIP_IS_ALREADY_FULLY_REPAIRED
     Vaš brod je u savršenom stanju.
 REPAIR_1_PERCENT_HULL
-    Popravi 1.0% štete na trupu 
+    Popravi 1.0% štete na trupu
 REPAIR_ENTIRE_HULL
     Popravi svu štetu na trupu (%repairpercent{f.1}%%)
 REPAIR
@@ -245,7 +245,7 @@ INVERT_MOUSE_Y
     Zamijeni MouseY
 LANGUAGE_SELECTION
     Jezik (povovno pokrenite igru za primjenu)
- 
+
 # Wares
 NONE
     Ništa
@@ -317,7 +317,7 @@ RUBBISH
     Smeće
 RADIOACTIVES
     Radioaktivni otpad
- 
+
 # Hardware
 MISSILE_UNGUIDED
     R40 nevođena raketa
@@ -1026,7 +1026,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Velika poluos
 TIME_POINT
-    Vremenska točka: 
+    Vremenska točka:
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     Neistražen sustav. Pogled na sustav nije dostupan.
 WHEELS_ARE_UP
@@ -1089,8 +1089,8 @@ IN_TRANSIT_TO_N_X_X_X
     Prijelaz u %system [%x,%y,%z]
 ALT_IN_METRES
     Visina: %altitude{f.0}m
-PRESSURE_N_BAR
-    P: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    P: %pressure{f.2} atm
 NO_HYPERDRIVE
     Bez hiperpogona
 MASS_N_TONNES

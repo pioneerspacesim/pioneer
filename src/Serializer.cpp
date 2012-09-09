@@ -1,4 +1,4 @@
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Serializer.h"
 #include "Pi.h"
 #include "Frame.h"
@@ -110,7 +110,7 @@ Reader::Reader(): m_data(""), m_pos(0) {
 Reader::Reader(const std::string &data):
 	m_data(data),
 	m_pos(0) {
-	
+
 }
 Reader::Reader(FILE *fptr): m_pos(0) {
 	m_data = "";

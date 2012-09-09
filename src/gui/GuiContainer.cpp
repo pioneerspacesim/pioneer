@@ -124,7 +124,7 @@ void Container::PrependChild(Widget *child, float x, float y)
 	child->SetParent(this);
 	m_children.push_front(wp);
 }
-	
+
 void Container::AppendChild(Widget *child, float x, float y)
 {
 	widget_pos wp;
@@ -157,13 +157,16 @@ void Container::RemoveChild(Widget *child)
 	}
 }
 
-	
+
 void Container::Draw()
 {
 	float size[2];
 	GetSize(size);
 	if (!m_transparent) {
-		if (m_bgcol[3] < 1.0) glEnable(GL_BLEND);
+		if (m_bgcol[3] < 1.0) {
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
 		glBegin(GL_QUADS);
 			glColor4fv(m_bgcol);
 			glVertex2f(0, size[1]);
@@ -171,7 +174,10 @@ void Container::Draw()
 			glVertex2f(size[0], 0);
 			glVertex2f(0, 0);
 		glEnd();
-		glDisable(GL_BLEND);
+		if (m_bgcol[3] < 1.0) {
+			glBlendFunc(GL_ONE, GL_ZERO);
+			glDisable(GL_BLEND);
+		}
 	}
 #ifdef GUI_DEBUG_CONTAINER
 	glBegin(GL_LINE_LOOP);
@@ -189,7 +195,7 @@ void Container::Draw()
 #ifdef GUI_DEBUG_CONTAINER
 		float csize[2];
 		(*i).w->GetSize(csize);
-		
+
 		glBegin(GL_LINE_LOOP);
 			glColor3f(0,0,1);
 			glVertex2f(0, csize[1]);

@@ -220,8 +220,8 @@ local unserialize = function (data)
     loaded_data = data
 end
 
-EventQueue.onEnterSystem:Connect(AddSystemArrivalToLog)
-EventQueue.onLeaveSystem:Connect(AddSystemDepartureToLog)
-EventQueue.onShipUndocked:Connect(AddStationToLog)
-EventQueue.onGameStart:Connect(onGameStart)
+Event.Register("onEnterSystem", AddSystemArrivalToLog)
+Event.Register("onLeaveSystem", AddSystemDepartureToLog)
+Event.Register("onShipUndocked", AddStationToLog)
+Event.Register("onGameStart", onGameStart)
 Serializer:Register("FlightLog", serialize, unserialize)

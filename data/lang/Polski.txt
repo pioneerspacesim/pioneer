@@ -18,7 +18,7 @@ BUY
 SELL
     Sprzedaj
 STOCK
-    Magazyn
+    Zasoby
 CARGO
     Ładownia
 VID_LINK_DOWN
@@ -32,11 +32,11 @@ BOUGHT_1T_OF
 SOLD_1T_OF
     Sprzedałeś 1t: %commodity.
 WELCOME_TO_MARKET
-    Witamy w sklepie %station
+    Stacja %station. Witamy w sklepie.
 GO_BACK
     Powrót
 FITTING
-    "Montuje "
+    "Montuję "
 REMOVING
     "Usuwam "
 FIT_TO_WHICH_MOUNT
@@ -50,21 +50,21 @@ TRADER_NOT_ENOUGH_MONEY
 NO_SPACE_ON_SHIP
     Nie masz wolnego miejsca na statku
 SOMEWHERE_SERVICES
-    Usługi dostępne w %station
+    Stacja %station. Dostępne usługi.
 SOMEWHERE_SHIPYARD
-    Stocznia %station
+    Stacja %station. Stocznia.
 SOMEWHERE_SHIP_REPAIRS
-    Usługi remontowe %station
+    Stacja %station. Stocznia. Usługi remontowe.
 PRICE_TO_FIT
     $ za montaż
 PRICE_TO_REMOVE
-    $ za usuniecie
+    $ za usunięcie
 WT
     Waga
 FIT
-    Zm.
+    [+]
 REMOVE
-    Usuń
+    [-]
 BUY_THIS_SHIP
     Kup statek
 SHIP_TYPE
@@ -78,7 +78,7 @@ NUMBER_TONNES
 WEIGHT_FULLY_LADEN
     Masa całkowita
 CAPACITY
-    Ładowność
+    Udźwig
 FORWARD_ACCEL_EMPTY
     Ciąg główny (pusty)
 NUMBER_G
@@ -114,7 +114,7 @@ VIEW
 SHIP_EQUIPMENT
     Wyposażenie statku
 SOMEWHERE_SHIP_EQUIPMENT
-    Wyposażenie statku dostępne w %station
+    Stacja %station. Stocznia. Dostępne wyposażenie statku.
 REPAIRS_AND_SERVICING
     Naprawy i serwis
 NEW_AND_RECONDITIONED_SHIPS
@@ -122,12 +122,12 @@ NEW_AND_RECONDITIONED_SHIPS
 BULLETIN_BOARD
     Ogłoszenia
 WELCOME_TO_SOMEWHERE
-    Witamy w %station
+    Stacja %station. Witamy.
 # This next translation does not have to be a real translation.  You can
 # write anything you like here.  It will appear in every space station
 # in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Witaj, podróżniku.  Witamy w stacji kosmicznej.  Mamy doniesienia o aktach wandalizmu i problemach graffiti.  Jeśli zauważysz oznakowanie wprowadzające w błąd, niepoprawne lub po prostu brakujące, prosimy o poinformowanie członka personelu.\n\nTlen jest obecnie bezpłatny.
+    Witaj, podróżniku.  Witamy na stacji kosmicznej.  Mamy doniesienia o aktach wandalizmu i problemach graffiti.  Jeśli zauważysz oznakowanie wprowadzające w błąd, niepoprawne lub po prostu brakujące, prosimy o poinformowanie członka personelu.\nTlen jest obecnie bezpłatny.
 REQUEST_LAUNCH
     Pozwolenie na start
 SHIPYARD
@@ -135,9 +135,9 @@ SHIPYARD
 COMMODITIES_MARKET
     Giełda towarów
 SOMEWHERE_COMMODITIES_MARKET
-    Towary dostępne w %station
+    Stacja %station. Dostępne towary.
 SOMEWHERE_SHIP_MARKET
-    Statki dostępne w %station
+    Stacja %station. Stocznia. Dostępne statki.
 CONTACT_LOCAL_POLICE
     Kontakt z lokalną policją
 COMMS_LINK
@@ -173,7 +173,9 @@ LOAD
 CANCEL
     Wróć
 SELECT_FILENAME_TO_SAVE
-    Wybierz plik do zapisu lub podaj nowa nazwę pliku
+    Wybierz plik do zapisu lub podaj nową nazwę pliku
+CANT_SAVE_IN_HYPERSPACE
+	Nie można zapisać gry w czasie skoku
 GAME_SAVED_TO
     "Gra zapisana do "
 SELECT_FILENAME_TO_LOAD
@@ -184,6 +186,8 @@ GAME_LOAD_CORRUPT
     Ten zapis nie może zostać wczytany ponieważ zawiera błędy.
 GAME_LOAD_CANNOT_OPEN
     Ten zapis nie może być wczytany z powodu braku uprawnień bądź z innej przyczyny...
+GAME_SAVE_CANNOT_WRITE
+	Nie można zapisać gry z powodu błędu systemu.
 VERY_LOW
     Bardzo mała
 LOW
@@ -217,7 +221,7 @@ FULL_SCREEN
 OTHER_GRAPHICS_SETTINGS
     Inne ustawienia graficzne
 USE_SHADERS
-    Użyj cieniowania
+    Użyj cieniowania (wymagany restart)
 SOUND_SETTINGS
     Ustawienia dźwięku
 VOL_MASTER
@@ -246,9 +250,13 @@ MOUSE_INPUT
     Opcje myszy
 INVERT_MOUSE_Y
     Odwróć Oś Y
+HUD
+    HUD
+DISPLAY_NAV_TUNNEL
+    Wyświetl tunel nawigacyjny
 LANGUAGE_SELECTION
     Język (wymagany restart)
- 
+
 # Wares
 NONE
     Brak
@@ -320,14 +328,14 @@ RUBBISH
     Odpady
 RADIOACTIVES
     Odpady radioaktywne
- 
+
 # Hardware
 MISSILE_UNGUIDED
     Pocisk Niekierowany R40
 MISSILE_GUIDED
-    Pocisk Kierowany                                                     
+    Pocisk Kierowany
 MISSILE_SMART
-    Pocisk Samonaprowadzający                                                   
+    Pocisk Samonaprowadzający
 MISSILE_NAVAL
     Pocisk Bojowy
 ATMOSPHERIC_SHIELDING
@@ -351,7 +359,7 @@ SHIELD_GENERATOR
 X_SHIELD_GENERATORS
     Genaratory Osłon [#0f0 %quantity #fff]
 SHIELD_GENERATOR_DESCRIPTION
-    Zapewnia dodatkowa osłonę kadłuba wraz z dodawaniem kolejnych jednostek.
+    Zapewnia dodatkową osłonę kadłuba wraz z dodawaniem kolejnych jednostek.
 LASER_COOLING_BOOSTER
     Wspomaganie Chłodzenia Lasera
 LASER_COOLING_BOOSTER_DESCRIPTION
@@ -406,7 +414,6 @@ DRIVE_CLASS8
     Napęd Klasy 8
 DRIVE_CLASS9
     Napęd Klasy 9
-# Miałeś rację OSH, tak wygląda lepiej.
 DRIVE_MIL1
     Napęd Wojskowy Klasy 1
 DRIVE_MIL2
@@ -459,6 +466,8 @@ CARGO_INVENTORY
     Towary:
 JETTISON
     Wystrzel
+REFUEL
+    Zatankuj
 JETTISONED_1T_OF_X
     %commodity: 1 tona wyrzucona za burtę
 COMBAT_RATING
@@ -518,17 +527,15 @@ AXIS
 WEAPONS
     Bronie
 TARGET_OBJECT_IN_SIGHTS
-    Namierzenie nacelowanego obiektu
+    Zaznacz widoczny obiekt
 FIRE_LASER
     Strzał lasera
 SHIP_ORIENTATION
-    Orientacja statku
-FAST_ROTATION_CONTROL
-    Szybka rotacja
+    Manewrowanie
 PITCH_UP
     Ruch w górę
 PITCH_DOWN
-    Ruch w dól
+    Ruch w dół
 YAW_LEFT
     Odchylenie w lewo
 YAW_RIGHT
@@ -546,11 +553,13 @@ THRUSTER_RETRO
 THRUSTER_VENTRAL
     Ciąg w górę
 THRUSTER_DORSAL
-    Ciąg w dól
+    Ciąg w dół
 THRUSTER_PORT
     Ciąg w lewo
 THRUSTER_STARBOARD
     Ciąg w prawo
+USE_LOW_THRUST
+    Precyzyjne sterowanie ciągiem
 SPEED_CONTROL_MODE
     Tryb sterowania prędkością
 INCREASE_SET_SPEED
@@ -558,15 +567,17 @@ INCREASE_SET_SPEED
 DECREASE_SET_SPEED
     Zmniejsz ustawioną prędkość
 SCANNER_CONTROL
-	  Opcje skanera
+    Opcje skanera
 TOGGLE_SCAN_MODE
   	Zmiana trybu skanera
 INCREASE_SCAN_RANGE
-	  Zwiększa zasięg skanera
+    Zwiększa zasięg skanera
 DECREASE_SCAN_RANGE
-	  Zmniejsza zasięg skanera
+    Zmniejsza zasięg skanera
 TOGGLE_LUA_CONSOLE
     Aktywacja konsoli
+TOGGLE_HUD_MODE
+    Zmiana trybu HUD
 JOYSTICK_INPUT
     Ustawienia Joysticka
 PITCH
@@ -585,7 +596,7 @@ POOR
     Żółtodziób
 AVERAGE
     Przeciętny
-ABOVE_AVERAGE 
+ABOVE_AVERAGE
     Ponadprzeciętny
 COMPETENT
     Fachowiec
@@ -598,11 +609,13 @@ ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Symulacja ewolucji wszechświata: %age{f.1} miliardów lat ;-)
 TOMBSTONE_EPITAPH
-    ŚWIĘTEJ PAMIĘCI
+    SPOCZYWAJ W POKOJU
 MM_START_NEW_GAME_EARTH
     Nowa gra: rozpocznij na Ziemi
 MM_START_NEW_GAME_E_ERIDANI
     Nowa gra: rozpocznij na Epsilon Eridani
+MM_START_NEW_GAME_LAVE
+    Nowa gra: rozpocznij na Lave
 MM_START_NEW_GAME_DEBUG
     Nowa gra: rozpocznij z debug point
 MM_LOAD_SAVED_GAME
@@ -620,11 +633,11 @@ ALERT_CANCELLED
 SHIP_DETECTED_NEARBY
     Wykryto statek w pobliżu.
 DOWNGRADING_ALERT_STATUS
-    Brak zagrożenia przez 60 sekund, odwołuje alarm.
+    Brak zagrożenia przez 60 sekund, odwołuję alarm.
 LASER_FIRE_DETECTED
     Statek pod ostrzałem!
 SOMEWHERE_POLICE
-    Policja %station
+    Stacja %station. Policja.
 WE_HAVE_NO_BUSINESS_WITH_YOU
     W tej chwili nie mamy do ciebie żadnych spraw.
 YOU_MUST_PAY_FINE_OF_N_CREDITS
@@ -730,9 +743,11 @@ YOU_DO_NOT_HAVE_ANY_X
 FRONT_VIEW
     Widok z przodu
 REAR_VIEW
-    Widok z tylu
+    Widok z tyłu
 EXTERNAL_VIEW
     Widok zewnętrzny
+SIDEREAL_VIEW
+    Widok radialny
 NAVIGATION_STAR_MAPS
     Nawigacja i mapy gwiezdne
 COMMS
@@ -872,15 +887,15 @@ ROCKY_PLANET_CONTAINING_COME_LIQUIDS
 WITH_NO_SIGNIFICANT_ATMOSPHERE
      " bez znaczącej atmosfery"
 TENUOUS
-    śladową
+    śladowa
 THIN
     rozrzedzona
 THICK
-    gęstą
+    gęsta
 VERY_DENSE
-    bardzo gęstą
+    bardzo gęsta
 WITH_A
-     " z "
+     ", "
 O2_ATMOSPHERE
      " atmosfera oparta na tlenie"
 CO2_ATMOSPHERE
@@ -896,15 +911,15 @@ HE_ATMOSPHERE
 AR_ATMOSPHERE
      " atmosfera oparta na argonie"
 S_ATMOSPHERE
-     " atmosfera przepełnioną siarka"
+     " atmosfera przepełniona siarką"
 N_ATMOSPHERE
      " atmosfera oparta na azocie"
 AND_HIGHLY_COMPLEX_ECOSYSTEM
-     " i bardzo złożonym ekosystemem."
+     " i bardzo złożony ekosystem."
 AND_INDIGENOUS_PLANT_LIFE
-     " i lokalna roślinnością."
+     " i lokalna roślinność."
 AND_INDIGENOUS_MICROBIAL_LIFE
-     " i lokalnymi mikroorganizmami."
+     " i lokalne mikroorganizmy."
 ORBITAL_STARPORT
     Stacja orbitalna
 STARPORT
@@ -997,6 +1012,8 @@ DEMOGRAPHICS
     Demografia
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
     Stabilny system z %bodycount %{body(s)} i %portcount %{starport(s)}.
+COUNT_ON_SURFACE
+    " (%surfacecount na powierzchni)"
 BODY
     ciałem
 BODIES
@@ -1032,7 +1049,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Duża półoś
 TIME_POINT
-     "czas: " 
+     "czas: "
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     System nie zbadany. Dane systemu niedostępne.
 WHEELS_ARE_UP
@@ -1043,6 +1060,10 @@ OBJECT_LABELS_ARE_ON
     Oznaczenia obiektów włączone
 OBJECT_LABELS_ARE_OFF
     Oznaczenia obiektów wyłączone
+SELECT_LOW_THRUST_POWER_LEVEL
+    Siła ciągu w trybie precyzyjnym
+SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT
+    Siła ciągu w trybie precyzyjnym %power%%
 HYPERSPACE_JUMP
     Skok w nadprzestrzeń
 TAKEOFF
@@ -1051,6 +1072,8 @@ MANUAL_CONTROL
     Kontrola manualna
 COMPUTER_SPEED_CONTROL
     Automatyczna kontrola prędkości
+COMPUTER_HEADING_CONTROL
+    Automatyczna kontrola pozycji
 AUTOPILOT_ON
     Autopilot włączony
 SHIP_VELOCITY_BY_REFERENCE_OBJECT
@@ -1058,7 +1081,7 @@ SHIP_VELOCITY_BY_REFERENCE_OBJECT
 DISTANCE_FROM_SHIP_TO_NAV_TARGET
     Odległość statku od celu
 SHIP_ALTITUDE_ABOVE_TERRAIN
-    Wysokość statku nad powierzchnia
+    Wysokość statku nad powierzchnią
 EXTERNAL_ATMOSPHERIC_PRESSURE
     Zewnętrzne ciśnienie atmosferyczne
 HULL_TEMP
@@ -1066,9 +1089,11 @@ HULL_TEMP
 WEAPON_TEMP
     Temp. broni
 HULL_INTEGRITY
-    Integr. kadłuba
+    Stan kadłuba
 SHIELD_INTEGRITY
-    Integr. osłon
+    Stan osłon
+FUEL
+    Paliwo
 LAUNCH_PERMISSION_DENIED_BUSY
     Brak pozwolenia na lądowanie: doki zajęte.
 HYPERSPACE_JUMP_ABORTED
@@ -1081,6 +1106,10 @@ DOCKED
     Zacumowany
 HYPERSPACE
     Skok w nadprzestrzeń
+HEADING_LOCK_FORWARD
+    Utrzymaj pozycję (przód)
+HEADING_LOCK_BACKWARD
+    Utrzymaj pozycję (tył)
 SET_SPEED_KM_S
     Prędkość: %speed{f.2} km/s
 SET_SPEED_M_S
@@ -1091,12 +1120,16 @@ M_S_RELATIVE_TO
     %speed{f.0} m/s względem %frame
 N_DISTANCE_TO_TARGET
     %distance do celu
+IN_TRANSIT
+    Przelot
 IN_TRANSIT_TO_N_X_X_X
     Przelot do %system [%x,%y,%z]
+PROBABILITY_OF_ARRIVAL_X_PERCENT
+    Prawdopodobieństwo przylotu: %probability%%
 ALT_IN_METRES
     Wys: %altitude{f.0}m
-PRESSURE_N_BAR
-    C: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    C: %pressure{f.2} atm
 NO_HYPERDRIVE
     Brak hipernapędu
 MASS_N_TONNES
@@ -1124,7 +1157,7 @@ YOU_NO_MONEY
 FINE_PAID_N_BUT_N_REMAINING
     Zapłaciłeś %paid kary, lecz wciąż jesteś winien %fine.
 FINE_PAID_N
-    Przelełeś na konto policji %fine.
+    Przelałeś na konto policji %fine.
 SET_HYPERSPACE_DESTINATION_TO
     "Ustawiono cel skoku na %system"
 NO_TARGET_SELECTED
@@ -1138,11 +1171,11 @@ PAY_FINE_REMOTELY
 AUTOPILOT_FLY_TO_VICINITY_OF
     Autopilot: Leć w pobliże %target
 AUTOPILOT_ENTER_LOW_ORBIT_AROUND
-    Autopilot: Wejdź na niską orbitę do okoła %target
+    Autopilot: Wejdź na niską orbitę dookoła %target
 AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND
-    Autopilot: Wejdź na średnią orbitę do okoła %target
+    Autopilot: Wejdź na średnią orbitę dookoła %target
 AUTOPILOT_ENTER_HIGH_ORBIT_AROUND
-    Autopilot: Wejdź na wysoką orbitę do okoła %target
+    Autopilot: Wejdź na wysoką orbitę dookoła %target
 SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE
     Analizator chmury nadprzestrzennej: Ustaw cel skoku na miejsce docelowe chmury nadprzestrzennej
 FAILED
@@ -1167,3 +1200,27 @@ X_PASSENGER_CABINS
     Zajęte kabiny pasażerskie [#ff0 %quantity #fff]
 CABINS
     Kabiny
+MONTH_JAN
+    Sty
+MONTH_FEB
+    Lut
+MONTH_MAR
+    Mar
+MONTH_APR
+    Kwi
+MONTH_MAY
+    Maj
+MONTH_JUN
+    Cze
+MONTH_JUL
+    Lip
+MONTH_AUG
+    Sie
+MONTH_SEP
+    Wrz
+MONTH_OCT
+    Paź
+MONTH_NOV
+    Lis
+MONTH_DEC
+    Gru

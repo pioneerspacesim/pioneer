@@ -6,8 +6,8 @@
 #include "Player.h"
 #include "Serializer.h"
 #include "SectorView.h"
-#include "Sector.h"
-#include "Galaxy.h"
+#include "galaxy/Sector.h"
+#include "galaxy/Galaxy.h"
 #include "Lang.h"
 #include "StringF.h"
 #include "Animation.h"
@@ -30,12 +30,14 @@ GalacticView::GalacticView() :
 
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
+	m_zoomInButton->SetRenderDimensions(30, 22);
 	Add(m_zoomInButton, 700, 5);
-	
+
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
+	m_zoomOutButton->SetRenderDimensions(30, 22);
 	Add(m_zoomOutButton, 732, 5);
-	
+
 	m_scaleReadout = new Gui::Label("");
 	Add(m_scaleReadout, 500.0f, 10.0f);
 
@@ -44,7 +46,7 @@ GalacticView::GalacticView() :
 	Add(m_labels, 0, 0);
 	Gui::Screen::PopFont();
 
-	m_onMouseButtonDown = 
+	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &GalacticView::MouseButtonDown));
 }
 
@@ -80,7 +82,7 @@ void GalacticView::PutLabels(vector3d offset)
 {
 	Gui::Screen::EnterOrtho();
 	glColor3f(1,1,1);
-	
+
 	for (int i=0; s_labels[i].label; i++) {
 		vector3d p = m_zoom * (s_labels[i].pos + offset);
 		vector3d pos;
@@ -109,7 +111,7 @@ void GalacticView::Draw3D()
 		matrix4x4f::Identity() *
 		matrix4x4f::ScaleMatrix(m_zoom, m_zoom, 0.f) *
 		matrix4x4f::Translation(-offset_x, -offset_y, 0.f));
-	
+
 	// galaxy image
 	m_quad.Draw(m_renderer, vector2f(-1.0f), vector2f(2.0f));
 
@@ -134,7 +136,7 @@ void GalacticView::Draw3D()
 
 	m_renderer->SetDepthTest(true);
 }
-	
+
 void GalacticView::Update()
 {
 	const float ft = Pi::GetFrameTime();

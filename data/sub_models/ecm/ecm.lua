@@ -6,7 +6,7 @@ define_model('ecm_1', {
 			},
 	static = function(lod)
          	texture('metal.png')
-			sphere_slice(3*lod, 2*lod, 0, 0.4*math.pi, Matrix.scale(v(.3,.2,.3)))
+			sphere_slice(3*lod, 2*lod, 0, 0.4*math.pi, matrix.scale(v(.3,.2,.3)))
 			set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,10)
 			use_material('chrome')
 			ring(3*lod, v(0,.2,0), v(0,1,0), v(0,0,1), .04)
@@ -27,7 +27,7 @@ define_model('ecm_2', {
 			},
 	static = function(lod)
          	texture('metal.png')
-			sphere_slice(4*lod, 2*lod, 0, 0.4*math.pi, Matrix.scale(v(.4,.2,.4)))
+			sphere_slice(4*lod, 2*lod, 0, 0.4*math.pi, matrix.scale(v(.4,.2,.4)))
 			set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,10)
 			use_material('chrome')
 			ring(3*lod, v(0,.16,0), v(0,1,0), v(0,1,1), .04)
@@ -37,7 +37,7 @@ define_model('ecm_2', {
    			cylinder(4*lod, v(0,1,-.7), v(0,1,-.74), v(0,1,0), .4)
    			cylinder(4*lod, v(0,1,-1), v(0,1,-1.04), v(0,1,0), .3)
    			cylinder(4*lod, v(0,1,-1.3), v(0,1,-1.34), v(0,1,0), .2)
-			sphere_slice(3*lod,2*lod, 0, math.pi, Matrix.translate(v(0,1,-1.56)) * Matrix.scale(v(.1,.1,.1)))
+			sphere_slice(3*lod,2*lod, 0, math.pi, matrix.translate(v(0,1,-1.56)) * matrix.scale(v(.1,.1,.1)))
 	end
 })
 
@@ -78,6 +78,6 @@ define_model('ecm_2a', {
    			cylinder(4*lod, v(0,0,-1.7), v(0,0,-1.74), v(0,1,0), .4)
    			cylinder(4*lod, v(0,0,-2), v(0,0,-2.04), v(0,1,0), .3)
    			cylinder(4*lod, v(0,0,-2.3), v(0,0,-2.34), v(0,1,0), .2)
-			sphere_slice(3*lod,2*lod, 0, math.pi, Matrix.translate(v(0,0,-2.56)) * Matrix.scale(v(.1,.1,.1)))
+			sphere_slice(3*lod,2*lod, 0, math.pi, matrix.translate(v(0,0,-2.56)) * matrix.scale(v(.1,.1,.1)))
 	end
 })
