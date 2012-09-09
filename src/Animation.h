@@ -1,6 +1,8 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
+#include "FloatComparison.h"
+
 /// Namespace contains simple functions for value animation.
 /// This is very simple implementation, which could be improved in the future.
 ///\todo Many interesting things could be added, such as play/pause/reset animations, loop/mirror animation, interpolations, etc. But implementations exist, and if we need something tougher, we should have a look at them instead of reinventing the wheel.
@@ -26,8 +28,9 @@ namespace Animation {
 		//static_assert(static_cast<T>(-1) <0);		// Assert type is signed
 		if (frameTime>1) frameTime = 1;		// Clamp in case game hangs for a second
 		assert(deltaFactor>0 && targetFactor >=0);
+		if (is_equal_exact(target, cur))
+			return;
 		const T delta(target - cur);
-		if (delta == 0) return;
 		if (delta<0) targetFactor=-targetFactor;
 		cur += (delta*deltaFactor + target*targetFactor)*frameTime;
 		// Check for arrival
