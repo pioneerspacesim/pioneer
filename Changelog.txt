@@ -1,3 +1,8 @@
+Alpha 27
+
+   * Script changes
+     * EventQueue, which was deprecated in alpha 26, has been removed (#1485)
+
 Alpha 26
 
    * New features
