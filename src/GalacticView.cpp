@@ -139,18 +139,18 @@ void GalacticView::Draw3D()
 
 void GalacticView::Update()
 {
-	const float ft = Pi::GetFrameTime();
+	const float frameTime = Pi::GetFrameTime();
 
-	if (m_zoomInButton->IsPressed()) m_zoomTo *= pow(ZOOM_IN_SPEED * Pi::GetMoveSpeedShiftModifier(), ft);
-	if (m_zoomOutButton->IsPressed()) m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), ft);
+	if (m_zoomInButton->IsPressed()) m_zoomTo *= pow(ZOOM_IN_SPEED * Pi::GetMoveSpeedShiftModifier(), frameTime);
+	if (m_zoomOutButton->IsPressed()) m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), frameTime);
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
-		if (Pi::KeyState(SDLK_EQUALS)) m_zoomTo *= pow(ZOOM_IN_SPEED * Pi::GetMoveSpeedShiftModifier(), ft);
-		if (Pi::KeyState(SDLK_MINUS)) m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), ft);
+		if (Pi::KeyState(SDLK_EQUALS)) m_zoomTo *= pow(ZOOM_IN_SPEED * Pi::GetMoveSpeedShiftModifier(), frameTime);
+		if (Pi::KeyState(SDLK_MINUS)) m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), frameTime);
 	}
 	m_zoomTo = Clamp(m_zoomTo, 0.5f, 100.0f);
 	m_zoom = Clamp(m_zoom, 0.5f, 100.0f);
-	Animation::Approach(m_zoom, m_zoomTo, ft);
+	Animation::Approach(m_zoom, m_zoomTo, frameTime);
 
 	m_scaleReadout->SetText(stringf(Lang::INT_LY, formatarg("scale", int(0.5*Galaxy::GALAXY_RADIUS/m_zoom))));
 }
