@@ -10,6 +10,7 @@
 #include "LmrTypes.h"
 #include "LuaManager.h"
 #include "newmodel/NModel.h"
+#include "newmodel/ModelNode.h"
 #include "ui/Context.h"
 #include <array>
 
@@ -23,6 +24,7 @@ public:
 private:
 	bool OnReloadModel(UI::Widget *w);
 	bool OnToggleGrid(UI::Widget *);
+	bool OnToggleGuns(UI::CheckBox *w);
 	void AddLog(const std::string &line);
 	void ChangeCameraPreset(SDLKey);
 	void DrawBackground();
@@ -44,6 +46,7 @@ private:
 
 	//toggleable options
 	struct Options {
+		bool attachGuns;
 		bool showGrid;
 		bool showUI;
 		float gridInterval;
@@ -63,7 +66,9 @@ private:
 	ModelParams m_modelParams;
 	Newmodel::NModel *m_model;
 	Options m_options;
+	RefCountedPtr<Newmodel::ModelNode> m_gunModelNode;
 	RefCountedPtr<UI::Context> m_ui;
+	ScopedPtr<Newmodel::NModel> m_gunModel;
 	std::list<std::string> m_logLines;
 	std::string m_logString;
 	std::string m_modelName;

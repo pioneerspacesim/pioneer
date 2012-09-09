@@ -10,7 +10,8 @@
 
 //default options
 ModelViewer::Options::Options()
-: showGrid(false)
+: attachGuns(false)
+, showGrid(false)
 , showUI(true)
 , gridInterval(10.f)
 , lightPreset(0)
@@ -56,6 +57,18 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 		"icons/badge.png",
 		Graphics::LINEAR_CLAMP,
 		true, true, false).GetOrCreateTexture(m_renderer, "model");
+
+	//load gun model for attachment test
+	{
+		Newmodel::Loader loader(m_renderer);
+		try {
+			Newmodel::NModel *m = loader.LoadModel("test_gun");
+			m_gunModel.Reset(m);
+			m_gunModelNode.Reset(new Newmodel::ModelNode(m_gunModel.Get()));
+		} catch (Newmodel::LoadingError &) {
+			AddLog("Could not load test_gun model");
+		}
+	}
 }
 
 ModelViewer::~ModelViewer()
@@ -144,6 +157,31 @@ bool ModelViewer::OnToggleGrid(UI::Widget *)
 		? stringf("Grid: %0{d}", int(m_options.gridInterval))
 		: "Grid: off");
 	return m_options.showGrid;
+}
+
+bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
+{
+	if (!m_gunModel.Valid() || !m_gunModelNode.Valid()) {
+		AddLog("test_gun.model not available");
+		return false;
+	}
+
+	m_options.attachGuns = !m_options.attachGuns;
+	Newmodel::Group *tagL = m_model->FindTagByName("tag_gun_left");
+	Newmodel::Group *tagR = m_model->FindTagByName("tag_gun_right");
+	if (!tagL || !tagR) {
+		AddLog("Missing tags gun_left and gun_right in model");
+		return false;
+	}
+	if (m_options.attachGuns) {
+		tagL->AddChild(m_gunModelNode.Get());
+		tagR->AddChild(m_gunModelNode.Get());
+	} else { //detach
+		//we know there's nothing else
+		tagL->RemoveChildAt(0);
+		tagR->RemoveChildAt(0);
+	}
+	return true;
 }
 
 void ModelViewer::AddLog(const std::string &line)
@@ -521,14 +559,14 @@ void ModelViewer::SetupUI()
 	UI::VBox* box = m_ui->VBox();
 	UI::Button *toggleGridButton;
 	UI::Button *reloadButton;
+	UI::CheckBox *gunsCheck;
 	box->PackEnd(nameLabel = m_ui->Label("Pie"));
 	add_pair(m_ui, box, reloadButton = m_ui->Button(), "Reload model");
 	add_pair(m_ui, box, toggleGridButton = m_ui->Button(), "Grid mode");
 
 	//pattern selector - visible regardless of available patterns...
-	UI::Context *c = m_ui.Get();
-	box->PackEnd(c->Label("Pattern:"));
-	box->PackEnd(patternSelector = c->DropDown()->AddOption("Default"));
+	box->PackEnd(m_ui->Label("Pattern:"));
+	box->PackEnd(patternSelector = m_ui->DropDown()->AddOption("Default"));
 
 	//light dropdown
 	UI::DropDown *lightSelector;
@@ -540,6 +578,8 @@ void ModelViewer::SetupUI()
 			->AddOption("3  Backlight")
 	);
 
+	add_pair(m_ui, box, (gunsCheck = m_ui->CheckBox()), "Attach guns");
+
 	//// 3x3 colour sliders
 	// I don't quite understand the packing, so I set both fill & expand and it seems to work.
 	// It's a floating widget, because I can't quite position a Grid how I want (bottom of the screen)
@@ -547,6 +587,7 @@ void ModelViewer::SetupUI()
 	const Uint32 all = UI::Box::BOX_FILL | UI::Box::BOX_EXPAND;
 	const float spacing = 5.f;
 
+	UI::Context *c = m_ui.Get();
 	c->AddFloatingWidget(
 		c->HBox()->PackEnd( //three columns
 			c->VBox()->PackEnd(UI::WidgetSet( //three rows
@@ -589,6 +630,7 @@ void ModelViewer::SetupUI()
 	reloadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnReloadModel), reloadButton));
 	lightSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnLightPresetChanged));
 	patternSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnPatternChanged));
+	gunsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGuns), gunsCheck));
 }
 
 void ModelViewer::UpdateCamera()
