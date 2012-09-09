@@ -40,7 +40,7 @@ private:
 	void PollEvents();
 	void ResetCamera();
 	void Screenshot();
-	void SetModel(const std::string& name);
+	void SetModel(const std::string& name, bool resetCamera = true);
 	void SetupUI();
 	void UpdateCamera();
 	void UpdateLights();

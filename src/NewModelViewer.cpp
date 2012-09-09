@@ -136,7 +136,9 @@ void ModelViewer::Run(int argc, char** argv)
 
 bool ModelViewer::OnReloadModel(UI::Widget *w)
 {
-	SetModel(m_modelName);
+	//camera is not reset, it would be annoying when
+	//tweaking materials
+	SetModel(m_modelName, false);
 	return true;
 }
 
@@ -272,7 +274,7 @@ void ModelViewer::DrawCollisionMesh()
 	std::vector<vector3f> &vertices = mesh->m_vertices;
 	std::vector<int> &indices = mesh->m_indices;
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, indices.size() * 3);
-	for(int i=0; i<indices.size(); i++) {
+	for(unsigned int i=0; i<indices.size(); i++) {
 		va.Add(vertices.at(indices.at(i)), Color::WHITE);
 	}
 
@@ -349,7 +351,7 @@ void ModelViewer::DrawLog()
 {
 	const Color4f yellowish = Color4f(0.9, 0.9, 0.3f, 1.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
-	m_ui->GetContext()->GetFont()->RenderString(m_logString.c_str(), m_width - 512.f, 10.f, yellowish);
+	m_ui->GetContext()->GetFont(UI::Widget::FONT_SIZE_SMALL)->RenderString(m_logString.c_str(), m_width - 512.f, 10.f, yellowish);
 }
 
 void ModelViewer::DrawModel()
@@ -534,7 +536,7 @@ void ModelViewer::Screenshot()
 	AddLog(stringf("Screenshot %0 saved", buf));
 }
 
-void ModelViewer::SetModel(const std::string &filename)
+void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true */)
 {
 	AddLog(stringf("Loading model %0...", filename));
 	if (m_model) {
@@ -562,7 +564,11 @@ void ModelViewer::SetModel(const std::string &filename)
 	}
 
 	UpdatePatternList();
-	ResetCamera();
+
+	//don't lose color settings when reloading
+	OnModelColorsChanged(0);
+	if (resetCamera)
+		ResetCamera();
 }
 
 //add a horizontal button/label pair to a box
