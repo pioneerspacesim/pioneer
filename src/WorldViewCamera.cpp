@@ -90,7 +90,7 @@ void ExternalCamera::ZoomEvent(float amount)
 
 void ExternalCamera::ZoomEventUpdate(float frameTime)
 {
-	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50./std::max(m_distTo, 1e-7));		// std::max() here just avoid dividing by 0.
+	AnimationCurves::Approach(m_dist, m_distTo, frameTime);
 	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
 }
 
