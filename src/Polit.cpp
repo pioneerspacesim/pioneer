@@ -242,10 +242,10 @@ bool IsCommodityLegal(const StarSystem *s, Equip::Type t)
 	MTRand rand(_init, 5);
 
 	Polit::GovType a = s->GetSysPolit().govType;
+	if (a == GOV_NONE) return true;
+
 	const Uint32 b = s_govDesc[a].faction;
 	const Faction *ptr = Faction::GetFaction( b );
-
-	if (a == GOV_NONE) return true;
 
 	if( b != UINT_MAX && ptr ) {
 		Faction::EquipProbMap::const_iterator iter = ptr->equip_legality.find(t);
