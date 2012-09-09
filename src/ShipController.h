@@ -53,6 +53,7 @@ public:
 	void StaticUpdate(float timeStep);
 	// Poll controls, set thruster states, gun states and target velocity
 	void PollControls(float timeStep);
+	void PollControlsNoClearThrusters(float timeStep);
 	bool IsMouseActive() const { return m_mouseActive; }
 	double GetSetSpeed() const { return m_setSpeed; }
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
@@ -71,6 +72,7 @@ public:
 	void SetNavTarget(Body* const target, bool setSpeedTo = false);
 
 private:
+	void UnsafePollControls(const float timeStep);
 	bool IsAnyAngularThrusterKeyDown();
 	bool IsAnyLinearThrusterKeyDown();
 	//do a variety of checks to see if input is allowed
