@@ -250,6 +250,7 @@ void WorldView::Save(Serializer::Writer &wr)
 
 void WorldView::SetCamType(enum CamType c)
 {
+	Pi::BoinkNoise();
 	if (c != m_camType) {
 		//only allow front camera when docked inside space stations. External
 		//cameras would clip through the station model.
@@ -797,14 +798,14 @@ void WorldView::Update()
 		// XXX ugly hack checking for console here
 		if (!Pi::IsConsoleActive()) {
 			if (m_activeCamera->IsExternal() == false) {
-			if (KeyBindings::frontCockpit.IsActive()) SetCamType(COCKPIT_FRONT);
-			if (KeyBindings::rearCockpit.IsActive()) SetCamType(COCKPIT_REAR);
-			if (KeyBindings::frontCamera.IsActive()) SetCamType(CAM_FRONT);
-			if (KeyBindings::rearCamera.IsActive()) SetCamType(CAM_REAR);
-			if (KeyBindings::leftCamera.IsActive()) SetCamType(CAM_LEFT);
-			if (KeyBindings::rightCmaera.IsActive()) SetCamType(CAM_RIGHT);
-			if (KeyBindings::topCamera.IsActive()) SetCamType(CAM_TOP);
-			if (KeyBindings::bottomCamera.IsActive()) SetCamType(CAM_BOTTOM);
+			if (KeyBindings::frontCockpit.IsActive() && GetCamType() != COCKPIT_FRONT) SetCamType(COCKPIT_FRONT);
+			if (KeyBindings::rearCockpit.IsActive() && GetCamType() != COCKPIT_REAR) SetCamType(COCKPIT_REAR);
+			if (KeyBindings::frontCamera.IsActive() && GetCamType() != CAM_FRONT) SetCamType(CAM_FRONT);
+			if (KeyBindings::rearCamera.IsActive() && GetCamType() != CAM_REAR) SetCamType(CAM_REAR);
+			if (KeyBindings::leftCamera.IsActive() && GetCamType() != CAM_LEFT) SetCamType(CAM_LEFT);
+			if (KeyBindings::rightCmaera.IsActive() && GetCamType() != CAM_RIGHT) SetCamType(CAM_RIGHT);
+			if (KeyBindings::topCamera.IsActive() && GetCamType() != CAM_TOP) SetCamType(CAM_TOP);
+			if (KeyBindings::bottomCamera.IsActive() && GetCamType() != CAM_BOTTOM) SetCamType(CAM_BOTTOM);
 			} else {
 			if (KeyBindings::cameraRotateUp.IsActive()) m_activeCamera->RotateUp(frameTime);
 			if (KeyBindings::cameraRotateDown.IsActive()) m_activeCamera->RotateDown(frameTime);
