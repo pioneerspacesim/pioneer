@@ -37,8 +37,10 @@ private:
 	void OnLightPresetChanged(unsigned int index, const std::string &);
 	void OnModelColorsChanged(float);
 	void OnPatternChanged(unsigned int, const std::string&);
+	void OnThrustChanged(float);
 	void PollEvents();
 	void ResetCamera();
+	void ResetThrusters();
 	void Screenshot();
 	void SetModel(const std::string& name, bool resetCamera = true);
 	void SetupUI();
@@ -66,6 +68,7 @@ private:
 	int m_width;
 	matrix4x4f m_modelRot;
 	ModelParams m_modelParams;
+	MTRand m_rng;
 	Newmodel::NModel *m_model;
 	Options m_options;
 	RefCountedPtr<Newmodel::ModelNode> m_gunModelNode;
@@ -83,9 +86,10 @@ private:
 	std::array<bool, SDL_BUTTON_WHEELDOWN + 1> m_mouseButton; //buttons + scroll start at 1
 
 	//interface stuff that needs to be accessed later (unorganized)
+	UI::DropDown *patternSelector;
 	UI::Label *nameLabel;
 	UI::Slider *colorSliders[9];
-	UI::DropDown *patternSelector;
+	UI::Slider *thrustSliders[2*3]; //thruster sliders 2*xyz (linear & angular)
 };
 
 #endif

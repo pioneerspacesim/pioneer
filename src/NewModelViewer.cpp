@@ -37,6 +37,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 , m_renderer(r)
 , m_width(width)
 , m_height(height)
+, m_rng(time(0))
 , m_model(0)
 , m_logString("")
 , m_modelName("")
@@ -440,6 +441,23 @@ void ModelViewer::OnPatternChanged(unsigned int index, const std::string &value)
 	m_model->SetPattern(index);
 }
 
+static float get_thrust(const UI::Slider *s)
+{
+	return 1.f - (2.f * s->GetValue());
+}
+
+void ModelViewer::OnThrustChanged(float)
+{
+	m_modelParams.linthrust[0] = get_thrust(thrustSliders[0]);
+	m_modelParams.linthrust[1] = get_thrust(thrustSliders[1]);
+	m_modelParams.linthrust[2] = get_thrust(thrustSliders[2]);
+
+	// angthrusts are negated in ship.cpp for some reason
+	m_modelParams.angthrust[0] = -get_thrust(thrustSliders[3]);
+	m_modelParams.angthrust[1] = -get_thrust(thrustSliders[4]);
+	m_modelParams.angthrust[2] = -get_thrust(thrustSliders[5]);
+}
+
 void ModelViewer::PollEvents()
 {
 	/*
@@ -452,10 +470,6 @@ void ModelViewer::PollEvents()
 	 * printscr - screenshots
 	 * tab - toggle ui (always invisible on screenshots)
 	 * g - grid
-	 *
-	 * Planned:
-	 * numpad - preset camera views, blenderish
-	 * numpad 5 - ortho/perspective (pointless, but I said blenderish)
 	 *
 	 */
 	m_mouseMotion[0] = m_mouseMotion[1] = 0;
@@ -488,6 +502,7 @@ void ModelViewer::PollEvents()
 				break;
 			case SDLK_SPACE:
 				ResetCamera();
+				ResetThrusters();
 				break;
 			case SDLK_TAB:
 				m_options.showUI = !m_options.showUI;
@@ -505,6 +520,11 @@ void ModelViewer::PollEvents()
 				ChangeCameraPreset(event.key.keysym.sym);
 				break;
 			}
+		case SDLK_r: //random colors, eastereggish
+			for(unsigned int i=0; i<3*3; i++) {
+				colorSliders[i]->SetValue(m_rng.Double());
+			}
+			break;
 			m_keyStates[event.key.keysym.sym] = true;
 			break;
 		case SDL_KEYUP:
@@ -524,6 +544,13 @@ void ModelViewer::ResetCamera()
 		m_camPos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius() * 1.5f);
 	//m_camOrient = matrix4x4f::Identity();
 	m_modelRot = matrix4x4f::Identity();
+}
+
+void ModelViewer::ResetThrusters()
+{
+	for (unsigned int i=0; i<6; i++) {
+		thrustSliders[i]->SetValue(0.5f);
+	}
 }
 
 void ModelViewer::Screenshot()
@@ -653,6 +680,39 @@ void ModelViewer::SetupUI()
 		colorSliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnModelColorsChanged));
 	}
 	//// slidems end
+
+	//// Thrust sliders
+	UI::Box *thrustSliderBox =
+	c->HBox(spacing)->PackEnd(
+		// Column 1, Linear thrust sliders
+		c->VBox()->PackEnd(
+			// Rows X,Y,Z
+			UI::WidgetSet(
+				c->Label("Linear"),
+				c->HBox()->PackEnd(c->Label("X"))->PackEnd(thrustSliders[0] = c->HSlider(), all),
+				c->HBox()->PackEnd(c->Label("Y"))->PackEnd(thrustSliders[1] = c->HSlider(), all),
+				c->HBox()->PackEnd(c->Label("Z"))->PackEnd(thrustSliders[2] = c->HSlider(), all)
+			)
+		), all
+	)->PackEnd(
+		//Column 2, Angular thrust sliders
+		c->VBox()->PackEnd(
+			// Rows X,Y,Z
+			UI::WidgetSet(
+				c->Label("Angular"),
+				c->HBox()->PackEnd(c->Label("Pitch"))->PackEnd(thrustSliders[3] = c->HSlider(), all),
+				c->HBox()->PackEnd(c->Label("Yaw"))->PackEnd(thrustSliders[4] = c->HSlider(), all),
+				c->HBox()->PackEnd(c->Label("Roll"))->PackEnd(thrustSliders[5] = c->HSlider(), all)
+			)
+		), all
+	);
+	for(unsigned int i=0; i<2*3; i++) {
+		thrustSliders[i]->SetValue(0.5f);
+		thrustSliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnThrustChanged));
+	}
+
+	c->AddFloatingWidget(thrustSliderBox, vector2f(0.f, m_height-120.f), vector2f(250.f, 100.f));
+	////thruster sliders end
 
 	m_ui->SetInnerWidget(box);
 	m_ui->Layout();
