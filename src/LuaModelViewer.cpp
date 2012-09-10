@@ -1,847 +1,735 @@
-﻿#include "ModelViewer.h"
 #include "libs.h"
-#include "utils.h"
+#include "EquipType.h"
 #include "FileSystem.h"
+#include "LmrModel.h"
 #include "ModManager.h"
 #include "OS.h"
-#include "StringF.h"
+#include "Ship.h" // for the flight state and ship animation enums
+#include "ShipType.h"
+#include "SpaceStation.h" // for the space station animation enums
+#include "collider/collider.h"
 #include "graphics/Drawables.h"
 #include "graphics/Graphics.h"
-#include "graphics/Graphics.h"
-#include "graphics/Light.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
-#include <sstream>
+#include "gui/Gui.h"
 
-using Graphics::Light;
-using Graphics::Renderer;
-using Newmodel::NModel;
+using namespace Graphics;
 
+static Renderer *renderer;
+
+enum ModelCategory {
+	MODEL_SHIP,
+	MODEL_SPACESTATION
+};
+
+static const char *ANIMATION_NAMESPACES[] = {
+	"ShipAnimation",
+	"SpaceStationAnimation",
+};
+
+struct VisualCollisionMesh {
+	ScopedPtr<Graphics::VertexArray> vertices;
+	ScopedPtr<Graphics::Material> material;
+
+	void Render(const LmrCollMesh*);
+};
+
+static const int LMR_ARG_MAX = 40;
+
+static int g_width, g_height;
+static int g_mouseMotion[2];
 static char g_keyState[SDLK_LAST];
 static const int MAX_MOUSE_BTN_IDX = SDL_BUTTON_WHEELDOWN + 1;
-static int g_mouseButton[MAX_MOUSE_BTN_IDX];    // inc to 6 as mouseScroll is index 5
-static int g_mouseMotion[2];
-static int g_width, g_height;
-static Renderer *renderer;
-static SDL_Surface *g_screen;
+static int g_mouseButton[MAX_MOUSE_BTN_IDX];	// inc to 6 as mouseScroll is index 5
+static float g_zbias;
+static bool g_doBenchmark = false;
 
-//some utility functions
-static bool set_mouse_button(const Uint8 idx, const int value)
+float gridInterval = 0.0f;
+
+static bool setMouseButton(const Uint8 idx, const int value)
 {
-    if( idx < MAX_MOUSE_BTN_IDX ) {
-        g_mouseButton[idx] = value;
-        return true;
-    }
-    return false;
-}
-
-static vector3f az_el_to_dir(float yaw, float pitch)
-{
-    //0,0 points to "right" (1,0,0)
-    vector3f v;
-    v.x = cos(DEG2RAD(yaw)) * cos(DEG2RAD(pitch));
-    v.y = sin(DEG2RAD(pitch));
-    v.z = sin(DEG2RAD(yaw)) * cos(DEG2RAD(pitch));
-    return v;
-}
-//end utility funcs
-
-//widget-label pair
-static void add_pair(UI::Context *c, UI::Box *parent, UI::Widget *widget, const std::string &label)
-{
-    const Uint32 flags = 0;
-    parent->PackEnd(
-        c->HBox(5.f)->PackEnd(widget, flags)->PackEnd(c->Label(label)
-        ->SetFontSize(UI::Widget::FONT_SIZE_SMALL), flags)
-    );
-}
-
-//begin stuff
-Viewer::Viewer(float _width, float _height) : Gui::Fixed(_width, _height),
-    m_playing(false),
-    m_screenshotQueued(false),
-    m_cmesh(0),
-    m_currentTime(0.001 * SDL_GetTicks()),
-    m_geom(0),
-    m_model(0),
-    m_logString(""),
-    m_modelName("")
-{
-    SetupUI();
-
-    //load gun model for attachment test
-    {
-        Newmodel::Loader loader(renderer);
-        try {
-            Newmodel::NModel *m = loader.LoadModel("test_gun");
-            m_gunModel.Reset(m);
-            m_gunModelNode.Reset(new Newmodel::ModelNode(m_gunModel.Get()));
-        } catch (Newmodel::LoadingError &) {
-            AddLog("Could not load test_gun model");
-        }
-    }
-
-    // sweet pioneer badge for decal testing
-    m_decalTexture = Graphics::TextureBuilder(
-        "icons/badge.png",
-        Graphics::LINEAR_CLAMP,
-        true, true, false).GetOrCreateTexture(renderer, "model");
-
-    m_space = new CollisionSpace();
-    Gui::Screen::AddBaseWidget(this, 0, 0);
-    SetTransparency(true);
-
-    ShowAll();
-    Show();
-}
-
-Viewer::~Viewer()
-{
-    ClearModel();
-    delete m_space;
-    delete m_ui;
-}
-
-void Viewer::SetupUI()
-{
-    /*
-     * To do: stats display
-     */
-	m_luaManager.Reset(new LuaManager());
-	m_ui = new UI::Context(m_luaManager.Get(), renderer, g_width, g_height);
-	UI::LuaInit();
-
-    UI::Context *c = m_ui;
-    UI::Box *box;
-    UI::Box *buttBox; //it was for buttons...
-    UI::Box *animBox;
-    UI::Button *b1, *gridBtn, *reloadBtn;
-    UI::Button *playBtn, *stopBtn, *revBtn;
-    UI::CheckBox *radiusCheck, *gunsCheck;
-
-    c->SetInnerWidget((box = c->VBox(5.f)));
-
-    Uint32 battrs = 0;
-
-    box->PackEnd((buttBox = c->VBox(5.f)), battrs);
-    add_pair(c, buttBox, (b1 = c->Button()), "Pick another model");
-    add_pair(c, buttBox, (reloadBtn = c->Button()), "Reload model");
-    add_pair(c, buttBox, (gridBtn = c->Button()), "Grid mode");
-    add_pair(c, buttBox, (radiusCheck = c->CheckBox()), "Show bounding radius");
-    add_pair(c, buttBox, (gunsCheck = c->CheckBox()), "Attach guns");
-    add_pair(c, buttBox, (c->CheckBox()), "Draw collision mesh");
-
-    box->PackEnd(animBox = c->VBox(5.f), battrs);
-    animBox->PackEnd(c->Label("Animation:"));
-    animBox->PackEnd(m_animSelector = c->DropDown()->AddOption("None"));
-    add_pair(c, animBox, playBtn = c->Button(), "Play/Pause");
-    add_pair(c, animBox, revBtn = c->Button(), "Play reverse");
-    add_pair(c, animBox, stopBtn = c->Button(), "Stop");
-
-    b1->onClick.connect(sigc::mem_fun(*this, &Viewer::PickAnotherModel));
-    reloadBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnReloadModel), reloadBtn));
-    gridBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGrid), gridBtn));
-    radiusCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius), radiusCheck));
-    gunsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnToggleGuns), gunsCheck));
-
-    playBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnAnimPlay), playBtn, false));
-    revBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnAnimPlay), revBtn, true));
-    stopBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &Viewer::OnAnimStop), stopBtn));
-
-    UI::DropDown *ddown;
-    buttBox->PackEnd(c->Label("Pattern:"));
-    buttBox->PackEnd((m_patternSelector = c->DropDown()->AddOption("Default")));
-    buttBox->PackEnd(c->Label("Lights:"));
-    buttBox->PackEnd((ddown = c->DropDown()
-        ->AddOption("1  Front white")
-        ->AddOption("2  Two-point")
-        ->AddOption("3  Backlight")
-        )
-    );
-
-    m_patternSelector->onOptionSelected.connect(sigc::mem_fun(*this, &Viewer::OnPatternChanged));
-    ddown->onOptionSelected.connect(sigc::mem_fun(*this, &Viewer::OnLightPresetChanged));
-
-    //3x3 colour sliders
-    const Uint32 all = UI::Box::BOX_FILL | UI::Box::BOX_EXPAND;
-    const Uint32 expand = UI::Box::BOX_EXPAND;
-    const float spacing = 5.f;
-    c->AddFloatingWidget(
-        c->HBox()->PackEnd( //three columns
-            c->VBox()->PackEnd(UI::WidgetSet( //three rows
-                c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(m_sliders[0] = c->HSlider(), expand),
-                c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(m_sliders[1] = c->HSlider(), expand),
-                c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(m_sliders[2] = c->HSlider(), expand)
-                )), all
-        )->PackEnd(
-            c->VBox()->PackEnd(UI::WidgetSet( //three rows
-                c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(m_sliders[3] = c->HSlider(), expand),
-                c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(m_sliders[4] = c->HSlider(), expand),
-                c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(m_sliders[5] = c->HSlider(), expand)
-                )), all
-        )->PackEnd(
-            c->VBox()->PackEnd(UI::WidgetSet( //three rows
-                c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(m_sliders[6] = c->HSlider(), expand),
-                c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(m_sliders[7] = c->HSlider(), expand),
-                c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(m_sliders[8] = c->HSlider(), expand)
-                )), all
-        )
-    , vector2f(g_width-520.f, g_height-100.f), vector2f(500.f, 300.f));
-
-    //connect slider signals, set initial values
-    const float values[] = {
-        1.f, 0.f, 0.f,
-        0.f, 1.f, 0.f,
-        0.f, 0.f, 1.f
-    };
-    for(unsigned int i=0; i<3*3; i++) {
-        m_sliders[i]->SetValue(values[i]);
-        m_sliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &Viewer::OnModelColorsChanged));
-    }
-
-    // Thrust sliders
-    UI::Box *thrustSliderBox =
-    c->HBox(spacing)->PackEnd(
-        // Column 1, Linear thrust sliders
-        c->VBox()->PackEnd(
-            // Rows X,Y,Z
-            UI::WidgetSet(
-                c->Label("Linear"),
-                c->HBox()->PackEnd(c->Label("X"))->PackEnd(m_tSliders[0] = c->HSlider(), expand),
-                c->HBox()->PackEnd(c->Label("Y"))->PackEnd(m_tSliders[1] = c->HSlider(), expand),
-                c->HBox()->PackEnd(c->Label("Z"))->PackEnd(m_tSliders[2] = c->HSlider(), expand)
-            )
-        ), expand
-    )->PackEnd(
-        //Column 2, Angular thrust sliders
-        c->VBox()->PackEnd(
-            // Rows X,Y,Z
-            UI::WidgetSet(
-                c->Label("Angular"),
-                c->HBox()->PackEnd(c->Label("Pitch"))->PackEnd(m_tSliders[3] = c->HSlider(), expand),
-                c->HBox()->PackEnd(c->Label("Yaw"))->PackEnd(m_tSliders[4] = c->HSlider(), expand),
-                c->HBox()->PackEnd(c->Label("Roll"))->PackEnd(m_tSliders[5] = c->HSlider(), expand)
-            )
-        ), expand
-    );
-    for(unsigned int i=0; i<2*3; i++) {
-        m_tSliders[i]->SetValue(0.5f);
-        m_tSliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &Viewer::OnThrustChanged));
-    }
-
-	c->AddFloatingWidget(thrustSliderBox, vector2f(0.f, g_height-120.f), vector2f(250.f, 100.f));
-    c->Layout();
-}
-
-bool Viewer::OnAnimPlay(UI::Widget *w, bool reverse)
-{
-    Newmodel::Animation::Direction dir = reverse ? Newmodel::Animation::REVERSE : Newmodel::Animation::FORWARD;
-    const std::string animname = m_animSelector->GetSelectedOption();
-    m_playing = !m_playing;
-    if (m_playing) {
-        int success = m_model->PlayAnimation(animname, dir);
-        if (success)
-            AddLog(stringf("Playing animation \"%0\"", animname));
-        else {
-            AddLog(stringf("Model does not have animation \"%0\"", animname));
-            m_playing = false;
-        }
-    } else {
-        AddLog("Animation paused");
-    }
-    return m_playing;
-}
-
-bool Viewer::OnAnimStop(UI::Widget *w)
-{
-    if (m_playing) AddLog("Animation stopped");
-    m_playing = false;
-    m_model->StopAnimations();
-    return false;
-}
-
-bool Viewer::OnReloadModel(UI::Widget *w)
-{
-    try {
-        AddLog("Reloading model...");
-        Newmodel::Loader loader(renderer);
-        NModel *mo = loader.LoadModel(m_modelName);
-        SetModel(mo, m_modelName);
-        AddLog("Model loaded");
-    } catch (Newmodel::LoadingError &err) {
-        PickModel(m_modelName, stringf("Could not load model %0: %1", m_modelName, err.what()));
-    }
-    return true;
-}
-
-void Viewer::AddLog(const std::string &line)
-{
-    m_logLines.push_back(line);
-    if (m_logLines.size() > 8) m_logLines.pop_front();
-
-    std::stringstream ss;
-    for(std::list<std::string>::const_iterator it = m_logLines.begin();
-        it != m_logLines.end();
-        ++it)
-    {
-        ss << *it << std::endl;
-    }
-    m_logString = ss.str();
-}
-
-void Viewer::ClearModel()
-{
-    // clear old geometry
-    if (m_model) {
-        delete m_model;
-        m_model = 0;
-    }
-    if (m_cmesh) {
-        delete m_cmesh;
-        m_cmesh = 0;
-    }
-    if (m_geom) {
-        m_space->RemoveGeom(m_geom);
-        delete m_geom;
-        m_geom = 0;
-    }
-}
-
-//Draw grid and axes
-void Viewer::DrawGrid(matrix4x4f& trans, double radius)
-{
-    const float dist = abs(m_campos.z);
-
-    const float max = std::min(powf(10, ceilf(log10f(dist))), ceilf(radius/m_options.gridInterval)*m_options.gridInterval);
-
-    static std::vector<vector3f> points;
-	points.clear();
-
-    for (float x = -max; x <= max; x += m_options.gridInterval) {
-        points.push_back(vector3f(x,0,-max));
-        points.push_back(vector3f(x,0,max));
-        points.push_back(vector3f(0,x,-max));
-        points.push_back(vector3f(0,x,max));
-
-        points.push_back(vector3f(x,-max,0));
-        points.push_back(vector3f(x,max,0));
-        points.push_back(vector3f(0,-max,x));
-        points.push_back(vector3f(0,max,x));
-
-        points.push_back(vector3f(-max,x,0));
-        points.push_back(vector3f(max,x,0));
-        points.push_back(vector3f(-max,0,x));
-        points.push_back(vector3f(max,0,x));
-    }
-
-    renderer->SetTransform(trans);
-    renderer->DrawLines(points.size(), &points[0], Color(0.0f,0.2f,0.0f,1.0f));
-}
-
-void Viewer::DrawLog()
-{
-    Gui::Screen::EnterOrtho();
-    Gui::Screen::PushFont("ConsoleFont");
-    Gui::Screen::RenderString(m_logString, 300, 20);
-    Gui::Screen::PopFont();
-    Gui::Screen::LeaveOrtho();
-}
-
-void Viewer::Screenshot()
-{
-    char buf[256];
-    const time_t t = time(0);
-    struct tm *_tm = localtime(&t);
-    strftime(buf, sizeof(buf), "modelviewer-%Y%m%d-%H%M%S.png", _tm);
-    Screendump(buf, g_width, g_height);
-    AddLog("Screenshot saved");
-}
-
-void Viewer::UpdateAnimList()
-{
-    m_animSelector->Clear();
-	const std::vector<Newmodel::Animation*> &anims = m_model->GetAnimations();
-	for(unsigned int i=0; i<anims.size(); i++) {
-		m_animSelector->AddOption(anims[i]->GetName());
+	if( idx < MAX_MOUSE_BTN_IDX ) {
+		g_mouseButton[idx] = value;
+		return true;
 	}
-    m_animSelector->Layout();
+	return false;
 }
 
-void Viewer::UpdateLights()
+class Viewer;
+static Viewer *g_viewer;
+
+static void PollEvents();
+
+static int g_wheelMoveDir = -1;
+static int g_renderType = 0;
+static float g_frameTime;
+static EquipSet g_equipment;
+static LmrObjParams g_params;
+#if 0
 {
-    Light lights[2];
+	0, // animation namespace
+	0.0, // time
+	{}, // animation stages
+	{}, // animation positions
+	"PIONEER", // label
+	&g_equipment, // equipment
+	Ship::FLYING, // flightState
 
-    switch(m_options.lightPreset) {
-    case 0:
-        //Front white
-        lights[0] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(90,0), Color(1.0f, 1.0f, 1.0f), Color(0.f), Color(1.f));
-        lights[1] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0,-90), Color(0.05, 0.05f, 0.1f), Color(0.f), Color(1.f));
-        break;
-    case 1:
-        //Two-point
-        lights[0] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(120,0), Color(0.9f, 0.8f, 0.8f), Color(0.f), Color(1.f));
-        lights[1] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(-30,-90), Color(0.7f, 0.5f, 0.0f), Color(0.f), Color(1.f));
-        break;
-    case 2:
-        //Backlight
-        lights[0] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(-75,20), Color(1.f), Color(0.f), Color(1.f));
-        lights[1] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0,-90), Color(0.05, 0.05f, 0.1f), Color(0.f), Color(1.f));
-        break;
-    };
+	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
 
-    renderer->SetLights(2, &lights[0]);
-}
+	{	// pColor[3]
+	{ { .2f, .2f, .5f, 1 }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
+	{ { 0.5f, 0.5f, 0.5f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
+	{ { 0.8f, 0.8f, 0.8f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
+};
+#endif
 
-void Viewer::UpdatePatternList()
-{
-    m_patternSelector->Clear();
-	const Newmodel::PatternContainer &pats = m_model->GetPatterns();
-	for(unsigned int i=0; i<pats.size(); i++) {
-		m_patternSelector->AddOption(pats[i].name);
+class Viewer: public Gui::Fixed {
+public:
+	Gui::Adjustment *m_linthrust[3];
+	Gui::Adjustment *m_angthrust[3];
+	Gui::Adjustment *m_anim[LMR_ARG_MAX];
+	Gui::TextEntry *m_animEntry[LMR_ARG_MAX];
+	Gui::Label *m_trisReadout;
+	LmrCollMesh *m_cmesh;
+	LmrModel *m_model;
+	CollisionSpace *m_space;
+	Geom *m_geom;
+	ModelCategory m_modelCategory;
+
+	void SetModel(LmrModel *);
+
+	void PickModel(const std::string &initial_name, const std::string &initial_errormsg);
+
+	void PickModel() {
+		PickModel("", "");
 	}
-	m_ui->Layout();
-}
 
-void Viewer::UpdateTime()
+	float GetAnimValue(int i) {
+		std::string val = m_animEntry[i]->GetText();
+		return float(atof(val.c_str()));
+	}
+
+	Viewer(): Gui::Fixed(float(g_width), float(g_height)) {
+		m_model = 0;
+		m_cmesh = 0;
+		m_geom = 0;
+		m_space = new CollisionSpace();
+		m_showBoundingRadius = false;
+		m_showGrid = false;
+		Gui::Screen::AddBaseWidget(this, 0, 0);
+		SetTransparency(true);
+
+		//init modelparams
+		g_params.equipment = &g_equipment;
+		g_params.label = "PIONEER";
+		g_params.flightState = Ship::FLYING;
+
+		m_trisReadout = new Gui::Label("");
+		Add(m_trisReadout, 500, 0);
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_c, KMOD_NONE);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickChangeView));
+			Add(b, 10, 10);
+			Add(new Gui::Label("[c] Change view (normal, collision mesh"), 30, 10);
+		}
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_r, KMOD_NONE);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnResetAdjustments));
+			Add(b, 10, 30);
+			Add(new Gui::Label("[r] Reset thruster and anim sliders"), 30, 30);
+		}
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_m, KMOD_NONE);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickRebuildCollMesh));
+			Add(b, 10, 50);
+			Add(new Gui::Label("[m] Rebuild collision mesh"), 30, 50);
+		}
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_p, KMOD_NONE);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickToggleBenchmark));
+			Add(b, 10, 70);
+			Add(new Gui::Label("[p] Toggle performance test (renders models 1000 times per frame)"), 30, 70);
+		}
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_b, KMOD_LSHIFT);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleBoundingRadius));
+			Add(b, 10, 90);
+			Add(new Gui::Label("[shift-b] Visualize bounding radius"), 30, 90);
+		}
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_g, KMOD_LSHIFT);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleGrid));
+			Add(b, 10, 110);
+			Add(new Gui::Label("[shift-g] Toggle grid"), 30, 110);
+		}
+#if 0
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_g, KMOD_NONE);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnToggleGearState));
+			Add(b, 10, 30);
+			Add(new Gui::Label("[g] Toggle gear state"), 30, 30);
+		}
+#endif /* 0 */
+		{
+			Add(new Gui::Label("Linear thrust"), 0, Gui::Screen::GetHeight()-140.0f);
+			for (int i=0; i<3; i++) {
+				m_linthrust[i] = new Gui::Adjustment();
+				m_linthrust[i]->SetValue(0.5);
+				Gui::VScrollBar *v = new Gui::VScrollBar();
+				v->SetAdjustment(m_linthrust[i]);
+				Add(v, float(i*25), Gui::Screen::GetHeight()-120.0f);
+			}
+
+			Add(new Gui::Label("Angular thrust"), 100, Gui::Screen::GetHeight()-140.0f);
+			for (int i=0; i<3; i++) {
+				m_angthrust[i] = new Gui::Adjustment();
+				m_angthrust[i]->SetValue(0.5);
+				Gui::VScrollBar *v = new Gui::VScrollBar();
+				v->SetAdjustment(m_angthrust[i]);
+				Add(v, float(100 + i*25), Gui::Screen::GetHeight()-120.0f);
+			}
+
+			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"),
+					200, Gui::Screen::GetHeight()-140.0f);
+
+			for (int i=0; i<LMR_ARG_MAX; i++) {
+				m_anim[i] = 0;
+
+				float x = float(200+i*25);
+				float w = 32.0f;
+				if (x >= Gui::Screen::GetWidth()-w)
+					break;
+
+				Gui::Fixed *box = new Gui::Fixed(w, 120.0f);
+				Add(box, x, Gui::Screen::GetHeight()-120.0f);
+
+				m_anim[i] = new Gui::Adjustment();
+				m_anim[i]->SetValue(0);
+				Gui::VScrollBar *v = new Gui::VScrollBar();
+				v->SetAdjustment(m_anim[i]);
+				box->Add(v, 0, 42.0f);
+				char buf[32];
+				snprintf(buf, sizeof(buf), "%d", i);
+				box->Add(new Gui::Label(buf), 0, 0);
+
+				m_animEntry[i] = new Gui::TextEntry();
+				box->Add(m_animEntry[i], 0, 16.0f);
+				m_anim[i]->onValueChanged.connect(sigc::bind(sigc::mem_fun(this, &Viewer::OnAnimChange), m_anim[i], m_animEntry[i]));
+				OnAnimChange(m_anim[i], m_animEntry[i]);
+			}
+		}
+
+		ShowAll();
+		Show();
+	}
+
+	void OnAnimChange(Gui::Adjustment *a, Gui::TextEntry *e) {
+		char buf[128];
+		snprintf(buf, sizeof(buf), "%.2f", a->GetValue());
+		e->SetText(buf);
+	}
+
+	void OnResetAdjustments() {
+		for (int i=0; i<LMR_ARG_MAX; i++) {
+			if(m_anim[i])
+				m_anim[i]->SetValue(0);
+		}
+		for (int i=0; i<3; i++) {
+			m_linthrust[i]->SetValue(0.5);
+			m_angthrust[i]->SetValue(0.5);
+		}
+	}
+	void OnClickToggleBenchmark() {
+		g_doBenchmark = !g_doBenchmark;
+	}
+	void OnClickRebuildCollMesh() {
+		m_space->RemoveGeom(m_geom);
+		delete m_geom;
+		delete m_cmesh;
+
+		m_cmesh = new LmrCollMesh(m_model, &g_params);
+		m_geom = new Geom(m_cmesh->GetGeomTree());
+		m_space->AddGeom(m_geom);
+	}
+
+	void OnToggleGearState() {
+		if (g_wheelMoveDir == -1) g_wheelMoveDir = +1;
+		else g_wheelMoveDir = -1;
+	}
+
+	void OnClickChangeView() {
+		g_renderType++;
+		// XXX raytraced view disabled
+		if (g_renderType > 1) g_renderType = 0;
+	}
+
+	void OnToggleBoundingRadius() {
+		m_showBoundingRadius = !m_showBoundingRadius;
+	}
+	void OnToggleGrid() {
+		if (!m_showGrid) {
+			m_showGrid = true;
+			gridInterval = 1.0f;
+		}
+		else {
+			gridInterval = powf(10, ceilf(log10f(gridInterval))+1);
+			if (gridInterval >= 10000.0f) {
+				m_showGrid = false;
+				gridInterval = 0.0f;
+			}
+		}
+	}
+
+	void MainLoop() __attribute((noreturn));
+	void SetSbreParams();
+private:
+	void TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg);
+	void VisualizeBoundingRadius(matrix4x4f& trans, double radius);
+	void DrawGrid(matrix4x4f& trans, double radius);
+	bool m_showBoundingRadius;
+	bool m_showGrid;
+	VisualCollisionMesh m_collisionVisualizer;
+};
+
+void Viewer::SetModel(LmrModel *model)
 {
-    static double lastTime = 0;
-    const double newtime = 0.001 * SDL_GetTicks();
-    if (m_playing) {
-        m_currentTime += newtime - lastTime;
-    }
-    lastTime = newtime;
-}
+	m_model = model;
+	// clear old geometry
+	if (m_cmesh) delete m_cmesh;
+	if (m_geom) {
+		m_space->RemoveGeom(m_geom);
+		delete m_geom;
+	}
 
-void Viewer::OnLightPresetChanged(unsigned int index, const std::string &)
-{
-    m_options.lightPreset = std::min<unsigned int>(index, 2);
-}
+	// set up model parameters
+	// inefficient (looks up and searches tags table separately for each tag)
+	bool has_station = m_model->HasTag("surface_station") || m_model->HasTag("orbital_station");
+    if (!has_station) {
+		m_modelCategory = MODEL_SHIP;
+		const std::string name = model->GetName();
+		std::map<std::string,ShipType>::const_iterator it = ShipType::types.begin();
+		while (it != ShipType::types.end()) {
+			if (it->second.lmrModelName == name)
+				break;
+			else
+				++it;
+		}
+		if (it != ShipType::types.end())
+			g_equipment.InitSlotSizes(it->first);
+		else
+			g_equipment.InitSlotSizes(ShipType::EAGLE_LRF);
+		g_params.equipment = &g_equipment;
+	} else {
+		m_modelCategory = MODEL_SPACESTATION;
+		g_params.equipment = 0;
+	}
 
-static Color4ub GetColor(UI::Slider *r, UI::Slider *g, UI::Slider *b)
-{
-    return Color4ub(r->GetValue() * 255.f, g->GetValue() * 255.f, b->GetValue() * 255.f);
-}
+	g_params.animationNamespace = ANIMATION_NAMESPACES[m_modelCategory];
 
-void Viewer::OnModelColorsChanged(float)
-{
-	std::vector<Color4ub> colors;
-	colors.push_back(GetColor(m_sliders[0], m_sliders[1], m_sliders[2]));
-	colors.push_back(GetColor(m_sliders[3], m_sliders[4], m_sliders[5]));
-	colors.push_back(GetColor(m_sliders[6], m_sliders[7], m_sliders[8]));
-	m_model->SetColors(renderer, colors);
-}
-
-void Viewer::OnPatternChanged(unsigned int index, const std::string &)
-{
-	assert(index < m_model->GetPatterns().size());
-	m_model->SetPattern(index);
-}
-
-inline float GetThrust(const UI::Slider *s)
-{
-    return 1.f - (2.f * s->GetValue());
-}
-
-void Viewer::OnThrustChanged(float)
-{
-    m_modelParams.linthrust[0] = GetThrust(m_tSliders[0]);
-    m_modelParams.linthrust[1] = GetThrust(m_tSliders[1]);
-    m_modelParams.linthrust[2] = GetThrust(m_tSliders[2]);
-
-    // angthrusts are negated in ship.cpp for some reason
-    m_modelParams.angthrust[0] = -GetThrust(m_tSliders[3]);
-    m_modelParams.angthrust[1] = -GetThrust(m_tSliders[4]);
-    m_modelParams.angthrust[2] = -GetThrust(m_tSliders[5]);
-}
-
-void Viewer::ResetSliders()
-{
-    for (unsigned int i=0; i<6; i++) {
-        m_tSliders[i]->SetValue(0.5f);
-    }
-}
-
-bool Viewer::OnToggleGrid(UI::Widget *w)
-{
-    if (!m_options.showGrid) {
-        m_options.showGrid = true;
-        m_options.gridInterval = 1.0f;
-    }
-    else {
-        m_options.gridInterval = powf(10, ceilf(log10f(m_options.gridInterval))+1);
-        if (m_options.gridInterval >= 10000.0f) {
-            m_options.showGrid = false;
-            m_options.gridInterval = 0.0f;
-        }
-    }
-    AddLog(m_options.showGrid
-        ? stringf("Grid: %0{d}", int(m_options.gridInterval))
-        : "Grid: off");
-    return m_options.showGrid;
-}
-
-bool Viewer::OnToggleGuns(UI::CheckBox *w)
-{
-    if (!m_gunModel.Valid() || !m_gunModelNode.Valid()) {
-        AddLog("test_gun.model not available");
-        return false;
-    }
-
-    m_options.attachGuns = !m_options.attachGuns;
-    Newmodel::Group *tagL = m_model->FindTagByName("tag_gun_left");
-    Newmodel::Group *tagR = m_model->FindTagByName("tag_gun_right");
-    if (!tagL || !tagR) {
-        AddLog("Missing tags gun_left and gun_right in model");
-        return false;
-    }
-    if (m_options.attachGuns) {
-        tagL->AddChild(m_gunModelNode.Get());
-        tagR->AddChild(m_gunModelNode.Get());
-    } else { //detach
-        //we know there's nothing else
-        tagL->RemoveChildAt(0);
-        tagR->RemoveChildAt(0);
-    }
-    return true;
-}
-
-bool Viewer::OnToggleBoundingRadius(UI::Widget *w)
-{
-    m_options.showBoundingRadius = !m_options.showBoundingRadius;
-    return m_options.showBoundingRadius;
-}
-
-void Viewer::ResetCamera()
-{
-    m_campos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius() * 1.5f);
-    m_camOrient = matrix4x4f::Identity();
-    m_modelRot = matrix4x4f::Identity();
-}
-
-void Viewer::SetModel(NModel *model, const std::string &name)
-{
-    ClearModel();
-
-    m_modelName = name;
-    m_model = model;
-    m_cmesh = m_model->CreateCollisionMesh(0);
-    m_geom = new Geom(m_cmesh->GetGeomTree());
-    m_space->AddGeom(m_geom);
-    ResetCamera();
-
-    UpdateAnimList();
-    UpdatePatternList();
-    OnModelColorsChanged();
-    m_model->SetDecalTexture(m_decalTexture, 0);
-	m_model->SetLabel("Pioneer");
+	// construct geometry
+	m_cmesh = new LmrCollMesh(m_model, &g_params);
+	m_geom = new Geom(m_cmesh->GetGeomTree());
+	m_space->AddGeom(m_geom);
 }
 
 void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *errormsg)
 {
-    if (sym->sym == SDLK_RETURN) {
-        const std::string &name = entry->GetText();
-        Newmodel::Loader load(renderer);
-        try {
-            NModel *mo = load.LoadModel(name);
-            SetModel(mo, name);
-        } catch (Newmodel::LoadingError &err) {
-            errormsg->SetText(stringf("Could not load model %0: %1", name, err.what()));
-        }
-    }
+	if (sym->sym == SDLK_RETURN) {
+		LmrModel *m = 0;
+		try {
+			m = LmrLookupModelByName(entry->GetText().c_str());
+		} catch (LmrModelNotFoundException) {
+			errormsg->SetText("Could not find model: " + entry->GetText());
+		}
+		if (m) SetModel(m);
+	}
 }
 
 void Viewer::PickModel(const std::string &initial_name, const std::string &initial_errormsg)
 {
-    //delete old
-    ClearModel();
+	Gui::Fixed *f = new Gui::Fixed();
+	f->SetSizeRequest(Gui::Screen::GetWidth()*0.5f, Gui::Screen::GetHeight()*0.5);
+	Gui::Screen::AddBaseWidget(f, Gui::Screen::GetWidth()*0.25f, Gui::Screen::GetHeight()*0.25f);
 
-    Gui::Fixed *f = new Gui::Fixed();
-    f->SetSizeRequest(Gui::Screen::GetWidth()*0.5f, Gui::Screen::GetHeight()*0.5);
-    Gui::Screen::AddBaseWidget(f, Gui::Screen::GetWidth()*0.25f, Gui::Screen::GetHeight()*0.25f);
+	f->Add(new Gui::Label("Enter the name of the model you want to view:"), 0, 0);
 
-    f->Add(new Gui::Label("Enter the name of the model you want to view (esc to quit app):"), 0, 0);
+	Gui::Label *errormsg = new Gui::Label(initial_errormsg);
+	f->Add(errormsg, 0, 64);
 
-    Gui::Label *errormsg = new Gui::Label(initial_errormsg);
-    f->Add(errormsg, 0, 64);
+	Gui::TextEntry *entry = new Gui::TextEntry();
+	entry->SetText(initial_name);
+	entry->onKeyPress.connect(sigc::bind(sigc::mem_fun(this, &Viewer::TryModel), entry, errormsg));
+	entry->Show();
+	f->Add(entry, 0, 32);
 
-    Gui::TextEntry *entry = new Gui::TextEntry();
-    entry->SetText(initial_name);
-    entry->onKeyPress.connect(sigc::bind(sigc::mem_fun(this, &Viewer::TryModel), entry, errormsg));
-    entry->Show();
-    f->Add(entry, 0, 32);
+	m_model = 0;
 
-    while (!m_model) {
-        this->Hide();
-        f->ShowAll();
-        PollEvents();
-        renderer->ClearScreen();
-        Gui::Draw();
-		DrawLog();
-        renderer->SwapBuffers();
-    }
-    Gui::Screen::RemoveBaseWidget(f);
-    delete f;
-    this->Show();
+	while (!m_model) {
+		this->Hide();
+		f->ShowAll();
+		PollEvents();
+		renderer->ClearScreen();
+		Gui::Draw();
+		renderer->SwapBuffers();
+	}
+	Gui::Screen::RemoveBaseWidget(f);
+	delete f;
+	this->Show();
 }
 
-void Viewer::PickModel()
+void Viewer::SetSbreParams()
 {
-    PickModel("", "");
-}
-
-bool Viewer::PickAnotherModel()
-{
-    PickModel();
-    return true;
-}
+	float gameTime = SDL_GetTicks() * 0.001f;
 
 #if 0
-static void render_coll_mesh(const LmrCollMesh *m)
-{
-    Material mat;
-    mat.unlit = true;
-    mat.diffuse = Color(1.f, 0.f, 1.f);
-    glDepthRange(0.0,0.9f);
-    VertexArray va(ATTRIB_POSITION, m->ni * 3);
-    for (int i=0; i<m->ni; i+=3) {
-        va.Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i]]));
-        va.Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+1]]));
-        va.Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+2]]));
-    }
-    renderer->DrawTriangles(&va, &mat);
+	-- get_arg() indices
+	ARG_ALL_TIME_SECONDS = 1
+	ARG_ALL_TIME_MINUTES = 2
+	ARG_ALL_TIME_HOURS = 3
+	ARG_ALL_TIME_DAYS = 4
 
-    mat.diffuse = Color(1.f);
-    glPolygonOffset(-1.f, -1.f);
-    renderer->SetWireFrameMode(true);
-    renderer->DrawTriangles(&va, &mat);
-    renderer->SetWireFrameMode(false);
-    glPolygonOffset(0.f, 0.f);
-}
+	ARG_STATION_BAY1_STAGE = 6
+	ARG_STATION_BAY1_POS   = 10
+
+	ARG_SHIP_WHEEL_STATE = 0
+	ARG_SHIP_EQUIP_SCOOP = 5
+	ARG_SHIP_EQUIP_ENGINE = 6
+	ARG_SHIP_EQUIP_ECM = 7
+	ARG_SHIP_EQUIP_SCANNER = 8
+	ARG_SHIP_EQUIP_ATMOSHIELD = 9
+	ARG_SHIP_EQUIP_LASER0 = 10
+	ARG_SHIP_EQUIP_LASER1 = 11
+	ARG_SHIP_EQUIP_MISSILE0 = 12
+	ARG_SHIP_EQUIP_MISSILE1 = 13
+	ARG_SHIP_EQUIP_MISSILE2 = 14
+	ARG_SHIP_EQUIP_MISSILE3 = 15
+	ARG_SHIP_EQUIP_MISSILE4 = 16
+	ARG_SHIP_EQUIP_MISSILE5 = 17
+	ARG_SHIP_EQUIP_MISSILE6 = 18
+	ARG_SHIP_EQUIP_MISSILE7 = 19
+	ARG_SHIP_FLIGHT_STATE = 20
+
+	-- get_arg_string() indices
+	ARGSTR_ALL_LABEL = 0
+	ARGSTR_STATION_ADMODEL1 = 4
+	ARGSTR_STATION_ADMODEL2 = 5
+	ARGSTR_STATION_ADMODEL3 = 6
+	ARGSTR_STATION_ADMODEL4 = 7
 #endif
+
+	if (m_modelCategory == MODEL_SHIP) {
+		g_params.animValues[Ship::ANIM_WHEEL_STATE] = GetAnimValue(0);
+
+		g_equipment.Set(Equip::SLOT_FUELSCOOP,  0, (GetAnimValue( 5) > 0.5) ? Equip::FUEL_SCOOP            : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_ENGINE,     0, (GetAnimValue( 6) > 0.5) ? Equip::DRIVE_CLASS4          : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_ECM,        0, (GetAnimValue( 7) > 0.5) ? Equip::ECM_ADVANCED          : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_SCANNER,    0, (GetAnimValue( 8) > 0.5) ? Equip::SCANNER               : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_ATMOSHIELD, 0, (GetAnimValue( 9) > 0.5) ? Equip::ATMOSPHERIC_SHIELDING : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_LASER,      0, (GetAnimValue(10) > 0.5) ? Equip::PULSECANNON_4MW       : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_LASER,      1, (GetAnimValue(11) > 0.5) ? Equip::PULSECANNON_4MW       : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    0, (GetAnimValue(12) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    1, (GetAnimValue(13) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    2, (GetAnimValue(14) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    3, (GetAnimValue(15) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    4, (GetAnimValue(16) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    5, (GetAnimValue(17) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    6, (GetAnimValue(18) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+		g_equipment.Set(Equip::SLOT_MISSILE,    7, (GetAnimValue(19) > 0.5) ? Equip::MISSILE_SMART         : Equip::NONE);
+	} else if (m_modelCategory == MODEL_SPACESTATION) {
+		g_params.animStages[SpaceStation::ANIM_DOCKING_BAY_1] = int(GetAnimValue(6) * 7.0);
+		g_params.animStages[SpaceStation::ANIM_DOCKING_BAY_2] = int(GetAnimValue(7) * 7.0);
+		g_params.animStages[SpaceStation::ANIM_DOCKING_BAY_3] = int(GetAnimValue(8) * 7.0);
+		g_params.animStages[SpaceStation::ANIM_DOCKING_BAY_4] = int(GetAnimValue(9) * 7.0);
+		g_params.animValues[SpaceStation::ANIM_DOCKING_BAY_1] = GetAnimValue(10);
+		g_params.animValues[SpaceStation::ANIM_DOCKING_BAY_2] = GetAnimValue(11);
+		g_params.animValues[SpaceStation::ANIM_DOCKING_BAY_3] = GetAnimValue(12);
+		g_params.animValues[SpaceStation::ANIM_DOCKING_BAY_4] = GetAnimValue(13);
+	}
+
+/*
+	for (int i=0; i<LMR_ARG_MAX; i++) {
+		params.argDoubles[i] = GetAnimValue(i);
+	}
+*/
+
+	g_params.time = gameTime;
+
+	g_params.linthrust[0] = 2.0f * (m_linthrust[0]->GetValue() - 0.5f);
+	g_params.linthrust[1] = 2.0f * (m_linthrust[1]->GetValue() - 0.5f);
+	g_params.linthrust[2] = 2.0f * (m_linthrust[2]->GetValue() - 0.5f);
+	g_params.angthrust[0] = 2.0f * (m_angthrust[0]->GetValue() - 0.5f);
+	g_params.angthrust[1] = 2.0f * (m_angthrust[1]->GetValue() - 0.5f);
+	g_params.angthrust[2] = 2.0f * (m_angthrust[2]->GetValue() - 0.5f);
+}
+
+void VisualCollisionMesh::Render(const LmrCollMesh *m)
+{
+	renderer->SetBlendMode(Graphics::BLEND_SOLID);
+
+	if (!vertices.Valid()) {
+		vertices.Reset(new VertexArray(ATTRIB_POSITION, m->ni * 3));
+		Graphics::MaterialDescriptor desc; //flat colour
+		material.Reset(renderer->CreateMaterial(desc));
+	}
+
+	vertices->Clear();
+
+	glDepthRange(0.0+g_zbias,1.0);
+
+	for (int i=0; i<m->ni; i+=3) {
+		vertices->Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i]]));
+		vertices->Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+1]]));
+		vertices->Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+2]]));
+	}
+	material->diffuse = Color(1.f, 0.f, 1.f, 1.f);
+	renderer->DrawTriangles(vertices.Get(), material.Get());
+
+	material->diffuse = Color(1.f);
+	glDepthRange(0,1.0f-g_zbias);
+	renderer->SetWireFrameMode(true);
+	renderer->DrawTriangles(vertices.Get(), material.Get());
+	renderer->SetWireFrameMode(false);
+	glDepthRange(0,1);
+}
+
+double camera_zoom = 1.0;
+vector3f g_campos(0.0f, 0.0f, 100.0f);
+matrix4x4f g_camorient;
 
 void Viewer::MainLoop()
 {
-    Uint32 lastTurd = SDL_GetTicks();
+	Uint32 lastTurd = SDL_GetTicks();
 
-    //Uint32 t = SDL_GetTicks();
-    int numFrames = 0;
-    //int fps = 0
-    //int numTris = 0;
-    //Uint32 lastFpsReadout = SDL_GetTicks();
-    //m_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
-    m_modelParams.scrWidth = g_width;
+	Uint32 t = SDL_GetTicks();
+	int numFrames = 0, fps = 0, numTris = 0;
+	Uint32 lastFpsReadout = SDL_GetTicks();
+	g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
+	g_camorient = matrix4x4f::Identity();
+	matrix4x4f modelRot = matrix4x4f::Identity();
 
-    for (;;) {
-        PollEvents();
-        UpdateTime();
+	printf("Geom tree build in %ums\n", SDL_GetTicks() - t);
 
-        if (g_keyState[SDLK_LSHIFT] || g_keyState[SDLK_RSHIFT]) {
-            if (g_keyState[SDLK_UP]) m_camOrient = m_camOrient * matrix4x4f::RotateXMatrix(m_frameTime);
-            if (g_keyState[SDLK_DOWN]) m_camOrient = m_camOrient * matrix4x4f::RotateXMatrix(-m_frameTime);
-            if (g_keyState[SDLK_LEFT]) m_camOrient = m_camOrient * matrix4x4f::RotateYMatrix(-m_frameTime);
-            if (g_keyState[SDLK_RIGHT]) m_camOrient = m_camOrient * matrix4x4f::RotateYMatrix(m_frameTime);
-            if (g_mouseButton[3]) {
-                float rx = 0.01f*g_mouseMotion[1];
-                float ry = 0.01f*g_mouseMotion[0];
-                m_camOrient = m_camOrient * matrix4x4f::RotateXMatrix(rx);
-                m_camOrient = m_camOrient * matrix4x4f::RotateYMatrix(ry);
-                if (g_mouseButton[1]) {
-                    m_campos = m_campos - m_camOrient * vector3f(0.0f,0.0f,1.0f) * 0.01 *
-                        m_model->GetDrawClipRadius();
-                }
-            }
-        } else {
-            if (g_keyState[SDLK_UP]) m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(m_frameTime);
-            if (g_keyState[SDLK_DOWN]) m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(-m_frameTime);
-            if (g_keyState[SDLK_LEFT]) m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(-m_frameTime);
-            if (g_keyState[SDLK_RIGHT]) m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(m_frameTime);
-            if (g_mouseButton[3]) {
-                float rx = 0.01f*g_mouseMotion[1];
-                float ry = 0.01f*g_mouseMotion[0];
-                m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(rx);
-                m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(ry);
-            }
-        }
-        float rate = 5.f * m_frameTime;
-        if (g_keyState[SDLK_LSHIFT]) rate = 20.f * m_frameTime;
-        if (g_keyState[SDLK_EQUALS] || g_keyState[SDLK_KP_PLUS]) m_campos = m_campos - m_camOrient * vector3f(0.0f,0.0f,1.f) * rate;
-        if (g_keyState[SDLK_MINUS] || g_keyState[SDLK_KP_MINUS]) m_campos = m_campos + m_camOrient * vector3f(0.0f,0.0f,1.f) * rate;
-        if (g_keyState[SDLK_PAGEUP]) m_campos = m_campos - m_camOrient * vector3f(0.0f,0.0f,0.5f);
-        if (g_keyState[SDLK_PAGEDOWN]) m_campos = m_campos + m_camOrient * vector3f(0.0f,0.0f,0.5f);
+	for (;;) {
+		PollEvents();
 
-        float znear;
-        float zfar;
-        renderer->GetNearFarRange(znear, zfar);
-        renderer->SetPerspectiveProjection(85, g_width/float(g_height), znear, zfar);
-        renderer->SetTransform(matrix4x4f::Identity());
-        renderer->ClearScreen();
-        renderer->SetDepthTest(true);
-        UpdateLights();
-        m_model->UpdateAnimations(m_currentTime);
+		if (g_keyState[SDLK_LSHIFT] || g_keyState[SDLK_RSHIFT]) {
+			if (g_keyState[SDLK_UP]) g_camorient = g_camorient * matrix4x4f::RotateXMatrix(g_frameTime);
+			if (g_keyState[SDLK_DOWN]) g_camorient = g_camorient * matrix4x4f::RotateXMatrix(-g_frameTime);
+			if (g_keyState[SDLK_LEFT]) g_camorient = g_camorient * matrix4x4f::RotateYMatrix(-g_frameTime);
+			if (g_keyState[SDLK_RIGHT]) g_camorient = g_camorient * matrix4x4f::RotateYMatrix(g_frameTime);
+			if (g_mouseButton[3]) {
+				float rx = 0.01f*g_mouseMotion[1];
+				float ry = 0.01f*g_mouseMotion[0];
+				g_camorient = g_camorient * matrix4x4f::RotateXMatrix(rx);
+				g_camorient = g_camorient * matrix4x4f::RotateYMatrix(ry);
+				if (g_mouseButton[1]) {
+					g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,1.0f) * 0.01 *
+						m_model->GetDrawClipRadius();
+				}
+			}
+		} else {
+			if (g_keyState[SDLK_UP]) modelRot = modelRot * matrix4x4f::RotateXMatrix(g_frameTime);
+			if (g_keyState[SDLK_DOWN]) modelRot = modelRot * matrix4x4f::RotateXMatrix(-g_frameTime);
+			if (g_keyState[SDLK_LEFT]) modelRot = modelRot * matrix4x4f::RotateYMatrix(-g_frameTime);
+			if (g_keyState[SDLK_RIGHT]) modelRot = modelRot * matrix4x4f::RotateYMatrix(g_frameTime);
+			if (g_mouseButton[3]) {
+				float rx = 0.01f*g_mouseMotion[1];
+				float ry = 0.01f*g_mouseMotion[0];
+				modelRot = modelRot * matrix4x4f::RotateXMatrix(rx);
+				modelRot = modelRot * matrix4x4f::RotateYMatrix(ry);
+			}
+		}
+		float rate = 1.f;
+		if (g_keyState[SDLK_LSHIFT]) rate = 10.f;
+		if (g_keyState[SDLK_EQUALS] || g_keyState[SDLK_KP_PLUS]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,1.f) * rate;
+		if (g_keyState[SDLK_MINUS] || g_keyState[SDLK_KP_MINUS]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,1.f) * rate;
+		if (g_keyState[SDLK_PAGEUP]) g_campos = g_campos - g_camorient * vector3f(0.0f,0.0f,0.5f);
+		if (g_keyState[SDLK_PAGEDOWN]) g_campos = g_campos + g_camorient * vector3f(0.0f,0.0f,0.5f);
 
-		glPushAttrib(GL_ALL_ATTRIB_BITS);
-		matrix4x4f m = m_camOrient.InverseOf() * matrix4x4f::Translation(-m_campos) * m_modelRot.InverseOf();
-		m_model->Render(renderer, m, &m_modelParams);
-		glPopAttrib();
+//		geom->MoveTo(modelRot, vector3d(0.0,0.0,0.0));
 
-        if (m_options.showBoundingRadius) {
-            matrix4x4f mo = m_camOrient.InverseOf() * matrix4x4f::Translation(-m_campos);// * modelRot.InverseOf();
-            VisualizeBoundingRadius(mo, m_model->GetDrawClipRadius());
-        }
+		renderer->SetPerspectiveProjection(85, g_width/float(g_height), 1.f, 10000.f);
+		renderer->SetTransform(matrix4x4f::Identity());
+		renderer->ClearScreen();
 
-        if (m_options.showGrid) {
-            const float rad = m_model->GetDrawClipRadius();
-            DrawGrid(m, rad);
-            const int numAxVerts = 6;
-            const vector3f vts[numAxVerts] = {
-                //X
-                vector3f(0.f, 0.f, 0.f),
-                vector3f(rad, 0.f, 0.f),
+		SetSbreParams();
 
-                //Y
-                vector3f(0.f, 0.f, 0.f),
-                vector3f(0.f, rad, 0.f),
+		int beforeDrawTriStats = LmrModelGetStatsTris();
 
-                //Z
-                vector3f(0.f, 0.f, 0.f),
-                vector3f(0.f, 0.f, rad),
-            };
-            const Color col[numAxVerts] = {
-                Color(1.f, 0.f, 0.f),
-                Color(1.f, 0.f, 0.f),
+		if (g_renderType == 0) {
+			glPushAttrib(GL_ALL_ATTRIB_BITS);
+			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
+			if (g_doBenchmark) {
+				for (int i=0; i<1000; i++) m_model->Render(renderer, m, &g_params);
+			} else {
+				m_model->Render(renderer, m, &g_params);
+			}
+			glPopAttrib();
+		} else if (g_renderType == 1) {
+			glPushMatrix();
+			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
+			glMultMatrixf(&m[0]);
+			m_collisionVisualizer.Render(m_cmesh);
+			glPopMatrix();
+		}
 
-                Color(0.f, 0.f, 1.f),
-                Color(0.f, 0.f, 1.f),
+		if (m_showBoundingRadius) {
+			matrix4x4f mo = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos);// * modelRot.InverseOf();
+			VisualizeBoundingRadius(mo, m_model->GetDrawClipRadius());
+		}
 
-                Color(0.f, 1.f, 0.f),
-                Color(0.f, 1.f, 0.f)
-            };
-            renderer->SetDepthTest(false);
-            renderer->DrawLines(numAxVerts, &vts[0], &col[0]);
-            renderer->SetDepthTest(true);
-        }
+		if (m_showGrid) {
+			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
+			DrawGrid(m, m_model->GetDrawClipRadius());
+		}
 
-        {
-#if 0
-            char buf[256];
-            Aabb aabb = m_cmesh->GetAabb();
-            snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f\nGrid interval: %d metres",
-                    (g_renderType == 0 ?
-                        LmrModelGetStatsTris() - beforeDrawTriStats :
-                        m_cmesh->m_numTris),
-                    fps,
-                    numTris/1000000.0f,
-                    aabb.max.x-aabb.min.x,
-                    aabb.max.y-aabb.min.y,
-                    aabb.max.z-aabb.min.z,
-                    aabb.GetBoundingRadius(),
-                    m_model->GetDrawClipRadius(),
-                    int(gridInterval));
-            m_trisReadout->SetText(buf);
-#endif
-        }
+		Graphics::UnbindAllBuffers();
 
-        //Gui::Draw();
-        m_ui->Update();
-        if (!m_screenshotQueued) {
-            renderer->SetDepthTest(false);
-            renderer->SetOrthographicProjection(0, g_width, g_height, 0, -1, 1);
-            renderer->SetTransform(matrix4x4f::Identity());
-            m_ui->Draw();
-            DrawLog();
-        }
-        renderer->SwapBuffers();
-        if (m_screenshotQueued) {
-            m_screenshotQueued = false;
-            Screenshot();
-        }
-        numFrames++;
-        m_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
-        lastTurd = SDL_GetTicks();
-#if 0
-        if (SDL_GetTicks() - lastFpsReadout > 1000) {
-            numTris = LmrModelGetStatsTris();
-            fps = numFrames;
-            numFrames = 0;
-            lastFpsReadout = SDL_GetTicks();
-            LmrModelClearStatsTris();
-        }
-#endif
-    }
+		{
+			char buf[256];
+			Aabb aabb = m_cmesh->GetAabb();
+			snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f\nGrid interval: %d metres",
+					(g_renderType == 0 ?
+						LmrModelGetStatsTris() - beforeDrawTriStats :
+						m_cmesh->m_numTris),
+					fps,
+					numTris/1000000.0f,
+					aabb.max.x-aabb.min.x,
+					aabb.max.y-aabb.min.y,
+					aabb.max.z-aabb.min.z,
+					aabb.GetBoundingRadius(),
+					m_model->GetDrawClipRadius(),
+					int(gridInterval));
+			m_trisReadout->SetText(buf);
+		}
+
+		Gui::Draw();
+
+		renderer->SwapBuffers();
+		numFrames++;
+		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
+		lastTurd = SDL_GetTicks();
+
+		if (SDL_GetTicks() - lastFpsReadout > 1000) {
+			numTris = LmrModelGetStatsTris();
+			fps = numFrames;
+			numFrames = 0;
+			lastFpsReadout = SDL_GetTicks();
+			LmrModelClearStatsTris();
+		}
+
+		//space->Collide(onCollision);
+	}
 }
 
-void Viewer::PollEvents()
+static void PollEvents()
 {
-    SDL_Event event;
+	SDL_Event event;
 
-    g_mouseMotion[0] = g_mouseMotion[1] = 0;
-    while (SDL_PollEvent(&event)) {
-        Gui::HandleSDLEvent(&event);
-        m_ui->DispatchSDLEvent(event);
-        switch (event.type) {
-            case SDL_KEYDOWN:
-                if (event.key.keysym.sym == SDLK_ESCAPE) {
-                    if (m_model) {
-                        PickModel();
+	g_mouseMotion[0] = g_mouseMotion[1] = 0;
+	while (SDL_PollEvent(&event)) {
+		Gui::HandleSDLEvent(&event);
+		switch (event.type) {
+			case SDL_KEYDOWN:
+				if (event.key.keysym.sym == SDLK_ESCAPE) {
+                    if (g_viewer->m_model) {
+                        g_viewer->PickModel();
                     } else {
                         SDL_Quit();
                         exit(0);
                     }
-                }
-                if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
-                if (event.key.keysym.sym == SDLK_PRINT) m_screenshotQueued = true;
-                if (event.key.keysym.sym == SDLK_SPACE) {
-                    ResetCamera();
-                    ResetSliders();
-                }
-                g_keyState[event.key.keysym.sym] = 1;
-                break;
-            case SDL_KEYUP:
-                g_keyState[event.key.keysym.sym] = 0;
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                set_mouse_button(event.button.button, 1);
-                break;
-            case SDL_MOUSEBUTTONUP:
-                set_mouse_button(event.button.button, 0);
-                break;
-            case SDL_MOUSEMOTION:
-                g_mouseMotion[0] += event.motion.xrel;
-                g_mouseMotion[1] += event.motion.yrel;
-                break;
-            case SDL_QUIT:
-                SDL_Quit();
-                exit(0);
-                break;
-        }
-    }
+				}
+				//XXX can't reliably fullscreen
+				//if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
+				g_keyState[event.key.keysym.sym] = 1;
+				break;
+			case SDL_KEYUP:
+				g_keyState[event.key.keysym.sym] = 0;
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				setMouseButton(event.button.button, 1);
+	//			Pi::onMouseButtonDown.emit(event.button.button,
+	//					event.button.x, event.button.y);
+				break;
+			case SDL_MOUSEBUTTONUP:
+				setMouseButton(event.button.button, 0);
+	//			Pi::onMouseButtonUp.emit(event.button.button,
+	//					event.button.x, event.button.y);
+				break;
+			case SDL_MOUSEMOTION:
+				g_mouseMotion[0] += event.motion.xrel;
+				g_mouseMotion[1] += event.motion.yrel;
+				break;
+			case SDL_QUIT:
+				SDL_Quit();
+				exit(0);
+				break;
+		}
+	}
 }
 
 void Viewer::VisualizeBoundingRadius(matrix4x4f& trans, double radius)
 {
-    renderer->SetTransform(trans);
-    Graphics::Drawables::Circle circ(radius, Color(0.f, 0.f, 1.f, 1.f));
-    circ.Draw(renderer);
+	renderer->SetTransform(trans);
+	Drawables::Circle circ(radius, Color(0.f, 0.f, 1.f, 1.f));
+	circ.Draw(renderer);
+}
+
+void Viewer::DrawGrid(matrix4x4f& trans, double radius)
+{
+	const float dist = abs(g_campos.z);
+
+	const float max = std::min(powf(10, ceilf(log10f(dist))), ceilf(radius/gridInterval)*gridInterval);
+
+	std::vector<vector3f> points;
+
+	for (float x = -max; x <= max; x += gridInterval) {
+		points.push_back(vector3f(x,0,-max));
+		points.push_back(vector3f(x,0,max));
+		points.push_back(vector3f(0,x,-max));
+		points.push_back(vector3f(0,x,max));
+
+		points.push_back(vector3f(x,-max,0));
+		points.push_back(vector3f(x,max,0));
+		points.push_back(vector3f(0,-max,x));
+		points.push_back(vector3f(0,max,x));
+
+		points.push_back(vector3f(-max,x,0));
+		points.push_back(vector3f(max,x,0));
+		points.push_back(vector3f(-max,0,x));
+		points.push_back(vector3f(max,0,x));
+	}
+
+	renderer->SetTransform(trans);
+	renderer->DrawLines(points.size(), &points[0], Color(0.0f,0.2f,0.0f,1.0f));
 }
 
 int main(int argc, char **argv)
 {
-    if ((argc<=1) || (0==strcmp(argv[1],"--help"))) {
-        printf("Usage:\nluamodelviewer <width> <height> <model name>\n");
-    }
-    if (argc >= 3) {
-        g_width = atoi(argv[1]);
-        g_height = atoi(argv[2]);
-    } else {
-        g_width = 800;
-        g_height = 600;
-    }
+	if ((argc<=1) || (0==strcmp(argv[1],"--help"))) {
+		printf("Usage:\nluamodelviewer <width> <height> <model name>\n");
+	}
+	if (argc >= 3) {
+		g_width = atoi(argv[1]);
+		g_height = atoi(argv[2]);
+	} else {
+		g_width = 800;
+		g_height = 600;
+	}
 
-    FileSystem::Init();
-    FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
-    ModManager::Init();
+	FileSystem::Init();
+	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
+	ModManager::Init();
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
@@ -854,25 +742,34 @@ int main(int argc, char **argv)
 
 	renderer = Graphics::Init(videoSettings);
 
+	g_zbias = 2.0/(1<<16);
+
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
-	ScopedPtr<Viewer> viewer(new Viewer(g_width, g_height));
-    if (argc >= 4) {
-        try {
-            const std::string &name(argv[3]);
-            Newmodel::Loader loader(renderer);
-            NModel *mo = loader.LoadModel(name);
-            viewer->SetModel(mo, name);
-        } catch (Newmodel::LoadingError &err) {
-            viewer->PickModel(argv[3], stringf("Could not load model %0: %1", argv[3], err.what()));
-        }
-    } else {
-        viewer->PickModel();
-    }
+	const Color lc(1.f, 1.f, 1.f, 0.f);
+	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	renderer->SetLights(1, &light);
 
-    viewer->MainLoop();
+	LmrModelCompilerInit(renderer);
+	LmrNotifyScreenWidth(g_width);
+
+	ShipType::Init();
+
+	g_viewer = new Viewer();
+	if (argc >= 4) {
+		try {
+			LmrModel *m = LmrLookupModelByName(argv[3]);
+			g_viewer->SetModel(m);
+		} catch (LmrModelNotFoundException) {
+			g_viewer->PickModel(argv[3], std::string("Could not find model: ") + argv[3]);
+		}
+	} else {
+		g_viewer->PickModel();
+	}
+
+	g_viewer->MainLoop();
 	//XXX looks like this is never reached
-    FileSystem::Uninit();
-    delete renderer;
-    return 0;
+	FileSystem::Uninit();
+	delete renderer;
+	return 0;
 }
