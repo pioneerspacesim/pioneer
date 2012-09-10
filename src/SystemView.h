@@ -32,7 +32,7 @@ private:
 	RefCountedPtr<StarSystem> m_system;
 	SystemBody *m_selectedObject;
 	float m_rot_x, m_rot_z;
-	float m_zoom;
+	float m_zoom, m_zoomTo;
 	double m_time;
 	double m_timeStep;
 	Gui::ImageButton *m_zoomInButton;
