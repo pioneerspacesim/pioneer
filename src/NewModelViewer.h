@@ -22,6 +22,8 @@ public:
 	static void Run(int argc, char** argv);
 
 private:
+	bool OnAnimPlay(UI::Widget *w, bool reverse);
+	bool OnAnimStop(UI::Widget *w);
 	bool OnReloadModel(UI::Widget *w);
 	bool OnToggleCollMesh(UI::CheckBox *w);
 	bool OnToggleGrid(UI::Widget *);
@@ -44,6 +46,7 @@ private:
 	void Screenshot();
 	void SetModel(const std::string& name, bool resetCamera = true);
 	void SetupUI();
+	void UpdateAnimList();
 	void UpdateCamera();
 	void UpdateLights();
 	void UpdatePatternList();
@@ -60,8 +63,10 @@ private:
 		Options();
 	};
 	bool m_done;
+	bool m_playing;
 	bool m_screenshotQueued;
-	float m_frameTime;
+	double m_animTime; //separate, because it may be paused
+	double m_frameTime;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;
 	int m_height;
@@ -86,6 +91,7 @@ private:
 	std::array<bool, SDL_BUTTON_WHEELDOWN + 1> m_mouseButton; //buttons + scroll start at 1
 
 	//interface stuff that needs to be accessed later (unorganized)
+	UI::DropDown *animSelector;
 	UI::DropDown *patternSelector;
 	UI::Label *nameLabel;
 	UI::Slider *colorSliders[9];

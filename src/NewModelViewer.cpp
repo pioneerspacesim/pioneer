@@ -32,7 +32,9 @@ namespace {
 
 ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int height)
 : m_done(false)
+, m_playing(false)
 , m_screenshotQueued(false)
+, m_animTime(0.001 * SDL_GetTicks())
 , m_frameTime(0.f)
 , m_renderer(r)
 , m_width(width)
@@ -133,6 +135,33 @@ void ModelViewer::Run(int argc, char** argv)
 	Graphics::Uninit();
 	FileSystem::Uninit();
 	SDL_Quit();
+}
+
+bool ModelViewer::OnAnimPlay(UI::Widget *w, bool reverse)
+{
+	Newmodel::Animation::Direction dir = reverse ? Newmodel::Animation::REVERSE : Newmodel::Animation::FORWARD;
+	const std::string animname = animSelector->GetSelectedOption();
+	m_playing = !m_playing;
+	if (m_playing) {
+		int success = m_model->PlayAnimation(animname, dir);
+		if (success)
+			AddLog(stringf("Playing animation \"%0\"", animname));
+		else {
+			AddLog(stringf("Model does not have animation \"%0\"", animname));
+			m_playing = false;
+		}
+	} else {
+		AddLog("Animation paused");
+	}
+	return m_playing;
+}
+
+bool ModelViewer::OnAnimStop(UI::Widget *w)
+{
+    if (m_playing) AddLog("Animation stopped");
+    m_playing = false;
+    m_model->StopAnimations();
+    return false;
 }
 
 bool ModelViewer::OnReloadModel(UI::Widget *w)
@@ -375,6 +404,7 @@ void ModelViewer::DrawModel()
 	m_renderer->SetDepthTest(true);
 	m_renderer->SetDepthWrite(true);
 
+	m_model->UpdateAnimations(m_animTime);
 	m_model->Render(m_renderer, mv, &m_modelParams);
 
 	if (m_options.showCollMesh) {
@@ -385,11 +415,15 @@ void ModelViewer::DrawModel()
 
 void ModelViewer::MainLoop()
 {
-	Uint32 lastTime = SDL_GetTicks();
+	double lastTime = SDL_GetTicks() * 0.001;
 	while (!m_done)
 	{
-		m_frameTime = (SDL_GetTicks() - lastTime) * 0.001f;
-		lastTime = SDL_GetTicks();
+		const double ticks = SDL_GetTicks() * 0.001;
+		m_frameTime = (ticks - lastTime);
+		if (m_playing) {
+			m_animTime += (ticks - lastTime);
+		}
+		lastTime = ticks;
 
 		m_renderer->ClearScreen();
 
@@ -519,12 +553,12 @@ void ModelViewer::PollEvents()
 			case SDLK_KP2:
 				ChangeCameraPreset(event.key.keysym.sym);
 				break;
-			}
-		case SDLK_r: //random colors, eastereggish
-			for(unsigned int i=0; i<3*3; i++) {
-				colorSliders[i]->SetValue(m_rng.Double());
-			}
-			break;
+			case SDLK_r: //random colors, eastereggish
+				for(unsigned int i=0; i<3*3; i++) {
+					colorSliders[i]->SetValue(m_rng.Double());
+				}
+				break;
+			} //keysym switch
 			m_keyStates[event.key.keysym.sym] = true;
 			break;
 		case SDL_KEYUP:
@@ -591,6 +625,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 	}
 
 	UpdatePatternList();
+	UpdateAnimList();
 
 	//don't lose color settings when reloading
 	OnModelColorsChanged(0);
@@ -613,11 +648,16 @@ static void add_pair(RefCountedPtr<UI::Context> c, UI::Box *box, UI::Widget *wid
 
 void ModelViewer::SetupUI()
 {
-	UI::VBox* box = m_ui->VBox();
-	UI::Button *toggleGridButton;
+	UI::Box *animBox;
+	UI::Button *playBtn;
 	UI::Button *reloadButton;
-	UI::CheckBox *gunsCheck;
+	UI::Button *revBtn;
+	UI::Button *stopBtn;
+	UI::Button *toggleGridButton;
 	UI::CheckBox *collMeshCheck;
+	UI::CheckBox *gunsCheck;
+	UI::VBox* box = m_ui->VBox();
+
 	box->PackEnd(nameLabel = m_ui->Label("Pie"));
 	add_pair(m_ui, box, reloadButton = m_ui->Button(), "Reload model");
 	add_pair(m_ui, box, toggleGridButton = m_ui->Button(), "Grid mode");
@@ -638,6 +678,14 @@ void ModelViewer::SetupUI()
 	);
 
 	add_pair(m_ui, box, (gunsCheck = m_ui->CheckBox()), "Attach guns");
+
+	//Animation controls
+	box->PackEnd(animBox = m_ui->VBox(5.f));
+	animBox->PackEnd(m_ui->Label("Animation:"));
+	animBox->PackEnd(animSelector = m_ui->DropDown()->AddOption("None"));
+	add_pair(m_ui, animBox, playBtn = m_ui->Button(), "Play/Pause");
+	add_pair(m_ui, animBox, revBtn = m_ui->Button(), "Play reverse");
+	add_pair(m_ui, animBox, stopBtn = m_ui->Button(), "Stop");
 
 	//// 3x3 colour sliders
 	// I don't quite understand the packing, so I set both fill & expand and it seems to work.
@@ -724,6 +772,19 @@ void ModelViewer::SetupUI()
 	patternSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnPatternChanged));
 	reloadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnReloadModel), reloadButton));
 	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));
+	playBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), playBtn, false));
+	revBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), revBtn, true));
+	stopBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimStop), stopBtn));
+}
+
+void ModelViewer::UpdateAnimList()
+{
+	animSelector->Clear();
+	const std::vector<Newmodel::Animation*> &anims = m_model->GetAnimations();
+	for(unsigned int i=0; i<anims.size(); i++) {
+		animSelector->AddOption(anims[i]->GetName());
+	}
+	animSelector->Layout();
 }
 
 void ModelViewer::UpdateCamera()
