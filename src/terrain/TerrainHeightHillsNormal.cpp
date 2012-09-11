@@ -45,7 +45,8 @@ double TerrainHeightFractal<TerrainHeightHillsNormal>::GetHeight(const vector3d 
 	// cliffs at shore
 	if (continents < 0.01) n += m * continents * 100.0f;
 	else n += m;
-
-	if (n > 0.0) return n*m_maxHeight;
+	n *= m_maxHeight;
+	ApplySimpleHeightRegions(n, p);
+	if (n > 0.0) return n;
     return 0.0;
 }

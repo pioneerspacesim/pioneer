@@ -422,6 +422,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		int tries;
 		matrix4x4d rot;
 		vector3d pos;
+		bool reinitCityRegions = false;
 		// first try suggested position
 		rot = sbody->orbit.rotMatrix;
 		pos = rot * vector3d(0,1,0);
@@ -437,11 +438,29 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 				pos = rot * vector3d(0,1,0);
 				height = planet->GetTerrainHeight(pos) - planet->GetSystemBody()->GetRadius();
 				// don't want to be under water
-				if (height > 0.0) break;
+				if (height > 0.0) {
+					reinitCityRegions = true;
+					break;
+				}
 			}
 		}
 		b->SetPosition(pos * planet->GetTerrainHeight(pos));
 		b->SetRotMatrix(rot);
+		sbody->orbit.rotMatrix = rot;
+		if (reinitCityRegions)
+			planet->GetGeoSphere()->GetTerrain()->InitCityRegions();			
+		
+		/*printf("valid %i, pos x %f, y %f, z %f, outer %f, posdotp %f", 
+						sb->parent->regionTypes[sb->posIDX].Valid,sb->parent->positions[sb->posIDX].x, 
+						sb->parent->positions[sb->posIDX].y, sb->parent->positions[sb->posIDX].z, sb->parent->positions[sb->posIDX].Dot(pos));
+					
+		if (i <= 20) {
+					printf("valid %i, pos x %f, y %f, z %f, outer %f, posdotp %f", 
+						sb->parent->regionTypes[sb->posIDX].Valid,sb->parent->positions[sb->posIDX].x, 
+						sb->parent->positions[sb->posIDX].y, sb->parent->positions[sb->posIDX].z, sb->parent->positions[sb->posIDX].Dot(pos));
+					i++;
+				}
+*/
 		return frame;
 	} else {
 		assert(0);

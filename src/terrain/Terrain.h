@@ -16,6 +16,16 @@ struct fracdef_t {
 	int octaves;
 };
 
+// data about regions from feature to heightmap code go here
+struct RegionType{
+	bool Valid;
+	double height;
+	double heightVariation;
+	double inner;
+	double outer;
+	int Type;
+};
+
 
 template <typename,typename> class TerrainGenerator;
 
@@ -37,15 +47,17 @@ public:
 
 	double GetMaxHeight() const { return m_maxHeight; }
 
+	void InitCityRegions();
+
 private:
 	template <typename HeightFractal, typename ColorFractal>
 	static Terrain *InstanceGenerator(const SystemBody *body) { return new TerrainGenerator<HeightFractal,ColorFractal>(body); }
 
 	typedef Terrain* (*GeneratorInstancer)(const SystemBody *);
-
-
+	
 protected:
 	Terrain(const SystemBody *body);
+	inline void Terrain::ApplySimpleHeightRegions(double &h,const vector3d &p);
 
 	bool textures;
 	int m_fracnum;
@@ -98,6 +110,10 @@ protected:
 	/* XXX you probably shouldn't increase this. If you are
 	   using more than 10 then things will be slow as hell */
 	fracdef_t m_fracdef[10];
+
+	// used for region based terrain e.g. cities
+	std::vector<vector3d> m_positions;
+	std::vector<RegionType> m_regionTypes;
 };
 
 
@@ -127,7 +143,10 @@ private:
 template <typename HeightFractal, typename ColorFractal>
 class TerrainGenerator : public TerrainHeightFractal<HeightFractal>, public TerrainColorFractal<ColorFractal> {
 public:
-	TerrainGenerator(const SystemBody *body) : Terrain(body), TerrainHeightFractal<HeightFractal>(body), TerrainColorFractal<ColorFractal>(body) {}
+	TerrainGenerator(const SystemBody *body) : Terrain(body), TerrainHeightFractal<HeightFractal>(body), TerrainColorFractal<ColorFractal>(body) 
+	{
+		InitCityRegions();
+	}
 
 private:
 	TerrainGenerator() {}
@@ -230,5 +249,49 @@ class TerrainColorVolcanic;
 #ifdef _MSC_VER
 #pragma warning(default : 4250)
 #endif
+
+// inline member functions must be placed in header
+inline void Terrain::ApplySimpleHeightRegions(double &h,const vector3d &p)
+{
+	for (unsigned int i = 0; i < m_positions.size(); i++) {
+		if (m_regionTypes[i].Valid) {
+			const vector3d pos = m_positions[i];
+			RegionType &rt = m_regionTypes[i];
+			double th = rt.height; // target height
+			if (pos.Dot(p) > rt.outer) {
+				const double outer = rt.outer;
+				const double inner = rt.inner;
+
+				// maximum variation in height with respect to target height
+				const double dynamicRangeHeight = 60.0/m_planetRadius; //in radii
+				const double delta_h = fabs(h-th);
+				const double neg = (h-th>0.0) ? 1.0 : -1.0;
+
+				// Make up an expression to compress delta_h: 
+				// Compress delta_h between 0 and 1
+				//    1.1 use compression of the form c = (delta_h+a)/(a+(delta_h+a)) (eqn. 1)
+				//    1.2 this gives c in the interval [0.5, 1] for delta_h [0, +inf] with c=0.5 at delta_h=0.
+				//  2.0 Use compressed_h = dynamic range*(sign(h-th)*(c-0.5)) (eqn. 2) to get h between th-0.5*dynamic range, th+0.5*dynamic range
+				
+				// Choosing a value for a
+				//    3.1 c [0.5, 0.8] occurs when delta_h [a to 3a] (3x difference) which is roughly the expressible range (above or below that the function changes slowly)
+				//    3.2 Find an expression for the expected variation and divide by around 3
+				
+				// It may become necessary calculate expected variation based on intermediate quantities generated (e.g. distribution fractals)
+				// or to store a per planet estimation of variation when fracdefs are calculated.
+				const double variationEstimate = rt.heightVariation;
+				const double a = variationEstimate*(1.0/3.0); // point 3.2 
+				
+				const double c = (delta_h+a)/(2.0*a+delta_h); // point 1.1 
+				const double compressed_h = dynamicRangeHeight*(neg*(c-0.5))+th;// point 2.0
+
+				#define blend(a,b,v) a*(1.0-v)+b*v
+				h = blend(h, compressed_h, Clamp((pos.Dot(p)-outer)/(inner-outer), 0.0, 1.0)); break; // blends from compressed height-terrain height as pos goes inner to outer
+				#undef blend
+			}
+		}
+	}
+}
+
 
 #endif /* TERRAIN_H */

@@ -2,6 +2,7 @@
 #include "perlin.h"
 #include "Pi.h"
 #include "FileSystem.h"
+#include "CityOnPlanet.h"
 
 // static instancer. selects the best height and color classes for the body
 Terrain *Terrain::InstanceTerrain(const SystemBody *body)
@@ -549,6 +550,50 @@ Terrain::~Terrain()
 		delete [] m_heightMapScaled;
 }
 
+// Set up region data for each of the system body's child surface starports
+void Terrain::InitCityRegions() {
+	const SystemBody * &sb = m_body;
+	Terrain *terrain = static_cast<Terrain *>(this);
+
+	m_regionTypes.clear();
+	m_positions.clear();
+
+	// step through the planet's sbody's children and set up regions for surface starports
+	for (std::vector<SystemBody *>::const_iterator i = sb->children.begin(); i != sb->children.end(); i++) {
+		if ((*i)->type == SystemBody::TYPE_STARPORT_SURFACE) {
+			// calculate position of starport
+			vector3d pos = ((*i)->orbit.rotMatrix*vector3d(0,1,0));
+			
+			// set up regions which contain the details for region implementation
+			RegionType rt;
+
+			rt.height = terrain->GetHeight(pos); // height in planet radii
+
+			// Calculate average variation of four points about star port
+			// points do not need to be on the planet surface
+			const double delta = (0.75*CITY_ON_PLANET_RADIUS/m_planetRadius);
+			double avgVariation = fabs(terrain->GetHeight(vector3d(pos.x+delta,pos.y,pos.z))-rt.height);
+			avgVariation += fabs(terrain->GetHeight(vector3d(pos.x-delta,pos.y,pos.z))-rt.height);
+			avgVariation += fabs(terrain->GetHeight(vector3d(pos.x,pos.y,pos.z+delta))-rt.height);
+			avgVariation += fabs(terrain->GetHeight(vector3d(pos.x,pos.y,pos.z-delta))-rt.height);
+			avgVariation *= (1/4.0);
+			rt.heightVariation = 1.0/m_planetRadius+0.625*avgVariation;
+
+			const double citySize_m = CITY_ON_PLANET_RADIUS*1.1;
+			double size = fabs(cos(std::min(citySize_m,0.2*sb->GetRadius())/(sb->GetRadius()))); // angle between city center/boundary = 2pi*city size/(perimeter great circle = 2pi r)
+			rt.outer = size; // city center pos and current point will be dotted, and compared against size
+			rt.inner = (1.0-size)*0.5+size;
+			rt.Type = 1;
+			// regions are disabled at first to stop potential overlapping effects from interfering.
+			rt.Valid = false;
+
+			m_positions.push_back(pos);
+			m_regionTypes.push_back(rt);
+		}
+		for (std::vector<RegionType>::iterator ii = m_regionTypes.begin(); ii != m_regionTypes.end(); ii++)
+			(*ii).Valid = true;
+	}
+}
 
 /**
  * Feature width means roughly one perlin noise blob or grain.

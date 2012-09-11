@@ -158,7 +158,7 @@ double TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeight(const vecto
 		n *= 0.3;
 
 	}
-
 	n = m_maxHeight*n;
+	ApplySimpleHeightRegions(n, p);
 	return (n > 0.0 ? n : 0.0);
 }
