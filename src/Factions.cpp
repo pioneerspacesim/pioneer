@@ -314,7 +314,6 @@ const Uint32 Faction::GetNumFactions()
 const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 {
 	// Iterate through all of the factions and find the one nearest to the system we're checking it against.
-	const vector3f sysPos(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
 	const Faction *pFoundFaction = nullptr;
 	Sint32 nearestDistance = INT_MAX;
 
@@ -346,14 +345,15 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 			}
 
 			// get the distance
-			const vector3f hm(ptr->homeworld.sectorX, ptr->homeworld.sectorY, ptr->homeworld.sectorZ);
-			const Sint32 distance = (sysPos - hm).Length();
+			const Sector sec1(ptr->homeworld.sectorX, ptr->homeworld.sectorY, ptr->homeworld.sectorZ);
+			const Sector sec2(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
+			const double distance = Sector::DistanceBetween(&sec1, ptr->homeworld.systemIndex, &sec2, sysPath.systemIndex);
 
-			// 
-			double radius = (current_year - ptr->foundingDate) * ptr->expansionRate;
-
+			// calculate the current radius the faction occupies
+			const double facRadius = (current_year - ptr->foundingDate) * ptr->expansionRate;
+			
 			// check we've found a closer faction
-			if( distance <= radius && distance < nearestDistance ) {
+			if( (distance <= facRadius) && (distance < nearestDistance) ) {
 				nearestDistance = distance;
 				pFoundFaction = ptr;
 				ret_index = index;

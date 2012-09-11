@@ -245,9 +245,9 @@ bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 	if (a == GOV_NONE) return true;
 
 	const Uint32 b = s_govDesc[a].faction;
-	const Faction *ptr = Faction::GetFaction( b );
-
-	if( b != UINT_MAX && ptr ) {
+	if( b != UINT_MAX ) {
+		const Faction *ptr = Faction::GetFaction( b );
+		assert(ptr);
 		Faction::EquipProbMap::const_iterator iter = ptr->equip_legality.find(t);
 		if( iter != ptr->equip_legality.end() ) {
 			Faction::ProbEqualityPair per = (*iter).second;
