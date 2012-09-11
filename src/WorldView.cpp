@@ -27,6 +27,8 @@
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
+static const float ZOOM_SPEED = 1.f;
+static const float WHEEL_SENSITIVITY = .2f;	// Should be a variable in user settings.
 
 #define HUD_CROSSHAIR_SIZE	24.0f
 
@@ -811,11 +813,12 @@ void WorldView::Update()
 			if (KeyBindings::cameraRotateDown.IsActive()) m_activeCamera->RotateDown(frameTime);
 			if (KeyBindings::cameraRotateLeft.IsActive()) m_activeCamera->RotateLeft(frameTime);
 			if (KeyBindings::cameraRotateRight.IsActive()) m_activeCamera->RotateRight(frameTime);
-			if (KeyBindings::cameraZoomOut.IsActive()) m_activeCamera->ZoomOut(frameTime);
-			if (KeyBindings::cameraZoomIn.IsActive()) m_activeCamera->ZoomIn(frameTime);
+			if (KeyBindings::cameraZoomOut.IsActive()) m_activeCamera->ZoomEvent(ZOOM_SPEED*frameTime);		// Zoom out
+			if (KeyBindings::cameraZoomIn.IsActive()) m_activeCamera->ZoomEvent(-ZOOM_SPEED*frameTime);
 			if (KeyBindings::cameraRollLeft.IsActive()) m_activeCamera->RollLeft(frameTime);
 			if (KeyBindings::cameraRollRight.IsActive()) m_activeCamera->RollRight(frameTime);
 			if (KeyBindings::resetCamera.IsActive()) m_activeCamera->Reset();
+			m_activeCamera->ZoomEventUpdate(frameTime);
 			}
 			// note if we have to target the object in the crosshairs
 			targetObject = KeyBindings::targetObject.IsActive();
@@ -1703,11 +1706,10 @@ void WorldView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView())
 	{
-		const float ft = Pi::GetFrameTime();
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
-			m_activeCamera->ZoomOut(ft);
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
-			m_activeCamera->ZoomIn(ft);
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))	// Zoom out
+			m_activeCamera->ZoomEvent( ZOOM_SPEED * WHEEL_SENSITIVITY);
+		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+			m_activeCamera->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
 	}
 }
 NavTunnelWidget::NavTunnelWidget(WorldView *worldview) :
