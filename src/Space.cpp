@@ -418,14 +418,17 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		Planet *planet = static_cast<Planet*>(frame->m_astroBody);
 
 		/* position on planet surface */
-		double height;
 		int tries;
 		matrix4x4d rot;
 		vector3d pos;
+		const double radius = planet->GetSystemBody()->GetRadius();
+
 		// first try suggested position
 		rot = sbody->orbit.rotMatrix;
 		pos = rot * vector3d(0,1,0);
-		if (planet->GetTerrainHeight(pos) - planet->GetSystemBody()->GetRadius() <= 0.0) {
+		double height = planet->GetTerrainHeight(pos) - radius;
+
+		if (height <= 0.0) {
 			MTRand r(sbody->seed);
 			// position is under water. try some random ones
 			for (tries=0; tries<100; tries++) {
@@ -435,11 +438,82 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 				rot = matrix4x4d::RotateZMatrix(2*M_PI*r1)
 					* matrix4x4d::RotateYMatrix(2*M_PI*r2);
 				pos = rot * vector3d(0,1,0);
-				height = planet->GetTerrainHeight(pos) - planet->GetSystemBody()->GetRadius();
+				height = planet->GetTerrainHeight(pos) - radius;
 				// don't want to be under water
 				if (height > 0.0) break;
 			}
 		}
+
+		// For asteroids or bodies with large height variation relative to radius, check if height varies too much around the starport center
+		// by sampling 6 points around it. try upto 100 new positions randomly until a match is found
+		// this is not guaranteed to find a match but greatly increases the chancessteroids which are not too steep.  
+
+		bool variationWithinLimits = true;
+		double bestVariation = 1e10; // any high value
+		matrix4x4d rotWithLeastVariation;
+		vector3d posWithLeastVariation;
+		const double heightVariationCheckThreshold = 0.008; // max variation to radius radius ratio to check for local slope, ganymede is around 0.01
+		const double terrainHeightVariation = planet->GetGeoSphere()->GetMaxFeatureHeight(); //in radii
+
+		//printf("%s: terrain height variation %f\n", sbody->name.c_str(), terrainHeightVariation);
+
+		if (planet->GetSystemBody()->type == SystemBody::TYPE_PLANET_ASTEROID || terrainHeightVariation > heightVariationCheckThreshold) {
+			MTRand r(sbody->seed);
+
+			// 6 points are sampled around the starport center by adding/subtracting delta to to coords
+			// points must stay within max height variation to be accepted
+			//    1. delta should be chosen such that it a distance from the starport center that encloses landing pads for the largest starport
+			//    2. maxSlope should be set so maxHeightVariation is less than the height of the landing pads
+			const double delta = 20.0/radius; // in radii
+			const double maxSlope = 0.2; // 0.0 to 1.0
+			const double maxHeightVariation = maxSlope*delta*radius; // in m
+
+			for (tries = 0; tries < 100; tries++) {
+				variationWithinLimits = true;
+
+				// check height at 6 points around the starport center stays within variation tolerances
+				// GetHeight gives a varying height field in 3 dimensions. 
+				// Given it's smoothly varying it's fine to sample it in arbitary directions to get an idea of how sharply it varies
+				double v[6];
+				v[0] = fabs(planet->GetTerrainHeight(vector3d(pos.x+delta, pos.y, pos.z))-radius-height);
+				v[1] = fabs(planet->GetTerrainHeight(vector3d(pos.x-delta, pos.y, pos.z))-radius-height);
+				v[2] = fabs(planet->GetTerrainHeight(vector3d(pos.x, pos.y, pos.z+delta))-radius-height);
+				v[3] = fabs(planet->GetTerrainHeight(vector3d(pos.x, pos.y, pos.z-delta))-radius-height);
+				v[4] = fabs(planet->GetTerrainHeight(vector3d(pos.x, pos.y+delta, pos.z))-radius-height);
+				v[5] = fabs(planet->GetTerrainHeight(vector3d(pos.x, pos.y-delta, pos.z))-radius-height);
+				
+				// break if variation for all points is within limits
+				double variationMax = 0.0;
+				for (int i = 0; i < 6; i++) {
+					variationWithinLimits = variationWithinLimits && (v[i] < maxHeightVariation);	
+					variationMax = (v[i] > variationMax)? v[i]:variationMax;
+				}
+				//printf("%s: try no: %i, Match found: %i, best variation in previous results %f, variationMax this try: %f, maxHeightVariation: %f\n", 
+				//	sbody->name.c_str(), tries, variationWithinLimits, bestVariation, variationMax, maxHeightVariation); 
+
+				if (variationWithinLimits) break;
+				
+				if (variationMax < bestVariation) {
+					bestVariation = variationMax;
+					posWithLeastVariation = pos;
+					rotWithLeastVariation = rot;
+				}
+
+				// try new random position
+				double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
+				double r1 = r.Double();		// can't put two rands in the same expression
+				rot = matrix4x4d::RotateZMatrix(2*M_PI*r1)
+					* matrix4x4d::RotateYMatrix(2*M_PI*r2);
+				pos = rot * vector3d(0,1,0);
+				height = planet->GetTerrainHeight(pos) - radius; // in m
+			}
+			if (!variationWithinLimits) {
+				pos = posWithLeastVariation;
+				rot = rotWithLeastVariation;
+			}
+		}
+
+		sbody->orbit.rotMatrix = rot;
 		b->SetPosition(pos * planet->GetTerrainHeight(pos));
 		b->SetRotMatrix(rot);
 		return frame;
