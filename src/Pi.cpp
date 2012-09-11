@@ -15,7 +15,7 @@
 #include "Lang.h"
 #include "LmrModel.h"
 #include "LuaManager.h"
-#include "LuaTable.h"
+#include "LuaRef.h"
 #include "LuaBody.h"
 #include "LuaCargoBody.h"
 #include "LuaChatForm.h"
@@ -224,7 +224,6 @@ static void LuaUninit() {
 
 	delete Pi::luaSerializer;
 	delete Pi::luaTimer;
-	PersistentTable::Uninit(Lua::manager->GetLuaState());
 
 	Lua::Uninit();
 }
@@ -325,10 +324,9 @@ void Pi::Init()
 	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
 
-    // XXX UI requires Lua (and PersistentTable), but Pi::ui must exist before
-    // we start loading templates. so now we have crap everywhere :/
+	// XXX UI requires Lua  but Pi::ui must exist before we start loading
+	// templates. so now we have crap everywhere :/
 	Lua::Init();
-	PersistentTable::Init(Lua::manager->GetLuaState());
 
 	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, scrWidth, scrHeight));
 
@@ -1372,4 +1370,11 @@ void Pi::SetMouseGrab(bool on)
 //		SDL_SetRelativeMouseMode(false);
 		doingMouseGrab = false;
 	}
+}
+
+float Pi::GetMoveSpeedShiftModifier() {
+	// Suggestion: make x1000 speed on pressing both keys?
+	if (Pi::KeyState(SDLK_LSHIFT)) return 100.f;
+	if (Pi::KeyState(SDLK_RSHIFT)) return 10.f;
+	return 1;
 }

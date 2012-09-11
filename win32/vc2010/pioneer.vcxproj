@@ -157,6 +157,7 @@
     <ClCompile Include="..\..\src\LuaPlanet.cpp" />
     <ClCompile Include="..\..\src\LuaPlayer.cpp" />
     <ClCompile Include="..\..\src\LuaRand.cpp" />
+    <ClCompile Include="..\..\src\LuaRef.cpp" />
     <ClCompile Include="..\..\src\LuaSerializer.cpp" />
     <ClCompile Include="..\..\src\LuaShip.cpp" />
     <ClCompile Include="..\..\src\LuaShipType.cpp" />
@@ -242,6 +243,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h" />
     <ClInclude Include="..\..\src\AmbientSounds.h" />
+    <ClInclude Include="..\..\src\AnimationCurves.h" />
     <ClInclude Include="..\..\src\Background.h" />
     <ClInclude Include="..\..\src\BezierCurve.h" />
     <ClInclude Include="..\..\src\Body.h" />
@@ -304,7 +306,9 @@
     <ClInclude Include="..\..\src\LuaObject.h" />
     <ClInclude Include="..\..\src\LuaPlanet.h" />
     <ClInclude Include="..\..\src\LuaPlayer.h" />
+    <ClInclude Include="..\..\src\LuaPushPull.h" />
     <ClInclude Include="..\..\src\LuaRand.h" />
+    <ClInclude Include="..\..\src\LuaRef.h" />
     <ClInclude Include="..\..\src\LuaSerializer.h" />
     <ClInclude Include="..\..\src\LuaShip.h" />
     <ClInclude Include="..\..\src\LuaShipType.h" />
@@ -314,6 +318,7 @@
     <ClInclude Include="..\..\src\LuaStarSystem.h" />
     <ClInclude Include="..\..\src\LuaSystemBody.h" />
     <ClInclude Include="..\..\src\LuaSystemPath.h" />
+    <ClInclude Include="..\..\src\LuaTable.h" />
     <ClInclude Include="..\..\src\LuaTimer.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
     <ClInclude Include="..\..\src\LuaVector.h" />

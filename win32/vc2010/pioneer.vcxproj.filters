@@ -390,6 +390,9 @@
     <ClCompile Include="..\..\src\Lua.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaRef.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -813,6 +816,18 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Lua.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\AnimationCurves.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaRef.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaTable.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaPushPull.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

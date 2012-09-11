@@ -84,6 +84,9 @@ public:
     static void SetMouseYInvert(bool state) { mouseYInvert = state; }
     static bool IsMouseYInvert() { return mouseYInvert; }
 	static int MouseButtonState(int button) { return mouseButton[button]; }
+	/// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
+	/// This is a default value only, centralized here to promote uniform user expericience.
+	static float GetMoveSpeedShiftModifier();
 	static void GetMouseMotion(int motion[2]) {
 		memcpy(motion, mouseMotion, sizeof(int)*2);
 	}

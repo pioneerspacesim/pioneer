@@ -654,6 +654,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaRef.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaSerializer.cpp"
 				>
 			</File>
@@ -1192,6 +1196,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\AnimationCurves.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Background.h"
 				>
 			</File>
@@ -1632,7 +1640,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaPushPull.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaRand.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaRef.h"
 				>
 			</File>
 			<File
@@ -1673,6 +1689,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaSystemPath.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaTable.h"
 				>
 			</File>
 			<File

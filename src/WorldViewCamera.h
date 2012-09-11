@@ -26,8 +26,15 @@ public:
 	virtual void RotateLeft(float frameTime) { }
 	virtual void RotateRight(float frameTime) { }
 	virtual void RotateUp(float frameTime) { }
+	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
 	virtual void ZoomIn(float frameTime) { }
+	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
 	virtual void ZoomOut(float frameTime) { }
+	/// Animated zoom trigger (on each event), primarily designed for mouse wheel.
+	///\param amount The zoom delta to add or substract (>0: zoom out, <0: zoom in), indirectly controling the zoom animation speed.
+	virtual void ZoomEvent(float amount) { }
+	/// Animated zoom update (on each frame), primarily designed for mouse wheel.
+	virtual void ZoomEventUpdate(float frameTime) { }
 	virtual void Reset() { }
 	//set translation & orientation
 	virtual void UpdateTransform() { }
@@ -65,6 +72,8 @@ public:
 	void RotateUp(float frameTime);
 	void ZoomIn(float frameTime);
 	void ZoomOut(float frameTime);
+	void ZoomEvent(float amount);
+	void ZoomEventUpdate(float frameTime);
 	void Reset();
 	void UpdateTransform();
 	void Save(Serializer::Writer &wr);
@@ -75,7 +84,7 @@ public:
 		m_rotY = y;
 	}
 private:
-	double m_dist;
+	double m_dist, m_distTo;
 	double m_rotX; //vertical rot
 	double m_rotY; //horizontal rot
 	matrix4x4d m_orient;
@@ -94,13 +103,15 @@ public:
 	void RotateUp(float frameTime);
 	void ZoomIn(float frameTime);
 	void ZoomOut(float frameTime);
+	void ZoomEvent(float amount);
+	void ZoomEventUpdate(float frameTime);
 	void Reset();
 	void UpdateTransform();
 	bool IsExternal() const { return true; }
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
 private:
-	double m_dist;
+	double m_dist, m_distTo;
 	matrix4x4d m_orient;
 	matrix4x4d m_prevShipOrient;
 };

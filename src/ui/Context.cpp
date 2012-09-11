@@ -13,9 +13,12 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 	m_float(new FloatContainer(this)),
 	m_eventDispatcher(this),
 	m_skin("textures/widgets.png", renderer),
-	m_lua(lua),
-	m_templateStore(lua->GetLuaState(), 0)
+	m_lua(lua)
 {
+	lua_State *l = m_lua->GetLuaState();
+	lua_newtable(l);
+	m_templateStore = LuaRef(l, -1);
+
 	SetSize(vector2f(m_width,m_height));
 
 	m_float->SetSize(vector2f(m_width,m_height));
@@ -91,20 +94,15 @@ void Context::DisableScissor()
 
 Widget *Context::CallTemplate(const char *name, const LuaTable &args)
 {
-	const LuaTable t(m_templateStore.GetLuaTable());
+	lua_State *l = m_lua->GetLuaState();
+
+	m_templateStore.PushCopyToStack();
+	const LuaTable t(l, -1);
 	if (!t.Get<bool,const char *>(name))
 		return 0;
 
-	lua_State *l = m_lua->GetLuaState();
-
 	t.PushValueToStack<const char*>(name);
-
-	// XXX gigantic hack around LuaTable brokenness
-	if (args.GetIndex()+1 >= lua_gettop(l))
-		lua_newtable(l);
-	else
-		lua_pushvalue(l, args.GetIndex());
-
+	lua_pushvalue(l, args.GetIndex());
 	pi_lua_protected_call(m_lua->GetLuaState(), 1, 1);
 
 	return LuaObject<UI::Widget>::CheckFromLua(-1);
@@ -112,7 +110,7 @@ Widget *Context::CallTemplate(const char *name, const LuaTable &args)
 
 Widget *Context::CallTemplate(const char *name)
 {
-	return CallTemplate(name, LuaTable(m_lua->GetLuaState(), 0));
+	return CallTemplate(name, LuaTable(m_lua->GetLuaState()));
 }
 
 }

@@ -1,10 +1,14 @@
 Alpha 27
 
+   * Minor changes and tweaks
+     * Smooth zoom animation in World, System, Sector and Galactic views (#1170)
+
    * Script changes
      * EventQueue, which was deprecated in alpha 26, has been removed (#1485)
 
    * Internal changes
      * Terrain generation thread now sleeps until being signalled (#1169)
+     * New C++ wrappers for Lua table manipulation and value persistence (#1438)
 
 Alpha 26
 
