@@ -1026,6 +1026,8 @@ ECONOMY_TYPE
     Economy type:
 ALLEGIANCE
     Allegiance:
+FACTION
+	Faction:
 POPULATION
     Population:
 OVER_N_BILLION

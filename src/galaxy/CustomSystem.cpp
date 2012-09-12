@@ -489,7 +489,7 @@ CustomSystem::CustomSystem():
 	numStars(0),
 	seed(0),
 	want_rand_explored(true),
-	govType(Polit::GOV_NONE)
+	govType(Polit::GOV_INVALID)
 {
 	for (int i = 0; i < 4; ++i)
 		primaryType[i] = SystemBody::TYPE_GRAVPOINT;

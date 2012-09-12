@@ -393,6 +393,9 @@
     <ClCompile Include="..\..\src\LuaRef.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Factions.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -818,6 +821,7 @@
     <ClInclude Include="..\..\src\Lua.h">
       <Filter>src</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="..\..\src\AnimationCurves.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -828,6 +832,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaPushPull.h">
+=======
+    <ClInclude Include="..\..\src\Factions.h">
+>>>>>>> fluffyfreak/factions01
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

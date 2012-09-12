@@ -3,6 +3,7 @@
 #include "Polit.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Sector.h"
+#include "Factions.h"
 #include "Space.h"
 #include "Ship.h"
 #include "ShipCpanel.h"
@@ -20,13 +21,14 @@ static PersistSystemData<Sint64> s_outstandingFine;
 struct crime_t {
 	Sint64 record;
 	Sint64 fine;
-} s_playerPerBlocCrimeRecord[BLOC_MAX];
+};
+static std::vector<crime_t> s_vplayerPerBlocCrimeRecord;
 
 const char *crimeNames[64] = {
 	Lang::TRADING_ILLEGAL_GOODS,
 	Lang::UNLAWFUL_WEAPONS_DISCHARGE,
 	Lang::PIRACY,
-	Lang::MURDER,
+	Lang::MURDER
 };
 // in 1/100th credits, as all money is
 static const Sint64 crimeBaseFine[64] = {
@@ -34,12 +36,6 @@ static const Sint64 crimeBaseFine[64] = {
 	100000,
 	1000000,
 	1500000,
-};
-const char *s_blocDesc[BLOC_MAX] = {
-	Lang::INDEPENDENT,
-	Lang::EARTH_FEDERATION,
-	Lang::INDEPENDENT_CONFEDERATION,
-	Lang::EMPIRE
 };
 const char *s_econDesc[ECON_MAX] = {
 	Lang::NO_ESTABLISHED_ORDER,
@@ -52,44 +48,63 @@ const char *s_econDesc[ECON_MAX] = {
 struct politDesc_t {
 	const char *description;
 	int rarity;
-	Bloc bloc;
+	Uint32 faction;	// default (i.e. Invalid) is UINT_MAX
 	PolitEcon econ;
 	fixed baseLawlessness;
 };
-const politDesc_t s_govDesc[GOV_MAX] = {
-	{ "<invalid turd>", 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
-	{ Lang::NO_CENTRAL_GOVERNANCE, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
-	{ Lang::EARTH_FEDERATION_COLONIAL_RULE, 2, BLOC_EARTHFED, ECON_CAPITALIST, fixed(3,10) },
-	{ Lang::EARTH_FEDERATION_DEMOCRACY, 3, BLOC_EARTHFED, ECON_CAPITALIST, fixed(15,100) },
-	{ Lang::IMPERIAL_RULE, 3, BLOC_EMPIRE, ECON_PLANNED, fixed(15,100) },
-	{ Lang::LIBERAL_DEMOCRACY, 2, BLOC_CIS, ECON_CAPITALIST, fixed(25,100) },
-	{ Lang::SOCIAL_DEMOCRACY, 2, BLOC_CIS, ECON_MIXED, fixed(20,100) },
-	{ Lang::LIBERAL_DEMOCRACY, 2, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
-	{ Lang::CORPORATE_SYSTEM, 2, BLOC_NONE, ECON_CAPITALIST, fixed(40,100) },
-	{ Lang::SOCIAL_DEMOCRACY, 2, BLOC_NONE, ECON_MIXED, fixed(25,100) },
-	{ Lang::MILITARY_DICTATORSHIP, 5, BLOC_EARTHFED, ECON_CAPITALIST, fixed(40,100) },
-	{ Lang::MILITARY_DICTATORSHIP, 6, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
-	{ Lang::MILITARY_DICTATORSHIP, 6, BLOC_NONE, ECON_MIXED, fixed(25,100) },
-	{ Lang::MILITARY_DICTATORSHIP, 5, BLOC_EMPIRE, ECON_MIXED, fixed(40,100) },
-	{ Lang::COMMUNIST, 10, BLOC_NONE, ECON_PLANNED, fixed(25,100) },
-	{ Lang::PLUTOCRATIC_DICTATORSHIP, 4, BLOC_NONE, ECON_VERY_CAPITALIST, fixed(45,100) },
-	{ Lang::VIOLENT_ANARCHY, 2, BLOC_NONE, ECON_NONE, fixed(90,100) },
+static politDesc_t s_govDesc[GOV_MAX] = {
+	{ "<invalid turd>",							0,		UINT_MAX,	ECON_NONE,				fixed(1,1) },
+	{ Lang::NO_CENTRAL_GOVERNANCE,				0,		UINT_MAX,	ECON_NONE,				fixed(1,1) },
+	{ Lang::EARTH_FEDERATION_COLONIAL_RULE,		2,		UINT_MAX,	ECON_CAPITALIST,		fixed(3,10) },
+	{ Lang::EARTH_FEDERATION_DEMOCRACY,			3,		UINT_MAX,	ECON_CAPITALIST,		fixed(15,100) },
+	{ Lang::IMPERIAL_RULE,						3,		UINT_MAX,	ECON_PLANNED,			fixed(15,100) },
+	{ Lang::LIBERAL_DEMOCRACY,					2,		UINT_MAX,	ECON_CAPITALIST,		fixed(25,100) },
+	{ Lang::SOCIAL_DEMOCRACY,					2,		UINT_MAX,	ECON_MIXED,				fixed(20,100) },
+	{ Lang::LIBERAL_DEMOCRACY,					2,		UINT_MAX,	ECON_CAPITALIST,		fixed(25,100) },
+	{ Lang::CORPORATE_SYSTEM,					2,		UINT_MAX,	ECON_CAPITALIST,		fixed(40,100) },
+	{ Lang::SOCIAL_DEMOCRACY,					2,		UINT_MAX,	ECON_MIXED,				fixed(25,100) },
+	{ Lang::MILITARY_DICTATORSHIP,				5,		UINT_MAX,	ECON_CAPITALIST,		fixed(40,100) },
+	{ Lang::MILITARY_DICTATORSHIP,				6,		UINT_MAX,	ECON_CAPITALIST,		fixed(25,100) },
+	{ Lang::MILITARY_DICTATORSHIP,				6,		UINT_MAX,	ECON_MIXED,				fixed(25,100) },
+	{ Lang::MILITARY_DICTATORSHIP,				5,		UINT_MAX,	ECON_MIXED,				fixed(40,100) },
+	{ Lang::COMMUNIST,							10,		UINT_MAX,	ECON_PLANNED,			fixed(25,100) },
+	{ Lang::PLUTOCRATIC_DICTATORSHIP,			4,		UINT_MAX,	ECON_VERY_CAPITALIST,	fixed(45,100) },
+	{ Lang::VIOLENT_ANARCHY,					2,		UINT_MAX,	ECON_NONE,				fixed(90,100) },
 };
 
 void Init()
 {
 	s_criminalRecord.Clear();
 	s_outstandingFine.Clear();
-	memset(s_playerPerBlocCrimeRecord, 0, sizeof(crime_t)*BLOC_MAX);
+
+	// setup the per faction criminal records
+	s_vplayerPerBlocCrimeRecord.clear();
+	const Uint32 numFactions = Faction::GetNumFactions();
+	s_vplayerPerBlocCrimeRecord.reserve( numFactions );
+	s_vplayerPerBlocCrimeRecord.resize( numFactions );
+	for (Uint32 i=0; i<s_vplayerPerBlocCrimeRecord.size(); i++) {
+		s_vplayerPerBlocCrimeRecord[i].record = 0;
+		s_vplayerPerBlocCrimeRecord[i].fine = 0;
+	}
+
+	// now setup the faction links, hopefully.
+	for (Uint32 i=0; i<numFactions; i++) {
+		const Faction *ptr = Faction::GetFaction(i);
+		if( ptr ) {
+			s_govDesc[ ptr->govType ].faction = i;
+		}
+	}
+		
 }
 
 void Serialize(Serializer::Writer &wr)
 {
 	s_criminalRecord.Serialize(wr);
 	s_outstandingFine.Serialize(wr);
-	for (int i=0; i<BLOC_MAX; i++) {
-		wr.Int64(s_playerPerBlocCrimeRecord[i].record);
-		wr.Int64(s_playerPerBlocCrimeRecord[i].fine);
+	wr.Int32(s_vplayerPerBlocCrimeRecord.size());
+	for (Uint32 i=0; i<s_vplayerPerBlocCrimeRecord.size(); i++) {
+		wr.Int64(s_vplayerPerBlocCrimeRecord[i].record);
+		wr.Int64(s_vplayerPerBlocCrimeRecord[i].fine);
 	}
 }
 
@@ -98,9 +113,11 @@ void Unserialize(Serializer::Reader &rd)
 	Init();
 	PersistSystemData<Sint64>::Unserialize(rd, &s_criminalRecord);
 	PersistSystemData<Sint64>::Unserialize(rd, &s_outstandingFine);
-	for (int i=0; i<BLOC_MAX; i++) {
-		s_playerPerBlocCrimeRecord[i].record = rd.Int64();
-		s_playerPerBlocCrimeRecord[i].fine = rd.Int64();
+	const Uint32 blocSize = rd.Int32();
+	assert(s_vplayerPerBlocCrimeRecord.size()==blocSize);
+	for (Uint32 i=0; i<blocSize; i++) {
+		s_vplayerPerBlocCrimeRecord[i].record = rd.Int64();
+		s_vplayerPerBlocCrimeRecord[i].fine = rd.Int64();
 	}
 }
 
@@ -143,10 +160,10 @@ void AddCrime(Sint64 crimeBitset, Sint64 addFine)
 {
 	int politType = Pi::game->GetSpace()->GetStarSystem()->GetSysPolit().govType;
 
-	if (s_govDesc[politType].bloc != BLOC_NONE) {
-		const Bloc b = s_govDesc[politType].bloc;
-		s_playerPerBlocCrimeRecord[b].record |= crimeBitset;
-		s_playerPerBlocCrimeRecord[b].fine += addFine;
+	if (s_govDesc[politType].faction != UINT_MAX) {
+		const Uint32 b = s_govDesc[politType].faction;
+		s_vplayerPerBlocCrimeRecord[b].record |= crimeBitset;
+		s_vplayerPerBlocCrimeRecord[b].fine += addFine;
 	} else {
 		SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 		Sint64 record = s_criminalRecord.Get(path, 0);
@@ -167,10 +184,10 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 
 	int politType = Pi::game->GetSpace()->GetStarSystem()->GetSysPolit().govType;
 
-	if (s_govDesc[politType].bloc != BLOC_NONE) {
-		const Bloc b = s_govDesc[politType].bloc;
-		*crimeBitset = s_playerPerBlocCrimeRecord[b].record;
-		*fine = s_playerPerBlocCrimeRecord[b].fine;
+	if (s_govDesc[politType].faction != UINT_MAX) {
+		const Uint32 b = s_govDesc[politType].faction;
+		*crimeBitset = s_vplayerPerBlocCrimeRecord[b].record;
+		*fine = s_vplayerPerBlocCrimeRecord[b].fine;
 	} else {
 		SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 		*crimeBitset = s_criminalRecord.Get(path, 0);
@@ -199,7 +216,14 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 		if (path == SystemPath(0,0,0,0)) {
 			a = Polit::GOV_EARTHDEMOC;
 		} else if (human_infestedness > 0) {
-			a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
+			const Faction *pFaction = Faction::GetFaction( s->GetFactionIndex() );
+			if( pFaction && GOV_INVALID != pFaction->govType ) {
+				// found valid faction
+				a = pFaction->govType;
+			} else {
+				// found an invalid faction, meaning index 0 and thus independent, pick something at random
+				a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
+			}
 		} else {
 			a = GOV_NONE;
 		}
@@ -211,44 +235,53 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 
 #define POLIT_SALT 0x8732abdf
 
-bool IsCommodityLegal(const StarSystem *s, Equip::Type t)
+bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 {
 	SystemPath path = s->GetPath();
 	const unsigned long _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SALT };
 	MTRand rand(_init, 5);
 
 	Polit::GovType a = s->GetSysPolit().govType;
-	const Bloc b = s_govDesc[a].bloc;
-
 	if (a == GOV_NONE) return true;
 
-	switch (t) {
-		case Equip::ANIMAL_MEAT:
-		case Equip::LIVE_ANIMALS:
-			if ((b == BLOC_EARTHFED) || (b == BLOC_CIS)) return rand.Int32(4)!=0;
-			else return true;
-		case Equip::LIQUOR:
-			if ((b != BLOC_EARTHFED) && (b != BLOC_CIS)) return rand.Int32(8)!=0;
-			else return true;
-		case Equip::HAND_WEAPONS:
-			if (b == BLOC_EARTHFED) return false;
-			if (b == BLOC_CIS) return rand.Int32(3)!=0;
-			else return rand.Int32(2) == 0;
-		case Equip::BATTLE_WEAPONS:
-			if ((b != BLOC_EARTHFED) && (b != BLOC_CIS)) return rand.Int32(3)==0;
-			return false;
-		case Equip::NERVE_GAS:
-			if ((b != BLOC_EARTHFED) && (b != BLOC_CIS)) return rand.Int32(10)==0;
-			return false;
-		case Equip::NARCOTICS:
-			if (b == BLOC_EARTHFED) return false;
-			if (b == BLOC_CIS) return rand.Int32(7)==0;
-			else return rand.Int32(2)==0;
-		case Equip::SLAVES:
-			if ((b != BLOC_EARTHFED) && (b != BLOC_CIS)) return rand.Int32(16)==0;
-			return false;
-		default: return true;
+	const Uint32 b = s_govDesc[a].faction;
+	if( b != UINT_MAX ) {
+		const Faction *ptr = Faction::GetFaction( b );
+		assert(ptr);
+		Faction::EquipProbMap::const_iterator iter = ptr->equip_legality.find(t);
+		if( iter != ptr->equip_legality.end() ) {
+			Faction::ProbEqualityPair per = (*iter).second;
+			if( 0==per.first ) {
+				// the probabilty is 0 so we know that this isn't a legal item
+				return false;
+			} else {
+				// choose between equality tests
+				if( per.second ) {
+					return rand.Int32(per.first)==0;
+				} else {
+					return rand.Int32(per.first)!=0;
+				}
+			}
+		}
 	}
+	else
+	{
+		// this is a non-faction system - do some hardcoded test
+		switch (t) {
+			case Equip::HAND_WEAPONS:
+				return rand.Int32(2) == 0;
+			case Equip::BATTLE_WEAPONS:
+				return rand.Int32(3)==0;
+			case Equip::NERVE_GAS:
+				return rand.Int32(10)==0;
+			case Equip::NARCOTICS:
+				return rand.Int32(2)==0;
+			case Equip::SLAVES:
+				return rand.Int32(16)==0;
+			default: return true;
+		}
+	}
+	return true;
 }
 
 }
@@ -265,6 +298,10 @@ const char *SysPolit::GetEconomicDesc() const
 
 const char *SysPolit::GetAllegianceDesc() const
 {
-	return Polit::s_blocDesc[ Polit::s_govDesc[govType].bloc ];
+	if( Polit::s_govDesc[govType].faction != UINT_MAX ) {
+		const Faction *ptr = Faction::GetFaction( Polit::s_govDesc[govType].faction );
+		return ptr ? ptr->name.c_str() : Lang::NO_CENTRAL_GOVERNANCE;
+	}
+	return Polit::s_govDesc[govType].description;
 }
 
