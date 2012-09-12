@@ -1,5 +1,6 @@
 #include "Factions.h"
 #include "galaxy/SystemPath.h"
+#include "galaxy/Sector.h"
 
 #include "LuaUtils.h"
 #include "LuaVector.h"
@@ -137,7 +138,7 @@ static int l_fac_illegal_goods_probability(lua_State *L)
 	if (e < 0 || e >= Equip::MISSILE_UNGUIDED) {
 		pi_lua_warn(L,
 			"argument out of range: Faction{%s}:IllegalGoodsProbability('%s', %d, %d)",
-			csb->name, typeName, probability, equality_test);
+			csb->name.c_str(), typeName, probability, equality_test);
 		return 0;
 	}
 
@@ -274,7 +275,7 @@ void Faction::Init()
 	LUA_DEBUG_END(L, 0);
 	lua_close(L);
 
-	printf("Number of factions added: %u\n", s_factions.size());
+	printf("Number of factions added: " SIZET_FMT "\n", s_factions.size());
 }
 
 //static 
@@ -314,7 +315,7 @@ const Uint32 Faction::GetNumFactions()
 const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 {
 	// Iterate through all of the factions and find the one nearest to the system we're checking it against.
-	const Faction *pFoundFaction = nullptr;
+	const Faction *pFoundFaction = 0;
 	Sint32 nearestDistance = INT_MAX;
 
 	// get the current year
@@ -328,7 +329,7 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 	for (Uint32 index = 0;  index<s_factions.size(); ++index) {
 		const Faction *ptr = s_factions[index];
 		assert(ptr);
-		if( !ptr->hasHomeworld && nullptr==pFoundFaction )
+		if( !ptr->hasHomeworld && 0==pFoundFaction )
 		{
 			// We've not yet found a faction that we're within the radius of
 			// and we're currently iterating over a faction that is decentralised (probably Independent)
