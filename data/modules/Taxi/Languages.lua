@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See COPYING.txt for details
+
   -- adtext - text shown in the bulletin board list
   -- introtext - shown when the advert is selected (and "Could you repeat request?")
   -- whysomuch - response to "Why so much money?"

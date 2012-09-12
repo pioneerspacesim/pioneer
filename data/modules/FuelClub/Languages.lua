@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See COPYING.txt for details
+
 -- There's only one flavour as I write, but more could be added
 Translate:AddFlavour('English','FuelClub',{
 	-- Translators: Feel free to change this in your language!

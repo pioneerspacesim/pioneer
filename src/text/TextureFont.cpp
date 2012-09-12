@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See COPYING.txt for details
+
 #include "TextureFont.h"
 #include "libs.h"
 #include "graphics/Renderer.h"
