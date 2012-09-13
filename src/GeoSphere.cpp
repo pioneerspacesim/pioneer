@@ -97,7 +97,12 @@ public:
 			delete [] hiEdgeIndices[i];
 		}
 		if (indices_vbo) {
-			glDeleteBuffersARB(1, &indices_vbo);
+			indices_vbo = 0;
+		}
+		for (int i=0; i<NUM_INDEX_LISTS; i++) {
+			if (indices_list[i]) {
+				glDeleteBuffersARB(1, &indices_list[i]);
+			}
 		}
 		delete [] vbotemp;
 	}
@@ -945,6 +950,15 @@ public:
 		else return e->kids[we_are];
 	}
 
+	GLuint determineIndexbuffer() const {
+		GLuint acc = 0;
+		for (int i=0; i<4; i++) {
+			GLuint x = (edgeFriend[i]) ? 1 : 0;
+			acc = acc | (x<<i);
+		}
+		return acc;
+	}
+
 	void Render(vector3d &campos, const Graphics::Frustum &frustum) {
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		if (kids[0]) {
@@ -967,12 +981,7 @@ public:
 			glEnableClientState(GL_COLOR_ARRAY);
 
 			// update the indices used for rendering
-			GLuint acc = 0;
-			for (int i=0; i<4; i++) {
-				GLuint x = (edgeFriend[i]) ? 1 : 0;
-				acc = acc | (x<<i);
-			}
-			ctx->updateIndexBufferId(acc);
+			ctx->updateIndexBufferId(determineIndexbuffer());
 
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 			glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
