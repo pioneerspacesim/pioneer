@@ -463,6 +463,7 @@ void Pi::Quit()
 	LmrModelCompilerUninit();
 	Galaxy::Uninit();
 	Graphics::Uninit();
+	Pi::ui.Reset(0);
 	LuaUninit();
 	Gui::Uninit();
 	delete Pi::renderer;
