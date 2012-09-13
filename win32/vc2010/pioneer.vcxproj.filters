@@ -830,7 +830,7 @@
     <ClInclude Include="..\..\src\LuaPushPull.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\vcacheopt.h">
+    <ClInclude Include="..\..\contrib\vcacheopt\vcacheopt.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
