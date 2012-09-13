@@ -376,9 +376,16 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		// rotating frame has size of GeoSphere terrain bounding sphere
 		rotFrame->SetRadius(b->GetBoundingRadius());
-		rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
+		matrix4x4d rotMatrix = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
+		vector3d angVel = vector3d(0.0, 2.0*M_PI/sbody->GetRotationPeriod(), 0.0);
+		rotFrame->SetAngVelocity(angVel);
+
+		vector3d rotAxis = angVel.Normalized();
+		if (sbody->rotationalPhaseAtStart != fixed(0)) 
+			rotMatrix = rotMatrix * matrix4x4d::RotateMatrix(sbody->rotationalPhaseAtStart.ToDouble(), rotAxis.x, rotAxis.y, rotAxis.z);
+		rotFrame->SetRotationOnly(rotMatrix);
+
 		rotFrame->m_astroBody = b;
-		SetFrameOrientationFromSystemBodyAxialTilt(rotFrame, sbody);
 		b->SetFrame(rotFrame);
 		return orbFrame;
 	}
