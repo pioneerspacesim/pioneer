@@ -292,20 +292,18 @@ public:
 
 		// these will hold the optimised indices
 		VecShort pl_short[NUM_INDEX_LISTS];
-		{
-			// populate the N indices lists from the arrays built during InitTerrainIndices()
-			for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
-				const unsigned int edge_hi_flags = i;
-				indices_tri_counts[i] = getIndices(pl_short[i], edge_hi_flags);
-			}
+		// populate the N indices lists from the arrays built during InitTerrainIndices()
+		for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
+			const unsigned int edge_hi_flags = i;
+			indices_tri_counts[i] = getIndices(pl_short[i], edge_hi_flags);
+		}
 
-			// iterate over each index list and optimize it
-			for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
-				int tri_count = indices_tri_counts[i];
-				VertexCacheOptimizerUShort vco;
-				VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[i][0], tri_count);
-				assert(0 == res);
-			}
+		// iterate over each index list and optimize it
+		for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
+			int tri_count = indices_tri_counts[i];
+			VertexCacheOptimizerUShort vco;
+			VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[i][0], tri_count);
+			assert(0 == res);
 		}
 
 		// everything should be hunky-dory for setting up as OpenGL index buffers now.
