@@ -99,10 +99,10 @@ public:
 		delete [] vbotemp;
 	}
 
-	void updateIndexBufferId(const GLuint acc) {
-		assert(acc<NUM_INDEX_LISTS);
-		indices_vbo = indices_list[acc];
-		indices_tri_count = indices_tri_counts[acc];
+	void updateIndexBufferId(const GLuint edge_hi_flags) {
+		assert(edge_hi_flags < GLuint(NUM_INDEX_LISTS));
+		indices_vbo = indices_list[edge_hi_flags];
+		indices_tri_count = indices_tri_counts[edge_hi_flags];
 	}
 
 	int getIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags)
