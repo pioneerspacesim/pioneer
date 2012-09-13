@@ -41,9 +41,7 @@ struct VBOVertex
 
 // hold the 16 possible terrain edge connections
 const int NUM_INDEX_LISTS = 16;
-typedef struct {
-	std::vector<unsigned short> v;
-} VecShortHolder;
+typedef std::vector<unsigned short> VecShort;
 
 class GeoPatchContext : public RefCounted {
 public:
@@ -293,7 +291,7 @@ public:
 		}
 
 		// these will hold the optimised indices
-		VecShortHolder pl_short[NUM_INDEX_LISTS];
+		VecShort pl_short[NUM_INDEX_LISTS];
 		{
 			// an initial bunch of values that will get used to sort out the above and following real lists
 			typedef struct {
@@ -338,14 +336,14 @@ public:
 
 			// populate the N indices lists from the arrays built during InitTerrainIndices()
 			for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
-				indices_tri_counts[i] = getIndices(pl_short[i].v, test_e[i].e);
+				indices_tri_counts[i] = getIndices(pl_short[i], test_e[i].e);
 			}
 
 			// iterate over each index list and optimize it
 			for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
 				int tri_count = indices_tri_counts[i];
 				VertexCacheOptimizerUShort vco;
-				VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[i].v[0], tri_count);
+				VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[i][0], tri_count);
 				assert(0 == res);
 			}
 		}
@@ -354,7 +352,7 @@ public:
 		for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
 			glGenBuffersARB(1, &indices_list[i]);
 			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_list[i]);
-			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*indices_tri_counts[i]*3, &(pl_short[i].v[0]), GL_STATIC_DRAW);
+			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*indices_tri_counts[i]*3, &(pl_short[i][0]), GL_STATIC_DRAW);
 			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 
