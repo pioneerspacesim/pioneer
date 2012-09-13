@@ -331,12 +331,6 @@ Frame *Space::GetFrameWithSystemBody(const SystemBody *b) const
 	return find_frame_with_sbody(m_rootFrame.Get(), b);
 }
 
-static void SetFrameOrientationFromSystemBodyAxialTilt(Frame *f, const SystemBody *sbody)
-{
-	matrix4x4d rot = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
-	f->SetRotationOnly(rot);
-}
-
 static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 {
 	Frame *orbFrame, *rotFrame;
@@ -380,9 +374,8 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		vector3d angVel = vector3d(0.0, 2.0*M_PI/sbody->GetRotationPeriod(), 0.0);
 		rotFrame->SetAngVelocity(angVel);
 
-		vector3d rotAxis = angVel.Normalized();
 		if (sbody->rotationalPhaseAtStart != fixed(0)) 
-			rotMatrix = rotMatrix * matrix4x4d::RotateMatrix(sbody->rotationalPhaseAtStart.ToDouble(), rotAxis.x, rotAxis.y, rotAxis.z);
+			rotMatrix = rotMatrix * matrix4x4d::RotateYMatrix(sbody->rotationalPhaseAtStart.ToDouble());
 		rotFrame->SetRotationOnly(rotMatrix);
 
 		rotFrame->m_astroBody = b;
