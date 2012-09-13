@@ -66,7 +66,6 @@ public:
 
 	double frac;
 
-	unsigned short *indices;
 	unsigned short *midIndices;
 	unsigned short *loEdgeIndices[4];
 	unsigned short *hiEdgeIndices[4];
@@ -90,7 +89,6 @@ public:
 	}
 
 	void Cleanup() {
-		delete [] indices;
 		delete [] midIndices;
 		for (int i=0; i<4; i++) {
 			delete [] loEdgeIndices[i];
