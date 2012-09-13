@@ -106,12 +106,12 @@ public:
 		indices_tri_count = indices_tri_counts[acc];
 	}
 
-	int getIndices(std::vector<unsigned short> &pl, const bool *isHigh)
+	int getIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags)
 	{
 		// calculate how many tri's there are
 		int tri_count = (VBO_COUNT_MID_IDX() / 3); 
 		for( int i=0; i<4; ++i ) {
-			if( isHigh[i] ) {
+			if( edge_hi_flags & (1 << i) ) {
 				tri_count += (VBO_COUNT_HI_EDGE() / 3);
 			} else {
 				tri_count += (VBO_COUNT_LO_EDGE() / 3);
@@ -127,7 +127,7 @@ public:
 		}
 		// selectively add the HI or LO detail indices
 		for (int i=0; i<4; i++) {
-			if( isHigh[i] ) {
+			if( edge_hi_flags & (1 << i) ) {
 				for(int j=0; j<VBO_COUNT_HI_EDGE(); ++j) {
 					pl.push_back(hiEdgeIndices[i][j]);
 				}
@@ -293,50 +293,10 @@ public:
 		// these will hold the optimised indices
 		VecShort pl_short[NUM_INDEX_LISTS];
 		{
-			// an initial bunch of values that will get used to sort out the above and following real lists
-			typedef struct {
-				bool e[4];
-			} edgebools;
-			edgebools e[NUM_INDEX_LISTS] = {
-				{0000,0000,0000,0000},
-				{true,0000,0000,0000},
-				{0000,true,0000,0000},
-				{true,true,0000,0000},
-				{0000,0000,true,0000},
-				{true,0000,true,0000},
-				{0000,true,true,0000},
-				{true,true,true,0000},
-				{0000,0000,0000,true},
-				{true,0000,0000,true},
-				{0000,true,0000,true},
-				{true,true,0000,true},
-				{0000,0000,true,true},
-				{true,0000,true,true},
-				{0000,true,true,true},
-				{true,true,true,true}
-			};
-
-			// Calculate the index based on the four binary ops
-			// then generate the entry at that index. 
-			// Means I don't have to work it out by hand ;)
-			unsigned char acc = 0;
-			edgebools test_e[NUM_INDEX_LISTS] = {0};
-			for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
-				acc=0;
-				for( size_t j=0; j<4; ++j ) {
-					size_t x = e[i].e[j] ? 1 : 0;
-					acc = acc | (x<<j);
-				}
-				assert(acc<16);
-				test_e[acc].e[0] = (acc & 0x01) ? true : false;
-				test_e[acc].e[1] = (acc & 0x02) ? true : false;
-				test_e[acc].e[2] = (acc & 0x04) ? true : false;
-				test_e[acc].e[3] = (acc & 0x08) ? true : false;
-			}
-
 			// populate the N indices lists from the arrays built during InitTerrainIndices()
 			for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
-				indices_tri_counts[i] = getIndices(pl_short[i], test_e[i].e);
+				const unsigned int edge_hi_flags = i;
+				indices_tri_counts[i] = getIndices(pl_short[i], edge_hi_flags);
 			}
 
 			// iterate over each index list and optimize it
