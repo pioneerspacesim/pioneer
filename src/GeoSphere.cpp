@@ -41,7 +41,6 @@ struct VBOVertex
 
 // hold the 16 possible terrain edge connections
 const int NUM_INDEX_LISTS = 16;
-typedef std::vector<unsigned short> VecShort;
 
 class GeoPatchContext : public RefCounted {
 public:
@@ -291,7 +290,7 @@ public:
 		}
 
 		// these will hold the optimised indices
-		VecShort pl_short[NUM_INDEX_LISTS];
+		std::vector<unsigned short> pl_short[NUM_INDEX_LISTS];
 		// populate the N indices lists from the arrays built during InitTerrainIndices()
 		for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
 			const unsigned int edge_hi_flags = i;
