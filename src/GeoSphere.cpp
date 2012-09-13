@@ -901,12 +901,11 @@ public:
 	}
 
 	GLuint determineIndexbuffer() const {
-		GLuint acc = 0;
-		for (int i=0; i<4; i++) {
-			GLuint x = (edgeFriend[i]) ? 1 : 0;
-			acc = acc | (x<<i);
-		}
-		return acc;
+		return // index buffers are ordered by edge resolution flags
+			(edgeFriend[0] ? 1u : 0u) |
+			(edgeFriend[1] ? 2u : 0u) |
+			(edgeFriend[2] ? 4u : 0u) |
+			(edgeFriend[3] ? 8u : 0u);
 	}
 
 	void Render(vector3d &campos, const Graphics::Frustum &frustum) {
