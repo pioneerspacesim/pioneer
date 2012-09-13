@@ -29,9 +29,6 @@ static const int detail_edgeLen[5] = {
 
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
-#define SAFE_DELETE(d) delete d; d=0;
-#define SAFE_DELETE_ARRAY(d) delete[] d; d=0;
-
 #pragma pack(4)
 struct VBOVertex
 {
@@ -66,9 +63,9 @@ public:
 
 	double frac;
 
-	unsigned short *midIndices;
-	unsigned short *loEdgeIndices[4];
-	unsigned short *hiEdgeIndices[4];
+	ScopedArray<unsigned short> midIndices;
+	ScopedArray<unsigned short> loEdgeIndices[4];
+	ScopedArray<unsigned short> hiEdgeIndices[4];
 	GLuint indices_vbo;
 	GLuint indices_list[NUM_INDEX_LISTS];
 	GLuint indices_tri_count;
@@ -89,10 +86,10 @@ public:
 	}
 
 	void Cleanup() {
-		delete [] midIndices;
+		midIndices.Reset();
 		for (int i=0; i<4; i++) {
-			delete [] loEdgeIndices[i];
-			delete [] hiEdgeIndices[i];
+			loEdgeIndices[i].Reset();
+			hiEdgeIndices[i].Reset();
 		}
 		if (indices_vbo) {
 			indices_vbo = 0;
@@ -152,13 +149,13 @@ public:
 		vbotemp = new VBOVertex[NUMVERTICES()];
 
 		unsigned short *idx;
-		midIndices = new unsigned short[VBO_COUNT_MID_IDX()];
+		midIndices.Reset(new unsigned short[VBO_COUNT_MID_IDX()]);
 		for (int i=0; i<4; i++) {
-			loEdgeIndices[i] = new unsigned short[VBO_COUNT_LO_EDGE()];
-			hiEdgeIndices[i] = new unsigned short[VBO_COUNT_HI_EDGE()];
+			loEdgeIndices[i].Reset(new unsigned short[VBO_COUNT_LO_EDGE()]);
+			hiEdgeIndices[i].Reset(new unsigned short[VBO_COUNT_HI_EDGE()]);
 		}
 		/* also want vtx indices for tris not touching edge of patch */
-		idx = midIndices;
+		idx = midIndices.Get();
 		for (int x=1; x<edgeLen-2; x++) {
 			for (int y=1; y<edgeLen-2; y++) {
 				idx[0] = x + edgeLen*y;
@@ -220,14 +217,14 @@ public:
 		}
 		// full detail edge triangles
 		{
-			idx = hiEdgeIndices[0];
+			idx = hiEdgeIndices[0].Get();
 			for (int x=0; x<edgeLen-1; x+=2) {
 				idx[0] = x; idx[1] = x+1; idx[2] = x+1 + edgeLen;
 				idx+=3;
 				idx[0] = x+1; idx[1] = x+2; idx[2] = x+1 + edgeLen;
 				idx+=3;
 			}
-			idx = hiEdgeIndices[1];
+			idx = hiEdgeIndices[1].Get();
 			for (int y=0; y<edgeLen-1; y+=2) {
 				idx[0] = edgeLen-1 + y*edgeLen;
 				idx[1] = edgeLen-1 + (y+1)*edgeLen;
@@ -238,7 +235,7 @@ public:
 				idx[2] = edgeLen-2 + (y+1)*edgeLen;
 				idx+=3;
 			}
-			idx = hiEdgeIndices[2];
+			idx = hiEdgeIndices[2].Get();
 			for (int x=0; x<edgeLen-1; x+=2) {
 				idx[0] = x + (edgeLen-1)*edgeLen;
 				idx[1] = x+1 + (edgeLen-2)*edgeLen;
@@ -249,7 +246,7 @@ public:
 				idx[2] = x+1 + (edgeLen-1)*edgeLen;
 				idx+=3;
 			}
-			idx = hiEdgeIndices[3];
+			idx = hiEdgeIndices[3].Get();
 			for (int y=0; y<edgeLen-1; y+=2) {
 				idx[0] = y*edgeLen;
 				idx[1] = 1 + (y+1)*edgeLen;
@@ -265,28 +262,28 @@ public:
 		// neighbour of equal or greater detail -- they reduce
 		// their edge complexity by 1 division
 		{
-			idx = loEdgeIndices[0];
+			idx = loEdgeIndices[0].Get();
 			for (int x=0; x<edgeLen-2; x+=2) {
 				idx[0] = x;
 				idx[1] = x+2;
 				idx[2] = x+1+edgeLen;
 				idx += 3;
 			}
-			idx = loEdgeIndices[1];
+			idx = loEdgeIndices[1].Get();
 			for (int y=0; y<edgeLen-2; y+=2) {
 				idx[0] = (edgeLen-1) + y*edgeLen;
 				idx[1] = (edgeLen-1) + (y+2)*edgeLen;
 				idx[2] = (edgeLen-2) + (y+1)*edgeLen;
 				idx += 3;
 			}
-			idx = loEdgeIndices[2];
+			idx = loEdgeIndices[2].Get();
 			for (int x=0; x<edgeLen-2; x+=2) {
 				idx[0] = x+edgeLen*(edgeLen-1);
 				idx[2] = x+2+edgeLen*(edgeLen-1);
 				idx[1] = x+1+edgeLen*(edgeLen-2);
 				idx += 3;
 			}
-			idx = loEdgeIndices[3];
+			idx = loEdgeIndices[3].Get();
 			for (int y=0; y<edgeLen-2; y+=2) {
 				idx[0] = y*edgeLen;
 				idx[2] = (y+2)*edgeLen;
@@ -366,10 +363,10 @@ public:
 		indices_tri_count	= indices_tri_counts[NUM_INDEX_LISTS-1];
 
 		if (midIndices) {
-			SAFE_DELETE_ARRAY(midIndices);
+			midIndices.Reset();
 			for (int i=0; i<4; i++) {
-				SAFE_DELETE_ARRAY(loEdgeIndices[i]);
-				SAFE_DELETE_ARRAY(hiEdgeIndices[i]);
+				loEdgeIndices[i].Reset();
+				hiEdgeIndices[i].Reset();
 			}
 		}
 	}
