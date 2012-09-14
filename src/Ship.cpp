@@ -830,6 +830,9 @@ void Ship::FireWeapon(int num)
 
 	vector3d dir = vector3d(stype.gunMount[num].dir);
 	vector3d pos = vector3d(stype.gunMount[num].pos);
+	int rot = int(stype.gunMount[num].rot);
+	double sep = double(stype.gunMount[num].sep);
+
 	m_gunTemperature[num] += 0.01f;
 
 	dir = m.ApplyRotationOnly(dir);
@@ -844,9 +847,17 @@ void Ship::FireWeapon(int num)
 
 	if (lt.flags & Equip::LASER_DUAL)
 	{
-		vector3d sep = dir.Cross(vector3d(m[4],m[5],m[6])).Normalized();
-		Projectile::Add(this, t, pos+5.0*sep, baseVel, dirVel);
-		Projectile::Add(this, t, pos-5.0*sep, baseVel, dirVel);
+		if (!sep)
+		sep = 5;
+
+		vector3d sep_dir;
+		if (rot == 1)
+			sep_dir = dir.Cross(vector3d(m[0],m[1],m[2])).Normalized();
+		else
+			sep_dir = dir.Cross(vector3d(m[4],m[5],m[6])).Normalized();
+
+		Projectile::Add(this, t, pos+sep*sep_dir, baseVel, dirVel);
+		Projectile::Add(this, t, pos-sep*sep_dir, baseVel, dirVel);
 	}
 	else Projectile::Add(this, t, pos, baseVel, dirVel);
 

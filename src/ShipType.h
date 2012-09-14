@@ -43,6 +43,8 @@ struct ShipType {
 	struct GunMount {
 		vector3f pos;
 		vector3f dir;
+		double sep;
+		int rot;
 	} gunMount[GUNMOUNT_MAX];
 	int equipSlotCapacity[Equip::SLOT_MAX];
 	int capacity; // tonnes

@@ -169,7 +169,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 		for (unsigned int i=0; i<lua_rawlen(L,-1); i++) {
 			lua_pushinteger(L, i+1);
 			lua_gettable(L, -2);
-			if (lua_istable(L, -1) && lua_rawlen(L,-1) == 2)	{
+			if (lua_istable(L, -1) && lua_rawlen(L,-1) == 4)	{
 				lua_pushinteger(L, 1);
 				lua_gettable(L, -2);
 				s.gunMount[i].pos = LuaVector::CheckFromLuaF(L, -1);
@@ -177,6 +177,14 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 				lua_pushinteger(L, 2);
 				lua_gettable(L, -2);
 				s.gunMount[i].dir = LuaVector::CheckFromLuaF(L, -1);
+				lua_pop(L, 1);
+				lua_pushinteger(L, 3);
+				lua_gettable(L, -2);
+				s.gunMount[i].sep = lua_tonumber(L,-1);
+				lua_pop(L, 1);
+				lua_pushinteger(L, 4);
+				lua_gettable(L, -2);
+				s.gunMount[i].rot = lua_tointeger(L, -1);
 				lua_pop(L, 1);
 			}
 			lua_pop(L, 1);
