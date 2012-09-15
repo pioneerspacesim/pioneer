@@ -1,4 +1,5 @@
 #include "LOD.h"
+#include "graphics/Graphics.h"
 
 namespace Newmodel {
 
@@ -16,7 +17,7 @@ void LOD::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, RenderDa
 {
 	//figure out approximate pixel size on screen and pick a child to render
 	const vector3f cameraPos(-trans[12], -trans[13], -trans[14]);
-	const float pixrad = 0.5f * rd->scrWidth * rd->boundingRadius / cameraPos.Length();
+	const float pixrad = 0.5f * Graphics::GetScreenWidth() * rd->boundingRadius / cameraPos.Length();
 	assert(m_children.size() == m_pixelSizes.size());
 	if (m_pixelSizes.empty()) return;
 	unsigned int lod = m_children.size() - 1;

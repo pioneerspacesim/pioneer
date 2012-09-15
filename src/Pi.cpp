@@ -83,8 +83,6 @@
 #include <fstream>
 
 float Pi::gameTickAlpha;
-int Pi::scrWidth;
-int Pi::scrHeight;
 float Pi::scrAspect;
 sigc::signal<void, SDL_keysym*> Pi::onKeyPress;
 sigc::signal<void, SDL_keysym*> Pi::onKeyRelease;
@@ -334,8 +332,6 @@ void Pi::Init()
 	OS::LoadWindowIcon();
 	SDL_WM_SetCaption("Pioneer","Pioneer");
 
-	Pi::scrWidth = videoSettings.width;
-	Pi::scrHeight = videoSettings.height;
 	Pi::scrAspect = videoSettings.width / float(videoSettings.height);
 
 	Pi::rng.seed(time(0));
@@ -348,13 +344,13 @@ void Pi::Init()
 	// templates. so now we have crap everywhere :/
 	Lua::Init();
 
-	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, scrWidth, scrHeight));
+	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
 
 	LuaInit();
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
-	Gui::Init(renderer, scrWidth, scrHeight, 800, 600);
+	Gui::Init(renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 800, 600);
 
 	draw_progress(0.1f);
 
@@ -365,7 +361,6 @@ void Pi::Init()
 	draw_progress(0.4f);
 
 	LmrModelCompilerInit(Pi::renderer);
-	LmrNotifyScreenWidth(Pi::scrWidth);
 	modelCache = new ModelCache(Pi::renderer);
 	draw_progress(0.5f);
 
@@ -559,7 +554,7 @@ void Pi::HandleEvents()
 							const time_t t = time(0);
 							struct tm *_tm = localtime(&t);
 							strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.png", _tm);
-							Screendump(buf, GetScrWidth(), GetScrHeight());
+							Screendump(buf, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 							break;
 						}
 #if WITH_DEVKEYS
@@ -923,7 +918,7 @@ bool Pi::HandleMenuOption(int n)
 
 void Pi::Start()
 {
-	ScopedPtr<Intro> intro(new Intro(Pi::renderer, vector2f(GetScrWidth(), GetScrHeight())));
+	ScopedPtr<Intro> intro(new Intro(Pi::renderer, vector2f(Graphics::GetScreenWidth(), Graphics::GetScreenHeight())));
 
 	ui->SetInnerWidget(ui->CallTemplate("MainMenu"));
 

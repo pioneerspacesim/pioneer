@@ -330,7 +330,6 @@ namespace ShipThruster {
 class LmrGeomBuffer;
 
 static Graphics::Material *s_billboardMaterial;
-static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
 static FontCache s_fontCache;
 static RefCountedPtr<Text::VectorFont> s_font;
@@ -353,11 +352,6 @@ struct Vertex {
 static BufferObjectPool<sizeof(Vertex)> *s_staticBufferPool;
 
 lua_State *LmrGetLuaState() { return sLua; }
-
-void LmrNotifyScreenWidth(float width)
-{
-	s_scrWidth = width;
-}
 
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
@@ -1286,7 +1280,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	glMultMatrixf(&trans[0]);
 	glScalef(m_scale, m_scale, m_scale);
 
-	float pixrad = 0.5f * s_scrWidth * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
+	float pixrad = 0.5f * Graphics::GetScreenWidth() * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
 	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
 
 	int lod = m_numLods-1;

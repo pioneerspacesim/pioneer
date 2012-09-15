@@ -17,6 +17,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
 #include "graphics/TextureBuilder.h"
@@ -207,7 +208,7 @@ void WorldView::InitObject()
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
 	const float fovY = Pi::config->Float("FOVVertical");
-	const vector2f camSize(Pi::GetScrWidth(), Pi::GetScrHeight());
+	const vector2f camSize(Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 	m_frontCamera = new FrontCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_rearCamera = new RearCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_externalCamera = new ExternalCamera(Pi::player, camSize, fovY, znear, zfar);

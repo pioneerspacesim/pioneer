@@ -72,8 +72,6 @@ public:
 	static void Quit() __attribute((noreturn));
 	static float GetFrameTime() { return frameTime; }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
-	static int GetScrWidth() { return scrWidth; }
-	static int GetScrHeight() { return scrHeight; }
 	static float GetScrAspect() { return scrAspect; }
 	static int KeyState(SDLKey k) { return keyState[k]; }
 	static int KeyModState() { return keyModState; }
@@ -167,7 +165,6 @@ private:
 	static int requestedTimeAccelIdx;
 	static bool forceTimeAccel;
 	static float frameTime;
-	static int scrWidth, scrHeight;
 	static float scrAspect;
 	static char keyState[SDLK_LAST];
 	static int keyModState;

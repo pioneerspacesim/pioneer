@@ -10,6 +10,7 @@
 #include "StringF.h"
 #include "GameLoaderSaver.h"
 #include "Game.h"
+#include "graphics/Graphics.h"
 
 class KeyGetter: public Gui::Fixed {
 public:
@@ -263,7 +264,7 @@ GameMenuView::GameMenuView(): View()
 			hbox->PackEnd(temp);
 			hbox->PackEnd(new Gui::Label(stringf(Lang::X_BY_X, formatarg("x", int(modes[i]->w)), formatarg("y", int(modes[i]->h)))));
 			vbox2->PackEnd(hbox);
-			if ((Pi::GetScrWidth() == modes[i]->w) && (Pi::GetScrHeight() == modes[i]->h)) {
+			if ((Graphics::GetScreenWidth() == modes[i]->w) && (Graphics::GetScreenHeight() == modes[i]->h)) {
 				temp->SetSelected(true);
 			}
 		}

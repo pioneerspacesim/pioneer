@@ -39,6 +39,10 @@ namespace Graphics {
 	extern bool shadersEnabled;
 	extern Material *vtxColorMaterial;
 
+	extern Settings settings;
+	int GetScreenWidth();
+	int GetScreenHeight();
+
 	// does SDL video init, constructs appropriate Renderer
 	Renderer* Init(const Settings&);
 	void Uninit();

@@ -64,7 +64,6 @@ LmrModel *LmrLookupModelByName(const char *name);
 void LmrModelRender(LmrModel *m, const matrix4x4f &transform);
 int LmrModelGetStatsTris();
 void LmrModelClearStatsTris();
-void LmrNotifyScreenWidth(float width);
 void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels);
 lua_State *LmrGetLuaState();
 

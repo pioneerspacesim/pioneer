@@ -45,9 +45,6 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 , m_modelName("")
 , m_camPos(0.f)
 {
-	//LOD system needs to know the screen width
-	m_modelParams.scrWidth = m_width;
-
 	m_ui.Reset(new UI::Context(lm, r, width, height));
 	SetupUI();
 

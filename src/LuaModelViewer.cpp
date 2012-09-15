@@ -751,7 +751,6 @@ int main(int argc, char **argv)
 	renderer->SetLights(1, &light);
 
 	LmrModelCompilerInit(renderer);
-	LmrNotifyScreenWidth(g_width);
 
 	ShipType::Init();
 
