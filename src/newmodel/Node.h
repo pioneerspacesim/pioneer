@@ -16,7 +16,8 @@ class NodeVisitor;
 
 enum NodeMask {
 	NODE_SOLID = 0x1,
-	NODE_TRANSPARENT = 0x2
+	NODE_TRANSPARENT = 0x2,
+	MASK_IGNORE = 0x4
 };
 
 class Node : public RefCounted

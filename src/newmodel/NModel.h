@@ -76,8 +76,6 @@ public:
 	NModel(const std::string &name);
 	~NModel();
 	float GetDrawClipRadius() const { return m_boundingRadius; }
-	//Render begins the graph traversal. Only geometry nodes actually render something.
-	//might be worthwhile to implement Visitors (DrawVisitor, CreateCollisionMeshVisitor)
 	void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params);
 	RefCountedPtr<CollMesh> CreateCollisionMesh(const LmrObjParams *p);
 	CollMesh *GetCollisionMesh() const { return m_collMesh.Get(); }

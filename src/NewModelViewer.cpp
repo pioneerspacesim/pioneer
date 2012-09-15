@@ -455,6 +455,7 @@ static Color4ub get_slider_color(UI::Slider *r, UI::Slider *g, UI::Slider *b)
 
 void ModelViewer::OnModelColorsChanged(float)
 {
+	if (!m_model) return;
 	//don't care about the float. Fetch values from all sliders.
 	std::vector<Color4ub> colors;
 	colors.push_back(get_slider_color(colorSliders[0], colorSliders[1], colorSliders[2]));
@@ -465,6 +466,7 @@ void ModelViewer::OnModelColorsChanged(float)
 
 void ModelViewer::OnPatternChanged(unsigned int index, const std::string &value)
 {
+	if (!m_model) return;
 	assert(index < m_model->GetPatterns().size());
 	m_model->SetPattern(index);
 }
@@ -774,9 +776,11 @@ void ModelViewer::SetupUI()
 void ModelViewer::UpdateAnimList()
 {
 	animSelector->Clear();
-	const std::vector<Newmodel::Animation*> &anims = m_model->GetAnimations();
-	for(unsigned int i=0; i<anims.size(); i++) {
-		animSelector->AddOption(anims[i]->GetName());
+	if (m_model) {
+		const std::vector<Newmodel::Animation*> &anims = m_model->GetAnimations();
+		for(unsigned int i=0; i<anims.size(); i++) {
+			animSelector->AddOption(anims[i]->GetName());
+		}
 	}
 	animSelector->Layout();
 }

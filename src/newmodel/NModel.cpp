@@ -31,15 +31,19 @@ void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, LmrOb
 {
 	renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	renderer->SetTransform(trans);
-	/*DrawVisitor vis(renderer);
-	m_root->Accept(vis);*/
 	//using the entire model bounding radius for all nodes at the moment.
 	//BR could also be a property of Node.
 	params->boundingRadius = GetDrawClipRadius();
-	params->nodemask = 0x1;
-	m_root->Render(renderer, trans, params);
-	params->nodemask = 0x2;
-	m_root->Render(renderer, trans, params);
+
+	//render in two passes, if this is the top-level model
+	if (params->nodemask & MASK_IGNORE) {
+		m_root->Render(renderer, trans, params);
+	} else {
+		params->nodemask = 0x1;
+		m_root->Render(renderer, trans, params);
+		params->nodemask = 0x2;
+		m_root->Render(renderer, trans, params);
+	}
 }
 
 RefCountedPtr<CollMesh> NModel::CreateCollisionMesh(const LmrObjParams *p)
