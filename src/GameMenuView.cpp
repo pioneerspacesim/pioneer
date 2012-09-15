@@ -180,30 +180,26 @@ GameMenuView::GameMenuView(): View()
 	m_rightRegion2->Add(l, 10, 0);
 
 	{
-		Gui::LabelButton *b;
 		Gui::Box *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
 		mainTab->Add(hbox, 20, 30);
 
-		if (Pi::game) {
-			b = new Gui::LabelButton(new Gui::Label(Lang::SAVE_THE_GAME));
-			b->SetShortcut(SDLK_s, KMOD_NONE);
-			b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenSaveDialog));
-			hbox->PackEnd(b);
-			b = new Gui::LabelButton(new Gui::Label(Lang::LOAD_A_GAME));
-			b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenLoadDialog));
-			b->SetShortcut(SDLK_l, KMOD_NONE);
-			hbox->PackEnd(b);
-			b = new Gui::LabelButton(new Gui::Label(Lang::EXIT_THIS_GAME));
-			b->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
-			b->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
-			hbox->PackEnd(b);
-		}
-		else {
-			b = new Gui::LabelButton(new Gui::Label(Lang::RETURN_TO_MENU));
-			b->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::SetView), static_cast<View*>(0)));
-			hbox->PackEnd(b);
-		}
+		m_saveButton = new Gui::LabelButton(new Gui::Label(Lang::SAVE_THE_GAME));
+		m_saveButton->SetShortcut(SDLK_s, KMOD_NONE);
+		m_saveButton->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenSaveDialog));
+		hbox->PackEnd(m_saveButton);
+		m_loadButton = new Gui::LabelButton(new Gui::Label(Lang::LOAD_A_GAME));
+		m_loadButton->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenLoadDialog));
+		m_loadButton->SetShortcut(SDLK_l, KMOD_NONE);
+		hbox->PackEnd(m_loadButton);
+		m_exitButton = new Gui::LabelButton(new Gui::Label(Lang::EXIT_THIS_GAME));
+		m_exitButton->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
+		m_exitButton->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
+		hbox->PackEnd(m_exitButton);
+
+		m_menuButton = new Gui::LabelButton(new Gui::Label(Lang::RETURN_TO_MENU));
+		m_menuButton->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::SetView), static_cast<View*>(0)));
+		mainTab->Add(m_menuButton, 20, 30);
 	}
 
 	Gui::Box *vbox = new Gui::VBox();
@@ -646,6 +642,22 @@ void GameMenuView::OpenLoadDialog()
 		Pi::game = newGame;
 		Pi::InitGame();
 		Pi::StartGame();
+	}
+}
+
+void GameMenuView::ShowAll() {
+	View::ShowAll();
+	if (Pi::game) {
+		m_saveButton->Show();
+		m_loadButton->Show();
+		m_exitButton->Show();
+		m_menuButton->Hide();
+	}
+	else {
+		m_saveButton->Hide();
+		m_loadButton->Hide();
+		m_exitButton->Hide();
+		m_menuButton->Show();
 	}
 }
 
