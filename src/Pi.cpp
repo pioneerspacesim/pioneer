@@ -931,8 +931,8 @@ void Pi::HandleMenuKey(int n)
 
 		case 5: // Settings
 		{
-			SetView(gameMenuView);
-			while (1) Gui::MainLoopIteration();
+			SetView(Pi::gameMenuView);
+			while (Pi::GetView() == Pi::gameMenuView) Gui::MainLoopIteration();
 			SetView(0);
 			return;
 		}

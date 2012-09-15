@@ -184,18 +184,26 @@ GameMenuView::GameMenuView(): View()
 		Gui::Box *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
 		mainTab->Add(hbox, 20, 30);
-		b = new Gui::LabelButton(new Gui::Label(Lang::SAVE_THE_GAME));
-		b->SetShortcut(SDLK_s, KMOD_NONE);
-		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenSaveDialog));
-		hbox->PackEnd(b);
-		b = new Gui::LabelButton(new Gui::Label(Lang::LOAD_A_GAME));
-		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenLoadDialog));
-		b->SetShortcut(SDLK_l, KMOD_NONE);
-		hbox->PackEnd(b);
-		b = new Gui::LabelButton(new Gui::Label(Lang::EXIT_THIS_GAME));
-		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
-		b->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
-		hbox->PackEnd(b);
+
+		if (Pi::game) {
+			b = new Gui::LabelButton(new Gui::Label(Lang::SAVE_THE_GAME));
+			b->SetShortcut(SDLK_s, KMOD_NONE);
+			b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenSaveDialog));
+			hbox->PackEnd(b);
+			b = new Gui::LabelButton(new Gui::Label(Lang::LOAD_A_GAME));
+			b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenLoadDialog));
+			b->SetShortcut(SDLK_l, KMOD_NONE);
+			hbox->PackEnd(b);
+			b = new Gui::LabelButton(new Gui::Label(Lang::EXIT_THIS_GAME));
+			b->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
+			b->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
+			hbox->PackEnd(b);
+		}
+		else {
+			b = new Gui::LabelButton(new Gui::Label(Lang::RETURN_TO_MENU));
+			b->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::SetView), static_cast<View*>(0)));
+			hbox->PackEnd(b);
+		}
 	}
 
 	Gui::Box *vbox = new Gui::VBox();

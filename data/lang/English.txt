@@ -214,6 +214,8 @@ LOAD_A_GAME
     [L] Load a game
 EXIT_THIS_GAME
     Exit this game
+RETURN_TO_MENU
+    Return to menu
 WINDOW_OR_FULLSCREEN
     Windowed or fullscreen (restart to apply)
 FULL_SCREEN
