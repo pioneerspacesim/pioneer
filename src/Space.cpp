@@ -428,7 +428,10 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		pos = rot * vector3d(0,1,0);
 		double height = planet->GetTerrainHeight(pos) - radius;
 
+
+		bool isInitiallyUnderwater = false;
 		if (height <= 0.0) {
+			isInitiallyUnderwater = true;
 			MTRand r(sbody->seed);
 			// position is under water. try some random ones
 			for (tries=0; tries<100; tries++) {
@@ -444,6 +447,12 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 			}
 		}
 
+		if (isInitiallyUnderwater && sbody->isCustomBody) {
+			SystemPath &p = sbody->path;
+			fprintf(stderr, "Error: Lua custom Systems definition: Surface starport underwater. Please move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n", 
+				sbody->name.c_str(), sbody->parent->name.c_str(), p.sectorX, p.sectorY, p.sectorZ);
+		}
+
 		// For asteroids or bodies with large height variation relative to radius, check if height varies too much around the starport center
 		// by sampling 6 points around it. try upto 100 new positions randomly until a match is found
 		// this is not guaranteed to find a match but greatly increases the chancessteroids which are not too steep.  
@@ -457,6 +466,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 
 		//printf("%s: terrain height variation %f\n", sbody->name.c_str(), terrainHeightVariation);
 
+		bool initialVariationTooHigh; 
 		if (planet->GetSystemBody()->type == SystemBody::TYPE_PLANET_ASTEROID || terrainHeightVariation > heightVariationCheckThreshold) {
 			MTRand r(sbody->seed);
 
@@ -493,6 +503,8 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 
 				if (variationWithinLimits) break;
 				
+				initialVariationTooHigh = true;
+
 				if (variationMax < bestVariation) {
 					bestVariation = variationMax;
 					posWithLeastVariation = pos;
@@ -511,6 +523,11 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 				pos = posWithLeastVariation;
 				rot = rotWithLeastVariation;
 			}
+				if (sbody->isCustomBody) {
+					SystemPath &p = sbody->path;
+					printf("Warning: Lua custom Systems definition: Surface starport has been automatically relocated. This is in order to place it on flatter ground to reduce the chance of landing pads being buried. This is not an error as such and you may attempt to move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n", 
+						sbody->name.c_str(), sbody->parent->name.c_str(), p.sectorX, p.sectorY, p.sectorZ);
+				}
 		}
 
 		sbody->orbit.rotMatrix = rot;

@@ -922,6 +922,7 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->radius = csbody->radius;
 		kid->averageTemp = csbody->averageTemp;
 		kid->name = csbody->name;
+		kid->isCustomBody = true;
 
 		kid->mass = csbody->mass;
 		if (kid->type == SystemBody::TYPE_PLANET_ASTEROID) kid->mass /= 100000;
@@ -1007,6 +1008,7 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 	rootBody->mass = csbody->mass;
 	rootBody->averageTemp = csbody->averageTemp;
 	rootBody->name = csbody->name;
+	rootBody->isCustomBody = true;
 
 	int humanInfestedness = 0;
 	CustomGetKidsOf(rootBody, csbody->children, &humanInfestedness, rand);
@@ -1084,6 +1086,7 @@ SystemBody::SystemBody()
 {
 	heightMapFilename = 0;
 	heightMapFractal = 0;
+	isCustomBody = false;
 }
 
 bool SystemBody::HasAtmosphere() const
