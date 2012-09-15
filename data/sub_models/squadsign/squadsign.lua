@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See COPYING.txt for details
+
 --[[
 please keep the zbias set to 6
 because you can't know what's ahead, but this will cover most without a "printthrough" that happens sometimes with higher values.

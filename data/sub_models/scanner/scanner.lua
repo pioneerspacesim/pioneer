@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See COPYING.txt for details
+
 --[[ scanner models
 		set a material of your choice for the base and the shell,
 		scale the model when called to your ships size.
