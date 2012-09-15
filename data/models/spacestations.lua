@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See COPYING.txt for details
+
 
 -- NOTE
 -- info->ship_dock_anim function's last docking anim ship location will be

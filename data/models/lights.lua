@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See COPYING.txt for details
+
 --collision lights (don't blink)
 --red blinking lights on the left (port) side of the craft
 --green blinking lights on the right (starboard) side of the craft

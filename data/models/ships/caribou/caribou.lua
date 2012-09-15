@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See COPYING.txt for details
+
 define_model('caribou_eng_l', {
 	info = {
 		lod_pixels = { .1, 10, 100, 0 },

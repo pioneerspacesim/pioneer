@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See COPYING.txt for details
+
 --generic wrapper function
 local building = function(name, modelname, bradius, lodpixels)
 	define_model(name, {

@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See COPYING.txt for details
+
 -- Wave manned heavy hypersonic fighter
 -- Design inspirations from blackswift project and some decalling inspired by f-22 and a-10 aircraft
 
