@@ -604,8 +604,7 @@ void GameMenuView::OnToggleMouseYInvert(Gui::ToggleButton *b, bool state)
 void GameMenuView::OnToggleNavTunnel(Gui::ToggleButton *b, bool state) {
 	Pi::config->SetInt("DisplayNavTunnel", (state ? 1 : 0));
 	Pi::config->Save();
-	if (Pi::game && Pi::worldView)
-		Pi::worldView->SetNavTunnelDisplayed(state);
+	Pi::SetNavTunnelDisplayed(state);
 }
 
 void GameMenuView::HideAll()
@@ -675,5 +674,5 @@ void GameMenuView::OnSwitchTo() {
 	m_toggleFullscreen->SetPressed(Pi::config->Int("StartFullscreen") != 0);
 	m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
 	m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
-	//m_toggleNavTunnel->SetPressed(Pi::worldView->IsNavTunnelDisplayed());
+	m_toggleNavTunnel->SetPressed(Pi::IsNavTunnelDisplayed());
 }

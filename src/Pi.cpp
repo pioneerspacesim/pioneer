@@ -121,6 +121,7 @@ struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
+bool Pi::navTunnelDisplayed;
 const char * const Pi::combatRating[] = {
 	Lang::HARMLESS,
 	Lang::MOSTLY_HARMLESS,
@@ -318,6 +319,8 @@ void Pi::Init()
 	InitJoysticks();
 	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
+
+	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 
 	Gui::Init(renderer, scrWidth, scrHeight, 800, 600);
 
