@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See COPYING.txt for details
+
 CustomSystem:new('GJ 1075',{'STAR_K'}):add_to_sector(2,-1,-4,v(0.451,0.409,0.034))
 CustomSystem:new('NN 3707',{'STAR_M'}):add_to_sector(-1,3,-1,v(0.845,0.512,0.054))
 CustomSystem:new('NN 3253',{'STAR_M'}):add_to_sector(3,-2,1,v(0.185,0.023,0.148))

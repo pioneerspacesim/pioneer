@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See COPYING.txt for details
+
 local s = CustomSystem:new('Epsilon Eridani', { 'STAR_K' })
 	:govtype('CISLIBDEM')
 	:short_desc('First off-earth colony. Industrial world with indigenous life.')

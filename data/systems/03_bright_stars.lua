@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See COPYING.txt for details
+
 CustomSystem:new('Castor',{'STAR_A'}):add_to_sector(5,2,3,v(0.012,0.194,0.404))
 CustomSystem:new('Lambda Velorum',{'STAR_K_SUPER_GIANT'}):add_to_sector(35,38,-50,v(0.487,0.054,0.739))
 CustomSystem:new('Eta Canis Majoris',{'STAR_B_SUPER_GIANT'}):add_to_sector(325,125,-196,v(0.361,0.049,0.370))
