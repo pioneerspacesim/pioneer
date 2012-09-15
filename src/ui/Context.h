@@ -108,7 +108,7 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
-	PersistentTable GetTemplateStore() const { return m_templateStore; }
+	LuaRef GetTemplateStore() const { return m_templateStore; }
 	Widget *CallTemplate(const char *name, const LuaTable &args);
 	Widget *CallTemplate(const char *name);
 
@@ -134,7 +134,7 @@ private:
 
 	LuaManager *m_lua;
 
-	PersistentTable m_templateStore;
+	LuaRef m_templateStore;
 
 	RefCountedPtr<Text::TextureFont> m_font[FONT_SIZE_MAX];
 

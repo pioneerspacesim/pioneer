@@ -8,12 +8,18 @@
 #include "Player.h"
 #include "FloatComparison.h"
 #include "Game.h"
+#include "AnimationCurves.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 
 using namespace Graphics;
 
 const double SystemView::PICK_OBJECT_RECT_SIZE = 12.0;
+static const float MIN_ZOOM = 1e-30f;		// Just to avoid having 0
+static const float MAX_ZOOM = 1e30f;
+static const float ZOOM_IN_SPEED = 2;
+static const float ZOOM_OUT_SPEED = 1.f/ZOOM_IN_SPEED;
+static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user settings.
 
 SystemView::SystemView()
 {
@@ -101,6 +107,7 @@ void SystemView::ResetViewpoint()
 	m_rot_z = 0;
 	m_rot_x = 50;
 	m_zoom = 1.0f/float(AU);
+	m_zoomTo = m_zoom;
 	m_timeStep = 1.0f;
 	m_time = Pi::game->GetTime();
 }
@@ -332,12 +339,17 @@ void SystemView::Update()
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
 		if (Pi::KeyState(SDLK_EQUALS) ||
-			m_zoomInButton->IsPressed())
-				m_zoom *= pow(4.0f, ft);
+			m_zoomInButton->IsPressed()) 
+				m_zoomTo *= pow(ZOOM_IN_SPEED * Pi::GetMoveSpeedShiftModifier(), ft);
 		if (Pi::KeyState(SDLK_MINUS) ||
-			m_zoomOutButton->IsPressed())
-				m_zoom *= pow(0.25f, ft);
+			m_zoomOutButton->IsPressed()) 
+				m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), ft);
 	}
+	// TODO: add "true" lower/upper bounds to m_zoomTo / m_zoom
+	m_zoomTo = Clamp(m_zoomTo, MIN_ZOOM, MAX_ZOOM);
+	m_zoom = Clamp(m_zoom, MIN_ZOOM, MAX_ZOOM);
+	AnimationCurves::Approach(m_zoom, m_zoomTo, ft);
+
 	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int motion[2];
 		Pi::GetMouseMotion(motion);
@@ -349,10 +361,9 @@ void SystemView::Update()
 void SystemView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView()) {
-		const float ft = Pi::GetFrameTime();
 		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
-				m_zoom *= pow(0.25f, ft);
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
-				m_zoom *= pow(4.0f, ft);
+			m_zoomTo *= ((ZOOM_OUT_SPEED-1) * WHEEL_SENSITIVITY+1) / Pi::GetMoveSpeedShiftModifier();
+		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+			m_zoomTo *= ((ZOOM_IN_SPEED-1) * WHEEL_SENSITIVITY+1) * Pi::GetMoveSpeedShiftModifier();
 	}
 }

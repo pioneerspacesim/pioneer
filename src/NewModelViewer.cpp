@@ -108,8 +108,6 @@ void ModelViewer::Run(int argc, char** argv)
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
 	Lua::Init();
-	lua_State *l = Lua::manager->GetLuaState();
-	PersistentTable::Init(l);
 
 	//video
 	Graphics::Settings videoSettings = {};
@@ -129,7 +127,6 @@ void ModelViewer::Run(int argc, char** argv)
 	viewer->MainLoop();
 
 	//uninit components
-	PersistentTable::Uninit(Lua::manager->GetLuaState());
 	Lua::Uninit();
 	delete renderer;
 	Graphics::Uninit();

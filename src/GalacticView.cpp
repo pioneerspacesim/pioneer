@@ -10,11 +10,15 @@
 #include "galaxy/Galaxy.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "AnimationCurves.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 
 using namespace Graphics;
+static const float ZOOM_IN_SPEED = 2;
+static const float ZOOM_OUT_SPEED = 1.f/ZOOM_IN_SPEED;
+static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user settings.
 
 GalacticView::GalacticView() :
 	m_quad(Graphics::TextureBuilder::UI("galaxy.bmp").CreateTexture(Gui::Screen::GetRenderer()))
@@ -22,6 +26,7 @@ GalacticView::GalacticView() :
 
 	SetTransparency(true);
 	m_zoom = 1.0f;
+	m_zoomTo = m_zoom;
 
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
@@ -136,14 +141,16 @@ void GalacticView::Update()
 {
 	const float frameTime = Pi::GetFrameTime();
 
-	if (m_zoomInButton->IsPressed()) m_zoom *= pow(4.0f, frameTime);
-	if (m_zoomOutButton->IsPressed()) m_zoom *= pow(0.25f, frameTime);
+	if (m_zoomInButton->IsPressed()) m_zoomTo *= pow(ZOOM_IN_SPEED * Pi::GetMoveSpeedShiftModifier(), frameTime);
+	if (m_zoomOutButton->IsPressed()) m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), frameTime);
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
-		if (Pi::KeyState(SDLK_EQUALS)) m_zoom *= pow(4.0f, frameTime);
-		if (Pi::KeyState(SDLK_MINUS)) m_zoom *= pow(0.25f, frameTime);
+		if (Pi::KeyState(SDLK_EQUALS)) m_zoomTo *= pow(ZOOM_IN_SPEED * Pi::GetMoveSpeedShiftModifier(), frameTime);
+		if (Pi::KeyState(SDLK_MINUS)) m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), frameTime);
 	}
+	m_zoomTo = Clamp(m_zoomTo, 0.5f, 100.0f);
 	m_zoom = Clamp(m_zoom, 0.5f, 100.0f);
+	AnimationCurves::Approach(m_zoom, m_zoomTo, frameTime);
 
 	m_scaleReadout->SetText(stringf(Lang::INT_LY, formatarg("scale", int(0.5*Galaxy::GALAXY_RADIUS/m_zoom))));
 }
@@ -151,11 +158,10 @@ void GalacticView::Update()
 void GalacticView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView()) {
-		const float ft = Pi::GetFrameTime();
 		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
-				m_zoom *= pow(0.25f, ft);
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
-				m_zoom *= pow(4.0f, ft);
+			m_zoomTo *= ((ZOOM_OUT_SPEED-1) * WHEEL_SENSITIVITY+1) / Pi::GetMoveSpeedShiftModifier();
+		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+			m_zoomTo *= ((ZOOM_IN_SPEED-1) * WHEEL_SENSITIVITY+1) * Pi::GetMoveSpeedShiftModifier();
 	}
 }
 

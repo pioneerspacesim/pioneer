@@ -965,21 +965,21 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			fadeInLength = 3000.0;
 		}
 
-		FadeInModelIfDark(r, GetCollMesh()->GetBoundingRadius(),
-							viewCoords.Length(), fadeInEnd, fadeInLength, overallLighting, minIllumination);
-
-		RenderLmrModel(r, viewCoords, viewTransform);
-
-		// reset ambient colour as Fade-in model may change it
-		r->SetAmbientColor(Color::BLACK);
-
 		/* don't render city if too far away */
 		if (viewCoords.Length() < 1000000.0){
+			r->SetAmbientColor(Color::BLACK);
 			if (!m_adjacentCity) {
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
 			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform, overallLighting, minIllumination);
 		} 
+
+		r->SetAmbientColor(Color::BLACK);
+
+		FadeInModelIfDark(r, GetCollMesh()->GetBoundingRadius(),
+							viewCoords.Length(), fadeInEnd, fadeInLength, overallLighting, minIllumination);
+
+		RenderLmrModel(r, viewCoords, viewTransform);
 
 		// restore old lights
 		r->SetLights(origLights.size(), &origLights[0]);
