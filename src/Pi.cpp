@@ -122,6 +122,7 @@ bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
 bool Pi::navTunnelDisplayed;
+Gui::Fixed *Pi::menu;
 const char * const Pi::combatRating[] = {
 	Lang::HARMLESS,
 	Lang::MOSTLY_HARMLESS,
@@ -934,9 +935,11 @@ void Pi::HandleMenuKey(int n)
 
 		case 5: // Settings
 		{
+			Gui::Screen::RemoveBaseWidget(menu);
 			SetView(Pi::gameMenuView);
 			while (Pi::GetView() == Pi::gameMenuView) Gui::MainLoopIteration();
 			SetView(0);
+			Gui::Screen::AddBaseWidget(menu, 0, 0);
 			return;
 		}
 
@@ -951,7 +954,7 @@ void Pi::Start()
 {
 	Background::Container *background = new Background::Container(Pi::renderer, UNIVERSE_SEED);
 
-	Gui::Fixed *menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
+	menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	Gui::Screen::AddBaseWidget(menu, 0, 0);
 	menu->SetTransparency(true);
 

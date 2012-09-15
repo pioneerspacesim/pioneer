@@ -183,6 +183,8 @@ private:
 	static Sound::MusicPlayer musicPlayer;
 
 	static bool navTunnelDisplayed;
+
+	static Gui::Fixed *menu;
 };
 
 #endif /* _PI_H */
