@@ -647,18 +647,13 @@ void GameMenuView::OnSwitchTo() {
 		delete m_subview;
 		m_subview = 0;
 	}
-	// don't want to switch to this view if game not running
-	if (!Pi::game) {
-		Pi::SetView(Pi::worldView);
-	} else {
-		m_planetDetailGroup->SetSelected(Pi::detail.planets);
-		m_planetTextureGroup->SetSelected(Pi::detail.textures);
-		m_planetFractalGroup->SetSelected(Pi::detail.fracmult);
-		m_cityDetailGroup->SetSelected(Pi::detail.cities);
-		m_toggleShaders->SetPressed(Pi::config->Int("DisableShaders") == 0);
-		m_toggleFullscreen->SetPressed(Pi::config->Int("StartFullscreen") != 0);
-		m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
-		m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
-		m_toggleNavTunnel->SetPressed(Pi::worldView->IsNavTunnelDisplayed());
-	}
+	m_planetDetailGroup->SetSelected(Pi::detail.planets);
+	m_planetTextureGroup->SetSelected(Pi::detail.textures);
+	m_planetFractalGroup->SetSelected(Pi::detail.fracmult);
+	m_cityDetailGroup->SetSelected(Pi::detail.cities);
+	m_toggleShaders->SetPressed(Pi::config->Int("DisableShaders") == 0);
+	m_toggleFullscreen->SetPressed(Pi::config->Int("StartFullscreen") != 0);
+	m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
+	m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
+	//m_toggleNavTunnel->SetPressed(Pi::worldView->IsNavTunnelDisplayed());
 }
