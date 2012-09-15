@@ -620,6 +620,8 @@ MM_START_NEW_GAME_DEBUG
     New game starting on debug point
 MM_LOAD_SAVED_GAME
     Load a saved game
+MM_SETTINGS
+    Settings
 MM_QUIT
     Quit
 SCREENSHOT_FILENAME_TEMPLATE
