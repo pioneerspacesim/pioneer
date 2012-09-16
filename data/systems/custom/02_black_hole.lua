@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 local s = CustomSystem:new('Black Hole', { 'STAR_SM_BH' })
 	:govtype('CISLIBDEM')
 	:short_desc('The End of the line.')
