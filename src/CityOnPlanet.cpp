@@ -1,11 +1,13 @@
-#include "libs.h"
 #include "CityOnPlanet.h"
+#include "FileSystem.h"
 #include "Frame.h"
-#include "SpaceStation.h"
-#include "Planet.h"
-#include "Pi.h"
 #include "Game.h"
+#include "ModelCache.h"
+#include "Pi.h"
+#include "Planet.h"
+#include "SpaceStation.h"
 #include "collider/Geom.h"
+#include "newmodel/Newmodel.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 
@@ -16,7 +18,7 @@ bool s_cityBuildingsInitted = false;
 struct citybuilding_t {
 	const char *modelname;
 	double xzradius;
-	LmrModel *resolvedModel;
+	Model *resolvedModel;
 	RefCountedPtr<CollMesh> collMesh;
 };
 
@@ -46,7 +48,7 @@ LmrObjParams cityobj_params;
 void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
 {
 	double rad = (p1-p2).Length()*0.5;
-	LmrModel *model(0);
+	Model *model(0);
 	double modelRadXZ(0.0);
 	const CollMesh *cmesh(0);
 	vector3d cent = (p1+p2+p3+p4)*0.25;
@@ -139,17 +141,50 @@ void CityOnPlanet::RemoveStaticGeomsFromCollisionSpace()
 	}
 }
 
+// Get all model file names under buildings/
+// This is temporary. Buildings should be defined in BuildingSet data files, or something.
+static void enumerateNewBuildings(std::vector<std::string> &filenames)
+{
+	const std::string fullpath = FileSystem::JoinPathBelow("newmodels", "buildings");
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, fullpath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
+		const std::string &name = files.Current().GetName();
+		if (ends_with(name, ".model")) {
+			filenames.push_back(name.substr(0, name.length()-6));
+		}
+	}
+}
+
 static void lookupBuildingListModels(citybuildinglist_t *list)
 {
 	//const char *modelTagName;
-	std::vector<LmrModel*> models;
-	LmrGetModelsWithTag(list->modelTagName, models);
+	std::vector<Model*> models;
+
+	//get lmr models using a temporary vector (because of GetModelSWithTag)
+	{
+		std::vector<LmrModel*> lmrModels;
+		LmrGetModelsWithTag(list->modelTagName, lmrModels);
+		for (std::vector<LmrModel*>::iterator it = lmrModels.begin(); it != lmrModels.end(); ++it)
+			models.push_back(*it);
+	}
+
+	//get test newmodels
+	{
+		std::vector<std::string> filenames;
+		enumerateNewBuildings(filenames);
+		for (std::vector<std::string>::const_iterator it = filenames.begin();
+			it != filenames.end(); ++it)
+		{
+			Newmodel::NModel *model = Pi::modelCache->FindModel(*it);
+			models.push_back(model);
+		}
+	}
+	assert(!models.empty());
 	//printf("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
 	list->buildings = new citybuilding_t[models.size()];
 	list->numBuildings = models.size();
 
 	int i = 0;
-	for (std::vector<LmrModel*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
+	for (std::vector<Model*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
 		list->buildings[i].collMesh = (*m)->CreateCollisionMesh(&cityobj_params);
 		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
@@ -322,7 +357,9 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		_rot[12] = float(pos.x);
 		_rot[13] = float(pos.y);
 		_rot[14] = float(pos.z);
+		glPushMatrix();
 		(*i).model->Render(r, _rot, &cityobj_params);
+		glPopMatrix();
 
 		// restore old ambient colour
 		if (illumination <= minIllumination) 
