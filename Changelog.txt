@@ -5,9 +5,12 @@ Alpha 27
 
    * Minor changes and tweaks
      * Smooth zoom animation in World, System, Sector and Galactic views (#1170)
+     * Earth start location has returned to Los Angeles (in daytime now) (#1506)
 
    * Script changes
      * EventQueue, which was deprecated in alpha 26, has been removed (#1485)
+     * Orbital phase (season) and rotational phase (time) can now be set in custom
+       systems with :rotational_phase_at_start and :orbital_phase_at_start (#1506)
 
    * Internal changes
      * Terrain generation thread now sleeps until being signalled (#1169)

@@ -20,10 +20,12 @@ public:
 	fixed                  semiMajorAxis; // in AUs
 	fixed                  eccentricity;
 	fixed                  orbitalOffset;
+	fixed                  orbitalPhaseAtStart; // mean anomaly at start 0 to 2 pi 
 	bool                   want_rand_offset;
 	// for orbiting things, latitude = inclination
 	float                  latitude, longitude; // radians
 	fixed                  rotationPeriod; // in days
+	fixed                  rotationalPhaseAtStart; // 0 to 2 pi
 	fixed                  axialTilt; // in radians
 	std::string            heightMapFilename;
 	int                    heightMapFractal;
