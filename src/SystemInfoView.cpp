@@ -218,7 +218,7 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 	} else {
 		size[0] = -1;
 		size[1] = -1;
-		pos[!dir] += 320;
+		pos[!dir] += 400;
 	}
 
 	float prevSizeForKids = size[!dir];
