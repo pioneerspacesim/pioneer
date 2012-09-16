@@ -34,8 +34,7 @@ Loader::~Loader()
 NModel *Loader::LoadModel(const std::string &filename)
 {
 	NModel *m = LoadModel(filename, "newmodels");
-	if (m) return m;
-	throw LoadingError("Newmodel::LoadingError");
+	return m;
 }
 
 NModel *Loader::LoadModel(const std::string &shortname, const std::string &basepath)
@@ -200,18 +199,18 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		it != def.tagDefs.end();
 		++it)
 	{
-		if (!anim) anim = new Animation("wiggle", 100.0, Animation::ONCE);
+		//if (!anim) anim = new Animation("wiggle", 100.0, Animation::ONCE);
 		const vector3f &pos = (*it).position;
 		MatrixTransform *tagTrans = new MatrixTransform(matrix4x4f::Translation(pos.x, pos.y, pos.z));
 		//add a test animation for the tag (which is silly)
-		anim->channels.push_back(AnimationChannel(tagTrans));
+		/*anim->channels.push_back(AnimationChannel(tagTrans));
 		AnimationChannel &chan = anim->channels.back();
 		chan.rotationKeys.push_back(RotationKey(0.0, Quaternionf(1.f, 0.f, 0.f, 0.f)));
 		chan.rotationKeys.push_back(RotationKey(50.0, Quaternionf(1.5707f, vector3f(1.f, 0.f, 0.f))));
 		chan.rotationKeys.push_back(RotationKey(100.0, Quaternionf(1.f, 0.f, 0.f, 0.f)));
 		chan.positionKeys.push_back(PositionKey(0.0, pos));
 		chan.positionKeys.push_back(PositionKey(50.0, pos + vector3f(0.f, 3.f, 0.f)));
-		chan.positionKeys.push_back(PositionKey(100.0, pos));
+		chan.positionKeys.push_back(PositionKey(100.0, pos));*/
 		model->AddTag((*it).name, tagTrans);
 	}
 
