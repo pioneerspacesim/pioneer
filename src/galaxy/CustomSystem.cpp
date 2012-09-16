@@ -527,8 +527,6 @@ CustomSystem::~CustomSystem()
 CustomSystemBody::CustomSystemBody():
 	averageTemp(0),
 	want_rand_offset(true),
-	orbitalPhaseAtStart(fixed(0)),
-	rotationalPhaseAtStart(fixed(0)),
 	latitude(0.0),
 	longitude(0.0),
 	ringStatus(WANT_RANDOM_RINGS),
