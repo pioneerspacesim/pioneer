@@ -7,6 +7,9 @@ Alpha 27
      * Smooth zoom animation in World, System, Sector and Galactic views (#1170)
      * Earth start location has returned to Los Angeles (in daytime now) (#1506)
 
+   * Fixes
+     * Avoid icons in some ternary systems overlapping each other (#1510, #1511) 
+
    * Script changes
      * EventQueue, which was deprecated in alpha 26, has been removed (#1485)
      * Orbital phase (season) and rotational phase (time) can now be set in custom
