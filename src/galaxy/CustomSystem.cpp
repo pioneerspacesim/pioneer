@@ -119,9 +119,9 @@ static int l_csb_orbital_phase_at_start(lua_State *L)
 {
 	CustomSystemBody *csb = l_csb_check(L, 1);
 	const fixed *value = LuaFixed::CheckFromLua(L, 2);
-	csb->orbitalPhaseAtStart = *value;
-	if ((csb->orbitalPhaseAtStart.ToDouble() < 0.0) || (csb->orbitalPhaseAtStart.ToDouble() > double(2.0*M_PI))) 
+	if ((value->ToDouble() < 0.0) || (value->ToDouble() > double(2.0*M_PI)))
 		return luaL_error(L, "Error: Custom system definition: Orbital phase at game start must be between 0 and 2 PI radians (including 0 but not 2 PI)."); 
+	csb->orbitalPhaseAtStart = *value;
 	lua_settop(L, 1);
 	return 1;
 }
@@ -130,9 +130,9 @@ static int l_csb_rotational_phase_at_start(lua_State *L)
 {
 	CustomSystemBody *csb = l_csb_check(L, 1);
 	const fixed *value = LuaFixed::CheckFromLua(L, 2);
-	csb->rotationalPhaseAtStart = *value;
-	if ((csb->rotationalPhaseAtStart.ToDouble() < 0.0) || (csb->rotationalPhaseAtStart.ToDouble() > double(2.0*M_PI))) 
+	if ((value->ToDouble() < 0.0) || (value->ToDouble() > double(2.0*M_PI)))
 		return luaL_error(L, "Error: Custom system definition: Rotational phase at start must be between 0 and 2 PI radians (including 0 but not 2 PI).\n The rotational phase is the phase of the body's spin about it's axis at game start.");
+	csb->rotationalPhaseAtStart = *value;
 	lua_settop(L, 1);
 	return 1;
 }
