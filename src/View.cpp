@@ -26,14 +26,18 @@ View::~View() {
 
 void View::ShowAll() {
 	Gui::Screen::AddBaseWidget(this, 0, 0);
-	Gui::Screen::AddBaseWidget(Pi::cpan, 0, Gui::Screen::GetHeight()-80);
-	Gui::Screen::AddBaseWidget(m_rightButtonBar, Gui::Screen::GetWidth()-128, Gui::Screen::GetHeight()-26);
-	Gui::Screen::AddBaseWidget(m_rightRegion2, Gui::Screen::GetWidth()-127, Gui::Screen::GetHeight()-45);
-	Gui::Screen::AddBaseWidget(m_rightRegion1, Gui::Screen::GetWidth()-123, Gui::Screen::GetHeight()-62);
 
-	m_rightButtonBar->ShowAll();
-	m_rightRegion2->ShowAll();
-	m_rightRegion1->ShowAll();
+	if (Pi::game) {
+		Gui::Screen::AddBaseWidget(Pi::cpan, 0, Gui::Screen::GetHeight()-80);
+		Gui::Screen::AddBaseWidget(m_rightButtonBar, Gui::Screen::GetWidth()-128, Gui::Screen::GetHeight()-26);
+		Gui::Screen::AddBaseWidget(m_rightRegion2, Gui::Screen::GetWidth()-127, Gui::Screen::GetHeight()-45);
+		Gui::Screen::AddBaseWidget(m_rightRegion1, Gui::Screen::GetWidth()-123, Gui::Screen::GetHeight()-62);
+
+		m_rightButtonBar->ShowAll();
+		m_rightRegion2->ShowAll();
+		m_rightRegion1->ShowAll();
+	}
+
 	Gui::Fixed::ShowAll();
 }
 

@@ -837,6 +837,9 @@
 >>>>>>> fluffyfreak/factions01
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\contrib\vcacheopt\vcacheopt.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">

@@ -1,14 +1,24 @@
 Alpha 27
 
+   * New features
+     * The settings screen is now acessible from the main menu (#1187, #1512)
+
    * Minor changes and tweaks
      * Smooth zoom animation in World, System, Sector and Galactic views (#1170)
+     * Earth start location has returned to Los Angeles (in daytime now) (#1506)
+
+   * Fixes
+     * Avoid icons in some ternary systems overlapping each other (#1510, #1511) 
 
    * Script changes
      * EventQueue, which was deprecated in alpha 26, has been removed (#1485)
+     * Orbital phase (season) and rotational phase (time) can now be set in custom
+       systems with :rotational_phase_at_start and :orbital_phase_at_start (#1506)
 
    * Internal changes
      * Terrain generation thread now sleeps until being signalled (#1169)
      * New C++ wrappers for Lua table manipulation and value persistence (#1438)
+     * Terrain patches are now rendered more efficiently (#1507)
 
 Alpha 26
 

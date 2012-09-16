@@ -27,12 +27,14 @@ enum EconType { // <enum name=EconType prefix=ECON_>
 class StarSystem;
 
 struct Orbit {
+	Orbit(): orbitalPhaseAtStart(0.0) {};
 	vector3d OrbitalPosAtTime(double t) const;
 	// 0.0 <= t <= 1.0. Not for finding orbital pos
 	vector3d EvenSpacedPosAtTime(double t) const;
 	/* duplicated from SystemBody... should remove probably */
 	double eccentricity;
 	double semiMajorAxis;
+	double orbitalPhaseAtStart; // 0 to 2 pi radians
 	/* dup " " --------------------------------------- */
 	double period; // seconds
 	matrix4x4d rotMatrix;
@@ -183,10 +185,12 @@ public:
 	fixed mass; // earth masses if planet, solar masses if star
 	fixed orbMin, orbMax; // periapsism, apoapsis in AUs
 	fixed rotationPeriod; // in days
+	fixed rotationalPhaseAtStart; // 0 to 2 pi
 	fixed humanActivity; // 0 - 1
 	fixed semiMajorAxis; // in AUs
 	fixed eccentricity;
 	fixed orbitalOffset;
+	fixed orbitalPhaseAtStart; // 0 to 2 pi
 	fixed axialTilt; // in radians
 	int averageTemp;
 	BodyType type;
