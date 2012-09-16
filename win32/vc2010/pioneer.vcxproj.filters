@@ -821,7 +821,6 @@
     <ClInclude Include="..\..\src\Lua.h">
       <Filter>src</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="..\..\src\AnimationCurves.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -832,9 +831,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaPushPull.h">
-=======
+	  <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\Factions.h">
->>>>>>> fluffyfreak/factions01
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\contrib\vcacheopt\vcacheopt.h">
