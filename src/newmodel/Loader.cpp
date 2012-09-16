@@ -38,38 +38,35 @@ NModel *Loader::LoadModel(const std::string &filename)
 	throw LoadingError("Newmodel::LoadingError");
 }
 
-NModel *Loader::LoadModel(const std::string &filename, const std::string &basepath)
+NModel *Loader::LoadModel(const std::string &shortname, const std::string &basepath)
 {
-	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::IncludeDirs); !files.Finished(); files.Next())
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
 	{
 		const FileSystem::FileInfo &info = files.Current();
 		const std::string &fpath = info.GetAbsolutePath();
 
-		if (info.IsDir()) {
-			NModel *m = LoadModel(filename, info.GetPath());
-			if (m) return m;
-		}
 		//check it's the expected type
-		else if (info.IsFile() && ends_with(fpath, ".model")) {
+		if (info.IsFile() && ends_with(fpath, ".model")) {
 			//check it's the wanted name & load it
 			const std::string name = info.GetName();
-			//XXX hmm
-			m_curPath = info.GetDir();
-			//strip trailing slash
-			if (!m_curPath.empty() && m_curPath[m_curPath.length()-1] == '/') {
-				m_curPath = m_curPath.substr(0, m_curPath.length()-1);
-			}
-			if (filename == name.substr(0, name.length()-6)) {
+
+			if (shortname == name.substr(0, name.length()-6)) {
 				ModelDefinition modelDefinition;
 				try {
-					//XXX use filesystem and load the file as a string
+					//curPath is used to find patterns, possibly other data
+					//files for this model. Strip trailing slash
+					m_curPath = info.GetDir();
+					assert(!m_curPath.empty());
+					if (m_curPath[m_curPath.length()-1] == '/')
+						m_curPath = m_curPath.substr(0, m_curPath.length()-1);
+
 					Parser p(fpath, m_curPath);
 					p.Parse(&modelDefinition);
 				} catch (const std::string &str) {
 					std::cerr << str << std::endl;
 					throw LoadingError(str);
 				}
-				modelDefinition.name = name.substr(0, name.length()-6);
+				modelDefinition.name = shortname;
 				return CreateModel(modelDefinition);
 			}
 		}
