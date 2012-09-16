@@ -10,8 +10,8 @@ define_ship {
 	angular_thrust = 22e6,
 	gun_mounts =
 	{
-		{ v(0,0,-26), v(0,0,-1) },
-		{ v(0,-2,9), v(0,0,1) },
+		{ v(0,0,-26), v(0,0,-1), 0, 0 },
+		{ v(0,-2,9), v(0,0,1), 0, 0 },
 	},
 	max_cargo = 50,
 	max_laser = 1,
