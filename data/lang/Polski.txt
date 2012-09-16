@@ -28,9 +28,9 @@ VID_LINK_ESTABLISHED
 VID_CONNECTING
     Łączenie...
 BOUGHT_1T_OF
-    Kupiłeś 1t: %commodity.
+    Kupiono 1t: %commodity.
 SOLD_1T_OF
-    Sprzedałeś 1t: %commodity.
+    Sprzedano 1t: %commodity.
 WELCOME_TO_MARKET
     Stacja %station. Witamy w sklepie.
 GO_BACK
@@ -687,7 +687,7 @@ SOCIAL_DEMOCRACY
 CORPORATE_SYSTEM
     System korporacyjny
 MILITARY_DICTATORSHIP
-    Dyktatora wojskowa
+    Dyktatura wojskowa
 COMMUNIST
     Komunizm
 PLUTOCRATIC_DICTATORSHIP
@@ -1155,9 +1155,9 @@ NAVIGATION_TARGETS_IN_THIS_SYSTEM
 YOU_NO_MONEY
     Nie masz pieniędzy.
 FINE_PAID_N_BUT_N_REMAINING
-    Zapłaciłeś %paid kary, lecz wciąż jesteś winien %fine.
+    Zapłacono %paid kary, nadal masz %fine do uregulowania.
 FINE_PAID_N
-    Przelałeś na konto policji %fine.
+    Przelano na konto policji %fine.
 SET_HYPERSPACE_DESTINATION_TO
     "Ustawiono cel skoku na %system"
 NO_TARGET_SELECTED
