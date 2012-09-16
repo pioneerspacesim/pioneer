@@ -23,6 +23,7 @@ The Pioneer team, past and present, as at 14 September 2012 (alpha 26):
   John Jordan
   Kimmo Kotajärvi
   Konrad Mruk
+  Krzysztof Niedźwiecki
   Lee Reilly
   Lars Westerhoff
   Leonardo Manna
