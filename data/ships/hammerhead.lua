@@ -21,8 +21,8 @@ define_ship {
 	bottom_camera = v(0,-10,0),
 	gun_mounts =
 	{
-		{ v(0,-2,-46), v(0,0,-1) },
-		{ v(0,0,0), v(0,0,1) },
+		{ v(0,-2,-46), v(0,0,-1), 0, 0 },
+		{ v(0,0,0), v(0,0,1), 0, 0 },
 	},
 	max_atmoshield = 0,
 	max_cargo = 1220,
