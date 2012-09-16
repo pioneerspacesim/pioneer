@@ -366,7 +366,7 @@ tests_LDADD = \
 	terrain/libterrain.a \
 	../contrib/miniz/libminiz.a
 
-INCLUDES = -isystem @top_srcdir@/contrib -isystem @top_srcdir@/contrib/vcacheopt
+INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA
 INCLUDES += -isystem @top_srcdir@/contrib/lua
 endif
