@@ -153,15 +153,17 @@ Renderer* Init(const Settings &vs)
 	if (!glewIsSupported("GL_ARB_vertex_buffer_object"))
 		OS::Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
 
+	const bool useDXTnTextures = vs.useDXTn && glewIsSupported("GL_ARB_texture_compression");
+
 	Renderer *renderer = 0;
 
 	shadersAvailable = glewIsSupported("GL_VERSION_2_0");
 	shadersEnabled = vs.shaders && shadersAvailable;
 
 	if (shadersEnabled)
-		renderer = new RendererGL2(vs.width, vs.height);
+		renderer = new RendererGL2(vs.width, vs.height, useDXTnTextures);
 	else
-		renderer = new RendererLegacy(vs.width, vs.height);
+		renderer = new RendererLegacy(vs.width, vs.height, useDXTnTextures);
 
 	printf("Initialized %s\n", renderer->GetName());
 

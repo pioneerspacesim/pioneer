@@ -4,6 +4,22 @@
 //warning C4715: 'Graphics::GLImageTypeForTextureFormat' : not all control paths return a value
 namespace Graphics {
 
+inline GLint GLCompressedTextureFormat(TextureFormat format) {
+	switch (format) {
+		case TEXTURE_RGBA: return GL_COMPRESSED_RGBA;
+		case TEXTURE_RGB:  return GL_COMPRESSED_RGB;
+		default: assert(0); return 0;
+	}
+}
+
+inline GLint GLCompressedImageSize(TextureFormat format, const int x, const int y) {
+	switch (format) {
+		case TEXTURE_RGBA: return (x*y);
+		case TEXTURE_RGB:  return (x*y)>>1;	// (x*y)/2
+		default: assert(0); return 0;
+	}
+}
+
 inline GLint GLTextureFormat(TextureFormat format) {
 	switch (format) {
 		case TEXTURE_RGBA: return GL_RGBA;
@@ -43,7 +59,8 @@ inline GLint GLImageTypeForTextureFormat(TextureFormat format) {
 	}
 }
 
-TextureGL::TextureGL(const TextureDescriptor &descriptor) : Texture(descriptor), m_target(GL_TEXTURE_2D) // XXX don't force target
+TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed) : 
+	Texture(descriptor), m_target(GL_TEXTURE_2D) // XXX don't force target
 {
 	glGenTextures(1, &m_texture);
 	glBindTexture(m_target, m_texture);
@@ -54,10 +71,19 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor) : Texture(descriptor),
 		case GL_TEXTURE_2D:
 			if (descriptor.generateMipmaps)
 				glTexParameteri(m_target, GL_GENERATE_MIPMAP, GL_TRUE);
-			glTexImage2D(
-				m_target, 0, GLTextureFormat(descriptor.format),
-				descriptor.dataSize.x, descriptor.dataSize.y, 0,
-				GLImageFormatForTextureFormat(descriptor.format), GLImageTypeForTextureFormat(descriptor.format), 0);
+
+			if( useCompressed ) {
+				glCompressedTexImage2D(
+					m_target, 0, GLCompressedTextureFormat(descriptor.format),
+					descriptor.dataSize.x, descriptor.dataSize.y, 0,
+					GLCompressedImageSize(descriptor.format, descriptor.dataSize.x, descriptor.dataSize.y), 0);
+			} else {
+				glTexImage2D(
+					m_target, 0, GLTextureFormat(descriptor.format),
+					descriptor.dataSize.x, descriptor.dataSize.y, 0,
+					GLImageFormatForTextureFormat(descriptor.format), 
+					GLImageTypeForTextureFormat(descriptor.format), 0);
+			}
 			break;
 
 		default:

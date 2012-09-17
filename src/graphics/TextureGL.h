@@ -22,7 +22,7 @@ public:
 private:
 	friend class RendererLegacy;
 	friend class RendererGL2;
-	TextureGL(const TextureDescriptor &descriptor);
+	TextureGL(const TextureDescriptor &descriptor, const bool useCompressed);
 
 	GLenum m_target;
 	GLuint m_texture;
