@@ -71,7 +71,7 @@ NModel *Loader::LoadModel(const std::string &shortname, const std::string &basep
 		}
 
 	}
-	return 0;
+	throw (LoadingError("File not found"));
 }
 
 Graphics::Texture *Loader::GetWhiteTexture() const
