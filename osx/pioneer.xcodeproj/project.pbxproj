@@ -935,6 +935,7 @@
 		4ADF51941557477400ACF5A0 /* LuaSystemBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSystemBody.h; sourceTree = "<group>"; };
 		4ADF51951557477400ACF5A0 /* LuaVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaVector.cpp; sourceTree = "<group>"; };
 		4ADF51961557477400ACF5A0 /* LuaVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaVector.h; sourceTree = "<group>"; };
+		4AE46C491607513400308C22 /* vcacheopt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vcacheopt.h; sourceTree = "<group>"; };
 		4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL-1.2.0.dylib"; path = "/opt/local/lib/libSDL-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3D1383E63C00B55DEB /* libSDL_image-1.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_image-1.2.0.dylib"; path = "/opt/local/lib/libSDL_image-1.2.0.dylib"; sourceTree = "<absolute>"; };
 		4AE5CA3F1383E65B00B55DEB /* libSDL_sound-1.0.1.0.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL_sound-1.0.1.0.2.dylib"; path = "/opt/local/lib/libSDL_sound-1.0.1.0.2.dylib"; sourceTree = "<absolute>"; };
@@ -1047,8 +1048,9 @@
 			isa = PBXGroup;
 			children = (
 				4A37073215A879D100E7E5F6 /* jenkins */,
-				4AAC9FDC15458FE400116131 /* miniz */,
 				4A1903C2138AA39C00E0229C /* lua */,
+				4AAC9FDC15458FE400116131 /* miniz */,
+				4AE46C471607513400308C22 /* vcacheopt */,
 			);
 			name = contrib;
 			path = ../contrib;
@@ -1696,6 +1698,14 @@
 				4ADF51891557473400ACF5A0 /* SystemPath.h */,
 			);
 			path = galaxy;
+			sourceTree = "<group>";
+		};
+		4AE46C471607513400308C22 /* vcacheopt */ = {
+			isa = PBXGroup;
+			children = (
+				4AE46C491607513400308C22 /* vcacheopt.h */,
+			);
+			path = vcacheopt;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
