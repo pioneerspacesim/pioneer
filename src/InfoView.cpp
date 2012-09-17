@@ -215,8 +215,8 @@ public:
 	ShipInfoPage(InfoView *v) : InfoViewPage(v) {
 		info1 = new Gui::Label("");
 		info2 = new Gui::Label("");
-		Add(info1, 40, 40);
-		Add(info2, 250, 40);
+		Add(info1, 40, 16);
+		Add(info2, 250, 16);
 		ShowAll();
 	};
 
@@ -229,7 +229,9 @@ public:
 		char buf[512];
 		std::string col1, col2;
 		const ShipType &stype = Pi::player->GetShipType();
-		col1 = std::string(Lang::SHIP_INFORMATION_HEADER)+std::string(stype.name);
+		col1 = std::string(Lang::CASH)+": $"+"XXXXXXX.XX";
+		col1 += "\n";
+		col1 += std::string(Lang::SHIP_INFORMATION_HEADER)+std::string(stype.name);
 		col1 += "\n\n";
         col1 += std::string(Lang::HYPERDRIVE);
 		col1 += ":\n\n";
@@ -248,7 +250,7 @@ public:
         col1 += std::string(Lang::HYPERSPACE_RANGE);
         col1 += ":\n\n";
 
-		col2 = "\n\n";
+		col2 = "\n\n\n";
 
 		Equip::Type e = Pi::player->m_equipment.Get(Equip::SLOT_ENGINE);
 		col2 += std::string(Equip::types[e].name);
