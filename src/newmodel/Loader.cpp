@@ -230,21 +230,6 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 	return model;
 }
 
-void Loader::FindTags(const aiNode *node, TagList &output)
-{
-	const std::string nodename(node->mName.C_Str());
-	if (starts_with(nodename, "tag_")) {
-		aiVector3D position;
-		aiQuaternion rotation;
-		node->mTransformation.DecomposeNoScaling(rotation, position);
-		output.push_back(TagDefinition(nodename, vector3f(position.x, position.y, position.z)));
-	}
-	for(unsigned int i = 0; i < node->mNumChildren; i++) {
-		aiNode *child = node->mChildren[i];
-		FindTags(child, output);
-	}
-}
-
 void Loader::FindPatterns(PatternContainer &output)
 {
 	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, m_curPath); !files.Finished(); files.Next()) {
@@ -341,10 +326,6 @@ Node *Loader::LoadMesh(const std::string &filename, NModel *model, const AnimLis
 	m_root = node;
 
 	ConvertAnimations(scene, animDefs, model);
-
-	//try to figure out tag points, in case we happen to use an
-	//advanced file format (collada)
-	FindTags(scene->mRootNode, modelTags);
 
 	return node;
 }
@@ -609,6 +590,10 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 			create_thruster(parent, m, m_renderer, accum, starts_with(nodename, "thruster_linear"));
 		} else if (starts_with(nodename, "label_")) {
 			CreateLabel(parent, m);
+		} else if (starts_with(nodename, "tag_")) {
+			vector3f tagpos = accum * m.GetTranslate();
+			MatrixTransform *tagMt = new MatrixTransform(matrix4x4f::Translation(tagpos));
+			m_model->AddTag(nodename, tagMt);
 		}
 		return;
 	}

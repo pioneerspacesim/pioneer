@@ -52,7 +52,6 @@ private:
 	void ConvertNodes(aiNode *node, Group *parent, std::vector<Graphics::Surface*>& meshes, const matrix4x4f&);
 	void CreateLabel(Group *parent, const matrix4x4f &);
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
-	void FindTags(const aiNode *node, TagList &output); //locate tags from assimp structure
 	void LoadCollision(const std::string &filename);
 };
 
