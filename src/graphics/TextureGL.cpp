@@ -6,16 +6,16 @@ namespace Graphics {
 
 inline GLint GLCompressedTextureFormat(TextureFormat format) {
 	switch (format) {
-		case TEXTURE_RGBA: return GL_COMPRESSED_RGBA;
-		case TEXTURE_RGB:  return GL_COMPRESSED_RGB;
+		case TEXTURE_RGBA: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		case TEXTURE_RGB:  return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
 		default: assert(0); return 0;
 	}
 }
 
-inline GLint GLCompressedImageSize(TextureFormat format, const int x, const int y) {
+inline GLsizei GLCompressedImageSize(TextureFormat format, const int x, const int y) {
 	switch (format) {
-		case TEXTURE_RGBA: return (x*y);
-		case TEXTURE_RGB:  return (x*y)>>1;	// (x*y)/2
+		case TEXTURE_RGBA: return ((x+3)/4) * ((y+3)/4) * 16;
+		case TEXTURE_RGB:  return ((x+3)/4) * ((y+3)/4) * 8;
 		default: assert(0); return 0;
 	}
 }
@@ -74,7 +74,7 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 
 			if( useCompressed ) {
 				glCompressedTexImage2D(
-					m_target, 0, GLCompressedTextureFormat(descriptor.format),
+					m_target, 0, GLCompressedTextureFormat(descriptor.format), 
 					descriptor.dataSize.x, descriptor.dataSize.y, 0,
 					GLCompressedImageSize(descriptor.format, descriptor.dataSize.x, descriptor.dataSize.y), 0);
 			} else {
