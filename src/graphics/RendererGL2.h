@@ -24,7 +24,7 @@ namespace GL2 {
 class RendererGL2 : public RendererLegacy
 {
 public:
-	RendererGL2(int width, int height, bool useCompressed);
+	RendererGL2(const Graphics::Settings &vs);
 	virtual ~RendererGL2();
 
 	virtual const char* GetName() const { return "GL2 renderer"; }

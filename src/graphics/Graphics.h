@@ -18,7 +18,7 @@ namespace Graphics {
 	struct Settings {
 		bool fullscreen;
 		bool shaders;
-		bool useDXTn;
+		bool useTextureCompression;
 		int vsync;
 		int requestedSamples;
 		int height;

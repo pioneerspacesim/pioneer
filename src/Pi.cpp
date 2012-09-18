@@ -300,7 +300,7 @@ void Pi::Init()
 	videoSettings.shaders = (config->Int("DisableShaders") == 0);
 	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
 	videoSettings.vsync = (config->Int("VSync") != 0);
-	videoSettings.useDXTn = (config->Int("UseOpenGLDXTnTextures") != 0);
+	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
 
 	Pi::renderer = Graphics::Init(videoSettings);
 	{

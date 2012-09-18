@@ -8,11 +8,12 @@
 namespace Graphics {
 
 class Texture;
+struct Settings;
 
 class RendererLegacy : public Renderer
 {
 public:
-	RendererLegacy(int width, int height, bool useCompressed);
+	RendererLegacy(const Graphics::Settings &vs);
 	virtual ~RendererLegacy();
 
 	virtual const char* GetName() const { return "Legacy renderer"; }

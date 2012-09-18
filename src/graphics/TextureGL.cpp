@@ -12,14 +12,6 @@ inline GLint GLCompressedTextureFormat(TextureFormat format) {
 	}
 }
 
-/*inline GLsizei GLCompressedImageSize(TextureFormat format, const int x, const int y) {
-	switch (format) {
-		case TEXTURE_RGBA: return ((x+3)/4) * ((y+3)/4) * 16;
-		case TEXTURE_RGB:  return ((x+3)/4) * ((y+3)/4) * 8;
-		default: assert(0); return 0;
-	}
-}*/
-
 inline GLint GLTextureFormat(TextureFormat format) {
 	switch (format) {
 		case TEXTURE_RGBA: return GL_RGBA;
