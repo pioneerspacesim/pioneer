@@ -2,10 +2,10 @@
 #include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "LuaStarSystem.h"
-#include "LuaSBody.h"
-#include "SystemPath.h"
-#include "StarSystem.h"
-#include "Sector.h"
+#include "LuaSystemBody.h"
+#include "galaxy/SystemPath.h"
+#include "galaxy/StarSystem.h"
+#include "galaxy/Sector.h"
 
 /*
  * Class: SystemPath
@@ -92,7 +92,7 @@ static int l_sbodypath_new(lua_State *l)
 /*
  * Method: IsSameSystem
  *
- * Determine if two <SystemPath> objects point to objects in the same system. 
+ * Determine if two <SystemPath> objects point to objects in the same system.
  *
  * > is_same = path:IsSameSystem(otherpath)
  *
@@ -242,7 +242,7 @@ static int l_sbodypath_distance_to(lua_State *l)
 
 	Sector sec1(loc1->sectorX, loc1->sectorY, loc1->sectorZ);
 	Sector sec2(loc2->sectorX, loc2->sectorY, loc1->sectorZ);
-	
+
 	double dist = Sector::DistanceBetween(&sec1, loc1->systemIndex, &sec2, loc2->systemIndex);
 
 	lua_pushnumber(l, dist);
@@ -318,8 +318,8 @@ static int l_sbodypath_get_system_body(lua_State *l)
 	// (note: this may change if it becomes possible to remove systems during the game)
 	assert(size_t(path->bodyIndex) < sys->m_bodies.size());
 
-	SBody *sbody = sys->GetBodyByPath(path);
-	LuaSBody::PushToLua(sbody);
+	SystemBody *sbody = sys->GetBodyByPath(path);
+	LuaSystemBody::PushToLua(sbody);
 	return 1;
 }
 
@@ -465,7 +465,7 @@ template <> const char *LuaObject<LuaUncopyable<SystemPath> >::s_type = "SystemP
 
 template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "New", l_sbodypath_new },
 
 		{ "IsSameSystem", l_sbodypath_is_same_system },
@@ -482,7 +482,7 @@ template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "sectorX",     l_sbodypath_attr_sector_x     },
 		{ "sectorY",     l_sbodypath_attr_sector_y     },
 		{ "sectorZ",     l_sbodypath_attr_sector_z     },
@@ -491,7 +491,7 @@ template <> void LuaObject<LuaUncopyable<SystemPath> >::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_meta[] = {
+	static const luaL_Reg l_meta[] = {
 		{ "__eq",  l_sbodypath_meta_eq },
 		{ "__tostring", l_sbodypath_meta_tostring },
 		{ 0, 0 }

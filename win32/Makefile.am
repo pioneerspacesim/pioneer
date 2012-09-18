@@ -1,5 +1,3 @@
-SUBDIRS = src
-
 EXTRA_DIST = \
 	include/GL/glew.h \
 	include/GL/glxew.h \

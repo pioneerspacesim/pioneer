@@ -11,7 +11,7 @@
 #define COMM_COMP "#fffCommodity trade analysis of #ff0%s#fff against #ff0%s#fff (current system):"
 
 class StarSystem;
-class SBody;
+class SystemBody;
 namespace Graphics { class Renderer; }
 
 class SystemInfoView: public View {
@@ -28,15 +28,18 @@ private:
 		virtual void Draw();
 		virtual void OnActivate();
 		void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
+		bool HasStarport() { return m_hasStarport; }
+		void SetHasStarport() { m_hasStarport = true; }
 	private:
 		Graphics::Renderer *m_renderer;
+		bool m_hasStarport;
 	};
 	void SystemChanged(const SystemPath &path);
 	void UpdateEconomyTab();
-	void OnBodyViewed(SBody *b);
-	void OnBodySelected(SBody *b);
+	void OnBodyViewed(SystemBody *b);
+	void OnBodySelected(SystemBody *b);
 	void OnClickBackground(Gui::MouseButtonEvent *e);
-	void PutBodies(SBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, float &prevSize);
+	void PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, int &onSurface, float &prevSize);
 	void UpdateIconSelections();
 	Gui::VBox *m_infoBox;
 	Gui::Fixed *m_econInfo;

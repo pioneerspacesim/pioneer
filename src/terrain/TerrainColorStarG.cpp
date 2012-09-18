@@ -9,7 +9,7 @@ template <>
 const char *TerrainColorFractal<TerrainColorStarG>::GetColorFractalName() const { return "StarG"; }
 
 template <>
-TerrainColorFractal<TerrainColorStarG>::TerrainColorFractal(const SBody *body) : Terrain(body)
+TerrainColorFractal<TerrainColorStarG>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
 	double height = m_maxHeightInMeters*0.1;
 	SetFracDef(0, height, 8e8, 1000.0*m_fracmult);
@@ -42,7 +42,7 @@ vector3d TerrainColorFractal<TerrainColorStarG>::GetColor(const vector3d &p, dou
 		return col;
 	} else if (n > 0.05) {
 		n -= 0.05;
-		n *= 3.533;	
+		n *= 3.533;
 		col = interpolate_color(n, vector3d(.8, .8, .0), vector3d(.6, .6, .0) );
 		return col;
 	} else {

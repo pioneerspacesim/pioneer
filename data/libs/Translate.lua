@@ -25,7 +25,7 @@ Translate = {
 -- Example:
 --
 -- > local t = Translate:GetTranslator()
--- > UI.Message(t('YOU_ARE_LATE'))
+-- > Comms.Message(t('YOU_ARE_LATE'))
 --
 -- Availability:
 --

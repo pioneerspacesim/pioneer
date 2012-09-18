@@ -14,88 +14,81 @@
  *
  */
 
-static int l_game_meta_index(lua_State *l)
+/*
+ * Attribute: player
+ *
+ * The <Player> object for the current player.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_game_attr_player(lua_State *l)
 {
 	if (!Pi::game)
-		luaL_error(l, "Can't query game state when game is not started");
-
-	const char *key = luaL_checkstring(l, 2);
-
-	/*
-	 * Attribute: player
-	 *
-	 * The <Player> object for the current player.
-	 *
-	 * Availability:
-	 *
-	 *  alpha 10
-	 *
-	 * Status:
-	 *
-	 *  stable
-	 */
-	if (strcmp(key, "player") == 0) {
+		lua_pushnil(l);
+	else
 		LuaPlayer::PushToLua(Pi::player);
-		return 1;
-	}
+	return 1;
+}
 
-	/*
-	 * Attribute: system
-	 *
-	 * The <StarSystem> object for the system the player is currently in.
-	 *
-	 * Availability:
-	 *
-	 *  alpha 10
-	 *
-	 * Status:
-	 *
-	 *  stable
-	 */
-	if (strcmp(key, "system") == 0) {
+/*
+ * Attribute: system
+ *
+ * The <StarSystem> object for the system the player is currently in.
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_game_attr_system(lua_State *l)
+{
+	if (!Pi::game)
+		lua_pushnil(l);
+	else
 		LuaStarSystem::PushToLua(Pi::game->GetSpace()->GetStarSystem().Get());
-		return 1;
-	}
+	return 1;
+}
 
-	/*
-	 * Attribute: time
-	 *
-	 * The current game time, in seconds since 12:00 01-01-3200
-	 *
-	 * Availability:
-	 *
-	 *  alpha 10
-	 *
-	 * Status:
-	 *
-	 *  stable
-	 */
-	if (strcmp(key, "time") == 0) {
+/*
+ * Attribute: time
+ *
+ * The current game time, in seconds since 12:00 01-01-3200
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_game_attr_time(lua_State *l)
+{
+	if (!Pi::game)
+		lua_pushnil(l);
+	else
 		lua_pushnumber(l, Pi::game->GetTime());
-		return 1;
-	}
-
-	lua_pushnil(l);
 	return 1;
 }
 
 void LuaGame::Register()
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	static const luaL_Reg l_attrs[] = {
+		{ "player", l_game_attr_player },
+		{ "system", l_game_attr_system },
+		{ "time",   l_game_attr_time   },
+		{ 0, 0 }
+	};
 
-	LUA_DEBUG_START(l);
-
-	lua_newtable(l);
-
-	luaL_newmetatable(l, "Game");
-	
-	lua_pushstring(l, "__index");
-	lua_pushcfunction(l, l_game_meta_index);
-	lua_rawset(l, -3);
-
-	lua_setmetatable(l, -2);
-
-	lua_setfield(l, LUA_GLOBALSINDEX, "Game");
-	
-	LUA_DEBUG_END(l, 0);
+	LuaObjectBase::CreateObject(0, l_attrs, 0);
+	lua_setglobal(Lua::manager->GetLuaState(), "Game");
 }

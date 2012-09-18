@@ -127,7 +127,7 @@ WELCOME_TO_SOMEWHERE
 # blank
 # blank
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Benvenuto a bordo della nostra Stazione Spaziale. Abbiamo riscontrato episodi di vandalismo e attacchi di graffitari. Se trova che qualcuno dei nostri annunci pubblicitari sia deviante, errato o semplicemente mancante, La preghiamo di avvertire il personale di sicurezza.\n\nL'aria che respirate è, al momento, fornita gratuitamente.
+    Benvenuto a bordo della nostra Stazione Spaziale. Abbiamo riscontrato episodi di vandalismo e attacchi di graffitari. Se trova che qualcuno dei nostri annunci pubblicitari sia deviante, errato o semplicemente mancante, La preghiamo di avvertire il personale di sicurezza.\nL'aria che respirate è, al momento, fornita gratuitamente.
 REQUEST_LAUNCH
     Richiesta autorizzazione al lancio
 SHIPYARD
@@ -248,7 +248,7 @@ INVERT_MOUSE_Y
     Inversione MouseY
 LANGUAGE_SELECTION
     Lingua (necessita riavvio)
- 
+
 # Wares
 NONE
     Vuoto
@@ -320,7 +320,7 @@ RUBBISH
     Rifiuti
 RADIOACTIVES
     Scorie Radioattive
- 
+
 # Hardware
 MISSILE_UNGUIDED
     Missile R40
@@ -1094,8 +1094,8 @@ IN_TRANSIT_TO_N_X_X_X
     In transito verso %system [%x,%y,%z]
 ALT_IN_METRES
     Alt: %altitude{f.0}m
-PRESSURE_N_BAR
-    P: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    P: %pressure{f.2} atm
 NO_HYPERDRIVE
     Ipermotore non montato
 MASS_N_TONNES

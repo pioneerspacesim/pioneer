@@ -124,7 +124,7 @@ BULLETIN_BOARD
 WELCOME_TO_SOMEWHERE
     Bine aţi venit la %station
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Bine aţi venit pe această staţie spaţială. Avem rapoarte de vandalism şi grafitti pe avizier. Daca observaţi ca vreun mesaj vă induce în eroare, este scris greşit sau pur şi simplu lipseşte, vă rugăm să anunţaţi un membru al personalului.\n\nOxigenul este momentan gratuit.
+    Bine aţi venit pe această staţie spaţială. Avem rapoarte de vandalism şi grafitti pe avizier. Daca observaţi ca vreun mesaj vă induce în eroare, este scris greşit sau pur şi simplu lipseşte, vă rugăm să anunţaţi un membru al personalului.\nOxigenul este momentan gratuit.
 REQUEST_LAUNCH
     Solicitare lansare
 SHIPYARD
@@ -245,7 +245,7 @@ INVERT_MOUSE_Y
     Inversează axa Y a mouse-ului
 LANGUAGE_SELECTION
     Limba (reporniţi jocul ca să se aplice)
- 
+
 # Wares
 NONE
     Nimic
@@ -317,7 +317,7 @@ RUBBISH
     Gunoi
 RADIOACTIVES
     Deşeuri radioactive
- 
+
 # Hardware
 MISSILE_UNGUIDED
     Racheta nedirijată R40
@@ -565,7 +565,7 @@ POOR
     Slabuţ
 AVERAGE
     Mediocru
-ABOVE_AVERAGE 
+ABOVE_AVERAGE
     Peste medie
 COMPETENT
     Competent
@@ -1006,7 +1006,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Axă semi-majoră
 TIME_POINT
-    Punctul în timp: 
+    Punctul în timp:
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     Sistem neexplorat. Vizualizarea sistemului indisponibilă.
 WHEELS_ARE_UP
@@ -1069,8 +1069,8 @@ IN_TRANSIT_TO_N_X_X_X
     În tranzit către %system [%x,%y,%z]
 ALT_IN_METRES
     Alt: %altitude{f.0}m
-PRESSURE_N_BAR
-    P: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    P: %pressure{f.2} atm
 NO_HYPERDRIVE
     Niciun motor superluminic
 MASS_N_TONNES

@@ -4,7 +4,7 @@
 #include "GuiWidget.h"
 #include <string>
 
-class TextureFont;
+namespace Text { class TextureFont; }
 
 namespace Gui {
 	class TextEntry: public Widget {
@@ -23,6 +23,7 @@ namespace Gui {
 		void SetText(const std::string &text);
 		std::string GetText() const { return m_text; }
 		void SetCursorPos(int pos) { m_cursPos = Clamp(pos, 0, signed(m_text.size())); }
+		int GetCursorPos() const { return m_cursPos; };
 		virtual bool OnKeyPress(const SDL_keysym *);
 		virtual void Show() { GrabFocus(); Widget::Show(); }
 		virtual void GrabFocus();
@@ -45,7 +46,7 @@ namespace Gui {
 		std::string m_text;
 		int m_cursPos;
 		int m_scroll;
-		RefCountedPtr<TextureFont> m_font;
+		RefCountedPtr<Text::TextureFont> m_font;
 		NewlineMode m_newlineMode;
 		int m_newlineCount;
 

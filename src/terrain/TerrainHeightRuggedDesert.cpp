@@ -40,23 +40,23 @@ double TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeight(const vector3d
 	// smoothes edges of mountains and places them only above a set altitude
 	if (n < 0.1) n += n * 10.0f * hills;
 	else n += hills;
-	if (n > 0.2) n += dunes * (0.2/n);  
+	if (n > 0.2) n += dunes * (0.2/n);
 	else n += dunes;
 	if (n < 0.1) n += n * 10.0f * mountains;
-	else n += mountains;	
-	
-	
+	else n += mountains;
+
+
 	//rocks = mountain_distrib * GetFracDef(9).amplitude * rocks*rocks*rocks;
 	//n += rocks ;
-	
-	
+
+
 	//n = (n<0.0 ? 0.0 : m_maxHeight*n);
 	n = m_maxHeight*n;
 	return n;
 }
 
 template <>
-TerrainHeightFractal<TerrainHeightRuggedDesert>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightRuggedDesert>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
 	SetFracDef(0, 0.1*m_maxHeightInMeters, 2e6, 180e3*m_fracmult);
 	double height = m_maxHeightInMeters*0.9;

@@ -37,14 +37,14 @@ local onChat = function (form, ref, option)
 		local sbody = ad.location:GetSystemBody()
 
 		form:SetMessage(string.interp(t("{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."), {
-		  target    = ad.target, 
+		  target    = ad.target,
 		  spaceport = sbody.name,
-		  system    = sys.name, 
-		  sectorX   = ad.location.sectorX, 
-		  sectorY   = ad.location.sectorY, 
-		  sectorZ   = ad.location.sectorZ, 
-		  date      = Format.Date(ad.due), 
-		  shipname  = ad.shipname, 
+		  system    = sys.name,
+		  sectorX   = ad.location.sectorX,
+		  sectorY   = ad.location.sectorY,
+		  sectorZ   = ad.location.sectorZ,
+		  date      = Format.Date(ad.due),
+		  shipname  = ad.shipname,
 		  shipregid = ad.shipregid,
 		  })
 		)
@@ -53,7 +53,7 @@ local onChat = function (form, ref, option)
 		local sbody = ad.location:GetSystemBody()
 
 		form:SetMessage(string.interp(t("It must be done after {target} leaves {spaceport}. Do not miss this opportunity."), {
-		  target    = ad.target, 
+		  target    = ad.target,
 		  spaceport = sbody.name,
       })
     )
@@ -75,6 +75,7 @@ local onChat = function (form, ref, option)
 			flavour		= ad.flavour,
 			location	= ad.location,
 			reward		= ad.reward,
+			shipid		= ad.shipid,
 			shipname	= ad.shipname,
 			shipregid	= ad.shipregid,
 			status		= 'ACTIVE',
@@ -124,8 +125,10 @@ local makeAdvert = function (station)
 	local due = Game.time + Engine.rand:Number(7*60*60*24, time * 31*60*60*24)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
-	local shiptypes = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= (danger * 17) end)
-	local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+	local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
+		return (t.hullMass >= (danger * 17)) and (t:GetEquipSlotCapacity('ATMOSHIELD') > 0) end)
+	local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+	local shipname = ShipType.GetShipType(shipid).name
 
 	local ad = {
 		client = client,
@@ -136,6 +139,7 @@ local makeAdvert = function (station)
 		isfemale = isfemale,
 		location = location,
 		reward = reward,
+		shipid = shipid,
 		shipname = shipname,
 		shipregid = RandomShipRegId(),
 		station = station,
@@ -214,17 +218,18 @@ local onEnterSystem = function (ship)
 				if mission.due > Game.time then
 					if mission.location:IsSameSystem(syspath) then -- spawn our target ship
 						local station = Space.GetBody(mission.location.bodyIndex)
-						local shiptype = ShipType.GetShipType(mission.shipname)
+						local shiptype = ShipType.GetShipType(mission.shipid)
 						local default_drive = shiptype.defaultHyperdrive
 						local lasers = EquipType.GetEquipTypes('LASER', function (e,et) return et.slot == "LASER" end)
 						local count = tonumber(string.sub(default_drive, -1)) ^ 2
 						local laser = lasers[mission.danger]
 
-						mission.ship = Space.SpawnShipDocked(mission.shipname, station)
+						mission.ship = Space.SpawnShipDocked(mission.shipid, station)
 						if mission.ship == nil then
 							return -- TODO
 						end
 						mission.ship:SetLabel(mission.shipregid)
+						mission.ship:AddEquip('ATMOSPHERIC_SHIELDING')
 						mission.ship:AddEquip(default_drive)
 						mission.ship:AddEquip(laser)
 						mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
@@ -272,7 +277,7 @@ local onShipDocked = function (ship, station)
 					target	= mission.target,
 					cash	= Format.Money(mission.reward),
 				})
-				UI.ImportantMessage(text, mission.boss)
+				Comms.ImportantMessage(text, mission.boss)
 				ship:AddMoney(mission.reward)
 				ship:RemoveMission(ref)
 				missions[ref] = nil
@@ -288,7 +293,7 @@ local onShipDocked = function (ship, station)
 						target	= mission.target,
 					})
 				end
-				UI.ImportantMessage(text, mission.boss)
+				Comms.ImportantMessage(text, mission.boss)
 				ship:RemoveMission(ref)
 				missions[ref] = nil
 			end
@@ -374,7 +379,7 @@ local onUpdateBB = function (station)
 		makeAdvert(station)
 	end
 end
-	
+
 local loaded_data
 
 local onGameStart = function ()
@@ -395,6 +400,10 @@ local onGameStart = function ()
 	loaded_data = nil
 end
 
+local onGameEnd = function ()
+	nearbysystems = nil
+end
+
 local serialize = function ()
 	return { ads = ads, missions = missions }
 end
@@ -411,15 +420,17 @@ local unserialize = function (data)
 	end
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onGameStart:Connect(onGameStart)
-EventQueue.onEnterSystem:Connect(onEnterSystem)
-EventQueue.onLeaveSystem:Connect(onLeaveSystem)
-EventQueue.onShipDestroyed:Connect(onShipDestroyed)
-EventQueue.onShipUndocked:Connect(onShipUndocked)
-EventQueue.onAICompleted:Connect(onAICompleted)
-EventQueue.onShipDocked:Connect(onShipDocked)
-EventQueue.onShipHit:Connect(onShipHit)
-EventQueue.onUpdateBB:Connect(onUpdateBB)
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onGameStart", onGameStart)
+Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onLeaveSystem", onLeaveSystem)
+Event.Register("onShipDestroyed", onShipDestroyed)
+Event.Register("onShipUndocked", onShipUndocked)
+Event.Register("onAICompleted", onAICompleted)
+Event.Register("onShipDocked", onShipDocked)
+Event.Register("onShipHit", onShipHit)
+Event.Register("onUpdateBB", onUpdateBB)
+Event.Register("onGameEnd", onGameEnd)
+
 
 Serializer:Register("Assassination", serialize, unserialize)

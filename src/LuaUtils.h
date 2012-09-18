@@ -2,13 +2,7 @@
 #define _LUAUTILS_H
 
 #include <string>
-
-extern "C" {
-#include "lua/lua.h"
-#include "lua/lauxlib.h"
-#include "lua/lualib.h"
-}
-
+#include "lua/lua.hpp"
 #include "utils.h"
 
 inline void pi_lua_settable(lua_State *l, const char *key, int value)
@@ -53,7 +47,12 @@ inline void pi_lua_settable(lua_State *l, const char *key, const char *value)
 	lua_rawset(l, -3);
 }
 
-void pi_lua_table_ro(lua_State *l);
+void pi_lua_open_standard_base(lua_State *l);
+
+// pushes a read-only proxy table that points at the table at <index>
+void pi_lua_readonly_table_proxy(lua_State *l, int index);
+// pushes the underlying (read-write) table pointed to by the proxy at <index>
+void pi_lua_readonly_table_original(lua_State *l, int index);
 
 int  pi_lua_panic(lua_State *l) __attribute((noreturn));
 void pi_lua_protected_call(lua_State* state, int nargs, int nresults);
@@ -75,9 +74,11 @@ void pi_lua_warn(lua_State *l, const char *format, ...) __attribute((format(prin
 			abort(); \
 		} \
 	} while (0)
+# define LUA_DEBUG_CHECK(luaptr, expectedStackDiff) LUA_DEBUG_END(luaptr, expectedStackDiff)
 #else
 # define LUA_DEBUG_START(luaptr)
 # define LUA_DEBUG_END(luaptr, expectedStackDiff)
+# define LUA_DEBUG_CHECK(luaptr, expectedStackDiff)
 #endif
 
 #endif

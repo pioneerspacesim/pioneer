@@ -20,6 +20,7 @@ class VolumeControl : public Gui::HBox
 			m_muteButton->AddState(0, "icons/volume_unmuted.png", "Mute");
 			m_muteButton->AddState(1, "icons/volume_muted.png", "Unmute");
 			m_muteButton->SetActiveState(muted ? 1 : 0);
+			m_muteButton->SetRenderDimensions(32, 32);
 			PackEnd(m_muteButton);
 			m_adjustment = new Gui::Adjustment();
 			m_adjustment->SetValue(volume);
@@ -59,6 +60,7 @@ public:
 	virtual void Update() {}
 	virtual void Draw3D() {}
 	virtual void OnSwitchTo();
+	virtual void ShowAll();
 	virtual void HideAll();
 	void OpenLoadDialog();
 	void OpenSaveDialog();
@@ -79,6 +81,10 @@ private:
 	void OnToggleNavTunnel(Gui::ToggleButton *b, bool state);
 	bool m_changedDetailLevel;
 	View *m_subview;
+	Gui::Button *m_saveButton;
+	Gui::Button *m_loadButton;
+	Gui::Button *m_exitButton;
+	Gui::Button *m_menuButton;
 	VolumeControl *m_masterVolume;
 	VolumeControl *m_sfxVolume;
 	VolumeControl *m_musicVolume;

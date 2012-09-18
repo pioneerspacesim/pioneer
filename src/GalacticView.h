@@ -25,7 +25,7 @@ private:
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::Label *m_scaleReadout;
 	Gui::LabelSet *m_labels;
-	float m_zoom;
+	float m_zoom, m_zoomTo;
 	Gui::TexturedQuad m_quad;
 	sigc::connection m_onMouseButtonDown;
 };

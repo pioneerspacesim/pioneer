@@ -17,36 +17,36 @@ define_model('eye_0', {
 
 		use_material('matvar0')
 		texture('eye1.png')
-		load_obj('body1.obj', Matrix.rotate(math.pi, v(0,1,0)))
+		load_obj('body1.obj', matrix.rotate(math.pi, v(0,1,0)))
 
 		use_material('engine')
 		texture('eye8.png')
-		load_obj('eng2.obj', Matrix.rotate(math.pi, v(0,1,0)))
+		load_obj('eng2.obj', matrix.rotate(math.pi, v(0,1,0)))
 		use_material('chrome')
-		load_obj('gun7.obj', Matrix.rotate(math.pi, v(0,1,0)))
+		load_obj('gun7.obj', matrix.rotate(math.pi, v(0,1,0)))
 
 		if lod > 1 then
 			use_material('win')
 			texture('eye4.png')
-			load_obj('win4.obj', Matrix.rotate(math.pi, v(0,1,0)))
+			load_obj('win4.obj', matrix.rotate(math.pi, v(0,1,0)))
 
 			use_material('t_glow')
 			texture('eye2.png')
-			load_obj('bulb3.obj', Matrix.rotate(math.pi, v(0,1,0)))
+			load_obj('bulb3.obj', matrix.rotate(math.pi, v(0,1,0)))
 			texture('eye3.png')
-			load_obj('proj8.obj', Matrix.rotate(math.pi, v(0,1,0)))
+			load_obj('proj8.obj', matrix.rotate(math.pi, v(0,1,0)))
 
 			use_material('cutout')
 			texture('eye6.png')
-			load_obj('text6.obj', Matrix.rotate(math.pi, v(0,1,0)))
+			load_obj('text6.obj', matrix.rotate(math.pi, v(0,1,0)))
 
 			use_material('chrome')
 			texture('eye9.png')
-			load_obj('naz9.obj', Matrix.rotate(math.pi, v(0,1,0)))
+			load_obj('naz9.obj', matrix.rotate(math.pi, v(0,1,0)))
 
 			use_material('e_glow')
 			texture('eye5.png')
-			load_obj('thrust5.obj', Matrix.rotate(.5*math.pi, v(0,-1,0)) * Matrix.orient(v(1,0,0),v(0,0,1),v(0,1,0)) * Matrix.translate(v(0,0,1)))
+			load_obj('thrust5.obj', matrix.rotate(.5*math.pi, v(0,-1,0)) * matrix.pose(v(1,0,0),v(0,0,1),v(0,1,0)) * matrix.translate(v(0,0,1)))
 
 			-- poslights
 			call_model('posl_white', v(0,9.9,0), v(1,0,0), v(0,1,0), 2)

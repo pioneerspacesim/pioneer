@@ -1,17 +1,19 @@
 #include "libs.h"
-#include "gui/Gui.h"
-#include "collider/collider.h"
-#include "LmrModel.h"
-#include "ShipType.h"
 #include "EquipType.h"
-#include "Ship.h" // for the flight state and ship animation enums
-#include "SpaceStation.h" // for the space station animation enums
 #include "FileSystem.h"
+#include "LmrModel.h"
+#include "ModManager.h"
+#include "OS.h"
+#include "Ship.h" // for the flight state and ship animation enums
+#include "ShipType.h"
+#include "SpaceStation.h" // for the space station animation enums
+#include "collider/collider.h"
 #include "graphics/Drawables.h"
-#include "graphics/Material.h"
 #include "graphics/Graphics.h"
+#include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "gui/Gui.h"
 
 using namespace Graphics;
 
@@ -27,9 +29,15 @@ static const char *ANIMATION_NAMESPACES[] = {
 	"SpaceStationAnimation",
 };
 
+struct VisualCollisionMesh {
+	ScopedPtr<Graphics::VertexArray> vertices;
+	ScopedPtr<Graphics::Material> material;
+
+	void Render(const LmrCollMesh*);
+};
+
 static const int LMR_ARG_MAX = 40;
 
-static SDL_Surface *g_screen;
 static int g_width, g_height;
 static int g_mouseMotion[2];
 static char g_keyState[SDLK_LAST];
@@ -119,21 +127,21 @@ public:
 			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickChangeView));
 			Add(b, 10, 10);
 			Add(new Gui::Label("[c] Change view (normal, collision mesh"), 30, 10);
-		} 
+		}
 		{
 			Gui::Button *b = new Gui::SolidButton();
 			b->SetShortcut(SDLK_r, KMOD_NONE);
 			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnResetAdjustments));
 			Add(b, 10, 30);
 			Add(new Gui::Label("[r] Reset thruster and anim sliders"), 30, 30);
-		} 
+		}
 		{
 			Gui::Button *b = new Gui::SolidButton();
 			b->SetShortcut(SDLK_m, KMOD_NONE);
 			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnClickRebuildCollMesh));
 			Add(b, 10, 50);
 			Add(new Gui::Label("[m] Rebuild collision mesh"), 30, 50);
-		} 
+		}
 		{
 			Gui::Button *b = new Gui::SolidButton();
 			b->SetShortcut(SDLK_p, KMOD_NONE);
@@ -163,7 +171,7 @@ public:
 			Add(b, 10, 30);
 			Add(new Gui::Label("[g] Toggle gear state"), 30, 30);
 		}
-#endif /* 0 */	
+#endif /* 0 */
 		{
 			Add(new Gui::Label("Linear thrust"), 0, Gui::Screen::GetHeight()-140.0f);
 			for (int i=0; i<3; i++) {
@@ -173,7 +181,7 @@ public:
 				v->SetAdjustment(m_linthrust[i]);
 				Add(v, float(i*25), Gui::Screen::GetHeight()-120.0f);
 			}
-			
+
 			Add(new Gui::Label("Angular thrust"), 100, Gui::Screen::GetHeight()-140.0f);
 			for (int i=0; i<3; i++) {
 				m_angthrust[i] = new Gui::Adjustment();
@@ -182,10 +190,13 @@ public:
 				v->SetAdjustment(m_angthrust[i]);
 				Add(v, float(100 + i*25), Gui::Screen::GetHeight()-120.0f);
 			}
-			
+
 			Add(new Gui::Label("Animations (0 gear, 1-4 are time - ignore them comrade)"),
 					200, Gui::Screen::GetHeight()-140.0f);
+
 			for (int i=0; i<LMR_ARG_MAX; i++) {
+				m_anim[i] = 0;
+
 				float x = float(200+i*25);
 				float w = 32.0f;
 				if (x >= Gui::Screen::GetWidth()-w)
@@ -221,7 +232,10 @@ public:
 	}
 
 	void OnResetAdjustments() {
-		for (int i=0; i<LMR_ARG_MAX; i++) m_anim[i]->SetValue(0);
+		for (int i=0; i<LMR_ARG_MAX; i++) {
+			if(m_anim[i])
+				m_anim[i]->SetValue(0);
+		}
 		for (int i=0; i<3; i++) {
 			m_linthrust[i]->SetValue(0.5);
 			m_angthrust[i]->SetValue(0.5);
@@ -276,6 +290,7 @@ private:
 	void DrawGrid(matrix4x4f& trans, double radius);
 	bool m_showBoundingRadius;
 	bool m_showGrid;
+	VisualCollisionMesh m_collisionVisualizer;
 };
 
 void Viewer::SetModel(LmrModel *model)
@@ -449,25 +464,32 @@ void Viewer::SetSbreParams()
 	g_params.angthrust[2] = 2.0f * (m_angthrust[2]->GetValue() - 0.5f);
 }
 
-
-static void render_coll_mesh(const LmrCollMesh *m)
+void VisualCollisionMesh::Render(const LmrCollMesh *m)
 {
-	Material mat;
-	mat.unlit = true;
-	mat.diffuse = Color(1.f, 0.f, 1.f);
-	glDepthRange(0.0+g_zbias,1.0);
-	VertexArray va(ATTRIB_POSITION, m->ni * 3);
-	for (int i=0; i<m->ni; i+=3) {
-		va.Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i]]));
-		va.Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+1]]));
-		va.Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+2]]));
-	}
-	renderer->DrawTriangles(&va, &mat);
+	renderer->SetBlendMode(Graphics::BLEND_SOLID);
 
-	mat.diffuse = Color(1.f);
+	if (!vertices.Valid()) {
+		vertices.Reset(new VertexArray(ATTRIB_POSITION, m->ni * 3));
+		Graphics::MaterialDescriptor desc; //flat colour
+		material.Reset(renderer->CreateMaterial(desc));
+	}
+
+	vertices->Clear();
+
+	glDepthRange(0.0+g_zbias,1.0);
+
+	for (int i=0; i<m->ni; i+=3) {
+		vertices->Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i]]));
+		vertices->Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+1]]));
+		vertices->Add(static_cast<vector3f>(&m->pVertex[3*m->pIndex[i+2]]));
+	}
+	material->diffuse = Color(1.f, 0.f, 1.f, 1.f);
+	renderer->DrawTriangles(vertices.Get(), material.Get());
+
+	material->diffuse = Color(1.f);
 	glDepthRange(0,1.0f-g_zbias);
 	renderer->SetWireFrameMode(true);
-	renderer->DrawTriangles(&va, &mat);
+	renderer->DrawTriangles(vertices.Get(), material.Get());
 	renderer->SetWireFrameMode(false);
 	glDepthRange(0,1);
 }
@@ -487,7 +509,7 @@ void Viewer::MainLoop()
 	g_camorient = matrix4x4f::Identity();
 	matrix4x4f modelRot = matrix4x4f::Identity();
 
-	printf("Geom tree build in %dms\n", SDL_GetTicks() - t);
+	printf("Geom tree build in %ums\n", SDL_GetTicks() - t);
 
 	for (;;) {
 		PollEvents();
@@ -531,11 +553,11 @@ void Viewer::MainLoop()
 		renderer->SetPerspectiveProjection(85, g_width/float(g_height), 1.f, 10000.f);
 		renderer->SetTransform(matrix4x4f::Identity());
 		renderer->ClearScreen();
-		
+
 		SetSbreParams();
 
 		int beforeDrawTriStats = LmrModelGetStatsTris();
-	
+
 		if (g_renderType == 0) {
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
@@ -549,7 +571,7 @@ void Viewer::MainLoop()
 			glPushMatrix();
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			glMultMatrixf(&m[0]);
-			render_coll_mesh(m_cmesh);
+			m_collisionVisualizer.Render(m_cmesh);
 			glPopMatrix();
 		}
 
@@ -569,7 +591,7 @@ void Viewer::MainLoop()
 			char buf[256];
 			Aabb aabb = m_cmesh->GetAabb();
 			snprintf(buf, sizeof(buf), "%d triangles, %d fps, %.3fm tris/sec\ncollision mesh size: %.1fx%.1fx%.1f (radius %.1f)\nClipping radius %.1f\nGrid interval: %d metres",
-					(g_renderType == 0 ? 
+					(g_renderType == 0 ?
 						LmrModelGetStatsTris() - beforeDrawTriStats :
 						m_cmesh->m_numTris),
 					fps,
@@ -582,9 +604,9 @@ void Viewer::MainLoop()
 					int(gridInterval));
 			m_trisReadout->SetText(buf);
 		}
-		
+
 		Gui::Draw();
-		
+
 		renderer->SwapBuffers();
 		numFrames++;
 		g_frameTime = (SDL_GetTicks() - lastTurd) * 0.001f;
@@ -619,7 +641,8 @@ static void PollEvents()
                         exit(0);
                     }
 				}
-				if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
+				//XXX can't reliably fullscreen
+				//if (event.key.keysym.sym == SDLK_F11) SDL_WM_ToggleFullScreen(g_screen);
 				g_keyState[event.key.keysym.sym] = 1;
 				break;
 			case SDL_KEYUP:
@@ -683,7 +706,6 @@ void Viewer::DrawGrid(matrix4x4f& trans, double radius)
 	renderer->DrawLines(points.size(), &points[0], Color(0.0f,0.2f,0.0f,1.0f));
 }
 
-
 int main(int argc, char **argv)
 {
 	if ((argc<=1) || (0==strcmp(argv[1],"--help"))) {
@@ -698,39 +720,27 @@ int main(int argc, char **argv)
 	}
 
 	FileSystem::Init();
+	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
+	ModManager::Init();
 
-	const SDL_VideoInfo *info = NULL;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		fprintf(stderr, "Video initialization failed: %s\n", SDL_GetError());
-		exit(-1);
+		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
 	}
 
-	info = SDL_GetVideoInfo();
+	Graphics::Settings videoSettings = {};
+	videoSettings.width = g_width;
+	videoSettings.height = g_height;
+	videoSettings.shaders = true;
 
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	renderer = Graphics::Init(videoSettings);
+
 	g_zbias = 2.0/(1<<16);
 
-	Uint32 flags = SDL_OPENGL;
-
-	if ((g_screen = SDL_SetVideoMode(g_width, g_height, info->vfmt->BitsPerPixel, flags)) == 0) {
-		// fall back on 16-bit depth buffer...
-		SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-		SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
-		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer.\n", SDL_GetError());
-		if ((g_screen = SDL_SetVideoMode(g_width, g_height, info->vfmt->BitsPerPixel, flags)) == 0) {
-			fprintf(stderr, "Video mode set failed: %s\n", SDL_GetError());
-		}
-	}
-	glewInit();
-
-	renderer = Graphics::Init(g_width, g_height, true);
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
+
+	const Color lc(1.f, 1.f, 1.f, 0.f);
+	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	renderer->SetLights(1, &light);
 
 	LmrModelCompilerInit(renderer);
 	LmrNotifyScreenWidth(g_width);
@@ -750,6 +760,7 @@ int main(int argc, char **argv)
 	}
 
 	g_viewer->MainLoop();
+	//XXX looks like this is never reached
 	FileSystem::Uninit();
 	delete renderer;
 	return 0;

@@ -7,7 +7,7 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightHillsNormal>::GetHeightFractalName() const { return "HillsNormal"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightHillsNormal>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightHillsNormal>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
 	//textures
 	if (textures) {
@@ -33,14 +33,14 @@ double TerrainHeightFractal<TerrainHeightHillsNormal>::GetHeight(const vector3d 
 	double n = continents;
 	double distrib = octavenoise(GetFracDef(4-m_fracnum), 0.5, p);
 	distrib *= distrib;
-	double m = 0.5*GetFracDef(3-m_fracnum).amplitude * octavenoise(GetFracDef(4-m_fracnum), 0.55*distrib, p) 
+	double m = 0.5*GetFracDef(3-m_fracnum).amplitude * octavenoise(GetFracDef(4-m_fracnum), 0.55*distrib, p)
 	           * GetFracDef(5-m_fracnum).amplitude;
 	m += 0.25*billow_octavenoise(GetFracDef(5-m_fracnum), 0.55*distrib, p);
 	//hill footings
-	m -= octavenoise(GetFracDef(2-m_fracnum), 0.6*(1.0-distrib), p) 
+	m -= octavenoise(GetFracDef(2-m_fracnum), 0.6*(1.0-distrib), p)
          * Clamp(0.05-m, 0.0, 0.05) * Clamp(0.05-m, 0.0, 0.05);
 	//hill footings
-	m += voronoiscam_octavenoise(GetFracDef(6-m_fracnum), 0.765*distrib, p) 
+	m += voronoiscam_octavenoise(GetFracDef(6-m_fracnum), 0.765*distrib, p)
          * Clamp(0.025-m, 0.0, 0.025) * Clamp(0.025-m, 0.0, 0.025);
 	// cliffs at shore
 	if (continents < 0.01) n += m * continents * 100.0f;

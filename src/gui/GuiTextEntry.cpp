@@ -1,7 +1,7 @@
 #include "libs.h"
 #include "Gui.h"
-#include "TextureFont.h"
-#include "TextSupport.h"
+#include "text/TextureFont.h"
+#include "text/TextSupport.h"
 
 namespace Gui {
 
@@ -47,12 +47,31 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 	int oldNewlineCount = m_newlineCount;
 
 	// XXX moving the cursor is not UTF-8 safe
-	if (sym->sym == SDLK_LEFT) {
-		SetCursorPos(m_cursPos-1);
-		accepted = true;
-	}
-	if (sym->sym == SDLK_RIGHT) {
-		SetCursorPos(m_cursPos+1);
+	if (sym->sym == SDLK_LEFT || sym->sym == SDLK_RIGHT) {
+		bool forward = (sym->sym == SDLK_RIGHT);
+		int direction = (forward) ? 1 : -1;
+		if (!(sym->mod & KMOD_CTRL)) {
+			SetCursorPos(m_cursPos + direction);
+		} else {
+			int inspect_offset = (forward) ? 0 : -1; // When going back, we need the character before the cursor.
+			int ending = (forward) ? m_text.size() : 0;
+			int current = m_cursPos+inspect_offset;
+			bool found_word = false;
+
+			while(current != ending) {
+				bool alphanum;
+
+				alphanum = Text::is_alphanumunderscore(m_text[current]);
+
+				if (found_word && !alphanum) { // Word boundary.
+					current -= inspect_offset; // Make up for the initial offset.
+					break;
+				}
+				current += direction;
+				found_word = found_word || alphanum; // You need to be in a word before finding its boudaries.
+			}
+			SetCursorPos(current);
+		}
 		accepted = true;
 	}
 
@@ -112,7 +131,7 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 		if (unicode == '\n')
 			++m_newlineCount;
 		char buf[4];
-		int len = conv_wc_to_mb(unicode, buf);
+		int len = Text::utf8_encode_char(unicode, buf);
 		m_text.insert(m_cursPos, buf, len);
 		SetCursorPos(m_cursPos+len);
 		changed = true;
@@ -130,20 +149,22 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 
 void TextEntry::GetSizeRequested(float size[2])
 {
-	// XXX this 1.5f should be PARAGRAPH_SPACING (currently #define'd in TextureFont.h)
-	size[1] = (m_newlineCount*1.5f+1.0f)*Gui::Screen::GetFontHeight(m_font.Get()) + 2.0f;
+	size[1] = Gui::Screen::GetFontHeight(m_font.Get()) * (m_newlineCount+1) + Gui::Screen::GetFontDescender(m_font.Get());
 }
 
 bool TextEntry::OnMouseDown(MouseButtonEvent *e)
 {
-	m_clickout = RawEvents::onMouseDown.connect(sigc::mem_fun(this, &TextEntry::OnRawMouseDown));
-	GrabFocus();
-	m_justFocused = true;
+	if (e->button == SDL_BUTTON_LEFT) {
+		m_clickout = RawEvents::onMouseDown.connect(sigc::mem_fun(this, &TextEntry::OnRawMouseDown));
+		GrabFocus();
+		m_justFocused = true;
 
-	int i = Gui::Screen::PickCharacterInString(m_text, e->x - m_scroll, e->y, m_font.Get());
-	SetCursorPos(i);
+		int i = Gui::Screen::PickCharacterInString(m_text, e->x - m_scroll, e->y, m_font.Get());
+		SetCursorPos(i);
 
-	return false;
+		return false;
+	} else
+		return true;
 }
 
 void TextEntry::OnRawMouseDown(MouseButtonEvent *e)
@@ -205,15 +226,15 @@ void TextEntry::Draw()
 
 	SetScissor(true);
 
-	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 1.0f, c, m_font.Get());
+	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 0.0f, c, m_font.Get());
 
 	/* Cursor */
 	glColor3f(0.5f,0.5f,0.5f);
 	glBegin(GL_LINES);
-		glVertex2f(curs_x + 1.0f - m_scroll, curs_y - Gui::Screen::GetFontHeight(m_font.Get()) - 1.0f);
-		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + 1.0f);
+		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()) - Gui::Screen::GetFontHeight(m_font.Get()));
+		glVertex2f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()));
 	glEnd();
-	
+
 	SetScissor(false);
 }
 

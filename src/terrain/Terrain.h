@@ -2,7 +2,7 @@
 #define _TERRAIN_H
 
 #include "libs.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 
 #ifdef _MSC_VER
 #pragma warning(disable : 4250)			// workaround for MSVC 2008 multiple inheritance bug
@@ -22,7 +22,7 @@ template <typename,typename> class TerrainGenerator;
 
 class Terrain {
 public:
-	static Terrain *InstanceTerrain(const SBody *body);
+	static Terrain *InstanceTerrain(const SystemBody *body);
 
 	virtual ~Terrain();
 
@@ -39,19 +39,19 @@ public:
 
 private:
 	template <typename HeightFractal, typename ColorFractal>
-	static Terrain *InstanceGenerator(const SBody *body) { return new TerrainGenerator<HeightFractal,ColorFractal>(body); }
+	static Terrain *InstanceGenerator(const SystemBody *body) { return new TerrainGenerator<HeightFractal,ColorFractal>(body); }
 
-	typedef Terrain* (*GeneratorInstancer)(const SBody *);
+	typedef Terrain* (*GeneratorInstancer)(const SystemBody *);
 
 
 protected:
-	Terrain(const SBody *body);
+	Terrain(const SystemBody *body);
 
 	bool textures;
 	int m_fracnum;
 	double m_fracmult;
 
-	const SBody *m_body;
+	const SystemBody *m_body;
 
 	Uint32 m_seed;
 	MTRand m_rand;
@@ -59,7 +59,7 @@ protected:
 	double m_sealevel; // 0 - no water, 1 - 100% coverage
 	double m_icyness; // 0 - 1 (0% to 100% cover)
 	double m_volcanic;
-	
+
 	// heightmap stuff
 	// XXX unify heightmap types
 	// for the earth heightmap
@@ -107,7 +107,7 @@ public:
 	virtual double GetHeight(const vector3d &p);
 	virtual const char *GetHeightFractalName() const;
 protected:
-	TerrainHeightFractal(const SBody *body);
+	TerrainHeightFractal(const SystemBody *body);
 private:
 	TerrainHeightFractal() {}
 };
@@ -118,7 +118,7 @@ public:
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm);
 	virtual const char *GetColorFractalName() const;
 protected:
-	TerrainColorFractal(const SBody *body);
+	TerrainColorFractal(const SystemBody *body);
 private:
 	TerrainColorFractal() {}
 };
@@ -127,39 +127,85 @@ private:
 template <typename HeightFractal, typename ColorFractal>
 class TerrainGenerator : public TerrainHeightFractal<HeightFractal>, public TerrainColorFractal<ColorFractal> {
 public:
-	TerrainGenerator(const SBody *body) : Terrain(body), TerrainHeightFractal<HeightFractal>(body), TerrainColorFractal<ColorFractal>(body) {}
+	TerrainGenerator(const SystemBody *body) : Terrain(body), TerrainHeightFractal<HeightFractal>(body), TerrainColorFractal<ColorFractal>(body) {}
 
 private:
 	TerrainGenerator() {}
 };
 
-
-class TerrainHeightAsteroid;
+//This is the most complex and insanely crazy terrain you will ever see :
 class TerrainHeightFlat;
+
+//New terrains with less noise :
+class TerrainHeightAsteroid;
+class TerrainHeightAsteroid2;
+class TerrainHeightAsteroid3;
+class TerrainHeightAsteroid4;
+class TerrainHeightBarrenRock;
+class TerrainHeightBarrenRock2;
+class TerrainHeightBarrenRock3;
+/* Pictures of the above terrains:
+ http://i.imgur.com/cJO4E.jpg
+ http://i.imgur.com/BtB0g.png
+ http://i.imgur.com/qeEuS.png
+ */
+
+// Newish terrains, 6 months or so :
 class TerrainHeightHillsCraters2;
 class TerrainHeightHillsCraters;
 class TerrainHeightHillsDunes;
+//   This terrain or the following one should have terragen style ridged mountains :
+//   (As seen in an ancient clip of Mars http://www.youtube.com/watch?v=WeO28VBTWxs )
 class TerrainHeightHillsNormal;
 class TerrainHeightHillsRidged;
 class TerrainHeightHillsRivers;
+
 class TerrainHeightMapped;
 class TerrainHeightMapped2;
 class TerrainHeightMountainsCraters2;
 class TerrainHeightMountainsCraters;
+
+//Probably the best looking terrain due to variety, but among the most costly too :
+//(It was also used for mars at some point : http://www.youtube.com/watch?feature=player_embedded&v=4-DcyQm0zE4 )
+/// and http://www.youtube.com/watch?v=gPtxUUunSWg&t=5m15s
 class TerrainHeightMountainsNormal;
-class TerrainHeightMountainsRidged;
+// Based on TerrainHeightMountainsNormal :
 class TerrainHeightMountainsRivers;
+ /*Pictures from the above two terrains generating Earth-like worlds:
+ http://www.spacesimcentral.com/forum/download/file.php?id=1533&mode=view
+ http://www.spacesimcentral.com/forum/download/file.php?id=1544&mode=view
+ http://www.spacesimcentral.com/forum/download/file.php?id=1550&mode=view
+ http://www.spacesimcentral.com/forum/download/file.php?id=1540&mode=view
+ */
+
+
+
+// Older terrains:
+class TerrainHeightMountainsRidged;
 class TerrainHeightMountainsRiversVolcano;
+//   Used to be used for mars since it has a megavolcano:
 class TerrainHeightMountainsVolcano;
+
+//Oldest terrains, from before fracdefs :
 class TerrainHeightRuggedDesert;
+//   lava terrain should look like this http://www.spacesimcentral.com/forum/download/file.php?id=1778&mode=view
 class TerrainHeightRuggedLava;
+
+/*Terrains used for Iceworlds, 
+only terrain to use the much neglected impact crater function
+(basically I forgot about it;) ) **It makes cool looking sunken craters** */
 class TerrainHeightWaterSolidCanyons;
 class TerrainHeightWaterSolid;
+
 
 class TerrainColorAsteroid;
 class TerrainColorBandedRock;
 class TerrainColorDeadWithWater;
 class TerrainColorDesert;
+/*ColorEarthlike uses features not yet included in all terrain colours
+ such as better poles : http://www.spacesimcentral.com/forum/download/file.php?id=1884&mode=view
+ http://www.spacesimcentral.com/forum/download/file.php?id=1885&mode=view
+and better distribution of snow :  http://www.spacesimcentral.com/forum/download/file.php?id=1879&mode=view  */
 class TerrainColorEarthLike;
 class TerrainColorGGJupiter;
 class TerrainColorGGNeptune2;

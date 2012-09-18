@@ -58,7 +58,7 @@ static inline bool GetTargetFormat(const SDL_PixelFormat *sourcePixelFormat, Tex
 		*targetPixelFormat = &pixelFormatRGBA;
 		return true;
 	}
-	
+
 	if (!forceRGBA && sourcePixelFormat->BytesPerPixel == 3) {
 		*targetTextureFormat = TEXTURE_RGB;
 		*targetPixelFormat = &pixelFormatRGB;
@@ -131,7 +131,7 @@ void TextureBuilder::PrepareSurface()
 		vector2f(actualWidth,actualHeight),
 		vector2f(float(virtualWidth)/float(actualWidth),float(virtualHeight)/float(actualHeight)),
 		m_sampleMode, m_generateMipmaps);
-	
+
 	m_prepared = true;
 }
 

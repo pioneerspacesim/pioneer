@@ -42,11 +42,11 @@ define_model('green_bubble', {
 
 			use_material('glow2')
 			texture('wtr_x.png',v(.5,.5,0),v(.1,0,0),v(0,0,1))
-			sphere_slice(4*lod,2*lod,0,math.pi*.5, Matrix.translate(v(0,3,0)) * Matrix.scale(v(2.99,2.99,2.99)))
+			sphere_slice(4*lod,2*lod,0,math.pi*.5, matrix.translate(v(0,3,0)) * matrix.scale(v(2.99,2.99,2.99)))
 
 			use_material('cutout')
 			texture('bubbles.png',v(.5,.5,0),v(.05,0,0),v(0,0,1))
-			sphere_slice(4*lod,2*lod,0,math.pi*.5, Matrix.translate(v(0,3,0)) * Matrix.scale(v(3,3,3)))
+			sphere_slice(4*lod,2*lod,0,math.pi*.5, matrix.translate(v(0,3,0)) * matrix.scale(v(3,3,3)))
 			bld_base_2(lod,1.2,0)
 		end
 	end,
@@ -109,13 +109,13 @@ define_model('blue_bubble', {
 					texture('wtr_x_s.png',v(.5,.5,0),v(.1,0,0),v(0,0,1))
 				end
 				use_material('glow2')
-				sphere_slice(4*lod,2*lod,0,math.pi*.5, Matrix.translate(v(0,3,0)) * Matrix.scale(v(2.99,2.99,2.99)))
+				sphere_slice(4*lod,2*lod,0,math.pi*.5, matrix.translate(v(0,3,0)) * matrix.scale(v(2.99,2.99,2.99)))
 
 				if lod > 1 then
 					texture('bubbles_s.png',v(.5,.5,0),v(.05,0,0),v(0,0,1))
 				end
 				use_material('cutout')
-				sphere_slice(4*lod,2*lod,0,math.pi*.5, Matrix.translate(v(0,3,0)) * Matrix.scale(v(3,3,3)))
+				sphere_slice(4*lod,2*lod,0,math.pi*.5, matrix.translate(v(0,3,0)) * matrix.scale(v(3,3,3)))
 			end
 
 			call_model('bld_base2', v(0,0,0),v(1,0,0),v(0,1,0),1.2)

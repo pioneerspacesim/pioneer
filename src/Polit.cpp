@@ -1,8 +1,8 @@
 #include "libs.h"
 #include "Pi.h"
 #include "Polit.h"
-#include "StarSystem.h"
-#include "Sector.h"
+#include "galaxy/StarSystem.h"
+#include "galaxy/Sector.h"
 #include "Space.h"
 #include "Ship.h"
 #include "ShipCpanel.h"
@@ -107,9 +107,10 @@ void Unserialize(Serializer::Reader &rd)
 /* The drawbacks of stuffing stuff into integers */
 static int GetCrimeIdxFromEnum(enum Crime crime)
 {
-	PiVerify(crime);
-	for (int i=0; i<64; i++) {
-		if (crime & (1<<i)) return i;
+	assert(crime);
+	for (int i = 0; i < 64; ++i) {
+		if (crime & 1) return i;
+		crime = Crime(crime >> 1); // cast needed because this gets promoted to 'int'
 	}
 	return 0;
 }
@@ -188,7 +189,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 	Sector sec(path.sectorX, path.sectorY, path.sectorZ);
 
 	GovType a = GOV_INVALID;
-	
+
 	/* from custom system definition */
 	if (sec.m_systems[path.systemIndex].customSys) {
 		Polit::GovType t = sec.m_systems[path.systemIndex].customSys->govType;
