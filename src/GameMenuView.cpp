@@ -590,7 +590,7 @@ void GameMenuView::OnToggleFullscreen(Gui::ToggleButton *b, bool state)
 
 void GameMenuView::OnToggleCompressTextures(Gui::ToggleButton *b, bool state)
 {
-	Pi::config->SetInt("UseOpenGLDXTnTextures", (state ? 1 : 0));
+	Pi::config->SetInt("UseTextureCompression", (state ? 1 : 0));
 	Pi::config->Save();
 }
 
@@ -685,7 +685,7 @@ void GameMenuView::OnSwitchTo() {
 	m_cityDetailGroup->SetSelected(Pi::detail.cities);
 	m_toggleShaders->SetPressed(Pi::config->Int("DisableShaders") == 0);
 	m_toggleFullscreen->SetPressed(Pi::config->Int("StartFullscreen") != 0);
-	if(m_toggleCompressTextures) {m_toggleCompressTextures->SetPressed(Pi::config->Int("UseOpenGLDXTnTextures") != 0);}
+	if(m_toggleCompressTextures) {m_toggleCompressTextures->SetPressed(Pi::config->Int("UseTextureCompression") != 0);}
 	m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
 	m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
 	m_toggleNavTunnel->SetPressed(Pi::IsNavTunnelDisplayed());
