@@ -153,6 +153,7 @@ Renderer* Init(const Settings &vs)
 	if (!glewIsSupported("GL_ARB_vertex_buffer_object"))
 		OS::Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
 
+	// Need to know that we actually support texture compression
 	const bool useDXTnTextures = vs.useDXTn && glewIsSupported("GL_ARB_texture_compression");
 
 	Renderer *renderer = 0;
