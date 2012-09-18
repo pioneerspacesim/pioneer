@@ -220,10 +220,12 @@ WINDOW_OR_FULLSCREEN
     Windowed or fullscreen (restart to apply)
 FULL_SCREEN
     Full screen
+COMPRESS_TEXTURES
+	Compress Textures
 OTHER_GRAPHICS_SETTINGS
-    Other graphics settings
+    Other graphics settings (restart to apply)
 USE_SHADERS
-    Use shaders (restart to apply)
+    Use shaders
 SOUND_SETTINGS
     Sound settings
 VOL_MASTER
