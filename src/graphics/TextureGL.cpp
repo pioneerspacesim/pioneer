@@ -12,13 +12,13 @@ inline GLint GLCompressedTextureFormat(TextureFormat format) {
 	}
 }
 
-inline GLsizei GLCompressedImageSize(TextureFormat format, const int x, const int y) {
+/*inline GLsizei GLCompressedImageSize(TextureFormat format, const int x, const int y) {
 	switch (format) {
 		case TEXTURE_RGBA: return ((x+3)/4) * ((y+3)/4) * 16;
 		case TEXTURE_RGB:  return ((x+3)/4) * ((y+3)/4) * 8;
 		default: assert(0); return 0;
 	}
-}
+}*/
 
 inline GLint GLTextureFormat(TextureFormat format) {
 	switch (format) {
@@ -72,18 +72,11 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 			if (descriptor.generateMipmaps)
 				glTexParameteri(m_target, GL_GENERATE_MIPMAP, GL_TRUE);
 
-			if( useCompressed ) {
-				glCompressedTexImage2D(
-					m_target, 0, GLCompressedTextureFormat(descriptor.format), 
-					descriptor.dataSize.x, descriptor.dataSize.y, 0,
-					GLCompressedImageSize(descriptor.format, descriptor.dataSize.x, descriptor.dataSize.y), 0);
-			} else {
-				glTexImage2D(
-					m_target, 0, GLTextureFormat(descriptor.format),
-					descriptor.dataSize.x, descriptor.dataSize.y, 0,
-					GLImageFormatForTextureFormat(descriptor.format), 
-					GLImageTypeForTextureFormat(descriptor.format), 0);
-			}
+			glTexImage2D(
+				m_target, 0, useCompressed ? GLCompressedTextureFormat(descriptor.format) : GLTextureFormat(descriptor.format),
+				descriptor.dataSize.x, descriptor.dataSize.y, 0,
+				GLImageFormatForTextureFormat(descriptor.format), 
+				GLImageTypeForTextureFormat(descriptor.format), 0);
 			break;
 
 		default:
