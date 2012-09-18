@@ -9,12 +9,14 @@
 #include "Quaternion.h"
 #include "Serializer.h"
 #include "RefList.h"
+#include "Camera.h"
 
 #define MAX_DOCKING_PORTS	4
 
 class CollMeshSet;
 class Ship;
 struct Mission;
+class Planet;
 class CityOnPlanet;
 namespace Graphics { class Renderer; }
 
@@ -29,7 +31,7 @@ struct SpaceStationType {
 	double *dockAnimStageDuration;
 	double *undockAnimStageDuration;
 	bool dockOneAtATimePlease;
-	
+
 	struct positionOrient_t {
 		vector3d pos;
 		vector3d xaxis;
@@ -61,7 +63,7 @@ struct BBAdvert {
 };
 
 
-class SBody;
+class SystemBody;
 
 class SpaceStation: public ModelBody, public MarketAgent {
 public:
@@ -77,13 +79,13 @@ public:
 		ANIM_DOCKING_BAY_4,
 	};
 
-	// Should point to SBody in Pi::currentSystem
-	SpaceStation(const SBody *);
+	// Should point to SystemBody in Pi::currentSystem
+	SpaceStation(const SystemBody *);
 	SpaceStation() {}
 	virtual ~SpaceStation();
 	virtual double GetBoundingRadius() const;
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
-	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	/** You should call Ship::Undock() rather than this.
 	 * Returns true on success, false if permission denied */
 	bool LaunchShip(Ship *ship, int port);
@@ -99,7 +101,7 @@ public:
 	bool CanBuy(Equip::Type t, bool verbose) const;
 	bool CanSell(Equip::Type t, bool verbose) const;
 	bool DoesSell(Equip::Type t) const;
-	virtual const SBody *GetSBody() const { return m_sbody; }
+	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
 	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
 	const std::vector<ShipFlavour> &GetShipsOnSale() const { return m_shipsOnSale; }
 	virtual void PostLoadFixup(Space *space);
@@ -130,7 +132,7 @@ public:
 
 	// use docking bay position, if player has been granted permission
 	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const;
-	
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -140,6 +142,7 @@ protected:
 private:
 	void DoDockingAnimation(const double timeStep);
 	void DoLawAndOrder();
+	void CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::LightSource> &lightSources);
 
 	/* Stage 0 means docking port empty
 	 * Stage 1 means docking clearance granted to ->ship
@@ -164,16 +167,20 @@ private:
 	void PositionDockedShip(Ship *ship, int port);
 	void UpdateShipyard();
 	const SpaceStationType *m_type;
-	const SBody *m_sbody;
+	const SystemBody *m_sbody;
 	int m_equipmentStock[Equip::TYPE_MAX];
 	std::vector<ShipFlavour> m_shipsOnSale;
 	double m_lastUpdatedShipyard;
 	CityOnPlanet *m_adjacentCity;
+	double m_distFromPlanet;
 	int m_numPoliceDocked;
-	bool m_staticSlot[4];
+	enum { NUM_STATIC_SLOTS = 4 };
+	bool m_staticSlot[NUM_STATIC_SLOTS];
 
 	std::vector<BBAdvert> m_bbAdverts;
 	bool m_bbCreated, m_bbShuffled;
 };
+
+void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, double fadeInEnd, double fadeInLength, double illumination, double minIllumination);
 
 #endif /* _SPACESTATION_H */

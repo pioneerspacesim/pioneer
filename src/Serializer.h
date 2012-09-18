@@ -8,14 +8,14 @@
 class Frame;
 class Body;
 class StarSystem;
-class SBody;
+class SystemBody;
 
 struct SavedGameCorruptException {};
 struct CouldNotOpenFileException {};
 struct CouldNotWriteToFileException {};
 
 namespace Serializer {
-	
+
 	class Writer {
 	public:
 		Writer() {}

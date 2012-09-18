@@ -17,7 +17,7 @@ public:
 	fixedf(Sint64 raw): v(raw) {}
 	fixedf(Sint64 num, Sint64 denom): v((num<<FRAC) / denom) {}
 	// ^^ this is fucking shit
-	
+
 	fixedf Abs() const { return fixedf(v >= 0 ? v : -v); }
 	friend fixedf operator+(const fixedf a, const Sint64 b) { return a+fixedf(b<<FRAC); }
 	friend fixedf operator-(const fixedf a, const Sint64 b) { return a-fixedf(b<<FRAC); }
@@ -53,10 +53,11 @@ public:
 	fixedf &operator>>=(const int a) { v >>= a; return (*this); }
 	fixedf &operator<<=(const int a) { v <<= a; return (*this); }
 
+	friend fixedf operator-(const fixedf a) { return fixedf(-a.v); }
 	friend fixedf operator+(const fixedf a, const fixedf b) { return fixedf(a.v+b.v); }
 	friend fixedf operator-(const fixedf a, const fixedf b) { return fixedf(a.v-b.v); }
 	friend fixedf operator*(const fixedf a, const fixedf b) {
-		// 64*64 = (128bit>>FRAC) & ((1<<64)-1) 
+		// 64*64 = (128bit>>FRAC) & ((1<<64)-1)
 		//return fixedf(a.v*b.v >> FRAC);
 		Sint64 hi = 0;
 		Uint64 a0, a1, b0, b1;
@@ -87,7 +88,7 @@ public:
 		if (lo < oldlo) hi++;
 		oldlo = lo;
 		hi += (x>>32);
-		
+
 		// a1 * b;
 		x = a1*b0;
 		lo += x<<32;
@@ -141,7 +142,7 @@ public:
 	Sint64 ToInt64() const { return v>>FRAC; }
 	float ToFloat() const { return v/float(Sint64(1)<<FRAC); }
 	double ToDouble() const { return v/double(Sint64(1)<<FRAC); }
-	
+
 	template <int NEW_FRAC_BITS>
 	operator fixedf<NEW_FRAC_BITS>() const {
 		int shift = NEW_FRAC_BITS - FRAC_BITS;

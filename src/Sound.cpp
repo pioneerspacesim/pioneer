@@ -131,7 +131,7 @@ float GetSfxVolume()
 eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 {
 	vector3d pos;
-       
+
 	if (b == Pi::player) {
 		pos = vector3d(0.0);
 	} else {
@@ -155,7 +155,7 @@ eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 	v[0] = Clamp(v[0], 0.0f, 1.0f);
 	v[1] = Clamp(v[1], 0.0f, 1.0f);
 
-	return Sound::PlaySfx(sfx, v[0], v[1], false);
+	return Sound::PlaySfx(sfx, v[0], v[1], 0);
 }
 
 struct SoundEvent {
@@ -425,7 +425,7 @@ static void fill_audio(void *udata, Uint8 *dsp_buf, int len)
 			}
 		}
 	}
-	
+
 	/* Convert float sample buffer to Sint16 samples the hardware likes */
 	for (int pos=0; pos<len_in_floats; pos++) {
 		const float val = m_masterVol * tmpbuf[pos];
@@ -445,8 +445,7 @@ void DestroyAllEvents()
 
 static void load_sound(const std::string &basename, const std::string &path, bool is_music)
 {
-	if (basename.size() < 4) return;
-	if (basename.substr(basename.size()-4) != ".ogg") return;
+	if (!ends_with(basename, ".ogg")) return;
 
 	Sample sample;
 	OggVorbis_File oggv;
@@ -517,7 +516,7 @@ bool Init ()
 	if (!isInitted) {
 		isInitted = true;
 		SDL_AudioSpec wanted;
-		
+
 		if (SDL_Init (SDL_INIT_AUDIO) == -1) {
 			fprintf (stderr, "Count not initialise SDL: %s.\n", SDL_GetError ());
 			return false;
@@ -538,17 +537,15 @@ bool Init ()
 		// load all the wretched effects
 		for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "sounds", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
 			const FileSystem::FileInfo &info = files.Current();
-			if (info.IsFile()) {
-				load_sound(info.GetName(), info.GetPath(), false);
-			}
+			assert(info.IsFile());
+			load_sound(info.GetName(), info.GetPath(), false);
 		}
 
 		//I'd rather do this in MusicPlayer and store in a different map too, this will do for now
 		for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, "music", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
 			const FileSystem::FileInfo &info = files.Current();
-			if (info.IsFile()) {
-				load_sound(info.GetName(), info.GetPath(), true);
-			}
+			assert(info.IsFile());
+			load_sound(info.GetName(), info.GetPath(), true);
 		}
 	}
 

@@ -52,10 +52,10 @@ void Tabbed::OnActivate()
 
 bool Tabbed::OnMouseDown(MouseButtonEvent *e)
 {
-	if (e->y < TAB_BAR_HEIGHT) {
+	if ((e->button == SDL_BUTTON_LEFT) && (e->y < TAB_BAR_HEIGHT)) {
 		float xpos = 0.0;
 		int index = 0;
-		for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end(); 
+		for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end();
 				++i, index++) {
 			float csize[2];
 			(*i).first->GetSize(csize);
@@ -136,7 +136,7 @@ void Tabbed::Hide()
 	Widget::Hide();
 }
 
-bool Tabbed::IsLabelWidget(const Widget *w) 
+bool Tabbed::IsLabelWidget(const Widget *w)
 {
 	for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end(); ++i) {
 		if ((*i).first == w) return true;
@@ -159,7 +159,7 @@ void Tabbed::Draw()
 		glVertex2f(0, 0);
 	glEnd();
 
-	for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end(); 
+	for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end();
 			++i, index++) {
 		float csize[2];
 		(*i).first->GetSize(csize);

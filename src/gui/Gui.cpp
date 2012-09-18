@@ -153,7 +153,7 @@ namespace Theme {
 				float ang = M_PI + M_PI*0.5f*i/float(STEPS);
 				glVertex2f((size[0] - rad) - rad*cos(ang), rad + rad*sin(ang));
 			}
-			
+
 			// top right
 			for (int i=0; i<=STEPS; i++) {
 				float ang = M_PI*1.5 + M_PI*0.5f*i/float(STEPS);
@@ -161,7 +161,7 @@ namespace Theme {
 			}
 		glEnd();
 	}
-	
+
 	void DrawHollowRect(const float size[2])
 	{
 		GLfloat vertices[] = { 0,0,

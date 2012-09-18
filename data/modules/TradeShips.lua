@@ -5,6 +5,7 @@
 			spawnInitialShips
 		ship - object returned from Space:SpawnShip*
 			ship_name - of this ship type; string
+			ATMOSHIELD - flag indicating whether the ship has at atmospheric shield: boolean
 			starport - at which this ship intends to dock; SpaceStation object
 			dest_time - arrival time from hyperspace; number as Game.time
 			dest_path - for hyperspace; SystemPath object, may have body index
@@ -72,7 +73,13 @@ local addShipEquip = function (ship)
 
 	-- add standard equipment
 	ship:AddEquip(ship_type.defaultHyperdrive)
-	ship:AddEquip('ATMOSPHERIC_SHIELDING')
+	if ship:GetEquipSlotCapacity('ATMOSHIELD') > 0 then
+		ship:AddEquip('ATMOSPHERIC_SHIELDING')
+		trader.ATMOSHIELD = true -- flag this to save function calls later
+	else
+		-- This ship cannot safely land on a planet with an atmosphere.
+		trader.ATMOSHIELD = false
+	end
 	ship:AddEquip('SCANNER')
 	ship:AddEquip('AUTOPILOT')
 	ship:AddEquip('CARGO_LIFE_SUPPORT')
@@ -181,16 +188,24 @@ local getNearestStarport = function (ship, current)
 	if #starports == 0 then return nil end
 	if #starports == 1 then return starports[1] end
 
-	local starport = starports[1]
-	local distance = ship:DistanceTo(starport)
-	for _, next_starport in ipairs(starports) do
-		local next_distance = ship:DistanceTo(next_starport)
-		if next_distance < distance and next_starport ~= current then
-			starport, distance = next_starport, next_distance
+	local trader = trade_ships[ship]
+
+	-- Find the nearest starport that we can land at (other than current)
+	local starport, distance
+	for i = 1, #starports do
+		local next_starport = starports[i]
+		if next_starport ~= current then
+			local next_distance = ship:DistanceTo(next_starport)
+			local next_canland = (trader.ATMOSHIELD or
+				(next_starport.type == 'STARPORT_ORBITAL') or
+				(not next_starport.path:GetSystemBody().parent.hasAtmosphere))
+
+			if next_canland and ((starport == nil) or (next_distance < distance)) then
+				starport, distance = next_starport, next_distance
+			end
 		end
 	end
-
-	return starport
+	return starport or current
 end
 
 local getSystem = function (ship)
@@ -263,13 +278,18 @@ local getSystemAndJump = function (ship)
 	return jumpToSystem(ship, getSystem(ship))
 end
 
+local filterAcceptableShips = function (ship_type)
+	-- only accept ships with enough capacity that are capable of landing in atmospheres
+	return (ship_type.hullMass >= 100) and (ship_type:GetEquipSlotCapacity('ATMOSHIELD') > 0)
+end
+
 local spawnInitialShips = function (game_start)
 	-- check if the current system can be traded in
 	starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
 	if #starports == 0 then return nil end
 	local population = Game.system.population
 	if population == 0 then return nil end
-	local ship_names = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
+	local ship_names = ShipType.GetShipTypes('SHIP', filterAcceptableShips)
 	if #ship_names == 0 then return nil end
 
 	-- get a measure of the market size and build lists of imports and exports
@@ -326,7 +346,7 @@ local spawnInitialShips = function (game_start)
 
 	-- spawn the initial trade ships
 	for i = 0, num_trade_ships do
-		-- get the name of a ship, for example 'Imperial Courier'
+		-- get the name of a ship, for example 'imperial_courier'
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 		local ship = nil
 
@@ -341,6 +361,7 @@ local spawnInitialShips = function (game_start)
 					starport	= starport,
 					ship_name	= ship_name,
 				}
+				addShipEquip(ship)
 			else
 				-- the starport must have been full
 				ship = Space.SpawnShipNear(ship_name, starport, 10000000, 149598000) -- 10mkm - 1AU
@@ -349,6 +370,7 @@ local spawnInitialShips = function (game_start)
 					starport	= starport,
 					ship_name	= ship_name,
 				}
+				addShipEquip(ship)
 			end
 		elseif i < num_trade_ships * 0.75 then
 			-- spawn the first three quarters in space, or middle half if game start
@@ -360,9 +382,12 @@ local spawnInitialShips = function (game_start)
 			ship = Space.SpawnShip(ship_name, min_dist, min_dist + range)
 			trade_ships[ship] = {
 				status		= 'inbound',
-				starport	= getNearestStarport(ship),
 				ship_name	= ship_name,
 			}
+			-- Add ship equipment right now, because...
+			addShipEquip(ship)
+			-- ...this next call needs to see if there's an atmospheric shield.
+			trade_ships[ship].starport	= getNearestStarport(ship)
 		else
 			-- spawn the last quarter in hyperspace
 			local min_time = trade_ships.interval * (i - num_trade_ships * 0.75)
@@ -378,11 +403,11 @@ local spawnInitialShips = function (game_start)
 				from_path	= from,
 				ship_name	= ship_name,
 			}
+			addShipEquip(ship)
 		end
 		local trader = trade_ships[ship]
 
-		-- add equipment and cargo
-		addShipEquip(ship)
+		-- add cargo
 		local fuel_added = addFuel(ship)
 		if trader.status == 'docked' then
 			local delay = fuel_added + addShipCargo(ship, 'export')
@@ -404,7 +429,7 @@ end
 local spawnReplacement = function ()
 	-- spawn new ship in hyperspace
 	if #starports > 0 and Game.system.population > 0 and #imports > 0 and #exports > 0 then
-		local ship_names = ShipType.GetShipTypes('SHIP', function (t) return t.hullMass >= 100 end)
+		local ship_names = ShipType.GetShipTypes('SHIP', filterAcceptableShips)
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 
 		local dest_time = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
@@ -490,7 +515,7 @@ local onEnterSystem = function (ship)
 		end
 	end
 end
-EventQueue.onEnterSystem:Connect(onEnterSystem)
+Event.Register("onEnterSystem", onEnterSystem)
 
 local onLeaveSystem = function (ship)
 	if ship:IsPlayer() then
@@ -521,7 +546,7 @@ local onLeaveSystem = function (ship)
 		spawnReplacement()
 	end
 end
-EventQueue.onLeaveSystem:Connect(onLeaveSystem)
+Event.Register("onLeaveSystem", onLeaveSystem)
 
 local onFrameChanged = function (ship)
 	if not ship:isa("Ship") or trade_ships[ship] == nil then return end
@@ -536,7 +561,7 @@ local onFrameChanged = function (ship)
 		end
 	end
 end
-EventQueue.onFrameChanged:Connect(onFrameChanged)
+Event.Register("onFrameChanged", onFrameChanged)
 
 local onShipDocked = function (ship, starport)
 	if trade_ships[ship] == nil then return end
@@ -583,7 +608,7 @@ local onShipDocked = function (ship, starport)
 		Timer:CallAt(trader.delay, function () doUndock(ship) end)
 	end
 end
-EventQueue.onShipDocked:Connect(onShipDocked)
+Event.Register("onShipDocked", onShipDocked)
 
 local onShipUndocked = function (ship, starport)
 	if trade_ships[ship] == nil then return end
@@ -593,7 +618,7 @@ local onShipUndocked = function (ship, starport)
 
 	trade_ships[ship]['status'] = 'outbound'
 end
-EventQueue.onShipUndocked:Connect(onShipUndocked)
+Event.Register("onShipUndocked", onShipUndocked)
 
 local onAICompleted = function (ship, ai_error)
 	if trade_ships[ship] == nil then return end
@@ -610,7 +635,7 @@ local onAICompleted = function (ship, ai_error)
 		if ai_error == 'NONE' then
 			trader['delay'] = Game.time + 21600 -- 6 hours
 			Timer:CallAt(trader.delay, function ()
-				if ship:exists() then
+				if ship:exists() and ship.flightState ~= 'HYPERSPACE' then
 					trader['starport'] = getNearestStarport(ship, trader.starport)
 					ship:AIDockWith(trader.starport)
 					trader['status'] = 'inbound'
@@ -623,7 +648,7 @@ local onAICompleted = function (ship, ai_error)
 		if ai_error == 'REFUSED_PERM' then doOrbit(ship) end
 	end
 end
-EventQueue.onAICompleted:Connect(onAICompleted)
+Event.Register("onAICompleted", onAICompleted)
 
 local onShipLanded = function (ship, body)
 	if trade_ships[ship] == nil then return end
@@ -631,11 +656,11 @@ local onShipLanded = function (ship, body)
 
 	doOrbit(ship)
 end
-EventQueue.onShipLanded:Connect(onShipLanded)
+Event.Register("onShipLanded", onShipLanded)
 
 local onShipAlertChanged = function (ship, alert)
 	if trade_ships[ship] == nil then return end
-	if alert ~= 'NONE' then
+	if alert == 'SHIP_FIRING' then
 		print(ship.label..' alert changed to '..alert) end
 	local trader = trade_ships[ship]
 	if trader.attacker == nil then return end
@@ -661,7 +686,7 @@ local onShipAlertChanged = function (ship, alert)
 		end
 	end
 end
-EventQueue.onShipAlertChanged:Connect(onShipAlertChanged)
+Event.Register("onShipAlertChanged", onShipAlertChanged)
 
 local onShipHit = function (ship, attacker)
 	-- XXX this whole thing might be better if based on amount of damage sustained
@@ -716,17 +741,17 @@ local onShipHit = function (ship, attacker)
 		end
 		if cargo_type and ship:Jettison(cargo_type) then
 			trader.cargo[cargo_type] = trader.cargo[cargo_type] - 1
-			UI.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
+			Comms.ImportantMessage(attacker.label..', take this and leave us be, you filthy pirate!', ship.label)
 			trader['chance'] = trader.chance - 0.1
 		end
 	end
 end
-EventQueue.onShipHit:Connect(onShipHit)
+Event.Register("onShipHit", onShipHit)
 
 local onShipCollided = function (ship, other)
 	if trade_ships[ship] == nil then return end
 	if other:isa('CargoBody') then return end
-	
+
 	if other:isa('Ship') and other:IsPlayer() then
 		onShipHit(ship, other)
 		return
@@ -735,7 +760,7 @@ local onShipCollided = function (ship, other)
 	-- try to get away from body, onAICompleted will take over if we succeed
 	ship:AIFlyTo(other)
 end
-EventQueue.onShipCollided:Connect(onShipCollided)
+Event.Register("onShipCollided", onShipCollided)
 
 local onShipDestroyed = function (ship, attacker)
 	if trade_ships[ship] ~= nil then
@@ -774,7 +799,7 @@ local onShipDestroyed = function (ship, attacker)
 		end
 	end
 end
-EventQueue.onShipDestroyed:Connect(onShipDestroyed)
+Event.Register("onShipDestroyed", onShipDestroyed)
 
 local onGameStart = function ()
 	-- create tables for data on the current system
@@ -818,13 +843,13 @@ local onGameStart = function ()
 		end
 
 		-- check if any trade ships were waiting on a timer
-		for ship, trader in ipairs(trade_ships) do
-			if trader.delay > Game.time then
+		for ship, trader in pairs(trade_ships) do
+			if ship ~= 'interval' and trader.delay and trader.delay > Game.time then
 				if trader.status == 'docked' then
 					Timer:CallAt(trader.delay, function () doUndock(ship) end)
 				elseif trader.status == 'orbit' then
 					Timer:CallAt(trader.delay, function ()
-						if ship:exists() then
+						if ship:exists() and ship.flightState ~= 'HYPERSPACE' then
 							trader['starport'] = getNearestStarport(ship)
 							ship:AIDockWith(trader.starport)
 							trader['status'] = 'inbound'
@@ -836,14 +861,14 @@ local onGameStart = function ()
 		end
 	end
 end
-EventQueue.onGameStart:Connect(onGameStart)
+Event.Register("onGameStart", onGameStart)
 
 local onGameEnd = function ()
 	-- drop the references for our data so Lua can free them
 	-- and so we can start fresh if the player starts another game
 	trade_ships, system_updated, from_paths, starports, imports, exports = nil, nil, nil, nil, nil, nil
 end
-EventQueue.onGameEnd:Connect(onGameEnd)
+Event.Register("onGameEnd", onGameEnd)
 
 local serialize = function ()
 	-- all we need to save is trade_ships, the rest can be rebuilt on load

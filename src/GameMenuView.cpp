@@ -178,24 +178,28 @@ GameMenuView::GameMenuView(): View()
 	Gui::Label *l = new Gui::Label(Lang::PIONEER);
 	l->Color(1,.7f,0);
 	m_rightRegion2->Add(l, 10, 0);
-	
+
 	{
-		Gui::LabelButton *b;
 		Gui::Box *hbox = new Gui::HBox();
 		hbox->SetSpacing(5.0f);
 		mainTab->Add(hbox, 20, 30);
-		b = new Gui::LabelButton(new Gui::Label(Lang::SAVE_THE_GAME));
-		b->SetShortcut(SDLK_s, KMOD_NONE);
-		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenSaveDialog));
-		hbox->PackEnd(b);
-		b = new Gui::LabelButton(new Gui::Label(Lang::LOAD_A_GAME));
-		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenLoadDialog));
-		b->SetShortcut(SDLK_l, KMOD_NONE);
-		hbox->PackEnd(b);
-		b = new Gui::LabelButton(new Gui::Label(Lang::EXIT_THIS_GAME));
-		b->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
-		b->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
-		hbox->PackEnd(b);
+
+		m_saveButton = new Gui::LabelButton(new Gui::Label(Lang::SAVE_THE_GAME));
+		m_saveButton->SetShortcut(SDLK_s, KMOD_NONE);
+		m_saveButton->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenSaveDialog));
+		hbox->PackEnd(m_saveButton);
+		m_loadButton = new Gui::LabelButton(new Gui::Label(Lang::LOAD_A_GAME));
+		m_loadButton->onClick.connect(sigc::mem_fun(this, &GameMenuView::OpenLoadDialog));
+		m_loadButton->SetShortcut(SDLK_l, KMOD_NONE);
+		hbox->PackEnd(m_loadButton);
+		m_exitButton = new Gui::LabelButton(new Gui::Label(Lang::EXIT_THIS_GAME));
+		m_exitButton->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
+		m_exitButton->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
+		hbox->PackEnd(m_exitButton);
+
+		m_menuButton = new Gui::LabelButton(new Gui::Label(Lang::RETURN_TO_MENU));
+		m_menuButton->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::SetView), static_cast<View*>(0)));
+		mainTab->Add(m_menuButton, 20, 30);
 	}
 
 	Gui::Box *vbox = new Gui::VBox();
@@ -212,7 +216,7 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(m_toggleFullscreen);
 		hbox->PackEnd(new Gui::Label(Lang::FULL_SCREEN));
 		vbox->PackEnd(hbox);
-		
+
 		vbox->PackEnd((new Gui::Label(Lang::OTHER_GRAPHICS_SETTINGS))->Color(1.0f,1.0f,0.0f));
 		m_toggleShaders = new Gui::ToggleButton();
 		m_toggleShaders->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleShaders));
@@ -221,7 +225,7 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(m_toggleShaders);
 		hbox->PackEnd(new Gui::Label(Lang::USE_SHADERS));
 		vbox->PackEnd(hbox);
-		
+
 		vbox->PackEnd((new Gui::Label(Lang::SOUND_SETTINGS))->Color(1.0f,1.0f,0.0f));
 		m_masterVolume = new VolumeControl(Lang::VOL_MASTER, Pi::config->Float("MasterVolume"), Pi::config->Int("MasterMuted"));
 		vbox->PackEnd(m_masterVolume);
@@ -244,7 +248,7 @@ GameMenuView::GameMenuView(): View()
 		// box to put the scroll portal and its scroll bar into
 		Gui::HBox *scrollHBox = new Gui::HBox();
 		vbox->PackEnd(scrollHBox);
-		
+
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
 		Gui::VScrollPortal *portal = new Gui::VScrollPortal(280);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
@@ -253,7 +257,7 @@ GameMenuView::GameMenuView(): View()
 
 		Gui::VBox *vbox2 = new Gui::VBox();
 		portal->Add(vbox2);
-		
+
 		for (int i=0; modes[i]; ++i) {
 			Gui::RadioButton *temp = new Gui::RadioButton(m_screenModesGroup);
 			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this,
@@ -307,7 +311,7 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
 		vbox->PackEnd(hbox);
 	}
-	
+
 	vbox = new Gui::VBox();
 	vbox->SetSpacing(5.0f);
 	detailBox->PackEnd(vbox);
@@ -341,10 +345,10 @@ GameMenuView::GameMenuView(): View()
 		hbox->PackEnd(new Gui::Label(planet_fractal_desc[i]));
 		vbox->PackEnd(hbox);
 	}
-	
+
 
 	// language
-	
+
 	vbox = new Gui::VBox();
 	vbox->SetSizeRequest(300, 200);
 	mainTab->Add(vbox, 400, 250);
@@ -358,7 +362,7 @@ GameMenuView::GameMenuView(): View()
 		// box to put the scroll portal and its scroll bar into
 		Gui::HBox *scrollHBox = new Gui::HBox();
 		vbox->PackEnd(scrollHBox);
-		
+
 		Gui::VScrollBar *scroll = new Gui::VScrollBar();
 		Gui::VScrollPortal *portal = new Gui::VScrollPortal(280);
 		scroll->SetAdjustment(&portal->vscrollAdjust);
@@ -367,8 +371,8 @@ GameMenuView::GameMenuView(): View()
 
 		Gui::VBox *vbox2 = new Gui::VBox();
 		portal->Add(vbox2);
-		
-		for (std::vector<std::string>::const_iterator i = availableLanguages.begin(); i != availableLanguages.end(); i++) {
+
+		for (std::vector<std::string>::const_iterator i = availableLanguages.begin(); i != availableLanguages.end(); ++i) {
 			Gui::RadioButton *temp = new Gui::RadioButton(m_languageGroup);
 			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeLanguage), *i));
 			Gui::HBox *hbox = new Gui::HBox();
@@ -517,7 +521,7 @@ void GameMenuView::OnChangeVolume()
 	Pi::config->SetFloat("MusicMuted", m_musicVolume->IsMuted());
 	Pi::config->Save();
 }
-	
+
 void GameMenuView::OnChangePlanetDetail(int level)
 {
 	if (level == Pi::detail.planets) return;
@@ -600,8 +604,7 @@ void GameMenuView::OnToggleMouseYInvert(Gui::ToggleButton *b, bool state)
 void GameMenuView::OnToggleNavTunnel(Gui::ToggleButton *b, bool state) {
 	Pi::config->SetInt("DisplayNavTunnel", (state ? 1 : 0));
 	Pi::config->Save();
-	if (Pi::game && Pi::worldView)
-		Pi::worldView->SetNavTunnelDisplayed(state);
+	Pi::SetNavTunnelDisplayed(state);
 }
 
 void GameMenuView::HideAll()
@@ -641,24 +644,35 @@ void GameMenuView::OpenLoadDialog()
 	}
 }
 
+void GameMenuView::ShowAll() {
+	View::ShowAll();
+	if (Pi::game) {
+		m_saveButton->Show();
+		m_loadButton->Show();
+		m_exitButton->Show();
+		m_menuButton->Hide();
+	}
+	else {
+		m_saveButton->Hide();
+		m_loadButton->Hide();
+		m_exitButton->Hide();
+		m_menuButton->Show();
+	}
+}
+
 void GameMenuView::OnSwitchTo() {
 	m_changedDetailLevel = false;
 	if (m_subview) {
 		delete m_subview;
 		m_subview = 0;
 	}
-	// don't want to switch to this view if game not running
-	if (!Pi::game) {
-		Pi::SetView(Pi::worldView);
-	} else {
-		m_planetDetailGroup->SetSelected(Pi::detail.planets);
-		m_planetTextureGroup->SetSelected(Pi::detail.textures);
-		m_planetFractalGroup->SetSelected(Pi::detail.fracmult);
-		m_cityDetailGroup->SetSelected(Pi::detail.cities);
-		m_toggleShaders->SetPressed(Pi::config->Int("DisableShaders") == 0);
-		m_toggleFullscreen->SetPressed(Pi::config->Int("StartFullscreen") != 0);
-		m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
-		m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
-		m_toggleNavTunnel->SetPressed(Pi::worldView->IsNavTunnelDisplayed());
-	}
+	m_planetDetailGroup->SetSelected(Pi::detail.planets);
+	m_planetTextureGroup->SetSelected(Pi::detail.textures);
+	m_planetFractalGroup->SetSelected(Pi::detail.fracmult);
+	m_cityDetailGroup->SetSelected(Pi::detail.cities);
+	m_toggleShaders->SetPressed(Pi::config->Int("DisableShaders") == 0);
+	m_toggleFullscreen->SetPressed(Pi::config->Int("StartFullscreen") != 0);
+	m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
+	m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
+	m_toggleNavTunnel->SetPressed(Pi::IsNavTunnelDisplayed());
 }

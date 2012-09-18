@@ -47,7 +47,7 @@ private:
 	bool m_labelsClickable;
 	Color m_labelColor;
 
-	RefCountedPtr<TextureFont> m_font;
+	RefCountedPtr<Text::TextureFont> m_font;
 };
 }
 

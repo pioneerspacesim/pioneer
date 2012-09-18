@@ -1,6 +1,6 @@
--- 
+--
 -- Interface: NameGen
--- 
+--
 -- Functions for generating names.
 --
 
@@ -19,31 +19,31 @@ NameGen = {
 	orbitalStarportFormats = {},
 	surfaceStarportFormats = {},
 
--- 
+--
 -- Function: FullName
--- 
+--
 -- Create a full name (first + surname) string
--- 
+--
 -- > name = Namegen.FullName(isfemale, rand)
--- 
+--
 -- Parameters:
--- 
+--
 --   isfemale - whether to generate a male or female name. true for female,
 --              false for male
--- 
+--
 --   rand - optional, the <Rand> object to use to generate the name. if
 --          omitted, <Engine.rand> will be used
--- 
+--
 -- Return:
--- 
+--
 --   name - a string containing the name
--- 
+--
 -- Availability:
--- 
+--
 --   alpha 10
--- 
+--
 -- Status:
--- 
+--
 --   stable
 --
 
@@ -60,28 +60,28 @@ NameGen = {
 		return firstname .. " " .. NameGen.Surname(rand)
     end,
 
--- 
+--
 -- Function: Surname
--- 
+--
 -- Create a surname string
--- 
+--
 -- > name = Namegen.Surname(rand)
--- 
+--
 -- Parameters:
--- 
+--
 --   rand - optional, the <Rand> object to use to generate the name. if
 --          omitted, <Engine.rand> will be used
--- 
+--
 -- Return:
--- 
+--
 --   name - a string containing the name
--- 
+--
 -- Availability:
--- 
+--
 --   alpha 10
--- 
+--
 -- Status:
--- 
+--
 --   stable
 --
 
@@ -91,32 +91,32 @@ NameGen = {
 		return r(NameGen.surnames, rand)
 	end,
 
--- 
+--
 -- Function: BodyName
--- 
+--
 -- Create a planet name
--- 
+--
 -- > name = Namegen.BodyName(body, rand)
--- 
+--
 -- Parameters:
 --
 --   body - the <SystemBody> object to provide a name for. Currently must of type
 --          STARPORT_ORBITAL, STARPORT_SURFACE or ROCKY_PLANET. Any other types
 --          a Lua error.
--- 
+--
 --   rand - optional, the <Rand> object to use to generate the name. if
 --          omitted, <Engine.rand> will be used
--- 
+--
 -- Return:
--- 
+--
 --   name - a string containing the name
--- 
+--
 -- Availability:
--- 
+--
 --   alpha 19
--- 
+--
 -- Status:
--- 
+--
 --   experimental
 --
 	BodyName = function (body, rand)
@@ -271,7 +271,7 @@ NameGen.surnames = {
 	'Fan', 'Chung', 'Wang', 'Tai', 'Liao', 'Fang', 'Chin', 'Hsai', 'Chia',
 	'Tsou', 'Shih', 'Hsiung', 'Yen', 'Hou', 'Lei', 'Lung', 'Tuan', 'Hao',
 	'Shao', 'Shih', 'Mao', 'Wan', 'Kang', 'Yen', 'Yin', 'Shih', 'Niu', 'Hung',
-	'Kung',
+	'Kung', 'Bumgardner',
 }
 
 NameGen.outdoorPlanetFormats = {

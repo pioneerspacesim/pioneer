@@ -10,6 +10,7 @@
 class Frame;
 class ObjMesh;
 class Space;
+class Camera;
 namespace Graphics { class Renderer; }
 
 class Body: public Object {
@@ -21,9 +22,9 @@ public:
 	static Body *Unserialize(Serializer::Reader &rd, Space *space);
 	virtual void PostLoadFixup(Space *space) {};
 
-	virtual void SetPosition(vector3d p) = 0;
+	virtual void SetPosition(const vector3d &p) = 0;
 	virtual vector3d GetPosition() const = 0; // within frame
-	virtual void SetVelocity(vector3d v) { assert(0); }
+	virtual void SetVelocity(const vector3d &v) { assert(0); }
 	virtual vector3d GetVelocity() const { return vector3d(0.0); }
 	virtual double GetBoundingRadius() const = 0;
 	virtual double GetClipRadius() const { return GetBoundingRadius(); }
@@ -45,7 +46,7 @@ public:
 	// as you can't test for collisions if different objects are on different 'steps'
 	virtual void StaticUpdate(const float timeStep) {}
 	virtual void TimeStepUpdate(const float timeStep) {}
-	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform) = 0;
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) = 0;
 
 	virtual void SetFrame(Frame *f) { m_frame = f; }
 	Frame *GetFrame() const { return m_frame; }
@@ -55,9 +56,9 @@ public:
 	vector3d GetVelocityRelTo(const Frame *f) const;
 	vector3d GetPositionRelTo(const Frame *) const;
 	vector3d GetPositionRelTo(const Body *) const;
-	
+
 	// Should return pointer in Pi::currentSystem
-	virtual const SBody *GetSBody() const { return 0; }
+	virtual const SystemBody *GetSystemBody() const { return 0; }
 	// for putting on planet surface, oriented +y up
 	void OrientOnSurface(double radius, double latitude, double longitude);
 
@@ -67,6 +68,9 @@ public:
 	// Only Space::KillBody() should call this method.
 	void MarkDead() { m_dead = true; }
 	bool IsDead() const { return m_dead; }
+
+	// all Bodies are in space... except where they're not (Ships hidden in hyperspace clouds)
+	virtual bool IsInSpace() const { return true; }
 
 	// Interpolated between physics ticks.
 	const matrix4x4d &GetInterpolatedTransform() const { return m_interpolatedTransform; }

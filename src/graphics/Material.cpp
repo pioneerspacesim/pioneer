@@ -5,11 +5,34 @@ namespace Graphics {
 Material::Material() :
 	texture0(0),
 	diffuse(1.f), //default white
-	unlit(false),
+	emissive(Color::BLACK),
 	twoSided(false),
-	vertexColors(false),
-	shader(0)
+	specialParameter0(0)
 {
+}
+
+MaterialDescriptor::MaterialDescriptor()
+: effect(EFFECT_DEFAULT)
+, atmosphere(false)
+, lighting(false)
+, vertexColors(false)
+, twoSided(false)
+, textures(0)
+, dirLights(0)
+{
+}
+
+bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
+{
+	return (
+		a.effect == b.effect &&
+		a.atmosphere == b.atmosphere &&
+		a.lighting == b.lighting &&
+		a.vertexColors == b.vertexColors &&
+		a.twoSided == b.twoSided &&
+		a.textures == b.textures &&
+		a.dirLights == b.dirLights
+	);
 }
 
 }

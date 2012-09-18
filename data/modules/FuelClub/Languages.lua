@@ -31,7 +31,7 @@ Translate:Add({English = {
   ---- POLISH / POLSKI ----
 
 Translate:AddFlavour('Polski','FuelClub',{
-	
+
 	clubname = "Spółdzielnia Paliwowa",
 	welcome = 'Witamy w Spółdzielni Paliwowej',
 	nonmember_intro = [[{clubname} jest niezależną organizacją, udostępniającą swoim członkom własne zapasy paliwa, posiadamy filie w całej galaktyce. Korzyści płynące z członkostwa:
@@ -66,8 +66,8 @@ Translate:AddFlavour('Spanish','FuelClub',{
 	nonmember_intro = [[{clubname} es una organización independiente dedicada a proveer descuentos en combustible a sus miembros. Sus sedes se encuentran por toda la galaxia. Los beneficios de afiliación incluyen:
 
 	* Existencias de combustible propias, independientes del mercado general
-	* Descuento de precios en {hydrogen} 
-	* Descuento de precios en {military_fuel} 
+	* Descuento de precios en {hydrogen}
+	* Descuento de precios en {military_fuel}
 	* {radioactives}, disponibilidad libre (bajo condiciones)
 
 Apúntese! Afiliación anual por solo {membership_fee}]],
@@ -84,12 +84,12 @@ Translate:Add({Spanish = {
 	["You must buy our {military_fuel} before we will take your {radioactives}"] = "Debe adquirir nuestro {military_fuel} para dispensarle {radioactives}",
 	["Begin trade"] = "Comenzar transacción",
 }})
-   
+
 
   ---- HUNGARIAN / MAGYAR ----
-  
+
 Translate:AddFlavour('Magyar','FuelClub',{
-	
+
 	clubname = "Csillagközi pilóták üzemanyagegyüttműködése",
 	welcome = 'Üdvözlünk a(z) {clubname} klubban.',
 	nonmember_intro = [[{clubname} egy független szervezet, amely olcsón kínál űrhajóüzemanyagot tagjainak. A fiókok szerte megtalálhatóak a galaxisban. A tagság előnyei a következők:

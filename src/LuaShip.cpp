@@ -31,7 +31,7 @@
  * Method: IsPlayer
  *
  * Determines if the ship is the player ship
- * 
+ *
  * > isplayer = ship:IsPlayer()
  *
  * Returns:
@@ -104,9 +104,8 @@ static int l_ship_get_stats(lua_State *l)
 
 	Ship *s = LuaShip::GetFromLua(1);
 	const shipstats_t &stats = s->GetStats();
-	
+
 	lua_newtable(l);
-    pi_lua_table_ro(l);
 	pi_lua_settable(l, "maxCapacity",        stats.max_capacity);
 	pi_lua_settable(l, "usedCapacity",       stats.used_capacity);
 	pi_lua_settable(l, "usedCargo",          stats.used_cargo);
@@ -139,10 +138,10 @@ static int l_ship_get_stats(lua_State *l)
  *
  * Example:
  *
- * > ship:SetShipType('Sirius Interdictor')
+ * > ship:SetShipType('sirius_interdictor')
  *
  * Availability:
- * 
+ *
  *   alpha 15
  *
  * Status:
@@ -279,7 +278,7 @@ static int l_ship_set_fuel_percent(lua_State *l)
  * > ship:Explode()
  *
  * Availability:
- * 
+ *
  * 	alpha 20
  *
  * Status:
@@ -292,13 +291,11 @@ static int l_ship_explode(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	Ship *s = LuaShip::GetFromLua(1);
-	
-	Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(s));
-	Sfx::Add(s, Sfx::TYPE_EXPLOSION);
-	Sound::BodyMakeNoise(s, "Explosion_1", 1.0f);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:Explode() cannot be called on a ship in hyperspace");
+	s->Explode();
 
 	LUA_DEBUG_END(l, 0);
-
 	return 0;
 }
 
@@ -313,7 +310,7 @@ static int l_ship_explode(lua_State *l)
  * Parameters:
  *
  *   newlabel - the new label
- * 
+ *
  * Example:
  *
  * > ship:SetLabel("AB-1234")
@@ -401,7 +398,7 @@ static void _prepare_colour(lua_State *l, LmrMaterial &m)
  *
  *   blue - a real number describing the blue component of the colour. 0.0 is
  *          no blue component, 1.0 is full blue
- * 
+ *
  * Example:
  *
  * > ship:SetPrimaryColour("#002366")       -- royal blue
@@ -446,7 +443,7 @@ static int l_ship_set_primary_colour(lua_State *l)
  *
  *   blue - a real number describing the blue component of the colour. 0.0 is
  *          no blue component, 1.0 is full blue
- * 
+ *
  * Example:
  *
  * > ship:SetSecondaryColour("#002366")       -- royal blue
@@ -559,7 +556,6 @@ static int l_ship_get_equip(lua_State *l)
 	} else {
 		// 1-argument version; returns table of equipment items
 		lua_newtable(l);
-		pi_lua_table_ro(l);
 
 		for (int idx = 0; idx < size; idx++) {
 			lua_pushinteger(l, idx+1);
@@ -786,7 +782,7 @@ static int l_ship_get_equip_free(lua_State *l)
  *
  * > success = ship:Jettison(item)
  *
- * On sucessful jettison, the <EventQueue.onJettison> event is triggered.
+ * On sucessful jettison, the <Event.onJettison> event is triggered.
  *
  * Parameters:
  *
@@ -808,6 +804,8 @@ static int l_ship_get_equip_free(lua_State *l)
 static int l_ship_jettison(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:Jettison() cannot be called on a ship in hyperspace");
 	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
 
 	lua_pushboolean(l, s->Jettison(e));
@@ -849,7 +847,7 @@ static int l_ship_get_docked_with(lua_State *l)
  *
  * > success = ship:Undock()
  *
- * <EventQueue.onShipUndocked> will be triggered once undocking is complete
+ * <Event.onShipUndocked> will be triggered once undocking is complete
  *
  * Return:
  *
@@ -904,18 +902,20 @@ static int l_ship_undock(lua_State *l)
 static int l_ship_fire_missile_at(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:FireMissileAt() cannot be called on a ship in hyperspace");
 	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
 	Ship *target = LuaShip::GetFromLua(3);
 
 	if (e < Equip::MISSILE_UNGUIDED || e > Equip::MISSILE_NAVAL)
 		luaL_error(l, "Equipment type '%s' is not a valid missile type", lua_tostring(l, 2));
-	
+
 	int max_missiles = s->m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
 	int idx;
 	for (idx = 0; idx < max_missiles; idx++)
 		if (s->m_equipment.Get(Equip::SLOT_MISSILE, idx) == e)
 			break;
-	
+
 	if (idx == max_missiles) {
 		lua_pushboolean(l, false);
 		return 1;
@@ -1036,7 +1036,7 @@ static int l_ship_get_hyperspace_details(lua_State *l)
  * > status = ship:HyperspaceTo(path)
  *
  * If the status returned is "OK", then a hyperspace departure cloud will be
- * created where the ship was and the <EventQueue.onLeaveSystem> event will be
+ * created where the ship was and the <Event.onLeaveSystem> event will be
  * triggered.
  *
  * Parameters:
@@ -1106,6 +1106,26 @@ static int l_ship_attr_alert_status(lua_State *l)
 }
 
 /*
+ * Attribute: flightState
+ *
+ * The current flight state of the ship. A <Constants.ShipFlightState> string.
+ *
+ * Availability:
+ *
+ *  alpha 25
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_attr_flight_state(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipFlightState", s->GetFlightState()));
+	return 1;
+}
+
+/*
  * Attribute: shipType
  *
  * The type of the ship. This value can be passed to <ShipType.GetShipType>
@@ -1148,14 +1168,14 @@ static int l_ship_attr_fuel(lua_State *l)
 }
 
 
-/* 
+/*
  * Group: AI methods
  *
  * The AI methods are the script's equivalent of the autopilot. They are
  * high-level commands to instruct the ship to fly somewhere and possibly take
  * some action when it arrives (like dock or attack).
  *
- * When an AI completes the <EventQueue.onAICompleted> event is triggered, and
+ * When an AI completes the <Event.onAICompleted> event is triggered, and
  * the ship is left with engines off in whatever state the AI left it in. For
  * some AI methods (eg <AIEnterLowOrbit>) this is useful. For others it will
  * likely mean the ship will eventually succumb to gravity and crash
@@ -1190,6 +1210,8 @@ static int l_ship_attr_fuel(lua_State *l)
 static int l_ship_ai_kill(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIKill() cannot be called on a ship in hyperspace");
 	Ship *target = LuaShip::GetFromLua(2);
 	s->AIKill(target);
 	return 0;
@@ -1217,6 +1239,8 @@ static int l_ship_ai_kill(lua_State *l)
 static int l_ship_ai_fly_to(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIFlyTo() cannot be called on a ship in hyperspace");
 	Body *target = LuaBody::GetFromLua(2);
 	s->AIFlyTo(target);
 	return 0;
@@ -1244,6 +1268,8 @@ static int l_ship_ai_fly_to(lua_State *l)
 static int l_ship_ai_dock_with(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIDockWith() cannot be called on a ship in hyperspace");
 	SpaceStation *target = LuaSpaceStation::GetFromLua(2);
 	s->AIDock(target);
 	return 0;
@@ -1271,9 +1297,11 @@ static int l_ship_ai_dock_with(lua_State *l)
 static int l_ship_ai_enter_low_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIEnterLowOrbit() cannot be called on a ship in hyperspace");
 	Body *target = LuaBody::GetFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
-		luaL_typerror(l, 2, "Planet or Star");
+		luaL_argerror(l, 2, "expected a Planet or a Star");
 	s->AIOrbit(target, 1.1);
 	return 0;
 }
@@ -1300,9 +1328,11 @@ static int l_ship_ai_enter_low_orbit(lua_State *l)
 static int l_ship_ai_enter_medium_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIEnterMediumOrbit() cannot be called on a ship in hyperspace");
 	Body *target = LuaBody::GetFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
-		luaL_typerror(l, 2, "Planet or Star");
+		luaL_argerror(l, 2, "expected a Planet or a Star");
 	s->AIOrbit(target, 2.0);
 	return 0;
 }
@@ -1329,9 +1359,11 @@ static int l_ship_ai_enter_medium_orbit(lua_State *l)
 static int l_ship_ai_enter_high_orbit(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIEnterHighOrbit() cannot be called on a ship in hyperspace");
 	Body *target = LuaBody::GetFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
-		luaL_typerror(l, 2, "Planet or Star");
+		luaL_argerror(l, 2, "expected a Planet or a Star");
 	s->AIOrbit(target, 5.0);
 	return 0;
 }
@@ -1346,7 +1378,7 @@ static int l_ship_ai_enter_high_orbit(lua_State *l)
  * This ship is left with the orientation and velocity it had when <CancelAI>
  * was called. The engines are switched off.
  *
- * Note that <EventQueue.onAICompleted> will not be triggered by calling
+ * Note that <Event.onAICompleted> will not be triggered by calling
  * <CancelAI>, as the AI did not actually complete.
  *
  * You do not need to call this if you intend to immediately invoke another AI
@@ -1368,18 +1400,13 @@ static int l_ship_cancel_ai(lua_State *l)
 	return 0;
 }
 
-static bool promotion_test(DeleteEmitter *o)
-{
-	return dynamic_cast<Ship*>(o);
-}
-
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
 {
 	static const char *l_parent = "Body";
 
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_ship_is_player },
 
 		{ "GetStats", l_ship_get_stats },
@@ -1423,13 +1450,14 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "alertStatus", l_ship_attr_alert_status },
+		{ "flightState", l_ship_attr_flight_state },
 		{ "shipType",    l_ship_attr_ship_type },
 		{ "fuel",        l_ship_attr_fuel },
 		{ 0, 0 }
 	};
 
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, NULL);
-	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Ship>::DynamicCastPromotionTest);
 }

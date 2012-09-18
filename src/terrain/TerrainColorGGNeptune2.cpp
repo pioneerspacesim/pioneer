@@ -7,7 +7,7 @@ template <>
 const char *TerrainColorFractal<TerrainColorGGNeptune2>::GetColorFractalName() const { return "GGNeptune2"; }
 
 template <>
-TerrainColorFractal<TerrainColorGGNeptune2>::TerrainColorFractal(const SBody *body) : Terrain(body)
+TerrainColorFractal<TerrainColorGGNeptune2>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
 	// spots
 	double height = m_maxHeightInMeters*0.1;
@@ -32,7 +32,7 @@ vector3d TerrainColorFractal<TerrainColorGGNeptune2>::GetColor(const vector3d &p
 		for(float i=-1 ; i < 1; i+=0.6f){
 			double temp = p.y - i;
 			if ( temp < .07+h && temp > -.07+h ){
-				n = 2.0*billow_octavenoise(GetFracDef(2), 0.5*m_entropy[0], 
+				n = 2.0*billow_octavenoise(GetFracDef(2), 0.5*m_entropy[0],
 					noise(vector3d(p.x, p.y*m_planetEarthRadii*0.3, p.z))*p);
 				n += 0.8*octavenoise(GetFracDef(1), 0.5*m_entropy[0],
 					noise(vector3d(p.x, p.y*m_planetEarthRadii, p.z))*p);
@@ -62,10 +62,10 @@ vector3d TerrainColorFractal<TerrainColorGGNeptune2>::GetColor(const vector3d &p
 					return col;
 				}
 			}
-		} 
-	} 
+		}
+	}
 	//if is not a stripe.
-	n = octavenoise(GetFracDef(1), 0.5*m_entropy[0] + 
+	n = octavenoise(GetFracDef(1), 0.5*m_entropy[0] +
 		0.25f,noise(vector3d(p.x*0.2, p.y*m_planetEarthRadii*10, p.z))*p);
 	//n += 0.5;
 	//n += octavenoise(GetFracDef(0), 0.6*m_entropy[0], 3.142*p.z*p.z);

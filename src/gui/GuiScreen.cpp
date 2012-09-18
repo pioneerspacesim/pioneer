@@ -19,8 +19,8 @@ GLdouble Screen::projMatrix[16];
 GLint Screen::viewport[4];
 
 FontCache Screen::s_fontCache;
-std::stack< RefCountedPtr<TextureFont> > Screen::s_fontStack;
-RefCountedPtr<TextureFont>Screen::s_defaultFont;
+std::stack< RefCountedPtr<Text::TextureFont> > Screen::s_fontStack;
+RefCountedPtr<Text::TextureFont>Screen::s_defaultFont;
 
 Graphics::Renderer *Screen::s_renderer;
 
@@ -81,14 +81,22 @@ void Screen::ClearFocus()
 
 void Screen::ShowBadError(const char *msg)
 {
-	fprintf(stderr, "%s", msg);
-	baseContainer->HideChildren();
-	
+	// to make things simple for ourselves, we want to hide all the existing widgets
+	// however, if we do it through baseContainer->HideChildren() then we lose track of
+	// which widgets should be shown again when the red-screen is cleared.
+	// So to avoid this problem we don't hide anything, we just temporarily swap to
+	// a different base container which is just used for this red-screen
+
+	Gui::Fixed *oldBaseContainer = Screen::baseContainer;
+	Screen::baseContainer = new Gui::Fixed();
+	Screen::baseContainer->SetSize(float(Screen::width), float(Screen::height));
+	Screen::baseContainer->Show();
+
 	Gui::Fixed *f = new Gui::Fixed(6*GetWidth()/8.0f, 6*GetHeight()/8.0f);
 	Gui::Screen::AddBaseWidget(f, GetWidth()/8, GetHeight()/8);
 	f->SetTransparency(false);
 	f->SetBgColor(0.4f,0,0,1.0f);
-	f->Add(new Gui::Label(msg), 10, 10);
+	f->Add(new Gui::Label(msg, TextLayout::ColourMarkupNone), 10, 10);
 
 	Gui::Button *okButton = new Gui::LabelButton(new Gui::Label("Ok"));
 	okButton->SetShortcut(SDLK_RETURN, KMOD_NONE);
@@ -101,9 +109,9 @@ void Screen::ShowBadError(const char *msg)
 		SDL_Delay(10);
 	} while (!okButton->IsPressed());
 
-	Gui::Screen::RemoveBaseWidget(f);
-	delete f;
-	baseContainer->ShowAll();
+	delete f; // Gui::Fixed does a horrible thing and calls Gui::Screen::RemoveBaseWidget(this) in its destructor
+	delete Screen::baseContainer;
+	Screen::baseContainer = oldBaseContainer;
 }
 
 bool Screen::Project(const vector3d &in, vector3d &out)
@@ -122,7 +130,7 @@ void Screen::EnterOrtho()
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
@@ -133,7 +141,7 @@ void Screen::EnterOrtho()
 }
 
 void Screen::LeaveOrtho()
-{	
+{
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
@@ -164,7 +172,7 @@ void Screen::RemoveBaseWidget(Widget *w)
 {
 	baseContainer->Remove(w);
 }
-	
+
 void Screen::SDLEventCoordToScreenCoord(int sdlev_x, int sdlev_y, float *x, float *y)
 {
 	*y = sdlev_y*height*invRealHeight;
@@ -221,14 +229,21 @@ void Screen::OnKeyUp(const SDL_keysym *sym)
 {
 }
 
-float Screen::GetFontHeight(TextureFont *font)
+float Screen::GetFontHeight(Text::TextureFont *font)
 {
     if (!font) font = GetFont().Get();
 
 	return font->GetHeight() * fontScale[1];
 }
 
-void Screen::MeasureString(const std::string &s, float &w, float &h, TextureFont *font)
+float Screen::GetFontDescender(Text::TextureFont *font)
+{
+    if (!font) font = GetFont().Get();
+
+	return font->GetDescender() * fontScale[1];
+}
+
+void Screen::MeasureString(const std::string &s, float &w, float &h, Text::TextureFont *font)
 {
 	if (!font) font = GetFont().Get();
 	assert(font);
@@ -238,7 +253,7 @@ void Screen::MeasureString(const std::string &s, float &w, float &h, TextureFont
 	h *= fontScale[1];
 }
 
-void Screen::MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, TextureFont *font)
+void Screen::MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, Text::TextureFont *font)
 {
 	assert((charIndex >= 0) && (charIndex <= int(s.size())));
 
@@ -250,7 +265,7 @@ void Screen::MeasureCharacterPos(const std::string &s, int charIndex, float &x, 
 	y *= fontScale[1];
 }
 
-int Screen::PickCharacterInString(const std::string &s, float x, float y, TextureFont *font)
+int Screen::PickCharacterInString(const std::string &s, float x, float y, Text::TextureFont *font)
 {
 	if (!font) font = GetFont().Get();
 	assert(font);
@@ -261,7 +276,7 @@ int Screen::PickCharacterInString(const std::string &s, float x, float y, Textur
 	return font->PickCharacter(s.c_str(), x, y);
 }
 
-void Screen::RenderString(const std::string &s, float xoff, float yoff, const Color &color, TextureFont *font)
+void Screen::RenderString(const std::string &s, float xoff, float yoff, const Color &color, Text::TextureFont *font)
 {
     if (!font) font = GetFont().Get();
 
@@ -274,11 +289,11 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderString(s_renderer, s.c_str(), 0, 0, color);
+	font->RenderString(s.c_str(), 0, 0, color);
 	glPopMatrix();
 }
 
-void Screen::RenderMarkup(const std::string &s, const Color &color, TextureFont *font)
+void Screen::RenderMarkup(const std::string &s, const Color &color, Text::TextureFont *font)
 {
     if (!font) font = GetFont().Get();
 
@@ -291,7 +306,7 @@ void Screen::RenderMarkup(const std::string &s, const Color &color, TextureFont 
 	glTranslatef(floor(x/Screen::fontScale[0])*Screen::fontScale[0],
 			floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	glScalef(Screen::fontScale[0], Screen::fontScale[1], 1);
-	font->RenderMarkup(s_renderer, s.c_str(), 0, 0, color);
+	font->RenderMarkup(s.c_str(), 0, 0, color);
 	glPopMatrix();
 }
 

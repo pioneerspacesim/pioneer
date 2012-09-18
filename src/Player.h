@@ -8,7 +8,7 @@
 #include "RefList.h"
 #include "Ship.h"
 #include "ShipController.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 
 namespace Graphics { class Renderer; }
 
@@ -57,6 +57,9 @@ public:
 	Body *GetSetSpeedTarget() const;
 	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
 	void SetNavTarget(Body* const target, bool setSpeedTo = false);
+
+	virtual Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
+	virtual void ResetHyperspaceCountdown();
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);

@@ -15,10 +15,11 @@
 #include "SystemInfoView.h"
 #include "SpaceStationView.h"
 #include "InfoView.h"
+#include "LuaEvent.h"
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 50;
+static const int  s_saveVersion   = 52;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -118,7 +119,7 @@ Game::Game(Serializer::Reader &rd) :
 	section = rd.RdSection("Space");
 	m_space.Reset(new Space(this, section));
 
-	
+
 	// game state and space transition state
 	section = rd.RdSection("Game");
 
@@ -128,7 +129,7 @@ Game::Game(Serializer::Reader &rd) :
 	Uint32 nclouds = section.Int32();
 	for (Uint32 i = 0; i < nclouds; i++)
 		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::Unserialize(section, 0)));
-	
+
 	m_time = section.Double();
 	m_state = State(section.Int32());
 
@@ -162,7 +163,7 @@ void Game::Serialize(Serializer::Writer &wr)
 	// leading signature
 	for (Uint32 i = 0; i < strlen(s_saveStart)+1; i++)
 		wr.Byte(s_saveStart[i]);
-	
+
 	// version
 	wr.Int32(s_saveVersion);
 
@@ -172,7 +173,7 @@ void Game::Serialize(Serializer::Writer &wr)
 	m_space->Serialize(section);
 	wr.WrSection("Space", section.GetData());
 
-	
+
 	// game state and space transition state
 	section = Serializer::Writer();
 
@@ -190,7 +191,7 @@ void Game::Serialize(Serializer::Writer &wr)
 	section.Double(m_hyperspaceProgress);
 	section.Double(m_hyperspaceDuration);
 	section.Double(m_hyperspaceEndTime);
-	
+
 	wr.WrSection("Game", section.GetData());
 
 
@@ -204,7 +205,7 @@ void Game::Serialize(Serializer::Writer &wr)
 	section = Serializer::Writer();
 	Pi::cpan->Save(section);
 	wr.WrSection("ShipCpanel", section.GetData());
-	
+
 	section = Serializer::Writer();
 	Pi::sectorView->Save(section);
 	wr.WrSection("SectorView", section.GetData());
@@ -271,7 +272,7 @@ bool Game::UpdateTimeAccel()
 
 	// force down to timeaccel 1 during the docking sequence
 	else if (m_player->GetFlightState() == Ship::DOCKING) {
-		newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
+		newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
 		RequestTimeAccel(newTimeAccel);
 	}
 
@@ -289,7 +290,7 @@ bool Game::UpdateTimeAccel()
 			for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i) {
 				if ((*i) == m_player) continue;
 				if ((*i)->IsType(Object::HYPERSPACECLOUD)) continue;
-			
+
 				vector3d toBody = m_player->GetPosition() - (*i)->GetPositionRelTo(m_player->GetFrame());
 				double dist = toBody.Length();
 				double rad = (*i)->GetBoundingRadius();
@@ -312,7 +313,7 @@ bool Game::UpdateTimeAccel()
 	// no change
 	if (newTimeAccel == m_timeAccel)
 		return false;
-	
+
 	SetTimeAccel(newTimeAccel);
 	return true;
 }
@@ -486,15 +487,15 @@ void Game::SwitchToNormalSpace()
 					// near the body. the script should be issuing a dock or
 					// flyto command in onEnterSystem so it should sort it
 					// itself out long before the player can get near
-					
-					SBody *sbody = m_space->GetStarSystem()->GetBodyByPath(&sdest);
-					if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
+
+					SystemBody *sbody = m_space->GetStarSystem()->GetBodyByPath(&sdest);
+					if (sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) {
 						ship->SetFrame(target_body->GetFrame());
 						ship->SetPosition(MathUtil::RandomPointOnSphere(1000.0)*1000.0); // somewhere 1000km out
 					}
 
 					else {
-						if (sbody->type == SBody::TYPE_STARPORT_SURFACE) {
+						if (sbody->type == SystemBody::TYPE_STARPORT_SURFACE) {
 							sbody = sbody->parent;
 							SystemPath path = m_space->GetStarSystem()->GetPathOf(sbody);
 							target_body = m_space->FindBodyForPath(&path);
@@ -510,7 +511,7 @@ void Game::SwitchToNormalSpace()
 
 			m_space->AddBody(ship);
 
-			Pi::luaOnEnterSystem->Queue(ship);
+			LuaEvent::Queue("onEnterSystem", ship);
 		}
 	}
 	m_hyperspaceClouds.clear();
@@ -566,7 +567,7 @@ void Game::CreatePlayer()
 
 	if (startPath.IsSameSystem(SystemPath(-2,1,90,0))) {
 		// Lave
-		m_player.Reset(new Player("Cobra Mk III"));
+		m_player.Reset(new Player("cobra3"));
 		m_player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS3);
 		m_player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
 		m_player->m_equipment.Add(Equip::HYDROGEN, 2);
@@ -576,7 +577,7 @@ void Game::CreatePlayer()
 	}
 
 	else {
-		m_player.Reset(new Player("Eagle Long Range Fighter"));
+		m_player.Reset(new Player("eagle_lrf"));
 		m_player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
 		m_player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
 		m_player->m_equipment.Add(Equip::HYDROGEN, 1);

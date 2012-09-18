@@ -127,7 +127,7 @@ WELCOME_TO_SOMEWHERE
 # write anything you like here.  It will appear in every space station
 # in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Bonjour, voyageur. Bienvenue sur notre station. Si c'est la première fois que vous venez, faites connaissances avec les résidents. Nous espérons que vous apprécierez votre séjour.\n\nRappellez vous que des réparations sont en court, et qu'il peut y avoir des changements entre vos visites.
+    Bonjour, voyageur. Bienvenue sur notre station. Si c'est la première fois que vous venez, faites connaissances avec les résidents. Nous espérons que vous apprécierez votre séjour.\nRappellez vous que des réparations sont en court, et qu'il peut y avoir des changements entre vos visites.
 REQUEST_LAUNCH
     Requête de lancement
 SHIPYARD
@@ -252,7 +252,7 @@ INVERT_MOUSE_Y
     Inversion de l'axe Y
 LANGUAGE_SELECTION
     Langue (redémarrage requis)
- 
+
 # Wares
 NONE
     Aucun
@@ -324,14 +324,14 @@ RUBBISH
     Détritus
 RADIOACTIVES
     Déchets radioactifs
- 
+
 # Hardware
 MISSILE_UNGUIDED
     Roquette R40
 MISSILE_GUIDED
-    Missile guidé                                                     
+    Missile guidé
 MISSILE_SMART
-    Missile intelligent                                             
+    Missile intelligent
 MISSILE_NAVAL
     Missile naval
 ATMOSPHERIC_SHIELDING
@@ -395,7 +395,7 @@ SHIELD_ENERGY_BOOSTER_DESCRIPTION
 DRIVE_CLASS1
     Hyperpropulsion Classe 1
 DRIVE_CLASS2
-    Hyperpropulsion Classe 2 
+    Hyperpropulsion Classe 2
 DRIVE_CLASS3
     Hyperpropulsion Classe 3
 DRIVE_CLASS4
@@ -573,7 +573,7 @@ DECREASE_SCAN_RANGE
 TOGGLE_LUA_CONSOLE
     Console LUA on/off
 JOYSTICK_INPUT
-    Joystick 
+    Joystick
 PITCH
     Pitch
 ROLL
@@ -590,7 +590,7 @@ POOR
     Faible
 AVERAGE
     Moyen
-ABOVE_AVERAGE 
+ABOVE_AVERAGE
     Au-dessus de la moyenne
 COMPETENT
     Compétent
@@ -1116,8 +1116,8 @@ PROBABILITY_OF_ARRIVAL_X_PERCENT
     Probability of arrival: %probability%%
 ALT_IN_METRES
     Alt: %altitude{f.0}m
-PRESSURE_N_BAR
-    P: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    P: %pressure{f.2} atm
 NO_HYPERDRIVE
     Pas d'hyperpropulsion
 MASS_N_TONNES

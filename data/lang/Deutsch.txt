@@ -124,7 +124,7 @@ BULLETIN_BOARD
 WELCOME_TO_SOMEWHERE
     Willkommen auf %station
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Willkommen Reisende. Es gibt Vorfälle von Vandalismus und Schmierereien an Bord unserer Station. Falls die Beschilderung irreführend oder fehlerhaft beschriftet ist oder schlicht fehlt, wenden Sie sich bitte an das Stationspersonal. Wir halten zahlreiche Dienstleistungsangebote für Sie bereit.\n\nDie Atemluft ist zurzeit kostenlos.
+    Willkommen Reisende. Es gibt Vorfälle von Vandalismus und Schmierereien an Bord unserer Station. Falls die Beschilderung irreführend oder fehlerhaft beschriftet ist oder schlicht fehlt, wenden Sie sich bitte an das Stationspersonal. Wir halten zahlreiche Dienstleistungsangebote für Sie bereit.\nDie Atemluft ist zurzeit kostenlos.
 REQUEST_LAUNCH
     Starterlaubnis anfordern
 SHIPYARD
@@ -1073,8 +1073,8 @@ IN_TRANSIT_TO_N_X_X_X
     Auf dem Weg nach %system [%x,%y,%z]
 ALT_IN_METRES
     Höhe: %altitude{f.0}m
-PRESSURE_N_BAR
-    Druck: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    Druck: %pressure{f.2} atm
 NO_HYPERDRIVE
     Kein Hyperraumantrieb
 MASS_N_TONNES

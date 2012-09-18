@@ -138,21 +138,21 @@ define_model('arco01_inside', {
 		zbias(1,v(0,500,0), v(0,1,0))
 		texture('../win0.png')
 		use_material('win1')
-		load_obj('win1.obj',Matrix.scale(v(10.02,10,10.02)))
+		load_obj('win1.obj',matrix.scale(v(10.02,10,10.02)))
 		use_material('win2')
-		load_obj('win2.obj',Matrix.scale(v(10.02,10,10.02)))
+		load_obj('win2.obj',matrix.scale(v(10.02,10,10.02)))
 		use_material('win3')
-		load_obj('win3.obj',Matrix.scale(v(10.02,10,10.02)))
+		load_obj('win3.obj',matrix.scale(v(10.02,10,10.02)))
 		use_material('win4')
-		load_obj('win4.obj',Matrix.scale(v(10.02,10,10.02)))
+		load_obj('win4.obj',matrix.scale(v(10.02,10,10.02)))
 		use_material('win5')
-		load_obj('win5.obj',Matrix.scale(v(10.02,10,10.02)))
+		load_obj('win5.obj',matrix.scale(v(10.02,10,10.02)))
 		use_material('win6')
-		load_obj('win6.obj',Matrix.scale(v(10.02,10,10.02)))
+		load_obj('win6.obj',matrix.scale(v(10.02,10,10.02)))
 		use_material('win7')
-		load_obj('win7.obj',Matrix.scale(v(10.02,10,10.02)))
+		load_obj('win7.obj',matrix.scale(v(10.02,10,10.02)))
 		use_material('win8')
-		load_obj('win8.obj',Matrix.scale(v(10.02,10,10.02)))
+		load_obj('win8.obj',matrix.scale(v(10.02,10,10.02)))
 		zbias(0)
 
 		--houses
@@ -205,7 +205,7 @@ define_model('arco01_base', {
 		if lod == 1 then
 			--dome
 			use_material('dome')
-			sphere_slice(8,3,0,.3*math.pi, Matrix.translate(v(0,300,0)) * Matrix.scale(v(320,320,320)))
+			sphere_slice(8,3,0,.3*math.pi, matrix.translate(v(0,300,0)) * matrix.scale(v(320,320,320)))
 			--dome base
 			use_material('steel')
 			texture('bot5.png',v(.5,.5,0),v(.002,0,0),v(0,0,1))
@@ -252,7 +252,7 @@ define_model('arco01_base', {
 
 			--transparent dome
 			use_material('dome_trans')
-			sphere_slice(12*lod,4*lod,0,.3*math.pi, Matrix.translate(v(0,340,0)) * Matrix.scale(v(305,305,305)))
+			sphere_slice(12*lod,4*lod,0,.3*math.pi, matrix.translate(v(0,340,0)) * matrix.scale(v(305,305,305)))
 		end
   	end,
 })
