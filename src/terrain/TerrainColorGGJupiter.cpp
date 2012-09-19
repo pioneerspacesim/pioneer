@@ -21,8 +21,8 @@ template <>
 vector3d TerrainColorFractal<TerrainColorGGJupiter>::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
 	double n;
-	const double h = river_octavenoise(GetFracDef(0), 0.5*m_entropy[0] +
-			0.25f, noise(vector3d(p.x*8, p.y*32, p.z*8)))*.125;
+	const double h = river_octavenoise(GetFracDef(0), 0.5*m_entropy[0] + 0.25f,
+			vector3d(noise(vector3d(p.x*8, p.y*32, p.z*8))))*.125;
 	const double equatorial_region_1 = billow_octavenoise(GetFracDef(0), 0.7, p) * p.y * p.x;
 	const double equatorial_region_2 = octavenoise(GetFracDef(1), 0.8, p) * p.x * p.x;
 	vector3d col;
