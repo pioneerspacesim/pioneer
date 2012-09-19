@@ -760,7 +760,7 @@ public:
 		curOp.billboards.col[3] = 1.0f;
 
 		for (int i=0; i<numPoints; i++)
-			PushVertex(points[i], vector3f());
+			PushVertex(points[i], vector3f(0.0f, 0.0f, 0.0f));
 	}
 
 	void SetMaterial(const char *mat_name, const float mat[11]) {
