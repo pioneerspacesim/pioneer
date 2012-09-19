@@ -229,7 +229,7 @@ public:
 		char buf[512];
 		std::string col1, col2;
 		const ShipType &stype = Pi::player->GetShipType();
-		col1 = std::string(Lang::CASH)+": $"+"XXXXXXX.XX";
+		col1 = std::string(Lang::CASH)+": "+std::string(format_money(Pi::player->GetMoney()));
 		col1 += "\n";
 		col1 += std::string(Lang::SHIP_INFORMATION_HEADER)+std::string(stype.name);
 		col1 += "\n\n";
