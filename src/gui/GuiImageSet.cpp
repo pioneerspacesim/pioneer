@@ -50,6 +50,9 @@ void ImageSet::Clear()
 void ImageSet::Draw()
 {
 	if (!m_imagesVisible) return;
+
+	Screen::GetRenderer()->SetBlendMode(Graphics::BLEND_ALPHA);
+
 	for (std::vector<ImageSetItem>::iterator i = m_items.begin(); i != m_items.end(); ++i) {
 		Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 		
@@ -73,6 +76,8 @@ void ImageSet::Draw()
 		(*i).material->diffuse = (*i).tint;
 		Screen::GetRenderer()->DrawTriangles(&va, (*i).material.Get(), Graphics::TRIANGLE_STRIP);
 	}
+
+	Screen::GetRenderer()->SetBlendMode(Graphics::BLEND_SOLID);
 }
 
 void ImageSet::GetSizeRequested(float size[2])
