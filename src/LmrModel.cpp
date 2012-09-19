@@ -4335,13 +4335,19 @@ namespace ObjLoader {
 				bool build_normals = false;
 				for (int i=0; i<numBits; i++) {
 					if (3 == sscanf(bit[i], "%d/%d/%d", &vi[i], &ti[i], &ni[i])) {
+						if (texcoords.empty()) {
+							puts(bit[i]);
+							Error("Obj file '%s' has a face that refers to non-existent texture coords at line %d\n", obj_name, line_no);
+						}
 						// good
 					}
 					else if (2 == sscanf(bit[i], "%d//%d", &vi[i], &ni[i])) {
 						// good
+						ti[i] = 0;
 					}
 					else if (1 == sscanf(bit[i], "%d", &vi[i])) {
 						build_normals = true;
+						ti[i] = 0;
 					} else {
 						puts(bit[i]);
 						Error("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
@@ -4358,7 +4364,7 @@ namespace ObjLoader {
 						vector3f &c = vertices[vi[i+2]];
 						vector3f n = (a-b).Cross(a-c).Normalized();
 						int vtxStart = s_curBuf->AllocVertices(3);
-						if (texcoords.empty()) {
+						if ((ti[i] == -1) || texcoords.empty()) {
 							// no UV coords
 							s_curBuf->SetVertex(vtxStart, a, n);
 							s_curBuf->SetVertex(vtxStart+1, b, n);
@@ -4378,7 +4384,7 @@ namespace ObjLoader {
 						if (it == vtxmap.end()) {
 							// insert the horrible thing
 							int vtxStart = s_curBuf->AllocVertices(1);
-							if (texcoords.empty()) {
+							if ((t.uv == -1) || texcoords.empty()) {
 								// no UV coords
 								s_curBuf->SetVertex(vtxStart, vertices[vi[i]], normals[ni[i]]);
 							} else {
