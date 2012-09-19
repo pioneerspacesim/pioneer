@@ -258,7 +258,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		Gui::Label *l = (new Gui::Label(_info))->Color(1.0f,1.0f,0.0f);
 		m_sbodyInfoTab->Add(l, 35, 300);
 
-		ShowAll();
+		Fixed::ShowAll(); // bypass View::ShowAll which does extra stuff that we don't want
 		return;
 	}
 
@@ -394,7 +394,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 	UpdateIconSelections();
 
-	ShowAll();
+	Fixed::ShowAll(); // bypass View::ShowAll which does extra stuff that we don't want
 }
 
 void SystemInfoView::Draw3D()
