@@ -11,7 +11,7 @@ const char *TerrainColorFractal<TerrainColorGGSaturn>::GetColorFractalName() con
 template <>
 TerrainColorFractal<TerrainColorGGSaturn>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
-	double height = m_maxHeightInMeters*0.1;
+	const double height = m_maxHeightInMeters*0.1;
 	//spot + clouds
 	SetFracDef(0, height, 3e7, 10.0*m_fracmult);
 	SetFracDef(1, height, 9e7, 1000.0*m_fracmult);

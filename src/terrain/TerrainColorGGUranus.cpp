@@ -9,7 +9,7 @@ const char *TerrainColorFractal<TerrainColorGGUranus>::GetColorFractalName() con
 template <>
 TerrainColorFractal<TerrainColorGGUranus>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
-	double height = m_maxHeightInMeters*0.1;
+	const double height = m_maxHeightInMeters*0.1;
 	SetFracDef(0, height, 3e7, 1000.0*m_fracmult);
 	SetFracDef(1, height, 9e7, 1000.0*m_fracmult);
 	SetFracDef(2, height, 8e7, 1000.0*m_fracmult);

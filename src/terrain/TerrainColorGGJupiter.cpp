@@ -10,7 +10,7 @@ template <>
 TerrainColorFractal<TerrainColorGGJupiter>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
 	// spots
-	double height = m_maxHeightInMeters*0.1;
+	const double height = m_maxHeightInMeters*0.1;
 	SetFracDef(0, height, 1e8, 1000.0*m_fracmult);
 	SetFracDef(1, height, 8e7, 1000.0*m_fracmult);
 	SetFracDef(2, height, 4e7, 1000.0*m_fracmult);
@@ -21,10 +21,10 @@ template <>
 vector3d TerrainColorFractal<TerrainColorGGJupiter>::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
 	double n;
-	double h = river_octavenoise(GetFracDef(0), 0.5*m_entropy[0] +
-		0.25f, noise(vector3d(p.x*8, p.y*32, p.z*8)))*.125;
-	double equatorial_region_1 = billow_octavenoise(GetFracDef(0), 0.7, p) * p.y * p.x;
-	double equatorial_region_2 = octavenoise(GetFracDef(1), 0.8, p) * p.x * p.x;
+	const double h = river_octavenoise(GetFracDef(0), 0.5*m_entropy[0] +
+			0.25f, noise(vector3d(p.x*8, p.y*32, p.z*8)))*.125;
+	const double equatorial_region_1 = billow_octavenoise(GetFracDef(0), 0.7, p) * p.y * p.x;
+	const double equatorial_region_2 = octavenoise(GetFracDef(1), 0.8, p) * p.x * p.x;
 	vector3d col;
 	col = interpolate_color(equatorial_region_1, m_ggdarkColor[0], m_ggdarkColor[1]);
 	col = interpolate_color(equatorial_region_2, col, vector3d(.45, .3, .0));

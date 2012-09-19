@@ -11,7 +11,7 @@ const char *TerrainColorFractal<TerrainColorGGNeptune>::GetColorFractalName() co
 template <>
 TerrainColorFractal<TerrainColorGGNeptune>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
-	double height = m_maxHeightInMeters*0.1;
+	const double height = m_maxHeightInMeters*0.1;
 	//spot boundary
 	SetFracDef(0, height, 3e7, 10000000.0*m_fracmult);
 	//spot
