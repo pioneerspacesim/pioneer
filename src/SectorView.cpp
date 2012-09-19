@@ -1,6 +1,9 @@
 #include "libs.h"
 #include <algorithm>
 #include <sstream>
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+#include "graphics/TextureBuilder.h"
 #include "gui/Gui.h"
 #include "Pi.h"
 #include "SectorView.h"
@@ -14,9 +17,6 @@
 #include "StringF.h"
 #include "ShipCpanel.h"
 #include "Game.h"
-#include "graphics/Material.h"
-#include "graphics/Renderer.h"
-
 
 using namespace Graphics;
 
@@ -85,8 +85,13 @@ void SectorView::InitDefaults()
 void SectorView::InitObject()
 {
 	SetTransparency(true);
+	
+	Graphics::TextureBuilder bldr = Graphics::TextureBuilder::UI("icons/trade_sell_1.png");
+	m_import1Image.Reset(bldr.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui"));
 
 	Gui::Screen::PushFont("OverlayFont");
+	m_econImages = new Gui::ImageSet();
+	Add(m_econImages, 0, 0);
 	m_clickableLabels = new Gui::LabelSet();
 	m_clickableLabels->SetLabelColor(Color(.7f,.7f,.7f,0.75f));
 	Add(m_clickableLabels, 0, 0);
@@ -308,6 +313,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 
 void SectorView::Draw3D()
 {
+	m_econImages->Clear();
 	m_clickableLabels->Clear();
 
 	m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 100.f);
@@ -421,12 +427,13 @@ void SectorView::OnClickSystem(const SystemPath &path)
 		SetSelectedSystem(path);
 }
 
-void SectorView::PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path)
+void SectorView::PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path, int importVal, int exportVal)
 {
 	Gui::Screen::EnterOrtho();
 	vector3d pos;
 	if (Gui::Screen::Project(vector3d(0.0), pos)) {
 		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path), pos.x, pos.y, labelCol);
+		m_econImages->Add(m_import1Image, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path), vector2f(pos.x, pos.y), vector2f(18, 14), vector2f(0, 0), vector2f(18, 14), Color());
 	}
 	Gui::Screen::LeaveOrtho();
 }
@@ -704,7 +711,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				labelColor.a = 1.0f;
 		}
 
-		PutClickableLabel((*i).name + extrastr, labelColor, current);
+		PutClickableLabel((*i).name + extrastr, labelColor, current, impLevel, expLevel);
 	}
 }
 
