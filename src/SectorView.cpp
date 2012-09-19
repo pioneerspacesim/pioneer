@@ -568,9 +568,9 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
 			if (!currentSysPath.IsSameSystem(current)) {
 				// work out econ info
-				for (int i=1; i<Equip::TYPE_MAX; i++) {
-					int ourprice   = currentSys->GetCommodityBasePriceModPercent(i);
-					int theirprice = pSS->GetCommodityBasePriceModPercent(i);
+				for (int e=1; e<Equip::TYPE_MAX; e++) {
+					int ourprice   = currentSys->GetCommodityBasePriceModPercent(e);
+					int theirprice = pSS->GetCommodityBasePriceModPercent(e);
 
 					if (ourprice < -10) {
 						// major export (curr)
@@ -607,23 +607,23 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			if (impLevel > 0) {
 				std::ostringstream ss(std::ostringstream::out);
 				ss << "i";
-				for (int i = 0; i < impLevel - 1; i++) ss << "+";
+				for (int l = 0; l < impLevel - 1; l++) ss << "+";
 				extra.push_back(ss.str());
 			}
 			if (expLevel > 0) {
 				std::ostringstream ss(std::ostringstream::out);
 				ss << "e";
-				for (int i = 0; i < expLevel - 1; i++) ss << "+";
+				for (int l = 0; l < expLevel - 1; l++) ss << "+";
 				extra.push_back(ss.str());
 			}
 			if (!extra.empty()) {
 				std::ostringstream ss(std::ostringstream::out);
 				ss << " (";
 				bool first = true;
-				for (unsigned int i = 0; i < extra.size(); i++) {
+				for (unsigned int l = 0; l < extra.size(); l++) {
 					if (!first) ss << ',';
 					else first = false;
-					ss << extra[i];
+					ss << extra[l];
 				}
 				ss << ')';
 				extrastr = ss.str();

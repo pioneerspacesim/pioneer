@@ -22,10 +22,10 @@ public:
 		{}
 
 		std::string text;
-		Color color;
-		bool hasOwnColor;
 		sigc::slot<void> onClick;
 		float screenx, screeny;
+		bool hasOwnColor;
+		Color color;
 	};
 
 	LabelSet();
