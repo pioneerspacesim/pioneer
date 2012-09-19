@@ -395,7 +395,7 @@ static std::string _fread_string(FILE *f)
 class LmrGeomBuffer {
 public:
 	LmrGeomBuffer(LmrModel *model, bool isStatic) {
-		curOp.type = OP_NONE;
+		memset(&curOp, 0, sizeof(curOp));
 		curTriFlag = 0;
 		curTexture = 0;
 		curGlowmap = 0;
@@ -428,7 +428,6 @@ public:
 			s_staticBufferPool->AddGeometry(m_vertices.size(), &m_vertices[0], m_indices.size(), &m_indices[0],
 					&m_boIndexBase, &m_bo);
 		}
-		curOp.type = OP_NONE;
 	}
 	void FreeGeometry() {
 		m_vertices.clear();
@@ -696,7 +695,7 @@ public:
 	}
 
 	void PushZBias(float amount, const vector3f &pos, const vector3f &norm) {
-		if (curOp.type) m_ops.push_back(curOp);
+		if (curOp.type) PushCurOp();
 		curOp.type = OP_ZBIAS;
 		curOp.zbias.amount = amount;
 		memcpy(curOp.zbias.pos, &pos.x, 3*sizeof(float));
@@ -704,7 +703,7 @@ public:
 	}
 
 	void PushSetLocalLighting(bool enable) {
-		if (curOp.type) m_ops.push_back(curOp);
+		if (curOp.type) PushCurOp();
 		curOp.type = OP_LIGHTING_TYPE;
 		curOp.lighting_type.local = enable;
 	}
@@ -721,13 +720,13 @@ public:
 	}
 
 	void PushUseLight(int num) {
-		if (curOp.type) m_ops.push_back(curOp);
+		if (curOp.type) PushCurOp();
 		curOp.type = OP_USE_LIGHT;
 		curOp.light.num = num;
 	}
 
 	void PushCallModel(LmrModel *m, const matrix4x4f &transform, float scale) {
-		if (curOp.type) m_ops.push_back(curOp);
+		if (curOp.type) PushCurOp();
 		curOp.type = OP_CALL_MODEL;
 		memcpy(curOp.callmodel.transform, &transform[0], 16*sizeof(float));
 		curOp.callmodel.model = m;
@@ -735,7 +734,7 @@ public:
 	}
 
 	void PushInvisibleTri(int i1, int i2, int i3) {
-		if (curOp.type != OP_NONE) m_ops.push_back(curOp);
+		if (curOp.type) PushCurOp();
 		curOp.type = OP_NONE;
 		PushIdx(i1);
 		PushIdx(i2);
@@ -748,7 +747,7 @@ public:
 		char buf[256];
 		snprintf(buf, sizeof(buf), "textures/%s", texname);
 
-		if (curOp.type) m_ops.push_back(curOp);
+		if (curOp.type) PushCurOp();
 		curOp.type = OP_DRAW_BILLBOARDS;
 		curOp.billboards.start = m_vertices.size();
 		curOp.billboards.count = numPoints;
@@ -790,7 +789,7 @@ public:
 	void PushUseMaterial(const char *mat_name) {
 		std::map<std::string, int>::iterator i = m_model->m_materialLookup.find(mat_name);
 		if (i != m_model->m_materialLookup.end()) {
-			if (curOp.type) m_ops.push_back(curOp);
+			if (curOp.type) PushCurOp();
 			curOp.type = OP_SET_MATERIAL;
 			curOp.col.material_idx = (*i).second;
 		} else {
@@ -874,7 +873,7 @@ private:
 		if ((curOp.type != OP_DRAW_ELEMENTS) ||
 				(curOp.elems.textureFile != curTexture) ||
 				(curOp.elems.glowmapFile != curGlowmap)) {
-			if (curOp.type) m_ops.push_back(curOp);
+			if (curOp.type) PushCurOp();
 			curOp.type = OP_DRAW_ELEMENTS;
 			curOp.elems.start = m_indices.size();
 			curOp.elems.count = 0;
@@ -889,6 +888,7 @@ private:
 	}
 	void PushCurOp() {
 		m_ops.push_back(curOp);
+		memset(&curOp, 0, sizeof(curOp));
 	}
 	void PushIdx(Uint16 v) {
 		curOp.elems.elemMin = std::min<int>(v, curOp.elems.elemMin);
