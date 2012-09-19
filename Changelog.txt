@@ -10,6 +10,7 @@ Alpha 27
    * Fixes
      * Avoid icons in some ternary systems overlapping each other (#1510, #1511) 
      * Fix overlapping text for long system descriptions (#1494, #1498)
+     * Fix crash in SystemInfoView from leaking widget references (#1526,  #1493)
 
    * Script changes
      * EventQueue, which was deprecated in alpha 26, has been removed (#1485)
