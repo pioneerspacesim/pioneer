@@ -21,8 +21,8 @@ public:
 	// only float and double versions are possible.
 	vector3();
 	vector3(const vector3<T> &v);
-	vector3(const T  vals[3]);
-	vector3(T val);
+	explicit vector3(const T  vals[3]);
+	explicit vector3(T val);
 	vector3(T _x, T _y, T _z);
 
 	// disallow implicit conversion between floating point sizes

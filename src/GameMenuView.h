@@ -80,7 +80,6 @@ private:
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
 	void OnToggleNavTunnel(Gui::ToggleButton *b, bool state);
 	bool m_changedDetailLevel;
-	View *m_subview;
 	Gui::Button *m_saveButton;
 	Gui::Button *m_loadButton;
 	Gui::Button *m_exitButton;
