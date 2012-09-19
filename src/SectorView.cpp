@@ -433,7 +433,7 @@ void SectorView::PutClickableLabel(const std::string &text, const Color &labelCo
 	vector3d pos;
 	if (Gui::Screen::Project(vector3d(0.0), pos)) {
 		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path), pos.x, pos.y, labelCol);
-		m_econImages->Add(m_import1Image, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path), vector2f(pos.x, pos.y), vector2f(18, 14), vector2f(0, 0), vector2f(18, 14), Color());
+		m_econImages->Add(m_import1Image, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path), vector2f(pos.x, pos.y), vector2f(18, 14), vector2f(0, 0), m_import1Image->GetDescriptor().texSize, Color::WHITE);
 	}
 	Gui::Screen::LeaveOrtho();
 }
