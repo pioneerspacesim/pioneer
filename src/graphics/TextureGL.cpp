@@ -59,13 +59,17 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 
 	glEnable(m_target);
 
+	// useCompressed is the global scope flag whereas descriptor.allowCompression is the local texture mode flag
+	// either both or neither might be true however only compress the texture when both are true.
+	const bool compressTexture = useCompressed && descriptor.allowCompression;
+
 	switch (m_target) {
 		case GL_TEXTURE_2D:
 			if (descriptor.generateMipmaps)
 				glTexParameteri(m_target, GL_GENERATE_MIPMAP, GL_TRUE);
 
 			glTexImage2D(
-				m_target, 0, useCompressed ? GLCompressedTextureFormat(descriptor.format) : GLTextureFormat(descriptor.format),
+				m_target, 0, compressTexture ? GLCompressedTextureFormat(descriptor.format) : GLTextureFormat(descriptor.format),
 				descriptor.dataSize.x, descriptor.dataSize.y, 0,
 				GLImageFormatForTextureFormat(descriptor.format), 
 				GLImageTypeForTextureFormat(descriptor.format), 0);
