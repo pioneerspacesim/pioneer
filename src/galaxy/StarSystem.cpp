@@ -1948,6 +1948,12 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		return;
 	}
 
+	// grav-points have no population themselves
+	if (type == SystemBody::TYPE_GRAVPOINT) {
+		m_population = fixed(0);
+		return;
+	}
+
 	unsigned long _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
 			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), UNIVERSE_SEED, Uint32(this->seed) };
 
