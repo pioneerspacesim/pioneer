@@ -115,6 +115,28 @@ static int l_csb_orbital_offset(lua_State *L)
 	return 1;
 }
 
+static int l_csb_orbital_phase_at_start(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	const fixed *value = LuaFixed::CheckFromLua(L, 2);
+	if ((value->ToDouble() < 0.0) || (value->ToDouble() > double(2.0*M_PI)))
+		return luaL_error(L, "Error: Custom system definition: Orbital phase at game start must be between 0 and 2 PI radians (including 0 but not 2 PI)."); 
+	csb->orbitalPhaseAtStart = *value;
+	lua_settop(L, 1);
+	return 1;
+}
+
+static int l_csb_rotational_phase_at_start(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	const fixed *value = LuaFixed::CheckFromLua(L, 2);
+	if ((value->ToDouble() < 0.0) || (value->ToDouble() > double(2.0*M_PI)))
+		return luaL_error(L, "Error: Custom system definition: Rotational phase at start must be between 0 and 2 PI radians (including 0 but not 2 PI).\n The rotational phase is the phase of the body's spin about it's axis at game start.");
+	csb->rotationalPhaseAtStart = *value;
+	lua_settop(L, 1);
+	return 1;
+}
+
 static int l_csb_height_map(lua_State *L)
 {
 	CustomSystemBody *csb = l_csb_check(L, 1);
@@ -175,11 +197,13 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "semi_major_axis", &l_csb_semi_major_axis },
 	{ "eccentricity", &l_csb_eccentricity },
 	{ "orbital_offset", &l_csb_orbital_offset },
+	{ "orbital_phase_at_start", &l_csb_orbital_phase_at_start },
 	{ "latitude", &l_csb_latitude },
 	// latitude is for surface bodies, inclination is for orbiting bodies (but they're the same field)
 	{ "inclination", &l_csb_latitude },
 	{ "longitude", &l_csb_longitude },
 	{ "rotation_period", &l_csb_rotation_period },
+	{ "rotational_phase_at_start", &l_csb_rotational_phase_at_start }, // 0 to 2 pi
 	{ "axial_tilt", &l_csb_axial_tilt },
 	{ "height_map", &l_csb_height_map },
 	{ "metallicity", &l_csb_metallicity },

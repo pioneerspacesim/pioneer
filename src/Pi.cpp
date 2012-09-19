@@ -121,6 +121,8 @@ struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
+bool Pi::navTunnelDisplayed;
+Gui::Fixed *Pi::menu;
 const char * const Pi::combatRating[] = {
 	Lang::HARMLESS,
 	Lang::MOSTLY_HARMLESS,
@@ -318,6 +320,8 @@ void Pi::Init()
 	InitJoysticks();
 	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
+
+	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 
 	Gui::Init(renderer, scrWidth, scrHeight, 800, 600);
 
@@ -828,7 +832,7 @@ void Pi::HandleMenuKey(int n)
 
 		case 0: // Earth start point
 		{
-			game = new Game(SystemPath(0,0,0,0,7));  // Moscow, Earth
+			game = new Game(SystemPath(0,0,0,0,9));  // Los Angeles, Earth
 			break;
 		}
 
@@ -929,6 +933,16 @@ void Pi::HandleMenuKey(int n)
 			break;
 		}
 
+		case 5: // Settings
+		{
+			Gui::Screen::RemoveBaseWidget(menu);
+			SetView(Pi::gameMenuView);
+			while (Pi::GetView() == Pi::gameMenuView) Gui::MainLoopIteration();
+			SetView(0);
+			Gui::Screen::AddBaseWidget(menu, 0, 0);
+			return;
+		}
+
 		default:
 			break;
 	}
@@ -940,7 +954,7 @@ void Pi::Start()
 {
 	Background::Container *background = new Background::Container(Pi::renderer, UNIVERSE_SEED);
 
-	Gui::Fixed *menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
+	menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	Gui::Screen::AddBaseWidget(menu, 0, 0);
 	menu->SetTransparency(true);
 
@@ -956,7 +970,7 @@ void Pi::Start()
 
 	const float w = Gui::Screen::GetWidth() / 2.0f;
 	const float h = Gui::Screen::GetHeight() / 2.0f;
-	const int OPTS = 6;
+	const int OPTS = 7;
 	Gui::SolidButton *opts[OPTS];
 	opts[0] = new Gui::SolidButton(); opts[0]->SetShortcut(SDLK_1, KMOD_NONE);
 	opts[0]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 0));
@@ -970,18 +984,22 @@ void Pi::Start()
 	opts[4]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 4));
 	opts[5] = new Gui::SolidButton(); opts[5]->SetShortcut(SDLK_6, KMOD_NONE);
 	opts[5]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 5));
-	menu->Add(opts[0], w, h-80);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EARTH), w+32, h-80);
-	menu->Add(opts[1], w, h-48);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-48);
-	menu->Add(opts[2], w, h-16);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_LAVE), w+32, h-16);
-	menu->Add(opts[3], w, h+16);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h+16);
-	menu->Add(opts[4], w, h+48);
-	menu->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+48);
-	menu->Add(opts[5], w, h+80);
-	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+80);
+	opts[6] = new Gui::SolidButton(); opts[6]->SetShortcut(SDLK_7, KMOD_NONE);
+	opts[6]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 6));
+	menu->Add(opts[0], w, h-96);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EARTH), w+32, h-96);
+	menu->Add(opts[1], w, h-64);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-64);
+	menu->Add(opts[2], w, h-32);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_LAVE), w+32, h-32);
+	menu->Add(opts[3], w, h);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h);
+	menu->Add(opts[4], w, h+32);
+	menu->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+32);
+	menu->Add(opts[5], w, h+64);
+	menu->Add(new Gui::Label(Lang::MM_SETTINGS), w+32, h+64);
+	menu->Add(opts[6], w, h+96);
+	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+96);
 
 	std::string version("Pioneer " PIONEER_VERSION);
 	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";

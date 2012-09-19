@@ -237,6 +237,7 @@
 		4AAB881815F4AD3500AAF8A8 /* Uniform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880F15F4AD3500AAF8A8 /* Uniform.cpp */; };
 		4AAB881915F4AD3500AAF8A8 /* MaterialLegacy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB881115F4AD3500AAF8A8 /* MaterialLegacy.cpp */; };
 		4AAB881D15F4AD7700AAF8A8 /* Lua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB881A15F4AD7700AAF8A8 /* Lua.cpp */; };
+		4AAB884815FDEA6F00AAF8A8 /* LuaRef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB884515FDEA6E00AAF8A8 /* LuaRef.cpp */; };
 		4AAC9FE215458FE400116131 /* miniz.c in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FDE15458FE400116131 /* miniz.c */; };
 		4AAC9FE91545901D00116131 /* FileSourceZip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FE51545901D00116131 /* FileSourceZip.cpp */; };
 		4AAC9FEA1545901D00116131 /* ModManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FE71545901D00116131 /* ModManager.cpp */; };
@@ -833,6 +834,11 @@
 		4AAB881A15F4AD7700AAF8A8 /* Lua.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lua.cpp; sourceTree = "<group>"; };
 		4AAB881B15F4AD7700AAF8A8 /* Lua.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lua.h; sourceTree = "<group>"; };
 		4AAB881C15F4AD7700AAF8A8 /* OS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OS.h; sourceTree = "<group>"; };
+		4AAB884415FDEA6E00AAF8A8 /* LuaPushPull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaPushPull.h; sourceTree = "<group>"; };
+		4AAB884515FDEA6E00AAF8A8 /* LuaRef.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaRef.cpp; sourceTree = "<group>"; };
+		4AAB884615FDEA6F00AAF8A8 /* LuaRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaRef.h; sourceTree = "<group>"; };
+		4AAB884715FDEA6F00AAF8A8 /* LuaTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaTable.h; sourceTree = "<group>"; };
+		4AAB884A15FE070900AAF8A8 /* AnimationCurves.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationCurves.h; sourceTree = "<group>"; };
 		4AAC9FDE15458FE400116131 /* miniz.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = miniz.c; sourceTree = "<group>"; };
 		4AAC9FDF15458FE400116131 /* miniz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = miniz.h; sourceTree = "<group>"; };
 		4AAC9FE51545901D00116131 /* FileSourceZip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSourceZip.cpp; sourceTree = "<group>"; };
@@ -1247,6 +1253,7 @@
 				4A6C4BFE13532FC300FDD53F /* Aabb.h */,
 				4A6C4BFF13532FC300FDD53F /* AmbientSounds.cpp */,
 				4A6C4C0013532FC300FDD53F /* AmbientSounds.h */,
+				4AAB884A15FE070900AAF8A8 /* AnimationCurves.h */,
 				4A61E15C13978F1000193E43 /* Background.cpp */,
 				4A61E15D13978F1000193E43 /* Background.h */,
 				4A6C4C0113532FC300FDD53F /* BezierCurve.h */,
@@ -1375,8 +1382,11 @@
 				4A9937311368355500EA0EE5 /* LuaPlanet.h */,
 				4A9937321368355500EA0EE5 /* LuaPlayer.cpp */,
 				4A9937331368355500EA0EE5 /* LuaPlayer.h */,
+				4AAB884415FDEA6E00AAF8A8 /* LuaPushPull.h */,
 				4A9937341368355500EA0EE5 /* LuaRand.cpp */,
 				4A9937351368355500EA0EE5 /* LuaRand.h */,
+				4AAB884515FDEA6E00AAF8A8 /* LuaRef.cpp */,
+				4AAB884615FDEA6F00AAF8A8 /* LuaRef.h */,
 				4A99373A1368355500EA0EE5 /* LuaSerializer.cpp */,
 				4A99373B1368355500EA0EE5 /* LuaSerializer.h */,
 				4A99373C1368355500EA0EE5 /* LuaShip.cpp */,
@@ -1395,6 +1405,7 @@
 				4ADF51941557477400ACF5A0 /* LuaSystemBody.h */,
 				4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */,
 				4A85A86613C4631D00C2B986 /* LuaSystemPath.h */,
+				4AAB884715FDEA6F00AAF8A8 /* LuaTable.h */,
 				4A9937481368355500EA0EE5 /* LuaTimer.cpp */,
 				4A9937491368355500EA0EE5 /* LuaTimer.h */,
 				4A99374C1368355500EA0EE5 /* LuaUtils.cpp */,
@@ -2057,6 +2068,7 @@
 				4AAB881815F4AD3500AAF8A8 /* Uniform.cpp in Sources */,
 				4AAB881915F4AD3500AAF8A8 /* MaterialLegacy.cpp in Sources */,
 				4AAB881D15F4AD7700AAF8A8 /* Lua.cpp in Sources */,
+				4AAB884815FDEA6F00AAF8A8 /* LuaRef.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

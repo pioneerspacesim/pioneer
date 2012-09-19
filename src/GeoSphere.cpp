@@ -9,6 +9,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/VertexArray.h"
 #include "graphics/gl2/GeoSphereMaterial.h"
+#include "vcacheopt/vcacheopt.h"
 #include <deque>
 #include <algorithm>
 
@@ -38,9 +39,8 @@ struct VBOVertex
 };
 #pragma pack()
 
-// for glDrawRangeElements
-static int s_loMinIdx[4], s_loMaxIdx[4];
-static int s_hiMinIdx[4], s_hiMaxIdx[4];
+// hold the 16 possible terrain edge connections
+const int NUM_INDEX_LISTS = 16;
 
 class GeoPatchContext : public RefCounted {
 public:
@@ -54,15 +54,19 @@ public:
 	inline int IDX_VBO_LO_OFFSET(int i) const { return i*sizeof(unsigned short)*3*(edgeLen/2); }
 	inline int IDX_VBO_HI_OFFSET(int i) const { return (i*sizeof(unsigned short)*VBO_COUNT_HI_EDGE())+IDX_VBO_LO_OFFSET(4); }
 	inline int IDX_VBO_MAIN_OFFSET()    const { return IDX_VBO_HI_OFFSET(4); }
+	inline int IDX_VBO_COUNT_ALL_IDX()	const { return ((edgeLen-1)*(edgeLen-1))*2*3; }
 
 	inline int NUMVERTICES() const { return edgeLen*edgeLen; }
 
 	double frac;
 
-	unsigned short *midIndices;
-	unsigned short *loEdgeIndices[4];
-	unsigned short *hiEdgeIndices[4];
+	ScopedArray<unsigned short> midIndices;
+	ScopedArray<unsigned short> loEdgeIndices[4];
+	ScopedArray<unsigned short> hiEdgeIndices[4];
 	GLuint indices_vbo;
+	GLuint indices_list[NUM_INDEX_LISTS];
+	GLuint indices_tri_count;
+	GLuint indices_tri_counts[NUM_INDEX_LISTS];
 	VBOVertex *vbotemp;
 
 	GeoPatchContext(int _edgeLen) : edgeLen(_edgeLen) {
@@ -79,15 +83,61 @@ public:
 	}
 
 	void Cleanup() {
-		delete [] midIndices;
+		midIndices.Reset();
 		for (int i=0; i<4; i++) {
-			delete [] loEdgeIndices[i];
-			delete [] hiEdgeIndices[i];
+			loEdgeIndices[i].Reset();
+			hiEdgeIndices[i].Reset();
 		}
 		if (indices_vbo) {
-			glDeleteBuffersARB(1, &indices_vbo);
+			indices_vbo = 0;
+		}
+		for (int i=0; i<NUM_INDEX_LISTS; i++) {
+			if (indices_list[i]) {
+				glDeleteBuffersARB(1, &indices_list[i]);
+			}
 		}
 		delete [] vbotemp;
+	}
+
+	void updateIndexBufferId(const GLuint edge_hi_flags) {
+		assert(edge_hi_flags < GLuint(NUM_INDEX_LISTS));
+		indices_vbo = indices_list[edge_hi_flags];
+		indices_tri_count = indices_tri_counts[edge_hi_flags];
+	}
+
+	int getIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags)
+	{
+		// calculate how many tri's there are
+		int tri_count = (VBO_COUNT_MID_IDX() / 3); 
+		for( int i=0; i<4; ++i ) {
+			if( edge_hi_flags & (1 << i) ) {
+				tri_count += (VBO_COUNT_HI_EDGE() / 3);
+			} else {
+				tri_count += (VBO_COUNT_LO_EDGE() / 3);
+			}
+		}
+
+		// pre-allocate enough space
+		pl.reserve(tri_count);
+
+		// add all of the middle indices
+		for(int i=0; i<VBO_COUNT_MID_IDX(); ++i) {
+			pl.push_back(midIndices[i]);
+		}
+		// selectively add the HI or LO detail indices
+		for (int i=0; i<4; i++) {
+			if( edge_hi_flags & (1 << i) ) {
+				for(int j=0; j<VBO_COUNT_HI_EDGE(); ++j) {
+					pl.push_back(hiEdgeIndices[i][j]);
+				}
+			} else {
+				for(int j=0; j<VBO_COUNT_LO_EDGE(); ++j) {
+					pl.push_back(loEdgeIndices[i][j]);
+				}
+			}
+		}
+
+		return tri_count;
 	}
 
 	void Init() {
@@ -96,13 +146,13 @@ public:
 		vbotemp = new VBOVertex[NUMVERTICES()];
 
 		unsigned short *idx;
-		midIndices = new unsigned short[VBO_COUNT_MID_IDX()];
+		midIndices.Reset(new unsigned short[VBO_COUNT_MID_IDX()]);
 		for (int i=0; i<4; i++) {
-			loEdgeIndices[i] = new unsigned short[VBO_COUNT_LO_EDGE()];
-			hiEdgeIndices[i] = new unsigned short[VBO_COUNT_HI_EDGE()];
+			loEdgeIndices[i].Reset(new unsigned short[VBO_COUNT_LO_EDGE()]);
+			hiEdgeIndices[i].Reset(new unsigned short[VBO_COUNT_HI_EDGE()]);
 		}
 		/* also want vtx indices for tris not touching edge of patch */
-		idx = midIndices;
+		idx = midIndices.Get();
 		for (int x=1; x<edgeLen-2; x++) {
 			for (int y=1; y<edgeLen-2; y++) {
 				idx[0] = x + edgeLen*y;
@@ -164,14 +214,14 @@ public:
 		}
 		// full detail edge triangles
 		{
-			idx = hiEdgeIndices[0];
+			idx = hiEdgeIndices[0].Get();
 			for (int x=0; x<edgeLen-1; x+=2) {
 				idx[0] = x; idx[1] = x+1; idx[2] = x+1 + edgeLen;
 				idx+=3;
 				idx[0] = x+1; idx[1] = x+2; idx[2] = x+1 + edgeLen;
 				idx+=3;
 			}
-			idx = hiEdgeIndices[1];
+			idx = hiEdgeIndices[1].Get();
 			for (int y=0; y<edgeLen-1; y+=2) {
 				idx[0] = edgeLen-1 + y*edgeLen;
 				idx[1] = edgeLen-1 + (y+1)*edgeLen;
@@ -182,7 +232,7 @@ public:
 				idx[2] = edgeLen-2 + (y+1)*edgeLen;
 				idx+=3;
 			}
-			idx = hiEdgeIndices[2];
+			idx = hiEdgeIndices[2].Get();
 			for (int x=0; x<edgeLen-1; x+=2) {
 				idx[0] = x + (edgeLen-1)*edgeLen;
 				idx[1] = x+1 + (edgeLen-2)*edgeLen;
@@ -193,7 +243,7 @@ public:
 				idx[2] = x+1 + (edgeLen-1)*edgeLen;
 				idx+=3;
 			}
-			idx = hiEdgeIndices[3];
+			idx = hiEdgeIndices[3].Get();
 			for (int y=0; y<edgeLen-1; y+=2) {
 				idx[0] = y*edgeLen;
 				idx[1] = 1 + (y+1)*edgeLen;
@@ -209,28 +259,28 @@ public:
 		// neighbour of equal or greater detail -- they reduce
 		// their edge complexity by 1 division
 		{
-			idx = loEdgeIndices[0];
+			idx = loEdgeIndices[0].Get();
 			for (int x=0; x<edgeLen-2; x+=2) {
 				idx[0] = x;
 				idx[1] = x+2;
 				idx[2] = x+1+edgeLen;
 				idx += 3;
 			}
-			idx = loEdgeIndices[1];
+			idx = loEdgeIndices[1].Get();
 			for (int y=0; y<edgeLen-2; y+=2) {
 				idx[0] = (edgeLen-1) + y*edgeLen;
 				idx[1] = (edgeLen-1) + (y+2)*edgeLen;
 				idx[2] = (edgeLen-2) + (y+1)*edgeLen;
 				idx += 3;
 			}
-			idx = loEdgeIndices[2];
+			idx = loEdgeIndices[2].Get();
 			for (int x=0; x<edgeLen-2; x+=2) {
 				idx[0] = x+edgeLen*(edgeLen-1);
 				idx[2] = x+2+edgeLen*(edgeLen-1);
 				idx[1] = x+1+edgeLen*(edgeLen-2);
 				idx += 3;
 			}
-			idx = loEdgeIndices[3];
+			idx = loEdgeIndices[3].Get();
 			for (int y=0; y<edgeLen-2; y+=2) {
 				idx[0] = y*edgeLen;
 				idx[2] = (y+2)*edgeLen;
@@ -238,41 +288,42 @@ public:
 				idx += 3;
 			}
 		}
-		// find min/max indices
-		for (int i=0; i<4; i++) {
-			s_loMinIdx[i] = s_hiMinIdx[i] = 1<<30;
-			s_loMaxIdx[i] = s_hiMaxIdx[i] = 0;
-			for (int j=0; j<3*(edgeLen/2); j++) {
-				if (loEdgeIndices[i][j] < s_loMinIdx[i]) s_loMinIdx[i] = loEdgeIndices[i][j];
-				if (loEdgeIndices[i][j] > s_loMaxIdx[i]) s_loMaxIdx[i] = loEdgeIndices[i][j];
-			}
-			for (int j=0; j<VBO_COUNT_HI_EDGE(); j++) {
-				if (hiEdgeIndices[i][j] < s_hiMinIdx[i]) s_hiMinIdx[i] = hiEdgeIndices[i][j];
-				if (hiEdgeIndices[i][j] > s_hiMaxIdx[i]) s_hiMaxIdx[i] = hiEdgeIndices[i][j];
-			}
-			//printf("%d:\nLo %d:%d\nHi: %d:%d\n", i, s_loMinIdx[i], s_loMaxIdx[i], s_hiMinIdx[i], s_hiMaxIdx[i]);
+
+		// these will hold the optimised indices
+		std::vector<unsigned short> pl_short[NUM_INDEX_LISTS];
+		// populate the N indices lists from the arrays built during InitTerrainIndices()
+		for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
+			const unsigned int edge_hi_flags = i;
+			indices_tri_counts[i] = getIndices(pl_short[i], edge_hi_flags);
 		}
 
-		glGenBuffersARB(1, &indices_vbo);
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
-		glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, IDX_VBO_MAIN_OFFSET() + sizeof(unsigned short)*VBO_COUNT_MID_IDX(), 0, GL_STATIC_DRAW);
-		for (int i=0; i<4; i++) {
-			glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
-				IDX_VBO_LO_OFFSET(i),
-				sizeof(unsigned short)*3*(edgeLen/2),
-				loEdgeIndices[i]);
+		// iterate over each index list and optimize it
+		for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
+			int tri_count = indices_tri_counts[i];
+			VertexCacheOptimizerUShort vco;
+			VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[i][0], tri_count);
+			assert(0 == res);
 		}
-		for (int i=0; i<4; i++) {
-			glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
-				IDX_VBO_HI_OFFSET(i),
-				sizeof(unsigned short)*VBO_COUNT_HI_EDGE(),
-				hiEdgeIndices[i]);
+
+		// everything should be hunky-dory for setting up as OpenGL index buffers now.
+		for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
+			glGenBuffersARB(1, &indices_list[i]);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_list[i]);
+			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*indices_tri_counts[i]*3, &(pl_short[i][0]), GL_STATIC_DRAW);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
-		glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
-				IDX_VBO_MAIN_OFFSET(),
-				sizeof(unsigned short)*VBO_COUNT_MID_IDX(),
-				midIndices);
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		// default it to the last entry which uses the hi-res borders
+		indices_vbo			= indices_list[NUM_INDEX_LISTS-1];
+		indices_tri_count	= indices_tri_counts[NUM_INDEX_LISTS-1];
+
+		if (midIndices) {
+			midIndices.Reset();
+			for (int i=0; i<4; i++) {
+				loEdgeIndices[i].Reset();
+				hiEdgeIndices[i].Reset();
+			}
+		}
 	}
 
 	void GetEdge(vector3d *array, int edge, vector3d *ev) {
@@ -849,6 +900,14 @@ public:
 		else return e->kids[we_are];
 	}
 
+	GLuint determineIndexbuffer() const {
+		return // index buffers are ordered by edge resolution flags
+			(edgeFriend[0] ? 1u : 0u) |
+			(edgeFriend[1] ? 2u : 0u) |
+			(edgeFriend[2] ? 4u : 0u) |
+			(edgeFriend[3] ? 8u : 0u);
+	}
+
 	void Render(vector3d &campos, const Graphics::Frustum &frustum) {
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		if (kids[0]) {
@@ -870,19 +929,15 @@ public:
 			glEnableClientState(GL_NORMAL_ARRAY);
 			glEnableClientState(GL_COLOR_ARRAY);
 
+			// update the indices used for rendering
+			ctx->updateIndexBufferId(determineIndexbuffer());
+
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 			glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
 			glNormalPointer(GL_FLOAT, sizeof(VBOVertex), reinterpret_cast<void *>(3*sizeof(float)));
 			glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VBOVertex), reinterpret_cast<void *>(6*sizeof(float)));
 			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, ctx->indices_vbo);
-			glDrawRangeElements(GL_TRIANGLES, 0, ctx->NUMVERTICES()-1, ctx->VBO_COUNT_MID_IDX(), GL_UNSIGNED_SHORT, reinterpret_cast<void*>(ctx->IDX_VBO_MAIN_OFFSET()));
-			for (int i=0; i<4; i++) {
-				if (edgeFriend[i]) {
-					glDrawRangeElements(GL_TRIANGLES, s_hiMinIdx[i], s_hiMaxIdx[i], ctx->VBO_COUNT_HI_EDGE(), GL_UNSIGNED_SHORT, reinterpret_cast<void*>(ctx->IDX_VBO_HI_OFFSET(i)));
-				} else {
-					glDrawRangeElements(GL_TRIANGLES, s_loMinIdx[i], s_loMaxIdx[i], ctx->VBO_COUNT_LO_EDGE(), GL_UNSIGNED_SHORT, reinterpret_cast<void*>(ctx->IDX_VBO_LO_OFFSET(i)));
-				}
-			}
+			glDrawElements(GL_TRIANGLES, ctx->indices_tri_count*3, GL_UNSIGNED_SHORT, 0);
 			glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
 			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 

@@ -82,6 +82,8 @@ public:
 	static void SetJoystickEnabled(bool state) { joystickEnabled = state; }
     static void SetMouseYInvert(bool state) { mouseYInvert = state; }
     static bool IsMouseYInvert() { return mouseYInvert; }
+	static bool IsNavTunnelDisplayed() { return navTunnelDisplayed; }
+	static void SetNavTunnelDisplayed(bool state) { navTunnelDisplayed = state; }
 	static int MouseButtonState(int button) { return mouseButton[button]; }
 	/// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
 	/// This is a default value only, centralized here to promote uniform user expericience.
@@ -179,6 +181,10 @@ private:
 	};
 	static std::vector<JoystickState> joysticks;
 	static Sound::MusicPlayer musicPlayer;
+
+	static bool navTunnelDisplayed;
+
+	static Gui::Fixed *menu;
 };
 
 #endif /* _PI_H */
