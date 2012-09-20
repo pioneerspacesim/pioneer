@@ -119,7 +119,7 @@ public:
 	RefCountedPtr<Text::TextureFont> GetFont(Widget::FontSize fontSize) const { return m_font[fontSize]; }
 
 private:
-	virtual vector2f PreferredSize() { return 0; }
+	virtual vector2f PreferredSize() { return vector2f(); }
 
 	Graphics::Renderer *m_renderer;
 	float m_width;
@@ -140,7 +140,7 @@ private:
 
 	// used by Container::Draw to set the keep widget drawing in its bounds
 	friend class Container;
-	void EnableScissor(const vector2f &pos = 0, const vector2f &size = 0);
+	void EnableScissor(const vector2f &pos = vector2f(), const vector2f &size = vector2f());
 	void DisableScissor();
 };
 

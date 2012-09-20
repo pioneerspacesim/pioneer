@@ -13,7 +13,7 @@ public:
 	void RemoveWidget(Widget *w);
 
 private:
-	virtual vector2f PreferredSize() { return 0; }
+	virtual vector2f PreferredSize() { return vector2f(); }
 
 	friend class Context;
 	FloatContainer(Context *context) : Container(context) {}

@@ -12,7 +12,7 @@ vector2f Label::PreferredSize()
 
 void Label::Layout()
 {
-	if (m_preferredSize.ExactlyEqual(0))
+	if (m_preferredSize.ExactlyEqual(vector2f()))
 		GetContext()->GetFont(GetFontSize())->MeasureString(m_text.c_str(), m_preferredSize.x, m_preferredSize.y);
 
 	const vector2f size = GetSize();

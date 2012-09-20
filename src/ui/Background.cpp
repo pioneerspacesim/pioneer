@@ -20,7 +20,7 @@ void Background::Layout()
 
 void Background::Draw()
 {
-	GetContext()->GetSkin().DrawBackgroundNormal(0, GetSize());
+	GetContext()->GetSkin().DrawBackgroundNormal(vector2f(), GetSize());
 	Single::Draw();
 }
 

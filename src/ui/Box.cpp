@@ -17,7 +17,7 @@ static inline void GetComponentsForOrient(bool horiz, vector2f::Component &varia
 
 vector2f Box::PreferredSize()
 {
-	if (m_children.size() == 0) return 0;
+	if (m_children.size() == 0) return vector2f();
 
 	vector2f::Component vc, fc;
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);

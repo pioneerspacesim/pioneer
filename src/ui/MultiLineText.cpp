@@ -12,9 +12,9 @@ MultiLineText::MultiLineText(Context *context, const std::string &text) : Widget
 
 vector2f MultiLineText::PreferredSize()
 {
-	if (!m_preferredSize.ExactlyEqual(0))
+	if (!m_preferredSize.ExactlyEqual(vector2f()))
 		return m_preferredSize;
-	return m_layout->ComputeSize(0);
+	return m_layout->ComputeSize(vector2f());
 }
 
 void MultiLineText::Layout()

@@ -21,7 +21,7 @@ vector2f List::PreferredSize() {
 }
 
 void List::Layout() {
-	SetWidgetDimensions(m_container, 0, GetSize());
+	SetWidgetDimensions(m_container, vector2f(), GetSize());
 	m_container->Layout();
 }
 

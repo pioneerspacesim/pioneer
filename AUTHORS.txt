@@ -23,6 +23,7 @@ The Pioneer team, past and present, as at 14 September 2012 (alpha 26):
   John Jordan
   Kimmo Kotajärvi
   Konrad Mruk
+  Krzysztof Niedźwiecki
   Lee Reilly
   Lars Westerhoff
   Leonardo Manna
@@ -74,6 +75,10 @@ Pioneer includes the following third-party software:
   Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
 
   lookup3.c, by Bob Jenkins, May 2006, Public Domain.
+
+  vcacheopt.h
+  Copyright (C) 2009, Michael Georgoulpoulos
+  Licensed under the MIT licence (see the license block in the file)
 
 Pioneer also makes use of these fine projects. Thanks a lot!
 

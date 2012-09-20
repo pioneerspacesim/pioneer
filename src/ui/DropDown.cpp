@@ -19,8 +19,8 @@ void DropDown::CalcSizePos()
 	m_textPos = vector2f(Skin::s_backgroundNormal.borderWidth);
 	m_textSize = vector2f(m_textWidth,textHeight);
 
-	m_backgroundPos = vector2f(0);
-	m_backgroundSize = m_textSize+Skin::s_backgroundNormal.borderWidth*2;
+	m_backgroundPos = vector2f();
+	m_backgroundSize = m_textSize + vector2f(Skin::s_backgroundNormal.borderWidth*2);
 
 	m_buttonPos = vector2f(m_backgroundSize.x,0);
 	m_buttonSize = vector2f(m_backgroundSize.y);

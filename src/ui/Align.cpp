@@ -4,7 +4,7 @@ namespace UI {
 
 vector2f Align::PreferredSize()
 {
-	if (!GetInnerWidget()) return 0;
+	if (!GetInnerWidget()) return vector2f();
 	return GetInnerWidget()->PreferredSize();
 }
 

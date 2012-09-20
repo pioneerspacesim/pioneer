@@ -11,7 +11,7 @@ vector2f Single::PreferredSize()
 void Single::Layout()
 {
 	if (!m_innerWidget) return;
-	SetWidgetDimensions(m_innerWidget, 0, GetSize());
+	SetWidgetDimensions(m_innerWidget, vector2f(), GetSize());
 	m_innerWidget->Layout();
 }
 

@@ -6,12 +6,14 @@ namespace Gui {
 Fixed::Fixed(): Container()
 {
 	_Init();
+	SetSize(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 }
 
 Fixed::Fixed(float w, float h): Container()
 {
 	float s[2] = { w, h };
 	_Init();
+	SetSize(w, h);
 	SetSizeRequest(s);
 }
 

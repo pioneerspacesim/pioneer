@@ -47,7 +47,7 @@ TextLayout::TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::
 
 vector2f TextLayout::ComputeSize(const vector2f &maxArea)
 {
-	if (maxArea.ExactlyEqual(0)) return 0;
+	if (maxArea.ExactlyEqual(vector2f())) return vector2f();
 
 	if (maxArea.ExactlyEqual(m_lastRequested))
 		return m_lastSize;

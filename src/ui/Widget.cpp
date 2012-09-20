@@ -31,7 +31,7 @@ Widget::~Widget()
 vector2f Widget::GetAbsolutePosition() const
 {
 	if (IsFloating()) return m_position;
-	if (!m_container) return 0;
+	if (!m_container) return vector2f();
 	return m_container->GetAbsolutePosition() + m_position;
 }
 
@@ -45,8 +45,8 @@ void Widget::Attach(Container *container)
 void Widget::Detach()
 {
 	m_container = 0;
-	m_position = 0;
-	m_size = 0;
+	m_position = vector2f();
+	m_size = vector2f();
 	m_floating = false;
 }
 

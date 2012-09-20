@@ -91,7 +91,7 @@ protected:
 public:
 	virtual ~Widget();
 
-	virtual vector2f PreferredSize() { return 0; }
+	virtual vector2f PreferredSize() { return vector2f(); }
 	virtual void Layout() {}
 	virtual void Update() {}
 	virtual void Draw() = 0;
@@ -203,7 +203,7 @@ public:
 protected:
 
 	// set the active area. defaults to the size allocated by the container
-	void SetActiveArea(const vector2f &activeArea, const vector2f &activeOffset = 0);
+	void SetActiveArea(const vector2f &activeArea, const vector2f &activeOffset = vector2f());
 
 	// mouse active. if a widget is mouse-active, it receives all mouse events
 	// regardless of mouse position
