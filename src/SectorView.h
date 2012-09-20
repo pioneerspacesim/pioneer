@@ -91,6 +91,12 @@ private:
 	bool m_selectionFollowsMovement;
 	
 	RefCountedPtr<Graphics::Texture> m_import1Image;
+	RefCountedPtr<Graphics::Texture> m_import2Image;
+	RefCountedPtr<Graphics::Texture> m_import3Image;
+	
+	RefCountedPtr<Graphics::Texture> m_export1Image;
+	RefCountedPtr<Graphics::Texture> m_export2Image;
+	RefCountedPtr<Graphics::Texture> m_export3Image;
 
 	Gui::Label *m_sectorLabel;
 	Gui::Label *m_distanceLabel;

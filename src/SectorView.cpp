@@ -88,6 +88,16 @@ void SectorView::InitObject()
 	
 	Graphics::TextureBuilder bldr = Graphics::TextureBuilder::UI("icons/trade_sell_1.png");
 	m_import1Image.Reset(bldr.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui"));
+	bldr = Graphics::TextureBuilder::UI("icons/trade_sell_2.png");
+	m_import2Image.Reset(bldr.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui"));
+	bldr = Graphics::TextureBuilder::UI("icons/trade_sell_3.png");
+	m_import3Image.Reset(bldr.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui"));
+	bldr = Graphics::TextureBuilder::UI("icons/trade_buy_1.png");
+	m_export1Image.Reset(bldr.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui"));
+	bldr = Graphics::TextureBuilder::UI("icons/trade_buy_2.png");
+	m_export2Image.Reset(bldr.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui"));
+	bldr = Graphics::TextureBuilder::UI("icons/trade_buy_3.png");
+	m_export3Image.Reset(bldr.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui"));
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_econImages = new Gui::ImageSet();
@@ -432,8 +442,54 @@ void SectorView::PutClickableLabel(const std::string &text, const Color &labelCo
 	Gui::Screen::EnterOrtho();
 	vector3d pos;
 	if (Gui::Screen::Project(vector3d(0.0), pos)) {
-		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path), pos.x, pos.y, labelCol);
-		m_econImages->Add(m_import1Image, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path), vector2f(pos.x, pos.y), vector2f(18, 14), vector2f(0, 0), m_import1Image->GetDescriptor().texSize, Color::WHITE);
+		if (m_clickableLabels->CanPutItem(pos.x, pos.y)) {
+			m_clickableLabels->Add(
+				text,
+				sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path),
+				pos.x, pos.y, labelCol
+			);
+			float textWidth, textHeight;
+			Gui::Screen::MeasureString(text, textWidth, textHeight);
+			int xpos = textWidth + 3;
+			if (importVal > 0) {
+				RefCountedPtr<Graphics::Texture> texture;
+				switch (importVal) {
+					case 1: texture = m_import1Image; break;
+					case 2: texture = m_import2Image; break;
+					case 3: texture = m_import3Image; break;
+				}
+				if (texture.Get()) {
+					m_econImages->Add(
+						texture,
+						sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path),
+						vector2f(pos.x + xpos, pos.y - 7), vector2f(18, 14),
+						vector2f(0, 0),
+						texture->GetDescriptor().texSize,
+						Color::WHITE
+					);			
+				}
+				xpos += 18 + 3;
+			}
+			if (exportVal > 0) {
+				RefCountedPtr<Graphics::Texture> texture;
+				switch (exportVal) {
+					case 1: texture = m_export1Image; break;
+					case 2: texture = m_export2Image; break;
+					case 3: texture = m_export3Image; break;
+				}
+				if (texture.Get()) {
+					m_econImages->Add(
+						texture,
+						sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path),
+						vector2f(pos.x + xpos, pos.y - 7), vector2f(18, 14),
+						vector2f(0, 0),
+						texture->GetDescriptor().texSize,
+						Color::WHITE
+					);			
+				}
+				xpos += 18 + 3;
+			}
+		}
 	}
 	Gui::Screen::LeaveOrtho();
 }
@@ -604,6 +660,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				}
 			}
 			std::vector<std::string> extra;
+			/*
 			if (impLevel > 0) {
 				std::ostringstream ss(std::ostringstream::out);
 				ss << "i";
@@ -616,6 +673,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				for (int l = 0; l < expLevel - 1; l++) ss << "+";
 				extra.push_back(ss.str());
 			}
+			*/
 			if (!extra.empty()) {
 				std::ostringstream ss(std::ostringstream::out);
 				ss << " (";

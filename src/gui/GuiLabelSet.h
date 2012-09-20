@@ -39,9 +39,8 @@ public:
 	void SetLabelsClickable(bool v) { m_labelsClickable = v; }
 	void SetLabelsVisible(bool v) { m_labelsVisible = v; }
 	void SetLabelColor(const Color &c) { m_labelColor = c; }
-private:
 	bool CanPutItem(float x, float y);
-
+private:
 	std::vector<LabelSetItem> m_items;
 	bool m_labelsVisible;
 	bool m_labelsClickable;
