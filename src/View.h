@@ -21,8 +21,6 @@ class View: public Gui::Fixed {
 public:
 	View();
 	virtual ~View();
-	virtual void ShowAll();
-	virtual void HideAll();
 	// called before Gui::Draw will call widget ::Draw methods.
 	virtual void Draw3D() = 0;
 	// for checking key states, mouse crud
@@ -30,6 +28,9 @@ public:
 	virtual void Save(Serializer::Writer &wr) {}
 	virtual void Load(Serializer::Reader &rd) {}
 	virtual void OnSwitchTo() = 0;
+
+	void Attach();
+	void Detach();
 
 	void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
 

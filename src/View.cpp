@@ -27,32 +27,32 @@ View::~View() {
 	delete m_rightRegion1;
 }
 
-void View::ShowAll() {
+void View::Attach() {
+	const float w = float(Gui::Screen::GetWidth());
+	const float h = float(Gui::Screen::GetHeight());
+
 	Gui::Screen::AddBaseWidget(this, 0, 0);
 
-	if (Pi::game) {
-		Gui::Screen::AddBaseWidget(Pi::cpan, 0, Gui::Screen::GetHeight()-80);
-		Gui::Screen::AddBaseWidget(m_rightButtonBar, Gui::Screen::GetWidth()-128, Gui::Screen::GetHeight()-26);
-		Gui::Screen::AddBaseWidget(m_rightRegion2, Gui::Screen::GetWidth()-127, Gui::Screen::GetHeight()-45);
-		Gui::Screen::AddBaseWidget(m_rightRegion1, Gui::Screen::GetWidth()-123, Gui::Screen::GetHeight()-62);
+	if (Pi::cpan) {
+		Gui::Screen::AddBaseWidget(Pi::cpan, 0, h-80);
+		Gui::Screen::AddBaseWidget(m_rightButtonBar, w-128, h-26);
+		Gui::Screen::AddBaseWidget(m_rightRegion2, w-127, h-45);
+		Gui::Screen::AddBaseWidget(m_rightRegion1, w-123, h-62);
 
 		m_rightButtonBar->ShowAll();
 		m_rightRegion2->ShowAll();
 		m_rightRegion1->ShowAll();
 	}
 
-	Gui::Fixed::ShowAll();
+	ShowAll();
 }
 
-void View::HideAll() {
-	m_rightButtonBar->HideAll();
-	m_rightRegion2->HideAll();
-	m_rightRegion1->HideAll();
-	Gui::Fixed::HideAll();
-
+void View::Detach() {
 	Gui::Screen::RemoveBaseWidget(m_rightButtonBar);
 	Gui::Screen::RemoveBaseWidget(m_rightRegion2);
 	Gui::Screen::RemoveBaseWidget(m_rightRegion1);
 	Gui::Screen::RemoveBaseWidget(Pi::cpan);
 	Gui::Screen::RemoveBaseWidget(this);
+	if (Pi::cpan)
+		Pi::cpan->ClearOverlay();
 }
