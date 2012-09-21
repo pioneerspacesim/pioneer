@@ -27,13 +27,13 @@ void Align::Layout()
 		case TOP:
 		case MIDDLE:
 		case BOTTOM:
-			pos.x = std::max(0.0f, floorf((size.x-preferred.x)/2));
+			pos.x = std::max(0, (size.x-preferred.x)/2);
 			break;
 
 		case TOP_RIGHT:
 		case RIGHT:
 		case BOTTOM_RIGHT:
-			pos.x = std::max(0.0f, floorf(size.x-preferred.x));
+			pos.x = std::max(0, size.x-preferred.x);
 			break;
 	}
 
@@ -47,13 +47,13 @@ void Align::Layout()
 		case LEFT:
 		case MIDDLE:
 		case RIGHT:
-			pos.y = std::max(0.0f, floorf((size.y-preferred.y)/2));
+			pos.y = std::max(0, (size.y-preferred.y)/2);
 			break;
 
 		case BOTTOM_LEFT:
 		case BOTTOM:
 		case BOTTOM_RIGHT:
-			pos.y = std::max(0.0f, floorf(size.y-preferred.y));
+			pos.y = std::max(0, size.y-preferred.y);
 			break;
 	}
 
