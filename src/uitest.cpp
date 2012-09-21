@@ -18,7 +18,7 @@ static bool click_handler(UI::Widget *w)
 
 static bool move_handler(const UI::MouseMotionEvent &event, UI::Widget *w)
 {
-	printf("move: %p %s %f,%f\n", w, typeid(*w).name(), event.pos.x, event.pos.y);
+	printf("move: %p %s %d,%d\n", w, typeid(*w).name(), event.pos.x, event.pos.y);
 	return true;
 }
 
@@ -161,7 +161,6 @@ int main(int argc, char **argv)
 	b3->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b3));
 #endif
 
-#if 0
 	UI::Image *image;
 	UI::Slider *slider;
 	c->SetInnerWidget(
@@ -193,7 +192,6 @@ int main(int argc, char **argv)
 
 	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
-#endif
 
 #if 0
 	UI::Slider *red, *green, *blue;
@@ -294,6 +292,7 @@ int main(int argc, char **argv)
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 #endif
 
+#if 0
 	c->SetInnerWidget(
 		c->Scroller()->SetInnerWidget(
 			c->MultiLineText(
@@ -320,6 +319,7 @@ int main(int argc, char **argv)
 			)
 		)
 	);
+#endif
 
 #if 0
 	UI::Label *label;

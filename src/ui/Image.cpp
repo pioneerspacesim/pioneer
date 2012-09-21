@@ -32,18 +32,18 @@ void Image::Layout()
 
 		case STRETCH_PRESERVE: {
 
-			float originalRatio = m_initialSize.x / m_initialSize.y;
-			float wantRatio = size.x / size.y;
+			float originalRatio = float(m_initialSize.x) / float(m_initialSize.y);
+			float wantRatio = float(size.x) / float(size.y);
 
 			// more room on X than Y, use full X, scale Y
 			if (wantRatio < originalRatio) {
 				activeArea.x = size.x;
-				activeArea.y = size.x / originalRatio;
+				activeArea.y = float(size.x) / originalRatio;
 			}
 
 			// more room on Y than X, use full Y, scale X
 			else {
-				activeArea.x = size.y * originalRatio;
+				activeArea.x = float(size.y) * originalRatio;
 				activeArea.y = size.y;
 			}
 
@@ -54,7 +54,7 @@ void Image::Layout()
 			assert(0);
 	}
 
-	Point activeOffset(std::max(0.0f, (size.x-activeArea.x)/2.0f), std::max(0.0f, (size.y-activeArea.y)/2.0f));
+	Point activeOffset(std::max(0, (size.x-activeArea.x)/2), std::max(0, (size.y-activeArea.y)/2));
 
 	SetActiveArea(activeArea, activeOffset);
 }
