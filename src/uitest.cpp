@@ -128,7 +128,6 @@ int main(int argc, char **argv)
 	Graphics::Renderer *r = Graphics::Init(videoSettings);
 
 	Lua::Init();
-	PersistentTable::Init(Lua::manager->GetLuaState());
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
@@ -471,7 +470,6 @@ int main(int argc, char **argv)
 	}
 
 	c.Reset();
-	PersistentTable::Uninit(Lua::manager->GetLuaState());
 	Lua::Uninit();
 	delete r;
 

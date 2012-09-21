@@ -375,12 +375,13 @@ uitest_SOURCES = \
 	FontConfig.cpp \
 	IniConfig.cpp \
 	StringF.cpp \
+	Lang.cpp \
 	Lua.cpp \
 	LuaManager.cpp \
 	LuaUtils.cpp \
-	LuaTable.cpp \
 	LuaObject.cpp \
 	LuaConstants.cpp \
+	LuaRef.cpp \
 	enum_table.cpp \
 	utils.cpp
 uitest_LDADD = \
