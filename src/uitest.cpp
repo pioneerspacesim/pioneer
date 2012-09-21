@@ -294,7 +294,6 @@ int main(int argc, char **argv)
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 #endif
 
-#if 0
 	c->SetInnerWidget(
 		c->Scroller()->SetInnerWidget(
 			c->MultiLineText(
@@ -321,7 +320,6 @@ int main(int argc, char **argv)
 			)
 		)
 	);
-#endif
 
 #if 0
 	UI::Label *label;
@@ -422,12 +420,14 @@ int main(int argc, char **argv)
     );
 #endif
 
+#if 0
 	UI::MultiLineText *text;
 	c->SetInnerWidget(
 		c->Scroller()->SetInnerWidget(
 			(text = c->MultiLineText(""))
 		)
 	);
+#endif
 
     int count = 0;
 
@@ -465,8 +465,10 @@ int main(int argc, char **argv)
 			printf("%d\n", count);
 #endif
 
+#if 0
 		if (++count % 10 == 0)
 			text->AppendText("line\n");
+#endif
 	}
 
 	c.Reset();

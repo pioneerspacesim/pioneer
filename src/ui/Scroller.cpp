@@ -32,7 +32,7 @@ void Scroller::Layout()
 	m_slider->Layout();
 
 	if (m_innerWidget) {
-		SetWidgetDimensions(m_innerWidget, vector2f(), vector2f(size.x-sliderSize.x, size.y));
+		SetWidgetDimensions(m_innerWidget, vector2f(), vector2f(size.x-sliderSize.x, std::max(size.y, m_innerWidget->PreferredSize().y)));
 		m_innerWidget->Layout();
 	}
 }
