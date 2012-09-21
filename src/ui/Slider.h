@@ -7,7 +7,7 @@ namespace UI {
 
 class Slider: public Widget {
 public:
-	virtual vector2f PreferredSize();
+	virtual Point PreferredSize();
 	virtual void Layout();
 	virtual void Draw();
 
@@ -33,7 +33,7 @@ private:
 
 	SliderOrientation m_orient;
 	float m_value;
-	vector2f m_buttonPos, m_buttonSize;
+	Point m_buttonPos, m_buttonSize;
 	bool m_buttonDown;
 };
 

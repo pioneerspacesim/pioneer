@@ -28,10 +28,10 @@ Widget::~Widget()
 	assert(!m_container);
 }
 
-vector2f Widget::GetAbsolutePosition() const
+Point Widget::GetAbsolutePosition() const
 {
 	if (IsFloating()) return m_position;
-	if (!m_container) return vector2f();
+	if (!m_container) return Point();
 	return m_container->GetAbsolutePosition() + m_position;
 }
 
@@ -45,21 +45,21 @@ void Widget::Attach(Container *container)
 void Widget::Detach()
 {
 	m_container = 0;
-	m_position = vector2f();
-	m_size = vector2f();
+	m_position = Point();
+	m_size = Point();
 	m_floating = false;
 }
 
-void Widget::SetDimensions(const vector2f &position, const vector2f &size)
+void Widget::SetDimensions(const Point &position, const Point &size)
 {
 	m_position = position;
 	SetSize(size);
 	SetActiveArea(size);
 }
 
-void Widget::SetActiveArea(const vector2f &activeArea, const vector2f &activeOffset)
+void Widget::SetActiveArea(const Point &activeArea, const Point &activeOffset)
 {
-	m_activeArea = vector2f(Clamp(activeArea.x, 0.0f, GetSize().x), Clamp(activeArea.y, 0.0f, GetSize().y));
+	m_activeArea = Point(Clamp(activeArea.x, 0, GetSize().x), Clamp(activeArea.y, 0, GetSize().y));
 	m_activeOffset = activeOffset;
 }
 
@@ -130,7 +130,7 @@ bool Widget::TriggerMouseWheel(const MouseWheelEvent &event, bool emit)
 	return emit;
 }
 
-bool Widget::TriggerMouseOver(const vector2f &pos, bool emit)
+bool Widget::TriggerMouseOver(const Point &pos, bool emit)
 {
 	// only send external events on state change
 	if (!m_mouseOver && Contains(pos)) {
@@ -142,7 +142,7 @@ bool Widget::TriggerMouseOver(const vector2f &pos, bool emit)
 	return emit;
 }
 
-bool Widget::TriggerMouseOut(const vector2f &pos, bool emit)
+bool Widget::TriggerMouseOut(const Point &pos, bool emit)
 {
 	// only send external events on state change
 	if (m_mouseOver && !Contains(pos)) {

@@ -10,7 +10,7 @@ class VSlider;
 
 class Scroller : public Container {
 public:
-	virtual vector2f PreferredSize();
+	virtual Point PreferredSize();
 	virtual void Layout();
 
 	Scroller *SetInnerWidget(Widget *widget);

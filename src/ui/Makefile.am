@@ -32,6 +32,7 @@ noinst_HEADERS = \
 	LuaSignal.h \
 	Margin.h \
 	MultiLineText.h \
+	Point.h \
 	Scroller.h \
 	Single.h \
 	Skin.h \

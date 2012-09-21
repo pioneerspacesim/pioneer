@@ -7,7 +7,7 @@ namespace UI {
 
 class Align : public Single {
 public:
-	virtual vector2f PreferredSize();
+	virtual Point PreferredSize();
 	virtual void Layout();
 
 	enum Direction { // <enum scope='UI::Align' name=UIAlignDirection>

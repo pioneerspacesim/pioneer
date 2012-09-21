@@ -7,7 +7,7 @@ namespace UI {
 
 class Background : public Single {
 public:
-	virtual vector2f PreferredSize();
+	virtual Point PreferredSize();
 	virtual void Layout();
 	virtual void Draw();
 

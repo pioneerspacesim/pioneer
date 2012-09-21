@@ -7,7 +7,7 @@ namespace UI {
 
 class Single : public Container {
 public:
-	virtual vector2f PreferredSize();
+	virtual Point PreferredSize();
 	virtual void Layout();
 
 	Single *SetInnerWidget(Widget *widget);

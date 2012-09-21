@@ -16,19 +16,19 @@ void DropDown::CalcSizePos()
 {
 	const float textHeight = GetContext()->GetFont(GetFontSize())->GetHeight() + GetContext()->GetFont(GetFontSize())->GetDescender();
 
-	m_textPos = vector2f(Skin::s_backgroundNormal.borderWidth);
-	m_textSize = vector2f(m_textWidth,textHeight);
+	m_textPos = Point(Skin::s_backgroundNormal.borderWidth);
+	m_textSize = Point(m_textWidth,textHeight);
 
-	m_backgroundPos = vector2f();
-	m_backgroundSize = m_textSize + vector2f(Skin::s_backgroundNormal.borderWidth*2);
+	m_backgroundPos = Point();
+	m_backgroundSize = m_textSize + Point(Skin::s_backgroundNormal.borderWidth*2);
 
-	m_buttonPos = vector2f(m_backgroundSize.x,0);
-	m_buttonSize = vector2f(m_backgroundSize.y);
+	m_buttonPos = Point(m_backgroundSize.x,0);
+	m_buttonSize = Point(m_backgroundSize.y);
 
-	m_preferredSize = vector2f(m_backgroundSize.x+m_buttonSize.x,m_backgroundSize.y);
+	m_preferredSize = Point(m_backgroundSize.x+m_buttonSize.x,m_backgroundSize.y);
 }
 
-vector2f DropDown::PreferredSize()
+Point DropDown::PreferredSize()
 {
 	CalcSizePos();
 	return m_preferredSize;
@@ -38,8 +38,8 @@ void DropDown::Layout()
 {
 	CalcSizePos();
 
-	const vector2f size(GetSize());
-	SetActiveArea(vector2f(std::min(m_preferredSize.x,size.x), std::min(m_preferredSize.y,size.y)));
+	const Point size(GetSize());
+	SetActiveArea(Point(std::min(m_preferredSize.x,size.x), std::min(m_preferredSize.y,size.y)));
 }
 
 void DropDown::Draw()
@@ -79,7 +79,7 @@ void DropDown::TogglePopup()
 	}
 
 	else {
-		const vector2f pos(GetAbsolutePosition() + vector2f(0, m_backgroundSize.y));
+		const Point pos(GetAbsolutePosition() + Point(0, m_backgroundSize.y));
 		c->AddFloatingWidget(m_popup.Get(), pos, m_popup->PreferredSize());
 		m_popupActive = true;
 	}

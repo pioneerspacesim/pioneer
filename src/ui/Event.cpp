@@ -4,7 +4,7 @@
 
 namespace UI {
 
-static void _settable(lua_State *l, const char *key, const vector2f &value)
+static void _settable(lua_State *l, const char *key, const Point &value)
 {
 	lua_pushstring(l, key);
 

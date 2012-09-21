@@ -10,7 +10,7 @@ class ColorBackground;
 
 class List : public Container {
 public:
-	virtual vector2f PreferredSize();
+	virtual Point PreferredSize();
 	virtual void Layout();
 
 	List *AddOption(const std::string &text);

@@ -2,9 +2,9 @@
 
 namespace UI {
 
-vector2f Align::PreferredSize()
+Point Align::PreferredSize()
 {
-	if (!GetInnerWidget()) return vector2f();
+	if (!GetInnerWidget()) return Point();
 	return GetInnerWidget()->PreferredSize();
 }
 
@@ -12,10 +12,10 @@ void Align::Layout()
 {
 	if (!GetInnerWidget()) return;
 
-	const vector2f &size = GetSize();
-	const vector2f &preferred = GetInnerWidget()->PreferredSize();
+	const Point &size = GetSize();
+	const Point &preferred = GetInnerWidget()->PreferredSize();
 
-	vector2f pos;
+	Point pos;
 
 	switch (m_direction) {
 		case TOP_LEFT:
@@ -57,7 +57,7 @@ void Align::Layout()
 			break;
 	}
 
-	SetWidgetDimensions(GetInnerWidget(), pos, vector2f(std::min(size.x, preferred.x), std::min(size.y, preferred.y)));
+	SetWidgetDimensions(GetInnerWidget(), pos, Point(std::min(size.x, preferred.x), std::min(size.y, preferred.y)));
 	GetInnerWidget()->Layout();
 }
 

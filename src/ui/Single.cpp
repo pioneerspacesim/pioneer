@@ -2,16 +2,16 @@
 
 namespace UI {
 
-vector2f Single::PreferredSize()
+Point Single::PreferredSize()
 {
-	if (!m_innerWidget) return vector2f();
+	if (!m_innerWidget) return Point();
 	return m_innerWidget->PreferredSize();
 }
 
 void Single::Layout()
 {
 	if (!m_innerWidget) return;
-	SetWidgetDimensions(m_innerWidget, vector2f(), GetSize());
+	SetWidgetDimensions(m_innerWidget, Point(), GetSize());
 	m_innerWidget->Layout();
 }
 

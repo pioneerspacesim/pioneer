@@ -27,12 +27,12 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 	m_material->diffuse = Color::WHITE;
 }
 
-static inline vector2f scaled(const vector2f v)
+static inline vector2f scaled(const vector2f &v)
 {
 	return vector2f(v * 1.0f/SKIN_SIZE);
 }
 
-void Skin::DrawRectElement(const RectElement &element, const vector2f &pos, const vector2f &size) const
+void Skin::DrawRectElement(const RectElement &element, const Point &pos, const Point &size) const
 {
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
@@ -44,7 +44,7 @@ void Skin::DrawRectElement(const RectElement &element, const vector2f &pos, cons
 	m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 
-void Skin::DrawBorderedRectElement(const BorderedRectElement &element, const vector2f &pos, const vector2f &size) const
+void Skin::DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size) const
 {
 	const float width = element.borderWidth;
 

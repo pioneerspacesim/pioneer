@@ -14,7 +14,7 @@ public:
 		STRETCH_MAX         // stretch to entire area allocated by container
 	};
 
-	virtual vector2f PreferredSize();
+	virtual Point PreferredSize();
 	virtual void Layout();
 	virtual void Draw();
 
@@ -25,7 +25,7 @@ protected:
 private:
 	ScopedPtr<Gui::TexturedQuad> m_quad;
 	StretchMode m_stretchMode;
-	vector2f m_initialSize;
+	Point m_initialSize;
 };
 
 }

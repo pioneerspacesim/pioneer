@@ -4,7 +4,7 @@
 
 namespace UI {
 
-vector2f CheckBox::PreferredSize()
+Point CheckBox::PreferredSize()
 {
 	return Skin::s_checkboxNormal.size;
 }

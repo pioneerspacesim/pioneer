@@ -12,19 +12,19 @@ Grid::Grid(Context *context, const CellSpec &rowSpec, const CellSpec &colSpec) :
 	Clear();
 }
 
-vector2f Grid::PreferredSize()
+Point Grid::PreferredSize()
 {
-	vector2f preferredSize;
+	Point preferredSize;
 
 	for (int rowNum = 0; rowNum < m_numRows; rowNum++) {
-		vector2f rowSize;
+		Point rowSize;
 
 		for (int colNum = 0; colNum < m_numCols; colNum++) {
 			const int n = rowNum*m_numCols+colNum;
 			Widget *w = m_widgets[n];
 			if (!w) continue;
 
-			const vector2f childPreferredSize = w->PreferredSize();
+			const Point childPreferredSize = w->PreferredSize();
 			rowSize.x += childPreferredSize.x;
 			rowSize.y = std::max(rowSize.y, childPreferredSize.y);
 		}
@@ -38,9 +38,9 @@ vector2f Grid::PreferredSize()
 
 void Grid::Layout()
 {
-	const vector2f size = GetSize();
+	const Point size = GetSize();
 
-	vector2f childPos, childSize;
+	Point childPos, childSize;
 	for (int rowNum = 0; rowNum < m_numRows; rowNum++) {
 		childSize.y = m_colSpec.cellPercent[rowNum]*size.y;
 

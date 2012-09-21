@@ -5,6 +5,7 @@
 #include "SmartPtr.h"
 #include "graphics/Renderer.h"
 #include "graphics/Material.h"
+#include "Point.h"
 
 namespace UI {
 
@@ -12,37 +13,37 @@ class Skin {
 public:
 	Skin(const std::string &filename, Graphics::Renderer *renderer);
 
-	void DrawBackgroundNormal(const vector2f &pos, const vector2f &size) const {
+	void DrawBackgroundNormal(const Point &pos, const Point &size) const {
 		DrawBorderedRectElement(s_backgroundNormal, pos, size);
 	}
-	void DrawBackgroundActive(const vector2f &pos, const vector2f &size) const {
+	void DrawBackgroundActive(const Point &pos, const Point &size) const {
 		DrawBorderedRectElement(s_backgroundActive, pos, size);
 	}
 
-	void DrawButtonNormal(const vector2f &pos, const vector2f &size) const {
+	void DrawButtonNormal(const Point &pos, const Point &size) const {
 		DrawBorderedRectElement(s_buttonNormal, pos, size);
 	}
-	void DrawButtonActive(const vector2f &pos, const vector2f &size) const {
+	void DrawButtonActive(const Point &pos, const Point &size) const {
 		DrawBorderedRectElement(s_buttonActive, pos, size);
 	}
 
-	void DrawCheckBoxNormal(const vector2f &pos, const vector2f &size) const {
+	void DrawCheckBoxNormal(const Point &pos, const Point &size) const {
 		DrawRectElement(s_checkboxNormal, pos, size);
 	}
-	void DrawCheckBoxChecked(const vector2f &pos, const vector2f &size) const {
+	void DrawCheckBoxChecked(const Point &pos, const Point &size) const {
 		DrawRectElement(s_checkboxChecked, pos, size);
 	}
 
 #if 0
-	void DrawHSlider(const vector2f &pos, const vector2f &size) const {
+	void DrawHSlider(const Point &pos, const Point &size) const {
 		DrawBorderedRectElement(s_hSlider, pos, size);
 	}
 #endif
 
 	struct RectElement {
 		RectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h) : pos(x,y), size(w,h) {}
-		const vector2f pos;
-		const vector2f size;
+		const Point pos;
+		const Point size;
 	};
 
 	struct BorderedRectElement : public RectElement {
@@ -64,8 +65,8 @@ private:
 	RefCountedPtr<Graphics::Texture> m_texture;
 	RefCountedPtr<Graphics::Material> m_material;
 
-	void DrawRectElement(const RectElement &element, const vector2f &pos, const vector2f &size) const;
-	void DrawBorderedRectElement(const BorderedRectElement &element, const vector2f &pos, const vector2f &size) const;
+	void DrawRectElement(const RectElement &element, const Point &pos, const Point &size) const;
+	void DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size) const;
 };
 
 }
