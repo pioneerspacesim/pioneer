@@ -165,8 +165,6 @@ GameMenuView::~GameMenuView()
 
 GameMenuView::GameMenuView(): View()
 {
-	m_subview = 0;
-
 	Gui::Tabbed *tabs = new Gui::Tabbed();
 	Add(tabs, 0, 0);
 
@@ -662,10 +660,6 @@ void GameMenuView::ShowAll() {
 
 void GameMenuView::OnSwitchTo() {
 	m_changedDetailLevel = false;
-	if (m_subview) {
-		delete m_subview;
-		m_subview = 0;
-	}
 	m_planetDetailGroup->SetSelected(Pi::detail.planets);
 	m_planetTextureGroup->SetSelected(Pi::detail.textures);
 	m_planetFractalGroup->SetSelected(Pi::detail.fracmult);
