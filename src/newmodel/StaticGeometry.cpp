@@ -11,7 +11,6 @@ StaticGeometry::StaticGeometry()
 : Node(0x1)
 , m_blendMode(Graphics::BLEND_SOLID)
 {
-	m_mesh.Reset(new Graphics::StaticMesh(Graphics::TRIANGLES));
 }
 
 StaticGeometry::~StaticGeometry()
@@ -28,9 +27,15 @@ void StaticGeometry::Render(Graphics::Renderer *r, const matrix4x4f &trans, Rend
 	r->SetTransform(trans);
 	if (m_blendMode != Graphics::BLEND_SOLID)
 		r->SetBlendMode(m_blendMode);
-	r->DrawStaticMesh(GetMesh());
+	for (MeshContainer::iterator it = m_meshes.begin(); it != m_meshes.end(); ++it)
+		r->DrawStaticMesh(it->Get());
 	if (rd->drawBoundingBoxes)
 		DrawBoundingBox(r, m_boundingBox);
+}
+
+void StaticGeometry::AddMesh(RefCountedPtr<Graphics::StaticMesh> mesh)
+{
+	m_meshes.push_back(mesh);
 }
 
 void StaticGeometry::DrawBoundingBox(Graphics::Renderer *r, const Aabb &bb)

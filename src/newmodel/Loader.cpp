@@ -259,18 +259,20 @@ Node *Loader::LoadMesh(const std::string &filename, NModel *model, const AnimLis
 
 	//Removing components is suggested to optimize loading. We do not care about vtx colors now.
 	importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_COLORS);
+	importer.SetPropertyInteger(AI_CONFIG_PP_SLM_VERTEX_LIMIT, Graphics::StaticMesh::MAX_VERTICES);
 
 	//assimp needs the data dir too...
 	//XXX check user dir first
 	//XXX x2 the greater goal is not to use ReadFile but the other assimp data read functions + FileSystem. See assimp docs.
 	const aiScene *scene = importer.ReadFile(
 		FileSystem::JoinPath(FileSystem::GetDataDir(), filename),
-		aiProcess_RemoveComponent |
-		aiProcess_Triangulate	  |
-		aiProcess_SortByPType	  | //ignore point, line primitive types (collada dummy nodes seem to be fine)
-		aiProcess_GenUVCoords	  | //only if they don't exist
-		aiProcess_FlipUVs		  |
-		aiProcess_GenSmoothNormals); //only if normals not specified
+		aiProcess_RemoveComponent	|
+		aiProcess_Triangulate		|
+		aiProcess_SortByPType		| //ignore point, line primitive types (collada dummy nodes seem to be fine)
+		aiProcess_GenUVCoords		| //only if they don't exist
+		aiProcess_FlipUVs			|
+		aiProcess_SplitLargeMeshes	|
+		aiProcess_GenSmoothNormals);  //only if normals not specified
 
 	if(!scene)
 		throw std::string("Couldn't load " + filename);
@@ -372,6 +374,8 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces
 	for (unsigned int i=0; i<scene->mNumMeshes; i++) {
 		aiMesh *mesh = scene->mMeshes[i];
 		assert(mesh->HasNormals());
+		assert(mesh->mNumVertices <= Graphics::StaticMesh::MAX_VERTICES);
+
 		if (!mesh->HasTextureCoords(0))
 			throw std::string("Mesh has no uv coordinates");
 
@@ -608,7 +612,8 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		//is this node animated? add a transform
 		//does this node have children? Add a group
 		StaticGeometry *geom = new StaticGeometry();
-		Graphics::StaticMesh *smesh = geom->GetMesh();
+		RefCountedPtr<Graphics::StaticMesh> smesh(new Graphics::StaticMesh(Graphics::TRIANGLES));
+
 		unsigned int numDecal = 0;
 		if (starts_with(nodename, "decal_")) {
 			if (nodename.compare(7,1, "1") == 0)
@@ -638,8 +643,15 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 				const vector3f &vtx = m * vts->position[j];
 				geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
 			}
+
+			//Out of space? Add a new mesh.
+			if(smesh->GetAvailableVertexSpace() < surf->GetNumVerts()) {
+				geom->AddMesh(smesh);
+				smesh = RefCountedPtr<Graphics::StaticMesh>(new Graphics::StaticMesh(Graphics::TRIANGLES));
+			}
 			smesh->AddSurface(surf);
 		}
+		geom->AddMesh(smesh);
 
 		parent->AddChild(geom);
 	}
