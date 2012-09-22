@@ -171,7 +171,7 @@ struct RenderInfo {
 
 // baseclass for a renderable thing. so far it just means that the renderer
 // can store renderer-specific data in it (RenderInfo)
-struct Renderable {
+struct Renderable : public RefCounted {
 public:
 	Renderable(): m_renderInfo(0) {}
 

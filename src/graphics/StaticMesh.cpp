@@ -36,6 +36,11 @@ int StaticMesh::GetNumIndices() const
 	return numIndices;
 }
 
+int StaticMesh::GetAvailableVertexSpace() const
+{
+	return MAX_VERTICES - GetNumVerts();
+}
+
 AttributeSet StaticMesh::GetAttributeSet() const
 {
 	//all vertices should match

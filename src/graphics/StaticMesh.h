@@ -28,6 +28,7 @@ public:
 	//useful to know for buffers
 	int GetNumVerts() const;
 	int GetNumIndices() const;
+	int GetAvailableVertexSpace() const;
 
 	//blarf
 	AttributeSet GetAttributeSet() const;
@@ -37,6 +38,8 @@ public:
 	const SurfaceIterator SurfacesEnd() const { return m_surfaces.end(); }
 
 	bool cached;
+
+	static const int MAX_VERTICES = 65536;
 
 private:
 	PrimitiveType m_primitiveType;
