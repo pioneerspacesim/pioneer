@@ -63,11 +63,12 @@ public:
 	virtual ~GameMenuView();
 	virtual void Update() {}
 	virtual void Draw3D() {}
-	virtual void OnSwitchTo();
 	virtual void ShowAll();
 	virtual void HideAll();
 	void OpenLoadDialog();
 	void OpenSaveDialog();
+protected:
+	virtual void OnSwitchTo();
 private:
 	void OnChangeKeyBinding(const KeyBindings::KeyBinding &kb, const char *fnName);
 	void OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const char *function);
