@@ -53,7 +53,7 @@ namespace Graphics {
 	extern Material *vtxColorMaterial;
 
 	// does SDL video init, constructs appropriate Renderer
-	Renderer* Init(const Settings&);
+	Renderer* Init(Settings);
 	void Uninit();
 	bool AreShadersEnabled();
 	std::vector<VideoMode> GetAvailableVideoModes();

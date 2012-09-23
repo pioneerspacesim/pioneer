@@ -53,21 +53,18 @@ void UnbindAllBuffers()
 	BindArrayBuffer(0);
 }
 
-Renderer* Init(const Settings &vs)
+Renderer* Init(Settings vs)
 {
 	assert(!initted);
 	if (initted) return 0;
 
-	int width = vs.width;
-	int height = vs.height;
-
 	// no mode set, find an ok one
-	if ((width <= 0) || (height <= 0)) {
+	if ((vs.width <= 0) || (vs.height <= 0)) {
 		const std::vector<VideoMode> modes = GetAvailableVideoModes();
 		assert(!modes.empty());
 
-		width = modes.front().width;
-		height = modes.front().height;
+		vs.width = modes.front().width;
+		vs.height = modes.front().height;
 	}
 
 	const SDL_VideoInfo *info = SDL_GetVideoInfo();
@@ -100,7 +97,7 @@ Renderer* Init(const Settings &vs)
 
 	// attempt sequence is:
 	// 1- requested mode
-	SDL_Surface *scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
+	SDL_Surface *scrSurface = SDL_SetVideoMode(vs.width, vs.height, info->vfmt->BitsPerPixel, flags);
 
 	// 2- requested mode with no anti-aliasing (skipped if no AA was requested anyway)
 	if (!scrSurface && vs.requestedSamples) {
@@ -108,7 +105,7 @@ Renderer* Init(const Settings &vs)
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
 
-		scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
+		scrSurface = SDL_SetVideoMode(vs.width, vs.height, info->vfmt->BitsPerPixel, flags);
 	}
 
 	// 3- requested mode with 16 bit depth buffer
@@ -118,7 +115,7 @@ Renderer* Init(const Settings &vs)
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, vs.requestedSamples);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 
-		scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
+		scrSurface = SDL_SetVideoMode(vs.width, vs.height, info->vfmt->BitsPerPixel, flags);
 	}
 
 	// 4- requested mode with 16-bit depth buffer and no anti-aliasing
@@ -129,7 +126,7 @@ Renderer* Init(const Settings &vs)
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 
-		scrSurface = SDL_SetVideoMode(width, height, info->vfmt->BitsPerPixel, flags);
+		scrSurface = SDL_SetVideoMode(vs.width, vs.height, info->vfmt->BitsPerPixel, flags);
 	}
 
 	// 5- abort!
