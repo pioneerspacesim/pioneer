@@ -1,5 +1,6 @@
 #include "Node.h"
 #include "NodeVisitor.h"
+#include "graphics/Renderer.h"
 
 namespace Newmodel {
 
@@ -30,6 +31,30 @@ Node* Node::FindNode(const std::string &name)
 		return this;
 	else
 		return 0;
+}
+
+void Node::DrawAxes(Graphics::Renderer *r)
+{
+	//Draw plain XYZ axes using the current transform
+	const vector3f vtsXYZ[] = {
+		vector3f(0.f, 0.f, 0.f),
+		vector3f(1.f, 0.f, 0.f),
+		vector3f(0.f, 0.f, 0.f),
+		vector3f(0.f, 1.f, 0.f),
+		vector3f(0.f, 0.f, 0.f),
+		vector3f(0.f, 0.f, 1.f),
+	};
+	const Color colors[] = {
+		Color::RED,
+		Color::RED,
+		Color::BLUE,
+		Color::BLUE,
+		Color::GREEN,
+		Color::GREEN,
+	};
+
+	r->SetBlendMode(Graphics::BLEND_SOLID);
+	r->DrawLines(6, vtsXYZ, colors);
 }
 
 }
