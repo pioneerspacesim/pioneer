@@ -14,7 +14,7 @@ const char *TerrainColorFractal<TerrainColorGGNeptune>::GetColorFractalName() co
 template <>
 TerrainColorFractal<TerrainColorGGNeptune>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
-	double height = m_maxHeightInMeters*0.1;
+	const double height = m_maxHeightInMeters*0.1;
 	//spot boundary
 	SetFracDef(0, height, 3e7, 10000000.0*m_fracmult);
 	//spot
@@ -27,11 +27,11 @@ TerrainColorFractal<TerrainColorGGNeptune>::TerrainColorFractal(const SystemBody
 template <>
 vector3d TerrainColorFractal<TerrainColorGGNeptune>::GetColor(const vector3d &p, double height, const vector3d &norm)
 {
-	double n = 0.8*octavenoise(GetFracDef(2), 0.6, 3.142*p.y*p.y);
-	n += 0.25*ridged_octavenoise(GetFracDef(3), 0.55, 3.142*p.y*p.y);
-	n += 0.2*octavenoise(GetFracDef(3), 0.5, 3.142*p.y*p.y);
+	double n = 0.8*octavenoise(GetFracDef(2), 0.6, vector3d(3.142*p.y*p.y));
+	n += 0.25*ridged_octavenoise(GetFracDef(3), 0.55, vector3d(3.142*p.y*p.y));
+	n += 0.2*octavenoise(GetFracDef(3), 0.5, vector3d(3.142*p.y*p.y));
 	//spot
-	n += 0.8*billow_octavenoise(GetFracDef(1), 0.8, noise(p*3.142)*p)*
+	n += 0.8*billow_octavenoise(GetFracDef(1), 0.8, vector3d(noise(p*3.142)*p))*
 		 megavolcano_function(GetFracDef(0), p);
 	n /= 2.0;
 	n *= n*n;

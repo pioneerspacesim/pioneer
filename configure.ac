@@ -301,6 +301,7 @@ AC_CONFIG_FILES([
 	contrib/lua/Makefile
 	contrib/miniz/Makefile
 	contrib/jenkins/Makefile
+	contrib/vcacheopt/Makefile
 	osx/Makefile
 	win32/Makefile])
 AC_OUTPUT

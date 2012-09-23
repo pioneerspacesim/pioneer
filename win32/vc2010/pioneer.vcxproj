@@ -377,6 +377,7 @@
     <ClInclude Include="..\..\src\SystemView.h" />
     <ClInclude Include="..\..\src\TerrainBody.h" />
     <ClInclude Include="..\..\src\utils.h" />
+    <ClInclude Include="..\..\contrib\vcacheopt\vcacheopt.h" />
     <ClInclude Include="..\..\src\vector2.h" />
     <ClInclude Include="..\..\src\vector3.h" />
     <ClInclude Include="..\..\src\VideoLink.h" />

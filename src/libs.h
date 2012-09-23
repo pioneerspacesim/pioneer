@@ -87,8 +87,6 @@ template<class T> inline const T& Clamp(const T& x, const T& min, const T& max) 
 inline double DEG2RAD(double x) { return x*(M_PI/180.); }
 inline float  DEG2RAD(float  x) { return x*(float(M_PI)/180.f); }
 
-// --- typesafe compile time array length
-// by Ivan J. Johnson
 // from StackOverflow: http://stackoverflow.com/a/1500517/52251
 // Q: "Compile time sizeof_array without using a macro"
 template <typename T, size_t N>

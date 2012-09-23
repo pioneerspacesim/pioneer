@@ -221,7 +221,7 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 	} else {
 		size[0] = -1;
 		size[1] = -1;
-		pos[!dir] += 320;
+		pos[!dir] += 400;
 	}
 
 	float prevSizeForKids = size[!dir];
@@ -261,7 +261,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		Gui::Label *l = (new Gui::Label(_info))->Color(1.0f,1.0f,0.0f);
 		m_sbodyInfoTab->Add(l, 35, 300);
 
-		ShowAll();
+		Fixed::ShowAll(); // bypass View::ShowAll which does extra stuff that we don't want
 		return;
 	}
 
@@ -371,33 +371,33 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		col1->Add((new Gui::Label(Lang::SYSTEM_TYPE))->Color(1,1,0), 0, 0);
 		col2->Add(new Gui::Label(m_system->GetShortDescription()), 0, 0);
 
-		col1->Add((new Gui::Label(Lang::GOVERNMENT_TYPE))->Color(1,1,0), 0, YSEP);
-		col2->Add(new Gui::Label(m_system->GetSysPolit().GetGovernmentDesc()), 0, YSEP);
+		col1->Add((new Gui::Label(Lang::GOVERNMENT_TYPE))->Color(1,1,0), 0, 2*YSEP);
+		col2->Add(new Gui::Label(m_system->GetSysPolit().GetGovernmentDesc()), 0, 2*YSEP);
 
-		col1->Add((new Gui::Label(Lang::ECONOMY_TYPE))->Color(1,1,0), 0, 2*YSEP);
-		col2->Add(new Gui::Label(m_system->GetSysPolit().GetEconomicDesc()), 0, 2*YSEP);
+		col1->Add((new Gui::Label(Lang::ECONOMY_TYPE))->Color(1,1,0), 0, 3*YSEP);
+		col2->Add(new Gui::Label(m_system->GetSysPolit().GetEconomicDesc()), 0, 3*YSEP);
 
-		col1->Add((new Gui::Label(Lang::ALLEGIANCE))->Color(1,1,0), 0, 3*YSEP);
-		col2->Add(new Gui::Label(m_system->GetSysPolit().GetAllegianceDesc()), 0, 3*YSEP);
+		col1->Add((new Gui::Label(Lang::ALLEGIANCE))->Color(1,1,0), 0, 4*YSEP);
+		col2->Add(new Gui::Label(m_system->GetSysPolit().GetAllegianceDesc()), 0, 4*YSEP);
 
-		col1->Add((new Gui::Label(Lang::POPULATION))->Color(1,1,0), 0, 4*YSEP);
+		col1->Add((new Gui::Label(Lang::POPULATION))->Color(1,1,0), 0, 5*YSEP);
 		std::string popmsg;
 		fixed pop = m_system->m_totalPop;
 		if (pop >= fixed(1,1)) { popmsg = stringf(Lang::OVER_N_BILLION, formatarg("population", pop.ToInt32())); }
 		else if (pop >= fixed(1,1000)) { popmsg = stringf(Lang::OVER_N_MILLION, formatarg("population", (pop*1000).ToInt32())); }
 		else if (pop != fixed(0)) { popmsg = Lang::A_FEW_THOUSAND; }
 		else { popmsg = Lang::NO_REGISTERED_INHABITANTS; }
-		col2->Add(new Gui::Label(popmsg), 0, 4*YSEP);
+		col2->Add(new Gui::Label(popmsg), 0, 5*YSEP);
 
-		col1->Add((new Gui::Label(Lang::SECTOR_COORDINATES))->Color(1,1,0), 0, 5*YSEP);
-		col2->Add(new Gui::Label(stringf("%0{d}, %1{d}, %2{d}", path.sectorX, path.sectorY, path.sectorZ)), 0, 5*YSEP);
-		col1->Add((new Gui::Label(Lang::SYSTEM_NUMBER))->Color(1,1,0), 0, 6*YSEP);
-		col2->Add(new Gui::Label(stringf("%0", path.systemIndex)), 0, 6*YSEP);
+		col1->Add((new Gui::Label(Lang::SECTOR_COORDINATES))->Color(1,1,0), 0, 6*YSEP);
+		col2->Add(new Gui::Label(stringf("%0{d}, %1{d}, %2{d}", path.sectorX, path.sectorY, path.sectorZ)), 0, 6*YSEP);
+		col1->Add((new Gui::Label(Lang::SYSTEM_NUMBER))->Color(1,1,0), 0, 7*YSEP);
+		col2->Add(new Gui::Label(stringf("%0", path.systemIndex)), 0, 7*YSEP);
 	}
 
 	UpdateIconSelections();
 
-	ShowAll();
+	Fixed::ShowAll(); // bypass View::ShowAll which does extra stuff that we don't want
 }
 
 void SystemInfoView::Draw3D()

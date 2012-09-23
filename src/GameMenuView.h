@@ -63,6 +63,7 @@ public:
 	virtual void Update() {}
 	virtual void Draw3D() {}
 	virtual void OnSwitchTo();
+	virtual void ShowAll();
 	virtual void HideAll();
 	void OpenLoadDialog();
 	void OpenSaveDialog();
@@ -82,7 +83,10 @@ private:
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
 	void OnToggleNavTunnel(Gui::ToggleButton *b, bool state);
 	bool m_changedDetailLevel;
-	View *m_subview;
+	Gui::Button *m_saveButton;
+	Gui::Button *m_loadButton;
+	Gui::Button *m_exitButton;
+	Gui::Button *m_menuButton;
 	VolumeControl *m_masterVolume;
 	VolumeControl *m_sfxVolume;
 	VolumeControl *m_musicVolume;

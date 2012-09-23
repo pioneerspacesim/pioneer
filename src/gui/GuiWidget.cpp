@@ -9,6 +9,7 @@ namespace Gui {
 Widget::Widget()
 {
 	m_parent = 0;
+	m_size.w = m_size.h = 0.0f;
 	m_enabled = true;
 	m_visible = false;
 	m_mouseOver = false;
