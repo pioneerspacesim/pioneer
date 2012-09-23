@@ -245,111 +245,115 @@ GameMenuView::GameMenuView(): View()
 	}
 
 	// Video mode selector
-	m_videoModes = Graphics::GetAvailableVideoModes();
-	vbox->PackEnd((new Gui::Label(Lang::VIDEO_RESOLUTION))->Color(1.0f,1.0f,0.0f));
+	{
+		m_videoModes = Graphics::GetAvailableVideoModes();
+		vbox->PackEnd((new Gui::Label(Lang::VIDEO_RESOLUTION))->Color(1.0f,1.0f,0.0f));
 
-	m_screenModesGroup = new Gui::RadioGroup();
+		m_screenModesGroup = new Gui::RadioGroup();
 
-	// box to put the scroll portal and its scroll bar into
-	Gui::HBox *scrollHBox = new Gui::HBox();
-	vbox->PackEnd(scrollHBox);
+		// box to put the scroll portal and its scroll bar into
+		Gui::HBox *scrollHBox = new Gui::HBox();
+		vbox->PackEnd(scrollHBox);
 
-	Gui::VScrollBar *scroll = new Gui::VScrollBar();
-	Gui::VScrollPortal *portal = new Gui::VScrollPortal(280);
-	scroll->SetAdjustment(&portal->vscrollAdjust);
-	scrollHBox->PackEnd(portal);
-	scrollHBox->PackEnd(scroll);
+		Gui::VScrollBar *scroll = new Gui::VScrollBar();
+		Gui::VScrollPortal *portal = new Gui::VScrollPortal(280);
+		scroll->SetAdjustment(&portal->vscrollAdjust);
+		scrollHBox->PackEnd(portal);
+		scrollHBox->PackEnd(scroll);
 
-	Gui::VBox *vbox2 = new Gui::VBox();
-	portal->Add(vbox2);
+		Gui::VBox *vbox2 = new Gui::VBox();
+		portal->Add(vbox2);
 
-	for (std::vector<Graphics::VideoMode>::const_iterator it = m_videoModes.begin();
-		it != m_videoModes.end(); ++it) {
-		Gui::RadioButton *temp = new Gui::RadioButton(m_screenModesGroup);
-		temp->onSelect.connect(sigc::bind(sigc::mem_fun(this,
-			&GameMenuView::OnChangeVideoResolution), it - m_videoModes.begin()));
-		Gui::HBox *hbox = new Gui::HBox();
-		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(temp);
-		hbox->PackEnd(new Gui::Label(stringf(Lang::X_BY_X, formatarg("x", int(it->width)), formatarg("y", int(it->height)))));
-		vbox2->PackEnd(hbox);
-		//mark the current video mode
-		if ((Pi::GetScrWidth() == it->width) && (Pi::GetScrHeight() == it->height)) {
-			temp->SetSelected(true);
+		for (std::vector<Graphics::VideoMode>::const_iterator it = m_videoModes.begin();
+			it != m_videoModes.end(); ++it) {
+			Gui::RadioButton *temp = new Gui::RadioButton(m_screenModesGroup);
+			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this,
+				&GameMenuView::OnChangeVideoResolution), it - m_videoModes.begin()));
+			Gui::HBox *hbox = new Gui::HBox();
+			hbox->SetSpacing(5.0f);
+			hbox->PackEnd(temp);
+			hbox->PackEnd(new Gui::Label(stringf(Lang::X_BY_X, formatarg("x", int(it->width)), formatarg("y", int(it->height)))));
+			vbox2->PackEnd(hbox);
+			//mark the current video mode
+			if ((Pi::GetScrWidth() == it->width) && (Pi::GetScrHeight() == it->height)) {
+				temp->SetSelected(true);
+			}
 		}
 	}
 
 	//Graphical detail settings
-	Gui::HBox *detailBox = new Gui::HBox();
-	detailBox->SetSpacing(20.0f);
-	mainTab->Add(detailBox, 350, 60);
+	{
+		Gui::HBox *detailBox = new Gui::HBox();
+		detailBox->SetSpacing(20.0f);
+		mainTab->Add(detailBox, 350, 60);
 
-	vbox = new Gui::VBox();
-	vbox->SetSpacing(5.0f);
-	detailBox->PackEnd(vbox);
+		vbox = new Gui::VBox();
+		vbox->SetSpacing(5.0f);
+		detailBox->PackEnd(vbox);
 
-	vbox->PackEnd((new Gui::Label(Lang::CITY_DETAIL_LEVEL))->Color(1.0f,1.0f,0.0f));
-	m_cityDetailGroup = new Gui::RadioGroup();
+		vbox->PackEnd((new Gui::Label(Lang::CITY_DETAIL_LEVEL))->Color(1.0f,1.0f,0.0f));
+		m_cityDetailGroup = new Gui::RadioGroup();
 
-	for (int i=0; i<5; i++) {
-		Gui::RadioButton *rb = new Gui::RadioButton(m_cityDetailGroup);
-		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeCityDetail), i));
-		Gui::HBox *hbox = new Gui::HBox();
-		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(rb);
-		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
-		vbox->PackEnd(hbox);
-	}
+		for (int i=0; i<5; i++) {
+			Gui::RadioButton *rb = new Gui::RadioButton(m_cityDetailGroup);
+			rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeCityDetail), i));
+			Gui::HBox *hbox = new Gui::HBox();
+			hbox->SetSpacing(5.0f);
+			hbox->PackEnd(rb);
+			hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
+			vbox->PackEnd(hbox);
+		}
 
-	vbox = new Gui::VBox();
-	vbox->SetSpacing(5.0f);
-	detailBox->PackEnd(vbox);
+		vbox = new Gui::VBox();
+		vbox->SetSpacing(5.0f);
+		detailBox->PackEnd(vbox);
 
-	vbox->PackEnd((new Gui::Label(Lang::PLANET_DETAIL_DISTANCE))->Color(1.0f,1.0f,0.0f));
-	m_planetDetailGroup = new Gui::RadioGroup();
+		vbox->PackEnd((new Gui::Label(Lang::PLANET_DETAIL_DISTANCE))->Color(1.0f,1.0f,0.0f));
+		m_planetDetailGroup = new Gui::RadioGroup();
 
-	for (int i=0; i<5; i++) {
-		Gui::RadioButton *rb = new Gui::RadioButton(m_planetDetailGroup);
-		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetDetail), i));
-		Gui::HBox *hbox = new Gui::HBox();
-		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(rb);
-		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
-		vbox->PackEnd(hbox);
-	}
+		for (int i=0; i<5; i++) {
+			Gui::RadioButton *rb = new Gui::RadioButton(m_planetDetailGroup);
+			rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetDetail), i));
+			Gui::HBox *hbox = new Gui::HBox();
+			hbox->SetSpacing(5.0f);
+			hbox->PackEnd(rb);
+			hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
+			vbox->PackEnd(hbox);
+		}
 
-	vbox = new Gui::VBox();
-	vbox->SetSpacing(5.0f);
-	detailBox->PackEnd(vbox);
+		vbox = new Gui::VBox();
+		vbox->SetSpacing(5.0f);
+		detailBox->PackEnd(vbox);
 
-	vbox->PackEnd((new Gui::Label(Lang::PLANET_TEXTURES))->Color(1.0f,1.0f,0.0f));
-	m_planetTextureGroup = new Gui::RadioGroup();
+		vbox->PackEnd((new Gui::Label(Lang::PLANET_TEXTURES))->Color(1.0f,1.0f,0.0f));
+		m_planetTextureGroup = new Gui::RadioGroup();
 
-	for (int i=0; i<2; i++) {
-		Gui::RadioButton *rb = new Gui::RadioButton(m_planetTextureGroup);
-		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetTextures), i));
-		Gui::HBox *hbox = new Gui::HBox();
-		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(rb);
-		hbox->PackEnd(new Gui::Label(planet_textures_desc[i]));
-		vbox->PackEnd(hbox);
-	}
+		for (int i=0; i<2; i++) {
+			Gui::RadioButton *rb = new Gui::RadioButton(m_planetTextureGroup);
+			rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetTextures), i));
+			Gui::HBox *hbox = new Gui::HBox();
+			hbox->SetSpacing(5.0f);
+			hbox->PackEnd(rb);
+			hbox->PackEnd(new Gui::Label(planet_textures_desc[i]));
+			vbox->PackEnd(hbox);
+		}
 
-	vbox = new Gui::VBox();
-	vbox->SetSpacing(5.0f);
-	detailBox->PackEnd(vbox);
+		vbox = new Gui::VBox();
+		vbox->SetSpacing(5.0f);
+		detailBox->PackEnd(vbox);
 
-	vbox->PackEnd((new Gui::Label(Lang::FRACTAL_DETAIL))->Color(1.0f,1.0f,0.0f));
-	m_planetFractalGroup = new Gui::RadioGroup();
+		vbox->PackEnd((new Gui::Label(Lang::FRACTAL_DETAIL))->Color(1.0f,1.0f,0.0f));
+		m_planetFractalGroup = new Gui::RadioGroup();
 
-	for (int i=0; i<5; i++) {
-		Gui::RadioButton *rb = new Gui::RadioButton(m_planetFractalGroup);
-		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeFractalMultiple), i));
-		Gui::HBox *hbox = new Gui::HBox();
-		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(rb);
-		hbox->PackEnd(new Gui::Label(planet_fractal_desc[i]));
-		vbox->PackEnd(hbox);
+		for (int i=0; i<5; i++) {
+			Gui::RadioButton *rb = new Gui::RadioButton(m_planetFractalGroup);
+			rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeFractalMultiple), i));
+			Gui::HBox *hbox = new Gui::HBox();
+			hbox->SetSpacing(5.0f);
+			hbox->PackEnd(rb);
+			hbox->PackEnd(new Gui::Label(planet_fractal_desc[i]));
+			vbox->PackEnd(hbox);
+		}
 	}
 
 
