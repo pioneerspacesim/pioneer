@@ -39,9 +39,9 @@ void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, LmrOb
 	if (params->nodemask & MASK_IGNORE) {
 		m_root->Render(renderer, trans, params);
 	} else {
-		params->nodemask = 0x1;
+		params->nodemask = NODE_SOLID;
 		m_root->Render(renderer, trans, params);
-		params->nodemask = 0x2;
+		params->nodemask = NODE_TRANSPARENT;
 		m_root->Render(renderer, trans, params);
 	}
 }
@@ -73,7 +73,7 @@ RefCountedPtr<Graphics::Material> NModel::GetMaterialByIndex(const int i) const
 
 Group * const NModel::GetTagByIndex(const unsigned int i) const
 {
-	if (i > m_tags.size()-1) return 0;
+	if (m_tags.empty() || i > m_tags.size()-1) return 0;
 	return m_tags.at(i);
 }
 

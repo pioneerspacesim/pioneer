@@ -40,7 +40,7 @@ struct LmrObjParams
 	LmrObjParams()
 	: boundingRadius(0.f)
 	, drawBoundingBoxes(false)
-	, nodemask(0xff) //draw everything
+	, nodemask(0x1) //draw solids
 	{
 		std::fill(linthrust, linthrust+3, 0.f);
 		std::fill(angthrust, angthrust+3, 0.f);

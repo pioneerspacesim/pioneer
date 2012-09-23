@@ -8,7 +8,7 @@
 namespace Newmodel {
 
 StaticGeometry::StaticGeometry()
-: Node(0x1)
+: Node(NODE_SOLID)
 , m_blendMode(Graphics::BLEND_SOLID)
 {
 }
