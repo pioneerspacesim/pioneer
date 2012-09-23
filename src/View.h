@@ -27,7 +27,6 @@ public:
 	virtual void Update() = 0;
 	virtual void Save(Serializer::Writer &wr) {}
 	virtual void Load(Serializer::Reader &rd) {}
-	virtual void OnSwitchTo() = 0;
 
 	void Attach();
 	void Detach();
@@ -35,6 +34,8 @@ public:
 	void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
 
 protected:
+	virtual void OnSwitchTo() = 0;
+
 	// each view can put some buttons in the bottom right of the cpanel
 	Gui::Fixed *m_rightButtonBar;
 	Gui::Fixed *m_rightRegion1;

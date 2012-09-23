@@ -18,8 +18,9 @@ public:
 	SystemInfoView();
 	virtual void Update();
 	virtual void Draw3D();
-	virtual void OnSwitchTo();
 	void NextPage();
+protected:
+	virtual void OnSwitchTo();
 private:
 	class BodyIcon : public Gui::ImageRadioButton {
 	public:
