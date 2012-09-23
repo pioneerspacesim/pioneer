@@ -1104,6 +1104,8 @@ COMPUTER_SPEED_CONTROL
     Computer speed control
 COMPUTER_HEADING_CONTROL
     Computer heading control
+COMPUTER_ANTIGRAV
+    Computer gravity compensation
 AUTOPILOT_ON
     Autopilot on
 SHIP_VELOCITY_BY_REFERENCE_OBJECT
@@ -1140,6 +1142,8 @@ HEADING_LOCK_FORWARD
     Heading Lock (fore)
 HEADING_LOCK_BACKWARD
     Heading Lock (aft)
+ANTIGRAV
+    Gravity compensation
 SET_SPEED_KM_S
     Set speed: %speed{f.2} km/s
 SET_SPEED_M_S

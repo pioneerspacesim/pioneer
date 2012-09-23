@@ -143,6 +143,7 @@ void WorldView::InitObject()
 	m_flightControlButton->AddState(CONTROL_FIXSPEED, "icons/manual_control.png", Lang::COMPUTER_SPEED_CONTROL);
 	m_flightControlButton->AddState(CONTROL_FIXHEADING_FORWARD, "icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
 	m_flightControlButton->AddState(CONTROL_FIXHEADING_BACKWARD, "icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
+	m_flightControlButton->AddState(CONTROL_ANTIGRAV, "icons/manual_control.png", Lang::COMPUTER_ANTIGRAV);
 	m_flightControlButton->AddState(CONTROL_AUTOPILOT, "icons/autopilot.png", Lang::AUTOPILOT_ON);
 	m_flightControlButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeFlightState));
 	m_flightControlButton->SetRenderDimensions(30.0f, 22.0f);
@@ -483,6 +484,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 				switch (fstate) {
 					case CONTROL_MANUAL:
 						m_flightStatus->SetText(Lang::MANUAL_CONTROL); break;
+
+					case CONTROL_ANTIGRAV:
+						m_flightStatus->SetText(Lang::ANTIGRAV);
+						break;
 
 					case CONTROL_FIXSPEED: {
 						std::string msg;
