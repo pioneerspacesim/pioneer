@@ -4,11 +4,11 @@
 define_ship {
 	name = 'Imperial Trader',
 	model = 'trader',
-	forward_thrust = -8e7,
+	forward_thrust = 8e7,
 	reverse_thrust = 3e7,
 	up_thrust = 3e7,
-	down_thrust = -1e7,
-	left_thrust = -1e7,
+	down_thrust = 1e7,
+	left_thrust = 1e7,
 	right_thrust = 1e7,
 	angular_thrust = 15e7,
 	gun_mounts =
