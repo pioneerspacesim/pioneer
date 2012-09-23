@@ -220,10 +220,12 @@ WINDOW_OR_FULLSCREEN
     Okno lub pełny ekran (wymagany restart)
 FULL_SCREEN
     Pełny ekran
+COMPRESS_TEXTURES
+    Kompresja Tekstur
 OTHER_GRAPHICS_SETTINGS
-    Inne ustawienia graficzne
+    Inne ustawienia graficzne (wymagany restart)
 USE_SHADERS
-    Użyj cieniowania (wymagany restart)
+    Użyj cieniowania
 SOUND_SETTINGS
     Ustawienia dźwięku
 VOL_MASTER
