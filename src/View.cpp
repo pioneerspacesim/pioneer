@@ -28,6 +28,8 @@ View::~View() {
 }
 
 void View::Attach() {
+	OnSwitchTo();
+
 	const float w = float(Gui::Screen::GetWidth());
 	const float h = float(Gui::Screen::GetHeight());
 
