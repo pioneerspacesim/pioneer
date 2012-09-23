@@ -244,41 +244,42 @@ GameMenuView::GameMenuView(): View()
 		m_musicVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
 	}
 
+	// Video mode selector
+	m_videoModes = Graphics::GetAvailableVideoModes();
 	vbox->PackEnd((new Gui::Label(Lang::VIDEO_RESOLUTION))->Color(1.0f,1.0f,0.0f));
 
 	m_screenModesGroup = new Gui::RadioGroup();
-	SDL_Rect **modes;
-	modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
-	if ((modes!=0) && (modes != reinterpret_cast<SDL_Rect**>(-1))) {
-		// box to put the scroll portal and its scroll bar into
-		Gui::HBox *scrollHBox = new Gui::HBox();
-		vbox->PackEnd(scrollHBox);
 
-		Gui::VScrollBar *scroll = new Gui::VScrollBar();
-		Gui::VScrollPortal *portal = new Gui::VScrollPortal(280);
-		scroll->SetAdjustment(&portal->vscrollAdjust);
-		scrollHBox->PackEnd(portal);
-		scrollHBox->PackEnd(scroll);
+	// box to put the scroll portal and its scroll bar into
+	Gui::HBox *scrollHBox = new Gui::HBox();
+	vbox->PackEnd(scrollHBox);
 
-		Gui::VBox *vbox2 = new Gui::VBox();
-		portal->Add(vbox2);
+	Gui::VScrollBar *scroll = new Gui::VScrollBar();
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(280);
+	scroll->SetAdjustment(&portal->vscrollAdjust);
+	scrollHBox->PackEnd(portal);
+	scrollHBox->PackEnd(scroll);
 
-		for (int i=0; modes[i]; ++i) {
-			Gui::RadioButton *temp = new Gui::RadioButton(m_screenModesGroup);
-			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this,
-					&GameMenuView::OnChangeVideoResolution), i));
-			Gui::HBox *hbox = new Gui::HBox();
-			hbox->SetSpacing(5.0f);
-			hbox->PackEnd(temp);
-			hbox->PackEnd(new Gui::Label(stringf(Lang::X_BY_X, formatarg("x", int(modes[i]->w)), formatarg("y", int(modes[i]->h)))));
-			vbox2->PackEnd(hbox);
-			if ((Pi::GetScrWidth() == modes[i]->w) && (Pi::GetScrHeight() == modes[i]->h)) {
-				temp->SetSelected(true);
-			}
+	Gui::VBox *vbox2 = new Gui::VBox();
+	portal->Add(vbox2);
+
+	for (std::vector<Graphics::VideoMode>::const_iterator it = m_videoModes.begin();
+		it != m_videoModes.end(); ++it) {
+		Gui::RadioButton *temp = new Gui::RadioButton(m_screenModesGroup);
+		temp->onSelect.connect(sigc::bind(sigc::mem_fun(this,
+			&GameMenuView::OnChangeVideoResolution), it - m_videoModes.begin()));
+		Gui::HBox *hbox = new Gui::HBox();
+		hbox->SetSpacing(5.0f);
+		hbox->PackEnd(temp);
+		hbox->PackEnd(new Gui::Label(stringf(Lang::X_BY_X, formatarg("x", int(it->width)), formatarg("y", int(it->height)))));
+		vbox2->PackEnd(hbox);
+		//mark the current video mode
+		if ((Pi::GetScrWidth() == it->width) && (Pi::GetScrHeight() == it->height)) {
+			temp->SetSelected(true);
 		}
 	}
 
-
+	//Graphical detail settings
 	Gui::HBox *detailBox = new Gui::HBox();
 	detailBox->SetSpacing(20.0f);
 	mainTab->Add(detailBox, 350, 60);
@@ -568,11 +569,11 @@ void GameMenuView::OnChangeLanguage(std::string &lang)
 	Pi::config->Save();
 }
 
-void GameMenuView::OnChangeVideoResolution(int res)
+void GameMenuView::OnChangeVideoResolution(int modeIndex)
 {
-	SDL_Rect **modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
-	Pi::config->SetInt("ScrWidth", modes[res]->w);
-	Pi::config->SetInt("ScrHeight", modes[res]->h);
+	const Graphics::VideoMode &mode = m_videoModes.at(modeIndex);
+	Pi::config->SetInt("ScrWidth", mode.width);
+	Pi::config->SetInt("ScrHeight", mode.height);
 	Pi::config->Save();
 }
 

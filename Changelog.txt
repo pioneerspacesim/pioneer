@@ -27,6 +27,7 @@ Alpha 27
      * Many minor cleanups identified by valgrind (#1524)
      * Copyright and license is now made explicit at the top of all code files (#1515)
      * Max terrain height for heightmapped planets is computed more accurately (#1504)
+     * Code to detect supported video modes has moved to Graphics (#1535, #1385)
 
 Alpha 26
 
