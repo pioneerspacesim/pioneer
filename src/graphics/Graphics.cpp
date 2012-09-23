@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Graphics.h"
 #include "FileSystem.h"
 #include "Material.h"
@@ -159,9 +162,9 @@ Renderer* Init(const Settings &vs)
 	shadersEnabled = vs.shaders && shadersAvailable;
 
 	if (shadersEnabled)
-		renderer = new RendererGL2(vs.width, vs.height);
+		renderer = new RendererGL2(vs);
 	else
-		renderer = new RendererLegacy(vs.width, vs.height);
+		renderer = new RendererLegacy(vs);
 
 	printf("Initialized %s\n", renderer->GetName());
 

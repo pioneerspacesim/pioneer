@@ -2,6 +2,8 @@ Alpha 27
 
    * New features
      * The settings screen is now acessible from the main menu (#1187, #1512)
+     * There's now an option to enable texture compression (#1522)
+     * New mission type, Scout (get paid to scan particular planets) (#1348, #779)
 
    * Minor changes and tweaks
      * Smooth zoom animation in World, System, Sector and Galactic views (#1170)
@@ -11,6 +13,7 @@ Alpha 27
      * Avoid icons in some ternary systems overlapping each other (#1510, #1511) 
      * Fix overlapping text for long system descriptions (#1494, #1498)
      * Fix crash in SystemInfoView from leaking widget references (#1526,  #1493)
+     * Clamp some newer terrain heights to non-negative values (#1534, #1530)
 
    * Script changes
      * EventQueue, which was deprecated in alpha 26, has been removed (#1485)
@@ -22,6 +25,8 @@ Alpha 27
      * New C++ wrappers for Lua table manipulation and value persistence (#1438)
      * Terrain patches are now rendered more efficiently (#1507)
      * Many minor cleanups identified by valgrind (#1524)
+     * Copyright and license is now made explicit at the top of all code files (#1515)
+     * Max terrain height for heightmapped planets is computed more accurately (#1504)
 
 Alpha 26
 
