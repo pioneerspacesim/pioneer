@@ -2,7 +2,7 @@
 #define _UI_WIDGET_H
 
 #include "libs.h"
-#include "vector2.h"
+#include "Point.h"
 #include "Event.h"
 #include "RefCounted.h"
 #include "WidgetSet.h"
@@ -91,7 +91,7 @@ protected:
 public:
 	virtual ~Widget();
 
-	virtual vector2f PreferredSize() { return 0; }
+	virtual Point PreferredSize() { return Point(); }
 	virtual void Layout() {}
 	virtual void Update() {}
 	virtual void Draw() = 0;
@@ -103,29 +103,29 @@ public:
 	Container *GetContainer() const { return m_container; }
 
 	// size allocated to widget by container
-	const vector2f &GetSize() const { return m_size; }
+	const Point &GetSize() const { return m_size; }
 
 	// position relative to container
-	const vector2f &GetPosition() const { return m_position; }
+	const Point &GetPosition() const { return m_position; }
 
 	// position relative to top container
-	vector2f GetAbsolutePosition() const;
+	Point GetAbsolutePosition() const;
 
 	// active area of the widget. the widget may only want to use part of its
 	// allocated space. drawing will be clipped to the active area, and events
 	// that fall outside of the active area will be ignored. if a widget
 	// doesn't set its active area it defaults to its allocated space.
-	const vector2f &GetActiveOffset() const { return m_activeOffset; }
-	const vector2f &GetActiveArea() const { return m_activeArea; }
+	const Point &GetActiveOffset() const { return m_activeOffset; }
+	const Point &GetActiveArea() const { return m_activeArea; }
 
 	// determine if a point is inside a widget's bounds
-	bool Contains(const vector2f &point) const {
+	bool Contains(const Point &point) const {
 		return (point.x >= m_activeOffset.x && point.y >= m_activeOffset.y && point.x < m_activeOffset.x+m_activeArea.x && point.y < m_activeOffset.y+m_activeArea.y);
 	}
 
 	// deterine if an absolute point is inside a widget's bounds
-	bool ContainsAbsolute(const vector2f &point) const {
-		vector2f pos = GetAbsolutePosition() + m_activeOffset;
+	bool ContainsAbsolute(const Point &point) const {
+		Point pos = GetAbsolutePosition() + m_activeOffset;
 		return (point.x >= pos.x && point.y >= pos.y && point.x < pos.x+m_activeArea.x && point.y < pos.y+m_activeArea.y);
 	}
 
@@ -203,7 +203,7 @@ public:
 protected:
 
 	// set the active area. defaults to the size allocated by the container
-	void SetActiveArea(const vector2f &activeArea, const vector2f &activeOffset = 0);
+	void SetActiveArea(const Point &activeArea, const Point &activeOffset = Point());
 
 	// mouse active. if a widget is mouse-active, it receives all mouse events
 	// regardless of mouse position
@@ -259,8 +259,8 @@ private:
 
 	bool TriggerClick(bool emit = true);
 
-	bool TriggerMouseOver(const vector2f &pos, bool emit = true);
-	bool TriggerMouseOut(const vector2f &pos, bool emit = true);
+	bool TriggerMouseOver(const Point &pos, bool emit = true);
+	bool TriggerMouseOut(const Point &pos, bool emit = true);
 
 	void TriggerMouseActivate();
 	void TriggerMouseDeactivate();
@@ -274,12 +274,12 @@ private:
 	// widget. it could modify our data directly but that's ugly
 	void Attach(Container *container);
 	void Detach();
-	void SetDimensions(const vector2f &position, const vector2f &size);
+	void SetDimensions(const Point &position, const Point &size);
 
 	// Context is the top-level container and needs to set its own context
 	// and size directly
 	friend class Context;
-	void SetSize(const vector2f &size) { m_size = size; SetActiveArea(size); }
+	void SetSize(const Point &size) { m_size = size; SetActiveArea(size); }
 
 	// FloatContainer needs to change floating state
 	friend class FloatContainer;
@@ -287,11 +287,11 @@ private:
 
 	Context *m_context;
 	Container *m_container;
-	vector2f m_position;
-	vector2f m_size;
+	Point m_position;
+	Point m_size;
 
-	vector2f m_activeOffset;
-	vector2f m_activeArea;
+	Point m_activeOffset;
+	Point m_activeArea;
 
 	matrix4x4f m_transform;
 	FontSize m_fontSize;

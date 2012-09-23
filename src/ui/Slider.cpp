@@ -5,13 +5,13 @@ namespace UI {
 
 static const float MIN_SLIDER_INNER_SIZE = 16.0f;
 
-vector2f Slider::PreferredSize()
+Point Slider::PreferredSize()
 {
 	// XXX use slider gutter size
 	if (m_orient == SLIDER_HORIZONTAL)
-		return vector2f(MIN_SLIDER_INNER_SIZE+Skin::s_buttonNormal.borderWidth);
+		return Point(MIN_SLIDER_INNER_SIZE+Skin::s_buttonNormal.borderWidth);
 	else
-		return vector2f(MIN_SLIDER_INNER_SIZE+Skin::s_buttonNormal.borderWidth);
+		return Point(MIN_SLIDER_INNER_SIZE+Skin::s_buttonNormal.borderWidth);
 }
 
 void Slider::Layout()
@@ -23,14 +23,14 @@ void Slider::Layout()
 void Slider::UpdateButton()
 {
 	const float buttonBorderWidth = Skin::s_buttonNormal.borderWidth;
-	const vector2f activeArea(GetActiveArea());
+	const Point activeArea(GetActiveArea());
 	if (m_orient == SLIDER_HORIZONTAL) {
-		m_buttonSize = vector2f(std::min(activeArea.x-buttonBorderWidth*2, MIN_SLIDER_INNER_SIZE), activeArea.y-buttonBorderWidth*2);
-		m_buttonPos = vector2f((activeArea.x-buttonBorderWidth*2-m_buttonSize.x)*m_value+buttonBorderWidth, buttonBorderWidth);
+		m_buttonSize = Point(std::min(activeArea.x-buttonBorderWidth*2, MIN_SLIDER_INNER_SIZE), activeArea.y-buttonBorderWidth*2);
+		m_buttonPos = Point((activeArea.x-buttonBorderWidth*2-m_buttonSize.x)*m_value+buttonBorderWidth, buttonBorderWidth);
 	}
 	else {
-		m_buttonSize = vector2f(activeArea.x-buttonBorderWidth*2, std::min(activeArea.y-buttonBorderWidth*2, MIN_SLIDER_INNER_SIZE));
-		m_buttonPos = vector2f(buttonBorderWidth, (activeArea.y-buttonBorderWidth*2-m_buttonSize.y)*m_value+buttonBorderWidth);
+		m_buttonSize = Point(activeArea.x-buttonBorderWidth*2, std::min(activeArea.y-buttonBorderWidth*2, MIN_SLIDER_INNER_SIZE));
+		m_buttonPos = Point(buttonBorderWidth, (activeArea.y-buttonBorderWidth*2-m_buttonSize.y)*m_value+buttonBorderWidth);
 	}
 }
 
@@ -65,7 +65,9 @@ void Slider::HandleMouseUp(const MouseButtonEvent &event)
 void Slider::HandleMouseMove(const MouseMotionEvent &event)
 {
 	if (m_buttonDown && IsMouseActive())
-		SetValue(m_orient == SLIDER_HORIZONTAL ? Clamp(event.pos.x, 0.0f, GetActiveArea().x) / GetActiveArea().x : Clamp(event.pos.y, 0.0f, GetActiveArea().y) / GetActiveArea().y);
+		SetValue(m_orient == SLIDER_HORIZONTAL ?
+			float(Clamp(event.pos.x, 0, GetActiveArea().x)) / GetActiveArea().x :
+			float(Clamp(event.pos.y, 0, GetActiveArea().y)) / GetActiveArea().y);
 	Widget::HandleMouseMove(event);
 }
 

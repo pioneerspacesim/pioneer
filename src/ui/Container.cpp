@@ -23,7 +23,7 @@ void Container::Draw()
 	Graphics::Renderer *r = c->GetRenderer();
 
 	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
-		const vector2f &pos = (*i)->GetAbsolutePosition();
+		const Point &pos = (*i)->GetAbsolutePosition();
 		c->EnableScissor(pos, (*i)->GetSize());
 		r->SetTransform(matrix4x4f::Translation(pos.x,pos.y,0) * (*i)->GetTransform());
 		(*i)->Draw();
@@ -80,14 +80,14 @@ void Container::RemoveAllWidgets()
 	GetContext()->RequestLayout();
 }
 
-void Container::SetWidgetDimensions(Widget *widget, const vector2f &position, const vector2f &size)
+void Container::SetWidgetDimensions(Widget *widget, const Point &position, const Point &size)
 {
 	assert(widget->GetContainer() == this);
 
 	widget->SetDimensions(position, size);
 }
 
-Widget *Container::GetWidgetAtAbsolute(const vector2f &pos)
+Widget *Container::GetWidgetAtAbsolute(const Point &pos)
 {
 	if (!ContainsAbsolute(pos)) return 0;
 

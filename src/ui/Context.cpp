@@ -19,9 +19,9 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 	lua_newtable(l);
 	m_templateStore = LuaRef(l, -1);
 
-	SetSize(vector2f(m_width,m_height));
+	SetSize(Point(m_width,m_height));
 
-	m_float->SetSize(vector2f(m_width,m_height));
+	m_float->SetSize(Point(m_width,m_height));
 	m_float->Attach(this);
 
 	// XXX should do point sizes, but we need display DPI first
@@ -36,7 +36,7 @@ Context::~Context() {
     m_float->Detach();
 }
 
-Widget *Context::GetWidgetAtAbsolute(const vector2f &pos) {
+Widget *Context::GetWidgetAtAbsolute(const Point &pos) {
 	Widget *w = m_float->GetWidgetAtAbsolute(pos);
 	if (!w || w == m_float.Get())
 		w = Single::GetWidgetAtAbsolute(pos);
@@ -81,10 +81,10 @@ void Context::Draw()
 	DisableScissor();
 }
 
-void Context::EnableScissor(const vector2f &pos, const vector2f &size)
+void Context::EnableScissor(const Point &pos, const Point &size)
 {
-	vector2f flippedPos(pos.x, m_height-pos.y-floorf(size.y));
-	m_renderer->SetScissor(true, flippedPos, size);
+    vector2f flippedPos(pos.x, m_height-pos.y-size.y);
+	m_renderer->SetScissor(true, flippedPos, vector2f(size.x, size.y));
 }
 
 void Context::DisableScissor()

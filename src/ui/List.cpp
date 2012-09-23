@@ -16,12 +16,12 @@ List::List(Context *context) : Container(context), m_selected(-1)
 	AddWidget(m_container);
 }
 
-vector2f List::PreferredSize() {
+Point List::PreferredSize() {
 	return m_container->PreferredSize();
 }
 
 void List::Layout() {
-	SetWidgetDimensions(m_container, 0, GetSize());
+	SetWidgetDimensions(m_container, Point(), GetSize());
 	m_container->Layout();
 }
 

@@ -2,6 +2,7 @@
 #define _UI_EVENT_H
 
 #include "libs.h"
+#include "Point.h"
 
 struct lua_State;
 
@@ -66,10 +67,10 @@ public:
 
 class MouseEvent : public Event {
 public:
-	const vector2f pos; // relative to widget
+	const Point pos; // relative to widget
 
 protected:
-	MouseEvent(Event::Type _type, const vector2f &_pos) : Event(_type), pos(_pos) {}
+	MouseEvent(Event::Type _type, const Point &_pos) : Event(_type), pos(_pos) {}
 };
 
 class MouseButtonEvent : public MouseEvent {
@@ -83,7 +84,7 @@ public:
 		BUTTON_MIDDLE,
 		BUTTON_RIGHT
 	};
-	MouseButtonEvent(Action _action, ButtonType _button, const vector2f &_pos) : MouseEvent(Event::MOUSE_BUTTON, _pos), action(_action), button(_button) {}
+	MouseButtonEvent(Action _action, ButtonType _button, const Point &_pos) : MouseEvent(Event::MOUSE_BUTTON, _pos), action(_action), button(_button) {}
 	const Action action;
 	const ButtonType button;
 
@@ -92,7 +93,7 @@ public:
 
 class MouseMotionEvent : public MouseEvent {
 public:
-	MouseMotionEvent(const vector2f &_pos) : MouseEvent(Event::MOUSE_MOTION, _pos) {}
+	MouseMotionEvent(const Point &_pos) : MouseEvent(Event::MOUSE_MOTION, _pos) {}
 
 	void ToLuaTable(lua_State *l) const;
 };
@@ -103,7 +104,7 @@ public:
 		WHEEL_UP,
 		WHEEL_DOWN
 	};
-	MouseWheelEvent(WheelDirection _direction, const vector2f &_pos) : MouseEvent(Event::MOUSE_WHEEL, _pos), direction(_direction) {}
+	MouseWheelEvent(WheelDirection _direction, const Point &_pos) : MouseEvent(Event::MOUSE_WHEEL, _pos), direction(_direction) {}
 	WheelDirection direction;
 
 	void ToLuaTable(lua_State *l) const;

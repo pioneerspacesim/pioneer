@@ -4,19 +4,21 @@
 
 namespace UI {
 
-vector2f Label::PreferredSize()
+Point Label::PreferredSize()
 {
-	GetContext()->GetFont(GetFontSize())->MeasureString(m_text.c_str(), m_preferredSize.x, m_preferredSize.y);
+	vector2f textSize;
+	GetContext()->GetFont(GetFontSize())->MeasureString(m_text.c_str(), textSize.x, textSize.y);
+	m_preferredSize = Point(ceilf(textSize.x), ceilf(textSize.y));
 	return m_preferredSize;
 }
 
 void Label::Layout()
 {
-	if (m_preferredSize.ExactlyEqual(0))
-		GetContext()->GetFont(GetFontSize())->MeasureString(m_text.c_str(), m_preferredSize.x, m_preferredSize.y);
+	if (m_preferredSize == Point())
+		PreferredSize();
 
-	const vector2f size = GetSize();
-	SetActiveArea(vector2f(std::min(m_preferredSize.x,size.x), std::min(m_preferredSize.y,size.y)));
+	const Point &size = GetSize();
+	SetActiveArea(Point(std::min(m_preferredSize.x,size.x), std::min(m_preferredSize.y,size.y)));
 }
 
 void Label::Draw()

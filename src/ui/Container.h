@@ -32,7 +32,7 @@ public:
 
 	virtual bool IsContainer() const { return true; }
 
-	virtual Widget *GetWidgetAtAbsolute(const vector2f &pos);
+	virtual Widget *GetWidgetAtAbsolute(const Point &pos);
 
 	typedef std::vector< RefCountedPtr<Widget> >::const_iterator WidgetIterator;
 	const WidgetIterator WidgetsBegin() const { return m_widgets.begin(); }
@@ -45,7 +45,7 @@ protected:
 	void RemoveWidget(Widget *);
 	void RemoveAllWidgets();
 
-	void SetWidgetDimensions(Widget *widget, const vector2f &position, const vector2f &size);
+	void SetWidgetDimensions(Widget *widget, const Point &position, const Point &size);
 
 private:
 	bool m_needsLayout;

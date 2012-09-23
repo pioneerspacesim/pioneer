@@ -88,11 +88,11 @@ public:
 	UI::DropDown *DropDown() { return new UI::DropDown(this); }
 
 	// add a floating widget
-	Context *AddFloatingWidget(Widget *w, const vector2f &pos, const vector2f &size) { m_float->AddWidget(w, pos, size); return this; }
+	Context *AddFloatingWidget(Widget *w, const Point &pos, const Point &size) { m_float->AddWidget(w, pos, size); return this; }
 	Context *RemoveFloatingWidget(Widget *w) { m_float->RemoveWidget(w); return this; }
 
 	// considers floating widgets also
-	virtual Widget *GetWidgetAtAbsolute(const vector2f &pos);
+	virtual Widget *GetWidgetAtAbsolute(const Point &pos);
 
 	// event dispatch delegates
 	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }
@@ -119,7 +119,7 @@ public:
 	RefCountedPtr<Text::TextureFont> GetFont(Widget::FontSize fontSize) const { return m_font[fontSize]; }
 
 private:
-	virtual vector2f PreferredSize() { return 0; }
+	virtual Point PreferredSize() { return Point(); }
 
 	Graphics::Renderer *m_renderer;
 	float m_width;
@@ -140,7 +140,7 @@ private:
 
 	// used by Container::Draw to set the keep widget drawing in its bounds
 	friend class Container;
-	void EnableScissor(const vector2f &pos = 0, const vector2f &size = 0);
+	void EnableScissor(const Point &pos = Point(), const Point &size = Point());
 	void DisableScissor();
 };
 

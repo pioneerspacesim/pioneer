@@ -9,7 +9,7 @@ class List;
 
 class DropDown : public Widget {
 public:
-	virtual vector2f PreferredSize();
+	virtual Point PreferredSize();
 	virtual void Layout();
 	virtual void Draw();
 
@@ -30,10 +30,10 @@ private:
 
 	float m_textWidth;
 
-	vector2f m_textPos, m_textSize;
-	vector2f m_backgroundPos, m_backgroundSize;
-	vector2f m_buttonPos, m_buttonSize;
-	vector2f m_preferredSize;
+	Point m_textPos, m_textSize;
+	Point m_backgroundPos, m_backgroundSize;
+	Point m_buttonPos, m_buttonSize;
+	Point m_preferredSize;
 
 	bool HandlePopupClick();
 	void TogglePopup();

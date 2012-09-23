@@ -1,6 +1,7 @@
 #include "EventDispatcher.h"
 #include "Widget.h"
 #include "Container.h"
+#include <climits>
 
 namespace UI {
 
@@ -22,16 +23,16 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 
 		case SDL_MOUSEBUTTONDOWN:
 			if (event.button.button == SDL_BUTTON_WHEELUP || event.button.button == SDL_BUTTON_WHEELDOWN)
-				return Dispatch(MouseWheelEvent(event.button.button == SDL_BUTTON_WHEELUP ? MouseWheelEvent::WHEEL_UP : MouseWheelEvent::WHEEL_DOWN, vector2f(event.button.x,event.button.y)));
-			return Dispatch(MouseButtonEvent(MouseButtonEvent::BUTTON_DOWN, MouseButtonFromSDLButton(event.button.button), vector2f(event.button.x,event.button.y)));
+				return Dispatch(MouseWheelEvent(event.button.button == SDL_BUTTON_WHEELUP ? MouseWheelEvent::WHEEL_UP : MouseWheelEvent::WHEEL_DOWN, Point(event.button.x,event.button.y)));
+			return Dispatch(MouseButtonEvent(MouseButtonEvent::BUTTON_DOWN, MouseButtonFromSDLButton(event.button.button), Point(event.button.x,event.button.y)));
 
 		case SDL_MOUSEBUTTONUP:
 			if (event.button.button == SDL_BUTTON_WHEELUP || event.button.button == SDL_BUTTON_WHEELDOWN)
 				return false;
-			return Dispatch(MouseButtonEvent(MouseButtonEvent::BUTTON_UP, MouseButtonFromSDLButton(event.button.button), vector2f(event.button.x,event.button.y)));
+			return Dispatch(MouseButtonEvent(MouseButtonEvent::BUTTON_UP, MouseButtonFromSDLButton(event.button.button), Point(event.button.x,event.button.y)));
 
 		case SDL_MOUSEMOTION:
-			return Dispatch(MouseMotionEvent(vector2f(event.motion.x,event.motion.y)));
+			return Dispatch(MouseMotionEvent(Point(event.motion.x,event.motion.y)));
 	}
 
 	return false;
@@ -138,7 +139,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 	return false;
 }
 
-void EventDispatcher::DispatchMouseOverOut(Widget *target, const vector2f &mousePos)
+void EventDispatcher::DispatchMouseOverOut(Widget *target, const Point &mousePos)
 {
 	// do over/out handling for wherever the mouse is right now
 	if (target != m_lastMouseOverTarget.Get()) {
@@ -157,7 +158,7 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const vector2f &mouse
 			// if we're moving from float->non-float or non-float->float,
 			// force the out event on the last target by reporting a position
 			// that is by definition outside itself
-			const vector2f outPos = targetBase->IsFloating() != lastTargetBase->IsFloating() ? vector2f(-FLT_MAX) : mousePos-m_lastMouseOverTarget->GetAbsolutePosition();
+			const Point outPos = targetBase->IsFloating() != lastTargetBase->IsFloating() ? Point(-INT_MAX) : mousePos-m_lastMouseOverTarget->GetAbsolutePosition();
 			m_lastMouseOverTarget->TriggerMouseOut(outPos);
 		}
 

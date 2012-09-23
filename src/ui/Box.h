@@ -15,7 +15,7 @@ protected:
 	Box(Context *context, BoxOrientation orient, float spacing) : Container(context), m_orient(orient), m_spacing(spacing), m_countExpanded(0) {}
 
 public:
-	virtual vector2f PreferredSize();
+	virtual Point PreferredSize();
 	virtual void Layout();
 
 	enum BoxFlags { // <enum scope='UI::Box' name=UIBoxFlags prefix=BOX_>
@@ -40,15 +40,15 @@ private:
 		Child(Widget *_widget, Uint32 _flags) : widget(_widget), flags(_flags) {}
 		Widget   *widget;
 		Uint32    flags;
-		vector2f  preferredSize;
-		vector2f  size;
+		Point  preferredSize;
+		Point  size;
 		float     padding;
 	};
 
 	std::list<Child> m_children;
 	int m_countExpanded;
 
-	vector2f m_preferredSize;
+	Point m_preferredSize;
 };
 
 class VBox: public Box {

@@ -51,6 +51,7 @@ local earth = CustomSystemBody:new('Earth', 'PLANET_TERRESTRIAL')
 	:eccentricity(f(167,10000))
 	:rotation_period(f(1,1))
 	:axial_tilt(fixed.deg2rad(f(2344,100)))
+	:rotational_phase_at_start(fixed.deg2rad(f(170,1)))
 	:height_map('earth.hmap',0)
 	:metallicity(f(1,2))
 	:volcanicity(f(1,10))
@@ -96,6 +97,8 @@ local moon = {
 		:inclination(math.deg2rad(5.145))
 		:rotation_period(f(273,10))
 		:axial_tilt(fixed.deg2rad(f(668,100)))
+		:orbital_phase_at_start(fixed.deg2rad(f(0,1)))
+		:rotational_phase_at_start(fixed.deg2rad(f(0,1)))
 		:volcanicity(f(0,1)),
 	{
 		CustomSystemBody:new('Tranquility Base', 'STARPORT_SURFACE')

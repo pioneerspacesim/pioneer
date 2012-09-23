@@ -38,6 +38,7 @@ local buttonDefs = {
 	{ l.MM_START_NEW_GAME_LAVE,      function () Game.StartGame(SystemPath.New(-2,1,90,0,2))  setupPlayerCobra()                 end },
 	{ l.MM_START_NEW_GAME_DEBUG,     function () Game.StartGame(SystemPath.New(-1,9,-22,0,5)) setupPlayerEagle() addDebugEnemy() end },
 	{ l.MM_LOAD_SAVED_GAME,          function () ui:SetInnerWidget(ui.templates.FileDialog({ title = "Load game...", path = "savefiles" })) end },
+	{ l.MM_SETTINGS,                 function () print("settings") end },
 	{ l.MM_QUIT,                     function () print("quit") end },
 }
 

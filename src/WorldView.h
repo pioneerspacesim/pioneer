@@ -42,9 +42,6 @@ public:
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
 
-	void SetNavTunnelDisplayed(bool state) { m_navTunnelDisplayed = state; }
-	bool IsNavTunnelDisplayed() const { return m_navTunnelDisplayed; }
-
 	sigc::signal<void> onChangeCamType;
 
 private:
@@ -153,8 +150,6 @@ private:
 	Indicator m_combatTargetIndicator;
 	Indicator m_targetLeadIndicator;
 	Indicator m_mouseDirIndicator;
-
-	bool m_navTunnelDisplayed;
 
 	ScopedPtr<Gui::TexturedQuad> m_indicatorMousedir;
 	vector2f m_indicatorMousedirSize;

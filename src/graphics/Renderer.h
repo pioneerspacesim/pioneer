@@ -101,7 +101,7 @@ public:
 	virtual bool SetAmbientColor(const Color &c) { return false; }
 	const Color &GetAmbientColor() const { return m_ambient; }
 
-	virtual bool SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0) { return false; }
+	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) { return false; }
 
 	//drawing functions
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)

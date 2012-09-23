@@ -10,7 +10,7 @@ namespace UI {
 
 class Label: public Widget {
 public:
-	virtual vector2f PreferredSize();
+	virtual Point PreferredSize();
 	virtual void Layout();
 	virtual void Draw();
 
@@ -22,7 +22,7 @@ protected:
 
 private:
 	std::string m_text;
-	vector2f m_preferredSize;
+	Point m_preferredSize;
 };
 
 }

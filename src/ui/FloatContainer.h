@@ -9,11 +9,11 @@ class FloatContainer : public Container {
 public:
 	virtual void Layout();
 
-	void AddWidget(Widget *w, const vector2f &pos, const vector2f &size);
+	void AddWidget(Widget *w, const Point &pos, const Point &size);
 	void RemoveWidget(Widget *w);
 
 private:
-	virtual vector2f PreferredSize() { return 0; }
+	virtual Point PreferredSize() { return Point(); }
 
 	friend class Context;
 	FloatContainer(Context *context) : Container(context) {}

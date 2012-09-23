@@ -45,48 +45,49 @@ TextLayout::TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::
 	}
 }
 
-vector2f TextLayout::ComputeSize(const vector2f &maxArea)
+Point TextLayout::ComputeSize(const Point &maxArea)
 {
-	if (maxArea.ExactlyEqual(0)) return 0;
+    if (maxArea == Point()) return Point();
 
-	if (maxArea.ExactlyEqual(m_lastRequested))
+    if (maxArea == m_lastRequested)
 		return m_lastSize;
 	
-	float spaceWidth = m_font->GetGlyph(' ').advx;
-	float lineHeight = m_font->GetHeight();
+	int spaceWidth = ceilf(m_font->GetGlyph(' ').advx);
+	int lineHeight = ceilf(m_font->GetHeight());
 
-	vector2f pos;
-	vector2f bounds;
+	Point pos;
+	Point bounds;
 
 	for (std::vector<Word>::iterator i = m_words.begin(); i != m_words.end(); ++i) {
 
 		// newline. move to start of next line
 		if (!(*i).text.size()) {
-			pos = vector2f(0, std::max(bounds.y,pos.y+lineHeight));
+			pos = Point(0, std::max(bounds.y,pos.y+lineHeight));
 			continue;
 		}
 
-		vector2f wordSize;
-		m_font->MeasureString((*i).text.c_str(), wordSize.x, wordSize.y);
+		vector2f _wordSize;
+		m_font->MeasureString((*i).text.c_str(), _wordSize.x, _wordSize.y);
+		Point wordSize(_wordSize.x, _wordSize.y);
 
 		// we add the word to this line if:
 		// - we're at the start of the line; OR
 		// - the word does not go past the right edge of the box
 		bool wordAdded = false;
 		while (!wordAdded) {
-			if (is_zero_exact(pos.x) || pos.x + wordSize.x < maxArea.x) {
+			if (pos.x == 0 || pos.x + wordSize.x < maxArea.x) {
 				(*i).pos = pos;
 
 				// move to the end of the word
 				pos.x += wordSize.x;
-				bounds = vector2f(std::max(bounds.x,pos.x), std::max(bounds.y,pos.y+wordSize.y));
+				bounds = Point(std::max(bounds.x,pos.x), std::max(bounds.y,pos.y+wordSize.y));
 
 				wordAdded = true;
 			}
 
 			else
 				// retry at start of new line
-				pos = vector2f(0,std::max(bounds.y,pos.y+lineHeight));
+				pos = Point(0,std::max(bounds.y,pos.y+lineHeight));
 		}
 
 		// add a space at the end of each word. its only used to set the start
@@ -101,7 +102,7 @@ vector2f TextLayout::ComputeSize(const vector2f &maxArea)
 	return bounds;
 }
 
-void TextLayout::Draw(const vector2f &maxArea)
+void TextLayout::Draw(const Point &maxArea)
 {
 	ComputeSize(maxArea);
 

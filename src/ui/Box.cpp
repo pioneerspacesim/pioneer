@@ -3,31 +3,31 @@
 
 namespace UI {
 
-static inline void GetComponentsForOrient(bool horiz, vector2f::Component &variableComponent, vector2f::Component &fixedComponent)
+static inline void GetComponentsForOrient(bool horiz, Point::Component &variableComponent, Point::Component &fixedComponent)
 {
 	if (horiz) {
-		variableComponent = vector2f::X;
-		fixedComponent = vector2f::Y;
+		variableComponent = Point::X;
+		fixedComponent = Point::Y;
 	}
 	else {
-		variableComponent = vector2f::Y;
-		fixedComponent = vector2f::X;
+		variableComponent = Point::Y;
+		fixedComponent = Point::X;
 	}
 }
 
-vector2f Box::PreferredSize()
+Point Box::PreferredSize()
 {
-	if (m_children.size() == 0) return 0;
+	if (m_children.size() == 0) return Point();
 
-	vector2f::Component vc, fc;
+	Point::Component vc, fc;
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);
 	
-	m_preferredSize = vector2f(0);
+	m_preferredSize = Point(0);
 
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		const vector2f childPreferredSize = (*i).preferredSize = (*i).widget->PreferredSize();
+		const Point childPreferredSize = (*i).preferredSize = (*i).widget->PreferredSize();
 
-		m_preferredSize[vc] = std::min(m_preferredSize[vc]+childPreferredSize[vc], FLT_MAX);
+		m_preferredSize[vc] = std::min(m_preferredSize[vc]+childPreferredSize[vc], INT_MAX);
 		m_preferredSize[fc] = std::max(m_preferredSize[fc], childPreferredSize[fc]);
 	}
 
@@ -43,14 +43,14 @@ void Box::Layout()
 
 	PreferredSize();
 
-	const vector2f boxSize = GetSize();
+	const Point boxSize = GetSize();
 
-	vector2f::Component vc, fc;
+	Point::Component vc, fc;
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);
 
 	float sizeRemaining = boxSize[vc] - (m_spacing * (m_children.size()-1));
 
-	vector2f childPos(0);
+	Point childPos(0);
 
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		(*i).padding = 0;
@@ -97,7 +97,7 @@ void Box::Layout()
 		}
 
 		for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-			vector2f pos = childPos;
+			Point pos = childPos;
 			pos[vc] += (*i).padding;
 
 			SetWidgetDimensions((*i).widget, pos, (*i).size);

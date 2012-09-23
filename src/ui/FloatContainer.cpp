@@ -7,7 +7,7 @@ void FloatContainer::Layout()
 	LayoutChildren();
 }
 
-void FloatContainer::AddWidget(Widget *w, const vector2f &pos, const vector2f &size)
+void FloatContainer::AddWidget(Widget *w, const Point &pos, const Point &size)
 {
 	assert(!w->IsFloating());
 	assert(!w->GetContainer());

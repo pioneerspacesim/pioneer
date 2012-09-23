@@ -4,9 +4,9 @@
 
 namespace UI {
 
-vector2f Background::PreferredSize()
+Point Background::PreferredSize()
 {
-	const vector2f borderSize(Skin::s_backgroundNormal.borderWidth*2);
+	const Point borderSize(Skin::s_backgroundNormal.borderWidth*2);
 	if (!GetInnerWidget()) return borderSize;
 	return GetInnerWidget()->PreferredSize() + borderSize;
 }
@@ -14,13 +14,13 @@ vector2f Background::PreferredSize()
 void Background::Layout()
 {
 	if (!GetInnerWidget()) return;
-	SetWidgetDimensions(GetInnerWidget(), vector2f(Skin::s_backgroundNormal.borderWidth), GetSize()-vector2f(Skin::s_backgroundNormal.borderWidth*2));
+	SetWidgetDimensions(GetInnerWidget(), Point(Skin::s_backgroundNormal.borderWidth), GetSize()-Point(Skin::s_backgroundNormal.borderWidth*2));
 	return GetInnerWidget()->Layout();
 }
 
 void Background::Draw()
 {
-	GetContext()->GetSkin().DrawBackgroundNormal(0, GetSize());
+	GetContext()->GetSkin().DrawBackgroundNormal(Point(), GetSize());
 	Single::Draw();
 }
 

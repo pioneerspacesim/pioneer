@@ -10,11 +10,11 @@ MultiLineText::MultiLineText(Context *context, const std::string &text) : Widget
 	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFontSize()), m_text));
 }
 
-vector2f MultiLineText::PreferredSize()
+Point MultiLineText::PreferredSize()
 {
-	if (!m_preferredSize.ExactlyEqual(0))
+	if (m_preferredSize != Point())
 		return m_preferredSize;
-	return m_layout->ComputeSize(0);
+	return m_layout->ComputeSize(Point());
 }
 
 void MultiLineText::Layout()

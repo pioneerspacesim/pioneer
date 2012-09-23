@@ -10,7 +10,7 @@ class TextLayout;
 
 class MultiLineText: public Widget {
 public:
-	virtual vector2f PreferredSize();
+	virtual Point PreferredSize();
 	virtual void Layout();
 	virtual void Draw();
 
@@ -24,7 +24,7 @@ protected:
 private:
 	std::string m_text;
 	ScopedPtr<TextLayout> m_layout;
-	vector2f m_preferredSize;
+	Point m_preferredSize;
 };
 
 }

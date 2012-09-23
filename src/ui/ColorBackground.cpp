@@ -16,7 +16,7 @@ ColorBackground::ColorBackground(Context *context, const Color &color) :
 
 void ColorBackground::Draw()
 {
-	const vector2f &size = GetSize();
+	const Point &size = GetSize();
 
 	// XXX I'd prefer a "clear region" method on the renderer, but I need to
 	// look up what's possible at the GL/D3D level to support it

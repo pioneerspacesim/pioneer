@@ -214,6 +214,8 @@ LOAD_A_GAME
     [L] Load a game
 EXIT_THIS_GAME
     Exit this game
+RETURN_TO_MENU
+    Return to menu
 WINDOW_OR_FULLSCREEN
     Windowed or fullscreen (restart to apply)
 FULL_SCREEN
@@ -620,6 +622,8 @@ MM_START_NEW_GAME_DEBUG
     New game starting on debug point
 MM_LOAD_SAVED_GAME
     Load a saved game
+MM_SETTINGS
+    Settings
 MM_QUIT
     Quit
 SCREENSHOT_FILENAME_TEMPLATE

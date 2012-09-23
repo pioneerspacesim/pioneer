@@ -12,27 +12,27 @@ Scroller::Scroller(Context *context) : Container(context), m_innerWidget(0)
 	m_slider->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnMouseWheel));
 }
 
-vector2f Scroller::PreferredSize()
+Point Scroller::PreferredSize()
 {
-	const vector2f sliderSize = m_slider->PreferredSize();
+	const Point sliderSize = m_slider->PreferredSize();
 	if (!m_innerWidget)
 		return sliderSize;
 
-	const vector2f innerWidgetSize = m_innerWidget->PreferredSize();
+	const Point innerWidgetSize = m_innerWidget->PreferredSize();
 
-	return vector2f(innerWidgetSize.x+sliderSize.x, std::max(innerWidgetSize.y, sliderSize.y));
+	return Point(innerWidgetSize.x+sliderSize.x, std::max(innerWidgetSize.y, sliderSize.y));
 }
 
 void Scroller::Layout()
 {
-	const vector2f size(GetSize());
-	const vector2f sliderSize = m_slider->PreferredSize();
+	const Point size(GetSize());
+	const Point sliderSize = m_slider->PreferredSize();
 
-	SetWidgetDimensions(m_slider, vector2f(size.x-sliderSize.x, 0), vector2f(sliderSize.x, size.y));
+	SetWidgetDimensions(m_slider, Point(size.x-sliderSize.x, 0), Point(sliderSize.x, size.y));
 	m_slider->Layout();
 
 	if (m_innerWidget) {
-		SetWidgetDimensions(m_innerWidget, 0, vector2f(size.x-sliderSize.x, size.y));
+		SetWidgetDimensions(m_innerWidget, Point(), Point(size.x-sliderSize.x, std::max(size.y, m_innerWidget->PreferredSize().y)));
 		m_innerWidget->Layout();
 	}
 }
@@ -41,7 +41,7 @@ void Scroller::OnScroll(float value)
 {
 	if (!m_innerWidget) return;
 
-	m_innerWidget->SetTransform(matrix4x4f::Translation(0, -(m_innerWidget->PreferredSize().y-GetSize().y)*value, 0));
+	m_innerWidget->SetTransform(matrix4x4f::Translation(0, -float(m_innerWidget->PreferredSize().y-GetSize().y)*value, 0));
 }
 
 bool Scroller::OnMouseWheel(const MouseWheelEvent &event)
