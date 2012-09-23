@@ -198,7 +198,7 @@ public:
 		DeleteAllChildren();
 
 		float ypos = 16.0f;
-		Add ((new Gui::Label(stringf(Lang::CASH)+": "+std::string(format_money(Pi::player->GetMoney()))))->Shadow(true), 40 ,ypos);
+		Add((new Gui::Label(std::string(Lang::CASH)+": "+format_money(Pi::player->GetMoney())))->Shadow(true), 40 ,ypos);
 		ypos = 56.0f;
 		Add((new Gui::Label(Lang::COMBAT_RATING))->Shadow(true), 40, ypos);
 		Add(new Gui::Label(Pi::combatRating[ Pi::CombatRating(Pi::player->GetKillCount()) ]), 40, ypos+YSEP);
