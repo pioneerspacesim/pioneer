@@ -2,6 +2,7 @@ Alpha 27
 
    * New features
      * The settings screen is now acessible from the main menu (#1187, #1512)
+     * There's now an option to enable texture compression (#1522)
 
    * Minor changes and tweaks
      * Smooth zoom animation in World, System, Sector and Galactic views (#1170)

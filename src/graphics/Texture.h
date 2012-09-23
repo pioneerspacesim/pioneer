@@ -33,15 +33,15 @@ enum TextureSampleMode {
 class TextureDescriptor {
 public:
 	TextureDescriptor() :
-		format(TEXTURE_RGBA), dataSize(1.0f), texSize(1.0f), sampleMode(LINEAR_CLAMP), generateMipmaps(false)
+		format(TEXTURE_RGBA), dataSize(1.0f), texSize(1.0f), sampleMode(LINEAR_CLAMP), generateMipmaps(false), allowCompression(true)
 	{}
 
-	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false) :
-		format(_format), dataSize(_dataSize), texSize(1.0f), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps)
+	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true) :
+		format(_format), dataSize(_dataSize), texSize(1.0f), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps), allowCompression(_allowCompression)
 	{}
 
-	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, const vector2f &_texSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false) :
-		format(_format), dataSize(_dataSize), texSize(_texSize), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps)
+	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, const vector2f &_texSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true) :
+		format(_format), dataSize(_dataSize), texSize(_texSize), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps), allowCompression(_allowCompression)
 	{}
 
 	const TextureFormat format;
@@ -49,6 +49,7 @@ public:
 	const vector2f texSize;
 	const TextureSampleMode sampleMode;
 	const bool generateMipmaps;
+	const bool allowCompression;
 
 	void operator=(const TextureDescriptor &o) {
 		const_cast<TextureFormat&>(format) = o.format;
@@ -56,6 +57,7 @@ public:
 		const_cast<vector2f&>(texSize) = o.texSize;
 		const_cast<TextureSampleMode&>(sampleMode) = o.sampleMode;
 		const_cast<bool&>(generateMipmaps) = o.generateMipmaps;
+		const_cast<bool&>(allowCompression) = o.allowCompression;
 	}
 };
 

@@ -46,12 +46,16 @@ struct SurfaceRenderInfo : public RenderInfo {
 	int glAmount; //index count OR vertex amount
 };
 
-RendererLegacy::RendererLegacy(int w, int h)
-: Renderer(w, h)
+RendererLegacy::RendererLegacy(const Graphics::Settings &vs)
+: Renderer(vs.width, vs.height)
 , m_numDirLights(0)
 , m_minZNear(10.f)
 , m_maxZFar(1000000.0f)
+, m_useCompressedTextures(false)
 {
+	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_ARB_texture_compression");
+	m_useCompressedTextures = useDXTnTextures;
+
 	glShadeModel(GL_SMOOTH);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
@@ -656,7 +660,7 @@ Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 
 Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)
 {
-	return new TextureGL(descriptor);
+	return new TextureGL(descriptor, m_useCompressedTextures);
 }
 
 

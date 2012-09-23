@@ -79,6 +79,7 @@ private:
 	void OnChangeVideoResolution(int res);
 	void OnToggleShaders(Gui::ToggleButton *b, bool state);
 	void OnToggleFullscreen(Gui::ToggleButton *b, bool state);
+	void OnToggleCompressTextures(Gui::ToggleButton *b, bool state);
 	void OnToggleJoystick(Gui::ToggleButton *b, bool state);
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
 	void OnToggleNavTunnel(Gui::ToggleButton *b, bool state);
@@ -98,6 +99,7 @@ private:
 	Gui::RadioGroup *m_languageGroup;
 	Gui::ToggleButton *m_toggleShaders;
 	Gui::ToggleButton *m_toggleFullscreen;
+	Gui::ToggleButton *m_toggleCompressTextures;
 	Gui::ToggleButton *m_toggleJoystick;
 	Gui::ToggleButton *m_toggleMouseYInvert;
 	Gui::ToggleButton *m_toggleNavTunnel;
