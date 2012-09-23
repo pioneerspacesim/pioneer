@@ -9,10 +9,26 @@ the mouse.
 
 The eight main console buttons are activated by the F1-F8 keys or the mouse.
 
-F1: Change view.
+F1: Change view mode (cockpit/external/sidereal)
 F2: Use the map system.
 F3: Look at your own information.
 F4: Select targets, operate autopilot and communicate.
+
+The view direction can be controlled, with keys:
+KP 8: Front Camera / Rotate External/Sidereal Up
+KP 2: Rear Camera / Rotate External/Sidereal Down
+KP 4: Left Camera / Rotate External/Sidereal Left
+KP 6: Right Camera / Rotate External/Sidereal Right
+KP 9: Top Camera
+KP 3: Bottom Camera / Roll External/Sidereal Right
+KP 7: Cockpit view forward
+KP 1: Cockpit view rearward / Roll External/Sidereal Left
++: Zoom in (external/sidereal view only)
+-: Zoom out (external/sidereal view only)
+Home: Reset zoom (sidereal view only)
+
+(NOTE: If you do not have a numeric keypad, please rebind the view direction
+controls from the View tab in the Settings screen)
 
 The next four buttons change function depending on the first four. Hover the
 mouse over them to see what they do.
