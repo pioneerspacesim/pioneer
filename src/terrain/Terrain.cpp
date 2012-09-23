@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Terrain.h"
 #include "perlin.h"
 #include "Pi.h"
@@ -407,10 +410,16 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 	m_volcanic = Clamp(m_body->m_volcanicity.ToDouble(), 0.0, 1.0); // height scales with volcanicity as well
 
 	const double rad = m_body->GetRadius();
-	m_maxHeightInMeters = std::max(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (m_body->GetMass() * 6.64e-12));
-	if (!isfinite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
-	//             ^^^^ max mountain height for earth-like planet (same mass, radius)
-	// and then in sphere normalized jizz
+	
+	// calculate max height	
+	if ((m_body->heightMapFilename) && m_body->heightMapFractal > 1){ // if scaled heightmap 	
+		m_maxHeightInMeters = 1.1*pow(2.0, 16.0)*m_heightScaling; // no min height required as it's added to radius in lua
+	}else {
+		m_maxHeightInMeters = std::max(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (m_body->GetMass() * 6.64e-12));
+		if (!isfinite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
+		//             ^^^^ max mountain height for earth-like planet (same mass, radius)
+		// and then in sphere normalized jizz
+	}
 	m_maxHeight = std::min(1.0, m_maxHeightInMeters / rad);
 	//printf("%s: max terrain height: %fm [%f]\n", m_body->name.c_str(), m_maxHeightInMeters, m_maxHeight);
 	m_invMaxHeight = 1.0 / m_maxHeight;

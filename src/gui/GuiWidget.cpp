@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Gui.h"
 #include "vector2.h"
 
@@ -6,6 +9,7 @@ namespace Gui {
 Widget::Widget()
 {
 	m_parent = 0;
+	m_size.w = m_size.h = 0.0f;
 	m_enabled = true;
 	m_visible = false;
 	m_mouseOver = false;

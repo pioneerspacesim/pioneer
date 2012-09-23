@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _TEXTUREGL_H
 #define _TEXTUREGL_H
 
@@ -22,7 +25,7 @@ public:
 private:
 	friend class RendererLegacy;
 	friend class RendererGL2;
-	TextureGL(const TextureDescriptor &descriptor);
+	TextureGL(const TextureDescriptor &descriptor, const bool useCompressed);
 
 	GLenum m_target;
 	GLuint m_texture;

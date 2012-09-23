@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Gui.h"
 
@@ -6,12 +9,14 @@ namespace Gui {
 Fixed::Fixed(): Container()
 {
 	_Init();
+	SetSize(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 }
 
 Fixed::Fixed(float w, float h): Container()
 {
 	float s[2] = { w, h };
 	_Init();
+	SetSize(w, h);
 	SetSizeRequest(s);
 }
 

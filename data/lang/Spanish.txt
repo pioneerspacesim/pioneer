@@ -214,6 +214,8 @@ LOAD_A_GAME
     [L] Cargar un Juego
 EXIT_THIS_GAME
     Abandonar el Juego
+RETURN_TO_MENU
+    Volver a menu
 WINDOW_OR_FULLSCREEN
     Ventana o Pantalla completa (Reiniciar para aplicar)
 FULL_SCREEN
@@ -620,6 +622,8 @@ MM_START_NEW_GAME_DEBUG
     Comenzar Juego Nuevo en punto de depuración
 MM_LOAD_SAVED_GAME
     Cargar un juego
+MM_SETTINGS
+    Ajustes
 MM_QUIT
     Salir
 SCREENSHOT_FILENAME_TEMPLATE
@@ -1200,3 +1204,27 @@ X_PASSENGER_CABINS
     %quantity cabinas de pasajeros ocupadas
 CABINS
     Cabinas
+MONTH_JAN
+    Ene
+MONTH_FEB
+    Feb
+MONTH_MAR
+    Mar
+MONTH_APR
+    Abr
+MONTH_MAY
+    May
+MONTH_JUN
+    Jun
+MONTH_JUL
+    Jul
+MONTH_AUG
+    Ago
+MONTH_SEP
+    Sep
+MONTH_OCT
+    Oct
+MONTH_NOV
+    Nov
+MONTH_DEC
+    Dic

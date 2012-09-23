@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GAMEMENUVIEW_H
 #define _GAMEMENUVIEW_H
 
@@ -76,11 +79,11 @@ private:
 	void OnChangeVideoResolution(int res);
 	void OnToggleShaders(Gui::ToggleButton *b, bool state);
 	void OnToggleFullscreen(Gui::ToggleButton *b, bool state);
+	void OnToggleCompressTextures(Gui::ToggleButton *b, bool state);
 	void OnToggleJoystick(Gui::ToggleButton *b, bool state);
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
 	void OnToggleNavTunnel(Gui::ToggleButton *b, bool state);
 	bool m_changedDetailLevel;
-	View *m_subview;
 	Gui::Button *m_saveButton;
 	Gui::Button *m_loadButton;
 	Gui::Button *m_exitButton;
@@ -96,6 +99,7 @@ private:
 	Gui::RadioGroup *m_languageGroup;
 	Gui::ToggleButton *m_toggleShaders;
 	Gui::ToggleButton *m_toggleFullscreen;
+	Gui::ToggleButton *m_toggleCompressTextures;
 	Gui::ToggleButton *m_toggleJoystick;
 	Gui::ToggleButton *m_toggleMouseYInvert;
 	Gui::ToggleButton *m_toggleNavTunnel;

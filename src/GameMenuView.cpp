@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "GameMenuView.h"
 #include "Pi.h"
 #include "Serializer.h"
@@ -165,8 +168,6 @@ GameMenuView::~GameMenuView()
 
 GameMenuView::GameMenuView(): View()
 {
-	m_subview = 0;
-
 	Gui::Tabbed *tabs = new Gui::Tabbed();
 	Add(tabs, 0, 0);
 
@@ -224,6 +225,10 @@ GameMenuView::GameMenuView(): View()
 		hbox->SetSpacing(5.0f);
 		hbox->PackEnd(m_toggleShaders);
 		hbox->PackEnd(new Gui::Label(Lang::USE_SHADERS));
+		m_toggleCompressTextures = new Gui::ToggleButton();
+		m_toggleCompressTextures->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleCompressTextures));
+		hbox->PackEnd(m_toggleCompressTextures);
+		hbox->PackEnd(new Gui::Label(Lang::COMPRESS_TEXTURES));
 		vbox->PackEnd(hbox);
 
 		vbox->PackEnd((new Gui::Label(Lang::SOUND_SETTINGS))->Color(1.0f,1.0f,0.0f));
@@ -581,6 +586,12 @@ void GameMenuView::OnToggleFullscreen(Gui::ToggleButton *b, bool state)
 //#endif
 }
 
+void GameMenuView::OnToggleCompressTextures(Gui::ToggleButton *b, bool state)
+{
+	Pi::config->SetInt("UseTextureCompression", (state ? 1 : 0));
+	Pi::config->Save();
+}
+
 void GameMenuView::OnToggleShaders(Gui::ToggleButton *b, bool state)
 {
 	Pi::config->SetInt("DisableShaders", (state ? 0 : 1));
@@ -662,16 +673,13 @@ void GameMenuView::ShowAll() {
 
 void GameMenuView::OnSwitchTo() {
 	m_changedDetailLevel = false;
-	if (m_subview) {
-		delete m_subview;
-		m_subview = 0;
-	}
 	m_planetDetailGroup->SetSelected(Pi::detail.planets);
 	m_planetTextureGroup->SetSelected(Pi::detail.textures);
 	m_planetFractalGroup->SetSelected(Pi::detail.fracmult);
 	m_cityDetailGroup->SetSelected(Pi::detail.cities);
 	m_toggleShaders->SetPressed(Pi::config->Int("DisableShaders") == 0);
 	m_toggleFullscreen->SetPressed(Pi::config->Int("StartFullscreen") != 0);
+	m_toggleCompressTextures->SetPressed(Pi::config->Int("UseTextureCompression") != 0);
 	m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
 	m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
 	m_toggleNavTunnel->SetPressed(Pi::IsNavTunnelDisplayed());
