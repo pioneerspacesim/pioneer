@@ -162,9 +162,9 @@ Renderer* Init(const Settings &vs)
 	shadersEnabled = vs.shaders && shadersAvailable;
 
 	if (shadersEnabled)
-		renderer = new RendererGL2(vs.width, vs.height);
+		renderer = new RendererGL2(vs);
 	else
-		renderer = new RendererLegacy(vs.width, vs.height);
+		renderer = new RendererLegacy(vs);
 
 	printf("Initialized %s\n", renderer->GetName());
 

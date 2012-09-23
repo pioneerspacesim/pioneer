@@ -7,6 +7,14 @@
 //warning C4715: 'Graphics::GLImageTypeForTextureFormat' : not all control paths return a value
 namespace Graphics {
 
+inline GLint GLCompressedTextureFormat(TextureFormat format) {
+	switch (format) {
+		case TEXTURE_RGBA: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		case TEXTURE_RGB:  return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
+		default: assert(0); return 0;
+	}
+}
+
 inline GLint GLTextureFormat(TextureFormat format) {
 	switch (format) {
 		case TEXTURE_RGBA: return GL_RGBA;
@@ -46,21 +54,28 @@ inline GLint GLImageTypeForTextureFormat(TextureFormat format) {
 	}
 }
 
-TextureGL::TextureGL(const TextureDescriptor &descriptor) : Texture(descriptor), m_target(GL_TEXTURE_2D) // XXX don't force target
+TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed) : 
+	Texture(descriptor), m_target(GL_TEXTURE_2D) // XXX don't force target
 {
 	glGenTextures(1, &m_texture);
 	glBindTexture(m_target, m_texture);
 
 	glEnable(m_target);
 
+	// useCompressed is the global scope flag whereas descriptor.allowCompression is the local texture mode flag
+	// either both or neither might be true however only compress the texture when both are true.
+	const bool compressTexture = useCompressed && descriptor.allowCompression;
+
 	switch (m_target) {
 		case GL_TEXTURE_2D:
 			if (descriptor.generateMipmaps)
 				glTexParameteri(m_target, GL_GENERATE_MIPMAP, GL_TRUE);
+
 			glTexImage2D(
-				m_target, 0, GLTextureFormat(descriptor.format),
+				m_target, 0, compressTexture ? GLCompressedTextureFormat(descriptor.format) : GLTextureFormat(descriptor.format),
 				descriptor.dataSize.x, descriptor.dataSize.y, 0,
-				GLImageFormatForTextureFormat(descriptor.format), GLImageTypeForTextureFormat(descriptor.format), 0);
+				GLImageFormatForTextureFormat(descriptor.format), 
+				GLImageTypeForTextureFormat(descriptor.format), 0);
 			break;
 
 		default:
