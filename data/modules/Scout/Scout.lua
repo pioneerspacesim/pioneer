@@ -332,10 +332,10 @@ local unserialize = function (data)
 	loaded_data = data
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onUpdateBB:Connect(onUpdateBB)
-EventQueue.onFrameChanged:Connect(onFrameChanged)
-EventQueue.onShipDocked:Connect(onShipDocked)
-EventQueue.onGameStart:Connect(onGameStart)
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onUpdateBB", onUpdateBB)
+Event.Register("onFrameChanged", onFrameChanged)
+Event.Register("onShipDocked", onShipDocked)
+Event.Register("onGameStart", onGameStart)
 
 Serializer:Register("Scout", serialize, unserialize)
