@@ -26,6 +26,7 @@ Alpha 27
      * Terrain patches are now rendered more efficiently (#1507)
      * Many minor cleanups identified by valgrind (#1524)
      * Copyright and license is now made explicit at the top of all code files (#1515)
+     * Max terrain height for heightmapped planets is computed more accurately (#1504)
 
 Alpha 26
 
