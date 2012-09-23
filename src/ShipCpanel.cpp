@@ -128,8 +128,7 @@ void ShipCpanel::InitObject()
 	m_camButton = new Gui::MultiStateImageButton();
 	m_leftButtonGroup->Add(m_camButton);
 	m_camButton->SetSelected(true);
-	m_camButton->AddState(WorldView::CAM_FRONT, "icons/cam_front.png", "icons/cam_front_on.png", Lang::FRONT_VIEW);
-	m_camButton->AddState(WorldView::CAM_REAR, "icons/cam_rear.png", "icons/cam_rear_on.png", Lang::REAR_VIEW);
+	m_camButton->AddState(WorldView::COCKPIT_FRONT, "icons/cam_internal.png", "icons/cam_internal_on.png", Lang::INTERNAL_VIEW);
 	m_camButton->AddState(WorldView::CAM_EXTERNAL, "icons/cam_external.png", "icons/cam_external_on.png", Lang::EXTERNAL_VIEW);
 	m_camButton->AddState(WorldView::CAM_SIDEREAL, "icons/cam_sidereal.png", "icons/cam_sidereal_on.png", Lang::SIDEREAL_VIEW);
 	m_camButton->SetShortcut(SDLK_F1, KMOD_NONE);
@@ -213,19 +212,6 @@ void ShipCpanel::InitObject()
 	img->SetRenderDimensions(20, 13);
 	Add(img, 780, 37);
 	m_alertLights[2] = img;
-
-	CameraSwitchWidget *camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_FRONT);
-	camSwitcher->SetShortcut(SDLK_1, KMOD_LSHIFT);
-	Add(camSwitcher,0,0);
-	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_REAR);
-	camSwitcher->SetShortcut(SDLK_2, KMOD_LSHIFT);
-	Add(camSwitcher,0,0);
-	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_EXTERNAL);
-	camSwitcher->SetShortcut(SDLK_3, KMOD_LSHIFT);
-	Add(camSwitcher,0,0);
-	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_SIDEREAL);
-	camSwitcher->SetShortcut(SDLK_4, KMOD_LSHIFT);
-	Add(camSwitcher,0,0);
 
 	m_overlay[OVERLAY_TOP_LEFT]     = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_TOP_RIGHT]    = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -334,6 +320,15 @@ void ShipCpanel::SwitchToCamera(WorldView::CamType t)
 
 void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 {
+	Pi::BoinkNoise();
+	int newState = b->GetState();
+		switch (newState) {
+			case WorldView::COCKPIT_FRONT: break;
+			case WorldView::CAM_EXTERNAL:
+			case WorldView::CAM_SIDEREAL:
+			default: break;
+		}
+	b->SetActiveState(newState);
 	SwitchToCamera(WorldView::CamType(b->GetState()));
 	Pi::SetView(Pi::worldView);
 }

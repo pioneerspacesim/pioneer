@@ -744,9 +744,9 @@ SHIP_IS_FULLY_LADEN
     Su nave está completamente cargada.
 YOU_DO_NOT_HAVE_ANY_X
     No dispone de %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Vista frontal
-REAR_VIEW
+CAMERA_REAR_VIEW
     Vista trasera
 EXTERNAL_VIEW
     Vista externa
