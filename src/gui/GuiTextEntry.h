@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GUITEXTENTRY_H
 #define _GUITEXTENTRY_H
 
@@ -23,6 +26,7 @@ namespace Gui {
 		void SetText(const std::string &text);
 		std::string GetText() const { return m_text; }
 		void SetCursorPos(int pos) { m_cursPos = Clamp(pos, 0, signed(m_text.size())); }
+		int GetCursorPos() const { return m_cursPos; };
 		virtual bool OnKeyPress(const SDL_keysym *);
 		virtual void Show() { GrabFocus(); Widget::Show(); }
 		virtual void GrabFocus();

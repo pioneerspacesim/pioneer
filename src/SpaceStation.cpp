@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "SpaceStation.h"
 #include "Ship.h"
 #include "Planet.h"
@@ -11,12 +14,14 @@
 #include "Polit.h"
 #include "LmrModel.h"
 #include "LuaVector.h"
+#include "LuaEvent.h"
 #include "Polit.h"
 #include "Space.h"
 #include "Lang.h"
 #include "StringF.h"
 #include <algorithm>
 #include "Game.h"
+#include "graphics/Graphics.h"
 
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
@@ -301,6 +306,7 @@ SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 	m_lastUpdatedShipyard = 0;
 	m_numPoliceDocked = Pi::rng.Int32(3,10);
 	m_bbCreated = false;
+	m_bbShuffled = false;
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].ship = 0;
@@ -317,7 +323,7 @@ SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 void SpaceStation::InitStation()
 {
 	m_adjacentCity = 0;
-	for(int i=0; i<4; i++) m_staticSlot[i] = false;
+	for(int i=0; i<NUM_STATIC_SLOTS; i++) m_staticSlot[i] = false;
 	MTRand rand(m_sbody->seed);
 	if (m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) {
 		m_type = &orbitalStationTypes[ rand.Int32(orbitalStationTypes.size()) ];
@@ -325,10 +331,12 @@ void SpaceStation::InitStation()
 	} else {
 		m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
 	}
-	GetLmrObjParams().animStages[ANIM_DOCKING_BAY_1] = 1;
-	GetLmrObjParams().animValues[ANIM_DOCKING_BAY_1] = 1.0;
+
+	LmrObjParams &params = GetLmrObjParams();
+	params.animStages[ANIM_DOCKING_BAY_1] = 1;
+	params.animValues[ANIM_DOCKING_BAY_1] = 1.0;
 	// XXX the animation namespace must match that in LuaConstants
-	GetLmrObjParams().animationNamespace = "SpaceStationAnimation";
+	params.animationNamespace = "SpaceStationAnimation";
 	SetModel(m_type->modelName, true);
 }
 
@@ -435,7 +443,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 			if (dt.stage >= 0) {
 				// set docked
 				dt.ship->SetDockedWith(this, i);
-				Pi::luaOnShipDocked->Queue(dt.ship, this);
+				LuaEvent::Queue("onShipDocked", dt.ship, this);
 			} else {
 				if (!dt.ship->IsEnabled()) {
 					// launch ship
@@ -450,7 +458,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 						dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
 						dt.ship->SetThrusterState(2, -1.0);		// forward
 					}
-					Pi::luaOnShipUndocked->Queue(dt.ship, this);
+					LuaEvent::Queue("onShipUndocked", dt.ship, this);
 				}
 			}
 		}
@@ -519,7 +527,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 
 	// if there is and it hasn't had an update for a while, update it
 	else if (Pi::game->GetTime() > m_lastUpdatedShipyard) {
-		Pi::luaOnUpdateBB->Queue(this);
+		LuaEvent::Queue("onUpdateBB", this);
 		update = true;
 	}
 
@@ -762,7 +770,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					s->SetFlightState(Ship::DOCKING);
 				} else {
 					s->SetDockedWith(this, port);
-					Pi::luaOnShipDocked->Queue(s, this);
+					LuaEvent::Queue("onShipDocked", s, this);
 				}
 			}
 		}
@@ -781,7 +789,112 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 	}
 }
 
-void SpaceStation::Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+// Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location
+// 1. Calculates the amount of direct illumination available taking into account
+//    * multiple suns 
+//    * sun positions relative to up direction i.e. light is dimmed as suns set 
+//    * Thickness of the atmosphere overhead i.e. as atmospheres get thicker light starts dimming earlier as sun sets, without atmosphere the light switches off at point of sunset
+// 2. Calculates the split between ambient and directly lit portions taking into account
+//    * Atmosphere density (optical thickness) of the sky dome overhead
+//        as optical thickness increases the fraction of ambient light increases
+//        this takes altitude into account automatically
+//    * As suns set the split is biased towards ambient 
+void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::LightSource> &lightSources)
+{
+	// position relative to the rotating frame of the planet
+	vector3d upDir = GetPosition();
+	double dist = upDir.Length();
+	upDir = upDir.Normalized();
+	double pressure, density;
+	planet->GetAtmosphericState(dist, &pressure, &density);
+	double surfaceDensity;
+	Color cl;
+	planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
+
+	// approximate optical thickness fraction as fraction of density remaining relative to earths
+	double opticalThicknessFraction = density/EARTH_ATMOSPHERE_SURFACE_DENSITY;
+	// tweak optical thickness curve - lower exponent ==> higher altitude before ambient level drops
+	opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
+
+	//step through all the lights and calculate contributions taking into account sun position
+	double light = 0.0;
+	double light_clamped = 0.0;
+
+	for(std::vector<Camera::LightSource>::const_iterator l = lightSources.begin();
+		l != lightSources.end(); ++l) {
+			
+			double sunAngle;
+			// calculate the extent the sun is towards zenith
+			if (l->GetBody()){
+				// relative to the rotating frame of the planet
+				const vector3d lightDir = (l->GetBody()->GetInterpolatedPositionRelTo(planet->GetFrame()).Normalized());
+				sunAngle = lightDir.Dot(upDir);
+			} else 
+				// light is the default light for systems without lights
+				sunAngle = 1.0;
+
+			//0 to 1 as sunangle goes from 0.0 to 1.0
+			double sunAngle2 = (Clamp(sunAngle, 0.0,1.0))/1.0;
+
+			//0 to 1 as sunAngle goes from endAngle to startAngle
+
+			// angle at which light begins to fade on Earth
+			const double startAngle = 0.3;
+			// angle at which sun set completes, which should be after sun has dipped below the horizon on Earth
+			const double endAngle = -0.08;
+
+			const double start = std::min((startAngle*opticalThicknessFraction),1.0);
+			const double end = std::max((endAngle*opticalThicknessFraction),-0.2);
+
+			sunAngle = (Clamp(sunAngle, end, start)-end)/(start-end);
+			
+			light += sunAngle;
+			light_clamped += sunAngle2;
+	}
+
+
+	// brightness depends on optical depth and intensity of light from all the stars
+	intensity = (Clamp((light),0.0,1.0));
+
+
+	// ambient light fraction
+	// alter ratio between directly and ambiently lit portions towards ambiently lit as sun sets
+	double fraction = (0.4+0.4*(
+						1.0-light_clamped*(Clamp((opticalThicknessFraction),0.0,1.0))
+						)*0.8+0.2); //fraction goes from 0.6 to 1.0
+					  
+	
+	// fraction of light left over to be lit directly
+	intensity = (1.0-fraction)*intensity;
+
+	// scale ambient by amount of light
+	ambient = fraction*(Clamp((light),0.0,1.0));
+}
+
+// if twilight or night fade in model at close ranges by increasing scene ambient lighting to minIllumination
+// dist is distance in meters to model in camera space
+void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, double fadeInEnd, double fadeInLength, double illumination, double minIllumination)
+{
+	if (illumination <= minIllumination) {
+		
+		fadeInEnd = std::max(std::max(modelRadius,10.0), fadeInEnd);
+		const double fadeInStart = fadeInLength+fadeInEnd;
+		// 0 to 1 as dist goes from fadeInEnd to fadeInStart
+		double sceneAmbient = 1.0-(Clamp(dist, fadeInEnd, fadeInStart)-fadeInEnd)/((fadeInStart-fadeInEnd));
+		
+		//set scene ambient to the amount needed to take illumination level to 0.2
+		sceneAmbient*= minIllumination-illumination;
+
+		r->SetAmbientColor(Color(sceneAmbient, sceneAmbient, sceneAmbient, 1.0));
+	}
+}
+// Renders space station and adjacent city if applicable
+// For orbital starports: renders as normal
+// For surface starports: 
+//	Lighting: Calculates available light for model and splits light between directly and ambiently lit
+//            Lighting is done by manipulating global lights or setting uniforms in atmospheric models shader
+//            Adds an ambient light at close ranges if dark by manipulating the global ambient level
+void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	LmrObjParams &params = GetLmrObjParams();
 	params.label = GetLabel().c_str();
@@ -792,25 +905,91 @@ void SpaceStation::Render(Graphics::Renderer *r, const vector3d &viewCoords, con
 		params.animValues[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stagePos;
 	}
 
-	RenderLmrModel(viewCoords, viewTransform);
+	Body *b = GetFrame()->m_astroBody;
+	assert(b);
 
-	/* don't render city if too far away */
-	if (viewCoords.Length() > 1000000.0) return;
+	if (!b->IsType(Object::PLANET)) {
+		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
+		RenderLmrModel(viewCoords, viewTransform);
+	}
+	
+	else {
+		Planet *planet = static_cast<Planet*>(b);
+		
+		// calculate lighting
+		// available light is calculated and split between directly (diffusely/specularly) lit and ambiently lit
+		const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
+		double ambient, intensity;
+		CalcLighting(planet, ambient, intensity, lightSources);
 
-	// find planet Body*
-	Planet *planet;
-	{
-		Body *_planet = GetFrame()->m_astroBody;
-		if ((!_planet) || !_planet->IsType(Object::PLANET)) {
-			// orbital spaceport -- don't make city turds
-		} else {
-			planet = static_cast<Planet*>(_planet);
+		std::vector<Graphics::Light> origLights, newLights;
+		
+		for(size_t i = 0; i < lightSources.size(); i++) {
+			Graphics::Light light(lightSources[i].GetLight());
 
+			origLights.push_back(light);
+
+			Color c = light.GetDiffuse();
+			Color ca = light.GetAmbient();
+			Color cs = light.GetSpecular();
+			ca.r = c.r * float(ambient);
+			ca.g = c.g * float(ambient);
+			ca.b = c.b * float(ambient);
+			c.r*=float(intensity);
+			c.g*=float(intensity);
+			c.b*=float(intensity);
+			cs.r*=float(intensity);
+			cs.g*=float(intensity);
+			cs.b*=float(intensity);
+			light.SetDiffuse(c);
+			light.SetAmbient(ca);
+			light.SetSpecular(cs);
+
+			newLights.push_back(light);
+		}
+
+		r->SetLights(newLights.size(), &newLights[0]);
+
+		double overallLighting = ambient+intensity;
+
+		// turn off global ambient color
+		const Color oldAmbient = r->GetAmbientColor();
+		r->SetAmbientColor(Color::BLACK);
+
+		// as the camera gets close adjust scene ambient so that intensity+ambient = minIllumination
+		double fadeInEnd, fadeInLength, minIllumination;
+		if (Graphics::AreShadersEnabled()) {
+			minIllumination = 0.125;
+			fadeInEnd = 800.0;
+			fadeInLength = 2000.0;
+		}
+		else {
+			minIllumination = 0.25;
+			fadeInEnd = 1500.0;
+			fadeInLength = 3000.0;
+		}
+
+		/* don't render city if too far away */
+		if (viewCoords.Length() < 1000000.0){
+			r->SetAmbientColor(Color::BLACK);
 			if (!m_adjacentCity) {
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
-			m_adjacentCity->Render(r, this, viewCoords, viewTransform);
-		}
+			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform, overallLighting, minIllumination);
+		} 
+
+		r->SetAmbientColor(Color::BLACK);
+
+		FadeInModelIfDark(r, GetLmrCollMesh()->GetBoundingRadius(),
+							viewCoords.Length(), fadeInEnd, fadeInLength, overallLighting, minIllumination);
+
+		RenderLmrModel(viewCoords, viewTransform);
+
+		// restore old lights
+		r->SetLights(origLights.size(), &origLights[0]);
+
+		// restore old ambient color
+		r->SetAmbientColor(oldAmbient);
 	}
 }
 
@@ -819,7 +998,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const vector3d &viewCoords, con
 // great place for this, but its gotta be tracked somewhere
 bool SpaceStation::AllocateStaticSlot(int& slot)
 {
-	for (int i=0; i<4; i++) {
+	for (int i=0; i<NUM_STATIC_SLOTS; i++) {
 		if (!m_staticSlot[i]) {
 			m_staticSlot[i] = true;
 			slot = i;
@@ -845,7 +1024,7 @@ void SpaceStation::CreateBB()
 		}
 	}
 
-	Pi::luaOnCreateBB->Queue(this);
+	LuaEvent::Queue("onCreateBB", this);
 	m_bbCreated = true;
 }
 
@@ -870,7 +1049,7 @@ int SpaceStation::AddBBAdvert(std::string description, AdvertFormBuilder builder
 
 const BBAdvert *SpaceStation::GetBBAdvert(int ref)
 {
-	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
 		if (i->ref == ref)
 			return &(*i);
 	return NULL;
@@ -878,7 +1057,7 @@ const BBAdvert *SpaceStation::GetBBAdvert(int ref)
 
 bool SpaceStation::RemoveBBAdvert(int ref)
 {
-	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+	for (std::vector<BBAdvert>::iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
 		if (i->ref == ref) {
 			BBAdvert ad = (*i);
 			m_bbAdverts.erase(i);
@@ -896,7 +1075,7 @@ const std::list<const BBAdvert*> SpaceStation::GetBBAdverts()
 	}
 
 	std::list<const BBAdvert*> ads;
-	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); i++)
+	for (std::vector<BBAdvert>::const_iterator i = m_bbAdverts.begin(); i != m_bbAdverts.end(); ++i)
 		ads.push_back(&(*i));
 	return ads;
 }

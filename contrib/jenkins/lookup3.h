@@ -1,7 +1,7 @@
 #ifndef _LOOKUP3_H
 #define _LOOKUP3_H
 
-#include <SDL/SDL_stdinc.h>
+#include <SDL_stdinc.h>
 
 uint32_t lookup3_hashword(
 	const uint32_t *k,       /* the key, an array of uint32_t values */

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SFX_H
 #define _SFX_H
 
@@ -7,6 +10,7 @@
 class Frame;
 namespace Graphics {
 	class Renderer;
+	class Material;
 	namespace Drawables {
 		class Sphere3D;
 	}
@@ -23,14 +27,16 @@ public:
 	static void Unserialize(Serializer::Reader &rd, Frame *f);
 
 	Sfx();
-	void SetPosition(vector3d p);
+	void SetPosition(const vector3d &p);
 	vector3d GetPosition() const { return m_pos; }
 
 	//create shared models
-	static void Init();
+	static void Init(Graphics::Renderer *r);
 	static void Uninit();
 	static Graphics::Drawables::Sphere3D *shieldEffect;
 	static Graphics::Drawables::Sphere3D *explosionEffect;
+	static Graphics::Material *damageParticle;
+	static Graphics::Material *ecmParticle;
 
 private:
 	static Sfx *AllocSfxInFrame(Frame *f);

@@ -214,14 +214,18 @@ LOAD_A_GAME
     [L] Load a game
 EXIT_THIS_GAME
     Exit this game
+RETURN_TO_MENU
+    Return to menu
 WINDOW_OR_FULLSCREEN
     Windowed or fullscreen (restart to apply)
 FULL_SCREEN
     Full screen
+COMPRESS_TEXTURES
+	Compress Textures
 OTHER_GRAPHICS_SETTINGS
-    Other graphics settings
+    Other graphics settings (restart to apply)
 USE_SHADERS
-    Use shaders (restart to apply)
+    Use shaders
 SOUND_SETTINGS
     Sound settings
 VOL_MASTER
@@ -620,6 +624,8 @@ MM_START_NEW_GAME_DEBUG
     New game starting on debug point
 MM_LOAD_SAVED_GAME
     Load a saved game
+MM_SETTINGS
+    Settings
 MM_QUIT
     Quit
 SCREENSHOT_FILENAME_TEMPLATE
@@ -1011,7 +1017,9 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Demographics
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}.
+    Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}
+COUNT_ON_SURFACE
+    " (%surfacecount on surface)"
 BODY
     body
 BODIES
@@ -1126,8 +1134,8 @@ PROBABILITY_OF_ARRIVAL_X_PERCENT
     Probability of arrival: %probability%%
 ALT_IN_METRES
     Alt: %altitude{f.0}m
-PRESSURE_N_BAR
-    P: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    P: %pressure{f.2} atm
 NO_HYPERDRIVE
     No hyperdrive
 MASS_N_TONNES
@@ -1198,3 +1206,27 @@ X_PASSENGER_CABINS
     %quantity Occupied Passenger Cabins
 CABINS
     Cabins
+MONTH_JAN
+    Jan
+MONTH_FEB
+    Feb
+MONTH_MAR
+    Mar
+MONTH_APR
+    Apr
+MONTH_MAY
+    May
+MONTH_JUN
+    Jun
+MONTH_JUL
+    Jul
+MONTH_AUG
+    Aug
+MONTH_SEP
+    Sep
+MONTH_OCT
+    Oct
+MONTH_NOV
+    Nov
+MONTH_DEC
+    Dec

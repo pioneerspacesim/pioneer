@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaEngine.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
@@ -46,7 +49,7 @@ static int l_engine_attr_rand(lua_State *l)
  *
  * Status:
  *
- *   stable
+ *   deprecated
  */
 static int l_engine_attr_userdir(lua_State *l)
 {
@@ -55,14 +58,36 @@ static int l_engine_attr_userdir(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: ticks
+ *
+ * Number of milliseconds since Pioneer was started. This should be used for
+ * debugging purposes only (eg timing) and should never be used for game logic
+ * of any kind.
+ *
+ * Availability:
+ *
+ *   alpha 26
+ *
+ * Status:
+ *
+ *   debug
+ */
+static int l_engine_attr_ticks(lua_State *l)
+{
+	lua_pushinteger(l, SDL_GetTicks());
+	return 1;
+}
+
 void LuaEngine::Register()
 {
 	static const luaL_Reg l_attrs[] = {
 		{ "rand",    l_engine_attr_rand    },
 		{ "userdir", l_engine_attr_userdir },
+		{ "ticks",   l_engine_attr_ticks   },
 		{ 0, 0 }
 	};
 
 	LuaObjectBase::CreateObject(0, l_attrs, 0);
-	lua_setglobal(Pi::luaManager->GetLuaState(), "Engine");
+	lua_setglobal(Lua::manager->GetLuaState(), "Engine");
 }

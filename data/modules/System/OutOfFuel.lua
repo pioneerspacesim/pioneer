@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 local t = Translate:GetTranslator()
 
 local onShipFuelChanged = function (ship, state)
@@ -14,4 +17,4 @@ local onShipFuelChanged = function (ship, state)
 	end
 end
 
-EventQueue.onShipFuelChanged:Connect(onShipFuelChanged)
+Event.Register("onShipFuelChanged", onShipFuelChanged)

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Space.h"
 #include "Body.h"
@@ -20,13 +23,14 @@
 #include "Lang.h"
 #include "Game.h"
 #include "MathUtil.h"
+#include "LuaEvent.h"
 
 Space::Space(Game *game)
 	: m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
-	, m_background(UNIVERSE_SEED)
+	, m_background(Pi::renderer, UNIVERSE_SEED)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -40,6 +44,7 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
+	, m_background(Pi::renderer)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -62,6 +67,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
+	, m_background(Pi::renderer)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -328,12 +334,6 @@ Frame *Space::GetFrameWithSystemBody(const SystemBody *b) const
 	return find_frame_with_sbody(m_rootFrame.Get(), b);
 }
 
-static void SetFrameOrientationFromSystemBodyAxialTilt(Frame *f, const SystemBody *sbody)
-{
-	matrix4x4d rot = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
-	f->SetRotationOnly(rot);
-}
-
 static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 {
 	Frame *orbFrame, *rotFrame;
@@ -373,9 +373,15 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		// rotating frame has size of GeoSphere terrain bounding sphere
 		rotFrame->SetRadius(b->GetBoundingRadius());
-		rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
+		matrix4x4d rotMatrix = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
+		vector3d angVel = vector3d(0.0, 2.0*M_PI/sbody->GetRotationPeriod(), 0.0);
+		rotFrame->SetAngVelocity(angVel);
+
+		if (sbody->rotationalPhaseAtStart != fixed(0)) 
+			rotMatrix = rotMatrix * matrix4x4d::RotateYMatrix(sbody->rotationalPhaseAtStart.ToDouble());
+		rotFrame->SetRotationOnly(rotMatrix);
+
 		rotFrame->m_astroBody = b;
-		SetFrameOrientationFromSystemBodyAxialTilt(rotFrame, sbody);
 		b->SetFrame(rotFrame);
 		return orbFrame;
 	}
@@ -652,26 +658,7 @@ void Space::TimeStep(float step)
 	// invalid when Lua goes and queries for it. we need to consider whether
 	// there's anything useful that can be done with events in hyperspace
 	if (m_starSystem) {
-		Pi::luaOnEnterSystem->Emit();
-		Pi::luaOnLeaveSystem->Emit();
-		Pi::luaOnFrameChanged->Emit();
-		Pi::luaOnShipHit->Emit();
-		Pi::luaOnShipCollided->Emit();
-		Pi::luaOnShipDestroyed->Emit();
-		Pi::luaOnShipDocked->Emit();
-		Pi::luaOnShipAlertChanged->Emit();
-		Pi::luaOnShipUndocked->Emit();
-		Pi::luaOnShipLanded->Emit();
-		Pi::luaOnShipTakeOff->Emit();
-		Pi::luaOnJettison->Emit();
-		Pi::luaOnCargoUnload->Emit();
-		Pi::luaOnAICompleted->Emit();
-		Pi::luaOnCreateBB->Emit();
-		Pi::luaOnUpdateBB->Emit();
-		Pi::luaOnShipFlavourChanged->Emit();
-		Pi::luaOnShipEquipmentChanged->Emit();
-		Pi::luaOnShipFuelChanged->Emit();
-
+		LuaEvent::Emit();
 		Pi::luaTimer->Tick();
 	}
 

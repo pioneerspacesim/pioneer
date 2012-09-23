@@ -1,19 +1,33 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+#ifndef _RENDERER_GL2_H
+#define _RENDERER_GL2_H
+/*
+ * OpenGL 2.X renderer (2.0, GLSL 1.10 at the moment)
+ *  - no fixed function support (shaders for everything)
+ *  The plan is: make this more like GL3/ES2
+ *  - try to stick to bufferobjects
+ *  - use glvertexattribpointer instead of glvertexpointer etc
+ *  - get rid of built-in glMaterial, glMatrix use
+ */
 #include "Renderer.h"
 #include "RendererLegacy.h"
 
 namespace Graphics {
 
-/*
- * OpenGL 2.x renderer
- *  - no fixed function support (shaders for everything)
- *  The plan is: make this more like GL3/ES2
- *  - try to stick to bufferobjects
- *  - use glvertexattribpointer instead of glvertexpointer etc
- */
-class RendererGL2 : public RendererLegacy //XXX shares enough with legacy renderer now
+namespace GL2 {
+	class GeoSphereSurfaceMaterial;
+	class GeoSphereSkyMaterial;
+	class MultiMaterial;
+	class Program;
+	class RingMaterial;
+}
+
+class RendererGL2 : public RendererLegacy
 {
 public:
-	RendererGL2(int width, int height);
+	RendererGL2(const Graphics::Settings &vs);
 	virtual ~RendererGL2();
 
 	virtual const char* GetName() const { return "GL2 renderer"; }
@@ -22,12 +36,24 @@ public:
 
 	virtual bool SetPerspectiveProjection(float fov, float aspect, float near, float far);
 
+	virtual bool SetAmbientColor(const Color &c);
+
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, LineType type=LINE_SINGLE);
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE);
 
-protected:
-	virtual void ApplyMaterial(const Material *mat);
-	virtual void UnApplyMaterial(const Material *mat);
+	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor);
+
+	virtual bool ReloadShaders();
+
+private:
+	friend class GL2::GeoSphereSurfaceMaterial;
+	friend class GL2::GeoSphereSkyMaterial;
+	friend class GL2::MultiMaterial;
+	friend class GL2::RingMaterial;
+	std::vector<std::pair<MaterialDescriptor, GL2::Program*> > m_programs;
+	float m_invLogZfarPlus1;
 };
 
 }
+
+#endif

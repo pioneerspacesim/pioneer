@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Pi.h"
 #include "WorldView.h"
@@ -59,7 +62,7 @@ void AmbientSounds::Update()
 			// just use a random station noise until we have a
 			// concept of 'station size'
 			stationNoise.Play(sounds[Pi::player->GetDockedWith()->GetSystemBody()->seed % 3],
-					0.3f*v_env, 0.3f*v_env, true);
+					0.3f*v_env, 0.3f*v_env, Sound::OP_REPEAT);
 		}
 	} else if (Pi::player->GetFlightState() == Ship::LANDED) {
 		/* Planet surface noise on rough-landing */

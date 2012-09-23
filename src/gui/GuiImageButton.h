@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GUIIMAGEBUTTON_H
 #define _GUIIMAGEBUTTON_H
 
@@ -14,6 +17,7 @@ namespace Gui {
 		virtual void Draw();
 		virtual ~ImageButton();
 		virtual void GetSizeRequested(float size[2]);
+		void SetRenderDimensions(const float wide, const float high);
 	private:
 		void LoadImages(const char *img_normal, const char *img_pressed);
 		Image *m_imgNormal;

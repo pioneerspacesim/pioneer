@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _WORLDVIEW_H
 #define _WORLDVIEW_H
 
@@ -41,9 +44,6 @@ public:
 	void HideTargetActions();
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
-
-	void SetNavTunnelDisplayed(bool state) { m_navTunnelDisplayed = state; }
-	bool IsNavTunnelDisplayed() const { return m_navTunnelDisplayed; }
 
 	sigc::signal<void> onChangeCamType;
 
@@ -153,8 +153,6 @@ private:
 	Indicator m_combatTargetIndicator;
 	Indicator m_targetLeadIndicator;
 	Indicator m_mouseDirIndicator;
-
-	bool m_navTunnelDisplayed;
 
 	ScopedPtr<Gui::TexturedQuad> m_indicatorMousedir;
 	vector2f m_indicatorMousedirSize;

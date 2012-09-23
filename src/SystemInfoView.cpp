@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Pi.h"
 #include "galaxy/Sector.h"
 #include "SectorView.h"
@@ -11,6 +14,7 @@
 #include "StringF.h"
 #include "Game.h"
 #include "graphics/Renderer.h"
+#include "graphics/Drawables.h"
 
 SystemInfoView::SystemInfoView()
 {
@@ -178,17 +182,28 @@ void SystemInfoView::UpdateEconomyTab()
 	m_econInfoTab->ResizeRequest();
 }
 
-void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, float &prevSize)
+void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, int &onSurface, float &prevSize)
 {
 	float size[2];
 	float myPos[2];
 	myPos[0] = pos[0];
 	myPos[1] = pos[1];
 	if (body->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) starports++;
-	if (body->type == SystemBody::TYPE_STARPORT_SURFACE) return;
+	if (body->type == SystemBody::TYPE_STARPORT_SURFACE) {
+		onSurface++;
+		return;
+	}
 	if (body->type != SystemBody::TYPE_GRAVPOINT) {
 		BodyIcon *ib = new BodyIcon(body->GetIcon());
 		ib->SetRenderer(m_renderer);
+		if (body->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET) {
+			for (std::vector<SystemBody*>::iterator i = body->children.begin(); i != body->children.end(); ++i) {
+				if ((*i)->type == SystemBody::TYPE_STARPORT_SURFACE) {
+					ib->SetHasStarport();
+					break;
+				}
+			}
+		}
 		m_bodyIcons.push_back(std::pair<std::string, BodyIcon*>(body->name, ib));
 		ib->GetSize(size);
 		if (prevSize < 0) prevSize = size[!dir];
@@ -206,13 +221,13 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 	} else {
 		size[0] = -1;
 		size[1] = -1;
-		pos[!dir] += 320;
+		pos[!dir] += 400;
 	}
 
 	float prevSizeForKids = size[!dir];
 	for (std::vector<SystemBody*>::iterator i = body->children.begin();
 	     i != body->children.end(); ++i) {
-		PutBodies(*i, container, dir, myPos, majorBodies, starports, prevSizeForKids);
+		PutBodies(*i, container, dir, myPos, majorBodies, starports, onSurface, prevSizeForKids);
 	}
 }
 
@@ -246,7 +261,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		Gui::Label *l = (new Gui::Label(_info))->Color(1.0f,1.0f,0.0f);
 		m_sbodyInfoTab->Add(l, 35, 300);
 
-		ShowAll();
+		Fixed::ShowAll(); // bypass View::ShowAll which does extra stuff that we don't want
 		return;
 	}
 
@@ -262,22 +277,22 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 	m_sbodyInfoTab->onMouseButtonEvent.connect(sigc::mem_fun(this, &SystemInfoView::OnClickBackground));
 
 	m_bodyIcons.clear();
-	int majorBodies, starports;
+	int majorBodies, starports, onSurface;
 	{
 		float pos[2] = { 0, 0 };
 		float psize = -1;
-		majorBodies = starports = 0;
-		PutBodies(m_system->rootBody, m_econInfoTab, 1, pos, majorBodies, starports, psize);
+		majorBodies = starports = onSurface = 0;
+		PutBodies(m_system->rootBody, m_econInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
 
-		majorBodies = starports = 0;
+		majorBodies = starports = onSurface = 0;
 		pos[0] = pos[1] = 0;
 		psize = -1;
-		PutBodies(m_system->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, starports, psize);
+		PutBodies(m_system->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
 
-		majorBodies = starports = 0;
+		majorBodies = starports = onSurface = 0;
 		pos[0] = pos[1] = 0;
 		psize = -1;
-		PutBodies(m_system->rootBody, demographicsTab, 1, pos, majorBodies, starports, psize);
+		PutBodies(m_system->rootBody, demographicsTab, 1, pos, majorBodies, starports, onSurface, psize);
 	}
 
 	std::string _info = stringf(
@@ -286,7 +301,9 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		formatarg("body(s)", std::string(majorBodies == 1 ? Lang::BODY : Lang::BODIES)),
 		formatarg("portcount", starports),
 		formatarg("starport(s)", std::string(starports == 1 ? Lang::STARPORT : Lang::COUNT_STARPORTS)));
-	_info += "\n\n";
+	if (starports > 0)
+		_info += stringf(Lang::COUNT_ON_SURFACE, formatarg("surfacecount", onSurface));
+	_info += ".\n\n";
 	_info += m_system->GetLongDescription();
 
 	{
@@ -354,33 +371,33 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		col1->Add((new Gui::Label(Lang::SYSTEM_TYPE))->Color(1,1,0), 0, 0);
 		col2->Add(new Gui::Label(m_system->GetShortDescription()), 0, 0);
 
-		col1->Add((new Gui::Label(Lang::GOVERNMENT_TYPE))->Color(1,1,0), 0, YSEP);
-		col2->Add(new Gui::Label(m_system->GetSysPolit().GetGovernmentDesc()), 0, YSEP);
+		col1->Add((new Gui::Label(Lang::GOVERNMENT_TYPE))->Color(1,1,0), 0, 2*YSEP);
+		col2->Add(new Gui::Label(m_system->GetSysPolit().GetGovernmentDesc()), 0, 2*YSEP);
 
-		col1->Add((new Gui::Label(Lang::ECONOMY_TYPE))->Color(1,1,0), 0, 2*YSEP);
-		col2->Add(new Gui::Label(m_system->GetSysPolit().GetEconomicDesc()), 0, 2*YSEP);
+		col1->Add((new Gui::Label(Lang::ECONOMY_TYPE))->Color(1,1,0), 0, 3*YSEP);
+		col2->Add(new Gui::Label(m_system->GetSysPolit().GetEconomicDesc()), 0, 3*YSEP);
 
-		col1->Add((new Gui::Label(Lang::ALLEGIANCE))->Color(1,1,0), 0, 3*YSEP);
-		col2->Add(new Gui::Label(m_system->GetSysPolit().GetAllegianceDesc()), 0, 3*YSEP);
+		col1->Add((new Gui::Label(Lang::ALLEGIANCE))->Color(1,1,0), 0, 4*YSEP);
+		col2->Add(new Gui::Label(m_system->GetSysPolit().GetAllegianceDesc()), 0, 4*YSEP);
 
-		col1->Add((new Gui::Label(Lang::POPULATION))->Color(1,1,0), 0, 4*YSEP);
+		col1->Add((new Gui::Label(Lang::POPULATION))->Color(1,1,0), 0, 5*YSEP);
 		std::string popmsg;
 		fixed pop = m_system->m_totalPop;
 		if (pop >= fixed(1,1)) { popmsg = stringf(Lang::OVER_N_BILLION, formatarg("population", pop.ToInt32())); }
 		else if (pop >= fixed(1,1000)) { popmsg = stringf(Lang::OVER_N_MILLION, formatarg("population", (pop*1000).ToInt32())); }
 		else if (pop != fixed(0)) { popmsg = Lang::A_FEW_THOUSAND; }
 		else { popmsg = Lang::NO_REGISTERED_INHABITANTS; }
-		col2->Add(new Gui::Label(popmsg), 0, 4*YSEP);
+		col2->Add(new Gui::Label(popmsg), 0, 5*YSEP);
 
-		col1->Add((new Gui::Label(Lang::SECTOR_COORDINATES))->Color(1,1,0), 0, 5*YSEP);
-		col2->Add(new Gui::Label(stringf("%0{d}, %1{d}, %2{d}", path.sectorX, path.sectorY, path.sectorZ)), 0, 5*YSEP);
-		col1->Add((new Gui::Label(Lang::SYSTEM_NUMBER))->Color(1,1,0), 0, 6*YSEP);
-		col2->Add(new Gui::Label(stringf("%0", path.systemIndex)), 0, 6*YSEP);
+		col1->Add((new Gui::Label(Lang::SECTOR_COORDINATES))->Color(1,1,0), 0, 6*YSEP);
+		col2->Add(new Gui::Label(stringf("%0{d}, %1{d}, %2{d}", path.sectorX, path.sectorY, path.sectorZ)), 0, 6*YSEP);
+		col1->Add((new Gui::Label(Lang::SYSTEM_NUMBER))->Color(1,1,0), 0, 7*YSEP);
+		col2->Add(new Gui::Label(stringf("%0", path.systemIndex)), 0, 7*YSEP);
 	}
 
 	UpdateIconSelections();
 
-	ShowAll();
+	Fixed::ShowAll(); // bypass View::ShowAll which does extra stuff that we don't want
 }
 
 void SystemInfoView::Draw3D()
@@ -427,24 +444,33 @@ void SystemInfoView::UpdateIconSelections()
 }
 
 SystemInfoView::BodyIcon::BodyIcon(const char *img) :
-	Gui::ImageRadioButton(0, img, img)
+	Gui::ImageRadioButton(0, img, img), m_hasStarport(false)
 {
 }
 
 void SystemInfoView::BodyIcon::Draw()
 {
 	Gui::ImageRadioButton::Draw();
-	if (!GetSelected()) return;
+	if (!GetSelected() && !HasStarport()) return;
 	float size[2];
 	GetSize(size);
-	Color green = Color(0.f, 1.f, 0.f, 1.f);
-	const vector2f vts[] = {
-		vector2f(0.f, 0.f),
-		vector2f(size[0], 0.f),
-		vector2f(size[0], size[1]),
-		vector2f(0.f, size[1]),
-	};
-	m_renderer->DrawLines2D(4, vts, green, Graphics::LINE_LOOP);
+	if (HasStarport()) {
+	    Color portColor = Color(0.25f, 0.5f, 0.5f, 1.f);
+	    // The -0.1f offset seems to be the best compromise to make the circles closed (e.g. around Mars), symmetric, fitting with selection
+	    // and not overlapping to much with asteroids
+	    Graphics::Drawables::Circle circle = Graphics::Drawables::Circle(size[0]*0.5f, size[0]*0.5f-0.1f, size[1]*0.5f, 0.f, portColor);
+	    circle.Draw(m_renderer);
+	}
+	if (GetSelected()) {
+	    Color selectColor = Color(0.f, 1.f, 0.f, 1.f);
+	    const vector2f vts[] = {
+		    vector2f(0.f, 0.f),
+		    vector2f(size[0], 0.f),
+		    vector2f(size[0], size[1]),
+		    vector2f(0.f, size[1]),
+	    };
+	    m_renderer->DrawLines2D(COUNTOF(vts), vts, selectColor, Graphics::LINE_LOOP);
+	}
 }
 
 void SystemInfoView::BodyIcon::OnActivate()

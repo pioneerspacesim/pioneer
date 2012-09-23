@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _TERRAINNOISE_H
 #define _TERRAINNOISE_H
 
@@ -156,9 +159,9 @@ namespace TerrainNoise {
 // common colours for earthlike worlds
 // XXX better way to do this?
 #define rock   octavenoise(GetFracDef(0), 0.65, p)
-#define rock2  octavenoise(GetFracDef(1), 0.6, p)*ridged_octavenoise(GetFracDef(0), 0.55, p)
+#define rock2  octavenoise(GetFracDef(1), 0.6, p)*0.6*ridged_octavenoise(GetFracDef(0), 0.55, p)
 #define rock3  0.5*ridged_octavenoise(GetFracDef(0), 0.5, p)*voronoiscam_octavenoise(GetFracDef(0), 0.5, p)*ridged_octavenoise(GetFracDef(1), 0.5, p)
-#define rock4  ridged_octavenoise(GetFracDef(1), 0.5, p)*octavenoise(GetFracDef(1), 0.5, p)*octavenoise(GetFracDef(5), 0.5, p)
+#define rock4  0.5*ridged_octavenoise(GetFracDef(1), 0.5, p)*octavenoise(GetFracDef(1), 0.5, p)*octavenoise(GetFracDef(5), 0.5, p)
 #define mud    0.1*voronoiscam_octavenoise(GetFracDef(1), 0.5, p)*octavenoise(GetFracDef(1), 0.5, p) * GetFracDef(5).amplitude
 #define sand   ridged_octavenoise(GetFracDef(0), 0.4, p)*dunes_octavenoise(GetFracDef(2), 0.4, p) + 0.1*dunes_octavenoise(GetFracDef(1), 0.5, p)
 #define sand2  dunes_octavenoise(GetFracDef(0), 0.6, p)*octavenoise(GetFracDef(4), 0.6, p)

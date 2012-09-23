@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "LuaFixed.h"
 #include "LuaUtils.h"
@@ -7,6 +10,8 @@ static int l_fixed_new(lua_State *L)
 	LUA_DEBUG_START(L);
 	int num = luaL_checkinteger(L, 1);
 	int denom = luaL_checkinteger(L, 2);
+	if (!denom)
+		return luaL_error(L, "cannot construct a fixed-point value with a zero denominator");
 	LuaFixed::PushToLua(L, fixed(num, denom));
 	LUA_DEBUG_END(L, 1);
 	return 1;

@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
   -- adtext - text shown in the bulletin board list
 	-- introtext - shown when the advert is selected (and "Could you repeat request?")
 	-- successmsg - message sent on successful assassination
@@ -50,7 +53,7 @@ Translate:AddFlavour('English','Assassination', {
   adtext = "BIOGRAPHICAL: Some admirers wish {target} dead.",
   introtext = "We wish {target} to have a fitting career end in the {system} system for {cash}.",
   successmsg = "Message of {target}'s ending career happily acquired. Here is your {cash}.",
-  failuremsg = "We found out that {target} is nonetheless operative. This sadness us.",
+  failuremsg = "We found out that {target} is nonetheless operative. This saddens us.",
   failuremsg2 = "{target} was neutralized by someone else.",
 })
 

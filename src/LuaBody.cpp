@@ -1,10 +1,12 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaBody.h"
 #include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Body.h"
 #include "galaxy/StarSystem.h"
-#include "Pi.h"
 #include "Frame.h"
 
 /*
@@ -280,6 +282,10 @@ static int l_body_distance_to(lua_State *l)
 {
 	Body *b1 = LuaBody::GetFromLua(1);
 	Body *b2 = LuaBody::GetFromLua(2);
+	if (!b1->IsInSpace())
+		return luaL_error(l, "Body:DistanceTo() arg #1 is not in space (probably a ship in hyperspace)");
+	if (!b2->IsInSpace())
+		return luaL_error(l, "Body:DistanceTo() arg #2 is not in space (probably a ship in hyperspace)");
 	lua_pushnumber(l, b1->GetPositionRelTo(b2).Length());
 	return 1;
 }

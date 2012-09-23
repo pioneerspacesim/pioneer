@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SYSTEMINFOVIEW_H
 #define _SYSTEMINFOVIEW_H
 
@@ -25,15 +28,18 @@ private:
 		virtual void Draw();
 		virtual void OnActivate();
 		void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
+		bool HasStarport() { return m_hasStarport; }
+		void SetHasStarport() { m_hasStarport = true; }
 	private:
 		Graphics::Renderer *m_renderer;
+		bool m_hasStarport;
 	};
 	void SystemChanged(const SystemPath &path);
 	void UpdateEconomyTab();
 	void OnBodyViewed(SystemBody *b);
 	void OnBodySelected(SystemBody *b);
 	void OnClickBackground(Gui::MouseButtonEvent *e);
-	void PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, float &prevSize);
+	void PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, int &onSurface, float &prevSize);
 	void UpdateIconSelections();
 	Gui::VBox *m_infoBox;
 	Gui::Label *m_econInfo;

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _CUSTOMSYSTEM_H
 #define _CUSTOMSYSTEM_H
 
@@ -5,6 +8,7 @@
 #include "Polit.h"
 #include "vector3.h"
 #include "fixed.h"
+#include "Color.h"
 
 class CustomSystemBody {
 public:
@@ -19,10 +23,12 @@ public:
 	fixed                  semiMajorAxis; // in AUs
 	fixed                  eccentricity;
 	fixed                  orbitalOffset;
+	fixed                  orbitalPhaseAtStart; // mean anomaly at start 0 to 2 pi 
 	bool                   want_rand_offset;
 	// for orbiting things, latitude = inclination
 	float                  latitude, longitude; // radians
 	fixed                  rotationPeriod; // in days
+	fixed                  rotationalPhaseAtStart; // 0 to 2 pi
 	fixed                  axialTilt; // in radians
 	std::string            heightMapFilename;
 	int                    heightMapFractal;
@@ -36,6 +42,18 @@ public:
 	fixed volcanicity; // 0 = none, 1.0 = fucking volcanic
 	fixed atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
 	fixed life; // 0.0 = dead, 1.0 = teeming
+
+	/* rings */
+	enum RingStatus {
+		WANT_RANDOM_RINGS,
+		WANT_RINGS,
+		WANT_NO_RINGS,
+		WANT_CUSTOM_RINGS
+	};
+	RingStatus ringStatus;
+	fixed ringInnerRadius;
+	fixed ringOuterRadius;
+	Color4ub ringColor;
 
 	Uint32 seed;
 	bool   want_rand_seed;

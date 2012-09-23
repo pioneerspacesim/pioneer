@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "ModelBody.h"
 #include "Space.h"
@@ -85,7 +88,7 @@ void ModelBody::SetModel(const char *lmrModelName, bool isStatic)
 	RebuildCollisionMesh();
 }
 
-void ModelBody::SetPosition(vector3d p)
+void ModelBody::SetPosition(const vector3d &p)
 {
 	matrix4x4d m;
 	GetRotMatrix(m);

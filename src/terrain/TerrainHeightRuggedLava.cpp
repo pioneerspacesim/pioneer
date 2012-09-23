@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Terrain.h"
 #include "TerrainNoise.h"
 #include "TerrainFeature.h"
@@ -60,11 +63,9 @@ double TerrainHeightFractal<TerrainHeightRuggedLava>::GetHeight(const vector3d &
 	//n += 1.4*(continents - targ.continents.amplitude*targ.sealevel + (volcano_function(p)*1)) ;
 	//smooth canyon transitions and limit height of canyon placement
 	if (n < .01) n += n * 100.0f * canyon3_ridged_function(GetFracDef(8), p);
-	else if (n < .7) n += canyon3_ridged_function(GetFracDef(8), p);
 	else n += canyon3_ridged_function(GetFracDef(8), p);
 
 	if (n < .01) n += n * 100.0f * canyon2_ridged_function(GetFracDef(8), p);
-	else if (n < .7) n += canyon2_ridged_function(GetFracDef(8), p);
 	else n += canyon2_ridged_function(GetFracDef(8), p);
 	n *= 0.5;
 

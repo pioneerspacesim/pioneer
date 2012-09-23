@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "CRC32.h"
 
 const Uint32 CRC32::s_polynomial = 0x04c11db7;

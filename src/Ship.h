@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SHIP_H
 #define _SHIP_H
 
@@ -9,6 +12,7 @@
 #include "galaxy/SystemPath.h"
 #include "BezierCurve.h"
 #include "Serializer.h"
+#include "Camera.h"
 #include <list>
 
 class SpaceStation;
@@ -59,7 +63,7 @@ public:
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
 	int GetDockingPort() const { return m_dockedWithPort; }
-	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	const vector3d &GetFrontCameraOffset() const { return m_frontCameraOffset; }
 	const vector3d &GetRearCameraOffset() const { return m_rearCameraOffset; }
@@ -114,6 +118,8 @@ public:
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
 
+	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
+
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
 	double GetHyperspaceDuration() const { return m_hyperspace.duration; }
@@ -141,10 +147,10 @@ public:
 	}
 	bool CanHyperspaceTo(const SystemPath &dest) { return (CheckHyperspaceTo(dest) == HYPERJUMP_OK); }
 
-	Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
+	virtual Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	bool IsHyperspaceActive() const { return (m_hyperspace.countdown > 0.0); }
-	void ResetHyperspaceCountdown();
+	virtual void ResetHyperspaceCountdown();
 
 	Equip::Type GetHyperdriveFuelType() const;
 	// 0 to 1.0 is alive, > 1.0 = death

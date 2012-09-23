@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GALACTICVIEW_H
 #define _GALACTICVIEW_H
 
@@ -25,7 +28,7 @@ private:
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::Label *m_scaleReadout;
 	Gui::LabelSet *m_labels;
-	float m_zoom;
+	float m_zoom, m_zoomTo;
 	Gui::TexturedQuad m_quad;
 	sigc::connection m_onMouseButtonDown;
 };

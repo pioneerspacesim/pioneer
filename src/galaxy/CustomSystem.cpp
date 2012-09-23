@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "CustomSystem.h"
 #include "SystemPath.h"
 
@@ -115,6 +118,28 @@ static int l_csb_orbital_offset(lua_State *L)
 	return 1;
 }
 
+static int l_csb_orbital_phase_at_start(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	const fixed *value = LuaFixed::CheckFromLua(L, 2);
+	if ((value->ToDouble() < 0.0) || (value->ToDouble() > double(2.0*M_PI)))
+		return luaL_error(L, "Error: Custom system definition: Orbital phase at game start must be between 0 and 2 PI radians (including 0 but not 2 PI)."); 
+	csb->orbitalPhaseAtStart = *value;
+	lua_settop(L, 1);
+	return 1;
+}
+
+static int l_csb_rotational_phase_at_start(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	const fixed *value = LuaFixed::CheckFromLua(L, 2);
+	if ((value->ToDouble() < 0.0) || (value->ToDouble() > double(2.0*M_PI)))
+		return luaL_error(L, "Error: Custom system definition: Rotational phase at start must be between 0 and 2 PI radians (including 0 but not 2 PI).\n The rotational phase is the phase of the body's spin about it's axis at game start.");
+	csb->rotationalPhaseAtStart = *value;
+	lua_settop(L, 1);
+	return 1;
+}
+
 static int l_csb_height_map(lua_State *L)
 {
 	CustomSystemBody *csb = l_csb_check(L, 1);
@@ -124,6 +149,35 @@ static int l_csb_height_map(lua_State *L)
 
 	csb->heightMapFilename = FileSystem::JoinPathBelow("heightmaps", fname);
 	csb->heightMapFractal = fractal;
+	lua_settop(L, 1);
+	return 1;
+}
+
+static int l_csb_rings(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	if (lua_isboolean(L, 2)) {
+		if (lua_toboolean(L, 2)) {
+			csb->ringStatus = CustomSystemBody::WANT_RINGS;
+		} else {
+			csb->ringStatus = CustomSystemBody::WANT_NO_RINGS;
+		}
+	} else {
+		csb->ringStatus = CustomSystemBody::WANT_CUSTOM_RINGS;
+		csb->ringInnerRadius = *LuaFixed::CheckFromLua(L, 2);
+		csb->ringOuterRadius = *LuaFixed::CheckFromLua(L, 3);
+		luaL_checktype(L, 4, LUA_TTABLE);
+		Color4f col;
+		lua_rawgeti(L, 4, 1);
+		col.r = luaL_checknumber(L, -1);
+		lua_rawgeti(L, 4, 2);
+		col.g = luaL_checknumber(L, -1);
+		lua_rawgeti(L, 4, 3);
+		col.b = luaL_checknumber(L, -1);
+		lua_rawgeti(L, 4, 4);
+		col.a = luaL_optnumber(L, -1, 0.85); // default alpha value
+		csb->ringColor = col;
+	}
 	lua_settop(L, 1);
 	return 1;
 }
@@ -146,11 +200,13 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "semi_major_axis", &l_csb_semi_major_axis },
 	{ "eccentricity", &l_csb_eccentricity },
 	{ "orbital_offset", &l_csb_orbital_offset },
+	{ "orbital_phase_at_start", &l_csb_orbital_phase_at_start },
 	{ "latitude", &l_csb_latitude },
 	// latitude is for surface bodies, inclination is for orbiting bodies (but they're the same field)
 	{ "inclination", &l_csb_latitude },
 	{ "longitude", &l_csb_longitude },
 	{ "rotation_period", &l_csb_rotation_period },
+	{ "rotational_phase_at_start", &l_csb_rotational_phase_at_start }, // 0 to 2 pi
 	{ "axial_tilt", &l_csb_axial_tilt },
 	{ "height_map", &l_csb_height_map },
 	{ "metallicity", &l_csb_metallicity },
@@ -160,6 +216,7 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "ocean_cover", &l_csb_ocean_cover },
 	{ "ice_cover", &l_csb_ice_cover },
 	{ "life", &l_csb_life },
+	{ "rings", &l_csb_rings },
 	{ "__gc", &l_csb_gc },
 	{ 0, 0 }
 };
@@ -475,6 +532,7 @@ CustomSystemBody::CustomSystemBody():
 	want_rand_offset(true),
 	latitude(0.0),
 	longitude(0.0),
+	ringStatus(WANT_RANDOM_RINGS),
 	seed(0),
 	want_rand_seed(true)
 {}

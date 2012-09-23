@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaObject.h"
 #include "LuaStar.h"
 #include "LuaPlanet.h"
@@ -57,9 +60,8 @@ static int l_starsystem_get_station_paths(lua_State *l)
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 
 	lua_newtable(l);
-	pi_lua_table_ro(l);
 
-	for (std::vector<SystemBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); i++)
+	for (std::vector<SystemBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); ++i)
 	{
 		lua_pushinteger(l, lua_rawlen(l, -1)+1);
 		LuaSystemPath::PushToLua(&(*i)->path);
@@ -97,9 +99,8 @@ static int l_starsystem_get_body_paths(lua_State *l)
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 
 	lua_newtable(l);
-	pi_lua_table_ro(l);
 
-	for (std::vector<SystemBody*>::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); i++)
+	for (std::vector<SystemBody*>::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); ++i)
 	{
 		lua_pushinteger(l, lua_rawlen(l, -1)+1);
 		LuaSystemPath::PushToLua(&(*i)->path);
@@ -142,7 +143,6 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 
 	lua_newtable(l);
-    pi_lua_table_ro(l);
 
 	for (int e = Equip::FIRST_COMMODITY; e <= Equip::LAST_COMMODITY; e++) {
 		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", e));
@@ -230,7 +230,6 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 	}
 
 	lua_newtable(l);
-	pi_lua_table_ro(l);
 
 	SystemPath here = s->GetPath();
 

@@ -1,7 +1,10 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _LUAOBJECT_H
 #define _LUAOBJECT_H
 
-#include "LuaManager.h"
+#include "Lua.h"
 #include "DeleteEmitter.h"
 
 //
@@ -17,14 +20,14 @@
 // push a value onto the lua stack before method call or return (you (c++)
 // remains responsible for deallocating the object)
 //
-//   Ship *s = new Ship("Eagle Long Range Fighter");
+//   Ship *s = new Ship("eagle_lrf");
 //   LuaShip::PushToLua(s);
 //
 // push a value onto the lua stack (lua will deallocate the object when it
 // goes out of scope and the garbage collector runs. OBJECT MUST BE
 // HEAP-ALLOCATED)
 //
-//   Ship *s = new Ship("Eagle Long Range Fighter");
+//   Ship *s = new Ship("eagle_lrf");
 //   LuaShip::PushToLuaGC(s);
 //
 // get a value from the lua stack at index n (causes lua exception if the

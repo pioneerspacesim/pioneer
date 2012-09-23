@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "DynamicBody.h"
 #include "Space.h"
@@ -27,27 +30,27 @@ DynamicBody::DynamicBody(): ModelBody()
 	m_lastTorque = vector3d(0.0);
 }
 
-void DynamicBody::SetForce(const vector3d f)
+void DynamicBody::SetForce(const vector3d &f)
 {
 	m_force = f;
 }
 
-void DynamicBody::AddForce(const vector3d f)
+void DynamicBody::AddForce(const vector3d &f)
 {
 	m_force += f;
 }
 
-void DynamicBody::AddTorque(const vector3d t)
+void DynamicBody::AddTorque(const vector3d &t)
 {
 	m_torque += t;
 }
 
-void DynamicBody::AddRelForce(const vector3d f)
+void DynamicBody::AddRelForce(const vector3d &f)
 {
 	m_force += m_orient.ApplyRotationOnly(f);
 }
 
-void DynamicBody::AddRelTorque(const vector3d t)
+void DynamicBody::AddRelTorque(const vector3d &t)
 {
 	m_torque += m_orient.ApplyRotationOnly(t);
 }
@@ -86,7 +89,7 @@ void DynamicBody::PostLoadFixup(Space *space)
 	CalcExternalForce();
 }
 
-void DynamicBody::SetTorque(const vector3d t)
+void DynamicBody::SetTorque(const vector3d &t)
 {
 	m_torque = t;
 }
@@ -98,7 +101,7 @@ void DynamicBody::SetMass(double mass)
 	m_angInertia = (2/5.0)*m_mass*m_massRadius*m_massRadius;
 }
 
-void DynamicBody::SetPosition(vector3d p)
+void DynamicBody::SetPosition(const vector3d &p)
 {
 	m_orient[12] = p.x;
 	m_orient[13] = p.y;
@@ -296,12 +299,12 @@ vector3d DynamicBody::GetVelocity() const
 	return m_vel;
 }
 
-void DynamicBody::SetVelocity(vector3d v)
+void DynamicBody::SetVelocity(const vector3d &v)
 {
 	m_vel = v;
 }
 
-void DynamicBody::SetAngVelocity(vector3d v)
+void DynamicBody::SetAngVelocity(const vector3d &v)
 {
 	m_angVel = v;
 }

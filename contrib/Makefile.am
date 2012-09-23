@@ -1,1 +1,1 @@
-SUBDIRS = lua miniz jenkins
+SUBDIRS = lua miniz jenkins vcacheopt

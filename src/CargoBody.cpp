@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "CargoBody.h"
 #include "Pi.h"
 #include "Serializer.h"
@@ -56,7 +59,7 @@ bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
 	return DynamicBody::OnCollision(b, flags, relVel);
 }
 
-void CargoBody::Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void CargoBody::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (!IsEnabled()) return;
 	GetLmrObjParams().label = Equip::types[m_type].name;

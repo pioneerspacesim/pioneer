@@ -40,7 +40,7 @@ on 1 byte), but shoehorning those bytes into integers efficiently is messy.
 #include <stdio.h>      /* defines printf for tests */
 #include <time.h>       /* defines time_t for timings in the test */
 
-#include <SDL/SDL_endian.h>
+#include <SDL_endian.h>
 
 #define hashword lookup3_hashword
 #define hashword2 lookup3_hashword2

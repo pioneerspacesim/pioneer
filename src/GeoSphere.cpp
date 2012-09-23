@@ -1,19 +1,20 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "GeoSphere.h"
 #include "perlin.h"
 #include "Pi.h"
-#include "galaxy/StarSystem.h"
 #include "RefCounted.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 #include "graphics/VertexArray.h"
-#include "graphics/Shader.h"
+#include "graphics/gl2/GeoSphereMaterial.h"
+#include "vcacheopt/vcacheopt.h"
 #include <deque>
 #include <algorithm>
-
-using namespace Graphics;
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
@@ -29,18 +30,7 @@ static const int detail_edgeLen[5] = {
 	7, 15, 25, 35, 55
 };
 
-
 #define PRINT_VECTOR(_v) printf("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
-
-SHADER_CLASS_BEGIN(GeosphereShader)
-	SHADER_UNIFORM_VEC4(atmosColor)
-	SHADER_UNIFORM_FLOAT(geosphereScale)
-	SHADER_UNIFORM_FLOAT(geosphereAtmosTopRad)
-	SHADER_UNIFORM_VEC3(geosphereCenter)
-	SHADER_UNIFORM_FLOAT(geosphereAtmosFogDensity)
-SHADER_CLASS_END()
-
-static GeosphereShader *s_geosphereSurfaceShader[4], *s_geosphereSkyShader[4], *s_geosphereStarShader, *s_geosphereDimStarShader[4];
 
 #pragma pack(4)
 struct VBOVertex
@@ -52,9 +42,8 @@ struct VBOVertex
 };
 #pragma pack()
 
-// for glDrawRangeElements
-static int s_loMinIdx[4], s_loMaxIdx[4];
-static int s_hiMinIdx[4], s_hiMaxIdx[4];
+// hold the 16 possible terrain edge connections
+const int NUM_INDEX_LISTS = 16;
 
 class GeoPatchContext : public RefCounted {
 public:
@@ -68,15 +57,19 @@ public:
 	inline int IDX_VBO_LO_OFFSET(int i) const { return i*sizeof(unsigned short)*3*(edgeLen/2); }
 	inline int IDX_VBO_HI_OFFSET(int i) const { return (i*sizeof(unsigned short)*VBO_COUNT_HI_EDGE())+IDX_VBO_LO_OFFSET(4); }
 	inline int IDX_VBO_MAIN_OFFSET()    const { return IDX_VBO_HI_OFFSET(4); }
+	inline int IDX_VBO_COUNT_ALL_IDX()	const { return ((edgeLen-1)*(edgeLen-1))*2*3; }
 
 	inline int NUMVERTICES() const { return edgeLen*edgeLen; }
 
 	double frac;
 
-	unsigned short *midIndices;
-	unsigned short *loEdgeIndices[4];
-	unsigned short *hiEdgeIndices[4];
+	ScopedArray<unsigned short> midIndices;
+	ScopedArray<unsigned short> loEdgeIndices[4];
+	ScopedArray<unsigned short> hiEdgeIndices[4];
 	GLuint indices_vbo;
+	GLuint indices_list[NUM_INDEX_LISTS];
+	GLuint indices_tri_count;
+	GLuint indices_tri_counts[NUM_INDEX_LISTS];
 	VBOVertex *vbotemp;
 
 	GeoPatchContext(int _edgeLen) : edgeLen(_edgeLen) {
@@ -93,15 +86,61 @@ public:
 	}
 
 	void Cleanup() {
-		delete [] midIndices;
+		midIndices.Reset();
 		for (int i=0; i<4; i++) {
-			delete [] loEdgeIndices[i];
-			delete [] hiEdgeIndices[i];
+			loEdgeIndices[i].Reset();
+			hiEdgeIndices[i].Reset();
 		}
 		if (indices_vbo) {
-			glDeleteBuffersARB(1, &indices_vbo);
+			indices_vbo = 0;
+		}
+		for (int i=0; i<NUM_INDEX_LISTS; i++) {
+			if (indices_list[i]) {
+				glDeleteBuffersARB(1, &indices_list[i]);
+			}
 		}
 		delete [] vbotemp;
+	}
+
+	void updateIndexBufferId(const GLuint edge_hi_flags) {
+		assert(edge_hi_flags < GLuint(NUM_INDEX_LISTS));
+		indices_vbo = indices_list[edge_hi_flags];
+		indices_tri_count = indices_tri_counts[edge_hi_flags];
+	}
+
+	int getIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags)
+	{
+		// calculate how many tri's there are
+		int tri_count = (VBO_COUNT_MID_IDX() / 3); 
+		for( int i=0; i<4; ++i ) {
+			if( edge_hi_flags & (1 << i) ) {
+				tri_count += (VBO_COUNT_HI_EDGE() / 3);
+			} else {
+				tri_count += (VBO_COUNT_LO_EDGE() / 3);
+			}
+		}
+
+		// pre-allocate enough space
+		pl.reserve(tri_count);
+
+		// add all of the middle indices
+		for(int i=0; i<VBO_COUNT_MID_IDX(); ++i) {
+			pl.push_back(midIndices[i]);
+		}
+		// selectively add the HI or LO detail indices
+		for (int i=0; i<4; i++) {
+			if( edge_hi_flags & (1 << i) ) {
+				for(int j=0; j<VBO_COUNT_HI_EDGE(); ++j) {
+					pl.push_back(hiEdgeIndices[i][j]);
+				}
+			} else {
+				for(int j=0; j<VBO_COUNT_LO_EDGE(); ++j) {
+					pl.push_back(loEdgeIndices[i][j]);
+				}
+			}
+		}
+
+		return tri_count;
 	}
 
 	void Init() {
@@ -110,13 +149,13 @@ public:
 		vbotemp = new VBOVertex[NUMVERTICES()];
 
 		unsigned short *idx;
-		midIndices = new unsigned short[VBO_COUNT_MID_IDX()];
+		midIndices.Reset(new unsigned short[VBO_COUNT_MID_IDX()]);
 		for (int i=0; i<4; i++) {
-			loEdgeIndices[i] = new unsigned short[VBO_COUNT_LO_EDGE()];
-			hiEdgeIndices[i] = new unsigned short[VBO_COUNT_HI_EDGE()];
+			loEdgeIndices[i].Reset(new unsigned short[VBO_COUNT_LO_EDGE()]);
+			hiEdgeIndices[i].Reset(new unsigned short[VBO_COUNT_HI_EDGE()]);
 		}
 		/* also want vtx indices for tris not touching edge of patch */
-		idx = midIndices;
+		idx = midIndices.Get();
 		for (int x=1; x<edgeLen-2; x++) {
 			for (int y=1; y<edgeLen-2; y++) {
 				idx[0] = x + edgeLen*y;
@@ -178,14 +217,14 @@ public:
 		}
 		// full detail edge triangles
 		{
-			idx = hiEdgeIndices[0];
+			idx = hiEdgeIndices[0].Get();
 			for (int x=0; x<edgeLen-1; x+=2) {
 				idx[0] = x; idx[1] = x+1; idx[2] = x+1 + edgeLen;
 				idx+=3;
 				idx[0] = x+1; idx[1] = x+2; idx[2] = x+1 + edgeLen;
 				idx+=3;
 			}
-			idx = hiEdgeIndices[1];
+			idx = hiEdgeIndices[1].Get();
 			for (int y=0; y<edgeLen-1; y+=2) {
 				idx[0] = edgeLen-1 + y*edgeLen;
 				idx[1] = edgeLen-1 + (y+1)*edgeLen;
@@ -196,7 +235,7 @@ public:
 				idx[2] = edgeLen-2 + (y+1)*edgeLen;
 				idx+=3;
 			}
-			idx = hiEdgeIndices[2];
+			idx = hiEdgeIndices[2].Get();
 			for (int x=0; x<edgeLen-1; x+=2) {
 				idx[0] = x + (edgeLen-1)*edgeLen;
 				idx[1] = x+1 + (edgeLen-2)*edgeLen;
@@ -207,7 +246,7 @@ public:
 				idx[2] = x+1 + (edgeLen-1)*edgeLen;
 				idx+=3;
 			}
-			idx = hiEdgeIndices[3];
+			idx = hiEdgeIndices[3].Get();
 			for (int y=0; y<edgeLen-1; y+=2) {
 				idx[0] = y*edgeLen;
 				idx[1] = 1 + (y+1)*edgeLen;
@@ -223,28 +262,28 @@ public:
 		// neighbour of equal or greater detail -- they reduce
 		// their edge complexity by 1 division
 		{
-			idx = loEdgeIndices[0];
+			idx = loEdgeIndices[0].Get();
 			for (int x=0; x<edgeLen-2; x+=2) {
 				idx[0] = x;
 				idx[1] = x+2;
 				idx[2] = x+1+edgeLen;
 				idx += 3;
 			}
-			idx = loEdgeIndices[1];
+			idx = loEdgeIndices[1].Get();
 			for (int y=0; y<edgeLen-2; y+=2) {
 				idx[0] = (edgeLen-1) + y*edgeLen;
 				idx[1] = (edgeLen-1) + (y+2)*edgeLen;
 				idx[2] = (edgeLen-2) + (y+1)*edgeLen;
 				idx += 3;
 			}
-			idx = loEdgeIndices[2];
+			idx = loEdgeIndices[2].Get();
 			for (int x=0; x<edgeLen-2; x+=2) {
 				idx[0] = x+edgeLen*(edgeLen-1);
 				idx[2] = x+2+edgeLen*(edgeLen-1);
 				idx[1] = x+1+edgeLen*(edgeLen-2);
 				idx += 3;
 			}
-			idx = loEdgeIndices[3];
+			idx = loEdgeIndices[3].Get();
 			for (int y=0; y<edgeLen-2; y+=2) {
 				idx[0] = y*edgeLen;
 				idx[2] = (y+2)*edgeLen;
@@ -252,41 +291,42 @@ public:
 				idx += 3;
 			}
 		}
-		// find min/max indices
-		for (int i=0; i<4; i++) {
-			s_loMinIdx[i] = s_hiMinIdx[i] = 1<<30;
-			s_loMaxIdx[i] = s_hiMaxIdx[i] = 0;
-			for (int j=0; j<3*(edgeLen/2); j++) {
-				if (loEdgeIndices[i][j] < s_loMinIdx[i]) s_loMinIdx[i] = loEdgeIndices[i][j];
-				if (loEdgeIndices[i][j] > s_loMaxIdx[i]) s_loMaxIdx[i] = loEdgeIndices[i][j];
-			}
-			for (int j=0; j<VBO_COUNT_HI_EDGE(); j++) {
-				if (hiEdgeIndices[i][j] < s_hiMinIdx[i]) s_hiMinIdx[i] = hiEdgeIndices[i][j];
-				if (hiEdgeIndices[i][j] > s_hiMaxIdx[i]) s_hiMaxIdx[i] = hiEdgeIndices[i][j];
-			}
-			//printf("%d:\nLo %d:%d\nHi: %d:%d\n", i, s_loMinIdx[i], s_loMaxIdx[i], s_hiMinIdx[i], s_hiMaxIdx[i]);
+
+		// these will hold the optimised indices
+		std::vector<unsigned short> pl_short[NUM_INDEX_LISTS];
+		// populate the N indices lists from the arrays built during InitTerrainIndices()
+		for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
+			const unsigned int edge_hi_flags = i;
+			indices_tri_counts[i] = getIndices(pl_short[i], edge_hi_flags);
 		}
 
-		glGenBuffersARB(1, &indices_vbo);
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_vbo);
-		glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, IDX_VBO_MAIN_OFFSET() + sizeof(unsigned short)*VBO_COUNT_MID_IDX(), 0, GL_STATIC_DRAW);
-		for (int i=0; i<4; i++) {
-			glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
-				IDX_VBO_LO_OFFSET(i),
-				sizeof(unsigned short)*3*(edgeLen/2),
-				loEdgeIndices[i]);
+		// iterate over each index list and optimize it
+		for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
+			int tri_count = indices_tri_counts[i];
+			VertexCacheOptimizerUShort vco;
+			VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[i][0], tri_count);
+			assert(0 == res);
 		}
-		for (int i=0; i<4; i++) {
-			glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
-				IDX_VBO_HI_OFFSET(i),
-				sizeof(unsigned short)*VBO_COUNT_HI_EDGE(),
-				hiEdgeIndices[i]);
+
+		// everything should be hunky-dory for setting up as OpenGL index buffers now.
+		for( int i=0; i<NUM_INDEX_LISTS; ++i ) {
+			glGenBuffersARB(1, &indices_list[i]);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, indices_list[i]);
+			glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short)*indices_tri_counts[i]*3, &(pl_short[i][0]), GL_STATIC_DRAW);
+			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
-		glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER,
-				IDX_VBO_MAIN_OFFSET(),
-				sizeof(unsigned short)*VBO_COUNT_MID_IDX(),
-				midIndices);
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		// default it to the last entry which uses the hi-res borders
+		indices_vbo			= indices_list[NUM_INDEX_LISTS-1];
+		indices_tri_count	= indices_tri_counts[NUM_INDEX_LISTS-1];
+
+		if (midIndices) {
+			midIndices.Reset();
+			for (int i=0; i<4; i++) {
+				loEdgeIndices[i].Reset();
+				hiEdgeIndices[i].Reset();
+			}
+		}
 	}
 
 	void GetEdge(vector3d *array, int edge, vector3d *ev) {
@@ -863,7 +903,15 @@ public:
 		else return e->kids[we_are];
 	}
 
-	void Render(vector3d &campos, const Frustum &frustum) {
+	GLuint determineIndexbuffer() const {
+		return // index buffers are ordered by edge resolution flags
+			(edgeFriend[0] ? 1u : 0u) |
+			(edgeFriend[1] ? 2u : 0u) |
+			(edgeFriend[2] ? 4u : 0u) |
+			(edgeFriend[3] ? 8u : 0u);
+	}
+
+	void Render(vector3d &campos, const Graphics::Frustum &frustum) {
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		if (kids[0]) {
 			for (int i=0; i<4; i++) kids[i]->Render(campos, frustum);
@@ -884,19 +932,15 @@ public:
 			glEnableClientState(GL_NORMAL_ARRAY);
 			glEnableClientState(GL_COLOR_ARRAY);
 
+			// update the indices used for rendering
+			ctx->updateIndexBufferId(determineIndexbuffer());
+
 			glBindBufferARB(GL_ARRAY_BUFFER, m_vbo);
 			glVertexPointer(3, GL_FLOAT, sizeof(VBOVertex), 0);
 			glNormalPointer(GL_FLOAT, sizeof(VBOVertex), reinterpret_cast<void *>(3*sizeof(float)));
 			glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(VBOVertex), reinterpret_cast<void *>(6*sizeof(float)));
 			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, ctx->indices_vbo);
-			glDrawRangeElements(GL_TRIANGLES, 0, ctx->NUMVERTICES()-1, ctx->VBO_COUNT_MID_IDX(), GL_UNSIGNED_SHORT, reinterpret_cast<void*>(ctx->IDX_VBO_MAIN_OFFSET()));
-			for (int i=0; i<4; i++) {
-				if (edgeFriend[i]) {
-					glDrawRangeElements(GL_TRIANGLES, s_hiMinIdx[i], s_hiMaxIdx[i], ctx->VBO_COUNT_HI_EDGE(), GL_UNSIGNED_SHORT, reinterpret_cast<void*>(ctx->IDX_VBO_HI_OFFSET(i)));
-				} else {
-					glDrawRangeElements(GL_TRIANGLES, s_loMinIdx[i], s_loMaxIdx[i], ctx->VBO_COUNT_LO_EDGE(), GL_UNSIGNED_SHORT, reinterpret_cast<void*>(ctx->IDX_VBO_LO_OFFSET(i)));
-				}
-			}
+			glDrawElements(GL_TRIANGLES, ctx->indices_tri_count*3, GL_UNSIGNED_SHORT, 0);
 			glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
 			glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, 0);
 
@@ -1000,6 +1044,7 @@ static std::vector<GeoSphere*> s_allGeospheres;
 static std::deque<GeoSphere*> s_geosphereUpdateQueue;
 static GeoSphere* s_currentlyUpdatingGeoSphere = 0;
 static SDL_mutex *s_geosphereUpdateQueueLock = 0;
+static SDL_cond *s_geosphereUpdateQueueCondition = 0;		///< Condition variable for s_geosphereUpdateQueue and s_exitFlag. Allows waking up the thread when useful.
 static SDL_Thread *s_updateThread = 0;
 
 static bool s_exitFlag = false;
@@ -1046,9 +1091,8 @@ int GeoSphere::UpdateLODThread(void *data)
 			SDL_mutexV(gs->m_updateLock);
 		} else {
 			// if there's nothing in the update queue, just sleep for a bit before checking it again
-			// XXX could use a semaphore instead, but polling is probably ok
-			SDL_mutexV(s_geosphereUpdateQueueLock);
-			SDL_Delay(10);
+			SDL_CondWait(s_geosphereUpdateQueueCondition, s_geosphereUpdateQueueLock);		// Unlocks s_geosphereUpdateQueueLock
+			SDL_mutexV(s_geosphereUpdateQueueLock);				// Even if SDL doc doesn't say it, SDL_CondWait re-locks the mutex on exit
 		}
 	}
 
@@ -1057,20 +1101,8 @@ int GeoSphere::UpdateLODThread(void *data)
 
 void GeoSphere::Init()
 {
-	s_geosphereSurfaceShader[0] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 1\n");
-	s_geosphereSurfaceShader[1] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 2\n");
-	s_geosphereSurfaceShader[2] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 3\n");
-	s_geosphereSurfaceShader[3] = new GeosphereShader("geosphere", "#define NUM_LIGHTS 4\n");
-	s_geosphereSkyShader[0] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 1\n");
-	s_geosphereSkyShader[1] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 2\n");
-	s_geosphereSkyShader[2] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 3\n");
-	s_geosphereSkyShader[3] = new GeosphereShader("geosphere_sky", "#define NUM_LIGHTS 4\n");
-	s_geosphereStarShader = new GeosphereShader("geosphere_star");
-	s_geosphereDimStarShader[0] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 1\n");
-	s_geosphereDimStarShader[1] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 2\n");
-	s_geosphereDimStarShader[2] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 3\n");
-	s_geosphereDimStarShader[3] = new GeosphereShader("geosphere_star", "#define DIM\n#define NUM_LIGHTS 4\n");
 	s_geosphereUpdateQueueLock = SDL_CreateMutex();
+	s_geosphereUpdateQueueCondition = SDL_CreateCond();
 
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
@@ -1088,6 +1120,7 @@ void GeoSphere::Uninit()
 	SDL_mutexP(s_geosphereUpdateQueueLock);
 	s_exitFlag = true;
 	SDL_mutexV(s_geosphereUpdateQueueLock);
+	SDL_CondBroadcast(s_geosphereUpdateQueueCondition);
 
 	SDL_WaitThread(s_updateThread, 0);
 #endif /* GEOSPHERE_USE_THREADING */
@@ -1095,11 +1128,8 @@ void GeoSphere::Uninit()
 	assert (s_patchContext.Unique());
 	s_patchContext.Reset();
 
+	SDL_DestroyCond(s_geosphereUpdateQueueCondition);
 	SDL_DestroyMutex(s_geosphereUpdateQueueLock);
-	for (int i=0; i<4; i++) delete s_geosphereDimStarShader[i];
-	delete s_geosphereStarShader;
-	for (int i=0; i<4; i++) delete s_geosphereSkyShader[i];
-	for (int i=0; i<4; i++) delete s_geosphereSurfaceShader[i];
 }
 
 static void print_info(const SystemBody *sbody, const Terrain *terrain)
@@ -1176,6 +1206,8 @@ GeoSphere::GeoSphere(const SystemBody *body)
 	m_abort = false;
 
 	s_allGeospheres.push_back(this);
+
+	//SetUpMaterials is not called until first Render since light count is zero :)
 }
 
 GeoSphere::~GeoSphere()
@@ -1266,7 +1298,8 @@ void GeoSphere::BuildFirstPatches()
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
 
-static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, float rad, Material *mat)
+static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
+	const vector3d &campos, float rad, Graphics::Material *mat)
 {
 	const int LAT_SEGS = 20;
 	const int LONG_SEGS = 20;
@@ -1294,7 +1327,7 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 	}
 
 	/* Tri-fan above viewer */
-	VertexArray va(ATTRIB_POSITION);
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
 	va.Add(vector3f(0.f, 1.f, 0.f));
 	for (int i=0; i<=LONG_SEGS; i++) {
 		va.Add(vector3f(
@@ -1302,12 +1335,12 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 			cos(latDiff),
 			-sin(latDiff)*sinCosTable[i][1]));
 	}
-	renderer->DrawTriangles(&va, mat, TRIANGLE_FAN);
+	renderer->DrawTriangles(&va, mat, Graphics::TRIANGLE_FAN);
 
 	/* and wound latitudinal strips */
 	double lat = latDiff;
 	for (int j=1; j<LAT_SEGS; j++, lat += latDiff) {
-		VertexArray v(ATTRIB_POSITION);
+		Graphics::VertexArray v(Graphics::ATTRIB_POSITION);
 		float cosLat = cos(lat);
 		float sinLat = sin(lat);
 		float cosLat2 = cos(lat+latDiff);
@@ -1316,96 +1349,68 @@ static void DrawAtmosphereSurface(Renderer *renderer, const vector3d &campos, fl
 			v.Add(vector3f(sinLat*sinCosTable[i][0], cosLat, -sinLat*sinCosTable[i][1]));
 			v.Add(vector3f(sinLat2*sinCosTable[i][0], cosLat2, -sinLat2*sinCosTable[i][1]));
 		}
-		renderer->DrawTriangles(&v, mat, TRIANGLE_STRIP);
+		renderer->DrawTriangles(&v, mat, Graphics::TRIANGLE_STRIP);
 	}
 
 	glPopMatrix();
 }
 
-void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, const float scale) {
+void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale) {
 	glPushMatrix();
 	glTranslated(-campos.x, -campos.y, -campos.z);
-	Frustum frustum = Frustum::FromGLState();
-
-	const float atmosRadius = float(ATMOSPHERE_RADIUS);
+	Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
 
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
-	GeosphereShader *shader = 0;
 
-	if (AreShadersEnabled()) {
-		Color atmosCol;
-		double atmosDensity;
+	//First draw - create materials (they do not change afterwards)
+	if (!m_surfaceMaterial.Valid())
+		SetUpMaterials();
+
+	if (Graphics::AreShadersEnabled()) {
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
-		vector3d center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 
-		m_sbody->GetAtmosphereFlavor(&atmosCol, &atmosDensity);
-		atmosDensity *= 0.00005;
+		//Update material parameters
+		//XXX no need to calculate AP every frame
+		m_atmosphereParameters = m_sbody->CalcAtmosphereParams();
+		m_atmosphereParameters.center = modelMatrix * vector3d(0.0, 0.0, 0.0);
+		m_atmosphereParameters.planetRadius = radius;
+		m_atmosphereParameters.scale = scale;
 
-		if (atmosDensity > 0.0) {
-			shader = s_geosphereSkyShader[Graphics::State::GetNumLights()-1];
-			shader->Use();
-			shader->set_geosphereScale(scale);
-			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
-			shader->set_geosphereAtmosFogDensity(atmosDensity);
-			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
-			shader->set_geosphereCenter(center.x, center.y, center.z);
+		m_surfaceMaterial->specialParameter0 = &m_atmosphereParameters;
 
-			Material atmoMat;
-			atmoMat.shader = shader;
+		if (m_atmosphereParameters.atmosDensity > 0.0) {
+			m_atmosphereMaterial->specialParameter0 = &m_atmosphereParameters;
 
-			renderer->SetBlendMode(BLEND_ALPHA_ONE);
+			renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 			renderer->SetDepthWrite(false);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, campos, atmosRadius*1.01, &atmoMat);
+			DrawAtmosphereSurface(renderer, campos, m_atmosphereParameters.atmosRadius*1.01, m_atmosphereMaterial.Get());
 			renderer->SetDepthWrite(true);
-			renderer->SetBlendMode(BLEND_SOLID);
-		}
-
-		if ((m_sbody->type == SystemBody::TYPE_BROWN_DWARF) ||
-			(m_sbody->type == SystemBody::TYPE_STAR_M)){
-			shader = s_geosphereDimStarShader[Graphics::State::GetNumLights()-1];
-			shader->Use();
-		}
-		else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
-			shader = s_geosphereStarShader;
-			shader->Use();
-		} else {
-			shader = s_geosphereSurfaceShader[Graphics::State::GetNumLights()-1];
-			shader->Use();
-			shader->set_geosphereScale(scale);
-			shader->set_geosphereAtmosTopRad(atmosRadius*radius/scale);
-			shader->set_geosphereAtmosFogDensity(atmosDensity);
-			shader->set_atmosColor(atmosCol.r, atmosCol.g, atmosCol.b, atmosCol.a);
-			shader->set_geosphereCenter(center.x, center.y, center.z);
+			renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		}
 	}
 	glPopMatrix();
 
 	if (!m_patches[0]) BuildFirstPatches();
 
-	const float black[4] = { 0,0,0,0 };
 	Color ambient;
-	float emission[4] = { 0,0,0,0 };
+	Color &emission = m_surfaceMaterial->emissive;
 
 	// save old global ambient
-	// XXX add GetAmbient to renderer or save ambient in scene? (Space)
-	Color oldAmbient;
-	glGetFloatv(GL_LIGHT_MODEL_AMBIENT, oldAmbient);
-
-	float b = AreShadersEnabled() ? 2.0f : 1.5f; //XXX ??
+	const Color oldAmbient = renderer->GetAmbientColor();
 
 	if ((m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) || (m_sbody->type == SystemBody::TYPE_BROWN_DWARF)) {
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 0.2f;
 		ambient.a = 1.0f;
-		emission[0] = StarSystem::starRealColors[m_sbody->type][0] * 0.5f * b;
-		emission[1] = StarSystem::starRealColors[m_sbody->type][1] * 0.5f * b;
-		emission[2] = StarSystem::starRealColors[m_sbody->type][2] * 0.5f * b;
-		emission[3] = 0.5f;
+		emission.r = StarSystem::starRealColors[m_sbody->type][0];
+		emission.g = StarSystem::starRealColors[m_sbody->type][1];
+		emission.b = StarSystem::starRealColors[m_sbody->type][2];
+		emission.a = 1.f;
 	}
 
 	else {
@@ -1420,19 +1425,16 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	}
 
 	renderer->SetAmbientColor(ambient);
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-	glMaterialfv (GL_FRONT, GL_SPECULAR, black);
-	glMaterialfv (GL_FRONT, GL_EMISSION, emission);
-	glEnable(GL_COLOR_MATERIAL);
+	// this is pretty much the only place where a non-renderer is allowed to call Apply()
+	// to be removed when someone rewrites terrain
+	m_surfaceMaterial->Apply();
 
-//	glLineWidth(1.0);
-//	glPolygonMode(GL_FRONT, GL_LINE);
 	for (int i=0; i<6; i++) {
 		m_patches[i]->Render(campos, frustum);
 	}
-	if (shader) shader->Unuse();
 
-	glDisable(GL_COLOR_MATERIAL);
+	m_surfaceMaterial->Unapply();
+
 	renderer->SetAmbientColor(oldAmbient);
 
 	// if the update thread has deleted any geopatches, destroy the vbos
@@ -1442,6 +1444,7 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 		UpdateLODThread(this);
 		return;*/
 
+	bool added(false);		// Tells if something has been queued.
 	SDL_mutexP(s_geosphereUpdateQueueLock);
 	bool onQueue =
 		(std::find(s_geosphereUpdateQueue.begin(), s_geosphereUpdateQueue.end(), this)
@@ -1450,8 +1453,10 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 	if (!onQueue && (s_currentlyUpdatingGeoSphere != this)) {
 		this->m_tempCampos = campos;
 		s_geosphereUpdateQueue.push_back(this);
+		added = true;
 	}
 	SDL_mutexV(s_geosphereUpdateQueueLock);
+	if (added) SDL_CondBroadcast(s_geosphereUpdateQueueCondition);
 
 #ifndef GEOSPHERE_USE_THREADING
 	m_tempCampos = campos;
@@ -1459,3 +1464,35 @@ void GeoSphere::Render(Renderer *renderer, vector3d campos, const float radius, 
 #endif /* !GEOSPHERE_USE_THREADING */
 }
 
+void GeoSphere::SetUpMaterials()
+{
+	// Request material for this star or planet, with or without
+	// atmosphere. Separate material for surface and sky.
+	Graphics::MaterialDescriptor surfDesc;
+	surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
+	if ((m_sbody->type == SystemBody::TYPE_BROWN_DWARF) ||
+		(m_sbody->type == SystemBody::TYPE_STAR_M)) {
+		//dim star (emits and receives light)
+		surfDesc.lighting = true;
+		surfDesc.atmosphere = false;
+	}
+	else if (m_sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+		//normal star
+		surfDesc.lighting = false;
+		surfDesc.atmosphere = false;
+	} else {
+		//planetoid with or without atmosphere
+		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
+		surfDesc.lighting = true;
+		surfDesc.atmosphere = (ap.atmosDensity > 0.0);
+	}
+	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
+
+	//Shader-less atmosphere is drawn in Planet
+	if (Graphics::AreShadersEnabled()) {
+		Graphics::MaterialDescriptor skyDesc;
+		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
+		skyDesc.lighting = true;
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc));
+	}
+}

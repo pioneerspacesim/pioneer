@@ -86,6 +86,13 @@ KEYWORDS = set([
 ])
 assert (len(KEYWORDS) == 74)
 
+class CppParseError(Exception):
+    def __init__(s, value):
+        s.value = value
+
+    def __str__(s):
+        return repr(s.value)
+
 def match_pp_token(ln, lines):
     tok = RX_LINE_COMMENT.match(ln)
     if tok is not None:
@@ -102,7 +109,7 @@ def match_pp_token(ln, lines):
                     return xln[end.end():], 'comment', ''.join(accum)
                 else:
                     accum.append(xln)
-            raise Exception('Unclosed block comment')
+            raise CppParseError('Unclosed block comment')
         else:
             return ln[end.end():], 'comment', ln[2:end.start()]
     tok = RX_LITERAL.match(ln)
@@ -130,7 +137,7 @@ def match_pp_token(ln, lines):
     if tok is not None:
         return ln[tok.end():], 'punctuation', tok.group(1)
     # one of the above should have matched...
-    raise Exception('Unmatched token: ' + repr(ln))
+    raise CppParseError('Unmatched token: ' + repr(ln))
 
 def match_pp_headername_or_token(ln, lines):
     tok = RX_PP_HEADERNAME.match(ln)
@@ -309,7 +316,7 @@ def parse_enum(toktype, toktext, tokens, preceding_comment=None):
                 toktype, toktext = collect_comments(tokens, tag)
             if toktype == 'punctuation' and toktext == ',':
                 toktype, toktext = collect_comments(tokens, tag)
-            
+
             tag = RX_ENUM_TAG.search(' '.join(tag))
             if tag is not None:
                 item.read_attrs(extract_attributes(tag.group(1)))
@@ -417,18 +424,36 @@ def main():
     allinputs = list(expand_dirs(args, options.pattern, options.recursive))
     allinputs.sort()
     for path in allinputs:
-        if path == '-':
-            es = list(extract_enums(sys.stdin))
-        else:
-            with open(path, 'rU') as fl:
-                es = list(extract_enums(fl))
-            if es:
-                if options.outfile == '-':
-                    hpath = os.path.basename(path)
-                else:
-                    hpath = os.path.relpath(path, os.path.dirname(options.outfile))
-                headers.append(hpath)
-        enums += es
+        try:
+            if path == '-':
+                es = list(extract_enums(sys.stdin))
+            else:
+                with open(path, 'rU') as fl:
+                    # skip an optional UTF-8 Byte Order Mark
+                    if sys.version_info[0] >= 3:
+                        hasbom = (fl.read(1) == '\uFEFF')
+                    else:
+                        hasbom = (fl.read(3) == '\xef\xbb\xbf')
+                    if hasbom:
+                        sys.stderr.write("Warning: file '" + path + "' uses a UTF-8 Byte Order Mark\n")
+                    else:
+                        fl.seek(0)
+
+                    es = list(extract_enums(fl))
+                if es:
+                    if options.outfile == '-':
+                        hpath = os.path.basename(path)
+                    else:
+                        hpath = os.path.relpath(path, os.path.dirname(options.outfile))
+                    headers.append(hpath)
+            enums += es
+        except CppParseError as e:
+            if path == '-':
+                prettypath = 'input'
+            else:
+                prettypath = "'" + path + "'"
+            sys.stderr.write("Warning: C++ parse error in " + prettypath + ":\n")
+            sys.stderr.write('    ' + e.value + '\n')
 
     if options.outfile == '-':
         # write to stdout (no header)

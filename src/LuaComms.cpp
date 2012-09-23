@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaComms.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
@@ -95,7 +98,7 @@ static int l_comms_important_message(lua_State *l)
 
 void LuaComms::Register()
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

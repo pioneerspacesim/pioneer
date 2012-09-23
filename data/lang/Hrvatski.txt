@@ -1089,8 +1089,8 @@ IN_TRANSIT_TO_N_X_X_X
     Prijelaz u %system [%x,%y,%z]
 ALT_IN_METRES
     Visina: %altitude{f.0}m
-PRESSURE_N_BAR
-    P: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    P: %pressure{f.2} atm
 NO_HYPERDRIVE
     Bez hiperpogona
 MASS_N_TONNES

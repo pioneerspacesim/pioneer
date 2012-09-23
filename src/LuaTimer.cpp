@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaTimer.h"
 #include "LuaUtils.h"
 #include "Game.h"
@@ -6,7 +9,7 @@
 void LuaTimer::Tick()
 {
 	assert(Pi::game);
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -76,7 +79,7 @@ void LuaTimer::Tick()
  * Because timer functions are called outside of the normal event model, it is
  * possible that game objects no longer exist. Consider this example:
  *
- * > local enemy = Space.SpawnShipNear("Eagle Long Range Fighter", Game.player, 20, 20)
+ * > local enemy = Space.SpawnShipNear("eagle_lrf", Game.player, 20, 20)
  * > Comms.ImportantMessage(enemy:GetLabel(), "You have 20 seconds to surrender or you will be destroyed.")
  * > Timer:CallAt(Game.time+20, function ()
  * >     Comms.ImportantMessage(enemy:GetLabel(), "You were warned. Prepare to die!")

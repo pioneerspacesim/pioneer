@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
@@ -57,6 +60,9 @@ public:
 	Body *GetSetSpeedTarget() const;
 	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
 	void SetNavTarget(Body* const target, bool setSpeedTo = false);
+
+	virtual Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
+	virtual void ResetHyperspaceCountdown();
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);

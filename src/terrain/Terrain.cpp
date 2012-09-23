@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Terrain.h"
 #include "perlin.h"
 #include "Pi.h"
@@ -13,9 +16,9 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 	if (body->heightMapFilename) {
 		const GeneratorInstancer choices[] = {
 			InstanceGenerator<TerrainHeightMapped,TerrainColorEarthLike>,
-			InstanceGenerator<TerrainHeightMapped2,TerrainColorRock>
+			InstanceGenerator<TerrainHeightMapped2,TerrainColorRock2>
 		};
-		assert(body->heightMapFractal < 2);
+		assert(body->heightMapFractal < COUNTOF(choices));
 		return choices[body->heightMapFractal](body);
 	}
 
@@ -43,7 +46,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarK>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarG>
 			};
-			gi = choices[rand.Int32(4)];
+			gi = choices[rand.Int32(COUNTOF(choices))];
 			break;
 		}
 
@@ -57,7 +60,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarK>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarG>
 			};
-			gi = choices[rand.Int32(4)];
+			gi = choices[rand.Int32(COUNTOF(choices))];
 			break;
 		}
 
@@ -69,7 +72,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarWhiteDwarf>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorStarG>
 			};
-			gi = choices[rand.Int32(2)];
+			gi = choices[rand.Int32(COUNTOF(choices))];
 			break;
 		}
 
@@ -83,17 +86,32 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 				InstanceGenerator<TerrainHeightFlat,TerrainColorGGUranus>,
 				InstanceGenerator<TerrainHeightFlat,TerrainColorGGSaturn>
 			};
-			gi = choices[rand.Int32(7)];
+			gi = choices[rand.Int32(COUNTOF(choices))];
 			break;
 		}
 
-		case SystemBody::TYPE_PLANET_ASTEROID:
-			gi = InstanceGenerator<TerrainHeightAsteroid,TerrainColorAsteroid>;
+		case SystemBody::TYPE_PLANET_ASTEROID: {
+			const GeneratorInstancer choices[] = {
+				InstanceGenerator<TerrainHeightAsteroid,TerrainColorAsteroid>,
+				InstanceGenerator<TerrainHeightAsteroid2,TerrainColorAsteroid>,
+				InstanceGenerator<TerrainHeightAsteroid3,TerrainColorAsteroid>,
+				InstanceGenerator<TerrainHeightAsteroid4,TerrainColorAsteroid>,
+				InstanceGenerator<TerrainHeightAsteroid,TerrainColorRock>,
+				InstanceGenerator<TerrainHeightAsteroid2,TerrainColorBandedRock>,
+				InstanceGenerator<TerrainHeightAsteroid3,TerrainColorRock>,
+				InstanceGenerator<TerrainHeightAsteroid4,TerrainColorBandedRock>
+			};
+			gi = choices[rand.Int32(COUNTOF(choices))];
 			break;
+		}
 
 		case SystemBody::TYPE_PLANET_TERRESTRIAL: {
 
+			//Over-ride:
+			//gi = InstanceGenerator<TerrainHeightAsteroid3,TerrainColorRock>;
+			//break;
 			// Earth-like world
+
 			if ((body->m_life > fixed(7,10)) && (body->m_volatileGas > fixed(2,10))) {
 				// There would be no life on the surface without atmosphere
 
@@ -108,7 +126,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 						InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorEarthLike>,
 						InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorEarthLike>
 					};
-					gi = choices[rand.Int32(8)];
+					gi = choices[rand.Int32(COUNTOF(choices))];
 					break;
 				}
 
@@ -120,9 +138,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 					InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorDesert>,
 					InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorDesert>,
 					InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorDesert>,
-					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorDesert>
+					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorDesert>//,
+					//InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorTFGood>
 				};
-				gi = choices[rand.Int32(8)];
+				gi = choices[rand.Int32(COUNTOF(choices))];
 				break;
 			}
 
@@ -140,9 +161,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 						InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorTFGood>,
 						InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorTFGood>,
 						InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorTFGood>,
-						InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFGood>
+						InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFGood>,
+						InstanceGenerator<TerrainHeightBarrenRock,TerrainColorTFGood>,
+						InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorTFGood>
+						//InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorTFGood>
 					};
-					gi = choices[rand.Int32(10)];
+					gi = choices[rand.Int32(COUNTOF(choices))];
 					break;
 				}
 
@@ -156,9 +180,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 					InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorIce>,
-					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorIce>
 				};
-				gi = choices[rand.Int32(10)];
+				gi = choices[rand.Int32(COUNTOF(choices))];
 				break;
 			}
 
@@ -176,9 +203,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 						InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorTFPoor>,
 						InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorTFPoor>,
 						InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorTFPoor>,
-						InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFPoor>
+						InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightBarrenRock,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorTFPoor>,
+						InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorTFPoor>
 					};
-					gi = choices[rand.Int32(10)];
+					gi = choices[rand.Int32(COUNTOF(choices))];
 					break;
 				}
 
@@ -192,9 +222,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 					InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorIce>,
-					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorIce>
 				};
-				gi = choices[rand.Int32(10)];
+				gi = choices[rand.Int32(COUNTOF(choices))];
 				break;
 			}
 
@@ -206,9 +239,11 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorDesert>,
 					InstanceGenerator<TerrainHeightRuggedLava,TerrainColorDesert>,
 					InstanceGenerator<TerrainHeightMountainsVolcano,TerrainColorDesert>,
-					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorDesert>
+					InstanceGenerator<TerrainHeightMountainsRiversVolcano,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorDesert>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorDesert>
 				};
-				gi = choices[rand.Int32(6)];
+				gi = choices[rand.Int32(COUNTOF(choices))];
 				break;
 			}
 
@@ -220,9 +255,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 					InstanceGenerator<TerrainHeightMountainsCraters,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightWaterSolid,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightWaterSolidCanyons,TerrainColorIce>,
-					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorIce>
 				};
-				gi = choices[rand.Int32(6)];
+				gi = choices[rand.Int32(COUNTOF(choices))];
 				break;
 			}
 
@@ -252,9 +290,12 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 					InstanceGenerator<TerrainHeightMountainsRivers,TerrainColorTFPoor>,
 					InstanceGenerator<TerrainHeightWaterSolid,TerrainColorTFPoor>,
 					InstanceGenerator<TerrainHeightRuggedLava,TerrainColorTFPoor>,
-					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFPoor>
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorTFPoor>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorIce>,
+					InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorIce>
 				};
-				gi = choices[rand.Int32(11)];
+				gi = choices[rand.Int32(COUNTOF(choices))];
 				break;
 			};
 
@@ -262,17 +303,21 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 				const GeneratorInstancer choices[] = {
 					InstanceGenerator<TerrainHeightHillsNormal,TerrainColorRock>,
 					InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorRock>,
-					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorRock>
+					InstanceGenerator<TerrainHeightRuggedDesert,TerrainColorRock>,
+					InstanceGenerator<TerrainHeightBarrenRock,TerrainColorRock>,
+					InstanceGenerator<TerrainHeightBarrenRock2,TerrainColorRock>,
+					InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorRock>
 				};
-				gi = choices[rand.Int32(3)];
+				gi = choices[rand.Int32(COUNTOF(choices))];
 				break;
 			}
 
 			const GeneratorInstancer choices[] = {
 				InstanceGenerator<TerrainHeightHillsCraters2,TerrainColorRock>,
 				InstanceGenerator<TerrainHeightMountainsCraters2,TerrainColorRock>,
+				InstanceGenerator<TerrainHeightBarrenRock3,TerrainColorRock>
 			};
-			gi = choices[rand.Int32(2)];
+			gi = choices[rand.Int32(COUNTOF(choices))];
 			break;
 		}
 
@@ -369,15 +414,15 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 	if (!isfinite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
 	//             ^^^^ max mountain height for earth-like planet (same mass, radius)
 	// and then in sphere normalized jizz
-	m_maxHeight = std::min(0.5, m_maxHeightInMeters / rad);
+	m_maxHeight = std::min(1.0, m_maxHeightInMeters / rad);
 	//printf("%s: max terrain height: %fm [%f]\n", m_body->name.c_str(), m_maxHeightInMeters, m_maxHeight);
 	m_invMaxHeight = 1.0 / m_maxHeight;
 	m_planetRadius = rad;
 	m_planetEarthRadii = rad / EARTH_RADIUS;
 
 	// Pick some colors, mainly reds and greens
-	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
-	for (int i=0; i<8; i++) {
+	for (int i=0; i<int(COUNTOF(m_entropy)); i++) m_entropy[i] = m_rand.Double();
+	for (int i=0; i<int(COUNTOF(m_rockColor)); i++) {
 		double r,g,b;
 		r = m_rand.Double(0.3, 1.0);
 		g = m_rand.Double(0.3, r);
@@ -388,8 +433,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 	}
 
 	// Pick some darker colours mainly reds and greens
-	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
-	for (int i=0; i<8; i++) {
+	for (int i=0; i<int(COUNTOF(m_entropy)); i++) m_entropy[i] = m_rand.Double();
+	for (int i=0; i<int(COUNTOF(m_darkrockColor)); i++) {
 		double r,g,b;
 		r = m_rand.Double(0.05, 0.3);
 		g = m_rand.Double(0.05, r);
@@ -400,8 +445,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 	}
 
 	// grey colours, in case you simply must have a grey colour on a world with high metallicity
-	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
-	for (int i=0; i<8; i++) {
+	for (int i=0; i<int(COUNTOF(m_entropy)); i++) m_entropy[i] = m_rand.Double();
+	for (int i=0; i<int(COUNTOF(m_greyrockColor)); i++) {
 		double g;
 		g = m_rand.Double(0.3, 0.9);
 		m_greyrockColor[i] = vector3d(g, g, g);
@@ -409,8 +454,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 
 	// Pick some plant colours, mainly greens
 	// TODO take star class into account
-	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
-	for (int i=0; i<8; i++) {
+	for (int i=0; i<int(COUNTOF(m_entropy)); i++) m_entropy[i] = m_rand.Double();
+	for (int i=0; i<int(COUNTOF(m_plantColor)); i++) {
 		double r,g,b;
 		g = m_rand.Double(0.3, 1.0);
 		r = m_rand.Double(0.3, g);
@@ -422,8 +467,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 
 	// Pick some darker plant colours mainly greens
 	// TODO take star class into account
-	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
-	for (int i=0; i<8; i++) {
+	for (int i=0; i<int(COUNTOF(m_entropy)); i++) m_entropy[i] = m_rand.Double();
+	for (int i=0; i<int(COUNTOF(m_darkplantColor)); i++) {
 		double r,g,b;
 		g = m_rand.Double(0.05, 0.3);
 		r = m_rand.Double(0.00, g);
@@ -435,8 +480,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 
 	// Pick some sand colours, mainly yellow
 	// TODO let some planetary value scale this colour
-	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
-	for (int i=0; i<8; i++) {
+	for (int i=0; i<int(COUNTOF(m_entropy)); i++) m_entropy[i] = m_rand.Double();
+	for (int i=0; i<int(COUNTOF(m_sandColor)); i++) {
 		double r,g,b;
 		r = m_rand.Double(0.6, 1.0);
 		g = m_rand.Double(0.6, r);
@@ -447,8 +492,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 
 	// Pick some darker sand colours mainly yellow
 	// TODO let some planetary value scale this colour
-	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
-	for (int i=0; i<8; i++) {
+	for (int i=0; i<int(COUNTOF(m_entropy)); i++) m_entropy[i] = m_rand.Double();
+	for (int i=0; i<int(COUNTOF(m_darksandColor)); i++) {
 		double r,g,b;
 		r = m_rand.Double(0.05, 0.6);
 		g = m_rand.Double(0.00, r);
@@ -459,8 +504,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 
 	// Pick some dirt colours, mainly red/brown
 	// TODO let some planetary value scale this colour
-	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
-	for (int i=0; i<8; i++) {
+	for (int i=0; i<int(COUNTOF(m_entropy)); i++) m_entropy[i] = m_rand.Double();
+	for (int i=0; i<int(COUNTOF(m_dirtColor)); i++) {
 		double r,g,b;
 		r = m_rand.Double(0.3, 0.7);
 		g = m_rand.Double(r-0.1, 0.75);
@@ -470,8 +515,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 
 	// Pick some darker dirt colours mainly red/brown
 	// TODO let some planetary value scale this colour
-	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
-	for (int i=0; i<8; i++) {
+	for (int i=0; i<int(COUNTOF(m_entropy)); i++) m_entropy[i] = m_rand.Double();
+	for (int i=0; i<int(COUNTOF(m_darkdirtColor)); i++) {
 		double r,g,b;
 		r = m_rand.Double(0.05, 0.3);
 		g = m_rand.Double(r-0.05, 0.35);
@@ -480,8 +525,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 	}
 
 	// These are used for gas giant colours, they are more m_random and *should* really use volatileGasses - TODO
-	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
-	for (int i=0; i<8; i++) {
+	for (int i=0; i<int(COUNTOF(m_entropy)); i++) m_entropy[i] = m_rand.Double();
+	for (int i=0; i<int(COUNTOF(m_gglightColor)); i++) {
 		double r,g,b;
 		r = m_rand.Double(0.0, 0.5);
 		g = m_rand.Double(0.0, 0.5);
@@ -489,8 +534,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_rand(body->seed), m_h
 		m_gglightColor[i] = vector3d(r, g, b);
 	}
 	//darker gas giant colours, more reds and greens
-	for (int i=0; i<12; i++) m_entropy[i] = m_rand.Double();
-	for (int i=0; i<8; i++) {
+	for (int i=0; i<int(COUNTOF(m_entropy)); i++) m_entropy[i] = m_rand.Double();
+	for (int i=0; i<int(COUNTOF(m_ggdarkColor)); i++) {
 		double r,g,b;
 		r = m_rand.Double(0.0, 0.3);
 		g = m_rand.Double(0.0, r);

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include <map>
 #include "FontCache.h"
@@ -18,12 +21,91 @@
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/Shader.h"
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/TextureGL.h" // XXX temporary until LMR uses renderer drawing properly
+//XXX obviously this should not be visible to LMR. I just want
+//to get rid of the old Shader class
+#include "graphics/gl2/Program.h"
 #include <set>
 #include <algorithm>
+#include <sstream>
+#include "StringF.h"
+
+static Graphics::Renderer *s_renderer;
+
+// This is used to pick (or create new) a shader for every draw op.
+struct ShaderKey {
+	bool pointLighting; //false = dirlight
+	bool texture;
+	bool glowmap;
+	unsigned int numlights; //Uint8 caused a sign-promo warning with stringf :(
+
+	friend bool operator ==
+	(const ShaderKey &a, const ShaderKey &b)
+	{
+		return (
+			a.pointLighting == b.pointLighting &&
+			a.texture == b.texture &&
+			a.glowmap == b.glowmap &&
+			a.numlights == b.numlights
+		);
+	}
+};
+
+using Graphics::GL2::Program;
+static std::vector<std::pair<ShaderKey, Program*> > s_shaders;
+typedef std::vector<std::pair<ShaderKey, Program*> >::const_iterator ShaderIterator;
+
+// this is used to pick the correct program
+static ShaderKey s_shaderKey = {};
+
+// create a program from a key and insert it into s_shaders
+Program *CreateShader(const ShaderKey &key) {
+	assert(key.numlights > 0 && key.numlights < 5);
+	Program *p = 0;
+
+	std::stringstream ss;
+	if (key.texture) {
+		ss << "#define TEXTURE\n";
+	}
+	if (key.glowmap) {
+		assert(key.texture);
+		ss << "#define GLOWMAP\n";
+	}
+
+	//lights
+	ss << stringf("#define NUM_LIGHTS %0{u}\n", key.numlights);
+
+	if (key.pointLighting)
+		p = new Program("lmr-pointlight", ss.str());
+	else
+		p = new Program("lmr-dirlight", ss.str());
+	s_shaders.push_back(std::make_pair(key, p));
+	//could sort s_shaders.
+	return p;
+}
+
+// pick and apply a program
+void ApplyShader() {
+	if (!Graphics::AreShadersEnabled()) return;
+
+	Program *p = 0;
+	for (ShaderIterator it = s_shaders.begin(); it != s_shaders.end(); ++it) {
+		if ((*it).first == s_shaderKey) {
+			p = (*it).second;
+			break;
+		}
+	}
+
+	if (!p) p = CreateShader(s_shaderKey);
+	assert(p);
+	p->Use();
+	p->invLogZfarPlus1.Set(Graphics::State::invLogZfarPlus1);
+	p->sceneAmbient.Set(s_renderer->GetAmbientColor());
+	p->texture0.Set(0);
+	p->texture1.Set(1);
+}
 
 static const Uint32 s_cacheVersion = 2;
 
@@ -52,25 +134,26 @@ namespace ShipThruster {
 	//vertices for thruster flare & glow
 	static Graphics::VertexArray *tVerts;
 	static Graphics::VertexArray *gVerts;
-	static Graphics::Material tMat;
-	static Graphics::Material glowMat;
+	static Graphics::Material *tMat;
+	static Graphics::Material *glowMat;
 	//cool purple-ish
-	static Color color(0.7f, 0.6f, 1.f, 1.f);
+	static Color baseColor(0.7f, 0.6f, 1.f, 1.f);
 
 	static void Init(Graphics::Renderer *renderer) {
 		tVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 		gVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 		//set up materials
-		tMat.texture0 = Graphics::TextureBuilder::Billboard("textures/thruster.png").GetOrCreateTexture(renderer, "billboard");
-		tMat.unlit = true;
-		tMat.twoSided = true;
-		tMat.diffuse = color;
+		Graphics::MaterialDescriptor desc;
+		desc.twoSided = true;
+		desc.textures = 1;
+		tMat = renderer->CreateMaterial(desc);
+		tMat->texture0 = Graphics::TextureBuilder::Billboard("textures/thruster.png").GetOrCreateTexture(renderer, "billboard");
+		tMat->diffuse = baseColor;
 
-		glowMat.texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(renderer, "billboard");
-		glowMat.unlit = true;
-		glowMat.twoSided = true;
-		glowMat.diffuse = color;
+		glowMat = renderer->CreateMaterial(desc);
+		glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(renderer, "billboard");
+		glowMat->diffuse = baseColor;
 
 		//zero at thruster center
 		//+x down
@@ -125,6 +208,8 @@ namespace ShipThruster {
 	static void Uninit() {
 		delete tVerts;
 		delete gVerts;
+		delete tMat;
+		delete glowMat;
 	}
 
 	struct Thruster
@@ -201,14 +286,14 @@ namespace ShipThruster {
 		vector3f viewdir = vector3f(-mv[2], -mv[6], -mv[10]).Normalized();
 		vector3f cdir(0.f, 0.f, -1.f);
 		//fade thruster out, when directly facing it
-		tMat.diffuse.a = 1.0 - powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len*2);
+		tMat->diffuse = baseColor * (1.f - powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len*2));
 
-		renderer->DrawTriangles(tVerts, &tMat);
+		renderer->DrawTriangles(tVerts, tMat);
 		glPopMatrix ();
 
 		// linear thrusters get a secondary glow billboard
 		if (m_linear_only) {
-			glowMat.diffuse.a = powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len);
+			glowMat->diffuse = baseColor * powf(Clamp(viewdir.Dot(cdir), 0.f, 1.f), len);
 
 			glPushMatrix();
 			matrix4x4f rot;
@@ -238,7 +323,7 @@ namespace ShipThruster {
 			vert = start+rotv1;
 			gVerts->position[4] = vector3f(vert.x, vert.y, vert.z);
 
-			renderer->DrawTriangles(gVerts, &glowMat);
+			renderer->DrawTriangles(gVerts, glowMat);
 
 			glPopMatrix();
 		}
@@ -247,15 +332,7 @@ namespace ShipThruster {
 
 class LmrGeomBuffer;
 
-SHADER_CLASS_BEGIN(LmrShader)
-	SHADER_UNIFORM_INT(usetex)
-	SHADER_UNIFORM_INT(useglow)
-	SHADER_UNIFORM_SAMPLER(tex)
-	SHADER_UNIFORM_SAMPLER(texGlow)
-SHADER_CLASS_END()
-
-static LmrShader *s_sunlightShader[4];
-static LmrShader *s_pointlightShader[4];
+static Graphics::Material *s_billboardMaterial;
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
 static FontCache s_fontCache;
@@ -268,7 +345,6 @@ static lua_State *sLua;
 static int s_numTrisRendered;
 static std::string s_cacheDir;
 static bool s_recompileAllModels = true;
-static Graphics::Renderer *s_renderer;
 
 struct Vertex {
 	Vertex() : v(0.0), n(0.0), tex_u(0.0), tex_v(0.0) {}		// zero this shit to stop denormal-copying on resize
@@ -288,17 +364,6 @@ void LmrNotifyScreenWidth(float width)
 
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
-
-//binds shader and sets lmr specific uniforms
-void UseProgram(LmrShader *shader, bool Textured = false, bool Glowmap = false) {
-	if (Graphics::AreShadersEnabled()) {
-		shader->Use();
-		if (Textured) shader->set_tex(0);
-		shader->set_usetex(Textured ? 1 : 0);
-		if (Glowmap) shader->set_texGlow(1);
-		shader->set_useglow(Glowmap ? 1 : 0);
-	}
-}
 
 #define BUFFER_OFFSET(i) (reinterpret_cast<const GLvoid *>(i))
 
@@ -333,7 +398,7 @@ static std::string _fread_string(FILE *f)
 class LmrGeomBuffer {
 public:
 	LmrGeomBuffer(LmrModel *model, bool isStatic) {
-		curOp.type = OP_NONE;
+		memset(&curOp, 0, sizeof(curOp));
 		curTriFlag = 0;
 		curTexture = 0;
 		curGlowmap = 0;
@@ -366,7 +431,6 @@ public:
 			s_staticBufferPool->AddGeometry(m_vertices.size(), &m_vertices[0], m_indices.size(), &m_indices[0],
 					&m_boIndexBase, &m_bo);
 		}
-		curOp.type = OP_NONE;
 	}
 	void FreeGeometry() {
 		m_vertices.clear();
@@ -378,10 +442,13 @@ public:
 	}
 
 	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
-		int activeLights = 0;
+		int activeLights = 0; //point lights
+		const unsigned int numLights = Graphics::State::GetNumLights(); //directional lights
 		s_numTrisRendered += m_indices.size()/3;
 
-		LmrShader *curShader = s_sunlightShader[Graphics::State::GetNumLights()-1];
+		memset(&s_shaderKey, 0, sizeof(ShaderKey));
+		s_shaderKey.numlights = numLights;
+		assert(s_shaderKey.numlights > 0 && s_shaderKey.numlights < 5);
 
 		BindBuffers();
 
@@ -404,24 +471,22 @@ public:
 						glActiveTexture(GL_TEXTURE1);
 						glBindTexture(GL_TEXTURE_2D, static_cast<Graphics::TextureGL*>(op.elems.glowmap)->GetTextureNum());
 					}
-					UseProgram(curShader, true, op.elems.glowmapFile);
-				} else {
-					UseProgram(curShader, false);
 				}
+
+				s_shaderKey.texture = (op.elems.textureFile != 0);
+				s_shaderKey.glowmap = (op.elems.glowmapFile != 0);
+				ApplyShader();
+
 				if (m_isStatic) {
 					// from static VBO
 					glDrawElements(GL_TRIANGLES,
 							op.elems.count, GL_UNSIGNED_SHORT,
 							BUFFER_OFFSET((op.elems.start+m_boIndexBase)*sizeof(Uint16)));
-					//glDrawRangeElements(GL_TRIANGLES, m_boIndexBase + op.elems.elemMin,
-					//		m_boIndexBase + op.elems.elemMax, op.elems.count, GL_UNSIGNED_SHORT,
-					//		BUFFER_OFFSET((op.elems.start+m_boIndexBase)*sizeof(Uint16)));
-				//	glDrawRangeElements(GL_TRIANGLES, op.elems.elemMin, op.elems.elemMax,
-				//		op.elems.count, GL_UNSIGNED_SHORT, BUFFER_OFFSET(op.elems.start*sizeof(Uint16)));
 				} else {
 					// otherwise regular index vertex array
 					glDrawElements(GL_TRIANGLES, op.elems.count, GL_UNSIGNED_SHORT, &m_indices[op.elems.start]);
 				}
+				//unbind textures
 				if (op.elems.texture) {
 					if (op.elems.glowmap) {
 						glActiveTexture(GL_TEXTURE1);
@@ -444,11 +509,10 @@ public:
 				}
 				if (!op.billboards.texture)
 					op.billboards.texture = Graphics::TextureBuilder::Model(*op.billboards.textureFile).GetOrCreateTexture(s_renderer, "billboard");
-				Graphics::Material mat;
-				mat.unlit = true;
-				mat.texture0 = op.billboards.texture;
-				mat.diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
-				s_renderer->DrawPointSprites(op.billboards.count, &verts[0], &mat, op.billboards.size);
+
+				s_billboardMaterial->texture0 = op.billboards.texture;
+				s_billboardMaterial->diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
+				s_renderer->DrawPointSprites(op.billboards.count, &verts[0], s_billboardMaterial, op.billboards.size);
 				BindBuffers();
 				break;
 			}
@@ -459,7 +523,7 @@ public:
 					glMaterialfv (GL_FRONT, GL_SPECULAR, m.specular);
 					glMaterialfv (GL_FRONT, GL_EMISSION, m.emissive);
 					glMaterialf (GL_FRONT, GL_SHININESS, m.shininess);
-					if (m.diffuse[3] >= 1.0) {
+					if (m.diffuse[3] > 0.99f) {
 						s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 					} else {
 						s_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
@@ -493,11 +557,12 @@ public:
 				break;
 			case OP_LIGHTING_TYPE:
 				if (op.lighting_type.local) {
+					//disable directional lights
 					glDisable(GL_LIGHT0);
 					glDisable(GL_LIGHT1);
 					glDisable(GL_LIGHT2);
 					glDisable(GL_LIGHT3);
-					float zilch[4] = { 0.0f,0.0f,0.0f,0.0f };
+					const float zilch[4] = { 0.0f,0.0f,0.0f,0.0f };
 					for (int j=4; j<8; j++) {
 						// so why are these set each
 						// time? because the shader
@@ -509,10 +574,10 @@ public:
 					}
 					activeLights = 0;
 				} else {
-					int numLights = Graphics::State::GetNumLights();
-					for (int j=0; j<numLights; j++) glEnable(GL_LIGHT0 + j);
-					for (int j=4; j<8; j++) glDisable(GL_LIGHT0 + j);
-					curShader = s_sunlightShader[Graphics::State::GetNumLights()-1];
+					for (unsigned int j=0; j<numLights; j++) glEnable(GL_LIGHT0 + j);
+					for (unsigned int j=4; j<8; j++) glDisable(GL_LIGHT0 + j);
+					s_shaderKey.numlights = numLights;
+					assert(s_shaderKey.numlights > 0 && s_shaderKey.numlights < 5);
 				}
 				break;
 			case OP_USE_LIGHT:
@@ -526,7 +591,9 @@ public:
 					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_POSITION, l.position);
 					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_DIFFUSE, l.color);
 					glLightfv(GL_LIGHT0 + 4 + activeLights, GL_SPECULAR, l.color);
-					curShader = s_pointlightShader[activeLights++];
+					activeLights++;
+					s_shaderKey.numlights = activeLights;
+					s_shaderKey.pointLighting  = true;
 					if (activeLights > 4) {
 						Error("Too many active lights in model '%s' (maximum 4)", m_model->GetName());
 					}
@@ -549,24 +616,18 @@ public:
 	void RenderThrusters(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
 		if (m_thrusters.empty()) return;
 
-		glDisable(GL_LIGHTING);
 		s_renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
 		s_renderer->SetDepthWrite(false);
-		glEnableClientState (GL_VERTEX_ARRAY);
-		glEnableClientState (GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState (GL_NORMAL_ARRAY);
-		glDisable(GL_CULL_FACE);
-		glEnable(GL_TEXTURE_2D);
+		glPushAttrib(GL_ENABLE_BIT);
 		for (unsigned int i=0; i<m_thrusters.size(); i++) {
 			m_thrusters[i].Render(s_renderer, rstate, params);
 		}
-		glDisable(GL_TEXTURE_2D);
-		glColor3f(1.f, 1.f, 1.f);
 		s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		s_renderer->SetDepthWrite(true);
-		glEnable(GL_CULL_FACE);
+		glPopAttrib();
 		glDisableClientState (GL_VERTEX_ARRAY);
 		glDisableClientState (GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState (GL_NORMAL_ARRAY);
 	}
 	void PushThruster(const vector3f &pos, const vector3f &dir, const float power, bool linear_only) {
 		unsigned int i = m_thrusters.size();
@@ -637,7 +698,7 @@ public:
 	}
 
 	void PushZBias(float amount, const vector3f &pos, const vector3f &norm) {
-		if (curOp.type) m_ops.push_back(curOp);
+		if (curOp.type) PushCurOp();
 		curOp.type = OP_ZBIAS;
 		curOp.zbias.amount = amount;
 		memcpy(curOp.zbias.pos, &pos.x, 3*sizeof(float));
@@ -645,7 +706,7 @@ public:
 	}
 
 	void PushSetLocalLighting(bool enable) {
-		if (curOp.type) m_ops.push_back(curOp);
+		if (curOp.type) PushCurOp();
 		curOp.type = OP_LIGHTING_TYPE;
 		curOp.lighting_type.local = enable;
 	}
@@ -662,13 +723,13 @@ public:
 	}
 
 	void PushUseLight(int num) {
-		if (curOp.type) m_ops.push_back(curOp);
+		if (curOp.type) PushCurOp();
 		curOp.type = OP_USE_LIGHT;
 		curOp.light.num = num;
 	}
 
 	void PushCallModel(LmrModel *m, const matrix4x4f &transform, float scale) {
-		if (curOp.type) m_ops.push_back(curOp);
+		if (curOp.type) PushCurOp();
 		curOp.type = OP_CALL_MODEL;
 		memcpy(curOp.callmodel.transform, &transform[0], 16*sizeof(float));
 		curOp.callmodel.model = m;
@@ -676,7 +737,7 @@ public:
 	}
 
 	void PushInvisibleTri(int i1, int i2, int i3) {
-		if (curOp.type != OP_NONE) m_ops.push_back(curOp);
+		if (curOp.type) PushCurOp();
 		curOp.type = OP_NONE;
 		PushIdx(i1);
 		PushIdx(i2);
@@ -689,7 +750,7 @@ public:
 		char buf[256];
 		snprintf(buf, sizeof(buf), "textures/%s", texname);
 
-		if (curOp.type) m_ops.push_back(curOp);
+		if (curOp.type) PushCurOp();
 		curOp.type = OP_DRAW_BILLBOARDS;
 		curOp.billboards.start = m_vertices.size();
 		curOp.billboards.count = numPoints;
@@ -702,7 +763,7 @@ public:
 		curOp.billboards.col[3] = 1.0f;
 
 		for (int i=0; i<numPoints; i++)
-			PushVertex(points[i], vector3f());
+			PushVertex(points[i], vector3f(0.0f, 0.0f, 0.0f));
 	}
 
 	void SetMaterial(const char *mat_name, const float mat[11]) {
@@ -731,7 +792,7 @@ public:
 	void PushUseMaterial(const char *mat_name) {
 		std::map<std::string, int>::iterator i = m_model->m_materialLookup.find(mat_name);
 		if (i != m_model->m_materialLookup.end()) {
-			if (curOp.type) m_ops.push_back(curOp);
+			if (curOp.type) PushCurOp();
 			curOp.type = OP_SET_MATERIAL;
 			curOp.col.material_idx = (*i).second;
 		} else {
@@ -815,7 +876,7 @@ private:
 		if ((curOp.type != OP_DRAW_ELEMENTS) ||
 				(curOp.elems.textureFile != curTexture) ||
 				(curOp.elems.glowmapFile != curGlowmap)) {
-			if (curOp.type) m_ops.push_back(curOp);
+			if (curOp.type) PushCurOp();
 			curOp.type = OP_DRAW_ELEMENTS;
 			curOp.elems.start = m_indices.size();
 			curOp.elems.count = 0;
@@ -830,6 +891,7 @@ private:
 	}
 	void PushCurOp() {
 		m_ops.push_back(curOp);
+		memset(&curOp, 0, sizeof(curOp));
 	}
 	void PushIdx(Uint16 v) {
 		curOp.elems.elemMin = std::min<int>(v, curOp.elems.elemMin);
@@ -1226,8 +1288,6 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	glPushMatrix();
 	glMultMatrixf(&trans[0]);
 	glScalef(m_scale, m_scale, m_scale);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_LIGHTING);
 
 	float pixrad = 0.5f * s_scrWidth * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
 	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
@@ -1242,19 +1302,26 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 
 	const vector3f modelRelativeCamPos = trans.InverseOf() * cameraPos;
 
+	//100% fixed function stuff
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_LIGHTING);
+
 	m_staticGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
 	if (m_hasDynamicFunc) {
 		m_dynamicGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
 	}
 	s_curBuf = 0;
 
+	glDisable(GL_NORMALIZE);
+
 	Graphics::UnbindAllBuffers();
 	//XXX hack. Unuse any shader. Can be removed when LMR uses Renderer.
+	//XXX 2012-08-11 LMR is more likely to be destroyed
 	if (Graphics::AreShadersEnabled())
-		s_sunlightShader[0]->Unuse();
+		glUseProgram(0);
 
-	glDisable(GL_NORMALIZE);
 	s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
+
 	glPopMatrix();
 }
 
@@ -3832,6 +3899,8 @@ namespace ModelFuncs {
 	{
 		assert(s_curParams != 0);
 		int n = luaL_checkinteger(L, 1);
+		if (n < 0 || n > int(COUNTOF(s_curParams->pMat)))
+			return luaL_error(L, "argument #1 of get_arg_material is out of range");
 		lua_createtable (L, 11, 0);
 
 		const LmrMaterial &mat = s_curParams->pMat[n];
@@ -4269,13 +4338,19 @@ namespace ObjLoader {
 				bool build_normals = false;
 				for (int i=0; i<numBits; i++) {
 					if (3 == sscanf(bit[i], "%d/%d/%d", &vi[i], &ti[i], &ni[i])) {
+						if (texcoords.empty()) {
+							puts(bit[i]);
+							Error("Obj file '%s' has a face that refers to non-existent texture coords at line %d\n", obj_name, line_no);
+						}
 						// good
 					}
 					else if (2 == sscanf(bit[i], "%d//%d", &vi[i], &ni[i])) {
 						// good
+						ti[i] = 0;
 					}
 					else if (1 == sscanf(bit[i], "%d", &vi[i])) {
 						build_normals = true;
+						ti[i] = 0;
 					} else {
 						puts(bit[i]);
 						Error("Obj file has no normals or is otherwise too weird at line %d\n", line_no);
@@ -4292,7 +4367,7 @@ namespace ObjLoader {
 						vector3f &c = vertices[vi[i+2]];
 						vector3f n = (a-b).Cross(a-c).Normalized();
 						int vtxStart = s_curBuf->AllocVertices(3);
-						if (texcoords.empty()) {
+						if ((ti[i] == -1) || texcoords.empty()) {
 							// no UV coords
 							s_curBuf->SetVertex(vtxStart, a, n);
 							s_curBuf->SetVertex(vtxStart+1, b, n);
@@ -4312,7 +4387,7 @@ namespace ObjLoader {
 						if (it == vtxmap.end()) {
 							// insert the horrible thing
 							int vtxStart = s_curBuf->AllocVertices(1);
-							if (texcoords.empty()) {
+							if ((t.uv == -1) || texcoords.empty()) {
 								// no UV coords
 								s_curBuf->SetVertex(vtxStart, vertices[vi[i]], normals[ni[i]]);
 							} else {
@@ -4502,14 +4577,10 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 	_detect_model_changes();
 
 	s_staticBufferPool = new BufferObjectPool<sizeof(Vertex)>();
-	s_sunlightShader[0] = new LmrShader("model", "#define NUM_LIGHTS 1\n");
-	s_sunlightShader[1] = new LmrShader("model", "#define NUM_LIGHTS 2\n");
-	s_sunlightShader[2] = new LmrShader("model", "#define NUM_LIGHTS 3\n");
-	s_sunlightShader[3] = new LmrShader("model", "#define NUM_LIGHTS 4\n");
-	s_pointlightShader[0] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 1\n");
-	s_pointlightShader[1] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 2\n");
-	s_pointlightShader[2] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 3\n");
-	s_pointlightShader[3] = new LmrShader("model-pointlit", "#define NUM_LIGHTS 4\n");
+
+	Graphics::MaterialDescriptor desc;
+	desc.textures = 1;
+	s_billboardMaterial = renderer->CreateMaterial(desc);
 
 	PiVerify(s_font = s_fontCache.GetVectorFont("WorldFont"));
 
@@ -4601,10 +4672,8 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 
 void LmrModelCompilerUninit()
 {
-	for (int i=0; i<4; i++) {
-		delete s_sunlightShader[i];
-		delete s_pointlightShader[i];
-	}
+	while (!s_shaders.empty()) delete s_shaders.back().second, s_shaders.pop_back();
+	delete s_billboardMaterial;
 	// FontCache should be ok...
 
 	std::map<std::string, LmrModel*>::iterator it_model;

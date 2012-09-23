@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_ship {
 	name='Caribou',
 	model='caribou',
@@ -10,8 +13,8 @@ define_ship {
 	angular_thrust = 25e7,
 	gun_mounts =
 	{
-		{ v(0,-0.5,0), v(0,0,-1) },
-		{ v(0,0,0), v(0,0,1) },
+		{ v(0,-0.5,-62), v(0,0,-1) },
+		{ v(0,10,62), v(0,0,1) },
 	},
 	max_cargo = 740,
 	max_laser = 2,

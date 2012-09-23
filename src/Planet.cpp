@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Planet.h"
 #include "Pi.h"
 #include "WorldView.h"
@@ -6,191 +9,205 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/Graphics.h"
+#include "graphics/Texture.h"
 #include "graphics/VertexArray.h"
+#include "Color.h"
+
+#ifdef _MSC_VER
+	#include "win32/WinMath.h"
+	#define log1pf LogOnePlusX
+#endif // _MSC_VER
 
 using namespace Graphics;
 
-struct ColRangeObj_t {
-	float baseCol[4]; float modCol[4]; float modAll;
+static const Graphics::AttributeSet RING_VERTEX_ATTRIBS
+	= Graphics::ATTRIB_POSITION
+	| Graphics::ATTRIB_UV0;
 
-	void GenCol(float col[4], MTRand &rng) const {
-		float ma = 1 + float(rng.Double(modAll*2)-modAll);
-		for (int i=0; i<4; i++) col[i] = baseCol[i] + float(rng.Double(-modCol[i], modCol[i]));
-		for (int i=0; i<3; i++) col[i] = Clamp(ma*col[i], 0.0f, 1.0f);
-	}
-};
-
-ColRangeObj_t barrenBodyCol = { { .3f,.3f,.3f,1 },{0,0,0,0},.3f };
-ColRangeObj_t barrenContCol = { { .2f,.2f,.2f,1 },{0,0,0,0},.3f };
-ColRangeObj_t barrenEjectaCraterCol = { { .5f,.5f,.5f,1 },{0,0,0,0},.2f };
-float darkblue[4] = { .05f, .05f, .2f, 1 };
-float blue[4] = { .2f, .2f, 1, 1 };
-float green[4] = { .2f, .8f, .2f, 1 };
-float white[4] = { 1, 1, 1, 1 };
-
-Planet::Planet(): TerrainBody()
+Planet::Planet(): TerrainBody(), m_ringVertices(RING_VERTEX_ATTRIBS)
 {
 }
 
-Planet::Planet(SystemBody *sbody): TerrainBody(sbody)
+Planet::Planet(SystemBody *sbody): TerrainBody(sbody), m_ringVertices(RING_VERTEX_ATTRIBS)
 {
 	m_hasDoubleFrame = true;
+	if (sbody->HasRings()) {
+		m_clipRadius = sbody->GetRadius() * sbody->m_rings.maxRadius.ToDouble();
+	} else {
+		m_clipRadius = GetBoundingRadius();
+	}
+}
+
+Planet::~Planet() {}
+
+void Planet::Load(Serializer::Reader &rd, Space *space)
+{
+	TerrainBody::Load(rd, space);
+
+	const SystemBody *sbody = GetSystemBody();
+	assert(sbody);
+	if (sbody->HasRings()) {
+		m_clipRadius = sbody->GetRadius() * sbody->m_rings.maxRadius.ToDouble();
+	} else {
+		m_clipRadius = GetBoundingRadius();
+	}
 }
 
 /*
  * dist = distance from centre
  * returns pressure in earth atmospheres
+ * function is slightly different from the isothermal earth-based approximation used in shaders,
+ * but it isn't visually noticeable.
  */
 void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDensity) const
 {
-	Color c;
-	double surfaceDensity;
-	double atmosDist = dist/(GetSystemBody()->GetRadius()*ATMOSPHERE_RADIUS);
-
-	GetSystemBody()->GetAtmosphereFlavor(&c, &surfaceDensity);
-	// kg / m^3
-	// exp term should be the same as in AtmosLengthDensityProduct GLSL function
-	*outDensity = 1.15*surfaceDensity * exp(-500.0 * (atmosDist - (2.0 - ATMOSPHERE_RADIUS)));
-	// XXX using earth's molar mass of air...
-	const double GAS_MOLAR_MASS = 28.97;
-	const double GAS_CONSTANT = 8.314;
-	const double KPA_2_ATMOS = 1.0 / 101.325;
-	// atmospheres
-	*outPressure = KPA_2_ATMOS*(*outDensity/GAS_MOLAR_MASS)*GAS_CONSTANT*double(GetSystemBody()->averageTemp);
-}
-
-struct GasGiantDef_t {
-	int hoopMin, hoopMax; float hoopWobble;
-	int blobMin, blobMax;
-	float poleMin, poleMax; // size range in radians. zero for no poles.
-	float ringProbability;
-	ColRangeObj_t ringCol;
-	ColRangeObj_t bodyCol;
-	ColRangeObj_t hoopCol;
-	ColRangeObj_t blobCol;
-	ColRangeObj_t poleCol;
-};
-
-static GasGiantDef_t ggdefs[] = {
-{
-	/* jupiter */
-	30, 40, 0.05f,
-	20, 30,
-	0, 0,
-	0.5,
-	{ { .61f,.48f,.384f,.4f }, {0,0,0,.2f}, 0.3f },
-	{ { .99f,.76f,.62f,1 }, { 0,.1f,.1f,0 }, 0.3f },
-	{ { .99f,.76f,.62f,.5f }, { 0,.1f,.1f,0 }, 0.3f },
-	{ { .99f,.76f,.62f,1 }, { 0,.1f,.1f,0 }, 0.7f },
-    { { 0.0f,0.0f,0.0f,0 }, { 0,0.0f,0.0f,0}, 0.0f}
-}, {
-	/* saturnish */
-	10, 25, 0.05f,
-	8, 20, // blob range
-	0.2f, 0.2f, // pole size
-	0.5,
-	{ { .61f,.48f,.384f,.75f }, {0,0,0,.2f}, 0.3f },
-	{ { .87f, .68f, .39f, 1 }, { .2f,0,0,.3f }, 0.1f },
-	{ { .87f, .68f, .39f, 1 }, { 0,0,.2f,.1f }, 0.1f },
-	{ { .87f, .68f, .39f, 1 }, { .1f,0,0,.1f }, 0.1f },
-	{ { .77f, .58f, .29f, 1 }, { .1f,.1f,0,.2f }, 0.2f },
-}, {
-	/* neptunish */
-	3, 6, 0.25f,
-	2, 6,
-	0, 0,
-	0.5,
-	{ { .71f,.68f,.684f,.4f }, {0,0,0,.2f}, 0.3f },
-	{ { .31f,.44f,.73f,1 }, {0,0,0,0}, .05f}, // body col
-	{ { .31f,.74f,.73f,0.5f }, {0,0,0,0}, .1f},// hoop col
-	{ { .21f,.34f,.54f,1 }, {0,0,0,0}, .05f},// blob col
-    { { 0.0f,0.0f,0.0f,0 }, { 0,0.0f,0.0f,0}, 0.0f}
-}, {
-	/* uranus-like *wink* */
-	2, 3, 0.1f,
-	1, 2,
-	0, 0,
-	0.5,
-	{ { .51f,.48f,.384f,.4f }, {0,0,0,.3f}, 0.3f },
-	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
-	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
-	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 },
-	{ { .60f,.85f,.86f,1 }, {.1f,.1f,.1f,0}, 0 }
-}, {
-	/* brown dwarf-like */
-	0, 0, 0.05f,
-	10, 20,
-	0.2f, 0.2f,
-	0.5,
-	{ { .81f,.48f,.384f,.5f }, {0,0,0,.3f}, 0.3f },
-	{ { .4f,.1f,0,1 }, {0,0,0,0}, 0.1f },
-	{ { .4f,.1f,0,1 }, {0,0,0,0}, 0.1f },
-	{ { .4f,.1f,0,1 }, {0,0,0,0}, 0.1f },
-    { { 0.0f,0.0f,0.0f,0 }, { 0,0.0f,0.0f,0}, 0.0f}
-},
-};
-
-#define PLANET_AMBIENT	0.1f
-
-static void DrawRing(double inner, double outer, const Color &color, Renderer *r, const Material &mat)
-{
-	float step = 0.1f / (Pi::detail.planets + 1);
-
-	VertexArray vts(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL);
-	const vector3f normal(0.f, 1.f, 0.f);
-	for (float ang=0; ang<2*M_PI; ang+=step) {
-		vts.Add(vector3f(float(inner)*sin(ang), 0.f, float(inner)*cos(ang)), color, normal);
-		vts.Add(vector3f(float(outer)*sin(ang), 0.f, float(outer)*cos(ang)), color, normal);
+#if 0
+	static bool atmosphereTableShown = false;
+	if (!atmosphereTableShown) {
+		atmosphereTableShown = true;
+		for (double h = -1000; h <= 50000; h = h+1000.0) {
+			double p = 0.0, d = 0.0;
+			GetAtmosphericState(h+this->GetSystemBody()->GetRadius(),&p,&d);
+			printf("height(m): %f, pressure(kpa): %f, density: %f\n", h, p*101325.0/1000.0, d);
+		}
 	}
-	vts.Add(vector3f(0.f, 0.f, float(inner)), color, normal);
-	vts.Add(vector3f(0.f, 0.f, float(outer)), color, normal);
+#endif
 
-	r->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
+	double surfaceDensity;
+	const double SPECIFIC_HEAT_AIR_CP=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
+	// XXX using earth's molar mass of air...
+	const double GAS_MOLAR_MASS = 0.02897;
+	const double GAS_CONSTANT = 8.3144621;
+	const double PA_2_ATMOS = 1.0 / 101325.0;
+
+	// surface gravity = -G*M/planet radius^2
+	const double surfaceGravity_g = -G*this->GetSystemBody()->GetMass()/pow((this->GetSystemBody()->GetRadius()),2); // should be stored in sbody
+	// lapse rate http://en.wikipedia.org/wiki/Adiabatic_lapse_rate#Dry_adiabatic_lapse_rate
+	// the wet adiabatic rate can be used when cloud layers are incorporated
+	// fairly accurate in the troposphere
+	const double lapseRate_L = -surfaceGravity_g/SPECIFIC_HEAT_AIR_CP; // negative deg/m
+
+	const double height_h = (dist-GetSystemBody()->GetRadius()); // height in m
+	const double surfaceTemperature_T0 = this->GetSystemBody()->averageTemp; //K
+
+	Color c;
+	GetSystemBody()->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
+	// convert to moles/m^3
+	surfaceDensity/=GAS_MOLAR_MASS;
+
+	const double adiabaticLimit = surfaceTemperature_T0/lapseRate_L; //should be stored
+
+	// This model has no atmosphere beyond the adiabetic limit
+	if (height_h >= adiabaticLimit) {*outDensity = 0.0; *outPressure = 0.0; return;}
+
+	//P = density*R*T=(n/V)*R*T
+	const double surfaceP_p0 = PA_2_ATMOS*((surfaceDensity)*GAS_CONSTANT*surfaceTemperature_T0); // in atmospheres
+
+	// height below zero should not occur
+	if (height_h < 0.0) { *outPressure = surfaceP_p0; *outDensity = surfaceDensity*GAS_MOLAR_MASS; return; }
+
+	//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
+	*outPressure = surfaceP_p0*pow((1-lapseRate_L*height_h/surfaceTemperature_T0),(-surfaceGravity_g*GAS_MOLAR_MASS/(GAS_CONSTANT*lapseRate_L)));// in ATM since p0 was in ATM
+	//                                                                               ^^g used is abs(g)
+	// temperature at height
+	double temp = surfaceTemperature_T0+lapseRate_L*height_h;
+
+	*outDensity = (*outPressure/(PA_2_ATMOS*GAS_CONSTANT*temp))*GAS_MOLAR_MASS;
 }
 
-void Planet::DrawGasGiantRings(Renderer *renderer)
+void Planet::GenerateRings(Graphics::Renderer *renderer)
 {
-	renderer->SetBlendMode(BLEND_ALPHA_ONE);
-	glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT );
-	renderer->SetDepthTest(true);
-	glEnable(GL_NORMALIZE);
+	const SystemBody *sbody = GetSystemBody();
 
-	Material mat;
-	mat.unlit = true;
-	mat.twoSided = true;
-	// XXX worldview numlights always 1!
-	mat.shader = Graphics::planetRingsShader[Pi::worldView->GetNumLights()-1];
+	m_ringVertices.Clear();
 
-//	MTRand rng((int)Pi::game->GetTime());
-	MTRand rng(GetSystemBody()->seed+965467);
+	// generate the ring geometry
+	const float inner = sbody->m_rings.minRadius.ToFloat();
+	const float outer = sbody->m_rings.maxRadius.ToFloat();
+	int segments = 200;
+	for (int i = 0; i <= segments; ++i) {
+		const float a = (2.0f*float(M_PI)) * (float(i) / float(segments));
+		const float ca = cosf(a);
+		const float sa = sinf(a);
+		m_ringVertices.Add(vector3f(inner*sa, 0.0f, inner*ca), vector2f(float(i), 0.0f));
+		m_ringVertices.Add(vector3f(outer*sa, 0.0f, outer*ca), vector2f(float(i), 1.0f));
+	}
 
-	double noiseOffset = 256.0*rng.Double();
-	float baseCol[4];
+	// generate the ring texture
+	// NOTE: texture width must be > 1 to avoid graphical glitches with Intel GMA 900 systems
+	//       this is something to do with mipmapping (probably mipmap generation going wrong)
+	//       (if the texture is generated without mipmaps then a 1xN texture works)
+	const int RING_TEXTURE_WIDTH = 4;
+	const int RING_TEXTURE_LENGTH = 256;
+	ScopedMalloc<Color4ub> buf(malloc(RING_TEXTURE_WIDTH * RING_TEXTURE_LENGTH * 4));
 
-	// just use a random gas giant flavour for the moment
-	GasGiantDef_t &ggdef = ggdefs[rng.Int32(0,4)];
-	ggdef.ringCol.GenCol(baseCol, rng);
+	const float ringScale = (outer-inner)*sbody->GetRadius() / 1.5e7f;
 
-	const double maxRingWidth = 0.1 / double(2*(Pi::detail.planets + 1));
+	MTRand rng(GetSystemBody()->seed+4609837);
+	Color4f baseCol = sbody->m_rings.baseColor.ToColor4f();
+	double noiseOffset = 2048.0 * rng.Double();
+	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {
+		const float alpha = (float(i) / float(RING_TEXTURE_LENGTH)) * ringScale;
+		const float n = 0.25 +
+			0.60 * noise( 5.0 * alpha, noiseOffset, 0.0) +
+			0.15 * noise(10.0 * alpha, noiseOffset, 0.0);
 
-	if (rng.Double(1.0) < ggdef.ringProbability) {
-		float rpos = float(rng.Double(1.15,1.5));
-		float end = rpos + float(rng.Double(0.1, 1.0));
-		end = std::min(end, 2.5f);
-		while (rpos < end) {
-			float size = float(rng.Double(maxRingWidth));
-			float n =
-				0.5 + 0.5*(
-					noise(10.0*rpos, noiseOffset, 0.0) +
-					0.5*noise(20.0*rpos, noiseOffset, 0.0) +
-					0.25*noise(40.0*rpos, noiseOffset, 0.0));
-			Color col(baseCol[0] * n, baseCol[1] * n, baseCol[2] * n, baseCol[3] * n);
-			DrawRing(rpos, rpos+size, col, renderer, mat);
-			rpos += size;
+		const float LOG_SCALE = 1.0f/sqrtf(sqrtf(log1pf(1.0f)));
+		const float v = LOG_SCALE*sqrtf(sqrtf(log1pf(n)));
+
+		Color4ub color;
+		color.r = (v*baseCol.r)*255.0f;
+		color.g = (v*baseCol.g)*255.0f;
+		color.b = (v*baseCol.b)*255.0f;
+		color.a = (((v*0.25f)+0.75f)*baseCol.a)*255.0f;
+
+		Color4ub *row = buf.Get() + i * RING_TEXTURE_WIDTH;
+		for (int j = 0; j < RING_TEXTURE_WIDTH; ++j) {
+			row[j] = color;
 		}
 	}
 
-	glPopAttrib();
+	// first and last pixel are forced to zero, to give a slightly smoother ring edge
+	{
+		Color4ub* row;
+		row = buf.Get();
+		memset(row, 0, RING_TEXTURE_WIDTH * 4);
+		row = buf.Get() + (RING_TEXTURE_LENGTH - 1) * RING_TEXTURE_WIDTH;
+		memset(row, 0, RING_TEXTURE_WIDTH * 4);
+	}
+
+	const vector2f texSize(RING_TEXTURE_WIDTH, RING_TEXTURE_LENGTH);
+	const Graphics::TextureDescriptor texDesc(
+			Graphics::TEXTURE_RGBA, texSize, Graphics::LINEAR_REPEAT, true);
+
+	m_ringTexture.Reset(renderer->CreateTexture(texDesc));
+	m_ringTexture->Update(
+			static_cast<void*>(buf.Get()), texSize,
+			Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
+
+	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_PLANETRING;
+	desc.lighting = true;
+	desc.twoSided = true;
+	desc.textures = 1;
+	m_ringMaterial.Reset(renderer->CreateMaterial(desc));
+	m_ringMaterial->texture0 = m_ringTexture.Get();
+}
+
+void Planet::DrawGasGiantRings(Renderer *renderer, const Camera *camera)
+{
+	renderer->SetBlendMode(BLEND_ALPHA_PREMULT);
+	renderer->SetDepthTest(true);
+
+	if (!m_ringTexture) {
+		GenerateRings(renderer);
+	}
+
+	const SystemBody *sbody = GetSystemBody();
+	assert(sbody->HasRings());
+
+	renderer->DrawTriangles(&m_ringVertices, m_ringMaterial.Get(), TRIANGLE_STRIP);
+
 	renderer->SetBlendMode(BLEND_SOLID);
 }
 
@@ -248,7 +265,17 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 	rot = matrix4x4d::RotateZMatrix(angStep);
 
-	VertexArray vts(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL);
+	if (!m_atmosphereVertices.Valid()) {
+		m_atmosphereVertices.Reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL));
+		Graphics::MaterialDescriptor desc;
+		desc.vertexColors = true;
+		desc.twoSided = true;
+		m_atmosphereMaterial.Reset(renderer->CreateMaterial(desc));
+	}
+
+	VertexArray &vts = *m_atmosphereVertices.Get();
+	vts.Clear();
+
 	for (float ang=0; ang<2*M_PI; ang+=float(angStep)) {
 		const vector3d norm = r1.Normalized();
 		const vector3f n = vector3f(norm.x, norm.y, norm.z);
@@ -267,22 +294,16 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 		r2 = rot * r2;
 	}
 
-	Material mat;
-	mat.unlit = true;
-	mat.twoSided = true;
-	mat.vertexColors = true;
-
 	renderer->SetTransform(trans);
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
-	renderer->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
+	renderer->DrawTriangles(m_atmosphereVertices.Get(), m_atmosphereMaterial.Get(), TRIANGLE_STRIP);
 	renderer->SetBlendMode(BLEND_SOLID);
 
 	glPopMatrix();
 }
 
-void Planet::SubRender(Renderer *r, const vector3d &camPos)
+void Planet::SubRender(Renderer *r, const Camera *camera, const vector3d &camPos)
 {
-	if (GetSystemBody()->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT) DrawGasGiantRings(r);
-
+	if (GetSystemBody()->HasRings()) { DrawGasGiantRings(r, camera); }
 	if (!AreShadersEnabled()) DrawAtmosphere(r, camPos);
 }

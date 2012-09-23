@@ -1,3 +1,124 @@
+Alpha 27
+
+   * New features
+     * The settings screen is now acessible from the main menu (#1187, #1512)
+     * There's now an option to enable texture compression (#1522)
+
+   * Minor changes and tweaks
+     * Smooth zoom animation in World, System, Sector and Galactic views (#1170)
+     * Earth start location has returned to Los Angeles (in daytime now) (#1506)
+
+   * Fixes
+     * Avoid icons in some ternary systems overlapping each other (#1510, #1511) 
+     * Fix overlapping text for long system descriptions (#1494, #1498)
+     * Fix crash in SystemInfoView from leaking widget references (#1526,  #1493)
+
+   * Script changes
+     * EventQueue, which was deprecated in alpha 26, has been removed (#1485)
+     * Orbital phase (season) and rotational phase (time) can now be set in custom
+       systems with :rotational_phase_at_start and :orbital_phase_at_start (#1506)
+
+   * Internal changes
+     * Terrain generation thread now sleeps until being signalled (#1169)
+     * New C++ wrappers for Lua table manipulation and value persistence (#1438)
+     * Terrain patches are now rendered more efficiently (#1507)
+     * Many minor cleanups identified by valgrind (#1524)
+     * Copyright and license is now made explicit at the top of all code files (#1515)
+
+Alpha 26
+
+   * New features
+     * Achernar (4,-9,-16) is now a fully custom system (#1452)
+     * New Imperial Trader (a variant of the Imperial Courier) (#1069, #1496)
+
+   * Minor changes and tweaks
+     * Updated station splash advert (#1429)
+     * Updated the Imperial Courier model (#1069)
+     * Updated the "pilot" and "squadsign" sub-models (#1069)
+     * Updated surface stations (#983)
+     * Made month names translatable (#1490)
+
+   * Fixes
+     * Fix atmospheric pressure calculations (#1431, #1395)
+     * Fix lighting glitches in systems with multiple stars (#1430, #1411)
+     * Fix flipped EYE ship texture (#1436)
+     * Fix Caribou laser position (#1435)
+     * Fix broken planet ring textures on Intel GMA 900 chips (#1442, #1439)
+     * Fix Lua console tab completion for some oddly constructed tables (#1447)
+     * Fix Lua console tab completion for tables with numeric indices (#1461, #1462)
+     * Fix ambient light state leak from intro/tombstone (#1472, #1445)
+     * Fix blank UI after game load failure (#1481, #1479)
+     * Draw the city before its starport to avoid a glaring graphical bug (#1487)
+     * Fix Lua stack leak in console completion (#1492)
+
+   * Script changes
+     * Ships now identified by the filename the ship is defined in (#1444,
+       #1474, #1491)
+     * New Event system allowing Lua scripts to broadcast their own events.
+       EventQueue is deprecated, for removal in alpha 27 (#1441)
+     * New FileSystem module so scripts can list data files (including files
+       from mods) and files in the game's configuration directory (#1350, #1483)
+
+   * Internal changes
+     * Show frame time in the stats overlay (#1437)
+     * Update COUNTOF macro to fix avoid warnings when compiling with
+       compiling with optimisations on GCC (#1451, #1450)
+     * Force most icons to scale to their bounds regardless of their
+       initial size. Allows hi-res icons (#1448, #1470)
+     * Reimplemented Lua read-only tables (#1460)
+     * Move the global Lua context so it can be used from modelviewer (#1473)
+     * Rewritten material and shader infrastructure (#1432)
+     * Many minor optimisations identified by PVS-Studio (#1480, #1399)
+     * Fix a warning when building with clang (#1488)
+
+Alpha 25
+
+   * New features
+     * Planets with surface ports are now displayed with a blue ring in the
+       system info view (F2,F7) (#1345)
+     * Catalan translation (#1371)
+     * Hyperjumps now have sound effects (#1379)
+     * Terrains have been update, and more terrains added for asteroids (#1349)
+     * Atmospheric height and appearance is now more realistic (#972, #1278, #1357)
+     * Atmospheric pressure and temperature now follows a dry adiabatic model (#1363)
+     * Rewritten gas giant rings, with better transparency and shadows (#1404, #1415)
+     * Fade building illumination depending on time of day and atmosphere (#1390,
+       #1428, #1427)
+
+   * Minor changes and tweaks
+     * On Windows, error messages for graphics are shown in a message box,
+       so they can be read when the game graphics aren't working (#1362)
+     * Atmospheric pressure is now displayed in atmospheres instead of bar (#1363)
+     * Added essential surname-based humour to the name generator (#1403)
+     * Include more limits and capability information in opengl.txt (#1408, #1410)
+     * Text entry widgets (notably the Lua console) now support CTRL+LEFT and
+       CTRL+RIGHT arrows to jump to word boundaries (#1392, #1372)
+     * Scale all textures to power-of-two dimensions (#1422, #1251, #1035, #923)
+
+   * Fixes
+     * Fix some Lua console completion edge cases (#1339)
+     * Fix Lua error report format for missing objects (#1366)
+     * Fix bug which prevented some Polish texts showing up (#1382)
+     * Fix crash when autopilot tried to fly around a gravpoint (#1347, #1344)
+     * Fix crash when calculating distance to a ship in hyperspace (#1393, #1388)
+     * Fix shaders to avoid 'varying' value limits on some hardware (#1407, #1409)
+     * Fix savegames not loading under certain circumstances (#1425, #1412, #1424)
+     * Clamp planetary mass values to supportable range (#1423, #854)
+
+   * Script and model changes
+     * Gas giant rings can now be defined in a custom system using the :rings
+       parameter (#1404)
+
+   * Internal changes
+     * Move platform specific code into src/{win32,posix} dirs (#1362, #1369)
+     * Move video initialisation into Graphics::Init (#1362, #1370)
+     * Add COUNTOF macro to safely get number of elements in a static array (1386)
+     * Update scan_enums.py to deal with Unicode byte-order marks (#1389)
+     * Always used logarithmic depth buffer with shaders (#1410)
+     * Camera now passed to object rendering methods to make per-object
+       lighting and other effects easier (#1390)
+     * Many fixes identified by static analysis with PVS-Studio (#1402, #1399)
+
 Alpha 24
 
    * New features
@@ -16,6 +137,8 @@ Alpha 24
      * Fix flipped vbuilding glowmap (#1280, #1279)
      * Fix scrolling in the mission list (#1292, #1291)
      * Fix UI elements responding to the mouse wheel as a click (#1307, #606)
+     * Fix issues in the way multiple file sources (ie mods) are added to the
+       union filesystem (#1359)
 
    * Script and model changes
      * Lua console now provides autocompletion. Press <TAB> to cycle through
@@ -441,7 +564,7 @@ Alpha 16
     * Only randomise goods trader stock levels when bulletin board is created (#772, #776)
     * Clear breakdown servicing state on game start to avoid state leak
       between games (#775)
-  
+
   * Script changes
     * Modules moved into dedicated subdirs with their translation files (#640)
     * Module translations (#640)
@@ -534,7 +657,7 @@ Alpha 15
     * Lua Lang interface to access core translated strings (#579, #575, #553)
     * Lua Translate interface to let modules provide translations (#580, #625, #629)
     * LMR methods fully documented (#615)
- 
+
   * Internal changes
     * Lots of internal cleanups; silences many warnings under GCC (#477,
       #484, #604) and MSVC (#483)
@@ -723,7 +846,7 @@ Alpha 11
       font (Cousine Bold) (#105, #114, #115, #138)
     * New star images in system info view (#159)
     * Manual thruster adjustments can now be made in set-speed mode (#118)
-    * 5 new ground based starports (1, 2, 3, 4 landing pad configs. 
+    * 5 new ground based starports (1, 2, 3, 4 landing pad configs.
       1 Airport config) (#120)
     * Major upgrade to coriolis station model (#158)
     * Clicking on the hyperspace icon a second time after a hyperspace is
@@ -773,7 +896,7 @@ Alpha 10
     * Ships and other small objects not shown beyond a certain range
     * Unguided missiles work again
     * Option to invert mouse look
- 
+
   * Under the hood
     * Rewritten Lua module API (with documentation!)
     * Hundreds of bugfixes and code cleanups

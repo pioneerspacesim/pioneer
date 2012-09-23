@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaSerializer.h"
 #include "LuaObject.h"
 #include "LuaBody.h"
@@ -188,7 +191,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			// methods to deal with this
 			if (lo->Isa("SystemPath")) {
 				SystemPath *sbp = dynamic_cast<SystemPath*>(lo->m_object);
-				snprintf(buf, sizeof(buf), "SystemPath\n%d\n%d\n%d\n%d\n%d\n",
+				snprintf(buf, sizeof(buf), "SystemPath\n%d\n%d\n%d\n%u\n%u\n",
 					sbp->sectorX, sbp->sectorY, sbp->sectorZ, sbp->systemIndex, sbp->bodyIndex);
 				out += buf;
 				break;
@@ -196,7 +199,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 
 			if (lo->Isa("Body")) {
 				Body *b = dynamic_cast<Body*>(lo->m_object);
-				snprintf(buf, sizeof(buf), "Body\n%d\n", Pi::game->GetSpace()->GetIndexForBody(b));
+				snprintf(buf, sizeof(buf), "Body\n%u\n", Pi::game->GetSpace()->GetIndexForBody(b));
 				out += buf;
 				break;
 			}
@@ -304,11 +307,11 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				Sint32 systemNum = strtol(pos, const_cast<char**>(&end), 0);
+				Uint32 systemNum = strtoul(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				Sint32 sbodyId = strtol(pos, const_cast<char**>(&end), 0);
+				Uint32 sbodyId = strtoul(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
@@ -321,7 +324,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			if (len == 4 && strncmp(pos, "Body", 4) == 0) {
 				pos = end;
 
-				int n = strtol(pos, const_cast<char**>(&end), 0);
+				Uint32 n = strtoul(pos, const_cast<char**>(&end), 0);
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
@@ -404,7 +407,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 
 void LuaSerializer::Serialize(Serializer::Writer &wr)
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -450,7 +453,7 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 
 void LuaSerializer::Unserialize(Serializer::Reader &rd)
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

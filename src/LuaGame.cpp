@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaGame.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
@@ -90,5 +93,5 @@ void LuaGame::Register()
 	};
 
 	LuaObjectBase::CreateObject(0, l_attrs, 0);
-	lua_setglobal(Pi::luaManager->GetLuaState(), "Game");
+	lua_setglobal(Lua::manager->GetLuaState(), "Game");
 }

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _STARSYSTEM_H
 #define _STARSYSTEM_H
 
@@ -27,15 +30,25 @@ enum EconType { // <enum name=EconType prefix=ECON_>
 class StarSystem;
 
 struct Orbit {
+	Orbit(): orbitalPhaseAtStart(0.0) {};
 	vector3d OrbitalPosAtTime(double t) const;
 	// 0.0 <= t <= 1.0. Not for finding orbital pos
 	vector3d EvenSpacedPosAtTime(double t) const;
 	/* duplicated from SystemBody... should remove probably */
 	double eccentricity;
 	double semiMajorAxis;
+	double orbitalPhaseAtStart; // 0 to 2 pi radians
 	/* dup " " --------------------------------------- */
 	double period; // seconds
 	matrix4x4d rotMatrix;
+};
+
+struct RingStyle {
+	// note: radius values are given as proportions of the planet radius
+	// (e.g., 1.6)
+	fixed minRadius;
+	fixed maxRadius;
+	Color4ub baseColor;
 };
 
 class SystemBody {
@@ -137,12 +150,31 @@ public:
 	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
 	void PopulateAddStations(StarSystem *system);
 
+	bool HasRings() const { return bool(m_rings.maxRadius.v); }
+	void PickRings(bool forceRings = false);
+
+
+	// XXX merge all this atmosphere stuff
 	bool HasAtmosphere() const;
+
 	void PickAtmosphere();
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		*outColor = m_atmosColor;
 		*outDensity = m_atmosDensity;
 	}
+
+	struct AtmosphereParameters {
+		float atmosRadius;
+		float atmosInvScaleHeight;
+		float atmosDensity;
+		float planetRadius;
+		Color atmosCol;
+		vector3d center;
+		float scale;
+	};
+
+	AtmosphereParameters CalcAtmosphereParams() const;
+
 
 	bool IsScoopable() const;
 
@@ -156,10 +188,12 @@ public:
 	fixed mass; // earth masses if planet, solar masses if star
 	fixed orbMin, orbMax; // periapsism, apoapsis in AUs
 	fixed rotationPeriod; // in days
+	fixed rotationalPhaseAtStart; // 0 to 2 pi
 	fixed humanActivity; // 0 - 1
 	fixed semiMajorAxis; // in AUs
 	fixed eccentricity;
 	fixed orbitalOffset;
+	fixed orbitalPhaseAtStart; // 0 to 2 pi
 	fixed axialTilt; // in radians
 	int averageTemp;
 	BodyType type;
@@ -172,6 +206,8 @@ public:
 	fixed m_volcanicity; // 0 = none, 1.0 = fucking volcanic
 	fixed m_atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
 	fixed m_life; // 0.0 = dead, 1.0 = teeming
+
+	RingStyle m_rings;
 
 	/* economy type stuff */
 	fixed m_population;

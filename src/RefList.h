@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _REFLIST_H
 #define _REFLIST_H
 
@@ -41,7 +44,7 @@ public:
 	inline const std::list<const T*> &GetAll() {
 		if (!m_dirty) return m_object_list;
 		m_object_list.clear();
-		for (typename std::map<int,T>::iterator i = m_objects.begin(); i != m_objects.end(); i++)
+		for (typename std::map<int,T>::iterator i = m_objects.begin(); i != m_objects.end(); ++i)
 			m_object_list.push_back(const_cast<const T*>(&((*i).second)));
 		m_dirty = false;
 		return m_object_list;

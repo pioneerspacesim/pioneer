@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib"
+				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib;../../src/win32"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -216,7 +216,7 @@
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib"
+				AdditionalIncludeDirectories="../../src;../../win32/include;../../contrib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
@@ -370,7 +370,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\FileSystemWin32.cpp"
+				RelativePath="..\..\src\win32\FileSystemWin32.cpp"
 				>
 			</File>
 			<File
@@ -558,11 +558,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Light.cpp"
+				RelativePath="..\..\src\LmrModel.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\LmrModel.cpp"
+				RelativePath="..\..\src\Lua.cpp"
 				>
 			</File>
 			<File
@@ -598,7 +598,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\LuaEventQueue.cpp"
+				RelativePath="..\..\src\LuaEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaFileSystem.cpp"
 				>
 			</File>
 			<File
@@ -647,6 +651,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaRand.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaRef.cpp"
 				>
 			</File>
 			<File
@@ -730,7 +738,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\win32\src\pch.cpp"
+				RelativePath="..\..\src\win32\OSWin32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\pch.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -914,6 +926,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\galaxy\SystemPath.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\SystemView.cpp"
 				>
 			</File>
@@ -1030,6 +1046,30 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\terrain\TerrainHeightAsteroid2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightAsteroid3.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightAsteroid4.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightBarrenRock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightBarrenRock2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainHeightBarrenRock3.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\terrain\TerrainHeightFlat.cpp"
 				>
 			</File>
@@ -1130,6 +1170,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\win32\WinMath.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\WorldView.cpp"
 				>
 			</File>
@@ -1149,6 +1193,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\AmbientSounds.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\AnimationCurves.h"
 				>
 			</File>
 			<File
@@ -1500,11 +1548,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Light.h"
+				RelativePath="..\..\src\LmrModel.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\LmrModel.h"
+				RelativePath="..\..\src\Lua.h"
 				>
 			</File>
 			<File
@@ -1540,7 +1588,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\LuaEventQueue.h"
+				RelativePath="..\..\src\LuaEvent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaFileSystem.h"
 				>
 			</File>
 			<File
@@ -1588,7 +1640,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaPushPull.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaRand.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaRef.h"
 				>
 			</File>
 			<File
@@ -1629,6 +1689,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaSystemPath.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaTable.h"
 				>
 			</File>
 			<File
@@ -1692,7 +1756,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\win32\src\pch.h"
+				RelativePath="..\..\src\OS.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\pch.h"
 				>
 			</File>
 			<File
@@ -1968,7 +2036,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\win32\src\win32-dirent.h"
+				RelativePath="..\..\src\win32\WinMath.h"
 				>
 			</File>
 			<File
@@ -2216,6 +2284,7 @@
 							Name="VCCLCompilerTool"
 							UsePrecompiledHeader="0"
 							WarnAsError="false"
+							CompileAs="1"
 							ForcedIncludeFiles="$(NOINHERIT)"
 						/>
 					</FileConfiguration>
@@ -3186,11 +3255,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\graphics\Light.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Light.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\graphics\Material.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\graphics\Material.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\MaterialLegacy.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\MaterialLegacy.h"
 				>
 			</File>
 			<File
@@ -3219,14 +3304,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\graphics\RendererLegacy.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\graphics\Shader.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\graphics\Shader.h"
 				>
 			</File>
 			<File
@@ -3267,6 +3344,119 @@
 			</File>
 			<File
 				RelativePath="..\..\src\graphics\VertexArray.h"
+				>
+			</File>
+			<Filter
+				Name="gl2"
+				>
+				<File
+					RelativePath="..\..\src\graphics\gl2\GeoSphereMaterial.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\GeoSphereMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\GL2Material.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\GL2Material.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\MultiMaterial.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\MultiMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\Program.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\Program.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\RingMaterial.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\RingMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\StarfieldMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\Uniform.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\Uniform.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="jenkins"
+			>
+			<Filter
+				Name="headers"
+				Filter="h;hpp;hxx;hm;inl;inc;xsd"
+				>
+				<File
+					RelativePath="..\..\contrib\jenkins\lookup3.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="source"
+				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asm"
+				>
+				<File
+					RelativePath="..\..\contrib\jenkins\lookup3.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="PreRelease|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="vcacheopt"
+			>
+			<File
+				RelativePath="..\..\contrib\vcacheopt\vcacheopt.h"
 				>
 			</File>
 		</Filter>

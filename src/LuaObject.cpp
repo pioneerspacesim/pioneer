@@ -1,7 +1,9 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "Pi.h"
 
 #include <map>
 #include <utility>
@@ -115,7 +117,7 @@ void LuaObjectBase::Deregister(LuaObjectBase *lo)
 	lo->m_deleteConnection.disconnect();
 	registry->erase(lo->m_id);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -158,8 +160,13 @@ int LuaObjectBase::l_isa(lua_State *l)
 	lid *idp = static_cast<lid*>(lua_touserdata(l, 1));
 
 	LuaObjectBase *lo = Lookup(*idp);
-	if (!lo)
-		luaL_error(l, "Lua object with id 0x%08x not found in registry", *idp);
+	if (!lo) {
+		// luaL_error format codes are very limited (can't handle width or fill specifiers),
+		// so we use snprintf here to do the real formatting
+		char objectCode[16];
+		snprintf(objectCode, sizeof(objectCode), "0x%08x", *idp);
+		luaL_error(l, "Lua object with id %s not found in registry", objectCode);
+	}
 
 	lua_pushboolean(l, lo->Isa(luaL_checkstring(l, 2)));
 	return 1;
@@ -268,7 +275,7 @@ static int dispatch_index(lua_State *l)
 
 void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta)
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -306,7 +313,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 {
 	assert(type);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	_instantiate();
 
@@ -404,7 +411,7 @@ bool LuaObjectBase::PushRegistered(DeleteEmitter *o)
 {
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -456,7 +463,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 			for (
 				std::map<std::string,PromotionTest>::const_iterator target_iter = (*base_iter).second.begin();
 				target_iter != (*base_iter).second.end();
-				target_iter++)
+				++target_iter)
 			{
 				if ((*target_iter).second(lo->m_object)) {
 					lo->m_type = (*target_iter).first.c_str();
@@ -476,7 +483,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 
 	registry->insert(std::make_pair(lo->m_id, lo));
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -503,7 +510,7 @@ DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
 {
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -531,7 +538,7 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 {
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -542,8 +549,13 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 		luaL_error(l, "Lua value on stack is of type userdata but has no userdata associated with it");
 
 	LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
-	if (!lo)
-		luaL_error(l, "Lua object with id 0x%08x not found in registry", *idp);
+	if (!lo) {
+		// luaL_error format codes are very limited (can't handle width or fill specifiers),
+		// so we use snprintf here to do the real formatting
+		char objectCode[16];
+		snprintf(objectCode, sizeof(objectCode), "0x%08x", *idp);
+		luaL_error(l, "Lua object with id %s not found in registry", objectCode);
+	}
 
 	LUA_DEBUG_END(l, 0);
 
@@ -562,7 +574,7 @@ bool LuaObjectBase::Isa(const char *base) const
 
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

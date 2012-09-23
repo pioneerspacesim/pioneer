@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _UTILS_H
 #define _UTILS_H
 
@@ -22,7 +25,6 @@
 #endif
 
 void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
-void SilentWarning(const char *format, ...) __attribute((format(printf,1,2)));
 
 std::string string_join(std::vector<std::string> &v, std::string sep);
 std::string format_date(double time);

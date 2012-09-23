@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "StationShipEquipmentForm.h"
 #include "Pi.h"
 #include "Player.h"
@@ -113,7 +116,7 @@ void StationShipEquipmentForm::ShowAll()
 
 void StationShipEquipmentForm::RecalcButtonVisibility()
 {
-	for (std::list<ButtonPair>::iterator i = m_buttons.begin(); i != m_buttons.end(); i++) {
+	for (std::list<ButtonPair>::iterator i = m_buttons.begin(); i != m_buttons.end(); ++i) {
 		Equip::Slot slot = Equip::types[(*i).type].slot;
 
 		if (Pi::player->m_equipment.FreeSpace(slot) && m_station->GetStock((*i).type))

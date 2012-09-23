@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _TEXT_TEXTSUPPORT_H
 #define _TEXT_TEXTSUPPORT_H
 
@@ -19,6 +22,12 @@ int utf8_decode_char(Uint32 *chr, const char *src);
 //       (i.e., assigning to buf[3] must be a valid operation)
 //  returns: number of bytes in the encoded character
 int utf8_encode_char(Uint32 chr, char buf[4]);
+
+// returns true if the char c is an ASCII letter, a digit
+// or an underscore.
+inline bool is_alphanumunderscore(char c) {
+	return (c == '_' || (c >= '0' && c <= '9') || (c  >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+}
 
 }
 

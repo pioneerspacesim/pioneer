@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 --
 -- Interface: NameGen
 --
@@ -271,7 +274,7 @@ NameGen.surnames = {
 	'Fan', 'Chung', 'Wang', 'Tai', 'Liao', 'Fang', 'Chin', 'Hsai', 'Chia',
 	'Tsou', 'Shih', 'Hsiung', 'Yen', 'Hou', 'Lei', 'Lung', 'Tuan', 'Hao',
 	'Shao', 'Shih', 'Mao', 'Wan', 'Kang', 'Yen', 'Yin', 'Shih', 'Niu', 'Hung',
-	'Kung',
+	'Kung', 'Bumgardner',
 }
 
 NameGen.outdoorPlanetFormats = {

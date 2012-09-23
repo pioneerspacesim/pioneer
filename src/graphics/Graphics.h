@@ -1,35 +1,50 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GRAPHICS_H
 #define _GRAPHICS_H
 
 #include "libs.h"
+#include "Color.h"
+#include "Light.h"
 
 /*
  * bunch of reused 3d drawy routines.
+ * XXX most of this is to be removed
  */
 namespace Graphics {
 
 	class Renderer;
-	class Shader;
+	class Material;
+
+	// requested video settings
+	struct Settings {
+		bool fullscreen;
+		bool shaders;
+		bool useTextureCompression;
+		int vsync;
+		int requestedSamples;
+		int height;
+		int width;
+	};
 
 	/* static */ class State {
 	private:
-		static int m_numLights;
-		static float m_znear, m_zfar;
+		static std::vector<Light> m_lights;
+
 	public:
-		static float m_invLogZfarPlus1; // for z-hack
-		static void SetNumLights(int n) { m_numLights = n; }
-		static void SetZnearZfar(float znear, float zfar) { m_znear = znear; m_zfar = zfar;
-			m_invLogZfarPlus1 = 1.0f / (log(m_zfar+1.0f)/log(2.0f));
-		}
-		static int GetNumLights() { return m_numLights; }
+		static float invLogZfarPlus1; // for LMR, updated by rendererGL2
+		static void SetLights(int n, const Light *lights);
+		static int GetNumLights() { return m_lights.size(); } // for LMR
+		static std::vector<Light> GetLights() { return m_lights; }
 	};
 
-	extern Shader *simpleShader;
-	// one for each number of lights (stars in system)
-	extern Shader *planetRingsShader[4];
+	extern bool shadersAvailable;
+	extern bool shadersEnabled;
+	extern Material *vtxColorMaterial;
 
-	// constructs renderer
-	Renderer* Init(int screen_width, int screen_height, bool wantShaders);
+	// does SDL video init, constructs appropriate Renderer
+	Renderer* Init(const Settings&);
 	void Uninit();
 	bool AreShadersEnabled();
 

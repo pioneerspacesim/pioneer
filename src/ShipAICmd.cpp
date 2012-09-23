@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Ship.h"
 #include "ShipAICmd.h"
@@ -589,6 +592,7 @@ static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, 
 	// ship is in obstructor's frame anyway, so is tpos
 	if (pathdist < 100.0) return 0;
 	Body *body = ship->GetFrame()->GetBodyFor();
+	if (!body) return 0;
 	vector3d spos = ship->GetPosition();
 	double tlen = tpos.Length(), slen = spos.Length();
 	double fr = MaxFeatureRad(body);
@@ -786,7 +790,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 		}
 		else if (coll == 1) {			// below feature height, target not below
 			double ang = m_ship->AIFaceDirection(m_ship->GetPosition());
-			m_ship->AIMatchVel(ang < 0.05 ? 1000.0 * m_ship->GetPosition().Normalized() : 0.0);
+			m_ship->AIMatchVel(ang < 0.05 ? 1000.0 * m_ship->GetPosition().Normalized() : vector3d(0.0));
 			m_state = -3; return false;
 		}
 		else {							// same thing for 2/3/4
@@ -797,9 +801,11 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	}
 
 	// if dangerously close to local body, pretend target isn't moving
-	double localdist = m_ship->GetPosition().Length();
-	if (targdist > localdist && localdist < 1.5*MaxFeatureRad(body))
-		relvel += targvel;
+	if (body) {
+		double localdist = m_ship->GetPosition().Length();
+		if (targdist > localdist && localdist < 1.5*MaxFeatureRad(body))
+			relvel += targvel;
+	}
 
 	// regenerate state to flipmode if we're off course
 	bool overshoot = CheckOvershoot(m_ship, reldir, targdist, relvel, endvel);
@@ -1037,7 +1043,7 @@ bool AICmdFlyAround::TimeStepUpdate()
 	// max feature avoidance check, response
 	if (obsdist < MaxFeatureRad(m_obstructor)) {
 		double ang = m_ship->AIFaceDirection(-obsdir);
-		m_ship->AIMatchVel(ang < 0.05 ? 1000.0 * -obsdir : 0.0);
+		m_ship->AIMatchVel(ang < 0.05 ? 1000.0 * -obsdir : vector3d(0.0));
 		return false;
 	}
 

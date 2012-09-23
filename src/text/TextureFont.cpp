@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "TextureFont.h"
 #include "libs.h"
 #include "graphics/Renderer.h"
@@ -177,7 +180,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 void TextureFont::RenderString(const char *str, float x, float y, const Color &color)
 {
 	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+	m_vertices.Clear();
 
 	float px = x;
 	float py = y;
@@ -197,7 +200,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			AddGlyphGeometry(&va, chr, roundf(px), py, color);
+			AddGlyphGeometry(&m_vertices, chr, roundf(px), py, color);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -216,13 +219,13 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 		}
 	}
 
-	m_renderer->DrawTriangles(&va, &m_mat);
+	m_renderer->DrawTriangles(&m_vertices, m_mat.Get());
 }
 
 Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &color)
 {
 	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+	m_vertices.Clear();
 
 	float px = x;
 	float py = y;
@@ -255,7 +258,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			AddGlyphGeometry(&va, chr, roundf(px), py, c);
+			AddGlyphGeometry(&m_vertices, chr, roundf(px), py, c);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
@@ -275,11 +278,14 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 		}
 	}
 
-	m_renderer->DrawTriangles(&va, &m_mat);
+	m_renderer->DrawTriangles(&m_vertices, m_mat.Get());
 	return c;
 }
 
-TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer) : Font(descriptor), m_renderer(renderer)
+TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer)
+	: Font(descriptor)
+	, m_renderer(renderer)
+	, m_vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0)
 {
 	int err; // used to store freetype error return codes
 	const int a_width = GetDescriptor().pixelWidth;
@@ -301,11 +307,13 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	std::vector<unsigned char> pixBuf(4*sz*sz);
 	std::fill(pixBuf.begin(), pixBuf.end(), 0);
 
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true; //to allow per-character colors
+	desc.textures = 1;
+	m_mat.Reset(m_renderer->CreateMaterial(desc));
 	Graphics::TextureDescriptor textureDescriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
 	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
-	m_mat.texture0 = m_texture.Get();
-	m_mat.unlit = true;
-	m_mat.vertexColors = true; //to allow per-character colors
+	m_mat->texture0 = m_texture.Get();
 
 	bool outline = GetDescriptor().outline;
 

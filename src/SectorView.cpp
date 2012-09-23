@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "gui/Gui.h"
 #include "Pi.h"
@@ -21,6 +24,8 @@ using namespace Graphics;
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
+static const float ZOOM_SPEED = 15;
+static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
 
 SectorView::SectorView()
 {
@@ -81,7 +86,6 @@ void SectorView::InitDefaults()
 
 void SectorView::InitObject()
 {
-	m_disk = new VertexArray(ATTRIB_POSITION);
 	SetTransparency(true);
 
 	Gui::Screen::PushFont("OverlayFont");
@@ -97,10 +101,12 @@ void SectorView::InitObject()
 
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
+	m_zoomInButton->SetRenderDimensions(30, 22);
 	Add(m_zoomInButton, 700, 5);
 
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
+	m_zoomOutButton->SetRenderDimensions(30, 22);
 	Add(m_zoomOutButton, 732, 5);
 
 	Add(new Gui::Label(Lang::SEARCH), 650, 500);
@@ -108,17 +114,7 @@ void SectorView::InitObject()
 	m_searchBox->onKeyPress.connect(sigc::mem_fun(this, &SectorView::OnSearchBoxKeyPress));
 	Add(m_searchBox, 700, 500);
 
-	// selection highlight disk
-	// (wound counterclockwise)
-	// color will be determined by a material
-	m_disk->Add(vector3f(0.f, 0.f, 0.f));
-	const float rad = 0.2f;
-	for (int i = 72; i >= 0; i--) {
-		m_disk->Add(vector3f(
-			0.f+sinf(DEG2RAD(i*5.f))*rad,
-			0.f+cosf(DEG2RAD(i*5.f))*rad,
-			0.f));
-	}
+	m_disk.Reset(new Graphics::Drawables::Disk(Pi::renderer, Color::WHITE, 0.2f));
 
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
@@ -203,7 +199,6 @@ void SectorView::InitObject()
 
 SectorView::~SectorView()
 {
-	delete m_disk;
 	m_onMouseButtonDown.disconnect();
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
@@ -251,7 +246,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 	SystemPath bestMatch;
 	const std::string *bestMatchName = 0;
 
-	for (std::map<SystemPath,Sector*>::iterator i = m_sectorCache.begin(); i != m_sectorCache.end(); i++)
+	for (std::map<SystemPath,Sector*>::iterator i = m_sectorCache.begin(); i != m_sectorCache.end(); ++i)
 
 		for (unsigned int systemIndex = 0; systemIndex < (*i).second->m_systems.size(); systemIndex++) {
 			const Sector::System *ss = &((*i).second->m_systems[systemIndex]);
@@ -599,9 +594,6 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			m_jumpLine.Draw(m_renderer);
 		}
 
-		Material mat;
-		mat.unlit = true;
-
 		// draw star blob itself
 		systrans.Rotate(DEG2RAD(-m_rotZ), 0, 0, 1);
 		systrans.Rotate(DEG2RAD(-m_rotX), 1, 0, 0);
@@ -609,29 +601,29 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		m_renderer->SetTransform(systrans);
 
 		float *col = StarSystem::starColors[(*i).starType[0]];
-		mat.diffuse = Color(col[0], col[1], col[2]);
-		m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
+		m_disk->SetColor(Color(col[0], col[1], col[2]));
+		m_disk->Draw(m_renderer);
 
 		// player location indicator
 		if (m_inSystem && current == m_current) {
 			glDepthRange(0.2,1.0);
-			mat.diffuse = Color(0.f, 0.f, 0.8f);
+			m_disk->SetColor(Color(0.f, 0.f, 0.8f));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(3.f));
-			m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
+			m_disk->Draw(m_renderer);
 		}
 		// selected indicator
 		if (current == m_selected) {
 			glDepthRange(0.1,1.0);
-			mat.diffuse = Color(0.f, 0.8f, 0.0f);
+			m_disk->SetColor(Color(0.f, 0.8f, 0.f));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
-			m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
+			m_disk->Draw(m_renderer);
 		}
 		// hyperspace target indicator (if different from selection)
 		if (current == m_hyperspaceTarget && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
 			glDepthRange(0.1,1.0);
-			mat.diffuse = Color(0.3f);
+			m_disk->SetColor(Color(0.3f));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
-			m_renderer->DrawTriangles(m_disk, &mat, TRIANGLE_FAN);
+			m_disk->Draw(m_renderer);
 		}
 
 		glDepthRange(0,1);
@@ -777,10 +769,7 @@ void SectorView::Update()
 	// don't check raw keypresses if the search box is active
 	// XXX ugly hack checking for Lua console here
 	if (!m_searchBox->IsFocused() && !Pi::IsConsoleActive()) {
-		float moveSpeed = 1.0;
-		if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
-		if (Pi::KeyState(SDLK_RSHIFT)) moveSpeed = 10.0;
-
+		const float moveSpeed = Pi::GetMoveSpeedShiftModifier();
 		float move = moveSpeed*frameTime;
 		if (Pi::KeyState(SDLK_LEFT) || Pi::KeyState(SDLK_RIGHT))
 			m_posMovingTo += vector3f(Pi::KeyState(SDLK_LEFT) ? -move : move, 0,0) * rot;
@@ -828,7 +817,7 @@ void SectorView::Update()
 		else m_rotZ = m_rotZ + travelZ;
 
 		float diffZoom = m_zoomMovingTo - m_zoom;
-		float travelZoom = diffZoom * 10.0f*frameTime;
+		float travelZoom = diffZoom * ZOOM_SPEED*frameTime;
 		if (fabs(travelZoom) > fabs(diffZoom)) m_zoom = m_zoomMovingTo;
 		else m_zoom = m_zoom + travelZoom;
 	}
@@ -875,11 +864,10 @@ void SectorView::ShowAll()
 void SectorView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView()) {
-		const float ft = Pi::GetFrameTime();
 		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
-				m_zoomMovingTo += 10.0*ft;
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
-				m_zoomMovingTo -= 10.0*ft;
+			m_zoomMovingTo += ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
+		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+			m_zoomMovingTo -= ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
 	}
 }
 
