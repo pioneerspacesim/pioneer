@@ -50,7 +50,9 @@ private:
 	void ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*>&, const aiScene*, NModel*); //model is only for material lookup
 	void ConvertAnimations(const aiScene *, const AnimList &, NModel *);
 	void ConvertNodes(aiNode *node, Group *parent, std::vector<Graphics::Surface*>& meshes, const matrix4x4f&);
-	void CreateLabel(Group *parent, const matrix4x4f &);
+	void CreateLabel(Group *parent, const matrix4x4f&);
+	void CreateLight(Group *parent, const matrix4x4f&);
+	void CreateThruster(Group *parent, const matrix4x4f& nodeTrans, const matrix4x4f &accum, bool linear);
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
 	void LoadCollision(const std::string &filename);
 };

@@ -537,45 +537,44 @@ matrix4x4f Loader::ConvertMatrix(const aiMatrix4x4& trans) const
 	return m;
 }
 
-//XXX temporary junk?
-//yeah, definitely
-static void create_light(Group* parent, const matrix4x4f &m, Graphics::Renderer *m_renderer)
-{
-		std::vector<vector3f> points;
-		points.push_back(m.GetTranslate());
-		Graphics::MaterialDescriptor desc;
-		desc.twoSided = true;
-		desc.textures = 1;
-		RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial(desc));
-		mat->texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(m_renderer, "billboard");
-		mat->diffuse = Color(1.f, 0.f, 0.f, 1.f);
-		Billboard *bill = new Billboard(points, mat, 1.f);
-		parent->AddChild(bill);
-}
-
-static void create_thruster(Group* parent, const matrix4x4f &m, Graphics::Renderer *m_renderer, const matrix4x4f& accum, bool linear)
-{
-	//not supposed to create a new thruster node every time since they contain their geometry
-	//it is fine to create one thruster node and add that to various parents
-	//(it wouldn't really matter, it's a tiny amount of geometry)
-
-	MatrixTransform *trans = new MatrixTransform(m);
-
-	//need the accumulated transform or the direction is off
-	const matrix4x4f transform = m * accum;
-	// XXX YZ swap. To be investigated...
-	Thruster *thruster = new Thruster(m_renderer, linear,
-		vector3f(transform[12], transform[14], transform[13]), transform.Back());
-	trans->AddChild(thruster);
-	parent->AddChild(trans);
-}
-
 void Loader::CreateLabel(Group *parent, const matrix4x4f &m)
 {
 	MatrixTransform *trans = new MatrixTransform(m);
 	Label3D *label = new Label3D(m_labelFont, m_renderer);
 	label->SetText("Boners");
 	trans->AddChild(label);
+	parent->AddChild(trans);
+}
+
+void Loader::CreateLight(Group *parent, const matrix4x4f &m)
+{
+	//One node per light, obviously not as optimal as intended
+	std::vector<vector3f> points;
+	points.push_back(m.GetTranslate());
+	Graphics::MaterialDescriptor desc;
+	desc.twoSided = true;
+	desc.textures = 1;
+	RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial(desc));
+	mat->texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(m_renderer, "billboard");
+	mat->diffuse = Color(1.f, 0.f, 0.f, 1.f);
+	Billboard *bill = new Billboard(points, mat, 1.f);
+	parent->AddChild(bill);
+}
+
+void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const matrix4x4f& accum, bool linear)
+{
+	//not supposed to create a new thruster node every time since they contain their geometry
+	//it is fine to create one thruster node and add that to various parents
+	//(it wouldn't really matter, it's a tiny amount of geometry)
+	MatrixTransform *trans = new MatrixTransform(m);
+
+	//need the accumulated transform or the direction is off
+	const matrix4x4f transform = m * accum;
+
+	// XXX YZ swap. To be investigated...
+	Thruster *thruster = new Thruster(m_renderer, linear,
+		vector3f(transform[12], transform[14], transform[13]), transform.Back());
+	trans->AddChild(thruster);
 	parent->AddChild(trans);
 }
 
@@ -589,9 +588,9 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 	//lights, and possibly other special nodes should be leaf nodes (without meshes)
 	if (node->mNumChildren == 0 && node->mNumMeshes == 0) {
 		if (starts_with(nodename, "navlight_")) {
-			create_light(parent, m, m_renderer);
+			CreateLight(parent, m);
 		} else if (starts_with(nodename, "thruster_")) {
-			create_thruster(parent, m, m_renderer, accum, starts_with(nodename, "thruster_linear"));
+			CreateThruster(parent, m, accum, starts_with(nodename, "thruster_linear"));
 		} else if (starts_with(nodename, "label_")) {
 			CreateLabel(parent, m);
 		} else if (starts_with(nodename, "tag_")) {
@@ -634,6 +633,8 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 
 		for(unsigned int i=0; i<node->mNumMeshes; i++) {
 			Graphics::Surface *surf = surfaces[node->mMeshes[i]];
+
+			//set special material for decals
 			if (numDecal > 0) {
 				surf->SetMaterial(GetDecalMaterial(numDecal));
 			}
