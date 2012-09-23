@@ -30,11 +30,11 @@ namespace Graphics {
 
 	//for querying available modes
 	struct VideoMode {
-		VideoMode(unsigned int w, unsigned int h)
+		VideoMode(int w, int h)
 		: width(w), height(h) { }
 
-		unsigned int width;
-		unsigned int height;
+		int width;
+		int height;
 	};
 
 	/* static */ class State {
