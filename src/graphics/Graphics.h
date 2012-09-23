@@ -28,6 +28,15 @@ namespace Graphics {
 		int width;
 	};
 
+	//for querying available modes
+	struct VideoMode {
+		VideoMode(unsigned int w, unsigned int h)
+		: width(w), height(h) { }
+
+		unsigned int width;
+		unsigned int height;
+	};
+
 	/* static */ class State {
 	private:
 		static std::vector<Light> m_lights;
@@ -47,6 +56,7 @@ namespace Graphics {
 	Renderer* Init(const Settings&);
 	void Uninit();
 	bool AreShadersEnabled();
+	std::vector<VideoMode> GetAvailableVideoModes();
 
 	void UnbindAllBuffers();
 	void BindArrayBuffer(GLuint bo);

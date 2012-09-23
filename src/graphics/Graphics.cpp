@@ -63,18 +63,11 @@ Renderer* Init(const Settings &vs)
 
 	// no mode set, find an ok one
 	if ((width <= 0) || (height <= 0)) {
-		SDL_Rect **modes = SDL_ListModes(NULL, SDL_HWSURFACE | SDL_FULLSCREEN);
+		const std::vector<VideoMode> modes = GetAvailableVideoModes();
+		assert(!modes.empty());
 
-		if (modes == 0) {
-			fprintf(stderr, "It seems no video modes are available...");
-		}
-		if (modes == reinterpret_cast<SDL_Rect **>(-1)) {
-			// hm. all modes available. odd. try 800x600
-			width = 800; height = 600;
-		} else {
-			width = modes[0]->w;
-			height = modes[0]->h;
-		}
+		width = modes.front().width;
+		height = modes.front().height;
 	}
 
 	const SDL_VideoInfo *info = SDL_GetVideoInfo();
@@ -190,6 +183,27 @@ void SwapBuffers()
 bool AreShadersEnabled()
 {
 	return shadersEnabled;
+}
+
+std::vector<VideoMode> GetAvailableVideoModes()
+{
+	std::vector<VideoMode> modes;
+	//querying modes using the current pixel format
+	//note - this has always been sdl_fullscreen, hopefully it does not matter
+	SDL_Rect **sdlmodes = SDL_ListModes(NULL, SDL_HWSURFACE | SDL_FULLSCREEN);
+
+	if (sdlmodes == 0)
+		OS::Error("Failed to query video modes");
+
+	if (sdlmodes == reinterpret_cast<SDL_Rect **>(-1)) {
+		// Modes restricted. Fall back to 800x600
+		modes.push_back(VideoMode(800, 600));
+	} else {
+		for (int i=0; sdlmodes[i]; ++i) {
+			modes.push_back(VideoMode(sdlmodes[i]->w, sdlmodes[i]->h));
+		}
+	}
+	return modes;
 }
 
 void Graphics::State::SetLights(int n, const Light *lights)
