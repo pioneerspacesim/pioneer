@@ -703,9 +703,9 @@ SHIP_IS_FULLY_LADEN
     Nava dumneavoastră e încărcată la maxim.
 YOU_DO_NOT_HAVE_ANY_X
     Nu aveţi %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Vedere frontală
-REAR_VIEW
+CAMERA_REAR_VIEW
     Vedere posterioară
 EXTERNAL_VIEW
     Vedere exterioară

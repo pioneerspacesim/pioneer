@@ -28,6 +28,15 @@ namespace Graphics {
 		int width;
 	};
 
+	//for querying available modes
+	struct VideoMode {
+		VideoMode(int w, int h)
+		: width(w), height(h) { }
+
+		int width;
+		int height;
+	};
+
 	/* static */ class State {
 	private:
 		static std::vector<Light> m_lights;
@@ -44,9 +53,10 @@ namespace Graphics {
 	extern Material *vtxColorMaterial;
 
 	// does SDL video init, constructs appropriate Renderer
-	Renderer* Init(const Settings&);
+	Renderer* Init(Settings);
 	void Uninit();
 	bool AreShadersEnabled();
+	std::vector<VideoMode> GetAvailableVideoModes();
 
 	void UnbindAllBuffers();
 	void BindArrayBuffer(GLuint bo);

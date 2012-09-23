@@ -6,8 +6,9 @@
 
 #include "libs.h"
 #include "gui/Gui.h"
-#include "View.h"
 #include "KeyBindings.h"
+#include "View.h"
+#include "graphics/Graphics.h"
 
 //contains a slider, mute button and the necessary layout fluff
 class VolumeControl : public Gui::HBox
@@ -103,6 +104,7 @@ private:
 	Gui::ToggleButton *m_toggleJoystick;
 	Gui::ToggleButton *m_toggleMouseYInvert;
 	Gui::ToggleButton *m_toggleNavTunnel;
+	std::vector<Graphics::VideoMode> m_videoModes;
 };
 
 #endif /* _GAMEMENUVIEW_H */

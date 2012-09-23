@@ -4,6 +4,9 @@ Alpha 27
      * The settings screen is now acessible from the main menu (#1187, #1512)
      * There's now an option to enable texture compression (#1522)
      * New mission type, Scout (get paid to scan particular planets) (#1348, #779)
+     * New view modes (Left/Right/Top/Bottom, Cockpit Front/Rear) (#1454)
+       NOTE -- view mode controls are bound to Numeric Keypad by default
+       (they can be rebound in the View tab of the Settings screen)
 
    * Minor changes and tweaks
      * Smooth zoom animation in World, System, Sector and Galactic views (#1170)
@@ -27,6 +30,7 @@ Alpha 27
      * Many minor cleanups identified by valgrind (#1524)
      * Copyright and license is now made explicit at the top of all code files (#1515)
      * Max terrain height for heightmapped planets is computed more accurately (#1504)
+     * Code to detect supported video modes has moved to Graphics (#1535, #1385)
 
 Alpha 26
 
