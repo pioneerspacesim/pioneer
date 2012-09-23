@@ -7,7 +7,6 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "View.h"
-#include "View.h"
 #include <vector>
 
 class StarSystem;
