@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "GameMenuView.h"
 #include "Pi.h"
 #include "Serializer.h"
@@ -165,8 +168,6 @@ GameMenuView::~GameMenuView()
 
 GameMenuView::GameMenuView(): View()
 {
-	m_subview = 0;
-
 	Gui::Tabbed *tabs = new Gui::Tabbed();
 	Add(tabs, 0, 0);
 
@@ -224,6 +225,10 @@ GameMenuView::GameMenuView(): View()
 		hbox->SetSpacing(5.0f);
 		hbox->PackEnd(m_toggleShaders);
 		hbox->PackEnd(new Gui::Label(Lang::USE_SHADERS));
+		m_toggleCompressTextures = new Gui::ToggleButton();
+		m_toggleCompressTextures->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleCompressTextures));
+		hbox->PackEnd(m_toggleCompressTextures);
+		hbox->PackEnd(new Gui::Label(Lang::COMPRESS_TEXTURES));
 		vbox->PackEnd(hbox);
 
 		vbox->PackEnd((new Gui::Label(Lang::SOUND_SETTINGS))->Color(1.0f,1.0f,0.0f));
@@ -239,12 +244,13 @@ GameMenuView::GameMenuView(): View()
 		m_musicVolume->onChanged.connect(sigc::mem_fun(this, &GameMenuView::OnChangeVolume));
 	}
 
-	vbox->PackEnd((new Gui::Label(Lang::VIDEO_RESOLUTION))->Color(1.0f,1.0f,0.0f));
+	// Video mode selector
+	{
+		m_videoModes = Graphics::GetAvailableVideoModes();
+		vbox->PackEnd((new Gui::Label(Lang::VIDEO_RESOLUTION))->Color(1.0f,1.0f,0.0f));
 
-	m_screenModesGroup = new Gui::RadioGroup();
-	SDL_Rect **modes;
-	modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
-	if ((modes!=0) && (modes != reinterpret_cast<SDL_Rect**>(-1))) {
+		m_screenModesGroup = new Gui::RadioGroup();
+
 		// box to put the scroll portal and its scroll bar into
 		Gui::HBox *scrollHBox = new Gui::HBox();
 		vbox->PackEnd(scrollHBox);
@@ -258,92 +264,96 @@ GameMenuView::GameMenuView(): View()
 		Gui::VBox *vbox2 = new Gui::VBox();
 		portal->Add(vbox2);
 
-		for (int i=0; modes[i]; ++i) {
+		for (std::vector<Graphics::VideoMode>::const_iterator it = m_videoModes.begin();
+			it != m_videoModes.end(); ++it) {
 			Gui::RadioButton *temp = new Gui::RadioButton(m_screenModesGroup);
 			temp->onSelect.connect(sigc::bind(sigc::mem_fun(this,
-					&GameMenuView::OnChangeVideoResolution), i));
+				&GameMenuView::OnChangeVideoResolution), it - m_videoModes.begin()));
 			Gui::HBox *hbox = new Gui::HBox();
 			hbox->SetSpacing(5.0f);
 			hbox->PackEnd(temp);
-			hbox->PackEnd(new Gui::Label(stringf(Lang::X_BY_X, formatarg("x", int(modes[i]->w)), formatarg("y", int(modes[i]->h)))));
+			hbox->PackEnd(new Gui::Label(stringf(Lang::X_BY_X, formatarg("x", int(it->width)), formatarg("y", int(it->height)))));
 			vbox2->PackEnd(hbox);
-			if ((Pi::GetScrWidth() == modes[i]->w) && (Pi::GetScrHeight() == modes[i]->h)) {
+			//mark the current video mode
+			if ((Pi::GetScrWidth() == it->width) && (Pi::GetScrHeight() == it->height)) {
 				temp->SetSelected(true);
 			}
 		}
 	}
 
+	//Graphical detail settings
+	{
+		Gui::HBox *detailBox = new Gui::HBox();
+		detailBox->SetSpacing(20.0f);
+		mainTab->Add(detailBox, 350, 60);
 
-	Gui::HBox *detailBox = new Gui::HBox();
-	detailBox->SetSpacing(20.0f);
-	mainTab->Add(detailBox, 350, 60);
+		vbox = new Gui::VBox();
+		vbox->SetSpacing(5.0f);
+		detailBox->PackEnd(vbox);
 
-	vbox = new Gui::VBox();
-	vbox->SetSpacing(5.0f);
-	detailBox->PackEnd(vbox);
+		vbox->PackEnd((new Gui::Label(Lang::CITY_DETAIL_LEVEL))->Color(1.0f,1.0f,0.0f));
+		m_cityDetailGroup = new Gui::RadioGroup();
 
-	vbox->PackEnd((new Gui::Label(Lang::CITY_DETAIL_LEVEL))->Color(1.0f,1.0f,0.0f));
-	m_cityDetailGroup = new Gui::RadioGroup();
+		for (int i=0; i<5; i++) {
+			Gui::RadioButton *rb = new Gui::RadioButton(m_cityDetailGroup);
+			rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeCityDetail), i));
+			Gui::HBox *hbox = new Gui::HBox();
+			hbox->SetSpacing(5.0f);
+			hbox->PackEnd(rb);
+			hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
+			vbox->PackEnd(hbox);
+		}
 
-	for (int i=0; i<5; i++) {
-		Gui::RadioButton *rb = new Gui::RadioButton(m_cityDetailGroup);
-		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeCityDetail), i));
-		Gui::HBox *hbox = new Gui::HBox();
-		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(rb);
-		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
-		vbox->PackEnd(hbox);
-	}
+		vbox = new Gui::VBox();
+		vbox->SetSpacing(5.0f);
+		detailBox->PackEnd(vbox);
 
-	vbox = new Gui::VBox();
-	vbox->SetSpacing(5.0f);
-	detailBox->PackEnd(vbox);
+		vbox->PackEnd((new Gui::Label(Lang::PLANET_DETAIL_DISTANCE))->Color(1.0f,1.0f,0.0f));
+		m_planetDetailGroup = new Gui::RadioGroup();
 
-	vbox->PackEnd((new Gui::Label(Lang::PLANET_DETAIL_DISTANCE))->Color(1.0f,1.0f,0.0f));
-	m_planetDetailGroup = new Gui::RadioGroup();
+		for (int i=0; i<5; i++) {
+			Gui::RadioButton *rb = new Gui::RadioButton(m_planetDetailGroup);
+			rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetDetail), i));
+			Gui::HBox *hbox = new Gui::HBox();
+			hbox->SetSpacing(5.0f);
+			hbox->PackEnd(rb);
+			hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
+			vbox->PackEnd(hbox);
+		}
 
-	for (int i=0; i<5; i++) {
-		Gui::RadioButton *rb = new Gui::RadioButton(m_planetDetailGroup);
-		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetDetail), i));
-		Gui::HBox *hbox = new Gui::HBox();
-		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(rb);
-		hbox->PackEnd(new Gui::Label(planet_detail_desc[i]));
-		vbox->PackEnd(hbox);
-	}
+		vbox = new Gui::VBox();
+		vbox->SetSpacing(5.0f);
+		detailBox->PackEnd(vbox);
 
-	vbox = new Gui::VBox();
-	vbox->SetSpacing(5.0f);
-	detailBox->PackEnd(vbox);
+		vbox->PackEnd((new Gui::Label(Lang::PLANET_TEXTURES))->Color(1.0f,1.0f,0.0f));
+		m_planetTextureGroup = new Gui::RadioGroup();
 
-	vbox->PackEnd((new Gui::Label(Lang::PLANET_TEXTURES))->Color(1.0f,1.0f,0.0f));
-	m_planetTextureGroup = new Gui::RadioGroup();
+		for (int i=0; i<2; i++) {
+			Gui::RadioButton *rb = new Gui::RadioButton(m_planetTextureGroup);
+			rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetTextures), i));
+			Gui::HBox *hbox = new Gui::HBox();
+			hbox->SetSpacing(5.0f);
+			hbox->PackEnd(rb);
+			hbox->PackEnd(new Gui::Label(planet_textures_desc[i]));
+			vbox->PackEnd(hbox);
+		}
 
-	for (int i=0; i<2; i++) {
-		Gui::RadioButton *rb = new Gui::RadioButton(m_planetTextureGroup);
-		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangePlanetTextures), i));
-		Gui::HBox *hbox = new Gui::HBox();
-		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(rb);
-		hbox->PackEnd(new Gui::Label(planet_textures_desc[i]));
-		vbox->PackEnd(hbox);
-	}
+		vbox = new Gui::VBox();
+		vbox->SetSpacing(5.0f);
+		detailBox->PackEnd(vbox);
 
-	vbox = new Gui::VBox();
-	vbox->SetSpacing(5.0f);
-	detailBox->PackEnd(vbox);
+		vbox->PackEnd((new Gui::Label(Lang::FRACTAL_DETAIL))->Color(1.0f,1.0f,0.0f));
+		m_planetFractalGroup = new Gui::RadioGroup();
 
-	vbox->PackEnd((new Gui::Label(Lang::FRACTAL_DETAIL))->Color(1.0f,1.0f,0.0f));
-	m_planetFractalGroup = new Gui::RadioGroup();
-
-	for (int i=0; i<5; i++) {
-		Gui::RadioButton *rb = new Gui::RadioButton(m_planetFractalGroup);
-		rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeFractalMultiple), i));
-		Gui::HBox *hbox = new Gui::HBox();
-		hbox->SetSpacing(5.0f);
-		hbox->PackEnd(rb);
-		hbox->PackEnd(new Gui::Label(planet_fractal_desc[i]));
-		vbox->PackEnd(hbox);
+		for (int i=0; i<5; i++) {
+			Gui::RadioButton *rb = new Gui::RadioButton(m_planetFractalGroup);
+			rb->onSelect.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeFractalMultiple), i));
+			Gui::HBox *hbox = new Gui::HBox();
+			hbox->SetSpacing(5.0f);
+			hbox->PackEnd(rb);
+			hbox->PackEnd(new Gui::Label(planet_fractal_desc[i]));
+			vbox->PackEnd(hbox);
+		}
 	}
 
 
@@ -386,7 +396,7 @@ GameMenuView::GameMenuView(): View()
 	}
 
 
-	// key binding tab
+	// key binding tab 1
 	{
 		Gui::Fixed *keybindingTab = new Gui::Fixed(800, 600);
 		tabs->AddPage(new Gui::Label(Lang::CONTROLS), keybindingTab);
@@ -472,6 +482,34 @@ GameMenuView::GameMenuView(): View()
 		guibox->PackEnd(m_toggleNavTunnel);
 		guibox->PackEnd(new Gui::Label(Lang::DISPLAY_NAV_TUNNEL));
 		box->PackEnd(guibox);
+	}
+
+	// key binding tab 2
+	{
+		Gui::Fixed *keybindingTab = new Gui::Fixed(800, 600);
+		tabs->AddPage(new Gui::Label(Lang::VIEW), keybindingTab);
+
+		Gui::VBox *box1 = new Gui::VBox();
+		box1->SetSpacing(5.0f);
+		keybindingTab->Add(box1, 10, 10);
+
+		Gui::VBox *box = box1;
+		KeyGetter *keyg;
+
+		for (int i=0; KeyBindings::camBindingProtos[i].label; i++) {
+			const char *label = KeyBindings::camBindingProtos[i].label;
+			const char *function = KeyBindings::camBindingProtos[i].function;
+
+			if (function) {
+				KeyBindings::KeyBinding kb = KeyBindings::KeyBindingFromString(Pi::config->String(function));
+				keyg = new KeyGetter(label, kb);
+				keyg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeKeyBinding), function));
+				box->PackEnd(keyg);
+			} else {
+				// section
+				box->PackEnd((new Gui::Label(label))->Color(1.0f, 1.0f, 0.0f));
+			}
+		}
 	}
 }
 
@@ -563,11 +601,11 @@ void GameMenuView::OnChangeLanguage(std::string &lang)
 	Pi::config->Save();
 }
 
-void GameMenuView::OnChangeVideoResolution(int res)
+void GameMenuView::OnChangeVideoResolution(int modeIndex)
 {
-	SDL_Rect **modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
-	Pi::config->SetInt("ScrWidth", modes[res]->w);
-	Pi::config->SetInt("ScrHeight", modes[res]->h);
+	const Graphics::VideoMode &mode = m_videoModes.at(modeIndex);
+	Pi::config->SetInt("ScrWidth", mode.width);
+	Pi::config->SetInt("ScrHeight", mode.height);
 	Pi::config->Save();
 }
 
@@ -579,6 +617,12 @@ void GameMenuView::OnToggleFullscreen(Gui::ToggleButton *b, bool state)
 	// XXX figure out how to do it in windows
 //	SDL_WM_ToggleFullScreen(Pi::scrSurface);
 //#endif
+}
+
+void GameMenuView::OnToggleCompressTextures(Gui::ToggleButton *b, bool state)
+{
+	Pi::config->SetInt("UseTextureCompression", (state ? 1 : 0));
+	Pi::config->Save();
 }
 
 void GameMenuView::OnToggleShaders(Gui::ToggleButton *b, bool state)
@@ -662,16 +706,13 @@ void GameMenuView::ShowAll() {
 
 void GameMenuView::OnSwitchTo() {
 	m_changedDetailLevel = false;
-	if (m_subview) {
-		delete m_subview;
-		m_subview = 0;
-	}
 	m_planetDetailGroup->SetSelected(Pi::detail.planets);
 	m_planetTextureGroup->SetSelected(Pi::detail.textures);
 	m_planetFractalGroup->SetSelected(Pi::detail.fracmult);
 	m_cityDetailGroup->SetSelected(Pi::detail.cities);
 	m_toggleShaders->SetPressed(Pi::config->Int("DisableShaders") == 0);
 	m_toggleFullscreen->SetPressed(Pi::config->Int("StartFullscreen") != 0);
+	m_toggleCompressTextures->SetPressed(Pi::config->Int("UseTextureCompression") != 0);
 	m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
 	m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
 	m_toggleNavTunnel->SetPressed(Pi::IsNavTunnelDisplayed());

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "StarSystem.h"
 #include "Sector.h"
 #include "Factions.h"
@@ -1960,6 +1963,12 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	// unexplored systems have no population (that we know about)
 	if (system->m_unexplored) {
 		m_population = outTotalPop = fixed(0);
+		return;
+	}
+
+	// grav-points have no population themselves
+	if (type == SystemBody::TYPE_GRAVPOINT) {
+		m_population = fixed(0);
 		return;
 	}
 

@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_ship {
 	name='Caribou',
 	model='caribou',
@@ -8,6 +11,14 @@ define_ship {
 	left_thrust = -1e7,
 	right_thrust = 1e7,
 	angular_thrust = 25e7,
+	cockpit_front = v(0,4,-38),
+	cockpit_rear = v(0,10,-25),
+	front_camera = v(0,-7,-53),
+	rear_camera = v(0,1,52),
+	left_camera = v(-26,0,-.2),
+	right_camera = v(26,0,-.2),
+	top_camera = v(0,11,0),
+	bottom_camera = v(0,-13,0),
 	gun_mounts =
 	{
 		{ v(0,-0.5,-62), v(0,0,-1) },

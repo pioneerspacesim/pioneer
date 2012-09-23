@@ -2,14 +2,23 @@ Alpha 27
 
    * New features
      * The settings screen is now acessible from the main menu (#1187, #1512)
+     * There's now an option to enable texture compression (#1522)
+     * New mission type, Scout (get paid to scan particular planets) (#1348, #779)
+     * New view modes (Left/Right/Top/Bottom, Cockpit Front/Rear) (#1454)
+       NOTE -- view mode controls are bound to Numeric Keypad by default
+       (they can be rebound in the View tab of the Settings screen)
 
    * Minor changes and tweaks
      * Smooth zoom animation in World, System, Sector and Galactic views (#1170)
      * Earth start location has returned to Los Angeles (in daytime now) (#1506)
+     * Player cash is shown on the 'Personal' page of the Info (F3) screen (#1525, #1500)
+     * Equipment listed on the Info (F3) screen is split over two columns (#1525, #1527)
 
    * Fixes
      * Avoid icons in some ternary systems overlapping each other (#1510, #1511) 
      * Fix overlapping text for long system descriptions (#1494, #1498)
+     * Fix crash in SystemInfoView from leaking widget references (#1526,  #1493)
+     * Clamp some newer terrain heights to non-negative values (#1534, #1530)
 
    * Script changes
      * EventQueue, which was deprecated in alpha 26, has been removed (#1485)
@@ -20,6 +29,11 @@ Alpha 27
      * Terrain generation thread now sleeps until being signalled (#1169)
      * New C++ wrappers for Lua table manipulation and value persistence (#1438)
      * Terrain patches are now rendered more efficiently (#1507)
+     * Many minor cleanups identified by valgrind (#1524)
+     * Copyright and license is now made explicit at the top of all code files (#1515)
+     * Max terrain height for heightmapped planets is computed more accurately (#1504)
+     * Code to detect supported video modes has moved to Graphics (#1535, #1385)
+     * Cleaned up UI view code for consistency and stability (#1528)
 
 Alpha 26
 

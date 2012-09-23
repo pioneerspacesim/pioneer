@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _WORLDVIEW_H
 #define _WORLDVIEW_H
 
@@ -27,11 +30,21 @@ public:
 	virtual void Update();
 	virtual void Draw3D();
 	virtual void Draw();
-	virtual void OnSwitchTo();
 	static const double PICK_OBJECT_RECT_SIZE;
 	void DrawBgStars();
 	virtual void Save(Serializer::Writer &wr);
-	enum CamType { CAM_FRONT, CAM_REAR, CAM_EXTERNAL, CAM_SIDEREAL };
+	enum CamType {
+		COCKPIT_FRONT,
+		COCKPIT_REAR,
+		CAM_FRONT,
+		CAM_REAR,
+		CAM_LEFT,
+		CAM_RIGHT,
+		CAM_TOP,
+		CAM_BOTTOM,
+		CAM_EXTERNAL,
+		CAM_SIDEREAL
+	};
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const { return m_camType; }
 	WorldViewCamera *GetActiveCamera() const { return m_activeCamera; }
@@ -44,6 +57,8 @@ public:
 
 	sigc::signal<void> onChangeCamType;
 
+protected:
+	virtual void OnSwitchTo();
 private:
 	void InitObject();
 
@@ -107,6 +122,7 @@ private:
 
 	Gui::ImageButton *m_hyperspaceButton;
 
+	Gui::Label *m_showCameraName;
 	Gui::Fixed *m_commsOptions;
 	Gui::VBox *m_commsNavOptions;
 	Gui::HBox *m_commsNavOptionsContainer;
@@ -120,6 +136,7 @@ private:
 	int m_numLights;
 	Uint32 m_showTargetActionsTimeout;
 	Uint32 m_showLowThrustPowerTimeout;
+	Uint32 m_showCameraNameTimeout;
 
 #if WITH_DEVKEYS
 	Gui::Label *m_debugInfo;
@@ -138,8 +155,8 @@ private:
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;
 
-	FrontCamera *m_frontCamera;
-	RearCamera *m_rearCamera;
+	std::string cameraName;
+	InternalCamera *m_internalCamera;
 	ExternalCamera *m_externalCamera;
 	SiderealCamera *m_siderealCamera;
 	WorldViewCamera *m_activeCamera; //one of the above

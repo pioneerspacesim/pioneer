@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _WORLDVIEWCAMERA_H
 #define _WORLDVIEWCAMERA_H
 /*
@@ -11,8 +14,7 @@ class WorldViewCamera : public Camera
 {
 public:
 	enum Type { //can be used for serialization & identification
-		FRONT,
-		REAR,
+		INTERNAL,
 		EXTERNAL,
 		SIDEREAL
 	};
@@ -20,6 +22,14 @@ public:
 	//it is not strictly necessary, but WW cameras are now restricted to Ships
 	WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	virtual Type GetType() const = 0;
+	virtual void Front_Cockpit() { }
+	virtual void Rear_Cockpit() { }
+	virtual void Front() { }
+	virtual void Rear() { }
+	virtual void Left() { }
+	virtual void Right() { }
+	virtual void Top() { }
+	virtual void Bottom() { }
 	virtual void RollLeft(float frameTime) { }
 	virtual void RollRight(float frameTime) { }
 	virtual void RotateDown(float frameTime) { }
@@ -44,20 +54,25 @@ public:
 	virtual bool IsExternal() const { return false; }
 };
 
-// Forward facing view from the ship
-class FrontCamera : public WorldViewCamera {
+// Front view from the cockpit.
+class InternalCamera : public WorldViewCamera {
 public:
-	FrontCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
-	Type GetType() const { return FRONT; }
+	InternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
+	Type GetType() const { return INTERNAL; }
+	void Front_Cockpit();
+	void Rear_Cockpit();
+	void Front();
+	void Rear();
+	void Left();
+	void Right();
+	void Top();
+	void Bottom();
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
 	void Activate();
-};
-
-// Rear-facing view
-class RearCamera : public WorldViewCamera {
-public:
-	RearCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
-	Type GetType() const { return REAR; }
-	void Activate();
+private:
+	matrix4x4d m_orient;
+	vector3d m_offs;
 };
 
 // Zoomable, rotatable orbit camera, always looks at the ship

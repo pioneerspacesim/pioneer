@@ -705,9 +705,9 @@ SHIP_IS_FULLY_LADEN
     Ihr Schiff ist voll.
 YOU_DO_NOT_HAVE_ANY_X
     Sie haben keine Waren des Artikels %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Sicht nach vorn
-REAR_VIEW
+CAMERA_REAR_VIEW
     Sicht nach hinten
 EXTERNAL_VIEW
     Außenansicht

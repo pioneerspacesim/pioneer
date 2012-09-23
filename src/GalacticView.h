@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GALACTICVIEW_H
 #define _GALACTICVIEW_H
 
@@ -16,6 +19,7 @@ public:
 	virtual void Draw3D();
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
+protected:
 	virtual void OnSwitchTo() {}
 private:
 	void OnClickGalacticView();

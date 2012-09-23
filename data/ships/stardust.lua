@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_ship {
 	name='Stardust',
 	model='stardust',
@@ -8,6 +11,14 @@ define_ship {
 	left_thrust = -40e5,
 	right_thrust = 40e5,
 	angular_thrust = 320e5,
+	cockpit_front = v(0,0,-23),
+	cockpit_rear = v(0,8,-15),
+	front_camera = v(0,0,-23),
+	rear_camera = v(0,0,9),
+	left_camera = v(-8.5,0,0),
+	right_camera = v(8.5,0,0),
+	top_camera = v(0,9,-7),
+	bottom_camera = v(0,-9,-7),
 	gun_mounts =
 	{
 		{ v(0,0,-26), v(0,0,-1) },

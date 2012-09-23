@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef KEYBINDINGS_H
 #define KEYBINDINGS_H
 
@@ -70,6 +73,7 @@ namespace KeyBindings {
 	};
 
 	extern const BindingPrototype bindingProtos[];
+	extern const BindingPrototype camBindingProtos[];
 	extern const BindingPrototype axisBindingProtos[];
 
 	void InitBindings();
@@ -106,6 +110,24 @@ namespace KeyBindings {
 	extern KeyAction increaseScanRange;
 	extern KeyAction decreaseScanRange;
 	extern KeyAction toggleHudMode;
+
+	extern KeyAction frontCockpit;
+	extern KeyAction rearCockpit;
+	extern KeyAction frontCamera;
+	extern KeyAction rearCamera;
+	extern KeyAction leftCamera;
+	extern KeyAction rightCamera;
+	extern KeyAction topCamera;
+	extern KeyAction bottomCamera;
+	extern KeyAction cameraRollLeft;
+	extern KeyAction cameraRollRight;
+	extern KeyAction cameraRotateDown;
+	extern KeyAction cameraRotateUp;
+	extern KeyAction cameraRotateLeft;
+	extern KeyAction cameraRotateRight;
+	extern KeyAction cameraZoomIn;
+	extern KeyAction cameraZoomOut;
+	extern KeyAction resetCamera;
 
 	extern AxisBinding pitchAxis;
 	extern AxisBinding rollAxis;
