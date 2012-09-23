@@ -500,8 +500,8 @@ N_LIGHT_YEARS_N_MAX
     %distance{f.1} lat świetlnych (%maxdistance{f.1} maks.)
 SHIP_INFORMATION
     Informacje o statku
-REPUTATION
-    Reputacja
+PERSONAL
+    Osobiste
 MISSIONS
     Misje
 SHIFT

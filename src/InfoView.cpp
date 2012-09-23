@@ -197,11 +197,13 @@ public:
 		const float YSEP = Gui::Screen::GetFontHeight() * 1.2f;
 		DeleteAllChildren();
 
-		float ypos = 40.0f;
+		float ypos = 16.0f;
+		Add((new Gui::Label(std::string(Lang::CASH)+": "+format_money(Pi::player->GetMoney())))->Shadow(true), 40 ,ypos);
+		ypos = 56.0f;
 		Add((new Gui::Label(Lang::COMBAT_RATING))->Shadow(true), 40, ypos);
 		Add(new Gui::Label(Pi::combatRating[ Pi::CombatRating(Pi::player->GetKillCount()) ]), 40, ypos+YSEP);
 
-		ypos = 160.0f;
+		ypos = 176.0f;
 		Add((new Gui::Label(Lang::CRIMINAL_RECORD))->Shadow(true), 40, ypos);
 		for (int i=0; i<64; i++) {
 			if (!(crime & (Uint64(1)<<i))) continue;
@@ -218,8 +220,8 @@ public:
 	ShipInfoPage(InfoView *v) : InfoViewPage(v) {
 		info1 = new Gui::Label("");
 		info2 = new Gui::Label("");
-		Add(info1, 40, 40);
-		Add(info2, 250, 40);
+		Add(info1, 24, 16);
+		Add(info2, 234, 16);
 		ShowAll();
 	};
 
@@ -234,36 +236,37 @@ public:
 		const ShipType &stype = Pi::player->GetShipType();
 		col1 = std::string(Lang::SHIP_INFORMATION_HEADER)+std::string(stype.name);
 		col1 += "\n\n";
-        col1 += std::string(Lang::HYPERDRIVE);
+		col1 += std::string(Lang::HYPERDRIVE);
+		col1 += ":\n";
+		col1 += std::string(Lang::HYPERSPACE_RANGE);
 		col1 += ":\n\n";
-        col1 += std::string(Lang::CAPACITY);
+		col1 += std::string(Lang::CAPACITY);
 		col1 += ":\n";
-        col1 += std::string(Lang::FREE);
+		col1 += std::string(Lang::FREE);
 		col1 += ":\n";
-        col1 += std::string(Lang::USED);
+		col1 += std::string(Lang::USED);
 		col1 += ":\n";
-        col1 += std::string(Lang::TOTAL_WEIGHT);
+		col1 += std::string(Lang::TOTAL_WEIGHT);
 		col1 += ":\n\n";
-        col1 += std::string(Lang::FRONT_WEAPON);
+		col1 += std::string(Lang::FRONT_WEAPON);
 		col1 += ":\n";
-        col1 += std::string(Lang::REAR_WEAPON);
+		col1 += std::string(Lang::REAR_WEAPON);
 		col1 += ":\n\n";
-        col1 += std::string(Lang::HYPERSPACE_RANGE);
-        col1 += ":\n\n";
 
 		col2 = "\n\n";
-
 		Equip::Type e = Pi::player->m_equipment.Get(Equip::SLOT_ENGINE);
 		col2 += std::string(Equip::types[e].name);
-
+		col2 += "\n";
 		const shipstats_t &stats = Pi::player->GetStats();
+		col2 += stringf(Lang::N_LIGHT_YEARS_N_MAX,
+			formatarg("distance", stats.hyperspace_range),
+			formatarg("maxdistance", stats.hyperspace_range_max));
 		snprintf(buf, sizeof(buf), "\n\n%dt\n"
 					       "%dt\n"
 					       "%dt\n"
 					       "%dt", stats.max_capacity,
 				stats.free_capacity, stats.used_capacity, stats.total_mass);
 		col2 += std::string(buf);
-
 		int numLasers = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_LASER);
 		if (numLasers >= 1) {
 			e = Pi::player->m_equipment.Get(Equip::SLOT_LASER, 0);
@@ -279,39 +282,44 @@ public:
 			col2 += "\n";
             col2 += std::string(Lang::NO_MOUNTING);
 		}
-
 		col2 += "\n\n";
-		col2 += stringf(Lang::N_LIGHT_YEARS_N_MAX,
-			formatarg("distance", stats.hyperspace_range),
-			formatarg("maxdistance", stats.hyperspace_range_max));
 
-		for (int i=Equip::FIRST_SHIPEQUIP; i<=Equip::LAST_SHIPEQUIP; i++) {
-			Equip::Type t = Equip::Type(i) ;
+		int equip_item_index = 1; // for Odd -or- Even check in this loop
+		for (int i=Equip::FIRST_SHIPEQUIP; i<=Equip::LAST_SHIPEQUIP; i++)
+		{
+			Equip::Type t = Equip::Type(i);
 			Equip::Slot s = Equip::types[t].slot;
 			if ((s == Equip::SLOT_MISSILE) || (s == Equip::SLOT_ENGINE) || (s == Equip::SLOT_LASER)) continue;
-			int num = Pi::player->m_equipment.Count(s, t);
-			if (num == 1) {
-				col1 += stringf("%0\n", Equip::types[t].name);
-			} else if (num > 1) {
-				// XXX this needs something more generic
-				switch (t) {
-					case Equip::SHIELD_GENERATOR:
-						col1 += stringf(Lang::X_SHIELD_GENERATORS, formatarg ("quantity", int(num)));
-						break;
-					case Equip::PASSENGER_CABIN:
-						col1 += stringf(Lang::X_PASSENGER_CABINS, formatarg ("quantity", int(num)));
-						break;
-					case Equip::UNOCCUPIED_CABIN:
-						col1 += stringf(Lang::X_UNOCCUPIED_CABINS, formatarg ("quantity", int(num)));
-						break;
-					default:
-						col1 += stringf("%0\n", Equip::types[t].name);
-						break;
-				}
-				col1 += stringf("\n");
-			}
-		}
 
+			const int num = Pi::player->m_equipment.Count(s, t);
+			if (!num) continue;
+
+			std::string equip_description(Equip::types[t].name);
+			if (num > 1) {
+				switch (t) {
+				case Equip::SHIELD_GENERATOR:
+					equip_description = stringf(Lang::X_SHIELD_GENERATORS, formatarg ("quantity", int(num)));
+					break;
+				case Equip::PASSENGER_CABIN:
+					equip_description = stringf(Lang::X_PASSENGER_CABINS, formatarg ("quantity", int(num)));
+					break;
+				case Equip::UNOCCUPIED_CABIN:
+					equip_description = stringf(Lang::X_UNOCCUPIED_CABINS, formatarg ("quantity", int(num)));
+					break;
+				default: break; // (to prevent warnings)
+				}
+			}
+
+			if (equip_item_index & 1) {
+				col1 += equip_description;
+				col1 += "\n";
+			} else {
+				col2 += equip_description;
+				col2 += "\n";
+			}
+
+			++equip_item_index;
+		}
 		info1->SetText(col1);
 		info2->SetText(col2);
 		this->ResizeRequest();
@@ -333,7 +341,7 @@ InfoView::InfoView(): View(),
 
 	page = new PersonalPage(this);
 	m_pages.push_back(page);
-	m_tabs->AddPage(new Gui::Label(Lang::REPUTATION), page);
+	m_tabs->AddPage(new Gui::Label(Lang::PERSONAL), page);
 
 	page = new CargoPage(this);
 	m_pages.push_back(page);
