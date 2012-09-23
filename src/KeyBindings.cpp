@@ -32,6 +32,24 @@ KeyAction increaseScanRange;
 KeyAction decreaseScanRange;
 KeyAction toggleHudMode;
 
+KeyAction frontCockpit;
+KeyAction rearCockpit;
+KeyAction frontCamera;
+KeyAction rearCamera;
+KeyAction leftCamera;
+KeyAction rightCmaera;
+KeyAction topCamera;
+KeyAction bottomCamera;
+KeyAction cameraRollLeft;
+KeyAction cameraRollRight;
+KeyAction cameraRotateDown;
+KeyAction cameraRotateUp;
+KeyAction cameraRotateLeft;
+KeyAction cameraRotateRight;
+KeyAction cameraZoomIn;
+KeyAction cameraZoomOut;
+KeyAction resetCamera;
+
 AxisBinding pitchAxis;
 AxisBinding rollAxis;
 AxisBinding yawAxis;
@@ -219,6 +237,29 @@ const BindingPrototype bindingProtos[] = {
 	{ 0, 0, 0, 0 },
 };
 
+const BindingPrototype camBindingProtos[] = {
+	{ Lang::INTERNAL_VIEW, 0, 0, 0 },
+	{ Lang::FRONT_COCKPIT_VIEW, "BindFrontCockpit", &frontCockpit, 0 },
+	{ Lang::REAR_COCKPIT_VIEW, "BindRearCockpit", &rearCockpit, 0 },
+	{ Lang::CAMERA_FRONT_VIEW, "BindFrontCamera", &frontCamera, 0 },
+	{ Lang::CAMERA_REAR_VIEW, "BindRearCamera", &rearCamera, 0 },
+	{ Lang::CAMERA_LEFT_VIEW, "BindLeftCamera", &leftCamera, 0 },
+	{ Lang::CAMERA_RIGHT_VIEW, "BindRightCmaera", &rightCmaera, 0 },
+	{ Lang::CAMERA_TOP_VIEW, "BindTopCamera", &topCamera, 0 },
+	{ Lang::CAMERA_BOTTOM_VIEW, "BindBottomCamera", &bottomCamera, 0 },
+	{ Lang::EXTERNAL_VIEW, 0, 0, 0 },
+	{ Lang::ROLL_LEFT, "BindCameraRollLeft", &cameraRollLeft, 0 },
+	{ Lang::ROLL_RIGHT, "BindCameraRollRight", &cameraRollRight, 0 },
+	{ Lang::ROTATE_DOWN, "BindCameraRotateDown", &cameraRotateDown, 0 },
+	{ Lang::ROTATE_UP, "BindCameraRotateUp", &cameraRotateUp, 0 },
+	{ Lang::ROTATE_LEFT, "BindCameraRotateLeft", &cameraRotateLeft, 0 },
+	{ Lang::ROTATE_RIGHT, "BindCameraRotateRight", &cameraRotateRight, 0 },
+	{ Lang::ZOOM_IN, "BindCameraZoomIn", &cameraZoomIn, 0 },
+	{ Lang::ZOOM_OUT, "BindCameraZoomOut", &cameraZoomOut, 0 },
+	{ Lang::RESET, "BindResetCamera", &resetCamera, 0 },
+	{ 0, 0, 0, 0 },
+};
+
 const BindingPrototype axisBindingProtos[] = {
 	{ Lang::JOYSTICK_INPUT, 0, 0, 0 },
 	{ Lang::PITCH, "BindAxisPitch", 0, &pitchAxis },
@@ -382,6 +423,11 @@ void DispatchSDLEvent(const SDL_Event *event) {
 		if (kb)
 			kb->CheckSDLEventAndDispatch(event);
 	}
+	for (int i = 0; camBindingProtos[i].label; ++i) {
+		KeyAction *kb = camBindingProtos[i].kb;
+		if (kb)
+			kb->CheckSDLEventAndDispatch(event);
+	}
 }
 
 void InitKeyBinding(KeyAction &kb, const std::string &bindName, SDLKey defaultKey) {
@@ -426,6 +472,24 @@ void UpdateBindings()
 	InitKeyBinding(KeyBindings::decreaseScanRange, "BindDecreaseScanRange", SDLK_LEFTBRACKET);
 	InitKeyBinding(KeyBindings::toggleLuaConsole, "BindToggleLuaConsole", SDLK_BACKQUOTE);
 	InitKeyBinding(KeyBindings::toggleHudMode, "BindToggleHudMode", SDLK_TAB);
+
+	InitKeyBinding(KeyBindings::frontCockpit, "BindFrontCockpit", SDLK_KP7);
+	InitKeyBinding(KeyBindings::rearCockpit, "BindRearCockpit", SDLK_KP1);
+	InitKeyBinding(KeyBindings::frontCamera, "BindFrontCamera", SDLK_KP8);
+	InitKeyBinding(KeyBindings::rearCamera, "BindRearCamera", SDLK_KP2);
+	InitKeyBinding(KeyBindings::leftCamera, "BindLeftCamera", SDLK_KP4);
+	InitKeyBinding(KeyBindings::rightCmaera, "BindRightCmaera", SDLK_KP6);
+	InitKeyBinding(KeyBindings::topCamera, "BindTopCamera", SDLK_KP9);
+	InitKeyBinding(KeyBindings::bottomCamera, "BindBottomCamera", SDLK_KP3);
+	InitKeyBinding(KeyBindings::cameraRollLeft, "BindCameraRollLeft", SDLK_KP1);
+	InitKeyBinding(KeyBindings::cameraRollRight, "BindCameraRollRight", SDLK_KP3);
+	InitKeyBinding(KeyBindings::cameraRotateDown, "BindCameraRotateDown", SDLK_KP2);
+	InitKeyBinding(KeyBindings::cameraRotateUp, "BindCameraRotateUp", SDLK_KP8);
+	InitKeyBinding(KeyBindings::cameraRotateLeft, "BindCameraRotateLeft", SDLK_KP4);
+	InitKeyBinding(KeyBindings::cameraRotateRight, "BindCameraRotateRight", SDLK_KP6);
+	InitKeyBinding(KeyBindings::cameraZoomIn, "BindCameraZoomIn", SDLK_KP_PLUS);
+	InitKeyBinding(KeyBindings::cameraZoomOut, "BindCameraZoomOut", SDLK_KP_MINUS);
+	InitKeyBinding(KeyBindings::resetCamera, "BindResetCamera", SDLK_HOME);
 
 	InitAxisBinding(KeyBindings::pitchAxis, "BindAxisPitch", "-Joy0Axis1");
 	InitAxisBinding(KeyBindings::rollAxis, "BindAxisRoll", "Joy0Axis2");
