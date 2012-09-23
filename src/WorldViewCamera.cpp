@@ -257,7 +257,7 @@ void SiderealCamera::RollRight(float frameTime)
 void SiderealCamera::Reset()
 {
 	m_dist = 200;
-	m_distTo = m_distTo;
+	m_distTo = m_dist;
 }
 
 void SiderealCamera::UpdateTransform()
