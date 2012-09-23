@@ -8,7 +8,7 @@ namespace Newmodel {
 
 static const std::string thrusterTextureFilename("textures/thruster.png");
 static const std::string thrusterGlowTextureFilename("textures/halo.png");
-static Color color(0.7f, 0.6f, 1.f, 1.f);
+static Color baseColor(0.7f, 0.6f, 1.f, 1.f);
 
 Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, const vector3f &_dir)
 : Node(NODE_TRANSPARENT)
@@ -57,7 +57,7 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 	desc.twoSided = true;
 	m_tMat.Reset(r->CreateMaterial(desc));
 	m_tMat->texture0 = Graphics::TextureBuilder::Billboard(thrusterTextureFilename).GetOrCreateTexture(r, "model");
-	m_tMat->diffuse = color;
+	m_tMat->diffuse = baseColor;
 }
 
 void Thruster::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
@@ -89,7 +89,7 @@ void Thruster::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData
 	r->SetDepthWrite(false);
 	r->SetTransform(trans);
 
-	m_tMat->diffuse.a = power;
+	m_tMat->diffuse = baseColor * power;
 	//directional fade
 	/*vector3f cdir(0.f, 0.f, -1.f);
 	vector3f vdir(-trans[2], -trans[6], -trans[10]);
