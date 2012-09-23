@@ -230,8 +230,6 @@ public:
 		std::string col1, col2;
 		const ShipType &stype = Pi::player->GetShipType();
 		col1 = std::string(Lang::SHIP_INFORMATION_HEADER)+std::string(stype.name);
-		col1 += "\n";
-		col1 += std::string(Lang::CASH)+": "+std::string(format_money(Pi::player->GetMoney()));
 		col1 += "\n\n";
 		col1 += std::string(Lang::HYPERDRIVE);
 		col1 += ":\n";
@@ -250,7 +248,7 @@ public:
 		col1 += std::string(Lang::REAR_WEAPON);
 		col1 += ":\n\n";
 
-		col2 = "\n\n\n";
+		col2 = "\n\n";
 		Equip::Type e = Pi::player->m_equipment.Get(Equip::SLOT_ENGINE);
 		col2 += std::string(Equip::types[e].name);
 		col2 += "\n";
