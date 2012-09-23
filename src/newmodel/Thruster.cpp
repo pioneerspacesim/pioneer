@@ -63,7 +63,7 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 void Thruster::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
 {
 	float power = 0.f;
-	power = -dir.Dot(rd->linthrust);
+	power = -dir.Dot(vector3f(rd->linthrust));
 
 	if (!linearOnly) {
 		// pitch X

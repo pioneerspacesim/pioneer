@@ -711,7 +711,7 @@ void ModelViewer::SetupUI()
 				c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[8] = c->HSlider(), all)
 				)), all
 		)
-	, vector2f(m_width-520.f, m_height-100.f), vector2f(500.f, 300.f));
+	, UI::Point(m_width-520, m_height-100), UI::Point(500, 300));
 
 	//connect slider signals, set initial values (RGB)
 	const float values[] = {
@@ -755,7 +755,7 @@ void ModelViewer::SetupUI()
 		thrustSliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnThrustChanged));
 	}
 
-	c->AddFloatingWidget(thrustSliderBox, vector2f(0.f, m_height-120.f), vector2f(250.f, 100.f));
+	c->AddFloatingWidget(thrustSliderBox, UI::Point(0, m_height-120), UI::Point(250, 100));
 	////thruster sliders end
 
 	m_ui->SetInnerWidget(box);
