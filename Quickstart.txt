@@ -18,9 +18,9 @@ The next four buttons change function depending on the first four. Hover the
 mouse over them to see what they do.
 
 F5 turns off the autopilot, and changes between manual flight and set speed
-flight
+flight.
 
-To fly your ship manually, the keys are:
+Flight controls are:
 Q: Roll left
 W: Pitch forward
 E: Roll right
@@ -34,13 +34,13 @@ J: Starboard thruster (slide left)
 K: Forward thruster (go backwards)
 L: Port thruster (slide right)
 
-In "set speed" mode, the keys are:
-Q: Roll left
-W: Pitch forward
-E: Roll right
-A: Yaw left
-S: Pitch up
-D: Yaw right
+In manual flight mode, the thrusters only fire when you tell them to.
+In "set speed" mode, the autopilot tries to keep your velocity vector
+in the direction that your vehicle is facing, with a constant speed.
+Thruster controls still work in "set speed" mode, and override the
+autopilot while you hold the thrust key down.
+
+"Set speed" controls:
 Enter: Set speed faster
 RightShift: Set speed slower
 
