@@ -29,6 +29,8 @@
 #include "Lua.h"
 #include "LuaTable.h"
 
+#include <stack>
+
 class LuaManager;
 namespace Graphics { class Renderer; }
 
@@ -138,10 +140,20 @@ private:
 
 	RefCountedPtr<Text::TextureFont> m_font[FONT_SIZE_MAX];
 
-	// used by Container::Draw to set the keep widget drawing in its bounds
+	// helper stuff for Container::Draw
 	friend class Container;
-	void EnableScissor(const Point &pos = Point(), const Point &size = Point());
-	void DisableScissor();
+
+	// used by Container::Draw to set the keep widget drawing in its bounds
+	// for accumulating scissor regions
+	void PushScissor(const Point &pos, const Point &size);
+	void PopScissor();
+	void ApplyScissor();
+	std::stack< std::pair<Point,Point> > m_scissorStack;
+
+	// for accumulating widget transformations
+	void PushTransform(const matrix4x4f &transform);
+	void PopTransform();
+	std::stack<matrix4x4f> m_transformStack;
 };
 
 }

@@ -77,19 +77,6 @@ void Context::Draw()
 
 	Single::Draw();
     m_float->Draw();
-
-	DisableScissor();
-}
-
-void Context::EnableScissor(const Point &pos, const Point &size)
-{
-    vector2f flippedPos(pos.x, m_height-pos.y-size.y);
-	m_renderer->SetScissor(true, flippedPos, vector2f(size.x, size.y));
-}
-
-void Context::DisableScissor()
-{
-	m_renderer->SetScissor(false);
 }
 
 Widget *Context::CallTemplate(const char *name, const LuaTable &args)
@@ -111,6 +98,63 @@ Widget *Context::CallTemplate(const char *name, const LuaTable &args)
 Widget *Context::CallTemplate(const char *name)
 {
 	return CallTemplate(name, LuaTable(m_lua->GetLuaState()));
+}
+
+void Context::PushScissor(const Point &pos, const Point &size)
+{
+	if (m_scissorStack.size() > 0) {
+		const std::pair<Point,Point> &currentScissor = m_scissorStack.top();
+		const Point &currentPos = currentScissor.first;
+		const Point &currentSize = currentScissor.second;
+
+		//Point newPos = Point(currentPos.x + pos.x, currentPos.y + pos.y); // XXX ensure >= currentPos, clamp to currentSize
+		Point newPos(Point(std::min(currentSize.x, pos.x), std::min(currentSize.y, pos.y)) + currentPos);
+		//Point newSize = size;                                             // XXX clamp to currentSize
+		Point newSize(std::min(currentSize.x, size.x), std::min(currentSize.y, size.y));
+
+		m_scissorStack.push(std::make_pair(newPos, newSize));
+	}
+	else
+		m_scissorStack.push(std::make_pair(pos, size));
+
+	ApplyScissor();
+}
+
+void Context::PopScissor()
+{
+	m_scissorStack.pop();
+	if (m_scissorStack.size() > 0)
+		ApplyScissor();
+	else
+		m_renderer->SetScissor(false);
+}
+
+void Context::ApplyScissor()
+{
+	const std::pair<Point,Point> &currentScissor = m_scissorStack.top();
+	const Point &pos = currentScissor.first;
+	const Point &size = currentScissor.second;
+
+    vector2f flippedPos(pos.x, m_height-pos.y-size.y);
+	m_renderer->SetScissor(true, flippedPos, vector2f(size.x, size.y));
+}
+
+void Context::PushTransform(const matrix4x4f &transform)
+{
+	if (m_transformStack.size() > 0)
+		m_transformStack.push(m_transformStack.top() * transform);
+	else
+		m_transformStack.push(transform);
+	m_renderer->SetTransform(m_transformStack.top());
+}
+
+void Context::PopTransform()
+{
+	m_transformStack.pop();
+	if (m_transformStack.size() > 0)
+		m_renderer->SetTransform(m_transformStack.top());
+	else
+		m_renderer->SetTransform(matrix4x4f::Identity());
 }
 
 }
