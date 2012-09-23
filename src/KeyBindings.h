@@ -116,7 +116,7 @@ namespace KeyBindings {
 	extern KeyAction frontCamera;
 	extern KeyAction rearCamera;
 	extern KeyAction leftCamera;
-	extern KeyAction rightCmaera;
+	extern KeyAction rightCamera;
 	extern KeyAction topCamera;
 	extern KeyAction bottomCamera;
 	extern KeyAction cameraRollLeft;

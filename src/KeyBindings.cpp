@@ -37,7 +37,7 @@ KeyAction rearCockpit;
 KeyAction frontCamera;
 KeyAction rearCamera;
 KeyAction leftCamera;
-KeyAction rightCmaera;
+KeyAction rightCamera;
 KeyAction topCamera;
 KeyAction bottomCamera;
 KeyAction cameraRollLeft;
@@ -244,7 +244,7 @@ const BindingPrototype camBindingProtos[] = {
 	{ Lang::CAMERA_FRONT_VIEW, "BindFrontCamera", &frontCamera, 0 },
 	{ Lang::CAMERA_REAR_VIEW, "BindRearCamera", &rearCamera, 0 },
 	{ Lang::CAMERA_LEFT_VIEW, "BindLeftCamera", &leftCamera, 0 },
-	{ Lang::CAMERA_RIGHT_VIEW, "BindRightCmaera", &rightCmaera, 0 },
+	{ Lang::CAMERA_RIGHT_VIEW, "BindRightCmaera", &rightCamera, 0 },
 	{ Lang::CAMERA_TOP_VIEW, "BindTopCamera", &topCamera, 0 },
 	{ Lang::CAMERA_BOTTOM_VIEW, "BindBottomCamera", &bottomCamera, 0 },
 	{ Lang::EXTERNAL_VIEW, 0, 0, 0 },
@@ -478,7 +478,7 @@ void UpdateBindings()
 	InitKeyBinding(KeyBindings::frontCamera, "BindFrontCamera", SDLK_KP8);
 	InitKeyBinding(KeyBindings::rearCamera, "BindRearCamera", SDLK_KP2);
 	InitKeyBinding(KeyBindings::leftCamera, "BindLeftCamera", SDLK_KP4);
-	InitKeyBinding(KeyBindings::rightCmaera, "BindRightCmaera", SDLK_KP6);
+	InitKeyBinding(KeyBindings::rightCamera, "BindRightCmaera", SDLK_KP6);
 	InitKeyBinding(KeyBindings::topCamera, "BindTopCamera", SDLK_KP9);
 	InitKeyBinding(KeyBindings::bottomCamera, "BindBottomCamera", SDLK_KP3);
 	InitKeyBinding(KeyBindings::cameraRollLeft, "BindCameraRollLeft", SDLK_KP1);
