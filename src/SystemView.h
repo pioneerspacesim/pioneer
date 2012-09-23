@@ -18,6 +18,7 @@ public:
 	virtual ~SystemView();
 	virtual void Update();
 	virtual void Draw3D();
+protected:
 	virtual void OnSwitchTo() {}
 private:
 	static const double PICK_OBJECT_RECT_SIZE;

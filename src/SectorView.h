@@ -35,10 +35,11 @@ public:
 	void GotoSelectedSystem() { GotoSystem(m_selected); }
 	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
 	virtual void Save(Serializer::Writer &wr);
-	virtual void OnSwitchTo();
 
 	sigc::signal<void> onHyperspaceTargetChanged;
 
+protected:
+	virtual void OnSwitchTo();
 private:
 	void InitDefaults();
 	void InitObject();

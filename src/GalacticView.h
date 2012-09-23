@@ -19,6 +19,7 @@ public:
 	virtual void Draw3D();
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
+protected:
 	virtual void OnSwitchTo() {}
 private:
 	void OnClickGalacticView();

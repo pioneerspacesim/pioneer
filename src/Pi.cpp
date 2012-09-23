@@ -474,14 +474,9 @@ void Pi::BoinkNoise()
 
 void Pi::SetView(View *v)
 {
-	if (cpan)
-		cpan->ClearOverlay();
-	if (currentView) currentView->HideAll();
+	if (currentView) currentView->Detach();
 	currentView = v;
-	if (currentView) {
-		currentView->OnSwitchTo();
-		currentView->ShowAll();
-	}
+	if (currentView) currentView->Attach();
 }
 
 void Pi::OnChangeDetailLevel()
