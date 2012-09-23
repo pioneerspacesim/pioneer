@@ -17,6 +17,7 @@ class StaticGeometry : public Node
 {
 public:
 	StaticGeometry();
+	virtual const char *GetTypeName() { return "StaticGeometry"; }
 	virtual void Accept(NodeVisitor &nv);
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
 	void AddMesh(RefCountedPtr<Graphics::StaticMesh>);

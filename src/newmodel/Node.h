@@ -25,8 +25,7 @@ class Node : public RefCounted
 public:
 	Node();
 	Node(unsigned int nodemask);
-	Node *m_parent;
-
+	virtual const char *GetTypeName() { return "Node"; }
 	virtual void Accept(NodeVisitor &v);
 	virtual void Traverse(NodeVisitor &v);
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd) { }
@@ -41,6 +40,7 @@ public:
 protected:
 	//can only to be deleted using DecRefCount
 	virtual ~Node() { }
+	Node *m_parent;
 	std::string m_name;
 	unsigned int m_nodeMask;
 };

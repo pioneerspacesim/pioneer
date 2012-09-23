@@ -11,6 +11,7 @@ class Group : public Node
 {
 public:
 	Group();
+	virtual const char *GetTypeName() { return "Group"; }
 	virtual void AddChild(Node *child);
 	virtual bool RemoveChild(Node *node); //true on success
 	virtual bool RemoveChildAt(unsigned int position); //true on success
