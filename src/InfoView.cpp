@@ -197,11 +197,13 @@ public:
 		const float YSEP = Gui::Screen::GetFontHeight() * 1.2f;
 		DeleteAllChildren();
 
-		float ypos = 40.0f;
+		float ypos = 16.0f;
+		Add ((new Gui::Label(stringf(Lang::CASH)+": "+std::string(format_money(Pi::player->GetMoney()))))->Shadow(true), 40 ,ypos);
+		ypos = 56.0f;
 		Add((new Gui::Label(Lang::COMBAT_RATING))->Shadow(true), 40, ypos);
 		Add(new Gui::Label(Pi::combatRating[ Pi::CombatRating(Pi::player->GetKillCount()) ]), 40, ypos+YSEP);
 
-		ypos = 160.0f;
+		ypos = 176.0f;
 		Add((new Gui::Label(Lang::CRIMINAL_RECORD))->Shadow(true), 40, ypos);
 		for (int i=0; i<64; i++) {
 			if (!(crime & (Uint64(1)<<i))) continue;
@@ -373,7 +375,7 @@ InfoView::InfoView(): View(),
 
 	page = new PersonalPage(this);
 	m_pages.push_back(page);
-	m_tabs->AddPage(new Gui::Label(Lang::REPUTATION), page);
+	m_tabs->AddPage(new Gui::Label(Lang::PERSONAL), page);
 
 	page = new CargoPage(this);
 	m_pages.push_back(page);
