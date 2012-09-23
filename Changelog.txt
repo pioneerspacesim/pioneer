@@ -22,6 +22,7 @@ Alpha 27
      * New C++ wrappers for Lua table manipulation and value persistence (#1438)
      * Terrain patches are now rendered more efficiently (#1507)
      * Many minor cleanups identified by valgrind (#1524)
+     * Copyright and license is now made explicit at the top of all code files (#1515)
 
 Alpha 26
 
