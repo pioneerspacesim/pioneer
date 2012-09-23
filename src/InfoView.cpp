@@ -284,75 +284,41 @@ public:
 		}
 		col2 += "\n\n";
 
-		int oddCheck=1; // for Odd -or- Even check in this loop
+		int equip_item_index = 1; // for Odd -or- Even check in this loop
 		for (int i=Equip::FIRST_SHIPEQUIP; i<=Equip::LAST_SHIPEQUIP; i++)
 		{
 			Equip::Type t = Equip::Type(i);
 			Equip::Slot s = Equip::types[t].slot;
 			if ((s == Equip::SLOT_MISSILE) || (s == Equip::SLOT_ENGINE) || (s == Equip::SLOT_LASER)) continue;
 
-			if (oddCheck & 1) // if Odd, write to column-1 (left side)
-			{
-				int num = Pi::player->m_equipment.Count(s, t);
-				if (num == 1)
-				{
-				col1 += stringf("%0\n", Equip::types[t].name);
-				oddCheck++; // if odd was written down, then ++
-				}
-				else if (num > 1)
-				{
-				// XXX this needs something more generic
-				switch (t)
-					{
-					case Equip::SHIELD_GENERATOR:
-						col1 += stringf(Lang::X_SHIELD_GENERATORS, formatarg ("quantity", int(num)));
-						break;
-					case Equip::PASSENGER_CABIN:
-						col1 += stringf(Lang::X_PASSENGER_CABINS, formatarg ("quantity", int(num)));
-						break;
-					case Equip::UNOCCUPIED_CABIN:
-						col1 += stringf(Lang::X_UNOCCUPIED_CABINS, formatarg ("quantity", int(num)));
-						break;
-					default:
-						col1 += stringf("%0\n", Equip::types[t].name);
-						oddCheck++; // if odd was written down, then ++
-					}
-				col1 += stringf("\n");
-				oddCheck++; // if odd was written down, then ++
+			const int num = Pi::player->m_equipment.Count(s, t);
+			if (!num) continue;
+
+			std::string equip_description(Equip::types[t].name);
+			if (num > 1) {
+				switch (t) {
+				case Equip::SHIELD_GENERATOR:
+					equip_description = stringf(Lang::X_SHIELD_GENERATORS, formatarg ("quantity", int(num)));
+					break;
+				case Equip::PASSENGER_CABIN:
+					equip_description = stringf(Lang::X_PASSENGER_CABINS, formatarg ("quantity", int(num)));
+					break;
+				case Equip::UNOCCUPIED_CABIN:
+					equip_description = stringf(Lang::X_UNOCCUPIED_CABINS, formatarg ("quantity", int(num)));
+					break;
+				default: break; // (to prevent warnings)
 				}
 			}
 
-			else // if Even, write to column-2 (right side)
-			{
-				int num = Pi::player->m_equipment.Count(s, t);
-				if (num == 1)
-				{
-				col2 += stringf("%0\n", Equip::types[t].name);
-				oddCheck++; // if even was written down, then ++
-				}
-				else if (num > 1)
-				{
-				// XXX this needs something more generic
-				switch (t)
-					{
-					case Equip::SHIELD_GENERATOR:
-						col2 += stringf(Lang::X_SHIELD_GENERATORS, formatarg ("quantity", int(num)));
-						break;
-					case Equip::PASSENGER_CABIN:
-						col2 += stringf(Lang::X_PASSENGER_CABINS, formatarg ("quantity", int(num)));
-						break;
-					case Equip::UNOCCUPIED_CABIN:
-						col2 += stringf(Lang::X_UNOCCUPIED_CABINS, formatarg ("quantity", int(num)));
-						break;
-					default:
-						col2 += stringf("%0\n", Equip::types[t].name);
-						oddCheck++; // if even was written down, then ++
-						break;
-					}
-				col2 += stringf("\n");
-				oddCheck++; // if even was written down, then ++
-				}
+			if (equip_item_index & 1) {
+				col1 += equip_description;
+				col1 += "\n";
+			} else {
+				col2 += equip_description;
+				col2 += "\n";
 			}
+
+			++equip_item_index;
 		}
 		info1->SetText(col1);
 		info2->SetText(col2);
