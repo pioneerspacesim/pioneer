@@ -502,6 +502,8 @@ SHIP_INFORMATION
     Ship information
 PERSONAL
     Personal
+REPUTATION
+    Reputation
 MISSIONS
     Missions
 SHIFT

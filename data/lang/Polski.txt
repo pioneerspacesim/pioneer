@@ -502,6 +502,8 @@ SHIP_INFORMATION
     Informacje o statku
 PERSONAL
     Osobiste
+REPUTATION
+    Reputacja
 MISSIONS
     Misje
 SHIFT
