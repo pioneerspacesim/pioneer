@@ -1888,10 +1888,10 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 
 const Color StarSystem::GetFactionColour() const
 {
-	if( UINT_MAX != m_factionIdx ) {
-		const Faction *ptr = Faction::GetFaction(m_factionIdx);
-		if( ptr ) {
-			return ptr->colour;
+	if (m_factionIdx != UINT_MAX) {
+		const Faction *fac = Faction::GetFaction(m_factionIdx);
+		if( fac ) {
+			return fac->colour;
 		}
 	}
 	return Color(0.8f,0.8f,0.8f,0.5f);

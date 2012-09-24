@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _FACTIONS_H
 #define _FACTIONS_H
 
@@ -14,7 +17,6 @@ public:
 	static void Uninit();
 
 	// XXX this is not as const-safe as it should be
-	static const Faction *GetFaction(const std::string& nameIdx);
 	static const Faction *GetFaction(const Uint32 index);
 	static const Uint32 GetNumFactions();
 	static const Uint32 GetNearestFactionIndex(const SystemPath& sysPath);

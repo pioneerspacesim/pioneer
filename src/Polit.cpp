@@ -22,10 +22,11 @@ namespace Polit {
 static PersistSystemData<Sint64> s_criminalRecord;
 static PersistSystemData<Sint64> s_outstandingFine;
 struct crime_t {
+	crime_t() : record(0), fine(0) {}
 	Sint64 record;
 	Sint64 fine;
 };
-static std::vector<crime_t> s_vplayerPerBlocCrimeRecord;
+static std::vector<crime_t> s_playerPerBlocCrimeRecord;
 
 const char *crimeNames[64] = {
 	Lang::TRADING_ILLEGAL_GOODS,
@@ -81,20 +82,15 @@ void Init()
 	s_outstandingFine.Clear();
 
 	// setup the per faction criminal records
-	s_vplayerPerBlocCrimeRecord.clear();
 	const Uint32 numFactions = Faction::GetNumFactions();
-	s_vplayerPerBlocCrimeRecord.reserve( numFactions );
-	s_vplayerPerBlocCrimeRecord.resize( numFactions );
-	for (Uint32 i=0; i<s_vplayerPerBlocCrimeRecord.size(); i++) {
-		s_vplayerPerBlocCrimeRecord[i].record = 0;
-		s_vplayerPerBlocCrimeRecord[i].fine = 0;
-	}
+	s_playerPerBlocCrimeRecord.clear();
+	s_playerPerBlocCrimeRecord.resize( numFactions );
 
 	// now setup the faction links, hopefully.
 	for (Uint32 i=0; i<numFactions; i++) {
-		const Faction *ptr = Faction::GetFaction(i);
-		if( ptr ) {
-			s_govDesc[ ptr->govType ].faction = i;
+		const Faction *fac = Faction::GetFaction(i);
+		if( fac ) {
+			s_govDesc[ fac->govType ].faction = i;
 		}
 	}
 		
@@ -104,10 +100,10 @@ void Serialize(Serializer::Writer &wr)
 {
 	s_criminalRecord.Serialize(wr);
 	s_outstandingFine.Serialize(wr);
-	wr.Int32(s_vplayerPerBlocCrimeRecord.size());
-	for (Uint32 i=0; i<s_vplayerPerBlocCrimeRecord.size(); i++) {
-		wr.Int64(s_vplayerPerBlocCrimeRecord[i].record);
-		wr.Int64(s_vplayerPerBlocCrimeRecord[i].fine);
+	wr.Int32(s_playerPerBlocCrimeRecord.size());
+	for (Uint32 i=0; i < s_playerPerBlocCrimeRecord.size(); i++) {
+		wr.Int64(s_playerPerBlocCrimeRecord[i].record);
+		wr.Int64(s_playerPerBlocCrimeRecord[i].fine);
 	}
 }
 
@@ -116,11 +112,11 @@ void Unserialize(Serializer::Reader &rd)
 	Init();
 	PersistSystemData<Sint64>::Unserialize(rd, &s_criminalRecord);
 	PersistSystemData<Sint64>::Unserialize(rd, &s_outstandingFine);
-	const Uint32 blocSize = rd.Int32();
-	assert(s_vplayerPerBlocCrimeRecord.size()==blocSize);
-	for (Uint32 i=0; i<blocSize; i++) {
-		s_vplayerPerBlocCrimeRecord[i].record = rd.Int64();
-		s_vplayerPerBlocCrimeRecord[i].fine = rd.Int64();
+	const Uint32 numFactions = rd.Int32();
+	assert(s_playerPerBlocCrimeRecord.size() == numFactions);
+	for (Uint32 i=0; i < numFactions; i++) {
+		s_playerPerBlocCrimeRecord[i].record = rd.Int64();
+		s_playerPerBlocCrimeRecord[i].fine = rd.Int64();
 	}
 }
 
@@ -165,8 +161,8 @@ void AddCrime(Sint64 crimeBitset, Sint64 addFine)
 
 	if (s_govDesc[politType].faction != UINT_MAX) {
 		const Uint32 b = s_govDesc[politType].faction;
-		s_vplayerPerBlocCrimeRecord[b].record |= crimeBitset;
-		s_vplayerPerBlocCrimeRecord[b].fine += addFine;
+		s_playerPerBlocCrimeRecord[b].record |= crimeBitset;
+		s_playerPerBlocCrimeRecord[b].fine += addFine;
 	} else {
 		SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 		Sint64 record = s_criminalRecord.Get(path, 0);
@@ -189,8 +185,8 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 
 	if (s_govDesc[politType].faction != UINT_MAX) {
 		const Uint32 b = s_govDesc[politType].faction;
-		*crimeBitset = s_vplayerPerBlocCrimeRecord[b].record;
-		*fine = s_vplayerPerBlocCrimeRecord[b].fine;
+		*crimeBitset = s_playerPerBlocCrimeRecord[b].record;
+		*fine = s_playerPerBlocCrimeRecord[b].fine;
 	} else {
 		SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 		*crimeBitset = s_criminalRecord.Get(path, 0);
@@ -219,10 +215,10 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 		if (path == SystemPath(0,0,0,0)) {
 			a = Polit::GOV_EARTHDEMOC;
 		} else if (human_infestedness > 0) {
-			const Faction *pFaction = Faction::GetFaction( s->GetFactionIndex() );
-			if( pFaction && GOV_INVALID != pFaction->govType ) {
+			const Faction *fac = Faction::GetFaction( s->GetFactionIndex() );
+			if( fac && fac->govType != GOV_INVALID) {
 				// found valid faction
-				a = pFaction->govType;
+				a = fac->govType;
 			} else {
 				// found an invalid faction, meaning index 0 and thus independent, pick something at random
 				a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
@@ -249,20 +245,20 @@ bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 
 	const Uint32 b = s_govDesc[a].faction;
 	if( b != UINT_MAX ) {
-		const Faction *ptr = Faction::GetFaction( b );
-		assert(ptr);
-		Faction::EquipProbMap::const_iterator iter = ptr->equip_legality.find(t);
-		if( iter != ptr->equip_legality.end() ) {
+		const Faction *fac = Faction::GetFaction( b );
+		assert(fac);
+		Faction::EquipProbMap::const_iterator iter = fac->equip_legality.find(t);
+		if( iter != fac->equip_legality.end() ) {
 			Faction::ProbEqualityPair per = (*iter).second;
-			if( 0==per.first ) {
+			if( per.first == 0) {
 				// the probabilty is 0 so we know that this isn't a legal item
 				return false;
 			} else {
 				// choose between equality tests
 				if( per.second ) {
-					return rand.Int32(per.first)==0;
+					return rand.Int32(per.first) == 0;
 				} else {
-					return rand.Int32(per.first)!=0;
+					return rand.Int32(per.first) != 0;
 				}
 			}
 		}
@@ -274,13 +270,13 @@ bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 			case Equip::HAND_WEAPONS:
 				return rand.Int32(2) == 0;
 			case Equip::BATTLE_WEAPONS:
-				return rand.Int32(3)==0;
+				return rand.Int32(3) == 0;
 			case Equip::NERVE_GAS:
-				return rand.Int32(10)==0;
+				return rand.Int32(10) == 0;
 			case Equip::NARCOTICS:
-				return rand.Int32(2)==0;
+				return rand.Int32(2) == 0;
 			case Equip::SLAVES:
-				return rand.Int32(16)==0;
+				return rand.Int32(16) == 0;
 			default: return true;
 		}
 	}
