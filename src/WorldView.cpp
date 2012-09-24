@@ -398,6 +398,9 @@ void WorldView::OnClickHyperspace()
 
 void WorldView::Draw3D()
 {
+	assert(Pi::game);
+	assert(Pi::player);
+	assert(!Pi::player->IsDead());
 	m_activeCamera->Draw(m_renderer);
 }
 
@@ -435,13 +438,14 @@ void WorldView::RefreshHyperspaceButton() {
 
 void WorldView::RefreshButtonStateAndVisibility()
 {
+	assert(Pi::game);
+	assert(Pi::player);
+	assert(!Pi::player->IsDead());
+
 	Pi::cpan->ClearOverlay();
 
-	if (!Pi::player || Pi::player->IsDead() || !Pi::game) {
-		HideAll();
-		return;
-	}
-	else {
+	// this scope block isn't needed any more (I just don't want to produce a big-ass whitespace diff yet)
+	{
 		if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
 			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
@@ -777,6 +781,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 void WorldView::Update()
 {
+	assert(Pi::game);
+	assert(Pi::player);
+	assert(!Pi::player->IsDead());
+
 	const double frameTime = Pi::GetFrameTime();
 	// show state-appropriate buttons
 	RefreshButtonStateAndVisibility();
@@ -792,12 +800,8 @@ void WorldView::Update()
 
 	bool targetObject = false;
 
-	//death animation: slowly pan out
 	if (Pi::player->IsDead()) {
-		SetCamType(CAM_EXTERNAL);
-		static_cast<ExternalCamera*>(m_externalCamera)->SetRotationAngles(0.0, 0.0);
-		m_externalCamera->ZoomOut(frameTime * 0.4);
-		m_labelsOn = false;
+		// XXX no longer needed
 	} else {
 		// XXX ugly hack checking for console here
 		if (!Pi::IsConsoleActive()) {
@@ -1519,6 +1523,9 @@ double getSquareHeight(double distance, double angle) {
 
 void WorldView::Draw()
 {
+	assert(Pi::game);
+	assert(Pi::player);
+	assert(!Pi::player->IsDead());
 	View::Draw();
 
 	// don't draw crosshairs etc in hyperspace
