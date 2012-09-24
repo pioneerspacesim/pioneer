@@ -212,7 +212,7 @@ Translate:AddFlavour('Polski','DeliverPackage', {
   introtext = "Miło mi cię poznać. Nazywam się {name} i zapłacę {cash} komuś kto ma statek, za pomoc w przewiezieniu moich rzeczy do {starport}. Bez pośpiechu, to tylko pozostałości po przeprowadzce.",
   whysomuchtext = "To jest dużo? Powinienem przemyśleć swoją ofertę!",
   successmsg = "Wspaniale, natychmiast zaczynam rozładunek. Jeszcze raz dziękuję.",
-  failuremsg = "Co to jest? Aha, zajęło ci to tyle czasu,że zdążyłem zapomnieć o tej przesyłce!",
+  failuremsg = "Co to jest? Aha, zajęło ci to tyle czasu, że zdążyłem zapomnieć o tej przesyłce!",
   urgency = 0.1,
   risk = 0,
   localdelivery = 1,
