@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_ship {
 	name='Viper X',
 	model='viper_x',
@@ -8,6 +11,14 @@ define_ship {
 	left_thrust = -2e6,
 	right_thrust = 2e6,
 	angular_thrust = 20e6,
+	cockpit_front = v(4,2,-1),
+	cockpit_rear = v(0,6,0),
+	front_camera = v(0,0,-23),
+	rear_camera = v(0,1.4,16.5),
+	left_camera = v(-13,0,7),
+	right_camera = v(13,0,7),
+	top_camera = v(0,6,3),
+	bottom_camera = v(0,-5,3),
 	gun_mounts =
 	{
 		{ v(0,-1.4,-28), v(0,0,-1) },

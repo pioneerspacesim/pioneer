@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Terrain.h"
 #include "TerrainNoise.h"
 #include "TerrainFeature.h"
@@ -27,7 +30,7 @@ double TerrainHeightFractal<TerrainHeightAsteroid>::GetHeight(const vector3d &p)
 	//float heightmap = octavenoise(8, 0.2*octavenoise(1, 0.3, 3.7, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 15.0*octavenoise(1, 0.5, 4.0, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), (p.x*2.0-p.y, p.y*2.0-p.x, p.z)) -
 		//0.75*billow_octavenoise(8*octavenoise(1, 0.275, 3.2, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 0.4*octavenoise(1, 0.4, 3.0, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), 4.0*octavenoise(1, 0.35, 3.7, (p.x*2.0-p.y, p.y*2.0-p.x, p.z)), (p.x*2.0-p.y, p.y*2.0-p.x, p.z));
 
-	float heightmap = octavenoise(8, 0.4, 2.4, p);
+	double n = octavenoise(8, 0.4, 2.4, p);
 	
-	return m_maxHeight*heightmap;
+	return (n > 0.0? m_maxHeight*n : 0.0);
 }

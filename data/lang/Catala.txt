@@ -740,9 +740,9 @@ SHIP_IS_FULLY_LADEN
     La vostra nau està completament carregada.
 YOU_DO_NOT_HAVE_ANY_X
     No teniu cap %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Vista anterior
-REAR_VIEW
+CAMERA_REAR_VIEW
     Vista posterior
 EXTERNAL_VIEW
     Vista externa
