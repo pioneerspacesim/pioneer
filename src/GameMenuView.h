@@ -67,9 +67,13 @@ public:
 	virtual void HideAll();
 	void OpenLoadDialog();
 	void OpenSaveDialog();
+
 protected:
 	virtual void OnSwitchTo();
+
 private:
+	void BuildControlBindingList(const KeyBindings::BindingPrototype *protos, Gui::VBox *box1, Gui::VBox *box2);
+
 	void OnChangeKeyBinding(const KeyBindings::KeyBinding &kb, const char *fnName);
 	void OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const char *function);
 	void OnChangeVolume();
@@ -85,6 +89,7 @@ private:
 	void OnToggleJoystick(Gui::ToggleButton *b, bool state);
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
 	void OnToggleNavTunnel(Gui::ToggleButton *b, bool state);
+
 	bool m_changedDetailLevel;
 	Gui::Button *m_saveButton;
 	Gui::Button *m_loadButton;
