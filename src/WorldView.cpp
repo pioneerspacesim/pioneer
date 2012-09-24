@@ -444,80 +444,77 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 	Pi::cpan->ClearOverlay();
 
-	// this scope block isn't needed any more (I just don't want to produce a big-ass whitespace diff yet)
-	{
-		if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
-			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
-			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
-			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
-		}
+	if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
+		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
+		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
+		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
+		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
+	}
 
-		m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
+	m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
 
-		RefreshHyperspaceButton();
+	RefreshHyperspaceButton();
 
-		switch(Pi::player->GetFlightState()) {
-			case Ship::LANDED:
-				m_flightStatus->SetText(Lang::LANDED);
-				m_launchButton->Show();
-				m_flightControlButton->Hide();
-				break;
+	switch(Pi::player->GetFlightState()) {
+		case Ship::LANDED:
+			m_flightStatus->SetText(Lang::LANDED);
+			m_launchButton->Show();
+			m_flightControlButton->Hide();
+			break;
 
-			case Ship::DOCKING:
-				m_flightStatus->SetText(Lang::DOCKING);
-				m_launchButton->Hide();
-				m_flightControlButton->Hide();
-				break;
+		case Ship::DOCKING:
+			m_flightStatus->SetText(Lang::DOCKING);
+			m_launchButton->Hide();
+			m_flightControlButton->Hide();
+			break;
 
-			case Ship::DOCKED:
-				m_flightStatus->SetText(Lang::DOCKED);
-				m_launchButton->Show();
-				m_flightControlButton->Hide();
-				break;
+		case Ship::DOCKED:
+			m_flightStatus->SetText(Lang::DOCKED);
+			m_launchButton->Show();
+			m_flightControlButton->Hide();
+			break;
 
-			case Ship::HYPERSPACE:
-				m_flightStatus->SetText(Lang::HYPERSPACE);
-				m_launchButton->Hide();
-				m_flightControlButton->Hide();
-				break;
+		case Ship::HYPERSPACE:
+			m_flightStatus->SetText(Lang::HYPERSPACE);
+			m_launchButton->Hide();
+			m_flightControlButton->Hide();
+			break;
 
-			case Ship::FLYING:
-			default:
-				const FlightControlState fstate = Pi::player->GetPlayerController()->GetFlightControlState();
-				switch (fstate) {
-					case CONTROL_MANUAL:
-						m_flightStatus->SetText(Lang::MANUAL_CONTROL); break;
+		case Ship::FLYING:
+		default:
+			const FlightControlState fstate = Pi::player->GetPlayerController()->GetFlightControlState();
+			switch (fstate) {
+				case CONTROL_MANUAL:
+					m_flightStatus->SetText(Lang::MANUAL_CONTROL); break;
 
-					case CONTROL_FIXSPEED: {
-						std::string msg;
-						const double setspeed = Pi::player->GetPlayerController()->GetSetSpeed();
-						if (setspeed > 1000) {
-							msg = stringf(Lang::SET_SPEED_KM_S, formatarg("speed", setspeed*0.001));
-						} else {
-							msg = stringf(Lang::SET_SPEED_M_S, formatarg("speed", setspeed));
-						}
-						m_flightStatus->SetText(msg);
-						break;
+				case CONTROL_FIXSPEED: {
+					std::string msg;
+					const double setspeed = Pi::player->GetPlayerController()->GetSetSpeed();
+					if (setspeed > 1000) {
+						msg = stringf(Lang::SET_SPEED_KM_S, formatarg("speed", setspeed*0.001));
+					} else {
+						msg = stringf(Lang::SET_SPEED_M_S, formatarg("speed", setspeed));
 					}
-
-					case CONTROL_FIXHEADING_FORWARD:
-						m_flightStatus->SetText(Lang::HEADING_LOCK_FORWARD);
-						break;
-					case CONTROL_FIXHEADING_BACKWARD:
-						m_flightStatus->SetText(Lang::HEADING_LOCK_BACKWARD);
-						break;
-
-					case CONTROL_AUTOPILOT:
-						m_flightStatus->SetText(Lang::AUTOPILOT);
-						break;
-
-					default: assert(0); break;
+					m_flightStatus->SetText(msg);
+					break;
 				}
 
-				m_launchButton->Hide();
-				m_flightControlButton->Show();
-		}
+				case CONTROL_FIXHEADING_FORWARD:
+					m_flightStatus->SetText(Lang::HEADING_LOCK_FORWARD);
+					break;
+				case CONTROL_FIXHEADING_BACKWARD:
+					m_flightStatus->SetText(Lang::HEADING_LOCK_BACKWARD);
+					break;
+
+				case CONTROL_AUTOPILOT:
+					m_flightStatus->SetText(Lang::AUTOPILOT);
+					break;
+
+				default: assert(0); break;
+			}
+
+			m_launchButton->Hide();
+			m_flightControlButton->Show();
 	}
 
 	// Direction indicator
@@ -800,35 +797,31 @@ void WorldView::Update()
 
 	bool targetObject = false;
 
-	if (Pi::player->IsDead()) {
-		// XXX no longer needed
-	} else {
-		// XXX ugly hack checking for console here
-		if (!Pi::IsConsoleActive()) {
-			if (m_activeCamera->IsExternal() == false) {
-				if (KeyBindings::frontCockpit.IsActive() && GetCamType() != COCKPIT_FRONT) SetCamType(COCKPIT_FRONT);
-				if (KeyBindings::rearCockpit.IsActive() && GetCamType() != COCKPIT_REAR) SetCamType(COCKPIT_REAR);
-				if (KeyBindings::frontCamera.IsActive() && GetCamType() != CAM_FRONT) SetCamType(CAM_FRONT);
-				if (KeyBindings::rearCamera.IsActive() && GetCamType() != CAM_REAR) SetCamType(CAM_REAR);
-				if (KeyBindings::leftCamera.IsActive() && GetCamType() != CAM_LEFT) SetCamType(CAM_LEFT);
-				if (KeyBindings::rightCamera.IsActive() && GetCamType() != CAM_RIGHT) SetCamType(CAM_RIGHT);
-				if (KeyBindings::topCamera.IsActive() && GetCamType() != CAM_TOP) SetCamType(CAM_TOP);
-				if (KeyBindings::bottomCamera.IsActive() && GetCamType() != CAM_BOTTOM) SetCamType(CAM_BOTTOM);
-			} else {
-				if (KeyBindings::cameraRotateUp.IsActive()) m_activeCamera->RotateUp(frameTime);
-				if (KeyBindings::cameraRotateDown.IsActive()) m_activeCamera->RotateDown(frameTime);
-				if (KeyBindings::cameraRotateLeft.IsActive()) m_activeCamera->RotateLeft(frameTime);
-				if (KeyBindings::cameraRotateRight.IsActive()) m_activeCamera->RotateRight(frameTime);
-				if (KeyBindings::cameraZoomOut.IsActive()) m_activeCamera->ZoomEvent(ZOOM_SPEED*frameTime);		// Zoom out
-				if (KeyBindings::cameraZoomIn.IsActive()) m_activeCamera->ZoomEvent(-ZOOM_SPEED*frameTime);
-				if (KeyBindings::cameraRollLeft.IsActive()) m_activeCamera->RollLeft(frameTime);
-				if (KeyBindings::cameraRollRight.IsActive()) m_activeCamera->RollRight(frameTime);
-				if (KeyBindings::resetCamera.IsActive()) m_activeCamera->Reset();
-				m_activeCamera->ZoomEventUpdate(frameTime);
-			}
-			// note if we have to target the object in the crosshairs
-			targetObject = KeyBindings::targetObject.IsActive();
+	// XXX ugly hack checking for console here
+	if (!Pi::IsConsoleActive()) {
+		if (m_activeCamera->IsExternal() == false) {
+			if (KeyBindings::frontCockpit.IsActive() && GetCamType() != COCKPIT_FRONT) SetCamType(COCKPIT_FRONT);
+			if (KeyBindings::rearCockpit.IsActive() && GetCamType() != COCKPIT_REAR) SetCamType(COCKPIT_REAR);
+			if (KeyBindings::frontCamera.IsActive() && GetCamType() != CAM_FRONT) SetCamType(CAM_FRONT);
+			if (KeyBindings::rearCamera.IsActive() && GetCamType() != CAM_REAR) SetCamType(CAM_REAR);
+			if (KeyBindings::leftCamera.IsActive() && GetCamType() != CAM_LEFT) SetCamType(CAM_LEFT);
+			if (KeyBindings::rightCamera.IsActive() && GetCamType() != CAM_RIGHT) SetCamType(CAM_RIGHT);
+			if (KeyBindings::topCamera.IsActive() && GetCamType() != CAM_TOP) SetCamType(CAM_TOP);
+			if (KeyBindings::bottomCamera.IsActive() && GetCamType() != CAM_BOTTOM) SetCamType(CAM_BOTTOM);
+		} else {
+			if (KeyBindings::cameraRotateUp.IsActive()) m_activeCamera->RotateUp(frameTime);
+			if (KeyBindings::cameraRotateDown.IsActive()) m_activeCamera->RotateDown(frameTime);
+			if (KeyBindings::cameraRotateLeft.IsActive()) m_activeCamera->RotateLeft(frameTime);
+			if (KeyBindings::cameraRotateRight.IsActive()) m_activeCamera->RotateRight(frameTime);
+			if (KeyBindings::cameraZoomOut.IsActive()) m_activeCamera->ZoomEvent(ZOOM_SPEED*frameTime);		// Zoom out
+			if (KeyBindings::cameraZoomIn.IsActive()) m_activeCamera->ZoomEvent(-ZOOM_SPEED*frameTime);
+			if (KeyBindings::cameraRollLeft.IsActive()) m_activeCamera->RollLeft(frameTime);
+			if (KeyBindings::cameraRollRight.IsActive()) m_activeCamera->RollRight(frameTime);
+			if (KeyBindings::resetCamera.IsActive()) m_activeCamera->Reset();
+			m_activeCamera->ZoomEventUpdate(frameTime);
 		}
+		// note if we have to target the object in the crosshairs
+		targetObject = KeyBindings::targetObject.IsActive();
 	}
 
 	if (m_showCameraNameTimeout) {
