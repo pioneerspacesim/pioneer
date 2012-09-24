@@ -320,7 +320,11 @@ void WorldView::SetCamType(enum CamType c)
 
 	if (m_showCameraName)
 		Remove(m_showCameraName);
-	m_showCameraName = new Gui::Label("#09f"+cameraName);
+
+	Gui::Screen::PushFont("OverlayFont");
+	m_showCameraName = new Gui::Label("#ff0"+cameraName);
+	Gui::Screen::PopFont();
+
 	float w, h;
 	Gui::Screen::MeasureString(cameraName, w, h);
 	Add(m_showCameraName, 0.5f*(Gui::Screen::GetWidth()-w), 20);
