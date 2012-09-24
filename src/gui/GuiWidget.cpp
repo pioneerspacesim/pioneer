@@ -129,7 +129,7 @@ void Widget::OnToolTip()
 
 		float pos[2];
 		GetAbsolutePosition(pos);
-		m_tooltipWidget = new ToolTip(text);
+		m_tooltipWidget = new ToolTip(this, text);
 		if (m_tooltipWidget->m_size.w + pos[0] > Screen::GetWidth())
 			pos[0] = Screen::GetWidth() - m_tooltipWidget->m_size.w;
 		if (m_tooltipWidget->m_size.h + pos[1] > Screen::GetHeight())
