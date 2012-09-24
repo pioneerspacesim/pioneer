@@ -65,7 +65,7 @@ sub update_source {
 	say STDERR ">>> updating source";
 
 	chdir SOURCE_DIR;
-	system "git fetch";
+	system "git fetch --tags --all -p";
 	system "git checkout origin/$branch || git checkout $branch";
 
 	my $ref = `git log -n1 --pretty=%h origin/$branch`;
