@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SYSTEMVIEW_H
 #define _SYSTEMVIEW_H
 
@@ -15,6 +18,7 @@ public:
 	virtual ~SystemView();
 	virtual void Update();
 	virtual void Draw3D();
+protected:
 	virtual void OnSwitchTo() {}
 private:
 	static const double PICK_OBJECT_RECT_SIZE;

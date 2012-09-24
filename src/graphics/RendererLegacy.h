@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _RENDERER_LEGACY_H
 #define _RENDERER_LEGACY_H
 /*
@@ -8,11 +11,12 @@
 namespace Graphics {
 
 class Texture;
+struct Settings;
 
 class RendererLegacy : public Renderer
 {
 public:
-	RendererLegacy(int width, int height);
+	RendererLegacy(const Graphics::Settings &vs);
 	virtual ~RendererLegacy();
 
 	virtual const char* GetName() const { return "Legacy renderer"; }
@@ -73,6 +77,7 @@ protected:
 	virtual bool BufferStaticMesh(StaticMesh *m);
 	float m_minZNear;
 	float m_maxZFar;
+	bool m_useCompressedTextures;
 };
 
 }

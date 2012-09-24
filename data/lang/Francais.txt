@@ -734,9 +734,9 @@ SHIP_IS_FULLY_LADEN
     Votre vaisseau est rempli.
 YOU_DO_NOT_HAVE_ANY_X
     Vous n'avez aucun %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Vue avant
-REAR_VIEW
+CAMERA_REAR_VIEW
     Vie arrière
 EXTERNAL_VIEW
     Vue extérieure

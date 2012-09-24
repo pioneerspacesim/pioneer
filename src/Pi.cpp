@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Pi.h"
 #include "libs.h"
 #include "AmbientSounds.h"
@@ -300,6 +303,7 @@ void Pi::Init()
 	videoSettings.shaders = (config->Int("DisableShaders") == 0);
 	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
 	videoSettings.vsync = (config->Int("VSync") != 0);
+	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
 
 	Pi::renderer = Graphics::Init(videoSettings);
 	{
@@ -470,14 +474,9 @@ void Pi::BoinkNoise()
 
 void Pi::SetView(View *v)
 {
-	if (cpan)
-		cpan->ClearOverlay();
-	if (currentView) currentView->HideAll();
+	if (currentView) currentView->Detach();
 	currentView = v;
-	if (currentView) {
-		currentView->OnSwitchTo();
-		currentView->ShowAll();
-	}
+	if (currentView) currentView->Attach();
 }
 
 void Pi::OnChangeDetailLevel()
