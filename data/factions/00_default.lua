@@ -5,6 +5,6 @@ local f = Faction:new('Independent')
 	:expansionRate(2.0)
 	:military_name('Independent Space Fleet')
 	:police_name('Police')
-	:colour(1.0,0.71,0.76) -- 255, 182, 193
+	:colour(1.0,1.0,0.4)
 
 f:add_to_factions('Independent')

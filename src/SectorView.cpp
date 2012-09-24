@@ -631,7 +631,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 		glDepthRange(0,1);
 
-		Color labelColor(0.8f,0.8f,0.8f,0.25f);
+		Color labelColor(0.8f,0.8f,0.8f,0.5f);
 		if ((*i).IsSetInhabited() && (*i).IsInhabited()) {
 			labelColor = (*i).factionColour;
 			labelColor.a = 0.5f;

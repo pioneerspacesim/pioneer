@@ -7,7 +7,7 @@ local f = Faction:new('Federation')
 	:expansionRate(1.0)
 	:military_name('United Nations Space Force')
 	:police_name('Police')
-	:colour(0.0,0.0,1.0)
+	:colour(0.4,0.4,1.0)
 	
 f:illegal_goods_probability('ANIMAL_MEAT',4,1)	-- fed/cis
 f:illegal_goods_probability('LIVE_ANIMALS',4,1)	-- fed/cis
