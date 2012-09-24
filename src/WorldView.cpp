@@ -316,8 +316,6 @@ void WorldView::SetCamType(enum CamType c)
 		break;
 	}
 
-	std::transform(cameraName.begin(), cameraName.end(), cameraName.begin(), toupper);
-
 	if (m_showCameraName)
 		Remove(m_showCameraName);
 
