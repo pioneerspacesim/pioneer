@@ -35,6 +35,7 @@ Alpha 27
      * Max terrain height for heightmapped planets is computed more accurately (#1504)
      * Code to detect supported video modes has moved to Graphics (#1535, #1385)
      * Cleaned up UI view code for consistency and stability (#1528)
+     * Removed duplication in key bindings code (#1545)
 
 Alpha 26
 
