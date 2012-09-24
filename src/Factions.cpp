@@ -12,7 +12,7 @@
 #include "Polit.h"
 #include "FileSystem.h"
 
-typedef std::vector<Faction*> FactionList;
+typedef std::vector<Faction>  FactionList;
 typedef FactionList::iterator FactionIterator;
 static FactionList            s_factions;
 
@@ -182,7 +182,7 @@ static int l_fac_add_to_factions(lua_State *L)
 
 	printf("l_fac_add_to_factions: added '%s' [%s]\n", (*facptr)->name.c_str(), factionName.c_str());
 
-	s_factions.push_back(*facptr);
+	s_factions.push_back(**facptr);
 
 	return 0;
 }
@@ -260,16 +260,13 @@ void Faction::Init()
 
 void Faction::Uninit()
 {
-	for (FactionIterator facIter = s_factions.begin(); facIter != s_factions.end(); ++facIter) {
-		delete (*facIter);
-	}
 	s_factions.clear();
 }
 
 const Faction *Faction::GetFaction(const Uint32 index)
 {
-	assert( index<s_factions.size() );
-	return s_factions[index];
+	assert( index < s_factions.size() );
+	return &s_factions[index];
 }
 
 const Uint32 Faction::GetNumFactions()
@@ -292,37 +289,34 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 	// iterate
 	Uint32 ret_index = 0;
 	for (Uint32 index = 0; index < s_factions.size(); ++index) {
-		const Faction *fac = s_factions[index];
-		assert(fac);
+		const Faction &fac = s_factions[index];
 
-		if( !fac->hasHomeworld && !foundFaction )
-		{
+		if( !fac.hasHomeworld && !foundFaction ) {
 			// We've not yet found a faction that we're within the radius of
 			// and we're currently iterating over a faction that is decentralised (probably Independent)
-			foundFaction = fac;
+			foundFaction = &fac;
 			ret_index = index;
 		}
 
-		else if( fac->hasHomeworld )
-		{
+		else if( fac.hasHomeworld ) {
 			// We can end early here if they're the same as factions homeworld like Earth or Achernar
-			if( fac->homeworld.IsSameSector(sysPath) ) {
-				foundFaction = fac;
+			if( fac.homeworld.IsSameSector(sysPath) ) {
+				foundFaction = &fac;
 				return index;
 			}
 
 			// get the distance
-			const Sector sec1(fac->homeworld.sectorX, fac->homeworld.sectorY, fac->homeworld.sectorZ);
+			const Sector sec1(fac.homeworld.sectorX, fac.homeworld.sectorY, fac.homeworld.sectorZ);
 			const Sector sec2(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
-			const double distance = Sector::DistanceBetween(&sec1, fac->homeworld.systemIndex, &sec2, sysPath.systemIndex);
+			const double distance = Sector::DistanceBetween(&sec1, fac.homeworld.systemIndex, &sec2, sysPath.systemIndex);
 
 			// calculate the current radius the faction occupies
-			const double radius = (current_year - fac->foundingDate) * fac->expansionRate;
+			const double radius = (current_year - fac.foundingDate) * fac.expansionRate;
 			
 			// check we've found a closer faction
 			if( (distance <= radius) && (distance < nearestDistance) ) {
 				nearestDistance = distance;
-				foundFaction = fac;
+				foundFaction = &fac;
 				ret_index = index;
 			}
 		}
