@@ -5,11 +5,11 @@
 define_static_ship {
 	name='Lynx Bulk Carrier',
 	model='lynx',
-	forward_thrust = -3e7,
+	forward_thrust = 3e7,
 	reverse_thrust = 2e7,
 	up_thrust = 2e7,
-	down_thrust = -2e7,
-	left_thrust = -2e7,
+	down_thrust = 2e7,
+	left_thrust = 2e7,
 	right_thrust = 2e7,
 	angular_thrust = 2e7,
 	gun_mounts =

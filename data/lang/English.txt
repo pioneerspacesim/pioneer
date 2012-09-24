@@ -500,8 +500,8 @@ N_LIGHT_YEARS_N_MAX
     %distance{f.1} light years (%maxdistance{f.1} max)
 SHIP_INFORMATION
     Ship information
-REPUTATION
-    Reputation
+PERSONAL
+    Personal
 MISSIONS
     Missions
 SHIFT
@@ -746,14 +746,38 @@ SHIP_IS_FULLY_LADEN
     Your ship is fully laden.
 YOU_DO_NOT_HAVE_ANY_X
     You do not have any %item.
-FRONT_VIEW
-    Front view
-REAR_VIEW
-    Rear view
+FRONT_COCKPIT_VIEW
+	Front cockpit view
+REAR_COCKPIT_VIEW
+	Rear cockpit view
+CAMERA_FRONT_VIEW
+	Front camera
+CAMERA_REAR_VIEW
+	Rear camera
+CAMERA_LEFT_VIEW
+	Left camera
+CAMERA_TOP_VIEW
+	Top camera
+CAMERA_RIGHT_VIEW
+	Right camera
+CAMERA_BOTTOM_VIEW
+	Bottom camera
+INTERNAL_VIEW
+    Internal view	
 EXTERNAL_VIEW
     External view
 SIDEREAL_VIEW
     Sidereal view
+ROTATE_UP
+	Rotate Up
+ROTATE_DOWN
+	Rotate Down
+ROTATE_LEFT
+    Rotate Left	
+ROTATE_RIGHT
+    Rotate Right
+RESET
+    Reset
 NAVIGATION_STAR_MAPS
     Navigation and star maps
 COMMS
@@ -1230,3 +1254,5 @@ MONTH_NOV
     Nov
 MONTH_DEC
     Dec
+MISCELLANEOUS
+    Miscellaneous

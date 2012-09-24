@@ -17,8 +17,9 @@ public:
 	virtual ~SpaceStationView();
 	virtual void Update();
 	virtual void Draw3D() {}
-	virtual void OnSwitchTo();
 
+protected:
+	virtual void OnSwitchTo();
 private:
 	void RefreshForForm(Form *);
 

@@ -17,6 +17,7 @@ public:
 	ObjectViewerView();
 	virtual void Update();
 	virtual void Draw3D();
+protected:
 	virtual void OnSwitchTo();
 private:
 	float viewingDist;

@@ -6,8 +6,9 @@
 
 #include "libs.h"
 #include "gui/Gui.h"
-#include "View.h"
 #include "KeyBindings.h"
+#include "View.h"
+#include "graphics/Graphics.h"
 
 //contains a slider, mute button and the necessary layout fluff
 class VolumeControl : public Gui::HBox
@@ -62,12 +63,17 @@ public:
 	virtual ~GameMenuView();
 	virtual void Update() {}
 	virtual void Draw3D() {}
-	virtual void OnSwitchTo();
 	virtual void ShowAll();
 	virtual void HideAll();
 	void OpenLoadDialog();
 	void OpenSaveDialog();
+
+protected:
+	virtual void OnSwitchTo();
+
 private:
+	void BuildControlBindingList(const KeyBindings::BindingPrototype *protos, Gui::VBox *box1, Gui::VBox *box2);
+
 	void OnChangeKeyBinding(const KeyBindings::KeyBinding &kb, const char *fnName);
 	void OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const char *function);
 	void OnChangeVolume();
@@ -83,6 +89,7 @@ private:
 	void OnToggleJoystick(Gui::ToggleButton *b, bool state);
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
 	void OnToggleNavTunnel(Gui::ToggleButton *b, bool state);
+
 	bool m_changedDetailLevel;
 	Gui::Button *m_saveButton;
 	Gui::Button *m_loadButton;
@@ -103,6 +110,7 @@ private:
 	Gui::ToggleButton *m_toggleJoystick;
 	Gui::ToggleButton *m_toggleMouseYInvert;
 	Gui::ToggleButton *m_toggleNavTunnel;
+	std::vector<Graphics::VideoMode> m_videoModes;
 };
 
 #endif /* _GAMEMENUVIEW_H */

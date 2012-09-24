@@ -66,7 +66,7 @@ Translate:AddFlavour('Polski','DonateToCranks', {
 Translate:Add({ Polski = {
   ["You do not have enough money."] = "Nie masz dość pieniędzy.",
   ["Wow! That was very generous."] = "O! Jesteś bardzo hojny.",
-  ["Thank you. All donations are welcome."] = "Dziękuje. Cenimy każde wsparcie.",
+  ["Thank you. All donations are welcome."] = "Dziękuję. Cenimy każde wsparcie.",
   }
 })
 

@@ -61,7 +61,6 @@ void Fixed::GetSizeRequested(float size[2])
 
 Fixed::~Fixed()
 {
-	Screen::RemoveBaseWidget(this);
 }
 
 void Fixed::UpdateAllChildSizes()
