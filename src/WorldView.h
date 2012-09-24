@@ -31,7 +31,6 @@ public:
 	virtual void Draw3D();
 	virtual void Draw();
 	static const double PICK_OBJECT_RECT_SIZE;
-	void DrawBgStars();
 	virtual void Save(Serializer::Writer &wr);
 	enum CamType {
 		COCKPIT_FRONT,
