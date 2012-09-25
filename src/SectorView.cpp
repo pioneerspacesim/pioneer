@@ -2,6 +2,11 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
+#include <algorithm>
+#include <sstream>
+#include "graphics/Material.h"
+#include "graphics/Renderer.h"
+#include "graphics/TextureBuilder.h"
 #include "gui/Gui.h"
 #include "Pi.h"
 #include "SectorView.h"
@@ -15,10 +20,6 @@
 #include "StringF.h"
 #include "ShipCpanel.h"
 #include "Game.h"
-#include "graphics/Material.h"
-#include "graphics/Renderer.h"
-#include <algorithm>
-#include <sstream>
 
 using namespace Graphics;
 
@@ -87,8 +88,23 @@ void SectorView::InitDefaults()
 void SectorView::InitObject()
 {
 	SetTransparency(true);
+	
+	Graphics::TextureBuilder bldr = Graphics::TextureBuilder::UI("icons/trade_sell_1.png");
+	m_import1Image.Reset(bldr.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui"));
+	bldr = Graphics::TextureBuilder::UI("icons/trade_sell_2.png");
+	m_import2Image.Reset(bldr.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui"));
+	bldr = Graphics::TextureBuilder::UI("icons/trade_sell_3.png");
+	m_import3Image.Reset(bldr.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui"));
+	bldr = Graphics::TextureBuilder::UI("icons/trade_buy_1.png");
+	m_export1Image.Reset(bldr.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui"));
+	bldr = Graphics::TextureBuilder::UI("icons/trade_buy_2.png");
+	m_export2Image.Reset(bldr.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui"));
+	bldr = Graphics::TextureBuilder::UI("icons/trade_buy_3.png");
+	m_export3Image.Reset(bldr.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui"));
 
 	Gui::Screen::PushFont("OverlayFont");
+	m_econImages = new Gui::ImageSet();
+	Add(m_econImages, 0, 0);
 	m_clickableLabels = new Gui::LabelSet();
 	m_clickableLabels->SetLabelColor(Color(.7f,.7f,.7f,0.75f));
 	Add(m_clickableLabels, 0, 0);
@@ -310,6 +326,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 
 void SectorView::Draw3D()
 {
+	m_econImages->Clear();
 	m_clickableLabels->Clear();
 
 	m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 100.f);
@@ -423,12 +440,59 @@ void SectorView::OnClickSystem(const SystemPath &path)
 		SetSelectedSystem(path);
 }
 
-void SectorView::PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path)
+void SectorView::PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path, int importVal, int exportVal)
 {
 	Gui::Screen::EnterOrtho();
 	vector3d pos;
 	if (Gui::Screen::Project(vector3d(0.0), pos)) {
-		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path), pos.x, pos.y, labelCol);
+		if (m_clickableLabels->CanPutItem(pos.x, pos.y)) {
+			m_clickableLabels->Add(
+				text,
+				sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path),
+				pos.x, pos.y, labelCol
+			);
+			float textWidth, textHeight;
+			Gui::Screen::MeasureString(text, textWidth, textHeight);
+			int xpos = textWidth + 3;
+			if (importVal > 0) {
+				RefCountedPtr<Graphics::Texture> texture;
+				switch (importVal) {
+					case 1: texture = m_import1Image; break;
+					case 2: texture = m_import2Image; break;
+					case 3: texture = m_import3Image; break;
+				}
+				if (texture.Get()) {
+					m_econImages->Add(
+						texture,
+						sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path),
+						vector2f(pos.x + xpos, pos.y - 7), vector2f(18, 14),
+						vector2f(0, 0),
+						texture->GetDescriptor().texSize,
+						Color::WHITE
+					);			
+				}
+				xpos += 18 + 3;
+			}
+			if (exportVal > 0) {
+				RefCountedPtr<Graphics::Texture> texture;
+				switch (exportVal) {
+					case 1: texture = m_export1Image; break;
+					case 2: texture = m_export2Image; break;
+					case 3: texture = m_export3Image; break;
+				}
+				if (texture.Get()) {
+					m_econImages->Add(
+						texture,
+						sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path),
+						vector2f(pos.x + xpos, pos.y - 7), vector2f(18, 14),
+						vector2f(0, 0),
+						texture->GetDescriptor().texSize,
+						Color::WHITE
+					);			
+				}
+				xpos += 18 + 3;
+			}
+		}
 	}
 	Gui::Screen::LeaveOrtho();
 }
@@ -527,12 +591,17 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		m_renderer->DrawLines(4, vts, darkgreen, LINE_LOOP);
 	}
 
+	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+	SystemPath currentSysPath = currentSys->GetPath();
+
 	Uint32 num=0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++num) {
 		SystemPath current = SystemPath(sx, sy, sz, num);
 
 		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
+
+		int impLevel = 0, expLevel = 0;
 
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
@@ -548,14 +617,77 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 			if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
 				RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
-				if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) )
-				{
-					(*i).SetInhabited(true);
+				(*i).SetInhabited((!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0));
+			}
+		}
+
+		std::string extrastr;
+
+		if ((*i).IsInhabited()) {
+			RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
+			if (!currentSysPath.IsSameSystem(current)) {
+				// work out econ info
+				for (int e=1; e<Equip::TYPE_MAX; e++) {
+					int ourprice   = currentSys->GetCommodityBasePriceModPercent(e);
+					int theirprice = pSS->GetCommodityBasePriceModPercent(e);
+
+					if (ourprice < -10) {
+						// major export (curr)
+						if ((theirprice > 2) && (theirprice <= 10)) {
+							expLevel = std::max(expLevel, 2);
+						} else if (theirprice > 10) {
+							expLevel = std::max(expLevel, 3);
+						}					
+					} else if ((ourprice < -2) && (ourprice >= -10)) {
+						// minor export (curr)
+						if ((theirprice > 2) && (theirprice <= 10)) {
+							expLevel = std::max(expLevel, 1);
+						} else if (theirprice > 10) {
+							expLevel = std::max(expLevel, 2);
+						}
+					} else if ((ourprice > 2) && (ourprice <= 10)) {
+						// minor import (curr)
+						if ((theirprice < -2) && (theirprice >= -10)) {
+							impLevel = std::max(impLevel, 1);
+						} else if (theirprice < -10) {
+							impLevel = std::max(impLevel, 2);
+						}
+					} else if (ourprice > 10) {
+						// major import (curr)
+						if ((theirprice < -2) && (theirprice >= -10)) {
+							impLevel = std::max(impLevel, 2);
+						} else if (theirprice < -10) {
+							impLevel = std::max(impLevel, 3);
+						}
+					}
 				}
-				else
-				{
-					(*i).SetInhabited(false);
+			}
+			std::vector<std::string> extra;
+			/*
+			if (impLevel > 0) {
+				std::ostringstream ss(std::ostringstream::out);
+				ss << "i";
+				for (int l = 0; l < impLevel - 1; l++) ss << "+";
+				extra.push_back(ss.str());
+			}
+			if (expLevel > 0) {
+				std::ostringstream ss(std::ostringstream::out);
+				ss << "e";
+				for (int l = 0; l < expLevel - 1; l++) ss << "+";
+				extra.push_back(ss.str());
+			}
+			*/
+			if (!extra.empty()) {
+				std::ostringstream ss(std::ostringstream::out);
+				ss << " (";
+				bool first = true;
+				for (unsigned int l = 0; l < extra.size(); l++) {
+					if (!first) ss << ',';
+					else first = false;
+					ss << extra[l];
 				}
+				ss << ')';
+				extrastr = ss.str();
 			}
 		}
 
@@ -640,7 +772,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				labelColor.a = 1.0f;
 		}
 
-		PutClickableLabel((*i).name, labelColor, current);
+		PutClickableLabel((*i).name + extrastr, labelColor, current, impLevel, expLevel);
 	}
 }
 

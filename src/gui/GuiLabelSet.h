@@ -16,26 +16,19 @@ class LabelSet: public Widget {
 public:
 	class LabelSetItem {
 	public:
-		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_) {
-			this->text = text_;
-			this->onClick = onClick_;
-			this->screenx = screenx_;
-			this->screeny = screeny_;
-			this->hasOwnColor = false;
-		}
-		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_, const Color &c) {
-			this->text = text_;
-			this->onClick = onClick_;
-			this->screenx = screenx_;
-			this->screeny = screeny_;
-			this->color = c;
-			this->hasOwnColor = true;
-		}
+		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_) :
+			text(text_), onClick(onClick_), screenx(screenx_), screeny(screeny_), hasOwnColor(false)
+		{}
+
+		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_, const Color &c) :
+			text(text_), onClick(onClick_), screenx(screenx_), screeny(screeny_), hasOwnColor(true), color(c)
+		{}
+
 		std::string text;
-		Color color;
-		bool hasOwnColor;
 		sigc::slot<void> onClick;
 		float screenx, screeny;
+		bool hasOwnColor;
+		Color color;
 	};
 
 	LabelSet();
@@ -49,9 +42,8 @@ public:
 	void SetLabelsClickable(bool v) { m_labelsClickable = v; }
 	void SetLabelsVisible(bool v) { m_labelsVisible = v; }
 	void SetLabelColor(const Color &c) { m_labelColor = c; }
-private:
 	bool CanPutItem(float x, float y);
-
+private:
 	std::vector<LabelSetItem> m_items;
 	bool m_labelsVisible;
 	bool m_labelsClickable;

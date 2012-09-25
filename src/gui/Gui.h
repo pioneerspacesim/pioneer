@@ -71,6 +71,7 @@ namespace Gui {
 #include "GuiTextEntry.h"
 #include "GuiMeterBar.h"
 #include "GuiLabelSet.h"
+#include "GuiImageSet.h"
 #include "GuiScreen.h"
 #include "GuiStack.h"
 #include "GuiGradient.h"

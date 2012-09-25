@@ -129,46 +129,179 @@ void SystemInfoView::UpdateEconomyTab()
 	m_econInfo->SetText(data);
 */
 	/* imports and exports */
-	std::vector<std::string> crud;
-	data = std::string("#ff0")+std::string(Lang::MAJOR_IMPORTS)+std::string("\n");
-	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (s->GetCommodityBasePriceModPercent(i) > 10)
-			crud.push_back(std::string("#fff")+Equip::types[i].name);
+	const RefCountedPtr<StarSystem> hs = Pi::game->GetSpace()->GetStarSystem();
+	const SystemPath &hspath = hs->GetPath();
+	
+	const std::string meh       = "#999";
+	const std::string ok        = "#fff";
+	const std::string good      = "#7c7";
+	const std::string awesome   = "#3f3";
+	const std::string illegal   = "#744";
+	
+	char buf[100];
+	if (hs && (!m_system->GetPath().IsSameSystem(hspath))) {
+		// different system selected
+		snprintf(buf, 100, COMM_COMP, m_system->GetName().c_str(), hs->GetName().c_str());
+	} else {
+		// same system as current selected
+		snprintf(buf, 100, COMM_SELF, m_system->GetName().c_str());
 	}
-	if (crud.size()) data += string_join(crud, "\n")+"\n";
-	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
-	m_econMajImport->SetText(data);
-
-	crud.clear();
-	data = std::string("#ff0")+std::string(Lang::MINOR_IMPORTS)+std::string("\n");
+	
+	m_commodityTradeLabel->SetText(buf);
+	
+	const int sep = 18;
+	int num = 0;
+	m_econMajImport->DeleteAllChildren();
+	m_econMajImport->Add(new Gui::Label(
+		std::string("#ff0")+std::string(Lang::MAJOR_IMPORTS)),
+		0, num++ * sep
+	);
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if ((s->GetCommodityBasePriceModPercent(i) > 2) && (s->GetCommodityBasePriceModPercent(i) <= 10))
-			crud.push_back(std::string("#777")+Equip::types[i].name);
+		if (s->GetCommodityBasePriceModPercent(i) > 10) {
+			std::string extra = meh;
+			std::string tooltip = "";
+			if (hs) {
+				if (!m_system->GetPath().IsSameSystem(hspath)) {
+					if ((hs->GetCommodityBasePriceModPercent(i) < -2) && (hs->GetCommodityBasePriceModPercent(i) >= -10)) {
+						extra = good;
+						tooltip = "Minor export (current system)";
+					} else if (hs->GetCommodityBasePriceModPercent(i) < -10) {
+						extra = awesome;
+						tooltip = "Major export (current system)";
+					}					
+				}
+			}
+			Gui::Label *label = new Gui::Label(extra+Equip::types[i].name);
+			label->SetToolTip(tooltip);
+			m_econMajImport->Add(label, 5, num++ * sep);
+		}
 	}
-	if (crud.size()) data += string_join(crud, "\n")+"\n";
-	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
-	m_econMinImport->SetText(data);
-
-	crud.clear();
-	data = std::string("#ff0")+std::string(Lang::MAJOR_EXPORTS)+std::string("\n");
+	m_econMajImport->SetSize(500, num * sep);
+	m_econMajImport->ShowAll();
+	if (num < 2) {
+		m_econMajImport->Add(new Gui::Label(meh + "None"), 5, num++ * sep);
+	}
+	
+	num = 0;
+	
+	m_econMinImport->DeleteAllChildren();
+	m_econMinImport->Add(new Gui::Label(
+		std::string("#ff0")+std::string(Lang::MINOR_IMPORTS)),
+		0, num++ * sep
+	);
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if (s->GetCommodityBasePriceModPercent(i) < -10)
-			crud.push_back(std::string("#fff")+Equip::types[i].name);
+		if ((s->GetCommodityBasePriceModPercent(i) > 2) && (s->GetCommodityBasePriceModPercent(i) <= 10)) {
+			std::string extra = meh;
+			std::string tooltip = "";
+			if (hs) {
+				if (!m_system->GetPath().IsSameSystem(hspath)) {
+					if ((hs->GetCommodityBasePriceModPercent(i) < -2) && (hs->GetCommodityBasePriceModPercent(i) >= -10)) {
+						tooltip = "Minor export (current system)";
+						extra = ok;
+					} else if (hs->GetCommodityBasePriceModPercent(i) < -10) {
+						tooltip = "Major export (current system)";
+						extra = good;
+					}					
+				}
+			}
+			Gui::Label *label = new Gui::Label(extra+Equip::types[i].name);
+			label->SetToolTip(tooltip);
+			m_econMinImport->Add(label, 5, num++ * sep);
+		}
 	}
-	if (crud.size()) data += string_join(crud, "\n")+"\n";
-	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
-	m_econMajExport->SetText(data);
-
-	crud.clear();
-	data = std::string("#ff0")+std::string(Lang::MINOR_EXPORTS)+std::string("\n");
+	if (num < 2) {
+		m_econMinImport->Add(new Gui::Label(meh + "None"), 5, num++ * sep);
+	}	
+	m_econMinImport->SetSize(500, num * sep);
+	m_econMinImport->ShowAll();
+		
+	num = 0;
+	
+	m_econMajExport->DeleteAllChildren();
+	m_econMajExport->Add(new Gui::Label(
+		std::string("#ff0")+std::string(Lang::MAJOR_EXPORTS)),
+		0, num++ * sep
+	);
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
-		if ((s->GetCommodityBasePriceModPercent(i) < -2) && (s->GetCommodityBasePriceModPercent(i) >= -10))
-			crud.push_back(std::string("#777")+Equip::types[i].name);
+		if (s->GetCommodityBasePriceModPercent(i) < -10) {
+			std::string extra = meh;
+			std::string tooltip = "";
+			if (hs) {
+				if (!m_system->GetPath().IsSameSystem(hspath)) {
+					if ((hs->GetCommodityBasePriceModPercent(i) > 2) && (hs->GetCommodityBasePriceModPercent(i) <= 10)) {
+						extra = good;
+						tooltip = "Minor import (current system)";
+					} else if (hs->GetCommodityBasePriceModPercent(i) > 10) {
+						extra = awesome;
+						tooltip = "Major import (current system)";
+					}					
+				}
+			}
+			Gui::Label *label = new Gui::Label(extra+Equip::types[i].name);
+			label->SetToolTip(tooltip);
+			m_econMajExport->Add(label, 5, num++ * sep);
+		}
 	}
-	if (crud.size()) data += string_join(crud, "\n")+"\n";
-	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
-	m_econMinExport->SetText(data);
-
+	if (num < 2) {
+		m_econMajExport->Add(new Gui::Label(meh + "None"), 5, num++ * sep);
+	}
+	m_econMajExport->SetSize(500, num * sep);
+	m_econMajExport->ShowAll();
+	
+	num = 0;
+	
+	m_econMinExport->DeleteAllChildren();
+	m_econMinExport->Add(new Gui::Label(
+		std::string("#ff0")+std::string(Lang::MINOR_EXPORTS)),
+		0, num++ * sep
+	);
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if ((s->GetCommodityBasePriceModPercent(i) < -2) && (s->GetCommodityBasePriceModPercent(i) >= -10)) {
+			std::string extra = meh;
+			std::string tooltip = "";
+			if (hs) {
+				if (!m_system->GetPath().IsSameSystem(hspath)) {
+					if ((hs->GetCommodityBasePriceModPercent(i) > 2) && (hs->GetCommodityBasePriceModPercent(i) <= 10)) {
+						tooltip = "Minor import (current system)";
+						extra = ok;
+					} else if (hs->GetCommodityBasePriceModPercent(i) > 10) {
+						tooltip = "Major import (current system)";
+						extra = good;
+					}
+				}
+			}
+			Gui::Label *label = new Gui::Label(extra+Equip::types[i].name);
+			label->SetToolTip(tooltip);
+			m_econMinExport->Add(label, 5, num++ * sep);
+		}
+	}
+	if (num < 2) {
+		m_econMinExport->Add(new Gui::Label(meh + "None"), 5, num++ * sep);
+	}
+	m_econMinExport->SetSize(500, num * sep);
+	m_econMinExport->ShowAll();
+	
+	num = 0;
+	
+	m_econIllegal->DeleteAllChildren();
+	m_econIllegal->Add(new Gui::Label(
+		std::string("#f55")+std::string(Lang::ILLEGAL_GOODS)),
+		0, num++ * sep
+	);
+	for (int i=1; i<Equip::TYPE_MAX; i++) {
+		if (!Polit::IsCommodityLegal(s, Equip::Type(i))) {
+			std::string extra = meh;
+			Gui::Label *label = new Gui::Label(illegal+Equip::types[i].name);
+			m_econIllegal->Add(label, 5, num++ * sep);
+		}
+	}
+	if (num < 2) {
+		m_econIllegal->Add(new Gui::Label(illegal + "None"), 5, num++ * sep);
+	}
+	m_econIllegal->SetSize(500, num * sep);
+	m_econIllegal->ShowAll();
+	
+	/*
 	crud.clear();
 	data = std::string("#ff0")+std::string(Lang::ILLEGAL_GOODS)+std::string("\n");
 	for (int i=1; i<Equip::TYPE_MAX; i++) {
@@ -178,6 +311,8 @@ void SystemInfoView::UpdateEconomyTab()
 	if (crud.size()) data += string_join(crud, "\n")+"\n";
 	else data += std::string("#777")+std::string(Lang::NONE)+std::string("\n");
 	m_econIllegal->SetText(data);
+ 
+ */
 
 	m_econInfoTab->ResizeRequest();
 }
@@ -327,29 +462,31 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 	{
 		// economy tab
+		Gui::VBox *econbox = new Gui::VBox();
+		econbox->SetSpacing(5);
+		
 		Gui::HBox *scrollBox2 = new Gui::HBox();
 		scrollBox2->SetSpacing(5);
-		m_econInfoTab->Add(scrollBox2, 35, 300);
+		m_econInfoTab->Add(econbox, 35, 300);
 		Gui::VScrollBar *scroll2 = new Gui::VScrollBar();
 		Gui::VScrollPortal *portal2 = new Gui::VScrollPortal(730);
 		scroll2->SetAdjustment(&portal2->vscrollAdjust);
 		scrollBox2->PackStart(scroll2);
 		scrollBox2->PackStart(portal2);
+		
+		m_commodityTradeLabel = new Gui::Label("Commodity trade analysis of selected system:");
+		econbox->PackEnd(m_commodityTradeLabel);
+		econbox->PackEnd(scrollBox2);
 
-		m_econInfo = new Gui::Label("");
+		m_econInfo = new Gui::Fixed();
 		m_econInfoTab->Add(m_econInfo, 35, 250);
 
 		Gui::Fixed *f = new Gui::Fixed();
-		m_econMajImport = new Gui::Label("");
-		m_econMinImport = new Gui::Label("");
-		m_econMajExport = new Gui::Label("");
-		m_econMinExport = new Gui::Label("");
-		m_econIllegal = new Gui::Label("");
-		m_econMajImport->Color(1,1,0);
-		m_econMinImport->Color(1,1,0);
-		m_econMajExport->Color(1,1,0);
-		m_econMinExport->Color(1,1,0);
-		m_econIllegal->Color(1,1,0);
+		m_econMajImport = new Gui::Fixed();
+		m_econMinImport = new Gui::Fixed();
+		m_econMajExport = new Gui::Fixed();
+		m_econMinExport = new Gui::Fixed();
+		m_econIllegal = new Gui::Fixed();
 		f->Add(m_econMajImport, 0, 0);
 		f->Add(m_econMinImport, 150, 0);
 		f->Add(m_econMajExport, 300, 0);

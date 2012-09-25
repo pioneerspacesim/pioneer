@@ -20,6 +20,7 @@ noinst_HEADERS = \
 	GuiImage.h \
 	GuiImageButton.h \
 	GuiImageRadioButton.h \
+	GuiImageSet.h \
 	GuiLabel.h \
 	GuiLabelSet.h \
 	GuiMeterBar.h \
@@ -49,6 +50,7 @@ libgui_a_SOURCES = \
 	GuiImage.cpp \
 	GuiImageButton.cpp \
 	GuiImageRadioButton.cpp \
+	GuiImageSet.cpp \
 	GuiLabel.cpp \
 	GuiLabelSet.cpp \
 	GuiMeterBar.cpp \

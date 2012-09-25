@@ -14,6 +14,11 @@
 #include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
 
+namespace Graphics {
+	class Renderer;
+	class Material;
+}
+
 class SectorView: public View {
 public:
 	SectorView();
@@ -52,7 +57,7 @@ private:
 	};
 
 	void DrawSector(int x, int y, int z, const vector3f &playerAbsPos, const matrix4x4f &trans);
-	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
+	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path, int importLevel, int exportLevel);
 
 	void SetSelectedSystem(const SystemPath &path);
 	void OnClickSystem(const SystemPath &path);
@@ -88,6 +93,14 @@ private:
 	bool m_matchTargetToSelection;
 
 	bool m_selectionFollowsMovement;
+	
+	RefCountedPtr<Graphics::Texture> m_import1Image;
+	RefCountedPtr<Graphics::Texture> m_import2Image;
+	RefCountedPtr<Graphics::Texture> m_import3Image;
+	
+	RefCountedPtr<Graphics::Texture> m_export1Image;
+	RefCountedPtr<Graphics::Texture> m_export2Image;
+	RefCountedPtr<Graphics::Texture> m_export3Image;
 
 	Gui::Label *m_sectorLabel;
 	Gui::Label *m_distanceLabel;
@@ -99,6 +112,7 @@ private:
 	ScopedPtr<Graphics::Drawables::Disk> m_disk;
 
 	Gui::LabelSet *m_clickableLabels;
+	Gui::ImageSet *m_econImages;
 
 	Gui::VBox *m_infoBox;
 	bool m_infoBoxVisible;
