@@ -138,11 +138,11 @@ void SystemView::OnClickObject(SystemBody *b)
 
 	if (b->parent) {
 		desc += std::string(Lang::SEMI_MAJOR_AXIS);
-	desc += ":\n";
+		desc += ":\n";
 		data += format_distance(b->orbit.semiMajorAxis)+"\n";
 
 		desc += std::string(Lang::ORBITAL_PERIOD);
-	desc += ":\n";
+		desc += ":\n";
 		data += stringf(Lang::N_DAYS, formatarg("days", b->orbit.period / (24*60*60))) + "\n";
 	}
 	m_infoLabel->SetText(desc);
