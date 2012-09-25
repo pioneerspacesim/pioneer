@@ -66,6 +66,14 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 	_add_label_and_value(Lang::MASS, stringf(Lang::N_WHATEVER_MASSES, formatarg("mass", b->mass.ToDouble()),
 		formatarg("units", std::string(b->GetSuperType() == SystemBody::SUPERTYPE_STAR ? Lang::SOLAR : Lang::EARTH))));
 
+	if ((b->GetSuperType() > SystemBody::SUPERTYPE_NONE) && (b->GetSuperType() < SystemBody::SUPERTYPE_STARPORT)) { // stars, rocky planets, gas giants 
+		_add_label_and_value(Lang::RADIUS, format_distance(b->GetRadius(), 3));
+	}
+
+	if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+		_add_label_and_value(Lang::EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO, stringf("%0{f.3}", b->aspectRatio.ToDouble()));
+	}
+
 	if (b->type != SystemBody::TYPE_STARPORT_ORBITAL) {
 		_add_label_and_value(Lang::SURFACE_TEMPERATURE, stringf(Lang::N_CELSIUS, formatarg("temperature", b->averageTemp-273)));
 		_add_label_and_value(Lang::SURFACE_GRAVITY, stringf("%0{f.3} m/s^2", b->CalcSurfaceGravity()));
