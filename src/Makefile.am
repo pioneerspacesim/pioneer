@@ -381,3 +381,10 @@ if BUILD_POSIX
     modelviewer_LDADD += posix/libposix.a
 endif
 
+if HAVE_WINDRES
+# note: this can't be correctly packed into libwin32.a
+SUFFIXES = .rc
+pioneer_SOURCES += win32/pioneer.rc
+.rc.o:
+	$(AM_V_GEN)$(MXE_WINDRES) $< $@
+endif

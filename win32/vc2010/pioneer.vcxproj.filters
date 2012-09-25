@@ -839,4 +839,9 @@
       <Filter>src</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\src\win32\pioneer.rc">
+      <Filter>src\win32</Filter>
+    </ResourceCompile>
+  </ItemGroup>
 </Project>
