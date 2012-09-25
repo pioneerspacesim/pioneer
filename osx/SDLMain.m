@@ -80,21 +80,17 @@ static BOOL   gFinderLaunch;
     {
         [[NSWorkspace sharedWorkspace] openFile:@"Quickstart.txt"];
     }
-    else if ([[sender title] isEqualToString:@"COPYING"])
+    else if ([[sender title] isEqualToString:@"CC-BY-SA-3.0"])
     {
-        [[NSWorkspace sharedWorkspace] openFile:@"COPYING.txt"];
+        [[NSWorkspace sharedWorkspace] openFile:@"CC-BY-SA-3.0.txt"];
     }
-    else if ([[sender title] isEqualToString:@"fonts COPYING"])
+    else if ([[sender title] isEqualToString:@"GPL-3"])
     {
-        [[NSWorkspace sharedWorkspace] openFile:@"fonts.COPYING.txt"];
+        [[NSWorkspace sharedWorkspace] openFile:@"GPL-3.txt"];
     }
-    else if ([[sender title] isEqualToString:@"lua COPYING"])
+    else if ([[sender title] isEqualToString:@"SIL-1.1"])
     {
-        [[NSWorkspace sharedWorkspace] openFile:@"lua.COPYING.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"music COPYING"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"music.COPYING.txt"];
+        [[NSWorkspace sharedWorkspace] openFile:@"../Resources/SIL-1.1.txt"];
     }
 }
 
