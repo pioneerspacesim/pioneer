@@ -5,11 +5,11 @@
 define_static_ship {
 	name='Long Range Cruiser',
 	model='lrc',
-	forward_thrust = -2e8,
+	forward_thrust = 2e8,
 	reverse_thrust = 5e7,
 	up_thrust = 5e7,
-	down_thrust = -5e7,
-	left_thrust = -5e7,
+	down_thrust = 5e7,
+	left_thrust = 5e7,
 	right_thrust = 5e7,
 	angular_thrust = 5e7,
 	gun_mounts =

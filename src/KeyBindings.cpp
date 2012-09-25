@@ -9,50 +9,27 @@
 
 namespace KeyBindings {
 
-KeyAction pitchUp;
-KeyAction pitchDown;
-KeyAction yawLeft;
-KeyAction yawRight;
-KeyAction rollLeft;
-KeyAction rollRight;
-KeyAction thrustForward;
-KeyAction thrustBackwards;
-KeyAction thrustUp;
-KeyAction thrustDown;
-KeyAction thrustLeft;
-KeyAction thrustRight;
-KeyAction thrustLowPower;
-KeyAction increaseSpeed;
-KeyAction decreaseSpeed;
-KeyAction fireLaser;
-KeyAction targetObject;
-KeyAction toggleLuaConsole;
-KeyAction toggleScanMode;
-KeyAction increaseScanRange;
-KeyAction decreaseScanRange;
-KeyAction toggleHudMode;
+#define KEY_BINDING(name,a,b,c) KeyAction name;
+#define AXIS_BINDING(name,a,b,c) AxisBinding name;
+#include "KeyBindings.inc.h"
 
-KeyAction frontCockpit;
-KeyAction rearCockpit;
-KeyAction frontCamera;
-KeyAction rearCamera;
-KeyAction leftCamera;
-KeyAction rightCamera;
-KeyAction topCamera;
-KeyAction bottomCamera;
-KeyAction cameraRollLeft;
-KeyAction cameraRollRight;
-KeyAction cameraRotateDown;
-KeyAction cameraRotateUp;
-KeyAction cameraRotateLeft;
-KeyAction cameraRotateRight;
-KeyAction cameraZoomIn;
-KeyAction cameraZoomOut;
-KeyAction resetCamera;
+// create the BindingPrototype sets for use by the UI
+#define BINDING_PAGE(name) const BindingPrototype BINDING_PROTOS_ ## name[] = {
+#define BINDING_PAGE_END() {0,0,0,0}};
+#define BINDING_GROUP(ui_name) \
+	{ ui_name, 0, 0, 0 },
+#define KEY_BINDING(name, config_name, ui_name, default_value) \
+	{ ui_name, config_name, &KeyBindings::name, 0 },
+#define AXIS_BINDING(name, config_name, ui_name, default_value) \
+	{ ui_name, config_name, 0, &KeyBindings::name },
+#include "KeyBindings.inc.h"
 
-AxisBinding pitchAxis;
-AxisBinding rollAxis;
-AxisBinding yawAxis;
+// static binding object lists for use by the dispatch function
+static KeyAction* const s_KeyBindings[] = {
+#define KEY_BINDING(name, b,c,d) &KeyBindings::name,
+#include "KeyBindings.inc.h"
+	0
+};
 
 bool KeyBinding::Matches(const SDL_keysym *sym) const {
 	if (type == KEYBOARD_KEY) {
@@ -206,68 +183,6 @@ std::string AxisBinding::Description() const {
 	return oss.str();
 }
 
-const BindingPrototype bindingProtos[] = {
-	{ Lang::WEAPONS, 0, 0, 0 },
-	{ Lang::TARGET_OBJECT_IN_SIGHTS, "BindTargetObject", &targetObject, 0 },
-	{ Lang::FIRE_LASER, "BindFireLaser", &fireLaser, 0 },
-	{ Lang::SHIP_ORIENTATION, 0, 0, 0 },
-	{ Lang::PITCH_UP, "BindPitchUp", &pitchUp, 0 },
-	{ Lang::PITCH_DOWN, "BindPitchDown", &pitchDown, 0 },
-	{ Lang::YAW_LEFT, "BindYawLeft", &yawLeft, 0 },
-	{ Lang::YAW_RIGHT, "BindYawRight", &yawRight, 0 },
-	{ Lang::ROLL_LEFT, "BindRollLeft", &rollLeft, 0 },
-	{ Lang::ROLL_RIGHT, "BindRollRight", &rollRight, 0 },
-	{ Lang::MANUAL_CONTROL_MODE, 0, 0, 0 },
-	{ Lang::THRUSTER_MAIN, "BindThrustForward", &thrustForward, 0 },
-	{ Lang::THRUSTER_RETRO, "BindThrustBackwards", &thrustBackwards, 0 },
-	{ Lang::THRUSTER_VENTRAL, "BindThrustUp", &thrustUp, 0 },
-	{ Lang::THRUSTER_DORSAL, "BindThrustDown", &thrustDown, 0 },
-	{ Lang::THRUSTER_PORT, "BindThrustLeft", &thrustLeft, 0 },
-	{ Lang::THRUSTER_STARBOARD, "BindThrustRight", &thrustRight, 0 },
-	{ Lang::USE_LOW_THRUST, "BindThrustLowPower", &thrustLowPower, 0 },
-	{ Lang::SPEED_CONTROL_MODE, 0, 0, 0 },
-	{ Lang::INCREASE_SET_SPEED, "BindIncreaseSpeed", &increaseSpeed, 0 },
-	{ Lang::DECREASE_SET_SPEED, "BindDecreaseSpeed", &decreaseSpeed, 0 },
-	{ Lang::SCANNER_CONTROL, 0, 0, 0 },
-	{ Lang::TOGGLE_SCAN_MODE, "BindToggleScanMode", &toggleScanMode, 0 },
-	{ Lang::INCREASE_SCAN_RANGE, "BindIncreaseScanRange", &increaseScanRange, 0 },
-	{ Lang::DECREASE_SCAN_RANGE, "BindDecreaseScanRange", &decreaseScanRange, 0 },
-	{ Lang::TOGGLE_LUA_CONSOLE, "BindToggleLuaConsole", &toggleLuaConsole, 0 },
-	{ Lang::TOGGLE_HUD_MODE, "BindToggleHudMode", &toggleHudMode, 0 },
-	{ 0, 0, 0, 0 },
-};
-
-const BindingPrototype camBindingProtos[] = {
-	{ Lang::INTERNAL_VIEW, 0, 0, 0 },
-	{ Lang::FRONT_COCKPIT_VIEW, "BindFrontCockpit", &frontCockpit, 0 },
-	{ Lang::REAR_COCKPIT_VIEW, "BindRearCockpit", &rearCockpit, 0 },
-	{ Lang::CAMERA_FRONT_VIEW, "BindFrontCamera", &frontCamera, 0 },
-	{ Lang::CAMERA_REAR_VIEW, "BindRearCamera", &rearCamera, 0 },
-	{ Lang::CAMERA_LEFT_VIEW, "BindLeftCamera", &leftCamera, 0 },
-	{ Lang::CAMERA_RIGHT_VIEW, "BindRightCmaera", &rightCamera, 0 },
-	{ Lang::CAMERA_TOP_VIEW, "BindTopCamera", &topCamera, 0 },
-	{ Lang::CAMERA_BOTTOM_VIEW, "BindBottomCamera", &bottomCamera, 0 },
-	{ Lang::EXTERNAL_VIEW, 0, 0, 0 },
-	{ Lang::ROLL_LEFT, "BindCameraRollLeft", &cameraRollLeft, 0 },
-	{ Lang::ROLL_RIGHT, "BindCameraRollRight", &cameraRollRight, 0 },
-	{ Lang::ROTATE_DOWN, "BindCameraRotateDown", &cameraRotateDown, 0 },
-	{ Lang::ROTATE_UP, "BindCameraRotateUp", &cameraRotateUp, 0 },
-	{ Lang::ROTATE_LEFT, "BindCameraRotateLeft", &cameraRotateLeft, 0 },
-	{ Lang::ROTATE_RIGHT, "BindCameraRotateRight", &cameraRotateRight, 0 },
-	{ Lang::ZOOM_IN, "BindCameraZoomIn", &cameraZoomIn, 0 },
-	{ Lang::ZOOM_OUT, "BindCameraZoomOut", &cameraZoomOut, 0 },
-	{ Lang::RESET, "BindResetCamera", &resetCamera, 0 },
-	{ 0, 0, 0, 0 },
-};
-
-const BindingPrototype axisBindingProtos[] = {
-	{ Lang::JOYSTICK_INPUT, 0, 0, 0 },
-	{ Lang::PITCH, "BindAxisPitch", 0, &pitchAxis },
-	{ Lang::ROLL, "BindAxisRoll", 0, &rollAxis },
-	{ Lang::YAW, "BindAxisYaw", 0, &yawAxis },
-	{ 0, 0, 0, 0 },
-};
-
 /**
  * Exampe strings:
  *   Key55
@@ -418,15 +333,8 @@ void DispatchSDLEvent(const SDL_Event *event) {
 	}
 
 	// simplest possible approach here: just check each binding and dispatch if it matches
-	for (int i = 0; bindingProtos[i].label; ++i) {
-		KeyAction *kb = bindingProtos[i].kb;
-		if (kb)
-			kb->CheckSDLEventAndDispatch(event);
-	}
-	for (int i = 0; camBindingProtos[i].label; ++i) {
-		KeyAction *kb = camBindingProtos[i].kb;
-		if (kb)
-			kb->CheckSDLEventAndDispatch(event);
+	for (KeyAction * const *binding = s_KeyBindings; *binding; ++binding) {
+		(*binding)->CheckSDLEventAndDispatch(event);
 	}
 }
 
@@ -450,50 +358,9 @@ void InitAxisBinding(AxisBinding &ab, const std::string &bindName, const std::st
 
 void UpdateBindings()
 {
-	InitKeyBinding(KeyBindings::pitchUp, "BindPitchUp", SDLK_s);
-	InitKeyBinding(KeyBindings::pitchDown, "BindPitchDown", SDLK_w);
-	InitKeyBinding(KeyBindings::yawLeft, "BindYawLeft", SDLK_a);
-	InitKeyBinding(KeyBindings::yawRight, "BindYawRight", SDLK_d);
-	InitKeyBinding(KeyBindings::rollLeft, "BindRollLeft", SDLK_q);
-	InitKeyBinding(KeyBindings::rollRight, "BindRollRight", SDLK_e);
-	InitKeyBinding(KeyBindings::thrustForward, "BindThrustForward", SDLK_i);
-	InitKeyBinding(KeyBindings::thrustBackwards, "BindThrustBackwards", SDLK_k);
-	InitKeyBinding(KeyBindings::thrustUp, "BindThrustUp", SDLK_u);
-	InitKeyBinding(KeyBindings::thrustDown, "BindThrustDown", SDLK_o);
-	InitKeyBinding(KeyBindings::thrustLeft, "BindThrustLeft", SDLK_j);
-	InitKeyBinding(KeyBindings::thrustRight, "BindThrustRight", SDLK_l);
-	InitKeyBinding(KeyBindings::thrustLowPower, "BindThrustLowPower", SDLK_LSHIFT);
-	InitKeyBinding(KeyBindings::increaseSpeed, "BindIncreaseSpeed", SDLK_RETURN);
-	InitKeyBinding(KeyBindings::decreaseSpeed, "BindDecreaseSpeed", SDLK_RSHIFT);
-	InitKeyBinding(KeyBindings::targetObject, "BindTargetObject", SDLK_t);
-	InitKeyBinding(KeyBindings::fireLaser, "BindFireLaser", SDLK_SPACE);
-	InitKeyBinding(KeyBindings::toggleScanMode, "BindToggleScanMode", SDLK_BACKSLASH);
-	InitKeyBinding(KeyBindings::increaseScanRange, "BindIncreaseScanRange", SDLK_RIGHTBRACKET);
-	InitKeyBinding(KeyBindings::decreaseScanRange, "BindDecreaseScanRange", SDLK_LEFTBRACKET);
-	InitKeyBinding(KeyBindings::toggleLuaConsole, "BindToggleLuaConsole", SDLK_BACKQUOTE);
-	InitKeyBinding(KeyBindings::toggleHudMode, "BindToggleHudMode", SDLK_TAB);
-
-	InitKeyBinding(KeyBindings::frontCockpit, "BindFrontCockpit", SDLK_KP7);
-	InitKeyBinding(KeyBindings::rearCockpit, "BindRearCockpit", SDLK_KP1);
-	InitKeyBinding(KeyBindings::frontCamera, "BindFrontCamera", SDLK_KP8);
-	InitKeyBinding(KeyBindings::rearCamera, "BindRearCamera", SDLK_KP2);
-	InitKeyBinding(KeyBindings::leftCamera, "BindLeftCamera", SDLK_KP4);
-	InitKeyBinding(KeyBindings::rightCamera, "BindRightCmaera", SDLK_KP6);
-	InitKeyBinding(KeyBindings::topCamera, "BindTopCamera", SDLK_KP9);
-	InitKeyBinding(KeyBindings::bottomCamera, "BindBottomCamera", SDLK_KP3);
-	InitKeyBinding(KeyBindings::cameraRollLeft, "BindCameraRollLeft", SDLK_KP1);
-	InitKeyBinding(KeyBindings::cameraRollRight, "BindCameraRollRight", SDLK_KP3);
-	InitKeyBinding(KeyBindings::cameraRotateDown, "BindCameraRotateDown", SDLK_KP2);
-	InitKeyBinding(KeyBindings::cameraRotateUp, "BindCameraRotateUp", SDLK_KP8);
-	InitKeyBinding(KeyBindings::cameraRotateLeft, "BindCameraRotateLeft", SDLK_KP4);
-	InitKeyBinding(KeyBindings::cameraRotateRight, "BindCameraRotateRight", SDLK_KP6);
-	InitKeyBinding(KeyBindings::cameraZoomIn, "BindCameraZoomIn", SDLK_KP_PLUS);
-	InitKeyBinding(KeyBindings::cameraZoomOut, "BindCameraZoomOut", SDLK_KP_MINUS);
-	InitKeyBinding(KeyBindings::resetCamera, "BindResetCamera", SDLK_HOME);
-
-	InitAxisBinding(KeyBindings::pitchAxis, "BindAxisPitch", "-Joy0Axis1");
-	InitAxisBinding(KeyBindings::rollAxis, "BindAxisRoll", "Joy0Axis2");
-	InitAxisBinding(KeyBindings::yawAxis, "BindAxisYaw", "Joy0Axis0");
+#define KEY_BINDING(name, config_name, b, default_value) InitKeyBinding(KeyBindings::name, config_name, default_value);
+#define AXIS_BINDING(name, config_name, b, default_value) InitAxisBinding(KeyBindings::name, config_name, default_value);
+#include "KeyBindings.inc.h"
 }
 
 void InitBindings()
