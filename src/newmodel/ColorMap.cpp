@@ -43,7 +43,7 @@ void ColorMap::SetSmooth(bool smooth)
 {
 	m_smooth = smooth;
 	if (m_texture.Valid()) {
-		//update filter
+		m_texture->SetSampleMode(m_smooth ? Graphics::LINEAR_CLAMP : Graphics::NEAREST_CLAMP);
 	}
 }
 
