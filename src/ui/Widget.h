@@ -111,6 +111,10 @@ public:
 	// position relative to top container
 	Point GetAbsolutePosition() const;
 
+	// draw offset
+	void SetDrawOffset(const Point &drawOffset) { m_drawOffset = drawOffset; }
+	const Point &GetDrawOffset() const { return m_drawOffset; }
+
 	// active area of the widget. the widget may only want to use part of its
 	// allocated space. drawing will be clipped to the active area, and events
 	// that fall outside of the active area will be ignored. if a widget
@@ -134,10 +138,6 @@ public:
 
 	// are we floating
 	bool IsFloating() const { return m_floating; }
-
-	// set/get the current draw transform. useful for animations, special effects
-	void SetTransform(const matrix4x4f &transform) { m_transform = transform; }
-	const matrix4x4f &GetTransform() const { return m_transform; }
 
 	// font size. obviously used for text size but also sometimes used for
 	// general widget size (eg space size). might do nothing, depends on the
@@ -290,10 +290,11 @@ private:
 	Point m_position;
 	Point m_size;
 
+	Point m_drawOffset;
+
 	Point m_activeOffset;
 	Point m_activeArea;
 
-	matrix4x4f m_transform;
 	FontSize m_fontSize;
 
 	bool m_floating;

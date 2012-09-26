@@ -21,14 +21,8 @@ void Container::Draw()
 {
 	Context *c = GetContext();
 
-	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
-		const Point &pos = (*i)->GetPosition();
-		c->PushScissor(pos, (*i)->GetSize());
-		c->PushTransform(matrix4x4f::Translation(pos.x,pos.y,0) * (*i)->GetTransform());
-		(*i)->Draw();
-		c->PopTransform();
-		c->PopScissor();
-	}
+	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
+		c->DrawWidget((*i).Get());
 }
 
 void Container::LayoutChildren()

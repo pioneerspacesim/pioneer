@@ -2,6 +2,7 @@
 #include "FileSystem.h"
 #include "text/FontDescriptor.h"
 #include "Lua.h"
+#include <typeinfo>
 
 namespace UI {
 
@@ -30,6 +31,8 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 		int pixelSize = i*3 + 14;
 		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(Text::FontDescriptor("TitilliumText22L004.otf", pixelSize, pixelSize, false, -1.0f), renderer));
 	}
+
+	m_scissorStack.push(std::make_pair(Point(0,0), Point(m_width,m_height)));
 }
 
 Context::~Context() {
@@ -77,6 +80,8 @@ void Context::Draw()
 
 	Single::Draw();
     m_float->Draw();
+
+	r->SetScissor(false);
 }
 
 Widget *Context::CallTemplate(const char *name, const LuaTable &args)
@@ -100,6 +105,7 @@ Widget *Context::CallTemplate(const char *name)
 	return CallTemplate(name, LuaTable(m_lua->GetLuaState()));
 }
 
+#if 0
 void Context::PushScissor(const Point &pos, const Point &size)
 {
 	if (m_scissorStack.size() > 0) {
@@ -139,22 +145,72 @@ void Context::ApplyScissor()
 	m_renderer->SetScissor(true, flippedPos, vector2f(size.x, size.y));
 }
 
-void Context::PushTransform(const matrix4x4f &transform)
+void Context::PushDrawOffset(const Point &drawOffset)
 {
-	if (m_transformStack.size() > 0)
-		m_transformStack.push(m_transformStack.top() * transform);
+	if (m_drawOffsetStack.size() > 0)
+		m_drawOffsetStack.push(m_drawOffsetStack.top() + drawOffset);
 	else
-		m_transformStack.push(transform);
-	m_renderer->SetTransform(m_transformStack.top());
+		m_drawOffsetStack.push(drawOffset);
+	
+	ApplyDrawOffset();
 }
 
-void Context::PopTransform()
+void Context::PopDrawOffset()
 {
-	m_transformStack.pop();
-	if (m_transformStack.size() > 0)
-		m_renderer->SetTransform(m_transformStack.top());
+	m_drawOffsetStack.pop();
+	if (m_drawOffsetStack.size() > 0)
+		ApplyDrawOffset();
 	else
 		m_renderer->SetTransform(matrix4x4f::Identity());
+}
+
+void Context::ApplyDrawOffset()
+{
+	const Point &currentOffset(m_drawOffsetStack.top());
+	m_renderer->SetTransform(matrix4x4f::Translation(currentOffset.x, currentOffset.y, 0));
+}
+
+void Context::ApplyDrawTransform(const Point &pos)
+{
+	if (m_drawOffsetStack.size() > 0) {
+		const Point &currentOffset(m_drawOffsetStack.top());
+		m_renderer->SetTransform(matrix4x4f::Translation(currentOffset.x + pos.x, currentOffset.y + pos.y, 0));
+	}
+	else
+		m_renderer->SetTransform(matrix4x4f::Translation(pos.x, pos.y, 0));
+}
+#endif
+
+void Context::DrawWidget(Widget *w)
+{
+	const Point &pos = w->GetPosition();
+	const Point &drawOffset = w->GetDrawOffset();
+	const Point &size = w->GetSize();
+
+	m_drawWidgetPosition += pos;
+	m_drawWidgetOffset += drawOffset;
+
+	const std::pair<Point,Point> &currentScissor(m_scissorStack.top());
+	const Point &currentScissorPos(currentScissor.first);
+	const Point &currentScissorSize(currentScissor.second);
+
+	const Point newScissorPos(std::max(m_drawWidgetPosition.x + m_drawWidgetOffset.x, currentScissorPos.x), std::max(m_drawWidgetPosition.y + m_drawWidgetOffset.y, currentScissorPos.y));
+	const Point newScissorSize(
+		Clamp(std::min(newScissorPos.x + size.x, currentScissorPos.x + currentScissorSize.x) - newScissorPos.x, 0, m_width),
+		Clamp(std::min(newScissorPos.y + size.y, currentScissorPos.y + currentScissorSize.y) - newScissorPos.y, 0, m_height));
+
+	m_scissorStack.push(std::make_pair(newScissorPos, newScissorSize));
+
+    m_renderer->SetScissor(true, vector2f(newScissorPos.x, m_height - newScissorPos.y - newScissorSize.y), vector2f(newScissorSize.x, newScissorSize.y));
+
+	m_renderer->SetTransform(matrix4x4f::Translation(m_drawWidgetPosition.x + m_drawWidgetOffset.x, m_drawWidgetPosition.y + m_drawWidgetOffset.y, 0));
+
+	w->Draw();
+
+	m_scissorStack.pop();
+
+	m_drawWidgetPosition -= pos;
+	m_drawWidgetOffset -= drawOffset;
 }
 
 }

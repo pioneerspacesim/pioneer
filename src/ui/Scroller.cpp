@@ -41,7 +41,7 @@ void Scroller::OnScroll(float value)
 {
 	if (!m_innerWidget) return;
 
-	m_innerWidget->SetTransform(matrix4x4f::Translation(0, -float(m_innerWidget->PreferredSize().y-GetSize().y)*value, 0));
+	m_innerWidget->SetDrawOffset(Point(0, -float(m_innerWidget->PreferredSize().y-GetSize().y)*value));
 }
 
 bool Scroller::OnMouseWheel(const MouseWheelEvent &event)

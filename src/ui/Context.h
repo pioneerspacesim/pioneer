@@ -140,20 +140,15 @@ private:
 
 	RefCountedPtr<Text::TextureFont> m_font[FONT_SIZE_MAX];
 
-	// helper stuff for Container::Draw
+	// Container will draw widgets through the Context to correctly accumulate
+	// positions and offsets
 	friend class Container;
+	void DrawWidget(Widget *w);
 
-	// used by Container::Draw to set the keep widget drawing in its bounds
-	// for accumulating scissor regions
-	void PushScissor(const Point &pos, const Point &size);
-	void PopScissor();
-	void ApplyScissor();
+	// support for DrawWidget()
+	Point m_drawWidgetPosition;
+	Point m_drawWidgetOffset;
 	std::stack< std::pair<Point,Point> > m_scissorStack;
-
-	// for accumulating widget transformations
-	void PushTransform(const matrix4x4f &transform);
-	void PopTransform();
-	std::stack<matrix4x4f> m_transformStack;
 };
 
 }
