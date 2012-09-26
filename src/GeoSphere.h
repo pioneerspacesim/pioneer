@@ -20,8 +20,8 @@ class GeoSphere {
 public:
 	GeoSphere(const SystemBody *body);
 	~GeoSphere();
-	void Render(Graphics::Renderer *r, vector3d campos, const float radius, const float scale);
-	inline double GetHeight(vector3d p) {
+	void Render(Graphics::Renderer *r, const vector3d& campos, const float radius, const float scale);
+	inline double GetHeight(const vector3d& p) const {
 		const double h = m_terrain->GetHeight(p);
 		s_vtxGenCount++;
 #ifdef DEBUG
@@ -65,7 +65,7 @@ private:
 	bool m_abort;
 	//////////////////////////////
 
-	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) {
+	inline vector3d GetColor(const vector3d &p, const double height, const vector3d &norm) const {
 		return m_terrain->GetColor(p, height, norm);
 	}
 
