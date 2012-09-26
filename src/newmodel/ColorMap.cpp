@@ -3,6 +3,12 @@
 
 namespace Newmodel {
 
+ColorMap::ColorMap()
+: m_smooth(true)
+{
+
+}
+
 Graphics::Texture *ColorMap::GetTexture()
 {
 	assert(m_texture.Valid());
@@ -27,9 +33,18 @@ void ColorMap::Generate(Graphics::Renderer *r, const Color4ub &a, const Color4ub
 	AddColor(w, b, colors);
 	AddColor(w, c, colors);
 	vector2f size(colors.size()/3, 1.f);
-	Graphics::Texture *texture = r->CreateTexture(Graphics::TextureDescriptor(Graphics::TEXTURE_RGB, size, Graphics::NEAREST_CLAMP));
+	const Graphics::TextureSampleMode sampleMode = m_smooth ? Graphics::LINEAR_CLAMP : Graphics::NEAREST_CLAMP;
+	Graphics::Texture *texture = r->CreateTexture(Graphics::TextureDescriptor(Graphics::TEXTURE_RGB, size, sampleMode));
 	if (!m_texture.Valid()) m_texture.Reset(texture);
 	m_texture->Update(&colors[0], size, Graphics::IMAGE_RGB, Graphics::IMAGE_UNSIGNED_BYTE);
+}
+
+void ColorMap::SetSmooth(bool smooth)
+{
+	m_smooth = smooth;
+	if (m_texture.Valid()) {
+		//update filter
+	}
 }
 
 }

@@ -47,6 +47,7 @@
 #include "ColorMap.h"
 #include "Group.h"
 #include "Label3D.h"
+#include "Pattern.h"
 #include "graphics/Material.h"
 #include <stdexcept>
 
@@ -60,14 +61,6 @@ struct LoadingError : public std::runtime_error {
 };
 
 typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > MaterialContainer;
-
-struct Pattern {
-	std::string name;
-	Graphics::Texture *texture;
-	Pattern() : name(""), texture(0) { }
-	Pattern(const std::string &n, Graphics::Texture *t) : name(n), texture(t) { }
-};
-typedef std::vector<Pattern> PatternContainer;
 
 class NModel : public Model
 {

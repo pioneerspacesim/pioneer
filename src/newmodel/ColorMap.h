@@ -12,12 +12,16 @@ namespace Newmodel {
 
 class ColorMap {
 public:
-	void Generate(Graphics::Renderer *r, const Color4ub &a, const Color4ub &b, const Color4ub &c);
+	ColorMap();
 	Graphics::Texture *GetTexture();
+	void Generate(Graphics::Renderer *r, const Color4ub &a, const Color4ub &b, const Color4ub &c);
+	void SetSmooth(bool);
 
 private:
-	RefCountedPtr<Graphics::Texture> m_texture;
 	void AddColor(int width, const Color4ub &c, std::vector<unsigned char> &out);
+
+	bool m_smooth;
+	RefCountedPtr<Graphics::Texture> m_texture;
 };
 
 }

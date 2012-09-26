@@ -26,6 +26,7 @@
     <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\newmodel\Pattern.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\newmodel\Thruster.h" />
@@ -52,5 +53,6 @@
       <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\newmodel\LoaderDefinitions.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Pattern.h" />
   </ItemGroup>
 </Project>

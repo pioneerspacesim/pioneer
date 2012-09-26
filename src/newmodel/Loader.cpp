@@ -236,19 +236,10 @@ void Loader::FindPatterns(PatternContainer &output)
 		const FileSystem::FileInfo &info = files.Current();
 		if (info.IsFile()) {
 			const std::string &name = info.GetName();
-			if (ends_with(name, ".png")) { //correct type?
-				if(name.compare(0, 7, "pattern") == 0) { //acceptable name?
-					//load as a pattern
-					const std::string &patternPath = FileSystem::JoinPathBelow(m_curPath, name);
-					Graphics::Texture *pat = Graphics::TextureBuilder::Model(patternPath).CreateTexture(m_renderer);
-					output.push_back(Pattern(name, pat));
-				}
-			}
-			//std::cout << files.Current().GetName() << std::endl;
+			if (ends_with(name, ".png") && starts_with(name, "pattern"))
+				output.push_back(Pattern(name, m_curPath, m_renderer));
 		}
 	}
-	//std::cout << m_curPath << std::endl;
-
 }
 
 Node *Loader::LoadMesh(const std::string &filename, NModel *model, const AnimList &animDefs, TagList &modelTags)
@@ -358,7 +349,10 @@ RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 	if (!decMat.Valid()) {
 		Graphics::MaterialDescriptor matDesc;
 		matDesc.textures = 1;
+		matDesc.lighting = true;
 		decMat.Reset(m_renderer->CreateMaterial(matDesc));
+		decMat->specular = Color::BLACK;
+		decMat->diffuse = Color::WHITE;
 	}
 	return decMat;
 }
@@ -561,8 +555,9 @@ void Loader::CreateLight(Group *parent, const matrix4x4f &m)
 	parent->AddChild(bill);
 }
 
-void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const matrix4x4f& accum, bool linear)
+void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const std::string &name, const matrix4x4f& accum)
 {
+	const bool linear = starts_with(name, "thruster_linear");
 	//not supposed to create a new thruster node every time since they contain their geometry
 	//it is fine to create one thruster node and add that to various parents
 	//(it wouldn't really matter, it's a tiny amount of geometry)
@@ -574,6 +569,7 @@ void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const matrix4x4f
 	// XXX YZ swap. To be investigated...
 	Thruster *thruster = new Thruster(m_renderer, linear,
 		vector3f(transform[12], transform[14], transform[13]), transform.Back());
+	thruster->SetName(name);
 	trans->AddChild(thruster);
 	parent->AddChild(trans);
 }
@@ -590,7 +586,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		if (starts_with(nodename, "navlight_")) {
 			CreateLight(parent, m);
 		} else if (starts_with(nodename, "thruster_")) {
-			CreateThruster(parent, m, accum, starts_with(nodename, "thruster_linear"));
+			CreateThruster(parent, m, nodename, accum);
 		} else if (starts_with(nodename, "label_")) {
 			CreateLabel(parent, m);
 		} else if (starts_with(nodename, "tag_")) {

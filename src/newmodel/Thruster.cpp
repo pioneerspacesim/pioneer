@@ -26,8 +26,8 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 
 	vector3f one(0.f, -w, 0.f); //top left
 	vector3f two(0.f,  w, 0.f); //top right
-	vector3f three(0.f,  w, -1.f); //bottom right
-	vector3f four(0.f, -w, -1.f); //bottom left
+	vector3f three(0.f,  w, 1.f); //bottom right
+	vector3f four(0.f, -w, 1.f); //bottom left
 
 	//uv coords
 	const vector2f topLeft(0.f, 1.f);
