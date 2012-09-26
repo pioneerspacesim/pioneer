@@ -18,6 +18,7 @@
 #include "Lang.h"
 #include "LmrModel.h"
 #include "LuaManager.h"
+#include "LuaDev.h"
 #include "LuaRef.h"
 #include "LuaBody.h"
 #include "LuaCargoBody.h"
@@ -209,7 +210,7 @@ static void LuaInit()
 	LuaFormat::Register();
 	LuaSpace::Register();
 	LuaMusic::Register();
-
+	LuaDev::Register();
 	LuaConsole::Register();
 
 	// XXX sigh
