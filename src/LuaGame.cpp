@@ -18,6 +18,27 @@
  *
  */
 
+/*
+ * Function: StartGame
+ *
+ * Start a new game.
+ *
+ * > Game.StartGame(system_path)
+ *
+ * Parameters:
+ *
+ *   system_path - A SystemBody to start at. If this is a starport, the player
+ *                 will begin docked here; otherwise the player will begin in
+ *                 orbit around the specified body.
+ *
+ * Availability:
+ *
+ *   not yet
+ *
+ * Status:
+ *
+ *   experimental
+ */
 static int l_game_start_game(lua_State *l)
 {
 	if (Pi::game) {
