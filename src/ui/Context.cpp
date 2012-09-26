@@ -7,8 +7,8 @@ namespace UI {
 
 Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height) : Single(this),
 	m_renderer(renderer),
-	m_width(float(width)),
-	m_height(float(height)),
+	m_width(width),
+	m_height(height),
 	m_needsLayout(false),
 	m_float(new FloatContainer(this)),
 	m_eventDispatcher(this),

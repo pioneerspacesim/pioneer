@@ -124,8 +124,8 @@ private:
 	virtual Point PreferredSize() { return Point(); }
 
 	Graphics::Renderer *m_renderer;
-	float m_width;
-	float m_height;
+	int m_width;
+	int m_height;
 
 	bool m_needsLayout;
 
