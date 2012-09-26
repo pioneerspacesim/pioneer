@@ -63,6 +63,7 @@ noinst_HEADERS = \
 	LuaComms.h \
 	LuaConsole.h \
 	LuaConstants.h \
+	LuaDev.h \
 	LuaEngine.h \
 	LuaEquipType.h \
 	LuaEvent.h \
@@ -202,6 +203,7 @@ pioneer_SOURCES	= \
 	LuaComms.cpp \
 	LuaConsole.cpp \
 	LuaConstants.cpp \
+	LuaDev.cpp \
 	LuaEngine.cpp \
 	LuaEquipType.cpp \
 	LuaEvent.cpp \
@@ -380,4 +382,3 @@ if BUILD_POSIX
     pioneer_LDADD += posix/libposix.a
     modelviewer_LDADD += posix/libposix.a
 endif
-

@@ -57,6 +57,8 @@ public:
 	// get the frustum. use for projection
 	const Graphics::Frustum &GetFrustum() const { return m_frustum; }
 
+	void SetBodyVisible(bool v) { m_showCameraBody = v; }
+
 protected:
 	bool m_showCameraBody;
 
