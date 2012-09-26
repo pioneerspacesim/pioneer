@@ -16,14 +16,13 @@ ui.templates.FileDialog = function (args)
 	local dialog =
 		ui:Grid(3, 3)
 			:SetCell(1,1,
-				ui:VBox():PackEnd({
-                    ui:Background():SetInnerWidget(ui:Label(title)),
-                    ui:Scroller():SetInnerWidget(list),
-					ui:HBox():PackEnd({
+				ui:VBox(10)
+					:PackEnd(ui:Background():SetInnerWidget(ui:Label(title)))
+					:PackEnd(ui:Scroller():SetInnerWidget(list), { "EXPAND", "FILL" })
+					:PackEnd(ui:HBox():PackEnd({
 						ui:Align("LEFT"):SetInnerWidget(loadButton),
 						ui:Align("RIGHT"):SetInnerWidget(cancelButton),
-					}, { "EXPAND", "FILL" } ),
-				})
+					}, { "EXPAND", "FILL" } ))
 			)
 
     return dialog
