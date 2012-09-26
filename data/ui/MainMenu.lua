@@ -49,7 +49,7 @@ for i = 1,#buttonDefs do
     local label = ui:Label(def[1])
     local button = ui:Button()
     button.onClick:Connect(def[2])
-    buttonSet[i] = ui:HBox():PackEnd({ button, label })
+    buttonSet[i] = ui:HBox(10):PackEnd({ button, label })
 end
 
 local menu = 
