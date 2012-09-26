@@ -1,4 +1,7 @@
-		
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
+
 -- NOTE
 -- info->ship_dock_anim function's last docking anim ship location will be
 -- used to place the ship when docked.
@@ -59,7 +62,7 @@ define_model('spacestation_entry1_stage3', {
 		local b2 = v(100,0,50)
 		local c2 = v(100,0,-50)
 		local d2 = v(-100,0,-50)
-		
+
 		set_material('wall1', .2,.2,.2,1)
 		set_material('wall2', .8,0,.8,1)
 		set_material('text', 0,0,0,1,0.3,0.3,0.3,5)
@@ -70,7 +73,7 @@ define_model('spacestation_entry1_stage3', {
 		--define light
 		set_light(1, 0.000009, v(0,50,0), v(1,0,0))
 		set_light(2, 0.0000000001, v(-99,100,49), v(0,.1,.1))
-		
+
 		if lod > 1 then
 		use_light(1)
 		use_material('wall2')
@@ -456,14 +459,14 @@ define_model('spacestation_entry1_stage1', {
 			use_material('text')
 			cuboid(v(-96.85,-142.5,-22.75),v(2,85,47))--right
 			texture(nil)
-		
+
 	end,
 	dynamic = function(lod)
 		-- adverts
 		if lod > 1 then
 			call_model('ad_cola_1', v(94.7,-100,20), v(0,1,0), v(0,0,-1), 40.0)--'ad_sirius_2'
 			call_model('ad_pioneer_0', v(-94.7,-100,20), v(0,-1,0), v(0,0,-1), 40.0)
-			
+
 		end
 	end
 })
@@ -500,7 +503,7 @@ define_model('spacestation_entry1', {
 		end
 		local door1 = vlerp(pos, v(0,-20,0), v(0,-20,-100))
 		call_model('spacestation_door', door1, v(1,0,0), v(0,1,0), 1.0)
-		
+
 		if (stage >= 1 and stage <= 5) or (stage >= -9 and stage <= -5) then
 			call_model('spacestation_entry1_stage1', v(0,0,0), v(1,0,0), v(0,1,0), 1.0)
 		end
@@ -591,21 +594,21 @@ define_model('mushroom_station_2', {
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
 			local port_pos = { v(-100,100,0), v(100,100,0) }
 			if stage == 2 then
-				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
 			elseif stage == 3 then
-				return { vlerp(t, from, port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+				return { vlerp(t, from, port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
 			elseif stage == 4 or stage == -1 then
-				return { port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min:y(),0), v(1,0,0), v(0,1,0) }
+				return { port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min.y,0), v(1,0,0), v(0,1,0) }
 			elseif stage == -2 then
-				return { vlerp(t, from, port_pos[port] + v(0,1,0) - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+				return { vlerp(t, from, port_pos[port] + v(0,1,0) - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
 			end
 		end,
 		ship_approach_waypoints = function(port, stage)
 			local port_pos = { v(-100,100,0), v(100,100,0) }
 			if stage == 1 then
-				return { v(port_pos[port]:x(), port_pos[port]:y()+10000, port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y+10000, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
-				return { v(port_pos[port]:x(), port_pos[port]:y(), port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
 		end,
 	},
@@ -697,21 +700,21 @@ define_model('mushroom_station_4', {
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
 			local port_pos = { v(-100,100,0), v(100,100,0), v(-100,100,200), v(100,100,200)}
 			if stage == 2 then
-				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
 			elseif stage == 3 then
-				return { vlerp(t, from, port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+				return { vlerp(t, from, port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
 			elseif stage == 4 or stage == -1 then
-				return { port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min:y(),0), v(1,0,0), v(0,1,0) }
+				return { port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min.y,0), v(1,0,0), v(0,1,0) }
 			elseif stage == -2 then
-				return { vlerp(t, from, port_pos[port] + v(0,1,0) - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+				return { vlerp(t, from, port_pos[port] + v(0,1,0) - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
 			end
 		end,
 		ship_approach_waypoints = function(port, stage)
 			local port_pos = { v(-100,100,0), v(100,100,0), v(-100,100,200), v(100,100,200)}
 			if stage == 1 then
-				return { v(port_pos[port]:x(), port_pos[port]:y()+10000, port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y+10000, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
-				return { v(port_pos[port]:x(), port_pos[port]:y(), port_pos[port]:z()), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
 		end,
 	},
@@ -835,7 +838,7 @@ define_model('big_crappy_spacestation', {
 		end,
 	},
 	static = function(lod)
-		
+
 		set_material('body0', 1,1,1,1, 1,1,1,100)
 		use_material('body0')
 		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.033,0,0), v(0,.033,0))
@@ -845,7 +848,7 @@ define_model('big_crappy_spacestation', {
 		lathe(16, v(0,300,0), v(0,-250,0), v(1,0,0), {0,150, 1.0,150})
 		-- front cap
 		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.03,0,0), v(0,0,1))
-		lathe(16, v(0,501,0), v(0,-501,0), v(1,0,0), {0,100, 0,150, 0.1,199, 0.2,149, 0.4,149, 0.45,299,0.55,299, 0.6,149, 0.7,149, 0.75,299, 0.95,299, 1.0,150, 1.0,0.0})		
+		lathe(16, v(0,501,0), v(0,-501,0), v(1,0,0), {0,100, 0,150, 0.1,199, 0.2,149, 0.4,149, 0.45,299,0.55,299, 0.6,149, 0.7,149, 0.75,299, 0.95,299, 1.0,150, 1.0,0.0})
 		-- struts to outer ring
 		texture('ships/4_eagles/tex12.png', v(.5,.5,0), v(.033,0,0), v(0,0,.33))
 		ring(8, v(0,0,290), v(0,0,1500), v(1,0,0), 20)
@@ -992,7 +995,7 @@ define_model('nice_spacestation', {
 		local b = v(100,400,50)
 		local c = v(100,400,-50)
 		local d = v(-100,400,-50)
-		
+
 		local f1 = v(0,400,-400)
 		local f2 = v(400,400,0)
 		local f3 = v(0,400,400)
@@ -1144,7 +1147,7 @@ define_model('hoop_spacestation', {
 		local b = v(100,400,50)
 		local c = v(100,400,-50)
 		local d = v(-100,400,-50)
-		
+
 		local f1 = v(0,400,-400)
 		local f2 = v(400,400,0)
 		local f3 = v(0,400,400)
@@ -1160,7 +1163,7 @@ define_model('hoop_spacestation', {
 		local f2b = v(400,-400,0)
 		local f3b = v(0,-400,400)
 		local f4b = v(-400,-400,0)
-		
+
 		set_material('text', 1.0,0.5,1.0,1)
 		set_material('green_lens',0,1,0,.9,0,0,1,1)
 		set_material('body', .5,.5,.5,1)
@@ -1244,13 +1247,13 @@ define_model('basic_groundstation', {
 			-- 1 - permission granted
 			-- 2 - position docked ship
 			dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2 },
-			undock_anim_stage_duration = { 0 }, 
+			undock_anim_stage_duration = { 0 },
 			-- this stuff doesn't work right with the new docking
 			-- code
 			ship_dock_anim = function(port, stage, t, from, ship_aabb)
 				local port_pos = { v(-100,10,50), v(100,10,50) }
-				if stage == 2 then 
-					return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min:y(),0)), v(1,0,0), v(0,1,0) }
+				if stage == 2 then
+					return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
 				end
 			end,
 		},

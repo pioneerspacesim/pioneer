@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 -- Get the translator function
 local t = Translate:GetTranslator()
 
@@ -23,13 +26,13 @@ local onShipDocked = function (ship, station)
 	end
 	local fee = calculateFee()
 	if ship:GetMoney() < fee then
-		UI.Message(t("This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."):interp({station = station.label,fee = Format.Money(fee)}))
+		Comms.Message(t("This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."):interp({station = station.label,fee = Format.Money(fee)}))
 		ship:SetMoney(0)
 	else
-		UI.Message(t("Welcome aboard {station}. Your docking and fuelling fee of {fee} has been deducted."):interp({station = station.label,fee = Format.Money(fee)}))
+		Comms.Message(t("Welcome aboard {station}. Your docking and fuelling fee of {fee} has been deducted."):interp({station = station.label,fee = Format.Money(fee)}))
 		ship:AddMoney(0 - fee)
 		ship:SetFuelPercent()
 	end
 end
 
-EventQueue.onShipDocked:Connect(onShipDocked)
+Event.Register("onShipDocked", onShipDocked)

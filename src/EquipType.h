@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _EQUIPTYPE_H
 #define _EQUIPTYPE_H
 #include "Color.h"
@@ -135,7 +138,7 @@ struct EquipType {
 	int mass;
 	int pval; // hello angband. used for general 'power' attribute...
 	int econType;
-	int techLevel; /* 0-5 */
+	bool purchasable;
 	float rechargeTime;			// to be eliminated maybe
 };
 

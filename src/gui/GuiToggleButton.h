@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GUITOGGLEBUTTON_H
 #define _GUITOGGLEBUTTON_H
 
@@ -15,10 +18,10 @@ namespace Gui {
 		virtual void OnActivate();
 		void SetPressed(bool s) { m_pressed = s; }
 		bool GetPressed() { return m_pressed != 0; }
-		
+
 		sigc::signal<void, ToggleButton *, bool> onChange;
 	private:
-		int m_pressed;
+		bool m_pressed;
 	};
 }
 

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SHIPCONTROLLER_H
 #define _SHIPCONTROLLER_H
 /*
@@ -59,6 +62,8 @@ public:
 	vector3d GetMouseDir() const { return m_mouseDir; }
 	void SetMouseForRearView(bool enable) { m_invertMouse = enable; }
 	void SetFlightControlState(FlightControlState s);
+	float GetLowThrustPower() const { return m_lowThrustPower; }
+	void SetLowThrustPower(float power);
 
 	//targeting
 	//XXX AI should utilize one or more of these
@@ -85,6 +90,7 @@ private:
 	FlightControlState m_flightControlState;
 	float m_fovY; //for mouse acceleration adjustment
 	float m_joystickDeadzone;
+	float m_lowThrustPower;
 	int m_combatTargetIndex; //for PostLoadFixUp
 	int m_navTargetIndex;
 	int m_setSpeedTargetIndex;

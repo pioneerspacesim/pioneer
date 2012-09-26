@@ -1,19 +1,22 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaNameGen.h"
 #include "LuaObject.h"
 #include "LuaRand.h"
-#include "LuaSBody.h"
+#include "LuaSystemBody.h"
 #include "mtrand.h"
 
-static const std::string defaultMaleFullName("Tom Morton");
-static const std::string defaultFemaleFullName("Thomasina Mortonella");
-static const std::string defaultSurname("Jameson");
-static const std::string defaultBodyName("Planet Rock");
+static const std::string DEFAULT_FULL_NAME_MALE("Tom Morton");
+static const std::string DEFAULT_FULL_NAME_FEMALE("Thomasina Mortonella");
+static const std::string DEFAULT_SURNAME("Jameson");
+static const std::string DEFAULT_BODY_NAME("Planet Rock");
 
 static bool GetNameGenFunc(lua_State *l, const char *func)
 {
 	LUA_DEBUG_START(l);
 
-	lua_getfield(l, LUA_GLOBALSINDEX, "NameGen");
+	lua_getglobal(l, "NameGen");
 	if (lua_isnil(l, -1)) {
 		lua_pop(l, 1);
 		LUA_DEBUG_END(l, 0);
@@ -38,7 +41,7 @@ std::string LuaNameGen::FullName(bool isFemale, MTRand &rng)
 	lua_State *l = m_luaManager->GetLuaState();
 
 	if (!GetNameGenFunc(l, "FullName"))
-		return isFemale ? defaultFemaleFullName : defaultMaleFullName;
+		return isFemale ? DEFAULT_FULL_NAME_FEMALE : DEFAULT_FULL_NAME_MALE;
 
 	lua_pushboolean(l, isFemale);
 	LuaRand::PushToLua(&rng);
@@ -55,7 +58,7 @@ std::string LuaNameGen::Surname(MTRand &rng)
 	lua_State *l = m_luaManager->GetLuaState();
 
 	if (!GetNameGenFunc(l, "Surname"))
-		return defaultSurname;
+		return DEFAULT_SURNAME;
 
 	LuaRand::PushToLua(&rng);
 	pi_lua_protected_call(l, 1, 1);
@@ -66,14 +69,14 @@ std::string LuaNameGen::Surname(MTRand &rng)
 	return surname;
 }
 
-std::string LuaNameGen::BodyName(SBody *body, MTRand &rng)
+std::string LuaNameGen::BodyName(SystemBody *body, MTRand &rng)
 {
 	lua_State *l = m_luaManager->GetLuaState();
 
 	if (!GetNameGenFunc(l, "BodyName"))
-		return defaultBodyName;
+		return DEFAULT_BODY_NAME;
 
-	LuaSBody::PushToLua(body);
+	LuaSystemBody::PushToLua(body);
 	LuaRand::PushToLua(&rng);
 	pi_lua_protected_call(l, 2, 1);
 

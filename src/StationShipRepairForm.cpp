@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "StationShipRepairForm.h"
 #include "Pi.h"
 #include "Player.h"
@@ -55,7 +58,7 @@ void StationShipRepairForm::ShowAll()
 	UpdateLabels();
 }
 
-int StationShipRepairForm::GetRepairCost(float percent)
+int StationShipRepairForm::GetRepairCost(float percent) const
 {
 	return int(Pi::player->GetFlavour()->price * 0.001 * percent);
 }

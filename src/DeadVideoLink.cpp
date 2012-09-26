@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "DeadVideoLink.h"
 #include "Pi.h"
 #include "Lang.h"
@@ -14,7 +17,7 @@ DeadVideoLink::DeadVideoLink(float w, float h) : VideoLink(w, h)
 	m_quad.Reset(new Gui::TexturedQuad(m_texture.Get()));
 
 	UpdateWhiteNoise();
-}	
+}
 
 DeadVideoLink::~DeadVideoLink()
 {

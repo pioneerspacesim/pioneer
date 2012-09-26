@@ -1,15 +1,17 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaSpaceStation.h"
 #include "LuaUtils.h"
 #include "SpaceStation.h"
 #include "LuaChatForm.h"
 #include "LuaConstants.h"
-#include "Pi.h"
 
 static std::map<SpaceStation*,sigc::connection> _station_delete_conns;
 
 static void _delete_station_ads(SpaceStation *s)
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -17,7 +19,7 @@ static void _delete_station_ads(SpaceStation *s)
 	assert(lua_istable(l, -1));
 
 	const std::list<const BBAdvert*> bbadverts = s->GetBBAdverts();
-	for (std::list<const BBAdvert*>::const_iterator i = bbadverts.begin(); i != bbadverts.end(); i++) {
+	for (std::list<const BBAdvert*>::const_iterator i = bbadverts.begin(); i != bbadverts.end(); ++i) {
 		lua_pushinteger(l, (*i)->ref);
 		lua_gettable(l, -2);
         if (lua_isnil(l, -1)) {
@@ -117,13 +119,11 @@ static int l_spacestation_add_advert(lua_State *l)
 	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
 	std::string description = luaL_checkstring(l, 2);
 
-	if (!lua_isfunction(l, 3))
-		luaL_typerror(l, 3, lua_typename(l, LUA_TFUNCTION));
-	
+	luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function
+
 	bool have_delete = false;
 	if (lua_gettop(l) >= 4) {
-		if (!lua_isnil(l, 4) && !lua_isfunction(l, 4))
-			luaL_typerror(l, 4, lua_typename(l, LUA_TFUNCTION));
+		luaL_checktype(l, 4, LUA_TFUNCTION); // any type of function
 		have_delete = true;
 	}
 
@@ -160,7 +160,7 @@ static int l_spacestation_add_advert(lua_State *l)
 
 	lua_pushinteger(l, ref);
 	return 1;
-} 
+}
 
 /*
  * Method: RemoveAdvert
@@ -199,7 +199,7 @@ static int l_spacestation_remove_advert(lua_State *l)
 		lua_pop(l, 1);
 		return 0;
 	}
-	
+
 	lua_pushinteger(l, ref);
 	lua_gettable(l, -2);
 	if (lua_isnil(l, -1)) {
@@ -226,7 +226,7 @@ static int l_spacestation_remove_advert(lua_State *l)
 	LUA_DEBUG_END(l,0);
 
 	return 0;
-} 
+}
 
 /*
  * Method: GetEquipmentPrice
@@ -260,9 +260,24 @@ static int l_spacestation_get_equipment_price(lua_State *l)
 	return 1;
 }
 
-static bool promotion_test(DeleteEmitter *o)
+/*
+ * Attribute: numDocks
+ *
+ * The number of docking ports a spacestation has.
+ *
+ * Availability:
+ *
+ *   alpha 21
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_spacestation_attr_num_docks(lua_State *l)
 {
-	return dynamic_cast<SpaceStation*>(o);
+	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
+	lua_pushinteger(l, s->GetDockingPortCount());
+	return 1;
 }
 
 template <> const char *LuaObject<SpaceStation>::s_type = "SpaceStation";
@@ -271,14 +286,21 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 {
 	const char *l_parent = "Body";
 
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "AddAdvert",    l_spacestation_add_advert    },
 		{ "RemoveAdvert", l_spacestation_remove_advert },
 
 		{ "GetEquipmentPrice", l_spacestation_get_equipment_price },
+
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, NULL, NULL);
-	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
+	static luaL_Reg l_attrs[] = {
+		{ "numDocks", l_spacestation_attr_num_docks },
+
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, NULL);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<SpaceStation>::DynamicCastPromotionTest);
 }

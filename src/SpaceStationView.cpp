@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
 #include "Pi.h"
@@ -10,7 +13,7 @@
 SpaceStationView::SpaceStationView(): View()
 {
 	Gui::Label *l = new Gui::Label(Lang::COMMS_LINK);
-	l->Color(1,.7,0);
+	l->Color(1,.7f,0);
 	m_rightRegion2->Add(l, 10, 0);
 
 	SetTransparency(false);
@@ -22,7 +25,7 @@ SpaceStationView::SpaceStationView(): View()
 	m_statusBox = new Gui::Fixed(300, 300);
 	Add(m_statusBox, 10, 350);
 
-	const float YSEP = floor(Gui::Screen::GetFontHeight() * 1.5f);
+	const float YSEP = Gui::Screen::GetFontHeight() * 1.2f;
 
 	m_statusBox->Add(new Gui::Label(std::string("#007")+std::string(Lang::CASH)), 0, 0);
 	m_statusBox->Add(new Gui::Label(std::string("#007")+std::string(Lang::LEGAL_STATUS)), 0, 2*YSEP);
@@ -37,19 +40,19 @@ SpaceStationView::SpaceStationView(): View()
 
 	m_cargoSpaceUsed = new Gui::Label("");
 	m_statusBox->Add(m_cargoSpaceUsed, 130, 5*YSEP);
-	
+
 	m_cargoSpaceFree = new Gui::Label("");
 	m_statusBox->Add(m_cargoSpaceFree, 210, 5*YSEP);
-	
+
 	m_equipmentMass = new Gui::Label("");
 	m_statusBox->Add(m_equipmentMass, 130, 6*YSEP);
-	
+
 	m_cabinsUsed = new Gui::Label("");
 	m_statusBox->Add(m_cabinsUsed, 130, 7*YSEP);
-	
+
 	m_cabinsFree = new Gui::Label("");
 	m_statusBox->Add(m_cabinsFree, 210, 7*YSEP);
-	
+
 	m_legalstatus = new Gui::Label(Lang::CLEAN);
 	m_statusBox->Add(m_legalstatus, 210, 2*YSEP);
 
@@ -71,7 +74,7 @@ SpaceStationView::SpaceStationView(): View()
 
 
 	m_videoLink = 0;
-	
+
 	m_undockConnection = Pi::player->onUndock.connect(sigc::mem_fun(m_formStack, &Gui::Stack::Clear));
 }
 
@@ -88,19 +91,19 @@ void SpaceStationView::Update()
 	char buf[64];
 	m_money->SetText(format_money(Pi::player->GetMoney()));
 
-	const shipstats_t *stats = Pi::player->CalcStats();
-	snprintf(buf, sizeof(buf), "%dt", stats->used_capacity - stats->used_cargo);
+	const shipstats_t &stats = Pi::player->GetStats();
+	snprintf(buf, sizeof(buf), "%dt", stats.used_capacity - stats.used_cargo);
 	m_equipmentMass->SetText(buf);
-	
-	snprintf(buf, sizeof(buf), "%dt", stats->used_cargo);
+
+	snprintf(buf, sizeof(buf), "%dt", stats.used_cargo);
 	m_cargoSpaceUsed->SetText(buf);
-		
-	snprintf(buf, sizeof(buf), "%dt", stats->free_capacity);
+
+	snprintf(buf, sizeof(buf), "%dt", stats.free_capacity);
 	m_cargoSpaceFree->SetText(buf);
 
 	snprintf(buf, sizeof(buf), "%d", Pi::player->m_equipment.Count(Equip::SLOT_CABIN, Equip::PASSENGER_CABIN));
 	m_cabinsUsed->SetText(buf);
-		
+
 	snprintf(buf, sizeof(buf), "%d", Pi::player->m_equipment.Count(Equip::SLOT_CABIN, Equip::UNOCCUPIED_CABIN));
 	m_cabinsFree->SetText(buf);
 
@@ -108,7 +111,7 @@ void SpaceStationView::Update()
 		m_backButtonBox->Show();
 	else
 		m_backButtonBox->Hide();
-	
+
 	if (static_cast<Form*>(m_formStack->Top())->GetType() == Form::BLANK)
 		m_statusBox->Hide();
 	else
@@ -135,7 +138,7 @@ void SpaceStationView::RefreshForForm(Form *f)
 			FaceForm *form = static_cast<FaceForm*>(f);
 
 			if (!form->GetFaceSeed())
-				form->SetFaceSeed(Pi::player->GetDockedWith()->GetSBody()->seed);
+				form->SetFaceSeed(Pi::player->GetDockedWith()->GetSystemBody()->seed);
 
 			if (!m_videoLink || form->GetFaceFlags() != m_videoLink->GetFlags() ||
 				form->GetFaceSeed() != m_videoLink->GetSeed()) {

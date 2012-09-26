@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _MUSIC_H
 #define _MUSIC_H
 
@@ -28,9 +31,9 @@ namespace Sound
 		void Stop();
 		void FadeOut(const float fadeDelta);
 		void Update();
-		const std::string GetCurrentSongName();
-		const std::vector<std::string> GetSongList();
-		bool IsPlaying();
+		const std::string GetCurrentSongName() const;
+		const std::vector<std::string> GetSongList() const;
+		bool IsPlaying() const;
 		void SetEnabled(bool);
 	private:
 		float m_volume;

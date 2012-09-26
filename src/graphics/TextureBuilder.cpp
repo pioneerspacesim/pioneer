@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "TextureBuilder.h"
 #include "FileSystem.h"
 #include <SDL_image.h>
@@ -5,20 +8,18 @@
 
 namespace Graphics {
 
-TextureBuilder::TextureBuilder(SDL_Surface *surface, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA) :
-    m_surface(surface), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_prepared(false)
+TextureBuilder::TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures) :
+    m_surface(surface), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_prepared(false)
 {
 }
 
-TextureBuilder::TextureBuilder(const std::string &filename, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA) :
-    m_surface(0), m_filename(filename), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_prepared(false)
+TextureBuilder::TextureBuilder(const std::string &filename, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures) :
+    m_filename(filename), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_prepared(false)
 {
 }
 
 TextureBuilder::~TextureBuilder()
 {
-	if (m_surface)
-		SDL_FreeSurface(m_surface);
 }
 
 // RGBA and RGBpixel format for converting textures
@@ -60,7 +61,7 @@ static inline bool GetTargetFormat(const SDL_PixelFormat *sourcePixelFormat, Tex
 		*targetPixelFormat = &pixelFormatRGBA;
 		return true;
 	}
-	
+
 	if (!forceRGBA && sourcePixelFormat->BytesPerPixel == 3) {
 		*targetTextureFormat = TEXTURE_RGB;
 		*targetPixelFormat = &pixelFormatRGB;
@@ -87,7 +88,7 @@ void TextureBuilder::PrepareSurface()
 {
 	if (m_prepared) return;
 
-	if (!m_surface && m_filename.length() > 0)
+	if (!m_surface && !m_filename.empty())
 		LoadSurface();
 
 	TextureFormat targetTextureFormat;
@@ -95,9 +96,8 @@ void TextureBuilder::PrepareSurface()
 	bool needConvert = !GetTargetFormat(m_surface->format, &targetTextureFormat, &targetPixelFormat, m_forceRGBA);
 
 	if (needConvert) {
-		SDL_Surface *s = SDL_ConvertSurface(m_surface, targetPixelFormat, SDL_SWSURFACE);
-		SDL_FreeSurface(m_surface);
-		m_surface = s;
+		SDL_Surface *s = SDL_ConvertSurface(m_surface.Get(), targetPixelFormat, SDL_SWSURFACE);
+		m_surface = SDLSurfacePtr::WrapNew(s);
 	}
 
 	unsigned int virtualWidth, actualWidth, virtualHeight, actualHeight;
@@ -112,16 +112,15 @@ void TextureBuilder::PrepareSurface()
 			SDL_Surface *s = SDL_CreateRGBSurface(SDL_SWSURFACE, actualWidth, actualHeight, targetPixelFormat->BitsPerPixel,
 				targetPixelFormat->Rmask, targetPixelFormat->Gmask, targetPixelFormat->Bmask, targetPixelFormat->Amask);
 
-			SDL_SetAlpha(m_surface, 0, 0);
+			SDL_SetAlpha(m_surface.Get(), 0, 0);
 			SDL_SetAlpha(s, 0, 0);
-			SDL_BlitSurface(m_surface, 0, s, 0);
+			SDL_BlitSurface(m_surface.Get(), 0, s, 0);
 
-			SDL_FreeSurface(m_surface);
-			m_surface = s;
+			m_surface = SDLSurfacePtr::WrapNew(s);
 		}
 	}
 
-	else if (m_filename.length() > 0) {
+	else if (! m_filename.empty()) {
 		// power-of-to check
 		unsigned long width = ceil_pow2(m_surface->w);
 		unsigned long height = ceil_pow2(m_surface->h);
@@ -134,30 +133,20 @@ void TextureBuilder::PrepareSurface()
 		targetTextureFormat,
 		vector2f(actualWidth,actualHeight),
 		vector2f(float(virtualWidth)/float(actualWidth),float(virtualHeight)/float(actualHeight)),
-		m_sampleMode, m_generateMipmaps);
-	
+		m_sampleMode, m_generateMipmaps, m_compressTextures);
+
 	m_prepared = true;
 }
-
-static const std::string unknownTextureFilename("textures/unknown.png");
 
 void TextureBuilder::LoadSurface()
 {
 	assert(!m_surface);
 
-	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(m_filename);
-	if (!filedata) {
-		fprintf(stderr, "TextureBuilder::CreateFromFile: %s: could not read file\n", m_filename.c_str());
-		return;
-	}
+	SDLSurfacePtr s = LoadSurfaceFromFile(m_filename);
+	if (! s) { s = LoadSurfaceFromFile("textures/unknown.png"); }
 
-	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
-	m_surface = IMG_Load_RW(datastream, 1);
-	if (!m_surface) {
-		fprintf(stderr, "TextureBuilder::CreateFromFile: %s: %s\n", m_filename.c_str(), IMG_GetError());
-		//m_surface = IMG_Load(unknownTextureFilename.c_str());
-		return;
-	}
+	// XXX if we can't load the fallback texture, then what?
+	m_surface = s;
 }
 
 void TextureBuilder::UpdateTexture(Texture *texture)

@@ -1,3 +1,6 @@
+dnl Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+dnl Licensed under the terms of the GPL v3. See COPYING.txt for details
+
 dnl Process this file with autoconf to create configure.
 
 dnl ###########################################################################
@@ -5,8 +8,38 @@ dnl Setup
 dnl ###########################################################################
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [alpha-21-dev], [pioneer@pioneerspacesim.net])
+AC_INIT([pioneer], [alpha-27-dev], [pioneer-dev@pioneerspacesim.net])
 dnl AC_CONFIG_HEADERS([config.h])
+
+AC_DEFUN([MXE_SETUP], [
+    AC_ARG_WITH([mxe], AS_HELP_STRING([--with-mxe], [Path to MXE MinGW environment for cross-building]), [MXE_BASE=$withval], [MXE_BASE=])
+	MXE_CROSS=
+	MXE_CMAKE_TOOLCHAIN_FILE=""
+	if test "x$MXE_BASE" != "x" ; then
+		if test "x$host" != "x" ; then
+			AC_MSG_ERROR([Cannot specify --host with --with-mxe])
+		fi
+		AC_MSG_CHECKING([for MXE])
+		MXE_CMAKE_TOOLCHAIN_FILE="$MXE_BASE/usr/i686-pc-mingw32/share/cmake/mxe-conf.cmake"
+		if ! test -f "$MXE_CMAKE_TOOLCHAIN_FILE" ; then
+			AC_MSG_RESULT([no])
+			AC_MSG_ERROR([MXE not found in $MXE_BASE])
+		fi
+		AC_MSG_RESULT([$MXE_BASE])
+		MXE_CROSS=yes
+		MXE_PATH="$MXE_BASE/usr/bin"
+		PATH="$MXE_PATH:$PATH"
+		host_alias=i686-pc-mingw32
+		ac_tool_prefix=$host_alias-
+		cross_compiling=yes
+	fi
+	AC_SUBST(MXE_BASE)
+	AC_SUBST(MXE_CROSS)
+	AC_SUBST(MXE_PATH)
+	AC_SUBST(MXE_CMAKE_TOOLCHAIN_FILE)
+])
+
+MXE_SETUP
 
 AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz dist-zip])
 
@@ -44,11 +77,11 @@ dnl Add a flag, if supported by the compiler or preprocessor
 dnl Assumes that -Werror works
 AC_DEFUN([_PIONEER_COMPILER_FLAG], dnl Language, prefix (EXTRA), flags variable 'foo' (EXTRA_fooFLAGS), flag, $CC/$CXX/$CPP/similar, if yes, if no
     [AC_LANG_PUSH([$1])
-     saved_flags="$][$2][_][$3][FLAGS"
-     ][$2][FLAGS="$][$2][_][$3][FLAGS $4 -Werror $][$3][FLAGS"
+     saved_flags="$][$3][FLAGS"
+     ][$3][FLAGS="$saved_flags -Werror $4"
      AC_MSG_CHECKING([to see if $5 supports $4])
      AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])], [][$2][_][$3][FLAGS="$][$2][_][$3][FLAGS $4"; AC_MSG_RESULT([yes])]m4_default([; $6], []), [AC_MSG_RESULT([no])]m4_default([; $7], []))
-     ][$2][_][$3][FLAGS="$saved_flags $4"
+     ][$3][FLAGS="$saved_flags"
      AC_LANG_POP([$1])
     ])
 
@@ -87,7 +120,6 @@ AC_ARG_WITH([extra-warnings], AS_HELP_STRING([--without-extra-warnings], [Disabl
 if test "x$with_extra_warnings" != xno; then
   for warn_opt in \
 -Wformat				\
--Wformat-security			\
 -Wstrict-aliasing=2			\
 -Wmissing-format-attribute		\
 -Wmissing-noreturn			\
@@ -99,6 +131,10 @@ if test "x$with_extra_warnings" != xno; then
   ; do
     PIONEER_WARN_C_CXX_FLAG([$warn_opt])
   done
+  dnl -Wformat-security requires -Wformat first, so it needs a slightly customised test
+  dnl we assume that if this test passes then the test (above) for -Wformat passed
+  dnl and therefore -Wformat should already be in WARN_CXXFLAGS
+  _PIONEER_COMPILER_FLAG([C], [WARN], [C], [-Wformat -Wformat-security], [$CC/$CXX], [WARN_CXXFLAGS="$WARN_CXXFLAGS -Wformat-security"])
   for warn_opt in \
 -Wno-format-zero-length			\
 -Werror-implicit-function-declaration	\
@@ -141,28 +177,21 @@ AC_DEFUN([PIONEER_CHECK_LIB],
 	])
     ])
 
+AC_ARG_WITH([thirdparty], AS_HELP_STRING([--with-thirdparty], [Location of pioneer-thirdparty repository]), [
+	AC_MSG_NOTICE([using pioneer-thirdparty repository in $withval])
+    if test "x$MXE_CROSS" = "xyes" ; then
+	    PKG_CONFIG_PATH_i686_pc_mingw32="$withval/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
+	    export PKG_CONFIG_PATH_i686_pc_mingw32
+    else
+	    PKG_CONFIG_PATH="$withval/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
+	    export PKG_CONFIG_PATH
+    fi
+	CFLAGS="-I$withval/usr/include"
+	LIBS="-L$withval/usr/lib -Wl,-rpath=$withval/usr/lib"
+])
+
 dnl Check for sigc++
 PKG_CHECK_MODULES([SIGC], [sigc++-2.0])
-
-dnl Check for OpenGL libs
-case "$host" in
-  i686-pc-mingw32)
-	AC_SUBST([GL_CFLAGS], [])
-	AC_SUBST([GL_LIBS], [-lopengl32])
-	AC_SUBST([GLU_CFLAGS], [])
-	AC_SUBST([GLU_LIBS], [-lglu32])
-	AC_SUBST([GLEW_CFLAGS], [-DGLEW_BUILD])
-	AC_SUBST([GLEW_LIBS], [-lglew32s])
-	;;
-  x86_64-pc-mingw64)
-	AC_MSG_ERROR([x86-64 on MINGW is not yet supported])
-	;;
-  *)
-	PIONEER_CHECK_LIB([GL],   [gl],   [GL],   [glBegin])
-	PIONEER_CHECK_LIB([GLU],  [glu],  [GLU],  [gluSphere])
-	PIONEER_CHECK_LIB([GLEW], [glew], [GLEW], [glewInit])
-	;;
-esac
 
 dnl Check for SDL
 PKG_CHECK_MODULES([SDL], [sdl SDL_image])
@@ -173,10 +202,13 @@ PKG_CHECK_MODULES([FREETYPE], [freetype2])
 dnl Check for libvorbis
 PKG_CHECK_MODULES([VORBIS], [vorbisfile])
 
+dnl Check for libpng
+PKG_CHECK_MODULES([PNG], [libpng])
+
 dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
 if test "$with_external_liblua" = yes; then
-  PKG_CHECK_MODULES([LUA], [lua5.1], [HAVE_LUA=yes], [AC_MSG_ERROR([External liblua was requested but is not available])])
+  PKG_CHECK_MODULES([LUA], [lua >= 5.2], [HAVE_LUA=yes], [AC_MSG_ERROR([External liblua was requested but is not available])])
 fi
 AM_CONDITIONAL([HAVE_LUA], [test "$HAVE_LUA" = yes])
 case "$host" in
@@ -186,8 +218,19 @@ case "$host" in
 	LUA_CFLAGS="$LUA_CFLAGS -DLUA_USE_POSIX"
 esac
 
-dnl Check for libpng
-PKG_CHECK_MODULES([PNG], [libpng])
+dnl Check for OpenGL libs
+if test "x$MXE_CROSS" = "xyes" ; then
+	AC_SUBST([GL_CFLAGS], [])
+	AC_SUBST([GL_LIBS], [-lopengl32])
+	AC_SUBST([GLU_CFLAGS], [])
+	AC_SUBST([GLU_LIBS], [-lglu32])
+	AC_SUBST([GLEW_CFLAGS], [-DGLEW_BUILD])
+	AC_SUBST([GLEW_LIBS], [-lglew32s])
+else
+	PIONEER_CHECK_LIB([GL],   [gl],   [GL],   [glBegin])
+	PIONEER_CHECK_LIB([GLU],  [glu],  [GLU],  [gluSphere])
+	PIONEER_CHECK_LIB([GLEW], [glew], [GLEW], [glewInit])
+fi
 
 dnl ###########################################################################
 dnl Platform selection
@@ -242,5 +285,23 @@ AC_SUBST([WARN_CFLAGS])
 AC_SUBST([WARN_CXXFLAGS])
 AC_SUBST([WARN_CPPFLAGS])
 
-AC_CONFIG_FILES([Makefile data/Makefile src/Makefile src/collider/Makefile src/gui/Makefile src/graphics/Makefile src/terrain/Makefile contrib/Makefile contrib/lua/Makefile contrib/oolua/Makefile osx/Makefile win32/Makefile win32/src/Makefile])
+AC_CONFIG_FILES([
+	Makefile
+	data/Makefile
+	src/Makefile
+	src/collider/Makefile
+	src/gui/Makefile
+	src/graphics/Makefile
+	src/galaxy/Makefile
+	src/terrain/Makefile
+	src/text/Makefile
+	src/win32/Makefile
+	src/posix/Makefile
+	contrib/Makefile
+	contrib/lua/Makefile
+	contrib/miniz/Makefile
+	contrib/jenkins/Makefile
+	contrib/vcacheopt/Makefile
+	osx/Makefile
+	win32/Makefile])
 AC_OUTPUT

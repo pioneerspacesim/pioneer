@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Ship.h"
 #include "ShipAICmd.h"
@@ -9,8 +12,8 @@
 #include "SpaceStation.h"
 #include "Space.h"
 #include "LuaConstants.h"
+#include "LuaEvent.h"
 #include "KeyBindings.h"
-
 
 
 void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
@@ -23,7 +26,7 @@ void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
 	GetRotMatrix(rot);
 	vector3d angVel = desiredAngVel - rot.InverseOf() * GetAngVelocity();
 
-	vector3d thrust; 
+	vector3d thrust;
 	for (int axis=0; axis<3; axis++) {
 		if (angAccel * softTimeStep >= fabs(angVel[axis])) {
 			thrust[axis] = angVel[axis] / (softTimeStep * angAccel);
@@ -87,7 +90,7 @@ bool Ship::AITimeStep(float timeStep)
 	if (m_curAICmd->TimeStepUpdate()) {
 		AIClearInstructions();
 //		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
-		Pi::luaOnAICompleted->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAIError", AIMessage()));
+		LuaEvent::Queue("onAICompleted", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipAIError", AIMessage()));
 		return true;
 	}
 	else return false;
@@ -126,7 +129,7 @@ void Ship::AIKill(Ship *target)
 }
 
 /*
-void Ship::AIJourney(SBodyPath &dest)
+void Ship::AIJourney(SystemBodyPath &dest)
 {
 	AIClearInstructions();
 //	m_curAICmd = new AICmdJourney(this, dest);
@@ -303,11 +306,11 @@ bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
 	if (maxAccel <= 0.0) return 0.0;
 	double frameAccel = maxAccel * timeStep;
-	
+
 	matrix4x4d rot; GetRotMatrix(rot);
 	if (dir.Dot(vector3d(rot[8], rot[9], rot[10])) > -0.999999)
 		{ AIFaceDirection(dir); return false; }
-	
+
 	vector3d uphead = (updir * rot).Normalized();		// create desired object-space updir
 	vector3d dav(0.0, 0.0, 0.0);			// desired angular velocity
 	double ang = 0.0;
@@ -347,7 +350,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
 
 	double ang = 0.0;
-	if (head.z > -0.99999999)			
+	if (head.z > -0.99999999)
 	{
 		ang = acos (Clamp(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
 		double iangvel = av + sqrt (2.0 * maxAccel * ang);	// ideal angvel at current time
@@ -417,7 +420,7 @@ double Ship::AITravelTime(const vector3d &reldir, double targdist, const vector3
 	// time to reduce speed to zero after target reached:
 	time3 = -targspeed / raccel;
 	dist += 0.5 * time3 * -targspeed;
-	
+
 	// now time to cover distance between zero-vel points
 	// midpoint = intercept of two gradients
 	double m = dist*raccel / (faccel+raccel);

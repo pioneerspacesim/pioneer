@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _VECTOR3_H
 #define _VECTOR3_H
 
@@ -21,8 +24,8 @@ public:
 	// only float and double versions are possible.
 	vector3();
 	vector3(const vector3<T> &v);
-	vector3(const T  vals[3]);
-	vector3(T val);
+	explicit vector3(const T  vals[3]);
+	explicit vector3(T val);
 	vector3(T _x, T _y, T _z);
 
 	// disallow implicit conversion between floating point sizes

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SHIPCPANEL_H
 #define _SHIPCPANEL_H
 
@@ -29,6 +32,16 @@ public:
 	void TimeStepUpdate(float step);
 
 	void Save(Serializer::Writer &wr);
+
+	enum OverlayTextPos {
+		OVERLAY_TOP_LEFT,
+		OVERLAY_TOP_RIGHT,
+		OVERLAY_BOTTOM_LEFT,
+		OVERLAY_BOTTOM_RIGHT
+	};
+	void SetOverlayText(OverlayTextPos pos, const std::string &text);
+	void SetOverlayToolTip(OverlayTextPos pos, const std::string &text);
+	void ClearOverlay();
 
 private:
 	void InitObject();
@@ -66,6 +79,8 @@ private:
 	Gui::ImageRadioButton *m_timeAccelButtons[6];
 	Gui::Widget *m_mapViewButtons[4];
 	Gui::Image *m_alertLights[3];
+
+	Gui::Label *m_overlay[4];
 };
 
 #endif /* _SHIP_CPANEL_H */

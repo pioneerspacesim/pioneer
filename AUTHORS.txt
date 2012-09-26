@@ -1,103 +1,108 @@
-The Pioneer team are (9 March 2012, alpha 20):
+Authors
+=======
 
-Project leads: Tom Morton, John Jordan
+As of 14 September 2012 (alpha 26), the Pioneer Developers are:
 
-Maintainer: Robert Norris
+* Aaron Lewis
+* Aaron Senese
+* Ae
+* Alessandro Giachi
+* Andrew Copland
+* Asier Basagoiti
+* Benamucki
+* Benjamin Hodgetts
+* Blaga Cosmin
+* Brian Ronald
+* C de Craen
+* Chris Dennett
+* Craig Thomson
+* Dan Bennett
+* Darren Salt
+* Enric Morales
+* Fran Morton
+* Gareth Allnutt
+* Gernot
+* John Bartholomew
+* John Jordan
+* Kimmo Kotajärvi
+* Konrad Mruk
+* Krzysztof Niedźwiecki
+* Lee Reilly
+* Lars Westerhoff
+* Leonardo Manna
+* Marcel Tulloh
+* Marcus de Roos
+* Michele Botticelli
+* Nic
+* Paul Mahol
+* Paul Roberts
+* Peter Kurucz
+* Phil Howlett
+* Piotr Gredka
+* Robert Norris
+* Sean Bailey
+* Simon Chopin
+* Steve Tyler
+* Sukender (Benoit Neil)
+* Taiki Kim
+* Thierry Dupré
+* Tim Jones
+* Tom Morton
+* Ulf Pettersson
+* Uncle Bob
+* Vincent Teerling
 
-Testing and bug triage: Brian Ronald
+Licensing
+=========
 
-Programming:
-  John Jordan
-  Tom Morton
-  Dan Bennett
-  Robert Norris
-  Phil Howlett
-  Darren Salt
-  Kimmo Kotajärvi
-  Andrew Copland
-  Paul Mahol
-  John Bartholomew
-  Benjamin Hodgetts
-  Sean Bailey
-  Brian Ronald
-  Taiki Kim
-  Craig Thomson
-  Ae
-  Benamucki
+Copyright © 2008-2012 Pioneer Developers
 
-Art:
-  Gernot
-  John Jordan
-  Tom Morton
-  Dan Bennett
-  Brian Ronald
-  Tim Jones
-  Ulf Pettersson
-  Konrad Mruk
-  Marcel Tulloh
-  Michele Botticelli
-  Gareth Allnutt
-  C de Craen
+Pioneer's core code and extension modules are licensed under the terms of the
+GNU General Public License version 3. See licenses/GPL-3.txt for details.
 
-Music:
-  Dan Bennett
-  Aaron Lewis
-  Leonardo Manna
-
-Translations:
-  Brian Ronald
-  Piotr Gredka
-  Blaga Cosmin
-  Vincent Teerling
-  Alessandro Giachi
-  Paul Mahol
-  Thierry Dupré
-  Asier Basagoiti
-  Sukender (Benoit Neil)
-
-Thanks to those that have moved on (we hope to see you back!)
-
-Programming:
-  Nic
-  Paul Roberts
-
-Art:
-  Peter Kurucz
-  Fran Morton
-  Steve Tyler
-  Uncle Bob
-
-
-Thanks also to the ever-enthusiastic inhabitants of the SpaceSimCentral
-forums. You drive us crazy, but we still love you :)
-
+Pioneer's art, music and other assets (including Lua model scripts) are
+licensed under the terms of the Creative Commons Attribution-ShareAlike 3.0
+Unported License. See licenses/CC-BY-SA-3.0.txt for details.
 
 Pioneer includes the following third-party software:
 
-  Lua 5.1.4 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
-  Copyright (C) 1994-2008 Lua.org, PUC-Rio
-  Licensed under the Expat licence (see lua.COPYING.txt)
+  Lua 5.2.1 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
+  Copyright (C) 1994-2012 Lua.org, PUC-Rio
+  Licensed under the MIT licence (see contrib/lua/lua.h)
 
-  OOLua by Liam Devine
-  Copyright (C) 2009-2010 Liam Devine
-  Licensed under the Expat licence (see lua.COPYING.txt)
+  miniz by Rich Geldreich, April 2012
+  Public domain (see contrib/miniz/miniz.h)
+
+  lookup3.c, by Bob Jenkins, May 2006,
+  Public domain (see contrib/jenkins/lookup3.c)
+
+  vcacheopt.h
+  Copyright (C) 2009, Michael Georgoulpoulos
+  Licensed under the MIT licence (see contrib/vcacheopt/vcacheopt.h)
 
   Cousine font
   Copyright (C) 2010 Google, Inc
-  Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
+  Licensed under the SIL Open Font Licence v1.1 (see licenses/SIL-1.1.txt)
 
   Titillium Text font
   Copyright (C) 2007-2009 Academia di Belle Arte di Urbino - Campivisivi
-  Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
+  Licensed under the SIL Open Font Licence v1.1 (see licenses/SIL-1.1.txt)
 
   Inconsolata font
   Copyright (C) 2006, Raph Levien
-  Licensed under the SIL Open Font Licence v1.1 (see fonts.COPYING.txt)
+  Licensed under the SIL Open Font Licence v1.1 (see licenses/SIL-1.1.txt)
 
+Acknowledgements
+================
 
-Pioneer also makes use of these fine projects. Thanks a lot!
+The Pioneer Developers would like to acknowledge the following fine products
+and services, without which Pioneer would not be possible:
 
-  SDL
-  FreeType
-  Ogg Vorbis
-  MinGW
+  SDL           http://www.libsdl.org/
+  FreeType      http://freetype.org/
+  Ogg Vorbis    http://vorbis.com/
+  libsigc++     http://libsigc.sourceforge.net/
+  MXE           http://mxe.cc/
+
+  GitHub        https://github.com/
+  SourceForge   https://sourceforge.net/

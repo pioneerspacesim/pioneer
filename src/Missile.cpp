@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Missile.h"
 #include "Serializer.h"
 #include "Space.h"
@@ -6,6 +9,7 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "Game.h"
+#include "LuaEvent.h"
 
 Missile::Missile(ShipType::Type type, Body *owner, Body *target): Ship(type)
 {
@@ -57,7 +61,7 @@ void Missile::Load(Serializer::Reader &rd, Space *space)
 void Missile::TimeStepUpdate(const float timeStep)
 {
 	Ship::TimeStepUpdate(timeStep);
-	
+
 	if (!m_target || !m_owner) {
 		Explode();
 	} else {
@@ -99,7 +103,7 @@ void Missile::Explode()
 			// linear damage decay with distance
 			(*i)->OnDamage(m_owner, kgDamage * (damageRadius - dist) / damageRadius);
 			if ((*i)->IsType(Object::SHIP))
-				Pi::luaOnShipHit->Queue(dynamic_cast<Ship*>(*i), m_owner);
+				LuaEvent::Queue("onShipHit", dynamic_cast<Ship*>(*i), m_owner);
 		}
 	}
 

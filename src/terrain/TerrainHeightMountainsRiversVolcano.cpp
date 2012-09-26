@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Terrain.h"
 #include "TerrainNoise.h"
 #include "TerrainFeature.h"
@@ -9,7 +12,7 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::GetHeightFractalName() const { return "MountainsRiversVolcano"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
 	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7));
 	double height = m_maxHeightInMeters*0.6;
@@ -46,11 +49,11 @@ double TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::GetHeight(cons
 
 	double n = continents - (GetFracDef(0).amplitude*m_sealevel);
 
-	
+
 	if (n < 0.01) n += megavolcano_function(GetFracDef(7), p) * n * 800.0f;
 	else n += megavolcano_function(GetFracDef(7), p) * 8.0f;
 
-	//n = (n > 0.0 ? n : 0.0); 
+	//n = (n > 0.0 ? n : 0.0);
 	//n = n*.1f;
 
 	// BEWARE THE WALL OF TEXT
@@ -135,7 +138,7 @@ double TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::GetHeight(cons
 	}
 
 	n += -1.0f;
-	n = (n > 0.0 ? n : 0.0); 
+	n = (n > 0.0 ? n : 0.0);
 
 	n = n*.03f;
 
@@ -154,9 +157,9 @@ double TerrainHeightFractal<TerrainHeightMountainsRiversVolcano>::GetHeight(cons
 			GetFracDef(3).amplitude * mountains2*mountains2*mountains2;
 		if (n > 0.5) n += mountains2 * (n - 0.5) ;
 		if (n < 0.2) n += mountains * n * 5.0f ;
-		else n += mountains  ; 
+		else n += mountains  ;
 	}
-	
+
 	n = m_maxHeight*n;
-	return (n > 0.0 ? n : 0.0); 
+	return (n > 0.0 ? n : 0.0);
 }

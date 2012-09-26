@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _FILESYSTEM_H
 #define _FILESYSTEM_H
 
@@ -65,9 +68,11 @@ namespace FileSystem {
 			FT_SPECIAL
 		};
 
+		enum FileType GetType() const { return m_type; }
 		bool Exists() const { return (m_type != FT_NON_EXISTENT); }
 		bool IsDir() const { return (m_type == FT_DIR); }
 		bool IsFile() const { return (m_type == FT_FILE); }
+		bool IsSpecial() const { return (m_type == FT_SPECIAL); }
 
 		const std::string &GetPath() const { return m_path; }
 		std::string GetName() const { return m_path.substr(m_dirLen); }
@@ -100,10 +105,10 @@ namespace FileSystem {
 		friend bool operator> (const FileInfo &a, const FileInfo &b) { return (b < a); }
 		friend bool operator>=(const FileInfo &a, const FileInfo &b) { return (b <= a); }
 
-	protected:
+	private:
+		// use FileSource::MakeFileInfo to create your FileInfos
 		FileInfo(FileSource *source, const std::string &path, FileType type);
 
-	private:
 		FileSource *m_source;
 		std::string m_path;
 		int m_dirLen;
@@ -174,6 +179,9 @@ namespace FileSystem {
 		FileSourceUnion();
 		~FileSourceUnion();
 
+		// add and remove sources
+		// note: order is important. The array of sources works like a PATH array:
+		// that is, earlier sources take priority over later sources
 		void PrependSource(FileSource *fs);
 		void AppendSource(FileSource *fs);
 		void RemoveSource(FileSource *fs);
@@ -187,28 +195,31 @@ namespace FileSystem {
 	};
 
 	class FileEnumerator {
-		static const int ExcludeFiles = 2;
-		static const int RecurseFlag = 4;
 	public:
 		enum Flags {
-			IncludeDirectories = 1,
-			OnlyDirectories    = IncludeDirectories | ExcludeFiles,
-			Recurse            = IncludeDirectories | RecurseFlag
+			IncludeDirs      = 1,
+			IncludeSpecials  = 2,
+			ExcludeFiles     = 4,
+			Recurse          = 8
 		};
 
 		explicit FileEnumerator(FileSource &fs, int flags = 0);
 		explicit FileEnumerator(FileSource &fs, const std::string &path, int flags = 0);
 		~FileEnumerator();
 
+		void AddSearchRoot(const std::string &path);
+
 		bool Finished() const { return m_queue.empty(); }
-		void Next() { Next(m_flags); }
+		void Next();
 		const FileInfo &Current() const { return m_queue.front(); }
 
 	private:
-		void Next(int flags);
-		void Init(const std::string &path);
+		void ExpandDirQueue();
+		void QueueDirectoryContents(const FileInfo &info);
+
 		FileSource *m_source;
 		std::deque<FileInfo> m_queue;
+		std::deque<FileInfo> m_dirQueue;
 		int m_flags;
 	};
 

@@ -1,11 +1,14 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SHIPSPINNERWIDGET_H
 #define _SHIPSPINNERWIDGET_H
 
 #include "gui/Gui.h"
+#include "graphics/Light.h"
 #include "ShipFlavour.h"
 #include "LmrModel.h"
 #include "ShipType.h"
-#include "Light.h"
 #include "EquipSet.h"
 
 class ShipSpinnerWidget : public Gui::Widget {
@@ -25,7 +28,7 @@ private:
 	// it's just used to pass equipment parameters to the displayed model
 	EquipSet m_equipment;
 	//illumination in ship view
-	Light m_light;
+	Graphics::Light m_light;
 };
 
 #endif

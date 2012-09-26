@@ -1,0 +1,5 @@
+Taken from http://miniz.googlecode.com/svn/trunk/miniz.c. I've cut this into
+header and implementation files and disabled (via define) some interfaces that
+we don't need:
+ - MINIZ_NO_ARCHIVE_WRITING_APIS
+ - MINIZ_NO_ZLIB_COMPATIBLE_NAMES

@@ -1,11 +1,16 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
 #include "graphics/Frustum.h"
+#include "graphics/Light.h"
 #include "vector3.h"
 #include "matrix4x4.h"
 #include "Background.h"
 #include "Body.h"
+
 
 class Frame;
 namespace Graphics { class Renderer; }
@@ -31,6 +36,23 @@ public:
 
 	// only valid between Update() and Draw()
 	const Frame *GetFrame() const { return m_camFrame; }
+
+	// camera-specific light with attached source body
+	class LightSource {
+	public:
+		LightSource(const Body *b, Graphics::Light light) : m_body(b), m_light(light) {}
+		
+		const Body *GetBody() const { return m_body; }
+		const Graphics::Light &GetLight() const { return m_light; }
+	
+	private:
+		const Body *m_body;
+		Graphics::Light m_light;
+	};
+
+	// lights with properties in camera space
+	const std::vector<LightSource> &GetLightSources() const { return m_lightSources; }
+	const int GetNumLightSources() const { return m_lightSources.size(); }
 
 	// get the frustum. use for projection
 	const Graphics::Frustum &GetFrustum() const { return m_frustum; }
@@ -91,8 +113,9 @@ private:
 			return a.camDist > b.camDist;
 		}
 	};
-
+	
 	std::list<BodyAttrs> m_sortedBodies;
+	std::vector<LightSource> m_lightSources;
 
 	Graphics::Renderer *m_renderer;
 };

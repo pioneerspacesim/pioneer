@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 --
 -- Class: Translate
 --
@@ -25,7 +28,7 @@ Translate = {
 -- Example:
 --
 -- > local t = Translate:GetTranslator()
--- > UI.Message(t('YOU_ARE_LATE'))
+-- > Comms.Message(t('YOU_ARE_LATE'))
 --
 -- Availability:
 --

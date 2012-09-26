@@ -1,7 +1,11 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "WorldViewCamera.h"
 #include "Ship.h"
 #include "Pi.h"
 #include "Game.h"
+#include "AnimationCurves.h"
 
 WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	Camera(s, size.x, size.y, fovY, near, far)
@@ -9,40 +13,85 @@ WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY
 
 }
 
-FrontCamera::FrontCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
+InternalCamera::InternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	WorldViewCamera(s, size, fovY, near, far)
 {
-	Activate();
+	Front_Cockpit();
 }
 
-void FrontCamera::Activate()
+void InternalCamera::Front_Cockpit()
 {
-	const vector3d &offs = static_cast<const Ship*>(GetBody())->GetFrontCameraOffset();
-	SetPosition(offs);
+	m_orient = matrix4x4d::RotateYMatrix(M_PI*2);
+	m_offs = static_cast<const Ship*>(GetBody())->GetFrontViewOffset();
+}
+
+void InternalCamera::Rear_Cockpit()
+{
+	m_orient = matrix4x4d::RotateYMatrix(M_PI);
+	m_offs = static_cast<const Ship*>(GetBody())->GetRearViewOffset();
+}
+
+void InternalCamera::Front()
+{
+	m_orient = matrix4x4d::RotateYMatrix(M_PI*2);
+	m_offs = static_cast<const Ship*>(GetBody())->GetFrontCameraOffset();
+}
+
+void InternalCamera::Rear()
+{
+	m_orient = matrix4x4d::RotateYMatrix(M_PI);
+	m_offs = static_cast<const Ship*>(GetBody())->GetRearCameraOffset();
+}
+
+void InternalCamera::Left()
+{
+	m_orient = matrix4x4d::RotateYMatrix((M_PI/2)*3);
+	m_offs = static_cast<const Ship*>(GetBody())->GetLeftCameraOffset();
+}
+
+void InternalCamera::Right()
+{
+	m_orient = matrix4x4d::RotateYMatrix(M_PI/2);
+	m_offs = static_cast<const Ship*>(GetBody())->GetRightCameraOffset();
+}
+
+void InternalCamera::Top()
+{
+	m_orient = matrix4x4d::RotateXMatrix((M_PI/2)*3);
+	m_offs = static_cast<const Ship*>(GetBody())->GetTopCameraOffset();
+}
+
+void InternalCamera::Bottom()
+{
+	m_orient = matrix4x4d::RotateXMatrix(M_PI/2);
+	m_offs = static_cast<const Ship*>(GetBody())->GetBottomCameraOffset();
+}
+
+void InternalCamera::Activate()
+{
+	SetOrientation(m_orient);
+	SetPosition(m_offs);
 	//if offset is zero (unspecified) the camera would be in the middle of the model,
 	//and it would be undesirable to render the ship
-	if (offs.ExactlyEqual(vector3d(0.0)))
+	if (m_offs.ExactlyEqual(vector3d(0.0)))
 		m_showCameraBody = false;
 }
 
-RearCamera::RearCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
-	WorldViewCamera(s, size, fovY, near, far)
+void InternalCamera::Save(Serializer::Writer &wr)
 {
-	SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
-	Activate();
+	for (int i = 0; i < 16; i++) wr.Float(float(m_orient[i]));
+	for (int i = 0; i < 3; i++) wr.Float(float(m_offs[i]));
 }
 
-void RearCamera::Activate()
+void InternalCamera::Load(Serializer::Reader &rd)
 {
-	const vector3d &offs = static_cast<const Ship*>(GetBody())->GetRearCameraOffset();
-	SetPosition(offs);
-	if (offs.ExactlyEqual(vector3d(0.0)))
-		m_showCameraBody = false;
+	for (int i = 0; i < 16; i++) m_orient[i] = rd.Float();
+	for (int i = 0; i < 3; i++) m_offs[i] = rd.Float();
 }
 
 ExternalCamera::ExternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	WorldViewCamera(s, size, fovY, near, far),
-	m_dist(200),
+	m_dist(200), m_distTo(m_dist),
 	m_rotX(0),
 	m_rotY(0),
 	m_orient(matrix4x4d::Identity())
@@ -71,20 +120,32 @@ void ExternalCamera::RotateRight(float frameTime)
 
 void ExternalCamera::ZoomIn(float frameTime)
 {
-	
-	m_dist -= 400*frameTime;
-	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
+	ZoomOut(-frameTime);
 }
 
 void ExternalCamera::ZoomOut(float frameTime)
 {
 	m_dist += 400*frameTime;
 	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
+	m_distTo = m_dist;
+}
+
+void ExternalCamera::ZoomEvent(float amount)
+{
+	m_distTo += 400*amount;
+	m_distTo = std::max(GetBody()->GetBoundingRadius(), m_distTo);
+}
+
+void ExternalCamera::ZoomEventUpdate(float frameTime)
+{
+	AnimationCurves::Approach(m_dist, m_distTo, frameTime);
+	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
 }
 
 void ExternalCamera::Reset()
 {
 	m_dist = 200;
+	m_distTo = m_dist;
 }
 
 void ExternalCamera::UpdateTransform()
@@ -119,11 +180,12 @@ void ExternalCamera::Load(Serializer::Reader &rd)
 	m_rotX = rd.Float();
 	m_rotY = rd.Float();
 	m_dist = rd.Float();
+	m_distTo = m_dist;
 }
 
 SiderealCamera::SiderealCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	WorldViewCamera(s, size, fovY, near, far),
-	m_dist(200),
+	m_dist(200), m_distTo(m_dist),
 	m_orient(matrix4x4d::Identity())
 {
 	m_prevShipOrient = s->GetTransformRelTo(Pi::game->GetSpace()->GetRootFrame());
@@ -159,13 +221,25 @@ void SiderealCamera::RotateRight(float frameTime)
 
 void SiderealCamera::ZoomIn(float frameTime)
 {
-	m_dist -= 400*frameTime;
-	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
+	ZoomOut(-frameTime);
 }
 
 void SiderealCamera::ZoomOut(float frameTime)
 {
 	m_dist += 400*frameTime;
+	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
+	m_distTo = m_dist;
+}
+
+void SiderealCamera::ZoomEvent(float amount)
+{
+	m_distTo += 400*amount;
+	m_distTo = std::max(GetBody()->GetBoundingRadius(), m_distTo);
+}
+
+void SiderealCamera::ZoomEventUpdate(float frameTime)
+{
+	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50./std::max(m_distTo, 1e-7));		// std::max() here just avoid dividing by 0.
 	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
 }
 
@@ -186,6 +260,7 @@ void SiderealCamera::RollRight(float frameTime)
 void SiderealCamera::Reset()
 {
 	m_dist = 200;
+	m_distTo = m_dist;
 }
 
 void SiderealCamera::UpdateTransform()
@@ -215,5 +290,6 @@ void SiderealCamera::Load(Serializer::Reader &rd)
 {
 	for (int i = 0; i < 16; i++) m_orient[i] = rd.Float();
 	m_dist = rd.Float();
+	m_distTo = m_distTo;
 	m_prevShipOrient = static_cast<const Ship*>(GetBody())->GetTransformRelTo(Pi::game->GetSpace()->GetRootFrame());
 }

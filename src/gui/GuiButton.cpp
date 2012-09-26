@@ -1,10 +1,13 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Gui.h"
 
 #define BUTTON_SIZE	16
 
 namespace Gui {
-Button::Button() 
+Button::Button()
 {
 	m_isPressed = false;
 	m_eventMask = EVENT_MOUSEDOWN | EVENT_MOUSEUP | EVENT_MOUSEMOTION;

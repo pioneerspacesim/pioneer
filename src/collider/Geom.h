@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GEOM_H
 #define _GEOM_H
 
@@ -14,7 +17,7 @@ class Geom {
 public:
 	Geom(const GeomTree *);
 	void MoveTo(const matrix4x4d &m);
-	void MoveTo(const matrix4x4d &m, const vector3d pos);
+	void MoveTo(const matrix4x4d &m, const vector3d &pos);
 	const matrix4x4d &GetInvTransform() const { return m_invOrient; }
 	const matrix4x4d &GetTransform() const { return m_orient; }
 	matrix4x4d GetRotation() const;

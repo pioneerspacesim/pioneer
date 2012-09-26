@@ -1,8 +1,11 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Pi.h"
 #include "Projectile.h"
 #include "Frame.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Space.h"
 #include "Serializer.h"
 #include "collider/collider.h"
@@ -12,14 +15,12 @@
 #include "Ship.h"
 #include "Pi.h"
 #include "Game.h"
+#include "LuaEvent.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
-
-static const std::string projectileTextureFilename("textures/projectile_l.png");
-static const std::string projectileGlowTextureFilename("textures/projectile_w.png");
 
 Projectile::Projectile(): Body()
 {
@@ -31,12 +32,13 @@ Projectile::Projectile(): Body()
 	m_flags |= FLAG_DRAW_LAST;
 
 	//set up materials
-	m_sideMat.texture0 = Graphics::TextureBuilder::Billboard(projectileTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
-	m_sideMat.unlit = true;
-	m_sideMat.twoSided = true;
-	m_glowMat.texture0 = Graphics::TextureBuilder::Billboard(projectileGlowTextureFilename).GetOrCreateTexture(Pi::renderer, "billboard");
-	m_glowMat.unlit = true;
-	m_glowMat.twoSided = true;
+	Graphics::MaterialDescriptor desc;
+	desc.textures = 1;
+	desc.twoSided = true;
+	m_sideMat.Reset(Pi::renderer->CreateMaterial(desc));
+	m_glowMat.Reset(Pi::renderer->CreateMaterial(desc));
+	m_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
+	m_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
 
 	//zero at projectile position
 	//+x down
@@ -88,7 +90,7 @@ Projectile::Projectile(): Body()
 		m_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
 
 		gw -= 0.1f; // they get smaller
-		gz -= 0.2; // as they move back
+		gz -= 0.2f; // as they move back
 	}
 }
 
@@ -135,7 +137,7 @@ void Projectile::UpdateInterpolatedTransform(double alpha)
 	m_interpolatedTransform[14] = p.z;
 }
 
-void Projectile::SetPosition(vector3d p)
+void Projectile::SetPosition(const vector3d &p)
 {
 	m_orient[12] = p.x;
 	m_orient[13] = p.y;
@@ -171,7 +173,7 @@ double Projectile::GetRadius() const
 	return sqrt(length*length + width*width);
 }
 
-static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const vector3d &pos)
+static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, const vector3d &pos)
 {
 	Equip::Type t;
 	if (20*Pi::rng.Fixed() < asteroid->m_metallicity) {
@@ -188,7 +190,10 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SBody *asteroid, const ve
 	CargoBody *cargo = new CargoBody(t);
 	cargo->SetFrame(f);
 	cargo->SetPosition(pos);
-	cargo->SetVelocity(Pi::rng.Double(100.0,200.0)*vector3d(Pi::rng.Double()-.5, Pi::rng.Double()-.5, Pi::rng.Double()-.5));
+	const double x = Pi::rng.Double();
+	vector3d dir = pos.Normalized();
+	dir.ArbRotate(vector3d(x, 1-x, 0), Pi::rng.Double()-.5);
+	cargo->SetVelocity(Pi::rng.Double(100.0,200.0) * dir);
 	Pi::game->GetSpace()->AddBody(cargo);
 }
 
@@ -197,7 +202,7 @@ void Projectile::StaticUpdate(const float timeStep)
 	CollisionContact c;
 	vector3d vel = (m_baseVel+m_dirVel) * timeStep;
 	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c, 0);
-	
+
 	if (c.userData1) {
 		Object *o = static_cast<Object*>(c.userData1);
 
@@ -210,7 +215,7 @@ void Projectile::StaticUpdate(const float timeStep)
 				hit->OnDamage(m_parent, GetDamage());
 				Pi::game->GetSpace()->KillBody(this);
 				if (hit->IsType(Object::SHIP))
-					Pi::luaOnShipHit->Queue(dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
+					LuaEvent::Queue("onShipHit", dynamic_cast<Ship*>(hit), dynamic_cast<Body*>(m_parent));
 			}
 		}
 	}
@@ -218,12 +223,12 @@ void Projectile::StaticUpdate(const float timeStep)
 		// need to test for terrain hit
 		if (GetFrame()->m_astroBody && GetFrame()->m_astroBody->IsType(Object::PLANET)) {
 			Planet *const planet = static_cast<Planet*>(GetFrame()->m_astroBody);
-			const SBody *b = planet->GetSBody();
+			const SystemBody *b = planet->GetSystemBody();
 			vector3d pos = GetPosition();
 			double terrainHeight = planet->GetTerrainHeight(pos.Normalized());
 			if (terrainHeight > pos.Length()) {
 				// hit the fucker
-				if (b->type == SBody::TYPE_PLANET_ASTEROID) {
+				if (b->type == SystemBody::TYPE_PLANET_ASTEROID) {
 					vector3d n = GetPosition().Normalized();
 					MiningLaserSpawnTastyStuff(planet->GetFrame(), b, n*terrainHeight + 5.0*n);
 					Sfx::Add(this, Sfx::TYPE_EXPLOSION);
@@ -234,7 +239,7 @@ void Projectile::StaticUpdate(const float timeStep)
 	}
 }
 
-void Projectile::Render(Graphics::Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	vector3d _from = viewTransform * GetInterpolatedPosition();
 	vector3d _to = viewTransform * (GetInterpolatedPosition() + m_dirVel);
@@ -277,8 +282,8 @@ void Projectile::Render(Graphics::Renderer *renderer, const vector3d &viewCoords
 	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(view_dir)), length));
 
 	if (color.a > 0.01f) {
-		m_sideMat.diffuse = color;
-		renderer->DrawTriangles(m_sideVerts.Get(), &m_sideMat);
+		m_sideMat->diffuse = color;
+		renderer->DrawTriangles(m_sideVerts.Get(), m_sideMat.Get());
 	}
 
 	// fade out glow quads when viewing nearly edge on
@@ -287,8 +292,8 @@ void Projectile::Render(Graphics::Renderer *renderer, const vector3d &viewCoords
 	color.a = base_alpha * powf(fabs(dir.Dot(view_dir)), width);
 
 	if (color.a > 0.01f) {
-		m_glowMat.diffuse = color;
-		renderer->DrawTriangles(m_glowVerts.Get(), &m_glowMat);
+		m_glowMat->diffuse = color;
+		renderer->DrawTriangles(m_glowVerts.Get(), m_glowMat.Get());
 	}
 
 	glPopMatrix();
@@ -302,7 +307,7 @@ void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const 
 	p->m_parent = parent;
 	p->m_type = Equip::types[type].tableIndex;
 	p->SetFrame(parent->GetFrame());
-	
+
 	parent->GetRotMatrix(p->m_orient);
 	p->SetPosition(pos);
 	p->m_baseVel = baseVel;

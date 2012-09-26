@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
   -- adtext - text shown in the bulletin board list
   -- introtext - shown when the advert is selected (and "Could you repeat request?")
   -- whysomuch - response to "Why so much money?"
@@ -307,7 +310,7 @@ Translate:AddFlavour('Polski','Taxi', {
   howmany = "Tylko ja.",
   danger = "Możesz spotkać się z zainteresowaniem ze strony prasy. Po prostu ich ignoruj.",
   successmsg = "Dziękuję za przyjemną podróż. Płacę całość umówionej sumy.",
-  failuremsg = "Coś ty narobił! Zniszczyłeś moje turne, straciłem połowę fanów.",
+  failuremsg = "Coś ty narobił! Zniszczyłeś moje tournée, straciłem połowę fanów.",
   wherearewe = "Gdzie my jesteśmy? Moja cierpliwość się wyczerpała - natychmiast zabierz mnie do najbliższej stacji!",
   single = 1,
   urgency = 0.1,

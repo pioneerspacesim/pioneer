@@ -1,10 +1,14 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GAMEMENUVIEW_H
 #define _GAMEMENUVIEW_H
 
 #include "libs.h"
 #include "gui/Gui.h"
-#include "View.h"
 #include "KeyBindings.h"
+#include "View.h"
+#include "graphics/Graphics.h"
 
 //contains a slider, mute button and the necessary layout fluff
 class VolumeControl : public Gui::HBox
@@ -20,6 +24,7 @@ class VolumeControl : public Gui::HBox
 			m_muteButton->AddState(0, "icons/volume_unmuted.png", "Mute");
 			m_muteButton->AddState(1, "icons/volume_muted.png", "Unmute");
 			m_muteButton->SetActiveState(muted ? 1 : 0);
+			m_muteButton->SetRenderDimensions(32, 32);
 			PackEnd(m_muteButton);
 			m_adjustment = new Gui::Adjustment();
 			m_adjustment->SetValue(volume);
@@ -58,11 +63,17 @@ public:
 	virtual ~GameMenuView();
 	virtual void Update() {}
 	virtual void Draw3D() {}
-	virtual void OnSwitchTo();
+	virtual void ShowAll();
 	virtual void HideAll();
 	void OpenLoadDialog();
 	void OpenSaveDialog();
+
+protected:
+	virtual void OnSwitchTo();
+
 private:
+	void BuildControlBindingList(const KeyBindings::BindingPrototype *protos, Gui::VBox *box1, Gui::VBox *box2);
+
 	void OnChangeKeyBinding(const KeyBindings::KeyBinding &kb, const char *fnName);
 	void OnChangeAxisBinding(const KeyBindings::AxisBinding &ab, const char *function);
 	void OnChangeVolume();
@@ -74,10 +85,16 @@ private:
 	void OnChangeVideoResolution(int res);
 	void OnToggleShaders(Gui::ToggleButton *b, bool state);
 	void OnToggleFullscreen(Gui::ToggleButton *b, bool state);
+	void OnToggleCompressTextures(Gui::ToggleButton *b, bool state);
 	void OnToggleJoystick(Gui::ToggleButton *b, bool state);
 	void OnToggleMouseYInvert(Gui::ToggleButton *b, bool state);
+	void OnToggleNavTunnel(Gui::ToggleButton *b, bool state);
+
 	bool m_changedDetailLevel;
-	View *m_subview;
+	Gui::Button *m_saveButton;
+	Gui::Button *m_loadButton;
+	Gui::Button *m_exitButton;
+	Gui::Button *m_menuButton;
 	VolumeControl *m_masterVolume;
 	VolumeControl *m_sfxVolume;
 	VolumeControl *m_musicVolume;
@@ -89,8 +106,11 @@ private:
 	Gui::RadioGroup *m_languageGroup;
 	Gui::ToggleButton *m_toggleShaders;
 	Gui::ToggleButton *m_toggleFullscreen;
+	Gui::ToggleButton *m_toggleCompressTextures;
 	Gui::ToggleButton *m_toggleJoystick;
 	Gui::ToggleButton *m_toggleMouseYInvert;
+	Gui::ToggleButton *m_toggleNavTunnel;
+	std::vector<Graphics::VideoMode> m_videoModes;
 };
 
 #endif /* _GAMEMENUVIEW_H */

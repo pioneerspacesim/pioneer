@@ -1,13 +1,19 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "RendererLegacy.h"
+#include "Graphics.h"
 #include "Light.h"
 #include "Material.h"
-#include "Graphics.h"
+#include "MaterialLegacy.h"
+#include "OS.h"
 #include "RendererGLBuffers.h"
 #include "StaticMesh.h"
+#include "StringF.h"
 #include "Surface.h"
 #include "Texture.h"
-#include "VertexArray.h"
 #include "TextureGL.h"
+#include "VertexArray.h"
 #include <stddef.h> //for offsetof
 #include <ostream>
 #include <sstream>
@@ -40,11 +46,16 @@ struct SurfaceRenderInfo : public RenderInfo {
 	int glAmount; //index count OR vertex amount
 };
 
-RendererLegacy::RendererLegacy(int w, int h) :
-	Renderer(w, h),
-	m_minZNear(10.f),
-	m_maxZFar(1000000.0f)
+RendererLegacy::RendererLegacy(const Graphics::Settings &vs)
+: Renderer(vs.width, vs.height)
+, m_numDirLights(0)
+, m_minZNear(10.f)
+, m_maxZFar(1000000.0f)
+, m_useCompressedTextures(false)
 {
+	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_ARB_texture_compression");
+	m_useCompressedTextures = useDXTnTextures;
+
 	glShadeModel(GL_SMOOTH);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
@@ -83,36 +94,45 @@ bool RendererLegacy::EndFrame()
 	return true;
 }
 
+static std::string glerr_to_string(GLenum err)
+{
+	switch (err)
+	{
+	case GL_INVALID_ENUM:
+		return "GL_INVALID_ENUM";
+	case GL_INVALID_VALUE:
+		return "GL_INVALID_VALUE";
+	case GL_INVALID_OPERATION:
+		return "GL_INVALID_OPERATION";
+	case GL_OUT_OF_MEMORY:
+		return "GL_OUT_OF_MEMORY";
+	case GL_STACK_OVERFLOW: //deprecated in GL3
+		return "GL_STACK_OVERFLOW";
+	case GL_STACK_UNDERFLOW: //deprecated in GL3
+		return "GL_STACK_UNDERFLOW";
+	case GL_INVALID_FRAMEBUFFER_OPERATION_EXT:
+		return "GL_INVALID_FRAMEBUFFER_OPERATION";
+	default:
+		return stringf("Unknown error 0x0%0{x}", err);
+	}
+}
+
 bool RendererLegacy::SwapBuffers()
 {
 #ifndef NDEBUG
+	// Check if an error occurred during the frame. This is not very useful for
+	// determining *where* the error happened. For that purpose, try GDebugger or
+	// the GL_KHR_DEBUG extension
 	GLenum err;
 	err = glGetError();
-	while (err != GL_NO_ERROR) {
-		switch (err) {
-			case GL_INVALID_ENUM:
-				fprintf(stderr, "GL_INVALID_ENUM\n");
-				break;
-			case GL_INVALID_VALUE:
-				fprintf(stderr, "GL_INVALID_VALUE\n");
-				break;
-			case GL_INVALID_OPERATION:
-				fprintf(stderr, "GL_INVALID_OPERATION\n");
-				break;
-			case GL_OUT_OF_MEMORY:
-				fprintf(stderr, "GL_OUT_OF_MEMORY\n");
-				break;
-			case GL_STACK_OVERFLOW: //deprecated in GL3
-				fprintf(stderr, "GL_STACK_OVERFLOW\n");
-				break;
-			case GL_STACK_UNDERFLOW: //deprecated in GL3
-				fprintf(stderr, "GL_STACK_UNDERFLOW\n");
-				break;
-			case GL_INVALID_FRAMEBUFFER_OPERATION_EXT:
-				fprintf(stderr, "GL_INVALID_FRAMEBUFFER_OPERATION\n");
-				break;
+	if (err != GL_NO_ERROR) {
+		std::stringstream ss;
+		ss << "OpenGL error(s) during frame:\n";
+		while (err != GL_NO_ERROR) {
+			ss << glerr_to_string(err) << '\n';
+			err = glGetError();
 		}
-		err = glGetError();
+		OS::Error("%s", ss.str().c_str());
 	}
 #endif
 
@@ -242,6 +262,7 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 	if (numlights < 1) return false;
 
 	m_numLights = numlights;
+	m_numDirLights = 0;
 
 	for (int i=0; i < numlights; i++) {
 		const Light &l = lights[i];
@@ -257,18 +278,23 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 		glLightfv(GL_LIGHT0+i, GL_AMBIENT, l.GetAmbient());
 		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular());
 		glEnable(GL_LIGHT0+i);
+
+		if (l.GetType() == Light::LIGHT_DIRECTIONAL)
+			m_numDirLights++;
+
+		assert(m_numDirLights < 5);
 	}
 	//XXX should probably disable unused lights (for legacy renderer only)
 
-	Graphics::State::SetNumLights(numlights);
-
+	Graphics::State::SetLights(numlights, lights);
+	
 	return true;
 }
 
 bool RendererLegacy::SetAmbientColor(const Color &c)
 {
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, c);
-
+	m_ambient = c;
 	return true;
 }
 
@@ -387,16 +413,16 @@ bool RendererLegacy::DrawPoints2D(int count, const vector2f *points, const Color
 	return true;
 }
 
-bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, PrimitiveType t)
+bool RendererLegacy::DrawTriangles(const VertexArray *v, Material *m, PrimitiveType t)
 {
 	if (!v || v->position.size() < 3) return false;
 
-	ApplyMaterial(m);
+	m->Apply();
 	EnableClientStates(v);
 
 	glDrawArrays(t, 0, v->GetNumVerts());
 
-	UnApplyMaterial(m);
+	m->Unapply();
 	DisableClientStates();
 
 	return true;
@@ -409,18 +435,18 @@ bool RendererLegacy::DrawSurface(const Surface *s)
 	const Material *m = s->GetMaterial().Get();
 	const VertexArray *v = s->GetVertices();
 
-	ApplyMaterial(m);
+	const_cast<Material*>(m)->Apply();
 	EnableClientStates(v);
 
 	glDrawElements(s->GetPrimtiveType(), s->GetNumIndices(), GL_UNSIGNED_SHORT, s->GetIndexPointer());
 
-	UnApplyMaterial(m);
+	const_cast<Material*>(m)->Unapply();
 	DisableClientStates();
 
 	return true;
 }
 
-bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, const Material *material, float size)
+bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, Material *material, float size)
 {
 	if (count < 1 || !material || !material->texture0) return false;
 
@@ -486,54 +512,20 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 	for (StaticMesh::SurfaceIterator surface = t->SurfacesBegin(); surface != t->SurfacesEnd(); ++surface) {
 		SurfaceRenderInfo *surfaceInfo = static_cast<SurfaceRenderInfo*>((*surface)->GetRenderInfo());
 
-		ApplyMaterial((*surface)->GetMaterial().Get());
+		const_cast<Material*>((*surface)->GetMaterial().Get())->Apply();
 		if (meshInfo->ibuf) {
 			meshInfo->vbuf->DrawIndexed(t->GetPrimtiveType(), surfaceInfo->glOffset, surfaceInfo->glAmount);
 		} else {
 			//draw unindexed per surface
 			meshInfo->vbuf->Draw(t->GetPrimtiveType(), surfaceInfo->glOffset, surfaceInfo->glAmount);
 		}
-		UnApplyMaterial((*surface)->GetMaterial().Get());
+		const_cast<Material*>((*surface)->GetMaterial().Get())->Unapply();
 	}
 	if (meshInfo->ibuf)
 		meshInfo->ibuf->Unbind();
 	meshInfo->vbuf->Unbind();
 
 	return true;
-}
-
-void RendererLegacy::ApplyMaterial(const Material *mat)
-{
-	glPushAttrib(GL_LIGHTING_BIT | GL_ENABLE_BIT);
-	if (!mat) {
-		glDisable(GL_LIGHTING);
-		return;
-	}
-
-	if (!mat->vertexColors)
-		glColor4f(mat->diffuse.r, mat->diffuse.g, mat->diffuse.b, mat->diffuse.a);
-	
-	if (mat->unlit) {
-		glDisable(GL_LIGHTING);
-	} else {
-		glEnable(GL_LIGHTING);
-		glMaterialfv (GL_FRONT, GL_DIFFUSE, &mat->diffuse[0]);
-		//todo: the rest
-	}
-	if (mat->twoSided) {
-		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-		glDisable(GL_CULL_FACE);
-	}
-	if (mat->texture0)
-		static_cast<TextureGL*>(mat->texture0)->Bind();
-}
-
-void RendererLegacy::UnApplyMaterial(const Material *mat)
-{
-	glPopAttrib();
-	if (!mat) return;
-	if (mat->texture0)
-		static_cast<TextureGL*>(mat->texture0)->Unbind();
 }
 
 void RendererLegacy::EnableClientStates(const VertexArray *v)
@@ -646,9 +638,29 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	return true;
 }
 
+Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
+{
+	MaterialLegacy *m;
+	switch (desc.effect) {
+	case EFFECT_STARFIELD:
+		m = new StarfieldMaterialLegacy();
+		break;
+	case EFFECT_GEOSPHERE_TERRAIN:
+		m = new GeoSphereSurfaceMaterialLegacy();
+		break;
+	default:
+		m = new MaterialLegacy();
+	}
+
+	m->vertexColors = desc.vertexColors;
+	m->unlit = !desc.lighting;
+	m->twoSided = desc.twoSided;
+	return m;
+}
+
 Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)
 {
-	return new TextureGL(descriptor);
+	return new TextureGL(descriptor, m_useCompressedTextures);
 }
 
 
@@ -673,18 +685,44 @@ void RendererLegacy::PopState()
 	glPopMatrix();
 }
 
+static void dump_opengl_value(std::ostream &out, const char *name, GLenum id, int num_elems)
+{
+	assert(num_elems > 0 && num_elems <= 4);
+	assert(name);
+
+	GLdouble e[4];
+	glGetDoublev(id, e);
+
+	GLenum err = glGetError();
+	if (err == GL_NO_ERROR) {
+		out << name << " = " << e[0];
+		for (int i = 1; i < num_elems; ++i)
+			out << ", " << e[i];
+		out << "\n";
+	} else {
+		while (err != GL_NO_ERROR) {
+			if (err == GL_INVALID_ENUM) { out << name << " -- not supported\n"; }
+			else { out << name << " -- unexpected error (" << err << ") retrieving value\n"; }
+			err = glGetError();
+		}
+	}
+}
+
 bool RendererLegacy::PrintDebugInfo(std::ostream &out)
 {
 	out << "OpenGL version " << glGetString(GL_VERSION);
 	out << ", running on " << glGetString(GL_VENDOR);
-	out << " " << glGetString(GL_RENDERER) << std::endl;
+	out << " " << glGetString(GL_RENDERER) << "\n";
 
-	out << "Available extensions:" << std::endl;
+	if (glewIsSupported("GL_VERSION_2_0"))
+		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION_ARB) << "\n";
+
+	out << "Available extensions:" << "\n";
 	GLint numext = 0;
 	glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
 	if (glewIsSupported("GL_VERSION_3_0")) {
 		for (int i = 0; i < numext; ++i) {
-			out << "  " << glGetStringi(GL_EXTENSIONS, i) << std::endl;
+			out << "  " << glGetStringi(GL_EXTENSIONS, i) << "\n";
 		}
 	}
 	else {
@@ -695,6 +733,58 @@ bool RendererLegacy::PrintDebugInfo(std::ostream &out)
 			std::istream_iterator<std::string>(),
 			std::ostream_iterator<std::string>(out, "\n  "));
 	}
+
+	out << "\nImplementation Limits:\n";
+
+	// first, clear all OpenGL error flags
+	while (glGetError() != GL_NO_ERROR) {}
+
+#define DUMP_GL_VALUE(name) dump_opengl_value(out, #name, name, 1)
+#define DUMP_GL_VALUE2(name) dump_opengl_value(out, #name, name, 2)
+
+	DUMP_GL_VALUE(GL_MAX_3D_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_ATTRIB_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_CLIENT_ATTRIB_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_CLIP_PLANES);
+	DUMP_GL_VALUE(GL_MAX_COLOR_ATTACHMENTS_EXT);
+	DUMP_GL_VALUE(GL_MAX_COLOR_MATRIX_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_CUBE_MAP_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_DRAW_BUFFERS);
+	DUMP_GL_VALUE(GL_MAX_ELEMENTS_INDICES);
+	DUMP_GL_VALUE(GL_MAX_ELEMENTS_VERTICES);
+	DUMP_GL_VALUE(GL_MAX_EVAL_ORDER);
+	DUMP_GL_VALUE(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(GL_MAX_LIGHTS);
+	DUMP_GL_VALUE(GL_MAX_LIST_NESTING);
+	DUMP_GL_VALUE(GL_MAX_MODELVIEW_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_NAME_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_PIXEL_MAP_TABLE);
+	DUMP_GL_VALUE(GL_MAX_PROJECTION_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_RENDERBUFFER_SIZE_EXT);
+	DUMP_GL_VALUE(GL_MAX_SAMPLES_EXT);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_COORDS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_LOD_BIAS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_STACK_DEPTH);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_VARYING_FLOATS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_ATTRIBS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(GL_NUM_COMPRESSED_TEXTURE_FORMATS);
+	DUMP_GL_VALUE(GL_SAMPLE_BUFFERS);
+	DUMP_GL_VALUE(GL_SAMPLES);
+	DUMP_GL_VALUE2(GL_ALIASED_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(GL_ALIASED_POINT_SIZE_RANGE);
+	DUMP_GL_VALUE2(GL_MAX_VIEWPORT_DIMS);
+	DUMP_GL_VALUE2(GL_SMOOTH_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(GL_SMOOTH_POINT_SIZE_RANGE);
+
+#undef DUMP_GL_VALUE
+#undef DUMP_GL_VALUE2
 
 	return true;
 }

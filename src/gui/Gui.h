@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GUI_H
 #define _GUI_H
 
@@ -14,9 +17,9 @@ namespace Gui {
 		void DrawOutdent(const float size[2]);
 		void DrawHollowRect(const float size[2]);
 		namespace Colors {
-			extern const float bg[];
-			extern const float bgShadow[];
-			extern const float tableHeading[];
+			extern const Color bg;
+			extern const Color bgShadow;
+			extern const Color tableHeading;
 		}
 	}
 

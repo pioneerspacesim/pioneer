@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SPACE_H
 #define _SPACE_H
 
@@ -6,7 +9,7 @@
 #include "vector3.h"
 #include "Serializer.h"
 #include "RefCounted.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Background.h"
 
 class Body;
@@ -33,12 +36,12 @@ public:
 	// frame/body/sbody indexing for save/load. valid after
 	// construction/Serialize(), invalidated by TimeStep(). they will assert
 	// if called while invalid
-	Frame *GetFrameByIndex(Uint32 idx);
-	Body  *GetBodyByIndex(Uint32 idx);
-	SBody *GetSBodyByIndex(Uint32 idx);
-	Uint32 GetIndexForFrame(const Frame *frame);
-	Uint32 GetIndexForBody(const Body *body);
-	Uint32 GetIndexForSBody(const SBody *sbody);
+	Frame *GetFrameByIndex(Uint32 idx) const;
+	Body  *GetBodyByIndex(Uint32 idx) const;
+	SystemBody *GetSystemBodyByIndex(Uint32 idx) const;
+	Uint32 GetIndexForFrame(const Frame *frame) const;
+	Uint32 GetIndexForBody(const Body *body) const;
+	Uint32 GetIndexForSystemBody(const SystemBody *sbody) const;
 
 	RefCountedPtr<StarSystem> GetStarSystem() const { return m_starSystem; }
 
@@ -50,21 +53,21 @@ public:
 
 	void TimeStep(float step);
 
-	vector3d GetHyperspaceExitPoint(const SystemPath &source);
+	vector3d GetHyperspaceExitPoint(const SystemPath &source) const;
 
-	Body *FindNearestTo(const Body *b, Object::Type t);
-	Body *FindBodyForPath(const SystemPath *path);
+	Body *FindNearestTo(const Body *b, Object::Type t) const;
+	Body *FindBodyForPath(const SystemPath *path) const;
 
 	typedef std::list<Body*>::const_iterator BodyIterator;
 	const BodyIterator BodiesBegin() const { return m_bodies.begin(); }
 	const BodyIterator BodiesEnd() const { return m_bodies.end(); }
 
-	const Background::Container& GetBackground() const { return m_background; }
+	Background::Container& GetBackground() { return m_background; }
 
 private:
-	void GenBody(SBody *b, Frame *f);
-	// make sure SBody* is in Pi::currentSystem
-	Frame *GetFrameWithSBody(const SBody *b);
+	void GenBody(SystemBody *b, Frame *f);
+	// make sure SystemBody* is in Pi::currentSystem
+	Frame *GetFrameWithSystemBody(const SystemBody *b) const;
 
 	void UpdateBodies();
 
@@ -85,15 +88,15 @@ private:
 
 	void RebuildFrameIndex();
 	void RebuildBodyIndex();
-	void RebuildSBodyIndex();
+	void RebuildSystemBodyIndex();
 
 	void AddFrameToIndex(Frame *frame);
-	void AddSBodyToIndex(SBody *sbody);
+	void AddSystemBodyToIndex(SystemBody *sbody);
 
 	bool m_frameIndexValid, m_bodyIndexValid, m_sbodyIndexValid;
 	std::vector<Frame*> m_frameIndex;
 	std::vector<Body*>  m_bodyIndex;
-	std::vector<SBody*> m_sbodyIndex;
+	std::vector<SystemBody*> m_sbodyIndex;
 
 	//background (elements that are infinitely far away,
 	//e.g. starfield and milky way)

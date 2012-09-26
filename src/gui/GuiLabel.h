@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GUILABEL_H
 #define _GUILABEL_H
 
@@ -5,7 +8,7 @@
 #include "GuiTextLayout.h"
 #include <string>
 
-class TextureFont;
+namespace Text { class TextureFont; }
 
 namespace Gui {
 	class Label: public Widget {
@@ -18,7 +21,6 @@ namespace Gui {
 		void SetText(const char *text);
 		void SetText(const std::string &text);
 		Label *Shadow(bool isOn) { m_shadow = isOn; return this; }
-		Label *Color(const float rgb[3]);
 		Label *Color(float r, float g, float b);
 		Label *Color(const ::Color &);
 	private:
@@ -29,7 +31,7 @@ namespace Gui {
 		::Color m_color;
 		bool m_shadow;
 		GLuint m_dlist;
-		RefCountedPtr<TextureFont> m_font;
+		RefCountedPtr<Text::TextureFont> m_font;
 		TextLayout *m_layout;
 		TextLayout::ColourMarkupMode m_colourMarkupMode;
 	};

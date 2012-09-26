@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _FORM_H
 #define _FORM_H
 
@@ -44,7 +47,7 @@ public:
 	virtual Uint32 GetFaceSeed() const { return m_faceSeed; }
 	virtual std::string const& GetCharacterName() const { return m_characterName; }
 	virtual std::string const& GetCharacterTitle() const { return m_characterTitle; }
-	
+
 	void SetFaceFlags(Uint32 flags) { m_faceFlags = flags; }
 	void SetFaceSeed(Uint32 seed) { m_faceSeed = seed; }
 	void SetCharacterName(const std::string& name) { m_characterName = name; }

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Gui.h"
 #include "GuiTabbed.h"
@@ -52,10 +55,10 @@ void Tabbed::OnActivate()
 
 bool Tabbed::OnMouseDown(MouseButtonEvent *e)
 {
-	if (e->y < TAB_BAR_HEIGHT) {
+	if ((e->button == SDL_BUTTON_LEFT) && (e->y < TAB_BAR_HEIGHT)) {
 		float xpos = 0.0;
 		int index = 0;
-		for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end(); 
+		for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end();
 				++i, index++) {
 			float csize[2];
 			(*i).first->GetSize(csize);
@@ -136,7 +139,7 @@ void Tabbed::Hide()
 	Widget::Hide();
 }
 
-bool Tabbed::IsLabelWidget(const Widget *w) 
+bool Tabbed::IsLabelWidget(const Widget *w)
 {
 	for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end(); ++i) {
 		if ((*i).first == w) return true;
@@ -151,7 +154,7 @@ void Tabbed::Draw()
 	float xpos = 0;
 	unsigned int index = 0;
 
-	glColor3fv(Theme::Colors::bgShadow);
+	glColor4fv(Theme::Colors::bgShadow);
 	glBegin(GL_QUADS);
 		glVertex2f(0, TAB_BAR_HEIGHT);
 		glVertex2f(size[0], TAB_BAR_HEIGHT);
@@ -159,13 +162,13 @@ void Tabbed::Draw()
 		glVertex2f(0, 0);
 	glEnd();
 
-	for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end(); 
+	for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end();
 			++i, index++) {
 		float csize[2];
 		(*i).first->GetSize(csize);
 		csize[0] += 2*LABEL_PADDING;
 		if (index == m_page) {
-			glColor3fv(Theme::Colors::bg);
+			glColor4fv(Theme::Colors::bg);
 			glBegin(GL_QUADS);
 				glVertex2f(xpos, TAB_BAR_HEIGHT);
 				glVertex2f(xpos+csize[0], TAB_BAR_HEIGHT);

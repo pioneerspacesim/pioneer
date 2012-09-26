@@ -1,7 +1,10 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _LUAOBJECT_H
 #define _LUAOBJECT_H
 
-#include "LuaManager.h"
+#include "Lua.h"
 #include "DeleteEmitter.h"
 
 //
@@ -17,14 +20,14 @@
 // push a value onto the lua stack before method call or return (you (c++)
 // remains responsible for deallocating the object)
 //
-//   Ship *s = new Ship("Eagle Long Range Fighter");
+//   Ship *s = new Ship("eagle_lrf");
 //   LuaShip::PushToLua(s);
 //
 // push a value onto the lua stack (lua will deallocate the object when it
 // goes out of scope and the garbage collector runs. OBJECT MUST BE
 // HEAP-ALLOCATED)
 //
-//   Ship *s = new Ship("Eagle Long Range Fighter");
+//   Ship *s = new Ship("eagle_lrf");
 //   LuaShip::PushToLuaGC(s);
 //
 // get a value from the lua stack at index n (causes lua exception if the
@@ -68,7 +71,7 @@
 //  - add the new file to the build system
 //
 //  - implement your lua methods in that file
-// 
+//
 //
 // if you want to understand how this works, read on :)
 //
@@ -110,6 +113,12 @@ typedef bool (*PromotionTest)(DeleteEmitter *o);
 class LuaObjectBase {
 	friend class LuaSerializer;
 
+public:
+	// creates a single "typeless" object and attaches the listed methods,
+	// attributes and metamethods to it. leaves the created object on the
+	// stack
+	static void CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta);
+
 protected:
 	// base class constructor, called by the wrapper Push* methods
 	LuaObjectBase(DeleteEmitter *o, const char *type) : m_object(o), m_type(type) {};
@@ -119,7 +128,7 @@ protected:
 	// listed methods to it and the listed metamethods to its metaclass. if
 	// attributes extra magic is added to the metaclass to make them work as
 	// expected
-	static void CreateClass(const char *type, const char *parent, const luaL_reg *methods, const luaL_reg *attrs, const luaL_reg *meta);
+	static void CreateClass(const char *type, const char *parent, const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta);
 
 	// push an already-registered object onto the lua stack. the object is
 	// looked up in the lua registry, if it exists a copy of its userdata is
@@ -173,6 +182,10 @@ private:
 	// its only part of the class so that it can call Deregister()
 	static int l_gc(lua_State *l);
 
+	// default tostring. shows a little more info about the object, like its
+	// type
+	static int l_tostring(lua_State *l);
+
 	// pull an LuaObjectBase wrapper from the registry given an id. returns NULL
 	// if the object is not in the registry
 	static LuaObjectBase *Lookup(lid id);
@@ -205,6 +218,17 @@ public:
 	virtual void OnRelease(T *) {}
 };
 
+// acquirer baseclass for RefCounted types. subclass this when you need Lua to
+// take a reference to an object
+class LuaAcquirerRefCounted {
+public:
+	virtual void OnAcquire(RefCounted *o) {
+		o->IncRefCount();
+	}
+	virtual void OnRelease(RefCounted *o) {
+		o->DecRefCount();
+	}
+};
 
 // template for a wrapper class
 template <typename T>
@@ -233,6 +257,11 @@ public:
 
 	static inline T *CheckFromLua(int index) {
 		return dynamic_cast<T *>(LuaObjectBase::CheckFromLua(index, s_type));
+	}
+
+	// convenience promotion test
+	static inline bool DynamicCastPromotionTest(DeleteEmitter *o) {
+		return dynamic_cast<T *>(o);
 	}
 
 protected:
@@ -295,6 +324,9 @@ public:
 	static inline T *CheckFromLua(int index) {
 		return dynamic_cast<T*>(LuaObject<UT>::CheckFromLua(index));
 	}
+
+private:
+	LuaObjectUncopyable() {}
 };
 
 #endif

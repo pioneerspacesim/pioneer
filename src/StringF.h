@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _STRINGF_H
 #define _STRINGF_H
 
@@ -227,7 +230,7 @@ template <typename T0>
 inline std::string stringf(const char* fmt, const T0& p0) {
 	const typename FormatArgWrapper<T0>::type& arg0 = FormatArgWrapper<T0>::wrap(p0);
 	FormatArg const * const args[] = { &arg0 };
-	return string_format(fmt, 1, args);
+	return string_format(fmt, COUNTOF(args), args);
 }
 
 template <typename T0, typename T1>
@@ -235,7 +238,7 @@ inline std::string stringf(const char* fmt, const T0& p0, const T1& p1) {
 	const typename FormatArgWrapper<T0>::type& arg0 = FormatArgWrapper<T0>::wrap(p0);
 	const typename FormatArgWrapper<T1>::type& arg1 = FormatArgWrapper<T1>::wrap(p1);
 	FormatArg const * const args[] = { &arg0, &arg1 };
-	return string_format(fmt, 2, args);
+	return string_format(fmt, COUNTOF(args), args);
 }
 
 template <typename T0, typename T1, typename T2>
@@ -244,7 +247,7 @@ inline std::string stringf(const char* fmt, const T0& p0, const T1& p1, const T2
 	const typename FormatArgWrapper<T1>::type& arg1 = FormatArgWrapper<T1>::wrap(p1);
 	const typename FormatArgWrapper<T2>::type& arg2 = FormatArgWrapper<T2>::wrap(p2);
 	FormatArg const * const args[] = { &arg0, &arg1, &arg2 };
-	return string_format(fmt, 3, args);
+	return string_format(fmt, COUNTOF(args), args);
 }
 
 template <typename T0, typename T1, typename T2, typename T3>
@@ -254,7 +257,7 @@ inline std::string stringf(const char* fmt, const T0& p0, const T1& p1, const T2
 	const typename FormatArgWrapper<T2>::type& arg2 = FormatArgWrapper<T2>::wrap(p2);
 	const typename FormatArgWrapper<T3>::type& arg3 = FormatArgWrapper<T3>::wrap(p3);
 	FormatArg const * const args[] = { &arg0, &arg1, &arg2, &arg3 };
-	return string_format(fmt, 4, args);
+	return string_format(fmt, COUNTOF(args), args);
 }
 
 template <typename T0, typename T1, typename T2, typename T3, typename T4>
@@ -265,7 +268,7 @@ inline std::string stringf(const char* fmt, const T0& p0, const T1& p1, const T2
 	const typename FormatArgWrapper<T3>::type& arg3 = FormatArgWrapper<T3>::wrap(p3);
 	const typename FormatArgWrapper<T4>::type& arg4 = FormatArgWrapper<T4>::wrap(p4);
 	FormatArg const * const args[] = { &arg0, &arg1, &arg2, &arg3, &arg4 };
-	return string_format(fmt, 5, args);
+	return string_format(fmt, COUNTOF(args), args);
 }
 
 template <typename T0, typename T1, typename T2, typename T3, typename T4, typename T5>
@@ -277,7 +280,7 @@ inline std::string stringf(const char* fmt, const T0& p0, const T1& p1, const T2
 	const typename FormatArgWrapper<T4>::type& arg4 = FormatArgWrapper<T4>::wrap(p4);
 	const typename FormatArgWrapper<T5>::type& arg5 = FormatArgWrapper<T5>::wrap(p5);
 	FormatArg const * const args[] = { &arg0, &arg1, &arg2, &arg3, &arg4, &arg5 };
-	return string_format(fmt, 6, args);
+	return string_format(fmt, COUNTOF(args), args);
 }
 
 template <typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
@@ -290,7 +293,7 @@ inline std::string stringf(const char* fmt, const T0& p0, const T1& p1, const T2
 	const typename FormatArgWrapper<T5>::type& arg5 = FormatArgWrapper<T5>::wrap(p5);
 	const typename FormatArgWrapper<T6>::type& arg6 = FormatArgWrapper<T6>::wrap(p6);
 	FormatArg const * const args[] = { &arg0, &arg1, &arg2, &arg3, &arg4, &arg5, &arg6 };
-	return string_format(fmt, 7, args);
+	return string_format(fmt, COUNTOF(args), args);
 }
 
 #endif

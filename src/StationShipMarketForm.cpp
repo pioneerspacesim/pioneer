@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "StationShipMarketForm.h"
 #include "Pi.h"
 #include "Player.h"
@@ -20,7 +23,7 @@ StationShipMarketForm::StationShipMarketForm(FormController *controller) : FaceF
 	float line_height = Gui::Screen::GetFontHeight();
 
 	m_shiplistBox = new Gui::VBox();
-	m_shiplistBox->SetSpacing(line_height*0.5f);
+	m_shiplistBox->SetSpacing(line_height);
 	UpdateShipList();
 	m_shiplistBox->ShowAll();
 
@@ -31,7 +34,7 @@ StationShipMarketForm::StationShipMarketForm(FormController *controller) : FaceF
 	outerbox->SetSpacing(line_height);
 
 	Gui::Fixed *heading = new Gui::Fixed(470, Gui::Screen::GetFontHeight());
-	const float *col = Gui::Theme::Colors::tableHeading;
+	const Color &col = Gui::Theme::Colors::tableHeading;
 	heading->Add((new Gui::Label(Lang::SHIP))->Color(col), 0, 0);
 	heading->Add((new Gui::Label(Lang::PRICE))->Color(col), 200, 0);
 	heading->Add((new Gui::Label(Lang::PART_EX))->Color(col), 275, 0);
@@ -67,18 +70,18 @@ void StationShipMarketForm::UpdateShipList()
 
 	float line_height = Gui::Screen::GetFontHeight();
 
-	std::vector<ShipFlavour> &ships = m_station->GetShipsOnSale();
+	const std::vector<ShipFlavour> &ships = m_station->GetShipsOnSale();
 
 	int num = 0;
-	for (std::vector<ShipFlavour>::iterator i = ships.begin(); i!=ships.end(); ++i) {
-		Gui::Fixed *f = new Gui::Fixed(450, line_height*1.5f);
+	for (std::vector<ShipFlavour>::const_iterator i = ships.begin(); i!=ships.end(); ++i) {
+		Gui::Fixed *f = new Gui::Fixed(450, line_height);
 
 		Gui::Label *l = new Gui::Label(ShipType::types[(*i).type].name);
 		f->Add(l,0,0);
 		f->Add(new Gui::Label(format_money((*i).price)), 200, 0);
 		f->Add(new Gui::Label(format_money((*i).price - Pi::player->GetFlavour()->price) ), 275, 0);
 		f->Add(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", ShipType::types[(*i).type].capacity))), 370, 0);
-		
+
 		Gui::SolidButton *sb = new Gui::SolidButton();
 		sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipMarketForm::ViewShip), num));
 		f->Add(sb, 430, 0);

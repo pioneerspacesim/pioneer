@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SURFACE_H
 #define _SURFACE_H
 
@@ -28,7 +31,7 @@ public:
 	std::vector<unsigned short> &GetIndices() { return m_indices; }
 	const unsigned short *GetIndexPointer() const { return &m_indices[0]; }
 
-	bool IsIndexed() { return !m_indices.empty(); }
+	bool IsIndexed() const { return !m_indices.empty(); }
 
 private:
 	PrimitiveType m_primitiveType;

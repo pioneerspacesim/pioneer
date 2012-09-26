@@ -1,12 +1,15 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Camera.h"
 #include "Frame.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Space.h"
 #include "Player.h"
 #include "Pi.h"
 #include "Sfx.h"
 #include "Game.h"
-#include "Light.h"
+#include "Planet.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
@@ -47,14 +50,14 @@ void Camera::OnBodyDeleted()
 	m_body = 0;
 }
 
-static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Light> &lights)
+static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::LightSource> &lights)
 {
 	if (lights.size() > 3) return;
-	// not using frame->GetSBodyFor() because it snoops into parent frames,
+	// not using frame->GetSystemBodyFor() because it snoops into parent frames,
 	// causing duplicate finds for static and rotating frame
-	SBody *body = frame->m_sbody;
+	SystemBody *body = frame->m_sbody;
 
-	if (body && (body->GetSuperType() == SBody::SUPERTYPE_STAR)) {
+	if (body && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
 		matrix4x4d m;
 		Frame::GetFrameTransform(frame, camFrame, m);
 		vector3d lpos = (m * vector3d(0,0,0));
@@ -66,7 +69,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Li
 		Color lightCol(col[0], col[1], col[2], 0.f);
 		Color ambCol(0.f);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol));
+		lights.push_back(Camera::LightSource(frame->m_astroBody, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol)));
 	}
 
 	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i!=frame->m_children.end(); ++i) {
@@ -124,22 +127,53 @@ void Camera::Draw(Renderer *renderer)
 	matrix4x4d trans2bg;
 	Frame::GetFrameRenderTransform(Pi::game->GetSpace()->GetRootFrame(), m_camFrame, trans2bg);
 	trans2bg.ClearToRotOnly();
-	Pi::game->GetSpace()->GetBackground().Draw(renderer, trans2bg);
 
 	// Pick up to four suitable system light sources (stars)
-	std::vector<Light> lights;
-	lights.reserve(4);
-	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), lights);
+	m_lightSources.clear();
+	m_lightSources.reserve(4);
+	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), m_lightSources);
 
-	if (lights.empty()) {
-		// no lights means we're somewhere weird (eg hyperspace). fake one
+	if (m_lightSources.empty()) {
+		// no lights means we're somewhere weird (eg hyperspace).
 		// fake one up and give a little ambient light so that we can see and
 		// so that things that need lights don't explode
 		Color col(1.f);
-		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col));
+		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col)));
 	}
 
-	renderer->SetLights(lights.size(), &lights[0]);
+	//fade space background based on atmosphere thickness and light angle
+	float bgIntensity = 1.f;
+	if (m_camFrame->m_parent) {
+		//check if camera is near a planet
+		Body *camParentBody = m_camFrame->m_parent->GetBodyFor();
+		if (camParentBody && camParentBody->IsType(Object::PLANET)) {
+			Planet *planet = static_cast<Planet*>(camParentBody);
+			const vector3f relpos(planet->GetPositionRelTo(m_camFrame));
+			double altitude(relpos.Length());
+			double pressure, density;
+			planet->GetAtmosphericState(altitude, &pressure, &density);
+
+			//go through all lights to calculate something resembling light intensity
+			float angle = 0.f;
+			for(std::vector<LightSource>::const_iterator it = m_lightSources.begin();
+				it != m_lightSources.end(); ++it) {
+				const vector3f lightDir(it->GetLight().GetPosition().Normalized());
+				angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * it->GetLight().GetDiffuse().GetLuminance();
+			}
+			//calculate background intensity with some hand-tweaked fuzz applied
+			bgIntensity = Clamp(1.f - std::min(1.f, float(density) * (0.3f + angle)), 0.f, 1.f);
+		}
+	}
+
+	Pi::game->GetSpace()->GetBackground().SetIntensity(bgIntensity);
+	Pi::game->GetSpace()->GetBackground().Draw(renderer, trans2bg);
+
+	{
+		std::vector<Graphics::Light> rendererLights;
+		for (size_t i = 0; i < m_lightSources.size(); i++)
+			rendererLights.push_back(m_lightSources[i].GetLight());
+		renderer->SetLights(rendererLights.size(), &rendererLights[0]);
+	}
 
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
@@ -159,7 +193,7 @@ void Camera::Draw(Renderer *renderer)
 		}
 		else if (screenrad >= 2 || attrs->body->IsType(Object::STAR) ||
 					(attrs->body->IsType(Object::PROJECTILE) && screenrad > 0.25))
-			attrs->body->Render(renderer, attrs->viewCoords, attrs->viewTransform);
+			attrs->body->Render(renderer, this, attrs->viewCoords, attrs->viewTransform);
 	}
 
 	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
@@ -195,12 +229,14 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	m_renderer->SetDepthTest(false);
 	m_renderer->SetBlendMode(BLEND_ALPHA_ONE);
 
-	// XXX WRONG. need to pick light from appropriate turd.
+	// XXX this is supposed to pick a correct light colour for the object twinkle.
+	// Not quite correct, since it always uses the first light
 	GLfloat col[4];
 	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
 	col[3] = 1.f;
 
-	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	static VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	va.Clear();
 
 	const Color center(col[0], col[1], col[2], col[2]);
 	const Color edges(col[0], col[1], col[2], 0.f);
@@ -240,13 +276,9 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 		}
 	}
 
-	Material mat;
-	mat.unlit = true;
-	mat.vertexColors = true;
-
 	glPushMatrix();
 	m_renderer->SetTransform(trans);
-	m_renderer->DrawTriangles(&va, &mat, TRIANGLE_FAN);
+	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 	m_renderer->SetBlendMode(BLEND_SOLID);
 	m_renderer->SetDepthTest(true);
 	glPopMatrix();

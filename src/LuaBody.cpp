@@ -1,10 +1,12 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaBody.h"
 #include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Body.h"
-#include "StarSystem.h"
-#include "Pi.h"
+#include "galaxy/StarSystem.h"
 #include "Frame.h"
 
 /*
@@ -37,7 +39,7 @@ static int l_body_attr_label(lua_State *l)
 	Body *b = LuaBody::GetFromLua(1);
 	lua_pushstring(l, b->GetLabel().c_str());
 	return 1;
-} 
+}
 
 /*
  * Attribute: seed
@@ -59,7 +61,7 @@ static int l_body_attr_seed(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
 
-	const SBody *sbody = b->GetSBody();
+	const SystemBody *sbody = b->GetSystemBody();
 	assert(sbody);
 
 	lua_pushinteger(l, sbody->seed);
@@ -86,7 +88,7 @@ static int l_body_attr_path(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
 
-	const SBody *sbody = b->GetSBody();
+	const SystemBody *sbody = b->GetSystemBody();
 	if (!sbody) {
 		lua_pushnil(l);
 		return 1;
@@ -116,7 +118,7 @@ static int l_body_attr_path(lua_State *l)
 static int l_body_attr_type(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
-	const SBody *sbody = b->GetSBody();
+	const SystemBody *sbody = b->GetSystemBody();
 	if (!sbody) {
 		lua_pushnil(l);
 		return 1;
@@ -144,7 +146,7 @@ static int l_body_attr_type(lua_State *l)
 static int l_body_attr_super_type(lua_State *l)
 {
 	Body *b = LuaBody::GetFromLua(1);
-	const SBody *sbody = b->GetSBody();
+	const SystemBody *sbody = b->GetSystemBody();
 	if (!sbody) {
 		lua_pushnil(l);
 		return 1;
@@ -216,7 +218,7 @@ static int l_body_attr_frame_rotating(lua_State *l)
 	return 1;
 }
 
-/* 
+/*
  * Method: IsDynamic
  *
  * Determine if the body is a dynamic body
@@ -280,6 +282,10 @@ static int l_body_distance_to(lua_State *l)
 {
 	Body *b1 = LuaBody::GetFromLua(1);
 	Body *b2 = LuaBody::GetFromLua(2);
+	if (!b1->IsInSpace())
+		return luaL_error(l, "Body:DistanceTo() arg #1 is not in space (probably a ship in hyperspace)");
+	if (!b2->IsInSpace())
+		return luaL_error(l, "Body:DistanceTo() arg #2 is not in space (probably a ship in hyperspace)");
 	lua_pushnumber(l, b1->GetPositionRelTo(b2).Length());
 	return 1;
 }
@@ -288,13 +294,13 @@ template <> const char *LuaObject<Body>::s_type = "Body";
 
 template <> void LuaObject<Body>::RegisterClass()
 {
-	static luaL_reg l_methods[] = {
+	static luaL_Reg l_methods[] = {
 		{ "IsDynamic",  l_body_is_dynamic  },
 		{ "DistanceTo", l_body_distance_to },
 		{ 0, 0 }
 	};
 
-	static luaL_reg l_attrs[] = {
+	static luaL_Reg l_attrs[] = {
 		{ "label",         l_body_attr_label          },
 		{ "seed",          l_body_attr_seed           },
 		{ "path",          l_body_attr_path           },

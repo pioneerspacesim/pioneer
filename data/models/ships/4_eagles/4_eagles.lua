@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_model('eagle_gun', {
 	info = {
 		lod_pixels = {5,10,100,0},
@@ -13,7 +16,7 @@ define_model('eagle_gun', {
 		texture('tex8.png')
 		tapered_cylinder(4*lod,v(0,0,0),v(0,0,-9),v(0,1,0),.3,.2)
 		use_material('d_red')
-		sphere_slice(3*lod,2*lod, 0, .5*math.pi, Matrix.rotate(math.pi,v(1,0,0))*Matrix.scale(v(1,1,1.5)))
+		sphere_slice(3*lod,2*lod, 0, .5*math.pi, matrix.rotate(math.pi,v(1,0,0))*matrix.scale(v(1,1,1.5)))
 		if lod > 2 then
 			use_material('black')
 			texture(nil)
@@ -486,17 +489,17 @@ define_model('emk4_extras_v0', {
 		xref_quad(v42,v46,v54,v50)
 		-- mk4 tank tips
 		texture('tex12.png', v(.5,.5,0), v(.05,0,0), v(0,.05,0))
-		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(34.9,0,-15.8))
-		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, .4, .5*math.pi, matrix.translate(v(34.9,0,-15.8))
+		* matrix.rotate(0.5*math.pi, v(-1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 
-		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(-34.9,0,-15.8))
-		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, .4, .5*math.pi, matrix.translate(v(-34.9,0,-15.8))
+		* matrix.rotate(0.5*math.pi, v(-1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 
-		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(34.9,0,15.8))
-		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, 0, .5*math.pi, matrix.translate(v(34.9,0,15.8))
+		* matrix.rotate(0.5*math.pi, v(1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 
-		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(-34.9,0,15.8))
-		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, 0, .5*math.pi, matrix.translate(v(-34.9,0,15.8))
+		* matrix.rotate(0.5*math.pi, v(1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 	end
 })
 
@@ -523,17 +526,17 @@ define_model('emk4_extras_v1', {
 		xref_quad(v42,v46,v54,v50)
 		-- mk4 tank tips
 		texture('tex1e.png', v(.5,.5,0), v(.05,0,0), v(0,.05,0))
-		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(34.9,0,-15.8))
-		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, .4, .5*math.pi, matrix.translate(v(34.9,0,-15.8))
+		* matrix.rotate(0.5*math.pi, v(-1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 
-		sphere_slice(4*lod,3*lod, .4, .5*math.pi, Matrix.translate(v(-34.9,0,-15.8))
-		* Matrix.rotate(0.5*math.pi, v(-1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, .4, .5*math.pi, matrix.translate(v(-34.9,0,-15.8))
+		* matrix.rotate(0.5*math.pi, v(-1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 
-		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(34.9,0,15.8))
-		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, 0, .5*math.pi, matrix.translate(v(34.9,0,15.8))
+		* matrix.rotate(0.5*math.pi, v(1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 
-		sphere_slice(4*lod,3*lod, 0, .5*math.pi, Matrix.translate(v(-34.9,0,15.8))
-		* Matrix.rotate(0.5*math.pi, v(1,0,0)) * Matrix.rotate(math.pi/16, v(0,1,0)) * Matrix.scale(v(4.1,5,4.1)))
+		sphere_slice(4*lod,3*lod, 0, .5*math.pi, matrix.translate(v(-34.9,0,15.8))
+		* matrix.rotate(0.5*math.pi, v(1,0,0)) * matrix.rotate(math.pi/16, v(0,1,0)) * matrix.scale(v(4.1,5,4.1)))
 	end
 })
 
@@ -734,8 +737,8 @@ define_model('eagle_cyl', {
 		set_material('chrome', .43,.5,.63,1,1,1.2,1.4,30)
 		use_material('chrome')
 		texture('tex8.png')
-		sphere_slice(3*lod, 2*lod, 0, math.pi, Matrix.translate(v(9,0,0)) * Matrix.scale(v(0.75,0.75,0.75)))
-		sphere_slice(3*lod, 2*lod, 0, math.pi, Matrix.translate(v(-9,0,0)) * Matrix.scale(v(0.75,0.75,0.75)))
+		sphere_slice(3*lod, 2*lod, 0, math.pi, matrix.translate(v(9,0,0)) * matrix.scale(v(0.75,0.75,0.75)))
+		sphere_slice(3*lod, 2*lod, 0, math.pi, matrix.translate(v(-9,0,0)) * matrix.scale(v(0.75,0.75,0.75)))
 	end,
 	dynamic = function(lod)
 		use_material('chrome')
@@ -1133,19 +1136,19 @@ define_model('eagle_lrf', {
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(1,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(-1.999,2.499,3.999)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(-1.999,2.499,3.999)))
 			zbias(0)
 		end
 		texture(nil)
 		use_material('win')
 		zbias(2,v(0,1,-24),v(0,1,0))
-		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2,2.5,4)))
+		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2,2.5,4)))
 		zbias(0)
 		if lod > 2 then
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(3,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2.001,2.501,4.001)))
 			zbias(0)
 		end
 
@@ -1236,19 +1239,19 @@ define_model('eagle_mk2', {
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(1,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(-1.999,2.499,3.999)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(-1.999,2.499,3.999)))
 			zbias(0)
 		end
 		texture(nil)
 		use_material('win')
 		zbias(2,v(0,1,-24),v(0,1,0))
-		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2,2.5,4)))
+		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2,2.5,4)))
 		zbias(0)
 		if lod > 2 then
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(3,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2.001,2.501,4.001)))
 			zbias(0)
 		end
 
@@ -1354,19 +1357,19 @@ define_model('eagle_mk3', {
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(1,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(-1.999,2.499,3.999)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(-1.999,2.499,3.999)))
 			zbias(0)
 		end
 		texture(nil)
 		use_material('win')
 		zbias(2,v(0,1,-24),v(0,1,0))
-		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2,2.5,4)))
+		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2,2.5,4)))
 		zbias(0)
 		if lod > 2 then
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(3,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2.001,2.501,4.001)))
 			zbias(0)
 		end
 
@@ -1487,19 +1490,19 @@ define_model('eagle_mk4', {
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(1,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(-1.999,2.499,3.999)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(-1.999,2.499,3.999)))
 			zbias(0)
 		end
 		texture(nil)
 		use_material('win')
 		zbias(2,v(0,1,-24),v(0,1,0))
-		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2,2.5,4)))
+		sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2,2.5,4)))
 		zbias(0)
 		if lod > 2 then
 			use_material('cutout')
 			texture('tex11.png', v(.5,.4,0), v(.18,0,0), v(0,0,.9))
 			zbias(3,v(0,1,-24),v(0,1,0))
-			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,1,-24)) * Matrix.scale(v(2.001,2.501,4.001)))
+			sphere_slice(4*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,1,-24)) * matrix.scale(v(2.001,2.501,4.001)))
 			zbias(0)
 		end
 		if lod > 1 then

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "BVHTree.h"
 #include "../buildopts.h"
 #include <stdio.h>
@@ -74,9 +77,9 @@ void BVHTree::BuildNode(BVHNode *node,
 
 	for (;;) {
 		splitAxis = 0;
-	
+
 		vector3d boxSize = splitBox.max - splitBox.min;
-	
+
 		if (boxSize[1] > boxSize[0]) splitAxis = 1;
 		if ((boxSize[2] > boxSize[1]) && (boxSize[2] > boxSize[0])) splitAxis = 2;
 

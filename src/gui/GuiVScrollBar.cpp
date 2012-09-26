@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Gui.h"
 
@@ -112,7 +115,7 @@ void HScale::Draw()
 		glVertex2f(0.0f, size[1]);
 		glVertex2d(size[0]*pos, size[1]);
 		glVertex2d(size[0]*pos, 0.0f);
-		
+
 		glColor3f(0.0f, 0.0f, 0.2f);
 		glVertex2f(size[0]*pos, 0.0f);
 		glVertex2f(size[0]*pos, size[1]);

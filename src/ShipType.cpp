@@ -1,7 +1,11 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "ShipType.h"
 #include "LmrModel.h"
-#include "MyLuaMathTypes.h"
+#include "LuaVector.h"
 #include "LuaUtils.h"
+#include "FileSystem.h"
 #include "utils.h"
 #include "Lang.h"
 
@@ -14,14 +18,16 @@ std::vector<ShipType::Type> ShipType::player_ships;
 std::vector<ShipType::Type> ShipType::static_ships;
 std::vector<ShipType::Type> ShipType::missile_ships;
 
-std::string ShipType::LADYBIRD				= "Ladybird Starfighter";
-std::string ShipType::SIRIUS_INTERDICTOR	= "Sirius Interdictor";
-std::string ShipType::EAGLE_LRF				= "Eagle Long Range Fighter";
-std::string ShipType::EAGLE_MK3				= "Eagle MK-III";
-std::string ShipType::MISSILE_GUIDED		= "MISSILE_GUIDED";
-std::string ShipType::MISSILE_NAVAL			= "MISSILE_NAVAL";
-std::string ShipType::MISSILE_SMART			= "MISSILE_SMART";
-std::string ShipType::MISSILE_UNGUIDED		= "MISSILE_UNGUIDED";
+std::vector<ShipType::Type> ShipType::playable_atmospheric_ships;
+
+std::string ShipType::LADYBIRD				= "ladybird_starfighter";
+std::string ShipType::SIRIUS_INTERDICTOR	= "sirius_interdictor";
+std::string ShipType::EAGLE_LRF				= "eagle_lrf";
+std::string ShipType::EAGLE_MK3				= "eagle_mk3";
+std::string ShipType::MISSILE_GUIDED		= "missile_guided";
+std::string ShipType::MISSILE_NAVAL			= "missile_naval";
+std::string ShipType::MISSILE_SMART			= "missile_smart";
+std::string ShipType::MISSILE_UNGUIDED		= "missile_unguided";
 
 static void _get_string_attrib(lua_State *L, const char *key, std::string &output,
 		const char *default_output)
@@ -77,14 +83,19 @@ static void _get_vec_attrib(lua_State *L, const char *key, vector3d &output,
 	if (lua_isnil(L, -1)) {
 		output = default_output;
 	} else {
-		output = vector3d(*MyLuaVec::checkVec(L, -1));
+		output = *LuaVector::CheckFromLua(L, -1);
 	}
 	lua_pop(L, 1);
 	LUA_DEBUG_END(L, 0);
 }
 
+static std::string s_currentShipFile;
+
 int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *list)
 {
+	if (s_currentShipFile.empty())
+		return luaL_error(L, "ship file contains multiple ship definitions");
+
 	ShipType s;
 	s.tag = tag;
 
@@ -98,9 +109,20 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 	_get_float_attrib(L, "left_thrust", s.linThrust[ShipType::THRUSTER_LEFT], 0.0f);
 	_get_float_attrib(L, "right_thrust", s.linThrust[ShipType::THRUSTER_RIGHT], 0.0f);
 	_get_float_attrib(L, "angular_thrust", s.angThrust, 0.0f);
-	s.angThrust = s.angThrust / 2;		// fudge
+	// invert values where necessary
+	s.linThrust[ShipType::THRUSTER_FORWARD] *= -1.f;
+	s.linThrust[ShipType::THRUSTER_LEFT] *= -1.f;
+	s.linThrust[ShipType::THRUSTER_DOWN] *= -1.f;
+	// angthrust fudge (XXX: why?)
+	s.angThrust = s.angThrust / 2;
+	_get_vec_attrib(L, "cockpit_front", s.frontViewOffset, vector3d(0.0));
+	_get_vec_attrib(L, "cockpit_rear", s.rearViewOffset, vector3d(0.0));
 	_get_vec_attrib(L, "front_camera", s.frontCameraOffset, vector3d(0.0));
 	_get_vec_attrib(L, "rear_camera", s.rearCameraOffset, vector3d(0.0));
+	_get_vec_attrib(L, "left_camera", s.leftCameraOffset, vector3d(0.0));
+	_get_vec_attrib(L, "right_camera", s.rightCameraOffset, vector3d(0.0));
+	_get_vec_attrib(L, "top_camera", s.topCameraOffset, vector3d(0.0));
+	_get_vec_attrib(L, "bottom_camera", s.bottomCameraOffset, vector3d(0.0));
 
 	for (int i=0; i<Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
 	_get_int_attrib(L, "max_cargo", s.equipSlotCapacity[Equip::SLOT_CARGO], 0);
@@ -129,6 +151,8 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 	_get_int_attrib(L, "price", s.baseprice, 0);
 	s.baseprice *= 100; // in hundredths of credits
 
+	s.equipSlotCapacity[Equip::SLOT_ENGINE] = Clamp(s.equipSlotCapacity[Equip::SLOT_ENGINE], 0, 1);
+
 	{
 		int hyperclass;
 		_get_int_attrib(L, "hyperdrive_class", hyperclass, 1);
@@ -138,21 +162,21 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 			s.hyperdrive = Equip::Type(Equip::DRIVE_CLASS1+hyperclass-1);
 		}
 	}
-	
+
 	lua_pushstring(L, "gun_mounts");
 	lua_gettable(L, -2);
 	if (lua_istable(L, -1)) {
-		for (unsigned int i=0; i<lua_objlen(L,-1); i++) {
+		for (unsigned int i=0; i<lua_rawlen(L,-1); i++) {
 			lua_pushinteger(L, i+1);
 			lua_gettable(L, -2);
-			if (lua_istable(L, -1) && lua_objlen(L,-2) == 2)	{
+			if (lua_istable(L, -1) && lua_rawlen(L,-1) == 2)	{
 				lua_pushinteger(L, 1);
 				lua_gettable(L, -2);
-				s.gunMount[i].pos = *MyLuaVec::checkVec(L, -1);
+				s.gunMount[i].pos = LuaVector::CheckFromLuaF(L, -1);
 				lua_pop(L, 1);
 				lua_pushinteger(L, 2);
 				lua_gettable(L, -2);
-				s.gunMount[i].dir = *MyLuaVec::checkVec(L, -1);
+				s.gunMount[i].dir = LuaVector::CheckFromLuaF(L, -1);
 				lua_pop(L, 1);
 			}
 			lua_pop(L, 1);
@@ -176,8 +200,15 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 		return luaL_error(L, "Model %s is not defined", s.lmrModelName.c_str());
 	}
 
-	ShipType::types[s.name] = s;
-	list->push_back(s.name);
+	const std::string& id = s_currentShipFile;
+	typedef std::map<ShipType::Type, ShipType>::iterator iter;
+	std::pair<iter, bool> result = ShipType::types.insert(std::make_pair(id, s));
+	if (result.second)
+		list->push_back(s_currentShipFile);
+	else
+		return luaL_error(L, "Ship '%s' was already defined by a different file", id.c_str());
+	s_currentShipFile.clear();
+
 	return 0;
 }
 
@@ -202,27 +233,63 @@ void ShipType::Init()
 	if (isInitted) return;
 	isInitted = true;
 
-	lua_State *l = lua_open();
-	luaL_openlibs(l);
+	lua_State *l = luaL_newstate();
 
 	LUA_DEBUG_START(l);
 
-	MyLuaVec::Vec_register(l);
-	lua_pop(l, 1);
-	lua_register(l, "v", MyLuaVec::Vec_new);
+	luaL_requiref(l, "_G", &luaopen_base, 1);
+	luaL_requiref(l, LUA_DBLIBNAME, &luaopen_debug, 1);
+	luaL_requiref(l, LUA_MATHLIBNAME, &luaopen_math, 1);
+	lua_pop(l, 3);
+
+	LuaVector::Register(l);
+	LUA_DEBUG_CHECK(l, 0);
+
+	// provide shortcut vector constructor: v = vector.new
+	lua_getglobal(l, LuaVector::LibName);
+	lua_getfield(l, -1, "new");
+	assert(lua_iscfunction(l, -1));
+	lua_setglobal(l, "v");
+	lua_pop(l, 1); // pop the vector library table
+
+	LUA_DEBUG_CHECK(l, 0);
+
+	// register ship definition functions
 	lua_register(l, "define_ship", define_ship);
 	lua_register(l, "define_static_ship", define_static_ship);
 	lua_register(l, "define_missile", define_missile);
 
-	lua_pushstring(l, PIONEER_DATA_DIR);
-	lua_setglobal(l, "CurrentDirectory");
-	pi_lua_dofile_recursive(l, "ships");
+	LUA_DEBUG_CHECK(l, 0);
+
+	// load all ship definitions
+	namespace fs = FileSystem;
+	for (fs::FileEnumerator files(fs::gameDataFiles, "ships", fs::FileEnumerator::Recurse);
+			!files.Finished(); files.Next()) {
+		const fs::FileInfo &info = files.Current();
+		if (ends_with(info.GetPath(), ".lua")) {
+			const std::string name = info.GetName();
+			s_currentShipFile = name.substr(0, name.size()-4);
+			pi_lua_dofile(l, info.GetPath());
+			s_currentShipFile.clear();
+		}
+	}
 
 	LUA_DEBUG_END(l, 0);
 
 	lua_close(l);
 
 	if (ShipType::player_ships.empty())
-		Warning("No playable ships have been defined! The game cannot run.");
+		Error("No playable ships have been defined! The game cannot run.");
+
+	//collect ships that can fit atmospheric shields
+	for (std::vector<ShipType::Type>::const_iterator it = ShipType::player_ships.begin();
+		it != ShipType::player_ships.end(); ++it) {
+		const ShipType &ship = ShipType::types[*it];
+		if (ship.equipSlotCapacity[Equip::SLOT_ATMOSHIELD] != 0)
+			ShipType::playable_atmospheric_ships.push_back(*it);
+	}
+
+	if (ShipType::playable_atmospheric_ships.empty())
+		Error("No ships can fit atmospheric shields! The game cannot run.");
 }
 

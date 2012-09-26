@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "GameLoaderSaver.h"
 #include "FileSelectorWidget.h"
 #include "Game.h"
@@ -34,7 +37,7 @@ void GameLoaderSaver::DialogMainLoop()
 	m_done = false;
 	while (!m_done)
 		Gui::MainLoopIteration();
-	
+
 	Gui::Screen::RemoveBaseWidget(background);
 	delete background;
 }

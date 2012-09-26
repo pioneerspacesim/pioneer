@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SHIPTYPE_H
 #define _SHIPTYPE_H
 
@@ -48,8 +51,14 @@ struct ShipType {
 	int fuelTankMass; //full fuel tank mass, on top of hullMass
 	int baseprice;
 	Equip::Type hyperdrive;
+	vector3d frontViewOffset;
+	vector3d rearViewOffset;
 	vector3d frontCameraOffset;
 	vector3d rearCameraOffset;
+	vector3d leftCameraOffset;
+	vector3d rightCameraOffset;
+	vector3d topCameraOffset;
+	vector3d bottomCameraOffset;
 	///////
 
 	static std::string LADYBIRD;
@@ -65,6 +74,8 @@ struct ShipType {
 	static std::vector<Type> player_ships;
 	static std::vector<Type> static_ships;
 	static std::vector<Type> missile_ships;
+
+	static std::vector<Type> playable_atmospheric_ships;
 
 	static const char *gunmountNames[GUNMOUNT_MAX];
 	static void Init();

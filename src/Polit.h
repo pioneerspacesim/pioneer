@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _POLIT_H
 #define _POLIT_H
 
@@ -64,16 +67,16 @@ namespace Polit {
 	void Unserialize(Serializer::Reader &rd);
 	void AddCrime(Sint64 crimeBitset, Sint64 addFine);
 	void GetCrime(Sint64 *crimeBitset, Sint64 *fine);
-	/* XXX Why the hell aren't these methods on StarSystem class? */
-	const char *GetGovernmentDesc(StarSystem *s);
-	const char *GetEconomicDesc(StarSystem *s);
-	const char *GetAllegianceDesc(StarSystem *s);
 
 	extern const char *crimeNames[64];
 }
 
 class SysPolit {
 public:
+	const char *GetGovernmentDesc() const;
+	const char *GetEconomicDesc() const;
+	const char *GetAllegianceDesc() const;
+
 	Polit::GovType govType;
 	fixed lawlessness;
 };

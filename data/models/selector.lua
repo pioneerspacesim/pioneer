@@ -1,55 +1,18 @@
-function reg_no(self)
-regn = get_label()
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
+function selector1()  -- decal and squad selection
+  select1 = util.hash_random(string.sub(get_label(), 4,7), 1, 1000)
 end
 
-function preselect(self)   -- generates a "random" number as replacement for symbol characters (-,?,!,+, etc)
-reg_no()
-math.randomseed(tonumber(string.sub((string.gsub(regn,"%W", 1)),1,3),36))
-presel = math.random(1,10)
---print ("pre")
---print (presel)
+function selector2() -- skin color selection
+  select2 = util.hash_random(string.sub(get_label(), 3,6), 1,100)
 end
 
-function selector1(self)  -- decal and squad selection
-reg_no()
-preselect()
-local seed1 = math.randomseed(tonumber(string.sub((string.gsub(regn,"%W", presel)),4,7),36)) --[[ generates a number from ship registration for random seed, any string is converted to a number,
-																					  with replacement of non-alphanumerical by 1, because you might like to "hack" your savegame 
-																					  to give your ship a name instead of a reg#, e.g. "KILLER!" or " LUCKY-7", then decal selection still works!
-																					  further modelviewers given reg# "IR-L33T" still works with that to ;)
-																					  the selection method works now also for variable skins and materials which should depend on ships reg.
-																					  this allows to have the classic squadron colors, red, gold, blue & green 8)
-	    																			  --]]
-select1 = math.random(1,1000) -- randomizes 1 to 1000, uses seed for a uniqe number in between 1 to 1000 (inclusive), identical numbers produce the same result
---print  ("sel1")
---print (select1)  -- use this to check random result
+function selector3() -- dress color selection
+  select3 = util.hash_random(string.sub(get_label(), 2,5), 1,100)
 end
 
-function selector2(self) -- skin color selection
-preselect()
-reg_no()
-math.randomseed(tonumber(string.sub((string.gsub(regn,"%W", presel)),3,6),36))
-select2 = math.random(1,100)
---print ("sel2")
---print (select2)
+function selector4() -- female / male selection
+  select4 = util.hash_random(string.sub(get_label(), 1,4), 1,100)
 end
-
-function selector3(self) -- dress color selection
-preselect()
-reg_no()
-math.randomseed(tonumber(string.sub((string.gsub(regn,"%W", presel)),2,5),36))
-select3 = math.random(1,100)
---print ("sel3")
---print (select3)
-end
-
-function selector4(self) -- female / male selection
-preselect()
-reg_no()
-math.randomseed(tonumber(string.sub((string.gsub(regn,"%W", presel)),1,4),36))
-select4 = math.random(1,100)
---print ("sel4")
---print (select4)
-end
-
-

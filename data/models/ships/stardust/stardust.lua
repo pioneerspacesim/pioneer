@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_model('sd_wing', {
 	info = {
 		lod_pixels = {.1,20,50,0},
@@ -7,7 +10,7 @@ define_model('sd_wing', {
 
 	static = function(lod)
 		if lod == 1 then
-			load_obj('sd_wing_coll.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_wing_coll.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
 		end
 
 		if lod > 1 then
@@ -16,17 +19,17 @@ define_model('sd_wing', {
 
 			use_material('steel')
 			texture('sd_1.png')
-			load_obj('sd_wing_1.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_wing_1.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
 
 			texture('sd_2.png')
-			load_obj('sd_wing_2.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_wing_2.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
 
 			texture('sd_3.png')
-			load_obj('sd_wing_3.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_wing_3.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
 
 			texture('sd_glow.png')
 			use_material('w_glow')
-			load_obj('sd_w_glow.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_w_glow.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
 		end
 	end
 })
@@ -42,7 +45,7 @@ define_model('stardust', {
 
 	static = function(lod)
 		if lod == 1 then
-			load_obj('sd_body_coll.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_body_coll.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
 		end
 
 		if lod > 1 then
@@ -54,26 +57,26 @@ define_model('stardust', {
 			use_material('steel')
 
 			texture('sd_2.png')
-			load_obj('sd_com_2.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
-			load_obj('sd_body_2.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_com_2.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_body_2.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
 
 			texture('sd_3.png')
-			load_obj('sd_body_3.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_body_3.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
 
 			texture('sd_1.png')
-			load_obj('sd_com_1.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
-			load_obj('sd_body_1.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_com_1.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_body_1.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
 
 			use_material('scoop')
-			load_obj('sd_scoop.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_scoop.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
 
 			texture('sd_glow.png')
 			use_material('e_glow')
-			load_obj('sd_e_glow.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_e_glow.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
 
 			use_material('win')
 			texture(nil)
-			load_obj('sd_win.obj', Matrix.rotate(.5*math.pi,v(-1,0,0)))
+			load_obj('sd_win.obj', matrix.rotate(.5*math.pi,v(-1,0,0)))
 		end
 		call_model('sd_wing',v(0,0,0),v(1,0,0),v(0,1,0),1)
 		call_model('sd_wing',v(0,0,0),v(-1,0,0),v(-1.666,-1,0),1)

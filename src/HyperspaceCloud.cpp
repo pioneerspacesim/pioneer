@@ -1,14 +1,18 @@
-#include "libs.h"
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "HyperspaceCloud.h"
-#include "Pi.h"
-#include "Ship.h"
-#include "Serializer.h"
-#include "Space.h"
-#include "Player.h"
-#include "perlin.h"
-#include "Lang.h"
+#include "libs.h"
 #include "Game.h"
+#include "Lang.h"
+#include "perlin.h"
+#include "Pi.h"
+#include "Player.h"
+#include "Serializer.h"
+#include "Ship.h"
+#include "Space.h"
 #include "graphics/Graphics.h"
+#include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 
@@ -24,6 +28,11 @@ HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 	m_birthdate = Pi::game->GetTime();
 	m_due = dueDate;
 	SetIsArrival(isArrival);
+
+	m_graphic.vertices.Reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_graphic.material.Reset(Pi::renderer->CreateMaterial(desc));
 }
 
 HyperspaceCloud::HyperspaceCloud()
@@ -48,7 +57,7 @@ vector3d HyperspaceCloud::GetPosition() const
 	return m_pos;
 }
 
-void HyperspaceCloud::SetPosition(vector3d p)
+void HyperspaceCloud::SetPosition(const vector3d &p)
 {
 	m_pos = p;
 }
@@ -117,7 +126,7 @@ Ship *HyperspaceCloud::EvictShip()
 static void make_circle_thing(VertexArray &va, float radius, const Color &colCenter, const Color &colEdge)
 {
 	va.Add(vector3f(0.f, 0.f, 0.f), colCenter);
-	for (float ang=0; ang<M_PI*2.0; ang+=0.1) {
+	for (float ang=0; ang<float(M_PI)*2.f; ang+=0.1f) {
 		va.Add(vector3f(radius*sin(ang), radius*cos(ang), 0.0f), colEdge);
 	}
 	va.Add(vector3f(0.f, radius, 0.f), colEdge);
@@ -134,14 +143,14 @@ void HyperspaceCloud::UpdateInterpolatedTransform(double alpha)
 	m_interpolatedTransform[14] = p.z;
 }
 
-void HyperspaceCloud::Render(Renderer *renderer, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
 	glPushMatrix();
 
 	matrix4x4d trans = matrix4x4d::Identity();
 	trans.Translate(float(viewCoords.x), float(viewCoords.y), float(viewCoords.z));
-	
+
 	// face the camera dammit
 	vector3d zaxis = viewCoords.NormalizedSafe();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
@@ -150,16 +159,16 @@ void HyperspaceCloud::Render(Renderer *renderer, const vector3d &viewCoords, con
 	renderer->SetTransform(trans * rot);
 
 	// precise to the rendered frame (better than PHYSICS_HZ granularity)
-	double preciseTime = Pi::game->GetTime() + Pi::GetGameTickAlpha()*Pi::game->GetTimeStep();
+	const double preciseTime = Pi::game->GetTime() + Pi::GetGameTickAlpha()*Pi::game->GetTimeStep();
 
-	float radius = 1000.0f + 200.0f*float(noise(10.0*preciseTime, 0, 0));
-	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
-	if (m_isArrival) {
-		make_circle_thing(va, radius, Color(1.0,1.0,1.0,1.0), Color(0.0,0.0,1.0,0.0));
-	} else {
-		make_circle_thing(va, radius, Color(1.0,1.0,1.0,1.0), Color(1.0,0.0,0.0,0.0));
-	}
-	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+	// Flickering gradient circle, departure clouds are red and arrival clouds blue
+	// XXX could just alter the scale instead of recreating the model
+	const float radius = 1000.0f + 200.0f*float(noise(10.0*preciseTime, 0, 0));
+	m_graphic.vertices->Clear();
+	Color4f outerColor = m_isArrival ? Color::BLUE : Color::RED;
+	outerColor.a = 0.f;
+	make_circle_thing(*m_graphic.vertices.Get(), radius, Color(1.0,1.0,1.0,1.0), outerColor);
+	renderer->DrawTriangles(m_graphic.vertices.Get(), m_graphic.material.Get(), TRIANGLE_FAN);
 	renderer->SetBlendMode(BLEND_SOLID);
 	glPopMatrix();
 }

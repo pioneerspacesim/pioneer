@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "StationShipViewForm.h"
 #include "Pi.h"
 #include "Player.h"
@@ -130,7 +133,7 @@ void StationShipViewForm::BuyShip()
 	Pi::player->SetMoney(Pi::player->GetMoney() - cost);
 	Pi::player->ResetFlavour(&m_flavour);
 	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_flavour.type].hyperdrive);
-	Pi::player->UpdateMass();
+	Pi::player->UpdateStats();
 
 	m_station->ReplaceShipOnSale(m_marketIndex, &old);
 

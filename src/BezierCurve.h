@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _BEZIERCURVE_H
 #define _BEZIERCURVE_H
 
@@ -5,7 +8,7 @@
 #include "Serializer.h"
 
 #ifdef _MSC_VER
-	#include "Gamma.h"
+	#include "win32/WinMath.h"
 	#define lgamma LogGamma
 #endif // _MSC_VER
 

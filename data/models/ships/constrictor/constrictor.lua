@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_model('conny_scoop', {
 	info = {
 		bounding_radius = 11,
@@ -164,7 +167,7 @@ define_model('conny_w_front', {
 
 				use_material('chrome')
 				texture('models/ships/constrictor/metal.png')
-				sphere_slice(3*lod,lod,0,.5*math.pi, Matrix.translate(v(0,-4,-1)))
+				sphere_slice(3*lod,lod,0,.5*math.pi, matrix.translate(v(0,-4,-1)))
 			end
 
 			call_model('conny_w_front_0',v(0,-2.2,-8),v(1,0,0),v(0,math.sin(wrot),math.cos(wrot)), 1.0)
@@ -203,7 +206,7 @@ define_model('conny_w_rear_0', {
 		extrusion(v(0,0,7),v(0,0,-7),v(0,1,0),1,v(.5,-.5,7),v(.5,.5,7),v(-.5,.5,7),v(-.5,-.5,7))
 
 		use_material('chrome')
-		sphere_slice(3*lod,lod,0,.5*math.pi, Matrix.translate(v(0,-.5,0))*Matrix.rotate(math.pi,v(1,0,0))*Matrix.scale(v(.5,.5,.5)))
+		sphere_slice(3*lod,lod,0,.5*math.pi, matrix.translate(v(0,-.5,0))*matrix.rotate(math.pi,v(1,0,0))*matrix.scale(v(.5,.5,.5)))
 
 		texture('tire.png', v(.495,.515,0), v(0,0,.95), v(0,.35,0))
 		cylinder(4*lod, v(.5,0,6), v(2,0,6), v(0,1,0), 1.8)
@@ -251,8 +254,8 @@ define_model('conny_w_rear_r', {
 
 				use_material('chrome')
 				texture('models/ships/constrictor/metal.png',v(.5,.5,0),v(0,0,.5),v(0,1,0))
-				sphere_slice(3*lod,lod,0,.5*math.pi, Matrix.translate(v(0,-4,8)))
-				sphere_slice(3*lod,lod,0,.5*math.pi, Matrix.translate(v(0,-4,-8)))
+				sphere_slice(3*lod,lod,0,.5*math.pi, matrix.translate(v(0,-4,8)))
+				sphere_slice(3*lod,lod,0,.5*math.pi, matrix.translate(v(0,-4,-8)))
 			end
 
 			tapered_cylinder(3*lod,v(0,-2.7+14.6*trans,0),v(0,-4,8),v(1,0,0),.3,.5)
@@ -312,8 +315,8 @@ define_model('conny_w_rear_l', {
 
 				use_material('chrome')
 				texture('models/ships/constrictor/metal.png',v(.5,.5,0),v(0,0,.5),v(0,1,0))
-				sphere_slice(3*lod,lod,0,.5*math.pi, Matrix.translate(v(0,-4,8)))
-				sphere_slice(3*lod,lod,0,.5*math.pi, Matrix.translate(v(0,-4,-8)))
+				sphere_slice(3*lod,lod,0,.5*math.pi, matrix.translate(v(0,-4,8)))
+				sphere_slice(3*lod,lod,0,.5*math.pi, matrix.translate(v(0,-4,-8)))
 			end
 
 			tapered_cylinder(3*lod,v(0,-2.7+14.6*trans,0),v(0,-4,8),v(1,0,0),.3,.5)
@@ -370,7 +373,7 @@ define_model('conny_gun', {
 		texture('grill.png',v(.5,.995,0),v(.5,0,0),v(0,0,-.8))
 		cylinder(3*lod,v(0,0,0),v(0,0,-2.5),v(0,1,0),.3)
 
-		sphere_slice(4*lod,2*lod,0,.5*math.pi,Matrix.rotate(math.pi,v(1,0,0))*Matrix.scale(v(1,.5,1)))
+		sphere_slice(4*lod,2*lod,0,.5*math.pi,matrix.rotate(math.pi,v(1,0,0))*matrix.scale(v(1,.5,1)))
 
 		texture(nil)
 		use_material('black')

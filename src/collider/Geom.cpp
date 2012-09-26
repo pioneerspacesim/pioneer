@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include <float.h>
 #include "Geom.h"
 #include "GeomTree.h"
@@ -27,7 +30,7 @@ void Geom::MoveTo(const matrix4x4d &m)
 	m_invOrient = m.InverseOf();
 }
 
-void Geom::MoveTo(const matrix4x4d &m, const vector3d pos)
+void Geom::MoveTo(const matrix4x4d &m, const vector3d &pos)
 {
 	m_orient = m;
 	m_orient[12] = pos.x;
@@ -77,13 +80,13 @@ void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
 	/* Collide this geom's edges against tri-mesh of geom b */
 	transTo = b->m_invOrient * m_orient;
 	this->CollideEdgesWithTrisOf(max_contacts, b, transTo, callback);
-	
+
 	/* Collide b's edges against this geom's tri-mesh */
 	if (max_contacts > 0) {
 		transTo = m_invOrient * b->m_orient;
 		b->CollideEdgesWithTrisOf(max_contacts, this, transTo, callback);
 	}
-	
+
 //	t = SDL_GetTicks() - t;
 //	int numEdges = GetGeomTree()->GetNumEdges() + b->GetGeomTree()->GetNumEdges();
 //	printf("%d 'rays' in %dms (%f rps)\n", numEdges, t, 1000.0*numEdges / (double)t);
@@ -205,7 +208,7 @@ void Geom::CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const mat
 			contact.normal = vector3d(n.x, n.y, n.z);
 			contact.normal = b->GetTransform().ApplyRotationOnly(contact.normal);
 			contact.dist = isect.dist;
-		
+
 			contact.depth = depth;
 			contact.triIdx = isect.triIdx;
 			contact.userData1 = m_data;

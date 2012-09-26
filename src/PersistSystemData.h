@@ -1,8 +1,11 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _PERSISTSYSTEMDATA_H
 #define _PERSISTSYSTEMDATA_H
 
 #include "Serializer.h"
-#include "SystemPath.h"
+#include "galaxy/SystemPath.h"
 #include <map>
 
 template <typename T>

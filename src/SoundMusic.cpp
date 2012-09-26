@@ -1,6 +1,10 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "SoundMusic.h"
 #include "libs.h" //for clamp
 #include "Pi.h"
+#include "LuaEvent.h"
 #include <map>
 
 namespace Sound {
@@ -92,18 +96,18 @@ void MusicPlayer::Update()
 {
 	if (m_playing) { //expecting report
 		if ((m_eventOnePlaying && !m_eventOne.IsPlaying()) || (!m_eventOnePlaying && !m_eventTwo.IsPlaying())) {
-			Pi::luaOnSongFinished->Signal();
 			m_playing = false;
+			LuaEvent::Queue("onSongFinished");
 		}
 	}
 }
 
-const std::string MusicPlayer::GetCurrentSongName()
+const std::string MusicPlayer::GetCurrentSongName() const
 {
 	return m_currentSongName;
 }
 
-const std::vector<std::string> MusicPlayer::GetSongList()
+const std::vector<std::string> MusicPlayer::GetSongList() const
 {
 	using std::string;
 	using std::pair;
@@ -118,7 +122,7 @@ const std::vector<std::string> MusicPlayer::GetSongList()
 	return songs;
 }
 
-bool MusicPlayer::IsPlaying()
+bool MusicPlayer::IsPlaying() const
 {
 	return (m_eventOne.IsPlaying() || m_eventTwo.IsPlaying());
 }

@@ -1,8 +1,11 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Pi.h"
 #include "Polit.h"
-#include "StarSystem.h"
-#include "Sector.h"
+#include "galaxy/StarSystem.h"
+#include "galaxy/Sector.h"
 #include "Space.h"
 #include "Ship.h"
 #include "ShipCpanel.h"
@@ -51,30 +54,29 @@ const char *s_econDesc[ECON_MAX] = {
 
 struct politDesc_t {
 	const char *description;
-	int minTechLevel;
 	int rarity;
 	Bloc bloc;
 	PolitEcon econ;
 	fixed baseLawlessness;
 };
 const politDesc_t s_govDesc[GOV_MAX] = {
-	{ "<invalid turd>", 0, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
-	{ Lang::NO_CENTRAL_GOVERNANCE, 0, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
-	{ Lang::EARTH_FEDERATION_COLONIAL_RULE, 0, 2, BLOC_EARTHFED, ECON_CAPITALIST, fixed(3,10) },
-	{ Lang::EARTH_FEDERATION_DEMOCRACY, 4, 3, BLOC_EARTHFED, ECON_CAPITALIST, fixed(15,100) },
-	{ Lang::IMPERIAL_RULE, 4, 3, BLOC_EMPIRE, ECON_PLANNED, fixed(15,100) },
-	{ Lang::LIBERAL_DEMOCRACY, 3, 2, BLOC_CIS, ECON_CAPITALIST, fixed(25,100) },
-	{ Lang::SOCIAL_DEMOCRACY, 3, 2, BLOC_CIS, ECON_MIXED, fixed(20,100) },
-	{ Lang::LIBERAL_DEMOCRACY, 3, 2, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
-	{ Lang::CORPORATE_SYSTEM, 1, 2, BLOC_NONE, ECON_CAPITALIST, fixed(40,100) },
-	{ Lang::SOCIAL_DEMOCRACY, 3, 2, BLOC_NONE, ECON_MIXED, fixed(25,100) },
-	{ Lang::MILITARY_DICTATORSHIP, 1, 5, BLOC_EARTHFED, ECON_CAPITALIST, fixed(40,100) },
-	{ Lang::MILITARY_DICTATORSHIP, 1, 6, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
-	{ Lang::MILITARY_DICTATORSHIP, 1, 6, BLOC_NONE, ECON_MIXED, fixed(25,100) },
-	{ Lang::MILITARY_DICTATORSHIP, 1, 5, BLOC_EMPIRE, ECON_MIXED, fixed(40,100) },
-	{ Lang::COMMUNIST, 1, 10, BLOC_NONE, ECON_PLANNED, fixed(25,100) },
-	{ Lang::PLUTOCRATIC_DICTATORSHIP, 1, 4, BLOC_NONE, ECON_VERY_CAPITALIST, fixed(45,100) },
-	{ Lang::VIOLENT_ANARCHY, 0, 2, BLOC_NONE, ECON_NONE, fixed(90,100) },
+	{ "<invalid turd>", 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
+	{ Lang::NO_CENTRAL_GOVERNANCE, 0, BLOC_NONE, ECON_NONE, fixed(1,1) },
+	{ Lang::EARTH_FEDERATION_COLONIAL_RULE, 2, BLOC_EARTHFED, ECON_CAPITALIST, fixed(3,10) },
+	{ Lang::EARTH_FEDERATION_DEMOCRACY, 3, BLOC_EARTHFED, ECON_CAPITALIST, fixed(15,100) },
+	{ Lang::IMPERIAL_RULE, 3, BLOC_EMPIRE, ECON_PLANNED, fixed(15,100) },
+	{ Lang::LIBERAL_DEMOCRACY, 2, BLOC_CIS, ECON_CAPITALIST, fixed(25,100) },
+	{ Lang::SOCIAL_DEMOCRACY, 2, BLOC_CIS, ECON_MIXED, fixed(20,100) },
+	{ Lang::LIBERAL_DEMOCRACY, 2, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
+	{ Lang::CORPORATE_SYSTEM, 2, BLOC_NONE, ECON_CAPITALIST, fixed(40,100) },
+	{ Lang::SOCIAL_DEMOCRACY, 2, BLOC_NONE, ECON_MIXED, fixed(25,100) },
+	{ Lang::MILITARY_DICTATORSHIP, 5, BLOC_EARTHFED, ECON_CAPITALIST, fixed(40,100) },
+	{ Lang::MILITARY_DICTATORSHIP, 6, BLOC_NONE, ECON_CAPITALIST, fixed(25,100) },
+	{ Lang::MILITARY_DICTATORSHIP, 6, BLOC_NONE, ECON_MIXED, fixed(25,100) },
+	{ Lang::MILITARY_DICTATORSHIP, 5, BLOC_EMPIRE, ECON_MIXED, fixed(40,100) },
+	{ Lang::COMMUNIST, 10, BLOC_NONE, ECON_PLANNED, fixed(25,100) },
+	{ Lang::PLUTOCRATIC_DICTATORSHIP, 4, BLOC_NONE, ECON_VERY_CAPITALIST, fixed(45,100) },
+	{ Lang::VIOLENT_ANARCHY, 2, BLOC_NONE, ECON_NONE, fixed(90,100) },
 };
 
 void Init()
@@ -108,9 +110,10 @@ void Unserialize(Serializer::Reader &rd)
 /* The drawbacks of stuffing stuff into integers */
 static int GetCrimeIdxFromEnum(enum Crime crime)
 {
-	PiVerify(crime);
-	for (int i=0; i<64; i++) {
-		if (crime & (1<<i)) return i;
+	assert(crime);
+	for (int i = 0; i < 64; ++i) {
+		if (crime & 1) return i;
+		crime = Crime(crime >> 1); // cast needed because this gets promoted to 'int'
 	}
 	return 0;
 }
@@ -178,31 +181,18 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 	}
 }
 
-const char *GetGovernmentDesc(StarSystem *s)
-{
-	return s_govDesc[s->GetSysPolit().govType].description;
-}
-const char *GetEconomicDesc(StarSystem *s)
-{
-	return s_econDesc [ s_govDesc[s->GetSysPolit().govType].econ ];
-}
-const char *GetAllegianceDesc(StarSystem *s)
-{
-	return s_blocDesc [ s_govDesc[s->GetSysPolit().govType].bloc ];
-}
-
 #define POLIT_SEED 0x1234abcd
 
 void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit)
 {
 	SystemPath path = s->GetPath();
-	const unsigned long _init[5] = { path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, POLIT_SEED };
+	const unsigned long _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
 	MTRand rand(_init, 5);
 
 	Sector sec(path.sectorX, path.sectorY, path.sectorZ);
 
 	GovType a = GOV_INVALID;
-	
+
 	/* from custom system definition */
 	if (sec.m_systems[path.systemIndex].customSys) {
 		Polit::GovType t = sec.m_systems[path.systemIndex].customSys->govType;
@@ -212,10 +202,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 		if (path == SystemPath(0,0,0,0)) {
 			a = Polit::GOV_EARTHDEMOC;
 		} else if (human_infestedness > 0) {
-			for (int tries=10; tries--; ) {
-				a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
-				if (s_govDesc[a].minTechLevel <= s->m_techlevel) break;
-			}
+			a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
 		} else {
 			a = GOV_NONE;
 		}
@@ -230,7 +217,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 bool IsCommodityLegal(const StarSystem *s, Equip::Type t)
 {
 	SystemPath path = s->GetPath();
-	const unsigned long _init[5] = { path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, POLIT_SALT };
+	const unsigned long _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SALT };
 	MTRand rand(_init, 5);
 
 	Polit::GovType a = s->GetSysPolit().govType;
@@ -267,5 +254,20 @@ bool IsCommodityLegal(const StarSystem *s, Equip::Type t)
 	}
 }
 
+}
+
+const char *SysPolit::GetGovernmentDesc() const
+{
+	return Polit::s_govDesc[govType].description;
+}
+
+const char *SysPolit::GetEconomicDesc() const
+{
+	return Polit::s_econDesc[ Polit::s_govDesc[govType].econ ];
+}
+
+const char *SysPolit::GetAllegianceDesc() const
+{
+	return Polit::s_blocDesc[ Polit::s_govDesc[govType].bloc ];
 }
 

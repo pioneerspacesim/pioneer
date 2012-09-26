@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaObject.h"
 #include "LuaShipType.h"
 #include "LuaUtils.h"
@@ -206,17 +209,17 @@ int l_shiptype_get_equip_slot_capacity(lua_State *l)
 /*
  * Function: GetShipType
  *
- * Get a description object for the given ship name
+ * Get a description object for the given ship id
  *
- * > shiptype = ShipType.GetShipType(name)
+ * > shiptype = ShipType.GetShipType(id)
  *
  * Parameters:
  *
- *   name - the name of the ship to get the description object for
+ *   id - the id of the ship to get the description object for
  *
  * Example:
  *
- * > local shiptype = ShipType.GetShipType("Eagle Long Range Fighter")
+ * > local shiptype = ShipType.GetShipType("eagle_lrf")
  *
  * Availability:
  *
@@ -233,7 +236,7 @@ static int l_shiptype_get_ship_type(lua_State *l)
 	std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.find(type);
 	if (i == ShipType::types.end())
 		luaL_error(l, "Invalid ship name '%s'", type);
-	
+
 	LuaShipType::PushToLua(&((*i).second));
 	return 1;
 }
@@ -289,15 +292,13 @@ static int l_shiptype_get_ship_types(lua_State *l)
 
 	bool filter = false;
 	if (lua_gettop(l) >= 2) {
-		if (!lua_isfunction(l, 2))
-			luaL_typerror(l, 2, lua_typename(l, LUA_TFUNCTION));
+		luaL_checktype(l, 2, LUA_TFUNCTION); // any type of function
 		filter = true;
 	}
-	
+
 	lua_newtable(l);
-	pi_lua_table_ro(l);
-	
-	for (std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.begin(); i != ShipType::types.end(); i++)
+
+	for (std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.begin(); i != ShipType::types.end(); ++i)
 	{
 		ShipType *st = &((*i).second);
 		if (tag == ShipType::TAG_NONE || tag == st->tag) {
@@ -305,7 +306,7 @@ static int l_shiptype_get_ship_types(lua_State *l)
 				lua_pushvalue(l, 2);
 				LuaShipType::PushToLua(st);
 				if (int ret = lua_pcall(l, 1, 1, 0)) {
-					const char *errmsg;
+					const char *errmsg( "Unknown error" );
 					if (ret == LUA_ERRRUN)
 						errmsg = lua_tostring(l, -1);
 					else if (ret == LUA_ERRMEM)
@@ -321,7 +322,7 @@ static int l_shiptype_get_ship_types(lua_State *l)
 				lua_pop(l, 1);
 			}
 
-			lua_pushinteger(l, lua_objlen(l, -1)+1);
+			lua_pushinteger(l, lua_rawlen(l, -1)+1);
 			lua_pushstring(l, (*i).first.c_str());
 			lua_rawset(l, -3);
 		}
@@ -336,7 +337,7 @@ template <> const char *LuaObject<LuaUncopyable<ShipType> >::s_type = "ShipType"
 
 template <> void LuaObject<LuaUncopyable<ShipType> >::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "GetLinearThrust",      l_shiptype_get_linear_thrust       },
 		{ "GetEquipSlotCapacity", l_shiptype_get_equip_slot_capacity },
 
@@ -345,7 +346,7 @@ template <> void LuaObject<LuaUncopyable<ShipType> >::RegisterClass()
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "name",              l_shiptype_attr_name               },
 		{ "angularThrust",     l_shiptype_attr_angular_thrust     },
 		{ "capacity",          l_shiptype_attr_capacity           },

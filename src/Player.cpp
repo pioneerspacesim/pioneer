@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Player.h"
 #include "Frame.h"
 #include "Game.h"
@@ -12,12 +15,15 @@
 #include "SpaceStationView.h"
 #include "WorldView.h"
 
+//Some player specific sounds
+static Sound::Event s_soundUndercarriage;
+static Sound::Event s_soundHyperdrive;
+
 Player::Player(ShipType::Type shipType): Ship(shipType)
 {
 	SetController(new PlayerShipController());
 	m_killCount = 0;
 	m_knownKillCount = 0;
-	UpdateMass();
 }
 
 void Player::Save(Serializer::Writer &wr, Space *space)
@@ -73,10 +79,9 @@ void Player::SetDockedWith(SpaceStation *s, int port)
 //XXX all ships should make this sound
 bool Player::SetWheelState(bool down)
 {
-	static Sound::Event sndev;
 	bool did = Ship::SetWheelState(down);
 	if (did) {
-		sndev.Play(down ? "UC_out" : "UC_in", 1.0f, 1.0f, 0);
+		s_soundUndercarriage.Play(down ? "UC_out" : "UC_in", 1.0f, 1.0f, 0);
 	}
 	return did;
 }
@@ -86,7 +91,7 @@ bool Player::FireMissile(int idx, Ship *target)
 {
 	if (!Ship::FireMissile(idx, target))
 		return false;
-	
+
 	Sound::PlaySfx("Missile_launch", 1.0f, 1.0f, 0);
 	return true;
 }
@@ -141,20 +146,20 @@ void Player::NotifyRemoved(const Body* const removedBody)
 void Player::Bought(Equip::Type t)
 {
 	m_equipment.Add(t);
-	UpdateMass();
+	UpdateEquipStats();
 }
 
 void Player::Sold(Equip::Type t)
 {
 	m_equipment.Remove(t, 1);
-	UpdateMass();
+	UpdateEquipStats();
 }
 
 bool Player::CanBuy(Equip::Type t, bool verbose) const
 {
 	Equip::Slot slot = Equip::types[int(t)].slot;
 	bool freespace = (m_equipment.FreeSpace(slot)!=0);
-	bool freecapacity = (m_stats.free_capacity >= Equip::types[int(t)].mass);
+	bool freecapacity = (GetStats().free_capacity >= Equip::types[int(t)].mass);
 	if (verbose) {
 		if (!freespace) {
 			Pi::Message(Lang::NO_FREE_SPACE_FOR_ITEM);
@@ -191,6 +196,7 @@ Sint64 Player::GetPrice(Equip::Type t) const
 //XXX ui stuff
 void Player::OnEnterHyperspace()
 {
+	s_soundHyperdrive.Play("Hyperdrive_Jump");
 	SetNavTarget(0);
 	SetCombatTarget(0);
 
@@ -240,3 +246,19 @@ void Player::SetNavTarget(Body* const target, bool setSpeedTo)
 	Pi::onPlayerChangeTarget.emit();
 }
 //temporary targeting stuff ends
+
+Ship::HyperjumpStatus Player::StartHyperspaceCountdown(const SystemPath &dest)
+{
+	HyperjumpStatus status = Ship::StartHyperspaceCountdown(dest);
+
+	if (status == HYPERJUMP_OK)
+		s_soundHyperdrive.Play("Hyperdrive_Charge");
+
+	return status;
+}
+
+void Player::ResetHyperspaceCountdown()
+{
+	s_soundHyperdrive.Play("Hyperdrive_Abort");
+	Ship::ResetHyperspaceCountdown();
+}

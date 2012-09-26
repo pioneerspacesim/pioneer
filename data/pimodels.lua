@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 --
 -- Don't add models to this! Put them in ./models/
 --
@@ -9,9 +12,9 @@ math.clamp = function(v, min, max)
 end
 
 function cuboid(pos, size)
-	local sx = v(size:x(),0,0)
-	local sy = v(0,size:y(),0)
-	local sz = v(0,0,size:z())
+	local sx = v(size.x,0,0)
+	local sy = v(0,size.y,0)
+	local sz = v(0,0,size.z)
 	quad(pos, pos+sy, pos+sy+sx, pos+sx)
 	quad(pos+sy, pos+sy+sz, pos+sy+sx+sz, pos+sy+sx)
 	quad(pos, pos+sz, pos+sz+sy, pos+sy)
@@ -83,8 +86,8 @@ define_model('test', {
 		set_material("red", 1,0,0,1)
 		set_material("shinyred", 1,0,0,1, 1,1,1,50)
 		use_material("red")
-		sphere(4, Matrix.translate(v(-2,0,0)))
-		sphere_slice(20,10,3.141*0.1,3.141*0.9, Matrix.translate(v(0,4,0)) * Matrix.orient(v(0,0,0), v(-1,0,0), v(0,-1,0)))
+		sphere(4, matrix.translate(v(-2,0,0)))
+		sphere_slice(20,10,3.141*0.1,3.141*0.9, matrix.translate(v(0,4,0)) * matrix.pose(v(0,0,0), v(-1,0,0), v(0,-1,0)))
 --		texture("concrete.png", v(0.25,0.25,0), v(0.2,0,0), v(0,-0.5,0))
 		xref_flat(16, v(0,0,1),
 			{v(4,0,0)}, -- straight line bit
@@ -95,7 +98,7 @@ define_model('test', {
 			)
 		zbias(1, v(0,5,0), v(0,0,1))
 		geomflag(0x8000)
-		text("LOD: " .. tostring(lod), v(0,5,0), v(0,0,1), v(1,1,0):norm(), 1.0)
+		text("LOD: " .. tostring(lod), v(0,5,0), v(0,0,1), v(1,1,0):normalised(), 1.0)
 		geomflag(0)
 		zbias(0)
 		use_material("red")
@@ -121,14 +124,14 @@ define_model('test', {
 					v(0,-1,0), v(1,-1,2),
 					v(0,-2,0))
 					--]]
-	--[[	
+	--[[
 		geomflag(0x8000)
 		xref_quadric_bezier_quad(16, 16,
 				v(0,0,0), v(1,-1,0), v(2,0,0),
 				v(-1,1,0), v(1,1,8), v(3,1,0),
 				v(0,2,0), v(1,3,0), v(2,2,0))
 				--]]
-	--[[	
+	--[[
 		xref_cubic_bezier_quad(32, 32,
 				v(0,0,0), v(1,0,0), v(2,0,0), v(3,0,0),
 				v(0,1,0), v(1,1,5), v(2,1,0), v(3,1,0),
@@ -215,7 +218,7 @@ define_model('tombstone', {
 	end
 })
 
-m = Matrix.rotate(math.pi*0.25,v(1,1,1))
+m = matrix.rotate(math.pi*0.25,v(1,1,1))
 --m:print()
 m = m:inverse()
 --m:print()

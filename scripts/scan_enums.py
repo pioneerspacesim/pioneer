@@ -5,7 +5,8 @@ import sys
 import os
 from optparse import OptionParser
 import re
-import fileinput
+import fnmatch
+import glob
 
 # splice lines (std: lex.phase -- Phases of translation: 2.1.1.2)
 def splice_lines(lines):
@@ -85,6 +86,13 @@ KEYWORDS = set([
 ])
 assert (len(KEYWORDS) == 74)
 
+class CppParseError(Exception):
+    def __init__(s, value):
+        s.value = value
+
+    def __str__(s):
+        return repr(s.value)
+
 def match_pp_token(ln, lines):
     tok = RX_LINE_COMMENT.match(ln)
     if tok is not None:
@@ -101,7 +109,7 @@ def match_pp_token(ln, lines):
                     return xln[end.end():], 'comment', ''.join(accum)
                 else:
                     accum.append(xln)
-            raise Exception('Unclosed block comment')
+            raise CppParseError('Unclosed block comment')
         else:
             return ln[end.end():], 'comment', ln[2:end.start()]
     tok = RX_LITERAL.match(ln)
@@ -129,7 +137,7 @@ def match_pp_token(ln, lines):
     if tok is not None:
         return ln[tok.end():], 'punctuation', tok.group(1)
     # one of the above should have matched...
-    raise Exception('Unmatched token: ' + repr(ln))
+    raise CppParseError('Unmatched token: ' + repr(ln))
 
 def match_pp_headername_or_token(ln, lines):
     tok = RX_PP_HEADERNAME.match(ln)
@@ -308,7 +316,7 @@ def parse_enum(toktype, toktext, tokens, preceding_comment=None):
                 toktype, toktext = collect_comments(tokens, tag)
             if toktype == 'punctuation' and toktext == ',':
                 toktype, toktext = collect_comments(tokens, tag)
-            
+
             tag = RX_ENUM_TAG.search(' '.join(tag))
             if tag is not None:
                 item.read_attrs(extract_attributes(tag.group(1)))
@@ -366,6 +374,27 @@ def extract_enums(lines):
             # are discarded
             lastcomment = ''
 
+def recursive_glob(basedir, pattern):
+    for root, dirnames, filenames in os.walk(basedir):
+        for name in fnmatch.filter(filenames, pattern):
+            yield os.path.join(root, name)
+
+def expand_dirs(args, pattern, recursive):
+    for path in args:
+        if path != '-' and os.path.isdir(path):
+            if not pattern:
+                sys.stderr.write("Warning: skipping directory input '" + path + "'\n")
+                continue
+
+            if recursive:
+                for name in recursive_glob(path, pattern):
+                    yield name
+            else:
+                for name in glob.iglob(os.path.join(path, pattern)):
+                    yield name
+        else:
+            yield path
+
 def main():
     oparse = OptionParser(usage='%prog [options] headers-to-scan')
     oparse.add_option('-o', '--output', type="string", dest="outfile", default='-',
@@ -375,6 +404,11 @@ def main():
           help="Specify the header file to write to. If the main output file is not stdout " +
                "then this defaults to a file of the same name with the extension changed to .h; " +
                "otherwise, then no header content is written.")
+    oparse.add_option('--pattern', type='string', dest='pattern',
+          help="Specify a file pattern to match for the input files (e.g., *.h). " +
+               "This pattern is used to scan any directory inputs.")
+    oparse.add_option('-r','--recursive', dest='recursive', action='store_true', default=False,
+          help="Scan directory inputs recursively (used with the --pattern argument).")
     (options, args) = oparse.parse_args()
 
     if options.headerfile is not None and options.outfile is None:
@@ -387,19 +421,39 @@ def main():
     # scan input files and record list of headers that have enums
     enums = []
     headers = []
-    for path in args:
-        if path == '-':
-            es = list(extract_enums(sys.stdin))
-        else:
-            with open(path, 'rU') as fl:
-                es = list(extract_enums(fl))
-            if es:
-                if options.outfile == '-':
-                    hpath = os.path.basename(path)
-                else:
-                    hpath = os.path.relpath(path, os.path.dirname(options.outfile))
-                headers.append(hpath)
-        enums += es
+    allinputs = list(expand_dirs(args, options.pattern, options.recursive))
+    allinputs.sort()
+    for path in allinputs:
+        try:
+            if path == '-':
+                es = list(extract_enums(sys.stdin))
+            else:
+                with open(path, 'rU') as fl:
+                    # skip an optional UTF-8 Byte Order Mark
+                    if sys.version_info[0] >= 3:
+                        hasbom = (fl.read(1) == '\uFEFF')
+                    else:
+                        hasbom = (fl.read(3) == '\xef\xbb\xbf')
+                    if hasbom:
+                        sys.stderr.write("Warning: file '" + path + "' uses a UTF-8 Byte Order Mark\n")
+                    else:
+                        fl.seek(0)
+
+                    es = list(extract_enums(fl))
+                if es:
+                    if options.outfile == '-':
+                        hpath = os.path.basename(path)
+                    else:
+                        hpath = os.path.relpath(path, os.path.dirname(options.outfile))
+                    headers.append(hpath)
+            enums += es
+        except CppParseError as e:
+            if path == '-':
+                prettypath = 'input'
+            else:
+                prettypath = "'" + path + "'"
+            sys.stderr.write("Warning: C++ parse error in " + prettypath + ":\n")
+            sys.stderr.write('    ' + e.value + '\n')
 
     if options.outfile == '-':
         # write to stdout (no header)

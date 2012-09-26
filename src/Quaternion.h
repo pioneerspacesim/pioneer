@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _QUATERNION_H
 #define _QUATERNION_H
 
@@ -19,7 +22,7 @@ public:
 	Quaternion(const Quaternion<float > &o);
 	Quaternion(const Quaternion<double> &o);
 
-	void GetAxisAngle(T &angle, vector3<T> &axis) {
+	void GetAxisAngle(T &angle, vector3<T> &axis) const {
 		if (w > 1.0) *this = Normalized(); // if w>1 acos and sqrt will produce errors, this cant happen if quaternion is normalised
 		angle = 2.0 * acos(w);
 		double s = sqrt(1.0-w*w); // assuming quaternion normalised then w is less than 1, so term always positive.

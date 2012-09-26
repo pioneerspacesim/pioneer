@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "CityOnPlanet.h"
 #include "Frame.h"
@@ -7,6 +10,7 @@
 #include "Game.h"
 #include "collider/Geom.h"
 #include "graphics/Frustum.h"
+#include "graphics/Graphics.h"
 
 #define START_SEG_SIZE CITY_ON_PLANET_RADIUS
 #define MIN_SEG_SIZE 50.0
@@ -19,7 +23,6 @@ struct citybuilding_t {
 	const LmrCollMesh *collMesh;
 };
 
-#define MAX_BUILDING_LISTS 1
 struct citybuildinglist_t {
 	const char *modelTagName;
 	double minRadius, maxRadius;
@@ -27,10 +30,10 @@ struct citybuildinglist_t {
 	citybuilding_t *buildings;
 };
 
-citybuildinglist_t s_buildingLists[MAX_BUILDING_LISTS] = {
-	{ "city_building", 800, 2000, 0, NULL },
-	//{ "city_power", 100, 250, 0, NULL },
-	//{ "city_starport_building", 300, 400, 0, NULL },
+static citybuildinglist_t s_buildingLists[] = {
+	{ "city_building", 800, 2000, 0, 0 },
+	//{ "city_power", 100, 250, 0, 0 },
+	//{ "city_starport_building", 300, 400, 0, 0 },
 };
 
 #define CITYFLAVOURS 5
@@ -46,19 +49,19 @@ LmrObjParams cityobj_params;
 void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
 {
 	double rad = (p1-p2).Length()*0.5;
-	LmrModel *model;
-	double modelRadXZ;
-	const LmrCollMesh *cmesh;
+	LmrModel *model(0);
+	double modelRadXZ(0);
+	const LmrCollMesh *cmesh(0);
 	vector3d cent = (p1+p2+p3+p4)*0.25;
 
-	cityflavourdef_t *flavour;
-	citybuildinglist_t *buildings;
+	cityflavourdef_t *flavour(0);
+	citybuildinglist_t *buildings(0);
 
 	// pick a building flavour (city, windfarm, etc)
 	for (int flv=0; flv<CITYFLAVOURS; flv++) {
 		flavour = &cityflavour[flv];
 		buildings = &s_buildingLists[flavour->buildingListIdx];
-       
+
 		int tries;
 		for (tries=20; tries--; ) {
 			const citybuilding_t &bt = buildings->buildings[rand.Int32(buildings->numBuildings)];
@@ -68,7 +71,7 @@ void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, 
 			if (modelRadXZ < rad) break;
 			if (tries == 0) return;
 		}
-		
+
 		bool tooDistant = ((flavour->center - cent).Length()*(1.0/flavour->size) > rand.Double());
 		if (!tooDistant) break;
 		else flavour = 0;
@@ -94,9 +97,10 @@ always_divide:
 		cent = cent.Normalized();
 		double height = m_planet->GetTerrainHeight(cent);
 		/* don't position below sealevel! */
-		if (height - m_planet->GetSBody()->GetRadius() <= 0.0) return;
+		if (height - m_planet->GetSystemBody()->GetRadius() <= 0.0) return;
 		cent = cent * height;
 
+		assert(cmesh);
 		Geom *geom = new Geom(cmesh->geomTree);
 		int rotTimes90 = rand.Int32(4);
 		matrix4x4d grot = rot * matrix4x4d::RotateYMatrix(M_PI*0.5*double(rotTimes90));
@@ -165,7 +169,7 @@ void CityOnPlanet::Init()
 	/* Resolve city model numbers since it is a bit expensive */
 	if (!s_cityBuildingsInitted) {
 		s_cityBuildingsInitted = true;
-		for (int i=0; i<MAX_BUILDING_LISTS; i++) {
+		for (unsigned int i=0; i<COUNTOF(s_buildingLists); i++) {
 			lookupBuildingListModels(&s_buildingLists[i]);
 		}
 	}
@@ -173,7 +177,7 @@ void CityOnPlanet::Init()
 
 void CityOnPlanet::Uninit()
 {
-	for (int list=0; list<MAX_BUILDING_LISTS; list++) {
+	for (unsigned int list=0; list<COUNTOF(s_buildingLists); list++) {
 		for (int build=0; build<s_buildingLists[list].numBuildings; build++) {
 			delete s_buildingLists[list].buildings[build].collMesh;
 		}
@@ -183,7 +187,7 @@ void CityOnPlanet::Uninit()
 
 CityOnPlanet::~CityOnPlanet()
 {
-	// frame may be null (already removed from 
+	// frame may be null (already removed from
 	for (unsigned int i=0; i<m_buildings.size(); i++) {
 		m_frame->RemoveStaticGeom(m_buildings[i].geom);
 		delete m_buildings[i].geom;
@@ -200,20 +204,20 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	/* Resolve city model numbers since it is a bit expensive */
 	if (!s_cityBuildingsInitted) {
 		s_cityBuildingsInitted = true;
-		for (int i=0; i<MAX_BUILDING_LISTS; i++) {
+		for (unsigned int i=0; i<COUNTOF(s_buildingLists); i++) {
 			lookupBuildingListModels(&s_buildingLists[i]);
 		}
 	}
 
 	Aabb aabb;
 	station->GetAabb(aabb);
-	
+
 	matrix4x4d m;
 	station->GetRotMatrix(m);
 
 	vector3d mx = m*vector3d(1,0,0);
 	vector3d mz = m*vector3d(0,0,1);
-		
+
 	MTRand rand;
 	rand.seed(seed);
 
@@ -222,21 +226,22 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	vector3d p1, p2, p3, p4;
 	double sizex = START_SEG_SIZE;// + rand.Int32((int)START_SEG_SIZE);
 	double sizez = START_SEG_SIZE;// + rand.Int32((int)START_SEG_SIZE);
-	
+
 	// always have random shipyard buildings around the space station
 	cityflavour[0].buildingListIdx = 0;//2;
 	cityflavour[0].center = p;
 	cityflavour[0].size = 500;
 
 	for (int i=1; i<CITYFLAVOURS; i++) {
-		cityflavour[i].buildingListIdx = MAX_BUILDING_LISTS>1 ? rand.Int32(MAX_BUILDING_LISTS-1) : 0;
+		cityflavour[i].buildingListIdx =
+			(COUNTOF(s_buildingLists) > 1 ? rand.Int32(COUNTOF(s_buildingLists)) : 0);
 		citybuildinglist_t *blist = &s_buildingLists[cityflavour[i].buildingListIdx];
 		double a = rand.Int32(-1000,1000);
 		double b = rand.Int32(-1000,1000);
 		cityflavour[i].center = p + a*mx + b*mz;
 		cityflavour[i].size = rand.Int32(int(blist->minRadius), int(blist->maxRadius));
 	}
-	
+
 	for (int side=0; side<4; side++) {
 		/* put buildings on all sides of spaceport */
 		switch(side) {
@@ -272,7 +277,8 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	AddStaticGeomsToCollisionSpace();
 }
 
-void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+//Note: models get some ambient colour added when dark as the camera moves closer
+void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform, double illumination, double minIllumination)
 {
 	matrix4x4d rot[4];
 	station->GetRotMatrix(rot[0]);
@@ -282,26 +288,41 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, co
 		RemoveStaticGeomsFromCollisionSpace();
 		AddStaticGeomsToCollisionSpace();
 	}
-	
+
 	rot[0] = viewTransform * rot[0];
 	for (int i=1; i<4; i++) {
 		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*double(i));
 	}
 
-	Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
+	const Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
 	//modelview seems to be always identity
 
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
 	cityobj_params.time = Pi::game->GetTime();
-
+	
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
 			i != m_buildings.end(); ++i) {
 
 		if (!(*i).isEnabled) continue;
-
+		
 		vector3d pos = viewTransform * (*i).pos;
 		if (!frustum.TestPoint(pos, (*i).clipRadius))
 			continue;
+
+		const Color oldSceneAmbientColor = r->GetAmbientColor();
+
+		// fade conditions for models
+		double fadeInEnd, fadeInLength;
+		if (Graphics::AreShadersEnabled()) {
+			fadeInEnd = 10.0;
+			fadeInLength = 500.0;
+		}
+		else {
+			fadeInEnd = 2000.0;
+			fadeInLength = 6000.0;
+		}
+
+		FadeInModelIfDark(r, (*i).clipRadius, pos.Length(), fadeInEnd, fadeInLength, illumination, minIllumination);
 
 		matrix4x4f _rot;
 		for (int e=0; e<16; e++) _rot[e] = float(rot[(*i).rotation][e]);
@@ -309,6 +330,10 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const SpaceStation *station, co
 		_rot[13] = float(pos.y);
 		_rot[14] = float(pos.z);
 		(*i).model->Render(_rot, &cityobj_params);
+
+		// restore old ambient colour
+		if (illumination <= minIllumination) 
+			r->SetAmbientColor(oldSceneAmbientColor);
 	}
 }
 

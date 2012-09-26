@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Terrain.h"
 #include "TerrainNoise.h"
 
@@ -7,7 +10,7 @@ template <>
 const char *TerrainColorFractal<TerrainColorStarK>::GetColorFractalName() const { return "StarK"; }
 
 template <>
-TerrainColorFractal<TerrainColorStarK>::TerrainColorFractal(const SBody *body) : Terrain(body)
+TerrainColorFractal<TerrainColorStarK>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
 	double height = m_maxHeightInMeters*0.1;
 	SetFracDef(0, height, 2e9, 100.0*m_fracmult);

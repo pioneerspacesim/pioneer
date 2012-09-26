@@ -1,20 +1,25 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _RENDERER_LEGACY_H
 #define _RENDERER_LEGACY_H
-
+/*
+ * Fixed function renderer (GL1.5 approx)
+ */
 #include "Renderer.h"
 
 namespace Graphics {
 
 class Texture;
+struct Settings;
 
-// Fixed function renderer
 class RendererLegacy : public Renderer
 {
 public:
-	RendererLegacy(int width, int height);
+	RendererLegacy(const Graphics::Settings &vs);
 	virtual ~RendererLegacy();
 
-	virtual const char* GetName() { return "Legacy renderer"; }
+	virtual const char* GetName() const { return "Legacy renderer"; }
 	virtual bool GetNearFarRange(float &near, float &far) const;
 
 	virtual bool BeginFrame();
@@ -40,18 +45,19 @@ public:
 	virtual bool SetLights(int numlights, const Light *l);
 	virtual bool SetAmbientColor(const Color &c);
 
-	virtual bool SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0);
+	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f));
 
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, LineType type=LINE_SINGLE);
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE);
 	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, LineType type=LINE_SINGLE);
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, float pointSize=1.f);
 	virtual bool DrawPoints2D(int count, const vector2f *points, const Color *colors, float pointSize=1.f);
-	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES);
+	virtual bool DrawTriangles(const VertexArray *vertices, Material *material, PrimitiveType type=TRIANGLES);
 	virtual bool DrawSurface(const Surface *surface);
-	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size);
+	virtual bool DrawPointSprites(int count, const vector3f *positions, Material *material, float size);
 	virtual bool DrawStaticMesh(StaticMesh *thing);
 
+	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor);
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor);
 
 	virtual bool PrintDebugInfo(std::ostream &out);
@@ -60,18 +66,18 @@ protected:
 	virtual void PushState();
 	virtual void PopState();
 
-	virtual void ApplyMaterial(const Material *mat);
-	virtual void UnApplyMaterial(const Material *mat);
 	//figure out states from a vertex array and enable them
 	//also sets vertex pointers
 	virtual void EnableClientStates(const VertexArray *v);
 	//disable previously enabled
 	virtual void DisableClientStates();
 	int m_numLights;
+	int m_numDirLights;
 	std::vector<GLenum> m_clientStates;
 	virtual bool BufferStaticMesh(StaticMesh *m);
 	float m_minZNear;
 	float m_maxZFar;
+	bool m_useCompressedTextures;
 };
 
 }

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaMusic.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
@@ -232,11 +235,11 @@ static int l_music_is_playing(lua_State *l)
 
 void LuaMusic::Register()
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_reg methods[]= {
+	static const luaL_Reg methods[]= {
 		{ "GetSongName", l_music_get_song },
 		{ "GetSongList", l_music_get_song_list },
 		{ "Play", l_music_play },
@@ -247,8 +250,8 @@ void LuaMusic::Register()
 		{0, 0}
 	};
 
-	luaL_register(l, "Music", methods);
-	lua_pop(l, 1);
+	luaL_newlib(l, methods);
+	lua_setglobal(l, "Music");
 
 	LUA_DEBUG_END(l, 0);
 }

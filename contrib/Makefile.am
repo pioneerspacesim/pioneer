@@ -1,1 +1,1 @@
-SUBDIRS = lua oolua
+SUBDIRS = lua miniz jenkins vcacheopt

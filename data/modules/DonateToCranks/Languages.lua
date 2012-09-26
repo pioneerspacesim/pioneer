@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 
   ---- ENGLISH / ENGLISH ----
 
@@ -34,7 +37,7 @@ Translate:Add({ English = {
 })
 
   ---- POLISH / POLSKI ----
-  
+
 Translate:AddFlavour('Polski','DonateToCranks', {
   title = "WSPOMÓŻ! Kościół Latającego Potwora Spaghetti, potrzebuje TWOICH pieniędzy by móc szerzyć Słowo Boże.",
   message = "Proszę wybrać wysokość datku, jaką chcesz wesprzeć Kościół Latającego Potwora Spaghetti.",
@@ -63,7 +66,7 @@ Translate:AddFlavour('Polski','DonateToCranks', {
 Translate:Add({ Polski = {
   ["You do not have enough money."] = "Nie masz dość pieniędzy.",
   ["Wow! That was very generous."] = "O! Jesteś bardzo hojny.",
-  ["Thank you. All donations are welcome."] = "Dziękuje. Cenimy każde wsparcie.",
+  ["Thank you. All donations are welcome."] = "Dziękuję. Cenimy każde wsparcie.",
   }
 })
 

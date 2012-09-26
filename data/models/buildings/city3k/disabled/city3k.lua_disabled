@@ -5,7 +5,7 @@ define_model('church_3k_clockhd', {
 			bounding_radius = 30,
    			},
 	static = function(lod)
-		load_obj('church_new_pyr.obj',Matrix.rotate(.5*math.pi,v(-1,0,0)))
+		load_obj('church_new_pyr.obj',matrix.rotate(.5*math.pi,v(-1,0,0)))
 	end
 })
 
@@ -116,10 +116,10 @@ define_model('arco01_rot', {
 			zbias(1,v(0,500,0), v(0,1,0))
    			texture('win0.png')
 			use_material('wins_on')
-			load_obj('wins_on.obj',Matrix.scale(v(10.02,10,10.02)))
+			load_obj('wins_on.obj',matrix.scale(v(10.02,10,10.02)))
 
 			use_material('wins_off')
-			load_obj('wins_off.obj',Matrix.scale(v(10.02,10,10.02)))
+			load_obj('wins_off.obj',matrix.scale(v(10.02,10,10.02)))
 
 
 			---[[
@@ -182,8 +182,8 @@ define_model('arco01_rot', {
 			else
 				texture('church_new_clock_s.png',v(.5,.5,0), v(.05,0,0),v(0,0,1))
 			end
-   			sphere_slice(6*lod,3*lod, 0, math.pi, Matrix.translate(v(0,566,0)) * Matrix.scale(v(-12,-10.5,-12)))
-	  		sphere_slice(6*lod,3*lod, 0, math.pi, Matrix.translate(v(0,566,0)) * Matrix.scale(v(12.5,10.51,12.5)))
+   			sphere_slice(6*lod,3*lod, 0, math.pi, matrix.translate(v(0,566,0)) * matrix.scale(v(-12,-10.5,-12)))
+	  		sphere_slice(6*lod,3*lod, 0, math.pi, matrix.translate(v(0,566,0)) * matrix.scale(v(12.5,10.51,12.5)))
 		end
 
 	end
@@ -266,13 +266,13 @@ define_model('arco_01', {
 		texture(nil)
 		use_material('dome')
 
-		sphere_slice(12*lod,4*lod,0,.3*math.pi, Matrix.translate(v(0,340,0)) * Matrix.scale(v(305,305,305)))
+		sphere_slice(12*lod,4*lod,0,.3*math.pi, matrix.translate(v(0,340,0)) * matrix.scale(v(305,305,305)))
 		--]]
 		--[[
 		if lod == 1 then
 			call_model('arco01_rot', v(0,0,0), v(1,0,0), v(0,1,0),1)
 			texture(nil)
-			sphere_slice(12*lod,4*lod,0,.3*math.pi, Matrix.translate(v(0,340,0)) * Matrix.scale(v(305,305,305)))
+			sphere_slice(12*lod,4*lod,0,.3*math.pi, matrix.translate(v(0,340,0)) * matrix.scale(v(305,305,305)))
 		end
 
   	end,
@@ -284,7 +284,7 @@ define_model('arco_01', {
 
 			texture(nil)
 			use_material('dome')
-	  		sphere_slice(12*lod,4*lod,0,.3*math.pi, Matrix.translate(v(0,340,0)) * Matrix.scale(v(305,305,305)))
+	  		sphere_slice(12*lod,4*lod,0,.3*math.pi, matrix.translate(v(0,340,0)) * matrix.scale(v(305,305,305)))
 		end --]]
   	end
 

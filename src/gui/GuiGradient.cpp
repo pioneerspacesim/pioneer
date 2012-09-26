@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Gui.h"
 #include "GuiGradient.h"
 
@@ -7,9 +10,11 @@ Gradient::Gradient(float width, float height, const Color &beginColor, const Col
 {
 	SetSize(width, height);
 
+	Color4ub c0(beginColor);
+	Color4ub c1(endColor);
 	const unsigned char data[4][4] = {
-		{ beginColor.r*255, beginColor.g*255, beginColor.b*255, beginColor.a*255 },
-		{ endColor.r*255,   endColor.g*255,   endColor.b*255,   endColor.a*255   },
+		{ c0.r, c0.g, c0.b, c0.a },
+		{ c1.r, c1.g, c1.b, c1.a },
 	};
 
 	vector2f size = direction == HORIZONTAL ? vector2f(2.0f,1.0f) : vector2f(1.0f,2.0f);

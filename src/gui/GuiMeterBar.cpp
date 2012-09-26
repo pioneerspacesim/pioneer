@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Gui.h"
 
 #define METERBAR_PADDING 5.0f
@@ -21,6 +24,7 @@ void MeterBar::Draw()
 	GetSize(size);
 
 	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColor4f(1.0f,1.0f,1.0f,.125f);
 	Gui::Theme::DrawRoundEdgedRect(size, 5.0);
 
@@ -31,6 +35,7 @@ void MeterBar::Draw()
 	size[1] = METERBAR_BAR_HEIGHT;
 	Gui::Theme::DrawRoundEdgedRect(size, 3.0f);
 	glPopMatrix();
+	glBlendFunc(GL_ONE, GL_ZERO);
 	glDisable(GL_BLEND);
 
 	Gui::Fixed::Draw();

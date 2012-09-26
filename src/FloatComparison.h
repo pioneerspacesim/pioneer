@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _FLOATCOMPARISON_H
 #define _FLOATCOMPARISON_H
 
@@ -95,14 +98,6 @@ inline typename IEEEFloatTraits<T>::bool_type is_denorm_bits
 // ---- float properties (nan, finite, denormal)
 
 template <typename T>
-inline typename IEEEFloatTraits<T>::bool_type is_nan(T x) {
-	typedef typename IEEEFloatTraits<T>::FloatOrInt union_type;
-	union_type fi;
-	fi.f = x;
-	return is_nan_bits(fi.ui);
-}
-
-template <typename T>
 inline typename IEEEFloatTraits<T>::bool_type is_finite(T x) {
 	typedef typename IEEEFloatTraits<T>::FloatOrInt union_type;
 	union_type fi;
@@ -123,7 +118,7 @@ inline typename IEEEFloatTraits<T>::bool_type is_zero_or_denorm(T x) {
 	return (float_abs(x) < IEEEFloatTraits<T>::SmallestNormalisedValue());
 }
 
-// --- exact comparisons
+// --- exact comparisons, and checking for NaN
 
 #ifdef __GNUC__
 #pragma GCC diagnostic ignored "-Wfloat-equal"
@@ -133,6 +128,9 @@ inline bool is_equal_exact(double a, double b) { return (a == b); }
 
 inline bool is_zero_exact(float x) { return (x == 0.0f); }
 inline bool is_zero_exact(double x) { return (x == 0.0); }
+
+inline bool is_nan(float x) { return (x != x); }
+inline bool is_nan(double x) { return (x != x); }
 #ifdef __GNUC__
 #pragma GCC diagnostic warning "-Wfloat-equal"
 #endif

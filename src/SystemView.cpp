@@ -1,19 +1,28 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "SystemView.h"
 #include "Pi.h"
 #include "SectorView.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "Lang.h"
 #include "StringF.h"
 #include "Space.h"
 #include "Player.h"
 #include "FloatComparison.h"
 #include "Game.h"
+#include "AnimationCurves.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 
 using namespace Graphics;
 
 const double SystemView::PICK_OBJECT_RECT_SIZE = 12.0;
+static const float MIN_ZOOM = 1e-30f;		// Just to avoid having 0
+static const float MAX_ZOOM = 1e30f;
+static const float ZOOM_IN_SPEED = 2;
+static const float ZOOM_OUT_SPEED = 1.f/ZOOM_IN_SPEED;
+static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user settings.
 
 SystemView::SystemView()
 {
@@ -26,54 +35,62 @@ SystemView::SystemView()
 
 	m_timePoint = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
 	Add(m_timePoint, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
-	
+
 	m_infoLabel = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
 	Add(m_infoLabel, 2, 0);
-	
+
 	m_infoText = (new Gui::Label(""))->Color(0.7f, 0.7f, 0.7f);
 	Add(m_infoText, 200, 0);
-	
+
 	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
+	m_zoomInButton->SetRenderDimensions(30, 22);
 	Add(m_zoomInButton, 700, 5);
-	
+
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
+	m_zoomOutButton->SetRenderDimensions(30, 22);
 	Add(m_zoomOutButton, 732, 5);
 
 	Gui::ImageButton *b = new Gui::ImageButton("icons/sysview_accel_r3.png", "icons/sysview_accel_r3_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -10000000.0));
-	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -10000000.f));
+	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
+	b->SetRenderDimensions(19, 17);
 	m_rightRegion2->Add(b, 0, 0);
-	
+
 	b = new Gui::ImageButton("icons/sysview_accel_r2.png", "icons/sysview_accel_r2_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -1000000.0));
-	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -1000000.f));
+	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
+	b->SetRenderDimensions(19, 17);
 	m_rightRegion2->Add(b, 26, 0);
-	
+
 	b = new Gui::ImageButton("icons/sysview_accel_r1.png", "icons/sysview_accel_r1_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -100000.0));
-	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -100000.f));
+	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
+	b->SetRenderDimensions(19, 17);
 	m_rightRegion2->Add(b, 45, 0);
-	
+
 	b = new Gui::ImageButton("icons/sysview_accel_f1.png", "icons/sysview_accel_f1_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 100000.0));
-	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 100000.f));
+	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
+	b->SetRenderDimensions(19, 17);
 	m_rightRegion2->Add(b, 64, 0);
-	
+
 	b = new Gui::ImageButton("icons/sysview_accel_f2.png", "icons/sysview_accel_f2_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 1000000.0));
-	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 1000000.f));
+	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
+	b->SetRenderDimensions(19, 17);
 	m_rightRegion2->Add(b, 83, 0);
 
 	b = new Gui::ImageButton("icons/sysview_accel_f3.png", "icons/sysview_accel_f3_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 10000000.0));
-	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 10000000.f));
+	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
+	b->SetRenderDimensions(19, 17);
 	m_rightRegion2->Add(b, 102, 0);
 
-	m_onMouseButtonDown = 
+	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SystemView::MouseButtonDown));
-	
+
 	ResetViewpoint();
 }
 
@@ -92,26 +109,25 @@ void SystemView::ResetViewpoint()
 	m_selectedObject = 0;
 	m_rot_z = 0;
 	m_rot_x = 50;
-	m_zoom = 1.0f/AU;
+	m_zoom = 1.0f/float(AU);
+	m_zoomTo = m_zoom;
 	m_timeStep = 1.0f;
 	m_time = Pi::game->GetTime();
 }
 
-void SystemView::PutOrbit(SBody *b, vector3d offset)
+void SystemView::PutOrbit(SystemBody *b, vector3d offset)
 {
-	std::vector<vector3f> vts;
+	vector3f vts[100];
 	Color green(0.f, 1.f, 0.f, 1.f);
-	int vcount = 0;
-	for (double t=0.0; t<1.0; t += 0.01) {
+	for (int i = 0; i < int(COUNTOF(vts)); ++i) {
+		const double t = double(i) / double(COUNTOF(vts));
 		vector3d pos = b->orbit.EvenSpacedPosAtTime(t);
-		pos = offset + pos * double(m_zoom);
-		vts.push_back(vector3f(pos));
-		vcount++;
+		vts[i] = vector3f(offset + pos * double(m_zoom));
 	}
-	m_renderer->DrawLines(vcount-1, &vts[0], green, LINE_LOOP);
+	m_renderer->DrawLines(COUNTOF(vts), vts, green, LINE_LOOP);
 }
 
-void SystemView::OnClickObject(SBody *b)
+void SystemView::OnClickObject(SystemBody *b)
 {
 	m_selectedObject = b;
 	std::string desc;
@@ -120,12 +136,12 @@ void SystemView::OnClickObject(SBody *b)
 	desc += std::string(Lang::NAME);
 	desc += ":\n";
 	data += b->name+"\n";
-	
+
 	desc += std::string(Lang::DAY_LENGTH);
 	desc += std::string(Lang::ROTATIONAL_PERIOD);
 	desc += ":\n";
 	data += stringf(Lang::N_DAYS, formatarg("days", b->rotationPeriod.ToFloat())) + "\n";
-	
+
 	desc += std::string(Lang::RADIUS);
 	desc += ":\n";
 	data += format_distance(b->GetRadius())+"\n";
@@ -152,7 +168,7 @@ void SystemView::OnClickObject(SBody *b)
 	}
 }
 
-void SystemView::PutLabel(SBody *b, vector3d offset)
+void SystemView::PutLabel(SystemBody *b, vector3d offset)
 {
 	Gui::Screen::EnterOrtho();
 
@@ -169,33 +185,33 @@ void SystemView::PutLabel(SBody *b, vector3d offset)
 // i don't know how to name it
 #define ROUGH_SIZE_OF_TURD	10.0
 
-matrix4x4f s_invRot;
-
-void SystemView::PutBody(SBody *b, vector3d offset)
+void SystemView::PutBody(SystemBody *b, vector3d offset, const matrix4x4f &trans)
 {
-	if (b->type == SBody::TYPE_STARPORT_SURFACE) return;
-	if (b->type != SBody::TYPE_GRAVPOINT) {
-		glGetFloatv (GL_MODELVIEW_MATRIX, &s_invRot[0]);
-		s_invRot[12] = s_invRot[13] = s_invRot[14] = 0;
-		s_invRot = s_invRot.InverseOf();
+	if (b->type == SystemBody::TYPE_STARPORT_SURFACE) return;
+	if (b->type != SystemBody::TYPE_GRAVPOINT) {
 
-		// Draw a filled circle
-		VertexArray va(ATTRIB_POSITION);
-		Material mat;
-		mat.unlit = true;
-		mat.diffuse = Color(1.f);
-		const double radius = b->GetRadius() * m_zoom;
-		const vector3f offsetf(offset);
-		for (float ang=0; ang<2.0f*M_PI; ang+=M_PI*0.05f) {
-			vector3f p = offsetf + s_invRot * vector3f(radius*sin(ang), -radius*cos(ang), 0);
-			va.Add(p);
+		if (!m_bodyIcon.Valid()) {
+			m_bodyIcon.Reset(new Graphics::Drawables::Disk(m_renderer, Color::WHITE, 1.0f));
 		}
-		m_renderer->DrawTriangles(&va, &mat, TRIANGLE_FAN);
+
+		const double radius = b->GetRadius() * m_zoom;
+
+		matrix4x4f invRot = trans;
+		invRot.ClearToRotOnly();
+		invRot = invRot.InverseOf();
+
+		matrix4x4f bodyTrans = trans;
+		bodyTrans.Translate(vector3f(offset));
+		bodyTrans.Scale(radius);
+		m_renderer->SetTransform(bodyTrans * invRot);
+		m_bodyIcon->Draw(m_renderer);
+
+		m_renderer->SetTransform(trans);
 
 		PutLabel(b, offset);
 	}
 
-	if (b->children.size()) for(std::vector<SBody*>::iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
+	if (b->children.size()) for(std::vector<SystemBody*>::iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
 
 		if (is_zero_general((*kid)->orbit.semiMajorAxis)) continue;
 		if ((*kid)->orbit.semiMajorAxis * m_zoom < ROUGH_SIZE_OF_TURD) {
@@ -207,20 +223,20 @@ void SystemView::PutBody(SBody *b, vector3d offset)
 		pos *= double(m_zoom);
 		//glTranslatef(pos.x, pos.y, pos.z);
 
-		PutBody(*kid, offset + pos);
+		PutBody(*kid, offset + pos, trans);
 	}
 }
 
-void SystemView::PutSelectionBox(const SBody *b, const vector3d &rootPos, const Color &col)
+void SystemView::PutSelectionBox(const SystemBody *b, const vector3d &rootPos, const Color &col)
 {
 	// surface starports just show the planet as being selected,
 	// because SystemView doesn't render terrains anyway
-	if (b->type == SBody::TYPE_STARPORT_SURFACE)
+	if (b->type == SystemBody::TYPE_STARPORT_SURFACE)
 		b = b->parent;
 	assert(b);
 
 	vector3d pos = rootPos;
-	// while (b->parent), not while (b) because the root SBody is defined to be at (0,0,0)
+	// while (b->parent), not while (b) because the root SystemBody is defined to be at (0,0,0)
 	while (b->parent) {
 		pos += b->orbit.OrbitalPosAtTime(m_time) * double(m_zoom);
 		b = b->parent;
@@ -258,10 +274,10 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 	Gui::Screen::LeaveOrtho();
 }
 
-static const GLfloat fogDensity = 0.1;
-static const GLfloat fogColor[4] = { 0,0,0,1.0 };
+static const GLfloat fogDensity = 0.1f;
+static const GLfloat fogColor[4] = { 0,0,0,1.0f };
 
-void SystemView::GetTransformTo(SBody *b, vector3d &pos)
+void SystemView::GetTransformTo(SystemBody *b, vector3d &pos)
 {
 	if (b->parent) {
 		GetTransformTo(b->parent, pos);
@@ -273,7 +289,7 @@ void SystemView::Draw3D()
 {
 	m_renderer->SetPerspectiveProjection(50.f, Pi::GetScrAspect(), 1.f, 1000.f);
 	m_renderer->ClearScreen();
-	
+
 	SystemPath path = Pi::sectorView->GetSelectedSystem();
 	if (m_system) {
 		if (!m_system->GetPath().IsSameSystem(path)) {
@@ -300,7 +316,7 @@ void SystemView::Draw3D()
 	trans.Rotate(DEG2RAD(m_rot_x), 1, 0, 0);
 	trans.Rotate(DEG2RAD(m_rot_z), 0, 0, 1);
 	m_renderer->SetTransform(trans);
-	
+
 	vector3d pos(0,0,0);
 	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
 
@@ -308,12 +324,12 @@ void SystemView::Draw3D()
 	if (m_system->m_unexplored)
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
 	else if (m_system->rootBody) {
-		PutBody(m_system->rootBody, pos);
+		PutBody(m_system->rootBody, pos, trans);
 		if (Pi::game->GetSpace()->GetStarSystem() == m_system) {
 			const Body *navTarget = Pi::player->GetNavTarget();
-			const SBody *navTargetSBody = navTarget ? navTarget->GetSBody() : 0;
-			if (navTargetSBody)
-				PutSelectionBox(navTargetSBody, pos, Color(0.0, 1.0, 0.0, 1.0));
+			const SystemBody *navTargetSystemBody = navTarget ? navTarget->GetSystemBody() : 0;
+			if (navTargetSystemBody)
+				PutSelectionBox(navTargetSystemBody, pos, Color(0.0, 1.0, 0.0, 1.0));
 		}
 	}
 
@@ -327,11 +343,16 @@ void SystemView::Update()
 	if (!Pi::IsConsoleActive()) {
 		if (Pi::KeyState(SDLK_EQUALS) ||
 			m_zoomInButton->IsPressed()) 
-				m_zoom *= pow(4.0f, ft);
+				m_zoomTo *= pow(ZOOM_IN_SPEED * Pi::GetMoveSpeedShiftModifier(), ft);
 		if (Pi::KeyState(SDLK_MINUS) ||
 			m_zoomOutButton->IsPressed()) 
-				m_zoom *= pow(0.25f, ft);
+				m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), ft);
 	}
+	// TODO: add "true" lower/upper bounds to m_zoomTo / m_zoom
+	m_zoomTo = Clamp(m_zoomTo, MIN_ZOOM, MAX_ZOOM);
+	m_zoom = Clamp(m_zoom, MIN_ZOOM, MAX_ZOOM);
+	AnimationCurves::Approach(m_zoom, m_zoomTo, ft);
+
 	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int motion[2];
 		Pi::GetMouseMotion(motion);
@@ -343,10 +364,9 @@ void SystemView::Update()
 void SystemView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView()) {
-		const float ft = Pi::GetFrameTime();
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN)) 
-				m_zoom *= pow(0.25f, ft);
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP)) 
-				m_zoom *= pow(4.0f, ft);
+		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
+			m_zoomTo *= ((ZOOM_OUT_SPEED-1) * WHEEL_SENSITIVITY+1) / Pi::GetMoveSpeedShiftModifier();
+		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+			m_zoomTo *= ((ZOOM_IN_SPEED-1) * WHEEL_SENSITIVITY+1) * Pi::GetMoveSpeedShiftModifier();
 	}
 }

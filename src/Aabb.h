@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _AABB_H
 #define _AABB_H
 
@@ -5,7 +8,7 @@
 
 struct Aabb {
 	vector3d max, min;
-	void Update(vector3d p) {
+	void Update(const vector3d &p) {
 		if (max.x < p.x) max.x = p.x;
 		if (max.y < p.y) max.y = p.y;
 		if (max.z < p.z) max.z = p.z;
@@ -14,7 +17,7 @@ struct Aabb {
 		if (min.z > p.z) min.z = p.z;
 	}
 	template <typename T>
-	bool IsIn (const vector3<T> p) const {
+	bool IsIn (const vector3<T> &p) const {
 		return ((p.x >= min.x) && (p.x <= max.x) &&
 		    (p.y >= min.y) && (p.y <= max.y) &&
 		    (p.z >= min.z) && (p.z <= max.z));
@@ -24,7 +27,7 @@ struct Aabb {
 			(min.y < o.max.y) && (max.y > o.min.y) &&
 			(min.z < o.max.z) && (max.z > o.min.z);
 	}
-	double GetBoundingRadius() {
+	double GetBoundingRadius() const {
 		return std::max(min.Length(), max.Length());
 	}
 };

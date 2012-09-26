@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Space.h"
 #include "Body.h"
@@ -8,7 +11,7 @@
 #include <functional>
 #include "Pi.h"
 #include "Player.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 #include "SpaceStation.h"
 #include "Serializer.h"
 #include "collider/collider.h"
@@ -20,13 +23,14 @@
 #include "Lang.h"
 #include "Game.h"
 #include "MathUtil.h"
+#include "LuaEvent.h"
 
 Space::Space(Game *game)
 	: m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
-	, m_background(UNIVERSE_SEED)
+	, m_background(Pi::renderer, UNIVERSE_SEED)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -40,6 +44,7 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
+	, m_background(Pi::renderer)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -62,13 +67,14 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
+	, m_background(Pi::renderer)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
 {
 	m_starSystem = StarSystem::Unserialize(rd);
 	m_background.Refresh(m_starSystem->m_seed);
-	RebuildSBodyIndex();
+	RebuildSystemBodyIndex();
 
 	Serializer::Reader section = rd.RdSection("Frames");
 	m_rootFrame.Reset(Frame::Unserialize(section, this, 0));
@@ -96,7 +102,7 @@ void Space::Serialize(Serializer::Writer &wr)
 {
 	RebuildFrameIndex();
 	RebuildBodyIndex();
-	RebuildSBodyIndex();
+	RebuildSystemBodyIndex();
 
 	StarSystem::Serialize(wr, m_starSystem.Get());
 
@@ -109,28 +115,28 @@ void Space::Serialize(Serializer::Writer &wr)
 		(*i)->Serialize(wr, this);
 }
 
-Frame *Space::GetFrameByIndex(Uint32 idx)
+Frame *Space::GetFrameByIndex(Uint32 idx) const
 {
 	assert(m_frameIndexValid);
 	assert(m_frameIndex.size() > idx);
 	return m_frameIndex[idx];
 }
 
-Body *Space::GetBodyByIndex(Uint32 idx)
+Body *Space::GetBodyByIndex(Uint32 idx) const
 {
 	assert(m_bodyIndexValid);
 	assert(m_bodyIndex.size() > idx);
 	return m_bodyIndex[idx];
 }
 
-SBody *Space::GetSBodyByIndex(Uint32 idx)
+SystemBody *Space::GetSystemBodyByIndex(Uint32 idx) const
 {
 	assert(m_sbodyIndexValid);
 	assert(m_sbodyIndex.size() > idx);
 	return m_sbodyIndex[idx];
 }
 
-Uint32 Space::GetIndexForFrame(const Frame *frame)
+Uint32 Space::GetIndexForFrame(const Frame *frame) const
 {
 	assert(m_frameIndexValid);
 	for (Uint32 i = 0; i < m_frameIndex.size(); i++)
@@ -139,7 +145,7 @@ Uint32 Space::GetIndexForFrame(const Frame *frame)
 	return Uint32(-1);
 }
 
-Uint32 Space::GetIndexForBody(const Body *body)
+Uint32 Space::GetIndexForBody(const Body *body) const
 {
 	assert(m_bodyIndexValid);
 	for (Uint32 i = 0; i < m_bodyIndex.size(); i++)
@@ -148,7 +154,7 @@ Uint32 Space::GetIndexForBody(const Body *body)
 	return Uint32(-1);
 }
 
-Uint32 Space::GetIndexForSBody(const SBody *sbody)
+Uint32 Space::GetIndexForSystemBody(const SystemBody *sbody) const
 {
 	assert(m_sbodyIndexValid);
 	for (Uint32 i = 0; i < m_sbodyIndex.size(); i++)
@@ -165,12 +171,12 @@ void Space::AddFrameToIndex(Frame *frame)
 		AddFrameToIndex(*i);
 }
 
-void Space::AddSBodyToIndex(SBody *sbody)
+void Space::AddSystemBodyToIndex(SystemBody *sbody)
 {
 	assert(sbody);
 	m_sbodyIndex.push_back(sbody);
 	for (Uint32 i = 0; i < sbody->children.size(); i++)
-		AddSBodyToIndex(sbody->children[i]);
+		AddSystemBodyToIndex(sbody->children[i]);
 }
 
 void Space::RebuildFrameIndex()
@@ -180,7 +186,7 @@ void Space::RebuildFrameIndex()
 
 	if (m_rootFrame)
 		AddFrameToIndex(m_rootFrame.Get());
-	
+
 	m_frameIndexValid = true;
 }
 
@@ -203,13 +209,13 @@ void Space::RebuildBodyIndex()
 	m_bodyIndexValid = true;
 }
 
-void Space::RebuildSBodyIndex()
+void Space::RebuildSystemBodyIndex()
 {
 	m_sbodyIndex.clear();
 	m_sbodyIndex.push_back(0);
 
 	if (m_starSystem)
-		AddSBodyToIndex(m_starSystem->rootBody);
+		AddSystemBodyToIndex(m_starSystem->rootBody);
 
 	m_sbodyIndexValid = true;
 }
@@ -246,7 +252,7 @@ void Space::KillBody(Body* b)
 	}
 }
 
-vector3d Space::GetHyperspaceExitPoint(const SystemPath &source)
+vector3d Space::GetHyperspaceExitPoint(const SystemPath &source) const
 {
 	assert(m_starSystem);
 	assert(source.IsSystemPath());
@@ -262,14 +268,28 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source)
 	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source.sectorX, source.sectorY, source.sectorZ);
 	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest.sectorX, dest.sectorY, dest.sectorZ);
 
-	return (sourcePos - destPos).Normalized() * 11.0*AU + MathUtil::RandomPointOnSphere(5.0,20.0)*1000.0; // "hyperspace zone": 11 AU from primary
+	// find the first non-gravpoint. should be the primary star
+	Body *primary = 0;
+	for (BodyIterator i = BodiesBegin(); i != BodiesEnd(); ++i)
+		if ((*i)->GetSystemBody()->type != SystemBody::TYPE_GRAVPOINT) {
+			primary = *i;
+			break;
+		}
+	assert(primary);
+
+	// point along the line between source and dest, a reasonable distance
+	// away based on the radius (don't want to end up inside black holes, and
+	// then mix it up so that ships don't end up on top of each other
+	vector3d pos = (sourcePos - destPos).Normalized() * (primary->GetSystemBody()->GetRadius()/AU+1.0)*11.0*AU*Pi::rng.Double(0.95,1.2) + MathUtil::RandomPointOnSphere(5.0,20.0)*1000.0;
+	assert(pos.Length() > primary->GetSystemBody()->GetRadius());
+	return pos + primary->GetPositionRelTo(GetRootFrame());
 }
 
-Body *Space::FindNearestTo(const Body *b, Object::Type t)
+Body *Space::FindNearestTo(const Body *b, Object::Type t) const
 {
 	Body *nearest = 0;
 	double dist = FLT_MAX;
-	for (std::list<Body*>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
+	for (std::list<Body*>::const_iterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
 		if ((*i)->IsDead()) continue;
 		if ((*i)->IsType(t)) {
 			double d = (*i)->GetPositionRelTo(b).Length();
@@ -282,26 +302,26 @@ Body *Space::FindNearestTo(const Body *b, Object::Type t)
 	return nearest;
 }
 
-Body *Space::FindBodyForPath(const SystemPath *path)
+Body *Space::FindBodyForPath(const SystemPath *path) const
 {
 	// it is a bit dumb that currentSystem is not part of Space...
-	SBody *body = m_starSystem->GetBodyByPath(path);
+	SystemBody *body = m_starSystem->GetBodyByPath(path);
 
 	if (!body) return 0;
 
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
-		if ((*i)->GetSBody() == body) return *i;
+		if ((*i)->GetSystemBody() == body) return *i;
 	}
 	return 0;
 }
 
-static Frame *find_frame_with_sbody(Frame *f, const SBody *b)
+static Frame *find_frame_with_sbody(Frame *f, const SystemBody *b)
 {
 	if (f->m_sbody == b) return f;
 	else {
 		for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
-			
+
 			Frame *found = find_frame_with_sbody(*i, b);
 			if (found) return found;
 		}
@@ -309,18 +329,12 @@ static Frame *find_frame_with_sbody(Frame *f, const SBody *b)
 	return 0;
 }
 
-Frame *Space::GetFrameWithSBody(const SBody *b)
+Frame *Space::GetFrameWithSystemBody(const SystemBody *b) const
 {
 	return find_frame_with_sbody(m_rootFrame.Get(), b);
 }
 
-static void SetFrameOrientationFromSBodyAxialTilt(Frame *f, const SBody *sbody)
-{
-	matrix4x4d rot = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
-	f->SetRotationOnly(rot);
-}
-
-static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
+static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 {
 	Frame *orbFrame, *rotFrame;
 	double frameRadius;
@@ -332,7 +346,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		return f;
 	}
 
-	if (sbody->type == SBody::TYPE_GRAVPOINT) {
+	if (sbody->type == SystemBody::TYPE_GRAVPOINT) {
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
 		orbFrame->m_astroBody = b;
@@ -340,10 +354,10 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		return orbFrame;
 	}
 
-	SBody::BodySuperType supertype = sbody->GetSuperType();
+	SystemBody::BodySuperType supertype = sbody->GetSuperType();
 
-	if ((supertype == SBody::SUPERTYPE_GAS_GIANT) ||
-	    (supertype == SBody::SUPERTYPE_ROCKY_PLANET)) {
+	if ((supertype == SystemBody::SUPERTYPE_GAS_GIANT) ||
+	    (supertype == SystemBody::SUPERTYPE_ROCKY_PLANET)) {
 		// for planets we want an non-rotating frame for a few radii
 		// and a rotating frame in the same position but with maybe 1.05*radius,
 		// which actually contains the object.
@@ -354,18 +368,24 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		//printf("\t\t\t%s has frame size %.0fkm, body radius %.0fkm\n", sbody->name.c_str(),
 		//	(frameRadius ? frameRadius : 10*sbody->GetRadius())*0.001f,
 		//	sbody->GetRadius()*0.001f);
-	
+
 		assert(sbody->rotationPeriod != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		// rotating frame has size of GeoSphere terrain bounding sphere
 		rotFrame->SetRadius(b->GetBoundingRadius());
-		rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
+		matrix4x4d rotMatrix = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
+		vector3d angVel = vector3d(0.0, 2.0*M_PI/sbody->GetRotationPeriod(), 0.0);
+		rotFrame->SetAngVelocity(angVel);
+
+		if (sbody->rotationalPhaseAtStart != fixed(0)) 
+			rotMatrix = rotMatrix * matrix4x4d::RotateYMatrix(sbody->rotationalPhaseAtStart.ToDouble());
+		rotFrame->SetRotationOnly(rotMatrix);
+
 		rotFrame->m_astroBody = b;
-		SetFrameOrientationFromSBodyAxialTilt(rotFrame, sbody);
 		b->SetFrame(rotFrame);
 		return orbFrame;
 	}
-	else if (supertype == SBody::SUPERTYPE_STAR) {
+	else if (supertype == SystemBody::SUPERTYPE_STAR) {
 		// stars want a single small non-rotating frame
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
@@ -374,7 +394,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		b->SetFrame(orbFrame);
 		return orbFrame;
 	}
-	else if (sbody->type == SBody::TYPE_STARPORT_ORBITAL) {
+	else if (sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) {
 		// space stations want non-rotating frame to some distance
 		// and a much closer rotating frame
 		frameRadius = 1000000.0; // XXX NFI!
@@ -382,7 +402,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		orbFrame->m_sbody = sbody;
 //		orbFrame->SetRadius(10*sbody->GetRadius());
 		orbFrame->SetRadius(frameRadius);
-	
+
 		assert(sbody->rotationPeriod != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		rotFrame->SetRadius(1000.0);
@@ -391,7 +411,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		rotFrame->m_astroBody = b;		// hope this doesn't break anything
 		b->SetFrame(rotFrame);
 		return orbFrame;
-	} else if (sbody->type == SBody::TYPE_STARPORT_SURFACE) {
+	} else if (sbody->type == SystemBody::TYPE_STARPORT_SURFACE) {
 		// just put body into rotating frame of planet, not in its own frame
 		// (because collisions only happen between objects in same frame,
 		// and we want collisions on starport and on planet itself)
@@ -408,7 +428,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 		// first try suggested position
 		rot = sbody->orbit.rotMatrix;
 		pos = rot * vector3d(0,1,0);
-		if (planet->GetTerrainHeight(pos) - planet->GetSBody()->GetRadius() <= 0.0) {
+		if (planet->GetTerrainHeight(pos) - planet->GetSystemBody()->GetRadius() <= 0.0) {
 			MTRand r(sbody->seed);
 			// position is under water. try some random ones
 			for (tries=0; tries<100; tries++) {
@@ -418,7 +438,7 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 				rot = matrix4x4d::RotateZMatrix(2*M_PI*r1)
 					* matrix4x4d::RotateYMatrix(2*M_PI*r2);
 				pos = rot * vector3d(0,1,0);
-				height = planet->GetTerrainHeight(pos) - planet->GetSBody()->GetRadius();
+				height = planet->GetTerrainHeight(pos) - planet->GetSystemBody()->GetRadius();
 				// don't want to be under water
 				if (height > 0.0) break;
 			}
@@ -432,16 +452,16 @@ static Frame *MakeFrameFor(SBody *sbody, Body *b, Frame *f)
 	return NULL;
 }
 
-void Space::GenBody(SBody *sbody, Frame *f)
+void Space::GenBody(SystemBody *sbody, Frame *f)
 {
 	Body *b = 0;
 
-	if (sbody->type != SBody::TYPE_GRAVPOINT) {
-		if (sbody->GetSuperType() == SBody::SUPERTYPE_STAR) {
+	if (sbody->type != SystemBody::TYPE_GRAVPOINT) {
+		if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 			Star *star = new Star(sbody);
 			b = star;
-		} else if ((sbody->type == SBody::TYPE_STARPORT_ORBITAL) ||
-		           (sbody->type == SBody::TYPE_STARPORT_SURFACE)) {
+		} else if ((sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) ||
+		           (sbody->type == SystemBody::TYPE_STARPORT_SURFACE)) {
 			SpaceStation *ss = new SpaceStation(sbody);
 			b = ss;
 		} else {
@@ -454,7 +474,7 @@ void Space::GenBody(SBody *sbody, Frame *f)
 	}
 	f = MakeFrameFor(sbody, b, f);
 
-	for (std::vector<SBody*>::iterator i = sbody->children.begin(); i != sbody->children.end(); ++i) {
+	for (std::vector<SystemBody*>::iterator i = sbody->children.begin(); i != sbody->children.end(); ++i) {
 		GenBody(*i, f);
 	}
 }
@@ -492,7 +512,7 @@ static void hitCallback(CollisionContact *c)
 		const vector3d linVel2 = b2->GetVelocity();
 		const vector3d angVel1 = b1->GetAngVelocity();
 		const vector3d angVel2 = b2->GetAngVelocity();
-		
+
 		const double coeff_rest = 0.5;
 		// step back
 //		mover->UndoTimestep();
@@ -517,7 +537,7 @@ static void hitCallback(CollisionContact *c)
 
 		const double j = numerator / (term1 + term2 + term3 + term4);
 		const vector3d force = j * c->normal;
-					
+
 		b1->SetVelocity(linVel1 + force*invMass1);
 		b1->SetAngVelocity(angVel1 + hitPos1.Cross(force)*invAngInert1);
 		b2->SetVelocity(linVel2 - force*invMass2);
@@ -538,7 +558,7 @@ static void hitCallback(CollisionContact *c)
 		const double coeff_rest = 0.5;
 		const vector3d linVel1 = mover->GetVelocity();
 		const vector3d angVel1 = mover->GetAngVelocity();
-		
+
 		// step back
 //		mover->UndoTimestep();
 
@@ -556,7 +576,7 @@ static void hitCallback(CollisionContact *c)
 
 		const double j = numerator / (term1 + term3);
 		const vector3d force = j * c->normal;
-					
+
 		mover->SetVelocity(linVel1 + force*invMass1);
 		mover->SetAngVelocity(angVel1 + hitPos1.Cross(force)*invAngInert);
 	}
@@ -631,33 +651,14 @@ void Space::TimeStep(float step)
 
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
-	
+
 	// XXX don't emit events in hyperspace. this is mostly to maintain the
 	// status quo. in particular without this onEnterSystem will fire in the
 	// frame immediately before the player leaves hyperspace and the system is
 	// invalid when Lua goes and queries for it. we need to consider whether
 	// there's anything useful that can be done with events in hyperspace
 	if (m_starSystem) {
-		Pi::luaOnEnterSystem->Emit();
-		Pi::luaOnLeaveSystem->Emit();
-		Pi::luaOnFrameChanged->Emit();
-		Pi::luaOnShipHit->Emit();
-		Pi::luaOnShipCollided->Emit();
-		Pi::luaOnShipDestroyed->Emit();
-		Pi::luaOnShipDocked->Emit();
-		Pi::luaOnShipAlertChanged->Emit();
-		Pi::luaOnShipUndocked->Emit();
-		Pi::luaOnShipLanded->Emit();
-		Pi::luaOnShipTakeOff->Emit();
-		Pi::luaOnJettison->Emit();
-		Pi::luaOnCargoUnload->Emit();
-		Pi::luaOnAICompleted->Emit();
-		Pi::luaOnCreateBB->Emit();
-		Pi::luaOnUpdateBB->Emit();
-		Pi::luaOnShipFlavourChanged->Emit();
-		Pi::luaOnShipEquipmentChanged->Emit();
-		Pi::luaOnShipFuelChanged->Emit();
-
+		LuaEvent::Emit();
 		Pi::luaTimer->Tick();
 	}
 
@@ -695,9 +696,9 @@ static char space[256];
 
 static void DebugDumpFrame(const Frame *f, unsigned int indent)
 {
-	printf("%.*s%p (%s)", indent, space, f, f->GetLabel());
+	printf("%.*s%p (%s)", indent, space, f, f->GetLabel().c_str());
 	if (f->m_parent)
-		printf(" parent %p (%s)", f->m_parent, f->m_parent->GetLabel());
+		printf(" parent %p (%s)", f->m_parent, f->m_parent->GetLabel().c_str());
 	if (f->m_astroBody)
 		printf(" body %p (%s)", f->m_astroBody, f->m_astroBody->GetLabel().c_str());
 	if (Body *b = f->GetBodyFor())

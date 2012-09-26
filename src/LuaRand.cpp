@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaRand.h"
 
 /*
@@ -151,7 +154,7 @@ template <> const char *LuaObject<MTRand>::s_type = "Rand";
 
 template <> void LuaObject<MTRand>::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "New",     l_rand_new     },
 		{ "Number",  l_rand_number  },
 		{ "Integer", l_rand_integer },

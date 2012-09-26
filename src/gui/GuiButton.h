@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GUIBUTTON_H
 #define _GUIBUTTON_H
 
@@ -14,7 +17,7 @@ namespace Gui {
 		virtual bool OnMouseDown(MouseButtonEvent *e);
 		virtual bool OnMouseUp(MouseButtonEvent *e);
 		virtual void OnActivate();
-		
+
 		// onClick only happens when press and release are both on widget (release can be elsewhere)
 		sigc::signal<void> onPress;
 		sigc::signal<void> onRelease;

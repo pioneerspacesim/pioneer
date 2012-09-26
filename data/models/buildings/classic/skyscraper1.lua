@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 --[[
 --skyscraper with a slanted triangle roof
 define_model('skyscraper1', {
@@ -58,7 +61,7 @@ define_model('skyscraper1', {
 		local fd = v(-30,210,15)
 		quad(d2,c2,f2,e2)
 		quad(fc,fd,h2,g2)
-		
+
 		-- tri fan on front face
 		xref_tri(g2,f2,c2)
 		xref_tri(g2,c2,b2)

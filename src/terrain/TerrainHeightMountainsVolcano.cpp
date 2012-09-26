@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Terrain.h"
 #include "TerrainNoise.h"
 #include "TerrainFeature.h"
@@ -9,7 +12,7 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightMountainsVolcano>::GetHeightFractalName() const { return "MountainsVolcano"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightMountainsVolcano>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightMountainsVolcano>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
 	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7));
 	double height = m_maxHeightInMeters*0.8;
@@ -24,7 +27,7 @@ TerrainHeightFractal<TerrainHeightMountainsVolcano>::TerrainHeightFractal(const 
 	// volcano
 	SetFracDef(7, 20000.0, 5000000.0, 1000.0*m_fracmult);
 
-	// canyons 
+	// canyons
 	SetFracDef(8, m_maxHeightInMeters*0.5, 2e6, 100.0*m_fracmult);
 	//SetFracDef(9, m_maxHeightInMeters*0.1, 1.5e6, 100.0*m_fracmult);
 	//SetFracDef(10, m_maxHeightInMeters*0.1, 2e6, 100.0*m_fracmult);
@@ -46,11 +49,11 @@ double TerrainHeightFractal<TerrainHeightMountainsVolcano>::GetHeight(const vect
 
 	double n = continents - (GetFracDef(0).amplitude*m_sealevel);
 
-	
+
 	if (n < 0.01) n += megavolcano_function(GetFracDef(7), p) * n * 3000.0f;
 	else n += megavolcano_function(GetFracDef(7), p) * 30.0f;
 
-	n = (n > 0.0 ? n : 0.0); 
+	n = (n > 0.0 ? n : 0.0);
 
 	if ((m_seed>>2)%3 > 2) {
 		if (n < .2f) n += canyon3_ridged_function(GetFracDef(8), p) * n * 2;
@@ -67,7 +70,7 @@ double TerrainHeightFractal<TerrainHeightMountainsVolcano>::GetHeight(const vect
 	}
 
 	n += -0.05f;
-	n = (n > 0.0 ? n : 0.0); 
+	n = (n > 0.0 ? n : 0.0);
 
 	n = n*.01f;
 
@@ -84,9 +87,9 @@ double TerrainHeightFractal<TerrainHeightMountainsVolcano>::GetHeight(const vect
 			GetFracDef(3).amplitude * mountains2*mountains2*mountains2;
 		if (n > 2.5) n += mountains2 * (n - 2.5) * 0.6f;
 		if (n < 0.01) n += mountains * n * 60.0f ;
-		else n += mountains * 0.6f ; 
+		else n += mountains * 0.6f ;
 	}
-	
+
 	n = m_maxHeight*n;
-	return (n > 0.0 ? n : 0.0); 
+	return (n > 0.0 ? n : 0.0);
 }

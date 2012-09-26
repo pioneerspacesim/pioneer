@@ -1,19 +1,26 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _FIXED_H
 #define _FIXED_H
 
 #include <SDL_stdinc.h>
+#include <cassert>
 
 template <int FRAC_BITS>
 class fixedf {
 public:
-	enum { FRAC=FRAC_BITS, MASK=((Uint64(1)<<FRAC_BITS)-1), DUMMY=-1 }; // -1 to ensure signed type (signedness warning otherwise)
+	static const int FRAC = FRAC_BITS;
+	static const Uint64 MASK = (Uint64(1UL)<<FRAC_BITS)-1;
+	static const Sint64 DUMMY= -1 ;		// -1 to ensure signed type (signedness warning otherwise)
+
 	fixedf(): v(0) {}
 //	template <int bits>
 //	fixedf(fixedf<bits> f) { *this = f; }
 	fixedf(Sint64 raw): v(raw) {}
 	fixedf(Sint64 num, Sint64 denom): v((num<<FRAC) / denom) {}
 	// ^^ this is fucking shit
-	
+
 	fixedf Abs() const { return fixedf(v >= 0 ? v : -v); }
 	friend fixedf operator+(const fixedf a, const Sint64 b) { return a+fixedf(b<<FRAC); }
 	friend fixedf operator-(const fixedf a, const Sint64 b) { return a-fixedf(b<<FRAC); }
@@ -49,10 +56,11 @@ public:
 	fixedf &operator>>=(const int a) { v >>= a; return (*this); }
 	fixedf &operator<<=(const int a) { v <<= a; return (*this); }
 
+	friend fixedf operator-(const fixedf a) { return fixedf(-a.v); }
 	friend fixedf operator+(const fixedf a, const fixedf b) { return fixedf(a.v+b.v); }
 	friend fixedf operator-(const fixedf a, const fixedf b) { return fixedf(a.v-b.v); }
 	friend fixedf operator*(const fixedf a, const fixedf b) {
-		// 64*64 = (128bit>>FRAC) & ((1<<64)-1) 
+		// 64*64 = (128bit>>FRAC) & ((1<<64)-1)
 		//return fixedf(a.v*b.v >> FRAC);
 		Sint64 hi = 0;
 		Uint64 a0, a1, b0, b1;
@@ -83,7 +91,7 @@ public:
 		if (lo < oldlo) hi++;
 		oldlo = lo;
 		hi += (x>>32);
-		
+
 		// a1 * b;
 		x = a1*b0;
 		lo += x<<32;
@@ -123,7 +131,7 @@ public:
 				quotient_lo |= 1;
 			}
 		}
-		return (isneg ? fixedf(-quotient_lo) : quotient_lo);
+		return (isneg ? -Sint64(quotient_lo) : quotient_lo);
 	}
 	friend bool operator==(const fixedf a, const fixedf b) { return a.v == b.v; }
 	friend bool operator!=(const fixedf a, const fixedf b) { return a.v != b.v; }
@@ -137,7 +145,7 @@ public:
 	Sint64 ToInt64() const { return v>>FRAC; }
 	float ToFloat() const { return v/float(Sint64(1)<<FRAC); }
 	double ToDouble() const { return v/double(Sint64(1)<<FRAC); }
-	
+
 	template <int NEW_FRAC_BITS>
 	operator fixedf<NEW_FRAC_BITS>() const {
 		int shift = NEW_FRAC_BITS - FRAC_BITS;

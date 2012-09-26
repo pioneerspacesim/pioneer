@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SHIP_H
 #define _SHIP_H
 
@@ -6,9 +9,10 @@
 #include "ShipType.h"
 #include "EquipSet.h"
 #include "ShipFlavour.h"
-#include "SystemPath.h"
+#include "galaxy/SystemPath.h"
 #include "BezierCurve.h"
 #include "Serializer.h"
+#include "Camera.h"
 #include <list>
 
 class SpaceStation;
@@ -49,7 +53,7 @@ public:
 
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Type shipType);
-	Ship() { }; //default constructor used before Load
+	Ship() {} //default constructor used before Load
 	virtual ~Ship();
 	void SetController(ShipController *c); //deletes existing
 	ShipController *GetController() const { return m_controller; }
@@ -59,10 +63,16 @@ public:
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
 	int GetDockingPort() const { return m_dockedWithPort; }
-	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
+	const vector3d &GetFrontViewOffset() const { return m_frontViewOffset; }
+	const vector3d &GetRearViewOffset() const { return m_rearViewOffset; }
 	const vector3d &GetFrontCameraOffset() const { return m_frontCameraOffset; }
 	const vector3d &GetRearCameraOffset() const { return m_rearCameraOffset; }
+	const vector3d &GetLeftCameraOffset() const { return m_leftCameraOffset; }
+	const vector3d &GetRightCameraOffset() const { return m_rightCameraOffset; }
+	const vector3d &GetTopCameraOffset() const { return m_topCameraOffset; }
+	const vector3d &GetBottomCameraOffset() const { return m_bottomCameraOffset; }
 
 	void SetThrusterState(int axis, double level) {
 		if (m_thrusterFuel <= 0.f) level = 0.0;
@@ -81,9 +91,15 @@ public:
 	double GetAccelUp() const { return GetShipType().linThrust[ShipType::THRUSTER_UP] / GetMass(); }
 	double GetAccelMin() const;
 
-	void SetGunState(int idx, int state);
 	const ShipType &GetShipType() const;
-	const shipstats_t *CalcStats();
+	void UpdateEquipStats();
+	void UpdateFuelStats();
+	void UpdateViewStats();
+	void UpdateStats();
+	const shipstats_t &GetStats() const { return m_stats; }
+
+	void Explode();
+	void SetGunState(int idx, int state);
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();
@@ -108,6 +124,8 @@ public:
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
+
+	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
 
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
@@ -136,10 +154,10 @@ public:
 	}
 	bool CanHyperspaceTo(const SystemPath &dest) { return (CheckHyperspaceTo(dest) == HYPERJUMP_OK); }
 
-	Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
+	virtual Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	bool IsHyperspaceActive() const { return (m_hyperspace.countdown > 0.0); }
-	void ResetHyperspaceCountdown();
+	virtual void ResetHyperspaceCountdown();
 
 	Equip::Type GetHyperdriveFuelType() const;
 	// 0 to 1.0 is alive, > 1.0 = death
@@ -186,7 +204,7 @@ public:
 
 	void AIKamikaze(Body *target);
 	void AIKill(Ship *target);
-	//void AIJourney(SBodyPath &dest);
+	//void AIJourney(SystemBodyPath &dest);
 	void AIDock(SpaceStation *target);
 	void AIFlyTo(Body *target);
 	void AIOrbit(Body *target, double alt);
@@ -195,7 +213,6 @@ public:
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
 	SerializableEquipSet m_equipment;			// shouldn't be public?...
-	shipstats_t m_stats;
 
 	virtual void PostLoadFixup(Space *space);
 
@@ -222,7 +239,7 @@ public:
 	float GetFuel() const {	return m_thrusterFuel;	}
 	//0.0 - 1.0
 	void SetFuel(const float f) {	m_thrusterFuel = Clamp(f, 0.f, 1.f); }
-	
+
 	void EnterSystem();
 
 	HyperspaceCloud *GetHyperspaceCloud() const { return m_hyperspaceCloud; }
@@ -263,16 +280,24 @@ private:
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 
-	bool m_testLanded;
+	shipstats_t m_stats;
+
 	FlightState m_flightState;
+	bool m_testLanded;
 	float m_launchLockTimeout;
 	float m_wheelState;
 	int m_wheelTransition;
 
 	vector3d m_thrusters;
 	vector3d m_angThrusters;
+	vector3d m_frontViewOffset;
+	vector3d m_rearViewOffset;
 	vector3d m_frontCameraOffset;
 	vector3d m_rearCameraOffset;
+	vector3d m_leftCameraOffset;
+	vector3d m_rightCameraOffset;
+	vector3d m_topCameraOffset;
+	vector3d m_bottomCameraOffset;
 
 	AlertState m_alertState;
 	double m_lastFiringAlert;

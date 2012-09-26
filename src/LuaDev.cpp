@@ -30,17 +30,17 @@ static int l_dev_set_camera_offset(lua_State *l)
 
 void LuaDev::Register()
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
-	static const luaL_reg methods[]= {
+	static const luaL_Reg methods[]= {
 		{ "SetCameraOffset", l_dev_set_camera_offset },
-		{0, 0}
+		{ 0, 0 }
 	};
 
-	luaL_register(l, "Dev", methods);
-	lua_pop(l, 1);
+	luaL_newlib(l, methods);
+	lua_setglobal(l, "Dev");
 
 	LUA_DEBUG_END(l, 0);
 }

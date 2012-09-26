@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GEOMTREE_H
 #define _GEOMTREE_H
 
@@ -43,7 +46,7 @@ public:
 	};
 	const Edge *GetEdges() const { return m_edges; }
 	int GetNumEdges() const { return m_numEdges; }
-	
+
 	const int m_numVertices;
 	const float *m_vertices;
 	static int stats_rayTriIntersections;
@@ -55,7 +58,7 @@ private:
 
 	double m_radius;
 	Aabb m_aabb;
-	
+
 	int m_numEdges;
 	Edge *m_edges;
 
