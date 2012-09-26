@@ -1254,3 +1254,5 @@ MONTH_NOV
     Lis
 MONTH_DEC
     Gru
+MISCELLANEOUS
+    Różne
