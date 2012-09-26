@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Gui.h"
 
@@ -58,7 +61,6 @@ void Fixed::GetSizeRequested(float size[2])
 
 Fixed::~Fixed()
 {
-	Screen::RemoveBaseWidget(this);
 }
 
 void Fixed::UpdateAllChildSizes()

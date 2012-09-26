@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "RendererLegacy.h"
 #include "Graphics.h"
 #include "Light.h"
@@ -43,12 +46,16 @@ struct SurfaceRenderInfo : public RenderInfo {
 	int glAmount; //index count OR vertex amount
 };
 
-RendererLegacy::RendererLegacy(int w, int h)
-: Renderer(w, h)
+RendererLegacy::RendererLegacy(const Graphics::Settings &vs)
+: Renderer(vs.width, vs.height)
 , m_numDirLights(0)
 , m_minZNear(10.f)
 , m_maxZFar(1000000.0f)
+, m_useCompressedTextures(false)
 {
+	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_ARB_texture_compression");
+	m_useCompressedTextures = useDXTnTextures;
+
 	glShadeModel(GL_SMOOTH);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
@@ -661,7 +668,7 @@ Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 
 Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)
 {
-	return new TextureGL(descriptor);
+	return new TextureGL(descriptor, m_useCompressedTextures);
 }
 
 // XXX very heavy. in the future when all GL calls are made through the

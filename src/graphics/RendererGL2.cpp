@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Material.h"
 #include "Graphics.h"
 #include "RendererGL2.h"
@@ -20,8 +23,8 @@ typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterat
 GL2::MultiProgram *vtxColorProg;
 GL2::MultiProgram *flatColorProg;
 
-RendererGL2::RendererGL2(int w, int h)
-: RendererLegacy(w, h)
+RendererGL2::RendererGL2(const Graphics::Settings &vs)
+: RendererLegacy(vs)
 , m_invLogZfarPlus1(0.f)
 {
 	//the range is very large due to a "logarithmic z-buffer" trick used

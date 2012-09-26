@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _VIEW_H
 #define _VIEW_H
 
@@ -18,19 +21,21 @@ class View: public Gui::Fixed {
 public:
 	View();
 	virtual ~View();
-	virtual void ShowAll();
-	virtual void HideAll();
 	// called before Gui::Draw will call widget ::Draw methods.
 	virtual void Draw3D() = 0;
 	// for checking key states, mouse crud
 	virtual void Update() = 0;
 	virtual void Save(Serializer::Writer &wr) {}
 	virtual void Load(Serializer::Reader &rd) {}
-	virtual void OnSwitchTo() = 0;
+
+	void Attach();
+	void Detach();
 
 	void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
 
 protected:
+	virtual void OnSwitchTo() = 0;
+
 	// each view can put some buttons in the bottom right of the cpanel
 	Gui::Fixed *m_rightButtonBar;
 	Gui::Fixed *m_rightRegion1;

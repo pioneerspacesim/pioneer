@@ -20,16 +20,15 @@ void Container::Update()
 void Container::Draw()
 {
 	Context *c = GetContext();
-	Graphics::Renderer *r = c->GetRenderer();
 
 	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
-		const Point &pos = (*i)->GetAbsolutePosition();
-		c->EnableScissor(pos, (*i)->GetSize());
-		r->SetTransform(matrix4x4f::Translation(pos.x,pos.y,0) * (*i)->GetTransform());
+		const Point &pos = (*i)->GetPosition();
+		c->PushScissor(pos, (*i)->GetSize());
+		c->PushTransform(matrix4x4f::Translation(pos.x,pos.y,0) * (*i)->GetTransform());
 		(*i)->Draw();
+		c->PopTransform();
+		c->PopScissor();
 	}
-
-    c->DisableScissor();
 }
 
 void Container::LayoutChildren()

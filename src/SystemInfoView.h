@@ -1,9 +1,11 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SYSTEMINFOVIEW_H
 #define _SYSTEMINFOVIEW_H
 
 #include "libs.h"
 #include "gui/Gui.h"
-#include "View.h"
 #include "View.h"
 #include <vector>
 
@@ -16,8 +18,9 @@ public:
 	SystemInfoView();
 	virtual void Update();
 	virtual void Draw3D();
-	virtual void OnSwitchTo();
 	void NextPage();
+protected:
+	virtual void OnSwitchTo();
 private:
 	class BodyIcon : public Gui::ImageRadioButton {
 	public:

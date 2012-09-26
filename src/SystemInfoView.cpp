@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Pi.h"
 #include "galaxy/Sector.h"
 #include "SectorView.h"
@@ -258,7 +261,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		Gui::Label *l = (new Gui::Label(_info))->Color(1.0f,1.0f,0.0f);
 		m_sbodyInfoTab->Add(l, 35, 300);
 
-		Fixed::ShowAll(); // bypass View::ShowAll which does extra stuff that we don't want
+		ShowAll();
 		return;
 	}
 
@@ -394,7 +397,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 	UpdateIconSelections();
 
-	Fixed::ShowAll(); // bypass View::ShowAll which does extra stuff that we don't want
+	ShowAll();
 }
 
 void SystemInfoView::Draw3D()
