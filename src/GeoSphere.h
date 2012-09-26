@@ -9,6 +9,7 @@
 #include "vector3.h"
 #include "mtrand.h"
 #include "galaxy/StarSystem.h"
+#include "graphics/Frustum.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
 
@@ -59,6 +60,7 @@ private:
 	void DestroyVBOs();
 
 	vector3d m_tempCampos;
+	Graphics::Frustum m_tempFrustum;
 
 	SDL_mutex *m_updateLock;
 	SDL_mutex *m_abortLock;

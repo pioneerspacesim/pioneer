@@ -951,7 +951,7 @@ public:
 		}
 	}
 
-	void LODUpdate(const vector3d &campos) {
+	void LODUpdate(const vector3d &campos, const Graphics::Frustum &frustum) {
 		// if we've been asked to abort then get out as quickly as possible
 		// this function is recursive so we might be very deep. this is about
 		// as fast as we can go
@@ -969,9 +969,15 @@ public:
 				break;
 			}
 		}
-		if (!(canSplit && (m_depth < GEOPATCH_MAX_DEPTH) &&
-		    ((campos - centroid).Length() < m_roughLength)))
+		const bool bInsideRoughLen = ((campos - centroid).Length() < m_roughLength);
+		if (!(canSplit && (m_depth < GEOPATCH_MAX_DEPTH) && bInsideRoughLen)) {
 			canSplit = false;
+		}
+		// can't split if we're not visible
+		// 2.0 == magic number :(
+		if (canSplit && !frustum.TestPoint(clipCentroid, clipRadius*2.0)) {
+			canSplit = false;
+		}
 		// always split at first level
 		if (!parent) canSplit = true;
 		//printf(campos.Length());
@@ -1020,7 +1026,7 @@ public:
 				}
 				PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 			}
-			for (int i=0; i<4; i++) kids[i]->LODUpdate(campos);
+			for (int i=0; i<4; i++) kids[i]->LODUpdate(campos,frustum);
 		} else {
 			if (canMerge && kids[0]) {
 				PiVerify(SDL_mutexP(m_kidsLock)==0);
@@ -1080,7 +1086,7 @@ int GeoSphere::UpdateLODThread(void *data)
 
 			// update the patches
 			for (int n=0; n<6; n++)
-				gs->m_patches[n]->LODUpdate(gs->m_tempCampos);
+				gs->m_patches[n]->LODUpdate(gs->m_tempCampos, gs->m_tempFrustum);
 
 			// overlap locks again
 			SDL_mutexP(s_geosphereUpdateQueueLock);
@@ -1192,7 +1198,7 @@ void GeoSphere::OnChangeDetailLevel()
 
 #define GEOSPHERE_TYPE	(m_sbody->type)
 
-GeoSphere::GeoSphere(const SystemBody *body)
+GeoSphere::GeoSphere(const SystemBody *body) : m_tempFrustum(Graphics::Frustum::FromGLState())
 {
 	m_terrain = Terrain::InstanceTerrain(body);
 	print_info(body, m_terrain);
@@ -1452,6 +1458,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const vector3d& campos, con
 	// put ourselves on the update queue, unless we're already there or already being updated
 	if (!onQueue && (s_currentlyUpdatingGeoSphere != this)) {
 		this->m_tempCampos = campos;
+		this->m_tempFrustum = frustum;
 		s_geosphereUpdateQueue.push_back(this);
 		added = true;
 	}
@@ -1460,6 +1467,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const vector3d& campos, con
 
 #ifndef GEOSPHERE_USE_THREADING
 	m_tempCampos = campos;
+	m_tempFrustum = frustum;
 	_UpdateLODs();
 #endif /* !GEOSPHERE_USE_THREADING */
 }
