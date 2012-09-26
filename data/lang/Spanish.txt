@@ -220,6 +220,8 @@ WINDOW_OR_FULLSCREEN
     Ventana o Pantalla completa (Reiniciar para aplicar)
 FULL_SCREEN
     Pantalla completa
+COMPRESS_TEXTURES
+    Comprimir Texturas
 OTHER_GRAPHICS_SETTINGS
     Otras opciones gráficas
 USE_SHADERS
@@ -744,14 +746,38 @@ SHIP_IS_FULLY_LADEN
     Su nave está completamente cargada.
 YOU_DO_NOT_HAVE_ANY_X
     No dispone de %item.
+FRONT_COCKPIT_VIEW
+    Vista frontal de la cabina
+REAR_COCKPIT_VIEW
+    Vista trasera de la cabina
 CAMERA_FRONT_VIEW
     Vista frontal
 CAMERA_REAR_VIEW
     Vista trasera
+CAMERA_LEFT_VIEW
+    Vista izquierda
+CAMERA_TOP_VIEW
+    Vista superior
+CAMERA_RIGHT_VIEW
+    Vista derecha
+CAMERA_BOTTOM_VIEW
+    Vista inferior
+INTERNAL_VIEW
+    Vista interior 
 EXTERNAL_VIEW
     Vista externa
 SIDEREAL_VIEW
     Vista sideral
+ROTATE_UP
+    Rotar arriba
+ROTATE_DOWN
+    Rotar abajo
+ROTATE_LEFT
+    Rotar izquierda
+ROTATE_RIGHT
+    Rotar derecha
+RESET
+    Reset
 NAVIGATION_STAR_MAPS
     Navegación y mapas estelares
 COMMS
@@ -1228,3 +1254,5 @@ MONTH_NOV
     Nov
 MONTH_DEC
     Dic
+MISCELLANEOUS
+    Miscelaneos
