@@ -38,7 +38,7 @@ local doLoadDialog = function ()
 			title       = "Select game to load...",
 			path        = "savefiles",
 			selectLabel = "Load game",
-			onSelect = function (file) print("selected "..file) end,
+			onSelect = function (filename) Game.LoadGame(filename) end,
 			onCancel = function () ui:SetInnerWidget(ui.templates.MainMenu()) end
 		})
 	)

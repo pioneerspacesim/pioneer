@@ -7,8 +7,10 @@
 #include "LuaPlayer.h"
 #include "LuaStarSystem.h"
 #include "LuaSystemPath.h"
+#include "FileSystem.h"
 #include "Pi.h"
 #include "Game.h"
+#include "Lang.h"
 
 /*
  * Interface: Game
@@ -55,6 +57,63 @@ static int l_game_start_game(lua_State *l)
 		Pi::game = new Game(*path);
 	else
 		Pi::game = new Game(*path, vector3d(0, 1.5*sbody->GetRadius(), 0));
+
+	return 0;
+}
+
+/*
+ * Function: LoadGame
+ *
+ * Load a saved game.
+ *
+ * > loaded = Game.LoadGame(filename)
+ *
+ * Parameters:
+ *
+ *   filename - Filename to load. It will be loaded from the 'savefiles'
+ *              directory in the user's game directory.
+ *
+ * Availability:
+ *
+ *   not yet
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_game_load_game(lua_State *l)
+{
+	if (Pi::game) {
+		luaL_error(l, "can't load a game while a game is already running");
+		return 0;
+	}
+
+	const std::string filename(FileSystem::JoinPath(Pi::GetSaveDir(), luaL_checkstring(l, 1)));
+
+	Game *newGame;
+
+	// XXX use FileSystem stuff
+	try {
+		FILE *f = fopen(filename.c_str(), "rb");
+		if (!f) throw CouldNotOpenFileException();
+
+		Serializer::Reader rd(f);
+		fclose(f);
+
+		newGame = new Game(rd);
+	}
+	catch (SavedGameCorruptException) {
+		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
+	}
+	catch (CouldNotOpenFileException) {
+		luaL_error(l, Lang::GAME_LOAD_CANNOT_OPEN);
+	}
+
+	// XXX deal with this gracefully
+	if (!newGame)
+		abort();
+
+	Pi::game = newGame;
 
 	return 0;
 }
@@ -139,6 +198,7 @@ void LuaGame::Register()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "StartGame", l_game_start_game },
+		{ "LoadGame",  l_game_load_game  },
 		{ "EndGame",   l_game_end_game   },
 		{ 0, 0 }
 	};
