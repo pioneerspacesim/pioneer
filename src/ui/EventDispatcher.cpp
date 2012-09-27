@@ -156,9 +156,12 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const Point &mousePos
 			while (!lastTargetBase->IsFloating() && lastTargetBase->GetContainer()) lastTargetBase = lastTargetBase->GetContainer();
 
 			// if we're moving from float->non-float or non-float->float,
+			// or the two targets don't have the same base (eg one just got
+			// removed from the context in whole ui switch)
 			// force the out event on the last target by reporting a position
 			// that is by definition outside itself
-			const Point outPos = targetBase->IsFloating() != lastTargetBase->IsFloating() ? Point(-INT_MAX) : mousePos-m_lastMouseOverTarget->GetAbsolutePosition();
+			const Point outPos =
+				(targetBase->IsFloating() != lastTargetBase->IsFloating() || targetBase != lastTargetBase) ? Point(-INT_MAX) : mousePos-m_lastMouseOverTarget->GetAbsolutePosition();
 			m_lastMouseOverTarget->TriggerMouseOut(outPos);
 		}
 
