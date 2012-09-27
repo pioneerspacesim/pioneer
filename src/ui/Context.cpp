@@ -6,6 +6,15 @@
 
 namespace UI {
 
+// XXX maybe these want to be in font config
+static const int FONT_PIXEL_SIZE[] = {
+	14, // XSMALL
+	17, // SMALL
+	20, // NORMAL
+	28, // LARGE
+	36  // XLARGE
+};
+
 Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height) : Single(this),
 	m_renderer(renderer),
 	m_width(width),
@@ -28,8 +37,7 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 	// XXX should do point sizes, but we need display DPI first
 	// XXX TextureFont could load multiple sizes into the same object/atlas
 	for (int i = FONT_SIZE_XSMALL; i < FONT_SIZE_MAX; i++) {
-		int pixelSize = i*3 + 14;
-		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(Text::FontDescriptor("Orbitron-Bold.ttf", pixelSize, pixelSize, false, 0.0f), renderer));
+		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(Text::FontDescriptor("Orbitron-Bold.ttf", FONT_PIXEL_SIZE[i], FONT_PIXEL_SIZE[i], false, 0.0f), renderer));
 	}
 
 	m_scissorStack.push(std::make_pair(Point(0,0), Point(m_width,m_height)));
