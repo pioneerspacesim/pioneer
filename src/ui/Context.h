@@ -94,7 +94,7 @@ public:
 	Context *RemoveFloatingWidget(Widget *w) { m_float->RemoveWidget(w); return this; }
 
 	// considers floating widgets also
-	virtual Widget *GetWidgetAtAbsolute(const Point &pos);
+	virtual Widget *GetWidgetAt(const Point &pos);
 
 	// event dispatch delegates
 	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }

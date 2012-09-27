@@ -80,18 +80,18 @@ void Container::SetWidgetDimensions(Widget *widget, const Point &position, const
 	widget->SetDimensions(position, size);
 }
 
-Widget *Container::GetWidgetAtAbsolute(const Point &pos)
+Widget *Container::GetWidgetAt(const Point &pos)
 {
-	if (!ContainsAbsolute(pos)) return 0;
+	if (!Contains(pos)) return 0;
 
 	for (WidgetIterator i = WidgetsBegin(); i != WidgetsEnd(); ++i) {
 		Widget *widget = (*i).Get();
-		if (widget->ContainsAbsolute(pos)) {
-			if (widget->IsContainer())
-				return static_cast<Container*>(widget)->GetWidgetAtAbsolute(pos);
-			else
-				return widget;
-		}
+		const Point relpos = pos - widget->GetPosition() - widget->GetDrawOffset();
+		if (widget->IsContainer()) {
+			Widget* w = static_cast<Container*>(widget)->GetWidgetAt(relpos);
+			if (w) return w;
+		} else if (widget->Contains(relpos))
+			return widget;
 	}
 	
 	return this;

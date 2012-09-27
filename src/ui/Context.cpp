@@ -39,10 +39,11 @@ Context::~Context() {
     m_float->Detach();
 }
 
-Widget *Context::GetWidgetAtAbsolute(const Point &pos) {
-	Widget *w = m_float->GetWidgetAtAbsolute(pos);
+Widget *Context::GetWidgetAt(const Point &pos)
+{
+	Widget *w = m_float->GetWidgetAt(pos);
 	if (!w || w == m_float.Get())
-		w = Single::GetWidgetAtAbsolute(pos);
+		w = Single::GetWidgetAt(pos);
 	return w;
 }
 
