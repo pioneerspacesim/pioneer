@@ -64,11 +64,30 @@ for i = 1,#buttonDefs do
 end
 
 local menu = 
-	ui:Grid(2,1)
-		:SetColumn(1, {
-			ui:Align("MIDDLE"):SetInnerWidget(
-				ui:VBox(10):PackEnd(buttonSet)
-			)
-		} )
+	ui:Grid(1, { 0.2, 0.6, 0.2 })
+		:SetRow(0, {
+			ui:Grid({ 0.1, 0.8, 0.1 }, 1)
+				:SetCell(1, 0,
+					ui:Align("LEFT"):SetInnerWidget(
+						ui:Label("Pioneer"):SetFontSize("XLARGE")
+					)
+				)
+		})
+		:SetRow(1, {
+			ui:Grid(2,1)
+				:SetColumn(1, {
+					ui:Align("MIDDLE"):SetInnerWidget(
+						ui:VBox(10):PackEnd(buttonSet)
+					)
+				} )
+		})
+		:SetRow(2, {
+			ui:Grid({ 0.1, 0.8, 0.1 }, 1)
+				:SetCell(1, 0,
+					ui:Align("RIGHT"):SetInnerWidget(
+						ui:Label("("..Engine.version..")"):SetFontSize("XSMALL")
+					)
+				)
+		})
 
 ui.templates.MainMenu = function (args) return menu end
