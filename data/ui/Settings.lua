@@ -6,10 +6,11 @@ return_to_menu.onClick:Connect(function () ui:SetInnerWidget(ui.templates.MainMe
 
 local settings =
 	ui:Background():SetInnerWidget(ui:Margin(30):SetInnerWidget(
-		ui:VBox():PackEnd({
+		ui:VBox(10):PackEnd({
 			ui:Label(
 				"Sorry, the settings page is undergoing rennovation work at the moment.\n" ..
 				"Please edit settings in ~/.pioneer/config.ini"),
+			ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Test")}),
 			return_to_menu
 		})
 	))
