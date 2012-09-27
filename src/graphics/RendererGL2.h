@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _RENDERER_GL2_H
 #define _RENDERER_GL2_H
 /*
@@ -24,7 +27,7 @@ namespace GL2 {
 class RendererGL2 : public RendererLegacy
 {
 public:
-	RendererGL2(int width, int height);
+	RendererGL2(const Graphics::Settings &vs);
 	virtual ~RendererGL2();
 
 	virtual const char* GetName() const { return "GL2 renderer"; }

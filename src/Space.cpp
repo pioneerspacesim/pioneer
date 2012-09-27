@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Space.h"
 #include "Body.h"
@@ -331,12 +334,6 @@ Frame *Space::GetFrameWithSystemBody(const SystemBody *b) const
 	return find_frame_with_sbody(m_rootFrame.Get(), b);
 }
 
-static void SetFrameOrientationFromSystemBodyAxialTilt(Frame *f, const SystemBody *sbody)
-{
-	matrix4x4d rot = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
-	f->SetRotationOnly(rot);
-}
-
 static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame, Planet *planet, vector3d &pos, matrix4x4d &rot)
 {
 	const double radius = planet->GetSystemBody()->GetRadius();
@@ -452,7 +449,6 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	}
 }
 
-
 static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 {
 	Frame *orbFrame, *rotFrame;
@@ -492,9 +488,15 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
 		// rotating frame has size of GeoSphere terrain bounding sphere
 		rotFrame->SetRadius(b->GetBoundingRadius());
-		rotFrame->SetAngVelocity(vector3d(0,2*M_PI/sbody->GetRotationPeriod(),0));
+		matrix4x4d rotMatrix = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
+		vector3d angVel = vector3d(0.0, 2.0*M_PI/sbody->GetRotationPeriod(), 0.0);
+		rotFrame->SetAngVelocity(angVel);
+
+		if (sbody->rotationalPhaseAtStart != fixed(0)) 
+			rotMatrix = rotMatrix * matrix4x4d::RotateYMatrix(sbody->rotationalPhaseAtStart.ToDouble());
+		rotFrame->SetRotationOnly(rotMatrix);
+
 		rotFrame->m_astroBody = b;
-		SetFrameOrientationFromSystemBodyAxialTilt(rotFrame, sbody);
 		b->SetFrame(rotFrame);
 		return orbFrame;
 	}

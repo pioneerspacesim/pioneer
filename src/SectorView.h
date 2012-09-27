@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SECTORVIEW_H
 #define _SECTORVIEW_H
 
@@ -32,10 +35,11 @@ public:
 	void GotoSelectedSystem() { GotoSystem(m_selected); }
 	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
 	virtual void Save(Serializer::Writer &wr);
-	virtual void OnSwitchTo();
 
 	sigc::signal<void> onHyperspaceTargetChanged;
 
+protected:
+	virtual void OnSwitchTo();
 private:
 	void InitDefaults();
 	void InitObject();

@@ -3452,6 +3452,14 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="vcacheopt"
+			>
+			<File
+				RelativePath="..\..\contrib\vcacheopt\vcacheopt.h"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

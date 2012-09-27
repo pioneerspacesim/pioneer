@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Pi.h"
 #include "libs.h"
 #include "AmbientSounds.h"
@@ -15,6 +18,7 @@
 #include "Lang.h"
 #include "LmrModel.h"
 #include "LuaManager.h"
+#include "LuaDev.h"
 #include "LuaRef.h"
 #include "LuaBody.h"
 #include "LuaCargoBody.h"
@@ -67,6 +71,7 @@
 #include "SystemInfoView.h"
 #include "SystemView.h"
 #include "WorldView.h"
+#include "DeathView.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
@@ -100,6 +105,7 @@ bool Pi::doingMouseGrab = false;
 Player *Pi::player;
 View *Pi::currentView;
 WorldView *Pi::worldView;
+DeathView *Pi::deathView;
 SpaceStationView *Pi::spaceStationView;
 InfoView *Pi::infoView;
 SectorView *Pi::sectorView;
@@ -121,6 +127,8 @@ struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
+bool Pi::navTunnelDisplayed;
+Gui::Fixed *Pi::menu;
 const char * const Pi::combatRating[] = {
 	Lang::HARMLESS,
 	Lang::MOSTLY_HARMLESS,
@@ -204,7 +212,7 @@ static void LuaInit()
 	LuaFormat::Register();
 	LuaSpace::Register();
 	LuaMusic::Register();
-
+	LuaDev::Register();
 	LuaConsole::Register();
 
 	// XXX load everything. for now, just modules
@@ -298,6 +306,7 @@ void Pi::Init()
 	videoSettings.shaders = (config->Int("DisableShaders") == 0);
 	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
 	videoSettings.vsync = (config->Int("VSync") != 0);
+	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
 
 	Pi::renderer = Graphics::Init(videoSettings);
 	{
@@ -318,6 +327,8 @@ void Pi::Init()
 	InitJoysticks();
 	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
+
+	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 
 	Gui::Init(renderer, scrWidth, scrHeight, 800, 600);
 
@@ -466,14 +477,9 @@ void Pi::BoinkNoise()
 
 void Pi::SetView(View *v)
 {
-	if (cpan)
-		cpan->ClearOverlay();
-	if (currentView) currentView->HideAll();
+	if (currentView) currentView->Detach();
 	currentView = v;
-	if (currentView) {
-		currentView->OnSwitchTo();
-		currentView->ShowAll();
-	}
+	if (currentView) currentView->Attach();
 }
 
 void Pi::OnChangeDetailLevel()
@@ -758,8 +764,6 @@ void Pi::TombStoneLoop()
 {
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
-	cpan->HideAll();
-	currentView->HideAll();
 	do {
 		Pi::renderer->BeginFrame();
 		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
@@ -828,7 +832,7 @@ void Pi::HandleMenuKey(int n)
 
 		case 0: // Earth start point
 		{
-			game = new Game(SystemPath(0,0,0,0,7));  // Moscow, Earth
+			game = new Game(SystemPath(0,0,0,0,9));  // Los Angeles, Earth
 			break;
 		}
 
@@ -929,6 +933,16 @@ void Pi::HandleMenuKey(int n)
 			break;
 		}
 
+		case 5: // Settings
+		{
+			Gui::Screen::RemoveBaseWidget(menu);
+			SetView(Pi::gameMenuView);
+			while (Pi::GetView() == Pi::gameMenuView) Gui::MainLoopIteration();
+			SetView(0);
+			Gui::Screen::AddBaseWidget(menu, 0, 0);
+			return;
+		}
+
 		default:
 			break;
 	}
@@ -940,7 +954,7 @@ void Pi::Start()
 {
 	Background::Container *background = new Background::Container(Pi::renderer, UNIVERSE_SEED);
 
-	Gui::Fixed *menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
+	menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	Gui::Screen::AddBaseWidget(menu, 0, 0);
 	menu->SetTransparency(true);
 
@@ -956,7 +970,7 @@ void Pi::Start()
 
 	const float w = Gui::Screen::GetWidth() / 2.0f;
 	const float h = Gui::Screen::GetHeight() / 2.0f;
-	const int OPTS = 6;
+	const int OPTS = 7;
 	Gui::SolidButton *opts[OPTS];
 	opts[0] = new Gui::SolidButton(); opts[0]->SetShortcut(SDLK_1, KMOD_NONE);
 	opts[0]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 0));
@@ -970,18 +984,22 @@ void Pi::Start()
 	opts[4]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 4));
 	opts[5] = new Gui::SolidButton(); opts[5]->SetShortcut(SDLK_6, KMOD_NONE);
 	opts[5]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 5));
-	menu->Add(opts[0], w, h-80);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EARTH), w+32, h-80);
-	menu->Add(opts[1], w, h-48);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-48);
-	menu->Add(opts[2], w, h-16);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_LAVE), w+32, h-16);
-	menu->Add(opts[3], w, h+16);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h+16);
-	menu->Add(opts[4], w, h+48);
-	menu->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+48);
-	menu->Add(opts[5], w, h+80);
-	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+80);
+	opts[6] = new Gui::SolidButton(); opts[6]->SetShortcut(SDLK_7, KMOD_NONE);
+	opts[6]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 6));
+	menu->Add(opts[0], w, h-96);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EARTH), w+32, h-96);
+	menu->Add(opts[1], w, h-64);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-64);
+	menu->Add(opts[2], w, h-32);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_LAVE), w+32, h-32);
+	menu->Add(opts[3], w, h);
+	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h);
+	menu->Add(opts[4], w, h+32);
+	menu->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+32);
+	menu->Add(opts[5], w, h+64);
+	menu->Add(new Gui::Label(Lang::MM_SETTINGS), w+32, h+64);
+	menu->Add(opts[6], w, h+96);
+	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+96);
 
 	std::string version("Pioneer " PIONEER_VERSION);
 	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
@@ -1113,6 +1131,23 @@ void Pi::MainLoop()
 		}
 		frame_stat++;
 
+		// fuckadoodledoo, did the player die?
+		if (Pi::player->IsDead()) {
+			if (time_player_died > 0.0) {
+				if (Pi::game->GetTime() - time_player_died > 8.0) {
+					Pi::SetView(0);
+					Pi::TombStoneLoop();
+					Pi::EndGame();
+					break;
+				}
+			} else {
+				Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
+				Pi::SetView(Pi::deathView);
+				Pi::player->Disable();
+				time_player_died = Pi::game->GetTime();
+			}
+		}
+
 		Pi::renderer->BeginFrame();
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
@@ -1154,24 +1189,10 @@ void Pi::MainLoop()
 			return;
 
 		if (Pi::game->UpdateTimeAccel())
-			accumulator = 0;				// fix for huge pauses 10000x -> 1x
+			accumulator = 0; // fix for huge pauses 10000x -> 1x
 
-		// fuckadoodledoo, did the player die?
-		if (Pi::player->IsDead()) {
-			if (time_player_died > 0.0) {
-				if (Pi::game->GetTime() - time_player_died > 8.0) {
-					Pi::TombStoneLoop();
-					Pi::EndGame();
-					break;
-				}
-			} else {
-				Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
-				Pi::cpan->HideAll();
-				Pi::SetView(static_cast<View*>(Pi::worldView));
-				Pi::player->Disable();
-				time_player_died = Pi::game->GetTime();
-			}
-		} else {
+		if (!Pi::player->IsDead()) {
+			// XXX should this really be limited to while the player is alive?
 			// this is something we need not do every turn...
 			if (!config->Int("DisableSound")) AmbientSounds::Update();
 			StarSystem::ShrinkCache();

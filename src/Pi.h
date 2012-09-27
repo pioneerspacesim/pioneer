@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _PI_H
 #define _PI_H
 
@@ -19,6 +22,7 @@ class View;
 class SectorView;
 class SystemView;
 class WorldView;
+class DeathView;
 class SystemInfoView;
 class ShipCpanel;
 class StarSystem;
@@ -82,6 +86,8 @@ public:
 	static void SetJoystickEnabled(bool state) { joystickEnabled = state; }
     static void SetMouseYInvert(bool state) { mouseYInvert = state; }
     static bool IsMouseYInvert() { return mouseYInvert; }
+	static bool IsNavTunnelDisplayed() { return navTunnelDisplayed; }
+	static void SetNavTunnelDisplayed(bool state) { navTunnelDisplayed = state; }
 	static int MouseButtonState(int button) { return mouseButton[button]; }
 	/// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
 	/// This is a default value only, centralized here to promote uniform user expericience.
@@ -125,6 +131,7 @@ public:
 	static SystemInfoView *systemInfoView;
 	static SystemView *systemView;
 	static WorldView *worldView;
+	static DeathView *deathView;
 	static SpaceStationView *spaceStationView;
 	static InfoView *infoView;
 	static LuaConsole *luaConsole;
@@ -179,6 +186,10 @@ private:
 	};
 	static std::vector<JoystickState> joysticks;
 	static Sound::MusicPlayer musicPlayer;
+
+	static bool navTunnelDisplayed;
+
+	static Gui::Fixed *menu;
 };
 
 #endif /* _PI_H */

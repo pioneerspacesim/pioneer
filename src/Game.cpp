@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Game.h"
 #include "Space.h"
 #include "Player.h"
@@ -10,6 +13,7 @@
 #include "MathUtil.h"
 #include "SectorView.h"
 #include "WorldView.h"
+#include "DeathView.h"
 #include "GalacticView.h"
 #include "SystemView.h"
 #include "SystemInfoView.h"
@@ -19,7 +23,7 @@
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 52;
+static const int  s_saveVersion   = 53;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -614,6 +618,7 @@ void Game::CreateViews()
 	Pi::systemInfoView = new SystemInfoView();
 	Pi::spaceStationView = new SpaceStationView();
 	Pi::infoView = new InfoView();
+	Pi::deathView = new DeathView();
 
 	// view manager will handle setting this probably
 	Pi::galacticView->SetRenderer(Pi::renderer);
@@ -622,6 +627,7 @@ void Game::CreateViews()
 	Pi::systemInfoView->SetRenderer(Pi::renderer);
 	Pi::systemView->SetRenderer(Pi::renderer);
 	Pi::worldView->SetRenderer(Pi::renderer);
+	Pi::deathView->SetRenderer(Pi::renderer);
 
 #if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
@@ -652,6 +658,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::systemInfoView = new SystemInfoView();
 	Pi::spaceStationView = new SpaceStationView();
 	Pi::infoView = new InfoView();
+	Pi::deathView = new DeathView();
 
 #if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
@@ -664,6 +671,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::systemInfoView->SetRenderer(Pi::renderer);
 	Pi::systemView->SetRenderer(Pi::renderer);
 	Pi::worldView->SetRenderer(Pi::renderer);
+	Pi::deathView->SetRenderer(Pi::renderer);
 }
 
 void Game::DestroyViews()
@@ -674,6 +682,7 @@ void Game::DestroyViews()
 	delete Pi::objectViewerView;
 #endif
 
+	delete Pi::deathView;
 	delete Pi::infoView;
 	delete Pi::spaceStationView;
 	delete Pi::systemInfoView;
@@ -684,6 +693,7 @@ void Game::DestroyViews()
 	delete Pi::cpan;
 
 	Pi::objectViewerView = 0;
+	Pi::deathView = 0;
 	Pi::infoView = 0;
 	Pi::spaceStationView = 0;
 	Pi::systemInfoView = 0;

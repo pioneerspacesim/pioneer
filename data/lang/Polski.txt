@@ -28,9 +28,9 @@ VID_LINK_ESTABLISHED
 VID_CONNECTING
     Łączenie...
 BOUGHT_1T_OF
-    Kupiłeś 1t: %commodity.
+    Kupiono 1t: %commodity.
 SOLD_1T_OF
-    Sprzedałeś 1t: %commodity.
+    Sprzedano 1t: %commodity.
 WELCOME_TO_MARKET
     Stacja %station. Witamy w sklepie.
 GO_BACK
@@ -214,14 +214,18 @@ LOAD_A_GAME
     [L] Wczytaj grę
 EXIT_THIS_GAME
     Wyjdź z gry
+RETURN_TO_MENU
+    Powrót do menu
 WINDOW_OR_FULLSCREEN
     Okno lub pełny ekran (wymagany restart)
 FULL_SCREEN
     Pełny ekran
+COMPRESS_TEXTURES
+    Kompresja Tekstur
 OTHER_GRAPHICS_SETTINGS
-    Inne ustawienia graficzne
+    Inne ustawienia graficzne (wymagany restart)
 USE_SHADERS
-    Użyj cieniowania (wymagany restart)
+    Użyj cieniowania
 SOUND_SETTINGS
     Ustawienia dźwięku
 VOL_MASTER
@@ -496,8 +500,8 @@ N_LIGHT_YEARS_N_MAX
     %distance{f.1} lat świetlnych (%maxdistance{f.1} maks.)
 SHIP_INFORMATION
     Informacje o statku
-REPUTATION
-    Reputacja
+PERSONAL
+    Osobiste
 MISSIONS
     Misje
 SHIFT
@@ -620,6 +624,8 @@ MM_START_NEW_GAME_DEBUG
     Nowa gra: rozpocznij z debug point
 MM_LOAD_SAVED_GAME
     Wczytaj grę
+MM_SETTINGS
+    Opcje
 MM_QUIT
     Wyjdź
 SCREENSHOT_FILENAME_TEMPLATE
@@ -687,7 +693,7 @@ SOCIAL_DEMOCRACY
 CORPORATE_SYSTEM
     System korporacyjny
 MILITARY_DICTATORSHIP
-    Dyktatora wojskowa
+    Dyktatura wojskowa
 COMMUNIST
     Komunizm
 PLUTOCRATIC_DICTATORSHIP
@@ -740,14 +746,38 @@ SHIP_IS_FULLY_LADEN
     Ładownia jest pełna.
 YOU_DO_NOT_HAVE_ANY_X
     Nie masz %item.
-FRONT_VIEW
-    Widok z przodu
-REAR_VIEW
-    Widok z tyłu
+FRONT_COCKPIT_VIEW
+	Kokpit przód
+REAR_COCKPIT_VIEW
+	Kokpit tył
+CAMERA_FRONT_VIEW
+	Kamera dziobowa
+CAMERA_REAR_VIEW
+	Kamera rufowa
+CAMERA_LEFT_VIEW
+	Lewa kamera
+CAMERA_TOP_VIEW
+	Górna kamera
+CAMERA_RIGHT_VIEW
+	Prawa kamera
+CAMERA_BOTTOM_VIEW
+	Dolna kamera
+INTERNAL_VIEW
+    Widok wewnętrzny	
 EXTERNAL_VIEW
     Widok zewnętrzny
 SIDEREAL_VIEW
     Widok radialny
+ROTATE_UP
+    Rotacja w górę
+ROTATE_DOWN
+    Rotacja w dół
+ROTATE_LEFT
+    Rotacja w lewo
+ROTATE_RIGHT
+    Rotacja w prawo
+RESET
+    Reset
 NAVIGATION_STAR_MAPS
     Nawigacja i mapy gwiezdne
 COMMS
@@ -1155,9 +1185,9 @@ NAVIGATION_TARGETS_IN_THIS_SYSTEM
 YOU_NO_MONEY
     Nie masz pieniędzy.
 FINE_PAID_N_BUT_N_REMAINING
-    Zapłaciłeś %paid kary, lecz wciąż jesteś winien %fine.
+    Zapłacono %paid kary, nadal masz %fine do uregulowania.
 FINE_PAID_N
-    Przelałeś na konto policji %fine.
+    Przelano na konto policji %fine.
 SET_HYPERSPACE_DESTINATION_TO
     "Ustawiono cel skoku na %system"
 NO_TARGET_SELECTED
@@ -1224,3 +1254,5 @@ MONTH_NOV
     Lis
 MONTH_DEC
     Gru
+MISCELLANEOUS
+    Różne

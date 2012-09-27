@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "FaceVideoLink.h"
 #include "Lang.h"
 #include "Pi.h"
@@ -50,7 +53,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 	const std::string &name, const std::string &title) : VideoLink(w, h)
 {
 	m_created = SDL_GetTicks();
-	m_message = new Gui::ToolTip(Lang::VID_LINK_ESTABLISHED);
+	m_message = new Gui::ToolTip(0, Lang::VID_LINK_ESTABLISHED);
 
 	if (!seed) seed = time(NULL);
 	MTRand rand(seed);

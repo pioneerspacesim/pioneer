@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _TEXTUREBUILDER_H
 #define _TEXTUREBUILDER_H
 
@@ -11,19 +14,19 @@ namespace Graphics {
 
 class TextureBuilder {
 public:
-	TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true);
-	TextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true);
+	TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true);
+	TextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true);
 	~TextureBuilder();
 
 	// convenience constructors for common texture types
 	static TextureBuilder Model(const std::string &filename) {
-		return TextureBuilder(filename, LINEAR_REPEAT, true, false, false);
+		return TextureBuilder(filename, LINEAR_REPEAT, true, false, false, true);
 	}
 	static TextureBuilder Billboard(const std::string &filename) {
-		return TextureBuilder(filename, LINEAR_CLAMP, true, false, false);
+		return TextureBuilder(filename, LINEAR_CLAMP, true, false, false, true);
 	}
 	static TextureBuilder UI(const std::string &filename) {
-		return TextureBuilder(filename, LINEAR_CLAMP, false, true, true);
+		return TextureBuilder(filename, LINEAR_CLAMP, false, true, true, false);
 	}
 
 	const TextureDescriptor &GetDescriptor() { PrepareSurface(); return m_descriptor; }
@@ -54,6 +57,7 @@ private:
 
 	bool m_potExtend;
 	bool m_forceRGBA;
+	bool m_compressTextures;
 
 	TextureDescriptor m_descriptor;
 

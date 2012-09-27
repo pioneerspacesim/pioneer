@@ -214,10 +214,14 @@ LOAD_A_GAME
     [L] Cargar un Juego
 EXIT_THIS_GAME
     Abandonar el Juego
+RETURN_TO_MENU
+    Volver a menu
 WINDOW_OR_FULLSCREEN
     Ventana o Pantalla completa (Reiniciar para aplicar)
 FULL_SCREEN
     Pantalla completa
+COMPRESS_TEXTURES
+    Comprimir Texturas
 OTHER_GRAPHICS_SETTINGS
     Otras opciones gráficas
 USE_SHADERS
@@ -620,6 +624,8 @@ MM_START_NEW_GAME_DEBUG
     Comenzar Juego Nuevo en punto de depuración
 MM_LOAD_SAVED_GAME
     Cargar un juego
+MM_SETTINGS
+    Ajustes
 MM_QUIT
     Salir
 SCREENSHOT_FILENAME_TEMPLATE
@@ -740,14 +746,38 @@ SHIP_IS_FULLY_LADEN
     Su nave está completamente cargada.
 YOU_DO_NOT_HAVE_ANY_X
     No dispone de %item.
-FRONT_VIEW
+FRONT_COCKPIT_VIEW
+    Vista frontal de la cabina
+REAR_COCKPIT_VIEW
+    Vista trasera de la cabina
+CAMERA_FRONT_VIEW
     Vista frontal
-REAR_VIEW
+CAMERA_REAR_VIEW
     Vista trasera
+CAMERA_LEFT_VIEW
+    Vista izquierda
+CAMERA_TOP_VIEW
+    Vista superior
+CAMERA_RIGHT_VIEW
+    Vista derecha
+CAMERA_BOTTOM_VIEW
+    Vista inferior
+INTERNAL_VIEW
+    Vista interior 
 EXTERNAL_VIEW
     Vista externa
 SIDEREAL_VIEW
     Vista sideral
+ROTATE_UP
+    Rotar arriba
+ROTATE_DOWN
+    Rotar abajo
+ROTATE_LEFT
+    Rotar izquierda
+ROTATE_RIGHT
+    Rotar derecha
+RESET
+    Reset
 NAVIGATION_STAR_MAPS
     Navegación y mapas estelares
 COMMS
@@ -1200,3 +1230,29 @@ X_PASSENGER_CABINS
     %quantity cabinas de pasajeros ocupadas
 CABINS
     Cabinas
+MONTH_JAN
+    Ene
+MONTH_FEB
+    Feb
+MONTH_MAR
+    Mar
+MONTH_APR
+    Abr
+MONTH_MAY
+    May
+MONTH_JUN
+    Jun
+MONTH_JUL
+    Jul
+MONTH_AUG
+    Ago
+MONTH_SEP
+    Sep
+MONTH_OCT
+    Oct
+MONTH_NOV
+    Nov
+MONTH_DEC
+    Dic
+MISCELLANEOUS
+    Miscelaneos

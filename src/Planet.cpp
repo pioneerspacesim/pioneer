@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Planet.h"
 #include "Pi.h"
 #include "WorldView.h"
@@ -235,8 +238,8 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	invViewRot.ClearToRotOnly();
 	invViewRot = invViewRot.InverseOf();
 
-	//XXX this is always 1
-	const int numLights = Pi::worldView->GetNumLights();
+	// XXX used to be Pi::worldView->GetNumLights, but that always returns 1
+	const int numLights = 1;
 	assert(numLights < 4);
 	vector3d lightDir[4];
 	float lightCol[4][4];

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GRAPHICS_H
 #define _GRAPHICS_H
 
@@ -18,10 +21,20 @@ namespace Graphics {
 	struct Settings {
 		bool fullscreen;
 		bool shaders;
+		bool useTextureCompression;
 		int vsync;
 		int requestedSamples;
 		int height;
 		int width;
+	};
+
+	//for querying available modes
+	struct VideoMode {
+		VideoMode(int w, int h)
+		: width(w), height(h) { }
+
+		int width;
+		int height;
 	};
 
 	/* static */ class State {
@@ -40,9 +53,10 @@ namespace Graphics {
 	extern Material *vtxColorMaterial;
 
 	// does SDL video init, constructs appropriate Renderer
-	Renderer* Init(const Settings&);
+	Renderer* Init(Settings);
 	void Uninit();
 	bool AreShadersEnabled();
+	std::vector<VideoMode> GetAvailableVideoModes();
 
 	void UnbindAllBuffers();
 	void BindArrayBuffer(GLuint bo);

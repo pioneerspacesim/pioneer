@@ -1,13 +1,24 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_ship {
 	name='Natrix',
 	model='natrix',
-	forward_thrust = -6e6,
+	forward_thrust = 6e6,
 	reverse_thrust = 1e6,
 	up_thrust = 1e6,
-	down_thrust = -1e6,
-	left_thrust = -1e6,
+	down_thrust = 1e6,
+	left_thrust = 1e6,
 	right_thrust = 1e6,
 	angular_thrust = 15e6,
+	cockpit_front = v(4,4,-12.5),
+	cockpit_rear = v(4,5.5,-12),
+	front_camera = v(0,0,-32),
+	rear_camera = v(0,4.5,31.5),
+	left_camera = v(-15,0,0),
+	right_camera = v(15,0,0),
+	top_camera = v(0,6.5,0),
+	bottom_camera = v(0,-5.5,0),
 	gun_mounts = {
 		{ v(0.000, 0.000, -9.342), v(0.000, 0.000, -1.000) },
 	},

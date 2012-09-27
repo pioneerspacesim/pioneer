@@ -1,3 +1,6 @@
+dnl Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+dnl Licensed under the terms of the GPL v3. See COPYING.txt for details
+
 dnl Process this file with autoconf to create configure.
 
 dnl ###########################################################################
@@ -5,7 +8,7 @@ dnl Setup
 dnl ###########################################################################
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [alpha-27-dev], [pioneer@pioneerspacesim.net])
+AC_INIT([pioneer], [alpha-27-dev], [pioneer-dev@pioneerspacesim.net])
 dnl AC_CONFIG_HEADERS([config.h])
 
 AC_DEFUN([MXE_SETUP], [
@@ -298,6 +301,7 @@ AC_CONFIG_FILES([
 	contrib/lua/Makefile
 	contrib/miniz/Makefile
 	contrib/jenkins/Makefile
+	contrib/vcacheopt/Makefile
 	osx/Makefile
 	win32/Makefile])
 AC_OUTPUT

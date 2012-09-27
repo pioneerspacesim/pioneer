@@ -214,14 +214,18 @@ LOAD_A_GAME
     [L] Load a game
 EXIT_THIS_GAME
     Exit this game
+RETURN_TO_MENU
+    Return to menu
 WINDOW_OR_FULLSCREEN
     Windowed or fullscreen (restart to apply)
 FULL_SCREEN
     Full screen
+COMPRESS_TEXTURES
+	Compress Textures
 OTHER_GRAPHICS_SETTINGS
-    Other graphics settings
+    Other graphics settings (restart to apply)
 USE_SHADERS
-    Use shaders (restart to apply)
+    Use shaders
 SOUND_SETTINGS
     Sound settings
 VOL_MASTER
@@ -496,8 +500,8 @@ N_LIGHT_YEARS_N_MAX
     %distance{f.1} light years (%maxdistance{f.1} max)
 SHIP_INFORMATION
     Ship information
-REPUTATION
-    Reputation
+PERSONAL
+    Personal
 MISSIONS
     Missions
 SHIFT
@@ -620,6 +624,8 @@ MM_START_NEW_GAME_DEBUG
     New game starting on debug point
 MM_LOAD_SAVED_GAME
     Load a saved game
+MM_SETTINGS
+    Settings
 MM_QUIT
     Quit
 SCREENSHOT_FILENAME_TEMPLATE
@@ -740,14 +746,38 @@ SHIP_IS_FULLY_LADEN
     Your ship is fully laden.
 YOU_DO_NOT_HAVE_ANY_X
     You do not have any %item.
-FRONT_VIEW
-    Front view
-REAR_VIEW
-    Rear view
+FRONT_COCKPIT_VIEW
+	Front cockpit view
+REAR_COCKPIT_VIEW
+	Rear cockpit view
+CAMERA_FRONT_VIEW
+	Front camera
+CAMERA_REAR_VIEW
+	Rear camera
+CAMERA_LEFT_VIEW
+	Left camera
+CAMERA_TOP_VIEW
+	Top camera
+CAMERA_RIGHT_VIEW
+	Right camera
+CAMERA_BOTTOM_VIEW
+	Bottom camera
+INTERNAL_VIEW
+    Internal view	
 EXTERNAL_VIEW
     External view
 SIDEREAL_VIEW
     Sidereal view
+ROTATE_UP
+	Rotate Up
+ROTATE_DOWN
+	Rotate Down
+ROTATE_LEFT
+    Rotate Left	
+ROTATE_RIGHT
+    Rotate Right
+RESET
+    Reset
 NAVIGATION_STAR_MAPS
     Navigation and star maps
 COMMS
@@ -1224,3 +1254,5 @@ MONTH_NOV
     Nov
 MONTH_DEC
     Dec
+MISCELLANEOUS
+    Miscellaneous

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "StarSystem.h"
 #include "Sector.h"
 
@@ -861,8 +864,8 @@ double SystemBody::CalcSurfaceGravity() const
 vector3d Orbit::OrbitalPosAtTime(double t) const
 {
 	const double e = eccentricity;
-	// mean anomaly
-	const double M = 2*M_PI*t / period;
+	const double M_t0 = Orbit::orbitalPhaseAtStart; // mean anomaly at t = 0
+	const double M = 2.0*M_PI*t / period + M_t0; // mean anomaly
 	// eccentric anomaly
 	// NR method to solve for E: M = E-sin(E)
 	double E = M;
@@ -880,6 +883,9 @@ vector3d Orbit::OrbitalPosAtTime(double t) const
 	return pos;
 }
 
+// used for stepping through the orbit in small fractions 
+// therefore the orbital phase at game start (mean anomalty at t = 0)
+// does not need to be taken into account
 vector3d Orbit::EvenSpacedPosAtTime(double t) const
 {
 	const double e = eccentricity;
@@ -937,18 +943,20 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->m_life           = csbody->life;
 
 		kid->rotationPeriod = csbody->rotationPeriod;
+		kid->rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
 		kid->eccentricity = csbody->eccentricity;
 		kid->orbitalOffset = csbody->orbitalOffset;
+		kid->orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
 		kid->axialTilt = csbody->axialTilt;
 		kid->semiMajorAxis = csbody->semiMajorAxis;
 		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = csbody->semiMajorAxis.ToDouble() * AU;
 		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
+		kid->orbit.orbitalPhaseAtStart = csbody->orbitalPhaseAtStart.ToDouble();
 		if (csbody->heightMapFilename.length() > 0) {
 			kid->heightMapFilename = csbody->heightMapFilename.c_str();
 			kid->heightMapFractal = csbody->heightMapFractal;
 		}
-
 		if (kid->type == SystemBody::TYPE_STARPORT_SURFACE) {
 			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(csbody->longitude) *
 				matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
@@ -1009,6 +1017,9 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 	rootBody->averageTemp = csbody->averageTemp;
 	rootBody->name = csbody->name;
 	rootBody->isCustomBody = true;
+
+	rootBody->rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
+	rootBody->orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
 
 	int humanInfestedness = 0;
 	CustomGetKidsOf(rootBody, csbody->children, &humanInfestedness, rand);
@@ -1086,6 +1097,8 @@ SystemBody::SystemBody()
 {
 	heightMapFilename = 0;
 	heightMapFractal = 0;
+	rotationalPhaseAtStart = fixed(0);
+	orbitalPhaseAtStart = fixed(0);
 	isCustomBody = false;
 }
 
@@ -1938,6 +1951,12 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	// unexplored systems have no population (that we know about)
 	if (system->m_unexplored) {
 		m_population = outTotalPop = fixed(0);
+		return;
+	}
+
+	// grav-points have no population themselves
+	if (type == SystemBody::TYPE_GRAVPOINT) {
+		m_population = fixed(0);
 		return;
 	}
 
