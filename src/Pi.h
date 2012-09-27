@@ -22,6 +22,7 @@ class View;
 class SectorView;
 class SystemView;
 class WorldView;
+class DeathView;
 class SystemInfoView;
 class ShipCpanel;
 class StarSystem;
@@ -130,6 +131,7 @@ public:
 	static SystemInfoView *systemInfoView;
 	static SystemView *systemView;
 	static WorldView *worldView;
+	static DeathView *deathView;
 	static SpaceStationView *spaceStationView;
 	static InfoView *infoView;
 	static LuaConsole *luaConsole;

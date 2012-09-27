@@ -31,6 +31,7 @@ noinst_HEADERS = \
 	CommodityTradeWidget.h \
 	CRC32.h \
 	DeadVideoLink.h \
+	DeathView.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
 	EquipSet.h \
@@ -174,6 +175,7 @@ pioneer_SOURCES	= \
 	CommodityTradeWidget.cpp \
 	CRC32.cpp \
 	DeadVideoLink.cpp \
+	DeathView.cpp \
 	DynamicBody.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
