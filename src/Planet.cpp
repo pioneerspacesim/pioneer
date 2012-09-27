@@ -238,8 +238,8 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	invViewRot.ClearToRotOnly();
 	invViewRot = invViewRot.InverseOf();
 
-	//XXX this is always 1
-	const int numLights = Pi::worldView->GetNumLights();
+	// XXX used to be Pi::worldView->GetNumLights, but that always returns 1
+	const int numLights = 1;
 	assert(numLights < 4);
 	vector3d lightDir[4];
 	float lightCol[4][4];

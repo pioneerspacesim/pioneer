@@ -53,7 +53,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 	const std::string &name, const std::string &title) : VideoLink(w, h)
 {
 	m_created = SDL_GetTicks();
-	m_message = new Gui::ToolTip(Lang::VID_LINK_ESTABLISHED);
+	m_message = new Gui::ToolTip(0, Lang::VID_LINK_ESTABLISHED);
 
 	if (!seed) seed = time(NULL);
 	MTRand rand(seed);

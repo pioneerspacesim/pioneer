@@ -31,7 +31,7 @@ private:
 	void OnClickChange() {
 		if (m_infoTooltip) return;
 		std::string msg = Lang::PRESS_BUTTON_WANTED_FOR + m_function;
-		Gui::ToolTip *t = new Gui::ToolTip(msg);
+		Gui::ToolTip *t = new Gui::ToolTip(this, msg);
 		Gui::Screen::AddBaseWidget(t, 300, 300);
 		t->Show();
 		t->GrabFocus();
@@ -108,7 +108,7 @@ private:
 	void OnClickChange() {
 		if (m_infoTooltip) return;
 		std::string msg = Lang::MOVE_AXIS_WANTED_FOR + m_function;
-		Gui::ToolTip *t = new Gui::ToolTip(msg);
+		Gui::ToolTip *t = new Gui::ToolTip(this, msg);
 		Gui::Screen::AddBaseWidget(t, 300, 300);
 		t->Show();
 		t->GrabFocus();

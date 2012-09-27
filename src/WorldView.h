@@ -31,7 +31,6 @@ public:
 	virtual void Draw3D();
 	virtual void Draw();
 	static const double PICK_OBJECT_RECT_SIZE;
-	void DrawBgStars();
 	virtual void Save(Serializer::Writer &wr);
 	enum CamType {
 		COCKPIT_FRONT,
@@ -48,7 +47,6 @@ public:
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const { return m_camType; }
 	WorldViewCamera *GetActiveCamera() const { return m_activeCamera; }
-	int GetNumLights() const { return m_numLights; }
 	void ToggleTargetActions();
 	void ShowTargetActions();
 	void HideTargetActions();
@@ -133,7 +131,6 @@ private:
 	Gui::MultiStateImageButton *m_flightControlButton;
 	bool m_labelsOn;
 	enum CamType m_camType;
-	int m_numLights;
 	Uint32 m_showTargetActionsTimeout;
 	Uint32 m_showLowThrustPowerTimeout;
 	Uint32 m_showCameraNameTimeout;

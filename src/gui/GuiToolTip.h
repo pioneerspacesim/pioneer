@@ -10,8 +10,8 @@
 namespace Gui {
 	class ToolTip: public Widget {
 	public:
-		ToolTip(const char *text);
-		ToolTip(std::string &text);
+		ToolTip(Widget *owner, const char *text);
+		ToolTip(Widget *owner, std::string &text);
 		virtual void Draw();
 		virtual ~ToolTip();
 		virtual void GetSizeRequested(float size[2]);
@@ -19,6 +19,7 @@ namespace Gui {
 		void SetText(std::string &text);
 	private:
 		void CalcSize();
+		Widget *m_owner;
 		std::string m_text;
 		TextLayout *m_layout;
 		Uint32 m_createdTime;
