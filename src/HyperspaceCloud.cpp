@@ -28,17 +28,22 @@ HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 	m_birthdate = Pi::game->GetTime();
 	m_due = dueDate;
 	SetIsArrival(isArrival);
-
-	m_graphic.vertices.Reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
-	Graphics::MaterialDescriptor desc;
-	desc.vertexColors = true;
-	m_graphic.material.Reset(Pi::renderer->CreateMaterial(desc));
+	InitGraphics();
 }
 
 HyperspaceCloud::HyperspaceCloud()
 {
 	m_ship = 0;
 	m_pos = vector3d(0,0,0);
+	InitGraphics();
+}
+
+void HyperspaceCloud::InitGraphics()
+{
+	m_graphic.vertices.Reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_graphic.material.Reset(Pi::renderer->CreateMaterial(desc));
 }
 
 HyperspaceCloud::~HyperspaceCloud()
