@@ -140,16 +140,22 @@ static int l_fac_illegal_goods_probability(lua_State *L)
 	const char *typeName = luaL_checkstring(L, 2);
 	const Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(L, "EquipType", typeName));
 	const int probability = luaL_checkinteger(L, 3);
-	const bool equality_test = luaL_checkinteger(L, 4) == 0;
 
 	if (e < Equip::FIRST_COMMODITY || e > Equip::LAST_COMMODITY) {
 		pi_lua_warn(L,
-			"argument out of range: Faction{%s}:IllegalGoodsProbability('%s', %d, %d)",
-			fac->name.c_str(), typeName, probability, equality_test);
+			"argument out of range: Faction{%s}:IllegalGoodsProbability('%s', %d)",
+			fac->name.c_str(), typeName, probability);
 		return 0;
 	}
 
-	fac->equip_legality[e] = Faction::ProbEqualityPair(probability, equality_test);
+	if (probability < 0 || probability > 100) {
+		pi_lua_warn(L,
+			"argument (probability 0-100) out of range: Faction{%s}:IllegalGoodsProbability('%s', %d)",
+			fac->name.c_str(), typeName, probability);
+		return 0;
+	}
+
+	fac->equip_legality[e] = probability;
 	lua_settop(L, 1); 
 
 	return 1;

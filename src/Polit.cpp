@@ -249,18 +249,8 @@ bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 		assert(fac);
 		Faction::EquipProbMap::const_iterator iter = fac->equip_legality.find(t);
 		if( iter != fac->equip_legality.end() ) {
-			Faction::ProbEqualityPair per = (*iter).second;
-			if( per.first == 0) {
-				// the probabilty is 0 so we know that this isn't a legal item
-				return false;
-			} else {
-				// choose between equality tests
-				if( per.second ) {
-					return rand.Int32(per.first) == 0;
-				} else {
-					return rand.Int32(per.first) != 0;
-				}
-			}
+			const int32_t per = (*iter).second;
+			return ( per == 0) ? false : rand.Int32(100) < per;
 		}
 	}
 	else

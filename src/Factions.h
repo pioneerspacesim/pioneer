@@ -40,8 +40,7 @@ public:
 	//static const int		SC_NUM_ECONOMY_TYPES = 3;
 	//EquipType				types[SC_NUM_ECONOMY_TYPES][Equip::TYPE_MAX];
 	//goods/equipment legality
-	typedef std::pair<int32_t, bool> ProbEqualityPair;
-	typedef std::map<Equip::Type, ProbEqualityPair> EquipProbMap;
+	typedef std::map<Equip::Type, int32_t> EquipProbMap;
 	EquipProbMap			equip_legality;
 	//ship availability
 	Color					colour;
