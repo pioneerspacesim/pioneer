@@ -1,3 +1,6 @@
+local ui = Engine.ui
+local l = Lang.GetDictionary()
+
 local setupPlayerEagle = function ()
 	Game.player:SetShipType("eagle_lrf")
 	Game.player:AddEquip("PULSECANNON_1MW")
@@ -29,15 +32,24 @@ local addDebugEnemy = function ()
 	Game.player:SetCombatTarget(enemy)
 end
 
-local ui = Engine.ui
-local l = Lang.GetDictionary()
+local doLoadDialog = function ()
+	ui:SetInnerWidget(
+		ui.templates.FileDialog({
+			title       = "Select game to load...",
+			path        = "savefiles",
+			selectLabel = "Load game",
+			onSelect = function (file) print("selected "..file) end,
+			onCancel = function () ui:SetInnerWidget(ui.templates.MainMenu()) end
+		})
+	)
+end
 
 local buttonDefs = {
 	{ l.MM_START_NEW_GAME_EARTH,     function () Game.StartGame(SystemPath.New(0,0,0,0,9))    setupPlayerEagle()                 end },
 	{ l.MM_START_NEW_GAME_E_ERIDANI, function () Game.StartGame(SystemPath.New(1,-1,-1,0,4))  setupPlayerEagle()                 end },
 	{ l.MM_START_NEW_GAME_LAVE,      function () Game.StartGame(SystemPath.New(-2,1,90,0,2))  setupPlayerCobra()                 end },
 	{ l.MM_START_NEW_GAME_DEBUG,     function () Game.StartGame(SystemPath.New(-1,9,-22,0,5)) setupPlayerEagle() addDebugEnemy() end },
-	{ l.MM_LOAD_SAVED_GAME,          function () ui:SetInnerWidget(ui.templates.FileDialog({ title = "Load game...", path = "savefiles" })) end },
+	{ l.MM_LOAD_SAVED_GAME,          doLoadDialog },
 	{ l.MM_SETTINGS,                 function () ui:SetInnerWidget(ui.templates.Settings()) end },
 	{ l.MM_QUIT,                     function () Engine.Quit() end },
 }
