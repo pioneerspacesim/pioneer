@@ -1089,6 +1089,12 @@ void Pi::Start()
 				menuDone = true;
 			else
 				ui->DispatchSDLEvent(event);
+
+			// XXX hack
+			// if we hit our exit conditions then ignore further queued events
+			// protects against eg double-click during game generation
+			if (game || menuDone)
+				while (SDL_PollEvent(&event)) {}
 		}
 
 		Pi::renderer->BeginFrame();
