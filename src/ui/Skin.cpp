@@ -29,7 +29,7 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 
 static inline vector2f scaled(const vector2f &v)
 {
-	return vector2f(v * 1.0f/SKIN_SIZE);
+	return v * (1.0f / SKIN_SIZE);
 }
 
 void Skin::DrawRectElement(const RectElement &element, const Point &pos, const Point &size) const
