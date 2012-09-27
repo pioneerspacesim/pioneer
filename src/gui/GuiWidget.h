@@ -33,6 +33,7 @@ namespace Gui {
 		virtual void ShowAll() { m_visible = true; }
 		virtual void Show() { m_visible = true; }
 		virtual void Hide();
+		void HideTooltip();
 		bool IsVisible() const;
 		Container *GetParent() const { return m_parent; }
 		void SetParent(Container *p) { m_parent = p; }
