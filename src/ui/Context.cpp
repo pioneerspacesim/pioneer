@@ -2,18 +2,27 @@
 #include "FileSystem.h"
 #include "text/FontDescriptor.h"
 #include "Lua.h"
+#include "FontConfig.h"
+#include "FileSystem.h"
 #include <typeinfo>
 
 namespace UI {
 
-// XXX maybe these want to be in font config
-static const int FONT_PIXEL_SIZE[] = {
-	14, // XSMALL
-	17, // SMALL
-	20, // NORMAL
-	28, // LARGE
-	36  // XLARGE
+static const float FONT_SCALE[] = {
+	0.7f,  // XSMALL
+	0.85f, // SMALL
+	1.0f,  // NORMAL
+	1.4f,  // LARGE
+	1.8f   // XLARGE
 };
+
+static FontConfig font_config(const std::string &path) {
+	RefCountedPtr<FileSystem::FileData> config_data = FileSystem::gameDataFiles.ReadFile(path);
+	FontConfig fc;
+	fc.Load(*config_data);
+	config_data.Reset();
+	return fc;
+}
 
 Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height) : Single(this),
 	m_renderer(renderer),
@@ -36,8 +45,11 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 
 	// XXX should do point sizes, but we need display DPI first
 	// XXX TextureFont could load multiple sizes into the same object/atlas
+	const Text::FontDescriptor baseFontDesc(font_config("fonts/UIFont.ini").GetDescriptor());
 	for (int i = FONT_SIZE_XSMALL; i < FONT_SIZE_MAX; i++) {
-		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(Text::FontDescriptor("Orbitron-Bold.ttf", FONT_PIXEL_SIZE[i], FONT_PIXEL_SIZE[i], false, 0.0f), renderer));
+		const Text::FontDescriptor fontDesc(baseFontDesc.filename, baseFontDesc.pixelWidth*FONT_SCALE[i], baseFontDesc.pixelHeight*FONT_SCALE[i], baseFontDesc.outline, baseFontDesc.advanceXAdjustment);
+
+		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(fontDesc, renderer));
 	}
 
 	m_scissorStack.push(std::make_pair(Point(0,0), Point(m_width,m_height)));
