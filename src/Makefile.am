@@ -37,6 +37,7 @@ noinst_HEADERS = \
 	EquipSet.h \
 	EquipType.h \
 	FaceVideoLink.h \
+	Factions.h \
 	FileSelectorWidget.h \
 	FileSystem.h \
 	FontCache.h \
@@ -179,6 +180,7 @@ pioneer_SOURCES	= \
 	DynamicBody.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
+	Factions.cpp \
 	FileSelectorWidget.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \

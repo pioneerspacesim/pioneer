@@ -136,14 +136,6 @@ const struct EnumItem ENUM_PolitCrime[] = {
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_PolitBloc[] = {
-	{ "NONE", Polit::BLOC_NONE },
-	{ "EARTHFED", Polit::BLOC_EARTHFED },
-	{ "CIS", Polit::BLOC_CIS },
-	{ "EMPIRE", Polit::BLOC_EMPIRE },
-	{ 0, 0 },
-};
-
 const struct EnumItem ENUM_PolitEcon[] = {
 	{ "NONE", Polit::ECON_NONE },
 	{ "VERY_CAPITALIST", Polit::ECON_VERY_CAPITALIST },
