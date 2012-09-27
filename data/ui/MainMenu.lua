@@ -64,8 +64,11 @@ for i = 1,#buttonDefs do
 end
 
 local menu = 
-	ui:Align("MIDDLE"):SetInnerWidget(
-		ui:VBox(10):PackEnd(buttonSet)
-	)
+	ui:Grid(2,1)
+		:SetColumn(1, {
+			ui:Align("MIDDLE"):SetInnerWidget(
+				ui:VBox(10):PackEnd(buttonSet)
+			)
+		} )
 
 ui.templates.MainMenu = function (args) return menu end
