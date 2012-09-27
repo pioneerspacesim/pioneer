@@ -29,7 +29,7 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 	// XXX TextureFont could load multiple sizes into the same object/atlas
 	for (int i = FONT_SIZE_XSMALL; i < FONT_SIZE_MAX; i++) {
 		int pixelSize = i*3 + 14;
-		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(Text::FontDescriptor("TitilliumText22L004.otf", pixelSize, pixelSize, false, -1.0f), renderer));
+		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(Text::FontDescriptor("Orbitron-Bold.ttf", pixelSize, pixelSize, false, 0.0f), renderer));
 	}
 
 	m_scissorStack.push(std::make_pair(Point(0,0), Point(m_width,m_height)));

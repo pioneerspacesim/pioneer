@@ -9,7 +9,7 @@ static const float SKIN_SIZE = 512.0f;
 const Skin::BorderedRectElement Skin::s_backgroundNormal(0, 0, 23, 23, 2);
 const Skin::BorderedRectElement Skin::s_backgroundActive(0, 24, 23, 23, 2);
 
-const Skin::BorderedRectElement Skin::s_buttonNormal(24, 0, 23, 23, 4);
+const Skin::BorderedRectElement Skin::s_buttonNormal(0, 48, 358, 64, 12);
 const Skin::BorderedRectElement Skin::s_buttonActive(24, 24, 23, 23, 4);
 
 const Skin::RectElement Skin::s_checkboxNormal(48, 0, 23, 23);

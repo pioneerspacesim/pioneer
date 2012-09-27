@@ -45,13 +45,13 @@ local doLoadDialog = function ()
 end
 
 local buttonDefs = {
-	{ l.MM_START_NEW_GAME_EARTH,     function () Game.StartGame(SystemPath.New(0,0,0,0,9))    setupPlayerEagle()                 end },
-	{ l.MM_START_NEW_GAME_E_ERIDANI, function () Game.StartGame(SystemPath.New(1,-1,-1,0,4))  setupPlayerEagle()                 end },
-	{ l.MM_START_NEW_GAME_LAVE,      function () Game.StartGame(SystemPath.New(-2,1,90,0,2))  setupPlayerCobra()                 end },
-	{ l.MM_START_NEW_GAME_DEBUG,     function () Game.StartGame(SystemPath.New(-1,9,-22,0,5)) setupPlayerEagle() addDebugEnemy() end },
-	{ l.MM_LOAD_SAVED_GAME,          doLoadDialog },
-	{ l.MM_SETTINGS,                 function () ui:SetInnerWidget(ui.templates.Settings()) end },
-	{ l.MM_QUIT,                     function () Engine.Quit() end },
+	{ "Start at Earth",     function () Game.StartGame(SystemPath.New(0,0,0,0,9))    setupPlayerEagle()                 end },
+	{ "Start at New Hope",   function () Game.StartGame(SystemPath.New(1,-1,-1,0,4))  setupPlayerEagle()                 end },
+	{ "Start at Lave",      function () Game.StartGame(SystemPath.New(-2,1,90,0,2))  setupPlayerCobra()                 end },
+	--{ l.MM_START_NEW_GAME_DEBUG,     function () Game.StartGame(SystemPath.New(-1,9,-22,0,5)) setupPlayerEagle() addDebugEnemy() end },
+	{ "Load Game",          doLoadDialog },
+	{ "Options",                 function () ui:SetInnerWidget(ui.templates.Settings()) end },
+	{ "Quit",                     function () Engine.Quit() end },
 }
 
 
@@ -59,33 +59,14 @@ local buttonSet = {}
 for i = 1,#buttonDefs do
     local def = buttonDefs[i]
     local label = ui:Label(def[1])
-    local button = ui:Button()
+    local button = ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(def[1]), { "FILL", "EXPAND"}))
     button.onClick:Connect(def[2])
-    buttonSet[i] = ui:HBox(10):PackEnd({ button, label })
+    buttonSet[i] = button
 end
 
 local menu = 
-	ui:Margin(10):SetInnerWidget(
-		ui:Grid(1, { 0.25,0.5,0.25 })
-			:SetCell(0,2,
-				ui:Grid({ 0.2, 0.8 }, 1)
-					:SetRow(0, {
-						ui:Image("icons/badge.png"),
-						ui:Align("LEFT"):SetInnerWidget(
-							ui:Margin(10):SetInnerWidget(
-								ui:VBox():PackEnd({
-									ui:Label("Pioneer"):SetFontSize("XLARGE"),
-									ui:Label(Engine.version)
-								})
-							)
-						)
-					})
-			)
-			:SetCell(0,1,
-				ui:Align("MIDDLE"):SetInnerWidget(
-					ui:VBox():PackEnd(buttonSet)
-				)
-			)
+	ui:Align("MIDDLE"):SetInnerWidget(
+		ui:VBox(10):PackEnd(buttonSet)
 	)
 
 ui.templates.MainMenu = function (args) return menu end
