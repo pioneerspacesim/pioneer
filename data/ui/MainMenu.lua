@@ -38,29 +38,29 @@ local doLoadDialog = function ()
 			title       = "Select game to load...",
 			path        = "savefiles",
 			selectLabel = "Load game",
-			onSelect = function (filename) Game.LoadGame(filename) end,
-			onCancel = function () ui:SetInnerWidget(ui.templates.MainMenu()) end
+			onSelect    = function (filename) Game.LoadGame(filename) end,
+			onCancel    = function () ui:SetInnerWidget(ui.templates.MainMenu()) end
 		})
 	)
 end
 
 local buttonDefs = {
-	{ "Start at Earth",     function () Game.StartGame(SystemPath.New(0,0,0,0,9))    setupPlayerEagle()                 end },
-	{ "Start at New Hope",   function () Game.StartGame(SystemPath.New(1,-1,-1,0,4))  setupPlayerEagle()                 end },
-	{ "Start at Lave",      function () Game.StartGame(SystemPath.New(-2,1,90,0,2))  setupPlayerCobra()                 end },
-	--{ l.MM_START_NEW_GAME_DEBUG,     function () Game.StartGame(SystemPath.New(-1,9,-22,0,5)) setupPlayerEagle() addDebugEnemy() end },
-	{ "Load Game",          doLoadDialog },
-	{ "Options",                 function () ui:SetInnerWidget(ui.templates.Settings()) end },
-	{ "Quit",                     function () Engine.Quit() end },
+	{ "Start at Earth",    function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerEagle() end },
+	{ "Start at New Hope", function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerEagle() end },
+	{ "Start at Lave",     function () Game.StartGame(SystemPath.New(-2,1,90,0,2)) setupPlayerCobra() end },
+	--{ l.MM_START_NEW_GAME_DEBUG, function () Game.StartGame(SystemPath.New(-1,9,-22,0,5)) setupPlayerEagle() addDebugEnemy() end },
+	{ "Load Game",         doLoadDialog },
+	{ "Options",           function () ui:SetInnerWidget(ui.templates.Settings()) end },
+	{ "Quit",              function () Engine.Quit() end },
 }
 
 
 local buttonSet = {}
 for i = 1,#buttonDefs do
-    local def = buttonDefs[i]
-    local button = ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(def[1]), { "FILL", "EXPAND"}))
-    button.onClick:Connect(def[2])
-    buttonSet[i] = button
+	local def = buttonDefs[i]
+	local button = ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(def[1]), { "FILL", "EXPAND"}))
+	button.onClick:Connect(def[2])
+	buttonSet[i] = button
 end
 
 local menu = 
