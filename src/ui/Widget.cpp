@@ -30,9 +30,9 @@ Widget::~Widget()
 
 Point Widget::GetAbsolutePosition() const
 {
-	if (IsFloating()) return m_position;
-	if (!m_container) return Point();
-	return m_container->GetAbsolutePosition() + m_position;
+	if (IsFloating()) return m_position + m_drawOffset;
+	if (!m_container) return Point() + m_drawOffset;
+	return m_container->GetAbsolutePosition() + m_position + m_drawOffset;
 }
 
 void Widget::Attach(Container *container)
