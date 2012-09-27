@@ -16,10 +16,17 @@ void CheckBox::Layout()
 
 void CheckBox::Draw()
 {
-	if (m_checked)
-		GetContext()->GetSkin().DrawCheckBoxChecked(GetActiveOffset(), GetActiveArea());
-	else
-		GetContext()->GetSkin().DrawCheckBoxNormal(GetActiveOffset(), GetActiveArea());
+	if (m_checked) {
+		if (IsMouseOver())
+			GetContext()->GetSkin().DrawCheckBoxCheckedHover(GetActiveOffset(), GetActiveArea());
+		else
+			GetContext()->GetSkin().DrawCheckBoxCheckedNormal(GetActiveOffset(), GetActiveArea());
+	} else {
+		if (IsMouseOver())
+			GetContext()->GetSkin().DrawCheckBoxHover(GetActiveOffset(), GetActiveArea());
+		else
+			GetContext()->GetSkin().DrawCheckBoxNormal(GetActiveOffset(), GetActiveArea());
+	}
 }
 
 void CheckBox::HandleClick()

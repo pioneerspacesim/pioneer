@@ -209,6 +209,8 @@ protected:
 	// regardless of mouse position
 	bool IsMouseActive() const { return m_mouseActive; }
 
+	bool IsMouseOver() const { return m_mouseOver; }
+
 	// internal event handlers. override to handle events. unlike the external
 	// on* signals, every widget in the stack is guaranteed to receive a call
 	// - there's no facility for stopping propogation up the stack

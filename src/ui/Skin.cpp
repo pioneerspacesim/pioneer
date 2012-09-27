@@ -6,14 +6,23 @@ namespace UI {
 
 static const float SKIN_SIZE = 512.0f;
 
-const Skin::BorderedRectElement Skin::s_backgroundNormal(0, 0, 23, 23, 2);
-const Skin::BorderedRectElement Skin::s_backgroundActive(0, 24, 23, 23, 2);
+const Skin::BorderedRectElement Skin::s_backgroundNormal(170, 81, 31, 31, 10);
+const Skin::BorderedRectElement Skin::s_backgroundActive(170, 206, 31, 31, 10);
 
-const Skin::BorderedRectElement Skin::s_buttonNormal(0, 48, 358, 64, 12);
-const Skin::BorderedRectElement Skin::s_buttonActive(24, 24, 23, 23, 4);
+const Skin::BorderedRectElement Skin::s_buttonDisabled(10, 12, 35, 35, 12);
+const Skin::BorderedRectElement Skin::s_buttonNormal(10, 77, 35, 35, 12);
+const Skin::BorderedRectElement Skin::s_buttonHover(10, 142, 35, 35, 12);
+const Skin::BorderedRectElement Skin::s_buttonActive(10, 207, 35, 35, 12);
 
-const Skin::RectElement Skin::s_checkboxNormal(48, 0, 23, 23);
-const Skin::RectElement Skin::s_checkboxChecked(48, 24, 23, 23);
+const Skin::RectElement Skin::s_checkboxDisabled(75, 17, 25, 25);
+const Skin::RectElement Skin::s_checkboxNormal(75, 87, 25, 25);
+const Skin::RectElement Skin::s_checkboxHover(75, 152, 25, 25);
+const Skin::RectElement Skin::s_checkboxActive(75, 212, 25, 25);
+
+const Skin::RectElement Skin::s_checkboxCheckedDisabled(120, 17, 25, 25);
+const Skin::RectElement Skin::s_checkboxCheckedNormal(120, 87, 25, 25);
+const Skin::RectElement Skin::s_checkboxCheckedHover(120, 152, 25, 25);
+const Skin::RectElement Skin::s_checkboxCheckedActive(120, 212, 25, 25);
 
 Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 	m_renderer(renderer)

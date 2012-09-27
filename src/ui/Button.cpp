@@ -50,6 +50,8 @@ void Button::Draw()
 {
 	if (IsMouseActive())
 		GetContext()->GetSkin().DrawButtonActive(GetActiveOffset(), GetActiveArea());
+	else if (IsMouseOver())
+		GetContext()->GetSkin().DrawButtonHover(GetActiveOffset(), GetActiveArea());
 	else
 		GetContext()->GetSkin().DrawButtonNormal(GetActiveOffset(), GetActiveArea());
 
