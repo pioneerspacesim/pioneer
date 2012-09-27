@@ -644,11 +644,15 @@ void GameMenuView::OpenSaveDialog()
 		return;
 	}
 
+	GameMenuView::HideAll();
+
 	GameSaver saver(Pi::game);
 	saver.DialogMainLoop();
 	const std::string filename = saver.GetFilename();
 	if (!filename.empty())
 		Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+filename);
+
+	GameMenuView::ShowAll();
 }
 
 void GameMenuView::OpenLoadDialog()
