@@ -58,7 +58,6 @@ local buttonDefs = {
 local buttonSet = {}
 for i = 1,#buttonDefs do
     local def = buttonDefs[i]
-    local label = ui:Label(def[1])
     local button = ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(def[1]), { "FILL", "EXPAND"}))
     button.onClick:Connect(def[2])
     buttonSet[i] = button
