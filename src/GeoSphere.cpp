@@ -359,6 +359,31 @@ public:
 	}
 };
 
+struct TGeoPatchID {
+	TGeoPatchID(uint64_t i) : patchID64(i) {}
+	const uint64_t patchID64;
+
+	inline TGeoPatchID nextPatchID(const int depth, const int idx) const
+	{
+		PiDbgOnlyAssert(idx>=0 && idx<4);
+		PiDbgOnlyAssert(depth<=GEOPATCH_MAX_DEPTH);
+		const uint64_t idx64 = idx;
+		const uint64_t shiftDepth64 = depth*2ULL;
+		PiDbgOnlyAssert((patchID64 & (3i64<<shiftDepth64))==0);
+		return TGeoPatchID( patchID64 | (idx64<<shiftDepth64) );
+	}
+
+	inline int getPatchIdx(const int depth) const
+	{
+		PiDbgOnlyAssert(depth<=GEOPATCH_MAX_DEPTH);
+		const uint64_t shiftDepth64 = depth*2ULL;
+		const uint64_t idx64 = (patchID64 & (3i64<<shiftDepth64)) >> shiftDepth64;
+		PiDbgOnlyAssert(idx64<=UINT_MAX);
+		return int(idx64);
+	}
+};
+
+
 
 class GeoPatch {
 public:
@@ -379,14 +404,16 @@ public:
 	SDL_mutex *m_kidsLock;
 	bool m_needUpdateVBOs;
 	double m_distMult;
+	const TGeoPatchID m_patchID;	// unique indentifier for each GeoPatch
 
 	static unsigned int s_uiCurrNumGeoPatches;
 	static unsigned int s_uiMaxNumGeoPatches;
 
 	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs, 
-		const vector3d& v0, const vector3d& v1, const vector3d& v2, const vector3d& v3, const int depth) 
-		: ctx(_ctx), m_vbo(0), parent(NULL), geosphere(gs), m_depth(depth)
+		const vector3d& v0, const vector3d& v1, const vector3d& v2, const vector3d& v3, const int depth, const TGeoPatchID& patchID) 
+		: ctx(_ctx), m_vbo(0), parent(NULL), geosphere(gs), m_depth(depth), m_patchID(patchID)
 	{
+		assert(m_patchID.getPatchIdx(depth)>=0 && m_patchID.getPatchIdx(depth)<4);
 		// statics
 		++s_uiCurrNumGeoPatches;
 		s_uiMaxNumGeoPatches = std::max(s_uiMaxNumGeoPatches, s_uiCurrNumGeoPatches);
@@ -1003,10 +1030,11 @@ public:
 				v23 = (v[2]+v[3]).Normalized();
 				v30 = (v[3]+v[0]).Normalized();
 				GeoPatch *_kids[4];
-				_kids[0] = new GeoPatch(ctx, geosphere, v[0], v01, cn, v30, m_depth+1);
-				_kids[1] = new GeoPatch(ctx, geosphere, v01, v[1], v12, cn, m_depth+1);
-				_kids[2] = new GeoPatch(ctx, geosphere, cn, v12, v[2], v23, m_depth+1);
-				_kids[3] = new GeoPatch(ctx, geosphere, v30, cn, v23, v[3], m_depth+1);
+				const int newDepth = m_depth+1;
+				_kids[0] = new GeoPatch(ctx, geosphere, v[0], v01, cn, v30, newDepth, m_patchID.nextPatchID(newDepth,0));
+				_kids[1] = new GeoPatch(ctx, geosphere, v01, v[1], v12, cn, newDepth, m_patchID.nextPatchID(newDepth,1));
+				_kids[2] = new GeoPatch(ctx, geosphere, cn, v12, v[2], v23, newDepth, m_patchID.nextPatchID(newDepth,2));
+				_kids[3] = new GeoPatch(ctx, geosphere, v30, cn, v23, v[3], newDepth, m_patchID.nextPatchID(newDepth,3));
 				// hm.. edges. Not right to pass this
 				// edgeFriend...
 				_kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
@@ -1299,12 +1327,13 @@ void GeoSphere::BuildFirstPatches()
 	p7 = p7.Normalized();
 	p8 = p8.Normalized();
 
-	m_patches[0] = new GeoPatch(s_patchContext, this, p1, p2, p3, p4, 0);
-	m_patches[1] = new GeoPatch(s_patchContext, this, p4, p3, p7, p8, 0);
-	m_patches[2] = new GeoPatch(s_patchContext, this, p1, p4, p8, p5, 0);
-	m_patches[3] = new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0);
-	m_patches[4] = new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0);
-	m_patches[5] = new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0);
+	const uint64_t maxShiftDepth = (GEOPATCH_MAX_DEPTH)*2;
+	m_patches[0] = new GeoPatch(s_patchContext, this, p1, p2, p3, p4, 0, (0i64 << maxShiftDepth));
+	m_patches[1] = new GeoPatch(s_patchContext, this, p4, p3, p7, p8, 0, (1i64 << maxShiftDepth));
+	m_patches[2] = new GeoPatch(s_patchContext, this, p1, p4, p8, p5, 0, (2i64 << maxShiftDepth));
+	m_patches[3] = new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0, (3i64 << maxShiftDepth));
+	m_patches[4] = new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0, (4i64 << maxShiftDepth));
+	m_patches[5] = new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, (5i64 << maxShiftDepth));
 	for (int i=0; i<6; i++) {
 		for (int j=0; j<4; j++) {
 			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];
