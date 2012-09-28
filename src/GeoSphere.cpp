@@ -380,10 +380,17 @@ public:
 	bool m_needUpdateVBOs;
 	double m_distMult;
 
+	static unsigned int s_uiCurrNumGeoPatches;
+	static unsigned int s_uiMaxNumGeoPatches;
+
 	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs, 
 		const vector3d& v0, const vector3d& v1, const vector3d& v2, const vector3d& v3, const int depth) 
 		: ctx(_ctx), m_vbo(0), parent(NULL), geosphere(gs), m_depth(depth)
 	{
+		// statics
+		++s_uiCurrNumGeoPatches;
+		s_uiMaxNumGeoPatches = std::max(s_uiMaxNumGeoPatches, s_uiCurrNumGeoPatches);
+
 		m_kidsLock = SDL_CreateMutex();
 		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
 
@@ -417,6 +424,9 @@ public:
 		delete[] normals;
 		delete[] colors;
 		geosphere->AddVBOToDestroy(m_vbo);
+
+		// statics
+		--s_uiCurrNumGeoPatches;
 	}
 
 	void UpdateVBOs() {
@@ -1036,6 +1046,9 @@ public:
 		}
 	}
 };
+//statics for GeoPatch
+unsigned int GeoPatch::s_uiCurrNumGeoPatches = 0;
+unsigned int GeoPatch::s_uiMaxNumGeoPatches = 0;
 
 static const int geo_sphere_edge_friends[6][4] = {
 	{ 3, 4, 1, 2 },
