@@ -244,6 +244,7 @@ pioneer_SOURCES	= \
 	ModelBody.cpp \
 	ModelCache.cpp \
 	ModManager.cpp \
+	NewModelViewer.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
 	Planet.cpp \

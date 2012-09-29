@@ -8,15 +8,16 @@ INCLUDES = -I$(srcdir)/..
 
 noinst_LIBRARIES = libnewmodel.a
 noinst_HEADERS = \
-	Animation.h \
 	AnimationChannel.h \
+	Animation.h \
 	AnimationKey.h \
 	Billboard.h \
 	CollisionVisitor.h \
 	ColorMap.h \
 	DumpVisitor.h \
-	Label3D.h \
 	Group.h \
+	Label3D.h \
+	LoaderDefinitions.h \
 	Loader.h \
 	LOD.h \
 	MatrixTransform.h \
@@ -26,9 +27,9 @@ noinst_HEADERS = \
 	Node.h \
 	NodeVisitor.h \
 	Parser.h \
+	Pattern.h \
 	StaticGeometry.h \
 	Thruster.h
-	
 
 libnewmodel_a_SOURCES = \
 	Animation.cpp \
@@ -46,6 +47,7 @@ libnewmodel_a_SOURCES = \
 	Node.cpp \
 	NodeVisitor.cpp \
 	Parser.cpp \
+	Pattern.cpp \
 	StaticGeometry.cpp \
 	Thruster.cpp
 

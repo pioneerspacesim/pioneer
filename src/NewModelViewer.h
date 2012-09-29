@@ -12,7 +12,6 @@
 #include "newmodel/NModel.h"
 #include "newmodel/ModelNode.h"
 #include "ui/Context.h"
-#include <array>
 
 class ModelViewer {
 public:
@@ -86,9 +85,9 @@ private:
 
 	//undecided on this input stuff
 	//updating the states of all inputs during PollEvents
-	std::array<bool, SDLK_LAST> m_keyStates;
-	std::array<int, 2> m_mouseMotion;
-	std::array<bool, SDL_BUTTON_WHEELDOWN + 1> m_mouseButton; //buttons + scroll start at 1
+	bool m_keyStates[SDLK_LAST];
+	bool m_mouseButton[SDL_BUTTON_WHEELDOWN + 1]; //buttons + scroll start at 1
+	int m_mouseMotion[2];
 
 	//interface stuff that needs to be accessed later (unorganized)
 	UI::DropDown *animSelector;

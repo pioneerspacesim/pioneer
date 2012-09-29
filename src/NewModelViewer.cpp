@@ -38,8 +38,8 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 , m_animTime(0.001 * SDL_GetTicks())
 , m_frameTime(0.f)
 , m_renderer(r)
-, m_width(width)
 , m_height(height)
+, m_width(width)
 , m_rng(time(0))
 , m_model(0)
 , m_logString("")
@@ -49,9 +49,9 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 	m_ui.Reset(new UI::Context(lm, r, width, height));
 	SetupUI();
 
-	m_keyStates.fill(false);
-	m_mouseMotion.fill(0);
-	m_mouseButton.fill(false);
+	std::fill(m_keyStates, m_keyStates + COUNTOF(m_keyStates), false);
+	std::fill(m_mouseButton, m_mouseButton + COUNTOF(m_mouseButton), false);
+	std::fill(m_mouseMotion, m_mouseMotion + COUNTOF(m_mouseMotion), 0);
 
 	//sweet pioneer badge for decal testing
 	m_decalTexture = Graphics::TextureBuilder(
@@ -555,6 +555,8 @@ void ModelViewer::PollEvents()
 					colorSliders[i]->SetValue(m_rng.Double());
 				}
 				break;
+			default:
+				break; //shuts up -Wswitch
 			} //keysym switch
 			m_keyStates[event.key.keysym.sym] = true;
 			break;
