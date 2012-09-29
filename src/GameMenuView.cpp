@@ -194,7 +194,6 @@ GameMenuView::GameMenuView(): View()
 		m_loadButton->SetShortcut(SDLK_l, KMOD_NONE);
 		hbox->PackEnd(m_loadButton);
 		m_exitButton = new Gui::LabelButton(new Gui::Label(Lang::EXIT_THIS_GAME));
-		m_exitButton->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
 		m_exitButton->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
 		hbox->PackEnd(m_exitButton);
 
@@ -629,14 +628,6 @@ void GameMenuView::OnToggleNavTunnel(Gui::ToggleButton *b, bool state) {
 	Pi::SetNavTunnelDisplayed(state);
 }
 
-void GameMenuView::HideAll()
-{
-	if (m_changedDetailLevel) {
-		Pi::OnChangeDetailLevel();
-	}
-	View::HideAll();
-}
-
 void GameMenuView::OpenSaveDialog()
 {
 	if (Pi::game->IsHyperspace()) {
@@ -695,4 +686,10 @@ void GameMenuView::OnSwitchTo() {
 	m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
 	m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
 	m_toggleNavTunnel->SetPressed(Pi::IsNavTunnelDisplayed());
+}
+
+void GameMenuView::OnSwitchFrom() {
+	if (m_changedDetailLevel) {
+		Pi::OnChangeDetailLevel();
+	}
 }
