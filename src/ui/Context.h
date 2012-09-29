@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _UI_CONTEXT_H
 #define _UI_CONTEXT_H
 
@@ -94,7 +97,7 @@ public:
 	Context *RemoveFloatingWidget(Widget *w) { m_float->RemoveWidget(w); return this; }
 
 	// considers floating widgets also
-	virtual Widget *GetWidgetAtAbsolute(const Point &pos);
+	virtual Widget *GetWidgetAt(const Point &pos);
 
 	// event dispatch delegates
 	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }
@@ -124,8 +127,8 @@ private:
 	virtual Point PreferredSize() { return Point(); }
 
 	Graphics::Renderer *m_renderer;
-	float m_width;
-	float m_height;
+	int m_width;
+	int m_height;
 
 	bool m_needsLayout;
 
@@ -140,20 +143,15 @@ private:
 
 	RefCountedPtr<Text::TextureFont> m_font[FONT_SIZE_MAX];
 
-	// helper stuff for Container::Draw
+	// Container will draw widgets through the Context to correctly accumulate
+	// positions and offsets
 	friend class Container;
+	void DrawWidget(Widget *w);
 
-	// used by Container::Draw to set the keep widget drawing in its bounds
-	// for accumulating scissor regions
-	void PushScissor(const Point &pos, const Point &size);
-	void PopScissor();
-	void ApplyScissor();
+	// support for DrawWidget()
+	Point m_drawWidgetPosition;
+	Point m_drawWidgetOffset;
 	std::stack< std::pair<Point,Point> > m_scissorStack;
-
-	// for accumulating widget transformations
-	void PushTransform(const matrix4x4f &transform);
-	void PopTransform();
-	std::stack<matrix4x4f> m_transformStack;
 };
 
 }

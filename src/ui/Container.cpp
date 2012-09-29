@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Container.h"
 #include "Context.h"
 #include "matrix4x4.h"
@@ -21,14 +24,8 @@ void Container::Draw()
 {
 	Context *c = GetContext();
 
-	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
-		const Point &pos = (*i)->GetPosition();
-		c->PushScissor(pos, (*i)->GetSize());
-		c->PushTransform(matrix4x4f::Translation(pos.x,pos.y,0) * (*i)->GetTransform());
-		(*i)->Draw();
-		c->PopTransform();
-		c->PopScissor();
-	}
+	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
+		c->DrawWidget((*i).Get());
 }
 
 void Container::LayoutChildren()
@@ -86,18 +83,18 @@ void Container::SetWidgetDimensions(Widget *widget, const Point &position, const
 	widget->SetDimensions(position, size);
 }
 
-Widget *Container::GetWidgetAtAbsolute(const Point &pos)
+Widget *Container::GetWidgetAt(const Point &pos)
 {
-	if (!ContainsAbsolute(pos)) return 0;
+	if (!Contains(pos)) return 0;
 
 	for (WidgetIterator i = WidgetsBegin(); i != WidgetsEnd(); ++i) {
 		Widget *widget = (*i).Get();
-		if (widget->ContainsAbsolute(pos)) {
-			if (widget->IsContainer())
-				return static_cast<Container*>(widget)->GetWidgetAtAbsolute(pos);
-			else
-				return widget;
-		}
+		const Point relpos = pos - widget->GetPosition() - widget->GetDrawOffset();
+		if (widget->IsContainer()) {
+			Widget* w = static_cast<Container*>(widget)->GetWidgetAt(relpos);
+			if (w) return w;
+		} else if (widget->Contains(relpos))
+			return widget;
 	}
 	
 	return this;

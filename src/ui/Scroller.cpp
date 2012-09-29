@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Scroller.h"
 #include "Context.h"
 
@@ -41,7 +44,7 @@ void Scroller::OnScroll(float value)
 {
 	if (!m_innerWidget) return;
 
-	m_innerWidget->SetTransform(matrix4x4f::Translation(0, -float(m_innerWidget->PreferredSize().y-GetSize().y)*value, 0));
+	m_innerWidget->SetDrawOffset(Point(0, -float(m_innerWidget->PreferredSize().y-GetSize().y)*value));
 }
 
 bool Scroller::OnMouseWheel(const MouseWheelEvent &event)

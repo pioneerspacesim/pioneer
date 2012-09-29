@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Button.h"
 #include "Context.h"
 #include "Skin.h"
@@ -50,6 +53,8 @@ void Button::Draw()
 {
 	if (IsMouseActive())
 		GetContext()->GetSkin().DrawButtonActive(GetActiveOffset(), GetActiveArea());
+	else if (IsMouseOver())
+		GetContext()->GetSkin().DrawButtonHover(GetActiveOffset(), GetActiveArea());
 	else
 		GetContext()->GetSkin().DrawButtonNormal(GetActiveOffset(), GetActiveArea());
 

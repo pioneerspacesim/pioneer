@@ -31,6 +31,7 @@ noinst_HEADERS = \
 	CommodityTradeWidget.h \
 	CRC32.h \
 	DeadVideoLink.h \
+	DeathView.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
 	EquipSet.h \
@@ -64,6 +65,7 @@ noinst_HEADERS = \
 	LuaComms.h \
 	LuaConsole.h \
 	LuaConstants.h \
+	LuaDev.h \
 	LuaEngine.h \
 	LuaEquipType.h \
 	LuaEvent.h \
@@ -175,6 +177,7 @@ pioneer_SOURCES	= \
 	CommodityTradeWidget.cpp \
 	CRC32.cpp \
 	DeadVideoLink.cpp \
+	DeathView.cpp \
 	DynamicBody.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
@@ -205,6 +208,7 @@ pioneer_SOURCES	= \
 	LuaComms.cpp \
 	LuaConsole.cpp \
 	LuaConstants.cpp \
+	LuaDev.cpp \
 	LuaEngine.cpp \
 	LuaEquipType.cpp \
 	LuaEvent.cpp \
@@ -419,4 +423,3 @@ if BUILD_POSIX
     pioneer_LDADD += posix/libposix.a
     modelviewer_LDADD += posix/libposix.a
 endif
-

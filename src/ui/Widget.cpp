@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Widget.h"
 #include "Container.h"
 #include "Context.h"
@@ -9,9 +12,9 @@ Widget::Widget(Context *context) :
 	m_container(0),
 	m_position(0),
 	m_size(0),
+	m_drawOffset(0),
 	m_activeOffset(0),
 	m_activeArea(0),
-	m_transform(matrix4x4f::Identity()),
 	m_fontSize(FONT_SIZE_NORMAL),
 	m_floating(false),
 	m_mouseOver(false),
@@ -30,9 +33,9 @@ Widget::~Widget()
 
 Point Widget::GetAbsolutePosition() const
 {
-	if (IsFloating()) return m_position;
-	if (!m_container) return Point();
-	return m_container->GetAbsolutePosition() + m_position;
+	if (IsFloating()) return m_position + m_drawOffset;
+	if (!m_container) return Point() + m_drawOffset;
+	return m_container->GetAbsolutePosition() + m_position + m_drawOffset;
 }
 
 void Widget::Attach(Container *container)

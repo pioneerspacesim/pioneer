@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _UI_EVENT_H
 #define _UI_EVENT_H
 
@@ -32,9 +35,9 @@ protected:
 };
 
 struct KeySym {
-	KeySym(const SDLKey &_sym, const SDLMod &_mod, const Uint16 _unicode) : sym(_sym), mod(_mod), unicode(_unicode) { Init(); }
-	KeySym(const SDLKey &_sym, const SDLMod &_mod) : sym(_sym), mod(_mod), unicode(0) { Init(); }
-	KeySym(const SDLKey &_sym) : sym(_sym), mod(KMOD_NONE), unicode(0) { Init(); }
+	KeySym(const SDLKey &_sym, const SDLMod &_mod, const Uint16 _unicode) : sym(_sym), mod(safe_mods(_mod)), unicode(_unicode) {}
+	KeySym(const SDLKey &_sym, const SDLMod &_mod) : sym(_sym), mod(safe_mods(_mod)), unicode(0) {}
+	KeySym(const SDLKey &_sym) : sym(_sym), mod(KMOD_NONE), unicode(0) {}
 	const SDLKey sym;
 	const SDLMod mod;
 	const Uint16 unicode;
@@ -44,10 +47,9 @@ struct KeySym {
 	}
 
 private:
-	void Init() {
-		// mask off stuff like caps/numlock
-		// XXX I don't want to live in this world anymore
-		*(reinterpret_cast<Uint32*>(const_cast<SDLMod*>(&mod))) &= KMOD_CTRL | KMOD_SHIFT | KMOD_ALT | KMOD_META;
+	// mask off stuff like caps/numlock
+	static SDLMod safe_mods(const SDLMod m) {
+		return SDLMod(Uint32(m) & (KMOD_CTRL | KMOD_SHIFT | KMOD_ALT | KMOD_META));
 	}
 };
 

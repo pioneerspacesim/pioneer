@@ -121,8 +121,36 @@ static int l_engine_attr_version(lua_State *l)
     return 1;
 }
 
+/*
+ * Function: Quit
+ *
+ * Exit the program. If there is a game running it ends the game first.
+ *
+ * > Engine.Quit()
+ *
+ * Availability:
+ *
+ *   not yet
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_engine_method_quit(lua_State *l)
+{
+	if (Pi::game)
+		Pi::EndGame();
+	Pi::Quit();
+	return 0;
+}
+
 void LuaEngine::Register()
 {
+	static const luaL_Reg l_methods[] = {
+		{ "Quit", l_engine_method_quit },
+		{ 0, 0 }
+	};
+
 	static const luaL_Reg l_attrs[] = {
 		{ "rand",    l_engine_attr_rand    },
 		{ "ticks",   l_engine_attr_ticks   },
@@ -132,6 +160,6 @@ void LuaEngine::Register()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateObject(0, l_attrs, 0);
+	LuaObjectBase::CreateObject(l_methods, l_attrs, 0);
 	lua_setglobal(Lua::manager->GetLuaState(), "Engine");
 }

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _UI_WIDGET_H
 #define _UI_WIDGET_H
 
@@ -111,6 +114,10 @@ public:
 	// position relative to top container
 	Point GetAbsolutePosition() const;
 
+	// draw offset
+	void SetDrawOffset(const Point &drawOffset) { m_drawOffset = drawOffset; }
+	const Point &GetDrawOffset() const { return m_drawOffset; }
+
 	// active area of the widget. the widget may only want to use part of its
 	// allocated space. drawing will be clipped to the active area, and events
 	// that fall outside of the active area will be ignored. if a widget
@@ -134,10 +141,6 @@ public:
 
 	// are we floating
 	bool IsFloating() const { return m_floating; }
-
-	// set/get the current draw transform. useful for animations, special effects
-	void SetTransform(const matrix4x4f &transform) { m_transform = transform; }
-	const matrix4x4f &GetTransform() const { return m_transform; }
 
 	// font size. obviously used for text size but also sometimes used for
 	// general widget size (eg space size). might do nothing, depends on the
@@ -208,6 +211,8 @@ protected:
 	// mouse active. if a widget is mouse-active, it receives all mouse events
 	// regardless of mouse position
 	bool IsMouseActive() const { return m_mouseActive; }
+
+	bool IsMouseOver() const { return m_mouseOver; }
 
 	// internal event handlers. override to handle events. unlike the external
 	// on* signals, every widget in the stack is guaranteed to receive a call
@@ -290,10 +295,11 @@ private:
 	Point m_position;
 	Point m_size;
 
+	Point m_drawOffset;
+
 	Point m_activeOffset;
 	Point m_activeArea;
 
-	matrix4x4f m_transform;
 	FontSize m_fontSize;
 
 	bool m_floating;

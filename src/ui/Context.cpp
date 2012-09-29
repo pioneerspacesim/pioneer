@@ -1,14 +1,36 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Context.h"
 #include "FileSystem.h"
 #include "text/FontDescriptor.h"
 #include "Lua.h"
+#include "FontConfig.h"
+#include "FileSystem.h"
+#include <typeinfo>
 
 namespace UI {
 
+static const float FONT_SCALE[] = {
+	0.7f,  // XSMALL
+	0.85f, // SMALL
+	1.0f,  // NORMAL
+	1.4f,  // LARGE
+	1.8f   // XLARGE
+};
+
+static FontConfig font_config(const std::string &path) {
+	RefCountedPtr<FileSystem::FileData> config_data = FileSystem::gameDataFiles.ReadFile(path);
+	FontConfig fc;
+	fc.Load(*config_data);
+	config_data.Reset();
+	return fc;
+}
+
 Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height) : Single(this),
 	m_renderer(renderer),
-	m_width(float(width)),
-	m_height(float(height)),
+	m_width(width),
+	m_height(height),
 	m_needsLayout(false),
 	m_float(new FloatContainer(this)),
 	m_eventDispatcher(this),
@@ -26,20 +48,25 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 
 	// XXX should do point sizes, but we need display DPI first
 	// XXX TextureFont could load multiple sizes into the same object/atlas
+	const Text::FontDescriptor baseFontDesc(font_config("fonts/UIFont.ini").GetDescriptor());
 	for (int i = FONT_SIZE_XSMALL; i < FONT_SIZE_MAX; i++) {
-		int pixelSize = i*3 + 14;
-		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(Text::FontDescriptor("TitilliumText22L004.otf", pixelSize, pixelSize, false, -1.0f), renderer));
+		const Text::FontDescriptor fontDesc(baseFontDesc.filename, baseFontDesc.pixelWidth*FONT_SCALE[i], baseFontDesc.pixelHeight*FONT_SCALE[i], baseFontDesc.outline, baseFontDesc.advanceXAdjustment);
+
+		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(fontDesc, renderer));
 	}
+
+	m_scissorStack.push(std::make_pair(Point(0,0), Point(m_width,m_height)));
 }
 
 Context::~Context() {
     m_float->Detach();
 }
 
-Widget *Context::GetWidgetAtAbsolute(const Point &pos) {
-	Widget *w = m_float->GetWidgetAtAbsolute(pos);
+Widget *Context::GetWidgetAt(const Point &pos)
+{
+	Widget *w = m_float->GetWidgetAt(pos);
 	if (!w || w == m_float.Get())
-		w = Single::GetWidgetAtAbsolute(pos);
+		w = Single::GetWidgetAt(pos);
 	return w;
 }
 
@@ -67,6 +94,7 @@ void Context::Draw()
 	r->SetOrthographicProjection(0, m_width, m_height, 0, -1, 1);
 	r->SetTransform(matrix4x4f::Identity());
 	r->SetClearColor(Color::BLACK);
+	r->SetBlendMode(Graphics::BLEND_ALPHA);
 	r->SetDepthTest(false);
 
 	// XXX GL renderer enables lighting by default. if all draws use materials
@@ -77,6 +105,8 @@ void Context::Draw()
 
 	Single::Draw();
     m_float->Draw();
+
+	r->SetScissor(false);
 }
 
 Widget *Context::CallTemplate(const char *name, const LuaTable &args)
@@ -100,61 +130,36 @@ Widget *Context::CallTemplate(const char *name)
 	return CallTemplate(name, LuaTable(m_lua->GetLuaState()));
 }
 
-void Context::PushScissor(const Point &pos, const Point &size)
+void Context::DrawWidget(Widget *w)
 {
-	if (m_scissorStack.size() > 0) {
-		const std::pair<Point,Point> &currentScissor = m_scissorStack.top();
-		const Point &currentPos = currentScissor.first;
-		const Point &currentSize = currentScissor.second;
+	const Point &pos = w->GetPosition();
+	const Point &drawOffset = w->GetDrawOffset();
+	const Point &size = w->GetSize();
 
-		//Point newPos = Point(currentPos.x + pos.x, currentPos.y + pos.y); // XXX ensure >= currentPos, clamp to currentSize
-		Point newPos(Point(std::min(currentSize.x, pos.x), std::min(currentSize.y, pos.y)) + currentPos);
-		//Point newSize = size;                                             // XXX clamp to currentSize
-		Point newSize(std::min(currentSize.x, size.x), std::min(currentSize.y, size.y));
+	m_drawWidgetPosition += pos;
+	m_drawWidgetOffset += drawOffset;
 
-		m_scissorStack.push(std::make_pair(newPos, newSize));
-	}
-	else
-		m_scissorStack.push(std::make_pair(pos, size));
+	const std::pair<Point,Point> &currentScissor(m_scissorStack.top());
+	const Point &currentScissorPos(currentScissor.first);
+	const Point &currentScissorSize(currentScissor.second);
 
-	ApplyScissor();
-}
+	const Point newScissorPos(std::max(m_drawWidgetPosition.x + m_drawWidgetOffset.x, currentScissorPos.x), std::max(m_drawWidgetPosition.y + m_drawWidgetOffset.y, currentScissorPos.y));
+	const Point newScissorSize(
+		Clamp(std::min(newScissorPos.x + size.x, currentScissorPos.x + currentScissorSize.x) - newScissorPos.x, 0, m_width),
+		Clamp(std::min(newScissorPos.y + size.y, currentScissorPos.y + currentScissorSize.y) - newScissorPos.y, 0, m_height));
 
-void Context::PopScissor()
-{
+	m_scissorStack.push(std::make_pair(newScissorPos, newScissorSize));
+
+    m_renderer->SetScissor(true, vector2f(newScissorPos.x, m_height - newScissorPos.y - newScissorSize.y), vector2f(newScissorSize.x, newScissorSize.y));
+
+	m_renderer->SetTransform(matrix4x4f::Translation(m_drawWidgetPosition.x + m_drawWidgetOffset.x, m_drawWidgetPosition.y + m_drawWidgetOffset.y, 0));
+
+	w->Draw();
+
 	m_scissorStack.pop();
-	if (m_scissorStack.size() > 0)
-		ApplyScissor();
-	else
-		m_renderer->SetScissor(false);
-}
 
-void Context::ApplyScissor()
-{
-	const std::pair<Point,Point> &currentScissor = m_scissorStack.top();
-	const Point &pos = currentScissor.first;
-	const Point &size = currentScissor.second;
-
-    vector2f flippedPos(pos.x, m_height-pos.y-size.y);
-	m_renderer->SetScissor(true, flippedPos, vector2f(size.x, size.y));
-}
-
-void Context::PushTransform(const matrix4x4f &transform)
-{
-	if (m_transformStack.size() > 0)
-		m_transformStack.push(m_transformStack.top() * transform);
-	else
-		m_transformStack.push(transform);
-	m_renderer->SetTransform(m_transformStack.top());
-}
-
-void Context::PopTransform()
-{
-	m_transformStack.pop();
-	if (m_transformStack.size() > 0)
-		m_renderer->SetTransform(m_transformStack.top());
-	else
-		m_renderer->SetTransform(matrix4x4f::Identity());
+	m_drawWidgetPosition -= pos;
+	m_drawWidgetOffset -= drawOffset;
 }
 
 }

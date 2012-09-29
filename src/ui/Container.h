@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _UI_CONTAINER_H
 #define _UI_CONTAINER_H
 
@@ -32,7 +35,8 @@ public:
 
 	virtual bool IsContainer() const { return true; }
 
-	virtual Widget *GetWidgetAtAbsolute(const Point &pos);
+	Widget *GetWidgetAtAbsolute(const Point &pos) { return GetWidgetAt(pos - GetAbsolutePosition()); }
+	virtual Widget *GetWidgetAt(const Point &pos);
 
 	typedef std::vector< RefCountedPtr<Widget> >::const_iterator WidgetIterator;
 	const WidgetIterator WidgetsBegin() const { return m_widgets.begin(); }

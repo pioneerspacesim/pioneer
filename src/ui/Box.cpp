@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Box.h"
 #include "Context.h"
 
@@ -52,15 +55,25 @@ void Box::Layout()
 
 	Point childPos(0);
 
+	// the largest equal share each child can have
+	const float maxChildSize = boxSize[vc]/m_children.size();
+
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		(*i).padding = 0;
 
 		float childSize = 0;
 
+		// if we have enough room to give _everyone_ what they want, do it
 		if (boxSize[vc] >= m_preferredSize[vc])
 			childSize = (*i).preferredSize[vc];
+
+		// if this child wants less than their share, give it to them
+		else if (maxChildSize >= (*i).preferredSize[vc])
+			childSize = (*i).preferredSize[vc];
+
+		// otherwise they get their share
 		else
-			childSize = boxSize[vc]/m_children.size();
+			childSize = maxChildSize;
 
 		(*i).size[vc] = childSize;
 		(*i).size[fc] = boxSize[fc];
@@ -76,7 +89,7 @@ void Box::Layout()
 	if (m_countExpanded > 0) {
 		int candidates = m_countExpanded;
 
-		while (candidates > 0 && sizeRemaining > 0) {
+		while (candidates > 0 && sizeRemaining > 0 && !is_zero_general(sizeRemaining)) {
 			float allocation = sizeRemaining / candidates;
 
 			for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
