@@ -4,6 +4,7 @@
 #include "graphics/Light.h"
 #include "graphics/TextureBuilder.h"
 #include "newmodel/Newmodel.h"
+#include "newmodel/DumpVisitor.h"
 #include "OS.h"
 #include "Pi.h"
 #include <sstream>
@@ -613,6 +614,9 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		m_model->SetDecalTexture(m_decalTexture, 1);
 		m_model->SetDecalTexture(m_decalTexture, 2);
 		m_model->SetDecalTexture(m_decalTexture, 3);
+
+		Newmodel::DumpVisitor d;
+		m_model->GetRoot()->Accept(d);
 		AddLog("Done.");
 	} catch (Newmodel::LoadingError &err) {
 		// report the error and show model picker.

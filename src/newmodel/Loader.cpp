@@ -135,6 +135,8 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 	//printf("Loaded %d materials\n", int(model->m_materials.size()));
 
 	//load meshes
+	//"mesh" here refers to a "mesh xxx.yyy"
+	//defined in the .model
 	std::map<std::string, Node*> meshCache;
 	LOD *lodNode = 0;
 	if (def.lodDefs.size() > 1) { //don't bother with a lod node if only one level
@@ -167,9 +169,9 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 
 				if (group)
 					group->AddChild(mesh);
-				else if(lodNode)
+				else if(lodNode) {
 					lodNode->AddLevel((*lod).pixelSize, mesh);
-				else
+				} else
 					model->GetRoot()->AddChild(mesh);
 			} catch (LoadingError &) {
 				delete model;
@@ -193,29 +195,17 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		m_model->CreateCollisionMesh(0);
 	}
 
-	Animation *anim = 0;
-
-	//add some dummy tag points
+	// Add tag points
+	// XXX defining tags in .model not implemented
+	// the question is if everything can be expected to use collada/etc
 	for(TagList::const_iterator it = def.tagDefs.begin();
 		it != def.tagDefs.end();
 		++it)
 	{
-		//if (!anim) anim = new Animation("wiggle", 100.0, Animation::ONCE);
 		const vector3f &pos = (*it).position;
-		MatrixTransform *tagTrans = new MatrixTransform(matrix4x4f::Translation(pos.x, pos.y, pos.z));
-		//add a test animation for the tag (which is silly)
-		/*anim->channels.push_back(AnimationChannel(tagTrans));
-		AnimationChannel &chan = anim->channels.back();
-		chan.rotationKeys.push_back(RotationKey(0.0, Quaternionf(1.f, 0.f, 0.f, 0.f)));
-		chan.rotationKeys.push_back(RotationKey(50.0, Quaternionf(1.5707f, vector3f(1.f, 0.f, 0.f))));
-		chan.rotationKeys.push_back(RotationKey(100.0, Quaternionf(1.f, 0.f, 0.f, 0.f)));
-		chan.positionKeys.push_back(PositionKey(0.0, pos));
-		chan.positionKeys.push_back(PositionKey(50.0, pos + vector3f(0.f, 3.f, 0.f)));
-		chan.positionKeys.push_back(PositionKey(100.0, pos));*/
-		model->AddTag((*it).name, tagTrans);
+		RefCountedPtr<MatrixTransform> tagTrans(new MatrixTransform(matrix4x4f::Translation(pos.x, pos.y, pos.z)));
+		model->AddTag((*it).name, tagTrans.Get());
 	}
-
-	if (anim) model->m_animations.push_back(anim);
 
 	//find usable pattern textures from the model directory
 	if (patternsUsed) {
@@ -228,6 +218,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		model->SetColors(m_renderer, colors);
 		model->SetPattern(0);
 	}
+
 	return model;
 }
 
@@ -568,7 +559,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 	if (node->mNumMeshes > 0) {
 		//is this node animated? add a transform
 		//does this node have children? Add a group
-		StaticGeometry *geom = new StaticGeometry();
+		RefCountedPtr<StaticGeometry> geom(new StaticGeometry());
 		RefCountedPtr<Graphics::StaticMesh> smesh(new Graphics::StaticMesh(Graphics::TRIANGLES));
 
 		unsigned int numDecal = 0;
@@ -613,7 +604,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		}
 		geom->AddMesh(smesh);
 
-		parent->AddChild(geom);
+		parent->AddChild(geom.Get());
 	}
 
 	for(unsigned int i=0; i<node->mNumChildren; i++) {

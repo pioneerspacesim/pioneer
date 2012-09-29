@@ -15,8 +15,11 @@ class Surface;
 /*
  * StaticMesh can hold multiple surfaces and is intended for complex,
  * unchanging geometry. Renderers can buffer the contents into VBOs or
- * whatever they prefer. In theory the original vertex data could be
- * thrown away... but perhaps it is better not to optimize that yet.
+ * whatever they prefer. The original vertex data is kept for reloading
+ * on context switch.
+ *
+ * XXX 29-09-2012 It is technically possible the model loader uses
+ * one surface in multiple SMs. They should be converted to RefCountedPtr here.
  */
 class StaticMesh : public Renderable {
 public:
@@ -33,7 +36,6 @@ public:
 	int GetNumIndices() const;
 	int GetAvailableVertexSpace() const;
 
-	//blarf
 	AttributeSet GetAttributeSet() const;
 
 	typedef std::vector<Surface*>::const_iterator SurfaceIterator;

@@ -1,5 +1,6 @@
 #include "LOD.h"
 #include "graphics/Graphics.h"
+#include "StringF.h"
 
 namespace Newmodel {
 
@@ -7,9 +8,12 @@ LOD::LOD() : Group()
 {
 }
 
-void LOD::AddLevel(float pixelRadius, Node *nod)
+void LOD::AddLevel(float pixelSize, Node *nod)
 {
-	m_pixelSizes.push_back(pixelRadius);
+	m_pixelSizes.push_back(pixelSize);
+	if (nod->GetName().empty()) {
+		nod->SetName(stringf("%0{f.0}", pixelSize));
+	}
 	AddChild(nod);
 }
 

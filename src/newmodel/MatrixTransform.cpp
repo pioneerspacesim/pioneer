@@ -18,6 +18,7 @@ void MatrixTransform::Render(Graphics::Renderer *renderer, const matrix4x4f &tra
 {
 	const matrix4x4f t = trans * m_transform;
 	//renderer->SetTransform(t);
+	//DrawAxes(renderer);
 	RenderChildren(renderer, t, rd);
 }
 

@@ -20,6 +20,7 @@ NModel::NModel(const std::string &name)
 , m_name(name)
 {
 	m_root.Reset(new Group());
+	m_root->SetName(name);
 }
 
 NModel::~NModel()
