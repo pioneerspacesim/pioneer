@@ -174,6 +174,7 @@ Renderer* Init(Settings vs)
 	MaterialDescriptor desc;
 	desc.vertexColors = true;
 	vtxColorMaterial = renderer->CreateMaterial(desc);
+	vtxColorMaterial->IncRefCount();
 
 	Graphics::settings = vs;
 	
