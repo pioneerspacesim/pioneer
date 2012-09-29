@@ -160,9 +160,10 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 				if (cacheIt != meshCache.end())
 					mesh = (*cacheIt).second;
 				else {
-					mesh = LoadMesh(*(it), model, def.animDefs, def.tagDefs);
+					mesh = LoadMesh(*(it), def.animDefs, def.tagDefs);
 					meshCache[*(it)] = mesh;
 				}
+				assert(mesh);
 
 				if (group)
 					group->AddChild(mesh);
@@ -242,19 +243,17 @@ void Loader::FindPatterns(PatternContainer &output)
 	}
 }
 
-Node *Loader::LoadMesh(const std::string &filename, NModel *model, const AnimList &animDefs, TagList &modelTags)
+Node *Loader::LoadMesh(const std::string &filename, const AnimList &animDefs, TagList &modelTags)
 {
-	m_model = model;
-
 	Assimp::Importer importer;
 
 	//Removing components is suggested to optimize loading. We do not care about vtx colors now.
 	importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_COLORS);
 	importer.SetPropertyInteger(AI_CONFIG_PP_SLM_VERTEX_LIMIT, Graphics::StaticMesh::MAX_VERTICES);
 
-	//assimp needs the data dir too...
 	//XXX check user dir first
 	//XXX x2 the greater goal is not to use ReadFile but the other assimp data read functions + FileSystem. See assimp docs.
+	//There are several optimizations assimp can do, intentionally skipping them now
 	const aiScene *scene = importer.ReadFile(
 		FileSystem::JoinPath(FileSystem::GetDataDir(), filename),
 		aiProcess_RemoveComponent	|
@@ -274,53 +273,16 @@ Node *Loader::LoadMesh(const std::string &filename, NModel *model, const AnimLis
 	//turn all scene aiMeshes into Surfaces
 	//Index matches assimp index.
 	std::vector<Graphics::Surface*> surfaces;
-	ConvertAiMeshesToSurfaces(surfaces, scene, model);
+	ConvertAiMeshesToSurfaces(surfaces, scene, m_model);
 
-	Node *node = 0; //XXX don't return a node, pass in the root (of the current LOD, not model root)
+	// Recursive structure conversion. Matrix needs to be accumulated for
+	// special features that are absolute-positioned (thrusters)
+	Group *meshRoot = new Group();
+	ConvertNodes(scene->mRootNode, meshRoot, surfaces, matrix4x4f::Identity());
 
-	//XXX importing everything through the ConvertNodes scheme
-#if 0
-	if (false && !scene->HasAnimations()) {
-		//XXX putting everything in one static mesh
-		//XXX the plan: if scene has animation, go through the assimp node structure and
-		//create the appropriate nodes (staticgeometry parented to matrixtransforms for animated nodes)
-		StaticGeometry *geom = new StaticGeometry();
-		Graphics::StaticMesh *smesh = geom->GetMesh();
-		node = geom;
+	ConvertAnimations(scene, animDefs, m_model);
 
-		//the entire mesh might be translated, the usual case is 90 deg X rotation
-		MatrixTransform *trans = 0;
-		if (!scene->mRootNode->mTransformation.IsIdentity()) {
-			matrix4x4f m = ConvertMatrix(scene->mRootNode->mTransformation);
-			trans = new MatrixTransform(m);
-			trans->AddChild(geom);
-			node = trans;
-		}
-
-		//update bounding box
-		for (unsigned int i=0; i<surfaces.size(); i++) {
-			Graphics::Surface *surf = surfaces[i];
-			Graphics::VertexArray *vts = surf->GetVertices();
-			for (unsigned int j=0; j<vts->position.size(); j++) {
-				const vector3f &vtx = vts->position[j];
-				geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
-			}
-			smesh->AddSurface(surf);
-		}
-	}
-	else
-#endif
-	{
-		Group *group = new Group;
-		ConvertNodes(scene->mRootNode, group, surfaces, matrix4x4f::Identity());
-		node = group;
-	}
-
-	m_root = node;
-
-	ConvertAnimations(scene, animDefs, model);
-
-	return node;
+	return meshRoot;
 }
 
 //check animation channel has at least two position or two rotation keys within time range
@@ -475,7 +437,7 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		else
 			animations.push_back(animation);
 	}
-#if 0
+#if 0 //adding all keys to a dummy animation
 	for (unsigned int i=0; i<scene->mNumAnimations; i++) {
 		const aiAnimation* aianim = scene->mAnimations[i];
 		const std::string animname(aianim->mName.C_Str());
@@ -535,7 +497,7 @@ void Loader::CreateLabel(Group *parent, const matrix4x4f &m)
 {
 	MatrixTransform *trans = new MatrixTransform(m);
 	Label3D *label = new Label3D(m_labelFont, m_renderer);
-	label->SetText("Boners");
+	label->SetText("Bananas");
 	trans->AddChild(label);
 	parent->AddChild(trans);
 }
@@ -635,9 +597,10 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 				surf->SetMaterial(GetDecalMaterial(numDecal));
 			}
 			//update bounding box
+			//untransformed points, collision visitor will transform
 			Graphics::VertexArray *vts = surf->GetVertices();
 			for (unsigned int j=0; j<vts->position.size(); j++) {
-				const vector3f &vtx = m * vts->position[j];
+				const vector3f &vtx = vts->position[j];
 				geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);
 			}
 

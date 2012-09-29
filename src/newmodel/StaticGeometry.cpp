@@ -64,8 +64,7 @@ void StaticGeometry::DrawBoundingBox(Graphics::Renderer *r, const Aabb &bb)
 	vts->Add(rbl, c); //6
 	vts->Add(rbr, c); //7
 
-	RefCountedPtr<Graphics::Material> mat;
-	mat.Reset(Graphics::vtxColorMaterial);
+	RefCountedPtr<Graphics::Material> mat(Graphics::vtxColorMaterial);
 	Graphics::Surface surf(Graphics::TRIANGLES, vts, mat);
 
 	//indices
