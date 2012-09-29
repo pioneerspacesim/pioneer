@@ -634,10 +634,8 @@ void GameMenuView::OpenSaveDialog()
 		Pi::cpan->MsgLog()->Message("", Lang::CANT_SAVE_IN_HYPERSPACE);
 		return;
 	}
-	HideAll();
 	GameSaver saver(Pi::game);
 	saver.DialogMainLoop();
-	ShowAll();
 	const std::string filename = saver.GetFilename();
 	if (!filename.empty())
 		Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+filename);

@@ -14,6 +14,10 @@ GameLoaderSaver::GameLoaderSaver(FileSelectorWidget::Type type, const std::strin
 
 void GameLoaderSaver::DialogMainLoop()
 {
+	// detach previous view to avoid event leakage
+	View *previousView = Pi::GetView();
+	Pi::SetView(0);
+
 	Gui::Fixed *background = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	background->SetTransparency(false);
 	background->SetBgColor(0,0,0,1.0);
@@ -40,6 +44,9 @@ void GameLoaderSaver::DialogMainLoop()
 
 	Gui::Screen::RemoveBaseWidget(background);
 	delete background;
+
+	// restore previous view
+	Pi::SetView(previousView);
 }
 
 void GameLoaderSaver::OnClickLoad(std::string filename)
