@@ -132,6 +132,7 @@
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp" />
     <ClCompile Include="..\..\src\InfoView.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
+    <ClCompile Include="..\..\src\Intro.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
@@ -284,6 +285,7 @@
     <ClInclude Include="..\..\src\HyperspaceCloud.h" />
     <ClInclude Include="..\..\src\InfoView.h" />
     <ClInclude Include="..\..\src\IniConfig.h" />
+    <ClInclude Include="..\..\src\Intro.h" />
     <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\LmrModel.h" />
