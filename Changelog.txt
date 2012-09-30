@@ -44,6 +44,7 @@ Alpha 27
      * Removed duplication in key bindings code (#1545)
      * New view (DeathView) to deal with display after the player dies (#1543, #1540)
      * Simplified terrain thread locking (#1495)
+     * Moved intro and tombstone out to their own cutscene classes (#1559)
 
 Alpha 26
 
