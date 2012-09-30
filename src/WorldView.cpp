@@ -37,7 +37,7 @@ static const float WHEEL_SENSITIVITY = .2f;	// Should be a variable in user sett
 
 WorldView::WorldView(): View()
 {
-	m_camType = COCKPIT_FRONT;
+	m_camType = m_defaultCamType = Pi::config->Int("CockpitCamera") ? COCKPIT_FRONT : CAM_FRONT;
 	InitObject();
 }
 
@@ -257,7 +257,7 @@ void WorldView::SetCamType(enum CamType c)
 		//only allow front camera when docked inside space stations. External
 		//cameras would clip through the station model.
 		if (Pi::player->GetFlightState() == Ship::DOCKED && !Pi::player->GetDockedWith()->IsGroundStation()) {
-			c = COCKPIT_FRONT;
+			c = m_defaultCamType;
 		}
 		m_camType = c;
 		Pi::player->GetPlayerController()->SetMouseForRearView((GetCamType() == CAM_REAR) || (GetCamType() == COCKPIT_REAR));

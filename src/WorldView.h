@@ -130,7 +130,7 @@ private:
 	Gui::MultiStateImageButton *m_wheelsButton;
 	Gui::MultiStateImageButton *m_flightControlButton;
 	bool m_labelsOn;
-	enum CamType m_camType;
+	enum CamType m_camType, m_defaultCamType;
 	Uint32 m_showTargetActionsTimeout;
 	Uint32 m_showLowThrustPowerTimeout;
 	Uint32 m_showCameraNameTimeout;
