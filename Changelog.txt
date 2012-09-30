@@ -23,6 +23,7 @@ Alpha 27
      * Clamp some newer terrain heights to non-negative values (#1534, #1530)
      * Try to avoid placing starports where they will be covered by mountains (#1503, #7)
      * Don't pass events through the load/save dialog to the widget below (#1547, #1553)
+     * Fix crash when old hyperspace cloud is shown after game load (#1552, #1551)
 
    * Script changes
      * EventQueue, which was deprecated in alpha 26, has been removed (#1485)
