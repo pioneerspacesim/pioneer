@@ -206,6 +206,8 @@
 		4A9174FC15187B97006A15A9 /* TextureGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9174F915187B97006A15A9 /* TextureGL.cpp */; };
 		4A9174FE15187C17006A15A9 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9174FD15187C17006A15A9 /* Color.cpp */; };
 		4A94CA4514F26875002CA792 /* FontCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A94CA4114F26875002CA792 /* FontCache.cpp */; };
+		4A973BF71618688F0029562D /* DeathView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A973BF31618688F0029562D /* DeathView.cpp */; };
+		4A973BF81618688F0029562D /* LuaDev.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A973BF51618688F0029562D /* LuaDev.cpp */; };
 		4A9822AC142DF97E00B423F1 /* AUTHORS.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AA142DF93D00B423F1 /* AUTHORS.txt */; };
 		4A9822B1142E00C900B423F1 /* Quickstart.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AD142E00B100B423F1 /* Quickstart.txt */; };
 		4A9822B2142E00C900B423F1 /* README.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AE142E00B100B423F1 /* README.txt */; };
@@ -768,6 +770,10 @@
 		4A94CA4014F26875002CA792 /* EquipSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipSet.h; sourceTree = "<group>"; };
 		4A94CA4114F26875002CA792 /* FontCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FontCache.cpp; sourceTree = "<group>"; };
 		4A94CA4214F26875002CA792 /* FontCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontCache.h; sourceTree = "<group>"; };
+		4A973BF31618688F0029562D /* DeathView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeathView.cpp; sourceTree = "<group>"; };
+		4A973BF41618688F0029562D /* DeathView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeathView.h; sourceTree = "<group>"; };
+		4A973BF51618688F0029562D /* LuaDev.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaDev.cpp; sourceTree = "<group>"; };
+		4A973BF61618688F0029562D /* LuaDev.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaDev.h; sourceTree = "<group>"; };
 		4A9822AA142DF93D00B423F1 /* AUTHORS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AUTHORS.txt; path = ../AUTHORS.txt; sourceTree = "<group>"; };
 		4A9822AD142E00B100B423F1 /* Quickstart.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Quickstart.txt; path = ../Quickstart.txt; sourceTree = "<group>"; };
 		4A9822AE142E00B100B423F1 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = ../README.txt; sourceTree = "<group>"; };
@@ -1285,6 +1291,8 @@
 				4A107C2C1525AB0D00EF9FAC /* CRC32.h */,
 				4A62EF27136979E000919EBB /* DeadVideoLink.cpp */,
 				4A62EF28136979E000919EBB /* DeadVideoLink.h */,
+				4A973BF31618688F0029562D /* DeathView.cpp */,
+				4A973BF41618688F0029562D /* DeathView.h */,
 				4A99371A1368355400EA0EE5 /* DeleteEmitter.h */,
 				4A6C4C2113532FC300FDD53F /* DynamicBody.cpp */,
 				4A6C4C2213532FC300FDD53F /* DynamicBody.h */,
@@ -1356,6 +1364,8 @@
 				4A8DD53A142E19B6006DD821 /* LuaConsole.h */,
 				4A99371F1368355500EA0EE5 /* LuaConstants.cpp */,
 				4A9937201368355500EA0EE5 /* LuaConstants.h */,
+				4A973BF51618688F0029562D /* LuaDev.cpp */,
+				4A973BF61618688F0029562D /* LuaDev.h */,
 				4A9937211368355500EA0EE5 /* LuaEngine.cpp */,
 				4A9937221368355500EA0EE5 /* LuaEngine.h */,
 				4A9937231368355500EA0EE5 /* LuaEquipType.cpp */,
@@ -2081,6 +2091,8 @@
 				4AAB881915F4AD3500AAF8A8 /* MaterialLegacy.cpp in Sources */,
 				4AAB881D15F4AD7700AAF8A8 /* Lua.cpp in Sources */,
 				4AAB884815FDEA6F00AAF8A8 /* LuaRef.cpp in Sources */,
+				4A973BF71618688F0029562D /* DeathView.cpp in Sources */,
+				4A973BF81618688F0029562D /* LuaDev.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
