@@ -1,7 +1,0 @@
-material Generic
-tex_diff gradient.png
-
-mesh toaster.x
-anim down 0 9
-anim pop 19 44
-anim all 0 44 loop
