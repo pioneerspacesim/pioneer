@@ -62,38 +62,6 @@ static BOOL   gFinderLaunch;
     }
 }
 
-- (IBAction)openFile:(id)sender
-{
-    if ([[sender title] isEqualToString:@"AUTHORS"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"AUTHORS.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"Changelog"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"Changelog.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"README"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"README.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"Quickstart"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"Quickstart.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"CC-BY-SA-3.0"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"CC-BY-SA-3.0.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"GPL-3"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"GPL-3.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"SIL-1.1"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"../Resources/SIL-1.1.txt"];
-    }
-}
-
 - (IBAction)openAboutPanel:(__unused id)sender
 {
     NSDictionary *options;

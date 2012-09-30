@@ -190,9 +190,6 @@
 		4A7611261611A8C800A06F79 /* libGLEW.1.9.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A7611251611A8C800A06F79 /* libGLEW.1.9.0.dylib */; };
 		4A7611271611A8DB00A06F79 /* libGLEW.1.9.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A7611251611A8C800A06F79 /* libGLEW.1.9.0.dylib */; };
 		4A76112A1611A92400A06F79 /* libFLAC.8.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A7611281611A90B00A06F79 /* libFLAC.8.dylib */; };
-		4A7611361611AE2000A06F79 /* CC-BY-SA-3.0.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A76112B1611AA5F00A06F79 /* CC-BY-SA-3.0.txt */; };
-		4A7611371611AE2300A06F79 /* GPL-3.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A76112C1611AA5F00A06F79 /* GPL-3.txt */; };
-		4A7611381611AE2500A06F79 /* SIL-1.1.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A76112D1611AA5F00A06F79 /* SIL-1.1.txt */; };
 		4A82AA861386969B0028CCED /* GameConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A82AA7D1386969B0028CCED /* GameConfig.cpp */; };
 		4A84CB7D14595D850051C848 /* enum_table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A84CB7B14595D850051C848 /* enum_table.cpp */; };
 		4A84CB84146027DC0051C848 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A84CB82146027DC0051C848 /* Camera.cpp */; };
@@ -208,10 +205,6 @@
 		4A94CA4514F26875002CA792 /* FontCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A94CA4114F26875002CA792 /* FontCache.cpp */; };
 		4A973BF71618688F0029562D /* DeathView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A973BF31618688F0029562D /* DeathView.cpp */; };
 		4A973BF81618688F0029562D /* LuaDev.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A973BF51618688F0029562D /* LuaDev.cpp */; };
-		4A9822AC142DF97E00B423F1 /* AUTHORS.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AA142DF93D00B423F1 /* AUTHORS.txt */; };
-		4A9822B1142E00C900B423F1 /* Quickstart.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AD142E00B100B423F1 /* Quickstart.txt */; };
-		4A9822B2142E00C900B423F1 /* README.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822AE142E00B100B423F1 /* README.txt */; };
-		4A9822B7142E02BD00B423F1 /* Changelog.txt in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A9822B3142E02AF00B423F1 /* Changelog.txt */; };
 		4A9937511368355500EA0EE5 /* LuaBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371B1368355400EA0EE5 /* LuaBody.cpp */; };
 		4A9937521368355500EA0EE5 /* LuaCargoBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371D1368355400EA0EE5 /* LuaCargoBody.cpp */; };
 		4A9937531368355500EA0EE5 /* LuaConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371F1368355500EA0EE5 /* LuaConstants.cpp */; };
@@ -371,13 +364,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				4A7611361611AE2000A06F79 /* CC-BY-SA-3.0.txt in Copy Data files and folders */,
-				4A7611371611AE2300A06F79 /* GPL-3.txt in Copy Data files and folders */,
-				4A7611381611AE2500A06F79 /* SIL-1.1.txt in Copy Data files and folders */,
-				4A9822B7142E02BD00B423F1 /* Changelog.txt in Copy Data files and folders */,
-				4A9822B1142E00C900B423F1 /* Quickstart.txt in Copy Data files and folders */,
-				4A9822B2142E00C900B423F1 /* README.txt in Copy Data files and folders */,
-				4A9822AC142DF97E00B423F1 /* AUTHORS.txt in Copy Data files and folders */,
 				4A6C55151354655000FDD53F /* data in Copy Data files and folders */,
 			);
 			name = "Copy Data files and folders";
