@@ -70,6 +70,7 @@
 #include "StringF.h"
 #include "SystemInfoView.h"
 #include "SystemView.h"
+#include "Tombstone.h"
 #include "WorldView.h"
 #include "DeathView.h"
 #include "galaxy/CustomSystem.h"
@@ -679,49 +680,16 @@ void Pi::HandleEvents()
 	}
 }
 
-static void draw_tombstone(float _time)
-{
-	LmrObjParams params = {
-		0, // animation namespace
-		0.0, // time
-		{}, // animation stages
-		{}, // animation positions
-		Lang::TOMBSTONE_EPITAPH, // label
-		0, // equipment
-		0, // flightState
-		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
-		{	// pColor[3]
-		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-	};
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-	const Color oldSceneAmbientColor = Pi::renderer->GetAmbientColor();
-	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
-
-	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
-	Pi::renderer->SetLights(1, &light);
-
-	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
-	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
-	LmrLookupModelByName("tombstone")->Render(rot, &params);
-	glPopAttrib();
-	Pi::renderer->SetAmbientColor(oldSceneAmbientColor);
-}
-
 void Pi::TombStoneLoop()
 {
+	Tombstone *tombstone = new Tombstone(Pi::renderer, GetScrWidth(), GetScrHeight());
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	do {
-		Pi::renderer->BeginFrame();
-		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
-		Pi::renderer->SetTransform(matrix4x4f::Identity());
 		Pi::HandleEvents();
 		Pi::SetMouseGrab(false);
-		draw_tombstone(_time);
+		Pi::renderer->BeginFrame();
+		tombstone->Draw(_time);
 		Pi::renderer->EndFrame();
 		Gui::Draw();
 		Pi::renderer->SwapBuffers();
