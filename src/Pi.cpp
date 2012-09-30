@@ -4,7 +4,6 @@
 #include "Pi.h"
 #include "libs.h"
 #include "AmbientSounds.h"
-#include "Background.h"
 #include "CargoBody.h"
 #include "CityOnPlanet.h"
 #include "FileSystem.h"
@@ -15,6 +14,7 @@
 #include "GameMenuView.h"
 #include "GeoSphere.h"
 #include "InfoView.h"
+#include "Intro.h"
 #include "Lang.h"
 #include "LmrModel.h"
 #include "LuaManager.h"
@@ -70,6 +70,7 @@
 #include "StringF.h"
 #include "SystemInfoView.h"
 #include "SystemView.h"
+#include "Tombstone.h"
 #include "WorldView.h"
 #include "DeathView.h"
 #include "galaxy/CustomSystem.h"
@@ -679,98 +680,16 @@ void Pi::HandleEvents()
 	}
 }
 
-static void draw_intro(Background::Container *background, float _time)
-{
-	LmrObjParams params = {
-		"ShipAnimation", // animation namespace
-		0.0, // time
-		{ }, // animation stages
-		{ 0.0, 1.0 }, // animation positions
-		Lang::PIONEER, // label
-		0, // equipment
-		Ship::FLYING, // flightState
-		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f }, // thrust
-		{	// pColor[3]
-		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
-		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-	};
-	EquipSet equipment;
-	// The finest parts that money can buy!
-	params.equipment = &equipment;
-	equipment.Add(Equip::ECM_ADVANCED, 1);
-	equipment.Add(Equip::HYPERCLOUD_ANALYZER, 1);
-	equipment.Add(Equip::ATMOSPHERIC_SHIELDING, 1);
-	equipment.Add(Equip::FUEL_SCOOP, 1);
-	equipment.Add(Equip::SCANNER, 1);
-	equipment.Add(Equip::RADAR_MAPPER, 1);
-	equipment.Add(Equip::MISSILE_NAVAL, 4);
-
-	// XXX all this stuff will be gone when intro uses a Camera
-	// rotate background by time, and a bit extra Z so it's not so flat
-	matrix4x4d brot = matrix4x4d::RotateXMatrix(-0.25*_time) * matrix4x4d::RotateZMatrix(0.6);
-	background->Draw(Pi::renderer, brot);
-
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-	const Color oldSceneAmbientColor = Pi::renderer->GetAmbientColor();
-	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
-
-	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
-	Pi::renderer->SetLights(1, &light);
-
-	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
-			matrix4x4f::RotateXMatrix(_time*0.7f);
-	rot[14] = -80.0;
-	LmrLookupModelByName("lanner_ub")->Render(rot, &params);
-	glPopAttrib();
-	Pi::renderer->SetAmbientColor(oldSceneAmbientColor);
-}
-
-static void draw_tombstone(float _time)
-{
-	LmrObjParams params = {
-		0, // animation namespace
-		0.0, // time
-		{}, // animation stages
-		{}, // animation positions
-		Lang::TOMBSTONE_EPITAPH, // label
-		0, // equipment
-		0, // flightState
-		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
-		{	// pColor[3]
-		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-	};
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-	const Color oldSceneAmbientColor = Pi::renderer->GetAmbientColor();
-	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
-
-	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
-	Pi::renderer->SetLights(1, &light);
-
-	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
-	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
-	LmrLookupModelByName("tombstone")->Render(rot, &params);
-	glPopAttrib();
-	Pi::renderer->SetAmbientColor(oldSceneAmbientColor);
-}
-
 void Pi::TombStoneLoop()
 {
+	ScopedPtr<Tombstone> tombstone(new Tombstone(Pi::renderer, GetScrWidth(), GetScrHeight()));
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	do {
-		Pi::renderer->BeginFrame();
-		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
-		Pi::renderer->SetTransform(matrix4x4f::Identity());
 		Pi::HandleEvents();
 		Pi::SetMouseGrab(false);
-		draw_tombstone(_time);
+		Pi::renderer->BeginFrame();
+		tombstone->Draw(_time);
 		Pi::renderer->EndFrame();
 		Gui::Draw();
 		Pi::renderer->SwapBuffers();
@@ -954,7 +873,7 @@ void Pi::HandleMenuKey(int n)
 
 void Pi::Start()
 {
-	Background::Container *background = new Background::Container(Pi::renderer, UNIVERSE_SEED);
+	Intro *intro = new Intro(Pi::renderer, GetScrWidth(), GetScrHeight());
 
 	menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	Gui::Screen::AddBaseWidget(menu, 0, 0);
@@ -1026,11 +945,9 @@ void Pi::Start()
 
 	while (!menuDone) {
 		Pi::HandleEvents();
-		Pi::renderer->BeginFrame();
-		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
-		Pi::renderer->SetTransform(matrix4x4f::Identity());
 		Pi::SetMouseGrab(false);
-		draw_intro(background, _time);
+		Pi::renderer->BeginFrame();
+		intro->Draw(_time);
 		Pi::renderer->EndFrame();
 		Gui::Draw();
 		Pi::renderer->SwapBuffers();
@@ -1043,7 +960,7 @@ void Pi::Start()
 
 	Gui::Screen::RemoveBaseWidget(menu);
 	delete menu;
-	delete background;
+	delete intro;
 
 	// game is set by HandleMenuKey if any game-starting option (start or
 	// load) is selected
