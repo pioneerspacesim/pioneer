@@ -62,42 +62,6 @@ static BOOL   gFinderLaunch;
     }
 }
 
-- (IBAction)openFile:(id)sender
-{
-    if ([[sender title] isEqualToString:@"AUTHORS"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"AUTHORS.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"Changelog"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"Changelog.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"README"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"README.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"Quickstart"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"Quickstart.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"COPYING"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"COPYING.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"fonts COPYING"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"fonts.COPYING.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"lua COPYING"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"lua.COPYING.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"music COPYING"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"music.COPYING.txt"];
-    }
-}
-
 - (IBAction)openAboutPanel:(__unused id)sender
 {
     NSDictionary *options;
