@@ -1052,27 +1052,23 @@ static bool s_exitFlag = false;
 /* Thread that updates geosphere level of detail thingies */
 int GeoSphere::UpdateLODThread(void *data)
 {
-	bool done = false;
+	SDL_mutexP(s_geosphereUpdateQueueLock);
 
-	while (!done) {
-
-		// pull the next GeoSphere off the queue
-		SDL_mutexP(s_geosphereUpdateQueueLock);
+	while (true) {
 
 		// check for exit. doing it here to avoid needing another lock
-		if (s_exitFlag) {
-			done = true;
-			SDL_mutexV(s_geosphereUpdateQueueLock);
+		if (s_exitFlag)
 			break;
-		}
+
+		assert(s_currentlyUpdatingGeoSphere == 0);
 
 		if (! s_geosphereUpdateQueue.empty()) {
+			// pull the next GeoSphere off the queue
 			s_currentlyUpdatingGeoSphere = s_geosphereUpdateQueue.front();
 			s_geosphereUpdateQueue.pop_front();
-		} else
-			s_currentlyUpdatingGeoSphere = 0;
 
-		if (s_currentlyUpdatingGeoSphere) {
+			assert(s_currentlyUpdatingGeoSphere);
+
 			GeoSphere *gs = s_currentlyUpdatingGeoSphere;
 			// overlap locks to ensure gs doesn't die before we've locked it
 			SDL_mutexP(gs->m_updateLock);
@@ -1086,16 +1082,16 @@ int GeoSphere::UpdateLODThread(void *data)
 			SDL_mutexP(s_geosphereUpdateQueueLock);
 			assert(s_currentlyUpdatingGeoSphere == gs);
 			s_currentlyUpdatingGeoSphere = 0;
-			SDL_mutexV(s_geosphereUpdateQueueLock);
 
 			SDL_mutexV(gs->m_updateLock);
 		} else {
-			// if there's nothing in the update queue, just sleep for a bit before checking it again
-			SDL_CondWait(s_geosphereUpdateQueueCondition, s_geosphereUpdateQueueLock);		// Unlocks s_geosphereUpdateQueueLock
-			SDL_mutexV(s_geosphereUpdateQueueLock);				// Even if SDL doc doesn't say it, SDL_CondWait re-locks the mutex on exit
+			// queue is empty; wait to be signalled
+			// note: SDL_CondWait unlocks the mutex while it's blocked
+			SDL_CondWait(s_geosphereUpdateQueueCondition, s_geosphereUpdateQueueLock);
 		}
 	}
 
+	SDL_mutexV(s_geosphereUpdateQueueLock);
 	return 0;
 }
 

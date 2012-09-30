@@ -43,6 +43,7 @@ Alpha 27
      * Cleaned up UI view code for consistency and stability (#1528, #1558, #1547, #1557)
      * Removed duplication in key bindings code (#1545)
      * New view (DeathView) to deal with display after the player dies (#1543, #1540)
+     * Simplified terrain thread locking (#1495)
 
 Alpha 26
 
