@@ -18,6 +18,7 @@
 #include "Lang.h"
 #include "LmrModel.h"
 #include "LuaManager.h"
+#include "LuaDev.h"
 #include "LuaRef.h"
 #include "LuaBody.h"
 #include "LuaCargoBody.h"
@@ -70,6 +71,7 @@
 #include "SystemInfoView.h"
 #include "SystemView.h"
 #include "WorldView.h"
+#include "DeathView.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
@@ -103,6 +105,7 @@ bool Pi::doingMouseGrab = false;
 Player *Pi::player;
 View *Pi::currentView;
 WorldView *Pi::worldView;
+DeathView *Pi::deathView;
 SpaceStationView *Pi::spaceStationView;
 InfoView *Pi::infoView;
 SectorView *Pi::sectorView;
@@ -209,7 +212,7 @@ static void LuaInit()
 	LuaFormat::Register();
 	LuaSpace::Register();
 	LuaMusic::Register();
-
+	LuaDev::Register();
 	LuaConsole::Register();
 
 	// XXX load everything. for now, just modules
@@ -761,8 +764,6 @@ void Pi::TombStoneLoop()
 {
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
-	cpan->HideAll();
-	currentView->HideAll();
 	do {
 		Pi::renderer->BeginFrame();
 		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
@@ -921,8 +922,10 @@ void Pi::HandleMenuKey(int n)
 
 		case 4: // Load game
 		{
+			menu->HideAll();
 			GameLoader loader;
 			loader.DialogMainLoop();
+			menu->ShowAll();
 			game = loader.GetGame();
 			if (! game) {
 				// loading screen was cancelled;
@@ -1130,6 +1133,23 @@ void Pi::MainLoop()
 		}
 		frame_stat++;
 
+		// fuckadoodledoo, did the player die?
+		if (Pi::player->IsDead()) {
+			if (time_player_died > 0.0) {
+				if (Pi::game->GetTime() - time_player_died > 8.0) {
+					Pi::SetView(0);
+					Pi::TombStoneLoop();
+					Pi::EndGame();
+					break;
+				}
+			} else {
+				Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
+				Pi::SetView(Pi::deathView);
+				Pi::player->Disable();
+				time_player_died = Pi::game->GetTime();
+			}
+		}
+
 		Pi::renderer->BeginFrame();
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
@@ -1171,24 +1191,10 @@ void Pi::MainLoop()
 			return;
 
 		if (Pi::game->UpdateTimeAccel())
-			accumulator = 0;				// fix for huge pauses 10000x -> 1x
+			accumulator = 0; // fix for huge pauses 10000x -> 1x
 
-		// fuckadoodledoo, did the player die?
-		if (Pi::player->IsDead()) {
-			if (time_player_died > 0.0) {
-				if (Pi::game->GetTime() - time_player_died > 8.0) {
-					Pi::TombStoneLoop();
-					Pi::EndGame();
-					break;
-				}
-			} else {
-				Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
-				Pi::cpan->HideAll();
-				Pi::SetView(static_cast<View*>(Pi::worldView));
-				Pi::player->Disable();
-				time_player_died = Pi::game->GetTime();
-			}
-		} else {
+		if (!Pi::player->IsDead()) {
+			// XXX should this really be limited to while the player is alive?
 			// this is something we need not do every turn...
 			if (!config->Int("DisableSound")) AmbientSounds::Update();
 			StarSystem::ShrinkCache();
