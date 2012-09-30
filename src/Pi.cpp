@@ -682,7 +682,7 @@ void Pi::HandleEvents()
 
 void Pi::TombStoneLoop()
 {
-	Tombstone *tombstone = new Tombstone(Pi::renderer, GetScrWidth(), GetScrHeight());
+	ScopedPtr<Tombstone> tombstone(new Tombstone(Pi::renderer, GetScrWidth(), GetScrHeight()));
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	do {
@@ -960,6 +960,7 @@ void Pi::Start()
 
 	Gui::Screen::RemoveBaseWidget(menu);
 	delete menu;
+	delete intro;
 
 	// game is set by HandleMenuKey if any game-starting option (start or
 	// load) is selected
