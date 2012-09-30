@@ -40,7 +40,7 @@ Alpha 27
      * Copyright and license is now made explicit at the top of all code files (#1515)
      * Max terrain height for heightmapped planets is computed more accurately (#1504)
      * Code to detect supported video modes has moved to Graphics (#1535, #1385)
-     * Cleaned up UI view code for consistency and stability (#1528)
+     * Cleaned up UI view code for consistency and stability (#1528, #1558, #1547, #1557)
      * Removed duplication in key bindings code (#1545)
      * New view (DeathView) to deal with display after the player dies (#1543, #1540)
 
