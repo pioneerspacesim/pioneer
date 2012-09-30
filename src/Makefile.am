@@ -29,6 +29,7 @@ noinst_HEADERS = \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
+	Cutscene.h \
 	CRC32.h \
 	DeadVideoLink.h \
 	DeathView.h \
@@ -52,6 +53,7 @@ noinst_HEADERS = \
 	HyperspaceCloud.h \
 	InfoView.h \
 	IniConfig.h \
+	Intro.h \
 	GameConfig.h \
 	KeyBindings.h \
 	Lang.h \
@@ -146,6 +148,7 @@ noinst_HEADERS = \
 	SystemInfoView.h \
 	SystemView.h \
 	TerrainBody.h \
+	Tombstone.h \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
@@ -194,6 +197,7 @@ pioneer_SOURCES	= \
 	HyperspaceCloud.cpp \
 	InfoView.cpp \
 	IniConfig.cpp \
+	Intro.cpp \
 	GameConfig.cpp \
 	KeyBindings.cpp \
 	Lang.cpp \
@@ -279,6 +283,7 @@ pioneer_SOURCES	= \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	TerrainBody.cpp \
+	Tombstone.cpp \
 	View.cpp \
 	WorldView.cpp \
 	WorldViewCamera.cpp \
