@@ -4,27 +4,12 @@
 #ifndef _TOMBSTONE_H
 #define _TOMBSTONE_H
 
-#include "libs.h"
-#include "Background.h"
-#include "LmrModel.h"
-#include "graphics/Light.h"
+#include "Cutscene.h"
 
-namespace Graphics {
-	class Renderer;
-}
-
-class Tombstone {
+class Tombstone : public Cutscene {
 public:
 	Tombstone(Graphics::Renderer *r, int width, int height);
-	void Draw(float time);
-
-private:
-	Color m_ambientColor;
-	float m_aspectRatio;
-	Graphics::Renderer *m_renderer;
-	LmrModel *m_model;
-	LmrObjParams m_modelParams;
-	std::vector<Graphics::Light> m_lights;
+	virtual void Draw(float time);
 };
 
 #endif

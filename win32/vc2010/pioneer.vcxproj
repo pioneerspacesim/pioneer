@@ -261,6 +261,7 @@
     <ClInclude Include="..\..\src\Color.h" />
     <ClInclude Include="..\..\src\CommodityTradeWidget.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
+    <ClInclude Include="..\..\src\Cutscene.h" />
     <ClInclude Include="..\..\src\DeadVideoLink.h" />
     <ClInclude Include="..\..\src\DeathView.h" />
     <ClInclude Include="..\..\src\DeleteEmitter.h" />

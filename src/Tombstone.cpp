@@ -6,10 +6,10 @@
 #include "graphics/Renderer.h"
 
 Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
-: m_renderer(r)
-, m_ambientColor(0.1f, 0.1f, 0.1f, 1.f)
-, m_aspectRatio(float(width)/float(height))
+: Cutscene(r, width, height)
 {
+	m_ambientColor = Color(0.1f, 0.1f, 0.1f, 1.f);
+
 	const Color lc(1.f, 1.f, 1.f, 0.f);
 	m_lights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc));
 
@@ -24,7 +24,7 @@ Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
 		Lang::TOMBSTONE_EPITAPH, // label
 		0, // equipment
 		0, // flightState
-		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 0.0f },
+		{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
 		{	// pColor[3]
 		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },

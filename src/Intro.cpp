@@ -7,11 +7,10 @@
 #include "graphics/Renderer.h"
 
 Intro::Intro(Graphics::Renderer *r, int width, int height)
-: m_renderer(r)
-, m_ambientColor(0.1f, 0.1f, 0.1f, 1.f)
-, m_aspectRatio(float(width)/float(height))
+: Cutscene(r, width, height)
 {
 	m_background.Reset(new Background::Container(r, UNIVERSE_SEED));
+	m_ambientColor = Color(0.1f, 0.1f, 0.1f, 1.f);
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
 	m_lights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc));
