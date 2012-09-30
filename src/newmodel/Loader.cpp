@@ -271,7 +271,7 @@ Node *Loader::LoadMesh(const std::string &filename, const AnimList &animDefs, Ta
 	Group *meshRoot = new Group();
 	ConvertNodes(scene->mRootNode, meshRoot, surfaces, matrix4x4f::Identity());
 
-	ConvertAnimations(scene, animDefs, m_model);
+	ConvertAnimations(scene, animDefs, meshRoot);
 
 	return meshRoot;
 }
@@ -376,15 +376,18 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces
 	}
 }
 
-void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, NModel *model)
+void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, Node *meshRoot)
 {
+	//Split convert assimp animations according to anim defs
+	//This is very limited, and all animdefs are processed for all
+	//meshes, potentially leading to duplicate and wrongly split animations
 	if (animDefs.empty() || scene->mNumAnimations == 0) return;
 
 	if (scene->mNumAnimations > 1) throw std::string("More than one animation in file! Your exporter is too good");
 
 	//Blender .X exporter exports only one animation (without a name!) so
 	//we read only one animation from the scene and split it according to animDefs
-	std::vector<Animation*> &animations = model->m_animations;
+	std::vector<Animation*> &animations = m_model->m_animations;
 
 	const aiAnimation* aianim = scene->mAnimations[0];
 	for (AnimList::const_iterator def = animDefs.begin();
@@ -402,7 +405,7 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 				continue;
 
 			const std::string channame(aichan->mNodeName.C_Str());
-			MatrixTransform *trans = dynamic_cast<MatrixTransform*>(m_root->FindNode(channame));
+			MatrixTransform *trans = dynamic_cast<MatrixTransform*>(meshRoot->FindNode(channame));
 			assert(trans);
 			animation->channels.push_back(AnimationChannel(trans));
 			AnimationChannel &chan = animation->channels.back();
@@ -428,35 +431,6 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		else
 			animations.push_back(animation);
 	}
-#if 0 //adding all keys to a dummy animation
-	for (unsigned int i=0; i<scene->mNumAnimations; i++) {
-		const aiAnimation* aianim = scene->mAnimations[i];
-		const std::string animname(aianim->mName.C_Str());
-		Animation *animation = new Animation(animname.empty() ? "wiggle" : animname, aianim->mDuration, Animation::LOOP);
-		for (unsigned int j=0; j<aianim->mNumChannels; j++) {
-			aiNodeAnim *aichan = aianim->mChannels[j];
-			const std::string channame(aichan->mNodeName.C_Str());
-			MatrixTransform *trans = dynamic_cast<MatrixTransform*>(m_root->FindNode(channame));
-			assert(trans);
-			animation->channels.push_back(AnimationChannel(trans));
-			AnimationChannel &chan = animation->channels.back();
-
-			for(unsigned int k=0; k<aichan->mNumPositionKeys; k++) {
-				const aiVectorKey &aikey = aichan->mPositionKeys[k];
-				const aiVector3D &aipos = aikey.mValue;
-				chan.positionKeys.push_back(PositionKey(aikey.mTime, vector3f(aipos.x, aipos.y, aipos.z)));
-			}
-
-			if (aichan->mNumRotationKeys < 2) continue;
-			for(unsigned int k=0; k<aichan->mNumRotationKeys; k++) {
-				const aiQuatKey &aikey = aichan->mRotationKeys[k];
-				const aiQuaternion &airot = aikey.mValue;
-				chan.rotationKeys.push_back(RotationKey(aikey.mTime, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
-			}
-		}
-		animations.push_back(animation);
-	}
-#endif
 }
 
 matrix4x4f Loader::ConvertMatrix(const aiMatrix4x4& trans) const

@@ -51,7 +51,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 
 	std::fill(m_keyStates, m_keyStates + COUNTOF(m_keyStates), false);
 	std::fill(m_mouseButton, m_mouseButton + COUNTOF(m_mouseButton), false);
-	std::fill(m_mouseMotion, m_mouseMotion + COUNTOF(m_mouseMotion), 0);
+	std::fill(m_mouseMotion, m_mouseMotion + 2, 0);
 
 	//sweet pioneer badge for decal testing
 	m_decalTexture = Graphics::TextureBuilder(
@@ -376,7 +376,7 @@ void ModelViewer::DrawLog()
 {
 	const Color4f yellowish = Color4f(0.9, 0.9, 0.3f, 1.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
-	m_ui->GetContext()->GetFont(UI::Widget::FONT_SIZE_SMALL)->RenderString(m_logString.c_str(), m_width - 512.f, 10.f, yellowish);
+	m_ui->GetContext()->GetFont(UI::Widget::FONT_SIZE_XSMALL)->RenderString(m_logString.c_str(), m_width - 512.f, 10.f, yellowish);
 }
 
 void ModelViewer::DrawModel()
