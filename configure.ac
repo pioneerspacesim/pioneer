@@ -32,11 +32,15 @@ AC_DEFUN([MXE_SETUP], [
 		host_alias=i686-pc-mingw32
 		ac_tool_prefix=$host_alias-
 		cross_compiling=yes
+		HAVE_WINDRES=yes
+		MXE_WINDRES="$MXE_BASE/usr/bin/${ac_tool_prefix}windres"
 	fi
+	AM_CONDITIONAL([HAVE_WINDRES], [test "$HAVE_WINDRES" = yes])
 	AC_SUBST(MXE_BASE)
 	AC_SUBST(MXE_CROSS)
 	AC_SUBST(MXE_PATH)
 	AC_SUBST(MXE_CMAKE_TOOLCHAIN_FILE)
+	AC_SUBST(MXE_WINDRES)
 ])
 
 MXE_SETUP
