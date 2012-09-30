@@ -56,6 +56,7 @@ private:
 		bool showCollMesh;
 		bool showGrid;
 		bool showUI;
+		bool wireframe;
 		float gridInterval;
 		int lightPreset;
 

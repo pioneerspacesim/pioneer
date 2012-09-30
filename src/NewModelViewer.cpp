@@ -15,6 +15,7 @@ ModelViewer::Options::Options()
 , showCollMesh(false)
 , showGrid(false)
 , showUI(true)
+, wireframe(false)
 , gridInterval(10.f)
 , lightPreset(0)
 {
@@ -400,7 +401,11 @@ void ModelViewer::DrawModel()
 	m_renderer->SetDepthWrite(true);
 
 	m_model->UpdateAnimations(m_animTime);
+	if (m_options.wireframe)
+		m_renderer->SetWireFrameMode(true);
 	m_model->Render(m_renderer, mv, &m_modelParams);
+	if (m_options.wireframe)
+		m_renderer->SetWireFrameMode(false);
 
 	if (m_options.showCollMesh) {
 		m_renderer->SetTransform(mv);
@@ -543,6 +548,9 @@ void ModelViewer::PollEvents()
 				break;
 			case SDLK_g:
 				OnToggleGrid(0);
+				break;
+			case SDLK_z:
+				m_options.wireframe = !m_options.wireframe;
 				break;
 			case SDLK_KP4:
 			case SDLK_KP8:
