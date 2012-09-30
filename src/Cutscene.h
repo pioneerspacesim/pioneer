@@ -16,6 +16,7 @@ public:
 	, m_renderer(r)
 	{
 	}
+	virtual ~Cutscene() {}
 
 	virtual void Draw(float time) = 0;
 
