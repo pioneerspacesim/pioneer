@@ -24,14 +24,6 @@ public:
 	WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	virtual Type GetType() const = 0;
 	virtual const char *GetName() const { return ""; }
-	virtual void FrontCockpit() { }
-	virtual void RearCockpit() { }
-	virtual void Front() { }
-	virtual void Rear() { }
-	virtual void Left() { }
-	virtual void Right() { }
-	virtual void Top() { }
-	virtual void Bottom() { }
 	virtual void RollLeft(float frameTime) { }
 	virtual void RollRight(float frameTime) { }
 	virtual void RotateDown(float frameTime) { }

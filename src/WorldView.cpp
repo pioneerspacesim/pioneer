@@ -266,36 +266,36 @@ void WorldView::SetCamType(enum CamType c)
 	
 	switch(m_camType) {
 		case CAM_INTERNAL_COCKPIT_FRONT:
+			m_internalCamera->FrontCockpit();
 			m_activeCamera = m_internalCamera;
-			m_activeCamera->FrontCockpit();
 			break;
 		case CAM_INTERNAL_COCKPIT_REAR:
+			m_internalCamera->RearCockpit();
 			m_activeCamera = m_internalCamera;
-			m_activeCamera->RearCockpit();
 			break;
 		case CAM_INTERNAL_FRONT:
+			m_internalCamera->Front();
 			m_activeCamera = m_internalCamera;
-			m_activeCamera->Front();
 			break;
 		case CAM_INTERNAL_REAR:
+			m_internalCamera->Rear();
 			m_activeCamera = m_internalCamera;
-			m_activeCamera->Rear();
 			break;
 		case CAM_INTERNAL_LEFT:
+			m_internalCamera->Left();
 			m_activeCamera = m_internalCamera;
-			m_activeCamera->Left();
 			break;
 		case CAM_INTERNAL_RIGHT:
+			m_internalCamera->Right();
 			m_activeCamera = m_internalCamera;
-			m_activeCamera->Right();
 			break;
 		case CAM_INTERNAL_TOP:
+			m_internalCamera->Top();
 			m_activeCamera = m_internalCamera;
-			m_activeCamera->Top();
 			break;
 		case CAM_INTERNAL_BOTTOM:
+			m_internalCamera->Bottom();
 			m_activeCamera = m_internalCamera;
-			m_activeCamera->Bottom();
 			break;
 
 		case CAM_EXTERNAL:
