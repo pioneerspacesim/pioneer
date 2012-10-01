@@ -362,9 +362,9 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 	{
 		Gui::Fixed *col1 = new Gui::Fixed();
-		demographicsTab->Add(col1, 200, 350);
+		demographicsTab->Add(col1, 200, 300);
 		Gui::Fixed *col2 = new Gui::Fixed();
-		demographicsTab->Add(col2, 400, 350);
+		demographicsTab->Add(col2, 400, 300);
 
 		const float YSEP = Gui::Screen::GetFontHeight() * 1.2f;
 
@@ -391,6 +391,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 		col1->Add((new Gui::Label(Lang::SECTOR_COORDINATES))->Color(1,1,0), 0, 6*YSEP);
 		col2->Add(new Gui::Label(stringf("%0{d}, %1{d}, %2{d}", path.sectorX, path.sectorY, path.sectorZ)), 0, 6*YSEP);
+
 		col1->Add((new Gui::Label(Lang::SYSTEM_NUMBER))->Color(1,1,0), 0, 7*YSEP);
 		col2->Add(new Gui::Label(stringf("%0", path.systemIndex)), 0, 7*YSEP);
 	}

@@ -7,6 +7,7 @@ Alpha 27
      * New view modes (Left/Right/Top/Bottom, Cockpit Front/Rear) (#1454, #1539, #1544)
        NOTE -- view mode controls are bound to Numeric Keypad by default
        (they can be rebound in the View tab of the Settings screen)
+     * Factions, with custom goods illegality and colour coding (#1505)
 
    * Minor changes and tweaks
      * Smooth zoom animation in World, System, Sector and Galactic views (#1170)
