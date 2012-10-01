@@ -16,17 +16,17 @@ WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY
 InternalCamera::InternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	WorldViewCamera(s, size, fovY, near, far)
 {
-	Front_Cockpit();
+	FrontCockpit();
 }
 
-void InternalCamera::Front_Cockpit()
+void InternalCamera::FrontCockpit()
 {
 	m_orient = matrix4x4d::RotateYMatrix(M_PI*2);
 	m_offs = static_cast<const Ship*>(GetBody())->GetFrontViewOffset();
 	m_name = Lang::FRONT_COCKPIT_VIEW;
 }
 
-void InternalCamera::Rear_Cockpit()
+void InternalCamera::RearCockpit()
 {
 	m_orient = matrix4x4d::RotateYMatrix(M_PI);
 	m_offs = static_cast<const Ship*>(GetBody())->GetRearViewOffset();

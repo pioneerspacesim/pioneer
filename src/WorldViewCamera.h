@@ -24,8 +24,8 @@ public:
 	WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	virtual Type GetType() const = 0;
 	virtual const char *GetName() const { return ""; }
-	virtual void Front_Cockpit() { }
-	virtual void Rear_Cockpit() { }
+	virtual void FrontCockpit() { }
+	virtual void RearCockpit() { }
 	virtual void Front() { }
 	virtual void Rear() { }
 	virtual void Left() { }
@@ -62,8 +62,8 @@ public:
 	InternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return INTERNAL; }
 	const char *GetName() const { return m_name; }
-	void Front_Cockpit();
-	void Rear_Cockpit();
+	void FrontCockpit();
+	void RearCockpit();
 	void Front();
 	void Rear();
 	void Left();
