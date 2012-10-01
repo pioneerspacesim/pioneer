@@ -1056,6 +1056,8 @@ ECONOMY_TYPE
     Ekonomia:
 ALLEGIANCE
     Przynależność:
+FACTION
+    Frakcja:
 POPULATION
     Populacja:
 OVER_N_BILLION
