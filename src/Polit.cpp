@@ -93,7 +93,7 @@ void Init()
 			s_govDesc[ fac->govType ].faction = i;
 		}
 	}
-		
+
 }
 
 void Serialize(Serializer::Writer &wr)

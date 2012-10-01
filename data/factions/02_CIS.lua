@@ -8,7 +8,7 @@ local f = Faction:new('Confederation of Independent Systems')
 	:military_name('Confederation Fleet')
 	:police_name('Confederal Police')
 	:colour(0.4,1.0,0.4)
-	
+
 f:illegal_goods_probability('ANIMAL_MEAT',25)	-- fed/cis
 f:illegal_goods_probability('LIVE_ANIMALS',25)	-- fed/cis
 f:illegal_goods_probability('HAND_WEAPONS',75)	-- cis

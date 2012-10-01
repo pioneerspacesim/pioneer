@@ -38,7 +38,7 @@ static Faction *l_fac_check(lua_State *L, int idx)
 static int l_fac_new(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 2);
-	
+
 	Faction **facptr = static_cast<Faction**>(lua_newuserdata(L, sizeof(Faction*)));
 	*facptr = new Faction;
 	luaL_setmetatable(L, LuaFaction_TypeName);
@@ -97,7 +97,7 @@ static int l_fac_govtype(lua_State *L)
 }
 
 // sector(x,y,x) + system index + body index = location in a (custom?) system of homeworld
-static int l_fac_homeworld (lua_State *L) 
+static int l_fac_homeworld (lua_State *L)
 {
 	Faction *fac = l_fac_check(L, 1);
 	Sint32 x = luaL_checkinteger(L, 2);
@@ -107,7 +107,7 @@ static int l_fac_homeworld (lua_State *L)
 	Uint32 bi = luaL_checkinteger(L, 6);
 	fac->homeworld = SystemPath(x,y,z,si,bi);
 	fac->hasHomeworld = true;
-	lua_settop(L, 1); 
+	lua_settop(L, 1);
 	return 1;
 }
 
@@ -156,7 +156,7 @@ static int l_fac_illegal_goods_probability(lua_State *L)
 	}
 
 	fac->equip_legality[e] = probability;
-	lua_settop(L, 1); 
+	lua_settop(L, 1);
 
 	return 1;
 }
@@ -171,7 +171,7 @@ static int l_fac_colour(lua_State *L)
 
 	fac->colour = Color(r,g,b);
 
-	lua_settop(L, 1); 
+	lua_settop(L, 1);
 
 	return 1;
 }
@@ -241,7 +241,7 @@ static void RegisterFactionsAPI(lua_State *L)
 	register_class(L, LuaFaction_TypeName, LuaFaction_meta);
 }
 
-//static 
+//static
 void Faction::Init()
 {
 	lua_State *L = luaL_newstate();
@@ -318,7 +318,7 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 
 			// calculate the current radius the faction occupies
 			const double radius = (current_year - fac.foundingDate) * fac.expansionRate;
-			
+
 			// check we've found a closer faction
 			if( (distance <= radius) && (distance < nearestDistance) ) {
 				nearestDistance = distance;
@@ -332,8 +332,8 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 }
 
 Faction::Faction() :
-	govType(Polit::GOV_INVALID), 
-	hasHomeworld(false), 
+	govType(Polit::GOV_INVALID),
+	hasHomeworld(false),
 	foundingDate(0.0),
 	expansionRate(0.0)
 {
