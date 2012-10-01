@@ -53,9 +53,9 @@ private:
 	const char *m_name;
 };
 
-class RotatableCamera : public WorldViewCamera {
+class MoveableCamera : public WorldViewCamera {
 public:
-	RotatableCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip) :
+	MoveableCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip) :
 		WorldViewCamera(s, size, fovY, nearClip, farClip) {}
 	virtual void RollLeft(float frameTime) { }
 	virtual void RollRight(float frameTime) { }
@@ -78,7 +78,7 @@ public:
 };
 
 // Zoomable, rotatable orbit camera, always looks at the ship
-class ExternalCamera : public RotatableCamera {
+class ExternalCamera : public MoveableCamera {
 public:
 	ExternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return EXTERNAL; }
@@ -109,7 +109,7 @@ private:
 };
 
 // Much like external camera, but does not turn when the ship turns
-class SiderealCamera : public RotatableCamera {
+class SiderealCamera : public MoveableCamera {
 public:
 	SiderealCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return SIDEREAL; }

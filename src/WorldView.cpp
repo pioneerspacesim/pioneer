@@ -806,7 +806,7 @@ void WorldView::Update()
 			if (KeyBindings::topCamera.IsActive() && GetCamType() != CAM_INTERNAL_TOP) SetCamType(CAM_INTERNAL_TOP);
 			if (KeyBindings::bottomCamera.IsActive() && GetCamType() != CAM_INTERNAL_BOTTOM) SetCamType(CAM_INTERNAL_BOTTOM);
 		} else {
-			RotatableCamera *cam = static_cast<RotatableCamera*>(m_activeCamera);
+			MoveableCamera *cam = static_cast<MoveableCamera*>(m_activeCamera);
 			if (KeyBindings::cameraRotateUp.IsActive()) cam->RotateUp(frameTime);
 			if (KeyBindings::cameraRotateDown.IsActive()) cam->RotateDown(frameTime);
 			if (KeyBindings::cameraRotateLeft.IsActive()) cam->RotateLeft(frameTime);
@@ -1709,7 +1709,7 @@ void WorldView::MouseButtonDown(int button, int x, int y)
 	if (this == Pi::GetView())
 	{
 		if (m_activeCamera->IsExternal()) {
-			RotatableCamera *cam = static_cast<RotatableCamera*>(m_activeCamera);
+			MoveableCamera *cam = static_cast<MoveableCamera*>(m_activeCamera);
 			
 			if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))	// Zoom out
 				cam->ZoomEvent( ZOOM_SPEED * WHEEL_SENSITIVITY);
