@@ -42,7 +42,8 @@ public:
 		CAM_TOP,
 		CAM_BOTTOM,
 		CAM_EXTERNAL,
-		CAM_SIDEREAL
+		CAM_SIDEREAL,
+		CAM_INTERNAL
 	};
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const { return m_camType; }
