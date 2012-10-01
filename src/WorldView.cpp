@@ -268,55 +268,47 @@ void WorldView::SetCamType(enum CamType c)
 		case COCKPIT_FRONT:
 			m_activeCamera = m_internalCamera;
 			m_activeCamera->Front_Cockpit();
-			cameraName = Lang::FRONT_COCKPIT_VIEW;
 		break;
 		case COCKPIT_REAR:
 			m_activeCamera = m_internalCamera;
 			m_activeCamera->Rear_Cockpit();
-			cameraName = Lang::REAR_COCKPIT_VIEW;
 		break;
 		case CAM_FRONT:
 			m_activeCamera = m_internalCamera;
 			m_activeCamera->Front();
-			cameraName = Lang::CAMERA_FRONT_VIEW;
 		break;
 		case CAM_REAR:
 			m_activeCamera = m_internalCamera;
 			m_activeCamera->Rear();
-			cameraName = Lang::CAMERA_REAR_VIEW;
 		break;
 		case CAM_LEFT:
 			m_activeCamera = m_internalCamera;
 			m_activeCamera->Left();
-			cameraName = Lang::CAMERA_LEFT_VIEW;
 		break;
 		case CAM_RIGHT:
 			m_activeCamera = m_internalCamera;
 			m_activeCamera->Right();
-			cameraName = Lang::CAMERA_RIGHT_VIEW;
 		break;
 		case CAM_TOP:
 			m_activeCamera = m_internalCamera;
 			m_activeCamera->Top();
-			cameraName = Lang::CAMERA_TOP_VIEW;
 		break;
 		case CAM_BOTTOM:
 			m_activeCamera = m_internalCamera;
 			m_activeCamera->Bottom();
-			cameraName = Lang::CAMERA_BOTTOM_VIEW;
 		break;
 		case CAM_EXTERNAL:
 			m_activeCamera = m_externalCamera;
-			cameraName = Lang::EXTERNAL_VIEW;
 		break;
 		case CAM_SIDEREAL:
 			m_activeCamera = m_siderealCamera;
-			cameraName = Lang::SIDEREAL_VIEW;
 		break;
 	}
 
 	if (m_showCameraName)
 		Remove(m_showCameraName);
+
+	const std::string cameraName(m_activeCamera->GetName());
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_showCameraName = new Gui::Label("#ff0"+cameraName);
