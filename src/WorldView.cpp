@@ -60,7 +60,6 @@ void WorldView::InitObject()
 	m_showTargetActionsTimeout = 0;
 	m_showLowThrustPowerTimeout = 0;
 	m_showCameraNameTimeout = 0;
-	m_numLights = 1;
 	m_labelsOn = true;
 	SetTransparency(true);
 
@@ -316,11 +315,13 @@ void WorldView::SetCamType(enum CamType c)
 		break;
 	}
 
-	std::transform(cameraName.begin(), cameraName.end(), cameraName.begin(), toupper);
-
 	if (m_showCameraName)
 		Remove(m_showCameraName);
-	m_showCameraName = new Gui::Label("#09f"+cameraName);
+
+	Gui::Screen::PushFont("OverlayFont");
+	m_showCameraName = new Gui::Label("#ff0"+cameraName);
+	Gui::Screen::PopFont();
+
 	float w, h;
 	Gui::Screen::MeasureString(cameraName, w, h);
 	Add(m_showCameraName, 0.5f*(Gui::Screen::GetWidth()-w), 20);
@@ -397,6 +398,9 @@ void WorldView::OnClickHyperspace()
 
 void WorldView::Draw3D()
 {
+	assert(Pi::game);
+	assert(Pi::player);
+	assert(!Pi::player->IsDead());
 	m_activeCamera->Draw(m_renderer);
 }
 
@@ -434,85 +438,83 @@ void WorldView::RefreshHyperspaceButton() {
 
 void WorldView::RefreshButtonStateAndVisibility()
 {
+	assert(Pi::game);
+	assert(Pi::player);
+	assert(!Pi::player->IsDead());
+
 	Pi::cpan->ClearOverlay();
 
-	if (!Pi::player || Pi::player->IsDead() || !Pi::game) {
-		HideAll();
-		return;
+	if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
+		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
+		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
+		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
+		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
 	}
-	else {
-		if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
-			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
-			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
-			Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
-		}
 
-		m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
+	m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()));
 
-		RefreshHyperspaceButton();
+	RefreshHyperspaceButton();
 
-		switch(Pi::player->GetFlightState()) {
-			case Ship::LANDED:
-				m_flightStatus->SetText(Lang::LANDED);
-				m_launchButton->Show();
-				m_flightControlButton->Hide();
-				break;
+	switch(Pi::player->GetFlightState()) {
+		case Ship::LANDED:
+			m_flightStatus->SetText(Lang::LANDED);
+			m_launchButton->Show();
+			m_flightControlButton->Hide();
+			break;
 
-			case Ship::DOCKING:
-				m_flightStatus->SetText(Lang::DOCKING);
-				m_launchButton->Hide();
-				m_flightControlButton->Hide();
-				break;
+		case Ship::DOCKING:
+			m_flightStatus->SetText(Lang::DOCKING);
+			m_launchButton->Hide();
+			m_flightControlButton->Hide();
+			break;
 
-			case Ship::DOCKED:
-				m_flightStatus->SetText(Lang::DOCKED);
-				m_launchButton->Show();
-				m_flightControlButton->Hide();
-				break;
+		case Ship::DOCKED:
+			m_flightStatus->SetText(Lang::DOCKED);
+			m_launchButton->Show();
+			m_flightControlButton->Hide();
+			break;
 
-			case Ship::HYPERSPACE:
-				m_flightStatus->SetText(Lang::HYPERSPACE);
-				m_launchButton->Hide();
-				m_flightControlButton->Hide();
-				break;
+		case Ship::HYPERSPACE:
+			m_flightStatus->SetText(Lang::HYPERSPACE);
+			m_launchButton->Hide();
+			m_flightControlButton->Hide();
+			break;
 
-			case Ship::FLYING:
-			default:
-				const FlightControlState fstate = Pi::player->GetPlayerController()->GetFlightControlState();
-				switch (fstate) {
-					case CONTROL_MANUAL:
-						m_flightStatus->SetText(Lang::MANUAL_CONTROL); break;
+		case Ship::FLYING:
+		default:
+			const FlightControlState fstate = Pi::player->GetPlayerController()->GetFlightControlState();
+			switch (fstate) {
+				case CONTROL_MANUAL:
+					m_flightStatus->SetText(Lang::MANUAL_CONTROL); break;
 
-					case CONTROL_FIXSPEED: {
-						std::string msg;
-						const double setspeed = Pi::player->GetPlayerController()->GetSetSpeed();
-						if (setspeed > 1000) {
-							msg = stringf(Lang::SET_SPEED_KM_S, formatarg("speed", setspeed*0.001));
-						} else {
-							msg = stringf(Lang::SET_SPEED_M_S, formatarg("speed", setspeed));
-						}
-						m_flightStatus->SetText(msg);
-						break;
+				case CONTROL_FIXSPEED: {
+					std::string msg;
+					const double setspeed = Pi::player->GetPlayerController()->GetSetSpeed();
+					if (setspeed > 1000) {
+						msg = stringf(Lang::SET_SPEED_KM_S, formatarg("speed", setspeed*0.001));
+					} else {
+						msg = stringf(Lang::SET_SPEED_M_S, formatarg("speed", setspeed));
 					}
-
-					case CONTROL_FIXHEADING_FORWARD:
-						m_flightStatus->SetText(Lang::HEADING_LOCK_FORWARD);
-						break;
-					case CONTROL_FIXHEADING_BACKWARD:
-						m_flightStatus->SetText(Lang::HEADING_LOCK_BACKWARD);
-						break;
-
-					case CONTROL_AUTOPILOT:
-						m_flightStatus->SetText(Lang::AUTOPILOT);
-						break;
-
-					default: assert(0); break;
+					m_flightStatus->SetText(msg);
+					break;
 				}
 
-				m_launchButton->Hide();
-				m_flightControlButton->Show();
-		}
+				case CONTROL_FIXHEADING_FORWARD:
+					m_flightStatus->SetText(Lang::HEADING_LOCK_FORWARD);
+					break;
+				case CONTROL_FIXHEADING_BACKWARD:
+					m_flightStatus->SetText(Lang::HEADING_LOCK_BACKWARD);
+					break;
+
+				case CONTROL_AUTOPILOT:
+					m_flightStatus->SetText(Lang::AUTOPILOT);
+					break;
+
+				default: assert(0); break;
+			}
+
+			m_launchButton->Hide();
+			m_flightControlButton->Show();
 	}
 
 	// Direction indicator
@@ -776,6 +778,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 void WorldView::Update()
 {
+	assert(Pi::game);
+	assert(Pi::player);
+	assert(!Pi::player->IsDead());
+
 	const double frameTime = Pi::GetFrameTime();
 	// show state-appropriate buttons
 	RefreshButtonStateAndVisibility();
@@ -791,16 +797,9 @@ void WorldView::Update()
 
 	bool targetObject = false;
 
-	//death animation: slowly pan out
-	if (Pi::player->IsDead()) {
-		SetCamType(CAM_EXTERNAL);
-		static_cast<ExternalCamera*>(m_externalCamera)->SetRotationAngles(0.0, 0.0);
-		m_externalCamera->ZoomOut(frameTime * 0.4);
-		m_labelsOn = false;
-	} else {
-		// XXX ugly hack checking for console here
-		if (!Pi::IsConsoleActive()) {
-			if (m_activeCamera->IsExternal() == false) {
+	// XXX ugly hack checking for console here
+	if (!Pi::IsConsoleActive()) {
+		if (m_activeCamera->IsExternal() == false) {
 			if (KeyBindings::frontCockpit.IsActive() && GetCamType() != COCKPIT_FRONT) SetCamType(COCKPIT_FRONT);
 			if (KeyBindings::rearCockpit.IsActive() && GetCamType() != COCKPIT_REAR) SetCamType(COCKPIT_REAR);
 			if (KeyBindings::frontCamera.IsActive() && GetCamType() != CAM_FRONT) SetCamType(CAM_FRONT);
@@ -809,7 +808,7 @@ void WorldView::Update()
 			if (KeyBindings::rightCamera.IsActive() && GetCamType() != CAM_RIGHT) SetCamType(CAM_RIGHT);
 			if (KeyBindings::topCamera.IsActive() && GetCamType() != CAM_TOP) SetCamType(CAM_TOP);
 			if (KeyBindings::bottomCamera.IsActive() && GetCamType() != CAM_BOTTOM) SetCamType(CAM_BOTTOM);
-			} else {
+		} else {
 			if (KeyBindings::cameraRotateUp.IsActive()) m_activeCamera->RotateUp(frameTime);
 			if (KeyBindings::cameraRotateDown.IsActive()) m_activeCamera->RotateDown(frameTime);
 			if (KeyBindings::cameraRotateLeft.IsActive()) m_activeCamera->RotateLeft(frameTime);
@@ -820,10 +819,9 @@ void WorldView::Update()
 			if (KeyBindings::cameraRollRight.IsActive()) m_activeCamera->RollRight(frameTime);
 			if (KeyBindings::resetCamera.IsActive()) m_activeCamera->Reset();
 			m_activeCamera->ZoomEventUpdate(frameTime);
-			}
-			// note if we have to target the object in the crosshairs
-			targetObject = KeyBindings::targetObject.IsActive();
 		}
+		// note if we have to target the object in the crosshairs
+		targetObject = KeyBindings::targetObject.IsActive();
 	}
 
 	if (m_showCameraNameTimeout) {
@@ -1518,6 +1516,9 @@ double getSquareHeight(double distance, double angle) {
 
 void WorldView::Draw()
 {
+	assert(Pi::game);
+	assert(Pi::player);
+	assert(!Pi::player->IsDead());
 	View::Draw();
 
 	// don't draw crosshairs etc in hyperspace
@@ -1553,13 +1554,13 @@ void WorldView::Draw()
 
 	// normal crosshairs
 	if (GetCamType() == WorldView::COCKPIT_FRONT)
-		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
 	else if (GetCamType() == WorldView::CAM_FRONT)
 		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
 	else if (GetCamType() == WorldView::COCKPIT_REAR)
 		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
 	else if (GetCamType() == WorldView::CAM_REAR)
-		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
+		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
 
 	glPopAttrib();
 

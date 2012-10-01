@@ -114,6 +114,7 @@
     <ClCompile Include="..\..\src\CommodityTradeWidget.cpp" />
     <ClCompile Include="..\..\src\CRC32.cpp" />
     <ClCompile Include="..\..\src\DeadVideoLink.cpp" />
+    <ClCompile Include="..\..\src\DeathView.cpp" />
     <ClCompile Include="..\..\src\DynamicBody.cpp" />
     <ClCompile Include="..\..\src\enum_table.cpp" />
     <ClCompile Include="..\..\src\EquipType.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="..\..\src\LuaComms.cpp" />
     <ClCompile Include="..\..\src\LuaConsole.cpp" />
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
+    <ClCompile Include="..\..\src\LuaDev.cpp" />
     <ClCompile Include="..\..\src\LuaEngine.cpp" />
     <ClCompile Include="..\..\src\LuaEquipType.cpp" />
     <ClCompile Include="..\..\src\LuaEvent.cpp" />
@@ -262,6 +264,7 @@
     <ClInclude Include="..\..\src\CommodityTradeWidget.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
     <ClInclude Include="..\..\src\DeadVideoLink.h" />
+    <ClInclude Include="..\..\src\DeathView.h" />
     <ClInclude Include="..\..\src\DeleteEmitter.h" />
     <ClInclude Include="..\..\src\DynamicBody.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
@@ -296,6 +299,7 @@
     <ClInclude Include="..\..\src\LuaComms.h" />
     <ClInclude Include="..\..\src\LuaConsole.h" />
     <ClInclude Include="..\..\src\LuaConstants.h" />
+    <ClInclude Include="..\..\src\LuaDev.h" />
     <ClInclude Include="..\..\src\LuaEngine.h" />
     <ClInclude Include="..\..\src\LuaEquipType.h" />
     <ClInclude Include="..\..\src\LuaEvent.h" />

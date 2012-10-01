@@ -29,8 +29,10 @@ noinst_HEADERS = \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
+	Cutscene.h \
 	CRC32.h \
 	DeadVideoLink.h \
+	DeathView.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
 	EquipSet.h \
@@ -52,6 +54,7 @@ noinst_HEADERS = \
 	HyperspaceCloud.h \
 	InfoView.h \
 	IniConfig.h \
+	Intro.h \
 	GameConfig.h \
 	KeyBindings.h \
 	Lang.h \
@@ -64,6 +67,7 @@ noinst_HEADERS = \
 	LuaComms.h \
 	LuaConsole.h \
 	LuaConstants.h \
+	LuaDev.h \
 	LuaEngine.h \
 	LuaEquipType.h \
 	LuaEvent.h \
@@ -145,6 +149,7 @@ noinst_HEADERS = \
 	SystemInfoView.h \
 	SystemView.h \
 	TerrainBody.h \
+	Tombstone.h \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
@@ -174,6 +179,7 @@ pioneer_SOURCES	= \
 	CommodityTradeWidget.cpp \
 	CRC32.cpp \
 	DeadVideoLink.cpp \
+	DeathView.cpp \
 	DynamicBody.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
@@ -193,6 +199,7 @@ pioneer_SOURCES	= \
 	HyperspaceCloud.cpp \
 	InfoView.cpp \
 	IniConfig.cpp \
+	Intro.cpp \
 	GameConfig.cpp \
 	KeyBindings.cpp \
 	Lang.cpp \
@@ -204,6 +211,7 @@ pioneer_SOURCES	= \
 	LuaComms.cpp \
 	LuaConsole.cpp \
 	LuaConstants.cpp \
+	LuaDev.cpp \
 	LuaEngine.cpp \
 	LuaEquipType.cpp \
 	LuaEvent.cpp \
@@ -277,6 +285,7 @@ pioneer_SOURCES	= \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	TerrainBody.cpp \
+	Tombstone.cpp \
 	View.cpp \
 	WorldView.cpp \
 	WorldViewCamera.cpp \
@@ -383,3 +392,10 @@ if BUILD_POSIX
     modelviewer_LDADD += posix/libposix.a
 endif
 
+if HAVE_WINDRES
+# note: this can't be correctly packed into libwin32.a
+SUFFIXES = .rc
+pioneer_SOURCES += win32/pioneer.rc
+.rc.o:
+	$(AM_V_GEN)$(MXE_WINDRES) $< $@
+endif

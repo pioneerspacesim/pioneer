@@ -334,6 +334,121 @@ Frame *Space::GetFrameWithSystemBody(const SystemBody *b) const
 	return find_frame_with_sbody(m_rootFrame.Get(), b);
 }
 
+static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame, Planet *planet, vector3d &pos, matrix4x4d &rot)
+{
+	const double radius = planet->GetSystemBody()->GetRadius();
+
+	// suggested position
+	rot = sbody->orbit.rotMatrix;
+	pos = rot * vector3d(0,1,0);
+
+	// Check if height varies too much around the starport center
+	// by sampling 6 points around it. try upto 100 new positions randomly until a match is found
+	// this is not guaranteed to find a match but greatly increases the chancessteroids which are not too steep.
+
+	bool variationWithinLimits = true;
+	double bestVariation = 1e10; // any high value
+	matrix4x4d rotNotUnderwaterWithLeastVariation = rot;
+	vector3d posNotUnderwaterWithLeastVariation = pos;
+	const double heightVariationCheckThreshold = 0.008; // max variation to radius radius ratio to check for local slope, ganymede is around 0.01
+	const double terrainHeightVariation = planet->GetGeoSphere()->GetMaxFeatureHeight(); //in radii
+
+	//printf("%s: terrain height variation %f\n", sbody->name.c_str(), terrainHeightVariation);
+
+	// 6 points are sampled around the starport center by adding/subtracting delta to to coords
+	// points must stay within max height variation to be accepted
+	//    1. delta should be chosen such that it a distance from the starport center that encloses landing pads for the largest starport
+	//    2. maxSlope should be set so maxHeightVariation is less than the height of the landing pads
+	const double delta = 20.0/radius; // in radii
+	const double maxSlope = 0.2; // 0.0 to 1.0
+	const double maxHeightVariation = maxSlope*delta*radius; // in m
+
+	matrix4x4d rot_ = rot;
+	vector3d pos_ = pos;
+
+	bool manualRelocationIsEasy = !(planet->GetSystemBody()->type == SystemBody::TYPE_PLANET_ASTEROID || terrainHeightVariation > heightVariationCheckThreshold);
+
+	// warn and leave it up to the user to relocate custom starports when it's easy to relocate manually, i.e. not on asteroids and other planets which are likely to have high variation in a lot of places
+	const bool isRelocatableIfBuried = !(sbody->isCustomBody && manualRelocationIsEasy);
+
+	bool isInitiallyUnderwater;
+	bool initialVariationTooHigh;
+
+	MTRand r(sbody->seed);
+
+	for (int tries = 0; tries < 200; tries++) {
+		variationWithinLimits = true;
+
+		const double height = planet->GetTerrainHeight(pos_) - radius; // in m
+
+		// check height at 6 points around the starport center stays within variation tolerances
+		// GetHeight gives a varying height field in 3 dimensions.
+		// Given it's smoothly varying it's fine to sample it in arbitary directions to get an idea of how sharply it varies
+		double v[6];
+		v[0] = fabs(planet->GetTerrainHeight(vector3d(pos_.x+delta, pos_.y, pos_.z))-radius-height);
+		v[1] = fabs(planet->GetTerrainHeight(vector3d(pos_.x-delta, pos_.y, pos_.z))-radius-height);
+		v[2] = fabs(planet->GetTerrainHeight(vector3d(pos_.x, pos_.y, pos_.z+delta))-radius-height);
+		v[3] = fabs(planet->GetTerrainHeight(vector3d(pos_.x, pos_.y, pos_.z-delta))-radius-height);
+		v[4] = fabs(planet->GetTerrainHeight(vector3d(pos_.x, pos_.y+delta, pos_.z))-radius-height);
+		v[5] = fabs(planet->GetTerrainHeight(vector3d(pos_.x, pos_.y-delta, pos_.z))-radius-height);
+
+		// break if variation for all points is within limits
+		double variationMax = 0.0;
+		for (int i = 0; i < 6; i++) {
+			variationWithinLimits = variationWithinLimits && (v[i] < maxHeightVariation);
+			variationMax = (v[i] > variationMax)? v[i]:variationMax;
+		}
+
+		// check if underwater
+		const bool starportUnderwater = (height <= 0.0);
+
+		//printf("%s: try no: %i, Match found: %i, best variation in previous results %f, variationMax this try: %f, maxHeightVariation: %f, Starport is underwater: %i\n",
+		//	sbody->name.c_str(), tries, (variationWithinLimits && !starportUnderwater), bestVariation, variationMax, maxHeightVariation, starportUnderwater);
+
+		if  (tries == 0) {
+			isInitiallyUnderwater = starportUnderwater;
+			initialVariationTooHigh = !variationWithinLimits;
+		}
+
+		if (!starportUnderwater && variationMax < bestVariation) {
+			bestVariation = variationMax;
+			posNotUnderwaterWithLeastVariation = pos_;
+			rotNotUnderwaterWithLeastVariation = rot_;
+		}
+
+		if (variationWithinLimits && !starportUnderwater) break;
+
+		// try new random position
+		const double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
+		const double r1 = r.Double();	// can't put two rands in the same expression
+		rot_ = matrix4x4d::RotateZMatrix(2*M_PI*r1)
+			* matrix4x4d::RotateYMatrix(2*M_PI*r2);
+		pos_ = rot_ * vector3d(0,1,0);
+	}
+
+	if (isInitiallyUnderwater || (isRelocatableIfBuried && initialVariationTooHigh)) {
+		pos = posNotUnderwaterWithLeastVariation;
+		rot = rotNotUnderwaterWithLeastVariation;
+	}
+
+	if (sbody->isCustomBody) {
+		SystemPath &p = sbody->path;
+		if (initialVariationTooHigh) {
+			if (isRelocatableIfBuried) {
+				printf("Warning: Lua custom Systems definition: Surface starport has been automatically relocated. This is in order to place it on flatter ground to reduce the chance of landing pads being buried. This is not an error as such and you may attempt to move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n",
+					sbody->name.c_str(), sbody->parent->name.c_str(), p.sectorX, p.sectorY, p.sectorZ);
+			} else {
+				printf("Warning: Lua custom Systems definition: Surface starport may have landing pads buried. The surface starport has not been automatically relocated as the planet appears smooth enough to manually relocate easily. This is not an error as such and you may attempt to move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n",
+					sbody->name.c_str(), sbody->parent->name.c_str(), p.sectorX, p.sectorY, p.sectorZ);
+			}
+		}
+		if (isInitiallyUnderwater) {
+			fprintf(stderr, "Error: Lua custom Systems definition: Surface starport is underwater (height not greater than 0.0) and has been automatically relocated. Please move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n",
+				sbody->name.c_str(), sbody->parent->name.c_str(), p.sectorX, p.sectorY, p.sectorZ);
+		}
+	}
+}
+
 static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 {
 	Frame *orbFrame, *rotFrame;
@@ -377,7 +492,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		vector3d angVel = vector3d(0.0, 2.0*M_PI/sbody->GetRotationPeriod(), 0.0);
 		rotFrame->SetAngVelocity(angVel);
 
-		if (sbody->rotationalPhaseAtStart != fixed(0)) 
+		if (sbody->rotationalPhaseAtStart != fixed(0))
 			rotMatrix = rotMatrix * matrix4x4d::RotateYMatrix(sbody->rotationalPhaseAtStart.ToDouble());
 		rotFrame->SetRotationOnly(rotMatrix);
 
@@ -418,31 +533,11 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		Frame *frame = *f->m_children.begin();
 		b->SetFrame(frame);
 		assert(frame->m_astroBody->IsType(Object::PLANET));
-		Planet *planet = static_cast<Planet*>(frame->m_astroBody);
-
-		/* position on planet surface */
-		double height;
-		int tries;
 		matrix4x4d rot;
 		vector3d pos;
-		// first try suggested position
-		rot = sbody->orbit.rotMatrix;
-		pos = rot * vector3d(0,1,0);
-		if (planet->GetTerrainHeight(pos) - planet->GetSystemBody()->GetRadius() <= 0.0) {
-			MTRand r(sbody->seed);
-			// position is under water. try some random ones
-			for (tries=0; tries<100; tries++) {
-				// used for orientation on planet surface
-				double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
-				double r1 = r.Double();		// can't put two rands in the same expression
-				rot = matrix4x4d::RotateZMatrix(2*M_PI*r1)
-					* matrix4x4d::RotateYMatrix(2*M_PI*r2);
-				pos = rot * vector3d(0,1,0);
-				height = planet->GetTerrainHeight(pos) - planet->GetSystemBody()->GetRadius();
-				// don't want to be under water
-				if (height > 0.0) break;
-			}
-		}
+		Planet *planet = static_cast<Planet*>(frame->m_astroBody);
+		RelocateStarportIfUnderwaterOrBuried(sbody, frame, planet, pos, rot);
+		sbody->orbit.rotMatrix = rot;
 		b->SetPosition(pos * planet->GetTerrainHeight(pos));
 		b->SetRotMatrix(rot);
 		return frame;

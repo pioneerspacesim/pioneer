@@ -65,7 +65,7 @@ sub update_source {
 	say STDERR ">>> updating source";
 
 	chdir SOURCE_DIR;
-	system "git fetch";
+	system "git fetch --tags --all -p";
 	system "git checkout origin/$branch || git checkout $branch";
 
 	my $ref = `git log -n1 --pretty=%h origin/$branch`;
@@ -137,6 +137,7 @@ sub copy {
 	system "cp -v src/pioneer$suffix src/modelviewer$suffix $copy_dir";
     system "cp -v src/pioneer.map src/modelviewer.map $copy_dir";
 	system "cp -v *.txt $copy_dir";
+	system "cp -rv licenses $copy_dir/licenses";
 	system "cp -rv data $copy_dir/data";
 
     system "find $copy_dir/data '(' -name .gitignore -o -name Makefile\\\* ')' -delete";

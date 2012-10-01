@@ -769,13 +769,13 @@ EXTERNAL_VIEW
 SIDEREAL_VIEW
     Widok radialny
 ROTATE_UP
-	Obrót w górę
+    Rotacja w górę
 ROTATE_DOWN
-	Obrót w dół
+    Rotacja w dół
 ROTATE_LEFT
-    Obrót w lewo	
+    Rotacja w lewo
 ROTATE_RIGHT
-    Obrót w prawo
+    Rotacja w prawo
 RESET
     Reset
 NAVIGATION_STAR_MAPS
@@ -1254,3 +1254,5 @@ MONTH_NOV
     Lis
 MONTH_DEC
     Gru
+MISCELLANEOUS
+    Różne

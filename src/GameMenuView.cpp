@@ -31,7 +31,7 @@ private:
 	void OnClickChange() {
 		if (m_infoTooltip) return;
 		std::string msg = Lang::PRESS_BUTTON_WANTED_FOR + m_function;
-		Gui::ToolTip *t = new Gui::ToolTip(msg);
+		Gui::ToolTip *t = new Gui::ToolTip(this, msg);
 		Gui::Screen::AddBaseWidget(t, 300, 300);
 		t->Show();
 		t->GrabFocus();
@@ -108,7 +108,7 @@ private:
 	void OnClickChange() {
 		if (m_infoTooltip) return;
 		std::string msg = Lang::MOVE_AXIS_WANTED_FOR + m_function;
-		Gui::ToolTip *t = new Gui::ToolTip(msg);
+		Gui::ToolTip *t = new Gui::ToolTip(this, msg);
 		Gui::Screen::AddBaseWidget(t, 300, 300);
 		t->Show();
 		t->GrabFocus();
@@ -194,7 +194,6 @@ GameMenuView::GameMenuView(): View()
 		m_loadButton->SetShortcut(SDLK_l, KMOD_NONE);
 		hbox->PackEnd(m_loadButton);
 		m_exitButton = new Gui::LabelButton(new Gui::Label(Lang::EXIT_THIS_GAME));
-		m_exitButton->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
 		m_exitButton->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
 		hbox->PackEnd(m_exitButton);
 
@@ -395,7 +394,6 @@ GameMenuView::GameMenuView(): View()
 		}
 	}
 
-
 	// key binding tab 1
 	{
 		Gui::Fixed *keybindingTab = new Gui::Fixed(800, 600);
@@ -409,49 +407,9 @@ GameMenuView::GameMenuView(): View()
 		box2->SetSpacing(5.0f);
 		keybindingTab->Add(box2, 400, 10);
 
-		Gui::VBox *box = box1;
-		KeyGetter *keyg;
+		BuildControlBindingList(KeyBindings::BINDING_PROTOS_CONTROLS, box1, box2);
 
-		for (int i=0; KeyBindings::bindingProtos[i].label; i++) {
-			const char *label = KeyBindings::bindingProtos[i].label;
-			const char *function = KeyBindings::bindingProtos[i].function;
-
-			if (function) {
-				KeyBindings::KeyBinding kb = KeyBindings::KeyBindingFromString(Pi::config->String(function));
-				keyg = new KeyGetter(label, kb);
-				keyg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeKeyBinding), function));
-				box->PackEnd(keyg);
-			} else {
-				// section
-				box->PackEnd((new Gui::Label(label))->Color(1.0f, 1.0f, 0.0f));
-			}
-
-			/* 2nd column */
-			if (i == 20) {
-				box = box2;
-			}
-		}
-
-		for (int i=0; KeyBindings::axisBindingProtos[i].label; i++) {
-			AxisGetter *axisg;
-			const char *label = KeyBindings::axisBindingProtos[i].label;
-			const char *function = KeyBindings::axisBindingProtos[i].function;
-
-			if (function) {
-				KeyBindings::AxisBinding ab = KeyBindings::AxisBindingFromString(Pi::config->String(function).c_str());
-				axisg = new AxisGetter(label, ab);
-				axisg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeAxisBinding), function));
-				box->PackEnd(axisg);
-			} else {
-				// section
-				box->PackEnd((new Gui::Label(label))->Color(1.0f, 1.0f, 0.0f));
-			}
-
-			/* 2nd column */
-			if (i == 20) {
-				box = box2;
-			}
-		}
+		Gui::VBox *box = box2;
 
 		m_toggleJoystick = new Gui::ToggleButton();
 		m_toggleJoystick->onChange.connect(sigc::mem_fun(this, &GameMenuView::OnToggleJoystick));
@@ -493,22 +451,41 @@ GameMenuView::GameMenuView(): View()
 		box1->SetSpacing(5.0f);
 		keybindingTab->Add(box1, 10, 10);
 
-		Gui::VBox *box = box1;
-		KeyGetter *keyg;
+		BuildControlBindingList(KeyBindings::BINDING_PROTOS_VIEW, box1, 0);
+	}
+}
 
-		for (int i=0; KeyBindings::camBindingProtos[i].label; i++) {
-			const char *label = KeyBindings::camBindingProtos[i].label;
-			const char *function = KeyBindings::camBindingProtos[i].function;
+void GameMenuView::BuildControlBindingList(const KeyBindings::BindingPrototype *protos, Gui::VBox *box1, Gui::VBox *box2)
+{
+	assert(protos);
+	Gui::VBox *box = box1;
+	for (int i=0; protos[i].label; i++) {
+		const KeyBindings::BindingPrototype* proto = &protos[i];
 
-			if (function) {
-				KeyBindings::KeyBinding kb = KeyBindings::KeyBindingFromString(Pi::config->String(function));
-				keyg = new KeyGetter(label, kb);
-				keyg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeKeyBinding), function));
+		if (!proto->function) {
+			// section header
+			box->PackEnd((new Gui::Label(proto->label))->Color(1.0f, 1.0f, 0.0f));
+		} else {
+			if (proto->kb) {
+				KeyGetter *keyg;
+				KeyBindings::KeyBinding kb = KeyBindings::KeyBindingFromString(Pi::config->String(proto->function));
+				keyg = new KeyGetter(proto->label, kb);
+				keyg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeKeyBinding), proto->function));
 				box->PackEnd(keyg);
+			} else if (proto->ab) {
+				AxisGetter *axisg;
+				KeyBindings::AxisBinding ab = KeyBindings::AxisBindingFromString(Pi::config->String(proto->function).c_str());
+				axisg = new AxisGetter(proto->label, ab);
+				axisg->onChange.connect(sigc::bind(sigc::mem_fun(this, &GameMenuView::OnChangeAxisBinding), proto->function));
+				box->PackEnd(axisg);
 			} else {
-				// section
-				box->PackEnd((new Gui::Label(label))->Color(1.0f, 1.0f, 0.0f));
+				assert(0);
 			}
+		}
+
+		// 2nd column
+		if ((i == 20) && box2) {
+			box = box2;
 		}
 	}
 }
@@ -651,21 +628,12 @@ void GameMenuView::OnToggleNavTunnel(Gui::ToggleButton *b, bool state) {
 	Pi::SetNavTunnelDisplayed(state);
 }
 
-void GameMenuView::HideAll()
-{
-	if (m_changedDetailLevel) {
-		Pi::OnChangeDetailLevel();
-	}
-	View::HideAll();
-}
-
 void GameMenuView::OpenSaveDialog()
 {
 	if (Pi::game->IsHyperspace()) {
 		Pi::cpan->MsgLog()->Message("", Lang::CANT_SAVE_IN_HYPERSPACE);
 		return;
 	}
-
 	GameSaver saver(Pi::game);
 	saver.DialogMainLoop();
 	const std::string filename = saver.GetFilename();
@@ -716,4 +684,10 @@ void GameMenuView::OnSwitchTo() {
 	m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
 	m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
 	m_toggleNavTunnel->SetPressed(Pi::IsNavTunnelDisplayed());
+}
+
+void GameMenuView::OnSwitchFrom() {
+	if (m_changedDetailLevel) {
+		Pi::OnChangeDetailLevel();
+	}
 }

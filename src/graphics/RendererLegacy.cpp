@@ -53,7 +53,7 @@ RendererLegacy::RendererLegacy(const Graphics::Settings &vs)
 , m_maxZFar(1000000.0f)
 , m_useCompressedTextures(false)
 {
-	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_ARB_texture_compression");
+	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_EXT_texture_compression_s3tc");
 	m_useCompressedTextures = useDXTnTextures;
 
 	glShadeModel(GL_SMOOTH);

@@ -4,7 +4,7 @@ Alpha 27
      * The settings screen is now acessible from the main menu (#1187, #1512)
      * There's now an option to enable texture compression (#1522)
      * New mission type, Scout (get paid to scan particular planets) (#1348, #779)
-     * New view modes (Left/Right/Top/Bottom, Cockpit Front/Rear) (#1454)
+     * New view modes (Left/Right/Top/Bottom, Cockpit Front/Rear) (#1454, #1539, #1544)
        NOTE -- view mode controls are bound to Numeric Keypad by default
        (they can be rebound in the View tab of the Settings screen)
 
@@ -13,17 +13,24 @@ Alpha 27
      * Earth start location has returned to Los Angeles (in daytime now) (#1506)
      * Player cash is shown on the 'Personal' page of the Info (F3) screen (#1525, #1500)
      * Equipment listed on the Info (F3) screen is split over two columns (#1525, #1527)
+     * Explosions are now slower and more visible (#1543)
+     * Application icon for Windows builds (#1537, #1166)
 
    * Fixes
      * Avoid icons in some ternary systems overlapping each other (#1510, #1511) 
      * Fix overlapping text for long system descriptions (#1494, #1498)
      * Fix crash in SystemInfoView from leaking widget references (#1526,  #1493)
      * Clamp some newer terrain heights to non-negative values (#1534, #1530)
+     * Try to avoid placing starports where they will be covered by mountains (#1503, #7)
+     * Don't pass events through the load/save dialog to the widget below (#1547, #1553)
+     * Fix crash when old hyperspace cloud is shown after game load (#1552, #1551)
 
    * Script changes
      * EventQueue, which was deprecated in alpha 26, has been removed (#1485)
      * Orbital phase (season) and rotational phase (time) can now be set in custom
        systems with :rotational_phase_at_start and :orbital_phase_at_start (#1506)
+     * Thruster values in ship definitions are now all positive (#1536)
+     * New function Dev.SetCameraOffset to help find good cockpit camera offsets (#1130)
 
    * Internal changes
      * Terrain generation thread now sleeps until being signalled (#1169)
@@ -33,7 +40,11 @@ Alpha 27
      * Copyright and license is now made explicit at the top of all code files (#1515)
      * Max terrain height for heightmapped planets is computed more accurately (#1504)
      * Code to detect supported video modes has moved to Graphics (#1535, #1385)
-     * Cleaned up UI view code for consistency and stability (#1528)
+     * Cleaned up UI view code for consistency and stability (#1528, #1558, #1547, #1557)
+     * Removed duplication in key bindings code (#1545)
+     * New view (DeathView) to deal with display after the player dies (#1543, #1540)
+     * Simplified terrain thread locking (#1495)
+     * Moved intro and tombstone out to their own cutscene classes (#1559)
 
 Alpha 26
 

@@ -111,6 +111,7 @@
     <ClCompile Include="..\..\src\CommodityTradeWidget.cpp" />
     <ClCompile Include="..\..\src\CRC32.cpp" />
     <ClCompile Include="..\..\src\DeadVideoLink.cpp" />
+    <ClCompile Include="..\..\src\DeathView.cpp" />
     <ClCompile Include="..\..\src\DynamicBody.cpp" />
     <ClCompile Include="..\..\src\enum_table.cpp" />
     <ClCompile Include="..\..\src\EquipType.cpp" />
@@ -132,6 +133,7 @@
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp" />
     <ClCompile Include="..\..\src\InfoView.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
+    <ClCompile Include="..\..\src\Intro.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
@@ -142,6 +144,7 @@
     <ClCompile Include="..\..\src\LuaComms.cpp" />
     <ClCompile Include="..\..\src\LuaConsole.cpp" />
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
+    <ClCompile Include="..\..\src\LuaDev.cpp" />
     <ClCompile Include="..\..\src\LuaEngine.cpp" />
     <ClCompile Include="..\..\src\LuaEquipType.cpp" />
     <ClCompile Include="..\..\src\LuaEvent.cpp" />
@@ -228,6 +231,7 @@
     <ClCompile Include="..\..\src\SystemInfoView.cpp" />
     <ClCompile Include="..\..\src\SystemView.cpp" />
     <ClCompile Include="..\..\src\TerrainBody.cpp" />
+    <ClCompile Include="..\..\src\Tombstone.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\View.cpp" />
     <ClCompile Include="..\..\src\win32\FileSystemWin32.cpp" />
@@ -258,7 +262,9 @@
     <ClInclude Include="..\..\src\Color.h" />
     <ClInclude Include="..\..\src\CommodityTradeWidget.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
+    <ClInclude Include="..\..\src\Cutscene.h" />
     <ClInclude Include="..\..\src\DeadVideoLink.h" />
+    <ClInclude Include="..\..\src\DeathView.h" />
     <ClInclude Include="..\..\src\DeleteEmitter.h" />
     <ClInclude Include="..\..\src\DynamicBody.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
@@ -283,6 +289,7 @@
     <ClInclude Include="..\..\src\HyperspaceCloud.h" />
     <ClInclude Include="..\..\src\InfoView.h" />
     <ClInclude Include="..\..\src\IniConfig.h" />
+    <ClInclude Include="..\..\src\Intro.h" />
     <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
     <ClInclude Include="..\..\src\LmrModel.h" />
@@ -293,6 +300,7 @@
     <ClInclude Include="..\..\src\LuaComms.h" />
     <ClInclude Include="..\..\src\LuaConsole.h" />
     <ClInclude Include="..\..\src\LuaConstants.h" />
+    <ClInclude Include="..\..\src\LuaDev.h" />
     <ClInclude Include="..\..\src\LuaEngine.h" />
     <ClInclude Include="..\..\src\LuaEquipType.h" />
     <ClInclude Include="..\..\src\LuaEvent.h" />
@@ -378,6 +386,7 @@
     <ClInclude Include="..\..\src\SystemInfoView.h" />
     <ClInclude Include="..\..\src\SystemView.h" />
     <ClInclude Include="..\..\src\TerrainBody.h" />
+    <ClInclude Include="..\..\src\Tombstone.h" />
     <ClInclude Include="..\..\src\utils.h" />
     <ClInclude Include="..\..\contrib\vcacheopt\vcacheopt.h" />
     <ClInclude Include="..\..\src\vector2.h" />
@@ -392,6 +401,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\src\win32\pioneer.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
