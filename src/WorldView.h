@@ -33,17 +33,17 @@ public:
 	static const double PICK_OBJECT_RECT_SIZE;
 	virtual void Save(Serializer::Writer &wr);
 	enum CamType {
-		COCKPIT_FRONT,
-		COCKPIT_REAR,
-		CAM_FRONT,
-		CAM_REAR,
-		CAM_LEFT,
-		CAM_RIGHT,
-		CAM_TOP,
-		CAM_BOTTOM,
+		CAM_INTERNAL_COCKPIT_FRONT,
+		CAM_INTERNAL_COCKPIT_REAR,
+		CAM_INTERNAL_FRONT,
+		CAM_INTERNAL_REAR,
+		CAM_INTERNAL_LEFT,
+		CAM_INTERNAL_RIGHT,
+		CAM_INTERNAL_TOP,
+		CAM_INTERNAL_BOTTOM,
+		CAM_INTERNAL, // not a separate mode as such, used for switching
 		CAM_EXTERNAL,
-		CAM_SIDEREAL,
-		CAM_INTERNAL
+		CAM_SIDEREAL
 	};
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const { return m_camType; }
