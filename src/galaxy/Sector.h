@@ -37,6 +37,7 @@ public:
 		SystemBody::BodyType starType[4];
 		Uint32 seed;
 		const CustomSystem *customSys;
+		Color factionColour;
 
 	private:
 		bool m_queriedStarSystem;

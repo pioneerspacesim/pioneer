@@ -19,14 +19,6 @@ namespace Polit {
 		CRIME_MURDER = (1<<3),
 	};
 
-	enum Bloc { // <enum scope='Polit' name=PolitBloc prefix=BLOC_>
-		BLOC_NONE,
-		BLOC_EARTHFED,
-		BLOC_CIS,
-		BLOC_EMPIRE,
-		BLOC_MAX // <enum skip>
-	};
-
 	enum PolitEcon { // <enum scope='Polit' name=PolitEcon prefix=ECON_>
 		ECON_NONE,
 		ECON_VERY_CAPITALIST,
@@ -61,7 +53,7 @@ namespace Polit {
 
 	void NotifyOfCrime(Ship *s, enum Crime c);
 	void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit);
-	bool IsCommodityLegal(const StarSystem *s, Equip::Type t);
+	bool IsCommodityLegal(const StarSystem *s, const Equip::Type t);
 	void Init();
 	void Serialize(Serializer::Writer &wr);
 	void Unserialize(Serializer::Reader &rd);

@@ -6,6 +6,7 @@
 #include "AmbientSounds.h"
 #include "CargoBody.h"
 #include "CityOnPlanet.h"
+#include "Factions.h"
 #include "FileSystem.h"
 #include "Frame.h"
 #include "GalacticView.h"
@@ -339,6 +340,9 @@ void Pi::Init()
 
 	Galaxy::Init();
 	draw_progress(0.2f);
+
+	Faction::Init();
+	draw_progress(0.3f);
 
 	CustomSystem::Init();
 	draw_progress(0.4f);
