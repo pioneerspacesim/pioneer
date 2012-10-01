@@ -98,7 +98,7 @@ void InternalCamera::Load(Serializer::Reader &rd)
 }
 
 ExternalCamera::ExternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
-	WorldViewCamera(s, size, fovY, near, far),
+	RotatableCamera(s, size, fovY, near, far),
 	m_dist(200), m_distTo(m_dist),
 	m_rotX(0),
 	m_rotY(0),
@@ -192,7 +192,7 @@ void ExternalCamera::Load(Serializer::Reader &rd)
 }
 
 SiderealCamera::SiderealCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
-	WorldViewCamera(s, size, fovY, near, far),
+	RotatableCamera(s, size, fovY, near, far),
 	m_dist(200), m_distTo(m_dist),
 	m_orient(matrix4x4d::Identity())
 {

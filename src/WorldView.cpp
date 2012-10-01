@@ -806,17 +806,21 @@ void WorldView::Update()
 			if (KeyBindings::topCamera.IsActive() && GetCamType() != CAM_INTERNAL_TOP) SetCamType(CAM_INTERNAL_TOP);
 			if (KeyBindings::bottomCamera.IsActive() && GetCamType() != CAM_INTERNAL_BOTTOM) SetCamType(CAM_INTERNAL_BOTTOM);
 		} else {
-			if (KeyBindings::cameraRotateUp.IsActive()) m_activeCamera->RotateUp(frameTime);
-			if (KeyBindings::cameraRotateDown.IsActive()) m_activeCamera->RotateDown(frameTime);
-			if (KeyBindings::cameraRotateLeft.IsActive()) m_activeCamera->RotateLeft(frameTime);
-			if (KeyBindings::cameraRotateRight.IsActive()) m_activeCamera->RotateRight(frameTime);
-			if (KeyBindings::cameraZoomOut.IsActive()) m_activeCamera->ZoomEvent(ZOOM_SPEED*frameTime);		// Zoom out
-			if (KeyBindings::cameraZoomIn.IsActive()) m_activeCamera->ZoomEvent(-ZOOM_SPEED*frameTime);
-			if (KeyBindings::cameraRollLeft.IsActive()) m_activeCamera->RollLeft(frameTime);
-			if (KeyBindings::cameraRollRight.IsActive()) m_activeCamera->RollRight(frameTime);
-			if (KeyBindings::resetCamera.IsActive()) m_activeCamera->Reset();
-			m_activeCamera->ZoomEventUpdate(frameTime);
+			RotatableCamera *cam = static_cast<RotatableCamera*>(m_activeCamera);
+			if (KeyBindings::cameraRotateUp.IsActive()) cam->RotateUp(frameTime);
+			if (KeyBindings::cameraRotateDown.IsActive()) cam->RotateDown(frameTime);
+			if (KeyBindings::cameraRotateLeft.IsActive()) cam->RotateLeft(frameTime);
+			if (KeyBindings::cameraRotateRight.IsActive()) cam->RotateRight(frameTime);
+			if (KeyBindings::cameraZoomOut.IsActive()) cam->ZoomEvent(ZOOM_SPEED*frameTime);		// Zoom out
+			if (KeyBindings::cameraZoomIn.IsActive()) cam->ZoomEvent(-ZOOM_SPEED*frameTime);
+			if (KeyBindings::cameraRollLeft.IsActive()) cam->RollLeft(frameTime);
+			if (KeyBindings::cameraRollRight.IsActive()) cam->RollRight(frameTime);
+			if (KeyBindings::resetCamera.IsActive()) cam->Reset();
+			cam->ZoomEventUpdate(frameTime);
+
+			cam->UpdateTransform();
 		}
+
 		// note if we have to target the object in the crosshairs
 		targetObject = KeyBindings::targetObject.IsActive();
 	}
@@ -830,7 +834,6 @@ void WorldView::Update()
 		}
 	}
 
-	m_activeCamera->UpdateTransform();
 	m_activeCamera->Update();
 	UpdateProjectedObjects();
 
@@ -1705,10 +1708,14 @@ void WorldView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView())
 	{
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))	// Zoom out
-			m_activeCamera->ZoomEvent( ZOOM_SPEED * WHEEL_SENSITIVITY);
-		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
-			m_activeCamera->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
+		if (m_activeCamera->IsExternal()) {
+			RotatableCamera *cam = static_cast<RotatableCamera*>(m_activeCamera);
+			
+			if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))	// Zoom out
+				cam->ZoomEvent( ZOOM_SPEED * WHEEL_SENSITIVITY);
+			else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+				cam->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
+		}
 	}
 }
 NavTunnelWidget::NavTunnelWidget(WorldView *worldview) :

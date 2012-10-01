@@ -24,24 +24,6 @@ public:
 	WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	virtual Type GetType() const = 0;
 	virtual const char *GetName() const { return ""; }
-	virtual void RollLeft(float frameTime) { }
-	virtual void RollRight(float frameTime) { }
-	virtual void RotateDown(float frameTime) { }
-	virtual void RotateLeft(float frameTime) { }
-	virtual void RotateRight(float frameTime) { }
-	virtual void RotateUp(float frameTime) { }
-	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
-	virtual void ZoomIn(float frameTime) { }
-	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
-	virtual void ZoomOut(float frameTime) { }
-	/// Animated zoom trigger (on each event), primarily designed for mouse wheel.
-	///\param amount The zoom delta to add or substract (>0: zoom out, <0: zoom in), indirectly controling the zoom animation speed.
-	virtual void ZoomEvent(float amount) { }
-	/// Animated zoom update (on each frame), primarily designed for mouse wheel.
-	virtual void ZoomEventUpdate(float frameTime) { }
-	virtual void Reset() { }
-	//set translation & orientation
-	virtual void UpdateTransform() { }
 	virtual void Save(Serializer::Writer &wr) { }
 	virtual void Load(Serializer::Reader &rd) { }
 	virtual void Activate() { }
@@ -71,8 +53,32 @@ private:
 	const char *m_name;
 };
 
+class RotatableCamera : public WorldViewCamera {
+public:
+	RotatableCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip) :
+		WorldViewCamera(s, size, fovY, nearClip, farClip) {}
+	virtual void RollLeft(float frameTime) { }
+	virtual void RollRight(float frameTime) { }
+	virtual void RotateDown(float frameTime) { }
+	virtual void RotateLeft(float frameTime) { }
+	virtual void RotateRight(float frameTime) { }
+	virtual void RotateUp(float frameTime) { }
+	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
+	virtual void ZoomIn(float frameTime) { }
+	/// Zooming with this method will interrupt any animation launched by ZoomEvent().
+	virtual void ZoomOut(float frameTime) { }
+	/// Animated zoom trigger (on each event), primarily designed for mouse wheel.
+	///\param amount The zoom delta to add or substract (>0: zoom out, <0: zoom in), indirectly controling the zoom animation speed.
+	virtual void ZoomEvent(float amount) { }
+	/// Animated zoom update (on each frame), primarily designed for mouse wheel.
+	virtual void ZoomEventUpdate(float frameTime) { }
+	virtual void Reset() { }
+	//set translation & orientation
+	virtual void UpdateTransform() { }
+};
+
 // Zoomable, rotatable orbit camera, always looks at the ship
-class ExternalCamera : public WorldViewCamera {
+class ExternalCamera : public RotatableCamera {
 public:
 	ExternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return EXTERNAL; }
@@ -103,7 +109,7 @@ private:
 };
 
 // Much like external camera, but does not turn when the ship turns
-class SiderealCamera : public WorldViewCamera {
+class SiderealCamera : public RotatableCamera {
 public:
 	SiderealCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return SIDEREAL; }
