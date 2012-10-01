@@ -137,7 +137,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 	//load meshes
 	//"mesh" here refers to a "mesh xxx.yyy"
 	//defined in the .model
-	std::map<std::string, Node*> meshCache;
+	std::map<std::string, RefCountedPtr<Node> > meshCache;
 	LOD *lodNode = 0;
 	if (def.lodDefs.size() > 1) { //don't bother with a lod node if only one level
 		lodNode = new LOD();
@@ -157,22 +157,22 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		{
 			try {
 				//multiple lods might use the same mesh
-				Node *mesh = 0;
-				std::map<std::string, Node*>::iterator cacheIt = meshCache.find((*it));
+				RefCountedPtr<Node> mesh;
+				std::map<std::string, RefCountedPtr<Node> >::iterator cacheIt = meshCache.find((*it));
 				if (cacheIt != meshCache.end())
 					mesh = (*cacheIt).second;
 				else {
 					mesh = LoadMesh(*(it), def.animDefs, def.tagDefs);
 					meshCache[*(it)] = mesh;
 				}
-				assert(mesh);
+				assert(mesh.Valid());
 
 				if (group)
-					group->AddChild(mesh);
+					group->AddChild(mesh.Get());
 				else if(lodNode) {
-					lodNode->AddLevel((*lod).pixelSize, mesh);
+					lodNode->AddLevel((*lod).pixelSize, mesh.Get());
 				} else
-					model->GetRoot()->AddChild(mesh);
+					model->GetRoot()->AddChild(mesh.Get());
 			} catch (LoadingError &) {
 				delete model;
 				throw;
@@ -234,7 +234,21 @@ void Loader::FindPatterns(PatternContainer &output)
 	}
 }
 
-Node *Loader::LoadMesh(const std::string &filename, const AnimList &animDefs, TagList &modelTags)
+static void delete_unused_surfaces(std::vector<Graphics::Surface*> &surfaces, const std::string &filename)
+{
+	//check all surfaces were used
+	for(std::vector<Graphics::Surface*>::iterator it = surfaces.begin();
+		it != surfaces.end(); ++it)
+	{
+		if ((*it)->GetRefCount() < 1) {
+			printf("Unused surface in %s, releasing\n", filename.c_str());
+			delete *it;
+		}
+	}
+	surfaces.clear();
+}
+
+RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList &animDefs, TagList &modelTags)
 {
 	Assimp::Importer importer;
 
@@ -268,10 +282,18 @@ Node *Loader::LoadMesh(const std::string &filename, const AnimList &animDefs, Ta
 
 	// Recursive structure conversion. Matrix needs to be accumulated for
 	// special features that are absolute-positioned (thrusters)
-	Group *meshRoot = new Group();
-	ConvertNodes(scene->mRootNode, meshRoot, surfaces, matrix4x4f::Identity());
+	RefCountedPtr<Node> meshRoot(new Group());
+	try {
+		ConvertNodes(scene->mRootNode, static_cast<Group*>(meshRoot.Get()), surfaces, matrix4x4f::Identity());
+		ConvertAnimations(scene, animDefs, static_cast<Group*>(meshRoot.Get()));
+	} catch(...) {
+		//StaticMesh does not use RefCountedPtr, so the
+		//surfaces vector does not either. Have to do this.
+		delete_unused_surfaces(surfaces, filename);
+		throw;
+	}
 
-	ConvertAnimations(scene, animDefs, meshRoot);
+	delete_unused_surfaces(surfaces, filename);
 
 	return meshRoot;
 }
@@ -574,6 +596,9 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 				geom->AddMesh(smesh);
 				smesh = RefCountedPtr<Graphics::StaticMesh>(new Graphics::StaticMesh(Graphics::TRIANGLES));
 			}
+			//XXX abusing refcount here (until StaticMesh uses it too)
+			//I just want to check if some surfaces are left unused
+			surf->IncRefCount();
 			smesh->AddSurface(surf);
 		}
 		geom->AddMesh(smesh);

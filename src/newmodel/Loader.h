@@ -44,8 +44,8 @@ private:
 	Graphics::Texture *GetWhiteTexture() const;
 	matrix4x4f ConvertMatrix(const aiMatrix4x4&) const;
 	NModel *CreateModel(ModelDefinition &def);
-	Node *LoadMesh(const std::string &filename, const AnimList &animDefs, TagList &modelTags); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
 	RefCountedPtr<Graphics::Material> GetDecalMaterial(unsigned int index);
+	RefCountedPtr<Node> LoadMesh(const std::string &filename, const AnimList &animDefs, TagList &modelTags); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
 	void ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*>&, const aiScene*, NModel*); //model is only for material lookup
 	void ConvertAnimations(const aiScene *, const AnimList &, Node *meshRoot);
 	void ConvertNodes(aiNode *node, Group *parent, std::vector<Graphics::Surface*>& meshes, const matrix4x4f&);
