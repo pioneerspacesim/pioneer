@@ -9,11 +9,11 @@ local f = Faction:new('Red')
 	:police_name('Red Right Hands')
 	:colour(1.0,0.4,0.4)
 
-f:illegal_goods_probability('LIQUOR',12)	-- independent/empire
+f:illegal_goods_probability('LIQUOR',88)	-- independent/empire
 f:illegal_goods_probability('HAND_WEAPONS',50)	-- empire/etc
-f:illegal_goods_probability('BATTLE_WEAPONS',0)	--empire/etc
-f:illegal_goods_probability('NERVE_GAS',10)--empire
+f:illegal_goods_probability('BATTLE_WEAPONS',100)	--empire/etc
+f:illegal_goods_probability('NERVE_GAS',90)--empire
 f:illegal_goods_probability('NARCOTICS',50)--empire
-f:illegal_goods_probability('SLAVES',6)--empire
+f:illegal_goods_probability('SLAVES',94)--empire
 
 f:add_to_factions('Red')

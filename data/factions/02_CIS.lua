@@ -9,12 +9,12 @@ local f = Faction:new('Confederation of Independent Systems')
 	:police_name('Confederal Police')
 	:colour(0.4,1.0,0.4)
 
-f:illegal_goods_probability('ANIMAL_MEAT',25)	-- fed/cis
-f:illegal_goods_probability('LIVE_ANIMALS',25)	-- fed/cis
-f:illegal_goods_probability('HAND_WEAPONS',75)	-- cis
+f:illegal_goods_probability('ANIMAL_MEAT',75)	-- fed/cis
+f:illegal_goods_probability('LIVE_ANIMALS',75)	-- fed/cis
+f:illegal_goods_probability('HAND_WEAPONS',25)	-- cis
 f:illegal_goods_probability('BATTLE_WEAPONS',50)	--fed/cis
-f:illegal_goods_probability('NERVE_GAS',0)--fed/cis
-f:illegal_goods_probability('NARCOTICS',14)--cis
-f:illegal_goods_probability('SLAVES',0)--fed/cis
+f:illegal_goods_probability('NERVE_GAS',100)--fed/cis
+f:illegal_goods_probability('NARCOTICS',86)--cis
+f:illegal_goods_probability('SLAVES',100)--fed/cis
 
 f:add_to_factions('CIS')
