@@ -59,9 +59,6 @@ public:
 
 	void SetBodyVisible(bool v) { m_showCameraBody = v; }
 
-protected:
-	bool m_showCameraBody;
-
 private:
 	void OnBodyDeleted();
 	sigc::connection m_onBodyDeletedConnection;
@@ -113,6 +110,8 @@ private:
 			return a.camDist > b.camDist;
 		}
 	};
+
+	bool m_showCameraBody;
 	
 	std::list<BodyAttrs> m_sortedBodies;
 	std::vector<LightSource> m_lightSources;

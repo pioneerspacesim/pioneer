@@ -82,7 +82,7 @@ void InternalCamera::Activate()
 	//if offset is zero (unspecified) the camera would be in the middle of the model,
 	//and it would be undesirable to render the ship
 	if (m_offs.ExactlyEqual(vector3d(0.0)))
-		m_showCameraBody = false;
+		SetBodyVisible(false);
 }
 
 void InternalCamera::Save(Serializer::Writer &wr)
