@@ -7,6 +7,7 @@
  * Front, rear, external etc. cameras used by WorldView.
  */
 #include "Camera.h"
+#include "Lang.h"
 
 class Ship;
 
@@ -22,14 +23,40 @@ public:
 	//it is not strictly necessary, but WW cameras are now restricted to Ships
 	WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	virtual Type GetType() const = 0;
-	virtual void Front_Cockpit() { }
-	virtual void Rear_Cockpit() { }
-	virtual void Front() { }
-	virtual void Rear() { }
-	virtual void Left() { }
-	virtual void Right() { }
-	virtual void Top() { }
-	virtual void Bottom() { }
+	virtual const char *GetName() const { return ""; }
+	virtual void Save(Serializer::Writer &wr) { }
+	virtual void Load(Serializer::Reader &rd) { }
+	virtual void Activate() { }
+	virtual bool IsExternal() const { return false; }
+};
+
+// Front view from the cockpit.
+class InternalCamera : public WorldViewCamera {
+public:
+	InternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
+	Type GetType() const { return INTERNAL; }
+	const char *GetName() const { return m_name; }
+	void FrontCockpit();
+	void RearCockpit();
+	void Front();
+	void Rear();
+	void Left();
+	void Right();
+	void Top();
+	void Bottom();
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
+	void Activate();
+private:
+	matrix4x4d m_orient;
+	vector3d m_offs;
+	const char *m_name;
+};
+
+class MoveableCamera : public WorldViewCamera {
+public:
+	MoveableCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip) :
+		WorldViewCamera(s, size, fovY, nearClip, farClip) {}
 	virtual void RollLeft(float frameTime) { }
 	virtual void RollRight(float frameTime) { }
 	virtual void RotateDown(float frameTime) { }
@@ -48,38 +75,14 @@ public:
 	virtual void Reset() { }
 	//set translation & orientation
 	virtual void UpdateTransform() { }
-	virtual void Save(Serializer::Writer &wr) { }
-	virtual void Load(Serializer::Reader &rd) { }
-	virtual void Activate() { }
-	virtual bool IsExternal() const { return false; }
-};
-
-// Front view from the cockpit.
-class InternalCamera : public WorldViewCamera {
-public:
-	InternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
-	Type GetType() const { return INTERNAL; }
-	void Front_Cockpit();
-	void Rear_Cockpit();
-	void Front();
-	void Rear();
-	void Left();
-	void Right();
-	void Top();
-	void Bottom();
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
-	void Activate();
-private:
-	matrix4x4d m_orient;
-	vector3d m_offs;
 };
 
 // Zoomable, rotatable orbit camera, always looks at the ship
-class ExternalCamera : public WorldViewCamera {
+class ExternalCamera : public MoveableCamera {
 public:
 	ExternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return EXTERNAL; }
+	const char *GetName() const { return Lang::EXTERNAL_VIEW; }
 
 	void RotateDown(float frameTime);
 	void RotateLeft(float frameTime);
@@ -106,10 +109,12 @@ private:
 };
 
 // Much like external camera, but does not turn when the ship turns
-class SiderealCamera : public WorldViewCamera {
+class SiderealCamera : public MoveableCamera {
 public:
 	SiderealCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return SIDEREAL; }
+	const char *GetName() const { return Lang::SIDEREAL_VIEW; }
+
 	void RollLeft(float frameTime);
 	void RollRight(float frameTime);
 	void RotateDown(float frameTime);
