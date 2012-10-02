@@ -25,6 +25,10 @@ struct ShipType {
 		GUN_REAR,
 		GUNMOUNT_MAX = 2
 	};
+	enum DualLaserOrientation { // <enum scope='ShipType' name='DualLaserOrientation' prefix='DUAL_LASERS_'>
+		DUAL_LASERS_HORIZONTAL,
+		DUAL_LASERS_VERTICAL
+	};
 	enum Tag { // <enum scope='ShipType' name=ShipTypeTag prefix=TAG_>
 		TAG_NONE,
 		TAG_SHIP,
@@ -44,7 +48,7 @@ struct ShipType {
 		vector3f pos;
 		vector3f dir;
 		double sep;
-		int rot;
+		DualLaserOrientation orient;
 	} gunMount[GUNMOUNT_MAX];
 	int equipSlotCapacity[Equip::SLOT_MAX];
 	int capacity; // tonnes
