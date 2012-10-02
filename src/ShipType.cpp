@@ -5,6 +5,7 @@
 #include "LmrModel.h"
 #include "LuaVector.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
 #include "FileSystem.h"
 #include "utils.h"
 #include "Lang.h"
@@ -184,7 +185,8 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 				lua_pop(L, 1);
 				lua_pushinteger(L, 4);
 				lua_gettable(L, -2);
-				s.gunMount[i].rot = lua_tointeger(L, -1);
+				s.gunMount[i].orient = static_cast<ShipType::DualLaserOrientation>(
+						LuaConstants::GetConstantFromArg(L, "DualLaserOrientation", -1));
 				lua_pop(L, 1);
 			}
 			lua_pop(L, 1);
@@ -250,6 +252,7 @@ void ShipType::Init()
 	luaL_requiref(l, LUA_MATHLIBNAME, &luaopen_math, 1);
 	lua_pop(l, 3);
 
+	LuaConstants::Register(l);
 	LuaVector::Register(l);
 	LUA_DEBUG_CHECK(l, 0);
 

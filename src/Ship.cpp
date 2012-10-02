@@ -828,16 +828,10 @@ void Ship::FireWeapon(int num)
 	matrix4x4d m;
 	GetRotMatrix(m);
 
-	vector3d dir = vector3d(stype.gunMount[num].dir);
-	vector3d pos = vector3d(stype.gunMount[num].pos);
-	int rot = int(stype.gunMount[num].rot);
-	double sep = double(stype.gunMount[num].sep);
+	const vector3d dir = m.ApplyRotationOnly(vector3d(stype.gunMount[num].dir));
+	const vector3d pos = m.ApplyRotationOnly(vector3d(stype.gunMount[num].pos)) + GetPosition();
 
 	m_gunTemperature[num] += 0.01f;
-
-	dir = m.ApplyRotationOnly(dir);
-	pos = m.ApplyRotationOnly(pos);
-	pos += GetPosition();
 
 	Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, num);
 	const LaserType &lt = Equip::lasers[Equip::types[t].tableIndex];
@@ -847,19 +841,16 @@ void Ship::FireWeapon(int num)
 
 	if (lt.flags & Equip::LASER_DUAL)
 	{
-		if (!sep)
-		sep = 5;
+		const ShipType::DualLaserOrientation orient = static_cast<ShipType::DualLaserOrientation>(stype.gunMount[num].orient);
+		const vector3d orient_norm =
+				(orient == ShipType::DUAL_LASERS_VERTICAL) ? vector3d(m[0],m[1],m[2]) : vector3d(m[4],m[5],m[6]);
+		const vector3d sep = stype.gunMount[num].sep * dir.Cross(orient_norm).NormalizedSafe();
 
-		vector3d sep_dir;
-		if (rot == 1)
-			sep_dir = dir.Cross(vector3d(m[0],m[1],m[2])).Normalized();
-		else
-			sep_dir = dir.Cross(vector3d(m[4],m[5],m[6])).Normalized();
-
-		Projectile::Add(this, t, pos+sep*sep_dir, baseVel, dirVel);
-		Projectile::Add(this, t, pos-sep*sep_dir, baseVel, dirVel);
+		Projectile::Add(this, t, pos + sep, baseVel, dirVel);
+		Projectile::Add(this, t, pos - sep, baseVel, dirVel);
 	}
-	else Projectile::Add(this, t, pos, baseVel, dirVel);
+	else
+		Projectile::Add(this, t, pos, baseVel, dirVel);
 
 	/*
 			// trace laser beam through frame to see who it hits
