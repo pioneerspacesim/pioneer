@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GUITOOLTIP_H
 #define _GUITOOLTIP_H
 
@@ -7,8 +10,8 @@
 namespace Gui {
 	class ToolTip: public Widget {
 	public:
-		ToolTip(const char *text);
-		ToolTip(std::string &text);
+		ToolTip(Widget *owner, const char *text);
+		ToolTip(Widget *owner, std::string &text);
 		virtual void Draw();
 		virtual ~ToolTip();
 		virtual void GetSizeRequested(float size[2]);
@@ -16,6 +19,7 @@ namespace Gui {
 		void SetText(std::string &text);
 	private:
 		void CalcSize();
+		Widget *m_owner;
 		std::string m_text;
 		TextLayout *m_layout;
 		Uint32 m_createdTime;

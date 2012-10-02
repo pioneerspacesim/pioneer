@@ -730,9 +730,9 @@ SHIP_IS_FULLY_LADEN
     A hajód teljesen tele van.
 YOU_DO_NOT_HAVE_ANY_X
     Nincs ilyen árud: %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Első nézet
-REAR_VIEW
+CAMERA_REAR_VIEW
     Hátsó nézet
 EXTERNAL_VIEW
     Külső nézet

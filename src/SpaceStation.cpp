@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "SpaceStation.h"
 #include "Ship.h"
 #include "Planet.h"
@@ -303,6 +306,7 @@ SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 	m_lastUpdatedShipyard = 0;
 	m_numPoliceDocked = Pi::rng.Int32(3,10);
 	m_bbCreated = false;
+	m_bbShuffled = false;
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].ship = 0;

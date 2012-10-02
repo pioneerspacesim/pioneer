@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _HYPERSPACECLOUD_H
 #define _HYPERSPACECLOUD_H
 
@@ -39,6 +42,8 @@ protected:
 	virtual void Load(Serializer::Reader &rd, Space *space);
 
 private:
+	void InitGraphics();
+
 	Ship *m_ship;
 	vector3d m_pos;
 	vector3d m_vel;

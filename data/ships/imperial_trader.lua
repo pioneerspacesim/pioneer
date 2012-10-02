@@ -1,11 +1,14 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_ship {
 	name = 'Imperial Trader',
 	model = 'trader',
-	forward_thrust = -8e7,
+	forward_thrust = 8e7,
 	reverse_thrust = 3e7,
 	up_thrust = 3e7,
-	down_thrust = -1e7,
-	left_thrust = -1e7,
+	down_thrust = 1e7,
+	left_thrust = 1e7,
 	right_thrust = 1e7,
 	angular_thrust = 15e7,
 	gun_mounts =

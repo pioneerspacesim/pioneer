@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "gui/Gui.h"
 #include "Pi.h"
@@ -553,6 +556,9 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				{
 					(*i).SetInhabited(false);
 				}
+				if( pSS->GetFactionIndex() != UINT_MAX ) {
+					(*i).factionColour = pSS->GetFactionColour();
+				}
 			}
 		}
 
@@ -627,8 +633,8 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 		Color labelColor(0.8f,0.8f,0.8f,0.5f);
 		if ((*i).IsSetInhabited() && (*i).IsInhabited()) {
-			labelColor.r = 0.5;
-			labelColor.b = labelColor.g = 1.0f;
+			labelColor = (*i).factionColour;
+			labelColor.a = 0.5f;
 		}
 
 		if (m_inSystem) {

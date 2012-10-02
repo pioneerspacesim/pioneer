@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "GuiImage.h"
 #include "GuiScreen.h"
@@ -51,7 +54,7 @@ void Image::Draw()
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
 	r->SetBlendMode(Graphics::BLEND_ALPHA);
-	m_quad->Draw(r, 0, vector2f(allocSize[0],allocSize[1]), m_color);
+	m_quad->Draw(r, vector2f(0.0f), vector2f(allocSize[0],allocSize[1]), m_color);
 }
 
 }

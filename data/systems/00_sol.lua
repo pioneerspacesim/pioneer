@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 local s = CustomSystem:new('Sol', { 'STAR_G' })
 	:govtype('EARTHDEMOC')
 	:short_desc('The historical birthplace of humankind')
@@ -51,6 +54,7 @@ local earth = CustomSystemBody:new('Earth', 'PLANET_TERRESTRIAL')
 	:eccentricity(f(167,10000))
 	:rotation_period(f(1,1))
 	:axial_tilt(fixed.deg2rad(f(2344,100)))
+	:rotational_phase_at_start(fixed.deg2rad(f(170,1)))
 	:height_map('earth.hmap',0)
 	:metallicity(f(1,2))
 	:volcanicity(f(1,10))
@@ -96,6 +100,8 @@ local moon = {
 		:inclination(math.deg2rad(5.145))
 		:rotation_period(f(273,10))
 		:axial_tilt(fixed.deg2rad(f(668,100)))
+		:orbital_phase_at_start(fixed.deg2rad(f(0,1)))
+		:rotational_phase_at_start(fixed.deg2rad(f(0,1)))
 		:volcanicity(f(0,1)),
 	{
 		CustomSystemBody:new('Tranquility Base', 'STARPORT_SURFACE')

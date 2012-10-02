@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _INFOVIEW
 #define _INFOVIEW
 
@@ -15,10 +18,11 @@ public:
 	void UpdateInfo();
 	virtual void Update();
 	virtual void Draw3D();
-	virtual void OnSwitchTo();
 	void NextPage();
 	void ShowSpinner() { m_showSpinner = true; }
 	void HideSpinner() { m_showSpinner = false; }
+protected:
+	virtual void OnSwitchTo();
 private:
 	std::list<InfoViewPage*> m_pages;
 	Gui::Tabbed *m_tabs;
