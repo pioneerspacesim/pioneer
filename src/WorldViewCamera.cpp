@@ -16,55 +16,63 @@ WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY
 InternalCamera::InternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	WorldViewCamera(s, size, fovY, near, far)
 {
-	Front_Cockpit();
+	FrontCockpit();
 }
 
-void InternalCamera::Front_Cockpit()
+void InternalCamera::FrontCockpit()
 {
 	m_orient = matrix4x4d::RotateYMatrix(M_PI*2);
 	m_offs = static_cast<const Ship*>(GetBody())->GetFrontViewOffset();
+	m_name = Lang::FRONT_COCKPIT_VIEW;
 }
 
-void InternalCamera::Rear_Cockpit()
+void InternalCamera::RearCockpit()
 {
 	m_orient = matrix4x4d::RotateYMatrix(M_PI);
 	m_offs = static_cast<const Ship*>(GetBody())->GetRearViewOffset();
+	m_name = Lang::REAR_COCKPIT_VIEW;
 }
 
 void InternalCamera::Front()
 {
 	m_orient = matrix4x4d::RotateYMatrix(M_PI*2);
 	m_offs = static_cast<const Ship*>(GetBody())->GetFrontCameraOffset();
+	m_name = Lang::CAMERA_FRONT_VIEW;
 }
 
 void InternalCamera::Rear()
 {
 	m_orient = matrix4x4d::RotateYMatrix(M_PI);
 	m_offs = static_cast<const Ship*>(GetBody())->GetRearCameraOffset();
+	m_name = Lang::CAMERA_REAR_VIEW;
 }
 
 void InternalCamera::Left()
 {
 	m_orient = matrix4x4d::RotateYMatrix((M_PI/2)*3);
 	m_offs = static_cast<const Ship*>(GetBody())->GetLeftCameraOffset();
+	m_name = Lang::CAMERA_LEFT_VIEW;
 }
 
 void InternalCamera::Right()
 {
 	m_orient = matrix4x4d::RotateYMatrix(M_PI/2);
 	m_offs = static_cast<const Ship*>(GetBody())->GetRightCameraOffset();
+	m_name = Lang::CAMERA_RIGHT_VIEW;
 }
 
 void InternalCamera::Top()
 {
 	m_orient = matrix4x4d::RotateXMatrix((M_PI/2)*3);
 	m_offs = static_cast<const Ship*>(GetBody())->GetTopCameraOffset();
+	m_name = Lang::CAMERA_TOP_VIEW;
 }
 
 void InternalCamera::Bottom()
 {
 	m_orient = matrix4x4d::RotateXMatrix(M_PI/2);
 	m_offs = static_cast<const Ship*>(GetBody())->GetBottomCameraOffset();
+	m_name = Lang::CAMERA_BOTTOM_VIEW;
 }
 
 void InternalCamera::Activate()
@@ -74,7 +82,7 @@ void InternalCamera::Activate()
 	//if offset is zero (unspecified) the camera would be in the middle of the model,
 	//and it would be undesirable to render the ship
 	if (m_offs.ExactlyEqual(vector3d(0.0)))
-		m_showCameraBody = false;
+		SetBodyVisible(false);
 }
 
 void InternalCamera::Save(Serializer::Writer &wr)
@@ -90,7 +98,7 @@ void InternalCamera::Load(Serializer::Reader &rd)
 }
 
 ExternalCamera::ExternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
-	WorldViewCamera(s, size, fovY, near, far),
+	MoveableCamera(s, size, fovY, near, far),
 	m_dist(200), m_distTo(m_dist),
 	m_rotX(0),
 	m_rotY(0),
@@ -184,7 +192,7 @@ void ExternalCamera::Load(Serializer::Reader &rd)
 }
 
 SiderealCamera::SiderealCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
-	WorldViewCamera(s, size, fovY, near, far),
+	MoveableCamera(s, size, fovY, near, far),
 	m_dist(200), m_distTo(m_dist),
 	m_orient(matrix4x4d::Identity())
 {
