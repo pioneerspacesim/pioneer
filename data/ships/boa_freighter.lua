@@ -21,8 +21,8 @@ define_ship {
 	bottom_camera = v(0,-3,12),
 	gun_mounts =
 	{
-		{ v(0,-2,-46), v(0,0,-1), 1, 0 },
-		{ v(0,3,48), v(0,0,1), 6, 1 },
+		{ v(0,-2,-46), v(0,0,-1), 1, 'HORIZONTAL' },
+		{ v(0,3,48), v(0,0,1), 6, 'VERTICAL' },
 	},
 	max_cargo = 600,
 	max_laser = 2,
