@@ -123,7 +123,7 @@ static int l_csb_orbital_phase_at_start(lua_State *L)
 	CustomSystemBody *csb = l_csb_check(L, 1);
 	const fixed *value = LuaFixed::CheckFromLua(L, 2);
 	if ((value->ToDouble() < 0.0) || (value->ToDouble() > double(2.0*M_PI)))
-		return luaL_error(L, "Error: Custom system definition: Orbital phase at game start must be between 0 and 2 PI radians (including 0 but not 2 PI)."); 
+		return luaL_error(L, "Error: Custom system definition: Orbital phase at game start must be between 0 and 2 PI radians (including 0 but not 2 PI).");
 	csb->orbitalPhaseAtStart = *value;
 	lua_settop(L, 1);
 	return 1;
@@ -516,7 +516,7 @@ CustomSystem::CustomSystem():
 	numStars(0),
 	seed(0),
 	want_rand_explored(true),
-	govType(Polit::GOV_NONE)
+	govType(Polit::GOV_INVALID)
 {
 	for (int i = 0; i < 4; ++i)
 		primaryType[i] = SystemBody::TYPE_GRAVPOINT;

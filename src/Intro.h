@@ -1,33 +1,21 @@
-﻿#ifndef _INTRO_H
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+#ifndef _INTRO_H
 #define _INTRO_H
-/*
- * Game intro
- */
-#include "libs.h"
-#include "graphics/Light.h"
 
-namespace Graphics {
-	class Renderer;
-}
-namespace Background {
-	class Container;
-}
-class Model;
+#include "Cutscene.h"
+#include "Background.h"
+#include "EquipSet.h"
 
-class Intro {
+class Intro : public Cutscene {
 public:
-	Intro(Graphics::Renderer*, const vector2f &size);
-	~Intro();
-	void Render(float time);
+	Intro(Graphics::Renderer *r, int width, int height);
+	virtual void Draw(float time);
 
 private:
-	Graphics::Renderer *m_renderer;
-	Background::Container *m_background;
-	float m_aspectRatio;
-	Model *m_model;
-
-	//scene properties
-	std::vector<Graphics::Light> m_lights;
-	Color4f m_ambientColor;
+	EquipSet m_equipment;
+	ScopedPtr<Background::Container> m_background;
 };
+
 #endif

@@ -342,6 +342,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\DeathView.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\DynamicBody.cpp"
 				>
 			</File>
@@ -587,6 +591,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaConstants.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaDev.cpp"
 				>
 			</File>
 			<File
@@ -1280,6 +1288,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\DeathView.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\DeleteEmitter.h"
 				>
 			</File>
@@ -1536,6 +1548,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\KeyBindings.inc.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Lang.h"
 				>
 			</File>
@@ -1577,6 +1593,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaConstants.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaDev.h"
 				>
 			</File>
 			<File

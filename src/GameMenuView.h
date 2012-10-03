@@ -64,12 +64,12 @@ public:
 	virtual void Update() {}
 	virtual void Draw3D() {}
 	virtual void ShowAll();
-	virtual void HideAll();
 	void OpenLoadDialog();
 	void OpenSaveDialog();
 
 protected:
 	virtual void OnSwitchTo();
+	virtual void OnSwitchFrom();
 
 private:
 	void BuildControlBindingList(const KeyBindings::BindingPrototype *protos, Gui::VBox *box1, Gui::VBox *box2);

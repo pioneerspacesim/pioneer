@@ -4,9 +4,9 @@
 #include "Pi.h"
 #include "libs.h"
 #include "AmbientSounds.h"
-#include "Background.h"
 #include "CargoBody.h"
 #include "CityOnPlanet.h"
+#include "Factions.h"
 #include "FileSystem.h"
 #include "Frame.h"
 #include "GalacticView.h"
@@ -74,6 +74,7 @@
 #include "StringF.h"
 #include "SystemInfoView.h"
 #include "SystemView.h"
+#include "Tombstone.h"
 #include "WorldView.h"
 #include "DeathView.h"
 #include "galaxy/CustomSystem.h"
@@ -367,6 +368,9 @@ void Pi::Init()
 
 	Galaxy::Init();
 	draw_progress(0.2f);
+
+	Faction::Init();
+	draw_progress(0.3f);
 
 	CustomSystem::Init();
 	draw_progress(0.4f);
@@ -710,45 +714,16 @@ void Pi::HandleEvents()
 	}
 }
 
-static void draw_tombstone(float _time)
-{
-	LmrMaterial m0 = { { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
-	LmrMaterial m1 = { { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
-	LmrMaterial m2 = { { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
-
-	LmrObjParams params;
-	params.label = Lang::TOMBSTONE_EPITAPH;
-	params.pMat[0] = m0;
-	params.pMat[1] = m1;
-	params.pMat[2] = m2;
-
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-	const Color oldSceneAmbientColor = Pi::renderer->GetAmbientColor();
-	Pi::renderer->SetAmbientColor(Color(0.1f, 0.1f, 0.1f, 1.f));
-
-	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
-	Pi::renderer->SetLights(1, &light);
-
-	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
-	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
-	Pi::FindModel("tombstone")->Render(Pi::renderer, rot, &params);
-	glPopAttrib();
-	Pi::renderer->SetAmbientColor(oldSceneAmbientColor);
-}
-
 void Pi::TombStoneLoop()
 {
+	ScopedPtr<Tombstone> tombstone(new Tombstone(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	do {
-		Pi::renderer->BeginFrame();
-		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
-		Pi::renderer->SetTransform(matrix4x4f::Identity());
 		Pi::HandleEvents();
 		Pi::SetMouseGrab(false);
-		draw_tombstone(_time);
+		Pi::renderer->BeginFrame();
+		tombstone->Draw(_time);
 		Pi::renderer->EndFrame();
 		Gui::Draw();
 		Pi::renderer->SwapBuffers();
@@ -900,8 +875,10 @@ bool Pi::HandleMenuOption(int n)
 
 		case 4: // Load game
 		{
+			menu->HideAll();
 			GameLoader loader;
 			loader.DialogMainLoop();
+			menu->ShowAll();
 			game = loader.GetGame();
 			if (! game) {
 				// loading screen was cancelled;
@@ -932,7 +909,7 @@ bool Pi::HandleMenuOption(int n)
 
 void Pi::Start()
 {
-	ScopedPtr<Intro> intro(new Intro(Pi::renderer, vector2f(Graphics::GetScreenWidth(), Graphics::GetScreenHeight())));
+	Intro *intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 
 	ui->SetInnerWidget(ui->CallTemplate("MainMenu"));
 
@@ -1064,7 +1041,11 @@ void Pi::Start()
 				while (SDL_PollEvent(&event)) {}
 		}
 
-		intro->Render(_time);
+		Pi::renderer->BeginFrame();
+		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
+		Pi::renderer->SetTransform(matrix4x4f::Identity());
+		intro->Draw(_time);
+		Pi::renderer->EndFrame();
 
 		ui->Update();
 		ui->Draw();
@@ -1082,6 +1063,7 @@ void Pi::Start()
 	Gui::Screen::RemoveBaseWidget(menu);
 	delete menu;
 	delete background;
+	delete intro;
 #endif
 
 	// game is set by HandleMenuKey if any game-starting option (start or

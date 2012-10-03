@@ -29,6 +29,7 @@ noinst_HEADERS = \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
+	Cutscene.h \
 	CRC32.h \
 	DeadVideoLink.h \
 	DeathView.h \
@@ -37,6 +38,7 @@ noinst_HEADERS = \
 	EquipSet.h \
 	EquipType.h \
 	FaceVideoLink.h \
+	Factions.h \
 	FileSelectorWidget.h \
 	FileSystem.h \
 	FontCache.h \
@@ -148,6 +150,7 @@ noinst_HEADERS = \
 	SystemInfoView.h \
 	SystemView.h \
 	TerrainBody.h \
+	Tombstone.h \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
@@ -181,6 +184,7 @@ pioneer_SOURCES	= \
 	DynamicBody.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
+	Factions.cpp \
 	FileSelectorWidget.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
@@ -284,6 +288,7 @@ pioneer_SOURCES	= \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	TerrainBody.cpp \
+	Tombstone.cpp \
 	View.cpp \
 	WorldView.cpp \
 	WorldViewCamera.cpp \
@@ -423,4 +428,12 @@ endif
 if BUILD_POSIX
     pioneer_LDADD += posix/libposix.a
     modelviewer_LDADD += posix/libposix.a
+endif
+
+if HAVE_WINDRES
+# note: this can't be correctly packed into libwin32.a
+SUFFIXES = .rc
+pioneer_SOURCES += win32/pioneer.rc
+.rc.o:
+	$(AM_V_GEN)$(MXE_WINDRES) $< $@
 endif
