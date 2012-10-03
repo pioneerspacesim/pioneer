@@ -500,6 +500,8 @@ N_LIGHT_YEARS_N_MAX
     %distance{f.1} años luz (%maxdistance{f.1} max)
 SHIP_INFORMATION
     Info de la nave
+PERSONAL
+    Personal
 MISSIONS
     Misiones
 SHIFT
