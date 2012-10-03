@@ -246,11 +246,16 @@ void PlayerShipController::PollControls(const float timeStep)
 		wantAngVel += changeVec;
 
 		double invTimeAccelRate = 1.0 / Pi::game->GetTimeAccelRate();
-		for (int axis=0; axis<3; axis++)
-			wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccelRate, invTimeAccelRate);
+		if(!m_ship->GetManualRotationState()) {
+			for (int axis=0; axis<3; axis++)
+				wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccelRate, invTimeAccelRate);
+		}
 
-		m_ship->AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
+
+		if(wantAngVel.Length() >= 0.001 || !m_ship->GetManualRotationState())
+			m_ship->AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 		if (m_mouseActive) m_ship->AIFaceDirection(m_mouseDir);
+
 	}
 }
 

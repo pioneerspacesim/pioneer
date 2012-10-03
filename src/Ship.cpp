@@ -188,6 +188,7 @@ Ship::Ship(ShipType::Type shipType): DynamicBody(),
 	m_equipment.InitSlotSizes(shipType);
 	m_hyperspace.countdown = 0;
 	m_hyperspace.now = false;
+	m_manualRotation = false;
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = 0;
 		m_gunRecharge[i] = 0;
