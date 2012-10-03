@@ -17,7 +17,7 @@ public:
 	static void Uninit();
 
 	// XXX this is not as const-safe as it should be
-	static const Faction *GetFaction(const Uint32 index);
+	static Faction *GetFaction(const Uint32 index);
 	static const Uint32 GetNumFactions();
 	static const Uint32 GetNearestFactionIndex(const SystemPath& sysPath);
 

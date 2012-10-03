@@ -4,6 +4,7 @@
 #include "LuaObject.h"
 #include "LuaStar.h"
 #include "LuaPlanet.h"
+#include "LuaFaction.h"
 #include "LuaSpaceStation.h"
 #include "LuaStarSystem.h"
 #include "LuaSystemPath.h"
@@ -17,6 +18,7 @@
 #include "Planet.h"
 #include "SpaceStation.h"
 #include "galaxy/Sector.h"
+#include "Factions.h"
 
 /*
  * Class: StarSystem
@@ -407,6 +409,31 @@ static int l_starsystem_attr_population(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: faction
+ *
+ * The faction that controls this system
+ *
+ * Availability:
+ *
+ *   alpha 27
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_starsystem_attr_faction(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	const uint32_t idx = s->GetFactionIndex();
+	if( uint32_t(-1) != idx ) {
+		LuaFaction::PushToLua(Faction::GetFaction(idx));
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
 template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
 
 template <> void LuaObject<StarSystem>::RegisterClass()
@@ -431,6 +458,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },
+		{ "faction",	 l_starsystem_attr_faction	   },
 
 		{ 0, 0 }
 	};

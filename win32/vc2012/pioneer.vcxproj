@@ -151,6 +151,7 @@
     <ClCompile Include="..\..\src\LuaEngine.cpp" />
     <ClCompile Include="..\..\src\LuaEquipType.cpp" />
     <ClCompile Include="..\..\src\LuaEvent.cpp" />
+    <ClCompile Include="..\..\src\LuaFaction.cpp" />
     <ClCompile Include="..\..\src\LuaFileSystem.cpp" />
     <ClCompile Include="..\..\src\LuaFixed.cpp" />
     <ClCompile Include="..\..\src\LuaFormat.cpp" />
@@ -306,6 +307,7 @@
     <ClInclude Include="..\..\src\LuaEngine.h" />
     <ClInclude Include="..\..\src\LuaEquipType.h" />
     <ClInclude Include="..\..\src\LuaEvent.h" />
+    <ClInclude Include="..\..\src\LuaFaction.h" />
     <ClInclude Include="..\..\src\LuaFileSystem.h" />
     <ClInclude Include="..\..\src\LuaFixed.h" />
     <ClInclude Include="..\..\src\LuaFormat.h" />

@@ -269,7 +269,7 @@ void Faction::Uninit()
 	s_factions.clear();
 }
 
-const Faction *Faction::GetFaction(const Uint32 index)
+Faction *Faction::GetFaction(const Uint32 index)
 {
 	assert( index < s_factions.size() );
 	return &s_factions[index];
