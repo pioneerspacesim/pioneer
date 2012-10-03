@@ -97,7 +97,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 			m_ship->AIFaceDirection(v);
 			break;
 		case CONTROL_MANUAL:
-			PollControls(timeStep);
+			PollControls(timeStep, true);
 			break;
 		case CONTROL_AUTOPILOT:
 			if (m_ship->AIIsActive()) break;
@@ -136,7 +136,7 @@ static double clipmouse(double cur, double inp)
 	return inp;
 }
 
-void PlayerShipController::PollControls(const float timeStep)
+void PlayerShipController::PollControls(const float timeStep, const bool manualRotationAllowed)
 {
 	static bool stickySpeedKey = false;
 
@@ -252,7 +252,7 @@ void PlayerShipController::PollControls(const float timeStep)
 		}
 
 
-		if(wantAngVel.Length() >= 0.001 || !m_ship->GetManualRotationState())
+		if(wantAngVel.Length() >= 0.001 || !manualRotationAllowed || !m_ship->GetManualRotationState())
 			m_ship->AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 		if (m_mouseActive) m_ship->AIFaceDirection(m_mouseDir);
 

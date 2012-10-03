@@ -311,6 +311,17 @@ bool Game::UpdateTimeAccel()
 					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10000X);
 				}
 			}
+
+			const double locVel = m_player->GetAngVelocity().Length();
+			if(locVel > 1 / Game::s_timeAccelRates[TIMEACCEL_10X]) {
+				newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
+			} else if(locVel > 1 / Game::s_timeAccelRates[TIMEACCEL_100X]) {
+				newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
+			} else if(locVel > 1 / Game::s_timeAccelRates[TIMEACCEL_1000X]) {
+				newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_100X);
+			} else if(locVel > 1 / Game::s_timeAccelRates[TIMEACCEL_10000X]) {
+				newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1000X);
+			}
 		}
 	}
 
