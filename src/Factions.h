@@ -44,6 +44,10 @@ public:
 	EquipProbMap			equip_legality;
 	//ship availability
 	Color					colour;
+
+	enum {
+		BAD_FACTION_IDX = ((unsigned int)-1)
+	};
 };
 
 #endif /* _FACTIONS_H */
