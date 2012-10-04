@@ -263,12 +263,14 @@ public:
 		col2 += stringf(Lang::N_LIGHT_YEARS_N_MAX,
 			formatarg("distance", stats.hyperspace_range),
 			formatarg("maxdistance", stats.hyperspace_range_max));
+		int totalFuelMass = (int)round(Pi::player->GetMass()/1000 - stats.total_mass);
+		int totalMassWithFuel = (int)round(Pi::player->GetMass()/1000);
 		snprintf(buf, sizeof(buf), "\n\n%dt\n"
 					       "%dt\n"
 					       "%dt\n"
 					       "%dt\n"
 					       "%dt", stats.max_capacity,
-				stats.free_capacity, stats.used_capacity, (int)round(Pi::player->GetMass() - stats.total_mass), (int)round(Pi::player->GetMass()));
+				stats.free_capacity, stats.used_capacity, totalFuelMass, totalMassWithFuel);
 		col2 += std::string(buf);
 		int numLasers = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_LASER);
 		if (numLasers >= 1) {
