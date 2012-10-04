@@ -46,7 +46,7 @@ public:
 	Color					colour;
 
 	enum {
-		BAD_FACTION_IDX = UINT_MAX
+		BAD_FACTION_IDX = ((unsigned int)-1)
 	};
 };
 
