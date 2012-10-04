@@ -957,7 +957,7 @@ void Ship::UpdateAlertState()
 
 void Ship::UpdateFuel(const float timeStep)
 {
-	const float fuelUseRate = GetShipType().thrusterFuelUse * 0.10f;
+	const float fuelUseRate = GetShipType().thrusterFuelUse * 0.01f;
 	const vector3d &tstate = GetThrusterState();
 	//weights calculated from thrust values during calcstats
 	float totalThrust = 0.f;
