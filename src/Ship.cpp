@@ -236,6 +236,11 @@ void Ship::SetPercentHull(float p)
 	m_stats.hull_mass_left = 0.01f * Clamp(p, 0.0f, 100.0f) * float(stype.hullMass);
 }
 
+double Ship::GetMassNow()
+{
+	return m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass;
+}
+
 void Ship::UpdateMass()
 {
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
@@ -413,7 +418,7 @@ void Ship::UpdateEquipStats()
 		}
 	}
 	m_stats.free_capacity = m_stats.max_capacity - m_stats.used_capacity;
-	m_stats.total_mass = m_stats.used_capacity + stype.hullMass + (int)round(m_stats.fuel_tank_mass_left);
+	m_stats.total_mass = m_stats.used_capacity + stype.hullMass;
 
 	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
 
@@ -518,7 +523,7 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 	float dist = distance_to_system(dest);
 
 	outFuelRequired = int(ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max));
-	double m_totalmass = m_stats.total_mass;
+	double m_totalmass = Pi::player->GetMass();
 	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
 	if (outFuelRequired < 1) outFuelRequired = 1;
 	if (dist > m_stats.hyperspace_range_max) {

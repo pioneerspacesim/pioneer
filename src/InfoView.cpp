@@ -268,7 +268,7 @@ public:
 					       "%dt\n"
 					       "%dt\n"
 					       "%dt", stats.max_capacity,
-				stats.free_capacity, stats.used_capacity, (int)round(stats.fuel_tank_mass_left), stats.total_mass);
+				stats.free_capacity, stats.used_capacity, (int)round(Pi::player->GetMass() - stats.total_mass), (int)round(Pi::player->GetMass()));
 		col2 += std::string(buf);
 		int numLasers = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_LASER);
 		if (numLasers >= 1) {
