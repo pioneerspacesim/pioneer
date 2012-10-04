@@ -486,6 +486,8 @@ FREE
     Free
 USED
     Used
+FUEL_WEIGHT
+    Fuel weight
 TOTAL_WEIGHT
     All-up weight
 FRONT_WEAPON

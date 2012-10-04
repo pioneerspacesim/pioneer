@@ -413,7 +413,7 @@ void Ship::UpdateEquipStats()
 		}
 	}
 	m_stats.free_capacity = m_stats.max_capacity - m_stats.used_capacity;
-	m_stats.total_mass = m_stats.used_capacity + stype.hullMass;
+	m_stats.total_mass = m_stats.used_capacity + stype.hullMass + (int)round(m_stats.fuel_tank_mass_left);
 
 	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
 
@@ -957,7 +957,7 @@ void Ship::UpdateAlertState()
 
 void Ship::UpdateFuel(const float timeStep)
 {
-	const float fuelUseRate = GetShipType().thrusterFuelUse * 0.01f;
+	const float fuelUseRate = GetShipType().thrusterFuelUse * 0.10f;
 	const vector3d &tstate = GetThrusterState();
 	//weights calculated from thrust values during calcstats
 	float totalThrust = 0.f;

@@ -246,6 +246,8 @@ public:
 		col1 += ":\n";
 		col1 += std::string(Lang::USED);
 		col1 += ":\n";
+		col1 += std::string(Lang::FUEL_WEIGHT);
+		col1 += ":\n";
 		col1 += std::string(Lang::TOTAL_WEIGHT);
 		col1 += ":\n\n";
 		col1 += std::string(Lang::FRONT_WEAPON);
@@ -264,8 +266,9 @@ public:
 		snprintf(buf, sizeof(buf), "\n\n%dt\n"
 					       "%dt\n"
 					       "%dt\n"
+					       "%dt\n"
 					       "%dt", stats.max_capacity,
-				stats.free_capacity, stats.used_capacity, stats.total_mass);
+				stats.free_capacity, stats.used_capacity, (int)round(stats.fuel_tank_mass_left), stats.total_mass);
 		col2 += std::string(buf);
 		int numLasers = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_LASER);
 		if (numLasers >= 1) {
