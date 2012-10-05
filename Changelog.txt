@@ -1,7 +1,7 @@
 Alpha 27
 
    * New features
-     * Factions, with custom goods illegality and colour coding (#1505)
+     * Factions, with custom goods illegality and colour coding (#1505, #1567, #1562)
      * New mission type, Scout (get paid to scan particular planets) (#1348, #779)
      * New views (Left/Right/Top/Bottom, Cockpit Front/Rear) (#1454, #1539, #1544, #1564)
        NOTE -- view mode controls are bound to Numeric Keypad by default
