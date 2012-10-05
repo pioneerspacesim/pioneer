@@ -12,6 +12,8 @@
 #include "Polit.h"
 #include "FileSystem.h"
 
+const Uint32 Faction::BAD_FACTION_IDX = UINT_MAX;
+
 typedef std::vector<Faction>  FactionList;
 typedef FactionList::iterator FactionIterator;
 static FactionList            s_factions;
@@ -292,7 +294,7 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 		a = t;
 	}
 	// if the custom system has a valid govType set then try to find a matching faction
-	if( Polit::GOV_INVALID != a )
+	if( a != Polit::GOV_INVALID )
 	{
 		for (Uint32 index = 0; index < s_factions.size(); ++index) {
 			const Faction &fac = s_factions[index];
