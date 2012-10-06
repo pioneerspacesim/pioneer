@@ -270,7 +270,7 @@ public:
 					       "%dt  (%dt %s)\n"
 					       "%dt",
 					       hullMass,
-					       stats.used_capacity, stats.free_capacity, Lang::FREE,
+					       stats.used_capacity, stats.free_capacity, Lang::FREE_LOWERCASE,
 					       totalFuelMass, Pi::player->GetShipType().fuelTankMass, Lang::MAX,
 					       totalMassWithFuel);
 		col2 += std::string(buf);

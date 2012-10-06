@@ -486,6 +486,8 @@ HYPERDRIVE
     Hyperdrive
 FREE
     Free
+FREE_LOWERCASE
+    free
 USED
     Used
 FUEL_WEIGHT
