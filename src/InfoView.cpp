@@ -226,9 +226,9 @@ public:
 
 		Gui::HBox *box = new Gui::HBox();
 		box->SetSpacing(5.0f);
-		Gui::ToggleButton *b = new Gui::ToggleButton();
-		b->onChange.connect(sigc::mem_fun(this, &ShipInfoPage::ToggleManualRotation));
-		box->PackEnd(b);
+		manualRotationButton = new Gui::ToggleButton();
+		manualRotationButton->onChange.connect(sigc::mem_fun(this, &ShipInfoPage::ToggleManualRotation));
+		box->PackEnd(manualRotationButton);
 		box->PackEnd(new Gui::Label(Lang::TOGGLE_MANUAL_ROTATION));
 		Add(box, 300, 20);
 		box->ShowAll();
@@ -333,9 +333,12 @@ public:
 		info2->SetText(col2);
 		this->ResizeRequest();
 
+		manualRotationButton->SetPressed(Pi::player->GetManualRotationState());
+
 	}
 private:
 	Gui::Label *info1, *info2;
+	Gui::ToggleButton *manualRotationButton;
 
 	void ToggleManualRotation(Gui::ToggleButton *b, bool state) {
 		Pi::player->SetManualRotationState(state);
