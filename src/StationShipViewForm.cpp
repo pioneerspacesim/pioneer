@@ -40,8 +40,9 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	labelBox->PackEnd(new Gui::Label(Lang::REGISTRATION_ID));
 	labelBox->PackEnd(new Gui::Label(" "));
 	labelBox->PackEnd(new Gui::Label(Lang::WEIGHT_EMPTY));
-	labelBox->PackEnd(new Gui::Label(Lang::WEIGHT_FULLY_LADEN));
 	labelBox->PackEnd(new Gui::Label(Lang::CAPACITY));
+	labelBox->PackEnd(new Gui::Label(Lang::FUEL_WEIGHT));
+	labelBox->PackEnd(new Gui::Label(Lang::WEIGHT_FULLY_LADEN));
 	labelBox->PackEnd(new Gui::Label(" "));
 	labelBox->PackEnd(new Gui::Label(Lang::FORWARD_ACCEL_EMPTY));
 	labelBox->PackEnd(new Gui::Label(Lang::FORWARD_ACCEL_LADEN));
@@ -63,8 +64,9 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	dataBox->PackEnd(new Gui::Label(m_flavour.regid));
 	dataBox->PackEnd(new Gui::Label(" "));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.hullMass))));
-	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.hullMass + type.capacity))));
-	dataBox->PackEnd(new Gui::Label(stringf( Lang::NUMBER_TONNES, formatarg("mass", type.capacity))));
+	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.capacity))));
+	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.fuelTankMass))));
+	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.hullMass + type.capacity + type.fuelTankMass))));
 	dataBox->PackEnd(new Gui::Label(" "));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_G, formatarg("acceleration", forward_accel_empty))));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_G, formatarg("acceleration", forward_accel_laden))));
