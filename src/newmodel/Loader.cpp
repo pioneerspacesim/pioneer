@@ -513,11 +513,15 @@ void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const std::strin
 	MatrixTransform *trans = new MatrixTransform(m);
 
 	//need the accumulated transform or the direction is off
-	const matrix4x4f transform = m * accum;
+	matrix4x4f transform = accum * m;
+	vector3f pos = transform.GetTranslate();
+	transform.ClearToRotOnly();
 
-	// XXX YZ swap. To be investigated...
+	vector3f direction = transform * vector3f(0.f, 0.f, 1.f);
+
 	Thruster *thruster = new Thruster(m_renderer, linear,
-		vector3f(transform[12], transform[14], transform[13]), transform.Back());
+		pos, direction.Normalized());
+
 	thruster->SetName(name);
 	trans->AddChild(thruster);
 	parent->AddChild(trans);
@@ -608,7 +612,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 
 	for(unsigned int i=0; i<node->mNumChildren; i++) {
 		aiNode *child = node->mChildren[i];
-		ConvertNodes(child, parent, surfaces, m * accum);
+		ConvertNodes(child, parent, surfaces, accum * m);
 	}
 }
 
