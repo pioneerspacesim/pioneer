@@ -416,9 +416,13 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		def != animDefs.end();
 		++def)
 	{
-		//XXX for assimp duration of frames 0 to 39 seems to be 39. Odd.
+		//XXX format differences: for a 40-frame animation exported from Blender,
+		//.X results in duration 39 and Collada in Duration 1.25.
+		//duration is calculated after adding all keys
+		double start = 0.0;
+		double end = 0.0;
 		Animation *animation = new Animation(
-			def->name, def->end - def->start,
+			def->name, 0.0,
 			def->loop ? Animation::LOOP : Animation::ONCE,
 			aianim->mTicksPerSecond > 0.0 ? aianim->mTicksPerSecond : 24.0);
 		for (unsigned int j=0; j<aianim->mNumChannels; j++) {
@@ -435,18 +439,27 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 			for(unsigned int k=0; k<aichan->mNumPositionKeys; k++) {
 				const aiVectorKey &aikey = aichan->mPositionKeys[k];
 				const aiVector3D &aipos = aikey.mValue;
-				if (aikey.mTime >= def->start && aikey.mTime <= def->end)
+				if (aikey.mTime >= def->start && aikey.mTime <= def->end) {
 					chan.positionKeys.push_back(PositionKey(aikey.mTime - def->start, vector3f(aipos.x, aipos.y, aipos.z)));
+					start = std::min(start, aikey.mTime);
+					end = std::max(end, aikey.mTime);
+				}
 			}
 
 			if (aichan->mNumRotationKeys < 2) continue;
 			for(unsigned int k=0; k<aichan->mNumRotationKeys; k++) {
 				const aiQuatKey &aikey = aichan->mRotationKeys[k];
 				const aiQuaternion &airot = aikey.mValue;
-				if (aikey.mTime >= def->start && aikey.mTime <= def->end)
+				if (aikey.mTime >= def->start && aikey.mTime <= def->end) {
 					chan.rotationKeys.push_back(RotationKey(aikey.mTime - def->start, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
+					start = std::min(start, aikey.mTime);
+					end = std::max(end, aikey.mTime);
+				}
 			}
 		}
+
+		//set actual duration
+		animation->m_duration = end - start;
 
 		if (animation->m_channels.empty())
 			delete animation;
