@@ -9,6 +9,8 @@
 
 namespace Newmodel {
 
+class Loader;
+
 class Animation {
 public:
 	enum Direction {
@@ -24,7 +26,6 @@ public:
 	void Pause(); //pause or resume playback
 	void Stop(); //abort playback and rewind
 	void Evaluate(double time);
-	std::vector<AnimationChannel> channels;
 	double GetDuration() const { return m_duration; }
 	double GetTicksPerSecond() const { return m_ticksPerSecond; }
 	void SetTicksPerSecond(double tps) { m_ticksPerSecond = tps; }
@@ -33,6 +34,7 @@ public:
 	void SetBehavior(Behavior b) { m_behavior = b; }
 
 private:
+	friend class Loader;
 	Behavior m_behavior;
 	bool m_paused;
 	Direction m_dir;
@@ -41,6 +43,7 @@ private:
 	double m_prevMTime;
 	double m_ticksPerSecond;
 	std::string m_name;
+	std::vector<AnimationChannel> m_channels;
 };
 
 }

@@ -429,8 +429,8 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 			const std::string channame(aichan->mNodeName.C_Str());
 			MatrixTransform *trans = dynamic_cast<MatrixTransform*>(meshRoot->FindNode(channame));
 			assert(trans);
-			animation->channels.push_back(AnimationChannel(trans));
-			AnimationChannel &chan = animation->channels.back();
+			animation->m_channels.push_back(AnimationChannel(trans));
+			AnimationChannel &chan = animation->m_channels.back();
 
 			for(unsigned int k=0; k<aichan->mNumPositionKeys; k++) {
 				const aiVectorKey &aikey = aichan->mPositionKeys[k];
@@ -448,7 +448,7 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 			}
 		}
 
-		if (animation->channels.empty())
+		if (animation->m_channels.empty())
 			delete animation;
 		else
 			animations.push_back(animation);
