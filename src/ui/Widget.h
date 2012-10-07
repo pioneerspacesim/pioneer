@@ -24,7 +24,7 @@
 // Widgets can implement PreferredSize(), Layout() and Draw() to do more
 // advanced things.
 //
-// - PreferredSize() returns a vector2 that tells the layout manager the ideal
+// - PreferredSize() returns a Point that tells the layout manager the ideal
 //   size the widget would like to receive to do its job. The container is
 //   under absolutely no obligation to allocate that amount of space to the
 //   widget, and the widget should be prepared for that. In the worst case the
@@ -56,7 +56,7 @@
 //
 // Input is fed into the context's event dispatcher and used to generate the
 // various events in the Widget class. A widget must connect to any event
-// singlas that it is interested in. External users may also connect to
+// signals that it is interested in. External users may also connect to
 // signals to do things (eg register button click handlers).
 //
 // Event handlers for events generated from user input are called before
@@ -67,9 +67,6 @@
 // widget an opportunity to modify the layout based on input. If a widget
 // wants to change its size it must call GetContext()->RequestLayout() to
 // force a layout change to occur.
-//
-// opportunity to modify its metrics based on input. Handlers return a bool to
-// indicate if the event was "handled" or not.
 //
 // Event handlers are called against the "leaf" widgets first. Handlers return
 // a bool to indicate if the event was "handled" or not. If a widget has no
@@ -84,7 +81,6 @@ namespace UI {
 
 class Context;
 class Container;
-class Metrics;
 	
 class Widget : public RefCounted, public DeleteEmitter {
 protected:
@@ -114,7 +110,7 @@ public:
 	// position relative to top container
 	Point GetAbsolutePosition() const;
 
-	// draw offset
+	// draw offset. used to move a widget "under" its visible area (scissor)
 	void SetDrawOffset(const Point &drawOffset) { m_drawOffset = drawOffset; }
 	const Point &GetDrawOffset() const { return m_drawOffset; }
 
@@ -125,12 +121,12 @@ public:
 	const Point &GetActiveOffset() const { return m_activeOffset; }
 	const Point &GetActiveArea() const { return m_activeArea; }
 
-	// determine if a point is inside a widget's bounds
+	// determine if a point is inside a widgets active area
 	bool Contains(const Point &point) const {
 		return (point.x >= m_activeOffset.x && point.y >= m_activeOffset.y && point.x < m_activeOffset.x+m_activeArea.x && point.y < m_activeOffset.y+m_activeArea.y);
 	}
 
-	// deterine if an absolute point is inside a widget's bounds
+	// deterine if an absolute point is inside a widget's active area
 	bool ContainsAbsolute(const Point &point) const {
 		Point pos = GetAbsolutePosition() + m_activeOffset;
 		return (point.x >= pos.x && point.y >= pos.y && point.x < pos.x+m_activeArea.x && point.y < pos.y+m_activeArea.y);

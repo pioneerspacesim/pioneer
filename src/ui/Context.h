@@ -45,8 +45,7 @@ namespace UI {
 // without a parent container of its own.
 //
 // It has the simplest layout manager possible - it will only accept a single
-// container widget and will override its metrics to force it to be the full
-// size of the screen.
+// container widget
 //
 // The context holds resources that are shared by all widgets. Examples of
 // such resources are fonts, default styles, textures and so on. New widgets
