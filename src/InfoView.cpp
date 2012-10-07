@@ -224,15 +224,22 @@ public:
 		Add(info2, 234, 16);
 		ShowAll();
 
-		Gui::HBox *box = new Gui::HBox();
-		box->SetSpacing(5.0f);
+		box1 = new Gui::HBox();
+		box1->SetSpacing(5.0f);
 		manualRotationButton = new Gui::ToggleButton();
 		manualRotationButton->onChange.connect(sigc::mem_fun(this, &ShipInfoPage::ToggleManualRotation));
-		box->PackEnd(manualRotationButton);
-		box->PackEnd(new Gui::Label(Lang::TOGGLE_MANUAL_ROTATION));
-		Add(box, 300, 20);
-		box->ShowAll();
+		box1->PackEnd(manualRotationButton);
+		box1->PackEnd(new Gui::Label(Lang::TOGGLE_MANUAL_ROTATION));
+		Add(box1, 300, 20);
+		box1->ShowAll();
 	};
+
+	~ShipInfoPage() {
+		delete box1; box1 = 0;
+		delete info1; info1 = 0;
+		delete info2; info2 = 0;
+		delete manualRotationButton; manualRotationButton = 0;
+	}
 
 	virtual void Show() {
 		InfoViewPage::Show();
@@ -339,6 +346,7 @@ public:
 private:
 	Gui::Label *info1, *info2;
 	Gui::ToggleButton *manualRotationButton;
+	Gui::HBox *box1;
 
 	void ToggleManualRotation(Gui::ToggleButton *b, bool state) {
 		Pi::player->SetManualRotationState(state);
