@@ -61,6 +61,7 @@ struct LoadingError : public std::runtime_error {
 };
 
 typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > MaterialContainer;
+typedef std::vector<Animation*>::iterator AnimationIterator;
 
 class NModel : public Model
 {

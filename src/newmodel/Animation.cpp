@@ -54,6 +54,13 @@ void Animation::Evaluate(const double time)
 	m_prevMTime = mtime;
 	if (m_dir == REVERSE) mtime = m_duration - mtime;
 
+	m_time = mtime;
+}
+
+void Animation::Interpolate()
+{
+	const double mtime = m_time;
+
 	//go through channels and calculate transforms
 	for(ChannelIterator chan = m_channels.begin(); chan != m_channels.end(); ++chan) {
 		//interpolation test
@@ -109,6 +116,16 @@ void Animation::Evaluate(const double time)
 
 		chan->node->SetTransform(trans);
 	}
+}
+
+double Animation::GetProgress()
+{
+	return m_time / m_duration;
+}
+
+void Animation::SetProgress(double prog)
+{
+	m_time = Clamp(prog, 0.0, 1.0) * m_duration;
 }
 
 }

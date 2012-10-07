@@ -145,9 +145,12 @@ void NModel::SetLabel(const std::string &text)
 
 void NModel::UpdateAnimations(const double time) //change this to use timestep or something
 {
-	for (unsigned int i=0; i<m_activeAnimations.size(); i++) {
+	/*for (unsigned int i=0; i<m_activeAnimations.size(); i++) {
 		m_activeAnimations[i]->Evaluate(time - m_lastTime);
-	}
+	}*/
+	// XXX WIP. Assuming animations are controlled manually by SetProgress.
+	for (AnimationIterator anim = m_animations.begin(); anim != m_animations.end(); ++anim)
+		(*anim)->Interpolate();
 	m_lastTime =  time;
 }
 
