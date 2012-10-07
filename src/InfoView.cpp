@@ -234,13 +234,6 @@ public:
 		box1->ShowAll();
 	};
 
-	~ShipInfoPage() {
-		delete box1; box1 = 0;
-		delete info1; info1 = 0;
-		delete info2; info2 = 0;
-		delete manualRotationButton; manualRotationButton = 0;
-	}
-
 	virtual void Show() {
 		InfoViewPage::Show();
 		m_infoView->ShowSpinner();
