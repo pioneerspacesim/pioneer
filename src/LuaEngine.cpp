@@ -9,6 +9,7 @@
 #include "utils.h"
 #include "FileSystem.h"
 #include "ui/Context.h"
+#include "GameMenuView.h"
 
 /*
  * Interface: Engine
@@ -136,7 +137,7 @@ static int l_engine_attr_version(lua_State *l)
  *
  *   experimental
  */
-static int l_engine_method_quit(lua_State *l)
+static int l_engine_quit(lua_State *l)
 {
 	if (Pi::game)
 		Pi::EndGame();
@@ -144,10 +145,23 @@ static int l_engine_method_quit(lua_State *l)
 	return 0;
 }
 
+// XXX hack to allow the new UI to activate the old settings view
+//     remove once its been converted
+static int l_engine_settings_view(lua_State *l)
+{
+	if (Pi::game || Pi::GetView() == Pi::gameMenuView)
+		return 0;
+	Pi::SetView(Pi::gameMenuView);
+	while (Pi::GetView() == Pi::gameMenuView) Gui::MainLoopIteration();
+	Pi::SetView(0);
+	return 0;
+}
+
 void LuaEngine::Register()
 {
 	static const luaL_Reg l_methods[] = {
-		{ "Quit", l_engine_method_quit },
+		{ "Quit", l_engine_quit },
+		{ "SettingsView", l_engine_settings_view },
 		{ 0, 0 }
 	};
 
