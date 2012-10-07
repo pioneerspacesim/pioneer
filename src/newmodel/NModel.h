@@ -91,10 +91,11 @@ public:
 	void SetDecalTexture(Graphics::Texture *t, unsigned int index = 0);
 	void SetLabel(const std::string&);
 
-	void UpdateAnimations(double time); //change this to timestep or something
+	Animation *FindAnimation(const std::string&); //0 if not found
+	const std::vector<Animation *> GetAnimations() const { return m_animations; }
 	int PlayAnimation(const std::string &name, Animation::Direction = Animation::FORWARD); //immediately play an animation (forward), if found, returns count of animations triggered
 	void StopAnimations(); //stop all animation
-	const std::vector<Animation *> GetAnimations() const { return m_animations; }
+	void UpdateAnimations(double time); //change this to timestep or something
 
 private:
 	static const unsigned int MAX_DECAL_MATERIALS = 4;

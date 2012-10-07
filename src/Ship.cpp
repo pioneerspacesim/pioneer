@@ -160,6 +160,12 @@ void Ship::Init()
 	m_stats.shield_mass_left = 0;
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 	m_hyperspaceCloud = 0;
+
+	m_landingGearAnimation = 0;
+	Newmodel::NModel *nmodel = dynamic_cast<Newmodel::NModel*>(GetModel());
+	if (nmodel) {
+		m_landingGearAnimation = nmodel->FindAnimation("gear_down");
+	}
 }
 
 void Ship::PostLoadFixup(Space *space)
@@ -759,6 +765,9 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	// fuel use decreases mass, so do this as the last thing in the frame
 	UpdateFuel(timeStep);
+
+	if (m_landingGearAnimation)
+		static_cast<Newmodel::NModel*>(GetModel())->UpdateAnimations(timeStep);
 }
 
 void Ship::DoThrusterSounds() const
@@ -1187,6 +1196,8 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	params.linthrust[2] = float(m_thrusters.z);
 	params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
 	params.flightState = m_flightState;
+	if (m_landingGearAnimation)
+		m_landingGearAnimation->SetProgress(m_wheelState);
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderLmrModel(renderer, viewCoords, viewTransform);

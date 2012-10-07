@@ -143,6 +143,14 @@ void NModel::SetLabel(const std::string &text)
 	m_root->Accept(vis);
 }
 
+Animation *NModel::FindAnimation(const std::string &name)
+{
+	for (AnimationIterator anim = m_animations.begin(); anim != m_animations.end(); ++anim) {
+		if ((*anim)->GetName() == name) return (*anim);
+	}
+	return 0;
+}
+
 void NModel::UpdateAnimations(const double time) //change this to use timestep or something
 {
 	/*for (unsigned int i=0; i<m_activeAnimations.size(); i++) {
