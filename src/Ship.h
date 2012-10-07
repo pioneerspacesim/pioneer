@@ -240,6 +240,9 @@ public:
 	//0.0 - 1.0
 	void SetFuel(const float f) {	m_thrusterFuel = Clamp(f, 0.f, 1.f); }
 
+	double GetEffectiveExhaustVelocity();
+	double GetVelocityReachedWithFuelUsed(float fuelUsed);
+
 	void EnterSystem();
 
 	HyperspaceCloud *GetHyperspaceCloud() const { return m_hyperspaceCloud; }

@@ -760,6 +760,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	double targdist = relpos.Length();
+	double haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/6 * m_ship->GetFuel());
 
 	// sort out gear, launching
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
@@ -775,8 +776,10 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 #ifdef DEBUG_AUTOPILOT
 if (m_ship->IsType(Object::PLAYER))
-printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state = %i\n",
-	targdist, relvel.Length(), m_ship->GetThrusterState().z, reldir.Dot(m_reldir), m_state);
+printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, crit = %.3f, fuel = %.3f, exhaust = %.0f, safeVel = %.0f, state = %i\n",
+	targdist, relvel.Length(), m_ship->GetThrusterState().z, reldir.Dot(m_reldir),
+	relvel.Cross(reldir).Length()/(relvel.Length()+1e-7), m_ship->GetFuel(),
+	m_ship->GetEffectiveExhaustVelocity() , haveFuelToReachThisVelSafely, m_state);
 #endif
 
 	Body *body = m_frame->GetBodyFor();
@@ -823,6 +826,12 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 		double ispeed = calc_ivel(targdist, endvel, maxdecel);
 		m_ship->AIFaceDirection(ispeed*reldir - relvel);
 		m_state = -4; return false;
+	}
+
+	// turn thrusters off when in acceleration phase and low on fuel
+	double angleSin = relvel.Cross(reldir).Length()/(relvel.Length()+1e-7);
+	if(m_state == 1 && relvel.Length() > haveFuelToReachThisVelSafely && angleSin < 0.01) {
+		m_ship->SetThrusterState(vector3d(0.0));
 	}
 
 	// flip check - if facing forward and not accelerating at maximum

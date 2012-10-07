@@ -241,6 +241,22 @@ void Ship::UpdateMass()
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
 }
 
+// returns velocity of engine exhausts in m/s
+double Ship::GetEffectiveExhaustVelocity(void) {
+	double denominator = GetShipType().fuelTankMass * GetShipType().thrusterFuelUse * 10;
+	return fabs(denominator > 0 ? GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9);
+}
+
+// returns speed that can be reached using fuelUsed (0.0f-1.0f) of fuel according to the Tsiolkovsky equation
+double Ship::GetVelocityReachedWithFuelUsed(float fuelUsed) {
+	double ShipMassNow = GetMass(),
+			ShipMassAfter = GetMass() - 1000*GetShipType().fuelTankMass * fuelUsed;
+
+	fuelUsed = Clamp(fuelUsed, 0.0f, 1.0f);
+
+	return GetEffectiveExhaustVelocity() * log(ShipMassNow/ShipMassAfter);
+}
+
 bool Ship::OnDamage(Object *attacker, float kgDamage)
 {
 	if (!IsDead()) {
