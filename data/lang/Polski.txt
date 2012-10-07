@@ -495,7 +495,7 @@ REAR_WEAPON
 HYPERSPACE_RANGE
     Zasięg w nadprzestrzeni
 NO_MOUNTING
-    nie montowalna
+    niemontowalna
 N_LIGHT_YEARS_N_MAX
     %distance{f.1} lat świetlnych (%maxdistance{f.1} maks.)
 SHIP_INFORMATION
@@ -959,9 +959,9 @@ UNKNOWN
 UNEXPLORED_SYSTEM_NO_DATA
     System niezbadany. Brak danych.
 SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS
-    Prace badawcze na małą skale. Brak zarejestrowanych mieszkańców.
+    Prace badawcze na małą skalę. Brak zarejestrowanych mieszkańców.
 SMALL_INDUSTRIAL_OUTPOST
-    Male placówki przemysłowe.
+    Małe placówki przemysłowe.
 SOME_ESTABLISHED_MINING
     Kilka kopalni.
 YOUNG_FARMING_COLONY
@@ -975,7 +975,7 @@ OUTDOOR_AGRICULTURAL_WORLD
 HEAVY_INDUSTRY
     Przemysł ciężki.
 EXTENSIVE_MINING
-    Rozlegle działania górnicze.
+    Rozległe działania górnicze.
 THRIVING_OUTDOOR_WORLD
     Zewnętrzny świat tętniący życiem.
 INDUSTRIAL_HUB_SYSTEM
@@ -1056,6 +1056,8 @@ ECONOMY_TYPE
     Ekonomia:
 ALLEGIANCE
     Przynależność:
+FACTION
+    Frakcja:
 POPULATION
     Populacja:
 OVER_N_BILLION
@@ -1081,7 +1083,7 @@ SEMI_MAJOR_AXIS
 TIME_POINT
      "czas: "
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
-    System nie zbadany. Dane systemu niedostępne.
+    System niezbadany. Dane systemu niedostępne.
 WHEELS_ARE_UP
     Podwozie schowane
 WHEELS_ARE_DOWN

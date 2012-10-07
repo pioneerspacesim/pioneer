@@ -217,3 +217,107 @@ Translate:Add({ Polski = {
 	"Nie wrócisz z danymi z tego sensora!",
   },
 }, })
+
+---- SPANISH / ESPAÑOL ----
+
+Translate:AddFlavour('Spanish','Scout', {
+		adtext = "Se busca piloto para reconocimiento en el sistema {system}.",
+		introtext = "Hola, me llamo {name}. Hemos detectado señales de radar cerca de {systembody} en el sistema {system} ({sectorx}, {sectory}, {sectorz}). Estoy facultado para pagarle {cash} por un sensor de barrido del area.",
+		whysomuchtext = "Es nuestra cuota estandar para un servicio como este.",
+		successmsg = "Gracias por la transmisión. La cuota acordada ha sido transferida a su cuenta",
+		failuremsg = "Por su incumplimiento de contrato, debo mandar otra nave. Su falta de fiabilidad se tomará en cuenta!",
+		urgency = 0,
+		risk = 0,
+		localscout = 0,
+})
+
+Translate:AddFlavour('Spanish','Scout', {
+		adtext = "Se necesita reconocimiento en el sistema {system}.",
+		introtext = "Saludos. Soy {name}. Tengo la intención de pagar {cash} por un barrido del area cercana a {systembody} en el sistema {system} ({sectorx}, {sectory}, {sectorz}).",
+		whysomuchtext = "Si quieres puedo ofrecer menos...?",
+		successmsg = "He recibido los datos, deberías estar recibiendo el dinero a partir de ahora.",
+		failuremsg = "Podría haber mandado un caracol a hacer el trabajo. No voy a pagar por información desfasada!",
+		urgency = 0.1,
+		risk = 0,
+		localscout = 0,
+})
+
+Translate:AddFlavour('Spanish','Scout', {
+		adtext = "URGENTE. Necesarios Datos sobre el sistema {system}!",
+		introtext = "Mi nombre es {name}, Soy periodista, actualmente estoy escribiendo sobre el sistema {system} ({sectorx}, {sectory}, {sectorz}). Existen algunas pistas que debo verificar en las inmediaciones de {systembody}. Estoy dispuesto a pagar {cash} a alguien que pueda proporcionarme datos referentes al area antes de mi fecha límite.",
+		whysomuchtext = "Soy un periodista reconocido, no como esos aspirantes que escriben en folletos. Soy consciente de que la información precisa tiene un precio.",
+		successmsg = "Mil gracias, esto es justo el material que necesitaba para mi artículo. Su dinero está en camino!",
+		failuremsg = "No he podido terminar el artículo porque no tenía los datos de apoyo. No hay dinero para mi, tampoco para usted.",
+		urgency = 0.6,
+		risk = 0,
+		localscout = 0,
+})
+
+Translate:AddFlavour('Spanish','Scout', {
+		adtext = "RECON. En el sistema {system}. {cash} para un piloto con experiencia.",
+		introtext = "Hola. Soy {name}, la información es mi negocio. Estoy en disposición de pagar {cash} por un barrido de sensores de {systembody} en el sistema {system} ({sectorx}, {sectory}, {sectorz}).",
+		whysomuchtext = "Se que algo se cuece por allí, pero no se el qué. En mi profesión, eso no es bueno.",
+		successmsg = "Su servicio puntual y discreto es muy apreciado. Se le ha pagado el total.",
+		failuremsg = "Inutil! No volveré a depender de usted! No hace falta decir que no se le va a pagar por esto.",
+		urgency = 0.4,
+		risk = 0.75,
+		localscout = 0,
+})
+
+Translate:AddFlavour('Spanish','Scout', {
+		adtext = "Ayudanos a mantener el sistema {system} en orden!",
+		introtext = "Saludos. Al habla el teniente {name} de Servicios de Seguridad AdAstra. Pagamos {cash} por datos de {systembody} en el sistema {system} ({sectorx}, {sectory}, {sectorz}).",
+		whysomuchtext = "Tenemos que revisar algunos rumores. Suelen ser insustanciales, pero en ocasiones son ciertos.",
+		successmsg = "Bien hecho, tu dinero esta siendo transferido.",
+		failuremsg = "El registro de su nave ha sido anotado, vamos a rechazar todas sus solicitudes de trabajo en un futuro.",
+		urgency = 0.1,
+		risk = 0.1,
+		localscout = 0,
+})
+
+Translate:AddFlavour('Spanish','Scout', {
+		adtext = "Oficinas administrativas {system} requiere de su ayuda para mantener sus archivos actualizados!",
+		introtext = "Encantado de conocerle, soy el secretario {name}, administración {system}, y estoy dispuesto a pagar {cash} por datos actualizados de {systembody}. Sin prisa, simplemente queremos tener los archivos al día.",
+		whysomuchtext = "Es un trabajo gubernamental. No es NUESTRO dinero.",
+		successmsg = "Gracias por ayudarnos a mantener nuestros datos al día. Su pago esta siendo transferido como acordamos.",
+		failuremsg = "Se supone que debo acualizar nuestra información desfasada con otra información desfasada? Me temo que es inaceptable.",
+		urgency = 0.1,
+		risk = 0,
+		localscout = 1,
+})
+
+Translate:AddFlavour('Spanish','Scout', {
+		adtext = "La policía de {system} necesita su ayuda para el mantenimiento del orden!",
+		introtext = "Soy el capitán {name}, policía de {system}. Urgentemente necesitamos información sobre {systembody}. Le pagaré {cash} créditos si dispongo de la información en un tiempo razonable.",
+		whysomuchtext = "No podemos permitir peligros tales para el ciudadano en nuestra propia vecindad. Necesitamos saber que está ocurriendo por allí, y necesitamos saberlo pronto!",
+		successmsg = "Su informe puntual es apreciado. Su dinero ha sido transferido.",
+		failuremsg = "Necesitaba esa información hace tiempo! Me niego a pagarle.",
+		urgency = 0.6,
+		risk = 0.4,
+		localscout = 1,
+})
+
+Translate:Add({ Spanish = {
+  ["I suspect that there is some unregistered activity going on. Nothing big probably, but you'd better be prepared.."] = "Sospecho que hay algun tipo de actividad no registrada. probablemente nada grande, pero mejor esté preparado",
+  ["This is just a routine check. If there was a substantial risk, I think we would have heard of attacks in the area."] = "Es solo una comprobación de rutina. Si hubiera riesgo sustancial, pienso que habríamos escuchado de ataques en el area.",
+  ["A ship has vanished in the area. I suspect pirate activity."] = "A ship has vanished in the area. I suspect pirate activity.",
+  ["Several ships have been lost in the area, including my last scout. I really need to know what's going on."] = "Se han perdido varias naves en el area, incluyendo mi ultimo scout. Necesito saber a ciencia cierta qué está sucediendo.",
+  ["I have reports from passing ships that confirm pirate attacks.  What I need to know is how strong they are . You are certain to meet hostiles."] = "Tengo informes por parte de naves de paso que confirman ataques piratas. Lo que necesito saber es cómo son de fuertes. De por seguro enfrentarse a hostiles.",
+  ["I need the information by "] = "Necesito la información por ",
+  ["Recon"] = "Recon",
+  ["Excellent. I will await your report."] = "Excelente. Esperaré su informe.",
+  ["Why so much money?"] = "Por qué tanto dinero?",
+  ["When do you need the data?"] = "Cuándo necesita los datos?",
+  ["Will I be in any danger?"] = "Me enfrentaré a algun tipo de peligro?",
+  ["Could you repeat the original request?"] = "Podría repetir la petición original?",
+  ["Ok, agreed."] = "Ok, de acuerdo.",
+  ["Distance reached, starting long range sensor sweep. Maintain orbit for at least 60 minutes"] = "Distancia alcanzada, inicializando sensor de barrido de larga distancia. Mantenga órbita durante al menos 60 minutos",
+  ["Sensor sweep interrupted, too far from target!"] = "Sensor de barrido interrumpido, objetico demasiado lejos!",
+  ["Sensor sweep complete, data stored."] = "Sensor de barrido completo, datos almacenados.",
+  ["computer"] = "Ordenador",
+ PIRATE_TAUNTS = {
+	"Vaya, vaya, día de paga!",
+	"Tu nave nos pertenece!",
+	"No vas a volver con esa info de sensor!",
+  },
+}, })

@@ -34,6 +34,7 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 	m_map["DefaultLowThrustPower"] = "0.25";
 	m_map["VSync"] = "0";
 	m_map["UseTextureCompression"] = "0";
+	m_map["CockpitCamera"] = "1";
 
 #ifdef _WIN32
 	m_map["RedirectStdio"] = "1";

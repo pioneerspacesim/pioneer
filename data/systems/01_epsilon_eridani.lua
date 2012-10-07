@@ -2,7 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local s = CustomSystem:new('Epsilon Eridani', { 'STAR_K' })
-	:govtype('CISLIBDEM')
+	:govtype('CISSOCDEM')
 	:short_desc('First off-earth colony. Industrial world with indigenous life.')
 	:long_desc([[Epsilon Eridani was the first star system beyond Sol to be colonised by humanity. The New Hope colony on the life-bearing planet of the same name was founded in 2279. Its 1520 initial inhabitants completed their pre-hyperspace voyage of 10.7 lightyears from Sol in just under 25 years.
 Mass emigration from Earth in the 27th century drove a population explosion and today Epsilon Eridani counts itself among the most populous of inhabited systems.
