@@ -6,7 +6,7 @@
 
 namespace UI {
 
-static const float MIN_SLIDER_INNER_SIZE = 16.0f;
+static const float MIN_SLIDER_INNER_SIZE = 32.0f; // XXX skin
 
 Point Slider::PreferredSize()
 {
