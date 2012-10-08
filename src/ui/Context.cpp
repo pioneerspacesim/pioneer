@@ -34,7 +34,7 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 	m_needsLayout(false),
 	m_float(new FloatContainer(this)),
 	m_eventDispatcher(this),
-	m_skin("textures/widgets.png", renderer),
+	m_skin(FileSystem::JoinPath(FileSystem::GetDataDir(), "ui/Skin.ini"), renderer),
 	m_lua(lua)
 {
 	lua_State *l = m_lua->GetLuaState();

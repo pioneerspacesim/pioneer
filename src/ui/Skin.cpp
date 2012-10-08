@@ -28,9 +28,10 @@ const Skin::RectElement Skin::s_checkboxCheckedHover(120, 152, 25, 25);
 const Skin::RectElement Skin::s_checkboxCheckedActive(120, 212, 25, 25);
 
 Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
+	m_config(filename),
 	m_renderer(renderer)
 {
-	m_texture.Reset(Graphics::TextureBuilder::UI(filename).GetOrCreateTexture(m_renderer, "ui"));
+	m_texture.Reset(Graphics::TextureBuilder::UI(m_config.String("TextureFile")).GetOrCreateTexture(m_renderer, "ui"));
 
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
@@ -97,6 +98,13 @@ void Skin::DrawBorderedRectElement(const BorderedRectElement &element, const Poi
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y-width, 0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y-width)));
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y,       0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y)));
 	m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+}
+
+Skin::Config::Config(const std::string &filename) : IniConfig(filename)
+{
+	m_map["TextureFile"] = "textures/widgets.png";
+
+	Load();
 }
 
 }

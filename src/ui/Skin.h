@@ -9,6 +9,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/Material.h"
 #include "Point.h"
+#include "IniConfig.h"
 
 namespace UI {
 
@@ -99,6 +100,13 @@ public:
 	static const RectElement s_checkboxCheckedActive;
 
 private:
+	class Config : public IniConfig {
+	public:
+		Config(const std::string &filename);
+	};
+
+	Config m_config;
+
 	Graphics::Renderer *m_renderer;
 	RefCountedPtr<Graphics::Texture> m_texture;
 	RefCountedPtr<Graphics::Material> m_material;
