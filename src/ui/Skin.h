@@ -72,32 +72,34 @@ public:
 #endif
 
 	struct RectElement {
+		RectElement() {}
 		RectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h) : pos(x,y), size(w,h) {}
-		const Point pos;
-		const Point size;
+		Point pos;
+		Point size;
 	};
 
 	struct BorderedRectElement : public RectElement {
+		BorderedRectElement() : borderWidth(0) {}
 		BorderedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int _borderWidth) : RectElement(x, y, w, h), borderWidth(_borderWidth) {}
-		const unsigned int borderWidth;
+		unsigned int borderWidth;
 	};
 
-	static const BorderedRectElement s_backgroundNormal;
-	static const BorderedRectElement s_backgroundActive;
+	static BorderedRectElement s_backgroundNormal;
+	static BorderedRectElement s_backgroundActive;
 
-	static const BorderedRectElement s_buttonDisabled;
-	static const BorderedRectElement s_buttonNormal;
-	static const BorderedRectElement s_buttonHover;
-	static const BorderedRectElement s_buttonActive;
+	static BorderedRectElement s_buttonDisabled;
+	static BorderedRectElement s_buttonNormal;
+	static BorderedRectElement s_buttonHover;
+	static BorderedRectElement s_buttonActive;
 
-	static const RectElement s_checkboxDisabled;
-	static const RectElement s_checkboxNormal;
-	static const RectElement s_checkboxHover;
-	static const RectElement s_checkboxActive;
-	static const RectElement s_checkboxCheckedDisabled;
-	static const RectElement s_checkboxCheckedNormal;
-	static const RectElement s_checkboxCheckedHover;
-	static const RectElement s_checkboxCheckedActive;
+	static RectElement s_checkboxDisabled;
+	static RectElement s_checkboxNormal;
+	static RectElement s_checkboxHover;
+	static RectElement s_checkboxActive;
+	static RectElement s_checkboxCheckedDisabled;
+	static RectElement s_checkboxCheckedNormal;
+	static RectElement s_checkboxCheckedHover;
+	static RectElement s_checkboxCheckedActive;
 
 private:
 	class Config : public IniConfig {
@@ -113,6 +115,9 @@ private:
 
 	void DrawRectElement(const RectElement &element, const Point &pos, const Point &size) const;
 	void DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size) const;
+
+	RectElement LoadRectElement(const std::string &spec);
+	BorderedRectElement LoadBorderedRectElement(const std::string &spec);
 };
 
 }

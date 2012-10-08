@@ -9,23 +9,23 @@ namespace UI {
 
 static const float SKIN_SIZE = 512.0f;
 
-const Skin::BorderedRectElement Skin::s_backgroundNormal(170, 81, 31, 31, 10);
-const Skin::BorderedRectElement Skin::s_backgroundActive(170, 206, 31, 31, 10);
+Skin::BorderedRectElement Skin::s_backgroundNormal;
+Skin::BorderedRectElement Skin::s_backgroundActive;
 
-const Skin::BorderedRectElement Skin::s_buttonDisabled(10, 12, 35, 35, 12);
-const Skin::BorderedRectElement Skin::s_buttonNormal(10, 77, 35, 35, 12);
-const Skin::BorderedRectElement Skin::s_buttonHover(10, 142, 35, 35, 12);
-const Skin::BorderedRectElement Skin::s_buttonActive(10, 207, 35, 35, 12);
+Skin::BorderedRectElement Skin::s_buttonDisabled;
+Skin::BorderedRectElement Skin::s_buttonNormal;
+Skin::BorderedRectElement Skin::s_buttonHover;
+Skin::BorderedRectElement Skin::s_buttonActive;
 
-const Skin::RectElement Skin::s_checkboxDisabled(75, 17, 25, 25);
-const Skin::RectElement Skin::s_checkboxNormal(75, 87, 25, 25);
-const Skin::RectElement Skin::s_checkboxHover(75, 152, 25, 25);
-const Skin::RectElement Skin::s_checkboxActive(75, 212, 25, 25);
+Skin::RectElement Skin::s_checkboxDisabled;
+Skin::RectElement Skin::s_checkboxNormal;
+Skin::RectElement Skin::s_checkboxHover;
+Skin::RectElement Skin::s_checkboxActive;
 
-const Skin::RectElement Skin::s_checkboxCheckedDisabled(120, 17, 25, 25);
-const Skin::RectElement Skin::s_checkboxCheckedNormal(120, 87, 25, 25);
-const Skin::RectElement Skin::s_checkboxCheckedHover(120, 152, 25, 25);
-const Skin::RectElement Skin::s_checkboxCheckedActive(120, 212, 25, 25);
+Skin::RectElement Skin::s_checkboxCheckedDisabled;
+Skin::RectElement Skin::s_checkboxCheckedNormal;
+Skin::RectElement Skin::s_checkboxCheckedHover;
+Skin::RectElement Skin::s_checkboxCheckedActive;
 
 Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 	m_config(filename),
@@ -38,6 +38,21 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 	m_material.Reset(m_renderer->CreateMaterial(desc));
 	m_material->texture0 = m_texture.Get();
 	m_material->diffuse = Color::WHITE;
+
+	s_backgroundNormal        = LoadBorderedRectElement(m_config.String("BackgroundNormal"));
+	s_backgroundActive        = LoadBorderedRectElement(m_config.String("BackgroundActive"));
+	s_buttonDisabled          = LoadBorderedRectElement(m_config.String("ButtonDisabled"));
+	s_buttonNormal            = LoadBorderedRectElement(m_config.String("ButtonNormal"));
+	s_buttonHover             = LoadBorderedRectElement(m_config.String("ButtonHover"));
+	s_buttonActive            = LoadBorderedRectElement(m_config.String("ButtonActive"));
+	s_checkboxDisabled        = LoadRectElement(m_config.String("CheckboxDisabled"));
+	s_checkboxNormal          = LoadRectElement(m_config.String("CheckboxNormal"));
+	s_checkboxHover           = LoadRectElement(m_config.String("CheckboxHover"));
+	s_checkboxActive          = LoadRectElement(m_config.String("CheckboxActive"));
+	s_checkboxCheckedDisabled = LoadRectElement(m_config.String("CheckboxCheckedDisabled"));
+	s_checkboxCheckedNormal   = LoadRectElement(m_config.String("CheckboxCheckedNormal"));
+	s_checkboxCheckedHover    = LoadRectElement(m_config.String("CheckboxCheckedHover"));
+	s_checkboxCheckedActive   = LoadRectElement(m_config.String("CheckboxCheckedActive"));
 }
 
 static inline vector2f scaled(const vector2f &v)
@@ -98,6 +113,41 @@ void Skin::DrawBorderedRectElement(const BorderedRectElement &element, const Poi
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y-width, 0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y-width)));
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y,       0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y)));
 	m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+}
+
+static void SplitSpec(const std::string &spec, std::vector<int> &output)
+{
+	static const std::string delim(",");
+
+	size_t i = 0, start = 0, end = 0;
+	while (end != std::string::npos) {
+		// get to the first non-delim char
+		start = spec.find_first_not_of(delim, end);
+
+		// read the end, no more to do
+		if (start == std::string::npos)
+			break;
+
+		// find the end - next delim or end of string
+		end = spec.find_first_of(delim, start);
+
+		// extract the fragment and remember it
+		output[i++] = atoi(spec.substr(start, (end == std::string::npos) ? std::string::npos : end - start).c_str());
+	}
+}
+
+Skin::RectElement Skin::LoadRectElement(const std::string &spec)
+{
+	std::vector<int> v(4);
+	SplitSpec(spec, v);
+	return RectElement(v[0], v[1], v[2], v[3]);
+}
+
+Skin::BorderedRectElement Skin::LoadBorderedRectElement(const std::string &spec)
+{
+	std::vector<int> v(5);
+	SplitSpec(spec, v);
+	return BorderedRectElement(v[0], v[1], v[2], v[3], v[4]);
 }
 
 Skin::Config::Config(const std::string &filename) : IniConfig(filename)
