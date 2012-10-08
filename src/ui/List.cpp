@@ -6,11 +6,6 @@
 
 namespace UI {
 
-// XXX skin
-static const float ALPHA_NORMAL = 0.0f;
-static const float ALPHA_HOVER  = 0.4f;
-static const float ALPHA_SELECT = 0.6f;
-
 List::List(Context *context) : Container(context), m_selected(-1)
 {
 	Context *c = GetContext();
@@ -39,7 +34,7 @@ List *List::AddOption(const std::string &text)
 
 	int index = m_optionBackgrounds.size();
 
-	ColorBackground *background = c->ColorBackground(Color(0,0,0, m_selected == index ? ALPHA_SELECT : ALPHA_NORMAL));
+	ColorBackground *background = c->ColorBackground(Color(0,0,0, m_selected == index ? c->GetSkin().ListAlphaSelect() : c->GetSkin().ListAlphaNormal()));
 	vbox->PackEnd(background->SetInnerWidget(c->Label(text)));
 
 	background->onMouseOver.connect(sigc::bind(sigc::mem_fun(this, &List::HandleOptionMouseOver), index));
@@ -73,13 +68,13 @@ void List::Clear()
 
 bool List::HandleOptionMouseOver(int index)
 {
-	m_optionBackgrounds[index]->SetColor(Color(0,0,0, ALPHA_HOVER));
+	m_optionBackgrounds[index]->SetColor(Color(0,0,0, GetContext()->GetSkin().ListAlphaHover()));
 	return false;
 }
 
 bool List::HandleOptionMouseOut(int index)
 {
-	m_optionBackgrounds[index]->SetColor(Color(0,0,0, m_selected == index ? ALPHA_SELECT : ALPHA_NORMAL));
+	m_optionBackgrounds[index]->SetColor(Color(0,0,0, m_selected == index ? GetContext()->GetSkin().ListAlphaSelect() : GetContext()->GetSkin().ListAlphaNormal()));
 	return false;
 }
 
@@ -87,7 +82,7 @@ bool List::HandleOptionClick(int index)
 {
 	if (m_selected != index) {
 		if (m_selected >= 0)
-			m_optionBackgrounds[m_selected]->SetColor(Color(0,0,0, ALPHA_NORMAL));
+			m_optionBackgrounds[m_selected]->SetColor(Color(0,0,0, GetContext()->GetSkin().ListAlphaNormal()));
 		m_selected = index;
 		onOptionSelected.emit(index, m_options[index]);
 	}

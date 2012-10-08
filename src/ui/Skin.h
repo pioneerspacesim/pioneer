@@ -101,6 +101,10 @@ public:
 	const RectElement &CheckboxCheckedHover()    const { return m_checkboxCheckedHover; }
 	const RectElement &CheckboxCheckedActive()   const { return m_checkboxCheckedActive; }
 
+	float ListAlphaNormal() const { return m_listAlphaNormal; }
+	float ListAlphaSelect() const { return m_listAlphaSelect; }
+	float ListAlphaHover()  const { return m_listAlphaHover; }
+
 private:
 	class Config : public IniConfig {
 	public:
@@ -137,6 +141,9 @@ private:
     RectElement m_checkboxCheckedHover;
     RectElement m_checkboxCheckedActive;
 
+	float m_listAlphaNormal;
+	float m_listAlphaSelect;
+	float m_listAlphaHover;
 };
 
 }

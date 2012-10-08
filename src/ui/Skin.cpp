@@ -35,6 +35,10 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 	m_checkboxCheckedNormal   = LoadRectElement(m_config.String("CheckboxCheckedNormal"));
 	m_checkboxCheckedHover    = LoadRectElement(m_config.String("CheckboxCheckedHover"));
 	m_checkboxCheckedActive   = LoadRectElement(m_config.String("CheckboxCheckedActive"));
+
+    m_listAlphaNormal = m_config.Float("ListAlphaNormal");
+    m_listAlphaSelect = m_config.Float("ListAlphaSelect");
+    m_listAlphaHover  = m_config.Float("ListAlphaHover");
 }
 
 static inline vector2f scaled(const vector2f &v)
@@ -134,6 +138,10 @@ Skin::BorderedRectElement Skin::LoadBorderedRectElement(const std::string &spec)
 
 Skin::Config::Config(const std::string &filename) : IniConfig(filename)
 {
+    m_map["ListAlphaNormal"] = "0.0";
+    m_map["ListAlphaHover"]  = "0.4";
+    m_map["ListAlphaSelect"] = "0.6";
+
 	Load();
 }
 
