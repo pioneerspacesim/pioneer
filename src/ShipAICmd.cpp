@@ -778,7 +778,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 if (m_ship->IsType(Object::PLAYER))
 printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, crit = %.3f, fuel = %.3f, exhaust = %.0f, safeVel = %.0f, state = %i\n",
 	targdist, relvel.Length(), m_ship->GetThrusterState().z, reldir.Dot(m_reldir),
-	relvel.Cross(reldir).Length()/(relvel.Length()+1e-7), m_ship->GetFuel(),
+	relvel.Dot(reldir)/(relvel.Length()+1e-7), m_ship->GetFuel(),
 	m_ship->GetEffectiveExhaustVelocity() , haveFuelToReachThisVelSafely, m_state);
 #endif
 
@@ -829,8 +829,8 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, crit =
 	}
 
 	// turn thrusters off when in acceleration phase and low on fuel
-	double angleSin = relvel.Cross(reldir).Length()/(relvel.Length()+1e-7);
-	if(m_state == 1 && relvel.Length() > haveFuelToReachThisVelSafely && angleSin < 0.01) {
+	double angleCos = relvel.Dot(reldir)/(relvel.Length()+1e-7);
+	if(m_state == 1 && relvel.Length() > haveFuelToReachThisVelSafely && angleCos > 0.9999) {
 		m_ship->SetThrusterState(vector3d(0.0));
 	}
 
