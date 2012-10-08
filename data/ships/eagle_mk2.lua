@@ -31,7 +31,7 @@ define_ship {
 	capacity = 22,
 	hull_mass = 9,
 	fuel_tank_mass = 6,
-	thruster_fuel_use = 0.0001,
+	thruster_fuel_use = 0.001,
 	price = 41000,
 	hyperdrive_class = 1,
 }

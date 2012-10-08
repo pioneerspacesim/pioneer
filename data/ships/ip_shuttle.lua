@@ -35,6 +35,6 @@ define_ship {
 	capacity = 12,
 	hull_mass = 11,
 	fuel_tank_mass = 1,
-	thruster_fuel_use = 0.00005,
+	thruster_fuel_use = 0.0005,
 	price = 14000,
 }
