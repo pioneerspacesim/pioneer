@@ -9,7 +9,7 @@ namespace UI {
 
 Point Background::PreferredSize()
 {
-	const Point borderSize(Skin::s_backgroundNormal.borderWidth*2);
+	const Point borderSize(GetContext()->GetSkin().BackgroundNormal().borderWidth*2);
 	if (!GetInnerWidget()) return borderSize;
 	return GetInnerWidget()->PreferredSize() + borderSize;
 }
@@ -17,7 +17,7 @@ Point Background::PreferredSize()
 void Background::Layout()
 {
 	if (!GetInnerWidget()) return;
-	SetWidgetDimensions(GetInnerWidget(), Point(Skin::s_backgroundNormal.borderWidth), GetSize()-Point(Skin::s_backgroundNormal.borderWidth*2));
+	SetWidgetDimensions(GetInnerWidget(), Point(GetContext()->GetSkin().BackgroundNormal().borderWidth), GetSize()-Point(GetContext()->GetSkin().BackgroundNormal().borderWidth*2));
 	return GetInnerWidget()->Layout();
 }
 

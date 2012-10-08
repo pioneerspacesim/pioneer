@@ -12,9 +12,9 @@ Point Slider::PreferredSize()
 {
 	// XXX use slider gutter size
 	if (m_orient == SLIDER_HORIZONTAL)
-		return Point(MIN_SLIDER_INNER_SIZE+Skin::s_buttonNormal.borderWidth);
+		return Point(MIN_SLIDER_INNER_SIZE+GetContext()->GetSkin().ButtonNormal().borderWidth);
 	else
-		return Point(MIN_SLIDER_INNER_SIZE+Skin::s_buttonNormal.borderWidth);
+		return Point(MIN_SLIDER_INNER_SIZE+GetContext()->GetSkin().ButtonNormal().borderWidth);
 }
 
 void Slider::Layout()
@@ -25,7 +25,7 @@ void Slider::Layout()
 
 void Slider::UpdateButton()
 {
-	const Uint32 buttonBorderWidth = Skin::s_buttonNormal.borderWidth;
+	const Uint32 buttonBorderWidth = GetContext()->GetSkin().ButtonNormal().borderWidth;
 	const Point activeArea(GetActiveArea());
 	if (m_orient == SLIDER_HORIZONTAL) {
 		m_buttonSize = Point(std::min(activeArea.x-buttonBorderWidth*2, MIN_SLIDER_INNER_SIZE), activeArea.y-buttonBorderWidth*2);

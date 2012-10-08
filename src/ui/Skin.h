@@ -18,56 +18,56 @@ public:
 	Skin(const std::string &filename, Graphics::Renderer *renderer);
 
 	void DrawBackgroundNormal(const Point &pos, const Point &size) const {
-		DrawBorderedRectElement(s_backgroundNormal, pos, size);
+		DrawBorderedRectElement(m_backgroundNormal, pos, size);
 	}
 	void DrawBackgroundHover(const Point &pos, const Point &size) const {
-		DrawBorderedRectElement(s_backgroundActive, pos, size);
+		DrawBorderedRectElement(m_backgroundActive, pos, size);
 	}
 	void DrawBackgroundActive(const Point &pos, const Point &size) const {
-		DrawBorderedRectElement(s_backgroundActive, pos, size);
+		DrawBorderedRectElement(m_backgroundActive, pos, size);
 	}
 
 	void DrawButtonDisabled(const Point &pos, const Point &size) const {
-		DrawBorderedRectElement(s_buttonDisabled, pos, size);
+		DrawBorderedRectElement(m_buttonDisabled, pos, size);
 	}
 	void DrawButtonNormal(const Point &pos, const Point &size) const {
-		DrawBorderedRectElement(s_buttonNormal, pos, size);
+		DrawBorderedRectElement(m_buttonNormal, pos, size);
 	}
 	void DrawButtonHover(const Point &pos, const Point &size) const {
-		DrawBorderedRectElement(s_buttonHover, pos, size);
+		DrawBorderedRectElement(m_buttonHover, pos, size);
 	}
 	void DrawButtonActive(const Point &pos, const Point &size) const {
-		DrawBorderedRectElement(s_buttonActive, pos, size);
+		DrawBorderedRectElement(m_buttonActive, pos, size);
 	}
 
 	void DrawCheckBoxDisabled(const Point &pos, const Point &size) const {
-		DrawRectElement(s_checkboxDisabled, pos, size);
+		DrawRectElement(m_checkboxDisabled, pos, size);
 	}
 	void DrawCheckBoxNormal(const Point &pos, const Point &size) const {
-		DrawRectElement(s_checkboxNormal, pos, size);
+		DrawRectElement(m_checkboxNormal, pos, size);
 	}
 	void DrawCheckBoxHover(const Point &pos, const Point &size) const {
-		DrawRectElement(s_checkboxHover, pos, size);
+		DrawRectElement(m_checkboxHover, pos, size);
 	}
 	void DrawCheckBoxActive(const Point &pos, const Point &size) const {
-		DrawRectElement(s_checkboxActive, pos, size);
+		DrawRectElement(m_checkboxActive, pos, size);
 	}
 	void DrawCheckBoxCheckedDisabled(const Point &pos, const Point &size) const {
-		DrawRectElement(s_checkboxCheckedDisabled, pos, size);
+		DrawRectElement(m_checkboxCheckedDisabled, pos, size);
 	}
 	void DrawCheckBoxCheckedNormal(const Point &pos, const Point &size) const {
-		DrawRectElement(s_checkboxCheckedNormal, pos, size);
+		DrawRectElement(m_checkboxCheckedNormal, pos, size);
 	}
 	void DrawCheckBoxCheckedHover(const Point &pos, const Point &size) const {
-		DrawRectElement(s_checkboxCheckedHover, pos, size);
+		DrawRectElement(m_checkboxCheckedHover, pos, size);
 	}
 	void DrawCheckBoxCheckedActive(const Point &pos, const Point &size) const {
-		DrawRectElement(s_checkboxCheckedActive, pos, size);
+		DrawRectElement(m_checkboxCheckedActive, pos, size);
 	}
 
 #if 0
 	void DrawHSlider(const Point &pos, const Point &size) const {
-		DrawBorderedRectElement(s_hSlider, pos, size);
+		DrawBorderedRectElement(m_hSlider, pos, size);
 	}
 #endif
 
@@ -84,22 +84,22 @@ public:
 		unsigned int borderWidth;
 	};
 
-	static BorderedRectElement s_backgroundNormal;
-	static BorderedRectElement s_backgroundActive;
+	const BorderedRectElement &BackgroundNormal() const { return m_backgroundNormal; }
+	const BorderedRectElement &BackgroundActive() const { return m_backgroundActive; }
 
-	static BorderedRectElement s_buttonDisabled;
-	static BorderedRectElement s_buttonNormal;
-	static BorderedRectElement s_buttonHover;
-	static BorderedRectElement s_buttonActive;
+	const BorderedRectElement &ButtonDisabled() const { return m_buttonDisabled; }
+	const BorderedRectElement &ButtonNormal()   const { return m_buttonNormal; }
+	const BorderedRectElement &ButtonHover()    const { return m_buttonHover; }
+	const BorderedRectElement &ButtonActive()   const { return m_buttonActive; }
 
-	static RectElement s_checkboxDisabled;
-	static RectElement s_checkboxNormal;
-	static RectElement s_checkboxHover;
-	static RectElement s_checkboxActive;
-	static RectElement s_checkboxCheckedDisabled;
-	static RectElement s_checkboxCheckedNormal;
-	static RectElement s_checkboxCheckedHover;
-	static RectElement s_checkboxCheckedActive;
+	const RectElement &CheckboxDisabled()        const { return m_checkboxDisabled; }
+	const RectElement &CheckboxNormal()          const { return m_checkboxNormal; }
+	const RectElement &CheckboxHover()           const { return m_checkboxHover; }
+	const RectElement &CheckboxActive()          const { return m_checkboxActive; }
+	const RectElement &CheckboxCheckedDisabled() const { return m_checkboxCheckedDisabled; }
+	const RectElement &CheckboxCheckedNormal()   const { return m_checkboxCheckedNormal; }
+	const RectElement &CheckboxCheckedHover()    const { return m_checkboxCheckedHover; }
+	const RectElement &CheckboxCheckedActive()   const { return m_checkboxCheckedActive; }
 
 private:
 	class Config : public IniConfig {
@@ -118,6 +118,25 @@ private:
 
 	RectElement LoadRectElement(const std::string &spec);
 	BorderedRectElement LoadBorderedRectElement(const std::string &spec);
+
+    BorderedRectElement m_backgroundNormal;
+    BorderedRectElement m_backgroundActive;
+
+    BorderedRectElement m_buttonDisabled;
+    BorderedRectElement m_buttonNormal;
+    BorderedRectElement m_buttonHover;
+    BorderedRectElement m_buttonActive;
+
+    RectElement m_checkboxDisabled;
+    RectElement m_checkboxNormal;
+    RectElement m_checkboxHover;
+    RectElement m_checkboxActive;
+
+    RectElement m_checkboxCheckedDisabled;
+    RectElement m_checkboxCheckedNormal;
+    RectElement m_checkboxCheckedHover;
+    RectElement m_checkboxCheckedActive;
+
 };
 
 }
