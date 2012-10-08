@@ -6,7 +6,7 @@
 
 namespace UI {
 
-static const float MIN_SLIDER_INNER_SIZE = 32.0f; // XXX skin
+static const Uint32 MIN_SLIDER_INNER_SIZE = 32; // XXX skin
 
 Point Slider::PreferredSize()
 {
@@ -25,7 +25,7 @@ void Slider::Layout()
 
 void Slider::UpdateButton()
 {
-	const float buttonBorderWidth = Skin::s_buttonNormal.borderWidth;
+	const Uint32 buttonBorderWidth = Skin::s_buttonNormal.borderWidth;
 	const Point activeArea(GetActiveArea());
 	if (m_orient == SLIDER_HORIZONTAL) {
 		m_buttonSize = Point(std::min(activeArea.x-buttonBorderWidth*2, MIN_SLIDER_INNER_SIZE), activeArea.y-buttonBorderWidth*2);
@@ -67,10 +67,16 @@ void Slider::HandleMouseUp(const MouseButtonEvent &event)
 
 void Slider::HandleMouseMove(const MouseMotionEvent &event)
 {
-	if (m_buttonDown && IsMouseActive())
-		SetValue(m_orient == SLIDER_HORIZONTAL ?
-			float(Clamp(event.pos.x, 0, GetActiveArea().x)) / GetActiveArea().x :
-			float(Clamp(event.pos.y, 0, GetActiveArea().y)) / GetActiveArea().y);
+	if (m_buttonDown && IsMouseActive()) {
+		const Point::Component c = m_orient == SLIDER_HORIZONTAL ? Point::X : Point::Y;
+
+		const int effectiveLength = GetActiveArea()[c] - m_buttonSize[c];
+		const int pos = Clamp(event.pos[c] - GetActiveOffset()[c], 0, effectiveLength);
+		const float travel = float(pos) / effectiveLength;
+
+		SetValue(travel);
+	}
+
 	Widget::HandleMouseMove(event);
 }
 
