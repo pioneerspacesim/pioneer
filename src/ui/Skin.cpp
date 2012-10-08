@@ -152,8 +152,6 @@ Skin::BorderedRectElement Skin::LoadBorderedRectElement(const std::string &spec)
 
 Skin::Config::Config(const std::string &filename) : IniConfig(filename)
 {
-	m_map["TextureFile"] = "textures/widgets.png";
-
 	Load();
 }
 
