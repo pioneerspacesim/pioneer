@@ -15,11 +15,8 @@
 class Body;
 class SpaceStation;
 namespace Graphics { class Renderer; }
-class CameraSwitchWidget;
 
 class ShipCpanel: public Gui::Fixed {
-	friend class CameraSwitchWidget;
-
 public:
 	ShipCpanel(Graphics::Renderer *r);
     ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r);
@@ -61,8 +58,6 @@ private:
 	void OnMultiFuncGrabFocus(multifuncfunc_t);
 	void OnMultiFuncUngrabFocus(multifuncfunc_t);
 	void HideMapviewButtons();
-
-	void SwitchToCamera(WorldView::CamType t);
 
 	enum MapView m_currentMapView;
 	multifuncfunc_t m_userSelectedMfuncWidget;

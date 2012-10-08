@@ -96,7 +96,6 @@ DropDown *DropDown::AddOption(const std::string &text)
 	if (m_textWidth < w) m_textWidth = w;
 
 	m_popup->AddOption(text);
-	GetContext()->RequestLayout();
 
 	return this;
 }
@@ -112,8 +111,6 @@ void DropDown::Clear()
 	if (m_popupActive) TogglePopup();
 
 	m_textWidth = 0.0f;
-
-	GetContext()->RequestLayout();
 }
 
 }

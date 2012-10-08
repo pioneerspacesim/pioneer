@@ -53,7 +53,7 @@ local buttonDefs = {
 	{ "Start at Lave",     function () Game.StartGame(SystemPath.New(-2,1,90,0,2)) setupPlayerCobra() end },
 	--{ l.MM_START_NEW_GAME_DEBUG, function () Game.StartGame(SystemPath.New(-1,9,-22,0,5)) setupPlayerEagle() addDebugEnemy() end },
 	{ "Load Game",         doLoadDialog },
-	{ "Options",           function () ui:SetInnerWidget(ui.templates.Settings()) end },
+	{ "Options",           function () Engine.SettingsView() end },
 	{ "Quit",              function () Engine.Quit() end },
 }
 

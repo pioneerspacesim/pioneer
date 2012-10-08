@@ -291,6 +291,6 @@ const char *SysPolit::GetAllegianceDesc() const
 		const Faction *ptr = Faction::GetFaction( Polit::s_govDesc[govType].faction );
 		return ptr ? ptr->name.c_str() : Lang::NO_CENTRAL_GOVERNANCE;
 	}
-	return Polit::s_govDesc[govType].description;
+	return Lang::INDEPENDENT;
 }
 
