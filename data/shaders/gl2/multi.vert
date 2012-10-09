@@ -20,6 +20,6 @@ void main(void)
 #endif
 #if (NUM_LIGHTS > 0)
 	eyePos = vec3(gl_ModelViewMatrix * gl_Vertex);
-	normal = gl_NormalMatrix * gl_Normal;
+	normal = normalize(gl_NormalMatrix * gl_Normal);
 #endif
 }

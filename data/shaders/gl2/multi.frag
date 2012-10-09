@@ -31,6 +31,7 @@ void ads(in int lightNum, in vec3 pos, in vec3 n, inout vec4 light, inout vec4 s
 #else
 	specular += material.specular * gl_LightSource[lightNum].diffuse * pow(max(dot(h, n), 0.0), material.shininess);
 #endif
+	specular.a = 0.0;
 }
 #endif
 
