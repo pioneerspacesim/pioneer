@@ -21,9 +21,6 @@ void ColorBackground::Draw()
 {
 	const Point &size = GetSize();
 
-	// XXX I'd prefer a "clear region" method on the renderer, but I need to
-	// look up what's possible at the GL/D3D level to support it
-
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
 	va.Add(vector3f(0,      0,      0));
 	va.Add(vector3f(0,      size.y, 0));
