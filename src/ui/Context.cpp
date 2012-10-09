@@ -97,12 +97,6 @@ void Context::Draw()
 	r->SetBlendMode(Graphics::BLEND_ALPHA);
 	r->SetDepthTest(false);
 
-	// XXX GL renderer enables lighting by default. if all draws use materials
-	// that's ok, but for filled regions (ie ColorBackground) its not right. a
-	// scissored version of Renderer::ClearScreen would be the most efficient,
-	// but I'm not quite ready to do it yet.
-	glDisable(GL_LIGHTING);
-
 	Single::Draw();
     m_float->Draw();
 
