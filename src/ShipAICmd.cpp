@@ -830,8 +830,19 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, crit =
 
 	// turn thrusters off when in acceleration phase and low on fuel
 	double angleCos = relvel.Dot(reldir)/(relvel.Length()+1e-7);
-	if(m_state == 1 && relvel.Length() > haveFuelToReachThisVelSafely && angleCos > 0.9999) {
+	if(m_state == 1 && relvel.Length() > haveFuelToReachThisVelSafely &&
+			// match direction precisely if close, if more than a day far, save the fuel and do not be so strict about the direction
+			(angleCos > 0.9999 || (angleCos > 0.995 && targdist/(haveFuelToReachThisVelSafely+1e-7) > 86400))
+			) {
 		m_ship->SetThrusterState(vector3d(0.0));
+	} else if(m_state == 1 && relvel.Length() > 1.1*haveFuelToReachThisVelSafely) {
+		// match direction without increasing speed .. saves fuel in deceleration phase
+		vector3d v;
+		matrix4x4d m;
+
+		m_ship->GetRotMatrix(m);
+		v = targvel + relvel.NormalizedSafe()*haveFuelToReachThisVelSafely;
+		m_ship->AIMatchVel(v);
 	}
 
 	// flip check - if facing forward and not accelerating at maximum
