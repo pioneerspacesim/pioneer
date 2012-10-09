@@ -6,15 +6,14 @@
 
 namespace UI {
 
-static const Uint32 MIN_SLIDER_INNER_SIZE = 32; // XXX skin
-
 Point Slider::PreferredSize()
 {
+	const Skin &skin = GetContext()->GetSkin();
+	const unsigned int min = skin.SliderMinInnerSize();
+	const Skin::BorderedRectElement &rect = skin.ButtonNormal();
+
 	// XXX use slider gutter size
-	if (m_orient == SLIDER_HORIZONTAL)
-		return Point(MIN_SLIDER_INNER_SIZE+GetContext()->GetSkin().ButtonNormal().borderWidth);
-	else
-		return Point(MIN_SLIDER_INNER_SIZE+GetContext()->GetSkin().ButtonNormal().borderWidth);
+	return Point(min+rect.borderWidth);
 }
 
 void Slider::Layout()
@@ -25,15 +24,18 @@ void Slider::Layout()
 
 void Slider::UpdateButton()
 {
-	const Uint32 buttonBorderWidth = GetContext()->GetSkin().ButtonNormal().borderWidth;
+	const Skin &skin = GetContext()->GetSkin();
+	const unsigned int min = skin.SliderMinInnerSize();
+	const Skin::BorderedRectElement &rect = skin.ButtonNormal();
 	const Point activeArea(GetActiveArea());
+
 	if (m_orient == SLIDER_HORIZONTAL) {
-		m_buttonSize = Point(std::min(activeArea.x-buttonBorderWidth*2, MIN_SLIDER_INNER_SIZE), activeArea.y-buttonBorderWidth*2);
-		m_buttonPos = Point((activeArea.x-buttonBorderWidth*2-m_buttonSize.x)*m_value+buttonBorderWidth, buttonBorderWidth);
+		m_buttonSize = Point(std::min(activeArea.x-rect.borderWidth*2, min), activeArea.y-rect.borderWidth*2);
+		m_buttonPos = Point((activeArea.x-rect.borderWidth*2-m_buttonSize.x)*m_value+rect.borderWidth, rect.borderWidth);
 	}
 	else {
-		m_buttonSize = Point(activeArea.x-buttonBorderWidth*2, std::min(activeArea.y-buttonBorderWidth*2, MIN_SLIDER_INNER_SIZE));
-		m_buttonPos = Point(buttonBorderWidth, (activeArea.y-buttonBorderWidth*2-m_buttonSize.y)*m_value+buttonBorderWidth);
+		m_buttonSize = Point(activeArea.x-rect.borderWidth*2, std::min(activeArea.y-rect.borderWidth*2, min));
+		m_buttonPos = Point(rect.borderWidth, (activeArea.y-rect.borderWidth*2-m_buttonSize.y)*m_value+rect.borderWidth);
 	}
 }
 

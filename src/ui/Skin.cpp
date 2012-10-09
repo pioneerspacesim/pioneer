@@ -39,6 +39,7 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 	m_checkboxCheckedActive   = LoadRectElement(m_config.String("CheckboxCheckedActive"));
 
 	m_buttonMinInnerSize      = m_config.Int("ButtonMinInnerSize");
+	m_sliderMinInnerSize      = m_config.Int("SliderMinInnerSize");
 
     m_listAlphaNormal = m_config.Float("ListAlphaNormal");
     m_listAlphaSelect = m_config.Float("ListAlphaSelect");
@@ -143,6 +144,7 @@ Skin::BorderedRectElement Skin::LoadBorderedRectElement(const std::string &spec)
 Skin::Config::Config(const std::string &filename) : IniConfig(filename)
 {
     m_map["ButtonMinInnerSize"] = 16;
+    m_map["SliderMinInnerSize"] = 32;
 
     m_map["ListAlphaNormal"] = "0.0";
     m_map["ListAlphaHover"]  = "0.4";

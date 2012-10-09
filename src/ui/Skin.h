@@ -102,6 +102,7 @@ public:
 	const RectElement &CheckboxCheckedActive()   const { return m_checkboxCheckedActive; }
 
 	unsigned int ButtonMinInnerSize() const { return m_buttonMinInnerSize; }
+	unsigned int SliderMinInnerSize() const { return m_sliderMinInnerSize; }
 
 	float ListAlphaNormal() const { return m_listAlphaNormal; }
 	float ListAlphaSelect() const { return m_listAlphaSelect; }
@@ -144,6 +145,7 @@ private:
     RectElement m_checkboxCheckedActive;
 
 	unsigned int m_buttonMinInnerSize;
+	unsigned int m_sliderMinInnerSize;
 
 	float m_listAlphaNormal;
 	float m_listAlphaSelect;
