@@ -56,7 +56,6 @@ void DropDown::Draw()
 		GetContext()->GetSkin().DrawButtonNormal(m_buttonPos, m_buttonSize);
 	}
 
-	// XXX scissor
 	GetContext()->GetFont(GetFontSize())->RenderString(m_popup->GetSelectedOption().c_str(), m_textPos.x, m_textPos.y);
 }
 
