@@ -9,7 +9,6 @@ namespace UI {
 
 MultiLineText::MultiLineText(Context *context, const std::string &text) : Widget(context), m_text(text)
 {
-    // XXX hook SetFontSize and update to remake TextLayout
 	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFontSize()), m_text));
 }
 
@@ -29,6 +28,12 @@ void MultiLineText::Layout()
 void MultiLineText::Draw()
 {
 	m_layout->Draw(GetSize());
+}
+
+Widget *MultiLineText::SetFontSize(FontSize fontSize) {
+	Widget::SetFontSize(fontSize);
+	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFontSize()), m_text));
+	return this;
 }
 
 MultiLineText *MultiLineText::SetText(const std::string &text)
