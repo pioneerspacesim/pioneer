@@ -101,6 +101,8 @@ public:
 	const RectElement &CheckboxCheckedHover()    const { return m_checkboxCheckedHover; }
 	const RectElement &CheckboxCheckedActive()   const { return m_checkboxCheckedActive; }
 
+	unsigned int ButtonMinInnerSize() const { return m_buttonMinInnerSize; }
+
 	float ListAlphaNormal() const { return m_listAlphaNormal; }
 	float ListAlphaSelect() const { return m_listAlphaSelect; }
 	float ListAlphaHover()  const { return m_listAlphaHover; }
@@ -140,6 +142,8 @@ private:
     RectElement m_checkboxCheckedNormal;
     RectElement m_checkboxCheckedHover;
     RectElement m_checkboxCheckedActive;
+
+	unsigned int m_buttonMinInnerSize;
 
 	float m_listAlphaNormal;
 	float m_listAlphaSelect;

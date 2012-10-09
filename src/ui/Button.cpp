@@ -7,13 +7,10 @@
 
 namespace UI {
 
-// XXX this should probably be the font height
-static const int MIN_BUTTON_INNER_SIZE = 16;
-
-static inline void growToMinimum(Point &v)
+static inline void growToMinimum(Point &v, const int min)
 {
-	if (v.x < MIN_BUTTON_INNER_SIZE || v.y < MIN_BUTTON_INNER_SIZE)
-		v = Point(std::max(v.x,MIN_BUTTON_INNER_SIZE),std::max(v.y,MIN_BUTTON_INNER_SIZE));
+	if (v.x < min || v.y < min)
+		v = Point(std::max(v.x,min),std::max(v.y,min));
 }
 
 Point Button::PreferredSize()
@@ -22,7 +19,7 @@ Point Button::PreferredSize()
 	Point preferredSize(Single::PreferredSize());
 
 	// grow to minimum size if necessary
-	growToMinimum(preferredSize);
+	growToMinimum(preferredSize, GetContext()->GetSkin().ButtonMinInnerSize());
 
 	// add borders
 	preferredSize += Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2);
@@ -35,7 +32,7 @@ void Button::Layout()
 	Widget *innerWidget = GetInnerWidget();
 
 	if (!innerWidget) {
-		SetActiveArea(Point(MIN_BUTTON_INNER_SIZE) + Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2));
+		SetActiveArea(Point(GetContext()->GetSkin().ButtonMinInnerSize()) + Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2));
 		return;
 	}
 
@@ -44,7 +41,7 @@ void Button::Layout()
 	innerWidget->Layout();
 
 	Point innerActiveArea(innerWidget->GetActiveArea());
-	growToMinimum(innerActiveArea);
+	growToMinimum(innerActiveArea, GetContext()->GetSkin().ButtonMinInnerSize());
 
 	SetActiveArea(innerActiveArea + Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2));
 }

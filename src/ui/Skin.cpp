@@ -23,10 +23,12 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 
 	m_backgroundNormal        = LoadBorderedRectElement(m_config.String("BackgroundNormal"));
 	m_backgroundActive        = LoadBorderedRectElement(m_config.String("BackgroundActive"));
+
 	m_buttonDisabled          = LoadBorderedRectElement(m_config.String("ButtonDisabled"));
 	m_buttonNormal            = LoadBorderedRectElement(m_config.String("ButtonNormal"));
 	m_buttonHover             = LoadBorderedRectElement(m_config.String("ButtonHover"));
 	m_buttonActive            = LoadBorderedRectElement(m_config.String("ButtonActive"));
+
 	m_checkboxDisabled        = LoadRectElement(m_config.String("CheckboxDisabled"));
 	m_checkboxNormal          = LoadRectElement(m_config.String("CheckboxNormal"));
 	m_checkboxHover           = LoadRectElement(m_config.String("CheckboxHover"));
@@ -35,6 +37,8 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 	m_checkboxCheckedNormal   = LoadRectElement(m_config.String("CheckboxCheckedNormal"));
 	m_checkboxCheckedHover    = LoadRectElement(m_config.String("CheckboxCheckedHover"));
 	m_checkboxCheckedActive   = LoadRectElement(m_config.String("CheckboxCheckedActive"));
+
+	m_buttonMinInnerSize      = m_config.Int("ButtonMinInnerSize");
 
     m_listAlphaNormal = m_config.Float("ListAlphaNormal");
     m_listAlphaSelect = m_config.Float("ListAlphaSelect");
@@ -138,6 +142,8 @@ Skin::BorderedRectElement Skin::LoadBorderedRectElement(const std::string &spec)
 
 Skin::Config::Config(const std::string &filename) : IniConfig(filename)
 {
+    m_map["ButtonMinInnerSize"] = 16;
+
     m_map["ListAlphaNormal"] = "0.0";
     m_map["ListAlphaHover"]  = "0.4";
     m_map["ListAlphaSelect"] = "0.6";
