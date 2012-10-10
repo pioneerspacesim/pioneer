@@ -2,7 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = Engine.ui
-local l = Lang.GetDictionary()
+local t = Translate:GetTranslator()
 
 local setupPlayerEagle = function ()
 	Game.player:SetShipType("eagle_lrf")
@@ -24,23 +24,12 @@ local setupPlayerCobra = function ()
 	Game.player:SetMoney(100)
 end
 
-local addDebugEnemy = function ()
-	local enemy = Space.SpawnShipNear("eagle_lrf", Game.player, 9, 9)
-	enemy:AddEquip("PULSECANNON_1MW")
-	enemy:AddEquip("ATMOSPHERIC_SHIELDING")
-	enemy:AddEquip("AUTOPILOT")
-	enemy:AddEquip("SCANNER")
-	enemy:AddEquip("HYDROGEN", 2)
-	enemy:AIKill(Game.player)
-	Game.player:SetCombatTarget(enemy)
-end
-
 local doLoadDialog = function ()
 	ui:SetInnerWidget(
 		ui.templates.FileDialog({
-			title       = "Select game to load...",
+			title       = t("Select game to load..."),
 			path        = "savefiles",
-			selectLabel = "Load game",
+			selectLabel = t("Load game"),
 			onSelect    = function (filename) Game.LoadGame(filename) end,
 			onCancel    = function () ui:SetInnerWidget(ui.templates.MainMenu()) end
 		})
@@ -48,13 +37,12 @@ local doLoadDialog = function ()
 end
 
 local buttonDefs = {
-	{ "Start at Earth",    function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerEagle() end },
-	{ "Start at New Hope", function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerEagle() end },
-	{ "Start at Lave",     function () Game.StartGame(SystemPath.New(-2,1,90,0,2)) setupPlayerCobra() end },
-	--{ l.MM_START_NEW_GAME_DEBUG, function () Game.StartGame(SystemPath.New(-1,9,-22,0,5)) setupPlayerEagle() addDebugEnemy() end },
-	{ "Load Game",         doLoadDialog },
-	{ "Options",           function () Engine.SettingsView() end },
-	{ "Quit",              function () Engine.Quit() end },
+	{ t("Start at Earth"),    function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerEagle() end },
+	{ t("Start at New Hope"), function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerEagle() end },
+	{ t("Start at Lave"),     function () Game.StartGame(SystemPath.New(-2,1,90,0,2)) setupPlayerCobra() end },
+	{ t("Load game"),         doLoadDialog },
+	{ t("Options"),           function () Engine.SettingsView() end },
+	{ t("Quit"),              function () Engine.Quit() end },
 }
 
 

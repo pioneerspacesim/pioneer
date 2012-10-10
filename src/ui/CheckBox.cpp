@@ -9,7 +9,7 @@ namespace UI {
 
 Point CheckBox::PreferredSize()
 {
-	return Skin::s_checkboxNormal.size;
+	return GetContext()->GetSkin().CheckboxNormal().size;
 }
 
 void CheckBox::Layout()

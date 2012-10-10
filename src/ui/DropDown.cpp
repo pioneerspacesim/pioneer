@@ -19,11 +19,11 @@ void DropDown::CalcSizePos()
 {
 	const float textHeight = GetContext()->GetFont(GetFontSize())->GetHeight() + GetContext()->GetFont(GetFontSize())->GetDescender();
 
-	m_textPos = Point(Skin::s_backgroundNormal.borderWidth);
+	m_textPos = Point(GetContext()->GetSkin().BackgroundNormal().borderWidth);
 	m_textSize = Point(m_textWidth,textHeight);
 
 	m_backgroundPos = Point();
-	m_backgroundSize = m_textSize + Point(Skin::s_backgroundNormal.borderWidth*2);
+	m_backgroundSize = m_textSize + Point(GetContext()->GetSkin().BackgroundNormal().borderWidth*2);
 
 	m_buttonPos = Point(m_backgroundSize.x,0);
 	m_buttonSize = Point(m_backgroundSize.y);
@@ -56,7 +56,6 @@ void DropDown::Draw()
 		GetContext()->GetSkin().DrawButtonNormal(m_buttonPos, m_buttonSize);
 	}
 
-	// XXX scissor
 	GetContext()->GetFont(GetFontSize())->RenderString(m_popup->GetSelectedOption().c_str(), m_textPos.x, m_textPos.y);
 }
 

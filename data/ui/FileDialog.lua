@@ -2,13 +2,14 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local ui = Engine.ui
+local t = Translate:GetTranslator()
 
 ui.templates.FileDialog = function (args)
-	local title       = args.title       or "Select file..."
+	local title       = args.title       or t("Select file...")
 	local root        = args.root        or "USER"
 	local path        = args.path        or ""
-	local selectLabel = args.selectLabel or "Select"
-	local cancelLabel = args.cancelLabel or "Cancel"
+	local selectLabel = args.selectLabel or t("Select")
+	local cancelLabel = args.cancelLabel or t("Cancel")
 	local onSelect    = args.onSelect    or function (name) end
 	local onCancel    = args.onCancel    or function () end
 
