@@ -20,3 +20,23 @@ Translate:Add({
 		['Select game to load...'] = 'Select game to load...',
 	}
 })
+
+Translate:Add({
+	Polski = {
+		-- Main menu
+		['Start at Earth']    = 'Rozpocznij na Ziemi',
+		['Start at New Hope'] = 'Rozpocznij na New Hope',
+		['Start at Lave']     = 'Rozpocznij na Lave',
+		['Load game']         = 'Wczytaj grę',
+		['Options']           = 'Opcje',
+		['Quit']              = 'Wyjdź',
+
+		-- Generic file dialog
+		['Select file...'] = 'Wybierz plik...',
+		['Select']         = 'Wybierz',
+		['Cancel']         = 'Cofnij',
+
+		-- Load dialog
+		['Select game to load...'] = 'Wybierz zapis do wczytania...',
+	}
+})
