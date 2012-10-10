@@ -139,7 +139,7 @@ void Ship::AIJourney(SystemBodyPath &dest)
 void Ship::AIFlyTo(Body *target)
 {
 	AIClearInstructions();
-	m_curAICmd = new AICmdFlyTo(this, target);
+	m_curAICmd = new AICmdFlyTo(this, target, AICommand::CMD_MODE_ECONOMY);
 }
 
 void Ship::AIDock(SpaceStation *target)

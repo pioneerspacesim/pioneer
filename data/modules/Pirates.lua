@@ -36,6 +36,7 @@ local onEnterSystem = function (player)
 		local ship = Space.SpawnShip(shipid, 8, 12)
 		ship:AddEquip(default_drive)
 		ship:AddEquip(laser)
+		ship:AddEquip('WATER',40)
 		ship:AIKill(Game.player)
 	end
 end

@@ -252,9 +252,20 @@ double Ship::GetVelocityReachedWithFuelUsed(float fuelUsed) {
 	double ShipMassNow = GetMass(),
 			ShipMassAfter = GetMass() - 1000*GetShipType().fuelTankMass * fuelUsed;
 
-	fuelUsed = Clamp(fuelUsed, 0.0f, 1.0f);
+	if(ShipMassAfter <= 0 || ShipMassNow <= 0) // shouldn't happen
+		return 0;
 
 	return GetEffectiveExhaustVelocity() * log(ShipMassNow/ShipMassAfter);
+}
+
+void Ship::Refuel() {
+	float currentFuel = this->GetFuel();
+	if (is_equal_exact(currentFuel, 1.0f)) return;
+	if(this->m_equipment.Count(Equip::SLOT_CARGO, Equip::WATER) <= 0) return;
+
+	this->m_equipment.Remove(Equip::WATER, 1);
+	this->SetFuel(currentFuel + 1.0f/this->GetShipType().fuelTankMass);
+	this->UpdateStats();
 }
 
 bool Ship::OnDamage(Object *attacker, float kgDamage)

@@ -12,6 +12,7 @@
 #include "SpaceStation.h"
 #include "Space.h"
 
+#define DEBUG_AUTOPILOT
 
 static const double VICINITY_MIN = 5000.0;
 static const double VICINITY_MUL = 4.0;
@@ -34,6 +35,7 @@ void AICommand::Save(Serializer::Writer &wr)
 {
 	Space *space = Pi::game->GetSpace();
 	wr.Int32(m_cmdName);
+	wr.Int32(m_fuelEconomy);
 	wr.Int32(space->GetIndexForBody(m_ship));
 	if (m_child) m_child->Save(wr);
 	else wr.Int32(CMD_NONE);
@@ -42,6 +44,7 @@ void AICommand::Save(Serializer::Writer &wr)
 AICommand::AICommand(Serializer::Reader &rd, CmdName name)
 {
 	m_cmdName = name;
+	m_fuelEconomy = (FlightEconomy) rd.Int32();
 	m_shipIndex = rd.Int32();
 	m_child = Load(rd);
 }
@@ -226,6 +229,7 @@ bool AICmdKamikaze::TimeStepUpdate()
 bool AICmdKill::TimeStepUpdate()
 {
 	if (!m_target || m_target->IsDead()) return true;
+	if (!ProcessChild()) return false;
 
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
 	else { LaunchShip(m_ship); return false; }
@@ -240,6 +244,12 @@ bool AICmdKill::TimeStepUpdate()
 	vector3d targaccel = (m_target->GetVelocity() - m_lastVel) / Pi::game->GetTimeStep();
 	m_lastVel = m_target->GetVelocity();		// may need next frame
 	vector3d leaddir = m_ship->AIGetLeadDir(m_target, targaccel, 0);
+
+	if (targpos.Length() >= 1e7) {			// if really far from target, intercept
+		printf("%s started AUTOPILOT\n", m_ship->GetLabel().c_str());
+		m_child = new AICmdFlyTo(m_ship, m_target, m_fuelEconomy);
+		ProcessChild(); return false;
+	}
 
 	// turn towards target lead direction, add inaccuracy
 	// trigger recheck when angular velocity reaches zero or after certain time
@@ -715,7 +725,7 @@ static bool CheckOvershoot(Ship *ship, const vector3d &reldir, double targdist, 
 
 
 // Fly to "vicinity" of body
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, FlightEconomy economy) : AICommand (ship, CMD_FLYTO)
 {
 	double dist = std::max(VICINITY_MIN, VICINITY_MUL*MaxEffectRad(target, ship));
 	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation()) {
@@ -734,10 +744,12 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
 
 	// check if we're already close enough
 	if (dist > m_ship->GetPositionRelTo(target).Length()) m_state = 5;
+
+	m_fuelEconomy = economy;
 }
 
 // Specified pos, endvel should be > 0
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent)
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent, FlightEconomy economy)
 	: AICommand (ship, CMD_FLYTO)
 {
 	m_targframe = targframe;
@@ -745,6 +757,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, dou
 	m_endvel = endvel;
 	m_state = -1; m_frame = 0;
 	m_tangent = tangent;
+	m_fuelEconomy = economy;
 }
 
 extern double calc_ivel(double dist, double vel, double acc);
@@ -760,7 +773,27 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	double targdist = relpos.Length();
-	double haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/6 * m_ship->GetFuel());
+	double haveFuelToReachThisVelSafely;
+
+	//m_fuelEconomy = CMD_MODE_HUNGRY;
+	switch(m_fuelEconomy) {
+	case CMD_MODE_ECONOMY:
+		// uses only fuel currently in fuel-tank to decide the safe speed
+		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/6 * m_ship->GetFuel());
+		break;
+	case CMD_MODE_HUNGRY:
+		// includes all fuel on board
+		double FuelInTotal = m_ship->m_equipment.Count(Equip::SLOT_CARGO, Equip::WATER);
+		FuelInTotal /= m_ship->GetShipType().fuelTankMass;
+		FuelInTotal += m_ship->GetFuel();
+
+		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/6 * FuelInTotal);
+
+		// if we can afford high speed, we are not low on fuel and we will use even more of it
+		if(haveFuelToReachThisVelSafely > 1000000)
+			haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/3* FuelInTotal);
+		break;
+	}
 
 	// sort out gear, launching
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
@@ -775,10 +808,11 @@ bool AICmdFlyTo::TimeStepUpdate()
 	}
 
 #ifdef DEBUG_AUTOPILOT
-if (m_ship->IsType(Object::PLAYER))
-printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, crit = %.3f, fuel = %.3f, exhaust = %.0f, safeVel = %.0f, state = %i\n",
+//if (m_ship->IsType(Object::PLAYER))
+printf("Autopilot of %s: dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, crit = %.3f, fuel = %.3f, exhaust = %.0f, safeVel = %.0f, state = %i\n",
+	m_ship->GetLabel().c_str(),
 	targdist, relvel.Length(), m_ship->GetThrusterState().z, reldir.Dot(m_reldir),
-	relvel.Cross(reldir).Length()/(relvel.Length()+1e-7), m_ship->GetFuel(),
+	relvel.Dot(reldir)/(relvel.Length()+1e-7), m_ship->GetFuel(),
 	m_ship->GetEffectiveExhaustVelocity() , haveFuelToReachThisVelSafely, m_state);
 #endif
 
@@ -829,10 +863,27 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, crit =
 	}
 
 	// turn thrusters off when in acceleration phase and low on fuel
-	double angleSin = relvel.Cross(reldir).Length()/(relvel.Length()+1e-7);
-	if(m_state == 1 && relvel.Length() > haveFuelToReachThisVelSafely && angleSin < 0.01) {
+	double angleCos = relvel.Dot(reldir)/(relvel.Length()+1e-7);
+	if(m_state == 1 && relvel.Length() > haveFuelToReachThisVelSafely &&
+			// match direction precisely if close, if more than a day far, save the fuel and do not be so strict about the direction
+			(angleCos > 0.9999 || (angleCos > 0.995 && targdist/(haveFuelToReachThisVelSafely+1e-7) > 86400))
+			) {
 		m_ship->SetThrusterState(vector3d(0.0));
+	} else if(m_state == 1 && relvel.Length() > 1.1*haveFuelToReachThisVelSafely) {
+		// match direction without increasing speed .. saves fuel in deceleration phase
+		vector3d v;
+		matrix4x4d m;
+
+		m_ship->GetRotMatrix(m);
+		v = targvel + relvel.NormalizedSafe()*haveFuelToReachThisVelSafely;
+		m_ship->AIMatchVel(v);
 	}
+
+	// refuel if low on fuel -- should work at least for AI controlled ships event without
+	// special ship equipment ,because their crew does it "manually".
+	if((   (m_ship->GetFuel() < 0.5 && m_ship->GetShipType().fuelTankMass > 1) || m_ship->GetFuel() < 0.1)
+			&& m_ship != Pi::player)
+		m_ship->Refuel();
 
 	// flip check - if facing forward and not accelerating at maximum
 	if (m_state == 1 && ang > 0.99 && !cap) m_state = 2;
@@ -876,7 +927,7 @@ bool AICmdDock::TimeStepUpdate()
 	// if we're not close to target, do a flyto first
 	double targdist = m_target->GetPositionRelTo(m_ship).Length();
 	if (targdist > m_target->GetBoundingRadius() * VICINITY_MUL * 1.5) {
-		m_child = new AICmdFlyTo(m_ship, m_target);
+		m_child = new AICmdFlyTo(m_ship, m_target, m_fuelEconomy);
 		ProcessChild(); return false;
 	}
 
@@ -902,7 +953,7 @@ bool AICmdDock::TimeStepUpdate()
 	}
 
 	if (m_state == 1) {			// fly to first docking waypoint
-		m_child = new AICmdFlyTo(m_ship, m_target->GetFrame(), m_dockpos, 0.0, false);
+		m_child = new AICmdFlyTo(m_ship, m_target->GetFrame(), m_dockpos, 0.0, false, m_fuelEconomy);
 		ProcessChild(); return false;
 	}
 
@@ -1031,7 +1082,7 @@ bool AICmdFlyAround::TimeStepUpdate()
 		if (m_targmode != 1 && m_targmode != 2) v = m_vel;
 		else if (relpos.LengthSqr() < obsdist) v = 0.0;
 		else v = MaxVel((tpos_obs-tangent).Length(), tpos_obs.Length());
-		m_child = new AICmdFlyTo(m_ship, obsframe, tangent, v, true);
+		m_child = new AICmdFlyTo(m_ship, obsframe, tangent, v, true, m_fuelEconomy);
 		ProcessChild(); return false;
 	}
 

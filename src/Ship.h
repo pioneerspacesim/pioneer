@@ -209,6 +209,7 @@ public:
 	void AIFlyTo(Body *target);
 	void AIOrbit(Body *target, double alt);
 	void AIHoldPosition();
+	void Refuel();
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 

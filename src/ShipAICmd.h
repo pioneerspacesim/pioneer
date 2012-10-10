@@ -14,9 +14,11 @@ class AICommand {
 public:
 	// This enum is solely to make the serialization work
 	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
+	// saves fuel or flies like crazy?
+	enum FlightEconomy { CMD_MODE_ECONOMY, CMD_MODE_HUNGRY };
 
 	AICommand(Ship *ship, CmdName name) {
-	   	m_ship = ship; m_cmdName = name;
+	   	m_ship = ship; m_cmdName = name; m_fuelEconomy = CMD_MODE_ECONOMY;
 		m_child = 0;
 		m_ship->AIMessage(Ship::AIERROR_NONE);
 	}
@@ -42,8 +44,11 @@ public:
 	// Signal functions
 	virtual void OnDeleted(const Body *body) { if (m_child) m_child->OnDeleted(body); }
 
+	void SetFuelEconomy(FlightEconomy economy) { m_fuelEconomy = economy; }
+
 protected:
 	CmdName m_cmdName;
+	FlightEconomy m_fuelEconomy;
 	Ship *m_ship;
 	AICommand *m_child;
 
@@ -98,9 +103,9 @@ private:
 class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFlyTo(Ship *ship, Body *target);					// fly to vicinity
-	AICmdFlyTo(Ship *ship, Body *target, double alt);		// orbit
-	AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent);
+	AICmdFlyTo(Ship *ship, Body *target, FlightEconomy economy);					// fly to vicinity
+	AICmdFlyTo(Ship *ship, Body *target, double alt, FlightEconomy economy);		// orbit
+	AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent, FlightEconomy economy);
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -214,6 +219,8 @@ public:
 		m_target = target;
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
+		m_fuelEconomy = CMD_MODE_HUNGRY; // is always hungry
+		printf("%s is a pirate, yo ho!\n", ship->GetLabel().c_str());
 	}
 
 	// don't actually need to save all this crap
