@@ -814,7 +814,6 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 	switch(m_fuelEconomy) {
 	case CMD_MODE_ECONOMY:
-		// uses only fuel currently in fuel-tank to decide the safe speed
 		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/6 * FuelInTotal);
 		break;
 	case CMD_MODE_HUNGRY:
