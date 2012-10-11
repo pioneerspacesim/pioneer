@@ -919,8 +919,7 @@ printf("Autopilot of %s: dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f,
 
 	// refuel if low on fuel -- should work at least for AI controlled ships event without
 	// special ship equipment ,because their crew does it "manually".
-	if((   (m_ship->GetFuel() < 0.5 && m_ship->GetShipType().fuelTankMass > 1) || m_ship->GetFuel() < 0.1)
-			&& m_ship != Pi::player)
+	if((   (m_ship->GetFuel() < 0.5 && m_ship->GetShipType().fuelTankMass > 1) || m_ship->GetFuel() < 0.1) )
 		m_ship->Refuel();
 
 	// flip check - if facing forward and not accelerating at maximum

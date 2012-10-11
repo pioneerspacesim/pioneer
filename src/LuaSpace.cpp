@@ -220,8 +220,7 @@ static int l_space_spawn_ship_near(lua_State *l)
 	// XXX protect against spawning inside the body
 	Frame * newframe = nearbody->GetFrame();
 	// If the frame is rotating and the parent is non-rotating and of the same name, use non-rotating.
-	if(newframe->IsRotatingFrame() && newframe->m_parent != 0 &&
-			newframe->GetLabel().compare(newframe->m_parent->GetLabel()) == 0)
+	if(newframe->IsRotatingFrame() && newframe->m_parent != 0)
 		newframe = newframe->m_parent;
 
 	thing->SetFrame(newframe);;
