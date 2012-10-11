@@ -6,6 +6,8 @@
 
 #include "ui/Context.h"
 
+#include "ShipSpinner.h"
+
 #include "Lua.h"
 
 #endif

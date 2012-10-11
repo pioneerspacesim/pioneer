@@ -11,4 +11,6 @@ namespace GameUI {
 	void LuaInit();
 }
 
+template <> class LuaAcquirer<GameUI::ShipSpinner> : public LuaAcquirerRefCounted {};
+
 #endif
