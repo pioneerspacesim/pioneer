@@ -30,8 +30,8 @@ define_ship {
 	max_cargoscoop = 0,
 	capacity = 90,
 	hull_mass = 50,
-	fuel_tank_mass = 5,
-	thruster_fuel_use = 0.004,
+	fuel_tank_mass = 15,
+	thruster_fuel_use = 0.00114,
 	price = 250000,
 	hyperdrive_class = 3,
 }

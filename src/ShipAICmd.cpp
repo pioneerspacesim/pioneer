@@ -12,7 +12,6 @@
 #include "SpaceStation.h"
 #include "Space.h"
 
-#define DEBUG_AUTOPILOT
 
 static const double VICINITY_MIN = 5000.0;
 static const double VICINITY_MUL = 4.0;
