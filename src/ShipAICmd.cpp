@@ -746,6 +746,25 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, FlightEconomy economy) : AIComm
 	if (dist > m_ship->GetPositionRelTo(target).Length()) m_state = 5;
 
 	m_fuelEconomy = economy;
+	m_targetShip = 0;
+}
+
+// Pursue ship, not body
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Ship *target, FlightEconomy economy) : AICommand (ship, CMD_FLYTO)
+{
+	double dist = std::max(VICINITY_MIN, VICINITY_MUL*MaxEffectRad(target, ship));
+	m_targframe = GetNonRotFrame(target);
+	m_posoff = dist * m_ship->GetPositionRelTo(m_targframe).Normalized();
+	m_posoff += target->GetPosition();
+
+	m_endvel = 0; m_tangent = 0;
+	m_state = -1; m_frame = 0;
+
+	// check if we're already close enough
+	if (dist > m_ship->GetPositionRelTo(target).Length()) m_state = 5;
+
+	m_fuelEconomy = economy;
+	m_targetShip = target;
 }
 
 // Specified pos, endvel should be > 0
@@ -758,6 +777,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, dou
 	m_state = -1; m_frame = 0;
 	m_tangent = tangent;
 	m_fuelEconomy = economy;
+	m_targetShip = 0;
 }
 
 extern double calc_ivel(double dist, double vel, double acc);
@@ -768,6 +788,18 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 	vector3d relvel = m_ship->GetVelocity() - targvel;
 	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
+
+	// only if pursuing a ship -- repeat actions from contructor again, since the position of the ship changed
+	if(m_targetShip != 0) {
+		m_targframe = m_targetShip->GetFrame();
+		m_posoff = m_ship->GetPositionRelTo(m_targframe);
+		m_posoff += m_targetShip->GetPosition();
+		targpos = m_targetShip->GetPositionRelTo(m_ship->GetFrame());
+		targpos.x += 1000; // avoid collisions, set target a bit away
+		targvel = m_targetShip->GetVelocityRelTo(m_ship->GetFrame()); // todo: check general frame!
+		relvel = m_ship->GetVelocity() - targvel;
+	}
+
 	bool safe = ParentSafetyAdjust(m_ship, m_targframe, m_posoff, targpos);
 	double endvel = safe ? 0.0 : m_endvel;			// don't use endvel if safety-adjusted
 	vector3d relpos = targpos - m_ship->GetPosition();
@@ -775,23 +807,18 @@ bool AICmdFlyTo::TimeStepUpdate()
 	double targdist = relpos.Length();
 	double haveFuelToReachThisVelSafely;
 
-	//m_fuelEconomy = CMD_MODE_HUNGRY;
+	// includes all fuel on board
+	double FuelInTotal = m_ship->m_equipment.Count(Equip::SLOT_CARGO, Equip::WATER);
+	FuelInTotal /= m_ship->GetShipType().fuelTankMass;
+	FuelInTotal += m_ship->GetFuel();
+
 	switch(m_fuelEconomy) {
 	case CMD_MODE_ECONOMY:
 		// uses only fuel currently in fuel-tank to decide the safe speed
-		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/6 * m_ship->GetFuel());
+		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/6 * FuelInTotal);
 		break;
 	case CMD_MODE_HUNGRY:
-		// includes all fuel on board
-		double FuelInTotal = m_ship->m_equipment.Count(Equip::SLOT_CARGO, Equip::WATER);
-		FuelInTotal /= m_ship->GetShipType().fuelTankMass;
-		FuelInTotal += m_ship->GetFuel();
-
-		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/6 * FuelInTotal);
-
-		// if we can afford high speed, we are not low on fuel and we will use even more of it
-		if(haveFuelToReachThisVelSafely > 1000000)
-			haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/3* FuelInTotal);
+		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/3 * FuelInTotal);
 		break;
 	}
 
@@ -809,6 +836,19 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 #ifdef DEBUG_AUTOPILOT
 //if (m_ship->IsType(Object::PLAYER))
+if(m_targetShip != 0)
+	printf("    %s %.0f %.0f %.0f, %.0f %.0f %.0f\n    %s %.0f %.0f %.0f, %.0f %.0f %.0f\n    %s %.0f %.0f %.0f, %.0f %.0f %.0f, %s %s, %.3f\n", m_ship->GetLabel().c_str(),
+		m_ship->GetVelocity().x, m_ship->GetVelocity().y, m_ship->GetVelocity().z,
+		m_targetShip->GetVelocity().x, m_targetShip->GetVelocity().y,m_targetShip->GetVelocity().z, m_ship->GetLabel().c_str(),
+
+		m_ship->GetPosition().x, m_ship->GetPosition().y, m_ship->GetPosition().z,
+		m_targetShip->GetPosition().x, m_targetShip->GetPosition().y, m_targetShip->GetPosition().z, m_ship->GetLabel().c_str(),
+
+		relpos.x, relpos.y, relpos.z, relvel.x, relvel.y, relvel.z,
+
+		m_ship->GetFrame()->GetLabel().c_str(), m_targetShip->GetFrame()->GetLabel().c_str(),
+		(m_ship->GetVelocity() - m_targetShip->GetVelocity()).Length() );
+
 printf("Autopilot of %s: dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, crit = %.3f, fuel = %.3f, exhaust = %.0f, safeVel = %.0f, state = %i\n",
 	m_ship->GetLabel().c_str(),
 	targdist, relvel.Length(), m_ship->GetThrusterState().z, reldir.Dot(m_reldir),
@@ -818,7 +858,7 @@ printf("Autopilot of %s: dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f,
 
 	Body *body = m_frame->GetBodyFor();
 	double erad = MaxEffectRad(body, m_ship);
-	if (!m_tangent || !(body == m_targframe->GetBodyFor()))
+	if (m_targetShip == 0 && (!m_tangent || !(body == m_targframe->GetBodyFor())))
 	{
 		// process path collisions with frame body
 		int coll = CheckCollision(m_ship, reldir, targdist, targpos, endvel, erad);

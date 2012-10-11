@@ -106,6 +106,7 @@ public:
 	AICmdFlyTo(Ship *ship, Body *target, FlightEconomy economy);					// fly to vicinity
 	AICmdFlyTo(Ship *ship, Body *target, double alt, FlightEconomy economy);		// orbit
 	AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent, FlightEconomy economy);
+	AICmdFlyTo(Ship *ship, Ship *target, FlightEconomy economy);					// pursue ship!
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -124,6 +125,7 @@ public:
 		wr.Double(m_endvel);
 		wr.Int32(m_state);
 		wr.Bool(m_tangent);
+		wr.Int32(space->GetIndexForBody(m_targetShip));
 	}
 	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
 		m_targframeIndex = rd.Int32();
@@ -131,10 +133,12 @@ public:
 		m_endvel = rd.Double();
 		m_state = rd.Int32();
 		m_tangent = rd.Bool();
+		m_targetShipIndex = rd.Int32();
 	}
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space); m_frame = 0;		// regen
 		m_targframe = space->GetFrameByIndex(m_targframeIndex);
+		m_targetShip = static_cast<Ship *>(space->GetBodyByIndex(m_targetShipIndex));
 	}
 
 private:
@@ -147,6 +151,9 @@ private:
 
 	Frame *m_frame;		// current frame of ship, used to check for changes
 	vector3d m_reldir;	// target direction relative to ship at last frame change
+
+	Ship *m_targetShip; // target ship, if the target is not a ship, set to NULL
+	int m_targetShipIndex; // serialization
 };
 
 
