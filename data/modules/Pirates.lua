@@ -15,7 +15,7 @@ local onEnterSystem = function (player)
 	-- XXX number should be some combination of population, lawlessness,
 	-- proximity to shipping lanes, etc
 	local max_pirates = 6
-	while max_pirates > 0 do
+	while max_pirates > 0 and Engine.rand:Number(1) < lawlessness do
 		max_pirates = max_pirates-1
 
 		local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
@@ -36,7 +36,7 @@ local onEnterSystem = function (player)
 		local ship = Space.SpawnShip(shipid, 8, 12)
 		ship:AddEquip(default_drive)
 		ship:AddEquip(laser)
-		ship:AddEquip('WATER',200)
+		ship:AddEquip('WATER',2000)
 		ship:AIKill(Game.player)
 	end
 end
