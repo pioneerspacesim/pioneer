@@ -870,7 +870,7 @@ printf("Autopilot of %s: dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f,
 		}
 		else {							// same thing for 2/3/4
 			if (!m_child) m_child =
-				new AICmdFlyAround(m_ship, body, erad, 0.0, m_targframe, m_posoff);
+				new AICmdFlyAround(m_ship, body, erad, 0.0, m_targframe, m_posoff, m_fuelEconomy);
 			ProcessChild(); m_state = -5; return false;
 		}
 	}
@@ -1049,28 +1049,32 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int targmod
 	}
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double relalt)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double relalt, FlightEconomy economy)
 	: AICommand (ship, CMD_FLYAROUND)
 {
+	m_fuelEconomy = economy;
 	double alt = relalt*MaxEffectRad(obstructor, ship);
 	Setup(obstructor, alt, 0.0, 3, 0, 0, vector3d(0.0));
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, FlightEconomy economy)
 	: AICommand (ship, CMD_FLYAROUND)
 {
+	m_fuelEconomy = economy;
 	Setup(obstructor, alt, vel, 0, 0, 0, vector3d(0.0));
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff, FlightEconomy economy)
 	: AICommand (ship, CMD_FLYAROUND)
 {
+	m_fuelEconomy = economy;
 	Setup(obstructor, alt, vel, 1, target, 0, posoff);
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff, FlightEconomy economy)
 	: AICommand (ship, CMD_FLYAROUND)
 {
+	m_fuelEconomy = economy;
 	Setup(obstructor, alt, vel, 2, 0, targframe, posoff);
 }
 

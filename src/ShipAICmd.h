@@ -58,9 +58,10 @@ protected:
 class AICmdDock : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOCK) {
+	AICmdDock(Ship *ship, SpaceStation *target, FlightEconomy economy) : AICommand(ship, CMD_DOCK) {
 		m_target = target;
 		m_state = 0;
+		m_fuelEconomy = economy;
 	}
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -160,10 +161,10 @@ private:
 class AICmdFlyAround : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt);
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel);
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff);
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, FlightEconomy economy);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, FlightEconomy economy);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff, FlightEconomy economy);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff, FlightEconomy economy);
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
