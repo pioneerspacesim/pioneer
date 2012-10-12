@@ -63,7 +63,6 @@ void Animation::Interpolate()
 
 	//go through channels and calculate transforms
 	for(ChannelIterator chan = m_channels.begin(); chan != m_channels.end(); ++chan) {
-		//interpolation test
 		matrix4x4f trans = chan->node->GetTransform();
 
 		if (!chan->rotationKeys.empty()) {
@@ -86,6 +85,37 @@ void Animation::Interpolate()
 				trans.SetRotationOnly(Quaternionf::Nlerp(a.rotation, b.rotation, factor).ToMatrix4x4<float>());
 			} else {
 				trans.SetRotationOnly(a.rotation.ToMatrix4x4<float>());
+			}
+
+			//scaling will not work without rotation since it would
+			//continously scale the transform (would have to add originalTransform or
+			//something to MT)
+			if (!chan->scaleKeys.empty()) {
+				//find a frame. To optimize, should begin search from previous frame (when mTime > previous mTime)
+				unsigned int frame = 0;
+				while (frame < chan->scaleKeys.size() - 1) {
+					if (mtime < chan->scaleKeys[frame+1].time)
+						break;
+					frame++;
+				}
+				const unsigned int nextFrame = (frame + 1) % chan->scaleKeys.size();
+
+				const ScaleKey &a = chan->scaleKeys[frame];
+				const ScaleKey &b = chan->scaleKeys[nextFrame];
+				double diffTime = b.time - a.time;
+				if (diffTime < 0.0)
+					diffTime += m_duration;
+				vector3f out;
+				if (diffTime > 0.0) {
+					const float factor = Clamp(float((mtime - a.time) / diffTime), 0.f, 1.f);
+					out = a.scale + (b.scale - a.scale) * factor;
+				} else {
+					out = a.scale;
+				}
+
+				trans[0] *= out.x; trans[4] *= out.x; trans[8]  *= out.x;
+				trans[1] *= out.y; trans[5] *= out.y; trans[9]  *= out.y;
+				trans[2] *= out.z; trans[6] *= out.z; trans[10] *= out.z;
 			}
 		}
 

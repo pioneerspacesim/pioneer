@@ -12,6 +12,7 @@ public:
 	AnimationChannel(MatrixTransform *t) : node(t) { }
 	std::vector<PositionKey> positionKeys;
 	std::vector<RotationKey> rotationKeys;
+	std::vector<ScaleKey> scaleKeys;
 	MatrixTransform *node;
 };
 

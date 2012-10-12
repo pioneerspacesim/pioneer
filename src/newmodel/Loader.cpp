@@ -298,23 +298,29 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 	return meshRoot;
 }
 
-//check animation channel has at least two position or two rotation keys within time range
+//check animation channel has at least two P, R or S keys within time range
 bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
 {
 	int posKeysInRange = 0;
 	int rotKeysInRange = 0;
+	int sclKeysInRange = 0;
 
-	for(unsigned int k=0; k<chan->mNumPositionKeys; k++) {
+	for (unsigned int k=0; k<chan->mNumPositionKeys; k++) {
 		const aiVectorKey &aikey = chan->mPositionKeys[k];
 		if (aikey.mTime >= start && aikey.mTime <= end) posKeysInRange++;
 	}
 
-	for(unsigned int k=0; k<chan->mNumRotationKeys; k++) {
+	for (unsigned int k=0; k<chan->mNumRotationKeys; k++) {
 		const aiQuatKey &aikey = chan->mRotationKeys[k];
 		if (aikey.mTime >= start && aikey.mTime <= end) rotKeysInRange++;
 	}
 
-	return (posKeysInRange > 1 || rotKeysInRange > 1);
+	for (unsigned int k=0; k<chan->mNumScalingKeys; k++) {
+		const aiVectorKey &aikey = chan->mScalingKeys[k];
+		if (aikey.mTime >= start && aikey.mTime <= end) sclKeysInRange++;
+	}
+
+	return (posKeysInRange > 1 || rotKeysInRange > 1 || sclKeysInRange > 1);
 }
 
 RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
@@ -446,12 +452,25 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 				}
 			}
 
+			//scale interpolation will blow up without rotation keys,
+			//so skipping them when rotkeys < 2 is correct
 			if (aichan->mNumRotationKeys < 2) continue;
+
 			for(unsigned int k=0; k<aichan->mNumRotationKeys; k++) {
 				const aiQuatKey &aikey = aichan->mRotationKeys[k];
 				const aiQuaternion &airot = aikey.mValue;
 				if (aikey.mTime >= def->start && aikey.mTime <= def->end) {
 					chan.rotationKeys.push_back(RotationKey(aikey.mTime - def->start, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
+					start = std::min(start, aikey.mTime);
+					end = std::max(end, aikey.mTime);
+				}
+			}
+
+			for(unsigned int k=0; k<aichan->mNumScalingKeys; k++) {
+				const aiVectorKey &aikey = aichan->mScalingKeys[k];
+				const aiVector3D &aipos = aikey.mValue;
+				if (aikey.mTime >= def->start && aikey.mTime <= def->end) {
+					chan.scaleKeys.push_back(ScaleKey(aikey.mTime - def->start, vector3f(aipos.x, aipos.y, aipos.z)));
 					start = std::min(start, aikey.mTime);
 					end = std::max(end, aikey.mTime);
 				}

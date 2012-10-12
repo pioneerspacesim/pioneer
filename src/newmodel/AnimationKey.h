@@ -28,6 +28,14 @@ struct RotationKey : public AnimationKey {
 	, rotation(q) { }
 };
 
+struct ScaleKey : public AnimationKey {
+	vector3f scale;
+
+	ScaleKey(double t, const vector3f &s)
+	: AnimationKey(t)
+	, scale(s) { }
+};
+
 }
 
 #endif
