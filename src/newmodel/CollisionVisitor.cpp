@@ -21,8 +21,8 @@ void CollisionVisitor::ApplyStaticGeometry(StaticGeometry &g)
 	} else {
 		//XXX should transform each corner instead?
 		const matrix4x4f &matrix = m_matrixStack.back();
-		vector3f min = vector3f(g.m_boundingBox.min) * matrix;
-		vector3f max = vector3f(g.m_boundingBox.max) * matrix;
+		vector3f min = matrix * vector3f(g.m_boundingBox.min);
+		vector3f max = matrix * vector3f(g.m_boundingBox.max);
 		m_collMesh->GetAabb().Update(vector3d(min));
 		m_collMesh->GetAabb().Update(vector3d(max));
 	}
