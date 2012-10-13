@@ -31,6 +31,8 @@ private:
 	Container *m_baseContainer;
 
 	RefCountedPtr<Widget> m_mouseActiveReceiver;
+	MouseButtonEvent::ButtonType m_mouseActiveTrigger;
+
 	RefCountedPtr<Widget> m_lastMouseOverTarget;
 	Point m_lastMousePosition;
 
