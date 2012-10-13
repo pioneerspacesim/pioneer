@@ -113,9 +113,7 @@ void Animation::Interpolate()
 					out = a.scale;
 				}
 
-				trans[0] *= out.x; trans[4] *= out.x; trans[8]  *= out.x;
-				trans[1] *= out.y; trans[5] *= out.y; trans[9]  *= out.y;
-				trans[2] *= out.z; trans[6] *= out.z; trans[10] *= out.z;
+				trans.Scale(out.x, out.y, out.z);
 			}
 		}
 

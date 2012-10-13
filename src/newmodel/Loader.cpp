@@ -298,6 +298,11 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 	return meshRoot;
 }
 
+static bool in_range(double keytime, double start, double end)
+{
+	return (keytime >= start - 0.001 && keytime - 0.001 <= end);
+}
+
 //check animation channel has at least two P, R or S keys within time range
 bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
 {
@@ -307,17 +312,17 @@ bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
 
 	for (unsigned int k=0; k<chan->mNumPositionKeys; k++) {
 		const aiVectorKey &aikey = chan->mPositionKeys[k];
-		if (aikey.mTime >= start && aikey.mTime <= end) posKeysInRange++;
+		if (in_range(aikey.mTime, start, end)) posKeysInRange++;
 	}
 
 	for (unsigned int k=0; k<chan->mNumRotationKeys; k++) {
 		const aiQuatKey &aikey = chan->mRotationKeys[k];
-		if (aikey.mTime >= start && aikey.mTime <= end) rotKeysInRange++;
+		if (in_range(aikey.mTime, start, end)) rotKeysInRange++;
 	}
 
 	for (unsigned int k=0; k<chan->mNumScalingKeys; k++) {
 		const aiVectorKey &aikey = chan->mScalingKeys[k];
-		if (aikey.mTime >= start && aikey.mTime <= end) sclKeysInRange++;
+		if (in_range(aikey.mTime, start, end)) sclKeysInRange++;
 	}
 
 	return (posKeysInRange > 1 || rotKeysInRange > 1 || sclKeysInRange > 1);
@@ -425,15 +430,28 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		//XXX format differences: for a 40-frame animation exported from Blender,
 		//.X results in duration 39 and Collada in Duration 1.25.
 		//duration is calculated after adding all keys
-		double start = 0.0;
+		double start = DBL_MAX;
 		double end = 0.0;
+		const double ticksPerSecond = aianim->mTicksPerSecond > 0.0 ? aianim->mTicksPerSecond : 24.0;
+
+		//Ranges are specified in frames (since that's nice) but Collada
+		//uses seconds. This is easiest to detect from ticksPerSecond,
+		//but assuming 24 FPS here
+		//Could make FPS an additional define or always require 24
+		double defStart = def->start;
+		double defEnd = def->end;
+		if (ticksPerSecond == 1.0) {
+			defStart /= 24.0;
+			defEnd /= 24.0;
+		}
 		Animation *animation = new Animation(
 			def->name, 0.0,
 			def->loop ? Animation::LOOP : Animation::ONCE,
-			aianim->mTicksPerSecond > 0.0 ? aianim->mTicksPerSecond : 24.0);
+			ticksPerSecond);
 		for (unsigned int j=0; j<aianim->mNumChannels; j++) {
 			const aiNodeAnim *aichan = aianim->mChannels[j];
-			if (!CheckKeysInRange(aichan, def->start, def->end))
+			//do a preliminary check that at least two keys in one channel are within range
+			if (!CheckKeysInRange(aichan, defStart, defEnd))
 				continue;
 
 			const std::string channame(aichan->mNodeName.C_Str());
@@ -445,8 +463,8 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 			for(unsigned int k=0; k<aichan->mNumPositionKeys; k++) {
 				const aiVectorKey &aikey = aichan->mPositionKeys[k];
 				const aiVector3D &aipos = aikey.mValue;
-				if (aikey.mTime >= def->start && aikey.mTime <= def->end) {
-					chan.positionKeys.push_back(PositionKey(aikey.mTime - def->start, vector3f(aipos.x, aipos.y, aipos.z)));
+				if (in_range(aikey.mTime, defStart, defEnd)) {
+					chan.positionKeys.push_back(PositionKey(aikey.mTime - defStart, vector3f(aipos.x, aipos.y, aipos.z)));
 					start = std::min(start, aikey.mTime);
 					end = std::max(end, aikey.mTime);
 				}
@@ -459,8 +477,8 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 			for(unsigned int k=0; k<aichan->mNumRotationKeys; k++) {
 				const aiQuatKey &aikey = aichan->mRotationKeys[k];
 				const aiQuaternion &airot = aikey.mValue;
-				if (aikey.mTime >= def->start && aikey.mTime <= def->end) {
-					chan.rotationKeys.push_back(RotationKey(aikey.mTime - def->start, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
+				if (in_range(aikey.mTime, defStart, defEnd)) {
+					chan.rotationKeys.push_back(RotationKey(aikey.mTime - defStart, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
 					start = std::min(start, aikey.mTime);
 					end = std::max(end, aikey.mTime);
 				}
@@ -469,8 +487,8 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 			for(unsigned int k=0; k<aichan->mNumScalingKeys; k++) {
 				const aiVectorKey &aikey = aichan->mScalingKeys[k];
 				const aiVector3D &aipos = aikey.mValue;
-				if (aikey.mTime >= def->start && aikey.mTime <= def->end) {
-					chan.scaleKeys.push_back(ScaleKey(aikey.mTime - def->start, vector3f(aipos.x, aipos.y, aipos.z)));
+				if (in_range(aikey.mTime, defStart, defEnd)) {
+					chan.scaleKeys.push_back(ScaleKey(aikey.mTime - defStart, vector3f(aipos.x, aipos.y, aipos.z)));
 					start = std::min(start, aikey.mTime);
 					end = std::max(end, aikey.mTime);
 				}
@@ -592,6 +610,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		//is this node animated? add a transform
 		//does this node have children? Add a group
 		RefCountedPtr<StaticGeometry> geom(new StaticGeometry());
+		geom->SetName(nodename + "_mesh");
 		RefCountedPtr<Graphics::StaticMesh> smesh(new Graphics::StaticMesh(Graphics::TRIANGLES));
 
 		unsigned int numDecal = 0;
