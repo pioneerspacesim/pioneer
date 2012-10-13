@@ -99,6 +99,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 
 	ShipType s;
 	s.tag = tag;
+	s.type = s_currentShipFile;
 
 	LUA_DEBUG_START(L);
 	_get_string_attrib(L, "name", s.name, "");

@@ -1237,7 +1237,7 @@ static int l_ship_attr_ship_type(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	const ShipType &st = s->GetShipType();
-	lua_pushstring(l, st.name.c_str());
+	lua_pushstring(l, st.type.c_str());
 	return 1;
 }
 
