@@ -6,7 +6,6 @@
 #include "ShipCpanel.h"
 #include "SpaceStationView.h"
 #include "Player.h"
-#include "InfoView.h"
 #include "WorldView.h"
 #include "SpaceStation.h"
 #include "ShipCpanelMultiFuncDisplays.h"
@@ -15,6 +14,7 @@
 #include "SystemInfoView.h"
 #include "GalacticView.h"
 #include "GameMenuView.h"
+#include "UIView.h"
 #include "Lang.h"
 #include "Game.h"
 
@@ -309,9 +309,9 @@ void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
 	if (Pi::GetView() == Pi::infoView) {
-		Pi::infoView->NextPage();
+		//Pi::infoView->NextPage();
 	} else {
-		Pi::infoView->UpdateInfo();
+		//Pi::infoView->UpdateInfo();
 		Pi::SetView(Pi::infoView);
 	}
 }
