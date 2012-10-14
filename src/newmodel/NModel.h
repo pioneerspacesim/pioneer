@@ -91,6 +91,10 @@ public:
 	void SetDecalTexture(Graphics::Texture *t, unsigned int index = 0);
 	void SetLabel(const std::string&);
 
+	//for modelviewer, at least
+	bool SupportsDecals();
+	bool SupportsPatterns();
+
 	Animation *FindAnimation(const std::string&); //0 if not found
 	const std::vector<Animation *> GetAnimations() const { return m_animations; }
 	int PlayAnimation(const std::string &name, Animation::Direction = Animation::FORWARD); //immediately play an animation (forward), if found, returns count of animations triggered

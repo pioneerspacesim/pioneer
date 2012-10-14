@@ -143,6 +143,29 @@ void NModel::SetLabel(const std::string &text)
 	m_root->Accept(vis);
 }
 
+bool NModel::SupportsDecals()
+{
+	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)
+		if (m_decalMaterials[i].Valid()) return true;
+
+	return false;
+}
+
+bool NModel::SupportsPatterns()
+{
+	for (MaterialContainer::const_iterator it = m_materials.begin();
+		it != m_materials.end();
+		++it)
+	{
+		//Set pattern only on a material that supports it
+		//XXX hacky using the descriptor
+		if ((*it).second->GetDescriptor().usePatterns)
+			return true;
+	}
+
+	return false;
+}
+
 Animation *NModel::FindAnimation(const std::string &name)
 {
 	for (AnimationIterator anim = m_animations.begin(); anim != m_animations.end(); ++anim) {
