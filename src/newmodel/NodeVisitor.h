@@ -4,6 +4,8 @@
  * Node visitor.
  * Start traversal with node->Accept(visitor)!
  */
+#include "libs.h"
+
 namespace Newmodel {
 
 class Billboard;
@@ -18,6 +20,7 @@ class Thruster;
 class NodeVisitor
 {
 public:
+	virtual ~NodeVisitor() { }
 	virtual void ApplyNode(Node&);
 	virtual void ApplyGroup(Group&);
 	virtual void ApplyStaticGeometry(StaticGeometry&);
