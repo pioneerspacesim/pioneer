@@ -7,7 +7,23 @@ ui.templates.ShipInfo = function (args)
 	return ui:Background():SetInnerWidget(ui:Margin(30):SetInnerWidget(
 		ui:Grid(2,1)
 			:SetColumn(0, {
-				ui:VBox(10):PackEnd({
+				ui:VBox(20):PackEnd({
+					ui:Label("Ship information"):SetFont("HEADING_LARGE"),
+					ui:Grid(2,1)
+						:SetColumn(0, {
+							ui:VBox():PackEnd({
+								ui:Label("Hyperdrive:"),
+								ui:Label("Hyperspace range:"),
+								ui:Margin(10),
+								ui:Label("Capacity:"),
+								ui:Label("Free:"),
+								ui:Label("Used:"),
+								ui:Label("All-up weight:"),
+								ui:Margin(10),
+								ui:Label("Front weapon:"),
+								ui:Label("Rear weapon:"),
+							})
+						})
 				})
 			})
 			:SetColumn(1, {
