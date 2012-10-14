@@ -364,6 +364,7 @@ const struct EnumItem ENUM_UIImageStretchMode[] = {
 };
 
 const struct EnumItem ENUM_UIFontSize[] = {
+	{ "INHERIT", UI::Widget::FONT_SIZE_INHERIT },
 	{ "XSMALL", UI::Widget::FONT_SIZE_XSMALL },
 	{ "SMALL", UI::Widget::FONT_SIZE_SMALL },
 	{ "NORMAL", UI::Widget::FONT_SIZE_NORMAL },

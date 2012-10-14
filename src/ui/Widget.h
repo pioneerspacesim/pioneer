@@ -142,6 +142,7 @@ public:
 	// general widget size (eg space size). might do nothing, depends on the
 	// widget
 	enum FontSize { // <enum scope='UI::Widget' name=UIFontSize prefix=FONT_SIZE_>
+		FONT_SIZE_INHERIT,
 		FONT_SIZE_XSMALL,
 		FONT_SIZE_SMALL,
 		FONT_SIZE_NORMAL,
@@ -151,7 +152,7 @@ public:
 	};
 
 	virtual Widget *SetFontSize(FontSize fontSize);
-	FontSize GetFontSize() const { return m_fontSize; }
+	FontSize GetFontSize() const;
 
 	// widget id. used for queries/searches
 	const std::string &GetId() const { return m_id; }

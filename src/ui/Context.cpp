@@ -12,6 +12,7 @@
 namespace UI {
 
 static const float FONT_SCALE[] = {
+	0.0f,  // INTERNAL (dummy)
 	0.7f,  // XSMALL
 	0.85f, // SMALL
 	1.0f,  // NORMAL
