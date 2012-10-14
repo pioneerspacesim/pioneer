@@ -234,7 +234,7 @@ void ModelViewer::AddLog(const std::string &line)
     m_logString = ss.str();
 }
 
-void ModelViewer::ChangeCameraPreset(SDLKey key)
+void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
 {
 	if (!m_model) return;
 
@@ -243,25 +243,34 @@ void ModelViewer::ChangeCameraPreset(SDLKey key)
 	//7 - top (+ctrl bottom)
 	//3 - right (+ctrl left)
 	//2,4,6,8 incrementally rotate (+ctrl pan)
-	//
-	//Hoever the presets below are actually different
+
+	const bool invert = mod & KMOD_CTRL;
+
 	switch (key)
 	{
-	case SDLK_KP4:
-		m_modelRot = matrix4x4f::RotateYMatrix(M_PI/2);
-		AddLog("Left view");
+	case SDLK_KP7:
+		m_modelRot = matrix4x4f::RotateXMatrix(invert ? -M_PI/2 : M_PI/2);
+		AddLog(invert ? "Bottom view" : "Top view");
 		break;
-	case SDLK_KP8:
-		m_modelRot = matrix4x4f::RotateXMatrix(M_PI/2);
-		AddLog("Top view");
+	case SDLK_KP3:
+		m_modelRot = matrix4x4f::RotateYMatrix(invert ? M_PI/2 : -M_PI/2);
+		AddLog(invert ? "Left view" : "Right view");
+		break;
+	case SDLK_KP1:
+		m_modelRot = matrix4x4f::RotateYMatrix(invert ? M_PI : 0.f);
+		AddLog(invert ? "Rear view" : "Front view");
+		break;
+	case SDLK_KP4:
+		m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(M_PI/12);
 		break;
 	case SDLK_KP6:
-		m_modelRot = matrix4x4f::RotateYMatrix(-M_PI/2);
-		AddLog("Right view");
+		m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(-M_PI/12);
 		break;
 	case SDLK_KP2:
-		m_modelRot = matrix4x4f::RotateXMatrix(-M_PI/2);
-		AddLog("Bottom view");
+		m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(-M_PI/12);
+		break;
+	case SDLK_KP8:
+		m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(M_PI/12);
 		break;
 	default:
 		break;
@@ -577,11 +586,14 @@ void ModelViewer::PollEvents()
 			case SDLK_z:
 				m_options.wireframe = !m_options.wireframe;
 				break;
-			case SDLK_KP4:
-			case SDLK_KP8:
-			case SDLK_KP6:
+			case SDLK_KP1:
 			case SDLK_KP2:
-				ChangeCameraPreset(event.key.keysym.sym);
+			case SDLK_KP3:
+			case SDLK_KP4:
+			case SDLK_KP6:
+			case SDLK_KP7:
+			case SDLK_KP8:
+				ChangeCameraPreset(event.key.keysym.sym, event.key.keysym.mod);
 				break;
 			case SDLK_r: //random colors, eastereggish
 				for(unsigned int i=0; i<3*3; i++) {

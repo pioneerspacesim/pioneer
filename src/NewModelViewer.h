@@ -28,7 +28,7 @@ private:
 	bool OnToggleGrid(UI::Widget *);
 	bool OnToggleGuns(UI::CheckBox *w);
 	void AddLog(const std::string &line);
-	void ChangeCameraPreset(SDLKey);
+	void ChangeCameraPreset(SDLKey, SDLMod);
 	void DrawBackground();
 	void DrawCollisionMesh();
 	void DrawGrid(const matrix4x4f &trans, float radius);
