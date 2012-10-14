@@ -94,12 +94,16 @@ private:
 	int m_mouseMotion[2];
 
 	//interface stuff that needs to be accessed later (unorganized)
+	UI::Box *colorSliderBox; //floater
+	UI::Box *thrustSliderBox; //floater
 	UI::DropDown *animSelector;
 	UI::DropDown *patternSelector;
 	UI::Label *nameLabel;
 	UI::Slider *animSlider;
 	UI::Slider *colorSliders[9];
 	UI::Slider *thrustSliders[2*3]; //thruster sliders 2*xyz (linear & angular)
+
+	sigc::signal<void> onModelChanged;
 };
 
 #endif

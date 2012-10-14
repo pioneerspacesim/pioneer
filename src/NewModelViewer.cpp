@@ -5,6 +5,7 @@
 #include "graphics/TextureBuilder.h"
 #include "newmodel/Newmodel.h"
 #include "newmodel/DumpVisitor.h"
+#include "newmodel/FindNodeVisitor.h"
 #include "OS.h"
 #include "Pi.h"
 #include <sstream>
@@ -49,7 +50,6 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 , m_camPos(0.f)
 {
 	m_ui.Reset(new UI::Context(lm, r, width, height));
-	SetupUI();
 
 	std::fill(m_keyStates, m_keyStates + COUNTOF(m_keyStates), false);
 	std::fill(m_mouseButton, m_mouseButton + COUNTOF(m_mouseButton), false);
@@ -72,6 +72,13 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 			AddLog("Could not load test_gun model");
 		}
 	}
+
+	//some widgets
+	animSlider = 0;
+	thrustSliderBox = 0;
+	colorSliderBox = 0;
+
+	onModelChanged.connect(sigc::mem_fun(*this, &ModelViewer::SetupUI));
 }
 
 ModelViewer::~ModelViewer()
@@ -597,7 +604,8 @@ void ModelViewer::PollEvents()
 				break;
 			case SDLK_r: //random colors, eastereggish
 				for(unsigned int i=0; i<3*3; i++) {
-					colorSliders[i]->SetValue(m_rng.Double());
+					if (colorSliders[i])
+						colorSliders[i]->SetValue(m_rng.Double());
 				}
 				break;
 			default:
@@ -626,6 +634,8 @@ void ModelViewer::ResetCamera()
 
 void ModelViewer::ResetThrusters()
 {
+	if (thrustSliders[0] == 0) return;
+
 	for (unsigned int i=0; i<6; i++) {
 		thrustSliders[i]->SetValue(0.5f);
 	}
@@ -650,10 +660,9 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 	}
 
 	try {
+		m_modelName = filename;
 		Newmodel::Loader loader(m_renderer);
 		m_model = loader.LoadModel(filename);
-		nameLabel->SetText(filename);
-		m_modelName = filename;
 
 		//set decal textures, max 4 supported.
 		//Identical texture at the moment
@@ -671,13 +680,10 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		AddLog(stringf("Could not load model %0: %1", filename, err.what()));
 	}
 
-	UpdatePatternList();
-	UpdateAnimList();
-
-	//don't lose color settings when reloading
-	OnModelColorsChanged(0);
 	if (resetCamera)
 		ResetCamera();
+
+	onModelChanged.emit();
 }
 
 //add a horizontal button/label pair to a box
@@ -695,24 +701,101 @@ static void add_pair(RefCountedPtr<UI::Context> c, UI::Box *box, UI::Widget *wid
 
 void ModelViewer::SetupUI()
 {
+	for (unsigned int i=0; i<9; i++)
+		colorSliders[i] = 0;
+	for (unsigned int i=0; i<6; i++)
+		thrustSliders[i] = 0;
+
+	//remove old floaters
+	if (animSlider) {
+		m_ui->RemoveFloatingWidget(animSlider);
+		animSlider = 0;
+	}
+	if (thrustSliderBox) {
+		m_ui->RemoveFloatingWidget(thrustSliderBox);
+		thrustSliderBox = 0;
+	}
+	if (colorSliderBox) {
+		m_ui->RemoveFloatingWidget(colorSliderBox);
+		colorSliderBox = 0;
+	}
+
+	UI::Context *c = m_ui.Get();
+
+	const float spacing = 5.f;
+	//UI::Button *playBtn;
+	//UI::Button *revBtn;
+	//UI::Button *stopBtn;
 	UI::Box *animBox;
-	UI::Button *playBtn;
 	UI::Button *reloadButton;
-	UI::Button *revBtn;
-	UI::Button *stopBtn;
 	UI::Button *toggleGridButton;
 	UI::CheckBox *collMeshCheck;
 	UI::CheckBox *gunsCheck;
-	UI::VBox* box = m_ui->VBox();
+	UI::VBox* box = c->VBox();
+	c->SetInnerWidget(box);
 
-	box->PackEnd(nameLabel = m_ui->Label("Pie"));
+	//model name + reload button: visible even if loading failed
+	box->PackEnd(nameLabel = m_ui->Label(m_modelName));
 	add_pair(m_ui, box, reloadButton = m_ui->Button(), "Reload model");
+	reloadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnReloadModel), reloadButton));
+
+	if (m_model == 0) {
+		c->Layout();
+		return;
+	}
+
 	add_pair(m_ui, box, toggleGridButton = m_ui->Button(), "Grid mode");
 	add_pair(m_ui, box, (collMeshCheck = m_ui->CheckBox()), "Collision mesh");
 
-	//pattern selector - visible regardless of available patterns...
-	box->PackEnd(m_ui->Label("Pattern:"));
-	box->PackEnd(patternSelector = m_ui->DropDown()->AddOption("Default"));
+	//pattern selector
+	if (m_model->SupportsPatterns()) {
+		box->PackEnd(m_ui->Label("Pattern:"));
+		box->PackEnd(patternSelector = m_ui->DropDown()->AddOption("Default"));
+
+		//// 3x3 colour sliders
+		// I don't quite understand the packing, so I set both fill & expand and it seems to work.
+		// It's a floating widget, because I can't quite position a Grid how I want (bottom of the screen)
+		// I'd prefer a hide button somewhere - maybe I can float the sliders away
+		const Uint32 all = UI::Box::BOX_FILL | UI::Box::BOX_EXPAND;
+
+		c->AddFloatingWidget(
+			colorSliderBox = c->HBox()->PackEnd( //three columns
+				c->VBox()->PackEnd(UI::WidgetSet( //three rows
+					c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[0] = c->HSlider(), all),
+					c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[1] = c->HSlider(), all),
+					c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[2] = c->HSlider(), all)
+					)), all
+			)->PackEnd(
+				c->VBox()->PackEnd(UI::WidgetSet( //three rows
+					c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[3] = c->HSlider(), all),
+					c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[4] = c->HSlider(), all),
+					c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[5] = c->HSlider(), all)
+					)), all
+			)->PackEnd(
+				c->VBox()->PackEnd(UI::WidgetSet( //three rows
+					c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[6] = c->HSlider(), all),
+					c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[7] = c->HSlider(), all),
+					c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[8] = c->HSlider(), all)
+					)), all
+			)
+		, UI::Point(m_width-520, m_height-150), UI::Point(500, 300));
+
+		//connect slider signals, set initial values (RGB)
+		const float values[] = {
+			1.f, 0.f, 0.f,
+			0.f, 1.f, 0.f,
+			0.f, 0.f, 1.f
+		};
+		for(unsigned int i=0; i<3*3; i++) {
+			colorSliders[i]->SetValue(values[i]);
+			colorSliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnModelColorsChanged));
+		}
+		//// slidems end
+
+		patternSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnPatternChanged));
+
+		UpdatePatternList();
+	}
 
 	//light dropdown
 	UI::DropDown *lightSelector;
@@ -727,106 +810,75 @@ void ModelViewer::SetupUI()
 	add_pair(m_ui, box, (gunsCheck = m_ui->CheckBox()), "Attach guns");
 
 	//Animation controls
-	box->PackEnd(animBox = m_ui->VBox(5.f));
-	animBox->PackEnd(m_ui->Label("Animation:"));
-	animBox->PackEnd(animSelector = m_ui->DropDown()->AddOption("None"));
-	//add_pair(m_ui, animBox, playBtn = m_ui->Button(), "Play/Pause");
-	//add_pair(m_ui, animBox, revBtn = m_ui->Button(), "Play reverse");
-	//add_pair(m_ui, animBox, stopBtn = m_ui->Button(), "Stop");
+	if (!m_model->GetAnimations().empty()) {
+		box->PackEnd(animBox = m_ui->VBox(5.f));
+		animBox->PackEnd(m_ui->Label("Animation:"));
+		animBox->PackEnd(animSelector = m_ui->DropDown()->AddOption("None"));
+		//add_pair(m_ui, animBox, playBtn = m_ui->Button(), "Play/Pause");
+		//add_pair(m_ui, animBox, revBtn = m_ui->Button(), "Play reverse");
+		//add_pair(m_ui, animBox, stopBtn = m_ui->Button(), "Stop");
 
-	m_ui->AddFloatingWidget(animSlider = m_ui->HSlider(), UI::Point(0, m_height-250), UI::Point(200, 50));
+		m_ui->AddFloatingWidget(animSlider = m_ui->HSlider(), UI::Point(0, m_height-250), UI::Point(200, 50));
 
-	//// 3x3 colour sliders
-	// I don't quite understand the packing, so I set both fill & expand and it seems to work.
-	// It's a floating widget, because I can't quite position a Grid how I want (bottom of the screen)
-	// I'd prefer a hide button somewhere - maybe I can float the sliders away
-	const Uint32 all = UI::Box::BOX_FILL | UI::Box::BOX_EXPAND;
-	const float spacing = 5.f;
+		//playBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), playBtn, false));
+		//revBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), revBtn, true));
+		//stopBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimStop), stopBtn));
+		animSlider->onValueChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnAnimSliderChanged));
+		animSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnAnimChanged));
 
-	UI::Context *c = m_ui.Get();
-
-	c->AddFloatingWidget(
-		c->HBox()->PackEnd( //three columns
-			c->VBox()->PackEnd(UI::WidgetSet( //three rows
-				c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[0] = c->HSlider(), all),
-				c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[1] = c->HSlider(), all),
-				c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[2] = c->HSlider(), all)
-				)), all
-		)->PackEnd(
-			c->VBox()->PackEnd(UI::WidgetSet( //three rows
-				c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[3] = c->HSlider(), all),
-				c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[4] = c->HSlider(), all),
-				c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[5] = c->HSlider(), all)
-				)), all
-		)->PackEnd(
-			c->VBox()->PackEnd(UI::WidgetSet( //three rows
-				c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[6] = c->HSlider(), all),
-				c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[7] = c->HSlider(), all),
-				c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[8] = c->HSlider(), all)
-				)), all
-		)
-	, UI::Point(m_width-520, m_height-150), UI::Point(500, 300));
-
-	//connect slider signals, set initial values (RGB)
-	const float values[] = {
-		1.f, 0.f, 0.f,
-		0.f, 1.f, 0.f,
-		0.f, 0.f, 1.f
-	};
-	for(unsigned int i=0; i<3*3; i++) {
-		colorSliders[i]->SetValue(values[i]);
-		colorSliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnModelColorsChanged));
+		//update anims from model
+		UpdateAnimList();
 	}
-	//// slidems end
 
 	//// Thrust sliders
-	UI::Box *thrustSliderBox =
-	c->HBox(spacing)->PackEnd(
-		// Column 1, Linear thrust sliders
-		c->VBox()->PackEnd(
-			// Rows X,Y,Z
-			UI::WidgetSet(
-				c->Label("Linear"),
-				c->HBox()->PackEnd(c->Label("X"))->PackEnd(thrustSliders[0] = c->HSlider(), all),
-				c->HBox()->PackEnd(c->Label("Y"))->PackEnd(thrustSliders[1] = c->HSlider(), all),
-				c->HBox()->PackEnd(c->Label("Z"))->PackEnd(thrustSliders[2] = c->HSlider(), all)
-			)
-		), all
-	)->PackEnd(
-		//Column 2, Angular thrust sliders
-		c->VBox()->PackEnd(
-			// Rows X,Y,Z
-			UI::WidgetSet(
-				c->Label("Angular"),
-				c->HBox()->PackEnd(c->Label("Pitch"))->PackEnd(thrustSliders[3] = c->HSlider(), all),
-				c->HBox()->PackEnd(c->Label("Yaw"))->PackEnd(thrustSliders[4] = c->HSlider(), all),
-				c->HBox()->PackEnd(c->Label("Roll"))->PackEnd(thrustSliders[5] = c->HSlider(), all)
-			)
-		), all
-	);
-	for(unsigned int i=0; i<2*3; i++) {
-		thrustSliders[i]->SetValue(0.5f);
-		thrustSliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnThrustChanged));
+	bool supportsThrusters = false;
+	{
+		Newmodel::FindNodeVisitor fivi(Newmodel::FindNodeVisitor::MATCH_NAME_STARTSWITH, "thruster_");
+		m_model->GetRoot()->Accept(fivi);
+		supportsThrusters = !fivi.GetResults().empty();
+	}
+	if (supportsThrusters) {
+		const Uint32 all = UI::Box::BOX_FILL | UI::Box::BOX_EXPAND;
+		thrustSliderBox =
+		c->HBox(spacing)->PackEnd(
+			// Column 1, Linear thrust sliders
+			c->VBox()->PackEnd(
+				// Rows X,Y,Z
+				UI::WidgetSet(
+					c->Label("Linear"),
+					c->HBox()->PackEnd(c->Label("X"))->PackEnd(thrustSliders[0] = c->HSlider(), all),
+					c->HBox()->PackEnd(c->Label("Y"))->PackEnd(thrustSliders[1] = c->HSlider(), all),
+					c->HBox()->PackEnd(c->Label("Z"))->PackEnd(thrustSliders[2] = c->HSlider(), all)
+				)
+			), all
+		)->PackEnd(
+			//Column 2, Angular thrust sliders
+			c->VBox()->PackEnd(
+				// Rows X,Y,Z
+				UI::WidgetSet(
+					c->Label("Angular"),
+					c->HBox()->PackEnd(c->Label("Pitch"))->PackEnd(thrustSliders[3] = c->HSlider(), all),
+					c->HBox()->PackEnd(c->Label("Yaw"))->PackEnd(thrustSliders[4] = c->HSlider(), all),
+					c->HBox()->PackEnd(c->Label("Roll"))->PackEnd(thrustSliders[5] = c->HSlider(), all)
+				)
+			), all
+		);
+		for(unsigned int i=0; i<2*3; i++) {
+			thrustSliders[i]->SetValue(0.5f);
+			thrustSliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnThrustChanged));
+		}
+
+		c->AddFloatingWidget(thrustSliderBox, UI::Point(0, m_height-200), UI::Point(250, 300));
+		////thruster sliders end
 	}
 
-	c->AddFloatingWidget(thrustSliderBox, UI::Point(0, m_height-200), UI::Point(250, 300));
-	////thruster sliders end
-
-	m_ui->SetInnerWidget(box);
 	m_ui->Layout();
 
 	//event handlers
 	collMeshCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleCollMesh), collMeshCheck));
 	gunsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGuns), gunsCheck));
 	lightSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnLightPresetChanged));
-	patternSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnPatternChanged));
-	reloadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnReloadModel), reloadButton));
 	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));
-	//playBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), playBtn, false));
-	//revBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), revBtn, true));
-	//stopBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimStop), stopBtn));
-	animSlider->onValueChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnAnimSliderChanged));
-	animSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnAnimChanged));
 }
 
 void ModelViewer::UpdateAnimList()
