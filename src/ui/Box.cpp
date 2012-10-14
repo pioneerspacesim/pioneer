@@ -30,11 +30,13 @@ Point Box::PreferredSize()
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		const Point childPreferredSize = (*i).preferredSize = (*i).widget->PreferredSize();
 
-		m_preferredSize[vc] = std::min(m_preferredSize[vc]+childPreferredSize[vc], INT_MAX);
+		if (m_preferredSize[vc] != INT_MAX)
+			m_preferredSize[vc] = childPreferredSize[vc] == INT_MAX ? INT_MAX : m_preferredSize[vc]+childPreferredSize[vc];
+
 		m_preferredSize[fc] = std::max(m_preferredSize[fc], childPreferredSize[fc]);
 	}
 
-	if (m_children.size() > 1)
+	if (m_children.size() > 1 && m_preferredSize[vc] != INT_MAX)
 		m_preferredSize[vc] += m_spacing * (m_children.size()-1);
 
 	return m_preferredSize;
