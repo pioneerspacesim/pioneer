@@ -42,6 +42,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 , m_height(height)
 , m_width(width)
 , m_rng(time(0))
+, m_currentAnimation(0)
 , m_model(0)
 , m_logString("")
 , m_modelName("")
@@ -449,6 +450,30 @@ void ModelViewer::MainLoop()
 	}
 }
 
+void ModelViewer::OnAnimChanged(unsigned int, const std::string &name)
+{
+	m_currentAnimation = 0;
+	// Find the animation matching the name (could also store the anims in a map
+	// when the animationSelector is filled)
+	if (!name.empty()) {
+		const std::vector<Newmodel::Animation*> &anims = m_model->GetAnimations();
+		for (std::vector<Newmodel::Animation*>::const_iterator anim = anims.begin(); anim != anims.end(); ++anim) {
+			if ((*anim)->GetName() == name)
+				m_currentAnimation = (*anim);
+		}
+	}
+	if (m_currentAnimation)
+		animSlider->SetValue(m_currentAnimation->GetProgress());
+	else
+		animSlider->SetValue(0.0);
+}
+
+void ModelViewer::OnAnimSliderChanged(float value)
+{
+	if (m_currentAnimation)
+		m_currentAnimation->SetProgress(value);
+}
+
 void ModelViewer::OnLightPresetChanged(unsigned int index, const std::string &)
 {
 	m_options.lightPreset = std::min<unsigned int>(index, 2);
@@ -693,9 +718,11 @@ void ModelViewer::SetupUI()
 	box->PackEnd(animBox = m_ui->VBox(5.f));
 	animBox->PackEnd(m_ui->Label("Animation:"));
 	animBox->PackEnd(animSelector = m_ui->DropDown()->AddOption("None"));
-	add_pair(m_ui, animBox, playBtn = m_ui->Button(), "Play/Pause");
-	add_pair(m_ui, animBox, revBtn = m_ui->Button(), "Play reverse");
-	add_pair(m_ui, animBox, stopBtn = m_ui->Button(), "Stop");
+	//add_pair(m_ui, animBox, playBtn = m_ui->Button(), "Play/Pause");
+	//add_pair(m_ui, animBox, revBtn = m_ui->Button(), "Play reverse");
+	//add_pair(m_ui, animBox, stopBtn = m_ui->Button(), "Stop");
+
+	m_ui->AddFloatingWidget(animSlider = m_ui->HSlider(), UI::Point(0, m_height-250), UI::Point(200, 50));
 
 	//// 3x3 colour sliders
 	// I don't quite understand the packing, so I set both fill & expand and it seems to work.
@@ -705,6 +732,7 @@ void ModelViewer::SetupUI()
 	const float spacing = 5.f;
 
 	UI::Context *c = m_ui.Get();
+
 	c->AddFloatingWidget(
 		c->HBox()->PackEnd( //three columns
 			c->VBox()->PackEnd(UI::WidgetSet( //three rows
@@ -725,7 +753,7 @@ void ModelViewer::SetupUI()
 				c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[8] = c->HSlider(), all)
 				)), all
 		)
-	, UI::Point(m_width-520, m_height-100), UI::Point(500, 300));
+	, UI::Point(m_width-520, m_height-150), UI::Point(500, 300));
 
 	//connect slider signals, set initial values (RGB)
 	const float values[] = {
@@ -769,7 +797,7 @@ void ModelViewer::SetupUI()
 		thrustSliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnThrustChanged));
 	}
 
-	c->AddFloatingWidget(thrustSliderBox, UI::Point(0, m_height-120), UI::Point(250, 100));
+	c->AddFloatingWidget(thrustSliderBox, UI::Point(0, m_height-200), UI::Point(250, 300));
 	////thruster sliders end
 
 	m_ui->SetInnerWidget(box);
@@ -782,9 +810,11 @@ void ModelViewer::SetupUI()
 	patternSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnPatternChanged));
 	reloadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnReloadModel), reloadButton));
 	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));
-	playBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), playBtn, false));
-	revBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), revBtn, true));
-	stopBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimStop), stopBtn));
+	//playBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), playBtn, false));
+	//revBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), revBtn, true));
+	//stopBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimStop), stopBtn));
+	animSlider->onValueChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnAnimSliderChanged));
+	animSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnAnimChanged));
 }
 
 void ModelViewer::UpdateAnimList()
@@ -797,6 +827,7 @@ void ModelViewer::UpdateAnimList()
 		}
 	}
 	animSelector->Layout();
+	OnAnimChanged(0, animSelector->GetSelectedOption());
 }
 
 void ModelViewer::UpdateCamera()

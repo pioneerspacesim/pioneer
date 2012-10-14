@@ -35,6 +35,8 @@ private:
 	void DrawLog();
 	void DrawModel();
 	void MainLoop();
+	void OnAnimChanged(unsigned int, const std::string&);
+	void OnAnimSliderChanged(float);
 	void OnLightPresetChanged(unsigned int index, const std::string &);
 	void OnModelColorsChanged(float);
 	void OnPatternChanged(unsigned int, const std::string&);
@@ -74,6 +76,7 @@ private:
 	matrix4x4f m_modelRot;
 	ModelParams m_modelParams;
 	MTRand m_rng;
+	Newmodel::Animation *m_currentAnimation;
 	Newmodel::NModel *m_model;
 	Options m_options;
 	RefCountedPtr<Newmodel::ModelNode> m_gunModelNode;
@@ -94,6 +97,7 @@ private:
 	UI::DropDown *animSelector;
 	UI::DropDown *patternSelector;
 	UI::Label *nameLabel;
+	UI::Slider *animSlider;
 	UI::Slider *colorSliders[9];
 	UI::Slider *thrustSliders[2*3]; //thruster sliders 2*xyz (linear & angular)
 };
