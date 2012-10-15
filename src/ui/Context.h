@@ -127,8 +127,8 @@ public:
 
 	const float &GetScale() const { return m_scale; }
 
-	RefCountedPtr<Text::TextureFont> GetFont() const { return GetFont(Widget::FONT_SIZE_NORMAL); }
-	RefCountedPtr<Text::TextureFont> GetFont(Widget::FontSize fontSize) const { return m_font[fontSize]; }
+	RefCountedPtr<Text::TextureFont> GetFont() const { return GetFont(Widget::FONT_NORMAL); }
+	RefCountedPtr<Text::TextureFont> GetFont(Widget::Font font) const { return m_font[font]; }
 
 private:
 	virtual Point PreferredSize() { return Point(); }
@@ -150,7 +150,7 @@ private:
 
 	LuaRef m_templateStore;
 
-	RefCountedPtr<Text::TextureFont> m_font[FONT_SIZE_MAX];
+	RefCountedPtr<Text::TextureFont> m_font[FONT_MAX];
 
 	// Container will draw widgets through the Context to correctly accumulate
 	// positions and offsets

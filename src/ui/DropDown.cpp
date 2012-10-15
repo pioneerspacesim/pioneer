@@ -17,7 +17,7 @@ DropDown::DropDown(Context *context) : Widget(context), m_textWidth(0.0f), m_pop
 
 void DropDown::CalcSizePos()
 {
-	const float textHeight = GetContext()->GetFont(GetFontSize())->GetHeight() + GetContext()->GetFont(GetFontSize())->GetDescender();
+	const float textHeight = GetContext()->GetFont(GetFont())->GetHeight() + GetContext()->GetFont(GetFont())->GetDescender();
 
 	m_textPos = Point(GetContext()->GetSkin().BackgroundNormal().borderWidth);
 	m_textSize = Point(m_textWidth,textHeight);
@@ -56,7 +56,7 @@ void DropDown::Draw()
 		GetContext()->GetSkin().DrawButtonNormal(m_buttonPos, m_buttonSize);
 	}
 
-	GetContext()->GetFont(GetFontSize())->RenderString(m_popup->GetSelectedOption().c_str(), m_textPos.x, m_textPos.y);
+	GetContext()->GetFont(GetFont())->RenderString(m_popup->GetSelectedOption().c_str(), m_textPos.x, m_textPos.y);
 }
 
 void DropDown::HandleClick()
@@ -91,7 +91,7 @@ void DropDown::TogglePopup()
 DropDown *DropDown::AddOption(const std::string &text)
 {
 	float w, h;
-	GetContext()->GetFont(GetFontSize())->MeasureString(text.c_str(), w, h);
+	GetContext()->GetFont(GetFont())->MeasureString(text.c_str(), w, h);
 	if (m_textWidth < w) m_textWidth = w;
 
 	m_popup->AddOption(text);
