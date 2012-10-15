@@ -468,6 +468,23 @@ void LuaConstants::Register(lua_State *l)
 	 */
 	_create_constant_table_nonconsecutive(l, "EquipType", ENUM_EquipType);
 
+	/*
+	 * Constants: DualLaserOrientation
+	 *
+	 * The orientation of dual laser mountings.
+	 *
+	 * HORIZONTAL - Lasers are mounted left and right
+	 * VERTICAL   - Lasers are mounted top and bottom
+	 *
+	 * Availability:
+	 *
+	 *   alpha 27
+	 *
+	 * Status:
+	 *
+	 *   experimental
+	 */
+	_create_constant_table_nonconsecutive(l, "DualLaserOrientation", ENUM_DualLaserOrientation);
 
 	/*
 	 * Constants: ShipTypeTag

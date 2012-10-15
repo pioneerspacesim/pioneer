@@ -20,7 +20,7 @@ define_ship {
 	top_camera = v(0,6.5,0),
 	bottom_camera = v(0,-5.5,0),
 	gun_mounts = {
-		{ v(0.000, 0.000, -9.342), v(0.000, 0.000, -1.000) },
+		{ v(0.000, 0.000, -9.342), v(0.000, 0.000, -1.000), 5, 'HORIZONTAL' },
 	},
 	max_atmoshield = 0,
 	max_cargo = 50,
