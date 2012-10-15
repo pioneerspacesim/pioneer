@@ -220,7 +220,9 @@ static int l_space_spawn_ship_near(lua_State *l)
 	// XXX protect against spawning inside the body
 	Frame * newframe = nearbody->GetFrame();
 	const vector3d newPosition = (MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition();
-	// If the frame is rotating and the parent is non-rotating, use non-rotating.
+	// If the frame is rotating and the chosen position is too far, use non-rotating parent.
+	// Otherwise the ship will be given a massive initial velocity when it's bumped out of the
+	// rotating frame in the next update
 	if (newframe->IsRotatingFrame() && !newframe->IsLocalPosInFrame(newPosition)) {
 		assert(newframe->m_parent);
 		newframe = newframe->m_parent;
