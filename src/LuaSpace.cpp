@@ -219,12 +219,13 @@ static int l_space_spawn_ship_near(lua_State *l)
 
 	// XXX protect against spawning inside the body
 	Frame * newframe = nearbody->GetFrame();
+	vector3d newPosition = (MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition();
 	// If the frame is rotating and the parent is non-rotating, use non-rotating.
-	if(newframe->IsRotatingFrame() && newframe->m_parent != 0)
+	if(newframe->IsRotatingFrame() && newframe->m_parent != 0 && !newframe->IsLocalPosInFrame(newPosition))
 		newframe = newframe->m_parent;
 
 	thing->SetFrame(newframe);;
-	thing->SetPosition((MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition());
+	thing->SetPosition(newPosition);
 	thing->SetVelocity(vector3d(0,0,0));
 	Pi::game->GetSpace()->AddBody(thing);
 
