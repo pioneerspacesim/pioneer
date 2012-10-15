@@ -841,7 +841,7 @@ void Ship::FireWeapon(int num)
 
 	if (lt.flags & Equip::LASER_DUAL)
 	{
-		const ShipType::DualLaserOrientation orient = static_cast<ShipType::DualLaserOrientation>(stype.gunMount[num].orient);
+		const ShipType::DualLaserOrientation orient = stype.gunMount[num].orient;
 		const vector3d orient_norm =
 				(orient == ShipType::DUAL_LASERS_VERTICAL) ? vector3d(m[0],m[1],m[2]) : vector3d(m[4],m[5],m[6]);
 		const vector3d sep = stype.gunMount[num].sep * dir.Cross(orient_norm).NormalizedSafe();
