@@ -3,6 +3,9 @@ Alpha 28
    * New features
      * New mission type, Scout (get paid to scan particular planets) (#1348, #779)
 
+   * Script and model changes
+     * Separation and orientation is now specified for dual laser mountings (#1518)
+
 Alpha 27
 
    * New features
