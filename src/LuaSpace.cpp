@@ -221,8 +221,10 @@ static int l_space_spawn_ship_near(lua_State *l)
 	Frame * newframe = nearbody->GetFrame();
 	const vector3d newPosition = (MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition();
 	// If the frame is rotating and the parent is non-rotating, use non-rotating.
-	if(newframe->IsRotatingFrame() && newframe->m_parent != 0 && !newframe->IsLocalPosInFrame(newPosition))
+	if (newframe->IsRotatingFrame() && !newframe->IsLocalPosInFrame(newPosition)) {
+		assert(newframe->m_parent);
 		newframe = newframe->m_parent;
+	}
 
 	thing->SetFrame(newframe);;
 	thing->SetPosition(newPosition);
