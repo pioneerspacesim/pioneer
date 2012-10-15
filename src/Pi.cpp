@@ -497,6 +497,14 @@ void Pi::HandleEvents()
 
 	Pi::mouseMotion[0] = Pi::mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
+		if (event.type == SDL_QUIT) {
+			if (Pi::game)
+				Pi::EndGame();
+			Pi::Quit();
+		}
+		else if (!ui->DispatchSDLEvent(event))
+			continue;
+
 		Gui::HandleSDLEvent(&event);
 		KeyBindings::DispatchSDLEvent(&event);
 
@@ -673,11 +681,6 @@ void Pi::HandleEvents()
 				if (joysticks[event.jaxis.which].joystick == NULL)
 					break;
 				joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
-				break;
-			case SDL_QUIT:
-				if (Pi::game)
-					Pi::EndGame();
-				Pi::Quit();
 				break;
 		}
 	}
