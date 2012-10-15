@@ -4,9 +4,12 @@ ui.templates.ShipInfo = function (args)
 	local shipId = Game.player.shipType
 	local shipType = ShipType.GetShipType(shipId)
 
-	local hyperdrive = Game.player:GetEquip("ENGINE",1)
-	local frontWeapon = Game.player:GetEquip("LASER",1)
-	local rearWeapon = Game.player:GetEquip("LASER",2)
+	local hyperdrive =              table.unpack(Game.player:GetEquip("ENGINE"))
+	local frontWeapon, rearWeapon = table.unpack(Game.player:GetEquip("LASER"))
+
+	hyperdrive =  hyperdrive  or "NONE"
+	frontWeapon = frontWeapon or "NONE"
+	rearWeapon =  rearWeapon  or "NONE"
 
 	local stats = Game.player:GetStats()
 
