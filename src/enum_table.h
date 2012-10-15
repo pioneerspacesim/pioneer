@@ -24,6 +24,7 @@ extern const struct EnumItem ENUM_ShipAlertStatus[];
 extern const struct EnumItem ENUM_ShipAIError[];
 extern const struct EnumItem ENUM_ShipFuelStatus[];
 extern const struct EnumItem ENUM_ShipTypeThruster[];
+extern const struct EnumItem ENUM_DualLaserOrientation[];
 extern const struct EnumItem ENUM_ShipTypeTag[];
 extern const struct EnumItem ENUM_SpaceStationAnimation[];
 extern const struct EnumItem ENUM_EconType[];

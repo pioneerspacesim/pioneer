@@ -222,6 +222,12 @@ const struct EnumItem ENUM_ShipTypeThruster[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_DualLaserOrientation[] = {
+	{ "HORIZONTAL", ShipType::DUAL_LASERS_HORIZONTAL },
+	{ "VERTICAL", ShipType::DUAL_LASERS_VERTICAL },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_ShipTypeTag[] = {
 	{ "NONE", ShipType::TAG_NONE },
 	{ "SHIP", ShipType::TAG_SHIP },
