@@ -3,6 +3,9 @@ Alpha 28
    * New features
      * New mission type, Scout (get paid to scan particular planets) (#1348, #779)
 
+   * Fixes
+     * Fix choice of non-/rotating initial frame in Space.SpawnShipNear (#1584, #1581)
+
    * Script and model changes
      * Separation and orientation is now specified for dual laser mountings (#1518)
 
