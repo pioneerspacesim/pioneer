@@ -263,7 +263,7 @@ static int dispatch_index(lua_State *l)
 			lua_pushstring(l, "type");
 			lua_rawget(l, -2);                  // object, key, metatable, type
 
-			std::string type(lua_tostring(l, -1));
+			const std::string type(lua_tostring(l, -1));
 			lua_pop(l, 1);                      // object, key, metatable
 			SplitTablePath(l, type);            // object, key, metatable, "global" table, leaf type name
 			lua_rawget(l, -2);                  // object, key, metatable, "global" table, method table
