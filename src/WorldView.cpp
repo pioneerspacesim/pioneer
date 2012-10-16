@@ -1185,6 +1185,10 @@ void WorldView::UpdateProjectedObjects()
 	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
 		Body *b = *i;
 
+		// don't show the player label on internal camera
+		if (b->IsType(Object::PLAYER) && m_activeCamera->GetType() == WorldViewCamera::INTERNAL)
+			continue;
+
 		vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);
 		if ((pos.z < -1.0) && project_to_screen(pos, pos, frustum, guiSize)) {
 
