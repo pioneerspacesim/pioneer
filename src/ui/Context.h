@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _UI_CONTEXT_H
-#define _UI_CONTEXT_H
+#ifndef UI_CONTEXT_H
+#define UI_CONTEXT_H
 
 #include "RefCounted.h"
 #include "text/TextureFont.h"
