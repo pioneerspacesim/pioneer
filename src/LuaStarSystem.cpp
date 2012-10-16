@@ -425,7 +425,7 @@ static int l_starsystem_attr_population(lua_State *l)
 static int l_starsystem_attr_faction(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	const uint32_t idx = s->GetFactionIndex();
+	const Uint32 idx = s->GetFactionIndex();
 	if (Faction::BAD_FACTION_IDX != idx) {
 		LuaFaction::PushToLua(Faction::GetFaction(idx));
 		return 1;
