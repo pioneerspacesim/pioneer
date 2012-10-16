@@ -806,16 +806,16 @@ bool AICmdFlyTo::TimeStepUpdate()
 	double targdist = relpos.Length();
 	double haveFuelToReachThisVelSafely;
 
-	// includes all fuel on board
-	double FuelInTotal = m_ship->m_equipment.Count(Equip::SLOT_CARGO, Equip::WATER);
-	FuelInTotal /= m_ship->GetShipType().fuelTankMass;
-	FuelInTotal += m_ship->GetFuel();
-
 	switch(m_fuelEconomy) {
 	case CMD_MODE_ECONOMY:
-		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/6 * FuelInTotal);
+		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/6 * m_ship->GetFuel());
 		break;
 	case CMD_MODE_HUNGRY:
+		// includes all fuel on board
+		double FuelInTotal = m_ship->m_equipment.Count(Equip::SLOT_CARGO, Equip::WATER);
+		FuelInTotal /= m_ship->GetShipType().fuelTankMass;
+		FuelInTotal += m_ship->GetFuel();
+
 		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/3 * FuelInTotal);
 		break;
 	}
@@ -919,7 +919,7 @@ printf("Autopilot of %s: dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f,
 
 	// refuel if low on fuel -- should work at least for AI controlled ships event without
 	// special ship equipment ,because their crew does it "manually".
-	if((   (m_ship->GetFuel() < 0.5 && m_ship->GetShipType().fuelTankMass > 1) || m_ship->GetFuel() < 0.1) )
+	if((!m_ship->IsType(Object::PLAYER) && (m_ship->GetFuel() < 0.5 && m_ship->GetShipType().fuelTankMass > 1) || m_ship->GetFuel() < 0.1) )
 		m_ship->Refuel();
 
 	// flip check - if facing forward and not accelerating at maximum
