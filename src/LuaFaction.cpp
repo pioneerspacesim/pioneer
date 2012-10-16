@@ -32,7 +32,7 @@
 static int l_faction_attr_name(lua_State *l)
 {
 	Faction *fac = LuaFaction::GetFromLua(1);
-	lua_pushstring(l, fac->name.c_str());
+	lua_pushlstring(l, fac->name.c_str(), fac->name.size());
 	return 1;
 }
 
@@ -52,7 +52,7 @@ static int l_faction_attr_name(lua_State *l)
 static int l_faction_attr_description_short(lua_State *l)
 {
 	Faction *pFaction = LuaFaction::GetFromLua(1);
-	lua_pushstring(l, pFaction->description_short.c_str());
+	lua_pushlstring(l, pFaction->description_short.c_str(), pFaction->description_short.size());
 	return 1;
 }
 
@@ -72,7 +72,7 @@ static int l_faction_attr_description_short(lua_State *l)
 static int l_faction_attr_description(lua_State *l)
 {
 	Faction *pFaction = LuaFaction::GetFromLua(1);
-	lua_pushstring(l, pFaction->description.c_str());
+	lua_pushlstring(l, pFaction->description.c_str(), pFaction->description.size());
 	return 1;
 }
 
@@ -176,7 +176,7 @@ static int l_faction_attr_expansion_rate(lua_State *l)
 static int l_faction_attr_military_name(lua_State *l)
 {
 	Faction *pFaction = LuaFaction::GetFromLua(1);
-	lua_pushstring(l, pFaction->military_name.c_str());
+	lua_pushlstring(l, pFaction->military_name.c_str(), pFaction->military_name.size());
 	return 1;
 }
 
@@ -196,7 +196,7 @@ static int l_faction_attr_military_name(lua_State *l)
 static int l_faction_attr_police_name(lua_State *l)
 {
 	Faction *pFaction = LuaFaction::GetFromLua(1);
-	lua_pushstring(l, pFaction->police_name.c_str());
+	lua_pushlstring(l, pFaction->police_name.c_str(), pFaction->police_name.size());
 	return 1;
 }
 
