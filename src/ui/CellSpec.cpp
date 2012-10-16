@@ -12,7 +12,7 @@ CellSpec CellSpec::FromLuaTable(lua_State *l, int idx) {
 
 	float cellPercent[MAX_CELLS];
 	const int len = lua_rawlen(l, table);
-	for (size_t i = 0; i < MAX_CELLS && i < len; i++) {
+	for (int i = 0; i < MAX_CELLS && i < len; i++) {
 		lua_rawgeti(l, table, i+1);
 		cellPercent[i] = luaL_checknumber(l, -1);
 		lua_pop(l, 1);
