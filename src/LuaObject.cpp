@@ -196,14 +196,14 @@ static void SplitTablePath(lua_State *l, const std::string &path)
 
 	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 
-    size_t start = 0, end = 0;
-    while (end != std::string::npos) {
-        // get to the first non-delim char
-        start = path.find_first_not_of(delim, end);
+	size_t start = 0, end = 0;
+	while (end != std::string::npos) {
+		// get to the first non-delim char
+		start = path.find_first_not_of(delim, end);
 
-        // read the end, no more to do
-        if (start == std::string::npos)
-            break;
+		// read the end, no more to do
+		if (start == std::string::npos)
+			break;
 
 		// have a fragment from last time, get the next table
 		if (!last.empty()) {
@@ -212,12 +212,12 @@ static void SplitTablePath(lua_State *l, const std::string &path)
 			lua_remove(l, -2);
 		}
 
-        // find the end - next delim or end of string
-        end = path.find_first_of(delim, start);
+		// find the end - next delim or end of string
+		end = path.find_first_of(delim, start);
 
-        // extract the fragment and remember it
-        last = path.substr(start, (end == std::string::npos) ? std::string::npos : end - start);
-    }
+		// extract the fragment and remember it
+		last = path.substr(start, (end == std::string::npos) ? std::string::npos : end - start);
+	}
 
 	assert(!last.empty());
 

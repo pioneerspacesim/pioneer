@@ -170,7 +170,7 @@ void LuaEngine::Register()
 		{ "ticks",   l_engine_attr_ticks   },
 		{ "ui",      l_engine_attr_ui      },
 		{ "userdir", l_engine_attr_userdir },
-        { "version", l_engine_attr_version },
+		{ "version", l_engine_attr_version },
 		{ 0, 0 }
 	};
 

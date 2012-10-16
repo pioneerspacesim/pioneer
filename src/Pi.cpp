@@ -775,7 +775,7 @@ void Pi::Start()
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_QUIT)
-                Pi::Quit();
+				Pi::Quit();
 			else
 				ui->DispatchSDLEvent(event);
 
