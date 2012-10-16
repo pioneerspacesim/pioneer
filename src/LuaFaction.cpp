@@ -23,7 +23,7 @@
  *
  * Availability:
  *
- *  alpha 27
+ *  alpha 28
  *
  * Status:
  *
@@ -43,7 +43,7 @@ static int l_faction_attr_name(lua_State *l)
  *
  * Availability:
  *
- *  alpha 27
+ *  alpha 28
  *
  * Status:
  *
@@ -63,7 +63,7 @@ static int l_faction_attr_description_short(lua_State *l)
  *
  * Availability:
  *
- *  alpha 27
+ *  alpha 28
  *
  * Status:
  *
@@ -83,7 +83,7 @@ static int l_faction_attr_description(lua_State *l)
  *
  * Availability:
  *
- *  alpha 27
+ *  alpha 28
  *
  * Status:
  *
@@ -103,7 +103,7 @@ static int l_faction_attr_has_homeworld(lua_State *l)
  *
  * Availability:
  *
- *  alpha 27
+ *  alpha 28
  *
  * Status:
  *
@@ -124,7 +124,7 @@ static int l_faction_attr_homeworld(lua_State *l)
  *
  * Availability:
  *
- *  alpha 27
+ *  alpha 28
  *
  * Status:
  *
@@ -147,7 +147,7 @@ static int l_faction_attr_founding_date(lua_State *l)
  *
  * Availability:
  *
- *  alpha 27
+ *  alpha 28
  *
  * Status:
  *
@@ -167,7 +167,7 @@ static int l_faction_attr_expansion_rate(lua_State *l)
  *
  * Availability:
  *
- *  alpha 27
+ *  alpha 28
  *
  * Status:
  *
@@ -187,7 +187,7 @@ static int l_faction_attr_military_name(lua_State *l)
  *
  * Availability:
  *
- *  alpha 27
+ *  alpha 28
  *
  * Status:
  *
@@ -207,7 +207,7 @@ static int l_faction_attr_police_name(lua_State *l)
  *
  * Availability:
  *
- *  alpha 27
+ *  alpha 28
  *
  * Status:
  *

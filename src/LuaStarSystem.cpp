@@ -416,7 +416,7 @@ static int l_starsystem_attr_population(lua_State *l)
  *
  * Availability:
  *
- *   alpha 27
+ *   alpha 28
  *
  * Status:
  *
