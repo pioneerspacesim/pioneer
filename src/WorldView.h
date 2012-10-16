@@ -33,8 +33,6 @@ public:
 	static const double PICK_OBJECT_RECT_SIZE;
 	virtual void Save(Serializer::Writer &wr);
 	enum CamType {
-		CAM_INTERNAL_COCKPIT_FRONT,
-		CAM_INTERNAL_COCKPIT_REAR,
 		CAM_INTERNAL_FRONT,
 		CAM_INTERNAL_REAR,
 		CAM_INTERNAL_LEFT,

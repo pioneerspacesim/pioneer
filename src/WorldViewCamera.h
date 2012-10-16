@@ -30,14 +30,11 @@ public:
 	virtual bool IsExternal() const { return false; }
 };
 
-// Front view from the cockpit.
 class InternalCamera : public WorldViewCamera {
 public:
 	InternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return INTERNAL; }
 	const char *GetName() const { return m_name; }
-	void FrontCockpit();
-	void RearCockpit();
 	void Front();
 	void Rear();
 	void Left();

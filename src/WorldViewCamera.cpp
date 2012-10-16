@@ -17,21 +17,7 @@ InternalCamera::InternalCamera(const Ship *s, const vector2f &size, float fovY, 
 	WorldViewCamera(s, size, fovY, near, far)
 {
 	m_offs = s->GetCameraOffset();
-	FrontCockpit();
-}
-
-void InternalCamera::FrontCockpit()
-{
-	m_orient = matrix4x4d::RotateYMatrix(M_PI*2);
-	m_name = Lang::FRONT_COCKPIT_VIEW;
-	SetBodyVisible(true);
-}
-
-void InternalCamera::RearCockpit()
-{
-	m_orient = matrix4x4d::RotateYMatrix(M_PI);
-	m_name = Lang::REAR_COCKPIT_VIEW;
-	SetBodyVisible(true);
+	Front();
 }
 
 void InternalCamera::Front()
