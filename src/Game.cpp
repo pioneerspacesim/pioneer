@@ -62,7 +62,7 @@ Game::Game(const SystemPath &path, const vector3d &pos) :
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
 
-    m_player.Reset(new Player("Interplanetary Shuttle"));
+    m_player.Reset(new Player("ip_shuttle"));
 
 	m_space->AddBody(m_player.Get());
 
