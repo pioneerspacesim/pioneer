@@ -92,7 +92,7 @@ static int l_faction_attr_description(lua_State *l)
 static int l_faction_attr_has_homeworld(lua_State *l)
 {
 	Faction *pFaction = LuaFaction::GetFromLua(1);
-	lua_pushinteger(l, (pFaction->hasHomeworld) ? 1 : 0);
+	lua_pushboolean(l, pFaction->hasHomeworld);
 	return 1;
 }
 
