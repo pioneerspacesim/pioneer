@@ -190,7 +190,7 @@ static void SplitTablePath(lua_State *l, const std::string &path)
 {
 	LUA_DEBUG_START(l);
 
-    static const std::string delim(".");
+	const char delim = '.';
 
 	std::string last;
 
