@@ -16,9 +16,15 @@ WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY
 InternalCamera::InternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	WorldViewCamera(s, size, fovY, near, far)
 {
-	SetPosition(s->GetShipType().cameraOffset);
+	s->onFlavourChanged.connect(sigc::bind(sigc::mem_fun(this, &InternalCamera::OnShipFlavourChanged), s));
+	OnShipFlavourChanged(s);
 	SetBodyVisible(false);
 	Front();
+}
+
+void InternalCamera::OnShipFlavourChanged(const Ship *s)
+{
+	SetPosition(s->GetShipType().cameraOffset);
 }
 
 void InternalCamera::Front()

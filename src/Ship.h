@@ -237,6 +237,11 @@ public:
 
 	sigc::signal<void> onDock;				// JJ: check what these are for
 	sigc::signal<void> onUndock;
+
+	// mutable because asking to know when state changes is not the same as
+	// actually changing state
+	mutable sigc::signal<void> onFlavourChanged;
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);

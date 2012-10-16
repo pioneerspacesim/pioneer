@@ -43,6 +43,7 @@ public:
 	void Save(Serializer::Writer &wr) {}
 	void Load(Serializer::Reader &rd) {}
 private:
+	void OnShipFlavourChanged(const Ship *s);
 	const char *m_name;
 };
 

@@ -1268,6 +1268,7 @@ void Ship::UpdateFlavour(const ShipFlavour *f)
 {
 	assert(f->type == m_shipFlavour.type);
 	m_shipFlavour = *f;
+	onFlavourChanged.emit();
 	LuaEvent::Queue("onShipFlavourChanged", this);
 }
 
@@ -1280,6 +1281,7 @@ void Ship::ResetFlavour(const ShipFlavour *f)
 	m_equipment.InitSlotSizes(f->type);
 	SetLabel(f->regid);
 	Init();
+	onFlavourChanged.emit();
 	if (IsType(Object::PLAYER))
 		Pi::worldView->SetCamType(Pi::worldView->GetCamType());
 	LuaEvent::Queue("onShipFlavourChanged", this);
