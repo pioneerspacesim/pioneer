@@ -7,7 +7,7 @@
 namespace UI {
 
 CellSpec CellSpec::FromLuaTable(lua_State *l, int idx) {
-	int table = idx > 0 ? idx : lua_gettop(l) - idx;
+	const int table = lua_absindex(l, idx);
 	assert(lua_istable(l, table));
 
 	float cellPercent[8];
