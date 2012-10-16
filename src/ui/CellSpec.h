@@ -12,9 +12,11 @@ namespace UI {
 
 class CellSpec {
 public:
+	static const int MAX_CELLS = 8;
+
 	CellSpec(int n) : numCells(n) {
-		assert(n >= 0 && n < 8);
-		for (int i = 0; i < 8; i++) cellPercent[i] = 1.0f/n;
+		assert(n >= 0 && n < MAX_CELLS);
+		for (int i = 0; i < MAX_CELLS; i++) cellPercent[i] = 1.0f/n;
 	}
 
 	inline CellSpec(float cp0, float cp1) : numCells(2) {
@@ -47,7 +49,7 @@ public:
 	}
 
 	inline CellSpec(const float cp[], int n) : numCells(n) {
-		assert(n >= 0 && n <= 8);
+		assert(n >= 0 && n <= MAX_CELLS);
 		for (int i = 0; i < n; i++) cellPercent[i] = cp[i];
 		ClampCells();
 	}
@@ -55,7 +57,7 @@ public:
 	static CellSpec FromLuaTable(lua_State *l, int idx);
 
 	int numCells;
-	float cellPercent[8];
+	float cellPercent[MAX_CELLS];
 
 private:
 	void ClampCells() {
