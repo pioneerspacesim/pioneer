@@ -12,6 +12,8 @@
 #include "Polit.h"
 #include "FileSystem.h"
 
+const Uint32 Faction::BAD_FACTION_IDX = UINT_MAX;
+
 typedef std::vector<Faction>  FactionList;
 typedef FactionList::iterator FactionIterator;
 static FactionList            s_factions;
@@ -282,6 +284,29 @@ const Uint32 Faction::GetNumFactions()
 
 const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 {
+	// firstly is this a custom StarSystem which might have funny settings
+	Sector sec(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
+	Polit::GovType a = Polit::GOV_INVALID;
+
+	/* from custom system definition */
+	if (sec.m_systems[sysPath.systemIndex].customSys) {
+		Polit::GovType t = sec.m_systems[sysPath.systemIndex].customSys->govType;
+		a = t;
+	}
+	// if the custom system has a valid govType set then try to find a matching faction
+	if( a != Polit::GOV_INVALID )
+	{
+		for (Uint32 index = 0; index < s_factions.size(); ++index) {
+			const Faction &fac = s_factions[index];
+			if(fac.govType == a) {
+				return index;
+			}
+		}
+		// no matching faction found, return the default
+		return BAD_FACTION_IDX;
+	}
+	// if we don't find a match then we can go on and assign it a faction allegiance like normal below...
+
 	// Iterate through all of the factions and find the one nearest to the system we're checking it against.
 	const Faction *foundFaction = 0;
 	Sint32 nearestDistance = INT_MAX;
@@ -293,7 +318,7 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 	const double current_year = 3200;//get_year(Pi::game->GetTime());
 
 	// iterate
-	Uint32 ret_index = 0;
+	Uint32 ret_index = BAD_FACTION_IDX;
 	for (Uint32 index = 0; index < s_factions.size(); ++index) {
 		const Faction &fac = s_factions[index];
 
@@ -303,7 +328,6 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 			foundFaction = &fac;
 			ret_index = index;
 		}
-
 		else if( fac.hasHomeworld ) {
 			// We can end early here if they're the same as factions homeworld like Earth or Achernar
 			if( fac.homeworld.IsSameSector(sysPath) ) {

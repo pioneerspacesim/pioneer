@@ -1313,7 +1313,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(UINT_MAX)
+StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Faction::BAD_FACTION_IDX)
 {
 	assert(path.IsSystemPath());
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
@@ -1891,7 +1891,7 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 
 const Color StarSystem::GetFactionColour() const
 {
-	if (m_factionIdx != UINT_MAX) {
+	if (m_factionIdx != Faction::BAD_FACTION_IDX) {
 		const Faction *fac = Faction::GetFaction(m_factionIdx);
 		if( fac ) {
 			return fac->colour;

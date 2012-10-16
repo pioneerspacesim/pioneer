@@ -362,6 +362,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Factions.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\FileSelectorWidget.cpp"
 				>
 			</File>
@@ -551,6 +555,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\IniConfig.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Intro.cpp"
 				>
 			</File>
 			<File
@@ -1166,6 +1174,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Tombstone.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\utils.cpp"
 				>
 			</File>
@@ -1284,6 +1296,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Cutscene.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\DeadVideoLink.h"
 				>
 			</File>
@@ -1313,6 +1329,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\FaceVideoLink.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Factions.h"
 				>
 			</File>
 			<File
@@ -1541,6 +1561,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\IniConfig.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Intro.h"
 				>
 			</File>
 			<File
@@ -2029,6 +2053,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\TextureManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Tombstone.h"
 				>
 			</File>
 			<File
