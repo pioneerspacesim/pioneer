@@ -1553,13 +1553,9 @@ void WorldView::Draw()
 	glLineWidth(1.0f);
 
 	// normal crosshairs
-	if (GetCamType() == WorldView::CAM_INTERNAL_COCKPIT_FRONT)
+	if ((GetCamType() == CAM_INTERNAL_COCKPIT_FRONT) || (GetCamType() == CAM_INTERNAL_FRONT))
 		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
-	else if (GetCamType() == WorldView::CAM_INTERNAL_FRONT)
-		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
-	else if (GetCamType() == WorldView::CAM_INTERNAL_COCKPIT_REAR)
-		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
-	else if (GetCamType() == WorldView::CAM_INTERNAL_REAR)
+	else if ((GetCamType() == CAM_INTERNAL_COCKPIT_REAR) || (GetCamType() == CAM_INTERNAL_REAR))
 		DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
 
 	glPopAttrib();
