@@ -16,13 +16,13 @@ WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY
 InternalCamera::InternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	WorldViewCamera(s, size, fovY, near, far)
 {
+	m_offs = s->GetCameraOffset();
 	FrontCockpit();
 }
 
 void InternalCamera::FrontCockpit()
 {
 	m_orient = matrix4x4d::RotateYMatrix(M_PI*2);
-	m_offs = static_cast<const Ship*>(GetBody())->GetFrontViewOffset();
 	m_name = Lang::FRONT_COCKPIT_VIEW;
 	SetBodyVisible(true);
 }
@@ -30,7 +30,6 @@ void InternalCamera::FrontCockpit()
 void InternalCamera::RearCockpit()
 {
 	m_orient = matrix4x4d::RotateYMatrix(M_PI);
-	m_offs = static_cast<const Ship*>(GetBody())->GetRearViewOffset();
 	m_name = Lang::REAR_COCKPIT_VIEW;
 	SetBodyVisible(true);
 }
@@ -38,7 +37,6 @@ void InternalCamera::RearCockpit()
 void InternalCamera::Front()
 {
 	m_orient = matrix4x4d::RotateYMatrix(M_PI*2);
-	m_offs = static_cast<const Ship*>(GetBody())->GetFrontCameraOffset();
 	m_name = Lang::CAMERA_FRONT_VIEW;
 	SetBodyVisible(false);
 }
@@ -46,7 +44,6 @@ void InternalCamera::Front()
 void InternalCamera::Rear()
 {
 	m_orient = matrix4x4d::RotateYMatrix(M_PI);
-	m_offs = static_cast<const Ship*>(GetBody())->GetRearCameraOffset();
 	m_name = Lang::CAMERA_REAR_VIEW;
 	SetBodyVisible(false);
 }
@@ -54,7 +51,6 @@ void InternalCamera::Rear()
 void InternalCamera::Left()
 {
 	m_orient = matrix4x4d::RotateYMatrix((M_PI/2)*3);
-	m_offs = static_cast<const Ship*>(GetBody())->GetLeftCameraOffset();
 	m_name = Lang::CAMERA_LEFT_VIEW;
 	SetBodyVisible(false);
 }
@@ -62,7 +58,6 @@ void InternalCamera::Left()
 void InternalCamera::Right()
 {
 	m_orient = matrix4x4d::RotateYMatrix(M_PI/2);
-	m_offs = static_cast<const Ship*>(GetBody())->GetRightCameraOffset();
 	m_name = Lang::CAMERA_RIGHT_VIEW;
 	SetBodyVisible(false);
 }
@@ -70,7 +65,6 @@ void InternalCamera::Right()
 void InternalCamera::Top()
 {
 	m_orient = matrix4x4d::RotateXMatrix((M_PI/2)*3);
-	m_offs = static_cast<const Ship*>(GetBody())->GetTopCameraOffset();
 	m_name = Lang::CAMERA_TOP_VIEW;
 	SetBodyVisible(false);
 }
@@ -78,7 +72,6 @@ void InternalCamera::Top()
 void InternalCamera::Bottom()
 {
 	m_orient = matrix4x4d::RotateXMatrix(M_PI/2);
-	m_offs = static_cast<const Ship*>(GetBody())->GetBottomCameraOffset();
 	m_name = Lang::CAMERA_BOTTOM_VIEW;
 	SetBodyVisible(false);
 }

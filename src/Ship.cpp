@@ -465,14 +465,7 @@ void Ship::UpdateViewStats()
 {
 	const ShipType &stype = GetShipType();
 
-	m_frontViewOffset = stype.frontViewOffset;
-	m_rearViewOffset = stype.rearViewOffset;
-	m_frontCameraOffset = stype.frontCameraOffset;
-	m_rearCameraOffset = stype.rearCameraOffset;
-	m_leftCameraOffset = stype.leftCameraOffset;
-	m_rightCameraOffset = stype.rightCameraOffset;
-	m_topCameraOffset = stype.topCameraOffset;
-	m_bottomCameraOffset = stype.bottomCameraOffset;
+	m_cameraOffset = stype.cameraOffset;
 }
 
 void Ship::UpdateStats()
