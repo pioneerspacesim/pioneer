@@ -461,16 +461,8 @@ void Ship::UpdateFuelStats()
 	UpdateMass();
 }
 
-void Ship::UpdateViewStats()
-{
-	const ShipType &stype = GetShipType();
-
-	m_cameraOffset = stype.cameraOffset;
-}
-
 void Ship::UpdateStats()
 {
-	UpdateViewStats();
 	UpdateEquipStats();
 	UpdateFuelStats();
 }

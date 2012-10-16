@@ -16,73 +16,47 @@ WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY
 InternalCamera::InternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	WorldViewCamera(s, size, fovY, near, far)
 {
-	m_offs = s->GetCameraOffset();
+	SetPosition(s->GetShipType().cameraOffset);
+	SetBodyVisible(false);
 	Front();
 }
 
 void InternalCamera::Front()
 {
-	m_orient = matrix4x4d::RotateYMatrix(M_PI*2);
+	SetOrientation(matrix4x4d::RotateYMatrix(M_PI*2));
 	m_name = Lang::CAMERA_FRONT_VIEW;
-	SetBodyVisible(false);
 }
 
 void InternalCamera::Rear()
 {
-	m_orient = matrix4x4d::RotateYMatrix(M_PI);
+	SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
 	m_name = Lang::CAMERA_REAR_VIEW;
-	SetBodyVisible(false);
 }
 
 void InternalCamera::Left()
 {
-	m_orient = matrix4x4d::RotateYMatrix((M_PI/2)*3);
+	SetOrientation(matrix4x4d::RotateYMatrix((M_PI/2)*3));
 	m_name = Lang::CAMERA_LEFT_VIEW;
-	SetBodyVisible(false);
 }
 
 void InternalCamera::Right()
 {
-	m_orient = matrix4x4d::RotateYMatrix(M_PI/2);
+	SetOrientation(matrix4x4d::RotateYMatrix(M_PI/2));
 	m_name = Lang::CAMERA_RIGHT_VIEW;
-	SetBodyVisible(false);
 }
 
 void InternalCamera::Top()
 {
-	m_orient = matrix4x4d::RotateXMatrix((M_PI/2)*3);
+	SetOrientation(matrix4x4d::RotateXMatrix((M_PI/2)*3));
 	m_name = Lang::CAMERA_TOP_VIEW;
-	SetBodyVisible(false);
 }
 
 void InternalCamera::Bottom()
 {
-	m_orient = matrix4x4d::RotateXMatrix(M_PI/2);
+	SetOrientation(matrix4x4d::RotateXMatrix(M_PI/2));
 	m_name = Lang::CAMERA_BOTTOM_VIEW;
-	SetBodyVisible(false);
 }
 
-void InternalCamera::Activate()
-{
-	SetOrientation(m_orient);
-	SetPosition(m_offs);
-	//if offset is zero (unspecified) the camera would be in the middle of the model,
-	//and it would be undesirable to render the ship
-	if (m_offs.ExactlyEqual(vector3d(0.0)))
-		SetBodyVisible(false);
-}
-
-void InternalCamera::Save(Serializer::Writer &wr)
-{
-	for (int i = 0; i < 16; i++) wr.Float(float(m_orient[i]));
-	for (int i = 0; i < 3; i++) wr.Float(float(m_offs[i]));
-}
-
-void InternalCamera::Load(Serializer::Reader &rd)
-{
-	for (int i = 0; i < 16; i++) m_orient[i] = rd.Float();
-	for (int i = 0; i < 3; i++) m_offs[i] = rd.Float();
-}
 
 ExternalCamera::ExternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	MoveableCamera(s, size, fovY, near, far),

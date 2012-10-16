@@ -26,7 +26,6 @@ public:
 	virtual const char *GetName() const { return ""; }
 	virtual void Save(Serializer::Writer &wr) { }
 	virtual void Load(Serializer::Reader &rd) { }
-	virtual void Activate() { }
 	virtual bool IsExternal() const { return false; }
 };
 
@@ -41,12 +40,9 @@ public:
 	void Right();
 	void Top();
 	void Bottom();
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
-	void Activate();
+	void Save(Serializer::Writer &wr) {}
+	void Load(Serializer::Reader &rd) {}
 private:
-	matrix4x4d m_orient;
-	vector3d m_offs;
 	const char *m_name;
 };
 

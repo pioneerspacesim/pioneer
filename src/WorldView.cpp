@@ -316,8 +316,6 @@ void WorldView::SetCamType(enum CamType c)
 	Add(m_showCameraName, 0.5f*(Gui::Screen::GetWidth()-w), 20);
 	
 	m_showCameraNameTimeout = SDL_GetTicks();
-
-	m_activeCamera->Activate();
 }
 
 void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
