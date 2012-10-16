@@ -207,12 +207,12 @@ static void SplitTablePath(lua_State *l, const std::string &path)
 
 		// have a fragment from last time, get the next table
 		if (!last.empty()) {
-			lua_pushstring(l, last.c_str());
+			lua_pushlstring(l, last.c_str(), last.size());
 			lua_rawget(l, -2);
 			if (lua_isnil(l, -1)) {
 				lua_pop(l, 1);
 				lua_newtable(l);
-				lua_pushstring(l, last.c_str());
+				lua_pushlstring(l, last.c_str(), last.size());
 				lua_pushvalue(l, -2);
 				lua_rawset(l, -4);
 			}
@@ -229,7 +229,7 @@ static void SplitTablePath(lua_State *l, const std::string &path)
 
 	assert(!last.empty());
 
-	lua_pushstring(l, last.c_str());
+	lua_pushlstring(l, last.c_str(), last.size());
 
 	LUA_DEBUG_END(l, 2);
 }
