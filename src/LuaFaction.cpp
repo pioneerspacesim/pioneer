@@ -216,11 +216,16 @@ static int l_faction_attr_police_name(lua_State *l)
 static int l_faction_attr_colour(lua_State *l)
 {
 	Faction *pFaction = LuaFaction::GetFromLua(1);
+	lua_createtable(l, 4, 0);
 	lua_pushnumber(l, pFaction->colour.r);
+	lua_rawseti(l, -2, 1);
 	lua_pushnumber(l, pFaction->colour.g);
+	lua_rawseti(l, -2, 2);
 	lua_pushnumber(l, pFaction->colour.b);
+	lua_rawseti(l, -2, 3);
 	lua_pushnumber(l, pFaction->colour.a);
-	return 4;
+	lua_rawseti(l, -2, 4);
+	return 1;
 }
 
 template <> const char *LuaObject< LuaUncopyable<Faction> >::s_type = "Faction";
