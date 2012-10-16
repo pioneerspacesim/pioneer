@@ -223,9 +223,9 @@ static int l_faction_attr_colour(lua_State *l)
 	return 4;
 }
 
-template <> const char *LuaObject<LuaUncopyable<Faction>>::s_type = "Faction";
+template <> const char *LuaObject< LuaUncopyable<Faction> >::s_type = "Faction";
 
-template <> void LuaObject<LuaUncopyable<Faction>>::RegisterClass()
+template <> void LuaObject< LuaUncopyable<Faction> >::RegisterClass()
 {
 	static const luaL_Reg l_attrs[] = {
 		{ "name",						l_faction_attr_name					},
