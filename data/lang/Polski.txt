@@ -746,10 +746,6 @@ SHIP_IS_FULLY_LADEN
     Ładownia jest pełna.
 YOU_DO_NOT_HAVE_ANY_X
     Nie masz %item.
-FRONT_COCKPIT_VIEW
-	Kokpit przód
-REAR_COCKPIT_VIEW
-	Kokpit tył
 CAMERA_FRONT_VIEW
 	Kamera dziobowa
 CAMERA_REAR_VIEW
