@@ -39,26 +39,6 @@ static int l_engine_attr_rand(lua_State *l)
 }
 
 /*
- * Attribute: userdir
- *
- * The Pioneer configuration directory (should be writable).
- *
- * Availability:
- *
- *   alpha 14
- *
- * Status:
- *
- *   deprecated
- */
-static int l_engine_attr_userdir(lua_State *l)
-{
-	const std::string &userdir = FileSystem::GetUserDir();
-	lua_pushlstring(l, userdir.c_str(), userdir.size());
-	return 1;
-}
-
-/*
  * Attribute: ticks
  *
  * Number of milliseconds since Pioneer was started. This should be used for
@@ -83,7 +63,6 @@ void LuaEngine::Register()
 {
 	static const luaL_Reg l_attrs[] = {
 		{ "rand",    l_engine_attr_rand    },
-		{ "userdir", l_engine_attr_userdir },
 		{ "ticks",   l_engine_attr_ticks   },
 		{ 0, 0 }
 	};
