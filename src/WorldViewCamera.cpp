@@ -19,7 +19,7 @@ InternalCamera::InternalCamera(const Ship *s, const vector2f &size, float fovY, 
 	s->onFlavourChanged.connect(sigc::bind(sigc::mem_fun(this, &InternalCamera::OnShipFlavourChanged), s));
 	OnShipFlavourChanged(s);
 	SetBodyVisible(false);
-	Front();
+	SetMode(MODE_FRONT);
 }
 
 void InternalCamera::OnShipFlavourChanged(const Ship *s)
@@ -27,46 +27,45 @@ void InternalCamera::OnShipFlavourChanged(const Ship *s)
 	SetPosition(s->GetShipType().cameraOffset);
 }
 
-void InternalCamera::Front()
+void InternalCamera::SetMode(Mode m)
 {
-	m_mode = MODE_FRONT;
-	m_name = Lang::CAMERA_FRONT_VIEW;
-	SetOrientation(matrix4x4d::RotateYMatrix(M_PI*2));
+	m_mode = m;
+	switch (m_mode) {
+		case MODE_FRONT:
+			m_name = Lang::CAMERA_FRONT_VIEW;
+			SetOrientation(matrix4x4d::RotateYMatrix(M_PI*2));
+			break;
+		case MODE_REAR:
+			m_name = Lang::CAMERA_REAR_VIEW;
+			SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
+			break;
+		case MODE_LEFT:
+			m_name = Lang::CAMERA_LEFT_VIEW;
+			SetOrientation(matrix4x4d::RotateYMatrix((M_PI/2)*3));
+			break;
+		case MODE_RIGHT:
+			m_name = Lang::CAMERA_RIGHT_VIEW;
+			SetOrientation(matrix4x4d::RotateYMatrix(M_PI/2));
+			break;
+		case MODE_TOP:
+			m_name = Lang::CAMERA_TOP_VIEW;
+			SetOrientation(matrix4x4d::RotateXMatrix((M_PI/2)*3));
+			break;
+		case MODE_BOTTOM:
+			m_name = Lang::CAMERA_BOTTOM_VIEW;
+			SetOrientation(matrix4x4d::RotateXMatrix(M_PI/2));
+			break;
+	}
 }
 
-void InternalCamera::Rear()
+void InternalCamera::Save(Serializer::Writer &wr)
 {
-	m_mode = MODE_REAR;
-	m_name = Lang::CAMERA_REAR_VIEW;
-	SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
+	wr.Int32(m_mode);
 }
 
-void InternalCamera::Left()
+void InternalCamera::Load(Serializer::Reader &rd)
 {
-	m_mode = MODE_LEFT;
-	m_name = Lang::CAMERA_LEFT_VIEW;
-	SetOrientation(matrix4x4d::RotateYMatrix((M_PI/2)*3));
-}
-
-void InternalCamera::Right()
-{
-	m_mode = MODE_RIGHT;
-	m_name = Lang::CAMERA_RIGHT_VIEW;
-	SetOrientation(matrix4x4d::RotateYMatrix(M_PI/2));
-}
-
-void InternalCamera::Top()
-{
-	m_mode = MODE_TOP;
-	m_name = Lang::CAMERA_TOP_VIEW;
-	SetOrientation(matrix4x4d::RotateXMatrix((M_PI/2)*3));
-}
-
-void InternalCamera::Bottom()
-{
-	m_mode = MODE_BOTTOM;
-	m_name = Lang::CAMERA_BOTTOM_VIEW;
-	SetOrientation(matrix4x4d::RotateXMatrix(M_PI/2));
+	SetMode(static_cast<Mode>(rd.Int32()));
 }
 
 

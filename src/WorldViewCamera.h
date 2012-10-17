@@ -43,15 +43,10 @@ public:
 	InternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return INTERNAL; }
 	const char *GetName() const { return m_name; }
-	void Front();
-	void Rear();
-	void Left();
-	void Right();
-	void Top();
-	void Bottom();
+	void SetMode(Mode m);
 	Mode GetMode() const { return m_mode; }
-	void Save(Serializer::Writer &wr) {}
-	void Load(Serializer::Reader &rd) {}
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
 private:
 	void OnShipFlavourChanged(const Ship *s);
 	Mode m_mode;

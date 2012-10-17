@@ -769,27 +769,27 @@ void WorldView::Update()
 		if (GetCamType() == CAM_INTERNAL) {
 			bool changed = false;
 			if (KeyBindings::frontCamera.IsActive()) {
-				m_internalCamera->Front();
+				m_internalCamera->SetMode(InternalCamera::MODE_FRONT);
 				changed = true;
 			}
 			if (KeyBindings::rearCamera.IsActive()) {
-				m_internalCamera->Rear();
+				m_internalCamera->SetMode(InternalCamera::MODE_REAR);
 				changed = true;
 			}
 			if (KeyBindings::leftCamera.IsActive()) {
-				m_internalCamera->Left();
+				m_internalCamera->SetMode(InternalCamera::MODE_LEFT);
 				changed = true;
 			}
 			if (KeyBindings::rightCamera.IsActive()) {
-				m_internalCamera->Right();
+				m_internalCamera->SetMode(InternalCamera::MODE_RIGHT);
 				changed = true;
 			}
 			if (KeyBindings::topCamera.IsActive()) {
-				m_internalCamera->Top();
+				m_internalCamera->SetMode(InternalCamera::MODE_TOP);
 				changed = true;
 			}
 			if (KeyBindings::bottomCamera.IsActive()) {
-				m_internalCamera->Bottom();
+				m_internalCamera->SetMode(InternalCamera::MODE_BOTTOM);
 				changed = true;
 			}
 			if (changed)
