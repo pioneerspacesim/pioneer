@@ -29,38 +29,44 @@ void InternalCamera::OnShipFlavourChanged(const Ship *s)
 
 void InternalCamera::Front()
 {
-	SetOrientation(matrix4x4d::RotateYMatrix(M_PI*2));
+	m_mode = MODE_FRONT;
 	m_name = Lang::CAMERA_FRONT_VIEW;
+	SetOrientation(matrix4x4d::RotateYMatrix(M_PI*2));
 }
 
 void InternalCamera::Rear()
 {
-	SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
+	m_mode = MODE_REAR;
 	m_name = Lang::CAMERA_REAR_VIEW;
+	SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
 }
 
 void InternalCamera::Left()
 {
-	SetOrientation(matrix4x4d::RotateYMatrix((M_PI/2)*3));
+	m_mode = MODE_LEFT;
 	m_name = Lang::CAMERA_LEFT_VIEW;
+	SetOrientation(matrix4x4d::RotateYMatrix((M_PI/2)*3));
 }
 
 void InternalCamera::Right()
 {
-	SetOrientation(matrix4x4d::RotateYMatrix(M_PI/2));
+	m_mode = MODE_RIGHT;
 	m_name = Lang::CAMERA_RIGHT_VIEW;
+	SetOrientation(matrix4x4d::RotateYMatrix(M_PI/2));
 }
 
 void InternalCamera::Top()
 {
-	SetOrientation(matrix4x4d::RotateXMatrix((M_PI/2)*3));
+	m_mode = MODE_TOP;
 	m_name = Lang::CAMERA_TOP_VIEW;
+	SetOrientation(matrix4x4d::RotateXMatrix((M_PI/2)*3));
 }
 
 void InternalCamera::Bottom()
 {
-	SetOrientation(matrix4x4d::RotateXMatrix(M_PI/2));
+	m_mode = MODE_BOTTOM;
 	m_name = Lang::CAMERA_BOTTOM_VIEW;
+	SetOrientation(matrix4x4d::RotateXMatrix(M_PI/2));
 }
 
 

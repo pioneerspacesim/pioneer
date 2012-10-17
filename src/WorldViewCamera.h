@@ -31,6 +31,15 @@ public:
 
 class InternalCamera : public WorldViewCamera {
 public:
+	enum Mode {
+		MODE_FRONT,
+		MODE_REAR,
+		MODE_LEFT,
+		MODE_RIGHT,
+		MODE_TOP,
+		MODE_BOTTOM
+	};
+
 	InternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return INTERNAL; }
 	const char *GetName() const { return m_name; }
@@ -40,10 +49,12 @@ public:
 	void Right();
 	void Top();
 	void Bottom();
+	Mode GetMode() const { return m_mode; }
 	void Save(Serializer::Writer &wr) {}
 	void Load(Serializer::Reader &rd) {}
 private:
 	void OnShipFlavourChanged(const Ship *s);
+	Mode m_mode;
 	const char *m_name;
 };
 
