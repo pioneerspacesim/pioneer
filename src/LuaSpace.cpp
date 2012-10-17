@@ -18,6 +18,7 @@
 #include "Player.h"
 #include "Game.h"
 #include "MathUtil.h"
+#include "Frame.h"
 
 /*
  * Interface: Space
@@ -217,8 +218,18 @@ static int l_space_spawn_ship_near(lua_State *l)
 	Body *thing = _maybe_wrap_ship_with_cloud(ship, path, due);
 
 	// XXX protect against spawning inside the body
-	thing->SetFrame(nearbody->GetFrame());
-	thing->SetPosition((MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition());
+	Frame * newframe = nearbody->GetFrame();
+	const vector3d newPosition = (MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition();
+	// If the frame is rotating and the chosen position is too far, use non-rotating parent.
+	// Otherwise the ship will be given a massive initial velocity when it's bumped out of the
+	// rotating frame in the next update
+	if (newframe->IsRotatingFrame() && !newframe->IsLocalPosInFrame(newPosition)) {
+		assert(newframe->m_parent);
+		newframe = newframe->m_parent;
+	}
+
+	thing->SetFrame(newframe);;
+	thing->SetPosition(newPosition);
 	thing->SetVelocity(vector3d(0,0,0));
 	Pi::game->GetSpace()->AddBody(thing);
 
