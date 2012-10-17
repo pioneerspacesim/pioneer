@@ -300,9 +300,11 @@ void WorldView::SetCamType(enum CamType c)
 
 		case CAM_EXTERNAL:
 			m_activeCamera = m_externalCamera;
+			m_camType = m_intCamType;
 			break;
 		case CAM_SIDEREAL:
 			m_activeCamera = m_siderealCamera;
+			m_camType = m_intCamType;
 			break;
 		case CAM_INTERNAL:
 			m_activeCamera = m_internalCamera;
