@@ -15,10 +15,9 @@ StaticMesh::StaticMesh(PrimitiveType t) :
 
 StaticMesh::~StaticMesh()
 {
-	while (!m_surfaces.empty()) delete m_surfaces.back(), m_surfaces.pop_back();
 }
 
-void StaticMesh::AddSurface(Surface *s)
+void StaticMesh::AddSurface(RefCountedPtr<Surface> s)
 {
 	m_surfaces.push_back(s);
 }

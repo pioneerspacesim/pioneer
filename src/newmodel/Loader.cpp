@@ -234,20 +234,6 @@ void Loader::FindPatterns(PatternContainer &output)
 	}
 }
 
-static void delete_unused_surfaces(std::vector<Graphics::Surface*> &surfaces, const std::string &filename)
-{
-	//check all surfaces were used
-	for(std::vector<Graphics::Surface*>::iterator it = surfaces.begin();
-		it != surfaces.end(); ++it)
-	{
-		if ((*it)->GetRefCount() < 1) {
-			printf("Unused surface in %s, releasing\n", filename.c_str());
-			delete *it;
-		}
-	}
-	surfaces.clear();
-}
-
 RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList &animDefs, TagList &modelTags)
 {
 	Assimp::Importer importer;
@@ -277,23 +263,15 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 
 	//turn all scene aiMeshes into Surfaces
 	//Index matches assimp index.
-	std::vector<Graphics::Surface*> surfaces;
+	std::vector<RefCountedPtr<Graphics::Surface> > surfaces;
 	ConvertAiMeshesToSurfaces(surfaces, scene, m_model);
 
 	// Recursive structure conversion. Matrix needs to be accumulated for
 	// special features that are absolute-positioned (thrusters)
 	RefCountedPtr<Node> meshRoot(new Group());
-	try {
-		ConvertNodes(scene->mRootNode, static_cast<Group*>(meshRoot.Get()), surfaces, matrix4x4f::Identity());
-		ConvertAnimations(scene, animDefs, static_cast<Group*>(meshRoot.Get()));
-	} catch(...) {
-		//StaticMesh does not use RefCountedPtr, so the
-		//surfaces vector does not either. Have to do this.
-		delete_unused_surfaces(surfaces, filename);
-		throw;
-	}
 
-	delete_unused_surfaces(surfaces, filename);
+	ConvertNodes(scene->mRootNode, static_cast<Group*>(meshRoot.Get()), surfaces, matrix4x4f::Identity());
+	ConvertAnimations(scene, animDefs, static_cast<Group*>(meshRoot.Get()));
 
 	return meshRoot;
 }
@@ -343,7 +321,7 @@ RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 	return decMat;
 }
 
-void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces, const aiScene *scene, NModel *model)
+void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surface> > &surfaces, const aiScene *scene, NModel *model)
 {
 	//XXX sigh, workaround for obj loader
 	int matIdxOffs = 0;
@@ -383,7 +361,7 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*> &surfaces
 				Graphics::ATTRIB_NORMAL |
 				Graphics::ATTRIB_UV0);
 
-		Graphics::Surface *surface = new Graphics::Surface(Graphics::TRIANGLES, vts, mat);
+		RefCountedPtr<Graphics::Surface> surface(new Graphics::Surface(Graphics::TRIANGLES, vts, mat));
 		std::vector<unsigned short> &indices = surface->GetIndices();
 
 		//copy indices first
@@ -577,7 +555,7 @@ void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const std::strin
 	parent->AddChild(trans);
 }
 
-void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Surface*>& surfaces, const matrix4x4f &accum)
+void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPtr<Graphics::Surface> >& surfaces, const matrix4x4f &accum)
 {
 	Group *parent = _parent;
 	const std::string nodename(node->mName.C_Str());
@@ -632,7 +610,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 		}
 
 		for(unsigned int i=0; i<node->mNumMeshes; i++) {
-			Graphics::Surface *surf = surfaces[node->mMeshes[i]];
+			RefCountedPtr<Graphics::Surface> surf = surfaces.at(node->mMeshes[i]);
 
 			//set special material for decals
 			if (numDecal > 0) {
@@ -651,9 +629,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<Graphics::Su
 				geom->AddMesh(smesh);
 				smesh = RefCountedPtr<Graphics::StaticMesh>(new Graphics::StaticMesh(Graphics::TRIANGLES));
 			}
-			//XXX abusing refcount here (until StaticMesh uses it too)
-			//I just want to check if some surfaces are left unused
-			surf->IncRefCount();
+
 			smesh->AddSurface(surf);
 		}
 		geom->AddMesh(smesh);

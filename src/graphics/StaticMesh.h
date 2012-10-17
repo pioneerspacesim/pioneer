@@ -17,9 +17,6 @@ class Surface;
  * unchanging geometry. Renderers can buffer the contents into VBOs or
  * whatever they prefer. The original vertex data is kept for reloading
  * on context switch.
- *
- * XXX 29-09-2012 It is technically possible the model loader uses
- * one surface in multiple SMs. They should be converted to RefCountedPtr here.
  */
 class StaticMesh : public Renderable {
 public:
@@ -28,8 +25,8 @@ public:
 
 	PrimitiveType GetPrimtiveType() const { return m_primitiveType; }
 
-	void AddSurface(Surface *s);
-	Surface *GetSurface(int idx) const { return m_surfaces.at(idx); }
+	void AddSurface(RefCountedPtr<Surface>);
+	RefCountedPtr<Surface> GetSurface(int idx) const { return m_surfaces.at(idx); }
 
 	//useful to know for buffers
 	int GetNumVerts() const;
@@ -38,7 +35,7 @@ public:
 
 	AttributeSet GetAttributeSet() const;
 
-	typedef std::vector<Surface*>::const_iterator SurfaceIterator;
+	typedef std::vector<RefCountedPtr<Surface> >::const_iterator SurfaceIterator;
 	const SurfaceIterator SurfacesBegin() const { return m_surfaces.begin(); }
 	const SurfaceIterator SurfacesEnd() const { return m_surfaces.end(); }
 
@@ -48,7 +45,7 @@ public:
 
 private:
 	PrimitiveType m_primitiveType;
-	std::vector<Surface*> m_surfaces;
+	std::vector<RefCountedPtr<Surface> > m_surfaces;
 };
 
 }

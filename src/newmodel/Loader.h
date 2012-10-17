@@ -46,9 +46,9 @@ private:
 	NModel *CreateModel(ModelDefinition &def);
 	RefCountedPtr<Graphics::Material> GetDecalMaterial(unsigned int index);
 	RefCountedPtr<Node> LoadMesh(const std::string &filename, const AnimList &animDefs, TagList &modelTags); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
-	void ConvertAiMeshesToSurfaces(std::vector<Graphics::Surface*>&, const aiScene*, NModel*); //model is only for material lookup
+	void ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surface> >&, const aiScene*, NModel*); //model is only for material lookup
 	void ConvertAnimations(const aiScene *, const AnimList &, Node *meshRoot);
-	void ConvertNodes(aiNode *node, Group *parent, std::vector<Graphics::Surface*>& meshes, const matrix4x4f&);
+	void ConvertNodes(aiNode *node, Group *parent, std::vector<RefCountedPtr<Graphics::Surface> >& meshes, const matrix4x4f&);
 	void CreateLabel(Group *parent, const matrix4x4f&);
 	void CreateLight(Group *parent, const matrix4x4f&);
 	void CreateThruster(Group *parent, const matrix4x4f& nodeTrans, const std::string &name, const matrix4x4f &accum);
