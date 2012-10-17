@@ -14,6 +14,7 @@ Alpha 28
 
    * Script and model changes
      * Separation and orientation is now specified for dual laser mountings (#1518)
+     * Removed Engine.userdir (deprectated since alpha 26) (#1602)
 
    * Internal changes
      * Code clean-up in the handling of world view cameras (#1601)
