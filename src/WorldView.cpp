@@ -263,7 +263,7 @@ void WorldView::SetCamType(enum CamType c)
 		Pi::player->GetPlayerController()->SetMouseForRearView((GetCamType() == CAM_INTERNAL_REAR) || (GetCamType() == CAM_INTERNAL_COCKPIT_REAR));
 		onChangeCamType.emit();
 	}
-	
+
 	switch(m_camType) {
 		case CAM_INTERNAL_COCKPIT_FRONT:
 			m_internalCamera->FrontCockpit();
@@ -300,15 +300,21 @@ void WorldView::SetCamType(enum CamType c)
 
 		case CAM_EXTERNAL:
 			m_activeCamera = m_externalCamera;
+			m_camType = m_intCamType;
 			break;
 		case CAM_SIDEREAL:
 			m_activeCamera = m_siderealCamera;
+			m_camType = m_intCamType;
 			break;
 		case CAM_INTERNAL:
 			m_activeCamera = m_internalCamera;
+			m_camType = m_intCamType;
 			// keep previous mode
 			break;
 	}
+
+	if (m_activeCamera->IsExternal() == false)
+		m_intCamType = GetCamType();
 
 	if (m_showCameraName)
 		Remove(m_showCameraName);
