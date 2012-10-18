@@ -776,12 +776,12 @@ void WorldView::Update()
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
 		if (GetCamType() == CAM_INTERNAL) {
-			if (KeyBindings::frontCamera.IsActive())  ChangeInternalCameraMode(InternalCamera::MODE_FRONT);
-			if (KeyBindings::rearCamera.IsActive())   ChangeInternalCameraMode(InternalCamera::MODE_REAR);
-			if (KeyBindings::leftCamera.IsActive())   ChangeInternalCameraMode(InternalCamera::MODE_LEFT);
-			if (KeyBindings::rightCamera.IsActive())  ChangeInternalCameraMode(InternalCamera::MODE_RIGHT);
-			if (KeyBindings::topCamera.IsActive())    ChangeInternalCameraMode(InternalCamera::MODE_TOP);
-			if (KeyBindings::bottomCamera.IsActive()) ChangeInternalCameraMode(InternalCamera::MODE_BOTTOM);
+			if      (KeyBindings::frontCamera.IsActive())  ChangeInternalCameraMode(InternalCamera::MODE_FRONT);
+			else if (KeyBindings::rearCamera.IsActive())   ChangeInternalCameraMode(InternalCamera::MODE_REAR);
+			else if (KeyBindings::leftCamera.IsActive())   ChangeInternalCameraMode(InternalCamera::MODE_LEFT);
+			else if (KeyBindings::rightCamera.IsActive())  ChangeInternalCameraMode(InternalCamera::MODE_RIGHT);
+			else if (KeyBindings::topCamera.IsActive())    ChangeInternalCameraMode(InternalCamera::MODE_TOP);
+			else if (KeyBindings::bottomCamera.IsActive()) ChangeInternalCameraMode(InternalCamera::MODE_BOTTOM);
 		} else {
 			MoveableCamera *cam = static_cast<MoveableCamera*>(m_activeCamera);
 			if (KeyBindings::cameraRotateUp.IsActive()) cam->RotateUp(frameTime);
