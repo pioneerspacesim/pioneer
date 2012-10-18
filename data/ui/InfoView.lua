@@ -1,6 +1,6 @@
 local ui = Engine.ui
 
-ui.templates.InfoView = function (args)
+local shipInfo = function (args)
 	local shipId = Game.player.shipType
 	local shipType = ShipType.GetShipType(shipId)
 
@@ -43,15 +43,7 @@ ui.templates.InfoView = function (args)
 		end
 	end
 
-	local topBar = ui:Grid(4,1):SetFont("HEADING_NORMAL")
-		:SetRow(0, {
-			ui:Margin(2):SetInnerWidget(ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label("Ship Information")))),
-			ui:Margin(2):SetInnerWidget(ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label("Personal Information")))),
-			ui:Margin(2):SetInnerWidget(ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label("Cargo")))),
-			ui:Margin(2):SetInnerWidget(ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label("Missions"))))
-		})
-
-	local body = ui:Background():SetInnerWidget(ui:Margin(30):SetInnerWidget(
+	return
 		ui:Grid(2,1)
 			:SetColumn(0, {
 				ui:VBox(20):PackEnd({
@@ -101,7 +93,46 @@ ui.templates.InfoView = function (args)
 					:PackEnd(ui:Label(shipType.name):SetFont("HEADING_LARGE"))
 					:PackEnd(UI.Game.ShipSpinner.New(ui, Game.player.shipType))
 			})
-	))
-
-	return ui:VBox():PackEnd(topBar):PackEnd(body)
 end
+
+local personalInfo = function ()
+	return ui:Label("personalInfo")
+end
+
+local cargo = function ()
+	return ui:Label("cargo")
+end
+
+local missions = function ()
+	return ui:Label("missions")
+end
+
+ui.templates.InfoView = function (args)
+	local buttonDefs = {
+		{ "Ship Information",     shipInfo },
+		{ "Personal Information", personalInfo },
+		{ "Cargo",                cargo },
+		{ "Missions",             missions }
+    }
+
+	local container = ui:Margin(30)
+
+    local buttonSet = {}
+    for i = 1,#buttonDefs do
+        local def = buttonDefs[i]
+        local b = ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(def[1])))
+        b.onClick:Connect(function () container:SetInnerWidget(def[2]()) end)
+        table.insert(buttonSet, ui:Margin(2):SetInnerWidget(b))
+    end
+
+	container:SetInnerWidget(shipInfo())
+
+	return
+		ui:VBox()
+			:PackEnd(
+				ui:Grid(#buttonDefs,1):SetFont("HEADING_NORMAL")
+					:SetRow(0, buttonSet))
+			:PackEnd(
+				ui:Background():SetInnerWidget(container))
+end
+
