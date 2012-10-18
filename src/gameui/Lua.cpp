@@ -7,6 +7,7 @@ namespace GameUI {
 
 void LuaInit()
 {
+	LuaObject<GameUI::Face>::RegisterClass();
 	LuaObject<GameUI::ShipSpinner>::RegisterClass();
 }
 

@@ -14,10 +14,13 @@ noinst_HEADERS = \
 	GameUI.h \
 	Lua.h \
 	Panel.h \
+	Face.h \
 	ShipSpinner.h
 
 libgameui_a_SOURCES = \
 	Panel.cpp \
+	Face.cpp \
 	ShipSpinner.cpp \
 	Lua.cpp \
+	LuaFace.cpp \
 	LuaShipSpinner.cpp

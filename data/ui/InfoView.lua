@@ -96,7 +96,18 @@ local shipInfo = function (args)
 end
 
 local personalInfo = function ()
-	return ui:Label("personalInfo")
+	return
+		ui:Grid(2,1)
+			:SetColumn(0, {
+				ui:VBox(20):PackEnd({
+					ui:Label("Personal information"):SetFont("HEADING_LARGE")
+				})
+			})
+			:SetColumn(1, {
+				ui:VBox(10)
+					:PackEnd(ui:Label("Peter Jameson"):SetFont("HEADING_LARGE"))
+					:PackEnd(UI.Game.Face.New(ui), { "EXPAND", "FILL" })
+			})
 end
 
 local cargo = function ()
