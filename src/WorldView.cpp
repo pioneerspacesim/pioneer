@@ -280,6 +280,13 @@ void WorldView::SetCamType(enum CamType c)
 	UpdateCameraName();
 }
 
+void WorldView::ChangeInternalCameraMode(InternalCamera::Mode m)
+{
+	Pi::BoinkNoise();
+	m_internalCamera->SetMode(m);
+	UpdateCameraName();
+}
+
 void WorldView::UpdateCameraName()
 {
 	if (m_showCameraName)
@@ -767,33 +774,12 @@ void WorldView::Update()
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
 		if (GetCamType() == CAM_INTERNAL) {
-			bool changed = false;
-			if (KeyBindings::frontCamera.IsActive()) {
-				m_internalCamera->SetMode(InternalCamera::MODE_FRONT);
-				changed = true;
-			}
-			if (KeyBindings::rearCamera.IsActive()) {
-				m_internalCamera->SetMode(InternalCamera::MODE_REAR);
-				changed = true;
-			}
-			if (KeyBindings::leftCamera.IsActive()) {
-				m_internalCamera->SetMode(InternalCamera::MODE_LEFT);
-				changed = true;
-			}
-			if (KeyBindings::rightCamera.IsActive()) {
-				m_internalCamera->SetMode(InternalCamera::MODE_RIGHT);
-				changed = true;
-			}
-			if (KeyBindings::topCamera.IsActive()) {
-				m_internalCamera->SetMode(InternalCamera::MODE_TOP);
-				changed = true;
-			}
-			if (KeyBindings::bottomCamera.IsActive()) {
-				m_internalCamera->SetMode(InternalCamera::MODE_BOTTOM);
-				changed = true;
-			}
-			if (changed)
-				UpdateCameraName();
+			if (KeyBindings::frontCamera.IsActive())  ChangeInternalCameraMode(InternalCamera::MODE_FRONT);
+			if (KeyBindings::rearCamera.IsActive())   ChangeInternalCameraMode(InternalCamera::MODE_REAR);
+			if (KeyBindings::leftCamera.IsActive())   ChangeInternalCameraMode(InternalCamera::MODE_LEFT);
+			if (KeyBindings::rightCamera.IsActive())  ChangeInternalCameraMode(InternalCamera::MODE_RIGHT);
+			if (KeyBindings::topCamera.IsActive())    ChangeInternalCameraMode(InternalCamera::MODE_TOP);
+			if (KeyBindings::bottomCamera.IsActive()) ChangeInternalCameraMode(InternalCamera::MODE_BOTTOM);
 		} else {
 			MoveableCamera *cam = static_cast<MoveableCamera*>(m_activeCamera);
 			if (KeyBindings::cameraRotateUp.IsActive()) cam->RotateUp(frameTime);

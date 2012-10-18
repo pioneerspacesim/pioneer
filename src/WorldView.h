@@ -56,6 +56,8 @@ private:
 	void RefreshHyperspaceButton();
 	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
+
+	void ChangeInternalCameraMode(InternalCamera::Mode m);
 	void UpdateCameraName();
 
 	enum IndicatorSide {
