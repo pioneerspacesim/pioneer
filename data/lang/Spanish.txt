@@ -732,10 +732,6 @@ SHIP_IS_FULLY_LADEN
     Su nave está completamente cargada.
 YOU_DO_NOT_HAVE_ANY_X
     No dispone de %item.
-FRONT_COCKPIT_VIEW
-    Vista frontal de la cabina
-REAR_COCKPIT_VIEW
-    Vista trasera de la cabina
 CAMERA_FRONT_VIEW
     Vista frontal
 CAMERA_REAR_VIEW

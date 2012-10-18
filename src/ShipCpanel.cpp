@@ -33,6 +33,8 @@ ShipCpanel::ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r): Gui::Fixe
 	m_scanner = new ScannerWidget(r, rd);
 
 	InitObject();
+
+	m_camButton->SetActiveState(rd.Int32());
 }
 
 void ShipCpanel::InitObject()
@@ -398,6 +400,7 @@ void ShipCpanel::TimeStepUpdate(float step)
 void ShipCpanel::Save(Serializer::Writer &wr)
 {
 	m_scanner->Save(wr);
+	wr.Int32(m_camButton->GetState());
 }
 
 void ShipCpanel::SetOverlayText(OverlayTextPos pos, const std::string &text)
