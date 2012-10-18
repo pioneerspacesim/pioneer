@@ -1,6 +1,6 @@
 local ui = Engine.ui
 
-ui.templates.ShipInfo = function (args)
+ui.templates.InfoView = function (args)
 	local shipId = Game.player.shipType
 	local shipType = ShipType.GetShipType(shipId)
 

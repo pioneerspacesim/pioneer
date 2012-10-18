@@ -583,7 +583,7 @@ void Game::CreateViews()
 	Pi::systemView = new SystemView();
 	Pi::systemInfoView = new SystemInfoView();
 	Pi::spaceStationView = new SpaceStationView();
-	Pi::infoView = new UIView("ShipInfo");
+	Pi::infoView = new UIView("InfoView");
 	Pi::deathView = new DeathView();
 
 	// view manager will handle setting this probably
@@ -623,7 +623,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::systemView = new SystemView();
 	Pi::systemInfoView = new SystemInfoView();
 	Pi::spaceStationView = new SpaceStationView();
-	Pi::infoView = new UIView("ShipInfo");
+	Pi::infoView = new UIView("InfoView");
 	Pi::deathView = new DeathView();
 
 #if WITH_OBJECTVIEWER
