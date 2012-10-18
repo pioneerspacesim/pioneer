@@ -282,6 +282,8 @@ void WorldView::SetCamType(enum CamType c)
 
 void WorldView::ChangeInternalCameraMode(InternalCamera::Mode m)
 {
+	if (m_internalCamera->GetMode() == m) return;
+
 	Pi::BoinkNoise();
 	m_internalCamera->SetMode(m);
 	UpdateCameraName();
