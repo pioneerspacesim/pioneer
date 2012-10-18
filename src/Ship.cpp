@@ -241,9 +241,8 @@ void Ship::UpdateMass()
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
 }
 
-// returns velocity of engine exhausts in m/s
-double Ship::GetEffectiveExhaustVelocity(void) {
-	double denominator = GetShipType().fuelTankMass * GetShipType().thrusterFuelUse * 10;
+double Ship::GetFuelUseRate() {
+	double denominator = GetShipType().fuelTankMass * GetShipType().effectiveExhaustVelocity * 10;
 	return fabs(denominator > 0 ? GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9);
 }
 
@@ -255,7 +254,7 @@ double Ship::GetVelocityReachedWithFuelUsed(float fuelUsed) {
 	if(ShipMassAfter <= 0 || ShipMassNow <= 0) // shouldn't happen
 		return 0;
 
-	return GetEffectiveExhaustVelocity() * log(ShipMassNow/ShipMassAfter);
+	return GetShipType().effectiveExhaustVelocity * log(ShipMassNow/ShipMassAfter);
 }
 
 void Ship::Refuel() {
@@ -469,7 +468,7 @@ void Ship::UpdateFuelStats()
 	const ShipType &stype = GetShipType();
 
 	m_stats.fuel_tank_mass = stype.fuelTankMass;
-	m_stats.fuel_use = stype.thrusterFuelUse;
+	m_stats.fuel_use = GetFuelUseRate();
 	m_stats.fuel_tank_mass_left = m_stats.fuel_tank_mass * GetFuel();
 	//calculate thruster fuel usage weights
 	const float fwd = fabs(stype.linThrust[ShipType::THRUSTER_FORWARD]);
@@ -984,7 +983,7 @@ void Ship::UpdateAlertState()
 
 void Ship::UpdateFuel(const float timeStep)
 {
-	const float fuelUseRate = GetShipType().thrusterFuelUse * 0.01f;
+	const float fuelUseRate = GetFuelUseRate() * 0.01f;
 	const vector3d &tstate = GetThrusterState();
 	//weights calculated from thrust values during calcstats
 	float totalThrust = 0.f;
