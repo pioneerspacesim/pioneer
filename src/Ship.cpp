@@ -454,7 +454,7 @@ void Ship::UpdateEquipStats()
 			m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 		} else {
 			// for the sake of hyperspace range, we count ships mass as 60% of original.
-			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass);
+			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass + GetShipType().fuelTankMass);
 			m_stats.hyperspace_range = std::min(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, fuelType) /
 				(hyperclass * hyperclass));
 		}
@@ -544,7 +544,7 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 	float dist = distance_to_system(dest);
 
 	outFuelRequired = int(ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max));
-	double m_totalmass = m_stats.total_mass;
+	double m_totalmass = GetMass()/1000;
 	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
 	if (outFuelRequired < 1) outFuelRequired = 1;
 	if (dist > m_stats.hyperspace_range_max) {
