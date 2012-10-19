@@ -1163,11 +1163,12 @@ void Pi::MainLoop()
 
 float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)
 {
-	// for the sake of hyperspace range, we count ships mass as 60% of original.
+	// for the sake of hyperspace range, we count ships mass as 50% of original.
 	// Brian: "The 60% value was arrived at through trial and error,
 	// to scale the entire jump range calculation after things like ship mass,
 	// cargo mass, hyperdrive class, fuel use and fun were factored in."
-	return 200.0f * hyperclass * hyperclass / (total_mass_in_tonnes * 0.6f);
+	// Irigi: including fuel mass into the calculation needs 50% to rebalance.
+	return 200.0f * hyperclass * hyperclass / (total_mass_in_tonnes * 0.5f);
 }
 
 void Pi::Message(const std::string &message, const std::string &from, enum MsgLevel level)

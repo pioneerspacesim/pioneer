@@ -427,7 +427,6 @@ void Ship::UpdateEquipStats()
 		if (!hyperclass) { // no drive
 			m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 		} else {
-			// for the sake of hyperspace range, we count ships mass as 60% of original.
 			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass + GetShipType().fuelTankMass);
 			m_stats.hyperspace_range = std::min(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, fuelType) /
 				(hyperclass * hyperclass));
@@ -535,7 +534,7 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 
 		// Now mass has more of an effect on the time taken, this is mainly
 		// for gameplay considerations for courier missions and the like.
-		outDurationSecs = ((dist * dist * 0.5) / (m_stats.hyperspace_range_max * hyperclass)) *
+		outDurationSecs = ((dist * dist * 0.45) / (m_stats.hyperspace_range_max * hyperclass)) *
 			(60.0 * 60.0 * 24.0 * sqrt(m_totalmass));
 		//float hours = outDurationSecs * 0.0002778;
 		//printf("%f LY in %f hours OR %d seconds \n", dist, hours, outDurationSecs);
