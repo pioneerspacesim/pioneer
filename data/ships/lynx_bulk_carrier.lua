@@ -5,26 +5,26 @@
 define_static_ship {
 	name='Lynx Bulk Carrier',
 	model='lynx',
-	forward_thrust = 3e7,
-	reverse_thrust = 2e7,
-	up_thrust = 2e7,
-	down_thrust = 2e7,
-	left_thrust = 2e7,
-	right_thrust = 2e7,
+	forward_thrust = 800e5,
+	reverse_thrust = 533e5,
+	up_thrust = 533e5,
+	down_thrust = 533e5,
+	left_thrust = 533e5,
+	right_thrust = 533e5,
 	angular_thrust = 2e7,
 	gun_mounts =
 	{
 		{ v(0,0,-150), v(0,0,-1) },
 		{ v(0,0,-150), v(0,0,-1) }
 	},
-	max_cargo = 3500,
+	max_cargo = 3850,
 	max_laser = 0,
 	max_missile = 0,
 	max_cargoscoop = 0,
-	capacity = 3500,
+	capacity = 3850,
 	hull_mass = 800,
-	fuel_tank_mass = 200,
-	thruster_fuel_use = 0.0, -- These can be parked, engines running
+	fuel_tank_mass = 1200,
+	effective_exhaust_velocity = 55324e3, 
 	price = 6.5e6,
 	hyperdrive_class = 8,
 }

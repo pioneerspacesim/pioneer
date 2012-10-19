@@ -4,12 +4,12 @@
 define_ship {
 	name='Hammerhead Heavy Freighter',
 	model='hh',
-	forward_thrust = 14e7,
-	reverse_thrust = 5e7,
-	up_thrust = 5e7,
-	down_thrust = 2e7,
-	left_thrust = 2e7,
-	right_thrust = 2e7,
+	forward_thrust = 930e5,
+	reverse_thrust = 332e5,
+	up_thrust = 332e5,
+	down_thrust = 133e5,
+	left_thrust = 133e5,
+	right_thrust = 133e5,
 	angular_thrust = 50e7,
 	cockpit_front = v(0,1.5,-40),
 	cockpit_rear = v(0,10,-25),
@@ -25,14 +25,14 @@ define_ship {
 		{ v(0,0,0), v(0,0,1) },
 	},
 	max_atmoshield = 0,
-	max_cargo = 1220,
+	max_cargo = 1600,
 	max_laser = 2,
 	max_missile = 12,
 	max_cargoscoop = 0,
-	capacity = 1220,
+	capacity = 1600,
 	hull_mass = 666,
-	fuel_tank_mass = 337, --full tank, tons in addition to hull_mass
-	thruster_fuel_use = 0.003, --percent, per second (at max thrust, determined by strongest thruster)
+	fuel_tank_mass = 622, --full tank, tons in addition to hull_mass
+	effective_exhaust_velocity = 55712e3, --exhaust speed of propellant in m/s, it affects fuel use rate
 	price = 3e6,
 	hyperdrive_class = 7,
 }

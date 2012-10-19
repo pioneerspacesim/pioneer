@@ -851,7 +851,7 @@ printf("Autopilot of %s: dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f,
 	m_ship->GetLabel().c_str(),
 	targdist, relvel.Length(), m_ship->GetThrusterState().z, reldir.Dot(m_reldir),
 	relvel.Dot(reldir)/(relvel.Length()+1e-7), m_ship->GetFuel(),
-	m_ship->GetEffectiveExhaustVelocity() , haveFuelToReachThisVelSafely, m_state);
+	m_ship->GetShipType().effectiveExhaustVelocity , haveFuelToReachThisVelSafely, m_state);
 #endif
 
 	Body *body = m_frame->GetBodyFor();
@@ -919,7 +919,7 @@ printf("Autopilot of %s: dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f,
 
 	// refuel if low on fuel -- should work at least for AI controlled ships event without
 	// special ship equipment ,because their crew does it "manually".
-	if((!m_ship->IsType(Object::PLAYER) && (m_ship->GetFuel() < 0.5 && m_ship->GetShipType().fuelTankMass > 1) || m_ship->GetFuel() < 0.1) )
+	if((!m_ship->IsType(Object::PLAYER) && ((m_ship->GetFuel() < 0.5 && m_ship->GetShipType().fuelTankMass > 1) || m_ship->GetFuel() < 0.1)) )
 		m_ship->Refuel();
 
 	// flip check - if facing forward and not accelerating at maximum
