@@ -152,6 +152,23 @@ local econTrade = function ()
 	local usedCabins = Game.player:GetEquipCount("CABIN", "PASSENGER_CABIN")
 	local totalCabins = Game.player:GetEquipCount("CABIN", "UNOCCUPIED_CABIN") + usedCabins
 
+	local cargoNameColumn = {}
+	local cargoQuantityColumn = {}
+	for i = 1,#Constants.EquipType do
+		local type = Constants.EquipType[i]
+		if type ~= "NONE" then
+			local et = EquipType.GetEquipType(type)
+			local slot = et.slot
+			if slot == "CARGO" then
+				local count = Game.player:GetEquipCount(slot, type)
+				if count > 0 then
+					table.insert(cargoNameColumn, ui:Label(et.name))
+					table.insert(cargoQuantityColumn, ui:Label(count.."t"))
+				end
+			end
+		end
+	end
+
 	return ui:Expand():SetInnerWidget(
 		ui:Grid(2,1)
 			:SetColumn(0, {
@@ -177,8 +194,14 @@ local econTrade = function ()
 				})
 			})
 			:SetColumn(1, {
-				ui:VBox(10)
-					:PackEnd(ui:Label("Cargo"):SetFont("HEADING_LARGE"))
+				ui:VBox(10):PackEnd({
+					ui:Label("Cargo"):SetFont("HEADING_LARGE"),
+					ui:Scroller():SetInnerWidget(
+						ui:Grid(2,1)
+							:SetColumn(0, { ui:VBox():PackEnd(cargoNameColumn) })
+							:SetColumn(1, { ui:VBox():PackEnd(cargoQuantityColumn) })
+					)
+				})
 			})
 	)
 end
