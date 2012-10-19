@@ -103,7 +103,35 @@ local personalInfo = function ()
 		ui:Grid(2,1)
 			:SetColumn(0, {
 				ui:VBox(20):PackEnd({
-					ui:Label("Personal information"):SetFont("HEADING_LARGE")
+					ui:Label("Personal information"):SetFont("HEADING_LARGE"),
+					ui:Label("Combat"):SetFont("HEADING_NORMAL"),
+					ui:Grid(2,1)
+						:SetColumn(0, {
+							ui:VBox():PackEnd({
+								ui:Label("Rating:"),
+								ui:Label("Kills:"),
+							})
+						})
+						:SetColumn(1, {
+							ui:VBox():PackEnd({
+								ui:Label("Harmless"), -- XXX
+								ui:Label("23"),	      -- XXX
+							})
+						}),
+					ui:Label("Military"):SetFont("HEADING_NORMAL"),
+					ui:Grid(2,1)
+						:SetColumn(0, {
+							ui:VBox():PackEnd({
+								ui:Label("Allegiance:"),
+								ui:Label("Rank:"),
+							})
+						})
+						:SetColumn(1, {
+							ui:VBox():PackEnd({
+								ui:Label("None"), -- XXX
+								ui:Label("None"), -- XXX
+							})
+						})
 				})
 			})
 			:SetColumn(1, {
