@@ -86,7 +86,7 @@ public:
 	static int l_image(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		const std::string filename(luaL_checkstring(l, 2));
-		UI::Image::StretchMode stretchMode = UI::Image::STRETCH_PRESERVE;
+		UI::Image::StretchMode stretchMode = UI::Image::STRETCH_PRESERVE_ASPECT;
 		if (lua_gettop(l) > 2)
 			stretchMode = static_cast<UI::Image::StretchMode>(LuaConstants::GetConstantFromArg(l, "UIImageStretchMode", 3));
 		LuaObject<UI::Image>::PushToLua(c->Image(filename, stretchMode));

@@ -77,7 +77,7 @@ public:
 	UI::Scroller *Scroller() { return new UI::Scroller(this); }
 
 	// visual elements
-	UI::Image *Image(const std::string &filename, Image::StretchMode stretchMode = Image::STRETCH_PRESERVE) { return new UI::Image(this, filename, stretchMode); }
+	UI::Image *Image(const std::string &filename, Image::StretchMode stretchMode = Image::STRETCH_PRESERVE_ASPECT) { return new UI::Image(this, filename, stretchMode); }
 	UI::Label *Label(const std::string &text) { return new UI::Label(this, text); }
 
 	UI::MultiLineText *MultiLineText(const std::string &text) { return new UI::MultiLineText(this, text); }

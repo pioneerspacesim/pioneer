@@ -364,7 +364,7 @@ const struct EnumItem ENUM_UIMouseWheelDirection[] = {
 };
 
 const struct EnumItem ENUM_UIImageStretchMode[] = {
-	{ "PRESERVE", UI::Image::STRETCH_PRESERVE },
+	{ "PRESERVE_ASPECT", UI::Image::STRETCH_PRESERVE_ASPECT },
 	{ "MAX", UI::Image::STRETCH_MAX },
 	{ 0, 0 },
 };
