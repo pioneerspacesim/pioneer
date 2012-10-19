@@ -141,8 +141,46 @@ local personalInfo = function ()
 			})
 end
 
-local cargo = function ()
-	return ui:Label("cargo")
+local econTrade = function ()
+	local cash = Game.player:GetMoney()
+
+	local stats = Game.player:GetStats()
+
+	local usedCargo = stats.usedCargo
+	local totalCargo = stats.freeCapacity
+
+	local usedCabins = Game.player:GetEquipCount("CABIN", "PASSENGER_CABIN")
+	local totalCabins = Game.player:GetEquipCount("CABIN", "UNOCCUPIED_CABIN") + usedCabins
+
+	return ui:Expand():SetInnerWidget(
+		ui:Grid(2,1)
+			:SetColumn(0, {
+				ui:VBox(20):PackEnd({
+					ui:Label("Economy & Trade"):SetFont("HEADING_LARGE"),
+					ui:Grid(2,1)
+						:SetColumn(0, {
+							ui:VBox():PackEnd({
+								ui:Label("Cash:"),
+								ui:Margin(10),
+								ui:Label("Cargo space:"),
+								ui:Label("Cabins:"),
+							})
+						})
+						:SetColumn(1, {
+							ui:VBox():PackEnd({
+								ui:Label(string.format("$%.2f", cash)),
+								ui:Margin(10),
+								ui:Grid(2,1):SetRow(0, { ui:Label("Total: "..totalCargo), ui:Label("Used: "..usedCargo) }),
+								ui:Grid(2,1):SetRow(0, { ui:Label("Total: "..totalCabins), ui:Label("Used: "..usedCabins) }),
+							})
+						}),
+				})
+			})
+			:SetColumn(1, {
+				ui:VBox(10)
+					:PackEnd(ui:Label("Cargo"):SetFont("HEADING_LARGE"))
+			})
+	)
 end
 
 local missions = function ()
@@ -153,7 +191,7 @@ ui.templates.InfoView = function (args)
 	local buttonDefs = {
 		{ "Ship Information",     shipInfo },
 		{ "Personal Information", personalInfo },
-		{ "Cargo",                cargo },
+		{ "Economy & Trade",      econTrade },
 		{ "Missions",             missions }
     }
 
