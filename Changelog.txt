@@ -6,6 +6,7 @@ Alpha 28
 
    * Minor changes and tweaks
      * Improve placement of cameras in Imperial Courier/Trader (#1599)
+     * Laser bolts are now faster (#1607)
 
    * Fixes
      * Fix choice of non-/rotating initial frame in Space.SpawnShipNear (#1584, #1581)
