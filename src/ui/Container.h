@@ -5,7 +5,7 @@
 #define UI_CONTAINER_H
 
 #include "Widget.h"
-#include <list>
+#include <vector>
 
 // Container is the base class for all UI containers. Containers must
 // provide a Layout() method that implements its layout strategy. Layout()
