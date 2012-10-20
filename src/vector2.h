@@ -14,6 +14,7 @@ public:
 	vector2f() : x(0.0f), y(0.0f) {}
 	vector2f(float _x, float _y) : x(_x), y(_y) {}
 	explicit vector2f(int v) : x(float(v)), y(float(v)) {}
+	explicit vector2f(unsigned int v) : x(float(v)), y(float(v)) {}
 	explicit vector2f(float v) : x(v), y(v) {}
 	vector2f(const vector2f &v) : x(v.x), y(v.y) {}
 	explicit vector2f(const float v[2]) : x(v[0]), y(v[1]) {}

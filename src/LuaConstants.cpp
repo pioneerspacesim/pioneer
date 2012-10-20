@@ -716,6 +716,17 @@ void LuaConstants::Register(lua_State *l)
 	 */
 	_create_constant_table_nonconsecutive(l, "FileSystemRoot", ENUM_FileSystemRoot);
 
+	// XXX document these
+	_create_constant_table_nonconsecutive(l, "UIAlignDirection", ENUM_UIAlignDirection);
+	_create_constant_table_nonconsecutive(l, "UIBoxFlags", ENUM_UIBoxFlags);
+	_create_constant_table_nonconsecutive(l, "UIImageStretchMode", ENUM_UIImageStretchMode);
+	_create_constant_table_nonconsecutive(l, "UIFontSize", ENUM_UIFontSize);
+	_create_constant_table_nonconsecutive(l, "UIEventType", ENUM_UIEventType);
+	_create_constant_table_nonconsecutive(l, "UIKeyboardAction", ENUM_UIKeyboardAction);
+	_create_constant_table_nonconsecutive(l, "UIMouseButtonAction", ENUM_UIMouseButtonAction);
+	_create_constant_table_nonconsecutive(l, "UIMouseButtonType", ENUM_UIMouseButtonType);
+	_create_constant_table_nonconsecutive(l, "UIMouseWheelDirection", ENUM_UIMouseWheelDirection);
+
 
 	LUA_DEBUG_END(l, 0);
 }

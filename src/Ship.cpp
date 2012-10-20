@@ -461,23 +461,8 @@ void Ship::UpdateFuelStats()
 	UpdateMass();
 }
 
-void Ship::UpdateViewStats()
-{
-	const ShipType &stype = GetShipType();
-
-	m_frontViewOffset = stype.frontViewOffset;
-	m_rearViewOffset = stype.rearViewOffset;
-	m_frontCameraOffset = stype.frontCameraOffset;
-	m_rearCameraOffset = stype.rearCameraOffset;
-	m_leftCameraOffset = stype.leftCameraOffset;
-	m_rightCameraOffset = stype.rightCameraOffset;
-	m_topCameraOffset = stype.topCameraOffset;
-	m_bottomCameraOffset = stype.bottomCameraOffset;
-}
-
 void Ship::UpdateStats()
 {
-	UpdateViewStats();
 	UpdateEquipStats();
 	UpdateFuelStats();
 }
@@ -1283,6 +1268,7 @@ void Ship::UpdateFlavour(const ShipFlavour *f)
 {
 	assert(f->type == m_shipFlavour.type);
 	m_shipFlavour = *f;
+	onFlavourChanged.emit();
 	LuaEvent::Queue("onShipFlavourChanged", this);
 }
 
@@ -1295,6 +1281,7 @@ void Ship::ResetFlavour(const ShipFlavour *f)
 	m_equipment.InitSlotSizes(f->type);
 	SetLabel(f->regid);
 	Init();
+	onFlavourChanged.emit();
 	if (IsType(Object::PLAYER))
 		Pi::worldView->SetCamType(Pi::worldView->GetCamType());
 	LuaEvent::Queue("onShipFlavourChanged", this);

@@ -179,7 +179,7 @@ define_model('spacestation_entry1_stage3', {
 			use_material('text')
 			zbias(1, v(0,200,0), v(0,-1,0))
 			-- starport name
-			text(get_label(), v(60,200,-35), v(0,-1,0), v(-1,0,0), 5.0, {center=true})
+			text(get_label(), v(86,200,-35), v(0,-1,0), v(-1,0,0), 5.0)
 			-- docking bay number
 			text("DOCKING BAY 1", v(-60,200,-35), v(0,-1,0), v(-1,0,0), 7.0, {center=true})
 			zbias(0)
