@@ -126,23 +126,23 @@ private:
 	RectElement LoadRectElement(const std::string &spec);
 	BorderedRectElement LoadBorderedRectElement(const std::string &spec);
 
-    BorderedRectElement m_backgroundNormal;
-    BorderedRectElement m_backgroundActive;
+	BorderedRectElement m_backgroundNormal;
+	BorderedRectElement m_backgroundActive;
 
-    BorderedRectElement m_buttonDisabled;
-    BorderedRectElement m_buttonNormal;
-    BorderedRectElement m_buttonHover;
-    BorderedRectElement m_buttonActive;
+	BorderedRectElement m_buttonDisabled;
+	BorderedRectElement m_buttonNormal;
+	BorderedRectElement m_buttonHover;
+	BorderedRectElement m_buttonActive;
 
-    RectElement m_checkboxDisabled;
-    RectElement m_checkboxNormal;
-    RectElement m_checkboxHover;
-    RectElement m_checkboxActive;
+	RectElement m_checkboxDisabled;
+	RectElement m_checkboxNormal;
+	RectElement m_checkboxHover;
+	RectElement m_checkboxActive;
 
-    RectElement m_checkboxCheckedDisabled;
-    RectElement m_checkboxCheckedNormal;
-    RectElement m_checkboxCheckedHover;
-    RectElement m_checkboxCheckedActive;
+	RectElement m_checkboxCheckedDisabled;
+	RectElement m_checkboxCheckedNormal;
+	RectElement m_checkboxCheckedHover;
+	RectElement m_checkboxCheckedActive;
 
 	unsigned int m_buttonMinInnerSize;
 	unsigned int m_sliderMinInnerSize;

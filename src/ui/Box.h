@@ -59,7 +59,7 @@ protected:
 	friend class Context;
 	VBox(Context *context, float spacing): Box(context, BOX_VERTICAL, spacing) {}
 };
-	
+
 class HBox: public Box {
 protected:
 	friend class Context;

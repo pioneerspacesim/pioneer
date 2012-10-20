@@ -14,7 +14,7 @@ public:
 	virtual void Layout();
 
 protected:
-    friend class Context;
+	friend class Context;
 	Margin(Context *context, float margin) : Single(context), m_margin(margin) {}
 
 private:

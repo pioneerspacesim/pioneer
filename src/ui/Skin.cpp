@@ -143,12 +143,12 @@ Skin::BorderedRectElement Skin::LoadBorderedRectElement(const std::string &spec)
 
 Skin::Config::Config(const std::string &filename) : IniConfig(filename)
 {
-    m_map["ButtonMinInnerSize"] = 16;
-    m_map["SliderMinInnerSize"] = 32;
+	m_map["ButtonMinInnerSize"] = 16;
+	m_map["SliderMinInnerSize"] = 32;
 
-    m_map["ListAlphaNormal"] = "0.0";
-    m_map["ListAlphaHover"]  = "0.4";
-    m_map["ListAlphaSelect"] = "0.6";
+	m_map["ListAlphaNormal"] = "0.0";
+	m_map["ListAlphaHover"]  = "0.4";
+	m_map["ListAlphaSelect"] = "0.6";
 
 	Load();
 }

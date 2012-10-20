@@ -58,7 +58,7 @@ void Container::RemoveWidget(Widget *widget)
 		if ((*i).Get() == widget) break;
 	if (i == m_widgets.end())
 		return;
-	
+
 	widget->Detach();
 	m_widgets.erase(i);
 
@@ -69,7 +69,7 @@ void Container::RemoveAllWidgets()
 {
 	std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin();
 	while (i != m_widgets.end()) {
-        (*i)->Detach();
+		(*i)->Detach();
 		i = m_widgets.erase(i);
 	}
 
@@ -96,7 +96,7 @@ Widget *Container::GetWidgetAt(const Point &pos)
 		} else if (widget->Contains(relpos))
 			return widget;
 	}
-	
+
 	return this;
 }
 

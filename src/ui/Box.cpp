@@ -24,7 +24,7 @@ Point Box::PreferredSize()
 
 	Point::Component vc, fc;
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);
-	
+
 	m_preferredSize = Point(0);
 
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
@@ -126,7 +126,7 @@ void Box::Layout()
 
 Box *Box::PackStart(Widget *widget, Uint32 flags)
 {
-    assert(widget);
+	assert(widget);
 	AddWidget(widget);
 	m_children.push_front(Child(widget, flags));
 	if (flags & BOX_EXPAND) m_countExpanded++;
@@ -142,7 +142,7 @@ Box *Box::PackStart(const WidgetSet &set, Uint32 flags)
 
 Box *Box::PackEnd(Widget *widget, Uint32 flags)
 {
-    assert(widget);
+	assert(widget);
 	AddWidget(widget);
 	m_children.push_back(Child(widget, flags));
 	if (flags & BOX_EXPAND) m_countExpanded++;

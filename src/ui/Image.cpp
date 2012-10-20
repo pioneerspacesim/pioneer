@@ -19,7 +19,7 @@ Image::Image(Context *context, const std::string &filename, StretchMode stretchM
 
 Point Image::PreferredSize()
 {
-    return m_initialSize;
+	return m_initialSize;
 }
 
 void Image::Layout()
@@ -52,7 +52,7 @@ void Image::Layout()
 
 			break;
 		}
-		
+
 		default:
 			assert(0);
 	}
