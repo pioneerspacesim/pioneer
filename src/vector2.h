@@ -34,10 +34,6 @@ public:
 	friend vector2f operator*(const float &a, const vector2f &v) { return v*a; }
 	friend vector2f operator/(const vector2f &v, const float &a) { return vector2f(v.x/a, v.y/a); }
 
-	enum Component { X, Y };
-	const float &operator[](Component c) const { return c == X ? x : y; }
-	float &operator[](Component c) { return c == X ? x : y; }
-
 	float Length() const { return sqrt(x*x + y*y); }
 	float LengthSqr() const { return x*x + y*y; }
 	vector2f Normalized() const { const float invlen = 1.0f / sqrt(x*x + y*y); return vector2f(x*invlen, y*invlen); }
