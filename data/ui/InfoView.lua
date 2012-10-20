@@ -61,6 +61,7 @@ local shipInfo = function (args)
 								ui:Margin(10),
 								ui:Label("Front weapon:"),
 								ui:Label("Rear weapon:"),
+								ui:Label("Fuel:"),
 							})
 						})
 						:SetColumn(1, {
@@ -80,6 +81,7 @@ local shipInfo = function (args)
 								ui:Margin(10),
 								ui:Label(EquipType.GetEquipType(frontWeapon).name),
 								ui:Label(EquipType.GetEquipType(rearWeapon).name),
+								ui:Label(string.format("%d%%", Game.player.fuel)),
 							})
 						}),
 					ui:Label("Equipment"):SetFont("HEADING_NORMAL"),
