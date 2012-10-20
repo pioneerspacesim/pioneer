@@ -36,6 +36,7 @@ class LuaConsole;
 class LuaNameGen;
 namespace Graphics { class Renderer; }
 namespace Sound { class MusicPlayer; }
+namespace UI { class Context; }
 
 #if WITH_OBJECTVIEWER
 class ObjectViewerView;
@@ -67,7 +68,6 @@ public:
 	static void Start();
 	static void MainLoop();
 	static void TombStoneLoop();
-	static void HandleMenuKey(int n);
 	static void OnChangeDetailLevel();
 	static void ToggleLuaConsole();
 	static void Quit() __attribute((noreturn));
@@ -114,6 +114,8 @@ public:
 	static LuaTimer *luaTimer;
 
 	static LuaNameGen *luaNameGen;
+
+	static RefCountedPtr<UI::Context> ui;
 
 	static MTRand rng;
 	static int statSceneTris;

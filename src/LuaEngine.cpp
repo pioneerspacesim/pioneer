@@ -8,6 +8,8 @@
 #include "Pi.h"
 #include "utils.h"
 #include "FileSystem.h"
+#include "ui/Context.h"
+#include "GameMenuView.h"
 
 /*
  * Interface: Engine
@@ -59,14 +61,98 @@ static int l_engine_attr_ticks(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: ui
+ *
+ * The global <UI.Context> object. New UI widgets are created through this
+ * object.
+ *
+ * Availability:
+ *
+ *   alpha 25
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_engine_attr_ui(lua_State *l)
+{
+	LuaObject<UI::Context>::PushToLua(Pi::ui.Get());
+	return 1;
+}
+
+/*
+ * Attribute: version
+ *
+ * String describing the version of Pioneer
+ *
+ * Availability:
+ *
+ *   alpha 25
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_engine_attr_version(lua_State *l)
+{
+	std::string version(PIONEER_VERSION);
+	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
+    lua_pushlstring(l, version.c_str(), version.size());
+    return 1;
+}
+
+/*
+ * Function: Quit
+ *
+ * Exit the program. If there is a game running it ends the game first.
+ *
+ * > Engine.Quit()
+ *
+ * Availability:
+ *
+ *   not yet
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_engine_quit(lua_State *l)
+{
+	if (Pi::game)
+		Pi::EndGame();
+	Pi::Quit();
+	return 0;
+}
+
+// XXX hack to allow the new UI to activate the old settings view
+//     remove once its been converted
+static int l_engine_settings_view(lua_State *l)
+{
+	if (Pi::game || Pi::GetView() == Pi::gameMenuView)
+		return 0;
+	Pi::SetView(Pi::gameMenuView);
+	while (Pi::GetView() == Pi::gameMenuView) Gui::MainLoopIteration();
+	Pi::SetView(0);
+	return 0;
+}
+
 void LuaEngine::Register()
 {
-	static const luaL_Reg l_attrs[] = {
-		{ "rand",    l_engine_attr_rand    },
-		{ "ticks",   l_engine_attr_ticks   },
+	static const luaL_Reg l_methods[] = {
+		{ "Quit", l_engine_quit },
+		{ "SettingsView", l_engine_settings_view },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateObject(0, l_attrs, 0);
+	static const luaL_Reg l_attrs[] = {
+		{ "rand",    l_engine_attr_rand    },
+		{ "ticks",   l_engine_attr_ticks   },
+		{ "ui",      l_engine_attr_ui      },
+		{ "version", l_engine_attr_version },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateObject(l_methods, l_attrs, 0);
 	lua_setglobal(Lua::manager->GetLuaState(), "Engine");
 }
