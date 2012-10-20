@@ -187,7 +187,7 @@ local econTrade = function ()
 							ui:VBox():PackEnd({
 								ui:Label(string.format("$%.2f", cash)),
 								ui:Margin(10),
-								ui:Grid(2,1):SetRow(0, { ui:Label("Total: "..totalCargo), ui:Label("Used: "..usedCargo) }),
+								ui:Grid(2,1):SetRow(0, { ui:Label("Total: "..totalCargo.."t"), ui:Label("Used: "..usedCargo.."t") }),
 								ui:Grid(2,1):SetRow(0, { ui:Label("Total: "..totalCabins), ui:Label("Used: "..usedCabins) }),
 							})
 						}),
