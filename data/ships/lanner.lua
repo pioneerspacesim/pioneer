@@ -10,7 +10,7 @@ define_ship {
 	down_thrust = 80e5,
 	left_thrust = 80e5,
 	right_thrust = 80e5,
-	angular_thrust = 90e6,
+	angular_thrust = 1170e5,
 	cockpit_front = v(0,3,-28.5),
 	cockpit_rear = v(0,5,-24),
 	front_camera = v(0,0,-41),

@@ -11,7 +11,7 @@ define_static_ship {
 	down_thrust = 800e5,
 	left_thrust = 800e5,
 	right_thrust = 800e5,
-	angular_thrust = 5e7,
+	angular_thrust = 650e5,
 	gun_mounts =
 	{
 		{ v(0,0,-150), v(0,0,-1) },

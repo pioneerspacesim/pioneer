@@ -10,7 +10,7 @@ define_ship {
 	down_thrust = 68e5,
 	left_thrust = 68e5,
 	right_thrust = 68e5,
-	angular_thrust = 15e7,
+	angular_thrust = 1950e5,
 	gun_mounts =
 	{
 		{ v(0,0.6,-36), v(0,0,-1) },
