@@ -299,6 +299,7 @@ AC_CONFIG_FILES([
 	src/galaxy/Makefile
 	src/terrain/Makefile
 	src/text/Makefile
+	src/ui/Makefile
 	src/win32/Makefile
 	src/posix/Makefile
 	contrib/Makefile

@@ -614,20 +614,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulating evolution of the universe: %age{f.1} billion years ;-)
 TOMBSTONE_EPITAPH
     RIP OLD BEAN
-MM_START_NEW_GAME_EARTH
-    New game starting on Earth
-MM_START_NEW_GAME_E_ERIDANI
-    New game starting on Epsilon Eridani
-MM_START_NEW_GAME_LAVE
-    New game starting at Lave
-MM_START_NEW_GAME_DEBUG
-    New game starting on debug point
-MM_LOAD_SAVED_GAME
-    Load a saved game
-MM_SETTINGS
-    Settings
-MM_QUIT
-    Quit
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -746,10 +732,6 @@ SHIP_IS_FULLY_LADEN
     Your ship is fully laden.
 YOU_DO_NOT_HAVE_ANY_X
     You do not have any %item.
-FRONT_COCKPIT_VIEW
-	Front cockpit view
-REAR_COCKPIT_VIEW
-	Rear cockpit view
 CAMERA_FRONT_VIEW
 	Front camera
 CAMERA_REAR_VIEW

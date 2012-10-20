@@ -604,18 +604,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulation de l'évolution de l'univers : %age{f.1} milliards d'années ;-)
 TOMBSTONE_EPITAPH
     Paix à ton âme!
-MM_START_NEW_GAME_EARTH
-    Nouvelle partie, débute sur Terre
-MM_START_NEW_GAME_E_ERIDANI
-    Nouvelle partie, débute sur Espilon Eridani
-MM_START_NEW_GAME_LAVE
-    Nouvelle partie, débute sur Lave
-MM_START_NEW_GAME_DEBUG
-    Nouvelle partie, point de débogage
-MM_LOAD_SAVED_GAME
-    Charger une partie
-MM_QUIT
-    Quitter
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD

@@ -65,15 +65,6 @@ public:
 	int GetDockingPort() const { return m_dockedWithPort; }
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
-	const vector3d &GetFrontViewOffset() const { return m_frontViewOffset; }
-	const vector3d &GetRearViewOffset() const { return m_rearViewOffset; }
-	const vector3d &GetFrontCameraOffset() const { return m_frontCameraOffset; }
-	const vector3d &GetRearCameraOffset() const { return m_rearCameraOffset; }
-	const vector3d &GetLeftCameraOffset() const { return m_leftCameraOffset; }
-	const vector3d &GetRightCameraOffset() const { return m_rightCameraOffset; }
-	const vector3d &GetTopCameraOffset() const { return m_topCameraOffset; }
-	const vector3d &GetBottomCameraOffset() const { return m_bottomCameraOffset; }
-
 	void SetThrusterState(int axis, double level) {
 		if (m_thrusterFuel <= 0.f) level = 0.0;
 		m_thrusters[axis] = Clamp(level, -1.0, 1.0);
@@ -94,7 +85,6 @@ public:
 	const ShipType &GetShipType() const;
 	void UpdateEquipStats();
 	void UpdateFuelStats();
-	void UpdateViewStats();
 	void UpdateStats();
 	const shipstats_t &GetStats() const { return m_stats; }
 
@@ -246,6 +236,11 @@ public:
 
 	sigc::signal<void> onDock;				// JJ: check what these are for
 	sigc::signal<void> onUndock;
+
+	// mutable because asking to know when state changes is not the same as
+	// actually changing state
+	mutable sigc::signal<void> onFlavourChanged;
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -290,14 +285,6 @@ private:
 
 	vector3d m_thrusters;
 	vector3d m_angThrusters;
-	vector3d m_frontViewOffset;
-	vector3d m_rearViewOffset;
-	vector3d m_frontCameraOffset;
-	vector3d m_rearCameraOffset;
-	vector3d m_leftCameraOffset;
-	vector3d m_rightCameraOffset;
-	vector3d m_topCameraOffset;
-	vector3d m_bottomCameraOffset;
 
 	AlertState m_alertState;
 	double m_lastFiringAlert;
