@@ -1,6 +1,7 @@
 Alpha 28
 
    * New features
+     * First stages of the new UI system (#1586)
      * New mission type, Scout (get paid to scan particular planets) (#1348, #779)
      * Cockpit views have been removed (#1606)
 
