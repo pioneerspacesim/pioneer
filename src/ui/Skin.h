@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _UI_SKIN_H
-#define _UI_SKIN_H
+#ifndef UI_SKIN_H
+#define UI_SKIN_H
 
 #include "libs.h"
 #include "SmartPtr.h"
@@ -126,23 +126,23 @@ private:
 	RectElement LoadRectElement(const std::string &spec);
 	BorderedRectElement LoadBorderedRectElement(const std::string &spec);
 
-    BorderedRectElement m_backgroundNormal;
-    BorderedRectElement m_backgroundActive;
+	BorderedRectElement m_backgroundNormal;
+	BorderedRectElement m_backgroundActive;
 
-    BorderedRectElement m_buttonDisabled;
-    BorderedRectElement m_buttonNormal;
-    BorderedRectElement m_buttonHover;
-    BorderedRectElement m_buttonActive;
+	BorderedRectElement m_buttonDisabled;
+	BorderedRectElement m_buttonNormal;
+	BorderedRectElement m_buttonHover;
+	BorderedRectElement m_buttonActive;
 
-    RectElement m_checkboxDisabled;
-    RectElement m_checkboxNormal;
-    RectElement m_checkboxHover;
-    RectElement m_checkboxActive;
+	RectElement m_checkboxDisabled;
+	RectElement m_checkboxNormal;
+	RectElement m_checkboxHover;
+	RectElement m_checkboxActive;
 
-    RectElement m_checkboxCheckedDisabled;
-    RectElement m_checkboxCheckedNormal;
-    RectElement m_checkboxCheckedHover;
-    RectElement m_checkboxCheckedActive;
+	RectElement m_checkboxCheckedDisabled;
+	RectElement m_checkboxCheckedNormal;
+	RectElement m_checkboxCheckedHover;
+	RectElement m_checkboxCheckedActive;
 
 	unsigned int m_buttonMinInnerSize;
 	unsigned int m_sliderMinInnerSize;

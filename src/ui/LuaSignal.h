@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _UI_LUASIGNAL_H
-#define _UI_LUASIGNAL_H
+#ifndef UI_LUASIGNAL_H
+#define UI_LUASIGNAL_H
 
 namespace UI {
 
@@ -34,9 +34,9 @@ public:
 		return _trampoline_end(l, 2);
 	}
 
-    static inline void trampoline_void(T0 arg0, T1 arg1, lua_State *l, int idx) {
-        trampoline(arg0, arg1, l, idx);
-    }
+	static inline void trampoline_void(T0 arg0, T1 arg1, lua_State *l, int idx) {
+		trampoline(arg0, arg1, l, idx);
+	}
 };
 
 template <typename T0>
@@ -61,9 +61,9 @@ public:
 		return _trampoline_end(l, 0);
 	}
 
-    static inline void trampoline_void(lua_State *l, int idx) {
-        trampoline(l, idx);
-    }
+	static inline void trampoline_void(lua_State *l, int idx) {
+		trampoline(l, idx);
+	}
 };
 
 template <>
@@ -77,8 +77,8 @@ public:
 	}
 
 	static inline void trampoline_void(unsigned int arg0, const std::string &arg1, lua_State *l, int idx) {
-        trampoline(arg0, arg1, l, idx);
-    }
+		trampoline(arg0, arg1, l, idx);
+	}
 };
 
 class LuaSignalBase {

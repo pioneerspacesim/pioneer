@@ -467,23 +467,8 @@ void Ship::UpdateFuelStats()
 	UpdateMass();
 }
 
-void Ship::UpdateViewStats()
-{
-	const ShipType &stype = GetShipType();
-
-	m_frontViewOffset = stype.frontViewOffset;
-	m_rearViewOffset = stype.rearViewOffset;
-	m_frontCameraOffset = stype.frontCameraOffset;
-	m_rearCameraOffset = stype.rearCameraOffset;
-	m_leftCameraOffset = stype.leftCameraOffset;
-	m_rightCameraOffset = stype.rightCameraOffset;
-	m_topCameraOffset = stype.topCameraOffset;
-	m_bottomCameraOffset = stype.bottomCameraOffset;
-}
-
 void Ship::UpdateStats()
 {
-	UpdateViewStats();
 	UpdateEquipStats();
 	UpdateFuelStats();
 }
@@ -837,13 +822,10 @@ void Ship::FireWeapon(int num)
 	matrix4x4d m;
 	GetRotMatrix(m);
 
-	vector3d dir = vector3d(stype.gunMount[num].dir);
-	vector3d pos = vector3d(stype.gunMount[num].pos);
-	m_gunTemperature[num] += 0.01f;
+	const vector3d dir = m.ApplyRotationOnly(vector3d(stype.gunMount[num].dir));
+	const vector3d pos = m.ApplyRotationOnly(vector3d(stype.gunMount[num].pos)) + GetPosition();
 
-	dir = m.ApplyRotationOnly(dir);
-	pos = m.ApplyRotationOnly(pos);
-	pos += GetPosition();
+	m_gunTemperature[num] += 0.01f;
 
 	Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, num);
 	const LaserType &lt = Equip::lasers[Equip::types[t].tableIndex];
@@ -853,11 +835,16 @@ void Ship::FireWeapon(int num)
 
 	if (lt.flags & Equip::LASER_DUAL)
 	{
-		vector3d sep = dir.Cross(vector3d(m[4],m[5],m[6])).Normalized();
-		Projectile::Add(this, t, pos+5.0*sep, baseVel, dirVel);
-		Projectile::Add(this, t, pos-5.0*sep, baseVel, dirVel);
+		const ShipType::DualLaserOrientation orient = stype.gunMount[num].orient;
+		const vector3d orient_norm =
+				(orient == ShipType::DUAL_LASERS_VERTICAL) ? vector3d(m[0],m[1],m[2]) : vector3d(m[4],m[5],m[6]);
+		const vector3d sep = stype.gunMount[num].sep * dir.Cross(orient_norm).NormalizedSafe();
+
+		Projectile::Add(this, t, pos + sep, baseVel, dirVel);
+		Projectile::Add(this, t, pos - sep, baseVel, dirVel);
 	}
-	else Projectile::Add(this, t, pos, baseVel, dirVel);
+	else
+		Projectile::Add(this, t, pos, baseVel, dirVel);
 
 	/*
 			// trace laser beam through frame to see who it hits
@@ -1292,6 +1279,7 @@ void Ship::UpdateFlavour(const ShipFlavour *f)
 {
 	assert(f->type == m_shipFlavour.type);
 	m_shipFlavour = *f;
+	onFlavourChanged.emit();
 	LuaEvent::Queue("onShipFlavourChanged", this);
 }
 
@@ -1304,6 +1292,9 @@ void Ship::ResetFlavour(const ShipFlavour *f)
 	m_equipment.InitSlotSizes(f->type);
 	SetLabel(f->regid);
 	Init();
+	onFlavourChanged.emit();
+	if (IsType(Object::PLAYER))
+		Pi::worldView->SetCamType(Pi::worldView->GetCamType());
 	LuaEvent::Queue("onShipFlavourChanged", this);
 }
 

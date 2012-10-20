@@ -24,17 +24,19 @@ Point Box::PreferredSize()
 
 	Point::Component vc, fc;
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);
-	
+
 	m_preferredSize = Point(0);
 
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		const Point childPreferredSize = (*i).preferredSize = (*i).widget->PreferredSize();
 
-		m_preferredSize[vc] = std::min(m_preferredSize[vc]+childPreferredSize[vc], INT_MAX);
+		if (m_preferredSize[vc] != INT_MAX)
+			m_preferredSize[vc] = childPreferredSize[vc] == INT_MAX ? INT_MAX : m_preferredSize[vc]+childPreferredSize[vc];
+
 		m_preferredSize[fc] = std::max(m_preferredSize[fc], childPreferredSize[fc]);
 	}
 
-	if (m_children.size() > 1)
+	if (m_children.size() > 1 && m_preferredSize[vc] != INT_MAX)
 		m_preferredSize[vc] += m_spacing * (m_children.size()-1);
 
 	return m_preferredSize;
@@ -124,7 +126,7 @@ void Box::Layout()
 
 Box *Box::PackStart(Widget *widget, Uint32 flags)
 {
-    assert(widget);
+	assert(widget);
 	AddWidget(widget);
 	m_children.push_front(Child(widget, flags));
 	if (flags & BOX_EXPAND) m_countExpanded++;
@@ -140,7 +142,7 @@ Box *Box::PackStart(const WidgetSet &set, Uint32 flags)
 
 Box *Box::PackEnd(Widget *widget, Uint32 flags)
 {
-    assert(widget);
+	assert(widget);
 	AddWidget(widget);
 	m_children.push_back(Child(widget, flags));
 	if (flags & BOX_EXPAND) m_countExpanded++;

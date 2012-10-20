@@ -190,46 +190,38 @@ static void SplitTablePath(lua_State *l, const std::string &path)
 {
 	LUA_DEBUG_START(l);
 
-    static const std::string delim(".");
+	const char delim = '.';
 
 	std::string last;
 
 	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 
-    size_t start = 0, end = 0;
-    while (end != std::string::npos) {
-        // get to the first non-delim char
-        start = path.find_first_not_of(delim, end);
+	size_t start = 0, end = 0;
+	while (end != std::string::npos) {
+		// get to the first non-delim char
+		start = path.find_first_not_of(delim, end);
 
-        // read the end, no more to do
-        if (start == std::string::npos)
-            break;
+		// read the end, no more to do
+		if (start == std::string::npos)
+			break;
 
 		// have a fragment from last time, get the next table
-		if (last.size()) {
-			lua_pushstring(l, last.c_str());
-			lua_rawget(l, -2);
-			if (lua_isnil(l, -1)) {
-				lua_pop(l, 1);
-				lua_newtable(l);
-				lua_pushstring(l, last.c_str());
-				lua_pushvalue(l, -2);
-				lua_rawset(l, -4);
-			}
+		if (!last.empty()) {
+			luaL_getsubtable(l, -1, last.c_str());
 			assert(lua_istable(l, -1));
 			lua_remove(l, -2);
 		}
 
-        // find the end - next delim or end of string
-        end = path.find_first_of(delim, start);
+		// find the end - next delim or end of string
+		end = path.find_first_of(delim, start);
 
-        // extract the fragment and remember it
-        last = path.substr(start, (end == std::string::npos) ? std::string::npos : end - start);
-    }
+		// extract the fragment and remember it
+		last = path.substr(start, (end == std::string::npos) ? std::string::npos : end - start);
+	}
 
-	assert(last.size());
+	assert(!last.empty());
 
-	lua_pushstring(l, last.c_str());
+	lua_pushlstring(l, last.c_str(), last.size());
 
 	LUA_DEBUG_END(l, 2);
 }
@@ -271,7 +263,7 @@ static int dispatch_index(lua_State *l)
 			lua_pushstring(l, "type");
 			lua_rawget(l, -2);                  // object, key, metatable, type
 
-			std::string type(lua_tostring(l, -1));
+			const std::string type(lua_tostring(l, -1));
 			lua_pop(l, 1);                      // object, key, metatable
 			SplitTablePath(l, type);            // object, key, metatable, "global" table, leaf type name
 			lua_rawget(l, -2);                  // object, key, metatable, "global" table, method table

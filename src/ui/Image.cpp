@@ -19,7 +19,7 @@ Image::Image(Context *context, const std::string &filename, StretchMode stretchM
 
 Point Image::PreferredSize()
 {
-    return m_initialSize;
+	return m_initialSize;
 }
 
 void Image::Layout()
@@ -33,7 +33,7 @@ void Image::Layout()
 			activeArea = size;
 			break;
 
-		case STRETCH_PRESERVE: {
+		case STRETCH_PRESERVE_ASPECT: {
 
 			float originalRatio = float(m_initialSize.x) / float(m_initialSize.y);
 			float wantRatio = float(size.x) / float(size.y);
@@ -52,7 +52,7 @@ void Image::Layout()
 
 			break;
 		}
-		
+
 		default:
 			assert(0);
 	}

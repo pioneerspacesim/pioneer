@@ -124,8 +124,7 @@ static int l_game_end_game(lua_State *l)
 		return 0;
 	
 	// XXX stuff
-	
-	return 0;
+	return luaL_error(l, "Game.EndGame() is not yet implemented");
 }
 
 /*

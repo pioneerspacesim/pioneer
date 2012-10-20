@@ -315,7 +315,9 @@ pioneer_LDADD += \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 	$(PNG_LIBS) -lassimp
 
+if BUILD_WIN32
 pioneer_LDFLAGS = -Wl,-Map=pioneer.map
+endif
 
 if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
@@ -361,7 +363,9 @@ if !HAVE_LUA
 modelviewer_LDADD += ../contrib/lua/liblua.a
 endif
 
+if BUILD_WIN32
 modelviewer_LDFLAGS = -Wl,-Map=modelviewer.map
+endif
 
 check_PROGRAMS = tests uitest
 tests_SOURCES = \

@@ -44,7 +44,7 @@ template <> void LuaObject<UI::List>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "AddOption", LuaList::l_add_option },
-        { 0, 0 }
+		{ 0, 0 }
 	};
 
 	static const luaL_Reg l_attrs[] = {

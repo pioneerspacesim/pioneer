@@ -15,7 +15,7 @@ static inline void growToMinimum(Point &v, const int min)
 
 Point Button::PreferredSize()
 {
-    // child's preferred size
+	// child's preferred size
 	Point preferredSize(Single::PreferredSize());
 
 	// grow to minimum size if necessary

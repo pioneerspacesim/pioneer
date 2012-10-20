@@ -11,6 +11,8 @@ class LuaBox {
 public:
 
 	static inline Uint32 _unpack_flags(lua_State *l) {
+		LUA_DEBUG_START(l);
+
 		Uint32 flags = 0;
 
 		if (lua_gettop(l) > 2) {
@@ -21,8 +23,9 @@ public:
 				flags |= static_cast<Uint32>(LuaConstants::GetConstantFromArg(l, "UIBoxFlags", -1));
 				lua_pop(l, 1);
 			}
-			lua_pop(l, 1);
 		}
+
+		LUA_DEBUG_END(l, 0);
 
 		return flags;
 	}

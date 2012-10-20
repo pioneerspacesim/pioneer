@@ -50,11 +50,11 @@ TextLayout::TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::
 
 Point TextLayout::ComputeSize(const Point &maxArea)
 {
-    if (maxArea == Point()) return Point();
+	if (maxArea == Point()) return Point();
 
-    if (maxArea == m_lastRequested)
+	if (maxArea == m_lastRequested)
 		return m_lastSize;
-	
+
 	int spaceWidth = ceilf(m_font->GetGlyph(' ').advx);
 	int lineHeight = ceilf(m_font->GetHeight());
 

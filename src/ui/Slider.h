@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _UI_SLIDER_H
-#define _UI_SLIDER_H
+#ifndef UI_SLIDER_H
+#define UI_SLIDER_H
 
 #include "Widget.h"
 

@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _UI_WIDGET_H
-#define _UI_WIDGET_H
+#ifndef UI_WIDGET_H
+#define UI_WIDGET_H
 
 #include "libs.h"
 #include "Point.h"
@@ -41,7 +41,7 @@
 //   implementing a container. Widgets that aren't containers but don't intend
 //   to use their entire allocation should implement Layout() and call
 //   SetActiveArea() from it.
-//   
+//
 // - Update() is called every frame before Draw(). The widget may get its
 //   allocated size by calling GetSize() and can do any preparation for the
 //   actual draw at this point.
@@ -81,7 +81,7 @@ namespace UI {
 
 class Context;
 class Container;
-	
+
 class Widget : public RefCounted, public DeleteEmitter {
 protected:
 	// can't instantiate a base widget directly
@@ -142,6 +142,7 @@ public:
 	// general widget size (eg space size). might do nothing, depends on the
 	// widget
 	enum FontSize { // <enum scope='UI::Widget' name=UIFontSize prefix=FONT_SIZE_>
+		FONT_SIZE_INHERIT,
 		FONT_SIZE_XSMALL,
 		FONT_SIZE_SMALL,
 		FONT_SIZE_NORMAL,
@@ -151,7 +152,7 @@ public:
 	};
 
 	virtual Widget *SetFontSize(FontSize fontSize);
-	FontSize GetFontSize() const { return m_fontSize; }
+	FontSize GetFontSize() const;
 
 	// widget id. used for queries/searches
 	const std::string &GetId() const { return m_id; }
@@ -172,7 +173,7 @@ public:
 		}
 	};
 
-	
+
 	// raw key events
 	sigc::signal<bool,const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyDown;
 	sigc::signal<bool,const KeyboardEvent &>::accumulated<EventHandlerResultAccumulator> onKeyUp;
@@ -213,10 +214,10 @@ protected:
 	// internal event handlers. override to handle events. unlike the external
 	// on* signals, every widget in the stack is guaranteed to receive a call
 	// - there's no facility for stopping propogation up the stack
-    //
+	//
 	// as such, if you need to respond to an event inside a widget always
-    // without worrying about it being blocked, you should override the
-    // Handle* method instead of attaching to the signal.
+	// without worrying about it being blocked, you should override the
+	// Handle* method instead of attaching to the signal.
 	virtual void HandleKeyDown(const KeyboardEvent &event) {}
 	virtual void HandleKeyUp(const KeyboardEvent &event) {}
 	virtual void HandleMouseDown(const MouseButtonEvent &event) {}

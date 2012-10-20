@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _UI_ALIGN_H
-#define _UI_ALIGN_H
+#ifndef UI_ALIGN_H
+#define UI_ALIGN_H
 
 #include "Single.h"
 

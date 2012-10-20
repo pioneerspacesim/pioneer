@@ -17,7 +17,7 @@ public:
 			LuaObject<UI::HBox>::PushToLua(c->HBox());
 		return 1;
 	}
-	
+
 	static int l_vbox(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		if (lua_gettop(l) > 1)
@@ -26,7 +26,7 @@ public:
 			LuaObject<UI::VBox>::PushToLua(c->VBox());
 		return 1;
 	}
-	
+
 	static int l_grid(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 
@@ -45,13 +45,13 @@ public:
 		LuaObject<UI::Grid>::PushToLua(c->Grid(rowSpec, colSpec));
 		return 1;
 	}
-	
+
 	static int l_background(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::Background>::PushToLua(c->Background());
 		return 1;
 	}
-	
+
 	static int l_colorbackground(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		float r = luaL_checknumber(l, 2);
@@ -63,78 +63,78 @@ public:
 		LuaObject<UI::ColorBackground>::PushToLua(c->ColorBackground(Color(r,g,b,a)));
 		return 1;
 	}
-	
+
 	static int l_margin(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::Margin>::PushToLua(c->Margin(luaL_checknumber(l, 2)));
 		return 1;
 	}
-	
+
 	static int l_align(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		UI::Align::Direction dir = static_cast<UI::Align::Direction>(LuaConstants::GetConstantFromArg(l, "UIAlignDirection", 2));
 		LuaObject<UI::Align>::PushToLua(c->Align(dir));
 		return 1;
 	}
-	
+
 	static int l_scroller(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::Scroller>::PushToLua(c->Scroller());
 		return 1;
 	}
-	
+
 	static int l_image(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		const std::string filename(luaL_checkstring(l, 2));
-		UI::Image::StretchMode stretchMode = UI::Image::STRETCH_PRESERVE;
+		UI::Image::StretchMode stretchMode = UI::Image::STRETCH_PRESERVE_ASPECT;
 		if (lua_gettop(l) > 2)
 			stretchMode = static_cast<UI::Image::StretchMode>(LuaConstants::GetConstantFromArg(l, "UIImageStretchMode", 3));
 		LuaObject<UI::Image>::PushToLua(c->Image(filename, stretchMode));
 		return 1;
 	}
-	
+
 	static int l_label(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::Label>::PushToLua(c->Label(luaL_checkstring(l, 2)));
 		return 1;
 	}
-	
+
 	static int l_multilinetext(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::MultiLineText>::PushToLua(c->MultiLineText(luaL_checkstring(l, 2)));
 		return 1;
 	}
-	
+
 	static int l_button(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::Button>::PushToLua(c->Button());
 		return 1;
 	}
-	
+
 	static int l_checkbox(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::CheckBox>::PushToLua(c->CheckBox());
 		return 1;
 	}
-	
+
 	static int l_hslider(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::HSlider>::PushToLua(c->HSlider());
 		return 1;
 	}
-	
+
 	static int l_vslider(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::VSlider>::PushToLua(c->VSlider());
 		return 1;
 	}
-	
+
 	static int l_list(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::List>::PushToLua(c->List());
 		return 1;
 	}
-	
+
 	static int l_dropdown(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::DropDown>::PushToLua(c->DropDown());
@@ -176,7 +176,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "VSlider",         LuaContext::l_vslider         },
 		{ "List",            LuaContext::l_list            },
 		{ "DropDown",        LuaContext::l_dropdown        },
-        { 0, 0 }
+		{ 0, 0 }
 	};
 
 	static const luaL_Reg l_attrs[] = {

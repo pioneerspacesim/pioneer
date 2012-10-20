@@ -26,30 +26,30 @@ public:
 	virtual const char *GetName() const { return ""; }
 	virtual void Save(Serializer::Writer &wr) { }
 	virtual void Load(Serializer::Reader &rd) { }
-	virtual void Activate() { }
 	virtual bool IsExternal() const { return false; }
 };
 
-// Front view from the cockpit.
 class InternalCamera : public WorldViewCamera {
 public:
+	enum Mode {
+		MODE_FRONT,
+		MODE_REAR,
+		MODE_LEFT,
+		MODE_RIGHT,
+		MODE_TOP,
+		MODE_BOTTOM
+	};
+
 	InternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
 	Type GetType() const { return INTERNAL; }
 	const char *GetName() const { return m_name; }
-	void FrontCockpit();
-	void RearCockpit();
-	void Front();
-	void Rear();
-	void Left();
-	void Right();
-	void Top();
-	void Bottom();
+	void SetMode(Mode m);
+	Mode GetMode() const { return m_mode; }
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
-	void Activate();
 private:
-	matrix4x4d m_orient;
-	vector3d m_offs;
+	void OnShipFlavourChanged(const Ship *s);
+	Mode m_mode;
 	const char *m_name;
 };
 

@@ -732,10 +732,6 @@ SHIP_IS_FULLY_LADEN
     Your ship is fully laden.
 YOU_DO_NOT_HAVE_ANY_X
     You do not have any %item.
-FRONT_COCKPIT_VIEW
-	Front cockpit view
-REAR_COCKPIT_VIEW
-	Rear cockpit view
 CAMERA_FRONT_VIEW
 	Front camera
 CAMERA_REAR_VIEW

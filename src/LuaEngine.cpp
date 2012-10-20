@@ -82,26 +82,6 @@ static int l_engine_attr_ui(lua_State *l)
 }
 
 /*
- * Attribute: userdir
- *
- * The Pioneer configuration directory (should be writable).
- *
- * Availability:
- *
- *   alpha 14
- *
- * Status:
- *
- *   deprecated
- */
-static int l_engine_attr_userdir(lua_State *l)
-{
-	const std::string &userdir = FileSystem::GetUserDir();
-	lua_pushlstring(l, userdir.c_str(), userdir.size());
-	return 1;
-}
-
-/*
  * Attribute: version
  *
  * String describing the version of Pioneer
@@ -169,8 +149,7 @@ void LuaEngine::Register()
 		{ "rand",    l_engine_attr_rand    },
 		{ "ticks",   l_engine_attr_ticks   },
 		{ "ui",      l_engine_attr_ui      },
-		{ "userdir", l_engine_attr_userdir },
-        { "version", l_engine_attr_version },
+		{ "version", l_engine_attr_version },
 		{ 0, 0 }
 	};
 

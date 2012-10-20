@@ -15,7 +15,7 @@ Widget::Widget(Context *context) :
 	m_drawOffset(0),
 	m_activeOffset(0),
 	m_activeArea(0),
-	m_fontSize(FONT_SIZE_NORMAL),
+	m_fontSize(FONT_SIZE_INHERIT),
 	m_floating(false),
 	m_mouseOver(false),
 	m_mouseActive(false)
@@ -71,6 +71,15 @@ Widget *Widget::SetFontSize(FontSize fontSize)
 	m_fontSize = fontSize;
 	GetContext()->RequestLayout();
 	return this;
+}
+
+Widget::FontSize Widget::GetFontSize() const
+{
+	if (m_fontSize == FONT_SIZE_INHERIT) {
+		if (m_container) return m_container->GetFontSize();
+		return FONT_SIZE_NORMAL;
+	}
+	return m_fontSize;
 }
 
 bool Widget::TriggerKeyDown(const KeyboardEvent &event, bool emit)

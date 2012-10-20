@@ -70,9 +70,11 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 				case MouseButtonEvent::BUTTON_DOWN: {
 					// activate widget and remember it
-					assert(!m_mouseActiveReceiver);
-					m_mouseActiveReceiver = target;
-					target->TriggerMouseActivate();
+					if (!m_mouseActiveReceiver) {
+						m_mouseActiveReceiver = target;
+						m_mouseActiveTrigger = mouseButtonEvent.button;
+						target->TriggerMouseActivate();
+					}
 
 					MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, m_lastMousePosition-target->GetAbsolutePosition());
 					return target->TriggerMouseDown(translatedEvent);
@@ -81,7 +83,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 				case MouseButtonEvent::BUTTON_UP: {
 
 					// if there's an active widget, deactivate it
-					if (m_mouseActiveReceiver) {
+					if (m_mouseActiveReceiver && m_mouseActiveTrigger == mouseButtonEvent.button) {
 						m_mouseActiveReceiver->TriggerMouseDeactivate();
 
 						// if we released over the active widget, then we clicked it

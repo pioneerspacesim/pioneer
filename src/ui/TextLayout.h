@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _UI_TEXTLAYOUT_H
-#define _UI_TEXTLAYOUT_H
+#ifndef UI_TEXTLAYOUT_H
+#define UI_TEXTLAYOUT_H
 
 #include "Point.h"
 #include "RefCounted.h"

@@ -23,7 +23,7 @@
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 54;
+static const int  s_saveVersion   = 55;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -62,7 +62,7 @@ Game::Game(const SystemPath &path, const vector3d &pos) :
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
 
-    m_player.Reset(new Player("Interplanetary Shuttle"));
+    m_player.Reset(new Player("ip_shuttle"));
 
 	m_space->AddBody(m_player.Get());
 

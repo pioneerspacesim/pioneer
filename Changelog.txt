@@ -1,8 +1,31 @@
+Alpha 28
+
+   * New features
+     * First stages of the new UI system (#1586)
+     * New mission type, Scout (get paid to scan particular planets) (#1348, #779)
+     * Cockpit views have been removed (#1606)
+
+   * Minor changes and tweaks
+     * Improve placement of cameras in Imperial Courier/Trader (#1599)
+     * Laser bolts are now faster (#1607)
+
+   * Fixes
+     * Fix choice of non-/rotating initial frame in Space.SpawnShipNear (#1584, #1581)
+     * Hide thrusters in camera (not cockpit) views (#1578, #1577)
+     * Hammerhead's cockpit camera is now correct when the head is extended (#1594)
+     * Fix placement of docking bay text in 'nice_spacestation' orbital (#1154, #1605)
+
+   * Script and model changes
+     * Separation and orientation is now specified for dual laser mountings (#1518)
+     * Removed Engine.userdir (deprectated since alpha 26) (#1602)
+
+   * Internal changes
+     * Code clean-up in the handling of world view cameras (#1601)
+
 Alpha 27
 
    * New features
      * Factions, with custom goods illegality and colour coding (#1505, #1567, #1562)
-     * New mission type, Scout (get paid to scan particular planets) (#1348, #779)
      * New views (Left/Right/Top/Bottom, Cockpit Front/Rear) (#1454, #1539, #1544, #1564)
        NOTE -- view mode controls are bound to Numeric Keypad by default
        (they can be rebound in the View tab of the Settings screen)

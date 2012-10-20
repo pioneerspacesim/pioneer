@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _UI_IMAGE_H
-#define _UI_IMAGE_H
+#ifndef UI_IMAGE_H
+#define UI_IMAGE_H
 
 #include "Widget.h"
 #include "SmartPtr.h"
@@ -13,7 +13,7 @@ namespace UI {
 class Image: public Widget {
 public:
 	enum StretchMode { // <enum scope='UI::Image' name=UIImageStretchMode prefix=STRETCH_>
-		STRETCH_PRESERVE,   // preserve ratio
+		STRETCH_PRESERVE_ASPECT,   // preserve ratio
 		STRETCH_MAX         // stretch to entire area allocated by container
 	};
 

@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _UI_EVENTDISPATCHER_H
-#define _UI_EVENTDISPATCHER_H
+#ifndef UI_EVENTDISPATCHER_H
+#define UI_EVENTDISPATCHER_H
 
 #include "Event.h"
 #include <map>
@@ -31,6 +31,8 @@ private:
 	Container *m_baseContainer;
 
 	RefCountedPtr<Widget> m_mouseActiveReceiver;
+	MouseButtonEvent::ButtonType m_mouseActiveTrigger;
+
 	RefCountedPtr<Widget> m_lastMouseOverTarget;
 	Point m_lastMousePosition;
 

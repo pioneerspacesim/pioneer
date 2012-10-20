@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _UI_POINT_H
-#define _UI_POINT_H
+#ifndef UI_POINT_H
+#define UI_POINT_H
 
 #include "vector2.h"
 
@@ -16,7 +16,7 @@ public:
 	Point(int _x, int _y) : x(_x), y(_y) {}
 	explicit Point(int v) : x(v), y(v) {}
 	Point(const Point &p) : x(p.x), y(p.y) {}
-	
+
 	Point operator+(const Point &v) const { return Point(x+v.x,y+v.y); }
 	Point operator-(const Point &v) const { return Point(x-v.x,y-v.y); }
 	Point &operator+=(const Point &v) { x+=v.x; y+=v.y; return *this; }

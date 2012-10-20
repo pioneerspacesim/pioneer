@@ -23,7 +23,7 @@ template <> void LuaObject<UI::CheckBox>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 
-        { 0, 0 }
+		{ 0, 0 }
 	};
 
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);

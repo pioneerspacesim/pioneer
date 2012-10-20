@@ -24,7 +24,7 @@ ui.templates.FileDialog = function (args)
 	cancelButton.onClick:Connect(onCancel)
 
 	local dialog =
-		ui:Grid(3, 3)
+		ui:Grid({1,3,1}, {1,3,1})
 			:SetCell(1,1,
 				ui:VBox(10)
 					:PackEnd(ui:Background():SetInnerWidget(ui:Label(title)))
