@@ -1,4 +1,6 @@
-﻿
+﻿// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "DistanceFieldFont.h"
 #include "graphics/Texture.h"
 #include "graphics/VertexArray.h"
@@ -10,11 +12,10 @@
 
 namespace Text {
 
-static const vector2f s_fontGeomSize(0.8f, 1.2f);
-
 DistanceFieldFont::DistanceFieldFont(const std::string &definition, Graphics::Texture *tex)
 : m_texture(tex)
 , m_sheetSize(0.f)
+, m_fontSize(0.f)
 {
 	//parse definition
 	RefCountedPtr<FileSystem::FileData> fontdef = FileSystem::gameDataFiles.ReadFile(definition);
@@ -29,7 +30,9 @@ DistanceFieldFont::DistanceFieldFont(const std::string &definition, Graphics::Te
 		if (doingCharacters) {
 			ParseChar(line);
 		} else {
-			if (starts_with(line.begin, "common ")) //contains only non-char data we care about right now
+			if (starts_with(line.begin, "info")) //contains font size
+				ParseInfo(line);
+			else if (starts_with(line.begin, "common ")) //contains UV sheet w/h
 				ParseCommon(line);
 			else if (starts_with(line.begin, "chars ")) //after this, file should be all characters
 				doingCharacters = true;
@@ -40,19 +43,26 @@ DistanceFieldFont::DistanceFieldFont(const std::string &definition, Graphics::Te
 void DistanceFieldFont::GetGeometry(Graphics::VertexArray &va, const std::string &text, const vector2f &offset)
 {
 	assert(va.HasAttrib(Graphics::ATTRIB_NORMAL) && va.HasAttrib(Graphics::ATTRIB_UV0));
-	//using monospaced font
-	const float spacing = s_fontGeomSize.x;
-	vector2f offs(
-		text.length() * spacing * -0.5f,
-		-s_fontGeomSize.y/2.f
-	);
+	assert(!text.empty());
+
+	//add glyphs, initial cursor pos is where first glyph's lower left will be
+	vector2f cursor = offset;
+	vector2f bounds(0.f);
 	for(unsigned int i=0; i<text.length(); i++) {
 		Uint32 chr = Uint32(text.at(i));
 		std::map<Uint32, Glyph>::const_iterator it = m_glyphs.find(chr);
 		if (it != m_glyphs.end()) {
 			const Glyph &glyph = it->second;
-			AddGlyph(va, vector2f(i * spacing, 0.f) + offs, glyph);
+			AddGlyph(va, cursor + glyph.offset, glyph, bounds);
+			cursor.x += glyph.xAdvance;
 		}
+	}
+
+	//do an adjustment pass for centering now that the bounds are known
+	vector2f center = bounds / 2.f;
+	for (unsigned int i=0; i<va.position.size(); i++) {
+		va.position.at(i).x -= center.x;
+		va.position.at(i).y -= center.y;
 	}
 }
 
@@ -62,21 +72,24 @@ Graphics::VertexArray *DistanceFieldFont::CreateVertexArray() const
 	return new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0);
 }
 
-void DistanceFieldFont::AddGlyph(Graphics::VertexArray &va, const vector2f &pos, const Glyph& g)
+void DistanceFieldFont::AddGlyph(Graphics::VertexArray &va, const vector2f &pos, const Glyph& g, vector2f &bounds)
 {
-	vector3f n(0.f, 0.f, -1.f);
+	vector3f norm(0.f, 0.f, -1.f);
 	const vector2f &uv = g.uv; //uv offset
 	const float uWidth = g.uvSize.x;
 	const float vHeight = g.uvSize.y;
 	const float w = g.size.x;
 	const float h = g.size.y;
-	va.Add(vector3f(pos.x, pos.y, 0.f), n, vector2f(uv.x, uv.y+vHeight));
-	va.Add(vector3f(pos.x + w, pos.y, 0.f), n, vector2f(uv.x+uWidth, uv.y+vHeight));
-	va.Add(vector3f(pos.x, pos.y + h, 0.f), n, vector2f(uv.x, uv.y));
+	va.Add(vector3f(pos.x, pos.y, 0.f), norm, vector2f(uv.x, uv.y+vHeight));
+	va.Add(vector3f(pos.x + w, pos.y, 0.f), norm, vector2f(uv.x+uWidth, uv.y+vHeight));
+	va.Add(vector3f(pos.x, pos.y + h, 0.f), norm, vector2f(uv.x, uv.y));
 
-	va.Add(vector3f(pos.x, pos.y + h, 0.f), n, vector2f(uv.x, uv.y));
-	va.Add(vector3f(pos.x + w, pos.y, 0.f), n, vector2f(uv.x+uWidth, uv.y+vHeight));
-	va.Add(vector3f(pos.x + w, pos.y + h, 0.f), n, vector2f(uv.x+uWidth, uv.y));
+	va.Add(vector3f(pos.x, pos.y + h, 0.f), norm, vector2f(uv.x, uv.y));
+	va.Add(vector3f(pos.x + w, pos.y, 0.f), norm, vector2f(uv.x+uWidth, uv.y+vHeight));
+	va.Add(vector3f(pos.x + w, pos.y + h, 0.f), norm, vector2f(uv.x+uWidth, uv.y));
+
+	bounds.x = std::max(bounds.x, pos.x + w);
+	bounds.y = std::max(bounds.y, pos.y + h);
 }
 
 //split key=value
@@ -109,9 +122,6 @@ T get_value(const std::string& in)
 //get font definitions from a line of xml, insert glyph information into the map
 void DistanceFieldFont::ParseChar(const StringRange &r)
 {
-	//assumed format:
-	//char id=0 x=251.75 y=0 width=2 height=2.125 xoffset=-1 yoffset=30.875 xadvance=16 page=0 chnl=15
-
 	std::stringstream ss(r.ToString());
 	std::string token;
 
@@ -120,6 +130,7 @@ void DistanceFieldFont::ParseChar(const StringRange &r)
 	double y = 0.0;
 	double uSize = 0.0;
 	double vSize = 0.0;
+	double advance = 0.0;
 
 	while (ss >> token != 0) {
 			std::pair<std::string, std::string> pair;
@@ -136,12 +147,16 @@ void DistanceFieldFont::ParseChar(const StringRange &r)
 				uSize = get_value<double>(pair.second);
 			else if (pair.first == "height")
 				vSize = get_value<double>(pair.second);
+			else if (pair.first == "xadvance")
+				advance = get_value<float>(pair.second);
 	}
 
+	const float scale = 1.f/m_fontSize;
 	Glyph g;
 	g.uv = vector2f(float(x)/m_sheetSize.x, float(y)/m_sheetSize.y);
 	g.uvSize = vector2f(float(uSize)/m_sheetSize.x, float(vSize)/m_sheetSize.y);
-	g.size = s_fontGeomSize;
+	g.size = vector2f(float(uSize), float(vSize)) * scale;
+	g.xAdvance = advance * scale;
 	m_glyphs[id] = g;
 }
 
@@ -157,6 +172,21 @@ void DistanceFieldFont::ParseCommon(const StringRange &line)
 			m_sheetSize.x = get_value<float>(pair.second);
 		else if (pair.first == "scaleH")
 			m_sheetSize.y = get_value<float>(pair.second);
+	}
+}
+
+void DistanceFieldFont::ParseInfo(const StringRange &line)
+{
+	std::stringstream ss(line.ToString());
+	std::string token;
+
+	while (ss >> token != 0) {
+		std::pair<std::string, std::string> pair;
+		split_token(token, pair);
+		if (pair.first == "size") {
+			m_fontSize = get_value<float>(pair.second);
+			return;
+		}
 	}
 }
 
