@@ -178,14 +178,12 @@ void Widget::TriggerMouseActivate()
 {
 	m_mouseActive = true;
 	HandleMouseActivate();
-	if (GetContainer() && !IsFloating()) GetContainer()->TriggerMouseActivate();
 }
 
 void Widget::TriggerMouseDeactivate()
 {
 	m_mouseActive = false;
 	HandleMouseDeactivate();
-	if (GetContainer() && !IsFloating()) GetContainer()->TriggerMouseDeactivate();
 }
 
 }
