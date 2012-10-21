@@ -1,4 +1,5 @@
 local ui = Engine.ui
+local t = Translate:GetTranslator()
 
 local shipInfo = function (args)
 	local shipId = Game.player.shipType
@@ -95,6 +96,56 @@ local shipInfo = function (args)
 					:PackEnd(ui:Label(shipType.name):SetFont("HEADING_LARGE"))
 					:PackEnd(UI.Game.ShipSpinner.New(ui, Game.player.shipType))
 			})
+end
+
+local orbitalAnalysis = function ()
+	local orbitalBody -- What we, or our space station, are orbiting
+	local frameBody = Game.player.frameBody
+	if frameBody.superType == 'STARPORT' then
+		orbitalBody = Space.GetBody(frameBody.path:GetSystemBody().parent.index)
+	else
+		orbitalBody = frameBody
+	end
+	
+	local distance = Game.player:DistanceTo(orbitalBody)
+	local mass = orbitalBody.path:GetSystemBody().mass
+	local radius = orbitalBody.path:GetSystemBody().radius
+	local name = orbitalBody.label
+
+	local G = 6.67428e-11
+
+	local vCircular = math.sqrt((G * mass)/distance)
+	local vEscape = math.sqrt((2 * G * mass)/distance)
+	local vDescent = math.sqrt(G * mass * ((2 / distance) - (2 / (distance + radius))))
+
+	return ui:Expand():SetInnerWidget(
+		ui:VBox(20):PackEnd({
+			ui:Label(t('Orbital Analysis')):SetFont('HEADING_LARGE'),
+			ui:Label((t('Located {distance}km from the centre of {name}:')):interp({
+														-- convert to kilometres
+														distance = string.format('%6.2f',distance/1000),
+														name = name
+													})),
+			ui:Grid(2,1)
+				:SetColumn(0, {
+					ui:VBox():PackEnd({
+						ui:Label(t('Circular orbit speed:')),
+						ui:Label(t('Escape speed:')),
+						ui:Label(t('Descent-to-ground speed:')),
+					})
+				})
+				:SetColumn(1, {
+					ui:VBox():PackEnd({
+						-- convert to kilometres per second
+						ui:Label(string.format('%6.2fkm/s',vCircular/1000)),
+						ui:Label(string.format('%6.2fkm/s',vEscape/1000)),
+						ui:Label(string.format('%6.2fkm/s',vDescent/1000)),
+					})
+				}),
+			ui:Label((t('ORBITAL_ANALYSIS_NOTES')):interp({name = name}))
+		})
+	)
+
 end
 
 local personalInfo = function ()
@@ -217,7 +268,8 @@ ui.templates.InfoView = function (args)
 		{ "Ship Information",     shipInfo },
 		{ "Personal Information", personalInfo },
 		{ "Economy & Trade",      econTrade },
-		{ "Missions",             missions }
+		{ "Missions",             missions },
+		{ t('Orbit'),             orbitalAnalysis },
     }
 
 	local container = ui:Margin(30)
