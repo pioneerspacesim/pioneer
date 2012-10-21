@@ -1,4 +1,7 @@
-﻿#include "Label3D.h"
+﻿// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+#include "Label3D.h"
 #include "NodeVisitor.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
