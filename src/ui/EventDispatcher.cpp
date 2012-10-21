@@ -52,6 +52,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 					ShortcutMap::iterator i = m_shortcuts.find(keyEvent.keysym);
 					if (i != m_shortcuts.end()) {
 						(*i).second->TriggerClick();
+						DispatchSelect((*i).second);
 						return true;
 					}
 					return m_baseContainer->TriggerKeyUp(keyEvent);
@@ -87,8 +88,10 @@ bool EventDispatcher::Dispatch(const Event &event)
 						m_mouseActiveReceiver->TriggerMouseDeactivate();
 
 						// if we released over the active widget, then we clicked it
-						if (m_mouseActiveReceiver.Get() == target)
+						if (m_mouseActiveReceiver.Get() == target) {
 							m_mouseActiveReceiver->TriggerClick();
+							DispatchSelect(m_mouseActiveReceiver.Get());
+						}
 
 						m_mouseActiveReceiver.Reset();
 
@@ -173,6 +176,19 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const Point &mousePos
 		m_lastMouseOverTarget.Reset(target);
 		m_lastMouseOverTarget->TriggerMouseOver(mousePos-m_lastMouseOverTarget->GetAbsolutePosition());
 	}
+}
+
+void EventDispatcher::DispatchSelect(Widget *target)
+{
+	if (m_selected)
+		m_selected->TriggerDeselect();
+	
+	if (target->IsSelectable()) {
+		m_selected.Reset(target);
+		m_selected->TriggerSelect();
+	}
+	else
+		m_selected.Reset();
 }
 
 void EventDispatcher::LayoutUpdated()

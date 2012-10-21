@@ -27,6 +27,7 @@ public:
 
 private:
 	void DispatchMouseOverOut(Widget *target, const Point &mousePos);
+	void DispatchSelect(Widget *target);
 
 	Container *m_baseContainer;
 
@@ -35,6 +36,8 @@ private:
 
 	RefCountedPtr<Widget> m_lastMouseOverTarget;
 	Point m_lastMousePosition;
+
+	RefCountedPtr<Widget> m_selected;
 
 	typedef std::map<KeySym,Widget*> ShortcutMap;
 	ShortcutMap m_shortcuts;
