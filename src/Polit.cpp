@@ -86,14 +86,13 @@ void Init()
 	s_playerPerBlocCrimeRecord.clear();
 	s_playerPerBlocCrimeRecord.resize( numFactions );
 
-	// now setup the faction links, hopefully.
+	// now setup the factions link, hopefully (assumes no overlapping gov types, otherwise last faction wins)
 	for (Uint32 i=0; i<numFactions; i++) {
 		const Faction *fac = Faction::GetFaction(i);
-		if( fac ) {
-			s_govDesc[ fac->govType ].faction = i;
+		for(std::set<GovType>::iterator it = fac->govTypes.begin(); it != fac->govTypes.end(); ++it) {
+			s_govDesc[*it].faction = i;
 		}
 	}
-
 }
 
 void Serialize(Serializer::Writer &wr)
@@ -216,9 +215,9 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 			a = Polit::GOV_EARTHDEMOC;
 		} else if (human_infestedness > 0) {
 			const Faction *fac = Faction::GetFaction( s->GetFactionIndex() );
-			if( fac && fac->govType != GOV_INVALID) {
-				// found valid faction
-				a = fac->govType;
+			if( fac && !fac->govTypes.empty()) {
+				// found valid faction, return the first government type
+				a = static_cast<GovType>(*(fac->govTypes.begin()));	
 			} else {
 				// found an invalid faction, meaning index 0 and thus independent, pick something at random
 				a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));

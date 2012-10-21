@@ -96,7 +96,7 @@ static int l_fac_description(lua_State *L)
 static int l_fac_govtype(lua_State *L)
 {
 	Faction *fac = l_fac_check(L, 1);
-	fac->govType = static_cast<Polit::GovType>(LuaConstants::GetConstantFromArg(L, "PolitGovType", 2));
+	fac->govTypes.insert(static_cast<Polit::GovType>(LuaConstants::GetConstantFromArg(L, "PolitGovType", 2)));
 	lua_settop(L, 1);
 	return 1;
 }
@@ -305,12 +305,12 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 		Polit::GovType t = sec.m_systems[sysPath.systemIndex].customSys->govType;
 		a = t;
 	}
-	// if the custom system has a valid govType set then try to find a matching faction
+	// if the custom system has a valid govType set then try to find a faction with a matching govType
 	if( a != Polit::GOV_INVALID )
 	{
 		for (Uint32 index = 0; index < s_factions.size(); ++index) {
 			const Faction &fac = *s_factions[index];
-			if(fac.govType == a) {
+			if(fac.govTypes.find(a) != fac.govTypes.end()) {
 				return index;
 			}
 		}
@@ -368,7 +368,6 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 }
 
 Faction::Faction() :
-	govType(Polit::GOV_INVALID),
 	hasHomeworld(false),
 	foundingDate(0.0),
 	expansionRate(0.0)
