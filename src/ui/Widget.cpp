@@ -186,4 +186,16 @@ void Widget::TriggerMouseDeactivate()
 	HandleMouseDeactivate();
 }
 
+void Widget::TriggerSelect()
+{
+	m_selected = true;
+	HandleSelect();
+}
+
+void Widget::TriggerDeselect()
+{
+	m_selected = false;
+	HandleDeselect();
+}
+
 }
