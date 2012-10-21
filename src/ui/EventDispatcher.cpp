@@ -44,11 +44,26 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 bool EventDispatcher::Dispatch(const Event &event)
 {
 	switch (event.type) {
+
 		case Event::KEYBOARD: {
 			const KeyboardEvent keyEvent = static_cast<const KeyboardEvent&>(event);
 			switch (keyEvent.action) {
-				case KeyboardEvent::KEY_DOWN: return m_baseContainer->TriggerKeyDown(keyEvent);
+				case KeyboardEvent::KEY_DOWN: {
+					bool handled = m_baseContainer->TriggerKeyDown(keyEvent);
+
+					m_keyRepeatSym = keyEvent.keysym;
+					m_keyRepeatActive = true;
+
+					Widget *target = m_selected ? m_selected.Get() : m_baseContainer;
+					target->TriggerKeyPress(KeyboardEvent(KeyboardEvent::KEY_PRESS, m_keyRepeatSym));
+
+					return handled;
+				}
+
 				case KeyboardEvent::KEY_UP: {
+					if (m_keyRepeatActive && keyEvent.keysym == m_keyRepeatSym)
+						m_keyRepeatActive = false;
+
 					ShortcutMap::iterator i = m_shortcuts.find(keyEvent.keysym);
 					if (i != m_shortcuts.end()) {
 						(*i).second->TriggerClick();
@@ -57,6 +72,9 @@ bool EventDispatcher::Dispatch(const Event &event)
 					}
 					return m_baseContainer->TriggerKeyUp(keyEvent);
 				}
+
+				case KeyboardEvent::KEY_PRESS:
+					m_baseContainer->TriggerKeyPress(keyEvent);
 			}
 			return false;
 		}

@@ -241,6 +241,10 @@ protected:
 	virtual void HandleMouseActivate() {}
 	virtual void HandleMouseDeactivate() {}
 
+	// synthesized event. like KeyDown except you get multiple events if the
+	// key is held down
+	virtual void HandleKeyPress(const KeyboardEvent &event) {}
+
 	// internal synthesized events fired when a widget is selected or
 	// deselected. on mousedown, a widget becomes the selected widget unless
 	// its IsSelectable method returns false. the previously-selected widget
@@ -277,6 +281,8 @@ private:
 
 	void TriggerMouseActivate();
 	void TriggerMouseDeactivate();
+
+	bool TriggerKeyPress(const KeyboardEvent &event, bool emit = true);
 
 	void TriggerSelect();
 	void TriggerDeselect();
