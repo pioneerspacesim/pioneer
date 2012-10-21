@@ -25,6 +25,8 @@ public:
 	bool Dispatch(const Event &event);
 	bool DispatchSDLEvent(const SDL_Event &event);
 
+	void Update();
+
 	void LayoutUpdated();
 
 	void AddShortcut(const KeySym &keysym, Widget *target);
@@ -47,6 +49,7 @@ private:
 
 	KeySym m_keyRepeatSym;
 	bool m_keyRepeatActive;
+	Uint32 m_nextKeyRepeat;
 
 	typedef std::map<KeySym,Widget*> ShortcutMap;
 	ShortcutMap m_shortcuts;

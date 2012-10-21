@@ -8,6 +8,9 @@
 
 namespace UI {
 
+static const Uint32 KEY_REPEAT_PAUSE    = 500;
+static const Uint32 KEY_REPEAT_INTERVAL = 50;
+
 static inline MouseButtonEvent::ButtonType MouseButtonFromSDLButton(Uint8 sdlButton) {
 	return
 		sdlButton == SDL_BUTTON_LEFT   ? MouseButtonEvent::BUTTON_LEFT   :
@@ -53,9 +56,9 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 					m_keyRepeatSym = keyEvent.keysym;
 					m_keyRepeatActive = true;
+					m_nextKeyRepeat = SDL_GetTicks() + KEY_REPEAT_PAUSE;
 
-					Widget *target = m_selected ? m_selected.Get() : m_baseContainer;
-					target->TriggerKeyPress(KeyboardEvent(KeyboardEvent::KEY_PRESS, m_keyRepeatSym));
+					Dispatch(KeyboardEvent(KeyboardEvent::KEY_PRESS, m_keyRepeatSym));
 
 					return handled;
 				}
@@ -73,8 +76,10 @@ bool EventDispatcher::Dispatch(const Event &event)
 					return m_baseContainer->TriggerKeyUp(keyEvent);
 				}
 
-				case KeyboardEvent::KEY_PRESS:
-					m_baseContainer->TriggerKeyPress(keyEvent);
+				case KeyboardEvent::KEY_PRESS: {
+					Widget *target = m_selected ? m_selected.Get() : m_baseContainer;
+					target->TriggerKeyPress(KeyboardEvent(KeyboardEvent::KEY_PRESS, m_keyRepeatSym));
+				}
 			}
 			return false;
 		}
@@ -207,6 +212,17 @@ void EventDispatcher::DispatchSelect(Widget *target)
 	}
 	else
 		m_selected.Reset();
+}
+
+void EventDispatcher::Update()
+{
+	if (!m_keyRepeatActive) return;
+
+	Uint32 now = SDL_GetTicks();
+	if (m_nextKeyRepeat <= now) {
+		Dispatch(KeyboardEvent(KeyboardEvent::KEY_PRESS, m_keyRepeatSym));
+		m_nextKeyRepeat = now + KEY_REPEAT_INTERVAL;
+	}
 }
 
 void EventDispatcher::LayoutUpdated()
