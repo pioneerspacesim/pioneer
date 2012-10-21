@@ -32,9 +32,11 @@ private:
 	};
 	Graphics::Texture *m_texture;
 	std::map<Uint32, Glyph> m_glyphs;
+	vector2f m_sheetSize;
 
-	void ParseLine(const StringRange&);
 	void AddGlyph(Graphics::VertexArray &va, const vector2f &pos, const Glyph&);
+	void ParseChar(const StringRange& line);
+	void ParseCommon(const StringRange& line);
 };
 
 }

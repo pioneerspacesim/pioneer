@@ -27,7 +27,7 @@ Loader::Loader(Graphics::Renderer *r) :
 	m_model(0)
 {
 	Graphics::Texture *sdfTex = Graphics::TextureBuilder("fonts/label3d.png", Graphics::LINEAR_CLAMP, true, true, true).GetOrCreateTexture(r, "model");
-	m_labelFont.Reset(new Text::DistanceFieldFont("fonts/sdf_definition.fnt", sdfTex));
+	m_labelFont.Reset(new Text::DistanceFieldFont("fonts/sdf_definition.txt", sdfTex));
 }
 
 Loader::~Loader()
