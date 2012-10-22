@@ -51,4 +51,19 @@ TextEntry *TextEntry::SetText(const std::string &text)
 	return this;
 }
 
+void TextEntry::HandleKeyPress(const KeyboardEvent &event)
+{
+	std::string text(m_label->GetText());
+	if (event.keysym.sym == SDLK_BACKSPACE) {
+		if (text.size() > 0) {
+			text.erase(text.size()-1);
+			m_label->SetText(text);
+		}
+	}
+	else {
+		text.push_back(event.keysym.unicode);
+		m_label->SetText(text);
+	}
+}
+
 }

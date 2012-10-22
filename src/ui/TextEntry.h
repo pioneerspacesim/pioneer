@@ -24,6 +24,8 @@ protected:
 	friend class Context;
 	TextEntry(Context *context, const std::string &text);
 
+	virtual void HandleKeyPress(const KeyboardEvent &event);
+
 private:
 	Label *m_label;
 };
