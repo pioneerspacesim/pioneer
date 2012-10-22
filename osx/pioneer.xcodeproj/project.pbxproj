@@ -286,6 +286,51 @@
 		4AB7D62E1472A83E00158DE4 /* TerrainHeightRuggedLava.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5FE1472A83E00158DE4 /* TerrainHeightRuggedLava.cpp */; };
 		4AB7D62F1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D5FF1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp */; };
 		4AB7D6301472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB7D6001472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp */; };
+		4ABF307916335A1100664653 /* Align.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF302E16335A1100664653 /* Align.cpp */; };
+		4ABF307A16335A1100664653 /* Background.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF303016335A1100664653 /* Background.cpp */; };
+		4ABF307B16335A1100664653 /* Box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF303216335A1100664653 /* Box.cpp */; };
+		4ABF307C16335A1100664653 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF303416335A1100664653 /* Button.cpp */; };
+		4ABF307D16335A1100664653 /* CellSpec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF303616335A1100664653 /* CellSpec.cpp */; };
+		4ABF307E16335A1100664653 /* CheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF303816335A1100664653 /* CheckBox.cpp */; };
+		4ABF307F16335A1100664653 /* ColorBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF303A16335A1100664653 /* ColorBackground.cpp */; };
+		4ABF308016335A1100664653 /* Container.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF303C16335A1100664653 /* Container.cpp */; };
+		4ABF308116335A1100664653 /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF303E16335A1100664653 /* Context.cpp */; };
+		4ABF308216335A1100664653 /* DropDown.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF304016335A1100664653 /* DropDown.cpp */; };
+		4ABF308316335A1100664653 /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF304216335A1100664653 /* Event.cpp */; };
+		4ABF308416335A1100664653 /* EventDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF304416335A1100664653 /* EventDispatcher.cpp */; };
+		4ABF308516335A1100664653 /* FloatContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF304616335A1100664653 /* FloatContainer.cpp */; };
+		4ABF308616335A1100664653 /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF304816335A1100664653 /* Grid.cpp */; };
+		4ABF308716335A1100664653 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF304A16335A1100664653 /* Image.cpp */; };
+		4ABF308816335A1100664653 /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF304C16335A1100664653 /* Label.cpp */; };
+		4ABF308916335A1100664653 /* List.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF304E16335A1100664653 /* List.cpp */; };
+		4ABF308A16335A1100664653 /* Lua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305016335A1100664653 /* Lua.cpp */; };
+		4ABF308B16335A1100664653 /* LuaAlign.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305216335A1100664653 /* LuaAlign.cpp */; };
+		4ABF308C16335A1100664653 /* LuaBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305316335A1100664653 /* LuaBackground.cpp */; };
+		4ABF308D16335A1100664653 /* LuaBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305416335A1100664653 /* LuaBox.cpp */; };
+		4ABF308E16335A1100664653 /* LuaButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305516335A1100664653 /* LuaButton.cpp */; };
+		4ABF308F16335A1100664653 /* LuaCheckBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305616335A1100664653 /* LuaCheckBox.cpp */; };
+		4ABF309016335A1100664653 /* LuaColorBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305716335A1100664653 /* LuaColorBackground.cpp */; };
+		4ABF309116335A1100664653 /* LuaContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305816335A1100664653 /* LuaContainer.cpp */; };
+		4ABF309216335A1100664653 /* LuaContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305916335A1100664653 /* LuaContext.cpp */; };
+		4ABF309316335A1100664653 /* LuaDropDown.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305A16335A1100664653 /* LuaDropDown.cpp */; };
+		4ABF309416335A1100664653 /* LuaGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305B16335A1100664653 /* LuaGrid.cpp */; };
+		4ABF309516335A1100664653 /* LuaImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305C16335A1100664653 /* LuaImage.cpp */; };
+		4ABF309616335A1100664653 /* LuaLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305D16335A1100664653 /* LuaLabel.cpp */; };
+		4ABF309716335A1100664653 /* LuaList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305E16335A1100664653 /* LuaList.cpp */; };
+		4ABF309816335A1100664653 /* LuaMargin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF305F16335A1100664653 /* LuaMargin.cpp */; };
+		4ABF309916335A1100664653 /* LuaMultiLineText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF306016335A1100664653 /* LuaMultiLineText.cpp */; };
+		4ABF309A16335A1100664653 /* LuaScroller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF306116335A1100664653 /* LuaScroller.cpp */; };
+		4ABF309B16335A1100664653 /* LuaSingle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF306316335A1100664653 /* LuaSingle.cpp */; };
+		4ABF309C16335A1100664653 /* LuaSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF306416335A1100664653 /* LuaSlider.cpp */; };
+		4ABF309D16335A1100664653 /* LuaWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF306516335A1100664653 /* LuaWidget.cpp */; };
+		4ABF309F16335A1100664653 /* Margin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF306716335A1100664653 /* Margin.cpp */; };
+		4ABF30A016335A1100664653 /* MultiLineText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF306916335A1100664653 /* MultiLineText.cpp */; };
+		4ABF30A116335A1100664653 /* Scroller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF306C16335A1100664653 /* Scroller.cpp */; };
+		4ABF30A216335A1100664653 /* Single.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF306E16335A1100664653 /* Single.cpp */; };
+		4ABF30A316335A1100664653 /* Skin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF307016335A1100664653 /* Skin.cpp */; };
+		4ABF30A416335A1100664653 /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF307216335A1100664653 /* Slider.cpp */; };
+		4ABF30A516335A1100664653 /* TextLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF307416335A1100664653 /* TextLayout.cpp */; };
+		4ABF30A616335A1100664653 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ABF307616335A1100664653 /* Widget.cpp */; };
 		4ACC6D1C15401E7000C59914 /* Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC6D1215401E7000C59914 /* Font.cpp */; };
 		4ACC6D1E15401E7000C59914 /* TextSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC6D1615401E7000C59914 /* TextSupport.cpp */; };
 		4ACC6D1F15401E7000C59914 /* TextureFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC6D1815401E7000C59914 /* TextureFont.cpp */; };
@@ -919,6 +964,80 @@
 		4AB7D5FF1472A83E00158DE4 /* TerrainHeightWaterSolid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightWaterSolid.cpp; sourceTree = "<group>"; };
 		4AB7D6001472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightWaterSolidCanyons.cpp; sourceTree = "<group>"; };
 		4AB7D6011472A83E00158DE4 /* TerrainNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerrainNoise.h; sourceTree = "<group>"; };
+		4ABF302E16335A1100664653 /* Align.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Align.cpp; sourceTree = "<group>"; };
+		4ABF302F16335A1100664653 /* Align.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Align.h; sourceTree = "<group>"; };
+		4ABF303016335A1100664653 /* Background.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Background.cpp; sourceTree = "<group>"; };
+		4ABF303116335A1100664653 /* Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Background.h; sourceTree = "<group>"; };
+		4ABF303216335A1100664653 /* Box.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Box.cpp; sourceTree = "<group>"; };
+		4ABF303316335A1100664653 /* Box.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box.h; sourceTree = "<group>"; };
+		4ABF303416335A1100664653 /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
+		4ABF303516335A1100664653 /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
+		4ABF303616335A1100664653 /* CellSpec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CellSpec.cpp; sourceTree = "<group>"; };
+		4ABF303716335A1100664653 /* CellSpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellSpec.h; sourceTree = "<group>"; };
+		4ABF303816335A1100664653 /* CheckBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheckBox.cpp; sourceTree = "<group>"; };
+		4ABF303916335A1100664653 /* CheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckBox.h; sourceTree = "<group>"; };
+		4ABF303A16335A1100664653 /* ColorBackground.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ColorBackground.cpp; sourceTree = "<group>"; };
+		4ABF303B16335A1100664653 /* ColorBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorBackground.h; sourceTree = "<group>"; };
+		4ABF303C16335A1100664653 /* Container.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Container.cpp; sourceTree = "<group>"; };
+		4ABF303D16335A1100664653 /* Container.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Container.h; sourceTree = "<group>"; };
+		4ABF303E16335A1100664653 /* Context.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Context.cpp; sourceTree = "<group>"; };
+		4ABF303F16335A1100664653 /* Context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Context.h; sourceTree = "<group>"; };
+		4ABF304016335A1100664653 /* DropDown.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DropDown.cpp; sourceTree = "<group>"; };
+		4ABF304116335A1100664653 /* DropDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropDown.h; sourceTree = "<group>"; };
+		4ABF304216335A1100664653 /* Event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Event.cpp; sourceTree = "<group>"; };
+		4ABF304316335A1100664653 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		4ABF304416335A1100664653 /* EventDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventDispatcher.cpp; sourceTree = "<group>"; };
+		4ABF304516335A1100664653 /* EventDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDispatcher.h; sourceTree = "<group>"; };
+		4ABF304616335A1100664653 /* FloatContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FloatContainer.cpp; sourceTree = "<group>"; };
+		4ABF304716335A1100664653 /* FloatContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatContainer.h; sourceTree = "<group>"; };
+		4ABF304816335A1100664653 /* Grid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
+		4ABF304916335A1100664653 /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
+		4ABF304A16335A1100664653 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
+		4ABF304B16335A1100664653 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		4ABF304C16335A1100664653 /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Label.cpp; sourceTree = "<group>"; };
+		4ABF304D16335A1100664653 /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Label.h; sourceTree = "<group>"; };
+		4ABF304E16335A1100664653 /* List.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = List.cpp; sourceTree = "<group>"; };
+		4ABF304F16335A1100664653 /* List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
+		4ABF305016335A1100664653 /* Lua.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lua.cpp; sourceTree = "<group>"; };
+		4ABF305116335A1100664653 /* Lua.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lua.h; sourceTree = "<group>"; };
+		4ABF305216335A1100664653 /* LuaAlign.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaAlign.cpp; sourceTree = "<group>"; };
+		4ABF305316335A1100664653 /* LuaBackground.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaBackground.cpp; sourceTree = "<group>"; };
+		4ABF305416335A1100664653 /* LuaBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaBox.cpp; sourceTree = "<group>"; };
+		4ABF305516335A1100664653 /* LuaButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaButton.cpp; sourceTree = "<group>"; };
+		4ABF305616335A1100664653 /* LuaCheckBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaCheckBox.cpp; sourceTree = "<group>"; };
+		4ABF305716335A1100664653 /* LuaColorBackground.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaColorBackground.cpp; sourceTree = "<group>"; };
+		4ABF305816335A1100664653 /* LuaContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaContainer.cpp; sourceTree = "<group>"; };
+		4ABF305916335A1100664653 /* LuaContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaContext.cpp; sourceTree = "<group>"; };
+		4ABF305A16335A1100664653 /* LuaDropDown.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaDropDown.cpp; sourceTree = "<group>"; };
+		4ABF305B16335A1100664653 /* LuaGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaGrid.cpp; sourceTree = "<group>"; };
+		4ABF305C16335A1100664653 /* LuaImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaImage.cpp; sourceTree = "<group>"; };
+		4ABF305D16335A1100664653 /* LuaLabel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaLabel.cpp; sourceTree = "<group>"; };
+		4ABF305E16335A1100664653 /* LuaList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaList.cpp; sourceTree = "<group>"; };
+		4ABF305F16335A1100664653 /* LuaMargin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaMargin.cpp; sourceTree = "<group>"; };
+		4ABF306016335A1100664653 /* LuaMultiLineText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaMultiLineText.cpp; sourceTree = "<group>"; };
+		4ABF306116335A1100664653 /* LuaScroller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaScroller.cpp; sourceTree = "<group>"; };
+		4ABF306216335A1100664653 /* LuaSignal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSignal.h; sourceTree = "<group>"; };
+		4ABF306316335A1100664653 /* LuaSingle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSingle.cpp; sourceTree = "<group>"; };
+		4ABF306416335A1100664653 /* LuaSlider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSlider.cpp; sourceTree = "<group>"; };
+		4ABF306516335A1100664653 /* LuaWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaWidget.cpp; sourceTree = "<group>"; };
+		4ABF306716335A1100664653 /* Margin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Margin.cpp; sourceTree = "<group>"; };
+		4ABF306816335A1100664653 /* Margin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Margin.h; sourceTree = "<group>"; };
+		4ABF306916335A1100664653 /* MultiLineText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiLineText.cpp; sourceTree = "<group>"; };
+		4ABF306A16335A1100664653 /* MultiLineText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiLineText.h; sourceTree = "<group>"; };
+		4ABF306B16335A1100664653 /* Point.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Point.h; sourceTree = "<group>"; };
+		4ABF306C16335A1100664653 /* Scroller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scroller.cpp; sourceTree = "<group>"; };
+		4ABF306D16335A1100664653 /* Scroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scroller.h; sourceTree = "<group>"; };
+		4ABF306E16335A1100664653 /* Single.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Single.cpp; sourceTree = "<group>"; };
+		4ABF306F16335A1100664653 /* Single.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Single.h; sourceTree = "<group>"; };
+		4ABF307016335A1100664653 /* Skin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Skin.cpp; sourceTree = "<group>"; };
+		4ABF307116335A1100664653 /* Skin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skin.h; sourceTree = "<group>"; };
+		4ABF307216335A1100664653 /* Slider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Slider.cpp; sourceTree = "<group>"; };
+		4ABF307316335A1100664653 /* Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slider.h; sourceTree = "<group>"; };
+		4ABF307416335A1100664653 /* TextLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextLayout.cpp; sourceTree = "<group>"; };
+		4ABF307516335A1100664653 /* TextLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextLayout.h; sourceTree = "<group>"; };
+		4ABF307616335A1100664653 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Widget.cpp; sourceTree = "<group>"; };
+		4ABF307716335A1100664653 /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Widget.h; sourceTree = "<group>"; };
+		4ABF307816335A1100664653 /* WidgetSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WidgetSet.h; sourceTree = "<group>"; };
 		4ACC6D1215401E7000C59914 /* Font.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Font.cpp; sourceTree = "<group>"; };
 		4ACC6D1315401E7000C59914 /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
 		4ACC6D1415401E7000C59914 /* FontDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontDescriptor.h; sourceTree = "<group>"; };
@@ -1584,6 +1703,7 @@
 				4ACC6D1115401E7000C59914 /* text */,
 				4AF222E5162103EA00BED38E /* Tombstone.cpp */,
 				4AF222E6162103EA00BED38E /* Tombstone.h */,
+				4ABF302D16335A1100664653 /* ui */,
 				4A6C4D6E13532FC300FDD53F /* utils.cpp */,
 				4A6C4D6F13532FC300FDD53F /* utils.h */,
 				4A4F25E114F524F600FD14A6 /* vector2.h */,
@@ -1723,6 +1843,87 @@
 			path = terrain;
 			sourceTree = "<group>";
 		};
+		4ABF302D16335A1100664653 /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				4ABF302E16335A1100664653 /* Align.cpp */,
+				4ABF302F16335A1100664653 /* Align.h */,
+				4ABF303016335A1100664653 /* Background.cpp */,
+				4ABF303116335A1100664653 /* Background.h */,
+				4ABF303216335A1100664653 /* Box.cpp */,
+				4ABF303316335A1100664653 /* Box.h */,
+				4ABF303416335A1100664653 /* Button.cpp */,
+				4ABF303516335A1100664653 /* Button.h */,
+				4ABF303616335A1100664653 /* CellSpec.cpp */,
+				4ABF303716335A1100664653 /* CellSpec.h */,
+				4ABF303816335A1100664653 /* CheckBox.cpp */,
+				4ABF303916335A1100664653 /* CheckBox.h */,
+				4ABF303A16335A1100664653 /* ColorBackground.cpp */,
+				4ABF303B16335A1100664653 /* ColorBackground.h */,
+				4ABF303C16335A1100664653 /* Container.cpp */,
+				4ABF303D16335A1100664653 /* Container.h */,
+				4ABF303E16335A1100664653 /* Context.cpp */,
+				4ABF303F16335A1100664653 /* Context.h */,
+				4ABF304016335A1100664653 /* DropDown.cpp */,
+				4ABF304116335A1100664653 /* DropDown.h */,
+				4ABF304216335A1100664653 /* Event.cpp */,
+				4ABF304316335A1100664653 /* Event.h */,
+				4ABF304416335A1100664653 /* EventDispatcher.cpp */,
+				4ABF304516335A1100664653 /* EventDispatcher.h */,
+				4ABF304616335A1100664653 /* FloatContainer.cpp */,
+				4ABF304716335A1100664653 /* FloatContainer.h */,
+				4ABF304816335A1100664653 /* Grid.cpp */,
+				4ABF304916335A1100664653 /* Grid.h */,
+				4ABF304A16335A1100664653 /* Image.cpp */,
+				4ABF304B16335A1100664653 /* Image.h */,
+				4ABF304C16335A1100664653 /* Label.cpp */,
+				4ABF304D16335A1100664653 /* Label.h */,
+				4ABF304E16335A1100664653 /* List.cpp */,
+				4ABF304F16335A1100664653 /* List.h */,
+				4ABF305016335A1100664653 /* Lua.cpp */,
+				4ABF305116335A1100664653 /* Lua.h */,
+				4ABF305216335A1100664653 /* LuaAlign.cpp */,
+				4ABF305316335A1100664653 /* LuaBackground.cpp */,
+				4ABF305416335A1100664653 /* LuaBox.cpp */,
+				4ABF305516335A1100664653 /* LuaButton.cpp */,
+				4ABF305616335A1100664653 /* LuaCheckBox.cpp */,
+				4ABF305716335A1100664653 /* LuaColorBackground.cpp */,
+				4ABF305816335A1100664653 /* LuaContainer.cpp */,
+				4ABF305916335A1100664653 /* LuaContext.cpp */,
+				4ABF305A16335A1100664653 /* LuaDropDown.cpp */,
+				4ABF305B16335A1100664653 /* LuaGrid.cpp */,
+				4ABF305C16335A1100664653 /* LuaImage.cpp */,
+				4ABF305D16335A1100664653 /* LuaLabel.cpp */,
+				4ABF305E16335A1100664653 /* LuaList.cpp */,
+				4ABF305F16335A1100664653 /* LuaMargin.cpp */,
+				4ABF306016335A1100664653 /* LuaMultiLineText.cpp */,
+				4ABF306116335A1100664653 /* LuaScroller.cpp */,
+				4ABF306216335A1100664653 /* LuaSignal.h */,
+				4ABF306316335A1100664653 /* LuaSingle.cpp */,
+				4ABF306416335A1100664653 /* LuaSlider.cpp */,
+				4ABF306516335A1100664653 /* LuaWidget.cpp */,
+				4ABF306716335A1100664653 /* Margin.cpp */,
+				4ABF306816335A1100664653 /* Margin.h */,
+				4ABF306916335A1100664653 /* MultiLineText.cpp */,
+				4ABF306A16335A1100664653 /* MultiLineText.h */,
+				4ABF306B16335A1100664653 /* Point.h */,
+				4ABF306C16335A1100664653 /* Scroller.cpp */,
+				4ABF306D16335A1100664653 /* Scroller.h */,
+				4ABF306E16335A1100664653 /* Single.cpp */,
+				4ABF306F16335A1100664653 /* Single.h */,
+				4ABF307016335A1100664653 /* Skin.cpp */,
+				4ABF307116335A1100664653 /* Skin.h */,
+				4ABF307216335A1100664653 /* Slider.cpp */,
+				4ABF307316335A1100664653 /* Slider.h */,
+				4ABF307416335A1100664653 /* TextLayout.cpp */,
+				4ABF307516335A1100664653 /* TextLayout.h */,
+				4ABF307616335A1100664653 /* Widget.cpp */,
+				4ABF307716335A1100664653 /* Widget.h */,
+				4ABF307816335A1100664653 /* WidgetSet.h */,
+			);
+			path = ui;
+			sourceTree = "<group>";
+		};
 		4ACC6D1115401E7000C59914 /* text */ = {
 			isa = PBXGroup;
 			children = (
@@ -1851,7 +2052,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "function relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libbz2.1.0.dylib\n\n# GLEW dylibs\nrelocateLibInApp /opt/local/lib/ libGLEW.1.9.0.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n# SDL\nrelocateLibInApp /opt/local/lib/ libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXrandr.2.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXdmcp.6.dylib\n\n# SDL_image\nrelocateLibInApp /opt/local/lib/ libSDL_image-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libpng15.15.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXrandr.2.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXdmcp.6.dylib\n\n# SDL_sound\nrelocateLibInApp /opt/local/lib/ libSDL_sound-1.0.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libmodplug.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libogg.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libspeex.1.dylib\nlnk libSDL_sound-1.0.1.0.2.dylib libSDL_sound-1.0.1.dylib\n\n# vorbisfile\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n#\n# EXTRA LIBS\n#\n\n#bz2\nrelocateLibInApp /opt/local/lib/ libbz2.1.0.dylib\nlnk libbz2.1.0.6.dylib libbz2.1.0.dylib\n\n# FLAC\nidLib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libFLAC.8.dylib libogg.0.dylib\n\n# jpeg\nidLib libjpeg.8.dylib\n\n# modplug\nidLib libmodplug.1.dylib\n\n# ogg\nidLib libogg.0.dylib\n\n# png\nidLib libpng15.15.dylib\nrelocateSubLib /opt/local/lib/ libpng15.15.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng15.15.dylib\n\n# smpeg\nidLib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libsmpeg-0.4.0.dylib libSDL-1.2.0.dylib\n\n#speex\nidLib libspeex.1.dylib\nlnk libspeex.1.5.0.dylib libspeex.1.dylib\n\n# tiff\nidLib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libz.1.dylib\n\n# vorbis\nidLib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\n\n# libX11\nrelocateLibInApp /opt/local/lib/ libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libX11.6.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libX11.6.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libX11.6.dylib libXdmcp.6.dylib\n\n# libXau\nrelocateLibInApp /opt/local/lib/ libXau.6.dylib\n\n# libxcd\nrelocateLibInApp /opt/local/lib/ libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libxcb.1.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libxcb.1.dylib libXdmcp.6.dylib\n\n# libXdmcp\nrelocateLibInApp /opt/local/lib/ libXdmcp.6.dylib\n\n# libext\nrelocateLibInApp /opt/local/lib/ libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libXdmcp.6.dylib\n\n# libXrandr\nrelocateLibInApp /opt/local/lib/ libXrandr.2.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXdmcp.6.dylib\n\n# libXrender\nrelocateLibInApp /opt/local/lib/ libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libXdmcp.6.dylib\n\n# zlib\nrelocateLibInApp /opt/local/lib/ libz.1.dylib\nidLib libz.1.2.7.dylib\nlnk libz.1.2.7.dylib libz.1.dylib\n\n";
+			shellScript = "function relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -fs $1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libbz2.1.0.dylib\n\n# GLEW dylibs\nrelocateLibInApp /opt/local/lib/ libGLEW.1.9.0.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n# SDL\nrelocateLibInApp /opt/local/lib/ libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXrandr.2.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXdmcp.6.dylib\n\n# SDL_image\nrelocateLibInApp /opt/local/lib/ libSDL_image-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libpng15.15.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXrandr.2.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXdmcp.6.dylib\n\n# SDL_sound\nrelocateLibInApp /opt/local/lib/ libSDL_sound-1.0.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libmodplug.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libogg.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libspeex.1.dylib\nlnk libSDL_sound-1.0.1.0.2.dylib libSDL_sound-1.0.1.dylib\n\n# vorbisfile\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n#\n# EXTRA LIBS\n#\n\n#bz2\nrelocateLibInApp /opt/local/lib/ libbz2.1.0.dylib\nlnk libbz2.1.0.6.dylib libbz2.1.0.dylib\n\n# FLAC\nidLib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libFLAC.8.dylib libogg.0.dylib\n\n# jpeg\nidLib libjpeg.8.dylib\n\n# modplug\nidLib libmodplug.1.dylib\n\n# ogg\nidLib libogg.0.dylib\n\n# png\nidLib libpng15.15.dylib\nrelocateSubLib /opt/local/lib/ libpng15.15.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng15.15.dylib\n\n# smpeg\nidLib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libsmpeg-0.4.0.dylib libSDL-1.2.0.dylib\n\n#speex\nidLib libspeex.1.dylib\nlnk libspeex.1.5.0.dylib libspeex.1.dylib\n\n# tiff\nidLib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libz.1.dylib\n\n# vorbis\nidLib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\n\n# libX11\nrelocateLibInApp /opt/local/lib/ libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libX11.6.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libX11.6.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libX11.6.dylib libXdmcp.6.dylib\n\n# libXau\nrelocateLibInApp /opt/local/lib/ libXau.6.dylib\n\n# libxcd\nrelocateLibInApp /opt/local/lib/ libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libxcb.1.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libxcb.1.dylib libXdmcp.6.dylib\n\n# libXdmcp\nrelocateLibInApp /opt/local/lib/ libXdmcp.6.dylib\n\n# libext\nrelocateLibInApp /opt/local/lib/ libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libXdmcp.6.dylib\n\n# libXrandr\nrelocateLibInApp /opt/local/lib/ libXrandr.2.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXdmcp.6.dylib\n\n# libXrender\nrelocateLibInApp /opt/local/lib/ libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libXdmcp.6.dylib\n\n# zlib\nrelocateLibInApp /opt/local/lib/ libz.1.dylib\nidLib libz.1.2.7.dylib\nlnk libz.1.2.7.dylib libz.1.dylib\n\n";
 		};
 		4AE970701436A65D00424F91 /* GenGitVersion */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2149,6 +2350,51 @@
 				4AF222E7162103EA00BED38E /* Factions.cpp in Sources */,
 				4AF222E8162103EA00BED38E /* Intro.cpp in Sources */,
 				4AF222E9162103EA00BED38E /* Tombstone.cpp in Sources */,
+				4ABF307916335A1100664653 /* Align.cpp in Sources */,
+				4ABF307A16335A1100664653 /* Background.cpp in Sources */,
+				4ABF307B16335A1100664653 /* Box.cpp in Sources */,
+				4ABF307C16335A1100664653 /* Button.cpp in Sources */,
+				4ABF307D16335A1100664653 /* CellSpec.cpp in Sources */,
+				4ABF307E16335A1100664653 /* CheckBox.cpp in Sources */,
+				4ABF307F16335A1100664653 /* ColorBackground.cpp in Sources */,
+				4ABF308016335A1100664653 /* Container.cpp in Sources */,
+				4ABF308116335A1100664653 /* Context.cpp in Sources */,
+				4ABF308216335A1100664653 /* DropDown.cpp in Sources */,
+				4ABF308316335A1100664653 /* Event.cpp in Sources */,
+				4ABF308416335A1100664653 /* EventDispatcher.cpp in Sources */,
+				4ABF308516335A1100664653 /* FloatContainer.cpp in Sources */,
+				4ABF308616335A1100664653 /* Grid.cpp in Sources */,
+				4ABF308716335A1100664653 /* Image.cpp in Sources */,
+				4ABF308816335A1100664653 /* Label.cpp in Sources */,
+				4ABF308916335A1100664653 /* List.cpp in Sources */,
+				4ABF308A16335A1100664653 /* Lua.cpp in Sources */,
+				4ABF308B16335A1100664653 /* LuaAlign.cpp in Sources */,
+				4ABF308C16335A1100664653 /* LuaBackground.cpp in Sources */,
+				4ABF308D16335A1100664653 /* LuaBox.cpp in Sources */,
+				4ABF308E16335A1100664653 /* LuaButton.cpp in Sources */,
+				4ABF308F16335A1100664653 /* LuaCheckBox.cpp in Sources */,
+				4ABF309016335A1100664653 /* LuaColorBackground.cpp in Sources */,
+				4ABF309116335A1100664653 /* LuaContainer.cpp in Sources */,
+				4ABF309216335A1100664653 /* LuaContext.cpp in Sources */,
+				4ABF309316335A1100664653 /* LuaDropDown.cpp in Sources */,
+				4ABF309416335A1100664653 /* LuaGrid.cpp in Sources */,
+				4ABF309516335A1100664653 /* LuaImage.cpp in Sources */,
+				4ABF309616335A1100664653 /* LuaLabel.cpp in Sources */,
+				4ABF309716335A1100664653 /* LuaList.cpp in Sources */,
+				4ABF309816335A1100664653 /* LuaMargin.cpp in Sources */,
+				4ABF309916335A1100664653 /* LuaMultiLineText.cpp in Sources */,
+				4ABF309A16335A1100664653 /* LuaScroller.cpp in Sources */,
+				4ABF309B16335A1100664653 /* LuaSingle.cpp in Sources */,
+				4ABF309C16335A1100664653 /* LuaSlider.cpp in Sources */,
+				4ABF309D16335A1100664653 /* LuaWidget.cpp in Sources */,
+				4ABF309F16335A1100664653 /* Margin.cpp in Sources */,
+				4ABF30A016335A1100664653 /* MultiLineText.cpp in Sources */,
+				4ABF30A116335A1100664653 /* Scroller.cpp in Sources */,
+				4ABF30A216335A1100664653 /* Single.cpp in Sources */,
+				4ABF30A316335A1100664653 /* Skin.cpp in Sources */,
+				4ABF30A416335A1100664653 /* Slider.cpp in Sources */,
+				4ABF30A516335A1100664653 /* TextLayout.cpp in Sources */,
+				4ABF30A616335A1100664653 /* Widget.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
