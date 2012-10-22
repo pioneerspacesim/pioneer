@@ -6,7 +6,8 @@
 
 #include "Widget.h"
 #include "SmartPtr.h"
-#include "gui/GuiTexturedQuad.h"
+#include "graphics/Material.h"
+#include "graphics/Texture.h"
 
 namespace UI {
 
@@ -26,7 +27,8 @@ protected:
 	Image(Context *context, const std::string &filename, StretchMode stretchMode);
 
 private:
-	ScopedPtr<Gui::TexturedQuad> m_quad;
+	RefCountedPtr<Graphics::Texture> m_texture;
+	RefCountedPtr<Graphics::Material> m_material;
 	StretchMode m_stretchMode;
 	Point m_initialSize;
 };
