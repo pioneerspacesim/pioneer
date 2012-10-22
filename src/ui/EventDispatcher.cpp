@@ -210,8 +210,12 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const Point &mousePos
 
 void EventDispatcher::DispatchSelect(Widget *target)
 {
-	if (m_selected)
+	if (m_selected) {
+		if (m_selected == target)
+			return;
+
 		m_selected->TriggerDeselect();
+	}
 	
 	if (target->IsSelectable()) {
 		m_selected.Reset(target);
