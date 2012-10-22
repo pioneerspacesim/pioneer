@@ -18,6 +18,7 @@ public:
 	virtual void Draw();
 
 	Label *SetText(const std::string &text);
+	const std::string &GetText() const { return m_text; }
 
 protected:
 	friend class Context;

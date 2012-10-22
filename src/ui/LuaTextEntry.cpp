@@ -1,0 +1,44 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+#include "TextEntry.h"
+#include "LuaObject.h"
+
+namespace UI {
+
+class LuaTextEntry {
+public:
+
+	static int l_attr_text(lua_State *l)
+	{
+		TextEntry *te = LuaObject<UI::TextEntry>::CheckFromLua(1);
+		const std::string &text(te->GetText());
+		lua_pushlstring(l, text.c_str(), text.size());
+		return 1;
+	}
+
+};
+
+}
+
+using namespace UI;
+
+template <> const char *LuaObject<UI::TextEntry>::s_type = "UI.TextEntry";
+
+template <> void LuaObject<UI::TextEntry>::RegisterClass()
+{
+	static const char *l_parent = "UI.Widget";
+
+	static const luaL_Reg l_methods[] = {
+
+		{ 0, 0 }
+	};
+
+	static const luaL_Reg l_attrs[] = {
+		{ "text", LuaTextEntry::l_attr_text },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<UI::TextEntry>::DynamicCastPromotionTest);
+}

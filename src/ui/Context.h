@@ -28,6 +28,7 @@
 #include "Slider.h"
 #include "List.h"
 #include "DropDown.h"
+#include "TextEntry.h"
 
 #include "Lua.h"
 #include "LuaTable.h"
@@ -90,6 +91,8 @@ public:
 
 	UI::List *List() { return new UI::List(this); }
 	UI::DropDown *DropDown() { return new UI::DropDown(this); }
+
+	UI::TextEntry *TextEntry(const std::string &text = "") { return new UI::TextEntry(this, text); }
 
 	// add a floating widget
 	Context *AddFloatingWidget(Widget *w, const Point &pos, const Point &size) { m_float->AddWidget(w, pos, size); return this; }
