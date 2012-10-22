@@ -216,13 +216,18 @@ void EventDispatcher::DispatchSelect(Widget *target)
 
 		m_selected->TriggerDeselect();
 	}
-	
-	if (target->IsSelectable()) {
-		m_selected.Reset(target);
-		m_selected->TriggerSelect();
+
+	while (target) {
+		if (target->IsSelectable()) {
+			m_selected.Reset(target);
+			m_selected->TriggerSelect();
+			return;
+		}
+
+		target = target->GetContainer();
 	}
-	else
-		m_selected.Reset();
+
+	m_selected.Reset();
 }
 
 void EventDispatcher::Update()
