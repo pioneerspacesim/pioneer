@@ -5,6 +5,7 @@
 #define _LUATABLE_H
 
 #include <cassert>
+#include <map>
 
 #include "lua/lua.hpp"
 #include "LuaRef.h"
@@ -30,6 +31,9 @@ public:
 	template <class Key> void PushValueToStack(const Key & key) const;
 	template <class Value, class Key> Value Get(const Key & key) const;
 	template <class Value, class Key> void Set(const Key & key, const Value & value) const;
+
+	template <class Key, class Value> std::map<Key, Value> GetMap() const;
+	template <class Key, class Value> void LoadMap(std::map<Key, Value> m) const;
 
 	lua_State * GetLua() const { return m_lua; }
 	int GetIndex() const { return m_index; }
@@ -60,6 +64,27 @@ template <class Value, class Key> void LuaTable::Set(const Key & key, const Valu
 	pi_lua_generic_push(m_lua, key);
 	pi_lua_generic_push(m_lua, value);
 	lua_settable(m_lua, m_index);
+}
+
+template <class Key, class Value> std::map<Key, Value> LuaTable::GetMap() const {
+	std::map<Key, Value> ret;
+	lua_pushnil(m_lua);
+	while(lua_next(m_lua, m_index)) {
+		Key k;
+		Value v;
+		if (pi_lua_strict_pull(m_lua, -2, k)) {
+			pi_lua_strict_pull(m_lua, -1, v);
+			ret[k] = v;
+		}
+		lua_pop(m_lua, 1);
+	}
+	return ret;
+}
+
+template <class Key, class Value> void LuaTable::LoadMap(std::map<Key, Value> m) const {
+	for (typename std::map<Key, Value>::const_iterator it = m.begin();
+			it != m.end() ; ++it)
+		Set(it->first, it->second);
 }
 
 #endif
