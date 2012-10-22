@@ -54,18 +54,11 @@ bool EventDispatcher::Dispatch(const Event &event)
 				case KeyboardEvent::KEY_DOWN: {
 					bool handled = m_baseContainer->TriggerKeyDown(keyEvent);
 
-					// repeat trigger. naively accept anything outside C0 and
-					// C1, and backspace as a special case. probably safe
-					// enough for now, but needs revisiting if we one day
-					// support rtl, cjk, etc
-					const Uint32 code = keyEvent.keysym.unicode;
-					if ((code > 0x1f && code < 0x7f) || code > 0x9f || keyEvent.keysym.sym == SDLK_BACKSPACE) {
-						m_keyRepeatSym = keyEvent.keysym;
-						m_keyRepeatActive = true;
-						m_nextKeyRepeat = SDL_GetTicks() + KEY_REPEAT_PAUSE;
+					m_keyRepeatSym = keyEvent.keysym;
+					m_keyRepeatActive = true;
+					m_nextKeyRepeat = SDL_GetTicks() + KEY_REPEAT_PAUSE;
 
-						Dispatch(KeyboardEvent(KeyboardEvent::KEY_PRESS, m_keyRepeatSym));
-					}
+					Dispatch(KeyboardEvent(KeyboardEvent::KEY_PRESS, m_keyRepeatSym));
 
 					return handled;
 				}

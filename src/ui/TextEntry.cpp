@@ -54,13 +54,17 @@ TextEntry *TextEntry::SetText(const std::string &text)
 void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 {
 	std::string text(m_label->GetText());
+
 	if (event.keysym.sym == SDLK_BACKSPACE) {
 		if (text.size() > 0) {
 			text.erase(text.size()-1);
 			m_label->SetText(text);
 		}
 	}
-	else {
+
+	// naively accept anything outside C0 and C1. probably safe enough for
+	// now, but needs revisiting if we one day support rtl, cjk, etc
+	else if ((event.keysym.unicode > 0x1f && event.keysym.unicode < 0x7f) || event.keysym.unicode > 0x9f) {
 		text.push_back(event.keysym.unicode);
 		m_label->SetText(text);
 	}
