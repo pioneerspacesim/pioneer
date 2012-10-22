@@ -9,6 +9,7 @@
 #include "EquipType.h"
 #include <vector>
 #include <map>
+#include <string>
 
 struct ShipType {
 	enum Thruster { // <enum scope='ShipType' name=ShipTypeThruster prefix=THRUSTER_ public>
@@ -55,6 +56,7 @@ struct ShipType {
 		DualLaserOrientation orient;
 	} gunMount[GUNMOUNT_MAX];
 	int equipSlotCapacity[Equip::SLOT_MAX];
+	std::map<std::string, int> slots;
 	int capacity; // tonnes
 	int hullMass;
 	float effectiveExhaustVelocity; // velocity at which the propellant escapes the engines
