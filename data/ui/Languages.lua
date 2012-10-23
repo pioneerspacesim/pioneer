@@ -57,5 +57,24 @@ Translate:Add({
 
 		-- Load dialog
 		['Select game to load...'] = 'Wybierz zapis do wczytania...',
+
+		-- Orbital analysis
+		['Orbit'] = 'Orbita',
+		['Orbital Analysis'] = 'Analiza Orbity',
+		['Located {distance}km from the centre of {name}:'] = 'Położenie {distance}km od centrum {name}:',
+		['Circular orbit speed:'] = 'Prędkość orbitalna:',
+		['Escape speed:'] = 'Prędkość ucieczki:',
+		['Descent-to-ground speed:'] = 'Prędkość graniczna:',
+		['Notes:'] = 'Uwagi:',
+		ORBITAL_ANALYSIS_NOTES = [[
+Prędkość orbitalna to stała prędkość z jaką powinien poruszać się statek pod kontem 90°
+względem osi statek/{name}.
+
+Prędkość graniczna, jest minimalną prędkością przy której statek pozostaje na orbicie.
+Przy mniejszej prędkości lub kącie, rozpocznie się opadanie ku powierzchni {name}.
+
+Prędkość ucieczki teoretycznie powoduje opuszczenie orbity, jeśli tylko statek nie jest
+na kursie kolizyjnym z {name}.
+		]]				
 	}
 })
