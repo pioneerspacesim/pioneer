@@ -7,7 +7,8 @@
 
 namespace UI {
 
-TextEntry::TextEntry(Context *context, const std::string &text) : Container(context)
+TextEntry::TextEntry(Context *context, const std::string &text) : Container(context),
+	m_cursor(0)
 {
 	m_label = GetContext()->Label(text);
 	AddWidget(m_label);
@@ -57,7 +58,10 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 
 	if (event.keysym.sym == SDLK_BACKSPACE) {
 		if (text.size() > 0) {
-			text.erase(text.size()-1);
+			// XXX not UTF-8 safe
+			m_cursor = m_cursor == 0 ? 0 : m_cursor-1;
+			text.erase(m_cursor, 1);
+
 			m_label->SetText(text);
 		}
 	}
@@ -65,7 +69,13 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 	// naively accept anything outside C0 and C1. probably safe enough for
 	// now, but needs revisiting if we one day support rtl, cjk, etc
 	else if ((event.keysym.unicode > 0x1f && event.keysym.unicode < 0x7f) || event.keysym.unicode > 0x9f) {
-		text.push_back(event.keysym.unicode);
+		// XXX this is just taking the bottom 8 bits, breaking unicode
+		char s[2];
+		s[0] = event.keysym.unicode;
+		s[1] = 0;
+		text.insert(m_cursor, s);
+		m_cursor++;
+
 		m_label->SetText(text);
 	}
 }

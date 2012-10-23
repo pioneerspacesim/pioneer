@@ -28,6 +28,7 @@ protected:
 
 private:
 	Label *m_label;
+	Uint32 m_cursor;
 };
 
 }
