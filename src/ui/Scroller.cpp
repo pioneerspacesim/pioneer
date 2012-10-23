@@ -9,7 +9,6 @@ namespace UI {
 Scroller::Scroller(Context *context) : Container(context), m_innerWidget(0)
 {
 	m_slider = GetContext()->VSlider();
-	AddWidget(m_slider);
 
 	m_slider->onValueChanged.connect(sigc::mem_fun(this, &Scroller::OnScroll));
 	m_slider->onMouseWheel.connect(sigc::mem_fun(this, &Scroller::OnMouseWheel));
@@ -28,13 +27,30 @@ Point Scroller::PreferredSize()
 
 void Scroller::Layout()
 {
+	if (!m_innerWidget) return;
+
 	const Point size(GetSize());
-	const Point sliderSize = m_slider->PreferredSize();
 
-	SetWidgetDimensions(m_slider, Point(size.x-sliderSize.x, 0), Point(sliderSize.x, size.y));
-	m_slider->Layout();
+	const Point childPreferredSize = m_innerWidget->PreferredSize();
 
-	if (m_innerWidget) {
+	// if the child can fit then we don't need the slider
+	if (childPreferredSize.y < size.y) {
+		if (m_slider->GetContainer())
+			RemoveWidget(m_slider);
+
+		SetWidgetDimensions(m_innerWidget, Point(), size);
+		m_innerWidget->Layout();
+	}
+
+	else {
+		const Point sliderSize = m_slider->PreferredSize();
+
+		if (!m_slider->GetContainer())
+			AddWidget(m_slider);
+
+		SetWidgetDimensions(m_slider, Point(size.x-sliderSize.x, 0), Point(sliderSize.x, size.y));
+		m_slider->Layout();
+
 		SetWidgetDimensions(m_innerWidget, Point(), Point(size.x-sliderSize.x, std::max(size.y, m_innerWidget->PreferredSize().y)));
 		m_innerWidget->Layout();
 	}
