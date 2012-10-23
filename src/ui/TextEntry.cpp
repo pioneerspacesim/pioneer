@@ -43,6 +43,22 @@ void TextEntry::Draw()
 		GetContext()->GetSkin().DrawBackgroundNormal(Point(), GetSize());
 
 	Container::Draw();
+
+	// XXX after Container::Draw we're still translated to the label origin
+	// so we draw calculate the cursor from there
+
+	float cursorLeft, cursorBaseline;
+	GetContext()->GetFont(GetFontSize())->MeasureCharacterPos(GetText().c_str(), m_cursor, cursorLeft, cursorBaseline);
+	cursorLeft += 0.5f;
+
+	const float cursorTop    = 0.0f;
+	const float cursorBottom = m_label->GetSize().y;
+
+	vector3f v[2];
+	v[0] = vector3f(cursorLeft, cursorTop,    0.0f);
+	v[1] = vector3f(cursorLeft, cursorBottom, 0.0f);
+
+	GetContext()->GetRenderer()->DrawLines(2, v, Color::WHITE);
 }
 
 TextEntry *TextEntry::SetText(const std::string &text)
