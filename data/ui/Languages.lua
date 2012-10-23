@@ -67,7 +67,7 @@ Translate:Add({
 		['Descent-to-ground speed:'] = 'Prędkość graniczna:',
 		['Notes:'] = 'Uwagi:',
 		ORBITAL_ANALYSIS_NOTES = [[
-Prędkość orbitalna to stała prędkość z jaką powinien poruszać się statek pod kontem 90°
+Prędkość orbitalna to stała prędkość z jaką powinien poruszać się statek pod kątem 90°
 względem osi statek/{name}.
 
 Prędkość graniczna, jest minimalną prędkością przy której statek pozostaje na orbicie.
