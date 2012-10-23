@@ -72,27 +72,55 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 {
 	std::string text(m_label->GetText());
 
-	if (event.keysym.sym == SDLK_BACKSPACE) {
-		if (text.size() > 0) {
-			// XXX not UTF-8 safe
-			m_cursor = m_cursor == 0 ? 0 : m_cursor-1;
-			text.erase(m_cursor, 1);
+	switch (event.keysym.sym) {
+		case SDLK_LEFT:
+			if (m_cursor > 0) m_cursor--;
+			break;
 
-			m_label->SetText(text);
-		}
-	}
+		case SDLK_RIGHT:
+			if (m_cursor < text.size()) m_cursor++;
+			break;
 
-	// naively accept anything outside C0 and C1. probably safe enough for
-	// now, but needs revisiting if we one day support rtl, cjk, etc
-	else if ((event.keysym.unicode > 0x1f && event.keysym.unicode < 0x7f) || event.keysym.unicode > 0x9f) {
-		// XXX this is just taking the bottom 8 bits, breaking unicode
-		char s[2];
-		s[0] = event.keysym.unicode;
-		s[1] = 0;
-		text.insert(m_cursor, s);
-		m_cursor++;
+		case SDLK_HOME:
+			m_cursor = 0;
+			break;
 
-		m_label->SetText(text);
+		case SDLK_END:
+			m_cursor = text.size();
+			break;
+
+		case SDLK_BACKSPACE:
+			if (text.size() > 0) {
+				if (m_cursor > 0) m_cursor--;
+
+				// XXX not UTF-8 safe
+				text.erase(m_cursor, 1);
+				m_label->SetText(text);
+			}
+			break;
+
+		case SDLK_DELETE:
+			if (text.size() > m_cursor) {
+				// XXX not UTF-8 safe
+				text.erase(m_cursor, 1);
+				m_label->SetText(text);
+			}
+			break;
+
+		default:
+			// naively accept anything outside C0 and C1. probably safe enough for
+			// now, but needs revisiting if we one day support rtl, cjk, etc
+			if ((event.keysym.unicode > 0x1f && event.keysym.unicode < 0x7f) || event.keysym.unicode > 0x9f) {
+				// XXX this is just taking the bottom 8 bits, breaking unicode
+				char s[2];
+				s[0] = event.keysym.unicode;
+				s[1] = 0;
+				text.insert(m_cursor, s);
+				m_cursor++;
+
+				m_label->SetText(text);
+			}
+			break;
 	}
 }
 
