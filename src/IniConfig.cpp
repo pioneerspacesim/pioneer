@@ -8,13 +8,26 @@
 
 void IniConfig::Load()
 {
-	RefCountedPtr<FileSystem::FileData> data = FileSystem::rawFileSystem.ReadFile(m_filename);
-	if (data) {
-		Load(*data);
-	}
+	Read(FileSystem::rawFileSystem, m_filename);
 }
 
 void IniConfig::Load(const FileSystem::FileData &data)
+{
+	Read(data);
+}
+
+bool IniConfig::Save()
+{
+	return Write(FileSystem::rawFileSystem, m_filename);
+}
+
+void IniConfig::Read(FileSystem::FileSource &fs, const std::string &path)
+{
+	RefCountedPtr<FileSystem::FileData> data = fs.ReadFile(path);
+	if (data) Read(*data);
+}
+
+void IniConfig::Read(const FileSystem::FileData &data)
 {
 	StringRange buffer = data.AsStringRange();
 
@@ -40,18 +53,17 @@ void IniConfig::Load(const FileSystem::FileData &data)
 	}
 }
 
-bool IniConfig::Save()
+bool IniConfig::Write(FileSystem::FileSourceFS &fs, const std::string &path)
 {
-	FILE *f = fopen(m_filename.c_str(), "w");
-	if (!f)
-		// XXX do something useful here
+	FILE *f = fs.OpenWriteStream(path, FileSystem::FileSourceFS::WRITE_TEXT);
+	if (!f) {
+		fprintf(stderr, "Could not write config file '%s'\n", FileSystem::JoinPath(fs.GetRoot(), path).c_str());
 		return false;
-
-	for (std::map<std::string, std::string>::const_iterator i = m_map.begin(); i != m_map.end(); ++i) {
-		if ((*i).second != "") fprintf(f, "%s=%s\n", (*i).first.c_str(), (*i).second.c_str());
 	}
-
+	for (std::map<std::string, std::string>::const_iterator i = m_map.begin(); i != m_map.end(); ++i) {
+		if (!(*i).second.empty())
+			fprintf(f, "%s=%s\n", (*i).first.c_str(), (*i).second.c_str());
+	}
 	fclose(f);
-
 	return true;
 }

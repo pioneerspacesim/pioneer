@@ -9,10 +9,20 @@
 #include <map>
 #include <string>
 
-namespace FileSystem { class FileData; }
+namespace FileSystem {
+	class FileData;
+	class FileSource;
+	class FileSourceFS;
+}
 
 class IniConfig {
 public:
+	IniConfig() {}
+
+	void Read(FileSystem::FileSource &fs, const std::string &path);
+	void Read(const FileSystem::FileData &data);
+	bool Write(FileSystem::FileSourceFS &fs, const std::string &path);
+
 	void Load();
 	void Load(const FileSystem::FileData &data);
 	bool Save();
@@ -41,7 +51,6 @@ public:
 	const std::string &GetFilename() const { return m_filename; }
 
 protected:
-	IniConfig() {}
 	explicit IniConfig(const std::string &filename): m_filename(filename) {}
 
 	std::map<std::string, std::string> m_map;
