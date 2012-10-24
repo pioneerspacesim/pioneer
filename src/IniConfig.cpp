@@ -6,21 +6,6 @@
 #include "FileSystem.h"
 #include "StringRange.h"
 
-void IniConfig::Load()
-{
-	Read(FileSystem::rawFileSystem, m_filename);
-}
-
-void IniConfig::Load(const FileSystem::FileData &data)
-{
-	Read(data);
-}
-
-bool IniConfig::Save()
-{
-	return Write(FileSystem::rawFileSystem, m_filename);
-}
-
 void IniConfig::Read(FileSystem::FileSource &fs, const std::string &path)
 {
 	RefCountedPtr<FileSystem::FileData> data = fs.ReadFile(path);

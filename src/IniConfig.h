@@ -23,10 +23,6 @@ public:
 	void Read(const FileSystem::FileData &data);
 	bool Write(FileSystem::FileSourceFS &fs, const std::string &path);
 
-	void Load();
-	void Load(const FileSystem::FileData &data);
-	bool Save();
-
 	void SetInt(const char *key, int val) {
 		m_map[key] = stringf("%0{d}", val);
 	}
@@ -48,15 +44,8 @@ public:
 		return m_map[key];
 	}
 
-	const std::string &GetFilename() const { return m_filename; }
-
 protected:
-	explicit IniConfig(const std::string &filename): m_filename(filename) {}
-
 	std::map<std::string, std::string> m_map;
-
-private:
-	std::string m_filename;
 };
 
 #endif /* _INICONFIG_H */
