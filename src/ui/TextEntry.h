@@ -13,6 +13,7 @@ class TextEntry: public Container {
 public:
 	virtual Point PreferredSize();
 	virtual void Layout();
+	virtual void Update();
 	virtual void Draw();
 
 	TextEntry *SetText(const std::string &text);
@@ -28,7 +29,9 @@ protected:
 
 private:
 	Label *m_label;
+
 	Uint32 m_cursor;
+	vector3f m_cursorVertices[2];
 };
 
 }

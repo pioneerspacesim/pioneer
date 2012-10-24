@@ -32,7 +32,22 @@ void TextEntry::Layout()
 
 	SetWidgetDimensions(m_label, innerPos, innerSize);
 
+	// XXX see ::Draw. after Container::Draw we're still translated to the
+	// label origin so we draw calculate the cursor from there
+	const float cursorTop    = 0.0f;
+	const float cursorBottom = m_label->GetSize().y;
+
+	m_cursorVertices[0] = vector3f(0.0f, cursorTop,    0.0f);
+	m_cursorVertices[1] = vector3f(0.0f, cursorBottom, 0.0f);
+
 	m_label->Layout();
+}
+
+void TextEntry::Update()
+{
+	float cursorLeft, cursorBaseline;
+	GetContext()->GetFont(GetFontSize())->MeasureCharacterPos(GetText().c_str(), m_cursor, cursorLeft, cursorBaseline);
+	m_cursorVertices[0].x = m_cursorVertices[1].x = cursorLeft + 0.5f;
 }
 
 void TextEntry::Draw()
@@ -44,21 +59,7 @@ void TextEntry::Draw()
 
 	Container::Draw();
 
-	// XXX after Container::Draw we're still translated to the label origin
-	// so we draw calculate the cursor from there
-
-	float cursorLeft, cursorBaseline;
-	GetContext()->GetFont(GetFontSize())->MeasureCharacterPos(GetText().c_str(), m_cursor, cursorLeft, cursorBaseline);
-	cursorLeft += 0.5f;
-
-	const float cursorTop    = 0.0f;
-	const float cursorBottom = m_label->GetSize().y;
-
-	vector3f v[2];
-	v[0] = vector3f(cursorLeft, cursorTop,    0.0f);
-	v[1] = vector3f(cursorLeft, cursorBottom, 0.0f);
-
-	GetContext()->GetRenderer()->DrawLines(2, v, Color::WHITE);
+	GetContext()->GetRenderer()->DrawLines(2, m_cursorVertices, Color::WHITE);
 }
 
 TextEntry *TextEntry::SetText(const std::string &text)
