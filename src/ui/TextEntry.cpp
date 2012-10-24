@@ -48,6 +48,20 @@ void TextEntry::Update()
 	float cursorLeft, cursorBaseline;
 	GetContext()->GetFont(GetFontSize())->MeasureCharacterPos(GetText().c_str(), m_cursor, cursorLeft, cursorBaseline);
 	m_cursorVertices[0].x = m_cursorVertices[1].x = cursorLeft + 0.5f;
+
+	// offset such that the cursor is always visible
+	const Point offset(m_label->GetDrawOffset());
+	const Point size(m_label->GetSize());
+
+	const int windowLeft = -offset.x;
+	const int windowRight = windowLeft + size.x;
+
+	const int cursorPos = roundf(cursorLeft);
+
+	if (cursorPos > windowRight)
+		m_label->SetDrawOffset(Point(-cursorPos+size.x, 0.0f));
+	else if (cursorPos < windowLeft)
+		m_label->SetDrawOffset(Point(-cursorPos, 0.0f));
 }
 
 void TextEntry::Draw()
