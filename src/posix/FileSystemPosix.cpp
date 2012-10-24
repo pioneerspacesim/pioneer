@@ -239,9 +239,9 @@ namespace FileSystem {
 		return fopen(fullpath.c_str(), "rb");
 	}
 
-	FILE* FileSourceFS::OpenWriteStream(const std::string &path)
+	FILE* FileSourceFS::OpenWriteStream(const std::string &path, int flags)
 	{
 		const std::string fullpath = JoinPathBelow(GetRoot(), path);
-		return fopen(fullpath.c_str(), "wb");
+		return fopen(fullpath.c_str(), (flags & WRITE_TEXT) ? "w" : "wb");
 	}
 }

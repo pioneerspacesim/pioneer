@@ -174,10 +174,14 @@ namespace FileSystem {
 
 		bool MakeDirectory(const std::string &path);
 
+		enum WriteFlags {
+			WRITE_TEXT = 1
+		};
+
 		// similar to fopen(path, "rb")
 		FILE* OpenReadStream(const std::string &path);
 		// similar to fopen(path, "wb")
-		FILE* OpenWriteStream(const std::string &path);
+		FILE* OpenWriteStream(const std::string &path, int flags = 0);
 	};
 
 	class FileSourceUnion : public FileSource {

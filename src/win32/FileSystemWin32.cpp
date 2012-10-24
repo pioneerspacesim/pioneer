@@ -241,9 +241,9 @@ namespace FileSystem {
 		return open_file_raw(fullpath, L"rb");
 	}
 
-	FILE* FileSourceFS::OpenWriteStream(const std::string &path)
+	FILE* FileSourceFS::OpenWriteStream(const std::string &path, int flags)
 	{
 		const std::string fullpath = JoinPathBelow(GetRoot(), path);
-		return open_file_raw(fullpath, L"wb");
+		return open_file_raw(fullpath, (flags & WRITE_TEXT) ? L"w" : L"wb");
 	}
 }
