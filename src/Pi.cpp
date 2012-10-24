@@ -282,7 +282,7 @@ void Pi::Init()
 
 	ModManager::Init();
 
-	Pi::config = new GameConfig(FileSystem::JoinPath(FileSystem::GetUserDir(), "config.ini"));
+	Pi::config = new GameConfig();
 	KeyBindings::InitBindings();
 
 	if (config->Int("RedirectStdio"))
