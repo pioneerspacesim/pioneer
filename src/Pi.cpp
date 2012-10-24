@@ -630,10 +630,10 @@ void Pi::HandleEvents()
 									Pi::cpan->MsgLog()->Message("", Lang::CANT_SAVE_IN_HYPERSPACE);
 
 								else {
-									std::string name = FileSystem::JoinPath(GetSaveDir(), "_quicksave");
+									const std::string name = "_quicksave";
 									GameSaver saver(Pi::game);
 									if (saver.SaveToFile(name))
-										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
+										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO + FileSystem::JoinPath(GetSaveDir(), name));
 								}
 							}
 							break;
