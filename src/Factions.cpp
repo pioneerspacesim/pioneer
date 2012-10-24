@@ -11,6 +11,7 @@
 #include "LuaConstants.h"
 #include "Polit.h"
 #include "FileSystem.h"
+#include <algorithm>
 
 const Uint32 Faction::BAD_FACTION_IDX = UINT_MAX;
 
@@ -283,15 +284,6 @@ void Faction::Uninit()
 	s_factions.clear();
 }
 
-Polit::GovType Faction::RollGovType(MTRand &rand) const
-{
-	if( !govTypes.empty()) {
-		return govTypes[rand.Int32(0, govTypes.size() -1)];
-	} else {
-		return Polit::GOV_INVALID;
-	}
-}
-
 
 Faction *Faction::GetFaction(const Uint32 index)
 {
@@ -365,6 +357,31 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 	}
 
 	return ret_index;
+}
+
+const Uint32 Faction::GetIndexOfFaction(const std::string factionName)
+{
+	// there has to be a better way than this!
+	Uint32 factionIdx = 0;
+	FactionIterator it=s_factions.begin();
+	while((it!=s_factions.end()) && ((&*it)->name != factionName)) { 
+		++it;
+		++factionIdx;
+	}
+	if (it == s_factions.end()) {
+		return BAD_FACTION_IDX;
+	} else {
+		return factionIdx;
+	}
+}
+
+Polit::GovType Faction::RollGovType(MTRand &rand) const
+{
+	if( !govTypes.empty()) {
+		return govTypes[rand.Int32(0, govTypes.size() -1)];
+	} else {
+		return Polit::GOV_INVALID;
+	}
 }
 
 Faction::Faction() :
