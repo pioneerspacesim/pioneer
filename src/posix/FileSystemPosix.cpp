@@ -232,4 +232,16 @@ namespace FileSystem {
 		const std::string fullpath = JoinPathBelow(GetRoot(), path);
 		return make_directory_raw(fullpath);
 	}
+
+	FILE* FileSourceFS::OpenReadStream(const std::string &path)
+	{
+		const std::string fullpath = JoinPathBelow(GetRoot(), path);
+		return fopen(fullpath.c_str(), "rb");
+	}
+
+	FILE* FileSourceFS::OpenWriteStream(const std::string &path)
+	{
+		const std::string fullpath = JoinPathBelow(GetRoot(), path);
+		return fopen(fullpath.c_str(), "wb");
+	}
 }

@@ -173,6 +173,11 @@ namespace FileSystem {
 		virtual bool ReadDirectory(const std::string &path, std::vector<FileInfo> &output);
 
 		bool MakeDirectory(const std::string &path);
+
+		// similar to fopen(path, "rb")
+		FILE* OpenReadStream(const std::string &path);
+		// similar to fopen(path, "wb")
+		FILE* OpenWriteStream(const std::string &path);
 	};
 
 	class FileSourceUnion : public FileSource {

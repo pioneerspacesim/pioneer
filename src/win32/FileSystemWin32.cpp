@@ -228,4 +228,22 @@ namespace FileSystem {
 		const std::wstring wfullpath = transcode_utf8_to_utf16(fullpath);
 		return make_directory_raw(wfullpath);
 	}
+
+	static FILE* open_file_raw(const std::string &fullpath, const wchar_t *mode)
+	{
+		const std::wstring wfullpath = transcode_utf8_to_utf16(fullpath);
+		return _wfopen(wfullpath.c_str(), mode);
+	}
+
+	FILE* FileSourceFS::OpenReadStream(const std::string &path)
+	{
+		const std::string fullpath = JoinPathBelow(GetRoot(), path);
+		return open_file_raw(fullpath, L"rb");
+	}
+
+	FILE* FileSourceFS::OpenWriteStream(const std::string &path)
+	{
+		const std::string fullpath = JoinPathBelow(GetRoot(), path);
+		return open_file_raw(fullpath, L"wb");
+	}
 }
