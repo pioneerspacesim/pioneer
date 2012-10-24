@@ -109,7 +109,7 @@ bool GameSaver::SaveToFile(const std::string &filename)
 {
 	bool success = false;
 	try {
-		if (!FileSystem::rawFileSystem.MakeDirectory(Pi::GetSaveDir())) {
+		if (!FileSystem::userFiles.MakeDirectory("savefiles")) {
 			throw CouldNotOpenFileException();
 		}
 

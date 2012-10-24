@@ -278,7 +278,7 @@ void Pi::RedirectStdio()
 void Pi::Init()
 {
 	FileSystem::Init();
-	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
+	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 
 	ModManager::Init();
 
