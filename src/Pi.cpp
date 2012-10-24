@@ -85,7 +85,7 @@
 #include "ModManager.h"
 #include "graphics/Light.h"
 #include "gui/Gui.h"
-#include <fstream>
+#include <sstream>
 
 float Pi::gameTickAlpha;
 int Pi::scrWidth;
@@ -317,9 +317,15 @@ void Pi::Init()
 
 	Pi::renderer = Graphics::Init(videoSettings);
 	{
-		std::ofstream out;
-		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(), "opengl.txt")).c_str());
-		renderer->PrintDebugInfo(out);
+		std::ostringstream buf;
+		renderer->PrintDebugInfo(buf);
+
+		FILE *f = FileSystem::userFiles.OpenWriteStream("opengl.txt", FileSystem::FileSourceFS::WRITE_TEXT);
+		if (!f)
+			fprintf(stderr, "Could not open 'opengl.txt'\n");
+		const std::string &s = buf.str();
+		fwrite(s.c_str(), 1, s.size(), f);
+		fclose(f);
 	}
 
 	OS::LoadWindowIcon();
