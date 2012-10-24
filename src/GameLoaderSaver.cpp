@@ -49,7 +49,7 @@ void GameLoaderSaver::DialogMainLoop()
 	Pi::SetView(previousView);
 }
 
-void GameLoaderSaver::OnClickLoad(std::string filename)
+void GameLoaderSaver::OnClickLoad(const std::string &filename)
 {
 	if (filename.empty()) return;
 	m_filename = FileSystem::JoinPath(Pi::GetSaveDir(), filename);
