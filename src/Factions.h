@@ -10,7 +10,7 @@
 #include "fixed.h"
 #include "DeleteEmitter.h"
 #include <map>
-#include <set>
+#include <vector>
 #include <utility>
 
 class Faction : public DeleteEmitter {
@@ -32,8 +32,8 @@ public:
 	std::string				description_short;	// short description
 	std::string				description;		// detailed description describing formation, current status, etc
 	// government types		
-	typedef std::set<Polit::GovType> GovTypesSet;
-	GovTypesSet             govTypes;
+	typedef std::vector<Polit::GovType> GovTypesVec;
+	GovTypesVec             govTypes;
 	bool					hasHomeworld;
 	SystemPath				homeworld;			// sector(x,y,x) + system index + body index = location in a (custom?) system of homeworld
 	double					foundingDate;		// date faction came into existence
@@ -50,6 +50,8 @@ public:
 	EquipProbMap			equip_legality;
 	//ship availability
 	Color					colour;
+
+	Polit::GovType RollGovType(MTRand &rand) const;
 };
 
 #endif /* _FACTIONS_H */

@@ -9,6 +9,7 @@
 #include "LuaFixed.h"
 #include "LuaConstants.h"
 #include "Polit.h"
+#include "Factions.h"
 #include "FileSystem.h"
 #include <map>
 
@@ -516,7 +517,8 @@ CustomSystem::CustomSystem():
 	numStars(0),
 	seed(0),
 	want_rand_explored(true),
-	govType(Polit::GOV_INVALID)
+	govType(Polit::GOV_INVALID),
+	factionIdx(Faction::BAD_FACTION_IDX)
 {
 	for (int i = 0; i < 4; ++i)
 		primaryType[i] = SystemBody::TYPE_GRAVPOINT;

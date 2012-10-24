@@ -206,7 +206,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 			const Faction *fac = Faction::GetFaction( s->GetFactionIndex() );
 			if( fac && !fac->govTypes.empty()) {
 				// found valid faction, return the first government type
-				a = static_cast<GovType>(*(fac->govTypes.begin()));	
+				a = fac->RollGovType(rand);	
 			} else {
 				// found an invalid faction, meaning index 0 and thus independent, pick something at random
 				a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
