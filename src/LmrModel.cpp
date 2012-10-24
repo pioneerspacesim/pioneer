@@ -1138,6 +1138,7 @@ LmrModel::LmrModel(const char *model_name)
 rebuild_model:
 		// run static build for each LOD level
 		FILE *f = FileSystem::userFiles.OpenWriteStream(cache_file);
+		assert(f);
 
 		for (int i=0; i<m_numLods; i++) {
 			LUA_DEBUG_START(sLua);
