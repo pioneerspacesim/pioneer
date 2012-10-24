@@ -17,7 +17,6 @@ namespace FileSystem {
 	static FileSourceFS dataFilesUser(GetUserDir("data"));
 	FileSourceUnion gameDataFiles;
 	FileSourceFS userFiles(GetUserDir());
-	FileSourceFS rawFileSystem("/");
 
 	// note: some functions (GetUserDir(), GetDataDir()) are in FileSystem{Posix,Win32}.cpp
 
