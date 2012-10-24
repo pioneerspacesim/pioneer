@@ -90,7 +90,7 @@ static int l_game_load_game(lua_State *l)
 
 	const std::string filename(FileSystem::JoinPath(Pi::GetSaveDir(), luaL_checkstring(l, 1)));
 
-	Game *newGame;
+	Game *newGame = 0;
 
 	// XXX use FileSystem stuff
 	try {
