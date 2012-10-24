@@ -2,18 +2,29 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Skin.h"
+#include "IniConfig.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
+#include "FileSystem.h"
 
 namespace UI {
 
 static const float SKIN_SIZE = 512.0f;
 
 Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
-	m_config(filename),
 	m_renderer(renderer)
 {
-	m_texture.Reset(Graphics::TextureBuilder::UI(m_config.String("TextureFile")).GetOrCreateTexture(m_renderer, "ui"));
+	IniConfig cfg;
+	// set defaults
+	cfg.SetInt("ButtonMinInnerSize", 16);
+	cfg.SetInt("SliderMinInnerSize", 32);
+	cfg.SetFloat("ListAlphaNormal", 0.0);
+	cfg.SetFloat("ListAlphaHover", 0.4);
+	cfg.SetFloat("ListAlphaSelect", 0.6);
+	// load
+	cfg.Read(FileSystem::gameDataFiles, filename);
+
+	m_texture.Reset(Graphics::TextureBuilder::UI(cfg.String("TextureFile")).GetOrCreateTexture(m_renderer, "ui"));
 
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
@@ -21,29 +32,29 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
 	m_material->texture0 = m_texture.Get();
 	m_material->diffuse = Color::WHITE;
 
-	m_backgroundNormal        = LoadBorderedRectElement(m_config.String("BackgroundNormal"));
-	m_backgroundActive        = LoadBorderedRectElement(m_config.String("BackgroundActive"));
+	m_backgroundNormal        = LoadBorderedRectElement(cfg.String("BackgroundNormal"));
+	m_backgroundActive        = LoadBorderedRectElement(cfg.String("BackgroundActive"));
 
-	m_buttonDisabled          = LoadBorderedRectElement(m_config.String("ButtonDisabled"));
-	m_buttonNormal            = LoadBorderedRectElement(m_config.String("ButtonNormal"));
-	m_buttonHover             = LoadBorderedRectElement(m_config.String("ButtonHover"));
-	m_buttonActive            = LoadBorderedRectElement(m_config.String("ButtonActive"));
+	m_buttonDisabled          = LoadBorderedRectElement(cfg.String("ButtonDisabled"));
+	m_buttonNormal            = LoadBorderedRectElement(cfg.String("ButtonNormal"));
+	m_buttonHover             = LoadBorderedRectElement(cfg.String("ButtonHover"));
+	m_buttonActive            = LoadBorderedRectElement(cfg.String("ButtonActive"));
 
-	m_checkboxDisabled        = LoadRectElement(m_config.String("CheckboxDisabled"));
-	m_checkboxNormal          = LoadRectElement(m_config.String("CheckboxNormal"));
-	m_checkboxHover           = LoadRectElement(m_config.String("CheckboxHover"));
-	m_checkboxActive          = LoadRectElement(m_config.String("CheckboxActive"));
-	m_checkboxCheckedDisabled = LoadRectElement(m_config.String("CheckboxCheckedDisabled"));
-	m_checkboxCheckedNormal   = LoadRectElement(m_config.String("CheckboxCheckedNormal"));
-	m_checkboxCheckedHover    = LoadRectElement(m_config.String("CheckboxCheckedHover"));
-	m_checkboxCheckedActive   = LoadRectElement(m_config.String("CheckboxCheckedActive"));
+	m_checkboxDisabled        = LoadRectElement(cfg.String("CheckboxDisabled"));
+	m_checkboxNormal          = LoadRectElement(cfg.String("CheckboxNormal"));
+	m_checkboxHover           = LoadRectElement(cfg.String("CheckboxHover"));
+	m_checkboxActive          = LoadRectElement(cfg.String("CheckboxActive"));
+	m_checkboxCheckedDisabled = LoadRectElement(cfg.String("CheckboxCheckedDisabled"));
+	m_checkboxCheckedNormal   = LoadRectElement(cfg.String("CheckboxCheckedNormal"));
+	m_checkboxCheckedHover    = LoadRectElement(cfg.String("CheckboxCheckedHover"));
+	m_checkboxCheckedActive   = LoadRectElement(cfg.String("CheckboxCheckedActive"));
 
-	m_buttonMinInnerSize      = m_config.Int("ButtonMinInnerSize");
-	m_sliderMinInnerSize      = m_config.Int("SliderMinInnerSize");
+	m_buttonMinInnerSize      = cfg.Int("ButtonMinInnerSize");
+	m_sliderMinInnerSize      = cfg.Int("SliderMinInnerSize");
 
-    m_listAlphaNormal = m_config.Float("ListAlphaNormal");
-    m_listAlphaSelect = m_config.Float("ListAlphaSelect");
-    m_listAlphaHover  = m_config.Float("ListAlphaHover");
+	m_listAlphaNormal = cfg.Float("ListAlphaNormal");
+	m_listAlphaSelect = cfg.Float("ListAlphaSelect");
+	m_listAlphaHover  = cfg.Float("ListAlphaHover");
 }
 
 static inline vector2f scaled(const vector2f &v)
@@ -139,18 +150,6 @@ Skin::BorderedRectElement Skin::LoadBorderedRectElement(const std::string &spec)
 	std::vector<int> v(5);
 	SplitSpec(spec, v);
 	return BorderedRectElement(v[0], v[1], v[2], v[3], v[4]);
-}
-
-Skin::Config::Config(const std::string &filename) : IniConfig(filename)
-{
-	m_map["ButtonMinInnerSize"] = 16;
-	m_map["SliderMinInnerSize"] = 32;
-
-	m_map["ListAlphaNormal"] = "0.0";
-	m_map["ListAlphaHover"]  = "0.4";
-	m_map["ListAlphaSelect"] = "0.6";
-
-	Load();
 }
 
 }
