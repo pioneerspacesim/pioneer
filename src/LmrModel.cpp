@@ -332,6 +332,8 @@ namespace ShipThruster {
 
 class LmrGeomBuffer;
 
+static const char CACHE_DIR[] = "model_cache";
+
 static Graphics::Material *s_billboardMaterial;
 static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
@@ -343,7 +345,6 @@ static const LmrObjParams *s_curParams;
 static std::map<std::string, LmrModel*> s_models;
 static lua_State *sLua;
 static int s_numTrisRendered;
-static std::string s_cacheDir;
 static bool s_recompileAllModels = true;
 
 struct Vertex {
@@ -1104,11 +1105,11 @@ LmrModel::LmrModel(const char *model_name)
 		m_dynamicGeometry[i] = new LmrGeomBuffer(this, false);
 	}
 
-	const std::string cache_file = FileSystem::JoinPathBelow(s_cacheDir, model_name) + ".bin";
+	const std::string cache_file = FileSystem::JoinPathBelow(CACHE_DIR, model_name) + ".bin";
 
 	if (!s_recompileAllModels) {
 		// load cached model
-		FILE *f = fopen(cache_file.c_str(), "rb");
+		FILE *f = FileSystem::userFiles.OpenReadStream(cache_file);
 		if (!f) goto rebuild_model;
 
 		for (int i=0; i<m_numLods; i++) {
@@ -1136,7 +1137,7 @@ LmrModel::LmrModel(const char *model_name)
 	} else {
 rebuild_model:
 		// run static build for each LOD level
-		FILE *f = fopen(cache_file.c_str(), "wb");
+		FILE *f = FileSystem::userFiles.OpenWriteStream(cache_file);
 
 		for (int i=0; i<m_numLods; i++) {
 			LUA_DEBUG_START(sLua);
@@ -4538,7 +4539,7 @@ static void _detect_model_changes()
 {
 	s_allModelFilesCRC = _calculate_all_models_checksum();
 
-	FILE *cache_sum_file = fopen(FileSystem::JoinPath(s_cacheDir, "cache.sum").c_str(), "rb");
+	FILE *cache_sum_file = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPath(CACHE_DIR, "cache.sum"));
 	if (cache_sum_file) {
 		Uint32 version;
 		fread_or_die(&version, sizeof(version), 1, cache_sum_file);
@@ -4557,7 +4558,7 @@ static void _detect_model_changes()
 static void _write_model_crc_file()
 {
 	if (s_recompileAllModels) {
-		FILE *cache_sum_file = fopen(FileSystem::JoinPath(s_cacheDir, "cache.sum").c_str(), "wb");
+		FILE *cache_sum_file = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPath(CACHE_DIR, "cache.sum"));
 		if (cache_sum_file) {
 			fwrite(&s_cacheVersion, sizeof(s_cacheVersion), 1, cache_sum_file);
 			fwrite(&s_allModelFilesCRC, sizeof(s_allModelFilesCRC), 1, cache_sum_file);
@@ -4572,7 +4573,7 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 
 	ShipThruster::Init(renderer);
 
-	FileSystem::userFiles.MakeDirectory("model_cache");
+	FileSystem::userFiles.MakeDirectory(CACHE_DIR);
 	_detect_model_changes();
 
 	s_staticBufferPool = new BufferObjectPool<sizeof(Vertex)>();
