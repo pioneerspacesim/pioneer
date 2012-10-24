@@ -247,34 +247,6 @@ std::string Pi::GetSaveDir()
 	return FileSystem::GetUserDir("savefiles");
 }
 
-void Pi::RedirectStdio()
-{
-	std::string stdout_file = FileSystem::JoinPath(FileSystem::GetUserDir(), "stdout.txt");
-	std::string stderr_file = FileSystem::JoinPath(FileSystem::GetUserDir(), "stderr.txt");
-
-	FILE *f;
-
-	f = freopen(stdout_file.c_str(), "w", stdout);
-	if (!f)
-		f = fopen(stdout_file.c_str(), "w");
-	if (!f)
-		fprintf(stderr, "ERROR: Couldn't redirect stdout to '%s': %s\n", stdout_file.c_str(), strerror(errno));
-	else {
-		setvbuf(f, 0, _IOLBF, BUFSIZ);
-		*stdout = *f;
-	}
-
-	f = freopen(stderr_file.c_str(), "w", stderr);
-	if (!f)
-		f = fopen(stderr_file.c_str(), "w");
-	if (!f)
-		fprintf(stderr, "ERROR: Couldn't redirect stderr to '%s': %s\n", stderr_file.c_str(), strerror(errno));
-	else {
-		setvbuf(f, 0, _IOLBF, BUFSIZ);
-		*stderr = *f;
-	}
-}
-
 void Pi::Init()
 {
 	FileSystem::Init();
@@ -286,7 +258,7 @@ void Pi::Init()
 	KeyBindings::InitBindings();
 
 	if (config->Int("RedirectStdio"))
-		RedirectStdio();
+		OS::RedirectStdio();
 
 	if (!Lang::LoadStrings(config->String("Lang")))
 		abort();
