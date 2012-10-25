@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaShip.h"
 #include "LuaSpaceStation.h"
 #include "LuaSystemPath.h"
@@ -127,8 +130,7 @@ static int l_ship_get_stats(lua_State *l)
 
 /* Method: SetShipType
  *
- * Replaces the ship with a new ship of the specified type. Can only be done
- * while docked.
+ * Replaces the ship with a new ship of the specified type.
  *
  * > ship:SetShipType(newtype)
  *
@@ -157,9 +159,6 @@ static int l_ship_set_type(lua_State *l)
 	const char *type = luaL_checkstring(l, 2);
 	if (! ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
-
-	if (s->GetFlightState() != Ship::DOCKED)
-		luaL_error(l, "Cannot change ship type unless docked");
 
 	ShipFlavour f(type);
 
@@ -782,7 +781,7 @@ static int l_ship_get_equip_free(lua_State *l)
  *
  * > success = ship:Jettison(item)
  *
- * On sucessful jettison, the <EventQueue.onJettison> event is triggered.
+ * On sucessful jettison, the <Event.onJettison> event is triggered.
  *
  * Parameters:
  *
@@ -847,7 +846,7 @@ static int l_ship_get_docked_with(lua_State *l)
  *
  * > success = ship:Undock()
  *
- * <EventQueue.onShipUndocked> will be triggered once undocking is complete
+ * <Event.onShipUndocked> will be triggered once undocking is complete
  *
  * Return:
  *
@@ -1036,7 +1035,7 @@ static int l_ship_get_hyperspace_details(lua_State *l)
  * > status = ship:HyperspaceTo(path)
  *
  * If the status returned is "OK", then a hyperspace departure cloud will be
- * created where the ship was and the <EventQueue.onLeaveSystem> event will be
+ * created where the ship was and the <Event.onLeaveSystem> event will be
  * triggered.
  *
  * Parameters:
@@ -1175,7 +1174,7 @@ static int l_ship_attr_fuel(lua_State *l)
  * high-level commands to instruct the ship to fly somewhere and possibly take
  * some action when it arrives (like dock or attack).
  *
- * When an AI completes the <EventQueue.onAICompleted> event is triggered, and
+ * When an AI completes the <Event.onAICompleted> event is triggered, and
  * the ship is left with engines off in whatever state the AI left it in. For
  * some AI methods (eg <AIEnterLowOrbit>) this is useful. For others it will
  * likely mean the ship will eventually succumb to gravity and crash
@@ -1378,7 +1377,7 @@ static int l_ship_ai_enter_high_orbit(lua_State *l)
  * This ship is left with the orientation and velocity it had when <CancelAI>
  * was called. The engines are switched off.
  *
- * Note that <EventQueue.onAICompleted> will not be triggered by calling
+ * Note that <Event.onAICompleted> will not be triggered by calling
  * <CancelAI>, as the AI did not actually complete.
  *
  * You do not need to call this if you intend to immediately invoke another AI

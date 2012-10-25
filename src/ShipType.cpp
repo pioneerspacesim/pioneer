@@ -1,7 +1,11 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "ShipType.h"
 #include "LmrModel.h"
 #include "LuaVector.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
 #include "FileSystem.h"
 #include "utils.h"
 #include "Lang.h"
@@ -106,9 +110,14 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 	_get_float_attrib(L, "left_thrust", s.linThrust[ShipType::THRUSTER_LEFT], 0.0f);
 	_get_float_attrib(L, "right_thrust", s.linThrust[ShipType::THRUSTER_RIGHT], 0.0f);
 	_get_float_attrib(L, "angular_thrust", s.angThrust, 0.0f);
-	s.angThrust = s.angThrust / 2;		// fudge
-	_get_vec_attrib(L, "front_camera", s.frontCameraOffset, vector3d(0.0));
-	_get_vec_attrib(L, "rear_camera", s.rearCameraOffset, vector3d(0.0));
+	// invert values where necessary
+	s.linThrust[ShipType::THRUSTER_FORWARD] *= -1.f;
+	s.linThrust[ShipType::THRUSTER_LEFT] *= -1.f;
+	s.linThrust[ShipType::THRUSTER_DOWN] *= -1.f;
+	// angthrust fudge (XXX: why?)
+	s.angThrust = s.angThrust / 2;
+
+	_get_vec_attrib(L, "camera_offset", s.cameraOffset, vector3d(0.0));
 
 	for (int i=0; i<Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
 	_get_int_attrib(L, "max_cargo", s.equipSlotCapacity[Equip::SLOT_CARGO], 0);
@@ -155,7 +164,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 		for (unsigned int i=0; i<lua_rawlen(L,-1); i++) {
 			lua_pushinteger(L, i+1);
 			lua_gettable(L, -2);
-			if (lua_istable(L, -1) && lua_rawlen(L,-1) == 2)	{
+			if (lua_istable(L, -1) && lua_rawlen(L,-1) == 4)	{
 				lua_pushinteger(L, 1);
 				lua_gettable(L, -2);
 				s.gunMount[i].pos = LuaVector::CheckFromLuaF(L, -1);
@@ -163,6 +172,15 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 				lua_pushinteger(L, 2);
 				lua_gettable(L, -2);
 				s.gunMount[i].dir = LuaVector::CheckFromLuaF(L, -1);
+				lua_pop(L, 1);
+				lua_pushinteger(L, 3);
+				lua_gettable(L, -2);
+				s.gunMount[i].sep = lua_tonumber(L,-1);
+				lua_pop(L, 1);
+				lua_pushinteger(L, 4);
+				lua_gettable(L, -2);
+				s.gunMount[i].orient = static_cast<ShipType::DualLaserOrientation>(
+						LuaConstants::GetConstantFromArg(L, "DualLaserOrientation", -1));
 				lua_pop(L, 1);
 			}
 			lua_pop(L, 1);
@@ -228,6 +246,7 @@ void ShipType::Init()
 	luaL_requiref(l, LUA_MATHLIBNAME, &luaopen_math, 1);
 	lua_pop(l, 3);
 
+	LuaConstants::Register(l);
 	LuaVector::Register(l);
 	LUA_DEBUG_CHECK(l, 0);
 

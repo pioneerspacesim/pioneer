@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 --
 -- Interface: Event
 --
@@ -183,29 +186,6 @@ Event = {
 	end
 }
 
--- XXX remove in alpha 27
--- XXX documentation is at the bottom of this file so that naturaldocs
---     produces something with a decent structure. doesn't matter since
---     this is going away soon
-EventQueue = {
-	Create = function (name)
-		local on = "on"..name
-
-		EventQueue[on] = {
-
-			Connect = function (_, cb)
-				print(string.format("WARNING: EventQueue.%s:Connect is deprecated, use Event.Register('%s') instead", on, on))
-				Event.Register(on, cb)
-			end,
-
-			Disconnect = function (_, cb)
-				print(string.format("WARNING: EventQueue.%s:Disconnect is deprecated, use Event.Deregister('%s') instead", on, on))
-				Event.Deregister(on, cb)
-			end,
-		}
-	end
-}
-
 --
 -- Event: onGameStart
 --
@@ -229,7 +209,6 @@ EventQueue = {
 --
 --   stable
 --
-EventQueue.Create("GameStart");
 
 --
 -- Event: onGameEnd
@@ -254,7 +233,6 @@ EventQueue.Create("GameStart");
 --
 --   stable
 --
-EventQueue.Create("GameEnd");
 
 --
 -- Event: onEnterSystem
@@ -281,7 +259,6 @@ EventQueue.Create("GameEnd");
 --
 --   stable
 --
-EventQueue.Create("EnterSystem");
 
 --
 -- Event: onLeaveSystem
@@ -306,7 +283,6 @@ EventQueue.Create("EnterSystem");
 --
 --   stable
 --
-EventQueue.Create("LeaveSystem");
 
 --
 -- Event: onFrameChanged
@@ -331,7 +307,6 @@ EventQueue.Create("LeaveSystem");
 --
 --   experimental
 --
-EventQueue.Create("FrameChanged");
 
 --
 -- Event: onShipDestroyed
@@ -358,7 +333,6 @@ EventQueue.Create("FrameChanged");
 --
 --   stable
 --
-EventQueue.Create("ShipDestroyed");
 
 --
 -- Event: onShipHit
@@ -382,7 +356,6 @@ EventQueue.Create("ShipDestroyed");
 --
 --   stable
 --
-EventQueue.Create("ShipHit");
 
 --
 -- Event: onShipCollided
@@ -415,7 +388,6 @@ EventQueue.Create("ShipHit");
 --
 --   stable
 --
-EventQueue.Create("ShipCollided");
 
 --
 -- Event: onShipDocked
@@ -439,7 +411,6 @@ EventQueue.Create("ShipCollided");
 --
 --   stable
 --
-EventQueue.Create("ShipDocked");
 
 --
 -- Event: onShipUndocked
@@ -463,7 +434,6 @@ EventQueue.Create("ShipDocked");
 --
 --   stable
 --
-EventQueue.Create("ShipUndocked");
 
 --
 -- Event: onShipLanded
@@ -488,7 +458,6 @@ EventQueue.Create("ShipUndocked");
 --
 --   experimental
 --
-EventQueue.Create("ShipLanded");
 
 --
 -- Event: onShipTakeOff
@@ -513,7 +482,6 @@ EventQueue.Create("ShipLanded");
 --
 --   experimental
 --
-EventQueue.Create("ShipTakeOff");
 
 --
 -- Event: onShipAlertChanged
@@ -537,7 +505,6 @@ EventQueue.Create("ShipTakeOff");
 --
 --    stable
 --
-EventQueue.Create("ShipAlertChanged");
 
 --
 -- Event: onJettison
@@ -561,7 +528,6 @@ EventQueue.Create("ShipAlertChanged");
 --
 --   experimental
 --
-EventQueue.Create("Jettison");
 
 --
 -- Event: onCargoUnload
@@ -585,7 +551,6 @@ EventQueue.Create("Jettison");
 --
 --   experimental
 --
-EventQueue.Create("CargoUnload");
 
 --
 -- Event: onAICompleted
@@ -609,7 +574,6 @@ EventQueue.Create("CargoUnload");
 --
 --   stable
 --
-EventQueue.Create("AICompleted");
 
 --
 -- Event: onCreateBB
@@ -638,7 +602,6 @@ EventQueue.Create("AICompleted");
 --
 --   stable
 --
-EventQueue.Create("CreateBB");
 
 --
 -- Event: onUpdateBB
@@ -671,7 +634,6 @@ EventQueue.Create("CreateBB");
 --
 --   stable
 --
-EventQueue.Create("UpdateBB");
 
 --
 -- Event: onShipFlavourChanged
@@ -693,7 +655,6 @@ EventQueue.Create("UpdateBB");
 --
 --   experimental
 --
-EventQueue.Create("ShipFlavourChanged");
 
 --
 -- Event: onShipEquipmentChanged
@@ -718,7 +679,6 @@ EventQueue.Create("ShipFlavourChanged");
 --
 --   experimental
 --
-EventQueue.Create("ShipEquipmentChanged");
 
 --
 -- Event: onShipFuelChanged
@@ -742,56 +702,5 @@ EventQueue.Create("ShipEquipmentChanged");
 --
 --   experimental
 --
-EventQueue.Create("ShipFuelChanged");
 
--- XXX document this
-EventQueue.Create("SongFinished");
-
---
--- Class: EventQueue
---
--- WARNING: This class is deprecated in favour of <Event>. It will be removed
--- entirely in alpha 27.
---
--- Method: Connect
---
--- Connect a function to an event queue. When the queue emits an event, the
--- function will be called.
---
--- > onEvent:Connect(function)
---
--- Parameters:
---
---   function - function to call when the queue emits an event. The function
---              will recieve a copy of the parameters attached to the event
---
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   deprecated  
---
--- Method: Disconnect
---
--- Disconnects a function from an event queue. The function will no long
--- receive events emitted by the queue.
---
--- If the function is not connected to the queue this method does nothing.
---
--- > onEvent:Disconnect(function)
---
--- Parameters:
---
---   function - a function that was previously connected to this queue with
---              <Connect>
---
--- Availability:
---
---   alpha 10
---
--- Status:
---
---   deprecated
---
+-- XXX document SongFinished

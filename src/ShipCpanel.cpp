@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Pi.h"
 #include "ShipCpanel.h"
@@ -18,23 +21,6 @@
 // XXX duplicated in WorldView. should probably be a theme variable
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
 
-class CameraSwitchWidget : public Gui::Widget {
-public:
-	CameraSwitchWidget(ShipCpanel *panel, WorldView::CamType camType) : m_panel(panel), m_camType(camType) {}
-
-	virtual void Draw() {}
-	virtual void GetSizeRequested(float size[2]) { size[0] = size[1] = 0.0f; }
-
-	virtual void OnActivate() {
-		if (Pi::GetView() == Pi::worldView)
-			m_panel->SwitchToCamera(m_camType);
-	}
-
-private:
-	ShipCpanel *m_panel;
-	WorldView::CamType m_camType;
-};
-
 ShipCpanel::ShipCpanel(Graphics::Renderer *r): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 {
 	m_scanner = new ScannerWidget(r);
@@ -47,6 +33,8 @@ ShipCpanel::ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r): Gui::Fixe
 	m_scanner = new ScannerWidget(r, rd);
 
 	InitObject();
+
+	m_camButton->SetActiveState(rd.Int32());
 }
 
 void ShipCpanel::InitObject()
@@ -125,8 +113,7 @@ void ShipCpanel::InitObject()
 	m_camButton = new Gui::MultiStateImageButton();
 	m_leftButtonGroup->Add(m_camButton);
 	m_camButton->SetSelected(true);
-	m_camButton->AddState(WorldView::CAM_FRONT, "icons/cam_front.png", "icons/cam_front_on.png", Lang::FRONT_VIEW);
-	m_camButton->AddState(WorldView::CAM_REAR, "icons/cam_rear.png", "icons/cam_rear_on.png", Lang::REAR_VIEW);
+	m_camButton->AddState(WorldView::CAM_INTERNAL, "icons/cam_internal.png", "icons/cam_internal_on.png", Lang::INTERNAL_VIEW);
 	m_camButton->AddState(WorldView::CAM_EXTERNAL, "icons/cam_external.png", "icons/cam_external_on.png", Lang::EXTERNAL_VIEW);
 	m_camButton->AddState(WorldView::CAM_SIDEREAL, "icons/cam_sidereal.png", "icons/cam_sidereal_on.png", Lang::SIDEREAL_VIEW);
 	m_camButton->SetShortcut(SDLK_F1, KMOD_NONE);
@@ -210,19 +197,6 @@ void ShipCpanel::InitObject()
 	img->SetRenderDimensions(20, 13);
 	Add(img, 780, 37);
 	m_alertLights[2] = img;
-
-	CameraSwitchWidget *camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_FRONT);
-	camSwitcher->SetShortcut(SDLK_1, KMOD_LSHIFT);
-	Add(camSwitcher,0,0);
-	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_REAR);
-	camSwitcher->SetShortcut(SDLK_2, KMOD_LSHIFT);
-	Add(camSwitcher,0,0);
-	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_EXTERNAL);
-	camSwitcher->SetShortcut(SDLK_3, KMOD_LSHIFT);
-	Add(camSwitcher,0,0);
-	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_SIDEREAL);
-	camSwitcher->SetShortcut(SDLK_4, KMOD_LSHIFT);
-	Add(camSwitcher,0,0);
 
 	m_overlay[OVERLAY_TOP_LEFT]     = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_TOP_RIGHT]    = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -322,16 +296,12 @@ void ShipCpanel::Draw()
 	Gui::Fixed::Draw();
 }
 
-void ShipCpanel::SwitchToCamera(WorldView::CamType t)
-{
-	Pi::BoinkNoise();
-	Pi::worldView->SetCamType(t);
-	m_camButton->SetActiveState(int(Pi::worldView->GetCamType()));
-}
-
 void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 {
-	SwitchToCamera(WorldView::CamType(b->GetState()));
+	Pi::BoinkNoise();
+	const int newState = b->GetState();
+	b->SetActiveState(newState);
+	Pi::worldView->SetCamType(WorldView::CamType(newState));
 	Pi::SetView(Pi::worldView);
 }
 
@@ -430,6 +400,7 @@ void ShipCpanel::TimeStepUpdate(float step)
 void ShipCpanel::Save(Serializer::Writer &wr)
 {
 	m_scanner->Save(wr);
+	wr.Int32(m_camButton->GetState());
 }
 
 void ShipCpanel::SetOverlayText(OverlayTextPos pos, const std::string &text)

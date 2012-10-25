@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _COLOR_H
 #define _COLOR_H
 
@@ -10,7 +13,7 @@ struct Color4f {
 	operator float *() { return &r; }
 	operator const float *() const { return &r; }
 	Color4f &operator*=(const float v) { r*=v; g*=v; b*=v; a*=v; return *this; }
-	friend Color4f operator*(const Color4f &a, const float v) { return Color4f(a.r*v, a.g*v, a.b*v, a.a*v); }
+	friend Color4f operator*(const Color4f &c, const float v) { return Color4f(c.r*v, c.g*v, c.b*v, c.a*v); }
 
 	float GetLuminance() const;
 

@@ -598,16 +598,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Sto simulando l'evoluzione dell'Universo: %age{f.1} miliardi di anni ;-)
 TOMBSTONE_EPITAPH
     Riposa in Pace,\nVecchio Mio
-MM_START_NEW_GAME_EARTH
-    Nuova Partita: partenza dalla Terra
-MM_START_NEW_GAME_E_ERIDANI
-    Nuova Partita: partenza da Epsilon Eridani
-MM_START_NEW_GAME_DEBUG
-    Nuova Partita: partenza dal punto di debug
-MM_LOAD_SAVED_GAME
-    Carica una Partita salvata
-MM_QUIT
-    Abbandona
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -726,9 +716,9 @@ SHIP_IS_FULLY_LADEN
     L'astronave è a pieno carico.
 YOU_DO_NOT_HAVE_ANY_X
     Non hai nessun %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Vista di fronte
-REAR_VIEW
+CAMERA_REAR_VIEW
     Vista di dietro
 EXTERNAL_VIEW
     Visuale esterna

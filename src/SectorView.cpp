@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "gui/Gui.h"
 #include "Pi.h"
@@ -21,6 +24,8 @@ using namespace Graphics;
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
+static const float ZOOM_SPEED = 15;
+static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
 
 SectorView::SectorView()
 {
@@ -551,6 +556,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				{
 					(*i).SetInhabited(false);
 				}
+				(*i).factionColour = pSS->GetFactionColour();
 			}
 		}
 
@@ -625,8 +631,8 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 		Color labelColor(0.8f,0.8f,0.8f,0.5f);
 		if ((*i).IsSetInhabited() && (*i).IsInhabited()) {
-			labelColor.r = 0.5;
-			labelColor.b = labelColor.g = 1.0f;
+			labelColor = (*i).factionColour;
+			labelColor.a = 0.5f;
 		}
 
 		if (m_inSystem) {
@@ -764,10 +770,7 @@ void SectorView::Update()
 	// don't check raw keypresses if the search box is active
 	// XXX ugly hack checking for Lua console here
 	if (!m_searchBox->IsFocused() && !Pi::IsConsoleActive()) {
-		float moveSpeed = 1.0;
-		if (Pi::KeyState(SDLK_LSHIFT)) moveSpeed = 100.0;
-		if (Pi::KeyState(SDLK_RSHIFT)) moveSpeed = 10.0;
-
+		const float moveSpeed = Pi::GetMoveSpeedShiftModifier();
 		float move = moveSpeed*frameTime;
 		if (Pi::KeyState(SDLK_LEFT) || Pi::KeyState(SDLK_RIGHT))
 			m_posMovingTo += vector3f(Pi::KeyState(SDLK_LEFT) ? -move : move, 0,0) * rot;
@@ -815,7 +818,7 @@ void SectorView::Update()
 		else m_rotZ = m_rotZ + travelZ;
 
 		float diffZoom = m_zoomMovingTo - m_zoom;
-		float travelZoom = diffZoom * 10.0f*frameTime;
+		float travelZoom = diffZoom * ZOOM_SPEED*frameTime;
 		if (fabs(travelZoom) > fabs(diffZoom)) m_zoom = m_zoomMovingTo;
 		else m_zoom = m_zoom + travelZoom;
 	}
@@ -862,11 +865,10 @@ void SectorView::ShowAll()
 void SectorView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView()) {
-		const float ft = Pi::GetFrameTime();
 		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
-				m_zoomMovingTo += 10.0*ft;
-		if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
-				m_zoomMovingTo -= 10.0*ft;
+			m_zoomMovingTo += ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
+		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
+			m_zoomMovingTo -= ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
 	}
 }
 

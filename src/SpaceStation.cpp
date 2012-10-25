@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "SpaceStation.h"
 #include "Ship.h"
 #include "Planet.h"
@@ -303,6 +306,7 @@ SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 	m_lastUpdatedShipyard = 0;
 	m_numPoliceDocked = Pi::rng.Int32(3,10);
 	m_bbCreated = false;
+	m_bbShuffled = false;
 
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].ship = 0;
@@ -965,21 +969,21 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			fadeInLength = 3000.0;
 		}
 
-		FadeInModelIfDark(r, GetLmrCollMesh()->GetBoundingRadius(),
-							viewCoords.Length(), fadeInEnd, fadeInLength, overallLighting, minIllumination);
-
-		RenderLmrModel(viewCoords, viewTransform);
-
-		// reset ambient colour as Fade-in model may change it
-		r->SetAmbientColor(Color::BLACK);
-
 		/* don't render city if too far away */
 		if (viewCoords.Length() < 1000000.0){
+			r->SetAmbientColor(Color::BLACK);
 			if (!m_adjacentCity) {
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
 			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform, overallLighting, minIllumination);
 		} 
+
+		r->SetAmbientColor(Color::BLACK);
+
+		FadeInModelIfDark(r, GetLmrCollMesh()->GetBoundingRadius(),
+							viewCoords.Length(), fadeInEnd, fadeInLength, overallLighting, minIllumination);
+
+		RenderLmrModel(viewCoords, viewTransform);
 
 		// restore old lights
 		r->SetLights(origLights.size(), &origLights[0]);

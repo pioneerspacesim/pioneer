@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _RENDERER_LEGACY_H
 #define _RENDERER_LEGACY_H
 /*
@@ -8,11 +11,12 @@
 namespace Graphics {
 
 class Texture;
+struct Settings;
 
 class RendererLegacy : public Renderer
 {
 public:
-	RendererLegacy(int width, int height);
+	RendererLegacy(const Graphics::Settings &vs);
 	virtual ~RendererLegacy();
 
 	virtual const char* GetName() const { return "Legacy renderer"; }
@@ -41,7 +45,7 @@ public:
 	virtual bool SetLights(int numlights, const Light *l);
 	virtual bool SetAmbientColor(const Color &c);
 
-	virtual bool SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0);
+	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f));
 
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, LineType type=LINE_SINGLE);
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE);
@@ -73,6 +77,7 @@ protected:
 	virtual bool BufferStaticMesh(StaticMesh *m);
 	float m_minZNear;
 	float m_maxZFar;
+	bool m_useCompressedTextures;
 };
 
 }

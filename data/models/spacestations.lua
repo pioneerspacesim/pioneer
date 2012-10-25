@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 
 -- NOTE
 -- info->ship_dock_anim function's last docking anim ship location will be
@@ -176,7 +179,7 @@ define_model('spacestation_entry1_stage3', {
 			use_material('text')
 			zbias(1, v(0,200,0), v(0,-1,0))
 			-- starport name
-			text(get_label(), v(60,200,-35), v(0,-1,0), v(-1,0,0), 5.0, {center=true})
+			text(get_label(), v(86,200,-35), v(0,-1,0), v(-1,0,0), 5.0)
 			-- docking bay number
 			text("DOCKING BAY 1", v(-60,200,-35), v(0,-1,0), v(-1,0,0), 7.0, {center=true})
 			zbias(0)

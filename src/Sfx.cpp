@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Sfx.h"
 #include "Frame.h"
 #include "galaxy/StarSystem.h"
@@ -81,7 +84,7 @@ void Sfx::TimeStepUpdate(const float timeStep)
 
 	switch (m_type) {
 		case TYPE_EXPLOSION:
-			if (m_age > 0.2) m_type = TYPE_NONE;
+			if (m_age > 0.5) m_type = TYPE_NONE;
 			break;
 		case TYPE_DAMAGE:
 			if (m_age > 2.0) m_type = TYPE_NONE;
@@ -103,14 +106,14 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 			trans.Translate(fpos.x, fpos.y, fpos.z);
 			RefCountedPtr<Material> exmat = Sfx::explosionEffect->GetMaterial();
 			exmat->diffuse = Color(1.f, 1.f, 0.5f, 1.f);
-			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(1000*m_age));
+			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(500*m_age));
 			Sfx::explosionEffect->Draw(renderer);
 			renderer->SetBlendMode(BLEND_ALPHA);
 			exmat->diffuse = Color(1.f, 0.5f, 0.f, 0.66f);
-			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(1500*m_age));
+			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(750*m_age));
 			Sfx::explosionEffect->Draw(renderer);
 			exmat->diffuse = Color(1.f, 0.f, 0.f, 0.33f);
-			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(2000*m_age));
+			renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(1000*m_age));
 			Sfx::explosionEffect->Draw(renderer);
 			glPopMatrix();
 			break;

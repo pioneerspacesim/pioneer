@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaConstants.h"
 #include "LuaUtils.h"
 
@@ -283,27 +286,6 @@ void LuaConstants::Register(lua_State *l)
 	 */
 	_create_constant_table_nonconsecutive(l, "PolitCrime", ENUM_PolitCrime);
 
-
-	/*
-	 * Constants: PolitBloc
-	 *
-	 * Political alignment
-	 *
-	 * NONE - independent
-	 * EARTHFED - Federation
-	 * CIS - Confederation of Independent Systems
-	 * EMPIRE - Empire
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   experimental
-	 */
-	_create_constant_table_nonconsecutive(l, "PolitBloc", ENUM_PolitBloc);
-
 	/*
 	 * Constants: PolitEcon
 	 *
@@ -486,6 +468,23 @@ void LuaConstants::Register(lua_State *l)
 	 */
 	_create_constant_table_nonconsecutive(l, "EquipType", ENUM_EquipType);
 
+	/*
+	 * Constants: DualLaserOrientation
+	 *
+	 * The orientation of dual laser mountings.
+	 *
+	 * HORIZONTAL - Lasers are mounted left and right
+	 * VERTICAL   - Lasers are mounted top and bottom
+	 *
+	 * Availability:
+	 *
+	 *   alpha 27
+	 *
+	 * Status:
+	 *
+	 *   experimental
+	 */
+	_create_constant_table_nonconsecutive(l, "DualLaserOrientation", ENUM_DualLaserOrientation);
 
 	/*
 	 * Constants: ShipTypeTag
@@ -625,7 +624,7 @@ void LuaConstants::Register(lua_State *l)
 	/*
 	 * Constants: ShipAIError
 	 *
-	 * AI command error/result code passed to EventQueue.onAICompleted
+	 * AI command error/result code passed to Event.onAICompleted
 	 *
 	 * NONE             - AI completed successfully
 	 * GRAV_TOO_HIGH    - AI can not compensate for gravity
@@ -716,6 +715,17 @@ void LuaConstants::Register(lua_State *l)
 	 *   experimental
 	 */
 	_create_constant_table_nonconsecutive(l, "FileSystemRoot", ENUM_FileSystemRoot);
+
+	// XXX document these
+	_create_constant_table_nonconsecutive(l, "UIAlignDirection", ENUM_UIAlignDirection);
+	_create_constant_table_nonconsecutive(l, "UIBoxFlags", ENUM_UIBoxFlags);
+	_create_constant_table_nonconsecutive(l, "UIImageStretchMode", ENUM_UIImageStretchMode);
+	_create_constant_table_nonconsecutive(l, "UIFontSize", ENUM_UIFontSize);
+	_create_constant_table_nonconsecutive(l, "UIEventType", ENUM_UIEventType);
+	_create_constant_table_nonconsecutive(l, "UIKeyboardAction", ENUM_UIKeyboardAction);
+	_create_constant_table_nonconsecutive(l, "UIMouseButtonAction", ENUM_UIMouseButtonAction);
+	_create_constant_table_nonconsecutive(l, "UIMouseButtonType", ENUM_UIMouseButtonType);
+	_create_constant_table_nonconsecutive(l, "UIMouseWheelDirection", ENUM_UIMouseWheelDirection);
 
 
 	LUA_DEBUG_END(l, 0);

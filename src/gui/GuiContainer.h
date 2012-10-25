@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GUICONTAINER_H
 #define _GUICONTAINER_H
 /*
@@ -40,16 +43,20 @@ namespace Gui {
 		Color m_bgcol;
 		bool m_transparent;
 	protected:
-		void PrependChild(Widget *w, float x, float y);
-		void AppendChild(Widget *w, float x, float y);
-		void MoveChild(Widget *w, float x, float y);
-
 		struct widget_pos {
 			Widget *w;
 			float pos[2];
 			Uint32 flags;
 		};
-		std::list<widget_pos> m_children;
+		typedef std::list<widget_pos> WidgetList;
+
+		void PrependChild(Widget *w, float x, float y);
+		void AppendChild(Widget *w, float x, float y);
+		void MoveChild(Widget *w, float x, float y);
+		WidgetList::const_iterator FindChild(const Widget *w) const;
+		WidgetList::iterator FindChild(const Widget *w);
+
+		WidgetList m_children;
 	};
 }
 

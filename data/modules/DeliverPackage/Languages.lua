@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
   -- adtext - text shown in the bulletin board list
 	-- introtext - shown when the advert is selected (and "Could you repeat request?")
 	-- whysomuchtext - response to "Why so much?"
@@ -152,7 +155,7 @@ Translate:Add({ English = {
 Translate:AddFlavour('Polski','DeliverPackage', {
   adtext = "LECISZ DO systemu {system}? Zapłata za dostarczenie małej paczki.",
   introtext = "Cześć, nazywam się {name}. Zapłacę {cash} jeśli dostarczysz małą paczkę do {starport} w systemie {system} ({sectorx}, {sectory}, {sectorz}) .",
-  whysomuchtext = "Przyjaciółka po swojej wizycie, zostawiła u mnie ubrania i starodruki. Chciałbym je do niej odesłać.",
+  whysomuchtext = "Przyjaciółka po swojej wizycie, zostawiła u mnie ubrania i starodruki. Chcę je do niej odesłać.",
   successmsg = "Dziękuję za dostawę. Płacę całość umówionej sumy.",
   failuremsg = "Niedopuszczalne! Dostawa zajęła ci całą wieczność. Nic ci nie zapłacę.",
   urgency = 0,
@@ -165,7 +168,7 @@ Translate:AddFlavour('Polski','DeliverPackage', {
   introtext = "Cześć, nazywam się {name}. Oferuję {cash} dla statku który przewiezie paczkę do {starport} w systemie {system} ({sectorx}, {sectory}, {sectorz}) .",
   whysomuchtext = "To nic szczególnego.",
   successmsg = "Odebrano paczkę, płacę całość umówionej sumy.",
-  failuremsg = "Jestem sfrustrowany tak późną dostawą, odmawiam zapłaty.",
+  failuremsg = "Wyrażam frustrację z tak późnej dostawy, odmawiam zapłaty.",
   urgency = 0.1,
   risk = 0,
   localdelivery = 0,
@@ -176,7 +179,7 @@ Translate:AddFlavour('Polski','DeliverPackage', {
   introtext = "Cześć, nazywam się {name}. Oferuję {cash} dla statku który szybko dostarczy paczkę do {starport} w systemie {system} ({sectorx}, {sectory}, {sectorz}) .",
   whysomuchtext = "To jest projekt badawczy i musi być dostarczony w terminie inaczej nie dostaniemy dofinansowania.",
   successmsg = "Płacę całość umówionej sumy. Dziękuję.",
-  failuremsg = "Jasno określiłem że zależy mi na dotrzymaniu terminu, jestem bardzo rozczarowany spóźnioną dostawą. Nie zapłacę ci.",
+  failuremsg = "Było jasne że zależy mi na dotrzymaniu terminu, rozczarowałeś mnie bardzo spóźnioną dostawą. Nie zapłacę ci.",
   urgency = 0.6,
   risk = 0,
   localdelivery = 0,
@@ -185,7 +188,7 @@ Translate:AddFlavour('Polski','DeliverPackage', {
 Translate:AddFlavour('Polski','DeliverPackage', {
   adtext = "DORĘCZ. Dokumenty do systemu {system}. {cash} dla doświadczonego pilota.",
   introtext = "Cześć, nazywam się {name}. Zapłacę {cash} za dostarczenie dokumentów do  {starport} w systemie {system} ({sectorx}, {sectory}, {sectorz}) .",
-  whysomuchtext = "Pewne bardzo wrażliwe dokumenty wpadły w moje ręce, mam powody sądzić że jestem śledzony przez źródło przecieku.",
+  whysomuchtext = "Pewne bardzo wrażliwe dokumenty wpadły w moje ręce, mam powody sądzić że śledzą mnie jako źródło przecieku.",
   successmsg = "Bardzo cenię twój czas i dyskrecję. Płacę całość umówionej sumy.",
   failuremsg = "Bezużyteczny! Nigdy więcej nie będę na tobie polegać! Chyba nie muszę dodawać że nic nie zapłacę.",
   urgency = 0.4,
@@ -207,9 +210,9 @@ Translate:AddFlavour('Polski','DeliverPackage', {
 Translate:AddFlavour('Polski','DeliverPackage', {
   adtext = "PRZEPROWADZKA. Przewiezienie sprzętu z magazynu do {starport}.",
   introtext = "Miło mi cię poznać. Nazywam się {name} i zapłacę {cash} komuś kto ma statek, za pomoc w przewiezieniu moich rzeczy do {starport}. Bez pośpiechu, to tylko pozostałości po przeprowadzce.",
-  whysomuchtext = "To jest dużo? Powinienem przemyśleć swoją ofertę!",
+  whysomuchtext = "To jest dużo? Chyba przemyślę swoją ofertę!",
   successmsg = "Wspaniale, natychmiast zaczynam rozładunek. Jeszcze raz dziękuję.",
-  failuremsg = "Co to jest? Aha, zajęło ci to tyle czasu,że zdążyłem zapomnieć o tej przesyłce!",
+  failuremsg = "Co to jest? Aha, zajęło ci to tyle czasu, że udało mi się zapomnieć o tej przesyłce!",
   urgency = 0.1,
   risk = 0,
   localdelivery = 1,
@@ -220,7 +223,7 @@ Translate:AddFlavour('Polski','DeliverPackage', {
   introtext = "Cześć, nazywam się {name} i zapłacę {cash} za dostarczenie paczki do {starport}.",
   whysomuchtext = "Nie sądzę by to było dużo.",
   successmsg = "Dziękuję za paczkę, płacę całość umówionej sumy.",
-  failuremsg = "Przewiózł bym to szybciej samemu. Nie zapłacę ci.",
+  failuremsg = "Przewóz osobiście byłby zdecydowanie szybszy. Nie zapłacę ci.",
   urgency = 0.2,
   risk = 0,
   localdelivery = 1,
@@ -242,7 +245,7 @@ Translate:AddFlavour('Polski','DeliverPackage', {
   introtext = "Nazywam się {name}, potrzebuję szybko dostarczyć pewien element przyjacielowi w {starport}, zapłacę {cash} jeśli dotrzesz tam w rozsądnym czasie.",
   whysomuchtext = "To naprawdę pilne.",
   successmsg = "Doceniam szybką dostawę, przelewam uzgodnioną sumę.",
-  failuremsg = "Oferowałem specjalną stawkę za szybką dostawę! Odmawiam zapłaty.",
+  failuremsg = "Oferta zawierała specjalną stawkę za szybką dostawę! Odmawiam zapłaty.",
   urgency = 0.6,
   risk = 0,
   localdelivery = 1,

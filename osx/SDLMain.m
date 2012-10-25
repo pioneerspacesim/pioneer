@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 //
 // Objective-C cocoa wrapper for pioneer
 
@@ -56,42 +59,6 @@ static BOOL   gFinderLaunch;
     else if ([[sender title] isEqualToString:@"Chat with the dev team"])
     {
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://pioneerspacesim.net/irc"]];
-    }
-}
-
-- (IBAction)openFile:(id)sender
-{
-    if ([[sender title] isEqualToString:@"AUTHORS"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"AUTHORS.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"Changelog"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"Changelog.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"README"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"README.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"Quickstart"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"Quickstart.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"COPYING"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"COPYING.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"fonts COPYING"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"fonts.COPYING.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"lua COPYING"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"lua.COPYING.txt"];
-    }
-    else if ([[sender title] isEqualToString:@"music COPYING"])
-    {
-        [[NSWorkspace sharedWorkspace] openFile:@"music.COPYING.txt"];
     }
 }
 

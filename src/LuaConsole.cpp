@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaConsole.h"
 #include "LuaManager.h"
 #include "Pi.h"
@@ -230,7 +233,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	// Loading the tables in which to do the name lookup
 	while (chunks.size() > 1) {
 		if (!lua_istable(l, -1) && !lua_isuserdata(l, -1))
-			return;
+			break; // Goes directly to the cleanup code anyway.
 		lua_pushstring(l, chunks.top().c_str());
 		lua_gettable(l, -2);
 		chunks.pop();
@@ -240,7 +243,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	if (lua_getmetatable(l, -1)) {
 		try {
 			fetch_keys_from_metatable(l, -1, chunks.top(), m_completionList, method);
-		} catch (RecursionLimit & e) {
+		} catch (RecursionLimit &) {
 			AddOutput("Warning: The recursion limit has been hit during the completion run.");
 			AddOutput("         There is most likely a recursion within the metatable structure.");
 		}

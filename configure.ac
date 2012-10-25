@@ -1,3 +1,6 @@
+dnl Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+dnl Licensed under the terms of the GPL v3. See COPYING.txt for details
+
 dnl Process this file with autoconf to create configure.
 
 dnl ###########################################################################
@@ -5,7 +8,7 @@ dnl Setup
 dnl ###########################################################################
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [alpha-26-dev], [pioneer@pioneerspacesim.net])
+AC_INIT([pioneer], [alpha-28-dev], [pioneer-dev@pioneerspacesim.net])
 dnl AC_CONFIG_HEADERS([config.h])
 
 AC_DEFUN([MXE_SETUP], [
@@ -29,11 +32,15 @@ AC_DEFUN([MXE_SETUP], [
 		host_alias=i686-pc-mingw32
 		ac_tool_prefix=$host_alias-
 		cross_compiling=yes
+		HAVE_WINDRES=yes
+		MXE_WINDRES="$MXE_BASE/usr/bin/${ac_tool_prefix}windres"
 	fi
+	AM_CONDITIONAL([HAVE_WINDRES], [test "$HAVE_WINDRES" = yes])
 	AC_SUBST(MXE_BASE)
 	AC_SUBST(MXE_CROSS)
 	AC_SUBST(MXE_PATH)
 	AC_SUBST(MXE_CMAKE_TOOLCHAIN_FILE)
+	AC_SUBST(MXE_WINDRES)
 ])
 
 MXE_SETUP
@@ -292,12 +299,14 @@ AC_CONFIG_FILES([
 	src/galaxy/Makefile
 	src/terrain/Makefile
 	src/text/Makefile
+	src/ui/Makefile
 	src/win32/Makefile
 	src/posix/Makefile
 	contrib/Makefile
 	contrib/lua/Makefile
 	contrib/miniz/Makefile
 	contrib/jenkins/Makefile
+	contrib/vcacheopt/Makefile
 	osx/Makefile
 	win32/Makefile])
 AC_OUTPUT

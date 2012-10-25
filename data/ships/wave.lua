@@ -1,17 +1,21 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_ship {
 	name='Wave Heavy Hypersonic Fighter',
 	model='wave',
-	forward_thrust = -6e6,
+	forward_thrust = 6e6,
 	reverse_thrust = 2e6,
 	up_thrust = 1e6,
-	down_thrust = -1e6,
-	left_thrust = -1e6,
+	down_thrust = 1e6,
+	left_thrust = 1e6,
 	right_thrust = 1e6,
 	angular_thrust = 30e6,
+	camera_offset = v(0,.6,-13),
 	gun_mounts =
 	{
-		{ v(0,-0.5,-10.7), v(0,0,-1) },
-		{ v(0,-0.5,0), v(0,0,1) },
+		{ v(0,-0.5,-10.7), v(0,0,-1), 5, 'HORIZONTAL' },
+		{ v(0,-0.5,0), v(0,0,1), 5, 'HORIZONTAL' },
 	},
 	max_cargo = 30,
 	max_laser = 2,

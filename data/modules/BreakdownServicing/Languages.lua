@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 -- Flavours:
 
 -- title: Name of company, can contain a {name} for the station's name,
@@ -139,7 +142,7 @@ Translate:AddFlavour('Polski','BreakdownServicing', {
 	intro = [[Witamy w SuperFix Maintenance.
 
 {lasttime}
-Czas na co półroczny przegląd? Pozwól że obejrze twój napęd!
+Czas na co półroczny przegląd? Pozwól że obejrzę twój napęd!
 Mogę wyregulować twój {drive} za jedyne {price}.  Nie znajdziesz nikogo tańszego!]],
 	yesplease = "Zleć usługę SuperFix!",
 	response = "Napęd wyregulowany, z gwarancją SuperFix!",
@@ -151,7 +154,7 @@ Translate:AddFlavour('Polski','BreakdownServicing', {
 	title = "Time and Space Engines, Inc.",
 	intro = [[Witamy w Time and Space.
 
-Specjalizujemy się w napędach nadprzestrzennych. Dajemy dwuletnią gwarancje na wszystkie prace konserwacyjne.
+Specjalizujemy się w napędach nadprzestrzennych. Dajemy dwuletnią gwarancję na wszystkie prace konserwacyjne.
 {lasttime}
 Za {drive} cena wynosi {price}.  Kontynuować?]],
 	yesplease = "Tak, proszę",

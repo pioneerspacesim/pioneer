@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
   -- adtext - text shown in the bulletin board list
 	-- introtext - shown when the advert is selected (and "Could you repeat request?")
 	-- successmsg - message sent on successful assassination
@@ -99,8 +102,8 @@ Translate:Add({ English = {
 Translate:AddFlavour('Polski','Assassination', {
   adtext = "POSZUKIWANY: Do usunięcia {target} z systemu {system}.",
   introtext = "Cześć, Jestem {name}. Zapłacę {cash} za pozbycie się {target}.",
-  successmsg = "Cieszą mnie wieści o wysłaniu {target}'s na długie wakacje. Dobra robota, rozpocząłem przelew pieniędzy.",
-  failuremsg = "Jestem bardzo rozczarowany że {target} wciąż żyje. Chyba nie muszę mówić, że nie zobzczysz żadnych pieniędzy.",
+  successmsg = "Cieszą mnie wieści o wysłaniu {target}'s na długie wakacje. Dobra robota, rozpoczynam przelew pieniędzy.",
+  failuremsg = "Wyrażam wielkie rozczarowanie że {target} wciąż żyje. Chyba nie muszę mówić, że nie zobaczysz żadnych pieniędzy.",
   failuremsg2 = "Nie ty pozbyłeś się {target}'s. Tym razem bez zapłaty.",
 })
 

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaObject.h"
 #include "LuaShipType.h"
 #include "LuaUtils.h"
@@ -206,13 +209,13 @@ int l_shiptype_get_equip_slot_capacity(lua_State *l)
 /*
  * Function: GetShipType
  *
- * Get a description object for the given ship name
+ * Get a description object for the given ship id
  *
- * > shiptype = ShipType.GetShipType(name)
+ * > shiptype = ShipType.GetShipType(id)
  *
  * Parameters:
  *
- *   name - the name of the ship to get the description object for
+ *   id - the id of the ship to get the description object for
  *
  * Example:
  *

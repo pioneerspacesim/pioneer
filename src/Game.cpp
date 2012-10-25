@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Game.h"
 #include "Space.h"
 #include "Player.h"
@@ -10,6 +13,7 @@
 #include "MathUtil.h"
 #include "SectorView.h"
 #include "WorldView.h"
+#include "DeathView.h"
 #include "GalacticView.h"
 #include "SystemView.h"
 #include "SystemInfoView.h"
@@ -19,7 +23,7 @@
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 52;
+static const int  s_saveVersion   = 55;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -35,7 +39,7 @@ Game::Game(const SystemPath &path) :
 	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
 	assert(station);
 
-	CreatePlayer();
+    m_player.Reset(new Player("ip_shuttle"));
 
 	m_space->AddBody(m_player.Get());
 
@@ -58,7 +62,7 @@ Game::Game(const SystemPath &path, const vector3d &pos) :
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
 
-	CreatePlayer();
+    m_player.Reset(new Player("ip_shuttle"));
 
 	m_space->AddBody(m_player.Get());
 
@@ -558,40 +562,6 @@ void Game::RequestTimeAccel(TimeAccel t, bool force)
 	m_forceTimeAccel = force;
 }
 
-void Game::CreatePlayer()
-{
-	// XXX this should probably be in lua somewhere
-	// XXX no really, it should. per system hacks? oh my.
-
-	SystemPath startPath = m_space->GetStarSystem()->GetPath();
-
-	if (startPath.IsSameSystem(SystemPath(-2,1,90,0))) {
-		// Lave
-		m_player.Reset(new Player("cobra3"));
-		m_player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS3);
-		m_player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-		m_player->m_equipment.Add(Equip::HYDROGEN, 2);
-		m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
-		m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
-		m_player->m_equipment.Add(Equip::SCANNER);
-	}
-
-	else {
-		m_player.Reset(new Player("eagle_lrf"));
-		m_player->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
-		m_player->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-		m_player->m_equipment.Add(Equip::HYDROGEN, 1);
-		m_player->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-		m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
-		m_player->m_equipment.Add(Equip::MISSILE_GUIDED);
-		m_player->m_equipment.Add(Equip::AUTOPILOT);
-		m_player->m_equipment.Add(Equip::SCANNER);
-	}
-
-	m_player->UpdateStats();
-	m_player->SetMoney(10000);
-}
-
 // XXX this should be in some kind of central UI management class that
 // creates a set of UI views held by the game. right now though the views
 // are rather fundamentally tied to their global points and assume they
@@ -614,6 +584,7 @@ void Game::CreateViews()
 	Pi::systemInfoView = new SystemInfoView();
 	Pi::spaceStationView = new SpaceStationView();
 	Pi::infoView = new InfoView();
+	Pi::deathView = new DeathView();
 
 	// view manager will handle setting this probably
 	Pi::galacticView->SetRenderer(Pi::renderer);
@@ -622,6 +593,7 @@ void Game::CreateViews()
 	Pi::systemInfoView->SetRenderer(Pi::renderer);
 	Pi::systemView->SetRenderer(Pi::renderer);
 	Pi::worldView->SetRenderer(Pi::renderer);
+	Pi::deathView->SetRenderer(Pi::renderer);
 
 #if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
@@ -652,6 +624,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::systemInfoView = new SystemInfoView();
 	Pi::spaceStationView = new SpaceStationView();
 	Pi::infoView = new InfoView();
+	Pi::deathView = new DeathView();
 
 #if WITH_OBJECTVIEWER
 	Pi::objectViewerView = new ObjectViewerView();
@@ -664,6 +637,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::systemInfoView->SetRenderer(Pi::renderer);
 	Pi::systemView->SetRenderer(Pi::renderer);
 	Pi::worldView->SetRenderer(Pi::renderer);
+	Pi::deathView->SetRenderer(Pi::renderer);
 }
 
 void Game::DestroyViews()
@@ -674,6 +648,7 @@ void Game::DestroyViews()
 	delete Pi::objectViewerView;
 #endif
 
+	delete Pi::deathView;
 	delete Pi::infoView;
 	delete Pi::spaceStationView;
 	delete Pi::systemInfoView;
@@ -684,6 +659,7 @@ void Game::DestroyViews()
 	delete Pi::cpan;
 
 	Pi::objectViewerView = 0;
+	Pi::deathView = 0;
 	Pi::infoView = 0;
 	Pi::spaceStationView = 0;
 	Pi::systemInfoView = 0;

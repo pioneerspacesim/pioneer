@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SYSTEMVIEW_H
 #define _SYSTEMVIEW_H
 
@@ -15,6 +18,7 @@ public:
 	virtual ~SystemView();
 	virtual void Update();
 	virtual void Draw3D();
+protected:
 	virtual void OnSwitchTo() {}
 private:
 	static const double PICK_OBJECT_RECT_SIZE;
@@ -32,7 +36,7 @@ private:
 	RefCountedPtr<StarSystem> m_system;
 	SystemBody *m_selectedObject;
 	float m_rot_x, m_rot_z;
-	float m_zoom;
+	float m_zoom, m_zoomTo;
 	double m_time;
 	double m_timeStep;
 	Gui::ImageButton *m_zoomInButton;
