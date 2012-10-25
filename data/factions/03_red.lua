@@ -8,8 +8,8 @@ local f = Faction:new('Red')
 	:police_name('Red Right Hands')
 	:colour(1.0,0.4,0.4)
 
-f:govtype('EMPIRERULE')
-f:govtype('EMPIREMILDICT')
+f:govtype_weight('EMPIRERULE',    80)
+f:govtype_weight('EMPIREMILDICT', 20)
 
 f:illegal_goods_probability('LIQUOR',88)	-- independent/empire
 f:illegal_goods_probability('HAND_WEAPONS',50)	-- empire/etc

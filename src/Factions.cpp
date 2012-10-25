@@ -11,7 +11,6 @@
 #include "LuaConstants.h"
 #include "Polit.h"
 #include "FileSystem.h"
-#include <algorithm>
 
 const Uint32 Faction::BAD_FACTION_IDX = UINT_MAX;
 
@@ -94,11 +93,24 @@ static int l_fac_description(lua_State *L)
 	return 1;
 }
 
-static int l_fac_govtype(lua_State *L)
+static int l_fac_govtype_weight(lua_State *L)
 {
 	Faction *fac = l_fac_check(L, 1);
-	fac->govTypes.push_back(static_cast<Polit::GovType>(LuaConstants::GetConstantFromArg(L, "PolitGovType", 2)));
+	const char *typeName = luaL_checkstring(L, 2);
+	const Polit::GovType g = static_cast<Polit::GovType>(LuaConstants::GetConstant(L, "PolitGovType", typeName));
+	const int32_t weight = luaL_checkint(L, 3);	// signed as we will need to compare with signed out of MTRand.Int32
+
+	if (g < Polit::GOV_RAND_MIN || g > Polit::GOV_RAND_MAX) {
+		pi_lua_warn(L,
+			"argument out of range: Faction{%s}:GovType('%s', %d)",
+			fac->name.c_str(), typeName, weight);
+		return 0;
+	}
+
+	fac->govTypes[g]           = weight;
+	fac->govTypes_totalWeight += weight;
 	lua_settop(L, 1);
+
 	return 1;
 }
 
@@ -217,7 +229,7 @@ static luaL_Reg LuaFaction_meta[] = {
 	{ "new",                       &l_fac_new },
 	{ "description_short",         &l_fac_description_short },
 	{ "description",               &l_fac_description },
-	{ "govtype",                   &l_fac_govtype },
+	{ "govtype_weight",            &l_fac_govtype_weight },
 	{ "homeworld",                 &l_fac_homeworld },
 	{ "foundingDate",              &l_fac_foundingDate },
 	{ "expansionRate",             &l_fac_expansionRate },
@@ -375,10 +387,20 @@ const Uint32 Faction::GetIndexOfFaction(const std::string factionName)
 	}
 }
 
-Polit::GovType Faction::RollGovType(MTRand &rand) const
+Polit::GovType Faction::PickGovType(MTRand &rand) const
 {
 	if( !govTypes.empty()) {
-		return govTypes[rand.Int32(0, govTypes.size() -1)];
+		// if we roll a number between one and the total weighting...
+		int32_t roll = rand.Int32(1, govTypes_totalWeight);
+		int32_t cumulativeWeight = 0;
+
+		// ...the first govType with a cumulative weight >= the roll should be our pick
+		GovTypesIterator it = govTypes.begin();
+		while(roll > (cumulativeWeight + it->second)) { 
+			cumulativeWeight += it->second;
+			++it; 
+		}
+		return it->first;
 	} else {
 		return Polit::GOV_INVALID;
 	}
@@ -387,8 +409,9 @@ Polit::GovType Faction::RollGovType(MTRand &rand) const
 Faction::Faction() :
 	hasHomeworld(false),
 	foundingDate(0.0),
-	expansionRate(0.0)
+	expansionRate(0.0)	
 {
+	govTypes_totalWeight = 0;
 }
 
 Faction::~Faction()

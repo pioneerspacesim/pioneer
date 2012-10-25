@@ -8,8 +8,8 @@ local f = Faction:new('Federation')
 	:police_name('Police')
 	:colour(0.4,0.4,1.0)
 
-f:govtype('EARTHDEMOC')
-f:govtype('EARTHCOLONIAL')
+f:govtype_weight('EARTHDEMOC',    60)
+f:govtype_weight('EARTHCOLONIAL', 40)
 
 f:illegal_goods_probability('ANIMAL_MEAT',75)	-- fed/cis
 f:illegal_goods_probability('LIVE_ANIMALS',75)	-- fed/cis

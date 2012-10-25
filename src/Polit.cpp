@@ -206,7 +206,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 			// attempt to get the government type from the faction
 			const Faction *fac = Faction::GetFaction( s->GetFactionIndex() );
 			if( fac ) {
-				a = fac->RollGovType(rand);	
+				a = fac->PickGovType(rand);	
 			}
 						
 			// if that fails, either no faction or a faction with no gov types, then pick something at random

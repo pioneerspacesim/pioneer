@@ -8,8 +8,8 @@ local f = Faction:new('Confederation of Independent Systems')
 	:police_name('Confederal Police')
 	:colour(0.4,1.0,0.4)
 
-f:govtype('CISSOCDEM')
-f:govtype('CISLIBDEM')
+f:govtype_weight('CISSOCDEM', 80)
+f:govtype_weight('CISLIBDEM', 20)
 
 f:illegal_goods_probability('ANIMAL_MEAT',75)	-- fed/cis
 f:illegal_goods_probability('LIVE_ANIMALS',75)	-- fed/cis
