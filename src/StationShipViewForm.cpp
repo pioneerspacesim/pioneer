@@ -86,8 +86,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 			break;
 
 		int hyperclass = Equip::types[drivetype].pval;
-		// for the sake of hyperspace range, we count ships mass as 60% of original.
-		float range = Pi::CalcHyperspaceRange(hyperclass, type.hullMass + type.capacity);
+		float range = Pi::CalcHyperspaceRangeMax(hyperclass, type.hullMass + type.capacity + type.fuelTankMass);
 
 		Gui::VBox *cell = new Gui::VBox();
 		row->PackEnd(cell);

@@ -164,6 +164,7 @@ void Ship::Init()
 
 void Ship::PostLoadFixup(Space *space)
 {
+	UpdateStats(); // this is necessary, UpdateStats() in Ship::Init has wrong values of m_thrusterFuel after Load
 	m_dockedWith = reinterpret_cast<SpaceStation*>(space->GetBodyByIndex(m_dockedWithIndex));
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
 	m_controller->PostLoadFixup(space);
@@ -418,6 +419,7 @@ void Ship::UpdateEquipStats()
 	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
 
 	UpdateMass();
+	UpdateFuelStats();
 
 	Equip::Type fuelType = GetHyperdriveFuelType();
 
@@ -427,9 +429,9 @@ void Ship::UpdateEquipStats()
 		if (!hyperclass) { // no drive
 			m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 		} else {
-			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass + GetShipType().fuelTankMass);
-			m_stats.hyperspace_range = std::min(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, fuelType) /
-				(hyperclass * hyperclass));
+			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRangeMax(hyperclass, GetMass()/1000);
+			m_stats.hyperspace_range = Pi::CalcHyperspaceRange(hyperclass, GetMass()/1000, m_equipment.Count(Equip::SLOT_CARGO, fuelType));
+			printf("  debug %s %f %f\n", GetLabel().c_str(), GetMass()/1000, GetFuel());
 		}
 	} else {
 		m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
@@ -485,6 +487,8 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 	outFuelRequired = 0;
 	outDurationSecs = 0.0;
 
+	UpdateStats();
+
 	if (GetFlightState() == HYPERSPACE)
 		return HYPERJUMP_DRIVE_ACTIVE;
 
@@ -501,29 +505,16 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 
 	float dist = distance_to_system(dest);
 
-	outFuelRequired = int(ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max));
+	outFuelRequired = Pi::CalcHyperspaceFuelOut(hyperclass, dist, m_stats.hyperspace_range_max);
 	double m_totalmass = GetMass()/1000;
-	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
-	if (outFuelRequired < 1) outFuelRequired = 1;
 	if (dist > m_stats.hyperspace_range_max) {
 		outFuelRequired = 0;
 		return HYPERJUMP_OUT_OF_RANGE;
 	} else if (fuel < outFuelRequired) {
 		return HYPERJUMP_INSUFFICIENT_FUEL;
 	} else {
-		// Old comments:
-		// take at most a week. why a week? because a week is a
-		// fundamental physical unit in the same sense that the planck length
-		// is, and so it is very probable that future hyperspace
-		// technologies will involve travelling a week through time.
+		outDurationSecs = Pi::CalcHyperspaceDuration(hyperclass, m_totalmass, dist);
 
-		// Now mass has more of an effect on the time taken, this is mainly
-		// for gameplay considerations for courier missions and the like.
-		outDurationSecs = ((dist * dist * 0.45) / (m_stats.hyperspace_range_max * hyperclass)) *
-			(60.0 * 60.0 * 24.0 * sqrt(m_totalmass));
-		//float hours = outDurationSecs * 0.0002778;
-		//printf("%f LY in %f hours OR %d seconds \n", dist, hours, outDurationSecs);
-		//printf("%d seconds\n", outDurationSecs);
 		if (outFuelRequired <= fuel) {
 			return HYPERJUMP_OK;
 		} else {
