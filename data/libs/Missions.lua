@@ -24,4 +24,7 @@ Mission = {
 			missions[ref][k] = v
 		end
 	end,
+	Remove = function (ref)
+		table.remove(PersistentCharacters.player.missions, ref)
+	end,
 }
