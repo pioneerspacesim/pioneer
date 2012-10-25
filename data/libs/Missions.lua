@@ -11,7 +11,7 @@ Mission = {
 	Add = function (row)
 		-- Add some data checking here, or we could be in trouble
 		table.insert(PersistentCharacters.player.missions,row)
-		return #missions
+		return #PersistentCharacters.player.missions
 	end,
 	Get = function (ref)
 		-- Add some reference checking here, or we could be in trouble
