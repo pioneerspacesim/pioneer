@@ -59,7 +59,7 @@ void TextEntry::Update()
 	const int cursorPos = roundf(cursorLeft);
 
 	if (cursorPos > windowRight)
-		m_label->SetDrawOffset(Point(-cursorPos+size.x, 0.0f));
+		m_label->SetDrawOffset(Point(-cursorPos+size.x-1, 0.0f));
 	else if (cursorPos < windowLeft)
 		m_label->SetDrawOffset(Point(-cursorPos, 0.0f));
 }
