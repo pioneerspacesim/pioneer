@@ -268,7 +268,7 @@ local onShipDocked = function (player, station)
 
 		elseif not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
-			Update.Remove(ref, mission)
+			Mission.Update(ref, mission)
 		end
 
 	end

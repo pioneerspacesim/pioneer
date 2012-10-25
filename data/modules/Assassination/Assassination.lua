@@ -248,14 +248,14 @@ local onEnterSystem = function (ship)
 					end
 				else	-- too late
 					mission.status = 'FAILED'
-					Update.Remove(ref, mission)
+					Mission.Update(ref, mission)
 				end
 			else
 				if not mission.ship:exists() then
 					mission.ship = nil
 					if mission.due < Game.time then
 						mission.status = 'FAILED'
-						Update.Remove(ref, mission)
+						Mission.Update(ref, mission)
 					end
 				end
 			end

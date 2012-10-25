@@ -256,7 +256,7 @@ local onEnterSystem = function (player)
 
 		if not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
-			Update.Remove(ref, mission)
+			Mission.Update(ref, mission)
 			Comms.ImportantMessage(taxi_flavours[mission.flavour].wherearewe, mission.boss)
 		end
 	end
