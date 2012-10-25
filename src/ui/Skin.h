@@ -15,7 +15,7 @@ namespace UI {
 
 class Skin {
 public:
-	Skin(const std::string &filename, Graphics::Renderer *renderer);
+	Skin(const std::string &filename, Graphics::Renderer *renderer, float scale);
 
 	void DrawBackgroundNormal(const Point &pos, const Point &size) const {
 		DrawBorderedRectElement(m_backgroundNormal, pos, size);
@@ -117,6 +117,9 @@ private:
 	Config m_config;
 
 	Graphics::Renderer *m_renderer;
+
+	float m_scale;
+
 	RefCountedPtr<Graphics::Texture> m_texture;
 	RefCountedPtr<Graphics::Material> m_material;
 

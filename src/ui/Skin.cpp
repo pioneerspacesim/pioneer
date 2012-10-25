@@ -9,9 +9,10 @@ namespace UI {
 
 static const float SKIN_SIZE = 512.0f;
 
-Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
+Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scale) :
 	m_config(filename),
-	m_renderer(renderer)
+	m_renderer(renderer),
+	m_scale(scale)
 {
 	m_texture.Reset(Graphics::TextureBuilder::UI(m_config.String("TextureFile")).GetOrCreateTexture(m_renderer, "ui"));
 
@@ -138,7 +139,7 @@ Skin::BorderedRectElement Skin::LoadBorderedRectElement(const std::string &spec)
 {
 	std::vector<int> v(5);
 	SplitSpec(spec, v);
-	return BorderedRectElement(v[0], v[1], v[2], v[3], v[4]);
+	return BorderedRectElement(v[0], v[1], v[2], v[3], v[4]*m_scale);
 }
 
 Skin::Config::Config(const std::string &filename) : IniConfig(filename)

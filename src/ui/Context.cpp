@@ -11,6 +11,10 @@
 
 namespace UI {
 
+// minimum screen height for scaling. if the screen has fewer vertical pixels
+// than this, certain draw elements will be scaled down
+static const int SCALE_CUTOFF_HEIGHT = 768;
+
 static const float FONT_SCALE[] = {
 	0.0f,  // INTERNAL (dummy)
 	0.7f,  // XSMALL
@@ -32,10 +36,11 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 	m_renderer(renderer),
 	m_width(width),
 	m_height(height),
+	m_scale(std::min(float(m_height)/SCALE_CUTOFF_HEIGHT, 1.0f)),
 	m_needsLayout(false),
 	m_float(new FloatContainer(this)),
 	m_eventDispatcher(this),
-	m_skin(FileSystem::JoinPath(FileSystem::GetDataDir(), "ui/Skin.ini"), renderer),
+	m_skin(FileSystem::JoinPath(FileSystem::GetDataDir(), "ui/Skin.ini"), renderer, GetScale()),
 	m_lua(lua)
 {
 	lua_State *l = m_lua->GetLuaState();
@@ -51,7 +56,7 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 	// XXX TextureFont could load multiple sizes into the same object/atlas
 	const Text::FontDescriptor baseFontDesc(font_config("fonts/UIFont.ini").GetDescriptor());
 	for (int i = FONT_SIZE_XSMALL; i < FONT_SIZE_MAX; i++) {
-		const Text::FontDescriptor fontDesc(baseFontDesc.filename, baseFontDesc.pixelWidth*FONT_SCALE[i], baseFontDesc.pixelHeight*FONT_SCALE[i], baseFontDesc.outline, baseFontDesc.advanceXAdjustment);
+		const Text::FontDescriptor fontDesc(baseFontDesc.filename, baseFontDesc.pixelWidth*FONT_SCALE[i]*GetScale(), baseFontDesc.pixelHeight*FONT_SCALE[i]*GetScale(), baseFontDesc.outline, baseFontDesc.advanceXAdjustment);
 
 		m_font[i] = RefCountedPtr<Text::TextureFont>(new Text::TextureFont(fontDesc, renderer));
 	}
