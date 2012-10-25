@@ -280,7 +280,7 @@ local missions = function ()
 			ui:Label(mission.type),
 			ui:Label(mission.client),
 			ui:Label(mission.location:GetSystemBody().name),
-			ui:Label(mission.due),
+			ui:Label(Format.Date(mission.due)),
 			ui:Label(Format.Money(mission.reward)),
 	        ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(mission.status))),
 		})
