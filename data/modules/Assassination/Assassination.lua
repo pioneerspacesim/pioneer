@@ -85,7 +85,7 @@ local onChat = function (form, ref, option)
 			target		= ad.target,
 		}
 
-		local mref = Game.player:AddMission(mission)
+		local mref = Mission.Add(mission)
 		missions[mref] = mission
 
 		form:SetMessage(t("Excellent."))
@@ -193,7 +193,7 @@ local onShipDestroyed = function (ship, body)
 				mission.notplayer = 'FALSE'
 			end
 			mission.ship = nil
-			Game.player:UpdateMission(ref, mission)
+			Mission.Update(ref, mission)
 			return
 		end
 	end
@@ -303,7 +303,7 @@ local onShipDocked = function (ship, station)
 		else
 			if mission.ship == ship then
 				mission.status = 'FAILED'
-				Game.player:UpdateMission(ref, mission)
+				Mission.Update(ref, mission)
 			end
 		end
 		return
@@ -396,7 +396,7 @@ local onGameStart = function ()
 		ads[ref] = ad
 	end
 	for k,mission in pairs(loaded_data.missions) do
-		local mref = Game.player:AddMission(mission)
+		local mref = Mission.Add(mission)
 		missions[mref] = mission
 	end
 

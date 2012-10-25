@@ -77,7 +77,7 @@ local onChat = function (form, ref, option)
 			flavour	 = ad.flavour
 		}
 
-		local mref = Game.player:AddMission(mission)
+		local mref = Mission.Add(mission)
 		missions[mref] = mission
 
 		form:SetMessage(t("Excellent. I will let the recipient know you are on your way."))
@@ -287,7 +287,7 @@ local onGameStart = function ()
 		ads[ref] = ad
 	end
 	for k,mission in pairs(loaded_data.missions) do
-		local mref = Game.player:AddMission(mission)
+		local mref = Mission.Add(mission)
 		missions[mref] = mission
 	end
 
