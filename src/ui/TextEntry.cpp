@@ -123,6 +123,33 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 			break;
 
 		default:
+
+			if (event.keysym.mod) {
+
+				if (event.keysym.mod & KMOD_CTRL) {
+					switch (event.keysym.sym) {
+						case SDLK_u:
+							m_cursor = 0;
+							m_label->SetText("");
+							break;
+
+						case SDLK_w: {
+							size_t pos = text.find_last_not_of(' ', m_cursor);
+							if (pos != std::string::npos) pos = text.find_last_of(' ', pos);
+							m_cursor = pos != std::string::npos ? pos+1 : 0;
+							text.erase(m_cursor);
+							m_label->SetText(text);
+							break;
+						}
+
+						default:
+							break;
+					}
+				}
+
+				return;
+			}
+
 			// naively accept anything outside C0 and C1. probably safe enough for
 			// now, but needs revisiting if we one day support rtl, cjk, etc
 			if ((event.keysym.unicode > 0x1f && event.keysym.unicode < 0x7f) || event.keysym.unicode > 0x9f) {
