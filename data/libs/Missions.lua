@@ -16,7 +16,7 @@ local MissionStatus = {
 
 Mission = {
 	Add = function (row)
-		-- Data sanitisation
+		-- Data sanitation
 		if not row or (type(row) ~= 'table') then
 			error("Missing argument: mission table expected")
 		end
@@ -27,13 +27,10 @@ Mission = {
 		if not (type(row.location) == "userdata") then row.location = Game.system.path end
 		if not MissionStatus[row.status] then row.status = 'ACTIVE' end
 		table.insert(PersistentCharacters.player.missions,row)
-		print('DEBUG: Adding mission: ', #PersistentCharacters.player.missions)
-		print('DEBUG: status = ',row.status)
 		return #PersistentCharacters.player.missions
 	end,
 	Get = function (ref)
 		-- Add some reference checking here, or we could be in trouble
-		print('DEBUG: Fetching mission: ', ref)
 		if not PersistentCharacters.player.missions[ref] then
 			error("Mission reference ",ref," not valid")
 		end
@@ -57,11 +54,8 @@ Mission = {
 		for k,v in pairs(row) do
 			missions[ref][k] = v
 		end
-		print('DEBUG: Updating mission: ', ref)
-		print('DEBUG: status = ',row.status)
 	end,
 	Remove = function (ref)
 		table.remove(PersistentCharacters.player.missions, ref)
-		print('DEBUG: Removing mission: ', ref)
 	end,
 }
