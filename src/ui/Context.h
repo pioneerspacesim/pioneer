@@ -156,7 +156,6 @@ private:
 
 	// support for DrawWidget()
 	Point m_drawWidgetPosition;
-	Point m_drawWidgetOffset;
 	std::stack< std::pair<Point,Point> > m_scissorStack;
 };
 
