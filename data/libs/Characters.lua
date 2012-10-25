@@ -913,6 +913,8 @@ local onGameStart = function ()
 		-- player for a new name in the future.
 		local PlayerCharacter = Character.New({name = 'Peter Jameson'})
 		PlayerCharacter.player = true
+		-- Gave the player a missions table (for Misssions.lua)
+		PlayerCharacter.missions = {}
 		-- Insert the player character into the persistent character
 		-- table.  Player won't be ennumerated with NPCs, because player
 		-- is not numerically keyed.
