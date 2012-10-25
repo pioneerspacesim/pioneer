@@ -275,7 +275,7 @@ local missions = function ()
 	local count = 0 -- We need to count rows, can't rely on table keys
 	for ref,mission in ipairs(PersistentCharacters.player.missions) do
 		count = count + 1
-		mission.status = mission.status or "ACTIVE"
+		mission.status = mission.status or "DORMANT"
 		missiongrid:SetRow(count,{
 			ui:Label(mission.type),
 			ui:Label(mission.client),
