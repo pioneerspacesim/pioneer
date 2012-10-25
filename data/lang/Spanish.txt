@@ -614,20 +614,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulando la evolución del universo: %age{f.1} billones de años ;-)
 TOMBSTONE_EPITAPH
     RIP VIEJO AMIGO
-MM_START_NEW_GAME_EARTH
-    Comenzar Juego Nuevo en la Tierra
-MM_START_NEW_GAME_E_ERIDANI
-    Comenzar Juego Nuevo en Epsilon Eridani
-MM_START_NEW_GAME_LAVE
-    Comenzar Juego Nuevo en Lave
-MM_START_NEW_GAME_DEBUG
-    Comenzar Juego Nuevo en punto de depuración
-MM_LOAD_SAVED_GAME
-    Cargar un juego
-MM_SETTINGS
-    Ajustes
-MM_QUIT
-    Salir
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -746,10 +732,6 @@ SHIP_IS_FULLY_LADEN
     Su nave está completamente cargada.
 YOU_DO_NOT_HAVE_ANY_X
     No dispone de %item.
-FRONT_COCKPIT_VIEW
-    Vista frontal de la cabina
-REAR_COCKPIT_VIEW
-    Vista trasera de la cabina
 CAMERA_FRONT_VIEW
     Vista frontal
 CAMERA_REAR_VIEW

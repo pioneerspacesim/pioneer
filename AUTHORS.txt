@@ -1,7 +1,7 @@
 Authors
 =======
 
-As of 14 September 2012 (alpha 26), the Pioneer Developers are:
+As of 12 October 2012 (alpha 27), the Pioneer Developers are:
 
 * Aaron Lewis
 * Aaron Senese
@@ -22,6 +22,7 @@ As of 14 September 2012 (alpha 26), the Pioneer Developers are:
 * Fran Morton
 * Gareth Allnutt
 * Gernot
+* Jan Olsina
 * John Bartholomew
 * John Jordan
 * Kimmo Kotajärvi
@@ -90,6 +91,10 @@ Pioneer includes the following third-party software:
 
   Inconsolata font
   Copyright (C) 2006, Raph Levien
+  Licensed under the SIL Open Font Licence v1.1 (see licenses/SIL-1.1.txt)
+
+  Orbitron font
+  Copyright (c) 2009, Matt McInerney
   Licensed under the SIL Open Font Licence v1.1 (see licenses/SIL-1.1.txt)
 
 Acknowledgements

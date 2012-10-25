@@ -610,18 +610,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulant l'evolució de l'univers: %age{f.1}00 milions d'anys ;-)
 TOMBSTONE_EPITAPH
     RIP OLD BEAN
-MM_START_NEW_GAME_EARTH
-    Nova partida des de la Terra
-MM_START_NEW_GAME_E_ERIDANI
-    Nova partida des d'Epsilon Eridani
-MM_START_NEW_GAME_LAVE
-    Nova partida des de Lave
-MM_START_NEW_GAME_DEBUG
-    Nova pardita des de punt de depuració
-MM_LOAD_SAVED_GAME
-    Carrega una partida
-MM_QUIT
-    Surt
 SCREENSHOT_FILENAME_TEMPLATE
     captura%index{d08}.png
 PIONEERING_PILOTS_GUILD

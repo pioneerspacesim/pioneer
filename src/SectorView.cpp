@@ -556,9 +556,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				{
 					(*i).SetInhabited(false);
 				}
-				if( pSS->GetFactionIndex() != UINT_MAX ) {
-					(*i).factionColour = pSS->GetFactionColour();
-				}
+				(*i).factionColour = pSS->GetFactionColour();
 			}
 		}
 
