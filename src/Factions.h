@@ -34,10 +34,11 @@ public:
 	std::string				description;		// detailed description describing formation, current status, etc	
 	
 	// government types with weighting		
-	typedef std::map<Polit::GovType, int32_t> GovTypesMap;	
-	typedef GovTypesMap::const_iterator       GovTypesIterator;
-	GovTypesMap             govTypes;
-	int32_t                 govTypes_totalWeight;
+	typedef std::pair<Polit::GovType, int32_t> GovWeight;
+	typedef std::vector<GovWeight>             GovWeightVec;
+	typedef GovWeightVec::const_iterator       GovWeightIterator;
+	GovWeightVec            govtype_weights;
+	int32_t                 govtype_weights_total;
 	
 	bool					hasHomeworld;
 	SystemPath				homeworld;			// sector(x,y,x) + system index + body index = location in a (custom?) system of homeworld

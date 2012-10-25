@@ -93,6 +93,7 @@ static int l_fac_description(lua_State *L)
 	return 1;
 }
 
+// weightings to use when picking a government type
 static int l_fac_govtype_weight(lua_State *L)
 {
 	Faction *fac = l_fac_check(L, 1);
@@ -102,13 +103,20 @@ static int l_fac_govtype_weight(lua_State *L)
 
 	if (g < Polit::GOV_RAND_MIN || g > Polit::GOV_RAND_MAX) {
 		pi_lua_warn(L,
-			"argument out of range: Faction{%s}:GovType('%s', %d)",
+			"government type out of range: Faction{%s}:govtype_weight('%s', %d)",
 			fac->name.c_str(), typeName, weight);
 		return 0;
 	}
 
-	fac->govTypes[g]           = weight;
-	fac->govTypes_totalWeight += weight;
+	if (weight < 0) {
+		pi_lua_warn(L,
+			"weight must a postive integer: Faction{%s}:govtype_weight('%s', %d)",
+			fac->name.c_str(), typeName, weight);
+		return 0;		
+	}
+
+	fac->govtype_weights.push_back(std::make_pair(g, weight));
+	fac->govtype_weights_total += weight;
 	lua_settop(L, 1);
 
 	return 1;
@@ -389,13 +397,13 @@ const Uint32 Faction::GetIndexOfFaction(const std::string factionName)
 
 Polit::GovType Faction::PickGovType(MTRand &rand) const
 {
-	if( !govTypes.empty()) {
+	if( !govtype_weights.empty()) {
 		// if we roll a number between one and the total weighting...
-		int32_t roll = rand.Int32(1, govTypes_totalWeight);
+		int32_t roll = rand.Int32(1, govtype_weights_total);
 		int32_t cumulativeWeight = 0;
 
 		// ...the first govType with a cumulative weight >= the roll should be our pick
-		GovTypesIterator it = govTypes.begin();
+		GovWeightIterator it = govtype_weights.begin();
 		while(roll > (cumulativeWeight + it->second)) { 
 			cumulativeWeight += it->second;
 			++it; 
@@ -411,7 +419,7 @@ Faction::Faction() :
 	foundingDate(0.0),
 	expansionRate(0.0)	
 {
-	govTypes_totalWeight = 0;
+	govtype_weights_total = 0;
 }
 
 Faction::~Faction()
