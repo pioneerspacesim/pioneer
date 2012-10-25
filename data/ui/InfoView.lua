@@ -260,19 +260,35 @@ local econTrade = function ()
 end
 
 local missions = function ()
-	--ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label('More'))),
-	return ui:VBox():PackEnd({ui:Label(t("MISSIONS"))})
-	:PackEnd({ui:Grid(7,1)
-		:SetRow(0,{
-			-- Headers
-			ui:Label(t('TYPE')),
-			ui:Label(t('CLIENT')),
-			ui:Label(t('LOCATION')),
-			ui:Label(t('DUE')),
-			ui:Label(t('REWARD')),
-			ui:Label(t('STATUS')),
-			nil, -- Explicitly no header for the last column
+	-- One row for each mission, plus a header
+	local missiongrid = ui:Grid(7,#PersistentCharacters.player.missions + 1)
+	missiongrid:SetRow(0,
+	{
+		-- Headers
+		ui:Label(t('TYPE')),
+		ui:Label(t('CLIENT')),
+		ui:Label(t('LOCATION')),
+		ui:Label(t('DUE')),
+		ui:Label(t('REWARD')),
+		ui:Label(t('STATUS')),
+		nil, -- Explicitly no header for the last column
+	})
+	local count = 0 -- We need to count rows, can't rely on table keys
+	for ref,mission in ipairs(PersistentCharacters.player.missions) do
+		count = count + 1
+		missiongrid:SetRow(count,{
+			ui.label(mission.type),
+			ui.label(mission.client),
+			ui.label(mission.due),
+			ui.label(mission.reward),
+			ui.label(mission.location),
+			ui.label(mission.status),
+	        ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label('More'))),
 		})
+	end
+	return ui:VBox():PackEnd({ui:Label(t("MISSIONS"))})
+	:PackEnd({
+		missiongrid
 	})
 end
 
