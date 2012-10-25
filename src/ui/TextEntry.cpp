@@ -33,7 +33,7 @@ void TextEntry::Layout()
 	SetWidgetDimensions(m_label, innerPos, innerSize);
 
 	// XXX see ::Draw. after Container::Draw we're still translated to the
-	// label origin so we draw calculate the cursor from there
+	// label origin so we calculate the cursor from there
 	const float cursorTop    = 0.0f;
 	const float cursorBottom = m_label->GetSize().y;
 
