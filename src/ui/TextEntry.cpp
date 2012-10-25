@@ -122,6 +122,10 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 			}
 			break;
 
+		case SDLK_RETURN:
+			GetContext()->DeselectWidget(this);
+			break;
+
 		default:
 
 			if (event.keysym.mod) {
