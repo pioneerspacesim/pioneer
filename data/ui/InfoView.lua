@@ -280,11 +280,17 @@ local missions = function ()
 
 	local count = 0 -- We need to count rows, can't rely on table keys
 	for ref,mission in ipairs(PersistentCharacters.player.missions) do
-		mission.status = mission.status or "DORMANT"
+		-- Format the location
+		local missionLocationName
+		if mission.location.bodyIndex then
+			missionLocationName = string.format('%s, %s [%d,%d,%d]', mission.location:GetSystemBody().name, mission.location:GetStarSystem().name, mission.location.sectorX, mission.location.sectorY, mission.location.sectorZ)
+		else
+			missionLocationName = string.format('%s [%d,%d,%d]', mission.location:GetStarSystem().name, mission.location.sectorX, mission.location.sectorY, mission.location.sectorZ)
+		end
 		missiongrid:SetRow(count,{
 			ui:Label(mission.type),
 			ui:Label(mission.client),
-			ui:Label(mission.location:GetSystemBody().name),
+			ui:Label(missionLocationName),
 			ui:Label(Format.Date(mission.due)),
 			ui:Label(Format.Money(mission.reward)),
 	        ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(mission.status))),
