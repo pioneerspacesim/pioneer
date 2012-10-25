@@ -79,6 +79,8 @@ WEIGHT_FULLY_LADEN
     Weight fully loaded
 CAPACITY
     Capacity
+CAPACITY_USED
+	Capacity used
 FORWARD_ACCEL_EMPTY
     Forward accel (empty)
 NUMBER_G
@@ -484,8 +486,12 @@ HYPERDRIVE
     Hyperdrive
 FREE
     Free
+FREE_LOWERCASE
+    free
 USED
     Used
+FUEL_WEIGHT
+    Fuel weight
 TOTAL_WEIGHT
     All-up weight
 FRONT_WEAPON
@@ -498,6 +504,8 @@ NO_MOUNTING
     no mounting
 N_LIGHT_YEARS_N_MAX
     %distance{f.1} light years (%maxdistance{f.1} max)
+MAX
+	max
 SHIP_INFORMATION
     Ship information
 PERSONAL
