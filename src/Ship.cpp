@@ -431,7 +431,6 @@ void Ship::UpdateEquipStats()
 		} else {
 			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRangeMax(hyperclass, GetMass()/1000);
 			m_stats.hyperspace_range = Pi::CalcHyperspaceRange(hyperclass, GetMass()/1000, m_equipment.Count(Equip::SLOT_CARGO, fuelType));
-			printf("  debug %s %f %f\n", GetLabel().c_str(), GetMass()/1000, GetFuel());
 		}
 	} else {
 		m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
