@@ -237,7 +237,7 @@ local onEnterSystem = function (player)
 
 		if not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
-			player:UpdateMission(ref, mission)
+			Mission.Update(ref, mission)
 		end
 	end
 end
@@ -263,12 +263,12 @@ local onShipDocked = function (player, station)
 				player:AddMoney(mission.reward)
 			end
 
-			player:RemoveMission(ref)
+			Mission.Remove(ref)
 			missions[ref] = nil
 
 		elseif not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
-			player:UpdateMission(ref, mission)
+			Update.Remove(ref, mission)
 		end
 
 	end

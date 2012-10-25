@@ -11,10 +11,13 @@ Mission = {
 	Add = function (row)
 		-- Add some data checking here, or we could be in trouble
 		table.insert(PersistentCharacters.player.missions,row)
+		print('DEBUG: Adding mission: ', #PersistentCharacters.player.missions)
+		print('DEBUG: status = ',row.status)
 		return #PersistentCharacters.player.missions
 	end,
 	Get = function (ref)
 		-- Add some reference checking here, or we could be in trouble
+		print('DEBUG: Fetching mission: ', ref)
 		return PersistentCharacters.player.missions[ref]
 	end,
 	Update = function (ref, row)
@@ -23,8 +26,11 @@ Mission = {
 		for k,v in pairs(row) do
 			missions[ref][k] = v
 		end
+		print('DEBUG: Updating mission: ', ref)
+		print('DEBUG: status = ',row.status)
 	end,
 	Remove = function (ref)
 		table.remove(PersistentCharacters.player.missions, ref)
+		print('DEBUG: Removing mission: ', ref)
 	end,
 }

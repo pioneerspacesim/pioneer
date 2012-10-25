@@ -248,14 +248,14 @@ local onEnterSystem = function (ship)
 					end
 				else	-- too late
 					mission.status = 'FAILED'
-					ship:UpdateMission(ref, mission)
+					Update.Remove(ref, mission)
 				end
 			else
 				if not mission.ship:exists() then
 					mission.ship = nil
 					if mission.due < Game.time then
 						mission.status = 'FAILED'
-						ship:UpdateMission(ref, mission)
+						Update.Remove(ref, mission)
 					end
 				end
 			end
@@ -282,7 +282,7 @@ local onShipDocked = function (ship, station)
 				})
 				Comms.ImportantMessage(text, mission.boss)
 				ship:AddMoney(mission.reward)
-				ship:RemoveMission(ref)
+				Mission.Remove(ref)
 				missions[ref] = nil
 			elseif mission.status == 'FAILED' then
 				local ass_flavours = Translate:GetFlavours('Assassination')
@@ -297,7 +297,7 @@ local onShipDocked = function (ship, station)
 					})
 				end
 				Comms.ImportantMessage(text, mission.boss)
-				ship:RemoveMission(ref)
+				Mission.Remove(ref)
 				missions[ref] = nil
 			end
 		else

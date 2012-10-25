@@ -256,7 +256,7 @@ local onEnterSystem = function (player)
 
 		if not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
-			player:UpdateMission(ref, mission)
+			Update.Remove(ref, mission)
 			Comms.ImportantMessage(taxi_flavours[mission.flavour].wherearewe, mission.boss)
 		end
 	end
@@ -284,7 +284,7 @@ local onShipDocked = function (player, station)
 
 			remove_passengers(mission.group)
 
-			player:RemoveMission(ref)
+			Mission.Remove(ref)
 			missions[ref] = nil
 		end
 	end
@@ -299,7 +299,7 @@ local onShipUndocked = function (player, station)
 		remove_passengers(mission.group)
 
 		Comms.ImportantMessage(t("Hey!?! You are going to pay for this!!!"), mission.boss)
-		player:RemoveMission(ref)
+		Mission.Remove(ref)
 		missions[ref] = nil
 	end
 end
