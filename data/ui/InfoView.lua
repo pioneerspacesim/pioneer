@@ -261,7 +261,7 @@ end
 
 local missions = function ()
 	-- One row for each mission, plus a header
-	local missiongrid = ui:Grid(7,#PersistentCharacters.player.missions + 1)
+	local missiongrid = ui:Grid(6,#PersistentCharacters.player.missions + 1)
 	missiongrid:SetRow(0,
 	{
 		-- Headers
@@ -271,19 +271,18 @@ local missions = function ()
 		ui:Label(t('DUE')),
 		ui:Label(t('REWARD')),
 		ui:Label(t('STATUS')),
-		nil, -- Explicitly no header for the last column
 	})
 	local count = 0 -- We need to count rows, can't rely on table keys
 	for ref,mission in ipairs(PersistentCharacters.player.missions) do
 		count = count + 1
+		mission.status = mission.status or "ACTIVE"
 		missiongrid:SetRow(count,{
 			ui:Label(mission.type),
 			ui:Label(mission.client),
+			ui:Label(mission.location:GetSystemBody().name),
 			ui:Label(mission.due),
 			ui:Label(Format.Money(mission.reward)),
-			ui:Label(mission.location:GetSystemBody().name),
-			ui:Label(mission.status),
-	        ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label('More'))),
+	        ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(mission.status))),
 		})
 	end
 	return ui:VBox():PackEnd({ui:Label(t("MISSIONS"))})
