@@ -296,7 +296,7 @@ local missions = function ()
 			-- To do: Missions can hook code to this button, so that the player can
 			-- read the brief whilst in flight, or get access to whatever information,
 			-- interactive or not, necessary for the mission.
-	        ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(mission.status))),
+	        ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(t(mission.status)))),
 		})
 		count = count + 1
 	end
