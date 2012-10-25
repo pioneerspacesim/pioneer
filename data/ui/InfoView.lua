@@ -277,12 +277,12 @@ local missions = function ()
 	for ref,mission in ipairs(PersistentCharacters.player.missions) do
 		count = count + 1
 		missiongrid:SetRow(count,{
-			ui.Label(mission.type),
-			ui.Label(mission.client),
-			ui.Label(mission.due),
-			ui.Label(mission.reward),
-			ui.Label(mission.location),
-			ui.Label(mission.status),
+			ui:Label(mission.type),
+			ui:Label(mission.client),
+			ui:Label(mission.due),
+			ui:Label(mission.reward),
+			ui:Label(mission.location),
+			ui:Label(mission.status),
 	        ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label('More'))),
 		})
 	end
