@@ -907,6 +907,8 @@ local onGameStart = function ()
 		for k,newCharacter in pairs(loaded_data.PersistentCharacters) do
 			PersistentCharacters[k] = newCharacter
 		end
+		-- Modules will only duplicate their mission info, so blank it
+		PersistentCharacters.player.missions = {}
 	else
 		-- Make a new character sheet for the player, with just
 		-- the average values.  We'll find some way to ask the
