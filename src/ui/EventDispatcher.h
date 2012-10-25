@@ -33,6 +33,9 @@ public:
 	void RemoveShortcut(const KeySym &keysym);
 	void ClearShortcuts();
 
+	void SelectWidget(Widget *target);
+	void DeselectWidget(Widget *target);
+
 private:
 	void DispatchMouseOverOut(Widget *target, const Point &mousePos);
 	void DispatchSelect(Widget *target);

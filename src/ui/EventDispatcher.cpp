@@ -223,6 +223,18 @@ void EventDispatcher::DispatchSelect(Widget *target)
 	m_selected.Reset();
 }
 
+void EventDispatcher::SelectWidget(Widget *target)
+{
+	DispatchSelect(target);
+}
+
+void EventDispatcher::DeselectWidget(Widget *target)
+{
+	if (!target->IsSelected())
+		return;
+	DispatchSelect(0);
+}
+
 void EventDispatcher::Update()
 {
 	if (!m_keyRepeatActive) return;

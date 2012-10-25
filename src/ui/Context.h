@@ -111,6 +111,9 @@ public:
 
 	void RequestLayout() { m_needsLayout = true; }
 
+	void SelectWidget(Widget *target) { m_eventDispatcher.SelectWidget(target); }
+	void DeselectWidget(Widget *target) { m_eventDispatcher.DeselectWidget(target); }
+
 	virtual void Layout();
 	virtual void Update();
 	virtual void Draw();
