@@ -286,10 +286,8 @@ local onGameStart = function ()
 		local ref = ad.station:AddAdvert(ad.desc, onChat, onDelete)
 		ads[ref] = ad
 	end
-	for k,mission in pairs(loaded_data.missions) do
-		local mref = Mission.Add(mission)
-		missions[mref] = mission
-	end
+
+	missions = loaded_data.missions
 
 	loaded_data = nil
 end
