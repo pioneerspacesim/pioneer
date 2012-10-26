@@ -18,12 +18,12 @@ public:
 	virtual Point PreferredSize();
 	virtual void Layout();
 
-	Grid *SetRow(int rowNum, const WidgetSet &set);
-	Grid *SetColumn(int colNum, const WidgetSet &set);
-	Grid *SetCell(int colNum, int rowNum, Widget *widget);
+	Grid *SetRow(size_t rowNum, const WidgetSet &set);
+	Grid *SetColumn(size_t colNum, const WidgetSet &set);
+	Grid *SetCell(size_t colNum, size_t rowNum, Widget *widget);
 
-	void ClearRow(int rowNum);
-	void ClearColumn(int colNum);
+	void ClearRow(size_t rowNum);
+	void ClearColumn(size_t colNum);
 	void Clear();
 
 	size_t GetNumRows() const { return m_numRows; }
@@ -34,7 +34,7 @@ protected:
 
 private:
 	CellSpec m_rowSpec, m_colSpec;
-	int m_numRows, m_numCols;
+	size_t m_numRows, m_numCols;
 	std::vector<Widget*> m_widgets;
 };
 
