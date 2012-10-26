@@ -288,7 +288,7 @@ local missions = function ()
 			missionLocationName = string.format('%s [%d,%d,%d]', mission.location:GetStarSystem().name, mission.location.sectorX, mission.location.sectorY, mission.location.sectorZ)
 		end
 		missiongrid:SetRow(count,{
-			ui:Label(mission.type),
+			ui:Label(t(mission.type)),
 			ui:Label(mission.client),
 			ui:Label(missionLocationName),
 			ui:Label(Format.Date(mission.due)),

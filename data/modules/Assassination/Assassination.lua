@@ -69,7 +69,7 @@ local onChat = function (form, ref, option)
 		ads[ref] = nil
 
 		local mission = {
-			type		= t("Assassination"),
+			type		= "Assassination",
 			backstation	= backstation,
 			boss		= ad.client.name,
 			client		= ad.shipname .. "\n(" .. ad.shipregid .. ")",

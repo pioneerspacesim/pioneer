@@ -68,7 +68,7 @@ local onChat = function (form, ref, option)
 		ads[ref] = nil
 
 		local mission = {
-			type	 = t("Delivery"),
+			type	 = "Delivery",
 			client	 = ad.client,
 			location = ad.location,
 			risk	 = ad.risk,
