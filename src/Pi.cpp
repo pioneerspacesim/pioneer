@@ -1022,7 +1022,7 @@ float Pi::CalcHyperspaceDuration(int hyperclass, int total_mass_in_tonnes, float
 
 	// 0.45 is balancing parameter
 	return ((dist * dist * 0.45) / (hyperspace_range_max * hyperclass)) *
-			(60.0 * 60.0 * 24.0 * sqrt(total_mass_in_tonnes));
+			(60.0 * 60.0 * 24.0 * sqrtf(total_mass_in_tonnes));
 }
 
 float Pi::CalcHyperspaceFuelOut(int hyperclass, float dist, float hyperspace_range_max)
