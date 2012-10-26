@@ -123,10 +123,6 @@
 #ifndef MINIZ_HEADER_INCLUDED
 #define MINIZ_HEADER_INCLUDED
 
-#include <stdlib.h>
-// XXX PIONEER: include time.h to get time_t on MinGW
-#include <time.h>
-
 // Defines to completely disable specific portions of miniz.c:
 // If all macros here are defined the only functionality remaining will be CRC-32, adler-32, tinfl, and tdefl.
 
@@ -173,6 +169,15 @@
 #if defined(_M_X64) || defined(_WIN64) || defined(__MINGW64__) || defined(_LP64) || defined(__LP64__) || defined(__ia64__) || defined(__x86_64__)
 // Set MINIZ_HAS_64BIT_REGISTERS to 1 if operations on 64-bit integers are reasonably fast (and don't involve compiler generated calls to helper functions).
 #define MINIZ_HAS_64BIT_REGISTERS 1
+#endif
+
+#include <stdlib.h>
+// XXX PIONEER: include time.h to get time_t on MinGW
+#include <time.h>
+
+// XXX PIONEER: include stdio.h for FILE*
+#ifndef MINIZ_NO_STDIO
+#include <stdio.h>
 #endif
 
 // ------------------- zlib-style API Definitions.
@@ -518,6 +523,8 @@ mz_bool mz_zip_reader_init(mz_zip_archive *pZip, mz_uint64 size, mz_uint32 flags
 mz_bool mz_zip_reader_init_mem(mz_zip_archive *pZip, const void *pMem, size_t size, mz_uint32 flags);
 
 #ifndef MINIZ_NO_STDIO
+// XXX PIONEER: add entry point taking a FILE*
+mz_bool mz_zip_reader_init_file_stream(mz_zip_archive *pZip, FILE *pFile, mz_uint32 flags);
 mz_bool mz_zip_reader_init_file(mz_zip_archive *pZip, const char *pFilename, mz_uint32 flags);
 #endif
 
