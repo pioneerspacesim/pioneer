@@ -14,8 +14,8 @@ define_ship {
 	camera_offset = v(-1,1.3,-54.5),
 	gun_mounts =
 	{
-		{ v(0,-2,-46), v(0,0,-1) },
-		{ v(0,0,0), v(0,0,1) },
+		{ v(0,-2,-46), v(0,0,-1), 5, 'HORIZONTAL' },
+		{ v(0,0,0), v(0,0,1), 5, 'HORIZONTAL' },
 	},
 	max_atmoshield = 0,
 	max_cargo = 1600,

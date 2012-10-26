@@ -4,14 +4,14 @@
 define_ship {
 	name='Flowerfairy Heavy Trader',
 	model='flowerfairy',
-        forward_thrust = 587e5,
-        reverse_thrust = 196e5,
-        up_thrust = 196e5,
-        down_thrust = 98e5,
-        left_thrust = 98e5,
-        right_thrust = 98e5,
-        angular_thrust = 2860e5,
-        camera_offset = v(0,4,-35),
+	forward_thrust = 587e5,
+	reverse_thrust = 196e5,
+	up_thrust = 196e5,
+	down_thrust = 98e5,
+	left_thrust = 98e5,
+	right_thrust = 98e5,
+	angular_thrust = 2860e5,
+	camera_offset = v(0,4,-35),
 	gun_mounts =
 	{
 		{ v(0,-0.5,0), v(0,0,-1), 5, 'HORIZONTAL' },

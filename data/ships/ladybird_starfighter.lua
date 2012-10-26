@@ -4,14 +4,14 @@
 define_ship {
 	name='Ladybird Starfighter',
 	model='ladybird',
-        forward_thrust = 233e5,
-        reverse_thrust = 93e5,
-        up_thrust = 70e5,
-        down_thrust = 70e5,
-        left_thrust = 47e5,
-        right_thrust = 47e5,
-        angular_thrust = 208e5,
-        camera_offset = v(0,2,-10),
+	forward_thrust = 233e5,
+	reverse_thrust = 93e5,
+	up_thrust = 70e5,
+	down_thrust = 70e5,
+	left_thrust = 47e5,
+	right_thrust = 47e5,
+	angular_thrust = 208e5,
+	camera_offset = v(0,2,-10),
 	gun_mounts =
 	{
 		{ v(0,-0.5,0), v(0,0,-1), 5, 'HORIZONTAL' },
