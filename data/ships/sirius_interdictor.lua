@@ -4,14 +4,14 @@
 define_ship {
 	name='Sirius Interdictor',
 	model='interdictor',
-        forward_thrust = 242e5,
-        reverse_thrust = 121e5,
-        up_thrust = 61e5,
-        down_thrust = 61e5,
-        left_thrust = 61e5,
-        right_thrust = 61e5,
-        angular_thrust = 1560e5,
-        camera_offset = v(0,4,-17.5),
+	forward_thrust = 242e5,
+	reverse_thrust = 121e5,
+	up_thrust = 61e5,
+	down_thrust = 61e5,
+	left_thrust = 61e5,
+	right_thrust = 61e5,
+	angular_thrust = 1560e5,
+	camera_offset = v(0,4,-17.5),
 	gun_mounts =
 	{
 		{ v(0,-0.5,0), v(0,0,-1), 5, 'HORIZONTAL' },
