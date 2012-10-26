@@ -10,6 +10,7 @@
 #include "LmrModel.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "utils.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 
