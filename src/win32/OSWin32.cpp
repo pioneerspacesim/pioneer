@@ -69,7 +69,7 @@ void RedirectStdio()
 
 	f = _wfreopen(wstderr_path.c_str(), L"w", stderr);
 	if (!f) {
-		fprintf(stderr, "ERROR: Couldn't redirect stderr to '%s': %s\n", stdout_path.c_str(), strerror(errno));
+		fprintf(stderr, "ERROR: Couldn't redirect stderr to '%s': %s\n", stderr_path.c_str(), strerror(errno));
 	} else {
 		setvbuf(f, 0, _IOLBF, BUFSIZ);
 	}
