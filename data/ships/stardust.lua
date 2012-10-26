@@ -4,13 +4,13 @@
 define_ship {
 	name='Stardust',
 	model='stardust',
-	forward_thrust = 200e5,
-	reverse_thrust = 80e5,
-	up_thrust = 40e5,
-	down_thrust = 40e5,
-	left_thrust = 40e5,
-	right_thrust = 40e5,
-	angular_thrust = 320e5,
+	forward_thrust = 320e5,
+	reverse_thrust = 128e5,
+	up_thrust = 64e5,
+	down_thrust = 64e5,
+	left_thrust = 64e5,
+	right_thrust = 64e5,
+	angular_thrust = 416e5,
 	camera_offset = v(0,0,-23),
 	gun_mounts =
 	{
@@ -23,8 +23,8 @@ define_ship {
 	max_cargoscoop = 0,
 	capacity = 100,
 	hull_mass = 35,
-	fuel_tank_mass = 65,
-	thruster_fuel_use = 0.0002,
+	fuel_tank_mass = 125,
+	effective_exhaust_velocity = 57500e3,
 	price = 150000,
 	hyperdrive_class = 4,
 }

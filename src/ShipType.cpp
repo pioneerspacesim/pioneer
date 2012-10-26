@@ -142,7 +142,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 	_get_int_attrib(L, "capacity", s.capacity, 0);
 	_get_int_attrib(L, "hull_mass", s.hullMass, 100);
 	_get_int_attrib(L, "fuel_tank_mass", s.fuelTankMass, 5);
-	_get_float_attrib(L, "thruster_fuel_use", s.thrusterFuelUse, 1.f);
+	_get_float_attrib(L, "effective_exhaust_velocity", s.effectiveExhaustVelocity, 50000000.f);
 	_get_int_attrib(L, "price", s.baseprice, 0);
 	s.baseprice *= 100; // in hundredths of credits
 

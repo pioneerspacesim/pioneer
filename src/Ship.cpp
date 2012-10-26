@@ -241,6 +241,32 @@ void Ship::UpdateMass()
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
 }
 
+double Ship::GetFuelUseRate() {
+	double denominator = GetShipType().fuelTankMass * GetShipType().effectiveExhaustVelocity * 10;
+	return fabs(denominator > 0 ? GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9);
+}
+
+// returns speed that can be reached using fuelUsed (0.0f-1.0f) of fuel according to the Tsiolkovsky equation
+double Ship::GetVelocityReachedWithFuelUsed(float fuelUsed) {
+	double ShipMassNow = GetMass(),
+			ShipMassAfter = GetMass() - 1000*GetShipType().fuelTankMass * fuelUsed;
+
+	if(ShipMassAfter <= 0 || ShipMassNow <= 0) // shouldn't happen
+		return 0;
+
+	return GetShipType().effectiveExhaustVelocity * log(ShipMassNow/ShipMassAfter);
+}
+
+void Ship::Refuel() {
+	float currentFuel = this->GetFuel();
+	if (is_equal_exact(currentFuel, 1.0f)) return;
+	if(this->m_equipment.Count(Equip::SLOT_CARGO, Equip::WATER) <= 0) return;
+
+	this->m_equipment.Remove(Equip::WATER, 1);
+	this->SetFuel(currentFuel + 1.0f/this->GetShipType().fuelTankMass);
+	this->UpdateStats();
+}
+
 bool Ship::OnDamage(Object *attacker, float kgDamage)
 {
 	if (!IsDead()) {
@@ -427,8 +453,8 @@ void Ship::UpdateEquipStats()
 		if (!hyperclass) { // no drive
 			m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 		} else {
-			// for the sake of hyperspace range, we count ships mass as 60% of original.
-			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass);
+			// for the sake of hyperspace range, we count ships mass as 32% of original.
+			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass + GetShipType().fuelTankMass);
 			m_stats.hyperspace_range = std::min(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, fuelType) /
 				(hyperclass * hyperclass));
 		}
@@ -442,7 +468,7 @@ void Ship::UpdateFuelStats()
 	const ShipType &stype = GetShipType();
 
 	m_stats.fuel_tank_mass = stype.fuelTankMass;
-	m_stats.fuel_use = stype.thrusterFuelUse;
+	m_stats.fuel_use = GetFuelUseRate();
 	m_stats.fuel_tank_mass_left = m_stats.fuel_tank_mass * GetFuel();
 	//calculate thruster fuel usage weights
 	const float fwd = fabs(stype.linThrust[ShipType::THRUSTER_FORWARD]);
@@ -503,7 +529,7 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 	float dist = distance_to_system(dest);
 
 	outFuelRequired = int(ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max));
-	double m_totalmass = m_stats.total_mass;
+	double m_totalmass = GetMass()/1000;
 	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
 	if (outFuelRequired < 1) outFuelRequired = 1;
 	if (dist > m_stats.hyperspace_range_max) {
@@ -520,7 +546,7 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 
 		// Now mass has more of an effect on the time taken, this is mainly
 		// for gameplay considerations for courier missions and the like.
-		outDurationSecs = ((dist * dist * 0.5) / (m_stats.hyperspace_range_max * hyperclass)) *
+		outDurationSecs = ((dist * dist * 0.36) / (m_stats.hyperspace_range_max * hyperclass)) *
 			(60.0 * 60.0 * 24.0 * sqrt(m_totalmass));
 		//float hours = outDurationSecs * 0.0002778;
 		//printf("%f LY in %f hours OR %d seconds \n", dist, hours, outDurationSecs);
@@ -944,7 +970,7 @@ void Ship::UpdateAlertState()
 
 void Ship::UpdateFuel(const float timeStep)
 {
-	const float fuelUseRate = GetShipType().thrusterFuelUse * 0.01f;
+	const float fuelUseRate = GetFuelUseRate() * 0.01f;
 	const vector3d &tstate = GetThrusterState();
 	//weights calculated from thrust values during calcstats
 	float totalThrust = 0.f;

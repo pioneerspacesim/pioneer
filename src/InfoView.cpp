@@ -171,13 +171,7 @@ private:
 	}
 
 	void Refuel() {
-		float currentFuel = Pi::player->GetFuel();
-		if (is_equal_exact(currentFuel, 1.0f)) return;
-
-		Pi::player->m_equipment.Remove(Equip::WATER, 1);
-		Pi::player->SetFuel(currentFuel + 1.0f/Pi::player->GetShipType().fuelTankMass);
-		Pi::player->UpdateStats();
-
+		Pi::player->Refuel();
 		m_infoView->UpdateInfo();
 	}
 };
@@ -240,11 +234,11 @@ public:
 		col1 += ":\n";
 		col1 += std::string(Lang::HYPERSPACE_RANGE);
 		col1 += ":\n\n";
-		col1 += std::string(Lang::CAPACITY);
+		col1 += std::string(Lang::WEIGHT_EMPTY);
 		col1 += ":\n";
-		col1 += std::string(Lang::FREE);
+		col1 += std::string(Lang::CAPACITY_USED);
 		col1 += ":\n";
-		col1 += std::string(Lang::USED);
+		col1 += std::string(Lang::FUEL_WEIGHT);
 		col1 += ":\n";
 		col1 += std::string(Lang::TOTAL_WEIGHT);
 		col1 += ":\n\n";
@@ -261,11 +255,18 @@ public:
 		col2 += stringf(Lang::N_LIGHT_YEARS_N_MAX,
 			formatarg("distance", stats.hyperspace_range),
 			formatarg("maxdistance", stats.hyperspace_range_max));
+
+		int totalFuelMass = (int)round(Pi::player->GetMass()/1000 - stats.total_mass);
+		int totalMassWithFuel = (int)round(Pi::player->GetMass()/1000);
+		int hullMass = totalMassWithFuel - totalFuelMass - stats.used_capacity;
 		snprintf(buf, sizeof(buf), "\n\n%dt\n"
-					       "%dt\n"
-					       "%dt\n"
-					       "%dt", stats.max_capacity,
-				stats.free_capacity, stats.used_capacity, stats.total_mass);
+					       "%dt  (%dt %s)\n"
+					       "%dt  (%dt %s)\n"
+					       "%dt",
+					       hullMass,
+					       stats.used_capacity, stats.free_capacity, Lang::FREE_LOWERCASE,
+					       totalFuelMass, Pi::player->GetShipType().fuelTankMass, Lang::MAX,
+					       totalMassWithFuel);
 		col2 += std::string(buf);
 		int numLasers = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_LASER);
 		if (numLasers >= 1) {
