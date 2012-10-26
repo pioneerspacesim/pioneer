@@ -242,9 +242,11 @@ static void LuaInitGame() {
 	LuaEvent::Clear();
 }
 
+const char Pi::SAVE_DIR_NAME[] = "savefiles";
+
 std::string Pi::GetSaveDir()
 {
-	return FileSystem::JoinPath(FileSystem::GetUserDir(), "savefiles");
+	return FileSystem::JoinPath(FileSystem::GetUserDir(), Pi::SAVE_DIR_NAME);
 }
 
 void Pi::Init()

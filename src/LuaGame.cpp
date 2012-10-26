@@ -88,7 +88,7 @@ static int l_game_load_game(lua_State *l)
 		return 0;
 	}
 
-	const std::string filename(FileSystem::JoinPathBelow("savefiles", luaL_checkstring(l, 1)));
+	const std::string filename(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, luaL_checkstring(l, 1)));
 
 	Game *newGame = 0;
 

@@ -77,7 +77,7 @@ void GameLoader::DialogMainLoop()
 bool GameLoader::LoadFromFile(const std::string &filename)
 {
 	try {
-		FILE *f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow("savefiles", filename));
+		FILE *f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 		if (!f) throw CouldNotOpenFileException();
 
 		Serializer::Reader rd(f);
@@ -109,7 +109,7 @@ bool GameSaver::SaveToFile(const std::string &filename)
 {
 	bool success = false;
 	try {
-		if (!FileSystem::userFiles.MakeDirectory("savefiles")) {
+		if (!FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME)) {
 			throw CouldNotOpenFileException();
 		}
 
@@ -118,7 +118,7 @@ bool GameSaver::SaveToFile(const std::string &filename)
 
 		const std::string data = wr.GetData();
 
-		FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow("savefiles", filename));
+		FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 		if (!f) throw CouldNotOpenFileException();
 
 		size_t nwritten = fwrite(data.data(), data.length(), 1, f);

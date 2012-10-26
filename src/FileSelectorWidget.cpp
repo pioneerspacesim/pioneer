@@ -53,7 +53,7 @@ void FileSelectorWidget::ShowAll()
 	hbox->PackEnd(scroll);
 
 	Gui::Box *vbox = new Gui::VBox();
-	for (FileSystem::FileEnumerator files(FileSystem::userFiles, "savefiles"); !files.Finished(); files.Next())
+	for (FileSystem::FileEnumerator files(FileSystem::userFiles, Pi::SAVE_DIR_NAME); !files.Finished(); files.Next())
 	{
 		const std::string name = files.Current().GetName();
 		b = new SimpleLabelButton(new Gui::Label(name));

@@ -100,6 +100,8 @@ public:
 	static void Message(const std::string &message, const std::string &from = "", enum MsgLevel level = MSG_NORMAL);
 	static std::string GetSaveDir();
 
+	static const char SAVE_DIR_NAME[];
+
 	static sigc::signal<void, SDL_keysym*> onKeyPress;
 	static sigc::signal<void, SDL_keysym*> onKeyRelease;
 	static sigc::signal<void, int, int, int> onMouseButtonUp;
