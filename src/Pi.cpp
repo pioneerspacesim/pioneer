@@ -254,13 +254,13 @@ void Pi::Init()
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 
-	ModManager::Init();
-
 	Pi::config = new GameConfig();
 	KeyBindings::InitBindings();
 
 	if (config->Int("RedirectStdio"))
 		OS::RedirectStdio();
+
+	ModManager::Init();
 
 	if (!Lang::LoadStrings(config->String("Lang")))
 		abort();
