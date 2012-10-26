@@ -134,33 +134,32 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 
 		default:
 
-			if (event.keysym.mod) {
+			if (event.keysym.mod & KMOD_CTRL) {
+				switch (event.keysym.sym) {
+					case SDLK_u:
+						m_cursor = 0;
+						m_label->SetText("");
+						onChange.emit("");
+						break;
 
-				if (event.keysym.mod & KMOD_CTRL) {
-					switch (event.keysym.sym) {
-						case SDLK_u:
-							m_cursor = 0;
-							m_label->SetText("");
-							onChange.emit("");
-							break;
-
-						case SDLK_w: {
-							size_t pos = text.find_last_not_of(' ', m_cursor);
-							if (pos != std::string::npos) pos = text.find_last_of(' ', pos);
-							m_cursor = pos != std::string::npos ? pos+1 : 0;
-							text.erase(m_cursor);
-							m_label->SetText(text);
-							onChange.emit(text);
-							break;
-						}
-
-						default:
-							break;
+					case SDLK_w: {
+						size_t pos = text.find_last_not_of(' ', m_cursor);
+						if (pos != std::string::npos) pos = text.find_last_of(' ', pos);
+						m_cursor = pos != std::string::npos ? pos+1 : 0;
+						text.erase(m_cursor);
+						m_label->SetText(text);
+						onChange.emit(text);
+						break;
 					}
-				}
 
-				return;
+					default:
+						break;
+				}
 			}
+
+			// ignore non-shift meta
+			else if (event.keysym.mod & ~KMOD_SHIFT)
+				return;
 
 			// naively accept anything outside C0 and C1. probably safe enough for
 			// now, but needs revisiting if we one day support rtl, cjk, etc
