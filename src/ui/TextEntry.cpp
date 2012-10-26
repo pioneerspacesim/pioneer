@@ -106,8 +106,8 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 			break;
 
 		case SDLK_BACKSPACE:
-			if (text.size() > 0) {
-				if (m_cursor > 0) m_cursor--;
+			if (text.size() > 0 && m_cursor > 0) {
+				m_cursor--;
 
 				// XXX not UTF-8 safe
 				text.erase(m_cursor, 1);
