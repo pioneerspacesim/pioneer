@@ -85,6 +85,7 @@
 #include "ModManager.h"
 #include "graphics/Light.h"
 #include "gui/Gui.h"
+#include <algorithm>
 #include <sstream>
 
 float Pi::gameTickAlpha;
@@ -702,6 +703,17 @@ void Pi::InitGame()
 {
 	// this is a bit brittle. skank may be forgotten and survive between
 	// games
+
+	//reset input states
+	keyModState = 0;
+	std::fill(keyState, keyState + COUNTOF(keyState), 0);
+	std::fill(mouseButton, mouseButton + COUNTOF(mouseButton), 0);
+	std::fill(mouseMotion, mouseMotion + COUNTOF(mouseMotion), 0);
+	for (std::vector<JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
+		std::fill(stick->buttons.begin(), stick->buttons.end(), false);
+		std::fill(stick->hats.begin(), stick->hats.end(), 0);
+		std::fill(stick->axes.begin(), stick->axes.end(), 0.f);
+	}
 
 	Polit::Init();
 

@@ -11,8 +11,9 @@ namespace UI {
 
 static const float SKIN_SIZE = 512.0f;
 
-Skin::Skin(const std::string &filename, Graphics::Renderer *renderer) :
-	m_renderer(renderer)
+Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scale) :
+	m_renderer(renderer),
+	m_scale(scale)
 {
 	IniConfig cfg;
 	// set defaults
@@ -149,7 +150,7 @@ Skin::BorderedRectElement Skin::LoadBorderedRectElement(const std::string &spec)
 {
 	std::vector<int> v(5);
 	SplitSpec(spec, v);
-	return BorderedRectElement(v[0], v[1], v[2], v[3], v[4]);
+	return BorderedRectElement(v[0], v[1], v[2], v[3], v[4]*m_scale);
 }
 
 }

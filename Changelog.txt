@@ -1,7 +1,7 @@
 Alpha 28
 
    * New features
-     * First stages of the new UI system (#1586, #1625, #1623)
+     * First stages of the new UI system (#1586, #1625, #1623, #1622)
      * Cockpit views have been removed (#1606)
 
    * Minor changes and tweaks
@@ -13,6 +13,7 @@ Alpha 28
      * Hide thrusters in camera (not cockpit) views (#1578, #1577)
      * Hammerhead's cockpit camera is now correct when the head is extended (#1594)
      * Fix placement of docking bay text in 'nice_spacestation' orbital (#1154, #1605)
+     * Fix input (e.g., laser fire key) leaking from one game to the next (#1613)
 
    * Script and model changes
      * Separation and orientation is now specified for dual laser mountings (#1518)
