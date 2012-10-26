@@ -73,7 +73,8 @@ void TextEntry::Draw()
 
 	Container::Draw();
 
-	GetContext()->GetRenderer()->DrawLines(2, m_cursorVertices, Color::WHITE);
+	if (IsSelected())
+		GetContext()->GetRenderer()->DrawLines(2, m_cursorVertices, Color::WHITE);
 }
 
 TextEntry *TextEntry::SetText(const std::string &text)
