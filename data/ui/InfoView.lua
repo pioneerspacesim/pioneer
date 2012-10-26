@@ -55,9 +55,9 @@ local shipInfo = function (args)
 								ui:Label("Hyperdrive:"),
 								ui:Label("Hyperspace range:"),
 								ui:Margin(10),
-								ui:Label("Capacity:"),
-								ui:Label("Free:"),
-								ui:Label("Used:"),
+								ui:Label("Weigth empty:"),								
+								ui:Label("Capacity used:"),
+								ui:Label("Fuel weight:"),
 								ui:Label("All-up weight:"),
 								ui:Margin(10),
 								ui:Label("Front weapon:"),
@@ -75,10 +75,10 @@ local shipInfo = function (args)
 									}
 								)),
 								ui:Margin(10),
-								ui:Label(string.format("%dt", stats.maxCapacity)),
-								ui:Label(string.format("%dt", stats.freeCapacity)),
-								ui:Label(string.format("%dt", stats.usedCapacity)),
-								ui:Label(string.format("%dt", stats.totalMass)),
+								ui:Label(string.format("%dt", stats.totalMass - stats.usedCapacity)),								
+								ui:Label(string.format("%dt (%dt free)", stats.usedCapacity,  stats.freeCapacity)),
+								ui:Label(string.format("%dt (%dt max)", Game.player.fuel/100*stats.maxFuelTankMass, stats.maxFuelTankMass)),
+								ui:Label(string.format("%dt", stats.totalMass+Game.player.fuel/100*stats.maxFuelTankMass)),
 								ui:Margin(10),
 								ui:Label(EquipType.GetEquipType(frontWeapon).name),
 								ui:Label(EquipType.GetEquipType(rearWeapon).name),
@@ -288,7 +288,7 @@ local missions = function ()
 			missionLocationName = string.format('%s [%d,%d,%d]', mission.location:GetStarSystem().name, mission.location.sectorX, mission.location.sectorY, mission.location.sectorZ)
 		end
 		missiongrid:SetRow(count,{
-			ui:Label(t(mission.type)),
+			ui:Label(mission.type),
 			ui:Label(mission.client),
 			ui:Label(missionLocationName),
 			ui:Label(Format.Date(mission.due)),
