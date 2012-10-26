@@ -39,26 +39,26 @@ void LoadWindowIcon()
 
 void RedirectStdio()
 {
-	std::string stdout_file = FileSystem::JoinPath(FileSystem::GetUserDir(), "stdout.txt");
-	std::string stderr_file = FileSystem::JoinPath(FileSystem::GetUserDir(), "stderr.txt");
+	std::string stdout_path = FileSystem::JoinPath(FileSystem::GetUserDir(), "stdout.txt");
+	std::string stderr_path = FileSystem::JoinPath(FileSystem::GetUserDir(), "stderr.txt");
 
 	FILE *f;
 
-	f = freopen(stdout_file.c_str(), "w", stdout);
+	f = freopen(stdout_path.c_str(), "w", stdout);
 	if (!f)
-		f = fopen(stdout_file.c_str(), "w");
+		f = fopen(stdout_path.c_str(), "w");
 	if (!f)
-		fprintf(stderr, "ERROR: Couldn't redirect stdout to '%s': %s\n", stdout_file.c_str(), strerror(errno));
+		fprintf(stderr, "ERROR: Couldn't redirect stdout to '%s': %s\n", stdout_path.c_str(), strerror(errno));
 	else {
 		setvbuf(f, 0, _IOLBF, BUFSIZ);
 		*stdout = *f;
 	}
 
-	f = freopen(stderr_file.c_str(), "w", stderr);
+	f = freopen(stderr_path.c_str(), "w", stderr);
 	if (!f)
-		f = fopen(stderr_file.c_str(), "w");
+		f = fopen(stderr_path.c_str(), "w");
 	if (!f)
-		fprintf(stderr, "ERROR: Couldn't redirect stderr to '%s': %s\n", stderr_file.c_str(), strerror(errno));
+		fprintf(stderr, "ERROR: Couldn't redirect stderr to '%s': %s\n", stderr_path.c_str(), strerror(errno));
 	else {
 		setvbuf(f, 0, _IOLBF, BUFSIZ);
 		*stderr = *f;
