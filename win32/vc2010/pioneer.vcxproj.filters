@@ -39,9 +39,6 @@
     <ClCompile Include="..\..\src\FaceVideoLink.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FontConfig.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Frame.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -461,9 +458,6 @@
     <ClInclude Include="..\..\src\fixed.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\FontConfig.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Frame.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -843,7 +837,7 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaPushPull.h">
-	  <Filter>src</Filter>
+      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Factions.h">
       <Filter>src</Filter>
