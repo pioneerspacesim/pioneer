@@ -881,6 +881,7 @@ void Ship::UpdateAlertState()
 
 		Ship *ship = static_cast<Ship*>(*i);
 
+		if (ship->GetShipType().tag == ShipType::TAG_STATIC_SHIP) continue;
 		if (ship->GetFlightState() == LANDED || ship->GetFlightState() == DOCKED) continue;
 
 		if (GetPositionRelTo(ship).LengthSqr() < 100000.0*100000.0) {
