@@ -16,6 +16,7 @@ Alpha 28
      * Hammerhead's cockpit camera is now correct when the head is extended (#1594)
      * Fix placement of docking bay text in 'nice_spacestation' orbital (#1154, #1605)
      * Fix input (e.g., laser fire key) leaking from one game to the next (#1613)
+     * Don't generate an alert for ships parked in orbit near a station (#1636, #545)
 
    * Script and model changes
      * Separation and orientation is now specified for dual laser mountings (#1518)
