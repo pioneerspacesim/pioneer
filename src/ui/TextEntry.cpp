@@ -111,6 +111,8 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 				// XXX not UTF-8 safe
 				text.erase(m_cursor, 1);
 				m_label->SetText(text);
+
+				onChange.emit(text);
 			}
 			break;
 
@@ -119,11 +121,14 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 				// XXX not UTF-8 safe
 				text.erase(m_cursor, 1);
 				m_label->SetText(text);
+
+				onChange.emit(text);
 			}
 			break;
 
 		case SDLK_RETURN:
 			GetContext()->DeselectWidget(this);
+			onEnter.emit(text);
 			break;
 
 		default:
@@ -135,6 +140,7 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 						case SDLK_u:
 							m_cursor = 0;
 							m_label->SetText("");
+							onChange.emit("");
 							break;
 
 						case SDLK_w: {
@@ -143,6 +149,7 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 							m_cursor = pos != std::string::npos ? pos+1 : 0;
 							text.erase(m_cursor);
 							m_label->SetText(text);
+							onChange.emit(text);
 							break;
 						}
 
@@ -165,7 +172,10 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 				m_cursor++;
 
 				m_label->SetText(text);
+
+				onChange.emit(text);
 			}
+
 			break;
 	}
 }

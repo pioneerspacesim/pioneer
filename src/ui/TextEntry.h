@@ -21,6 +21,9 @@ public:
 
 	virtual bool IsSelectable() const { return true; }
 
+	sigc::signal<void,const std::string &> onChange;
+	sigc::signal<void,const std::string &> onEnter;
+
 protected:
 	friend class Context;
 	TextEntry(Context *context, const std::string &text);

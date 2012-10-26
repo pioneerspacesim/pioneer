@@ -3,6 +3,7 @@
 
 #include "TextEntry.h"
 #include "LuaObject.h"
+#include "LuaSignal.h"
 
 namespace UI {
 
@@ -17,6 +18,17 @@ public:
 		return 1;
 	}
 
+	static int l_attr_on_change(lua_State *l) {
+		UI::TextEntry *te = LuaObject<UI::TextEntry>::CheckFromLua(1);
+		LuaSignal<const std::string &>().Wrap(l, te->onChange);
+		return 1;
+	}
+
+	static int l_attr_on_enter(lua_State *l) {
+		UI::TextEntry *te = LuaObject<UI::TextEntry>::CheckFromLua(1);
+		LuaSignal<const std::string &>().Wrap(l, te->onEnter);
+		return 1;
+	}
 };
 
 }
@@ -35,7 +47,9 @@ template <> void LuaObject<UI::TextEntry>::RegisterClass()
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "text", LuaTextEntry::l_attr_text },
+		{ "text",     LuaTextEntry::l_attr_text },
+		{ "onChange", LuaTextEntry::l_attr_on_change },
+		{ "onEnter",  LuaTextEntry::l_attr_on_enter },
 		{ 0, 0 }
 	};
 
