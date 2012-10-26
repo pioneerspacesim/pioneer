@@ -35,8 +35,8 @@ namespace FileSystem {
 	extern FileSourceUnion gameDataFiles;
 	extern FileSourceFS userFiles;
 
-	std::string GetUserDir(const char *subdir = 0);
-	std::string GetDataDir(const char *subdir = 0);
+	std::string GetUserDir();
+	std::string GetDataDir();
 
 	/// Create path <a>/<b>, coping with 'a' or 'b' being empty,
 	/// 'b' being an absolute path, or 'a' not having a trailing separator

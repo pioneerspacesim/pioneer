@@ -65,22 +65,16 @@ namespace FileSystem {
 		return transcode_utf16_to_utf8(buf, wcslen(buf));
 	}
 
-	std::string GetUserDir(const char *subdir)
+	std::string GetUserDir()
 	{
 		static const std::string user_path = FindUserDir();
-		if (subdir)
-			return JoinPathBelow(user_path, subdir);
-		else
-			return user_path;
+		return user_path;
 	}
 
-	std::string GetDataDir(const char *subdir)
+	std::string GetDataDir()
 	{
 		static const std::string data_path = FindDataDir();
-		if (subdir)
-			return JoinPathBelow(data_path, subdir);
-		else
-			return data_path;
+		return data_path;
 	}
 
 	FileSourceFS::FileSourceFS(const std::string &root):

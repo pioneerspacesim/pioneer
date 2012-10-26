@@ -244,7 +244,7 @@ static void LuaInitGame() {
 
 std::string Pi::GetSaveDir()
 {
-	return FileSystem::GetUserDir("savefiles");
+	return FileSystem::JoinPath(FileSystem::GetUserDir(), "savefiles");
 }
 
 void Pi::Init()
