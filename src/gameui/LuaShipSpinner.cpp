@@ -8,13 +8,7 @@ public:
 
 	static int l_new(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-
-		const char *type = luaL_checkstring(l, 2);
-		if (! ShipType::Get(type))
-			luaL_error(l, "Unknown ship type '%s'", type);
-
-		ShipFlavour f(type);
-
+		ShipFlavour f = ShipFlavour::FromLuaTable(l, 2);
 		LuaObject<ShipSpinner>::PushToLua(new ShipSpinner(c, f));
 		return 1;
 	}

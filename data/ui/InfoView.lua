@@ -94,7 +94,7 @@ local shipInfo = function (args)
 			:SetColumn(1, {
 				ui:VBox(10)
 					:PackEnd(ui:Label(shipType.name):SetFont("HEADING_LARGE"))
-					:PackEnd(UI.Game.ShipSpinner.New(ui, Game.player.shipType))
+					:PackEnd(UI.Game.ShipSpinner.New(ui, Game.player.flavour))
 			})
 end
 
