@@ -27,6 +27,7 @@ Translate:Add({
 		
 		-- Ship Information
 		['Ship information'] = 'Ship information',
+		['Weigth empty:'] = 'Weigth empty:',
 		['{range} light years ({maxRange} max)'] = '{range} light years ({maxRange} max)',
 		
 		-- Personal information
