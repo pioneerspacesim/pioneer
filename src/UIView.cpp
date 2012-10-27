@@ -4,6 +4,7 @@
 #include "UIView.h"
 #include "Pi.h"
 #include "ui/Context.h"
+#include "gameui/Panel.h"
 
 void UIView::Update()
 {
@@ -17,7 +18,11 @@ void UIView::Draw3D()
 
 void UIView::OnSwitchTo()
 {
-	Pi::ui->SetInnerWidget(Pi::ui->CallTemplate(m_templateName));
+	Pi::ui->SetInnerWidget(
+		Pi::ui->VBox()
+			->PackEnd(Pi::ui->CallTemplate(m_templateName))
+			->PackEnd(new GameUI::Panel(Pi::ui.Get()))
+	);
 }
 
 void UIView::OnSwitchFrom()
