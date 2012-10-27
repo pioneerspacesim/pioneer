@@ -80,9 +80,13 @@
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "ui/Context.h"
+#include "ui/Lua.h"
+#include "SDLWrappers.h"
+#include "ModManager.h"
 #include "graphics/Light.h"
 #include "gui/Gui.h"
-
+#include <algorithm>
 #include <fstream>
 
 float Pi::gameTickAlpha;
@@ -144,6 +148,7 @@ const char * const Pi::combatRating[] = {
 	Lang::ELITE
 };
 Graphics::Renderer *Pi::renderer;
+RefCountedPtr<UI::Context> Pi::ui;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -180,10 +185,6 @@ static void draw_progress(float progress)
 
 static void LuaInit()
 {
-	Lua::Init();
-
-	lua_State *l = Lua::manager->GetLuaState();
-
 	LuaBody::RegisterClass();
 	LuaShip::RegisterClass();
 	LuaSpaceStation::RegisterClass();
@@ -219,8 +220,13 @@ static void LuaInit()
 	LuaDev::Register();
 	LuaConsole::Register();
 
+	// XXX sigh
+	UI::LuaInit();
+
 	// XXX load everything. for now, just modules
+	lua_State *l = Lua::manager->GetLuaState();
 	pi_lua_dofile_recursive(l, "libs");
+	pi_lua_dofile_recursive(l, "ui");
 	pi_lua_dofile_recursive(l, "modules");
 
 	Pi::luaNameGen = new LuaNameGen(Lua::manager);
@@ -334,9 +340,17 @@ void Pi::Init()
 
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 
-	Gui::Init(renderer, scrWidth, scrHeight, 800, 600);
+	// XXX UI requires Lua  but Pi::ui must exist before we start loading
+	// templates. so now we have crap everywhere :/
+	Lua::Init();
+
+	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, scrWidth, scrHeight));
 
 	LuaInit();
+
+	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
+	// that the capability exists. (Gui does not use VBOs so far)
+	Gui::Init(renderer, scrWidth, scrHeight, 800, 600);
 
 	draw_progress(0.1f);
 
@@ -468,6 +482,7 @@ void Pi::Quit()
 	LmrModelCompilerUninit();
 	Galaxy::Uninit();
 	Graphics::Uninit();
+	Pi::ui.Reset(0);
 	LuaUninit();
 	Gui::Uninit();
 	delete Pi::renderer;
@@ -711,6 +726,17 @@ void Pi::InitGame()
 	// this is a bit brittle. skank may be forgotten and survive between
 	// games
 
+	//reset input states
+	keyModState = 0;
+	std::fill(keyState, keyState + COUNTOF(keyState), 0);
+	std::fill(mouseButton, mouseButton + COUNTOF(mouseButton), 0);
+	std::fill(mouseMotion, mouseMotion + COUNTOF(mouseMotion), 0);
+	for (std::vector<JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
+		std::fill(stick->buttons.begin(), stick->buttons.end(), false);
+		std::fill(stick->hats.begin(), stick->hats.end(), 0);
+		std::fill(stick->axes.begin(), stick->axes.end(), 0.f);
+	}
+
 	Polit::Init();
 
 	if (!config->Int("DisableSound")) AmbientSounds::Init();
@@ -744,241 +770,55 @@ void Pi::StartGame()
 	LuaEvent::Emit();
 }
 
-bool Pi::menuDone = false;
-void Pi::HandleMenuKey(int n)
-{
-	switch (n) {
-
-		// XXX these assign to Pi::game, which is the correct behaviour. its
-		// redundant right now because the Game constructor assigns itself to
-		// Pi::game. it only does that as a hack to get the views up and
-		// running. one day, when all that is fixed, you can delete this
-		// comment
-
-		case 0: // Earth start point
-		{
-			game = new Game(SystemPath(0,0,0,0,9));  // Los Angeles, Earth
-			break;
-		}
-
-		case 1: // Epsilon Eridani start point
-		{
-			game = new Game(SystemPath(1,-1,-1,0,4));  // New Hope, New Hope
-			break;
-		}
-
-		case 2: // Lave start point
-		{
-			game = new Game(SystemPath(-2,1,90,0,2));  // Lave Station, Lave
-			break;
-		}
-
-		case 3: // Debug start point
-		{
-			game = new Game(SystemPath(1,-1,-1,0,4), vector3d(0,2*EARTH_RADIUS,0));  // somewhere over New Hope
-
-			Ship *enemy = new Ship(ShipType::EAGLE_LRF);
-			enemy->SetFrame(player->GetFrame());
-			enemy->SetPosition(player->GetPosition()+vector3d(0,0,-9000.0));
-			enemy->SetVelocity(vector3d(0,0,0));
-			enemy->m_equipment.Set(Equip::SLOT_ENGINE, 0, Equip::DRIVE_CLASS1);
-			enemy->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
-			enemy->m_equipment.Add(Equip::HYDROGEN, 2);
-			enemy->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-			enemy->m_equipment.Add(Equip::AUTOPILOT);
-			enemy->m_equipment.Add(Equip::SCANNER);
-			enemy->UpdateStats();
-			enemy->AIKill(player);
-			game->GetSpace()->AddBody(enemy);
-
-			player->SetCombatTarget(enemy);
-
-			const ShipType *shipdef;
-			double mass, acc1, acc2, acc3;
-			printf("Player ship mass = %.0fkg, Enemy ship mass = %.0fkg\n",
-				   player->GetMass(), enemy->GetMass());
-
-			shipdef = &player->GetShipType();
-			mass = player->GetMass();
-			acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
-			acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
-			acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
-			printf("Player ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
-
-			shipdef = &enemy->GetShipType();
-			mass = enemy->GetMass();
-			acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*mass);
-			acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*mass);
-			acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*mass);
-			printf("Enemy ship thrust = %.1fg, %.1fg, %.1fg\n", acc1, acc2, acc3);
-
-			/*	Frame *stationFrame = new Frame(pframe, "Station frame...");
-			 stationFrame->SetRadius(5000);
-			 stationFrame->m_sbody = 0;
-			 stationFrame->SetPosition(vector3d(0,0,zpos));
-			 stationFrame->SetAngVelocity(vector3d(0,0,0.5));
-
-			 for (int i=0; i<4; i++) {
-			 Ship *body = new Ship(ShipType::LADYBIRD);
-			 char buf[64];
-			 snprintf(buf,sizeof(buf),"X%c-0%02d", 'A'+i, i);
-			 body->SetLabel(buf);
-			 body->SetFrame(stationFrame);
-			 body->SetPosition(vector3d(200*(i+1), 0, 2000));
-			 Space::AddBody(body);
-			 }
-
-			 SpaceStation *station = new SpaceStation(SpaceStation::JJHOOP);
-			 station->SetLabel("Poemi-chan's Folly");
-			 station->SetFrame(stationFrame);
-			 station->SetPosition(vector3d(0,0,0));
-			 Space::AddBody(station);
-
-			 SpaceStation *station2 = new SpaceStation(SpaceStation::GROUND_FLAVOURED);
-			 station2->SetLabel("Conor's End");
-			 station2->SetFrame(*pframe->m_children.begin()); // rotating frame of planet
-			 station2->OrientOnSurface(EARTH_RADIUS, M_PI/4, M_PI/4);
-			 Space::AddBody(station2);
-			 */
-			//	player->SetDockedWith(station2, 0);
-
-			break;
-		}
-
-		case 4: // Load game
-		{
-			menu->HideAll();
-			GameLoader loader;
-			loader.DialogMainLoop();
-			menu->ShowAll();
-			game = loader.GetGame();
-			if (! game) {
-				// loading screen was cancelled;
-				// return without setting menuDone so the menu is re-displayed
-				return;
-			}
-			break;
-		}
-
-		case 5: // Settings
-		{
-			Gui::Screen::RemoveBaseWidget(menu);
-			SetView(Pi::gameMenuView);
-			while (Pi::GetView() == Pi::gameMenuView) Gui::MainLoopIteration();
-			SetView(0);
-			Gui::Screen::AddBaseWidget(menu, 0, 0);
-			return;
-		}
-
-		default:
-			break;
-	}
-
-	menuDone = true;
-}
-
 void Pi::Start()
 {
 	Intro *intro = new Intro(Pi::renderer, GetScrWidth(), GetScrHeight());
 
-	menu = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
-	Gui::Screen::AddBaseWidget(menu, 0, 0);
-	menu->SetTransparency(true);
-
-	static const float badgeWidth = 128;
-	float badgeSize[2];
-	Gui::Screen::GetCoords2Pixels(badgeSize);
-	badgeSize[0] *= badgeWidth; badgeSize[1] *= badgeWidth;
-	Gui::Fixed *badge = new Gui::Fixed(badgeSize[0], badgeSize[1]);
-	badge->Add(new Gui::Image("icons/badge.png"),0,0);
-	menu->Add(badge, 30, Gui::Screen::GetHeight()-badgeSize[1]-30);
-
-	Gui::Screen::PushFont("OverlayFont");
-
-	const float w = Gui::Screen::GetWidth() / 2.0f;
-	const float h = Gui::Screen::GetHeight() / 2.0f;
-	const int OPTS = 7;
-	Gui::SolidButton *opts[OPTS];
-	opts[0] = new Gui::SolidButton(); opts[0]->SetShortcut(SDLK_1, KMOD_NONE);
-	opts[0]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 0));
-	opts[1] = new Gui::SolidButton(); opts[1]->SetShortcut(SDLK_2, KMOD_NONE);
-	opts[1]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 1));
-	opts[2] = new Gui::SolidButton(); opts[2]->SetShortcut(SDLK_3, KMOD_NONE);
-	opts[2]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 2));
-	opts[3] = new Gui::SolidButton(); opts[3]->SetShortcut(SDLK_4, KMOD_NONE);
-	opts[3]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 3));
-	opts[4] = new Gui::SolidButton(); opts[4]->SetShortcut(SDLK_5, KMOD_NONE);
-	opts[4]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 4));
-	opts[5] = new Gui::SolidButton(); opts[5]->SetShortcut(SDLK_6, KMOD_NONE);
-	opts[5]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 5));
-	opts[6] = new Gui::SolidButton(); opts[6]->SetShortcut(SDLK_7, KMOD_NONE);
-	opts[6]->onClick.connect(sigc::bind(sigc::ptr_fun(&Pi::HandleMenuKey), 6));
-	menu->Add(opts[0], w, h-96);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_EARTH), w+32, h-96);
-	menu->Add(opts[1], w, h-64);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_E_ERIDANI), w+32, h-64);
-	menu->Add(opts[2], w, h-32);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_LAVE), w+32, h-32);
-	menu->Add(opts[3], w, h);
-	menu->Add(new Gui::Label(Lang::MM_START_NEW_GAME_DEBUG), w+32, h);
-	menu->Add(opts[4], w, h+32);
-	menu->Add(new Gui::Label(Lang::MM_LOAD_SAVED_GAME), w+32, h+32);
-	menu->Add(opts[5], w, h+64);
-	menu->Add(new Gui::Label(Lang::MM_SETTINGS), w+32, h+64);
-	menu->Add(opts[6], w, h+96);
-	menu->Add(new Gui::Label(Lang::MM_QUIT), w+32, h+96);
-
-	std::string version("Pioneer " PIONEER_VERSION);
-	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
-	version += "\n";
-	version += Pi::renderer->GetName();
-
-	menu->Add(new Gui::Label(version), 30+badgeSize[0]+20, Gui::Screen::GetHeight()-badgeSize[1]-10);
-
-	Gui::Screen::PopFont();
-
-	menu->ShowAll();
-
-	Uint32 last_time = SDL_GetTicks();
-	float _time = 0;
-
-	menuDone = false;
-	game = 0;
+	ui->SetInnerWidget(ui->CallTemplate("MainMenu"));
 
 	//XXX global ambient colour hack to make explicit the old default ambient colour dependency
 	// for some models
 	Pi::renderer->SetAmbientColor(Color(0.2f, 0.2f, 0.2f, 1.f));
 
-	while (!menuDone) {
-		Pi::HandleEvents();
-		Pi::SetMouseGrab(false);
+	ui->Layout();
+
+	Uint32 last_time = SDL_GetTicks();
+	float _time = 0;
+
+	while (!Pi::game) {
+		SDL_Event event;
+		while (SDL_PollEvent(&event)) {
+			if (event.type == SDL_QUIT)
+				Pi::Quit();
+			else
+				ui->DispatchSDLEvent(event);
+
+			// XXX hack
+			// if we hit our exit conditions then ignore further queued events
+			// protects against eg double-click during game generation
+			if (Pi::game)
+				while (SDL_PollEvent(&event)) {}
+		}
+
 		Pi::renderer->BeginFrame();
+		Pi::renderer->SetPerspectiveProjection(75, Pi::GetScrAspect(), 1.f, 10000.f);
+		Pi::renderer->SetTransform(matrix4x4f::Identity());
 		intro->Draw(_time);
 		Pi::renderer->EndFrame();
-		Gui::Draw();
+
+		ui->Update();
+		ui->Draw();
+
 		Pi::renderer->SwapBuffers();
 
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
 	}
-	menu->HideAll();
 
-	Gui::Screen::RemoveBaseWidget(menu);
-	delete menu;
-	delete intro;
-
-	// game is set by HandleMenuKey if any game-starting option (start or
-	// load) is selected
-	if (game) {
-		InitGame();
-		StartGame();
-		MainLoop();
-	}
-
-	// no game means quit was selected, so end things
-	else
-		Pi::Quit();
+	InitGame();
+	StartGame();
+	MainLoop();
 }
 
 void Pi::EndGame()

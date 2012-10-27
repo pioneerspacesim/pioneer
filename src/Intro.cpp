@@ -61,10 +61,12 @@ void Intro::Draw(float _time)
 	m_renderer->SetAmbientColor(m_ambientColor);
 	m_renderer->SetLights(m_lights.size(), &m_lights[0]);
 
-	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time) * matrix4x4f::RotateZMatrix(0.6f*_time) *
-			matrix4x4f::RotateXMatrix(_time*0.7f);
-	rot[14] = -80.0;
-	m_model->Render(rot, &m_modelParams);
+	matrix4x4f trans =
+		matrix4x4f::Translation(-25.0f, 0, -80.0f) * 
+		matrix4x4f::RotateYMatrix(_time) *
+		matrix4x4f::RotateZMatrix(0.6f*_time) *
+		matrix4x4f::RotateXMatrix(_time*0.7f);
+	m_model->Render(trans, &m_modelParams);
 	glPopAttrib();
 	m_renderer->SetAmbientColor(oldSceneAmbientColor);
 }

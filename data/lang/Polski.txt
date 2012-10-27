@@ -614,20 +614,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Symulacja ewolucji wszechświata: %age{f.1} miliardów lat ;-)
 TOMBSTONE_EPITAPH
     SPOCZYWAJ W POKOJU
-MM_START_NEW_GAME_EARTH
-    Nowa gra: rozpocznij na Ziemi
-MM_START_NEW_GAME_E_ERIDANI
-    Nowa gra: rozpocznij na Epsilon Eridani
-MM_START_NEW_GAME_LAVE
-    Nowa gra: rozpocznij na Lave
-MM_START_NEW_GAME_DEBUG
-    Nowa gra: rozpocznij z debug point
-MM_LOAD_SAVED_GAME
-    Wczytaj grę
-MM_SETTINGS
-    Opcje
-MM_QUIT
-    Wyjdź
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -746,10 +732,6 @@ SHIP_IS_FULLY_LADEN
     Ładownia jest pełna.
 YOU_DO_NOT_HAVE_ANY_X
     Nie masz %item.
-FRONT_COCKPIT_VIEW
-	Kokpit przód
-REAR_COCKPIT_VIEW
-	Kokpit tył
 CAMERA_FRONT_VIEW
 	Kamera dziobowa
 CAMERA_REAR_VIEW
