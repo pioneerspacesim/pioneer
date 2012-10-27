@@ -54,6 +54,15 @@ bool EventDispatcher::Dispatch(const Event &event)
 				case KeyboardEvent::KEY_DOWN: {
 					bool handled = m_baseContainer->TriggerKeyDown(keyEvent);
 
+					// if there's no keysym then this is some kind of
+					// synthesized event from the window system (eg a compose
+					// sequence). still dispatch it, but don't repeat because
+					// we may never see a corresponding keyup for it
+					if (keyEvent.keysym.sym == SDLK_UNKNOWN) {
+						Dispatch(KeyboardEvent(KeyboardEvent::KEY_PRESS, keyEvent.keysym));
+						return handled;
+					}
+
 					m_keyRepeatSym = keyEvent.keysym;
 					m_keyRepeatActive = true;
 					m_nextKeyRepeat = SDL_GetTicks() + KEY_REPEAT_PAUSE;
@@ -78,7 +87,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 				case KeyboardEvent::KEY_PRESS: {
 					Widget *target = m_selected ? m_selected.Get() : m_baseContainer;
-					target->TriggerKeyPress(KeyboardEvent(KeyboardEvent::KEY_PRESS, m_keyRepeatSym));
+					target->TriggerKeyPress(keyEvent);
 				}
 			}
 			return false;
