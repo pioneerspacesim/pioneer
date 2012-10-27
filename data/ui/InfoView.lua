@@ -26,13 +26,13 @@ local shipInfo = function (args)
 				if count > 1 then
 					if type == "SHIELD_GENERATOR" then
 						table.insert(equipColumn[t],
-							ui:Label(string.interp("{quantity} Shield Generators", { quantity = string.format("%d", count) })))
+							ui:Label(string.interp(t("{quantity} Shield Generators"), { quantity = string.format("%d", count) })))
 					elseif type == "PASSENGER_CABIN" then
 						table.insert(equipColumn[t],
-							ui:Label(string.interp("{quantity} Occupied Passenger Cabins", { quantity = string.format("%d", count) })))
+							ui:Label(string.interp(t("{quantity} Occupied Passenger Cabins"), { quantity = string.format("%d", count) })))
 					elseif type == "UNOCCUPIED_CABIN" then
 						table.insert(equipColumn[t],
-							ui:Label(string.interp("{quantity} Unoccupied Passenger Cabins", { quantity = string.format("%d", count) })))
+							ui:Label(string.interp(t("{quantity} Unoccupied Passenger Cabins"), { quantity = string.format("%d", count) })))
 					else
 						table.insert(equipColumn[t], ui:Label(et.name))
 					end
@@ -48,7 +48,7 @@ local shipInfo = function (args)
 		ui:Grid(2,1)
 			:SetColumn(0, {
 				ui:VBox(20):PackEnd({
-					ui:Label("Ship information"):SetFont("HEADING_LARGE"),
+					ui:Label(t("Ship information")):SetFont("HEADING_LARGE"),
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
@@ -69,7 +69,7 @@ local shipInfo = function (args)
 							ui:VBox():PackEnd({
 								ui:Label(EquipType.GetEquipType(hyperdrive).name),
 								ui:Label(string.interp(
-									"{range} light years ({maxRange} max)", {
+									t("{range} light years ({maxRange} max)"), {
 										range    = string.format("%.1f",stats.hyperspaceRange),
 										maxRange = string.format("%.1f",stats.maxHyperspaceRange)
 									}
@@ -85,7 +85,7 @@ local shipInfo = function (args)
 								ui:Label(string.format("%d%%", Game.player.fuel)),
 							})
 						}),
-					ui:Label("Equipment"):SetFont("HEADING_NORMAL"),
+					ui:Label(t("Equipment")):SetFont("HEADING_NORMAL"),
 					ui:Grid(2,1)
 						:SetColumn(0, { ui:VBox():PackEnd(equipColumn[1]) })
 						:SetColumn(1, { ui:VBox():PackEnd(equipColumn[2]) })
@@ -159,13 +159,13 @@ local personalInfo = function ()
 		ui:Grid(2,1)
 			:SetColumn(0, {
 				ui:VBox(20):PackEnd({
-					ui:Label("Personal information"):SetFont("HEADING_LARGE"),
-					ui:Label("Combat"):SetFont("HEADING_NORMAL"),
+					ui:Label(t("Personal information")):SetFont("HEADING_LARGE"),
+					ui:Label(t("Combat")):SetFont("HEADING_NORMAL"),
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
-								ui:Label("Rating:"),
-								ui:Label("Kills:"),
+								ui:Label(t("Rating:")),
+								ui:Label(t("Kills:")),
 							})
 						})
 						:SetColumn(1, {
@@ -174,12 +174,12 @@ local personalInfo = function ()
 								ui:Label("23"),	      -- XXX
 							})
 						}),
-					ui:Label("Military"):SetFont("HEADING_NORMAL"),
+					ui:Label(t("Military")):SetFont("HEADING_NORMAL"),
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
 								ui:Label(t("ALLEGIANCE")),
-								ui:Label("Rank:"),
+								ui:Label(t("Rank:")),
 							})
 						})
 						:SetColumn(1, {
@@ -229,7 +229,7 @@ local econTrade = function ()
 		ui:Grid(2,1)
 			:SetColumn(0, {
 				ui:VBox(20):PackEnd({
-					ui:Label("Economy & Trade"):SetFont("HEADING_LARGE"),
+					ui:Label(t("Economy & Trade")):SetFont("HEADING_LARGE"),
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
@@ -243,8 +243,8 @@ local econTrade = function ()
 							ui:VBox():PackEnd({
 								ui:Label(string.format("$%.2f", cash)),
 								ui:Margin(10),
-								ui:Grid(2,1):SetRow(0, { ui:Label("Total: "..totalCargo.."t"), ui:Label(t("USED")..": "..usedCargo.."t") }),
-								ui:Grid(2,1):SetRow(0, { ui:Label("Total: "..totalCabins), ui:Label(t("USED")..": "..usedCabins) }),
+								ui:Grid(2,1):SetRow(0, { ui:Label(t("Total: ")..totalCargo.."t"), ui:Label(t("USED")..": "..usedCargo.."t") }),
+								ui:Grid(2,1):SetRow(0, { ui:Label(t("Total: ")..totalCabins), ui:Label(t("USED")..": "..usedCabins) }),
 							})
 						}),
 				})
@@ -312,11 +312,11 @@ end
 
 ui.templates.InfoView = function (args)
 	local buttonDefs = {
-		{ "Ship Information",     shipInfo },
-		{ "Personal Information", personalInfo },
-		{ "Economy & Trade",      econTrade },
-		{ t("MISSIONS"),          missions },
-		{ t('Orbit'),             orbitalAnalysis },
+		{ t("Ship Information"),     shipInfo },
+		{ t("Personal Information"), personalInfo },
+		{ t("Economy & Trade"),      econTrade },
+		{ t("MISSIONS"),             missions },
+		{ t('Orbit'),                orbitalAnalysis },
     }
 
 	local container = ui:Margin(30)

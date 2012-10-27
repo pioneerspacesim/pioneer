@@ -19,6 +19,28 @@ Translate:Add({
 		-- Load dialog
 		['Select game to load...'] = 'Select game to load...',
 
+		-- Equipment
+		['Equipment'] = 'Equipment',
+		['{quantity} Shield Generators'] = '{quantity} Shield Generators',
+		['{quantity} Occupied Passenger Cabins'] = '{quantity} Occupied Passenger Cabins',
+		['{quantity} Unoccupied Passenger Cabins'] = '{quantity} Unoccupied Passenger Cabins',
+		
+		-- Ship Information
+		['Ship information'] = 'Ship information',
+		['{range} light years ({maxRange} max)'] = '{range} light years ({maxRange} max)',
+		
+		-- Personal information
+		['Personal information'] = 'Personal information',
+		['Combat'] = 'Combat',
+		['Rating:'] = 'Rating:',
+		['Kills:'] = 'Kills:',
+		['Military'] = 'Military',
+		['Rank:'] = 'Rank:',
+		
+		-- Economy & Trade
+		['Economy & Trade'] = 'Economy & Trade',
+		['Total: '] = 'Total: ',
+		
 		-- Orbital analysis
 		['Orbit'] = 'Orbit',
 		['Orbital Analysis'] = 'Orbital Analysis',
