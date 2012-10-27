@@ -37,7 +37,7 @@ static int l_faction_attr_name(lua_State *l)
 }
 
 /*
- * Attribute: description_short
+ * Attribute: descriptionShort
  *
  * The short description of the faction
  *
@@ -97,7 +97,7 @@ static int l_faction_attr_has_homeworld(lua_State *l)
 }
 
 /*
- * Attribute: Homeworld
+ * Attribute: homeworld
  *
  * Get the factions homeworld if it has one or a default SystemPath(0,0,0,0,0) if it doesn't
  *
@@ -161,7 +161,7 @@ static int l_faction_attr_expansion_rate(lua_State *l)
 }
 
 /*
- * Attribute: military_name
+ * Attribute: militaryName
  *
  * The military name used by the faction
  *
@@ -181,7 +181,7 @@ static int l_faction_attr_military_name(lua_State *l)
 }
 
 /*
- * Attribute: police_name
+ * Attribute: policeName
  *
  * The military name used by the faction
  *
@@ -233,16 +233,16 @@ template <> const char *LuaObject<Faction>::s_type = "Faction";
 template <> void LuaObject<Faction>::RegisterClass()
 {
 	static const luaL_Reg l_attrs[] = {
-		{ "name",                l_faction_attr_name               },
-		{ "description_short",   l_faction_attr_description_short  },
-		{ "description",         l_faction_attr_description        },
-		{ "has_homeworld",       l_faction_attr_has_homeworld      },
-		{ "homeworld",           l_faction_attr_homeworld          },
-		{ "founding_date",       l_faction_attr_founding_date      },
-		{ "expansion_rate",      l_faction_attr_expansion_rate     },
-		{ "military_name",       l_faction_attr_military_name      },
-		{ "police_name",         l_faction_attr_police_name        },
-		{ "colour",              l_faction_attr_colour             },
+		{ "name",               l_faction_attr_name               },
+		{ "descriptionShort",   l_faction_attr_description_short  },
+		{ "description",        l_faction_attr_description        },
+		{ "hasHomeworld",       l_faction_attr_has_homeworld      },
+		{ "homeworld",          l_faction_attr_homeworld          },
+		{ "foundingDate",       l_faction_attr_founding_date      },
+		{ "expansionRate",      l_faction_attr_expansion_rate     },
+		{ "militaryName",       l_faction_attr_military_name      },
+		{ "policeName",         l_faction_attr_police_name        },
+		{ "colour",             l_faction_attr_colour             },
 		{ 0, 0 }
 	};
 
