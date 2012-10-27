@@ -52,17 +52,17 @@ local shipInfo = function (args)
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
-								ui:Label("Hyperdrive:"),
-								ui:Label("Hyperspace range:"),
+								ui:Label(t("HYPERDRIVE")..":"),
+								ui:Label(t("HYPERSPACE_RANGE")..":"),
 								ui:Margin(10),
-								ui:Label("Weigth empty:"),								
-								ui:Label("Capacity used:"),
-								ui:Label("Fuel weight:"),
-								ui:Label("All-up weight:"),
+								ui:Label(t("CAPACITY")..":"),
+								ui:Label(t("FREE")..":"),
+								ui:Label(t("USED")..":"),
+								ui:Label(t("TOTAL_WEIGHT")..":"),
 								ui:Margin(10),
-								ui:Label("Front weapon:"),
-								ui:Label("Rear weapon:"),
-								ui:Label("Fuel:"),
+								ui:Label(t("FRONT_WEAPON")..":"),
+								ui:Label(t("REAR_WEAPON")..":"),
+								ui:Label(t("FUEL")..":"),
 							})
 						})
 						:SetColumn(1, {
@@ -178,7 +178,7 @@ local personalInfo = function ()
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
-								ui:Label("Allegiance:"),
+								ui:Label(t("ALLEGIANCE")),
 								ui:Label("Rank:"),
 							})
 						})
@@ -233,25 +233,25 @@ local econTrade = function ()
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
-								ui:Label("Cash:"),
+								ui:Label(t("CASH")..":"),
 								ui:Margin(10),
-								ui:Label("Cargo space:"),
-								ui:Label("Cabins:"),
+								ui:Label(t("CARGO_SPACE")..":"),
+								ui:Label(t("CABINS")..":"),
 							})
 						})
 						:SetColumn(1, {
 							ui:VBox():PackEnd({
 								ui:Label(string.format("$%.2f", cash)),
 								ui:Margin(10),
-								ui:Grid(2,1):SetRow(0, { ui:Label("Total: "..totalCargo.."t"), ui:Label("Used: "..usedCargo.."t") }),
-								ui:Grid(2,1):SetRow(0, { ui:Label("Total: "..totalCabins), ui:Label("Used: "..usedCabins) }),
+								ui:Grid(2,1):SetRow(0, { ui:Label("Total: "..totalCargo.."t"), ui:Label(t("USED")..": "..usedCargo.."t") }),
+								ui:Grid(2,1):SetRow(0, { ui:Label("Total: "..totalCabins), ui:Label(t("USED")..": "..usedCabins) }),
 							})
 						}),
 				})
 			})
 			:SetColumn(1, {
 				ui:VBox(10):PackEnd({
-					ui:Label("Cargo"):SetFont("HEADING_LARGE"),
+					ui:Label(t("CARGO")):SetFont("HEADING_LARGE"),
 					ui:Scroller():SetInnerWidget(
 						ui:Grid(2,1)
 							:SetColumn(0, { ui:VBox():PackEnd(cargoNameColumn) })
