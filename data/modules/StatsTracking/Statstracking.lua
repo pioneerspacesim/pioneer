@@ -23,7 +23,7 @@ local onShipDestroyed = function (ship, attacker)
 		if PersistentCharacters.player.killcount == 1 or (PersistentCharacters.player.killcount < 256 and PersistentCharacters.player.killcount % 16 == 0) or (PersistentCharacters.player.killcount % 256 == 0) then
 			-- On the first kill, every 16th kill until 256, and every 256th
 			-- kill thereafter
-			Comms.ImportantMessage(t('Right on, Commander!'),t('Elite Federation of Pilots'))
+			Comms.Message(t('Right on, Commander!'),t('Elite Federation of Pilots'))
 		end
 	elseif PlayerDamagedShips[ship] then
 		PersistentCharacters.player.assistcount = PersistentCharacters.player.assistcount + 1
