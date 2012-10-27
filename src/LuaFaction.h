@@ -7,8 +7,7 @@
 #include "LuaObject.h"
 #include "Factions.h"
 
-//typedef LuaObject<Faction> LuaFaction;
+typedef LuaObject<Faction> LuaFaction;
 class Faction;
-typedef LuaObjectUncopyable<Faction,LuaUncopyable<Faction> > LuaFaction;
 
 #endif

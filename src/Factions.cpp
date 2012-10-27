@@ -14,9 +14,9 @@
 
 const Uint32 Faction::BAD_FACTION_IDX = UINT_MAX;
 
-typedef std::vector<Faction>  FactionList;
+typedef std::vector<Faction*>  FactionList;
 typedef FactionList::iterator FactionIterator;
-static FactionList            s_factions;
+static FactionList s_factions;
 
 // ------- Faction --------
 
@@ -26,7 +26,7 @@ static Faction **l_fac_check_ptr(lua_State *L, int idx) {
 	Faction **facptr = static_cast<Faction**>(
 		luaL_checkudata(L, idx, LuaFaction_TypeName));
 	if (!(*facptr)) {
-		luaL_argerror(L, idx, "invalid body (this body has already been used)");
+		luaL_argerror(L, idx, "invalid faction (this faction has already been added)");
 		abort();
 	}
 	return facptr;
@@ -190,7 +190,8 @@ static int l_fac_add_to_factions(lua_State *L)
 
 	printf("l_fac_add_to_factions: added '%s' [%s]\n", (*facptr)->name.c_str(), factionName.c_str());
 
-	s_factions.push_back(**facptr);
+	s_factions.push_back(*facptr);
+	*facptr = 0;
 
 	return 0;
 }
@@ -268,13 +269,16 @@ void Faction::Init()
 
 void Faction::Uninit()
 {
+	for (FactionIterator it = s_factions.begin(); it != s_factions.end(); ++it) {
+		delete *it;
+	}
 	s_factions.clear();
 }
 
 Faction *Faction::GetFaction(const Uint32 index)
 {
 	assert( index < s_factions.size() );
-	return &s_factions[index];
+	return s_factions[index];
 }
 
 const Uint32 Faction::GetNumFactions()
@@ -297,7 +301,7 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 	if( a != Polit::GOV_INVALID )
 	{
 		for (Uint32 index = 0; index < s_factions.size(); ++index) {
-			const Faction &fac = s_factions[index];
+			const Faction &fac = *s_factions[index];
 			if(fac.govType == a) {
 				return index;
 			}
@@ -320,7 +324,7 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 	// iterate
 	Uint32 ret_index = BAD_FACTION_IDX;
 	for (Uint32 index = 0; index < s_factions.size(); ++index) {
-		const Faction &fac = s_factions[index];
+		const Faction &fac = *s_factions[index];
 
 		if( !fac.hasHomeworld && !foundFaction ) {
 			// We've not yet found a faction that we're within the radius of

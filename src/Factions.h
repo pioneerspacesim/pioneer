@@ -8,10 +8,11 @@
 #include "Polit.h"
 #include "vector3.h"
 #include "fixed.h"
+#include "DeleteEmitter.h"
 #include <map>
 #include <utility>
 
-class Faction {
+class Faction : public DeleteEmitter {
 public:
 	static void Init();
 	static void Uninit();
