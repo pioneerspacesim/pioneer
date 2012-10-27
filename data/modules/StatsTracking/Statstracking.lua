@@ -36,6 +36,6 @@ local onShipHit = function (ship, attacker)
 	end
 end
 
-EventQueue.onShipDestroyed:Connect(onShipDestroyed)
+Event.Register("onShipDestroyed",onShipDestroyed)
 --Commented out pending issue #887
---EventQueue.onShipHit:Connect(onShipHit)
+--Event.Register("onShipHit",onShipHit)
