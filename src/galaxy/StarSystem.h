@@ -229,6 +229,11 @@ public:
 	static void ShrinkCache();
 
 	const std::string &GetName() const { return m_name; }
+	void SetName(std::string name);
+
+	const Color GetFactionColour() const;
+	void SetFactionColour(const Color colour);
+
 	SystemPath GetPathOf(const SystemBody *sbody) const;
 	SystemBody *GetBodyByPath(const SystemPath &path) const;
 	static void Serialize(Serializer::Writer &wr, StarSystem *);
@@ -240,8 +245,7 @@ public:
 	int GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 	const Uint32 GetFactionIndex() const { return m_factionIdx; }
-	const Color GetFactionColour() const;
-
+	
 	static float starColors[][3];
 	static float starRealColors[][3];
 	static double starLuminosities[];
@@ -296,6 +300,7 @@ private:
 	std::string m_shortDesc, m_longDesc;
 	SysPolit m_polit;
 	Uint32 m_factionIdx;
+	Color m_custom_color;
 
 	bool m_isCustom;
 	bool m_hasCustomBodies;

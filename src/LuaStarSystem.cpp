@@ -328,6 +328,56 @@ static int l_starsystem_distance_to(lua_State *l)
 }
 
 /*
+ * Method: SetName
+ *
+ * Sets the name of the system.
+ *
+ * Availability:
+ *
+ *   alpha 28
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_starsystem_set_name(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	s->SetName(luaL_checkstring(l, 2));
+	lua_settop(l, 1);
+	return 1;
+}
+
+/*
+ * Method: SetFactionColour
+ *
+ * Sets a custom Faction colour. This is the colour the 
+ * system will be shown as in the Sector View.
+ *
+ * Availability:
+ *
+ *   alpha 28
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_starsystem_set_faction_colour(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	const float r = luaL_checknumber(l, 2);
+	const float g = luaL_checknumber(l, 3);
+	const float b = luaL_checknumber(l, 4);
+	const float a = luaL_checknumber(l, 5);
+
+	s->SetFactionColour(Color(r,g,b,a));
+
+	lua_settop(l, 1);
+
+	return 1;
+}
+
+/*
  * Attribute: name
  *
  * The name of the system. This is usually the same as the name of the primary
@@ -347,6 +397,7 @@ static int l_starsystem_attr_name(lua_State *l)
 	lua_pushstring(l, s->GetName().c_str());
 	return 1;
 }
+
 
 /*
  * Attribute: path
@@ -368,6 +419,36 @@ static int l_starsystem_attr_path(lua_State *l)
 	LuaSystemPath::PushToLua(&path);
 	return 1;
 }
+
+
+/*
+ * Attribute: factionColour
+ *
+ * The colour the system will be shown as on the Sector View.
+ * Usually this the same colour as that of the faction the system
+ * belongs to.
+ *
+ * Availability:
+ *
+ *   alpha 28
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_starsystem_attr_faction_colour(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	Color colour = s->GetFactionColour();
+
+	lua_newtable(l);
+	pi_lua_settable(l, "r", colour.r);
+	pi_lua_settable(l, "g", colour.g);
+	pi_lua_settable(l, "b", colour.b);
+	pi_lua_settable(l, "a", colour.a);
+	return 1;
+}
+
 
 /*
  * Attribute: lawlessness
@@ -449,12 +530,16 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 
 		{ "DistanceTo", l_starsystem_distance_to },
 
+		{ "SetName",          l_starsystem_set_name },
+		{ "SetFactionColour", l_starsystem_set_faction_colour },
+
 		{ 0, 0 }
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "name", l_starsystem_attr_name },
-		{ "path", l_starsystem_attr_path },
+		{ "name",          l_starsystem_attr_name },
+		{ "path",          l_starsystem_attr_path },
+		{ "factionColour", l_starsystem_attr_faction_colour },
 
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },

@@ -22,26 +22,20 @@ public:
 
 	class System {
 	public:
-		System() : customSys(0), m_queriedStarSystem(false), m_isInhabited(false) {};
+		System() : customSys(0), fullSys(0), inhabited(false) {};
 		~System() {};
-
-		// Check that we've had our habitation status set
-		bool IsSetInhabited() const { return m_queriedStarSystem; }
-		void SetInhabited(bool inhabited) { m_isInhabited = inhabited; m_queriedStarSystem = true; }
-		bool IsInhabited() const { return m_isInhabited; }
 
 		// public members
 		std::string name;
 		vector3f p;
 		int numStars;
+		bool inhabited;
 		SystemBody::BodyType starType[4];
 		Uint32 seed;
-		const CustomSystem *customSys;
 		Color factionColour;
 
-	private:
-		bool m_queriedStarSystem;
-		bool m_isInhabited;
+		const CustomSystem *customSys;
+		RefCountedPtr<StarSystem> fullSys;
 	};
 	std::vector<System> m_systems;
 private:

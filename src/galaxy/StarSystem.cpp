@@ -8,6 +8,9 @@
 #include "Serializer.h"
 #include "Pi.h"
 #include "LuaNameGen.h"
+#include "LuaEvent.h"
+#include "LuaStarSystem.h"
+#include "LuaManager.h"
 #include <map>
 #include "utils.h"
 #include "Lang.h"
@@ -1322,8 +1325,9 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Fact
 	Sector s = Sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ);
 	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s.m_systems.size());
 
-	m_seed = s.m_systems[m_path.systemIndex].seed;
-	m_name = s.m_systems[m_path.systemIndex].name;
+	m_seed         = s.m_systems[m_path.systemIndex].seed;
+	m_name         = s.m_systems[m_path.systemIndex].name;
+	m_custom_color = Color(0.0f,0.0f,0.0f,0.0f);
 
 	unsigned long _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
 	MTRand rand(_init, 6);
@@ -1463,7 +1467,7 @@ try_that_again_guvnah:
 
 #ifdef DEBUG_DUMP
 	Dump();
-#endif /* DEBUG_DUMP */
+#endif /* DEBUG_DUMP */	
 }
 
 #ifdef DEBUG_DUMP
@@ -1889,15 +1893,32 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 	}
 }
 
+void StarSystem::SetName(std::string name)
+{
+	m_name = name;
+}
+
 const Color StarSystem::GetFactionColour() const
 {
-	if (m_factionIdx != Faction::BAD_FACTION_IDX) {
-		const Faction *fac = Faction::GetFaction(m_factionIdx);
-		if( fac ) {
-			return fac->colour;
+	if ((m_custom_color.r == 0.0f) && (m_custom_color.g == 0.0f)		// do we have a better way to compare colors?
+		&&  (m_custom_color.b == 0.0f) && (m_custom_color.a == 0.0f)) {
+
+		if (m_factionIdx != Faction::BAD_FACTION_IDX) {
+			const Faction *fac = Faction::GetFaction(m_factionIdx);
+			if( fac ) {
+				return fac->colour;
+			}
 		}
+		return Color(0.8f,0.8f,0.8f,0.5f);
+	
+	} else {
+		return m_custom_color;
 	}
-	return Color(0.8f,0.8f,0.8f,0.5f);
+}
+
+void StarSystem::SetFactionColour(const Color colour)
+{
+	m_custom_color = colour;
 }
 
 /* percent */
@@ -2217,9 +2238,10 @@ RefCountedPtr<StarSystem> StarSystem::GetCached(const SystemPath &path)
 	std::pair<SystemCacheMap::iterator, bool>
 		ret = s_cachedSystems.insert(SystemCacheMap::value_type(sysPath, static_cast<StarSystem*>(0)));
 	if (ret.second) {
-		s = new StarSystem(sysPath);
+		s = new StarSystem(sysPath);		
+		LuaEvent::Queue("onConfigureStarSystem", s); 
 		ret.first->second = s;
-		s->IncRefCount(); // the cache owns one reference
+		s->IncRefCount(); // the cache owns one reference		
 	} else {
 		s = ret.first->second;
 	}
