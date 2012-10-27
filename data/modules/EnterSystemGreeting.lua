@@ -5,7 +5,7 @@ local loaded
 
 local welcomeHome = function ()
 	local faction = Game.system.faction
-	
+
 	if faction == nil then
 		Comms.ImportantMessage('No faction controls this system... take it whilst it\'s hot!')
 	else

@@ -458,7 +458,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },
-		{ "faction",	 l_starsystem_attr_faction	   },
+		{ "faction",     l_starsystem_attr_faction     },
 
 		{ 0, 0 }
 	};

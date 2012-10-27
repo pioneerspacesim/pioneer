@@ -141,7 +141,7 @@ static int l_faction_attr_founding_date(lua_State *l)
  * Attribute: expansionRate
  *
  * The rate at which the faction has been expanding since it's foundation.
- * Measured in light-years per-year of expansion. 
+ * Measured in light-years per-year of expansion.
  * So for a value of 1.0 the volumes _RADIUS_ will expand by 1 light-year.
  * Used in conjunction with foundingDate it can be used to calculate the volume of occupied space.
  *
@@ -233,16 +233,16 @@ template <> const char *LuaObject<Faction>::s_type = "Faction";
 template <> void LuaObject<Faction>::RegisterClass()
 {
 	static const luaL_Reg l_attrs[] = {
-		{ "name",						l_faction_attr_name					},
-		{ "description_short",			l_faction_attr_description_short    },
-		{ "description",				l_faction_attr_description			},
-		{ "has_homeworld",				l_faction_attr_has_homeworld		},
-		{ "homeworld",					l_faction_attr_homeworld			},
-		{ "founding_date",				l_faction_attr_founding_date		},
-		{ "expansion_rate",				l_faction_attr_expansion_rate		},
-		{ "military_name",				l_faction_attr_military_name		},
-		{ "police_name",				l_faction_attr_police_name			},
-		{ "colour",						l_faction_attr_colour				},
+		{ "name",                l_faction_attr_name               },
+		{ "description_short",   l_faction_attr_description_short  },
+		{ "description",         l_faction_attr_description        },
+		{ "has_homeworld",       l_faction_attr_has_homeworld      },
+		{ "homeworld",           l_faction_attr_homeworld          },
+		{ "founding_date",       l_faction_attr_founding_date      },
+		{ "expansion_rate",      l_faction_attr_expansion_rate     },
+		{ "military_name",       l_faction_attr_military_name      },
+		{ "police_name",         l_faction_attr_police_name        },
+		{ "colour",              l_faction_attr_colour             },
 		{ 0, 0 }
 	};
 
