@@ -86,6 +86,7 @@ Translate:Add({
 		
 		-- Ship Information
 		['Ship information'] = 'Informacje o statku',
+		['Weigth empty:'] = 'Masa minimalna:',
 		['{range} light years ({maxRange} max)'] = '{range} lat świetlnych ({maxRange} maks.)',
 		
 		-- Personal information
