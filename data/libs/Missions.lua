@@ -76,7 +76,7 @@ Mission = {
 		if not row or (type(row) ~= 'table') then
 			error("Missing argument: mission table expected")
 		end
-		if not (type(row.type) == "string") then row.type = '-' end
+		if not (type(row.type) == "string") then row.type = 'NONE' end
 		if not (type(row.client) == "string") then row.client = '-' end
 		if not (type(row.due) == "number") then row.due = 0 end
 		if not (type(row.reward) == "number") then row.reward = 0 end
@@ -155,7 +155,7 @@ Mission = {
 		if not PersistentCharacters.player.missions[ref] then
 			error("Mission reference ",ref," not valid")
 		end
-		if row.type and not (type(row.type) == "string") then row.type = '-' end
+		if row.type and not (type(row.type) == "string") then row.type = 'NONE' end
 		if row.client and not (type(row.client) == "string") then row.client = '-' end
 		if row.due and not (type(row.due) == "number") then row.due = 0 end
 		if row.reward and not (type(row.reward) == "number") then row.reward = 0 end
