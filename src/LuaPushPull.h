@@ -14,7 +14,9 @@ inline void pi_lua_generic_push(lua_State * l, bool value) { lua_pushboolean(l, 
 inline void pi_lua_generic_push(lua_State * l, int value) { lua_pushinteger(l, value); }
 inline void pi_lua_generic_push(lua_State * l, double value) { lua_pushnumber(l, value); }
 inline void pi_lua_generic_push(lua_State * l, const char * value) { lua_pushstring(l, value); }
-inline void pi_lua_generic_push(lua_State * l, const std::string & value) { lua_pushstring(l, value.c_str()); }
+inline void pi_lua_generic_push(lua_State * l, const std::string & value) {
+	lua_pushlstring(l, value.c_str(), value.size());
+}
 inline void pi_lua_generic_push(lua_State * l, LuaTable value) {
 	assert(value.GetLua() == l);
 	lua_pushvalue(l, value.GetIndex());
@@ -31,7 +33,11 @@ inline void pi_lua_generic_pull(lua_State * l, int index, bool & out) { out = lu
 inline void pi_lua_generic_pull(lua_State * l, int index, int & out) { out = lua_tointeger(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, double & out) { out = lua_tonumber(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, const char * & out) { out = lua_tostring(l, index); }
-inline void pi_lua_generic_pull(lua_State * l, int index, std::string & out) { out = lua_tostring(l, index); }
+inline void pi_lua_generic_pull(lua_State * l, int index, std::string & out) {
+	size_t len;
+	const char *buf = lua_tolstring(l, index, &len);
+	std::string(buf, len).swap(out);
+}
 inline void pi_lua_generic_pull(lua_State * l, int index, LuaTable & out) {
 	out = LuaTable(l, index);
 }
