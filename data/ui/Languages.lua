@@ -77,6 +77,28 @@ Translate:Add({
 		-- Load dialog
 		['Select game to load...'] = 'Wybierz zapis do wczytania...',
 
+		-- Equipment
+		['Equipment'] = 'Wyposażenie',
+		['{quantity} Shield Generators'] = 'Genaratory Osłon: {quantity}',
+		['{quantity} Occupied Passenger Cabins'] = 'Zajęte kabiny pasażerskie: {quantity}',
+		['{quantity} Unoccupied Passenger Cabins'] = 'Wolne kabiny pasażerskie: {quantity}',
+		
+		-- Ship Information
+		['Ship information'] = 'Informacje o statku',
+		['{range} light years ({maxRange} max)'] = '{range} lat świetlnych ({maxRange} maks.)',
+		
+		-- Personal information
+		['Personal information'] = 'Informacje o pilocie',
+		['Combat'] = 'Status bojowy',
+		['Rating:'] = 'Klasyfikacja:',
+		['Kills:'] = 'Pokonanych:',
+		['Military'] = 'Status wojskowy',
+		['Rank:'] = 'Ranga:',
+		
+		-- Economy & Trade
+		['Economy & Trade'] = 'Ekonomia i Handel',
+		['Total: '] = 'Łącznie: ',
+		
 		-- Orbital analysis
 		['Orbit'] = 'Orbita',
 		['Orbital Analysis'] = 'Analiza Orbity',
