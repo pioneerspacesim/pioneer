@@ -4,6 +4,7 @@
 #include "TextEntry.h"
 #include "Context.h"
 #include "text/TextureFont.h"
+#include "text/TextSupport.h"
 
 namespace UI {
 
@@ -90,11 +91,16 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 
 	switch (event.keysym.sym) {
 		case SDLK_LEFT:
-			if (m_cursor > 0) m_cursor--;
+			if (m_cursor > 0) {
+				const char *cstr = text.c_str();
+				m_cursor -= Text::utf8_prev_char_offset(cstr + m_cursor, cstr);
+			}
 			break;
 
 		case SDLK_RIGHT:
-			if (m_cursor < text.size()) m_cursor++;
+			if (m_cursor < text.size()) {
+				m_cursor += Text::utf8_next_char_offset(text.c_str() + m_cursor);
+			}
 			break;
 
 		case SDLK_HOME:
@@ -107,22 +113,22 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 
 		case SDLK_BACKSPACE:
 			if (text.size() > 0 && m_cursor > 0) {
-				m_cursor--;
+				const char *cstr = text.c_str();
+				const int len = Text::utf8_prev_char_offset(cstr + m_cursor, cstr);
+				m_cursor -= len;
+				text.erase(m_cursor, len);
 
-				// XXX not UTF-8 safe
-				text.erase(m_cursor, 1);
 				m_label->SetText(text);
-
 				onChange.emit(text);
 			}
 			break;
 
 		case SDLK_DELETE:
 			if (text.size() > m_cursor) {
-				// XXX not UTF-8 safe
-				text.erase(m_cursor, 1);
-				m_label->SetText(text);
+				const int len = Text::utf8_next_char_offset(text.c_str() + m_cursor);
+				text.erase(m_cursor, len);
 
+				m_label->SetText(text);
 				onChange.emit(text);
 			}
 			break;
@@ -164,15 +170,12 @@ void TextEntry::HandleKeyPress(const KeyboardEvent &event)
 			// naively accept anything outside C0 and C1. probably safe enough for
 			// now, but needs revisiting if we one day support rtl, cjk, etc
 			if ((event.keysym.unicode > 0x1f && event.keysym.unicode < 0x7f) || event.keysym.unicode > 0x9f) {
-				// XXX this is just taking the bottom 8 bits, breaking unicode
-				char s[2];
-				s[0] = event.keysym.unicode;
-				s[1] = 0;
-				text.insert(m_cursor, s);
-				m_cursor++;
+				char buf[4] = {};
+				const int len = Text::utf8_encode_char(event.keysym.unicode, buf);
+				text.insert(m_cursor, buf, len);
+				m_cursor += len;
 
 				m_label->SetText(text);
-
 				onChange.emit(text);
 			}
 
