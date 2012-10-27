@@ -1,5 +1,8 @@
-#ifndef _GAMEUI_FACE_H
-#define _GAMEUI_FACE_H
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+#ifndef GAMEUI_FACE_H
+#define GAMEUI_FACE_H
 
 #include "ui/Context.h"
 #include "SmartPtr.h"
