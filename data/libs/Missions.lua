@@ -114,7 +114,11 @@ Mission = {
 		if not PersistentCharacters.player.missions[ref] then
 			error("Mission reference ",ref," not valid")
 		end
-		return PersistentCharacters.player.missions[ref]
+		local returnCopy = {}
+		for k,v in pairs(PersistentCharacters.player.missions[ref]) do
+			returnCopy[k] = v
+		end
+		return returnCopy
 	end,
 --
 -- Method: Update
