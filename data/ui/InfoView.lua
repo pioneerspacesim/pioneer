@@ -48,7 +48,7 @@ local shipInfo = function (args)
 		ui:Grid(2,1)
 			:SetColumn(0, {
 				ui:VBox(20):PackEnd({
-					ui:Label(t("Ship information")):SetFont("HEADING_LARGE"),
+					ui:Label(t("Ship Information")):SetFont("HEADING_LARGE"),
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
@@ -159,7 +159,7 @@ local personalInfo = function ()
 		ui:Grid(2,1)
 			:SetColumn(0, {
 				ui:VBox(20):PackEnd({
-					ui:Label(t("Personal information")):SetFont("HEADING_LARGE"),
+					ui:Label(t("Personal Information")):SetFont("HEADING_LARGE"),
 					ui:Label(t("Combat")):SetFont("HEADING_NORMAL"),
 					ui:Grid(2,1)
 						:SetColumn(0, {

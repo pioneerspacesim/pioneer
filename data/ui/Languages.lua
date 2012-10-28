@@ -26,12 +26,12 @@ Translate:Add({
 		['{quantity} Unoccupied Passenger Cabins'] = '{quantity} Unoccupied Passenger Cabins',
 		
 		-- Ship Information
-		['Ship information'] = 'Ship information',
+		['Ship Information'] = 'Ship Information',
 		['Weigth empty:'] = 'Weigth empty:',
 		['{range} light years ({maxRange} max)'] = '{range} light years ({maxRange} max)',
 		
 		-- Personal information
-		['Personal information'] = 'Personal information',
+		['Personal Information'] = 'Personal Information',
 		['Combat'] = 'Combat',
 		['Rating:'] = 'Rating:',
 		['Kills:'] = 'Kills:',
