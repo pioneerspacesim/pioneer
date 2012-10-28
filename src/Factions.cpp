@@ -384,7 +384,7 @@ const Uint32 Faction::GetIndexOfFaction(const std::string factionName)
 	// there has to be a better way than this!
 	Uint32 factionIdx = 0;
 	FactionIterator it=s_factions.begin();
-	while((it!=s_factions.end()) && ((&*it)->name != factionName)) { 
+	while((it!=s_factions.end()) && ((*it)->name != factionName)) { 
 		++it;
 		++factionIdx;
 	}
