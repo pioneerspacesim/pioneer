@@ -4,11 +4,9 @@
 local onConfigureStarSystem = function (star_system)
 
 	local colour     = star_system.factionColour
-	local population = star_system.population / 2
+	local population = (star_system.population / 2) + 0.25
 	
-	if population < 0.1 then
-		colour.a = 0.1
-	elseif population < 1 then 
+	if population < 1 then 
 		colour.a = population
 	else                            
 		colour.a = 1

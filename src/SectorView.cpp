@@ -625,7 +625,6 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		Color labelColor(0.8f,0.8f,0.8f,0.5f);
 		if ((*i).inhabited) {
 			labelColor = (*i).factionColour;
-			// labelColor.a = 0.5f;
 		}
 
 		if (m_inSystem) {
