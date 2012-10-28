@@ -775,40 +775,33 @@ static int l_ship_get_equip_free(lua_State *l)
 }
 
 /*
- * Method: Jettison
+ * Method: SpawnCargo
  *
- * Jettison one unit of the given cargo type
+ * Spawns a container right next to the ship.
  *
- * > success = ship:Jettison(item)
- *
- * On sucessful jettison, the <Event.onJettison> event is triggered.
+ * > success = ship:SpawnCargo(item)
  *
  * Parameters:
  *
- *   item - the item to jettison
+ *  item - the item to put in the container.
  *
  * Result:
  *
- *   success - true if the item was jettisoned, false if the ship has no items
- *             of that type or the ship is not in open flight
+ *   success: true if the container was spawned, false otherwise.
  *
  * Availability:
  *
- *   alpha 10
+ *   alpha 26
  *
  * Status:
  *
  *   experimental
  */
-static int l_ship_jettison(lua_State *l)
-{
+static int l_ship_spawn_cargo(lua_State *l) {
 	Ship *s = LuaShip::GetFromLua(1);
-	if (s->GetFlightState() == Ship::HYPERSPACE)
-		return luaL_error(l, "Ship:Jettison() cannot be called on a ship in hyperspace");
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
-
-	lua_pushboolean(l, s->Jettison(e));
-	return 1;
+	CargoBody * c_body = new CargoBody(static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2))));
+    lua_pushboolean(l, s->SpawnCargo(c_body));
+    return 1;
 }
 
 /*
@@ -1425,7 +1418,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetEquipCount",    l_ship_get_equip_count     },
 		{ "GetEquipFree",     l_ship_get_equip_free      },
 
-		{ "Jettison", l_ship_jettison },
+		{ "SpawnCargo", l_ship_spawn_cargo },
 
 		{ "FireMissileAt", l_ship_fire_missile_at },
 
