@@ -287,6 +287,18 @@ local missions = function ()
 		else
 			missionLocationName = string.format('%s [%d,%d,%d]', mission.location:GetStarSystem().name, mission.location.sectorX, mission.location.sectorY, mission.location.sectorZ)
 		end
+        -- Decide what happens when the button's clicked
+		local button = ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(t(mission.status))))
+		local clickHandler = function ()
+			(({
+				ACTIVE = Mission.GetClick(mission.type),
+				COMPLETED = function (ref)
+								Mission.Remove(ref)
+							end,
+				FAILED = function (ref) return end,
+			})[mission.status])(ref)
+		end
+		button.onClick:Connect(clickHandler)
 		missiongrid:SetRow(count,{
 			ui:Label(t(mission.type)),
 			ui:Label(mission.client),
@@ -296,7 +308,7 @@ local missions = function ()
 			-- To do: Missions can hook code to this button, so that the player can
 			-- read the brief whilst in flight, or get access to whatever information,
 			-- interactive or not, necessary for the mission.
-	        ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(t(mission.status)))),
+			button,
 		})
 		count = count + 1
 	end

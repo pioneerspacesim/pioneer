@@ -115,7 +115,7 @@ Mission = {
 	Get = function (ref)
 		-- Add some reference checking here, or we could be in trouble
 		if not PersistentCharacters.player.missions[ref] then
-			error("Mission reference ",ref," not valid")
+			error("Mission reference not valid")
 		end
 		local returnCopy = {}
 		for k,v in pairs(PersistentCharacters.player.missions[ref]) do
