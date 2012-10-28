@@ -170,8 +170,8 @@ local personalInfo = function ()
 						})
 						:SetColumn(1, {
 							ui:VBox():PackEnd({
-								ui:Label("Harmless"), -- XXX
-								ui:Label("23"),	      -- XXX
+								ui:Label(t(player:GetCombatRating())),
+								ui:Label(string.format('%d',player.killcount)),
 							})
 						}),
 					ui:Label(t("Military")):SetFont("HEADING_NORMAL"),
