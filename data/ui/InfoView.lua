@@ -55,7 +55,7 @@ local shipInfo = function (args)
 								ui:Label(t("HYPERDRIVE")..":"),
 								ui:Label(t("HYPERSPACE_RANGE")..":"),
 								ui:Margin(10),
-								ui:Label(t("Weigth empty:")),								
+								ui:Label(t("Weight empty:")),								
 								ui:Label(t("CAPACITY_USED")..":"),
 								ui:Label(t("FUEL_WEIGHT")..":"),
 								ui:Label(t("TOTAL_WEIGHT")..":"),
