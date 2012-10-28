@@ -216,15 +216,15 @@ static int l_faction_attr_police_name(lua_State *l)
 static int l_faction_attr_colour(lua_State *l)
 {
 	const Faction *faction = LuaFaction::GetFromLua(1);
-	lua_createtable(l, 4, 0);
+	lua_createtable(l, 0, 4);
 	lua_pushnumber(l, faction->colour.r);
-	lua_rawseti(l, -2, 1);
+	lua_setfield(l, -2, "r");
 	lua_pushnumber(l, faction->colour.g);
-	lua_rawseti(l, -2, 2);
+	lua_setfield(l, -2, "g");
 	lua_pushnumber(l, faction->colour.b);
-	lua_rawseti(l, -2, 3);
+	lua_setfield(l, -2, "b");
 	lua_pushnumber(l, faction->colour.a);
-	lua_rawseti(l, -2, 4);
+	lua_setfield(l, -2, "a");
 	return 1;
 }
 
