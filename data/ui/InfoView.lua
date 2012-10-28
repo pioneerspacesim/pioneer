@@ -292,6 +292,8 @@ local missions = function ()
         -- Decide what happens when the button's clicked
 		local button = ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(t(mission.status))))
 		local clickHandler = function ()
+			MissionScreen:Clear():PackEnd(ui:Label('Mission Details'):SetFont('HEADING_LARGE'))
+			:PackEnd(
 			(({
 				ACTIVE = Mission.GetClick(mission.type),
 				COMPLETED = function (ref,ui)
@@ -299,6 +301,7 @@ local missions = function ()
 							end,
 				FAILED = function (ref,ui) return end,
 			})[mission.status])(ref)
+			)
 		end
 		button.onClick:Connect(clickHandler)
 		missiongrid:SetRow(count,{
