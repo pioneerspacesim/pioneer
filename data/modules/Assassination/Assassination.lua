@@ -71,8 +71,7 @@ local onChat = function (form, ref, option)
 		local mission = {
 			type		= "Assassination",
 			backstation	= backstation,
-			boss		= ad.client.name,
-			client		= ad.shipname .. "\n(" .. ad.shipregid .. ")",
+			client		= ad.client,
 			danger		= ad.danger,
 			due		= ad.due,
 			flavour		= ad.flavour,
@@ -188,7 +187,6 @@ local onShipDestroyed = function (ship, body)
 				mission.notplayer = 'TRUE'
 			else -- well done, comrade
 				mission.status = 'COMPLETED'
-				mission.client = mission.boss
 				mission.location = mission.backstation
 				mission.notplayer = 'FALSE'
 			end
@@ -280,7 +278,7 @@ local onShipDocked = function (ship, station)
 					target	= mission.target,
 					cash	= Format.Money(mission.reward),
 				})
-				Comms.ImportantMessage(text, mission.boss)
+				Comms.ImportantMessage(text, mission.client.name)
 				ship:AddMoney(mission.reward)
 				Mission.Remove(ref)
 				missions[ref] = nil
@@ -296,7 +294,7 @@ local onShipDocked = function (ship, station)
 						target	= mission.target,
 					})
 				end
-				Comms.ImportantMessage(text, mission.boss)
+				Comms.ImportantMessage(text, mission.client.name)
 				Mission.Remove(ref)
 				missions[ref] = nil
 			end
