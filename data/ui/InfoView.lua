@@ -263,6 +263,8 @@ local econTrade = function ()
 end
 
 local missions = function ()
+	-- This mission screen
+	local MissionScreen = ui:VBox(10)
 	-- One row for each mission, plus a header
 	local headergrid  = ui:Grid(6,1)
 	local missiongrid = ui:Grid(6,#PersistentCharacters.player.missions)
@@ -292,10 +294,10 @@ local missions = function ()
 		local clickHandler = function ()
 			(({
 				ACTIVE = Mission.GetClick(mission.type),
-				COMPLETED = function (ref)
-								Mission.Remove(ref)
+				COMPLETED = function (ref,ui)
+								Mission.Remove(ref,ui)
 							end,
-				FAILED = function (ref) return end,
+				FAILED = function (ref,ui) return end,
 			})[mission.status])(ref)
 		end
 		button.onClick:Connect(clickHandler)
@@ -313,13 +315,14 @@ local missions = function ()
 		count = count + 1
 	end
 
-	return
-		ui:VBox(10)
+	MissionScreen
 			:PackEnd({
 				ui:Label(t("MISSIONS")):SetFont("HEADING_LARGE"),
 				headergrid
 			})
 			:PackEnd(ui:Scroller():SetInnerWidget(missiongrid))
+
+	return MissionScreen
 end
 
 ui.templates.InfoView = function (args)
