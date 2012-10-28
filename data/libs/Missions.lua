@@ -45,7 +45,7 @@ Mission = {
 -- Add takes a table as its only parameter.  The fields of that table are as follows
 --
 --   type - type of mission.  This can be any translatable string token.
---   client - the name of the person that offered the mission
+--   client - the Character object that offered the mission
 --   due - due date/time, in seconds since 12:00 01-01-3200
 --   reward - reward for mission completion, in dollars
 --   location - a SystemPath for the destination space station
@@ -59,7 +59,7 @@ Mission = {
 --
 -- >  local ref = Mission.Add({
 -- >      'type'     = 'Delivery',
--- >      'client'   = 'Jefferson Ford',
+-- >      'client'   = Character.New()
 -- >      'due'      = Game.time + 3*24*60*60,    -- three days
 -- >      'reward'   = 123.45,
 -- >      'location' = SystemPath:New(0,0,0,0,16),  -- Mars High, Sol
@@ -80,7 +80,14 @@ Mission = {
 			error("Missing argument: mission table expected")
 		end
 		if not (type(row.type) == "string") then row.type = 'NONE' end
-		if not (type(row.client) == "string") then row.client = '-' end
+		if not row.client then row.client = Character.New() end
+		if not (
+			type(row.client) == "table" and
+			getmetatable(row.client) and
+			getmetatable(row.client).class == 'Character'
+		) then
+			error("Mission.Add: client must be a Character object")
+		end
 		if not (type(row.due) == "number") then row.due = 0 end
 		if not (type(row.reward) == "number") then row.reward = 0 end
 		if not (type(row.location) == "userdata") then row.location = Game.system.path end
@@ -163,7 +170,7 @@ Mission = {
 			error("Mission reference ",ref," not valid")
 		end
 		if row.type and not (type(row.type) == "string") then row.type = 'NONE' end
-		if row.client and not (type(row.client) == "string") then row.client = '-' end
+		if row.client and not (type(row.client) == "table") then row.client = nil end -- Don't replace with junk
 		if row.due and not (type(row.due) == "number") then row.due = 0 end
 		if row.reward and not (type(row.reward) == "number") then row.reward = 0 end
 		if row.location and not (type(row.location) == "userdata") then row.location = Game.system.path end

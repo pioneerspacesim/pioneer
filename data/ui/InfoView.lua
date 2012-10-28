@@ -300,7 +300,7 @@ local missions = function ()
 		button.onClick:Connect(clickHandler)
 		missiongrid:SetRow(count,{
 			ui:Label(t(mission.type)),
-			ui:Label(mission.client),
+			ui:Label(mission.client.name),
 			ui:Label(missionLocationName),
 			ui:Label(Format.Date(mission.due)),
 			ui:Label(Format.Money(mission.reward)),
