@@ -41,6 +41,9 @@ Translate:Add({
 		-- Economy & Trade
 		['Economy & Trade'] = 'Economy & Trade',
 		['Total: '] = 'Total: ',
+
+		-- Missions
+		['Mission Details'] = 'Mission Details',
 		
 		-- Orbital analysis
 		['Orbit'] = 'Orbit',
