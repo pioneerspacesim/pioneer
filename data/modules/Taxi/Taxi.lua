@@ -41,12 +41,12 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.client })
+		form:SetFace(ad.client)
 
 		local sys   = ad.location:GetStarSystem()
 
 		local introtext = string.interp(taxi_flavours[ad.flavour].introtext, {
-			name     = ad.client,
+			name     = ad.client.name,
 			cash     = Format.Money(ad.reward),
 			system   = sys.name,
 			sectorx  = ad.location.sectorX,
@@ -87,8 +87,7 @@ local onChat = function (form, ref, option)
 
 		local mission = {
 			type	 = "Taxi",
-			client	 = ad.client .. "\n[ " .. ad.group .. " ]",
-			boss     = ad.client,
+			client	 = ad.client,
 			location = ad.location,
 			risk	 = ad.risk,
 			reward	 = ad.reward,
@@ -132,8 +131,7 @@ local nearbysystems
 local makeAdvert = function (station)
 	local reward, due, location
 	local taxi_flavours = Translate:GetFlavours('Taxi')
-	local isfemale = Engine.rand:Integer(1) == 1
-	local client = NameGen.FullName(isfemale)
+	local client = Character.New()
 	local flavour = Engine.rand:Integer(1,#taxi_flavours)
 	local urgency = taxi_flavours[flavour].urgency
 	local risk = taxi_flavours[flavour].risk
@@ -249,7 +247,7 @@ local onEnterSystem = function (player)
 			end
 
 			if ship then
-				local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], { client = mission.boss,})
+				local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], { client = mission.client.name,})
 				Comms.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
@@ -257,7 +255,7 @@ local onEnterSystem = function (player)
 		if not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
 			Mission.Update(ref, mission)
-			Comms.ImportantMessage(taxi_flavours[mission.flavour].wherearewe, mission.boss)
+			Comms.ImportantMessage(taxi_flavours[mission.flavour].wherearewe, mission.client.name)
 		end
 	end
 end
@@ -276,9 +274,9 @@ local onShipDocked = function (player, station)
 			local taxi_flavours = Translate:GetFlavours('Taxi')
 
 			if Game.time > mission.due then
-				Comms.ImportantMessage(taxi_flavours[mission.flavour].failuremsg, mission.boss)
+				Comms.ImportantMessage(taxi_flavours[mission.flavour].failuremsg, mission.client.name)
 			else
-				Comms.ImportantMessage(taxi_flavours[mission.flavour].successmsg, mission.boss)
+				Comms.ImportantMessage(taxi_flavours[mission.flavour].successmsg, mission.client.name)
 				player:AddMoney(mission.reward)
 			end
 
@@ -298,7 +296,7 @@ local onShipUndocked = function (player, station)
 	for ref,mission in pairs(missions) do
 		remove_passengers(mission.group)
 
-		Comms.ImportantMessage(t("Hey!?! You are going to pay for this!!!"), mission.boss)
+		Comms.ImportantMessage(t("Hey!?! You are going to pay for this!!!"), mission.client.name)
 		Mission.Remove(ref)
 		missions[ref] = nil
 	end
