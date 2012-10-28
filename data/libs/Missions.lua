@@ -18,6 +18,9 @@ local MissionStatus = {
 	FAILED = true,
 }
 
+-- Registered mission click functions go here
+local MissionClickHandler = {}
+
 --
 -- Group: Methods
 --
@@ -192,4 +195,75 @@ Mission = {
 	Remove = function (ref)
 		table.remove(PersistentCharacters.player.missions, ref)
 	end,
+--
+-- Method: RegisterClick
+--
+-- Register a handler function for the mission list button
+--
+-- > Mission.RegisterClick(type, handler)
+--
+-- Parameters:
+--
+--   type - the mission type, as seen in the Mission.Add() example
+--          handler - a function to be run when the "Active" button is
+--          clicked. Handler is passed a reference compatible with
+--          Mission.Get() and may return an Engine.ui instance, which
+--          will be displayed on screen if not nil.
+--
+-- Example:
+--
+-- > Mission.RegisterClick('Race',function (ref)
+-- >   local race = races[ref] -- Assuming some local table of races for example
+-- >   Comms.Message(string.interp('Stage {stage}: You are in position {pos}',{stage=race.stage, pos=race.pos}))
+-- > end) -- Not returning a UI in this small example
+--
+-- Availability:
+--
+-- alpha 28
+--
+-- Status:
+--
+-- experimental
+--
+	RegisterClick = function (missiontype, handler)
+		if not (type(missiontype) == 'string') then
+			error('Mission.RegisterClick: type must be a translatable string token')
+		end
+		if not (type(handler) == 'function') then
+			error('Mission.RegisterClick: handler must be a function')
+		end
+		MissionClickHandler[missiontype] = handler
+	end,
+--
+-- Method: GetClick
+--
+-- Internal method to retrieve a handler function for the mission list button.
+-- Normally called from InfoView/Missions, but could be useful elsewhere.
+--
+-- > handler = Mission.GetClick(type)
+--
+-- Parameters:
+--
+--   type - the mission type, as seen in the Mission.Add() example
+--          handler - a function to be run when the "Active" button is
+--          clicked. Handler is passed a reference compatible with
+--          Mission.Get() and may return an Engine.ui instance, which
+--          will be displayed on screen if not nil.
+--
+-- Returns:
+--
+--   handler - a function to be connected to the missions form 'Active'
+--             button.
+--
+-- Availability:
+--
+-- alpha 28
+--
+-- Status:
+--
+-- experimental
+--
+	GetClick = function (missiontype)
+		return MissionClickHandler[missiontype] or function () return end
+	end
 }
