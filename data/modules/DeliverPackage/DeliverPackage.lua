@@ -26,13 +26,13 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.client })
+		form:SetFace(ad.client)
 
 		local sys   = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
 
 		local introtext = string.interp(delivery_flavours[ad.flavour].introtext, {
-			name     = ad.client,
+			name     = ad.client.name,
 			cash     = Format.Money(ad.reward),
 			starport = sbody.name,
 			system   = sys.name,
@@ -102,8 +102,7 @@ local nearbysystems
 local makeAdvert = function (station)
 	local reward, due, location, nearbysystem
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
-	local isfemale = Engine.rand:Integer(1) == 1
-	local client = NameGen.FullName(isfemale)
+	local client = Character.New()
 	local flavour = Engine.rand:Integer(1,#delivery_flavours)
 	local urgency = delivery_flavours[flavour].urgency
 	local risk = delivery_flavours[flavour].risk
@@ -230,7 +229,7 @@ local onEnterSystem = function (player)
 
 			if ship then
 				local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], {
-					client = mission.client, location = mission.location,})
+					client = mission.client.name, location = mission.location,})
 				Comms.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
@@ -257,9 +256,9 @@ local onShipDocked = function (player, station)
 		if mission.location == station.path then
 
 			if Game.time > mission.due then
-				Comms.ImportantMessage(delivery_flavours[mission.flavour].failuremsg, mission.client)
+				Comms.ImportantMessage(delivery_flavours[mission.flavour].failuremsg, mission.client.name)
 			else
-				Comms.ImportantMessage(delivery_flavours[mission.flavour].successmsg, mission.client)
+				Comms.ImportantMessage(delivery_flavours[mission.flavour].successmsg, mission.client.name)
 				player:AddMoney(mission.reward)
 			end
 
