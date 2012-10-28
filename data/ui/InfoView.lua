@@ -15,7 +15,7 @@ local shipInfo = function (args)
 	local stats = Game.player:GetStats()
 
 	local equipColumn = { {}, {} }
-	local t = 1
+	local columnNum = 1
 	for i = 1,#Constants.EquipType do
 		local type = Constants.EquipType[i]
 		local et = EquipType.GetEquipType(type)
@@ -25,21 +25,21 @@ local shipInfo = function (args)
 			if count > 0 then
 				if count > 1 then
 					if type == "SHIELD_GENERATOR" then
-						table.insert(equipColumn[t],
+						table.insert(equipColumn[columnNum],
 							ui:Label(string.interp(t("{quantity} Shield Generators"), { quantity = string.format("%d", count) })))
 					elseif type == "PASSENGER_CABIN" then
-						table.insert(equipColumn[t],
+						table.insert(equipColumn[columnNum],
 							ui:Label(string.interp(t("{quantity} Occupied Passenger Cabins"), { quantity = string.format("%d", count) })))
 					elseif type == "UNOCCUPIED_CABIN" then
-						table.insert(equipColumn[t],
+						table.insert(equipColumn[columnNum],
 							ui:Label(string.interp(t("{quantity} Unoccupied Passenger Cabins"), { quantity = string.format("%d", count) })))
 					else
-						table.insert(equipColumn[t], ui:Label(et.name))
+						table.insert(equipColumn[columnNum], ui:Label(et.name))
 					end
 				else
-					table.insert(equipColumn[t], ui:Label(et.name))
+					table.insert(equipColumn[columnNum], ui:Label(et.name))
 				end
-				t = t == 1 and 2 or 1
+				columnNum = columnNum == 1 and 2 or 1
 			end
 		end
 	end
