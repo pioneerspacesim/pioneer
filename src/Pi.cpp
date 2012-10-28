@@ -28,6 +28,7 @@
 #include "LuaConsole.h"
 #include "LuaConstants.h"
 #include "LuaEngine.h"
+#include "LuaFaction.h"
 #include "LuaFileSystem.h"
 #include "LuaEquipType.h"
 #include "LuaFormat.h"
@@ -197,6 +198,7 @@ static void LuaInit()
 	LuaShipType::RegisterClass();
 	LuaEquipType::RegisterClass();
 	LuaRand::RegisterClass();
+	LuaFaction::RegisterClass();
 
 	LuaObject<LuaChatForm>::RegisterClass();
 

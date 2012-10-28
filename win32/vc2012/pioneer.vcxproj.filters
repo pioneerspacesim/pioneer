@@ -408,6 +408,9 @@
     <ClCompile Include="..\..\src\Tombstone.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaFaction.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -858,6 +861,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Tombstone.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaFaction.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
