@@ -833,7 +833,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	}
 
 #ifdef DEBUG_AUTOPILOT
-//if (m_ship->IsType(Object::PLAYER))
+if (m_ship->IsType(Object::PLAYER)) {
 if(m_targetShip != 0)
 	printf("    %s %.0f %.0f %.0f, %.0f %.0f %.0f\n    %s %.0f %.0f %.0f, %.0f %.0f %.0f\n    %s %.0f %.0f %.0f, %.0f %.0f %.0f, %s %s, %.3f\n", m_ship->GetLabel().c_str(),
 		m_ship->GetVelocity().x, m_ship->GetVelocity().y, m_ship->GetVelocity().z,
@@ -847,11 +847,12 @@ if(m_targetShip != 0)
 		m_ship->GetFrame()->GetLabel().c_str(), m_targetShip->GetFrame()->GetLabel().c_str(),
 		(m_ship->GetVelocity() - m_targetShip->GetVelocity()).Length() );
 
-printf("Autopilot of %s: dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, crit = %.3f, fuel = %.3f, exhaust = %.0f, safeVel = %.0f, state = %i\n",
-	m_ship->GetLabel().c_str(),
-	targdist, relvel.Length(), m_ship->GetThrusterState().z, reldir.Dot(m_reldir),
-	relvel.Dot(reldir)/(relvel.Length()+1e-7), m_ship->GetFuel(),
-	m_ship->GetShipType().effectiveExhaustVelocity , haveFuelToReachThisVelSafely, m_state);
+	printf("Autopilot of %s, type %s: dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, crit = %.3f, fuel = %.3f, exhaust = %.0f, safeVel = %.0f, state = %i\n",
+			m_ship->GetLabel().c_str(), m_ship->GetLmrModel()->GetName(),
+			targdist, relvel.Length(), m_ship->GetThrusterState().z, reldir.Dot(m_reldir),
+			relvel.Dot(reldir)/(relvel.Length()+1e-7), m_ship->GetFuel(),
+			m_ship->GetShipType().effectiveExhaustVelocity , haveFuelToReachThisVelSafely, m_state);
+}
 #endif
 
 	Body *body = m_frame->GetBodyFor();
@@ -890,6 +891,17 @@ printf("Autopilot of %s: dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f,
 	// linear thrust
 	double ang, maxdecel = GetMaxDecel(m_ship, reldir, m_state, &ang);
 	maxdecel -= GetGravityAtPos(m_targframe, m_posoff);
+
+	#ifdef DEBUG_AUTOPILOT
+	//if (m_ship->IsType(Object::PLAYER)) {
+		printf("Autopilot of %s, type %s: myDecel = %.1f = %.1f %.1f %.1f / %.1f, gravity = %.1f\n",
+			m_ship->GetLabel().c_str(), m_ship->GetLmrModel()->GetName(),
+			GetMaxDecel(m_ship, reldir, m_state, &ang),
+			m_ship->GetAccelFwd(), m_ship->GetAccelRev(), m_ship->GetAccelMin(), m_ship->GetMass(),
+			GetGravityAtPos(m_targframe, m_posoff));
+	//}
+	#endif
+
 	if(maxdecel <= 0) { m_ship->AIMessage(Ship::AIERROR_GRAV_TOO_HIGH); return true; }
 	bool cap = m_ship->AIMatchPosVel2(reldir, targdist, relvel, endvel, maxdecel);
 
@@ -954,6 +966,11 @@ printf("Autopilot of %s: dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f,
 bool AICmdDock::TimeStepUpdate()
 {
 	if (!ProcessChild()) return false;
+	else {
+		if(m_ship->AIMessage() == Ship::AIERROR_GRAV_TOO_HIGH) {// forward GRAV_TOO_HIGH error from autopilot
+			m_ship->AIMessage(Ship::AIERROR_GRAV_TOO_HIGH); return true;
+		}
+	}
 	if (!m_target) return true;
 	if (m_state == 1) m_state = 2;				// finished moving into dock start pos
 	if (m_ship->GetFlightState() != Ship::FLYING) {		// todo: should probably launch if docked with something else
