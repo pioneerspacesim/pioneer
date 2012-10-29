@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _FRAME_H
 #define _FRAME_H
 
@@ -9,7 +12,7 @@
 class Body;
 class CollisionSpace;
 class Geom;
-class SBody;
+class SystemBody;
 class Sfx;
 class Space;
 
@@ -50,7 +53,7 @@ public:
 	bool IsRotatingFrame() const { return !is_zero_general(m_angVel.Length()); }
 	bool IsStationRotFrame() const;
 	// snoops into parent frames so beware
-	SBody *GetSBodyFor() const;
+	SystemBody *GetSystemBodyFor() const;
 	Body *GetBodyFor() const;
 	void UpdateOrbitRails(double time, double timestep);
 
@@ -75,10 +78,10 @@ public:
 	/* if parent is null then frame position is absolute */
 	Frame *m_parent;
 	std::list<Frame*> m_children;
-	SBody *m_sbody; // points to SBodies in Pi::current_system
+	SystemBody *m_sbody; // points to SBodies in Pi::current_system
 	Body *m_astroBody; // if frame contains a star or planet or something
 	Sfx *m_sfx;
-	
+
 	enum { TEMP_VIEWING=1 };
 private:
 	void Init(Frame *parent, const char *label, unsigned int flags);

@@ -1,9 +1,11 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Gui.h"
 #include "text/TextSupport.h"
 #include "utils.h"
 
-#define LINE_SPACING      1.25f
-#define PARAGRAPH_SPACING 1.75f
+static const float PARAGRAPH_SPACING = 1.5f;
 
 namespace Gui {
 
@@ -17,7 +19,7 @@ static void init_clip_test()
 	if (glIsEnabled(GL_CLIP_PLANE1)) {
 		glGetClipPlane(GL_CLIP_PLANE1, _clip[0]);
 		glGetClipPlane(GL_CLIP_PLANE3, _clip[1]);
-		
+
 		glGetDoublev (GL_MODELVIEW_MATRIX, &m[0]);
 		_clipoffset.x = m[12];
 		_clipoffset.y = m[13];
@@ -177,7 +179,7 @@ void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
 		} else {
 			for (int j=0; j<num; j++) wpos++;
 		}
-		py += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : LINE_SPACING);
+		py += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
 	}
 	glPopMatrix();
 }
@@ -230,7 +232,7 @@ void TextLayout::_MeasureSizeRaw(const float layoutWidth, float outSize[2]) cons
 			wpos++;
 		}
 		if (lineLen > outSize[0]) outSize[0] = lineLen;
-		outSize[1] += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : LINE_SPACING);
+		outSize[1] += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
 	}
 	if (outSize[1] > 0.0f)
 		outSize[1] += m_font->GetDescender();

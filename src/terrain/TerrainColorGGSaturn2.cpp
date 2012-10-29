@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Terrain.h"
 #include "TerrainNoise.h"
 #include "TerrainFeature.h"
@@ -9,9 +12,9 @@ template <>
 const char *TerrainColorFractal<TerrainColorGGSaturn2>::GetColorFractalName() const { return "GGSaturn2"; }
 
 template <>
-TerrainColorFractal<TerrainColorGGSaturn2>::TerrainColorFractal(const SBody *body) : Terrain(body)
+TerrainColorFractal<TerrainColorGGSaturn2>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
-	double height = m_maxHeightInMeters*0.1;
+	const double height = m_maxHeightInMeters*0.1;
 	//spot + clouds
 	SetFracDef(0, height, 3e7, 10.0*m_fracmult);
 	SetFracDef(1, height, 9e7, 1000.0*m_fracmult);

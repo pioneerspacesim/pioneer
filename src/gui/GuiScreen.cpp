@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Gui.h"
 #include "vector3.h"		// for projection
 
@@ -81,14 +84,22 @@ void Screen::ClearFocus()
 
 void Screen::ShowBadError(const char *msg)
 {
-	fprintf(stderr, "%s", msg);
-	baseContainer->HideChildren();
-	
+	// to make things simple for ourselves, we want to hide all the existing widgets
+	// however, if we do it through baseContainer->HideChildren() then we lose track of
+	// which widgets should be shown again when the red-screen is cleared.
+	// So to avoid this problem we don't hide anything, we just temporarily swap to
+	// a different base container which is just used for this red-screen
+
+	Gui::Fixed *oldBaseContainer = Screen::baseContainer;
+	Screen::baseContainer = new Gui::Fixed();
+	Screen::baseContainer->SetSize(float(Screen::width), float(Screen::height));
+	Screen::baseContainer->Show();
+
 	Gui::Fixed *f = new Gui::Fixed(6*GetWidth()/8.0f, 6*GetHeight()/8.0f);
 	Gui::Screen::AddBaseWidget(f, GetWidth()/8, GetHeight()/8);
 	f->SetTransparency(false);
 	f->SetBgColor(0.4f,0,0,1.0f);
-	f->Add(new Gui::Label(msg), 10, 10);
+	f->Add(new Gui::Label(msg, TextLayout::ColourMarkupNone), 10, 10);
 
 	Gui::Button *okButton = new Gui::LabelButton(new Gui::Label("Ok"));
 	okButton->SetShortcut(SDLK_RETURN, KMOD_NONE);
@@ -101,9 +112,9 @@ void Screen::ShowBadError(const char *msg)
 		SDL_Delay(10);
 	} while (!okButton->IsPressed());
 
-	Gui::Screen::RemoveBaseWidget(f);
-	delete f;
-	baseContainer->ShowAll();
+	delete f; // Gui::Fixed does a horrible thing and calls Gui::Screen::RemoveBaseWidget(this) in its destructor
+	delete Screen::baseContainer;
+	Screen::baseContainer = oldBaseContainer;
 }
 
 bool Screen::Project(const vector3d &in, vector3d &out)
@@ -122,7 +133,7 @@ void Screen::EnterOrtho()
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
@@ -133,7 +144,7 @@ void Screen::EnterOrtho()
 }
 
 void Screen::LeaveOrtho()
-{	
+{
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
@@ -164,7 +175,7 @@ void Screen::RemoveBaseWidget(Widget *w)
 {
 	baseContainer->Remove(w);
 }
-	
+
 void Screen::SDLEventCoordToScreenCoord(int sdlev_x, int sdlev_y, float *x, float *y)
 {
 	*y = sdlev_y*height*invRealHeight;
@@ -226,6 +237,13 @@ float Screen::GetFontHeight(Text::TextureFont *font)
     if (!font) font = GetFont().Get();
 
 	return font->GetHeight() * fontScale[1];
+}
+
+float Screen::GetFontDescender(Text::TextureFont *font)
+{
+    if (!font) font = GetFont().Get();
+
+	return font->GetDescender() * fontScale[1];
 }
 
 void Screen::MeasureString(const std::string &s, float &w, float &h, Text::TextureFont *font)

@@ -79,6 +79,8 @@ WEIGHT_FULLY_LADEN
     Weight fully loaded
 CAPACITY
     Capacity
+CAPACITY_USED
+	Capacity used
 FORWARD_ACCEL_EMPTY
     Forward accel (empty)
 NUMBER_G
@@ -127,7 +129,7 @@ WELCOME_TO_SOMEWHERE
 # write anything you like here.  It will appear in every space station
 # in the whole galaxy.
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Hello, traveller.  Welcome to our little blue play-pen.  If it's your first time here, feel free to get acquainted with the residents.  We hope you enjoy your stay.\n\nPlease remember that renovations are under way, and that scenery may change between visits.
+    Hello, traveller.  Welcome to our little blue play-pen.  If it's your first time here, feel free to get acquainted with the residents.  We hope you enjoy your stay.\nPlease remember that renovations are under way, and that scenery may change between visits.
 REQUEST_LAUNCH
     Request Launch
 SHIPYARD
@@ -214,14 +216,18 @@ LOAD_A_GAME
     [L] Load a game
 EXIT_THIS_GAME
     Exit this game
+RETURN_TO_MENU
+    Return to menu
 WINDOW_OR_FULLSCREEN
     Windowed or fullscreen (restart to apply)
 FULL_SCREEN
     Full screen
+COMPRESS_TEXTURES
+	Compress Textures
 OTHER_GRAPHICS_SETTINGS
-    Other graphics settings
+    Other graphics settings (restart to apply)
 USE_SHADERS
-    Use shaders (restart to apply)
+    Use shaders
 SOUND_SETTINGS
     Sound settings
 VOL_MASTER
@@ -256,7 +262,7 @@ DISPLAY_NAV_TUNNEL
 	Display navigation tunnel
 LANGUAGE_SELECTION
     Language (restart game to apply)
- 
+
 # Wares
 NONE
     None
@@ -328,14 +334,14 @@ RUBBISH
     Rubbish
 RADIOACTIVES
     Radioactive waste
- 
+
 # Hardware
 MISSILE_UNGUIDED
     R40 Unguided Rocket
 MISSILE_GUIDED
-    Guided Missile                                                     
+    Guided Missile
 MISSILE_SMART
-    Smart Missile                                                   
+    Smart Missile
 MISSILE_NAVAL
     Naval Missile
 ATMOSPHERIC_SHIELDING
@@ -480,8 +486,12 @@ HYPERDRIVE
     Hyperdrive
 FREE
     Free
+FREE_LOWERCASE
+    free
 USED
     Used
+FUEL_WEIGHT
+    Fuel weight
 TOTAL_WEIGHT
     All-up weight
 FRONT_WEAPON
@@ -494,10 +504,12 @@ NO_MOUNTING
     no mounting
 N_LIGHT_YEARS_N_MAX
     %distance{f.1} light years (%maxdistance{f.1} max)
+MAX
+	max
 SHIP_INFORMATION
     Ship information
-REPUTATION
-    Reputation
+PERSONAL
+    Personal
 MISSIONS
     Missions
 SHIFT
@@ -596,7 +608,7 @@ POOR
     Poor
 AVERAGE
     Average
-ABOVE_AVERAGE 
+ABOVE_AVERAGE
     Above Average
 COMPETENT
     Competent
@@ -610,18 +622,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulating evolution of the universe: %age{f.1} billion years ;-)
 TOMBSTONE_EPITAPH
     RIP OLD BEAN
-MM_START_NEW_GAME_EARTH
-    New game starting on Earth
-MM_START_NEW_GAME_E_ERIDANI
-    New game starting on Epsilon Eridani
-MM_START_NEW_GAME_LAVE
-    New game starting at Lave
-MM_START_NEW_GAME_DEBUG
-    New game starting on debug point
-MM_LOAD_SAVED_GAME
-    Load a saved game
-MM_QUIT
-    Quit
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -740,14 +740,34 @@ SHIP_IS_FULLY_LADEN
     Your ship is fully laden.
 YOU_DO_NOT_HAVE_ANY_X
     You do not have any %item.
-FRONT_VIEW
-    Front view
-REAR_VIEW
-    Rear view
+CAMERA_FRONT_VIEW
+	Front camera
+CAMERA_REAR_VIEW
+	Rear camera
+CAMERA_LEFT_VIEW
+	Left camera
+CAMERA_TOP_VIEW
+	Top camera
+CAMERA_RIGHT_VIEW
+	Right camera
+CAMERA_BOTTOM_VIEW
+	Bottom camera
+INTERNAL_VIEW
+    Internal view	
 EXTERNAL_VIEW
     External view
 SIDEREAL_VIEW
     Sidereal view
+ROTATE_UP
+	Rotate Up
+ROTATE_DOWN
+	Rotate Down
+ROTATE_LEFT
+    Rotate Left	
+ROTATE_RIGHT
+    Rotate Right
+RESET
+    Reset
 NAVIGATION_STAR_MAPS
     Navigation and star maps
 COMMS
@@ -1011,7 +1031,9 @@ ECONOMIC_INFO
 DEMOGRAPHICS
     Demographics
 STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
-    Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}.
+    Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}
+COUNT_ON_SURFACE
+    " (%surfacecount on surface)"
 BODY
     body
 BODIES
@@ -1024,6 +1046,8 @@ ECONOMY_TYPE
     Economy type:
 ALLEGIANCE
     Allegiance:
+FACTION
+	Faction:
 POPULATION
     Population:
 OVER_N_BILLION
@@ -1047,7 +1071,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Semi-major axis
 TIME_POINT
-    Time point: 
+    Time point:
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     Unexplored system. System view unavailable.
 WHEELS_ARE_UP
@@ -1126,8 +1150,8 @@ PROBABILITY_OF_ARRIVAL_X_PERCENT
     Probability of arrival: %probability%%
 ALT_IN_METRES
     Alt: %altitude{f.0}m
-PRESSURE_N_BAR
-    P: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    P: %pressure{f.2} atm
 NO_HYPERDRIVE
     No hyperdrive
 MASS_N_TONNES
@@ -1198,3 +1222,29 @@ X_PASSENGER_CABINS
     %quantity Occupied Passenger Cabins
 CABINS
     Cabins
+MONTH_JAN
+    Jan
+MONTH_FEB
+    Feb
+MONTH_MAR
+    Mar
+MONTH_APR
+    Apr
+MONTH_MAY
+    May
+MONTH_JUN
+    Jun
+MONTH_JUL
+    Jul
+MONTH_AUG
+    Aug
+MONTH_SEP
+    Sep
+MONTH_OCT
+    Oct
+MONTH_NOV
+    Nov
+MONTH_DEC
+    Dec
+MISCELLANEOUS
+    Miscellaneous

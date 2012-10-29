@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Pi.h"
 #include "ShipCpanel.h"
@@ -18,23 +21,6 @@
 // XXX duplicated in WorldView. should probably be a theme variable
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.8f);
 
-class CameraSwitchWidget : public Gui::Widget {
-public:
-	CameraSwitchWidget(ShipCpanel *panel, WorldView::CamType camType) : m_panel(panel), m_camType(camType) {}
-
-	virtual void Draw() {}
-	virtual void GetSizeRequested(float size[2]) { size[0] = size[1] = 0.0f; }
-
-	virtual void OnActivate() {
-		if (Pi::GetView() == Pi::worldView)
-			m_panel->SwitchToCamera(m_camType);
-	}
-
-private:
-	ShipCpanel *m_panel;
-	WorldView::CamType m_camType;
-};
-
 ShipCpanel::ShipCpanel(Graphics::Renderer *r): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
 {
 	m_scanner = new ScannerWidget(r);
@@ -47,6 +33,8 @@ ShipCpanel::ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r): Gui::Fixe
 	m_scanner = new ScannerWidget(r, rd);
 
 	InitObject();
+
+	m_camButton->SetActiveState(rd.Int32());
 }
 
 void ShipCpanel::InitObject()
@@ -54,6 +42,7 @@ void ShipCpanel::InitObject()
 	SetTransparency(true);
 
 	Gui::Image *img = new Gui::Image("icons/cpanel.png");
+	img->SetRenderDimensions(800, 80);
 	Add(img, 0, 0);
 
 	m_currentMapView = MAP_SECTOR;
@@ -80,50 +69,56 @@ void ShipCpanel::InitObject()
 	Gui::ImageRadioButton *b = new Gui::ImageRadioButton(0, "icons/timeaccel0.png", "icons/timeaccel0_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_PAUSED));
 	b->SetShortcut(SDLK_ESCAPE, KMOD_LSHIFT);
+	b->SetRenderDimensions(22, 18);
 	Add(b, 0, 36);
 	m_timeAccelButtons[0] = b;
-	
+
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel1.png", "icons/timeaccel1_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_1X));
 	b->SetShortcut(SDLK_F1, KMOD_LSHIFT);
 	b->SetSelected(true);
+	b->SetRenderDimensions(22, 18);
 	Add(b, 22, 36);
 	m_timeAccelButtons[1] = b;
-	
+
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel2.png", "icons/timeaccel2_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_10X));
 	b->SetShortcut(SDLK_F2, KMOD_LSHIFT);
+	b->SetRenderDimensions(22, 18);
 	Add(b, 44, 36);
 	m_timeAccelButtons[2] = b;
-	
+
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel3.png", "icons/timeaccel3_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_100X));
 	b->SetShortcut(SDLK_F3, KMOD_LSHIFT);
+	b->SetRenderDimensions(22, 18);
 	Add(b, 66, 36);
 	m_timeAccelButtons[3] = b;
-	
+
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel4.png", "icons/timeaccel4_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_1000X));
 	b->SetShortcut(SDLK_F4, KMOD_LSHIFT);
+	b->SetRenderDimensions(22, 18);
 	Add(b, 88, 36);
 	m_timeAccelButtons[4] = b;
-	
+
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel5.png", "icons/timeaccel5_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_10000X));
 	b->SetShortcut(SDLK_F5, KMOD_LSHIFT);
+	b->SetRenderDimensions(22, 18);
 	Add(b, 110, 36);
 	m_timeAccelButtons[5] = b;
-		
+
 	m_leftButtonGroup = new Gui::RadioGroup();
 	m_camButton = new Gui::MultiStateImageButton();
 	m_leftButtonGroup->Add(m_camButton);
 	m_camButton->SetSelected(true);
-	m_camButton->AddState(WorldView::CAM_FRONT, "icons/cam_front.png", "icons/cam_front_on.png", Lang::FRONT_VIEW);
-	m_camButton->AddState(WorldView::CAM_REAR, "icons/cam_rear.png", "icons/cam_rear_on.png", Lang::REAR_VIEW);
+	m_camButton->AddState(WorldView::CAM_INTERNAL, "icons/cam_internal.png", "icons/cam_internal_on.png", Lang::INTERNAL_VIEW);
 	m_camButton->AddState(WorldView::CAM_EXTERNAL, "icons/cam_external.png", "icons/cam_external_on.png", Lang::EXTERNAL_VIEW);
 	m_camButton->AddState(WorldView::CAM_SIDEREAL, "icons/cam_sidereal.png", "icons/cam_sidereal_on.png", Lang::SIDEREAL_VIEW);
 	m_camButton->SetShortcut(SDLK_F1, KMOD_NONE);
 	m_camButton->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeCamView));
+	m_camButton->SetRenderDimensions(30, 22);
 	Add(m_camButton, 2, 56);
 
 	Gui::MultiStateImageButton *map_button = new Gui::MultiStateImageButton();
@@ -132,6 +127,7 @@ void ShipCpanel::InitObject()
 	map_button->SetShortcut(SDLK_F2, KMOD_NONE);
 	map_button->AddState(0, "icons/cpan_f2_map.png", "icons/cpan_f2_map_on.png", Lang::NAVIGATION_STAR_MAPS);
 	map_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeToMapView));
+	map_button->SetRenderDimensions(30, 22);
 	Add(map_button, 34, 56);
 
 	Gui::MultiStateImageButton *info_button = new Gui::MultiStateImageButton();
@@ -140,6 +136,7 @@ void ShipCpanel::InitObject()
 	info_button->SetShortcut(SDLK_F3, KMOD_NONE);
 	info_button->AddState(0, "icons/cpan_f3_shipinfo.png", "icons/cpan_f3_shipinfo_on.png", Lang::SHIP_INFORMATION);
 	info_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeInfoView));
+	info_button->SetRenderDimensions(30, 22);
 	Add(info_button, 66, 56);
 
 	Gui::MultiStateImageButton *comms_button = new Gui::MultiStateImageButton();
@@ -148,63 +145,58 @@ void ShipCpanel::InitObject()
 	comms_button->SetShortcut(SDLK_F4, KMOD_NONE);
 	comms_button->AddState(0, "icons/comms_f4.png", "icons/comms_f4_on.png", Lang::COMMS);
 	comms_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickComms));
+	comms_button->SetRenderDimensions(30, 22);
 	Add(comms_button, 98, 56);
 
 	m_clock = (new Gui::Label(""))->Color(1.0f,0.7f,0.0f);
 	Add(m_clock, 4, 18);
-	
+
 	m_rightButtonGroup = new Gui::RadioGroup();
 	b = new Gui::ImageRadioButton(m_rightButtonGroup, "icons/map_sector_view.png", "icons/map_sector_view_on.png");
 	m_rightButtonGroup->SetSelected(0);
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_SECTOR));
 	b->SetShortcut(SDLK_F5, KMOD_NONE);
 	b->SetToolTip(Lang::GALAXY_SECTOR_VIEW);
+	b->SetRenderDimensions(30, 22);
 	Add(b, 674, 56);
 	m_mapViewButtons[0] = b;
 	b = new Gui::ImageRadioButton(m_rightButtonGroup, "icons/map_system_view.png", "icons/map_system_view_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_SYSTEM));
 	b->SetShortcut(SDLK_F6, KMOD_NONE);
 	b->SetToolTip(Lang::SYSTEM_ORBIT_VIEW);
+	b->SetRenderDimensions(30, 22);
 	Add(b, 706, 56);
 	m_mapViewButtons[1] = b;
 	b = new Gui::ImageRadioButton(m_rightButtonGroup, "icons/map_sysinfo_view.png", "icons/map_sysinfo_view_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_INFO));
 	b->SetShortcut(SDLK_F7, KMOD_NONE);
 	b->SetToolTip(Lang::STAR_SYSTEM_INFORMATION);
+	b->SetRenderDimensions(30, 22);
 	Add(b, 738, 56);
 	m_mapViewButtons[2] = b;
 	b = new Gui::ImageRadioButton(m_rightButtonGroup, "icons/map_galactic_view.png", "icons/map_galactic_view_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_GALACTIC));
 	b->SetShortcut(SDLK_F8, KMOD_NONE);
 	b->SetToolTip(Lang::GALACTIC_VIEW);
+	b->SetRenderDimensions(30, 22);
 	Add(b, 770, 56);
 	m_mapViewButtons[3] = b;
 
 	img = new Gui::Image("icons/alert_green.png");
 	img->SetToolTip(Lang::NO_ALERT);
+	img->SetRenderDimensions(20, 13);
 	Add(img, 780, 37);
 	m_alertLights[0] = img;
 	img = new Gui::Image("icons/alert_yellow.png");
 	img->SetToolTip(Lang::SHIP_NEARBY);
+	img->SetRenderDimensions(20, 13);
 	Add(img, 780, 37);
 	m_alertLights[1] = img;
 	img = new Gui::Image("icons/alert_red.png");
 	img->SetToolTip(Lang::LASER_FIRE_DETECTED);
+	img->SetRenderDimensions(20, 13);
 	Add(img, 780, 37);
 	m_alertLights[2] = img;
-
-	CameraSwitchWidget *camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_FRONT);
-	camSwitcher->SetShortcut(SDLK_1, KMOD_LSHIFT);
-	Add(camSwitcher,0,0);
-	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_REAR);
-	camSwitcher->SetShortcut(SDLK_2, KMOD_LSHIFT);
-	Add(camSwitcher,0,0);
-	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_EXTERNAL);
-	camSwitcher->SetShortcut(SDLK_3, KMOD_LSHIFT);
-	Add(camSwitcher,0,0);
-	camSwitcher = new CameraSwitchWidget(this, WorldView::CAM_SIDEREAL);
-	camSwitcher->SetShortcut(SDLK_4, KMOD_LSHIFT);
-	Add(camSwitcher,0,0);
 
 	m_overlay[OVERLAY_TOP_LEFT]     = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_TOP_RIGHT]    = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -246,7 +238,7 @@ void ShipCpanel::ChangeMultiFunctionDisplay(multifuncfunc_t f)
 	if (f == MFUNC_SCANNER) selected = m_scanner;
 	if (f == MFUNC_EQUIPMENT) selected = m_useEquipWidget;
 	if (f == MFUNC_MSGLOG) selected = m_msglog;
-	
+
 	Remove(m_scanner);
 	Remove(m_useEquipWidget);
 	Remove(m_msglog);
@@ -304,16 +296,12 @@ void ShipCpanel::Draw()
 	Gui::Fixed::Draw();
 }
 
-void ShipCpanel::SwitchToCamera(WorldView::CamType t)
-{
-	Pi::BoinkNoise();
-	Pi::worldView->SetCamType(t);
-	m_camButton->SetActiveState(int(Pi::worldView->GetCamType()));
-}
-
 void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 {
-	SwitchToCamera(WorldView::CamType(b->GetState()));
+	Pi::BoinkNoise();
+	const int newState = b->GetState();
+	b->SetActiveState(newState);
+	Pi::worldView->SetCamType(WorldView::CamType(newState));
 	Pi::SetView(Pi::worldView);
 }
 
@@ -412,6 +400,7 @@ void ShipCpanel::TimeStepUpdate(float step)
 void ShipCpanel::Save(Serializer::Writer &wr)
 {
 	m_scanner->Save(wr);
+	wr.Int32(m_camButton->GetState());
 }
 
 void ShipCpanel::SetOverlayText(OverlayTextPos pos, const std::string &text)

@@ -1,15 +1,19 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _LUA_MODEL_COMPILER_H
 #define _LUA_MODEL_COMPILER_H
 
 #include <map>
 #include <vector>
 #include <sigc++/sigc++.h>
-#include "MyLuaMathTypes.h"
 
 // LMR = Lua Model Renderer
 class LmrGeomBuffer;
 class LmrCollMesh;
 class GeomTree;
+
+struct lua_State;
 
 namespace Graphics { class Renderer; }
 

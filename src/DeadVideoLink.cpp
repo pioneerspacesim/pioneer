@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "DeadVideoLink.h"
 #include "Pi.h"
 #include "Lang.h"
@@ -7,14 +10,14 @@ static const int textureSize = 512;
 DeadVideoLink::DeadVideoLink(float w, float h) : VideoLink(w, h)
 {
 	m_created = SDL_GetTicks();
-	m_message = new Gui::ToolTip(Lang::VID_LINK_DOWN);
+	m_message = new Gui::ToolTip(0, Lang::VID_LINK_DOWN);
 
 	Graphics::TextureDescriptor descriptor(Graphics::TEXTURE_RGB, vector2f(textureSize), Graphics::LINEAR_CLAMP);
 	m_texture.Reset(Gui::Screen::GetRenderer()->CreateTexture(descriptor));
 	m_quad.Reset(new Gui::TexturedQuad(m_texture.Get()));
 
 	UpdateWhiteNoise();
-}	
+}
 
 DeadVideoLink::~DeadVideoLink()
 {

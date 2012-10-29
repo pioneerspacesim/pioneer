@@ -1,10 +1,13 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Renderer.h"
 #include "Texture.h"
 
 namespace Graphics {
 
 Renderer::Renderer(int w, int h) :
-	m_width(w), m_height(h)
+	m_width(w), m_height(h), m_ambient(Color::BLACK)
 {
 
 }

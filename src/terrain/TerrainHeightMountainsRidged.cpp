@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Terrain.h"
 #include "TerrainNoise.h"
 
@@ -7,7 +10,7 @@ template <>
 const char *TerrainHeightFractal<TerrainHeightMountainsRidged>::GetHeightFractalName() const { return "MountainsRidged"; }
 
 template <>
-TerrainHeightFractal<TerrainHeightMountainsRidged>::TerrainHeightFractal(const SBody *body) : Terrain(body)
+TerrainHeightFractal<TerrainHeightMountainsRidged>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
 	SetFracDef(0, m_maxHeightInMeters, m_rand.Double(1e6,1e7));
 	double height = m_maxHeightInMeters*0.9;
@@ -62,9 +65,9 @@ double TerrainHeightFractal<TerrainHeightMountainsRidged>::GetHeight(const vecto
 			GetFracDef(3).amplitude * mountains2*mountains2*mountains2*mountains2;
 		if (n > 0.2) n += mountains2 * (n - 0.2) ;
 		if (n < 0.2) n += mountains * n * 5.0f ;
-		else n += mountains  ; 
+		else n += mountains  ;
 	}
-	
+
 	n = m_maxHeight*n;
-	return (n > 0.0 ? n : 0.0); 
+	return (n > 0.0 ? n : 0.0);
 }

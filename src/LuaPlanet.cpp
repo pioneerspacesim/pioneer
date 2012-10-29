@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaPlanet.h"
 #include "LuaUtils.h"
 
@@ -7,11 +10,6 @@
  * Class representing a planet. Inherits from <Body>.
  */
 
-static bool promotion_test(DeleteEmitter *o)
-{
-	return dynamic_cast<Planet*>(o);
-}
-
 template <> const char *LuaObject<Planet>::s_type = "Planet";
 
 template <> void LuaObject<Planet>::RegisterClass()
@@ -19,5 +17,5 @@ template <> void LuaObject<Planet>::RegisterClass()
 	const char *l_parent = "Body";
 
 	LuaObjectBase::CreateClass(s_type, l_parent, NULL, NULL, NULL);
-	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Planet>::DynamicCastPromotionTest);
 }

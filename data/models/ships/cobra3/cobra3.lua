@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_model('cobra_mk3', {
 	info = {
 			lod_pixels = { 50, 100, 200, 0 },
@@ -10,10 +13,10 @@ define_model('cobra_mk3', {
 	    set_material('text', .6,.6,.6,1,.3,.3,.3,5)
 		use_material('default')
 	    texture('cobra3_redux.png')
-		load_obj('cobra3_redux.obj', Matrix.new(v(-39,0,0),v(0,33,0),v(0,0,-35)))
+		load_obj('cobra3_redux.obj', matrix.new(v(-39,0,0),v(0,33,0),v(0,0,-35)))
 	end,
 	dynamic = function(lod)
-		
+
 		if lod > 1 then
 			use_material('text')
 			local reg = get_label()
@@ -21,9 +24,9 @@ define_model('cobra_mk3', {
 			text(reg,v(16,0.42,1), v(0,1,-.63), v(-1,.041,-.95), 3, {center = true})
 			zbias(1,v(-16,0.42,1), v(0,1,-.63))
 			text(reg,v(-16,0.42,1), v(0,1,-.63), v(-1,-.041,.95), 3, {center = true})
-			zbias(0)	
+			zbias(0)
 		end
-		
+
 		if get_animation_position('WHEEL_STATE') ~= 0 then
       		-- wheels
 			local v73 = v(0.0, -1.4, -5.5)
@@ -48,7 +51,7 @@ define_model('cobra_mk3', {
 				billboard('smoke.png', 10, v(1,1,1), { v(0,-4.95,11.375) })
 			end
 		end
-		
+
 		if get_animation_position('WHEEL_STATE') == 0 then
 			local lightphase = math.fmod(get_time('SECONDS'), 1)
 			if lightphase > .9 then
@@ -59,7 +62,7 @@ define_model('cobra_mk3', {
 				billboard('smoke.png', 10, v(1,1,1), { v(0,4.95,11.375) })
 			end
 		end
-				
+
 		local vBackThruster = v(7, 0, 12) -- last number is how far back down the ship it is
 		local vFrontThruster = v(4, -.2, -12)
 

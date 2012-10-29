@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 --[[
 define_model('octaeder1', {
 	info = {
@@ -44,7 +47,7 @@ define_model('octaeder1', {
 		quad(v19,v18,v22,v23)
 		quad(v12,v13,v21,v20)
 		xref_quad(v16,v14,v20,v22)
-		
+
 		xref_tri(v0,v4,v6) -- all tris
 		xref_tri(v2,v8,v10)
 		xref_tri(v20,v14,v12)
@@ -52,13 +55,13 @@ define_model('octaeder1', {
 
 		set_material('wins', .7, .8, .9, 1, .7, .8 , .9, 100) -- light blue for the windows, so far
 		use_material('wins')
-		extrusion( v(0,4.7,0), v(0,3.5,0), v(0,0,-1), 1.0, 
+		extrusion( v(0,4.7,0), v(0,3.5,0), v(0,0,-1), 1.0,
 			v(2,-7,0), v(-2,-7,0), v(-2,-7.05,0), v(2,-7.05,0)) -- makes that thing looking like somekind of window
 
-		extrusion( v(0,4.7,0), v(0,3.5,0), v(0,0,1), 1.0, 
+		extrusion( v(0,4.7,0), v(0,3.5,0), v(0,0,1), 1.0,
 			v(2,-7,0), v(-2,-7,0), v(-2,-7.05,0), v(2,-7.05,0))
 
-		extrusion( v(0,4.7,0), v(0,3.5,0), v(1,0,0), 1.0, 
+		extrusion( v(0,4.7,0), v(0,3.5,0), v(1,0,0), 1.0,
 			v(2,-7,0), v(-2,-7,0), v(-2,-7.05,0), v(2,-7.05,0))
 
 

@@ -1,23 +1,13 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _LUASTARSYSTEM_H
 #define _LUASTARSYSTEM_H
 
 #include "LuaObject.h"
-#include "StarSystem.h"
+#include "galaxy/StarSystem.h"
 
-// this is a specialisation for the starsystem acquirer. it modifies the
-// refcount so that it doesn't get removed from the system cache while we're
-// using it
-template <>
-class LuaAcquirer<StarSystem> {
-public:
-	virtual void OnAcquire(StarSystem *o) {
-		o->IncRefCount();
-	}
-	virtual void OnRelease(StarSystem *o) {
-		o->DecRefCount();
-	}
-};
-
+template <> class LuaAcquirer<StarSystem> : public LuaAcquirerRefCounted {};
 typedef LuaObject<StarSystem> LuaStarSystem;
 
 #endif

@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 --
 -- Class: FlightLog
 --
@@ -220,8 +223,8 @@ local unserialize = function (data)
     loaded_data = data
 end
 
-EventQueue.onEnterSystem:Connect(AddSystemArrivalToLog)
-EventQueue.onLeaveSystem:Connect(AddSystemDepartureToLog)
-EventQueue.onShipUndocked:Connect(AddStationToLog)
-EventQueue.onGameStart:Connect(onGameStart)
+Event.Register("onEnterSystem", AddSystemArrivalToLog)
+Event.Register("onLeaveSystem", AddSystemDepartureToLog)
+Event.Register("onShipUndocked", AddStationToLog)
+Event.Register("onGameStart", onGameStart)
 Serializer:Register("FlightLog", serialize, unserialize)

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Terrain.h"
 #include "TerrainNoise.h"
 
@@ -7,7 +10,7 @@ template <>
 const char *TerrainColorFractal<TerrainColorIce>::GetColorFractalName() const { return "Ice"; }
 
 template <>
-TerrainColorFractal<TerrainColorIce>::TerrainColorFractal(const SBody *body) : Terrain(body)
+TerrainColorFractal<TerrainColorIce>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
 }
 
@@ -35,7 +38,7 @@ vector3d TerrainColorFractal<TerrainColorIce>::GetColor(const vector3d &p, doubl
 	col = interpolate_color(equatorial_region_2, m_darkrockColor[1], col );
 	col = interpolate_color(equatorial_desert, col, vector3d(.96, .95, .94));
 	// scale by different colours depending on height for more variation
-	if (n > .666) {  
+	if (n > .666) {
 		n -= 0.666; n*= 3.0;
 		col = interpolate_color(n, vector3d(.96, .95, .94), col);
 		col = interpolate_color(flatness, color_cliffs, col);
@@ -47,7 +50,7 @@ vector3d TerrainColorFractal<TerrainColorIce>::GetColor(const vector3d &p, doubl
 		col = interpolate_color(flatness, color_cliffs, col);
 		return col;
 	}
-	else {   
+	else {
 		n *= 3.0;
 		col = interpolate_color(n, vector3d(.96, .95, .94), col);
 		col = interpolate_color(flatness, color_cliffs, col);

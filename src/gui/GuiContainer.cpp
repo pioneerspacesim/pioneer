@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Gui.h"
 #include "GuiContainer.h"
 
@@ -117,6 +120,9 @@ void Container::RemoveAllChildren()
 
 void Container::PrependChild(Widget *child, float x, float y)
 {
+	assert(child->GetParent() == 0);
+	assert(FindChild(child) == m_children.end());
+
 	widget_pos wp;
 	wp.w = child;
 	wp.pos[0] = x; wp.pos[1] = y;
@@ -124,9 +130,12 @@ void Container::PrependChild(Widget *child, float x, float y)
 	child->SetParent(this);
 	m_children.push_front(wp);
 }
-	
+
 void Container::AppendChild(Widget *child, float x, float y)
 {
+	assert(child->GetParent() == 0);
+	assert(FindChild(child) == m_children.end());
+
 	widget_pos wp;
 	wp.w = child;
 	wp.pos[0] = x; wp.pos[1] = y;
@@ -137,27 +146,36 @@ void Container::AppendChild(Widget *child, float x, float y)
 
 void Container::MoveChild(Widget *child, float x, float y)
 {
-	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		if ((*i).w == child) {
-			(*i).pos[0] = x;
-			(*i).pos[1] = y;
-			return;
-		}
+	std::list<widget_pos>::iterator it = FindChild(child);
+	if (it != m_children.end()) {
+		it->pos[0] = x;
+		it->pos[1] = y;
 	}
 }
 
 void Container::RemoveChild(Widget *child)
 {
-	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		if ((*i).w == child) {
-			child->SetParent(0);
-			m_children.erase(i);
-			return;
-		}
+	std::list<widget_pos>::iterator it = FindChild(child);
+	if (it != m_children.end()) {
+		it->w->SetParent(0);
+		m_children.erase(it);
 	}
 }
 
-	
+Container::WidgetList::const_iterator Container::FindChild(const Widget *w) const
+{
+	for (std::list<widget_pos>::const_iterator i = m_children.begin(); i != m_children.end(); ++i)
+		if (i->w == w) return i;
+	return m_children.end();
+}
+
+Container::WidgetList::iterator Container::FindChild(const Widget *w)
+{
+	for (std::list<widget_pos>::iterator i = m_children.begin(); i != m_children.end(); ++i)
+		if (i->w == w) return i;
+	return m_children.end();
+}
+
 void Container::Draw()
 {
 	float size[2];
@@ -195,7 +213,7 @@ void Container::Draw()
 #ifdef GUI_DEBUG_CONTAINER
 		float csize[2];
 		(*i).w->GetSize(csize);
-		
+
 		glBegin(GL_LINE_LOOP);
 			glColor3f(0,0,1);
 			glVertex2f(0, csize[1]);
@@ -235,14 +253,10 @@ void Container::HideChildren()
 
 void Container::GetChildPosition(const Widget *child, float outPos[2]) const
 {
-	for (std::list<widget_pos>::const_iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		if ((*i).w == child) {
-			outPos[0] = (*i).pos[0];
-			outPos[1] = (*i).pos[1];
-			return;
-		}
-	}
-	assert(0);
+	WidgetList::const_iterator it = FindChild(child);
+	assert(it != m_children.end());
+	outPos[0] = it->pos[0];
+	outPos[1] = it->pos[1];
 }
 
 void Container::Show()

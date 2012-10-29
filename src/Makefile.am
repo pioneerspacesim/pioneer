@@ -1,5 +1,11 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = collider gui graphics terrain text
+if BUILD_WIN32
+    PLATFORM_SUBDIRS = win32
+endif
+if BUILD_POSIX
+    PLATFORM_SUBDIRS = posix
+endif
+SUBDIRS = collider gui graphics galaxy terrain text ui $(PLATFORM_SUBDIRS)
 
 include $(top_srcdir)/Makefile.common
 
@@ -11,6 +17,7 @@ bin_PROGRAMS = pioneer modelviewer
 noinst_HEADERS = \
 	Aabb.h \
 	AmbientSounds.h \
+	AnimationCurves.h \
 	Background.h \
 	BezierCurve.h \
 	Body.h \
@@ -22,14 +29,16 @@ noinst_HEADERS = \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
+	Cutscene.h \
 	CRC32.h \
-	CustomSystem.h \
 	DeadVideoLink.h \
+	DeathView.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
 	EquipSet.h \
 	EquipType.h \
 	FaceVideoLink.h \
+	Factions.h \
 	FileSelectorWidget.h \
 	FileSystem.h \
 	FontCache.h \
@@ -38,7 +47,6 @@ noinst_HEADERS = \
 	FormController.h \
 	Frame.h \
 	GalacticView.h \
-	Galaxy.h \
 	Game.h \
 	GameLoaderSaver.h \
 	GameMenuView.h \
@@ -46,31 +54,41 @@ noinst_HEADERS = \
 	HyperspaceCloud.h \
 	InfoView.h \
 	IniConfig.h \
+	Intro.h \
 	GameConfig.h \
 	KeyBindings.h \
 	Lang.h \
 	LangStrings.inc.h \
-	Light.h \
 	LmrModel.h \
+	Lua.h \
 	LuaBody.h \
 	LuaCargoBody.h \
 	LuaChatForm.h \
+	LuaComms.h \
 	LuaConsole.h \
 	LuaConstants.h \
+	LuaDev.h \
 	LuaEngine.h \
 	LuaEquipType.h \
-	LuaEventQueue.h \
+	LuaEvent.h \
+	LuaFaction.h \
+	LuaFileSystem.h \
 	LuaFormat.h \
 	LuaGame.h \
 	LuaLang.h \
+	LuaMatrix.h \
+	LuaVector.h \
+	LuaFixed.h \
 	LuaManager.h \
 	LuaMusic.h \
 	LuaNameGen.h \
 	LuaObject.h \
 	LuaPlanet.h \
 	LuaPlayer.h \
+	LuaPushPull.h \
 	LuaRand.h \
-	LuaSBody.h \
+	LuaRef.h \
+	LuaSystemBody.h \
 	LuaSystemPath.h \
 	LuaSerializer.h \
 	LuaShip.h \
@@ -79,20 +97,19 @@ noinst_HEADERS = \
 	LuaSpaceStation.h \
 	LuaStar.h \
 	LuaStarSystem.h \
+	LuaTable.h \
 	LuaTimer.h \
-	LuaUI.h \
 	LuaUtils.h \
 	MarketAgent.h \
 	MathUtil.h \
 	Missile.h \
 	ModelBody.h \
 	ModManager.h \
-	MyLuaMathTypes.h \
 	Object.h \
 	ObjectViewerView.h \
+	OS.h \
 	PersistSystemData.h \
 	Pi.h \
-	PiLuaClasses.h \
 	Planet.h \
 	Player.h \
 	Polit.h \
@@ -101,7 +118,6 @@ noinst_HEADERS = \
 	RefCounted.h \
 	RefList.h \
 	SDLWrappers.h \
-	Sector.h \
 	SectorView.h \
 	Serializer.h \
 	StationAdvertForm.h \
@@ -131,11 +147,10 @@ noinst_HEADERS = \
 	SpaceStation.h \
 	SpaceStationView.h \
 	Star.h \
-	StarSystem.h \
 	SystemInfoView.h \
-	SystemPath.h \
 	SystemView.h \
 	TerrainBody.h \
+	Tombstone.h \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
@@ -164,11 +179,12 @@ pioneer_SOURCES	= \
 	CityOnPlanet.cpp \
 	CommodityTradeWidget.cpp \
 	CRC32.cpp \
-	CustomSystem.cpp \
 	DeadVideoLink.cpp \
+	DeathView.cpp \
 	DynamicBody.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
+	Factions.cpp \
 	FileSelectorWidget.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
@@ -177,7 +193,6 @@ pioneer_SOURCES	= \
 	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
-	Galaxy.cpp \
 	Game.cpp \
 	GameLoaderSaver.cpp \
 	GameMenuView.cpp \
@@ -185,22 +200,30 @@ pioneer_SOURCES	= \
 	HyperspaceCloud.cpp \
 	InfoView.cpp \
 	IniConfig.cpp \
+	Intro.cpp \
 	GameConfig.cpp \
 	KeyBindings.cpp \
-	Light.cpp \
 	Lang.cpp \
 	LmrModel.cpp \
+	Lua.cpp \
 	LuaBody.cpp \
 	LuaCargoBody.cpp \
 	LuaChatForm.cpp \
+	LuaComms.cpp \
 	LuaConsole.cpp \
 	LuaConstants.cpp \
+	LuaDev.cpp \
 	LuaEngine.cpp \
 	LuaEquipType.cpp \
-	LuaEventQueue.cpp \
+	LuaEvent.cpp \
+	LuaFaction.cpp \
+	LuaFileSystem.cpp \
 	LuaFormat.cpp \
 	LuaGame.cpp \
 	LuaLang.cpp \
+	LuaMatrix.cpp \
+	LuaVector.cpp \
+	LuaFixed.cpp \
 	LuaManager.cpp \
 	LuaMusic.cpp \
 	LuaNameGen.cpp \
@@ -208,7 +231,8 @@ pioneer_SOURCES	= \
 	LuaPlanet.cpp \
 	LuaPlayer.cpp \
 	LuaRand.cpp \
-	LuaSBody.cpp \
+	LuaRef.cpp \
+	LuaSystemBody.cpp \
 	LuaSystemPath.cpp \
 	LuaSerializer.cpp \
 	LuaShip.cpp \
@@ -218,23 +242,19 @@ pioneer_SOURCES	= \
 	LuaStar.cpp \
 	LuaStarSystem.cpp \
 	LuaTimer.cpp \
-	LuaUI.cpp \
 	LuaUtils.cpp \
 	MarketAgent.cpp \
 	MathUtil.cpp \
 	Missile.cpp \
 	ModelBody.cpp \
 	ModManager.cpp \
-	MyLuaMathTypes.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
-	PiLuaClasses.cpp \
 	Planet.cpp \
 	Player.cpp \
 	Polit.cpp \
 	Projectile.cpp \
 	SDLWrappers.cpp \
-	Sector.cpp \
 	SectorView.cpp \
 	Serializer.cpp \
 	StationAdvertForm.cpp \
@@ -264,10 +284,10 @@ pioneer_SOURCES	= \
 	SpaceStation.cpp \
 	SpaceStationView.cpp \
 	Star.cpp \
-	StarSystem.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	TerrainBody.cpp \
+	Tombstone.cpp \
 	View.cpp \
 	WorldView.cpp \
 	WorldViewCamera.cpp \
@@ -277,10 +297,26 @@ pioneer_SOURCES	= \
 	utils.cpp \
 	enum_table.cpp
 
-pioneer_LDADD = ../contrib/oolua/liboolua.a ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
-		$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
-		$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
-		$(PNG_LIBS)
+pioneer_LDADD = \
+	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
+	collider/libcollider.a \
+	text/libtext.a \
+	gui/libgui.a \
+	graphics/libgraphics.a \
+	galaxy/libgalaxy.a \
+	terrain/libterrain.a \
+	ui/libui.a
+
+pioneer_LDADD += \
+	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
+	$(PNG_LIBS)
+
+if BUILD_WIN32
+pioneer_LDFLAGS = -Wl,-Map=pioneer.map
+endif
+
 if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
 endif
@@ -294,39 +330,92 @@ modelviewer_SOURCES = \
 	FontConfig.cpp \
 	IniConfig.cpp \
 	Lang.cpp \
+	LuaMatrix.cpp \
+	LuaVector.cpp \
+	LuaFixed.cpp \
 	LmrModel.cpp \
 	LuaModelViewer.cpp \
+	LuaRef.cpp \
 	LuaUtils.cpp \
 	LuaConstants.cpp \
 	ModManager.cpp \
 	EquipType.cpp \
 	ShipType.cpp \
-	MyLuaMathTypes.cpp \
 	SDLWrappers.cpp \
 	StringF.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-modelviewer_LDADD = ../contrib/miniz/libminiz.a collider/libcollider.a text/libtext.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a \
+modelviewer_LDADD = \
+	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
+	collider/libcollider.a \
+	text/libtext.a \
+	gui/libgui.a \
+	graphics/libgraphics.a \
+	terrain/libterrain.a \
+	ui/libui.a \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA
 modelviewer_LDADD += ../contrib/lua/liblua.a
 endif
 
-check_PROGRAMS = tests
+if BUILD_WIN32
+modelviewer_LDFLAGS = -Wl,-Map=modelviewer.map
+endif
+
+check_PROGRAMS = tests uitest
 tests_SOURCES = \
 	StringF.cpp \
 	tests.cpp \
 	test_Frame.cpp \
 	test_StringF.cpp \
 	FileSystem.cpp \
-	FileSystemPosix.cpp \
+	FileSourceZip.cpp \
 	test_FileSystem.cpp
-
 TESTS = tests
- 
-tests_LDADD = collider/libcollider.a gui/libgui.a graphics/libgraphics.a terrain/libterrain.a
+tests_LDADD = \
+	collider/libcollider.a \
+	gui/libgui.a \
+	graphics/libgraphics.a \
+	terrain/libterrain.a \
+    posix/libposix.a \
+	../contrib/miniz/libminiz.a
+
+uitest_SOURCES = \
+	uitest.cpp \
+	Color.cpp \
+	FileSystem.cpp \
+	SDLWrappers.cpp \
+	FontCache.cpp \
+	FontConfig.cpp \
+	IniConfig.cpp \
+	StringF.cpp \
+	Lang.cpp \
+	Lua.cpp \
+	LuaManager.cpp \
+	LuaUtils.cpp \
+	LuaObject.cpp \
+	LuaConstants.cpp \
+	LuaRef.cpp \
+	enum_table.cpp \
+	utils.cpp
+uitest_LDADD = \
+	../contrib/jenkins/libjenkins.a \
+	ui/libui.a \
+	gui/libgui.a \
+	text/libtext.a \
+	graphics/libgraphics.a \
+	posix/libposix.a
+
+uitest_LDADD += \
+	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
+
+if !HAVE_LUA
+uitest_LDADD += ../contrib/lua/liblua.a
+endif
 
 INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA
@@ -334,12 +423,19 @@ INCLUDES += -isystem @top_srcdir@/contrib/lua
 endif
 
 if BUILD_WIN32
-    pioneer_LDADD += ../win32/src/libwin32.a $(MINGW_LIBS)
-    modelviewer_LDADD += ../win32/src/libwin32.a $(MINGW_LIBS)
+    pioneer_LDADD += win32/libwin32.a $(MINGW_LIBS)
+    modelviewer_LDADD += win32/libwin32.a $(MINGW_LIBS)
 endif
 
 if BUILD_POSIX
-    pioneer_SOURCES += FileSystemPosix.cpp
-    modelviewer_SOURCES += FileSystemPosix.cpp
+    pioneer_LDADD += posix/libposix.a
+    modelviewer_LDADD += posix/libposix.a
 endif
 
+if HAVE_WINDRES
+# note: this can't be correctly packed into libwin32.a
+SUFFIXES = .rc
+pioneer_SOURCES += win32/pioneer.rc
+.rc.o:
+	$(AM_V_GEN)$(MXE_WINDRES) $< $@
+endif

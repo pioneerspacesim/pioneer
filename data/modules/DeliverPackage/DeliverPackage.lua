@@ -1,10 +1,13 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 -- Get the translator function
 local t = Translate:GetTranslator()
 
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 30
 -- typical time for travel to a system max_delivery_dist away
-local typical_travel_time = 0.9 * max_delivery_dist * 24 * 60 * 60 
+local typical_travel_time = 0.9 * max_delivery_dist * 24 * 60 * 60
 -- typical reward for delivery to a system max_delivery_dist away
 local typical_reward = 25 * max_delivery_dist
 
@@ -42,7 +45,7 @@ local onChat = function (form, ref, option)
 
 	elseif option == 1 then
 		form:SetMessage(delivery_flavours[ad.flavour].whysomuchtext)
-	
+
 	elseif option == 2 then
 		form:SetMessage(t("It must be delivered by ")..Format.Date(ad.due))
 
@@ -58,7 +61,7 @@ local onChat = function (form, ref, option)
 		elseif ad.risk > 0.8 and ad.risk <= 1 then
 			form:SetMessage(t("This is very risky, you will almost certainly run into resistance."))
 		end
-	
+
 	elseif option == 3 then
 		form:RemoveAdvertOnClose()
 
@@ -192,7 +195,7 @@ local onEnterSystem = function (player)
 			elseif risk >= (0.7 + riskmargin) then ships = 2
 			elseif risk >= (0.5 + riskmargin) then ships = 1
 			end
-			
+
 			-- if there is some risk and still no ships, flip a tricoin
 			if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
 
@@ -208,8 +211,8 @@ local onEnterSystem = function (player)
 				ships = ships-1
 
 				if Engine.rand:Number(1) <= risk then
-					local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-					local shiptype = ShipType.GetShipType(shipname)
+					local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+					local shiptype = ShipType.GetShipType(shipid)
 					local default_drive = shiptype.defaultHyperdrive
 
 					local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
@@ -218,7 +221,7 @@ local onEnterSystem = function (player)
 					end)
 					local laser = lasers[Engine.rand:Integer(1,#lasers)]
 
-					ship = Space.SpawnShipNear(shipname, Game.player, 50, 100)
+					ship = Space.SpawnShipNear(shipid, Game.player, 50, 100)
 					ship:AddEquip(default_drive)
 					ship:AddEquip(laser)
 					ship:AIKill(Game.player)
@@ -228,7 +231,7 @@ local onEnterSystem = function (player)
 			if ship then
 				local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], {
 					client = mission.client, location = mission.location,})
-				UI.ImportantMessage(pirate_greeting, ship.label)
+				Comms.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
 
@@ -254,9 +257,9 @@ local onShipDocked = function (player, station)
 		if mission.location == station.path then
 
 			if Game.time > mission.due then
-				UI.ImportantMessage(delivery_flavours[mission.flavour].failuremsg, mission.client)
+				Comms.ImportantMessage(delivery_flavours[mission.flavour].failuremsg, mission.client)
 			else
-				UI.ImportantMessage(delivery_flavours[mission.flavour].successmsg, mission.client)
+				Comms.ImportantMessage(delivery_flavours[mission.flavour].successmsg, mission.client)
 				player:AddMoney(mission.reward)
 			end
 
@@ -303,12 +306,12 @@ local unserialize = function (data)
 	loaded_data = data
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onUpdateBB:Connect(onUpdateBB)
-EventQueue.onEnterSystem:Connect(onEnterSystem)
-EventQueue.onLeaveSystem:Connect(onLeaveSystem)
-EventQueue.onShipDocked:Connect(onShipDocked)
-EventQueue.onGameStart:Connect(onGameStart)
-EventQueue.onGameEnd:Connect(onGameEnd)
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onUpdateBB", onUpdateBB)
+Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onLeaveSystem", onLeaveSystem)
+Event.Register("onShipDocked", onShipDocked)
+Event.Register("onGameStart", onGameStart)
+Event.Register("onGameEnd", onGameEnd)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)

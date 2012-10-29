@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 -- Wave manned heavy hypersonic fighter
 -- Design inspirations from blackswift project and some decalling inspired by f-22 and a-10 aircraft
 
@@ -121,27 +124,23 @@ define_model('wave', {
 	info = {
 		scale = 1,
 		-- collision mesh pops in at 3 pixels, dark material with a lot of specular to glow at distance, then lod 2 at 12 pixels, change to 20 gives a closer popping in of high res mesh, 10 almost entirely visually avoids it (tested @1080p)
-		lod_pixels={3,12,50,0},
-		bounding_radius = 31,
+		lod_pixels={5,40,60},
+		bounding_radius = 20,
 		materials = {'wave', 'distant', 'text', 'glow'},
 		tags = {'ship'},
 	},
 	static = function(lod)
 		-- material specifications; diffuse r,g,b, alpha trans, specular r,g,b, shinyness, environmental r,g,b
-		set_material('distant',0.15,0.15,0.15,1,1,1,1,0,0.15,0.15,0.15)
-		set_material('wave', 1,1,1, 1, 0.6,0.6,0.6,100,0,0,0)
+		set_material('wave', 1,1,1, 1, 0.6,0.6,0.6,128,0,0,0)
 		set_material('text', .6,.6,.6,1,.3,.3,.3,5)
+		use_material('wave')
+		texture('wave.png')
 		if lod == 1 then
-			use_material('distant')
 			load_obj('wavelod1.obj')
 		elseif lod == 2 then
-			use_material('wave')
-			texture('wave.png')
 			load_obj('wavelod2.obj')
 			texture(nil)
 		else
-			use_material('wave')
-			texture('wave.png')
 			load_obj('wave.obj')
 			use_material('glow')
 			texture('glow.png')
@@ -150,6 +149,7 @@ define_model('wave', {
 		end
 	end,
 	dynamic = function(lod)
+		set_material('wave', get_arg_material(0))
 		if lod > 1 then
 			if lod > 2 then
 				-- glowing parts thanks to s2odan

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _LUACONSOLE_H
 #define _LUACONSOLE_H
 
@@ -25,6 +28,7 @@ public:
 private:
 	bool OnFilterKeys(const SDL_keysym*);
 	void OnKeyPressed(const SDL_keysym*);
+	void UpdateCompletion(const std::string & statement);
 	void ExecOrContinue();
 
 	std::deque<std::string> m_statementHistory;
@@ -34,6 +38,10 @@ private:
 	std::vector<Gui::Label*> m_outputLines;
 	int m_nextOutputLine;
 	const int m_maxOutputLines;
+
+	std::string m_precompletionStatement;
+	std::vector<std::string> m_completionList;
+	unsigned int m_currentCompletion;
 };
 
-#endif /* _LUACHATFORM_H */
+#endif /* _LUACONSOLE_H */

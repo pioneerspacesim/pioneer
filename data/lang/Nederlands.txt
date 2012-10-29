@@ -124,7 +124,7 @@ BULLETIN_BOARD
 WELCOME_TO_SOMEWHERE
     Welkom op %station
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Hallo reiziger, welkom op dit station. We hebben berichten over vandalisme en graffiti ontvangen. Als u in de bewegwijzering fouten of omissies ontdekt, informeert u dan alstublieft een medewerker.\n\nZuurstof is momenteel gratis.
+    Hallo reiziger, welkom op dit station. We hebben berichten over vandalisme en graffiti ontvangen. Als u in de bewegwijzering fouten of omissies ontdekt, informeert u dan alstublieft een medewerker.\nZuurstof is momenteel gratis.
 REQUEST_LAUNCH
     Verzoek om toestemming om te vertrekken
 SHIPYARD
@@ -132,9 +132,9 @@ SHIPYARD
 COMMODITIES_MARKET
     Bezoek goederenmarkt
 SOMEWHERE_COMMODITIES_MARKET
-    goederenmarkt van %station 
+    goederenmarkt van %station
 SOMEWHERE_SHIP_MARKET
-    scheepswerf van %station 
+    scheepswerf van %station
 CONTACT_LOCAL_POLICE
     Bezoek plaatselijke politie
 COMMS_LINK
@@ -180,7 +180,7 @@ COULD_NOT_OPEN_FILENAME
 GAME_LOAD_CORRUPT
     Dit bestand kon niet worden geladen. Het bevat mogelijk fouten of is corrupt.
 GAME_LOAD_CANNOT_OPEN
-    Dit bestand kon niet worden geladen vanwege foutief toegwezen bestandspermissies. 
+    Dit bestand kon niet worden geladen vanwege foutief toegwezen bestandspermissies.
 VERY_LOW
     Zeer laag
 LOW
@@ -245,7 +245,7 @@ INVERT_MOUSE_Y
     Keer y-as van muis om
 LANGUAGE_SELECTION
     Taal (herstart nodig)
- 
+
 # Wares
 NONE
     Geen
@@ -317,14 +317,14 @@ RUBBISH
     Afval
 RADIOACTIVES
     Radioactief afval
- 
+
 # Hardware
 MISSILE_UNGUIDED
     R40 Ongeleide Raket
 MISSILE_GUIDED
-    Geleide Raket                                                     
+    Geleide Raket
 MISSILE_SMART
-    Intelligente Raket                                                   
+    Intelligente Raket
 MISSILE_NAVAL
     Marine Raket
 ATMOSPHERIC_SHIELDING
@@ -342,7 +342,7 @@ SCANNER_DESCRIPTION
 ECM_ADVANCED
     Geavanceerd ECM systeem
 ECM_ADVANCED_DESCRIPTION
-   'Electronic Countermeasure Missile'-verdedigingssysteem. In staat om geavanceerde varianten van doelzoekende raketten te vernietigen.    
+   'Electronic Countermeasure Missile'-verdedigingssysteem. In staat om geavanceerde varianten van doelzoekende raketten te vernietigen.
 SHIELD_GENERATOR
     Schild Generator
 SHIELD_GENERATOR_DESCRIPTION
@@ -567,7 +567,7 @@ POOR
     Armzalig
 AVERAGE
     Gemiddeld
-ABOVE_AVERAGE 
+ABOVE_AVERAGE
     Bovengemiddeld
 COMPETENT
     Competent
@@ -581,16 +581,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Bezig met simuleren: evolutie van het universum - %age{f.1} biljoen jaar ;-)
 TOMBSTONE_EPITAPH
     RIP OUDE KNAR
-MM_START_NEW_GAME_EARTH
-    Nieuw spel, start op Aarde
-MM_START_NEW_GAME_E_ERIDANI
-    Nieuw spel, start op Epsilon Eridani
-MM_START_NEW_GAME_DEBUG
-    Nieuw spel, start op debug punt
-MM_LOAD_SAVED_GAME
-    Laad een save-game
-MM_QUIT
-    Beëindig spel
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -644,7 +634,7 @@ PLANNED_ECONOMY
 NO_CENTRAL_GOVERNANCE
     Geen centrale regering
 EARTH_FEDERATION_COLONIAL_RULE
-    Coloniaal bewind onder Aardse Federatie 
+    Coloniaal bewind onder Aardse Federatie
 EARTH_FEDERATION_DEMOCRACY
     Democratie onder Aardse Federatie
 IMPERIAL_RULE
@@ -705,9 +695,9 @@ SHIP_IS_FULLY_LADEN
     Uw schip is volledig beladen.
 YOU_DO_NOT_HAVE_ANY_X
     U heeft geen %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Zicht voorzijde
-REAR_VIEW
+CAMERA_REAR_VIEW
     Zicht achterzijde
 EXTERNAL_VIEW
     Extern zicht
@@ -1010,7 +1000,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Semi-majore as
 TIME_POINT
-    Tijdspoint: 
+    Tijdspoint:
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     Onverkend systeem. Systeem-overzicht niet beschikbaar.
 WHEELS_ARE_UP
@@ -1073,8 +1063,8 @@ IN_TRANSIT_TO_N_X_X_X
     Onderweg naar %system [%x,%y,%z]
 ALT_IN_METRES
     Alt: %altitude{f.0}m
-PRESSURE_N_BAR
-    P: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    P: %pressure{f.2} atm
 NO_HYPERDRIVE
     Geen hyperaandrijving
 MASS_N_TONNES

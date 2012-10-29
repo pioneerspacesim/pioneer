@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 -- Currently called "turtle" spacecraft, low relative dv (to something a lot bigger), high 3d impulse manned maneuvering vehicle, for uncooperative intercept in a high number threat environment.
 
 -- +++large lateral thrusters for high lateral g, heavy armoured top hull, 360 active sensors, 360 passive sensors, large missile/drone bays, countermeasures, rapid pulsed impulse g handling active gel seating, high automation with man in the loop "vetoe", highly redundant triplex main engines, numerous rcs outlets, jettisonable power module, manual features inc eva friendly design and shielded windows for manual astrogation.

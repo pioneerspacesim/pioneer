@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaPlayer.h"
 #include "LuaSystemPath.h"
 #include "LuaBody.h"
@@ -23,7 +26,6 @@ static void _mission_to_table(lua_State *l, const Mission &m)
 	LUA_DEBUG_START(l);
 
 	lua_newtable(l);
-	pi_lua_table_ro(l);
 
 	pi_lua_settable(l, "ref", m.ref);
 	pi_lua_settable(l, "due", m.due);
@@ -88,7 +90,7 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
 	}
 	else
 		m.status = static_cast<Mission::MissionState>(LuaConstants::GetConstant(l, "MissionStatus", luaL_checkstring(l, -1)));
-	
+
 	lua_pop(l, 2);
 
 	LUA_DEBUG_END(l, -1);
@@ -132,7 +134,7 @@ static void _table_to_mission(lua_State *l, Mission &m, bool create)
  *
  *   status - a <Constants.MissionStatus> string for the current mission
  *            status
- * 
+ *
  * Return:
  *
  *   ref - an integer value for referring to the mission in the future
@@ -246,7 +248,7 @@ static int l_player_update_mission(lua_State *l)
 	const Mission *m = p->missions.Get(ref);
 	if (!m)
 		luaL_error(l, "mission with ref %d not found", ref);
-	
+
 	Mission upm = *m;
 	_table_to_mission(l, upm, false);
 
@@ -306,7 +308,7 @@ static int l_player_get_money(lua_State *l)
 	Player *p = LuaPlayer::GetFromLua(1);
 	lua_pushnumber(l, p->GetMoney()*0.01);
 	return 1;
-} 
+}
 
 /*
  * Method: SetMoney
@@ -333,7 +335,7 @@ static int l_player_set_money(lua_State *l)
 	float m = luaL_checknumber(l, 2);
 	p->SetMoney(Sint64(m*100.0));
 	return 0;
-} 
+}
 
 /*
  * Method: AddMoney
@@ -408,9 +410,9 @@ static int l_player_add_crime(lua_State *l)
  * Return:
  *
  *   target - nil, or a <Body>
- * 
+ *
  * Availability:
- * 
+ *
  *   alpha 15
  *
  * Status:
@@ -435,9 +437,9 @@ static int l_get_nav_target(lua_State *l)
  * Parameters:
  *
  *   target - a <Body> to which to set the navigation target
- * 
+ *
  * Availability:
- * 
+ *
  *   alpha 14
  *
  * Status:
@@ -463,9 +465,9 @@ static int l_set_nav_target(lua_State *l)
  * Return:
  *
  *   target - nil, or a <Body>
- * 
+ *
  * Availability:
- * 
+ *
  *   alpha 15
  *
  * Status:
@@ -490,9 +492,9 @@ static int l_get_combat_target(lua_State *l)
  * Parameters:
  *
  *   target - a <Body> to which to set the combat target
- * 
+ *
  * Availability:
- * 
+ *
  *   alpha 14
  *
  * Status:
@@ -508,18 +510,13 @@ static int l_set_combat_target(lua_State *l)
     return 0;
 }
 
-static bool promotion_test(DeleteEmitter *o)
-{
-	return dynamic_cast<Player*>(o);
-}
-
 template <> const char *LuaObject<Player>::s_type = "Player";
 
 template <> void LuaObject<Player>::RegisterClass()
 {
 	static const char *l_parent = "Ship";
 
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_player_is_player },
 
 		{ "AddMission",    l_player_add_mission    },
@@ -541,5 +538,5 @@ template <> void LuaObject<Player>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, NULL, NULL);
-	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Player>::DynamicCastPromotionTest);
 }

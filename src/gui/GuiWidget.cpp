@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Gui.h"
 #include "vector2.h"
 
@@ -6,6 +9,7 @@ namespace Gui {
 Widget::Widget()
 {
 	m_parent = 0;
+	m_size.w = m_size.h = 0.0f;
 	m_enabled = true;
 	m_visible = false;
 	m_mouseOver = false;
@@ -89,7 +93,7 @@ void Widget::GetAbsolutePosition(float pos[2]) const
 		pos[0] = pos[1] = 0;
 	}
 }
-	
+
 void Widget::OnMouseEnter()
 {
 	m_mouseOver = true;
@@ -100,11 +104,8 @@ void Widget::OnMouseEnter()
 void Widget::OnMouseLeave()
 {
 	m_mouseOver = false;
-	if (m_tooltipWidget) {
-		Screen::RemoveBaseWidget(m_tooltipWidget);
-		delete m_tooltipWidget;
-		m_tooltipWidget = 0;
-	}
+	HideTooltip();
+	assert(!m_tooltipWidget);
 	m_tooltipTimerConnection.disconnect();
 	onMouseLeave.emit();
 }
@@ -128,7 +129,7 @@ void Widget::OnToolTip()
 
 		float pos[2];
 		GetAbsolutePosition(pos);
-		m_tooltipWidget = new ToolTip(text);
+		m_tooltipWidget = new ToolTip(this, text);
 		if (m_tooltipWidget->m_size.w + pos[0] > Screen::GetWidth())
 			pos[0] = Screen::GetWidth() - m_tooltipWidget->m_size.w;
 		if (m_tooltipWidget->m_size.h + pos[1] > Screen::GetHeight())
@@ -142,12 +143,18 @@ void Widget::OnToolTip()
 void Widget::Hide()
 {
 	m_visible = false;
+	HideTooltip();
+	assert(!m_tooltipWidget);
+	m_tooltipTimerConnection.disconnect();
+}
+
+void Widget::HideTooltip()
+{
 	if (m_tooltipWidget) {
 		Screen::RemoveBaseWidget(m_tooltipWidget);
 		delete m_tooltipWidget;
 		m_tooltipWidget = 0;
 	}
-	m_tooltipTimerConnection.disconnect();
 }
 
 void Widget::ResizeRequest()
@@ -164,10 +171,7 @@ void Widget::ResizeRequest()
 Widget::~Widget()
 {
 	onDelete.emit();
-	if (m_tooltipWidget) {
-		Screen::RemoveBaseWidget(m_tooltipWidget);
-		delete m_tooltipWidget;
-	}
+	HideTooltip();
 	Screen::RemoveShortcutWidget(this);
 	m_tooltipTimerConnection.disconnect();
 }

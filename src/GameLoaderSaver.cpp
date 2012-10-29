@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "GameLoaderSaver.h"
 #include "FileSelectorWidget.h"
 #include "Game.h"
@@ -11,6 +14,10 @@ GameLoaderSaver::GameLoaderSaver(FileSelectorWidget::Type type, const std::strin
 
 void GameLoaderSaver::DialogMainLoop()
 {
+	// detach previous view to avoid event leakage
+	View *previousView = Pi::GetView();
+	Pi::SetView(0);
+
 	Gui::Fixed *background = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	background->SetTransparency(false);
 	background->SetBgColor(0,0,0,1.0);
@@ -34,9 +41,12 @@ void GameLoaderSaver::DialogMainLoop()
 	m_done = false;
 	while (!m_done)
 		Gui::MainLoopIteration();
-	
+
 	Gui::Screen::RemoveBaseWidget(background);
 	delete background;
+
+	// restore previous view
+	Pi::SetView(previousView);
 }
 
 void GameLoaderSaver::OnClickLoad(std::string filename)

@@ -1,10 +1,13 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GUITABBED_H
 #define _GUITABBED_H
 
 #include "GuiContainer.h"
 
 namespace Gui {
-	class Tabbed: public Container 
+	class Tabbed: public Container
 	{
 	public:
 		Tabbed();

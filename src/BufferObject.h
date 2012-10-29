@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef BUFFEROBJECT_H
 #define BUFFEROBJECT_H
 
@@ -33,7 +36,7 @@ public:
 		assert(GetVertexSpaceLeft() >= numVertices);
 
 		Graphics::BindArrayBuffer(m_vertexArrayBufferObject);
-		glBufferSubDataARB(GL_ARRAY_BUFFER_ARB, m_vertexPos*VERTEX_SIZE, 
+		glBufferSubDataARB(GL_ARRAY_BUFFER_ARB, m_vertexPos*VERTEX_SIZE,
 			numVertices * VERTEX_SIZE, vtxData);
 		Graphics::BindArrayBuffer(0);
 

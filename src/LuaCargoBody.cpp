@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaCargoBody.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
@@ -18,7 +21,7 @@
  * Availability:
  *
  *  alpha 10
- * 
+ *
  * Status:
  *
  *  experimental
@@ -30,22 +33,17 @@ static int l_cargobody_attr_type(lua_State *l)
 	return 1;
 }
 
-static bool promotion_test(DeleteEmitter *o)
-{
-	return dynamic_cast<CargoBody*>(o);
-}
-
 template <> const char *LuaObject<CargoBody>::s_type = "CargoBody";
 
 template <> void LuaObject<CargoBody>::RegisterClass()
 {
 	const char *l_parent = "Body";
 
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "type", l_cargobody_attr_type },
 		{ 0, 0 }
 	};
 
 	LuaObjectBase::CreateClass(s_type, l_parent, NULL, l_attrs, NULL);
-	LuaObjectBase::RegisterPromotion(l_parent, s_type, promotion_test);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<CargoBody>::DynamicCastPromotionTest);
 }

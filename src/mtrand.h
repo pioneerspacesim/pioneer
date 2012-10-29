@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 // mtrand.h
 // C++ include file for MT19937, with initialization improved 2002/1/26.
 // Coded by Takuji Nishimura and Makoto Matsumoto.
@@ -150,7 +153,7 @@ public:
 	  return (rand_int32()%(1+max-min))+min;
   }
   // [0,max)
-  unsigned int Int32(int max) { return rand_int32()%max; }
+  unsigned int Int32(int max) { assert(max > 0); return rand_int32()%max; }
   unsigned int Int32() { return rand_int32(); }
 private:
   MTRand(const MTRand&); // copy constructor not defined

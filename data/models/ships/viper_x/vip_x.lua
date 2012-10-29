@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_model('vipx_singleg', {
 	info = {
 		lod_pixels = { .1, 50, 100, 0 },
@@ -110,13 +113,13 @@ define_model('vipx_pad', {
 		end
 		use_material('ncv')
 		texture('steel.png')
-		load_obj('vipx_pad0.obj',Matrix.rotate(.5*math.pi,v(0,0,1)))
+		load_obj('vipx_pad0.obj',matrix.rotate(.5*math.pi,v(0,0,1)))
 
 		texture('pad_1.png')
-		load_obj('vipx_pad1.obj',Matrix.rotate(.5*math.pi,v(0,0,1)))
+		load_obj('vipx_pad1.obj',matrix.rotate(.5*math.pi,v(0,0,1)))
 
 		texture('pad_2.png')
-		load_obj('vipx_pad2.obj',Matrix.rotate(.5*math.pi,v(0,0,1)))
+		load_obj('vipx_pad2.obj',matrix.rotate(.5*math.pi,v(0,0,1)))
 	end
 })
 
@@ -227,7 +230,7 @@ define_model('vipx_uc_l', {
 })
 
 --[[
-too sad that Matrix.translate will move the .obj out of it's normals :(
+too sad that matrix.translate will move the .obj out of it's normals :(
 --]]
 
 define_model('vipx_fl_q', {

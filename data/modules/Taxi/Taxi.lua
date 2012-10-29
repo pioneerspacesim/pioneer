@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 -- Get the translator function
 local t = Translate:GetTranslator()
 
@@ -221,8 +224,8 @@ local onEnterSystem = function (player)
 				ships = ships-1
 
 				if Engine.rand:Number(1) <= risk then
-					local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-					local shiptype = ShipType.GetShipType(shipname)
+					local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+					local shiptype = ShipType.GetShipType(shipid)
 					local default_drive = shiptype.defaultHyperdrive
 
 					local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
@@ -231,7 +234,7 @@ local onEnterSystem = function (player)
 					end)
 					local laser = lasers[Engine.rand:Integer(1,#lasers)]
 
-					ship = Space.SpawnShipNear(shipname, Game.player, 50, 100)
+					ship = Space.SpawnShipNear(shipid, Game.player, 50, 100)
 					ship:AddEquip(default_drive)
 					ship:AddEquip(laser)
 					ship:AddEquip('SHIELD_GENERATOR', math.ceil(risk * 3))
@@ -247,14 +250,14 @@ local onEnterSystem = function (player)
 
 			if ship then
 				local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], { client = mission.boss,})
-				UI.ImportantMessage(pirate_greeting, ship.label)
+				Comms.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
 
 		if not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
 			player:UpdateMission(ref, mission)
-			UI.ImportantMessage(taxi_flavours[mission.flavour].wherearewe, mission.boss)
+			Comms.ImportantMessage(taxi_flavours[mission.flavour].wherearewe, mission.boss)
 		end
 	end
 end
@@ -273,9 +276,9 @@ local onShipDocked = function (player, station)
 			local taxi_flavours = Translate:GetFlavours('Taxi')
 
 			if Game.time > mission.due then
-				UI.ImportantMessage(taxi_flavours[mission.flavour].failuremsg, mission.boss)
+				Comms.ImportantMessage(taxi_flavours[mission.flavour].failuremsg, mission.boss)
 			else
-				UI.ImportantMessage(taxi_flavours[mission.flavour].successmsg, mission.boss)
+				Comms.ImportantMessage(taxi_flavours[mission.flavour].successmsg, mission.boss)
 				player:AddMoney(mission.reward)
 			end
 
@@ -295,7 +298,7 @@ local onShipUndocked = function (player, station)
 	for ref,mission in pairs(missions) do
 		remove_passengers(mission.group)
 
-		UI.ImportantMessage(t("Hey!?! You are going to pay for this!!!"), mission.boss)
+		Comms.ImportantMessage(t("Hey!?! You are going to pay for this!!!"), mission.boss)
 		player:RemoveMission(ref)
 		missions[ref] = nil
 	end
@@ -335,13 +338,13 @@ local unserialize = function (data)
 	loaded_data = data
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onUpdateBB:Connect(onUpdateBB)
-EventQueue.onEnterSystem:Connect(onEnterSystem)
-EventQueue.onLeaveSystem:Connect(onLeaveSystem)
-EventQueue.onShipUndocked:Connect(onShipUndocked)
-EventQueue.onShipDocked:Connect(onShipDocked)
-EventQueue.onGameStart:Connect(onGameStart)
-EventQueue.onGameEnd:Connect(onGameEnd)
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onUpdateBB", onUpdateBB)
+Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onLeaveSystem", onLeaveSystem)
+Event.Register("onShipUndocked", onShipUndocked)
+Event.Register("onShipDocked", onShipDocked)
+Event.Register("onGameStart", onGameStart)
+Event.Register("onGameEnd", onGameEnd)
 
 Serializer:Register("Taxi", serialize, unserialize)

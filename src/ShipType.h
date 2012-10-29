@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SHIPTYPE_H
 #define _SHIPTYPE_H
 
@@ -22,6 +25,10 @@ struct ShipType {
 		GUN_REAR,
 		GUNMOUNT_MAX = 2
 	};
+	enum DualLaserOrientation { // <enum scope='ShipType' name='DualLaserOrientation' prefix='DUAL_LASERS_'>
+		DUAL_LASERS_HORIZONTAL,
+		DUAL_LASERS_VERTICAL
+	};
 	enum Tag { // <enum scope='ShipType' name=ShipTypeTag prefix=TAG_>
 		TAG_NONE,
 		TAG_SHIP,
@@ -40,6 +47,8 @@ struct ShipType {
 	struct GunMount {
 		vector3f pos;
 		vector3f dir;
+		double sep;
+		DualLaserOrientation orient;
 	} gunMount[GUNMOUNT_MAX];
 	int equipSlotCapacity[Equip::SLOT_MAX];
 	int capacity; // tonnes
@@ -48,8 +57,7 @@ struct ShipType {
 	int fuelTankMass; //full fuel tank mass, on top of hullMass
 	int baseprice;
 	Equip::Type hyperdrive;
-	vector3d frontCameraOffset;
-	vector3d rearCameraOffset;
+	vector3d cameraOffset;
 	///////
 
 	static std::string LADYBIRD;
@@ -65,6 +73,8 @@ struct ShipType {
 	static std::vector<Type> player_ships;
 	static std::vector<Type> static_ships;
 	static std::vector<Type> missile_ships;
+
+	static std::vector<Type> playable_atmospheric_ships;
 
 	static const char *gunmountNames[GUNMOUNT_MAX];
 	static void Init();

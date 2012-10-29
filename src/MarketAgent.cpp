@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "MarketAgent.h"
 #include "Serializer.h"
 #include "Player.h"
@@ -22,7 +25,7 @@ bool MarketAgent::SellTo(MarketAgent *other, Equip::Type t, bool verbose)
 		return true;
 	} else return false;
 }
-	
+
 bool MarketAgent::BuyFrom(MarketAgent *other, Equip::Type t, bool verbose)
 {
 	if (other->CanSell(t, verbose) && CanBuy(t, verbose) && Pay(other, GetPrice(t), verbose)) {
@@ -31,7 +34,7 @@ bool MarketAgent::BuyFrom(MarketAgent *other, Equip::Type t, bool verbose)
 		return true;
 	} else return false;
 }
-	
+
 bool MarketAgent::Pay(MarketAgent *b, Sint64 amount, bool verbose) {
 	if (m_money < amount) {
 		if (verbose) {

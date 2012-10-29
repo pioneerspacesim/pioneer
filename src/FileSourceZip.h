@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _FILESOURCEZIP_H
 #define _FILESOURCEZIP_H
 
@@ -27,8 +30,15 @@ private:
 		const FileInfo info;
 	};
 
-	typedef std::map<std::string,FileStat> FileMap;
-	FileMap m_index;
+	struct Directory {
+		std::map<std::string,Directory> subdirs;
+		std::map<std::string,FileStat> files;
+	};
+
+	Directory m_root;
+
+	bool FindDirectoryAndFile(const std::string &path, const Directory* &dir, std::string &filename);
+	void AddFile(const std::string &path, const FileStat &fileStat);
 };
 
 }

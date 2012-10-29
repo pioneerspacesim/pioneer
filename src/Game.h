@@ -1,8 +1,11 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GAME_H
 #define _GAME_H
 
 #include "vector3.h"
-#include "SystemPath.h"
+#include "galaxy/SystemPath.h"
 #include "Serializer.h"
 #include "gameconsts.h"
 
@@ -72,8 +75,6 @@ public:
 	float GetTimeStep() const { return s_timeAccelRates[m_timeAccel]*(1.0f/PHYSICS_HZ); }
 
 private:
-	void CreatePlayer();
-
 	void CreateViews();
 	void LoadViews(Serializer::Reader &rd);
 	void DestroyViews();

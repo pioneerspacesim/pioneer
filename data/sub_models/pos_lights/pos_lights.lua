@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 --[[ position lights including bulbs for a four times flashing position lights setting
 period; 1st green to set left, 2nd red to set right, 3rd light blue to set at top in back of ship
 when LG engaged, light blue flashing lights at period 4 to set at bottom in back, left and right sides as collision warners
@@ -14,7 +17,7 @@ define_model('posl_green', {
 		if lod > 1 then
 			set_material('green', 0, .85, 0, .5, 1, 1, 1, 100, 0, 0, 0)
 			use_material('green')
-			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
+			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, matrix.scale(v(0.1,0.1,0.1)))
 		end
 	end,
 	dynamic = function(lod)
@@ -45,7 +48,7 @@ define_model('posl_red', {
 		if lod > 1 then
 			set_material('red', .9, 0, 0, .6, 1, 1, 1, 100, 0, 0, 0)
 			use_material('red')
-			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
+			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, matrix.scale(v(0.1,0.1,0.1)))
 		end
 	end,
 	dynamic = function(lod)
@@ -76,7 +79,7 @@ define_model('posl_white', {
 		if lod > 1 then
 			set_material('blue_white', .8, .85, 1, .5, 1, 1, 1, 100, 0, 0, 0)
 			use_material('blue_white')
-			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
+			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, matrix.scale(v(0.1,0.1,0.1)))
 		end
 	end,
 	dynamic = function(lod)
@@ -107,7 +110,7 @@ define_model('coll_warn', {
 		if lod > 1 then
 			set_material('blue_white', .8, .85, 1, .5, 1, 1, 1, 100, 0, 0, 0)
 			use_material('blue_white')
-			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
+			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, matrix.scale(v(0.1,0.1,0.1)))
 		end
 	end,
 	dynamic = function(lod)
@@ -140,7 +143,7 @@ define_model('headlight', {
 		if lod > 1 then
 			set_material('white', .9, .95, 1, .5, 1, 1, 1, 100, 0, 0, 0)
 			use_material('white')
-			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, Matrix.scale(v(0.1,0.1,0.1)))
+			sphere_slice(3*lod, 1*lod, 0, 0.5*math.pi, matrix.scale(v(0.1,0.1,0.1)))
 		end
 	end,
 	dynamic = function(lod)

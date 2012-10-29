@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaObject.h"
 #include "LuaEquipType.h"
 #include "LuaUtils.h"
@@ -169,17 +172,15 @@ static int l_equiptype_get_equip_types(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 1)));
-	
+
 	bool filter = false;
 	if (lua_gettop(l) >= 2) {
-		if (!lua_isfunction(l, 2))
-			luaL_typerror(l, 2, lua_typename(l, LUA_TFUNCTION));
+		luaL_checktype(l, 2, LUA_TFUNCTION); // any type of function
 		filter = true;
 	}
 
 	lua_newtable(l);
-	pi_lua_table_ro(l);
-	
+
 	for (int i = Equip::NONE; i < Equip::TYPE_MAX; i++) {
 		EquipType *et = const_cast<EquipType*>(&(Equip::types[i]));
 		if (Equip::types[i].slot == slot) {
@@ -206,7 +207,7 @@ static int l_equiptype_get_equip_types(lua_State *l)
 				lua_pop(l, 1);
 			}
 
-			lua_pushinteger(l, lua_objlen(l, -1)+1);
+			lua_pushinteger(l, lua_rawlen(l, -1)+1);
 			lua_pushstring(l, name);
 			lua_rawset(l, -3);
 		}
@@ -221,14 +222,14 @@ template <> const char *LuaObject<LuaUncopyable<EquipType> >::s_type = "EquipTyp
 
 template <> void LuaObject<LuaUncopyable<EquipType> >::RegisterClass()
 {
-	static const luaL_reg l_methods[] = {
+	static const luaL_Reg l_methods[] = {
         { "GetEquipType",  l_equiptype_get_equip_type  },
 		{ "GetEquipTypes", l_equiptype_get_equip_types },
 
 		{ 0, 0 }
 	};
 
-	static const luaL_reg l_attrs[] = {
+	static const luaL_Reg l_attrs[] = {
 		{ "name",      l_equiptype_attr_name       },
 		{ "slot",      l_equiptype_attr_slot       },
 		{ "basePrice", l_equiptype_attr_base_price },

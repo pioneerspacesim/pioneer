@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SECTORVIEW_H
 #define _SECTORVIEW_H
 
@@ -7,8 +10,8 @@
 #include <vector>
 #include <string>
 #include "View.h"
-#include "Sector.h"
-#include "SystemPath.h"
+#include "galaxy/Sector.h"
+#include "galaxy/SystemPath.h"
 #include "graphics/Drawables.h"
 
 class SectorView: public View {
@@ -26,15 +29,17 @@ public:
 	void SetHyperspaceTarget(const SystemPath &path);
 	void FloatHyperspaceTarget();
 	void ResetHyperspaceTarget();
+	void GotoSector(const SystemPath &path);
 	void GotoSystem(const SystemPath &path);
 	void GotoCurrentSystem() { GotoSystem(m_current); }
 	void GotoSelectedSystem() { GotoSystem(m_selected); }
 	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
 	virtual void Save(Serializer::Writer &wr);
-	virtual void OnSwitchTo();
 
 	sigc::signal<void> onHyperspaceTargetChanged;
 
+protected:
+	virtual void OnSwitchTo();
 private:
 	void InitDefaults();
 	void InitObject();
@@ -45,7 +50,7 @@ private:
 		Gui::Label *starType;
 		Gui::Label *shortDesc;
 	};
-	
+
 	void DrawSector(int x, int y, int z, const vector3f &playerAbsPos, const matrix4x4f &trans);
 	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
 
@@ -90,13 +95,14 @@ private:
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
-	Graphics::VertexArray *m_disk;
-	
+
+	ScopedPtr<Graphics::Drawables::Disk> m_disk;
+
 	Gui::LabelSet *m_clickableLabels;
 
 	Gui::VBox *m_infoBox;
 	bool m_infoBoxVisible;
-	
+
 	SystemLabels m_currentSystemLabels;
 	SystemLabels m_selectedSystemLabels;
 	SystemLabels m_targetSystemLabels;
@@ -107,6 +113,7 @@ private:
 	sigc::connection m_onKeyPressConnection;
 
 	std::map<SystemPath,Sector*> m_sectorCache;
+	std::string m_previousSearch;
 
 	float m_playerHyperspaceRange;
 	Graphics::Drawables::Line3D m_jumpLine;

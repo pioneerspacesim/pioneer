@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SHIP_H
 #define _SHIP_H
 
@@ -6,9 +9,10 @@
 #include "ShipType.h"
 #include "EquipSet.h"
 #include "ShipFlavour.h"
-#include "SystemPath.h"
+#include "galaxy/SystemPath.h"
 #include "BezierCurve.h"
 #include "Serializer.h"
+#include "Camera.h"
 #include <list>
 
 class SpaceStation;
@@ -59,10 +63,7 @@ public:
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
 	int GetDockingPort() const { return m_dockedWithPort; }
-	virtual void Render(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
-
-	const vector3d &GetFrontCameraOffset() const { return m_frontCameraOffset; }
-	const vector3d &GetRearCameraOffset() const { return m_rearCameraOffset; }
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	void SetThrusterState(int axis, double level) {
 		if (m_thrusterFuel <= 0.f) level = 0.0;
@@ -87,6 +88,7 @@ public:
 	void UpdateStats();
 	const shipstats_t &GetStats() const { return m_stats; }
 
+	void Explode();
 	void SetGunState(int idx, int state);
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
@@ -112,6 +114,8 @@ public:
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
 	bool Jettison(Equip::Type t);
+
+	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
 
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
@@ -140,10 +144,10 @@ public:
 	}
 	bool CanHyperspaceTo(const SystemPath &dest) { return (CheckHyperspaceTo(dest) == HYPERJUMP_OK); }
 
-	Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
+	virtual Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	bool IsHyperspaceActive() const { return (m_hyperspace.countdown > 0.0); }
-	void ResetHyperspaceCountdown();
+	virtual void ResetHyperspaceCountdown();
 
 	Equip::Type GetHyperdriveFuelType() const;
 	// 0 to 1.0 is alive, > 1.0 = death
@@ -190,7 +194,7 @@ public:
 
 	void AIKamikaze(Body *target);
 	void AIKill(Ship *target);
-	//void AIJourney(SBodyPath &dest);
+	//void AIJourney(SystemBodyPath &dest);
 	void AIDock(SpaceStation *target);
 	void AIFlyTo(Body *target);
 	void AIOrbit(Body *target, double alt);
@@ -225,13 +229,18 @@ public:
 	float GetFuel() const {	return m_thrusterFuel;	}
 	//0.0 - 1.0
 	void SetFuel(const float f) {	m_thrusterFuel = Clamp(f, 0.f, 1.f); }
-	
+
 	void EnterSystem();
 
 	HyperspaceCloud *GetHyperspaceCloud() const { return m_hyperspaceCloud; }
 
 	sigc::signal<void> onDock;				// JJ: check what these are for
 	sigc::signal<void> onUndock;
+
+	// mutable because asking to know when state changes is not the same as
+	// actually changing state
+	mutable sigc::signal<void> onFlavourChanged;
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -276,8 +285,6 @@ private:
 
 	vector3d m_thrusters;
 	vector3d m_angThrusters;
-	vector3d m_frontCameraOffset;
-	vector3d m_rearCameraOffset;
 
 	AlertState m_alertState;
 	double m_lastFiringAlert;

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "ShipController.h"
 #include "Frame.h"
 #include "Game.h"
@@ -37,7 +40,7 @@ PlayerShipController::PlayerShipController() :
 PlayerShipController::~PlayerShipController()
 {
 
-} 
+}
 
 void PlayerShipController::Save(Serializer::Writer &wr, Space *space)
 {
@@ -140,7 +143,7 @@ void PlayerShipController::PollControls(const float timeStep)
 	CheckControlsLock();
 	if (m_controlsLocked) return;
 
-	// if flying 
+	// if flying
 	{
 		m_ship->ClearThrusterState();
 		m_ship->SetGunState(0,0);
@@ -192,7 +195,7 @@ void PlayerShipController::PollControls(const float timeStep)
 					stickySpeedKey = false;
 				}
 			}
-				
+
 			if (!stickySpeedKey) {
 				if (KeyBindings::increaseSpeed.IsActive())
 					m_setSpeed += std::max(fabs(m_setSpeed)*0.05, 1.0);
@@ -245,7 +248,7 @@ void PlayerShipController::PollControls(const float timeStep)
 		double invTimeAccelRate = 1.0 / Pi::game->GetTimeAccelRate();
 		for (int axis=0; axis<3; axis++)
 			wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccelRate, invTimeAccelRate);
-		
+
 		m_ship->AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 		if (m_mouseActive) m_ship->AIFaceDirection(m_mouseDir);
 	}
@@ -325,5 +328,5 @@ void PlayerShipController::SetNavTarget(Body* const target, bool setSpeedTo)
 		m_setSpeedTarget = target;
 	else if (m_setSpeedTarget == m_navTarget)
 		m_setSpeedTarget = 0;
-	m_navTarget = target;		
+	m_navTarget = target;
 }

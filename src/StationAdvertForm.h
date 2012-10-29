@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _STATIONADVERTFORM_H
 #define _STATIONADVERTFORM_H
 
@@ -9,7 +12,7 @@ class StationAdvertForm : public ChatForm {
 public:
 	StationAdvertForm(FormController *controller, SpaceStation *station, const BBAdvert &ad) :
 		ChatForm(controller), m_adTaken(false), m_station(station), m_advert(ad) { }
-	
+
 	virtual void OnOptionClicked(int option) = 0;
 
 	bool AdTaken() { return m_adTaken; }

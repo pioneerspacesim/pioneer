@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SHIPCPANEL_H
 #define _SHIPCPANEL_H
 
@@ -12,11 +15,8 @@
 class Body;
 class SpaceStation;
 namespace Graphics { class Renderer; }
-class CameraSwitchWidget;
 
 class ShipCpanel: public Gui::Fixed {
-	friend class CameraSwitchWidget;
-
 public:
 	ShipCpanel(Graphics::Renderer *r);
     ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r);
@@ -58,8 +58,6 @@ private:
 	void OnMultiFuncGrabFocus(multifuncfunc_t);
 	void OnMultiFuncUngrabFocus(multifuncfunc_t);
 	void HideMapviewButtons();
-
-	void SwitchToCamera(WorldView::CamType t);
 
 	enum MapView m_currentMapView;
 	multifuncfunc_t m_userSelectedMfuncWidget;

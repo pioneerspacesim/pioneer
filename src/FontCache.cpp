@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "FontCache.h"
 #include "FontConfig.h"
 #include "text/TextureFont.h"
@@ -18,7 +21,7 @@ RefCountedPtr<Text::TextureFont> FontCache::GetTextureFont(const std::string &na
 	std::map< std::string,RefCountedPtr<Text::TextureFont> >::iterator i = m_textureFonts.find(name);
 	if (i != m_textureFonts.end())
 		return (*i).second;
-	
+
 	float scale[2];
 	Gui::Screen::GetCoords2Pixels(scale);
 

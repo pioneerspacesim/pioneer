@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "VectorFont.h"
 #include "libs.h"
 #include "FileSystem.h"
@@ -89,9 +92,9 @@ bool GenContourPoints(int a_char, FT_Outline *a_outline, const int a_contour, in
 	int start = -1;
 	for (int k=0; k<pos; k++) {
 		if (!(point_type[k] & 1)) continue;
-			
+
 		if (start == -1) { start = k; continue; }
-		
+
 		int len = 1+k-start;
 		// trace segment
 		if (len == 2) {
@@ -106,7 +109,7 @@ bool GenContourPoints(int a_char, FT_Outline *a_outline, const int a_contour, in
 			// truetype is all quadratic bezier,
 			// using average points between
 			// 'control points' as end points
-			
+
 			// first bezier
 			b_in[0][0] = point_buf[start][0];
 			b_in[0][1] = point_buf[start][1];
@@ -134,7 +137,7 @@ bool GenContourPoints(int a_char, FT_Outline *a_outline, const int a_contour, in
 			}
 
 			// middle beziers
-			
+
 			if (len > 4) {
 				for (int _p=1; _p < len-3; _p++) {
 					b_in[0][0] = 0.5*(point_buf[start+_p][0] + point_buf[start+_p+1][0]);
@@ -148,7 +151,7 @@ bool GenContourPoints(int a_char, FT_Outline *a_outline, const int a_contour, in
 					b_in[2][0] = 0.5*(point_buf[start+_p+1][0] + point_buf[start+_p+2][0]);
 					b_in[2][1] = 0.5*(point_buf[start+_p+1][1] + point_buf[start+_p+2][1]);
 					b_in[2][2] = 0;
-					
+
 					for (int l=0; l<=a_bezierIters; l++) {
 						double t = (1.0/a_bezierIters)*l;
 						eval_bezier(v, t, 3, &b_in[0][0]);
@@ -238,7 +241,7 @@ void CALLBACK vertexCallback(GLvoid *vertex, GLvoid *poly_data)
 		case GL_TRIANGLES:
 		pData->index.push_back(index);
 		break;
-	
+
 		case GL_TRIANGLE_STRIP:
 		if ((pData->state & 3) < 2)
 			pData->vtx[pData->state++] = index;
@@ -265,11 +268,11 @@ void CALLBACK vertexCallback(GLvoid *vertex, GLvoid *poly_data)
 			pData->index.push_back(pData->vtx[0]);
 			pData->index.push_back(pData->vtx[1]);
 			pData->vtx[1] = index;
-		}		
+		}
 	}
 }
 
-void CALLBACK combineCallback(GLdouble coords[3], 
+void CALLBACK combineCallback(GLdouble coords[3],
                      GLdouble *vertex_data[4],
                      GLfloat weight[4], void **dataOut, void *poly_data)
 {

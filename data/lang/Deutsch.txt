@@ -124,7 +124,7 @@ BULLETIN_BOARD
 WELCOME_TO_SOMEWHERE
     Willkommen auf %station
 SPACESTATION_LONG_WELCOME_MESSAGE
-    Willkommen Reisende. Es gibt Vorfälle von Vandalismus und Schmierereien an Bord unserer Station. Falls die Beschilderung irreführend oder fehlerhaft beschriftet ist oder schlicht fehlt, wenden Sie sich bitte an das Stationspersonal. Wir halten zahlreiche Dienstleistungsangebote für Sie bereit.\n\nDie Atemluft ist zurzeit kostenlos.
+    Willkommen Reisende. Es gibt Vorfälle von Vandalismus und Schmierereien an Bord unserer Station. Falls die Beschilderung irreführend oder fehlerhaft beschriftet ist oder schlicht fehlt, wenden Sie sich bitte an das Stationspersonal. Wir halten zahlreiche Dienstleistungsangebote für Sie bereit.\nDie Atemluft ist zurzeit kostenlos.
 REQUEST_LAUNCH
     Starterlaubnis anfordern
 SHIPYARD
@@ -581,16 +581,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulierte Evolution des Universums: %age{f.1} Milliarde(n) Jahre ;-)
 TOMBSTONE_EPITAPH
     Ruhe in Frieden, Kumpel
-MM_START_NEW_GAME_EARTH
-    Neues Spiel, beginnend auf der Erde
-MM_START_NEW_GAME_E_ERIDANI
-    Neues Spiel, beginnend auf Epsilon Eridani
-MM_START_NEW_GAME_DEBUG
-    Neues Spiel, beginnend an Debugging Punkt
-MM_LOAD_SAVED_GAME
-    Gespeicherten Spielstand laden
-MM_QUIT
-    Pioneer beenden
 SCREENSHOT_FILENAME_TEMPLATE
     Pioneer Screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -705,9 +695,9 @@ SHIP_IS_FULLY_LADEN
     Ihr Schiff ist voll.
 YOU_DO_NOT_HAVE_ANY_X
     Sie haben keine Waren des Artikels %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Sicht nach vorn
-REAR_VIEW
+CAMERA_REAR_VIEW
     Sicht nach hinten
 EXTERNAL_VIEW
     Außenansicht
@@ -1073,8 +1063,8 @@ IN_TRANSIT_TO_N_X_X_X
     Auf dem Weg nach %system [%x,%y,%z]
 ALT_IN_METRES
     Höhe: %altitude{f.0}m
-PRESSURE_N_BAR
-    Druck: %pressure{f.2} bar
+PRESSURE_N_ATMOSPHERES
+    Druck: %pressure{f.2} atm
 NO_HYPERDRIVE
     Kein Hyperraumantrieb
 MASS_N_TONNES

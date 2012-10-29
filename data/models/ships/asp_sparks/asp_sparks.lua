@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_model('asps_gun_f', {
 	info = {
 		bounding_radius = 2,
@@ -33,7 +36,7 @@ define_model('asps_flap_r_0', {
 		if lod > 1 then
 			texture('asps_skin.png')
 		end
-		load_obj('asps_flap_r.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+		load_obj('asps_flap_r.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 	end
 })
 
@@ -46,7 +49,7 @@ define_model('asps_flap_l_0', {
 		if lod > 1 then
 			texture('asps_skin.png')
 		end
-		load_obj('asps_flap_l.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+		load_obj('asps_flap_l.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 	end
 })
 
@@ -97,15 +100,15 @@ define_model('asps_wheel_r_r', {
 	},
 	static = function(lod)
 		if lod == 1 then
-			load_obj('asps_wrr_coll.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wrr_coll.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 		else
 			texture('asps_skin.png')
 			use_material('cv_0')
-			load_obj('asps_wheel_r_r_1.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wheel_r_r_1.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 
 			set_material('non_cv', .63,.7,.83,1,.83,.9,1.03,30)
 			use_material('non_cv')
-			load_obj('asps_wheel_r_r_0.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wheel_r_r_0.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 		end
 	end,
 	dynamic = function(lod)
@@ -128,15 +131,15 @@ define_model('asps_wheel_r_l', {
 	},
 	static = function(lod)
 		if lod == 1 then
-			load_obj('asps_wrl_coll.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wrl_coll.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 		else
 			texture('asps_skin.png')
 			use_material('cv_0')
-			load_obj('asps_wheel_r_l_1.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wheel_r_l_1.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 
 			set_material('non_cv',.63,.7,.83,1,.83,.9,1.03,30)
 			use_material('non_cv')
-			load_obj('asps_wheel_r_l_0.obj',Matrix.rotate(.5*math.pi,v(0,1,0)))
+			load_obj('asps_wheel_r_l_0.obj',matrix.rotate(.5*math.pi,v(0,1,0)))
 		end
 	end,
 	dynamic = function(lod)
@@ -204,26 +207,7 @@ define_model('asps_sub0', {
 		texture(nil)
 	end,
 	dynamic = function(lod)
-		selector1()
-		if select1 < 201 then
-			set_material('squad', .5,0,0,1,.6,.6,.6,30)
-		else
-			if select1 < 401 then
-				set_material('squad', .45,.35,.01,1,.6,.6,.6,30)
-			else
-				if select1 < 601 then
-					set_material('squad', 0,.15,.7,1,.6,.6,.6,30)
-				else
-					if select1 < 801 then
-						set_material('squad', .06,.35,0,1,.6,.6,.6,30)
-					else
-						if select1 > 800 then
-							set_material('squad', .2,0,.35,1,.6,.6,.6,30)
-						end
-					end
-				end
-			end
-		end
+		squad_color()
 
 		if lod > 2 then
 			if get_equipment('LASER',1) then
@@ -299,7 +283,7 @@ define_model('asp_sparks', {
 		scale = 8.5,
 		lod_pixels = {.1,20,50,0},
 		bounding_radius = 38,
-		materials = {'chrome', 'non_cv', 'metal', 'layer', 'win', 'glow_0', 'e_glow', 'scoop', 'text'},
+		materials = {'squad', 'chrome', 'non_cv', 'metal', 'layer', 'win', 'glow_0', 'e_glow', 'scoop', 'text'},
 		tags = {'ship'},
 	},
 	static = function(lod)
@@ -392,6 +376,8 @@ define_model('asp_sparks', {
 		end
 	end,
 	dynamic = function(lod)
+		squad_color() -- this sets up the 'squad' material
+
 		local flap = math.pi*math.clamp(get_animation_position('WHEEL_STATE'),0,.5)
 		local rot = .5*math.pi*math.clamp(get_animation_position('WHEEL_STATE'),.3,1)-.46
 
@@ -409,7 +395,7 @@ define_model('asp_sparks', {
 			texture(nil)
 			--use_material('text')
 			if lod > 3 then
-				call_model('squad_color',v(0,0,0),v(1,0,0),v(0,1,0),1)
+				use_material('squad')
 				local reg = get_label()
 				zbias(1,v(1.764,.448,.453),v(.2,1,0))
 				text(reg,v(1.764,.448,.453),v(.2,1,0),v(-1,.37,-1),.2,{center = true})

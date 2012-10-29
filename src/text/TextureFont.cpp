@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "TextureFont.h"
 #include "libs.h"
 #include "graphics/Renderer.h"
@@ -9,8 +12,6 @@
 #include FT_GLYPH_H
 #include FT_STROKER_H
 
-#define PARAGRAPH_SPACING 1.5f
-
 namespace Text {
 
 int TextureFont::s_glyphCount = 0;
@@ -20,10 +21,10 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float 
 	glfglyph_t *glyph = &m_glyphs[chr];
 
 	const float offx = x + float(glyph->offx);
-	const float offy = y + float(m_pixSize - glyph->offy);
+	const float offy = y + GetHeight() - float(glyph->offy);
 	const float offU = glyph->offU;
 	const float offV = glyph->offV;
-	
+
 	va->Add(vector3f(offx,                 offy,                  0.0f), c, vector2f(offU, offV));
 	va->Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), c, vector2f(offU, offV + glyph->height));
 	va->Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), c, vector2f(offU + glyph->width, offV));
@@ -37,27 +38,28 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float 
 
 void TextureFont::MeasureString(const char *str, float &w, float &h)
 {
-	w = 0;
-	h = GetHeight();
+	w = h = 0.0f;
 
-	float line_width = 0;
+	float line_width = 0.0f;
 
 	int i = 0;
 	while (str[i]) {
 		if (str[i] == '\n') {
 			if (line_width > w) w = line_width;
-			line_width = 0;
-			h += GetHeight()*PARAGRAPH_SPACING;
+			line_width = 0.0f;
+			h += GetHeight();
 			i++;
 		}
-		
+
 		else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
 			assert(n);
 			i += n;
 
-			line_width += m_glyphs[chr].advx;
+			const glfglyph_t &glyph = m_glyphs[chr];
+
+			line_width += glyph.advx;
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -75,14 +77,13 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 	}
 
 	if (line_width > w) w = line_width;
-	h += m_descender;
+	h += GetHeight() + GetDescender();
 }
 
 void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &charX, float &charY) const
 {
 	assert(str && (charIndex >= 0));
 
-	const float lineSpacing = GetHeight()*PARAGRAPH_SPACING;
 	float x = 0.0f, y = GetHeight();
 	int i = 0;
 	Uint32 chr;
@@ -95,7 +96,7 @@ void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &cha
 
 		if (chr == '\n') {
 			x = 0.0f;
-			y += lineSpacing;
+			y += GetHeight();
 		} else {
 			std::map<Uint32,glfglyph_t>::const_iterator it = m_glyphs.find(chr);
 			assert(it != m_glyphs.end());
@@ -133,9 +134,8 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 	// chr1: the Unicode value of the character being tested
 	// chr2: the Unicode value of the next character
 
-	const float lineSpacing = GetHeight()*PARAGRAPH_SPACING;
 	Uint32 chr2 = '\n'; // pretend we've just had a new line
-	float bottom = GetHeight() - lineSpacing, x = 0.0f;
+	float bottom = 0.0f, x = 0.0f;
 	int i2 = 0, charBytes = 0;
 	do {
 		int i1 = i2;
@@ -171,7 +171,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 			return i1;
 
 		if (chr1 == '\n')
-			bottom += lineSpacing;
+			bottom += GetHeight();
 	} while (charBytes);
 
 	return i2;
@@ -180,7 +180,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 void TextureFont::RenderString(const char *str, float x, float y, const Color &color)
 {
 	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+	m_vertices.Clear();
 
 	float px = x;
 	float py = y;
@@ -189,10 +189,10 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 	while (str[i]) {
 		if (str[i] == '\n') {
 			px = x;
-			py += GetHeight()*PARAGRAPH_SPACING;
+			py += GetHeight();
 			i++;
 		}
-		
+
 		else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
@@ -200,7 +200,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			AddGlyphGeometry(&va, chr, roundf(px), py, color);
+			AddGlyphGeometry(&m_vertices, chr, roundf(px), py, color);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -219,13 +219,13 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 		}
 	}
 
-	m_renderer->DrawTriangles(&va, &m_mat);
+	m_renderer->DrawTriangles(&m_vertices, m_mat.Get());
 }
 
 Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &color)
 {
 	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+	m_vertices.Clear();
 
 	float px = x;
 	float py = y;
@@ -247,10 +247,10 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 
 		if (str[i] == '\n') {
 			px = x;
-			py += GetHeight()*PARAGRAPH_SPACING;
+			py += GetHeight();
 			i++;
 		}
-		
+
 		else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
@@ -258,7 +258,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			AddGlyphGeometry(&va, chr, roundf(px), py, c);
+			AddGlyphGeometry(&m_vertices, chr, roundf(px), py, c);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
@@ -278,19 +278,20 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 		}
 	}
 
-	m_renderer->DrawTriangles(&va, &m_mat);
+	m_renderer->DrawTriangles(&m_vertices, m_mat.Get());
 	return c;
 }
 
-TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer) : Font(descriptor), m_renderer(renderer)
+TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *renderer)
+	: Font(descriptor)
+	, m_renderer(renderer)
+	, m_vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0)
 {
 	int err; // used to store freetype error return codes
 	const int a_width = GetDescriptor().pixelWidth;
 	const int a_height = GetDescriptor().pixelHeight;
 
 	const float advx_adjust = GetDescriptor().advanceXAdjustment;
-
-	m_pixSize = a_height;
 
 	FT_Set_Pixel_Sizes(m_face, a_width, a_height);
 
@@ -306,12 +307,14 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	std::vector<unsigned char> pixBuf(4*sz*sz);
 	std::fill(pixBuf.begin(), pixBuf.end(), 0);
 
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true; //to allow per-character colors
+	desc.textures = 1;
+	m_mat.Reset(m_renderer->CreateMaterial(desc));
 	Graphics::TextureDescriptor textureDescriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
 	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
-	m_mat.texture0 = m_texture.Get();
-	m_mat.unlit = true;
-	m_mat.vertexColors = true; //to allow per-character colors
-	
+	m_mat->texture0 = m_texture.Get();
+
 	bool outline = GetDescriptor().outline;
 
 	FT_Stroker stroker(0);
@@ -362,13 +365,13 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				fprintf(stderr, "Glyph get error %d\n", err);
 				continue;
 			}
-	
+
 			err = FT_Glyph_Stroke(&strokeGlyph, stroker, 1);
 			if (err) {
 				fprintf(stderr, "Glyph stroke error %d\n", err);
 				continue;
 			}
-	
+
 			//convert to bitmap
 			if (strokeGlyph->format != FT_GLYPH_FORMAT_BITMAP) {
 				err = FT_Glyph_To_Bitmap(&strokeGlyph, FT_RENDER_MODE_NORMAL, 0, 1);
@@ -377,7 +380,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					continue;
 				}
 			}
-	
+
 			const FT_BitmapGlyph bmStrokeGlyph = FT_BitmapGlyph(strokeGlyph);
 
 			//don't run off atlas borders
@@ -386,7 +389,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				atlasU = 0;
 				atlasV += atlasVIncrement;
 			}
-	
+
 			//copy to the atlas texture
 			//stroke first
 			int pitch = bmStrokeGlyph->bitmap.pitch;
@@ -399,7 +402,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					pixBuf[d+3] = bmStrokeGlyph->bitmap.buffer[s]; //alpha
 				}
 			}
-	
+
 			//overlay normal glyph (luminance only)
 			int xoff = (bmStrokeGlyph->bitmap.width - bmGlyph->bitmap.width) / 2;
 			int yoff = (bmStrokeGlyph->bitmap.rows - bmGlyph->bitmap.rows) / 2;
@@ -411,7 +414,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = bmGlyph->bitmap.buffer[s];
 				}
 			}
-	
+
 			glfglyph.width = bmStrokeGlyph->bitmap.width / float(sz);
 			glfglyph.height = bmStrokeGlyph->bitmap.rows / float(sz);
 			glfglyph.offx = bmStrokeGlyph->left;
@@ -444,7 +447,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = pixBuf[d+3] = bmGlyph->bitmap.buffer[s];
 				}
 			}
-	
+
 			glfglyph.width = bmGlyph->bitmap.width / float(sz);
 			glfglyph.height = bmGlyph->bitmap.rows / float(sz);
 			glfglyph.offx = bmGlyph->left;
@@ -471,9 +474,8 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	if (outline)
 		FT_Stroker_Done(stroker);
 
-	m_height = float(a_height);
-	m_width = float(a_width);
-	m_descender = -float(m_face->descender) / 64.f;
+	m_height = float(m_face->height) / 64.f * float(m_face->size->metrics.y_scale) / 65536.f;
+	m_descender = -float(m_face->descender) / 64.f * float(m_face->size->metrics.y_scale) / 65536.f;
 }
 
 }

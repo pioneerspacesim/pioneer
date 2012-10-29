@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _FILESYSTEM_H
 #define _FILESYSTEM_H
 
@@ -176,6 +179,9 @@ namespace FileSystem {
 		FileSourceUnion();
 		~FileSourceUnion();
 
+		// add and remove sources
+		// note: order is important. The array of sources works like a PATH array:
+		// that is, earlier sources take priority over later sources
 		void PrependSource(FileSource *fs);
 		void AppendSource(FileSource *fs);
 		void RemoveSource(FileSource *fs);

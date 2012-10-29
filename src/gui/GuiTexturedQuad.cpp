@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "GuiTexturedQuad.h"
 #include "graphics/Renderer.h"
 #include "graphics/Material.h"
@@ -16,12 +19,15 @@ void TexturedQuad::Draw(Graphics::Renderer *renderer, const vector2f &pos, const
 	va.Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y));
 	va.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
 
-	Graphics::Material m;
-	m.unlit = true;
-	m.texture0 = m_texture.Get();
-	m.vertexColors = false;
-	m.diffuse = tint;
-	renderer->DrawTriangles(&va, &m, TRIANGLE_STRIP);
+	// Create material on first use. Bit of a hack.
+	if (!m_material.Valid()) {
+		Graphics::MaterialDescriptor desc;
+		desc.textures = 1;
+		m_material.Reset(renderer->CreateMaterial(desc));
+		m_material->texture0 = m_texture.Get();
+	}
+	m_material->diffuse = tint;
+	renderer->DrawTriangles(&va, m_material.Get(), TRIANGLE_STRIP);
 }
 
 }

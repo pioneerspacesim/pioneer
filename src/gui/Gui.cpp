@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Gui.h"
 #include "graphics/Graphics.h"
@@ -153,7 +156,7 @@ namespace Theme {
 				float ang = M_PI + M_PI*0.5f*i/float(STEPS);
 				glVertex2f((size[0] - rad) - rad*cos(ang), rad + rad*sin(ang));
 			}
-			
+
 			// top right
 			for (int i=0; i<=STEPS; i++) {
 				float ang = M_PI*1.5 + M_PI*0.5f*i/float(STEPS);
@@ -161,7 +164,7 @@ namespace Theme {
 			}
 		glEnd();
 	}
-	
+
 	void DrawHollowRect(const float size[2])
 	{
 		GLfloat vertices[] = { 0,0,

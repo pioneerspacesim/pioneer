@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Terrain.h"
 #include "TerrainNoise.h"
 
@@ -7,7 +10,7 @@ template <>
 const char *TerrainColorFractal<TerrainColorVolcanic>::GetColorFractalName() const { return "Volcanic"; }
 
 template <>
-TerrainColorFractal<TerrainColorVolcanic>::TerrainColorFractal(const SBody *body) : Terrain(body)
+TerrainColorFractal<TerrainColorVolcanic>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
 }
 
@@ -16,7 +19,7 @@ vector3d TerrainColorFractal<TerrainColorVolcanic>::GetColor(const vector3d &p, 
 {
 	double n = m_invMaxHeight*height;
 	const double flatness = pow(p.Dot(norm), 6.0);
-	const vector3d color_cliffs = m_rockColor[2];		
+	const vector3d color_cliffs = m_rockColor[2];
 	double equatorial_desert = (-1.0+2.0*octavenoise(12, 0.5, 2.0, (n*2.0)*p)) *
 			1.0*(1.0-p.y*p.y);
 

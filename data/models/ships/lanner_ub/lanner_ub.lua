@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_model('lub_c0', {                   -- plain,
 	info =	{
 		lod_pixels = {20, 50, 100, 0},
@@ -75,7 +78,7 @@ define_model('lub_gun1', {
 		use_material('chrome')
 		texture('iise_g.png')
 		tapered_cylinder(3*lod, v(0,-2.5,-33.5), v(0,-2.5,-39), v(0,1,0), .25, .15)
-		sphere_slice(3*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(0,-2.4,-33.5)) * Matrix.rotate(math.pi,v(0,0,1)) * Matrix.scale(v(.6,.6,.7)))
+		sphere_slice(3*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(0,-2.4,-33.5)) * matrix.rotate(math.pi,v(0,0,1)) * matrix.scale(v(.6,.6,.7)))
 		if lod > 3 then
 			set_material('hole', 0,0,0,1,0,0,0,0)
 			use_material('hole')
@@ -95,8 +98,8 @@ define_model('lub_gun2', {
 		use_material('chrome')
 		texture('iise_g.png')
 		xref_tapered_cylinder(3*lod, v(4,-1.9,-35), v(4,-1.9,-39), v(0,1,0), .25, .15)
-		sphere_slice(3*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(3.9,-1.8,-35)) * Matrix.rotate(0.75*math.pi,v(0,.2,-1)) * Matrix.scale(v(.5,.5,.6)))
-		sphere_slice(3*lod,2*lod, 0, 0.5*math.pi, Matrix.translate(v(-3.9,-1.8,-35)) * Matrix.rotate(0.75*math.pi,v(0,-.2,1)) * Matrix.scale(v(.5,.5,.6)))
+		sphere_slice(3*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(3.9,-1.8,-35)) * matrix.rotate(0.75*math.pi,v(0,.2,-1)) * matrix.scale(v(.5,.5,.6)))
+		sphere_slice(3*lod,2*lod, 0, 0.5*math.pi, matrix.translate(v(-3.9,-1.8,-35)) * matrix.rotate(0.75*math.pi,v(0,-.2,1)) * matrix.scale(v(.5,.5,.6)))
 		if lod > 3 then
 			set_material('hole', 0,0,0,1,0,0,0,0)
 			use_material('hole')
@@ -266,7 +269,7 @@ define_model('lub_flap_bl_l', {
 		set_material('matte', .5,.52,.55,1,.2,.2,.2,10)
 		use_material('matte')
 		texture('klappe_h_g.png')
-		load_obj('klappe_hl_l.obj', Matrix.rotate(0.5*math.pi, v(0,1,0)))
+		load_obj('klappe_hl_l.obj', matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
@@ -280,7 +283,7 @@ define_model('lub_flap_bl_r', {
 		set_material('matte', .5,.52,.55,1,.2,.2,.2,10)
 		use_material('matte')
 		texture('klappe_h_g.png')
-		load_obj('klappe_hl_r.obj', Matrix.rotate(0.5*math.pi, v(0,1,0)))
+		load_obj('klappe_hl_r.obj', matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
@@ -294,7 +297,7 @@ define_model('lub_flap_br_l', {
 		set_material('matte', .5,.52,.55,1,.2,.2,.2,10)
 		use_material('matte')
 		texture('klappe_h_g.png')
-		load_obj('klappe_hr_l.obj', Matrix.rotate(0.5*math.pi, v(0,1,0)))
+		load_obj('klappe_hr_l.obj', matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
@@ -308,7 +311,7 @@ define_model('lub_flap_br_r', {
 		set_material('matte', .5,.52,.55,1,.2,.2,.2,10)
 		use_material('matte')
 		texture('klappe_h_g.png')
-		load_obj('klappe_hr_r.obj', Matrix.rotate(0.5*math.pi, v(0,1.0)))
+		load_obj('klappe_hr_r.obj', matrix.rotate(0.5*math.pi, v(0,1,0)))
 	end
 })
 
@@ -351,7 +354,7 @@ define_model('lub_fcyl', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,10)
 		use_material('chrome')
 		texture('iise_g.png')
-		sphere_slice(3*lod, 2*lod, 0, .6*math.pi, Matrix.scale(v(0.75,0.75,0.75)) * Matrix.rotate(math.pi, v(0,0,1)))
+		sphere_slice(3*lod, 2*lod, 0, .6*math.pi, matrix.scale(v(0.75,0.75,0.75)) * matrix.rotate(math.pi, v(0,0,1)))
 	end,
 	dynamic = function(lod)
 		use_material('chrome')
@@ -373,8 +376,8 @@ define_model('lub_bcyl', {
 		set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,10)
 		use_material('chrome')
 		texture('iise_g.png')
-		sphere_slice(3*lod, 2*lod, 0, .6*math.pi, Matrix.translate(v(8.7,0,0)) * Matrix.scale(v(0.75,0.75,0.75)) * Matrix.rotate(math.pi, v(0,0,1)))
-		sphere_slice(3*lod, 2*lod, 0, .6*math.pi, Matrix.translate(v(-8.7,0,0)) * Matrix.scale(v(0.75,0.75,0.75)) * Matrix.rotate(math.pi, v(0,0,1)))
+		sphere_slice(3*lod, 2*lod, 0, .6*math.pi, matrix.translate(v(8.7,0,0)) * matrix.scale(v(0.75,0.75,0.75)) * matrix.rotate(math.pi, v(0,0,1)))
+		sphere_slice(3*lod, 2*lod, 0, .6*math.pi, matrix.translate(v(-8.7,0,0)) * matrix.scale(v(0.75,0.75,0.75)) * matrix.rotate(math.pi, v(0,0,1)))
 	end,
 	dynamic = function(lod)
 		use_material('chrome')

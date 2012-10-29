@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GUIBOX_H
 #define _GUIBOX_H
 /*
@@ -39,7 +42,7 @@ namespace Gui {
 	public:
 		VBox(): Box(BOX_VERTICAL) {}
 	};
-	
+
 	class HBox: public Box {
 	public:
 		HBox(): Box(BOX_HORIZONTAL) {}

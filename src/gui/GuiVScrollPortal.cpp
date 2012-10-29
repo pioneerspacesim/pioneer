@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Gui.h"
 #include "vector2.h"
@@ -119,7 +122,7 @@ void VScrollPortal::Draw()
 
 	float toScroll = m_childSizeY - size[1];
 	if (toScroll < 0) toScroll = 0;
-	
+
 	float scale[2];
 	Screen::GetCoords2Pixels(scale);
 

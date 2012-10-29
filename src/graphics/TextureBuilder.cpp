@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "TextureBuilder.h"
 #include "FileSystem.h"
 #include <SDL_image.h>
@@ -5,13 +8,13 @@
 
 namespace Graphics {
 
-TextureBuilder::TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA) :
-    m_surface(surface), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_prepared(false)
+TextureBuilder::TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures) :
+    m_surface(surface), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_prepared(false)
 {
 }
 
-TextureBuilder::TextureBuilder(const std::string &filename, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA) :
-    m_filename(filename), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_prepared(false)
+TextureBuilder::TextureBuilder(const std::string &filename, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures) :
+    m_filename(filename), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_prepared(false)
 {
 }
 
@@ -58,7 +61,7 @@ static inline bool GetTargetFormat(const SDL_PixelFormat *sourcePixelFormat, Tex
 		*targetPixelFormat = &pixelFormatRGBA;
 		return true;
 	}
-	
+
 	if (!forceRGBA && sourcePixelFormat->BytesPerPixel == 3) {
 		*targetTextureFormat = TEXTURE_RGB;
 		*targetPixelFormat = &pixelFormatRGB;
@@ -130,8 +133,8 @@ void TextureBuilder::PrepareSurface()
 		targetTextureFormat,
 		vector2f(actualWidth,actualHeight),
 		vector2f(float(virtualWidth)/float(actualWidth),float(virtualHeight)/float(actualHeight)),
-		m_sampleMode, m_generateMipmaps);
-	
+		m_sampleMode, m_generateMipmaps, m_compressTextures);
+
 	m_prepared = true;
 }
 

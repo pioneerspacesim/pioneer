@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _TEXT_TEXTUREFONT_H
 #define _TEXT_TEXTUREFONT_H
 
@@ -5,11 +8,12 @@
 #include "Color.h"
 #include "graphics/Texture.h"
 #include "graphics/Material.h"
+#include "graphics/VertexArray.h"
 #include <map>
 
 namespace Graphics {
+	class Material;
 	class Renderer;
-	class VertexArray;
 }
 
 namespace Text {
@@ -25,10 +29,11 @@ public:
 	void MeasureCharacterPos(const char *str, int charIndex, float &x, float &y) const;
 	int PickCharacter(const char *str, float mouseX, float mouseY) const;
 
-	// of Ms
+	// general baseline-to-baseline height
 	float GetHeight() const { return m_height; }
-	float GetWidth() const { return m_width; }
+	// general descender height
 	float GetDescender() const { return m_descender; }
+
 	struct glfglyph_t {
 		float advx, advy;
 		float width, height;
@@ -46,11 +51,11 @@ private:
 
 	void AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &color);
 	float m_height;
-	float m_width;
 	float m_descender;
-	int m_texSize, m_pixSize;
+	int m_texSize;
 	RefCountedPtr<Graphics::Texture> m_texture;
-	Graphics::Material m_mat;
+	ScopedPtr<Graphics::Material> m_mat;
+	Graphics::VertexArray m_vertices;
 
 	static int s_glyphCount;
 	std::map<Uint32,glfglyph_t> m_glyphs;
