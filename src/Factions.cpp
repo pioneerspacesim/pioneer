@@ -14,38 +14,41 @@
 
 const Uint32 Faction::BAD_FACTION_IDX = UINT_MAX;
 
-typedef std::vector<Faction>  FactionList;
+typedef std::vector<Faction*>  FactionList;
 typedef FactionList::iterator FactionIterator;
-static FactionList            s_factions;
+static FactionList s_factions;
 
 // ------- Faction --------
 
+struct FactionBuilder {
+	Faction *fac;
+	bool registered;
+};
+
 static const char LuaFaction_TypeName[] = "Faction";
 
-static Faction **l_fac_check_ptr(lua_State *L, int idx) {
-	Faction **facptr = static_cast<Faction**>(
+static FactionBuilder *l_fac_check_builder(lua_State *L, int idx) {
+	FactionBuilder *facbld = static_cast<FactionBuilder*>(
 		luaL_checkudata(L, idx, LuaFaction_TypeName));
-	if (!(*facptr)) {
-		luaL_argerror(L, idx, "invalid body (this body has already been used)");
-		abort();
-	}
-	return facptr;
+	assert(facbld->fac);
+	return facbld;
 }
 
 static Faction *l_fac_check(lua_State *L, int idx)
 {
-	return *l_fac_check_ptr(L, idx);
+	return l_fac_check_builder(L, idx)->fac;
 }
 
 static int l_fac_new(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 2);
 
-	Faction **facptr = static_cast<Faction**>(lua_newuserdata(L, sizeof(Faction*)));
-	*facptr = new Faction;
+	FactionBuilder *facbld = static_cast<FactionBuilder*>(lua_newuserdata(L, sizeof(*facbld)));
+	facbld->fac = new Faction;
+	facbld->registered = false;
 	luaL_setmetatable(L, LuaFaction_TypeName);
 
-	(*facptr)->name = name;
+	facbld->fac->name = name;
 
 	return 1;
 }
@@ -184,22 +187,28 @@ static int l_fac_colour(lua_State *L)
 
 static int l_fac_add_to_factions(lua_State *L)
 {
-	Faction **facptr = l_fac_check_ptr(L, 1);
+	FactionBuilder *facbld = l_fac_check_builder(L, 1);
 
 	const std::string factionName(luaL_checkstring(L, 2));
 
-	printf("l_fac_add_to_factions: added '%s' [%s]\n", (*facptr)->name.c_str(), factionName.c_str());
+	if (!facbld->registered) {
+		printf("l_fac_add_to_factions: added '%s' [%s]\n", facbld->fac->name.c_str(), factionName.c_str());
 
-	s_factions.push_back(**facptr);
-
-	return 0;
+		s_factions.push_back(facbld->fac);
+		facbld->registered = true;
+		return 0;
+	} else {
+		return luaL_error(L, "faction '%s' already added\n", facbld->fac->name.c_str());
+	}
 }
 
 static int l_fac_gc(lua_State *L)
 {
-	Faction **facptr = static_cast<Faction**>(
-			luaL_checkudata(L, 1, LuaFaction_TypeName));
-	delete *facptr; // does nothing if *facptr is null
+	FactionBuilder *facbld = l_fac_check_builder(L, 1);
+	if (!facbld->registered) {
+		delete facbld->fac;
+		facbld->fac = 0;
+	}
 	return 0;
 }
 
@@ -268,13 +277,16 @@ void Faction::Init()
 
 void Faction::Uninit()
 {
+	for (FactionIterator it = s_factions.begin(); it != s_factions.end(); ++it) {
+		delete *it;
+	}
 	s_factions.clear();
 }
 
-const Faction *Faction::GetFaction(const Uint32 index)
+Faction *Faction::GetFaction(const Uint32 index)
 {
 	assert( index < s_factions.size() );
-	return &s_factions[index];
+	return s_factions[index];
 }
 
 const Uint32 Faction::GetNumFactions()
@@ -297,7 +309,7 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 	if( a != Polit::GOV_INVALID )
 	{
 		for (Uint32 index = 0; index < s_factions.size(); ++index) {
-			const Faction &fac = s_factions[index];
+			const Faction &fac = *s_factions[index];
 			if(fac.govType == a) {
 				return index;
 			}
@@ -320,7 +332,7 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 	// iterate
 	Uint32 ret_index = BAD_FACTION_IDX;
 	for (Uint32 index = 0; index < s_factions.size(); ++index) {
-		const Faction &fac = s_factions[index];
+		const Faction &fac = *s_factions[index];
 
 		if( !fac.hasHomeworld && !foundFaction ) {
 			// We've not yet found a faction that we're within the radius of

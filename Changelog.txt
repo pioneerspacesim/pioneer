@@ -9,6 +9,7 @@ Alpha 28
      * Laser bolts are now faster (#1607)
      * Thruster fuel (propellant) mass is now taken into account in the ship
        info view and shipyard screens, and in hyperspace calculations (#1574)
+     * Cargo jettison now handled by Lua script (#1443)
 
    * Fixes
      * Fix choice of non-/rotating initial frame in Space.SpawnShipNear (#1584, #1581)
@@ -20,7 +21,10 @@ Alpha 28
 
    * Script and model changes
      * Separation and orientation is now specified for dual laser mountings (#1518)
-     * Removed Engine.userdir (deprectated since alpha 26) (#1602)
+     * Removed Engine.userdir (deprecated since alpha 26) (#1602)
+     * Added StarSystem.faction attribute and Faction object to get information
+       about a system's faction (#1568)
+     * Removed Ship.Jettison, added Ship.SpawnCargo (#1443)
 
    * Internal changes
      * Code clean-up in the handling of world view cameras (#1601)

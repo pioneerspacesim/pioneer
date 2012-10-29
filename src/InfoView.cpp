@@ -13,6 +13,8 @@
 #include "utils.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "LuaShip.h"
+#include "LuaConstants.h"
 
 class InfoViewPage: public Gui::Fixed {
 public:
@@ -165,10 +167,18 @@ private:
 	}
 
 	void JettisonCargo(Equip::Type t) {
-		if (Pi::player->Jettison(t)) {
+        lua_State * l = Lua::manager->GetLuaState();
+        lua_getglobal(l, "Ship");
+        lua_getfield(l, -1, "Jettison");
+        lua_remove(l, -2);
+        LuaShip::PushToLua(Pi::player);
+        lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", t));
+        lua_call(l, 2, 1);
+        if (lua_toboolean(l, -1)) {
 			Pi::cpan->MsgLog()->Message("", stringf(Lang::JETTISONED_1T_OF_X, formatarg("commodity", Equip::types[t].name)));
 			m_infoView->UpdateInfo();
 		}
+        lua_pop(l, 1);
 	}
 
 	void Refuel() {

@@ -1210,43 +1210,19 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	}
 }
 
-bool Ship::Jettison(Equip::Type t)
-{
-	if (m_flightState != FLYING && m_flightState != DOCKED && m_flightState != LANDED) return false;
-	if (t == Equip::NONE) return false;
-	Equip::Slot slot = Equip::types[int(t)].slot;
-	if (m_equipment.Count(slot, t) > 0) {
-		m_equipment.Remove(t, 1);
-		UpdateEquipStats();
-
-		if (m_flightState == FLYING) {
-			// create a cargo body in space
-			Aabb aabb;
-			GetAabb(aabb);
-			matrix4x4d rot;
-			GetRotMatrix(rot);
-			vector3d pos = rot * vector3d(0, aabb.min.y-5, 0);
-			CargoBody *cargo = new CargoBody(t);
-			cargo->SetFrame(GetFrame());
-			cargo->SetPosition(GetPosition()+pos);
-			cargo->SetVelocity(GetVelocity()+rot*vector3d(0,-10,0));
-			Pi::game->GetSpace()->AddBody(cargo);
-
-			LuaEvent::Queue("onJettison", this, cargo);
-		} else if (m_flightState == DOCKED) {
-			// XXX should move the cargo to the station's temporary storage
-			// (can't be recovered at this moment)
-			LuaEvent::Queue("onCargoUnload", GetDockedWith(),
-				LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "EquipType", t));
-		} else { // LANDED
-			// the cargo is lost
-			LuaEvent::Queue("onCargoUnload", GetFrame()->GetBodyFor(),
-				LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "EquipType", t));
-		}
-		return true;
-	} else {
+bool Ship::SpawnCargo(CargoBody * c_body) const {
+	if (m_flightState != FLYING)
 		return false;
-	}
+	Aabb aabb;
+	GetAabb(aabb);
+	matrix4x4d rot;
+	GetRotMatrix(rot);
+	vector3d pos = rot * vector3d(0, aabb.min.y - 5, 0);
+	c_body->SetFrame(GetFrame());
+	c_body->SetPosition(GetPosition()+pos);
+	c_body->SetVelocity(GetVelocity()+rot*vector3d(0, -10, 0));
+	Pi::game->GetSpace()->AddBody(c_body);
+	return true;
 }
 
 void Ship::OnEquipmentChange(Equip::Type e)
