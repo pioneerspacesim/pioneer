@@ -32,8 +32,11 @@ public:
 	Box *PackEnd(Widget *child, Uint32 flags = 0);
 	Box *PackEnd(const WidgetSet &set, Uint32 flags = 0);
 
-	void Remove(Widget *child);
+	void Remove(Widget *child) { RemoveWidget(child); }
 	void Clear();
+
+protected:
+	virtual void RemoveWidget(Widget *widget);
 
 private:
 	BoxOrientation m_orient;
