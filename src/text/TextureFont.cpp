@@ -19,6 +19,19 @@
 
 namespace Text {
 
+// range end-points are inclusive
+const Uint32 TextureFont::CHARACTER_RANGES[] = {
+	0x0020, 0x007F, // Basic Latin (excluding control characters)
+	0x0080, 0x00FF, // Latin-1 Supplement
+	0x0100, 0x017F, // Latin Extended-A
+	0x0180, 0x024F, // Latin Extended-B
+	0x0400, 0x04FF, // Cyrillic
+	0x0500, 0x052F, // Cyrillic Supplement
+	0x2DE0, 0x2DFF, // Cyrillic Extended-A
+	0xA640, 0xA69F, // Cyrillic Extended-B
+	0,0 // terminator
+};
+
 int TextureFont::s_glyphCount = 0;
 
 void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &c)
@@ -300,7 +313,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 	FT_Set_Pixel_Sizes(m_face, a_width, a_height);
 
-	const int sz = 512; //current fonts use maybe 1/4 of this...
+	const int sz = 512;
 	m_texSize = sz;
 
 	//UV offsets for glyphs
@@ -333,144 +346,151 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 		FT_Stroker_Set(stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 	}
 
-	//load 479 characters
-	for (Uint32 chr=s_firstCharacter; chr<s_lastCharacter; chr++) {
-		glfglyph_t glfglyph;
-		FT_Glyph glyph;
+	// generate and store glyphs for each character in the specified ranges
+	for (int i = 0;; i += 2) {
+		Uint32 first = CHARACTER_RANGES[i];
+		Uint32 last = CHARACTER_RANGES[i+1];
+		if (first == 0 && last == 0)
+			break;
 
-		err = FT_Load_Char(m_face, chr, FT_LOAD_FORCE_AUTOHINT);
-		if (err) {
-			fprintf(stderr, "Error %d loading glyph\n", err);
-			continue;
-		}
+		for (Uint32 chr = first; chr <= last; chr++) {
+			glfglyph_t glfglyph;
+			FT_Glyph glyph;
 
-		//get base glyph again
-		err = FT_Get_Glyph(m_face->glyph, &glyph);
-		if (err) {
-			fprintf(stderr, "Glyph get error %d\n", err);
-			continue;
-		}
-
-		//convert to bitmap
-		if (glyph->format != FT_GLYPH_FORMAT_BITMAP) {
-			err = FT_Glyph_To_Bitmap(&glyph, FT_RENDER_MODE_NORMAL, 0, 1);
+			err = FT_Load_Char(m_face, chr, FT_LOAD_FORCE_AUTOHINT);
 			if (err) {
-				fprintf(stderr, "Couldn't convert glyph to bitmap, error %d\n", err);
+				fprintf(stderr, "Error %d loading glyph\n", err);
 				continue;
 			}
-		}
 
-		const FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(glyph);
-
-		if (outline) {
-			FT_Glyph strokeGlyph;
-
-			err = FT_Get_Glyph(m_face->glyph, &strokeGlyph);
+			// get base glyph again
+			err = FT_Get_Glyph(m_face->glyph, &glyph);
 			if (err) {
 				fprintf(stderr, "Glyph get error %d\n", err);
 				continue;
 			}
 
-			err = FT_Glyph_Stroke(&strokeGlyph, stroker, 1);
-			if (err) {
-				fprintf(stderr, "Glyph stroke error %d\n", err);
-				continue;
-			}
-
-			//convert to bitmap
-			if (strokeGlyph->format != FT_GLYPH_FORMAT_BITMAP) {
-				err = FT_Glyph_To_Bitmap(&strokeGlyph, FT_RENDER_MODE_NORMAL, 0, 1);
+			// convert to bitmap
+			if (glyph->format != FT_GLYPH_FORMAT_BITMAP) {
+				err = FT_Glyph_To_Bitmap(&glyph, FT_RENDER_MODE_NORMAL, 0, 1);
 				if (err) {
 					fprintf(stderr, "Couldn't convert glyph to bitmap, error %d\n", err);
 					continue;
 				}
 			}
 
-			const FT_BitmapGlyph bmStrokeGlyph = FT_BitmapGlyph(strokeGlyph);
+			const FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(glyph);
 
-			//don't run off atlas borders
-			atlasVIncrement = std::max(atlasVIncrement, bmStrokeGlyph->bitmap.rows);
-			if (atlasU + bmStrokeGlyph->bitmap.width > sz) {
-				atlasU = 0;
-				atlasV += atlasVIncrement;
-			}
+			if (outline) {
+				FT_Glyph strokeGlyph;
 
-			//copy to the atlas texture
-			//stroke first
-			int pitch = bmStrokeGlyph->bitmap.pitch;
-			for (int row=0; row < bmStrokeGlyph->bitmap.rows; row++) {
-				for (int col=0; col < bmStrokeGlyph->bitmap.width; col++) {
-					//assume black outline
-					const int d = 4*sz*(row+atlasV) + 4*(col+atlasU);
-					const int s = pitch*row + col;
-					pixBuf[d]  = pixBuf[d+1] = pixBuf[d+2] = 0; //lum
-					pixBuf[d+3] = bmStrokeGlyph->bitmap.buffer[s]; //alpha
+				err = FT_Get_Glyph(m_face->glyph, &strokeGlyph);
+				if (err) {
+					fprintf(stderr, "Glyph get error %d\n", err);
+					continue;
 				}
-			}
 
-			//overlay normal glyph (luminance only)
-			int xoff = (bmStrokeGlyph->bitmap.width - bmGlyph->bitmap.width) / 2;
-			int yoff = (bmStrokeGlyph->bitmap.rows - bmGlyph->bitmap.rows) / 2;
-			pitch = bmGlyph->bitmap.pitch;
-			for (int row=0; row < bmGlyph->bitmap.rows; row++) {
-				for (int col=0; col < bmGlyph->bitmap.width; col++) {
-					const int d = 4*sz*(row+atlasV+xoff) + 4*(col+atlasU+yoff);
-					const int s = pitch*row + col;
-					pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = bmGlyph->bitmap.buffer[s];
+				err = FT_Glyph_Stroke(&strokeGlyph, stroker, 1);
+				if (err) {
+					fprintf(stderr, "Glyph stroke error %d\n", err);
+					continue;
 				}
+
+				//convert to bitmap
+				if (strokeGlyph->format != FT_GLYPH_FORMAT_BITMAP) {
+					err = FT_Glyph_To_Bitmap(&strokeGlyph, FT_RENDER_MODE_NORMAL, 0, 1);
+					if (err) {
+						fprintf(stderr, "Couldn't convert glyph to bitmap, error %d\n", err);
+						continue;
+					}
+				}
+
+				const FT_BitmapGlyph bmStrokeGlyph = FT_BitmapGlyph(strokeGlyph);
+
+				//don't run off atlas borders
+				atlasVIncrement = std::max(atlasVIncrement, bmStrokeGlyph->bitmap.rows);
+				if (atlasU + bmStrokeGlyph->bitmap.width > sz) {
+					atlasU = 0;
+					atlasV += atlasVIncrement;
+				}
+
+				//copy to the atlas texture
+				//stroke first
+				int pitch = bmStrokeGlyph->bitmap.pitch;
+				for (int row=0; row < bmStrokeGlyph->bitmap.rows; row++) {
+					for (int col=0; col < bmStrokeGlyph->bitmap.width; col++) {
+						//assume black outline
+						const int d = 4*sz*(row+atlasV) + 4*(col+atlasU);
+						const int s = pitch*row + col;
+						pixBuf[d]  = pixBuf[d+1] = pixBuf[d+2] = 0; //lum
+						pixBuf[d+3] = bmStrokeGlyph->bitmap.buffer[s]; //alpha
+					}
+				}
+
+				//overlay normal glyph (luminance only)
+				int xoff = (bmStrokeGlyph->bitmap.width - bmGlyph->bitmap.width) / 2;
+				int yoff = (bmStrokeGlyph->bitmap.rows - bmGlyph->bitmap.rows) / 2;
+				pitch = bmGlyph->bitmap.pitch;
+				for (int row=0; row < bmGlyph->bitmap.rows; row++) {
+					for (int col=0; col < bmGlyph->bitmap.width; col++) {
+						const int d = 4*sz*(row+atlasV+xoff) + 4*(col+atlasU+yoff);
+						const int s = pitch*row + col;
+						pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = bmGlyph->bitmap.buffer[s];
+					}
+				}
+
+				glfglyph.width = bmStrokeGlyph->bitmap.width / float(sz);
+				glfglyph.height = bmStrokeGlyph->bitmap.rows / float(sz);
+				glfglyph.offx = bmStrokeGlyph->left;
+				glfglyph.offy = bmStrokeGlyph->top;
+				glfglyph.offU = atlasU / float(sz);
+				glfglyph.offV = atlasV / float(sz);
+
+				atlasU += bmStrokeGlyph->bitmap.width;
+
+				FT_Done_Glyph(strokeGlyph);
 			}
 
-			glfglyph.width = bmStrokeGlyph->bitmap.width / float(sz);
-			glfglyph.height = bmStrokeGlyph->bitmap.rows / float(sz);
-			glfglyph.offx = bmStrokeGlyph->left;
-			glfglyph.offy = bmStrokeGlyph->top;
-			glfglyph.offU = atlasU / float(sz);
-			glfglyph.offV = atlasV / float(sz);
+			else {
+				//don't run off atlas borders
+				atlasVIncrement = std::max(atlasVIncrement, bmGlyph->bitmap.rows);
+				if (atlasU + bmGlyph->bitmap.width >= sz) {
+					atlasU = 0;
+					atlasV += atlasVIncrement;
+				}
 
-			atlasU += bmStrokeGlyph->bitmap.width;
+				//copy glyph bitmap to the atlas texture
+				//the glyphs are upside down in the texture due to how freetype stores them
+				//but it's just a matter of adjusting the texcoords
+				const int pitch = bmGlyph->bitmap.pitch;
+				const int rows = bmGlyph->bitmap.rows;
+				for (int row=0; row < rows; row++) {
+					for (int col=0; col < bmGlyph->bitmap.width; col++) {
+						const int d = 4*sz*(row+atlasV) + 4*(col+atlasU);
+						const int s = pitch*row + col;
+						pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = pixBuf[d+3] = bmGlyph->bitmap.buffer[s];
+					}
+				}
 
-			FT_Done_Glyph(strokeGlyph);
+				glfglyph.width = bmGlyph->bitmap.width / float(sz);
+				glfglyph.height = bmGlyph->bitmap.rows / float(sz);
+				glfglyph.offx = bmGlyph->left;
+				glfglyph.offy = bmGlyph->top;
+				glfglyph.offU = atlasU / float(sz);
+				glfglyph.offV = atlasV / float(sz);
+
+				atlasU += bmGlyph->bitmap.width;
+			}
+
+			FT_Done_Glyph(glyph);
+
+			glfglyph.texWidth = m_texSize*glfglyph.width;
+			glfglyph.texHeight = m_texSize*glfglyph.height;
+
+			glfglyph.advx = float(m_face->glyph->advance.x) / 64.f + advx_adjust;
+			glfglyph.advy = float(m_face->glyph->advance.y) / 64.f;
+			m_glyphs[chr] = glfglyph;
 		}
-
-		else {
-			//don't run off atlas borders
-			atlasVIncrement = std::max(atlasVIncrement, bmGlyph->bitmap.rows);
-			if (atlasU + bmGlyph->bitmap.width >= sz) {
-				atlasU = 0;
-				atlasV += atlasVIncrement;
-			}
-
-			//copy glyph bitmap to the atlas texture
-			//the glyphs are upside down in the texture due to how freetype stores them
-			//but it's just a matter of adjusting the texcoords
-			const int pitch = bmGlyph->bitmap.pitch;
-			const int rows = bmGlyph->bitmap.rows;
-			for (int row=0; row < rows; row++) {
-				for (int col=0; col < bmGlyph->bitmap.width; col++) {
-					const int d = 4*sz*(row+atlasV) + 4*(col+atlasU);
-					const int s = pitch*row + col;
-					pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = pixBuf[d+3] = bmGlyph->bitmap.buffer[s];
-				}
-			}
-
-			glfglyph.width = bmGlyph->bitmap.width / float(sz);
-			glfglyph.height = bmGlyph->bitmap.rows / float(sz);
-			glfglyph.offx = bmGlyph->left;
-			glfglyph.offy = bmGlyph->top;
-			glfglyph.offU = atlasU / float(sz);
-			glfglyph.offV = atlasV / float(sz);
-
-			atlasU += bmGlyph->bitmap.width;
-		}
-
-		FT_Done_Glyph(glyph);
-
-		glfglyph.texWidth = m_texSize*glfglyph.width;
-		glfglyph.texHeight = m_texSize*glfglyph.height;
-
-		glfglyph.advx = float(m_face->glyph->advance.x) / 64.f + advx_adjust;
-		glfglyph.advy = float(m_face->glyph->advance.y) / 64.f;
-		m_glyphs[chr] = glfglyph;
 	}
 
 #if DUMP_GLYPH_ATLAS
