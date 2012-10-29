@@ -8,7 +8,7 @@ local t = Translate:GetTranslator()
 local max_taxi_dist = 40
 -- typical time for travel to a system max_taxi_dist away
 --	Irigi: ~ 4 days for in-system travel, the rest is FTL travel time
-local typical_travel_time = (1.2 * max_taxi_dist + 4) * 24 * 60 * 60
+local typical_travel_time = (2.0 * max_taxi_dist + 4) * 24 * 60 * 60
 -- typical reward for taxi service to a system max_taxi_dist away
 local typical_reward = 75 * max_taxi_dist
 -- max number of passengers per trip

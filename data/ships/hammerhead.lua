@@ -25,7 +25,9 @@ define_ship {
 	capacity = 1600,
 	hull_mass = 666,
 	fuel_tank_mass = 622, --full tank, tons in addition to hull_mass
-	effective_exhaust_velocity = 55712e3, --exhaust speed of propellant in m/s, it affects fuel use rate
+	-- Exhaust velocity Vc [m/s] is equivalent of engine efficiency and depend on used technology. Higher Vc means lower fuel consumption.
+	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.
+	effective_exhaust_velocity = 55712e3, --exhaust speed of propellant in m/s,
 	price = 3e6,
 	hyperdrive_class = 7,
 }

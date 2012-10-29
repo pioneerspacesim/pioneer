@@ -8,7 +8,7 @@ local t = Translate:GetTranslator()
 local max_delivery_dist = 30
 -- typical time for travel to a system max_delivery_dist away
 --	Irigi: ~ 4 days for in-system travel, the rest is FTL travel time
-local typical_travel_time = (0.9 * max_delivery_dist + 4) * 24 * 60 * 60
+local typical_travel_time = (1.6 * max_delivery_dist + 4) * 24 * 60 * 60
 -- typical reward for delivery to a system max_delivery_dist away
 local typical_reward = 25 * max_delivery_dist
 
