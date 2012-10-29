@@ -79,6 +79,8 @@ WEIGHT_FULLY_LADEN
     Peso a carga completa
 CAPACITY
     Capacidad
+CAPACITY_USED
+    Capacidad usada
 FORWARD_ACCEL_EMPTY
     Aceleración (vacío)
 NUMBER_G
@@ -484,8 +486,12 @@ HYPERDRIVE
     Motor hiperespacial
 FREE
     Libre
+FREE_LOWERCASE
+    Libre
 USED
     Utilizado
+FUEL_WEIGHT
+    Masa de fuel
 TOTAL_WEIGHT
     Masa total
 FRONT_WEAPON
@@ -498,6 +504,8 @@ NO_MOUNTING
     Sin montura
 N_LIGHT_YEARS_N_MAX
     %distance{f.1} años luz (%maxdistance{f.1} max)
+MAX
+        máx
 SHIP_INFORMATION
     Info de la nave
 PERSONAL
