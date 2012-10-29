@@ -16,7 +16,6 @@ local typical_reward = 75 * max_taxi_dist
 local max_group = 10
 
 local ads = {}
-local adstaken = {} -- An extra copy so we can refer to it after hyperspace
 local missions = {}
 local passengers = 0
 
