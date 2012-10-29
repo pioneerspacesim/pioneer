@@ -253,6 +253,8 @@ bool LoadStrings(const std::string &lang)
 		if (it != s_token_map.end()) {
 			seen.insert(token);
 			const std::string &text = parser.GetAdjustedText();
+			if (text.size() >= size_t(STRING_RECORD_SIZE))
+				fprintf(stderr, "WARNING: language text is too long -- it will be cut off!\n");
 			// XXX const_cast is ugly, but see note for declaration of tokens map
 			char *record = const_cast<char*>(it->second);
 			copy_string(record, text.c_str(), text.size(), STRING_RECORD_SIZE);
@@ -296,6 +298,8 @@ bool LoadStrings(const std::string &lang)
 		if (it != s_token_map.end()) {
 			seen.insert(token);
 			const std::string &text = parser.GetAdjustedText();
+			if (text.size() >= size_t(STRING_RECORD_SIZE))
+				fprintf(stderr, "WARNING: language text is too long -- it will be cut off!\n");
 			// XXX const_cast is ugly, but see note for declaration of tokens map
 			char *record = const_cast<char*>(it->second);
 			copy_string(record, text.c_str(), text.size(), STRING_RECORD_SIZE);
