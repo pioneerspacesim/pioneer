@@ -265,6 +265,6 @@ Mission = {
 --
 	GetClick = function (missiontype)
 		local t = Translate:GetTranslator()
-		return MissionClickHandler[missiontype] or function (ref,ui) return Engine.ui:Label(t('NOT_FOUND')) end
+		return MissionClickHandler[missiontype] or function (ref) return Engine.ui:Label(t('NOT_FOUND')) end
 	end
 }
