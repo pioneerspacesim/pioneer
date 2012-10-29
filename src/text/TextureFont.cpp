@@ -21,14 +21,15 @@ namespace Text {
 
 // range end-points are inclusive
 const Uint32 TextureFont::CHARACTER_RANGES[] = {
-	0x0020, 0x007F, // Basic Latin (excluding control characters)
-	0x0080, 0x00FF, // Latin-1 Supplement
+	0x0020, 0x007E, // Basic Latin (excluding control characters)
+	0x00A0, 0x00FF, // Latin-1 Supplement (excluding control characters)
 	0x0100, 0x017F, // Latin Extended-A
 	0x0180, 0x024F, // Latin Extended-B
 	0x0400, 0x04FF, // Cyrillic
-	0x0500, 0x052F, // Cyrillic Supplement
+	0x0500, 0x0527, // Cyrillic Supplement (excluding unused codepoints)
 	0x2DE0, 0x2DFF, // Cyrillic Extended-A
-	0xA640, 0xA69F, // Cyrillic Extended-B
+	0xA640, 0xA697, // Cyrillic Extended-B (excluding unused codepoints)
+	0xA69F, 0xA69F, // Cyrillic Extended-B (continued)
 	0,0 // terminator
 };
 
