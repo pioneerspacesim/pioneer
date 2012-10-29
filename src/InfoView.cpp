@@ -10,6 +10,7 @@
 #include "LmrModel.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "utils.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 
@@ -171,7 +172,13 @@ private:
 	}
 
 	void Refuel() {
-		Pi::player->Refuel();
+		float currentFuel = Pi::player->GetFuel();
+		if (is_equal_exact(currentFuel, 1.0f)) return;
+
+		Pi::player->m_equipment.Remove(Equip::WATER, 1);
+		Pi::player->SetFuel(currentFuel + 1.0f/Pi::player->GetShipType().fuelTankMass);
+		Pi::player->UpdateStats();
+
 		m_infoView->UpdateInfo();
 	}
 };

@@ -231,7 +231,6 @@ public:
 	//0.0 - 1.0
 	void SetFuel(const float f) {	m_thrusterFuel = Clamp(f, 0.f, 1.f); }
 
-	//double GetEffectiveExhaustVelocity();
 	double GetFuelUseRate();
 	double GetVelocityReachedWithFuelUsed(float fuelUsed);
 
