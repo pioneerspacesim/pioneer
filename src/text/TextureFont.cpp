@@ -416,6 +416,12 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					atlasV += atlasVIncrement;
 				}
 
+				if (atlasV + bmStrokeGlyph->bitmap.rows > sz) {
+					fprintf(stderr, "glyph doesn't fit in atlas\n");
+					FT_Done_Glyph(strokeGlyph);
+					continue;
+				}
+
 				//copy to the atlas texture
 				//stroke first
 				int pitch = bmStrokeGlyph->bitmap.pitch;
@@ -459,6 +465,11 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				if (atlasU + bmGlyph->bitmap.width >= sz) {
 					atlasU = 0;
 					atlasV += atlasVIncrement;
+				}
+
+				if (atlasV + bmGlyph->bitmap.rows > sz) {
+					fprintf(stderr, "glyph doesn't fit in atlas\n");
+					continue;
 				}
 
 				//copy glyph bitmap to the atlas texture
