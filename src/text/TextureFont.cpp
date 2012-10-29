@@ -393,6 +393,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				err = FT_Glyph_Stroke(&strokeGlyph, stroker, 1);
 				if (err) {
 					fprintf(stderr, "Glyph stroke error %d\n", err);
+					FT_Done_Glyph(strokeGlyph);
 					continue;
 				}
 
@@ -401,6 +402,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					err = FT_Glyph_To_Bitmap(&strokeGlyph, FT_RENDER_MODE_NORMAL, 0, 1);
 					if (err) {
 						fprintf(stderr, "Couldn't convert glyph to bitmap, error %d\n", err);
+						FT_Done_Glyph(strokeGlyph);
 						continue;
 					}
 				}
