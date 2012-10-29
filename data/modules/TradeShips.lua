@@ -632,7 +632,7 @@ local onAICompleted = function (ship, ai_error)
 	if ai_error ~= 'NONE' then
 		print(ship.label..' AICompleted: Error: '..ai_error..' Status: '..trader.status) end
 		
-	if ai_error == 'GRAV_TOO_HIGH' then
+	if ai_error == 'GRAV_TOO_HIGH' and trader.status == 'inbound' then
 		print(ship.label..' will change to orbital spaceport from '..trader.starport.label)
 		trader['starport'] = getNearestStarport(ship, trader.starport) 
 		print('.. to '..trader.starport.label)

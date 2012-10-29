@@ -380,9 +380,9 @@ vector3d Ship::GetMaxThrust(const vector3d &dir) const
 double Ship::GetAccelMin() const
 {
 	const ShipType &stype = GetShipType();
-	float val = stype.linThrust[ShipType::THRUSTER_UP];
-	val = std::min(val, stype.linThrust[ShipType::THRUSTER_RIGHT]);
-	val = std::min(val, -stype.linThrust[ShipType::THRUSTER_LEFT]);
+	float val = fabs(stype.linThrust[ShipType::THRUSTER_UP]);
+	val = std::min(val, fabs(stype.linThrust[ShipType::THRUSTER_RIGHT]));
+	val = std::min(val, fabs(stype.linThrust[ShipType::THRUSTER_LEFT]));
 	return val / GetMass();
 }
 

@@ -279,6 +279,18 @@ static int l_space_spawn_ship_docked(lua_State *l)
 
 	SpaceStation *station = LuaSpaceStation::GetFromLua(2);
 
+	// if the ship has not good-enough acceleration for landing on planet, it will not be spawned there
+	if (station->GetSystemBody()->type == SystemBody::TYPE_STARPORT_SURFACE) {
+		const ShipType *stype = ShipType::Get(type);
+		double val = fabs((*stype).linThrust[ShipType::THRUSTER_UP]);
+		val = std::min(val, fabs((*stype).linThrust[ShipType::THRUSTER_RIGHT]));
+		val = std::min(val, fabs((*stype).linThrust[ShipType::THRUSTER_LEFT]));
+		float accel = val / ((*stype).fuelTankMass + (*stype).capacity + (*stype).hullMass) / 1000;
+
+		if(station->GetSystemBody()->CalcSurfaceGravity() > accel)
+			return 0;
+	}
+
 	int port = station->GetFreeDockingPort();
 	if (port < 0)
 		return 0;
