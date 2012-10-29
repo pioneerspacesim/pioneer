@@ -536,11 +536,20 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
-		// don't worry about looking for inhabited systems if they're
-		// unexplored (same calculation as in StarSystem.cpp)
-		if (isqrt(1 + sx*sx + sy*sy + sz*sz) <= 90) {			
-			// Ideally, since this (sysgen) takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
-			if( !(*i).fullSys) { (*i).fullSys = StarSystem::GetCached(current); }
+		// only get the full system if we don't already have it and the system 
+		// is explored (same calculation as in StarSystem.cpp)
+		if (!(*i).fullSys || (isqrt(1 + sx*sx + sy*sy + sz*sz) <= 90 )) {
+
+			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
+			// For now only get the full system if we've stopped scrolling
+			vector3f diff = vector3f(
+				fabs(m_posMovingTo.x - m_pos.x),
+				fabs(m_posMovingTo.y - m_pos.y),
+				fabs(m_posMovingTo.z - m_pos.z));
+
+	        if(diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
+					(*i).fullSys = StarSystem::GetCached(current);
+			}
 		}
 		
 		/*	if we have a full system then some of the things we show in the sector view might have been changed since 
