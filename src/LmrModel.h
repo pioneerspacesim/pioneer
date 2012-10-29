@@ -71,7 +71,7 @@ public:
 	void PushAttributeToLuaStack(const char *attr_name) const;
 	const char *GetName() const { return m_name.c_str(); }
 	bool HasTag(const char *tag) const;
-	void Dump();
+	void Dump(const char* pMainFolderName=nullptr);
 private:
 	void Build(int lod, const LmrObjParams *params);
 
@@ -102,6 +102,7 @@ int LmrModelGetStatsTris();
 void LmrModelClearStatsTris();
 void LmrNotifyScreenWidth(float width);
 void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels);
+void LmrGetAllModelNames(std::vector<std::string> &modelNames);
 lua_State *LmrGetLuaState();
 
 class LmrCollMesh

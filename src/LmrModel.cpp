@@ -30,6 +30,7 @@
 #include <set>
 #include <algorithm>
 #include <sstream>
+#include <fstream>
 #include "StringF.h"
 
 static Graphics::Renderer *s_renderer;
@@ -881,11 +882,16 @@ private:
 	};
 
 public:
-	void Dump(const std::string &name, int lod) {
+	void Dump(const std::string &rootFolderName, const std::string &name, int lod) {
 		const std::string prefix(stringf("%0_lod%1{d}", name, lod+1));
 
 		std::ofstream out;
-		out.open((FileSystem::JoinPath(FileSystem::GetUserDir("model_dump"), prefix+".obj")).c_str());
+		std::string folderName("model_dump/");
+		folderName+=rootFolderName;
+		folderName+="/";
+		folderName+=name;
+		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(folderName.c_str()), prefix+".obj")).c_str());
+		assert(out.is_open());
 
 		printf("Dumping model '%s' LOD %d\n", name.c_str(), lod+1);
 
@@ -960,7 +966,7 @@ public:
 		out.close();
 
 
-		out.open((FileSystem::JoinPath(FileSystem::GetUserDir("model_dump"), prefix+".mtl")).c_str());
+		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(folderName.c_str()), prefix+".mtl")).c_str());
 
 		out << stringf("# Materials LMR model '%0' LOD %1{d}", name, lod+1) << std::endl;
 			
@@ -988,9 +994,11 @@ public:
 		out.close();
 
 
-		for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i)
-			if ((*i).type == OP_CALL_MODEL)
-				(*i).callmodel.model->Dump();
+		for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
+			if ((*i).type == OP_CALL_MODEL) {
+				(*i).callmodel.model->Dump(rootFolderName.c_str());
+			}
+		}
 	}
 
 private:
@@ -1323,6 +1331,13 @@ void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels)
 	}
 }
 
+void LmrGetAllModelNames(std::vector<std::string> &modelNames)
+{
+	for (std::map<std::string, LmrModel*>::iterator i = s_models.begin(); i != s_models.end(); ++i) {
+		modelNames.push_back(i->second->GetName());
+	}
+}
+
 float LmrModel::GetFloatAttribute(const char *attr_name) const
 {
 	LUA_DEBUG_START(sLua);
@@ -1494,15 +1509,28 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 	if (m_hasDynamicFunc) m_dynamicGeometry[0]->GetCollMeshGeometry(mesh, m, params);
 }
 
-void LmrModel::Dump()
+void LmrModel::Dump(const char* pMainFolderName/*=nullptr*/)
 {
 	if (m_dumped) return;
 	m_dumped = true;
 
-	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir("model_dump"));
+	std::string folderName("model_dump");
+	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir(folderName.c_str()));
+	folderName+="/";
+	if(pMainFolderName) {
+		folderName+=pMainFolderName;
+	} else {
+		folderName+=m_name;
+	}
+	
+	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir(folderName.c_str()));
+	folderName+="/";
+	folderName+=m_name;
+	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir(folderName.c_str()));
 
+	const std::string rootFolderName((pMainFolderName) ? pMainFolderName : m_name);
 	for (int lod = 0; lod < m_numLods; lod++) {
-		m_staticGeometry[lod]->Dump(m_name, lod);
+		m_staticGeometry[lod]->Dump(rootFolderName, m_name, lod);
 	}
 }
 
