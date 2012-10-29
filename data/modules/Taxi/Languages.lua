@@ -209,6 +209,13 @@ Translate:Add({ English = {
   ["Could you repeat the original request?"] = "Could you repeat the original request?",
   ["Ok, agreed."] = "Ok, agreed.",
   ["Hey!?! You are going to pay for this!!!"] = "Hey!?! You are going to pay for this!!!",
+
+  -- Texts for the missions screen
+  missiondetailtext = [[You agree to transport me, {name} from {start} to {finish}, arriving no later than {deadline}. In return, I will pay you {amount} on arrival.
+
+  Group details: {howmany}
+  Danger: {danger}]],
+
  PIRATE_TAUNTS = {
 	"You're going to regret dealing with {client}",
 	"You have {client} on board? That was a bad idea.",

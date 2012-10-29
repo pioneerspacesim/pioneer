@@ -3,6 +3,8 @@
 
 -- Get the translator function
 local t = Translate:GetTranslator()
+-- Get the UI class
+local ui = Engine.ui
 
 -- don't produce missions for further than this many light years away
 local max_taxi_dist = 40
@@ -14,6 +16,7 @@ local typical_reward = 75 * max_taxi_dist
 local max_group = 10
 
 local ads = {}
+local adstaken = {} -- An extra copy so we can refer to it after hyperspace
 local missions = {}
 local passengers = 0
 
@@ -88,6 +91,7 @@ local onChat = function (form, ref, option)
 		local mission = {
 			type	 = "Taxi",
 			client	 = ad.client,
+			start    = ad.station.path,
 			location = ad.location,
 			risk	 = ad.risk,
 			reward	 = ad.reward,
@@ -326,6 +330,27 @@ local onGameEnd = function ()
 	nearbysystems = nil
 end
 
+local onClick = function (ref)
+	local mission = missions[ref]
+	local taxi_flavours = Translate:GetFlavours('Taxi')
+	return ui:Grid(2,1)
+		:SetColumn(0,{ui:VBox():PackEnd(ui:MultiLineText((t('missiondetailtext')):interp({
+													name = mission.client.name,
+													start = mission.start:GetSystemBody().name,
+													finish = mission.location:GetStarSystem().name,
+													deadline = Format.Date(mission.due),
+													howmany = taxi_flavours[mission.flavour].howmany,
+													danger = taxi_flavours[mission.flavour].danger,
+													amount = Format.Money(mission.reward),
+												})))
+		})
+		:SetColumn(1, {
+			ui:VBox()
+				-- To-do: A bloody wrapper for this ugliness.
+				:PackEnd(UI.Game.Face.New(ui,{ mission.client.female and "FEMALE" or "MALE" },mission.client.seed))
+		})
+end
+
 local serialize = function ()
 	return { ads = ads, missions = missions, passengers = passengers }
 end
@@ -342,5 +367,7 @@ Event.Register("onShipUndocked", onShipUndocked)
 Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
+
+Mission.RegisterClick('Taxi',onClick)
 
 Serializer:Register("Taxi", serialize, unserialize)
