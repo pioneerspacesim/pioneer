@@ -11,10 +11,15 @@ Image::Image(Context *context, const std::string &filename, StretchMode stretchM
 	m_stretchMode(stretchMode)
 {
 	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI(filename);
-	m_quad.Reset(new Gui::TexturedQuad(b.GetOrCreateTexture(GetContext()->GetRenderer(), "ui")));
+	m_texture.Reset(b.GetOrCreateTexture(GetContext()->GetRenderer(), "ui"));
 
 	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
 	m_initialSize = Point(descriptor.dataSize.x*descriptor.texSize.x,descriptor.dataSize.y*descriptor.texSize.y);
+
+	Graphics::MaterialDescriptor material_desc;
+	material_desc.textures = 1;
+	m_material.Reset(GetContext()->GetRenderer()->CreateMaterial(material_desc));
+	m_material->texture0 = m_texture.Get();
 }
 
 Point Image::PreferredSize()
@@ -67,9 +72,22 @@ void Image::Draw()
 	const Point &offset = GetActiveOffset();
 	const Point &area = GetActiveArea();
 
+	const float x = offset.x;
+	const float y = offset.y;
+	const float sx = area.x;
+	const float sy = area.y;
+
+	const vector2f texSize = m_texture->GetDescriptor().texSize;
+
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+	va.Add(vector3f(x,    y,    0.0f), vector2f(0.0f,      0.0f));
+	va.Add(vector3f(x,    y+sy, 0.0f), vector2f(0.0f,      texSize.y));
+	va.Add(vector3f(x+sx, y,    0.0f), vector2f(texSize.x, 0.0f));
+	va.Add(vector3f(x+sx, y+sy, 0.0f), vector2f(texSize.x, texSize.y));
+
 	Graphics::Renderer *r = GetContext()->GetRenderer();
 	r->SetBlendMode(Graphics::BLEND_ALPHA);
-	m_quad->Draw(r, vector2f(offset.x, offset.y), vector2f(area.x, area.y));
+	r->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 
 }

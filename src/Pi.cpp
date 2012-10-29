@@ -6,6 +6,7 @@
 #include "AmbientSounds.h"
 #include "CargoBody.h"
 #include "CityOnPlanet.h"
+#include "DeathView.h"
 #include "Factions.h"
 #include "FileSystem.h"
 #include "Frame.h"
@@ -18,27 +19,29 @@
 #include "Intro.h"
 #include "Lang.h"
 #include "LmrModel.h"
-#include "LuaManager.h"
-#include "LuaDev.h"
-#include "LuaRef.h"
 #include "LuaBody.h"
 #include "LuaCargoBody.h"
 #include "LuaChatForm.h"
 #include "LuaComms.h"
 #include "LuaConsole.h"
 #include "LuaConstants.h"
+#include "LuaDev.h"
 #include "LuaEngine.h"
 #include "LuaEquipType.h"
+#include "LuaEvent.h"
+#include "LuaFaction.h"
 #include "LuaFileSystem.h"
 #include "LuaFormat.h"
 #include "LuaGame.h"
 #include "LuaLang.h"
+#include "LuaManager.h"
 #include "LuaManager.h"
 #include "LuaMusic.h"
 #include "LuaNameGen.h"
 #include "LuaPlanet.h"
 #include "LuaPlayer.h"
 #include "LuaRand.h"
+#include "LuaRef.h"
 #include "LuaShip.h"
 #include "LuaShipType.h"
 #include "LuaSpace.h"
@@ -49,9 +52,9 @@
 #include "LuaSystemBody.h"
 #include "LuaSystemPath.h"
 #include "LuaTimer.h"
-#include "LuaEvent.h"
 #include "Missile.h"
 #include "ModelCache.h"
+#include "ModManager.h"
 #include "ModManager.h"
 #include "ModManager.h"
 #include "ObjectViewerView.h"
@@ -59,6 +62,7 @@
 #include "Planet.h"
 #include "Player.h"
 #include "Polit.h"
+#include "SDLWrappers.h"
 #include "SDLWrappers.h"
 #include "SectorView.h"
 #include "Serializer.h"
@@ -76,16 +80,18 @@
 #include "SystemView.h"
 #include "Tombstone.h"
 #include "WorldView.h"
-#include "DeathView.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
-#include "graphics/Renderer.h"
 #include "graphics/Light.h"
+#include "graphics/Light.h"
+#include "graphics/Renderer.h"
+#include "gui/Gui.h"
+#include "newmodel/NModel.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
-#include "newmodel/NModel.h"
+#include <algorithm>
 #include <fstream>
 
 float Pi::gameTickAlpha;
@@ -196,6 +202,7 @@ static void LuaInit()
 	LuaShipType::RegisterClass();
 	LuaEquipType::RegisterClass();
 	LuaRand::RegisterClass();
+	LuaFaction::RegisterClass();
 
 	LuaObject<LuaChatForm>::RegisterClass();
 
@@ -739,6 +746,17 @@ void Pi::InitGame()
 	// this is a bit brittle. skank may be forgotten and survive between
 	// games
 
+	//reset input states
+	keyModState = 0;
+	std::fill(keyState, keyState + COUNTOF(keyState), 0);
+	std::fill(mouseButton, mouseButton + COUNTOF(mouseButton), 0);
+	std::fill(mouseMotion, mouseMotion + COUNTOF(mouseMotion), 0);
+	for (std::vector<JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
+		std::fill(stick->buttons.begin(), stick->buttons.end(), false);
+		std::fill(stick->hats.begin(), stick->hats.end(), 0);
+		std::fill(stick->axes.begin(), stick->axes.end(), 0.f);
+	}
+
 	Polit::Init();
 
 	if (!config->Int("DisableSound")) AmbientSounds::Init();
@@ -1005,13 +1023,49 @@ void Pi::MainLoop()
 	}
 }
 
-float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)
+float Pi::CalcHyperspaceRangeMax(int hyperclass, int total_mass_in_tonnes)
 {
-	// for the sake of hyperspace range, we count ships mass as 60% of original.
-	// Brian: "The 60% value was arrived at through trial and error,
-	// to scale the entire jump range calculation after things like ship mass,
-	// cargo mass, hyperdrive class, fuel use and fun were factored in."
-	return 200.0f * hyperclass * hyperclass / (total_mass_in_tonnes * 0.6f);
+	// 400.0f is balancing parameter
+	return 400.0f * hyperclass * hyperclass / (total_mass_in_tonnes);
+}
+
+float Pi::CalcHyperspaceRange(int hyperclass, float total_mass_in_tonnes, int fuel)
+{
+	const float range_max = CalcHyperspaceRangeMax(hyperclass, total_mass_in_tonnes);
+	int fuel_required_max = CalcHyperspaceFuelOut(hyperclass, range_max, range_max);
+
+	if(fuel_required_max <= fuel)
+		return range_max;
+	else {
+		// range is proportional to fuel - use this as first guess
+		float range = range_max*fuel/fuel_required_max;
+
+		// if the range is too big due to rounding error, lower it until is is OK.
+		while(range > 0 && CalcHyperspaceFuelOut(hyperclass, range, range_max) > fuel)
+			range -= 0.05;
+
+		// range is never negative
+		range = std::max(range, 0.0f);
+		return range;
+	}
+}
+
+float Pi::CalcHyperspaceDuration(int hyperclass, int total_mass_in_tonnes, float dist)
+{
+	float hyperspace_range_max = CalcHyperspaceRangeMax(hyperclass, total_mass_in_tonnes);
+
+	// 0.45 is balancing parameter
+	return ((dist * dist * 0.45) / (hyperspace_range_max * hyperclass)) *
+			(60.0 * 60.0 * 24.0 * sqrtf(total_mass_in_tonnes));
+}
+
+float Pi::CalcHyperspaceFuelOut(int hyperclass, float dist, float hyperspace_range_max)
+{
+	int outFuelRequired = int(ceil(hyperclass*hyperclass*dist / hyperspace_range_max));
+	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
+	if (outFuelRequired < 1) outFuelRequired = 1;
+
+	return outFuelRequired;
 }
 
 void Pi::Message(const std::string &message, const std::string &from, enum MsgLevel level)
