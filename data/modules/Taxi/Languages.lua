@@ -434,6 +434,13 @@ Translate:Add({ Polski = {
   ["Could you repeat the original request?"] = "Możesz powtórzyć swoją ofertę?",
   ["Ok, agreed."] = "Zgoda.",
   ["Hey!?! You are going to pay for this!!!"] = "Hej!?! Zapłacisz za to!!!",
+ 
+  -- Texts for the missions screen
+  missiondetailtext = [[Zgodziłeś się przewieźć {name}, z {start} do {finish}, najpóźniej do {deadline}. W zamian, zapłaci ci {amount} po dotarciu na miejsce.
+
+  Pasażerów: {howmany}
+  Zagrożenie: {danger}]],
+
  PIRATE_TAUNTS = {
 	"Pożałujesz kontaktów z {client}",
 	"Masz na pokładzie {client}? To był zły pomysł.",
