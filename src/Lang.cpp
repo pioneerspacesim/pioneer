@@ -12,9 +12,9 @@
 
 namespace Lang {
 
-// XXX we're allocating half a KB for each translatable string
+// XXX we're allocating a KB for each translatable string
 // that's... not very nice (though I guess it "doesn't matter" with virtual memory and multi-GB of RAM)
-static const int STRING_RECORD_SIZE = 512;
+static const int STRING_RECORD_SIZE = 1024;
 #define DECLARE_STRING(x) char x[STRING_RECORD_SIZE];
 #include "LangStrings.inc.h"
 #undef DECLARE_STRING
