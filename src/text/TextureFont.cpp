@@ -9,6 +9,11 @@
 #include "utils.h"
 #include <algorithm>
 
+#define DUMP_GLYPH_ATLAS 0
+#if DUMP_GLYPH_ATLAS
+#include "PngWriter.h"
+#endif
+
 #include FT_GLYPH_H
 #include FT_STROKER_H
 
@@ -467,6 +472,12 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 		glfglyph.advy = float(m_face->glyph->advance.y) / 64.f;
 		m_glyphs[chr] = glfglyph;
 	}
+
+#if DUMP_GLYPH_ATLAS
+	const std::string name = "font-atlas-" + GetDescriptor().filename + ".png";
+	write_png(name.c_str(), &pixBuf[0], sz, sz, sz*4, 4);
+	printf("Font atlas written to '%s'\n", name.c_str());
+#endif
 
 	//upload atlas
 	m_texture->Update(&pixBuf[0], vector2f(sz,sz), Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
