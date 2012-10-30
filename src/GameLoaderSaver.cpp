@@ -49,10 +49,10 @@ void GameLoaderSaver::DialogMainLoop()
 	Pi::SetView(previousView);
 }
 
-void GameLoaderSaver::OnClickLoad(std::string filename)
+void GameLoaderSaver::OnClickLoad(const std::string &filename)
 {
 	if (filename.empty()) return;
-	m_filename = FileSystem::JoinPath(Pi::GetSaveDir(), filename);
+	m_filename = filename;
 	if (!OnAction())
 		m_filename = "";
 	m_done = true;
@@ -77,7 +77,7 @@ void GameLoader::DialogMainLoop()
 bool GameLoader::LoadFromFile(const std::string &filename)
 {
 	try {
-		FILE *f = fopen(GetFilename().c_str(), "rb");
+		FILE *f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 		if (!f) throw CouldNotOpenFileException();
 
 		Serializer::Reader rd(f);
@@ -109,7 +109,7 @@ bool GameSaver::SaveToFile(const std::string &filename)
 {
 	bool success = false;
 	try {
-		if (!FileSystem::rawFileSystem.MakeDirectory(Pi::GetSaveDir())) {
+		if (!FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME)) {
 			throw CouldNotOpenFileException();
 		}
 
@@ -118,7 +118,7 @@ bool GameSaver::SaveToFile(const std::string &filename)
 
 		const std::string data = wr.GetData();
 
-		FILE *f = fopen(filename.c_str(), "wb");
+		FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 		if (!f) throw CouldNotOpenFileException();
 
 		size_t nwritten = fwrite(data.data(), data.length(), 1, f);
