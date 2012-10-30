@@ -39,9 +39,6 @@
     <ClCompile Include="..\..\src\FaceVideoLink.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FontConfig.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Frame.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -462,9 +459,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\fixed.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\FontConfig.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Frame.h">

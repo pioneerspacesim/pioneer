@@ -18,6 +18,7 @@ Alpha 28
      * Fix placement of docking bay text in 'nice_spacestation' orbital (#1154, #1605)
      * Fix input (e.g., laser fire key) leaking from one game to the next (#1613)
      * Don't generate an alert for ships parked in orbit near a station (#1636, #545)
+     * Allow non-ASCII characters in savefile names (#1632, #1627, #1482)
 
    * Script and model changes
      * Separation and orientation is now specified for dual laser mountings (#1518)
@@ -28,6 +29,7 @@ Alpha 28
 
    * Internal changes
      * Code clean-up in the handling of world view cameras (#1601)
+     * All file access operations now go through FileSystem (#1632)
 
 Alpha 27
 

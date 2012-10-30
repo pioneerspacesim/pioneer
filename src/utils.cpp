@@ -153,9 +153,9 @@ std::string format_distance(double dist, int precision)
 
 void Screendump(const char* destFile, const int width, const int height)
 {
-	std::string dir = FileSystem::GetUserDir("screenshots");
-	FileSystem::rawFileSystem.MakeDirectory(dir);
-	std::string fname = FileSystem::JoinPathBelow(dir, destFile);
+	const std::string dir = "screenshots";
+	FileSystem::userFiles.MakeDirectory(dir);
+	const std::string fname = FileSystem::JoinPathBelow(dir, destFile);
 
 	// pad rows to 4 bytes, which is the default row alignment for OpenGL
 	const int stride = (3*width + 3) & ~3;
@@ -187,7 +187,7 @@ void Screendump(const char* destFile, const int width, const int height)
 		return;
 	}
 
-	FILE *out = fopen(fname.c_str(), "wb");
+	FILE *out = FileSystem::userFiles.OpenWriteStream(fname.c_str());
 	if (!out) {
 		png_destroy_write_struct(&png_ptr, &info_ptr);
 		fprintf(stderr, "Couldn't open %s for writing\n", fname.c_str());

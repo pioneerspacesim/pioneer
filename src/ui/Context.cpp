@@ -5,7 +5,6 @@
 #include "FileSystem.h"
 #include "text/FontDescriptor.h"
 #include "Lua.h"
-#include "FontConfig.h"
 #include "FileSystem.h"
 #include <typeinfo>
 
@@ -24,14 +23,6 @@ static const float FONT_SCALE[] = {
 	1.8f   // XLARGE
 };
 
-static FontConfig font_config(const std::string &path) {
-	RefCountedPtr<FileSystem::FileData> config_data = FileSystem::gameDataFiles.ReadFile(path);
-	FontConfig fc;
-	fc.Load(*config_data);
-	config_data.Reset();
-	return fc;
-}
-
 Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height) : Single(this),
 	m_renderer(renderer),
 	m_width(width),
@@ -40,7 +31,7 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 	m_needsLayout(false),
 	m_float(new FloatContainer(this)),
 	m_eventDispatcher(this),
-	m_skin(FileSystem::JoinPath(FileSystem::GetDataDir(), "ui/Skin.ini"), renderer, GetScale()),
+	m_skin("ui/Skin.ini", renderer, GetScale()),
 	m_lua(lua)
 {
 	lua_State *l = m_lua->GetLuaState();
@@ -54,7 +45,7 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 
 	// XXX should do point sizes, but we need display DPI first
 	// XXX TextureFont could load multiple sizes into the same object/atlas
-	const Text::FontDescriptor baseFontDesc(font_config("fonts/UIFont.ini").GetDescriptor());
+	const Text::FontDescriptor baseFontDesc(Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/UIFont.ini"));
 	for (int i = FONT_SIZE_XSMALL; i < FONT_SIZE_MAX; i++) {
 		const Text::FontDescriptor fontDesc(baseFontDesc.filename, baseFontDesc.pixelWidth*FONT_SCALE[i]*GetScale(), baseFontDesc.pixelHeight*FONT_SCALE[i]*GetScale(), baseFontDesc.outline, baseFontDesc.advanceXAdjustment);
 

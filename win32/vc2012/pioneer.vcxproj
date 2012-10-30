@@ -124,7 +124,6 @@
     <ClCompile Include="..\..\src\FileSourceZip.cpp" />
     <ClCompile Include="..\..\src\FileSystem.cpp" />
     <ClCompile Include="..\..\src\FontCache.cpp" />
-    <ClCompile Include="..\..\src\FontConfig.cpp" />
     <ClCompile Include="..\..\src\FormController.cpp" />
     <ClCompile Include="..\..\src\Frame.cpp" />
     <ClCompile Include="..\..\src\GalacticView.cpp" />
@@ -279,7 +278,6 @@
     <ClInclude Include="..\..\src\FileSystem.h" />
     <ClInclude Include="..\..\src\fixed.h" />
     <ClInclude Include="..\..\src\FontCache.h" />
-    <ClInclude Include="..\..\src\FontConfig.h" />
     <ClInclude Include="..\..\src\FormController.h" />
     <ClInclude Include="..\..\src\Frame.h" />
     <ClInclude Include="..\..\src\GalacticView.h" />

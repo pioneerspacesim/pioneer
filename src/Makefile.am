@@ -42,7 +42,6 @@ noinst_HEADERS = \
 	FileSelectorWidget.h \
 	FileSystem.h \
 	FontCache.h \
-	FontConfig.h \
 	Form.h \
 	FormController.h \
 	Frame.h \
@@ -189,7 +188,6 @@ pioneer_SOURCES	= \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
 	FontCache.cpp \
-	FontConfig.cpp \
 	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
@@ -327,7 +325,6 @@ modelviewer_SOURCES = \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
 	FontCache.cpp \
-	FontConfig.cpp \
 	IniConfig.cpp \
 	Lang.cpp \
 	LuaMatrix.cpp \
@@ -389,7 +386,6 @@ uitest_SOURCES = \
 	FileSystem.cpp \
 	SDLWrappers.cpp \
 	FontCache.cpp \
-	FontConfig.cpp \
 	IniConfig.cpp \
 	StringF.cpp \
 	Lang.cpp \

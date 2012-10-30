@@ -33,10 +33,10 @@ namespace FileSystem {
 	void Uninit();
 
 	extern FileSourceUnion gameDataFiles;
-	extern FileSourceFS rawFileSystem;
+	extern FileSourceFS userFiles;
 
-	std::string GetUserDir(const char *subdir = 0);
-	std::string GetDataDir(const char *subdir = 0);
+	std::string GetUserDir();
+	std::string GetDataDir();
 
 	/// Create path <a>/<b>, coping with 'a' or 'b' being empty,
 	/// 'b' being an absolute path, or 'a' not having a trailing separator
@@ -172,6 +172,15 @@ namespace FileSystem {
 		virtual bool ReadDirectory(const std::string &path, std::vector<FileInfo> &output);
 
 		bool MakeDirectory(const std::string &path);
+
+		enum WriteFlags {
+			WRITE_TEXT = 1
+		};
+
+		// similar to fopen(path, "rb")
+		FILE* OpenReadStream(const std::string &path);
+		// similar to fopen(path, "wb")
+		FILE* OpenWriteStream(const std::string &path, int flags = 0);
 	};
 
 	class FileSourceUnion : public FileSource {
