@@ -156,13 +156,13 @@ Box *Box::PackEnd(const WidgetSet &set, Uint32 flags)
 	return this;
 }
 
-void Box::Remove(Widget *widget)
+void Box::RemoveWidget(Widget *widget)
 {
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i)
 		if ((*i).widget == widget) {
 			if ((*i).flags & BOX_EXPAND) m_countExpanded--;
 			m_children.erase(i);
-			RemoveWidget(widget);
+			Container::RemoveWidget(widget);
 			return;
 		}
 }
