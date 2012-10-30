@@ -30,7 +30,7 @@ public:
 	static int l_grid(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 
-		UI::CellSpec rowSpec(0), colSpec(0);
+		UI::CellSpec rowSpec(1), colSpec(1);
 
 		if (lua_istable(l, 2))
 			rowSpec = UI::CellSpec::FromLuaTable(l, 2);
