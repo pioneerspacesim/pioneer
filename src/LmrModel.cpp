@@ -888,8 +888,6 @@ public:
 		std::ofstream out;
 		std::string folderName("model_dump/");
 		folderName+=rootFolderName;
-		folderName+="/";
-		folderName+=name;
 		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(folderName.c_str()), prefix+".obj")).c_str());
 		assert(out.is_open());
 
@@ -965,7 +963,7 @@ public:
 
 		out.close();
 
-
+		std::vector<std::string> textureFilenames;
 		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(folderName.c_str()), prefix+".mtl")).c_str());
 
 		out << stringf("# Materials LMR model '%0' LOD %1{d}", name, lod+1) << std::endl;
@@ -984,15 +982,51 @@ public:
 			out << "illum 2" << std::endl;
 
 			if (m.diffuseMap.size() > 0) {
-				out << stringf("map_Ka %0", m.diffuseMap) << std::endl;
-				out << stringf("map_Kd %0", m.diffuseMap) << std::endl;
+				// need to store the path to the source texture
+				textureFilenames.push_back(m.diffuseMap);
+				// however, only want to store the new local name of the texture
+				const std::string tempFilename = FileSystem::NormalisePath(m.diffuseMap);
+				const size_t lastIdx = tempFilename.find_last_of('/')+1;
+				const std::string outFilename = tempFilename.substr(lastIdx, tempFilename.size()-lastIdx);
+				out << stringf("map_Ka %0", outFilename) << std::endl;
+				out << stringf("map_Kd %0", outFilename) << std::endl;
 			}
-			if (m.emissiveMap.size() > 0)
-				out << stringf("map_Ke %0", m.emissiveMap) << std::endl;
+			if (m.emissiveMap.size() > 0) {
+				// need to store the path to the source texture
+				textureFilenames.push_back(m.emissiveMap);
+				// however, only want to store the new local name of the texture
+				const std::string tempFilename = FileSystem::NormalisePath(m.emissiveMap);
+				const size_t lastIdx = tempFilename.find_last_of('/')+1;
+				const std::string outFilename = tempFilename.substr(lastIdx, tempFilename.size()-lastIdx);
+				out << stringf("map_Ke %0", outFilename) << std::endl;
+			}
 		}
 
 		out.close();
 
+		// copy the textures over
+		std::ifstream in;
+		for(std::vector<std::string>::const_iterator i = textureFilenames.begin(); i!=textureFilenames.end(); ++i)
+		{
+			in.open(FileSystem::NormalisePath(FileSystem::GetDataDir((*i).c_str())), std::ios::binary);
+			assert(in.is_open());
+
+			const std::string tempFilename = FileSystem::NormalisePath(*i);
+			const size_t lastIdx = tempFilename.find_last_of('/')+1;
+			const std::string outFilename = tempFilename.substr(lastIdx, tempFilename.size()-lastIdx);
+			
+			out.open((FileSystem::JoinPath(FileSystem::GetUserDir(folderName.c_str()), outFilename)).c_str(), std::ios::binary);
+			assert(out.is_open());
+
+			// copy the data
+			std::copy( 
+				std::istreambuf_iterator<char>(in), 
+				std::istreambuf_iterator<char>( ),
+				std::ostreambuf_iterator<char>(out));
+
+			out.close();
+			in.close();
+		}
 
 		for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
 			if ((*i).type == OP_CALL_MODEL) {
@@ -1523,9 +1557,6 @@ void LmrModel::Dump(const char* pMainFolderName/*=nullptr*/)
 		folderName+=m_name;
 	}
 	
-	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir(folderName.c_str()));
-	folderName+="/";
-	folderName+=m_name;
 	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir(folderName.c_str()));
 
 	const std::string rootFolderName((pMainFolderName) ? pMainFolderName : m_name);

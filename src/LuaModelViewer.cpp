@@ -375,7 +375,18 @@ void Viewer::PickModel(const std::string &initial_name, const std::string &initi
 	scroll->ShowAll();
 
 	std::vector<std::string> modelNames;
-	LmrGetAllModelNames(modelNames);
+	{
+		std::vector<LmrModel*> models;
+		LmrGetModelsWithTag("ship", models);
+		LmrGetModelsWithTag("static_ship", models);
+		LmrGetModelsWithTag("orbital_station", models);
+		LmrGetModelsWithTag("surface_station", models);
+
+		for (std::vector<LmrModel*>::iterator i = models.begin(); i != models.end(); ++i) {
+			modelNames.push_back((*i)->GetName());
+		}
+	}
+	//LmrGetAllModelNames(modelNames);
 	std::vector<std::string>::const_iterator iter = modelNames.begin();
 
 	Gui::Fixed *innerbox = new Gui::Fixed(Gui::Screen::GetWidth()*0.75f, modelNames.size()*20);
