@@ -31,6 +31,7 @@ template <> class LuaAcquirer<UI::MultiLineText> : public LuaAcquirerRefCounted 
 template <> class LuaAcquirer<UI::Scroller> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::Single> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::Slider> : public LuaAcquirerRefCounted {};
+template <> class LuaAcquirer<UI::TextEntry> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::HSlider> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::VSlider> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::Widget> : public LuaAcquirerRefCounted {};
