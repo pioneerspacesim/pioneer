@@ -111,6 +111,7 @@ noinst_HEADERS = \
 	Pi.h \
 	Planet.h \
 	Player.h \
+	PngWriter.h \
 	Polit.h \
 	Projectile.h \
 	Quaternion.h \
@@ -250,6 +251,7 @@ pioneer_SOURCES	= \
 	Pi.cpp \
 	Planet.cpp \
 	Player.cpp \
+	PngWriter.cpp \
 	Polit.cpp \
 	Projectile.cpp \
 	SDLWrappers.cpp \
@@ -336,6 +338,7 @@ modelviewer_SOURCES = \
 	LuaUtils.cpp \
 	LuaConstants.cpp \
 	ModManager.cpp \
+	PngWriter.cpp \
 	EquipType.cpp \
 	ShipType.cpp \
 	SDLWrappers.cpp \
