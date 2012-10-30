@@ -8,16 +8,17 @@
 #include "Polit.h"
 #include "vector3.h"
 #include "fixed.h"
+#include "DeleteEmitter.h"
 #include <map>
 #include <utility>
 
-class Faction {
+class Faction : public DeleteEmitter {
 public:
 	static void Init();
 	static void Uninit();
 
 	// XXX this is not as const-safe as it should be
-	static const Faction *GetFaction(const Uint32 index);
+	static Faction *GetFaction(const Uint32 index);
 	static const Uint32 GetNumFactions();
 
 	static const Uint32 GetNearestFactionIndex(const SystemPath& sysPath);

@@ -28,6 +28,7 @@
 #include "LuaConsole.h"
 #include "LuaConstants.h"
 #include "LuaEngine.h"
+#include "LuaFaction.h"
 #include "LuaFileSystem.h"
 #include "LuaEquipType.h"
 #include "LuaFormat.h"
@@ -197,6 +198,7 @@ static void LuaInit()
 	LuaShipType::RegisterClass();
 	LuaEquipType::RegisterClass();
 	LuaRand::RegisterClass();
+	LuaFaction::RegisterClass();
 
 	LuaObject<LuaChatForm>::RegisterClass();
 
@@ -981,13 +983,49 @@ void Pi::MainLoop()
 	}
 }
 
-float Pi::CalcHyperspaceRange(int hyperclass, int total_mass_in_tonnes)
+float Pi::CalcHyperspaceRangeMax(int hyperclass, int total_mass_in_tonnes)
 {
-	// for the sake of hyperspace range, we count ships mass as 60% of original.
-	// Brian: "The 60% value was arrived at through trial and error,
-	// to scale the entire jump range calculation after things like ship mass,
-	// cargo mass, hyperdrive class, fuel use and fun were factored in."
-	return 200.0f * hyperclass * hyperclass / (total_mass_in_tonnes * 0.6f);
+	// 400.0f is balancing parameter
+	return 400.0f * hyperclass * hyperclass / (total_mass_in_tonnes);
+}
+
+float Pi::CalcHyperspaceRange(int hyperclass, float total_mass_in_tonnes, int fuel)
+{
+	const float range_max = CalcHyperspaceRangeMax(hyperclass, total_mass_in_tonnes);
+	int fuel_required_max = CalcHyperspaceFuelOut(hyperclass, range_max, range_max);
+
+	if(fuel_required_max <= fuel)
+		return range_max;
+	else {
+		// range is proportional to fuel - use this as first guess
+		float range = range_max*fuel/fuel_required_max;
+
+		// if the range is too big due to rounding error, lower it until is is OK.
+		while(range > 0 && CalcHyperspaceFuelOut(hyperclass, range, range_max) > fuel)
+			range -= 0.05;
+
+		// range is never negative
+		range = std::max(range, 0.0f);
+		return range;
+	}
+}
+
+float Pi::CalcHyperspaceDuration(int hyperclass, int total_mass_in_tonnes, float dist)
+{
+	float hyperspace_range_max = CalcHyperspaceRangeMax(hyperclass, total_mass_in_tonnes);
+
+	// 0.45 is balancing parameter
+	return ((dist * dist * 0.45) / (hyperspace_range_max * hyperclass)) *
+			(60.0 * 60.0 * 24.0 * sqrtf(total_mass_in_tonnes));
+}
+
+float Pi::CalcHyperspaceFuelOut(int hyperclass, float dist, float hyperspace_range_max)
+{
+	int outFuelRequired = int(ceil(hyperclass*hyperclass*dist / hyperspace_range_max));
+	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
+	if (outFuelRequired < 1) outFuelRequired = 1;
+
+	return outFuelRequired;
 }
 
 void Pi::Message(const std::string &message, const std::string &from, enum MsgLevel level)

@@ -164,6 +164,7 @@ void Ship::Init()
 
 void Ship::PostLoadFixup(Space *space)
 {
+	UpdateStats(); // this is necessary, UpdateStats() in Ship::Init has wrong values of m_thrusterFuel after Load
 	m_dockedWith = reinterpret_cast<SpaceStation*>(space->GetBodyByIndex(m_dockedWithIndex));
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
 	m_controller->PostLoadFixup(space);
@@ -418,6 +419,7 @@ void Ship::UpdateEquipStats()
 	m_stats.shield_mass = TONS_HULL_PER_SHIELD * float(m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR));
 
 	UpdateMass();
+	UpdateFuelStats();
 
 	Equip::Type fuelType = GetHyperdriveFuelType();
 
@@ -427,10 +429,8 @@ void Ship::UpdateEquipStats()
 		if (!hyperclass) { // no drive
 			m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 		} else {
-			// for the sake of hyperspace range, we count ships mass as 60% of original.
-			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRange(hyperclass, m_stats.total_mass);
-			m_stats.hyperspace_range = std::min(m_stats.hyperspace_range_max, m_stats.hyperspace_range_max * m_equipment.Count(Equip::SLOT_CARGO, fuelType) /
-				(hyperclass * hyperclass));
+			m_stats.hyperspace_range_max = Pi::CalcHyperspaceRangeMax(hyperclass, GetMass()/1000);
+			m_stats.hyperspace_range = Pi::CalcHyperspaceRange(hyperclass, GetMass()/1000, m_equipment.Count(Equip::SLOT_CARGO, fuelType));
 		}
 	} else {
 		m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
@@ -486,6 +486,8 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 	outFuelRequired = 0;
 	outDurationSecs = 0.0;
 
+	UpdateStats();
+
 	if (GetFlightState() == HYPERSPACE)
 		return HYPERJUMP_DRIVE_ACTIVE;
 
@@ -502,29 +504,16 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 
 	float dist = distance_to_system(dest);
 
-	outFuelRequired = int(ceil(hyperclass*hyperclass*dist / m_stats.hyperspace_range_max));
-	double m_totalmass = m_stats.total_mass;
-	if (outFuelRequired > hyperclass*hyperclass) outFuelRequired = hyperclass*hyperclass;
-	if (outFuelRequired < 1) outFuelRequired = 1;
+	outFuelRequired = Pi::CalcHyperspaceFuelOut(hyperclass, dist, m_stats.hyperspace_range_max);
+	double m_totalmass = GetMass()/1000;
 	if (dist > m_stats.hyperspace_range_max) {
 		outFuelRequired = 0;
 		return HYPERJUMP_OUT_OF_RANGE;
 	} else if (fuel < outFuelRequired) {
 		return HYPERJUMP_INSUFFICIENT_FUEL;
 	} else {
-		// Old comments:
-		// take at most a week. why a week? because a week is a
-		// fundamental physical unit in the same sense that the planck length
-		// is, and so it is very probable that future hyperspace
-		// technologies will involve travelling a week through time.
+		outDurationSecs = Pi::CalcHyperspaceDuration(hyperclass, m_totalmass, dist);
 
-		// Now mass has more of an effect on the time taken, this is mainly
-		// for gameplay considerations for courier missions and the like.
-		outDurationSecs = ((dist * dist * 0.5) / (m_stats.hyperspace_range_max * hyperclass)) *
-			(60.0 * 60.0 * 24.0 * sqrt(m_totalmass));
-		//float hours = outDurationSecs * 0.0002778;
-		//printf("%f LY in %f hours OR %d seconds \n", dist, hours, outDurationSecs);
-		//printf("%d seconds\n", outDurationSecs);
 		if (outFuelRequired <= fuel) {
 			return HYPERJUMP_OK;
 		} else {
@@ -881,6 +870,7 @@ void Ship::UpdateAlertState()
 
 		Ship *ship = static_cast<Ship*>(*i);
 
+		if (ship->GetShipType().tag == ShipType::TAG_STATIC_SHIP) continue;
 		if (ship->GetFlightState() == LANDED || ship->GetFlightState() == DOCKED) continue;
 
 		if (GetPositionRelTo(ship).LengthSqr() < 100000.0*100000.0) {
@@ -1220,43 +1210,19 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	}
 }
 
-bool Ship::Jettison(Equip::Type t)
-{
-	if (m_flightState != FLYING && m_flightState != DOCKED && m_flightState != LANDED) return false;
-	if (t == Equip::NONE) return false;
-	Equip::Slot slot = Equip::types[int(t)].slot;
-	if (m_equipment.Count(slot, t) > 0) {
-		m_equipment.Remove(t, 1);
-		UpdateEquipStats();
-
-		if (m_flightState == FLYING) {
-			// create a cargo body in space
-			Aabb aabb;
-			GetAabb(aabb);
-			matrix4x4d rot;
-			GetRotMatrix(rot);
-			vector3d pos = rot * vector3d(0, aabb.min.y-5, 0);
-			CargoBody *cargo = new CargoBody(t);
-			cargo->SetFrame(GetFrame());
-			cargo->SetPosition(GetPosition()+pos);
-			cargo->SetVelocity(GetVelocity()+rot*vector3d(0,-10,0));
-			Pi::game->GetSpace()->AddBody(cargo);
-
-			LuaEvent::Queue("onJettison", this, cargo);
-		} else if (m_flightState == DOCKED) {
-			// XXX should move the cargo to the station's temporary storage
-			// (can't be recovered at this moment)
-			LuaEvent::Queue("onCargoUnload", GetDockedWith(),
-				LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "EquipType", t));
-		} else { // LANDED
-			// the cargo is lost
-			LuaEvent::Queue("onCargoUnload", GetFrame()->GetBodyFor(),
-				LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "EquipType", t));
-		}
-		return true;
-	} else {
+bool Ship::SpawnCargo(CargoBody * c_body) const {
+	if (m_flightState != FLYING)
 		return false;
-	}
+	Aabb aabb;
+	GetAabb(aabb);
+	matrix4x4d rot;
+	GetRotMatrix(rot);
+	vector3d pos = rot * vector3d(0, aabb.min.y - 5, 0);
+	c_body->SetFrame(GetFrame());
+	c_body->SetPosition(GetPosition()+pos);
+	c_body->SetVelocity(GetVelocity()+rot*vector3d(0, -10, 0));
+	Pi::game->GetSpace()->AddBody(c_body);
+	return true;
 }
 
 void Ship::OnEquipmentChange(Equip::Type e)
