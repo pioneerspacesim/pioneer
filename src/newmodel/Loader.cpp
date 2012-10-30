@@ -121,6 +121,11 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		mat->specular = (*it).specular;
 		mat->emissive = (*it).emissive;
 		mat->shininess = (*it).shininess;
+		//semitransparent material
+		//the node must be marked transparent when using this material
+		//and should not be mixed with opaque materials
+		if ((*it).opacity < 100)
+			mat->diffuse.a = float((*it).opacity) / 100.f;
 
 		if (!diffTex.empty())
 			mat->texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
@@ -607,16 +612,19 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 			else
 				throw std::string("More than 4 different decals");
 		}
-		if (numDecal != 0) {//XXX could add a simple DecalGeometry node
-			geom->SetNodeMask(NODE_TRANSPARENT);
-			geom->m_blendMode = Graphics::BLEND_ALPHA;
-		}
 
 		for(unsigned int i=0; i<node->mNumMeshes; i++) {
 			RefCountedPtr<Graphics::Surface> surf = surfaces.at(node->mMeshes[i]);
 
+			//Mark the entire node as transparent (all importers split by material so far)
+			if (surf->GetMaterial()->diffuse.a < 0.999f) {
+				geom->SetNodeMask(NODE_TRANSPARENT);
+				geom->m_blendMode = Graphics::BLEND_ALPHA;
+			}
 			//set special material for decals
 			if (numDecal > 0) {
+				geom->SetNodeMask(NODE_TRANSPARENT);
+				geom->m_blendMode = Graphics::BLEND_ALPHA;
 				surf->SetMaterial(GetDecalMaterial(numDecal));
 			}
 			//update bounding box

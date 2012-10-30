@@ -20,6 +20,7 @@ struct MaterialDefinition {
 		ambient(Color(0.f)),
 		emissive(Color(0.f)),
 		shininess(200),
+		opacity(100),
 		use_pattern(false)
 	{ }
 	std::string name;
@@ -31,6 +32,7 @@ struct MaterialDefinition {
 	Color ambient;
 	Color emissive;
 	int shininess; //specular power, 0+
+	int opacity;
 	bool use_pattern;
 };
 

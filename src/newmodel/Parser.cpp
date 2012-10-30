@@ -190,8 +190,12 @@ bool Parser::parseLine(const std::string &line)
 					ss >> shininess;
 					m_curMat->shininess = std::max(shininess, 0);
 					return true;
-				}
-				else if (match(token, "use_patterns")) {
+				} else if (match(token, "opacity")) {
+					int opacity;
+					ss >> opacity;
+					m_curMat->opacity = Clamp(opacity, 0, 100);
+					return true;
+				} else if (match(token, "use_patterns")) {
 					m_curMat->use_pattern = true;
 					return true;
 				}
