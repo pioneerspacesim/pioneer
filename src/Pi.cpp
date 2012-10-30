@@ -801,6 +801,8 @@ void Pi::Start()
 		last_time = SDL_GetTicks();
 	}
 
+	ui->RemoveInnerWidget();
+
 	InitGame();
 	StartGame();
 	MainLoop();
