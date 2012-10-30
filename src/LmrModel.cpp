@@ -408,6 +408,7 @@ public:
 		m_isStatic = isStatic;
 		m_bo = 0;
 		m_putGeomInsideout = false;
+		m_isFromObjFile = false;
 	}
 	int GetIndicesPos() const {
 		return m_indices.size();
@@ -885,6 +886,18 @@ public:
 	void Dump(const std::string &rootFolderName, const std::string &name, int lod) {
 		const std::string prefix(stringf("%0_lod%1{d}", name, lod+1));
 
+		// If we haven't got any vertices then call the ops but otherwise bugger off
+		if( m_vertices.size()==0 )
+		{
+			for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
+				if ((*i).type == OP_CALL_MODEL) {
+					(*i).callmodel.model->Dump(rootFolderName.c_str());
+				}
+			}
+			// 'ear, 'ugger orf
+			return;
+		}
+
 		std::ofstream out;
 		std::string folderName("model_dump/");
 		folderName+=rootFolderName;
@@ -899,17 +912,28 @@ public:
 
 		out << "o "+prefix << std::endl;
 
+		const int numVerts = (m_vertices.size());
+
 		// positons
 		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
 			out << stringf("v %0{f.6} %1{f.6} %2{f.6}", (*i).v.x, (*i).v.y, (*i).v.z) << std::endl;
 
+		out << stringf("# %0{d} vertices", numVerts) << std::endl;
+
 		// texture coords
-		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
-			out << stringf("vt %0{f.6} %1{f.6}", (*i).tex_u, (*i).tex_v) << std::endl;
+		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i) {
+			const GLfloat u = (*i).tex_u;
+			const GLfloat v = (m_isFromObjFile) ? (1.0f - (*i).tex_v) : (*i).tex_v;
+			out << stringf("vt %0{f.6} %1{f.6}", u, v) << std::endl;
+		}
+
+		out << stringf("# %0{d} texture coords", numVerts) << std::endl;
 
 		// normals
 		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
 			out << stringf("vn %0{f.6} %1{f.6} %2{f.6}", (*i).n.x, (*i).n.y, (*i).n.z) << std::endl;
+
+		out << stringf("# %0{d} vertex normals", numVerts) << std::endl;
 
 		std::vector<WavefrontMaterial> materials;
 		WavefrontMaterial material;
@@ -936,9 +960,9 @@ public:
 
 					for (int idx = op.elems.start; idx < op.elems.start+op.elems.count;) {
 						out << "f";
-						out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx++]+1);
-						out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx++]+1);
-						out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx++]+1);
+						out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx]+1);		++idx;
+						out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx]+1);		++idx;
+						out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx]+1);		++idx;
 						out << std::endl;
 					}
 
@@ -1035,6 +1059,10 @@ public:
 		}
 	}
 
+	void SetIsFromObjFile(const bool isFromObjFile) {
+		m_isFromObjFile = isFromObjFile;
+	}
+
 private:
 	void BindBuffers() {
 		glEnableClientState (GL_VERTEX_ARRAY);
@@ -1112,6 +1140,7 @@ private:
 	BufferObject<sizeof(Vertex)> *m_bo;
 	bool m_isStatic;
 	bool m_putGeomInsideout;
+	bool m_isFromObjFile;
 
 public:
 	void SaveToCache(FILE *f) {
@@ -4493,6 +4522,8 @@ namespace ObjLoader {
 		if (!objdata) {
 			Error("Could not open '%s'\n", path.c_str());
 		}
+
+		s_curBuf->SetIsFromObjFile(true);
 
 		StringRange objdatabuf = objdata->AsStringRange();
 
