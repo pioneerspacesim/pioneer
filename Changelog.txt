@@ -1,7 +1,7 @@
 Alpha 28
 
    * New features
-     * First stages of the new UI system (#1586, #1625, #1623, #1622, #1642, #1634)
+     * First stages of the new UI system (#1586, #1625, #1623, #1622, #1642, #1634, #1639)
      * Cockpit views have been removed (#1606)
 
    * Minor changes and tweaks
