@@ -141,6 +141,15 @@ public:
 		return 1;
 	}
 
+	static int l_textentry(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		std::string text;
+		if (lua_gettop(l) > 1)
+			text = luaL_checkstring(l, 2);
+		LuaObject<UI::TextEntry>::PushToLua(c->TextEntry(text));
+		return 1;
+	}
+
 	static int l_attr_templates(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		c->GetTemplateStore().PushCopyToStack();
@@ -176,6 +185,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "VSlider",         LuaContext::l_vslider         },
 		{ "List",            LuaContext::l_list            },
 		{ "DropDown",        LuaContext::l_dropdown        },
+		{ "TextEntry",       LuaContext::l_textentry       },
 		{ 0, 0 }
 	};
 

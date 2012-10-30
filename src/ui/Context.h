@@ -28,6 +28,7 @@
 #include "Slider.h"
 #include "List.h"
 #include "DropDown.h"
+#include "TextEntry.h"
 
 #include "Lua.h"
 #include "LuaTable.h"
@@ -91,6 +92,8 @@ public:
 	UI::List *List() { return new UI::List(this); }
 	UI::DropDown *DropDown() { return new UI::DropDown(this); }
 
+	UI::TextEntry *TextEntry(const std::string &text = "") { return new UI::TextEntry(this, text); }
+
 	// add a floating widget
 	Context *AddFloatingWidget(Widget *w, const Point &pos, const Point &size) { m_float->AddWidget(w, pos, size); return this; }
 	Context *RemoveFloatingWidget(Widget *w) { m_float->RemoveWidget(w); return this; }
@@ -107,6 +110,9 @@ public:
 	void ClearShortcuts() { m_eventDispatcher.ClearShortcuts(); }
 
 	void RequestLayout() { m_needsLayout = true; }
+
+	void SelectWidget(Widget *target) { m_eventDispatcher.SelectWidget(target); }
+	void DeselectWidget(Widget *target) { m_eventDispatcher.DeselectWidget(target); }
 
 	virtual void Layout();
 	virtual void Update();
@@ -153,7 +159,6 @@ private:
 
 	// support for DrawWidget()
 	Point m_drawWidgetPosition;
-	Point m_drawWidgetOffset;
 	std::stack< std::pair<Point,Point> > m_scissorStack;
 };
 

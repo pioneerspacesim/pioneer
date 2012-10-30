@@ -81,6 +81,20 @@ public:
 	}
 };
 
+template <>
+class LuaSignalTrampoline<const std::string &,sigc::nil> : public LuaSignalTrampolineBase {
+public:
+	static inline bool trampoline(const std::string &arg0, lua_State *l, int idx) {
+		_trampoline_start(l, idx);
+		lua_pushlstring(l, arg0.c_str(), arg0.size());
+		return _trampoline_end(l, 1);
+	}
+
+	static inline void trampoline_void(const std::string &arg0, lua_State *l, int idx) {
+		trampoline(arg0, l, idx);
+	}
+};
+
 class LuaSignalBase {
 protected:
 	static inline void *connect_base(lua_State *l, int &idx) {
