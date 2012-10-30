@@ -146,7 +146,7 @@ void Grid::Clear()
 
 void Grid::RemoveWidget(Widget *widget)
 {
-	for (size_t i = 0; i < m_numRows*m_numCols; i++)
+	for (int i = 0; i < m_numRows*m_numCols; i++)
 		if (m_widgets[i] == widget) {
 			Container::RemoveWidget(widget);
 			m_widgets[i] = 0;
