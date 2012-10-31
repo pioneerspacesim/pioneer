@@ -11,7 +11,7 @@
 class Missile: public Ship {
 public:
 	OBJDEF(Missile, Ship, MISSILE);
-	Missile(ShipType::Type type, Body *owner, Body *target);
+	Missile(ShipType::Id shipId, Body *owner, Body *target);
 	Missile() {}
 	virtual ~Missile() {}
 	void TimeStepUpdate(const float timeStep);

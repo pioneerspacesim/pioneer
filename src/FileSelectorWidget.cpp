@@ -53,9 +53,9 @@ void FileSelectorWidget::ShowAll()
 	hbox->PackEnd(scroll);
 
 	Gui::Box *vbox = new Gui::VBox();
-	for (FileSystem::FileEnumerator files(FileSystem::rawFileSystem, Pi::GetSaveDir()); !files.Finished(); files.Next())
+	for (FileSystem::FileEnumerator files(FileSystem::userFiles, Pi::SAVE_DIR_NAME); !files.Finished(); files.Next())
 	{
-		std::string name = files.Current().GetName();
+		const std::string name = files.Current().GetName();
 		b = new SimpleLabelButton(new Gui::Label(name));
 		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &FileSelectorWidget::OnClickFile), name));
 		vbox->PackEnd(b);
@@ -74,6 +74,6 @@ void FileSelectorWidget::OnClickCancel() {
 	onClickCancel.emit();
 }
 
-void FileSelectorWidget::OnClickFile(std::string file) {
+void FileSelectorWidget::OnClickFile(const std::string &file) {
 	m_tentry->SetText(file);
 }

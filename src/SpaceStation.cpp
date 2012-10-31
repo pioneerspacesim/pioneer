@@ -492,7 +492,7 @@ void SpaceStation::DoLawAndOrder()
 			Pi::game->GetSpace()->AddBody(ship);
 			{ // blue and white thang
 				ShipFlavour f;
-				f.type = ShipType::LADYBIRD;
+				f.id = ShipType::LADYBIRD;
 				f.regid = Lang::POLICE_SHIP_REGISTRATION;
 				f.price = ship->GetFlavour()->price;
 				LmrMaterial m;

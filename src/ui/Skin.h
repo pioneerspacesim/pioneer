@@ -9,7 +9,6 @@
 #include "graphics/Renderer.h"
 #include "graphics/Material.h"
 #include "Point.h"
-#include "IniConfig.h"
 
 namespace UI {
 
@@ -109,13 +108,6 @@ public:
 	float ListAlphaHover()  const { return m_listAlphaHover; }
 
 private:
-	class Config : public IniConfig {
-	public:
-		Config(const std::string &filename);
-	};
-
-	Config m_config;
-
 	Graphics::Renderer *m_renderer;
 
 	float m_scale;
