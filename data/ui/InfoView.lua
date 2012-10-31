@@ -267,6 +267,17 @@ local missions = function ()
 	-- This mission screen
 	local MissionScreen = ui:Expand()
 	local MissionList = ui:VBox(10)
+
+	if #PersistentCharacters.player.missions == 0 then
+		MissionList
+			:PackEnd({
+				ui:Label(t("MISSIONS")):SetFont("HEADING_LARGE"),
+				ui:Label("No missions.")
+			})
+
+		return MissionScreen:SetInnerWidget(MissionList)
+	end
+
 	-- One row for each mission, plus a header
 	local headergrid  = ui:Grid(6,1)
 	local missiongrid = ui:Grid(6,#PersistentCharacters.player.missions)
