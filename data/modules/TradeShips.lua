@@ -200,8 +200,11 @@ local getNearestStarport = function (ship, current)
 		if next_starport ~= current then
 			local next_distance = ship:DistanceTo(next_starport)
 			local next_canland = (trader.ATMOSHIELD or
-				(next_starport.type == 'STARPORT_ORBITAL') or
 				(not next_starport.path:GetSystemBody().parent.hasAtmosphere))
+				
+			next_canland = (next_canland and 
+				(next_starport.path:GetSystemBody().parent.gravity < ship:GetMinAcceleration() ) )
+			next_canland = (next_canland or (next_starport.type == 'STARPORT_ORBITAL'))
 
 			if next_canland and ((starport == nil) or (next_distance < distance)) then
 				starport, distance = next_starport, next_distance
@@ -628,6 +631,12 @@ local onAICompleted = function (ship, ai_error)
 	local trader = trade_ships[ship]
 	if ai_error ~= 'NONE' then
 		print(ship.label..' AICompleted: Error: '..ai_error..' Status: '..trader.status) end
+		
+	if ai_error == 'GRAV_TOO_HIGH' and trader.status == 'inbound' then
+		print(ship.label..' will change to orbital spaceport from '..trader.starport.label)
+		trader['starport'] = getNearestStarport(ship, trader.starport) 
+		print('.. to '..trader.starport.label)
+		end
 
 	if trader.status == 'outbound' then
 		if getSystemAndJump(ship) ~= 'OK' then
