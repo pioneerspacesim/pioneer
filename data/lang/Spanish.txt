@@ -978,6 +978,8 @@ MASS
     Masa
 N_WHATEVER_MASSES
     %mass{f.3} masa %units
+N_WHATEVER_RADII
+    %radius{f.3} radios %units 
 SOLAR
     Solar
 EARTH
