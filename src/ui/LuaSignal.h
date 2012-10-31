@@ -4,6 +4,10 @@
 #ifndef UI_LUASIGNAL_H
 #define UI_LUASIGNAL_H
 
+#include "LuaPushPull.h"
+
+inline void pi_lua_generic_push(lua_State * l, const UI::Event &value) { value.ToLuaTable(l); }
+
 namespace UI {
 
 class LuaSignalTrampolineBase {
@@ -27,14 +31,14 @@ protected:
 template <typename T0, typename T1>
 class LuaSignalTrampoline : public LuaSignalTrampolineBase {
 public:
-	static inline bool trampoline(T0 arg0, T1 arg1, lua_State *l, int idx) {
+	static inline bool trampoline(const T0 &arg0, const T1 &arg1, lua_State *l, int idx) {
 		_trampoline_start(l, idx);
-		arg0.ToLuaTable(l);
-		arg1.ToLuaTable(l);
+		pi_lua_generic_push(l, arg0);
+		pi_lua_generic_push(l, arg1);
 		return _trampoline_end(l, 2);
 	}
 
-	static inline void trampoline_void(T0 arg0, T1 arg1, lua_State *l, int idx) {
+	static inline void trampoline_void(const T0 &arg0, const T1 &arg1, lua_State *l, int idx) {
 		trampoline(arg0, arg1, l, idx);
 	}
 };
@@ -42,13 +46,13 @@ public:
 template <typename T0>
 class LuaSignalTrampoline<T0,sigc::nil> : public LuaSignalTrampolineBase {
 public:
-	static inline bool trampoline(T0 arg0, lua_State *l, int idx) {
+	static inline bool trampoline(const T0 &arg0, lua_State *l, int idx) {
 		_trampoline_start(l, idx);
-		arg0.ToLuaTable(l);
+		pi_lua_generic_push(l, arg0);
 		return _trampoline_end(l, 1);
 	}
 
-    static inline void trampoline_void(T0 arg0, lua_State *l, int idx) {
+    static inline void trampoline_void(const T0 &arg0, lua_State *l, int idx) {
         trampoline(arg0, l, idx);
     }
 };
@@ -63,35 +67,6 @@ public:
 
 	static inline void trampoline_void(lua_State *l, int idx) {
 		trampoline(l, idx);
-	}
-};
-
-template <>
-class LuaSignalTrampoline<unsigned int,const std::string &> : public LuaSignalTrampolineBase {
-public:
-	static inline bool trampoline(unsigned int arg0, const std::string &arg1, lua_State *l, int idx) {
-		_trampoline_start(l, idx);
-		lua_pushinteger(l, arg0);
-		lua_pushlstring(l, arg1.c_str(), arg1.size());
-		return _trampoline_end(l, 2);
-	}
-
-	static inline void trampoline_void(unsigned int arg0, const std::string &arg1, lua_State *l, int idx) {
-		trampoline(arg0, arg1, l, idx);
-	}
-};
-
-template <>
-class LuaSignalTrampoline<const std::string &,sigc::nil> : public LuaSignalTrampolineBase {
-public:
-	static inline bool trampoline(const std::string &arg0, lua_State *l, int idx) {
-		_trampoline_start(l, idx);
-		lua_pushlstring(l, arg0.c_str(), arg0.size());
-		return _trampoline_end(l, 1);
-	}
-
-	static inline void trampoline_void(const std::string &arg0, lua_State *l, int idx) {
-		trampoline(arg0, l, idx);
 	}
 };
 
