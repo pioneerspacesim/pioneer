@@ -200,7 +200,7 @@ Mission = {
 -- testing
 --
 	Remove = function (ref)
-		table.remove(PersistentCharacters.player.missions, ref)
+		PersistentCharacters.player.missions[ref] = nil
 	end,
 --
 -- Method: RegisterClick
