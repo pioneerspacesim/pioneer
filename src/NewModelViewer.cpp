@@ -111,7 +111,7 @@ void ModelViewer::Run(int argc, char** argv)
 
 	//init components
 	FileSystem::Init();
-	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
+	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
 	Lua::Init();

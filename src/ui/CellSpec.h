@@ -15,7 +15,7 @@ public:
 	static const int MAX_CELLS = 8;
 
 	CellSpec(int n) : numCells(n) {
-		assert(n >= 0 && n < MAX_CELLS);
+		assert(n >= 1 && n < MAX_CELLS);
 		for (int i = 0; i < MAX_CELLS; i++) cellPercent[i] = 1.0f/n;
 	}
 

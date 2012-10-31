@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\text\DistanceFieldFont.cpp" />
     <ClCompile Include="..\..\..\src\text\Font.cpp" />
+    <ClCompile Include="..\..\..\src\text\FontDescriptor.cpp" />
     <ClCompile Include="..\..\..\src\text\TextSupport.cpp" />
     <ClCompile Include="..\..\..\src\text\TextureFont.cpp" />
     <ClCompile Include="..\..\..\src\text\VectorFont.cpp" />

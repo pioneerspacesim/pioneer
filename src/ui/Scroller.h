@@ -24,6 +24,8 @@ protected:
 	friend class Context;
 	Scroller(Context *context);
 
+	virtual void RemoveWidget(Widget *widget);
+
 private:
 	Widget *m_innerWidget;
 	VSlider *m_slider;

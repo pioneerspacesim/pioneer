@@ -20,6 +20,8 @@ public:
 protected:
 	Single(Context *context) : Container(context), m_innerWidget(0) {}
 
+    virtual void RemoveWidget(Widget *widget);
+
 private:
 	Widget *m_innerWidget;
 };

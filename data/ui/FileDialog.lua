@@ -13,7 +13,11 @@ ui.templates.FileDialog = function (args)
 	local onSelect    = args.onSelect    or function (name) end
 	local onCancel    = args.onCancel    or function () end
 
-	local files, _ = FileSystem.ReadDirectory(root, path)
+	local ok, files, _ = pcall(FileSystem.ReadDirectory, root, path)
+	if not ok then
+		print('Error: ' .. files)
+		files = {}
+	end
 
 	local list = ui:List()
 	for i = 1,#files do list:AddOption(files[i]) end

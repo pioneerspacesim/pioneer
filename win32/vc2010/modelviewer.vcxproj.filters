@@ -27,9 +27,6 @@
     <ClCompile Include="..\..\src\LuaUtils.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FontConfig.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\IniConfig.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -123,9 +120,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaUtils.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\FontConfig.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\IniConfig.h">

@@ -5,7 +5,6 @@
 #include "FileSystem.h"
 #include "text/FontDescriptor.h"
 #include "Lua.h"
-#include "FontConfig.h"
 #include "FileSystem.h"
 #include <typeinfo>
 
@@ -24,14 +23,6 @@ static const float FONT_SCALE[] = {
 	1.8f   // XLARGE
 };
 
-static FontConfig font_config(const std::string &path) {
-	RefCountedPtr<FileSystem::FileData> config_data = FileSystem::gameDataFiles.ReadFile(path);
-	FontConfig fc;
-	fc.Load(*config_data);
-	config_data.Reset();
-	return fc;
-}
-
 Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height) : Single(this),
 	m_renderer(renderer),
 	m_width(width),
@@ -40,7 +31,7 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 	m_needsLayout(false),
 	m_float(new FloatContainer(this)),
 	m_eventDispatcher(this),
-	m_skin(FileSystem::JoinPath(FileSystem::GetDataDir(), "ui/Skin.ini"), renderer, GetScale()),
+	m_skin("ui/Skin.ini", renderer, GetScale()),
 	m_lua(lua)
 {
 	lua_State *l = m_lua->GetLuaState();
@@ -54,7 +45,7 @@ Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int h
 
 	// XXX should do point sizes, but we need display DPI first
 	// XXX TextureFont could load multiple sizes into the same object/atlas
-	const Text::FontDescriptor baseFontDesc(font_config("fonts/UIFont.ini").GetDescriptor());
+	const Text::FontDescriptor baseFontDesc(Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/UIFont.ini"));
 	for (int i = FONT_SIZE_XSMALL; i < FONT_SIZE_MAX; i++) {
 		const Text::FontDescriptor fontDesc(baseFontDesc.filename, baseFontDesc.pixelWidth*FONT_SCALE[i]*GetScale(), baseFontDesc.pixelHeight*FONT_SCALE[i]*GetScale(), baseFontDesc.outline, baseFontDesc.advanceXAdjustment);
 
@@ -86,6 +77,8 @@ void Context::Layout()
 
 void Context::Update()
 {
+	m_eventDispatcher.Update();
+
 	if (m_needsLayout)
 		Layout();
 
@@ -137,13 +130,13 @@ void Context::DrawWidget(Widget *w)
 	const Point &size = w->GetSize();
 
 	m_drawWidgetPosition += pos;
-	m_drawWidgetOffset += drawOffset;
 
 	const std::pair<Point,Point> &currentScissor(m_scissorStack.top());
 	const Point &currentScissorPos(currentScissor.first);
 	const Point &currentScissorSize(currentScissor.second);
 
-	const Point newScissorPos(std::max(m_drawWidgetPosition.x + m_drawWidgetOffset.x, currentScissorPos.x), std::max(m_drawWidgetPosition.y + m_drawWidgetOffset.y, currentScissorPos.y));
+	const Point newScissorPos(std::max(m_drawWidgetPosition.x, currentScissorPos.x), std::max(m_drawWidgetPosition.y, currentScissorPos.y));
+
 	const Point newScissorSize(
 		Clamp(std::min(newScissorPos.x + size.x, currentScissorPos.x + currentScissorSize.x) - newScissorPos.x, 0, m_width),
 		Clamp(std::min(newScissorPos.y + size.y, currentScissorPos.y + currentScissorSize.y) - newScissorPos.y, 0, m_height));
@@ -152,14 +145,15 @@ void Context::DrawWidget(Widget *w)
 
 	m_renderer->SetScissor(true, vector2f(newScissorPos.x, m_height - newScissorPos.y - newScissorSize.y), vector2f(newScissorSize.x, newScissorSize.y));
 
-	m_renderer->SetTransform(matrix4x4f::Translation(m_drawWidgetPosition.x + m_drawWidgetOffset.x, m_drawWidgetPosition.y + m_drawWidgetOffset.y, 0));
+	m_drawWidgetPosition += drawOffset;
+
+	m_renderer->SetTransform(matrix4x4f::Translation(m_drawWidgetPosition.x, m_drawWidgetPosition.y, 0));
 
 	w->Draw();
 
 	m_scissorStack.pop();
 
-	m_drawWidgetPosition -= pos;
-	m_drawWidgetOffset -= drawOffset;
+	m_drawWidgetPosition -= pos + drawOffset;
 }
 
 }

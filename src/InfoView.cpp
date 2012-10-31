@@ -273,8 +273,8 @@ public:
 			formatarg("distance", stats.hyperspace_range),
 			formatarg("maxdistance", stats.hyperspace_range_max));
 
-		int totalFuelMass = (int)round(Pi::player->GetMass()/1000 - stats.total_mass);
-		int totalMassWithFuel = (int)round(Pi::player->GetMass()/1000);
+		int totalFuelMass = int(round(Pi::player->GetMass()/1000 - stats.total_mass));
+		int totalMassWithFuel = int(round(Pi::player->GetMass()/1000));
 		int hullMass = totalMassWithFuel - totalFuelMass - stats.used_capacity;
 		snprintf(buf, sizeof(buf), "\n\n%dt\n"
 					       "%dt  (%dt %s)\n"

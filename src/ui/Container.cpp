@@ -36,7 +36,8 @@ void Container::LayoutChildren()
 
 void Container::AddWidget(Widget *widget)
 {
-	assert(!widget->GetContainer());
+	if (widget->GetContainer())
+		widget->GetContainer()->RemoveWidget(widget);
 
 	std::vector< RefCountedPtr<Widget> >::iterator i;
 	for (i = m_widgets.begin(); i != m_widgets.end(); ++i)

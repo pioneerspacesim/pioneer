@@ -46,7 +46,7 @@ protected:
 	void LayoutChildren();
 
 	void AddWidget(Widget *);
-	void RemoveWidget(Widget *);
+	virtual void RemoveWidget(Widget *);
 	void RemoveAllWidgets();
 
 	void SetWidgetDimensions(Widget *widget, const Point &position, const Point &size);

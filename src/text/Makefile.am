@@ -17,6 +17,7 @@ noinst_HEADERS = \
 
 libtext_a_SOURCES = \
 	DistanceFieldFont.cpp \
+	FontDescriptor.cpp \
 	Font.cpp \
 	TextSupport.cpp \
 	TextureFont.cpp \

@@ -731,7 +731,7 @@ int main(int argc, char **argv)
 	}
 
 	FileSystem::Init();
-	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
+	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 	ModManager::Init();
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
