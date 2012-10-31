@@ -49,6 +49,8 @@
     <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\ui\LuaTextEntry.cpp" />
+    <ClCompile Include="..\..\..\src\ui\TextEntry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\ui\Align.h" />
@@ -83,6 +85,7 @@
     <ClInclude Include="..\..\..\src\win32\pch.h">
       <Filter>win32</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\ui\TextEntry.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

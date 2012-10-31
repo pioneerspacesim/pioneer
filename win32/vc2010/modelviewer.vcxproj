@@ -123,6 +123,7 @@
     <ClCompile Include="..\..\src\LuaVector.cpp" />
     <ClCompile Include="..\..\src\ModManager.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
+    <ClCompile Include="..\..\src\PngWriter.cpp" />
     <ClCompile Include="..\..\src\posix\FileSystemPosix.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">true</ExcludedFromBuild>
@@ -164,6 +165,7 @@
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
     <ClInclude Include="..\..\src\perlin.h" />
+    <ClInclude Include="..\..\src\PngWriter.h" />
     <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\StringF.h" />
