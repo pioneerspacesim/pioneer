@@ -117,3 +117,67 @@ void ShipFlavour::Load(Serializer::Reader &rd)
 	LoadLmrMaterial(rd, &secondaryColor);
 }
 
+static inline void _get_string(lua_State *l, const char *key, std::string &output)
+{
+	lua_pushstring(l, key);
+	lua_gettable(l, -2);
+	output = lua_tostring(l, -1);
+	lua_pop(l, 1);
+}
+
+static inline void _get_number(lua_State *l, const char *key, float &output)
+{
+	lua_pushstring(l, key);
+	lua_gettable(l, -2);
+	output = lua_tonumber(l, -1);
+	lua_pop(l, 1);
+}
+
+static inline void _get_colour(lua_State *l, const char *key, float rgba[4])
+{
+	lua_pushstring(l, key);
+	lua_gettable(l, -2);
+	_get_number(l, "r", rgba[0]);
+	_get_number(l, "g", rgba[1]);
+	_get_number(l, "b", rgba[2]);
+	_get_number(l, "a", rgba[3]);
+	lua_pop(l, 1);
+}
+
+ShipFlavour ShipFlavour::FromLuaTable(lua_State *l, int idx) {
+	const int table = lua_absindex(l, idx);
+	assert(lua_istable(l, table));
+
+	LUA_DEBUG_START(l);
+
+	lua_pushvalue(l, table);
+
+	ShipFlavour f;
+
+	_get_string(l, "id", f.type);
+	_get_string(l, "regId", f.regid);
+
+	float money;
+	_get_number(l, "price", money);
+	f.price = money*100.0;
+
+	lua_getfield(l, -1, "primaryColour");
+	_get_colour(l, "diffuse", f.primaryColor.diffuse);
+	_get_colour(l, "specular", f.primaryColor.specular);
+	_get_colour(l, "emissive", f.primaryColor.emissive);
+	_get_number(l, "shininess", f.primaryColor.shininess);
+	lua_pop(l, 1);
+
+	lua_getfield(l, -1, "secondaryColour");
+	_get_colour(l, "diffuse", f.secondaryColor.diffuse);
+	_get_colour(l, "specular", f.secondaryColor.specular);
+	_get_colour(l, "emissive", f.secondaryColor.emissive);
+	_get_number(l, "shininess", f.secondaryColor.shininess);
+	lua_pop(l, 1);
+
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
+
+	return f;
+}

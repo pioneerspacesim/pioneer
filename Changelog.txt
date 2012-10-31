@@ -27,6 +27,9 @@ Alpha 28
      * Added StarSystem.faction attribute and Faction object to get information
        about a system's faction (#1568)
      * Removed Ship.Jettison, added Ship.SpawnCargo (#1443)
+     * Ship.flavour attribute and Ship.SetFlavour method to fully customise
+       the ship model's appearance. Ship.SetPrimaryColour and
+       Ship.SetSecondaryColour are now deprecated (#1637, #526)
 
    * Internal changes
      * Code clean-up in the handling of world view cameras (#1601)
