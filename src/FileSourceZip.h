@@ -13,7 +13,9 @@ namespace FileSystem {
 
 class FileSourceZip : public FileSource {
 public:
-	FileSourceZip(const std::string &zipPath);
+	// for now this needs to be FileSourceFS rather than just FileSource,
+	// because we need a FILE* stream access to the .zip file
+	FileSourceZip(FileSourceFS &fs, const std::string &zipPath);
 	virtual ~FileSourceZip();
 
 	virtual FileInfo Lookup(const std::string &path);

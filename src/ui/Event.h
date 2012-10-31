@@ -38,12 +38,16 @@ struct KeySym {
 	KeySym(const SDLKey &_sym, const SDLMod &_mod, const Uint16 _unicode) : sym(_sym), mod(safe_mods(_mod)), unicode(_unicode) {}
 	KeySym(const SDLKey &_sym, const SDLMod &_mod) : sym(_sym), mod(safe_mods(_mod)), unicode(0) {}
 	KeySym(const SDLKey &_sym) : sym(_sym), mod(KMOD_NONE), unicode(0) {}
-	const SDLKey sym;
-	const SDLMod mod;
-	const Uint16 unicode;
+	SDLKey sym;
+	SDLMod mod;
+	Uint16 unicode;
 
 	bool operator<(const KeySym &b) const {
 		return sym < b.sym || (sym == b.sym && mod < b.mod);
+	}
+
+	bool operator==(const KeySym &b) const {
+		return sym == b.sym && mod == b.mod;
 	}
 
 private:
@@ -58,7 +62,8 @@ class KeyboardEvent : public Event {
 public:
 	enum Action { // <enum scope='UI::KeyboardEvent' name=UIKeyboardAction prefix=KEY_>
 		KEY_DOWN,
-		KEY_UP
+		KEY_UP,
+		KEY_PRESS
 	};
 	KeyboardEvent(Action _action, const KeySym &_keysym) : Event(Event::KEYBOARD), action(_action), keysym(_keysym) {}
 	const Action action;

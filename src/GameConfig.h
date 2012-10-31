@@ -8,7 +8,10 @@
 
 class GameConfig : public IniConfig {
 public:
-	GameConfig(const std::string &filename);
+	GameConfig();
+
+	void Load();
+	bool Save();
 };
 
 #endif

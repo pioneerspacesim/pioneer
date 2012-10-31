@@ -98,6 +98,14 @@ bool Widget::TriggerKeyUp(const KeyboardEvent &event, bool emit)
 	return emit;
 }
 
+bool Widget::TriggerKeyPress(const KeyboardEvent &event, bool emit)
+{
+	HandleKeyPress(event);
+	if (emit) emit = !onKeyDown.emit(event);
+	if (GetContainer() && !IsFloating()) GetContainer()->TriggerKeyPress(event, emit);
+	return emit;
+}
+
 bool Widget::TriggerMouseDown(const MouseButtonEvent &event, bool emit)
 {
 	HandleMouseDown(event);
@@ -178,14 +186,24 @@ void Widget::TriggerMouseActivate()
 {
 	m_mouseActive = true;
 	HandleMouseActivate();
-	if (GetContainer() && !IsFloating()) GetContainer()->TriggerMouseActivate();
 }
 
 void Widget::TriggerMouseDeactivate()
 {
 	m_mouseActive = false;
 	HandleMouseDeactivate();
-	if (GetContainer() && !IsFloating()) GetContainer()->TriggerMouseDeactivate();
+}
+
+void Widget::TriggerSelect()
+{
+	m_selected = true;
+	HandleSelect();
+}
+
+void Widget::TriggerDeselect()
+{
+	m_selected = false;
+	HandleDeselect();
 }
 
 }

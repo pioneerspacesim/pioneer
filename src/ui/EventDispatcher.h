@@ -14,10 +14,18 @@ class Container;
 
 class EventDispatcher {
 public:
-	EventDispatcher(Container *baseContainer) : m_baseContainer(baseContainer), m_mouseActiveReceiver(0), m_lastMouseOverTarget(0) {}
+	EventDispatcher(Container *baseContainer) :
+		m_baseContainer(baseContainer),
+		m_mouseActiveReceiver(0),
+		m_lastMouseOverTarget(0),
+		m_keyRepeatSym(SDLK_UNKNOWN),
+		m_keyRepeatActive(false)
+		{}
 
 	bool Dispatch(const Event &event);
 	bool DispatchSDLEvent(const SDL_Event &event);
+
+	void Update();
 
 	void LayoutUpdated();
 
@@ -25,8 +33,12 @@ public:
 	void RemoveShortcut(const KeySym &keysym);
 	void ClearShortcuts();
 
+	void SelectWidget(Widget *target);
+	void DeselectWidget(Widget *target);
+
 private:
 	void DispatchMouseOverOut(Widget *target, const Point &mousePos);
+	void DispatchSelect(Widget *target);
 
 	Container *m_baseContainer;
 
@@ -35,6 +47,12 @@ private:
 
 	RefCountedPtr<Widget> m_lastMouseOverTarget;
 	Point m_lastMousePosition;
+
+	RefCountedPtr<Widget> m_selected;
+
+	KeySym m_keyRepeatSym;
+	bool m_keyRepeatActive;
+	Uint32 m_nextKeyRepeat;
 
 	typedef std::map<KeySym,Widget*> ShortcutMap;
 	ShortcutMap m_shortcuts;

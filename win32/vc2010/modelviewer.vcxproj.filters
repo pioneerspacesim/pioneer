@@ -27,9 +27,6 @@
     <ClCompile Include="..\..\src\LuaUtils.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FontConfig.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\IniConfig.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -90,6 +87,9 @@
     <ClCompile Include="..\..\src\posix\OSPosix.cpp">
       <Filter>src\posix</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\PngWriter.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\libs.h">
@@ -111,9 +111,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaUtils.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\FontConfig.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\IniConfig.h">
@@ -175,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\win32\pch.h">
       <Filter>src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\PngWriter.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

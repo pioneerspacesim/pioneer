@@ -87,7 +87,7 @@
 #include "graphics/Light.h"
 #include "gui/Gui.h"
 #include <algorithm>
-#include <fstream>
+#include <sstream>
 
 float Pi::gameTickAlpha;
 int Pi::scrWidth;
@@ -245,51 +245,25 @@ static void LuaInitGame() {
 	LuaEvent::Clear();
 }
 
+const char Pi::SAVE_DIR_NAME[] = "savefiles";
+
 std::string Pi::GetSaveDir()
 {
-	return FileSystem::GetUserDir("savefiles");
-}
-
-void Pi::RedirectStdio()
-{
-	std::string stdout_file = FileSystem::JoinPath(FileSystem::GetUserDir(), "stdout.txt");
-	std::string stderr_file = FileSystem::JoinPath(FileSystem::GetUserDir(), "stderr.txt");
-
-	FILE *f;
-
-	f = freopen(stdout_file.c_str(), "w", stdout);
-	if (!f)
-		f = fopen(stdout_file.c_str(), "w");
-	if (!f)
-		fprintf(stderr, "ERROR: Couldn't redirect stdout to '%s': %s\n", stdout_file.c_str(), strerror(errno));
-	else {
-		setvbuf(f, 0, _IOLBF, BUFSIZ);
-		*stdout = *f;
-	}
-
-	f = freopen(stderr_file.c_str(), "w", stderr);
-	if (!f)
-		f = fopen(stderr_file.c_str(), "w");
-	if (!f)
-		fprintf(stderr, "ERROR: Couldn't redirect stderr to '%s': %s\n", stderr_file.c_str(), strerror(errno));
-	else {
-		setvbuf(f, 0, _IOLBF, BUFSIZ);
-		*stderr = *f;
-	}
+	return FileSystem::JoinPath(FileSystem::GetUserDir(), Pi::SAVE_DIR_NAME);
 }
 
 void Pi::Init()
 {
 	FileSystem::Init();
-	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir());
+	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 
-	ModManager::Init();
-
-	Pi::config = new GameConfig(FileSystem::JoinPath(FileSystem::GetUserDir(), "config.ini"));
+	Pi::config = new GameConfig();
 	KeyBindings::InitBindings();
 
 	if (config->Int("RedirectStdio"))
-		RedirectStdio();
+		OS::RedirectStdio();
+
+	ModManager::Init();
 
 	if (!Lang::LoadStrings(config->String("Lang")))
 		abort();
@@ -320,9 +294,15 @@ void Pi::Init()
 
 	Pi::renderer = Graphics::Init(videoSettings);
 	{
-		std::ofstream out;
-		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(), "opengl.txt")).c_str());
-		renderer->PrintDebugInfo(out);
+		std::ostringstream buf;
+		renderer->PrintDebugInfo(buf);
+
+		FILE *f = FileSystem::userFiles.OpenWriteStream("opengl.txt", FileSystem::FileSourceFS::WRITE_TEXT);
+		if (!f)
+			fprintf(stderr, "Could not open 'opengl.txt'\n");
+		const std::string &s = buf.str();
+		fwrite(s.c_str(), 1, s.size(), f);
+		fclose(f);
 	}
 
 	OS::LoadWindowIcon();
@@ -633,10 +613,10 @@ void Pi::HandleEvents()
 									Pi::cpan->MsgLog()->Message("", Lang::CANT_SAVE_IN_HYPERSPACE);
 
 								else {
-									std::string name = FileSystem::JoinPath(GetSaveDir(), "_quicksave");
+									const std::string name = "_quicksave";
 									GameSaver saver(Pi::game);
 									if (saver.SaveToFile(name))
-										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+name);
+										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO + FileSystem::JoinPath(GetSaveDir(), name));
 								}
 							}
 							break;

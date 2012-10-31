@@ -13,7 +13,7 @@ class EquipSet {
 public:
 	EquipSet() {}
 
-	void InitSlotSizes(const ShipType::Type &t) {
+	void InitSlotSizes(const ShipType::Id &t) {
 		const ShipType &st = ShipType::types[t];
 		for (int i=0; i<Equip::SLOT_MAX; i++) {
 			// vector swap idiom (de-allocates unneeded space)

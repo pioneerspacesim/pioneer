@@ -8,6 +8,9 @@
 
 namespace UI {
 
+static const Uint32 KEY_REPEAT_PAUSE    = 500;
+static const Uint32 KEY_REPEAT_INTERVAL = 50;
+
 static inline MouseButtonEvent::ButtonType MouseButtonFromSDLButton(Uint8 sdlButton) {
 	return
 		sdlButton == SDL_BUTTON_LEFT   ? MouseButtonEvent::BUTTON_LEFT   :
@@ -44,17 +47,47 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 bool EventDispatcher::Dispatch(const Event &event)
 {
 	switch (event.type) {
+
 		case Event::KEYBOARD: {
 			const KeyboardEvent keyEvent = static_cast<const KeyboardEvent&>(event);
 			switch (keyEvent.action) {
-				case KeyboardEvent::KEY_DOWN: return m_baseContainer->TriggerKeyDown(keyEvent);
+				case KeyboardEvent::KEY_DOWN: {
+					bool handled = m_baseContainer->TriggerKeyDown(keyEvent);
+
+					// if there's no keysym then this is some kind of
+					// synthesized event from the window system (eg a compose
+					// sequence). still dispatch it, but don't repeat because
+					// we may never see a corresponding keyup for it
+					if (keyEvent.keysym.sym == SDLK_UNKNOWN) {
+						Dispatch(KeyboardEvent(KeyboardEvent::KEY_PRESS, keyEvent.keysym));
+						return handled;
+					}
+
+					m_keyRepeatSym = keyEvent.keysym;
+					m_keyRepeatActive = true;
+					m_nextKeyRepeat = SDL_GetTicks() + KEY_REPEAT_PAUSE;
+
+					Dispatch(KeyboardEvent(KeyboardEvent::KEY_PRESS, m_keyRepeatSym));
+
+					return handled;
+				}
+
 				case KeyboardEvent::KEY_UP: {
+					if (m_keyRepeatActive && keyEvent.keysym == m_keyRepeatSym)
+						m_keyRepeatActive = false;
+
 					ShortcutMap::iterator i = m_shortcuts.find(keyEvent.keysym);
 					if (i != m_shortcuts.end()) {
 						(*i).second->TriggerClick();
+						DispatchSelect((*i).second);
 						return true;
 					}
 					return m_baseContainer->TriggerKeyUp(keyEvent);
+				}
+
+				case KeyboardEvent::KEY_PRESS: {
+					Widget *target = m_selected ? m_selected.Get() : m_baseContainer;
+					target->TriggerKeyPress(keyEvent);
 				}
 			}
 			return false;
@@ -87,8 +120,10 @@ bool EventDispatcher::Dispatch(const Event &event)
 						m_mouseActiveReceiver->TriggerMouseDeactivate();
 
 						// if we released over the active widget, then we clicked it
-						if (m_mouseActiveReceiver.Get() == target)
+						if (m_mouseActiveReceiver.Get() == target) {
 							m_mouseActiveReceiver->TriggerClick();
+							DispatchSelect(m_mouseActiveReceiver.Get());
+						}
 
 						m_mouseActiveReceiver.Reset();
 
@@ -172,6 +207,51 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const Point &mousePos
 
 		m_lastMouseOverTarget.Reset(target);
 		m_lastMouseOverTarget->TriggerMouseOver(mousePos-m_lastMouseOverTarget->GetAbsolutePosition());
+	}
+}
+
+void EventDispatcher::DispatchSelect(Widget *target)
+{
+	if (m_selected) {
+		if (m_selected == target)
+			return;
+
+		m_selected->TriggerDeselect();
+	}
+
+	while (target) {
+		if (target->IsSelectable()) {
+			m_selected.Reset(target);
+			m_selected->TriggerSelect();
+			return;
+		}
+
+		target = target->GetContainer();
+	}
+
+	m_selected.Reset();
+}
+
+void EventDispatcher::SelectWidget(Widget *target)
+{
+	DispatchSelect(target);
+}
+
+void EventDispatcher::DeselectWidget(Widget *target)
+{
+	if (!target->IsSelected())
+		return;
+	DispatchSelect(0);
+}
+
+void EventDispatcher::Update()
+{
+	if (!m_keyRepeatActive) return;
+
+	Uint32 now = SDL_GetTicks();
+	if (m_nextKeyRepeat <= now) {
+		Dispatch(KeyboardEvent(KeyboardEvent::KEY_PRESS, m_keyRepeatSym));
+		m_nextKeyRepeat = now + KEY_REPEAT_INTERVAL;
 	}
 }
 

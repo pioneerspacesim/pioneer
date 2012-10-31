@@ -2299,10 +2299,9 @@ static size_t mz_zip_file_read_func(void *pOpaque, mz_uint64 file_ofs, void *pBu
   return MZ_FREAD(pBuf, 1, n, pZip->m_pState->m_pFile);
 }
 
-mz_bool mz_zip_reader_init_file(mz_zip_archive *pZip, const char *pFilename, mz_uint32 flags)
+mz_bool mz_zip_reader_init_file_stream(mz_zip_archive *pZip, FILE *pFile, mz_uint32 flags)
 {
   mz_uint64 file_size;
-  MZ_FILE *pFile = MZ_FOPEN(pFilename, "rb");
   if (!pFile)
     return MZ_FALSE;
   if (MZ_FSEEK64(pFile, 0, SEEK_END))
@@ -2323,6 +2322,14 @@ mz_bool mz_zip_reader_init_file(mz_zip_archive *pZip, const char *pFilename, mz_
     return MZ_FALSE;
   }
   return MZ_TRUE;
+}
+
+mz_bool mz_zip_reader_init_file(mz_zip_archive *pZip, const char *pFilename, mz_uint32 flags)
+{
+  MZ_FILE *pFile = MZ_FOPEN(pFilename, "rb");
+  if (!pFile)
+    return MZ_FALSE;
+  return mz_zip_reader_init_file_stream(pZip, pFile, flags);
 }
 #endif // #ifndef MINIZ_NO_STDIO
 

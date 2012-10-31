@@ -27,6 +27,7 @@ void LuaInit()
 	LuaObject<UI::Scroller>::RegisterClass();
 	LuaObject<UI::Single>::RegisterClass();
 	LuaObject<UI::Slider>::RegisterClass();
+	LuaObject<UI::TextEntry>::RegisterClass();
 	LuaObject<UI::HSlider>::RegisterClass();
 	LuaObject<UI::VSlider>::RegisterClass();
 	LuaObject<UI::Widget>::RegisterClass();
