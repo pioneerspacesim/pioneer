@@ -33,6 +33,8 @@ Alpha 28
      * Ship.flavour attribute and Ship.SetFlavour method to fully customise
        the ship model's appearance. Ship.SetPrimaryColour and
        Ship.SetSecondaryColour are now deprecated (#1637, #526)
+     * New attribute Ship.shipId can be passed to ShipType.GetShipType.
+       Ship.shipType is now deprecated (#1589)
 
    * Internal changes
      * Code clean-up in the handling of world view cameras (#1601)

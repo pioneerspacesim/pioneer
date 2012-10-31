@@ -33,7 +33,7 @@ struct Mission : RefItem<Mission> {
 class Player: public Ship, public MarketAgent {
 public:
 	OBJDEF(Player, Ship, PLAYER);
-	Player(ShipType::Type shipType);
+	Player(ShipType::Id shipId);
 	Player() { }; //default constructor used before Load
 	virtual void SetDockedWith(SpaceStation *, int port);
 	virtual bool OnDamage(Object *attacker, float kgDamage);

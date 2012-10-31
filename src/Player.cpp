@@ -19,7 +19,7 @@
 static Sound::Event s_soundUndercarriage;
 static Sound::Event s_soundHyperdrive;
 
-Player::Player(ShipType::Type shipType): Ship(shipType)
+Player::Player(ShipType::Id shipId): Ship(shipId)
 {
 	SetController(new PlayerShipController());
 	m_killCount = 0;
