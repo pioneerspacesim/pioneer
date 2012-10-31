@@ -88,12 +88,12 @@ Translate:Add({
 		['{quantity} Unoccupied Passenger Cabins'] = 'Wolne kabiny pasażerskie: {quantity}',
 		
 		-- Ship Information
-		['Ship information'] = 'Informacje o statku',
+		['Ship Information'] = 'Informacje o statku',
 		['Weight empty:'] = 'Masa minimalna:',
 		['{range} light years ({maxRange} max)'] = '{range} lat świetlnych ({maxRange} maks.)',
 		
 		-- Personal information
-		['Personal information'] = 'Informacje o pilocie',
+		['Personal Information'] = 'Informacje o pilocie',
 		['Combat'] = 'Status bojowy',
 		['Rating:'] = 'Klasyfikacja:',
 		['Kills:'] = 'Pokonanych:',
