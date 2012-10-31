@@ -22,6 +22,7 @@ Alpha 28
      * Allow non-ASCII characters in savefile names (#1632, #1627, #1482)
      * Ensure frames for stars with no orbiting bodies are sufficiently large
        for the autopilot to compute orbits (#1645, #1626)
+     * Fix Achernar9 mass & radius (#1640, #1626)
 
    * Script and model changes
      * Separation and orientation is now specified for dual laser mountings (#1518)
