@@ -12,7 +12,7 @@ local onShipFuelChanged = function (ship, state)
 		end
 	else
 		if state == "EMPTY" then
-			print(('{label} ({type}) out of fuel'):interp({label=ship.label,type=ship.shipType}))
+			print(('{label} ({id}) out of fuel'):interp({label=ship.label,id=ship.shipId}))
 		end
 	end
 end

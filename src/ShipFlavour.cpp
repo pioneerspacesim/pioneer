@@ -44,9 +44,9 @@ void ShipFlavour::MakeRandomColor(LmrMaterial &m)
 	m.shininess = 50.0f + float(Pi::rng.Double())*50.0f;
 }
 
-ShipFlavour::ShipFlavour(ShipType::Type type_)
+ShipFlavour::ShipFlavour(ShipType::Id id_)
 {
-	type = type_;
+	id = id_;
 	regid = "XX-1111";
 	regid[0] = 'A' + Pi::rng.Int32(26);
 	regid[1] = 'A' + Pi::rng.Int32(26);
@@ -55,7 +55,7 @@ ShipFlavour::ShipFlavour(ShipType::Type type_)
 	regid[4] = '0' + ((code /  100) % 10);
 	regid[5] = '0' + ((code /   10) % 10);
 	regid[6] = '0' + ((code /    1) % 10);
-	price = std::max(ShipType::types[type].baseprice, 1);
+	price = std::max(ShipType::types[id].baseprice, 1);
 	price = price + Pi::rng.Int32(price)/64;
 
 	MakeRandomColor(primaryColor);
@@ -67,10 +67,10 @@ void ShipFlavour::MakeTrulyRandom(ShipFlavour &v, bool atmospheric)
 {
 	// only allow ships that can fit an atmospheric shield
 	if (atmospheric) {
-		const std::vector<ShipType::Type> &ships = ShipType::playable_atmospheric_ships;
+		const std::vector<ShipType::Id> &ships = ShipType::playable_atmospheric_ships;
 		v = ShipFlavour(ships[Pi::rng.Int32(ships.size())]);
 	} else {
-		const std::vector<ShipType::Type> &ships = ShipType::player_ships;
+		const std::vector<ShipType::Id> &ships = ShipType::player_ships;
 		v = ShipFlavour(ships[Pi::rng.Int32(ships.size())]);
 	}
 }
@@ -101,7 +101,7 @@ void ShipFlavour::LoadLmrMaterial(Serializer::Reader &rd, LmrMaterial *m)
 
 void ShipFlavour::Save(Serializer::Writer &wr)
 {
-	wr.String(type);
+	wr.String(id);
 	wr.Int32(price);
 	wr.String(regid);
 	SaveLmrMaterial(wr, &primaryColor);
@@ -110,7 +110,7 @@ void ShipFlavour::Save(Serializer::Writer &wr)
 
 void ShipFlavour::Load(Serializer::Reader &rd)
 {
-	type = rd.String();
+	id = rd.String();
 	price = rd.Int32();
 	regid = rd.String();
 	LoadLmrMaterial(rd, &primaryColor);
@@ -154,7 +154,7 @@ ShipFlavour ShipFlavour::FromLuaTable(lua_State *l, int idx) {
 
 	ShipFlavour f;
 
-	_get_string(l, "id", f.type);
+	_get_string(l, "id", f.id);
 	_get_string(l, "regId", f.regid);
 
 	float money;
