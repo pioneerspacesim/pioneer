@@ -4,6 +4,7 @@
 #ifndef _FACTIONS_H
 #define _FACTIONS_H
 
+#include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
 #include "Polit.h"
 #include "vector3.h"
@@ -21,7 +22,8 @@ public:
 	static Faction *GetFaction(const Uint32 index);
 	static const Uint32 GetNumFactions();
 
-	static const Color  GetNearestFactionColour(const SystemPath& sysPath);
+	static const Color  GetNearestFactionColour(const Sector sec, Uint32 sysIndex);
+	static const Uint32 GetNearestFactionIndex(const Sector sec, Uint32 sysIndex);
 	static const Uint32 GetNearestFactionIndex(const SystemPath& sysPath);
 	
 	static const Uint32 BAD_FACTION_IDX;		// returned by GetNearestFactionIndex if system has no faction
@@ -56,7 +58,7 @@ public:
 	
 private:
 	static const double FACTION_CURRENT_YEAR;	// used to calculate faction radius	
-	const bool IsCloserAndContains(double& closestFactionDist, const SystemPath& sysPath) const;
+	const bool IsCloserAndContains(double& closestFactionDist, const Sector sec, Uint32 sysIndex) const;
 };
 
 #endif /* _FACTIONS_H */

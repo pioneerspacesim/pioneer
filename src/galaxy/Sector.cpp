@@ -330,7 +330,17 @@ void Sector::ColourFactions()
 	Uint32 index = 0;
 	Color  colour;
 	for (std::vector<Sector::System>::iterator system = m_systems.begin(); system != m_systems.end(); ++system, ++index ) {
-		(*system).factionColour = Faction::GetNearestFactionColour(SystemPath(sx, sy, sz, index));		
+		(*system).factionColour = Faction::GetNearestFactionColour(*this, index);		
 	}
+}
+
+/*	answer whether the system path is in this sector
+*/
+bool Sector::Contains(const SystemPath sysPath) const
+{
+	if (sx != sysPath.sectorX) return false;
+	if (sy != sysPath.sectorY) return false;
+	if (sz != sysPath.sectorZ) return false;
+	return true;
 }
 

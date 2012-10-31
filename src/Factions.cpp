@@ -2,8 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Factions.h"
-#include "galaxy/SystemPath.h"
 #include "galaxy/Sector.h"
+#include "galaxy/SystemPath.h"
 
 #include "LuaUtils.h"
 #include "LuaVector.h"
@@ -303,7 +303,7 @@ const Uint32 Faction::GetNumFactions()
 	if it is, then the passed distance will also be updated to be the distance 
 	from the factions homeworld to the sysPath.
 */
-const bool Faction::IsCloserAndContains(double& closestFactionDist, const SystemPath& sysPath) const
+const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector sec, Uint32 sysIndex) const
 {
 	/*	Treat factions without homeworlds as if they are of effectively infinite radius,
 		so every world is potentially within their borders, but also treat them as if
@@ -317,17 +317,16 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, const System
 	if (hasHomeworld) 
 	{
 		/* ...automatically gain the allegiance of worlds within the same sector... */
-		if (homeworld.IsSameSector(sysPath)) { closestFactionDist = 0; } 
+		if (sec.Contains(homeworld)) { closestFactionDist = 0; } 
 		
 		/* ...otherwise we need to calculate whether the world is inside the 
 		   the faction border, and how far away it is. */
-		else {
-			const Sector sec1(homeworld.sectorX, homeworld.sectorY, homeworld.sectorZ);
-			const Sector sec2(  sysPath.sectorX,   sysPath.sectorY,   sysPath.sectorZ);
+		//else {
+			const Sector homesec(homeworld.sectorX, homeworld.sectorY, homeworld.sectorZ);
 
-			distance = Sector::DistanceBetween(&sec1, homeworld.systemIndex, &sec2, sysPath.systemIndex);
+			distance = Sector::DistanceBetween(&homesec, homeworld.systemIndex, &sec, sysIndex);
 			inside   = distance < Radius();
-		}
+		//}
 	}
 
 	/*	if the faction contains the world, and its homeworld is closer, then this faction 
@@ -342,15 +341,14 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, const System
 	}
 }
 
-const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
+const Uint32 Faction::GetNearestFactionIndex(const Sector sec, Uint32 sysIndex)
 {
 	// firstly is this a custom StarSystem which might have funny settings
-	Sector sec(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
 	Polit::GovType a = Polit::GOV_INVALID;
 
 	/* from custom system definition */
-	if (sec.m_systems[sysPath.systemIndex].customSys) {
-		Polit::GovType t = sec.m_systems[sysPath.systemIndex].customSys->govType;
+	if (sec.m_systems[sysIndex].customSys) {
+		Polit::GovType t = sec.m_systems[sysIndex].customSys->govType;
 		a = t;
 	}
 	// if the custom system has a valid govType set then try to find a matching faction
@@ -372,14 +370,20 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 	double closestFactionDist = HUGE_VAL;
 	
 	for (FactionIterator it = s_factions.begin(); it != s_factions.end(); ++it, ++index) {
-		if ((*it)->IsCloserAndContains(closestFactionDist,sysPath)) ret_index = index;
+		if ((*it)->IsCloserAndContains(closestFactionDist, sec, sysIndex)) ret_index = index;
 	}
 	return ret_index;
 }
 
-const Color Faction::GetNearestFactionColour(const SystemPath& sysPath)
+const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
+{	
+	Sector sec(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
+	return GetNearestFactionIndex(sec, sysPath.systemIndex);
+}
+
+const Color Faction::GetNearestFactionColour(const Sector sec, Uint32 sysIndex)
 {
-	Uint32 index = Faction::GetNearestFactionIndex(sysPath);
+	Uint32 index = Faction::GetNearestFactionIndex(sec, sysIndex);
 	
 	if (index == BAD_FACTION_IDX) return BAD_FACTION_COLOUR;
 	else { 
