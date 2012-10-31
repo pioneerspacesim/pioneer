@@ -22,8 +22,8 @@ public:
 	static const Uint32 GetNumFactions();
 
 	static const Uint32 GetNearestFactionIndex(const SystemPath& sysPath);
-	static const Uint32 BAD_FACTION_IDX; // returned by GetNearestFactionIndex if system has no faction
-
+	static const Uint32 BAD_FACTION_IDX;		// returned by GetNearestFactionIndex if system has no faction
+	
 	Faction();
 	~Faction();
 
@@ -47,6 +47,12 @@ public:
 	EquipProbMap			equip_legality;
 	//ship availability
 	Color					colour;
+
+	const double Radius() const { return (3200 - foundingDate) * expansionRate; };
+	
+private:
+	static const double FACTION_CURRENT_YEAR;	// used to calculate faction radius	
+	const bool IsCloserAndContains(double& closestFactionDist, const SystemPath& sysPath) const;
 };
 
 #endif /* _FACTIONS_H */

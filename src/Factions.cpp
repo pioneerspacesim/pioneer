@@ -12,7 +12,8 @@
 #include "Polit.h"
 #include "FileSystem.h"
 
-const Uint32 Faction::BAD_FACTION_IDX = UINT_MAX;
+const Uint32 Faction::BAD_FACTION_IDX      = UINT_MAX;
+const double Faction::FACTION_CURRENT_YEAR = 3200;
 
 typedef std::vector<Faction*>  FactionList;
 typedef FactionList::iterator FactionIterator;
@@ -294,6 +295,51 @@ const Uint32 Faction::GetNumFactions()
 	return s_factions.size();
 }
 
+/*	Answer whether the faction both contains the sysPath, and has a homeworld
+	closer than the passed distance.
+
+	if it is, then the passed distance will also be updated to be the distance 
+	from the factions homeworld to the sysPath.
+*/
+const bool Faction::IsCloserAndContains(double& closestFactionDist, const SystemPath& sysPath) const
+{
+	/*	Treat factions without homeworlds as if they are of effectively infinite radius,
+		so every world is potentially within their borders, but also treat them as if
+		they had a homeworld that was infinitely far away, so every other faction has
+		a better claim.
+	*/
+	float distance = HUGE_VAL;
+	bool  inside   = true;
+
+	/*	Factions that have a homeworld... */
+	if (hasHomeworld) 
+	{
+		/* ...automatically gain the allegiance of worlds within the same sector... */
+		if (homeworld.IsSameSector(sysPath)) { closestFactionDist = 0; } 
+		
+		/* ...otherwise we need to calculate whether the world is inside the 
+		   the faction border, and how far away it is. */
+		else {
+			const Sector sec1(homeworld.sectorX, homeworld.sectorY, homeworld.sectorZ);
+			const Sector sec2(  sysPath.sectorX,   sysPath.sectorY,   sysPath.sectorZ);
+
+			distance = Sector::DistanceBetween(&sec1, homeworld.systemIndex, &sec2, sysPath.systemIndex);
+			inside   = distance < Radius();
+		}
+	}
+
+	/*	if the faction contains the world, and its homeworld is closer, then this faction 
+		wins, and we update the closestFactionDist */
+	if (inside && (distance <= closestFactionDist)) {
+		closestFactionDist = distance;		
+		return true;	
+	
+	/* otherwise this isn't the faction we were looking for */
+	} else {
+		return false;
+	}
+}
+
 const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 {
 	// firstly is this a custom StarSystem which might have funny settings
@@ -317,53 +363,15 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 		// no matching faction found, return the default
 		return BAD_FACTION_IDX;
 	}
+	
 	// if we don't find a match then we can go on and assign it a faction allegiance like normal below...
-
-	// Iterate through all of the factions and find the one nearest to the system we're checking it against.
-	const Faction *foundFaction = 0;
-	Sint32 nearestDistance = INT_MAX;
-
-	// get the current year
-	// XXX: cannot access the PI::game->GetTime() method here as game is NULL when deserialised from save game -
-	//	- I had hoped to use this to give a simple expanding spherical volume to each faction. Use 3200 as the-
-	//	- base year, all factions should have come into existence prior to this date.
-	const double current_year = 3200;//get_year(Pi::game->GetTime());
-
-	// iterate
-	Uint32 ret_index = BAD_FACTION_IDX;
-	for (Uint32 index = 0; index < s_factions.size(); ++index) {
-		const Faction &fac = *s_factions[index];
-
-		if( !fac.hasHomeworld && !foundFaction ) {
-			// We've not yet found a faction that we're within the radius of
-			// and we're currently iterating over a faction that is decentralised (probably Independent)
-			foundFaction = &fac;
-			ret_index = index;
-		}
-		else if( fac.hasHomeworld ) {
-			// We can end early here if they're the same as factions homeworld like Earth or Achernar
-			if( fac.homeworld.IsSameSector(sysPath) ) {
-				foundFaction = &fac;
-				return index;
-			}
-
-			// get the distance
-			const Sector sec1(fac.homeworld.sectorX, fac.homeworld.sectorY, fac.homeworld.sectorZ);
-			const Sector sec2(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
-			const double distance = Sector::DistanceBetween(&sec1, fac.homeworld.systemIndex, &sec2, sysPath.systemIndex);
-
-			// calculate the current radius the faction occupies
-			const double radius = (current_year - fac.foundingDate) * fac.expansionRate;
-
-			// check we've found a closer faction
-			if( (distance <= radius) && (distance < nearestDistance) ) {
-				nearestDistance = distance;
-				foundFaction = &fac;
-				ret_index = index;
-			}
-		}
+	Uint32 index              = 0;
+	Uint32 ret_index          = BAD_FACTION_IDX;
+	double closestFactionDist = HUGE_VAL;
+	
+	for (FactionIterator it = s_factions.begin(); it != s_factions.end(); ++it, ++index) {
+		if ((*it)->IsCloserAndContains(closestFactionDist,sysPath)) ret_index = index;
 	}
-
 	return ret_index;
 }
 
