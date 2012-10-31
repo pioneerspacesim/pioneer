@@ -977,11 +977,13 @@ HIGH_POPULATION_OUTDOOR_WORLD
 MASS
     Masa
 N_WHATEVER_MASSES
-    %mass{f.3} %units mas
+    %mass{f.3} masy %units
+N_WHATEVER_RADII
+    %radius{f.3} promienia %units
 SOLAR
-    Słonecznych
+    Słońca
 EARTH
-    Ziemskich
+    Ziemi
 SURFACE_GRAVITY
     Grawitacja na powierzchni
 SURFACE_TEMPERATURE
