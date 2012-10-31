@@ -21,6 +21,7 @@ public:
 	static Faction *GetFaction(const Uint32 index);
 	static const Uint32 GetNumFactions();
 
+	static const Color  GetNearestFactionColour(const SystemPath& sysPath);
 	static const Uint32 GetNearestFactionIndex(const SystemPath& sysPath);
 	static const Uint32 BAD_FACTION_IDX;		// returned by GetNearestFactionIndex if system has no faction
 	

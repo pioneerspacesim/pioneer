@@ -375,6 +375,19 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 	return ret_index;
 }
 
+const Color Faction::GetNearestFactionColour(const SystemPath& sysPath)
+{
+	Uint32 index = Faction::GetNearestFactionIndex(sysPath);
+	
+	if (index == BAD_FACTION_IDX)	{ 
+		return Color(0.8f,0.8f,0.8f,0.20f); 
+	} else { 
+		Color colour = GetFaction(index)->colour;
+		colour.a = 0.25f;
+		return colour; 
+	}
+}
+
 Faction::Faction() :
 	govType(Polit::GOV_INVALID),
 	hasHomeworld(false),

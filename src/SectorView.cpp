@@ -556,7 +556,6 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 				{
 					(*i).SetInhabited(false);
 				}
-				(*i).factionColour = pSS->GetFactionColour();
 			}
 		}
 
@@ -628,20 +627,23 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		}
 
 		glDepthRange(0,1);
-
-		Color labelColor(0.8f,0.8f,0.8f,0.5f);
-		if ((*i).IsSetInhabited() && (*i).IsInhabited()) {
-			labelColor = (*i).factionColour;
-			labelColor.a = 0.5f;
+		
+		Color labelColour = (*i).factionColour;
+		if ((*i).IsSetInhabited()) {
+			if ((*i).IsInhabited()) {
+				labelColour.a = 0.5f;
+			} else {
+				labelColour = Color(0.8f,0.8f,0.8f,0.5f);
+			}			
 		}
 
 		if (m_inSystem) {
 			float dist = Sector::DistanceBetween( ps, num, GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ), m_current.systemIndex);
 			if (dist <= m_playerHyperspaceRange)
-				labelColor.a = 1.0f;
+				labelColour.a = 1.0f;
 		}
 
-		PutClickableLabel((*i).name, labelColor, current);
+		PutClickableLabel((*i).name, labelColour, current);
 	}
 }
 
@@ -884,6 +886,7 @@ Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 
 	s = new Sector(sectorX, sectorY, sectorZ);
 	m_sectorCache.insert( std::pair<SystemPath,Sector*>(loc, s) );
+	s->ColourFactions();
 
 	return s;
 }
