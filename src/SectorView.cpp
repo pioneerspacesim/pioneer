@@ -633,7 +633,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			if ((*i).IsInhabited()) {
 				labelColour.a = 0.5f;
 			} else {
-				labelColour = Color(0.8f,0.8f,0.8f,0.5f);
+				labelColour = Faction::BAD_FACTION_COLOUR;
 			}			
 		}
 

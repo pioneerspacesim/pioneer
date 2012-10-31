@@ -13,6 +13,8 @@
 #include "FileSystem.h"
 
 const Uint32 Faction::BAD_FACTION_IDX      = UINT_MAX;
+const Color  Faction::BAD_FACTION_COLOUR   = (0.8f,0.8f,0.8f,0.50f);
+const float  Faction::FACTION_BASE_ALPHA   = 0.30f;
 const double Faction::FACTION_CURRENT_YEAR = 3200;
 
 typedef std::vector<Faction*>  FactionList;
@@ -379,11 +381,10 @@ const Color Faction::GetNearestFactionColour(const SystemPath& sysPath)
 {
 	Uint32 index = Faction::GetNearestFactionIndex(sysPath);
 	
-	if (index == BAD_FACTION_IDX)	{ 
-		return Color(0.8f,0.8f,0.8f,0.20f); 
-	} else { 
+	if (index == BAD_FACTION_IDX) return BAD_FACTION_COLOUR;
+	else { 
 		Color colour = GetFaction(index)->colour;
-		colour.a = 0.25f;
+		colour.a = FACTION_BASE_ALPHA;
 		return colour; 
 	}
 }

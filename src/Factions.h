@@ -23,7 +23,10 @@ public:
 
 	static const Color  GetNearestFactionColour(const SystemPath& sysPath);
 	static const Uint32 GetNearestFactionIndex(const SystemPath& sysPath);
+	
 	static const Uint32 BAD_FACTION_IDX;		// returned by GetNearestFactionIndex if system has no faction
+	static const Color  BAD_FACTION_COLOUR;		// factionColour to use on failing to find an appropriate faction
+	static const float  FACTION_BASE_ALPHA;	    // Alpha to use on factionColour of systems with unknown population
 	
 	Faction();
 	~Faction();
