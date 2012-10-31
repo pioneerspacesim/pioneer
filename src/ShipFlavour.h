@@ -9,6 +9,7 @@
 #include "Serializer.h"
 
 struct LmrObjParams;
+struct lua_State;
 
 class ShipFlavour {
 public:
@@ -17,6 +18,8 @@ public:
 	int price;
 	LmrMaterial primaryColor;
 	LmrMaterial secondaryColor;
+
+	static ShipFlavour FromLuaTable(lua_State *l, int idx);
 
 	ShipFlavour();
 	ShipFlavour(ShipType::Type type);
