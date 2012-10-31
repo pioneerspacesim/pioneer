@@ -20,6 +20,9 @@ Alpha 28
      * Fix input (e.g., laser fire key) leaking from one game to the next (#1613)
      * Don't generate an alert for ships parked in orbit near a station (#1636, #545)
      * Allow non-ASCII characters in savefile names (#1632, #1627, #1482)
+     * Ensure frames for stars with no orbiting bodies are sufficiently large
+       for the autopilot to compute orbits (#1645, #1626)
+     * Fix Achernar9 mass & radius (#1640, #1626)
 
    * Script and model changes
      * Separation and orientation is now specified for dual laser mountings (#1518)
@@ -27,6 +30,11 @@ Alpha 28
      * Added StarSystem.faction attribute and Faction object to get information
        about a system's faction (#1568)
      * Removed Ship.Jettison, added Ship.SpawnCargo (#1443)
+     * Ship.flavour attribute and Ship.SetFlavour method to fully customise
+       the ship model's appearance. Ship.SetPrimaryColour and
+       Ship.SetSecondaryColour are now deprecated (#1637, #526)
+     * New attribute Ship.shipId can be passed to ShipType.GetShipType.
+       Ship.shipType is now deprecated (#1589)
 
    * Internal changes
      * Code clean-up in the handling of world view cameras (#1601)

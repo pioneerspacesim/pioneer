@@ -13,13 +13,13 @@
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
 	Lang::FRONT, Lang::REAR };
 
-std::map<ShipType::Type, ShipType> ShipType::types;
+std::map<ShipType::Id, ShipType> ShipType::types;
 
-std::vector<ShipType::Type> ShipType::player_ships;
-std::vector<ShipType::Type> ShipType::static_ships;
-std::vector<ShipType::Type> ShipType::missile_ships;
+std::vector<ShipType::Id> ShipType::player_ships;
+std::vector<ShipType::Id> ShipType::static_ships;
+std::vector<ShipType::Id> ShipType::missile_ships;
 
-std::vector<ShipType::Type> ShipType::playable_atmospheric_ships;
+std::vector<ShipType::Id> ShipType::playable_atmospheric_ships;
 
 std::string ShipType::LADYBIRD				= "ladybird_starfighter";
 std::string ShipType::SIRIUS_INTERDICTOR	= "sirius_interdictor";
@@ -92,13 +92,14 @@ static void _get_vec_attrib(lua_State *L, const char *key, vector3d &output,
 
 static std::string s_currentShipFile;
 
-int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *list)
+int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *list)
 {
 	if (s_currentShipFile.empty())
 		return luaL_error(L, "ship file contains multiple ship definitions");
 
 	ShipType s;
 	s.tag = tag;
+	s.id = s_currentShipFile;
 
 	LUA_DEBUG_START(L);
 	_get_string_attrib(L, "name", s.name, "");
@@ -207,7 +208,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 #endif
 
 	const std::string& id = s_currentShipFile;
-	typedef std::map<ShipType::Type, ShipType>::iterator iter;
+	typedef std::map<ShipType::Id, ShipType>::iterator iter;
 	std::pair<iter, bool> result = ShipType::types.insert(std::make_pair(id, s));
 	if (result.second)
 		list->push_back(s_currentShipFile);
@@ -289,7 +290,7 @@ void ShipType::Init()
 		Error("No playable ships have been defined! The game cannot run.");
 
 	//collect ships that can fit atmospheric shields
-	for (std::vector<ShipType::Type>::const_iterator it = ShipType::player_ships.begin();
+	for (std::vector<ShipType::Id>::const_iterator it = ShipType::player_ships.begin();
 		it != ShipType::player_ships.end(); ++it) {
 		const ShipType &ship = ShipType::types[*it];
 		if (ship.equipSlotCapacity[Equip::SLOT_ATMOSHIELD] != 0)

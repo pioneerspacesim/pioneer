@@ -502,10 +502,12 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 	}
 	else if (supertype == SystemBody::SUPERTYPE_STAR) {
 		// stars want a single small non-rotating frame
+		// bigger than it's furtherest orbiting body.
+		// if there are no orbiting bodies use a frame of several radii.
 		orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->m_sbody = sbody;
 		orbFrame->m_astroBody = b;
-		orbFrame->SetRadius(sbody->GetMaxChildOrbitalDistance()*1.1);
+		orbFrame->SetRadius(std::max(10.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.1));
 		b->SetFrame(orbFrame);
 		return orbFrame;
 	}

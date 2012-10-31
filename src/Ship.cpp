@@ -122,7 +122,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_shipFlavour.Load(rd);
 	m_dockedWithPort = rd.Int32();
 	m_dockedWithIndex = rd.Int32();
-	m_equipment.InitSlotSizes(m_shipFlavour.type);
+	m_equipment.InitSlotSizes(m_shipFlavour.id);
 	m_equipment.Load(rd);
 	Init();
 	m_stats.hull_mass_left = rd.Float(); // must be after Init()...
@@ -176,7 +176,7 @@ void Ship::PostLoadFixup(Space *space)
 	m_controller->PostLoadFixup(space);
 }
 
-Ship::Ship(ShipType::Type shipType): DynamicBody(),
+Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_controller(0),
 	m_thrusterFuel(1.f)
 {
@@ -189,10 +189,10 @@ Ship::Ship(ShipType::Type shipType): DynamicBody(),
 	m_wheelState = 0;
 	m_dockedWith = 0;
 	m_dockedWithPort = 0;
-	m_shipFlavour = ShipFlavour(shipType);
+	m_shipFlavour = ShipFlavour(shipId);
 	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;
 	m_angThrusters.x = m_angThrusters.y = m_angThrusters.z = 0;
-	m_equipment.InitSlotSizes(shipType);
+	m_equipment.InitSlotSizes(shipId);
 	m_hyperspace.countdown = 0;
 	m_hyperspace.now = false;
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
@@ -617,7 +617,7 @@ bool Ship::FireMissile(int idx, Ship *target)
 	GetRotMatrix(m);
 	vector3d dir = m*vector3d(0,0,-1);
 
-	ShipType::Type mtype;
+	ShipType::Id mtype;
 	switch (t) {
 		case Equip::MISSILE_SMART: mtype = ShipType::MISSILE_SMART; break;
 		case Equip::MISSILE_NAVAL: mtype = ShipType::MISSILE_NAVAL; break;
@@ -1108,7 +1108,7 @@ void Ship::NotifyRemoved(const Body* const removedBody)
 
 const ShipType &Ship::GetShipType() const
 {
-	return ShipType::types[m_shipFlavour.type];
+	return ShipType::types[m_shipFlavour.id];
 }
 
 bool Ship::Undock()
@@ -1243,7 +1243,7 @@ void Ship::OnEquipmentChange(Equip::Type e)
 
 void Ship::UpdateFlavour(const ShipFlavour *f)
 {
-	assert(f->type == m_shipFlavour.type);
+	assert(f->id == m_shipFlavour.id);
 	m_shipFlavour = *f;
 	onFlavourChanged.emit();
 	LuaEvent::Queue("onShipFlavourChanged", this);
@@ -1255,7 +1255,7 @@ void Ship::UpdateFlavour(const ShipFlavour *f)
 void Ship::ResetFlavour(const ShipFlavour *f)
 {
 	m_shipFlavour = *f;
-	m_equipment.InitSlotSizes(f->type);
+	m_equipment.InitSlotSizes(f->id);
 	SetLabel(f->regid);
 	Init();
 	onFlavourChanged.emit();

@@ -233,7 +233,7 @@ static int l_shiptype_get_ship_type(lua_State *l)
 {
 	const char *type = luaL_checkstring(l, 1);
 
-	std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.find(type);
+	std::map<ShipType::Id,ShipType>::iterator i = ShipType::types.find(type);
 	if (i == ShipType::types.end())
 		luaL_error(l, "Invalid ship name '%s'", type);
 
@@ -298,7 +298,7 @@ static int l_shiptype_get_ship_types(lua_State *l)
 
 	lua_newtable(l);
 
-	for (std::map<ShipType::Type,ShipType>::iterator i = ShipType::types.begin(); i != ShipType::types.end(); ++i)
+	for (std::map<ShipType::Id,ShipType>::iterator i = ShipType::types.begin(); i != ShipType::types.end(); ++i)
 	{
 		ShipType *st = &((*i).second);
 		if (tag == ShipType::TAG_NONE || tag == st->tag) {
