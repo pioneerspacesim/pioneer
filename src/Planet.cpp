@@ -82,7 +82,6 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	SystemBody::AtmosphereParameters atmParam = this->GetSystemBody()->CalcAtmosphereParams();
 
 	const double SPECIFIC_HEAT_AIR_CP = atmParam.atmosSpecificHeatCP;// constant pressure specific heat
-	// XXX using earth's molar mass of air...
 	const double GAS_MOLAR_MASS = atmParam.atmosMolarMass;
 
 	// surface gravity = -G*M/planet radius^2

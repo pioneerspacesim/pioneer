@@ -1322,9 +1322,6 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	const double T = static_cast<double>(averageTemp);
 
-	// XXX just use earth's composition for now
-	// double M = 0.02897f; // in kg/mol
-
 	switch(GetAtmosphereComposition(m_atmosOxidizing)) {
 	case O2_ATM:
 		params.atmosMolarMass = 0.02897f;
