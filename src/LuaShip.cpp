@@ -1227,7 +1227,7 @@ static int l_ship_attr_flight_state(lua_State *l)
  *
  * Availability:
  *
- *  alpha 27
+ *  alpha 28
  *
  * Status:
  *
