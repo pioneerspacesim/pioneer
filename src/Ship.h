@@ -53,7 +53,7 @@ public:
 	};
 
 	OBJDEF(Ship, DynamicBody, SHIP);
-	Ship(ShipType::Type shipType);
+	Ship(ShipType::Id shipId);
 	Ship() {} //default constructor used before Load
 	virtual ~Ship();
 	void SetController(ShipController *c); //deletes existing

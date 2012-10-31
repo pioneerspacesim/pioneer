@@ -671,7 +671,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_hudTargetShieldIntegrity->Show();
 
 			std::string text;
-			text += ShipType::types[flavour->type].name;
+			text += ShipType::types[flavour->id].name;
 			text += "\n";
 			text += flavour->regid;
 			text += "\n";

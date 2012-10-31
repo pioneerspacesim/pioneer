@@ -11,12 +11,12 @@
 #include "Game.h"
 #include "LuaEvent.h"
 
-Missile::Missile(ShipType::Type type, Body *owner, Body *target): Ship(type)
+Missile::Missile(ShipType::Id shipId, Body *owner, Body *target): Ship(shipId)
 {
 	m_power = 0;
-	if (type == ShipType::MISSILE_GUIDED) m_power = 1;
-	if (type == ShipType::MISSILE_SMART) m_power = 2;
-	if (type == ShipType::MISSILE_NAVAL) m_power = 3;
+	if (shipId == ShipType::MISSILE_GUIDED) m_power = 1;
+	if (shipId == ShipType::MISSILE_SMART) m_power = 2;
+	if (shipId == ShipType::MISSILE_NAVAL) m_power = 3;
 
 	m_owner = owner;
 	m_target = target;
