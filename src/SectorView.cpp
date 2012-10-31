@@ -545,17 +545,11 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 					fabs(m_posMovingTo.x - m_pos.x),
 					fabs(m_posMovingTo.y - m_pos.y),
 					fabs(m_posMovingTo.z - m_pos.z));
+			
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
-			if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
+			if( ((*i).population < 0) && diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
 				RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
-				if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) )
-				{
-					(*i).SetInhabited(true);
-				}
-				else
-				{
-					(*i).SetInhabited(false);
-				}
+				(*i).population = pSS->m_totalPop;
 			}
 		}
 
@@ -627,15 +621,11 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		}
 
 		glDepthRange(0,1);
-		
+
+		// system labels
 		Color labelColour = (*i).factionColour;
-		if ((*i).IsSetInhabited()) {
-			if ((*i).IsInhabited()) {
-				labelColour.a = 0.5f;
-			} else {
-				labelColour = Faction::BAD_FACTION_COLOUR;
-			}			
-		}
+		     if ((*i).population == 0) labelColour = Faction::BAD_FACTION_COLOUR;
+		else if ((*i).population >  0) labelColour.a = 0.5f; 
 
 		if (m_inSystem) {
 			float dist = Sector::DistanceBetween( ps, num, GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ), m_current.systemIndex);
