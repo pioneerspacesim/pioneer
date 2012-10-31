@@ -321,12 +321,12 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector
 		
 		/* ...otherwise we need to calculate whether the world is inside the 
 		   the faction border, and how far away it is. */
-		//else {
+		else {
 			const Sector homesec(homeworld.sectorX, homeworld.sectorY, homeworld.sectorZ);
 
 			distance = Sector::DistanceBetween(&homesec, homeworld.systemIndex, &sec, sysIndex);
 			inside   = distance < Radius();
-		//}
+		}
 	}
 
 	/*	if the faction contains the world, and its homeworld is closer, then this faction 
