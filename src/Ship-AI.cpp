@@ -136,22 +136,22 @@ void Ship::AIJourney(SystemBodyPath &dest)
 }
 */
 
-void Ship::AIFlyTo(Body *target)
+void Ship::AIFlyTo(Body *target, bool isHungry)
 {
 	AIClearInstructions();
-	m_curAICmd = new AICmdFlyTo(this, target);
+	m_curAICmd = new AICmdFlyTo(this, target, isHungry ? AICommand::CMD_MODE_HUNGRY : AICommand::CMD_MODE_ECONOMY);
 }
 
-void Ship::AIDock(SpaceStation *target)
+void Ship::AIDock(SpaceStation *target, bool isHungry)
 {
 	AIClearInstructions();
-	m_curAICmd = new AICmdDock(this, target);
+	m_curAICmd = new AICmdDock(this, target, isHungry ? AICommand::CMD_MODE_HUNGRY : AICommand::CMD_MODE_ECONOMY);
 }
 
-void Ship::AIOrbit(Body *target, double alt)
+void Ship::AIOrbit(Body *target, double alt, bool isHungry)
 {
 	AIClearInstructions();
-	m_curAICmd = new AICmdFlyAround(this, target, alt);
+	m_curAICmd = new AICmdFlyAround(this, target, alt, isHungry ? AICommand::CMD_MODE_HUNGRY : AICommand::CMD_MODE_ECONOMY);
 }
 
 void Ship::AIHoldPosition()

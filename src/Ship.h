@@ -205,10 +205,11 @@ public:
 	void AIKamikaze(Body *target);
 	void AIKill(Ship *target);
 	//void AIJourney(SystemBodyPath &dest);
-	void AIDock(SpaceStation *target);
-	void AIFlyTo(Body *target);
-	void AIOrbit(Body *target, double alt);
+	void AIDock(SpaceStation *target, bool isHungry = false);
+	void AIFlyTo(Body *target, bool isHungry = false);
+	void AIOrbit(Body *target, double alt, bool isHungry = false);
 	void AIHoldPosition();
+	void Refuel();
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
@@ -240,6 +241,7 @@ public:
 	//0.0 - 1.0
 	void SetFuel(const float f) {	m_thrusterFuel = Clamp(f, 0.f, 1.f); }
 
+	double GetFuelUseRate(double effectiveExhaustVelocity);
 	double GetEffectiveExhaustVelocity();
 	double GetVelocityReachedWithFuelUsed(float fuelUsed);
 

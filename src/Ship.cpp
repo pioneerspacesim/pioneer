@@ -241,10 +241,26 @@ void Ship::UpdateMass()
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
 }
 
+void Ship::Refuel() {
+  float currentFuel = this->GetFuel();
+  if (is_equal_exact(currentFuel, 1.0f)) return;
+  if(this->m_equipment.Count(Equip::SLOT_CARGO, Equip::WATER) <= 0) return;
+
+  this->m_equipment.Remove(Equip::WATER, 1);
+  this->SetFuel(currentFuel + 1.0f/this->GetShipType().fuelTankMass);
+  this->UpdateStats();
+}
+
 // returns velocity of engine exhausts in m/s
 double Ship::GetEffectiveExhaustVelocity(void) {
 	double denominator = GetShipType().fuelTankMass * GetShipType().thrusterFuelUse * 10;
 	return fabs(denominator > 0 ? GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9);
+}
+
+// inverse of GetEffectiveExhaustVelocity()
+double Ship::GetFuelUseRate(double effectiveExhaustVelocity) {
+  double denominator = effectiveExhaustVelocity * 10;
+  return fabs(denominator > 0 ? GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9);
 }
 
 // returns speed that can be reached using fuelUsed (0.0f-1.0f) of fuel according to the Tsiolkovsky equation
@@ -252,7 +268,8 @@ double Ship::GetVelocityReachedWithFuelUsed(float fuelUsed) {
 	double ShipMassNow = GetMass(),
 			ShipMassAfter = GetMass() - 1000*GetShipType().fuelTankMass * fuelUsed;
 
-	fuelUsed = Clamp(fuelUsed, 0.0f, 1.0f);
+	if(ShipMassAfter <= 0 || ShipMassNow <= 0) // shouldn't happen
+		return 0;
 
 	return GetEffectiveExhaustVelocity() * log(ShipMassNow/ShipMassAfter);
 }
