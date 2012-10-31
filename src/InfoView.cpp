@@ -182,7 +182,7 @@ private:
 	}
 
 	void Refuel() {
-		lua_State * l = Pi::luaManager->GetLuaState();
+		lua_State * l = Lua::manager->GetLuaState();
 		lua_getglobal(l, "Ship");
 		lua_getfield(l, -1, "Refuel");
 		lua_remove(l, -2);
