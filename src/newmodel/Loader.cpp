@@ -218,11 +218,19 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 	//find usable pattern textures from the model directory
 	if (patternsUsed) {
 		FindPatterns(model->m_patterns);
+
+		if (model->m_patterns.empty()) {
+			model->m_patterns.push_back(Pattern());
+			Pattern &dumpat = m_model->m_patterns.back();
+			dumpat.name = "Dummy";
+			dumpat.texture = RefCountedPtr<Graphics::Texture>(GetWhiteTexture());
+		}
+
 		//set up some noticeable default colors
 		std::vector<Color4ub> colors;
-		colors.push_back(Color4ub(255, 0, 0, 0));
-		colors.push_back(Color4ub(0, 255, 0, 0));
-		colors.push_back(Color4ub(0, 0, 255, 0));
+		colors.push_back(Color4ub::RED);
+		colors.push_back(Color4ub::GREEN);
+		colors.push_back(Color4ub::BLUE);
 		model->SetColors(m_renderer, colors);
 		model->SetPattern(0);
 	}

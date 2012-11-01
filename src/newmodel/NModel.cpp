@@ -103,6 +103,8 @@ void NModel::AddTag(const std::string &name, Group *node)
 
 void NModel::SetPattern(unsigned int index)
 {
+	if (m_patterns.empty() || index > m_patterns.size() - 1) return;
+
 	for (MaterialContainer::const_iterator it = m_materials.begin();
 		it != m_materials.end();
 		++it)
