@@ -33,7 +33,7 @@ public:
 	template <class Value, class Key> void Set(const Key & key, const Value & value) const;
 
 	template <class Key, class Value> std::map<Key, Value> GetMap() const;
-	template <class Key, class Value> void LoadMap(std::map<Key, Value> m) const;
+	template <class Key, class Value> void LoadMap(const std::map<Key, Value> & m) const;
 
 	lua_State * GetLua() const { return m_lua; }
 	int GetIndex() const { return m_index; }
@@ -81,7 +81,7 @@ template <class Key, class Value> std::map<Key, Value> LuaTable::GetMap() const 
 	return ret;
 }
 
-template <class Key, class Value> void LuaTable::LoadMap(std::map<Key, Value> m) const {
+template <class Key, class Value> void LuaTable::LoadMap(const std::map<Key, Value> & m) const {
 	for (typename std::map<Key, Value>::const_iterator it = m.begin();
 			it != m.end() ; ++it)
 		Set(it->first, it->second);
