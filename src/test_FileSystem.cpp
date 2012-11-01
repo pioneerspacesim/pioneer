@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "FileSystem.h"
 #include "FileSourceZip.h"
 #include "utils.h"
@@ -68,7 +71,7 @@ void test_filesystem()
 	printf("user dir is '%s'\n", FileSystem::GetUserDir().c_str());
 
 	FileSourceFS fsAppData(FileSystem::GetDataDir());
-	FileSourceFS fsUserData(FileSystem::JoinPath(FileSystem::GetUserDir(), "/data"));
+	FileSourceFS fsUserData(FileSystem::JoinPath(FileSystem::GetUserDir(), "data"));
 	//FileSourceZip fsZip("/home/jpab/.pioneer/mods/swapships.zip");
 
 	printf("data root is '%s'\n", fsAppData.GetRoot().c_str());

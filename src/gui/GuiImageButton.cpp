@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Gui.h"
 #include "GuiImageButton.h"
@@ -51,6 +54,14 @@ void ImageButton::Draw()
 		img->SetModulateColor(Color(0.5f,0.5f,0.5f,1.0f));
 	img->SetSize(size[0], size[1]);
 	img->Draw();
+}
+
+void ImageButton::SetRenderDimensions(const float wide, const float high)
+{
+	assert(m_imgNormal);
+	m_imgNormal->SetRenderDimensions(wide, high);
+	if(m_imgPressed)
+		m_imgPressed->SetRenderDimensions(wide, high);
 }
 
 }

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Terrain.h"
 #include "TerrainNoise.h"
 #include "TerrainFeature.h"
@@ -45,14 +48,10 @@ double TerrainHeightFractal<TerrainHeightRuggedDesert>::GetHeight(const vector3d
 	if (n < 0.1) n += n * 10.0f * mountains;
 	else n += mountains;
 
-
 	//rocks = mountain_distrib * GetFracDef(9).amplitude * rocks*rocks*rocks;
 	//n += rocks ;
 
-
-	//n = (n<0.0 ? 0.0 : m_maxHeight*n);
-	n = m_maxHeight*n;
-	return n;
+	return (n > 0.0? m_maxHeight*n : 0.0);
 }
 
 template <>

@@ -1,4 +1,6 @@
-#include "Shader.h"
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Material.h"
 #include "Graphics.h"
 #include "RendererGL2.h"
@@ -6,31 +8,42 @@
 #include "Texture.h"
 #include "TextureGL.h"
 #include "VertexArray.h"
+#include "gl2/GL2Material.h"
+#include "gl2/GeoSphereMaterial.h"
+#include "gl2/MultiMaterial.h"
+#include "gl2/Program.h"
+#include "gl2/RingMaterial.h"
+#include "gl2/StarfieldMaterial.h"
 
 namespace Graphics {
 
-Shader *simpleTextured;
-Shader *flatProg;
-Shader *flatTextured;
+typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterator ProgramIterator;
 
-RendererGL2::RendererGL2(int w, int h) :
-	RendererLegacy(w, h)
+// for material-less line and point drawing
+GL2::MultiProgram *vtxColorProg;
+GL2::MultiProgram *flatColorProg;
+
+RendererGL2::RendererGL2(const Graphics::Settings &vs)
+: RendererLegacy(vs)
+, m_invLogZfarPlus1(0.f)
 {
 	//the range is very large due to a "logarithmic z-buffer" trick used
 	//http://outerra.blogspot.com/2009/08/logarithmic-z-buffer.html
 	//http://www.gamedev.net/blog/73/entry-2006307-tip-of-the-day-logarithmic-zbuffer-artifacts-fix/
 	m_minZNear = 0.0001f;
 	m_maxZFar = 10000000.0f;
-	simpleTextured = new Shader("simpleTextured");
-	flatProg = new Shader("flat");
-	flatTextured = new Shader("flat", "#define TEXTURE0 1\n");
+
+	MaterialDescriptor desc;
+	flatColorProg = new GL2::MultiProgram(desc);
+	m_programs.push_back(std::make_pair(desc, flatColorProg));
+	desc.vertexColors = true;
+	vtxColorProg = new GL2::MultiProgram(desc);
+	m_programs.push_back(std::make_pair(desc, vtxColorProg));
 }
 
 RendererGL2::~RendererGL2()
 {
-	delete simpleTextured;
-	delete flatProg;
-	delete flatTextured;
+	while (!m_programs.empty()) delete m_programs.back().second, m_programs.pop_back();
 }
 
 bool RendererGL2::BeginFrame()
@@ -52,7 +65,15 @@ bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, 
 	glFrustum(xmin, xmax, ymin, ymax, near, far);
 
 	// update values for log-z hack
-	Graphics::State::SetZnearZfar(near, far);
+	m_invLogZfarPlus1 = 1.0f / (log(far+1.0f)/log(2.0f));
+	//LMR reads the value from Graphics::State
+	Graphics::State::invLogZfarPlus1 = m_invLogZfarPlus1;
+	return true;
+}
+
+bool RendererGL2::SetAmbientColor(const Color &c)
+{
+	m_ambient = c;
 	return true;
 }
 
@@ -60,7 +81,8 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineTy
 {
 	if (count < 2 || !v) return false;
 
-	simpleShader->Use();
+	vtxColorProg->Use();
+	vtxColorProg->invLogZfarPlus1.Set(m_invLogZfarPlus1);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
@@ -68,7 +90,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, LineTy
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
-	simpleShader->Unuse();
+	vtxColorProg->Unuse();
 
 	return true;
 }
@@ -77,69 +99,84 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, LineTy
 {
 	if (count < 2 || !v) return false;
 
-	flatProg->Use();
-	flatProg->SetUniform("color", c);
+	flatColorProg->Use();
+	flatColorProg->diffuse.Set(c);
+	flatColorProg->invLogZfarPlus1.Set(m_invLogZfarPlus1);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
 	glDrawArrays(t, 0, count);
 	glDisableClientState(GL_VERTEX_ARRAY);
-	flatProg->Unuse();
+	flatColorProg->Unuse();
 
 	return true;
 }
 
-void RendererGL2::ApplyMaterial(const Material *mat)
+Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 {
-	glPushAttrib(GL_ENABLE_BIT);
+	MaterialDescriptor desc = d;
 
-	if (!mat) {
-		simpleShader->Use();
-		return;
+	GL2::Material *mat = 0;
+	GL2::Program *p = 0;
+
+	if (desc.lighting) {
+		desc.dirLights = m_numDirLights;
 	}
 
-	const bool flat = !mat->vertexColors;
-
-	//choose shader
-	Shader *s = 0;
-	if (mat->shader) {
-		s = mat->shader;
-	} else {
-		if (flat && mat->texture0) s = flatTextured;
-		else if (flat && !mat->texture0) s = flatProg;
-		else if (!flat && mat->texture0) s = simpleTextured;
-		else s = simpleShader;
+	// Create the material. It will be also used to create the shader,
+	// like a tiny factory
+	switch (desc.effect) {
+	case EFFECT_PLANETRING:
+		mat = new GL2::RingMaterial();
+		break;
+	case EFFECT_STARFIELD:
+		mat = new GL2::StarfieldMaterial();
+		break;
+	case EFFECT_GEOSPHERE_TERRAIN:
+		mat = new GL2::GeoSphereSurfaceMaterial();
+		break;
+	case EFFECT_GEOSPHERE_SKY:
+		mat = new GL2::GeoSphereSkyMaterial();
+		break;
+	default:
+		mat = new GL2::MultiMaterial();
+		mat->twoSided = desc.twoSided; //other mats don't care about this
 	}
 
-	assert(s);
-	s->Use();
+	mat->m_renderer = this;
 
-	//set parameters
-	if (flat)
-		s->SetUniform("color", mat->diffuse);
-
-	//specular etc properties
-	glMaterialfv(GL_FRONT, GL_EMISSION, &mat->emissive[0]);
-
-	if (mat->twoSided) {
-		glDisable(GL_CULL_FACE);
-	}
-	if (mat->texture0) {
-		static_cast<TextureGL*>(mat->texture0)->Bind();
-		s->SetUniform("texture0", 0);
-	}
-}
-
-void RendererGL2::UnApplyMaterial(const Material *mat)
-{
-	glPopAttrib();
-	if (mat) {
-		if (mat->texture0) {
-			static_cast<TextureGL*>(mat->texture0)->Unbind();
+	// Find an existing program...
+	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
+		if ((*it).first == desc) {
+			p = (*it).second;
+			break;
 		}
 	}
-	// XXX won't be necessary
-	m_currentShader = 0;
-	glUseProgram(0);
+
+	// ...or create a new one
+	if (!p) {
+		try {
+			p = mat->CreateProgram(desc);
+			m_programs.push_back(std::make_pair(desc, p));
+		} catch (GL2::ShaderException &) {
+			// in release builds, the game does not quit instantly but attempts to revert
+			// to a 'shaderless' state
+			return RendererLegacy::CreateMaterial(desc);
+		}
+	}
+
+	mat->m_program = p;
+	return mat;
+}
+
+bool RendererGL2::ReloadShaders()
+{
+	printf("Reloading " SIZET_FMT " programs...\n", m_programs.size());
+	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
+		it->second->Reload();
+	}
+	printf("Done.\n");
+
+	return true;
 }
 
 }

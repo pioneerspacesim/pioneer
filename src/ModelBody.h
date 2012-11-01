@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _MODELBODY_H
 #define _MODELBODY_H
 
@@ -13,7 +16,7 @@ public:
 	OBJDEF(ModelBody, Body, MODELBODY);
 	ModelBody();
 	virtual ~ModelBody();
-	void SetPosition(vector3d p);
+	void SetPosition(const vector3d &p);
 	virtual void SetRotMatrix(const matrix4x4d &r);
 	vector3d GetPosition() const;
 	virtual double GetBoundingRadius() const;

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "StationShipViewForm.h"
 #include "Pi.h"
 #include "Player.h"
@@ -15,7 +18,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 
 	m_flavour = m_station->GetShipsOnSale()[marketIndex];
 
-	const ShipType &type = ShipType::types[m_flavour.type];
+	const ShipType &type = ShipType::types[m_flavour.id];
 
 	SetTitle(stringf(Lang::SOMEWHERE_SHIP_MARKET, formatarg("station", m_station->GetLabel())));
 
@@ -37,8 +40,9 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	labelBox->PackEnd(new Gui::Label(Lang::REGISTRATION_ID));
 	labelBox->PackEnd(new Gui::Label(" "));
 	labelBox->PackEnd(new Gui::Label(Lang::WEIGHT_EMPTY));
-	labelBox->PackEnd(new Gui::Label(Lang::WEIGHT_FULLY_LADEN));
 	labelBox->PackEnd(new Gui::Label(Lang::CAPACITY));
+	labelBox->PackEnd(new Gui::Label(Lang::FUEL_WEIGHT));
+	labelBox->PackEnd(new Gui::Label(Lang::WEIGHT_FULLY_LADEN));
 	labelBox->PackEnd(new Gui::Label(" "));
 	labelBox->PackEnd(new Gui::Label(Lang::FORWARD_ACCEL_EMPTY));
 	labelBox->PackEnd(new Gui::Label(Lang::FORWARD_ACCEL_LADEN));
@@ -48,10 +52,10 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	labelBox->PackEnd(new Gui::Label(Lang::HYPERDRIVE_FITTED));
 	statsBox->PackEnd(labelBox);
 
-	float forward_accel_empty = type.linThrust[ShipType::THRUSTER_FORWARD] / (-9.81f*1000.0f*(type.hullMass));
-	float forward_accel_laden = type.linThrust[ShipType::THRUSTER_FORWARD] / (-9.81f*1000.0f*(type.hullMass+type.capacity));
-	float reverse_accel_empty = -type.linThrust[ShipType::THRUSTER_REVERSE] / (-9.81f*1000.0f*(type.hullMass));
-	float reverse_accel_laden = -type.linThrust[ShipType::THRUSTER_REVERSE] / (-9.81f*1000.0f*(type.hullMass+type.capacity));
+	float forward_accel_empty = type.linThrust[ShipType::THRUSTER_FORWARD] / (-9.81f*1000.0f*(type.hullMass+type.fuelTankMass));
+	float forward_accel_laden = type.linThrust[ShipType::THRUSTER_FORWARD] / (-9.81f*1000.0f*(type.hullMass+type.capacity+type.fuelTankMass));
+	float reverse_accel_empty = -type.linThrust[ShipType::THRUSTER_REVERSE] / (-9.81f*1000.0f*(type.hullMass+type.fuelTankMass));
+	float reverse_accel_laden = -type.linThrust[ShipType::THRUSTER_REVERSE] / (-9.81f*1000.0f*(type.hullMass+type.capacity+type.fuelTankMass));
 
 	Gui::VBox *dataBox = new Gui::VBox();
 	dataBox->PackEnd(new Gui::Label(type.name));
@@ -60,8 +64,9 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	dataBox->PackEnd(new Gui::Label(m_flavour.regid));
 	dataBox->PackEnd(new Gui::Label(" "));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.hullMass))));
-	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.hullMass + type.capacity))));
-	dataBox->PackEnd(new Gui::Label(stringf( Lang::NUMBER_TONNES, formatarg("mass", type.capacity))));
+	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.capacity))));
+	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.fuelTankMass))));
+	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.hullMass + type.capacity + type.fuelTankMass))));
 	dataBox->PackEnd(new Gui::Label(" "));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_G, formatarg("acceleration", forward_accel_empty))));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_G, formatarg("acceleration", forward_accel_laden))));
@@ -81,8 +86,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 			break;
 
 		int hyperclass = Equip::types[drivetype].pval;
-		// for the sake of hyperspace range, we count ships mass as 60% of original.
-		float range = Pi::CalcHyperspaceRange(hyperclass, type.hullMass + type.capacity);
+		float range = Pi::CalcHyperspaceRangeMax(hyperclass, type.hullMass + type.capacity + type.fuelTankMass);
 
 		Gui::VBox *cell = new Gui::VBox();
 		row->PackEnd(cell);
@@ -129,7 +133,7 @@ void StationShipViewForm::BuyShip()
 
 	Pi::player->SetMoney(Pi::player->GetMoney() - cost);
 	Pi::player->ResetFlavour(&m_flavour);
-	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_flavour.type].hyperdrive);
+	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_flavour.id].hyperdrive);
 	Pi::player->UpdateStats();
 
 	m_station->ReplaceShipOnSale(m_marketIndex, &old);

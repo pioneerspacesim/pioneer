@@ -602,16 +602,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Az univerzum evolúciószimulálása:  %age{f.1} milliárd év ;-)
 TOMBSTONE_EPITAPH
     RIP OLD BEAN
-MM_START_NEW_GAME_EARTH
-    Új játék indítása: Föld
-MM_START_NEW_GAME_E_ERIDANI
-    Új játék indítása: Epsilon Eridani
-MM_START_NEW_GAME_DEBUG
-    Új játék indítása a debug pontnál
-MM_LOAD_SAVED_GAME
-    Mentett állás betöltése
-MM_QUIT
-    Kilépés
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -730,9 +720,9 @@ SHIP_IS_FULLY_LADEN
     A hajód teljesen tele van.
 YOU_DO_NOT_HAVE_ANY_X
     Nincs ilyen árud: %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Első nézet
-REAR_VIEW
+CAMERA_REAR_VIEW
     Hátsó nézet
 EXTERNAL_VIEW
     Külső nézet

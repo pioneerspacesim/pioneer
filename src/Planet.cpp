@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Planet.h"
 #include "Pi.h"
 #include "WorldView.h"
@@ -8,6 +11,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Texture.h"
 #include "graphics/VertexArray.h"
+#include "Color.h"
 
 #ifdef _MSC_VER
 	#include "win32/WinMath.h"
@@ -121,19 +125,21 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	const float inner = sbody->m_rings.minRadius.ToFloat();
 	const float outer = sbody->m_rings.maxRadius.ToFloat();
 	int segments = 200;
-	for (int i = 0; i < segments; ++i) {
+	for (int i = 0; i <= segments; ++i) {
 		const float a = (2.0f*float(M_PI)) * (float(i) / float(segments));
 		const float ca = cosf(a);
 		const float sa = sinf(a);
 		m_ringVertices.Add(vector3f(inner*sa, 0.0f, inner*ca), vector2f(float(i), 0.0f));
 		m_ringVertices.Add(vector3f(outer*sa, 0.0f, outer*ca), vector2f(float(i), 1.0f));
 	}
-	m_ringVertices.Add(vector3f(0.0f, 0.0f, inner), vector2f(float(segments), 0.0f));
-	m_ringVertices.Add(vector3f(0.0f, 0.0f, outer), vector2f(float(segments), 1.0f));
 
 	// generate the ring texture
+	// NOTE: texture width must be > 1 to avoid graphical glitches with Intel GMA 900 systems
+	//       this is something to do with mipmapping (probably mipmap generation going wrong)
+	//       (if the texture is generated without mipmaps then a 1xN texture works)
+	const int RING_TEXTURE_WIDTH = 4;
 	const int RING_TEXTURE_LENGTH = 256;
-	ScopedMalloc<unsigned char> buf(malloc(RING_TEXTURE_LENGTH*4));
+	ScopedMalloc<Color4ub> buf(malloc(RING_TEXTURE_WIDTH * RING_TEXTURE_LENGTH * 4));
 
 	const float ringScale = (outer-inner)*sbody->GetRadius() / 1.5e7f;
 
@@ -149,22 +155,28 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 		const float LOG_SCALE = 1.0f/sqrtf(sqrtf(log1pf(1.0f)));
 		const float v = LOG_SCALE*sqrtf(sqrtf(log1pf(n)));
 
-		unsigned char *rgba = buf.Get() + i*4;
-		rgba[0] = (v*baseCol.r)*255.0f;
-		rgba[1] = (v*baseCol.g)*255.0f;
-		rgba[2] = (v*baseCol.b)*255.0f;
-		rgba[3] = (((v*0.25f)+0.75f)*baseCol.a)*255.0f;
+		Color4ub color;
+		color.r = (v*baseCol.r)*255.0f;
+		color.g = (v*baseCol.g)*255.0f;
+		color.b = (v*baseCol.b)*255.0f;
+		color.a = (((v*0.25f)+0.75f)*baseCol.a)*255.0f;
+
+		Color4ub *row = buf.Get() + i * RING_TEXTURE_WIDTH;
+		for (int j = 0; j < RING_TEXTURE_WIDTH; ++j) {
+			row[j] = color;
+		}
 	}
 
 	// first and last pixel are forced to zero, to give a slightly smoother ring edge
 	{
-		unsigned char *rgba = buf.Get();
-		rgba[0] = rgba[1] = rgba[2] = rgba[3] = 0;
-		rgba = buf.Get() + (RING_TEXTURE_LENGTH-1)*4;
-		rgba[0] = rgba[1] = rgba[2] = rgba[3] = 0;
+		Color4ub* row;
+		row = buf.Get();
+		memset(row, 0, RING_TEXTURE_WIDTH * 4);
+		row = buf.Get() + (RING_TEXTURE_LENGTH - 1) * RING_TEXTURE_WIDTH;
+		memset(row, 0, RING_TEXTURE_WIDTH * 4);
 	}
 
-	const vector2f texSize(1.0f, RING_TEXTURE_LENGTH);
+	const vector2f texSize(RING_TEXTURE_WIDTH, RING_TEXTURE_LENGTH);
 	const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA, texSize, Graphics::LINEAR_REPEAT, true);
 
@@ -172,32 +184,30 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	m_ringTexture->Update(
 			static_cast<void*>(buf.Get()), texSize,
 			Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
+
+	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_PLANETRING;
+	desc.lighting = true;
+	desc.twoSided = true;
+	desc.textures = 1;
+	m_ringMaterial.Reset(renderer->CreateMaterial(desc));
+	m_ringMaterial->texture0 = m_ringTexture.Get();
 }
 
 void Planet::DrawGasGiantRings(Renderer *renderer, const Camera *camera)
 {
 	renderer->SetBlendMode(BLEND_ALPHA_PREMULT);
-	glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_ENABLE_BIT );
 	renderer->SetDepthTest(true);
-	glEnable(GL_NORMALIZE);
 
 	if (!m_ringTexture) {
 		GenerateRings(renderer);
 	}
 
-	Material mat;
-	mat.unlit = true;
-	mat.twoSided = true;
-	mat.texture0 = m_ringTexture.Get();
-	// XXX should get number of lights through camera when object viewer draw doesn't pass a null pointer
-	mat.shader = Graphics::planetRingsShader[Graphics::State::GetNumLights()-1];
-
 	const SystemBody *sbody = GetSystemBody();
 	assert(sbody->HasRings());
 
-	renderer->DrawTriangles(&m_ringVertices, &mat, TRIANGLE_STRIP);
+	renderer->DrawTriangles(&m_ringVertices, m_ringMaterial.Get(), TRIANGLE_STRIP);
 
-	glPopAttrib();
 	renderer->SetBlendMode(BLEND_SOLID);
 }
 
@@ -228,8 +238,8 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 	invViewRot.ClearToRotOnly();
 	invViewRot = invViewRot.InverseOf();
 
-	//XXX this is always 1
-	const int numLights = Pi::worldView->GetNumLights();
+	// XXX used to be Pi::worldView->GetNumLights, but that always returns 1
+	const int numLights = 1;
 	assert(numLights < 4);
 	vector3d lightDir[4];
 	float lightCol[4][4];
@@ -255,7 +265,17 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 
 	rot = matrix4x4d::RotateZMatrix(angStep);
 
-	VertexArray vts(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL);
+	if (!m_atmosphereVertices.Valid()) {
+		m_atmosphereVertices.Reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE | ATTRIB_NORMAL));
+		Graphics::MaterialDescriptor desc;
+		desc.vertexColors = true;
+		desc.twoSided = true;
+		m_atmosphereMaterial.Reset(renderer->CreateMaterial(desc));
+	}
+
+	VertexArray &vts = *m_atmosphereVertices.Get();
+	vts.Clear();
+
 	for (float ang=0; ang<2*M_PI; ang+=float(angStep)) {
 		const vector3d norm = r1.Normalized();
 		const vector3f n = vector3f(norm.x, norm.y, norm.z);
@@ -274,14 +294,9 @@ void Planet::DrawAtmosphere(Renderer *renderer, const vector3d &camPos)
 		r2 = rot * r2;
 	}
 
-	Material mat;
-	mat.unlit = true;
-	mat.twoSided = true;
-	mat.vertexColors = true;
-
 	renderer->SetTransform(trans);
 	renderer->SetBlendMode(BLEND_ALPHA_ONE);
-	renderer->DrawTriangles(&vts, &mat, TRIANGLE_STRIP);
+	renderer->DrawTriangles(m_atmosphereVertices.Get(), m_atmosphereMaterial.Get(), TRIANGLE_STRIP);
 	renderer->SetBlendMode(BLEND_SOLID);
 
 	glPopMatrix();

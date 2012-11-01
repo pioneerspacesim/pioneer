@@ -1,10 +1,13 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
   ---- ENGLISH / ENGLISH ----
 
 Translate:Add({
 	English = {
 		['Cannot compensate for local gravity'] = 'Cannot compensate for local gravity',
 		['Starport refused docking permission'] = 'Starport refused docking permission',
-		['Cannot compute orbit parameters']     = 'Cannot compute orbit paremeters',
+		['Cannot compute orbit parameters']     = 'Cannot compute orbit parameters',
 	}
 })
 

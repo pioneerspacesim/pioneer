@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _RENDERER_H
 #define _RENDERER_H
 
@@ -17,28 +20,23 @@ namespace Graphics {
  * To Do:
  * Move statistics collection here: fps, number of triangles etc.
  * Screenshot function (at least read framebuffer, write to file elsewhere)
- * Move SDL video init here (pass a GraphicsSettings struct or similar to Renderer's constructor)
- * ToggleFullscreen
  * The 2D varieties of DrawPoints, DrawLines might have to go - it seemed
  * like a good idea to allow the possibility for optimizing these cases but
  * right now there isn't much of a difference.
- * Renderer::RequestMaterial approach to Materials to get rid of the shader hack (see comments in Material.h)
- * LMR is tricky because it's both a model compiler and renderer. The draw ops can be quite easily
- * converted to use StaticMeshes, Materials etc. but it would lose some of the quirks
- * like changing lighting mid-mesh (without hacks which are not useful outside LMR)
  * Terrain: not necessarily tricky to convert, but let's see if it's going to be
  * rewritten first... Terrain would likely get a special DrawTerrain(GeoPatch *) function.
- * Reboot postprocessing, again
+ * Reboot postprocessing, again (I'd like this to be a non-optional part of GL2 renderer)
  */
 
 class Light;
 class Material;
+class MaterialDescriptor;
 class RendererLegacy;
 class StaticMesh;
 class Surface;
-class VertexArray;
 class Texture;
 class TextureDescriptor;
+class VertexArray;
 
 // first some enums
 enum LineType {
@@ -104,8 +102,9 @@ public:
 
 	virtual bool SetLights(int numlights, const Light *l) { return false; }
 	virtual bool SetAmbientColor(const Color &c) { return false; }
+	const Color &GetAmbientColor() const { return m_ambient; }
 
-	virtual bool SetScissor(bool enabled, const vector2f &pos = 0, const vector2f &size = 0) { return false; }
+	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) { return false; }
 
 	//drawing functions
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)
@@ -117,14 +116,16 @@ public:
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, float pointSize=1.f) { return false; }
 	virtual bool DrawPoints2D(int count, const vector2f *points, const Color *colors, float pointSize=1.f) { return false; }
 	//unindexed triangle draw
-	virtual bool DrawTriangles(const VertexArray *vertices, const Material *material=0, PrimitiveType type=TRIANGLES)  { return false; }
+	virtual bool DrawTriangles(const VertexArray *vertices, Material *material, PrimitiveType type=TRIANGLES)  { return false; }
 	//indexed triangle draw
 	virtual bool DrawSurface(const Surface *surface) { return false; }
 	//high amount of textured quads for particles etc
-	virtual bool DrawPointSprites(int count, const vector3f *positions, const Material *material, float size) { return false; }
+	virtual bool DrawPointSprites(int count, const vector3f *positions, Material *material, float size) { return false; }
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawStaticMesh(StaticMesh *thing) { return false; }
 
+	//creates a unique material based on the descriptor. It will not be deleted automatically.
+	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
 
 	Texture *GetCachedTexture(const std::string &type, const std::string &name);
@@ -133,6 +134,8 @@ public:
 
 	// output human-readable debug info to the given stream
 	virtual bool PrintDebugInfo(std::ostream &out) { return false; }
+
+	virtual bool ReloadShaders() { return false; }
 
 	// take a ticket representing the current renderer state. when the ticket
 	// is deleted, the renderer state is restored
@@ -149,6 +152,7 @@ public:
 protected:
 	int m_width;
 	int m_height;
+	Color m_ambient;
 
 	virtual void PushState() = 0;
 	virtual void PopState() = 0;

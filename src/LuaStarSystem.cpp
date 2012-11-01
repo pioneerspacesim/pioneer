@@ -1,6 +1,10 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaObject.h"
 #include "LuaStar.h"
 #include "LuaPlanet.h"
+#include "LuaFaction.h"
 #include "LuaSpaceStation.h"
 #include "LuaStarSystem.h"
 #include "LuaSystemPath.h"
@@ -14,6 +18,7 @@
 #include "Planet.h"
 #include "SpaceStation.h"
 #include "galaxy/Sector.h"
+#include "Factions.h"
 
 /*
  * Class: StarSystem
@@ -57,9 +62,8 @@ static int l_starsystem_get_station_paths(lua_State *l)
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 
 	lua_newtable(l);
-	pi_lua_table_ro(l);
 
-	for (std::vector<SystemBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); i++)
+	for (std::vector<SystemBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); ++i)
 	{
 		lua_pushinteger(l, lua_rawlen(l, -1)+1);
 		LuaSystemPath::PushToLua(&(*i)->path);
@@ -97,9 +101,8 @@ static int l_starsystem_get_body_paths(lua_State *l)
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 
 	lua_newtable(l);
-	pi_lua_table_ro(l);
 
-	for (std::vector<SystemBody*>::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); i++)
+	for (std::vector<SystemBody*>::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); ++i)
 	{
 		lua_pushinteger(l, lua_rawlen(l, -1)+1);
 		LuaSystemPath::PushToLua(&(*i)->path);
@@ -142,7 +145,6 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 	StarSystem *s = LuaStarSystem::GetFromLua(1);
 
 	lua_newtable(l);
-    pi_lua_table_ro(l);
 
 	for (int e = Equip::FIRST_COMMODITY; e <= Equip::LAST_COMMODITY; e++) {
 		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", e));
@@ -230,7 +232,6 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 	}
 
 	lua_newtable(l);
-	pi_lua_table_ro(l);
 
 	SystemPath here = s->GetPath();
 
@@ -408,6 +409,31 @@ static int l_starsystem_attr_population(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: faction
+ *
+ * The faction that controls this system
+ *
+ * Availability:
+ *
+ *   alpha 28
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_starsystem_attr_faction(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	const Uint32 idx = s->GetFactionIndex();
+	if (idx != Faction::BAD_FACTION_IDX) {
+		LuaFaction::PushToLua(Faction::GetFaction(idx));
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
 template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
 
 template <> void LuaObject<StarSystem>::RegisterClass()
@@ -432,6 +458,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },
+		{ "faction",     l_starsystem_attr_faction     },
 
 		{ 0, 0 }
 	};

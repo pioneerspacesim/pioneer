@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GEOSPHERE_H
 #define _GEOSPHERE_H
 
@@ -5,9 +8,9 @@
 
 #include "vector3.h"
 #include "mtrand.h"
+#include "galaxy/StarSystem.h"
+#include "graphics/Material.h"
 #include "terrain/Terrain.h"
-
-extern int GEOPATCH_EDGELEN;
 
 namespace Graphics { class Renderer; }
 class SystemBody;
@@ -37,10 +40,10 @@ public:
 	double GetMaxFeatureHeight() const { return m_terrain->GetMaxHeight(); }
 	static int GetVtxGenCount() { return s_vtxGenCount; }
 	static void ClearVtxGenCount() { s_vtxGenCount = 0; }
+
 private:
 	void BuildFirstPatches();
 	GeoPatch *m_patches[6];
-	float m_diffColor[4], m_ambColor[4];
 	const SystemBody *m_sbody;
 
 	/* all variables for GetHeight(), GetColor() */
@@ -69,6 +72,12 @@ private:
 	static int s_vtxGenCount;
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
+
+	void SetUpMaterials();
+	ScopedPtr<Graphics::Material> m_surfaceMaterial;
+	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
+	//special parameters for shaders
+	SystemBody::AtmosphereParameters m_atmosphereParameters;
 };
 
 #endif /* _GEOSPHERE_H */

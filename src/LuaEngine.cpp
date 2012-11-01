@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaEngine.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
@@ -5,6 +8,8 @@
 #include "Pi.h"
 #include "utils.h"
 #include "FileSystem.h"
+#include "ui/Context.h"
+#include "GameMenuView.h"
 
 /*
  * Interface: Engine
@@ -36,33 +41,118 @@ static int l_engine_attr_rand(lua_State *l)
 }
 
 /*
- * Attribute: userdir
+ * Attribute: ticks
  *
- * The Pioneer configuration directory (should be writable).
+ * Number of milliseconds since Pioneer was started. This should be used for
+ * debugging purposes only (eg timing) and should never be used for game logic
+ * of any kind.
  *
  * Availability:
  *
- *   alpha 14
+ *   alpha 26
  *
  * Status:
  *
- *   stable
+ *   debug
  */
-static int l_engine_attr_userdir(lua_State *l)
+static int l_engine_attr_ticks(lua_State *l)
 {
-	const std::string &userdir = FileSystem::GetUserDir();
-	lua_pushlstring(l, userdir.c_str(), userdir.size());
+	lua_pushinteger(l, SDL_GetTicks());
 	return 1;
+}
+
+/*
+ * Attribute: ui
+ *
+ * The global <UI.Context> object. New UI widgets are created through this
+ * object.
+ *
+ * Availability:
+ *
+ *   alpha 25
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_engine_attr_ui(lua_State *l)
+{
+	LuaObject<UI::Context>::PushToLua(Pi::ui.Get());
+	return 1;
+}
+
+/*
+ * Attribute: version
+ *
+ * String describing the version of Pioneer
+ *
+ * Availability:
+ *
+ *   alpha 25
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_engine_attr_version(lua_State *l)
+{
+	std::string version(PIONEER_VERSION);
+	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
+    lua_pushlstring(l, version.c_str(), version.size());
+    return 1;
+}
+
+/*
+ * Function: Quit
+ *
+ * Exit the program. If there is a game running it ends the game first.
+ *
+ * > Engine.Quit()
+ *
+ * Availability:
+ *
+ *   not yet
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_engine_quit(lua_State *l)
+{
+	if (Pi::game)
+		Pi::EndGame();
+	Pi::Quit();
+	return 0;
+}
+
+// XXX hack to allow the new UI to activate the old settings view
+//     remove once its been converted
+static int l_engine_settings_view(lua_State *l)
+{
+	if (Pi::game || Pi::GetView() == Pi::gameMenuView)
+		return 0;
+	Pi::SetView(Pi::gameMenuView);
+	while (Pi::GetView() == Pi::gameMenuView) Gui::MainLoopIteration();
+	Pi::SetView(0);
+	return 0;
 }
 
 void LuaEngine::Register()
 {
-	static const luaL_Reg l_attrs[] = {
-		{ "rand",    l_engine_attr_rand    },
-		{ "userdir", l_engine_attr_userdir },
+	static const luaL_Reg l_methods[] = {
+		{ "Quit", l_engine_quit },
+		{ "SettingsView", l_engine_settings_view },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateObject(0, l_attrs, 0);
-	lua_setglobal(Pi::luaManager->GetLuaState(), "Engine");
+	static const luaL_Reg l_attrs[] = {
+		{ "rand",    l_engine_attr_rand    },
+		{ "ticks",   l_engine_attr_ticks   },
+		{ "ui",      l_engine_attr_ui      },
+		{ "version", l_engine_attr_version },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateObject(l_methods, l_attrs, 0);
+	lua_setglobal(Lua::manager->GetLuaState(), "Engine");
 }

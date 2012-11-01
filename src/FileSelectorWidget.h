@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _FILESELECTORWIDGET_H
 #define _FILESELECTORWIDGET_H
 
@@ -16,7 +19,7 @@ public:
 private:
 	void OnClickAction();
 	void OnClickCancel();
-	void OnClickFile(std::string file);
+	void OnClickFile(const std::string &file);
 
 	Type m_type;
 	std::string m_title;

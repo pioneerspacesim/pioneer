@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _BODY_H
 #define _BODY_H
 
@@ -22,9 +25,9 @@ public:
 	static Body *Unserialize(Serializer::Reader &rd, Space *space);
 	virtual void PostLoadFixup(Space *space) {};
 
-	virtual void SetPosition(vector3d p) = 0;
+	virtual void SetPosition(const vector3d &p) = 0;
 	virtual vector3d GetPosition() const = 0; // within frame
-	virtual void SetVelocity(vector3d v) { assert(0); }
+	virtual void SetVelocity(const vector3d &v) { assert(0); }
 	virtual vector3d GetVelocity() const { return vector3d(0.0); }
 	virtual double GetBoundingRadius() const = 0;
 	virtual double GetClipRadius() const { return GetBoundingRadius(); }

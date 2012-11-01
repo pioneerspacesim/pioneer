@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaSpace.h"
 #include "LuaManager.h"
 #include "LuaUtils.h"
@@ -15,6 +18,7 @@
 #include "Player.h"
 #include "Game.h"
 #include "MathUtil.h"
+#include "Frame.h"
 
 /*
  * Interface: Space
@@ -90,12 +94,12 @@ static Body *_maybe_wrap_ship_with_cloud(Ship *ship, SystemPath *path, double du
  * Examples:
  *
  * > -- spawn a ship 5-6AU from the system centre
- * > local ship = Ship.Spawn("Eagle Long Range Fighter, 5, 6)
+ * > local ship = Ship.Spawn("eagle_lrf", 5, 6)
  *
  * > -- spawn a ship in the ~11AU hyperspace area and make it appear that it
  * > -- came from Sol and will arrive in ten minutes
  * > local ship = Ship.Spawn(
- * >     "Flowerfairy Heavy Trader", 9, 11,
+ * >     "flowerfairy", 9, 11,
  * >     { SystemPath:New(0,0,0), Game.time + 600 }
  * > )
  *
@@ -179,7 +183,7 @@ static int l_space_spawn_ship(lua_State *l)
  * Example:
  *
  * > -- spawn a ship 10km from the player
- * > local ship = Ship.SpawnNear("Viper Police Craft", Game.player, 10, 10)
+ * > local ship = Ship.SpawnNear("viper_police_craft", Game.player, 10, 10)
  *
  * Availability:
  *
@@ -214,8 +218,18 @@ static int l_space_spawn_ship_near(lua_State *l)
 	Body *thing = _maybe_wrap_ship_with_cloud(ship, path, due);
 
 	// XXX protect against spawning inside the body
-	thing->SetFrame(nearbody->GetFrame());
-	thing->SetPosition((MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition());
+	Frame * newframe = nearbody->GetFrame();
+	const vector3d newPosition = (MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition();
+	// If the frame is rotating and the chosen position is too far, use non-rotating parent.
+	// Otherwise the ship will be given a massive initial velocity when it's bumped out of the
+	// rotating frame in the next update
+	if (newframe->IsRotatingFrame() && !newframe->IsLocalPosInFrame(newPosition)) {
+		assert(newframe->m_parent);
+		newframe = newframe->m_parent;
+	}
+
+	thing->SetFrame(newframe);;
+	thing->SetPosition(newPosition);
 	thing->SetVelocity(vector3d(0,0,0));
 	Pi::game->GetSpace()->AddBody(thing);
 
@@ -475,7 +489,6 @@ static int l_space_get_bodies(lua_State *l)
 	}
 
 	lua_newtable(l);
-	pi_lua_table_ro(l);
 
 	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
 		Body *b = *i;
@@ -512,7 +525,7 @@ static int l_space_get_bodies(lua_State *l)
 
 void LuaSpace::Register()
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

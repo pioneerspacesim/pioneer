@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Lang.h"
 #include "FileSystem.h"
@@ -9,9 +12,9 @@
 
 namespace Lang {
 
-// XXX we're allocating half a KB for each translatable string
+// XXX we're allocating a KB for each translatable string
 // that's... not very nice (though I guess it "doesn't matter" with virtual memory and multi-GB of RAM)
-static const int STRING_RECORD_SIZE = 512;
+static const int STRING_RECORD_SIZE = 1024;
 #define DECLARE_STRING(x) char x[STRING_RECORD_SIZE];
 #include "LangStrings.inc.h"
 #undef DECLARE_STRING
@@ -250,6 +253,8 @@ bool LoadStrings(const std::string &lang)
 		if (it != s_token_map.end()) {
 			seen.insert(token);
 			const std::string &text = parser.GetAdjustedText();
+			if (text.size() >= size_t(STRING_RECORD_SIZE))
+				fprintf(stderr, "WARNING: language text is too long -- it will be cut off!\n");
 			// XXX const_cast is ugly, but see note for declaration of tokens map
 			char *record = const_cast<char*>(it->second);
 			copy_string(record, text.c_str(), text.size(), STRING_RECORD_SIZE);
@@ -293,6 +298,8 @@ bool LoadStrings(const std::string &lang)
 		if (it != s_token_map.end()) {
 			seen.insert(token);
 			const std::string &text = parser.GetAdjustedText();
+			if (text.size() >= size_t(STRING_RECORD_SIZE))
+				fprintf(stderr, "WARNING: language text is too long -- it will be cut off!\n");
 			// XXX const_cast is ugly, but see note for declaration of tokens map
 			char *record = const_cast<char*>(it->second);
 			copy_string(record, text.c_str(), text.size(), STRING_RECORD_SIZE);

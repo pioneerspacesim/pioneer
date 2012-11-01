@@ -1,8 +1,11 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Star.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
-#include "gui/Gui.h"
 #include "graphics/VertexArray.h"
+#include "gui/Gui.h"
 
 using namespace Graphics;
 
@@ -70,7 +73,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	}
 	va.Add(vector3f(0.f, rad, 0.f), dark);
 
-	renderer->DrawTriangles(&va, 0, TRIANGLE_FAN);
+	renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 	renderer->SetBlendMode(BLEND_SOLID);
 
 	glPopMatrix();

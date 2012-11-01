@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "FileSystem.h"
 #include "StringRange.h"
@@ -11,9 +14,9 @@
 namespace FileSystem {
 
 	static FileSourceFS dataFilesApp(GetDataDir());
-	static FileSourceFS dataFilesUser(GetUserDir("data"));
+	static FileSourceFS dataFilesUser(JoinPath(GetUserDir(), "data"));
 	FileSourceUnion gameDataFiles;
-	FileSourceFS rawFileSystem("/");
+	FileSourceFS userFiles(GetUserDir());
 
 	// note: some functions (GetUserDir(), GetDataDir()) are in FileSystem{Posix,Win32}.cpp
 

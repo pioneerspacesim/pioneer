@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "GameLoaderSaver.h"
 #include "FileSelectorWidget.h"
 #include "Game.h"
@@ -11,6 +14,10 @@ GameLoaderSaver::GameLoaderSaver(FileSelectorWidget::Type type, const std::strin
 
 void GameLoaderSaver::DialogMainLoop()
 {
+	// detach previous view to avoid event leakage
+	View *previousView = Pi::GetView();
+	Pi::SetView(0);
+
 	Gui::Fixed *background = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()));
 	background->SetTransparency(false);
 	background->SetBgColor(0,0,0,1.0);
@@ -37,12 +44,15 @@ void GameLoaderSaver::DialogMainLoop()
 
 	Gui::Screen::RemoveBaseWidget(background);
 	delete background;
+
+	// restore previous view
+	Pi::SetView(previousView);
 }
 
-void GameLoaderSaver::OnClickLoad(std::string filename)
+void GameLoaderSaver::OnClickLoad(const std::string &filename)
 {
 	if (filename.empty()) return;
-	m_filename = FileSystem::JoinPath(Pi::GetSaveDir(), filename);
+	m_filename = filename;
 	if (!OnAction())
 		m_filename = "";
 	m_done = true;
@@ -67,7 +77,7 @@ void GameLoader::DialogMainLoop()
 bool GameLoader::LoadFromFile(const std::string &filename)
 {
 	try {
-		FILE *f = fopen(GetFilename().c_str(), "rb");
+		FILE *f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 		if (!f) throw CouldNotOpenFileException();
 
 		Serializer::Reader rd(f);
@@ -99,7 +109,7 @@ bool GameSaver::SaveToFile(const std::string &filename)
 {
 	bool success = false;
 	try {
-		if (!FileSystem::rawFileSystem.MakeDirectory(Pi::GetSaveDir())) {
+		if (!FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME)) {
 			throw CouldNotOpenFileException();
 		}
 
@@ -108,7 +118,7 @@ bool GameSaver::SaveToFile(const std::string &filename)
 
 		const std::string data = wr.GetData();
 
-		FILE *f = fopen(filename.c_str(), "wb");
+		FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 		if (!f) throw CouldNotOpenFileException();
 
 		size_t nwritten = fwrite(data.data(), data.length(), 1, f);

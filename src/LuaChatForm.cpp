@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Pi.h"
 #include "Player.h"
 #include "LuaChatForm.h"
@@ -18,7 +21,7 @@ void LuaChatForm::OnOptionClicked(int option)
 {
     SetMoney(1000000000);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -45,7 +48,7 @@ void LuaChatForm::OnOptionClicked(int option)
 void LuaChatForm::OnClose() {
 	StationAdvertForm::OnClose();
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 	int ref = GetAdvert()->ref;
 
 	LUA_DEBUG_START(l);
@@ -123,7 +126,7 @@ bool LuaChatForm::CanSell(Equip::Type t, bool verbose) const {
 	return (GetStock(t) > 0) && DoesSell(t);
 }
 bool LuaChatForm::DoesSell(Equip::Type t) const {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -142,7 +145,7 @@ bool LuaChatForm::DoesSell(Equip::Type t) const {
 }
 
 int LuaChatForm::GetStock(Equip::Type t) const {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -161,7 +164,7 @@ int LuaChatForm::GetStock(Equip::Type t) const {
 }
 
 Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -180,7 +183,7 @@ Sint64 LuaChatForm::GetPrice(Equip::Type t) const {
 }
 
 void LuaChatForm::OnClickBuy(int t) {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -204,7 +207,7 @@ void LuaChatForm::OnClickBuy(int t) {
 }
 
 void LuaChatForm::OnClickSell(int t) {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -228,7 +231,7 @@ void LuaChatForm::OnClickSell(int t) {
 }
 
 void LuaChatForm::Bought(Equip::Type t) {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -242,7 +245,7 @@ void LuaChatForm::Bought(Equip::Type t) {
 }
 
 void LuaChatForm::Sold(Equip::Type t) {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

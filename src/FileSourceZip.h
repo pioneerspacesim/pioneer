@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _FILESOURCEZIP_H
 #define _FILESOURCEZIP_H
 
@@ -10,7 +13,9 @@ namespace FileSystem {
 
 class FileSourceZip : public FileSource {
 public:
-	FileSourceZip(const std::string &zipPath);
+	// for now this needs to be FileSourceFS rather than just FileSource,
+	// because we need a FILE* stream access to the .zip file
+	FileSourceZip(FileSourceFS &fs, const std::string &zipPath);
 	virtual ~FileSourceZip();
 
 	virtual FileInfo Lookup(const std::string &path);

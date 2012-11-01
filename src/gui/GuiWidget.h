@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GUIWIDGET_H
 #define _GUIWIDGET_H
 
@@ -30,6 +33,7 @@ namespace Gui {
 		virtual void ShowAll() { m_visible = true; }
 		virtual void Show() { m_visible = true; }
 		virtual void Hide();
+		void HideTooltip();
 		bool IsVisible() const;
 		Container *GetParent() const { return m_parent; }
 		void SetParent(Container *p) { m_parent = p; }

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
@@ -30,7 +33,7 @@ struct Mission : RefItem<Mission> {
 class Player: public Ship, public MarketAgent {
 public:
 	OBJDEF(Player, Ship, PLAYER);
-	Player(ShipType::Type shipType);
+	Player(ShipType::Id shipId);
 	Player() { }; //default constructor used before Load
 	virtual void SetDockedWith(SpaceStation *, int port);
 	virtual bool OnDamage(Object *attacker, float kgDamage);

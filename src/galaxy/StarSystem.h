@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _STARSYSTEM_H
 #define _STARSYSTEM_H
 
@@ -27,12 +30,14 @@ enum EconType { // <enum name=EconType prefix=ECON_>
 class StarSystem;
 
 struct Orbit {
+	Orbit(): orbitalPhaseAtStart(0.0) {};
 	vector3d OrbitalPosAtTime(double t) const;
 	// 0.0 <= t <= 1.0. Not for finding orbital pos
 	vector3d EvenSpacedPosAtTime(double t) const;
 	/* duplicated from SystemBody... should remove probably */
 	double eccentricity;
 	double semiMajorAxis;
+	double orbitalPhaseAtStart; // 0 to 2 pi radians
 	/* dup " " --------------------------------------- */
 	double period; // seconds
 	matrix4x4d rotMatrix;
@@ -164,6 +169,8 @@ public:
 		float atmosDensity;
 		float planetRadius;
 		Color atmosCol;
+		vector3d center;
+		float scale;
 	};
 
 	AtmosphereParameters CalcAtmosphereParams() const;
@@ -181,13 +188,16 @@ public:
 	fixed mass; // earth masses if planet, solar masses if star
 	fixed orbMin, orbMax; // periapsism, apoapsis in AUs
 	fixed rotationPeriod; // in days
+	fixed rotationalPhaseAtStart; // 0 to 2 pi
 	fixed humanActivity; // 0 - 1
 	fixed semiMajorAxis; // in AUs
 	fixed eccentricity;
 	fixed orbitalOffset;
+	fixed orbitalPhaseAtStart; // 0 to 2 pi
 	fixed axialTilt; // in radians
 	int averageTemp;
 	BodyType type;
+	bool isCustomBody;
 
 	/* composition */
 	fixed m_metallicity; // (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
@@ -229,6 +239,8 @@ public:
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
+	const Uint32 GetFactionIndex() const { return m_factionIdx; }
+	const Color GetFactionColour() const;
 
 	static float starColors[][3];
 	static float starRealColors[][3];
@@ -283,6 +295,7 @@ private:
 	std::string m_name;
 	std::string m_shortDesc, m_longDesc;
 	SysPolit m_polit;
+	Uint32 m_factionIdx;
 
 	bool m_isCustom;
 	bool m_hasCustomBodies;

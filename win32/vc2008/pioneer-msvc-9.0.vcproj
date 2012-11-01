@@ -342,6 +342,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\DeathView.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\DynamicBody.cpp"
 				>
 			</File>
@@ -355,6 +359,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\FaceVideoLink.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Factions.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Factions.cpp"
 				>
 			</File>
 			<File
@@ -550,6 +562,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Intro.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Intro.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\KeyBindings.cpp"
 				>
 			</File>
@@ -559,6 +579,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LmrModel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Lua.cpp"
 				>
 			</File>
 			<File
@@ -586,6 +610,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaDev.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaEngine.cpp"
 				>
 			</File>
@@ -594,7 +622,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\LuaEventQueue.cpp"
+				RelativePath="..\..\src\LuaEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaFileSystem.cpp"
 				>
 			</File>
 			<File
@@ -643,6 +675,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaRand.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaRef.cpp"
 				>
 			</File>
 			<File
@@ -1146,6 +1182,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Tombstone.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Tombstone.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\utils.cpp"
 				>
 			</File>
@@ -1181,6 +1225,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\AmbientSounds.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\AnimationCurves.h"
 				>
 			</File>
 			<File
@@ -1260,7 +1308,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Cutscene.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Cutscene.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\DeadVideoLink.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\DeathView.h"
 				>
 			</File>
 			<File
@@ -1285,6 +1345,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\FaceVideoLink.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Factions.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Factions.h"
 				>
 			</File>
 			<File
@@ -1516,7 +1584,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Intro.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Intro.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\KeyBindings.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\KeyBindings.inc.h"
 				>
 			</File>
 			<File
@@ -1533,6 +1613,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LmrModel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Lua.h"
 				>
 			</File>
 			<File
@@ -1560,6 +1644,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaDev.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaEngine.h"
 				>
 			</File>
@@ -1568,7 +1656,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\LuaEventQueue.h"
+				RelativePath="..\..\src\LuaEvent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaFileSystem.h"
 				>
 			</File>
 			<File
@@ -1616,7 +1708,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaPushPull.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaRand.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaRef.h"
 				>
 			</File>
 			<File
@@ -1657,6 +1757,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaSystemPath.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaTable.h"
 				>
 			</File>
 			<File
@@ -1976,6 +2080,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Tombstone.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Tombstone.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\utils.h"
 				>
 			</File>
@@ -1997,10 +2109,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\View.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\win32\src\win32-dirent.h"
 				>
 			</File>
 			<File
@@ -3239,6 +3347,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\graphics\MaterialLegacy.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\MaterialLegacy.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\graphics\Renderer.cpp"
 				>
 			</File>
@@ -3264,14 +3380,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\graphics\RendererLegacy.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\graphics\Shader.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\graphics\Shader.h"
 				>
 			</File>
 			<File
@@ -3314,6 +3422,62 @@
 				RelativePath="..\..\src\graphics\VertexArray.h"
 				>
 			</File>
+			<Filter
+				Name="gl2"
+				>
+				<File
+					RelativePath="..\..\src\graphics\gl2\GeoSphereMaterial.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\GeoSphereMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\GL2Material.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\GL2Material.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\MultiMaterial.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\MultiMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\Program.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\Program.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\RingMaterial.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\RingMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\StarfieldMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\Uniform.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\Uniform.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="jenkins"
@@ -3363,6 +3527,330 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="vcacheopt"
+			>
+			<File
+				RelativePath="..\..\contrib\vcacheopt\vcacheopt.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="ui"
+			>
+			<File
+				RelativePath="..\..\src\ui\Align.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Align.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Background.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Background.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Box.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Box.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Button.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Button.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\CellSpec.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\CellSpec.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\CheckBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\CheckBox.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\ColorBackground.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\ColorBackground.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Container.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Container.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Context.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Context.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\DropDown.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\DropDown.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Event.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Event.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\EventDispatcher.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\EventDispatcher.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\FloatContainer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\FloatContainer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Grid.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Grid.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Image.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Image.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Label.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Label.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\List.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\List.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Lua.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Lua.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaAlign.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaBackground.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaCheckBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaColorBackground.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaContainer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaContext.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaDropDown.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaGrid.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaImage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaLabel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaList.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaMargin.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaMultiLineText.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaScroller.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaSignal.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaSingle.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaSlider.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaWidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Margin.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Margin.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\MultiLineText.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\MultiLineText.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Point.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Scroller.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Scroller.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Single.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Single.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Skin.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Skin.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Slider.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Slider.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\TextLayout.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\TextLayout.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Widget.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Widget.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\WidgetSet.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

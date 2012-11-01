@@ -1,10 +1,12 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaBody.h"
 #include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Body.h"
 #include "galaxy/StarSystem.h"
-#include "Pi.h"
 #include "Frame.h"
 
 /*

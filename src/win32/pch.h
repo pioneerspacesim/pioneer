@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 
 #include "collider/collider.h"
@@ -13,6 +16,7 @@
 #include "galaxy/StarSystem.h"
 #include "DynamicBody.h"
 #include "EquipType.h"
+#include "Factions.h"
 #include "FileSystem.h"
 #include "fixed.h"
 #include "Frame.h"

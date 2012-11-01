@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _POLIT_H
 #define _POLIT_H
 
@@ -14,14 +17,6 @@ namespace Polit {
 		CRIME_WEAPON_DISCHARGE = (1<<1),
 		CRIME_PIRACY = (1<<2),
 		CRIME_MURDER = (1<<3),
-	};
-
-	enum Bloc { // <enum scope='Polit' name=PolitBloc prefix=BLOC_>
-		BLOC_NONE,
-		BLOC_EARTHFED,
-		BLOC_CIS,
-		BLOC_EMPIRE,
-		BLOC_MAX // <enum skip>
 	};
 
 	enum PolitEcon { // <enum scope='Polit' name=PolitEcon prefix=ECON_>
@@ -58,7 +53,7 @@ namespace Polit {
 
 	void NotifyOfCrime(Ship *s, enum Crime c);
 	void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit);
-	bool IsCommodityLegal(const StarSystem *s, Equip::Type t);
+	bool IsCommodityLegal(const StarSystem *s, const Equip::Type t);
 	void Init();
 	void Serialize(Serializer::Writer &wr);
 	void Unserialize(Serializer::Reader &rd);

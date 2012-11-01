@@ -39,9 +39,6 @@
     <ClCompile Include="..\..\src\FaceVideoLink.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FontConfig.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Frame.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -88,9 +85,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaEquipType.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LuaEventQueue.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaFormat.cpp">
@@ -384,6 +378,39 @@
     <ClCompile Include="..\..\src\win32\WinMath.cpp">
       <Filter>src\win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaEvent.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaFileSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Lua.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaRef.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Factions.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\DeathView.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaDev.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Intro.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Tombstone.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaFaction.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\PngWriter.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -435,9 +462,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\fixed.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\FontConfig.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Frame.h">
@@ -492,9 +516,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaEquipType.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaEventQueue.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaFormat.h">
@@ -803,10 +824,63 @@
     <ClInclude Include="..\..\src\win32\WinMath.h">
       <Filter>src\win32</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LuaEvent.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaFileSystem.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Lua.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\AnimationCurves.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaRef.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaTable.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaPushPull.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Factions.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\vcacheopt\vcacheopt.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DeathView.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaDev.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Intro.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Tombstone.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Cutscene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaFaction.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\PngWriter.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">
       <Filter>src</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\src\win32\pioneer.rc">
+      <Filter>src\win32</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

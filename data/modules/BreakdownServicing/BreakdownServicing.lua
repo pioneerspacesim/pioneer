@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 -- Get the translator function
 local t = Translate:GetTranslator()
 
@@ -205,10 +208,10 @@ local unserialize = function (data)
 	loaded_data = data
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onGameStart:Connect(onGameStart)
-EventQueue.onShipFlavourChanged:Connect(onShipFlavourChanged)
-EventQueue.onShipEquipmentChanged:Connect(onShipEquipmentChanged)
-EventQueue.onEnterSystem:Connect(onEnterSystem)
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onGameStart", onGameStart)
+Event.Register("onShipFlavourChanged", onShipFlavourChanged)
+Event.Register("onShipEquipmentChanged", onShipEquipmentChanged)
+Event.Register("onEnterSystem", onEnterSystem)
 
 Serializer:Register("BreakdownServicing", serialize, unserialize)

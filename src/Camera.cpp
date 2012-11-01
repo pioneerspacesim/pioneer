@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Camera.h"
 #include "Frame.h"
 #include "galaxy/StarSystem.h"
@@ -15,7 +18,6 @@
 using namespace Graphics;
 
 Camera::Camera(const Body *body, float width, float height, float fovY, float znear, float zfar) :
-	m_showCameraBody(true),
 	m_body(body),
 	m_width(width),
 	m_height(height),
@@ -25,6 +27,7 @@ Camera::Camera(const Body *body, float width, float height, float fovY, float zn
 	m_frustum(m_width, m_height, m_fovAng, znear, zfar),
 	m_pose(matrix4x4d::Identity()),
 	m_camFrame(0),
+	m_showCameraBody(true),
 	m_renderer(0)
 {
 	m_onBodyDeletedConnection = m_body->onDelete.connect(sigc::mem_fun(this, &Camera::OnBodyDeleted));
@@ -226,12 +229,14 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	m_renderer->SetDepthTest(false);
 	m_renderer->SetBlendMode(BLEND_ALPHA_ONE);
 
-	// XXX WRONG. need to pick light from appropriate turd.
+	// XXX this is supposed to pick a correct light colour for the object twinkle.
+	// Not quite correct, since it always uses the first light
 	GLfloat col[4];
 	glGetLightfv(GL_LIGHT0, GL_DIFFUSE, col);
 	col[3] = 1.f;
 
-	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	static VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	va.Clear();
 
 	const Color center(col[0], col[1], col[2], col[2]);
 	const Color edges(col[0], col[1], col[2], 0.f);
@@ -271,13 +276,9 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 		}
 	}
 
-	Material mat;
-	mat.unlit = true;
-	mat.vertexColors = true;
-
 	glPushMatrix();
 	m_renderer->SetTransform(trans);
-	m_renderer->DrawTriangles(&va, &mat, TRIANGLE_FAN);
+	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 	m_renderer->SetBlendMode(BLEND_SOLID);
 	m_renderer->SetDepthTest(true);
 	glPopMatrix();

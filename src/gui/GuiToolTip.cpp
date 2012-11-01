@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Gui.h"
 
 namespace Gui {
@@ -5,15 +8,17 @@ namespace Gui {
 #define TOOLTIP_PADDING	5
 #define FADE_TIME_MS	500
 
-ToolTip::ToolTip(const char *text)
+ToolTip::ToolTip(Widget *owner, const char *text)
 {
+	m_owner = owner;
 	m_layout = 0;
 	SetText(text);
 	m_createdTime = SDL_GetTicks();
 }
 
-ToolTip::ToolTip(std::string &text)
+ToolTip::ToolTip(Widget *owner, std::string &text)
 {
+	m_owner = owner;
 	m_layout = 0;
 	SetText(text.c_str());
 	m_createdTime = SDL_GetTicks();
@@ -47,6 +52,9 @@ void ToolTip::SetText(std::string &text)
 
 void ToolTip::Draw()
 {
+	if (m_owner && !m_owner->IsVisible())
+		return;
+
 	float size[2];
 	int age = SDL_GetTicks() - m_createdTime;
 	float alpha = age/float(FADE_TIME_MS); alpha = std::min(alpha, 0.75f);

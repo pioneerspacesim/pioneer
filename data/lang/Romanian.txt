@@ -579,16 +579,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Se simulează evoluţia universului: %age{f.1} mii de milioane de ani ;-)
 TOMBSTONE_EPITAPH
     ETERNE REGRETE
-MM_START_NEW_GAME_EARTH
-    Joc nou pornind de pe Pamânt
-MM_START_NEW_GAME_E_ERIDANI
-    Joc nou pornind pe Epsilon Eridani
-MM_START_NEW_GAME_DEBUG
-    Joc nou pornind la punctul de test
-MM_LOAD_SAVED_GAME
-    Încarcă un joc salvat
-MM_QUIT
-    Ieşire din joc
 SCREENSHOT_FILENAME_TEMPLATE
     captura%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -703,9 +693,9 @@ SHIP_IS_FULLY_LADEN
     Nava dumneavoastră e încărcată la maxim.
 YOU_DO_NOT_HAVE_ANY_X
     Nu aveţi %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Vedere frontală
-REAR_VIEW
+CAMERA_REAR_VIEW
     Vedere posterioară
 EXTERNAL_VIEW
     Vedere exterioară

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "FileSelectorWidget.h"
 #include "Lang.h"
 #include "utils.h"
@@ -50,9 +53,9 @@ void FileSelectorWidget::ShowAll()
 	hbox->PackEnd(scroll);
 
 	Gui::Box *vbox = new Gui::VBox();
-	for (FileSystem::FileEnumerator files(FileSystem::rawFileSystem, Pi::GetSaveDir()); !files.Finished(); files.Next())
+	for (FileSystem::FileEnumerator files(FileSystem::userFiles, Pi::SAVE_DIR_NAME); !files.Finished(); files.Next())
 	{
-		std::string name = files.Current().GetName();
+		const std::string name = files.Current().GetName();
 		b = new SimpleLabelButton(new Gui::Label(name));
 		b->onClick.connect(sigc::bind(sigc::mem_fun(this, &FileSelectorWidget::OnClickFile), name));
 		vbox->PackEnd(b);
@@ -71,6 +74,6 @@ void FileSelectorWidget::OnClickCancel() {
 	onClickCancel.emit();
 }
 
-void FileSelectorWidget::OnClickFile(std::string file) {
+void FileSelectorWidget::OnClickFile(const std::string &file) {
 	m_tentry->SetText(file);
 }

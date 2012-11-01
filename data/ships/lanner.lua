@@ -1,17 +1,21 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_ship {
 	name='Lanner',
 	model='lanner_ub',
-	forward_thrust = -30e6,
+	forward_thrust = 30e6,
 	reverse_thrust = 10e6,
 	up_thrust = 10e6,
-	down_thrust = -5e6,
-	left_thrust = -5e6,
+	down_thrust = 5e6,
+	left_thrust = 5e6,
 	right_thrust = 5e6,
 	angular_thrust = 90e6,
+	camera_offset = v(0,3,-28.5),
 	gun_mounts =
 	{
-	{v(0,-1.9,-38), v(0,0,-1)},
-	{v(0,1,38), v(0,0,1)},
+		{ v(0,-1.9,-38), v(0,0,-1), 5, 'HORIZONTAL' },
+		{ v(0,1,38), v(0,0,1), 5, 'HORIZONTAL' },
 	},
 	max_cargo = 190,
 	max_laser = 2,

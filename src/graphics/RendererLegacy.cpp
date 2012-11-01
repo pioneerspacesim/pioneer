@@ -1,13 +1,19 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "RendererLegacy.h"
+#include "Graphics.h"
 #include "Light.h"
 #include "Material.h"
-#include "Graphics.h"
+#include "MaterialLegacy.h"
+#include "OS.h"
 #include "RendererGLBuffers.h"
 #include "StaticMesh.h"
+#include "StringF.h"
 #include "Surface.h"
 #include "Texture.h"
-#include "VertexArray.h"
 #include "TextureGL.h"
+#include "VertexArray.h"
 #include <stddef.h> //for offsetof
 #include <ostream>
 #include <sstream>
@@ -40,11 +46,16 @@ struct SurfaceRenderInfo : public RenderInfo {
 	int glAmount; //index count OR vertex amount
 };
 
-RendererLegacy::RendererLegacy(int w, int h) :
-	Renderer(w, h),
-	m_minZNear(10.f),
-	m_maxZFar(1000000.0f)
+RendererLegacy::RendererLegacy(const Graphics::Settings &vs)
+: Renderer(vs.width, vs.height)
+, m_numDirLights(0)
+, m_minZNear(10.f)
+, m_maxZFar(1000000.0f)
+, m_useCompressedTextures(false)
 {
+	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_EXT_texture_compression_s3tc");
+	m_useCompressedTextures = useDXTnTextures;
+
 	glShadeModel(GL_SMOOTH);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
@@ -83,36 +94,45 @@ bool RendererLegacy::EndFrame()
 	return true;
 }
 
+static std::string glerr_to_string(GLenum err)
+{
+	switch (err)
+	{
+	case GL_INVALID_ENUM:
+		return "GL_INVALID_ENUM";
+	case GL_INVALID_VALUE:
+		return "GL_INVALID_VALUE";
+	case GL_INVALID_OPERATION:
+		return "GL_INVALID_OPERATION";
+	case GL_OUT_OF_MEMORY:
+		return "GL_OUT_OF_MEMORY";
+	case GL_STACK_OVERFLOW: //deprecated in GL3
+		return "GL_STACK_OVERFLOW";
+	case GL_STACK_UNDERFLOW: //deprecated in GL3
+		return "GL_STACK_UNDERFLOW";
+	case GL_INVALID_FRAMEBUFFER_OPERATION_EXT:
+		return "GL_INVALID_FRAMEBUFFER_OPERATION";
+	default:
+		return stringf("Unknown error 0x0%0{x}", err);
+	}
+}
+
 bool RendererLegacy::SwapBuffers()
 {
 #ifndef NDEBUG
+	// Check if an error occurred during the frame. This is not very useful for
+	// determining *where* the error happened. For that purpose, try GDebugger or
+	// the GL_KHR_DEBUG extension
 	GLenum err;
 	err = glGetError();
-	while (err != GL_NO_ERROR) {
-		switch (err) {
-			case GL_INVALID_ENUM:
-				fprintf(stderr, "GL_INVALID_ENUM\n");
-				break;
-			case GL_INVALID_VALUE:
-				fprintf(stderr, "GL_INVALID_VALUE\n");
-				break;
-			case GL_INVALID_OPERATION:
-				fprintf(stderr, "GL_INVALID_OPERATION\n");
-				break;
-			case GL_OUT_OF_MEMORY:
-				fprintf(stderr, "GL_OUT_OF_MEMORY\n");
-				break;
-			case GL_STACK_OVERFLOW: //deprecated in GL3
-				fprintf(stderr, "GL_STACK_OVERFLOW\n");
-				break;
-			case GL_STACK_UNDERFLOW: //deprecated in GL3
-				fprintf(stderr, "GL_STACK_UNDERFLOW\n");
-				break;
-			case GL_INVALID_FRAMEBUFFER_OPERATION_EXT:
-				fprintf(stderr, "GL_INVALID_FRAMEBUFFER_OPERATION\n");
-				break;
+	if (err != GL_NO_ERROR) {
+		std::stringstream ss;
+		ss << "OpenGL error(s) during frame:\n";
+		while (err != GL_NO_ERROR) {
+			ss << glerr_to_string(err) << '\n';
+			err = glGetError();
 		}
-		err = glGetError();
+		OS::Error("%s", ss.str().c_str());
 	}
 #endif
 
@@ -242,6 +262,7 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 	if (numlights < 1) return false;
 
 	m_numLights = numlights;
+	m_numDirLights = 0;
 
 	for (int i=0; i < numlights; i++) {
 		const Light &l = lights[i];
@@ -257,6 +278,11 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 		glLightfv(GL_LIGHT0+i, GL_AMBIENT, l.GetAmbient());
 		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular());
 		glEnable(GL_LIGHT0+i);
+
+		if (l.GetType() == Light::LIGHT_DIRECTIONAL)
+			m_numDirLights++;
+
+		assert(m_numDirLights < 5);
 	}
 	//XXX should probably disable unused lights (for legacy renderer only)
 
@@ -268,7 +294,7 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 bool RendererLegacy::SetAmbientColor(const Color &c)
 {
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, c);
-	Graphics::State::SetGlobalSceneAmbientColor(c);
+	m_ambient = c;
 	return true;
 }
 
@@ -387,16 +413,16 @@ bool RendererLegacy::DrawPoints2D(int count, const vector2f *points, const Color
 	return true;
 }
 
-bool RendererLegacy::DrawTriangles(const VertexArray *v, const Material *m, PrimitiveType t)
+bool RendererLegacy::DrawTriangles(const VertexArray *v, Material *m, PrimitiveType t)
 {
 	if (!v || v->position.size() < 3) return false;
 
-	ApplyMaterial(m);
+	m->Apply();
 	EnableClientStates(v);
 
 	glDrawArrays(t, 0, v->GetNumVerts());
 
-	UnApplyMaterial(m);
+	m->Unapply();
 	DisableClientStates();
 
 	return true;
@@ -409,18 +435,18 @@ bool RendererLegacy::DrawSurface(const Surface *s)
 	const Material *m = s->GetMaterial().Get();
 	const VertexArray *v = s->GetVertices();
 
-	ApplyMaterial(m);
+	const_cast<Material*>(m)->Apply();
 	EnableClientStates(v);
 
 	glDrawElements(s->GetPrimtiveType(), s->GetNumIndices(), GL_UNSIGNED_SHORT, s->GetIndexPointer());
 
-	UnApplyMaterial(m);
+	const_cast<Material*>(m)->Unapply();
 	DisableClientStates();
 
 	return true;
 }
 
-bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, const Material *material, float size)
+bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, Material *material, float size)
 {
 	if (count < 1 || !material || !material->texture0) return false;
 
@@ -486,54 +512,20 @@ bool RendererLegacy::DrawStaticMesh(StaticMesh *t)
 	for (StaticMesh::SurfaceIterator surface = t->SurfacesBegin(); surface != t->SurfacesEnd(); ++surface) {
 		SurfaceRenderInfo *surfaceInfo = static_cast<SurfaceRenderInfo*>((*surface)->GetRenderInfo());
 
-		ApplyMaterial((*surface)->GetMaterial().Get());
+		const_cast<Material*>((*surface)->GetMaterial().Get())->Apply();
 		if (meshInfo->ibuf) {
 			meshInfo->vbuf->DrawIndexed(t->GetPrimtiveType(), surfaceInfo->glOffset, surfaceInfo->glAmount);
 		} else {
 			//draw unindexed per surface
 			meshInfo->vbuf->Draw(t->GetPrimtiveType(), surfaceInfo->glOffset, surfaceInfo->glAmount);
 		}
-		UnApplyMaterial((*surface)->GetMaterial().Get());
+		const_cast<Material*>((*surface)->GetMaterial().Get())->Unapply();
 	}
 	if (meshInfo->ibuf)
 		meshInfo->ibuf->Unbind();
 	meshInfo->vbuf->Unbind();
 
 	return true;
-}
-
-void RendererLegacy::ApplyMaterial(const Material *mat)
-{
-	glPushAttrib(GL_LIGHTING_BIT | GL_ENABLE_BIT);
-	if (!mat) {
-		glDisable(GL_LIGHTING);
-		return;
-	}
-
-	if (!mat->vertexColors)
-		glColor4f(mat->diffuse.r, mat->diffuse.g, mat->diffuse.b, mat->diffuse.a);
-
-	if (mat->unlit) {
-		glDisable(GL_LIGHTING);
-	} else {
-		glEnable(GL_LIGHTING);
-		glMaterialfv (GL_FRONT, GL_DIFFUSE, &mat->diffuse[0]);
-		//todo: the rest
-	}
-	if (mat->twoSided) {
-		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-		glDisable(GL_CULL_FACE);
-	}
-	if (mat->texture0)
-		static_cast<TextureGL*>(mat->texture0)->Bind();
-}
-
-void RendererLegacy::UnApplyMaterial(const Material *mat)
-{
-	glPopAttrib();
-	if (!mat) return;
-	if (mat->texture0)
-		static_cast<TextureGL*>(mat->texture0)->Unbind();
 }
 
 void RendererLegacy::EnableClientStates(const VertexArray *v)
@@ -646,9 +638,29 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	return true;
 }
 
+Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
+{
+	MaterialLegacy *m;
+	switch (desc.effect) {
+	case EFFECT_STARFIELD:
+		m = new StarfieldMaterialLegacy();
+		break;
+	case EFFECT_GEOSPHERE_TERRAIN:
+		m = new GeoSphereSurfaceMaterialLegacy();
+		break;
+	default:
+		m = new MaterialLegacy();
+	}
+
+	m->vertexColors = desc.vertexColors;
+	m->unlit = !desc.lighting;
+	m->twoSided = desc.twoSided;
+	return m;
+}
+
 Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)
 {
-	return new TextureGL(descriptor);
+	return new TextureGL(descriptor, m_useCompressedTextures);
 }
 
 

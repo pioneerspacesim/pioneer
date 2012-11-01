@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "FileSourceZip.h"
 #include <algorithm>
 #include <cstdio>
@@ -11,10 +14,11 @@ extern "C" {
 
 namespace FileSystem {
 
-FileSourceZip::FileSourceZip(const std::string &zipPath) : FileSource(zipPath), m_archive(0)
+FileSourceZip::FileSourceZip(FileSourceFS &fs, const std::string &zipPath) : FileSource(zipPath), m_archive(0)
 {
 	mz_zip_archive *zip = reinterpret_cast<mz_zip_archive*>(std::calloc(1, sizeof(mz_zip_archive)));
-	if (!mz_zip_reader_init_file(zip, zipPath.c_str(), 0)) {
+	FILE *file = fs.OpenReadStream(zipPath);
+	if (!mz_zip_reader_init_file_stream(zip, file, 0)) {
 		printf("FileSourceZip: unable to open '%s'\n", zipPath.c_str());
 		std::free(zip);
 		return;

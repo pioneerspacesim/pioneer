@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaSerializer.h"
 #include "LuaObject.h"
 #include "LuaBody.h"
@@ -404,7 +407,7 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 
 void LuaSerializer::Serialize(Serializer::Writer &wr)
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -450,7 +453,7 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 
 void LuaSerializer::Unserialize(Serializer::Reader &rd)
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

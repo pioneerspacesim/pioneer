@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaPlayer.h"
 #include "LuaSystemPath.h"
 #include "LuaBody.h"
@@ -23,7 +26,6 @@ static void _mission_to_table(lua_State *l, const Mission &m)
 	LUA_DEBUG_START(l);
 
 	lua_newtable(l);
-	pi_lua_table_ro(l);
 
 	pi_lua_settable(l, "ref", m.ref);
 	pi_lua_settable(l, "due", m.due);

@@ -1,7 +1,14 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _TEXT_FONTDESCRIPTOR_H
 #define _TEXT_FONTDESCRIPTOR_H
 
 #include <string>
+
+namespace FileSystem {
+	class FileSource;
+}
 
 namespace Text {
 
@@ -28,6 +35,10 @@ struct FontDescriptor {
 		const_cast<bool&>(outline) = o.outline;
 		const_cast<float&>(advanceXAdjustment) = o.advanceXAdjustment;
 	}
+
+	static FontDescriptor Load(FileSystem::FileSource &fs, const std::string &path);
+	/// XXX this one is a hack to support the old Gui code
+	static FontDescriptor Load(FileSystem::FileSource &fs, const std::string &path, float scale_x, float scale_y);
 };
 
 }

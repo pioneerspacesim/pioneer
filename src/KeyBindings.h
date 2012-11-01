@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef KEYBINDINGS_H
 #define KEYBINDINGS_H
 
@@ -69,9 +72,6 @@ namespace KeyBindings {
 		AxisBinding *ab;
 	};
 
-	extern const BindingPrototype bindingProtos[];
-	extern const BindingPrototype axisBindingProtos[];
-
 	void InitBindings();
 	void UpdateBindings();
 
@@ -84,35 +84,13 @@ namespace KeyBindings {
 
 	void DispatchSDLEvent(const SDL_Event *event);
 
-	extern KeyAction pitchUp;
-	extern KeyAction pitchDown;
-	extern KeyAction yawLeft;
-	extern KeyAction yawRight;
-	extern KeyAction rollLeft;
-	extern KeyAction rollRight;
-	extern KeyAction thrustForward;
-	extern KeyAction thrustBackwards;
-	extern KeyAction thrustUp;
-	extern KeyAction thrustDown;
-	extern KeyAction thrustLeft;
-	extern KeyAction thrustRight;
-	extern KeyAction thrustLowPower;
-	extern KeyAction increaseSpeed;
-	extern KeyAction decreaseSpeed;
-	extern KeyAction fireLaser;
-	extern KeyAction targetObject;
-	extern KeyAction toggleLuaConsole;
-	extern KeyAction toggleScanMode;
-	extern KeyAction increaseScanRange;
-	extern KeyAction decreaseScanRange;
-	extern KeyAction toggleHudMode;
+#define KEY_BINDING(name,a,b,c) extern KeyAction name;
+#define AXIS_BINDING(name,a,b,c) extern AxisBinding name;
+#include "KeyBindings.inc.h"
 
-	extern AxisBinding pitchAxis;
-	extern AxisBinding rollAxis;
-	extern AxisBinding yawAxis;
-	extern AxisBinding thrustRightAxis;
-	extern AxisBinding thrustUpAxis;
-	extern AxisBinding thrustForwardAxis;
-}
+#define BINDING_PAGE(name) extern const BindingPrototype BINDING_PROTOS_ ## name[];
+#include "KeyBindings.inc.h"
+
+} // namespace KeyBindings
 
 #endif /* KEYBINDINGS_H */

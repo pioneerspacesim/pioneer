@@ -1,7 +1,9 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "Pi.h"
 
 #include <map>
 #include <utility>
@@ -115,7 +117,7 @@ void LuaObjectBase::Deregister(LuaObjectBase *lo)
 	lo->m_deleteConnection.disconnect();
 	registry->erase(lo->m_id);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -179,6 +181,51 @@ int LuaObjectBase::l_gc(lua_State *l)
 	return 0;
 }
 
+// drill down from global looking for the appropriate table for the given
+// path. returns with the table and the last fragment on the stack, ready for
+// set a value in the table with that key.
+// eg foo.bar.baz results in something like _G.foo = { bar = {} }, with the
+// "bar" table left at -2 and "baz" at -1.
+static void SplitTablePath(lua_State *l, const std::string &path)
+{
+	LUA_DEBUG_START(l);
+
+	const char delim = '.';
+
+	std::string last;
+
+	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
+
+	size_t start = 0, end = 0;
+	while (end != std::string::npos) {
+		// get to the first non-delim char
+		start = path.find_first_not_of(delim, end);
+
+		// read the end, no more to do
+		if (start == std::string::npos)
+			break;
+
+		// have a fragment from last time, get the next table
+		if (!last.empty()) {
+			luaL_getsubtable(l, -1, last.c_str());
+			assert(lua_istable(l, -1));
+			lua_remove(l, -2);
+		}
+
+		// find the end - next delim or end of string
+		end = path.find_first_of(delim, start);
+
+		// extract the fragment and remember it
+		last = path.substr(start, (end == std::string::npos) ? std::string::npos : end - start);
+	}
+
+	assert(!last.empty());
+
+	lua_pushlstring(l, last.c_str(), last.size());
+
+	LUA_DEBUG_END(l, 2);
+}
+
 int LuaObjectBase::l_tostring(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
@@ -198,11 +245,8 @@ static int dispatch_index(lua_State *l)
 	// ensure we have enough stack space
 	luaL_checkstack(l, 8, 0);
 
-	// each type has a global method table, which we need access to
-	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
-
 	// everything we need is in the metatable, so lets start with that
-	lua_getmetatable(l, 1);             // object, key, globals, metatable
+	lua_getmetatable(l, 1);             // object, key, metatable
 
 	// loop until we find what we're looking for or we run out of metatables
 	while (!lua_isnil(l, -1)) {
@@ -210,20 +254,24 @@ static int dispatch_index(lua_State *l)
 		// get the method table
 		if (typeless) {
 			// the object is the method table
-			lua_pushvalue(l, 1);            // object, key, globals, metatable, method table
+			lua_pushvalue(l, 1);            // object, key, metatable, method table
 		}
 
 		else {
-			// get the object type from the metatable and use it to look up
-			// the method table
+			// first is method lookup. we get the object type from the metatable and
+			// use it to look up the method table and from there, the method itself
 			lua_pushstring(l, "type");
-			lua_rawget(l, -2);              // object, key, globals, metatable, type
+			lua_rawget(l, -2);                  // object, key, metatable, type
 
-			lua_rawget(l, -3);              // object, key, globals, metatable, method table
+			const std::string type(lua_tostring(l, -1));
+			lua_pop(l, 1);                      // object, key, metatable
+			SplitTablePath(l, type);            // object, key, metatable, "global" table, leaf type name
+			lua_rawget(l, -2);                  // object, key, metatable, "global" table, method table
+			lua_remove(l, -2);                  // object, key, metatable, method table
 		}
 
 		lua_pushvalue(l, 2);
-		lua_rawget(l, -2);                  // object, key, globals, metatable, method table, method
+		lua_rawget(l, -2);                  // object, key, metatable, method table, method
 
 		// found something, return it
 		if (!lua_isnil(l, -1))
@@ -254,17 +302,17 @@ static int dispatch_index(lua_State *l)
 		// didn't find anything. if the object has a parent object then we look
 		// there instead
 		lua_pushstring(l, "parent");
-		lua_rawget(l, -2);                  // object, key, globals, metatable, parent type
+		lua_rawget(l, -2);                  // object, key, metatable, parent type
 
 		// not found means we have no parents and we can't search any further
 		if (lua_isnil(l, -1))
 			break;
 
 		// clean up the stack
-		lua_remove(l, -2);                  // object, key, globals, parent type
+		lua_remove(l, -2);                  // object, key, parent type
 
 		// get the parent metatable
-		lua_rawget(l, LUA_REGISTRYINDEX);   // object, key, globals, parent metatable
+		lua_rawget(l, LUA_REGISTRYINDEX);   // object, key, parent metatable
 	}
 
 	luaL_error(l, "unable to resolve method or attribute '%s'", lua_tostring(l, 2));
@@ -273,7 +321,7 @@ static int dispatch_index(lua_State *l)
 
 void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta)
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -311,7 +359,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 {
 	assert(type);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	_instantiate();
 
@@ -336,6 +384,9 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	}
 	lua_pop(l, 1);
 
+	// drill down to the proper "global" table to add the method table to
+	SplitTablePath(l, type);
+
 	// create table, attach methods to it, leave it on the stack
 	lua_newtable(l);
     if (methods) luaL_setfuncs(l, methods, 0);
@@ -359,8 +410,11 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	lua_pushcfunction(l, LuaObjectBase::l_isa);
 	lua_rawset(l, -3);
 
-	// publish the method table as a global (and pop it from the stack)
-	lua_setglobal(l, type);
+	// publish the method table
+	lua_rawset(l, -3);
+
+	// remove the "global" table
+	lua_pop(l, 1);
 
 	// create the metatable, leave it on the stack
 	luaL_newmetatable(l, type);
@@ -409,7 +463,7 @@ bool LuaObjectBase::PushRegistered(DeleteEmitter *o)
 {
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -461,7 +515,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 			for (
 				std::map<std::string,PromotionTest>::const_iterator target_iter = (*base_iter).second.begin();
 				target_iter != (*base_iter).second.end();
-				target_iter++)
+				++target_iter)
 			{
 				if ((*target_iter).second(lo->m_object)) {
 					lo->m_type = (*target_iter).first.c_str();
@@ -481,7 +535,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 
 	registry->insert(std::make_pair(lo->m_id, lo));
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -508,7 +562,7 @@ DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
 {
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -536,7 +590,7 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 {
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
@@ -572,7 +626,7 @@ bool LuaObjectBase::Isa(const char *base) const
 
 	assert(instantiated);
 
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

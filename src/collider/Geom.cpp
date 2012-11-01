@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include <float.h>
 #include "Geom.h"
 #include "GeomTree.h"
@@ -27,7 +30,7 @@ void Geom::MoveTo(const matrix4x4d &m)
 	m_invOrient = m.InverseOf();
 }
 
-void Geom::MoveTo(const matrix4x4d &m, const vector3d pos)
+void Geom::MoveTo(const matrix4x4d &m, const vector3d &pos)
 {
 	m_orient = m;
 	m_orient[12] = pos.x;

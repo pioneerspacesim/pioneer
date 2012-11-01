@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GAMELOADERSAVER_H
 #define _GAMELOADERSAVER_H
 
@@ -18,7 +21,7 @@ protected:
 	virtual bool OnAction() = 0;
 
 private:
-	void OnClickLoad(std::string filename);
+	void OnClickLoad(const std::string &filename);
 	void OnClickBack();
 
 	FileSelectorWidget::Type m_type;

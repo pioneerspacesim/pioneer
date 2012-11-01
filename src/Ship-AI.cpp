@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Ship.h"
 #include "ShipAICmd.h"
@@ -9,8 +12,8 @@
 #include "SpaceStation.h"
 #include "Space.h"
 #include "LuaConstants.h"
+#include "LuaEvent.h"
 #include "KeyBindings.h"
-
 
 
 void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
@@ -87,7 +90,7 @@ bool Ship::AITimeStep(float timeStep)
 	if (m_curAICmd->TimeStepUpdate()) {
 		AIClearInstructions();
 //		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
-		Pi::luaOnAICompleted->Queue(this, LuaConstants::GetConstantString(Pi::luaManager->GetLuaState(), "ShipAIError", AIMessage()));
+		LuaEvent::Queue("onAICompleted", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipAIError", AIMessage()));
 		return true;
 	}
 	else return false;

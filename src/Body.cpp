@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "libs.h"
 #include "Body.h"
 #include "Frame.h"
@@ -13,6 +16,7 @@
 #include "Pi.h"
 #include "Space.h"
 #include "Game.h"
+#include "LuaEvent.h"
 
 Body::Body()
 {
@@ -197,7 +201,7 @@ void Body::UpdateFrame()
 			SetFrame(new_frame);
 			SetPosition(new_pos);
 
-			Pi::luaOnFrameChanged->Queue(this);
+			LuaEvent::Queue("onFrameChanged", this);
 
 			return;
 		}
@@ -225,7 +229,7 @@ void Body::UpdateFrame()
 		SetVelocity(m*(GetVelocity() - kid->GetVelocity())
 			+ kid->GetStasisVelocityAtPosition(pos));
 
-		Pi::luaOnFrameChanged->Queue(this);
+		LuaEvent::Queue("onFrameChanged", this);
 
 		break;
 	}

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _PLANET_H
 #define _PLANET_H
 
@@ -8,6 +11,7 @@
 namespace Graphics {
 	class Renderer;
 	class Texture;
+	class Material;
 }
 
 class Planet: public TerrainBody {
@@ -37,6 +41,11 @@ private:
 	double m_clipRadius;
 	RefCountedPtr<Graphics::Texture> m_ringTexture;
 	Graphics::VertexArray m_ringVertices;
+	ScopedPtr<Graphics::Material> m_ringMaterial;
+
+	// Legacy renderer visuals
+	ScopedPtr<Graphics::VertexArray> m_atmosphereVertices;
+	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
 };
 
 #endif /* _PLANET_H */

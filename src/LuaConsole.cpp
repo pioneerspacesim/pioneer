@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaConsole.h"
 #include "LuaManager.h"
 #include "Pi.h"
@@ -122,7 +125,7 @@ static void fetch_keys_from_table(lua_State * l, int table_index, const std::str
 	table_index = lua_absindex(l, table_index);
 	lua_pushnil(l);
 	while(lua_next(l, table_index)) {
-		if (lua_isstring(l, -2)) {
+		if (lua_type(l, -2) == LUA_TSTRING) {
 			std::string candidate(lua_tostring(l, -2));
 			bool attr = false;
 			if (candidate.substr(0, 12) == "__attribute_") {
@@ -137,38 +140,55 @@ static void fetch_keys_from_table(lua_State * l, int table_index, const std::str
 	}
 }
 
+class RecursionLimit {};
+
+static const int COMPLETION_RECURSION_LIMIT = 300;
+
 static void fetch_keys_from_metatable(lua_State * l, int metatable_index, const std::string & chunk, std::vector<std::string> & completion_list, bool only_functions) {
 	metatable_index = lua_absindex(l, metatable_index);
-
-	//First, determin whether where are stored the methods and attributes
-	lua_pushstring(l, "__index");
-	lua_rawget(l, metatable_index);
-	if (lua_istable(l, -1)) {
-		// Deal with inheritance first
-		if (lua_getmetatable(l, -1)) {
-			fetch_keys_from_metatable(l, -1, chunk, completion_list, only_functions);
-			lua_pop(l, 1);
+	int original_height = lua_gettop(l);
+	int recursion_count = 0;
+	lua_pushvalue(l, metatable_index);
+	while(true) {
+		//First, determin whether where are stored the methods and attributes
+		lua_pushstring(l, "__index");
+		lua_rawget(l, -2); // meta, meta.__index
+		if (lua_istable(l, -1)) {
+			fetch_keys_from_table(l, -1, chunk, completion_list, only_functions);
+			if (lua_getmetatable(l, -1)) { // meta, meta.__index, meta^2
+				// Avoid the weird cases where the metatable contains itself.
+				if (!lua_compare(l, -1, metatable_index, LUA_OPEQ) && recursion_count < COMPLETION_RECURSION_LIMIT) {
+					recursion_count++;
+					lua_replace(l, original_height+1);
+					lua_pop(l, 1);
+					continue;
+				} else {
+					lua_settop(l, original_height);
+					throw RecursionLimit();
+				}
+			}
+		} else if (lua_iscfunction(l, -1)) {
+		// Deal with the specifics of LuaObject stuff.
+			lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
+			lua_pushstring(l, "type");
+			lua_rawget(l, original_height+1);	// stuff, global, type
+			lua_rawget(l, -2);	// stuff, global, methods
+			if (lua_istable(l, -1))
+				fetch_keys_from_table(l, -1, chunk, completion_list, only_functions);
+			lua_pop(l, 1);	// Kick out the methods.
+			// Do the same for the parent
+			lua_pushstring(l, "parent");
+			lua_rawget(l, original_height+1);
+			if (!lua_isnil(l, -1)) {
+				lua_rawget(l, LUA_REGISTRYINDEX);
+				lua_replace(l, original_height+1);
+				lua_pop(l, 2);
+				continue;
+			}
 		}
-		fetch_keys_from_table(l, -1, chunk, completion_list, only_functions);
-
-	} else if (lua_iscfunction(l, -1)) {
-	// Deal with the specifics of LuaObject stuff.
-		lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
-		lua_pushstring(l, "type");
-		lua_rawget(l, metatable_index);	// stuff, global, type
-		lua_rawget(l, -2);	// stuff, global, methods
-        if (lua_istable(l, -1))
-            fetch_keys_from_table(l, -1, chunk, completion_list, only_functions);
-		lua_pop(l, 1);	// Kick out the methods.
-		// Do the same for the parent
-		lua_pushstring(l, "parent");
-		lua_rawget(l, metatable_index);
-		if (!lua_isnil(l, -1)) {
-			lua_rawget(l, LUA_REGISTRYINDEX);
-			fetch_keys_from_metatable(l, -1, chunk, completion_list, only_functions);
-			lua_pop(l, 1); // Clean the parent meta table.
-		}
+		break;
 	}
+	lua_settop(l, original_height);
 }
 
 void LuaConsole::UpdateCompletion(const std::string & statement) {
@@ -180,7 +200,7 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	std::string::const_iterator current_end = statement.end();
 	std::string::const_iterator current_begin = statement.begin(); // To keep record when breaking off the loop.
 	for (std::string::const_reverse_iterator r_str_it = statement.rbegin();
-			r_str_it != statement.rend(); r_str_it++) {
+			r_str_it != statement.rend(); ++r_str_it) {
 		if(Text::is_alphanumunderscore(*r_str_it)) {
 			expect_symbolname = false;
 			continue;
@@ -207,13 +227,13 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 		return;
 	}
 
-	lua_State * l = Pi::luaManager->GetLuaState();
+	lua_State * l = Lua::manager->GetLuaState();
 	int stackheight = lua_gettop(l);
 	lua_rawgeti(l, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 	// Loading the tables in which to do the name lookup
 	while (chunks.size() > 1) {
 		if (!lua_istable(l, -1) && !lua_isuserdata(l, -1))
-			return;
+			break; // Goes directly to the cleanup code anyway.
 		lua_pushstring(l, chunks.top().c_str());
 		lua_gettable(l, -2);
 		chunks.pop();
@@ -221,7 +241,12 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	if (lua_istable(l, -1))
 		fetch_keys_from_table(l, -1, chunks.top(), m_completionList, method);
 	if (lua_getmetatable(l, -1)) {
-		fetch_keys_from_metatable(l, -1, chunks.top(), m_completionList, method);
+		try {
+			fetch_keys_from_metatable(l, -1, chunks.top(), m_completionList, method);
+		} catch (RecursionLimit &) {
+			AddOutput("Warning: The recursion limit has been hit during the completion run.");
+			AddOutput("         There is most likely a recursion within the metatable structure.");
+		}
 	}
 	if(!m_completionList.empty()) {
 		std::sort(m_completionList.begin(), m_completionList.end());
@@ -262,7 +287,7 @@ void LuaConsole::AddOutput(const std::string &line) {
 void LuaConsole::ExecOrContinue() {
 	const std::string stmt = m_entryField->GetText();
 	int result;
-	lua_State *L = Pi::luaManager->GetLuaState();
+	lua_State *L = Lua::manager->GetLuaState();
 
     // If the statement is an expression, print its final value.
 	result = luaL_loadbuffer(L, ("return " + stmt).c_str(), stmt.size()+7, "console");
@@ -442,7 +467,7 @@ static int l_console_print(lua_State *L) {
 
 void LuaConsole::Register()
 {
-	lua_State *l = Pi::luaManager->GetLuaState();
+	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 

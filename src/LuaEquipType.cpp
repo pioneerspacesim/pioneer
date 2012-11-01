@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "LuaObject.h"
 #include "LuaEquipType.h"
 #include "LuaUtils.h"
@@ -177,7 +180,6 @@ static int l_equiptype_get_equip_types(lua_State *l)
 	}
 
 	lua_newtable(l);
-	pi_lua_table_ro(l);
 
 	for (int i = Equip::NONE; i < Equip::TYPE_MAX; i++) {
 		EquipType *et = const_cast<EquipType*>(&(Equip::types[i]));

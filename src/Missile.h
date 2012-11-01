@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _MISSILE_H
 #define _MISSILE_H
 
@@ -8,7 +11,7 @@
 class Missile: public Ship {
 public:
 	OBJDEF(Missile, Ship, MISSILE);
-	Missile(ShipType::Type type, Body *owner, Body *target);
+	Missile(ShipType::Id shipId, Body *owner, Body *target);
 	Missile() {}
 	virtual ~Missile() {}
 	void TimeStepUpdate(const float timeStep);

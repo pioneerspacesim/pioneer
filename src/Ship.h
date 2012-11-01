@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _SHIP_H
 #define _SHIP_H
 
@@ -16,6 +19,7 @@ class SpaceStation;
 class HyperspaceCloud;
 class AICommand;
 class ShipController;
+class CargoBody;
 namespace Graphics { class Renderer; }
 
 struct shipstats_t {
@@ -49,7 +53,7 @@ public:
 	};
 
 	OBJDEF(Ship, DynamicBody, SHIP);
-	Ship(ShipType::Type shipType);
+	Ship(ShipType::Id shipId);
 	Ship() {} //default constructor used before Load
 	virtual ~Ship();
 	void SetController(ShipController *c); //deletes existing
@@ -61,9 +65,6 @@ public:
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
 	int GetDockingPort() const { return m_dockedWithPort; }
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
-
-	const vector3d &GetFrontCameraOffset() const { return m_frontCameraOffset; }
-	const vector3d &GetRearCameraOffset() const { return m_rearCameraOffset; }
 
 	void SetThrusterState(int axis, double level) {
 		if (m_thrusterFuel <= 0.f) level = 0.0;
@@ -113,7 +114,7 @@ public:
 	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
-	bool Jettison(Equip::Type t);
+	bool SpawnCargo(CargoBody * c_body) const;
 
 	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
 
@@ -236,6 +237,11 @@ public:
 
 	sigc::signal<void> onDock;				// JJ: check what these are for
 	sigc::signal<void> onUndock;
+
+	// mutable because asking to know when state changes is not the same as
+	// actually changing state
+	mutable sigc::signal<void> onFlavourChanged;
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -280,8 +286,6 @@ private:
 
 	vector3d m_thrusters;
 	vector3d m_angThrusters;
-	vector3d m_frontCameraOffset;
-	vector3d m_rearCameraOffset;
 
 	AlertState m_alertState;
 	double m_lastFiringAlert;

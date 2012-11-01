@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
@@ -54,8 +57,7 @@ public:
 	// get the frustum. use for projection
 	const Graphics::Frustum &GetFrustum() const { return m_frustum; }
 
-protected:
-	bool m_showCameraBody;
+	void SetBodyVisible(bool v) { m_showCameraBody = v; }
 
 private:
 	void OnBodyDeleted();
@@ -108,9 +110,10 @@ private:
 			return a.camDist > b.camDist;
 		}
 	};
+
+	bool m_showCameraBody;
 	
 	std::list<BodyAttrs> m_sortedBodies;
-
 	std::vector<LightSource> m_lightSources;
 
 	Graphics::Renderer *m_renderer;

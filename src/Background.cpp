@@ -1,19 +1,21 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Background.h"
+#include "Frame.h"
+#include "galaxy/StarSystem.h"
+#include "Game.h"
 #include "perlin.h"
 #include "Pi.h"
-#include "galaxy/StarSystem.h"
-#include "Space.h"
-#include "Frame.h"
 #include "Player.h"
-#include <vector>
-#include "Game.h"
+#include "Space.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/StaticMesh.h"
 #include "graphics/Surface.h"
 #include "graphics/VertexArray.h"
-#include "graphics/Shader.h"
+#include <vector>
 
 using namespace Graphics;
 
@@ -25,15 +27,15 @@ void BackgroundElement::SetIntensity(float intensity)
 	m_material->emissive = Color(intensity);
 }
 
-Starfield::Starfield()
+Starfield::Starfield(Graphics::Renderer *r)
 {
-	Init();
+	Init(r);
 	//starfield is not filled without a seed
 }
 
-Starfield::Starfield(unsigned long seed)
+Starfield::Starfield(Graphics::Renderer *r, unsigned long seed)
 {
-	Init();
+	Init(r);
 	Fill(seed);
 }
 
@@ -44,16 +46,15 @@ Starfield::~Starfield()
 	delete[] m_hyperCol;
 }
 
-void Starfield::Init()
+void Starfield::Init(Graphics::Renderer *r)
 {
 	// reserve some space for positions, colours
 	VertexArray *stars = new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, BG_STAR_MAX);
 	m_model = new StaticMesh(POINTS);
-	m_shader.Reset(new Shader("bgstars"));
-	m_material.Reset(new Material());
-	m_material->unlit = true;
-	m_material->vertexColors = true;
-	m_material->shader = m_shader.Get();
+	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_STARFIELD;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
 	m_material->emissive = Color::WHITE;
 	m_model->AddSurface(new Surface(POINTS, stars, m_material));
 
@@ -87,26 +88,14 @@ void Starfield::Fill(unsigned long seed)
 
 void Starfield::Draw(Graphics::Renderer *renderer)
 {
-	if (AreShadersEnabled()) {
-		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
-	} else {
-		glDisable(GL_POINT_SMOOTH); //too large if smoothing is on
-		glPointSize(1.0f);
-	}
-
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		renderer->DrawStaticMesh(m_model);
 	} else {
-		/* HYPERSPACING!!!!!!!!!!!!!!!!!!! */
-		/* all this jizz isn't really necessary, since the player will
-		 * be in the root frame when hyperspacing... */
-		matrix4x4d m, rot;
-		Frame::GetFrameTransform(Pi::game->GetSpace()->GetRootFrame(), Pi::player->GetFrame(), m);
-		m.ClearToRotOnly();
-		Pi::player->GetRotMatrix(rot);
-		m = rot.InverseOf() * m;
-		vector3d pz(m[2], m[6], m[10]);
+		matrix4x4d m;
+		Pi::player->GetRotMatrix(m);
+		m = m.InverseOf();
+		vector3d pz(m[2], m[6], m[10]); //back vector
 
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
@@ -132,15 +121,11 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 			m_hyperVtx[i*2+1] = v;
 			m_hyperCol[i*2+1] = va->diffuse[i];
 		}
-		Pi::renderer->DrawLines(BG_STAR_MAX*2, m_hyperVtx, m_hyperCol);
-	}
-
-	if (AreShadersEnabled()) {
-		glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
+		renderer->DrawLines(BG_STAR_MAX*2, m_hyperVtx, m_hyperCol);
 	}
 }
 
-MilkyWay::MilkyWay()
+MilkyWay::MilkyWay(Graphics::Renderer *r)
 {
 	m_model = new StaticMesh(TRIANGLE_STRIP);
 
@@ -189,11 +174,10 @@ MilkyWay::MilkyWay()
 		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
 		dark);
 
-	m_material.Reset(new Material);
-	m_material->unlit = true;
-	m_material->vertexColors = true;
-	m_shader.Reset(new Shader("bgstars"));
-	m_material->shader = m_shader.Get();
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
+	//This doesn't fade. Could add a generic opacity/intensity value.
 	m_model->AddSurface(new Surface(TRIANGLE_STRIP, bottom, m_material));
 	m_model->AddSurface(new Surface(TRIANGLE_STRIP, top, m_material));
 }
@@ -209,11 +193,15 @@ void MilkyWay::Draw(Graphics::Renderer *renderer)
 	renderer->DrawStaticMesh(m_model);
 }
 
-Container::Container()
+Container::Container(Graphics::Renderer *r)
+: m_milkyWay(r)
+, m_starField(r)
 {
 }
 
-Container::Container(unsigned long seed)
+Container::Container(Graphics::Renderer *r, unsigned long seed)
+: m_milkyWay(r)
+, m_starField(r)
 {
 	Refresh(seed);
 };
@@ -236,7 +224,7 @@ void Container::Draw(Graphics::Renderer *renderer, const matrix4x4d &transform) 
 	matrix4x4d starTrans = transform * matrix4x4d::ScaleMatrix(1.0, 0.4, 1.0);
 	renderer->SetTransform(starTrans);
 	const_cast<Starfield&>(m_starField).Draw(renderer);
-	Pi::renderer->SetDepthTest(true);
+	renderer->SetDepthTest(true);
 	glPopMatrix();
 }
 

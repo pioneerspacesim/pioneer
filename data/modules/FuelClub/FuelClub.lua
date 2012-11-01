@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 ---------------
 -- Fuel Club --
 ---------------
@@ -212,7 +215,7 @@ local unserialize = function (data)
 	loaded_data = data
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onGameStart:Connect(onGameStart)
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onGameStart", onGameStart)
 
 Serializer:Register("FuelClub", serialize, unserialize)

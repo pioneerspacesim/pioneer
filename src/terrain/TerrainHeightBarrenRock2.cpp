@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Terrain.h"
 #include "TerrainNoise.h"
 #include "TerrainFeature.h"
@@ -20,7 +23,7 @@ template <>
 double TerrainHeightFractal<TerrainHeightBarrenRock2>::GetHeight(const vector3d &p)
 {
 
-	float heightmap = billow_octavenoise(16, 0.3*octavenoise(8, 0.4, 2.5, p),Clamp(5.0*ridged_octavenoise(8, 0.377, 4.0, p), 1.0, 5.0), p);
+	double n = billow_octavenoise(16, 0.3*octavenoise(8, 0.4, 2.5, p),Clamp(5.0*ridged_octavenoise(8, 0.377, 4.0, p), 1.0, 5.0), p);
 
-	return m_maxHeight*heightmap;
+	return (n > 0.0? m_maxHeight*n : 0.0);
 }

@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _INICONFIG_H
 #define _INICONFIG_H
 
@@ -6,13 +9,19 @@
 #include <map>
 #include <string>
 
-namespace FileSystem { class FileData; }
+namespace FileSystem {
+	class FileData;
+	class FileSource;
+	class FileSourceFS;
+}
 
 class IniConfig {
 public:
-	void Load();
-	void Load(const FileSystem::FileData &data);
-	bool Save();
+	IniConfig() {}
+
+	void Read(FileSystem::FileSource &fs, const std::string &path);
+	void Read(const FileSystem::FileData &data);
+	bool Write(FileSystem::FileSourceFS &fs, const std::string &path);
 
 	void SetInt(const char *key, int val) {
 		m_map[key] = stringf("%0{d}", val);
@@ -35,16 +44,8 @@ public:
 		return m_map[key];
 	}
 
-	const std::string &GetFilename() const { return m_filename; }
-
 protected:
-	IniConfig() {}
-	explicit IniConfig(const std::string &filename): m_filename(filename) {}
-
 	std::map<std::string, std::string> m_map;
-
-private:
-	std::string m_filename;
 };
 
 #endif /* _INICONFIG_H */

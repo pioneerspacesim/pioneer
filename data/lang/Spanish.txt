@@ -79,6 +79,8 @@ WEIGHT_FULLY_LADEN
     Peso a carga completa
 CAPACITY
     Capacidad
+CAPACITY_USED
+    Capacidad usada
 FORWARD_ACCEL_EMPTY
     Aceleración (vacío)
 NUMBER_G
@@ -214,10 +216,14 @@ LOAD_A_GAME
     [L] Cargar un Juego
 EXIT_THIS_GAME
     Abandonar el Juego
+RETURN_TO_MENU
+    Volver a menu
 WINDOW_OR_FULLSCREEN
     Ventana o Pantalla completa (Reiniciar para aplicar)
 FULL_SCREEN
     Pantalla completa
+COMPRESS_TEXTURES
+    Comprimir Texturas
 OTHER_GRAPHICS_SETTINGS
     Otras opciones gráficas
 USE_SHADERS
@@ -480,8 +486,12 @@ HYPERDRIVE
     Motor hiperespacial
 FREE
     Libre
+FREE_LOWERCASE
+    libre
 USED
     Utilizado
+FUEL_WEIGHT
+    Masa de fuel
 TOTAL_WEIGHT
     Masa total
 FRONT_WEAPON
@@ -494,10 +504,12 @@ NO_MOUNTING
     Sin montura
 N_LIGHT_YEARS_N_MAX
     %distance{f.1} años luz (%maxdistance{f.1} max)
+MAX
+        máx
 SHIP_INFORMATION
     Info de la nave
-REPUTATION
-    Reputación
+PERSONAL
+    Personal
 MISSIONS
     Misiones
 SHIFT
@@ -610,18 +622,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulando la evolución del universo: %age{f.1} billones de años ;-)
 TOMBSTONE_EPITAPH
     RIP VIEJO AMIGO
-MM_START_NEW_GAME_EARTH
-    Comenzar Juego Nuevo en la Tierra
-MM_START_NEW_GAME_E_ERIDANI
-    Comenzar Juego Nuevo en Epsilon Eridani
-MM_START_NEW_GAME_LAVE
-    Comenzar Juego Nuevo en Lave
-MM_START_NEW_GAME_DEBUG
-    Comenzar Juego Nuevo en punto de depuración
-MM_LOAD_SAVED_GAME
-    Cargar un juego
-MM_QUIT
-    Salir
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -740,14 +740,34 @@ SHIP_IS_FULLY_LADEN
     Su nave está completamente cargada.
 YOU_DO_NOT_HAVE_ANY_X
     No dispone de %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Vista frontal
-REAR_VIEW
+CAMERA_REAR_VIEW
     Vista trasera
+CAMERA_LEFT_VIEW
+    Vista izquierda
+CAMERA_TOP_VIEW
+    Vista superior
+CAMERA_RIGHT_VIEW
+    Vista derecha
+CAMERA_BOTTOM_VIEW
+    Vista inferior
+INTERNAL_VIEW
+    Vista interior 
 EXTERNAL_VIEW
     Vista externa
 SIDEREAL_VIEW
     Vista sideral
+ROTATE_UP
+    Rotar arriba
+ROTATE_DOWN
+    Rotar abajo
+ROTATE_LEFT
+    Rotar izquierda
+ROTATE_RIGHT
+    Rotar derecha
+RESET
+    Reset
 NAVIGATION_STAR_MAPS
     Navegación y mapas estelares
 COMMS
@@ -958,6 +978,8 @@ MASS
     Masa
 N_WHATEVER_MASSES
     %mass{f.3} masa %units
+N_WHATEVER_RADII
+    %radius{f.3} radios %units 
 SOLAR
     Solar
 EARTH
@@ -1026,6 +1048,8 @@ ECONOMY_TYPE
     Sistema económico:
 ALLEGIANCE
     Alianza:
+FACTION
+    Facción:
 POPULATION
     Habitantes:
 OVER_N_BILLION
@@ -1200,3 +1224,29 @@ X_PASSENGER_CABINS
     %quantity cabinas de pasajeros ocupadas
 CABINS
     Cabinas
+MONTH_JAN
+    Ene
+MONTH_FEB
+    Feb
+MONTH_MAR
+    Mar
+MONTH_APR
+    Abr
+MONTH_MAY
+    May
+MONTH_JUN
+    Jun
+MONTH_JUL
+    Jul
+MONTH_AUG
+    Ago
+MONTH_SEP
+    Sep
+MONTH_OCT
+    Oct
+MONTH_NOV
+    Nov
+MONTH_DEC
+    Dic
+MISCELLANEOUS
+    Miscelaneos

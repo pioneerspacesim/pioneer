@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _DRAWABLES_H
 #define _DRAWABLES_H
 
@@ -42,6 +45,20 @@ public:
 private:
 	std::vector<vector3f> m_verts;
 	Color m_color;
+};
+
+// Two-dimensional filled circle
+class Disk : public Drawable {
+public:
+	Disk(Graphics::Renderer *r, const Color &c, float radius);
+	virtual ~Disk() { }
+	virtual void Draw(Graphics::Renderer *r);
+
+	void SetColor(const Color&);
+
+private:
+	ScopedPtr<Graphics::VertexArray> m_vertices;
+	RefCountedPtr<Material> m_material;
 };
 
 //A three dimensional line between two points

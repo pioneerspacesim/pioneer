@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _CUSTOMSYSTEM_H
 #define _CUSTOMSYSTEM_H
 
@@ -20,10 +23,12 @@ public:
 	fixed                  semiMajorAxis; // in AUs
 	fixed                  eccentricity;
 	fixed                  orbitalOffset;
+	fixed                  orbitalPhaseAtStart; // mean anomaly at start 0 to 2 pi 
 	bool                   want_rand_offset;
 	// for orbiting things, latitude = inclination
 	float                  latitude, longitude; // radians
 	fixed                  rotationPeriod; // in days
+	fixed                  rotationalPhaseAtStart; // 0 to 2 pi
 	fixed                  axialTilt; // in radians
 	std::string            heightMapFilename;
 	int                    heightMapFractal;

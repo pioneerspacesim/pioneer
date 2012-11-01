@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GAMECONFIG_H
 #define _GAMECONFIG_H
 
@@ -5,7 +8,10 @@
 
 class GameConfig : public IniConfig {
 public:
-	GameConfig(const std::string &filename);
+	GameConfig();
+
+	void Load();
+	bool Save();
 };
 
 #endif

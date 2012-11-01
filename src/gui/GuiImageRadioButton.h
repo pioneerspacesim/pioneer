@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _GUIIMAGERADIOBUTTON_H
 #define _GUIIMAGERADIOBUTTON_H
 
@@ -13,6 +16,7 @@ namespace Gui {
 		virtual ~ImageRadioButton();
 		virtual void Draw();
 		virtual void GetSizeRequested(float size[2]);
+		void SetRenderDimensions(const float wide, const float high);
 	private:
 		Image *m_imgNormal;
 		Image *m_imgPressed;

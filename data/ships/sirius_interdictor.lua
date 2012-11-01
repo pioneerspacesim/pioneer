@@ -1,14 +1,22 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 define_ship {
 	name='Sirius Interdictor',
 	model='interdictor',
-	forward_thrust = -24e6,
+	forward_thrust = 24e6,
 	reverse_thrust = 12e6,
 	up_thrust = 6e6,
-	down_thrust = -6e6,
-	left_thrust = -6e6,
+	down_thrust = 6e6,
+	left_thrust = 6e6,
 	right_thrust = 6e6,
 	angular_thrust = 120e6,
-	gun_mounts = { { v(0,-0.5,0), v(0,0,-1) }, { v(0,-0.5,0), v(0,0,1) }, },
+	camera_offset = v(0,4,-17.5),
+	gun_mounts =
+	{
+		{ v(0,-0.5,0), v(0,0,-1), 5, 'HORIZONTAL' },
+		{ v(0,-0.5,0), v(0,0,1), 5, 'HORIZONTAL' },
+	},
 	max_cargo = 90,
 	max_laser = 2,
 	max_missile = 8,

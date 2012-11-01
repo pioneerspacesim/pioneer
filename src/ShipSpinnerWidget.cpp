@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "ShipSpinnerWidget.h"
 #include "Pi.h"
 #include "Game.h"
@@ -9,7 +12,7 @@ ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, fl
 	m_width(width),
 	m_height(height)
 {
-	m_model = LmrLookupModelByName(ShipType::types[flavour.type].lmrModelName.c_str());
+	m_model = LmrLookupModelByName(ShipType::types[flavour.id].lmrModelName.c_str());
 
 	memset(&m_params, 0, sizeof(LmrObjParams));
 	m_params.animationNamespace = "ShipAnimation";

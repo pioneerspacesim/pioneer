@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _PROJECTILE_H
 #define _PROJECTILE_H
 
@@ -20,7 +23,7 @@ public:
 
 	Projectile();
 	virtual ~Projectile();
-	virtual void SetPosition(vector3d p);
+	virtual void SetPosition(const vector3d &p);
 	virtual vector3d GetPosition() const { return vector3d(m_orient[12], m_orient[13], m_orient[14]); }
 	virtual double GetBoundingRadius() const { return m_radius; }
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
@@ -47,8 +50,8 @@ private:
 
 	ScopedPtr<Graphics::VertexArray> m_sideVerts;
 	ScopedPtr<Graphics::VertexArray> m_glowVerts;
-	Graphics::Material m_sideMat;
-	Graphics::Material m_glowMat;
+	ScopedPtr<Graphics::Material> m_sideMat;
+	ScopedPtr<Graphics::Material> m_glowMat;
 };
 
 #endif /* _PROJECTILE_H */

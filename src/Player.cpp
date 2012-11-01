@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Player.h"
 #include "Frame.h"
 #include "Game.h"
@@ -16,7 +19,7 @@
 static Sound::Event s_soundUndercarriage;
 static Sound::Event s_soundHyperdrive;
 
-Player::Player(ShipType::Type shipType): Ship(shipType)
+Player::Player(ShipType::Id shipId): Ship(shipId)
 {
 	SetController(new PlayerShipController());
 	m_killCount = 0;

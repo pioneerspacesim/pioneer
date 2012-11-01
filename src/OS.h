@@ -1,3 +1,6 @@
+// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef _OS_H
 #define _OS_H
 /*
@@ -13,6 +16,7 @@ namespace OS {
 	void Warning(const char *format, ...)  __attribute((format(printf,1,2)));
 	void LoadWindowIcon();
 
+	void RedirectStdio();
 }
 
 #endif

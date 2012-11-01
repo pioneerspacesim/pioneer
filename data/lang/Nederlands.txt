@@ -581,16 +581,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Bezig met simuleren: evolutie van het universum - %age{f.1} biljoen jaar ;-)
 TOMBSTONE_EPITAPH
     RIP OUDE KNAR
-MM_START_NEW_GAME_EARTH
-    Nieuw spel, start op Aarde
-MM_START_NEW_GAME_E_ERIDANI
-    Nieuw spel, start op Epsilon Eridani
-MM_START_NEW_GAME_DEBUG
-    Nieuw spel, start op debug punt
-MM_LOAD_SAVED_GAME
-    Laad een save-game
-MM_QUIT
-    Beëindig spel
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -705,9 +695,9 @@ SHIP_IS_FULLY_LADEN
     Uw schip is volledig beladen.
 YOU_DO_NOT_HAVE_ANY_X
     U heeft geen %item.
-FRONT_VIEW
+CAMERA_FRONT_VIEW
     Zicht voorzijde
-REAR_VIEW
+CAMERA_REAR_VIEW
     Zicht achterzijde
 EXTERNAL_VIEW
     Extern zicht

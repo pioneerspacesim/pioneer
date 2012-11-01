@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 -- Get the translator function
 local t = Translate:GetTranslator()
 
@@ -221,8 +224,8 @@ local onEnterSystem = function (player)
 				ships = ships-1
 
 				if Engine.rand:Number(1) <= risk then
-					local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-					local shiptype = ShipType.GetShipType(shipname)
+					local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+					local shiptype = ShipType.GetShipType(shipid)
 					local default_drive = shiptype.defaultHyperdrive
 
 					local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
@@ -231,7 +234,7 @@ local onEnterSystem = function (player)
 					end)
 					local laser = lasers[Engine.rand:Integer(1,#lasers)]
 
-					ship = Space.SpawnShipNear(shipname, Game.player, 50, 100)
+					ship = Space.SpawnShipNear(shipid, Game.player, 50, 100)
 					ship:AddEquip(default_drive)
 					ship:AddEquip(laser)
 					ship:AddEquip('SHIELD_GENERATOR', math.ceil(risk * 3))
@@ -335,13 +338,13 @@ local unserialize = function (data)
 	loaded_data = data
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onUpdateBB:Connect(onUpdateBB)
-EventQueue.onEnterSystem:Connect(onEnterSystem)
-EventQueue.onLeaveSystem:Connect(onLeaveSystem)
-EventQueue.onShipUndocked:Connect(onShipUndocked)
-EventQueue.onShipDocked:Connect(onShipDocked)
-EventQueue.onGameStart:Connect(onGameStart)
-EventQueue.onGameEnd:Connect(onGameEnd)
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onUpdateBB", onUpdateBB)
+Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onLeaveSystem", onLeaveSystem)
+Event.Register("onShipUndocked", onShipUndocked)
+Event.Register("onShipDocked", onShipDocked)
+Event.Register("onGameStart", onGameStart)
+Event.Register("onGameEnd", onGameEnd)
 
 Serializer:Register("Taxi", serialize, unserialize)

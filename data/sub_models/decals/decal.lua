@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
+
 --[[ sub-model for use in all models to place (cutout) decals on them,
 	 texture can have a alpha channel for a cutout decal but it's not a must
 	 if sequence is expandet so all squadrons can use all decals

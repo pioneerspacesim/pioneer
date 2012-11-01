@@ -1,3 +1,6 @@
+-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 -- Get the translator function
 local t = Translate:GetTranslator()
 
@@ -75,6 +78,7 @@ local onChat = function (form, ref, option)
 			flavour		= ad.flavour,
 			location	= ad.location,
 			reward		= ad.reward,
+			shipid		= ad.shipid,
 			shipname	= ad.shipname,
 			shipregid	= ad.shipregid,
 			status		= 'ACTIVE',
@@ -126,7 +130,8 @@ local makeAdvert = function (station)
 	local reward = Engine.rand:Number(2100, 7000) * danger
 	local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
 		return (t.hullMass >= (danger * 17)) and (t:GetEquipSlotCapacity('ATMOSHIELD') > 0) end)
-	local shipname = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+	local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
+	local shipname = ShipType.GetShipType(shipid).name
 
 	local ad = {
 		client = client,
@@ -137,6 +142,7 @@ local makeAdvert = function (station)
 		isfemale = isfemale,
 		location = location,
 		reward = reward,
+		shipid = shipid,
 		shipname = shipname,
 		shipregid = RandomShipRegId(),
 		station = station,
@@ -215,13 +221,13 @@ local onEnterSystem = function (ship)
 				if mission.due > Game.time then
 					if mission.location:IsSameSystem(syspath) then -- spawn our target ship
 						local station = Space.GetBody(mission.location.bodyIndex)
-						local shiptype = ShipType.GetShipType(mission.shipname)
+						local shiptype = ShipType.GetShipType(mission.shipid)
 						local default_drive = shiptype.defaultHyperdrive
 						local lasers = EquipType.GetEquipTypes('LASER', function (e,et) return et.slot == "LASER" end)
 						local count = tonumber(string.sub(default_drive, -1)) ^ 2
 						local laser = lasers[mission.danger]
 
-						mission.ship = Space.SpawnShipDocked(mission.shipname, station)
+						mission.ship = Space.SpawnShipDocked(mission.shipid, station)
 						if mission.ship == nil then
 							return -- TODO
 						end
@@ -417,17 +423,17 @@ local unserialize = function (data)
 	end
 end
 
-EventQueue.onCreateBB:Connect(onCreateBB)
-EventQueue.onGameStart:Connect(onGameStart)
-EventQueue.onEnterSystem:Connect(onEnterSystem)
-EventQueue.onLeaveSystem:Connect(onLeaveSystem)
-EventQueue.onShipDestroyed:Connect(onShipDestroyed)
-EventQueue.onShipUndocked:Connect(onShipUndocked)
-EventQueue.onAICompleted:Connect(onAICompleted)
-EventQueue.onShipDocked:Connect(onShipDocked)
-EventQueue.onShipHit:Connect(onShipHit)
-EventQueue.onUpdateBB:Connect(onUpdateBB)
-EventQueue.onGameEnd:Connect(onGameEnd)
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onGameStart", onGameStart)
+Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onLeaveSystem", onLeaveSystem)
+Event.Register("onShipDestroyed", onShipDestroyed)
+Event.Register("onShipUndocked", onShipUndocked)
+Event.Register("onAICompleted", onAICompleted)
+Event.Register("onShipDocked", onShipDocked)
+Event.Register("onShipHit", onShipHit)
+Event.Register("onUpdateBB", onUpdateBB)
+Event.Register("onGameEnd", onGameEnd)
 
 
 Serializer:Register("Assassination", serialize, unserialize)
