@@ -33,9 +33,16 @@ Single *Single::SetInnerWidget(Widget *widget)
 void Single::RemoveInnerWidget()
 {
 	if (m_innerWidget) {
-		RemoveWidget(m_innerWidget);
+		Container::RemoveWidget(m_innerWidget);
 		m_innerWidget = 0;
 	}
+}
+
+void Single::RemoveWidget(Widget *widget)
+{
+	if (m_innerWidget != widget)
+		return;
+	RemoveInnerWidget();
 }
 
 }

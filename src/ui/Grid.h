@@ -29,6 +29,9 @@ public:
 	size_t GetNumRows() const { return m_numRows; }
 	size_t GetNumCols() const { return m_numCols; }
 
+protected:
+	virtual void RemoveWidget(Widget *);
+
 private:
 	CellSpec m_rowSpec, m_colSpec;
 	int m_numRows, m_numCols;

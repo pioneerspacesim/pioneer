@@ -163,7 +163,7 @@ static int l_ship_set_type(lua_State *l)
 	ShipFlavour f(type);
 
 	s->ResetFlavour(&f);
-	s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.type].hyperdrive);
+	s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.id].hyperdrive);
 	s->UpdateStats();
 
 	LUA_DEBUG_END(l, 0);
@@ -409,7 +409,7 @@ static void _prepare_colour(lua_State *l, LmrMaterial &m)
  *
  * Status:
  *
- *  stable
+ *  deprecated
  */
 static int l_ship_set_primary_colour(lua_State *l)
 {
@@ -454,7 +454,7 @@ static int l_ship_set_primary_colour(lua_State *l)
  *
  * Status:
  *
- *  stable
+ *  deprecated
  */
 static int l_ship_set_secondary_colour(lua_State *l)
 {
@@ -464,6 +464,48 @@ static int l_ship_set_secondary_colour(lua_State *l)
 	_prepare_colour(l, f.secondaryColor);
 	s->UpdateFlavour(&f);
 
+	return 0;
+}
+
+static inline void _colour_to_table(lua_State *l, const char *name, const float rgba[4])
+{
+	lua_newtable(l);
+	pi_lua_settable(l, "r", rgba[0]);
+	pi_lua_settable(l, "g", rgba[1]);
+	pi_lua_settable(l, "b", rgba[2]);
+	pi_lua_settable(l, "a", rgba[3]);
+	lua_setfield(l, -2, name);
+}
+
+/*
+ * Method: SetFlavour
+ *
+ * Set various attributes that describe variations in the way the ship model
+ * is rendered.
+ *
+ * > ship:SetFlavour(flavour)
+ *
+ * The recommended way to use this method is to get the existing flavour from
+ * the ship's <flavour> attribute, modify the data you want, and then call
+ * <SetFlavour> to reset it.
+ *
+ * Parameters:
+ *
+ *   flavour - a table with structure as defined in <flavour>.
+ *
+ * Availability:
+ *
+ *   alpha 27
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_ship_set_flavour(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	ShipFlavour f = ShipFlavour::FromLuaTable(l, 2);
+	s->UpdateFlavour(&f);
 	return 0;
 }
 
@@ -775,40 +817,33 @@ static int l_ship_get_equip_free(lua_State *l)
 }
 
 /*
- * Method: Jettison
+ * Method: SpawnCargo
  *
- * Jettison one unit of the given cargo type
+ * Spawns a container right next to the ship.
  *
- * > success = ship:Jettison(item)
- *
- * On sucessful jettison, the <Event.onJettison> event is triggered.
+ * > success = ship:SpawnCargo(item)
  *
  * Parameters:
  *
- *   item - the item to jettison
+ *  item - the item to put in the container.
  *
  * Result:
  *
- *   success - true if the item was jettisoned, false if the ship has no items
- *             of that type or the ship is not in open flight
+ *   success: true if the container was spawned, false otherwise.
  *
  * Availability:
  *
- *   alpha 10
+ *   alpha 26
  *
  * Status:
  *
  *   experimental
  */
-static int l_ship_jettison(lua_State *l)
-{
+static int l_ship_spawn_cargo(lua_State *l) {
 	Ship *s = LuaShip::GetFromLua(1);
-	if (s->GetFlightState() == Ship::HYPERSPACE)
-		return luaL_error(l, "Ship:Jettison() cannot be called on a ship in hyperspace");
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
-
-	lua_pushboolean(l, s->Jettison(e));
-	return 1;
+	CargoBody * c_body = new CargoBody(static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2))));
+    lua_pushboolean(l, s->SpawnCargo(c_body));
+    return 1;
 }
 
 /*
@@ -1085,6 +1120,66 @@ static int l_ship_hyperspace_to(lua_State *l)
  */
 
 /*
+ * Attribute: flavour
+ *
+ * Various attributes that describe variations in the way the ship model is
+ * rendered.
+ *
+ * flavour is a table with the following keys:
+ *
+ *   id - the id (name) of the ship definition
+ *
+ *   regId - the registration ID that will be displayed on the side of the
+ *           ship. Usually the same as the ship's label
+ *
+ *   price - trade price for the ship
+ *
+ *   primaryColour - a table describing the ship's primary colour. Contains
+ *                  three tables "diffuse", "specular" and "emissive", each
+ *                  containing values "r", "g", "b" and "a" for the colour,
+ *                  and a fourth value "shininess". These form a typical
+ *                  OpenGL material
+ *
+ *   secondaryColour - a table describing the ship's secondary colour. The
+ *                     structure is the same as primaryColour
+ *
+ * Availability:
+ *
+ *   alpha 27
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_ship_attr_flavour(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+
+	ShipFlavour f = *(s->GetFlavour());
+
+	lua_newtable(l);
+	pi_lua_settable(l, "id",    f.id.c_str());
+	pi_lua_settable(l, "regId", f.regid.c_str());
+	pi_lua_settable(l, "price", double(f.price)*0.01);
+
+	lua_newtable(l);
+	_colour_to_table(l, "diffuse", f.primaryColor.diffuse);
+	_colour_to_table(l, "specular", f.primaryColor.specular);
+	_colour_to_table(l, "emissive", f.primaryColor.emissive);
+	pi_lua_settable(l, "shininess", f.primaryColor.shininess);
+	lua_setfield(l, -2, "primaryColour");
+
+	lua_newtable(l);
+	_colour_to_table(l, "diffuse", f.secondaryColor.diffuse);
+	_colour_to_table(l, "specular", f.secondaryColor.specular);
+	_colour_to_table(l, "emissive", f.secondaryColor.emissive);
+	pi_lua_settable(l, "shininess", f.secondaryColor.shininess);
+	lua_setfield(l, -2, "secondaryColour");
+
+	return 1;
+}
+
+/*
  * Attribute: alertStatus
  *
  * The current alert status of the ship. A <Constants.ShipAlertStatus> string.
@@ -1125,10 +1220,34 @@ static int l_ship_attr_flight_state(lua_State *l)
 }
 
 /*
+ * Attribute: shipId
+ *
+ * The internal id of the ship type. This value can be passed to
+ * <ShipType.GetShipType> to retrieve information about this ship type.
+ *
+ * Availability:
+ *
+ *  alpha 28
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_ship_attr_ship_id(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	const ShipType &st = s->GetShipType();
+	lua_pushstring(l, st.id.c_str());
+	return 1;
+}
+
+/*
  * Attribute: shipType
  *
- * The type of the ship. This value can be passed to <ShipType.GetShipType>
- * to retrieve information about this ship type.
+ * The internal id of the ship type. This value can be passed to
+ * <ShipType.GetShipType> to retrieve information about this ship type.
+ *
+ * This attribute is deprecated. Use <shipId> instead.
  *
  * Availability:
  *
@@ -1136,13 +1255,13 @@ static int l_ship_attr_flight_state(lua_State *l)
  *
  * Status:
  *
- *  stable
+ *  deprecated
  */
 static int l_ship_attr_ship_type(lua_State *l)
 {
 	Ship *s = LuaShip::GetFromLua(1);
 	const ShipType &st = s->GetShipType();
-	lua_pushstring(l, st.name.c_str());
+	lua_pushstring(l, st.id.c_str());
 	return 1;
 }
 
@@ -1416,6 +1535,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetLabel",           l_ship_set_label            },
 		{ "SetPrimaryColour",   l_ship_set_primary_colour   },
 		{ "SetSecondaryColour", l_ship_set_secondary_colour },
+		{ "SetFlavour",         l_ship_set_flavour          },
 
 		{ "GetEquipSlotCapacity", l_ship_get_equip_slot_capacity },
 		{ "GetEquip",         l_ship_get_equip           },
@@ -1425,7 +1545,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetEquipCount",    l_ship_get_equip_count     },
 		{ "GetEquipFree",     l_ship_get_equip_free      },
 
-		{ "Jettison", l_ship_jettison },
+		{ "SpawnCargo", l_ship_spawn_cargo },
 
 		{ "FireMissileAt", l_ship_fire_missile_at },
 
@@ -1450,8 +1570,10 @@ template <> void LuaObject<Ship>::RegisterClass()
 	};
 
 	static const luaL_Reg l_attrs[] = {
+        { "flavour",     l_ship_attr_flavour },
 		{ "alertStatus", l_ship_attr_alert_status },
 		{ "flightState", l_ship_attr_flight_state },
+		{ "shipId",      l_ship_attr_ship_id },
 		{ "shipType",    l_ship_attr_ship_type },
 		{ "fuel",        l_ship_attr_fuel },
 		{ 0, 0 }

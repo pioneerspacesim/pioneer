@@ -19,7 +19,7 @@ public:
 private:
 	void OnClickAction();
 	void OnClickCancel();
-	void OnClickFile(std::string file);
+	void OnClickFile(const std::string &file);
 
 	Type m_type;
 	std::string m_title;

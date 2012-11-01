@@ -19,6 +19,7 @@ class SpaceStation;
 class HyperspaceCloud;
 class AICommand;
 class ShipController;
+class CargoBody;
 namespace Graphics { class Renderer; }
 
 struct shipstats_t {
@@ -52,7 +53,7 @@ public:
 	};
 
 	OBJDEF(Ship, DynamicBody, SHIP);
-	Ship(ShipType::Type shipType);
+	Ship(ShipType::Id shipId);
 	Ship() {} //default constructor used before Load
 	virtual ~Ship();
 	void SetController(ShipController *c); //deletes existing
@@ -113,7 +114,7 @@ public:
 	FlightState GetFlightState() const { return m_flightState; }
 	void SetFlightState(FlightState s);
 	float GetWheelState() const { return m_wheelState; }
-	bool Jettison(Equip::Type t);
+	bool SpawnCargo(CargoBody * c_body) const;
 
 	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
 

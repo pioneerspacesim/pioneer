@@ -88,13 +88,13 @@ static int l_game_load_game(lua_State *l)
 		return 0;
 	}
 
-	const std::string filename(FileSystem::JoinPath(Pi::GetSaveDir(), luaL_checkstring(l, 1)));
+	const std::string filename(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, luaL_checkstring(l, 1)));
 
-	Game *newGame;
+	Game *newGame = 0;
 
 	// XXX use FileSystem stuff
 	try {
-		FILE *f = fopen(filename.c_str(), "rb");
+		FILE *f = FileSystem::userFiles.OpenReadStream(filename);
 		if (!f) throw CouldNotOpenFileException();
 
 		Serializer::Reader rd(f);

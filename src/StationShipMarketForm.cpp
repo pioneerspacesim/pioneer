@@ -76,11 +76,11 @@ void StationShipMarketForm::UpdateShipList()
 	for (std::vector<ShipFlavour>::const_iterator i = ships.begin(); i!=ships.end(); ++i) {
 		Gui::Fixed *f = new Gui::Fixed(450, line_height);
 
-		Gui::Label *l = new Gui::Label(ShipType::types[(*i).type].name);
+		Gui::Label *l = new Gui::Label(ShipType::types[(*i).id].name);
 		f->Add(l,0,0);
 		f->Add(new Gui::Label(format_money((*i).price)), 200, 0);
 		f->Add(new Gui::Label(format_money((*i).price - Pi::player->GetFlavour()->price) ), 275, 0);
-		f->Add(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", ShipType::types[(*i).type].capacity))), 370, 0);
+		f->Add(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", ShipType::types[(*i).id].capacity))), 370, 0);
 
 		Gui::SolidButton *sb = new Gui::SolidButton();
 		sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipMarketForm::ViewShip), num));

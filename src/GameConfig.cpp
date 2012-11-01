@@ -3,8 +3,9 @@
 
 #include "GameConfig.h"
 #include "KeyBindings.h"
+#include "FileSystem.h"
 
-GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
+GameConfig::GameConfig()
 {
 	// set defaults
 	m_map["Lang"] = "English";
@@ -43,4 +44,14 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 #endif
 
 	Load();
+}
+
+void GameConfig::Load()
+{
+	Read(FileSystem::userFiles, "config.ini");
+}
+
+bool GameConfig::Save()
+{
+	return Write(FileSystem::userFiles, "config.ini");
 }

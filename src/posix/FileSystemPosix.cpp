@@ -77,22 +77,16 @@ namespace FileSystem {
 #endif
     }
 
-	std::string GetUserDir(const char *subdir)
+	std::string GetUserDir()
 	{
 		static const std::string user_path = FindUserDir();
-		if (subdir)
-			return JoinPathBelow(user_path, subdir);
-		else
-			return user_path;
+		return user_path;
 	}
 
-	std::string GetDataDir(const char *subdir)
+	std::string GetDataDir()
 	{
         static const std::string data_path = FindDataDir();
-		if (subdir)
-			return JoinPathBelow(data_path, subdir);
-		else
-			return data_path;
+		return data_path;
 	}
 
 	FileSourceFS::FileSourceFS(const std::string &root):
@@ -231,5 +225,17 @@ namespace FileSystem {
 	{
 		const std::string fullpath = JoinPathBelow(GetRoot(), path);
 		return make_directory_raw(fullpath);
+	}
+
+	FILE* FileSourceFS::OpenReadStream(const std::string &path)
+	{
+		const std::string fullpath = JoinPathBelow(GetRoot(), path);
+		return fopen(fullpath.c_str(), "rb");
+	}
+
+	FILE* FileSourceFS::OpenWriteStream(const std::string &path, int flags)
+	{
+		const std::string fullpath = JoinPathBelow(GetRoot(), path);
+		return fopen(fullpath.c_str(), (flags & WRITE_TEXT) ? "w" : "wb");
 	}
 }

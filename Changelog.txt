@@ -1,7 +1,8 @@
 Alpha 28
 
    * New features
-     * First stages of the new UI system (#1586, #1625, #1623, #1622)
+     * First stages of the new UI system (#1586, #1625, #1623, #1622, #1642, #1634,
+       #1639, #1651)
      * Cockpit views have been removed (#1606)
 
    * Minor changes and tweaks
@@ -9,6 +10,8 @@ Alpha 28
      * Laser bolts are now faster (#1607)
      * Thruster fuel (propellant) mass is now taken into account in the ship
        info view and shipyard screens, and in hyperspace calculations (#1574)
+     * Cargo jettison now handled by Lua script (#1443)
+     * Basic support for rendering Cyrillic characters (#1647, #1031)
 
    * Fixes
      * Fix choice of non-/rotating initial frame in Space.SpawnShipNear (#1584, #1581)
@@ -17,15 +20,26 @@ Alpha 28
      * Fix placement of docking bay text in 'nice_spacestation' orbital (#1154, #1605)
      * Fix input (e.g., laser fire key) leaking from one game to the next (#1613)
      * Don't generate an alert for ships parked in orbit near a station (#1636, #545)
+     * Allow non-ASCII characters in savefile names (#1632, #1627, #1482)
+     * Ensure frames for stars with no orbiting bodies are sufficiently large
+       for the autopilot to compute orbits (#1645, #1626)
+     * Fix Achernar9 mass & radius (#1640, #1626)
 
    * Script and model changes
      * Separation and orientation is now specified for dual laser mountings (#1518)
      * Removed Engine.userdir (deprecated since alpha 26) (#1602)
      * Added StarSystem.faction attribute and Faction object to get information
        about a system's faction (#1568)
+     * Removed Ship.Jettison, added Ship.SpawnCargo (#1443)
+     * Ship.flavour attribute and Ship.SetFlavour method to fully customise
+       the ship model's appearance. Ship.SetPrimaryColour and
+       Ship.SetSecondaryColour are now deprecated (#1637, #526)
+     * New attribute Ship.shipId can be passed to ShipType.GetShipType.
+       Ship.shipType is now deprecated (#1589)
 
    * Internal changes
      * Code clean-up in the handling of world view cameras (#1601)
+     * All file access operations now go through FileSystem (#1632)
 
 Alpha 27
 
