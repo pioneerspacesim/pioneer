@@ -505,7 +505,7 @@ NO_MOUNTING
 N_LIGHT_YEARS_N_MAX
     %distance{f.1} años luz (%maxdistance{f.1} max)
 MAX
-        máx
+        max
 SHIP_INFORMATION
     Info de la nave
 PERSONAL
@@ -978,6 +978,8 @@ MASS
     Masa
 N_WHATEVER_MASSES
     %mass{f.3} masa %units
+N_WHATEVER_RADII
+    %radius{f.3} radios %units 
 SOLAR
     Solar
 EARTH
@@ -1133,9 +1135,9 @@ HEADING_LOCK_FORWARD
 HEADING_LOCK_BACKWARD
     Bloqueo direcc. (retro)
 SET_SPEED_KM_S
-    Velocidad: %speed{f.2} km/s
+    Vel: %speed{f.2} km/s
 SET_SPEED_M_S
-    Velocidad: %speed{f.0} m/s
+    Vel: %speed{f.0} m/s
 KM_S_RELATIVE_TO
     %speed{f.2} km/s relativa a %frame
 M_S_RELATIVE_TO
