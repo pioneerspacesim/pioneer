@@ -16,8 +16,10 @@
 --
 -- Parameters:
 --
---   type - a <Constants.EquipType> string for the missile type. specifying an
---          equipment that is not a missile will result in a Lua error
+--   missile - a <Constants.EquipType> string for the missile type. specifying an
+--          equipment that is not a missile will result in a Lua error.
+--          You can also provide a number matching the slot of the missile you wish
+--          to launch.
 --
 --   target - the <Ship> to fire the missile at
 --
@@ -34,10 +36,18 @@
 --
 --   experimental
 --
-function Ship:FireMissileAt(missile_type, target)
+function Ship:FireMissileAt(missile, target)
+    if type(missile) == "number" then
+        missile_type = self:GetEquip("MISSILE", missile)
+        if missile_type ~= "NONE" and self:SpawnMissile(missile_type, target) then
+            self:SetEquip("MISSILE", missile, "NONE")
+            return true
+        end
+        return false
+    end
 	for i,m in ipairs(self:GetEquip("MISSILE")) do
-		if m == missile_type then
-			if self:SpawnMissile(missile_type, target) then
+		if m == missile then
+			if self:SpawnMissile(missile, target) then
 				self:SetEquip("MISSILE", i, "NONE")
 				return true
 			end
