@@ -112,8 +112,8 @@ static int l_fac_homeworld (lua_State *L)
 	Sint32 y = luaL_checkinteger(L, 3);
 	Sint32 z = luaL_checkinteger(L, 4);
 	Uint32 si = luaL_checkinteger(L, 5);
-	Uint32 bi = luaL_checkinteger(L, 6);
-	fac->homeworld = SystemPath(x,y,z,si,bi);
+	Uint32 bi = luaL_checkinteger(L, 6);	
+	fac->homeworld  = SystemPath(x,y,z,si,bi);
 	fac->hasHomeworld = true;
 	lua_settop(L, 1);
 	return 1;
@@ -303,7 +303,7 @@ const Uint32 Faction::GetNumFactions()
 	if it is, then the passed distance will also be updated to be the distance 
 	from the factions homeworld to the sysPath.
 */
-const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector sec, Uint32 sysIndex) const
+const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector sec, Uint32 sysIndex)
 {
 	/*	Treat factions without homeworlds as if they are of effectively infinite radius,
 		so every world is potentially within their borders, but also treat them as if
@@ -321,10 +321,9 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector
 		
 		/* ...otherwise we need to calculate whether the world is inside the 
 		   the faction border, and how far away it is. */
-		else {
-			const Sector homesec(homeworld.sectorX, homeworld.sectorY, homeworld.sectorZ);
-
-			distance = Sector::DistanceBetween(&homesec, homeworld.systemIndex, &sec, sysIndex);
+		else {		
+			if (!m_homesector) m_homesector = new Sector(homeworld.sectorX, homeworld.sectorY, homeworld.sectorZ);
+			distance = Sector::DistanceBetween(m_homesector, homeworld.systemIndex, &sec, sysIndex);
 			inside   = distance < Radius();
 		}
 	}
@@ -396,6 +395,7 @@ const Color Faction::GetNearestFactionColour(const Sector sec, Uint32 sysIndex)
 Faction::Faction() :
 	govType(Polit::GOV_INVALID),
 	hasHomeworld(false),
+	m_homesector(0),
 	foundingDate(0.0),
 	expansionRate(0.0)
 {
@@ -403,4 +403,5 @@ Faction::Faction() :
 
 Faction::~Faction()
 {
+	if (m_homesector) delete m_homesector;
 }

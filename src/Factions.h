@@ -54,11 +54,13 @@ public:
 	//ship availability
 	Color					colour;
 
-	const double Radius() const { return (3200 - foundingDate) * expansionRate; };
+	const double Radius() const { return (FACTION_CURRENT_YEAR - foundingDate) * expansionRate; };
 	
 private:
 	static const double FACTION_CURRENT_YEAR;	// used to calculate faction radius	
-	const bool IsCloserAndContains(double& closestFactionDist, const Sector sec, Uint32 sysIndex) const;
+
+	Sector* m_homesector;						// cache of home sector to use in distance calculations
+	const bool IsCloserAndContains(double& closestFactionDist, const Sector sec, Uint32 sysIndex);
 };
 
 #endif /* _FACTIONS_H */
