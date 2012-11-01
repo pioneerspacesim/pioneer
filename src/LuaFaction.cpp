@@ -143,7 +143,6 @@ static int l_faction_attr_founding_date(lua_State *l)
  * The rate at which the faction has been expanding since it's foundation.
  * Measured in light-years per-year of expansion.
  * So for a value of 1.0 the volumes _RADIUS_ will expand by 1 light-year.
- * Used in conjunction with foundingDate it can be used to calculate the volume of occupied space.
  *
  * Availability:
  *
@@ -157,6 +156,27 @@ static int l_faction_attr_expansion_rate(lua_State *l)
 {
 	const Faction *faction = LuaFaction::GetFromLua(1);
 	lua_pushnumber(l, faction->expansionRate);
+	return 1;
+}
+
+/*
+ * Attribute: radius
+ *
+ * The radius in light years of the volume the spherical volume the faction 
+ * encompasses as at the year 3200
+ *
+ * Availability:
+ *
+ *  alpha 28
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_faction_attr_radius(lua_State *l)
+{
+	const Faction *faction = LuaFaction::GetFromLua(1);
+	lua_pushnumber(l, faction->Radius());
 	return 1;
 }
 
@@ -240,6 +260,7 @@ template <> void LuaObject<Faction>::RegisterClass()
 		{ "homeworld",          l_faction_attr_homeworld          },
 		{ "foundingDate",       l_faction_attr_founding_date      },
 		{ "expansionRate",      l_faction_attr_expansion_rate     },
+		{ "radius",             l_faction_attr_radius             },
 		{ "militaryName",       l_faction_attr_military_name      },
 		{ "policeName",         l_faction_attr_police_name        },
 		{ "colour",             l_faction_attr_colour             },
