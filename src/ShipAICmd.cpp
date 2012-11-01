@@ -952,6 +952,11 @@ bool AICmdDock::TimeStepUpdate()
 		return true; // docked, hopefully
 	}
 
+	//check if we can land
+	double maxdecel = m_ship->GetAccelMin();
+	maxdecel -= GetGravityAtPos(m_target->GetFrame(), m_target->GetPosition());
+	if(maxdecel <= 0) { m_ship->AIMessage(Ship::AIERROR_GRAV_TOO_HIGH); return true; }
+
 	// if we're not close to target, do a flyto first
 	double targdist = m_target->GetPositionRelTo(m_ship).Length();
 	if (targdist > m_target->GetBoundingRadius() * VICINITY_MUL * 1.5) {
@@ -991,7 +996,7 @@ bool AICmdDock::TimeStepUpdate()
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	vector3d relvel = m_ship->GetVelocityRelTo(m_target);
-	double maxdecel = GetMaxDecel(m_ship, reldir, 0, 0);
+	maxdecel = GetMaxDecel(m_ship, reldir, 0, 0);
 	maxdecel -= GetGravityAtPos(m_target->GetFrame(), m_dockpos);
 	m_ship->AIMatchPosVel2(reldir, relpos.Length(), relvel, 0.0, maxdecel);
 
