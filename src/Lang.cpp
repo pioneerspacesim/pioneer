@@ -110,6 +110,7 @@ StringFileParser::StringFileParser(const std::string &filename, StringRange rang
 	m_filename(filename), m_data(range), m_lineNo(0), m_tokenLine(-1), m_textLine(-1)
 {
 	assert(m_data.begin && m_data.end);
+	m_data = m_data.StripUTF8BOM();
 	SkipBlankLines();
 	Next();
 }

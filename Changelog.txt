@@ -2,7 +2,7 @@ Alpha 28
 
    * New features
      * First stages of the new UI system (#1586, #1625, #1623, #1622, #1642, #1634,
-       #1639, #1651)
+       #1639, #1651, #1615)
      * Cockpit views have been removed (#1606)
 
    * Minor changes and tweaks
@@ -24,6 +24,8 @@ Alpha 28
      * Ensure frames for stars with no orbiting bodies are sufficiently large
        for the autopilot to compute orbits (#1645, #1626)
      * Fix Achernar9 mass & radius (#1640, #1626)
+     * Ignore UTF-8 Byte Order Mark in text files edited with some Windows
+       editors (#1661)
 
    * Script and model changes
      * Separation and orientation is now specified for dual laser mountings (#1518)
