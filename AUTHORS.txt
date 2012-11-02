@@ -94,7 +94,9 @@ Pioneer includes the following third-party software:
   Copyright (C) 2006, Raph Levien
   Licensed under the SIL Open Font Licence v1.1 (see licenses/SIL-1.1.txt)
 
-  Orbitron font
+  Orbiteer font
+  Copyright (c) 2012, Pioneer Developers
+  Based on Orbitron
   Copyright (c) 2009, Matt McInerney
   Licensed under the SIL Open Font Licence v1.1 (see licenses/SIL-1.1.txt)
 
