@@ -80,9 +80,9 @@ struct Shader {
 			AppendSource("#define VERTEX_SHADER\n");
 		else
 			AppendSource("#define FRAGMENT_SHADER\n");
-		AppendSource(logzCode->AsStringRange());
-		AppendSource(libsCode->AsStringRange());
-		AppendSource(code->AsStringRange());
+		AppendSource(logzCode->AsStringRange().StripUTF8BOM());
+		AppendSource(libsCode->AsStringRange().StripUTF8BOM());
+		AppendSource(code->AsStringRange().StripUTF8BOM());
 		shader = glCreateShader(type);
 		Compile(shader);
 
