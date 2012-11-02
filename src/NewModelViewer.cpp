@@ -402,10 +402,7 @@ void ModelViewer::DrawModel()
 	assert(m_model);
 	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 
-	//get maximum z range
-	float znear, zfar;
-	m_renderer->GetNearFarRange(znear, zfar);
-	m_renderer->SetPerspectiveProjection(85, m_width/float(m_height), znear, zfar);
+	m_renderer->SetPerspectiveProjection(85, m_width/float(m_height), 0.1f, 1000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	UpdateLights();
 
