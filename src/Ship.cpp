@@ -380,9 +380,9 @@ vector3d Ship::GetMaxThrust(const vector3d &dir) const
 double Ship::GetAccelMin() const
 {
 	const ShipType &stype = GetShipType();
-	float val = stype.linThrust[ShipType::THRUSTER_UP];
-	val = std::min(val, stype.linThrust[ShipType::THRUSTER_RIGHT]);
-	val = std::min(val, -stype.linThrust[ShipType::THRUSTER_LEFT]);
+	double val = fabs(stype.linThrust[ShipType::THRUSTER_UP]);
+	val = std::min(val, fabs(stype.linThrust[ShipType::THRUSTER_RIGHT]));
+	val = std::min(val, fabs(stype.linThrust[ShipType::THRUSTER_LEFT]));
 	return val / GetMass();
 }
 
@@ -437,12 +437,39 @@ void Ship::UpdateEquipStats()
 	}
 }
 
+
+double Ship::GetFuelUseRate() {
+  double denominator = GetShipType().fuelTankMass * GetShipType().effectiveExhaustVelocity * 10;
+  return fabs(denominator > 0 ? GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9);
+}
+
+// returns speed that can be reached using fuelUsed (0.0f-1.0f) of fuel according to the Tsiolkovsky equation
+double Ship::GetVelocityReachedWithFuelUsed(float fuelUsed) {
+  double ShipMassNow = GetMass(),
+     ShipMassAfter = GetMass() - 1000*GetShipType().fuelTankMass * fuelUsed;
+
+  if(ShipMassAfter <= 0 || ShipMassNow <= 0) // shouldn't happen
+    return 0;
+
+  return GetShipType().effectiveExhaustVelocity * log(ShipMassNow/ShipMassAfter);
+}
+
+void Ship::Refuel() {
+  float currentFuel = this->GetFuel();
+  if (is_equal_exact(currentFuel, 1.0f)) return;
+  if(this->m_equipment.Count(Equip::SLOT_CARGO, Equip::WATER) <= 0) return;
+
+  this->m_equipment.Remove(Equip::WATER, 1);
+  this->SetFuel(currentFuel + 1.0f/this->GetShipType().fuelTankMass);
+  this->UpdateStats();
+}
+
 void Ship::UpdateFuelStats()
 {
 	const ShipType &stype = GetShipType();
 
 	m_stats.fuel_tank_mass = stype.fuelTankMass;
-	m_stats.fuel_use = stype.thrusterFuelUse;
+	m_stats.fuel_use = GetFuelUseRate();
 	m_stats.fuel_tank_mass_left = m_stats.fuel_tank_mass * GetFuel();
 	//calculate thruster fuel usage weights
 	const float fwd = fabs(stype.linThrust[ShipType::THRUSTER_FORWARD]);
@@ -934,7 +961,7 @@ void Ship::UpdateAlertState()
 
 void Ship::UpdateFuel(const float timeStep)
 {
-	const float fuelUseRate = GetShipType().thrusterFuelUse * 0.01f;
+	const float fuelUseRate = GetFuelUseRate() * 0.01f;
 	const vector3d &tstate = GetThrusterState();
 	//weights calculated from thrust values during calcstats
 	float totalThrust = 0.f;
