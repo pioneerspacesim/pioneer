@@ -15,6 +15,7 @@ void IniConfig::Read(FileSystem::FileSource &fs, const std::string &path)
 void IniConfig::Read(const FileSystem::FileData &data)
 {
 	StringRange buffer = data.AsStringRange();
+	buffer = buffer.StripUTF8BOM();
 
 	while (!buffer.Empty()) {
 		StringRange line = buffer.ReadLine().StripSpace();
