@@ -368,6 +368,7 @@ local spawnInitialShips = function (game_start)
 					ship_name	= ship_name,
 				}
 				addShipEquip(ship)
+				print(ship.label..' '..' spawned in '..starport.label..' docked')
 			else
 				-- the starport must have been full
 				ship = Space.SpawnShipNear(ship_name, starport, 10000000, 149598000) -- 10mkm - 1AU
@@ -377,6 +378,7 @@ local spawnInitialShips = function (game_start)
 					ship_name	= ship_name,
 				}
 				addShipEquip(ship)
+				print(ship.label..' '..' spawned near '..starport.label..' because it was full')
 			end
 		elseif i < num_trade_ships * 0.75 then
 			-- spawn the first three quarters in space, or middle half if game start
@@ -394,6 +396,14 @@ local spawnInitialShips = function (game_start)
 			addShipEquip(ship)
 			-- ...this next call needs to see if there's an atmospheric shield.
 			trade_ships[ship].starport	= getNearestStarport(ship)
+			-- there is no proper starport, e.g. orbital starport no availiable
+			if trade_ships[ship].starport == nil then
+				trade_ships[ship].starport = starports[Engine.rand:Integer(1, #starports)]
+				trade_ships[ship].status = 'outbound'
+				print(ship.label..' will leave system, no orbital starports')
+			else
+				print(ship.label..' '..' spawned near '..trade_ships[ship].starport.label..' well')
+			end
 		else
 			-- spawn the last quarter in hyperspace
 			local min_time = trade_ships.interval * (i - num_trade_ships * 0.75)
@@ -515,9 +525,13 @@ local onEnterSystem = function (ship)
 			-- if we couldn't reach any systems wait for player to attack
 		else
 			local starport = getNearestStarport(ship)
-			ship:AIDockWith(starport)
-			trade_ships[ship]['starport'] = starport
-			trade_ships[ship]['status'] = 'inbound'
+			if starport ~= nil then
+				ship:AIDockWith(starport)
+				trade_ships[ship]['starport'] = starport
+				trade_ships[ship]['status'] = 'inbound'
+				else
+				trade_ships[ship]['status'] = 'outbound'
+				end
 		end
 	end
 end
@@ -632,16 +646,13 @@ local onAICompleted = function (ship, ai_error)
 	if ai_error ~= 'NONE' then
 		print(ship.label..' AICompleted: Error: '..ai_error..' Status: '..trader.status) end
 		
-	if ai_error == 'GRAV_TOO_HIGH' and trader.status == 'inbound' then
-		print(ship.label..' will change to orbital spaceport from '..trader.starport.label)
-		trader['starport'] = getNearestStarport(ship, trader.starport) 
-		print('.. to '..trader.starport.label)
-		end
-
 	if trader.status == 'outbound' then
 		if getSystemAndJump(ship) ~= 'OK' then
 			ship:AIDockWith(trader.starport)
-			trader['status'] = 'inbound'
+			-- Ship cannot leave the system and probably cannot even land (tried and failed).
+			-- Switch to 'inbound' is incorrect, since the possible inbound..outbound..inbound..outbound loop.
+			trader['status'] = 'broken'
+			print(ship.label..' is '..ship.status..', pirates celebrate!')
 		end
 	elseif trader.status == 'orbit' then
 		if ai_error == 'NONE' then
@@ -659,6 +670,20 @@ local onAICompleted = function (ship, ai_error)
 	elseif trader.status == 'inbound' then
 		if ai_error == 'REFUSED_PERM' then doOrbit(ship) end
 	end
+	
+	if ai_error == 'GRAV_TOO_HIGH' and trader.status == 'inbound' then
+		local starport = trader.starport
+		print(ship.label..' will change to orbital spaceport from '..trader.starport.label)
+		trader['starport'] = getNearestStarport(ship, trader.starport) 
+		
+		if trade_ships[ship].starport == starport then
+			trade_ships[ship].status = 'outbound'
+			print('to another system, no orbital starport found, status '..trade_ships[ship].status)
+			else
+			print('.. to '..trader.starport.label)
+			end
+		end
+	
 end
 Event.Register("onAICompleted", onAICompleted)
 
