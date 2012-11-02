@@ -242,6 +242,35 @@ static int l_shiptype_get_ship_type(lua_State *l)
 }
 
 /*
+ * Method: GetMinAcceleration
+ *
+ * Get minimum of forward and rear acceleration
+ *
+ * > ship_type.GetMinAcceleration()
+ *
+ * Availability:
+ *
+ *  alpha 28
+ *
+ * Status:
+ *
+ *  experimental
+ */
+int l_ship_type_get_acc(lua_State *l)
+{
+	const ShipType *st = LuaShipType::GetFromLua(1);
+	float thrust_min = 1e99;
+	for(int i = 0; i < st->THRUSTER_MAX; i++) {
+		if(thrust_min > st->linThrust[0])
+			thrust_min = st->linThrust[0];
+	}
+	thrust_min /= 1000*(st->hullMass + st->fuelTankMass);
+	lua_pushnumber(l, thrust_min);
+	return 1;
+}
+
+
+/*
  * Function: GetShipTypes
  *
  * Returns an array of ship description objects that match the specified
@@ -343,6 +372,7 @@ template <> void LuaObject<LuaUncopyable<ShipType> >::RegisterClass()
 
 		{ "GetShipType",  l_shiptype_get_ship_type  },
 		{ "GetShipTypes", l_shiptype_get_ship_types },
+		{ "GetMinAcceleration", l_ship_type_get_acc},
 		{ 0, 0 }
 	};
 

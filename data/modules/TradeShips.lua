@@ -25,6 +25,8 @@
 				cowering - docked after having been attacked, waiting for
 					attacker to go away
 				orbit - was unable to dock, heading to or waiting in orbit
+				broken - was unable to land and unable to unable to hyperspace away,
+					now it waits to be resced or ransacked by pirates					
 			cargo - table of cargo types and amounts currently carried;
 				key: Constants.EquipType string, value: number
 			attacker - what this was last attacked by; Body object
@@ -284,9 +286,35 @@ local getSystemAndJump = function (ship)
 	return jumpToSystem(ship, getSystem(ship))
 end
 
+local orbitalStarportsPresent = function ()
+	for i = 1, #starports do
+		local next_starport = starports[i]
+		if (next_starport.type == 'STARPORT_ORBITAL') then
+			return true
+			end
+	end
+	return false
+end
+
+local minimalRequiredAcceleration = function ()
+	local acc = 999
+	for i = 1, #starports do
+		local next_starport = starports[i]
+		if (next_starport.path:GetSystemBody().parent.gravity < acc) then
+			acc = next_starport.path:GetSystemBody().parent.gravity
+			end
+	end
+	return acc
+end
+
 local filterAcceptableShips = function (ship_type)
 	-- only accept ships with enough capacity that are capable of landing in atmospheres
 	return (ship_type.hullMass >= 100) and (ship_type:GetEquipSlotCapacity('ATMOSHIELD') > 0)
+end
+
+local filterAcceptableShipsForLanding = function (ship_type)
+	-- only accept ships with enough capacity that are capable of landing in atmospheres
+	return (filterAcceptableShips(ship_type) and ship_type:GetMinAcceleration() < minimalRequiredAcceleration())
 end
 
 local spawnInitialShips = function (game_start)
@@ -295,7 +323,12 @@ local spawnInitialShips = function (game_start)
 	if #starports == 0 then return nil end
 	local population = Game.system.population
 	if population == 0 then return nil end
-	local ship_names = ShipType.GetShipTypes('SHIP', filterAcceptableShips)
+	local ship_names
+	if orbitalStarportsPresent() then -- if there are no starports, omit types that cannot land
+		ship_names = ShipType.GetShipTypes('SHIP', filterAcceptableShips)
+		else
+		ship_names = ShipType.GetShipTypes('SHIP', filterAcceptableShipsForLanding)
+		end
 	if #ship_names == 0 then return nil end
 
 	-- get a measure of the market size and build lists of imports and exports
