@@ -271,7 +271,9 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
 	LUA_DEBUG_START(l);
 	// XXX make this a proper protected call (after working out the implications -- *sigh*)
 	lua_pushcfunction(l, &pi_lua_panic);
-	if (luaL_loadbuffer(l, code.GetData(), code.GetSize(), code.GetInfo().GetPath().c_str())) {
+
+	const StringRange source = code.AsStringRange().StripUTF8BOM();
+	if (luaL_loadbuffer(l, source.begin, source.Size(), code.GetInfo().GetPath().c_str())) {
 		pi_lua_panic(l);
 	} else {
 		int ret = lua_pcall(l, 0, 0, -2);
