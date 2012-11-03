@@ -22,7 +22,9 @@ ModelViewer::Options::Options()
 {
 }
 
+//some utility functions
 namespace {
+	//azimuth/elevation in degrees to a dir vector
 	vector3f az_el_to_dir(float yaw, float pitch) {
 		//0,0 points to "right" (1,0,0)
 		vector3f v;
@@ -30,6 +32,20 @@ namespace {
 		v.y = sin(DEG2RAD(pitch));
 		v.z = sin(DEG2RAD(yaw)) * cos(DEG2RAD(pitch));
 		return v;
+	}
+
+	//extract color from RGB sliders
+	Color4ub get_slider_color(UI::Slider *r, UI::Slider *g, UI::Slider *b) {
+		return Color4ub(r->GetValue() * 255.f, g->GetValue() * 255.f, b->GetValue() * 255.f);
+	}
+
+	float get_thrust(const UI::Slider *s) {
+		return 1.f - (2.f * s->GetValue());
+	}
+
+	//add a horizontal button/label pair to a box
+	void add_pair(UI::Context *c, UI::Box *box, UI::Widget *widget, const std::string &label) {
+		box->PackEnd(c->HBox()->PackEnd(UI::WidgetSet( widget, c->Label(label) )));
 	}
 }
 
@@ -492,11 +508,6 @@ void ModelViewer::OnLightPresetChanged(unsigned int index, const std::string &)
 	m_options.lightPreset = std::min<unsigned int>(index, 2);
 }
 
-static Color4ub get_slider_color(UI::Slider *r, UI::Slider *g, UI::Slider *b)
-{
-	return Color4ub(r->GetValue() * 255.f, g->GetValue() * 255.f, b->GetValue() * 255.f);
-}
-
 void ModelViewer::OnModelColorsChanged(float)
 {
 	if (!m_model) return;
@@ -513,11 +524,6 @@ void ModelViewer::OnPatternChanged(unsigned int index, const std::string &value)
 	if (!m_model) return;
 	assert(index < m_model->GetPatterns().size());
 	m_model->SetPattern(index);
-}
-
-static float get_thrust(const UI::Slider *s)
-{
-	return 1.f - (2.f * s->GetValue());
 }
 
 void ModelViewer::OnThrustChanged(float)
@@ -683,21 +689,11 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 	onModelChanged.emit();
 }
 
-//add a horizontal button/label pair to a box
-static void add_pair(RefCountedPtr<UI::Context> c, UI::Box *box, UI::Widget *widget, const std::string &label)
-{
-	box->PackEnd(
-		c->HBox()->PackEnd(
-			UI::WidgetSet(
-				widget,
-				c->Label(label)
-			)
-		)
-	);
-}
-
 void ModelViewer::SetupUI()
 {
+	UI::Context *c = m_ui.Get();
+	c->SetFontSize(UI::Widget::FONT_SIZE_XSMALL);
+
 	for (unsigned int i=0; i<9; i++)
 		colorSliders[i] = 0;
 	for (unsigned int i=0; i<6; i++)
@@ -705,35 +701,30 @@ void ModelViewer::SetupUI()
 
 	//remove old floaters
 	if (animSlider) {
-		m_ui->RemoveFloatingWidget(animSlider);
+		c->RemoveFloatingWidget(animSlider);
 		animSlider = 0;
 	}
 	if (thrustSliderBox) {
-		m_ui->RemoveFloatingWidget(thrustSliderBox);
+		c->RemoveFloatingWidget(thrustSliderBox);
 		thrustSliderBox = 0;
 	}
 	if (colorSliderBox) {
-		m_ui->RemoveFloatingWidget(colorSliderBox);
+		c->RemoveFloatingWidget(colorSliderBox);
 		colorSliderBox = 0;
 	}
 
-	UI::Context *c = m_ui.Get();
-
 	const float spacing = 5.f;
-	//UI::Button *playBtn;
-	//UI::Button *revBtn;
-	//UI::Button *stopBtn;
-	UI::Box *animBox;
 	UI::Button *reloadButton;
 	UI::Button *toggleGridButton;
 	UI::CheckBox *collMeshCheck;
 	UI::CheckBox *gunsCheck;
 	UI::VBox* box = c->VBox();
-	c->SetInnerWidget(box);
+	c->SetInnerWidget(c->Margin(spacing)->SetInnerWidget(box));
 
 	//model name + reload button: visible even if loading failed
-	box->PackEnd(nameLabel = m_ui->Label(m_modelName));
-	add_pair(m_ui, box, reloadButton = m_ui->Button(), "Reload model");
+	box->PackEnd(nameLabel = c->Label(m_modelName));
+	nameLabel->SetFontSize(UI::Widget::FONT_SIZE_NORMAL);
+	add_pair(c, box, reloadButton = c->Button(), "Reload model");
 	reloadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnReloadModel), reloadButton));
 
 	if (m_model == 0) {
@@ -741,13 +732,13 @@ void ModelViewer::SetupUI()
 		return;
 	}
 
-	add_pair(m_ui, box, toggleGridButton = m_ui->Button(), "Grid mode");
-	add_pair(m_ui, box, (collMeshCheck = m_ui->CheckBox()), "Collision mesh");
+	add_pair(c, box, toggleGridButton = c->Button(), "Grid mode");
+	add_pair(c, box, collMeshCheck = c->CheckBox(), "Collision mesh");
 
 	//pattern selector
 	if (m_model->SupportsPatterns()) {
-		box->PackEnd(m_ui->Label("Pattern:"));
-		box->PackEnd(patternSelector = m_ui->DropDown()->AddOption("Default"));
+		box->PackEnd(c->Label("Pattern:"));
+		box->PackEnd(patternSelector = c->DropDown()->AddOption("Default"));
 
 		//// 3x3 colour sliders
 		// I don't quite understand the packing, so I set both fill & expand and it seems to work.
@@ -796,26 +787,30 @@ void ModelViewer::SetupUI()
 
 	//light dropdown
 	UI::DropDown *lightSelector;
-	box->PackEnd(m_ui->Label("Lights:"));
+	box->PackEnd(c->Label("Lights:"));
 	box->PackEnd(
-		lightSelector = m_ui->DropDown()
+		lightSelector = c->DropDown()
 			->AddOption("1  Front white")
 			->AddOption("2  Two-point")
 			->AddOption("3  Backlight")
 	);
 
-	add_pair(m_ui, box, (gunsCheck = m_ui->CheckBox()), "Attach guns");
+	add_pair(c, box, gunsCheck = c->CheckBox(), "Attach guns");
 
 	//Animation controls
 	if (!m_model->GetAnimations().empty()) {
-		box->PackEnd(animBox = m_ui->VBox(5.f));
+		//UI::Button *playBtn;
+		//UI::Button *revBtn;
+		//UI::Button *stopBtn;
+		UI::Box *animBox;
+		box->PackEnd(animBox = c->VBox(spacing));
 		animBox->PackEnd(m_ui->Label("Animation:"));
 		animBox->PackEnd(animSelector = m_ui->DropDown()->AddOption("None"));
 		//add_pair(m_ui, animBox, playBtn = m_ui->Button(), "Play/Pause");
 		//add_pair(m_ui, animBox, revBtn = m_ui->Button(), "Play reverse");
 		//add_pair(m_ui, animBox, stopBtn = m_ui->Button(), "Stop");
 
-		m_ui->AddFloatingWidget(animSlider = m_ui->HSlider(), UI::Point(0, m_height-250), UI::Point(200, 50));
+		c->AddFloatingWidget(animSlider = c->HSlider(), UI::Point(spacing, m_height-300), UI::Point(200, 50));
 
 		//playBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), playBtn, false));
 		//revBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), revBtn, true));
@@ -865,11 +860,11 @@ void ModelViewer::SetupUI()
 			thrustSliders[i]->onValueChanged.connect(sigc::mem_fun(*this, &ModelViewer::OnThrustChanged));
 		}
 
-		c->AddFloatingWidget(thrustSliderBox, UI::Point(0, m_height-200), UI::Point(250, 300));
+		c->AddFloatingWidget(thrustSliderBox, UI::Point(spacing, m_height-200), UI::Point(300, 200));
 		////thruster sliders end
 	}
 
-	m_ui->Layout();
+	c->Layout();
 
 	//event handlers
 	collMeshCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleCollMesh), collMeshCheck));
