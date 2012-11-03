@@ -334,6 +334,7 @@ namespace ShipThruster {
 class LmrGeomBuffer;
 
 static const char CACHE_DIR[] = "model_cache";
+static const char DUMP_DIR[] = "model_dump";
 
 static Graphics::Material *s_billboardMaterial;
 static float s_scrWidth = 800.0f;
@@ -899,42 +900,41 @@ public:
 			return;
 		}
 
-		std::ofstream out;
-		std::string folderName("model_dump/");
-		folderName+=rootFolderName;
-		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(folderName.c_str()), prefix+".obj")).c_str());
-		assert(out.is_open());
+		const std::string outDir(FileSystem::JoinPath(DUMP_DIR, rootFolderName));
+
+		FILE *out = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPath(outDir, prefix+".obj"));
+		assert(out); // XXX fail gracefully
 
 		printf("Dumping model '%s' LOD %d\n", name.c_str(), lod+1);
 
-		out << stringf("# Dump of LMR model '%0' LOD %1{d}", name, lod+1) << std::endl;
+		fputs(stringf("# Dump of LMR model '%0' LOD %1{d}\n", name, lod+1).c_str(), out);
 
-		out << stringf("mtllib %0.mtl", prefix) << std::endl;
+		fputs(stringf("mtllib %0.mtl\n", prefix).c_str(), out);
 
-		out << "o "+prefix << std::endl;
+		fputs(stringf("o %0\n", prefix).c_str(), out);
 
 		const int numVerts = (m_vertices.size());
 
 		// positons
 		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
-			out << stringf("v %0{f.6} %1{f.6} %2{f.6}", (*i).v.x, (*i).v.y, (*i).v.z) << std::endl;
+			fputs(stringf("v %0{f.6} %1{f.6} %2{f.6}\n", (*i).v.x, (*i).v.y, (*i).v.z).c_str(), out);
 
-		out << stringf("# %0{d} vertices", numVerts) << std::endl;
+		fputs(stringf("# %0{d} vertices\n", numVerts).c_str(), out);
 
 		// texture coords
 		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i) {
 			const GLfloat u = (*i).tex_u;
 			const GLfloat v = (m_isFromObjFile) ? (1.0f - (*i).tex_v) : (*i).tex_v;
-			out << stringf("vt %0{f.6} %1{f.6}", u, v) << std::endl;
+			fputs(stringf("vt %0{f.6} %1{f.6}\n", u, v).c_str(), out);
 		}
 
-		out << stringf("# %0{d} texture coords", numVerts) << std::endl;
+		fputs(stringf("# %0{d} texture coords\n", numVerts).c_str(), out);
 
 		// normals
 		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
-			out << stringf("vn %0{f.6} %1{f.6} %2{f.6}", (*i).n.x, (*i).n.y, (*i).n.z) << std::endl;
+			fputs(stringf("vn %0{f.6} %1{f.6} %2{f.6}\n", (*i).n.x, (*i).n.y, (*i).n.z).c_str(), out);
 
-		out << stringf("# %0{d} vertex normals", numVerts) << std::endl;
+		fputs(stringf("# %0{d} vertex normals\n", numVerts).c_str(), out);
 
 		std::vector<WavefrontMaterial> materials;
 		WavefrontMaterial material;
@@ -943,7 +943,7 @@ public:
 			const Op &op = (*i);
 			switch (op.type) {
 				case OP_DRAW_ELEMENTS: {
-					out << stringf("# draw elements %0{d}-%1{d} (%2{d} tris)", op.elems.start, op.elems.start+op.elems.count-1, op.elems.count/3) << std::endl;
+					fputs(stringf("# draw elements %0{d}-%1{d} (%2{d} tris)\n", op.elems.start, op.elems.start+op.elems.count-1, op.elems.count/3).c_str(), out);
 
 					if (op.elems.textureFile)
 						material.diffuseMap = *op.elems.textureFile;
@@ -956,18 +956,18 @@ public:
 
 					if (materials.size() == 0 || !(material == materials.back())) {
 						materials.push_back(material);
-						out << stringf("usemtl %0_mat%1{u}", prefix, materials.size()-1) << std::endl;
+						fputs(stringf("usemtl %0_mat%1{u}\n", prefix, materials.size()-1).c_str(), out);
 					}
 
 					for (int idx = op.elems.start; idx < op.elems.start+op.elems.count;) {
-						out << "f";
-						out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx]+1);		++idx;
-						out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx]+1);		++idx;
-						out << stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx]+1);		++idx;
-						out << std::endl;
+						fputs("f", out);
+						fputs(stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx]+1).c_str(), out); ++idx;
+						fputs(stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx]+1).c_str(), out); ++idx;
+						fputs(stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx]+1).c_str(), out); ++idx;
+						fputs("\n", out);
 					}
 
-					out << "s 1" << std::endl;
+					fputs("s 1\n", out);
 
 					break;
 				}
@@ -986,25 +986,27 @@ public:
 			}
 		}
 
-		out.close();
+		fclose(out);
 
 		std::vector<std::string> textureFilenames;
-		out.open((FileSystem::JoinPath(FileSystem::GetUserDir(folderName.c_str()), prefix+".mtl")).c_str());
 
-		out << stringf("# Materials LMR model '%0' LOD %1{d}", name, lod+1) << std::endl;
+		out = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPath(outDir, prefix+".mtl"));
+		assert(out); // XXX fail gracefully
+
+		fputs(stringf("# Materials LMR model '%0' LOD %1{d}\n", name, lod+1).c_str(), out);
 			
 		for (unsigned int i = 0; i < materials.size(); i++) {
-			out << stringf("newmtl %0_mat%1{u}", prefix, i) << std::endl;
+			fputs(stringf("newmtl %0_mat%1{u}\n", prefix, i).c_str(), out);
 
 			const WavefrontMaterial &m = materials[i];
 			// XXX alpha?
-			out << stringf("Ka %0{f.4} %0{f.4} %0{f.4}", m.diffuse.r, m.diffuse.g, m.diffuse.b) << std::endl;
-			out << stringf("Kd %0{f.4} %0{f.4} %0{f.4}", m.diffuse.r, m.diffuse.g, m.diffuse.b) << std::endl;
-			out << stringf("Ks %0{f.4} %0{f.4} %0{f.4}", m.specular.r, m.specular.g, m.specular.b) << std::endl;
-			out << stringf("Ke %0{f.4} %0{f.4} %0{f.4}", m.emissive.r, m.emissive.g, m.emissive.b) << std::endl;
-			out << stringf("Ns %0{f.4}", m.specularExponent) << std::endl;
+			fputs(stringf("Ka %0{f.4} %0{f.4} %0{f.4}\n", m.diffuse.r, m.diffuse.g, m.diffuse.b).c_str(), out);
+			fputs(stringf("Kd %0{f.4} %0{f.4} %0{f.4}\n", m.diffuse.r, m.diffuse.g, m.diffuse.b).c_str(), out);
+			fputs(stringf("Ks %0{f.4} %0{f.4} %0{f.4}\n", m.specular.r, m.specular.g, m.specular.b).c_str(), out);
+			fputs(stringf("Ke %0{f.4} %0{f.4} %0{f.4}\n", m.emissive.r, m.emissive.g, m.emissive.b).c_str(), out);
+			fputs(stringf("Ns %0{f.4}\n", m.specularExponent).c_str(), out);
 
-			out << "illum 2" << std::endl;
+			fputs("illum 2\n", out);
 
 			if (m.diffuseMap.size() > 0) {
 				// need to store the path to the source texture
@@ -1013,8 +1015,8 @@ public:
 				const std::string tempFilename = FileSystem::NormalisePath(m.diffuseMap);
 				const size_t lastIdx = tempFilename.find_last_of('/')+1;
 				const std::string outFilename = tempFilename.substr(lastIdx, tempFilename.size()-lastIdx);
-				out << stringf("map_Ka %0", outFilename) << std::endl;
-				out << stringf("map_Kd %0", outFilename) << std::endl;
+				fputs(stringf("map_Ka %0\n", outFilename).c_str(), out);
+				fputs(stringf("map_Kd %0\n", outFilename).c_str(), out);
 			}
 			if (m.emissiveMap.size() > 0) {
 				// need to store the path to the source texture
@@ -1023,34 +1025,28 @@ public:
 				const std::string tempFilename = FileSystem::NormalisePath(m.emissiveMap);
 				const size_t lastIdx = tempFilename.find_last_of('/')+1;
 				const std::string outFilename = tempFilename.substr(lastIdx, tempFilename.size()-lastIdx);
-				out << stringf("map_Ke %0", outFilename) << std::endl;
+				fputs(stringf("map_Ke %0\n", outFilename).c_str(), out);
 			}
 		}
 
-		out.close();
+		fclose(out);
 
 		// copy the textures over
-		std::ifstream in;
 		for(std::vector<std::string>::const_iterator i = textureFilenames.begin(); i!=textureFilenames.end(); ++i)
 		{
-			in.open(FileSystem::NormalisePath(FileSystem::GetDataDir((*i).c_str())), std::ios::binary);
-			assert(in.is_open());
+			RefCountedPtr<FileSystem::FileData> indata = FileSystem::gameDataFiles.ReadFile(*i);
+			assert(indata); // XXX fail gracefully
 
 			const std::string tempFilename = FileSystem::NormalisePath(*i);
 			const size_t lastIdx = tempFilename.find_last_of('/')+1;
 			const std::string outFilename = tempFilename.substr(lastIdx, tempFilename.size()-lastIdx);
 			
-			out.open((FileSystem::JoinPath(FileSystem::GetUserDir(folderName.c_str()), outFilename)).c_str(), std::ios::binary);
-			assert(out.is_open());
+			out = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPath(outDir, outFilename));
+			assert(out); // XXX fail gracefully
 
-			// copy the data
-			std::copy( 
-				std::istreambuf_iterator<char>(in), 
-				std::istreambuf_iterator<char>( ),
-				std::ostreambuf_iterator<char>(out));
+			fwrite(indata->GetData(), sizeof(char), indata->GetSize(), out); // XXX error checking
 
-			out.close();
-			in.close();
+			fclose(out);
 		}
 
 		for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
@@ -1574,23 +1570,17 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 	if (m_hasDynamicFunc) m_dynamicGeometry[0]->GetCollMeshGeometry(mesh, m, params);
 }
 
-void LmrModel::Dump(const char* pMainFolderName/*=nullptr*/)
+void LmrModel::Dump(const char* pMainFolderName)
 {
 	if (m_dumped) return;
 	m_dumped = true;
 
-	std::string folderName("model_dump");
-	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir(folderName.c_str()));
-	folderName+="/";
-	if(pMainFolderName) {
-		folderName+=pMainFolderName;
-	} else {
-		folderName+=m_name;
-	}
-	
-	FileSystem::rawFileSystem.MakeDirectory(FileSystem::GetUserDir(folderName.c_str()));
+	const std::string rootFolderName(pMainFolderName ? pMainFolderName : m_name);
+	const std::string folderName(std::string(DUMP_DIR) + "/" + rootFolderName);
 
-	const std::string rootFolderName((pMainFolderName) ? pMainFolderName : m_name);
+	FileSystem::userFiles.MakeDirectory(DUMP_DIR);
+	FileSystem::userFiles.MakeDirectory(folderName);
+
 	for (int lod = 0; lod < m_numLods; lod++) {
 		m_staticGeometry[lod]->Dump(rootFolderName, m_name, lod);
 	}
