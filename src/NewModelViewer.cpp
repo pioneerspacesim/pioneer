@@ -589,6 +589,10 @@ void ModelViewer::PollEvents()
 			case SDLK_z:
 				m_options.wireframe = !m_options.wireframe;
 				break;
+			case SDLK_F11:
+				if (event.key.keysym.mod & KMOD_SHIFT)
+					m_renderer->ReloadShaders();
+				break;
 			case SDLK_KP1:
 			case SDLK_KP2:
 			case SDLK_KP3:
