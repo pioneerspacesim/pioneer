@@ -178,7 +178,7 @@ int main(int argc, char **argv)
 							c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
 							(image = c->Image("icons/object_star_g.png")),
 							c->Image("icons/object_star_m.png")
-						), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL),
+						)),
 						c->ColorBackground(Color(1.0f, 0.0f, 0.0f, 1.0f)),
 						c->ColorBackground(Color(0.0f, 1.0f, 0.0f, 1.0f)),
 						c->ColorBackground(Color(0.0f, 0.0f, 1.0f, 1.0f)),
@@ -188,9 +188,9 @@ int main(int argc, char **argv)
 							c->Button()->SetInnerWidget(c->Label("Save game")),
 							c->Button()->SetInnerWidget(c->Label("Win game"))
 						))->PackEnd(
-							(slider = c->HSlider()), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL
+							(slider = c->HSlider())
 						)
-					), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
+					)
 				)
 			)
 		)
@@ -205,10 +205,10 @@ int main(int argc, char **argv)
 	UI::ColorBackground *back;
 	c->SetInnerWidget(
 		c->VBox(5.0f)->PackEnd(UI::WidgetSet(
-			c->HBox(5.0f)->PackEnd(c->Label("Red"))->PackEnd(red = c->HSlider(), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL),
-			c->HBox(5.0f)->PackEnd(c->Label("Green"))->PackEnd(green = c->HSlider(), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL),
-			c->HBox(5.0f)->PackEnd(c->Label("Blue"))->PackEnd(blue = c->HSlider(), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
-		))->PackEnd(back = c->ColorBackground(Color()), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
+			c->HBox(5.0f)->PackEnd(c->Label("Red"))->PackEnd(red = c->HSlider()),
+			c->HBox(5.0f)->PackEnd(c->Label("Green"))->PackEnd(green = c->HSlider()),
+			c->HBox(5.0f)->PackEnd(c->Label("Blue"))->PackEnd(blue = c->HSlider()),
+		))->PackEnd(back = c->ColorBackground(Color())),
 	);
 
 	red->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
@@ -332,7 +332,7 @@ int main(int argc, char **argv)
 	UI::Label *label;
 	UI::Slider *slider;
 	c->SetInnerWidget(
-		c->HBox(5.0f)->PackEnd(label = c->Label(""))->PackEnd(slider = c->HSlider(), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
+		c->HBox(5.0f)->PackEnd(label = c->Label(""))->PackEnd(slider = c->HSlider()),
 	);
 	slider->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&fill_label), label));
 #endif
@@ -423,7 +423,7 @@ int main(int argc, char **argv)
             c->Grid(2,2)
                 ->SetRow(0, UI::WidgetSet(c->Label("one"), c->Label("two")))
                 ->SetRow(1, UI::WidgetSet(c->Label("three"), c->Label("four")))
-        )->PackEnd(c->ColorBackground(Color(0.8f,0.2f,0.2f)), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
+        )->PackEnd(c->ColorBackground(Color(0.8f,0.2f,0.2f)))
     );
 #endif
 
