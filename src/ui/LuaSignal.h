@@ -31,14 +31,14 @@ protected:
 template <typename T0, typename T1>
 class LuaSignalTrampoline : public LuaSignalTrampolineBase {
 public:
-	static inline bool trampoline(const T0 &arg0, const T1 &arg1, lua_State *l, int idx) {
+	static inline bool trampoline(T0 arg0, T1 arg1, lua_State *l, int idx) {
 		_trampoline_start(l, idx);
 		pi_lua_generic_push(l, arg0);
 		pi_lua_generic_push(l, arg1);
 		return _trampoline_end(l, 2);
 	}
 
-	static inline void trampoline_void(const T0 &arg0, const T1 &arg1, lua_State *l, int idx) {
+	static inline void trampoline_void(T0 arg0, T1 arg1, lua_State *l, int idx) {
 		trampoline(arg0, arg1, l, idx);
 	}
 };
@@ -46,13 +46,13 @@ public:
 template <typename T0>
 class LuaSignalTrampoline<T0,sigc::nil> : public LuaSignalTrampolineBase {
 public:
-	static inline bool trampoline(const T0 &arg0, lua_State *l, int idx) {
+	static inline bool trampoline(T0 arg0, lua_State *l, int idx) {
 		_trampoline_start(l, idx);
 		pi_lua_generic_push(l, arg0);
 		return _trampoline_end(l, 1);
 	}
 
-    static inline void trampoline_void(const T0 &arg0, lua_State *l, int idx) {
+    static inline void trampoline_void(T0 arg0, lua_State *l, int idx) {
         trampoline(arg0, l, idx);
     }
 };
