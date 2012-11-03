@@ -26,18 +26,48 @@ Point Box::PreferredSize()
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);
 
 	m_preferredSize = Point(0);
+	m_minAllocation = 0;
+	m_numVariable = 0;
 
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		const Point childPreferredSize = (*i).preferredSize = (*i).widget->PreferredSize();
+		Point childPreferredSize = (*i).widget->PreferredSize();
 
-		if (m_preferredSize[vc] != INT_MAX)
-			m_preferredSize[vc] = childPreferredSize[vc] == INT_MAX ? INT_MAX : m_preferredSize[vc]+childPreferredSize[vc];
+		// XXX see my hack. 0 and INT_MAX need to be treated the same,
+		// everywhere. sigh
+		if (childPreferredSize[fc] == 0) childPreferredSize[fc] = INT_MAX;
+		if (childPreferredSize[vc] == 0) childPreferredSize[vc] = INT_MAX;
 
+		(*i).preferredSize = childPreferredSize;
+
+		// they've asked for as much as possible
+		if (childPreferredSize[vc] == INT_MAX) {
+			// we'll need to be as big as possible too
+			m_preferredSize[vc] = INT_MAX;
+
+			// count them for later
+			m_numVariable++;
+		}
+
+        // they asked for a known amount
+        else {
+
+            // if we still know our size then we can increase it sanely
+		    if (m_preferredSize[vc] != INT_MAX)
+			    // need a bit more
+			    m_preferredSize[vc] += childPreferredSize[vc];
+
+			// track minimum known size so we can avoid recounting in Layout()
+            m_minAllocation += childPreferredSize[vc];
+        }
+
+		// fixed axis should just be as large as our largest
 		m_preferredSize[fc] = std::max(m_preferredSize[fc], childPreferredSize[fc]);
 	}
 
-	if (m_children.size() > 1 && m_preferredSize[vc] != INT_MAX)
-		m_preferredSize[vc] += m_spacing * (m_children.size()-1);
+	// if there was no variable ones, and thus we're asking for a specific
+	// amount of space, add sufficient padding
+	if (m_numVariable == 0)
+		m_preferredSize[vc] += m_spacing*m_children.size();
 
 	return m_preferredSize;
 }
@@ -53,71 +83,35 @@ void Box::Layout()
 	Point::Component vc, fc;
 	GetComponentsForOrient(m_orient == BOX_HORIZONTAL, vc, fc);
 
-	float sizeRemaining = boxSize[vc] - (m_spacing * (m_children.size()-1));
-
-	Point childPos(0);
-
-	// the largest equal share each child can have
-	const float maxChildSize = boxSize[vc]/m_children.size();
-
-	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		(*i).padding = 0;
-
-		float childSize = 0;
-
-		// if we have enough room to give _everyone_ what they want, do it
-		if (boxSize[vc] >= m_preferredSize[vc])
-			childSize = (*i).preferredSize[vc];
-
-		// if this child wants less than their share, give it to them
-		else if (maxChildSize >= (*i).preferredSize[vc])
-			childSize = (*i).preferredSize[vc];
-
-		// otherwise they get their share
-		else
-			childSize = maxChildSize;
-
-		(*i).size[vc] = childSize;
-		(*i).size[fc] = boxSize[fc];
-
-		sizeRemaining -= childSize;
-
-		if (m_countExpanded == 0) {
-			SetWidgetDimensions((*i).widget, childPos, (*i).size);
-			childPos[vc] += childSize + m_spacing;
+	// fast path. we know the exact size that everything wants, so just
+	// loop and hand it out
+	if (m_numVariable == 0) {
+		Point childPos(0), childSize(0);
+		for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
+			childSize[fc] = boxSize[fc];
+			childSize[vc] = (*i).preferredSize[vc];
+			SetWidgetDimensions((*i).widget, childPos, childSize);
+			childPos[vc] += childSize[vc] + m_spacing;
 		}
 	}
 
-	if (m_countExpanded > 0) {
-		int candidates = m_countExpanded;
+	// we have one or more children that have requested the maximum size
+	// possible. each with a known size gets it, and any remaining space is
+	// distributed evenly among the max-sized children. if there is no
+	// remaining space, then we're already outside the bounds, so just give
+	// them something
+	else {
+		const size_t sizeAvail = boxSize[vc];
+		const size_t sizeMin = sizeAvail/10; // 10%, as good as anything
 
-		while (candidates > 0 && sizeRemaining > 0 && !is_zero_general(sizeRemaining)) {
-			float allocation = sizeRemaining / candidates;
+		const size_t amount = m_minAllocation < sizeAvail ? std::max((sizeAvail-m_minAllocation-m_spacing*(m_children.size()-1))/m_numVariable, sizeMin) : sizeMin;
 
-			for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-				if (!((*i).flags & BOX_EXPAND)) continue;
-
-				float amountAdded;
-				if (!((*i).flags & BOX_FILL)) {
-					(*i).padding += allocation * 0.5;
-					amountAdded = allocation;
-				}
-				else {
-					(*i).size[vc] += allocation;
-					amountAdded = allocation;
-				}
-
-				sizeRemaining -= amountAdded;
-			}
-		}
-
+		Point childPos(0), childSize(0);
 		for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-			Point pos = childPos;
-			pos[vc] += (*i).padding;
-
-			SetWidgetDimensions((*i).widget, pos, (*i).size);
-
-			childPos[vc] = pos[vc] + (*i).size[vc] + (*i).padding + m_spacing;
+			childSize[fc] = boxSize[fc];
+			childSize[vc] = (*i).preferredSize[vc] == INT_MAX ? amount : (*i).preferredSize[vc];
+			SetWidgetDimensions((*i).widget, childPos, childSize);
+			childPos[vc] += childSize[vc] + m_spacing;
 		}
 	}
 
@@ -128,8 +122,7 @@ Box *Box::PackStart(Widget *widget, Uint32 flags)
 {
 	assert(widget);
 	AddWidget(widget);
-	m_children.push_front(Child(widget, flags));
-	if (flags & BOX_EXPAND) m_countExpanded++;
+	m_children.push_front(Child(widget));
 	return this;
 }
 
@@ -144,8 +137,7 @@ Box *Box::PackEnd(Widget *widget, Uint32 flags)
 {
 	assert(widget);
 	AddWidget(widget);
-	m_children.push_back(Child(widget, flags));
-	if (flags & BOX_EXPAND) m_countExpanded++;
+	m_children.push_back(Child(widget));
 	return this;
 }
 
@@ -160,7 +152,6 @@ void Box::RemoveWidget(Widget *widget)
 {
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i)
 		if ((*i).widget == widget) {
-			if ((*i).flags & BOX_EXPAND) m_countExpanded--;
 			m_children.erase(i);
 			Container::RemoveWidget(widget);
 			return;
@@ -170,7 +161,6 @@ void Box::RemoveWidget(Widget *widget)
 void Box::Clear()
 {
 	m_children.clear();
-	m_countExpanded = 0;
 	Container::RemoveAllWidgets();
 }
 
