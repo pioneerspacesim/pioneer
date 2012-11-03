@@ -63,7 +63,7 @@ void main(void)
 	vec4 light = scene.ambient +
 //ambient and emissive only make sense with lighting
 #ifdef MAP_EMISSIVE
-		texture2D(texture2, texCoord0) * material.emission; //glow map
+		texture2D(texture2, texCoord0); //glow map
 #else
 		material.emission; //just emissive parameter
 #endif
