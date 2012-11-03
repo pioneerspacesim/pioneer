@@ -108,7 +108,7 @@ void ApplyShader() {
 	p->texture1.Set(1);
 }
 
-static const Uint32 s_cacheVersion = 2;
+static const Uint32 s_cacheVersion = 3;
 
 /*
  * Interface: LMR
@@ -1147,6 +1147,7 @@ public:
 		int numThrusters = m_thrusters.size();
 		int numOps = m_ops.size();
 		assert(numOps < 1000);
+		fwrite(&m_isFromObjFile, sizeof(m_isFromObjFile), 1, f);
 		fwrite(&numVertices, sizeof(numVertices), 1, f);
 		fwrite(&numIndices, sizeof(numIndices), 1, f);
 		fwrite(&numTriflags, sizeof(numTriflags), 1, f);
@@ -1175,6 +1176,7 @@ public:
 	}
 	void LoadFromCache(FILE *f) {
 		int numVertices, numIndices, numTriflags, numThrusters, numOps;
+		fread_or_die(&m_isFromObjFile, sizeof(m_isFromObjFile), 1, f);
 		fread_or_die(&numVertices, sizeof(numVertices), 1, f);
 		fread_or_die(&numIndices, sizeof(numIndices), 1, f);
 		fread_or_die(&numTriflags, sizeof(numTriflags), 1, f);
