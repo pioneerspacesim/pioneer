@@ -9,7 +9,7 @@
 namespace Newmodel {
 
 Label3D::Label3D(RefCountedPtr<Text::DistanceFieldFont> font, Graphics::Renderer *r)
-: Node(NODE_TRANSPARENT)
+: Node(NODE_SOLID) //appropriate for alpha testing
 , m_font(font)
 {
 	Graphics::MaterialDescriptor matdesc;
@@ -30,7 +30,7 @@ void Label3D::SetText(const std::string &text)
 
 void Label3D::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
 {
-	//needs alpha test!
+	//needs alpha test
 	r->SetTransform(trans);
 	r->DrawTriangles(m_geometry.Get(), m_material.Get());
 }

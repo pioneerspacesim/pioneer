@@ -66,6 +66,7 @@ RendererLegacy::RendererLegacy(const Graphics::Settings &vs)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	glAlphaFunc(GL_GREATER, 0.5f);
 
 	SetClearColor(Color(0.f));
 	SetViewport(0, 0, m_width, m_height);
@@ -663,6 +664,7 @@ Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 	m->vertexColors = desc.vertexColors;
 	m->unlit = !desc.lighting;
 	m->twoSided = desc.twoSided;
+	m->m_descriptor = desc;
 	return m;
 }
 
