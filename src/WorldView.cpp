@@ -30,6 +30,7 @@
 #include "graphics/Drawables.h"
 #include "matrix4x4.h"
 #include "Quaternion.h"
+#include "LuaObject.h"
 #include <algorithm>
 #include <sstream>
 #include <SDL_stdinc.h>
@@ -746,49 +747,67 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 	Body *b = Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget();
 	if (b) {
-		if (b->IsType(Object::SHIP) && Pi::player->m_equipment.Get(Equip::SLOT_RADARMAPPER) == Equip::RADAR_MAPPER) {
-			assert(b->IsType(Object::SHIP));
-			Ship *s = static_cast<Ship*>(b);
+		if (b->IsType(Object::SHIP)) {
+			int prop_var = 0;
+			Pi::player->Properties().Get("radar_mapper_cap", prop_var);
+			if (prop_var > 0) {
+				assert(b->IsType(Object::SHIP));
+				Ship *s = static_cast<Ship*>(b);
 
-			const shipstats_t &stats = s->GetStats();
+				const shipstats_t &stats = s->GetStats();
 
-			float sHull = s->GetPercentHull();
-			m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(sHull));
-			m_hudTargetHullIntegrity->SetValue(sHull*0.01f);
-			m_hudTargetHullIntegrity->Show();
+				float sHull = s->GetPercentHull();
+				m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(sHull));
+				m_hudTargetHullIntegrity->SetValue(sHull*0.01f);
+				m_hudTargetHullIntegrity->Show();
 
-			float sShields = 0;
-			if (s->m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR) > 0) {
-				sShields = s->GetPercentShields();
+				float sShields = 0;
+				prop_var = 0;
+				s->Properties().Get("shield_cap", prop_var);
+				if (prop_var > 0) {
+					sShields = s->GetPercentShields();
+				}
+				m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(sShields));
+				m_hudTargetShieldIntegrity->SetValue(sShields*0.01f);
+				m_hudTargetShieldIntegrity->Show();
+
+				std::string text;
+				text += s->GetShipType()->name;
+				text += "\n";
+				text += s->GetLabel();
+				text += "\n";
+
+				lua_State * l = Lua::manager->GetLuaState();
+				int clean_stack = lua_gettop(l);
+				LuaObject<Ship>::PushToLua(s);
+				lua_pushstring(l, "GetEquip");
+				lua_gettable(l, -2);
+				lua_pushvalue(l, -2);
+				lua_pushstring(l, "engine");
+				lua_call(l, 2, 1);
+				lua_rawgeti(l, -1, 1);
+				if (lua_isnil(l, -1)) {
+					text += Lang::NO_HYPERDRIVE;
+				} else {
+					lua_pushstring(l, "name");
+					lua_gettable(l, -2);
+					text += lua_tostring(l, -1);
+				}
+				lua_settop(l, clean_stack);
+
+				text += "\n";
+				text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
+				text += "\n";
+				text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
+					(sShields*0.01f) * float(prop_var))); // At that point, it still holds the property for the shields
+				text += "\n";
+				text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
+				text += "\n";
+
+				m_hudTargetInfo->SetText(text);
+				MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 150.0f, 85.0f);
+				m_hudTargetInfo->Show();
 			}
-			m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(sShields));
-			m_hudTargetShieldIntegrity->SetValue(sShields*0.01f);
-			m_hudTargetShieldIntegrity->Show();
-
-			std::string text;
-			text += s->GetShipType()->name;
-			text += "\n";
-			text += s->GetLabel();
-			text += "\n";
-
-			if (s->m_equipment.Get(Equip::SLOT_ENGINE) == Equip::NONE) {
-				text += Lang::NO_HYPERDRIVE;
-			} else {
-				text += Equip::types[s->m_equipment.Get(Equip::SLOT_ENGINE)].name;
-			}
-
-			text += "\n";
-			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
-			text += "\n";
-			text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
-				(sShields*0.01f) * float(s->m_equipment.Count(Equip::SLOT_SHIELD, Equip::SHIELD_GENERATOR))));
-			text += "\n";
-			text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
-			text += "\n";
-
-			m_hudTargetInfo->SetText(text);
-			MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 150.0f, 85.0f);
-			m_hudTargetInfo->Show();
 		}
 
 		else if (b->IsType(Object::HYPERSPACECLOUD) && Pi::player->m_equipment.Get(Equip::SLOT_HYPERCLOUD) == Equip::HYPERCLOUD_ANALYZER) {
