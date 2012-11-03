@@ -1,3 +1,10 @@
+-- Temporary mapping while waiting for new-equipment to embed this information.
+local missile_names = {
+	MISSILE_UNGUIDED="missile_unguided",
+	MISSILE_GUIDED="missile_guided",
+	MISSILE_SMART="missile_smart",
+	MISSILE_NAVAL="missile_naval"
+}
 --
 -- Class: Ship
 --
@@ -39,7 +46,7 @@
 function Ship:FireMissileAt(missile, target)
     if type(missile) == "number" then
         missile_type = self:GetEquip("MISSILE", missile)
-        if missile_type ~= "NONE" and self:SpawnMissile(missile_type, target) then
+        if missile_type ~= "NONE" and self:SpawnMissile(missile_names[missile_type], target) then
             self:SetEquip("MISSILE", missile, "NONE")
             return true
         end
@@ -47,7 +54,7 @@ function Ship:FireMissileAt(missile, target)
     end
 	for i,m in ipairs(self:GetEquip("MISSILE")) do
 		if m == missile then
-			if self:SpawnMissile(missile, target) then
+			if self:SpawnMissile(missile_names[missile], target) then
 				self:SetEquip("MISSILE", i, "NONE")
 				return true
 			end
