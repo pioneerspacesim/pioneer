@@ -559,27 +559,6 @@ static vector3d GenerateTangent(Ship *ship, Frame *targframe, const vector3d &sh
 	return (spos*b*b)/(a*a) + spos.Cross(targ).Cross(spos).Normalized()*b*c/a;
 }
 
-static int GetFlipMode(Ship *ship, const vector3d &relpos, const vector3d &relvel)
-{
-	double dist = relpos.Length();
-	double vel = relvel.Dot(relpos) / dist;
-	if (vel > 0.0 && vel*vel > 1.7 * ship->GetAccelRev() * dist) return 2;
-	if (dist > 100000000.0) return 1;	// arbitrary
-	return 0;
-}
-
-static double GetMaxDecel(Ship *ship, const vector3d &reldir, int flip, double *angr=0)
-{
-	matrix4x4d rot; ship->GetRotMatrix(rot);
-	vector3d heading = vector3d(-rot[8], -rot[9], -rot[10]);
-	double ang = heading.Dot(reldir);
-	if (angr) *angr = ang;
-
-	if (flip != 1 && flip != 2) { if (ang > 0.99) return ship->GetAccelRev(); }
-	else if (ang < -0.99 || ang > 0.99) return ship->GetAccelFwd();
-	return ship->GetAccelMin();
-}
-
 // check whether ship is at risk of colliding with frame body on current path
 // return values:
 //0 - no collision
@@ -668,18 +647,6 @@ static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, const vector3d &pos
 	return true;
 }
 
-// alternative plane-based version
-//	vector3d bodypos = body->GetPositionRelTo(ship);		// body position relative to ship
-//	double bodydist = bodypos.Length();
-//	vector3d planenorm = bodypos / bodydist;
-//	vector3d planedist = bodydist - MaxFeatureRad(body);
-
-//	vector3d targpos2 = targpos - ship->GetPosition();
-//	if (targpos2.Dot(planenorm) < planedist) return false;		// target closer than body-feature
-//	targpos *= planedist / targpos2.Dot(planenorm);
-//	return true;
-
-
 // check for collision course with frame body
 // tandir is normal vector from planet to target pos or dir
 static bool CheckSuicide(Ship *ship, const vector3d &tandir)
@@ -693,26 +660,6 @@ static bool CheckSuicide(Ship *ship, const vector3d &tandir)
 		return true;
 	return false;
 }
-
-// check for inability to reach target waypoint without overshooting
-static bool CheckOvershoot(Ship *ship, const vector3d &reldir, double targdist, const vector3d &relvel, double endvel)
-{
-	if (targdist < 100.0) return false;		// spazzes out occasionally otherwise
-	// only slightly fake minimum time to target
-	// based on s = (sv+ev)*t/2 + a*t*t/4
-	double fwdacc = ship->GetAccelFwd();
-	double u = 0.5 * (relvel.Dot(reldir) + endvel);	if (u<0) u = 0;
-	double t = (-u + sqrt(u*u + fwdacc*targdist)) / (fwdacc * 0.5);
-	if (t < Pi::game->GetTimeStep()) t = Pi::game->GetTimeStep();
-//	double t2 = ship->AITravelTime(reldir, targdist, relvel, endvel, true);
-
-	// check for uncorrectable side velocity
-	vector3d perpvel = relvel - reldir * relvel.Dot(reldir);
-	if (perpvel.Length() > 0.5*ship->GetAccelMin()*t)
-		return true;
-	return false;
-}
-
 
 // Fly to "vicinity" of body
 AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
@@ -801,49 +748,52 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	}
 
 	// if dangerously close to local body, pretend target isn't moving
-	if (body) {
-		double localdist = m_ship->GetPosition().Length();
-		if (targdist > localdist && localdist < 1.5*MaxFeatureRad(body))
-			relvel += targvel;
-	}
-
-	// regenerate state to flipmode if we're off course
-	bool overshoot = CheckOvershoot(m_ship, reldir, targdist, relvel, endvel);
-	if (m_tangent && m_state == -4 && !overshoot) return true;			// bail out
-	if (m_state < 0) m_state = GetFlipMode(m_ship, relpos, relvel);
+//	double localdist = m_ship->GetPosition().Length();
+//	if (body && targdist > localdist && localdist < 1.5*MaxFeatureRad(body))
+//		relvel += targvel;
 
 	// linear thrust
-	double ang, maxdecel = GetMaxDecel(m_ship, reldir, m_state, &ang);
+	double maxdecel = m_state==1 ? m_ship->GetAccelMin() : m_ship->GetAccelFwd();
 	maxdecel -= GetGravityAtPos(m_targframe, m_posoff);
 	if(maxdecel <= 0) { m_ship->AIMessage(Ship::AIERROR_GRAV_TOO_HIGH); return true; }
-	bool cap = m_ship->AIMatchPosVel2(reldir, targdist, relvel, endvel, maxdecel);
+	vector3d vdiff = m_ship->AIMatchPosVel(reldir, targdist, relvel, m_endvel, maxdecel);
 
-	// path overshoot check, response
-	if (m_state < 3 && overshoot) {
-		double ispeed = calc_ivel(targdist, endvel, maxdecel);
-		m_ship->AIFaceDirection(ispeed*reldir - relvel);
-		m_state = -4; return false;
+	int headoverride = 0;
+//	double ispeed = calc_ivel(targdist, endspeed, maxdecel);
+	double sdiff = vdiff.Length();
+	if (sdiff > 1e-10) {			// accelerating or off course
+		double vdir = vdiff.Dot(reldir) / sdiff;	// 1.0 => accelerate towards target
+		m_state = 0;
+		if (vdir <= 0.95 && vdir >= -0.95) m_state = -4;
+		else if (vdir < -0.95) headoverride = 2;			// excess deceleration
+		// hold heading if accelerating and can make up diff in 10 real seconds
+		else if (sdiff < m_ship->GetAccelMin()*timestep*500) headoverride = 1;
 	}
-
-	// flip check - if facing forward and not accelerating at maximum
-	if (m_state == 1 && ang > 0.99 && !cap) m_state = 2;
-
-	// termination conditions
-	if (m_state == 3) m_state++;					// finished last adjustment, hopefully
-	else if (endvel > 0.0) { if (reldir.Dot(m_reldir) < 0.9) m_state = 4; }
-	else if (targdist < 0.5*m_ship->GetAccelMin()*timestep*timestep) m_state = 3;
-
-	// set heading according to current state
-	if (m_state < 2) {		// this shit still needed? yeah, sort of
-		vector3d newrelpos = targpos - m_ship->AIGetNextFramePos();
-		if ((newrelpos + reldir*100.0).Dot(relpos) <= 0.0)
-			m_ship->AIFaceDirection(reldir);			// last frames turning workaround
-		else m_ship->AIFaceDirection(newrelpos);
+	else {							// decelerating within spec
+		if (m_state == -4 && m_tangent) return true;				// bail out
+		if (m_state < 0) m_state = targdist > 10000000.0 ? 0 : 1;
+		if (!m_state) { headoverride = 2; vdiff = -reldir; }
 	}
-	else if (m_state == 2) m_ship->AIFaceDirection(-reldir);	// hmm. -relvel instead?
+	
+//accelerating => sdiff > 0, vdir > 0.95.
+//	face target if sdiff large, else maintain heading
+//	use maxdecel if state 0, else mindecel
+//off course => sdiff > 0, vdir < 0.95
+//	always face vdir.
+//	use mindecel.
+//decelerating normally => sdiff = 0
+//	face vdir if state 0, else face target
+//	use maxdecel if state 0, else mindecel
+
+	// face appropriate direction
+	if (m_state < 0 || headoverride == 2) m_ship->AIFaceDirection(vdiff);
+	else if (m_state < 3 && headoverride != 1) m_ship->AIFaceDirection(reldir);
 	else m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
 
-	if (m_state == 4) return true;
+	// termination conditions
+	if (m_state == 3) return true;					// finished last adjustment, hopefully
+	if (m_endvel > 0.0) { if (reldir.Dot(m_reldir) < 0.9) return true; }
+	else if (targdist < 0.5*m_ship->GetAccelMin()*timestep*timestep) m_state = 3;
 	return false;
 }
 
@@ -903,9 +853,8 @@ bool AICmdDock::TimeStepUpdate()
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	vector3d relvel = m_ship->GetVelocityRelTo(m_target);
-	double maxdecel = GetMaxDecel(m_ship, reldir, 0, 0);
-	maxdecel -= GetGravityAtPos(m_target->GetFrame(), m_dockpos);
-	m_ship->AIMatchPosVel2(reldir, relpos.Length(), relvel, 0.0, maxdecel);
+	double maxdecel = m_ship->GetAccelMin() - GetGravityAtPos(m_target->GetFrame(), m_dockpos);
+	m_ship->AIMatchPosVel(reldir, relpos.Length(), relvel, 0.0, maxdecel);
 
 	// massive pile of crap needed to get updir right outside the frame
 	Frame *sframe = m_target->GetFrame();

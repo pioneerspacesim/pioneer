@@ -214,55 +214,29 @@ bool Ship::AIChangeVelBy(const vector3d &diffvel)
 	return true;
 }
 
-// relpos and relvel are position and velocity of ship relative to target in ship's frame
-// targspeed is in direction of motion, must be positive
-// returns difference in closing speed from ideal, or zero if it thinks it's at the target
-double Ship::AIMatchPosVel(const vector3d &relpos, const vector3d &relvel, double targspeed, const vector3d &maxthrust)
-{
-	matrix4x4d rot; GetRotMatrix(rot);
-	vector3d objpos = relpos * rot;
-	vector3d reldir = objpos.NormalizedSafe();
-	vector3d endvel = targspeed * reldir;
-	double invmass = 1.0 / GetMass();
-
-	// find ideal velocities at current time given reverse thrust level
-	vector3d ivel;
-	ivel.x = calc_ivel(objpos.x, endvel.x, maxthrust.x * invmass);
-	ivel.y = calc_ivel(objpos.y, endvel.y, maxthrust.y * invmass);
-	ivel.z = calc_ivel(objpos.z, endvel.z, maxthrust.z * invmass);
-
-	vector3d objvel = relvel * rot;
-	vector3d diffvel = ivel - objvel;		// required change in velocity
-	AIChangeVelBy(diffvel);
-	return diffvel.Dot(reldir);
-}
-
 // reldir*targdist and relvel are pos and vel of ship relative to target in ship's frame
 // endspeed is in direction of motion, must be positive
 // maxdecel is maximum deceleration thrust
-bool Ship::AIMatchPosVel2(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxdecel)
+vector3d Ship::AIMatchPosVel(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxdecel)
 {
 	matrix4x4d rot; GetRotMatrix(rot);
-	double parspeed = relvel.Dot(reldir);
-	double ivel = calc_ivel(targdist, endspeed, maxdecel);
-	double diffspeed = ivel - parspeed;
-	vector3d diffvel = diffspeed * reldir * rot;
-	bool rval = false;
+	double ispeed = calc_ivel(targdist, endspeed, maxdecel);
+	vector3d reqdiffvel = (ispeed*reldir - relvel) * rot;
+
+	// determine maximum possible diffvel in that direction
+	vector3d maxthrust = GetMaxThrust(reqdiffvel);
+	if (!GetFrame()->IsStationRotFrame()) maxthrust += GetExternalForce() * rot;
+	vector3d maxFA = maxthrust * Pi::game->GetTimeStep() / GetMass();
+	maxFA.x = abs(maxFA.x); maxFA.y = abs(maxFA.y); maxFA.z = abs(maxFA.z);
 
 	// crunch diffvel by relative thruster power to get acceleration in right direction
-	if (diffspeed > 0.0) {
-		vector3d maxFA = GetMaxThrust(diffvel) * Pi::game->GetTimeStep() / GetMass();
-		if (abs(diffvel.x) > maxFA.x) diffvel *= maxFA.x / abs(diffvel.x);
-		if (abs(diffvel.y) > maxFA.y) diffvel *= maxFA.y / abs(diffvel.y);
-//		if (abs(diffvel.z) > maxFA.z) diffvel *= maxFA.z / abs(diffvel.z);
-		if (maxFA.z < diffspeed) rval = true;
-	}
+	vector3d diffvel = reqdiffvel;
+	if (abs(diffvel.x) > maxFA.x) diffvel *= maxFA.x / abs(diffvel.x);
+	if (abs(diffvel.y) > maxFA.y) diffvel *= maxFA.y / abs(diffvel.y);
+	if (abs(diffvel.z) > maxFA.z) diffvel *= maxFA.z / abs(diffvel.z);
 
-	// add perpendicular velocity
-	vector3d perpvel = relvel - parspeed*reldir;
-	diffvel -= perpvel * rot;
-	AIChangeVelBy(diffvel);
-	return rval;			// true if acceleration was capped
+	AIChangeVelBy(diffvel);		// should always return true because it's already capped?
+	return rot * (reqdiffvel - diffvel);		// should be remaining diffvel to correct
 }
 
 // Input in object space
@@ -405,12 +379,11 @@ vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int g
 
 // same inputs as matchposvel, returns approximate travel time instead
 // underestimates if targspeed isn't reachable
-double Ship::AITravelTime(const vector3d &reldir, double targdist, const vector3d &relvel, double targspeed, bool flip)
+double Ship::AITravelTime(const vector3d &reldir, double targdist, const vector3d &relvel, double targspeed, double maxdecel)
 {
 	double speed = relvel.Dot(reldir);		// speed >0 is towards
 	double dist = targdist;
 	double faccel = GetAccelFwd();
-	double raccel = flip ? faccel : GetAccelRev();
 	double time1, time2, time3;
 
 	// time to reduce speed to zero:
@@ -418,13 +391,13 @@ double Ship::AITravelTime(const vector3d &reldir, double targdist, const vector3
 	dist += 0.5 * time1 * -speed;
 
 	// time to reduce speed to zero after target reached:
-	time3 = -targspeed / raccel;
+	time3 = -targspeed / maxdecel;
 	dist += 0.5 * time3 * -targspeed;
 
 	// now time to cover distance between zero-vel points
 	// midpoint = intercept of two gradients
-	double m = dist*raccel / (faccel+raccel);
-	time2 = sqrt(2*m/faccel) + sqrt(2*(dist-m)/raccel);
+	double m = dist*maxdecel / (faccel+maxdecel);
+	time2 = sqrt(2*m/faccel) + sqrt(2*(dist-m)/maxdecel);
 
 	return time1+time2+time3;
 }
