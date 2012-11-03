@@ -374,7 +374,7 @@ Character = {
 --
 -- Availability:
 --
---   alpha 28
+--   alpha 29
 --
 -- Status:
 --
@@ -391,7 +391,7 @@ Character = {
 --
 -- Availability:
 --
---   alpha 28
+--   alpha 29
 --
 -- Status:
 --
@@ -921,7 +921,7 @@ Character = {
 --
 -- Availability:
 --
---   alpha 28
+--   alpha 29
 --
 -- Status:
 --
@@ -979,7 +979,7 @@ Character = {
 --
 -- Availability:
 --
---   alpha 28
+--   alpha 29
 --
 -- Status:
 --
