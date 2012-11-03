@@ -33,7 +33,6 @@ extern const struct EnumItem ENUM_EconType[];
 extern const struct EnumItem ENUM_BodyType[];
 extern const struct EnumItem ENUM_BodySuperType[];
 extern const struct EnumItem ENUM_UIAlignDirection[];
-extern const struct EnumItem ENUM_UIBoxFlags[];
 extern const struct EnumItem ENUM_UIEventType[];
 extern const struct EnumItem ENUM_UIKeyboardAction[];
 extern const struct EnumItem ENUM_UIMouseButtonAction[];

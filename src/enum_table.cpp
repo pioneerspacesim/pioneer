@@ -14,7 +14,6 @@
 #include "SpaceStation.h"
 #include "galaxy/StarSystem.h"
 #include "ui/Align.h"
-#include "ui/Box.h"
 #include "ui/Event.h"
 #include "ui/Image.h"
 #include "ui/Widget.h"
@@ -324,12 +323,6 @@ const struct EnumItem ENUM_UIAlignDirection[] = {
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_UIBoxFlags[] = {
-	{ "EXPAND", UI::Box::BOX_EXPAND },
-	{ "FILL", UI::Box::BOX_FILL },
-	{ 0, 0 },
-};
-
 const struct EnumItem ENUM_UIEventType[] = {
 	{ "KEYBOARD", UI::Event::KEYBOARD },
 	{ "MOUSE_BUTTON", UI::Event::MOUSE_BUTTON },
@@ -341,6 +334,7 @@ const struct EnumItem ENUM_UIEventType[] = {
 const struct EnumItem ENUM_UIKeyboardAction[] = {
 	{ "DOWN", UI::KeyboardEvent::KEY_DOWN },
 	{ "UP", UI::KeyboardEvent::KEY_UP },
+	{ "PRESS", UI::KeyboardEvent::KEY_PRESS },
 	{ 0, 0 },
 };
 

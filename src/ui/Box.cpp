@@ -118,7 +118,7 @@ void Box::Layout()
 	LayoutChildren();
 }
 
-Box *Box::PackStart(Widget *widget, Uint32 flags)
+Box *Box::PackStart(Widget *widget)
 {
 	assert(widget);
 	AddWidget(widget);
@@ -126,14 +126,14 @@ Box *Box::PackStart(Widget *widget, Uint32 flags)
 	return this;
 }
 
-Box *Box::PackStart(const WidgetSet &set, Uint32 flags)
+Box *Box::PackStart(const WidgetSet &set)
 {
 	for (int i = 0; i < set.numWidgets; ++i)
-		PackStart(set.widgets[i], flags);
+		PackStart(set.widgets[i]);
 	return this;
 }
 
-Box *Box::PackEnd(Widget *widget, Uint32 flags)
+Box *Box::PackEnd(Widget *widget)
 {
 	assert(widget);
 	AddWidget(widget);
@@ -141,10 +141,10 @@ Box *Box::PackEnd(Widget *widget, Uint32 flags)
 	return this;
 }
 
-Box *Box::PackEnd(const WidgetSet &set, Uint32 flags)
+Box *Box::PackEnd(const WidgetSet &set)
 {
 	for (int i = 0; i < set.numWidgets; ++i)
-		PackEnd(set.widgets[i], flags);
+		PackEnd(set.widgets[i]);
 	return this;
 }
 
