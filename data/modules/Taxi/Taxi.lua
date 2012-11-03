@@ -338,7 +338,7 @@ local onClick = function (ref)
 													start = mission.start:GetSystemBody().name,
 													finish = mission.location:GetStarSystem().name,
 													deadline = Format.Date(mission.due),
-													howmany = taxi_flavours[mission.flavour].howmany,
+													howmany = string.interp(taxi_flavours[mission.flavour].howmany, {group = mission.group}),
 													danger = taxi_flavours[mission.flavour].danger,
 													amount = Format.Money(mission.reward),
 												})))
