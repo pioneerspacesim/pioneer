@@ -593,31 +593,6 @@ void Ship::UseECM()
 	}
 }
 
-bool Ship::FireMissile(int idx, Ship *target)
-{
-	assert(target);
-
-	if (GetFlightState() != FLYING) return false;
-
-	const Equip::Type t = m_equipment.Get(Equip::SLOT_MISSILE, idx);
-	if (t == Equip::NONE) {
-		return false;
-	}
-
-	m_equipment.Set(Equip::SLOT_MISSILE, idx, Equip::NONE);
-	UpdateEquipStats();
-
-	ShipType::Type mtype;
-	switch (t) {
-		case Equip::MISSILE_SMART: mtype = ShipType::MISSILE_SMART; break;
-		case Equip::MISSILE_NAVAL: mtype = ShipType::MISSILE_NAVAL; break;
-		case Equip::MISSILE_UNGUIDED: mtype = ShipType::MISSILE_UNGUIDED; break;
-		default:
-		case Equip::MISSILE_GUIDED: mtype = ShipType::MISSILE_GUIDED; break;
-	}
-	return SpawnMissile(new Missile(mtype, this, target));
-}
-
 bool Ship::SpawnMissile(Missile * missile) {
 	if (GetFlightState() != FLYING)
 		return false;
