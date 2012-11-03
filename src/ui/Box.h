@@ -15,7 +15,7 @@ protected:
 		BOX_VERTICAL
 	};
 
-	Box(Context *context, BoxOrientation orient, float spacing) : Container(context), m_orient(orient), m_spacing(spacing), m_countExpanded(0) {}
+	Box(Context *context, BoxOrientation orient, int spacing) : Container(context), m_orient(orient), m_spacing(spacing) {}
 
 public:
 	virtual Point PreferredSize();
@@ -40,21 +40,19 @@ protected:
 
 private:
 	BoxOrientation m_orient;
-	float m_spacing;
+	size_t m_spacing;
 
 	struct Child {
-		Child(Widget *_widget, Uint32 _flags) : widget(_widget), flags(_flags) {}
-		Widget   *widget;
-		Uint32    flags;
+		Child(Widget *_widget) : widget(_widget) {}
+		Widget *widget;
 		Point  preferredSize;
-		Point  size;
-		float     padding;
 	};
 
 	std::list<Child> m_children;
-	int m_countExpanded;
 
 	Point m_preferredSize;
+	size_t m_minAllocation;
+	size_t m_numVariable;
 };
 
 class VBox: public Box {
