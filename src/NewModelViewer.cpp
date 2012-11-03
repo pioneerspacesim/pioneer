@@ -112,16 +112,9 @@ void ModelViewer::Run(int argc, char** argv)
 	Graphics::Renderer *renderer;
 	ModelViewer *viewer;
 
-#if 0
-	//read command line options, if no model name is specified
-	//the model selector is shown
-	if ((argc<=1) || (0==strcmp(argv[1],"--help"))) {
-		printf("Usage:\nmodelviewer <width> <height> <model name>\n");
-	}
-#endif
 	if (argc >= 3) {
-		width = atoi(argv[1]);
-		height = atoi(argv[2]);
+		width = std::max(width, atoi(argv[1]));
+		height = std::max(height, atoi(argv[2]));
 	}
 	const std::string modelName = argv[3];
 
