@@ -199,6 +199,7 @@ local personalInfo = function ()
 end
 
 local econTrade = function ()
+
 	local cash = Game.player:GetMoney()
 
 	local stats = Game.player:GetStats()
@@ -209,22 +210,63 @@ local econTrade = function ()
 	local usedCabins = Game.player:GetEquipCount("CABIN", "PASSENGER_CABIN")
 	local totalCabins = Game.player:GetEquipCount("CABIN", "UNOCCUPIED_CABIN") + usedCabins
 
-	local cargoNameColumn = {}
-	local cargoQuantityColumn = {}
-	for i = 1,#Constants.EquipType do
-		local type = Constants.EquipType[i]
-		if type ~= "NONE" then
-			local et = EquipType.GetEquipType(type)
-			local slot = et.slot
-			if slot == "CARGO" then
-				local count = Game.player:GetEquipCount(slot, type)
-				if count > 0 then
-					table.insert(cargoNameColumn, ui:Label(et.name))
-					table.insert(cargoQuantityColumn, ui:Label(count.."t"))
+	-- Using econTrade as an enclosure for the functions attached to the
+	-- buttons in the UI object that it returns. Seems like the most sane
+	-- way to handle it; hopefully the enclosure will evaporate shortly
+	-- after the UI is disposed of.
+
+	updateCargoListWidget = function ()
+
+		local cargoNameColumn = {}
+		local cargoQuantityColumn = {}
+		for i = 1,#Constants.EquipType do
+			local type = Constants.EquipType[i]
+			if type ~= "NONE" then
+				local et = EquipType.GetEquipType(type)
+				local slot = et.slot
+				if slot == "CARGO" then
+					local count = Game.player:GetEquipCount(slot, type)
+					if count > 0 then
+						table.insert(cargoNameColumn, ui:Label(et.name))
+						table.insert(cargoQuantityColumn, ui:Label(count.."t"))
+					end
 				end
 			end
 		end
+
+		-- Function returns a UI with which to populate the cargo list widget
+		return
+			ui:VBox(10):PackEnd({
+				ui:Label(t("CARGO")):SetFont("HEADING_LARGE"),
+				ui:Scroller():SetInnerWidget(
+					ui:Grid(2,1)
+						:SetColumn(0, { ui:VBox():PackEnd(cargoNameColumn) })
+						:SetColumn(1, { ui:VBox():PackEnd(cargoQuantityColumn) })
+				)
+			})
 	end
+
+	-- Make a cargo list widget that we can revisit and update
+	local cargoListWidget = ui:Margin(0)
+		:SetInnerWidget(updateCargoListWidget())
+
+	local totalCargoWidget = ui:Label(t("Total: ")..totalCargo.."t")
+	local usedCargoWidget = ui:Label(t("USED")..": "..usedCargo.."t")
+
+	local refuel = function ()
+		-- UI button where the player clicks to refuel...
+		Game.player:Refuel(1)
+		-- ...then we update the cargo list widget...
+		cargoListWidget:SetInnerWidget(updateCargoListWidget())
+		-- ...and the totals.
+		stats = Game.player:GetStats()
+		totalCargoWidget:SetText(t("Total: ")..stats.freeCapacity.."t")
+		usedCargoWidget:SetText(t("USED")..": "..stats.usedCargo.."t")
+	end
+
+	-- Define the refuel button
+	local refuelButton = ui:Button():SetInnerWidget(ui:Label(t('REFUEL')))
+	refuelButton.onClick:Connect(refuel)
 
 	return ui:Expand():SetInnerWidget(
 		ui:Grid(2,1)
@@ -238,27 +280,21 @@ local econTrade = function ()
 								ui:Margin(10),
 								ui:Label(t("CARGO_SPACE")..":"),
 								ui:Label(t("CABINS")..":"),
+								refuelButton,
 							})
 						})
 						:SetColumn(1, {
 							ui:VBox():PackEnd({
 								ui:Label(string.format("$%.2f", cash)),
 								ui:Margin(10),
-								ui:Grid(2,1):SetRow(0, { ui:Label(t("Total: ")..totalCargo.."t"), ui:Label(t("USED")..": "..usedCargo.."t") }),
+								ui:Grid(2,1):SetRow(0, { totalCargoWidget, usedCargoWidget }),
 								ui:Grid(2,1):SetRow(0, { ui:Label(t("Total: ")..totalCabins), ui:Label(t("USED")..": "..usedCabins) }),
 							})
 						}),
 				})
 			})
 			:SetColumn(1, {
-				ui:VBox(10):PackEnd({
-					ui:Label(t("CARGO")):SetFont("HEADING_LARGE"),
-					ui:Scroller():SetInnerWidget(
-						ui:Grid(2,1)
-							:SetColumn(0, { ui:VBox():PackEnd(cargoNameColumn) })
-							:SetColumn(1, { ui:VBox():PackEnd(cargoQuantityColumn) })
-					)
-				})
+				cargoListWidget
 			})
 	)
 end
