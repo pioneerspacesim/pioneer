@@ -317,7 +317,7 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector
 	if (hasHomeworld) 
 	{
 		/* ...automatically gain the allegiance of worlds within the same sector... */
-		if (sec.Contains(homeworld)) { closestFactionDist = 0; } 
+		if (sec.Contains(homeworld)) { distance = 0; } 
 		
 		/* ...otherwise we need to calculate whether the world is inside the 
 		   the faction border, and how far away it is. */
