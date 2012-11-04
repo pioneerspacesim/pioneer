@@ -6,11 +6,10 @@
 
 #include "Renderer.h"
 #include "VertexArray.h"
+#include "Surface.h"
 #include <vector>
 
 namespace Graphics {
-
-class Surface;
 
 /*
  * StaticMesh can hold multiple surfaces and is intended for complex,

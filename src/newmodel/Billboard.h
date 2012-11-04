@@ -21,9 +21,9 @@ public:
 	void AddPoint(const vector3f &pt);
 
 private:
-	std::vector<vector3f> m_points;
 	float m_size;
 	RefCountedPtr<Graphics::Material> m_material;
+	std::vector<vector3f> m_points;
 };
 
 }

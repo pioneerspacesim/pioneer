@@ -345,7 +345,6 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surfa
 	for (unsigned int i=0; i<scene->mNumMeshes; i++) {
 		aiMesh *mesh = scene->mMeshes[i];
 		assert(mesh->HasNormals());
-		assert(mesh->mNumVertices <= Graphics::StaticMesh::MAX_VERTICES);
 
 		if (!mesh->HasTextureCoords(0))
 			throw LoadingError("Mesh has no uv coordinates");
@@ -431,7 +430,7 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		//Could make FPS an additional define or always require 24
 		double defStart = def->start;
 		double defEnd = def->end;
-		if (ticksPerSecond == 1.0) {
+		if (is_equal_exact(ticksPerSecond, 1.0)) {
 			defStart /= 24.0;
 			defEnd /= 24.0;
 		}

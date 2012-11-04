@@ -2,6 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "FindNodeVisitor.h"
+#include "Node.h"
+#include "utils.h"
 
 namespace Newmodel {
 

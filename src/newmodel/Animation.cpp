@@ -14,9 +14,9 @@ Animation::Animation(const std::string &name, double duration, Behavior behavior
 , m_dir(FORWARD)
 , m_currentTime(0.0)
 , m_duration(duration)
+, m_prevMTime(0.0)
 , m_ticksPerSecond(tps)
 , m_name(name)
-, m_prevMTime(0.0)
 {
 
 }
@@ -89,35 +89,35 @@ void Animation::Interpolate()
 			} else {
 				trans.SetRotationOnly(a.rotation.ToMatrix4x4<float>());
 			}
+		}
 
-			//scaling will not work without rotation since it would
-			//continously scale the transform (would have to add originalTransform or
-			//something to MT)
-			if (!chan->scaleKeys.empty()) {
-				//find a frame. To optimize, should begin search from previous frame (when mTime > previous mTime)
-				unsigned int frame = 0;
-				while (frame < chan->scaleKeys.size() - 1) {
-					if (mtime < chan->scaleKeys[frame+1].time)
-						break;
-					frame++;
-				}
-				const unsigned int nextFrame = (frame + 1) % chan->scaleKeys.size();
-
-				const ScaleKey &a = chan->scaleKeys[frame];
-				const ScaleKey &b = chan->scaleKeys[nextFrame];
-				double diffTime = b.time - a.time;
-				if (diffTime < 0.0)
-					diffTime += m_duration;
-				vector3f out;
-				if (diffTime > 0.0) {
-					const float factor = Clamp(float((mtime - a.time) / diffTime), 0.f, 1.f);
-					out = a.scale + (b.scale - a.scale) * factor;
-				} else {
-					out = a.scale;
-				}
-
-				trans.Scale(out.x, out.y, out.z);
+		//scaling will not work without rotation since it would
+		//continously scale the transform (would have to add originalTransform or
+		//something to MT)
+		if (!chan->scaleKeys.empty() && !chan->rotationKeys.empty()) {
+			//find a frame. To optimize, should begin search from previous frame (when mTime > previous mTime)
+			unsigned int frame = 0;
+			while (frame < chan->scaleKeys.size() - 1) {
+				if (mtime < chan->scaleKeys[frame+1].time)
+					break;
+				frame++;
 			}
+			const unsigned int nextFrame = (frame + 1) % chan->scaleKeys.size();
+
+			const ScaleKey &a = chan->scaleKeys[frame];
+			const ScaleKey &b = chan->scaleKeys[nextFrame];
+			double diffTime = b.time - a.time;
+			if (diffTime < 0.0)
+				diffTime += m_duration;
+			vector3f out;
+			if (diffTime > 0.0) {
+				const float factor = Clamp(float((mtime - a.time) / diffTime), 0.f, 1.f);
+				out = a.scale + (b.scale - a.scale) * factor;
+			} else {
+				out = a.scale;
+			}
+
+			trans.Scale(out.x, out.y, out.z);
 		}
 
 		if (!chan->positionKeys.empty()) {

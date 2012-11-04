@@ -15,6 +15,7 @@ noinst_HEADERS = \
 	CollisionVisitor.h \
 	ColorMap.h \
 	DumpVisitor.h \
+	FindNodeVisitor.h \
 	Group.h \
 	Label3D.h \
 	LoaderDefinitions.h \
@@ -37,6 +38,7 @@ libnewmodel_a_SOURCES = \
 	CollisionVisitor.cpp \
 	ColorMap.cpp \
 	DumpVisitor.cpp \
+	FindNodeVisitor.cpp \
 	Group.cpp \
 	Label3D.cpp \
 	Loader.cpp \

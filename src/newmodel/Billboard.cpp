@@ -8,16 +8,16 @@ namespace Newmodel {
 
 Billboard::Billboard(RefCountedPtr<Graphics::Material> mat, float size)
 : Node(NODE_TRANSPARENT)
-, m_material(mat)
 , m_size(size)
+, m_material(mat)
 {
 }
 
 Billboard::Billboard(const std::vector<vector3f> &pts, RefCountedPtr<Graphics::Material> mat, float size)
 : Node(NODE_TRANSPARENT)
-, m_points(pts)
-, m_material(mat)
 , m_size(size)
+, m_material(mat)
+, m_points(pts)
 {
 }
 
