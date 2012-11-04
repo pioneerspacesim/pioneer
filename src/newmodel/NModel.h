@@ -4,7 +4,10 @@
 #ifndef _NEWMODEL_H
 #define _NEWMODEL_H
 /*
- * New internal model structure. Think of this as a mini-scenegraph.
+ * A new model system with a scene graph based approach.
+ * Also see: http://pioneerwiki.com/wiki/New_Model_System
+ *
+ * A model has an internal stucture of one or (almost always several) nodes
  * For example:
  * RootNode
  *    MatrixTransformNode (applies a scale or something to child nodes)
@@ -14,35 +17,40 @@
  *            StaticGeometry_hi
  *
  * It's not supposed to be too complex. For example there are no "Material" nodes.
- * Geometry nodes can contain multiple separate meshes.
+ * Geometry nodes can contain multiple separate meshes. One node can be attached to
+ * multiple parents to achieve a simple form of instancing, although the support for
+ * this is dependanant on tools.
  *
  * Models are defined in a simple .model text file, which describes materials,
  * detail levels, meshes to import to each detail level and animations.
  *
- * Loading all the models can be quite slow, so there should be a system to
- * compile them into a more game-friendly binary format, which would be supplied
- * with game releases.
+ * Open Asset Import Library (assimp) is used as the mesh loader. While it supports
+ * a large number of formats most models are expected to use Collada (.dae). The format
+ * needs to support node names since many special features are based on that.
  *
- * Animation: keyframe animation affecting MatrixTransforms, and subsequently nodes
- * attached to them. Animations can be played by name, and play commands should propagate
- * to submodels (e.g. "anim_shoot" would activate recoil animation on gun submodels).
- * There could be some generic animation related sigc events.
+ * Loading all the meshes can be quite slow, so there will be a system to
+ * compile them into a more game-friendly binary format.
+ *
+ * Animation: position/rotation/scale keyframe animation affecting MatrixTransforms,
+ * and subsequently nodes attached to them. There is no animation blending, although
+ * an animated matrixtransform can be attached to another further down the chain just fine.
  * Due to format & exporter limitations, animations need to be combined into one timeline
  * and then split into new animations using frame ranges.
  *
- * Attaching models to other models (guns etc. to ships): models may specify a nunber of
- * named hardpoints, known as "tags" (term from Q3). Users can query tags by name or index.
- * Space stations might be "Scenes" consisting of multiple models. And lights and stuff.
- * The actual logic to handle equipment attachments is to be done separately from new-model.
+ * Attaching models to other models (guns etc. to ships): models may specify
+ * named hardpoints, known as "tags" (term from Q3).
+ * Users can query tags by name or index and create a ModelNode to wrap the sub model
  *
  * Minor features:
  *  - pattern + customizable colour system (one pattern per model). Patterns can be
  *    dropped into the model directory.
  *  - dynamic textures (logos on spaceships, advertisements on stations)
+ *  - 3D labels (well, 2D) on models
+ *  - spaceship thrusters
  *
- * Other stuff to do:
- * 	- Collisions are very limited. Not entirely in scope of new-model, but someone's got to do it
- *  - scenegraph optimizer. Group untranslated geometry nodes into one etc.
+ * Things to optimize:
+ *  - model cache
+ *  - removing unnecessary nodes from the scene graph: pre-translate unanimated meshes etc.
  */
 #include "libs.h"
 #include "Model.h"
