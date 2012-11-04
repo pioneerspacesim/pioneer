@@ -19,7 +19,7 @@ Point TextEntry::PreferredSize()
 {
 	const Point labelPreferredSize(m_label->PreferredSize());
 	const Point borderSize(GetContext()->GetSkin().BackgroundNormal().borderWidth*2);
-	return labelPreferredSize + borderSize;
+	return SizeAdd(labelPreferredSize, borderSize);
 }
 
 void TextEntry::Layout()
