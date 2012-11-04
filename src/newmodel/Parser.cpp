@@ -95,7 +95,7 @@ bool Parser::checkColor(std::stringstream &ss, Color &color)
 	color.r = Clamp(r, 0.f, 1.f);
 	color.g = Clamp(g, 0.f, 1.f);
 	color.b = Clamp(b, 0.f, 1.f);
-	color.a = 1.f; //yeah, we don't support alpha
+	color.a = 1.f; //alpha comes from opacity statement
 	return true;
 }
 
@@ -105,7 +105,7 @@ bool Parser::parseLine(const std::string &line)
 	using std::string;
 	stringstream ss(stringstream::in | stringstream::out);
 	ss.str(line);
-	if (ss.fail()) return false;
+	if (ss.fail()) throw ParseError("Stringstream failure");
 	string token;
 	if ((ss >> token) != 0) {
 		//line contains something
@@ -199,10 +199,10 @@ bool Parser::parseLine(const std::string &line)
 					m_curMat->use_pattern = true;
 					return true;
 				}
-				else //unknown instruction
-					return false;
+				else
+					throw ParseError("Unknown instruction");
 			}
-			return false;
+			throw ParseError("Unknown instruction");
 		}
 	} else {
 		//empty line, skip
