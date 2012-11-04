@@ -197,9 +197,7 @@ void Atmosphere::Init(SystemBody *sbody)
 	m_shaderAtmosParams = 0;
 
 	PickSingleConstituentAtmosphere(sbody);
-	sbody->m_atmosDensity = m_atmosDensity;
 	CalculateSimpleScatteringModelColor();
-	sbody->m_atmosColor = m_simpleScatteringColor;
 }
 
 void Atmosphere::CalculateGasConstituentsForSingleConstituentModel(SystemBody *sbody)

@@ -13,6 +13,7 @@
 #include "DeleteEmitter.h"
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
+#include "Atmosphere.h"
 
 class CustomSystemBody;
 class CustomSystem;
@@ -53,6 +54,8 @@ struct RingStyle {
 
 class SystemBody {
 public:
+	friend class Atmosphere; // temporary measure
+
 	SystemBody();
 	~SystemBody();
 	void PickPlanetType(MTRand &rand);
@@ -154,27 +157,25 @@ public:
 	void PickRings(bool forceRings = false);
 
 
-	// XXX merge all this atmosphere stuff
+	// Atmosphere
 	bool HasAtmosphere() const;
-
-	void PickAtmosphere();
+	void InitAtmosphere() { m_atmosphere = new Atmosphere(this); }
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
-		*outColor = m_atmosColor;
-		*outDensity = m_atmosDensity;
+		*outColor = m_atmosphere->GetSimpleScatteringColor();
+		*outDensity = m_atmosphere->GetSurfaceDensity();
 	}
+	Atmosphere *GetAtmosphere() const { return m_atmosphere; }
 
-	struct AtmosphereParameters {
-		float atmosRadius;
-		float atmosInvScaleHeight;
-		float atmosDensity;
-		float planetRadius;
-		Color atmosCol;
-		vector3d center;
-		float scale;
-	};
+	// Debug function - prints out comparison of against old pre-refactor version 
+	void SystemBody::TestSingleConstituentModelAgainstOldVersion();
+	// Debug function - old pre-refactor function
+	Color PickAtmosphereOld() const; // for comparison to old function
 
-	AtmosphereParameters CalcAtmosphereParams() const;
+	// This should be called before first use - currently called by Geosphere:: constructor
+	void InitAtmosphereParams() const { m_atmosphere->CalcAtmosphereParams(); }
+	Atmosphere::AtmosphereParameters *GetAtmosphereParams() const { return m_atmosphere->GetAtmosphereParams(); }
 
+	Atmosphere *m_atmosphere;
 
 	bool IsScoopable() const;
 
@@ -216,9 +217,6 @@ public:
 
 	const char *heightMapFilename;
 	unsigned int heightMapFractal;
-private:
-	Color m_atmosColor;
-	double m_atmosDensity;
 };
 
 class StarSystem : public DeleteEmitter, public RefCounted {
