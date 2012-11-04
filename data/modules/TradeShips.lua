@@ -216,6 +216,31 @@ local getNearestStarport = function (ship, current)
 	return starport or current
 end
 
+local getRandomStarport = function (ship_name)
+	if #starports == 0 then return nil end
+
+	local random_offset = Engine.rand:Integer(1, #starports)
+	local ship_type = ShipType.GetShipType(ship_name)
+
+	-- Find the random starport that we can land at.
+	-- Pick random offset and keep skipping improper starports until the proper one is found.
+	local starport
+	for i = 1, #starports do
+		local next_starport = starports[((i + random_offset - 1)%(#starports) + 1)]
+		local next_canland = ((ship_type:GetEquipSlotCapacity('ATMOSHIELD') > 0) or
+			(not next_starport.path:GetSystemBody().parent.hasAtmosphere))
+				
+		next_canland = (next_canland and 
+			(next_starport.path:GetSystemBody().parent.gravity < ship_type:GetMinAcceleration() ) )
+		next_canland = (next_canland or (next_starport.type == 'STARPORT_ORBITAL'))
+		
+		if(next_canland) then
+			return next_starport
+		end
+	end
+	return nil
+end
+
 local getSystem = function (ship)
 	local stats = ship:GetStats()
 	local systems_in_range = Game.system:GetNearbySystems(stats.hyperspaceRange)
@@ -308,13 +333,14 @@ local minimalRequiredAcceleration = function ()
 end
 
 local filterAcceptableShips = function (ship_type)
-	-- only accept ships with enough capacity that are capable of landing in atmospheres
-	return (ship_type.hullMass >= 100) and (ship_type:GetEquipSlotCapacity('ATMOSHIELD') > 0)
+	-- only accept ships with enough capacity
+	return (ship_type.hullMass >= 100)
 end
 
 local filterAcceptableShipsForLanding = function (ship_type)
-	-- only accept ships with enough capacity that are capable of landing in atmospheres
-	return (filterAcceptableShips(ship_type) and ship_type:GetMinAcceleration() < minimalRequiredAcceleration())
+	-- only accept ships with good enough accelerations for landing that are capable of landing in atmospheres
+	return (filterAcceptableShips(ship_type) and ship_type:GetMinAcceleration() > minimalRequiredAcceleration()
+		and (ship_type:GetEquipSlotCapacity('ATMOSHIELD') > 0) )
 end
 
 local spawnInitialShips = function (game_start)
@@ -391,7 +417,11 @@ local spawnInitialShips = function (game_start)
 
 		if game_start and i < num_trade_ships / 4 then
 			-- spawn the first quarter in port if at game start
-			local starport = starports[Engine.rand:Integer(1, #starports)]
+			local starport = getRandomStarport(ship_name)
+			if(starport == nil) then -- we accidentally generated ship type that can land nowhere
+				starport = starports[Engine.rand:Integer(1, #starports)]
+				print(ship.label..' '..' will be spawned in improper starport'..starport.label..' since nothing else suited it')
+			end
 
 			ship = Space.SpawnShipDocked(ship_name, starport)
 			if ship ~= nil then
@@ -401,7 +431,7 @@ local spawnInitialShips = function (game_start)
 					ship_name	= ship_name,
 				}
 				addShipEquip(ship)
-				print(ship.label..' '..' spawned in '..starport.label..' docked')
+				print(ship.label..' '..trade_ships[ship].ship_name..' spawned in '..starport.label..' docked')
 			else
 				-- the starport must have been full
 				ship = Space.SpawnShipNear(ship_name, starport, 10000000, 149598000) -- 10mkm - 1AU
@@ -411,7 +441,7 @@ local spawnInitialShips = function (game_start)
 					ship_name	= ship_name,
 				}
 				addShipEquip(ship)
-				print(ship.label..' '..' spawned near '..starport.label..' because it was full')
+				print(ship.label..' '..trade_ships[ship].ship_name..' to be spawned at '..starport.label..' was spawned near because it was full')
 			end
 		elseif i < num_trade_ships * 0.75 then
 			-- spawn the first three quarters in space, or middle half if game start
@@ -435,7 +465,7 @@ local spawnInitialShips = function (game_start)
 				trade_ships[ship].status = 'outbound'
 				print(ship.label..' will leave system, no orbital starports')
 			else
-				print(ship.label..' '..' spawned near '..trade_ships[ship].starport.label..' well')
+				print(ship.label..' spawned near '..trade_ships[ship].starport.label..' well')
 			end
 		else
 			-- spawn the last quarter in hyperspace
