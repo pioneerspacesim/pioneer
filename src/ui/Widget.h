@@ -92,10 +92,6 @@ public:
 	virtual ~Widget();
 
 	virtual Point PreferredSize() { return Point(); }
-
-	// magic constant for PreferredSize to indicate "as much as possible"
-	static const int SIZE_EXPAND = INT_MAX;
-
 	virtual void Layout() {}
 	virtual void Update() {}
 	virtual void Draw() = 0;
@@ -221,6 +217,13 @@ public:
 
 
 protected:
+
+	// magic constant for PreferredSize to indicate "as much as possible"
+	static const int SIZE_EXPAND = INT_MAX;
+
+	// safely add two sizes, preserving SIZE_EXPAND
+	static inline int SizeAdd(int a, int b) { return a == SIZE_EXPAND || b == SIZE_EXPAND ? SIZE_EXPAND : a+b; }
+	static inline Point SizeAdd(const Point &a, const Point &b) { return Point(SizeAdd(a.x,b.x), SizeAdd(a.y,b.y)); }
 
 	// set the active area. defaults to the size allocated by the container
 	void SetActiveArea(const Point &activeArea, const Point &activeOffset = Point());
