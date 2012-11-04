@@ -4,6 +4,7 @@
 #include "StarSystem.h"
 #include "Sector.h"
 #include "Factions.h"
+#include "Atmosphere.h"
 
 #include "Serializer.h"
 #include "Pi.h"
@@ -978,7 +979,7 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->orbMin = csbody->semiMajorAxis - csbody->eccentricity*csbody->semiMajorAxis;
 		kid->orbMax = 2*csbody->semiMajorAxis - kid->orbMin;
 
-		kid->PickAtmosphere();
+		kid->InitAtmosphere();
 
 		// pick or specify rings
 		switch (csbody->ringStatus) {
@@ -1113,89 +1114,6 @@ bool SystemBody::IsScoopable() const
 	return (GetSuperType() == SUPERTYPE_GAS_GIANT);
 }
 
-void SystemBody::PickAtmosphere()
-{
-	/* Alpha value isn't real alpha. in the shader fog depth is determined
-	 * by density*alpha, so that we can have very dense atmospheres
-	 * without having them a big stinking solid color obscuring everything
-
-	  These are our atmosphere colours, for terrestrial planets we use m_atmosOxidizing
-	  for some variation to atmosphere colours
-	 */
-	switch (type) {
-		case SystemBody::TYPE_PLANET_GAS_GIANT:
-			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.0005f);
-			m_atmosDensity = 14.0;
-			break;
-		case SystemBody::TYPE_PLANET_ASTEROID:
-			m_atmosColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
-			m_atmosDensity = 0.0;
-			break;
-		default:
-		case SystemBody::TYPE_PLANET_TERRESTRIAL:
-			double r = 0, g = 0, b = 0;
-			double atmo = m_atmosOxidizing.ToDouble();
-			if (m_volatileGas.ToDouble() > 0.001) {
-				if (atmo > 0.95) {
-					// o2
-					r = 1.0f + ((0.95f-atmo)*15.0f);
-					g = 0.95f + ((0.95f-atmo)*10.0f);
-					b = atmo*atmo*atmo*atmo*atmo;
-				} else if (atmo > 0.7) {
-					// co2
-					r = atmo+0.05f;
-					g = 1.0f + (0.7f-atmo);
-					b = 0.8f;
-				} else if (atmo > 0.65) {
-					// co
-					r = 1.0f + (0.65f-atmo);
-					g = 0.8f;
-					b = atmo + 0.25f;
-				} else if (atmo > 0.55) {
-					// ch4
-					r = 1.0f + ((0.55f-atmo)*5.0);
-					g = 0.35f - ((0.55f-atmo)*5.0);
-					b = 0.4f;
-				} else if (atmo > 0.3) {
-					// h
-					r = 1.0f;
-					g = 1.0f;
-					b = 1.0f;
-				} else if (atmo > 0.2) {
-					// he
-					r = 1.0f;
-					g = 1.0f;
-					b = 1.0f;
-				} else if (atmo > 0.15) {
-					// ar
-					r = 0.5f - ((0.15f-atmo)*5.0);
-					g = 0.0f;
-					b = 0.5f + ((0.15f-atmo)*5.0);
-				} else if (atmo > 0.1) {
-					// s
-					r = 0.8f - ((0.1f-atmo)*4.0);
-					g = 1.0f;
-					b = 0.5f - ((0.1f-atmo)*10.0);
-				} else {
-					// n
-					r = 1.0f;
-					g = 1.0f;
-					b = 1.0f;
-				}
-				m_atmosColor = Color(r, g, b, 1.0f);
-			} else {
-				m_atmosColor = Color(0.0, 0.0, 0.0, 0.0f);
-			}
-			m_atmosDensity = m_volatileGas.ToDouble();
-			//printf("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);
-			//printf("-------------------------------\n");
-			break;
-		/*default:
-			m_atmosColor = Color(0.6f, 0.6f, 0.6f, 1.0f);
-			m_atmosDensity = m_body->m_volatileGas.ToDouble();
-			break;*/
-	}
-}
 
 static const unsigned char RANDOM_RING_COLORS[][4] = {
 	{ 156, 122,  98, 217 }, // jupiter-like
@@ -1248,62 +1166,6 @@ void SystemBody::PickRings(bool forceRings)
 			m_rings.maxRadius = outerMin + (outerMax - outerMin)*ringRng.Fixed();
 		}
 	}
-}
-
-// Calculate parameters used in the atmospheric model for shaders
-// used by both LmrModels and Geosphere
-SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
-{
-	AtmosphereParameters params;
-
-	double atmosDensity;
-
-	GetAtmosphereFlavor(&params.atmosCol, &atmosDensity);
-	// adjust global atmosphere opacity
-	atmosDensity *= 1e-5;
-
-	params.atmosDensity = static_cast<float>(atmosDensity);
-
-	// Calculate parameters used in the atmospheric model for shaders
-	// Isothermal atmospheric model
-	// See http://en.wikipedia.org/wiki/Atmospheric_pressure#Altitude_atmospheric_pressure_variation
-	// This model features an exponential decrease in pressure and density with altitude.
-	// The scale height is 1/the exponential coefficient.
-
-	// The equation for pressure is:
-	// Pressure at height h = Pressure surface * e^((-Mg/RT)*h)
-
-	// calculate (inverse) atmosphere scale height
-	// The formula for scale height is:
-	// h = RT / Mg
-	// h is height above the surface in meters
-	// R is the universal gas constant
-	// T is the surface temperature in Kelvin
-	// g is the gravity in m/s^2
-	// M is the molar mass of air in kg/mol
-
-	// calculate gravity
-	// radius of the planet
-	const double radiusPlanet_in_m = (radius.ToDouble()*EARTH_RADIUS);
-	const double massPlanet_in_kg = (mass.ToDouble()*EARTH_MASS);
-	const double g = G*massPlanet_in_kg/(radiusPlanet_in_m*radiusPlanet_in_m);
-
-	const double T = static_cast<double>(averageTemp);
-
-	// XXX just use earth's composition for now
-	const double M = 0.02897f; // in kg/mol
-
-	const float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R*T/(M*g));
-
-	// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
-	params.atmosInvScaleHeight = std::max(20.0f, static_cast<float>(GetRadius() / atmosScaleHeight));
-	// integrate atmospheric density between surface and this radius. this is 10x the scale
-	// height, which should be a height at which the atmospheric density is negligible
-	params.atmosRadius = 1.0f + static_cast<float>(10.0f * atmosScaleHeight) / GetRadius();
-
-	params.planetRadius = static_cast<float>(radiusPlanet_in_m);
-
-	return params;
 }
 
 
@@ -1840,7 +1702,10 @@ void SystemBody::PickPlanetType(MTRand &rand)
 		type = SystemBody::TYPE_PLANET_ASTEROID;
 	}
 
-    PickAtmosphere();
+	// Debug
+	// TestSingleConstituentModelAgainstOldVersion();
+
+	InitAtmosphere();
 	PickRings();
 }
 
@@ -2240,4 +2105,146 @@ void StarSystem::ShrinkCache()
 		else
 			i++;
 	}
+}
+
+/*
+* Debug function - compares the single constituent model against 
+*                  the old pre-atmospheric refactor one.
+*/
+void SystemBody::TestSingleConstituentModelAgainstOldVersion()
+{
+	static bool test = true;
+	if (test && type == SystemBody::TYPE_PLANET_TERRESTRIAL) {
+		test = false;
+		// Test code - to check single constituent gass class generation 
+		// against old system
+		// Change m_atmosOxidizing so that different gasses are chosen
+		// and print out atmosphere properties for the old atmosphere 
+		// and the gas class based one - slightly hackish.
+		double ao[] = { 
+			0.96, // O2
+			0.71, // CO2
+			0.66, // CO
+			0.56, // CH4
+			0.31, // H
+			0.21, // He
+			0.16, // Ar
+			0.11, // SO2
+			0.09,  // N
+		};
+
+		const fixed oldOxidizing = m_atmosOxidizing;	
+		const fixed volatileGas = m_volatileGas;
+
+		m_volatileGas = fixed(1,1);
+		for (int i = 0; i < 9; i++) {
+			m_atmosOxidizing = fixed(int(ao[i]*100.0), 100);
+			printf("------------------------------------------------------------------\n");
+			printf("Single constituent model properties generated by old and new systems.\n(should match)\nm_atmosOxidizing %f\n",
+				m_atmosOxidizing.ToDouble());
+			printf("New System:\n");
+			Atmosphere *a = new Atmosphere(this);
+			std::vector<GasConstituent> gcs = a->GetGasConstituents();
+			// only one constituent 
+			gcs[0].PrintProperties(this);
+			Color c_ = a->GetSimpleScatteringColor();
+			printf("Atmosphere colour                    : r %f, g %f, b %f, a %f\n", c_.r, c_.g, c_.b, c_.a);
+			const Color c = PickAtmosphereOld();
+			printf("\nOld System\n");
+			printf("Simple scattering colour             : r %f, g %f, b %f, a %f\n", c.r, c.g, c.b, c.a);
+			printf("------------------------------------------------------------------\n\n");
+			delete a;
+		}
+		// restore old values
+		m_atmosOxidizing = oldOxidizing;
+		m_volatileGas = volatileGas;
+	}
+}
+
+// change to output just the colour for debug
+Color SystemBody::PickAtmosphereOld() const
+{
+	/* Alpha value isn't real alpha. in the shader fog depth is determined
+	 * by density*alpha, so that we can have very dense atmospheres
+	 * without having them a big stinking solid color obscuring everything
+
+	  These are our atmosphere colours, for terrestrial planets we use m_atmosOxidizing
+	  for some variation to atmosphere colours
+	 */
+	Color m_atmosColor;
+	double m_atmosDensity;
+	switch (type) {
+		case SystemBody::TYPE_PLANET_GAS_GIANT:
+			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.0005f);
+			//m_atmosDensity = 14.0;
+			break;
+		case SystemBody::TYPE_PLANET_ASTEROID:
+			m_atmosColor = Color(0.0f, 0.0f, 0.0f, 0.0f);
+			m_atmosDensity = 0.0;
+			break;
+		default:
+		case SystemBody::TYPE_PLANET_TERRESTRIAL:
+			double r = 0, g = 0, b = 0;
+			double atmo = m_atmosOxidizing.ToDouble();
+			if (m_volatileGas.ToDouble() > 0.001) {
+				if (atmo > 0.95) {
+					// o2
+					r = 1.0f + ((0.95f-atmo)*15.0f);
+					g = 0.95f + ((0.95f-atmo)*10.0f);
+					b = atmo*atmo*atmo*atmo*atmo;
+				} else if (atmo > 0.7) {
+					// co2
+					r = atmo+0.05f;
+					g = 1.0f + (0.7f-atmo);
+					b = 0.8f;
+				} else if (atmo > 0.65) {
+					// co
+					r = 1.0f + (0.65f-atmo);
+					g = 0.8f;
+					b = atmo + 0.25f;
+				} else if (atmo > 0.55) {
+					// ch4
+					r = 1.0f + ((0.55f-atmo)*5.0);
+					g = 0.35f - ((0.55f-atmo)*5.0);
+					b = 0.4f;
+				} else if (atmo > 0.3) {
+					// h
+					r = 1.0f;
+					g = 1.0f;
+					b = 1.0f;
+				} else if (atmo > 0.2) {
+					// he
+					r = 1.0f;
+					g = 1.0f;
+					b = 1.0f;
+				} else if (atmo > 0.15) {
+					// ar
+					r = 0.5f - ((0.15f-atmo)*5.0);
+					g = 0.0f;
+					b = 0.5f + ((0.15f-atmo)*5.0);
+				} else if (atmo > 0.1) {
+					// s
+					r = 0.8f - ((0.1f-atmo)*4.0);
+					g = 1.0f;
+					b = 0.5f - ((0.1f-atmo)*10.0);
+				} else {
+					// n
+					r = 1.0f;
+					g = 1.0f;
+					b = 1.0f;
+				}
+				m_atmosColor = Color(r, g, b, 1.0f);
+			} else {
+				m_atmosColor = Color(0.0, 0.0, 0.0, 0.0f);
+			}
+			m_atmosDensity = m_volatileGas.ToDouble();
+			//printf("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);
+			//printf("-------------------------------\n");
+			break;
+		/*default:
+			m_atmosColor = Color(0.6f, 0.6f, 0.6f, 1.0f);
+			m_atmosDensity = m_body->m_volatileGas.ToDouble();
+			break;*/
+	}
+	return m_atmosColor;
 }
