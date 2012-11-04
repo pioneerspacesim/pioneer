@@ -290,6 +290,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Atmosphere.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Background.cpp"
 				>
 			</File>
@@ -623,6 +627,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaEvent.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaFaction.cpp"
 				>
 			</File>
 			<File
@@ -1232,6 +1240,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Atmosphere.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Background.h"
 				>
 			</File>
@@ -1657,6 +1669,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\LuaEvent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaFaction.h"
 				>
 			</File>
 			<File
