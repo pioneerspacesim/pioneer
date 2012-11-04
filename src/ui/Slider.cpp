@@ -13,7 +13,7 @@ Point Slider::PreferredSize()
 	const Skin::BorderedRectElement &rect = skin.ButtonNormal();
 
 	// XXX use slider gutter size
-	return m_orient == SLIDER_HORIZONTAL ? Point(INT_MAX, min+rect.borderWidth) : Point(min+rect.borderWidth, INT_MAX);
+	return m_orient == SLIDER_HORIZONTAL ? Point(SIZE_EXPAND, min+rect.borderWidth) : Point(min+rect.borderWidth, SIZE_EXPAND);
 }
 
 void Slider::Layout()

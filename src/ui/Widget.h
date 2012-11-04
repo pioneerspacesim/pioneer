@@ -9,6 +9,7 @@
 #include "Event.h"
 #include "RefCounted.h"
 #include "WidgetSet.h"
+#include <climits>
 
 // Widget is the base class for all UI elements. There's a couple of things it
 // must implement, and a few more it might want to implement if it wants to do
@@ -91,6 +92,10 @@ public:
 	virtual ~Widget();
 
 	virtual Point PreferredSize() { return Point(); }
+
+	// magic constant for PreferredSize to indicate "as much as possible"
+	static const int SIZE_EXPAND = INT_MAX;
+
 	virtual void Layout() {}
 	virtual void Update() {}
 	virtual void Draw() = 0;

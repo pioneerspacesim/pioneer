@@ -32,17 +32,17 @@ Point Box::PreferredSize()
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		Point childPreferredSize = (*i).widget->PreferredSize();
 
-		// XXX see my hack. 0 and INT_MAX need to be treated the same,
+		// XXX see my hack. 0 and SIZE_EXPAND need to be treated the same,
 		// everywhere. sigh
-		if (childPreferredSize[fc] == 0) childPreferredSize[fc] = INT_MAX;
-		if (childPreferredSize[vc] == 0) childPreferredSize[vc] = INT_MAX;
+		if (childPreferredSize[fc] == 0) childPreferredSize[fc] = SIZE_EXPAND;
+		if (childPreferredSize[vc] == 0) childPreferredSize[vc] = SIZE_EXPAND;
 
 		(*i).preferredSize = childPreferredSize;
 
 		// they've asked for as much as possible
-		if (childPreferredSize[vc] == INT_MAX) {
+		if (childPreferredSize[vc] == SIZE_EXPAND) {
 			// we'll need to be as big as possible too
-			m_preferredSize[vc] = INT_MAX;
+			m_preferredSize[vc] = SIZE_EXPAND;
 
 			// count them for later
 			m_numVariable++;
@@ -52,7 +52,7 @@ Point Box::PreferredSize()
         else {
 
             // if we still know our size then we can increase it sanely
-		    if (m_preferredSize[vc] != INT_MAX)
+		    if (m_preferredSize[vc] != SIZE_EXPAND)
 			    // need a bit more
 			    m_preferredSize[vc] += childPreferredSize[vc];
 
@@ -109,7 +109,7 @@ void Box::Layout()
 		Point childPos(0), childSize(0);
 		for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 			childSize[fc] = boxSize[fc];
-			childSize[vc] = (*i).preferredSize[vc] == INT_MAX ? amount : (*i).preferredSize[vc];
+			childSize[vc] = (*i).preferredSize[vc] == SIZE_EXPAND ? amount : (*i).preferredSize[vc];
 			SetWidgetDimensions((*i).widget, childPos, childSize);
 			childPos[vc] += childSize[vc] + m_spacing;
 		}
