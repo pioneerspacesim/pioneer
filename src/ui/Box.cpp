@@ -30,14 +30,7 @@ Point Box::PreferredSize()
 	m_numVariable = 0;
 
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		Point childPreferredSize = (*i).widget->PreferredSize();
-
-		// XXX see my hack. 0 and SIZE_EXPAND need to be treated the same,
-		// everywhere. sigh
-		if (childPreferredSize[fc] == 0) childPreferredSize[fc] = SIZE_EXPAND;
-		if (childPreferredSize[vc] == 0) childPreferredSize[vc] = SIZE_EXPAND;
-
-		(*i).preferredSize = childPreferredSize;
+		const Point childPreferredSize = (*i).preferredSize = (*i).widget->PreferredSize();
 
 		// they've asked for as much as possible
 		if (childPreferredSize[vc] == SIZE_EXPAND) {
