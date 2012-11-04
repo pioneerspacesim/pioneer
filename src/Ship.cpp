@@ -299,7 +299,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	}
 
 	// hitting cargo scoop surface shouldn't do damage
-	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && (flags & 0x100) && m_stats.free_capacity) {
+	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) /*&& (flags & 0x100)*/ && m_stats.free_capacity) {
 		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
 		Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(b));
 		m_equipment.Add(item);
@@ -627,6 +627,19 @@ bool Ship::FireMissile(int idx, Ship *target)
 	missile->SetVelocity(GetVelocity());
 	Pi::game->GetSpace()->AddBody(missile);
 	return true;
+}
+
+int32_t Ship::GetMissileIdx()
+{
+	const int numMissleSlots = m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
+	for(int idx=0; idx<numMissleSlots; ++idx)
+	{
+		const Equip::Type t = m_equipment.Get(Equip::SLOT_MISSILE, idx);
+		if (t != Equip::NONE) {
+			return idx;
+		}
+	}
+	return eInvalidMissileIndex;
 }
 
 void Ship::SetFlightState(Ship::FlightState newState)
