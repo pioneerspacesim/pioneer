@@ -34,7 +34,7 @@ void AICommand::Save(Serializer::Writer &wr)
 {
 	Space *space = Pi::game->GetSpace();
 	wr.Int32(m_cmdName);
-	wr.Int32(m_fuelEconomy);
+	wr.Float(m_fuelEconomy);
 	wr.Int32(space->GetIndexForBody(m_ship));
 	if (m_child) m_child->Save(wr);
 	else wr.Int32(CMD_NONE);
@@ -43,7 +43,7 @@ void AICommand::Save(Serializer::Writer &wr)
 AICommand::AICommand(Serializer::Reader &rd, CmdName name)
 {
 	m_cmdName = name;
-	m_fuelEconomy = FuelEconomy(rd.Int32());
+	m_fuelEconomy = rd.Float();
 	m_shipIndex = rd.Int32();
 	m_child = Load(rd);
 }
@@ -724,7 +724,7 @@ static bool CheckOvershoot(Ship *ship, const vector3d &reldir, double targdist, 
 
 
 // Fly to "vicinity" of body
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, FuelEconomy economy) : AICommand (ship, CMD_FLYTO)
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, float hungriness) : AICommand (ship, CMD_FLYTO)
 {
 	double dist = std::max(VICINITY_MIN, VICINITY_MUL*MaxEffectRad(target, ship));
 	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation()) {
@@ -744,12 +744,12 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, FuelEconomy economy) : AIComman
 	// check if we're already close enough
 	if (dist > m_ship->GetPositionRelTo(target).Length()) m_state = 5;
 
-	m_fuelEconomy = economy;
+	m_fuelEconomy = Clamp(hungriness, 0.0f, 1.0f);;
 	m_targetShip = 0;
 }
 
 // Pursue ship, not body
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Ship *target, FuelEconomy economy) : AICommand (ship, CMD_FLYTO)
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Ship *target, float hungriness) : AICommand (ship, CMD_FLYTO)
 {
 	double dist = std::max(VICINITY_MIN, VICINITY_MUL*MaxEffectRad(target, ship));
 	m_targframe = GetNonRotFrame(target);
@@ -762,12 +762,12 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Ship *target, FuelEconomy economy) : AIComman
 	// check if we're already close enough
 	if (dist > m_ship->GetPositionRelTo(target).Length()) m_state = 5;
 
-	m_fuelEconomy = economy;
+	m_fuelEconomy = Clamp(hungriness, 0.0f, 1.0f);;
 	m_targetShip = target;
 }
 
 // Specified pos, endvel should be > 0
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent, FuelEconomy economy)
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent, float hungriness)
 	: AICommand (ship, CMD_FLYTO)
 {
 	m_targframe = targframe;
@@ -775,7 +775,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, dou
 	m_endvel = endvel;
 	m_state = -1; m_frame = 0;
 	m_tangent = tangent;
-	m_fuelEconomy = economy;
+	m_fuelEconomy = Clamp(hungriness, 0.0f, 1.0f);;
 	m_targetShip = 0;
 }
 
@@ -806,14 +806,8 @@ bool AICmdFlyTo::TimeStepUpdate()
 	double targdist = relpos.Length();
 	double haveFuelToReachThisVelSafely;
 
-	switch(m_fuelEconomy) {
-	case ECONOMICAL:
-		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/6 * m_ship->GetFuel());
-		break;
-	case HUNGRY:
-		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/3 * m_ship->GetFuel());
-		break;
-	}
+	m_fuelEconomy = Clamp(m_fuelEconomy, 0.0f, 1.0f);
+	haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/(6-3*m_fuelEconomy) * m_ship->GetFuel());
 
 	// sort out gear, launching
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
@@ -1035,32 +1029,32 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int targmod
 	}
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double relalt, FuelEconomy economy)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double relalt, float hungriness)
 	: AICommand (ship, CMD_FLYAROUND)
 {
-	m_fuelEconomy = economy;
+	m_fuelEconomy = Clamp(hungriness, 0.0f, 1.0f);
 	double alt = relalt*MaxEffectRad(obstructor, ship);
 	Setup(obstructor, alt, 0.0, 3, 0, 0, vector3d(0.0));
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, FuelEconomy economy)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, float hungriness)
 	: AICommand (ship, CMD_FLYAROUND)
 {
-	m_fuelEconomy = economy;
+	m_fuelEconomy = Clamp(hungriness, 0.0f, 1.0f);;
 	Setup(obstructor, alt, vel, 0, 0, 0, vector3d(0.0));
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff, FuelEconomy economy)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff, float hungriness)
 	: AICommand (ship, CMD_FLYAROUND)
 {
-	m_fuelEconomy = economy;
+	m_fuelEconomy = Clamp(hungriness, 0.0f, 1.0f);;
 	Setup(obstructor, alt, vel, 1, target, 0, posoff);
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff, FuelEconomy economy)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff, float hungriness)
 	: AICommand (ship, CMD_FLYAROUND)
 {
-	m_fuelEconomy = economy;
+	m_fuelEconomy = Clamp(hungriness, 0.0f, 1.0f);;
 	Setup(obstructor, alt, vel, 2, 0, targframe, posoff);
 }
 

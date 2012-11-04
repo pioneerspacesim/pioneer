@@ -14,11 +14,9 @@ class AICommand {
 public:
 	// This enum is solely to make the serialization work
 	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
-	// saves fuel or flies like crazy?
-	enum FuelEconomy { ECONOMICAL, HUNGRY };
 
 	AICommand(Ship *ship, CmdName name) {
-	   	m_ship = ship; m_cmdName = name; m_fuelEconomy = ECONOMICAL;
+	   	m_ship = ship; m_cmdName = name; m_fuelEconomy = 0.0f;
 		m_child = 0;
 		m_ship->AIMessage(Ship::AIERROR_NONE);
 	}
@@ -44,11 +42,12 @@ public:
 	// Signal functions
 	virtual void OnDeleted(const Body *body) { if (m_child) m_child->OnDeleted(body); }
 
-	void SetFuelEconomy(FuelEconomy economy) { m_fuelEconomy = economy; }
+	void SetFuelEconomy(float hungriness) { m_fuelEconomy = hungriness; }
 
 protected:
 	CmdName m_cmdName;
-	FuelEconomy m_fuelEconomy;
+	float m_fuelEconomy;  	// 0.0f - 1.0f,	0 = Economy mode: fuel is saved if it is running low, speed is sacrificed,
+							// 				1 = Hungry mode: fuel is burned quite aggresively even if low on it
 	Ship *m_ship;
 	AICommand *m_child;
 
@@ -58,10 +57,10 @@ protected:
 class AICmdDock : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdDock(Ship *ship, SpaceStation *target, FuelEconomy economy) : AICommand(ship, CMD_DOCK) {
+	AICmdDock(Ship *ship, SpaceStation *target, float hungriness) : AICommand(ship, CMD_DOCK) {
 		m_target = target;
 		m_state = 0;
-		m_fuelEconomy = economy;
+		m_fuelEconomy = Clamp(hungriness, 0.0f, 1.0f);;
 	}
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -104,10 +103,10 @@ private:
 class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFlyTo(Ship *ship, Body *target, FuelEconomy economy);					// fly to vicinity
-	AICmdFlyTo(Ship *ship, Body *target, double alt, FuelEconomy economy);		// orbit
-	AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent, FuelEconomy economy);
-	AICmdFlyTo(Ship *ship, Ship *target, FuelEconomy economy);					// pursue ship!
+	AICmdFlyTo(Ship *ship, Body *target, float hungriness);					// fly to vicinity
+	AICmdFlyTo(Ship *ship, Body *target, double alt, float hungriness);		// orbit
+	AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent, float hungriness);
+	AICmdFlyTo(Ship *ship, Ship *target, float hungriness);					// pursue ship!
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -161,10 +160,10 @@ private:
 class AICmdFlyAround : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, FuelEconomy economy);
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, FuelEconomy economy);
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff, FuelEconomy economy);
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff, FuelEconomy economy);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, float hungriness);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, float hungriness);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff, float hungriness);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff, float hungriness);
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -227,7 +226,7 @@ public:
 		m_target = target;
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
-		m_fuelEconomy = HUNGRY; // is always hungry
+		m_fuelEconomy = 1.0f; // is always hungry
 		printf("%s is a pirate, yo ho!\n", ship->GetLabel().c_str());
 	}
 

@@ -205,9 +205,9 @@ public:
 	void AIKamikaze(Body *target);
 	void AIKill(Ship *target);
 	//void AIJourney(SystemBodyPath &dest);
-	void AIDock(SpaceStation *target, bool isHungry = false);
-	void AIFlyTo(Body *target, bool isHungry = false);
-	void AIOrbit(Body *target, double alt, bool isHungry = false);
+	void AIDock(SpaceStation *target, float hungriness = 0.0f);
+	void AIFlyTo(Body *target, float hungriness = 0.0f);
+	void AIOrbit(Body *target, double alt, float hungriness = 0.0f);
 	void AIHoldPosition();
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
