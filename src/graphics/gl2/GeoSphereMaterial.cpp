@@ -4,6 +4,7 @@
 #include "GeoSphereMaterial.h"
 #include "GeoSphere.h"
 #include "StringF.h"
+#include "Atmosphere.h"
 #include "graphics/Graphics.h"
 #include "graphics/RendererGL2.h"
 #include <sstream>
@@ -53,7 +54,7 @@ void GeoSphereSurfaceMaterial::Apply()
 void GeoSphereSurfaceMaterial::SetGSUniforms()
 {
 	GeoSphereProgram *p = static_cast<GeoSphereProgram*>(m_program);
-	const SystemBody::AtmosphereParameters ap = *static_cast<SystemBody::AtmosphereParameters*>(this->specialParameter0);
+	const Atmosphere::AtmosphereParameters ap = *static_cast<Atmosphere::AtmosphereParameters*>(this->specialParameter0);
 
 	p->Use();
 	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
