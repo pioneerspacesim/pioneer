@@ -1,3 +1,8 @@
+Alpha 29
+
+   * New features
+     * Economical autopilot. Trades fuel for time (#1582)
+
 Alpha 28
 
    * New features
