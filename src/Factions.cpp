@@ -23,6 +23,7 @@ static FactionList s_factions;
 struct FactionBuilder {
 	Faction *fac;
 	bool registered;
+	bool skip;
 };
 
 static const char LuaFaction_TypeName[] = "Faction";
@@ -46,6 +47,7 @@ static int l_fac_new(lua_State *L)
 	FactionBuilder *facbld = static_cast<FactionBuilder*>(lua_newuserdata(L, sizeof(*facbld)));
 	facbld->fac = new Faction;
 	facbld->registered = false;
+	facbld->skip       = false;
 	luaL_setmetatable(L, LuaFaction_TypeName);
 
 	facbld->fac->name = name;
@@ -125,14 +127,24 @@ static int l_fac_govtype_weight(lua_State *L)
 // sector(x,y,x) + system index + body index = location in a (custom?) system of homeworld
 static int l_fac_homeworld (lua_State *L)
 {
-	Faction *fac = l_fac_check(L, 1);
+	FactionBuilder *facbld = l_fac_check_builder(L, 1);
+	Faction *fac = facbld->fac;
 	Sint32 x = luaL_checkinteger(L, 2);
 	Sint32 y = luaL_checkinteger(L, 3);
 	Sint32 z = luaL_checkinteger(L, 4);
-	Uint32 si = luaL_checkinteger(L, 5);
+	Sint32 si = luaL_checkinteger(L, 5);
 	Uint32 bi = luaL_checkinteger(L, 6);
+
+	// This bit is so we can avoid blowing ourselves up with potentially out of
+	// range system indexes when the Lua script *knows* that it doesn't know
+	// what systems exist in a sector. A negative sysindex therefore means 
+	// 'take your best shot'
+	Sector sec(x,y,z);
+	if ( (si < 0 && sec.m_systems.size() > 0)) si = 0;
+
 	fac->homeworld = SystemPath(x,y,z,si,bi);
 	fac->hasHomeworld = true;
+	facbld->skip      = si<0;	// our best shot missed, skip creation
 	lua_settop(L, 1);
 	return 1;
 }
@@ -209,15 +221,25 @@ static int l_fac_colour(lua_State *L)
 static int l_fac_add_to_factions(lua_State *L)
 {
 	FactionBuilder *facbld = l_fac_check_builder(L, 1);
+	Faction *fac = facbld->fac;
 
 	const std::string factionName(luaL_checkstring(L, 2));
 
-	if (!facbld->registered) {
-		printf("l_fac_add_to_factions: added '%s' [%s]\n", facbld->fac->name.c_str(), factionName.c_str());
+	if (!facbld->registered && !facbld->skip) {
+		if (facbld->fac->hasHomeworld) {
+			printf("l_fac_add_to_factions: added (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
+				, fac->homeworld.sectorX, fac->homeworld.sectorY, fac->homeworld.sectorZ, fac->foundingDate, fac->expansionRate, fac->name.c_str(), factionName.c_str());
+		}
+		else {
+			printf("l_fac_add_to_factions: added '%s' [%s]\n", fac->name.c_str(), factionName.c_str());
+		}
 
 		s_factions.push_back(facbld->fac);
 		facbld->registered = true;
 		return 0;
+	} else if (facbld->skip) {
+		printf("l_fac_add_to_factions: invalid homeworld, skipped (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
+				, fac->homeworld.sectorX, fac->homeworld.sectorY, fac->homeworld.sectorZ, fac->foundingDate, fac->expansionRate, fac->name.c_str(), factionName.c_str());
 	} else {
 		return luaL_error(L, "faction '%s' already added\n", facbld->fac->name.c_str());
 	}
@@ -333,7 +355,7 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 
 		// Iterate through all of the factions and find the one nearest to the system we're checking it against.
 		const Faction *foundFaction = 0;
-		Sint32 nearestDistance = INT_MAX;
+		double nearestDistance = HUGE_VAL;
 
 		// get the current year
 		// XXX: cannot access the PI::game->GetTime() method here as game is NULL when deserialised from save game -
