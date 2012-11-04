@@ -240,6 +240,7 @@ static int l_fac_add_to_factions(lua_State *L)
 	} else if (facbld->skip) {
 		printf("l_fac_add_to_factions: invalid homeworld, skipped (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
 				, fac->homeworld.sectorX, fac->homeworld.sectorY, fac->homeworld.sectorZ, fac->foundingDate, fac->expansionRate, fac->name.c_str(), factionName.c_str());
+		return 0;
 	} else {
 		return luaL_error(L, "faction '%s' already added\n", facbld->fac->name.c_str());
 	}
