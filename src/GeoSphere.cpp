@@ -1201,6 +1201,12 @@ GeoSphere::GeoSphere(const SystemBody *body)
 	m_abortLock = SDL_CreateMutex();
 	m_abort = false;
 
+	// need to initialise atmosphere parameters before first use
+	if (m_sbody->GetSuperType() != SystemBody::SUPERTYPE_STAR) {
+		body->InitAtmosphereParams();
+		m_atmosphereParameters = *(body->GetAtmosphereParams());
+	}
+
 	s_allGeospheres.push_back(this);
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
@@ -1368,8 +1374,6 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
 
 		//Update material parameters
-		//XXX no need to calculate AP every frame
-		m_atmosphereParameters = m_sbody->CalcAtmosphereParams();
 		m_atmosphereParameters.center = modelMatrix * vector3d(0.0, 0.0, 0.0);
 		m_atmosphereParameters.planetRadius = radius;
 		m_atmosphereParameters.scale = scale;
@@ -1478,9 +1482,8 @@ void GeoSphere::SetUpMaterials()
 		surfDesc.atmosphere = false;
 	} else {
 		//planetoid with or without atmosphere
-		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
 		surfDesc.lighting = true;
-		surfDesc.atmosphere = (ap.atmosDensity > 0.0);
+		surfDesc.atmosphere = (m_atmosphereParameters.atmosDensity > 0.0);
 	}
 	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
 

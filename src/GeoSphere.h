@@ -8,6 +8,7 @@
 
 #include "vector3.h"
 #include "mtrand.h"
+#include "Atmosphere.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
@@ -77,7 +78,7 @@ private:
 	ScopedPtr<Graphics::Material> m_surfaceMaterial;
 	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
 	//special parameters for shaders
-	SystemBody::AtmosphereParameters m_atmosphereParameters;
+	Atmosphere::AtmosphereParameters m_atmosphereParameters;
 };
 
 #endif /* _GEOSPHERE_H */
