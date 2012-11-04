@@ -5,10 +5,11 @@
 #define _SECTOR_H
 
 #include "libs.h"
-#include <string>
-#include <vector>
+#include "galaxy/SystemPath.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/CustomSystem.h"
+#include <string>
+#include <vector>
 
 class Sector {
 public:
@@ -17,18 +18,20 @@ public:
 	Sector(int x, int y, int z);
 	static float DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int sysIdxB);
 	static void Init();
+
 	// Sector is within a bounding rectangle - used for SectorView m_sectorCache pruning.
-	bool WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const;
+	bool WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const;	
+	bool Contains(const SystemPath sysPath) const;
+
+	// sets appropriate base factionColours for all systems in the sector
+	void ColourFactions();
 
 	class System {
 	public:
-		System() : customSys(0), m_queriedStarSystem(false), m_isInhabited(false) {};
+		System() : customSys(0), population(-1) {};
 		~System() {};
 
 		// Check that we've had our habitation status set
-		bool IsSetInhabited() const { return m_queriedStarSystem; }
-		void SetInhabited(bool inhabited) { m_isInhabited = inhabited; m_queriedStarSystem = true; }
-		bool IsInhabited() const { return m_isInhabited; }
 
 		// public members
 		std::string name;
@@ -38,10 +41,10 @@ public:
 		Uint32 seed;
 		const CustomSystem *customSys;
 		Color factionColour;
+		fixed population;
 
 	private:
-		bool m_queriedStarSystem;
-		bool m_isInhabited;
+
 	};
 	std::vector<System> m_systems;
 private:

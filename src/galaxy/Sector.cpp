@@ -5,6 +5,8 @@
 #include "StarSystem.h"
 #include "CustomSystem.h"
 #include "Galaxy.h"
+
+#include "Factions.h"
 #include "utils.h"
 
 #define SYS_NAME_FRAGS	32
@@ -55,6 +57,7 @@ Sector::Sector(int x, int y, int z)
 
 		for (int i=0; i<numSystems; i++) {
 			System s;
+			
 			switch (rng.Int32(15)) {
 				case 0:
 					s.numStars = 4; break;
@@ -239,7 +242,7 @@ Sector::Sector(int x, int y, int z)
 
 			s.name = GenName(s, rng);
 			//printf("%s: \n", s.name.c_str());
-
+									
 			m_systems.push_back(s);
 		}
 	}
@@ -321,3 +324,23 @@ bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int
 	}
 	return false;
 }
+
+void Sector::ColourFactions()
+{	
+	Uint32 index = 0;
+	Color  colour;
+	for (std::vector<Sector::System>::iterator system = m_systems.begin(); system != m_systems.end(); ++system, ++index ) {
+		(*system).factionColour = Faction::GetNearestFactionColour(*this, index);		
+	}
+}
+
+/*	answer whether the system path is in this sector
+*/
+bool Sector::Contains(const SystemPath sysPath) const
+{
+	if (sx != sysPath.sectorX) return false;
+	if (sy != sysPath.sectorY) return false;
+	if (sz != sysPath.sectorZ) return false;
+	return true;
+}
+
