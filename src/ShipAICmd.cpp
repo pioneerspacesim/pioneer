@@ -43,7 +43,7 @@ void AICommand::Save(Serializer::Writer &wr)
 AICommand::AICommand(Serializer::Reader &rd, CmdName name)
 {
 	m_cmdName = name;
-	m_fuelEconomy = (FlightEconomy) rd.Int32();
+	m_fuelEconomy = FuelEconomy(rd.Int32());
 	m_shipIndex = rd.Int32();
 	m_child = Load(rd);
 }
@@ -244,7 +244,7 @@ bool AICmdKill::TimeStepUpdate()
 	m_lastVel = m_target->GetVelocity();		// may need next frame
 	vector3d leaddir = m_ship->AIGetLeadDir(m_target, targaccel, 0);
 
-	if (targpos.Length() >= 1e7) {			// if really far from target, intercept
+	if (targpos.Length() >= VICINITY_MIN) {			// if really far from target, intercept
 		printf("%s started AUTOPILOT\n", m_ship->GetLabel().c_str());
 		m_child = new AICmdFlyTo(m_ship, m_target, m_fuelEconomy);
 		ProcessChild(); return false;
@@ -724,7 +724,7 @@ static bool CheckOvershoot(Ship *ship, const vector3d &reldir, double targdist, 
 
 
 // Fly to "vicinity" of body
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, FlightEconomy economy) : AICommand (ship, CMD_FLYTO)
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, FuelEconomy economy) : AICommand (ship, CMD_FLYTO)
 {
 	double dist = std::max(VICINITY_MIN, VICINITY_MUL*MaxEffectRad(target, ship));
 	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation()) {
@@ -749,7 +749,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target, FlightEconomy economy) : AIComm
 }
 
 // Pursue ship, not body
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Ship *target, FlightEconomy economy) : AICommand (ship, CMD_FLYTO)
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Ship *target, FuelEconomy economy) : AICommand (ship, CMD_FLYTO)
 {
 	double dist = std::max(VICINITY_MIN, VICINITY_MUL*MaxEffectRad(target, ship));
 	m_targframe = GetNonRotFrame(target);
@@ -767,7 +767,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Ship *target, FlightEconomy economy) : AIComm
 }
 
 // Specified pos, endvel should be > 0
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent, FlightEconomy economy)
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent, FuelEconomy economy)
 	: AICommand (ship, CMD_FLYTO)
 {
 	m_targframe = targframe;
@@ -794,7 +794,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 		m_posoff = m_ship->GetPositionRelTo(m_targframe);
 		m_posoff += m_targetShip->GetPosition();
 		targpos = m_targetShip->GetPositionRelTo(m_ship->GetFrame());
-		targpos.x += 1000; // avoid collisions, set target a bit away
+		targpos.x += VICINITY_MIN/2; // avoid collisions, set target a bit away
 		targvel = m_targetShip->GetVelocityRelTo(m_ship->GetFrame()); // todo: check general frame!
 		relvel = m_ship->GetVelocity() - targvel;
 	}
@@ -807,16 +807,11 @@ bool AICmdFlyTo::TimeStepUpdate()
 	double haveFuelToReachThisVelSafely;
 
 	switch(m_fuelEconomy) {
-	case CMD_MODE_ECONOMY:
+	case ECONOMICAL:
 		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/6 * m_ship->GetFuel());
 		break;
-	case CMD_MODE_HUNGRY:
-		// includes all fuel on board
-		double FuelInTotal = m_ship->m_equipment.Count(Equip::SLOT_CARGO, Equip::WATER);
-		FuelInTotal /= m_ship->GetShipType().fuelTankMass;
-		FuelInTotal += m_ship->GetFuel();
-
-		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/3 * FuelInTotal);
+	case HUNGRY:
+		haveFuelToReachThisVelSafely = m_ship->GetVelocityReachedWithFuelUsed(1.0/3 * m_ship->GetFuel());
 		break;
 	}
 
@@ -902,11 +897,6 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, crit =
 		v = targvel + relvel.NormalizedSafe()*haveFuelToReachThisVelSafely;
 		m_ship->AIMatchVel(v);
 	}
-
-	// refuel if low on fuel -- should work at least for AI controlled ships event without
-	// special ship equipment ,because their crew does it "manually".
-	if((!m_ship->IsType(Object::PLAYER) && ((m_ship->GetFuel() < 0.5 && m_ship->GetShipType().fuelTankMass > 1) || m_ship->GetFuel() < 0.1)) )
-		m_ship->Refuel();
 
 	// flip check - if facing forward and not accelerating at maximum
 	if (m_state == 1 && ang > 0.99 && !cap) m_state = 2;
@@ -1045,7 +1035,7 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int targmod
 	}
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double relalt, FlightEconomy economy)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double relalt, FuelEconomy economy)
 	: AICommand (ship, CMD_FLYAROUND)
 {
 	m_fuelEconomy = economy;
@@ -1053,21 +1043,21 @@ AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double relalt, Flig
 	Setup(obstructor, alt, 0.0, 3, 0, 0, vector3d(0.0));
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, FlightEconomy economy)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, FuelEconomy economy)
 	: AICommand (ship, CMD_FLYAROUND)
 {
 	m_fuelEconomy = economy;
 	Setup(obstructor, alt, vel, 0, 0, 0, vector3d(0.0));
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff, FlightEconomy economy)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff, FuelEconomy economy)
 	: AICommand (ship, CMD_FLYAROUND)
 {
 	m_fuelEconomy = economy;
 	Setup(obstructor, alt, vel, 1, target, 0, posoff);
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff, FlightEconomy economy)
+AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff, FuelEconomy economy)
 	: AICommand (ship, CMD_FLYAROUND)
 {
 	m_fuelEconomy = economy;

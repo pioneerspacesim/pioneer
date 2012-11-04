@@ -241,16 +241,6 @@ void Ship::UpdateMass()
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
 }
 
-void Ship::Refuel() {
-  float currentFuel = this->GetFuel();
-  if (is_equal_exact(currentFuel, 1.0f)) return;
-  if(this->m_equipment.Count(Equip::SLOT_CARGO, Equip::WATER) <= 0) return;
-
-  this->m_equipment.Remove(Equip::WATER, 1);
-  this->SetFuel(currentFuel + 1.0f/this->GetShipType().fuelTankMass);
-  this->UpdateStats();
-}
-
 // returns velocity of engine exhausts in m/s
 double Ship::GetEffectiveExhaustVelocity(void) {
 	double denominator = GetShipType().fuelTankMass * GetShipType().thrusterFuelUse * 10;
@@ -268,8 +258,7 @@ double Ship::GetVelocityReachedWithFuelUsed(float fuelUsed) {
 	double ShipMassNow = GetMass(),
 			ShipMassAfter = GetMass() - 1000*GetShipType().fuelTankMass * fuelUsed;
 
-	if(ShipMassAfter <= 0 || ShipMassNow <= 0) // shouldn't happen
-		return 0;
+	assert(ShipMassAfter > 0 && ShipMassNow > 0); // shouldn't happen
 
 	return GetEffectiveExhaustVelocity() * log(ShipMassNow/ShipMassAfter);
 }

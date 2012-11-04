@@ -209,7 +209,6 @@ public:
 	void AIFlyTo(Body *target, bool isHungry = false);
 	void AIOrbit(Body *target, double alt, bool isHungry = false);
 	void AIHoldPosition();
-	void Refuel();
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
