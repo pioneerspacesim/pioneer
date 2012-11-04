@@ -8,9 +8,14 @@
  * It's pretty bad, someone please redesign.
  */
 #include "Loader.h"
+#include <stdexcept>
 #include <fstream>
 
 namespace Newmodel {
+
+struct ParseError : public std::runtime_error {
+	ParseError(const std::string &str) : std::runtime_error(str.c_str()) { }
+};
 
 class Parser
 {

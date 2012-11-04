@@ -20,7 +20,7 @@ Parser::Parser(const std::string &filename, const std::string &path)
 , m_path(path)
 {
 	m_file.open(filename.c_str(), std::ifstream::in);
-	if (!m_file) throw std::string("Could not open " + filename);
+	if (!m_file) throw ParseError("Could not open " + filename);
 }
 
 Parser::~Parser()
@@ -38,13 +38,13 @@ void Parser::Parse(ModelDefinition *m)
 		m_file.getline(line, 1023);
 		try {
 			if (!parseLine(std::string(line)))
-				throw std::string("Mystery fail");
-		} catch (const std::string &s) {
+				throw ParseError("Mystery fail");
+		} catch (ParseError &err) {
 			std::stringstream ss;
 			ss << "Error parsing line " << lineno << ":" << std::endl;
 			ss << line << std::endl;
-			ss << s;
-			throw ss.str();
+			ss << err.what();
+			throw ParseError(ss.str());
 		}
 	}
 	//sort lods by feature size
@@ -65,8 +65,8 @@ bool Parser::match(const std::string &s, const std::string &what)
 //check for a string, but don't accept comments
 bool Parser::checkString(std::stringstream &ss, std::string &out, const std::string &what)
 {
-	if (ss >> out == 0) throw stringf("Expected %0, got nothing", what);
-	if (isComment(out)) throw stringf("Expected %0, got comment", what);
+	if (ss >> out == 0) throw ParseError(stringf("Expected %0, got nothing", what));
+	if (isComment(out)) throw ParseError(stringf("Expected %0, got comment", what));
 	return true;
 }
 
@@ -125,9 +125,9 @@ bool Parser::parseLine(const std::string &line)
 			endMaterial();
 			float featuresize;
 			if (ss >> featuresize == 0)
-				throw std::string("Detail level must specify a pixel size");
+				throw ParseError("Detail level must specify a pixel size");
 			if (is_zero_general(featuresize))
-				throw std::string("Detail level pixel size must be greater than 0");
+				throw ParseError("Detail level pixel size must be greater than 0");
 			m_model->lodDefs.push_back(LodDefinition(featuresize));
 			return true;
 		} else if(match(token, "mesh")) {
@@ -151,7 +151,7 @@ bool Parser::parseLine(const std::string &line)
 		} else if(match(token, "anim")) {
 			//anims should only affect the previously defined mesh but eh
 			if (m_isMaterial || m_model->lodDefs.empty() || m_model->lodDefs.back().meshNames.empty())
-				throw std::string("Animation definition must come after a mesh definition");
+				throw ParseError("Animation definition must come after a mesh definition");
 			std::string animName;
 			double startFrame;
 			double endFrame;
@@ -159,13 +159,13 @@ bool Parser::parseLine(const std::string &line)
 			std::string loop;
 			checkString(ss, animName, "animation name");
 			if (ss >> startFrame == 0)
-				throw std::string("Animation start frame not defined");
+				throw ParseError("Animation start frame not defined");
 			if (ss >> endFrame == 0)
-				throw std::string("Animation end frame not defined");
+				throw ParseError("Animation end frame not defined");
 			if (ss >> loop && match(loop, "loop"))
 				loopMode = true;
 			if (startFrame < 0 || endFrame < startFrame)
-				throw std::string("Animation start/end frames seem wrong");
+				throw ParseError("Animation start/end frames seem wrong");
 			m_model->animDefs.push_back(AnimDefinition(animName, startFrame, endFrame, loopMode));
 			return true;
 		} else {

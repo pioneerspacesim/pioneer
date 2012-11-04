@@ -64,9 +64,9 @@ NModel *Loader::LoadModel(const std::string &shortname, const std::string &basep
 
 					Parser p(fpath, m_curPath);
 					p.Parse(&modelDefinition);
-				} catch (const std::string &str) {
-					std::cerr << str << std::endl;
-					throw LoadingError(str);
+				} catch (ParseError &err) {
+					std::cerr << err.what() << std::endl;
+					throw LoadingError(err.what());
 				}
 				modelDefinition.name = shortname;
 				return CreateModel(modelDefinition);
@@ -181,13 +181,10 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 					lodNode->AddLevel((*lod).pixelSize, mesh.Get());
 				} else
 					model->GetRoot()->AddChild(mesh.Get());
-			} catch (LoadingError &) {
+			} catch (LoadingError &err) {
 				delete model;
+				std::cerr << err.what() << std::endl;
 				throw;
-			} catch (const std::string &s) {
-				delete model;
-				std::cerr << s << std::endl;
-				throw LoadingError(s);
 			}
 		}
 	}
@@ -272,10 +269,10 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 		aiProcess_GenSmoothNormals);  //only if normals not specified
 
 	if(!scene)
-		throw std::string("Couldn't load " + filename);
+		throw LoadingError("Couldn't load " + filename);
 
 	if(scene->mNumMeshes == 0)
-		throw std::string(filename + " has no geometry. How odd!");
+		throw LoadingError(filename + " has no geometry. How odd!");
 
 	//turn all scene aiMeshes into Surfaces
 	//Index matches assimp index.
@@ -351,7 +348,7 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surfa
 		assert(mesh->mNumVertices <= Graphics::StaticMesh::MAX_VERTICES);
 
 		if (!mesh->HasTextureCoords(0))
-			throw std::string("Mesh has no uv coordinates");
+			throw LoadingError("Mesh has no uv coordinates");
 
 		//Material names are not consistent throughout formats...
 		//try to figure out a material
@@ -410,7 +407,7 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 	//meshes, potentially leading to duplicate and wrongly split animations
 	if (animDefs.empty() || scene->mNumAnimations == 0) return;
 
-	if (scene->mNumAnimations > 1) throw std::string("More than one animation in file! Your exporter is too good");
+	if (scene->mNumAnimations > 1) throw LoadingError("More than one animation in file! Your exporter is too good");
 
 	//Blender .X exporter exports only one animation (without a name!) so
 	//we read only one animation from the scene and split it according to animDefs
@@ -618,7 +615,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 			else if (nodename.compare(7,1, "4") == 0)
 				numDecal = 4;
 			else
-				throw std::string("More than 4 different decals");
+				throw LoadingError("More than 4 different decals");
 		}
 
 		for(unsigned int i=0; i<node->mNumMeshes; i++) {
@@ -688,10 +685,10 @@ void Loader::LoadCollision(const std::string &filename)
 		);
 
 	if(!scene)
-		throw std::string("Couldn't load " + filename);
+		throw LoadingError("Couldn't load " + filename);
 
 	if(scene->mNumMeshes == 0)
-		throw std::string(filename + " has no geometry");
+		throw LoadingError(filename + " has no geometry");
 
 	//note geomtree keeps a pointer to the arrays but doesn't own them
 	//geomtree does not use vector3, so watch out
