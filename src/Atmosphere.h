@@ -101,6 +101,10 @@
 *
 */
 
+/*
+* To test - Call Atmosphere::SystemBody::TestSingleConstituentModelAgainstOldVersion() in Sysgen just before
+            before SystemBody::InitAtmosphere is called in PickPlanetType in starsystems.cpp. This test can be removed eventually.
+*/
 class Scatterer {
 public:
 	Scatterer(std::string name, Color colour);

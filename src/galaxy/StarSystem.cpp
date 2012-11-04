@@ -1703,7 +1703,7 @@ void SystemBody::PickPlanetType(MTRand &rand)
 	}
 
 	// Debug
-	// TestSingleConstituentModelAgainstOldVersion();
+	TestSingleConstituentModelAgainstOldVersion();
 
 	InitAtmosphere();
 	PickRings();
