@@ -155,10 +155,6 @@ public:
 	double GetHullTemperature() const;
 	void UseECM();
 	virtual bool FireMissile(int idx, Ship *target);
-	enum EInvalidMissileIndex {
-		eInvalidMissileIndex = -1
-	};
-	virtual int32_t GetMissileIdx();	
 
 	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_>
 		ALERT_NONE,

@@ -629,19 +629,6 @@ bool Ship::FireMissile(int idx, Ship *target)
 	return true;
 }
 
-int32_t Ship::GetMissileIdx()
-{
-	const int numMissleSlots = m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
-	for(int idx=0; idx<numMissleSlots; ++idx)
-	{
-		const Equip::Type t = m_equipment.Get(Equip::SLOT_MISSILE, idx);
-		if (t != Equip::NONE) {
-			return idx;
-		}
-	}
-	return eInvalidMissileIndex;
-}
-
 void Ship::SetFlightState(Ship::FlightState newState)
 {
 	m_flightState = newState;
