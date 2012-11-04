@@ -631,8 +631,10 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		
 		// ...but if it is populated, then we vary the label brightness based on number of inhabitants.
 		else if ((*i).population >  0) {
-			labelColour.a = ((*i).population.ToDouble() / 2) + Faction::FACTION_BASE_ALPHA;
-			if (labelColour.a > 1.0f) labelColour.a = 1.0f;
+			// since we have a lot of low population systems (<1 billion) but a few very high population systems, use a log based scale
+			labelColour.a = Faction::FACTION_BASE_ALPHA + (M_E + (logf((*i).population.ToFloat() / 1.25))) / ((2 * M_E) + Faction::FACTION_BASE_ALPHA);
+		} else {
+			labelColour.a = Faction::FACTION_BASE_ALPHA;
 		}
 
 		// And systems within our hyperspace range always get a bright label.
