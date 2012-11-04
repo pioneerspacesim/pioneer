@@ -33,10 +33,10 @@ ui.templates.FileDialog = function (args)
 				ui:VBox(10)
 					:PackEnd(ui:Background():SetInnerWidget(ui:Label(title):SetFont("HEADING_NORMAL")))
 					:PackEnd(ui:Scroller():SetInnerWidget(list))
-					:PackEnd(ui:HBox():PackEnd({
+					:PackEnd(ui:Grid(2,1):SetRow(0, {
 						ui:Align("LEFT"):SetInnerWidget(selectButton),
 						ui:Align("RIGHT"):SetInnerWidget(cancelButton),
-					}, { "EXPAND", "FILL" } ))
+					}))
 			)
 
 	return dialog
