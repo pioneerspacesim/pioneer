@@ -6,6 +6,13 @@
 /*
  * A new model system with a scene graph based approach.
  * Also see: http://pioneerwiki.com/wiki/New_Model_System
+ * Open Asset Import Library (assimp) is used as the mesh loader.
+ *
+ * Similar systems:
+ *  - OpenSceneGraph http://www.openscenegraph.org/projects/osg has been
+ *    an inspiration for naming some things and it also uses node visitors.
+ *    It is a lot more complicated however
+ *  - Assimp also has its own scenegraph structure (much simpler)
  *
  * A model has an internal stucture of one or (almost always several) nodes
  * For example:
@@ -24,9 +31,9 @@
  * Models are defined in a simple .model text file, which describes materials,
  * detail levels, meshes to import to each detail level and animations.
  *
- * Open Asset Import Library (assimp) is used as the mesh loader. While it supports
- * a large number of formats most models are expected to use Collada (.dae). The format
- * needs to support node names since many special features are based on that.
+ * While assimp supports a large number of formats most models are expected
+ * to use Collada (.dae). The format needs to support node names since many
+ * special features are based on that.
  *
  * Loading all the meshes can be quite slow, so there will be a system to
  * compile them into a more game-friendly binary format.
