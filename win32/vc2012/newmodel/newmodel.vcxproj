@@ -15,8 +15,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{06E6CE3D-9163-453B-BF8D-3B9DECB5AB78}</ProjectGuid>
-    <RootNamespace>text</RootNamespace>
+    <ProjectGuid>{E34F7DBC-F23D-481A-B920-E53F56C53EE8}</ProjectGuid>
+    <RootNamespace>newmodel</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -28,8 +28,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
     <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'" Label="Configuration">
@@ -81,12 +81,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\text\DistanceFieldFont.cpp" />
-    <ClCompile Include="..\..\..\src\text\Font.cpp" />
-    <ClCompile Include="..\..\..\src\text\FontDescriptor.cpp" />
-    <ClCompile Include="..\..\..\src\text\TextSupport.cpp" />
-    <ClCompile Include="..\..\..\src\text\TextureFont.cpp" />
-    <ClCompile Include="..\..\..\src\text\VectorFont.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Animation.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Billboard.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\CollisionVisitor.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\ColorMap.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\DumpVisitor.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\FindNodeVisitor.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Group.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Label3D.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Loader.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\LOD.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\MatrixTransform.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\ModelNode.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\NModel.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Node.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\NodeVisitor.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Parser.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Pattern.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\StaticGeometry.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Thruster.cpp" />
     <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
@@ -94,12 +107,29 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\text\DistanceFieldFont.h" />
-    <ClInclude Include="..\..\..\src\text\Font.h" />
-    <ClInclude Include="..\..\..\src\text\FontDescriptor.h" />
-    <ClInclude Include="..\..\..\src\text\TextSupport.h" />
-    <ClInclude Include="..\..\..\src\text\TextureFont.h" />
-    <ClInclude Include="..\..\..\src\text\VectorFont.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Animation.h" />
+    <ClInclude Include="..\..\..\src\newmodel\AnimationChannel.h" />
+    <ClInclude Include="..\..\..\src\newmodel\AnimationKey.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Billboard.h" />
+    <ClInclude Include="..\..\..\src\newmodel\CollisionVisitor.h" />
+    <ClInclude Include="..\..\..\src\newmodel\ColorMap.h" />
+    <ClInclude Include="..\..\..\src\newmodel\DumpVisitor.h" />
+    <ClInclude Include="..\..\..\src\newmodel\FindNodeVisitor.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Group.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Label3D.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Loader.h" />
+    <ClInclude Include="..\..\..\src\newmodel\LoaderDefinitions.h" />
+    <ClInclude Include="..\..\..\src\newmodel\LOD.h" />
+    <ClInclude Include="..\..\..\src\newmodel\MatrixTransform.h" />
+    <ClInclude Include="..\..\..\src\newmodel\ModelNode.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Newmodel.h" />
+    <ClInclude Include="..\..\..\src\newmodel\NModel.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Node.h" />
+    <ClInclude Include="..\..\..\src\newmodel\NodeVisitor.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Parser.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Pattern.h" />
+    <ClInclude Include="..\..\..\src\newmodel\StaticGeometry.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Thruster.h" />
     <ClInclude Include="..\..\..\src\win32\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
