@@ -1521,7 +1521,7 @@ static int l_ship_cancel_ai(lua_State *l)
 /*
  * Method: GetAcceleration
  *
- * Get minimum of forward and rear acceleration
+ * Get minimum of forward, rear, up, down, right left accelerations
  *
  * > ship:GetMinAcceleration()
  *
