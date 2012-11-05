@@ -7,6 +7,9 @@ Alpha 29
      * Cargo scooping now only requires a collision against the ship rather
        than a specific part of it (#1674)
 
+   * Script changes
+     * New UI.Gradient container to provide a linear gradient background (#1682)
+
 Alpha 28
 
    * New features
