@@ -10,7 +10,7 @@
 
 namespace GameUI {
 
-class Face : public UI::Widget {
+class Face : public UI::Single {
 public:
 	Face(UI::Context *context, Uint32 flags = 0, Uint32 seed = 0);
 

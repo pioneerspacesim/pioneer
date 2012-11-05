@@ -45,7 +45,7 @@ static void _blit_image(const SDLSurfacePtr &s, const char *filename, int xoff, 
 	_blit_image(s.Get(), filename, xoff, yoff);
 }
 
-Face::Face(Context *context, Uint32 flags, Uint32 seed) : Widget(context)
+Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context)
 {
 	if (!seed) seed = time(0);
 	MTRand rand(seed);
@@ -128,6 +128,11 @@ void Face::Layout()
 	Point activeArea(std::min(size.x, size.y));
 	Point activeOffset(std::max(0, (size.x-activeArea.x)/2), std::max(0, (size.y-activeArea.y)/2));
 	SetActiveArea(activeArea, activeOffset);
+
+	Widget *innerWidget = GetInnerWidget();
+	if (!innerWidget) return;
+	SetWidgetDimensions(innerWidget, activeOffset, activeArea);
+	innerWidget->Layout();
 }
 
 void Face::Draw()
@@ -137,6 +142,8 @@ void Face::Draw()
 
     Graphics::Renderer *r = GetContext()->GetRenderer();
     m_quad->Draw(r, vector2f(offset.x, offset.y), vector2f(area.x, area.y));
+
+	Single::Draw();
 }
 
 }

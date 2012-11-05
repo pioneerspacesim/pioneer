@@ -54,7 +54,7 @@ template <> const char *LuaObject<GameUI::Face>::s_type = "UI.Game.Face";
 
 template <> void LuaObject<GameUI::Face>::RegisterClass()
 {
-	static const char *l_parent = "UI.Widget";
+	static const char *l_parent = "UI.Single";
 
 	static const luaL_Reg l_methods[] = {
 		{ "New", LuaFace::l_new },
