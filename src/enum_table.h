@@ -41,6 +41,6 @@ extern const struct EnumItem ENUM_UIMouseButtonType[];
 extern const struct EnumItem ENUM_UIMouseWheelDirection[];
 extern const struct EnumItem ENUM_UIGradientDirection[];
 extern const struct EnumItem ENUM_UIImageStretchMode[];
-extern const struct EnumItem ENUM_UIFontSize[];
+extern const struct EnumItem ENUM_UIFont[];
 
 #endif

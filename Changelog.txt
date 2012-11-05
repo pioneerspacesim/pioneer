@@ -9,6 +9,8 @@ Alpha 29
 
    * Script changes
      * New UI.Gradient container to provide a linear gradient background (#1682)
+     * UI widget SetFontSize has been replaced with SetFont to select both
+       type (normal or heading) and size (#1684)
 
 Alpha 28
 
