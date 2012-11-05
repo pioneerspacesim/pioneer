@@ -41,17 +41,17 @@ Point Box::PreferredSize()
 			m_numVariable++;
 		}
 
-        // they asked for a known amount
-        else {
+		// they asked for a known amount
+		else {
 
-            // if we still know our size then we can increase it sanely
-		    if (m_preferredSize[vc] != SIZE_EXPAND)
-			    // need a bit more
+			// if we still know our size then we can increase it sanely
+			if (m_preferredSize[vc] != SIZE_EXPAND)
+				// need a bit more
 			    m_preferredSize[vc] += childPreferredSize[vc];
 
 			// track minimum known size so we can avoid recounting in Layout()
-            m_minAllocation += childPreferredSize[vc];
-        }
+			m_minAllocation += childPreferredSize[vc];
+		}
 
 		// fixed axis should just be as large as our largest
 		m_preferredSize[fc] = std::max(m_preferredSize[fc], childPreferredSize[fc]);
