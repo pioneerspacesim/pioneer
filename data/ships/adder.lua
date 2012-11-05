@@ -4,13 +4,13 @@
 define_ship {
 	name='Adder',
 	model='adder',
-	forward_thrust = 100e5,
-	reverse_thrust = 51e5,
-	up_thrust = 3e6,
-	down_thrust = 2e6,
-	left_thrust = 2e6,
-	right_thrust = 2e6,
-	angular_thrust = 22e6,
+	forward_thrust = 168e5,
+	reverse_thrust = 86e5,
+	up_thrust = 50e5,
+	down_thrust = 34e5,
+	left_thrust = 34e5,
+	right_thrust = 34e5,
+	angular_thrust = 286e5,
 	camera_offset = v(0,4,-22),
 	gun_mounts =
 	{
@@ -24,8 +24,10 @@ define_ship {
 	max_fuelscoop = 1,
 	capacity = 50,
 	hull_mass = 30,
-	fuel_tank_mass = 10,
-	thruster_fuel_use = 0.0003,
+	fuel_tank_mass = 37,
+	-- Exhaust velocity Vc [m/s] is equivalent of engine efficiency and depend on used technology. Higher Vc means lower fuel consumption.
+	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.
+	effective_exhaust_velocity = 60556e3,
 	price = 60000,
 	hyperdrive_class = 2,
 }
