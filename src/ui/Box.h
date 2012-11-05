@@ -34,7 +34,7 @@ protected:
 
 private:
 	BoxOrientation m_orient;
-	size_t m_spacing;
+	int m_spacing;
 
 	struct Child {
 		Child(Widget *_widget) : widget(_widget) {}
@@ -45,8 +45,8 @@ private:
 	std::list<Child> m_children;
 
 	Point m_preferredSize;
-	size_t m_minAllocation;
-	size_t m_numVariable;
+	int m_minAllocation;
+	int m_numVariable;
 };
 
 class VBox: public Box {

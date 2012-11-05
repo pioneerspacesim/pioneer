@@ -94,10 +94,10 @@ void Box::Layout()
 	// remaining space, then we're already outside the bounds, so just give
 	// them something
 	else {
-		const size_t sizeAvail = boxSize[vc];
-		const size_t sizeMin = sizeAvail/10; // 10%, as good as anything
+		const int sizeAvail = boxSize[vc];
+		const int sizeMin = sizeAvail/10; // 10%, as good as anything
 
-		const size_t amount = m_minAllocation < sizeAvail ? std::max((sizeAvail-m_minAllocation-m_spacing*(m_children.size()-1))/m_numVariable, sizeMin) : sizeMin;
+		const int amount = m_minAllocation < sizeAvail ? std::max((sizeAvail-m_minAllocation-m_spacing*(int(m_children.size())-1))/m_numVariable, sizeMin) : sizeMin;
 
 		Point childPos(0), childSize(0);
 		for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
