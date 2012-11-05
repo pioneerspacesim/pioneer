@@ -4,13 +4,13 @@
 define_ship {
 	name='Cobra Mk I',
 	model='cobra1',
-	forward_thrust = 12e6,
-	reverse_thrust = 5e6,
-	up_thrust = 4e6,
-	down_thrust = 4e6,
-	left_thrust = 4e6,
-	right_thrust = 4e6,
-	angular_thrust = 28e6,
+	forward_thrust = 226e5,
+	reverse_thrust = 94e5,
+	up_thrust = 75e5,
+	down_thrust = 75e5,
+	left_thrust = 75e5,
+	right_thrust = 75e5,
+	angular_thrust = 364e5,
 	camera_offset = v(0,2.2,-8.2),
 	gun_mounts =
 	{
@@ -23,8 +23,10 @@ define_ship {
 	max_cargoscoop = 0,
 	capacity = 60,
 	hull_mass = 40,
-	fuel_tank_mass = 20,
-	thruster_fuel_use = 0.0002,
+	fuel_tank_mass = 56,
+	-- Exhaust velocity Vc [m/s] is equivalent of engine efficiency and depend on used technology. Higher Vc means lower fuel consumption.
+	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.
+	effective_exhaust_velocity = 59167e3,
 	price = 97000,
 	hyperdrive_class = 2,
 }
