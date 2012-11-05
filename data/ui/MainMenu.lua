@@ -60,14 +60,14 @@ local menu =
 			ui:Grid({ 0.1, 0.8, 0.1 }, 1)
 				:SetCell(1, 0,
 					ui:Align("LEFT"):SetInnerWidget(
-						ui:Label("Pioneer"):SetFontSize("XLARGE")
+						ui:Label("Pioneer"):SetFont("HEADING_XLARGE")
 					)
 				)
 		})
 		:SetRow(1, {
 			ui:Grid(2,1)
 				:SetColumn(1, {
-					ui:Align("MIDDLE"):SetInnerWidget(
+					ui:Align("MIDDLE"):SetFont("HEADING_NORMAL"):SetInnerWidget(
 						ui:VBox(10):PackEnd(buttonSet)
 					)
 				} )
@@ -76,7 +76,7 @@ local menu =
 			ui:Grid({ 0.1, 0.8, 0.1 }, 1)
 				:SetCell(1, 0,
 					ui:Align("RIGHT"):SetInnerWidget(
-						ui:Label("("..Engine.version..")"):SetFontSize("XSMALL")
+						ui:Label("("..Engine.version..")"):SetFont("HEADING_XSMALL")
 					)
 				)
 		})
