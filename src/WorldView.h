@@ -92,6 +92,7 @@ private:
 	void DrawEdgeMarker(const Indicator &marker, const Color &c);
 
 	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
+	Gui::Button *AddCommsOptionRight(int ypos, int optnum);
 	void AddCommsNavOption(const std::string msg, Body *target);
 	void OnClickCommsNavOption(Body *target);
 	void BuildCommsNavOptions();

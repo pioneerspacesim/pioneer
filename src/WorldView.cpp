@@ -26,6 +26,7 @@
 #include "graphics/Drawables.h"
 #include "matrix4x4.h"
 #include "Quaternion.h"
+#include "ShipAICmd.h"
 #include <algorithm>
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
@@ -864,6 +865,53 @@ Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
 	return b;
 }
 
+Gui::Button *WorldView::AddCommsOptionRight(int ypos, int optnum)
+{
+	Gui::Label *l = new Gui::Label("");
+	m_commsOptions->Add(l, 50, float(ypos));
+
+	char buf[8];
+	switch(optnum) {
+	case 1:
+		snprintf(buf, sizeof(buf), "+");
+		break;
+	case 2:
+		snprintf(buf, sizeof(buf), "@");
+		break;
+	case 3:
+		snprintf(buf, sizeof(buf), "#");
+		break;
+	case 4:
+		snprintf(buf, sizeof(buf), "$");
+		break;
+	case 5:
+		snprintf(buf, sizeof(buf), "%%");
+		break;
+	case 6:
+		snprintf(buf, sizeof(buf), "^");
+		break;
+	case 7:
+		snprintf(buf, sizeof(buf), "&");
+		break;
+	case 8:
+		snprintf(buf, sizeof(buf), "*");
+		break;
+	case 9:
+		snprintf(buf, sizeof(buf), "(");
+		break;
+	case 0:
+		snprintf(buf, sizeof(buf), ")");
+		break;
+	}
+	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label(buf));
+	b->SetShortcut(SDLKey(SDLK_0 + optnum), KMOD_LSHIFT);
+
+	// hide target actions when things get clicked on
+	b->onClick.connect(sigc::mem_fun(this, &WorldView::ToggleTargetActions));
+	m_commsOptions->Add(b, 16 + 15, float(ypos));
+	return b;
+}
+
 void WorldView::OnClickCommsNavOption(Body *target)
 {
 	Pi::player->SetNavTarget(target);
@@ -992,20 +1040,20 @@ void WorldView::OnPlayerChangeTarget()
 	UpdateCommsOptions();
 }
 
-static void autopilot_flyto(Body *b)
+static void autopilot_flyto(Body *b, float hungriness)
 {
 	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
-	Pi::player->AIFlyTo(b);
+	Pi::player->AIFlyTo(b, hungriness);
 }
-static void autopilot_dock(Body *b)
+static void autopilot_dock(Body *b, float hungriness)
 {
 	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
-	Pi::player->AIDock(static_cast<SpaceStation*>(b));
+	Pi::player->AIDock(static_cast<SpaceStation*>(b), hungriness);
 }
-static void autopilot_orbit(Body *b, double alt)
+static void autopilot_orbit(Body *b, double alt, float hungriness)
 {
 	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
-	Pi::player->AIOrbit(b, alt);
+	Pi::player->AIOrbit(b, alt, hungriness);
 }
 
 static void player_target_hypercloud(HyperspaceCloud *cloud)
@@ -1045,8 +1093,11 @@ void WorldView::UpdateCommsOptions()
 			ypos += 32;
 
 			if (Pi::player->m_equipment.Get(Equip::SLOT_AUTOPILOT) == Equip::AUTOPILOT) {
-				button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
+				button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, optnum);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget, false));
+
+				button = AddCommsOptionRight(ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget, true));
 				ypos += 32;
 			}
 
@@ -1060,21 +1111,33 @@ void WorldView::UpdateCommsOptions()
 			}
 		}
 		if (hasAutopilot) {
-			button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
-			button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget));
+			button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", navtarget->GetLabel())), ypos, optnum);
+			button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget, false));
+
+			button = AddCommsOptionRight(ypos, optnum++);
+			button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget, true));
 			ypos += 32;
 
 			if (navtarget->IsType(Object::PLANET) || navtarget->IsType(Object::STAR)) {
-				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_LOW_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.1));
+				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_LOW_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.1, false));
+
+				button = AddCommsOptionRight(ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.1, true));
 				ypos += 32;
 
-				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 2.0));
+				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 2.0, false));
+
+				button = AddCommsOptionRight(ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 2.0, true));
 				ypos += 32;
 
-				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_HIGH_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 5.0));
+				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_HIGH_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 5.0, false));
+
+				button = AddCommsOptionRight(ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 5.0, true));
 				ypos += 32;
 			}
 		}
@@ -1091,8 +1154,11 @@ void WorldView::UpdateCommsOptions()
 	if (comtarget && hasAutopilot) {
 		m_commsOptions->Add(new Gui::Label("#f00"+comtarget->GetLabel()), 16, float(ypos));
 		ypos += 32;
-		button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", comtarget->GetLabel())), ypos, optnum++);
-		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget));
+		button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", comtarget->GetLabel())), ypos, optnum);
+		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget, false));
+
+		button = AddCommsOptionRight(ypos, optnum++);
+		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget, true));
 		ypos += 32;
 	}
 }
