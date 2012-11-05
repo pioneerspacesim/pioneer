@@ -73,6 +73,15 @@ public:
 		return 1;
 	}
 
+	static int l_expand(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		UI::Expand::Direction direction = UI::Expand::BOTH;
+		if (lua_gettop(l) > 1)
+			direction = static_cast<UI::Expand::Direction>(LuaConstants::GetConstantFromArg(l, "UIExpandDirection", 2));
+		LuaObject<UI::Expand>::PushToLua(c->Expand(direction));
+		return 1;
+	}
+
 	static int l_margin(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::Margin>::PushToLua(c->Margin(luaL_checknumber(l, 2)));
@@ -183,6 +192,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "Background",      LuaContext::l_background      },
 		{ "ColorBackground", LuaContext::l_colorbackground },
 		{ "Gradient",        LuaContext::l_gradient        },
+		{ "Expand",          LuaContext::l_expand          },
 		{ "Margin",          LuaContext::l_margin          },
 		{ "Align",           LuaContext::l_align           },
 		{ "Scroller",        LuaContext::l_scroller        },
