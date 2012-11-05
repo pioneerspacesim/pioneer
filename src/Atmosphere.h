@@ -105,6 +105,30 @@
 * To test - Call Atmosphere::SystemBody::TestSingleConstituentModelAgainstOldVersion() in Sysgen just before
             before SystemBody::InitAtmosphere is called in PickPlanetType in starsystems.cpp. This test can be removed eventually.
 */
+
+/*
+ To do 
+    Add rayleigh and mie coefficients for various gasses
+    Expose gas/aerosol consituents in atmospheres to Lua
+    Expose values such as isothermal scale height and adiabatic limit (useful for player/autopilot)
+    Translations of strings
+    Absorption coefficients for aerosol?
+	Split content into more files
+
+Enable chemical compositions:
+    Add chemical formula names
+    Add elements and enable substances
+    Add chemical compositions to gasses, and maybe aerosols
+
+Advanced atmosphere structure:
+    Multiple scale heights? there could be a few aerosol layers with their own scale height
+
+Advanced scattering values:
+    Isothermal thickness of atmosphere if the density were uniform (integrate and divide by surface density)
+    Investigate refractive index variation with gas composition
+*         
+*/
+
 class Scatterer {
 public:
 	Scatterer(std::string name, Color colour);
