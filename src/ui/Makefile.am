@@ -24,6 +24,7 @@ noinst_HEADERS = \
 	Event.h \
 	EventDispatcher.h \
 	FloatContainer.h \
+	Gradient.h \
 	Grid.h \
 	Image.h \
 	Label.h \
@@ -56,6 +57,7 @@ libui_a_SOURCES = \
 	Event.cpp \
 	EventDispatcher.cpp \
 	FloatContainer.cpp \
+	Gradient.cpp \
 	Grid.cpp \
 	Image.cpp \
 	Label.cpp \
@@ -79,6 +81,7 @@ libui_a_SOURCES = \
 	LuaContainer.cpp \
 	LuaContext.cpp \
 	LuaDropDown.cpp \
+	LuaGradient.cpp \
 	LuaGrid.cpp \
 	LuaImage.cpp \
 	LuaLabel.cpp \

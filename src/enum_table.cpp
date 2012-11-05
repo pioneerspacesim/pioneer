@@ -16,6 +16,7 @@
 #include "ui/Align.h"
 #include "ui/Box.h"
 #include "ui/Event.h"
+#include "ui/Gradient.h"
 #include "ui/Image.h"
 #include "ui/Widget.h"
 
@@ -360,6 +361,12 @@ const struct EnumItem ENUM_UIMouseButtonType[] = {
 const struct EnumItem ENUM_UIMouseWheelDirection[] = {
 	{ "UP", UI::MouseWheelEvent::WHEEL_UP },
 	{ "DOWN", UI::MouseWheelEvent::WHEEL_DOWN },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIGradientDirection[] = {
+	{ "HORIZONTAL", UI::Gradient::HORIZONTAL },
+	{ "VERTICAL", UI::Gradient::VERTICAL },
 	{ 0, 0 },
 };
 
