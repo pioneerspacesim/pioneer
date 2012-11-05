@@ -17,6 +17,7 @@
 #include "Align.h"
 #include "Background.h"
 #include "ColorBackground.h"
+#include "Gradient.h"
 #include "Box.h"
 #include "Grid.h"
 #include "Scroller.h"
@@ -75,6 +76,7 @@ public:
 	UI::ColorBackground *ColorBackground(const Color &color) { return new UI::ColorBackground(this, color); }
 	UI::Margin *Margin(float margin) { return new UI::Margin(this, margin); };
 	UI::Align *Align(UI::Align::Direction direction) { return new UI::Align(this, direction); }
+	UI::Gradient *Gradient(const Color &beginColor, const Color &endColor, Gradient::Direction direction = Gradient::VERTICAL) { return new UI::Gradient(this, beginColor, endColor, direction); }
 	UI::Scroller *Scroller() { return new UI::Scroller(this); }
 
 	// visual elements
