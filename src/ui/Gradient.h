@@ -18,7 +18,6 @@ public:
 		VERTICAL
 	};
 
-	virtual void Update();
 	virtual void Draw();
 
 protected:
@@ -30,7 +29,6 @@ private:
 	Color m_endColor;
 	Direction m_direction;
 
-	RefCountedPtr<Graphics::Texture> m_texture;
 	ScopedPtr<Graphics::Material> m_material;
 };
 
