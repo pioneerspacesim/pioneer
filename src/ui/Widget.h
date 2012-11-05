@@ -158,12 +158,12 @@ public:
 
 		FONT_MAX,                 // <enum skip>
 
+		FONT_INHERIT,
+
 		FONT_SMALLEST         = FONT_XSMALL,         // <enum skip>
 		FONT_LARGEST          = FONT_XLARGE,         // <enum skip>
 		FONT_HEADING_SMALLEST = FONT_HEADING_XSMALL, // <enum skip>
 		FONT_HEADING_LARGEST  = FONT_HEADING_XLARGE, // <enum skip>
-
-		FONT_INHERIT,
 	};
 
 	virtual Widget *SetFont(Font font);
