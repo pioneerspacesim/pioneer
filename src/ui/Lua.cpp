@@ -19,6 +19,7 @@ void LuaInit()
 	LuaObject<UI::Context>::RegisterClass();
 	LuaObject<UI::DropDown>::RegisterClass();
 	LuaObject<UI::Gradient>::RegisterClass();
+	LuaObject<UI::Expand>::RegisterClass();
 	LuaObject<UI::Grid>::RegisterClass();
 	LuaObject<UI::Image>::RegisterClass();
 	LuaObject<UI::Label>::RegisterClass();

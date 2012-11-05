@@ -12,6 +12,7 @@ Alpha 29
      * UI widget SetFontSize has been replaced with SetFont to select both
        type (normal or heading) and size (#1684)
      * UI Box widgets no longer take expand/fill flags (#1665)
+     * New UI.Expand container to force a widget to fill available space (#1685)
 
 Alpha 28
 

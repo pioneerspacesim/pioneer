@@ -23,6 +23,7 @@ noinst_HEADERS = \
 	DropDown.h \
 	Event.h \
 	EventDispatcher.h \
+	Expand.h \
 	FloatContainer.h \
 	Gradient.h \
 	Grid.h \
@@ -56,6 +57,7 @@ libui_a_SOURCES = \
 	DropDown.cpp \
 	Event.cpp \
 	EventDispatcher.cpp \
+	Expand.cpp \
 	FloatContainer.cpp \
 	Gradient.cpp \
 	Grid.cpp \
@@ -82,6 +84,7 @@ libui_a_SOURCES = \
 	LuaContext.cpp \
 	LuaDropDown.cpp \
 	LuaGradient.cpp \
+	LuaExpand.cpp \
 	LuaGrid.cpp \
 	LuaImage.cpp \
 	LuaLabel.cpp \
