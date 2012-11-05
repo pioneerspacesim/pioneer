@@ -721,6 +721,7 @@ void LuaConstants::Register(lua_State *l)
 	_create_constant_table_nonconsecutive(l, "UIImageStretchMode", ENUM_UIImageStretchMode);
 	_create_constant_table_nonconsecutive(l, "UIFontSize", ENUM_UIFontSize);
 	_create_constant_table_nonconsecutive(l, "UIEventType", ENUM_UIEventType);
+	_create_constant_table_nonconsecutive(l, "UIExpandDirection", ENUM_UIExpandDirection);
 	_create_constant_table_nonconsecutive(l, "UIKeyboardAction", ENUM_UIKeyboardAction);
 	_create_constant_table_nonconsecutive(l, "UIMouseButtonAction", ENUM_UIMouseButtonAction);
 	_create_constant_table_nonconsecutive(l, "UIMouseButtonType", ENUM_UIMouseButtonType);
