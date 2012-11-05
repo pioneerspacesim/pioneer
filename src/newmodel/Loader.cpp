@@ -137,7 +137,9 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		//texture3 is reserved for pattern
 		//texture4 is reserved for color gradient
 
-		model->m_materials.push_back(std::make_pair<std::string, RefCountedPtr<Material> >((*it).name, mat));
+		// full specification of template types not needed, in fact won't compile in VS2012!
+		//model->m_materials.push_back(std::make_pair<std::string, RefCountedPtr<Material> >(((*it).name), mat));
+		model->m_materials.push_back(std::make_pair((*it).name, mat));
 	}
 	//printf("Loaded %d materials\n", int(model->m_materials.size()));
 
