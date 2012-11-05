@@ -1168,7 +1168,6 @@ void SystemBody::PickRings(bool forceRings)
 	}
 }
 
-
 /*
  * As my excellent comrades have pointed out, choices that depend on floating
  * point crap will result in different universes on different platforms.

@@ -186,7 +186,7 @@ public:
 	// Multiple gas and aerosol model
 	void Atmosphere::CalculateGasConstituents(SystemBody *sbody) { };
 	void Atmosphere::CalculateAerosolConstituents(SystemBody *sbody) { };
-	void CalculateSimpleScatteringModelColor();
+	void CalculateSimpleScatteringModelProperties();
 
 	double GetSurfaceDensity() const { return m_atmosDensity; }
 	Color GetSimpleScatteringColor() const { return m_simpleScatteringColor; }
@@ -195,6 +195,10 @@ public:
 	bool GetGasPresence(std::string name, GasConstituent *gc);
 	std::vector<AerosolConstituent> GetAerosolConstituents() const { return m_aerosolConstituents; }
 	bool GetAerosolPresence(std::string name, AerosolConstituent *ac);
+	// Constant pressure specific heat in J/kg/mol
+	double GetSpecificHeatForSingleConstituentModel() { return Cp; };
+	// Molar mass in kg/mol
+	double GetMolarMassForSingleConstituentModel() { return M; };
 
 	// Physics
 	void Atmosphere::GetAtmosphericState(double dist, double *outPressure, double *outDensity) const;

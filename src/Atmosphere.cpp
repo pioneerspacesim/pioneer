@@ -30,13 +30,15 @@ static const double PLACEHOLDER = 1.0;                        // placeholder
 	g = 0.0f;
 	b = 0.5f + ((0.15f-atmo)*5.0);
 */
+
 const Gas Atmosphere::s_argon(
 	"Argon",
-	SPECIFIC_HEAT_OF_EARTH_AIR,
-	MOLAR_MASS_OF_EARTH_ATMOSPHERE,
+	520,
+	0.040,
 	PLACEHOLDER,
 	Color(0.5, 0.0, 0.5, 1.0)
 );
+
 /*
 // CO2
 	r = 0.05f+atmo;
@@ -45,8 +47,8 @@ const Gas Atmosphere::s_argon(
 */
 const Gas Atmosphere::s_carbonDioxide(
 	"CarbonDioxide",
-	SPECIFIC_HEAT_OF_EARTH_AIR,
-	MOLAR_MASS_OF_EARTH_ATMOSPHERE,
+	844,
+	0.04401,
 	PLACEHOLDER,
 	Color(0.05, 1.0, 0.8, 1.0)
 );
@@ -58,8 +60,8 @@ const Gas Atmosphere::s_carbonDioxide(
 */
 const Gas Atmosphere::s_carbonMonoxide(
 	"Carbon Monoxide",
-	SPECIFIC_HEAT_OF_EARTH_AIR,
-	MOLAR_MASS_OF_EARTH_ATMOSPHERE,
+	1020,
+	0.02801,
 	PLACEHOLDER,
 	Color(1.0, 0.8, 0.25, 1.0)
 );
@@ -69,10 +71,11 @@ const Gas Atmosphere::s_carbonMonoxide(
 	g = 1.0f;
 	b = 1.0f;
 */
+
 const Gas Atmosphere::s_helium(
 	"Helium",
-	SPECIFIC_HEAT_OF_EARTH_AIR,
-	MOLAR_MASS_OF_EARTH_ATMOSPHERE,
+	5190,
+	0.002,
 	PLACEHOLDER,
 	Color(1.0, 1.0, 1.0, 1.0)
 );
@@ -82,10 +85,11 @@ const Gas Atmosphere::s_helium(
 	g = 1.0f;
 	b = 1.0f;
 */
+
 const Gas Atmosphere::s_hydrogen(
 	"Hydrogen",
-	SPECIFIC_HEAT_OF_EARTH_AIR,
-	MOLAR_MASS_OF_EARTH_ATMOSPHERE,
+	13120,
+	0.002,
 	PLACEHOLDER,
 	Color(1.0, 1.0, 1.0, 1.0)
 );
@@ -108,10 +112,11 @@ const Gas Atmosphere::s_oxygen(
 	g = 0.35f - ((0.55f-atmo)*5.0);
 	b = 0.4f;
 */
+
 const Gas Atmosphere::s_methane(
 	"Methane",
-	SPECIFIC_HEAT_OF_EARTH_AIR,
-	MOLAR_MASS_OF_EARTH_ATMOSPHERE,
+	2220,
+	0.016,
 	PLACEHOLDER,
 	Color(1.0, 0.35, 0.4, 1.0)
 );
@@ -121,10 +126,11 @@ const Gas Atmosphere::s_methane(
 	g = 1.0f;
 	b = 1.0f;
 */
+
 const Gas Atmosphere::s_nitrogen(
 	"Nitrogen",
-	SPECIFIC_HEAT_OF_EARTH_AIR,
-	MOLAR_MASS_OF_EARTH_ATMOSPHERE,
+	1035,
+	0.028,
 	PLACEHOLDER,
 	Color(1.0, 1.0, 1.0, 1.0)
 );
@@ -134,10 +140,11 @@ const Gas Atmosphere::s_nitrogen(
 	g = 1.0f;
 	b = 0.5f - ((0.1f-atmo)*10.0);
 */
+
 const Gas Atmosphere::s_sulfurDioxide(
 	"Sulfur Dioxide",
-	SPECIFIC_HEAT_OF_EARTH_AIR,
-	MOLAR_MASS_OF_EARTH_ATMOSPHERE,
+	0.064,
+	640,
 	PLACEHOLDER,
 	Color(0.8, 1.0, 0.5, 1.0)
 );
@@ -197,7 +204,7 @@ void Atmosphere::Init(SystemBody *sbody)
 	m_shaderAtmosParams = 0;
 
 	PickSingleConstituentAtmosphere(sbody);
-	CalculateSimpleScatteringModelColor();
+	CalculateSimpleScatteringModelProperties();
 }
 
 void Atmosphere::CalculateGasConstituentsForSingleConstituentModel(SystemBody *sbody)
@@ -208,7 +215,7 @@ void Atmosphere::CalculateGasConstituentsForSingleConstituentModel(SystemBody *s
 		switch (type) {
 			case SystemBody::TYPE_PLANET_GAS_GIANT:
 				gc = GasConstituent(
-					&s_gasGiantAtmosphere, 1.0,
+					&s_hydrogen, 1.0,
 					vector3d(0.0, 0.0, 0.0),
 					vector3d(0.0, 0.0, 0.0)
 				);
@@ -379,13 +386,18 @@ void Atmosphere::PickSingleConstituentAtmosphere(SystemBody *sbody)
 	}
 }
 
-// Calculates the colour used in the simple scattering model
+// Calculates the colour and average atmosphere properties used in the simple scattering model
 // This model assumes air is a coloured fluid made up of constituents with different colours.
 // The colour is calculated by summing the weighted colours of the constituents.
-// The weights are based on the fraction of scatterers (particles) making up the atmosphere.
-void Atmosphere::CalculateSimpleScatteringModelColor()
+// The average molar mass (M in kg per mol) and constant pressure specific heat (Cp in J per kg per mol) is similarly found by summing
+// the weighted contributions. 
+// The weights are based on the fraction of scatterers (particles) making up the atmosphere. 
+// As Cp and M are 'per mol' of particles the weighting to obtain average values is valid.
+void Atmosphere::CalculateSimpleScatteringModelProperties()
 {
 	Color col(0.0, 0.0, 0.0, 0.0);
+	double avgMolarMass = 0.0;
+	double avgConstantPressureSpecificHeat = 0.0;
 	// Step through gasses and aerosols and sum the weighted colours.
 	for (std::vector<GasConstituent>::iterator i = m_gasConstituents.begin(); i != m_gasConstituents.end(); i++) {
 		const float fraction = float((*i).fraction);
@@ -394,19 +406,25 @@ void Atmosphere::CalculateSimpleScatteringModelColor()
 		col.g += c.g;
 		col.b += c.b;
 		col.a += c.a;
+		avgMolarMass += i->gas->M*fraction;
+		avgConstantPressureSpecificHeat += i->gas->Cp*fraction;
 	}
 	
 	for (std::vector<AerosolConstituent>::iterator i = m_aerosolConstituents.begin(); i != m_aerosolConstituents.end(); i++) {
 		const float fraction = float((i)->fraction);
-		/*
 		Color c = i->GetSimpleScatteringModelColorContrib(m_sbody);
+/*
 		col.r += c.r;
 		col.g += c.g;
 		col.b += c.b;
 		col.a += c.a;
-		*/
+		avgMolarMass += i->gas->M*fraction;
+		acgConstantPressureSpecificHeat += i->gas->Cp*fraction;
+*/
 	}
 	m_simpleScatteringColor = col;
+	Cp = avgConstantPressureSpecificHeat; // in J/kg/mol
+	M = avgMolarMass; // in kg/mol
 }
 
 bool Atmosphere::GetGasPresence(std::string name, GasConstituent *gc)
@@ -526,7 +544,7 @@ void Atmosphere::CalcAtmosphereParams()
 	// R is the universal gas constant
 	// T is the surface temperature in Kelvin
 	// g is the gravity in m/s^2
-	// M is the molar mass of air in kg/mol
+	// M is the molar mass of air in kg/mol 
 
 	// calculate gravity
 	// radius of the planet
@@ -536,9 +554,7 @@ void Atmosphere::CalcAtmosphereParams()
 
 	const double T = static_cast<double>(m_sbody->averageTemp);
 
-	// XXX just use earth's composition for now
-	const double M = 0.02897f; // in kg/mol
-
+	// Atmosphere::M is set during initialisation
 	const float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R*T/(M*g));
 
 	// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
@@ -575,9 +591,8 @@ void Atmosphere::GetAtmosphericState(double dist, double *outPressure, double *o
 #endif
 
 	double surfaceDensity;
-	const double SPECIFIC_HEAT_AIR_CP=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
-	// XXX using earth's molar mass of air...
-	const double GAS_MOLAR_MASS = 0.02897;
+	const double SPECIFIC_HEAT_AIR_CP= Cp;// constant pressure specific heat, for the combination of gasses that make up air
+	const double GAS_MOLAR_MASS = M;
 	const double GAS_CONSTANT = 8.3144621;
 	const double PA_2_ATMOS = 1.0 / 101325.0;
 
