@@ -10,40 +10,18 @@ namespace UI {
 class LuaBox {
 public:
 
-	static inline Uint32 _unpack_flags(lua_State *l) {
-		LUA_DEBUG_START(l);
-
-		Uint32 flags = 0;
-
-		if (lua_gettop(l) > 2) {
-			luaL_checktype(l, 3, LUA_TTABLE);
-
-			lua_pushnil(l);
-			while (lua_next(l, 3)) {
-				flags |= static_cast<Uint32>(LuaConstants::GetConstantFromArg(l, "UIBoxFlags", -1));
-				lua_pop(l, 1);
-			}
-		}
-
-		LUA_DEBUG_END(l, 0);
-
-		return flags;
-	}
-
 	static int l_pack_start(lua_State *l) {
 		UI::Box *b = LuaObject<UI::Box>::CheckFromLua(1);
-
-		Uint32 flags = _unpack_flags(l);
 
 		if (lua_istable(l, 2)) {
 			for (size_t i = lua_rawlen(l, 2); i > 0; i--) {
 				lua_rawgeti(l, 2, i);
-				b->PackStart(LuaObject<UI::Widget>::CheckFromLua(-1), flags);
+				b->PackStart(LuaObject<UI::Widget>::CheckFromLua(-1));
 				lua_pop(l, 1);
 			}
 		}
 		else
-			b->PackEnd(LuaObject<UI::Widget>::CheckFromLua(2), flags);
+			b->PackEnd(LuaObject<UI::Widget>::CheckFromLua(2));
 
 		lua_pushvalue(l, 1);
 		return 1;
@@ -52,17 +30,15 @@ public:
 	static int l_pack_end(lua_State *l) {
 		UI::Box *b = LuaObject<UI::Box>::CheckFromLua(1);
 
-		Uint32 flags = _unpack_flags(l);
-
 		if (lua_istable(l, 2)) {
 			for (size_t i = 0; i < lua_rawlen(l, 2); i++) {
 				lua_rawgeti(l, 2, i+1);
-				b->PackEnd(LuaObject<UI::Widget>::CheckFromLua(-1), flags);
+				b->PackEnd(LuaObject<UI::Widget>::CheckFromLua(-1));
 				lua_pop(l, 1);
 			}
 		}
 		else
-			b->PackEnd(LuaObject<UI::Widget>::CheckFromLua(2), flags);
+			b->PackEnd(LuaObject<UI::Widget>::CheckFromLua(2));
 
 		lua_pushvalue(l, 1);
 		return 1;
