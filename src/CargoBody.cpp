@@ -52,7 +52,7 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage)
 
 bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
 {
-	if (b->IsType(Object::SHIP) && (flags & 0x100)) {
+	if (b->IsType(Object::SHIP)/* && (flags & 0x100)*/) {
 		return true;
 	}
 
