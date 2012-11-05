@@ -138,6 +138,8 @@ public:
 	// are we floating
 	bool IsFloating() const { return m_floating; }
 
+	virtual bool IsSelectable() const { return false; }
+
 	// font size. obviously used for text size but also sometimes used for
 	// general widget size (eg space size). might do nothing, depends on the
 	// widget
@@ -211,6 +213,8 @@ protected:
 
 	bool IsMouseOver() const { return m_mouseOver; }
 
+	bool IsSelected() const { return m_selected; }
+
 	// internal event handlers. override to handle events. unlike the external
 	// on* signals, every widget in the stack is guaranteed to receive a call
 	// - there's no facility for stopping propogation up the stack
@@ -236,6 +240,17 @@ protected:
 	// MouseActivate(). mouse clicks trigger this
 	virtual void HandleMouseActivate() {}
 	virtual void HandleMouseDeactivate() {}
+
+	// synthesized event. like KeyDown except you get multiple events if the
+	// key is held down
+	virtual void HandleKeyPress(const KeyboardEvent &event) {}
+
+	// internal synthesized events fired when a widget is selected or
+	// deselected. on mousedown, a widget becomes the selected widget unless
+	// its IsSelectable method returns false. the previously-selected widget
+	// (if there was one) gets deselected
+	virtual void HandleSelect() {}
+	virtual void HandleDeselect() {}
 
 
 private:
@@ -266,6 +281,11 @@ private:
 
 	void TriggerMouseActivate();
 	void TriggerMouseDeactivate();
+
+	bool TriggerKeyPress(const KeyboardEvent &event, bool emit = true);
+
+	void TriggerSelect();
+	void TriggerDeselect();
 
 
 	// let container set our attributes. none of them make any sense if
@@ -303,6 +323,7 @@ private:
 
 	bool m_mouseOver;
 	bool m_mouseActive;
+	bool m_selected;
 
 	std::string m_id;
 };

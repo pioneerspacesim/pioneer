@@ -87,7 +87,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>shlwapi.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;collider.lib;graphics.lib;gui.lib;jenkins.lib;lua.lib;miniz.lib;text.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>shlwapi.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;collider.lib;graphics.lib;gui.lib;jenkins.lib;lua.lib;miniz.lib;text.lib;ui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -96,7 +96,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>shlwapi.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;collider.lib;graphics.lib;gui.lib;jenkins.lib;lua.lib;miniz.lib;text.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>shlwapi.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;collider.lib;graphics.lib;gui.lib;jenkins.lib;lua.lib;miniz.lib;text.lib;ui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -105,7 +105,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua.lib;miniz.lib;jenkins.lib;shlwapi.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-2_2_8.lib;libpng15_static.lib;zlib.lib;text.lib;collider.lib;graphics.lib;gui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua.lib;miniz.lib;jenkins.lib;shlwapi.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-2_2_8.lib;libpng15_static.lib;zlib.lib;text.lib;collider.lib;graphics.lib;gui.lib;ui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -115,7 +115,6 @@
     <ClCompile Include="..\..\src\FileSourceZip.cpp" />
     <ClCompile Include="..\..\src\FileSystem.cpp" />
     <ClCompile Include="..\..\src\FontCache.cpp" />
-    <ClCompile Include="..\..\src\FontConfig.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
     <ClCompile Include="..\..\src\LmrModel.cpp" />
@@ -127,6 +126,7 @@
     <ClCompile Include="..\..\src\LuaVector.cpp" />
     <ClCompile Include="..\..\src\ModManager.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
+	<ClCompile Include="..\..\src\PngWriter.cpp" />	
     <ClCompile Include="..\..\src\posix\FileSystemPosix.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">true</ExcludedFromBuild>
@@ -156,7 +156,6 @@
     <ClInclude Include="..\..\src\FileSourceZip.h" />
     <ClInclude Include="..\..\src\FileSystem.h" />
     <ClInclude Include="..\..\src\FontCache.h" />
-    <ClInclude Include="..\..\src\FontConfig.h" />
     <ClInclude Include="..\..\src\IniConfig.h" />
     <ClInclude Include="..\..\src\Lang.h" />
     <ClInclude Include="..\..\src\libs.h" />
@@ -169,6 +168,7 @@
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
     <ClInclude Include="..\..\src\perlin.h" />
+	<ClInclude Include="..\..\src\PngWriter.h" />
     <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\StringF.h" />

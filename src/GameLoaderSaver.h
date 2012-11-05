@@ -21,7 +21,7 @@ protected:
 	virtual bool OnAction() = 0;
 
 private:
-	void OnClickLoad(std::string filename);
+	void OnClickLoad(const std::string &filename);
 	void OnClickBack();
 
 	FileSelectorWidget::Type m_type;

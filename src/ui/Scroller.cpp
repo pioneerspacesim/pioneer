@@ -89,9 +89,16 @@ Scroller *Scroller::SetInnerWidget(Widget *widget)
 void Scroller::RemoveInnerWidget()
 {
 	if (m_innerWidget) {
-		RemoveWidget(m_innerWidget);
+		Container::RemoveWidget(m_innerWidget);
 		m_innerWidget = 0;
 	}
+}
+
+void Scroller::RemoveWidget(Widget *widget)
+{
+	if (m_innerWidget != widget)
+		return;
+	RemoveInnerWidget();
 }
 
 }

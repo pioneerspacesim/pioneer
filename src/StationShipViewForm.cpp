@@ -18,7 +18,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 
 	m_flavour = m_station->GetShipsOnSale()[marketIndex];
 
-	const ShipType &type = ShipType::types[m_flavour.type];
+	const ShipType &type = ShipType::types[m_flavour.id];
 
 	SetTitle(stringf(Lang::SOMEWHERE_SHIP_MARKET, formatarg("station", m_station->GetLabel())));
 
@@ -133,7 +133,7 @@ void StationShipViewForm::BuyShip()
 
 	Pi::player->SetMoney(Pi::player->GetMoney() - cost);
 	Pi::player->ResetFlavour(&m_flavour);
-	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_flavour.type].hyperdrive);
+	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_flavour.id].hyperdrive);
 	Pi::player->UpdateStats();
 
 	m_station->ReplaceShipOnSale(m_marketIndex, &old);

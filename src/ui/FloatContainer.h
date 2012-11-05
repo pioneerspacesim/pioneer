@@ -13,7 +13,7 @@ public:
 	virtual void Layout();
 
 	void AddWidget(Widget *w, const Point &pos, const Point &size);
-	void RemoveWidget(Widget *w);
+	virtual void RemoveWidget(Widget *w);
 
 private:
 	virtual Point PreferredSize() { return Point(); }

@@ -16,6 +16,7 @@ namespace OS {
 	void Warning(const char *format, ...)  __attribute((format(printf,1,2)));
 	void LoadWindowIcon();
 
+	void RedirectStdio();
 }
 
 #endif

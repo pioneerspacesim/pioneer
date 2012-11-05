@@ -8,6 +8,7 @@
     <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\text\FontDescriptor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\text\Font.h" />

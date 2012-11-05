@@ -385,17 +385,16 @@ local Achernar8 = CustomSystemBody:new('Achernar8', 'PLANET_GAS_GIANT')
    :inclination(math.deg2rad(351.2))
 
 -- Achernar9 - Brown dwarf substellar object
--- Mass: 21745.37 Earth masses
+-- Mass: 21745.37 Earth masses (==0.0653782 solar masses)
 -- Surface temp: -1000 deg C
 -- Orbital period: 1768.2 years
 -- Orbital radius: 406.368AU
 -- Orbit Ecc. and Incl.: 0.000, 354.5 deg C
 local Achernar9 = CustomSystemBody:new('Achernar9', 'BROWN_DWARF')
    :seed(23492)
-   :radius(f(75267,100))
-   :mass(f(2174537,100))
+   :radius(f(7526,10000))
+   :mass(f(6537,100000))
    :temp(5273)
-   :rotation_period(f(17682,10))
    :semi_major_axis(f(406368,1000))
    :eccentricity(f(0,1))
    :inclination(math.deg2rad(354.5))
