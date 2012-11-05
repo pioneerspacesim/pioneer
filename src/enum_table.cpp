@@ -342,6 +342,7 @@ const struct EnumItem ENUM_UIEventType[] = {
 const struct EnumItem ENUM_UIKeyboardAction[] = {
 	{ "DOWN", UI::KeyboardEvent::KEY_DOWN },
 	{ "UP", UI::KeyboardEvent::KEY_UP },
+	{ "PRESS", UI::KeyboardEvent::KEY_PRESS },
 	{ 0, 0 },
 };
 
