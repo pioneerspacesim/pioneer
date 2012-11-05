@@ -718,7 +718,6 @@ void LuaConstants::Register(lua_State *l)
 
 	// XXX document these
 	_create_constant_table_nonconsecutive(l, "UIAlignDirection", ENUM_UIAlignDirection);
-	_create_constant_table_nonconsecutive(l, "UIBoxFlags", ENUM_UIBoxFlags);
 	_create_constant_table_nonconsecutive(l, "UIImageStretchMode", ENUM_UIImageStretchMode);
 	_create_constant_table_nonconsecutive(l, "UIFont", ENUM_UIFont);
 	_create_constant_table_nonconsecutive(l, "UIEventType", ENUM_UIEventType);

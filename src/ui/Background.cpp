@@ -11,7 +11,7 @@ Point Background::PreferredSize()
 {
 	const Point borderSize(GetContext()->GetSkin().BackgroundNormal().borderWidth*2);
 	if (!GetInnerWidget()) return borderSize;
-	return GetInnerWidget()->PreferredSize() + borderSize;
+	return SizeAdd(GetInnerWidget()->PreferredSize(), borderSize);
 }
 
 void Background::Layout()

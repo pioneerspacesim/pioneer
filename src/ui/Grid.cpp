@@ -28,12 +28,12 @@ Point Grid::PreferredSize()
 			if (!w) continue;
 
 			const Point childPreferredSize = w->PreferredSize();
-			rowSize.x += childPreferredSize.x;
-			rowSize.y = std::max(rowSize.y, childPreferredSize.y);
+			rowSize.x = SizeAdd(childPreferredSize.x, rowSize.x);
+			rowSize.y = std::max(childPreferredSize.y, rowSize.y);
 		}
 
 		preferredSize.x = std::max(preferredSize.x, rowSize.x);
-		preferredSize.y += rowSize.y;
+		preferredSize.y = SizeAdd(preferredSize.y, rowSize.y);
 	}
 
 	return preferredSize;

@@ -22,7 +22,7 @@ Point Scroller::PreferredSize()
 
 	const Point innerWidgetSize = m_innerWidget->PreferredSize();
 
-	return Point(innerWidgetSize.x+sliderSize.x, std::max(innerWidgetSize.y, sliderSize.y));
+	return Point(SizeAdd(innerWidgetSize.x, sliderSize.x), std::max(innerWidgetSize.y, sliderSize.y));
 }
 
 void Scroller::Layout()

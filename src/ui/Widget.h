@@ -9,6 +9,7 @@
 #include "Event.h"
 #include "RefCounted.h"
 #include "WidgetSet.h"
+#include <climits>
 
 // Widget is the base class for all UI elements. There's a couple of things it
 // must implement, and a few more it might want to implement if it wants to do
@@ -216,6 +217,13 @@ public:
 
 
 protected:
+
+	// magic constant for PreferredSize to indicate "as much as possible"
+	static const int SIZE_EXPAND = INT_MAX;
+
+	// safely add two sizes, preserving SIZE_EXPAND
+	static inline int SizeAdd(int a, int b) { return a == SIZE_EXPAND || b == SIZE_EXPAND ? SIZE_EXPAND : a+b; }
+	static inline Point SizeAdd(const Point &a, const Point &b) { return Point(SizeAdd(a.x,b.x), SizeAdd(a.y,b.y)); }
 
 	// set the active area. defaults to the size allocated by the container
 	void SetActiveArea(const Point &activeArea, const Point &activeOffset = Point());
