@@ -17,9 +17,6 @@
 #include <assimp/scene.h>
 #include <assimp/material.h>
 
-//debugging
-#include <iostream>
-
 namespace Newmodel {
 
 Loader::Loader(Graphics::Renderer *r) :
@@ -42,10 +39,11 @@ NModel *Loader::LoadModel(const std::string &filename)
 
 NModel *Loader::LoadModel(const std::string &shortname, const std::string &basepath)
 {
-	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
+	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
+	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
 	{
 		const FileSystem::FileInfo &info = files.Current();
-		const std::string &fpath = info.GetAbsolutePath();
+		const std::string &fpath = info.GetPath();
 
 		//check it's the expected type
 		if (info.IsFile() && ends_with(fpath, ".model")) {
@@ -55,17 +53,18 @@ NModel *Loader::LoadModel(const std::string &shortname, const std::string &basep
 			if (shortname == name.substr(0, name.length()-6)) {
 				ModelDefinition modelDefinition;
 				try {
-					//curPath is used to find patterns, possibly other data
-					//files for this model. Strip trailing slash
+					//curPath is used to find textures, patterns,
+					//possibly other data files for this model.
+					//Strip trailing slash
 					m_curPath = info.GetDir();
 					assert(!m_curPath.empty());
 					if (m_curPath[m_curPath.length()-1] == '/')
 						m_curPath = m_curPath.substr(0, m_curPath.length()-1);
 
-					Parser p(fpath, m_curPath);
+					Parser p(fileSource, fpath, m_curPath);
 					p.Parse(&modelDefinition);
 				} catch (ParseError &err) {
-					std::cerr << err.what() << std::endl;
+					fprintf(stderr, "%s\n", err.what());
 					throw LoadingError(err.what());
 				}
 				modelDefinition.name = shortname;
@@ -183,7 +182,7 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 					model->GetRoot()->AddChild(mesh.Get());
 			} catch (LoadingError &err) {
 				delete model;
-				std::cerr << err.what() << std::endl;
+				fprintf(stderr, "%s\n", err.what());
 				throw;
 			}
 		}

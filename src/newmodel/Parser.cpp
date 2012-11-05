@@ -2,9 +2,10 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Parser.h"
-#include <sstream>
-#include "StringF.h"
 #include "FileSystem.h"
+#include "StringF.h"
+#include "StringRange.h"
+#include <sstream>
 
 namespace Newmodel {
 
@@ -13,36 +14,34 @@ bool LodSortPredicate(const LodDefinition &a, const LodDefinition &b)
 	return a.pixelSize < b.pixelSize;
 }
 
-Parser::Parser(const std::string &filename, const std::string &path)
+Parser::Parser(FileSystem::FileSource &fs, const std::string &filename, const std::string &path)
 : m_isMaterial(false)
 , m_curMat(0)
 , m_model(0)
 , m_path(path)
 {
-	m_file.open(filename.c_str(), std::ifstream::in);
-	if (!m_file) throw ParseError("Could not open " + filename);
-}
-
-Parser::~Parser()
-{
-	m_file.close();
+	RefCountedPtr<FileSystem::FileData> data = fs.ReadFile(filename);
+	if (!data) throw ParseError("Could not open");
+	m_file = data;
 }
 
 void Parser::Parse(ModelDefinition *m)
 {
+	StringRange buffer = m_file->AsStringRange();
+	buffer = buffer.StripUTF8BOM();
+
 	m_model = m;
-	char line[1024]; //that's a long line
 	int lineno = 0;
-	while (m_file.good()) {
+	while (!buffer.Empty()) {
 		lineno++;
-		m_file.getline(line, 1023);
+		StringRange line = buffer.ReadLine();
 		try {
-			if (!parseLine(std::string(line)))
+			if (!parseLine(line.ToString()))
 				throw ParseError("Mystery fail");
 		} catch (ParseError &err) {
 			std::stringstream ss;
 			ss << "Error parsing line " << lineno << ":" << std::endl;
-			ss << line << std::endl;
+			ss << line.ToString() << std::endl;
 			ss << err.what();
 			throw ParseError(ss.str());
 		}

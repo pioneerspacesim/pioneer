@@ -8,8 +8,8 @@
  * It's pretty bad, someone please redesign.
  */
 #include "Loader.h"
+#include "FileSystem.h"
 #include <stdexcept>
-#include <fstream>
 
 namespace Newmodel {
 
@@ -20,8 +20,7 @@ struct ParseError : public std::runtime_error {
 class Parser
 {
 public:
-	Parser(const std::string &filename, const std::string &path);
-	~Parser();
+	Parser(FileSystem::FileSource &, const std::string &filename, const std::string &path);
 
 	void Parse(ModelDefinition *m);
 
@@ -29,7 +28,7 @@ private:
 	bool m_isMaterial;
 	MaterialDefinition *m_curMat;
 	ModelDefinition *m_model;
-	std::ifstream m_file;
+	RefCountedPtr<FileSystem::FileData> m_file;
 	std::string m_path;
 
 	bool checkColor(std::stringstream &ss, Color &color);
