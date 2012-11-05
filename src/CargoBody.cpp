@@ -52,7 +52,9 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage)
 
 bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
 {
-	if (b->IsType(Object::SHIP) && (flags & 0x100)) {
+	// ignore collision if its about to be scooped
+	// XXX this is wrong. should only ignore if its actually going to be scooped. see Ship::OnCollision
+	if (b->IsType(Object::SHIP)) {
 		return true;
 	}
 

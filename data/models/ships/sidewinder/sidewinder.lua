@@ -640,9 +640,6 @@ define_model('rattle_scoop', {
 		if lod > 1 then
 			texture('v_glow.png', v(0,.3,0), v(.5,0,0), v(0,.5,0))
 		end
-		geomflag(0x100)
-		quad(v140,v142,v143,v141)
-		geomflag(0)
 	end
 })
 
