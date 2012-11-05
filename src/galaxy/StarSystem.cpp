@@ -508,6 +508,28 @@ SystemBody::BodySuperType SystemBody::GetSuperType() const
 	}
 }
 
+AtmosphereComposition SystemBody::GetAtmosphereComposition(fixed atmosOxidizing) {
+	if (atmosOxidizing > fixed(95,100)) {
+		return O2_ATM;
+	} else if (atmosOxidizing > fixed(7,10)) {
+		return CO2_ATM;
+	} else if (atmosOxidizing > fixed(65,100)) {
+		return CO_ATM;
+	} else if (atmosOxidizing > fixed(55,100)) {
+		return CH4_ATM;
+	} else if (atmosOxidizing > fixed(3,10)) {
+		return H_ATM;
+	} else if (atmosOxidizing > fixed(2,10)) {
+		return HE_ATM;
+	} else if (atmosOxidizing > fixed(15,100)) {
+		return AR_ATM;
+	} else if (atmosOxidizing > fixed(1,10)) {
+		return S_ATM;
+	} else {
+		return N_ATM;
+	}
+}
+
 std::string SystemBody::GetAstroDescription() const
 {
 	switch (type) {
@@ -599,24 +621,34 @@ std::string SystemBody::GetAstroDescription() const
 			else if (m_volatileGas < fixed(4,1)) thickness = Lang::THICK;
 			else thickness = Lang::VERY_DENSE;
 
-			if (m_atmosOxidizing > fixed(95,100)) {
+			switch(GetAtmosphereComposition(m_atmosOxidizing)) {
+			case O2_ATM:
 				s += Lang::WITH_A+thickness+Lang::O2_ATMOSPHERE;
-			} else if (m_atmosOxidizing > fixed(7,10)) {
+				break;
+			case CO2_ATM:
 				s += Lang::WITH_A+thickness+Lang::CO2_ATMOSPHERE;
-			} else if (m_atmosOxidizing > fixed(65,100)) {
+				break;
+			case CO_ATM:
 				s += Lang::WITH_A+thickness+Lang::CO_ATMOSPHERE;
-			} else if (m_atmosOxidizing > fixed(55,100)) {
+				break;
+			case CH4_ATM:
 				s += Lang::WITH_A+thickness+Lang::CH4_ATMOSPHERE;
-			} else if (m_atmosOxidizing > fixed(3,10)) {
+				break;
+			case H_ATM:
 				s += Lang::WITH_A+thickness+Lang::H_ATMOSPHERE;
-			} else if (m_atmosOxidizing > fixed(2,10)) {
+				break;
+			case HE_ATM:
 				s += Lang::WITH_A+thickness+Lang::HE_ATMOSPHERE;
-			} else if (m_atmosOxidizing > fixed(15,100)) {
+				break;
+			case AR_ATM:
 				s += Lang::WITH_A+thickness+Lang::AR_ATMOSPHERE;
-			} else if (m_atmosOxidizing > fixed(1,10)) {
+				break;
+			case S_ATM:
 				s += Lang::WITH_A+thickness+Lang::S_ATMOSPHERE;
-			} else {
+				break;
+			case N_ATM:
 				s += Lang::WITH_A+thickness+Lang::N_ATMOSPHERE;
+				break;
 			}
 		}
 
@@ -1290,10 +1322,52 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	const double T = static_cast<double>(averageTemp);
 
-	// XXX just use earth's composition for now
-	const double M = 0.02897f; // in kg/mol
+	switch(GetAtmosphereComposition(m_atmosOxidizing)) {
+	case O2_ATM:
+		params.atmosMolarMass = 0.02897f;
+		params.atmosSpecificHeatCP = 1000.5;
+		break;
+	case CO2_ATM:
+		params.atmosMolarMass = 0.04401f;
+		params.atmosSpecificHeatCP = 844;
+		break;
+	case CO_ATM:
+		params.atmosMolarMass = 0.02801f;
+		params.atmosSpecificHeatCP = 1020;
+		break;
+	case CH4_ATM:
+		params.atmosMolarMass = 0.016f;
+		params.atmosSpecificHeatCP = 2220;
+		break;
+	case H_ATM:
+		params.atmosMolarMass = 0.002f;
+		params.atmosSpecificHeatCP = 13120;
+		break;
+	case HE_ATM:
+		params.atmosMolarMass = 0.002f;
+		params.atmosSpecificHeatCP = 5190;
+		break;
+	case AR_ATM:
+		params.atmosMolarMass = 0.040f;
+		params.atmosSpecificHeatCP = 520;
+		break;
+	case S_ATM: // sulphur dioxide
+		params.atmosMolarMass = 0.064f;
+		params.atmosSpecificHeatCP = 640;
+		break;
+	case N_ATM:
+		params.atmosMolarMass = 0.028f;
+		params.atmosSpecificHeatCP = 1035;
+		break;
+	}
 
-	const float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R*T/(M*g));
+	// non-terrestial planets are out of hydrogen
+	if(type != SystemBody::TYPE_PLANET_TERRESTRIAL) {
+		params.atmosMolarMass = 0.002f;
+		params.atmosSpecificHeatCP = 13120;
+	}
+
+	const float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R*T/(params.atmosMolarMass*g));
 
 	// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
 	params.atmosInvScaleHeight = std::max(20.0f, static_cast<float>(GetRadius() / atmosScaleHeight));

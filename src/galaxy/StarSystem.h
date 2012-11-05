@@ -27,6 +27,18 @@ enum EconType { // <enum name=EconType prefix=ECON_>
 	ECON_INDUSTRY = 1<<2,
 };
 
+enum AtmosphereComposition {
+	O2_ATM,
+ 	CO2_ATM,
+ 	CO_ATM,
+ 	CH4_ATM,
+ 	H_ATM,
+ 	HE_ATM,
+ 	AR_ATM,
+ 	S_ATM,
+ 	N_ATM
+};
+
 class StarSystem;
 
 struct Orbit {
@@ -153,6 +165,8 @@ public:
 	bool HasRings() const { return bool(m_rings.maxRadius.v); }
 	void PickRings(bool forceRings = false);
 
+	static AtmosphereComposition GetAtmosphereComposition(fixed atmosOxidizing);
+
 
 	// XXX merge all this atmosphere stuff
 	bool HasAtmosphere() const;
@@ -171,6 +185,8 @@ public:
 		Color atmosCol;
 		vector3d center;
 		float scale;
+		float atmosSpecificHeatCP;	// in J/kg/K
+		float atmosMolarMass; 		// in kg/mol
 	};
 
 	AtmosphereParameters CalcAtmosphereParams() const;

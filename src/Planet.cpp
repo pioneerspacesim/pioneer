@@ -12,6 +12,7 @@
 #include "graphics/Texture.h"
 #include "graphics/VertexArray.h"
 #include "Color.h"
+#include "galaxy/StarSystem.h"
 
 #ifdef _MSC_VER
 	#include "win32/WinMath.h"
@@ -74,11 +75,14 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 #endif
 
 	double surfaceDensity;
-	const double SPECIFIC_HEAT_AIR_CP=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
-	// XXX using earth's molar mass of air...
-	const double GAS_MOLAR_MASS = 0.02897;
 	const double GAS_CONSTANT = 8.3144621;
 	const double PA_2_ATMOS = 1.0 / 101325.0;
+
+	// parameters of the body
+	SystemBody::AtmosphereParameters atmParam = this->GetSystemBody()->CalcAtmosphereParams();
+
+	const double SPECIFIC_HEAT_AIR_CP = atmParam.atmosSpecificHeatCP;// constant pressure specific heat
+	const double GAS_MOLAR_MASS = atmParam.atmosMolarMass;
 
 	// surface gravity = -G*M/planet radius^2
 	const double surfaceGravity_g = -G*this->GetSystemBody()->GetMass()/pow((this->GetSystemBody()->GetRadius()),2); // should be stored in sbody
