@@ -356,11 +356,11 @@ int main(int argc, char **argv)
 #if 0
 	c->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
-			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XSMALL),
-			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_SMALL),
-			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_NORMAL),
-			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_LARGE),
-			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XLARGE)
+			c->Label("through three cheese trees three freezy fleas flew")->SetFont(UI::Widget::FONT_XSMALL),
+			c->Label("through three cheese trees three freezy fleas flew")->SetFont(UI::Widget::FONT_SMALL),
+			c->Label("through three cheese trees three freezy fleas flew")->SetFont(UI::Widget::FONT_NORMAL),
+			c->Label("through three cheese trees three freezy fleas flew")->SetFont(UI::Widget::FONT_LARGE),
+			c->Label("through three cheese trees three freezy fleas flew")->SetFont(UI::Widget::FONT_XLARGE)
 		))
 	);
 #endif
