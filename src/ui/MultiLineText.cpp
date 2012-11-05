@@ -16,7 +16,7 @@ Point MultiLineText::PreferredSize()
 {
 	if (m_preferredSize != Point())
 		return m_preferredSize;
-	return m_layout->ComputeSize(Point());
+	return Point(SIZE_EXPAND);
 }
 
 void MultiLineText::Layout()
