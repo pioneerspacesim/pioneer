@@ -593,16 +593,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulacija evolucije svemira: %age{f.1} miljarda godina ;-)
 TOMBSTONE_EPITAPH
     POČIVAJ U MIRU
-MM_START_NEW_GAME_EARTH
-    Nova igra započeta na Zemlji
-MM_START_NEW_GAME_E_ERIDANI
-    Nova igra započeta na Epsilon Eridani
-MM_START_NEW_GAME_DEBUG
-    Nova igra započeta na debug točci
-MM_LOAD_SAVED_GAME
-    Pokreni spremljenu igru
-MM_QUIT
-    Izlaz
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD

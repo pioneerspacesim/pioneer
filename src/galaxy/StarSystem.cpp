@@ -3,6 +3,7 @@
 
 #include "StarSystem.h"
 #include "Sector.h"
+#include "Factions.h"
 
 #include "Serializer.h"
 #include "Pi.h"
@@ -883,7 +884,7 @@ vector3d Orbit::OrbitalPosAtTime(double t) const
 	return pos;
 }
 
-// used for stepping through the orbit in small fractions 
+// used for stepping through the orbit in small fractions
 // therefore the orbital phase at game start (mean anomalty at t = 0)
 // does not need to be taken into account
 vector3d Orbit::EvenSpacedPosAtTime(double t) const
@@ -1226,7 +1227,7 @@ void SystemBody::PickRings(bool forceRings)
 			// from wikipedia: http://en.wikipedia.org/wiki/Roche_limit
 			// basic Roche limit calculation assuming a rigid satellite
 			// d = R (2 p_M / p_m)^{1/3}
-			// 
+			//
 			// where R is the radius of the primary, p_M is the density of
 			// the primary and p_m is the density of the satellite
 			//
@@ -1272,7 +1273,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	// The equation for pressure is:
 	// Pressure at height h = Pressure surface * e^((-Mg/RT)*h)
 
-	// calculate (inverse) atmosphere scale height		
+	// calculate (inverse) atmosphere scale height
 	// The formula for scale height is:
 	// h = RT / Mg
 	// h is height above the surface in meters
@@ -1312,7 +1313,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(const SystemPath &path) : m_path(path)
+StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Faction::BAD_FACTION_IDX)
 {
 	assert(path.IsSystemPath());
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
@@ -1888,6 +1889,17 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 	}
 }
 
+const Color StarSystem::GetFactionColour() const
+{
+	if (m_factionIdx != Faction::BAD_FACTION_IDX) {
+		const Faction *fac = Faction::GetFaction(m_factionIdx);
+		if( fac ) {
+			return fac->colour;
+		}
+	}
+	return Color(0.8f,0.8f,0.8f,0.5f);
+}
+
 /* percent */
 #define MAX_COMMODITY_BASE_PRICE_ADJUSTMENT 25
 
@@ -1904,6 +1916,9 @@ void StarSystem::Populate(bool addSpaceStations)
 	m_econType = ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
 	m_agricultural = 0;
+
+	// find the faction we're probably aligned with
+	m_factionIdx = Faction::GetNearestFactionIndex(m_path);
 
 	/* system attributes */
 	m_totalPop = fixed(0);

@@ -79,6 +79,8 @@ WEIGHT_FULLY_LADEN
     Weight fully loaded
 CAPACITY
     Capacity
+CAPACITY_USED
+	Capacity used
 FORWARD_ACCEL_EMPTY
     Forward accel (empty)
 NUMBER_G
@@ -484,8 +486,12 @@ HYPERDRIVE
     Hyperdrive
 FREE
     Free
+FREE_LOWERCASE
+    free
 USED
     Used
+FUEL_WEIGHT
+    Fuel weight
 TOTAL_WEIGHT
     All-up weight
 FRONT_WEAPON
@@ -498,6 +504,8 @@ NO_MOUNTING
     no mounting
 N_LIGHT_YEARS_N_MAX
     %distance{f.1} light years (%maxdistance{f.1} max)
+MAX
+	max
 SHIP_INFORMATION
     Ship information
 PERSONAL
@@ -616,20 +624,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulating evolution of the universe: %age{f.1} billion years ;-)
 TOMBSTONE_EPITAPH
     RIP OLD BEAN
-MM_START_NEW_GAME_EARTH
-    New game starting on Earth
-MM_START_NEW_GAME_E_ERIDANI
-    New game starting on Epsilon Eridani
-MM_START_NEW_GAME_LAVE
-    New game starting at Lave
-MM_START_NEW_GAME_DEBUG
-    New game starting on debug point
-MM_LOAD_SAVED_GAME
-    Load a saved game
-MM_SETTINGS
-    Settings
-MM_QUIT
-    Quit
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -748,10 +742,6 @@ SHIP_IS_FULLY_LADEN
     Your ship is fully laden.
 YOU_DO_NOT_HAVE_ANY_X
     You do not have any %item.
-FRONT_COCKPIT_VIEW
-	Front cockpit view
-REAR_COCKPIT_VIEW
-	Rear cockpit view
 CAMERA_FRONT_VIEW
 	Front camera
 CAMERA_REAR_VIEW
@@ -990,6 +980,8 @@ MASS
     Mass
 N_WHATEVER_MASSES
     %mass{f.3} %units masses
+N_WHATEVER_RADII
+    %radius{f.3} %units radii
 SOLAR
     Solar
 EARTH
@@ -1058,6 +1050,8 @@ ECONOMY_TYPE
     Economy type:
 ALLEGIANCE
     Allegiance:
+FACTION
+	Faction:
 POPULATION
     Population:
 OVER_N_BILLION

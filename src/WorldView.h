@@ -33,14 +33,7 @@ public:
 	static const double PICK_OBJECT_RECT_SIZE;
 	virtual void Save(Serializer::Writer &wr);
 	enum CamType {
-		COCKPIT_FRONT,
-		COCKPIT_REAR,
-		CAM_FRONT,
-		CAM_REAR,
-		CAM_LEFT,
-		CAM_RIGHT,
-		CAM_TOP,
-		CAM_BOTTOM,
+		CAM_INTERNAL,
 		CAM_EXTERNAL,
 		CAM_SIDEREAL
 	};
@@ -63,6 +56,9 @@ private:
 	void RefreshHyperspaceButton();
 	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
+
+	void ChangeInternalCameraMode(InternalCamera::Mode m);
+	void UpdateCameraName();
 
 	enum IndicatorSide {
 		INDICATOR_HIDDEN,
@@ -152,7 +148,6 @@ private:
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;
 
-	std::string cameraName;
 	InternalCamera *m_internalCamera;
 	ExternalCamera *m_externalCamera;
 	SiderealCamera *m_siderealCamera;

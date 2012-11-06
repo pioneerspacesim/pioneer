@@ -35,6 +35,7 @@ public:
 
 protected:
 	virtual void OnSwitchTo() = 0;
+	virtual void OnSwitchFrom() {}
 
 	// each view can put some buttons in the bottom right of the cpanel
 	Gui::Fixed *m_rightButtonBar;

@@ -15,6 +15,7 @@ noinst_HEADERS = \
 	VectorFont.h
 
 libtext_a_SOURCES = \
+	FontDescriptor.cpp \
 	Font.cpp \
 	TextSupport.cpp \
 	TextureFont.cpp \

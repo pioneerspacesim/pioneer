@@ -5,7 +5,7 @@ endif
 if BUILD_POSIX
     PLATFORM_SUBDIRS = posix
 endif
-SUBDIRS = collider gui graphics galaxy terrain text $(PLATFORM_SUBDIRS)
+SUBDIRS = collider gui graphics galaxy terrain text ui $(PLATFORM_SUBDIRS)
 
 include $(top_srcdir)/Makefile.common
 
@@ -29,6 +29,7 @@ noinst_HEADERS = \
 	CityOnPlanet.h \
 	Color.h \
 	CommodityTradeWidget.h \
+	Cutscene.h \
 	CRC32.h \
 	DeadVideoLink.h \
 	DeathView.h \
@@ -37,10 +38,10 @@ noinst_HEADERS = \
 	EquipSet.h \
 	EquipType.h \
 	FaceVideoLink.h \
+	Factions.h \
 	FileSelectorWidget.h \
 	FileSystem.h \
 	FontCache.h \
-	FontConfig.h \
 	Form.h \
 	FormController.h \
 	Frame.h \
@@ -52,6 +53,7 @@ noinst_HEADERS = \
 	HyperspaceCloud.h \
 	InfoView.h \
 	IniConfig.h \
+	Intro.h \
 	GameConfig.h \
 	KeyBindings.h \
 	Lang.h \
@@ -68,6 +70,7 @@ noinst_HEADERS = \
 	LuaEngine.h \
 	LuaEquipType.h \
 	LuaEvent.h \
+	LuaFaction.h \
 	LuaFileSystem.h \
 	LuaFormat.h \
 	LuaGame.h \
@@ -108,6 +111,7 @@ noinst_HEADERS = \
 	Pi.h \
 	Planet.h \
 	Player.h \
+	PngWriter.h \
 	Polit.h \
 	Projectile.h \
 	Quaternion.h \
@@ -146,6 +150,7 @@ noinst_HEADERS = \
 	SystemInfoView.h \
 	SystemView.h \
 	TerrainBody.h \
+	Tombstone.h \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
@@ -179,11 +184,11 @@ pioneer_SOURCES	= \
 	DynamicBody.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
+	Factions.cpp \
 	FileSelectorWidget.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
 	FontCache.cpp \
-	FontConfig.cpp \
 	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
@@ -194,6 +199,7 @@ pioneer_SOURCES	= \
 	HyperspaceCloud.cpp \
 	InfoView.cpp \
 	IniConfig.cpp \
+	Intro.cpp \
 	GameConfig.cpp \
 	KeyBindings.cpp \
 	Lang.cpp \
@@ -209,6 +215,7 @@ pioneer_SOURCES	= \
 	LuaEngine.cpp \
 	LuaEquipType.cpp \
 	LuaEvent.cpp \
+	LuaFaction.cpp \
 	LuaFileSystem.cpp \
 	LuaFormat.cpp \
 	LuaGame.cpp \
@@ -244,6 +251,7 @@ pioneer_SOURCES	= \
 	Pi.cpp \
 	Planet.cpp \
 	Player.cpp \
+	PngWriter.cpp \
 	Polit.cpp \
 	Projectile.cpp \
 	SDLWrappers.cpp \
@@ -279,6 +287,7 @@ pioneer_SOURCES	= \
 	SystemInfoView.cpp \
 	SystemView.cpp \
 	TerrainBody.cpp \
+	Tombstone.cpp \
 	View.cpp \
 	WorldView.cpp \
 	WorldViewCamera.cpp \
@@ -296,14 +305,17 @@ pioneer_LDADD = \
 	gui/libgui.a \
 	graphics/libgraphics.a \
 	galaxy/libgalaxy.a \
-	terrain/libterrain.a
+	terrain/libterrain.a \
+	ui/libui.a
 
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
 	$(PNG_LIBS)
 
+if BUILD_WIN32
 pioneer_LDFLAGS = -Wl,-Map=pioneer.map
+endif
 
 if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
@@ -315,7 +327,6 @@ modelviewer_SOURCES = \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
 	FontCache.cpp \
-	FontConfig.cpp \
 	IniConfig.cpp \
 	Lang.cpp \
 	LuaMatrix.cpp \
@@ -327,6 +338,7 @@ modelviewer_SOURCES = \
 	LuaUtils.cpp \
 	LuaConstants.cpp \
 	ModManager.cpp \
+	PngWriter.cpp \
 	EquipType.cpp \
 	ShipType.cpp \
 	SDLWrappers.cpp \
@@ -342,33 +354,67 @@ modelviewer_LDADD = \
 	gui/libgui.a \
 	graphics/libgraphics.a \
 	terrain/libterrain.a \
+	ui/libui.a \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA
 modelviewer_LDADD += ../contrib/lua/liblua.a
 endif
 
+if BUILD_WIN32
 modelviewer_LDFLAGS = -Wl,-Map=modelviewer.map
+endif
 
-check_PROGRAMS = tests
+check_PROGRAMS = tests uitest
 tests_SOURCES = \
 	StringF.cpp \
 	tests.cpp \
 	test_Frame.cpp \
 	test_StringF.cpp \
 	FileSystem.cpp \
-	posix/FileSystemPosix.cpp \
 	FileSourceZip.cpp \
 	test_FileSystem.cpp
-
 TESTS = tests
-
 tests_LDADD = \
 	collider/libcollider.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \
 	terrain/libterrain.a \
+    posix/libposix.a \
 	../contrib/miniz/libminiz.a
+
+uitest_SOURCES = \
+	uitest.cpp \
+	Color.cpp \
+	FileSystem.cpp \
+	SDLWrappers.cpp \
+	FontCache.cpp \
+	IniConfig.cpp \
+	StringF.cpp \
+	Lang.cpp \
+	Lua.cpp \
+	LuaManager.cpp \
+	LuaUtils.cpp \
+	LuaObject.cpp \
+	LuaConstants.cpp \
+	LuaRef.cpp \
+	enum_table.cpp \
+	utils.cpp
+uitest_LDADD = \
+	../contrib/jenkins/libjenkins.a \
+	ui/libui.a \
+	gui/libgui.a \
+	text/libtext.a \
+	graphics/libgraphics.a \
+	posix/libposix.a
+
+uitest_LDADD += \
+	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
+
+if !HAVE_LUA
+uitest_LDADD += ../contrib/lua/liblua.a
+endif
 
 INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA

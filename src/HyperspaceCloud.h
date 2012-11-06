@@ -42,6 +42,8 @@ protected:
 	virtual void Load(Serializer::Reader &rd, Space *space);
 
 private:
+	void InitGraphics();
+
 	Ship *m_ship;
 	vector3d m_pos;
 	vector3d m_vel;

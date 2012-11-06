@@ -44,9 +44,9 @@ void ShipFlavour::MakeRandomColor(LmrMaterial &m)
 	m.shininess = 50.0f + float(Pi::rng.Double())*50.0f;
 }
 
-ShipFlavour::ShipFlavour(ShipType::Type type_)
+ShipFlavour::ShipFlavour(ShipType::Id id_)
 {
-	type = type_;
+	id = id_;
 	regid = "XX-1111";
 	regid[0] = 'A' + Pi::rng.Int32(26);
 	regid[1] = 'A' + Pi::rng.Int32(26);
@@ -55,7 +55,7 @@ ShipFlavour::ShipFlavour(ShipType::Type type_)
 	regid[4] = '0' + ((code /  100) % 10);
 	regid[5] = '0' + ((code /   10) % 10);
 	regid[6] = '0' + ((code /    1) % 10);
-	price = std::max(ShipType::types[type].baseprice, 1);
+	price = std::max(ShipType::types[id].baseprice, 1);
 	price = price + Pi::rng.Int32(price)/64;
 
 	MakeRandomColor(primaryColor);
@@ -67,10 +67,10 @@ void ShipFlavour::MakeTrulyRandom(ShipFlavour &v, bool atmospheric)
 {
 	// only allow ships that can fit an atmospheric shield
 	if (atmospheric) {
-		const std::vector<ShipType::Type> &ships = ShipType::playable_atmospheric_ships;
+		const std::vector<ShipType::Id> &ships = ShipType::playable_atmospheric_ships;
 		v = ShipFlavour(ships[Pi::rng.Int32(ships.size())]);
 	} else {
-		const std::vector<ShipType::Type> &ships = ShipType::player_ships;
+		const std::vector<ShipType::Id> &ships = ShipType::player_ships;
 		v = ShipFlavour(ships[Pi::rng.Int32(ships.size())]);
 	}
 }
@@ -101,7 +101,7 @@ void ShipFlavour::LoadLmrMaterial(Serializer::Reader &rd, LmrMaterial *m)
 
 void ShipFlavour::Save(Serializer::Writer &wr)
 {
-	wr.String(type);
+	wr.String(id);
 	wr.Int32(price);
 	wr.String(regid);
 	SaveLmrMaterial(wr, &primaryColor);
@@ -110,10 +110,74 @@ void ShipFlavour::Save(Serializer::Writer &wr)
 
 void ShipFlavour::Load(Serializer::Reader &rd)
 {
-	type = rd.String();
+	id = rd.String();
 	price = rd.Int32();
 	regid = rd.String();
 	LoadLmrMaterial(rd, &primaryColor);
 	LoadLmrMaterial(rd, &secondaryColor);
 }
 
+static inline void _get_string(lua_State *l, const char *key, std::string &output)
+{
+	lua_pushstring(l, key);
+	lua_gettable(l, -2);
+	output = lua_tostring(l, -1);
+	lua_pop(l, 1);
+}
+
+static inline void _get_number(lua_State *l, const char *key, float &output)
+{
+	lua_pushstring(l, key);
+	lua_gettable(l, -2);
+	output = lua_tonumber(l, -1);
+	lua_pop(l, 1);
+}
+
+static inline void _get_colour(lua_State *l, const char *key, float rgba[4])
+{
+	lua_pushstring(l, key);
+	lua_gettable(l, -2);
+	_get_number(l, "r", rgba[0]);
+	_get_number(l, "g", rgba[1]);
+	_get_number(l, "b", rgba[2]);
+	_get_number(l, "a", rgba[3]);
+	lua_pop(l, 1);
+}
+
+ShipFlavour ShipFlavour::FromLuaTable(lua_State *l, int idx) {
+	const int table = lua_absindex(l, idx);
+	assert(lua_istable(l, table));
+
+	LUA_DEBUG_START(l);
+
+	lua_pushvalue(l, table);
+
+	ShipFlavour f;
+
+	_get_string(l, "id", f.id);
+	_get_string(l, "regId", f.regid);
+
+	float money;
+	_get_number(l, "price", money);
+	f.price = money*100.0;
+
+	lua_getfield(l, -1, "primaryColour");
+	_get_colour(l, "diffuse", f.primaryColor.diffuse);
+	_get_colour(l, "specular", f.primaryColor.specular);
+	_get_colour(l, "emissive", f.primaryColor.emissive);
+	_get_number(l, "shininess", f.primaryColor.shininess);
+	lua_pop(l, 1);
+
+	lua_getfield(l, -1, "secondaryColour");
+	_get_colour(l, "diffuse", f.secondaryColor.diffuse);
+	_get_colour(l, "specular", f.secondaryColor.specular);
+	_get_colour(l, "emissive", f.secondaryColor.emissive);
+	_get_number(l, "shininess", f.secondaryColor.shininess);
+	lua_pop(l, 1);
+
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
+
+	return f;
+}

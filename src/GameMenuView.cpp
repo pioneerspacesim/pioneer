@@ -13,6 +13,7 @@
 #include "StringF.h"
 #include "GameLoaderSaver.h"
 #include "Game.h"
+#include "FileSystem.h"
 
 class KeyGetter: public Gui::Fixed {
 public:
@@ -194,7 +195,6 @@ GameMenuView::GameMenuView(): View()
 		m_loadButton->SetShortcut(SDLK_l, KMOD_NONE);
 		hbox->PackEnd(m_loadButton);
 		m_exitButton = new Gui::LabelButton(new Gui::Label(Lang::EXIT_THIS_GAME));
-		m_exitButton->onClick.connect(sigc::mem_fun(this, &GameMenuView::HideAll));
 		m_exitButton->onClick.connect(sigc::ptr_fun(&Pi::EndGame));
 		hbox->PackEnd(m_exitButton);
 
@@ -629,27 +629,17 @@ void GameMenuView::OnToggleNavTunnel(Gui::ToggleButton *b, bool state) {
 	Pi::SetNavTunnelDisplayed(state);
 }
 
-void GameMenuView::HideAll()
-{
-	if (m_changedDetailLevel) {
-		Pi::OnChangeDetailLevel();
-	}
-	View::HideAll();
-}
-
 void GameMenuView::OpenSaveDialog()
 {
 	if (Pi::game->IsHyperspace()) {
 		Pi::cpan->MsgLog()->Message("", Lang::CANT_SAVE_IN_HYPERSPACE);
 		return;
 	}
-	HideAll();
 	GameSaver saver(Pi::game);
 	saver.DialogMainLoop();
-	ShowAll();
 	const std::string filename = saver.GetFilename();
 	if (!filename.empty())
-		Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO+filename);
+		Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO + FileSystem::JoinPath(Pi::GetSaveDir(), filename));
 }
 
 void GameMenuView::OpenLoadDialog()
@@ -695,4 +685,10 @@ void GameMenuView::OnSwitchTo() {
 	m_toggleJoystick->SetPressed(Pi::IsJoystickEnabled());
 	m_toggleMouseYInvert->SetPressed(Pi::IsMouseYInvert());
 	m_toggleNavTunnel->SetPressed(Pi::IsNavTunnelDisplayed());
+}
+
+void GameMenuView::OnSwitchFrom() {
+	if (m_changedDetailLevel) {
+		Pi::OnChangeDetailLevel();
+	}
 }

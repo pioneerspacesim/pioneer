@@ -9,17 +9,20 @@
 #include "Serializer.h"
 
 struct LmrObjParams;
+struct lua_State;
 
 class ShipFlavour {
 public:
-	ShipType::Type type;
+	ShipType::Id id;
 	std::string regid;
 	int price;
 	LmrMaterial primaryColor;
 	LmrMaterial secondaryColor;
 
+	static ShipFlavour FromLuaTable(lua_State *l, int idx);
+
 	ShipFlavour();
-	ShipFlavour(ShipType::Type type);
+	ShipFlavour(ShipType::Id id);
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
 	void ApplyTo(LmrObjParams *p) const;

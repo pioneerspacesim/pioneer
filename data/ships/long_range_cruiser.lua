@@ -14,8 +14,8 @@ define_static_ship {
 	angular_thrust = 5e7,
 	gun_mounts =
 	{
-		{ v(0,0,-150), v(0,0,-1) },
-		{ v(0,0,-150), v(0,0,-1) }
+		{ v(0,0,-150), v(0,0,-1), 5, 'HORIZONTAL' },
+		{ v(0,0,-150), v(0,0,-1), 5, 'HORIZONTAL' }
 	},
 	max_cargo = 15000,
 	max_laser = 0,

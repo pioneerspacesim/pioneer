@@ -69,8 +69,6 @@ BINDING_PAGE_END()
 BINDING_PAGE(VIEW)
 
 BINDING_GROUP(Lang::INTERNAL_VIEW)
-KEY_BINDING(frontCockpit, "BindFrontCockpit", Lang::FRONT_COCKPIT_VIEW, SDLK_KP7)
-KEY_BINDING(rearCockpit, "BindRearCockpit", Lang::REAR_COCKPIT_VIEW, SDLK_KP1)
 KEY_BINDING(frontCamera, "BindFrontCamera", Lang::CAMERA_FRONT_VIEW, SDLK_KP8)
 KEY_BINDING(rearCamera, "BindRearCamera", Lang::CAMERA_REAR_VIEW, SDLK_KP2)
 KEY_BINDING(leftCamera, "BindLeftCamera", Lang::CAMERA_LEFT_VIEW, SDLK_KP4)

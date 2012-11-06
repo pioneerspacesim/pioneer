@@ -5,6 +5,7 @@
 #include "LmrModel.h"
 #include "LuaVector.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
 #include "FileSystem.h"
 #include "utils.h"
 #include "Lang.h"
@@ -12,13 +13,13 @@
 const char *ShipType::gunmountNames[GUNMOUNT_MAX] = {
 	Lang::FRONT, Lang::REAR };
 
-std::map<ShipType::Type, ShipType> ShipType::types;
+std::map<ShipType::Id, ShipType> ShipType::types;
 
-std::vector<ShipType::Type> ShipType::player_ships;
-std::vector<ShipType::Type> ShipType::static_ships;
-std::vector<ShipType::Type> ShipType::missile_ships;
+std::vector<ShipType::Id> ShipType::player_ships;
+std::vector<ShipType::Id> ShipType::static_ships;
+std::vector<ShipType::Id> ShipType::missile_ships;
 
-std::vector<ShipType::Type> ShipType::playable_atmospheric_ships;
+std::vector<ShipType::Id> ShipType::playable_atmospheric_ships;
 
 std::string ShipType::LADYBIRD				= "ladybird_starfighter";
 std::string ShipType::SIRIUS_INTERDICTOR	= "sirius_interdictor";
@@ -91,13 +92,14 @@ static void _get_vec_attrib(lua_State *L, const char *key, vector3d &output,
 
 static std::string s_currentShipFile;
 
-int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *list)
+int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *list)
 {
 	if (s_currentShipFile.empty())
 		return luaL_error(L, "ship file contains multiple ship definitions");
 
 	ShipType s;
 	s.tag = tag;
+	s.id = s_currentShipFile;
 
 	LUA_DEBUG_START(L);
 	_get_string_attrib(L, "name", s.name, "");
@@ -115,14 +117,8 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 	s.linThrust[ShipType::THRUSTER_DOWN] *= -1.f;
 	// angthrust fudge (XXX: why?)
 	s.angThrust = s.angThrust / 2;
-	_get_vec_attrib(L, "cockpit_front", s.frontViewOffset, vector3d(0.0));
-	_get_vec_attrib(L, "cockpit_rear", s.rearViewOffset, vector3d(0.0));
-	_get_vec_attrib(L, "front_camera", s.frontCameraOffset, vector3d(0.0));
-	_get_vec_attrib(L, "rear_camera", s.rearCameraOffset, vector3d(0.0));
-	_get_vec_attrib(L, "left_camera", s.leftCameraOffset, vector3d(0.0));
-	_get_vec_attrib(L, "right_camera", s.rightCameraOffset, vector3d(0.0));
-	_get_vec_attrib(L, "top_camera", s.topCameraOffset, vector3d(0.0));
-	_get_vec_attrib(L, "bottom_camera", s.bottomCameraOffset, vector3d(0.0));
+
+	_get_vec_attrib(L, "camera_offset", s.cameraOffset, vector3d(0.0));
 
 	for (int i=0; i<Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
 	_get_int_attrib(L, "max_cargo", s.equipSlotCapacity[Equip::SLOT_CARGO], 0);
@@ -169,7 +165,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 		for (unsigned int i=0; i<lua_rawlen(L,-1); i++) {
 			lua_pushinteger(L, i+1);
 			lua_gettable(L, -2);
-			if (lua_istable(L, -1) && lua_rawlen(L,-1) == 2)	{
+			if (lua_istable(L, -1) && lua_rawlen(L,-1) == 4)	{
 				lua_pushinteger(L, 1);
 				lua_gettable(L, -2);
 				s.gunMount[i].pos = LuaVector::CheckFromLuaF(L, -1);
@@ -177,6 +173,15 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 				lua_pushinteger(L, 2);
 				lua_gettable(L, -2);
 				s.gunMount[i].dir = LuaVector::CheckFromLuaF(L, -1);
+				lua_pop(L, 1);
+				lua_pushinteger(L, 3);
+				lua_gettable(L, -2);
+				s.gunMount[i].sep = lua_tonumber(L,-1);
+				lua_pop(L, 1);
+				lua_pushinteger(L, 4);
+				lua_gettable(L, -2);
+				s.gunMount[i].orient = static_cast<ShipType::DualLaserOrientation>(
+						LuaConstants::GetConstantFromArg(L, "DualLaserOrientation", -1));
 				lua_pop(L, 1);
 			}
 			lua_pop(L, 1);
@@ -201,7 +206,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Type> *l
 	}
 
 	const std::string& id = s_currentShipFile;
-	typedef std::map<ShipType::Type, ShipType>::iterator iter;
+	typedef std::map<ShipType::Id, ShipType>::iterator iter;
 	std::pair<iter, bool> result = ShipType::types.insert(std::make_pair(id, s));
 	if (result.second)
 		list->push_back(s_currentShipFile);
@@ -242,6 +247,7 @@ void ShipType::Init()
 	luaL_requiref(l, LUA_MATHLIBNAME, &luaopen_math, 1);
 	lua_pop(l, 3);
 
+	LuaConstants::Register(l);
 	LuaVector::Register(l);
 	LUA_DEBUG_CHECK(l, 0);
 
@@ -282,7 +288,7 @@ void ShipType::Init()
 		Error("No playable ships have been defined! The game cannot run.");
 
 	//collect ships that can fit atmospheric shields
-	for (std::vector<ShipType::Type>::const_iterator it = ShipType::player_ships.begin();
+	for (std::vector<ShipType::Id>::const_iterator it = ShipType::player_ships.begin();
 		it != ShipType::player_ships.end(); ++it) {
 		const ShipType &ship = ShipType::types[*it];
 		if (ship.equipSlotCapacity[Equip::SLOT_ATMOSHIELD] != 0)

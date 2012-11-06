@@ -10,7 +10,6 @@
 }
 
 - (IBAction)openURL:(id)sender;
-- (IBAction)openFile:(id)sender;
 - (IBAction)openAboutPanel:(id)sender;
 
 @end

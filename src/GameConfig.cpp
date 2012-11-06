@@ -3,8 +3,9 @@
 
 #include "GameConfig.h"
 #include "KeyBindings.h"
+#include "FileSystem.h"
 
-GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
+GameConfig::GameConfig()
 {
 	// set defaults
 	m_map["Lang"] = "English";
@@ -34,6 +35,7 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 	m_map["DefaultLowThrustPower"] = "0.25";
 	m_map["VSync"] = "0";
 	m_map["UseTextureCompression"] = "0";
+	m_map["CockpitCamera"] = "1";
 
 #ifdef _WIN32
 	m_map["RedirectStdio"] = "1";
@@ -42,4 +44,14 @@ GameConfig::GameConfig(const std::string &filename) : IniConfig(filename)
 #endif
 
 	Load();
+}
+
+void GameConfig::Load()
+{
+	Read(FileSystem::userFiles, "config.ini");
+}
+
+bool GameConfig::Save()
+{
+	return Write(FileSystem::userFiles, "config.ini");
 }

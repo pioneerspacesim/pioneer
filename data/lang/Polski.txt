@@ -79,6 +79,8 @@ WEIGHT_FULLY_LADEN
     Masa całkowita
 CAPACITY
     Udźwig
+CAPACITY_USED
+    Użyta przestrzeń
 FORWARD_ACCEL_EMPTY
     Ciąg główny (pusty)
 NUMBER_G
@@ -484,8 +486,12 @@ HYPERDRIVE
     Hipernapęd
 FREE
     Wolne
+FREE_LOWERCASE
+    wolne
 USED
     Użyte
+FUEL_WEIGHT
+    Masa paliwa
 TOTAL_WEIGHT
     Masa całkowita
 FRONT_WEAPON
@@ -495,9 +501,11 @@ REAR_WEAPON
 HYPERSPACE_RANGE
     Zasięg w nadprzestrzeni
 NO_MOUNTING
-    nie montowalna
+    niemontowalna
 N_LIGHT_YEARS_N_MAX
     %distance{f.1} lat świetlnych (%maxdistance{f.1} maks.)
+MAX
+    maks.
 SHIP_INFORMATION
     Informacje o statku
 PERSONAL
@@ -614,20 +622,6 @@ SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Symulacja ewolucji wszechświata: %age{f.1} miliardów lat ;-)
 TOMBSTONE_EPITAPH
     SPOCZYWAJ W POKOJU
-MM_START_NEW_GAME_EARTH
-    Nowa gra: rozpocznij na Ziemi
-MM_START_NEW_GAME_E_ERIDANI
-    Nowa gra: rozpocznij na Epsilon Eridani
-MM_START_NEW_GAME_LAVE
-    Nowa gra: rozpocznij na Lave
-MM_START_NEW_GAME_DEBUG
-    Nowa gra: rozpocznij z debug point
-MM_LOAD_SAVED_GAME
-    Wczytaj grę
-MM_SETTINGS
-    Opcje
-MM_QUIT
-    Wyjdź
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
 PIONEERING_PILOTS_GUILD
@@ -746,10 +740,6 @@ SHIP_IS_FULLY_LADEN
     Ładownia jest pełna.
 YOU_DO_NOT_HAVE_ANY_X
     Nie masz %item.
-FRONT_COCKPIT_VIEW
-	Kokpit przód
-REAR_COCKPIT_VIEW
-	Kokpit tył
 CAMERA_FRONT_VIEW
 	Kamera dziobowa
 CAMERA_REAR_VIEW
@@ -959,9 +949,9 @@ UNKNOWN
 UNEXPLORED_SYSTEM_NO_DATA
     System niezbadany. Brak danych.
 SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS
-    Prace badawcze na małą skale. Brak zarejestrowanych mieszkańców.
+    Prace badawcze na małą skalę. Brak zarejestrowanych mieszkańców.
 SMALL_INDUSTRIAL_OUTPOST
-    Male placówki przemysłowe.
+    Małe placówki przemysłowe.
 SOME_ESTABLISHED_MINING
     Kilka kopalni.
 YOUNG_FARMING_COLONY
@@ -975,7 +965,7 @@ OUTDOOR_AGRICULTURAL_WORLD
 HEAVY_INDUSTRY
     Przemysł ciężki.
 EXTENSIVE_MINING
-    Rozlegle działania górnicze.
+    Rozległe działania górnicze.
 THRIVING_OUTDOOR_WORLD
     Zewnętrzny świat tętniący życiem.
 INDUSTRIAL_HUB_SYSTEM
@@ -1056,6 +1046,8 @@ ECONOMY_TYPE
     Ekonomia:
 ALLEGIANCE
     Przynależność:
+FACTION
+    Frakcja:
 POPULATION
     Populacja:
 OVER_N_BILLION
@@ -1081,7 +1073,7 @@ SEMI_MAJOR_AXIS
 TIME_POINT
      "czas: "
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
-    System nie zbadany. Dane systemu niedostępne.
+    System niezbadany. Dane systemu niedostępne.
 WHEELS_ARE_UP
     Podwozie schowane
 WHEELS_ARE_DOWN

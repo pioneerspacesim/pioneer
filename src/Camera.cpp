@@ -18,7 +18,6 @@
 using namespace Graphics;
 
 Camera::Camera(const Body *body, float width, float height, float fovY, float znear, float zfar) :
-	m_showCameraBody(true),
 	m_body(body),
 	m_width(width),
 	m_height(height),
@@ -28,6 +27,7 @@ Camera::Camera(const Body *body, float width, float height, float fovY, float zn
 	m_frustum(m_width, m_height, m_fovAng, znear, zfar),
 	m_pose(matrix4x4d::Identity()),
 	m_camFrame(0),
+	m_showCameraBody(true),
 	m_renderer(0)
 {
 	m_onBodyDeletedConnection = m_body->onDelete.connect(sigc::mem_fun(this, &Camera::OnBodyDeleted));

@@ -57,4 +57,6 @@ void View::Detach() {
 	Gui::Screen::RemoveBaseWidget(this);
 	if (Pi::cpan)
 		Pi::cpan->ClearOverlay();
+
+	OnSwitchFrom();
 }
