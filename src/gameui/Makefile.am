@@ -10,6 +10,9 @@ INCLUDES += -isystem $(top_srcdir)/contrib/lua
 endif
 
 noinst_LIBRARIES = libgameui.a
-noinst_HEADERS =
+noinst_HEADERS = \
+	GameUI.h \
+	Lua.h
 
-libgameui_a_SOURCES =
+libgameui_a_SOURCES = \
+	Lua.cpp

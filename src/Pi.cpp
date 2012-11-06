@@ -82,6 +82,7 @@
 #include "graphics/Renderer.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
+#include "gameui/Lua.h"
 #include "SDLWrappers.h"
 #include "ModManager.h"
 #include "graphics/Light.h"
@@ -222,6 +223,7 @@ static void LuaInit()
 
 	// XXX sigh
 	UI::LuaInit();
+	GameUI::LuaInit();
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
