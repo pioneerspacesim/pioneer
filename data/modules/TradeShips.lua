@@ -231,7 +231,7 @@ local getRandomStarport = function (ship_name)
 			(not next_starport.path:GetSystemBody().parent.hasAtmosphere))
 				
 		next_canland = (next_canland and 
-			(next_starport.path:GetSystemBody().parent.gravity < ship_type:GetMinAcceleration(0.5) ) )
+			(next_starport.path:GetSystemBody().parent.gravity < ship_type:GetMinAcceleration(1) ) )
 		next_canland = (next_canland or (next_starport.type == 'STARPORT_ORBITAL'))
 		
 		if(next_canland) then
@@ -339,7 +339,7 @@ end
 
 local filterAcceptableShipsForLanding = function (ship_type)
 	-- only accept ships with good enough accelerations for landing that are capable of landing in atmospheres
-	return (filterAcceptableShips(ship_type) and ship_type:GetMinAcceleration(0.5) > minimalRequiredAcceleration()
+	return (filterAcceptableShips(ship_type) and ship_type:GetMinAcceleration(1) > minimalRequiredAcceleration()
 		and (ship_type:GetEquipSlotCapacity('ATMOSHIELD') > 0) )
 end
 
@@ -463,7 +463,7 @@ local spawnInitialShips = function (game_start)
 			if trade_ships[ship].starport == nil then
 				trade_ships[ship].starport = starports[Engine.rand:Integer(1, #starports)]
 				trade_ships[ship].status = 'outbound'
-				print(ship.label..' '..ship_name..' will leave system, no orbital starports, '..ship:GetMinAcceleration()..' '..trade_ships[ship].starport.path:GetSystemBody().parent.gravity..' '..ShipType.GetShipType(ship_name):GetMinAcceleration(0.5))
+				print(ship.label..' '..ship_name..' will leave system, no orbital starports, '..ship:GetMinAcceleration()..' '..trade_ships[ship].starport.path:GetSystemBody().parent.gravity..' '..ShipType.GetShipType(ship_name):GetMinAcceleration(1))
 			else
 				print(ship.label..' spawned near '..trade_ships[ship].starport.label..' well')
 			end
@@ -741,7 +741,7 @@ local onAICompleted = function (ship, ai_error)
 		
 		if trade_ships[ship].starport == starport then
 			trade_ships[ship].status = 'outbound'
-			print('to another system, no orbital starport found, status '..trade_ships[ship].status)
+			print('to another system, no orbital starport found, status '..trade_ships[ship].status..' '..ship:GetMinAcceleration()..' '..ShipType.GetShipType(trader.ship_name):GetMinAcceleration(1))
 			else
 			print('.. to '..trader.starport.label)
 			end
