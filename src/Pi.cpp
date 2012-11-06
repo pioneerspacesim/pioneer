@@ -82,6 +82,7 @@
 #include "graphics/Renderer.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
+#include "gameui/Lua.h"
 #include "SDLWrappers.h"
 #include "ModManager.h"
 #include "graphics/Light.h"
@@ -222,6 +223,7 @@ static void LuaInit()
 
 	// XXX sigh
 	UI::LuaInit();
+	GameUI::LuaInit();
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
@@ -495,6 +497,14 @@ void Pi::HandleEvents()
 
 	Pi::mouseMotion[0] = Pi::mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
+		if (event.type == SDL_QUIT) {
+			if (Pi::game)
+				Pi::EndGame();
+			Pi::Quit();
+		}
+		else if (!ui->DispatchSDLEvent(event))
+			continue;
+
 		Gui::HandleSDLEvent(&event);
 		KeyBindings::DispatchSDLEvent(&event);
 
@@ -672,11 +682,6 @@ void Pi::HandleEvents()
 					break;
 				joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
 				break;
-			case SDL_QUIT:
-				if (Pi::game)
-					Pi::EndGame();
-				Pi::Quit();
-				break;
 		}
 	}
 }
@@ -795,6 +800,8 @@ void Pi::Start()
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
 	}
+
+	ui->RemoveInnerWidget();
 
 	InitGame();
 	StartGame();
