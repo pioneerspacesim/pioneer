@@ -23,6 +23,13 @@ local suffixes = { 'Alliance', 'Union', 'Expanse', 'Horde', 'Faction'
 				 , 'Council', 'Worlds', 'Commonwealth', 'Territories'
 				 , 'Republic' }
 
+local possible_govtypes = { 'DISORDER', 'MILDICT1', 'PLUTOCRATIC', 'CORPORATE', 
+                            'LIBDEM', 'SOCDEM', 'COMMUNIST', 'MILDICT2', 'DISORDER' }
+
+-- limits to the number government types allowed in a faction
+local min_govtypes = 2
+local max_govtypes = 6
+				 
 -- maximum number of factions to generate
 --	* can't be more than available names (prefixes*suffixes)
 --  * not all factions will be created as a faction can't be based in an empty sector
@@ -70,7 +77,7 @@ for i,faction_name in ipairs(faction_names) do
 	
 	local seed = salt .. faction_name
 	
-	-- roll a homeworld sector\s
+	-- roll a homeworld sector
 	local sector_x = util.hash_random(seed .. 'x', -sector_cutoff, sector_cutoff)
 	local sector_y = util.hash_random(seed .. 'y', -sector_cutoff, sector_cutoff)
 	local sector_z = util.hash_random(seed .. 'x', -sector_cutoff, sector_cutoff)
@@ -88,8 +95,24 @@ for i,faction_name in ipairs(faction_names) do
 		:foundingDate(util.hash_random(seed, earliest_founding, latest_founding))
 		:expansionRate((util.hash_random(seed)  * (max_expansion - min_expansion)) + min_expansion)
 		:colour(r,g,b)
-		
-	-- and add it to rhe factions list
+
+	-- roll government type parameters
+	local favoured_gov_idx = util.hash_random(seed .. 'favouredgov', 1, #possible_govtypes)
+	local govtype_halfspan = math.ceil(util.hash_random(seed .. 'govspan', min_govtypes, max_govtypes) / 2)
+	local govtype_flatness = util.hash_random(seed .. 'govflatness') * 0.8;  
+	local weight           = 100;
+	
+	-- add favoured gov type at highest weight
+	f:govtype_weight(possible_govtypes[favoured_gov_idx], weight);
+	
+	-- add additional gov types at decreasing weights
+	for i=1, govtype_halfspan do
+		weight = math.floor(weight * govtype_flatness)
+		if (favoured_gov_idx - i) >= 1                  then f:govtype_weight(possible_govtypes[favoured_gov_idx - i], weight) end 
+		if (favoured_gov_idx + i) <= #possible_govtypes then f:govtype_weight(possible_govtypes[favoured_gov_idx + i], weight) end 
+	end;
+			
+	-- and add the faction to the factions list
 	f:add_to_factions(faction_name)
 end
 
