@@ -411,6 +411,7 @@
     <ClCompile Include="..\..\src\PngWriter.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\UIView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -863,6 +864,8 @@
     <ClInclude Include="..\..\src\LuaFaction.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\PngWriter.h" />
+    <ClInclude Include="..\..\src\UIView.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">
