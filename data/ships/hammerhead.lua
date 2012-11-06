@@ -7,9 +7,9 @@ define_ship {
 	forward_thrust = 930e5,
 	reverse_thrust = 332e5,
 	up_thrust = 332e5,
-	down_thrust = 133e5,
-	left_thrust = 133e5,
-	right_thrust = 133e5,
+	down_thrust = 288e5,
+	left_thrust = 288e5,
+	right_thrust = 288e5,
 	angular_thrust = 65e7,
 	camera_offset = v(-1,1.3,-54.5),
 	gun_mounts =
