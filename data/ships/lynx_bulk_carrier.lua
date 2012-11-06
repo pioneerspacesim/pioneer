@@ -7,10 +7,10 @@ define_static_ship {
 	model='lynx',
 	forward_thrust = 800e5,
 	reverse_thrust = 533e5,
-	up_thrust = 533e5,
-	down_thrust = 533e5,
-	left_thrust = 533e5,
-	right_thrust = 533e5,
+	up_thrust = 360e5,
+	down_thrust = 224e5,
+	left_thrust = 224e5,
+	right_thrust = 224e5,
 	angular_thrust = 12000e5,
 	gun_mounts =
 	{
