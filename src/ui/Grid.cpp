@@ -19,11 +19,11 @@ Point Grid::PreferredSize()
 {
 	Point preferredSize;
 
-	for (size_t rowNum = 0; rowNum < m_numRows; rowNum++) {
+	for (unsigned int rowNum = 0; rowNum < m_numRows; rowNum++) {
 		Point rowSize;
 
-		for (size_t colNum = 0; colNum < m_numCols; colNum++) {
-			const size_t n = rowNum*m_numCols+colNum;
+		for (unsigned int colNum = 0; colNum < m_numCols; colNum++) {
+			const unsigned int n = rowNum*m_numCols+colNum;
 			Widget *w = m_widgets[n];
 			if (!w) continue;
 
@@ -44,14 +44,14 @@ void Grid::Layout()
 	const Point size = GetSize();
 
 	Point childPos, childSize;
-	for (size_t rowNum = 0; rowNum < m_numRows; rowNum++) {
+	for (unsigned int rowNum = 0; rowNum < m_numRows; rowNum++) {
 		childSize.y = m_colSpec.cellPercent[rowNum]*size.y;
 
 		childPos.x = 0;
-		for (size_t colNum = 0; colNum < m_numCols; colNum++) {
+		for (unsigned int colNum = 0; colNum < m_numCols; colNum++) {
 			childSize.x = m_rowSpec.cellPercent[colNum]*size.x;
 
-			const size_t n = rowNum*m_numCols+colNum;
+			const unsigned int n = rowNum*m_numCols+colNum;
 			if (m_widgets[n])
 				SetWidgetDimensions(m_widgets[n], childPos, childSize);
 
@@ -64,13 +64,13 @@ void Grid::Layout()
 	LayoutChildren();
 }
 
-Grid *Grid::SetRow(size_t rowNum, const WidgetSet &set)
+Grid *Grid::SetRow(unsigned int rowNum, const WidgetSet &set)
 {
 	assert(set.numWidgets <= m_rowSpec.numCells);
 	assert(rowNum >= 0 && rowNum < m_numRows);
 
-	for (size_t i = 0; i < set.numWidgets; i++) {
-		const size_t n = rowNum*m_numCols+i;
+	for (unsigned int i = 0; i < set.numWidgets; i++) {
+		const unsigned int n = rowNum*m_numCols+i;
 		if (m_widgets[n])
 			RemoveWidget(m_widgets[n]);
 		m_widgets[n] = set.widgets[i];
@@ -80,13 +80,13 @@ Grid *Grid::SetRow(size_t rowNum, const WidgetSet &set)
 	return this;
 }
 
-Grid *Grid::SetColumn(size_t colNum, const WidgetSet &set)
+Grid *Grid::SetColumn(unsigned int colNum, const WidgetSet &set)
 {
 	assert(set.numWidgets <= m_colSpec.numCells);
 	assert(colNum >= 0 && colNum < m_numCols);
 
-	for (size_t i = 0; i < set.numWidgets; i++) {
-		const size_t n = i*m_numCols+colNum;
+	for (unsigned int i = 0; i < set.numWidgets; i++) {
+		const unsigned int n = i*m_numCols+colNum;
 		if (m_widgets[n])
 			RemoveWidget(m_widgets[n]);
 		m_widgets[n] = set.widgets[i];
@@ -96,12 +96,12 @@ Grid *Grid::SetColumn(size_t colNum, const WidgetSet &set)
 	return this;
 }
 
-Grid *Grid::SetCell(size_t colNum, size_t rowNum, Widget *widget)
+Grid *Grid::SetCell(unsigned int colNum, unsigned int rowNum, Widget *widget)
 {
 	assert(colNum >= 0 && colNum < m_numCols);
 	assert(rowNum >= 0 && rowNum < m_numRows);
 
-	const size_t n = rowNum*m_numCols+colNum;
+	const unsigned int n = rowNum*m_numCols+colNum;
 	if (m_widgets[n])
 		RemoveWidget(m_widgets[n]);
 	m_widgets[n] = widget;
@@ -110,12 +110,12 @@ Grid *Grid::SetCell(size_t colNum, size_t rowNum, Widget *widget)
 	return this;
 }
 
-void Grid::ClearRow(size_t rowNum)
+void Grid::ClearRow(unsigned int rowNum)
 {
 	assert(rowNum >= 0 && rowNum < m_numRows);
 
-	for (size_t i = 0; i < m_numCols; i++) {
-		const size_t n = rowNum*m_numCols+i;
+	for (unsigned int i = 0; i < m_numCols; i++) {
+		const unsigned int n = rowNum*m_numCols+i;
 		if (m_widgets[n]) {
 			Container::RemoveWidget(m_widgets[n]);
 			m_widgets[n] = 0;
@@ -123,12 +123,12 @@ void Grid::ClearRow(size_t rowNum)
 	}
 }
 
-void Grid::ClearColumn(size_t colNum)
+void Grid::ClearColumn(unsigned int colNum)
 {
 	assert(colNum >= 0 && colNum < m_numRows);
 
-	for (size_t i = 0; i < m_numRows; i++) {
-		const size_t n = i*m_numCols+colNum;
+	for (unsigned int i = 0; i < m_numRows; i++) {
+		const unsigned int n = i*m_numCols+colNum;
 		if (m_widgets[n]) {
 			Container::RemoveWidget(m_widgets[n]);
 			m_widgets[n] = 0;
@@ -138,7 +138,7 @@ void Grid::ClearColumn(size_t colNum)
 
 void Grid::Clear()
 {
-	for (size_t i = 0; i < m_numRows*m_numCols; i++)
+	for (unsigned int i = 0; i < m_numRows*m_numCols; i++)
 		m_widgets[i] = 0;
 
 	Container::RemoveAllWidgets();
@@ -146,7 +146,7 @@ void Grid::Clear()
 
 void Grid::RemoveWidget(Widget *widget)
 {
-	for (int i = 0; i < m_numRows*m_numCols; i++)
+	for (unsigned int i = 0; i < m_numRows*m_numCols; i++)
 		if (m_widgets[i] == widget) {
 			Container::RemoveWidget(widget);
 			m_widgets[i] = 0;
