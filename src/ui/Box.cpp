@@ -121,7 +121,7 @@ Box *Box::PackStart(Widget *widget)
 
 Box *Box::PackStart(const WidgetSet &set)
 {
-	for (int i = 0; i < set.numWidgets; ++i)
+	for (size_t i = 0; i < set.numWidgets; ++i)
 		PackStart(set.widgets[i]);
 	return this;
 }
@@ -136,7 +136,7 @@ Box *Box::PackEnd(Widget *widget)
 
 Box *Box::PackEnd(const WidgetSet &set)
 {
-	for (int i = 0; i < set.numWidgets; ++i)
+	for (size_t i = 0; i < set.numWidgets; ++i)
 		PackEnd(set.widgets[i]);
 	return this;
 }
