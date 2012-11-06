@@ -13,6 +13,7 @@ Gradient::Gradient(Context *context, const Color &beginColor, const Color &endCo
 	Single(context), m_beginColor(beginColor), m_endColor(endColor), m_direction(direction)
 {
 	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
 	m_material.Reset(GetContext()->GetRenderer()->CreateMaterial(desc));
 }
 
