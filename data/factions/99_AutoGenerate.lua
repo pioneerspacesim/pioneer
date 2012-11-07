@@ -26,6 +26,16 @@ local suffixes = { 'Alliance', 'Union', 'Expanse', 'Horde', 'Faction'
 local possible_govtypes = { 'DISORDER', 'MILDICT1', 'PLUTOCRATIC', 'CORPORATE', 
                             'LIBDEM', 'SOCDEM', 'COMMUNIST', 'MILDICT2', 'DISORDER' }
 
+local possible_illegal = { 'NERVE_GAS', 'SLAVES', 'BATTLE_WEAPONS', 'NARCOTICS', 'HAND_WEAPONS', 
+                           'LIVE_ANIMALS', 'ANIMAL_MEAT', 'ROBOTS'}
+
+
+-- chances that goods in the possible_illegal list are actually illegal
+local illegal_chance_facbase = 0.8	-- chance that first good will be added to the illegal list
+local illegal_chance_facdec  = 0.06 -- decrease in chance as we go through the list
+local illegal_system_min     = 25	-- minimum illegal goods percentage if the good is in the list
+local illegal_system_max     = 175  -- maximun illegal goods percentage > 100 is coerced to 100
+							
 -- limits to the number government types allowed in a faction
 local min_govtypes = 2
 local max_govtypes = 6
@@ -77,16 +87,19 @@ for i,faction_name in ipairs(faction_names) do
 	
 	local seed = salt .. faction_name
 	
+	---------------------------------------------------------------------------	
 	-- roll a homeworld sector
 	local sector_x = util.hash_random(seed .. 'x', -sector_cutoff, sector_cutoff)
 	local sector_y = util.hash_random(seed .. 'y', -sector_cutoff, sector_cutoff)
 	local sector_z = util.hash_random(seed .. 'x', -sector_cutoff, sector_cutoff)
 	
+	---------------------------------------------------------------------------	
 	-- roll a faction colour 
 	local r = util.hash_random(seed .. 'colour_r') 
 	local g = util.hash_random(seed .. 'colour_g')
 	local b = util.hash_random(seed .. 'colour_b')
-			
+	
+	---------------------------------------------------------------------------
 	-- make the faction
 	local f = Faction:new(faction_name)
 		:description_short(faction_name)
@@ -96,22 +109,34 @@ for i,faction_name in ipairs(faction_names) do
 		:expansionRate((util.hash_random(seed)  * (max_expansion - min_expansion)) + min_expansion)
 		:colour(r,g,b)
 
+	---------------------------------------------------------------------------		
 	-- roll government type parameters
 	local favoured_gov_idx = util.hash_random(seed .. 'favouredgov', 1, #possible_govtypes)
 	local govtype_halfspan = math.ceil(util.hash_random(seed .. 'govspan', min_govtypes, max_govtypes) / 2)
-	local govtype_flatness = util.hash_random(seed .. 'govflatness') * 0.8;  
-	local weight           = 100;
+	local govtype_flatness = util.hash_random(seed .. 'govflatness') * 0.8  
+	local weight           = 100
 	
 	-- add favoured gov type at highest weight
-	f:govtype_weight(possible_govtypes[favoured_gov_idx], weight);
+	f:govtype_weight(possible_govtypes[favoured_gov_idx], weight)
 	
 	-- add additional gov types at decreasing weights
 	for i=1, govtype_halfspan do
 		weight = math.floor(weight * govtype_flatness)
 		if (favoured_gov_idx - i) >= 1                  then f:govtype_weight(possible_govtypes[favoured_gov_idx - i], weight) end 
 		if (favoured_gov_idx + i) <= #possible_govtypes then f:govtype_weight(possible_govtypes[favoured_gov_idx + i], weight) end 
-	end;
-			
+	end
+
+	---------------------------------------------------------------------------
+	-- roll illegal goods chances	
+	local illegal_chance_faction = illegal_chance_facbase
+	for i,good in ipairs(possible_illegal) do
+		if util.hash_random(seed..good) < illegal_chance_faction then 
+			f:illegal_goods_probability(good, math.min(100, util.hash_random(seed..good..'chance', illegal_system_min, illegal_system_max)))
+		end;
+		illegal_chance_faction = illegal_chance_faction - illegal_chance_facdec
+	end
+				
+	---------------------------------------------------------------------------		
 	-- and add the faction to the factions list
 	f:add_to_factions(faction_name)
 end
