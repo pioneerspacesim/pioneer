@@ -1782,8 +1782,8 @@ void SystemBody::PickPlanetType(MTRand &rand)
 		invTidalLockTime /= radius;
 		invTidalLockTime /= (semiMajorAxis * semiMajorAxis)*MOON_TIDAL_LOCK;
 	}
-	printf("tidal lock of %s: %.5f, a %.5f R %.4f mp %.3f ms %.3f\n", name.c_str(),
-			invTidalLockTime.ToFloat(), semiMajorAxis.ToFloat(), radius.ToFloat(), parent->mass.ToFloat(), mass.ToFloat());
+	//printf("tidal lock of %s: %.5f, a %.5f R %.4f mp %.3f ms %.3f\n", name.c_str(),
+	//		invTidalLockTime.ToFloat(), semiMajorAxis.ToFloat(), radius.ToFloat(), parent->mass.ToFloat(), mass.ToFloat());
 
 	if(invTidalLockTime > 10) { // 10x faster than Moon, no chance not to be tidal-locked
 		rotationPeriod = orbit.period/3600/24;
@@ -1792,7 +1792,7 @@ void SystemBody::PickPlanetType(MTRand &rand)
 		// XXX: there should be some chance the satellite was captured only recenly and ignore this
 		//		I'm ommiting that now, I do not want to change the Universe by additional rand call.
 
-		fixed lambda = invTidalLockTime/(fixed(1,1)+invTidalLockTime);
+		fixed lambda = invTidalLockTime/(fixed(1,20)+invTidalLockTime);
 		rotationPeriod = (1-lambda)*rotationPeriod + lambda*orbit.period/3600/24;
 		axialTilt = (1-lambda)*axialTilt;
 	} // else .. nothing happens to the satellite
