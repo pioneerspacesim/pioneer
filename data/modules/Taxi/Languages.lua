@@ -209,12 +209,17 @@ Translate:Add({ English = {
   ["Could you repeat the original request?"] = "Could you repeat the original request?",
   ["Ok, agreed."] = "Ok, agreed.",
   ["Hey!?! You are going to pay for this!!!"] = "Hey!?! You are going to pay for this!!!",
+  ["ly"] = "ly",
 
   -- Texts for the missions screen
-  missiondetailtext = [[You agree to transport me, {name} from {start} to {finish}, arriving no later than {deadline}. In return, I will pay you {amount} on arrival.
-
-  Group details: {howmany}
-  Danger: {danger}]],
+  taximissiondetail = [[
+  From:
+  To:
+  Group details:
+  Danger:
+  Deadline:
+  
+  Distance:]],
 
  PIRATE_TAUNTS = {
 	"You're going to regret dealing with {client}",
@@ -434,12 +439,17 @@ Translate:Add({ Polski = {
   ["Could you repeat the original request?"] = "Możesz powtórzyć swoją ofertę?",
   ["Ok, agreed."] = "Zgoda.",
   ["Hey!?! You are going to pay for this!!!"] = "Hej!?! Zapłacisz za to!!!",
+  ["ly"] = "lś",
  
   -- Texts for the missions screen
-  missiondetailtext = [[Zgodziłeś się przewieźć {name}, z {start} do {finish}, najpóźniej do {deadline}. W zamian, zapłaci ci {amount} po dotarciu na miejsce.
-
-  Pasażerów: {howmany}
-  Zagrożenie: {danger}]],
+  taximissiondetail = [[
+  Z:
+  Do:
+  Pasażerów:
+  Zagrożenie:
+  Termin:
+  
+  Dystans:]],
 
  PIRATE_TAUNTS = {
 	"Pożałujesz kontaktów z {client}",

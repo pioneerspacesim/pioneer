@@ -333,20 +333,47 @@ local onClick = function (ref)
 	local mission = missions[ref]
 	local taxi_flavours = Translate:GetFlavours('Taxi')
 	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox():PackEnd(ui:MultiLineText((t('missiondetailtext')):interp({
-													name = mission.client.name,
-													start = mission.start:GetSystemBody().name,
-													finish = mission.location:GetStarSystem().name,
-													deadline = Format.Date(mission.due),
-													howmany = string.interp(taxi_flavours[mission.flavour].howmany, {group = mission.group}),
-													danger = taxi_flavours[mission.flavour].danger,
-													amount = Format.Money(mission.reward),
-												})))
-		})
+		:SetColumn(0,{ui:VBox():PackEnd({ui:MultiLineText((taxi_flavours[mission.flavour].introtext):interp({
+														name   = mission.client.name,
+														system = mission.location:GetStarSystem().name,
+														sectorx = mission.location.sectorX,
+														sectory = mission.location.sectorY,
+														sectorz = mission.location.sectorZ,
+														cash   = Format.Money(mission.reward)})
+										),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd(ui:MultiLineText(t('taximissiondetail')))
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(mission.start:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
+													ui:Label(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
+													ui:Label(string.interp(taxi_flavours[mission.flavour].howmany, {group = mission.group})),
+													ui:Label(taxi_flavours[mission.flavour].danger),
+													ui:Label(Format.Date(mission.due)),
+													ui:Margin(10),
+													ui:Label(math.ceil(Game.system:DistanceTo(mission.location)).." "..t("ly"))
+												})
+											})
+		})})
 		:SetColumn(1, {
-			ui:VBox()
-				-- To-do: A bloody wrapper for this ugliness.
-				:PackEnd(UI.Game.Face.New(ui,{ mission.client.female and "FEMALE" or "MALE" },mission.client.seed))
+			ui:VBox(10)
+				-- face + name gradient
+				-- XXX this entire construction should be moved into a library somewhere
+				:PackEnd(UI.Game.Face.New(ui,{ mission.client.female and "FEMALE" or "MALE" },mission.client.seed,mission.client.name)
+					:SetInnerWidget(
+						ui:Align("BOTTOM_LEFT"):SetInnerWidget(
+							ui:Expand("HORIZONTAL"):SetInnerWidget(
+								ui:Gradient({r=0.1,g=0.1,b=0.1,a=0.8}, {r=0.0,g=0.0,b=0.1,a=0.0}, "HORIZONTAL"):SetInnerWidget(
+									ui:Margin(10):SetInnerWidget(ui:VBox():PackEnd({
+										ui:Label(mission.client.name):SetFont("HEADING_NORMAL"),
+									}))
+								)
+							)
+						)
+					)
+				)
 		})
 end
 

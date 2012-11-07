@@ -44,6 +44,7 @@ Translate:Add({
 
 		-- Missions
 		['Mission Details'] = 'Mission Details',
+		['No missions.'] = 'No missions.',
 		
 		-- Orbital analysis
 		['Orbit'] = 'Orbit',
@@ -103,6 +104,10 @@ Translate:Add({
 		-- Economy & Trade
 		['Economy & Trade'] = 'Ekonomia i Handel',
 		['Total: '] = 'Łącznie: ',
+		
+		-- Missions
+		['Mission Details'] = 'Szczegóły misji',
+		['No missions.'] = 'Brak misji.',
 		
 		-- Orbital analysis
 		['Orbit'] = 'Orbita',

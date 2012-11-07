@@ -3,6 +3,8 @@
 
 -- Get the translator function
 local t = Translate:GetTranslator()
+-- Get the UI class
+local ui = Engine.ui
 
 -- don't produce missions for further than this many light years away
 local max_ass_dist = 30
@@ -403,6 +405,53 @@ local onGameEnd = function ()
 	nearbysystems = nil
 end
 
+local onClick = function (ref)
+	local mission = missions[ref]
+	local ass_flavours = Translate:GetFlavours('Assassination')
+	return ui:Grid(2,1)
+		:SetColumn(0,{ui:VBox():PackEnd({ui:MultiLineText((ass_flavours[mission.flavour].introtext):interp({
+														name   = mission.client.name,
+														target = mission.target,
+														system = mission.location:GetStarSystem().name,
+														cash   = Format.Money(mission.reward)})
+										),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd(ui:MultiLineText(t('assmissiondetail')))
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(mission.target),
+													ui:Label(mission.location:GetSystemBody().name),
+													ui:Label(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
+													ui:Label(mission.shipname),
+													ui:Label(mission.shipregid),
+													ui:Label(Format.Date(mission.due)),
+													ui:Margin(10),
+													ui:Label(math.ceil(Game.system:DistanceTo(mission.location)).." "..t("ly"))
+												})
+											})
+		})})
+		:SetColumn(1, {
+			ui:VBox(10)
+				-- face + name gradient
+				-- XXX this entire construction should be moved into a library somewhere
+				:PackEnd(UI.Game.Face.New(ui,{ mission.client.female and "FEMALE" or "MALE" },mission.client.seed,mission.client.name)
+					:SetInnerWidget(
+						ui:Align("BOTTOM_LEFT"):SetInnerWidget(
+							ui:Expand("HORIZONTAL"):SetInnerWidget(
+								ui:Gradient({r=0.1,g=0.1,b=0.1,a=0.8}, {r=0.0,g=0.0,b=0.1,a=0.0}, "HORIZONTAL"):SetInnerWidget(
+									ui:Margin(10):SetInnerWidget(ui:VBox():PackEnd({
+										ui:Label(mission.client.name):SetFont("HEADING_NORMAL"),
+									}))
+								)
+							)
+						)
+					)
+				)
+		})
+end
+
 local serialize = function ()
 	return { ads = ads, missions = missions }
 end
@@ -431,5 +480,6 @@ Event.Register("onShipHit", onShipHit)
 Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onGameEnd", onGameEnd)
 
+Mission.RegisterClick('Assassination',onClick)
 
 Serializer:Register("Assassination", serialize, unserialize)

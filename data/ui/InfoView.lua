@@ -324,7 +324,7 @@ local missions = function ()
 		MissionList
 			:PackEnd({
 				ui:Label(t("MISSIONS")):SetFont("HEADING_LARGE"),
-				ui:Label("No missions.")
+				ui:Label(t("No missions."))
 			})
 
 		return MissionScreen:SetInnerWidget(MissionList)
