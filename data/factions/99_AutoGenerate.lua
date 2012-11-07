@@ -99,6 +99,14 @@ for i,faction_name in ipairs(faction_names) do
 	local g = util.hash_random(seed .. 'colour_g')
 	local b = util.hash_random(seed .. 'colour_b')
 	
+	-- attempt to punch up the luminance up in super naive way
+	local luminance = (r * 0.3) + (g * 0.6) * (b * 0.1)
+	if luminance < 1 then 
+		r = math.min(r * 1.2, 1)
+		g = math.min(g * 1.2, 1)
+		b = math.min(b * 1.2, 1)
+	end;
+	
 	---------------------------------------------------------------------------
 	-- make the faction
 	local f = Faction:new(faction_name)
