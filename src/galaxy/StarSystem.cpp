@@ -1789,10 +1789,8 @@ void SystemBody::PickPlanetType(MTRand &rand)
 	} else if (mass > fixed(1, 15000)) {
 		type = SystemBody::TYPE_PLANET_TERRESTRIAL;
 
-		// start with random thickness of atmosphere (0-1)
-		fixed amount_volatiles = rand.Fixed();
-		// if the planet has low volcanicity (random) and is small, lose some atmosphere
-		if (rand.Int32(3) && mass < 1) amount_volatiles *= mass;
+		fixed amount_volatiles = fixed(2,1)*rand.Fixed();
+		if (rand.Int32(3)) amount_volatiles *= mass;
 		// total atmosphere loss
 		if (rand.Fixed() > mass) amount_volatiles = fixed(0);
 
