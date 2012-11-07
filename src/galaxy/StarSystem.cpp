@@ -1789,25 +1789,32 @@ void SystemBody::PickPlanetType(MTRand &rand)
 	} else if (mass > fixed(1, 15000)) {
 		type = SystemBody::TYPE_PLANET_TERRESTRIAL;
 
-		fixed amount_volatiles = fixed(2,1)*rand.Fixed();
-		if (rand.Int32(3)) amount_volatiles *= mass;
+		// start with random thickness of atmosphere (0-1)
+		fixed amount_volatiles = rand.Fixed();
+		// if the planet has low volcanicity (random) and is small, lose some atmosphere
+		if (rand.Int32(3) && mass < 1) amount_volatiles *= mass;
 		// total atmosphere loss
 		if (rand.Fixed() > mass) amount_volatiles = fixed(0);
 
-		//printf("Amount volatiles: %f\n", amount_volatiles.ToFloat());
-		// fudge how much of the volatiles are in which state
-		greenhouse = fixed(0);
-		albedo = fixed(0);
-		// CO2 sublimation
-		if (averageTemp > 195) greenhouse += amount_volatiles * fixed(1,3);
-		else albedo += fixed(2,6);
-		// H2O liquid
-		if (averageTemp > 273) greenhouse += amount_volatiles * fixed(1,5);
-		else albedo += fixed(3,6);
-		// H2O boils
-		if (averageTemp > 373) greenhouse += amount_volatiles * fixed(1,3);
+		// give this few iterations to allow multiple-staged greenhouse effect
+		for(int i = 0, prevTemp; i < 10; i++) {
+			// fudge how much of the volatiles are in which state
+			greenhouse = fixed(0);
+			albedo = fixed(0);
+			// CO2 sublimation
+			if (averageTemp > 195) greenhouse += amount_volatiles * fixed(1,3);
+			else albedo += fixed(2,6);
+			// H2O liquid
+			if (averageTemp > 273) greenhouse += amount_volatiles * fixed(1,5);
+			else albedo += fixed(3,6);
+			// H2O boils
+			if (averageTemp > 373) greenhouse += amount_volatiles * fixed(1,3);
 
-		averageTemp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
+			prevTemp = averageTemp;
+			averageTemp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
+			if(prevTemp == averageTemp)
+				break;
+		}
 
 		const fixed proportion_gas = averageTemp / (fixed(100,1) + averageTemp);
 		m_volatileGas = proportion_gas * amount_volatiles;
