@@ -143,7 +143,7 @@ local orbitalAnalysis = function ()
 						ui:Label(string.format('%6.2fkm/s',vDescent/1000)),
 					})
 				}),
-			ui:Label((t('ORBITAL_ANALYSIS_NOTES')):interp({name = name}))
+			ui:MultiLineText((t('ORBITAL_ANALYSIS_NOTES')):interp({name = name}))
 		})
 	)
 
