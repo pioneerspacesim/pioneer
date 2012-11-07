@@ -393,6 +393,9 @@ void Pi::Init()
 			ShipType *shipdef = &(i->second);
 			LmrModel *lmrModel = LmrLookupModelByName(shipdef->lmrModelName.c_str());
 			LmrObjParams lmrParams; memset(&lmrParams, 0, sizeof(LmrObjParams));
+			lmrParams.animationNamespace = "ShipAnimation";
+			EquipSet equip; equip.InitSlotSizes(shipdef->id);
+			lmrParams.equipment = &equip;
 			LmrCollMesh *collMesh = new LmrCollMesh(lmrModel, &lmrParams);
 			Aabb aabb = collMesh->GetAabb();
 
