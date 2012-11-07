@@ -27,7 +27,7 @@ local possible_govtypes = { 'DISORDER', 'MILDICT1', 'PLUTOCRATIC', 'CORPORATE',
                             'LIBDEM', 'SOCDEM', 'COMMUNIST', 'MILDICT2', 'DISORDER' }
 
 local possible_illegal = { 'NERVE_GAS', 'SLAVES', 'BATTLE_WEAPONS', 'NARCOTICS', 'HAND_WEAPONS', 
-                           'LIVE_ANIMALS', 'ANIMAL_MEAT', 'ROBOTS'}
+                           'LIVE_ANIMALS', 'ANIMAL_MEAT', 'LIQUOR', 'ROBOTS'}
 
 
 -- chances that goods in the possible_illegal list are actually illegal
