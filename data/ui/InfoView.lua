@@ -153,34 +153,24 @@ local personalInfo = function ()
 	local player = PersistentCharacters.player
 	local faceFlags = { player.female and "FEMALE" or "MALE" }
 
-	local nameEntry = ui:TextEntry(player.name):SetFont("HEADING_LARGE")
-	nameEntry.onEnter:Connect(function (newName) print(newName) player.name = newName end )
+	-- for updating the caption
+	local faceWidget = uilib.FaceWidget(player)
+	-- for updating the entire face
+	local faceWidgetContainer = ui:Margin(0):SetInnerWidget(faceWidget)
 
-	local setFaceWidget = function() return UI.Game.Face.New(ui, faceFlags, player.seed)
-		-- face + name gradient
-		-- XXX this entire construction should be moved into a library somewhere
-		:SetInnerWidget(
-			ui:Align("BOTTOM_LEFT"):SetInnerWidget(
-				ui:Expand("HORIZONTAL"):SetInnerWidget(
-					ui:Gradient({r=0.1,g=0.1,b=0.1,a=0.8}, {r=0.0,g=0.0,b=0.1,a=0.0}, "HORIZONTAL"):SetInnerWidget(
-						ui:Margin(20):SetInnerWidget(ui:VBox():PackEnd({
-							ui:Label(player.name):SetFont("HEADING_NORMAL"),                -- XXX update on change
-							ui:Label(t(player:GetCombatRating())):SetFont("HEADING_SMALL"), -- XXX ditto
-						}))
-					)
-				)
-			)
-		)
-	end
-	local faceWidget = ui:Margin(0):SetInnerWidget(setFaceWidget())
+	local nameEntry = ui:TextEntry(player.name):SetFont("HEADING_LARGE")
+	nameEntry.onEnter:Connect(function (newName)
+		print(newName)
+		player.name = newName
+		uilib.UpdateFaceText(faceWidget,player)
+	end )
 
 	local genderLabel = ui:Label(player.female and t("Female") or t("Male"))
 	local genderSelector = ui:Button():SetInnerWidget(genderLabel)
 	genderSelector.onClick:Connect(function ()
 		player.female = not player.female
-		genderLabel:SetText(player.female and t("Female") or t("Male"))
-		faceFlags = { player.female and "FEMALE" or "MALE" }
-		faceWidget:SetInnerWidget(setFaceWidget())
+		faceWidget = uilib.FaceWidget(player)
+		faceWidgetContainer:SetInnerWidget(faceWidget)
 	end)
 
 	return
@@ -224,7 +214,7 @@ local personalInfo = function ()
 						:PackEnd(nameEntry)
 						:PackEnd(genderSelector)
 					)
-					:PackEnd(faceWidget)
+					:PackEnd(faceWidgetContainer)
 			})
 end
 
