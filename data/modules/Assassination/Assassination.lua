@@ -433,22 +433,7 @@ local onClick = function (ref)
 											})
 		})})
 		:SetColumn(1, {
-			ui:VBox(10)
-				-- face + name gradient
-				-- XXX this entire construction should be moved into a library somewhere
-				:PackEnd(UI.Game.Face.New(ui,{ mission.client.female and "FEMALE" or "MALE" },mission.client.seed,mission.client.name)
-					:SetInnerWidget(
-						ui:Align("BOTTOM_LEFT"):SetInnerWidget(
-							ui:Expand("HORIZONTAL"):SetInnerWidget(
-								ui:Gradient({r=0.1,g=0.1,b=0.1,a=0.8}, {r=0.0,g=0.0,b=0.1,a=0.0}, "HORIZONTAL"):SetInnerWidget(
-									ui:Margin(10):SetInnerWidget(ui:VBox():PackEnd({
-										ui:Label(mission.client.name):SetFont("HEADING_NORMAL"),
-									}))
-								)
-							)
-						)
-					)
-				)
+			ui:VBox(10):PackEnd(uilib.FaceWidget(mission.client))
 		})
 end
 
