@@ -20,6 +20,7 @@
 #include <cerrno>
 #include <string>
 #include <vector>
+#include <map>
 
 /* on unix this would probably become $PREFIX/pioneer */
 #ifndef PIONEER_DATA_DIR
@@ -32,6 +33,7 @@
 #	ifdef _MSC_VER
 #		pragma warning(disable : 4244) // "conversion from x to x: possible loss of data"
 #		pragma warning(disable : 4800) // int-to-bool "performance warning"
+#		pragma warning(disable : 4355) // 'this' used in base member initializer list
 #	endif
 
 #	ifndef __MINGW32__

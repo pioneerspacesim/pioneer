@@ -46,6 +46,10 @@ public:
 	static int GetGlyphCount() { return s_glyphCount; }
 	static void ClearGlyphCount() { s_glyphCount = 0; }
 
+	// fill a vertex array with single-colored text
+	void CreateGeometry(Graphics::VertexArray &, const char *str, float x, float y, const Color &color = Color::WHITE);
+	RefCountedPtr<Graphics::Texture> GetTexture() { return m_texture; }
+
 private:
 	Graphics::Renderer *m_renderer;
 

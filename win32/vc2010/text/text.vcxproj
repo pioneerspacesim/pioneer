@@ -78,6 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\text\DistanceFieldFont.cpp" />
     <ClCompile Include="..\..\..\src\text\Font.cpp" />
     <ClCompile Include="..\..\..\src\text\FontDescriptor.cpp" />
     <ClCompile Include="..\..\..\src\text\TextSupport.cpp" />
@@ -90,6 +91,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\src\text\DistanceFieldFont.h" />
     <ClInclude Include="..\..\..\src\text\Font.h" />
     <ClInclude Include="..\..\..\src\text\FontDescriptor.h" />
     <ClInclude Include="..\..\..\src\text\TextSupport.h" />

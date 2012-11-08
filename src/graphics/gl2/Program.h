@@ -30,8 +30,13 @@ namespace Graphics {
 			Uniform invLogZfarPlus1;
 			Uniform diffuse;
 			Uniform emission;
+			Uniform specular;
+			Uniform shininess;
 			Uniform texture0;
 			Uniform texture1;
+			Uniform texture2;
+			Uniform texture3;
+			Uniform texture4;
 
 			Uniform sceneAmbient;
 

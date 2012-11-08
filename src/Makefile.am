@@ -5,7 +5,7 @@ endif
 if BUILD_POSIX
     PLATFORM_SUBDIRS = posix
 endif
-SUBDIRS = collider gui graphics galaxy terrain text ui $(PLATFORM_SUBDIRS)
+SUBDIRS = collider gui graphics galaxy newmodel terrain text ui $(PLATFORM_SUBDIRS)
 
 include $(top_srcdir)/Makefile.common
 
@@ -13,7 +13,7 @@ AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(WARN_CXXFLAGS)
 
-bin_PROGRAMS = pioneer modelviewer
+bin_PROGRAMS = pioneer
 noinst_HEADERS = \
 	Aabb.h \
 	AmbientSounds.h \
@@ -103,6 +103,7 @@ noinst_HEADERS = \
 	MathUtil.h \
 	Missile.h \
 	ModelBody.h \
+	ModelCache.h \
 	ModManager.h \
 	Object.h \
 	ObjectViewerView.h \
@@ -246,7 +247,9 @@ pioneer_SOURCES	= \
 	MathUtil.cpp \
 	Missile.cpp \
 	ModelBody.cpp \
+	ModelCache.cpp \
 	ModManager.cpp \
+	NewModelViewer.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
 	Planet.cpp \
@@ -301,17 +304,18 @@ pioneer_LDADD = \
 	../contrib/miniz/libminiz.a \
 	../contrib/jenkins/libjenkins.a \
 	collider/libcollider.a \
-	text/libtext.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \
 	galaxy/libgalaxy.a \
+	newmodel/libnewmodel.a \
+	text/libtext.a \
 	terrain/libterrain.a \
 	ui/libui.a
 
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
-	$(PNG_LIBS)
+	$(PNG_LIBS) -lassimp
 
 if BUILD_WIN32
 pioneer_LDFLAGS = -Wl,-Map=pioneer.map

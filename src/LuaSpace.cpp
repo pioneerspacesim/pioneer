@@ -363,7 +363,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 		axis1 = pos.Cross(vector3d(0.0,1.0,0.0));
 		axis2 = pos.Cross(axis1);
 
-		double ang = atan((140 + ship->GetLmrCollMesh()->GetBoundingRadius()) / pos.Length());
+		double ang = atan((140 + ship->GetCollMesh()->GetBoundingRadius()) / pos.Length());
 		if (slot<2) ang = -ang;
 
 		vector3d axis = (slot == 0 || slot == 3) ? axis1 : axis2;
@@ -372,7 +372,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	}
 
 	else {
-		double dist = 100 + ship->GetLmrCollMesh()->GetBoundingRadius();
+		double dist = 100 + ship->GetCollMesh()->GetBoundingRadius();
 		double xpos = (slot == 0 || slot == 3) ? -dist : dist;
 		double zpos = (slot == 0 || slot == 1) ? -dist : dist;
 

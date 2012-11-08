@@ -16,7 +16,7 @@ Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
 	m_model = LmrLookupModelByName("tombstone");
 
 	// Model parameters
-	LmrObjParams params = {
+	/*LmrObjParams params = {
 		0, // animation namespace
 		0.0, // time
 		{}, // animation stages
@@ -30,7 +30,8 @@ Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
 		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 	};
-	m_modelParams = params;
+	m_modelParams = params;*/
+	m_modelParams.label = Lang::TOMBSTONE_EPITAPH;
 }
 
 void Tombstone::Draw(float _time)
@@ -46,7 +47,7 @@ void Tombstone::Draw(float _time)
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
 	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
-	m_model->Render(rot, &m_modelParams);
+	m_model->Render(m_renderer, rot, &m_modelParams);
 	glPopAttrib();
 	m_renderer->SetAmbientColor(oldSceneAmbientColor);
 }

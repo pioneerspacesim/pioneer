@@ -34,6 +34,8 @@ class Ship;
 class GameMenuView;
 class LuaConsole;
 class LuaNameGen;
+class ModelCache;
+class Model;
 namespace Graphics { class Renderer; }
 namespace Sound { class MusicPlayer; }
 namespace UI { class Context; }
@@ -72,8 +74,6 @@ public:
 	static void Quit() __attribute((noreturn));
 	static float GetFrameTime() { return frameTime; }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
-	static int GetScrWidth() { return scrWidth; }
-	static int GetScrHeight() { return scrHeight; }
 	static float GetScrAspect() { return scrAspect; }
 	static int KeyState(SDLKey k) { return keyState[k]; }
 	static int KeyModState() { return keyModState; }
@@ -102,6 +102,7 @@ public:
 	static float CalcHyperspaceFuelOut(int hyperclass, float dist, float hyperspace_range_max);
 	static void Message(const std::string &message, const std::string &from = "", enum MsgLevel level = MSG_NORMAL);
 	static std::string GetSaveDir();
+	static Model *FindModel(const std::string&);
 
 	static const char SAVE_DIR_NAME[];
 
@@ -143,7 +144,8 @@ public:
 	static LuaConsole *luaConsole;
 	static ShipCpanel *cpan;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
-	static Graphics::Renderer* renderer; // blargh
+	static Graphics::Renderer *renderer; // blargh
+	static ModelCache *modelCache;
 
 #if WITH_OBJECTVIEWER
 	static ObjectViewerView *objectViewerView;
@@ -173,7 +175,6 @@ private:
 	static int requestedTimeAccelIdx;
 	static bool forceTimeAccel;
 	static float frameTime;
-	static int scrWidth, scrHeight;
 	static float scrAspect;
 	static char keyState[SDLK_LAST];
 	static int keyModState;

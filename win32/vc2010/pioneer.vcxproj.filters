@@ -378,10 +378,19 @@
     <ClCompile Include="..\..\src\win32\WinMath.cpp">
       <Filter>src\win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Intro.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\LuaEvent.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaFileSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ModelCache.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\NewModelViewer.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Lua.cpp">
@@ -815,14 +824,17 @@
     <ClInclude Include="..\..\src\win32\pch.h">
       <Filter>src\win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\OS.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\win32\TextUtils.h">
       <Filter>src\win32</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\win32\WinMath.h">
       <Filter>src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Intro.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ModelCache.h">
+      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaEvent.h">
       <Filter>src</Filter>
@@ -830,16 +842,25 @@
     <ClInclude Include="..\..\src\LuaFileSystem.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Model.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\NewModelViewer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LmrTypes.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\Lua.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\CollMesh.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\AnimationCurves.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaRef.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaTable.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaPushPull.h">

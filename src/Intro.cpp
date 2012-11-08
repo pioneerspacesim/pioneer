@@ -18,7 +18,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_model = LmrLookupModelByName("lanner_ub");
 
 	// Model parameters
-	LmrObjParams params = {
+	/*LmrObjParams params = {
 		"ShipAnimation", // animation namespace
 		0.0, // time
 		{ }, // animation stages
@@ -32,7 +32,10 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
 		{ { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
 	};
-	m_modelParams = params;
+	m_modelParams = params;*/
+	m_modelParams.animationNamespace = "ShipAnimation";
+	m_modelParams.label = Lang::PIONEER;
+	m_modelParams.flightState = Ship::FLYING;
 
 	// Some equipment (in case the model can show them)
 	m_equipment.Add(Equip::ECM_ADVANCED, 1);
@@ -66,7 +69,7 @@ void Intro::Draw(float _time)
 		matrix4x4f::RotateYMatrix(_time) *
 		matrix4x4f::RotateZMatrix(0.6f*_time) *
 		matrix4x4f::RotateXMatrix(_time*0.7f);
-	m_model->Render(trans, &m_modelParams);
+	m_model->Render(m_renderer, trans, &m_modelParams);
 	glPopAttrib();
 	m_renderer->SetAmbientColor(oldSceneAmbientColor);
 }

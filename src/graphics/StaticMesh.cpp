@@ -15,10 +15,9 @@ StaticMesh::StaticMesh(PrimitiveType t) :
 
 StaticMesh::~StaticMesh()
 {
-	while (!m_surfaces.empty()) delete m_surfaces.back(), m_surfaces.pop_back();
 }
 
-void StaticMesh::AddSurface(Surface *s)
+void StaticMesh::AddSurface(RefCountedPtr<Surface> s)
 {
 	m_surfaces.push_back(s);
 }
@@ -37,6 +36,11 @@ int StaticMesh::GetNumIndices() const
 	for (SurfaceIterator surface = SurfacesBegin(); surface != SurfacesEnd(); ++surface)
 		numIndices += (*surface)->GetNumIndices();
 	return numIndices;
+}
+
+int StaticMesh::GetAvailableVertexSpace() const
+{
+	return MAX_VERTICES - GetNumVerts();
 }
 
 AttributeSet StaticMesh::GetAttributeSet() const

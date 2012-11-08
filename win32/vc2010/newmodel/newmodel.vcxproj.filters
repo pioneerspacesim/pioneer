@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{915f6b6d-deb3-4535-85a8-599ae3868a42}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\newmodel\Thruster.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\StaticGeometry.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Parser.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\NodeVisitor.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Node.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\NModel.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\ModelNode.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\MatrixTransform.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\LOD.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Loader.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Label3D.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Group.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\ColorMap.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\CollisionVisitor.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Billboard.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\Animation.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\DumpVisitor.cpp" />
+    <ClCompile Include="..\..\..\src\win32\pch.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\newmodel\Pattern.cpp" />
+    <ClCompile Include="..\..\..\src\newmodel\FindNodeVisitor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\newmodel\Thruster.h" />
+    <ClInclude Include="..\..\..\src\newmodel\StaticGeometry.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Parser.h" />
+    <ClInclude Include="..\..\..\src\newmodel\NodeVisitor.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Node.h" />
+    <ClInclude Include="..\..\..\src\newmodel\NModel.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Newmodel.h" />
+    <ClInclude Include="..\..\..\src\newmodel\ModelNode.h" />
+    <ClInclude Include="..\..\..\src\newmodel\MatrixTransform.h" />
+    <ClInclude Include="..\..\..\src\newmodel\LOD.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Loader.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Label3D.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Group.h" />
+    <ClInclude Include="..\..\..\src\newmodel\ColorMap.h" />
+    <ClInclude Include="..\..\..\src\newmodel\CollisionVisitor.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Billboard.h" />
+    <ClInclude Include="..\..\..\src\newmodel\AnimationKey.h" />
+    <ClInclude Include="..\..\..\src\newmodel\AnimationChannel.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Animation.h" />
+    <ClInclude Include="..\..\..\src\newmodel\DumpVisitor.h" />
+    <ClInclude Include="..\..\..\src\win32\pch.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\newmodel\LoaderDefinitions.h" />
+    <ClInclude Include="..\..\..\src\newmodel\Pattern.h" />
+    <ClInclude Include="..\..\..\src\newmodel\FindNodeVisitor.h" />
+  </ItemGroup>
+</Project>

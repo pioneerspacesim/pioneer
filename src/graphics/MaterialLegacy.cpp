@@ -30,6 +30,10 @@ void MaterialLegacy::Apply()
 		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 		glDisable(GL_CULL_FACE);
 	}
+
+	if (GetDescriptor().alphaTest)
+		glEnable(GL_ALPHA_TEST);
+
 	if (texture0)
 		static_cast<TextureGL*>(texture0)->Bind();
 }

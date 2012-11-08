@@ -17,9 +17,20 @@ static bool initted = false;
 bool shadersAvailable = false;
 bool shadersEnabled = false;
 Material *vtxColorMaterial;
+Settings settings;
 
 float State::invLogZfarPlus1;
 std::vector<Light> State::m_lights;
+
+int GetScreenWidth()
+{
+	return settings.width;
+}
+
+int GetScreenHeight()
+{
+	return settings.height;
+}
 
 void BindArrayBuffer(GLuint bo)
 {
@@ -163,6 +174,9 @@ Renderer* Init(Settings vs)
 	MaterialDescriptor desc;
 	desc.vertexColors = true;
 	vtxColorMaterial = renderer->CreateMaterial(desc);
+	vtxColorMaterial->IncRefCount();
+
+	Graphics::settings = vs;
 	
 	return renderer;
 }

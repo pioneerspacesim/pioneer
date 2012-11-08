@@ -44,9 +44,6 @@ Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 
 void GeoSphereSurfaceMaterial::Apply()
 {
-	//XXX replace with actual material parameter
-	glMaterialfv (GL_FRONT, GL_EMISSION, &emissive[0]);
-
 	SetGSUniforms();
 }
 
@@ -57,6 +54,7 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 
 	p->Use();
 	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
+	p->emission.Set(this->emissive);
 	p->sceneAmbient.Set(m_renderer->GetAmbientColor());
 	p->atmosColor.Set(ap.atmosCol);
 	p->geosphereAtmosFogDensity.Set(ap.atmosDensity);

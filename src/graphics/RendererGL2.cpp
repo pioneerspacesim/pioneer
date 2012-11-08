@@ -143,6 +143,7 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 	}
 
 	mat->m_renderer = this;
+	mat->m_descriptor = desc;
 
 	// Find an existing program...
 	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
