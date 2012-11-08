@@ -1786,7 +1786,7 @@ void SystemBody::PickPlanetType(MTRand &rand)
 	//		invTidalLockTime.ToFloat(), semiMajorAxis.ToFloat(), radius.ToFloat(), parent->mass.ToFloat(), mass.ToFloat());
 
 	if(invTidalLockTime > 10) { // 10x faster than Moon, no chance not to be tidal-locked
-		rotationPeriod = orbit.period/3600/24;
+		rotationPeriod = fixed(int(round(orbit.period)),3600*24);
 		axialTilt = fixed(0);
 	} else if(invTidalLockTime > fixed(1,100)) { // rotation speed changed in favour of tidal lock
 		// XXX: there should be some chance the satellite was captured only recenly and ignore this
