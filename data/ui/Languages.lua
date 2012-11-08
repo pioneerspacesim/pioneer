@@ -37,6 +37,8 @@ Translate:Add({
 		['Kills:'] = 'Kills:',
 		['Military'] = 'Military',
 		['Rank:'] = 'Rank:',
+		['Male'] = 'Male',
+		['Female'] = 'Female',
 		
 		-- Economy & Trade
 		['Economy & Trade'] = 'Economy & Trade',
