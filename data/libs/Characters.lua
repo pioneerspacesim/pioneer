@@ -1062,6 +1062,7 @@ local onGameStart = function ()
 		else
 			PlayerCharacter.name = 'Peter Jameson'
 		end
+		PlayerCharacter.title = 'Commander'
 		PlayerCharacter.player = true
 		-- Gave the player a missions table (for Misssions.lua)
 		PlayerCharacter.missions = {}
