@@ -563,9 +563,10 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 		vector3d pos = GetPosition() + stationRot*dport.pos;
 
 		// position with wheels perfectly on ground :D
-		Aabb aabb;
-		ship->GetAabb(aabb);
-		pos += stationRot*vector3d(0,-aabb.min.y,0);
+//		Aabb aabb;
+//		ship->GetAabb(aabb);
+//		pos += stationRot*vector3d(0,-aabb.min.y,0);
+// should already be done by GetDockAnimPositionOrient
 
 		ship->SetPosition(pos);
 		ship->SetRotMatrix(rot);
@@ -607,17 +608,15 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port)
 		ship->SetRotMatrix(matrix4x4d::MakeRotMatrix(dport.xaxis,
 					dport.yaxis, zaxis) * rot);
 	} else {
-		Aabb aabb;
-		ship->GetAabb(aabb);
+//		Aabb aabb;
+//		ship->GetAabb(aabb);
 
 	 	matrix4x4d stationRot;
 		GetRotMatrix(stationRot);
 		vector3d port_z = dport.xaxis.Cross(dport.yaxis);
 		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport.xaxis, dport.yaxis, port_z);
 		// position slightly (1m) off landing surface
-		vector3d pos = GetPosition() + stationRot*(dport.pos +
-				dport.yaxis -
-				dport.yaxis*aabb.min.y);
+		vector3d pos = GetPosition() + stationRot*(dport.pos + dport.yaxis);
 		ship->SetPosition(pos);
 		ship->SetRotMatrix(rot);
 	}

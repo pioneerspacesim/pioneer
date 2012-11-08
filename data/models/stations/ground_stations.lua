@@ -425,7 +425,9 @@ function createLandingPadStatic(padNum, position, lod)
 	--pad body
 		texture('textures/bot5.png', v(.5,.5,0), v(.02,0,0), v(0,0,1))
 	end
+	geomflag(0x10 + padNum)			-- landing surface must be at least 1m thick
 	cylinder(10, position + v(0,-.5,0), position + v(0,-10.5,0), v(0,0,1), 51.15)
+	geomflag(0)
 	--pad pylon
 	lathe(10, position + v(-0,-10.5,0), position + v(0,-30.5,0), v(0,0,1), {0.0,25, 1,10})
 	if lod > 1 then

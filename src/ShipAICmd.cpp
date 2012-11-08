@@ -836,11 +836,13 @@ bool AICmdDock::TimeStepUpdate()
 		const SpaceStationType *type = m_target->GetSpaceStationType();
 		SpaceStationType::positionOrient_t dockpos;
 		type->GetShipApproachWaypoints(port, (m_state==0)?1:2, dockpos);
+		Aabb aabb; m_ship->GetAabb(aabb);
 		matrix4x4d trot; m_target->GetRotMatrix(trot);
 		if (m_state != 2) m_dockpos = trot * dockpos.pos + m_target->GetPosition();
 		m_dockdir = (trot * dockpos.xaxis.Cross(dockpos.yaxis)).Normalized();
 		m_dockupdir = (trot * dockpos.yaxis).Normalized();		// don't trust these enough
 		if (type->dockMethod == SpaceStationType::ORBITAL) m_dockupdir = -m_dockupdir;
+		else if (m_state == 4) m_dockpos -= m_dockupdir * (aabb.min.y + 1.0);
 		m_state++;
 	}
 

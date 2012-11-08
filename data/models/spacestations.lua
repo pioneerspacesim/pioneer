@@ -512,7 +512,7 @@ define_model('spacestation_entry1', {
 	end
 })
 
-function simple_lift_docking_port(baynum, pos)
+function simple_lift_docking_port(baynum, pos, lod)
 	local bayid = 'DOCKING_BAY_' .. (baynum + 1)
 	local stage = get_animation_stage(bayid)
 	local spos = get_animation_position(bayid)
@@ -549,32 +549,35 @@ function simple_lift_docking_port(baynum, pos)
 	quad(pos+v(-50,baypos,50), pos+v(50,baypos,50), pos+v(50,baypos,-50), pos+v(-50,baypos,-50))
 	geomflag(0)
 	--use_material('body')
-	zbias(1, pos+v(0,baypos,0), v(0,1,0))
-	use_material('text')
-	text(0, pos+v(0,baypos,0), v(0,1,0), v(1,0,0), 2.0, {center=true})
-	zbias(0)
-	text(baynum+1, pos+v(0,baypos,0), v(0,1,0), v(1,0,0), 20.0, {center=true})
-	zbias(0)
 
-	use_material('inside')
-	texture('models/stationwall.png', v(.5,.9,0),v(0,0,1.1),v(0,-.009,0))
-	xref_quad(pos+v(50,0,50), pos+v(50,0,-50), pos+v(50,-75,-50), pos+v(50,-75,50))
+	if lod > 2 then
+		zbias(1, pos+v(0,baypos,0), v(0,1,0))
+		use_material('text')
+		text(0, pos+v(0,baypos,0), v(0,1,0), v(1,0,0), 2.0, {center=true})
+		zbias(0)
+		text(baynum+1, pos+v(0,baypos,0), v(0,1,0), v(1,0,0), 20.0, {center=true})
+		zbias(0)
 
-	texture('models/stationwall.png', v(.5,.9,0),v(.01,0,0),v(0,-.009,0))
-	quad(pos+v(-50,-75,-50), pos+v(50,-75,-50), pos+v(50,0,-50), pos+v(-50,0,-50))
-	quad(pos+v(50,-75,50), pos+v(-50,-75,50), pos+v(-50,0,50), pos+v(50,0,50))
-	texture(nil)
+		use_material('inside')
+		texture('models/stationwall.png', v(.5,.9,0),v(0,0,1.1),v(0,-.009,0))
+		xref_quad(pos+v(50,0,50), pos+v(50,0,-50), pos+v(50,-75,-50), pos+v(50,-75,50))
 
-	if (math.fmod(get_time('SECONDS'), 2) > 1) then
-		local color
-		if stage > 1 or stage < 0 then
-			color = v(1,0,0) -- red
-		elseif stage == 1 then
-			color = v(0,1,0) -- green
-		else
-			color = v(1,0.5,0) -- orange
+		texture('models/stationwall.png', v(.5,.9,0),v(.01,0,0),v(0,-.009,0))
+		quad(pos+v(-50,-75,-50), pos+v(50,-75,-50), pos+v(50,0,-50), pos+v(-50,0,-50))
+		quad(pos+v(50,-75,50), pos+v(-50,-75,50), pos+v(-50,0,50), pos+v(50,0,50))
+		texture(nil)
+
+		if (math.fmod(get_time('SECONDS'), 2) > 1) then
+			local color
+			if stage > 1 or stage < 0 then
+				color = v(1,0,0) -- red
+			elseif stage == 1 then
+				color = v(0,1,0) -- green
+			else
+				color = v(1,0.5,0) -- orange
+			end
+			billboard('smoke.png', 50, color, { pos+v(-50,1,50), pos+v(50,1,50), pos+v(-50,1,-50), pos+v(50,1,-50) })
 		end
-		billboard('smoke.png', 50, color, { pos+v(-50,1,50), pos+v(50,1,50), pos+v(-50,1,-50), pos+v(50,1,-50) })
 	end
 end
 
@@ -674,10 +677,10 @@ define_model('mushroom_station_2', {
 		addAdverts(port_pos[2])
 		end
 	end,
-		dynamic = function(lod)
+	dynamic = function(lod)
 		local port_pos = { v(-100,100,0), v(100,100,0) }
-		simple_lift_docking_port(0, port_pos[1])
-		simple_lift_docking_port(1, port_pos[2])
+		simple_lift_docking_port(0, port_pos[1], lod)
+		simple_lift_docking_port(1, port_pos[2], lod)
 		-- light on tower
 		local lightphase = math.fmod(get_time('SECONDS')+0.46956, 1)
 		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
@@ -789,10 +792,10 @@ define_model('mushroom_station_4', {
 	end,
 		dynamic = function(lod)
 		local port_pos = { v(-100,100,0), v(100,100,0), v(-100,100,200), v(100,100,200)}
-		simple_lift_docking_port(0, port_pos[1])
-		simple_lift_docking_port(1, port_pos[2])
-		simple_lift_docking_port(2, port_pos[3])
-		simple_lift_docking_port(3, port_pos[4])
+		simple_lift_docking_port(0, port_pos[1], lod)
+		simple_lift_docking_port(1, port_pos[2], lod)
+		simple_lift_docking_port(2, port_pos[3], lod)
+		simple_lift_docking_port(3, port_pos[4], lod)
 		-- light on tower
 		local lightphase = math.fmod(get_time('SECONDS')+0.46956, 1)
 		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 228, -350) })
@@ -1241,6 +1244,7 @@ define_model('hoop_spacestation', {
 
 define_model('basic_groundstation', {
 	info = {
+			lod_pixels = {10,100,300,0},
 			bounding_radius=200.0,
 			materials = {'body', 'text', 'tower_base'},
 			num_docking_ports = 2,
@@ -1272,16 +1276,19 @@ define_model('basic_groundstation', {
 		geomflag(0x11)
 		extrusion(v(100,0,0), v(100,0,100), v(0,1,0), 1.0,
 			v(-50,0,0), v(50,0,0), v(50,10,0), v(-50,10,0))
-		local bay1top = v(-100,10,50)
-		local bay2top = v(100,10,50)
-		-- docking bay 1 location,xaxis,yaxis
-		set_material('text', 1,1,1,1)
-		use_material('text')
-		zbias(1, bay1top, v(0,1,0))
-		text("1", bay1top, v(0,1,0), v(1,0,0), 20.0, {center=true})
-		zbias(1, bay2top, v(0,1,0))
-		text("2", bay2top, v(0,1,0), v(1,0,0), 20.0, {center=true})
-		zbias(0)
+		geomflag(0)
+		if lod > 2 then
+			local bay1top = v(-100,10,50)
+			local bay2top = v(100,10,50)
+			-- docking bay 1 location,xaxis,yaxis
+			set_material('text', 1,1,1,1)
+			use_material('text')
+			zbias(1, bay1top, v(0,1,0))
+			text("1", bay1top, v(0,1,0), v(1,0,0), 20.0, {center=true})
+			zbias(1, bay2top, v(0,1,0))	
+			text("2", bay2top, v(0,1,0), v(1,0,0), 20.0, {center=true})
+			zbias(0)
+		end
 	end,
 	dynamic = function(lod)
 		-- light on tower
