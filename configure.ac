@@ -306,6 +306,9 @@ if test "x$cross_compiling" = "xno" ; then
 
 fi
 
+dnl Check for libcurl
+PKG_CHECK_MODULES([CURL], [libcurl])
+
 dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
 if test "$with_external_liblua" = yes; then
