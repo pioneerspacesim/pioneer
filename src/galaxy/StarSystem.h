@@ -227,6 +227,7 @@ public:
 
 	static RefCountedPtr<StarSystem> GetCached(const SystemPath &path);
 	static void ShrinkCache();
+	void ExportToLua(const char *filename);
 
 	const std::string &GetName() const { return m_name; }
 	SystemPath GetPathOf(const SystemBody *sbody) const;
