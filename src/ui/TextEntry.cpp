@@ -19,7 +19,7 @@ Point TextEntry::PreferredSize()
 {
 	const Point labelPreferredSize(m_label->PreferredSize());
 	const Point borderSize(GetContext()->GetSkin().BackgroundNormal().borderWidth*2);
-	return labelPreferredSize + borderSize;
+	return SizeAdd(labelPreferredSize, borderSize);
 }
 
 void TextEntry::Layout()
@@ -47,7 +47,7 @@ void TextEntry::Layout()
 void TextEntry::Update()
 {
 	float cursorLeft, cursorBaseline;
-	GetContext()->GetFont(GetFontSize())->MeasureCharacterPos(GetText().c_str(), m_cursor, cursorLeft, cursorBaseline);
+	GetContext()->GetFont(GetFont())->MeasureCharacterPos(GetText().c_str(), m_cursor, cursorLeft, cursorBaseline);
 	m_cursorVertices[0].x = m_cursorVertices[1].x = cursorLeft + 0.5f;
 
 	// offset such that the cursor is always visible

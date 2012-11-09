@@ -182,12 +182,13 @@ private:
 	}
 
 	void Refuel() {
-		float currentFuel = Pi::player->GetFuel();
-		if (is_equal_exact(currentFuel, 1.0f)) return;
-
-		Pi::player->m_equipment.Remove(Equip::WATER, 1);
-		Pi::player->SetFuel(currentFuel + 1.0f/Pi::player->GetShipType().fuelTankMass);
-		Pi::player->UpdateStats();
+		lua_State * l = Lua::manager->GetLuaState();
+		lua_getglobal(l, "Ship");
+		lua_getfield(l, -1, "Refuel");
+		lua_remove(l, -2);
+		LuaShip::PushToLua(Pi::player);
+		lua_pushinteger(l, 1);
+		lua_call(l, 2, 1);
 
 		m_infoView->UpdateInfo();
 	}

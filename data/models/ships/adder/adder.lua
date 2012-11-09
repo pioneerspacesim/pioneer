@@ -543,9 +543,6 @@ define_model('adder', {
 			xref_quad(v10,v12,v18,v16)
 			xref_tri(v8,v10,v16)
 			xref_tri(v12,v14,v18)
-			geomflag(0x100)
-			quad(v(-2.75,-3.307,-8),v(2.75,-3.307,-8),v(1.75,-5,-8),v(-1.75,-5,-8))
-			geomflag(0)
 		end
 
 		if lod > 1 then

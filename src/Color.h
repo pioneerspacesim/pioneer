@@ -4,6 +4,8 @@
 #ifndef _COLOR_H
 #define _COLOR_H
 
+struct lua_State;
+
 struct Color4f {
 	float r,g,b,a;
 	Color4f() : r(0.f), g(0.f), b(0.f), a(1.f) {}
@@ -14,6 +16,8 @@ struct Color4f {
 	operator const float *() const { return &r; }
 	Color4f &operator*=(const float v) { r*=v; g*=v; b*=v; a*=v; return *this; }
 	friend Color4f operator*(const Color4f &c, const float v) { return Color4f(c.r*v, c.g*v, c.b*v, c.a*v); }
+
+	static Color4f FromLuaTable(lua_State *l, int idx);
 
 	float GetLuminance() const;
 

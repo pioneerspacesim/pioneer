@@ -394,7 +394,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\FontConfig.cpp"
+				RelativePath="..\..\src\text\FontDescriptor.cpp"
 				>
 			</File>
 			<File
@@ -626,6 +626,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaFaction.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaFileSystem.cpp"
 				>
 			</File>
@@ -718,6 +722,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ui\LuaTextEntry.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaTimer.cpp"
 				>
 			</File>
@@ -807,6 +815,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Player.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\PngWriter.cpp"
 				>
 			</File>
 			<File
@@ -1171,6 +1183,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\terrain\TerrainHeightWaterSolidCanyons.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\TextEntry.cpp"
 				>
 			</File>
 			<File
@@ -1660,6 +1676,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaFaction.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaFileSystem.h"
 				>
 			</File>
@@ -1864,6 +1884,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\PngWriter.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\PoliceChatForm.h"
 				>
 			</File>
@@ -2065,6 +2089,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\terrain\TerrainNoise.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\TextEntry.h"
 				>
 			</File>
 			<File

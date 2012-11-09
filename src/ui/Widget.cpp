@@ -15,7 +15,7 @@ Widget::Widget(Context *context) :
 	m_drawOffset(0),
 	m_activeOffset(0),
 	m_activeArea(0),
-	m_fontSize(FONT_SIZE_INHERIT),
+	m_font(FONT_INHERIT),
 	m_floating(false),
 	m_mouseOver(false),
 	m_mouseActive(false)
@@ -66,20 +66,20 @@ void Widget::SetActiveArea(const Point &activeArea, const Point &activeOffset)
 	m_activeOffset = activeOffset;
 }
 
-Widget *Widget::SetFontSize(FontSize fontSize)
+Widget *Widget::SetFont(Font font)
 {
-	m_fontSize = fontSize;
+	m_font = font;
 	GetContext()->RequestLayout();
 	return this;
 }
 
-Widget::FontSize Widget::GetFontSize() const
+Widget::Font Widget::GetFont() const
 {
-	if (m_fontSize == FONT_SIZE_INHERIT) {
-		if (m_container) return m_container->GetFontSize();
-		return FONT_SIZE_NORMAL;
+	if (m_font == FONT_INHERIT) {
+		if (m_container) return m_container->GetFont();
+		return FONT_NORMAL;
 	}
-	return m_fontSize;
+	return m_font;
 }
 
 bool Widget::TriggerKeyDown(const KeyboardEvent &event, bool emit)
@@ -186,12 +186,14 @@ void Widget::TriggerMouseActivate()
 {
 	m_mouseActive = true;
 	HandleMouseActivate();
+	if (GetContainer() && !IsFloating()) GetContainer()->TriggerMouseActivate();
 }
 
 void Widget::TriggerMouseDeactivate()
 {
 	m_mouseActive = false;
 	HandleMouseDeactivate();
+	if (GetContainer() && !IsFloating()) GetContainer()->TriggerMouseDeactivate();
 }
 
 void Widget::TriggerSelect()
