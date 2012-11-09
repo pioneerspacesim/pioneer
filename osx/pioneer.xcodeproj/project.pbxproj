@@ -227,6 +227,10 @@
 		4A9937671368355500EA0EE5 /* LuaStarSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937461368355500EA0EE5 /* LuaStarSystem.cpp */; };
 		4A9937681368355500EA0EE5 /* LuaTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937481368355500EA0EE5 /* LuaTimer.cpp */; };
 		4A99376A1368355500EA0EE5 /* LuaUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99374C1368355500EA0EE5 /* LuaUtils.cpp */; };
+		4AA4A8DA164D0EB10006C3BF /* Expand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA4A8D4164D0EB10006C3BF /* Expand.cpp */; };
+		4AA4A8DB164D0EB10006C3BF /* Gradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA4A8D6164D0EB10006C3BF /* Gradient.cpp */; };
+		4AA4A8DC164D0EB10006C3BF /* LuaExpand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA4A8D8164D0EB10006C3BF /* LuaExpand.cpp */; };
+		4AA4A8DD164D0EB10006C3BF /* LuaGradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA4A8D9164D0EB10006C3BF /* LuaGradient.cpp */; };
 		4AAB881315F4AD3500AAF8A8 /* GeoSphereMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880415F4AD3500AAF8A8 /* GeoSphereMaterial.cpp */; };
 		4AAB881415F4AD3500AAF8A8 /* GL2Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880615F4AD3500AAF8A8 /* GL2Material.cpp */; };
 		4AAB881515F4AD3500AAF8A8 /* MultiMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880815F4AD3500AAF8A8 /* MultiMaterial.cpp */; };
@@ -888,6 +892,12 @@
 		4A99374D1368355500EA0EE5 /* LuaUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaUtils.h; sourceTree = "<group>"; };
 		4A99374E1368355500EA0EE5 /* RefCounted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefCounted.h; sourceTree = "<group>"; };
 		4A99374F1368355500EA0EE5 /* RefList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefList.h; sourceTree = "<group>"; };
+		4AA4A8D4164D0EB10006C3BF /* Expand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Expand.cpp; sourceTree = "<group>"; };
+		4AA4A8D5164D0EB10006C3BF /* Expand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Expand.h; sourceTree = "<group>"; };
+		4AA4A8D6164D0EB10006C3BF /* Gradient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gradient.cpp; sourceTree = "<group>"; };
+		4AA4A8D7164D0EB10006C3BF /* Gradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gradient.h; sourceTree = "<group>"; };
+		4AA4A8D8164D0EB10006C3BF /* LuaExpand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaExpand.cpp; sourceTree = "<group>"; };
+		4AA4A8D9164D0EB10006C3BF /* LuaGradient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaGradient.cpp; sourceTree = "<group>"; };
 		4AAB880415F4AD3500AAF8A8 /* GeoSphereMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeoSphereMaterial.cpp; sourceTree = "<group>"; };
 		4AAB880515F4AD3500AAF8A8 /* GeoSphereMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSphereMaterial.h; sourceTree = "<group>"; };
 		4AAB880615F4AD3500AAF8A8 /* GL2Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2Material.cpp; sourceTree = "<group>"; };
@@ -1858,9 +1868,6 @@
 		4ABF302D16335A1100664653 /* ui */ = {
 			isa = PBXGroup;
 			children = (
-				4AFBD7BA16412676002928CB /* LuaTextEntry.cpp */,
-				4AFBD7BB16412676002928CB /* TextEntry.cpp */,
-				4AFBD7BC16412676002928CB /* TextEntry.h */,
 				4ABF302E16335A1100664653 /* Align.cpp */,
 				4ABF302F16335A1100664653 /* Align.h */,
 				4ABF303016335A1100664653 /* Background.cpp */,
@@ -1885,8 +1892,12 @@
 				4ABF304316335A1100664653 /* Event.h */,
 				4ABF304416335A1100664653 /* EventDispatcher.cpp */,
 				4ABF304516335A1100664653 /* EventDispatcher.h */,
+				4AA4A8D4164D0EB10006C3BF /* Expand.cpp */,
+				4AA4A8D5164D0EB10006C3BF /* Expand.h */,
 				4ABF304616335A1100664653 /* FloatContainer.cpp */,
 				4ABF304716335A1100664653 /* FloatContainer.h */,
+				4AA4A8D6164D0EB10006C3BF /* Gradient.cpp */,
+				4AA4A8D7164D0EB10006C3BF /* Gradient.h */,
 				4ABF304816335A1100664653 /* Grid.cpp */,
 				4ABF304916335A1100664653 /* Grid.h */,
 				4ABF304A16335A1100664653 /* Image.cpp */,
@@ -1906,6 +1917,8 @@
 				4ABF305816335A1100664653 /* LuaContainer.cpp */,
 				4ABF305916335A1100664653 /* LuaContext.cpp */,
 				4ABF305A16335A1100664653 /* LuaDropDown.cpp */,
+				4AA4A8D8164D0EB10006C3BF /* LuaExpand.cpp */,
+				4AA4A8D9164D0EB10006C3BF /* LuaGradient.cpp */,
 				4ABF305B16335A1100664653 /* LuaGrid.cpp */,
 				4ABF305C16335A1100664653 /* LuaImage.cpp */,
 				4ABF305D16335A1100664653 /* LuaLabel.cpp */,
@@ -1916,6 +1929,7 @@
 				4ABF306216335A1100664653 /* LuaSignal.h */,
 				4ABF306316335A1100664653 /* LuaSingle.cpp */,
 				4ABF306416335A1100664653 /* LuaSlider.cpp */,
+				4AFBD7BA16412676002928CB /* LuaTextEntry.cpp */,
 				4ABF306516335A1100664653 /* LuaWidget.cpp */,
 				4ABF306716335A1100664653 /* Margin.cpp */,
 				4ABF306816335A1100664653 /* Margin.h */,
@@ -1930,6 +1944,8 @@
 				4ABF307116335A1100664653 /* Skin.h */,
 				4ABF307216335A1100664653 /* Slider.cpp */,
 				4ABF307316335A1100664653 /* Slider.h */,
+				4AFBD7BB16412676002928CB /* TextEntry.cpp */,
+				4AFBD7BC16412676002928CB /* TextEntry.h */,
 				4ABF307416335A1100664653 /* TextLayout.cpp */,
 				4ABF307516335A1100664653 /* TextLayout.h */,
 				4ABF307616335A1100664653 /* Widget.cpp */,
@@ -2415,6 +2431,10 @@
 				4AFBD7BD16412676002928CB /* LuaTextEntry.cpp in Sources */,
 				4AFBD7BE16412676002928CB /* TextEntry.cpp in Sources */,
 				4AFBD7C016412688002928CB /* FontDescriptor.cpp in Sources */,
+				4AA4A8DA164D0EB10006C3BF /* Expand.cpp in Sources */,
+				4AA4A8DB164D0EB10006C3BF /* Gradient.cpp in Sources */,
+				4AA4A8DC164D0EB10006C3BF /* LuaExpand.cpp in Sources */,
+				4AA4A8DD164D0EB10006C3BF /* LuaGradient.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
