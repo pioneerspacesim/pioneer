@@ -23,8 +23,10 @@ local suffixes = { 'Alliance', 'Union', 'Expanse', 'Horde', 'Faction'
 				 , 'Council', 'Worlds', 'Commonwealth', 'Territories'
 				 , 'Republic' }
 
-local police_suffixes   = {'Police', 'Constabulary', 'Interior Ministry', 'Security', 'Inquisition', 'Prefecture', 'Justiciars'}
-local military_suffixes = {'Navy', 'Defense Force', 'Militia', 'Legion', 'Warfleet', 'Guard', 'Patrol', 'Regiments'}
+local police_suffixes   = {'Police', 'Constabulary', 'Interior Ministry', 'Security', 'Inquisition', 'Prefecture' 
+                          ,'Justiciars'}
+local military_suffixes = {'Navy', 'Defense Force', 'Militia', 'Legion', 'War Fleet', 'Guards', 'Space Patrol', 'Regiments'
+                          ,'Space Arm', 'Defense Wing', 'Battle Flight'}
 				 
 local possible_govtypes = { 'DISORDER', 'MILDICT1', 'PLUTOCRATIC', 'CORPORATE', 
                             'LIBDEM', 'SOCDEM', 'COMMUNIST', 'MILDICT2', 'DISORDER' }
