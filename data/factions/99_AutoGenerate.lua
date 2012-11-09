@@ -23,6 +23,9 @@ local suffixes = { 'Alliance', 'Union', 'Expanse', 'Horde', 'Faction'
 				 , 'Council', 'Worlds', 'Commonwealth', 'Territories'
 				 , 'Republic' }
 
+local police_suffixes   = {'Police', 'Constabulary', 'Interior Ministry', 'Security', 'Inquisition', 'Prefecture', 'Justiciars'}
+local military_suffixes = {'Navy', 'Defense Force', 'Militia', 'Legion', 'Warfleet', 'Guard', 'Patrol', 'Regiments'}
+				 
 local possible_govtypes = { 'DISORDER', 'MILDICT1', 'PLUTOCRATIC', 'CORPORATE', 
                             'LIBDEM', 'SOCDEM', 'COMMUNIST', 'MILDICT2', 'DISORDER' }
 
@@ -69,23 +72,35 @@ assert(num_factions <= (#prefixes * #suffixes), 'not enough random faction names
 local MAGIC_SYSTEM_INDEX = -1
 
 -- build faction names
-local faction_names = {}
+local faction_names  = {}
+local police_names   = {}
+local military_names = {}
 
 for i1,prefix in ipairs(prefixes) do
 	for i2,suffix in ipairs(suffixes) do
-		table.insert(faction_names, prefix .. ' ' .. suffix)
+		local faction_name = prefix .. ' ' .. suffix
+		local seed = salt .. faction_name		
+		
+		table.insert(faction_names, faction_name)
+		if util.hash_random(seed..'police')   < 0.5 then table.insert(police_names,   prefix..police_suffixes  [util.hash_random(seed..'policep', 1, #police_suffixes)])
+		                                            else table.insert(police_names,   suffix..police_suffixes  [util.hash_random(seed..'polices', 1, #police_suffixes)])
+		end
+		if util.hash_random(seed..'military') < 0.5 then table.insert(military_names, prefix..military_suffixes[util.hash_random(seed..'militp',  1, #military_suffixes)])
+		                                            else table.insert(military_names, suffix..military_suffixes[util.hash_random(seed..'milits',  1, #military_suffixes)])
+		end											
 	end
 end
 
 while #faction_names > num_factions do
 	index = util.hash_random(#faction_names, 0, (#faction_names) - 1)
-	table.remove(faction_names, index)
+	table.remove(faction_names,  index)
+	table.remove(police_names,   index)
+	table.remove(military_names, index)
 end
 
 -- add a faction of each name
-for i,faction_name in ipairs(faction_names) do
-	
-	local seed = salt .. faction_name
+for i,faction_name in ipairs(faction_names) do	
+	local seed        = salt..faction_name
 	
 	---------------------------------------------------------------------------	
 	-- roll a homeworld sector
@@ -99,7 +114,7 @@ for i,faction_name in ipairs(faction_names) do
 	local g = util.hash_random(seed .. 'colour_g')
 	local b = util.hash_random(seed .. 'colour_b')
 	
-	-- attempt to punch up the luminance up in super naive way
+	-- attempt to punch up the luminance in a super naive way
 	local luminance = (r * 0.3) + (g * 0.6) * (b * 0.1)
 	if luminance < 1 then 
 		r = math.min(r * 1.2, 1)
@@ -108,7 +123,7 @@ for i,faction_name in ipairs(faction_names) do
 	end;
 	
 	---------------------------------------------------------------------------
-	-- make the faction
+	-- make the faction		
 	local f = Faction:new(faction_name)
 		:description_short(faction_name)
 		:description(string.format('Very little is currently known about The %s',faction_name))
@@ -116,7 +131,9 @@ for i,faction_name in ipairs(faction_names) do
 		:foundingDate(util.hash_random(seed, earliest_founding, latest_founding))
 		:expansionRate((util.hash_random(seed)  * (max_expansion - min_expansion)) + min_expansion)
 		:colour(r,g,b)
-
+		:police_name(police_names[i])
+		:military_name(military_names[i])
+		
 	---------------------------------------------------------------------------		
 	-- roll government type parameters
 	local favoured_gov_idx = util.hash_random(seed .. 'favouredgov', 1, #possible_govtypes)
@@ -143,7 +160,7 @@ for i,faction_name in ipairs(faction_names) do
 		end;
 		illegal_chance_faction = illegal_chance_faction - illegal_chance_facdec
 	end
-				
+
 	---------------------------------------------------------------------------		
 	-- and add the faction to the factions list
 	f:add_to_factions(faction_name)
