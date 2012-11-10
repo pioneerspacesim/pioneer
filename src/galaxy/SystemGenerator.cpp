@@ -235,11 +235,6 @@ static const struct StarTypeInfo {
 //-----------------------------------------------------------------------------
 // Build
 
-const std::string SystemGenerator::Name()
-{
-	return m_sector.m_systems[m_path.systemIndex].name;
-}
-
 /*
  * 0 - ~500ly from sol: explored
  * ~500ly - ~700ly (65-90 sectors): gradual
@@ -247,55 +242,41 @@ const std::string SystemGenerator::Name()
  */
 const bool SystemGenerator::Unexplored() 
 {
-	if (IsCustom() && !custom()->want_rand_explored ) {
-		return !custom()->explored;    // may be defined manually in the custom system definition
+	if (IsCustom() && !SectorSystem().customSys->want_rand_explored ) {
+		return !SectorSystem().customSys->explored;    // may be defined manually in the custom system definition
 	} else {
 		int dist = isqrt(1 + m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ);
 		return (dist > 90) || (dist > 65 && rand1().Int32(dist) > 40);
 	}
 }
 
-const bool SystemGenerator::IsCustom() 
-{
-	return custom();
-}
-
-
 SystemBody* SystemGenerator::AddStarsTo(std::vector<SystemBody*>& bodies)
 {
 	SystemBody* rootBody = NULL;
 	SystemBody *star[4];
 
-	const int starCount = sector().m_systems[m_path.systemIndex].numStars;
+	const int starCount = SectorSystem().numStars;
 	assert((starCount >= 1) && (starCount <= 4));
 
 	if (starCount == 1) {
-		SystemBody::BodyType type = sector().m_systems[m_path.systemIndex].starType[0];
-		star[0] = NewBody(bodies);
-		star[0]->parent = NULL;
-		star[0]->name = Name();
+		SystemBody::BodyType type = SectorSystem().starType[0];
+		star[0] = NewBody(bodies, NULL, Name());
 		star[0]->orbMin = 0;
 		star[0]->orbMax = 0;
 		MakeStarOfType(star[0], type);
 		rootBody = star[0];
 		m_numStars = 1;
 	} else {
-		m_centGrav1 = NewBody(bodies);
+		m_centGrav1 = NewBody(bodies, NULL, Name()+" A,B");
 		m_centGrav1->type = SystemBody::TYPE_GRAVPOINT;
-		m_centGrav1->parent = NULL;
-		m_centGrav1->name = Name()+" A,B";
 		rootBody = m_centGrav1;
 
-		SystemBody::BodyType type = sector().m_systems[m_path.systemIndex].starType[0];
-		star[0] = NewBody(bodies);
-		star[0]->name = Name()+" A";
-		star[0]->parent = m_centGrav1;
+		SystemBody::BodyType type = SectorSystem().starType[0];
+		star[0] = NewBody(bodies, m_centGrav1, Name()+" A");
 		MakeStarOfType(star[0], type);
 
-		star[1] = NewBody(bodies);
-		star[1]->name = Name()+" B";
-		star[1]->parent = m_centGrav1;
-		MakeStarOfTypeLighterThan(star[1], sector().m_systems[m_path.systemIndex].starType[1],star[0]->mass);
+		star[1] = NewBody(bodies, m_centGrav1,  Name()+" B");
+		MakeStarOfTypeLighterThan(star[1], SectorSystem().starType[1],star[0]->mass);
 
 		m_centGrav1->mass = star[0]->mass + star[1]->mass;
 		m_centGrav1->children.push_back(star[0]);
@@ -313,28 +294,22 @@ try_that_again_guvnah:
 			}
 			// 3rd and maybe 4th star
 			if (starCount == 3) {
-				star[2] = NewBody(bodies);
-				star[2]->name = sector().m_systems[m_path.systemIndex].name+" C";
+				star[2] = NewBody(bodies, NULL, Name()+" C");
 				star[2]->orbMin = 0;
 				star[2]->orbMax = 0;
-				MakeStarOfTypeLighterThan(star[2], sector().m_systems[m_path.systemIndex].starType[2],star[0]->mass);
+				MakeStarOfTypeLighterThan(star[2], SectorSystem().starType[2],star[0]->mass);
 				m_centGrav2 = star[2];
 				m_numStars = 3;
 			} else {
-				m_centGrav2 = NewBody(bodies);
+				m_centGrav2 = NewBody(bodies, NULL, Name() + "C,D");
 				m_centGrav2->type = SystemBody::TYPE_GRAVPOINT;
-				m_centGrav2->name = sector().m_systems[m_path.systemIndex].name+" C,D";
 				m_centGrav2->orbMax = 0;
 
-				star[2] = NewBody(bodies);
-				star[2]->name = sector().m_systems[m_path.systemIndex].name+" C";
-				star[2]->parent = m_centGrav2;
-				MakeStarOfTypeLighterThan(star[2], sector().m_systems[m_path.systemIndex].starType[2], star[0]->mass);
+				star[2] = NewBody(bodies, m_centGrav2, Name()+" C");
+				MakeStarOfTypeLighterThan(star[2], SectorSystem().starType[2], star[0]->mass);
 
-				star[3] = NewBody(bodies);
-				star[3]->name = sector().m_systems[m_path.systemIndex].name+" D";
-				star[3]->parent = m_centGrav2;
-				MakeStarOfTypeLighterThan(star[3], sector().m_systems[m_path.systemIndex].starType[3], star[2]->mass);
+				star[3] = NewBody(bodies, m_centGrav2, Name()+" D");
+				MakeStarOfTypeLighterThan(star[3], SectorSystem().starType[3], star[2]->mass);
 
 				const fixed minDist2 = (star[2]->radius + star[3]->radius) * AU_SOL_RADIUS;
 				MakeBinaryPair(star[2], star[3], minDist2);
@@ -343,10 +318,8 @@ try_that_again_guvnah:
 				m_centGrav2->children.push_back(star[3]);
 				m_numStars = 4;
 			}
-			SystemBody *superCentGrav = NewBody(bodies);
+			SystemBody *superCentGrav = NewBody(bodies, NULL, Name());
 			superCentGrav->type = SystemBody::TYPE_GRAVPOINT;
-			superCentGrav->parent = NULL;
-			superCentGrav->name = sector().m_systems[m_path.systemIndex].name;
 			m_centGrav1->parent = superCentGrav;
 			m_centGrav2->parent = superCentGrav;
 			rootBody = superCentGrav;
@@ -432,15 +405,10 @@ void SystemGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist
 MTRand& SystemGenerator::rand1() 
 {
 	if (!m_rand1) {
-		unsigned long _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
+		unsigned long _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, SectorSystem().seed };
 		m_rand1 = new MTRand(_init, 6);
 	}
 	return *m_rand1;
-}
-
-const CustomSystem * SystemGenerator::custom()
-{
-	return sector().m_systems[m_path.systemIndex].customSys;
 }
 
 //-----------------------------------------------------------------------------
@@ -449,7 +417,6 @@ const CustomSystem * SystemGenerator::custom()
 SystemGenerator::SystemGenerator(SystemPath& path): m_path(path), m_rand1(0), m_sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ), m_centGrav1(0), m_centGrav2(0) 
 {
 	assert(m_path.systemIndex >= 0 && m_path.systemIndex < m_sector.m_systems.size());
-	m_seed = m_sector.m_systems[m_path.systemIndex].seed;
 }
 
 SystemGenerator::~SystemGenerator() 

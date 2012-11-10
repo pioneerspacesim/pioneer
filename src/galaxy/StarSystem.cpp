@@ -1272,7 +1272,7 @@ void StarSystem::Initialise() {
 		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
 		if (!custom->IsRandom()) {
 			m_hasCustomBodies = true;
-			GenerateFromCustom(generator.sector().m_systems[m_path.systemIndex].customSys, generator.rand1());
+			GenerateFromCustom(generator.custom(), generator.rand1());
 			return;
 		}
 	}
