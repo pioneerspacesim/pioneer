@@ -5,7 +5,9 @@
 #define _SYSTEMGENERATOR_H
 
 #include "libs.h"
+#include "mtrand.h"
 #include "galaxy/StarSystem.h"
+
 
 /*
  * Functionality:
@@ -15,13 +17,22 @@
 class SystemGenerator {
 
 public:
-	SystemGenerator();
+	SystemGenerator(SystemPath& path);
 	~SystemGenerator();
 
-	void Generate(StarSystem& system);
+	const std::string Name();
+	const bool        Unexplored();
+
+	// state (eventually make private)
+	MTRand& rand1();
+	Sector& sector() { return m_sector; }
 
 private:
-
+	SystemPath m_path;
+	Sector     m_sector;
+	int        m_seed;
+	
+	MTRand*    m_rand1;
 };
 
 #endif

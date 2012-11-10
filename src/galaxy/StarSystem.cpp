@@ -8,6 +8,7 @@
 #include "Serializer.h"
 #include "Pi.h"
 #include "LuaNameGen.h"
+#include "SystemGenerator.h"
 #include <map>
 #include "utils.h"
 #include "Lang.h"
@@ -1307,7 +1308,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 }
 
 
-StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Faction::BAD_FACTION_IDX)
+StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Faction::BAD_FACTION_IDX), rootBody(0)
 {
 	assert(path.IsSystemPath());
 	Initialise();
@@ -1319,39 +1320,26 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Fact
  *
  * We must be sneaky and avoid floating point in these places.
  */
-void StarSystem::Initialise()
-{
+void StarSystem::Initialise() {
+
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
-	rootBody = 0;
 
-	Sector s = Sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ);
-	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s.m_systems.size());
+	SystemGenerator generator = SystemGenerator(m_path);
 
-	m_seed = s.m_systems[m_path.systemIndex].seed;
-	m_name = s.m_systems[m_path.systemIndex].name;
-
-	unsigned long _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
-	MTRand rand(_init, 6);
-
-	/*
-	 * 0 - ~500ly from sol: explored
-	 * ~500ly - ~700ly (65-90 sectors): gradual
-	 * ~700ly+: unexplored
-	 */
-	int dist = isqrt(1 + m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ);
-	m_unexplored = (dist > 90) || (dist > 65 && rand.Int32(dist) > 40);
+	m_name       = generator.Name();
+	m_unexplored = generator.Unexplored();
 
 	m_isCustom = m_hasCustomBodies = false;
-	if (s.m_systems[m_path.systemIndex].customSys) {
+	if (generator.sector().m_systems[m_path.systemIndex].customSys) {
 		m_isCustom = true;
-		const CustomSystem *custom = s.m_systems[m_path.systemIndex].customSys;
+		const CustomSystem *custom = generator.sector().m_systems[m_path.systemIndex].customSys;
 		m_numStars = custom->numStars;
 		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
 		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
 		if (!custom->want_rand_explored) m_unexplored = !custom->explored;
 		if (!custom->IsRandom()) {
 			m_hasCustomBodies = true;
-			GenerateFromCustom(s.m_systems[m_path.systemIndex].customSys, rand);
+			GenerateFromCustom(generator.sector().m_systems[m_path.systemIndex].customSys, generator.rand1());
 			return;
 		}
 	}
@@ -1359,44 +1347,44 @@ void StarSystem::Initialise()
 	SystemBody *star[4];
 	SystemBody *centGrav1(NULL), *centGrav2(NULL);
 
-	const int numStars = s.m_systems[m_path.systemIndex].numStars;
+	const int numStars = generator.sector().m_systems[m_path.systemIndex].numStars;
 	assert((numStars >= 1) && (numStars <= 4));
 
 	if (numStars == 1) {
-		SystemBody::BodyType type = s.m_systems[m_path.systemIndex].starType[0];
+		SystemBody::BodyType type = generator.sector().m_systems[m_path.systemIndex].starType[0];
 		star[0] = NewBody();
 		star[0]->parent = NULL;
-		star[0]->name = s.m_systems[m_path.systemIndex].name;
+		star[0]->name = generator.sector().m_systems[m_path.systemIndex].name;
 		star[0]->orbMin = 0;
 		star[0]->orbMax = 0;
-		MakeStarOfType(star[0], type, rand);
+		MakeStarOfType(star[0], type, generator.rand1());
 		rootBody = star[0];
 		m_numStars = 1;
 	} else {
 		centGrav1 = NewBody();
 		centGrav1->type = SystemBody::TYPE_GRAVPOINT;
 		centGrav1->parent = NULL;
-		centGrav1->name = s.m_systems[m_path.systemIndex].name+" A,B";
+		centGrav1->name = generator.sector().m_systems[m_path.systemIndex].name+" A,B";
 		rootBody = centGrav1;
 
-		SystemBody::BodyType type = s.m_systems[m_path.systemIndex].starType[0];
+		SystemBody::BodyType type = generator.sector().m_systems[m_path.systemIndex].starType[0];
 		star[0] = NewBody();
-		star[0]->name = s.m_systems[m_path.systemIndex].name+" A";
+		star[0]->name = generator.sector().m_systems[m_path.systemIndex].name+" A";
 		star[0]->parent = centGrav1;
-		MakeStarOfType(star[0], type, rand);
+		MakeStarOfType(star[0], type, generator.rand1());
 
 		star[1] = NewBody();
-		star[1]->name = s.m_systems[m_path.systemIndex].name+" B";
+		star[1]->name = generator.sector().m_systems[m_path.systemIndex].name+" B";
 		star[1]->parent = centGrav1;
-		MakeStarOfTypeLighterThan(star[1], s.m_systems[m_path.systemIndex].starType[1],
-				star[0]->mass, rand);
+		MakeStarOfTypeLighterThan(star[1], generator.sector().m_systems[m_path.systemIndex].starType[1],
+				star[0]->mass, generator.rand1());
 
 		centGrav1->mass = star[0]->mass + star[1]->mass;
 		centGrav1->children.push_back(star[0]);
 		centGrav1->children.push_back(star[1]);
 		const fixed minDist1 = (star[0]->radius + star[1]->radius) * AU_SOL_RADIUS;
 try_that_again_guvnah:
-		MakeBinaryPair(star[0], star[1], minDist1, rand);
+		MakeBinaryPair(star[0], star[1], minDist1, generator.rand1());
 
 		m_numStars = 2;
 
@@ -1408,33 +1396,33 @@ try_that_again_guvnah:
 			// 3rd and maybe 4th star
 			if (numStars == 3) {
 				star[2] = NewBody();
-				star[2]->name = s.m_systems[m_path.systemIndex].name+" C";
+				star[2]->name = generator.sector().m_systems[m_path.systemIndex].name+" C";
 				star[2]->orbMin = 0;
 				star[2]->orbMax = 0;
-				MakeStarOfTypeLighterThan(star[2], s.m_systems[m_path.systemIndex].starType[2],
-					star[0]->mass, rand);
+				MakeStarOfTypeLighterThan(star[2], generator.sector().m_systems[m_path.systemIndex].starType[2],
+					star[0]->mass, generator.rand1());
 				centGrav2 = star[2];
 				m_numStars = 3;
 			} else {
 				centGrav2 = NewBody();
 				centGrav2->type = SystemBody::TYPE_GRAVPOINT;
-				centGrav2->name = s.m_systems[m_path.systemIndex].name+" C,D";
+				centGrav2->name = generator.sector().m_systems[m_path.systemIndex].name+" C,D";
 				centGrav2->orbMax = 0;
 
 				star[2] = NewBody();
-				star[2]->name = s.m_systems[m_path.systemIndex].name+" C";
+				star[2]->name = generator.sector().m_systems[m_path.systemIndex].name+" C";
 				star[2]->parent = centGrav2;
-				MakeStarOfTypeLighterThan(star[2], s.m_systems[m_path.systemIndex].starType[2],
-					star[0]->mass, rand);
+				MakeStarOfTypeLighterThan(star[2], generator.sector().m_systems[m_path.systemIndex].starType[2],
+					star[0]->mass, generator.rand1());
 
 				star[3] = NewBody();
-				star[3]->name = s.m_systems[m_path.systemIndex].name+" D";
+				star[3]->name = generator.sector().m_systems[m_path.systemIndex].name+" D";
 				star[3]->parent = centGrav2;
-				MakeStarOfTypeLighterThan(star[3], s.m_systems[m_path.systemIndex].starType[3],
-					star[2]->mass, rand);
+				MakeStarOfTypeLighterThan(star[3], generator.sector().m_systems[m_path.systemIndex].starType[3],
+					star[2]->mass, generator.rand1());
 
 				const fixed minDist2 = (star[2]->radius + star[3]->radius) * AU_SOL_RADIUS;
-				MakeBinaryPair(star[2], star[3], minDist2, rand);
+				MakeBinaryPair(star[2], star[3], minDist2, generator.rand1());
 				centGrav2->mass = star[2]->mass + star[3]->mass;
 				centGrav2->children.push_back(star[2]);
 				centGrav2->children.push_back(star[3]);
@@ -1443,12 +1431,12 @@ try_that_again_guvnah:
 			SystemBody *superCentGrav = NewBody();
 			superCentGrav->type = SystemBody::TYPE_GRAVPOINT;
 			superCentGrav->parent = NULL;
-			superCentGrav->name = s.m_systems[m_path.systemIndex].name;
+			superCentGrav->name = generator.sector().m_systems[m_path.systemIndex].name;
 			centGrav1->parent = superCentGrav;
 			centGrav2->parent = superCentGrav;
 			rootBody = superCentGrav;
 			const fixed minDistSuper = star[0]->orbMax + star[2]->orbMax;
-			MakeBinaryPair(centGrav1, centGrav2, 4*minDistSuper, rand);
+			MakeBinaryPair(centGrav1, centGrav2, 4*minDistSuper, generator.rand1());
 			superCentGrav->children.push_back(centGrav1);
 			superCentGrav->children.push_back(centGrav2);
 
@@ -1459,10 +1447,10 @@ try_that_again_guvnah:
 	// XXX except this does not reflect the actual mining happening in this system
 	m_metallicity = starMetallicities[rootBody->type];
 
-	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i], rand);
+	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i], generator.rand1());
 
-	if (m_numStars > 1) MakePlanetsAround(centGrav1, rand);
-	if (m_numStars == 4) MakePlanetsAround(centGrav2, rand);
+	if (m_numStars > 1) MakePlanetsAround(centGrav1, generator.rand1());
+	if (m_numStars == 4) MakePlanetsAround(centGrav2, generator.rand1());
 
 	Populate(true);
 
