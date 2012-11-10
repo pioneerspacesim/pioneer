@@ -17,17 +17,7 @@
 #define CELSIUS	273.15
 //#define DEBUG_DUMP
 
-// minimum moon mass a little under Europa's
-static const fixed MIN_MOON_MASS = fixed(1,30000); // earth masses
-static const fixed MIN_MOON_DIST = fixed(15,10000); // AUs
-static const fixed MAX_MOON_DIST = fixed(2, 100); // AUs
-// if binary stars have separation s, planets can have stable
-// orbits at (0.5 * s * SAFE_DIST_FROM_BINARY)
-static const fixed SAFE_DIST_FROM_BINARY = fixed(5,1);
-static const fixed PLANET_MIN_SEPARATION = fixed(135,100);
-
 // very crudely
-static const fixed AU_SOL_RADIUS = fixed(305,65536);
 static const fixed AU_EARTH_RADIUS = fixed(3, 65536);
 
 // indexed by enum type turd
@@ -796,7 +786,6 @@ double SystemBody::GetMaxChildOrbitalDistance() const
 	return AU * max;
 }
 
-
 /*
  * These are the nice floating point surface temp calculating turds.
  *
@@ -1261,8 +1250,8 @@ void StarSystem::Initialise() {
 	SystemGenerator generator = SystemGenerator(m_path);
 
 	m_name       = generator.Name();
-	m_unexplored = generator.Unexplored();
 	m_isCustom   = generator.IsCustom();
+	m_unexplored = generator.Unexplored();
 
 	m_hasCustomBodies = false;
 	if (m_isCustom) {
@@ -1277,21 +1266,11 @@ void StarSystem::Initialise() {
 		}
 	}
 
-	m_numStars = generator.NumStars();
-	rootBody   = generator.AddStarsTo(m_bodies);
-
-	// used in MakeShortDescription
-	// XXX except this does not reflect the actual mining happening in this system
-	m_metallicity = starMetallicities[rootBody->type];
-
-	int bodyCount = m_bodies.size();
-	for (int i=0; i<bodyCount; i++) {
-		if (m_bodies[i]->type != SystemBody::TYPE_GRAVPOINT) MakePlanetsAround(m_bodies[i], generator.rand1());
-	}
-
-	if (m_numStars > 1) MakePlanetsAround(generator.centGrav1(), generator.rand1());
-	if (m_numStars == 4) MakePlanetsAround(generator.centGrav2(), generator.rand1());
-
+	m_numStars    = generator.NumStars();
+	rootBody      = generator.AddStarsTo(m_bodies);
+	m_metallicity = generator.Metallicity();
+			               
+	generator.AddPlanetsTo(m_bodies);
 	Populate(true);
 
 #ifdef DEBUG_DUMP
@@ -1378,168 +1357,6 @@ fixed SystemBody::CalcHillRadius() const
 
 		//fixed hr = semiMajorAxis*(fixed(1,1) - eccentricity) *
 		//  fixedcuberoot(mass / (3*mprimary));
-	}
-}
-
-static fixed mass_from_disk_area(fixed a, fixed b, fixed max)
-{
-	// so, density of the disk with distance from star goes like so: 1 - x/discMax
-	//
-	// ---
-	//    ---
-	//       --- <- zero at discMax
-	//
-	// Which turned into a disc becomes 2*pi*x - (2*pi*x*x)/discMax
-	// Integral of which is: pi*x*x - (2/(3*discMax))*pi*x*x*x
-	//
-	// Because get_disc_density divides total_mass by
-	// mass_from_disk_area(0, discMax, discMax) to find density, the
-	// constant factors (pi) in this equation drop out.
-	//
-	b = (b > max ? max : b);
-	assert(b>=a);
-	assert(a<=max);
-	assert(b<=max);
-	assert(a>=0);
-	fixed one_over_3max = fixed(2,1)/(3*max);
-	return (b*b - one_over_3max*b*b*b) -
-		(a*a - one_over_3max*a*a*a);
-}
-
-static fixed get_disc_density(SystemBody *primary, fixed discMin, fixed discMax, fixed percentOfPrimaryMass)
-{
-	discMax = std::max(discMax, discMin);
-	fixed total = mass_from_disk_area(discMin, discMax, discMax);
-	return primary->GetMassInEarths() * percentOfPrimaryMass / total;
-}
-
-void StarSystem::MakePlanetsAround(SystemBody *primary, MTRand &rand)
-{
-	fixed discMin = fixed(0);
-	fixed discMax = fixed(5000,1);
-	fixed discDensity;
-
-	SystemBody::BodySuperType superType = primary->GetSuperType();
-
-	if (superType <= SystemBody::SUPERTYPE_STAR) {
-		if (primary->type == SystemBody::TYPE_GRAVPOINT) {
-			/* around a binary */
-			discMin = primary->children[0]->orbMax * SAFE_DIST_FROM_BINARY;
-		} else {
-			/* correct thing is roche limit, but lets ignore that because
-			 * it depends on body densities and gives some strange results */
-			discMin = 4 * primary->radius * AU_SOL_RADIUS;
-		}
-		if (primary->type == SystemBody::TYPE_WHITE_DWARF) {
-			// white dwarfs will have started as stars < 8 solar
-			// masses or so, so pick discMax according to that
-			// We give it a larger discMin because it used to be a much larger star
-			discMin = 1000 * primary->radius * AU_SOL_RADIUS;
-			discMax = 100 * rand.NFixed(2);		// rand-splitting again
-			discMax *= fixed::SqrtOf(fixed(1,2) + fixed(8,1)*rand.Fixed());
-		} else {
-			discMax = 100 * rand.NFixed(2)*fixed::SqrtOf(primary->mass);
-		}
-		// having limited discMin by bin-separation/fake roche, and
-		// discMax by some relation to star mass, we can now compute
-		// disc density
-		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax, fixed(2,100));
-
-		if ((superType == SystemBody::SUPERTYPE_STAR) && (primary->parent)) {
-			// limit planets out to 10% distance to star's binary companion
-			discMax = std::min(discMax, primary->orbMin * fixed(1,10));
-		}
-
-		/* in trinary and quaternary systems don't bump into other pair... */
-		if (m_numStars >= 3) {
-			discMax = std::min(discMax, fixed(5,100)*rootBody->children[0]->orbMin);
-		}
-	} else {
-		fixed primary_rad = primary->radius * AU_EARTH_RADIUS;
-		discMin = 4 * primary_rad;
-		/* use hill radius to find max size of moon system. for stars botch it.
-		   And use planets orbit around its primary as a scaler to a moon's orbit*/
-		discMax = std::min(discMax, fixed(1,20)*
-			primary->CalcHillRadius()*primary->orbMin*fixed(1,10));
-
-		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax, fixed(1,500));
-	}
-
-	//fixed discDensity = 20*rand.NFixed(4);
-
-	//printf("Around %s: Range %f -> %f AU\n", primary->name.c_str(), discMin.ToDouble(), discMax.ToDouble());
-
-	fixed initialJump = rand.NFixed(5);
-	fixed pos = (fixed(1,1) - initialJump)*discMin + (initialJump*discMax);
-
-	while (pos < discMax) {
-		// periapsis, apoapsis = closest, farthest distance in orbit
-		fixed periapsis = pos + pos*fixed(1,2)*rand.NFixed(2);/* + jump */;
-		fixed ecc = rand.NFixed(3);
-		fixed semiMajorAxis = periapsis / (fixed(1,1) - ecc);
-		fixed apoapsis = 2*semiMajorAxis - periapsis;
-		if (apoapsis > discMax) break;
-
-		fixed mass;
-		{
-			const fixed a = pos;
-			const fixed b = fixed(135,100)*apoapsis;
-			mass = mass_from_disk_area(a, b, discMax);
-			mass *= rand.Fixed() * discDensity;
-		}
-		if (mass < 0) {// hack around overflow
-			fprintf(stderr, "WARNING: planetary mass has overflowed! (child of %s)\n", primary->name.c_str());
-			mass = fixed(Sint64(0x7fFFffFFffFFffFFull));
-		}
-		assert(mass >= 0);
-
-		SystemBody *planet = NewBody();
-		planet->eccentricity = ecc;
-		planet->axialTilt = fixed(100,157)*rand.NFixed(2);
-		planet->semiMajorAxis = semiMajorAxis;
-		planet->type = SystemBody::TYPE_PLANET_TERRESTRIAL;
-		planet->seed = rand.Int32();
-		planet->tmp = 0;
-		planet->parent = primary;
-		planet->mass = mass;
-		planet->rotationPeriod = fixed(rand.Int32(1,200), 24);
-
-		planet->orbit.eccentricity = ecc.ToDouble();
-		planet->orbit.semiMajorAxis = semiMajorAxis.ToDouble() * AU;
-		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
-
-		double r1 = rand.Double(2*M_PI);		// function parameter evaluation order is implementation-dependent
-		double r2 = rand.NDouble(5);			// can't put two rands in the same expression
-		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(r1) *
-			matrix4x4d::RotateXMatrix(-0.5*M_PI + r2*M_PI/2.0);
-
-		planet->orbMin = periapsis;
-		planet->orbMax = apoapsis;
-		primary->children.push_back(planet);
-
-		/* minimum separation between planets of 1.35 */
-		pos = apoapsis * fixed(135,100);
-	}
-
-	int idx=0;
-	bool make_moons = superType <= SystemBody::SUPERTYPE_STAR;
-
-	for (std::vector<SystemBody*>::iterator i = primary->children.begin(); i != primary->children.end(); ++i) {
-		// planets around a binary pair [gravpoint] -- ignore the stars...
-		if ((*i)->GetSuperType() == SystemBody::SUPERTYPE_STAR) continue;
-		// Turn them into something!!!!!!!
-		char buf[8];
-		if (superType <= SystemBody::SUPERTYPE_STAR) {
-			// planet naming scheme
-			snprintf(buf, sizeof(buf), " %c", 'a'+idx);
-		} else {
-			// moon naming scheme
-			snprintf(buf, sizeof(buf), " %d", 1+idx);
-		}
-		(*i)->name = primary->name+buf;
-		(*i)->PickPlanetType(rand);
-		if (make_moons) MakePlanetsAround(*i, rand);
-		idx++;
 	}
 }
 
