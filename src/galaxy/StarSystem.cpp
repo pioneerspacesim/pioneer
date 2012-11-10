@@ -1277,8 +1277,8 @@ void StarSystem::Initialise() {
 		}
 	}
 
+	m_numStars = generator.NumStars();
 	rootBody   = generator.AddStarsTo(m_bodies);
-	m_numStars = generator.numStars();
 
 	// used in MakeShortDescription
 	// XXX except this does not reflect the actual mining happening in this system
