@@ -171,6 +171,7 @@ local personalInfo = function ()
 		player.female = not player.female
 		faceWidget = uilib.FaceWidget(player)
 		faceWidgetContainer:SetInnerWidget(faceWidget)
+		genderLabel:SetText(player.female and t("Female") or t("Male"))
 	end)
 
 	return
