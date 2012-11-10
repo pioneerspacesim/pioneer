@@ -1029,72 +1029,6 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 
 }
 
-void StarSystem::MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, MTRand &rand)
-{
-	sbody->type = type;
-	sbody->seed = rand.Int32();
-	sbody->radius = fixed(rand.Int32(starTypeInfo[type].radius[0],
-				starTypeInfo[type].radius[1]), 100);
-	sbody->mass = fixed(rand.Int32(starTypeInfo[type].mass[0],
-				starTypeInfo[type].mass[1]), 100);
-	sbody->averageTemp = rand.Int32(starTypeInfo[type].tempMin,
-				starTypeInfo[type].tempMax);
-}
-
-void StarSystem::MakeRandomStar(SystemBody *sbody, MTRand &rand)
-{
-	SystemBody::BodyType type = SystemBody::BodyType(rand.Int32(SystemBody::TYPE_STAR_MIN, SystemBody::TYPE_STAR_MAX));
-	MakeStarOfType(sbody, type, rand);
-}
-
-void StarSystem::MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, MTRand &rand)
-{
-	int tries = 16;
-	do {
-		MakeStarOfType(sbody, type, rand);
-	} while ((sbody->mass > maxMass) && (--tries));
-}
-
-void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, MTRand &rand)
-{
-	fixed m = a->mass + b->mass;
-	fixed a0 = b->mass / m;
-	fixed a1 = a->mass / m;
-	a->eccentricity = rand.NFixed(3);
-	int mul = 1;
-
-	do {
-		switch (rand.Int32(3)) {
-			case 2: a->semiMajorAxis = fixed(rand.Int32(100,10000), 100); break;
-			case 1: a->semiMajorAxis = fixed(rand.Int32(10,1000), 100); break;
-			default:
-			case 0: a->semiMajorAxis = fixed(rand.Int32(1,100), 100); break;
-		}
-		a->semiMajorAxis *= mul;
-		mul *= 2;
-	} while (a->semiMajorAxis < minDist);
-
-	a->orbit.eccentricity = a->eccentricity.ToDouble();
-	a->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a0).ToDouble();
-	a->orbit.period = 60*60*24*365* a->semiMajorAxis.ToDouble() * sqrt(a->semiMajorAxis.ToDouble() / m.ToDouble());
-
-	const float rotX = -0.5f*float(M_PI);//(float)(rand.Double()*M_PI/2.0);
-	const float rotY = static_cast<float>(rand.Double(M_PI));
-	a->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY) * matrix4x4d::RotateXMatrix(rotX);
-	b->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY-M_PI) * matrix4x4d::RotateXMatrix(rotX);
-
-	b->orbit.eccentricity = a->eccentricity.ToDouble();
-	b->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a1).ToDouble();
-	b->orbit.period = a->orbit.period;
-
-	fixed orbMin = a->semiMajorAxis - a->eccentricity*a->semiMajorAxis;
-	fixed orbMax = 2*a->semiMajorAxis - orbMin;
-	a->orbMin = orbMin;
-	b->orbMin = orbMin;
-	a->orbMax = orbMax;
-	b->orbMax = orbMax;
-}
-
 SystemBody::SystemBody()
 {
 	heightMapFilename = 0;
@@ -1356,7 +1290,7 @@ void StarSystem::Initialise() {
 		star[0]->name = generator.sector().m_systems[m_path.systemIndex].name;
 		star[0]->orbMin = 0;
 		star[0]->orbMax = 0;
-		MakeStarOfType(star[0], type, generator.rand1());
+		generator.MakeStarOfType(star[0], type);
 		rootBody = star[0];
 		m_numStars = 1;
 	} else {
@@ -1370,20 +1304,19 @@ void StarSystem::Initialise() {
 		star[0] = NewBody();
 		star[0]->name = generator.sector().m_systems[m_path.systemIndex].name+" A";
 		star[0]->parent = centGrav1;
-		MakeStarOfType(star[0], type, generator.rand1());
+		generator.MakeStarOfType(star[0], type);
 
 		star[1] = NewBody();
 		star[1]->name = generator.sector().m_systems[m_path.systemIndex].name+" B";
 		star[1]->parent = centGrav1;
-		MakeStarOfTypeLighterThan(star[1], generator.sector().m_systems[m_path.systemIndex].starType[1],
-				star[0]->mass, generator.rand1());
+		generator.MakeStarOfTypeLighterThan(star[1], generator.sector().m_systems[m_path.systemIndex].starType[1],star[0]->mass);
 
 		centGrav1->mass = star[0]->mass + star[1]->mass;
 		centGrav1->children.push_back(star[0]);
 		centGrav1->children.push_back(star[1]);
 		const fixed minDist1 = (star[0]->radius + star[1]->radius) * AU_SOL_RADIUS;
 try_that_again_guvnah:
-		MakeBinaryPair(star[0], star[1], minDist1, generator.rand1());
+		generator.MakeBinaryPair(star[0], star[1], minDist1);
 
 		m_numStars = 2;
 
@@ -1398,8 +1331,7 @@ try_that_again_guvnah:
 				star[2]->name = generator.sector().m_systems[m_path.systemIndex].name+" C";
 				star[2]->orbMin = 0;
 				star[2]->orbMax = 0;
-				MakeStarOfTypeLighterThan(star[2], generator.sector().m_systems[m_path.systemIndex].starType[2],
-					star[0]->mass, generator.rand1());
+				generator.MakeStarOfTypeLighterThan(star[2], generator.sector().m_systems[m_path.systemIndex].starType[2],star[0]->mass);
 				centGrav2 = star[2];
 				m_numStars = 3;
 			} else {
@@ -1411,17 +1343,15 @@ try_that_again_guvnah:
 				star[2] = NewBody();
 				star[2]->name = generator.sector().m_systems[m_path.systemIndex].name+" C";
 				star[2]->parent = centGrav2;
-				MakeStarOfTypeLighterThan(star[2], generator.sector().m_systems[m_path.systemIndex].starType[2],
-					star[0]->mass, generator.rand1());
+				generator.MakeStarOfTypeLighterThan(star[2], generator.sector().m_systems[m_path.systemIndex].starType[2], star[0]->mass);
 
 				star[3] = NewBody();
 				star[3]->name = generator.sector().m_systems[m_path.systemIndex].name+" D";
 				star[3]->parent = centGrav2;
-				MakeStarOfTypeLighterThan(star[3], generator.sector().m_systems[m_path.systemIndex].starType[3],
-					star[2]->mass, generator.rand1());
+				generator.MakeStarOfTypeLighterThan(star[3], generator.sector().m_systems[m_path.systemIndex].starType[3], star[2]->mass);
 
 				const fixed minDist2 = (star[2]->radius + star[3]->radius) * AU_SOL_RADIUS;
-				MakeBinaryPair(star[2], star[3], minDist2, generator.rand1());
+				generator.MakeBinaryPair(star[2], star[3], minDist2);
 				centGrav2->mass = star[2]->mass + star[3]->mass;
 				centGrav2->children.push_back(star[2]);
 				centGrav2->children.push_back(star[3]);
@@ -1435,7 +1365,7 @@ try_that_again_guvnah:
 			centGrav2->parent = superCentGrav;
 			rootBody = superCentGrav;
 			const fixed minDistSuper = star[0]->orbMax + star[2]->orbMax;
-			MakeBinaryPair(centGrav1, centGrav2, 4*minDistSuper, generator.rand1());
+			generator.MakeBinaryPair(centGrav1, centGrav2, 4*minDistSuper);
 			superCentGrav->children.push_back(centGrav1);
 			superCentGrav->children.push_back(centGrav2);
 

@@ -23,6 +23,10 @@ public:
 	const bool        Unexplored();
 	const bool        IsCustom();
 	
+	void MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type);
+	void MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass);
+	void MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist);
+
 	// state (eventually make private)
 	      MTRand&        rand1();
 	const Sector&        sector() { return m_sector; }

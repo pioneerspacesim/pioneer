@@ -258,6 +258,65 @@ const bool SystemGenerator::IsCustom()
 	return custom();
 }
 
+void SystemGenerator::MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type)
+{
+	MTRand &rand = rand1();
+	sbody->type = type;
+	sbody->seed = rand.Int32();
+	sbody->radius = fixed(rand.Int32(starTypeInfo[type].radius[0], starTypeInfo[type].radius[1]), 100);
+	sbody->mass = fixed(rand.Int32(starTypeInfo[type].mass[0], starTypeInfo[type].mass[1]), 100);
+	sbody->averageTemp = rand.Int32(starTypeInfo[type].tempMin, starTypeInfo[type].tempMax);
+}
+
+void SystemGenerator::MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass)
+{
+	int tries = 16;
+	do {
+		MakeStarOfType(sbody, type);
+	} while ((sbody->mass > maxMass) && (--tries));
+}
+
+void SystemGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist)
+{
+	MTRand &rand = rand1();
+	fixed m = a->mass + b->mass;
+	fixed a0 = b->mass / m;
+	fixed a1 = a->mass / m;
+	a->eccentricity = rand.NFixed(3);
+	int mul = 1;
+
+	do {
+		switch (rand.Int32(3)) {
+			case 2: a->semiMajorAxis = fixed(rand.Int32(100,10000), 100); break;
+			case 1: a->semiMajorAxis = fixed(rand.Int32(10,1000), 100); break;
+			default:
+			case 0: a->semiMajorAxis = fixed(rand.Int32(1,100), 100); break;
+		}
+		a->semiMajorAxis *= mul;
+		mul *= 2;
+	} while (a->semiMajorAxis < minDist);
+
+	a->orbit.eccentricity = a->eccentricity.ToDouble();
+	a->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a0).ToDouble();
+	a->orbit.period = 60*60*24*365* a->semiMajorAxis.ToDouble() * sqrt(a->semiMajorAxis.ToDouble() / m.ToDouble());
+
+	const float rotX = -0.5f*float(M_PI);//(float)(rand.Double()*M_PI/2.0);
+	const float rotY = static_cast<float>(rand.Double(M_PI));
+	a->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY) * matrix4x4d::RotateXMatrix(rotX);
+	b->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY-M_PI) * matrix4x4d::RotateXMatrix(rotX);
+
+	b->orbit.eccentricity = a->eccentricity.ToDouble();
+	b->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a1).ToDouble();
+	b->orbit.period = a->orbit.period;
+
+	fixed orbMin = a->semiMajorAxis - a->eccentricity*a->semiMajorAxis;
+	fixed orbMax = 2*a->semiMajorAxis - orbMin;
+	a->orbMin = orbMin;
+	b->orbMin = orbMin;
+	a->orbMax = orbMax;
+	b->orbMax = orbMax;
+}
+
 //-----------------------------------------------------------------------------
 // State
 
