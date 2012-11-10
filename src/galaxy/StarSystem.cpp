@@ -798,33 +798,6 @@ static void position_settlement_on_planet(SystemBody *b)
 	b->inclination = fixed(r1*10000,10000) + FIXED_PI/2;	// latitide
 	b->orbitalOffset = FIXED_PI/2;							// longitude
 
-//	printf("%s ** %.2f %.2f %.2f\n", b->name.c_str(),
-//			(b->orbit.rotMatrix * vector3d(0,1,0)).x,
-//			(b->orbit.rotMatrix * vector3d(0,1,0)).y,
-//			(b->orbit.rotMatrix * vector3d(0,1,0)).z);
-
-//	printf("%s ** %.2f %.2f %.2f\n", b->name.c_str(),
-//			(matrix4x4d::RotateYMatrix(M_PI/2) *
-//					matrix4x4d::RotateXMatrix(-0.5*M_PI + (2*M_PI*r1+M_PI/2)) * vector3d(0,1,0)).x,
-//			(matrix4x4d::RotateYMatrix(M_PI/2) *
-//					matrix4x4d::RotateXMatrix(-0.5*M_PI + (2*M_PI*r1+M_PI/2)) * vector3d(0,1,0)).y,
-//			(matrix4x4d::RotateYMatrix(M_PI/2) *
-//					matrix4x4d::RotateXMatrix(-0.5*M_PI + (2*M_PI*r1+M_PI/2)) * vector3d(0,1,0)).z);
-
-
-//	printf("%s ** %.2f %.2f %.2f\n", b->name.c_str(),
-//			(matrix4x4d::RotateXMatrix(-M_PI/2) * vector3d(0,1,0)).x,
-//			(matrix4x4d::RotateXMatrix(-M_PI/2) * vector3d(0,1,0)).y,
-//			(matrix4x4d::RotateXMatrix(-M_PI/2) * vector3d(0,1,0)).z);
-//	printf("%s ** %.2f %.2f %.2f\n", b->name.c_str(),
-//			(matrix4x4d::RotateYMatrix(-M_PI/2) * vector3d(0,1,0)).x,
-//			(matrix4x4d::RotateYMatrix(-M_PI/2) * vector3d(0,1,0)).y,
-//			(matrix4x4d::RotateYMatrix(-M_PI/2) * vector3d(0,1,0)).z);
-//	printf("%s ** %.2f %.2f %.2f\n", b->name.c_str(),
-//			(matrix4x4d::RotateZMatrix(-M_PI/2) * vector3d(0,1,0)).x,
-//			(matrix4x4d::RotateZMatrix(-M_PI/2) * vector3d(0,1,0)).y,
-//			(matrix4x4d::RotateZMatrix(-M_PI/2) * vector3d(0,1,0)).z);
-
 }
 
 double SystemBody::GetMaxChildOrbitalDistance() const
@@ -1163,11 +1136,18 @@ SystemBody::SystemBody()
 	orbitalPhaseAtStart = fixed(0);
 	orbMin = fixed(0);
 	orbMax = fixed(0);
-	semiMajorAxis = fixed(0); // otherwise is uninitialised
+	semiMajorAxis = fixed(0);
 	eccentricity = fixed(0);
 	orbitalOffset = fixed(0);
 	inclination = fixed(0);
 	axialTilt = fixed(0);
+
+	orbit.eccentricity = 0.0;
+	orbit.orbitalPhaseAtStart = 0.0;
+	orbit.semiMajorAxis = 0.0;
+	orbit.period = 0.0;
+
+
 	isCustomBody = false;
 }
 
@@ -2380,7 +2360,7 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
 				"\t:semi_major_axis(f(%d,%d))\n"
 				"\t:eccentricity(f(%d,%d))\n"
 				"\t:rotation_period(f(%d,%d))\n"
-			"\t:axial_tilt(fixed.deg2rad(f(%d,%d)))\n"
+				"\t:axial_tilt(fixed.deg2rad(f(%d,%d)))\n"
 				"\t:rotational_phase_at_start(fixed.deg2rad(f(%d,%d)))\n"
 				"\t:orbital_phase_at_start(fixed.deg2rad(f(%d,%d)))\n"
 				"\t:orbital_offset(fixed.deg2rad(f(%d,%d)))\n",
@@ -2417,11 +2397,11 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
 
 
 	if(body->children.size() > 0) {
-		code_list = code_list + ", {";
+		code_list = code_list + ", \n\t{\n";
 		for (Uint32 ii = 0; ii < body->children.size(); ii++) {
-			code_list = code_list + ExportBodyToLua(f, body->children[ii]) + ", \n";
+			code_list = code_list + "\t" + ExportBodyToLua(f, body->children[ii]) + ", \n";
 		}
-		code_list = code_list + "}";
+		code_list = code_list + "\t}";
 	}
 
 	return code_list;
