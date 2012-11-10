@@ -195,6 +195,7 @@ public:
 	fixed orbitalOffset;
 	fixed orbitalPhaseAtStart; // 0 to 2 pi
 	fixed axialTilt; // in radians
+	fixed inclination; // in radians, for surface bodies = latitude
 	int averageTemp;
 	BodyType type;
 	bool isCustomBody;

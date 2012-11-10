@@ -32,6 +32,8 @@ static const fixed PLANET_MIN_SEPARATION = fixed(135,100);
 static const fixed AU_SOL_RADIUS = fixed(305,65536);
 static const fixed AU_EARTH_RADIUS = fixed(3, 65536);
 
+static const fixed FIXED_PI = fixed(103993,33102);
+
 // indexed by enum type turd
 float StarSystem::starColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
@@ -785,6 +787,14 @@ static void position_settlement_on_planet(SystemBody *b)
 	double r1 = r.Double();		// can't put two rands in the same expression
 	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r1) *
 			matrix4x4d::RotateYMatrix(2*M_PI*r2);
+	// store latitude and longitude to equivalent orbital parameters to
+	// be accessible
+	//b->inclination =
+	printf("%s ** %.2f %.2f %.2f\n", b->name.c_str(),
+			(b->orbit.rotMatrix * vector3d(0,1,0)).x*180/M_PI,
+			(b->orbit.rotMatrix * vector3d(0,1,0)).y*180/M_PI,
+			(b->orbit.rotMatrix * vector3d(0,1,0)).z*180/M_PI);
+
 }
 
 double SystemBody::GetMaxChildOrbitalDistance() const
@@ -952,10 +962,16 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->orbitalOffset = csbody->orbitalOffset;
 		kid->orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
 		kid->axialTilt = csbody->axialTilt;
+		kid->inclination = csbody->latitude;
+		if(kid->type == SystemBody::TYPE_STARPORT_SURFACE)
+			kid->orbitalOffset = fixed(csbody->longitude*10000,10000);
 		kid->semiMajorAxis = csbody->semiMajorAxis;
 		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = csbody->semiMajorAxis.ToDouble() * AU;
-		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
+		if(parent->type == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
+			kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis*parent->GetMass()/(parent->GetMass()-kid->GetMass()), parent->GetMass());
+		else
+			kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
 		kid->orbit.orbitalPhaseAtStart = csbody->orbitalPhaseAtStart.ToDouble();
 		if (csbody->heightMapFilename.length() > 0) {
 			kid->heightMapFilename = csbody->heightMapFilename.c_str();
@@ -964,11 +980,15 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		if (kid->type == SystemBody::TYPE_STARPORT_SURFACE) {
 			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(csbody->longitude) *
 				matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
+			printf("%s -- %.2f %.2f %.2f\n", kid->name.c_str(),
+					(kid->orbit.rotMatrix * vector3d(0,1,0)).x*180/M_PI,
+					(kid->orbit.rotMatrix * vector3d(0,1,0)).y*180/M_PI,
+					(kid->orbit.rotMatrix * vector3d(0,1,0)).z*180/M_PI);
 		} else {
 			if (kid->orbit.semiMajorAxis < 1.2 * parent->GetRadius()) {
 				Error("%s's orbit is too close to its parent", csbody->name.c_str());
 			}
-			double offset = csbody->want_rand_offset ? rand.Double(2*M_PI) : (csbody->orbitalOffset.ToDouble()*M_PI);
+			double offset = csbody->want_rand_offset ? rand.Double(2*M_PI) : (csbody->orbitalOffset.ToDouble());
 			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(offset) * matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
 		}
 		if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
@@ -1080,7 +1100,7 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, MTR
 	a->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a0).ToDouble();
 	a->orbit.period = 60*60*24*365* a->semiMajorAxis.ToDouble() * sqrt(a->semiMajorAxis.ToDouble() / m.ToDouble());
 
-	const float rotX = -0.5f*float(M_PI);//(float)(rand.Double()*M_PI/2.0);
+	const float rotX = -0.5f*float(M_PI);
 	const float rotY = static_cast<float>(rand.Double(M_PI));
 	a->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY) * matrix4x4d::RotateXMatrix(rotX);
 	b->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY-M_PI) * matrix4x4d::RotateXMatrix(rotX);
@@ -1088,6 +1108,16 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, MTR
 	b->orbit.eccentricity = a->eccentricity.ToDouble();
 	b->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a1).ToDouble();
 	b->orbit.period = a->orbit.period;
+
+	//b->eccentricity = a->eccentricity;
+	//b->semiMajorAxis = a->semiMajorAxis * a1;
+	// store orbit parameters for later use to be accesible in other way than by rotMatrix
+	b->orbitalPhaseAtStart = b->orbitalPhaseAtStart + FIXED_PI;
+	b->orbitalPhaseAtStart = b->orbitalPhaseAtStart > 2*FIXED_PI ? b->orbitalPhaseAtStart - 2*FIXED_PI : b->orbitalPhaseAtStart;
+	a->orbitalPhaseAtStart = a->orbitalPhaseAtStart > 2*FIXED_PI ? a->orbitalPhaseAtStart - 2*FIXED_PI : a->orbitalPhaseAtStart;
+	a->orbitalPhaseAtStart = a->orbitalPhaseAtStart < 0 ? a->orbitalPhaseAtStart + 2*FIXED_PI : a->orbitalPhaseAtStart;
+	b->orbitalOffset = fixed(int(round(rotY*10000)),10000);
+	a->orbitalOffset = fixed(int(round(rotY*10000)),10000);
 
 	fixed orbMin = a->semiMajorAxis - a->eccentricity*a->semiMajorAxis;
 	fixed orbMax = 2*a->semiMajorAxis - orbMin;
@@ -1680,13 +1710,18 @@ void StarSystem::MakePlanetsAround(SystemBody *primary, MTRand &rand)
 
 		planet->orbit.eccentricity = ecc.ToDouble();
 		planet->orbit.semiMajorAxis = semiMajorAxis.ToDouble() * AU;
-		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
+		if(primary->type == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
+			planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis*primary->GetMass()/(primary->GetMass()-planet->GetMass()), primary->GetMass());
+		else
+			planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
 
 		double r1 = rand.Double(2*M_PI);		// function parameter evaluation order is implementation-dependent
 		double r2 = rand.NDouble(5);			// can't put two rands in the same expression
 		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(r1) *
 			matrix4x4d::RotateXMatrix(-0.5*M_PI + r2*M_PI/2.0);
 
+		planet->inclination = FIXED_PI;
+		planet->inclination *= r2/2.0;
 		planet->orbMin = periapsis;
 		planet->orbMax = apoapsis;
 		primary->children.push_back(planet);
@@ -2134,6 +2169,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		sp->orbit.semiMajorAxis = sp->semiMajorAxis.ToDouble()*AU;
 		sp->orbit.period = calc_orbital_period(sp->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);
 		sp->orbit.rotMatrix = matrix4x4d::Identity();
+		sp->inclination = fixed(0);
 		children.insert(children.begin(), sp);
 		system->m_spaceStations.push_back(sp);
 		sp->orbMin = sp->semiMajorAxis;
@@ -2259,53 +2295,90 @@ std::string ExportBodyToLua(FILE *f, SystemBody *body) {
 	for(unsigned int j = 0; j < code_name.length(); j++) {
 		if(code_name[j] == ',')
 			code_name[j] = 'X';
+		if(!((code_name[j] >= 'a' && code_name[j] <= 'z') ||
+				(code_name[j] >= 'A' && code_name[j] <= 'Z') ||
+				(code_name[j] >= '0' && code_name[j] <= '9')))
+			code_name[j] = 'Y';
 	}
 
-	std::string code_list = code_name + ",\n";
+	std::string code_list = code_name;
 
 	for(i = 0; ENUM_BodyType[i].name != 0; i++) {
 		if(ENUM_BodyType[i].value == body->type)
 			break;
 	}
 
-	fprintf(f,
-	"local %s = CustomSystemBody:new('%s', '%s')								\n"
-		"\t:radius(f(%d,%d))													\n"
-		"\t:mass(f(%d,%d))														\n"
-		"\t:temp(%d)															\n"
-		"\t:semi_major_axis(f(%d,%d))											\n"
-		"\t:eccentricity(f(%d,%d))												\n"
-		"\t:rotation_period(f(%d,%d))											\n"
-		"\t:axial_tilt(fixed.deg2rad(f(%d,%d)))									\n"
-		"\t:rotational_phase_at_start(fixed.deg2rad(f(%d,%d)))					\n"
-		"\t:metallicity(f(%d,%d))												\n"
-		"\t:volcanicity(f(%d,%d))												\n"
-		"\t:atmos_density(f(%d,%d))												\n"
-		"\t:atmos_oxidizing(f(%d,%d))											\n"
-		"\t:ocean_cover(f(%d,%d))												\n"
-		"\t:ice_cover(f(%d,%d))													\n"
-		"\t:life(f(%d,%d))  \n\n",
-		code_name.c_str(),
-		body->name.c_str(), ENUM_BodyType[i].name,
-		int(round(body->radius.ToDouble()*multiplier)), multiplier,
-		int(round(body->mass.ToDouble()*multiplier)), multiplier,
-		body->averageTemp,
-		int(round(body->semiMajorAxis.ToDouble()*multiplier)), multiplier,
-		int(round(body->eccentricity.ToDouble()*multiplier)), multiplier,
-		int(round(body->rotationPeriod.ToDouble()*multiplier)), multiplier,
-		int(round(body->axialTilt.ToDouble()*multiplier)), multiplier,
-		int(round(body->rotationalPhaseAtStart.ToDouble()*multiplier)), multiplier,
-		int(round(body->m_metallicity.ToDouble()*multiplier)), multiplier,
-		int(round(body->m_volcanicity.ToDouble()*multiplier)), multiplier,
-		int(round(body->m_volatileGas.ToDouble()*multiplier)), multiplier,
-		int(round(body->m_atmosOxidizing.ToDouble()*multiplier)), multiplier,
-		int(round(body->m_volatileLiquid.ToDouble()*multiplier)), multiplier,
-		int(round(body->m_volatileIces.ToDouble()*multiplier)), multiplier,
-		int(round(body->m_life.ToDouble()*multiplier)), multiplier
-		 );
+	if(body->type == SystemBody::TYPE_STARPORT_SURFACE) {
+		fprintf(f,
+			"local %s = CustomSystemBody:new(\"%s\", '%s')\n"
+				"\t:latitude(math.deg2rad(%.1f))\n"
+                "\t:longitude(math.deg2rad(%.1f))\n",
 
-	for (Uint32 ii = 0; ii < body->children.size(); ii++) {
-		code_list = code_list + ExportBodyToLua(f, body->children[ii]) + ",\n";
+				code_name.c_str(),
+				body->name.c_str(), ENUM_BodyType[i].name,
+				body->inclination.ToDouble()*180/M_PI,
+				body->orbitalOffset.ToDouble()*180/M_PI
+				);
+	} else {
+
+		fprintf(f,
+				"local %s = CustomSystemBody:new(\"%s\", '%s')\n"
+				"\t:radius(f(%d,%d))\n"
+				"\t:mass(f(%d,%d))\n",
+				code_name.c_str(),
+				body->name.c_str(), ENUM_BodyType[i].name,
+				int(round(body->radius.ToDouble()*multiplier)), multiplier,
+				int(round(body->mass.ToDouble()*multiplier)), multiplier
+		);
+
+		if(body->type != SystemBody::TYPE_GRAVPOINT)
+		fprintf(f,
+				"\t:temp(%d)\n"
+				"\t:semi_major_axis(f(%d,%d))\n"
+				"\t:eccentricity(f(%d,%d))\n"
+				"\t:rotation_period(f(%d,%d))\n"
+			"\t:axial_tilt(fixed.deg2rad(f(%d,%d)))\n"
+				"\t:rotational_phase_at_start(fixed.deg2rad(f(%d,%d)))\n"
+				"\t:orbital_phase_at_start(fixed.deg2rad(f(%d,%d)))\n"
+				"\t:orbital_offset(fixed.deg2rad(f(%d,%d)))\n",
+			body->averageTemp,
+			int(round(body->orbit.semiMajorAxis/AU*multiplier)), multiplier,
+			int(round(body->orbit.eccentricity*multiplier)), multiplier,
+			int(round(body->rotationPeriod.ToDouble()*multiplier)), multiplier,
+			int(round(body->axialTilt.ToDouble()*multiplier)), multiplier,
+			int(round(body->rotationalPhaseAtStart.ToDouble()*multiplier*180/M_PI)), multiplier,
+			int(round(body->orbitalPhaseAtStart.ToDouble()*multiplier*180/M_PI)), multiplier,
+			int(round(body->orbitalOffset.ToDouble()*multiplier*180/M_PI)), multiplier
+		);
+
+		if(body->type == SystemBody::TYPE_PLANET_TERRESTRIAL)
+			fprintf(f,
+					"\t:metallicity(f(%d,%d))\n"
+					"\t:volcanicity(f(%d,%d))\n"
+					"\t:atmos_density(f(%d,%d))\n"
+					"\t:atmos_oxidizing(f(%d,%d))\n"
+					"\t:ocean_cover(f(%d,%d))\n"
+					"\t:ice_cover(f(%d,%d))\n"
+					"\t:life(f(%d,%d))\n",
+					int(round(body->m_metallicity.ToDouble()*multiplier)), multiplier,
+					int(round(body->m_volcanicity.ToDouble()*multiplier)), multiplier,
+					int(round(body->m_volatileGas.ToDouble()*multiplier)), multiplier,
+			int(round(body->m_atmosOxidizing.ToDouble()*multiplier)), multiplier,
+			int(round(body->m_volatileLiquid.ToDouble()*multiplier)), multiplier,
+			int(round(body->m_volatileIces.ToDouble()*multiplier)), multiplier,
+			int(round(body->m_life.ToDouble()*multiplier)), multiplier
+		);
+	}
+
+	fprintf(f, "\n");
+
+
+	if(body->children.size() > 0) {
+		code_list = code_list + ", {";
+		for (Uint32 ii = 0; ii < body->children.size(); ii++) {
+			code_list = code_list + ExportBodyToLua(f, body->children[ii]) + ", \n";
+		}
+		code_list = code_list + "}";
 	}
 
 	return code_list;
@@ -2355,64 +2428,16 @@ void StarSystem::ExportToLua(const char *filename) {
 			GetName().c_str(), stars_in_system.c_str(), ENUM_PolitGovType[j].name, GetShortDescription(), GetLongDescription());
 
 
-	/*
-
-	local earth_starports = {
-		CustomSystemBody:new('Shanghai', 'STARPORT_SURFACE')
-			:latitude(math.deg2rad(31))
-			:longitude(math.deg2rad(-121)),
-		CustomSystemBody:new('Mexico City', 'STARPORT_SURFACE')
-			:latitude(math.deg2rad(19))
-			:longitude(math.deg2rad(99)),
-		CustomSystemBody:new('London', 'STARPORT_SURFACE')
-			:latitude(math.deg2rad(51))
-			:longitude(0),
-		CustomSystemBody:new('Moscow', 'STARPORT_SURFACE')
-			:latitude(math.deg2rad(55))
-			:longitude(math.deg2rad(-37.5)),
-		CustomSystemBody:new('Brasilia', 'STARPORT_SURFACE')
-			:latitude(math.deg2rad(-15.5))
-			:longitude(math.deg2rad(48)),
-		CustomSystemBody:new('Los Angeles', 'STARPORT_SURFACE')
-			:latitude(math.deg2rad(34))
-			:longitude(math.deg2rad(118)),
-		CustomSystemBody:new('Gates Spaceport', 'STARPORT_ORBITAL')
-			:semi_major_axis(f(100,100000))
-			:rotation_period(f(1,24*60*3)),
-	}
-
-	s:bodies(sol, {
-		mercury,
-		venus,
-		earth,
-			earth_starports,
-			moon,
-		mars,
-			mars_starports,
-			mars_moons,
-		jupiter,
-			jupiter_moons,
-		saturn,
-			saturn_moons,
-		uranus,
-			uranus_moons,
-		neptune,
-			neptune_moons,
-		pluto,
-			pluto_starports,
-			charon,
-	})
-
-	s:add_to_sector(0,0,0,v(0.001,0.001,0.001))
-	*/
-
-	fprintf(f, "s:bodies(%s)\n\n", ExportBodyToLua(f, rootBody).c_str());
+	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, rootBody).c_str());
 
 	Sector sec(GetPath().sectorX, GetPath().sectorY, GetPath().sectorZ);
 	SystemPath pa = GetPath();
+
 	fprintf(f, "system:add_to_sector(%d,%d,%d,v(%.4f,%.4f,%.4f))\n",
 			pa.sectorX, pa.sectorY, pa.sectorZ,
-			sec.m_systems[pa.systemIndex].p.x,
-			sec.m_systems[pa.systemIndex].p.y,
-			sec.m_systems[pa.systemIndex].p.z);
+			sec.m_systems[pa.systemIndex].p.x/Sector::SIZE,
+			sec.m_systems[pa.systemIndex].p.y/Sector::SIZE,
+			sec.m_systems[pa.systemIndex].p.z/Sector::SIZE);
+
+	fclose(f);
 }
