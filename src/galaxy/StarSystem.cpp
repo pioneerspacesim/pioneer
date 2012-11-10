@@ -1328,15 +1328,14 @@ void StarSystem::Initialise() {
 
 	m_name       = generator.Name();
 	m_unexplored = generator.Unexplored();
+	m_isCustom   = generator.IsCustom();
 
-	m_isCustom = m_hasCustomBodies = false;
-	if (generator.sector().m_systems[m_path.systemIndex].customSys) {
-		m_isCustom = true;
-		const CustomSystem *custom = generator.sector().m_systems[m_path.systemIndex].customSys;
+	m_hasCustomBodies = false;
+	if (m_isCustom) {
+		const CustomSystem *custom = generator.custom();
 		m_numStars = custom->numStars;
 		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
 		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
-		if (!custom->want_rand_explored) m_unexplored = !custom->explored;
 		if (!custom->IsRandom()) {
 			m_hasCustomBodies = true;
 			GenerateFromCustom(generator.sector().m_systems[m_path.systemIndex].customSys, generator.rand1());

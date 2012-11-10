@@ -8,7 +8,6 @@
 #include "mtrand.h"
 #include "galaxy/StarSystem.h"
 
-
 /*
  * Functionality:
  *   - Generate Star System detail for a <StarSystem> based on that <StarSystem's> path
@@ -19,19 +18,21 @@ class SystemGenerator {
 public:
 	SystemGenerator(SystemPath& path);
 	~SystemGenerator();
-
+	 
 	const std::string Name();
 	const bool        Unexplored();
-
+	const bool        IsCustom();
+	
 	// state (eventually make private)
-	MTRand& rand1();
-	Sector& sector() { return m_sector; }
+	      MTRand&        rand1();
+	const Sector&        sector() { return m_sector; }
+	const CustomSystem * custom();
 
 private:
 	SystemPath m_path;
 	Sector     m_sector;
-	int        m_seed;
-	
+	int        m_seed;	
+
 	MTRand*    m_rand1;
 };
 
