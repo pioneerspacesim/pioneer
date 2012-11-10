@@ -513,7 +513,9 @@ static double MaxEffectRad(Body *body, Ship *ship)
 		double brad = body->GetBoundingRadius();
 		return std::max(brad*1.1, brad+2000.0);
 	}
-	double frad = static_cast<TerrainBody *>(body)->GetMaxFeatureRadius() * 1.1;
+	double frad = static_cast<TerrainBody *>(body)->GetMaxFeatureRadius() + 200.0;
+	if(body->IsType(Object::PLANET))
+		frad = std::max(frad, static_cast<Planet*>(body)->GetAtmosphereRadius());
 	return std::max(frad, sqrt(G * body->GetMass() / ship->GetAccelMin()));
 }
 
@@ -760,7 +762,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 		}
 		else {							// same thing for 2/3/4
 			if (!m_child) m_child =
-				new AICmdFlyAround(m_ship, body, erad, 0.0, m_targframe, m_posoff);
+				new AICmdFlyAround(m_ship, body, erad*1.05, 0.0, m_targframe, m_posoff);
 			ProcessChild(); m_state = -5; return false;
 		}
 	}

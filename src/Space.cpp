@@ -486,8 +486,12 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 
 		assert(sbody->rotationPeriod != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str());
-		// rotating frame has size of GeoSphere terrain bounding sphere
-		rotFrame->SetRadius(b->GetBoundingRadius());
+
+		// rotating frame has atmosphere radius or feature height, whichever is larger
+		double frad = static_cast<Planet*>(b)->GetMaxFeatureRadius() + 200.0;
+		frad = std::max(frad, static_cast<Planet*>(b)->GetAtmosphereRadius());
+		rotFrame->SetRadius(frad);
+
 		matrix4x4d rotMatrix = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
 		vector3d angVel = vector3d(0.0, 2.0*M_PI/sbody->GetRotationPeriod(), 0.0);
 		rotFrame->SetAngVelocity(angVel);
