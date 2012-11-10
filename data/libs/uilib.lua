@@ -29,7 +29,8 @@ uilib = { -- Suggestions for a better namespace gladly accepted
 -- Example:
 --
 -- > client = Character.New({title='Entrepreneur'}) -- random person with specified title
--- > form:PackEnd(uilib.FaceWidget(client))         -- Their picture, with name and "Entrepreneur" on a caption
+-- > form:PackEnd(uilib.FaceWidget(client))         -- Their picture, with name and
+-- >                                                -- "Entrepreneur" on a caption
 --
 -- Availability:
 --
