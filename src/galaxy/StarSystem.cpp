@@ -785,15 +785,45 @@ static void position_settlement_on_planet(SystemBody *b)
 	// used for orientation on planet surface
 	double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
 	double r1 = r.Double();		// can't put two rands in the same expression
+	// XXX: This is probably wrong, since the starport position is calculated as
+	// 		b->orbit.rotMatrix * vector3d(0,1,0), the first rotation is dummy.
+	//		Correct would be b->orbit.rotMatrix = RotateYMatrix(2*M_PI*r2) *
+	//		matrix4x4d::RotateXMatrix(-0.5*M_PI + 2*M_PI*r1) and r1, r2
+	//		would give latitude/longitude.
 	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r1) *
 			matrix4x4d::RotateYMatrix(2*M_PI*r2);
+
 	// store latitude and longitude to equivalent orbital parameters to
-	// be accessible
-	//b->inclination =
-	printf("%s ** %.2f %.2f %.2f\n", b->name.c_str(),
-			(b->orbit.rotMatrix * vector3d(0,1,0)).x*180/M_PI,
-			(b->orbit.rotMatrix * vector3d(0,1,0)).y*180/M_PI,
-			(b->orbit.rotMatrix * vector3d(0,1,0)).z*180/M_PI);
+	// be accessible easier
+	b->inclination = fixed(r1*10000,10000) + FIXED_PI/2;	// latitide
+	b->orbitalOffset = FIXED_PI/2;							// longitude
+
+//	printf("%s ** %.2f %.2f %.2f\n", b->name.c_str(),
+//			(b->orbit.rotMatrix * vector3d(0,1,0)).x,
+//			(b->orbit.rotMatrix * vector3d(0,1,0)).y,
+//			(b->orbit.rotMatrix * vector3d(0,1,0)).z);
+
+//	printf("%s ** %.2f %.2f %.2f\n", b->name.c_str(),
+//			(matrix4x4d::RotateYMatrix(M_PI/2) *
+//					matrix4x4d::RotateXMatrix(-0.5*M_PI + (2*M_PI*r1+M_PI/2)) * vector3d(0,1,0)).x,
+//			(matrix4x4d::RotateYMatrix(M_PI/2) *
+//					matrix4x4d::RotateXMatrix(-0.5*M_PI + (2*M_PI*r1+M_PI/2)) * vector3d(0,1,0)).y,
+//			(matrix4x4d::RotateYMatrix(M_PI/2) *
+//					matrix4x4d::RotateXMatrix(-0.5*M_PI + (2*M_PI*r1+M_PI/2)) * vector3d(0,1,0)).z);
+
+
+//	printf("%s ** %.2f %.2f %.2f\n", b->name.c_str(),
+//			(matrix4x4d::RotateXMatrix(-M_PI/2) * vector3d(0,1,0)).x,
+//			(matrix4x4d::RotateXMatrix(-M_PI/2) * vector3d(0,1,0)).y,
+//			(matrix4x4d::RotateXMatrix(-M_PI/2) * vector3d(0,1,0)).z);
+//	printf("%s ** %.2f %.2f %.2f\n", b->name.c_str(),
+//			(matrix4x4d::RotateYMatrix(-M_PI/2) * vector3d(0,1,0)).x,
+//			(matrix4x4d::RotateYMatrix(-M_PI/2) * vector3d(0,1,0)).y,
+//			(matrix4x4d::RotateYMatrix(-M_PI/2) * vector3d(0,1,0)).z);
+//	printf("%s ** %.2f %.2f %.2f\n", b->name.c_str(),
+//			(matrix4x4d::RotateZMatrix(-M_PI/2) * vector3d(0,1,0)).x,
+//			(matrix4x4d::RotateZMatrix(-M_PI/2) * vector3d(0,1,0)).y,
+//			(matrix4x4d::RotateZMatrix(-M_PI/2) * vector3d(0,1,0)).z);
 
 }
 
@@ -962,7 +992,7 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->orbitalOffset = csbody->orbitalOffset;
 		kid->orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
 		kid->axialTilt = csbody->axialTilt;
-		kid->inclination = csbody->latitude;
+		kid->inclination = fixed(csbody->latitude*10000,10000);
 		if(kid->type == SystemBody::TYPE_STARPORT_SURFACE)
 			kid->orbitalOffset = fixed(csbody->longitude*10000,10000);
 		kid->semiMajorAxis = csbody->semiMajorAxis;
@@ -980,10 +1010,6 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		if (kid->type == SystemBody::TYPE_STARPORT_SURFACE) {
 			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(csbody->longitude) *
 				matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
-			printf("%s -- %.2f %.2f %.2f\n", kid->name.c_str(),
-					(kid->orbit.rotMatrix * vector3d(0,1,0)).x*180/M_PI,
-					(kid->orbit.rotMatrix * vector3d(0,1,0)).y*180/M_PI,
-					(kid->orbit.rotMatrix * vector3d(0,1,0)).z*180/M_PI);
 		} else {
 			if (kid->orbit.semiMajorAxis < 1.2 * parent->GetRadius()) {
 				Error("%s's orbit is too close to its parent", csbody->name.c_str());
@@ -1049,6 +1075,10 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 	CustomGetKidsOf(rootBody, csbody->children, &humanInfestedness, rand);
 	Populate(false);
 
+	char filename[500];
+	snprintf(filename, 500, "tmp-sys/%s.lua", GetName().c_str());
+	ExportToLua(filename);
+
 }
 
 void StarSystem::MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, MTRand &rand)
@@ -1109,8 +1139,6 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, MTR
 	b->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a1).ToDouble();
 	b->orbit.period = a->orbit.period;
 
-	//b->eccentricity = a->eccentricity;
-	//b->semiMajorAxis = a->semiMajorAxis * a1;
 	// store orbit parameters for later use to be accesible in other way than by rotMatrix
 	b->orbitalPhaseAtStart = b->orbitalPhaseAtStart + FIXED_PI;
 	b->orbitalPhaseAtStart = b->orbitalPhaseAtStart > 2*FIXED_PI ? b->orbitalPhaseAtStart - 2*FIXED_PI : b->orbitalPhaseAtStart;
@@ -1133,6 +1161,13 @@ SystemBody::SystemBody()
 	heightMapFractal = 0;
 	rotationalPhaseAtStart = fixed(0);
 	orbitalPhaseAtStart = fixed(0);
+	orbMin = fixed(0);
+	orbMax = fixed(0);
+	semiMajorAxis = fixed(0); // otherwise is uninitialised
+	eccentricity = fixed(0);
+	orbitalOffset = fixed(0);
+	inclination = fixed(0);
+	axialTilt = fixed(0);
 	isCustomBody = false;
 }
 
@@ -1395,8 +1430,9 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Fact
 		star[0] = NewBody();
 		star[0]->parent = NULL;
 		star[0]->name = s.m_systems[m_path.systemIndex].name;
-		star[0]->orbMin = 0;
-		star[0]->orbMax = 0;
+		star[0]->orbMin = fixed(0);
+		star[0]->orbMax = fixed(0);
+
 		MakeStarOfType(star[0], type, rand);
 		rootBody = star[0];
 		m_numStars = 1;
@@ -2285,7 +2321,7 @@ void StarSystem::ShrinkCache()
 	}
 }
 
-std::string ExportBodyToLua(FILE *f, SystemBody *body) {
+std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
 	const int multiplier = 10000;
 	int i;
 
@@ -2333,6 +2369,7 @@ std::string ExportBodyToLua(FILE *f, SystemBody *body) {
 
 		if(body->type != SystemBody::TYPE_GRAVPOINT)
 		fprintf(f,
+				"\t:seed(%u)\n"
 				"\t:temp(%d)\n"
 				"\t:semi_major_axis(f(%d,%d))\n"
 				"\t:eccentricity(f(%d,%d))\n"
@@ -2341,7 +2378,7 @@ std::string ExportBodyToLua(FILE *f, SystemBody *body) {
 				"\t:rotational_phase_at_start(fixed.deg2rad(f(%d,%d)))\n"
 				"\t:orbital_phase_at_start(fixed.deg2rad(f(%d,%d)))\n"
 				"\t:orbital_offset(fixed.deg2rad(f(%d,%d)))\n",
-			body->averageTemp,
+			body->seed, body->averageTemp,
 			int(round(body->orbit.semiMajorAxis/AU*multiplier)), multiplier,
 			int(round(body->orbit.eccentricity*multiplier)), multiplier,
 			int(round(body->rotationPeriod.ToDouble()*multiplier)), multiplier,
@@ -2385,7 +2422,7 @@ std::string ExportBodyToLua(FILE *f, SystemBody *body) {
 
 }
 
-std::string GetStarTypes(SystemBody *body) {
+std::string StarSystem::GetStarTypes(SystemBody *body) {
 	int i = 0;
 	std::string types = "";
 

@@ -291,6 +291,8 @@ private:
 	void CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, MTRand &rand);
 	void GenerateFromCustom(const CustomSystem *, MTRand &rand);
 	void Populate(bool addSpaceStations);
+	std::string ExportBodyToLua(FILE *f, SystemBody *body);
+	std::string GetStarTypes(SystemBody *body);
 
 	SystemPath m_path;
 	int m_numStars;
