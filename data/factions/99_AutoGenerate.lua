@@ -36,9 +36,9 @@ local possible_illegal = { 'NERVE_GAS', 'SLAVES', 'BATTLE_WEAPONS', 'NARCOTICS',
 
 
 -- chances that goods in the possible_illegal list are actually illegal
-local illegal_chance_facbase = 0.8	-- chance that first good will be added to the illegal list
+local illegal_chance_facbase = 0.8  -- chance that first good will be added to the illegal list
 local illegal_chance_facdec  = 0.06 -- decrease in chance as we go through the list
-local illegal_system_min     = 25	-- minimum illegal goods percentage if the good is in the list
+local illegal_system_min     = 25   -- minimum illegal goods percentage if the good is in the list
 local illegal_system_max     = 175  -- maximun illegal goods percentage > 100 is coerced to 100
 							
 -- limits to the number government types allowed in a faction
@@ -46,21 +46,22 @@ local min_govtypes = 2
 local max_govtypes = 6
 				 
 -- maximum number of factions to generate
---	* can't be more than available names (prefixes*suffixes)
+--  * can't be more than available names (prefixes*suffixes)
 --  * not all factions will be created as a faction can't be based in an empty sector
---  * for now more factions == richer environment, but worse sector view performance
+--  * for now more factions == richer environment, but potentially worse sector view performance
 local num_factions = 100  
 
 -- earliest and latest founding date for the factions we're generating
 local earliest_founding = 3050 		-- assuming feds are one of the original factions
 local latest_founding   = 3180
 
--- minium and maxium expansion rate
+-- minimum and maxium expansion rate
 local min_expansion = 0.5
 local max_expansion = 2.0	-- makes max radius 300 ly
 
--- farthest sector x,y or z we will place homeworlds
-local sector_cutoff = 60	-- -60..60
+-- constraints on sectors we will place homeworlds
+local sector_cutoff  = 60	-- -60..60 : maximum/minimum x,y or z
+local sector_yz_tilt = 1     -- fixed relationship between y and x
 
 -- salt for the hash, changing it produce a different faction map
 local salt = 'djk;aurn'
@@ -108,7 +109,10 @@ for i,faction_name in ipairs(faction_names) do
 	-- roll a homeworld sector
 	local sector_x = util.hash_random(seed .. 'x', -sector_cutoff, sector_cutoff)
 	local sector_y = util.hash_random(seed .. 'y', -sector_cutoff, sector_cutoff)
-	local sector_z = util.hash_random(seed .. 'x', -sector_cutoff, sector_cutoff)
+	
+	-- deliberately don't make z independent, as we have so much volume to fill we 
+	-- get more interesting border layouts when generating the factions on one plane
+	local sector_z = sector_y * sector_yz_tilt
 	
 	---------------------------------------------------------------------------	
 	-- roll a faction colour 
@@ -129,7 +133,7 @@ for i,faction_name in ipairs(faction_names) do
 	local f = Faction:new(faction_name)
 		:description_short(faction_name)
 		:description(string.format('Very little is currently known about The %s',faction_name))
-		:homeworld(sector_x, sector_y, sector_y, MAGIC_SYSTEM_INDEX, 0)
+		:homeworld(sector_x, sector_y, sector_z, MAGIC_SYSTEM_INDEX, 0)
 		:foundingDate(util.hash_random(seed, earliest_founding, latest_founding))
 		:expansionRate((util.hash_random(seed)  * (max_expansion - min_expansion)) + min_expansion)
 		:colour(r,g,b)
