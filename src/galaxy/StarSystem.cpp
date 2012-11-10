@@ -1307,15 +1307,20 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 }
 
 
+StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Faction::BAD_FACTION_IDX)
+{
+	assert(path.IsSystemPath());
+	Initialise();
+}
+
 /*
  * As my excellent comrades have pointed out, choices that depend on floating
  * point crap will result in different universes on different platforms.
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Faction::BAD_FACTION_IDX)
+void StarSystem::Initialise()
 {
-	assert(path.IsSystemPath());
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 	rootBody = 0;
 

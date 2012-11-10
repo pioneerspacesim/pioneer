@@ -273,6 +273,8 @@ private:
 	StarSystem(const SystemPath &path);
 	~StarSystem();
 
+	void Initialise();
+
 	SystemBody *NewBody() {
 		SystemBody *body = new SystemBody;
 		body->path = m_path;
