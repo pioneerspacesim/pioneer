@@ -1277,109 +1277,20 @@ void StarSystem::Initialise() {
 		}
 	}
 
-	SystemBody *star[4];
-	SystemBody *centGrav1(NULL), *centGrav2(NULL);
-
-	const int numStars = generator.sector().m_systems[m_path.systemIndex].numStars;
-	assert((numStars >= 1) && (numStars <= 4));
-
-	if (numStars == 1) {
-		SystemBody::BodyType type = generator.sector().m_systems[m_path.systemIndex].starType[0];
-		star[0] = NewBody();
-		star[0]->parent = NULL;
-		star[0]->name = generator.sector().m_systems[m_path.systemIndex].name;
-		star[0]->orbMin = 0;
-		star[0]->orbMax = 0;
-		generator.MakeStarOfType(star[0], type);
-		rootBody = star[0];
-		m_numStars = 1;
-	} else {
-		centGrav1 = NewBody();
-		centGrav1->type = SystemBody::TYPE_GRAVPOINT;
-		centGrav1->parent = NULL;
-		centGrav1->name = generator.sector().m_systems[m_path.systemIndex].name+" A,B";
-		rootBody = centGrav1;
-
-		SystemBody::BodyType type = generator.sector().m_systems[m_path.systemIndex].starType[0];
-		star[0] = NewBody();
-		star[0]->name = generator.sector().m_systems[m_path.systemIndex].name+" A";
-		star[0]->parent = centGrav1;
-		generator.MakeStarOfType(star[0], type);
-
-		star[1] = NewBody();
-		star[1]->name = generator.sector().m_systems[m_path.systemIndex].name+" B";
-		star[1]->parent = centGrav1;
-		generator.MakeStarOfTypeLighterThan(star[1], generator.sector().m_systems[m_path.systemIndex].starType[1],star[0]->mass);
-
-		centGrav1->mass = star[0]->mass + star[1]->mass;
-		centGrav1->children.push_back(star[0]);
-		centGrav1->children.push_back(star[1]);
-		const fixed minDist1 = (star[0]->radius + star[1]->radius) * AU_SOL_RADIUS;
-try_that_again_guvnah:
-		generator.MakeBinaryPair(star[0], star[1], minDist1);
-
-		m_numStars = 2;
-
-		if (numStars > 2) {
-			if (star[0]->orbMax > fixed(100,1)) {
-				// reduce to < 100 AU...
-				goto try_that_again_guvnah;
-			}
-			// 3rd and maybe 4th star
-			if (numStars == 3) {
-				star[2] = NewBody();
-				star[2]->name = generator.sector().m_systems[m_path.systemIndex].name+" C";
-				star[2]->orbMin = 0;
-				star[2]->orbMax = 0;
-				generator.MakeStarOfTypeLighterThan(star[2], generator.sector().m_systems[m_path.systemIndex].starType[2],star[0]->mass);
-				centGrav2 = star[2];
-				m_numStars = 3;
-			} else {
-				centGrav2 = NewBody();
-				centGrav2->type = SystemBody::TYPE_GRAVPOINT;
-				centGrav2->name = generator.sector().m_systems[m_path.systemIndex].name+" C,D";
-				centGrav2->orbMax = 0;
-
-				star[2] = NewBody();
-				star[2]->name = generator.sector().m_systems[m_path.systemIndex].name+" C";
-				star[2]->parent = centGrav2;
-				generator.MakeStarOfTypeLighterThan(star[2], generator.sector().m_systems[m_path.systemIndex].starType[2], star[0]->mass);
-
-				star[3] = NewBody();
-				star[3]->name = generator.sector().m_systems[m_path.systemIndex].name+" D";
-				star[3]->parent = centGrav2;
-				generator.MakeStarOfTypeLighterThan(star[3], generator.sector().m_systems[m_path.systemIndex].starType[3], star[2]->mass);
-
-				const fixed minDist2 = (star[2]->radius + star[3]->radius) * AU_SOL_RADIUS;
-				generator.MakeBinaryPair(star[2], star[3], minDist2);
-				centGrav2->mass = star[2]->mass + star[3]->mass;
-				centGrav2->children.push_back(star[2]);
-				centGrav2->children.push_back(star[3]);
-				m_numStars = 4;
-			}
-			SystemBody *superCentGrav = NewBody();
-			superCentGrav->type = SystemBody::TYPE_GRAVPOINT;
-			superCentGrav->parent = NULL;
-			superCentGrav->name = generator.sector().m_systems[m_path.systemIndex].name;
-			centGrav1->parent = superCentGrav;
-			centGrav2->parent = superCentGrav;
-			rootBody = superCentGrav;
-			const fixed minDistSuper = star[0]->orbMax + star[2]->orbMax;
-			generator.MakeBinaryPair(centGrav1, centGrav2, 4*minDistSuper);
-			superCentGrav->children.push_back(centGrav1);
-			superCentGrav->children.push_back(centGrav2);
-
-		}
-	}
+	rootBody   = generator.AddStarsTo(m_bodies);
+	m_numStars = generator.numStars();
 
 	// used in MakeShortDescription
 	// XXX except this does not reflect the actual mining happening in this system
 	m_metallicity = starMetallicities[rootBody->type];
 
-	for (int i=0; i<m_numStars; i++) MakePlanetsAround(star[i], generator.rand1());
+	int bodyCount = m_bodies.size();
+	for (int i=0; i<bodyCount; i++) {
+		if (m_bodies[i]->type != SystemBody::TYPE_GRAVPOINT) MakePlanetsAround(m_bodies[i], generator.rand1());
+	}
 
-	if (m_numStars > 1) MakePlanetsAround(centGrav1, generator.rand1());
-	if (m_numStars == 4) MakePlanetsAround(centGrav2, generator.rand1());
+	if (m_numStars > 1) MakePlanetsAround(generator.centGrav1(), generator.rand1());
+	if (m_numStars == 4) MakePlanetsAround(generator.centGrav2(), generator.rand1());
 
 	Populate(true);
 

@@ -7,7 +7,9 @@
 
 
 //-----------------------------------------------------------------------------
-// Tables
+// Tables & Constants
+
+static const fixed AU_SOL_RADIUS = fixed(305,65536);
 
 static const struct StarTypeInfo {
 	SystemBody::BodySuperType supertype;
@@ -258,13 +260,119 @@ const bool SystemGenerator::IsCustom()
 	return custom();
 }
 
+
+SystemBody* SystemGenerator::AddStarsTo(std::vector<SystemBody*>& bodies)
+{
+	SystemBody* rootBody = NULL;
+	SystemBody *star[4];
+
+	const int starCount = sector().m_systems[m_path.systemIndex].numStars;
+	assert((starCount >= 1) && (starCount <= 4));
+
+	if (starCount == 1) {
+		SystemBody::BodyType type = sector().m_systems[m_path.systemIndex].starType[0];
+		star[0] = NewBody(bodies);
+		star[0]->parent = NULL;
+		star[0]->name = Name();
+		star[0]->orbMin = 0;
+		star[0]->orbMax = 0;
+		MakeStarOfType(star[0], type);
+		rootBody = star[0];
+		m_numStars = 1;
+	} else {
+		m_centGrav1 = NewBody(bodies);
+		m_centGrav1->type = SystemBody::TYPE_GRAVPOINT;
+		m_centGrav1->parent = NULL;
+		m_centGrav1->name = Name()+" A,B";
+		rootBody = m_centGrav1;
+
+		SystemBody::BodyType type = sector().m_systems[m_path.systemIndex].starType[0];
+		star[0] = NewBody(bodies);
+		star[0]->name = Name()+" A";
+		star[0]->parent = m_centGrav1;
+		MakeStarOfType(star[0], type);
+
+		star[1] = NewBody(bodies);
+		star[1]->name = Name()+" B";
+		star[1]->parent = m_centGrav1;
+		MakeStarOfTypeLighterThan(star[1], sector().m_systems[m_path.systemIndex].starType[1],star[0]->mass);
+
+		m_centGrav1->mass = star[0]->mass + star[1]->mass;
+		m_centGrav1->children.push_back(star[0]);
+		m_centGrav1->children.push_back(star[1]);
+		const fixed minDist1 = (star[0]->radius + star[1]->radius) * AU_SOL_RADIUS;
+try_that_again_guvnah:
+		MakeBinaryPair(star[0], star[1], minDist1);
+
+		m_numStars = 2;
+
+		if (starCount > 2) {
+			if (star[0]->orbMax > fixed(100,1)) {
+				// reduce to < 100 AU...
+				goto try_that_again_guvnah;
+			}
+			// 3rd and maybe 4th star
+			if (starCount == 3) {
+				star[2] = NewBody(bodies);
+				star[2]->name = sector().m_systems[m_path.systemIndex].name+" C";
+				star[2]->orbMin = 0;
+				star[2]->orbMax = 0;
+				MakeStarOfTypeLighterThan(star[2], sector().m_systems[m_path.systemIndex].starType[2],star[0]->mass);
+				m_centGrav2 = star[2];
+				m_numStars = 3;
+			} else {
+				m_centGrav2 = NewBody(bodies);
+				m_centGrav2->type = SystemBody::TYPE_GRAVPOINT;
+				m_centGrav2->name = sector().m_systems[m_path.systemIndex].name+" C,D";
+				m_centGrav2->orbMax = 0;
+
+				star[2] = NewBody(bodies);
+				star[2]->name = sector().m_systems[m_path.systemIndex].name+" C";
+				star[2]->parent = m_centGrav2;
+				MakeStarOfTypeLighterThan(star[2], sector().m_systems[m_path.systemIndex].starType[2], star[0]->mass);
+
+				star[3] = NewBody(bodies);
+				star[3]->name = sector().m_systems[m_path.systemIndex].name+" D";
+				star[3]->parent = m_centGrav2;
+				MakeStarOfTypeLighterThan(star[3], sector().m_systems[m_path.systemIndex].starType[3], star[2]->mass);
+
+				const fixed minDist2 = (star[2]->radius + star[3]->radius) * AU_SOL_RADIUS;
+				MakeBinaryPair(star[2], star[3], minDist2);
+				m_centGrav2->mass = star[2]->mass + star[3]->mass;
+				m_centGrav2->children.push_back(star[2]);
+				m_centGrav2->children.push_back(star[3]);
+				m_numStars = 4;
+			}
+			SystemBody *superCentGrav = NewBody(bodies);
+			superCentGrav->type = SystemBody::TYPE_GRAVPOINT;
+			superCentGrav->parent = NULL;
+			superCentGrav->name = sector().m_systems[m_path.systemIndex].name;
+			m_centGrav1->parent = superCentGrav;
+			m_centGrav2->parent = superCentGrav;
+			rootBody = superCentGrav;
+			const fixed minDistSuper = star[0]->orbMax + star[2]->orbMax;
+			MakeBinaryPair(m_centGrav1, m_centGrav2, 4*minDistSuper);
+			superCentGrav->children.push_back(m_centGrav1);
+			superCentGrav->children.push_back(m_centGrav2);
+
+		}
+	}
+
+	return rootBody;
+}
+
+
+//-----------------------------------------------------------------------------
+// Private Build
+
 void SystemGenerator::MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type)
 {
 	MTRand &rand = rand1();
+	
 	sbody->type = type;
 	sbody->seed = rand.Int32();
 	sbody->radius = fixed(rand.Int32(starTypeInfo[type].radius[0], starTypeInfo[type].radius[1]), 100);
-	sbody->mass = fixed(rand.Int32(starTypeInfo[type].mass[0], starTypeInfo[type].mass[1]), 100);
+	sbody->mass   = fixed(rand.Int32(starTypeInfo[type].mass[0], starTypeInfo[type].mass[1]), 100);
 	sbody->averageTemp = rand.Int32(starTypeInfo[type].tempMin, starTypeInfo[type].tempMax);
 }
 
@@ -279,6 +387,7 @@ void SystemGenerator::MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::B
 void SystemGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist)
 {
 	MTRand &rand = rand1();
+	
 	fixed m = a->mass + b->mass;
 	fixed a0 = b->mass / m;
 	fixed a1 = a->mass / m;
@@ -337,9 +446,9 @@ const CustomSystem * SystemGenerator::custom()
 //-----------------------------------------------------------------------------
 // Construction/Destruction
 
-SystemGenerator::SystemGenerator(SystemPath& path): m_path(path), m_rand1(0), m_sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ) 
+SystemGenerator::SystemGenerator(SystemPath& path): m_path(path), m_rand1(0), m_sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ), m_centGrav1(0), m_centGrav2(0) 
 {
-	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s.m_systems.size());
+	assert(m_path.systemIndex >= 0 && m_path.systemIndex < m_sector.m_systems.size());
 	m_seed = m_sector.m_systems[m_path.systemIndex].seed;
 }
 
