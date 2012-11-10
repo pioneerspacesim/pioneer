@@ -1,7 +1,44 @@
 local ui = Engine.ui
 
+--
+-- Class: uilib
+--
+-- Handy wrapper functions for UI elements.
+--
+-- Group: Functions
+--
+
 uilib = { -- Suggestions for a better namespace gladly accepted
 
+--
+-- Function: FaceWidget
+--
+-- Builds and returns a UI widget containing a face and a superimposed caption
+-- from a Character object.
+--
+--   faceWidget = uilib.FaceWidget(character)
+--
+-- Return:
+--
+--   facewidget - a UI widget with a face and a caption
+--
+-- Parameters:
+--
+--   character - a Character object
+--
+-- Example:
+--
+-- > client = Character.New({title='Entrepreneur'}) -- random person with specified title
+-- > form:PackEnd(uilib.FaceWidget(client))         -- Their picture, with name and "Entrepreneur" on a caption
+--
+-- Availability:
+--
+-- alpha 29
+--
+-- Status:
+--
+-- experimental
+--
 	FaceWidget = function (character)
 		if not (character and (type(character)=='table') and (getmetatable(character).class == 'Character'))
 		then
