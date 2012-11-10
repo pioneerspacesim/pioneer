@@ -16,7 +16,10 @@ const Uint32 Faction::BAD_FACTION_IDX = UINT_MAX;
 
 typedef std::vector<Faction*>  FactionList;
 typedef FactionList::iterator FactionIterator;
-static FactionList s_factions;
+typedef std::map<std::string, Uint32> FactionIndexes;
+
+static FactionList    s_factions;
+static FactionIndexes s_factions_indexes;
 
 // ------- Faction --------
 
@@ -235,6 +238,7 @@ static int l_fac_add_to_factions(lua_State *L)
 		}
 
 		s_factions.push_back(facbld->fac);
+		s_factions_indexes[facbld->fac->name] = s_factions.size()-1;
 		facbld->registered = true;
 		return 0;
 	} else if (facbld->skip) {
@@ -325,6 +329,7 @@ void Faction::Uninit()
 		delete *it;
 	}
 	s_factions.clear();
+	s_factions_indexes.clear();
 }
 
 
@@ -404,18 +409,10 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 
 const Uint32 Faction::GetIndexOfFaction(const std::string factionName)
 {
-	// there has to be a better way than this!
-	Uint32 factionIdx = 0;
-	FactionIterator it=s_factions.begin();
-	while((it!=s_factions.end()) && ((*it)->name != factionName)) { 
-		++it;
-		++factionIdx;
-	}
-	if (it == s_factions.end()) {
-		return BAD_FACTION_IDX;
-	} else {
-		return factionIdx;
-	}
+	FactionIndexes::iterator it = s_factions_indexes.find(factionName);
+
+	if (it == s_factions_indexes.end()) return BAD_FACTION_IDX;
+	else                                return it->second;
 }
 
 Polit::GovType Faction::PickGovType(MTRand &rand) const
