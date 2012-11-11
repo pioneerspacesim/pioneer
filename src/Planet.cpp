@@ -72,8 +72,8 @@ void Planet::InitParams(const SystemBody *sbody)
 		// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
 		double RLdivgM = (GAS_CONSTANT*lapseRate_L)/(-m_surfaceGravity_g*GAS_MOLAR_MASS);
 		h = (1.0 - exp(RLdivgM * log(0.001/surfaceP_p0))) * surfaceTemperature_T0 / lapseRate_L;
-		double h2 = (1.0 - pow(0.001/surfaceP_p0, RLdivgM)) * surfaceTemperature_T0 / lapseRate_L;
-		double P = surfaceP_p0*pow((1.0-lapseRate_L*h/surfaceTemperature_T0),1/RLdivgM);
+//		double h2 = (1.0 - pow(0.001/surfaceP_p0, RLdivgM)) * surfaceTemperature_T0 / lapseRate_L;
+//		double P = surfaceP_p0*pow((1.0-lapseRate_L*h/surfaceTemperature_T0),1/RLdivgM);
 	}
 	m_atmosphereRadius = h + sbody->GetRadius();
 

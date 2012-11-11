@@ -223,7 +223,7 @@ vector3d Ship::AIMatchPosVel(const vector3d &reldir, double targdist, const vect
 	double ispeed = calc_ivel(targdist, endspeed, maxdecel);
 	vector3d reqdiffvel = (ispeed*reldir - relvel) * rot;
 
-	// determine maximum possible diffvel in that direction
+	// get max thrust in desired direction after external force compensation
 	vector3d maxthrust = GetMaxThrust(reqdiffvel);
 	if (!GetFrame()->IsStationRotFrame()) maxthrust += GetExternalForce() * rot;
 	vector3d maxFA = maxthrust * Pi::game->GetTimeStep() / GetMass();

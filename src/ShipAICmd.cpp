@@ -718,6 +718,10 @@ extern double calc_ivel(double dist, double vel, double acc);
 
 bool AICmdFlyTo::TimeStepUpdate()
 {
+	// sort out gear, launching
+	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
+	else { LaunchShip(m_ship); return false; }
+
 	double timestep = Pi::game->GetTimeStep();
 	vector3d targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 	vector3d relvel = m_ship->GetVelocity() - targvel;
@@ -727,10 +731,6 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	double targdist = relpos.Length();
-
-	// sort out gear, launching
-	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
-	else { LaunchShip(m_ship); return false; }
 
 	// frame switch stuff - clear children/collision state
 	if (m_frame != m_ship->GetFrame()) {
@@ -767,12 +767,6 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 		}
 	}
 
-	// if dangerously close to local body, pretend target isn't moving
-// no longer necessary now that AIMatchPosVel always accelerates in direction of diffvel?
-//	double localdist = m_ship->GetPosition().Length();
-//	if (body && targdist > localdist && localdist < 1.5*MaxFeatureRad(body))
-//		relvel += targvel;
-
 	// linear thrust
 	double maxdecel = m_state ? m_ship->GetAccelMin() : m_ship->GetAccelFwd();
 	maxdecel -= GetGravityAtPos(m_targframe, m_posoff);
@@ -795,7 +789,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	else m_ship->AIFaceDirection(flipped ? -reldir : reldir);
 
 	// termination conditions
-	if (m_state == 3) return true;					// finished last adjustment, hopefully
+	if (m_state >= 3) return true;					// finished last adjustment, hopefully
 	if (m_endvel > 0.0) { if (reldir.Dot(m_reldir) < 0.9) return true; }
 	else if (targdist < 0.5*m_ship->GetAccelMin()*timestep*timestep) m_state = 3;
 	return false;
