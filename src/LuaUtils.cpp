@@ -4,6 +4,7 @@
 #include "LuaUtils.h"
 #include "libs.h"
 #include "FileSystem.h"
+#include "StringF.h"
 
 extern "C" {
 #include "jenkins/lookup3.h"
@@ -273,7 +274,11 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
 	lua_pushcfunction(l, &pi_lua_panic);
 
 	const StringRange source = code.AsStringRange().StripUTF8BOM();
-	if (luaL_loadbuffer(l, source.begin, source.Size(), code.GetInfo().GetPath().c_str())) {
+
+	bool trusted = code.GetInfo().GetSource().IsTrusted();
+	const std::string &path = stringf("%0%1", trusted ? "[T] " : "", code.GetInfo().GetPath().c_str());
+
+	if (luaL_loadbuffer(l, source.begin, source.Size(), path.c_str())) {
 		pi_lua_panic(l);
 	} else {
 		int ret = lua_pcall(l, 0, 0, -2);
