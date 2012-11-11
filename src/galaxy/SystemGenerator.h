@@ -22,18 +22,18 @@ public:
 	//---------------------- builders
 	typedef std::vector<SystemBody*> BodyList;
 
-	const std::string Name()         const { return SectorSystem().name; }
-	const bool        IsCustom()	 const { return SectorSystem().customSys; }
-	const int         NumStars()     const { return SectorSystem().numStars;  }
-	const bool        Unexplored();
-	const fixed       Metallicity()  const;
+	const std::string   Name()         const { return SectorSystem().name; }
+	const CustomSystem* Custom()	   const { return SectorSystem().customSys; }
 	
-	SystemBody*       AddStarsTo  (BodyList& bodies);
-	void              AddPlanetsTo(BodyList& bodies);
+	const int           NumStars()     const;	
+	const bool          Unexplored();
+	const fixed         Metallicity()  const;
+	
+	SystemBody*         AddStarsTo  (BodyList& bodies);
+	void                AddPlanetsTo(BodyList& bodies);
 
 	//---------------------- state accessors (eventually make private or eliminate)
-	      MTRand&        rand1();
-	const CustomSystem * custom()    { return SectorSystem().customSys; }
+	MTRand& systemRand();
 
 private:
 	//---------------------- private state (eliminate where possible)
@@ -43,7 +43,7 @@ private:
 	SystemBody* m_centGrav2;
 	SystemBody* m_rootBody;
 
-	MTRand*     m_rand1;
+	MTRand*     m_systemRand;
 
 	//---------------------- private builders
 	

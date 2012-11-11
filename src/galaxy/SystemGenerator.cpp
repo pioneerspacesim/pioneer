@@ -241,6 +241,15 @@ static const struct StarTypeInfo {
 //-----------------------------------------------------------------------------
 // Build
 
+const int SystemGenerator::NumStars() const
+{ 
+	if (Custom()) {
+		return Custom()->numStars; 
+	} else {
+		return SectorSystem().numStars;
+	} 
+}	
+
 /*
  * 0 - ~500ly from sol: explored
  * ~500ly - ~700ly (65-90 sectors): gradual
@@ -248,11 +257,11 @@ static const struct StarTypeInfo {
  */
 const bool SystemGenerator::Unexplored() 
 {
-	if (IsCustom() && !SectorSystem().customSys->want_rand_explored ) {
-		return !SectorSystem().customSys->explored;    // may be defined manually in the custom system definition
+	if (Custom() && !Custom()->want_rand_explored ) {
+		return !Custom()->explored;    // may be defined manually in the custom system definition
 	} else {
 		int dist = isqrt(1 + m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ);
-		return (dist > 90) || (dist > 65 && rand1().Int32(dist) > 40);
+		return (dist > 90) || (dist > 65 && systemRand().Int32(dist) > 40);
 	}
 }
 
@@ -335,7 +344,7 @@ SystemBody* SystemGenerator::AddStarOfType(BodyList& bodies, std::string name, S
 
 void SystemGenerator::MakeStar(SystemBody *sbody)
 {
-	MTRand &rand = rand1();
+	MTRand &rand = systemRand();
 	const SystemBody::BodyType type = sbody->type;
 
 	sbody->seed = rand.Int32();
@@ -384,7 +393,7 @@ SystemBody* SystemGenerator::AddGravPoint(BodyList& bodies, std::string name, Sy
 
 void SystemGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist)
 {
-	MTRand &rand = rand1();
+	MTRand &rand = systemRand();
 	
 	fixed m = a->mass + b->mass;
 	fixed a0 = b->mass / m;
@@ -458,7 +467,7 @@ static fixed get_disc_density(SystemBody *primary, fixed discMin, fixed discMax,
 
 void SystemGenerator::AddPlanetsAround(BodyList& bodies, SystemBody* primary)
 {
-	MTRand &rand = rand1();
+	MTRand &rand = systemRand();
 
 	fixed discMin = fixed(0);
 	fixed discMax = fixed(5000,1);
@@ -589,19 +598,19 @@ void SystemGenerator::AddPlanetsAround(BodyList& bodies, SystemBody* primary)
 //-----------------------------------------------------------------------------
 // State
 
-MTRand& SystemGenerator::rand1() 
+MTRand& SystemGenerator::systemRand() 
 {
-	if (!m_rand1) {
+	if (!m_systemRand) {
 		unsigned long _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, SectorSystem().seed };
-		m_rand1 = new MTRand(_init, 6);
+		m_systemRand = new MTRand(_init, 6);
 	}
-	return *m_rand1;
+	return *m_systemRand;
 }
 
 //-----------------------------------------------------------------------------
 // Construction/Destruction
 
-SystemGenerator::SystemGenerator(SystemPath& path): m_path(path), m_rand1(0), m_sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ)
+SystemGenerator::SystemGenerator(SystemPath& path): m_path(path), m_systemRand(0), m_sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ)
 	, m_centGrav1(0), m_centGrav2(0), m_rootBody(0)
 {
 	assert(m_path.systemIndex >= 0 && m_path.systemIndex < m_sector.m_systems.size());
@@ -609,5 +618,5 @@ SystemGenerator::SystemGenerator(SystemPath& path): m_path(path), m_rand1(0), m_
 
 SystemGenerator::~SystemGenerator() 
 {
-	if (m_rand1) delete m_rand1;
+	if (m_systemRand) delete m_systemRand;
 }

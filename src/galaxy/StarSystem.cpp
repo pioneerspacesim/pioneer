@@ -1234,6 +1234,8 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Faction::BAD_FACTION_IDX), rootBody(0)
 {
 	assert(path.IsSystemPath());
+	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
+	m_hasCustomBodies = false;
 	Initialise();
 }
 
@@ -1245,28 +1247,24 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Fact
  */
 void StarSystem::Initialise() {
 
-	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
-
 	SystemGenerator generator = SystemGenerator(m_path);
 
 	m_name       = generator.Name();
-	m_isCustom   = generator.IsCustom();
+	m_isCustom   = generator.Custom();
+	m_numStars   = generator.NumStars();
 	m_unexplored = generator.Unexplored();
 
-	m_hasCustomBodies = false;
 	if (m_isCustom) {
-		const CustomSystem *custom = generator.custom();
-		m_numStars = custom->numStars;
+		const CustomSystem *custom = generator.Custom();
 		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
 		if (custom->longDesc.length() > 0) m_longDesc = custom->longDesc;
 		if (!custom->IsRandom()) {
 			m_hasCustomBodies = true;
-			GenerateFromCustom(generator.custom(), generator.rand1());
+			GenerateFromCustom(generator.Custom(), generator.systemRand());
 			return;
 		}
 	}
 
-	m_numStars    = generator.NumStars();
 	rootBody      = generator.AddStarsTo(m_bodies);
 	m_metallicity = generator.Metallicity();
 			               
