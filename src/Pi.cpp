@@ -62,6 +62,7 @@
 #include "UIView.h"
 #include "KeyBindings.h"
 #include "EnumStrings.h"
+#include "ServerAgent.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/StarSystem.h"
@@ -89,6 +90,7 @@ sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 LuaSerializer *Pi::luaSerializer;
 LuaTimer *Pi::luaTimer;
 LuaNameGen *Pi::luaNameGen;
+ServerAgent *Pi::serverAgent;
 int Pi::keyModState;
 std::map<SDL_Keycode,bool> Pi::keyState; // XXX SDL2 SDLK_LAST
 char Pi::mouseButton[6];
@@ -444,6 +446,19 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Lua::Init();
 
 	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
+
+	Pi::serverAgent = 0;
+	if (config->Int("EnableServerAgent")) {
+		const std::string endpoint(config->String("ServerEndpoint"));
+		if (endpoint.size() > 0) {
+			Output("Server agent enabled, endpoint: %s\n", endpoint.c_str());
+			Pi::serverAgent = new HTTPServerAgent(endpoint);
+		}
+	}
+	if (!Pi::serverAgent) {
+		Output("Server agent disabled\n");
+		Pi::serverAgent = new NullServerAgent();
+	}
 
 	LuaInit();
 
@@ -1069,6 +1084,8 @@ void Pi::Start()
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
+
+		Pi::serverAgent->ProcessResponses();
 	}
 
 	ui->DropAllLayers();
@@ -1144,6 +1161,8 @@ void Pi::MainLoop()
 #ifdef PIONEER_PROFILER
 		Profiler::reset();
 #endif
+
+		Pi::serverAgent->ProcessResponses();
 
 		const Uint32 newTicks = SDL_GetTicks();
 		double newTime = 0.001 * double(newTicks);

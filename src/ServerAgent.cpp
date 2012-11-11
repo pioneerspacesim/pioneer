@@ -36,6 +36,7 @@ HTTPServerAgent::HTTPServerAgent(const std::string &endpoint) :
 	curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION, HTTPServerAgent::FillResponseBuffer);
 
 	m_curlHeaders = 0;
+	m_curlHeaders = curl_slist_append(m_curlHeaders, ("User-agent: " + UserAgent()).c_str());
 	m_curlHeaders = curl_slist_append(m_curlHeaders, "Content-type: application/json");
 	curl_easy_setopt(m_curl, CURLOPT_HTTPHEADER, m_curlHeaders);
 
@@ -194,3 +195,21 @@ size_t HTTPServerAgent::FillResponseBuffer(char *ptr, size_t size, size_t nmemb,
 	resp->buffer.append(ptr, size*nmemb);
 	return size*nmemb;
 }
+
+const std::string &HTTPServerAgent::UserAgent()
+{
+	static std::string userAgent;
+	if (userAgent.size() > 0) return userAgent;
+
+	userAgent = "PioneerServerAgent/" PIONEER_VERSION;
+
+	size_t pos = 0;
+	while ((pos = userAgent.find(' ', pos)) != std::string::npos)
+		userAgent[pos] = '.';
+
+	if (strlen(PIONEER_EXTRAVERSION))
+		userAgent += "." PIONEER_EXTRAVERSION;
+
+	return userAgent;
+}
+
