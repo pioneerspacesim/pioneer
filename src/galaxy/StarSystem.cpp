@@ -14,6 +14,8 @@
 #include "Lang.h"
 #include "StringF.h"
 
+using namespace SystemGeneration;
+
 #define CELSIUS	273.15
 //#define DEBUG_DUMP
 
