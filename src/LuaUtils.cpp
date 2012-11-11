@@ -275,10 +275,18 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
 
 	const StringRange source = code.AsStringRange().StripUTF8BOM();
 
-	bool trusted = code.GetInfo().GetSource().IsTrusted();
-	const std::string &path = stringf("%0%1", trusted ? "[T] " : "", code.GetInfo().GetPath().c_str());
+	const std::string &path(code.GetInfo().GetPath());
+	if (path.at(0) == '[') {
+		fprintf(stderr, "Paths starting with '[' are reserved in pi_lua_dofile('%s'\n",
+		        code.GetInfo().GetAbsolutePath().c_str());
+		lua_pop(l, 1);
+		return;
+	}
 
-	if (luaL_loadbuffer(l, source.begin, source.Size(), path.c_str())) {
+	bool trusted = code.GetInfo().GetSource().IsTrusted();
+	const std::string chunkName = stringf("%0%1", trusted ? "[T] " : "", path);
+
+	if (luaL_loadbuffer(l, source.begin, source.Size(), chunkName.c_str())) {
 		pi_lua_panic(l);
 	} else {
 		int ret = lua_pcall(l, 0, 0, -2);
