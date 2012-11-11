@@ -319,7 +319,7 @@ static int dispatch_index(lua_State *l)
 	return 0;
 }
 
-void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta)
+void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta, bool protect)
 {
 	lua_State *l = Lua::manager->GetLuaState();
 
@@ -336,6 +336,19 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 			lua_pushcfunction(l, attr->func);
 			lua_rawset(l, -3);
 		}
+	}
+
+	if (protect) {
+		// add all defined functions/attributes to the protected list
+                                                                    // object
+		lua_getfield(l, LUA_REGISTRYINDEX, "ProtectedFunctions");   // object, protected
+		lua_pushnil(l);                                             // object, protected, nil
+		while (lua_next(l, -3)) {                                   // object, protected, name, function
+			lua_pushboolean(l, true);                               // object, protected, name, function, true         
+			lua_rawset(l, -4);                                      // object, protected, name
+		}
+		                                                            // object, protected
+		lua_pop(l, 1);                                              // object
 	}
 
 	// create metatable for it
