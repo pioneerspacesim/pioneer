@@ -332,7 +332,9 @@ void ModelViewer::DrawCollisionMesh()
 
 	//might want to add some offset
 	m_renderer->SetWireFrameMode(true);
+	Graphics::vtxColorMaterial->twoSided = true;
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
+	Graphics::vtxColorMaterial->twoSided = false;
 	m_renderer->SetWireFrameMode(false);
 }
 
