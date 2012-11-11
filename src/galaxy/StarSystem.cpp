@@ -1845,14 +1845,14 @@ void SystemBody::PickPlanetType(MTRand &rand)
 
 	if(invTidalLockTime > 10) { // 10x faster than Moon, no chance not to be tidal-locked
 		rotationPeriod = fixed(int(round(orbit.period)),3600*24);
-		axialTilt = fixed(0);
+		axialTilt = inclination;
 	} else if(invTidalLockTime > fixed(1,100)) { // rotation speed changed in favour of tidal lock
 		// XXX: there should be some chance the satellite was captured only recenly and ignore this
 		//		I'm ommiting that now, I do not want to change the Universe by additional rand call.
 
 		fixed lambda = invTidalLockTime/(fixed(1,20)+invTidalLockTime);
 		rotationPeriod = (1-lambda)*rotationPeriod + lambda*orbit.period/3600/24;
-		axialTilt = (1-lambda)*axialTilt;
+		axialTilt = (1-lambda)*axialTilt + lambda*inclination;
 	} // else .. nothing happens to the satellite
 
 	if (parent->type <= TYPE_STAR_MAX)
