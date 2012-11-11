@@ -132,6 +132,6 @@ void LuaFileSystem::Register()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateObject(l_methods, 0, 0);
+	LuaObjectBase::CreateObject(l_methods, 0, 0, true); // protected interface
 	lua_setglobal(Lua::manager->GetLuaState(), "FileSystem");
 }
