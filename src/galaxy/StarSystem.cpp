@@ -32,6 +32,8 @@ static const fixed PLANET_MIN_SEPARATION = fixed(135,100);
 static const fixed AU_SOL_RADIUS = fixed(305,65536);
 static const fixed AU_EARTH_RADIUS = fixed(3, 65536);
 
+static const fixed SUN_MASS_TO_EARTH_MASS = fixed(332998,1);
+
 static const fixed FIXED_PI = fixed(103993,33102);
 
 // indexed by enum type turd
@@ -1813,6 +1815,46 @@ void SystemBody::PickPlanetType(MTRand &rand)
 	// enforce minimum size of 10km
 	radius = std::max(radius, fixed(1,630));
 
+	// Tidal lock for planets close to their parents:
+	//		http://en.wikipedia.org/wiki/Tidal_locking
+	//
+	//		Formula: time ~ semiMajorAxis^6 * radius / mass / parentMass^2
+	//
+	//		compared to Earth's Moon
+	static fixed MOON_TIDAL_LOCK = fixed(6286,1);
+	fixed invTidalLockTime = fixed(1,1);
+
+	// fine-tuned not to give overflows, order of evaluation matters!
+	if (parent->type <= TYPE_STAR_MAX) {
+		invTidalLockTime /= (semiMajorAxis * semiMajorAxis);
+		invTidalLockTime *= mass;
+		invTidalLockTime /= (semiMajorAxis * semiMajorAxis);
+		invTidalLockTime *= parent->mass*parent->mass;
+		invTidalLockTime /= radius;
+		invTidalLockTime /= (semiMajorAxis * semiMajorAxis)*MOON_TIDAL_LOCK;
+	} else {
+		invTidalLockTime /= (semiMajorAxis * semiMajorAxis)*SUN_MASS_TO_EARTH_MASS;
+		invTidalLockTime *= mass;
+		invTidalLockTime /= (semiMajorAxis * semiMajorAxis)*SUN_MASS_TO_EARTH_MASS;
+		invTidalLockTime *= parent->mass*parent->mass;
+		invTidalLockTime /= radius;
+		invTidalLockTime /= (semiMajorAxis * semiMajorAxis)*MOON_TIDAL_LOCK;
+	}
+	//printf("tidal lock of %s: %.5f, a %.5f R %.4f mp %.3f ms %.3f\n", name.c_str(),
+	//		invTidalLockTime.ToFloat(), semiMajorAxis.ToFloat(), radius.ToFloat(), parent->mass.ToFloat(), mass.ToFloat());
+
+	if(invTidalLockTime > 10) { // 10x faster than Moon, no chance not to be tidal-locked
+		rotationPeriod = fixed(int(round(orbit.period)),3600*24);
+		axialTilt = fixed(0);
+	} else if(invTidalLockTime > fixed(1,100)) { // rotation speed changed in favour of tidal lock
+		// XXX: there should be some chance the satellite was captured only recenly and ignore this
+		//		I'm ommiting that now, I do not want to change the Universe by additional rand call.
+
+		fixed lambda = invTidalLockTime/(fixed(1,20)+invTidalLockTime);
+		rotationPeriod = (1-lambda)*rotationPeriod + lambda*orbit.period/3600/24;
+		axialTilt = (1-lambda)*axialTilt;
+	} // else .. nothing happens to the satellite
+
 	if (parent->type <= TYPE_STAR_MAX)
 		// get it from the table now rather than setting it on stars/gravpoints as
 		// currently nothing else needs them to have metallicity
@@ -1837,7 +1879,7 @@ void SystemBody::PickPlanetType(MTRand &rand)
 		// prevent mass exceeding 65 jupiter masses or so, when it becomes a star
 		// XXX since TYPE_BROWN_DWARF is supertype star, mass is now in
 		// solar masses. what a fucking mess
-		mass = std::min(mass, fixed(317*65, 1)) / 332998;
+		mass = std::min(mass, fixed(317*65, 1)) / SUN_MASS_TO_EARTH_MASS;
 		//Radius is too high as it now uses the planetary calculations to work out radius (Cube root of mass)
 		// So tell it to use the star data instead:
 		radius = fixed(rand.Int32(starTypeInfo[type].radius[0],
