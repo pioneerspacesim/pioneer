@@ -1036,6 +1036,9 @@ public:
 		{
 			RefCountedPtr<FileSystem::FileData> indata = FileSystem::gameDataFiles.ReadFile(*i);
 			assert(indata); // XXX fail gracefully
+			if (!indata) {
+				printf("Failed to open \"%s\" for reading.\n", i->c_str());
+			}
 
 			const std::string tempFilename = FileSystem::NormalisePath(*i);
 			const size_t lastIdx = tempFilename.find_last_of('/')+1;
@@ -1043,10 +1046,12 @@ public:
 			
 			out = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPath(outDir, outFilename));
 			assert(out); // XXX fail gracefully
-
-			fwrite(indata->GetData(), sizeof(char), indata->GetSize(), out); // XXX error checking
-
-			fclose(out);
+			if (out) {
+				fwrite(indata->GetData(), sizeof(char), indata->GetSize(), out); // XXX error checking
+				fclose(out);
+			} else {
+				printf("Failed to open \"%s\" for writing.\n", FileSystem::JoinPath(outDir, outFilename).c_str());
+			}
 		}
 
 		for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
