@@ -80,6 +80,7 @@ noinst_HEADERS = \
 	LuaRef.h \
 	LuaSerializer.h \
 	LuaShipDef.h \
+	LuaServerAgent.h \
 	LuaSpace.h \
 	LuaTable.h \
 	LuaTimer.h \
@@ -220,6 +221,7 @@ pioneer_SOURCES	= \
 	LuaPropertiedObject.cpp \
 	LuaRand.cpp \
 	LuaRef.cpp \
+	LuaServerAgent.cpp \
 	LuaSystemBody.cpp \
 	LuaSystemPath.cpp \
 	LuaSerializer.cpp \

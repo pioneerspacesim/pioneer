@@ -14,10 +14,10 @@ class ServerAgent {
 public:
 	virtual ~ServerAgent() {}
 
-	typedef sigc::slot<void,const Json::Value &> SuccessCallback;
-	typedef sigc::slot<void,const std::string &> FailCallback;
+	typedef sigc::slot<void,const Json::Value &,void *> SuccessCallback;
+	typedef sigc::slot<void,const std::string &,void *> FailCallback;
 
-	virtual void Call(const std::string &method, const Json::Value &data, SuccessCallback onSuccess = sigc::ptr_fun(&ServerAgent::IgnoreSuccessCallback), FailCallback onFail = sigc::ptr_fun(&ServerAgent::IgnoreFailCallback)) = 0;
+	virtual void Call(const std::string &method, const Json::Value &data, SuccessCallback onSuccess, FailCallback onFail, void *userdata) = 0;
 
 	virtual void ProcessResponses() = 0;
 
@@ -29,12 +29,22 @@ protected:
 
 class NullServerAgent : public ServerAgent {
 public:
-	virtual void Call(const std::string &method, const Json::Value &data, ServerAgent::SuccessCallback onSuccess = sigc::ptr_fun(&ServerAgent::IgnoreSuccessCallback), ServerAgent::FailCallback onFail = sigc::ptr_fun(&ServerAgent::IgnoreFailCallback));
+	virtual void Call(const std::string &method, const Json::Value &data, ServerAgent::SuccessCallback onSuccess = sigc::ptr_fun(&ServerAgent::IgnoreSuccessCallback), ServerAgent::FailCallback onFail = sigc::ptr_fun(&ServerAgent::IgnoreFailCallback), void *userdata = 0);
 
 	virtual void ProcessResponses();
 
 private:
-	std::queue<ServerAgent::FailCallback> m_queue;
+
+	struct Response {
+		Response(FailCallback _onFail, void *_userdata) :
+			onFail(_onFail), userdata(_userdata)
+			{}
+
+		FailCallback onFail;
+		void *userdata;
+	};
+
+	std::queue<Response> m_queue;
 };
 
 
@@ -43,15 +53,15 @@ public:
 	HTTPServerAgent(const std::string &endpoint);
 	virtual ~HTTPServerAgent();
 
-	virtual void Call(const std::string &method, const Json::Value &data, SuccessCallback onSuccess = sigc::ptr_fun(&ServerAgent::IgnoreSuccessCallback), FailCallback onFail = sigc::ptr_fun(&ServerAgent::IgnoreFailCallback));
+	virtual void Call(const std::string &method, const Json::Value &data, SuccessCallback onSuccess = sigc::ptr_fun(&ServerAgent::IgnoreSuccessCallback), FailCallback onFail = sigc::ptr_fun(&ServerAgent::IgnoreFailCallback), void *userdata = 0);
 
 	virtual void ProcessResponses();
 
 private:
 
 	struct Request {
-		Request(const std::string &_method, const Json::Value &_data, SuccessCallback _onSuccess, FailCallback _onFail) :
-			method(_method), data(_data), onSuccess(_onSuccess), onFail(_onFail) {}
+		Request(const std::string &_method, const Json::Value &_data, SuccessCallback _onSuccess, FailCallback _onFail, void *_userdata) :
+			method(_method), data(_data), onSuccess(_onSuccess), onFail(_onFail), userdata(_userdata) {}
 
 		const std::string method;
 		const Json::Value data;
@@ -60,11 +70,13 @@ private:
 
 		SuccessCallback onSuccess;
 		FailCallback onFail;
+
+		void *userdata;
 	};
 
 	struct Response {
-		Response(SuccessCallback _onSuccess, FailCallback _onFail) :
-			onSuccess(_onSuccess), onFail(_onFail) {}
+		Response(SuccessCallback _onSuccess, FailCallback _onFail, void *_userdata) :
+			onSuccess(_onSuccess), onFail(_onFail), userdata(_userdata) {}
 
 		bool success;
 
@@ -74,6 +86,8 @@ private:
 		Json::Value data;
 
 		FailCallback onFail;
+
+		void *userdata;
 	};
 
 	static int ThreadEntry(void *data);

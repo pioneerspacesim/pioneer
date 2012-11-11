@@ -5,15 +5,16 @@
 #include "StringF.h"
 #include <curl/curl.h>
 
-void NullServerAgent::Call(const std::string &method, const Json::Value &data, SuccessCallback onSuccess, FailCallback onFail)
+void NullServerAgent::Call(const std::string &method, const Json::Value &data, SuccessCallback onSuccess, FailCallback onFail, void *userdata)
 {
-	m_queue.push(onFail);
+	m_queue.push(Response(onFail, userdata));
 }
 
 void NullServerAgent::ProcessResponses()
 {
 	while (m_queue.size() > 0) {
-		m_queue.front()("ServerAgent not available");
+		Response &resp(m_queue.front());
+		resp.onFail("ServerAgent not available", resp.userdata);
 		m_queue.pop();
 	}
 }
@@ -75,10 +76,10 @@ HTTPServerAgent::~HTTPServerAgent()
 	curl_easy_cleanup(m_curl);
 }
 
-void HTTPServerAgent::Call(const std::string &method, const Json::Value &data, SuccessCallback onSuccess, FailCallback onFail)
+void HTTPServerAgent::Call(const std::string &method, const Json::Value &data, SuccessCallback onSuccess, FailCallback onFail, void *userdata)
 {
 	SDL_LockMutex(m_requestQueueLock);
-	m_requestQueue.push(Request(method, data, onSuccess, onFail));
+	m_requestQueue.push(Request(method, data, onSuccess, onFail, userdata));
 	SDL_UnlockMutex(m_requestQueueLock);
 
 	SDL_CondBroadcast(m_requestQueueCond);
@@ -100,9 +101,9 @@ void HTTPServerAgent::ProcessResponses()
 		Response &resp = responseQueue.front();
 
 		if (resp.success)
-			resp.onSuccess(resp.data);
+			resp.onSuccess(resp.data, resp.userdata);
 		else
-			resp.onFail(resp.buffer);
+			resp.onFail(resp.buffer, resp.userdata);
 
 		responseQueue.pop();
 	}
@@ -146,7 +147,7 @@ void HTTPServerAgent::ThreadMain()
 		Json::FastWriter writer;
 		req.buffer = writer.write(req.data);
 
-		Response resp(req.onSuccess, req.onFail);
+		Response resp(req.onSuccess, req.onFail, req.userdata);
 
 		curl_easy_setopt(m_curl, CURLOPT_URL, std::string(m_endpoint+"/"+req.method).c_str());
 		curl_easy_setopt(m_curl, CURLOPT_POSTFIELDSIZE, req.buffer.size());

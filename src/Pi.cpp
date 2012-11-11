@@ -31,6 +31,7 @@
 #include "LuaMusic.h"
 #include "LuaNameGen.h"
 #include "LuaRef.h"
+#include "LuaServerAgent.h"
 #include "LuaShipDef.h"
 #include "LuaSpace.h"
 #include "LuaTimer.h"
@@ -271,6 +272,7 @@ static void LuaInit()
 	LuaLang::Register();
 	LuaEngine::Register();
 	LuaFileSystem::Register();
+	LuaServerAgent::Register();
 	LuaGame::Register();
 	LuaComms::Register();
 	LuaFormat::Register();
