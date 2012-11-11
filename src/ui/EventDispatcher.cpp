@@ -34,7 +34,7 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 
 		case SDL_MOUSEBUTTONUP:
 			if (event.button.button == SDL_BUTTON_WHEELUP || event.button.button == SDL_BUTTON_WHEELDOWN)
-				return false;
+				return true;
 			return Dispatch(MouseButtonEvent(MouseButtonEvent::BUTTON_UP, MouseButtonFromSDLButton(event.button.button), Point(event.button.x,event.button.y)));
 
 		case SDL_MOUSEMOTION:
