@@ -14,6 +14,10 @@ Alpha 29
        type (normal or heading) and size (#1684)
      * UI Box widgets no longer take expand/fill flags (#1665)
      * New UI.Expand container to force a widget to fill available space (#1685)
+     * New UI exposes SetText to Lua (#1690)
+
+   * Internal changes
+     * Wrapper to allow new UI to provide views for the old GUI system (#1691)
 
 Alpha 28
 
