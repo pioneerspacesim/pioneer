@@ -17,9 +17,6 @@ LuaManager::LuaManager() : m_lua(NULL) {
 	pi_lua_open_standard_base(m_lua);
 	lua_atpanic(m_lua, pi_lua_panic);
 
-	lua_newtable(m_lua);
-	lua_setfield(m_lua, LUA_REGISTRYINDEX, "ProtectedFunctions");
-
 	instantiated = true;
 }
 
