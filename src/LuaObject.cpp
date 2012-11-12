@@ -319,6 +319,21 @@ static int dispatch_index(lua_State *l)
 	return 0;
 }
 
+static int secure_trampoline(lua_State *l)
+{
+	bool trusted = false;
+
+	lua_Debug ar;
+	if (lua_getstack(l, 1, &ar) && lua_getinfo(l, "S", &ar) && strlen(ar.source) >= 3 && ar.source[0] == '[' && ar.source[1] == 'T' && ar.source[2] == ']')
+		trusted = true;
+	
+	if (!trusted)
+		luaL_error(l, "attempt to access protected method or attribute from untrusted script blocked");
+	
+	lua_CFunction fn = lua_tocfunction(l, lua_upvalueindex(1));
+	return fn(l);
+}
+
 void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta, bool protect)
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -327,37 +342,46 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 
 	// create "object"
 	lua_newtable(l);
-	if (methods) luaL_setfuncs(l, methods, 0);
+	
+	// add methods
+	if (methods) {
+		for (const luaL_Reg *method = methods; method->name; method++) {
+			lua_pushstring(l, method->name);
+			lua_pushcfunction(l, method->func);
+			if (protect)
+				lua_pushcclosure(l, secure_trampoline, 1);
+			lua_rawset(l, -3);
+		}
+	}
 
 	// add attributes
 	if (attrs) {
 		for (const luaL_Reg *attr = attrs; attr->name; attr++) {
 			lua_pushstring(l, (std::string("__attribute_")+attr->name).c_str());
 			lua_pushcfunction(l, attr->func);
+			if (protect)
+				lua_pushcclosure(l, secure_trampoline, 1);
 			lua_rawset(l, -3);
 		}
 	}
 
-	if (protect) {
-		// add all defined functions/attributes to the protected list
-                                                                    // object
-		lua_getfield(l, LUA_REGISTRYINDEX, "ProtectedFunctions");   // object, protected
-		lua_pushnil(l);                                             // object, protected, nil
-		while (lua_next(l, -3)) {                                   // object, protected, name, function
-			lua_pushboolean(l, true);                               // object, protected, name, function, true         
-			lua_rawset(l, -4);                                      // object, protected, name
-		}
-		                                                            // object, protected
-		lua_pop(l, 1);                                              // object
-	}
-
 	// create metatable for it
 	lua_newtable(l);
-	if (meta) luaL_setfuncs(l, meta, 0);
+	if (meta) {
+		for (const luaL_Reg *m = meta; m->name; m++) {
+			lua_pushstring(l, m->name);
+			lua_pushcfunction(l, m->func);
+			if (protect)
+				lua_pushcclosure(l, secure_trampoline, 1);
+			lua_rawset(l, -3);
+		}
+	}
 
 	// index function
 	lua_pushstring(l, "__index");
 	lua_pushcfunction(l, dispatch_index);
+	if (protect)
+		lua_pushcclosure(l, secure_trampoline, 1);
 	lua_rawset(l, -3);
 
 	// apply the metatable
