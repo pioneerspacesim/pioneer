@@ -15,7 +15,13 @@
 #include <stack>
 #include <algorithm>
 
+#define TRUSTED_CONSOLE 1
+
+#if TRUSTED_CONSOLE
 static const char CONSOLE_CHUNK_NAME[] = "[T] console";
+#else
+static const char CONSOLE_CHUNK_NAME[] = "console";
+#endif
 
 LuaConsole::LuaConsole(int displayedOutputLines):
 	m_maxOutputLines(displayedOutputLines),
