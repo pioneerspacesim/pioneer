@@ -5,7 +5,7 @@ endif
 if BUILD_POSIX
     PLATFORM_SUBDIRS = posix
 endif
-SUBDIRS = collider gui graphics galaxy newmodel terrain text ui $(PLATFORM_SUBDIRS)
+SUBDIRS = collider gui graphics galaxy newmodel terrain text ui gameui $(PLATFORM_SUBDIRS)
 
 include $(top_srcdir)/Makefile.common
 
@@ -152,6 +152,7 @@ noinst_HEADERS = \
 	SystemView.h \
 	TerrainBody.h \
 	Tombstone.h \
+	UIView.h \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
@@ -291,6 +292,7 @@ pioneer_SOURCES	= \
 	SystemView.cpp \
 	TerrainBody.cpp \
 	Tombstone.cpp \
+	UIView.cpp \
 	View.cpp \
 	WorldView.cpp \
 	WorldViewCamera.cpp \
@@ -310,7 +312,8 @@ pioneer_LDADD = \
 	newmodel/libnewmodel.a \
 	text/libtext.a \
 	terrain/libterrain.a \
-	ui/libui.a
+	ui/libui.a \
+	gameui/libgameui.a
 
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \

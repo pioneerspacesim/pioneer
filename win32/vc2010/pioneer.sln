@@ -53,6 +53,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "modelviewer", "modelviewer.
 		{E34F7DBC-F23D-481A-B920-E53F56C53EE8} = {E34F7DBC-F23D-481A-B920-E53F56C53EE8}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gameui", "gameui\gameui.vcxproj", "{EDB31F5D-851C-4CC5-85D2-59781FD920BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -138,6 +140,12 @@ Global
 		{BD7B420B-07C1-43F2-A987-F9A4915005E5}.PreRelease|Win32.Build.0 = PreRelease|Win32
 		{BD7B420B-07C1-43F2-A987-F9A4915005E5}.Release|Win32.ActiveCfg = Release|Win32
 		{BD7B420B-07C1-43F2-A987-F9A4915005E5}.Release|Win32.Build.0 = Release|Win32
+		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.Debug|Win32.Build.0 = Debug|Win32
+		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.PreRelease|Win32.ActiveCfg = Release|Win32
+		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.PreRelease|Win32.Build.0 = Release|Win32
+		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.Release|Win32.ActiveCfg = Release|Win32
+		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
