@@ -47,6 +47,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua", "lua.vcxproj", "{5085
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ui", "ui\ui.vcxproj", "{A83D1874-2DB4-4B95-9AC7-2B5F2632FF5D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gameui", "gameui\gameui.vcxproj", "{EDB31F5D-851C-4CC5-85D2-59781FD920BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -126,6 +128,12 @@ Global
 		{A83D1874-2DB4-4B95-9AC7-2B5F2632FF5D}.PreRelease|Win32.Build.0 = PreRelease|Win32
 		{A83D1874-2DB4-4B95-9AC7-2B5F2632FF5D}.Release|Win32.ActiveCfg = Release|Win32
 		{A83D1874-2DB4-4B95-9AC7-2B5F2632FF5D}.Release|Win32.Build.0 = Release|Win32
+		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.Debug|Win32.Build.0 = Debug|Win32
+		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.PreRelease|Win32.ActiveCfg = Release|Win32
+		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.PreRelease|Win32.Build.0 = Release|Win32
+		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.Release|Win32.ActiveCfg = Release|Win32
+		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
