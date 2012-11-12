@@ -99,6 +99,9 @@
 		4A24077F13F5240F002A5C12 /* StationShipyardForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24077013F5240F002A5C12 /* StationShipyardForm.cpp */; };
 		4A24078413F524E6002A5C12 /* GuiGradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24078013F524E6002A5C12 /* GuiGradient.cpp */; };
 		4A24078513F524E6002A5C12 /* GuiStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24078213F524E6002A5C12 /* GuiStack.cpp */; };
+		4A24FD5E1650F4B700DE7B0F /* UIView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24FD5C1650F4B700DE7B0F /* UIView.cpp */; };
+		4A24FD671650F4D100DE7B0F /* Lua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24FD621650F4D100DE7B0F /* Lua.cpp */; };
+		4A24FD691650F4D100DE7B0F /* Panel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A24FD651650F4D100DE7B0F /* Panel.cpp */; };
 		4A305FD1151341170076D414 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A305FCC151341170076D414 /* FileSystem.cpp */; };
 		4A37073615A879D100E7E5F6 /* lookup3.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A37073315A879D100E7E5F6 /* lookup3.c */; };
 		4A3AE8E5158FD22200EB13DE /* LuaComms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A3AE8E3158FD22200EB13DE /* LuaComms.cpp */; };
@@ -628,6 +631,13 @@
 		4A24078113F524E6002A5C12 /* GuiGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiGradient.h; sourceTree = "<group>"; };
 		4A24078213F524E6002A5C12 /* GuiStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiStack.cpp; sourceTree = "<group>"; };
 		4A24078313F524E6002A5C12 /* GuiStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiStack.h; sourceTree = "<group>"; };
+		4A24FD5C1650F4B700DE7B0F /* UIView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UIView.cpp; sourceTree = "<group>"; };
+		4A24FD5D1650F4B700DE7B0F /* UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIView.h; sourceTree = "<group>"; };
+		4A24FD611650F4D100DE7B0F /* GameUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameUI.h; sourceTree = "<group>"; };
+		4A24FD621650F4D100DE7B0F /* Lua.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lua.cpp; sourceTree = "<group>"; };
+		4A24FD631650F4D100DE7B0F /* Lua.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lua.h; sourceTree = "<group>"; };
+		4A24FD651650F4D100DE7B0F /* Panel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Panel.cpp; sourceTree = "<group>"; };
+		4A24FD661650F4D100DE7B0F /* Panel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Panel.h; sourceTree = "<group>"; };
 		4A305FCB151341170076D414 /* ByteRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByteRange.h; sourceTree = "<group>"; };
 		4A305FCC151341170076D414 /* FileSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystem.cpp; sourceTree = "<group>"; };
 		4A305FCD151341170076D414 /* FileSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
@@ -1371,6 +1381,18 @@
 			name = "Cocoa Support Files";
 			sourceTree = "<group>";
 		};
+		4A24FD601650F4D100DE7B0F /* gameui */ = {
+			isa = PBXGroup;
+			children = (
+				4A24FD611650F4D100DE7B0F /* GameUI.h */,
+				4A24FD621650F4D100DE7B0F /* Lua.cpp */,
+				4A24FD631650F4D100DE7B0F /* Lua.h */,
+				4A24FD651650F4D100DE7B0F /* Panel.cpp */,
+				4A24FD661650F4D100DE7B0F /* Panel.h */,
+			);
+			path = gameui;
+			sourceTree = "<group>";
+		};
 		4A37073215A879D100E7E5F6 /* jenkins */ = {
 			isa = PBXGroup;
 			children = (
@@ -1445,8 +1467,6 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
-				4AFBD7B71641265D002928CB /* PngWriter.cpp */,
-				4AFBD7B81641265D002928CB /* PngWriter.h */,
 				4A6C4BFE13532FC300FDD53F /* Aabb.h */,
 				4A6C4BFF13532FC300FDD53F /* AmbientSounds.cpp */,
 				4A6C4C0013532FC300FDD53F /* AmbientSounds.h */,
@@ -1519,6 +1539,7 @@
 				4AF999A01496D51F009821AF /* GameLoaderSaver.h */,
 				4A6C4C2D13532FC300FDD53F /* GameMenuView.cpp */,
 				4A6C4C2E13532FC300FDD53F /* GameMenuView.h */,
+				4A24FD601650F4D100DE7B0F /* gameui */,
 				4A6C4C3113532FC300FDD53F /* GeoSphere.cpp */,
 				4A6C4C3213532FC300FDD53F /* GeoSphere.h */,
 				4A4F25B814F524D400FD14A6 /* graphics */,
@@ -1646,6 +1667,8 @@
 				4A6C4D3A13532FC300FDD53F /* Planet.h */,
 				4A6C4D3B13532FC300FDD53F /* Player.cpp */,
 				4A6C4D3C13532FC300FDD53F /* Player.h */,
+				4AFBD7B71641265D002928CB /* PngWriter.cpp */,
+				4AFBD7B81641265D002928CB /* PngWriter.h */,
 				4A6C4D3F13532FC300FDD53F /* Polit.cpp */,
 				4A6C4D4013532FC300FDD53F /* Polit.h */,
 				4ADB0D1215C50DF000AE2123 /* posix */,
@@ -1726,6 +1749,8 @@
 				4AF222E5162103EA00BED38E /* Tombstone.cpp */,
 				4AF222E6162103EA00BED38E /* Tombstone.h */,
 				4ABF302D16335A1100664653 /* ui */,
+				4A24FD5C1650F4B700DE7B0F /* UIView.cpp */,
+				4A24FD5D1650F4B700DE7B0F /* UIView.h */,
 				4A6C4D6E13532FC300FDD53F /* utils.cpp */,
 				4A6C4D6F13532FC300FDD53F /* utils.h */,
 				4A4F25E114F524F600FD14A6 /* vector2.h */,
@@ -2435,6 +2460,9 @@
 				4AA4A8DB164D0EB10006C3BF /* Gradient.cpp in Sources */,
 				4AA4A8DC164D0EB10006C3BF /* LuaExpand.cpp in Sources */,
 				4AA4A8DD164D0EB10006C3BF /* LuaGradient.cpp in Sources */,
+				4A24FD5E1650F4B700DE7B0F /* UIView.cpp in Sources */,
+				4A24FD671650F4D100DE7B0F /* Lua.cpp in Sources */,
+				4A24FD691650F4D100DE7B0F /* Panel.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
