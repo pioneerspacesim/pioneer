@@ -22,9 +22,7 @@ Point Button::PreferredSize()
 	growToMinimum(preferredSize, GetContext()->GetSkin().ButtonMinInnerSize());
 
 	// add borders
-	preferredSize += Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2);
-
-	return preferredSize;;
+	return SizeAdd(preferredSize, Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2));
 }
 
 void Button::Layout()

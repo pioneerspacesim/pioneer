@@ -64,6 +64,24 @@ public:
 		return 1;
 	}
 
+	static int l_gradient(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		Color beginColor = Color::FromLuaTable(l, 2);
+		Color endColor = Color::FromLuaTable(l, 3);
+		UI::Gradient::Direction direction = static_cast<UI::Gradient::Direction>(LuaConstants::GetConstantFromArg(l, "UIGradientDirection", 4));
+		LuaObject<UI::Gradient>::PushToLua(c->Gradient(beginColor, endColor, direction));
+		return 1;
+	}
+
+	static int l_expand(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		UI::Expand::Direction direction = UI::Expand::BOTH;
+		if (lua_gettop(l) > 1)
+			direction = static_cast<UI::Expand::Direction>(LuaConstants::GetConstantFromArg(l, "UIExpandDirection", 2));
+		LuaObject<UI::Expand>::PushToLua(c->Expand(direction));
+		return 1;
+	}
+
 	static int l_margin(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::Margin>::PushToLua(c->Margin(luaL_checknumber(l, 2)));
@@ -173,6 +191,8 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "Grid",            LuaContext::l_grid            },
 		{ "Background",      LuaContext::l_background      },
 		{ "ColorBackground", LuaContext::l_colorbackground },
+		{ "Gradient",        LuaContext::l_gradient        },
+		{ "Expand",          LuaContext::l_expand          },
 		{ "Margin",          LuaContext::l_margin          },
 		{ "Align",           LuaContext::l_align           },
 		{ "Scroller",        LuaContext::l_scroller        },

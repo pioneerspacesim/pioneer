@@ -9,14 +9,14 @@ namespace UI {
 
 MultiLineText::MultiLineText(Context *context, const std::string &text) : Widget(context), m_text(text)
 {
-	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFontSize()), m_text));
+	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
 }
 
 Point MultiLineText::PreferredSize()
 {
 	if (m_preferredSize != Point())
 		return m_preferredSize;
-	return m_layout->ComputeSize(Point());
+	return Point(SIZE_EXPAND);
 }
 
 void MultiLineText::Layout()
@@ -30,16 +30,16 @@ void MultiLineText::Draw()
 	m_layout->Draw(GetSize());
 }
 
-Widget *MultiLineText::SetFontSize(FontSize fontSize) {
-	Widget::SetFontSize(fontSize);
-	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFontSize()), m_text));
+Widget *MultiLineText::SetFont(Font font) {
+	Widget::SetFont(font);
+	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
 	return this;
 }
 
 MultiLineText *MultiLineText::SetText(const std::string &text)
 {
 	m_text = text;
-	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFontSize()), m_text));
+	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
 	GetContext()->RequestLayout();
 	return this;
 }

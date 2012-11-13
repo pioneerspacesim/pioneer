@@ -6,6 +6,19 @@ Alpha 29
    * Minor changes and tweaks
      * Cargo scooping now only requires a collision against the ship rather
        than a specific part of it (#1674)
+     * Refueling now handled by Lua script (#1649)
+     * Fixed navigation lights on Courier, Trader, Meteor, Natrix (#1710, #1711)
+
+   * Script changes
+     * New UI.Gradient container to provide a linear gradient background (#1682)
+     * UI widget SetFontSize has been replaced with SetFont to select both
+       type (normal or heading) and size (#1684)
+     * UI Box widgets no longer take expand/fill flags (#1665)
+     * New UI.Expand container to force a widget to fill available space (#1685)
+     * New UI exposes SetText to Lua (#1690)
+
+   * Internal changes
+     * Wrapper to allow new UI to provide views for the old GUI system (#1691)
 
 Alpha 28
 
