@@ -52,3 +52,13 @@ Translate:Add({
 		['Cannot compute orbit parameters']     = 'Nem lehet kiszámítani a keringési paramétereket',
 	}
 })
+
+  ---- RUSSIAN / РУССКИЙ ----
+
+Translate:Add({
+	Russian = {
+		['Cannot compensate for local gravity'] = 'Невозможно компенсировать местную гравитацию',
+		['Starport refused docking permission'] = 'База отказала в разрешении на стыковку',
+		['Cannot compute orbit parameters']     = 'Не удается вычислить параметры орбиты',
+	}
+})

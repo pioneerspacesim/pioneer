@@ -40,3 +40,23 @@ Translate:Add({
 		['Select game to load...'] = 'Wybierz zapis do wczytania...',
 	}
 })
+
+Translate:Add({
+	Russian = {
+		-- Main menu
+		['Start at Earth']    = 'Новый старт: Earth',
+		['Start at New Hope'] = 'Новый старт: New Hope',
+		['Start at Lave']     = 'Новый старт: Lave',
+		['Load game']         = 'Загрузить запись',
+		['Options']           = 'Настройки',
+		['Quit']              = 'Выход',
+
+		-- Generic file dialog
+		['Select file...'] = 'Выберите файл...',
+		['Select']         = 'Выбрать',
+		['Cancel']         = 'Отмена',
+
+		-- Load dialog
+		['Select game to load...'] = 'Выберите файл для загрузки...',
+	}
+})

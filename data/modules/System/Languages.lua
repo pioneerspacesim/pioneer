@@ -24,3 +24,11 @@ Translate:Add({ Polski = {
 	["Your fuel tank is empty."] = "Zbiornik paliwa jest pusty.",
 }
 })
+
+---- RUSSIAN / РУССКИЙ ----
+
+Translate:Add({ Russian = {
+	["Your fuel tank is almost empty."] = "Топливные баки корабля почти пусты!",
+	["Your fuel tank is empty."] = "Топливные баки корабля абсолютно пусты!",
+}
+})
