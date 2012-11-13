@@ -43,6 +43,7 @@ Translate:Add({
 		-- Economy & Trade
 		['Economy & Trade'] = 'Economy & Trade',
 		['Total: '] = 'Total: ',
+		['Fuel tank full.'] = 'Fuel tank full.',
 
 		-- Missions
 		['Mission Details'] = 'Mission Details',
@@ -106,6 +107,7 @@ Translate:Add({
 		-- Economy & Trade
 		['Economy & Trade'] = 'Ekonomia i Handel',
 		['Total: '] = 'Łącznie: ',
+		['Fuel tank full.'] = 'Zbiornik paliwa pełny.',
 		
 		-- Missions
 		['Mission Details'] = 'Szczegóły misji',

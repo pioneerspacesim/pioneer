@@ -32,8 +32,10 @@
 --   experimental
 --
 function Ship:Refuel(amount)
+	local t = Translate:GetTranslator()
     local currentFuel = self.fuel
     if currentFuel == 100 then
+		Comms.Message(t('Fuel tank full.'))
         return 0
     end
     local ship_stats = self:GetStats()
