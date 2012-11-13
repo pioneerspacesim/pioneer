@@ -21,7 +21,8 @@ define_ship {
 	max_cargo = 1220,
 	max_laser = 2,
 	max_missile = 12,
-	max_cargoscoop = 0,
+	max_fuelscoop = 1,
+	max_cargoscoop = 1,
 	capacity = 1220,
 	hull_mass = 666,
 	fuel_tank_mass = 337, --full tank, tons in addition to hull_mass
