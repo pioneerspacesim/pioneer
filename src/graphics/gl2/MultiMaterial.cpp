@@ -24,6 +24,9 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc)
 	//using only one light
 	if (desc.lighting)
 		ss << "#define NUM_LIGHTS 1\n";
+	else
+		ss << "#define NUM_LIGHTS 0\n";
+
 	if (desc.specularMap)
 		ss << "#define MAP_SPECULAR\n";
 	if (desc.glowMap)
