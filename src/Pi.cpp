@@ -85,7 +85,6 @@
 #include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
-#include "graphics/Light.h"
 #include "graphics/Renderer.h"
 #include "gui/Gui.h"
 #include "newmodel/NModel.h"
@@ -94,7 +93,6 @@
 #include "gameui/Lua.h"
 #include "SDLWrappers.h"
 #include "ModManager.h"
-#include "graphics/Light.h"
 #include "gui/Gui.h"
 #include <algorithm>
 #include <sstream>

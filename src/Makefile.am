@@ -5,7 +5,7 @@ endif
 if BUILD_POSIX
     PLATFORM_SUBDIRS = posix
 endif
-SUBDIRS = collider gui graphics galaxy terrain text ui gameui $(PLATFORM_SUBDIRS)
+SUBDIRS = collider gui graphics galaxy newmodel terrain text ui gameui $(PLATFORM_SUBDIRS)
 
 include $(top_srcdir)/Makefile.common
 

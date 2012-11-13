@@ -332,7 +332,9 @@ void ModelViewer::DrawCollisionMesh()
 
 	//might want to add some offset
 	m_renderer->SetWireFrameMode(true);
+	Graphics::vtxColorMaterial->twoSided = true;
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
+	Graphics::vtxColorMaterial->twoSided = false;
 	m_renderer->SetWireFrameMode(false);
 }
 
@@ -403,7 +405,7 @@ void ModelViewer::DrawLog()
 {
 	const Color4f yellowish = Color4f(0.9, 0.9, 0.3f, 1.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
-	m_ui->GetContext()->GetFont(UI::Widget::FONT_SIZE_XSMALL)->RenderString(m_logString.c_str(), m_width - 512.f, 10.f, yellowish);
+	m_ui->GetContext()->GetFont(UI::Widget::FONT_XSMALL)->RenderString(m_logString.c_str(), m_width - 512.f, 10.f, yellowish);
 }
 
 void ModelViewer::DrawModel()
@@ -689,7 +691,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 void ModelViewer::SetupUI()
 {
 	UI::Context *c = m_ui.Get();
-	c->SetFontSize(UI::Widget::FONT_SIZE_XSMALL);
+	c->SetFont(UI::Widget::FONT_XSMALL);
 
 	for (unsigned int i=0; i<9; i++)
 		colorSliders[i] = 0;
@@ -720,7 +722,7 @@ void ModelViewer::SetupUI()
 
 	//model name + reload button: visible even if loading failed
 	box->PackEnd(nameLabel = c->Label(m_modelName));
-	nameLabel->SetFontSize(UI::Widget::FONT_SIZE_NORMAL);
+	nameLabel->SetFont(UI::Widget::FONT_NORMAL);
 	add_pair(c, box, reloadButton = c->Button(), "Reload model");
 	reloadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnReloadModel), reloadButton));
 
@@ -738,30 +740,28 @@ void ModelViewer::SetupUI()
 		box->PackEnd(patternSelector = c->DropDown()->AddOption("Default"));
 
 		//// 3x3 colour sliders
-		// I don't quite understand the packing, so I set both fill & expand and it seems to work.
 		// It's a floating widget, because I can't quite position a Grid how I want (bottom of the screen)
 		// I'd prefer a hide button somewhere - maybe I can float the sliders away
-		const Uint32 all = UI::Box::BOX_FILL | UI::Box::BOX_EXPAND;
 
 		c->AddFloatingWidget(
 			colorSliderBox = c->HBox()->PackEnd( //three columns
 				c->VBox()->PackEnd(UI::WidgetSet( //three rows
-					c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[0] = c->HSlider(), all),
-					c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[1] = c->HSlider(), all),
-					c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[2] = c->HSlider(), all)
-					)), all
+					c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[0] = c->HSlider()),
+					c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[1] = c->HSlider()),
+					c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[2] = c->HSlider())
+				))
 			)->PackEnd(
 				c->VBox()->PackEnd(UI::WidgetSet( //three rows
-					c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[3] = c->HSlider(), all),
-					c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[4] = c->HSlider(), all),
-					c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[5] = c->HSlider(), all)
-					)), all
+					c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[3] = c->HSlider()),
+					c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[4] = c->HSlider()),
+					c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[5] = c->HSlider())
+				))
 			)->PackEnd(
 				c->VBox()->PackEnd(UI::WidgetSet( //three rows
-					c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[6] = c->HSlider(), all),
-					c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[7] = c->HSlider(), all),
-					c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[8] = c->HSlider(), all)
-					)), all
+					c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[6] = c->HSlider()),
+					c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[7] = c->HSlider()),
+					c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[8] = c->HSlider())
+				))
 			)
 		, UI::Point(m_width-520, m_height-150), UI::Point(500, 300));
 
@@ -827,7 +827,6 @@ void ModelViewer::SetupUI()
 		supportsThrusters = !fivi.GetResults().empty();
 	}
 	if (supportsThrusters) {
-		const Uint32 all = UI::Box::BOX_FILL | UI::Box::BOX_EXPAND;
 		thrustSliderBox =
 		c->HBox(spacing)->PackEnd(
 			// Column 1, Linear thrust sliders
@@ -835,22 +834,22 @@ void ModelViewer::SetupUI()
 				// Rows X,Y,Z
 				UI::WidgetSet(
 					c->Label("Linear"),
-					c->HBox()->PackEnd(c->Label("X"))->PackEnd(thrustSliders[0] = c->HSlider(), all),
-					c->HBox()->PackEnd(c->Label("Y"))->PackEnd(thrustSliders[1] = c->HSlider(), all),
-					c->HBox()->PackEnd(c->Label("Z"))->PackEnd(thrustSliders[2] = c->HSlider(), all)
+					c->HBox()->PackEnd(c->Label("X"))->PackEnd(thrustSliders[0] = c->HSlider()),
+					c->HBox()->PackEnd(c->Label("Y"))->PackEnd(thrustSliders[1] = c->HSlider()),
+					c->HBox()->PackEnd(c->Label("Z"))->PackEnd(thrustSliders[2] = c->HSlider())
 				)
-			), all
+			)
 		)->PackEnd(
 			//Column 2, Angular thrust sliders
 			c->VBox()->PackEnd(
 				// Rows X,Y,Z
 				UI::WidgetSet(
 					c->Label("Angular"),
-					c->HBox()->PackEnd(c->Label("Pitch"))->PackEnd(thrustSliders[3] = c->HSlider(), all),
-					c->HBox()->PackEnd(c->Label("Yaw"))->PackEnd(thrustSliders[4] = c->HSlider(), all),
-					c->HBox()->PackEnd(c->Label("Roll"))->PackEnd(thrustSliders[5] = c->HSlider(), all)
+					c->HBox()->PackEnd(c->Label("Pitch"))->PackEnd(thrustSliders[3] = c->HSlider()),
+					c->HBox()->PackEnd(c->Label("Yaw"))->PackEnd(thrustSliders[4] = c->HSlider()),
+					c->HBox()->PackEnd(c->Label("Roll"))->PackEnd(thrustSliders[5] = c->HSlider())
 				)
-			), all
+			)
 		);
 		for(unsigned int i=0; i<2*3; i++) {
 			thrustSliders[i]->SetValue(0.5f);

@@ -137,8 +137,6 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 		//texture3 is reserved for pattern
 		//texture4 is reserved for color gradient
 
-		// full specification of template types not needed, in fact won't compile in VS2012!
-		//model->m_materials.push_back(std::make_pair<std::string, RefCountedPtr<Material> >(((*it).name), mat));
 		model->m_materials.push_back(std::make_pair((*it).name, mat));
 	}
 	//printf("Loaded %d materials\n", int(model->m_materials.size()));
@@ -171,7 +169,12 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 				if (cacheIt != meshCache.end())
 					mesh = (*cacheIt).second;
 				else {
-					mesh = LoadMesh(*(it), def.animDefs, def.tagDefs);
+					try {
+						mesh = LoadMesh(*it, def.animDefs, def.tagDefs);
+					} catch (LoadingError &err) {
+						//append filename - easiest to do here
+						throw (LoadingError(stringf("%0:\n%1", *it, err.what())));
+					}
 					meshCache[*(it)] = mesh;
 				}
 				assert(mesh.Valid());
@@ -194,7 +197,11 @@ NModel *Loader::CreateModel(ModelDefinition &def)
 	for (std::vector<std::string>::const_iterator it = def.collisionDefs.begin();
 		it != def.collisionDefs.end(); ++it)
 	{
-		LoadCollision(*it);
+		try {
+			LoadCollision(*it);
+		} catch (LoadingError &err) {
+			throw (LoadingError(stringf("%0:\n%1", *it, err.what())));
+		}
 	}
 	// No CM supplied? Autogenerate a simple BB.
 	if (!m_model->m_collMesh.Valid()) {
@@ -270,10 +277,10 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 		aiProcess_GenSmoothNormals);  //only if normals not specified
 
 	if(!scene)
-		throw LoadingError("Couldn't load " + filename);
+		throw LoadingError("Couldn't load file");
 
 	if(scene->mNumMeshes == 0)
-		throw LoadingError(filename + " has no geometry. How odd!");
+		throw LoadingError("No geometry found");
 
 	//turn all scene aiMeshes into Surfaces
 	//Index matches assimp index.
@@ -348,7 +355,7 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surfa
 		assert(mesh->HasNormals());
 
 		if (!mesh->HasTextureCoords(0))
-			throw LoadingError("Mesh has no uv coordinates");
+			throw LoadingError("Missing UV coordinates");
 
 		//Material names are not consistent throughout formats...
 		//try to figure out a material
@@ -685,10 +692,10 @@ void Loader::LoadCollision(const std::string &filename)
 		);
 
 	if(!scene)
-		throw LoadingError("Couldn't load " + filename);
+		throw LoadingError("Could not load file");
 
 	if(scene->mNumMeshes == 0)
-		throw LoadingError(filename + " has no geometry");
+		throw LoadingError("No geometry found");
 
 	//note geomtree keeps a pointer to the arrays but doesn't own them
 	//geomtree does not use vector3, so watch out
