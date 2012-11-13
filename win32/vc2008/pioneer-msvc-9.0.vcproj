@@ -48,7 +48,7 @@
 				SmallerTypeCheck="true"
 				RuntimeLibrary="3"
 				FloatingPointModel="2"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="pch.h"
 				ProgramDataBaseFileName="$(IntDir)\$(ProjectName)D.pdb"
 				WarningLevel="3"
@@ -1797,6 +1797,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\MathUtil.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\matrix3x3.h"
 				>
 			</File>
 			<File

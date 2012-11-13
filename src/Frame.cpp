@@ -30,7 +30,8 @@ void Frame::Serialize(Serializer::Writer &wr, Frame *f, Space *space)
 	wr.Int32(f->m_flags);
 	wr.Double(f->m_radius);
 	wr.String(f->m_label);
-	for (int i=0; i<16; i++) wr.Double(f->m_orient[i]);
+	wr.Vector3d(f->m_pos);
+	for (int i=0; i<9; i++) wr.Double(f->m_orient[i]);
 	wr.Vector3d(f->m_angVel);
 	wr.Int32(space->GetIndexForSystemBody(f->m_sbody));
 	wr.Int32(space->GetIndexForBody(f->m_astroBody));
@@ -49,12 +50,9 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent)
 	f->m_flags = rd.Int32();
 	f->m_radius = rd.Double();
 	f->m_label = rd.String();
-	for (int i=0; i<16; i++) f->m_orient[i] = rd.Double();
+	f->m_pos = rd.Vector3d();
+	for (int i=0; i<9; i++) f->m_orient[i] = rd.Double();
 	f->m_angVel = rd.Vector3d();
-	if (rd.StreamVersion() < 20) {
-		vector3d pos = rd.Vector3d();
-		f->m_orient.SetTranslate(pos);
-	}
 	f->m_sbody = space->GetSystemBodyByIndex(rd.Int32());
 	f->m_astroBodyIndex = rd.Int32();
 	f->m_vel = vector3d(0.0);
@@ -63,24 +61,18 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent)
 	}
 	Sfx::Unserialize(rd, f);
 
-	f->m_oldOrient = f->m_orient;
-	f->m_oldAngDisplacement = vector3d(0.0);
-
+	f->ClearMovement();
 	return f;
 }
 
 void Frame::PostUnserializeFixup(Frame *f, Space *space)
 {
+	f->UpdateRootPosVel();
 	f->m_astroBody = space->GetBodyByIndex(f->m_astroBodyIndex);
 	for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
 		PostUnserializeFixup(*i, space);
 	}
-}
-
-void Frame::RemoveChild(Frame *f)
-{
-	m_children.remove(f);
 }
 
 void Frame::Init(Frame *parent, const char *label, unsigned int flags)
@@ -91,11 +83,12 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 	m_parent = parent;
 	m_flags = flags;
 	m_radius = 0;
+	m_pos = vector3d(0.0);
 	m_vel = vector3d(0.0);
 	m_angVel = vector3d(0.0);
-	m_orient = matrix4x4d::Identity();
-	m_oldOrient = matrix4x4d::Identity();
-	m_oldAngDisplacement = vector3d(0.0);
+	m_orient = matrix3x3d::Identity();
+	UpdateRootPosVel();
+	ClearMovement();
 	m_collisionSpace = new CollisionSpace();
 	if (m_parent) {
 		m_parent->m_children.push_back(this);
@@ -119,171 +112,105 @@ void Frame::SetPlanetGeom(double radius, Body *obj)
 	m_collisionSpace->SetSphere(vector3d(0,0,0), radius, static_cast<void*>(obj));
 }
 
-void Frame::ApplyLeavingTransform(matrix4x4d &m) const
+
+vector3d Frame::GetVelocityRelTo(const Frame *relTo) const
 {
-	m = m_orient * m;
+	if (this == relTo) return vector3d(0,0,0);		// these lines are not strictly necessary
+	vector3d diff = m_rootVel - relTo->m_rootVel;
+	if (relTo->IsRotFrame()) return diff * relTo->m_orient;
+	else return diff;
 }
 
-void Frame::ApplyEnteringTransform(matrix4x4d &m) const
+vector3d Frame::GetPositionRelTo(const Frame *relTo) const
 {
-	m = m * m_orient.InverseOf();
+	if (this == relTo) return vector3d(0,0,0);
+	vector3d diff = m_rootPos - relTo->m_rootPos;
+	if (relTo->IsRotFrame()) return diff * relTo->m_orient;
+	else return diff;
 }
 
-vector3d Frame::GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo)
+vector3d Frame::GetInterpPositionRelTo(const Frame *relTo) const
 {
-	if (fFrom == fTo) return vector3d(0,0,0);
-	vector3d v1 = vector3d(0,0,0);
-	vector3d v2 = vector3d(0,0,0);
+	if (this == relTo) return vector3d(0,0,0);
+	vector3d diff = m_rootInterpPos - relTo->m_rootInterpPos;
+	if (relTo->IsRotFrame()) return diff * relTo->m_orient;
+	else return diff;
+}
 
-	matrix4x4d m = matrix4x4d::Identity();
-
-	const Frame *f = fFrom;
-
-	// move forwards from origin to root
-	while (f->m_parent && fTo != f) {
-		v1 += m.ApplyRotationOnly(-f->GetVelocity());
-		m = m * f->m_orient.InverseOf();
-		f = f->m_parent;
+matrix3x3d Frame::GetOrientRelTo(const Frame *relTo) const
+{
+	if (this == relTo) return matrix3x3d::Identity();
+	if (IsRotFrame()) {
+		if (relTo->IsRotFrame()) return m_orient * relTo->m_orient.Transpose();
+		else return m_orient;
 	}
+	if (relTo->IsRotFrame()) return relTo->m_orient.Transpose();
+	else return matrix3x3d::Identity();
+}
 
-	// move backwards from target to root
-	while (fTo != f) {
-		v2 = fTo->m_orient.ApplyRotationOnly(fTo->GetVelocity() + v2);
-		fTo = fTo->m_parent;
+matrix3x3d Frame::GetInterpOrientRelTo(const Frame *relTo) const
+{
+	if (this == relTo) return matrix3x3d::Identity();
+	if (IsRotFrame()) {
+		if (relTo->IsRotFrame()) return m_interpOrient * relTo->m_interpOrient.Transpose();
+		else return m_interpOrient;
 	}
-
-	vector3d out = v1 + m.ApplyRotationOnly(v2);
-//	printf("v1: %.2f,%.2f,%.2f  v2: %.2f,%.2f,%.2f ~= %.2f,%.2f,%.2f\n", v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, out.x, out.y, out.z);
-	return out;
+	if (relTo->IsRotFrame()) return relTo->m_interpOrient.Transpose();
+	else return matrix3x3d::Identity();
 }
 
-void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m)
+void Frame::UpdateInterpTransform(double alpha)
 {
-	matrix4x4d m2 = matrix4x4d::Identity();
-	m = matrix4x4d::Identity();
+	m_interpPos = alpha*m_pos + (1.0-alpha)*m_oldPos;
+	m_interpOrient = m_oldOrient;
 
-	const Frame *f = fFrom;
-
-	while (f->m_parent && fTo != f) {
-		f->ApplyLeavingTransform(m);
-		f = f->m_parent;
+	double len = m_oldAngDisplacement.Length() * double(alpha);
+	if (!is_zero_general(len)) {
+		vector3d axis = m_oldAngDisplacement.Normalized();
+		matrix3x3d rot = matrix3x3d::BuildRotate(len, axis.x, axis.y, axis.z);
+		m_interpOrient = rot * m_interpOrient;
 	}
-
-	while (fTo != f) {
-		fTo->ApplyEnteringTransform(m2);
-		fTo = fTo->m_parent;
-	}
-
-	m = m2 * m;
-}
-
-void Frame::GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m)
-{
-	matrix4x4d m2 = matrix4x4d::Identity();
-	m = matrix4x4d::Identity();
-
-	const Frame *f = fFrom;
-
-	while (f->m_parent && fTo != f) {
-		m = f->m_interpolatedTransform * m;
-		f = f->m_parent;
-	}
-
-	while (fTo != f) {
-		m2 = m2 * fTo->m_interpolatedTransform.InverseOf();
-		fTo = fTo->m_parent;
-	}
-
-	m = m2 * m;
-}
-
-void Frame::RotateInTimestep(double step)
-{
-	double ang = m_angVel.Length() * step;
-	if (is_zero_general(ang)) return;
-	vector3d rotAxis = m_angVel.Normalized();
-	matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(ang, rotAxis.x, rotAxis.y, rotAxis.z);
-
-	const vector3d pos = m_orient.GetTranslate();
-	m_orient = m_orient * rotMatrix;
-	m_orient.SetTranslate(pos);
-}
-
-// For an object in a rotating frame, relative to non-rotating frames it
-// must attain this velocity within rotating frame to be stationary.
-
-vector3d Frame::GetStasisVelocityAtPosition(const vector3d &pos) const
-{
-	return -m_angVel.Cross(pos);
-}
-
-bool Frame::IsStationRotFrame() const
-{
-	return (m_astroBody && m_astroBody->IsType(Object::SPACESTATION));
-}
-
-// Find system body this frame is for.
-
-SystemBody *Frame::GetSystemBodyFor() const
-{
-	if (m_sbody) return m_sbody;
-	if (m_parent) return m_parent->m_sbody; // rotating frame of planet
-	else return 0;
-}
-
-// Find body this frame is for
-
-Body *Frame::GetBodyFor() const
-{
-	if (m_astroBody) return m_astroBody;
-	if (m_sbody && m_sbody->type != SystemBody::TYPE_GRAVPOINT && !m_children.empty())
-		return (*m_children.begin())->m_astroBody;
-	return 0;
-}
-
-void Frame::UpdateInterpolatedTransform(double alpha)
-{
-	vector3d outPos = alpha*vector3d(m_orient[12], m_orient[13], m_orient[14]) +
-			(1.0-alpha)*vector3d(m_oldOrient[12], m_oldOrient[13], m_oldOrient[14]);
-
-	m_interpolatedTransform = m_oldOrient;
-	{
-		double len = m_oldAngDisplacement.Length() * double(alpha);
-		if (! is_zero_general(len)) {
-			vector3d rotAxis = m_oldAngDisplacement.Normalized();
-			matrix4x4d rotMatrix = matrix4x4d::RotateMatrix(len,
-					rotAxis.x, rotAxis.y, rotAxis.z);
-			m_interpolatedTransform = rotMatrix * m_interpolatedTransform;
-		}
-	}
-	m_interpolatedTransform[12] = outPos.x;
-	m_interpolatedTransform[13] = outPos.y;
-	m_interpolatedTransform[14] = outPos.z;
+	m_rootInterpPos = m_interpPos + m_parent->m_rootInterpPos;
 
 	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		(*i)->UpdateInterpolatedTransform(alpha);
+		(*i)->UpdateInterpTransform(alpha);
 	}
+}
 
+void Frame::ClearMovement()
+{
+	m_rootInterpPos = m_rootPos;
+	m_oldPos = m_interpPos = m_pos;
+	m_oldOrient = m_interpOrient = m_orient;
+	m_oldAngDisplacement = vector3d(0.0);
 }
 
 void Frame::UpdateOrbitRails(double time, double timestep)
 {
+	m_oldPos = m_pos;
 	m_oldOrient = m_orient;
 	m_oldAngDisplacement = m_angVel * timestep;
-	if (!m_parent) {
-		m_orient = matrix4x4d::Identity();
-	} else if (m_sbody) {
-		// this isn't very smegging efficient
-		vector3d pos = m_sbody->orbit.OrbitalPosAtTime(time);
-		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(time+1.0);
-		vector3d vel = pos2 - pos;
-		SetPosition(pos);
-		SetVelocity(vel);
+
+	// update rotation
+	double ang = m_angVel.Length() * timestep;		// hmm. cumulative inaccuracy?
+	if (!is_zero_general(ang)) {
+		vector3d axis = m_angVel.Normalized();
+		matrix3x3d rot = matrix3x3d::BuildRotate(ang, axis.x, axis.y, axis.z);
+		m_orient = rot * m_orient;
 	}
-	RotateInTimestep(timestep);
+	UpdateRootPosVel();
 
 	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		(*i)->UpdateOrbitRails(time, timestep);
 	}
 }
 
+void Frame::UpdateRootPosVel()
+{
+	// update pos & vel relative to parent frame
+	if (!m_parent) m_rootPos = m_rootVel = vector3d(0,0,0);
+	else {
+		m_rootPos = m_pos + m_parent->m_rootPos;
+		m_rootVel = m_vel + m_parent->m_rootVel;
+	}
+}

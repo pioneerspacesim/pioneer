@@ -19,6 +19,23 @@ Frustum Frustum::FromGLState()
 
 Frustum::Frustum() {}
 
+	static matrix4x4 FrustumMatrix (T left, T right, T bottom, T top, T znear, T zfar) {
+		assert((znear > T(0)) && (zfar > T(0)));
+		// these expressions come from the documentation for glFrustum
+		const T sx = (T(2) * znear) / (right - left);
+		const T sy = (T(2) * znear) / (top - bottom);
+		const T A = (right + left) / (right - left);
+		const T B = (top + bottom) / (top - bottom);
+		const T C = -(zfar + znear) / (zfar - znear);
+		const T D = -(T(2) * zfar * znear) / (zfar - znear);
+		matrix4x4 m;
+		m[ 0] = sx; m[ 4] =  0; m[ 8] =  A; m[12] = 0;
+		m[ 1] =  0; m[ 5] = sy; m[ 9] =  B; m[13] = 0;
+		m[ 2] =  0; m[ 6] =  0; m[10] =  C; m[14] = D;
+		m[ 3] =  0; m[ 7] =  0; m[11] = -1; m[15] = 0;
+		return m;
+	}
+
 Frustum::Frustum(float width, float height, float fovAng, float znear, float zfar)
 {
 	//http://www.opengl.org/resources/faq/technical/transformations.htm
