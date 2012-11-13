@@ -161,10 +161,14 @@ public:
 	bool HasAtmosphere() const;
 	void InitAtmosphere() { m_atmosphere = new Atmosphere(this); }
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
-		*outColor = m_atmosphere->GetSimpleScatteringColor();
+		*outColor = m_atmosphere->GetApproximateScatteringColor();
 		*outDensity = m_atmosphere->GetSurfaceDensity();
 	}
 	Atmosphere *GetAtmosphere() const { return m_atmosphere; }
+	double GetAtmosphereAverageSpecificHeat() const { return m_atmosphereAverageSpecificHeat.ToDouble(); };
+	double GetAtmosphereAverageMolarMass() const { return m_atmosphereAverageMolarMass.ToDouble(); };
+	bool GetCustomAtmosphereAverageSpecificHeatUse() const { return m_useCustomAtmosphereAverageSpecificHeat; };
+	bool GetCustomAtmosphereAverageMolarMassUse() const { return m_useCustomAtmosphereAverageMolarMass; }
 
 	// Debug function - prints out comparison of against old pre-refactor version 
 	void SystemBody::TestSingleConstituentModelAgainstOldVersion();
@@ -172,8 +176,8 @@ public:
 	Color PickAtmosphereOld() const; // for comparison to old function
 
 	// This should be called before first use - currently called by Geosphere:: constructor
-	void InitAtmosphereParams() const { m_atmosphere->CalcAtmosphereParams(); }
-	Atmosphere::AtmosphereParameters *GetAtmosphereParams() const { return m_atmosphere->GetAtmosphereParams(); }
+	void InitAtmosphereParams() const { m_atmosphere->InitModelsForPhysicsAndRendering(); }
+	Atmosphere::ApproximateScatteringShaderParameters *GetApproximateScatteringShaderParams() const { return m_atmosphere->GetApproximateScatteringShaderParams(); }
 
 	Atmosphere *m_atmosphere;
 
@@ -196,7 +200,11 @@ public:
 	fixed orbitalOffset;
 	fixed orbitalPhaseAtStart; // 0 to 2 pi
 	fixed axialTilt; // in radians
-	int averageTemp;
+	// the fraction of light superficially reflected off a planet
+	// 1.0 means all light is reflected and incident light plays no part in the thermal equilibrium 
+	fixed bondAlbedo; // 0.0 to 1.0
+	bool customTempUsed;
+	int averageTemp; // in K
 	BodyType type;
 	bool isCustomBody;
 
@@ -207,6 +215,13 @@ public:
 	fixed m_volatileIces; // 1.0 = 100% ice cover (earth = 3%)
 	fixed m_volcanicity; // 0 = none, 1.0 = fucking volcanic
 	fixed m_atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
+	bool m_useCustomAtmosphereAverageSpecificHeat; // false by default
+	fixed m_atmosphereAverageSpecificHeat; // average constant pressure specific heat in J/kg/mol. 
+	                                       // used to override one built from constituents for custom systems where
+	                                       // it might be impractical to specify the precise composition.
+	bool m_useCustomAtmosphereAverageMolarMass; // false by default
+	fixed m_atmosphereAverageMolarMass;    // average molar mass in kg/mol.
+	                                     // used to override the value built from constituents similar to specific heat
 	fixed m_life; // 0.0 = dead, 1.0 = teeming
 
 	RingStyle m_rings;
@@ -286,6 +301,7 @@ private:
 	void MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, MTRand &rand);
 	void CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, MTRand &rand);
 	void GenerateFromCustom(const CustomSystem *, MTRand &rand);
+	void CalcTemperatureFromCustomSystemBody(SystemBody *sbody, const CustomSystemBody *csbody);
 	void Populate(bool addSpaceStations);
 
 	SystemPath m_path;

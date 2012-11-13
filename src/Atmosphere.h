@@ -4,7 +4,7 @@
 #ifndef _ATMOSPHERE_H
 #define _ATMOSPHERE_H
 
-#include "Libs.h"
+#include "libs.h"
 #include "vector3.h"
 #include "Color.h"
 #include "galaxy/StarSystem.h"
@@ -114,6 +114,7 @@
     Translations of strings
     Absorption coefficients for aerosol?
 	Split content into more files
+	Expose presence of gasses, corrosiveness, or certain elements in compounds to Lua 
 
 Enable chemical compositions:
     Add chemical formula names
@@ -138,14 +139,18 @@ public:
 };
 
 class Aerosol : public Scatterer {
-	Aerosol(std::string name, Color colour) : Scatterer (name, colour) { };
+	Aerosol(std::string name, double mieCoefficient, Color colour) : Scatterer (name, colour) { };
 	// parameters in calculating aerosol layers or scale heights
+
+	// rendering
+	// mie coefficient
+	double mieCoeff;
 };
 
 class AerosolConstituent {
 public:
 	AerosolConstituent() { };
-	Color GetSimpleScatteringModelColorContrib(SystemBody *sbody);
+	Color GetApproximateScatteringModelColorContrib(SystemBody *sbody);
 	const Aerosol *aerosol;
 	double fraction;
 	// seperate scale heights for aerosol
@@ -177,7 +182,7 @@ public:
 	GasConstituent(const Gas *g, double fractionOfNumberOfMolecules,
 		vector3d colChangeOffset_, vector3d colChangeRange_);
 
-	Color GetSimpleScatteringModelColorContrib(SystemBody *sbody) const;
+	Color GetApproximateScatteringModelColorContrib(SystemBody *sbody) const;
 	void PrintProperties(SystemBody *sbody) const;
 	
 	const Gas *gas;
@@ -205,31 +210,41 @@ public:
 	Atmosphere(SystemBody *sbody);
 	void Init(SystemBody *sbody);
 	// Single Gas model (old model)
-	void Atmosphere::CalculateGasConstituentsForSingleConstituentModel(SystemBody *sbody);
-	void Atmosphere::PickSingleConstituentAtmosphere(SystemBody *sbody);
+	void PickSingleConstituentAtmosphere(SystemBody *sbody);
+	void CalculateGasConstituentsForSingleConstituentModel(SystemBody *sbody);
 	// Multiple gas and aerosol model
-	void Atmosphere::CalculateGasConstituents(SystemBody *sbody) { };
-	void Atmosphere::CalculateAerosolConstituents(SystemBody *sbody) { };
-	void CalculateSimpleScatteringModelProperties();
+	void PickMultipleConstituentAtmosphere();
+	void CalculateGasConstituentsForMultipleConstituentModel();
+	void CalculateAerosolConstituentsForMultipleConstituentModel() { };
+	void CalculateSimpleScatteringModelProperties() { };
+	void CalculateApproximateScatteringModelProperties();
+	// Not run during sysgen when complete generation is not needed
+	// Calls Atmosphere::CalcAtmosphereParams and Atmosphere::CalcAdiabaticModelParameters
+	void InitModelsForPhysicsAndRendering();
+	// Must be called before GetAtmosphericState is called
+	void CalcAdiabaticAtmosphereModelParameters();
 
 	double GetSurfaceDensity() const { return m_atmosDensity; }
-	Color GetSimpleScatteringColor() const { return m_simpleScatteringColor; }
+	Color GetApproximateScatteringColor() const { return m_approximateScatteringColor; }
 	SystemBody *GetSystemBody() const { return m_sbody; }
 	std::vector<GasConstituent> GetGasConstituents() const { return m_gasConstituents; }
 	bool GetGasPresence(std::string name, GasConstituent *gc);
 	std::vector<AerosolConstituent> GetAerosolConstituents() const { return m_aerosolConstituents; }
 	bool GetAerosolPresence(std::string name, AerosolConstituent *ac);
 	// Constant pressure specific heat in J/kg/mol
-	double GetSpecificHeatForSingleConstituentModel() { return Cp; };
+	double GetSpecificHeatForSingleConstituentModel() { return m_avgCp; };
 	// Molar mass in kg/mol
-	double GetMolarMassForSingleConstituentModel() { return M; };
+	double GetMolarMassForSingleConstituentModel() { return m_avgM; };
+
+	void Atmosphere::PrintProperties();
+	
 
 	// Physics
 	void Atmosphere::GetAtmosphericState(double dist, double *outPressure, double *outDensity) const;
 
 	// Rendering
 	// Used to store data relevant to shaders
-	struct AtmosphereParameters {
+	struct ApproximateScatteringShaderParameters {
 		float atmosRadius;
 		float atmosInvScaleHeight;
 		float atmosDensity;
@@ -237,14 +252,14 @@ public:
 		Color atmosCol;
 		vector3d center;
 		float scale;
-		AtmosphereParameters() : atmosRadius(0.0), atmosInvScaleHeight(0.0),
+		ApproximateScatteringShaderParameters() : atmosRadius(0.0), atmosInvScaleHeight(0.0),
 			atmosDensity(0.0), planetRadius(0.0), atmosCol(Color(0.0)),
 			center(vector3d(0.0)), scale(0.0)
 		{
 		}
 	};
 	// Requires CalcAtmospheres to be run first. SystemBody provides an interface
-	AtmosphereParameters *GetAtmosphereParams() const { return m_shaderAtmosParams; }
+	ApproximateScatteringShaderParameters *GetApproximateScatteringShaderParams() const { return m_AS_ShaderParams; }
 	// Not run during sysgen to save computation when complete generation is not needed
 	void CalcAtmosphereParams();
 
@@ -254,21 +269,48 @@ private:
 	std::vector<GasConstituent> m_gasConstituents;
 	std::vector<AerosolConstituent> m_aerosolConstituents;
 
-	Color m_simpleScatteringColor;
+	Color m_approximateScatteringColor;
 	
 	// Molar mass of well mixed atmosphere gasses
 	// (mass of 1 mole of average particles)
-	double M;              // kg/mol
+	double m_avgM;                 // kg/mol
+	double m_avgMFromConstituents; // kg/mol
+	// use value from lua for custom atmospheres
+	// as it might be impractical to specify constituents exactly
+	bool m_useCustomAtmosphereAverageSpecificHeat; 
 	// Specific Heat of well mixed atmosphere gasses
 	// The energy in Joules required to raise one kg 
 	// of atmosphere by 1 degree Kelvin
 	// This changes a bit for each type of gas molecule as 
 	// the temperature changes
-	double Cp;             // J/kg/K
+	double m_avgCp;             // J/kg/K
+	double m_avgCpFromConstituents;
+	// use value from lua for custom atmospheres instead of calculating
+	// as it might be impractical to specify constituents exactly
+	bool m_useCustomAtmosphereAverageMolarMass;
+
+	// Quantitites common to calculating atmosphere properties
+	// at different heights. Calculated via CalcAdiabaticAtmosphereModelParameters().
+	// Contains some properties useful for things like the autopilot
+	struct DryAdiabaticAtmosphereModelParams {
+		// This model has no atmosphere beyond the adiabetic limit
+		double m_adiabaticLimit;        // in m
+		double m_surfaceGravity_g;      // in m/s^2
+		double m_lapseRate_L;           // in K/m
+		double m_surfaceDensity;        // in kg/m^3
+		double m_surfaceTemperature_T0; // in K
+		double m_surfacePressure_p0;    // in atmospheres
+	};
+
+	DryAdiabaticAtmosphereModelParams *m_dryAdiabaticAtmosphereModelParams;
+
+
+
+	double adiabaticAtmosphereModelLimit;
 	double m_atmosDensity; // kg/m^3
 	double m_atmosOxidizing;
 
-	AtmosphereParameters *m_shaderAtmosParams;
+	ApproximateScatteringShaderParameters *m_AS_ShaderParams;
 
 public:
 	// Gasses

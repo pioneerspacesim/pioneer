@@ -78,7 +78,7 @@ private:
 	ScopedPtr<Graphics::Material> m_surfaceMaterial;
 	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
 	//special parameters for shaders
-	Atmosphere::AtmosphereParameters m_atmosphereParameters;
+	Atmosphere::ApproximateScatteringShaderParameters m_AS_ShaderParameters;
 };
 
 #endif /* _GEOSPHERE_H */

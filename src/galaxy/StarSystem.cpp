@@ -913,6 +913,29 @@ SystemBody *StarSystem::GetBodyByPath(const SystemPath &path) const
 	return m_bodies[path.bodyIndex];
 }
 
+void StarSystem::CalcTemperatureFromCustomSystemBody(SystemBody *sbody, const CustomSystemBody *csbody) {
+	if (csbody->useCustomTemp) {
+		sbody->averageTemp = csbody->averageTemp;
+		sbody->customTempUsed = true;
+	}
+	else {
+		if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
+			Error("Error: Custom System definition: No temperature specified for star %s.\n", csbody->name.c_str());
+		} else if (sbody->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET) {
+			fixed minDistToStar, maxDistToStar, averageDistToStar;
+			const SystemBody *star = sbody->FindStarAndTrueOrbitalRange(minDistToStar, maxDistToStar);
+			averageDistToStar = (minDistToStar+maxDistToStar)>>1;
+
+			// Calculate thermal equilibrium based on distance to primary with no greenhouse effect
+			const fixed greenhouse(0);
+			sbody->averageTemp = CalcSurfaceTemp(star, averageDistToStar, csbody->bondAlbedo, greenhouse);
+		} else {
+			sbody->averageTemp = 0;
+		}
+	}
+	printf("body %s, bond albedo %f, temp %i\n", sbody->name.c_str(), 
+		sbody->bondAlbedo.ToDouble(), sbody->averageTemp);
+}
 SystemPath StarSystem::GetPathOf(const SystemBody *sbody) const
 {
 	return sbody->path;
@@ -927,9 +950,9 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->type = csbody->type;
 		kid->parent = parent;
 		kid->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
-		kid->radius = csbody->radius;
-		kid->averageTemp = csbody->averageTemp;
+		kid->radius = csbody->radius;		
 		kid->name = csbody->name;
+
 		kid->isCustomBody = true;
 
 		kid->mass = csbody->mass;
@@ -942,7 +965,11 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->m_volatileIces   = csbody->volatileIces;
 		kid->m_volcanicity    = csbody->volcanicity;
 		kid->m_atmosOxidizing = csbody->atmosOxidizing;
-		kid->m_life           = csbody->life;
+		kid->m_useCustomAtmosphereAverageSpecificHeat = csbody->useCustomAtmosphereAverageSpecificHeat;
+		kid->m_atmosphereAverageSpecificHeat =  csbody->atmosphereAverageSpecificHeat;
+		kid->m_useCustomAtmosphereAverageMolarMass = csbody->useCustomAtmosphereAverageMolarMass;
+		kid->m_atmosphereAverageMolarMass = csbody->atmosphereAverageMolarMass;
+		kid->m_life = csbody->life;
 
 		kid->rotationPeriod = csbody->rotationPeriod;
 		kid->rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
@@ -950,6 +977,7 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->orbitalOffset = csbody->orbitalOffset;
 		kid->orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
 		kid->axialTilt = csbody->axialTilt;
+		kid->bondAlbedo = csbody->bondAlbedo;
 		kid->semiMajorAxis = csbody->semiMajorAxis;
 		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = csbody->semiMajorAxis.ToDouble() * AU;
@@ -978,6 +1006,8 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		// perihelion and aphelion (in AUs)
 		kid->orbMin = csbody->semiMajorAxis - csbody->eccentricity*csbody->semiMajorAxis;
 		kid->orbMax = 2*csbody->semiMajorAxis - kid->orbMin;
+
+		CalcTemperatureFromCustomSystemBody(kid, csbody);
 
 		kid->InitAtmosphere();
 
@@ -1016,9 +1046,10 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 	rootBody->seed = rand.Int32();
 	rootBody->radius = csbody->radius;
 	rootBody->mass = csbody->mass;
-	rootBody->averageTemp = csbody->averageTemp;
 	rootBody->name = csbody->name;
 	rootBody->isCustomBody = true;
+
+	CalcTemperatureFromCustomSystemBody(rootBody, csbody);
 
 	rootBody->rotationalPhaseAtStart = csbody->rotationalPhaseAtStart;
 	rootBody->orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
@@ -1102,6 +1133,10 @@ SystemBody::SystemBody()
 	rotationalPhaseAtStart = fixed(0);
 	orbitalPhaseAtStart = fixed(0);
 	isCustomBody = false;
+	customTempUsed = false;
+	m_useCustomAtmosphereAverageSpecificHeat = false;
+    m_useCustomAtmosphereAverageMolarMass = false;
+	
 }
 
 bool SystemBody::HasAtmosphere() const
@@ -1647,6 +1682,7 @@ void SystemBody::PickPlanetType(MTRand &rand)
 				starTypeInfo[type].radius[1]), 100);
 	} else if (mass > 6) {
 		type = SystemBody::TYPE_PLANET_GAS_GIANT;
+
 	} else if (mass > fixed(1, 15000)) {
 		type = SystemBody::TYPE_PLANET_TERRESTRIAL;
 
@@ -1705,6 +1741,13 @@ void SystemBody::PickPlanetType(MTRand &rand)
 	TestSingleConstituentModelAgainstOldVersion();
 
 	InitAtmosphere();
+
+	if (type == TYPE_PLANET_GAS_GIANT) {
+	printf("---------------------------------------------\n\n");
+	GetAtmosphere()->PrintProperties();
+	printf("---------------------------------------------\n\n");
+	}
+
 	PickRings();
 }
 
@@ -2146,7 +2189,7 @@ void SystemBody::TestSingleConstituentModelAgainstOldVersion()
 			std::vector<GasConstituent> gcs = a->GetGasConstituents();
 			// only one constituent 
 			gcs[0].PrintProperties(this);
-			Color c_ = a->GetSimpleScatteringColor();
+			Color c_ = a->GetApproximateScatteringColor();
 			printf("Atmosphere colour                    : r %f, g %f, b %f, a %f\n", c_.r, c_.g, c_.b, c_.a);
 			const Color c = PickAtmosphereOld();
 			printf("\nOld System\n");

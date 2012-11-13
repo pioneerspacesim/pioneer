@@ -54,7 +54,8 @@ void GeoSphereSurfaceMaterial::Apply()
 void GeoSphereSurfaceMaterial::SetGSUniforms()
 {
 	GeoSphereProgram *p = static_cast<GeoSphereProgram*>(m_program);
-	const Atmosphere::AtmosphereParameters ap = *static_cast<Atmosphere::AtmosphereParameters*>(this->specialParameter0);
+	const Atmosphere::ApproximateScatteringShaderParameters ap = 
+		*static_cast<Atmosphere::ApproximateScatteringShaderParameters*>(this->specialParameter0);
 
 	p->Use();
 	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
