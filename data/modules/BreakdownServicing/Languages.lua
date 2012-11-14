@@ -526,3 +526,88 @@ Translate:Add({ Magyar = {
 	["You do not have a drive to service!"] = "Nincs is szervizelni való hajtóműved!",
 	["The ship's hyperdrive has been destroyed by a malfunction"] = "A hajó hipermotorja megsemmisült egy meghibásodás miatt",
 }, })
+
+---- RUSSIAN / РУССКИЙ ----
+
+Translate:AddFlavour('Russian','BreakdownServicing', {
+	title = "Центр Обслуживания Двигателей станции {name}",
+	intro = [[Застрахуйте себя от несвоевременных поломок гипердвигателя. Обратитесь в сервис сегодня. К вашим услугам официально одобренная фирма - Центр Обслуживания Двигателей станции {name}.
+
+Двигатель: {drive}
+Цена обслуживания: {price}
+Гарантия: 18 месяцев
+{lasttime}]],
+	yesplease = "Обслужите мой гипердвигатель.",
+	response = "Сервисное обслуживание вашего гипердвигателя проведено.",
+	strength = 1.5,
+	baseprice = 6,
+})
+
+Translate:AddFlavour('Russian','BreakdownServicing', {
+	title = "{proprietor}: специалист по обслуживанию гипердвигателей.",
+	intro = [[Я {proprietor}.  Я могу обслужить ваш {drive}. Гарантирую год работы без сбоев. Это будет стоить вам {price}.
+{lasttime}]],
+	yesplease = "Проведите сервисное обслуживание моего двигателя.",
+	response = "Я провел сервисное обслуживание вашего двигателя.",
+	strength = 1.2, -- Как минимум год!... скрытый бонус!
+	baseprice = 4,
+})
+
+Translate:AddFlavour('Russian','BreakdownServicing', {
+	title = "Обслуживание двигателей - {proprietor} & Co HyperMechanics",
+	intro = [[Привет! Мы - {proprietor} & Co - строим репутацию с вашей удачей!
+
+{lasttime}
+Мы можем настроить ваш {drive}, обеспечив 12 месяцев бесперебойной работы. Это будет стоить {price}.  Я лично проконтролирую работу - можете быть спокойны.]],
+	yesplease = "Пожалуйста, настройте мой гипердвигатель за указанную цену.",
+	response = "Обслуживание завершено. Спасибо за то, что выбрали нас.",
+	strength = 1.0,
+	baseprice = 3,
+})
+
+Translate:AddFlavour('Russian','BreakdownServicing', {
+	title = "SuperFix Maintenance (филиал на {name})",
+	intro = [[Добро пожаловать в SuperFix Maintenance!
+
+{lasttime}
+Пришло время для двухгодичного сервиса? Мы проведем вам сверхтонкую настройку и максимальный сервис!
+Мы можем настроить ваш {drive} за {price}. Дешевле не найдёте!]],
+	yesplease = "ОК, приступайте.",
+	response = "Порядок, сверхтонкая настройка и сервис завершены - наша гарантия!",
+	strength = 0.5,
+	baseprice = 2,
+})
+
+Translate:AddFlavour('Russian','BreakdownServicing', {
+	title = "Обслуживание двигателей - Time and Space Engines, Inc.",
+	intro = [[Добро пожаловать в Time and Space, Inc.
+
+Мы специалисты по обслуживаю гипердвигателей. Предоставляем двухлетнюю гарантию!
+{lasttime}
+Мы обслужим ваш {drive} за {price}. Готовы начать?]],
+	yesplease = "Да, давайте начнём.",
+	response = "Мы завершили обслуживание вашего гипердвигателя.",
+	strength = 2.1, -- ребята постарались!
+	baseprice = 10,
+})
+
+Translate:AddFlavour('Russian','BreakdownServicing', {
+	title = "Обслуживание двигателей - {proprietor} Центр Обслуживания Двигателей",
+	intro = [[Избегайте проблем с гипердвигателями. Пройдите сервисное обслуживание сегодня.
+
+Двигатель: {drive}
+Цена обслуживания: {price}
+{lasttime}]],
+	yesplease = "Давайте начнём обслуживание.",
+	response = "Ваш двигатель прошёл сервисное обслуживание.",
+	strength = 0.0, -- Парни просто сбросили счётчик прыжков. Чёрт..
+	baseprice = 1.8,
+})
+
+Translate:Add({ Russian = {
+	["I don't have enough money"] = "У меня недостаточно денег.",
+	["Your drive was last serviced on {date} by {company}"] = "В последний раз ваш двигатель обслуживался {date} в {company}",
+	["Your drive has not been serviced since it was installed on {date}"] = "Ваш двигатель ещё не обслуживался, т.к. его эксплуатация началась только в {date} года.",
+	["You do not have a drive to service!"] = "У вас нет двигателя для сервиса!",
+	["The ship's hyperdrive has been destroyed by a malfunction"] = "Гипердвигатель вашего корабля полностью разрушен.",
+}, })
