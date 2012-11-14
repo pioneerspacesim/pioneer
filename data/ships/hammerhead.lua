@@ -10,7 +10,7 @@ define_ship {
 	down_thrust = 288e5,
 	left_thrust = 288e5,
 	right_thrust = 288e5,
-	angular_thrust = 65e7,
+	angular_thrust = 6500e5,
 	camera_offset = v(-1,1.3,-54.5),
 	gun_mounts =
 	{
@@ -24,10 +24,10 @@ define_ship {
 	max_cargoscoop = 0,
 	capacity = 1600,
 	hull_mass = 666,
-	fuel_tank_mass = 622, --full tank, tons in addition to hull_mass
+	fuel_tank_mass = 622,
 	-- Exhaust velocity Vc [m/s] is equivalent of engine efficiency and depend on used technology. Higher Vc means lower fuel consumption.
 	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.
-	effective_exhaust_velocity = 55712e3, --exhaust speed of propellant in m/s,
+	effective_exhaust_velocity = 55712e3,
 	price = 3e6,
 	hyperdrive_class = 7,
 }
