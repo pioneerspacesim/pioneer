@@ -36,6 +36,7 @@ private:
 
 	SliderOrientation m_orient;
 	float m_value;
+	Point m_gutterPos, m_gutterSize;
 	Point m_buttonPos, m_buttonSize;
 	bool m_buttonDown;
 };
