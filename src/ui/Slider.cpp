@@ -136,4 +136,9 @@ void Slider::HandleMouseMove(const MouseMotionEvent &event)
 	Widget::HandleMouseMove(event);
 }
 
+void Slider::HandleMouseOut()
+{
+	m_mouseOverButton = false;
+}
+
 }

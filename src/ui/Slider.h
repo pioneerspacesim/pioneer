@@ -30,6 +30,7 @@ protected:
 	virtual void HandleMouseDown(const MouseButtonEvent &event);
 	virtual void HandleMouseUp(const MouseButtonEvent &event);
 	virtual void HandleMouseMove(const MouseMotionEvent &event);
+	virtual void HandleMouseOut();
 
 private:
 	void UpdateButton();
