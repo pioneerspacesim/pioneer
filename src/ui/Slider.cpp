@@ -98,7 +98,25 @@ void Slider::SetValue(float v)
 void Slider::HandleMouseDown(const MouseButtonEvent &event)
 {
 	m_buttonDown = PointInsideButton(event.pos);
-	Widget::HandleMouseDown(event);
+
+    if (!m_buttonDown) {
+		float change = 0.0f;
+
+		if (m_orient == SLIDER_HORIZONTAL) {
+			if (m_lastMousePosition.x < m_buttonPos.x)
+				change = -0.1f;
+			else
+				change = 0.1f;
+		}
+		else {
+			if (m_lastMousePosition.y < m_buttonPos.y)
+				change = -0.1f;
+			else
+				change = 0.1f;
+		}
+
+		SetValue(GetValue()+change);
+	}
 }
 
 void Slider::HandleMouseUp(const MouseButtonEvent &event)
@@ -149,28 +167,6 @@ void Slider::HandleMouseMove(const MouseMotionEvent &event)
 void Slider::HandleMouseOut()
 {
 	m_mouseOverButton = false;
-}
-
-void Slider::HandleClick()
-{
-	if (m_mouseOverButton) return;
-
-	float change = 0.0f;
-
-	if (m_orient == SLIDER_HORIZONTAL) {
-		if (m_lastMousePosition.x < m_buttonPos.x)
-			change = -0.1f;
-		else
-			change = 0.1f;
-	}
-	else {
-		if (m_lastMousePosition.y < m_buttonPos.y)
-			change = -0.1f;
-		else
-			change = 0.1f;
-	}
-
-	SetValue(GetValue()+change);
 }
 
 }
