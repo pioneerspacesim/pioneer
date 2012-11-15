@@ -60,7 +60,7 @@ void Scroller::OnScroll(float value)
 {
 	if (!m_innerWidget) return;
 
-	m_innerWidget->SetDrawOffset(Point(0, -float(m_innerWidget->GetSize().y-GetSize().y)*value));
+	m_innerWidget->SetDrawOffset(Point(0, -float(m_innerWidget->GetActiveArea().y-GetSize().y)*value));
 }
 
 bool Scroller::OnMouseWheel(const MouseWheelEvent &event)
