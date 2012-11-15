@@ -865,6 +865,10 @@ Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
 	return b;
 }
 
+bool WorldView::FuelConsumptionBigEnoughToShowHungryAutopilotButton() {
+	return Pi::player->GetVelocityReachedWithFuelUsed(1.0f/6) < 15000000;
+}
+
 Gui::Button *WorldView::AddCommsOptionRight(int ypos, int optnum)
 {
 	Gui::Label *l = new Gui::Label("");
@@ -1096,9 +1100,11 @@ void WorldView::UpdateCommsOptions()
 				button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, optnum);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget, 0.0f));
 
-				button = AddCommsOptionRight(ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget, 1.0f));
-				ypos += 32;
+				if(FuelConsumptionBigEnoughToShowHungryAutopilotButton()) {
+					button = AddCommsOptionRight(ypos, optnum++);
+					button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget, 1.0f));
+					ypos += 32;
+				}
 			}
 
 			Sint64 crime, fine;
@@ -1114,31 +1120,39 @@ void WorldView::UpdateCommsOptions()
 			button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", navtarget->GetLabel())), ypos, optnum);
 			button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget, 0.0f));
 
-			button = AddCommsOptionRight(ypos, optnum++);
-			button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget, 1.0f));
-			ypos += 32;
+			if(FuelConsumptionBigEnoughToShowHungryAutopilotButton()) {
+				button = AddCommsOptionRight(ypos, optnum++);
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_flyto), navtarget, 1.0f));
+				ypos += 32;
+			}
 
 			if (navtarget->IsType(Object::PLANET) || navtarget->IsType(Object::STAR)) {
 				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_LOW_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.1, 0.0f));
 
-				button = AddCommsOptionRight(ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.1, 1.0f));
-				ypos += 32;
+				if(FuelConsumptionBigEnoughToShowHungryAutopilotButton()) {
+					button = AddCommsOptionRight(ypos, optnum++);
+					button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.1, 1.0f));
+					ypos += 32;
+				}
 
 				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 2.0, 0.0f));
 
-				button = AddCommsOptionRight(ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 2.0, 1.0f));
-				ypos += 32;
+				if(FuelConsumptionBigEnoughToShowHungryAutopilotButton()) {
+					button = AddCommsOptionRight(ypos, optnum++);
+					button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 2.0, 1.0f));
+					ypos += 32;
+				}
 
 				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_HIGH_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 5.0, 0.0f));
 
-				button = AddCommsOptionRight(ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 5.0, 1.0f));
-				ypos += 32;
+				if(FuelConsumptionBigEnoughToShowHungryAutopilotButton()) {
+					button = AddCommsOptionRight(ypos, optnum++);
+					button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 5.0, 1.0f));
+					ypos += 32;
+				}
 			}
 		}
 
@@ -1157,9 +1171,11 @@ void WorldView::UpdateCommsOptions()
 		button = AddCommsOption(stringf(Lang::AUTOPILOT_FLY_TO_VICINITY_OF, formatarg("target", comtarget->GetLabel())), ypos, optnum);
 		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget, 0.0f));
 
-		button = AddCommsOptionRight(ypos, optnum++);
-		button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget, 1.0f));
-		ypos += 32;
+		if(FuelConsumptionBigEnoughToShowHungryAutopilotButton()) {
+			button = AddCommsOptionRight(ypos, optnum++);
+			button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_flyto), comtarget, 1.0f));
+			ypos += 32;
+		}
 	}
 }
 
