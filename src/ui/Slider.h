@@ -25,7 +25,7 @@ protected:
 		SLIDER_VERTICAL
 	};
 
-	Slider(Context *context, SliderOrientation orient) : Widget(context), m_orient(orient), m_value(0.0f), m_buttonDown(false) {}
+	Slider(Context *context, SliderOrientation orient) : Widget(context), m_orient(orient), m_value(0.0f), m_buttonDown(false), m_mouseOverButton(false) {}
 
 	virtual void HandleMouseDown(const MouseButtonEvent &event);
 	virtual void HandleMouseUp(const MouseButtonEvent &event);
@@ -39,6 +39,7 @@ private:
 	Point m_gutterPos, m_gutterSize;
 	Point m_buttonPos, m_buttonSize;
 	bool m_buttonDown;
+	bool m_mouseOverButton;
 };
 
 class HSlider: public Slider {

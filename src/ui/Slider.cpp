@@ -64,6 +64,8 @@ void Slider::Draw()
 		skin.DrawSliderHorizontalGutter(m_gutterPos, m_gutterSize);
 		if (m_buttonDown && IsMouseActive())
 			skin.DrawSliderHorizontalButtonActive(m_buttonPos, m_buttonSize);
+		else if (m_mouseOverButton)
+			skin.DrawSliderHorizontalButtonHover(m_buttonPos, m_buttonSize);
 		else
 			skin.DrawSliderHorizontalButtonNormal(m_buttonPos, m_buttonSize);
 	}
@@ -72,6 +74,8 @@ void Slider::Draw()
 		skin.DrawSliderVerticalGutter(m_gutterPos, m_gutterSize);
 		if (m_buttonDown && IsMouseActive())
 			skin.DrawSliderVerticalButtonActive(m_buttonPos, m_buttonSize);
+		else if (m_mouseOverButton)
+			skin.DrawSliderVerticalButtonHover(m_buttonPos, m_buttonSize);
 		else
 			skin.DrawSliderVerticalButtonNormal(m_buttonPos, m_buttonSize);
 	}
@@ -126,6 +130,8 @@ void Slider::HandleMouseMove(const MouseMotionEvent &event)
 
 		SetValue(travel);
 	}
+
+	m_mouseOverButton = event.pos.x >= m_buttonPos.x && event.pos.y >= m_buttonPos.y && event.pos.x <= m_buttonPos.x+m_buttonSize.x && event.pos.y <= m_buttonPos.y+m_buttonSize.y;
 
 	Widget::HandleMouseMove(event);
 }
