@@ -80,7 +80,6 @@ static int l_csb_new(lua_State *L)
 
 CSB_FIELD_SETTER_FIXED(radius, radius)
 CSB_FIELD_SETTER_FIXED(mass, mass)
-CSB_FIELD_SETTER_INT(temp, averageTemp)
 CSB_FIELD_SETTER_FIXED(semi_major_axis, semiMajorAxis)
 CSB_FIELD_SETTER_FIXED(eccentricity, eccentricity)
 CSB_FIELD_SETTER_FLOAT(latitude, latitude)
@@ -134,8 +133,55 @@ static int l_csb_rotational_phase_at_start(lua_State *L)
 	CustomSystemBody *csb = l_csb_check(L, 1);
 	const fixed *value = LuaFixed::CheckFromLua(L, 2);
 	if ((value->ToDouble() < 0.0) || (value->ToDouble() > double(2.0*M_PI)))
-		return luaL_error(L, "Error: Custom system definition: Rotational phase at start must be between 0 and 2 PI radians (including 0 but not 2 PI).\n The rotational phase is the phase of the body's spin about it's axis at game start.");
+		return luaL_error(L, "Error: Custom system definition: Rotational phase at start must be between 0 and 2 PI radians (including 0 but not 2 PI).\n The rotational phase is the phase of the body's spin about its axis at game start.");
 	csb->rotationalPhaseAtStart = *value;
+	lua_settop(L, 1);
+	return 1;
+}
+
+static int l_csb_atmosphere_average_specific_heat_Cp(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	const fixed *value = LuaFixed::CheckFromLua(L, 2);
+	if ((value->ToDouble() < 0.0) || (value->ToDouble() > double(2.0*M_PI)))
+		return luaL_error(L, "Error: Custom system definition: Atmosphere average specific heat(Cp) must be greater than 0 Joules per kilogram per mole (J/kg/mol)\n This is the constant pressure specific heat (Cp) and not the constant volume specific heat (Cv).");
+	csb->atmosphereAverageSpecificHeat = *value;
+	csb->useCustomAtmosphereAverageSpecificHeat = true;
+	lua_settop(L, 1);
+	return 1;
+}
+
+static int l_csb_atmosphere_average_molar_mass_M(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	const fixed *value = LuaFixed::CheckFromLua(L, 2);
+	if ((value->ToDouble() < 0.0) || (value->ToDouble() > double(2.0*M_PI)))
+		return luaL_error(L, "Error: Custom system definition: Atmosphere average molar mass (SI unit M) must be greater than 0 kilograms per mole (kg/mol)\n This is the mass of one mole of atmosphere particles.\n");
+	csb->atmosphereAverageMolarMass = *value;
+	csb->useCustomAtmosphereAverageMolarMass = true;
+	lua_settop(L, 1);
+	return 1;
+}
+
+static int l_csb_temp(lua_State *L) {
+		CustomSystemBody *csb = l_csb_check(L, 1);
+		int value = luaL_checkinteger(L, 2);
+		csb->averageTemp = value;
+		if (value <= 0)
+			return luaL_error(L, "Error: Custom system definition: Temperature must be greater than 0 Kelvin.\n");
+		csb->useCustomTemp = true;
+		lua_settop(L, 1); 
+		return 1;
+}
+
+static int l_csb_bond_albedo(lua_State *L)
+{
+	CustomSystemBody *csb = l_csb_check(L, 1);
+	const fixed *value = LuaFixed::CheckFromLua(L, 2);
+	if ((value->ToDouble() < 0.0) || (value->ToDouble() > double(1.0)))
+		return luaL_error(L, "Error: Custom system definition: Bond albedo must be between 0.0 and 1.0 inclusive.\nThe Bond albedo is the fraction of incident energy superficially reflected by the planet.\n(The superficially reflected energy does not a part in heating the planet. For example tin foil or snow has a Bond albedo close to 1.0.)\nThe bond albedo is only used in the calculation of temperature for planets whose temperature is not specified.\n");
+	csb->bondAlbedo = *value;
+	csb->useCustomAtmosphereAverageMolarMass = true;
 	lua_settop(L, 1);
 	return 1;
 }
@@ -213,8 +259,11 @@ static luaL_Reg LuaCustomSystemBody_meta[] = {
 	{ "volcanicity", &l_csb_volcanicity },
 	{ "atmos_density", &l_csb_atmos_density },
 	{ "atmos_oxidizing", &l_csb_atmos_oxidizing },
+	{ "atmos_average_specific_heat_Cp", &l_csb_atmosphere_average_specific_heat_Cp },
+	{ "atmos_average_molar_mass_M", &l_csb_atmosphere_average_molar_mass_M },
 	{ "ocean_cover", &l_csb_ocean_cover },
 	{ "ice_cover", &l_csb_ice_cover },
+	{ "bond_albedo" , &l_csb_bond_albedo },
 	{ "life", &l_csb_life },
 	{ "rings", &l_csb_rings },
 	{ "__gc", &l_csb_gc },
@@ -529,10 +578,14 @@ CustomSystem::~CustomSystem()
 
 CustomSystemBody::CustomSystemBody():
 	averageTemp(0),
+	bondAlbedo(0.0),
 	want_rand_offset(true),
 	latitude(0.0),
 	longitude(0.0),
 	ringStatus(WANT_RANDOM_RINGS),
+	useCustomTemp(false),
+	useCustomAtmosphereAverageMolarMass(false),
+	useCustomAtmosphereAverageSpecificHeat(false),
 	seed(0),
 	want_rand_seed(true)
 {}

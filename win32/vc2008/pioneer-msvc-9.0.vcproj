@@ -290,6 +290,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Atmosphere.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Background.cpp"
 				>
 			</File>
@@ -1245,6 +1249,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\AnimationCurves.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Atmosphere.h"
 				>
 			</File>
 			<File

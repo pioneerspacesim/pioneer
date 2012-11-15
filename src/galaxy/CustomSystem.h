@@ -19,6 +19,7 @@ public:
 	SystemBody::BodyType   type;
 	fixed                  radius; // in earth radii for planets, sol radii for stars
 	fixed                  mass; // earth masses or sol masses
+	bool                   useCustomTemp;
 	int                    averageTemp; // kelvin
 	fixed                  semiMajorAxis; // in AUs
 	fixed                  eccentricity;
@@ -30,6 +31,7 @@ public:
 	fixed                  rotationPeriod; // in days
 	fixed                  rotationalPhaseAtStart; // 0 to 2 pi
 	fixed                  axialTilt; // in radians
+	fixed                  bondAlbedo; // 0.0 to 1.0
 	std::string            heightMapFilename;
 	int                    heightMapFractal;
 	std::vector<CustomSystemBody*> children;
@@ -41,6 +43,13 @@ public:
 	fixed volatileIces; // 1.0 = 100% ice cover (earth = 3%)
 	fixed volcanicity; // 0 = none, 1.0 = fucking volcanic
 	fixed atmosOxidizing; // 0.0 = reducing (H2, NH3, etc), 1.0 = oxidising (CO2, O2, etc)
+	bool useCustomAtmosphereAverageSpecificHeat; // false by default
+	fixed atmosphereAverageSpecificHeat; // average constant pressure specific heat in J/kg/mol. 
+	                                     // used to override one built from constituents for custom systems where
+	                                     // it might be impractical to specify the precise composition.
+	bool useCustomAtmosphereAverageMolarMass; // false by default
+	fixed atmosphereAverageMolarMass;    // average molar mass in kg/mol.
+	                                     // used to override the value built from constituents similar to specific heat
 	fixed life; // 0.0 = dead, 1.0 = teeming
 
 	/* rings */

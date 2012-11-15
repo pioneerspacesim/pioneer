@@ -1201,6 +1201,12 @@ GeoSphere::GeoSphere(const SystemBody *body)
 	m_abortLock = SDL_CreateMutex();
 	m_abort = false;
 
+	// need to initialise atmosphere parameters before first use
+	if (m_sbody->GetSuperType() != SystemBody::SUPERTYPE_STAR) {
+		body->InitAtmosphereParams();
+		m_AS_ShaderParameters = *(body->GetApproximateScatteringShaderParams());
+	}
+
 	s_allGeospheres.push_back(this);
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
@@ -1366,25 +1372,24 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 	if (Graphics::AreShadersEnabled()) {
 		matrix4x4d modelMatrix;
 		glGetDoublev (GL_MODELVIEW_MATRIX, &modelMatrix[0]);
-
+		Atmosphere::ApproximateScatteringShaderParameters &sp 
+			= m_AS_ShaderParameters;
 		//Update material parameters
-		//XXX no need to calculate AP every frame
-		m_atmosphereParameters = m_sbody->CalcAtmosphereParams();
-		m_atmosphereParameters.center = modelMatrix * vector3d(0.0, 0.0, 0.0);
-		m_atmosphereParameters.planetRadius = radius;
-		m_atmosphereParameters.scale = scale;
+		sp.center = modelMatrix * vector3d(0.0, 0.0, 0.0);
+		sp.planetRadius = radius;
+		sp.scale = scale;
 
-		m_surfaceMaterial->specialParameter0 = &m_atmosphereParameters;
+		m_surfaceMaterial->specialParameter0 = &sp;
 
-		if (m_atmosphereParameters.atmosDensity > 0.0) {
-			m_atmosphereMaterial->specialParameter0 = &m_atmosphereParameters;
+		if (sp.atmosDensity > 0.0) {
+			m_atmosphereMaterial->specialParameter0 = &sp;
 
 			renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 			renderer->SetDepthWrite(false);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, campos, m_atmosphereParameters.atmosRadius*1.01, m_atmosphereMaterial.Get());
+			DrawAtmosphereSurface(renderer, campos, sp.atmosRadius*1.01, m_atmosphereMaterial.Get());
 			renderer->SetDepthWrite(true);
 			renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		}
@@ -1478,9 +1483,8 @@ void GeoSphere::SetUpMaterials()
 		surfDesc.atmosphere = false;
 	} else {
 		//planetoid with or without atmosphere
-		const SystemBody::AtmosphereParameters ap(m_sbody->CalcAtmosphereParams());
 		surfDesc.lighting = true;
-		surfDesc.atmosphere = (ap.atmosDensity > 0.0);
+		surfDesc.atmosphere = (m_AS_ShaderParameters.atmosDensity > 0.0);
 	}
 	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
 
