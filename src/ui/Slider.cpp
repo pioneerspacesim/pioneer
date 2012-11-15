@@ -44,7 +44,7 @@ void Slider::UpdateButton()
 		const Skin::RectElement &buttonRect = skin.SliderHorizontalButtonNormal();
 
 		m_buttonSize = Point(buttonRect.size.x, buttonRect.size.y);
-		m_buttonPos  = Point(((activeArea.x-buttonRect.pos.x)*m_value)+gutterRect.edgeWidth, buttonRect.size.y/2);
+		m_buttonPos  = Point(((activeArea.x-gutterRect.edgeWidth*2-buttonRect.size.x)*m_value)+gutterRect.edgeWidth, buttonRect.size.y/2);
 	}
 
 	else {
@@ -52,7 +52,7 @@ void Slider::UpdateButton()
 		const Skin::RectElement &buttonRect = skin.SliderVerticalButtonNormal();
 
 		m_buttonSize = Point(buttonRect.size.x, buttonRect.size.y);
-		m_buttonPos  = Point((activeArea.x-buttonRect.size.x)/2, ((activeArea.y-buttonRect.pos.y)*m_value)+gutterRect.edgeWidth);
+		m_buttonPos  = Point((activeArea.x-buttonRect.size.x)/2, ((activeArea.y-gutterRect.edgeWidth*2-buttonRect.size.y)*m_value)+gutterRect.edgeWidth);
 	}
 }
 
@@ -98,12 +98,31 @@ void Slider::HandleMouseUp(const MouseButtonEvent &event)
 
 void Slider::HandleMouseMove(const MouseMotionEvent &event)
 {
-	if (m_buttonDown && IsMouseActive()) {
-		const Point::Component c = m_orient == SLIDER_HORIZONTAL ? Point::X : Point::Y;
+	const Skin &skin = GetContext()->GetSkin();
 
-		const int effectiveLength = GetActiveArea()[c] - m_buttonSize[c];
-		const int pos = Clamp(event.pos[c] - GetActiveOffset()[c], 0, effectiveLength);
-		const float travel = float(pos) / effectiveLength;
+	if (m_buttonDown && IsMouseActive()) {
+
+		float travel;
+
+		if (m_orient == SLIDER_HORIZONTAL) {
+			const Skin::EdgedRectElement &gutterRect = skin.SliderHorizontalGutter();
+			const Skin::RectElement &buttonRect = skin.SliderHorizontalButtonNormal();
+
+			const int effectiveLength = GetActiveArea().x - gutterRect.edgeWidth*2 - buttonRect.size.x;
+			const int pos = Clamp(event.pos.x - GetActiveOffset().x, 0, effectiveLength) - gutterRect.edgeWidth;
+			
+			travel = float(pos) / effectiveLength;
+		}
+
+		else {
+			const Skin::EdgedRectElement &gutterRect = skin.SliderVerticalGutter();
+			const Skin::RectElement &buttonRect = skin.SliderVerticalButtonNormal();
+
+			const int effectiveLength = GetActiveArea().y - gutterRect.edgeWidth*2 - buttonRect.size.y;
+			const int pos = Clamp(event.pos.y - GetActiveOffset().y, 0, effectiveLength) - gutterRect.edgeWidth;
+
+			travel = float(pos) / effectiveLength;
+		}
 
 		SetValue(travel);
 	}
