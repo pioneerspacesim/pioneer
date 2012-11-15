@@ -113,7 +113,7 @@ void Slider::HandleMouseMove(const MouseMotionEvent &event)
 			const Skin::RectElement &buttonRect = skin.SliderHorizontalButtonNormal();
 
 			const int effectiveLength = GetActiveArea().x - gutterRect.edgeWidth*2 - buttonRect.size.x;
-			const int pos = Clamp(event.pos.x - GetActiveOffset().x, 0, effectiveLength) - gutterRect.edgeWidth;
+			const int pos = Clamp(event.pos.x - int(gutterRect.edgeWidth) - buttonRect.size.x/2 - GetActiveOffset().x, 0, effectiveLength);
 			
 			travel = float(pos) / effectiveLength;
 		}
@@ -123,7 +123,7 @@ void Slider::HandleMouseMove(const MouseMotionEvent &event)
 			const Skin::RectElement &buttonRect = skin.SliderVerticalButtonNormal();
 
 			const int effectiveLength = GetActiveArea().y - gutterRect.edgeWidth*2 - buttonRect.size.y;
-			const int pos = Clamp(event.pos.y - GetActiveOffset().y, 0, effectiveLength) - gutterRect.edgeWidth;
+			const int pos = Clamp(event.pos.y - int(gutterRect.edgeWidth) - buttonRect.size.y/2 - GetActiveOffset().y, 0, effectiveLength);
 
 			travel = float(pos) / effectiveLength;
 		}
