@@ -117,6 +117,8 @@ void Slider::HandleMouseDown(const MouseButtonEvent &event)
 
 		SetValue(GetValue()+change);
 	}
+
+	Widget::HandleMouseDown(event);
 }
 
 void Slider::HandleMouseUp(const MouseButtonEvent &event)
@@ -167,6 +169,7 @@ void Slider::HandleMouseMove(const MouseMotionEvent &event)
 void Slider::HandleMouseOut()
 {
 	m_mouseOverButton = false;
+	Widget::HandleMouseOut();
 }
 
 }
