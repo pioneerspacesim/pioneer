@@ -44,7 +44,7 @@ void Slider::UpdateButton()
 		const Skin::RectElement &buttonRect = skin.SliderHorizontalButtonNormal();
 
 		m_buttonSize = Point(buttonRect.size.x, buttonRect.size.y);
-		m_buttonPos  = Point(((activeArea.x-gutterRect.edgeWidth*2-buttonRect.size.x)*m_value)+gutterRect.edgeWidth, buttonRect.size.y/2);
+		m_buttonPos  = Point(((activeArea.x-gutterRect.edgeWidth*2-buttonRect.size.x)*m_value)+gutterRect.edgeWidth, (activeArea.y-buttonRect.size.y)/2);
 	}
 
 	else {

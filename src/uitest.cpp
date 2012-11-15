@@ -200,7 +200,6 @@ int main(int argc, char **argv)
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
 #endif
 
-#if 0
 	UI::Slider *red, *green, *blue;
 	UI::ColorBackground *back;
 	c->SetInnerWidget(
@@ -214,7 +213,6 @@ int main(int argc, char **argv)
 	red->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
 	green->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
 	blue->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
-#endif
 
 #if 0
 	c->SetInnerWidget(
@@ -299,6 +297,7 @@ int main(int argc, char **argv)
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 #endif
 
+#if 0
 	c->SetInnerWidget(
 		c->Scroller()->SetInnerWidget(
 			c->MultiLineText(
@@ -325,6 +324,7 @@ int main(int argc, char **argv)
 			)
 		)
 	);
+#endif
 
 #if 0
 	UI::Label *label;
