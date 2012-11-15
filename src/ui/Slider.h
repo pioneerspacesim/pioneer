@@ -34,11 +34,13 @@ protected:
 
 private:
 	void UpdateButton();
+	bool PointInsideButton(const Point &p);
 
 	SliderOrientation m_orient;
 	float m_value;
 	Point m_gutterPos, m_gutterSize;
 	Point m_buttonPos, m_buttonSize;
+	Point m_lastMousePosition;
 	bool m_buttonDown;
 	bool m_mouseOverButton;
 };

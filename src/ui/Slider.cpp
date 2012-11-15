@@ -54,6 +54,8 @@ void Slider::UpdateButton()
 		m_buttonSize = Point(buttonRect.size.x, buttonRect.size.y);
 		m_buttonPos  = Point((activeArea.x-buttonRect.size.x)/2, ((activeArea.y-gutterRect.edgeWidth*2-buttonRect.size.y)*m_value)+gutterRect.edgeWidth);
 	}
+
+	m_mouseOverButton = IsMouseOver() && PointInsideButton(m_lastMousePosition);
 }
 
 void Slider::Draw()
@@ -81,6 +83,11 @@ void Slider::Draw()
 	}
 }
 
+bool Slider::PointInsideButton(const Point &p)
+{
+	return p.x >= m_buttonPos.x && p.y >= m_buttonPos.y && p.x < m_buttonPos.x+m_buttonSize.x && p.y <= m_buttonPos.y+m_buttonSize.y;
+}
+
 void Slider::SetValue(float v)
 {
 	m_value = Clamp(v, 0.0f, 1.0f);
@@ -90,7 +97,7 @@ void Slider::SetValue(float v)
 
 void Slider::HandleMouseDown(const MouseButtonEvent &event)
 {
-	m_buttonDown = event.pos.x >= m_buttonPos.x && event.pos.y >= m_buttonPos.y && event.pos.x < m_buttonPos.x+m_buttonSize.x && event.pos.y < m_buttonPos.y+m_buttonSize.y;
+	m_buttonDown = PointInsideButton(event.pos);
 	Widget::HandleMouseDown(event);
 }
 
@@ -131,7 +138,10 @@ void Slider::HandleMouseMove(const MouseMotionEvent &event)
 		SetValue(travel);
 	}
 
-	m_mouseOverButton = event.pos.x >= m_buttonPos.x && event.pos.y >= m_buttonPos.y && event.pos.x <= m_buttonPos.x+m_buttonSize.x && event.pos.y <= m_buttonPos.y+m_buttonSize.y;
+	else {
+		m_lastMousePosition = event.pos;
+		m_mouseOverButton = PointInsideButton(event.pos);
+	}
 
 	Widget::HandleMouseMove(event);
 }
