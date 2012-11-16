@@ -39,6 +39,7 @@ noinst_HEADERS = \
 	Single.h \
 	Skin.h \
 	Slider.h \
+	SmallButton.h \
 	TextEntry.h \
 	TextLayout.h \
 	Widget.h \
@@ -70,6 +71,7 @@ libui_a_SOURCES = \
 	Single.cpp \
 	Skin.cpp \
 	Slider.cpp \
+	SmallButton.cpp \
 	TextEntry.cpp \
 	TextLayout.cpp \
 	Widget.cpp \
@@ -94,5 +96,6 @@ libui_a_SOURCES = \
 	LuaScroller.cpp \
 	LuaSingle.cpp \
 	LuaSlider.cpp \
+	LuaSmallButton.cpp \
 	LuaTextEntry.cpp \
 	LuaWidget.cpp
