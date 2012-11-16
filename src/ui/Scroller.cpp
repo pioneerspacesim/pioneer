@@ -54,6 +54,16 @@ void Scroller::Layout()
 	}
 }
 
+float Scroller::GetScrollPosition() const
+{
+	return m_slider ? m_slider->GetValue() : 0.0f;
+}
+
+void Scroller::SetScrollPosition(float v)
+{
+	if (m_slider) m_slider->SetValue(v);
+}
+
 void Scroller::OnScroll(float value)
 {
 	if (!m_innerWidget) return;
