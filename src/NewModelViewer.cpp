@@ -731,18 +731,21 @@ void ModelViewer::SetupUI()
 		mainBox->PackEnd(patternSelector = c->DropDown()->AddOption("Default"));
 
 		sliderBox->PackEnd(
-			c->Grid(3,3)
+			c->Grid(3,4)
 				->SetColumn(0, UI::WidgetSet(
+					c->Label("Color 1"),
 					c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[0] = c->HSlider()),
 					c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[1] = c->HSlider()),
 					c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[2] = c->HSlider())
 				))
 				->SetColumn(1, UI::WidgetSet(
+					c->Label("Color 2"),
 					c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[3] = c->HSlider()),
 					c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[4] = c->HSlider()),
 					c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[5] = c->HSlider())
 				))
 				->SetColumn(2, UI::WidgetSet(
+					c->Label("Color 3"),
 					c->HBox(spacing)->PackEnd(c->Label("R"))->PackEnd(colorSliders[6] = c->HSlider()),
 					c->HBox(spacing)->PackEnd(c->Label("G"))->PackEnd(colorSliders[7] = c->HSlider()),
 					c->HBox(spacing)->PackEnd(c->Label("B"))->PackEnd(colorSliders[8] = c->HSlider())
@@ -816,16 +819,16 @@ void ModelViewer::SetupUI()
 				->SetColumn(0, UI::WidgetSet(
 					// Column 1, Linear thrust sliders
 					c->Label("Linear"),
-					c->HBox()->PackEnd(c->Label("X"))->PackEnd(thrustSliders[0] = c->HSlider()),
-					c->HBox()->PackEnd(c->Label("Y"))->PackEnd(thrustSliders[1] = c->HSlider()),
-					c->HBox()->PackEnd(c->Label("Z"))->PackEnd(thrustSliders[2] = c->HSlider())
+					c->HBox(spacing)->PackEnd(c->Label("X"))->PackEnd(thrustSliders[0] = c->HSlider()),
+					c->HBox(spacing)->PackEnd(c->Label("Y"))->PackEnd(thrustSliders[1] = c->HSlider()),
+					c->HBox(spacing)->PackEnd(c->Label("Z"))->PackEnd(thrustSliders[2] = c->HSlider())
 				))
 				->SetColumn(1, UI::WidgetSet(
 					//Column 2, Angular thrust sliders
 					c->Label("Angular"),
-					c->HBox()->PackEnd(c->Label("Pitch"))->PackEnd(thrustSliders[3] = c->HSlider()),
-					c->HBox()->PackEnd(c->Label("Yaw"))->PackEnd(thrustSliders[4] = c->HSlider()),
-					c->HBox()->PackEnd(c->Label("Roll"))->PackEnd(thrustSliders[5] = c->HSlider())
+					c->HBox(spacing)->PackEnd(c->Label("Pitch"))->PackEnd(thrustSliders[3] = c->HSlider()),
+					c->HBox(spacing)->PackEnd(c->Label("Yaw"))->PackEnd(thrustSliders[4] = c->HSlider()),
+					c->HBox(spacing)->PackEnd(c->Label("Roll"))->PackEnd(thrustSliders[5] = c->HSlider())
 				))
 		);
 		for(unsigned int i=0; i<2*3; i++) {
