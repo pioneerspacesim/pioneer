@@ -64,11 +64,31 @@ public:
 		DrawRectElement(m_checkboxCheckedActive, pos, size);
 	}
 
-#if 0
-	void DrawHSlider(const Point &pos, const Point &size) const {
-		DrawBorderedRectElement(m_hSlider, pos, size);
+	void DrawSliderVerticalGutter(const Point &pos, const Point &size) const {
+		DrawVerticalEdgedRectElement(m_sliderVerticalGutter, pos, size);
 	}
-#endif
+	void DrawSliderHorizontalGutter(const Point &pos, const Point &size) const {
+		DrawHorizontalEdgedRectElement(m_sliderHorizontalGutter, pos, size);
+	}
+	void DrawSliderVerticalButtonNormal(const Point &pos, const Point &size) const {
+		DrawRectElement(m_sliderVerticalButtonNormal, pos, size);
+	}
+	void DrawSliderVerticalButtonHover(const Point &pos, const Point &size) const {
+		DrawRectElement(m_sliderVerticalButtonHover, pos, size);
+	}
+	void DrawSliderVerticalButtonActive(const Point &pos, const Point &size) const {
+		DrawRectElement(m_sliderVerticalButtonActive, pos, size);
+	}
+	void DrawSliderHorizontalButtonNormal(const Point &pos, const Point &size) const {
+		DrawRectElement(m_sliderHorizontalButtonNormal, pos, size);
+	}
+	void DrawSliderHorizontalButtonHover(const Point &pos, const Point &size) const {
+		DrawRectElement(m_sliderHorizontalButtonHover, pos, size);
+	}
+	void DrawSliderHorizontalButtonActive(const Point &pos, const Point &size) const {
+		DrawRectElement(m_sliderHorizontalButtonActive, pos, size);
+	}
+
 
 	struct RectElement {
 		RectElement() {}
@@ -81,6 +101,12 @@ public:
 		BorderedRectElement() : borderWidth(0) {}
 		BorderedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int _borderWidth) : RectElement(x, y, w, h), borderWidth(_borderWidth) {}
 		unsigned int borderWidth;
+	};
+
+	struct EdgedRectElement : public RectElement {
+		EdgedRectElement() : edgeWidth(0) {}
+		EdgedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int _edgeWidth) : RectElement(x, y, w, h), edgeWidth(_edgeWidth) {}
+		unsigned int edgeWidth;
 	};
 
 	const BorderedRectElement &BackgroundNormal() const { return m_backgroundNormal; }
@@ -100,8 +126,16 @@ public:
 	const RectElement &CheckboxCheckedHover()    const { return m_checkboxCheckedHover; }
 	const RectElement &CheckboxCheckedActive()   const { return m_checkboxCheckedActive; }
 
+	const EdgedRectElement &SliderVerticalGutter()   const { return m_sliderVerticalGutter; }
+	const EdgedRectElement &SliderHorizontalGutter() const { return m_sliderHorizontalGutter; }
+	const RectElement &SliderVerticalButtonNormal()  const { return m_sliderVerticalButtonNormal; }
+	const RectElement &SliderVerticalButtonHover()   const { return m_sliderVerticalButtonHover; }
+	const RectElement &SliderVerticalButtonActive()  const { return m_sliderVerticalButtonActive; }
+	const RectElement &SliderHorizontalButtonNormal() const { return m_sliderHorizontalButtonNormal; }
+	const RectElement &SliderHorizontalButtonHover()   const { return m_sliderHorizontalButtonHover; }
+	const RectElement &SliderHorizontalButtonActive()  const { return m_sliderHorizontalButtonActive; }
+
 	unsigned int ButtonMinInnerSize() const { return m_buttonMinInnerSize; }
-	unsigned int SliderMinInnerSize() const { return m_sliderMinInnerSize; }
 
 	float ListAlphaNormal() const { return m_listAlphaNormal; }
 	float ListAlphaSelect() const { return m_listAlphaSelect; }
@@ -117,9 +151,12 @@ private:
 
 	void DrawRectElement(const RectElement &element, const Point &pos, const Point &size) const;
 	void DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size) const;
+	void DrawVerticalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size) const;
+	void DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size) const;
 
 	RectElement LoadRectElement(const std::string &spec);
 	BorderedRectElement LoadBorderedRectElement(const std::string &spec);
+	EdgedRectElement LoadEdgedRectElement(const std::string &spec);
 
 	BorderedRectElement m_backgroundNormal;
 	BorderedRectElement m_backgroundActive;
@@ -139,8 +176,16 @@ private:
 	RectElement m_checkboxCheckedHover;
 	RectElement m_checkboxCheckedActive;
 
+	EdgedRectElement m_sliderVerticalGutter;
+	EdgedRectElement m_sliderHorizontalGutter;
+	RectElement m_sliderVerticalButtonNormal;
+	RectElement m_sliderVerticalButtonHover;
+	RectElement m_sliderVerticalButtonActive;
+	RectElement m_sliderHorizontalButtonNormal;
+	RectElement m_sliderHorizontalButtonHover;
+	RectElement m_sliderHorizontalButtonActive;
+
 	unsigned int m_buttonMinInnerSize;
-	unsigned int m_sliderMinInnerSize;
 
 	float m_listAlphaNormal;
 	float m_listAlphaSelect;
