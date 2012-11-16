@@ -22,7 +22,7 @@ public:
 
 protected:
 	friend class Context;
-	Scroller(Context *context);
+	Scroller(Context *context) : Container(context), m_innerWidget(0), m_slider(0) {}
 
 	virtual void RemoveWidget(Widget *widget);
 
