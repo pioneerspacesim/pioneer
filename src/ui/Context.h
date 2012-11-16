@@ -31,6 +31,7 @@
 #include "List.h"
 #include "DropDown.h"
 #include "TextEntry.h"
+#include "SmallButton.h"
 
 #include "Lua.h"
 #include "LuaTable.h"
@@ -88,6 +89,7 @@ public:
 	UI::MultiLineText *MultiLineText(const std::string &text) { return new UI::MultiLineText(this, text); }
 
 	UI::Button *Button() { return new UI::Button(this); }
+	UI::SmallButton *SmallButton() { return new UI::SmallButton(this); }
 	UI::CheckBox *CheckBox() { return new UI::CheckBox(this); }
 
 	UI::HSlider *HSlider() { return new UI::HSlider(this); }
