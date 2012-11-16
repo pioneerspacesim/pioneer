@@ -82,8 +82,6 @@ private:
 	RefCountedPtr<Newmodel::ModelNode> m_gunModelNode;
 	RefCountedPtr<UI::Context> m_ui;
 	ScopedPtr<Newmodel::NModel> m_gunModel;
-	std::list<std::string> m_logLines;
-	std::string m_logString;
 	std::string m_modelName;
 	vector3f m_camPos;
 
@@ -94,6 +92,9 @@ private:
 	int m_mouseMotion[2];
 
 	//interface stuff that needs to be accessed later (unorganized)
+	UI::MultiLineText *m_log;
+	UI::Scroller *m_logScroller;
+
 	UI::DropDown *animSelector;
 	UI::DropDown *patternSelector;
 	UI::Label *nameLabel;

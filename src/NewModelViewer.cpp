@@ -61,11 +61,15 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 , m_rng(time(0))
 , m_currentAnimation(0)
 , m_model(0)
-, m_logString("")
 , m_modelName("")
 , m_camPos(0.f)
 {
 	m_ui.Reset(new UI::Context(lm, r, width, height));
+
+	m_log = m_ui->MultiLineText("");
+	m_log->SetFont(UI::Widget::FONT_XSMALL);
+	m_logScroller = m_ui->Scroller();
+	m_logScroller->SetInnerWidget(m_log);
 
 	std::fill(m_keyStates, m_keyStates + COUNTOF(m_keyStates), false);
 	std::fill(m_mouseButton, m_mouseButton + COUNTOF(m_mouseButton), false);
@@ -235,17 +239,8 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 
 void ModelViewer::AddLog(const std::string &line)
 {
-    m_logLines.push_back(line);
-    if (m_logLines.size() > 8) m_logLines.pop_front();
-
-    std::stringstream ss;
-    for(std::list<std::string>::const_iterator it = m_logLines.begin();
-        it != m_logLines.end();
-        ++it)
-    {
-        ss << *it << std::endl;
-    }
-    m_logString = ss.str();
+	m_log->AppendText(line+"\n");
+	m_logScroller->SetScrollPosition(1.0f);
 }
 
 void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
@@ -399,13 +394,6 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 	m_renderer->DrawLines(numAxVerts, &vts[0], &col[0]);
 }
 
-void ModelViewer::DrawLog()
-{
-	const Color4f yellowish = Color4f(0.9, 0.9, 0.3f, 1.f);
-	m_renderer->SetTransform(matrix4x4f::Identity());
-	m_ui->GetContext()->GetFont(UI::Widget::FONT_XSMALL)->RenderString(m_logString.c_str(), m_width - 512.f, 10.f, yellowish);
-}
-
 void ModelViewer::DrawModel()
 {
 	assert(m_model);
@@ -459,9 +447,9 @@ void ModelViewer::MainLoop()
 		if (m_model)
 			DrawModel();
 
+		m_ui->Update();
 		if (m_options.showUI && !m_screenshotQueued) {
 			m_ui->Draw();
-			DrawLog(); //assuming the screen is pixel sized ortho after UI
 		}
 		if (m_screenshotQueued) {
 			m_screenshotQueued = false;
@@ -712,7 +700,15 @@ void ModelViewer::SetupUI()
 
 	UI::VBox* mainBox = c->VBox();
 	UI::HBox* sliderBox = c->HBox();
-	outerBox->PackEnd(UI::WidgetSet(c->Expand()->SetInnerWidget(mainBox), sliderBox));
+
+	outerBox->PackEnd(UI::WidgetSet(
+		c->Expand()->SetInnerWidget(c->Grid(UI::CellSpec(0.75f,0.25f),1)
+			->SetColumn(0, mainBox)
+			->SetColumn(1, m_logScroller)
+		),
+		sliderBox
+	));
+
 	c->SetInnerWidget(c->Margin(spacing)->SetInnerWidget(outerBox));
 
 	//model name + reload button: visible even if loading failed
