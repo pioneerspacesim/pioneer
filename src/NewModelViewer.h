@@ -94,8 +94,6 @@ private:
 	int m_mouseMotion[2];
 
 	//interface stuff that needs to be accessed later (unorganized)
-	UI::Box *colorSliderBox; //floater
-	UI::Box *thrustSliderBox; //floater
 	UI::DropDown *animSelector;
 	UI::DropDown *patternSelector;
 	UI::Label *nameLabel;
