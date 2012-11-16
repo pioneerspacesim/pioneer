@@ -282,7 +282,7 @@ private:
 		m_bodies.push_back(body);
 		return body;
 	}
-	void MakeShortDescription(MTRand &rand);
+	void MakeShortDescription();
 	void MakePlanetsAround(SystemBody *primary, MTRand &rand);
 	void CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, MTRand &rand);
 	void GenerateFromCustom(const CustomSystem *, MTRand &rand);

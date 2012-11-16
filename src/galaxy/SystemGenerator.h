@@ -42,12 +42,14 @@ namespace SystemGeneration
 		typedef std::vector<SystemBody*> BodyList;
 
 		const std::string   Name()         const { return SectorSystem().name; }
-		const CustomSystem* Custom()	   const { return SectorSystem().customSys; }
+		const CustomSystem* Custom()       const { return SectorSystem().customSys; }
 	
-		const int           NumStars()     const;	
+		const int           NumStars()     const;
 		const bool          Unexplored();
+		const fixed         Industry()           { return systemRand().Fixed(); }
+		      fixed         HumanProx()    const;    // eventually make private and remove from StarSystem as only used in generation
 		const fixed         Metallicity()  const;
-	
+
 		SystemBody*         AddStarsTo  (BodyList& bodies);
 		void                AddPlanetsTo(BodyList& bodies);
 

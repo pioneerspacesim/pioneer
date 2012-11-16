@@ -1254,8 +1254,10 @@ void StarSystem::Initialise() {
 	m_name       = generator.Name();
 	m_isCustom   = generator.Custom();
 	m_numStars   = generator.NumStars();
-	m_unexplored = generator.Unexplored();
+	m_humanProx  = generator.HumanProx();
 
+	// stuff that's order dependent in the classic system generator starts here
+	m_unexplored = generator.Unexplored();
 	if (m_isCustom) {
 		const CustomSystem *custom = generator.Custom();
 		if (custom->shortDesc.length() > 0) m_shortDesc = custom->shortDesc;
@@ -1269,8 +1271,9 @@ void StarSystem::Initialise() {
 
 	rootBody      = generator.AddStarsTo(m_bodies);
 	m_metallicity = generator.Metallicity();
-			               
+
 	generator.AddPlanetsTo(m_bodies);
+	m_industrial  = generator.Industry();
 	Populate(true);
 
 #ifdef DEBUG_DUMP
@@ -1494,7 +1497,7 @@ void SystemBody::PickPlanetType(MTRand &rand)
 	PickRings();
 }
 
-void StarSystem::MakeShortDescription(MTRand &rand)
+void StarSystem::MakeShortDescription()
 {
 	m_econType = 0;
 	if ((m_industrial > m_metallicity) && (m_industrial > m_agricultural)) {
@@ -1555,16 +1558,10 @@ const Color StarSystem::GetFactionColour() const
 
 void StarSystem::Populate(bool addSpaceStations)
 {
-	unsigned long _init[5] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED };
-	MTRand rand;
-	rand.seed(_init, 5);
-
 	/* Various system-wide characteristics */
 	// This is 1 in sector (0,0,0) and approaches 0 farther out
 	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
-	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
 	m_econType = ECON_INDUSTRY;
-	m_industrial = rand.Fixed();
 	m_agricultural = 0;
 
 	// find the faction we're probably aligned with
@@ -1583,6 +1580,10 @@ void StarSystem::Populate(bool addSpaceStations)
 		maximum = std::max(abs(m_tradeLevel[i]), maximum);
 	}
 	if (maximum) for (int i=Equip::FIRST_COMMODITY; i<=Equip::LAST_COMMODITY; i++) {
+		unsigned long _init[5] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED };
+		MTRand rand;
+		rand.seed(_init, 5);
+
 		m_tradeLevel[i] = (m_tradeLevel[i] * MAX_COMMODITY_BASE_PRICE_ADJUSTMENT) / maximum;
 		m_tradeLevel[i] += rand.Int32(-5, 5);
 	}
@@ -1601,7 +1602,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	}
 
 	if (!m_shortDesc.size())
-		MakeShortDescription(rand);
+		MakeShortDescription();
 }
 
 /*
