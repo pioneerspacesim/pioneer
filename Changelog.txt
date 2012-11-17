@@ -9,6 +9,8 @@ Alpha 29
      * Refueling now handled by Lua script (#1649)
      * Fixed navigation lights on Courier, Trader, Meteor, Natrix (#1710, #1711)
      * Improved UI sliders/scrollbars (#1720)
+     * Added transparent backgrounds to planet icons to avoid some visual
+       glitches (#1572)
 
    * Fixes
      * Workaround shader glitches for planets with zero temperature (#1712)
