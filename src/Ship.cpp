@@ -614,10 +614,6 @@ bool Ship::FireMissile(int idx, Ship *target)
 	m_equipment.Set(Equip::SLOT_MISSILE, idx, Equip::NONE);
 	UpdateEquipStats();
 
-	matrix4x4d m;
-	GetRotMatrix(m);
-	vector3d dir = m*vector3d(0,0,-1);
-
 	ShipType::Id mtype;
 	switch (t) {
 		case Equip::MISSILE_SMART: mtype = ShipType::MISSILE_SMART; break;
@@ -627,9 +623,10 @@ bool Ship::FireMissile(int idx, Ship *target)
 		case Equip::MISSILE_GUIDED: mtype = ShipType::MISSILE_GUIDED; break;
 	}
 	Missile *missile = new Missile(mtype, this, target);
-	missile->SetRotMatrix(m);
+	missile->SetOrient(GetOrient());
 	missile->SetFrame(GetFrame());
 	// XXX DODGY! need to put it in a sensible location
+	vector3d dir = -GetOrient().VectorZ();
 	missile->SetPosition(GetPosition()+50.0*dir);
 	missile->SetVelocity(GetVelocity());
 	Pi::game->GetSpace()->AddBody(missile);
@@ -655,20 +652,18 @@ void Ship::Blastoff()
 
 	vector3d up = GetPosition().Normalized();
 	Enable();
-	assert(GetFrame()->m_astroBody->IsType(Object::PLANET));
-	const double planetRadius = 2.0 + static_cast<Planet*>(GetFrame()->m_astroBody)->GetTerrainHeight(up);
+	assert(GetFrame()->GetBody()->IsType(Object::PLANET));
+	const double planetRadius = 2.0 + static_cast<Planet*>(GetFrame()->GetBody())->GetTerrainHeight(up);
 	SetVelocity(vector3d(0, 0, 0));
 	SetAngVelocity(vector3d(0, 0, 0));
 	SetForce(vector3d(0, 0, 0));
 	SetTorque(vector3d(0, 0, 0));
 
-	Aabb aabb;
-	GetAabb(aabb);
 	// XXX hm. we need to be able to get sbre aabb
-	SetPosition(up*planetRadius - aabb.min.y*up);
+	SetPosition(up*planetRadius - GetAabb().min.y*up);
 	SetThrusterState(1, 1.0);		// thrust upwards
 
-	LuaEvent::Queue("onShipTakeOff", this, GetFrame()->m_astroBody);
+	LuaEvent::Queue("onShipTakeOff", this, GetFrame()->GetBody());
 }
 
 void Ship::TestLanded()
@@ -676,36 +671,21 @@ void Ship::TestLanded()
 	m_testLanded = false;
 	if (m_launchLockTimeout > 0.0f) return;
 	if (m_wheelState < 1.0f) return;
-	if (GetFrame()->GetBodyFor()->IsType(Object::PLANET)) {
+	if (GetFrame()->GetBody()->IsType(Object::PLANET)) {
 		double speed = GetVelocity().Length();
 		vector3d up = GetPosition().Normalized();
-		const double planetRadius = static_cast<Planet*>(GetFrame()->GetBodyFor())->GetTerrainHeight(up);
+		const double planetRadius = static_cast<Planet*>(GetFrame()->GetBody())->GetTerrainHeight(up);
 
 		if (speed < MAX_LANDING_SPEED) {
-			// orient the damn thing right
-			// Q: i'm totally lost. why is the inverse of the body rot matrix being used?
-			// A: NFI. it just works this way
-			matrix4x4d rot;
-			GetRotMatrix(rot);
-			matrix4x4d invRot = rot.InverseOf();
-
 			// check player is sortof sensibly oriented for landing
-			const double dot = vector3d(invRot[1], invRot[5], invRot[9]).Normalized().Dot(up);
+			const double dot = GetOrient().VectorY().Dot(up);
 			if (dot > 0.99) {
-
-				Aabb aabb;
-				GetAabb(aabb);
-
 				// position at zero altitude
-				SetPosition(up * (planetRadius - aabb.min.y));
+				SetPosition(up * (planetRadius - GetAabb().min.y));
 
-				vector3d forward = rot * vector3d(0,0,1);
-				vector3d other = up.Cross(forward).Normalized();
-				forward = other.Cross(up);
-
-				rot = matrix4x4d::MakeRotMatrix(other, up, forward);
-				rot = rot.InverseOf();
-				SetRotMatrix(rot);
+				// position facing in roughly the same direction
+				vector3d right = up.Cross(GetOrient().VectorZ()).Normalized();
+				SetOrient(matrix3x3d::BuildFromVectors(right, up));
 
 				SetVelocity(vector3d(0, 0, 0));
 				SetAngVelocity(vector3d(0, 0, 0));
@@ -716,7 +696,7 @@ void Ship::TestLanded()
 				ClearThrusterState();
 				SetFlightState(LANDED);
 				Sound::BodyMakeNoise(this, "Rough_Landing", 1.0f);
-				LuaEvent::Queue("onShipLanded", this, GetFrame()->GetBodyFor());
+				LuaEvent::Queue("onShipLanded", this, GetFrame()->GetBody());
 			}
 		}
 	}
@@ -787,7 +767,7 @@ void Ship::ApplyAccel(const float timeStep)
 
 	Frame *frame = AIGetRiskFrame();
 	if (!frame) return;
-	if (frame->IsRotatingFrame()) frame = frame->m_parent;
+	if (frame->IsRotFrame()) frame = frame->GetParent();
 	vector3d vel = GetVelocityRelTo(frame);
 
 	vector3d vdiff = double(timeStep) * GetLastForce() * (1.0 / GetMass());
@@ -806,11 +786,10 @@ void Ship::FireWeapon(int num)
 {
 	const ShipType &stype = GetShipType();
 	if (m_flightState != FLYING) return;
-	matrix4x4d m;
-	GetRotMatrix(m);
 
-	const vector3d dir = m.ApplyRotationOnly(vector3d(stype.gunMount[num].dir));
-	const vector3d pos = m.ApplyRotationOnly(vector3d(stype.gunMount[num].pos)) + GetPosition();
+	const matrix3x3d &m = GetOrient();
+	const vector3d dir = m * vector3d(stype.gunMount[num].dir);
+	const vector3d pos = m * vector3d(stype.gunMount[num].pos) + GetPosition();
 
 	m_gunTemperature[num] += 0.01f;
 
@@ -824,7 +803,7 @@ void Ship::FireWeapon(int num)
 	{
 		const ShipType::DualLaserOrientation orient = stype.gunMount[num].orient;
 		const vector3d orient_norm =
-				(orient == ShipType::DUAL_LASERS_VERTICAL) ? vector3d(m[0],m[1],m[2]) : vector3d(m[4],m[5],m[6]);
+				(orient == ShipType::DUAL_LASERS_VERTICAL) ? m.VectorX() : m.VectorY();
 		const vector3d sep = stype.gunMount[num].sep * dir.Cross(orient_norm).NormalizedSafe();
 
 		Projectile::Add(this, t, pos + sep, baseVel, dirVel);
@@ -979,7 +958,7 @@ void Ship::StaticUpdate(const float timeStep)
 
 	/* FUEL SCOOPING!!!!!!!!! */
 	if ((m_flightState == FLYING) && (m_equipment.Get(Equip::SLOT_FUELSCOOP) != Equip::NONE)) {
-		Body *astro = GetFrame()->m_astroBody;
+		Body *astro = GetFrame()->GetBody();
 		if (astro && astro->IsType(Object::PLANET)) {
 			Planet *p = static_cast<Planet*>(astro);
 			if (p->GetSystemBody()->IsScoopable()) {
@@ -989,9 +968,7 @@ void Ship::StaticUpdate(const float timeStep)
 
 				double speed = GetVelocity().Length();
 				vector3d vdir = GetVelocity().Normalized();
-				matrix4x4d rot;
-				GetRotMatrix(rot);
-				vector3d pdir = -vector3d(rot[8], rot[9], rot[10]).Normalized();
+				vector3d pdir = -GetOrient().VectorZ();
 				double dot = vdir.Dot(pdir);
 				if ((m_stats.free_capacity) && (dot > 0.95) && (speed > 2000.0) && (density > 1.0)) {
 					double rate = speed*density*0.00001f;
@@ -1217,17 +1194,13 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	}
 }
 
-bool Ship::SpawnCargo(CargoBody * c_body) const {
-	if (m_flightState != FLYING)
-		return false;
-	Aabb aabb;
-	GetAabb(aabb);
-	matrix4x4d rot;
-	GetRotMatrix(rot);
-	vector3d pos = rot * vector3d(0, aabb.min.y - 5, 0);
+bool Ship::SpawnCargo(CargoBody * c_body) const
+{
+	if (m_flightState != FLYING) return false;
+	vector3d pos = GetOrient() * vector3d(0, GetAabb().min.y - 5, 0);
 	c_body->SetFrame(GetFrame());
-	c_body->SetPosition(GetPosition()+pos);
-	c_body->SetVelocity(GetVelocity()+rot*vector3d(0, -10, 0));
+	c_body->SetPosition(GetPosition() + pos);
+	c_body->SetVelocity(GetVelocity() + GetOrient()*vector3d(0, -10, 0));
 	Pi::game->GetSpace()->AddBody(c_body);
 	return true;
 }

@@ -18,10 +18,10 @@
 #include "Game.h"
 #include "LuaEvent.h"
 
-matrix3x3d Body::g_identityMatrix = matrix3x3d::Identity();
-
 Body::Body()
 {
+	m_pos = vector3d(0.0);
+	m_orient = matrix3x3d::Identity();
 	m_frame = 0;
 	m_flags = 0;
 //	m_hasDoubleFrame = false;
@@ -162,10 +162,8 @@ void Body::OrientOnSurface(double radius, double latitude, double longitude)
 	vector3d up = vector3d(cos(latitude)*cos(longitude), sin(latitude)*cos(longitude), sin(longitude));
 	SetPosition(radius * up);
 
-	vector3d forward = vector3d(0,0,1);
-	vector3d other = up.Cross(forward).Normalized();
-	forward = other.Cross(up);
-	SetOrient(matrix3x3d::BuildFromVectors(other, up, forward));
+	vector3d right = up.Cross(vector3d(0,0,1)).Normalized();
+	SetOrient(matrix3x3d::BuildFromVectors(right, up));
 }
 
 void Body::SwitchToFrame(Frame *newFrame)

@@ -47,13 +47,13 @@ public:
 	bool HasRotFrame() const { return m_flags & FLAG_HAS_ROT; }
 
 	Frame *GetParent() const { return m_parent; }
-	Frame *GetRotFrame() const { if(!HasRotFrame()) return 0; return m_children.front(); }
+	Frame *GetRotFrame() const { if(!HasRotFrame()) return this; return m_children.front(); }
 	void AddChild(Frame *f) { m_children.push_back(f); }
 	void RemoveChild(Frame *f) { m_children.remove(f); }
 	std::list<Frame*> &GetChildren() { return m_children; }
 	void SetBodies(Body *b, SystemBody *s) { m_sbody = s; m_astroBody = b; }
-	SystemBody *GetSystemBodyFor() const { return m_sbody; }
-	Body *GetBodyFor() const { return m_astroBody; }
+	SystemBody *GetSystemBody() const { return m_sbody; }
+	Body *GetBody() const { return m_astroBody; }
 
 	void AddGeom(Geom *);
 	void RemoveGeom(Geom *);

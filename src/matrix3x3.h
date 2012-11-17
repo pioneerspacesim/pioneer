@@ -17,9 +17,9 @@ class matrix3x3 {
 	matrix3x3 (const T *vals) {
 		memcpy(cell, vals, sizeof(T)*9);
 	}
-	vector3<T> VectorX() { return vector3<T>(cell[0], cell[3], cell[6]); }
-	vector3<T> VectorY() { return vector3<T>(cell[1], cell[4], cell[7]); }
-	vector3<T> VectorZ() { return vector3<T>(cell[2], cell[5], cell[8]); }
+	vector3<T> VectorX() const { return vector3<T>(cell[0], cell[3], cell[6]); }
+	vector3<T> VectorY() const { return vector3<T>(cell[1], cell[4], cell[7]); }
+	vector3<T> VectorZ() const { return vector3<T>(cell[2], cell[5], cell[8]); }
 
 	static matrix3x3 Identity () {
 		matrix3x3 m;
@@ -45,7 +45,8 @@ class matrix3x3 {
 		m.cell[0] = m.cell[4] = m.cell[8] = s;
 		return m;
 	}
-	static matrix3x3 BuildFromVectors(const vector3<T> &rx, const vector3<T> &ry, const vector3<T> &rz) {
+	static matrix3x3 BuildFromVectors(const vector3<T> &rx, const vector3<T> &ry) {
+		vector3<T> rz = rx.Cross(ry);
 		matrix3x3 m;
 		m[0] = rx.x; m[4] = ry.x; m[8] = rz.x;
 		m[1] = rx.y; m[5] = ry.y; m[9] = rz.y;
@@ -58,13 +59,13 @@ class matrix3x3 {
 		*this = (*this) * BuildRotate(ang, x, y, z);
 	}
 	// (x,y,z) must be normalized
-	static matrix3x3 BuildRotate(T ang, T x, T y, T z) {
+	static matrix3x3 BuildRotate(T ang, const vector3<T> &v) {
 		matrix3x3 m;
 		T c = cos(ang);
 		T s = sin(ang);
-		m[0] = x*x*(1-c)+c; m[1] = x*y*(1-c)-z*s; m[2] = x*z*(1-c)+y*s;
-		m[3] = y*x*(1-c)+z*s; m[4] = y*y*(1-c)+c; m[5] = y*z*(1-c)-x*s;
-		m[6] = x*z*(1-c)-y*s; m[7] = y*z*(1-c)+x*s; m[8] = z*z*(1-c)+c;
+		m[0] = v.x*v.x*(1-c)+c; m[1] = v.x*v.y*(1-c)-v.z*s; m[2] = v.x*v.z*(1-c)+v.y*s;
+		m[3] = v.y*v.x*(1-c)+v.z*s; m[4] = v.y*v.y*(1-c)+c; m[5] = v.y*v.z*(1-c)-v.x*s;
+		m[6] = v.x*v.z*(1-c)-v.y*s; m[7] = v.y*v.z*(1-c)+v.x*s; m[8] = v.z*v.z*(1-c)+c;
 		return m;
 	}
 	void RotateZ (T radians) { *this = (*this) * RotateZMatrix (radians); }
@@ -103,7 +104,7 @@ class matrix3x3 {
 		vector3<T> y = z.Cross(x).Normalized();
 		*this = *BuildFromVectors(x, y, z);
 	}
-	T& operator [] (const size_t i) { return cell[i]; }
+	T& operator [] (const size_t i) { return cell[i]; }			// used for serializing
 	const T& operator[] (const size_t i) const { return cell[i]; }
 //	const T* Data() const { return cell; }
 //	T* Data() { return cell; }

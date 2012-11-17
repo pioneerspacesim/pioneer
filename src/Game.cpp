@@ -23,7 +23,7 @@
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 55;
+static const int  s_saveVersion   = 56;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -392,7 +392,7 @@ void Game::SwitchToHyperspace()
 	// but at least it gives some consistency
 	m_player->SetPosition(vector3d(0,0,0));
 	m_player->SetVelocity(vector3d(0,0,0));
-	m_player->SetRotMatrix(matrix4x4d::Identity());
+	m_player->SetOrient(matrix3x3d::Identity());
 
 	// animation and end time counters
 	m_hyperspaceProgress = 0;
@@ -421,7 +421,7 @@ void Game::SwitchToNormalSpace()
 	// place it
 	m_player->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource));
 	m_player->SetVelocity(vector3d(0,0,-100.0));
-	m_player->SetRotMatrix(matrix4x4d::Identity());
+	m_player->SetOrient(matrix3x3d::Identity());
 
 	// place the exit cloud
 	HyperspaceCloud *cloud = new HyperspaceCloud(0, Pi::game->GetTime(), true);
@@ -443,7 +443,7 @@ void Game::SwitchToNormalSpace()
 
 			ship->SetFrame(m_space->GetRootFrame());
 			ship->SetVelocity(vector3d(0,0,-100.0));
-			ship->SetRotMatrix(matrix4x4d::Identity());
+			ship->SetOrient(matrix3x3d::Identity());
 			ship->Enable();
 			ship->SetFlightState(Ship::FLYING);
 

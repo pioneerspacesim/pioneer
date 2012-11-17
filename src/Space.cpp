@@ -317,7 +317,7 @@ Body *Space::FindBodyForPath(const SystemPath *path) const
 
 static Frame *find_frame_with_sbody(Frame *f, const SystemBody *b)
 {
-	if (f->m_sbody == b) return f;
+	if (f->GetSystemBody() == b) return f;
 	else {
 		for (std::list<Frame*>::iterator i = f->m_children.begin();
 			i != f->m_children.end(); ++i) {
@@ -334,7 +334,7 @@ Frame *Space::GetFrameWithSystemBody(const SystemBody *b) const
 	return find_frame_with_sbody(m_rootFrame.Get(), b);
 }
 
-static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame, Planet *planet, vector3d &pos, matrix4x4d &rot)
+static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame, Planet *planet, vector3d &pos, matrix3x3d &rot)
 {
 	const double radius = planet->GetSystemBody()->GetRadius();
 
@@ -348,7 +348,7 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 
 	bool variationWithinLimits = true;
 	double bestVariation = 1e10; // any high value
-	matrix4x4d rotNotUnderwaterWithLeastVariation = rot;
+	matrix3x3d rotNotUnderwaterWithLeastVariation = rot;
 	vector3d posNotUnderwaterWithLeastVariation = pos;
 	const double heightVariationCheckThreshold = 0.008; // max variation to radius radius ratio to check for local slope, ganymede is around 0.01
 	const double terrainHeightVariation = planet->GetGeoSphere()->GetMaxFeatureHeight(); //in radii
@@ -363,7 +363,7 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	const double maxSlope = 0.2; // 0.0 to 1.0
 	const double maxHeightVariation = maxSlope*delta*radius; // in m
 
-	matrix4x4d rot_ = rot;
+	matrix3x3d rot_ = rot;
 	vector3d pos_ = pos;
 
 	bool manualRelocationIsEasy = !(planet->GetSystemBody()->type == SystemBody::TYPE_PLANET_ASTEROID || terrainHeightVariation > heightVariationCheckThreshold);
@@ -421,8 +421,8 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 		// try new random position
 		const double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
 		const double r1 = r.Double();	// can't put two rands in the same expression
-		rot_ = matrix4x4d::RotateZMatrix(2*M_PI*r1)
-			* matrix4x4d::RotateYMatrix(2*M_PI*r2);
+		rot_ = matrix3x3d::RotateZMatrix(2*M_PI*r1)
+			* matrix3x3d::RotateYMatrix(2*M_PI*r2);
 		pos_ = rot_ * vector3d(0,1,0);
 	}
 
@@ -456,15 +456,13 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 
 	if (!sbody->parent) {
 		if (b) b->SetFrame(f);
-		f->m_sbody = sbody;
-		f->m_astroBody = b;
+		f->SetBodies(sbody, b);
 		return f;
 	}
 
 	if (sbody->type == SystemBody::TYPE_GRAVPOINT) {
 		orbFrame = new Frame(f, sbody->name.c_str());
-		orbFrame->m_sbody = sbody;
-		orbFrame->m_astroBody = b;
+		orbFrame->SetBodies(sbody, b);
 		orbFrame->SetRadius(sbody->GetMaxChildOrbitalDistance()*1.1);
 		return orbFrame;
 	}
@@ -474,33 +472,33 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 	if ((supertype == SystemBody::SUPERTYPE_GAS_GIANT) ||
 	    (supertype == SystemBody::SUPERTYPE_ROCKY_PLANET)) {
 		// for planets we want an non-rotating frame for a few radii
-		// and a rotating frame in the same position but with maybe 1.05*radius,
-		// which actually contains the object.
+		// and a rotating frame with no radius to contain attached objects
 		frameRadius = std::max(4.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.05);
-		orbFrame = new Frame(f, sbody->name.c_str());
-		orbFrame->m_sbody = sbody;
+		orbFrame = new Frame(f, sbody->name.c_str(), Frame::FLAG_HAS_ROT);
+		orbFrame->SetBodies(sbody, b);
 		orbFrame->SetRadius(frameRadius);
 		//printf("\t\t\t%s has frame size %.0fkm, body radius %.0fkm\n", sbody->name.c_str(),
 		//	(frameRadius ? frameRadius : 10*sbody->GetRadius())*0.001f,
 		//	sbody->GetRadius()*0.001f);
 
 		assert(sbody->rotationPeriod != 0);
-		rotFrame = new Frame(orbFrame, sbody->name.c_str());
+		rotFrame = new Frame(orbFrame, sbody->name.c_str(), Frame::FLAG_ROTATING);
+		orbFrame->SetBodies(sbody, b);
+		rotFrame->SetRadius(0);
 
 		// rotating frame has atmosphere radius or feature height, whichever is larger
-		double frad = static_cast<Planet*>(b)->GetMaxFeatureRadius() + 200.0;
-		frad = std::max(frad, static_cast<Planet*>(b)->GetAtmosphereRadius());
-		rotFrame->SetRadius(frad);
+//		double frad = static_cast<Planet*>(b)->GetMaxFeatureRadius() + 200.0;
+//		frad = std::max(frad, static_cast<Planet*>(b)->GetAtmosphereRadius());
+//		rotFrame->SetRadius(frad);
 
-		matrix4x4d rotMatrix = matrix4x4d::RotateXMatrix(sbody->axialTilt.ToDouble());
+		matrix3x3d rotMatrix = matrix3x3d::RotateXMatrix(sbody->axialTilt.ToDouble());
 		vector3d angVel = vector3d(0.0, 2.0*M_PI/sbody->GetRotationPeriod(), 0.0);
 		rotFrame->SetAngVelocity(angVel);
 
 		if (sbody->rotationalPhaseAtStart != fixed(0))
-			rotMatrix = rotMatrix * matrix4x4d::RotateYMatrix(sbody->rotationalPhaseAtStart.ToDouble());
+			rotMatrix = rotMatrix * matrix3x3d::RotateYMatrix(sbody->rotationalPhaseAtStart.ToDouble());
 		rotFrame->SetRotationOnly(rotMatrix);
 
-		rotFrame->m_astroBody = b;
 		b->SetFrame(rotFrame);
 		return orbFrame;
 	}
@@ -509,43 +507,41 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		// bigger than it's furtherest orbiting body.
 		// if there are no orbiting bodies use a frame of several radii.
 		orbFrame = new Frame(f, sbody->name.c_str());
-		orbFrame->m_sbody = sbody;
-		orbFrame->m_astroBody = b;
+		orbFrame->SetBodies(sbody, b);
 		orbFrame->SetRadius(std::max(10.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.1));
 		b->SetFrame(orbFrame);
 		return orbFrame;
 	}
 	else if (sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) {
 		// space stations want non-rotating frame to some distance
-		// and a much closer rotating frame
-		frameRadius = 1000000.0; // XXX NFI!
-		orbFrame = new Frame(f, sbody->name.c_str());
-		orbFrame->m_sbody = sbody;
+		// and a zero-size rotating frame
+		orbFrame = new Frame(f, sbody->name.c_str(), Frame::FLAG_HAS_ROT);
+		orbFrame->SetBodies(sbody, b);
 //		orbFrame->SetRadius(10*sbody->GetRadius());
-		orbFrame->SetRadius(frameRadius);
+		orbFrame->SetRadius(10000.0);				// 10km should be enough?
 
 		assert(sbody->rotationPeriod != 0);
-		rotFrame = new Frame(orbFrame, sbody->name.c_str());
-		rotFrame->SetRadius(1000.0);
-//		rotFrame->SetRadius(1.1*sbody->GetRadius());		// enough for collisions?
+		rotFrame = new Frame(orbFrame, sbody->name.c_str(), Frame::FLAG_ROTATING);
+		rotFrame->SetBodies(sbody, b);
+		rotFrame->SetRadius(0.0);
 		rotFrame->SetAngVelocity(vector3d(0.0,double(static_cast<SpaceStation*>(b)->GetDesiredAngVel()),0.0));
-		rotFrame->m_astroBody = b;		// hope this doesn't break anything
 		b->SetFrame(rotFrame);
 		return orbFrame;
 	} else if (sbody->type == SystemBody::TYPE_STARPORT_SURFACE) {
 		// just put body into rotating frame of planet, not in its own frame
 		// (because collisions only happen between objects in same frame,
 		// and we want collisions on starport and on planet itself)
-		Frame *frame = *f->m_children.begin();
-		b->SetFrame(frame);
-		assert(frame->m_astroBody->IsType(Object::PLANET));
-		matrix4x4d rot;
+		Frame *rotFrame = *f->GetChildren().begin();
+		b->SetFrame(rotFrame);
+		assert(rotFrame->IsRotFrame());
+		assert(rotFrame->GetBody()->IsType(Object::PLANET));
+		matrix3x3d rot;
 		vector3d pos;
-		Planet *planet = static_cast<Planet*>(frame->m_astroBody);
+		Planet *planet = static_cast<Planet*>(frame->GetBody());
 		RelocateStarportIfUnderwaterOrBuried(sbody, frame, planet, pos, rot);
 		sbody->orbit.rotMatrix = rot;
 		b->SetPosition(pos * planet->GetTerrainHeight(pos));
-		b->SetRotMatrix(rot);
+		b->SetOrient(rot);
 		return frame;
 	} else {
 		assert(0);
@@ -609,6 +605,8 @@ static void hitCallback(CollisionContact *c)
 	if (po1_isDynBody && po2_isDynBody) {
 		DynamicBody *b1 = static_cast<DynamicBody*>(po1);
 		DynamicBody *b2 = static_cast<DynamicBody*>(po2);
+//		Frame *cframe = c->static ? b1->
+// leave this until we actually have dynbodies in the rotational frame
 		const vector3d linVel1 = b1->GetVelocity();
 		const vector3d linVel2 = b2->GetVelocity();
 		const vector3d angVel1 = b1->GetAngVelocity();
@@ -647,17 +645,20 @@ static void hitCallback(CollisionContact *c)
 		// one body is static
 		vector3d hitNormal;
 		DynamicBody *mover;
+		Frame *sFrame;				// frame containing static body
 
 		if (po1_isDynBody) {
 			mover = static_cast<DynamicBody*>(po1);
+			sFrame = po2->GetFrame();
 			hitNormal = c->normal;
 		} else {
 			mover = static_cast<DynamicBody*>(po2);
+			sFrame = po1->GetFrame();
 			hitNormal = -c->normal;
 		}
 
 		const double coeff_rest = 0.5;
-		const vector3d linVel1 = mover->GetVelocity();
+		const vector3d linVel1 = mover->GetVelocityRelTo();
 		const vector3d angVel1 = mover->GetAngVelocity();
 
 		// step back
@@ -685,7 +686,7 @@ static void hitCallback(CollisionContact *c)
 
 void Space::CollideFrame(Frame *f)
 {
-	if (f->m_astroBody && (f->m_astroBody->IsType(Object::TERRAINBODY))) {
+	if (f->GetBody() && (f->GetBody()->IsType(Object::TERRAINBODY))) {
 		// this is pretty retarded
 		for (BodyIterator i = m_bodies.begin(); i!=m_bodies.end(); ++i) {
 			if ((*i)->GetFrame() != f) continue;

@@ -24,13 +24,12 @@ public:
 	Projectile();
 	virtual ~Projectile();
 	virtual void SetPosition(const vector3d &p);
-	virtual vector3d GetPosition() const { return vector3d(m_orient[12], m_orient[13], m_orient[14]); }
 	virtual double GetBoundingRadius() const { return m_radius; }
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	void TimeStepUpdate(const float timeStep);
 	void StaticUpdate(const float timeStep);
 	virtual void NotifyRemoved(const Body* const removedBody);
-	virtual void UpdateInterpolatedTransform(double alpha);
+	virtual void UpdateInterpTransform(double alpha);
 	virtual void PostLoadFixup(Space *space);
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
@@ -39,7 +38,6 @@ private:
 	float GetDamage() const;
 	double GetRadius() const;
 	Body *m_parent;
-	matrix4x4d m_orient;
 	vector3d m_baseVel;
 	vector3d m_dirVel;
 	float m_age;

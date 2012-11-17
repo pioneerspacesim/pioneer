@@ -30,7 +30,6 @@ Planet::Planet(): TerrainBody(), m_ringVertices(RING_VERTEX_ATTRIBS)
 
 Planet::Planet(SystemBody *sbody): TerrainBody(sbody), m_ringVertices(RING_VERTEX_ATTRIBS)
 {
-	m_hasDoubleFrame = true;
 	InitParams(sbody);
 }
 

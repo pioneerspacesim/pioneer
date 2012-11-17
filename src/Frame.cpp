@@ -167,7 +167,7 @@ void Frame::UpdateInterpTransform(double alpha)
 	double len = m_oldAngDisplacement.Length() * double(alpha);
 	if (!is_zero_general(len)) {
 		vector3d axis = m_oldAngDisplacement.Normalized();
-		matrix3x3d rot = matrix3x3d::BuildRotate(len, axis.x, axis.y, axis.z);
+		matrix3x3d rot = matrix3x3d::BuildRotate(len, axis);
 		m_interpOrient = rot * m_interpOrient;
 	}
 	m_rootInterpPos = m_interpPos + m_parent->m_rootInterpPos;
@@ -195,7 +195,7 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 	double ang = m_angVel.Length() * timestep;		// hmm. cumulative inaccuracy?
 	if (!is_zero_general(ang)) {
 		vector3d axis = m_angVel.Normalized();
-		matrix3x3d rot = matrix3x3d::BuildRotate(ang, axis.x, axis.y, axis.z);
+		matrix3x3d rot = matrix3x3d::BuildRotate(ang, axis);
 		m_orient = rot * m_orient;
 	}
 	UpdateRootPosVel();

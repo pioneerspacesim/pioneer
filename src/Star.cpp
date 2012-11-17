@@ -15,7 +15,6 @@ Star::Star() : TerrainBody()
 
 Star::Star(SystemBody *sbody): TerrainBody(sbody)
 {
-	m_hasDoubleFrame = false;
 }
 
 double Star::GetClipRadius() const

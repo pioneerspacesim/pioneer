@@ -6,7 +6,7 @@
 
 #include "Body.h"
 #include "vector3.h"
-#include "matrix4x4.h"
+#include "matrix3x3.h"
 #include "LmrModel.h"
 #include <vector>
 class Geom;
@@ -17,16 +17,14 @@ public:
 	ModelBody();
 	virtual ~ModelBody();
 	void SetPosition(const vector3d &p);
-	virtual void SetRotMatrix(const matrix4x4d &r);
-	vector3d GetPosition() const;
+	void SetOrient(const matrix3x3d &r);
 	virtual double GetBoundingRadius() const;
 	void TransformToModelCoords(const Frame *camFrame);
-	void GetRotMatrix(matrix4x4d &m) const;
-	virtual void SetFrame(Frame *f);
+	void SetFrame(Frame *f);
 	// to remove from simulation for a period
 	virtual void Disable();
 	virtual void Enable();
-	void GetAabb(Aabb &aabb) const;
+	const Aabb &GetAabb() const;
 	Geom *GetGeom() { return m_geom; }
 	LmrModel *GetLmrModel() { return m_lmrModel; }
 	LmrCollMesh *GetLmrCollMesh() { return m_collMesh; }
@@ -39,7 +37,7 @@ public:
 
 	void RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
-	virtual void UpdateInterpolatedTransform(double alpha);
+//	virtual void UpdateInterpolatedTransform(double alpha);		// no different from body.h
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);

@@ -13,7 +13,6 @@
 TerrainBody::TerrainBody(SystemBody *sbody) :
 	Body(),
 	m_sbody(0),
-	m_pos(vector3d(0,0,0)),
 	m_mass(0),
 	m_geosphere(0)
 {
@@ -23,7 +22,6 @@ TerrainBody::TerrainBody(SystemBody *sbody) :
 TerrainBody::TerrainBody() :
 	Body(),
 	m_sbody(0),
-	m_pos(vector3d(0,0,0)),
 	m_mass(0),
 	m_geosphere(0)
 {
@@ -47,14 +45,12 @@ void TerrainBody::InitTerrainBody(SystemBody *sbody)
 void TerrainBody::Save(Serializer::Writer &wr, Space *space)
 {
 	Body::Save(wr, space);
-	wr.Vector3d(m_pos);
 	wr.Int32(space->GetIndexForSystemBody(m_sbody));
 }
 
 void TerrainBody::Load(Serializer::Reader &rd, Space *space)
 {
 	Body::Load(rd, space);
-	m_pos = rd.Vector3d();
 	SystemBody *sbody = space->GetSystemBodyByIndex(rd.Int32());
 	InitTerrainBody(sbody);
 }

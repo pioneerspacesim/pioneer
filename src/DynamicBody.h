@@ -14,13 +14,8 @@ public:
 	OBJDEF(DynamicBody, ModelBody, DYNAMICBODY);
 	DynamicBody();
 	virtual ~DynamicBody();
-	virtual void SetRotMatrix(const matrix4x4d &r);
-	virtual void GetRotMatrix(matrix4x4d &m) const;
-	virtual void SetVelocity(const vector3d &v);
-	virtual void SetPosition(const vector3d &p);
-	virtual vector3d GetPosition() const;
 	virtual vector3d GetVelocity() const;
-	matrix4x4d GetTransformRelTo(const Frame *relTo) const;
+	virtual void SetVelocity(const vector3d &v);
 	vector3d GetAngVelocity() const;
 	void SetAngVelocity(const vector3d &v);
 	void SetMesh(ObjMesh *m);
@@ -50,21 +45,21 @@ public:
 	vector3d GetExternalForce() const { return m_externalForce; }
 	vector3d GetAtmosForce() const { return m_atmosForce; }
 	vector3d GetGravityForce() const { return m_gravityForce; }
-	virtual void UpdateInterpolatedTransform(double alpha);
+	virtual void UpdateInterpTransform(double alpha);
 
 	virtual void PostLoadFixup(Space *space);
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
-	// new odeless turd
-	matrix4x4d m_orient; // contains pos
-	matrix4x4d m_oldOrient;
+	vector3d m_oldPos;
+	matrix3x3d m_oldOrient;
+	vector3d m_oldAngDisplacement;
+
 	vector3d m_force;
 	vector3d m_torque;
 	vector3d m_vel;
 	vector3d m_angVel;
-	vector3d m_oldAngDisplacement;
 	double m_mass;
 	double m_massRadius; // set in a mickey-mouse fashion from the collision mesh and used to calculate m_angInertia
 	double m_angInertia; // always sphere mass distribution

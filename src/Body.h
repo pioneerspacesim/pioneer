@@ -25,15 +25,15 @@ public:
 	static Body *Unserialize(Serializer::Reader &rd, Space *space);
 	virtual void PostLoadFixup(Space *space) {};
 
-	virtual void SetPosition(const vector3d &p) = 0;
-	virtual vector3d GetPosition() const = 0; // within frame
+	virtual void SetPosition(const vector3d &p) { m_pos = p; }
+	vector3d GetPosition() const { return m_pos; }
+	virtual void SetOrient(const matrix3x3d &r) { m_orient = r; }
+	const matrix3x3d &GetOrient() const { return m_orient; }
 	virtual void SetVelocity(const vector3d &v) { assert(0); }
 	virtual vector3d GetVelocity() const { return vector3d(0.0); }
 	virtual double GetBoundingRadius() const = 0;
 	virtual double GetClipRadius() const { return GetBoundingRadius(); }
 	virtual double GetMass() const { assert(0); return 0; }
-	virtual void SetOrient(const matrix3x3d &r) {}
-	virtual const matrix3x3d &GetOrient() const { return g_identityMatrix; }
 	
 	// return true if to do collision response and apply damage
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) { return false; }
@@ -55,7 +55,6 @@ public:
 	void SwitchToFrame(Frame *newFrame);
 	Frame *GetFrame() const { return m_frame; }
 	Frame *GetNonRotFrame() const { return m_frame->IsRotFrame() ? m_frame->GetParent() : m_frame; }
-	Frame *GetRotFrame() const { return m_frame->IsRotFrame() ? m_frame : m_frame->GetParent(); }
 	void UpdateFrame();				// check for frame switching
 //	bool HasDoubleFrame() const { return m_hasDoubleFrame; }		// do we still need this?
 
@@ -88,7 +87,7 @@ public:
 
 	// should set m_interpolatedTransform to the smoothly interpolated value
 	// (interpolated by 0 <= alpha <=1) between the previous and current physics tick
-	virtual void UpdateInterpolatedTransform(double alpha) {
+	virtual void UpdateInterpTransform(double alpha) {
 		m_interpOrient = GetOrient();
 		m_interpPos = GetPosition();
 	}
@@ -109,12 +108,11 @@ protected:
 	vector3d m_interpPos;
 	matrix3x3d m_interpOrient;
 private:
-	static matrix3x3d g_identityMatrix;
-	// frame of reference
-	Frame *m_frame;
+	vector3d m_pos;
+	matrix3x3d m_orient;
+	Frame *m_frame;				// frame of reference
 	std::string m_label;
-	// Checked in destructor to make sure body has been marked dead.
-	bool m_dead;
+	bool m_dead;				// Checked in destructor to make sure body has been marked dead.
 };
 
 #endif /* _BODY_H */

@@ -132,8 +132,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	LuaVector::PushToLua(L, from);
 	// push model aabb as lua table: { min: vec3, max: vec3 }
 	{
-		Aabb aabb;
-		ship->GetAabb(aabb);
+		const Aabb &aabb = ship->GetAabb();
 		lua_createtable (L, 0, 2);
 		LuaVector::PushToLua(L, aabb.max);
 		lua_setfield(L, -2, "max");
@@ -327,7 +326,6 @@ void SpaceStation::InitStation()
 	MTRand rand(m_sbody->seed);
 	if (m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) {
 		m_type = &orbitalStationTypes[ rand.Int32(orbitalStationTypes.size()) ];
-		m_hasDoubleFrame = true;
 	} else {
 		m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
 	}
@@ -359,7 +357,7 @@ void SpaceStation::UpdateShipyard()
 {
 	bool atmospheric = false;
 	if (IsGroundStation()) {
-		Body *planet = GetFrame()->m_astroBody;
+		Body *planet = GetFrame()->GetBody();
 		atmospheric = planet->GetSystemBody()->HasAtmosphere();
 	}
 
@@ -385,7 +383,6 @@ void SpaceStation::UpdateShipyard()
 
 void SpaceStation::DoDockingAnimation(const double timeStep)
 {
-	matrix4x4d rot, wantRot;
 	vector3d p1, p2, zaxis;
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		shipDocking_t &dt = m_shipDocking[i];
@@ -393,7 +390,6 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 		if (!dt.stage) continue;
 		// docked stage is m_type->numDockingPorts + 1
 		if (dt.stage > m_type->numDockingStages) continue;
-		GetRotMatrix(rot);
 
 		double stageDuration = (dt.stage > 0 ?
 				m_type->dockAnimStageDuration[dt.stage-1] :
@@ -418,27 +414,23 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 			dt.stagePos = 0;
 			if (dt.stage >= 0) dt.stage++;
 			else dt.stage--;
-			dt.fromPos = rot.InverseOf() * (dt.ship->GetPosition() - GetPosition());
-			matrix4x4d temp;
-			dt.ship->GetRotMatrix(temp);
-			dt.fromRot = Quaterniond::FromMatrix4x4(temp);
+			dt.fromPos = (dt.ship->GetPosition() - GetPosition()) * GetOrient();	// station space
+			dt.fromRot = Quaterniond::FromMatrix3x3(dt.ship->GetOrient());
 		}
 
 		SpaceStationType::positionOrient_t shipOrient;
 		bool onRails = m_type->GetDockAnimPositionOrient(i, dt.stage, dt.stagePos, dt.fromPos, shipOrient, dt.ship);
 
 		if (onRails) {
-			dt.ship->SetPosition(GetPosition() + rot*shipOrient.pos);
-			wantRot = matrix4x4d::MakeRotMatrix(
-					shipOrient.xaxis, shipOrient.yaxis,
-					shipOrient.xaxis.Cross(shipOrient.yaxis)) * rot;
+			dt.ship->SetPosition(GetPosition() + GetOrient()*shipOrient.pos);
+			matrix3x3d wantRot = GetOrient() * matrix3x3d::BuildFromVectors(shipOrient.xaxis, shipOrient.yaxis);
 			// use quaternion spherical linear interpolation to do
 			// rotation smoothly
-			Quaterniond wantQuat = Quaterniond::FromMatrix4x4(wantRot);
+			Quaterniond wantQuat = Quaterniond::FromMatrix3x3(wantRot);
 			Quaterniond q = Quaterniond::Nlerp(dt.fromRot, wantQuat, dt.stagePos);
-			wantRot = q.ToMatrix4x4<double>();
+			wantRot = q.ToMatrix3x3<double>();
 		//	wantRot.Renormalize();
-			dt.ship->SetRotMatrix(wantRot);
+			dt.ship->SetOrient(wantRot);
 		} else {
 			if (dt.stage >= 0) {
 				// set docked
@@ -455,7 +447,7 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 					if (m_type->dockMethod == SpaceStationType::SURFACE) {
 						dt.ship->SetThrusterState(1, 1.0);		// up
 					} else {
-						dt.ship->SetVelocity(GetFrame()->GetStasisVelocityAtPosition(dt.ship->GetPosition()));
+						dt.ship->SetVelocity(GetFrame()->GetStasisVelocity(dt.ship->GetPosition()));
 						dt.ship->SetThrusterState(2, -1.0);		// forward
 					}
 					LuaEvent::Queue("onShipUndocked", dt.ship, this);
@@ -480,7 +472,7 @@ void SpaceStation::DoLawAndOrder()
 	if (Pi::player->GetFlightState() != Ship::DOCKED
 			&& m_numPoliceDocked
 			&& (fine > 1000)
-			&& (GetPositionRelTo(static_cast<Body*>(Pi::player)).Length() < 100000.0)) {
+			&& (GetPositionRelTo(Pi::player).Length() < 100000.0)) {
 		int port = GetFreeDockingPort();
 		if (port != -1) {
 			m_numPoliceDocked--;
@@ -553,14 +545,10 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 	if (!m_type->GetDockAnimPositionOrient(port, m_type->numDockingStages, 1.0f, vector3d(0.0), dport, ship)) {
 		Error("Space station model %s does not specify valid ship_dock_anim positions", m_type->modelName);
 	}
-//	const positionOrient_t *dport = &this->port[port];
 	const int dockMethod = m_type->dockMethod;
 	if (dockMethod == SpaceStationType::SURFACE) {
-		matrix4x4d stationRot;
-		GetRotMatrix(stationRot);
-		vector3d port_z = dport.xaxis.Cross(dport.yaxis);
-		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport.xaxis, dport.yaxis, port_z);
-		vector3d pos = GetPosition() + stationRot*dport.pos;
+		matrix3x3d rot = GetOrient() * matrix3x3d::BuildFromVectors(dport.xaxis, dport.yaxis);
+		vector3d pos = GetPosition() + GetOrient()*dport.pos;
 
 		// position with wheels perfectly on ground :D
 //		Aabb aabb;
@@ -569,7 +557,7 @@ void SpaceStation::OrientDockedShip(Ship *ship, int port) const
 // should already be done by GetDockAnimPositionOrient
 
 		ship->SetPosition(pos);
-		ship->SetRotMatrix(rot);
+		ship->SetOrient(rot);
 	}
 }
 
@@ -594,31 +582,18 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port)
 {
 	SpaceStationType::positionOrient_t dport;
 	PiVerify(m_type->GetDockAnimPositionOrient(port, m_type->numDockingStages, 1.0f, vector3d(0.0), dport, ship));
-//	const positionOrient_t *dport = &this->port[port];
 	const int dockMethod = m_type->dockMethod;
 	if (dockMethod == SpaceStationType::ORBITAL) {
-		matrix4x4d rot;
-		GetRotMatrix(rot);
-		vector3d p = GetPosition() + rot*dport.pos;
-
-		ship->SetFrame(GetFrame());
-		ship->SetPosition(p);
+		ship->SetFrame(GetFrame());					// check this, performance?
+		ship->SetPosition(GetPosition() + GetOrient()*dport.pos);
 		// duplicated from DoDockingAnimation()
 		vector3d zaxis = dport.xaxis.Cross(dport.yaxis);
-		ship->SetRotMatrix(matrix4x4d::MakeRotMatrix(dport.xaxis,
-					dport.yaxis, zaxis) * rot);
+		ship->SetOrient(GetOrient() * matrix3x3d::BuildFromVectors(dport.xaxis, dport.yaxis));			
 	} else {
-//		Aabb aabb;
-//		ship->GetAabb(aabb);
-
-	 	matrix4x4d stationRot;
-		GetRotMatrix(stationRot);
-		vector3d port_z = dport.xaxis.Cross(dport.yaxis);
-		matrix4x4d rot = stationRot * matrix4x4d::MakeRotMatrix(dport.xaxis, dport.yaxis, port_z);
+		// no frame setting?
+		ship->SetPosition(GetPosition() + GetOrient()*(dport.pos + dport.yaxis));
 		// position slightly (1m) off landing surface
-		vector3d pos = GetPosition() + stationRot*(dport.pos + dport.yaxis);
-		ship->SetPosition(pos);
-		ship->SetRotMatrix(rot);
+		ship->SetOrient(GetOrient() * matrix3x3d::BuildFromVectors(dport.xaxis, dport.yaxis));
 	}
 }
 
@@ -633,19 +608,13 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 			}
 		}
 	}
-	matrix4x4d rot;
-	GetRotMatrix(rot);
-
 	shipDocking_t &sd = m_shipDocking[port];
 	sd.ship = ship;
 	sd.stage = -1;
 	sd.stagePos = 0;
-	sd.fromPos = rot.InverseOf() * (ship->GetPosition() - GetPosition());
-	{
-		matrix4x4d temp;
-		ship->GetRotMatrix(temp);
-		sd.fromRot = Quaterniond::FromMatrix4x4(temp);
-	}
+	sd.fromPos = (ship->GetPosition() - GetPosition()) * GetOrient();
+	sd.fromRot = Quaterniond::FromMatrix3x3(ship->GetOrient());
+
 	ship->SetFlightState(Ship::DOCKING);
 
 	PositionDockedShip(ship, port);
@@ -705,8 +674,6 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 {
 	if ((flags & 0x10) && (b->IsType(Object::SHIP))) {
 		Ship *s = static_cast<Ship*>(b);
-		matrix4x4d rot;
-		GetRotMatrix(rot);
 
 		bool canDock = true;
 		int port = -1;
@@ -739,15 +706,9 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 
 			// must be oriented sensibly and have wheels down
 			if (IsGroundStation()) {
-				matrix4x4d shiprot;
-				s->GetRotMatrix(shiprot);
-				matrix4x4d invShipRot = shiprot.InverseOf();
-
-				vector3d dockingNormal = rot*dport.yaxis;
-
-				// check player is sortof sensibly oriented for landing
-				const double dot = vector3d(invShipRot[1], invShipRot[5], invShipRot[9]).Dot(dockingNormal);
-				if ((dot < 0.99) || (s->GetWheelState() < 1.0)) return false;
+				vector3d dockingNormal = GetOrient()*dport.yaxis;
+				const double dot = s->GetOrient().VectorY().Dot(dockingNormal);
+				if ((dot < 0.99) || (s->GetWheelState() < 1.0)) return false;	// <0.99 harsh?
 			}
 
 			if ((speed < MAX_LANDING_SPEED) &&
@@ -760,10 +721,8 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					sd.ship = s;
 					sd.stage = 2;
 					sd.stagePos = 0;
-					sd.fromPos = rot.InverseOf() * (s->GetPosition() - GetPosition());
-					matrix4x4d temp;
-					s->GetRotMatrix(temp);
-					sd.fromRot = Quaterniond::FromMatrix4x4(temp);
+					sd.fromPos = (s->GetPosition() - GetPosition()) * GetOrient();
+					sd.fromRot = Quaterniond::FromMatrix3x3(s->GetOrient());
 					s->Disable();
 					s->ClearThrusterState();
 					s->SetFlightState(Ship::DOCKING);
@@ -826,7 +785,7 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 			// calculate the extent the sun is towards zenith
 			if (l->GetBody()){
 				// relative to the rotating frame of the planet
-				const vector3d lightDir = (l->GetBody()->GetInterpolatedPositionRelTo(planet->GetFrame()).Normalized());
+				const vector3d lightDir = (l->GetBody()->GetInterpPositionRelTo(planet->GetFrame()).Normalized());
 				sunAngle = lightDir.Dot(upDir);
 			} else 
 				// light is the default light for systems without lights
@@ -904,7 +863,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		params.animValues[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stagePos;
 	}
 
-	Body *b = GetFrame()->m_astroBody;
+	Body *b = GetFrame()->GetBody();
 	assert(b);
 
 	if (!b->IsType(Object::PLANET)) {
@@ -1091,13 +1050,10 @@ vector3d SpaceStation::GetTargetIndicatorPosition(const Frame *relTo) const
 			if (!m_type->GetShipApproachWaypoints(i, m_shipDocking[i].stage+1, dport))
 				PiVerify(m_type->GetDockAnimPositionOrient(i, m_type->numDockingStages,
 				1.0f, vector3d(0.0), dport, m_shipDocking[i].ship));
-			matrix4x4d rot;
-			GetRotMatrix(rot);
 
-			matrix4x4d m;
-			Frame::GetFrameRenderTransform(GetFrame(), relTo, m);
-			return m * (GetInterpolatedPosition() + (rot*dport.pos));
+			vector3d v = GetInterpPositionRelTo(relTo);
+			return v + GetInterpOrientRelTo(relTo) * dport.pos;
 		}
 	}
-	return GetInterpolatedPositionRelTo(relTo);
+	return GetInterpPositionRelTo(relTo);
 }

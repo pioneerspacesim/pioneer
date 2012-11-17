@@ -780,8 +780,8 @@ static void position_settlement_on_planet(SystemBody *b)
 	// used for orientation on planet surface
 	double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
 	double r1 = r.Double();		// can't put two rands in the same expression
-	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r1) *
-			matrix4x4d::RotateYMatrix(2*M_PI*r2);
+	b->orbit.rotMatrix = matrix3x3d::RotateZMatrix(2*M_PI*r1) *
+			matrix3x3d::RotateYMatrix(2*M_PI*r2);
 }
 
 double SystemBody::GetMaxChildOrbitalDistance() const
@@ -959,14 +959,14 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 			kid->heightMapFractal = csbody->heightMapFractal;
 		}
 		if (kid->type == SystemBody::TYPE_STARPORT_SURFACE) {
-			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(csbody->longitude) *
-				matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
+			kid->orbit.rotMatrix = matrix3x3d::RotateYMatrix(csbody->longitude) *
+				matrix3x3d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
 		} else {
 			if (kid->orbit.semiMajorAxis < 1.2 * parent->GetRadius()) {
 				Error("%s's orbit is too close to its parent", csbody->name.c_str());
 			}
 			double offset = csbody->want_rand_offset ? rand.Double(2*M_PI) : (csbody->orbitalOffset.ToDouble()*M_PI);
-			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(offset) * matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
+			kid->orbit.rotMatrix = matrix3x3d::RotateYMatrix(offset) * matrix3x3d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
 		}
 		if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;
@@ -1079,8 +1079,8 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, MTR
 
 	const float rotX = -0.5f*float(M_PI);//(float)(rand.Double()*M_PI/2.0);
 	const float rotY = static_cast<float>(rand.Double(M_PI));
-	a->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY) * matrix4x4d::RotateXMatrix(rotX);
-	b->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY-M_PI) * matrix4x4d::RotateXMatrix(rotX);
+	a->orbit.rotMatrix = matrix3x3d::RotateYMatrix(rotY) * matrix3x3d::RotateXMatrix(rotX);
+	b->orbit.rotMatrix = matrix3x3d::RotateYMatrix(rotY-M_PI) * matrix3x3d::RotateXMatrix(rotX);
 
 	b->orbit.eccentricity = a->eccentricity.ToDouble();
 	b->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a1).ToDouble();
@@ -1677,8 +1677,8 @@ void StarSystem::MakePlanetsAround(SystemBody *primary, MTRand &rand)
 
 		double r1 = rand.Double(2*M_PI);		// function parameter evaluation order is implementation-dependent
 		double r2 = rand.NDouble(5);			// can't put two rands in the same expression
-		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(r1) *
-			matrix4x4d::RotateXMatrix(-0.5*M_PI + r2*M_PI/2.0);
+		planet->orbit.rotMatrix = matrix3x3d::RotateYMatrix(r1) *
+			matrix3x3d::RotateXMatrix(-0.5*M_PI + r2*M_PI/2.0);
 
 		planet->orbMin = periapsis;
 		planet->orbMax = apoapsis;
@@ -2126,7 +2126,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		sp->orbit.eccentricity = 0;
 		sp->orbit.semiMajorAxis = sp->semiMajorAxis.ToDouble()*AU;
 		sp->orbit.period = calc_orbital_period(sp->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);
-		sp->orbit.rotMatrix = matrix4x4d::Identity();
+		sp->orbit.rotMatrix = matrix3x3d::Identity();
 		children.insert(children.begin(), sp);
 		system->m_spaceStations.push_back(sp);
 		sp->orbMin = sp->semiMajorAxis;
@@ -2140,7 +2140,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 			SystemPath path2 = sp2->path;
 			*sp2 = *sp;
 			sp2->path = path2;
-			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
+			sp2->orbit.rotMatrix = matrix3x3d::RotateZMatrix(M_PI);
 			sp2->name = Pi::luaNameGen->BodyName(sp2, namerand);
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);

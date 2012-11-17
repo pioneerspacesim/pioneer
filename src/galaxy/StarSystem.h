@@ -40,7 +40,7 @@ struct Orbit {
 	double orbitalPhaseAtStart; // 0 to 2 pi radians
 	/* dup " " --------------------------------------- */
 	double period; // seconds
-	matrix4x4d rotMatrix;
+	matrix3x3d rotMatrix;
 };
 
 struct RingStyle {

@@ -3872,6 +3872,10 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="galaxy"
+			>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

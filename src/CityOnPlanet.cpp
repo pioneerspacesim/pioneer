@@ -209,11 +209,8 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 		}
 	}
 
-	Aabb aabb;
-	station->GetAabb(aabb);
-
-	matrix4x4d m;
-	station->GetRotMatrix(m);
+	const Aabb &aabb = station->GetAabb();
+	matrix4x4d m = station->GetOrient();
 
 	vector3d mx = m*vector3d(1,0,0);
 	vector3d mz = m*vector3d(0,0,1);
@@ -281,7 +278,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform, double illumination, double minIllumination)
 {
 	matrix4x4d rot[4];
-	station->GetRotMatrix(rot[0]);
+	rot[0] = station->GetOrient();
 
 	// change detail level if necessary
 	if (m_detailLevel != Pi::detail.cities) {
