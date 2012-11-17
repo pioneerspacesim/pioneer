@@ -536,28 +536,30 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
-		// don't worry about looking for inhabited systems if they're
-		// unexplored (same calculation as in StarSystem.cpp)
-		if (isqrt(1 + sx*sx + sy*sy + sz*sz) <= 90) {
+		// only get the full system if we don't already have it and the system 
+		// is explored (same calculation as in StarSystem.cpp)
+		if (!(*i).fullSys || (isqrt(1 + sx*sx + sy*sy + sz*sz) <= 90 )) {
 
-			// only do this once we've pretty much stopped moving.
-			vector3f diff = vector3f(
-					fabs(m_posMovingTo.x - m_pos.x),
-					fabs(m_posMovingTo.y - m_pos.y),
-					fabs(m_posMovingTo.z - m_pos.z));
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
-			if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
-				RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
-				if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) )
-				{
-					(*i).SetInhabited(true);
-				}
-				else
-				{
-					(*i).SetInhabited(false);
-				}
-				(*i).factionColour = pSS->GetFactionColour();
+			// For now only get the full system if we've stopped scrolling
+			vector3f diff = vector3f(
+				fabs(m_posMovingTo.x - m_pos.x),
+				fabs(m_posMovingTo.y - m_pos.y),
+				fabs(m_posMovingTo.z - m_pos.z));
+
+	        if(diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
+					(*i).fullSys = StarSystem::GetCached(current);
 			}
+		}
+		
+		/*	if we have a full system then some of the things we show in the sector view might have been changed since 
+			we last updated the sector's stub system object, so we need to update those members here
+		*/
+		if ((*i).fullSys)
+		{
+			(*i).inhabited     = (!(*i).fullSys->m_unexplored) && ((*i).fullSys->m_spaceStations.size()>0);
+			(*i).factionColour = (*i).fullSys->GetFactionColour();
+			(*i).name          = (*i).fullSys->GetName();
 		}
 
 		matrix4x4f systrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
@@ -630,9 +632,8 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		glDepthRange(0,1);
 
 		Color labelColor(0.8f,0.8f,0.8f,0.5f);
-		if ((*i).IsSetInhabited() && (*i).IsInhabited()) {
+		if ((*i).inhabited) {
 			labelColor = (*i).factionColour;
-			labelColor.a = 0.5f;
 		}
 
 		if (m_inSystem) {

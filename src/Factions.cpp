@@ -166,7 +166,7 @@ static int l_fac_illegal_goods_probability(lua_State *L)
 	return 1;
 }
 
-//ship availability
+// faction colour
 static int l_fac_colour(lua_State *L)
 {
 	Faction *fac = l_fac_check(L, 1);
@@ -174,7 +174,7 @@ static int l_fac_colour(lua_State *L)
 	const float g = luaL_checknumber(L, 3);
 	const float b = luaL_checknumber(L, 4);
 
-	fac->colour = Color(r,g,b);
+	fac->colour = Color(r,g,b, 0.5f);
 
 	lua_settop(L, 1);
 

@@ -703,4 +703,36 @@ Event = {
 --   experimental
 --
 
+--
+-- Event: onConfigureStarSystem
+--
+-- Triggered whenever a <StarSystem> object created and its
+-- details are either generated from a seed or built from 
+-- a custom star system defintion.
+
+-- > local onConfigureStarSystem = function (star_system) ... end
+-- > Event.Register("onConfigureStarSystem", onConfigureStarSystem)
+
+-- This is the place to make any changes to a system's 
+-- definition. For example changing the name based on 
+-- the faction, or assigning a different government type based 
+-- on some criteria.
+
+-- Since system definitions are read-only in Lua, this event is 
+-- mostly moot at the moment.
+--
+
+-- Parameters:
+--
+--   star_system - the <StarSystem> that was configured
+--
+-- Availability
+--
+--   alpha 28
+--
+-- Status:
+--
+--   experimental++
+--
+
 -- XXX document SongFinished
