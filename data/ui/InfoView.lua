@@ -101,7 +101,10 @@ end
 local orbitalAnalysis = function ()
 	local orbitalBody -- What we, or our space station, are orbiting
 	local frameBody = Game.player.frameBody
-	if not frameBody then return end -- Bug out if we're in a null frame. Save an embarrassing crash.
+	if not frameBody then
+		-- Bug out if we're in a null frame. Save an embarrassing crash.
+		return ui:Label(t('FAILED'))
+	end
 	if frameBody.superType == 'STARPORT' then
 		orbitalBody = Space.GetBody(frameBody.path:GetSystemBody().parent.index)
 	else
