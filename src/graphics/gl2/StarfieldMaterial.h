@@ -9,27 +9,46 @@
  * The Program requires setting intensity using the generic emission parameter
  */
 #include "libs.h"
-#include "Material.h"
+#include "GL2Material.h"
 #include "Program.h"
- 
+
 namespace Graphics {
 	namespace GL2 {
+		class StarfieldProgram : public Program {
+			public:
+			StarfieldProgram(const std::string &filename, const std::string &defines);
+ 
+			Uniform twinkling;
+			Uniform brightness;
+			Uniform time;
+			Uniform effect;
+			Uniform starScaling;
+
+			protected:
+				virtual void InitUniforms();
+		};
+
+
 		class StarfieldMaterial : public Material {
 		public:
-			Program *CreateProgram(const MaterialDescriptor &) {
-				return new Program("starfield", "");
+			virtual Program *CreateProgram(const MaterialDescriptor &) {
+				return new StarfieldProgram("starfield", "");
 			}
 
 			virtual void Apply() {
 				glEnable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 				m_program->Use();
-				m_program->emission.Set(this->emissive);
+				SetStarfieldUniforms();
 			}
 
 			virtual void Unapply() {
 				glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
 				m_program->Unuse();
 			}
+			
+		protected:
+			void SetStarfieldUniforms();
+
 		};
 	}
 }

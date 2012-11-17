@@ -53,7 +53,7 @@ void Intro::Draw(float _time)
 	// XXX all this stuff will be gone when intro uses a Camera
 	// rotate background by time, and a bit extra Z so it's not so flat
 	matrix4x4d brot = matrix4x4d::RotateXMatrix(-0.25*_time) * matrix4x4d::RotateZMatrix(0.6);
-	m_background->Draw(m_renderer, brot);
+	m_background->Draw(m_renderer, brot, 0);
 
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 

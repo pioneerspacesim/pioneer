@@ -34,6 +34,9 @@ public:
 	void SetOrientation(const matrix4x4d &orient) { m_pose.SetRotationOnly(orient); }
 	matrix4x4d GetOrientation() const { matrix4x4d m(m_pose); m.ClearToRotOnly(); return m; }
 
+	// frustum width in pixels
+	float GetWidth() const { return m_width; }
+
 	// only valid between Update() and Draw()
 	const Frame *GetFrame() const { return m_camFrame; }
 
@@ -66,6 +69,7 @@ private:
 	void DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	const Body *m_body;
+
 	float m_width;
 	float m_height;
 	float m_fovAng;

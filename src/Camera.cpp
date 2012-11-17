@@ -62,6 +62,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 		Frame::GetFrameTransform(frame, camFrame, m);
 		vector3d lpos = (m * vector3d(0,0,0));
 		double dist = lpos.Length() / AU;
+
 		lpos *= 1.0/dist; // normalize
 
 		const float *col = StarSystem::starRealColors[body->type];
@@ -141,33 +142,8 @@ void Camera::Draw(Renderer *renderer)
 		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col)));
 	}
 
-	//fade space background based on atmosphere thickness and light angle
-	float bgIntensity = 1.f;
-	if (m_camFrame->m_parent) {
-		//check if camera is near a planet
-		Body *camParentBody = m_camFrame->m_parent->GetBodyFor();
-		if (camParentBody && camParentBody->IsType(Object::PLANET)) {
-			Planet *planet = static_cast<Planet*>(camParentBody);
-			const vector3f relpos(planet->GetPositionRelTo(m_camFrame));
-			double altitude(relpos.Length());
-			double pressure, density;
-			planet->GetAtmosphericState(altitude, &pressure, &density);
-
-			//go through all lights to calculate something resembling light intensity
-			float angle = 0.f;
-			for(std::vector<LightSource>::const_iterator it = m_lightSources.begin();
-				it != m_lightSources.end(); ++it) {
-				const vector3f lightDir(it->GetLight().GetPosition().Normalized());
-				angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * it->GetLight().GetDiffuse().GetLuminance();
-			}
-			//calculate background intensity with some hand-tweaked fuzz applied
-			bgIntensity = Clamp(1.f - std::min(1.f, float(density) * (0.3f + angle)), 0.f, 1.f);
-		}
-	}
-
-	Pi::game->GetSpace()->GetBackground().SetIntensity(bgIntensity);
-	Pi::game->GetSpace()->GetBackground().Draw(renderer, trans2bg);
-
+	Pi::game->GetSpace()->GetBackground().Draw(renderer, trans2bg, this);
+	
 	{
 		std::vector<Graphics::Light> rendererLights;
 		for (size_t i = 0; i < m_lightSources.size(); i++)
@@ -283,4 +259,3 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 	m_renderer->SetDepthTest(true);
 	glPopMatrix();
 }
-

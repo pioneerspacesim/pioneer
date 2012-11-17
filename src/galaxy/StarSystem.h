@@ -17,6 +17,7 @@
 class CustomSystemBody;
 class CustomSystem;
 class SystemBody;
+class Planet;
 
 // doubles - all masses in Kg, all lengths in meters
 // fixed - any mad scheme

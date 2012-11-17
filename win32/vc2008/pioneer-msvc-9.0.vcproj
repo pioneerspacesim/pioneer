@@ -3494,6 +3494,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\src\graphics\gl2\StarfieldMaterial.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\graphics\gl2\StarfieldMaterial.h"
 					>
 				</File>

@@ -11,6 +11,7 @@ namespace Graphics {
 	class StaticMesh;
 	class Material;
 }
+class Camera;
 
 /*
  * Classes to draw background stars and the milky way
@@ -20,9 +21,6 @@ namespace Background
 {
 	class BackgroundElement
 	{
-	public:
-		void SetIntensity(float intensity);
-
 	protected:
 		RefCountedPtr<Graphics::Material> m_material;
 	};
@@ -34,9 +32,22 @@ namespace Background
 		Starfield(Graphics::Renderer *r);
 		Starfield(Graphics::Renderer *r, unsigned long seed);
 		~Starfield();
-		void Draw(Graphics::Renderer *r);
+		void Draw(Graphics::Renderer *r,const Camera *camera);
+		void Starfield::CalcParameters(const Camera *camera);
 		//create or recreate the starfield
 		void Fill(unsigned long seed);
+
+		struct StarfieldParameters {
+					bool twinkling;
+					float brightness;
+					float time;
+					float effect;
+					float starScaling;
+		};
+		
+		const Starfield::StarfieldParameters &GetStarfieldParams() const {
+			return m_starfieldParams;
+		}
 
 	private:
 		void Init(Graphics::Renderer *);
@@ -48,16 +59,22 @@ namespace Background
 		//when starfield is destroyed (on exiting hyperspace)
 		vector3f *m_hyperVtx;
 		Color *m_hyperCol;
+
+		StarfieldParameters m_starfieldParams;
 	};
 
 	class MilkyWay : public BackgroundElement
 	{
 	public:
-		MilkyWay(Graphics::Renderer*);
+		MilkyWay(Graphics::Renderer *r);
 		~MilkyWay();
 		void Draw(Graphics::Renderer *r);
+		void SetIntensity(const Starfield::StarfieldParameters &sp) {
+			m_brightness = sp.brightness;
+		}
 
 	private:
+		float m_brightness;
 		Graphics::StaticMesh *m_model;
 	};
 
@@ -68,10 +85,8 @@ namespace Background
 		// default constructor, needs Refresh with proper seed to show starfield
 		Container(Graphics::Renderer*);
 		Container(Graphics::Renderer*, unsigned long seed);
-		void Draw(Graphics::Renderer *r, const matrix4x4d &transform) const;
+		void Draw(Graphics::Renderer *r, const matrix4x4d &transform,const Camera *camera);
 		void Refresh(unsigned long seed);
-
-		void SetIntensity(float intensity);
 
 	private:
 		MilkyWay m_milkyWay;
