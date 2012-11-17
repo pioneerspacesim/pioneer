@@ -10,6 +10,9 @@ Alpha 29
      * Fixed navigation lights on Courier, Trader, Meteor, Natrix (#1710, #1711)
      * Improved UI sliders/scrollbars (#1720)
 
+   * Fixes
+     * Workaround shader glitches for planets with zero temperature (#1712)
+
    * Script changes
      * New UI.Gradient container to provide a linear gradient background (#1682)
      * UI widget SetFontSize has been replaced with SetFont to select both
