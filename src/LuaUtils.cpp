@@ -132,7 +132,7 @@ static const luaL_Reg STANDARD_LIBS[] = {
 //    guaranteed to be the same across platforms and is often low quality.
 //    Also, global RNGs are almost never a good idea because they make it
 //    almost impossible to produce robustly repeatable results
-//  - dofile(), loadfile(), require(): same reason as the package library
+//  - dofile(), loadfile(), load(): same reason as the package library
 
 // extra/custom functionality:
 //  - math.rad is aliased as math.deg2rad: I prefer the explicit name
@@ -146,10 +146,13 @@ void pi_lua_open_standard_base(lua_State *L)
 		lua_pop(L, 1);
 	}
 
+	// remove stuff that can load untrusted code
 	lua_pushnil(L);
 	lua_setglobal(L, "dofile");
 	lua_pushnil(L);
 	lua_setglobal(L, "loadfile");
+	lua_pushnil(L);
+	lua_setglobal(L, "load");
 
 	// standard library adjustments (math library)
 	lua_getglobal(L, LUA_MATHLIBNAME);
