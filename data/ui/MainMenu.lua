@@ -49,9 +49,13 @@ local buttonDefs = {
 local buttonSet = {}
 for i = 1,#buttonDefs do
 	local def = buttonDefs[i]
-	local button = ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(def[1])))
-	button.onClick:Connect(def[2])
-	buttonSet[i] = button
+	--local button = ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(def[1])))
+	--button.onClick:Connect(def[2])
+	--buttonSet[i] = button
+    local button = ui:SmallButton()
+    local box = ui:HBox():PackEnd({button, ui:Label(def[1])})
+    button.onClick:Connect(def[2])
+    buttonSet[i] = box
 end
 
 local menu = 

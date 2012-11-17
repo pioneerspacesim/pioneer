@@ -135,6 +135,12 @@ public:
 		return 1;
 	}
 
+	static int l_smallbutton(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		LuaObject<UI::SmallButton>::PushToLua(c->SmallButton());
+		return 1;
+	}
+
 	static int l_hslider(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::HSlider>::PushToLua(c->HSlider());
@@ -201,6 +207,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "MultiLineText",   LuaContext::l_multilinetext   },
 		{ "Button",          LuaContext::l_button          },
 		{ "CheckBox",        LuaContext::l_checkbox        },
+		{ "SmallButton",     LuaContext::l_smallbutton     },
 		{ "HSlider",         LuaContext::l_hslider         },
 		{ "VSlider",         LuaContext::l_vslider         },
 		{ "List",            LuaContext::l_list            },
