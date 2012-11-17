@@ -2,6 +2,7 @@ Alpha 29
 
    * New features
      * Economical autopilot. Trades fuel for time (#1582)
+     * Your ship's automatic rotation damping can now be turned off (#1570)
 
    * Minor changes and tweaks
      * Cargo scooping now only requires a collision against the ship rather
