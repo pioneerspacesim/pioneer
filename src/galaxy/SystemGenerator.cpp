@@ -218,6 +218,8 @@ namespace SystemGeneration
 
 	fixed SystemGenerator::HumanProx() const
 	{ 
+		// This is 1 in sector (0,0,0) and approaches 0 farther out
+		// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
 		return fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ)); 
 	}
 
@@ -286,6 +288,13 @@ namespace SystemGeneration
 		if (m_centGrav1)                    AddPlanetsAround(bodies, m_centGrav1);
 		if (m_centGrav2 && NumStars() == 4) AddPlanetsAround(bodies, m_centGrav2);
 
+	}
+
+	const fixed SystemGenerator::AddPopulationTo(StarSystem* system)
+	{
+		fixed population = 0;
+		system->rootBody->PopulateStage1(system, population);
+		return population;
 	}
 
 	//-----------------------------------------------------------------------------
