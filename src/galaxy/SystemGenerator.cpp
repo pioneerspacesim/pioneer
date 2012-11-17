@@ -564,7 +564,7 @@ namespace SystemGeneration
 //-----------------------------------------------------------------------------
 // State
 
-	MTRand& SystemGenerator::systemRand() 
+	MTRand& SystemGenerator::systemRand()
 	{
 		if (!m_systemRand) {
 			unsigned long _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, SectorSystem().seed };
@@ -573,10 +573,19 @@ namespace SystemGeneration
 		return *m_systemRand;
 	}
 
+	MTRand& SystemGenerator::populationRand()
+	{
+		if (!m_populationRand) {
+			unsigned long _init[5] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED };
+			m_populationRand = new MTRand(_init, 5);
+		}
+		return *m_populationRand;
+	}
+
 //-----------------------------------------------------------------------------
 // Construction/Destruction
 
-	SystemGenerator::SystemGenerator(SystemPath& path): m_path(path), m_systemRand(0), m_sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ)
+	SystemGenerator::SystemGenerator(SystemPath& path): m_path(path), m_sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ), m_systemRand(0), m_populationRand(0)
 		, m_centGrav1(0), m_centGrav2(0), m_rootBody(0)
 	{
 		assert(m_path.systemIndex >= 0 && m_path.systemIndex < m_sector.m_systems.size());
@@ -584,7 +593,8 @@ namespace SystemGeneration
 
 	SystemGenerator::~SystemGenerator() 
 	{
-		if (m_systemRand) delete m_systemRand;
+		if (m_systemRand)     delete m_systemRand;
+		if (m_populationRand) delete m_populationRand;
 	}
 
 } // namespace SystemGenerator

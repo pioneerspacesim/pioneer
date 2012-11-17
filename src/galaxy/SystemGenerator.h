@@ -48,7 +48,7 @@ namespace SystemGeneration
 	
 		const int           NumStars()     const;
 		const bool          Unexplored();
-		const fixed         Industry()           { return systemRand().Fixed(); }
+		const fixed         Industry()           { return populationRand().Fixed(); }
 		      fixed         HumanProx()    const;    // eventually make private and remove from StarSystem as only used in generation
 		const fixed         Metallicity()  const;
 
@@ -68,6 +68,7 @@ namespace SystemGeneration
 		SystemBody* m_rootBody;
 
 		MTRand*     m_systemRand;
+		MTRand*     m_populationRand;
 
 		//---------------------- private builders
 	
@@ -98,6 +99,7 @@ namespace SystemGeneration
 		}
 
 		//---------------------- private helpers
+		MTRand& populationRand();
 
 		const Sector::System SectorSystem() const { return m_sector.m_systems[m_path.systemIndex]; };
 	
