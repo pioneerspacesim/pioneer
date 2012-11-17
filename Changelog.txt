@@ -8,6 +8,7 @@ Alpha 29
        than a specific part of it (#1674)
      * Refueling now handled by Lua script (#1649)
      * Fixed navigation lights on Courier, Trader, Meteor, Natrix (#1710, #1711)
+     * Improved UI sliders/scrollbars (#1720)
 
    * Script changes
      * New UI.Gradient container to provide a linear gradient background (#1682)
