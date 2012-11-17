@@ -406,7 +406,7 @@ void SectorView::SetSelectedSystem(const SystemPath &path)
 {
     m_selected = path;
 
-	if (m_matchTargetToSelection) {
+	if (m_matchTargetToSelection && m_selected != m_current) {
 		m_hyperspaceTarget = m_selected;
 		onHyperspaceTargetChanged.emit();
 		UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
