@@ -101,6 +101,13 @@ public:
 		return 1;
 	}
 
+	static int l_icon(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		const std::string iconName(luaL_checkstring(l, 2));
+		LuaObject<UI::Icon>::PushToLua(c->Icon(iconName));
+		return 1;
+	}
+
 	static int l_image(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		const std::string filename(luaL_checkstring(l, 2));
@@ -202,6 +209,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "Margin",          LuaContext::l_margin          },
 		{ "Align",           LuaContext::l_align           },
 		{ "Scroller",        LuaContext::l_scroller        },
+		{ "Icon",            LuaContext::l_icon            },
 		{ "Image",           LuaContext::l_image           },
 		{ "Label",           LuaContext::l_label           },
 		{ "MultiLineText",   LuaContext::l_multilinetext   },

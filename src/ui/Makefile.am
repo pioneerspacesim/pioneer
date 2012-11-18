@@ -90,6 +90,7 @@ libui_a_SOURCES = \
 	LuaGradient.cpp \
 	LuaExpand.cpp \
 	LuaGrid.cpp \
+	LuaIcon.cpp \
 	LuaImage.cpp \
 	LuaLabel.cpp \
 	LuaList.cpp \
