@@ -2,6 +2,11 @@ math.clamp = function(v, min, max)
 	return math.min(max, math.max(v,min))
 end
 
+--for station waypoint interpolation etc
+function vlerp(t, v1, v2)
+	return t*v2 + (1.0-t)*v1
+end
+
 debug.deprecated = function()
 	local deprecated_function = debug.getinfo(2)
 	local caller = debug.getinfo(3)

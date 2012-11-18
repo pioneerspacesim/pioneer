@@ -2,180 +2,35 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SpaceStation.h"
-#include "Ship.h"
-#include "Planet.h"
-#include "gameconsts.h"
-#include "galaxy/StarSystem.h"
-#include "Serializer.h"
-#include "Frame.h"
-#include "Pi.h"
 #include "CityOnPlanet.h"
+#include "FileSystem.h"
+#include "Frame.h"
+#include "Game.h"
+#include "gameconsts.h"
+#include "Lang.h"
+#include "LmrModel.h"
+#include "LuaEvent.h"
+#include "LuaVector.h"
+#include "Pi.h"
+#include "Planet.h"
 #include "Player.h"
 #include "Polit.h"
-#include "LmrModel.h"
-#include "LuaVector.h"
-#include "LuaEvent.h"
 #include "Polit.h"
+#include "Serializer.h"
+#include "Ship.h"
 #include "Space.h"
-#include "Lang.h"
 #include "StringF.h"
-#include <algorithm>
-#include "Game.h"
+#include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
+#include <algorithm>
 
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
 
-void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, double **durationArray) {
-	lua_State *L = LmrGetLuaState();
-
-	LUA_DEBUG_START(L);
-
-	model->PushAttributeToLuaStack(key);
-	assert(lua_istable(L, -1));
-
-	int num = lua_rawlen(L, -1);
-	*outNumStages = num;
-	if (num == 0) {
-		*durationArray = 0;
-	} else {
-		*durationArray = new double[num];
-		for (int i=1; i<=num; i++) {
-			lua_pushinteger(L, i);
-			lua_gettable(L, -2);
-			(*durationArray)[i-1] = lua_tonumber(L, -1);
-			lua_pop(L, 1);
-		}
-	}
-	if (outNumStages <= 0) {
-		Error("Space station %s must have atleast 1 docking and 1 undocking animation stage.",
-				modelName);
-	}
-
-	lua_pop(L, 1);
-
-	LUA_DEBUG_END(L, 0);
-}
-// read from lua model definition
-void SpaceStationType::ReadStageDurations() {
-	_ReadStageDurations("dock_anim_stage_duration", &numDockingStages, &dockAnimStageDuration);
-	_ReadStageDurations("undock_anim_stage_duration", &numUndockStages, &undockAnimStageDuration);
-}
-
-bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const
-{
-	lua_State *L = LmrGetLuaState();
-
-	LUA_DEBUG_START(L);
-
-	lua_pushcfunction(L, pi_lua_panic);
-	model->PushAttributeToLuaStack("ship_approach_waypoints");
-	if (!lua_isfunction(L, -1)) {
-		printf("no function\n");
-		lua_pop(L, 2);
-		LUA_DEBUG_END(L, 0);
-		return false;
-	}
-
-	lua_pushinteger(L, port+1);
-	lua_pushinteger(L, stage);
-	lua_pcall(L, 2, 1, -4);
-	bool gotOrient;
-	if (lua_istable(L, -1)) {
-		gotOrient = true;
-		lua_pushinteger(L, 1);
-		lua_gettable(L, -2);
-		outPosOrient.pos = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-
-		lua_pushinteger(L, 2);
-		lua_gettable(L, -2);
-		outPosOrient.xaxis = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-
-		lua_pushinteger(L, 3);
-		lua_gettable(L, -2);
-		outPosOrient.yaxis = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-	} else {
-		gotOrient = false;
-	}
-	lua_pop(L, 2);
-
-	LUA_DEBUG_END(L, 0);
-
-	return gotOrient;
-}
-
-// returns true and fills outPosOrient if model has suitable data available
-// if stage is at one end, fills out last position in animation
-bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
-{
-	if (stage < -shipLaunchStage) { stage = -shipLaunchStage; t = 1.0; }
-	if (stage > numDockingStages || !stage) { stage = numDockingStages; t = 1.0; }
-	// note case for stageless launch (shipLaunchStage==0)
-
-	lua_State *L = LmrGetLuaState();
-
-	LUA_DEBUG_START(L);
-
-	lua_pushcfunction(L, pi_lua_panic);
-	// It's a function of form function(stage, t, from)
-	model->PushAttributeToLuaStack("ship_dock_anim");
-	if (!lua_isfunction(L, -1)) {
-		Error("Spacestation model %s needs ship_dock_anim method", model->GetName());
-	}
-	lua_pushinteger(L, port+1);
-	lua_pushinteger(L, stage);
-	lua_pushnumber(L, double(t));
-	LuaVector::PushToLua(L, from);
-	// push model aabb as lua table: { min: vec3, max: vec3 }
-	{
-		const Aabb &aabb = ship->GetAabb();
-		lua_createtable (L, 0, 2);
-		LuaVector::PushToLua(L, aabb.max);
-		lua_setfield(L, -2, "max");
-		LuaVector::PushToLua(L, aabb.min);
-		lua_setfield(L, -2, "min");
-	}
-
-	lua_pcall(L, 5, 1, -7);
-	bool gotOrient;
-	if (lua_istable(L, -1)) {
-		gotOrient = true;
-		lua_pushinteger(L, 1);
-		lua_gettable(L, -2);
-		outPosOrient.pos = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-
-		lua_pushinteger(L, 2);
-		lua_gettable(L, -2);
-		outPosOrient.xaxis = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-
-		lua_pushinteger(L, 3);
-		lua_gettable(L, -2);
-		outPosOrient.yaxis = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-	} else {
-		gotOrient = false;
-	}
-	lua_pop(L, 2);
-
-	LUA_DEBUG_END(L, 0);
-
-	return gotOrient;
-}
-
-static bool stationTypesInitted = false;
-static std::vector<SpaceStationType> surfaceStationTypes;
-static std::vector<SpaceStationType> orbitalStationTypes;
-
 /* Must be called after LmrModel init is called */
 void SpaceStation::Init()
-{
-	if (stationTypesInitted) return;
-	stationTypesInitted = true;
+{	
+#if 0
 	for (int is_orbital=0; is_orbital<2; is_orbital++) {
 		std::vector<LmrModel*> models;
 		if (is_orbital) LmrGetModelsWithTag("orbital_station", models);
@@ -185,7 +40,7 @@ void SpaceStation::Init()
 				i != models.end(); ++i) {
 			SpaceStationType t;
 			t.modelName = (*i)->GetName();
-			t.model = LmrLookupModelByName(t.modelName);
+			t.model = LmrLookupModelByName(t.modelName.c_str());
 			t.dockMethod = SpaceStationType::DOCKMETHOD(is_orbital);
 			t.numDockingPorts = (*i)->GetIntAttribute("num_docking_ports");
 			t.shipLaunchStage = (*i)->GetIntAttribute("ship_launch_stage");
@@ -193,8 +48,6 @@ void SpaceStation::Init()
 			t.parkingDistance = (*i)->GetFloatAttribute("parking_distance");
 			t.parkingGapSize = (*i)->GetFloatAttribute("parking_gap_size");
 			t.ReadStageDurations();
-			//printf("one at a time? %s\n", t.dockOneAtATimePlease ? "yes" : "no");
-			//printf("%s: %d docking ports\n", t.modelName, t.numDockingPorts);
 			if (is_orbital) {
 				t.angVel = (*i)->GetFloatAttribute("angular_velocity");
 				orbitalStationTypes.push_back(t);
@@ -205,20 +58,13 @@ void SpaceStation::Init()
 			}
 		}
 	}
-	//printf(SIZET_FMT " orbital station types and " SIZET_FMT " surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
+#endif
+	SpaceStationType::Init();
 }
 
 void SpaceStation::Uninit()
 {
-	std::vector<SpaceStationType>::iterator i;
-	for (i=surfaceStationTypes.begin(); i!=surfaceStationTypes.end(); ++i) {
-		delete[] (*i).dockAnimStageDuration;
-		delete[] (*i).undockAnimStageDuration;
-	}
-	for (i=orbitalStationTypes.begin(); i!=orbitalStationTypes.end(); ++i) {
-		delete[] (*i).dockAnimStageDuration;
-		delete[] (*i).undockAnimStageDuration;
-	}
+	SpaceStationType::Uninit();
 }
 
 void SpaceStation::Save(Serializer::Writer &wr, Space *space)
@@ -327,8 +173,8 @@ void SpaceStation::InitStation()
 	for(int i=0; i<NUM_STATIC_SLOTS; i++) m_staticSlot[i] = false;
 	MTRand rand(m_sbody->seed);
 	bool ground = m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL ? false : true;
-	if (ground) m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
-	else m_type = &orbitalStationTypes[ rand.Int32(orbitalStationTypes.size()) ];
+	if (ground) m_type = &SpaceStationType::surfaceStationTypes[ rand.Int32(SpaceStationType::surfaceStationTypes.size()) ];
+	else m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
 
 	LmrObjParams &params = GetLmrObjParams();
 	params.animStages[ANIM_DOCKING_BAY_1] = 1;
@@ -336,7 +182,7 @@ void SpaceStation::InitStation()
 	// XXX the animation namespace must match that in LuaConstants
 	params.animationNamespace = "SpaceStationAnimation";
 	SetStatic(ground);			// orbital stations are dynamic now
-	SetModel(m_type->modelName);
+	SetModel(m_type->modelName.c_str());
 
 	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS);		// overrides setmodel
 }
