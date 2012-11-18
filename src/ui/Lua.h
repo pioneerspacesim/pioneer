@@ -8,7 +8,11 @@
 #include "Context.h"
 
 namespace UI {
-	void LuaInit();
+namespace Lua {
+
+	void Init();
+
+}
 }
 
 template <> class LuaAcquirer<UI::Align> : public LuaAcquirerRefCounted {};

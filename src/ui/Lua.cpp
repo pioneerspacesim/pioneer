@@ -4,8 +4,9 @@
 #include "Lua.h"
 
 namespace UI {
+namespace Lua {
 
-void LuaInit()
+void Init()
 {
 	LuaObject<UI::Align>::RegisterClass();
 	LuaObject<UI::Background>::RegisterClass();
@@ -36,4 +37,5 @@ void LuaInit()
 	LuaObject<UI::Widget>::RegisterClass();
 }
 
+}
 }
