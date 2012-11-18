@@ -1,13 +1,15 @@
 local f = Faction:new('Federation')
 	:description_short('The historical birthplace of humankind')
 	:description([[Sol is a fine joint]])
-	:govtype('EARTHDEMOC')
 	:homeworld(0,0,0,0,4)
 	:foundingDate(3050.0)
 	:expansionRate(1.0)
 	:military_name('United Nations Space Force')
 	:police_name('Police')
 	:colour(0.4,0.4,1.0)
+
+f:govtype_weight('EARTHDEMOC',    60)
+f:govtype_weight('EARTHCOLONIAL', 40)
 
 f:illegal_goods_probability('ANIMAL_MEAT',75)	-- fed/cis
 f:illegal_goods_probability('LIVE_ANIMALS',75)	-- fed/cis
