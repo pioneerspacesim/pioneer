@@ -147,9 +147,6 @@ public:
 		m[6] =       2.0 * (xz - yw);
 		m[7] =       2.0 * (yz + xw);
 		m[8] = 1.0 - 2.0 * (xx + yy);
-
-		m[12] = m[13] = m[14] = m[3] = m[7] = m[11] = 0.0;
-		m[15] = 1.0;
 		return m;
 	}
 	/* normalized linear interpolation between 2 quaternions */

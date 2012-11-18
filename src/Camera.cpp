@@ -25,7 +25,8 @@ Camera::Camera(const Body *body, float width, float height, float fovY, float zn
 	m_zNear(znear),
 	m_zFar(zfar),
 	m_frustum(m_width, m_height, m_fovAng, znear, zfar),
-	m_pose(matrix4x4d::Identity()),
+	m_pos(0.0),
+	m_orient(matrix3x3d::Identity()),
 	m_camFrame(0),
 	m_showCameraBody(true),
 	m_renderer(0)
@@ -53,14 +54,11 @@ void Camera::OnBodyDeleted()
 static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::LightSource> &lights)
 {
 	if (lights.size() > 3) return;
-	// not using frame->GetSystemBodyFor() because it snoops into parent frames,
-	// causing duplicate finds for static and rotating frame
-	SystemBody *body = frame->m_sbody;
 
-	if (body && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
-		matrix4x4d m;
-		Frame::GetFrameTransform(frame, camFrame, m);
-		vector3d lpos = (m * vector3d(0,0,0));
+	SystemBody *body = frame->GetSystemBody();
+	// IsRotFrame check prevents double counting
+	if (body && !frame->IsRotFrame() && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
+		vector3d lpos = frame->GetPositionRelTo(camFrame);
 		double dist = lpos.Length() / AU;
 		lpos *= 1.0/dist; // normalize
 
@@ -69,11 +67,11 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 		Color lightCol(col[0], col[1], col[2], 0.f);
 		Color ambCol(0.f);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
-		lights.push_back(Camera::LightSource(frame->m_astroBody, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol)));
+		lights.push_back(Camera::LightSource(frame->GetBody(), Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol)));
 	}
 
-	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i!=frame->m_children.end(); ++i) {
-		position_system_lights(camFrame, *i, lights);
+	for (Frame *c = frame->GetFirstChild(); c; c = frame->GetNextChild()) {
+		position_system_lights(camFrame, c, lights);
 	}
 }
 
@@ -82,15 +80,17 @@ void Camera::Update()
 	if (!m_body) return;
 
 	// make temporary camera frame at the body
-	m_camFrame = new Frame(m_body->GetFrame(), "camera", Frame::TEMP_VIEWING);
+	m_camFrame = new Frame(m_body->GetFrame(), "camera", Frame::TEMP_VIEWING | Frame::FLAG_ROTATING);
 
 	// interpolate between last physics tick position and current one,
 	// to remove temporal aliasing
-	matrix4x4d bodyPose = m_body->GetInterpolatedTransform();
-	m_camFrame->SetTransform(bodyPose * m_pose);
+	const matrix3x3d &m = m_body->GetInterpOrient();
+	m_camFrame->SetOrient(m * m_orient);
+	m_camFrame->SetPosition(m * m_pos + m_body->GetInterpPosition());
 
 	// make sure old orient and interpolated orient (rendering orient) are not rubbish
 	m_camFrame->ClearMovement();
+	m_camFrame->UpdateInterpTransform(1.0);			// update root-relative pos/orient
 
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
@@ -101,7 +101,7 @@ void Camera::Update()
 		BodyAttrs attrs;
 		attrs.body = b;
 		Frame::GetFrameRenderTransform(b->GetFrame(), m_camFrame, attrs.viewTransform);
-		attrs.viewCoords = attrs.viewTransform * b->GetInterpolatedPosition();
+		attrs.viewCoords = attrs.viewTransform * b->GetInterpPosition();
 		attrs.camDist = attrs.viewCoords.Length();
 		attrs.bodyFlags = b->GetFlags();
 		m_sortedBodies.push_back(attrs);
@@ -143,25 +143,27 @@ void Camera::Draw(Renderer *renderer)
 
 	//fade space background based on atmosphere thickness and light angle
 	float bgIntensity = 1.f;
-	if (m_camFrame->m_parent) {
+	if (m_camFrame->GetParent() && m_camFrame->GetParent()->IsRotFrame()) {
 		//check if camera is near a planet
-		Body *camParentBody = m_camFrame->m_parent->GetBodyFor();
+		Body *camParentBody = m_camFrame->GetParent()->GetBody();
 		if (camParentBody && camParentBody->IsType(Object::PLANET)) {
 			Planet *planet = static_cast<Planet*>(camParentBody);
-			const vector3f relpos(planet->GetPositionRelTo(m_camFrame));
+			const vector3f relpos(planet->GetInterpPositionRelTo(m_camFrame));
 			double altitude(relpos.Length());
 			double pressure, density;
 			planet->GetAtmosphericState(altitude, &pressure, &density);
-
-			//go through all lights to calculate something resembling light intensity
-			float angle = 0.f;
-			for(std::vector<LightSource>::const_iterator it = m_lightSources.begin();
-				it != m_lightSources.end(); ++it) {
-				const vector3f lightDir(it->GetLight().GetPosition().Normalized());
-				angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * it->GetLight().GetDiffuse().GetLuminance();
+			if (pressure >= 0.001)
+			{
+				//go through all lights to calculate something resembling light intensity
+				float angle = 0.f;
+				for(std::vector<LightSource>::const_iterator it = m_lightSources.begin();
+					it != m_lightSources.end(); ++it) {
+					const vector3f lightDir(it->GetLight().GetPosition().Normalized());
+					angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * it->GetLight().GetDiffuse().GetLuminance();
+				}
+				//calculate background intensity with some hand-tweaked fuzz applied
+				bgIntensity = Clamp(1.f - std::min(1.f, float(density) * (0.3f + angle)), 0.f, 1.f);
 			}
-			//calculate background intensity with some hand-tweaked fuzz applied
-			bgIntensity = Clamp(1.f - std::min(1.f, float(density) * (0.3f + angle)), 0.f, 1.f);
 		}
 	}
 

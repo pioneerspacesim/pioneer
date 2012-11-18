@@ -164,13 +164,12 @@ void Sfx::TimeStepAll(const float timeStep, Frame *f)
 		}
 	}
 
-	for (std::list<Frame*>::iterator i = f->m_children.begin();
-			i != f->m_children.end(); ++i) {
-		TimeStepAll(timeStep, *i);
+	for (Frame *c = f->GetFirstChild(); c; c = f->GetNextChild()) {
+		TimeStepAll(timeStep, c);
 	}
 }
 
-void Sfx::RenderAll(Renderer *renderer, const Frame *f, const Frame *camFrame)
+void Sfx::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 {
 	if (f->m_sfx) {
 		matrix4x4d ftran;
@@ -183,9 +182,8 @@ void Sfx::RenderAll(Renderer *renderer, const Frame *f, const Frame *camFrame)
 		}
 	}
 
-	for (std::list<Frame*>::const_iterator i = f->m_children.begin();
-			i != f->m_children.end(); ++i) {
-		RenderAll(renderer, *i, camFrame);
+	for (Frame *c = f->GetFirstChild(); c; c = f->GetNextChild()) {
+		RenderAll(renderer, c, camFrame);
 	}
 }
 

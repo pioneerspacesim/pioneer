@@ -107,10 +107,9 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 		// be moved into EvictShip()
 		m_ship->SetPosition(m_pos);
 		m_ship->SetVelocity(m_vel);
-		m_ship->SetRotMatrix(matrix4x4d::Identity());
+		m_ship->SetOrient(matrix3x3d::Identity());
 		m_ship->SetFrame(GetFrame());
 		Pi::game->GetSpace()->AddBody(m_ship);
-		m_ship->Enable();
 
 		if (Pi::player->GetNavTarget() == this && !Pi::player->GetCombatTarget())
 			Pi::player->SetCombatTarget(m_ship, Pi::player->GetSetSpeedTarget() == this);
@@ -137,15 +136,11 @@ static void make_circle_thing(VertexArray &va, float radius, const Color &colCen
 	va.Add(vector3f(0.f, radius, 0.f), colEdge);
 }
 
-void HyperspaceCloud::UpdateInterpolatedTransform(double alpha)
+void HyperspaceCloud::UpdateInterpTransform(double alpha)
 {
-	m_interpolatedTransform = matrix4x4d::Identity();
-	const vector3d newPos = GetPosition();
-	const vector3d oldPos = newPos - m_vel*Pi::game->GetTimeStep();
-	const vector3d p = alpha*newPos + (1.0-alpha)*oldPos;
-	m_interpolatedTransform[12] = p.x;
-	m_interpolatedTransform[13] = p.y;
-	m_interpolatedTransform[14] = p.z;
+	m_interpOrient = matrix3x3d::Identity();
+	const vector3d oldPos = GetPosition() - m_vel*Pi::game->GetTimeStep();
+	m_interpPos = alpha*GetPosition() + (1.0-alpha)*oldPos;
 }
 
 void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)

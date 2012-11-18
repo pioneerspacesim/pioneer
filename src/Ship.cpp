@@ -635,9 +635,19 @@ bool Ship::FireMissile(int idx, Ship *target)
 
 void Ship::SetFlightState(Ship::FlightState newState)
 {
+	if (m_flightState == newState) return;
 	m_flightState = newState;
 	if (IsHyperspaceActive() && (newState != FLYING))
 		ResetHyperspaceCountdown();
+
+	switch (m_flightState)
+	{
+		case FLYING: SetMoving(true); SetColliding(true); SetStatic(false); break;
+		case DOCKING: SetMoving(false); SetColliding(false); SetStatic(false); break;
+		case DOCKED: SetMoving(false); SetColliding(true); SetStatic(true); break;
+		case LANDED: SetMoving(false); SetColliding(true); SetStatic(true); break;
+		case HYPERSPACE: SetMoving(false); SetColliding(false); SetStatic(false); break;
+	}
 }
 
 void Ship::Blastoff()
@@ -651,7 +661,6 @@ void Ship::Blastoff()
 	m_launchLockTimeout = 2.0; // two second of applying thrusters
 
 	vector3d up = GetPosition().Normalized();
-	Enable();
 	assert(GetFrame()->GetBody()->IsType(Object::PLANET));
 	const double planetRadius = 2.0 + static_cast<Planet*>(GetFrame()->GetBody())->GetTerrainHeight(up);
 	SetVelocity(vector3d(0, 0, 0));
@@ -659,7 +668,6 @@ void Ship::Blastoff()
 	SetForce(vector3d(0, 0, 0));
 	SetTorque(vector3d(0, 0, 0));
 
-	// XXX hm. we need to be able to get sbre aabb
 	SetPosition(up*planetRadius - GetAabb().min.y*up);
 	SetThrusterState(1, 1.0);		// thrust upwards
 
@@ -678,8 +686,7 @@ void Ship::TestLanded()
 
 		if (speed < MAX_LANDING_SPEED) {
 			// check player is sortof sensibly oriented for landing
-			const double dot = GetOrient().VectorY().Dot(up);
-			if (dot > 0.99) {
+			if (GetOrient().VectorY().Dot(up) > 0.99) {
 				// position at zero altitude
 				SetPosition(up * (planetRadius - GetAabb().min.y));
 
@@ -691,8 +698,6 @@ void Ship::TestLanded()
 				SetAngVelocity(vector3d(0, 0, 0));
 				SetForce(vector3d(0, 0, 0));
 				SetTorque(vector3d(0, 0, 0));
-				// we don't use DynamicBody::Disable because that also disables the geom, and that must still get collisions
-				DisableBodyOnly();
 				ClearThrusterState();
 				SetFlightState(LANDED);
 				Sound::BodyMakeNoise(this, "Rough_Landing", 1.0f);
@@ -706,10 +711,15 @@ void Ship::TimeStepUpdate(const float timeStep)
 {
 	// XXX why not just fucking do this rather than track down the
 	// reason that ship geoms are being collision tested during launch
-	if (m_flightState == FLYING) Enable();
-	else Disable();
+	if (m_flightState == FLYING) { SetColliding(true); }
+	else { SetColliding(false); }
 
-	if (IsDead()) Disable();
+	if (IsDead()) SetColliding(false);
+
+	// can't orient ships in SetDockedWith() because it gets
+	// called from collision handler, and collision system gets a bit
+	// weirded out if bodies are moved in the middle of collision detection
+	if (m_dockedWith) m_dockedWith->OrientDockedShip(this, m_dockedWithPort);
 
 	vector3d maxThrust = GetMaxThrust(m_thrusters);
 	AddRelForce(vector3d(maxThrust.x*m_thrusters.x, maxThrust.y*m_thrusters.y,
@@ -1006,11 +1016,6 @@ void Ship::StaticUpdate(const float timeStep)
 	if (m_flightState == FLYING)
 		m_launchLockTimeout -= timeStep;
 	if (m_launchLockTimeout < 0) m_launchLockTimeout = 0;
-	/* can't orient ships in SetDockedWith() because it gets
-	 * called from collision handler, and collision system gets a bit
-	 * weirded out if bodies are moved in the middle of collision detection
-	 */
-	if (m_dockedWith) m_dockedWith->OrientDockedShip(this, m_dockedWithPort);
 
 	// lasers
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
@@ -1109,7 +1114,6 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 		SetFlightState(DOCKED);
 		SetVelocity(vector3d(0,0,0));
 		SetAngVelocity(vector3d(0,0,0));
-		Disable();
 		ClearThrusterState();
 		m_dockedWith->SetDocked(this, port);
 		onDock.emit();
@@ -1135,7 +1139,7 @@ bool Ship::SetWheelState(bool down)
 
 void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	if (IsDead() || (!IsEnabled() && !m_flightState)) return;
+	if (IsDead()) return;
 	LmrObjParams &params = GetLmrObjParams();
 
 	m_shipFlavour.ApplyTo(&params);

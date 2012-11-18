@@ -549,13 +549,12 @@ void Pi::HandleEvents()
 						case SDLK_F12:
 						{
 							if(Pi::game) {
-								matrix4x4d m; Pi::player->GetRotMatrix(m);
-								vector3d dir = m*vector3d(0,0,-1);
+								vector3d dir = -Pi::player->GetOrient().VectorZ();
 								/* add test object */
 								if (KeyState(SDLK_RSHIFT)) {
 									Missile *missile =
 										new Missile(ShipType::MISSILE_GUIDED, Pi::player, Pi::player->GetCombatTarget());
-									missile->SetRotMatrix(m);
+									missile->SetOrient(Pi::player->GetOrient());
 									missile->SetFrame(Pi::player->GetFrame());
 									missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
 									missile->SetVelocity(Pi::player->GetVelocity());
@@ -891,7 +890,6 @@ void Pi::MainLoop()
 			} else {
 				Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
 				Pi::SetView(Pi::deathView);
-				Pi::player->Disable();
 				time_player_died = Pi::game->GetTime();
 			}
 		}
@@ -902,9 +900,9 @@ void Pi::MainLoop()
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
         // XXX should this be here? what is this anyway?
 		for (Space::BodyIterator i = game->GetSpace()->BodiesBegin(); i != game->GetSpace()->BodiesEnd(); ++i) {
-			(*i)->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
+			(*i)->UpdateInterpTransform(Pi::GetGameTickAlpha());
 		}
-		game->GetSpace()->GetRootFrame()->UpdateInterpolatedTransform(Pi::GetGameTickAlpha());
+		game->GetSpace()->GetRootFrame()->UpdateInterpTransform(Pi::GetGameTickAlpha());
 
 		currentView->Update();
 		currentView->Draw3D();

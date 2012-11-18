@@ -220,12 +220,13 @@ static int l_space_spawn_ship_near(lua_State *l)
 	// XXX protect against spawning inside the body
 	Frame * newframe = nearbody->GetFrame();
 	const vector3d newPosition = (MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition();
+	
 	// If the frame is rotating and the chosen position is too far, use non-rotating parent.
 	// Otherwise the ship will be given a massive initial velocity when it's bumped out of the
 	// rotating frame in the next update
-	if (newframe->IsRotatingFrame() && !newframe->IsLocalPosInFrame(newPosition)) {
-		assert(newframe->m_parent);
-		newframe = newframe->m_parent;
+	if (newframe->IsRotFrame() && newframe->GetRadius() < newPosition.Length()) {
+		assert(newframe->GetParent());
+		newframe = newframe->GetParent();
 	}
 
 	thing->SetFrame(newframe);;
@@ -348,15 +349,15 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	assert(ship);
 
 	vector3d pos, vel;
-	matrix4x4d rot = matrix4x4d::Identity();
-
+	matrix3x3d rot;
+	
 	if (station->GetSystemBody()->type == SystemBody::TYPE_STARPORT_SURFACE) {
 		vel = vector3d(0.0);
 
 		// XXX on tiny planets eg asteroids force this to be larger so the
 		// are out of the docking path
 		pos = station->GetPosition() * 1.1;
-		station->GetRotMatrix(rot);
+		rot = station->GetOrient();
 
 		vector3d axis1, axis2;
 
@@ -378,14 +379,14 @@ static int l_space_spawn_ship_parked(lua_State *l)
 
 		pos = vector3d(xpos,5000,zpos);
 		vel = vector3d(0.0);
-		rot.RotateX(M_PI/2);
+		rot = matrix3x3d::RotateXMatrix(M_PI/2);
 	}
 
 	ship->SetFrame(station->GetFrame());
 
 	ship->SetVelocity(vel);
 	ship->SetPosition(pos);
-	ship->SetRotMatrix(rot);
+	ship->SetOrient(rot);
 
 	Pi::game->GetSpace()->AddBody(ship);
 

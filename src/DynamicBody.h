@@ -23,10 +23,8 @@ public:
 	vector3d GetAngularMomentum() const;
 	double GetAngularInertia() const { return m_angInertia; }
 	void SetMassDistributionFromModel();
-	void DisableBodyOnly() { m_enabled = false; }
-	bool IsEnabled() const { return m_enabled; }
-	virtual void Disable();
-	virtual void Enable();
+	void SetMoving(bool isMoving) { m_isMoving = isMoving; }
+	bool IsMoving() const { return m_isMoving; }
 	virtual double GetMass() const { return m_mass; }	// XXX don't override this
 	virtual void TimeStepUpdate(const float timeStep);
 	void CalcExternalForce();
@@ -63,8 +61,8 @@ private:
 	double m_mass;
 	double m_massRadius; // set in a mickey-mouse fashion from the collision mesh and used to calculate m_angInertia
 	double m_angInertia; // always sphere mass distribution
-	bool m_enabled;
-	//
+	bool m_isMoving;
+
 	vector3d m_externalForce;
 	vector3d m_atmosForce;
 	vector3d m_gravityForce;

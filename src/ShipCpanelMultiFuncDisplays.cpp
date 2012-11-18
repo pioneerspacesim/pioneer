@@ -395,10 +395,7 @@ void ScannerWidget::DrawBlobs(bool below)
 			pointSize = 4.f;
 		}
 
-		matrix4x4d rot;
-		Pi::player->GetRotMatrix(rot);
-		vector3d pos = rot.InverseOf() * i->pos;
-
+		vector3d pos = i->pos * Pi::player->GetOrient();
 		if ((pos.y > 0) && (below)) continue;
 		if ((pos.y < 0) && (!below)) continue;
 

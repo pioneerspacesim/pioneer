@@ -22,7 +22,7 @@ DynamicBody::DynamicBody(): ModelBody()
 	m_mass = 1;
 	m_angInertia = 1;
 	m_massRadius = 1;
-	m_enabled = true;
+	m_isMoving = true;
 	m_atmosForce = vector3d(0.0);
 	m_gravityForce = vector3d(0.0);
 	m_externalForce = vector3d(0.0);		// do external forces calc instead?
@@ -65,7 +65,7 @@ void DynamicBody::Save(Serializer::Writer &wr, Space *space)
 	wr.Double(m_mass);
 	wr.Double(m_massRadius);
 	wr.Double(m_angInertia);
-	wr.Bool(m_enabled);
+	wr.Bool(m_isMoving);
 }
 
 void DynamicBody::Load(Serializer::Reader &rd, Space *space)
@@ -78,7 +78,7 @@ void DynamicBody::Load(Serializer::Reader &rd, Space *space)
 	m_mass = rd.Double();
 	m_massRadius = rd.Double();
 	m_angInertia = rd.Double();
-	m_enabled = rd.Bool();
+	m_isMoving = rd.Bool();
 }
 
 void DynamicBody::PostLoadFixup(Space *space)
@@ -116,12 +116,11 @@ void DynamicBody::CalcExternalForce()
 
 	// atmospheric drag
 	m_atmosForce = vector3d(0.0);
-	if (body && body->IsType(Object::PLANET))
+	if (GetFrame()->IsRotFrame() && body->IsType(Object::PLANET))
 	{
-		// Do calculations in rotating frame of planet
 		Planet *planet = static_cast<Planet*>(body);
 		double dist = GetPosition().Length();
-		double speed = GetVelocityRelTo(body->GetRotFrame()).Length();
+		double speed = m_vel.Length();
 		double pressure, density;
 		planet->GetAtmosphericState(dist, &pressure, &density);
 		const double radius = GetBoundingRadius();
@@ -137,24 +136,22 @@ void DynamicBody::CalcExternalForce()
 		if (fDrag.LengthSqr() > f1g.LengthSqr()) m_atmosForce = f1g;
 		else m_atmosForce = fDrag;
 
-		m_atmosForce = body->GetRotFrame()->GetOrientRelTo(GetFrame()) * m_atmosForce;
 		m_externalForce += m_atmosForce;
 	}
 
 	// centrifugal and coriolis forces for rotating frames
-//	vector3d angRot = GetFrame()->GetAngVelocity();
-//	if (angRot.LengthSqr() > 0.0) {
-//		m_externalForce -= m_mass * angRot.Cross(angRot.Cross(GetPosition()));	// centrifugal
-//		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity());			// coriolis
-//	}
-
+	vector3d angRot = GetFrame()->GetAngVelocity();
+	if (angRot.LengthSqr() > 0.0) {
+		m_externalForce -= m_mass * angRot.Cross(angRot.Cross(GetPosition()));	// centrifugal
+		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity());			// coriolis
+	}
 }
 
 void DynamicBody::TimeStepUpdate(const float timeStep)
 {
 	m_oldOrient = GetOrient();
 	m_oldPos = GetPosition();
-	if (m_enabled) {
+	if (m_isMoving) {
 		m_force += m_externalForce;
 
 		m_vel += double(timeStep) * m_force * (1.0 / m_mass);
@@ -202,18 +199,6 @@ void DynamicBody::UndoTimestep()
 {
 	SetPosition(m_oldPos);
 	SetOrient(m_oldOrient);
-}
-
-void DynamicBody::Enable()
-{
-	ModelBody::Enable();
-	m_enabled = true;
-}
-
-void DynamicBody::Disable()
-{
-	ModelBody::Disable();
-	m_enabled = false;
 }
 
 void DynamicBody::SetMassDistributionFromModel()

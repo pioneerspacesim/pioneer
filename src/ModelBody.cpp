@@ -17,6 +17,7 @@ ModelBody::ModelBody(): Body()
 	m_collMesh = 0;
 	m_geom = 0;
 	m_isStatic = false;
+	m_colliding = true;
 	memset(&m_params, 0, sizeof(LmrObjParams));
 }
 
@@ -30,21 +31,40 @@ ModelBody::~ModelBody()
 void ModelBody::Save(Serializer::Writer &wr, Space *space)
 {
 	Body::Save(wr, space);
+	wr.Bool(m_isStatic);
+	wr.Bool(m_colliding);
 }
 
 void ModelBody::Load(Serializer::Reader &rd, Space *space)
 {
 	Body::Load(rd, space);
+	m_isStatic = rd.Bool();
+	m_colliding = rd.Bool();
 }
 
-void ModelBody::Disable()
+void ModelBody::SetStatic(bool isStatic)
 {
-	m_geom->Disable();
+	if (isStatic == m_isStatic) return;
+	m_isStatic = isStatic;
+	if (!m_geom) return;
+
+	if (m_isStatic) {
+		GetFrame()->RemoveGeom(m_geom);
+		GetFrame()->AddStaticGeom(m_geom);
+	}
+	else {
+		GetFrame()->RemoveStaticGeom(m_geom);
+		GetFrame()->AddGeom(m_geom);
+	}
 }
 
-void ModelBody::Enable()
+void ModelBody::SetColliding(bool colliding)
 {
-	m_geom->Enable();
+	m_colliding = colliding;
+	if (!m_geom) return;
+
+	if(colliding) m_geom->Enable();
+	else m_geom->Disable();
 }
 
 const Aabb &ModelBody::GetAabb() const
@@ -73,10 +93,8 @@ void ModelBody::RebuildCollisionMesh()
 	}
 }
 
-void ModelBody::SetModel(const char *lmrModelName, bool isStatic)
+void ModelBody::SetModel(const char *lmrModelName)
 {
-	m_isStatic = isStatic;
-
 	try {
 		m_lmrModel = LmrLookupModelByName(lmrModelName);
 	} catch (LmrModelNotFoundException) {

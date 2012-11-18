@@ -138,6 +138,12 @@ vector3d Body::GetInterpPositionRelTo(const Body *relTo) const
 	return GetInterpPositionRelTo(relTo->m_frame) - relTo->GetInterpPosition();
 }
 
+matrix3x3d Body::GetOrientRelTo(const Frame *relTo) const
+{
+	matrix3x3d forient = m_frame->GetOrientRelTo(relTo);
+	return forient * GetOrient();
+}
+
 matrix3x3d Body::GetInterpOrientRelTo(const Frame *relTo) const
 {
 	matrix3x3d forient = m_frame->GetInterpOrientRelTo(relTo);
@@ -180,8 +186,8 @@ void Body::SwitchToFrame(Frame *newFrame)
 
 void Body::UpdateFrame()
 {
-	if (!(m_flags & FLAG_CAN_MOVE_FRAME)) return;
-	if (m_frame->IsRotFrame()) return;			// don't move from rotating frames
+	if (!(m_flags & FLAG_CAN_MOVE_FRAME)) return;	
+//	if (m_frame->IsRotFrame()) return;			// don't move from rotating frames
 
 	// falling out of frames
 	if (m_frame->GetRadius() < GetPosition().Length()) {
@@ -194,14 +200,12 @@ void Body::UpdateFrame()
 	}
 
 	// entering into frames
-	std::list<Frame*> &children = m_frame->GetChildren();
-	for (std::list<Frame*>::iterator j = children.begin(); j != children.end(); ++j)
-	{
-		if ((*j)->IsRotFrame()) continue;			// don't move into rotating frames
-		vector3d pos = GetPositionRelTo(*j);
-		if (pos.Length() >= (*j)->GetRadius()) continue;
-		SwitchToFrame(*j);
-		printf("%s enters frame %s\n", GetLabel().c_str(), (*j)->GetLabel().c_str());
+	for (Frame *c = m_frame->GetFirstChild(); c; c = m_frame->GetNextChild()) {
+//		if ((*j)->IsRotFrame()) continue;			// don't move into rotating frames
+		vector3d pos = GetPositionRelTo(c);
+		if (pos.Length() >= c->GetRadius()) continue;
+		SwitchToFrame(c);
+		printf("%s enters frame %s\n", GetLabel().c_str(), c->GetLabel().c_str());
 		break;
 	}
 }

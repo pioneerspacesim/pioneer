@@ -167,8 +167,8 @@ void Space::AddFrameToIndex(Frame *frame)
 {
 	assert(frame);
 	m_frameIndex.push_back(frame);
-	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i != frame->m_children.end(); ++i)
-		AddFrameToIndex(*i);
+	for (Frame *c = frame->GetFirstChild(); c; c = frame->GetNextChild())
+		AddFrameToIndex(c);
 }
 
 void Space::AddSystemBodyToIndex(SystemBody *sbody)
@@ -319,10 +319,9 @@ static Frame *find_frame_with_sbody(Frame *f, const SystemBody *b)
 {
 	if (f->GetSystemBody() == b) return f;
 	else {
-		for (std::list<Frame*>::iterator i = f->m_children.begin();
-			i != f->m_children.end(); ++i) {
+		for (Frame *c = f->GetFirstChild(); c; c = f->GetNextChild()) {
 
-			Frame *found = find_frame_with_sbody(*i, b);
+			Frame *found = find_frame_with_sbody(c, b);
 			if (found) return found;
 		}
 	}
@@ -483,13 +482,12 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 
 		assert(sbody->rotationPeriod != 0);
 		rotFrame = new Frame(orbFrame, sbody->name.c_str(), Frame::FLAG_ROTATING);
-		orbFrame->SetBodies(sbody, b);
-		rotFrame->SetRadius(0);
+		rotFrame->SetBodies(sbody, b);
 
 		// rotating frame has atmosphere radius or feature height, whichever is larger
-//		double frad = static_cast<Planet*>(b)->GetMaxFeatureRadius() + 200.0;
-//		frad = std::max(frad, static_cast<Planet*>(b)->GetAtmosphereRadius());
-//		rotFrame->SetRadius(frad);
+		double frad = static_cast<Planet*>(b)->GetMaxFeatureRadius() + 200.0;
+		frad = std::max(frad, static_cast<Planet*>(b)->GetAtmosphereRadius());
+		rotFrame->SetRadius(frad);
 
 		matrix3x3d rotMatrix = matrix3x3d::RotateXMatrix(sbody->axialTilt.ToDouble());
 		vector3d angVel = vector3d(0.0, 2.0*M_PI/sbody->GetRotationPeriod(), 0.0);
@@ -497,7 +495,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 
 		if (sbody->rotationalPhaseAtStart != fixed(0))
 			rotMatrix = rotMatrix * matrix3x3d::RotateYMatrix(sbody->rotationalPhaseAtStart.ToDouble());
-		rotFrame->SetRotationOnly(rotMatrix);
+		rotFrame->SetOrient(rotMatrix);
 
 		b->SetFrame(rotFrame);
 		return orbFrame;
@@ -519,30 +517,33 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		orbFrame->SetBodies(sbody, b);
 //		orbFrame->SetRadius(10*sbody->GetRadius());
 		orbFrame->SetRadius(10000.0);				// 10km should be enough?
-
-		assert(sbody->rotationPeriod != 0);
-		rotFrame = new Frame(orbFrame, sbody->name.c_str(), Frame::FLAG_ROTATING);
-		rotFrame->SetBodies(sbody, b);
-		rotFrame->SetRadius(0.0);
-		rotFrame->SetAngVelocity(vector3d(0.0,double(static_cast<SpaceStation*>(b)->GetDesiredAngVel()),0.0));
-		b->SetFrame(rotFrame);
+						// TODO: Sort out station bounding radii, then set to 4*that
+		b->SetFrame(orbFrame);
 		return orbFrame;
+
+//		assert(sbody->rotationPeriod != 0);
+//		rotFrame = new Frame(orbFrame, sbody->name.c_str(), Frame::FLAG_ROTATING);
+//		rotFrame->SetBodies(sbody, b);
+//		rotFrame->SetRadius(0.0);
+//		rotFrame->SetAngVelocity(vector3d(0.0,double(static_cast<SpaceStation*>(b)->GetDesiredAngVel()),0.0));
+//		b->SetFrame(rotFrame);
+
 	} else if (sbody->type == SystemBody::TYPE_STARPORT_SURFACE) {
 		// just put body into rotating frame of planet, not in its own frame
 		// (because collisions only happen between objects in same frame,
 		// and we want collisions on starport and on planet itself)
-		Frame *rotFrame = *f->GetChildren().begin();
+		Frame *rotFrame = f->GetRotFrame();
 		b->SetFrame(rotFrame);
 		assert(rotFrame->IsRotFrame());
 		assert(rotFrame->GetBody()->IsType(Object::PLANET));
 		matrix3x3d rot;
 		vector3d pos;
-		Planet *planet = static_cast<Planet*>(frame->GetBody());
-		RelocateStarportIfUnderwaterOrBuried(sbody, frame, planet, pos, rot);
+		Planet *planet = static_cast<Planet*>(rotFrame->GetBody());
+		RelocateStarportIfUnderwaterOrBuried(sbody, rotFrame, planet, pos, rot);
 		sbody->orbit.rotMatrix = rot;
 		b->SetPosition(pos * planet->GetTerrainHeight(pos));
 		b->SetOrient(rot);
-		return frame;
+		return rotFrame;
 	} else {
 		assert(0);
 	}
@@ -605,8 +606,6 @@ static void hitCallback(CollisionContact *c)
 	if (po1_isDynBody && po2_isDynBody) {
 		DynamicBody *b1 = static_cast<DynamicBody*>(po1);
 		DynamicBody *b2 = static_cast<DynamicBody*>(po2);
-//		Frame *cframe = c->static ? b1->
-// leave this until we actually have dynbodies in the rotational frame
 		const vector3d linVel1 = b1->GetVelocity();
 		const vector3d linVel2 = b2->GetVelocity();
 		const vector3d angVel1 = b1->GetAngVelocity();
@@ -645,20 +644,17 @@ static void hitCallback(CollisionContact *c)
 		// one body is static
 		vector3d hitNormal;
 		DynamicBody *mover;
-		Frame *sFrame;				// frame containing static body
 
 		if (po1_isDynBody) {
 			mover = static_cast<DynamicBody*>(po1);
-			sFrame = po2->GetFrame();
 			hitNormal = c->normal;
 		} else {
 			mover = static_cast<DynamicBody*>(po2);
-			sFrame = po1->GetFrame();
 			hitNormal = -c->normal;
 		}
 
 		const double coeff_rest = 0.5;
-		const vector3d linVel1 = mover->GetVelocityRelTo();
+		const vector3d linVel1 = mover->GetVelocity();
 		const vector3d angVel1 = mover->GetAngVelocity();
 
 		// step back
@@ -684,55 +680,41 @@ static void hitCallback(CollisionContact *c)
 	}
 }
 
-void Space::CollideFrame(Frame *f)
+// temporary one-point version
+static void CollideWithTerrain(Body *body)
 {
-	if (f->GetBody() && (f->GetBody()->IsType(Object::TERRAINBODY))) {
-		// this is pretty retarded
-		for (BodyIterator i = m_bodies.begin(); i!=m_bodies.end(); ++i) {
-			if ((*i)->GetFrame() != f) continue;
-			if (!(*i)->IsType(Object::DYNAMICBODY)) continue;
-			DynamicBody *dynBody = static_cast<DynamicBody*>(*i);
+	if (!body->IsType(Object::DYNAMICBODY)) return;
+	DynamicBody *dynBody = static_cast<DynamicBody*>(body);
+	if (!dynBody->IsMoving()) return;
 
-			Aabb aabb;
-			dynBody->GetAabb(aabb);
-			const matrix4x4d &trans = dynBody->GetGeom()->GetTransform();
+	Frame *f = body->GetFrame();
+	if (!f || !f->IsRotFrame() || !f->GetBody()) return;
+	if (!f->GetBody()->IsType(Object::TERRAINBODY)) return;
+	TerrainBody *terrain = static_cast<TerrainBody*>(f->GetBody());
 
-			const vector3d aabbCorners[8] = {
-				vector3d(aabb.min.x, aabb.min.y, aabb.min.z),
-				vector3d(aabb.min.x, aabb.min.y, aabb.max.z),
-				vector3d(aabb.min.x, aabb.max.y, aabb.min.z),
-				vector3d(aabb.min.x, aabb.max.y, aabb.max.z),
-				vector3d(aabb.max.x, aabb.min.y, aabb.min.z),
-				vector3d(aabb.max.x, aabb.min.y, aabb.max.z),
-				vector3d(aabb.max.x, aabb.max.y, aabb.min.z),
-				vector3d(aabb.max.x, aabb.max.y, aabb.max.z)
-			};
+	const Aabb &aabb = dynBody->GetAabb();
+	double altitude = body->GetPosition().Length() + aabb.min.y;
+	if (altitude >= terrain->GetMaxFeatureRadius()) return;
 
-			CollisionContact c;
-
-			for (int j=0; j<8; j++) {
-				const vector3d &s = aabbCorners[j];
-				vector3d pos = trans * s;
-				double terrain_height = static_cast<Planet*>(f->m_astroBody)->GetTerrainHeight(pos.Normalized());
-				double altitude = pos.Length();
-				double hitDepth = terrain_height - altitude;
-				if (altitude < terrain_height) {
-					c.pos = pos;
-					c.normal = pos.Normalized();
-					c.depth = hitDepth;
-					c.userData1 = static_cast<void*>(dynBody);
-					c.userData2 = static_cast<void*>(f->m_astroBody);
-					hitCallback(&c);
-				}
-			}
-		}
-	}
-	f->GetCollisionSpace()->Collide(&hitCallback);
-	for (std::list<Frame*>::iterator i = f->m_children.begin(); i != f->m_children.end(); ++i) {
-		CollideFrame(*i);
-	}
+	double terrHeight = terrain->GetTerrainHeight(body->GetPosition().Normalized());
+	if (altitude >= terrHeight) return;
+	
+	CollisionContact c;
+	c.pos = body->GetPosition();
+	c.normal = c.pos.Normalized();
+	c.depth = terrHeight - altitude;
+	c.userData1 = static_cast<void*>(body);
+	c.userData2 = static_cast<void*>(f->GetBody());
+	hitCallback(&c);
 }
 
+void Space::CollideFrame(Frame *f)
+{
+	f->GetCollisionSpace()->Collide(&hitCallback);
+	for (Frame *c = f->GetFirstChild(); c; c = f->GetNextChild()) {
+		CollideFrame(c);
+	}
+}
 
 void Space::TimeStep(float step)
 {
@@ -740,6 +722,8 @@ void Space::TimeStep(float step)
 
 	// XXX does not need to be done this often
 	CollideFrame(m_rootFrame.Get());
+	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
+		CollideWithTerrain(*i);
 
 	// update frames of reference
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
@@ -796,20 +780,20 @@ void Space::UpdateBodies()
 
 static char space[256];
 
-static void DebugDumpFrame(const Frame *f, unsigned int indent)
+static void DebugDumpFrame(Frame *f, unsigned int indent)
 {
 	printf("%.*s%p (%s)", indent, space, f, f->GetLabel().c_str());
-	if (f->m_parent)
-		printf(" parent %p (%s)", f->m_parent, f->m_parent->GetLabel().c_str());
-	if (f->m_astroBody)
-		printf(" body %p (%s)", f->m_astroBody, f->m_astroBody->GetLabel().c_str());
-	if (Body *b = f->GetBodyFor())
+	if (f->GetParent())
+		printf(" parent %p (%s)", f->GetParent(), f->GetParent()->GetLabel().c_str());
+	if (f->GetBody())
+		printf(" body %p (%s)", f->GetBody(), f->GetBody()->GetLabel().c_str());
+	if (Body *b = f->GetBody())
 		printf(" bodyFor %p (%s)", b, b->GetLabel().c_str());
 	printf(" distance %f radius %f", f->GetPosition().Length(), f->GetRadius());
-	printf("%s\n", f->IsRotatingFrame() ? " [rotating]" : "");
+	printf("%s\n", f->IsRotFrame() ? " [rotating]" : "");
 
-	for (std::list<Frame*>::const_iterator i = f->m_children.begin(); i != f->m_children.end(); ++i)
-		DebugDumpFrame(*i, indent+2);
+	for (Frame *c = f->GetFirstChild(); c; c = f->GetNextChild())
+		DebugDumpFrame(c, indent+2);
 }
 
 void Space::DebugDumpFrames()

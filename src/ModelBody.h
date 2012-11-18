@@ -21,9 +21,12 @@ public:
 	virtual double GetBoundingRadius() const;
 	void TransformToModelCoords(const Frame *camFrame);
 	void SetFrame(Frame *f);
-	// to remove from simulation for a period
-	virtual void Disable();
-	virtual void Enable();
+	// Colliding: geoms are checked against collision space
+	void SetColliding(bool colliding);
+	bool IsColliding() const { return m_colliding; }
+	// Static: geoms are static relative to frame
+	void SetStatic(bool isStatic);
+	bool IsStatic() const { return m_isStatic; }
 	const Aabb &GetAabb() const;
 	Geom *GetGeom() { return m_geom; }
 	LmrModel *GetLmrModel() { return m_lmrModel; }
@@ -33,7 +36,7 @@ public:
 	void RebuildCollisionMesh();
 
 	void TriMeshUpdateLastPos(const matrix4x4d &currentTransform);
-	void SetModel(const char *lmrModelName, bool isStatic = false);
+	void SetModel(const char *lmrModelName);
 
 	void RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
@@ -46,6 +49,7 @@ private:
 	LmrCollMesh *m_collMesh;
 	LmrObjParams m_params;
 	bool m_isStatic;
+	bool m_colliding;
 	Geom *m_geom;
 };
 

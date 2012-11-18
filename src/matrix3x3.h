@@ -48,9 +48,9 @@ class matrix3x3 {
 	static matrix3x3 BuildFromVectors(const vector3<T> &rx, const vector3<T> &ry) {
 		vector3<T> rz = rx.Cross(ry);
 		matrix3x3 m;
-		m[0] = rx.x; m[4] = ry.x; m[8] = rz.x;
-		m[1] = rx.y; m[5] = ry.y; m[9] = rz.y;
-		m[2] = rx.z; m[6] = ry.z; m[10] = rz.z;
+		m[0] = rx.x; m[1] = ry.x; m[2] = rz.x;
+		m[3] = rx.y; m[4] = ry.y; m[5] = rz.y;
+		m[6] = rx.z; m[7] = ry.z; m[8] = rz.z;
 		return m;
 	}
 
@@ -100,9 +100,8 @@ class matrix3x3 {
 	}
 	void Renormalize() {
 		vector3<T> x = VectorX().Normalized();
-		vector3<T> z = x.Cross(VectorY()).Normalized();
-		vector3<T> y = z.Cross(x).Normalized();
-		*this = *BuildFromVectors(x, y, z);
+		vector3<T> y = VectorZ().Cross(x).Normalized();
+		*this = matrix3x3d::BuildFromVectors(x, y);
 	}
 	T& operator [] (const size_t i) { return cell[i]; }			// used for serializing
 	const T& operator[] (const size_t i) const { return cell[i]; }
@@ -133,9 +132,9 @@ class matrix3x3 {
 		m.cell[4] = a.cell[3]*b.cell[1] + a.cell[4]*b.cell[4] + a.cell[5]*b.cell[7];
 		m.cell[5] = a.cell[3]*b.cell[2] + a.cell[4]*b.cell[5] + a.cell[5]*b.cell[8];
 
-		m.cell[6] = a.cell[6]*b.cell[0] + a.cell[7]*b.cell[3] + a.cell[8]*b.cell[3];
-		m.cell[7] = a.cell[6]*b.cell[1] + a.cell[7]*b.cell[4] + a.cell[8]*b.cell[4];
-		m.cell[8] = a.cell[6]*b.cell[2] + a.cell[7]*b.cell[5] + a.cell[8]*b.cell[5];
+		m.cell[6] = a.cell[6]*b.cell[0] + a.cell[7]*b.cell[3] + a.cell[8]*b.cell[6];
+		m.cell[7] = a.cell[6]*b.cell[1] + a.cell[7]*b.cell[4] + a.cell[8]*b.cell[7];
+		m.cell[8] = a.cell[6]*b.cell[2] + a.cell[7]*b.cell[5] + a.cell[8]*b.cell[8];
 		return m;
 	}
 	friend vector3<T> operator * (const matrix3x3 &a, const vector3<T> &v) {

@@ -36,9 +36,8 @@ void Frame::Serialize(Serializer::Writer &wr, Frame *f, Space *space)
 	wr.Int32(space->GetIndexForSystemBody(f->m_sbody));
 	wr.Int32(space->GetIndexForBody(f->m_astroBody));
 	wr.Int32(f->m_children.size());
-	for (std::list<Frame*>::iterator i = f->m_children.begin();
-			i != f->m_children.end(); ++i) {
-		Serialize(wr, *i, space);
+	for (Frame *c = f->GetFirstChild(); c; c = f->GetNextChild()) {
+		Serialize(wr, c, space);
 	}
 	Sfx::Serialize(wr, f);
 }
@@ -67,11 +66,10 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent)
 
 void Frame::PostUnserializeFixup(Frame *f, Space *space)
 {
-	f->UpdateRootPosVel();
+	f->UpdateRootRelativeVars();
 	f->m_astroBody = space->GetBodyByIndex(f->m_astroBodyIndex);
-	for (std::list<Frame*>::iterator i = f->m_children.begin();
-			i != f->m_children.end(); ++i) {
-		PostUnserializeFixup(*i, space);
+	for (Frame *c = f->GetFirstChild(); c; c = f->GetNextChild()) {
+		PostUnserializeFixup(c, space);
 	}
 }
 
@@ -87,12 +85,9 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 	m_vel = vector3d(0.0);
 	m_angVel = vector3d(0.0);
 	m_orient = matrix3x3d::Identity();
-	UpdateRootPosVel();
 	ClearMovement();
 	m_collisionSpace = new CollisionSpace();
-	if (m_parent) {
-		m_parent->m_children.push_back(this);
-	}
+	if (m_parent) m_parent->AddChild(this);
 	if (label) m_label = label;
 }
 
@@ -100,7 +95,7 @@ Frame::~Frame()
 {
 	if (m_sfx) delete [] m_sfx;
 	delete m_collisionSpace;
-	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) delete *i;
+	if (m_parent) m_parent->RemoveChild(this);
 }
 
 void Frame::AddGeom(Geom *g) { m_collisionSpace->AddGeom(g); }
@@ -112,51 +107,64 @@ void Frame::SetPlanetGeom(double radius, Body *obj)
 	m_collisionSpace->SetSphere(vector3d(0,0,0), radius, static_cast<void*>(obj));
 }
 
+// may need one-frame exemptions to reduce camera jitter
+//eg:
+//	vector3d diff;
+//	if (this == relTo) return vector3d(0,0,0);
+//	if (relTo->GetParent() == this) return -relTo->m_pos * m_orient;	// relative to child
+//	if (GetParent() == relTo) return m_pos;			// relative to parent
+//	else diff = m_rootPos - relTo->m_rootPos;
 
+// doesn't consider stasis velocity
 vector3d Frame::GetVelocityRelTo(const Frame *relTo) const
 {
 	if (this == relTo) return vector3d(0,0,0);		// these lines are not strictly necessary
 	vector3d diff = m_rootVel - relTo->m_rootVel;
-	if (relTo->IsRotFrame()) return diff * relTo->m_orient;
+	if (relTo->IsRotFrame()) return diff * relTo->m_rootOrient;
 	else return diff;
 }
 
 vector3d Frame::GetPositionRelTo(const Frame *relTo) const
 {
 	if (this == relTo) return vector3d(0,0,0);
+	if (relTo->GetParent() == this) 					// relative to child
+		return -relTo->m_pos * relTo->m_orient;
+	if (GetParent() == relTo) return m_pos;				// relative to parent
+
 	vector3d diff = m_rootPos - relTo->m_rootPos;
-	if (relTo->IsRotFrame()) return diff * relTo->m_orient;
+	if (relTo->IsRotFrame()) return diff * relTo->m_rootOrient;
 	else return diff;
 }
 
 vector3d Frame::GetInterpPositionRelTo(const Frame *relTo) const
 {
 	if (this == relTo) return vector3d(0,0,0);
+	if (relTo->GetParent() == this) 							// relative to child
+		return -relTo->m_interpPos * relTo->m_interpOrient;
+	if (GetParent() == relTo) return m_interpPos;				// relative to parent
+
 	vector3d diff = m_rootInterpPos - relTo->m_rootInterpPos;
-	if (relTo->IsRotFrame()) return diff * relTo->m_orient;
+	if (relTo->IsRotFrame()) return diff * relTo->m_rootOrient;
 	else return diff;
 }
 
 matrix3x3d Frame::GetOrientRelTo(const Frame *relTo) const
 {
 	if (this == relTo) return matrix3x3d::Identity();
-	if (IsRotFrame()) {
-		if (relTo->IsRotFrame()) return m_orient * relTo->m_orient.Transpose();
-		else return m_orient;
-	}
-	if (relTo->IsRotFrame()) return relTo->m_orient.Transpose();
-	else return matrix3x3d::Identity();
+	return relTo->m_rootOrient.Transpose() * m_rootOrient;
 }
 
 matrix3x3d Frame::GetInterpOrientRelTo(const Frame *relTo) const
 {
 	if (this == relTo) return matrix3x3d::Identity();
-	if (IsRotFrame()) {
+	return relTo->m_rootInterpOrient.Transpose() * m_rootInterpOrient;
+/*	if (IsRotFrame()) {
 		if (relTo->IsRotFrame()) return m_interpOrient * relTo->m_interpOrient.Transpose();
 		else return m_interpOrient;
 	}
 	if (relTo->IsRotFrame()) return relTo->m_interpOrient.Transpose();
 	else return matrix3x3d::Identity();
+*/
 }
 
 void Frame::UpdateInterpTransform(double alpha)
@@ -170,16 +178,37 @@ void Frame::UpdateInterpTransform(double alpha)
 		matrix3x3d rot = matrix3x3d::BuildRotate(len, axis);
 		m_interpOrient = rot * m_interpOrient;
 	}
-	m_rootInterpPos = m_interpPos + m_parent->m_rootInterpPos;
-
-	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		(*i)->UpdateInterpTransform(alpha);
+	if (!m_parent) ClearMovement();
+	else {
+		m_rootInterpPos = m_parent->m_rootInterpOrient * m_interpPos
+			+ m_parent->m_rootInterpPos;
+		m_rootInterpOrient = m_parent->m_rootInterpOrient * m_interpOrient;
 	}
+
+	for (Frame *c = GetFirstChild(); c; c = GetNextChild()) {
+		c->UpdateInterpTransform(alpha);
+	}
+}
+
+void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m)
+{
+	matrix3x3d forient = fFrom->GetOrientRelTo(fTo);
+	vector3d fpos = fFrom->GetPositionRelTo(fTo);
+	m = forient; m.SetTranslate(fpos);
+}
+
+void Frame::GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m)
+{
+	matrix3x3d forient = fFrom->GetInterpOrientRelTo(fTo);
+	vector3d fpos = fFrom->GetInterpPositionRelTo(fTo);
+	m = forient; m.SetTranslate(fpos);
 }
 
 void Frame::ClearMovement()
 {
+	UpdateRootRelativeVars();
 	m_rootInterpPos = m_rootPos;
+	m_rootInterpOrient = m_rootOrient;
 	m_oldPos = m_interpPos = m_pos;
 	m_oldOrient = m_interpOrient = m_orient;
 	m_oldAngDisplacement = vector3d(0.0);
@@ -191,26 +220,37 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 	m_oldOrient = m_orient;
 	m_oldAngDisplacement = m_angVel * timestep;
 
-	// update rotation
+	// update frame position and velocity
+	if (m_parent && m_sbody && !IsRotFrame()) {
+		m_pos = m_sbody->orbit.OrbitalPosAtTime(time);
+		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(time+1.0);
+		m_vel = pos2 - m_pos;
+	}
+	
+	// update frame rotation
 	double ang = m_angVel.Length() * timestep;		// hmm. cumulative inaccuracy?
 	if (!is_zero_general(ang)) {
 		vector3d axis = m_angVel.Normalized();
 		matrix3x3d rot = matrix3x3d::BuildRotate(ang, axis);
 		m_orient = rot * m_orient;
 	}
-	UpdateRootPosVel();
+	UpdateRootRelativeVars();			// update root-relative pos/vel/orient
 
-	for (std::list<Frame*>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		(*i)->UpdateOrbitRails(time, timestep);
+	for (Frame *c = GetFirstChild(); c; c = GetNextChild()) {
+		c->UpdateOrbitRails(time, timestep);
 	}
 }
 
-void Frame::UpdateRootPosVel()
+void Frame::UpdateRootRelativeVars()
 {
 	// update pos & vel relative to parent frame
-	if (!m_parent) m_rootPos = m_rootVel = vector3d(0,0,0);
+	if (!m_parent) {
+		m_rootPos = m_rootVel = vector3d(0,0,0);
+		m_rootOrient = matrix3x3d::Identity();
+	}
 	else {
-		m_rootPos = m_pos + m_parent->m_rootPos;
-		m_rootVel = m_vel + m_parent->m_rootVel;
+		m_rootPos = m_parent->m_rootOrient * m_pos + m_parent->m_rootPos;
+		m_rootVel = m_parent->m_rootOrient * m_vel + m_parent->m_rootVel;
+		m_rootOrient = m_parent->m_rootOrient * m_orient;
 	}
 }

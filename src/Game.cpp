@@ -43,7 +43,6 @@ Game::Game(const SystemPath &path) :
 
 	m_space->AddBody(m_player.Get());
 
-	m_player->Enable();
 	m_player->SetFrame(station->GetFrame());
 	m_player->SetDockedWith(station, 0);
 
@@ -66,7 +65,6 @@ Game::Game(const SystemPath &path, const vector3d &pos) :
 
 	m_space->AddBody(m_player.Get());
 
-	m_player->Enable();
 	m_player->SetFrame(b->GetFrame());
 
 	m_player->SetPosition(pos);
@@ -444,7 +442,6 @@ void Game::SwitchToNormalSpace()
 			ship->SetFrame(m_space->GetRootFrame());
 			ship->SetVelocity(vector3d(0,0,-100.0));
 			ship->SetOrient(matrix3x3d::Identity());
-			ship->Enable();
 			ship->SetFlightState(Ship::FLYING);
 
 			const SystemPath &sdest = ship->GetHyperspaceDest();

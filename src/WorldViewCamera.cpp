@@ -33,27 +33,27 @@ void InternalCamera::SetMode(Mode m)
 	switch (m_mode) {
 		case MODE_FRONT:
 			m_name = Lang::CAMERA_FRONT_VIEW;
-			SetOrientation(matrix4x4d::RotateYMatrix(M_PI*2));
+			SetOrient(matrix3x3d::RotateYMatrix(M_PI*2));
 			break;
 		case MODE_REAR:
 			m_name = Lang::CAMERA_REAR_VIEW;
-			SetOrientation(matrix4x4d::RotateYMatrix(M_PI));
+			SetOrient(matrix3x3d::RotateYMatrix(M_PI));
 			break;
 		case MODE_LEFT:
 			m_name = Lang::CAMERA_LEFT_VIEW;
-			SetOrientation(matrix4x4d::RotateYMatrix((M_PI/2)*3));
+			SetOrient(matrix3x3d::RotateYMatrix((M_PI/2)*3));
 			break;
 		case MODE_RIGHT:
 			m_name = Lang::CAMERA_RIGHT_VIEW;
-			SetOrientation(matrix4x4d::RotateYMatrix(M_PI/2));
+			SetOrient(matrix3x3d::RotateYMatrix(M_PI/2));
 			break;
 		case MODE_TOP:
 			m_name = Lang::CAMERA_TOP_VIEW;
-			SetOrientation(matrix4x4d::RotateXMatrix((M_PI/2)*3));
+			SetOrient(matrix3x3d::RotateXMatrix((M_PI/2)*3));
 			break;
 		case MODE_BOTTOM:
 			m_name = Lang::CAMERA_BOTTOM_VIEW;
-			SetOrientation(matrix4x4d::RotateXMatrix(M_PI/2));
+			SetOrient(matrix3x3d::RotateXMatrix(M_PI/2));
 			break;
 	}
 }
@@ -74,7 +74,7 @@ ExternalCamera::ExternalCamera(const Ship *s, const vector2f &size, float fovY, 
 	m_dist(200), m_distTo(m_dist),
 	m_rotX(0),
 	m_rotY(0),
-	m_orient(matrix4x4d::Identity())
+	m_extOrient(matrix3x3d::Identity())
 {
 }
 
@@ -140,63 +140,58 @@ void ExternalCamera::UpdateTransform()
 		}
 	}
 	vector3d p = vector3d(0, 0, m_dist);
-	p = matrix4x4d::RotateXMatrix(-DEG2RAD(m_rotX)) * p;
-	p = matrix4x4d::RotateYMatrix(-DEG2RAD(m_rotY)) * p;
-	m_orient = matrix4x4d::RotateYMatrix(-DEG2RAD(m_rotY)) *
-		matrix4x4d::RotateXMatrix(-DEG2RAD(m_rotX));
+	p = matrix3x3d::RotateXMatrix(-DEG2RAD(m_rotX)) * p;
+	p = matrix3x3d::RotateYMatrix(-DEG2RAD(m_rotY)) * p;
+	m_extOrient = matrix3x3d::RotateYMatrix(-DEG2RAD(m_rotY)) *
+		matrix3x3d::RotateXMatrix(-DEG2RAD(m_rotX));
 	SetPosition(p);
-	SetOrientation(m_orient);
+	SetOrient(m_extOrient);
 }
 
 void ExternalCamera::Save(Serializer::Writer &wr)
 {
-	wr.Float(float(m_rotX));
-	wr.Float(float(m_rotY));
-	wr.Float(float(m_dist));
+	wr.Double(m_rotX);
+	wr.Double(m_rotY);
+	wr.Double(m_dist);
 }
 
 void ExternalCamera::Load(Serializer::Reader &rd)
 {
-	m_rotX = rd.Float();
-	m_rotY = rd.Float();
-	m_dist = rd.Float();
+	m_rotX = rd.Double();
+	m_rotY = rd.Double();
+	m_dist = rd.Double();
 	m_distTo = m_dist;
 }
 
 SiderealCamera::SiderealCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	MoveableCamera(s, size, fovY, near, far),
 	m_dist(200), m_distTo(m_dist),
-	m_orient(matrix4x4d::Identity())
+	m_sidOrient(matrix3x3d::Identity())
 {
-	m_prevShipOrient = s->GetTransformRelTo(Pi::game->GetSpace()->GetRootFrame());
 }
 
 void SiderealCamera::RotateUp(float frameTime)
 {
-	const vector3d rotAxis = m_orient * vector3d(1,0,0);
-	m_orient = matrix4x4d::RotateMatrix(-M_PI/4 * frameTime, rotAxis.x, rotAxis.y, rotAxis.z)
-		* m_orient;
+	const vector3d rotAxis = m_sidOrient.VectorX();
+	m_sidOrient = matrix3x3d::BuildRotate(-M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
 void SiderealCamera::RotateDown(float frameTime)
 {
-	const vector3d rotAxis = m_orient * vector3d(1,0,0);
-	m_orient = matrix4x4d::RotateMatrix(M_PI/4 * frameTime, rotAxis.x, rotAxis.y, rotAxis.z)
-		* m_orient;
+	const vector3d rotAxis = m_sidOrient.VectorX();
+	m_sidOrient = matrix3x3d::BuildRotate(M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
 void SiderealCamera::RotateLeft(float frameTime)
 {
-	const vector3d rotAxis = m_orient * vector3d(0,1,0);
-	m_orient = matrix4x4d::RotateMatrix(-M_PI/4 * frameTime, rotAxis.x, rotAxis.y, rotAxis.z)
-		* m_orient;
+	const vector3d rotAxis = m_sidOrient.VectorY();
+	m_sidOrient = matrix3x3d::BuildRotate(-M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
 void SiderealCamera::RotateRight(float frameTime)
 {
-	const vector3d rotAxis = m_orient * vector3d(0,1,0);
-	m_orient = matrix4x4d::RotateMatrix(M_PI/4 * frameTime, rotAxis.x, rotAxis.y, rotAxis.z)
-		* m_orient;
+	const vector3d rotAxis = m_sidOrient.VectorY();
+	m_sidOrient = matrix3x3d::BuildRotate(M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
 void SiderealCamera::ZoomIn(float frameTime)
@@ -225,16 +220,14 @@ void SiderealCamera::ZoomEventUpdate(float frameTime)
 
 void SiderealCamera::RollLeft(float frameTime)
 {
-	const vector3d rotAxis = m_orient * vector3d(0,0,1);
-	m_orient = matrix4x4d::RotateMatrix(M_PI/4 * frameTime, rotAxis.x, rotAxis.y, rotAxis.z)
-		* m_orient;
+	const vector3d rotAxis = m_sidOrient.VectorZ();
+	m_sidOrient = matrix3x3d::BuildRotate(M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
 void SiderealCamera::RollRight(float frameTime)
 {
-	const vector3d rotAxis = m_orient * vector3d(0,0,1);
-	m_orient = matrix4x4d::RotateMatrix(-M_PI/4 * frameTime, rotAxis.x, rotAxis.y, rotAxis.z)
-		* m_orient;
+	const vector3d rotAxis = m_sidOrient.VectorZ();
+	m_sidOrient = matrix3x3d::BuildRotate(-M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
 void SiderealCamera::Reset()
@@ -245,31 +238,22 @@ void SiderealCamera::Reset()
 
 void SiderealCamera::UpdateTransform()
 {
-	const matrix4x4d curShipOrient = static_cast<const Ship*>(GetBody())->GetInterpolatedTransformRelTo(Pi::game->GetSpace()->GetRootFrame());
+	m_sidOrient.Renormalize();			// lots of small rotations
+	matrix3x3d shipOrient = GetBody()->GetInterpOrientRelTo(Pi::game->GetSpace()->GetRootFrame());
 
-	const matrix4x4d invAngDisp = curShipOrient.InverseOf() * m_prevShipOrient;
-	m_orient = invAngDisp * m_orient;
-
-	m_orient.Renormalize();
-	m_orient.ClearToRotOnly();
-
-	m_prevShipOrient = curShipOrient;
-
-	const vector3d p = m_orient * vector3d(0, 0, m_dist);
-	SetPosition(p);
-	SetOrientation(m_orient);
+	SetPosition(shipOrient.Transpose() * m_sidOrient.VectorZ() * m_dist);
+	SetOrient(shipOrient.Transpose() * m_sidOrient);
 }
 
 void SiderealCamera::Save(Serializer::Writer &wr)
 {
-	for (int i = 0; i < 16; i++) wr.Float(float(m_orient[i]));
-	wr.Float(float(m_dist));
+	for (int i = 0; i < 9; i++) wr.Double(m_sidOrient[i]);
+	wr.Double(m_dist);
 }
 
 void SiderealCamera::Load(Serializer::Reader &rd)
 {
-	for (int i = 0; i < 16; i++) m_orient[i] = rd.Float();
-	m_dist = rd.Float();
-	m_distTo = m_distTo;
-	m_prevShipOrient = static_cast<const Ship*>(GetBody())->GetTransformRelTo(Pi::game->GetSpace()->GetRootFrame());
+	for (int i = 0; i < 9; i++) m_sidOrient[i] = rd.Double();
+	m_dist = rd.Double();
+	m_distTo = m_dist;
 }

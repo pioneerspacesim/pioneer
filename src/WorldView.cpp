@@ -523,7 +523,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		vector3d pos = Pi::player->GetPosition();
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
-		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
+		const char *rot_frame = (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no");
 		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
@@ -582,8 +582,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, "");
 
 		// altitude
-		if (Pi::player->GetFrame()->m_astroBody) {
-			Body *astro = Pi::player->GetFrame()->m_astroBody;
+		if (Pi::player->GetFrame()->GetBody() && Pi::player->GetFrame()->IsRotFrame()) {
+			Body *astro = Pi::player->GetFrame()->GetBody();
 			//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
 			double radius;
 			vector3d surface_pos = Pi::player->GetPosition().Normalized();
@@ -592,7 +592,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			} else {
 				// XXX this is an improper use of GetBoundingRadius
 				// since it is not a surface radius
-				radius = Pi::player->GetFrame()->m_astroBody->GetBoundingRadius();
+				radius = astro->GetBoundingRadius();
 			}
 			double altitude = Pi::player->GetPosition().Length() - radius;
 			if (altitude > 9999999.0 || astro->IsType(Object::SPACESTATION))
@@ -1164,8 +1164,7 @@ void WorldView::UpdateProjectedObjects()
 	const Graphics::Frustum frustum = m_activeCamera->GetFrustum();
 
 	const Frame *cam_frame = m_activeCamera->GetFrame();
-	matrix4x4d cam_rot = cam_frame->GetTransform();
-	cam_rot.ClearToRotOnly();
+	matrix3x3d cam_rot = cam_frame->GetOrient();
 
 	// determine projected positions and update labels
 	m_bodyLabels->Clear();
@@ -1177,7 +1176,7 @@ void WorldView::UpdateProjectedObjects()
 		if (b->IsType(Object::PLAYER) && GetCamType() == CAM_INTERNAL)
 			continue;
 
-		vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);
+		vector3d pos = b->GetInterpPositionRelTo(cam_frame);
 		if ((pos.z < -1.0) && project_to_screen(pos, pos, frustum, guiSize)) {
 
 			// only show labels on large or nearby bodies
@@ -1210,7 +1209,7 @@ void WorldView::UpdateProjectedObjects()
 		// if navtarget and body frame are the same,
 		// then we hide the frame-relative velocity indicator
 		// (which would be hidden underneath anyway)
-		if (navtarget == Pi::player->GetFrame()->GetBodyFor())
+		if (navtarget == Pi::player->GetFrame()->GetBody())
 			HideIndicator(m_velIndicator);
 
 		// navtarget distance/target square indicator (displayed with navtarget label)
@@ -1251,9 +1250,9 @@ void WorldView::UpdateProjectedObjects()
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
 	if (enemy) {
 		char buf[128];
-		const vector3d targpos = enemy->GetInterpolatedPositionRelTo(Pi::player) * cam_rot;
+		const vector3d targpos = enemy->GetInterpPositionRelTo(Pi::player) * cam_rot;
 		const double dist = targpos.Length();
-		const vector3d targScreenPos = enemy->GetInterpolatedPositionRelTo(cam_frame);
+		const vector3d targScreenPos = enemy->GetInterpPositionRelTo(cam_frame);
 
 		snprintf(buf, sizeof(buf), "%.0fm", dist);
 		m_combatTargetIndicator.label->SetText(buf);
@@ -1712,8 +1711,8 @@ void NavTunnelWidget::Draw() {
 	Body *navtarget = Pi::player->GetNavTarget();
 	if (navtarget) {
 		const vector3d navpos = navtarget->GetPositionRelTo(Pi::player);
-		matrix4x4d rotmat; Pi::player->GetRotMatrix(rotmat); rotmat.ClearToRotOnly();
-		const vector3d eyevec = rotmat * m_worldView->m_activeCamera->GetOrientation() * vector3d(0.0, 0.0, 1.0);
+		const matrix3x3d &rotmat = Pi::player->GetOrient();
+		const vector3d eyevec = rotmat * m_worldView->m_activeCamera->GetOrient().VectorZ();
 		if (eyevec.Dot(navpos) >= 0.0) return;
 
 		const Color green = Color(0.f, 1.f, 0.f, 0.8f);

@@ -52,9 +52,8 @@ public:
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) = 0;
 
 	virtual void SetFrame(Frame *f) { m_frame = f; }
-	void SwitchToFrame(Frame *newFrame);
 	Frame *GetFrame() const { return m_frame; }
-	Frame *GetNonRotFrame() const { return m_frame->IsRotFrame() ? m_frame->GetParent() : m_frame; }
+	void SwitchToFrame(Frame *newFrame);
 	void UpdateFrame();				// check for frame switching
 //	bool HasDoubleFrame() const { return m_hasDoubleFrame; }		// do we still need this?
 
@@ -62,6 +61,7 @@ public:
 	vector3d GetVelocityRelTo(const Frame *) const;
 	vector3d GetPositionRelTo(const Frame *) const;
 	vector3d GetPositionRelTo(const Body *) const;
+	matrix3x3d GetOrientRelTo(const Frame *) const;
 
 	// Should return pointer in Pi::currentSystem
 	virtual const SystemBody *GetSystemBody() const { return 0; }
@@ -97,7 +97,7 @@ public:
 
 	enum { FLAG_CAN_MOVE_FRAME = (1<<0),
 			FLAG_LABEL_HIDDEN = (1<<1),
-			FLAG_DRAW_LAST = (1<<2) }; // causes the body drawn after other bodies in the z-sort
+			FLAG_DRAW_LAST = (1<<2) };		// causes the body drawn after other bodies in the z-sort
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);

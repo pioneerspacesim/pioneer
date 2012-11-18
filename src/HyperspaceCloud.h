@@ -36,7 +36,7 @@ public:
 	double GetDueDate() const { return m_due; }
 	void SetIsArrival(bool isArrival);
 	bool IsArrival() const { return m_isArrival; }
-	virtual void UpdateInterpolatedTransform(double alpha);
+	virtual void UpdateInterpTransform(double alpha);
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);

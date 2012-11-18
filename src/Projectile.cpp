@@ -127,9 +127,8 @@ void Projectile::PostLoadFixup(Space *space)
 void Projectile::UpdateInterpTransform(double alpha)
 {
 	m_interpOrient = GetOrient();
-	const vector3d newPos = GetPosition();
-	const vector3d oldPos = newPos - (m_baseVel+m_dirVel)*Pi::game->GetTimeStep();
-	m_interpPos = alpha*newPos + (1.0-alpha)*oldPos;
+	const vector3d oldPos = GetPosition() - (m_baseVel+m_dirVel)*Pi::game->GetTimeStep();
+	m_interpPos = alpha*GetPosition() + (1.0-alpha)*oldPos;
 }
 
 void Projectile::NotifyRemoved(const Body* const removedBody)

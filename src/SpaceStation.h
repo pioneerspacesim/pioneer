@@ -86,6 +86,7 @@ public:
 	SpaceStation(const SystemBody *);
 	SpaceStation() {}
 	virtual ~SpaceStation();
+	virtual vector3d GetAngVelocity() const { return vector3d(0,0,m_type->angVel); }
 	virtual double GetBoundingRadius() const;
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
@@ -94,6 +95,7 @@ public:
 	bool LaunchShip(Ship *ship, int port);
 	void OrientDockedShip(Ship *ship, int port) const;
 	bool GetDockingClearance(Ship *s, std::string &outMsg);
+	virtual void StaticUpdate(const float timeStep);
 	virtual void TimeStepUpdate(const float timeStep);
 	bool IsGroundStation() const;
 	float GetDesiredAngVel() const;

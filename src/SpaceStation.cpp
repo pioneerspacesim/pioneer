@@ -216,11 +216,6 @@ void SpaceStation::Uninit()
 	}
 }
 
-float SpaceStation::GetDesiredAngVel() const
-{
-	return m_type->angVel;
-}
-
 void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 {
 	ModelBody::Save(wr, space);
@@ -324,18 +319,17 @@ void SpaceStation::InitStation()
 	m_adjacentCity = 0;
 	for(int i=0; i<NUM_STATIC_SLOTS; i++) m_staticSlot[i] = false;
 	MTRand rand(m_sbody->seed);
-	if (m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) {
-		m_type = &orbitalStationTypes[ rand.Int32(orbitalStationTypes.size()) ];
-	} else {
-		m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
-	}
+	bool ground = m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL ? false : true;
+	if (ground) m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
+	else m_type = &orbitalStationTypes[ rand.Int32(orbitalStationTypes.size()) ];
 
 	LmrObjParams &params = GetLmrObjParams();
 	params.animStages[ANIM_DOCKING_BAY_1] = 1;
 	params.animValues[ANIM_DOCKING_BAY_1] = 1.0;
 	// XXX the animation namespace must match that in LuaConstants
 	params.animationNamespace = "SpaceStationAnimation";
-	SetModel(m_type->modelName, true);
+	SetStatic(ground);			// orbital stations are dynamic now
+	SetModel(m_type->modelName);
 }
 
 SpaceStation::~SpaceStation()
@@ -437,17 +431,16 @@ void SpaceStation::DoDockingAnimation(const double timeStep)
 				dt.ship->SetDockedWith(this, i);
 				LuaEvent::Queue("onShipDocked", dt.ship, this);
 			} else {
-				if (!dt.ship->IsEnabled()) {
+				if (dt.ship->GetFlightState() != Ship::FLYING) {
 					// launch ship
-					dt.ship->Enable();
 					dt.ship->SetFlightState(Ship::FLYING);
-					dt.ship->SetAngVelocity(GetFrame()->GetAngVelocity());
+					dt.ship->SetAngVelocity(GetAngVelocity());
 					dt.ship->SetForce(vector3d(0,0,0));
 					dt.ship->SetTorque(vector3d(0,0,0));
 					if (m_type->dockMethod == SpaceStationType::SURFACE) {
 						dt.ship->SetThrusterState(1, 1.0);		// up
 					} else {
-						dt.ship->SetVelocity(GetFrame()->GetStasisVelocity(dt.ship->GetPosition()));
+//						dt.ship->SetVelocity(GetFrame()->GetStasisVelocity(dt.ship->GetPosition()));
 						dt.ship->SetThrusterState(2, -1.0);		// forward
 					}
 					LuaEvent::Queue("onShipUndocked", dt.ship, this);
@@ -507,7 +500,7 @@ void SpaceStation::DoLawAndOrder()
 	}
 }
 
-void SpaceStation::TimeStepUpdate(const float timeStep)
+void SpaceStation::StaticUpdate(const float timeStep)
 {
 	bool update = false;
 
@@ -529,8 +522,20 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 		m_lastUpdatedShipyard = Pi::game->GetTime() + 3600.0 + 3600.0*Pi::rng.Double();
 	}
 
-	DoDockingAnimation(timeStep);
 	DoLawAndOrder();
+}
+
+void SpaceStation::TimeStepUpdate(const float timeStep)
+{
+	// rotate the thing 
+	double len = m_type->angVel;
+	if (len > 1e-16) {
+		vector3d axis = vector3d(0,0,1);	// check
+		matrix3x3d r = matrix3x3d::BuildRotate(len * timeStep, axis);
+		SetOrient(r * GetOrient());
+	}
+
+	DoDockingAnimation(timeStep);		// TODO: call from ship instead?
 }
 
 bool SpaceStation::IsGroundStation() const
@@ -723,7 +728,6 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 					sd.stagePos = 0;
 					sd.fromPos = (s->GetPosition() - GetPosition()) * GetOrient();
 					sd.fromRot = Quaterniond::FromMatrix3x3(s->GetOrient());
-					s->Disable();
 					s->ClearThrusterState();
 					s->SetFlightState(Ship::DOCKING);
 				} else {

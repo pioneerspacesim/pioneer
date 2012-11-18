@@ -27,12 +27,12 @@ public:
 	const Body *GetBody() const { return m_body; }
 
 	// camera position relative to the body
-	void SetPosition(const vector3d &pos) { m_pose.SetTranslate(pos); }
-	vector3d GetPosition() const { return m_pose.GetTranslate(); }
+	void SetPosition(const vector3d &pos) { m_pos = pos; }
+	vector3d GetPosition() const { return m_pos; }
 
 	// camera orientation relative to the body
-	void SetOrientation(const matrix4x4d &orient) { m_pose.SetRotationOnly(orient); }
-	matrix4x4d GetOrientation() const { matrix4x4d m(m_pose); m.ClearToRotOnly(); return m; }
+	void SetOrient(const matrix3x3d &orient) { m_orient = orient; }
+	const matrix3x3d &GetOrient() const { return m_orient; }
 
 	// only valid between Update() and Draw()
 	const Frame *GetFrame() const { return m_camFrame; }
@@ -74,7 +74,8 @@ private:
 
 	Graphics::Frustum m_frustum;
 
-	matrix4x4d m_pose;
+	vector3d m_pos;
+	matrix3x3d m_orient;
 
 	Frame *m_camFrame;
 

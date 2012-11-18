@@ -92,11 +92,6 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		renderer->DrawStaticMesh(m_model);
 	} else {
-		matrix4x4d m;
-		Pi::player->GetRotMatrix(m);
-		m = m.InverseOf();
-		vector3d pz(m[2], m[6], m[10]); //back vector
-
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
 		// it out by tweaking the numbers until it looked sort of right
@@ -110,6 +105,7 @@ void Starfield::Draw(Graphics::Renderer *renderer)
 			m_hyperCol = new Color[BG_STAR_MAX * 2];
 		}
 		VertexArray *va = m_model->GetSurface(0)->GetVertices();
+		vector3d pz = Pi::player->GetOrient().VectorZ();	//back vector
 		for (int i=0; i<BG_STAR_MAX; i++) {
 
 			vector3f v(va->position[i]);

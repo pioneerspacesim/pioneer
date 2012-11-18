@@ -47,13 +47,17 @@ public:
 	bool HasRotFrame() const { return m_flags & FLAG_HAS_ROT; }
 
 	Frame *GetParent() const { return m_parent; }
-	Frame *GetRotFrame() const { if(!HasRotFrame()) return this; return m_children.front(); }
-	void AddChild(Frame *f) { m_children.push_back(f); }
-	void RemoveChild(Frame *f) { m_children.remove(f); }
-	std::list<Frame*> &GetChildren() { return m_children; }
-	void SetBodies(Body *b, SystemBody *s) { m_sbody = s; m_astroBody = b; }
+	Frame *GetNonRotFrame() { return IsRotFrame() ? m_parent : this; }
+	Frame *GetRotFrame() { return HasRotFrame() ? m_children.front() : this; }
+
+	void SetBodies(SystemBody *s, Body *b) { m_sbody = s; m_astroBody = b; }
 	SystemBody *GetSystemBody() const { return m_sbody; }
 	Body *GetBody() const { return m_astroBody; }
+
+	void AddChild(Frame *f) { m_children.push_back(f); }
+	void RemoveChild(Frame *f) { m_children.remove(f); }
+	Frame *GetFirstChild() { if (!m_children.size()) return 0; else return *(m_child_it = m_children.begin()); }
+	Frame *GetNextChild() { if (++m_child_it == m_children.end()) return 0; else return *m_child_it; }
 
 	void AddGeom(Geom *);
 	void RemoveGeom(Geom *);
@@ -79,16 +83,20 @@ public:
 	vector3d GetInterpPositionRelTo(const Frame *relTo) const;
 	matrix3x3d GetInterpOrientRelTo(const Frame *relTo) const;
 
+	static void GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
+	static void GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
+
+	Sfx *m_sfx;			// the last survivor. actually m_children is pretty grim too.
+
 private:
 	void Init(Frame *parent, const char *label, unsigned int flags);
-	void UpdateRootPosVel();
+	void UpdateRootRelativeVars();
 
 	Frame *m_parent;				// if parent is null then frame position is absolute
-	Frame *m_rotFrame;				// rotating frame for this frame, else null
-	std::list<Frame*> m_children;	// non-rotating child frames
+	std::list<Frame*> m_children;	// child frames, first may be rotating
+	std::list<Frame*>::iterator m_child_it;
 	SystemBody *m_sbody; 			// points to SBodies in Pi::current_system
 	Body *m_astroBody; 				// if frame contains a star or planet or something
-	Sfx *m_sfx;
 
 	vector3d m_pos;
 	vector3d m_oldPos;
@@ -105,9 +113,11 @@ private:
 	int m_flags;
 	CollisionSpace *m_collisionSpace;
 
-	vector3d m_rootVel;			// velocity and position relative to root frame
-	vector3d m_rootPos;			// updated per frame by UpdateOrbitRails
-	vector3d m_rootInterpPos;
+	vector3d m_rootVel;			// velocity, position and orient relative to root frame
+	vector3d m_rootPos;			// updated by UpdateOrbitRails
+	matrix3x3d m_rootOrient;
+	vector3d m_rootInterpPos;		// interp position and orient relative to root frame
+	matrix3x3d m_rootInterpOrient;	// updated by UpdateInterpTransform
 
 	int m_astroBodyIndex; // deserialisation
 };
