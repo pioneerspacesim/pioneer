@@ -19,6 +19,8 @@ public:
 	virtual void Layout();
 	virtual void Draw();
 
+	Icon *SetColor(const Color &c) { m_color = c; return this; }
+
 protected:
 	friend class Context;
 	Icon(Context *context, const std::string &iconName);
@@ -32,6 +34,7 @@ private:
 	static RefCountedPtr<Graphics::Material> s_material;
 
 	Point m_texPos;
+	Color m_color;
 };
 
 }

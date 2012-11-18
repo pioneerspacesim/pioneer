@@ -38,7 +38,8 @@ static void SplitSpec(const std::string &spec, std::vector<int> &output)
 	}
 }
 
-Icon::Icon(Context *context, const std::string &iconName): Widget(context)
+Icon::Icon(Context *context, const std::string &iconName): Widget(context),
+	m_color(Color::WHITE)
 {
 	if (!s_texture) {
 		s_config.Read(FileSystem::gameDataFiles, CONFIG_FILE);
@@ -52,7 +53,6 @@ Icon::Icon(Context *context, const std::string &iconName): Widget(context)
 		matDesc.textures = 1;
 		s_material.Reset(GetContext()->GetRenderer()->CreateMaterial(matDesc));
 		s_material->texture0 = s_texture.Get();
-		s_material->diffuse = Color::WHITE;
 	}
 
 	const std::string spec(s_config.String(iconName.c_str()));
@@ -92,6 +92,7 @@ void Icon::Draw()
 
 	Graphics::Renderer *r = GetContext()->GetRenderer();
 	r->SetBlendMode(Graphics::BLEND_ALPHA);
+	s_material->diffuse = m_color;
 	r->DrawTriangles(&va, s_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 
