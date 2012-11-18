@@ -37,5 +37,38 @@ void Init()
 	LuaObject<UI::Widget>::RegisterClass();
 }
 
+UI::Widget *GetWidget(lua_State *l, int idx)
+{
+	UI::Widget *w = LuaObject<UI::Widget>::GetFromLua(idx);
+	if (w) return w;
+
+	if (!lua_istable(l, idx)) return 0;
+
+	LUA_DEBUG_START(l);
+
+	int table = lua_absindex(l, idx);
+	lua_pushlstring(l, "widget", 6);
+	lua_rawget(l, table);
+	
+	if (lua_isuserdata(l, -1))
+		w = LuaObject<UI::Widget>::GetFromLua(-1);
+	
+	lua_pop(l, 1);
+	LUA_DEBUG_END(l, 0);
+	
+	return w;
+}
+
+UI::Widget *CheckWidget(lua_State *l, int idx)
+{
+	UI::Widget *w = GetWidget(l, idx);
+	if (w) return w;
+	
+	// will fail and produce a standard error message
+	w = LuaObject<UI::Widget>::CheckFromLua(idx);
+
+	return 0;
+}
+
 }
 }
