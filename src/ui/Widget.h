@@ -225,6 +225,18 @@ protected:
 	static inline int SizeAdd(int a, int b) { return a == SIZE_EXPAND || b == SIZE_EXPAND ? SIZE_EXPAND : a+b; }
 	static inline Point SizeAdd(const Point &a, const Point &b) { return Point(SizeAdd(a.x,b.x), SizeAdd(a.y,b.y)); }
 
+	// size control flags are used to help the layout engine determine the
+	// best way to allocate space to this widget
+	void SetSizeControlFlags(Uint32 flags) { m_sizeControlFlags = flags; }
+	Uint32 GetSizeControlFlags() const { return m_sizeControlFlags; }
+	enum SizeControl {
+		NO_WIDTH        = 0x01, // do not contribute preferred width to the layout
+		NO_HEIGHT       = 0x02, // do not contribute preferred height to the layout
+		EXPAND_WIDTH    = 0x04, // ignore preferred width, give me as much as possible
+		EXPAND_HEIGHT   = 0x08, // ignore preferred height, give me as much as possible
+		PRESERVE_ASPECT = 0x10, // allocate same aspect ratio as preferred size
+	};
+
 	// set the active area. defaults to the size allocated by the container
 	void SetActiveArea(const Point &activeArea, const Point &activeOffset = Point());
 
@@ -330,8 +342,11 @@ private:
 
 	Context *m_context;
 	Container *m_container;
+
 	Point m_position;
 	Point m_size;
+
+	Uint32 m_sizeControlFlags;
 
 	Point m_drawOffset;
 
