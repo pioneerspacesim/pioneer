@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Grid.h"
-#include "LuaObject.h"
+#include "Lua.h"
 
 namespace UI {
 
@@ -21,7 +21,7 @@ public:
 
 		for (size_t i = 0; i < g->GetNumCols() && i < lua_rawlen(l, 3); i++) {
 			lua_rawgeti(l, 3, i+1);
-			g->SetCell(i, rowNum, LuaObject<UI::Widget>::CheckFromLua(-1));
+			g->SetCell(i, rowNum, UI::Lua::CheckWidget(l, -1));
 			lua_pop(l, 1);
 		}
 
@@ -41,7 +41,7 @@ public:
 
 		for (size_t i = 0; i < g->GetNumRows() && i < lua_rawlen(l, 3); i++) {
 			lua_rawgeti(l, 3, i+1);
-			g->SetCell(colNum, i, LuaObject<UI::Widget>::CheckFromLua(-1));
+			g->SetCell(colNum, i, UI::Lua::CheckWidget(l, -1));
 			lua_pop(l, 1);
 		}
 
@@ -53,7 +53,7 @@ public:
 		UI::Grid *g = LuaObject<UI::Grid>::CheckFromLua(1);
 		size_t colNum = luaL_checkinteger(l, 2);
 		size_t rowNum = luaL_checkinteger(l, 3);
-		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(4);
+		UI::Widget *w = UI::Lua::CheckWidget(l, 4);
 
 		if (colNum >= g->GetNumCols()) {
 			luaL_error(l, "no such column %d (max is %d)", colNum, g->GetNumCols()-1);

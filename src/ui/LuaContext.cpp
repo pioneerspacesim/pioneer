@@ -15,7 +15,7 @@ public:
 		// context is always the first arg, don't reuse it
 		const int top = lua_gettop(l);
 		if (top == 1) return 0;
-		return LuaObject<UI::Widget>::GetFromLua(top);
+		return UI::Lua::GetWidget(l, top);
 	}
 
 	static inline void _implicit_set_inner_widget(lua_State *l, UI::Single *s)
