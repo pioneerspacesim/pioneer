@@ -138,7 +138,7 @@ int main(int argc, char **argv)
 				c->Icon("Agenda"),
 				c->Icon("Bag"),
 				c->Icon("Planet"),
-				c->Icon("Satelite"),
+				c->Icon("Satellite"),
 				c->Icon("TrafficCone")
 			))
 		)
