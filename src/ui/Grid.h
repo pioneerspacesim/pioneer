@@ -24,6 +24,7 @@ public:
 
 	void ClearRow(unsigned int rowNum);
 	void ClearColumn(unsigned int colNum);
+	void ClearCell(unsigned int colNum, unsigned int rowNum);
 	void Clear();
 
 	unsigned int GetNumRows() const { return m_numRows; }

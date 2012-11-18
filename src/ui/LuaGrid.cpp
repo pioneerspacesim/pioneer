@@ -21,7 +21,10 @@ public:
 
 		for (size_t i = 0; i < g->GetNumCols() && i < lua_rawlen(l, 3); i++) {
 			lua_rawgeti(l, 3, i+1);
-			g->SetCell(i, rowNum, UI::Lua::CheckWidget(l, -1));
+			if (lua_isnil(l, -1))
+				g->ClearCell(i, rowNum);
+			else
+				g->SetCell(i, rowNum, UI::Lua::CheckWidget(l, -1));
 			lua_pop(l, 1);
 		}
 
@@ -41,7 +44,10 @@ public:
 
 		for (size_t i = 0; i < g->GetNumRows() && i < lua_rawlen(l, 3); i++) {
 			lua_rawgeti(l, 3, i+1);
-			g->SetCell(colNum, i, UI::Lua::CheckWidget(l, -1));
+			if (lua_isnil(l, -1))
+				g->ClearCell(colNum, i);
+			else
+				g->SetCell(colNum, i, UI::Lua::CheckWidget(l, -1));
 			lua_pop(l, 1);
 		}
 
@@ -79,6 +85,14 @@ public:
 	static int l_clear_column(lua_State *l) {
 		UI::Grid *g = LuaObject<UI::Grid>::CheckFromLua(1);
 		g->ClearColumn(luaL_checkinteger(l, 2));
+		return 0;
+	}
+
+	static int l_clear_cell(lua_State *l) {
+		UI::Grid *g = LuaObject<UI::Grid>::CheckFromLua(1);
+		unsigned int colNum = luaL_checkinteger(l, 2);
+		unsigned int rowNum = luaL_checkinteger(l, 3);
+		g->ClearCell(colNum, rowNum);
 		return 0;
 	}
 
