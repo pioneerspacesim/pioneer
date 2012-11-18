@@ -77,6 +77,16 @@ void Container::RemoveAllWidgets()
 	GetContext()->RequestLayout();
 }
 
+Point Container::CalcLayoutContribution(Widget *w)
+{
+	return w->PreferredSize();
+}
+
+Point Container::CalcSize(Widget *w, const Point &avail)
+{
+	return avail;
+}
+
 void Container::SetWidgetDimensions(Widget *widget, const Point &position, const Point &size)
 {
 	assert(widget->GetContainer() == this);
