@@ -588,6 +588,8 @@ DECREASE_SCAN_RANGE
     Zmniejsza zasięg skanera
 TOGGLE_LUA_CONSOLE
     Aktywacja konsoli
+TOGGLE_MANUAL_ROTATION
+    Rotacja manualna
 TOGGLE_HUD_MODE
     Zmiana trybu HUD
 JOYSTICK_INPUT
