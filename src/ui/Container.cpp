@@ -79,12 +79,39 @@ void Container::RemoveAllWidgets()
 
 Point Container::CalcLayoutContribution(Widget *w)
 {
-	return w->PreferredSize();
+	Point preferredSize = w->PreferredSize();
+	const Uint32 flags = w->GetSizeControlFlags();
+
+	if (flags & NO_WIDTH)
+		preferredSize.x = 0;
+	if (flags & NO_HEIGHT)
+		preferredSize.y = 0;
+
+	if (flags & EXPAND_WIDTH)
+		preferredSize.x = SIZE_EXPAND;
+	if (flags & EXPAND_HEIGHT)
+		preferredSize.y = SIZE_EXPAND;
+
+	return preferredSize;
 }
 
 Point Container::CalcSize(Widget *w, const Point &avail)
 {
-	return avail;
+	if (!(w->GetSizeControlFlags() & PRESERVE_ASPECT))
+		return avail;
+
+	const Point preferredSize = w->PreferredSize();
+
+	float wantRatio = float(preferredSize.x) / float(preferredSize.y);
+	float availRatio = float(avail.x) / float(avail.y);
+
+	// more room on X than Y, use full X, scale Y
+	if (availRatio < wantRatio)
+		return Point(avail.x, float(avail.x) / wantRatio);
+
+	// more room on Y than X, use full Y, scale X
+	else
+		return Point(float(avail.y) * wantRatio, avail.y);
 }
 
 void Container::SetWidgetDimensions(Widget *widget, const Point &position, const Point &size)
