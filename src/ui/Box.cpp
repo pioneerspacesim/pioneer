@@ -30,10 +30,10 @@ Point Box::PreferredSize()
 	m_numVariable = 0;
 
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
-		const Point childPreferredSize = (*i).preferredSize = (*i).widget->PreferredSize();
+		const Point contribSize = (*i).contribSize = CalcLayoutContribution((*i).widget);
 
 		// they've asked for as much as possible
-		if (childPreferredSize[vc] == SIZE_EXPAND) {
+		if (contribSize[vc] == SIZE_EXPAND) {
 			// we'll need to be as big as possible too
 			m_preferredSize[vc] = SIZE_EXPAND;
 
@@ -47,14 +47,14 @@ Point Box::PreferredSize()
 			// if we still know our size then we can increase it sanely
 			if (m_preferredSize[vc] != SIZE_EXPAND)
 				// need a bit more
-			    m_preferredSize[vc] += childPreferredSize[vc];
+			    m_preferredSize[vc] += contribSize[vc];
 
 			// track minimum known size so we can avoid recounting in Layout()
-			m_minAllocation += childPreferredSize[vc];
+			m_minAllocation += contribSize[vc];
 		}
 
 		// fixed axis should just be as large as our largest
-		m_preferredSize[fc] = std::max(m_preferredSize[fc], childPreferredSize[fc]);
+		m_preferredSize[fc] = std::max(m_preferredSize[fc], contribSize[fc]);
 	}
 
 	// if there was no variable ones, and thus we're asking for a specific
@@ -82,9 +82,10 @@ void Box::Layout()
 		Point childPos(0), childSize(0);
 		for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 			childSize[fc] = boxSize[fc];
-			childSize[vc] = (*i).preferredSize[vc];
-			SetWidgetDimensions((*i).widget, childPos, childSize);
-			childPos[vc] += childSize[vc] + m_spacing;
+			childSize[vc] = (*i).contribSize[vc];
+			const Point actualSize(CalcSize((*i).widget, childSize));
+			SetWidgetDimensions((*i).widget, childPos, actualSize);
+			childPos[vc] += actualSize[vc] + m_spacing;
 		}
 	}
 
@@ -102,9 +103,10 @@ void Box::Layout()
 		Point childPos(0), childSize(0);
 		for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 			childSize[fc] = boxSize[fc];
-			childSize[vc] = (*i).preferredSize[vc] == SIZE_EXPAND ? amount : (*i).preferredSize[vc];
-			SetWidgetDimensions((*i).widget, childPos, childSize);
-			childPos[vc] += childSize[vc] + m_spacing;
+			childSize[vc] = (*i).contribSize[vc] == SIZE_EXPAND ? amount : (*i).contribSize[vc];
+			const Point actualSize(CalcSize((*i).widget, childSize));
+			SetWidgetDimensions((*i).widget, childPos, actualSize);
+			childPos[vc] += actualSize[vc] + m_spacing;
 		}
 	}
 

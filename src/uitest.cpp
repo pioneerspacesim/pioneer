@@ -139,7 +139,8 @@ int main(int argc, char **argv)
 				c->Icon("Bag"),
 				c->Icon("Planet"),
 				c->Icon("Satellite"),
-				c->Icon("TrafficCone")
+				c->Icon("TrafficCone"),
+				c->Label("Some text")->SetFont(UI::Widget::FONT_HEADING_XSMALL)
 			))
 		)
 	);
