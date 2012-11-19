@@ -588,6 +588,8 @@ DECREASE_SCAN_RANGE
 	Decrease scanner range
 TOGGLE_LUA_CONSOLE
     Toggle Lua console
+TOGGLE_MANUAL_ROTATION
+	Manual rotation
 TOGGLE_HUD_MODE
     Toggle HUD mode
 JOYSTICK_INPUT

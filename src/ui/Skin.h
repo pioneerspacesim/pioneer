@@ -39,6 +39,19 @@ public:
 		DrawBorderedRectElement(m_buttonActive, pos, size);
 	}
 
+	void DrawSmallButtonDisabled(const Point &pos, const Point &size) const {
+		DrawRectElement(m_smallButtonDisabled, pos, size);
+	}
+	void DrawSmallButtonNormal(const Point &pos, const Point &size) const {
+		DrawRectElement(m_smallButtonNormal, pos, size);
+	}
+	void DrawSmallButtonHover(const Point &pos, const Point &size) const {
+		DrawRectElement(m_smallButtonHover, pos, size);
+	}
+	void DrawSmallButtonActive(const Point &pos, const Point &size) const {
+		DrawRectElement(m_smallButtonActive, pos, size);
+	}
+
 	void DrawCheckBoxDisabled(const Point &pos, const Point &size) const {
 		DrawRectElement(m_checkboxDisabled, pos, size);
 	}
@@ -117,6 +130,11 @@ public:
 	const BorderedRectElement &ButtonHover()    const { return m_buttonHover; }
 	const BorderedRectElement &ButtonActive()   const { return m_buttonActive; }
 
+	const RectElement &SmallButtonDisabled() const { return m_smallButtonDisabled; }
+	const RectElement &SmallButtonNormal()   const { return m_smallButtonNormal; }
+	const RectElement &SmallButtonHover()    const { return m_smallButtonHover; }
+	const RectElement &SmallButtonActive()   const { return m_smallButtonActive; }
+
 	const RectElement &CheckboxDisabled()        const { return m_checkboxDisabled; }
 	const RectElement &CheckboxNormal()          const { return m_checkboxNormal; }
 	const RectElement &CheckboxHover()           const { return m_checkboxHover; }
@@ -165,6 +183,11 @@ private:
 	BorderedRectElement m_buttonNormal;
 	BorderedRectElement m_buttonHover;
 	BorderedRectElement m_buttonActive;
+
+	RectElement m_smallButtonDisabled;
+	RectElement m_smallButtonNormal;
+	RectElement m_smallButtonHover;
+	RectElement m_smallButtonActive;
 
 	RectElement m_checkboxDisabled;
 	RectElement m_checkboxNormal;

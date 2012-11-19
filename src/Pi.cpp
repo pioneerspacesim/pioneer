@@ -447,8 +447,14 @@ void Pi::Init()
 	luaConsole = new LuaConsole(10);
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
 
+	KeyBindings::toggleManualRotation.onPress.connect(sigc::ptr_fun(&Pi::ToggleManualRotation));
+
 	gameMenuView = new GameMenuView();
 	config->Save();
+}
+
+void Pi::ToggleManualRotation() {
+	Pi::player->SetManualRotationState(!Pi::player->GetManualRotationState());
 }
 
 bool Pi::IsConsoleActive()

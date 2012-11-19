@@ -40,6 +40,11 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 	m_buttonHover             = LoadBorderedRectElement(cfg.String("ButtonHover"));
 	m_buttonActive            = LoadBorderedRectElement(cfg.String("ButtonActive"));
 
+	m_smallButtonDisabled     = LoadRectElement(cfg.String("SmallButtonDisabled"));
+	m_smallButtonNormal       = LoadRectElement(cfg.String("SmallButtonNormal"));
+	m_smallButtonHover        = LoadRectElement(cfg.String("SmallButtonHover"));
+	m_smallButtonActive       = LoadRectElement(cfg.String("SmallButtonActive"));
+
 	m_checkboxDisabled        = LoadRectElement(cfg.String("CheckboxDisabled"));
 	m_checkboxNormal          = LoadRectElement(cfg.String("CheckboxNormal"));
 	m_checkboxHover           = LoadRectElement(cfg.String("CheckboxHover"));
