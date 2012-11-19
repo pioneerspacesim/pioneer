@@ -742,6 +742,7 @@ define_model('ground_station_1', {
 		materials = {'text', 'pad', 'body', 'lens', 'screen', 'lit_lamp'},
 		tags = {'surface_station'},
 		num_docking_ports = 1,
+		ship_launch_stage = 0,
 		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
 		undock_anim_stage_duration = { 0 },
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
@@ -777,6 +778,7 @@ define_model('ground_station_2', {
 		materials = {'text', 'pad', 'body', 'lens', 'screen', 'lit_lamp'},
 		tags = {'surface_station'},
 		num_docking_ports = 2,
+		ship_launch_stage = 0,
 		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
 		undock_anim_stage_duration = { 0 },
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
@@ -814,6 +816,7 @@ define_model('ground_station_3', {
 		materials = {'text', 'pad', 'body', 'lens', 'screen', 'lit_lamp'},
 		tags = {'surface_station'},
 		num_docking_ports = 3,
+		ship_launch_stage = 0,
 		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
 		undock_anim_stage_duration = { 0 },
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
@@ -852,6 +855,7 @@ define_model('ground_station_4', {
 		materials = {'text', 'pad', 'body', 'lens', 'screen', 'lit_lamp'},
 		tags = {'surface_station'},
 		num_docking_ports = 4,
+		ship_launch_stage = 0,
 		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
 		undock_anim_stage_duration = { 0 },
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)

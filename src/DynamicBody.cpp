@@ -116,7 +116,7 @@ void DynamicBody::CalcExternalForce()
 
 	// atmospheric drag
 	m_atmosForce = vector3d(0.0);
-	if (GetFrame()->IsRotFrame() && body->IsType(Object::PLANET))
+/*	if (GetFrame()->IsRotFrame() && body->IsType(Object::PLANET))
 	{
 		Planet *planet = static_cast<Planet*>(body);
 		double dist = GetPosition().Length();
@@ -145,6 +145,7 @@ void DynamicBody::CalcExternalForce()
 		m_externalForce -= m_mass * angRot.Cross(angRot.Cross(GetPosition()));	// centrifugal
 		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity());			// coriolis
 	}
+*/
 }
 
 void DynamicBody::TimeStepUpdate(const float timeStep)

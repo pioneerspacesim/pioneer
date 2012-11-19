@@ -107,14 +107,13 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 	return gotOrient;
 }
 
-/* when ship is on rails it returns true and fills outPosOrient.
- * when ship has been released (or docked) it returns false.
- * Note station animations may continue for any number of stages after
- * ship has been released and is under player control again */
+// returns true and fills outPosOrient if model has suitable data available
+// if stage is at one end, fills out last position in animation
 bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
 {
-	if ((stage < 0) && ((-stage) > numUndockStages)) return false;
-	if ((stage > 0) && (stage > numDockingStages)) return false;
+	if (stage < -shipLaunchStage) { stage = -shipLaunchStage; t = 1.0; }
+	if (stage > numDockingStages || !stage) { stage = numDockingStages; t = 1.0; }
+	// note case for stageless launch (shipLaunchStage==0)
 
 	lua_State *L = LmrGetLuaState();
 
@@ -189,6 +188,7 @@ void SpaceStation::Init()
 			t.model = LmrLookupModelByName(t.modelName);
 			t.dockMethod = SpaceStationType::DOCKMETHOD(is_orbital);
 			t.numDockingPorts = (*i)->GetIntAttribute("num_docking_ports");
+			t.shipLaunchStage = (*i)->GetIntAttribute("ship_launch_stage");
 			t.dockOneAtATimePlease = (*i)->GetBoolAttribute("dock_one_at_a_time_please");
 			t.ReadStageDurations();
 			//printf("one at a time? %s\n", t.dockOneAtATimePlease ? "yes" : "no");
@@ -240,6 +240,8 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 		wr.Float(float(m_openAnimState[i]));
 		wr.Float(float(m_dockAnimState[i]));
 	}
+	wr.Bool(m_dockingLock);
+
 	wr.Bool(m_bbCreated);
 	wr.Double(m_lastUpdatedShipyard);
 	wr.Int32(space->GetIndexForSystemBody(m_sbody));
@@ -275,6 +277,8 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 		m_openAnimState[i] = rd.Float();
 		m_dockAnimState[i] = rd.Float();
 	}
+	m_dockingLock = rd.Bool();
+
 	m_bbCreated = rd.Bool();
 	m_lastUpdatedShipyard = rd.Double();
 	m_sbody = space->GetSystemBodyByIndex(rd.Int32());
@@ -309,6 +313,7 @@ SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 		m_openAnimState[i] = 0;
 		m_dockAnimState[i] = 0;
 	}
+	m_dockingLock = false;
 
 	SetMoney(1000000000);
 	InitStation();
@@ -375,195 +380,21 @@ void SpaceStation::UpdateShipyard()
 	onShipsForSaleChanged.emit();
 }
 
-void SpaceStation::DoDockingAnimation(const double timeStep)
+void SpaceStation::NotifyRemoved(const Body* const removedBody)
 {
-	vector3d p1, p2, zaxis;
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		shipDocking_t &dt = m_shipDocking[i];
-		if (!dt.ship) continue;
-		if (!dt.stage) continue;
-		// docked stage is m_type->numDockingPorts + 1
-		if (dt.stage > m_type->numDockingStages) continue;
-
-		double stageDuration = (dt.stage > 0 ?
-				m_type->dockAnimStageDuration[dt.stage-1] :
-				m_type->undockAnimStageDuration[abs(dt.stage)-1]);
-		dt.stagePos += timeStep / stageDuration;
-
-		if (dt.stage == 1) {
-			// SPECIAL stage! Docking granted but waiting for ship
-			// to dock
-			m_openAnimState[i] += 0.3*timeStep;
-			m_dockAnimState[i] -= 0.3*timeStep;
-
-			if (dt.stagePos >= 1.0) {
-				if (dt.ship == static_cast<Ship*>(Pi::player)) Pi::onDockingClearanceExpired.emit(this);
-				dt.ship = 0;
-				dt.stage = 0;
-			}
-			continue;
-		}
-
-		if (dt.stagePos > 1.0) {
-			dt.stagePos = 0;
-			if (dt.stage >= 0) dt.stage++;
-			else dt.stage--;
-			dt.fromPos = (dt.ship->GetPosition() - GetPosition()) * GetOrient();	// station space
-			dt.fromRot = Quaterniond::FromMatrix3x3(dt.ship->GetOrient());
-		}
-
-		SpaceStationType::positionOrient_t shipOrient;
-		bool onRails = m_type->GetDockAnimPositionOrient(i, dt.stage, dt.stagePos, dt.fromPos, shipOrient, dt.ship);
-
-		if (onRails) {
-			dt.ship->SetPosition(GetPosition() + GetOrient()*shipOrient.pos);
-			matrix3x3d wantRot = GetOrient() * matrix3x3d::BuildFromVectors(shipOrient.xaxis, shipOrient.yaxis);
-			// use quaternion spherical linear interpolation to do
-			// rotation smoothly
-			Quaterniond wantQuat = Quaterniond::FromMatrix3x3(wantRot);
-			Quaterniond q = Quaterniond::Nlerp(dt.fromRot, wantQuat, dt.stagePos);
-			wantRot = q.ToMatrix3x3<double>();
-		//	wantRot.Renormalize();
-			dt.ship->SetOrient(wantRot);
-		} else {
-			if (dt.stage >= 0) {
-				// set docked
-				dt.ship->SetDockedWith(this, i);
-				LuaEvent::Queue("onShipDocked", dt.ship, this);
-			} else {
-				if (dt.ship->GetFlightState() != Ship::FLYING) {
-					// launch ship
-					dt.ship->SetFlightState(Ship::FLYING);
-					dt.ship->SetAngVelocity(GetAngVelocity());
-					dt.ship->SetForce(vector3d(0,0,0));
-					dt.ship->SetTorque(vector3d(0,0,0));
-					if (m_type->dockMethod == SpaceStationType::SURFACE) {
-						dt.ship->SetThrusterState(1, 1.0);		// up
-					} else {
-//						dt.ship->SetVelocity(GetFrame()->GetStasisVelocity(dt.ship->GetPosition()));
-						dt.ship->SetThrusterState(2, -1.0);		// forward
-					}
-					LuaEvent::Queue("onShipUndocked", dt.ship, this);
-				}
-			}
-		}
-		if ((dt.stage < 0) && ((-dt.stage) > m_type->numUndockStages)) {
-		       dt.stage = 0;
-		       dt.ship = 0;
+		if (m_shipDocking[i].ship == removedBody) {
+			m_shipDocking[i].ship = 0;
 		}
 	}
+}
+
+int SpaceStation::GetMyDockingPort(const Ship *s) const
+{
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_openAnimState[i] = Clamp(m_openAnimState[i], 0.0, 1.0);
-		m_dockAnimState[i] = Clamp(m_dockAnimState[i], 0.0, 1.0);
+		if (s == m_shipDocking[i].ship) return i;
 	}
-}
-
-void SpaceStation::DoLawAndOrder()
-{
-	Sint64 fine, crimeBitset;
-	Polit::GetCrime(&crimeBitset, &fine);
-	if (Pi::player->GetFlightState() != Ship::DOCKED
-			&& m_numPoliceDocked
-			&& (fine > 1000)
-			&& (GetPositionRelTo(Pi::player).Length() < 100000.0)) {
-		int port = GetFreeDockingPort();
-		if (port != -1) {
-			m_numPoliceDocked--;
-			// Make police ship intent on killing the player
-			Ship *ship = new Ship(ShipType::LADYBIRD);
-			ship->AIKill(Pi::player);
-			ship->SetFrame(GetFrame());
-			ship->SetDockedWith(this, port);
-			Pi::game->GetSpace()->AddBody(ship);
-			{ // blue and white thang
-				ShipFlavour f;
-				f.id = ShipType::LADYBIRD;
-				f.regid = Lang::POLICE_SHIP_REGISTRATION;
-				f.price = ship->GetFlavour()->price;
-				LmrMaterial m;
-				m.diffuse[0] = 0.0f; m.diffuse[1] = 0.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
-				m.specular[0] = 0.0f; m.specular[1] = 0.0f; m.specular[2] = 1.0f; m.specular[3] = 1.0f;
-				m.emissive[0] = 0.0f; m.emissive[1] = 0.0f; m.emissive[2] = 0.0f; m.emissive[3] = 0.0f;
-				m.shininess = 50.0f;
-				f.primaryColor = m;
-				m.shininess = 0.0f;
-				m.diffuse[0] = 1.0f; m.diffuse[1] = 1.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
-				f.secondaryColor = m;
-				ship->ResetFlavour(&f);
-			}
-			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
-			ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
-			ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
-			ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
-			ship->UpdateStats();
-		}
-	}
-}
-
-void SpaceStation::StaticUpdate(const float timeStep)
-{
-	bool update = false;
-
-	// if there's no BB and there are ships here, make one
-	if (!m_bbCreated && GetFreeDockingPort() != 0) {
-		CreateBB();
-		update = true;
-	}
-
-	// if there is and it hasn't had an update for a while, update it
-	else if (Pi::game->GetTime() > m_lastUpdatedShipyard) {
-		LuaEvent::Queue("onUpdateBB", this);
-		update = true;
-	}
-
-	if (update) {
-		UpdateShipyard();
-		// update again in an hour or two
-		m_lastUpdatedShipyard = Pi::game->GetTime() + 3600.0 + 3600.0*Pi::rng.Double();
-	}
-
-	DoLawAndOrder();
-}
-
-void SpaceStation::TimeStepUpdate(const float timeStep)
-{
-	// rotate the thing 
-	double len = m_type->angVel;
-	if (len > 1e-16) {
-		vector3d axis = vector3d(0,0,1);	// check
-		matrix3x3d r = matrix3x3d::BuildRotate(len * timeStep, axis);
-		SetOrient(r * GetOrient());
-	}
-
-	DoDockingAnimation(timeStep);		// TODO: call from ship instead?
-}
-
-bool SpaceStation::IsGroundStation() const
-{
-	return (m_type->dockMethod == SpaceStationType::SURFACE);
-}
-
-/* XXX THIS and PositionDockedShip do almost the same thing */
-void SpaceStation::OrientDockedShip(Ship *ship, int port) const
-{
-	SpaceStationType::positionOrient_t dport;
-	if (!m_type->GetDockAnimPositionOrient(port, m_type->numDockingStages, 1.0f, vector3d(0.0), dport, ship)) {
-		Error("Space station model %s does not specify valid ship_dock_anim positions", m_type->modelName);
-	}
-	const int dockMethod = m_type->dockMethod;
-	if (dockMethod == SpaceStationType::SURFACE) {
-		matrix3x3d rot = GetOrient() * matrix3x3d::BuildFromVectors(dport.xaxis, dport.yaxis);
-		vector3d pos = GetPosition() + GetOrient()*dport.pos;
-
-		// position with wheels perfectly on ground :D
-//		Aabb aabb;
-//		ship->GetAabb(aabb);
-//		pos += stationRot*vector3d(0,-aabb.min.y,0);
-// should already be done by GetDockAnimPositionOrient
-
-		ship->SetPosition(pos);
-		ship->SetOrient(rot);
-	}
+	return -1;
 }
 
 int SpaceStation::GetFreeDockingPort() const
@@ -578,51 +409,30 @@ int SpaceStation::GetFreeDockingPort() const
 
 void SpaceStation::SetDocked(Ship *ship, int port)
 {
-	PositionDockedShip(ship, port);
 	m_shipDocking[port].ship = ship;
 	m_shipDocking[port].stage = m_type->numDockingStages+1;
-}
 
-void SpaceStation::PositionDockedShip(Ship *ship, int port)
-{
-	SpaceStationType::positionOrient_t dport;
-	PiVerify(m_type->GetDockAnimPositionOrient(port, m_type->numDockingStages, 1.0f, vector3d(0.0), dport, ship));
-	const int dockMethod = m_type->dockMethod;
-	if (dockMethod == SpaceStationType::ORBITAL) {
-		ship->SetFrame(GetFrame());					// check this, performance?
-		ship->SetPosition(GetPosition() + GetOrient()*dport.pos);
-		// duplicated from DoDockingAnimation()
-		vector3d zaxis = dport.xaxis.Cross(dport.yaxis);
-		ship->SetOrient(GetOrient() * matrix3x3d::BuildFromVectors(dport.xaxis, dport.yaxis));			
-	} else {
-		// no frame setting?
-		ship->SetPosition(GetPosition() + GetOrient()*(dport.pos + dport.yaxis));
-		// position slightly (1m) off landing surface
-		ship->SetOrient(GetOrient() * matrix3x3d::BuildFromVectors(dport.xaxis, dport.yaxis));
-	}
+	// have to do this crap again in case it was called directly (Ship::SetDockWith())
+	ship->SetFlightState(Ship::DOCKED);
+	ship->SetVelocity(vector3d(0.0));
+	ship->SetAngVelocity(vector3d(0.0));
+	ship->ClearThrusterState();
 }
 
 bool SpaceStation::LaunchShip(Ship *ship, int port)
 {
-	/* XXX bad to keep duplicating this */
-	if (m_type->dockOneAtATimePlease) {
-		for (int i=0; i<m_type->numDockingPorts; i++) {
-			if (m_shipDocking[i].ship && m_shipDocking[i].stage &&
-			    (m_shipDocking[i].stage != m_type->numDockingStages+1)) {
-				return false;
-			}
-		}
-	}
 	shipDocking_t &sd = m_shipDocking[port];
+	if (sd.stage < 0) return true;			// already launching
+	if (m_dockingLock) return false;		// another ship docking
+	if (m_type->dockOneAtATimePlease) m_dockingLock = true;
+
 	sd.ship = ship;
 	sd.stage = -1;
 	sd.stagePos = 0;
-	sd.fromPos = (ship->GetPosition() - GetPosition()) * GetOrient();
-	sd.fromRot = Quaterniond::FromMatrix3x3(ship->GetOrient());
+	sd.fromPos = (ship->GetPosition() - GetPosition()) * GetOrient();	// station space
+	sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * ship->GetOrient());
 
 	ship->SetFlightState(Ship::DOCKING);
-
-	PositionDockedShip(ship, port);
 	return true;
 }
 
@@ -648,6 +458,204 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 	outMsg = Lang::CLEARANCE_DENIED_NO_BAYS;
 	return false;
 }
+
+bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
+{
+	if ((flags & 0x10) && (b->IsType(Object::SHIP))) {
+		Ship *s = static_cast<Ship*>(b);
+
+		int port = -1;
+		for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+			if (m_shipDocking[i].ship == s) { port = i; break; }
+		}
+		if (port == -1) return false;					// no permission
+		if (!m_type->dockOneAtATimePlease) {
+			if (port != (flags&0xf)) return false;		// wrong port
+		}
+		if (m_shipDocking[port].stage != 1) return false;	// already docking?
+
+		SpaceStationType::positionOrient_t dport;
+		// why stage 2? Because stage 1 is permission to dock
+		// granted, stage 2 is start of docking animation.
+		PiVerify(m_type->GetDockAnimPositionOrient(port, 2, 0.0, vector3d(0.0), dport, s));
+
+		// must be oriented sensibly and have wheels down
+		if (IsGroundStation()) {
+			vector3d dockingNormal = GetOrient()*dport.yaxis;
+			const double dot = s->GetOrient().VectorY().Dot(dockingNormal);
+			if ((dot < 0.99) || (s->GetWheelState() < 1.0)) return false;	// <0.99 harsh?
+			if (s->GetVelocity().Length() > MAX_LANDING_SPEED) return false;
+		}
+
+		// if there is more docking port anim to do, don't set docked yet
+		if (m_type->numDockingStages >= 2) {
+			shipDocking_t &sd = m_shipDocking[port];
+			sd.ship = s;
+			sd.stage = 2;
+			sd.stagePos = 0;
+			sd.fromPos = (s->GetPosition() - GetPosition()) * GetOrient();	// station space
+			sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * s->GetOrient());
+			if (m_type->dockOneAtATimePlease) m_dockingLock = true;
+
+			s->SetFlightState(Ship::DOCKING);
+			s->SetVelocity(vector3d(0.0));
+			s->SetAngVelocity(vector3d(0.0));
+			s->ClearThrusterState();
+		} else {
+			s->SetDockedWith(this, port);				// bounces back to SS::SetDocked()
+			LuaEvent::Queue("onShipDocked", s, this);
+		}
+		return false;
+	} else {
+		return true;
+	}
+}
+
+void SpaceStation::DockingUpdate(const double timeStep)
+{
+	vector3d p1, p2, zaxis;
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		shipDocking_t &dt = m_shipDocking[i];
+		if (!dt.ship) continue;
+		// docked stage is m_type->numDockingPorts + 1 => ship docked
+		if (dt.stage > m_type->numDockingStages) continue;
+
+		double stageDuration = (dt.stage > 0 ?
+				m_type->dockAnimStageDuration[dt.stage-1] :
+				m_type->undockAnimStageDuration[abs(dt.stage)-1]);
+		dt.stagePos += timeStep / stageDuration;
+
+		if (dt.stage == 1) {
+			// SPECIAL stage! Docking granted but waiting for ship to dock
+			m_openAnimState[i] += 0.3*timeStep;
+			m_dockAnimState[i] -= 0.3*timeStep;
+
+			if (dt.stagePos >= 1.0) {
+				if (dt.ship == static_cast<Ship*>(Pi::player)) Pi::onDockingClearanceExpired.emit(this);
+				dt.ship = 0;
+				dt.stage = 0;
+			}
+			continue;
+		}
+
+		if (dt.stagePos > 1.0) {
+			// transition between docking stages
+			dt.stagePos = 0;
+			if (dt.stage >= 0) dt.stage++;
+			else dt.stage--;
+			dt.fromPos = (dt.ship->GetPosition() - GetPosition()) * GetOrient();	// station space
+			dt.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * dt.ship->GetOrient());
+		}
+
+		if (dt.stage < -m_type->shipLaunchStage) {
+			// launch ship
+			dt.ship->SetFlightState(Ship::FLYING);
+			dt.ship->SetAngVelocity(GetFrame()->GetAngVelocity());
+			if (m_type->dockMethod == SpaceStationType::SURFACE) {
+				dt.ship->SetThrusterState(1, 1.0);	// up
+			} else {
+				dt.ship->SetThrusterState(2, -1.0);	// forward
+			}
+			LuaEvent::Queue("onShipUndocked", dt.ship, this);
+		}
+		if (dt.stage < -m_type->numUndockStages) {
+			// undock animation finished, clear port
+			dt.stage = 0;
+			dt.ship = 0;
+			if (m_type->dockOneAtATimePlease) m_dockingLock = false;
+		}
+		else if (dt.stage > m_type->numDockingStages) {
+			// set docked
+			dt.ship->SetDockedWith(this, i);
+			LuaEvent::Queue("onShipDocked", dt.ship, this);
+			if (m_type->dockOneAtATimePlease) m_dockingLock = false;
+		}
+	}
+	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		m_openAnimState[i] = Clamp(m_openAnimState[i], 0.0, 1.0);
+		m_dockAnimState[i] = Clamp(m_dockAnimState[i], 0.0, 1.0);
+	}
+}
+
+void SpaceStation::PositionDockedShip(Ship *ship, int port) const
+{
+	const shipDocking_t &dt = m_shipDocking[port];
+	SpaceStationType::positionOrient_t dport;
+	PiVerify(m_type->GetDockAnimPositionOrient(port, dt.stage, dt.stagePos, dt.fromPos, dport, ship));
+
+	// Still in docking animation process?
+	if (dt.stage <= m_type->numDockingStages) {
+		ship->SetPosition(GetPosition() + GetOrient()*dport.pos);
+		matrix3x3d wantRot = matrix3x3d::BuildFromVectors(dport.xaxis, dport.yaxis);
+		// use quaternion spherical linear interpolation to do
+		// rotation smoothly
+		Quaterniond wantQuat = Quaterniond::FromMatrix3x3(wantRot);
+		Quaterniond q = Quaterniond::Nlerp(dt.fromRot, wantQuat, dt.stagePos);
+		wantRot = q.ToMatrix3x3<double>();
+		dt.ship->SetOrient(GetOrient() * wantRot);
+		return;
+	}
+	if (m_type->dockMethod == SpaceStationType::ORBITAL) {
+		ship->SetPosition(GetPosition() + GetOrient()*dport.pos);
+		vector3d zaxis = dport.xaxis.Cross(dport.yaxis);
+		ship->SetOrient(GetOrient() * matrix3x3d::BuildFromVectors(dport.xaxis, dport.yaxis));
+	} else {
+		ship->SetPosition(GetPosition() + GetOrient()*dport.pos);		// + dport.yaxis));
+		ship->SetOrient(GetOrient() * matrix3x3d::BuildFromVectors(dport.xaxis, dport.yaxis));
+	}
+}
+
+
+void SpaceStation::StaticUpdate(const float timeStep)
+{
+	bool update = false;
+
+	// if there's no BB and there are ships here, make one
+	if (!m_bbCreated && GetFreeDockingPort() != 0) {
+		CreateBB();
+		update = true;
+	}
+
+	// if there is and it hasn't had an update for a while, update it
+	else if (Pi::game->GetTime() > m_lastUpdatedShipyard) {
+		LuaEvent::Queue("onUpdateBB", this);
+		update = true;
+	}
+
+	if (update) {
+		UpdateShipyard();
+		// update again in an hour or two
+		m_lastUpdatedShipyard = Pi::game->GetTime() + 3600.0 + 3600.0*Pi::rng.Double();
+	}
+
+	DoLawAndOrder();
+	DockingUpdate(timeStep);
+}
+
+void SpaceStation::TimeStepUpdate(const float timeStep)
+{
+	// rotate the thing 
+	double len = m_type->angVel;
+	if (len > 1e-16) {
+		vector3d axis = vector3d(0,0,1);	// check
+		matrix3x3d r = matrix3x3d::BuildRotate(len * timeStep, axis);
+		SetOrient(r * GetOrient());
+	}
+
+	// reposition the ships that are docked or docking here
+	for (int i=0; i<m_type->numDockingPorts; i++) {
+		const shipDocking_t &dt = m_shipDocking[i];
+		if (!dt.ship || dt.stage == 1) continue;
+		if (dt.ship->GetFlightState() == Ship::FLYING) continue;
+		PositionDockedShip(dt.ship, i);
+	}
+}
+
+bool SpaceStation::IsGroundStation() const
+{
+	return (m_type->dockMethod == SpaceStationType::SURFACE);
+}
+
 
 /* MarketAgent shite */
 void SpaceStation::Bought(Equip::Type t) {
@@ -675,81 +683,6 @@ Sint64 SpaceStation::GetPrice(Equip::Type t) const {
 	return (mul * Sint64(Equip::types[t].basePrice)) / 100;
 }
 
-bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
-{
-	if ((flags & 0x10) && (b->IsType(Object::SHIP))) {
-		Ship *s = static_cast<Ship*>(b);
-
-		bool canDock = true;
-		int port = -1;
-		for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-			if (m_shipDocking[i].ship == s) { port = i; break; }
-		}
-		if (m_type->dockOneAtATimePlease) {
-			for (int i=0; i<m_type->numDockingPorts; i++) {
-				if (m_shipDocking[i].ship && m_shipDocking[i].stage != 1 &&
-				    (m_shipDocking[i].stage != m_type->numDockingStages+1)) {
-					canDock = false;
-					break;
-				}
-			}
-		} else {
-			// for non-dockOneAtATimePlease, the ship is expected
-			// to hit the right docking trigger surface for that port
-			if (m_shipDocking[flags&0xf].ship != s) canDock = false;
-		}
-		if (port == -1) canDock = false;
-
-		// hitting docking area of a station
-		if (canDock) {
-			SpaceStationType::positionOrient_t dport;
-			// why stage 2? Because stage 1 is permission to dock
-			// granted, stage 2 is start of docking animation.
-			PiVerify(m_type->GetDockAnimPositionOrient(port, 2, 0.0f, vector3d(0.0), dport, s));
-
-			double speed = s->GetVelocity().Length();
-
-			// must be oriented sensibly and have wheels down
-			if (IsGroundStation()) {
-				vector3d dockingNormal = GetOrient()*dport.yaxis;
-				const double dot = s->GetOrient().VectorY().Dot(dockingNormal);
-				if ((dot < 0.99) || (s->GetWheelState() < 1.0)) return false;	// <0.99 harsh?
-			}
-
-			if ((speed < MAX_LANDING_SPEED) &&
-			    (!s->GetDockedWith()) &&
-			    (m_shipDocking[port].stage == 1)) {
-				// if there is more docking port anim to do,
-				// don't set docked yet
-				if (m_type->numDockingStages >= 2) {
-					shipDocking_t &sd = m_shipDocking[port];
-					sd.ship = s;
-					sd.stage = 2;
-					sd.stagePos = 0;
-					sd.fromPos = (s->GetPosition() - GetPosition()) * GetOrient();
-					sd.fromRot = Quaterniond::FromMatrix3x3(s->GetOrient());
-					s->ClearThrusterState();
-					s->SetFlightState(Ship::DOCKING);
-				} else {
-					s->SetDockedWith(this, port);
-					LuaEvent::Queue("onShipDocked", s, this);
-				}
-			}
-		}
-		return false;
-	} else {
-		return true;
-	}
-}
-
-void SpaceStation::NotifyRemoved(const Body* const removedBody)
-{
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		if (m_shipDocking[i].ship == removedBody) {
-			m_shipDocking[i].ship = 0;
-		}
-	}
-}
 
 // Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location
 // 1. Calculates the amount of direct illumination available taking into account
@@ -1060,4 +993,46 @@ vector3d SpaceStation::GetTargetIndicatorPosition(const Frame *relTo) const
 		}
 	}
 	return GetInterpPositionRelTo(relTo);
+}
+
+void SpaceStation::DoLawAndOrder()
+{
+	Sint64 fine, crimeBitset;
+	Polit::GetCrime(&crimeBitset, &fine);
+	if (Pi::player->GetFlightState() != Ship::DOCKED
+			&& m_numPoliceDocked
+			&& (fine > 1000)
+			&& (GetPositionRelTo(Pi::player).Length() < 100000.0)) {
+		int port = GetFreeDockingPort();
+		if (port != -1) {
+			m_numPoliceDocked--;
+			// Make police ship intent on killing the player
+			Ship *ship = new Ship(ShipType::LADYBIRD);
+			ship->AIKill(Pi::player);
+			ship->SetFrame(GetFrame());
+			ship->SetDockedWith(this, port);
+			Pi::game->GetSpace()->AddBody(ship);
+			{ // blue and white thang
+				ShipFlavour f;
+				f.id = ShipType::LADYBIRD;
+				f.regid = Lang::POLICE_SHIP_REGISTRATION;
+				f.price = ship->GetFlavour()->price;
+				LmrMaterial m;
+				m.diffuse[0] = 0.0f; m.diffuse[1] = 0.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
+				m.specular[0] = 0.0f; m.specular[1] = 0.0f; m.specular[2] = 1.0f; m.specular[3] = 1.0f;
+				m.emissive[0] = 0.0f; m.emissive[1] = 0.0f; m.emissive[2] = 0.0f; m.emissive[3] = 0.0f;
+				m.shininess = 50.0f;
+				f.primaryColor = m;
+				m.shininess = 0.0f;
+				m.diffuse[0] = 1.0f; m.diffuse[1] = 1.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
+				f.secondaryColor = m;
+				ship->ResetFlavour(&f);
+			}
+			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
+			ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
+			ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
+			ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
+			ship->UpdateStats();
+		}
+	}
 }

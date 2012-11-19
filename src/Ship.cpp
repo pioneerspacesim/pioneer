@@ -636,10 +636,18 @@ bool Ship::FireMissile(int idx, Ship *target)
 void Ship::SetFlightState(Ship::FlightState newState)
 {
 	if (m_flightState == newState) return;
-	m_flightState = newState;
 	if (IsHyperspaceActive() && (newState != FLYING))
 		ResetHyperspaceCountdown();
 
+	if (newState == FLYING) {
+		m_testLanded = false;
+		if (m_flightState == DOCKING || m_flightState == DOCKED) onUndock.emit();
+		m_dockedWith = 0;
+		// lock thrusters for two seconds to push us out of station
+		m_launchLockTimeout = 2.0;
+	}
+
+	m_flightState = newState;
 	switch (m_flightState)
 	{
 		case FLYING: SetMoving(true); SetColliding(true); SetStatic(false); break;
@@ -654,19 +662,12 @@ void Ship::Blastoff()
 {
 	if (m_flightState != LANDED) return;
 
-	ClearThrusterState();
-	SetFlightState(FLYING);
-	m_testLanded = false;
-	m_dockedWith = 0;
-	m_launchLockTimeout = 2.0; // two second of applying thrusters
-
 	vector3d up = GetPosition().Normalized();
 	assert(GetFrame()->GetBody()->IsType(Object::PLANET));
 	const double planetRadius = 2.0 + static_cast<Planet*>(GetFrame()->GetBody())->GetTerrainHeight(up);
 	SetVelocity(vector3d(0, 0, 0));
 	SetAngVelocity(vector3d(0, 0, 0));
-	SetForce(vector3d(0, 0, 0));
-	SetTorque(vector3d(0, 0, 0));
+	SetFlightState(FLYING);
 
 	SetPosition(up*planetRadius - GetAabb().min.y*up);
 	SetThrusterState(1, 1.0);		// thrust upwards
@@ -696,8 +697,6 @@ void Ship::TestLanded()
 
 				SetVelocity(vector3d(0, 0, 0));
 				SetAngVelocity(vector3d(0, 0, 0));
-				SetForce(vector3d(0, 0, 0));
-				SetTorque(vector3d(0, 0, 0));
 				ClearThrusterState();
 				SetFlightState(LANDED);
 				Sound::BodyMakeNoise(this, "Rough_Landing", 1.0f);
@@ -709,17 +708,8 @@ void Ship::TestLanded()
 
 void Ship::TimeStepUpdate(const float timeStep)
 {
-	// XXX why not just fucking do this rather than track down the
-	// reason that ship geoms are being collision tested during launch
-	if (m_flightState == FLYING) { SetColliding(true); }
-	else { SetColliding(false); }
-
-	if (IsDead()) SetColliding(false);
-
-	// can't orient ships in SetDockedWith() because it gets
-	// called from collision handler, and collision system gets a bit
-	// weirded out if bodies are moved in the middle of collision detection
-	if (m_dockedWith) m_dockedWith->OrientDockedShip(this, m_dockedWithPort);
+	// If docked, station is responsible for updating position/orient of ship
+	// but we call this crap anyway and hope it doesn't do anything bad
 
 	vector3d maxThrust = GetMaxThrust(m_thrusters);
 	AddRelForce(vector3d(maxThrust.x*m_thrusters.x, maxThrust.y*m_thrusters.y,
@@ -1093,16 +1083,8 @@ const ShipType &Ship::GetShipType() const
 
 bool Ship::Undock()
 {
-	if (m_dockedWith && m_dockedWith->LaunchShip(this, m_dockedWithPort)) {
-		m_testLanded = false;
-		onUndock.emit();
-		m_dockedWith = 0;
-		// lock thrusters for two seconds to push us out of station
-		m_launchLockTimeout = 2.0;
-		return true;
-	} else {
-		return false;
-	}
+	if (m_dockedWith && m_dockedWith->LaunchShip(this, m_dockedWithPort)) return true;
+	else return false;
 }
 
 void Ship::SetDockedWith(SpaceStation *s, int port)
@@ -1110,11 +1092,9 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 	if (s) {
 		m_dockedWith = s;
 		m_dockedWithPort = port;
+		m_wheelTransition = 0;
 		m_wheelState = 1.0f;
-		SetFlightState(DOCKED);
-		SetVelocity(vector3d(0,0,0));
-		SetAngVelocity(vector3d(0,0,0));
-		ClearThrusterState();
+		// hand position/state responsibility over to station
 		m_dockedWith->SetDocked(this, port);
 		onDock.emit();
 	} else {

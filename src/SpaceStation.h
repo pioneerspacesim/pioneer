@@ -31,6 +31,7 @@ struct SpaceStationType {
 	int numDockingPorts;
 	int numDockingStages;
 	int numUndockStages;
+	int shipLaunchStage;
 	double *dockAnimStageDuration;
 	double *undockAnimStageDuration;
 	bool dockOneAtATimePlease;
@@ -90,15 +91,9 @@ public:
 	virtual double GetBoundingRadius() const;
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
-	/** You should call Ship::Undock() rather than this.
-	 * Returns true on success, false if permission denied */
-	bool LaunchShip(Ship *ship, int port);
-	void OrientDockedShip(Ship *ship, int port) const;
-	bool GetDockingClearance(Ship *s, std::string &outMsg);
 	virtual void StaticUpdate(const float timeStep);
 	virtual void TimeStepUpdate(const float timeStep);
-	bool IsGroundStation() const;
-	float GetDesiredAngVel() const;
+
 	void AddEquipmentStock(Equip::Type t, int num) { m_equipmentStock[t] += num; }
 	/* MarketAgent stuff */
 	int GetStock(Equip::Type t) const { return m_equipmentStock[t]; }
@@ -111,16 +106,20 @@ public:
 	const std::vector<ShipFlavour> &GetShipsOnSale() const { return m_shipsOnSale; }
 	virtual void PostLoadFixup(Space *space);
 	virtual void NotifyRemoved(const Body* const removedBody);
+
+	// should call Ship::Undock and Ship::SetDockedWith instead
+	// Returns true on success, false if permission denied
+	bool LaunchShip(Ship *ship, int port);
+	void SetDocked(Ship *ship, int port);
+
+	bool GetDockingClearance(Ship *s, std::string &outMsg);
 	int GetDockingPortCount() const { return m_type->numDockingPorts; }
 	int GetFreeDockingPort() const; // returns -1 if none free
-	int GetMyDockingPort(const Ship *s) const {
-		for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-			if (s == m_shipDocking[i].ship) return i;
-		}
-		return -1;
-	}
-	void SetDocked(Ship *ship, int port);
+	int GetMyDockingPort(const Ship *s) const;
+
 	const SpaceStationType *GetSpaceStationType() const { return m_type; }
+	bool IsGroundStation() const;
+
 	sigc::signal<void> onShipsForSaleChanged;
 	sigc::signal<void, BBAdvert&> onBulletinBoardAdvertDeleted;
 	sigc::signal<void> onBulletinBoardChanged;
@@ -129,7 +128,6 @@ public:
 	bool AllocateStaticSlot(int& slot);
 
 	void CreateBB();
-
 	int AddBBAdvert(std::string description, AdvertFormBuilder builder);
 	const BBAdvert *GetBBAdvert(int ref);
 	bool RemoveBBAdvert(int ref);
@@ -145,7 +143,8 @@ protected:
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
 private:
-	void DoDockingAnimation(const double timeStep);
+	void DockingUpdate(const double timeStep);
+	void PositionDockedShip(Ship *ship, int port) const;
 	void DoLawAndOrder();
 	void CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::LightSource> &lightSources);
 
@@ -164,12 +163,12 @@ private:
 		double stagePos; // 0 -> 1.0
 	};
 	shipDocking_t m_shipDocking[MAX_DOCKING_PORTS];
+	bool m_dockingLock;
 
 	double m_openAnimState[MAX_DOCKING_PORTS];
 	double m_dockAnimState[MAX_DOCKING_PORTS];
 
 	void InitStation();
-	void PositionDockedShip(Ship *ship, int port);
 	void UpdateShipyard();
 	const SpaceStationType *m_type;
 	const SystemBody *m_sbody;

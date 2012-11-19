@@ -128,6 +128,7 @@ double ModelBody::GetBoundingRadius() const
 
 void ModelBody::SetFrame(Frame *f)
 {
+	if (f == GetFrame()) return;
 	if (GetFrame()) {
 		if (m_isStatic) GetFrame()->RemoveStaticGeom(m_geom);
 		else GetFrame()->RemoveGeom(m_geom);

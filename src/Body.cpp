@@ -158,9 +158,10 @@ vector3d Body::GetVelocityRelTo(const Frame *relTo) const
 	return forient * vel + m_frame->GetVelocityRelTo(relTo);
 }
 
+// umm, backwards: gets velocity in this's frame
 vector3d Body::GetVelocityRelTo(const Body *relTo) const
 {
-	return GetVelocityRelTo(relTo->m_frame) - relTo->GetVelocity();
+	return GetVelocityRelTo(m_frame) - relTo->GetVelocityRelTo(m_frame);
 }
 
 void Body::OrientOnSurface(double radius, double latitude, double longitude)

@@ -530,8 +530,8 @@ static vector3d GetPosInFrame(Frame *frame, Frame *target, const vector3d &offse
 
 static vector3d GetVelInFrame(Frame *frame, Frame *target, const vector3d &offset)
 {
-	if (target != frame) return vector3d(0.0);
-	vector3d vel = -target->GetStasisVelocity(offset);
+	vector3d vel = vector3d(0.0);
+	if (target != frame) vel = -target->GetStasisVelocity(offset);
 	return target->GetOrientRelTo(frame) * vel + target->GetVelocityRelTo(frame);
 }
 
@@ -820,7 +820,7 @@ bool AICmdDock::TimeStepUpdate()
 		m_dockupdir = dockpos.yaxis.Normalized();		// don't trust these enough
 		if (type->dockMethod == SpaceStationType::ORBITAL) m_dockupdir = -m_dockupdir;
 		else if (m_state == 4) m_dockpos -= m_dockupdir * (m_ship->GetAabb().min.y + 1.0);
-		m_dockpos = m_target->GetOrient() * m_dockpos + m_target->GetPosition();
+		if (m_state != 2) m_dockpos = m_target->GetOrient() * m_dockpos + m_target->GetPosition();
 		m_state++;
 		// should have m_dockpos in target frame, dirs relative to target orient
 	}

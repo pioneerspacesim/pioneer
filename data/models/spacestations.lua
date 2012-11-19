@@ -588,6 +588,7 @@ define_model('mushroom_station_2', {
 		materials = {'body', 'text', 'markings', 'lift_floor', 'tower_base', 'inside'},
 		tags = {'surface_station'},
 		num_docking_ports = 2,
+		ship_launch_stage = 2,
 		-- 1 - permission granted
 		-- 2 - position docked ship
 		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2, 4, 4 },
@@ -694,6 +695,7 @@ define_model('mushroom_station_4', {
 		materials = {'body', 'text', 'markings', 'lift_floor', 'tower_base', 'inside'},
 		tags = {'surface_station'},
 		num_docking_ports = 4,
+		ship_launch_stage = 2,
 		-- 1 - permission granted
 		-- 2 - position docked ship
 		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2, 4, 4 },
@@ -810,6 +812,7 @@ define_model('big_crappy_spacestation', {
 		angular_velocity = 0.1,
 		lod_pixels = {0},
 		num_docking_ports = 4,
+		ship_launch_stage = 3,
 		-- for stations where each docking port shares the
 		-- same front door, set dock_one_at_a_time_please = true,
 		dock_one_at_a_time_please = true,
@@ -920,6 +923,7 @@ define_model('nice_spacestation', {
 			angular_velocity = 0.15,
 			lod_pixels = { 50, 0 },
 			num_docking_ports = 1,
+			ship_launch_stage = 8,		-- lower than animation stage count
 			-- docking:
 			-- 1 - permission granted. open door1
 			-- 2 - center ship, close door1
@@ -1096,6 +1100,7 @@ define_model('hoop_spacestation', {
 			angular_velocity = 0.08,
 			lod_pixels = { 50, 0 },
 			num_docking_ports = 1,
+			ship_launch_stage = 8,				-- lower than animation stage count
 			dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0 },
 			undock_anim_stage_duration = { 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 20.0 },
 			ship_dock_anim = function(port, stage, t, from, ship_aabb)
@@ -1248,6 +1253,7 @@ define_model('basic_groundstation', {
 			bounding_radius=200.0,
 			materials = {'body', 'text', 'tower_base'},
 			num_docking_ports = 2,
+			ship_launch_stage = 0,
 			-- 1 - permission granted
 			-- 2 - position docked ship
 			dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2 },

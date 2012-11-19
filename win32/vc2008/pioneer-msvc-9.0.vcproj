@@ -48,7 +48,7 @@
 				SmallerTypeCheck="true"
 				RuntimeLibrary="3"
 				FloatingPointModel="2"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="pch.h"
 				ProgramDataBaseFileName="$(IntDir)\$(ProjectName)D.pdb"
 				WarningLevel="3"
