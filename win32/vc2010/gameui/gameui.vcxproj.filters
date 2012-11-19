@@ -10,12 +10,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\gameui\Panel.cpp" />
-    <ClCompile Include="..\..\..\src\gameui\LuaFace.cpp" />
     <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\gameui\Lua.cpp" />
   </ItemGroup>
-    <ItemGroup>
+  <ItemGroup>
     <Filter Include="win32">
       <UniqueIdentifier>{90190db7-7ea0-46c6-aed7-8d74ddafc1ff}</UniqueIdentifier>
     </Filter>

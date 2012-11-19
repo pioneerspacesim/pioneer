@@ -56,6 +56,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ui", "ui\ui.vcxproj", "{F60
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gameui", "gameui\gameui.vcxproj", "{EDB31F5D-851C-4CC5-85D2-59781FD920BA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perlintest", "perlintest.vcxproj", "{C4EC7578-4861-4985-B5AA-452964EA9D74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -141,6 +143,12 @@ Global
 		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.PreRelease|Win32.Build.0 = PreRelease|Win32
 		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.Release|Win32.ActiveCfg = Release|Win32
 		{EDB31F5D-851C-4CC5-85D2-59781FD920BA}.Release|Win32.Build.0 = Release|Win32
+		{C4EC7578-4861-4985-B5AA-452964EA9D74}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C4EC7578-4861-4985-B5AA-452964EA9D74}.Debug|Win32.Build.0 = Debug|Win32
+		{C4EC7578-4861-4985-B5AA-452964EA9D74}.PreRelease|Win32.ActiveCfg = Release|Win32
+		{C4EC7578-4861-4985-B5AA-452964EA9D74}.PreRelease|Win32.Build.0 = Release|Win32
+		{C4EC7578-4861-4985-B5AA-452964EA9D74}.Release|Win32.ActiveCfg = Release|Win32
+		{C4EC7578-4861-4985-B5AA-452964EA9D74}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
