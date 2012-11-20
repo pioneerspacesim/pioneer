@@ -103,15 +103,14 @@ Point Container::CalcSize(Widget *w, const Point &avail)
 	const Point preferredSize = w->PreferredSize();
 
 	float wantRatio = float(preferredSize.x) / float(preferredSize.y);
-	float availRatio = float(avail.x) / float(avail.y);
 
 	// more room on X than Y, use full X, scale Y
-	if (availRatio > wantRatio)
-		return Point(avail.x, float(avail.x) / wantRatio);
+	if (avail.x > avail.y)
+		return Point(float(avail.y) * wantRatio, avail.y);
 
 	// more room on Y than X, use full Y, scale X
 	else
-		return Point(float(avail.y) * wantRatio, avail.y);
+		return Point(avail.x, float(avail.x) / wantRatio);
 }
 
 void Container::SetWidgetDimensions(Widget *widget, const Point &position, const Point &size)
