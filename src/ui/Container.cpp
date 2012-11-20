@@ -106,7 +106,7 @@ Point Container::CalcSize(Widget *w, const Point &avail)
 	float availRatio = float(avail.x) / float(avail.y);
 
 	// more room on X than Y, use full X, scale Y
-	if (availRatio < wantRatio)
+	if (availRatio > wantRatio)
 		return Point(avail.x, float(avail.x) / wantRatio);
 
 	// more room on Y than X, use full Y, scale X
