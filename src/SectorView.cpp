@@ -305,7 +305,8 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 }
 
 
-#define DRAW_RAD	3
+#define DRAW_RAD	  3
+#define FAR_THRESHOLD 5.f
 
 #define FFRAC(_x)	((_x)-floor(_x))
 
@@ -313,7 +314,8 @@ void SectorView::Draw3D()
 {
 	m_clickableLabels->Clear();
 
-	m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 100.f);
+	if (m_zoom <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 100.f);
+	else                         m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 600.f);
 
 	matrix4x4f modelview = matrix4x4f::Identity();
 	m_renderer->ClearScreen();
@@ -340,17 +342,8 @@ void SectorView::Draw3D()
 
 	m_renderer->SetBlendMode(BLEND_ALPHA);
 
-	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
-	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
-
-	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
-		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
-			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
-				DrawSector(int(floorf(m_pos.x))+sx, int(floorf(m_pos.y))+sy, int(floorf(m_pos.z))+sz, playerPos,
-					modelview * matrix4x4f::Translation(Sector::SIZE*sx, Sector::SIZE*sy, Sector::SIZE*sz));
-			}
-		}
-	}
+	if (m_zoom <= FAR_THRESHOLD) DrawNearSectors(modelview);
+	else                         DrawFarSectors(modelview);
 
 	m_renderer->SetBlendMode(BLEND_SOLID);
 }
@@ -509,7 +502,53 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		m_infoBox->ShowAll();
 }
 
-void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
+void SectorView::DrawNearSectors(matrix4x4f modelview) 
+{
+	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
+
+	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
+		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
+			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
+				DrawNearSector(int(floorf(m_pos.x))+sx, int(floorf(m_pos.y))+sy, int(floorf(m_pos.z))+sz, playerPos,
+					modelview * matrix4x4f::Translation(Sector::SIZE*sx, Sector::SIZE*sy, Sector::SIZE*sz));
+			}
+		}
+	}
+}
+
+void SectorView::DrawFarSectors(matrix4x4f modelview)
+{
+	int drawRadius = floorf((m_zoom + 1) / 2);
+	if (drawRadius < DRAW_RAD) drawRadius = DRAW_RAD;
+	
+	const int pos_sx = int(floorf(m_pos.x));
+	const int pos_sy = int(floorf(m_pos.y));
+	const int pos_sz = int(floorf(m_pos.z));
+
+	// build vertex and colour arrays for all the stars we want to see, if we don't already have them
+	if (m_farstars.size() == 0 || pos_sx != m_sxFar || pos_sy != m_syFar || pos_sz != m_szFar || drawRadius != m_radiusFar ) {
+		m_farstars.resize(0);
+		m_farstarsColor.resize(0);
+
+		for (int sx = pos_sx-drawRadius; sx <= pos_sx+drawRadius; sx++) {
+			for (int sy = pos_sy-drawRadius; sy <= pos_sy+drawRadius; sy++) {
+				for (int sz = pos_sz-drawRadius; sz <= pos_sz+drawRadius; sz++) {
+						DrawFarSector(sx, sy, sz, m_farstars, m_farstarsColor);
+					}
+				}
+			}
+
+		m_sxFar = pos_sx;
+		m_syFar = pos_sy;
+		m_szFar = pos_sz;
+		m_radiusFar = drawRadius;
+	}
+
+	m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 2.0f); 
+}
+
+void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
 {
 	m_renderer->SetTransform(trans);
 	Sector* ps = GetCached(sx, sy, sz);
@@ -645,6 +684,26 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		}
 
 		PutClickableLabel((*i).name, labelColour, current);
+	}
+}
+
+void SectorView::DrawFarSector(int sx, int sy, int sz, std::vector<vector3f> &points, std::vector<Color> &colors)
+{
+	Sector* ps = GetCached(sx, sy, sz);
+
+	Color starColor;
+	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i) {
+		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
+		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
+
+		if (toCentreOfView.Length() > (OUTER_RADIUS * (m_zoom / 6))) continue;
+
+		vector3f starPosition = sysAbsPos - (m_pos * Sector::SIZE);
+		starColor = (*i).factionColour;
+		starColor.a = 1.0f;
+
+		points.push_back(starPosition);
+		colors.push_back(starColor);
 	}
 }
 
@@ -786,7 +845,7 @@ void SectorView::Update()
 		if (Pi::KeyState(SDLK_MINUS)) m_zoomMovingTo += move;
 		if (m_zoomInButton->IsPressed()) m_zoomMovingTo -= move;
 		if (m_zoomOutButton->IsPressed()) m_zoomMovingTo += move;
-		m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, 5.0f);
+		m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, 40.f);
 
 		if (Pi::KeyState(SDLK_a) || Pi::KeyState(SDLK_d))
 			m_rotZMovingTo += (Pi::KeyState(SDLK_a) ? -0.5f : 0.5f) * moveSpeed;
@@ -894,13 +953,16 @@ Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 
 void SectorView::ShrinkCache()
 {
+	int drawRadius = floorf((m_zoom + 1) / 2);
+	if (m_zoom <= 5.f || drawRadius < DRAW_RAD) drawRadius = DRAW_RAD;
+
 	// we're going to use these to determine if our sectors are within the range that we'll ever render
-	const int xmin = int(floorf(m_pos.x))-DRAW_RAD;
-	const int xmax = int(ceilf(m_pos.x))+DRAW_RAD;
-	const int ymin = int(floorf(m_pos.y))-DRAW_RAD;
-	const int ymax = int(ceilf(m_pos.y))+DRAW_RAD;
-	const int zmin = int(floorf(m_pos.z))-DRAW_RAD;
-	const int zmax = int(ceilf(m_pos.z))+DRAW_RAD;
+	const int xmin = int(floorf(m_pos.x))-drawRadius;
+	const int xmax = int(ceilf(m_pos.x))+drawRadius;
+	const int ymin = int(floorf(m_pos.y))-drawRadius;
+	const int ymax = int(ceilf(m_pos.y))+drawRadius;
+	const int zmin = int(floorf(m_pos.z))-drawRadius;
+	const int zmax = int(ceilf(m_pos.z))+drawRadius;
 
 	// XXX don't clear the current/selected/target sectors
 

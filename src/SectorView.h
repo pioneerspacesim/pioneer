@@ -51,7 +51,10 @@ private:
 		Gui::Label *shortDesc;
 	};
 
-	void DrawSector(int x, int y, int z, const vector3f &playerAbsPos, const matrix4x4f &trans);
+	void DrawNearSector(int x, int y, int z, const vector3f &playerAbsPos, const matrix4x4f &trans);
+	void DrawFarSector(int sx, int sy, int sz, std::vector<vector3f> &points, std::vector<Color> &colors);
+	void DrawNearSectors(matrix4x4f modelview);
+	void DrawFarSectors(matrix4x4f modelview);
 	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
 
 	void SetSelectedSystem(const SystemPath &path);
@@ -117,6 +120,14 @@ private:
 
 	float m_playerHyperspaceRange;
 	Graphics::Drawables::Line3D m_jumpLine;
+
+	std::vector<vector3f> m_farstars;
+	std::vector<Color>    m_farstarsColor;
+
+	int m_sxFar;
+	int m_syFar;
+	int m_szFar;
+	int m_radiusFar;
 };
 
 #endif /* _SECTORVIEW_H */
