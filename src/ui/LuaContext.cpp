@@ -106,7 +106,11 @@ public:
 
 	static int l_margin(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-		LuaObject<UI::Margin>::PushToLua(c->Margin(luaL_checknumber(l, 2)));
+		int margin = luaL_checkinteger(l, 2);
+		UI::Margin::Direction dir = UI::Margin::ALL;
+		if (lua_gettop(l) > 2)
+			dir = static_cast<UI::Margin::Direction>(LuaConstants::GetConstantFromArg(l, "UIMarginDirection", 3));
+		LuaObject<UI::Margin>::PushToLua(c->Margin(margin, dir));
 		return 1;
 	}
 
