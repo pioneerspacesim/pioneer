@@ -24,47 +24,15 @@ Image::Image(Context *context, const std::string &filename, StretchMode stretchM
 
 Point Image::PreferredSize()
 {
+	if (m_stretchMode == STRETCH_PRESERVE_ASPECT)
+		SetSizeControlFlags(PRESERVE_ASPECT);
+
 	return m_initialSize;
 }
 
 void Image::Layout()
 {
-	Point size = GetSize();
-
-	Point activeArea;
-
-	switch (m_stretchMode) {
-		case STRETCH_MAX:
-			activeArea = size;
-			break;
-
-		case STRETCH_PRESERVE_ASPECT: {
-
-			float originalRatio = float(m_initialSize.x) / float(m_initialSize.y);
-			float wantRatio = float(size.x) / float(size.y);
-
-			// more room on X than Y, use full X, scale Y
-			if (wantRatio < originalRatio) {
-				activeArea.x = size.x;
-				activeArea.y = float(size.x) / originalRatio;
-			}
-
-			// more room on Y than X, use full Y, scale X
-			else {
-				activeArea.x = float(size.y) * originalRatio;
-				activeArea.y = size.y;
-			}
-
-			break;
-		}
-
-		default:
-			assert(0);
-	}
-
-	Point activeOffset(std::max(0, (size.x-activeArea.x)/2), std::max(0, (size.y-activeArea.y)/2));
-
-	SetActiveArea(activeArea, activeOffset);
+	SetActiveArea(GetSize());
 }
 
 void Image::Draw()

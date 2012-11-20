@@ -132,6 +132,7 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
+#if 0
 	c->SetInnerWidget(
 		c->ColorBackground(Color(0.4f, 0.2f, 0.4f, 1.0f))->SetInnerWidget(
 			c->HBox()->PackEnd(UI::WidgetSet(
@@ -144,6 +145,7 @@ int main(int argc, char **argv)
 			))
 		)
 	);
+#endif
 
 #if 0
 	c->SetInnerWidget(
@@ -181,7 +183,6 @@ int main(int argc, char **argv)
 	b3->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), b3));
 #endif
 
-#if 0
 	UI::Image *image;
 	UI::Slider *slider;
 	c->SetInnerWidget(
@@ -197,7 +198,7 @@ int main(int argc, char **argv)
 						c->ColorBackground(Color(1.0f, 0.0f, 0.0f, 1.0f)),
 						c->ColorBackground(Color(0.0f, 1.0f, 0.0f, 1.0f)),
 						c->ColorBackground(Color(0.0f, 0.0f, 1.0f, 1.0f)),
-						c->Image("icons/cpanel.png"),
+						c->Expand(UI::Expand::HORIZONTAL)->SetInnerWidget(c->Image("icons/cpanel.png")),
 						c->HBox(5.0f)->PackEnd(UI::WidgetSet(
 							c->Button()->SetInnerWidget(c->Label("Load game")),
 							c->Button()->SetInnerWidget(c->Label("Save game")),
@@ -205,7 +206,7 @@ int main(int argc, char **argv)
 						))->PackEnd(
 							(slider = c->HSlider())
 						)
-					)
+					))
 				)
 			)
 		)
@@ -213,7 +214,6 @@ int main(int argc, char **argv)
 
 	image->onClick.connect(sigc::bind(sigc::ptr_fun(&click_handler), image));
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
-#endif
 
 #if 0
 	UI::Slider *red, *green, *blue;
