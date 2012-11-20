@@ -7,8 +7,7 @@
 
 namespace UI {
 
-Image::Image(Context *context, const std::string &filename, StretchMode stretchMode): Widget(context),
-	m_stretchMode(stretchMode)
+Image::Image(Context *context, const std::string &filename, Uint32 sizeControlFlags): Widget(context)
 {
 	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI(filename);
 	m_texture.Reset(b.GetOrCreateTexture(GetContext()->GetRenderer(), "ui"));
@@ -20,19 +19,13 @@ Image::Image(Context *context, const std::string &filename, StretchMode stretchM
 	material_desc.textures = 1;
 	m_material.Reset(GetContext()->GetRenderer()->CreateMaterial(material_desc));
 	m_material->texture0 = m_texture.Get();
+
+	SetSizeControlFlags(sizeControlFlags);
 }
 
 Point Image::PreferredSize()
 {
-	if (m_stretchMode == STRETCH_PRESERVE_ASPECT)
-		SetSizeControlFlags(PRESERVE_ASPECT);
-
 	return m_initialSize;
-}
-
-void Image::Layout()
-{
-	SetActiveArea(GetSize());
 }
 
 void Image::Draw()
