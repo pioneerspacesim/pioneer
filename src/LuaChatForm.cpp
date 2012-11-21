@@ -355,7 +355,7 @@ void LuaChatForm::Sold(Equip::Type t) {
  */
 static int l_luachatform_set_title(lua_State *l)
 {
-	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::CheckFromLua(1);
 	std::string title = luaL_checkstring(l, 2);
 	form->SetTitle(title);
 	return 0;
@@ -410,7 +410,7 @@ static int l_luachatform_set_title(lua_State *l)
  */
 static int l_luachatform_set_face(lua_State *l)
 {
-	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::CheckFromLua(1);
 
 	luaL_checktype(l, 2, LUA_TTABLE);
 
@@ -487,7 +487,7 @@ static int l_luachatform_set_face(lua_State *l)
  */
 int LuaChatForm::l_luachatform_set_message(lua_State *l)
 {
-	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::CheckFromLua(1);
 	std::string message = luaL_checkstring(l, 2);
 	form->SetMessage(message);
 	return 0;
@@ -521,7 +521,7 @@ int LuaChatForm::l_luachatform_set_message(lua_State *l)
  */
 int LuaChatForm::l_luachatform_add_option(lua_State *l)
 {
-	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::CheckFromLua(1);
 	std::string text = luaL_checkstring(l, 2);
 	int val = luaL_checkinteger(l, 3);
 	form->AddOption(text, val);
@@ -551,7 +551,7 @@ int LuaChatForm::l_luachatform_add_option(lua_State *l)
  */
 int LuaChatForm::l_luachatform_clear(lua_State *l)
 {
-	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::CheckFromLua(1);
 	form->Clear();
 	return 0;
 }
@@ -634,7 +634,7 @@ static inline void _check_trade_function(lua_State *l, int tableidx, const char 
  */
 int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
 {
-	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::CheckFromLua(1);
 
 	LUA_DEBUG_START(l);
 
@@ -693,7 +693,7 @@ int LuaChatForm::l_luachatform_add_goods_trader(lua_State *l)
  */
 int LuaChatForm::l_luachatform_close(lua_State *l)
 {
-	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::CheckFromLua(1);
 	form->Close();
 	return 0;
 }
@@ -715,7 +715,7 @@ int LuaChatForm::l_luachatform_close(lua_State *l)
  */
 int LuaChatForm::l_luachatform_goto_police(lua_State *l)
 {
-	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::CheckFromLua(1);
 	form->m_formController->ActivateForm(new StationPoliceForm(form->m_formController));
 	return 0;
 }
@@ -741,7 +741,7 @@ int LuaChatForm::l_luachatform_goto_police(lua_State *l)
  */
 static int l_luachatform_remove_advert_on_close(lua_State *l)
 {
-	LuaChatForm *form = LuaObject<LuaChatForm>::GetFromLua(1);
+	LuaChatForm *form = LuaObject<LuaChatForm>::CheckFromLua(1);
 	form->RemoveAdvertOnClose();
 	return 0;
 }
