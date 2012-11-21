@@ -47,9 +47,10 @@ SectorView::SectorView()
 	GotoSystem(m_current);
 	m_pos = m_posMovingTo;
 
-	m_matchTargetToSelection = true;
+	m_matchTargetToSelection   = true;
 	m_selectionFollowsMovement = true;
-	m_infoBoxVisible = true;
+	m_infoBoxVisible           = true;
+	m_factionBoxVisible        = false;
 
 	InitObject();
 }
@@ -196,6 +197,13 @@ void SectorView::InitObject()
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 
 	UpdateHyperspaceLockLabel();
+
+	m_factionBox = new Gui::VBox();
+	m_factionBox->SetTransparency(false);
+	m_factionBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
+	m_factionBox->SetSpacing(5.0f);
+	Add(m_factionBox, 5, 5);
+	m_factionBox->HideAll();
 }
 
 SectorView::~SectorView()
@@ -219,6 +227,7 @@ void SectorView::Save(Serializer::Writer &wr)
 	wr.Bool(m_matchTargetToSelection);
 	wr.Bool(m_selectionFollowsMovement);
 	wr.Bool(m_infoBoxVisible);
+	wr.Bool(m_factionBoxVisible);
 }
 
 void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
@@ -502,8 +511,36 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		m_infoBox->ShowAll();
 }
 
+void SectorView::UpdateFactionLabels()
+{	
+	// make sure we have enough labels in the ui
+	while (m_visibleFactionLabels.size() < m_visibleFactions.size()) {
+		Gui::Label* label = new Gui::Label("");
+		m_factionBox->PackEnd(label);
+		m_visibleFactionLabels.push_back(label);
+	}
+
+	// set the text and color for each of the faction labels
+	Uint32 labelIdx = 0;
+	for (std::set<Faction*>::iterator it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it, ++labelIdx) {
+		m_visibleFactionLabels[labelIdx]->SetText((*it)->name);
+		m_visibleFactionLabels[labelIdx]->Color((*it)->colour);
+		m_visibleFactionLabels[labelIdx]->Show();
+	}
+
+	// hide any labels we're not using
+	for (; labelIdx < m_visibleFactionLabels.size(); labelIdx++) {
+		m_visibleFactionLabels[labelIdx]->Hide();
+	}
+
+	if  (m_factionBoxVisible) m_factionBox->Show();
+	else                      m_factionBox->HideAll();
+}
+
 void SectorView::DrawNearSectors(matrix4x4f modelview) 
 {
+	m_visibleFactions.clear();
+
 	Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 	vector3f playerPos = Sector::SIZE * vector3f(float(m_current.sectorX), float(m_current.sectorY), float(m_current.sectorZ)) + playerSec->m_systems[m_current.systemIndex].p;
 
@@ -519,8 +556,8 @@ void SectorView::DrawNearSectors(matrix4x4f modelview)
 
 void SectorView::DrawFarSectors(matrix4x4f modelview)
 {
-	int drawRadius = floorf((m_zoom + 1) / 2);
-	if (drawRadius < DRAW_RAD) drawRadius = DRAW_RAD;
+	int drawRadius = ceilf((m_zoom + 1) / 2);
+	if (drawRadius <= DRAW_RAD) drawRadius = DRAW_RAD;
 	
 	const int pos_sx = int(floorf(m_pos.x));
 	const int pos_sy = int(floorf(m_pos.y));
@@ -530,11 +567,12 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 	if (m_farstars.size() == 0 || pos_sx != m_sxFar || pos_sy != m_syFar || pos_sz != m_szFar || drawRadius != m_radiusFar ) {
 		m_farstars.resize(0);
 		m_farstarsColor.resize(0);
+		m_visibleFactions.clear();
 
 		for (int sx = pos_sx-drawRadius; sx <= pos_sx+drawRadius; sx++) {
 			for (int sy = pos_sy-drawRadius; sy <= pos_sy+drawRadius; sy++) {
 				for (int sz = pos_sz-drawRadius; sz <= pos_sz+drawRadius; sz++) {
-						DrawFarSector(sx, sy, sz, m_farstars, m_farstarsColor);
+						DrawFarSector(sx, sy, sz, drawRadius, m_farstars, m_farstarsColor);
 					}
 				}
 			}
@@ -543,6 +581,8 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 		m_syFar = pos_sy;
 		m_szFar = pos_sz;
 		m_radiusFar = drawRadius;
+		
+		UpdateFactionLabels();
 	}
 
 	m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 2.0f); 
@@ -575,6 +615,7 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
 
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
+		m_visibleFactions.insert(i->faction);
 
 		// don't worry about looking for inhabited systems if they're
 		// unexplored (same calculation as in StarSystem.cpp) or we've
@@ -687,7 +728,7 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 	}
 }
 
-void SectorView::DrawFarSector(int sx, int sy, int sz, std::vector<vector3f> &points, std::vector<Color> &colors)
+void SectorView::DrawFarSector(int sx, int sy, int sz, int drawRadius, std::vector<vector3f> &points, std::vector<Color> &colors)
 {
 	Sector* ps = GetCached(sx, sy, sz);
 
@@ -696,14 +737,15 @@ void SectorView::DrawFarSector(int sx, int sy, int sz, std::vector<vector3f> &po
 		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
 
-		if (toCentreOfView.Length() > (OUTER_RADIUS * (m_zoom / 6))) continue;
+		if (toCentreOfView.Length() > (drawRadius * Sector::SIZE)) continue;
 
 		vector3f starPosition = sysAbsPos - (m_pos * Sector::SIZE);
 		starColor = (*i).faction->colour;
-		starColor.a = 1.0f;
 
 		points.push_back(starPosition);
 		colors.push_back(starColor);
+		
+		m_visibleFactions.insert(i->faction);
 	}
 }
 
@@ -753,13 +795,23 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 		return;
 	}
 
-	// toggle the info box
+	// cycle through the info box, the faction box, and nothing
 	if (keysym->sym == SDLK_TAB) {
-		m_infoBoxVisible = !m_infoBoxVisible;
-		if (m_infoBoxVisible)
-			m_infoBox->ShowAll();
-		else
-			m_infoBox->HideAll();
+		// ugly tri-state - refactor
+		if (m_infoBoxVisible) {
+			m_infoBoxVisible    = false;
+			m_factionBoxVisible = true;
+		} else if (m_factionBoxVisible) {
+			m_factionBoxVisible = false;
+		} else {
+			m_infoBoxVisible    = true;
+		}
+		
+		if (m_infoBoxVisible) m_infoBox->ShowAll();
+		else                  m_infoBox->HideAll();
+
+		if (m_factionBoxVisible) UpdateFactionLabels();
+		else                     m_factionBox->HideAll();
 		return;
 	}
 
@@ -953,10 +1005,10 @@ Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 
 void SectorView::ShrinkCache()
 {
-	int drawRadius = floorf((m_zoom + 1) / 2);
+	// we're going to use these to determine if our sectors are within the range that we'll ever render
+	int drawRadius = ceilf((m_zoom + 1) / 2);
 	if (m_zoom <= 5.f || drawRadius < DRAW_RAD) drawRadius = DRAW_RAD;
 
-	// we're going to use these to determine if our sectors are within the range that we'll ever render
 	const int xmin = int(floorf(m_pos.x))-drawRadius;
 	const int xmax = int(ceilf(m_pos.x))+drawRadius;
 	const int ymin = int(floorf(m_pos.y))-drawRadius;

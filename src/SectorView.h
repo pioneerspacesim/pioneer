@@ -8,6 +8,7 @@
 #include "gui/Gui.h"
 #include "View.h"
 #include <vector>
+#include <set>
 #include <string>
 #include "View.h"
 #include "galaxy/Sector.h"
@@ -52,7 +53,7 @@ private:
 	};
 
 	void DrawNearSector(int x, int y, int z, const vector3f &playerAbsPos, const matrix4x4f &trans);
-	void DrawFarSector(int sx, int sy, int sz, std::vector<vector3f> &points, std::vector<Color> &colors);
+	void DrawFarSector(int sx, int sy, int sz, int drawRadius, std::vector<vector3f> &points, std::vector<Color> &colors);
 	void DrawNearSectors(matrix4x4f modelview);
 	void DrawFarSectors(matrix4x4f modelview);
 	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
@@ -61,6 +62,7 @@ private:
 	void OnClickSystem(const SystemPath &path);
 
 	void UpdateSystemLabels(SystemLabels &labels, const SystemPath &path);
+	void UpdateFactionLabels();
 
 	void UpdateHyperspaceLockLabel();
 
@@ -111,6 +113,12 @@ private:
 	SystemLabels m_targetSystemLabels;
 
 	Gui::Label *m_hyperspaceLockLabel;
+
+	Gui::VBox *m_factionBox;
+	bool m_factionBoxVisible;
+
+	std::set<Faction*>       m_visibleFactions;
+	std::vector<Gui::Label*> m_visibleFactionLabels;
 
 	sigc::connection m_onMouseButtonDown;
 	sigc::connection m_onKeyPressConnection;
