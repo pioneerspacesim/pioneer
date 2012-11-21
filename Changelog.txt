@@ -17,6 +17,7 @@ Alpha 29
 
    * Fixes
      * Workaround shader glitches for planets with zero temperature (#1712)
+     * Pioneer should not be marked as "Not Responding" on startup in Windows (#1743)
 
    * Script changes
      * New UI.Gradient container to provide a linear gradient background (#1682)
