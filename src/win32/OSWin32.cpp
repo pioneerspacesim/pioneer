@@ -13,6 +13,18 @@
 
 namespace OS {
 
+// Notify Windows that the window may become unresponsive
+void NotifyLoadBegin()
+{
+	// XXX Remove the following call when loading is moved to a background thread
+	DisableProcessWindowsGhosting(); // Prevent Windows from whiting out the screen for "not responding"
+}
+
+// Since there's no way to re-enable Window ghosting, do nothing
+void NotifyLoadEnd()
+{
+}
+
 // Call MessageBox with error icon and abort
 void Error(const char *format, ...)
 {
@@ -44,8 +56,6 @@ void Warning(const char *format, ...)
 
 void LoadWindowIcon()
 {
-	//XXX: This isn't the right place for this, but it's the least invasive place for this.
-	DisableProcessWindowsGhosting(); // Prevent Windows from whiting out the screen for "not responding".
 	// SDL doc says "Win32 icons must be 32x32".
 	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge32-8b.png");
 	if (surface) {
