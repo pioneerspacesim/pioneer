@@ -121,6 +121,7 @@ template <> void LuaObject<UI::Grid>::RegisterClass()
 
 		{ "ClearRow",    LuaGrid::l_clear_row    },
 		{ "ClearColumn", LuaGrid::l_clear_column },
+		{ "ClearCell",   LuaGrid::l_clear_cell   },
 		{ "Clear",       LuaGrid::l_clear        },
 		{ 0, 0 }
 	};
