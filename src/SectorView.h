@@ -118,6 +118,7 @@ private:
 	bool m_factionBoxVisible;
 
 	std::set<Faction*>       m_visibleFactions;
+	std::set<Faction*>       m_hiddenFactions;
 	std::vector<Gui::Label*> m_visibleFactionLabels;
 
 	sigc::connection m_onMouseButtonDown;

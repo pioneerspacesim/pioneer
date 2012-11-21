@@ -609,17 +609,22 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 
 	Uint32 num=0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++num) {
-		SystemPath current = SystemPath(sx, sy, sz, num);
-
+		// calculate where the system is in relation the centre of the view...
 		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
 
+		// ...and skip the system if it doesn't fall within the sphere we're viewing.
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
+
+		// if the system belongs to a faction we've chosen to temporarily hide then skip it as well.
 		m_visibleFactions.insert(i->faction);
+		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end()) continue;
+
 
 		// don't worry about looking for inhabited systems if they're
 		// unexplored (same calculation as in StarSystem.cpp) or we've
 		// already retrieved their population.
+		SystemPath current = SystemPath(sx, sy, sz, num);
 		if ((*i).population < 0 && isqrt(1 + sx*sx + sy*sy + sz*sz) <= 90) {
 					
 			// only do this once we've pretty much stopped moving.
@@ -734,18 +739,23 @@ void SectorView::DrawFarSector(int sx, int sy, int sz, int drawRadius, std::vect
 
 	Color starColor;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i) {
+		// calculate where the system is in relation the centre of the view...
 		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
 
+		// ...and skip the system if it doesn't fall within the sphere we're viewing.
 		if (toCentreOfView.Length() > (drawRadius * Sector::SIZE)) continue;
 
+		// if the system belongs to a faction we've chosen to temporarily hide also skip it.
+		m_visibleFactions.insert(i->faction);
+		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end()) continue;
+
+		// otherwise add the system's position and faction color to the list to draw
 		vector3f starPosition = sysAbsPos - (m_pos * Sector::SIZE);
 		starColor = (*i).faction->colour;
 
 		points.push_back(starPosition);
-		colors.push_back(starColor);
-		
-		m_visibleFactions.insert(i->faction);
+		colors.push_back(starColor);	
 	}
 }
 
