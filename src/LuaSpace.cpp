@@ -36,7 +36,7 @@ static void _unpack_hyperspace_args(lua_State *l, int index, SystemPath* &path, 
 
 	lua_pushinteger(l, 1);
 	lua_gettable(l, index);
-	if (!(path = LuaSystemPath::CheckFromLua(-1)))
+	if (!(path = LuaSystemPath::GetFromLua(-1)))
 		luaL_error(l, "bad value for hyperspace path at position 1 (SystemPath expected, got %s)", luaL_typename(l, -1));
 	lua_pop(l, 1);
 
@@ -204,7 +204,7 @@ static int l_space_spawn_ship_near(lua_State *l)
 	if (! ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 
-	Body *nearbody = LuaBody::GetFromLua(2);
+	Body *nearbody = LuaBody::CheckFromLua(2);
 	float min_dist = luaL_checknumber(l, 3);
 	float max_dist = luaL_checknumber(l, 4);
 
@@ -277,7 +277,7 @@ static int l_space_spawn_ship_docked(lua_State *l)
 	if (! ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 
-	SpaceStation *station = LuaSpaceStation::GetFromLua(2);
+	SpaceStation *station = LuaSpaceStation::CheckFromLua(2);
 
 	int port = station->GetFreeDockingPort();
 	if (port < 0)
@@ -338,7 +338,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	if (! ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 
-	SpaceStation *station = LuaSpaceStation::GetFromLua(2);
+	SpaceStation *station = LuaSpaceStation::CheckFromLua(2);
 
 	int slot;
 	if (!station->AllocateStaticSlot(slot))

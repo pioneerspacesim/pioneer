@@ -222,8 +222,8 @@ static void LuaInit()
 	LuaConsole::Register();
 
 	// XXX sigh
-	UI::LuaInit();
-	GameUI::LuaInit();
+	UI::Lua::Init();
+	GameUI::Lua::Init();
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
@@ -256,6 +256,9 @@ std::string Pi::GetSaveDir()
 
 void Pi::Init()
 {
+
+	OS::NotifyLoadBegin();
+
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 
@@ -381,6 +384,8 @@ void Pi::Init()
 		if (config->Int("MusicMuted")) GetMusicPlayer().SetEnabled(false);
 	}
 	draw_progress(1.0f);
+
+	OS::NotifyLoadEnd();
 
 #if 0
 	// test code to produce list of ship stats

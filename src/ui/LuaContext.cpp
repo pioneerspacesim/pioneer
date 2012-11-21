@@ -9,6 +9,29 @@ namespace UI {
 
 class LuaContext {
 public:
+
+	static inline UI::Widget *_get_implicit_widget(lua_State *l)
+	{
+		// context is always the first arg, don't reuse it
+		const int top = lua_gettop(l);
+		if (top == 1) return 0;
+		return UI::Lua::GetWidget(l, top);
+	}
+
+	static inline void _implicit_set_inner_widget(lua_State *l, UI::Single *s)
+	{
+		UI::Widget *w = _get_implicit_widget(l);
+		if (!w) return;
+		s->SetInnerWidget(w);
+	}
+
+	static inline void _implicit_set_inner_widget(lua_State *l, UI::Scroller *s)
+	{
+		UI::Widget *w = _get_implicit_widget(l);
+		if (!w) return;
+		s->SetInnerWidget(w);
+	}
+
 	static int l_hbox(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		if (lua_gettop(l) > 1)
@@ -48,7 +71,9 @@ public:
 
 	static int l_background(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-		LuaObject<UI::Background>::PushToLua(c->Background());
+		UI::Background *b = c->Background();
+		_implicit_set_inner_widget(l, b);
+		LuaObject<UI::Background>::PushToLua(b);
 		return 1;
 	}
 
@@ -60,7 +85,9 @@ public:
 		float a = 1.0f;
 		if (lua_gettop(l) > 4)
 			a = luaL_checknumber(l, 5);
-		LuaObject<UI::ColorBackground>::PushToLua(c->ColorBackground(Color(r,g,b,a)));
+		UI::ColorBackground *cb = c->ColorBackground(Color(r,g,b,a));
+		_implicit_set_inner_widget(l, cb);
+		LuaObject<UI::ColorBackground>::PushToLua(cb);
 		return 1;
 	}
 
@@ -69,7 +96,9 @@ public:
 		Color beginColor = Color::FromLuaTable(l, 2);
 		Color endColor = Color::FromLuaTable(l, 3);
 		UI::Gradient::Direction direction = static_cast<UI::Gradient::Direction>(LuaConstants::GetConstantFromArg(l, "UIGradientDirection", 4));
-		LuaObject<UI::Gradient>::PushToLua(c->Gradient(beginColor, endColor, direction));
+		UI::Gradient *g = c->Gradient(beginColor, endColor, direction);
+		_implicit_set_inner_widget(l, g);
+		LuaObject<UI::Gradient>::PushToLua(g);
 		return 1;
 	}
 
@@ -78,26 +107,34 @@ public:
 		UI::Expand::Direction direction = UI::Expand::BOTH;
 		if (lua_gettop(l) > 1)
 			direction = static_cast<UI::Expand::Direction>(LuaConstants::GetConstantFromArg(l, "UIExpandDirection", 2));
-		LuaObject<UI::Expand>::PushToLua(c->Expand(direction));
+		UI::Expand *e = c->Expand(direction);
+		_implicit_set_inner_widget(l, e);
+		LuaObject<UI::Expand>::PushToLua(e);
 		return 1;
 	}
 
 	static int l_margin(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-		LuaObject<UI::Margin>::PushToLua(c->Margin(luaL_checknumber(l, 2)));
+		UI::Margin *m = c->Margin(luaL_checknumber(l, 2));
+		_implicit_set_inner_widget(l, m);
+		LuaObject<UI::Margin>::PushToLua(m);
 		return 1;
 	}
 
 	static int l_align(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		UI::Align::Direction dir = static_cast<UI::Align::Direction>(LuaConstants::GetConstantFromArg(l, "UIAlignDirection", 2));
-		LuaObject<UI::Align>::PushToLua(c->Align(dir));
+		UI::Align *a = c->Align(dir);
+		_implicit_set_inner_widget(l, a);
+		LuaObject<UI::Align>::PushToLua(a);
 		return 1;
 	}
 
 	static int l_scroller(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-		LuaObject<UI::Scroller>::PushToLua(c->Scroller());
+		UI::Scroller *s = c->Scroller();
+		_implicit_set_inner_widget(l, s);
+		LuaObject<UI::Scroller>::PushToLua(s);
 		return 1;
 	}
 
@@ -125,7 +162,9 @@ public:
 
 	static int l_button(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-		LuaObject<UI::Button>::PushToLua(c->Button());
+		UI::Button *b = c->Button();
+		_implicit_set_inner_widget(l, b);
+		LuaObject<UI::Button>::PushToLua(b);
 		return 1;
 	}
 
