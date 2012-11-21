@@ -13,6 +13,18 @@
 
 namespace OS {
 
+// Notify Windows that the window may become unresponsive
+void NotifyLoadBegin()
+{
+	// XXX Remove the following call when loading is moved to a background thread
+	DisableProcessWindowsGhosting(); // Prevent Windows from whiting out the screen for "not responding"
+}
+
+// Since there's no way to re-enable Window ghosting, do nothing
+void NotifyLoadEnd()
+{
+}
+
 // Call MessageBox with error icon and abort
 void Error(const char *format, ...)
 {

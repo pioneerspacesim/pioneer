@@ -8,7 +8,11 @@
 #include "GameUI.h"
 
 namespace GameUI {
-	void LuaInit();
+namespace Lua {
+
+	void Init();
+
+}
 }
 
 #endif

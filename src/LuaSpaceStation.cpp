@@ -116,7 +116,7 @@ static int l_spacestation_add_advert(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
+	SpaceStation *s = LuaSpaceStation::CheckFromLua(1);
 	std::string description = luaL_checkstring(l, 2);
 
 	luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function
@@ -188,7 +188,7 @@ static int l_spacestation_remove_advert(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
+	SpaceStation *s = LuaSpaceStation::CheckFromLua(1);
 	int ref = luaL_checkinteger(l, 2);
 
 	if (!s->RemoveBBAdvert(ref))
@@ -253,7 +253,7 @@ static int l_spacestation_remove_advert(lua_State *l)
  */
 static int l_spacestation_get_equipment_price(lua_State *l)
 {
-	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
+	SpaceStation *s = LuaSpaceStation::CheckFromLua(1);
 	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
 	Sint64 cost = s->GetPrice(e);
 	lua_pushnumber(l, cost * 0.01);
@@ -275,7 +275,7 @@ static int l_spacestation_get_equipment_price(lua_State *l)
  */
 static int l_spacestation_attr_num_docks(lua_State *l)
 {
-	SpaceStation *s = LuaSpaceStation::GetFromLua(1);
+	SpaceStation *s = LuaSpaceStation::CheckFromLua(1);
 	lua_pushinteger(l, s->GetDockingPortCount());
 	return 1;
 }

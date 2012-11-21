@@ -17,6 +17,7 @@ Alpha 29
 
    * Fixes
      * Workaround shader glitches for planets with zero temperature (#1712)
+     * Pioneer should not be marked as "Not Responding" on startup in Windows (#1743)
 
    * Script changes
      * New UI.Gradient container to provide a linear gradient background (#1682)
@@ -26,10 +27,15 @@ Alpha 29
      * New UI.Expand container to force a widget to fill available space (#1685)
      * New UI exposes SetText to Lua (#1690)
      * New UI.SmallButton widget (#1722)
+     * New UI constructors for 'Single' widgets take an optional final argument
+       specifying the inner widget (#1723, #1738)
+     * Grids and can now have nil entries and has a ClearCell method (#1723, #1738)
+     * Functions taking a widget can now take a table with a 'widget' field (#1723, #1738)
      * debug.deprecated function to warn when a deprecated function is used (#1718)
 
    * Internal changes
      * Wrapper to allow new UI to provide views for the old GUI system (#1691)
+     * Fix the LuaObject the Check/GetFromLua, which were swapped round (#1730)
 
 Alpha 28
 

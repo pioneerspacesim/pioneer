@@ -566,34 +566,6 @@ DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
 
 	LUA_DEBUG_START(l);
 
-	if (lua_type(l, index) != LUA_TUSERDATA)
-		return NULL;
-
-	lid *idp = static_cast<lid*>(lua_touserdata(l, index));
-	if (!idp)
-		return NULL;
-
-	LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
-	if (!lo)
-		return NULL;
-
-	LUA_DEBUG_END(l, 0);
-
-	if (!lo->Isa(type))
-		return NULL;
-
-	// found it
-	return lo->m_object;
-}
-
-DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
-{
-	assert(instantiated);
-
-	lua_State *l = Lua::manager->GetLuaState();
-
-	LUA_DEBUG_START(l);
-
 	luaL_checktype(l, index, LUA_TUSERDATA);
 
 	lid *idp = static_cast<lid*>(lua_touserdata(l, index));
@@ -613,6 +585,34 @@ DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
 
 	if (!lo->Isa(type))
 		luaL_error(l, "Lua object on stack has type %s which can not be used as type %s\n", lo->m_type, type);
+
+	// found it
+	return lo->m_object;
+}
+
+DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
+{
+	assert(instantiated);
+
+	lua_State *l = Lua::manager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	if (lua_type(l, index) != LUA_TUSERDATA)
+		return NULL;
+
+	lid *idp = static_cast<lid*>(lua_touserdata(l, index));
+	if (!idp)
+		return NULL;
+
+	LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
+	if (!lo)
+		return NULL;
+
+	LUA_DEBUG_END(l, 0);
+
+	if (!lo->Isa(type))
+		return NULL;
 
 	// found it
 	return lo->m_object;

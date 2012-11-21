@@ -4,9 +4,11 @@
 #include "Lua.h"
 
 namespace GameUI {
+namespace Lua {
 
-void LuaInit()
+void Init()
 {
 }
 
+}
 }

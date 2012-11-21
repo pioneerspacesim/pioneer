@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Single.h"
-#include "LuaObject.h"
+#include "Lua.h"
 
 namespace UI {
 
@@ -11,7 +11,7 @@ public:
 
 	static int l_set_inner_widget(lua_State *l) {
 		Single *s = LuaObject<UI::Single>::CheckFromLua(1);
-		Widget *w = LuaObject<UI::Widget>::CheckFromLua(2);
+		Widget *w = UI::Lua::CheckWidget(l, 2);
 		s->SetInnerWidget(w);
 		lua_pushvalue(l, 1);
 		return 1;
