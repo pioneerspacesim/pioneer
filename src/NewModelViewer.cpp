@@ -179,6 +179,12 @@ bool ModelViewer::OnAnimStop(UI::Widget *w)
     return false;
 }
 
+bool ModelViewer::OnQuit(UI::Widget *)
+{
+	m_done = true;
+	return true;
+}
+
 bool ModelViewer::OnReloadModel(UI::Widget *w)
 {
 	//camera is not reset, it would be annoying when
@@ -674,6 +680,55 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 	onModelChanged.emit();
 }
 
+static void collect_models(std::vector<std::string> &list)
+{
+	const std::string basepath("newmodels");
+	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
+	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
+	{
+		const FileSystem::FileInfo &info = files.Current();
+		const std::string &fpath = info.GetPath();
+
+		//check it's the expected type
+		if (info.IsFile() && ends_with(fpath, ".model")) {
+			list.push_back(info.GetName());
+		}
+	}
+}
+
+void ModelViewer::SetupFilePicker()
+{
+	UI::Context *c = m_ui.Get();
+
+	UI::List *list = c->List();
+	UI::Button *quitButton = c->Button();
+	UI::Button *loadButton = c->Button();
+	quitButton->SetInnerWidget(c->Label("Quit"));
+	loadButton->SetInnerWidget(c->Label("Load"));
+
+	std::vector<std::string> models;
+	collect_models(models);
+
+	for (std::vector<std::string>::const_iterator it = models.begin(); it != models.end(); ++it) {
+		list->AddOption(*it);
+	}
+
+	UI::Widget *iw =
+	c->Grid(UI::CellSpec(1,3,1), UI::CellSpec(1,3,1))
+		->SetCell(1,1,
+			c->VBox(10)
+				->PackEnd(c->Label("Select a model"))
+				->PackEnd(c->Expand(UI::Expand::BOTH)->SetInnerWidget(c->Scroller()->SetInnerWidget(list)))
+				->PackEnd(c->Grid(2,1)->SetRow(0, UI::WidgetSet(
+					c->Align(UI::Align::LEFT)->SetInnerWidget(loadButton),
+					c->Align(UI::Align::RIGHT)->SetInnerWidget(quitButton)
+				)))
+		);
+	c->SetInnerWidget(iw);
+
+	quitButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnQuit), quitButton));
+}
+
 void ModelViewer::SetupUI()
 {
 	UI::Context *c = m_ui.Get();
@@ -689,6 +744,8 @@ void ModelViewer::SetupUI()
 		c->RemoveFloatingWidget(animSlider);
 		animSlider = 0;
 	}
+
+	return SetupFilePicker();
 
 	const int spacing = 5;
 

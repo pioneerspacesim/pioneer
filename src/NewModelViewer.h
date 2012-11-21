@@ -21,12 +21,13 @@ public:
 	static void Run(int argc, char** argv);
 
 private:
-	bool OnAnimPlay(UI::Widget *w, bool reverse);
-	bool OnAnimStop(UI::Widget *w);
-	bool OnReloadModel(UI::Widget *w);
-	bool OnToggleCollMesh(UI::CheckBox *w);
-	bool OnToggleGrid(UI::Widget *);
-	bool OnToggleGuns(UI::CheckBox *w);
+	bool OnAnimPlay(UI::Widget*, bool reverse);
+	bool OnAnimStop(UI::Widget*);
+	bool OnQuit(UI::Widget*);
+	bool OnReloadModel(UI::Widget*);
+	bool OnToggleCollMesh(UI::CheckBox*);
+	bool OnToggleGrid(UI::Widget*);
+	bool OnToggleGuns(UI::CheckBox*);
 	void AddLog(const std::string &line);
 	void ChangeCameraPreset(SDLKey, SDLMod);
 	void DrawBackground();
@@ -46,6 +47,7 @@ private:
 	void ResetThrusters();
 	void Screenshot();
 	void SetModel(const std::string& name, bool resetCamera = true);
+	void SetupFilePicker();
 	void SetupUI();
 	void UpdateAnimList();
 	void UpdateCamera();
