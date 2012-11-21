@@ -12,6 +12,7 @@ Widget::Widget(Context *context) :
 	m_container(0),
 	m_position(0),
 	m_size(0),
+	m_sizeControlFlags(0),
 	m_drawOffset(0),
 	m_activeOffset(0),
 	m_activeArea(0),
