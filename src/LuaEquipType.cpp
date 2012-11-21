@@ -28,7 +28,7 @@
  */
 static int l_equiptype_attr_name(lua_State *l)
 {
-	const EquipType *et = LuaEquipType::GetFromLua(1);
+	const EquipType *et = LuaEquipType::CheckFromLua(1);
 	lua_pushstring(l, et->name);
 	return 1;
 }
@@ -48,7 +48,7 @@ static int l_equiptype_attr_name(lua_State *l)
  */
 static int l_equiptype_attr_slot(lua_State *l)
 {
-	const EquipType *et = LuaEquipType::GetFromLua(1);
+	const EquipType *et = LuaEquipType::CheckFromLua(1);
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipSlot", et->slot));
 	return 1;
 }
@@ -70,7 +70,7 @@ static int l_equiptype_attr_slot(lua_State *l)
  */
 static int l_equiptype_attr_base_price(lua_State *l)
 {
-	const EquipType *et = LuaEquipType::GetFromLua(1);
+	const EquipType *et = LuaEquipType::CheckFromLua(1);
 	lua_pushnumber(l, double(et->basePrice)*0.01);
 	return 1;
 }
@@ -91,7 +91,7 @@ static int l_equiptype_attr_base_price(lua_State *l)
  */
 static int l_equiptype_attr_mass(lua_State *l)
 {
-	const EquipType *et = LuaEquipType::GetFromLua(1);
+	const EquipType *et = LuaEquipType::CheckFromLua(1);
 	lua_pushinteger(l, et->mass);
 	return 1;
 }

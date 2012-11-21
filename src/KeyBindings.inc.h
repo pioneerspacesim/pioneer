@@ -52,6 +52,7 @@ KEY_BINDING(decreaseScanRange, "BindDecreaseScanRange", Lang::DECREASE_SCAN_RANG
 BINDING_GROUP(Lang::MISCELLANEOUS)
 KEY_BINDING(toggleHudMode, "BindToggleHudMode", Lang::TOGGLE_HUD_MODE, SDLK_TAB)
 KEY_BINDING(toggleLuaConsole, "BindToggleLuaConsole", Lang::TOGGLE_LUA_CONSOLE, SDLK_BACKQUOTE)
+KEY_BINDING(toggleManualRotation, "BindToggleManualRotation", Lang::TOGGLE_MANUAL_ROTATION, SDLK_r)
 
 BINDING_GROUP(Lang::JOYSTICK_INPUT)
 AXIS_BINDING(pitchAxis, "BindAxisPitch", Lang::PITCH, "-Joy0Axis1")

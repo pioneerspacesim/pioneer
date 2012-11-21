@@ -200,21 +200,19 @@ int main(int argc, char **argv)
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
 #endif
 
-#if 0
 	UI::Slider *red, *green, *blue;
 	UI::ColorBackground *back;
 	c->SetInnerWidget(
 		c->VBox(5.0f)->PackEnd(UI::WidgetSet(
 			c->HBox(5.0f)->PackEnd(c->Label("Red"))->PackEnd(red = c->HSlider()),
 			c->HBox(5.0f)->PackEnd(c->Label("Green"))->PackEnd(green = c->HSlider()),
-			c->HBox(5.0f)->PackEnd(c->Label("Blue"))->PackEnd(blue = c->HSlider()),
-		))->PackEnd(back = c->ColorBackground(Color())),
+			c->HBox(5.0f)->PackEnd(c->Label("Blue"))->PackEnd(blue = c->HSlider())
+		))->PackEnd(c->Expand()->SetInnerWidget(back = c->ColorBackground(Color())))
 	);
 
 	red->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
 	green->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
 	blue->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
-#endif
 
 #if 0
 	c->SetInnerWidget(
