@@ -663,7 +663,7 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 
 		// system labels, and their colours
 		glDepthRange(0,1);
-		Color labelColour = (*i).factionColour;
+		Color labelColour = (*i).faction->colour;
 
 		// if the system isn't populated it doesn't get it's label in faction colours...
 		if ((*i).population == 0) labelColour = Faction::BAD_FACTION_COLOUR;
@@ -699,7 +699,7 @@ void SectorView::DrawFarSector(int sx, int sy, int sz, std::vector<vector3f> &po
 		if (toCentreOfView.Length() > (OUTER_RADIUS * (m_zoom / 6))) continue;
 
 		vector3f starPosition = sysAbsPos - (m_pos * Sector::SIZE);
-		starColor = (*i).factionColour;
+		starColor = (*i).faction->colour;
 		starColor.a = 1.0f;
 
 		points.push_back(starPosition);
@@ -946,7 +946,7 @@ Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 
 	s = new Sector(sectorX, sectorY, sectorZ);
 	m_sectorCache.insert( std::pair<SystemPath,Sector*>(loc, s) );
-	s->ColourFactions();
+	s->AssignFactions();
 
 	return s;
 }

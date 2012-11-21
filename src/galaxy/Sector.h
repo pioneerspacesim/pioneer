@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+class Faction;
+
 class Sector {
 public:
 	// lightyears
@@ -23,8 +25,8 @@ public:
 	bool WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const;	
 	bool Contains(const SystemPath sysPath) const;
 
-	// sets appropriate base factionColours for all systems in the sector
-	void ColourFactions();
+	// sets appropriate factions for all systems in the sector
+	void AssignFactions();
 
 	class System {
 	public:
@@ -40,7 +42,7 @@ public:
 		SystemBody::BodyType starType[4];
 		Uint32 seed;
 		const CustomSystem *customSys;
-		Color factionColour;
+		Faction *faction;
 		fixed population;
 
 	private:

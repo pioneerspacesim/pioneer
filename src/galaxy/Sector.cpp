@@ -325,12 +325,11 @@ bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int
 	return false;
 }
 
-void Sector::ColourFactions()
+void Sector::AssignFactions()
 {	
 	Uint32 index = 0;
-	Color  colour;
 	for (std::vector<Sector::System>::iterator system = m_systems.begin(); system != m_systems.end(); ++system, ++index ) {
-		(*system).factionColour = Faction::GetNearestFactionColour(*this, index);		
+		(*system).faction = Faction::GetNearestFaction(*this, index);
 	}
 }
 

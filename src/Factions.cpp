@@ -11,6 +11,7 @@
 #include "LuaConstants.h"
 #include "Polit.h"
 #include "FileSystem.h"
+#include "Lang.h"
 
 const Uint32 Faction::BAD_FACTION_IDX      = UINT_MAX;
 const Color  Faction::BAD_FACTION_COLOUR   = (0.8f,0.8f,0.8f,0.50f);
@@ -20,6 +21,8 @@ const double Faction::FACTION_CURRENT_YEAR = 3200;
 typedef std::vector<Faction*>  FactionList;
 typedef FactionList::iterator FactionIterator;
 typedef std::map<std::string, Uint32> FactionIndexes;
+
+static Faction        s_no_faction;    // instead of answering null, we often want to answer a working faction object for no faction
 
 static FactionList    s_factions;
 static FactionIndexes s_factions_indexes;
@@ -234,7 +237,8 @@ static int l_fac_add_to_factions(lua_State *L)
 		}
 
 		s_factions.push_back(facbld->fac);
-		s_factions_indexes[facbld->fac->name] = s_factions.size()-1;
+		facbld->fac->idx = s_factions.size()-1;
+		s_factions_indexes[facbld->fac->name] = facbld->fac->idx;
 		facbld->registered = true;
 		return 0;
 	} else if (facbld->skip) {
@@ -413,6 +417,19 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 }
 
 
+Faction* Faction::GetNearestFaction(const Sector sec, Uint32 sysIndex)
+{
+	Uint32 index = GetNearestFactionIndex(sec, sysIndex);	
+	return index == BAD_FACTION_IDX ? &s_no_faction : GetFaction(index);
+}
+
+Faction* Faction::GetNearestFaction(const SystemPath& sysPath)
+{
+	Uint32 index = GetNearestFactionIndex(sysPath);	
+	return index == BAD_FACTION_IDX ? &s_no_faction : GetFaction(index);
+}
+
+
 const Color Faction::GetNearestFactionColour(const Sector sec, Uint32 sysIndex)
 {
 	Uint32 index = Faction::GetNearestFactionIndex(sec, sysIndex);
@@ -432,6 +449,7 @@ const Uint32 Faction::GetIndexOfFaction(const std::string factionName)
 	if (it == s_factions_indexes.end()) return BAD_FACTION_IDX;
 	else                                return it->second;
 }
+
 
 const Polit::GovType Faction::PickGovType(MTRand &rand) const
 {
@@ -475,10 +493,13 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 }
 
 Faction::Faction() :
+	name(Lang::NO_CENTRAL_GOVERNANCE),
 	hasHomeworld(false),
 	foundingDate(0.0),
 	expansionRate(0.0),
-	m_homesector(0)
+	m_homesector(0),
+	colour(BAD_FACTION_COLOUR),
+	idx(BAD_FACTION_IDX)
 {
 	govtype_weights_total = 0;
 }

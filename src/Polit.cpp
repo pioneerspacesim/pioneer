@@ -147,7 +147,7 @@ void NotifyOfCrime(Ship *s, enum Crime crime)
 
 void AddCrime(Sint64 crimeBitset, Sint64 addFine)
 {
-	Uint32 factionIdx = Pi::game->GetSpace()->GetStarSystem()->GetFactionIndex();
+	Uint32 factionIdx = Pi::game->GetSpace()->GetStarSystem()->m_faction->idx;
 
 	if (factionIdx != Faction::BAD_FACTION_IDX) {
 		s_playerPerBlocCrimeRecord[factionIdx].record |= crimeBitset;
@@ -170,7 +170,7 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 		return ;
 	}
 
-	Uint32 factionIdx = Pi::game->GetSpace()->GetStarSystem()->GetFactionIndex();
+	Uint32 factionIdx = Pi::game->GetSpace()->GetStarSystem()->m_faction->idx;
 
 	if (factionIdx != Faction::BAD_FACTION_IDX) {
 		*crimeBitset = s_playerPerBlocCrimeRecord[factionIdx].record;
@@ -204,10 +204,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 			a = Polit::GOV_EARTHDEMOC;
 		} else if (human_infestedness > 0) {
 			// attempt to get the government type from the faction
-			const Faction *fac = Faction::GetFaction( s->GetFactionIndex() );
-			if( fac ) {
-				a = fac->PickGovType(rand);	
-			}
+			a = s->m_faction->PickGovType(rand);
 						
 			// if that fails, either no faction or a faction with no gov types, then pick something at random
 			if (a == GOV_INVALID) {
@@ -233,12 +230,9 @@ bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 	Polit::GovType a = s->GetSysPolit().govType;
 	if (a == GOV_NONE) return true;
 
-	const Uint32 factionIdx = s->GetFactionIndex();
-	if( factionIdx != Faction::BAD_FACTION_IDX ) {
-		const Faction *fac = Faction::GetFaction( factionIdx );
-		assert(fac);
-		Faction::EquipProbMap::const_iterator iter = fac->equip_legality.find(t);
-		if( iter != fac->equip_legality.end() ) {
+	if( s->m_faction->idx != Faction::BAD_FACTION_IDX ) {
+		Faction::EquipProbMap::const_iterator iter = s->m_faction->equip_legality.find(t);
+		if( iter != s->m_faction->equip_legality.end() ) {
 			const uint32_t per = (*iter).second;
 			return (rand.Int32(100) >= per);
 		}

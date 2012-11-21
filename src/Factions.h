@@ -23,9 +23,11 @@ public:
 	static Faction *GetFaction(const Uint32 index);
 	static const Uint32 GetNumFactions();
 
-	static const Color  GetNearestFactionColour(const Sector sec, Uint32 sysIndex);
-	static const Uint32 GetNearestFactionIndex(const Sector sec, Uint32 sysIndex);
-	static const Uint32 GetNearestFactionIndex(const SystemPath& sysPath);
+	static const Color    GetNearestFactionColour(const Sector sec, Uint32 sysIndex);
+	static const Uint32   GetNearestFactionIndex(const Sector sec, Uint32 sysIndex);
+	static const Uint32   GetNearestFactionIndex(const SystemPath& sysPath);
+	static       Faction* GetNearestFaction(const Sector sec, Uint32 sysIndex);
+	static       Faction* GetNearestFaction(const SystemPath& sysPath);
 	
 	static const Uint32 GetIndexOfFaction(const std::string factionName);
 
@@ -36,6 +38,7 @@ public:
 	Faction();
 	~Faction();
 
+	Uint32                  idx;                // faction index
 	std::string				name;				// Formal name "Federation", "Empire", "Bob's Rib-shack consortium of delicious worlds (tm)", etc.
 	std::string				description_short;	// short description
 	std::string				description;		// detailed description describing formation, current status, etc	
