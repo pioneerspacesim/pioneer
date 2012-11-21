@@ -8,7 +8,15 @@
 #include "Context.h"
 
 namespace UI {
-	void LuaInit();
+namespace Lua {
+
+	void Init();
+
+	// get widget from stack. handles table.widget format as well
+	UI::Widget *GetWidget(lua_State *l, int idx);
+	UI::Widget *CheckWidget(lua_State *l, int idx);
+
+}
 }
 
 template <> class LuaAcquirer<UI::Align> : public LuaAcquirerRefCounted {};

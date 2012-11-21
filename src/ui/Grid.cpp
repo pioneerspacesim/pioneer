@@ -136,6 +136,17 @@ void Grid::ClearColumn(unsigned int colNum)
 	}
 }
 
+void Grid::ClearCell(unsigned int colNum, unsigned int rowNum)
+{
+	assert(colNum >= 0 && colNum < m_numCols);
+	assert(rowNum >= 0 && rowNum < m_numRows);
+
+	const unsigned int n = rowNum*m_numCols+colNum;
+	if (m_widgets[n])
+		RemoveWidget(m_widgets[n]);
+	m_widgets[n] = 0;
+}
+
 void Grid::Clear()
 {
 	for (unsigned int i = 0; i < m_numRows*m_numCols; i++)

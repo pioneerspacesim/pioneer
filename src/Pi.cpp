@@ -222,8 +222,8 @@ static void LuaInit()
 	LuaConsole::Register();
 
 	// XXX sigh
-	UI::LuaInit();
-	GameUI::LuaInit();
+	UI::Lua::Init();
+	GameUI::Lua::Init();
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
