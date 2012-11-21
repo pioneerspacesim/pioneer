@@ -26,19 +26,19 @@ static bool click_handler(UI::Widget *w)
 static bool move_handler(const UI::MouseMotionEvent &event, UI::Widget *w)
 {
 	printf("move: %p %s %d,%d\n", w, typeid(*w).name(), event.pos.x, event.pos.y);
-	return false;
+	return true;
 }
 
 static bool over_handler(UI::Widget *w)
 {
 	printf("over: %p %s\n", w, typeid(*w).name());
-	return false;
+	return true;
 }
 
 static bool out_handler(UI::Widget *w)
 {
 	printf("out: %p %s\n", w, typeid(*w).name());
-	return false;
+	return true;
 }
 
 static void colour_change(float v, UI::ColorBackground *back, UI::Slider *r, UI::Slider *g, UI::Slider *b)
@@ -139,12 +139,12 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
-	UI::Button *toggle, *target;
-	UI::Label *label;
+	UI::Button *toggle;
+	UI::CheckBox *target;
 	c->SetInnerWidget(
 		c->HBox(10)->PackEnd(UI::WidgetSet(
 			(toggle = c->Button()),
-			(target = static_cast<UI::Button*>(c->Button()->SetInnerWidget(label = c->Label("trampoline"))))
+			(target = static_cast<UI::CheckBox*>(c->CheckBox()))
 		))
 	);
 
@@ -152,9 +152,6 @@ int main(int argc, char **argv)
 	target->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), target));
 	target->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), target));
 	target->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), target));
-	label->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), label));
-	label->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), label));
-	label->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), label));
 
 #if 0
 	c->SetInnerWidget(
@@ -501,9 +498,9 @@ int main(int argc, char **argv)
 #if 0
 		if (++count % 10 == 0)
 			text->AppendText("line\n");
-#endif
 		if (++count % 100 == 0)
 			toggle_disabled_handler(target);
+#endif
 
 	}
 
