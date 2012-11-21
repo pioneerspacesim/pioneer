@@ -354,6 +354,8 @@ void SectorView::Draw3D()
 	if (m_zoom <= FAR_THRESHOLD) DrawNearSectors(modelview);
 	else                         DrawFarSectors(modelview);
 
+	UpdateFactionLabels();
+
 	m_renderer->SetBlendMode(BLEND_SOLID);
 }
 
@@ -580,9 +582,7 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 		m_sxFar = pos_sx;
 		m_syFar = pos_sy;
 		m_szFar = pos_sz;
-		m_radiusFar = drawRadius;
-		
-		UpdateFactionLabels();
+		m_radiusFar = drawRadius;	
 	}
 
 	m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 2.0f); 
