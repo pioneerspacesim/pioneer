@@ -45,7 +45,7 @@ void Warning(const char *format, ...)
 void LoadWindowIcon()
 {
 	//XXX: This isn't the right place for this, but it's the least invasive place for this.
-	DisableProcessWindowGhosting(); // Prevent Windows from whiting out the screen for "not responding".
+	DisableProcessWindowsGhosting(); // Prevent Windows from whiting out the screen for "not responding".
 	// SDL doc says "Win32 icons must be 32x32".
 	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge32-8b.png");
 	if (surface) {
