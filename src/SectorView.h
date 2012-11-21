@@ -62,7 +62,7 @@ private:
 	void OnClickSystem(const SystemPath &path);
 
 	void UpdateSystemLabels(SystemLabels &labels, const SystemPath &path);
-	void UpdateFactionLabels();
+	void UpdateFactionToggles();
 
 	void UpdateHyperspaceLockLabel();
 
@@ -117,9 +117,13 @@ private:
 	Gui::VBox *m_factionBox;
 	bool m_factionBoxVisible;
 
-	std::set<Faction*>       m_visibleFactions;
-	std::set<Faction*>       m_hiddenFactions;
-	std::vector<Gui::Label*> m_visibleFactionLabels;
+	std::set<Faction*>              m_visibleFactions;
+	std::set<Faction*>              m_hiddenFactions;
+	std::vector<Gui::Label*>        m_visibleFactionLabels;
+	std::vector<Gui::HBox*>         m_visibleFactionRows;
+	std::vector<Gui::ToggleButton*> m_visibleFactionToggles;
+
+	void OnToggleFaction(Gui::ToggleButton* button, bool pressed, Faction* faction);
 
 	sigc::connection m_onMouseButtonDown;
 	sigc::connection m_onKeyPressConnection;
@@ -133,10 +137,11 @@ private:
 	std::vector<vector3f> m_farstars;
 	std::vector<Color>    m_farstarsColor;
 
-	int m_sxFar;
-	int m_syFar;
-	int m_szFar;
-	int m_radiusFar;
+	int  m_sxFar;
+	int  m_syFar;
+	int  m_szFar;
+	int  m_radiusFar;
+	bool m_toggledFaction;
 };
 
 #endif /* _SECTORVIEW_H */

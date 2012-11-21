@@ -51,6 +51,7 @@ SectorView::SectorView()
 	m_selectionFollowsMovement = true;
 	m_infoBoxVisible           = true;
 	m_factionBoxVisible        = false;
+	m_toggledFaction           = false;
 
 	InitObject();
 }
@@ -354,7 +355,7 @@ void SectorView::Draw3D()
 	if (m_zoom <= FAR_THRESHOLD) DrawNearSectors(modelview);
 	else                         DrawFarSectors(modelview);
 
-	UpdateFactionLabels();
+	UpdateFactionToggles();
 
 	m_renderer->SetBlendMode(BLEND_SOLID);
 }
@@ -513,26 +514,48 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 		m_infoBox->ShowAll();
 }
 
-void SectorView::UpdateFactionLabels()
+void SectorView::OnToggleFaction(Gui::ToggleButton* button, bool pressed, Faction* faction)
+{
+	// hide on show the faction's systems depending on whether the button is pressed
+	if (pressed) m_hiddenFactions.erase(faction);
+	else         m_hiddenFactions.insert(faction);
+	
+	m_toggledFaction = true;
+}
+
+void SectorView::UpdateFactionToggles()
 {	
-	// make sure we have enough labels in the ui
+	// make sure we have enough row in the ui
 	while (m_visibleFactionLabels.size() < m_visibleFactions.size()) {
-		Gui::Label* label = new Gui::Label("");
-		m_factionBox->PackEnd(label);
+		Gui::HBox*         row    = new Gui::HBox();
+		Gui::ToggleButton* toggle = new Gui::ToggleButton();
+		Gui::Label*        label  = new Gui::Label("");
+
+		m_visibleFactionToggles.push_back(toggle);
 		m_visibleFactionLabels.push_back(label);
+		m_visibleFactionRows.push_back(row);
+
+		row->SetSpacing(5.0f);
+		row->PackEnd(toggle);
+		row->PackEnd(label);
+		m_factionBox->PackEnd(row);
 	}
 
-	// set the text and color for each of the faction labels
-	Uint32 labelIdx = 0;
-	for (std::set<Faction*>::iterator it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it, ++labelIdx) {
-		m_visibleFactionLabels[labelIdx]->SetText((*it)->name);
-		m_visibleFactionLabels[labelIdx]->Color((*it)->colour);
-		m_visibleFactionLabels[labelIdx]->Show();
+	// set the text and color for each of the faction labels, and the toggle state for the toggles
+	Uint32 rowIdx = 0;
+	for (std::set<Faction*>::iterator it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it, ++rowIdx) {
+		m_visibleFactionLabels [rowIdx]->SetText((*it)->name);
+		m_visibleFactionLabels [rowIdx]->Color((*it)->colour);
+		m_visibleFactionToggles[rowIdx]->onChange.clear();
+		m_visibleFactionToggles[rowIdx]->SetPressed(m_hiddenFactions.find((*it)) == m_hiddenFactions.end());
+		m_visibleFactionToggles[rowIdx]->onChange.connect(sigc::bind(sigc::mem_fun(this, &SectorView::OnToggleFaction),*it));
+		m_visibleFactionRows   [rowIdx]->ShowAll();
 	}
 
-	// hide any labels we're not using
-	for (; labelIdx < m_visibleFactionLabels.size(); labelIdx++) {
-		m_visibleFactionLabels[labelIdx]->Hide();
+	// hide any rows, and disconnect any event handlers for the their toggle
+	for (; rowIdx < m_visibleFactionLabels.size(); rowIdx++) {
+		m_visibleFactionToggles[rowIdx]->onChange.clear();
+		m_visibleFactionRows   [rowIdx]->Hide();
 	}
 
 	if  (m_factionBoxVisible) m_factionBox->Show();
@@ -566,7 +589,7 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 	const int pos_sz = int(floorf(m_pos.z));
 
 	// build vertex and colour arrays for all the stars we want to see, if we don't already have them
-	if (m_farstars.size() == 0 || pos_sx != m_sxFar || pos_sy != m_syFar || pos_sz != m_szFar || drawRadius != m_radiusFar ) {
+	if (m_farstars.size() == 0 || m_toggledFaction || pos_sx != m_sxFar || pos_sy != m_syFar || pos_sz != m_szFar || drawRadius != m_radiusFar ) {
 		m_farstars.resize(0);
 		m_farstarsColor.resize(0);
 		m_visibleFactions.clear();
@@ -583,6 +606,7 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 		m_syFar = pos_sy;
 		m_szFar = pos_sz;
 		m_radiusFar = drawRadius;	
+		m_toggledFaction = false;
 	}
 
 	m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 2.0f); 
@@ -820,7 +844,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 		if (m_infoBoxVisible) m_infoBox->ShowAll();
 		else                  m_infoBox->HideAll();
 
-		if (m_factionBoxVisible) UpdateFactionLabels();
+		if (m_factionBoxVisible) UpdateFactionToggles();
 		else                     m_factionBox->HideAll();
 		return;
 	}
