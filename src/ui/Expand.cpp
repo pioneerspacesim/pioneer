@@ -7,12 +7,21 @@ namespace UI {
 
 Point Expand::PreferredSize()
 {
-	if (m_direction == BOTH)
-		return Point(SIZE_EXPAND);
+	const Point innerPreferredSize(GetInnerWidget() ? CalcLayoutContribution(GetInnerWidget()) : Point());
 
-	const Point innerPreferredSize(GetInnerWidget() ? GetInnerWidget()->PreferredSize() : Point());
+	switch (m_direction) {
+		case BOTH:
+			SetSizeControlFlags(EXPAND_WIDTH | EXPAND_HEIGHT);
+			break;
+		case HORIZONTAL:
+			SetSizeControlFlags(EXPAND_WIDTH);
+			break;
+		case VERTICAL:
+			SetSizeControlFlags(EXPAND_HEIGHT);
+			break;
+	}
 
-	return m_direction == HORIZONTAL ? Point(SIZE_EXPAND, innerPreferredSize.y) : Point(innerPreferredSize.x, SIZE_EXPAND);
+	return innerPreferredSize;
 }
 
 }
