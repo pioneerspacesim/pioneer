@@ -22,6 +22,8 @@
 
 /* Begin PBXBuildFile section */
 		4A01889715A59908002F540B /* SystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A01889615A59908002F540B /* SystemPath.cpp */; };
+		4A0F25CE165CF00D00208507 /* LuaSmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */; };
+		4A0F25CF165CF00D00208507 /* SmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F25CC165CF00D00208507 /* SmallButton.cpp */; };
 		4A107C2F1525AB0D00EF9FAC /* CRC32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A107C2B1525AB0D00EF9FAC /* CRC32.cpp */; };
 		4A107C301525AB0D00EF9FAC /* ShipController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A107C2D1525AB0D00EF9FAC /* ShipController.cpp */; };
 		4A19038C138AA33300E0229C /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A190325138AA33300E0229C /* Gui.cpp */; };
@@ -474,6 +476,9 @@
 
 /* Begin PBXFileReference section */
 		4A01889615A59908002F540B /* SystemPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemPath.cpp; sourceTree = "<group>"; };
+		4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSmallButton.cpp; sourceTree = "<group>"; };
+		4A0F25CC165CF00D00208507 /* SmallButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmallButton.cpp; sourceTree = "<group>"; };
+		4A0F25CD165CF00D00208507 /* SmallButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallButton.h; sourceTree = "<group>"; };
 		4A107C2B1525AB0D00EF9FAC /* CRC32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CRC32.cpp; sourceTree = "<group>"; };
 		4A107C2C1525AB0D00EF9FAC /* CRC32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRC32.h; sourceTree = "<group>"; };
 		4A107C2D1525AB0D00EF9FAC /* ShipController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShipController.cpp; sourceTree = "<group>"; };
@@ -1954,6 +1959,7 @@
 				4ABF306216335A1100664653 /* LuaSignal.h */,
 				4ABF306316335A1100664653 /* LuaSingle.cpp */,
 				4ABF306416335A1100664653 /* LuaSlider.cpp */,
+				4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */,
 				4AFBD7BA16412676002928CB /* LuaTextEntry.cpp */,
 				4ABF306516335A1100664653 /* LuaWidget.cpp */,
 				4ABF306716335A1100664653 /* Margin.cpp */,
@@ -1969,6 +1975,8 @@
 				4ABF307116335A1100664653 /* Skin.h */,
 				4ABF307216335A1100664653 /* Slider.cpp */,
 				4ABF307316335A1100664653 /* Slider.h */,
+				4A0F25CC165CF00D00208507 /* SmallButton.cpp */,
+				4A0F25CD165CF00D00208507 /* SmallButton.h */,
 				4AFBD7BB16412676002928CB /* TextEntry.cpp */,
 				4AFBD7BC16412676002928CB /* TextEntry.h */,
 				4ABF307416335A1100664653 /* TextLayout.cpp */,
@@ -2463,6 +2471,8 @@
 				4A24FD5E1650F4B700DE7B0F /* UIView.cpp in Sources */,
 				4A24FD671650F4D100DE7B0F /* Lua.cpp in Sources */,
 				4A24FD691650F4D100DE7B0F /* Panel.cpp in Sources */,
+				4A0F25CE165CF00D00208507 /* LuaSmallButton.cpp in Sources */,
+				4A0F25CF165CF00D00208507 /* SmallButton.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
