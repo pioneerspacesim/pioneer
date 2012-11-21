@@ -102,6 +102,9 @@ bool EventDispatcher::Dispatch(const Event &event)
 			switch (mouseButtonEvent.action) {
 
 				case MouseButtonEvent::BUTTON_DOWN: {
+					if (target->IsDisabled())
+						return false;
+
 					// activate widget and remember it
 					if (!m_mouseActiveReceiver) {
 						m_mouseActiveReceiver = target;
@@ -128,8 +131,11 @@ bool EventDispatcher::Dispatch(const Event &event)
 						m_mouseActiveReceiver.Reset();
 
 						// send the straight up event too
-						MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, m_lastMousePosition-target->GetAbsolutePosition());
-						bool ret = target->TriggerMouseUp(translatedEvent);
+						bool ret = false;
+						if (!target->IsDisabled()) {
+							MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, m_lastMousePosition-target->GetAbsolutePosition());
+							ret = target->TriggerMouseUp(translatedEvent);
+						}
 
 						DispatchMouseOverOut(target.Get(), m_lastMousePosition);
 
@@ -158,8 +164,11 @@ bool EventDispatcher::Dispatch(const Event &event)
 			// widget directly under the mouse
 			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
 
-			MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-target->GetAbsolutePosition());
-			bool ret = target->TriggerMouseMove(translatedEvent);
+			bool ret = false;
+			if (!target->IsDisabled()) {
+				MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-target->GetAbsolutePosition());
+				ret = target->TriggerMouseMove(translatedEvent);
+			}
 
 			DispatchMouseOverOut(target.Get(), m_lastMousePosition);
 
@@ -184,7 +193,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 void EventDispatcher::DispatchMouseOverOut(Widget *target, const Point &mousePos)
 {
 	// do over/out handling for wherever the mouse is right now
-	if (target != m_lastMouseOverTarget.Get()) {
+	if (target != m_lastMouseOverTarget.Get() || target->IsDisabled()) {
 
 		if (m_lastMouseOverTarget) {
 
@@ -207,8 +216,12 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const Point &mousePos
 			m_lastMouseOverTarget->TriggerMouseOut(outPos);
 		}
 
-		m_lastMouseOverTarget.Reset(target);
-		m_lastMouseOverTarget->TriggerMouseOver(mousePos-m_lastMouseOverTarget->GetAbsolutePosition());
+		if (target->IsDisabled())
+			m_lastMouseOverTarget.Reset(0);
+		else {
+			m_lastMouseOverTarget.Reset(target);
+			m_lastMouseOverTarget->TriggerMouseOver(mousePos-m_lastMouseOverTarget->GetAbsolutePosition());
+		}
 	}
 }
 
@@ -244,6 +257,30 @@ void EventDispatcher::DeselectWidget(Widget *target)
 	if (!target->IsSelected())
 		return;
 	DispatchSelect(0);
+}
+
+void EventDispatcher::DisableWidget(Widget *target)
+{
+	DeselectWidget(target);
+
+	if (m_mouseActiveReceiver && m_mouseActiveReceiver.Get() == target) {
+		m_mouseActiveReceiver->TriggerMouseDeactivate();
+		m_mouseActiveReceiver.Reset();
+	}
+
+	// if the mouse is over the target, then the mouse is also over all of the
+	// children. find the top one and deliver a MouseOut event to them all
+	if (target->IsMouseOver()) {
+		RefCountedPtr<Widget> top(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
+		top->TriggerMouseOut(top->GetAbsolutePosition(), true, target); // stop at target
+		m_lastMouseOverTarget.Reset(0);
+	}
+}
+
+void EventDispatcher::EnableWidget(Widget *target)
+{
+	RefCountedPtr<Widget> top(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
+	DispatchMouseOverOut(top.Get(), m_lastMousePosition);
 }
 
 void EventDispatcher::Update()
