@@ -20,12 +20,12 @@ const double Faction::FACTION_CURRENT_YEAR = 3200;
 
 typedef std::vector<Faction*>  FactionList;
 typedef FactionList::iterator FactionIterator;
-typedef std::map<std::string, Uint32> FactionIndexes;
+typedef std::map<std::string, Faction*> FactionMap;
 
-static Faction        s_no_faction;    // instead of answering null, we often want to answer a working faction object for no faction
+static Faction     s_no_faction;    // instead of answering null, we often want to answer a working faction object for no faction
 
-static FactionList    s_factions;
-static FactionIndexes s_factions_indexes;
+static FactionList s_factions;
+static FactionMap  s_factions_byName;
 
 // ------- Faction --------
 
@@ -110,7 +110,7 @@ static int l_fac_govtype_weight(lua_State *L)
 	Faction *fac = l_fac_check(L, 1);
 	const char *typeName = luaL_checkstring(L, 2);
 	const Polit::GovType g = static_cast<Polit::GovType>(LuaConstants::GetConstant(L, "PolitGovType", typeName));
-	const int32_t weight = luaL_checkint(L, 3);	// signed as we will need to compare with signed out of MTRand.Int32
+	const Sint32 weight = luaL_checkint(L, 3);	// signed as we will need to compare with signed out of MTRand.Int32
 
 	if (g < Polit::GOV_RAND_MIN || g > Polit::GOV_RAND_MAX) {
 		pi_lua_warn(L,
@@ -179,7 +179,7 @@ static int l_fac_illegal_goods_probability(lua_State *L)
 	Faction *fac = l_fac_check(L, 1);
 	const char *typeName = luaL_checkstring(L, 2);
 	const Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(L, "EquipType", typeName));
-	const uint32_t probability = luaL_checkunsigned(L, 3);
+	const Uint32 probability = luaL_checkunsigned(L, 3);
 
 	if (e < Equip::FIRST_COMMODITY || e > Equip::LAST_COMMODITY) {
 		pi_lua_warn(L,
@@ -238,7 +238,7 @@ static int l_fac_add_to_factions(lua_State *L)
 
 		s_factions.push_back(facbld->fac);
 		facbld->fac->idx = s_factions.size()-1;
-		s_factions_indexes[facbld->fac->name] = facbld->fac->idx;
+		s_factions_byName[facbld->fac->name] = facbld->fac;
 		facbld->registered = true;
 		return 0;
 	} else if (facbld->skip) {
@@ -329,7 +329,7 @@ void Faction::Uninit()
 		delete *it;
 	}
 	s_factions.clear();
-	s_factions_indexes.clear();
+	s_factions_byName.clear();
 }
 
 
@@ -337,6 +337,15 @@ Faction *Faction::GetFaction(const Uint32 index)
 {
 	assert( index < s_factions.size() );
 	return s_factions[index];
+}
+
+Faction* Faction::GetFaction(const std::string factionName)
+{
+	if (s_factions_byName.find(factionName) != s_factions_byName.end()) {
+		return s_factions_byName[factionName];
+	} else {
+		return &s_no_faction;
+	}
 }
 
 const Uint32 Faction::GetNumFactions()
@@ -387,76 +396,31 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector
 	}
 }
 
-const Uint32 Faction::GetNearestFactionIndex(const Sector sec, Uint32 sysIndex)
-{
-	Uint32 ret_index = BAD_FACTION_IDX;
-
-	/* firstly if this a custom StarSystem it may already have a faction assigned
-	*/
-	if (sec.m_systems[sysIndex].customSys) {
-		ret_index = sec.m_systems[sysIndex].customSys->factionIdx;
-	}
-		
-	/* if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
-	*/
-	if (ret_index == BAD_FACTION_IDX) {
-		Uint32 index              = 0;
-		double closestFactionDist = HUGE_VAL;
-	
-		for (FactionIterator it = s_factions.begin(); it != s_factions.end(); ++it, ++index) {
-			if ((*it)->IsCloserAndContains(closestFactionDist, sec, sysIndex)) ret_index = index;
-		}
-	}
-	return ret_index;
-}
-
-const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
-{	
-	Sector sec(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
-	return GetNearestFactionIndex(sec, sysPath.systemIndex);
-}
-
-
 Faction* Faction::GetNearestFaction(const Sector sec, Uint32 sysIndex)
 {
-	Uint32 index = GetNearestFactionIndex(sec, sysIndex);	
-	return index == BAD_FACTION_IDX ? &s_no_faction : GetFaction(index);
-}
-
-Faction* Faction::GetNearestFaction(const SystemPath& sysPath)
-{
-	Uint32 index = GetNearestFactionIndex(sysPath);	
-	return index == BAD_FACTION_IDX ? &s_no_faction : GetFaction(index);
-}
-
-
-const Color Faction::GetNearestFactionColour(const Sector sec, Uint32 sysIndex)
-{
-	Uint32 index = Faction::GetNearestFactionIndex(sec, sysIndex);
-	
-	if (index == BAD_FACTION_IDX) return BAD_FACTION_COLOUR;
-	else { 
-		Color colour = GetFaction(index)->colour;
-		colour.a = FACTION_BASE_ALPHA;
-		return colour; 
+	/* firstly if this a custom StarSystem it may already have a faction assigned
+	*/
+	if (sec.m_systems[sysIndex].customSys && sec.m_systems[sysIndex].customSys->faction) {
+		return sec.m_systems[sysIndex].customSys->faction;
 	}
+
+	/* if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
+	*/
+	Faction* result             = &s_no_faction;
+	double   closestFactionDist = HUGE_VAL;
+
+	for (FactionIterator it = s_factions.begin(); it != s_factions.end(); ++it) {
+		if ((*it)->IsCloserAndContains(closestFactionDist, sec, sysIndex)) result = *it;
+	}
+	return result;
 }
-
-const Uint32 Faction::GetIndexOfFaction(const std::string factionName)
-{
-	FactionIndexes::iterator it = s_factions_indexes.find(factionName);
-
-	if (it == s_factions_indexes.end()) return BAD_FACTION_IDX;
-	else                                return it->second;
-}
-
 
 const Polit::GovType Faction::PickGovType(MTRand &rand) const
 {
 	if( !govtype_weights.empty()) {
 		// if we roll a number between one and the total weighting...
-		int32_t roll = rand.Int32(1, govtype_weights_total);
-		int32_t cumulativeWeight = 0;
+		Sint32 roll = rand.Int32(1, govtype_weights_total);
+		Sint32 cumulativeWeight = 0;
 
 		// ...the first govType with a cumulative weight >= the roll should be our pick
 		GovWeightIterator it = govtype_weights.begin();
@@ -480,13 +444,13 @@ const Polit::GovType Faction::PickGovType(MTRand &rand) const
 void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi)
 {
 	// if the current sector specified is empty move to a sector 
-	// closer to the origin on the x-axis until we find one that isn't
-	while (si < 0 && x != 0 ) {
+	// closer to the origin on the z-axis until we find one that isn't
+	while (si < 0 && z != 0 ) {
 		Sector sec(x,y,z);
 		if (sec.m_systems.size() > 0 ) {
 			si = 0;
 		} else {
-			if (x > 0) { --x; } else { ++x; };
+			if (z > 0) { --x; } else { ++z; };
 		}
 	}
 	homeworld = SystemPath(x, y, z, si, bi);

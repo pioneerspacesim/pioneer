@@ -147,11 +147,11 @@ void NotifyOfCrime(Ship *s, enum Crime crime)
 
 void AddCrime(Sint64 crimeBitset, Sint64 addFine)
 {
-	Uint32 factionIdx = Pi::game->GetSpace()->GetStarSystem()->m_faction->idx;
+	const Faction* faction = Pi::game->GetSpace()->GetStarSystem()->m_faction;
 
-	if (factionIdx != Faction::BAD_FACTION_IDX) {
-		s_playerPerBlocCrimeRecord[factionIdx].record |= crimeBitset;
-		s_playerPerBlocCrimeRecord[factionIdx].fine += addFine;
+	if (faction->IsValid()) {
+		s_playerPerBlocCrimeRecord[faction->idx].record |= crimeBitset;
+		s_playerPerBlocCrimeRecord[faction->idx].fine   += addFine;
 	} else {
 		SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 		Sint64 record = s_criminalRecord.Get(path, 0);
@@ -170,11 +170,11 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 		return ;
 	}
 
-	Uint32 factionIdx = Pi::game->GetSpace()->GetStarSystem()->m_faction->idx;
+	const Faction* faction = Pi::game->GetSpace()->GetStarSystem()->m_faction;
 
-	if (factionIdx != Faction::BAD_FACTION_IDX) {
-		*crimeBitset = s_playerPerBlocCrimeRecord[factionIdx].record;
-		*fine = s_playerPerBlocCrimeRecord[factionIdx].fine;
+	if (faction->IsValid()) {
+		*crimeBitset = s_playerPerBlocCrimeRecord[faction->idx].record;
+		*fine        = s_playerPerBlocCrimeRecord[faction->idx].fine;
 	} else {
 		SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 		*crimeBitset = s_criminalRecord.Get(path, 0);

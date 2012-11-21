@@ -541,7 +541,7 @@ void SectorView::UpdateFactionToggles()
 		m_factionBox->PackEnd(row);
 	}
 
-	// set the text and color for each of the faction labels, and the toggle state for the toggles
+	// set up the faction labels, and the toggle buttons
 	Uint32 rowIdx = 0;
 	for (std::set<Faction*>::iterator it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it, ++rowIdx) {
 		m_visibleFactionLabels [rowIdx]->SetText((*it)->name);
@@ -552,7 +552,7 @@ void SectorView::UpdateFactionToggles()
 		m_visibleFactionRows   [rowIdx]->ShowAll();
 	}
 
-	// hide any rows, and disconnect any event handlers for the their toggle
+	// hide any rows, and disconnect any toggle event handler, that we're not using
 	for (; rowIdx < m_visibleFactionLabels.size(); rowIdx++) {
 		m_visibleFactionToggles[rowIdx]->onChange.clear();
 		m_visibleFactionRows   [rowIdx]->Hide();
@@ -609,6 +609,7 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 		m_toggledFaction = false;
 	}
 
+	// always draw the stars
 	m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 2.0f); 
 }
 
