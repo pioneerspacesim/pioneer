@@ -45,7 +45,7 @@ namespace {
 
 	//add a horizontal button/label pair to a box
 	void add_pair(UI::Context *c, UI::Box *box, UI::Widget *widget, const std::string &label) {
-		box->PackEnd(c->HBox()->PackEnd(UI::WidgetSet( widget, c->Label(label) )));
+		box->PackEnd(c->HBox(5)->PackEnd(UI::WidgetSet( widget, c->Label(label) )));
 	}
 }
 
@@ -690,15 +690,16 @@ void ModelViewer::SetupUI()
 		animSlider = 0;
 	}
 
-	const float spacing = 5.f;
-	UI::Button *reloadButton;
-	UI::Button *toggleGridButton;
+	const int spacing = 5;
+
+	UI::SmallButton *reloadButton;
+	UI::SmallButton *toggleGridButton;
 	UI::CheckBox *collMeshCheck;
 	UI::CheckBox *gunsCheck;
 
 	UI::VBox* outerBox = c->VBox();
 
-	UI::VBox* mainBox = c->VBox();
+	UI::VBox* mainBox = c->VBox(5);
 	UI::HBox* sliderBox = c->HBox();
 
 	outerBox->PackEnd(UI::WidgetSet(
@@ -714,7 +715,7 @@ void ModelViewer::SetupUI()
 	//model name + reload button: visible even if loading failed
 	mainBox->PackEnd(nameLabel = c->Label(m_modelName));
 	nameLabel->SetFont(UI::Widget::FONT_NORMAL);
-	add_pair(c, mainBox, reloadButton = c->Button(), "Reload model");
+	add_pair(c, mainBox, reloadButton = c->SmallButton(), "Reload model");
 	reloadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnReloadModel), reloadButton));
 
 	if (m_model == 0) {
@@ -722,7 +723,7 @@ void ModelViewer::SetupUI()
 		return;
 	}
 
-	add_pair(c, mainBox, toggleGridButton = c->Button(), "Grid mode");
+	add_pair(c, mainBox, toggleGridButton = c->SmallButton(), "Grid mode");
 	add_pair(c, mainBox, collMeshCheck = c->CheckBox(), "Collision mesh");
 
 	//pattern selector
