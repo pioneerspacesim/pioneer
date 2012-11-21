@@ -1050,9 +1050,10 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 	CustomGetKidsOf(rootBody, csbody->children, &humanInfestedness, rand);
 	Populate(false);
 
-	char filename[500];
-	snprintf(filename, 500, "tmp-sys/%s.lua", GetName().c_str());
-	ExportToLua(filename);
+	// an example re-export of custom system, can be removed during the merge
+	//char filename[500];
+	//snprintf(filename, 500, "tmp-sys/%s.lua", GetName().c_str());
+	//ExportToLua(filename);
 
 }
 
@@ -1512,9 +1513,10 @@ try_that_again_guvnah:
 
 	Populate(true);
 
-	char filename[500];
-	snprintf(filename, 500, "tmp-sys/%s.lua", GetName().c_str());
-	ExportToLua(filename);
+	// an example export of generated system, can be removed during the merge
+	//char filename[500];
+	//snprintf(filename, 500, "tmp-sys/%s.lua", GetName().c_str());
+	//ExportToLua(filename);
 
 #ifdef DEBUG_DUMP
 	Dump();
