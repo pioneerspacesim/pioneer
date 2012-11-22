@@ -210,8 +210,8 @@ void SectorView::InitObject()
 	m_factionBox->SetTransparency(false);
 	m_factionBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
 	m_factionBox->SetSpacing(5.0f);
-	Add(m_factionBox, 5, 5);
 	m_factionBox->HideAll();
+	Add(m_factionBox, 5, 5);
 }
 
 SectorView::~SectorView()
@@ -601,15 +601,17 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 
 	// build vertex and colour arrays for all the stars we want to see, if we don't already have them
 	if (m_toggledFaction || pos_sx != m_sxFar || pos_sy != m_syFar || pos_sz != m_szFar || drawRadius != m_radiusFar ) {
-		m_farstars.resize(0);
-		m_farstarsColor.resize(0);
+		m_farstars       .clear();
+		m_farstarsColor  .clear();
 		m_visibleFactions.clear();
 
 		vector3f pos_s = vector3f(pos_sx, pos_sy, pos_sz);
 		for (int sx = pos_sx-drawRadius; sx <= pos_sx+drawRadius; sx++) {
 			for (int sy = pos_sy-drawRadius; sy <= pos_sy+drawRadius; sy++) {
 				for (int sz = pos_sz-drawRadius; sz <= pos_sz+drawRadius; sz++) {
-						DrawFarSector(sx, sy, sz, pos_s, drawRadius, m_farstars, m_farstarsColor);
+						if ((vector3f(sx,sy,sz) - pos_s).Length() <= drawRadius){
+							DrawFarSector(sx, sy, sz, pos_s, drawRadius, m_farstars, m_farstarsColor);
+						}
 					}
 				}
 			}
