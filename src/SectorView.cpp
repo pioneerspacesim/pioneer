@@ -25,6 +25,8 @@ using namespace Graphics;
 
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
+#define FAR_THRESHOLD 5.f
+
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
 
@@ -316,8 +318,6 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 
 
 #define DRAW_RAD	  3
-#define FAR_THRESHOLD 5.f
-
 #define FFRAC(_x)	((_x)-floor(_x))
 
 void SectorView::Draw3D()
@@ -397,6 +397,9 @@ void SectorView::ResetHyperspaceTarget()
 void SectorView::GotoSector(const SystemPath &path)
 {
 	m_posMovingTo = vector3f(path.sectorX, path.sectorY, path.sectorZ);
+
+	// for performance don't animate the travel if we're Far Zoomed
+	if (m_zoom > FAR_THRESHOLD) m_pos = m_posMovingTo;
 }
 
 void SectorView::GotoSystem(const SystemPath &path)
@@ -406,6 +409,9 @@ void SectorView::GotoSystem(const SystemPath &path)
 	m_posMovingTo.x = path.sectorX + p.x/Sector::SIZE;
 	m_posMovingTo.y = path.sectorY + p.y/Sector::SIZE;
 	m_posMovingTo.z = path.sectorZ + p.z/Sector::SIZE;
+
+	// for performance don't animate the travel if we're Far Zoomed
+	if (m_zoom > FAR_THRESHOLD) m_pos = m_posMovingTo;
 }
 
 void SectorView::SetSelectedSystem(const SystemPath &path)
@@ -1042,7 +1048,7 @@ void SectorView::ShrinkCache()
 {
 	// we're going to use these to determine if our sectors are within the range that we'll ever render
 	int drawRadius = ceilf((m_zoom + 1) / 2);
-	if (m_zoom <= 5.f || drawRadius < DRAW_RAD) drawRadius = DRAW_RAD;
+	if (m_zoom <= FAR_THRESHOLD || drawRadius < DRAW_RAD) drawRadius = DRAW_RAD;
 
 	const int xmin = int(floorf(m_pos.x))-drawRadius;
 	const int xmax = int(ceilf(m_pos.x))+drawRadius;
