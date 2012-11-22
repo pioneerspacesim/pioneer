@@ -87,6 +87,11 @@ void SectorView::InitDefaults()
 	m_rotXDefault = Clamp(m_rotXDefault, -170.0f, -10.0f);
 	m_zoomDefault = Clamp(m_zoomDefault, 0.1f, 5.0f);
 	m_previousSearch = "";
+
+	m_sxFar     = INT_MAX;
+	m_syFar     = INT_MAX;
+	m_szFar     = INT_MAX;
+	m_radiusFar = 0;
 }
 
 void SectorView::InitObject()
@@ -595,7 +600,7 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 	const int pos_sz = int(floorf(m_pos.z));
 
 	// build vertex and colour arrays for all the stars we want to see, if we don't already have them
-	if (m_farstars.size() == 0 || m_toggledFaction || pos_sx != m_sxFar || pos_sy != m_syFar || pos_sz != m_szFar || drawRadius != m_radiusFar ) {
+	if (m_toggledFaction || pos_sx != m_sxFar || pos_sy != m_syFar || pos_sz != m_szFar || drawRadius != m_radiusFar ) {
 		m_farstars.resize(0);
 		m_farstarsColor.resize(0);
 		m_visibleFactions.clear();
