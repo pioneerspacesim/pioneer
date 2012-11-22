@@ -347,9 +347,9 @@ void SectorView::Draw3D()
 	modelview.Translate(0.f, 0.f, -10.f-10.f*m_zoom);
 	modelview.Rotate(DEG2RAD(m_rotX), 1.f, 0.f, 0.f);
 	modelview.Rotate(DEG2RAD(m_rotZ), 0.f, 0.f, 1.f);
-	modelview.Translate(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
+	modelview.Translate(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);	
 	m_renderer->SetTransform(modelview);
-
+	
 	m_renderer->SetBlendMode(BLEND_ALPHA);
 
 	if (m_zoom <= FAR_THRESHOLD) DrawNearSectors(modelview);
@@ -600,10 +600,11 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 		m_farstarsColor.resize(0);
 		m_visibleFactions.clear();
 
+		vector3f pos_s = vector3f(pos_sx, pos_sy, pos_sz);
 		for (int sx = pos_sx-drawRadius; sx <= pos_sx+drawRadius; sx++) {
 			for (int sy = pos_sy-drawRadius; sy <= pos_sy+drawRadius; sy++) {
 				for (int sz = pos_sz-drawRadius; sz <= pos_sz+drawRadius; sz++) {
-						DrawFarSector(sx, sy, sz, drawRadius, m_farstars, m_farstarsColor);
+						DrawFarSector(sx, sy, sz, pos_s, drawRadius, m_farstars, m_farstarsColor);
 					}
 				}
 			}
@@ -764,7 +765,7 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 	}
 }
 
-void SectorView::DrawFarSector(int sx, int sy, int sz, int drawRadius, std::vector<vector3f> &points, std::vector<Color> &colors)
+void SectorView::DrawFarSector(int sx, int sy, int sz, vector3f &pos_s, int drawRadius, std::vector<vector3f> &points, std::vector<Color> &colors)
 {
 	Sector* ps = GetCached(sx, sy, sz);
 
@@ -781,8 +782,9 @@ void SectorView::DrawFarSector(int sx, int sy, int sz, int drawRadius, std::vect
 		m_visibleFactions.insert(i->faction);
 		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end()) continue;
 
-		// otherwise add the system's position and faction color to the list to draw
-		vector3f starPosition = sysAbsPos - (m_pos * Sector::SIZE);
+		// otherwise add the system's position (origin must be m_pos's *sector* or we get judder) 
+		// and faction color to the list to draw
+		vector3f starPosition = sysAbsPos - (pos_s * Sector::SIZE);
 		starColor = (*i).faction->colour;
 
 		points.push_back(starPosition);
