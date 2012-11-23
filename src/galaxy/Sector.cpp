@@ -24,7 +24,7 @@ void Sector::GetCustomSystems()
 
 	for (std::vector<CustomSystem*>::const_iterator it = systems.begin(); it != systems.end(); it++) {
 		const CustomSystem *cs = *it;
-		System s;
+		System s(sx, sy, sz);
 		s.p = SIZE*cs->pos;
 		s.name = cs->name;
 		for (s.numStars=0; s.numStars<cs->numStars; s.numStars++) {
@@ -46,7 +46,7 @@ Sector::Sector(int x, int y, int z)
 	sx = x; sy = y; sz = z;
 	MTRand rng(_init, 4);
 	MTRand rand(UNIVERSE_SEED);
-
+	
 	GetCustomSystems();
 
 	/* Always place random systems outside the core custom-only region */
@@ -56,7 +56,7 @@ Sector::Sector(int x, int y, int z)
 		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(x, y, z)) >> 8;
 
 		for (int i=0; i<numSystems; i++) {
-			System s;
+			System s(sx, sy, sz);
 			
 			switch (rng.Int32(15)) {
 				case 0:
@@ -72,6 +72,7 @@ Sector::Sector(int x, int y, int z)
 			s.p.x = rng.Double(SIZE);
 			s.p.y = rng.Double(SIZE);
 			s.p.z = rng.Double(SIZE);
+
 			s.seed = 0;
 			s.customSys = 0;
 
@@ -342,4 +343,3 @@ bool Sector::Contains(const SystemPath sysPath) const
 	if (sz != sysPath.sectorZ) return false;
 	return true;
 }
-

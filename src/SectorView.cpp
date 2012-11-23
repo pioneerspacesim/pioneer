@@ -598,6 +598,7 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 	const int pos_sx = int(floorf(m_pos.x));
 	const int pos_sy = int(floorf(m_pos.y));
 	const int pos_sz = int(floorf(m_pos.z));
+	vector3f  pos_s = vector3f(pos_sx, pos_sy, pos_sz);
 
 	// build vertex and colour arrays for all the stars we want to see, if we don't already have them
 	if (m_toggledFaction || pos_sx != m_sxFar || pos_sy != m_syFar || pos_sz != m_szFar || drawRadius != m_radiusFar ) {
@@ -605,7 +606,6 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 		m_farstarsColor  .clear();
 		m_visibleFactions.clear();
 
-		vector3f pos_s = vector3f(pos_sx, pos_sy, pos_sz);
 		for (int sx = pos_sx-drawRadius; sx <= pos_sx+drawRadius; sx++) {
 			for (int sy = pos_sy-drawRadius; sy <= pos_sy+drawRadius; sy++) {
 				for (int sz = pos_sz-drawRadius; sz <= pos_sz+drawRadius; sz++) {
@@ -625,6 +625,49 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 
 	// always draw the stars
 	m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 2.0f); 
+
+	// also add labels for any faction homeworlds among the systems we've drawn
+	glDepthRange(0,1);
+	Gui::Screen::EnterOrtho();
+	for (std::set<Faction*>::iterator it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
+		if ((*it)->hasHomeworld && m_hiddenFactions.find((*it)) == m_hiddenFactions.end()) {
+			Sector::System sys = GetCached((*it)->homeworld.sectorX, (*it)->homeworld.sectorY, (*it)->homeworld.sectorZ)->m_systems[(*it)->homeworld.systemIndex];
+			if ((m_pos*Sector::SIZE - sys.FullPosition()).Length() > (drawRadius * Sector::SIZE)) continue;
+			
+			vector3f sysPos = sys.FullPosition() - (pos_s * Sector::SIZE);
+			vector3d pos;
+			if (Gui::Screen::Project(vector3d(int(sysPos.x), int(sysPos.y), int(sysPos.z)), pos)) {
+				
+				std::string labelText    = sys.name + "\n" + (*it)->name;
+				Color       labelColor  = (*it)->colour;
+				float       labelHeight = 0;
+				float       labelWidth  = 0;
+				
+				Gui::Screen::MeasureString(labelText, labelWidth, labelHeight);
+
+				glBegin(GL_TRIANGLE_STRIP);
+				glColor4f(0.05f, 0.05f, 0.12f, 0.65f);
+				glVertex2f( pos.x - 5.f,              pos.y - 5.f);
+				glVertex2f( pos.x - 5.f,              pos.y - 5.f+ labelHeight);
+				glVertex2f( pos.x + labelWidth + 5.f, pos.y - 5.f);
+				glVertex2f( pos.x + labelWidth + 5.f, pos.y - 5.f + labelHeight);
+				glEnd();
+
+				glBegin(GL_TRIANGLE_STRIP);
+				glColor4f(labelColor.r, labelColor.g, labelColor.b, labelColor.a);
+				glVertex2f( pos.x - 8.f, pos.y );
+				glVertex2f( pos.x      , pos.y + 8.f);
+				glVertex2f( pos.x + 8.f, pos.y ); 
+				glVertex2f( pos.x,       pos.y - 8.f); 
+				glVertex2f( pos.x - 8.f, pos.y );
+				glEnd();
+
+				if (labelColor.GetLuminance() > 0.75f) labelColor.a = 0.8f;
+				m_clickableLabels->Add(labelText, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), (*it)->homeworld), pos.x, pos.y, labelColor);
+			}
+		}
+	}
+	Gui::Screen::LeaveOrtho();
 }
 
 void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
@@ -793,6 +836,7 @@ void SectorView::DrawFarSector(int sx, int sy, int sz, vector3f &pos_s, int draw
 		// and faction color to the list to draw
 		vector3f starPosition = sysAbsPos - (pos_s * Sector::SIZE);
 		starColor = (*i).faction->colour;
+		starColor.a = .75f;
 
 		points.push_back(starPosition);
 		colors.push_back(starColor);	

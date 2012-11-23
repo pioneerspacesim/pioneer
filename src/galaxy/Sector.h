@@ -30,7 +30,7 @@ public:
 
 	class System {
 	public:
-		System() : customSys(0), population(-1) {};
+		System(int x, int y, int z): customSys(0), population(-1), sx(x), sy(y), sz(z) {};
 		~System() {};
 
 		// Check that we've had our habitation status set
@@ -45,8 +45,10 @@ public:
 		Faction *faction;
 		fixed population;
 
-	private:
+		vector3f FullPosition() { return Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + p; };
 
+	private:
+		int sx, sy, sz;
 	};
 	std::vector<System> m_systems;
 private:
