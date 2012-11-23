@@ -23,13 +23,15 @@ public:
 private:
 	bool OnAnimPlay(UI::Widget*, bool reverse);
 	bool OnAnimStop(UI::Widget*);
-	bool OnQuit(UI::Widget*);
+	bool OnPickModel(UI::List*);
+	bool OnQuit();
 	bool OnReloadModel(UI::Widget*);
 	bool OnToggleCollMesh(UI::CheckBox*);
 	bool OnToggleGrid(UI::Widget*);
 	bool OnToggleGuns(UI::CheckBox*);
 	void AddLog(const std::string &line);
 	void ChangeCameraPreset(SDLKey, SDLMod);
+	void ClearModel();
 	void DrawBackground();
 	void DrawCollisionMesh();
 	void DrawGrid(const matrix4x4f &trans, float radius);
@@ -95,7 +97,7 @@ private:
 
 	//interface stuff that needs to be accessed later (unorganized)
 	UI::MultiLineText *m_log;
-	UI::Scroller *m_logScroller;
+	RefCountedPtr<UI::Scroller> m_logScroller;
 
 	UI::DropDown *animSelector;
 	UI::DropDown *patternSelector;

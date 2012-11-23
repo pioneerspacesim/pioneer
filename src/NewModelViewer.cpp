@@ -68,7 +68,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 
 	m_log = m_ui->MultiLineText("");
 	m_log->SetFont(UI::Widget::FONT_XSMALL);
-	m_logScroller = m_ui->Scroller();
+	m_logScroller.Reset(m_ui->Scroller());
 	m_logScroller->SetInnerWidget(m_log);
 
 	std::fill(m_keyStates, m_keyStates + COUNTOF(m_keyStates), false);
@@ -101,10 +101,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 
 ModelViewer::~ModelViewer()
 {
-	if (m_model) {
-		delete m_model;
-		m_model = 0;
-	}
+	ClearModel();
 }
 
 void ModelViewer::Run(int argc, char** argv)
@@ -114,11 +111,14 @@ void ModelViewer::Run(int argc, char** argv)
 	Graphics::Renderer *renderer;
 	ModelViewer *viewer;
 
+	std::string modelName("");
+
 	if (argc >= 3) {
 		width = std::max(width, atoi(argv[1]));
 		height = std::max(height, atoi(argv[2]));
 	}
-	const std::string modelName = argv[3];
+	if (argc >= 4)
+		modelName = argv[3];
 
 	//init components
 	FileSystem::Init();
@@ -179,7 +179,13 @@ bool ModelViewer::OnAnimStop(UI::Widget *w)
     return false;
 }
 
-bool ModelViewer::OnQuit(UI::Widget *)
+bool ModelViewer::OnPickModel(UI::List *list)
+{
+	SetModel(list->GetSelectedOption());
+	return true;
+}
+
+bool ModelViewer::OnQuit()
 {
 	m_done = true;
 	return true;
@@ -292,6 +298,14 @@ void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
 		//no others yet
 	}
 	m_camPos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius() * 1.5f);
+}
+
+void ModelViewer::ClearModel()
+{
+	if (m_model) {
+		delete m_model;
+		m_model = 0;
+	}
 }
 
 void ModelViewer::DrawBackground()
@@ -565,7 +579,12 @@ void ModelViewer::PollEvents()
 			switch (event.key.keysym.sym)
 			{
 			case SDLK_ESCAPE:
-				m_done = true;
+				if (m_model) {
+					ClearModel();
+					onModelChanged.emit();
+				} else {
+					m_done = true;
+				}
 				break;
 			case SDLK_SPACE:
 				ResetCamera();
@@ -648,10 +667,8 @@ void ModelViewer::Screenshot()
 void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true */)
 {
 	AddLog(stringf("Loading model %0...", filename));
-	if (m_model) {
-		delete m_model;
-		m_model = 0;
-	}
+
+	ClearModel();
 
 	try {
 		m_modelName = filename;
@@ -691,7 +708,7 @@ static void collect_models(std::vector<std::string> &list)
 
 		//check it's the expected type
 		if (info.IsFile() && ends_with(fpath, ".model")) {
-			list.push_back(info.GetName());
+			list.push_back(info.GetName().substr(0, info.GetName().size()-6));
 		}
 	}
 }
@@ -712,8 +729,7 @@ void ModelViewer::SetupFilePicker()
 	for (std::vector<std::string>::const_iterator it = models.begin(); it != models.end(); ++it) {
 		list->AddOption(*it);
 	}
-
-	UI::Widget *iw =
+	UI::Widget *fp =
 	c->Grid(UI::CellSpec(1,3,1), UI::CellSpec(1,3,1))
 		->SetCell(1,1,
 			c->VBox(10)
@@ -724,9 +740,16 @@ void ModelViewer::SetupFilePicker()
 					c->Align(UI::Align::RIGHT)->SetInnerWidget(quitButton)
 				)))
 		);
-	c->SetInnerWidget(iw);
 
-	quitButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnQuit), quitButton));
+	m_logScroller->Layout(); //issues without this
+	c->SetInnerWidget(c->Grid(2,1)
+		->SetRow(0, UI::WidgetSet(fp, m_logScroller.Get()))
+	);
+
+	c->Layout();
+
+	loadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnPickModel), list));
+	quitButton->onClick.connect(sigc::mem_fun(*this, &ModelViewer::OnQuit));
 }
 
 void ModelViewer::SetupUI()
@@ -745,7 +768,8 @@ void ModelViewer::SetupUI()
 		animSlider = 0;
 	}
 
-	return SetupFilePicker();
+	if (!m_model)
+		return SetupFilePicker();
 
 	const int spacing = 5;
 
@@ -762,7 +786,7 @@ void ModelViewer::SetupUI()
 	outerBox->PackEnd(UI::WidgetSet(
 		c->Expand()->SetInnerWidget(c->Grid(UI::CellSpec(0.75f,0.25f),1)
 			->SetColumn(0, mainBox)
-			->SetColumn(1, m_logScroller)
+			->SetColumn(1, m_logScroller.Get())
 		),
 		sliderBox
 	));
