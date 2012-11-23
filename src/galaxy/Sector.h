@@ -53,7 +53,7 @@ public:
 	std::vector<System> m_systems;
 private:
 	void GetCustomSystems();
-	std::string GenName(System &sys, MTRand &rand);
+	std::string GenName(System &sys, int si, MTRand &rand);
 	int sx, sy, sz;
 };
 

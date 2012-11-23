@@ -23,6 +23,7 @@ public:
 	static Faction *GetFaction       (const Uint32 index);
 	static Faction *GetFaction       (const std::string factionName);
 	static Faction *GetNearestFaction(const Sector sec, Uint32 sysIndex);
+	static bool     IsHomeSystem     (const SystemPath& sysPath);
 	
 	static const Uint32 GetNumFactions();
 

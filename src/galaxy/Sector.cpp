@@ -48,6 +48,7 @@ Sector::Sector(int x, int y, int z)
 	MTRand rand(UNIVERSE_SEED);
 	
 	GetCustomSystems();
+	int customCount = m_systems.size();
 
 	/* Always place random systems outside the core custom-only region */
 	if ((x < -CUSTOM_ONLY_RADIUS) || (x > CUSTOM_ONLY_RADIUS-1) ||
@@ -241,7 +242,7 @@ Sector::Sector(int x, int y, int z)
 				//printf("%d: %d%\n", sx, sy);
 			}
 
-			s.name = GenName(s, rng);
+			s.name = GenName(s, customCount + i,  rng);
 			//printf("%s: \n", s.name.c_str());
 									
 			m_systems.push_back(s);
@@ -256,7 +257,7 @@ float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int
 	return dv.Length();
 }
 
-std::string Sector::GenName(System &sys, MTRand &rng)
+std::string Sector::GenName(System &sys, int si, MTRand &rng)
 {
 	std::string name;
 	const int dist = std::max(std::max(abs(sx),abs(sy)),abs(sz));
@@ -292,8 +293,8 @@ std::string Sector::GenName(System &sys, MTRand &rng)
 		case SystemBody::TYPE_STAR_M_HYPER_GIANT: chance = 1; break;  //Should give a nice name almost all the time
 		default: chance += 16*dist; break;
 	}
-	if (rng.Int32(chance) < 500) {
-		/* well done. you get a real name */
+	if (rng.Int32(chance) < 500 || Faction::IsHomeSystem(SystemPath(sx, sy, sz, si))) {
+		/* well done. you get a real name  */
 		int len = rng.Int32(2,3);
 		for (int i=0; i<len; i++) {
 			name += sys_names[rng.Int32(0,SYS_NAME_FRAGS-1)];

@@ -12,20 +12,23 @@
 #include "Polit.h"
 #include "FileSystem.h"
 #include "Lang.h"
+#include <set>
 
 const Uint32 Faction::BAD_FACTION_IDX      = UINT_MAX;
 const Color  Faction::BAD_FACTION_COLOUR   = (0.8f,0.8f,0.8f,0.50f);
 const float  Faction::FACTION_BASE_ALPHA   = 0.40f;
 const double Faction::FACTION_CURRENT_YEAR = 3200;
 
-typedef std::vector<Faction*>  FactionList;
+typedef std::vector<Faction*> FactionList;
 typedef FactionList::iterator FactionIterator;
 typedef std::map<std::string, Faction*> FactionMap;
+typedef std::set<SystemPath>  HomeSystemSet;
 
-static Faction     s_no_faction;    // instead of answering null, we often want to answer a working faction object for no faction
+static Faction       s_no_faction;    // instead of answering null, we often want to answer a working faction object for no faction
 
-static FactionList s_factions;
-static FactionMap  s_factions_byName;
+static FactionList   s_factions;
+static FactionMap    s_factions_byName;
+static HomeSystemSet s_homesystems;
 
 // ------- Faction --------
 
@@ -237,9 +240,12 @@ static int l_fac_add_to_factions(lua_State *L)
 		}
 
 		s_factions.push_back(facbld->fac);
-		facbld->fac->idx = s_factions.size()-1;
 		s_factions_byName[facbld->fac->name] = facbld->fac;
+		if (facbld->fac->hasHomeworld) s_homesystems.insert(facbld->fac->homeworld.SystemOnly());
+		
+		facbld->fac->idx = s_factions.size()-1;
 		facbld->registered = true;
+		
 		return 0;
 	} else if (facbld->skip) {
 		printf("l_fac_add_to_factions: invalid homeworld, skipped (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
@@ -413,6 +419,11 @@ Faction* Faction::GetNearestFaction(const Sector sec, Uint32 sysIndex)
 		if ((*it)->IsCloserAndContains(closestFactionDist, sec, sysIndex)) result = *it;
 	}
 	return result;
+}
+
+bool Faction::IsHomeSystem(const SystemPath& sysPath)
+{
+	return s_homesystems.find(sysPath.SystemOnly()) != s_homesystems.end();
 }
 
 const Polit::GovType Faction::PickGovType(MTRand &rand) const
