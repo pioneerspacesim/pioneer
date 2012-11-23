@@ -52,11 +52,13 @@ private:
 		Gui::Label *shortDesc;
 	};
 
-	void DrawNearSector(int x, int y, int z, const vector3f &playerAbsPos, const matrix4x4f &trans);
-	void DrawFarSector(int sx, int sy, int sz, vector3f &pos_s, int drawRadius, std::vector<vector3f> &points, std::vector<Color> &colors);
 	void DrawNearSectors(matrix4x4f modelview);
-	void DrawFarSectors(matrix4x4f modelview);
+	void DrawNearSector(int x, int y, int z, const vector3f &playerAbsPos, const matrix4x4f &trans);
 	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
+
+	void DrawFarSectors(matrix4x4f modelview);
+	void DrawFarSector(int sx, int sy, int sz, int drawRadius, const vector3f &secPos, std::vector<vector3f> &points, std::vector<Color> &colors);
+	void PutFactionLabels(const vector3f &secPos, int drawRadius);
 
 	void SetSelectedSystem(const SystemPath &path);
 	void OnClickSystem(const SystemPath &path);
@@ -66,7 +68,8 @@ private:
 
 	void UpdateHyperspaceLockLabel();
 
-	Sector* GetCached(int sectorX, int sectorY, int sectorZ);
+	Sector* GetCached(const SystemPath& loc);
+	Sector* GetCached(const int sectorX, const int sectorY, const int sectorZ);
 	void ShrinkCache();
 
 	void MouseButtonDown(int button, int x, int y);
@@ -106,22 +109,20 @@ private:
 	Gui::LabelSet *m_clickableLabels;
 
 	Gui::VBox *m_infoBox;
-	bool m_infoBoxVisible;
 
 	SystemLabels m_currentSystemLabels;
 	SystemLabels m_selectedSystemLabels;
 	SystemLabels m_targetSystemLabels;
-
 	Gui::Label *m_hyperspaceLockLabel;
 
 	Gui::VBox *m_factionBox;
-	bool m_factionBoxVisible;
-
 	std::set<Faction*>              m_visibleFactions;
 	std::set<Faction*>              m_hiddenFactions;
 	std::vector<Gui::Label*>        m_visibleFactionLabels;
 	std::vector<Gui::HBox*>         m_visibleFactionRows;
 	std::vector<Gui::ToggleButton*> m_visibleFactionToggles;
+
+	Uint8 m_detailBoxVisible;
 
 	void OnToggleFaction(Gui::ToggleButton* button, bool pressed, Faction* faction);
 
@@ -137,11 +138,9 @@ private:
 	std::vector<vector3f> m_farstars;
 	std::vector<Color>    m_farstarsColor;
 
-	int  m_sxFar;
-	int  m_syFar;
-	int  m_szFar;
-	int  m_radiusFar;
-	bool m_toggledFaction;
+	vector3f m_secPosFar;
+	int      m_radiusFar;
+	bool     m_toggledFaction;
 };
 
 #endif /* _SECTORVIEW_H */
