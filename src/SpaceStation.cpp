@@ -547,7 +547,7 @@ void SpaceStation::DockingUpdate(const double timeStep)
 			dt.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * dt.ship->GetOrient());
 		}
 
-		if (dt.stage < -m_type->shipLaunchStage) {
+		if (dt.stage < -m_type->shipLaunchStage && dt.ship->GetFlightState() != Ship::FLYING) {
 			// launch ship
 			dt.ship->SetFlightState(Ship::FLYING);
 			dt.ship->SetAngVelocity(GetFrame()->GetAngVelocity());

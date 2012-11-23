@@ -223,8 +223,8 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 	// update frame position and velocity
 	if (m_parent && m_sbody && !IsRotFrame()) {
 		m_pos = m_sbody->orbit.OrbitalPosAtTime(time);
-		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(time+1.0);
-		m_vel = pos2 - m_pos;
+		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(time+timestep);
+		m_vel = (pos2 - m_pos) / timestep;
 	}
 	// temporary test thing
 	else m_pos = m_pos + m_vel * timestep;
