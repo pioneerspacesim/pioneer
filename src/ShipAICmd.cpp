@@ -609,7 +609,7 @@ static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, 
 static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, const vector3d &posoff, vector3d &targpos)
 {
 	Body *body = 0;
-	Frame *frame = targframe;
+	Frame *frame = targframe->GetNonRotFrame();
 	while (frame)
 	{
 		double sdist = ship->GetPositionRelTo(frame).Length();
@@ -835,7 +835,7 @@ bool AICmdDock::TimeStepUpdate()
 	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_target->GetFrame(), m_dockpos);
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
-	vector3d relvel = m_ship->GetVelocityRelTo(m_target);
+	vector3d relvel = -m_target->GetVelocityRelTo(m_ship);
 	double maxdecel = m_ship->GetAccelMin() - GetGravityAtPos(m_target->GetFrame(), m_dockpos);
 	m_ship->AIMatchPosVel(reldir, relpos.Length(), relvel, 0.0, maxdecel);
 

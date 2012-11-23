@@ -174,7 +174,7 @@ double calc_ivel(double dist, double vel, double acc)
 // returns true if this can be attained in a single timestep
 bool Ship::AIMatchVel(const vector3d &vel)
 {
-	vector3d diffvel = (vel - GetVelocityRelTo(GetFrame())) * GetOrient();
+	vector3d diffvel = (vel - GetVelocity()) * GetOrient();
 	return AIChangeVelBy(diffvel);
 }
 

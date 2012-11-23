@@ -158,10 +158,9 @@ vector3d Body::GetVelocityRelTo(const Frame *relTo) const
 	return forient * vel + m_frame->GetVelocityRelTo(relTo);
 }
 
-// umm, backwards: gets velocity in this's frame
 vector3d Body::GetVelocityRelTo(const Body *relTo) const
 {
-	return GetVelocityRelTo(m_frame) - relTo->GetVelocityRelTo(m_frame);
+	return GetVelocityRelTo(relTo->m_frame) - relTo->GetVelocityRelTo(relTo->m_frame);
 }
 
 void Body::OrientOnSurface(double radius, double latitude, double longitude)
@@ -175,11 +174,12 @@ void Body::OrientOnSurface(double radius, double latitude, double longitude)
 
 void Body::SwitchToFrame(Frame *newFrame)
 {
-	SetVelocity(GetVelocityRelTo(newFrame));		// do this first because it uses position
+	vector3d vel = GetVelocityRelTo(newFrame);		// do this first because it uses position
 	vector3d fpos = m_frame->GetPositionRelTo(newFrame);
 	matrix3x3d forient = m_frame->GetOrientRelTo(newFrame);
 	SetPosition(forient * GetPosition() + fpos);
 	SetOrient(forient * GetOrient());
+	SetVelocity(vel + newFrame->GetStasisVelocity(GetPosition()));
 	SetFrame(newFrame);
 
 	LuaEvent::Queue("onFrameChanged", this);

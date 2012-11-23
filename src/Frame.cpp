@@ -226,13 +226,15 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 		vector3d pos2 = m_sbody->orbit.OrbitalPosAtTime(time+1.0);
 		m_vel = pos2 - m_pos;
 	}
+	// temporary test thing
+	else m_pos = m_pos + m_vel * timestep;
 	
 	// update frame rotation
 	double ang = m_angVel.Length() * timestep;		// hmm. cumulative inaccuracy?
 	if (!is_zero_general(ang)) {
 		vector3d axis = m_angVel.Normalized();
 		matrix3x3d rot = matrix3x3d::BuildRotate(ang, axis);
-		m_orient = rot * m_orient;
+		m_orient = m_orient * rot;		// angvel always +y
 	}
 	UpdateRootRelativeVars();			// update root-relative pos/vel/orient
 

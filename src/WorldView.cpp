@@ -494,7 +494,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 
 	// Direction indicator
-	vector3d vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
+	vector3d vel = Pi::player->GetVelocity();
 
 	if (m_showTargetActionsTimeout) {
 		if (SDL_GetTicks() - m_showTargetActionsTimeout > 20000) {
@@ -1188,8 +1188,7 @@ void WorldView::UpdateProjectedObjects()
 	}
 
 	// velocity relative to current frame (white)
-	// GetVelocityRelTo considers statis velocity of rotating frame, which GetVelocity() doesn't
-	const vector3d camSpaceVel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame()) * cam_rot;
+	const vector3d camSpaceVel = Pi::player->GetVelocity() * cam_rot;
 	if (camSpaceVel.LengthSqr() >= 1e-4)
 		UpdateIndicator(m_velIndicator, camSpaceVel);
 	else
@@ -1219,7 +1218,7 @@ void WorldView::UpdateProjectedObjects()
 		UpdateIndicator(m_navTargetIndicator, navtarget->GetTargetIndicatorPosition(cam_frame));
 
 		// velocity relative to navigation target
-		vector3d navvelocity = Pi::player->GetVelocityRelTo(navtarget);
+		vector3d navvelocity = -navtarget->GetVelocityRelTo(Pi::player);
 		double navspeed = navvelocity.Length();
 		const vector3d camSpaceNavVel = navvelocity * cam_rot;
 

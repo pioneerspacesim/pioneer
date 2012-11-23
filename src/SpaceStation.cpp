@@ -637,7 +637,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 	// rotate the thing 
 	double len = m_type->angVel;
 	if (len > 1e-16) {
-		vector3d axis = vector3d(0,0,1);	// check
+		vector3d axis = vector3d(0,1,0);
 		matrix3x3d r = matrix3x3d::BuildRotate(len * timeStep, axis);
 		SetOrient(r * GetOrient());
 	}
