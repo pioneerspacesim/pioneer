@@ -97,7 +97,9 @@ public:
 	bool Undock();
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void StaticUpdate(const float timeStep);
-	void ApplyAccel(const float timeStep);
+
+	void TimeAccelAdjust(const float timeStep);
+	void SetDecelerating(bool decel) { m_decelerating = decel; }
 
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
@@ -182,7 +184,6 @@ public:
 	void AIClearInstructions();
 	bool AIIsActive() { return m_curAICmd ? true : false; }
 	void AIGetStatusText(char *str);
-	Frame *AIGetRiskFrame();
 
 	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_>
 		AIERROR_NONE=0,
@@ -300,6 +301,7 @@ private:
 
 	AICommand *m_curAICmd;
 	AIError m_aiMessage;
+	bool m_decelerating;
 
 	float m_thrusterFuel; //remaining fuel 0.0-1.0
 	float m_fuelUseWeights[4]; //rear, front, lateral, up&down. Rear thrusters are usually 1.0

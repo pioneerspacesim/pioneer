@@ -763,7 +763,10 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 		if (m_state < 0) m_state = targdist > 10000000.0 ? 0 : 1;
 
 		double sdiff = vdiff.Length(), vdir = vdiff.Dot(reldir);
-		if (!m_state && (vdir <= 0 || sdiff < m_ship->GetAccelMin()*timestep*50)) flipped = true;
+		if (vdir <= 0 || sdiff < m_ship->GetAccelMin()*timestep*50) {
+			m_ship->SetDecelerating(true);
+			if (!m_state) flipped = true;
+		}
 	}
 
 	// face appropriate direction

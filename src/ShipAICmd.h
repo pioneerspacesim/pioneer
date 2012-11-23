@@ -28,10 +28,6 @@ public:
 		if (m_child) m_child->GetStatusText(str);
 		else strcpy(str, "AI state unknown");
 	}
-	virtual Frame *GetRiskFrame() {
-		if (m_child) return m_child->GetRiskFrame();
-		return m_ship->GetFrame();			// or local frame?
-	}
 
 	// Serialisation functions
 	static AICommand *Load(Serializer::Reader &rd);
@@ -60,10 +56,6 @@ public:
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "Dock: target %s, state %i", m_target->GetLabel().c_str(), m_state);
-	}
-	virtual Frame *GetRiskFrame() {
-		if (m_child) return m_child->GetRiskFrame();
-		return m_target->GetFrame();
 	}
 	virtual void Save(Serializer::Writer &wr) {
         Space *space = Pi::game->GetSpace();
@@ -105,10 +97,6 @@ public:
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "FlyTo: endvel %.1f, state %i", m_endvel/1000.0, m_state);
-	}
-	virtual Frame *GetRiskFrame() {
-		if (m_child) return m_child->GetRiskFrame();
-		return m_targframe;
 	}
 	virtual void Save(Serializer::Writer &wr) {
         Space *space = Pi::game->GetSpace();
@@ -156,10 +144,6 @@ public:
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "FlyAround: alt %.1f, targmode %i", m_alt/1000.0, m_targmode);
-	}
-	virtual Frame *GetRiskFrame() {
-		if (m_child) return m_child->GetRiskFrame();
-		return m_obstructor->GetFrame();
 	}
 	virtual void Save(Serializer::Writer &wr) {
         Space *space = Pi::game->GetSpace();

@@ -543,7 +543,7 @@ void Game::SetTimeAccel(TimeAccel t)
 	if (t < m_timeAccel)
 		for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
 			if ((*i)->IsType(Object::SHIP))
-				(static_cast<Ship*>(*i))->ApplyAccel(0.5f * GetTimeStep());
+				(static_cast<Ship*>(*i))->TimeAccelAdjust(0.5f * GetTimeStep());
 
 	m_timeAccel = t;
 
