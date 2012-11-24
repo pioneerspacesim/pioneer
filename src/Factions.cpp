@@ -19,13 +19,17 @@ const double Faction::FACTION_CURRENT_YEAR = 3200;
 
 typedef std::vector<Faction*>  FactionList;
 typedef FactionList::iterator FactionIterator;
-static FactionList s_factions;
+typedef std::map<std::string, Uint32> FactionIndexes;
+
+static FactionList    s_factions;
+static FactionIndexes s_factions_indexes;
 
 // ------- Faction --------
 
 struct FactionBuilder {
 	Faction *fac;
 	bool registered;
+	bool skip;
 };
 
 static const char LuaFaction_TypeName[] = "Faction";
@@ -49,6 +53,7 @@ static int l_fac_new(lua_State *L)
 	FactionBuilder *facbld = static_cast<FactionBuilder*>(lua_newuserdata(L, sizeof(*facbld)));
 	facbld->fac = new Faction;
 	facbld->registered = false;
+	facbld->skip       = false;
 	luaL_setmetatable(L, LuaFaction_TypeName);
 
 	facbld->fac->name = name;
@@ -96,25 +101,49 @@ static int l_fac_description(lua_State *L)
 	return 1;
 }
 
-static int l_fac_govtype(lua_State *L)
+// weightings to use when picking a government type
+static int l_fac_govtype_weight(lua_State *L)
 {
 	Faction *fac = l_fac_check(L, 1);
-	fac->govType = static_cast<Polit::GovType>(LuaConstants::GetConstantFromArg(L, "PolitGovType", 2));
+	const char *typeName = luaL_checkstring(L, 2);
+	const Polit::GovType g = static_cast<Polit::GovType>(LuaConstants::GetConstant(L, "PolitGovType", typeName));
+	const int32_t weight = luaL_checkint(L, 3);	// signed as we will need to compare with signed out of MTRand.Int32
+
+	if (g < Polit::GOV_RAND_MIN || g > Polit::GOV_RAND_MAX) {
+		pi_lua_warn(L,
+			"government type out of range: Faction{%s}:govtype_weight('%s', %d)",
+			fac->name.c_str(), typeName, weight);
+		return 0;
+	}
+
+	if (weight < 0) {
+		pi_lua_warn(L,
+			"weight must a postive integer: Faction{%s}:govtype_weight('%s', %d)",
+			fac->name.c_str(), typeName, weight);
+		return 0;		
+	}
+
+	fac->govtype_weights.push_back(std::make_pair(g, weight));
+	fac->govtype_weights_total += weight;
 	lua_settop(L, 1);
+
 	return 1;
 }
 
 // sector(x,y,x) + system index + body index = location in a (custom?) system of homeworld
 static int l_fac_homeworld (lua_State *L)
 {
-	Faction *fac = l_fac_check(L, 1);
+	FactionBuilder *facbld = l_fac_check_builder(L, 1);
+	Faction *fac = facbld->fac;
 	Sint32 x = luaL_checkinteger(L, 2);
 	Sint32 y = luaL_checkinteger(L, 3);
 	Sint32 z = luaL_checkinteger(L, 4);
-	Uint32 si = luaL_checkinteger(L, 5);
-	Uint32 bi = luaL_checkinteger(L, 6);	
-	fac->homeworld  = SystemPath(x,y,z,si,bi);
+	Sint32 si = luaL_checkinteger(L, 5);
+	Uint32 bi = luaL_checkinteger(L, 6);
+
+	fac->SetBestFitHomeworld(x, y, z, si, bi);
 	fac->hasHomeworld = true;
+	facbld->skip      = !fac->homeworld.HasValidSystem();	// wasn't a valid system
 	lua_settop(L, 1);
 	return 1;
 }
@@ -191,14 +220,26 @@ static int l_fac_colour(lua_State *L)
 static int l_fac_add_to_factions(lua_State *L)
 {
 	FactionBuilder *facbld = l_fac_check_builder(L, 1);
+	Faction *fac = facbld->fac;
 
 	const std::string factionName(luaL_checkstring(L, 2));
 
-	if (!facbld->registered) {
-		printf("l_fac_add_to_factions: added '%s' [%s]\n", facbld->fac->name.c_str(), factionName.c_str());
+	if (!facbld->registered && !facbld->skip) {
+		if (facbld->fac->hasHomeworld) {
+			printf("l_fac_add_to_factions: added (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
+				, fac->homeworld.sectorX, fac->homeworld.sectorY, fac->homeworld.sectorZ, fac->foundingDate, fac->expansionRate, fac->name.c_str(), factionName.c_str());
+		}
+		else {
+			printf("l_fac_add_to_factions: added '%s' [%s]\n", fac->name.c_str(), factionName.c_str());
+		}
 
 		s_factions.push_back(facbld->fac);
+		s_factions_indexes[facbld->fac->name] = s_factions.size()-1;
 		facbld->registered = true;
+		return 0;
+	} else if (facbld->skip) {
+		printf("l_fac_add_to_factions: invalid homeworld, skipped (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
+				, fac->homeworld.sectorX, fac->homeworld.sectorY, fac->homeworld.sectorZ, fac->foundingDate, fac->expansionRate, fac->name.c_str(), factionName.c_str());
 		return 0;
 	} else {
 		return luaL_error(L, "faction '%s' already added\n", facbld->fac->name.c_str());
@@ -219,7 +260,7 @@ static luaL_Reg LuaFaction_meta[] = {
 	{ "new",                       &l_fac_new },
 	{ "description_short",         &l_fac_description_short },
 	{ "description",               &l_fac_description },
-	{ "govtype",                   &l_fac_govtype },
+	{ "govtype_weight",            &l_fac_govtype_weight },
 	{ "homeworld",                 &l_fac_homeworld },
 	{ "foundingDate",              &l_fac_foundingDate },
 	{ "expansionRate",             &l_fac_expansionRate },
@@ -284,7 +325,9 @@ void Faction::Uninit()
 		delete *it;
 	}
 	s_factions.clear();
+	s_factions_indexes.clear();
 }
+
 
 Faction *Faction::GetFaction(const Uint32 index)
 {
@@ -342,34 +385,23 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector
 
 const Uint32 Faction::GetNearestFactionIndex(const Sector sec, Uint32 sysIndex)
 {
-	// firstly is this a custom StarSystem which might have funny settings
-	Polit::GovType a = Polit::GOV_INVALID;
+	Uint32 ret_index = BAD_FACTION_IDX;
 
-	/* from custom system definition */
+	/* firstly if this a custom StarSystem it may already have a faction assigned
+	*/
 	if (sec.m_systems[sysIndex].customSys) {
-		Polit::GovType t = sec.m_systems[sysIndex].customSys->govType;
-		a = t;
+		ret_index = sec.m_systems[sysIndex].customSys->factionIdx;
 	}
-	// if the custom system has a valid govType set then try to find a matching faction
-	if( a != Polit::GOV_INVALID )
-	{
-		for (Uint32 index = 0; index < s_factions.size(); ++index) {
-			const Faction &fac = *s_factions[index];
-			if(fac.govType == a) {
-				return index;
-			}
+		
+	/* if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
+	*/
+	if (ret_index == BAD_FACTION_IDX) {
+		Uint32 index              = 0;
+		double closestFactionDist = HUGE_VAL;
+	
+		for (FactionIterator it = s_factions.begin(); it != s_factions.end(); ++it, ++index) {
+			if ((*it)->IsCloserAndContains(closestFactionDist, sec, sysIndex)) ret_index = index;
 		}
-		// no matching faction found, return the default
-		return BAD_FACTION_IDX;
-	}
-	
-	// if we don't find a match then we can go on and assign it a faction allegiance like normal below...
-	Uint32 index              = 0;
-	Uint32 ret_index          = BAD_FACTION_IDX;
-	double closestFactionDist = HUGE_VAL;
-	
-	for (FactionIterator it = s_factions.begin(); it != s_factions.end(); ++it, ++index) {
-		if ((*it)->IsCloserAndContains(closestFactionDist, sec, sysIndex)) ret_index = index;
 	}
 	return ret_index;
 }
@@ -379,6 +411,7 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 	Sector sec(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
 	return GetNearestFactionIndex(sec, sysPath.systemIndex);
 }
+
 
 const Color Faction::GetNearestFactionColour(const Sector sec, Uint32 sysIndex)
 {
@@ -392,13 +425,62 @@ const Color Faction::GetNearestFactionColour(const Sector sec, Uint32 sysIndex)
 	}
 }
 
-Faction::Faction() :
-	govType(Polit::GOV_INVALID),
-	hasHomeworld(false),
-	m_homesector(0),
-	foundingDate(0.0),
-	expansionRate(0.0)
+const Uint32 Faction::GetIndexOfFaction(const std::string factionName)
 {
+	FactionIndexes::iterator it = s_factions_indexes.find(factionName);
+
+	if (it == s_factions_indexes.end()) return BAD_FACTION_IDX;
+	else                                return it->second;
+}
+
+const Polit::GovType Faction::PickGovType(MTRand &rand) const
+{
+	if( !govtype_weights.empty()) {
+		// if we roll a number between one and the total weighting...
+		int32_t roll = rand.Int32(1, govtype_weights_total);
+		int32_t cumulativeWeight = 0;
+
+		// ...the first govType with a cumulative weight >= the roll should be our pick
+		GovWeightIterator it = govtype_weights.begin();
+		while(roll > (cumulativeWeight + it->second)) { 
+			cumulativeWeight += it->second;
+			++it; 
+		}
+		return it->first;
+	} else {
+		return Polit::GOV_INVALID;
+	}
+}
+
+/* If the si is negative, set the homeworld to our best shot at a system path
+    pointing to a valid system, close to passed co-ordinates.
+
+   Otherwise trust the caller, and just set the system path for the co-ordinates.
+
+   Used by the Lua interface, to support autogenerated factions.
+*/
+void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi)
+{
+	// if the current sector specified is empty move to a sector 
+	// closer to the origin on the x-axis until we find one that isn't
+	while (si < 0 && x != 0 ) {
+		Sector sec(x,y,z);
+		if (sec.m_systems.size() > 0 ) {
+			si = 0;
+		} else {
+			if (x > 0) { --x; } else { ++x; };
+		}
+	}
+	homeworld = SystemPath(x, y, z, si, bi);
+}
+
+Faction::Faction() :
+	hasHomeworld(false),
+	foundingDate(0.0),
+	expansionRate(0.0),
+	m_homesector(0)
+{
+	govtype_weights_total = 0;
 }
 
 Faction::~Faction()

@@ -52,28 +52,27 @@ const char *s_econDesc[ECON_MAX] = {
 struct politDesc_t {
 	const char *description;
 	int rarity;
-	Uint32 faction;	// default (i.e. Invalid) is UINT_MAX
 	PolitEcon econ;
 	fixed baseLawlessness;
 };
 static politDesc_t s_govDesc[GOV_MAX] = {
-	{ "<invalid turd>",							0,		UINT_MAX,	ECON_NONE,				fixed(1,1) },
-	{ Lang::NO_CENTRAL_GOVERNANCE,				0,		UINT_MAX,	ECON_NONE,				fixed(1,1) },
-	{ Lang::EARTH_FEDERATION_COLONIAL_RULE,		2,		UINT_MAX,	ECON_CAPITALIST,		fixed(3,10) },
-	{ Lang::EARTH_FEDERATION_DEMOCRACY,			3,		UINT_MAX,	ECON_CAPITALIST,		fixed(15,100) },
-	{ Lang::IMPERIAL_RULE,						3,		UINT_MAX,	ECON_PLANNED,			fixed(15,100) },
-	{ Lang::LIBERAL_DEMOCRACY,					2,		UINT_MAX,	ECON_CAPITALIST,		fixed(25,100) },
-	{ Lang::SOCIAL_DEMOCRACY,					2,		UINT_MAX,	ECON_MIXED,				fixed(20,100) },
-	{ Lang::LIBERAL_DEMOCRACY,					2,		UINT_MAX,	ECON_CAPITALIST,		fixed(25,100) },
-	{ Lang::CORPORATE_SYSTEM,					2,		UINT_MAX,	ECON_CAPITALIST,		fixed(40,100) },
-	{ Lang::SOCIAL_DEMOCRACY,					2,		UINT_MAX,	ECON_MIXED,				fixed(25,100) },
-	{ Lang::MILITARY_DICTATORSHIP,				5,		UINT_MAX,	ECON_CAPITALIST,		fixed(40,100) },
-	{ Lang::MILITARY_DICTATORSHIP,				6,		UINT_MAX,	ECON_CAPITALIST,		fixed(25,100) },
-	{ Lang::MILITARY_DICTATORSHIP,				6,		UINT_MAX,	ECON_MIXED,				fixed(25,100) },
-	{ Lang::MILITARY_DICTATORSHIP,				5,		UINT_MAX,	ECON_MIXED,				fixed(40,100) },
-	{ Lang::COMMUNIST,							10,		UINT_MAX,	ECON_PLANNED,			fixed(25,100) },
-	{ Lang::PLUTOCRATIC_DICTATORSHIP,			4,		UINT_MAX,	ECON_VERY_CAPITALIST,	fixed(45,100) },
-	{ Lang::VIOLENT_ANARCHY,					2,		UINT_MAX,	ECON_NONE,				fixed(90,100) },
+	{ "<invalid turd>",							0,		ECON_NONE,				fixed(1,1) },
+	{ Lang::NO_CENTRAL_GOVERNANCE,				0,		ECON_NONE,				fixed(1,1) },
+	{ Lang::EARTH_FEDERATION_COLONIAL_RULE,		2,		ECON_CAPITALIST,		fixed(3,10) },
+	{ Lang::EARTH_FEDERATION_DEMOCRACY,			3,		ECON_CAPITALIST,		fixed(15,100) },
+	{ Lang::IMPERIAL_RULE,						3,		ECON_PLANNED,			fixed(15,100) },
+	{ Lang::LIBERAL_DEMOCRACY,					2,		ECON_CAPITALIST,		fixed(25,100) },
+	{ Lang::SOCIAL_DEMOCRACY,					2,		ECON_MIXED,				fixed(20,100) },
+	{ Lang::LIBERAL_DEMOCRACY,					2,		ECON_CAPITALIST,		fixed(25,100) },
+	{ Lang::CORPORATE_SYSTEM,					2,		ECON_CAPITALIST,		fixed(40,100) },
+	{ Lang::SOCIAL_DEMOCRACY,					2,		ECON_MIXED,				fixed(25,100) },
+	{ Lang::MILITARY_DICTATORSHIP,				5,		ECON_CAPITALIST,		fixed(40,100) },
+	{ Lang::MILITARY_DICTATORSHIP,				6,		ECON_CAPITALIST,		fixed(25,100) },
+	{ Lang::MILITARY_DICTATORSHIP,				6,		ECON_MIXED,				fixed(25,100) },
+	{ Lang::MILITARY_DICTATORSHIP,				5,		ECON_MIXED,				fixed(40,100) },
+	{ Lang::COMMUNIST,							10,		ECON_PLANNED,			fixed(25,100) },
+	{ Lang::PLUTOCRATIC_DICTATORSHIP,			4,		ECON_VERY_CAPITALIST,	fixed(45,100) },
+	{ Lang::VIOLENT_ANARCHY,					2,		ECON_NONE,				fixed(90,100) },
 };
 
 void Init()
@@ -85,15 +84,6 @@ void Init()
 	const Uint32 numFactions = Faction::GetNumFactions();
 	s_playerPerBlocCrimeRecord.clear();
 	s_playerPerBlocCrimeRecord.resize( numFactions );
-
-	// now setup the faction links, hopefully.
-	for (Uint32 i=0; i<numFactions; i++) {
-		const Faction *fac = Faction::GetFaction(i);
-		if( fac ) {
-			s_govDesc[ fac->govType ].faction = i;
-		}
-	}
-
 }
 
 void Serialize(Serializer::Writer &wr)
@@ -157,12 +147,11 @@ void NotifyOfCrime(Ship *s, enum Crime crime)
 
 void AddCrime(Sint64 crimeBitset, Sint64 addFine)
 {
-	int politType = Pi::game->GetSpace()->GetStarSystem()->GetSysPolit().govType;
+	Uint32 factionIdx = Pi::game->GetSpace()->GetStarSystem()->GetFactionIndex();
 
-	if (s_govDesc[politType].faction != UINT_MAX) {
-		const Uint32 b = s_govDesc[politType].faction;
-		s_playerPerBlocCrimeRecord[b].record |= crimeBitset;
-		s_playerPerBlocCrimeRecord[b].fine += addFine;
+	if (factionIdx != Faction::BAD_FACTION_IDX) {
+		s_playerPerBlocCrimeRecord[factionIdx].record |= crimeBitset;
+		s_playerPerBlocCrimeRecord[factionIdx].fine += addFine;
 	} else {
 		SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 		Sint64 record = s_criminalRecord.Get(path, 0);
@@ -181,12 +170,11 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 		return ;
 	}
 
-	int politType = Pi::game->GetSpace()->GetStarSystem()->GetSysPolit().govType;
+	Uint32 factionIdx = Pi::game->GetSpace()->GetStarSystem()->GetFactionIndex();
 
-	if (s_govDesc[politType].faction != UINT_MAX) {
-		const Uint32 b = s_govDesc[politType].faction;
-		*crimeBitset = s_playerPerBlocCrimeRecord[b].record;
-		*fine = s_playerPerBlocCrimeRecord[b].fine;
+	if (factionIdx != Faction::BAD_FACTION_IDX) {
+		*crimeBitset = s_playerPerBlocCrimeRecord[factionIdx].record;
+		*fine = s_playerPerBlocCrimeRecord[factionIdx].fine;
 	} else {
 		SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 		*crimeBitset = s_criminalRecord.Get(path, 0);
@@ -215,12 +203,14 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 		if (path == SystemPath(0,0,0,0)) {
 			a = Polit::GOV_EARTHDEMOC;
 		} else if (human_infestedness > 0) {
+			// attempt to get the government type from the faction
 			const Faction *fac = Faction::GetFaction( s->GetFactionIndex() );
-			if( fac && fac->govType != GOV_INVALID) {
-				// found valid faction
-				a = fac->govType;
-			} else {
-				// found an invalid faction, meaning index 0 and thus independent, pick something at random
+			if( fac ) {
+				a = fac->PickGovType(rand);	
+			}
+						
+			// if that fails, either no faction or a faction with no gov types, then pick something at random
+			if (a == GOV_INVALID) {
 				a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
 			}
 		} else {
@@ -243,9 +233,9 @@ bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 	Polit::GovType a = s->GetSysPolit().govType;
 	if (a == GOV_NONE) return true;
 
-	const Uint32 b = s_govDesc[a].faction;
-	if( b != UINT_MAX ) {
-		const Faction *fac = Faction::GetFaction( b );
+	const Uint32 factionIdx = s->GetFactionIndex();
+	if( factionIdx != Faction::BAD_FACTION_IDX ) {
+		const Faction *fac = Faction::GetFaction( factionIdx );
 		assert(fac);
 		Faction::EquipProbMap::const_iterator iter = fac->equip_legality.find(t);
 		if( iter != fac->equip_legality.end() ) {
@@ -284,13 +274,3 @@ const char *SysPolit::GetEconomicDesc() const
 {
 	return Polit::s_econDesc[ Polit::s_govDesc[govType].econ ];
 }
-
-const char *SysPolit::GetAllegianceDesc() const
-{
-	if( Polit::s_govDesc[govType].faction != UINT_MAX ) {
-		const Faction *ptr = Faction::GetFaction( Polit::s_govDesc[govType].faction );
-		return ptr ? ptr->name.c_str() : Lang::NO_CENTRAL_GOVERNANCE;
-	}
-	return Lang::INDEPENDENT;
-}
-

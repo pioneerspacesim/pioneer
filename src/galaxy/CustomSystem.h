@@ -79,6 +79,7 @@ public:
 	Uint32                 seed;
 	bool                   want_rand_explored;
 	bool                   explored;
+	Uint32				   factionIdx;
 	Polit::GovType         govType;
 	std::string            shortDesc;
 	std::string            longDesc;

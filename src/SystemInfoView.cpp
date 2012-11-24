@@ -381,7 +381,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		col2->Add(new Gui::Label(m_system->GetSysPolit().GetEconomicDesc()), 0, 3*YSEP);
 
 		col1->Add((new Gui::Label(Lang::ALLEGIANCE))->Color(1,1,0), 0, 4*YSEP);
-		col2->Add(new Gui::Label(m_system->GetSysPolit().GetAllegianceDesc()), 0, 4*YSEP);
+		col2->Add(new Gui::Label(m_system->GetAllegianceDesc()), 0, 4*YSEP);
 
 		col1->Add((new Gui::Label(Lang::POPULATION))->Color(1,1,0), 0, 5*YSEP);
 		std::string popmsg;
