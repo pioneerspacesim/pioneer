@@ -35,7 +35,8 @@ Alpha 29
      * debug.deprecated function to warn when a deprecated function is used (#1718)
 
    * Internal changes
-     * Wrapper to allow new UI to provide views for the old GUI system (#1691)
+     * Wrapper to allow new UI to provide views for the old GUI system (#1691,
+       #1755, #1756)
      * Fix the LuaObject the Check/GetFromLua, which were swapped round (#1730)
 
 Alpha 28
