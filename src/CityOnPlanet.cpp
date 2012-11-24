@@ -11,7 +11,7 @@
 #include "Planet.h"
 #include "SpaceStation.h"
 #include "collider/Geom.h"
-#include "newmodel/Newmodel.h"
+#include "scenegraph/SceneGraph.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 

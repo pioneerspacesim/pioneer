@@ -13,7 +13,7 @@
 #include "BezierCurve.h"
 #include "Serializer.h"
 #include "Camera.h"
-#include "newmodel/Newmodel.h"
+#include "scenegraph/SceneGraph.h"
 #include <list>
 
 class SpaceStation;

@@ -9,8 +9,7 @@
 #include "graphics/Texture.h"
 #include "LmrTypes.h"
 #include "LuaManager.h"
-#include "newmodel/NModel.h"
-#include "newmodel/ModelNode.h"
+#include "scenegraph/SceneGraph.h"
 #include "ui/Context.h"
 
 class ModelViewer {

@@ -87,7 +87,7 @@
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
 #include "gui/Gui.h"
-#include "newmodel/NModel.h"
+#include "scenegraph/NModel.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
 #include "gameui/Lua.h"

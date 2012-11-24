@@ -3,9 +3,8 @@
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/TextureBuilder.h"
-#include "newmodel/Newmodel.h"
-#include "newmodel/DumpVisitor.h"
-#include "newmodel/FindNodeVisitor.h"
+#include "scenegraph/DumpVisitor.h"
+#include "scenegraph/FindNodeVisitor.h"
 #include "OS.h"
 #include "Pi.h"
 #include <sstream>

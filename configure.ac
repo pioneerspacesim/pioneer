@@ -336,7 +336,7 @@ AC_CONFIG_FILES([
 	src/gameui/Makefile
 	src/gui/Makefile
 	src/graphics/Makefile
-	src/newmodel/Makefile
+	src/scenegraph/Makefile
 	src/galaxy/Makefile
 	src/terrain/Makefile
 	src/text/Makefile

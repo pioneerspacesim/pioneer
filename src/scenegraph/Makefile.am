@@ -6,7 +6,7 @@ AM_CXXFLAGS += $(WARN_CXXFLAGS)
 
 INCLUDES = -I$(srcdir)/..
 
-noinst_LIBRARIES = libnewmodel.a
+noinst_LIBRARIES = libscenegraph.a
 noinst_HEADERS = \
 	AnimationChannel.h \
 	Animation.h \
@@ -23,7 +23,7 @@ noinst_HEADERS = \
 	LOD.h \
 	MatrixTransform.h \
 	ModelNode.h \
-	Newmodel.h \
+	SceneGraph.h \
 	NModel.h \
 	Node.h \
 	NodeVisitor.h \
@@ -32,7 +32,7 @@ noinst_HEADERS = \
 	StaticGeometry.h \
 	Thruster.h
 
-libnewmodel_a_SOURCES = \
+libscenegraph_a_SOURCES = \
 	Animation.cpp \
 	Billboard.cpp \
 	CollisionVisitor.cpp \

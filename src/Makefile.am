@@ -5,7 +5,7 @@ endif
 if BUILD_POSIX
     PLATFORM_SUBDIRS = posix
 endif
-SUBDIRS = collider gui graphics galaxy newmodel terrain text ui gameui $(PLATFORM_SUBDIRS)
+SUBDIRS = collider gui graphics galaxy scenegraph terrain text ui gameui $(PLATFORM_SUBDIRS)
 
 include $(top_srcdir)/Makefile.common
 
@@ -309,7 +309,7 @@ pioneer_LDADD = \
 	gui/libgui.a \
 	graphics/libgraphics.a \
 	galaxy/libgalaxy.a \
-	newmodel/libnewmodel.a \
+	scenegraph/libscenegraph.a \
 	text/libtext.a \
 	terrain/libterrain.a \
 	ui/libui.a \

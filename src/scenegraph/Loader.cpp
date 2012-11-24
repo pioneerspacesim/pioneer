@@ -4,7 +4,7 @@
 #include "Loader.h"
 #include "FileSystem.h"
 #include "LOD.h"
-#include "Newmodel.h"
+#include "SceneGraph.h"
 #include "Parser.h"
 #include "StaticGeometry.h"
 #include "StringF.h"

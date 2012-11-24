@@ -1,5 +1,5 @@
 ﻿#include "ModelCache.h"
-#include "newmodel/Newmodel.h"
+#include "scenegraph/SceneGraph.h"
 
 ModelCache::ModelCache(Graphics::Renderer *r)
 : m_renderer(r)
