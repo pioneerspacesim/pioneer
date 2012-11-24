@@ -57,8 +57,8 @@ private:
 	void PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius);
 
 	void DrawFarSectors(matrix4x4f modelview);
-	void BuildFarSector(Sector *sec, const vector3f &origin, int drawRadius, std::vector<vector3f> &points, std::vector<Color> &colors);
-	void PutFactionLabels(const vector3f &secPos, int drawRadius);
+	void BuildFarSector(Sector *sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors);
+	void PutFactionLabels(const vector3f &secPos);
 
 	void SetSelectedSystem(const SystemPath &path);
 	void OnClickSystem(const SystemPath &path);
@@ -90,6 +90,7 @@ private:
 	float m_rotXMovingTo, m_rotZMovingTo;
 
 	float m_zoom;
+	float m_zoomClamped;
 	float m_zoomMovingTo;
 
 	SystemPath m_hyperspaceTarget;
@@ -99,6 +100,7 @@ private:
 
 	Gui::Label *m_sectorLabel;
 	Gui::Label *m_distanceLabel;
+	Gui::Label *m_zoomLevelLabel;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;

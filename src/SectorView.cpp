@@ -26,6 +26,8 @@ using namespace Graphics;
 #define INNER_RADIUS (Sector::SIZE*1.5f)
 #define OUTER_RADIUS (Sector::SIZE*3.0f)
 #define FAR_THRESHOLD 5.f
+#define FAR_LIMIT     36.f
+#define FAR_MAX       46.f
 
 #define DETAILBOX_NONE    0
 #define DETAILBOX_INFO    1
@@ -114,6 +116,9 @@ void SectorView::InitObject()
 	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
 	m_zoomInButton->SetRenderDimensions(30, 22);
 	Add(m_zoomInButton, 700, 5);
+
+	m_zoomLevelLabel = (new Gui::Label(""))->Color(0.27f, 0.86f, 0.92f);
+	Add(m_zoomLevelLabel, 640, 5);
 
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
@@ -329,8 +334,8 @@ void SectorView::Draw3D()
 {
 	m_clickableLabels->Clear();
 
-	if (m_zoom <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 100.f);
-	else                         m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 600.f);
+	if (m_zoomClamped <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 100.f);
+	else                                m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 600.f);
 
 	matrix4x4f modelview = matrix4x4f::Identity();
 	m_renderer->ClearScreen();
@@ -339,6 +344,8 @@ void SectorView::Draw3D()
 		formatarg("x", int(floorf(m_pos.x))),
 		formatarg("y", int(floorf(m_pos.y))),
 		formatarg("z", int(floorf(m_pos.z)))));
+
+	m_zoomLevelLabel->SetText(stringf(Lang::NUMBER_LY, formatarg("distance", ((m_zoomClamped/FAR_THRESHOLD )*(OUTER_RADIUS)) + 0.5 * Sector::SIZE)));
 
 	if (m_inSystem) {
 		vector3f dv = vector3f(floorf(m_pos.x)-m_current.sectorX, floorf(m_pos.y)-m_current.sectorY, floorf(m_pos.z)-m_current.sectorZ) * Sector::SIZE;
@@ -349,7 +356,7 @@ void SectorView::Draw3D()
 	}
 
 	// units are lightyears, my friend
-	modelview.Translate(0.f, 0.f, -10.f-10.f*m_zoom);
+	modelview.Translate(0.f, 0.f, -10.f-10.f*m_zoom);    // not zoomClamped, let us zoom out a bit beyond what we're drawing
 	modelview.Rotate(DEG2RAD(m_rotX), 1.f, 0.f, 0.f);
 	modelview.Rotate(DEG2RAD(m_rotZ), 0.f, 0.f, 1.f);
 	modelview.Translate(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);	
@@ -357,8 +364,8 @@ void SectorView::Draw3D()
 	
 	m_renderer->SetBlendMode(BLEND_ALPHA);
 
-	if (m_zoom <= FAR_THRESHOLD) DrawNearSectors(modelview);
-	else                         DrawFarSectors(modelview);
+	if (m_zoomClamped <= FAR_THRESHOLD) DrawNearSectors(modelview);
+	else                                DrawFarSectors(modelview);
 
 	UpdateFactionToggles();
 
@@ -404,7 +411,7 @@ void SectorView::GotoSector(const SystemPath &path)
 	m_posMovingTo = vector3f(path.sectorX, path.sectorY, path.sectorZ);
 
 	// for performance don't animate the travel if we're Far Zoomed
-	if (m_zoom > FAR_THRESHOLD) m_pos = m_posMovingTo;
+	if (m_zoomClamped > FAR_THRESHOLD) m_pos = m_posMovingTo;
 }
 
 void SectorView::GotoSystem(const SystemPath &path)
@@ -416,7 +423,7 @@ void SectorView::GotoSystem(const SystemPath &path)
 	m_posMovingTo.z = path.sectorZ + p.z/Sector::SIZE;
 
 	// for performance don't animate the travel if we're Far Zoomed
-	if (m_zoom > FAR_THRESHOLD) m_pos = m_posMovingTo;
+	if (m_zoomClamped > FAR_THRESHOLD) m_pos = m_posMovingTo;
 }
 
 void SectorView::SetSelectedSystem(const SystemPath &path)
@@ -464,7 +471,7 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 	}
 }
 
-void SectorView::PutFactionLabels(const vector3f &origin, int drawRadius)
+void SectorView::PutFactionLabels(const vector3f &origin)
 {
 	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
@@ -472,7 +479,7 @@ void SectorView::PutFactionLabels(const vector3f &origin, int drawRadius)
 		if ((*it)->hasHomeworld && m_hiddenFactions.find((*it)) == m_hiddenFactions.end()) {
 			
 			Sector::System sys = GetCached((*it)->homeworld)->m_systems[(*it)->homeworld.systemIndex];
-			if ((m_pos*Sector::SIZE - sys.FullPosition()).Length() > drawRadius) continue;
+			if ((m_pos*Sector::SIZE - sys.FullPosition()).Length() > (m_zoomClamped/FAR_THRESHOLD )*OUTER_RADIUS) continue;
 			
 			vector3d pos;
 			if (Gui::Screen::Project(vector3d(sys.FullPosition() - origin), pos)) {
@@ -789,9 +796,9 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 
 void SectorView::DrawFarSectors(matrix4x4f modelview)
 {
-	int buildRadius = ceilf((m_zoom + 1) / 2);
+	int buildRadius = ceilf((m_zoomClamped/FAR_THRESHOLD) * 3);
 	if (buildRadius <= DRAW_RAD) buildRadius = DRAW_RAD;
-	
+
 	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
 
 	// build vertex and colour arrays for all the stars we want to see, if we don't already have them
@@ -804,7 +811,7 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 			for (int sy = secOrigin.z-buildRadius; sy <= secOrigin.y+buildRadius; sy++) {
 				for (int sz = secOrigin.z-buildRadius; sz <= secOrigin.z+buildRadius; sz++) {
 						if ((vector3f(sx,sy,sz) - secOrigin).Length() <= buildRadius){
-							BuildFarSector(GetCached(sx, sy, sz), Sector::SIZE * secOrigin, Sector::SIZE*buildRadius, m_farstars, m_farstarsColor);
+							BuildFarSector(GetCached(sx, sy, sz), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
 						}
 					}
 				}
@@ -816,18 +823,18 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 	}
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
-	m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], roundf(1.f + (Pi::GetScrHeight() / 960.f))); 
+	m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 1.f + (Pi::GetScrHeight() / 720.f)); 
 
 	// also add labels for any faction homeworlds among the systems we've drawn
-	PutFactionLabels(Sector::SIZE * secOrigin, Sector::SIZE * buildRadius);
+	PutFactionLabels(Sector::SIZE * secOrigin);
 }
 
-void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, int drawRadius, std::vector<vector3f> &points, std::vector<Color> &colors)
+void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors)
 {
 	Color starColor;
 	for (std::vector<Sector::System>::iterator i = sec->m_systems.begin(); i != sec->m_systems.end(); ++i) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
-		if ((m_pos*Sector::SIZE - (*i).FullPosition()).Length() > drawRadius) continue;
+		if ((m_pos*Sector::SIZE - (*i).FullPosition()).Length() > (m_zoomClamped/FAR_THRESHOLD )*OUTER_RADIUS) continue;
 
 		// if the system belongs to a faction we've chosen to temporarily hide also skip it.
 		m_visibleFactions.insert(i->faction);
@@ -981,7 +988,7 @@ void SectorView::Update()
 		if (Pi::KeyState(SDLK_MINUS)) m_zoomMovingTo += move;
 		if (m_zoomInButton->IsPressed()) m_zoomMovingTo -= move;
 		if (m_zoomOutButton->IsPressed()) m_zoomMovingTo += move;
-		m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, 40.f);
+		m_zoomMovingTo = Clamp(m_zoomMovingTo, 0.1f, FAR_MAX);
 
 		if (Pi::KeyState(SDLK_a) || Pi::KeyState(SDLK_d))
 			m_rotZMovingTo += (Pi::KeyState(SDLK_a) ? -0.5f : 0.5f) * moveSpeed;
@@ -1019,6 +1026,7 @@ void SectorView::Update()
 		float travelZoom = diffZoom * ZOOM_SPEED*frameTime;
 		if (fabs(travelZoom) > fabs(diffZoom)) m_zoom = m_zoomMovingTo;
 		else m_zoom = m_zoom + travelZoom;
+		m_zoomClamped = Clamp(m_zoom, 1.f, FAR_LIMIT);
 	}
 
 	if (m_selectionFollowsMovement) {
@@ -1094,8 +1102,8 @@ Sector* SectorView::GetCached(const int sectorX, const int sectorY, const int se
 void SectorView::ShrinkCache()
 {
 	// we're going to use these to determine if our sectors are within the range that we'll ever render
-	int drawRadius = ceilf((m_zoom + 1) / 2);
-	if (m_zoom <= FAR_THRESHOLD || drawRadius < DRAW_RAD) drawRadius = DRAW_RAD;
+	int drawRadius = ceilf((m_zoomClamped/FAR_THRESHOLD) * 3);
+	if (m_zoomClamped <= FAR_THRESHOLD) drawRadius = DRAW_RAD;
 
 	const int xmin = int(floorf(m_pos.x))-drawRadius;
 	const int xmax = int(floorf(m_pos.x))+drawRadius;
