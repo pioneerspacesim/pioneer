@@ -2182,7 +2182,7 @@ SystemBody::~SystemBody()
 {
 	for (std::vector<SystemBody*>::iterator i = children.begin(); i != children.end(); ++i) {
 		delete (*i);
-	}
+	}	
 }
 
 void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)

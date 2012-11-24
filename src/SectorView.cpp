@@ -6,10 +6,11 @@
 #include "Pi.h"
 #include "SectorView.h"
 #include "galaxy/Sector.h"
+#include "galaxy/StarSystem.h"
 #include "SystemInfoView.h"
+#include "LuaFaction.h"
 #include "Player.h"
 #include "Serializer.h"
-#include "galaxy/StarSystem.h"
 #include "GalacticView.h"
 #include "Lang.h"
 #include "StringF.h"
@@ -537,26 +538,20 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
 		// don't worry about looking for inhabited systems if they're
-		// unexplored (same calculation as in StarSystem.cpp)
-		if (isqrt(1 + sx*sx + sy*sy + sz*sz) <= 90) {
-
+		// unexplored (same calculation as in StarSystem.cpp) or we've
+		// already retrieved their population.
+		if ((*i).population < 0 && isqrt(1 + sx*sx + sy*sy + sz*sz) <= 90) {
+					
 			// only do this once we've pretty much stopped moving.
 			vector3f diff = vector3f(
 					fabs(m_posMovingTo.x - m_pos.x),
 					fabs(m_posMovingTo.y - m_pos.y),
 					fabs(m_posMovingTo.z - m_pos.z));
+
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
-			if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
+			if( (diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f) ) {
 				RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
-				if( (!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0) )
-				{
-					(*i).SetInhabited(true);
-				}
-				else
-				{
-					(*i).SetInhabited(false);
-				}
-				(*i).factionColour = pSS->GetFactionColour();
+				(*i).population = pSS->m_totalPop;
 			}
 		}
 
@@ -627,21 +622,29 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			m_disk->Draw(m_renderer);
 		}
 
+		// system labels, and their colours
 		glDepthRange(0,1);
+		Color labelColour = (*i).factionColour;
 
-		Color labelColor(0.8f,0.8f,0.8f,0.5f);
-		if ((*i).IsSetInhabited() && (*i).IsInhabited()) {
-			labelColor = (*i).factionColour;
-			labelColor.a = 0.5f;
+		// if the system isn't populated it doesn't get it's label in faction colours...
+		if ((*i).population == 0) labelColour = Faction::BAD_FACTION_COLOUR;
+		
+		// ...but if it is populated, then we vary the label brightness based on number of inhabitants.
+		else if ((*i).population >  0) {
+			// since we have a lot of low population systems (<1 billion) but a few very high population systems, use a log based scale
+			labelColour.a = Faction::FACTION_BASE_ALPHA + (M_E + (logf((*i).population.ToFloat() / 1.25))) / ((2 * M_E) + Faction::FACTION_BASE_ALPHA);
+		} else {
+			labelColour.a = Faction::FACTION_BASE_ALPHA;
 		}
 
+		// And systems within our hyperspace range always get a bright label.
 		if (m_inSystem) {
 			float dist = Sector::DistanceBetween( ps, num, GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ), m_current.systemIndex);
 			if (dist <= m_playerHyperspaceRange)
-				labelColor.a = 1.0f;
+				labelColour.a = 1.0f;
 		}
 
-		PutClickableLabel((*i).name, labelColor, current);
+		PutClickableLabel((*i).name, labelColour, current);
 	}
 }
 
@@ -884,6 +887,7 @@ Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 
 	s = new Sector(sectorX, sectorY, sectorZ);
 	m_sectorCache.insert( std::pair<SystemPath,Sector*>(loc, s) );
+	s->ColourFactions();
 
 	return s;
 }
