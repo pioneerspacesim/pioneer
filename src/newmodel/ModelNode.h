@@ -9,7 +9,7 @@
 #include "Node.h"
 #include "Model.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 class ModelNode : public Node {
 public:

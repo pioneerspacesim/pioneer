@@ -1,4 +1,4 @@
-#ifndef _NEWMODELVIWEWER_H
+#ifndef _NEWMODELVIEWER_H
 #define _NEWMODELVIEWER_H
 /*
  * Viewer for the new format models.
@@ -80,12 +80,12 @@ private:
 	matrix4x4f m_modelRot;
 	ModelParams m_modelParams;
 	MTRand m_rng;
-	Newmodel::Animation *m_currentAnimation;
-	Newmodel::NModel *m_model;
+	SceneGraph::Animation *m_currentAnimation;
+	SceneGraph::NModel *m_model;
 	Options m_options;
-	RefCountedPtr<Newmodel::ModelNode> m_gunModelNode;
+	RefCountedPtr<SceneGraph::ModelNode> m_gunModelNode;
 	RefCountedPtr<UI::Context> m_ui;
-	ScopedPtr<Newmodel::NModel> m_gunModel;
+	ScopedPtr<SceneGraph::NModel> m_gunModel;
 	std::string m_modelName;
 	vector3f m_camPos;
 

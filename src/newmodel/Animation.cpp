@@ -4,7 +4,7 @@
 #include "Animation.h"
 #include <iostream>
 
-namespace Newmodel {
+namespace SceneGraph {
 
 typedef std::vector<AnimationChannel>::iterator ChannelIterator;
 

@@ -7,7 +7,7 @@
 #include "graphics/Material.h"
 #include "graphics/TextureBuilder.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 static const std::string thrusterTextureFilename("textures/thruster.png");
 static const std::string thrusterGlowTextureFilename("textures/halo.png");

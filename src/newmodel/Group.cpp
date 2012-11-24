@@ -4,7 +4,7 @@
 #include "Group.h"
 #include "NodeVisitor.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 Group::Group()
 : Node(NODE_SOLID | NODE_TRANSPARENT)

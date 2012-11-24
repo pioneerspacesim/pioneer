@@ -6,7 +6,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 Label3D::Label3D(RefCountedPtr<Text::DistanceFieldFont> font, Graphics::Renderer *r)
 : Node(NODE_SOLID) //appropriate for alpha testing

@@ -83,12 +83,12 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 
 	//load gun model for attachment test
 	{
-		Newmodel::Loader loader(m_renderer);
+		SceneGraph::Loader loader(m_renderer);
 		try {
-			Newmodel::NModel *m = loader.LoadModel("test_gun");
+			SceneGraph::NModel *m = loader.LoadModel("test_gun");
 			m_gunModel.Reset(m);
-			m_gunModelNode.Reset(new Newmodel::ModelNode(m_gunModel.Get()));
-		} catch (Newmodel::LoadingError &) {
+			m_gunModelNode.Reset(new SceneGraph::ModelNode(m_gunModel.Get()));
+		} catch (SceneGraph::LoadingError &) {
 			AddLog("Could not load test_gun model");
 		}
 	}
@@ -154,7 +154,7 @@ void ModelViewer::Run(int argc, char** argv)
 
 bool ModelViewer::OnAnimPlay(UI::Widget *w, bool reverse)
 {
-	Newmodel::Animation::Direction dir = reverse ? Newmodel::Animation::REVERSE : Newmodel::Animation::FORWARD;
+	SceneGraph::Animation::Direction dir = reverse ? SceneGraph::Animation::REVERSE : SceneGraph::Animation::FORWARD;
 	const std::string animname = animSelector->GetSelectedOption();
 	m_playing = !m_playing;
 	if (m_playing) {
@@ -232,8 +232,8 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 	}
 
 	m_options.attachGuns = !m_options.attachGuns;
-	Newmodel::Group *tagL = m_model->FindTagByName("tag_gun_left");
-	Newmodel::Group *tagR = m_model->FindTagByName("tag_gun_right");
+	SceneGraph::Group *tagL = m_model->FindTagByName("tag_gun_left");
+	SceneGraph::Group *tagR = m_model->FindTagByName("tag_gun_right");
 	if (!tagL || !tagR) {
 		AddLog("Missing tags gun_left and gun_right in model");
 		return false;
@@ -486,8 +486,8 @@ void ModelViewer::OnAnimChanged(unsigned int, const std::string &name)
 	// Find the animation matching the name (could also store the anims in a map
 	// when the animationSelector is filled)
 	if (!name.empty()) {
-		const std::vector<Newmodel::Animation*> &anims = m_model->GetAnimations();
-		for (std::vector<Newmodel::Animation*>::const_iterator anim = anims.begin(); anim != anims.end(); ++anim) {
+		const std::vector<SceneGraph::Animation*> &anims = m_model->GetAnimations();
+		for (std::vector<SceneGraph::Animation*>::const_iterator anim = anims.begin(); anim != anims.end(); ++anim) {
 			if ((*anim)->GetName() == name)
 				m_currentAnimation = (*anim);
 		}
@@ -672,7 +672,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 
 	try {
 		m_modelName = filename;
-		Newmodel::Loader loader(m_renderer);
+		SceneGraph::Loader loader(m_renderer);
 		m_model = loader.LoadModel(filename);
 
 		//set decal textures, max 4 supported.
@@ -682,10 +682,10 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		m_model->SetDecalTexture(m_decalTexture, 2);
 		m_model->SetDecalTexture(m_decalTexture, 3);
 
-		Newmodel::DumpVisitor d;
+		SceneGraph::DumpVisitor d;
 		m_model->GetRoot()->Accept(d);
 		AddLog("Done.");
-	} catch (Newmodel::LoadingError &err) {
+	} catch (SceneGraph::LoadingError &err) {
 		// report the error and show model picker.
 		m_model = 0;
 		AddLog(stringf("Could not load model %0: %1", filename, err.what()));
@@ -891,7 +891,7 @@ void ModelViewer::SetupUI()
 	//// Thrust sliders
 	bool supportsThrusters = false;
 	{
-		Newmodel::FindNodeVisitor fivi(Newmodel::FindNodeVisitor::MATCH_NAME_STARTSWITH, "thruster_");
+		SceneGraph::FindNodeVisitor fivi(SceneGraph::FindNodeVisitor::MATCH_NAME_STARTSWITH, "thruster_");
 		m_model->GetRoot()->Accept(fivi);
 		supportsThrusters = !fivi.GetResults().empty();
 	}
@@ -933,7 +933,7 @@ void ModelViewer::UpdateAnimList()
 {
 	animSelector->Clear();
 	if (m_model) {
-		const std::vector<Newmodel::Animation*> &anims = m_model->GetAnimations();
+		const std::vector<SceneGraph::Animation*> &anims = m_model->GetAnimations();
 		for(unsigned int i=0; i<anims.size(); i++) {
 			animSelector->AddOption(anims[i]->GetName());
 		}
@@ -997,7 +997,7 @@ void ModelViewer::UpdatePatternList()
 	patternSelector->Clear();
 
 	if (m_model) {
-		const Newmodel::PatternContainer &pats = m_model->GetPatterns();
+		const SceneGraph::PatternContainer &pats = m_model->GetPatterns();
 		for(unsigned int i=0; i<pats.size(); i++) {
 			patternSelector->AddOption(pats[i].name);
 		}

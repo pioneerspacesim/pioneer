@@ -1,14 +1,14 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _NEWMODEL_ANIMATIONCHANNEL_H
-#define _NEWMODEL_ANIMATIONCHANNEL_H
+#ifndef _SCENEGRAPH_ANIMATIONCHANNEL_H
+#define _SCENEGRAPH_ANIMATIONCHANNEL_H
 /*
  * Animation channel affecting a single transform node
  */
 #include "MatrixTransform.h"
 #include "AnimationKey.h"
-namespace Newmodel {
+namespace SceneGraph {
 
 class AnimationChannel {
 public:

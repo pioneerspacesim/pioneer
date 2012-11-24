@@ -4,7 +4,7 @@
 #include "ModelNode.h"
 #include "NModel.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 ModelNode::ModelNode(Model *m) :
 	Node(),

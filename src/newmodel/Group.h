@@ -1,14 +1,13 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _MODEL_GROUP_H
-#define _MODEL_GROUP_H
+#ifndef _SCENEGRAPH_GROUP_H
+#define _SCENEGRAPH_GROUP_H
 
 #include "Node.h"
 #include <vector>
 
-namespace Newmodel
-{
+namespace SceneGraph {
 
 class Group : public Node
 {

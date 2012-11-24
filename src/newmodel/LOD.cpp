@@ -5,7 +5,7 @@
 #include "graphics/Graphics.h"
 #include "StringF.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 LOD::LOD() : Group()
 {

@@ -316,7 +316,7 @@ private:
 
 	int m_dockedWithIndex; // deserialisation
 
-	Newmodel::Animation *m_landingGearAnimation;
+	SceneGraph::Animation *m_landingGearAnimation;
 };
 
 

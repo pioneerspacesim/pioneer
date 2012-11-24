@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _NEWMODEL_ANIMATION_H
-#define _NEWMODEL_ANIMATION_H
+#ifndef _SCENEGRAPH_ANIMATION_H
+#define _SCENEGRAPH_ANIMATION_H
 /*
  * A named animation, such as "GearDown".
  * An animation has a number of channels, each of which
@@ -10,7 +10,7 @@
  */
 #include "AnimationChannel.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 class Loader;
 

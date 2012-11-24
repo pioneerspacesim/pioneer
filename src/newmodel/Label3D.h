@@ -1,8 +1,8 @@
 ﻿// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _NEWMODEL_LABEL_H
-#define _NEWMODEL_LABEL_H
+#ifndef _SCENEGRAPH_LABEL_H
+#define _SCENEGRAPH_LABEL_H
 /*
  * Text geometry node, mostly for ship labels
  */
@@ -14,7 +14,7 @@ namespace Graphics {
 	class Renderer;
 }
 
-namespace Newmodel {
+namespace SceneGraph {
 
 class Label3D : public Node {
 public:

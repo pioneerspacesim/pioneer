@@ -6,7 +6,7 @@
 #include "graphics/Texture.h"
 #include "graphics/TextureBuilder.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 Pattern::Pattern()
 : smoothColor(false)

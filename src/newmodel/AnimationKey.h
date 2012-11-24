@@ -1,13 +1,13 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _NEWMODEL_ANIMATIONKEY_H
-#define _NEWMODEL_ANIMATIONKEY_H
+#ifndef _SCENEGRAPH_ANIMATIONKEY_H
+#define _SCENEGRAPH_ANIMATIONKEY_H
 
 #include "vector3.h"
 #include "Quaternion.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 struct AnimationKey {
 	double time;

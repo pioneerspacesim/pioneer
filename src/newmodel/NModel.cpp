@@ -5,7 +5,7 @@
 #include "CollisionVisitor.h"
 #include "graphics/Renderer.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 class LabelUpdateVisitor : public NodeVisitor {
 public:

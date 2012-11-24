@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _NEWMODEL_COLORMAP_H
-#define _NEWMODEL_COLORMAP_H
+#ifndef _SCENEGRAPH_COLORMAP_H
+#define _SCENEGRAPH_COLORMAP_H
 /*
  * Color look-up texture generator for newmodel pattern system
  */
@@ -11,7 +11,7 @@
 
 namespace Graphics { class Renderer; }
 
-namespace Newmodel {
+namespace SceneGraph {
 
 class ColorMap {
 public:

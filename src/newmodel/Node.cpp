@@ -5,7 +5,7 @@
 #include "NodeVisitor.h"
 #include "graphics/Renderer.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 Node::Node()
 : m_name("")

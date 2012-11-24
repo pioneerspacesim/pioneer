@@ -14,7 +14,7 @@
 
 class CollMesh;
 
-namespace Newmodel {
+namespace SceneGraph {
 
 class Group;
 class MatrixTransform;

@@ -5,7 +5,7 @@
 /*
  * Print the graph structure to console
  */
-namespace Newmodel {
+namespace SceneGraph {
 
 class DumpVisitor : public NodeVisitor {
 public:

@@ -11,7 +11,7 @@
 #include "StaticGeometry.h"
 #include "Thruster.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 void NodeVisitor::ApplyNode(Node &n)
 {

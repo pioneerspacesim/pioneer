@@ -7,7 +7,7 @@
 #include "StringRange.h"
 #include <sstream>
 
-namespace Newmodel {
+namespace SceneGraph {
 
 bool LodSortPredicate(const LodDefinition &a, const LodDefinition &b)
 {

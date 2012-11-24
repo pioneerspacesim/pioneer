@@ -12,7 +12,7 @@
 
 namespace Graphics { class Renderer; }
 
-namespace Newmodel
+namespace SceneGraph
 {
 
 class NodeVisitor;

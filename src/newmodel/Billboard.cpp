@@ -4,7 +4,7 @@
 #include "Billboard.h"
 #include "graphics/Renderer.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 Billboard::Billboard(RefCountedPtr<Graphics::Material> mat, float size)
 : Node(NODE_TRANSPARENT)

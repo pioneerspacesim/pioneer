@@ -1,15 +1,15 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _NEWMODEL_FINDNODEVISITOR_H
-#define _NEWMODEL_FINDNODEVISITOR_H
+#ifndef _SCENEGRAPH_FINDNODEVISITOR_H
+#define _SCENEGRAPH_FINDNODEVISITOR_H
 /*
  * Returns a list of nodes according to search criteria
  * Note, does not remove duplicates
  */
 #include "NodeVisitor.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 class FindNodeVisitor : public NodeVisitor {
 public:

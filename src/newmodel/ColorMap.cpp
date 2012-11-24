@@ -4,7 +4,7 @@
 #include "ColorMap.h"
 #include "graphics/Renderer.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 ColorMap::ColorMap()
 : m_smooth(true)

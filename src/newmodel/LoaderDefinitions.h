@@ -7,7 +7,7 @@
  * Data strcutrures used by Loader
  */
 #include "libs.h"
-namespace Newmodel {
+namespace SceneGraph {
 
 struct MaterialDefinition {
 	MaterialDefinition() :

@@ -8,7 +8,7 @@
 #include "graphics/Surface.h"
 #include "graphics/Material.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 StaticGeometry::StaticGeometry()
 : Node(NODE_SOLID)

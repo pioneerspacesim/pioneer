@@ -9,7 +9,7 @@
  */
 #include "libs.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 class Billboard;
 class Group;

@@ -178,7 +178,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		for (std::vector<std::string>::const_iterator it = filenames.begin();
 			it != filenames.end(); ++it)
 		{
-			Newmodel::NModel *model = Pi::modelCache->FindModel(*it);
+			SceneGraph::NModel *model = Pi::modelCache->FindModel(*it);
 			models.push_back(model);
 		}
 	}

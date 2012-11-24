@@ -10,7 +10,7 @@
 #include "matrix4x4.h"
 namespace Graphics { class Renderer; }
 
-namespace Newmodel {
+namespace SceneGraph {
 class MatrixTransform : public Group {
 public:
 	MatrixTransform(const matrix4x4f &m);

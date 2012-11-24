@@ -12,17 +12,17 @@ ModelCache::~ModelCache()
 	Flush();
 }
 
-Newmodel::NModel *ModelCache::FindModel(const std::string &name)
+SceneGraph::NModel *ModelCache::FindModel(const std::string &name)
 {
 	ModelMap::iterator it = m_models.find(name);
 
 	if (it == m_models.end()) {
 		try {
-			Newmodel::Loader loader(m_renderer);
-			Newmodel::NModel *m = loader.LoadModel(name);
+			SceneGraph::Loader loader(m_renderer);
+			SceneGraph::NModel *m = loader.LoadModel(name);
 			m_models[name] = m;
 			return m;
-		} catch (Newmodel::LoadingError &) {
+		} catch (SceneGraph::LoadingError &) {
 			throw ModelNotFoundException();
 		}
 	}

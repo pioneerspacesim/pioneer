@@ -6,7 +6,7 @@
 #include "Group.h"
 #include <iostream>
 
-namespace Newmodel {
+namespace SceneGraph {
 
 DumpVisitor::DumpVisitor()
 : m_level(0)

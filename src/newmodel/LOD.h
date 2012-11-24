@@ -8,7 +8,7 @@
  */
 #include "Group.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 class LOD : public Group {
 public:

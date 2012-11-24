@@ -9,7 +9,7 @@
 #include "graphics/StaticMesh.h"
 #include "graphics/Surface.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 CollisionVisitor::CollisionVisitor()
 {

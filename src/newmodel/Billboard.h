@@ -1,15 +1,15 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _NEWMODEL_BILLBOARD_H
-#define _NEWMODEL_BILLBOARD_H
+#ifndef _SCENEGRAPH_BILLBOARD_H
+#define _SCENEGRAPH_BILLBOARD_H
 /*
  * One or more billboard sprites, meant for lights mostly
  */
 #include "Node.h"
 #include "graphics/Material.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 class Billboard : public Node {
 public:

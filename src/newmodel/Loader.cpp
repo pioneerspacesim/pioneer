@@ -17,7 +17,7 @@
 #include <assimp/scene.h>
 #include <assimp/material.h>
 
-namespace Newmodel {
+namespace SceneGraph {
 
 Loader::Loader(Graphics::Renderer *r) :
 	m_renderer(r),

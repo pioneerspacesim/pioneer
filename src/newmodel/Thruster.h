@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _NEWMODEL_THRUSTER_H
-#define _NEWMODEL_THRUSTER_H
+#ifndef _SCENEGRAPH_THRUSTER_H
+#define _SCENEGRAPH_THRUSTER_H
 /*
  * Spaceship thruster
  */
@@ -15,7 +15,7 @@ namespace Graphics {
 	class Material;
 }
 
-namespace Newmodel {
+namespace SceneGraph {
 
 class Thruster : public Node {
 public:

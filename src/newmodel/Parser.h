@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _NEWMODEL_PARSER_H_
-#define _NEWMODEL_PARSER_H_
+#ifndef _SCENEGRAPH_PARSER_H_
+#define _SCENEGRAPH_PARSER_H_
 /*
  * Newmodel .model config file parser.
  * It's pretty bad, someone please redesign.
@@ -11,7 +11,7 @@
 #include "FileSystem.h"
 #include <stdexcept>
 
-namespace Newmodel {
+namespace SceneGraph {
 
 struct ParseError : public std::runtime_error {
 	ParseError(const std::string &str) : std::runtime_error(str.c_str()) { }

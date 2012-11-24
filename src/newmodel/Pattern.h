@@ -1,8 +1,8 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _NEWMODEL_PATTERN_H
-#define _NEWMODEL_PATTERN_H
+#ifndef _SCENEGRAPH_PATTERN_H
+#define _SCENEGRAPH_PATTERN_H
 /*
  * Patterns are a color look-up trick to have customizable
  * colours on models. Patterns are grayscale textures
@@ -17,7 +17,7 @@ namespace Graphics {
 	class Renderer;
 }
 
-namespace Newmodel {
+namespace SceneGraph {
 
 struct Pattern {
 	bool smoothColor;

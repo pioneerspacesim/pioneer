@@ -4,7 +4,7 @@
 #include "MatrixTransform.h"
 #include "NodeVisitor.h"
 #include "graphics/Renderer.h"
-namespace Newmodel {
+namespace SceneGraph {
 
 MatrixTransform::MatrixTransform(const matrix4x4f &m)
 : Group()

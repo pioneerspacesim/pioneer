@@ -5,7 +5,7 @@
 #include "Node.h"
 #include "utils.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 FindNodeVisitor::FindNodeVisitor(Criteria c, const std::string &s)
 : m_criteria(c)

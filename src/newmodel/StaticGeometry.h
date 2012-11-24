@@ -12,7 +12,7 @@
 #include "graphics/StaticMesh.h"
 #include "SmartPtr.h"
 
-namespace Newmodel {
+namespace SceneGraph {
 
 class NodeVisitor;
 
