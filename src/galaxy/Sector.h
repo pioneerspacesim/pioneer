@@ -47,14 +47,14 @@ public:
 
 		vector3f FullPosition() { return Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + p; };
 
-	private:
-		int sx, sy, sz;
+		const int sx, sy, sz;
 	};
 	std::vector<System> m_systems;
+
 private:
+	int sx, sy, sz;
 	void GetCustomSystems();
 	std::string GenName(System &sys, int si, MTRand &rand);
-	int sx, sy, sz;
 };
 
 #endif /* _SECTOR_H */

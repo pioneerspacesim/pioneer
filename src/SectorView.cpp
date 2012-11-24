@@ -440,17 +440,31 @@ void SectorView::OnClickSystem(const SystemPath &path)
 		SetSelectedSystem(path);
 }
 
-void SectorView::PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path)
+void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius)
 {
-	Gui::Screen::EnterOrtho();
-	vector3d pos;
-	if (Gui::Screen::Project(vector3d(0.0), pos)) {
-		m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), path), pos.x, pos.y, labelCol);
+	int num=0;
+	for (std::vector<Sector::System>::iterator sys = sec->m_systems.begin(); sys !=sec->m_systems.end(); ++sys, ++num) {
+		// skip the system if it doesn't fall within the sphere we're viewing.
+		if ((m_pos*Sector::SIZE - (*sys).FullPosition()).Length() > drawRadius) continue;
+
+		// place the label
+		vector3d systemPos = vector3d((*sys).FullPosition() - origin);
+		vector3d screenPos;
+		if (Gui::Screen::Project(systemPos, screenPos)) {
+			// work out the colour
+			float dist = Sector::DistanceBetween(sec, num, GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ), m_current.systemIndex);
+			Color labelColor = (*sys).faction->AdjustedColour((*sys).population, dist <= m_playerHyperspaceRange);
+
+			// get a system path to pass to the event handler when the label is licked
+			SystemPath sysPath = SystemPath((*sys).sx, (*sys).sy, (*sys).sz, num);
+
+			// setup the label
+			m_clickableLabels->Add((*sys).name, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sysPath), screenPos.x, screenPos.y, labelColor);
+		}
 	}
-	Gui::Screen::LeaveOrtho();
 }
 
-void SectorView::PutFactionLabels(const vector3f &secPos, int drawRadius)
+void SectorView::PutFactionLabels(const vector3f &origin, int drawRadius)
 {
 	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
@@ -458,10 +472,10 @@ void SectorView::PutFactionLabels(const vector3f &secPos, int drawRadius)
 		if ((*it)->hasHomeworld && m_hiddenFactions.find((*it)) == m_hiddenFactions.end()) {
 			
 			Sector::System sys = GetCached((*it)->homeworld)->m_systems[(*it)->homeworld.systemIndex];
-			if ((m_pos*Sector::SIZE - sys.FullPosition()).Length() > (drawRadius * Sector::SIZE)) continue;
+			if ((m_pos*Sector::SIZE - sys.FullPosition()).Length() > drawRadius) continue;
 			
 			vector3d pos;
-			if (Gui::Screen::Project(vector3d(sys.FullPosition() - (secPos * Sector::SIZE)), pos)) {
+			if (Gui::Screen::Project(vector3d(sys.FullPosition() - origin), pos)) {
 				
 				std::string labelText    = sys.name + "\n" + (*it)->name;
 				Color       labelColor  = (*it)->colour;
@@ -633,6 +647,21 @@ void SectorView::DrawNearSectors(matrix4x4f modelview)
 			}
 		}
 	}
+
+	// ...then switch and do all the labels	
+	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
+	
+	m_renderer->SetTransform(modelview);
+	glDepthRange(0,1);
+	Gui::Screen::EnterOrtho();
+	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
+		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
+			for (int sz = -DRAW_RAD; sz <= DRAW_RAD; sz++) {
+				PutSystemLabels(GetCached(sx + secOrigin.x, sy + secOrigin.y, sz + secOrigin.z), Sector::SIZE * secOrigin, Sector::SIZE * DRAW_RAD);
+			}
+		}
+	}
+	Gui::Screen::LeaveOrtho();
 }
 
 void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAbsPos,const matrix4x4f &trans)
@@ -755,58 +784,34 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
 		}
-
-		// system labels, and their colours
-		glDepthRange(0,1);
-		Color labelColour = (*i).faction->colour;
-
-		// if the system isn't populated it doesn't get it's label in faction colours...
-		if ((*i).population == 0) labelColour = Faction::BAD_FACTION_COLOUR;
-		
-		// ...but if it is populated, then we vary the label brightness based on number of inhabitants.
-		else if ((*i).population >  0) {
-			// since we have a lot of low population systems (<1 billion) but a few very high population systems, use a log based scale
-			labelColour.a = Faction::FACTION_BASE_ALPHA + (M_E + (logf((*i).population.ToFloat() / 1.25))) / ((2 * M_E) + Faction::FACTION_BASE_ALPHA);
-		} else {
-			labelColour.a = Faction::FACTION_BASE_ALPHA;
-		}
-
-		// And systems within our hyperspace range always get a bright label.
-		if (m_inSystem) {
-			float dist = Sector::DistanceBetween( ps, num, GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ), m_current.systemIndex);
-			if (dist <= m_playerHyperspaceRange)
-				labelColour.a = 1.0f;
-		}
-
-		PutClickableLabel((*i).name, labelColour, current);
 	}
 }
 
 void SectorView::DrawFarSectors(matrix4x4f modelview)
 {
-	int drawRadius = ceilf((m_zoom + 1) / 2);
-	if (drawRadius <= DRAW_RAD) drawRadius = DRAW_RAD;
+	int buildRadius = ceilf((m_zoom + 1) / 2);
+	if (buildRadius <= DRAW_RAD) buildRadius = DRAW_RAD;
 	
-	const vector3f secPos = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
+	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
 
 	// build vertex and colour arrays for all the stars we want to see, if we don't already have them
-	if (m_toggledFaction || drawRadius != m_radiusFar || !secPos.ExactlyEqual(m_secPosFar)) {
+	if (m_toggledFaction || buildRadius != m_radiusFar || !secOrigin.ExactlyEqual(m_secPosFar)) {
 		m_farstars       .clear();
 		m_farstarsColor  .clear();
 		m_visibleFactions.clear();
 
-		for (int sx = secPos.x-drawRadius; sx <= secPos.x+drawRadius; sx++) {
-			for (int sy = secPos.z-drawRadius; sy <= secPos.y+drawRadius; sy++) {
-				for (int sz = secPos.z-drawRadius; sz <= secPos.z+drawRadius; sz++) {
-						if ((vector3f(sx,sy,sz) - secPos).Length() <= drawRadius){
-							DrawFarSector(sx, sy, sz, drawRadius, secPos, m_farstars, m_farstarsColor);
+		for (int sx = secOrigin.x-buildRadius; sx <= secOrigin.x+buildRadius; sx++) {
+			for (int sy = secOrigin.z-buildRadius; sy <= secOrigin.y+buildRadius; sy++) {
+				for (int sz = secOrigin.z-buildRadius; sz <= secOrigin.z+buildRadius; sz++) {
+						if ((vector3f(sx,sy,sz) - secOrigin).Length() <= buildRadius){
+							BuildFarSector(GetCached(sx, sy, sz), Sector::SIZE * secOrigin, Sector::SIZE*buildRadius, m_farstars, m_farstarsColor);
 						}
 					}
 				}
 			}
 
-		m_secPosFar      = secPos;
-		m_radiusFar      = drawRadius;	
+		m_secPosFar      = secOrigin;
+		m_radiusFar      = buildRadius;
 		m_toggledFaction = false;
 	}
 
@@ -814,22 +819,15 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 	m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], roundf(1.f + (Pi::GetScrHeight() / 960.f))); 
 
 	// also add labels for any faction homeworlds among the systems we've drawn
-	PutFactionLabels(secPos, drawRadius);
+	PutFactionLabels(Sector::SIZE * secOrigin, Sector::SIZE * buildRadius);
 }
 
-void SectorView::DrawFarSector(int sx, int sy, int sz, int drawRadius, const vector3f &secPos, std::vector<vector3f> &points, std::vector<Color> &colors)
+void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, int drawRadius, std::vector<vector3f> &points, std::vector<Color> &colors)
 {
-	Sector* ps = GetCached(sx, sy, sz);
-
 	Color starColor;
-	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i) {
-		// calculate where the system is in relation the centre of the view...
-		// const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
-		const vector3f sysAbsPos = (*i).FullPosition();
-		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
-
-		// ...and skip the system if it doesn't fall within the sphere we're viewing.
-		if (toCentreOfView.Length() > (drawRadius * Sector::SIZE)) continue;
+	for (std::vector<Sector::System>::iterator i = sec->m_systems.begin(); i != sec->m_systems.end(); ++i) {
+		// skip the system if it doesn't fall within the sphere we're viewing.
+		if ((m_pos*Sector::SIZE - (*i).FullPosition()).Length() > drawRadius) continue;
 
 		// if the system belongs to a faction we've chosen to temporarily hide also skip it.
 		m_visibleFactions.insert(i->faction);
@@ -837,11 +835,10 @@ void SectorView::DrawFarSector(int sx, int sy, int sz, int drawRadius, const vec
 
 		// otherwise add the system's position (origin must be m_pos's *sector* or we get judder) 
 		// and faction color to the list to draw
-		vector3f starPosition = sysAbsPos - (secPos * Sector::SIZE);
 		starColor = (*i).faction->colour;
 		starColor.a = .75f;
 
-		points.push_back(starPosition);
+		points.push_back((*i).FullPosition() - origin);
 		colors.push_back(starColor);	
 	}
 }

@@ -54,10 +54,10 @@ private:
 
 	void DrawNearSectors(matrix4x4f modelview);
 	void DrawNearSector(int x, int y, int z, const vector3f &playerAbsPos, const matrix4x4f &trans);
-	void PutClickableLabel(const std::string &text, const Color &labelCol, const SystemPath &path);
+	void PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius);
 
 	void DrawFarSectors(matrix4x4f modelview);
-	void DrawFarSector(int sx, int sy, int sz, int drawRadius, const vector3f &secPos, std::vector<vector3f> &points, std::vector<Color> &colors);
+	void BuildFarSector(Sector *sec, const vector3f &origin, int drawRadius, std::vector<vector3f> &points, std::vector<Color> &colors);
 	void PutFactionLabels(const vector3f &secPos, int drawRadius);
 
 	void SetSelectedSystem(const SystemPath &path);

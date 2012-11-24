@@ -426,6 +426,15 @@ bool Faction::IsHomeSystem(const SystemPath& sysPath)
 	return s_homesystems.find(sysPath.SystemOnly()) != s_homesystems.end();
 }
 
+const Color Faction::AdjustedColour(fixed population, bool inRange)
+{
+	Color result;
+	result   = population == 0 ? BAD_FACTION_COLOUR : colour;
+	result.a = population > 0  ? FACTION_BASE_ALPHA + (M_E + (logf(population.ToFloat() / 1.25))) / ((2 * M_E) + FACTION_BASE_ALPHA) : FACTION_BASE_ALPHA;
+	result.a = inRange         ? 1.f : result.a;
+	return result;
+}
+
 const Polit::GovType Faction::PickGovType(MTRand &rand) const
 {
 	if( !govtype_weights.empty()) {

@@ -63,11 +63,11 @@ public:
 	typedef std::map<Equip::Type, Uint32> EquipProbMap;
 	EquipProbMap       equip_legality;
 	
-	//ship availability
 	Color              colour;
 
 	const double         Radius()  const { return (FACTION_CURRENT_YEAR - foundingDate) * expansionRate; };
 	const bool           IsValid() const { return idx != BAD_FACTION_IDX; };
+	const Color          AdjustedColour(fixed population, bool inRange);
 	const Polit::GovType PickGovType(MTRand &rand) const;
 
 	// set the homeworld to one near the supplied co-ordinates
