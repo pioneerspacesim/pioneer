@@ -122,6 +122,9 @@ public:
 	void SelectWidget(Widget *target) { m_eventDispatcher.SelectWidget(target); }
 	void DeselectWidget(Widget *target) { m_eventDispatcher.DeselectWidget(target); }
 
+	void DisableWidget(Widget *target) { m_eventDispatcher.DisableWidget(target); }
+	void EnableWidget(Widget *target) { m_eventDispatcher.EnableWidget(target); }
+
 	virtual void Layout();
 	virtual void Update();
 	virtual void Draw();
