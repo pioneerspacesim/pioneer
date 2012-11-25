@@ -136,7 +136,7 @@ end,
 
 SwitchPrev = function (self)
 	if not self.current then
-		self.SwitchFirst()
+		self:SwitchFirst()
 	else
 		local nextNum = self.current - 1
 		if nextNum < 1 then nextNum = #self.tabs end
