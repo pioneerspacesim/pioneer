@@ -104,7 +104,7 @@ SwitchToNum = function (self, num)
 
 	self.title:SetText(tab.title)
 
-	self.body:SetInnerWidget(tab.template())
+	self.body:SetInnerWidget(tab.template(tab))
 end,
 
 SwitchTo = function (self, id)
