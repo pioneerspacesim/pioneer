@@ -277,6 +277,14 @@ local econTrade = function ()
 	local totalCargoWidget = ui:Label(t("Total: ")..totalCargo.."t")
 	local usedCargoWidget = ui:Label(t("USED")..": "..usedCargo.."t")
 
+	-- Define the refuel button
+	local refuelButton = ui:Button():SetInnerWidget(ui:Label(t('REFUEL')))
+
+	local refuelButtonRefresh = function ()
+		if Game.player.fuel == 100 or Game.player:GetEquipCount('CARGO', 'WATER') == 0 then refuelButton:Disable() end
+	end
+	refuelButtonRefresh()
+
 	local refuel = function ()
 		-- UI button where the player clicks to refuel...
 		Game.player:Refuel(1)
@@ -286,14 +294,11 @@ local econTrade = function ()
 		stats = Game.player:GetStats()
 		totalCargoWidget:SetText(t("Total: ")..stats.freeCapacity.."t")
 		usedCargoWidget:SetText(t("USED")..": "..stats.usedCargo.."t")
+
+		refuelButtonRefresh()
 	end
 
-	-- Define the refuel button
-    local refuelButton
-	if Game.player:GetEquipCount('CARGO', 'WATER') > 0 then
-		refuelButton = ui:Button():SetInnerWidget(ui:Label(t('REFUEL')))
-		refuelButton.onClick:Connect(refuel)
-	end
+	refuelButton.onClick:Connect(refuel)
 
 	return ui:Expand():SetInnerWidget(
 		ui:Grid(2,1)
