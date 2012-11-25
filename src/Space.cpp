@@ -490,8 +490,8 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		rotFrame->SetRadius(frad);
 
 		matrix3x3d rotMatrix = matrix3x3d::RotateXMatrix(sbody->axialTilt.ToDouble());
-		vector3d angVel = vector3d(0.0, 2.0*M_PI/sbody->GetRotationPeriod(), 0.0);
-		rotFrame->SetAngVelocity(angVel);
+		double angSpeed = 2.0*M_PI/sbody->GetRotationPeriod();
+		rotFrame->SetAngSpeed(angSpeed);
 
 		if (sbody->rotationalPhaseAtStart != fixed(0))
 			rotMatrix = rotMatrix * matrix3x3d::RotateYMatrix(sbody->rotationalPhaseAtStart.ToDouble());

@@ -32,7 +32,7 @@ void Frame::Serialize(Serializer::Writer &wr, Frame *f, Space *space)
 	wr.String(f->m_label);
 	wr.Vector3d(f->m_pos);
 	for (int i=0; i<9; i++) wr.Double(f->m_orient[i]);
-	wr.Vector3d(f->m_angVel);
+	wr.Double(f->m_angSpeed);
 	wr.Int32(space->GetIndexForSystemBody(f->m_sbody));
 	wr.Int32(space->GetIndexForBody(f->m_astroBody));
 	wr.Int32(f->m_children.size());
@@ -51,7 +51,7 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent)
 	f->m_label = rd.String();
 	f->m_pos = rd.Vector3d();
 	for (int i=0; i<9; i++) f->m_orient[i] = rd.Double();
-	f->m_angVel = rd.Vector3d();
+	f->m_angSpeed = rd.Double();
 	f->m_sbody = space->GetSystemBodyByIndex(rd.Int32());
 	f->m_astroBodyIndex = rd.Int32();
 	f->m_vel = vector3d(0.0);
@@ -83,7 +83,7 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 	m_radius = 0;
 	m_pos = vector3d(0.0);
 	m_vel = vector3d(0.0);
-	m_angVel = vector3d(0.0);
+	m_angSpeed = 0.0;
 	m_orient = matrix3x3d::Identity();
 	ClearMovement();
 	m_collisionSpace = new CollisionSpace();
@@ -172,9 +172,9 @@ void Frame::UpdateInterpTransform(double alpha)
 	m_interpPos = alpha*m_pos + (1.0-alpha)*m_oldPos;
 	m_interpOrient = m_oldOrient;
 
-	double len = m_oldAngDisplacement.Length() * double(alpha);
+	double len = m_oldAngDisplacement * double(alpha);
 	if (!is_zero_general(len)) {
-		vector3d axis = m_oldAngDisplacement.Normalized();
+		vector3d axis = vector3d(0,1,0);
 		matrix3x3d rot = matrix3x3d::BuildRotate(len, axis);
 		m_interpOrient = rot * m_interpOrient;
 	}
@@ -211,14 +211,14 @@ void Frame::ClearMovement()
 	m_rootInterpOrient = m_rootOrient;
 	m_oldPos = m_interpPos = m_pos;
 	m_oldOrient = m_interpOrient = m_orient;
-	m_oldAngDisplacement = vector3d(0.0);
+	m_oldAngDisplacement = 0.0;
 }
 
 void Frame::UpdateOrbitRails(double time, double timestep)
 {
 	m_oldPos = m_pos;
 	m_oldOrient = m_orient;
-	m_oldAngDisplacement = m_angVel * timestep;
+	m_oldAngDisplacement = m_angSpeed * timestep;
 
 	// update frame position and velocity
 	if (m_parent && m_sbody && !IsRotFrame()) {
@@ -230,9 +230,9 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 	else m_pos = m_pos + m_vel * timestep;
 	
 	// update frame rotation
-	double ang = m_angVel.Length() * timestep;		// hmm. cumulative inaccuracy?
-	if (!is_zero_general(ang)) {
-		vector3d axis = m_angVel.Normalized();
+	double ang = m_angSpeed * timestep;		// hmm. cumulative inaccuracy? worse!
+	if (!is_zero_exact(m_angSpeed)) {		// calling this with very low numbers is still important
+		vector3d axis = vector3d(0,1,0);
 		matrix3x3d rot = matrix3x3d::BuildRotate(ang, axis);
 		m_orient = m_orient * rot;		// angvel always +y
 	}

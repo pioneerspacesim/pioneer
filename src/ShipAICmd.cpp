@@ -531,7 +531,12 @@ static vector3d GetPosInFrame(Frame *frame, Frame *target, const vector3d &offse
 static vector3d GetVelInFrame(Frame *frame, Frame *target, const vector3d &offset)
 {
 	vector3d vel = vector3d(0.0);
-	if (target != frame) vel = -target->GetStasisVelocity(offset);
+	if (target != frame && target->IsRotFrame()) {
+//		double ang = Pi::game->GetTimeStep() * target->GetAngSpeed();
+//		vector3d newpos = offset * matrix3x3d::RotateYMatrix(ang);
+//		vel = (newpos - offset) / Pi::game->GetTimeStep();
+		vel = -target->GetStasisVelocity(offset);		// stasis velocity not accurate enough
+	}
 	return target->GetOrientRelTo(frame) * vel + target->GetVelocityRelTo(frame);
 }
 

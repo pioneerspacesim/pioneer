@@ -39,8 +39,8 @@ public:
 	const matrix3x3d &GetInterpOrient() const { return m_interpOrient; }
 	void SetVelocity(const vector3d &vel) { m_vel = vel; }
 	vector3d GetVelocity() const { return m_vel; }
-	void SetAngVelocity(const vector3d &angvel) { m_angVel = angvel; }
-	vector3d GetAngVelocity() const { return m_angVel; }
+	void SetAngSpeed(const double angspeed) { m_angSpeed = angspeed; }
+	double GetAngSpeed() const { return m_angSpeed; }
 	void SetRadius(double radius) { m_radius = radius; }
 	double GetRadius() const { return m_radius; }
 	bool IsRotFrame() const { return m_flags & FLAG_ROTATING; }
@@ -72,7 +72,7 @@ public:
 
 	// For an object in a rotating frame, relative to non-rotating frames it
 	// must attain this velocity within rotating frame to be stationary.
-	vector3d GetStasisVelocity(const vector3d &pos) const { return -m_angVel.Cross(pos); }
+	vector3d GetStasisVelocity(const vector3d &pos) const { return -vector3d(0,m_angSpeed,0).Cross(pos); }
 
 	vector3d GetPositionRelTo(const Frame *relTo) const;
 	vector3d GetVelocityRelTo(const Frame *relTo) const;
@@ -106,8 +106,8 @@ private:
 	matrix3x3d m_interpOrient;
 	vector3d m_vel; // note we don't use this to move frame. rather,
 			// orbital rails determine velocity.
-	vector3d m_angVel; // this however *is* directly applied (for rotating frames)
-	vector3d m_oldAngDisplacement;
+	double m_angSpeed; // this however *is* directly applied (for rotating frames)
+	double m_oldAngDisplacement;
 	std::string m_label;
 	double m_radius;
 	int m_flags;

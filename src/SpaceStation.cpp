@@ -550,7 +550,7 @@ void SpaceStation::DockingUpdate(const double timeStep)
 		if (dt.stage < -m_type->shipLaunchStage && dt.ship->GetFlightState() != Ship::FLYING) {
 			// launch ship
 			dt.ship->SetFlightState(Ship::FLYING);
-			dt.ship->SetAngVelocity(GetFrame()->GetAngVelocity());
+			dt.ship->SetAngVelocity(vector3d(0,GetFrame()->GetAngSpeed(),0));
 			if (m_type->dockMethod == SpaceStationType::SURFACE) {
 				dt.ship->SetThrusterState(1, 1.0);	// up
 			} else {
