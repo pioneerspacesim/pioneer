@@ -31,6 +31,7 @@ template <> class LuaAcquirer<UI::Container> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::Context> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::DropDown> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::Grid> : public LuaAcquirerRefCounted {};
+template <> class LuaAcquirer<UI::Icon> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::Image> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::Label> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::List> : public LuaAcquirerRefCounted {};
