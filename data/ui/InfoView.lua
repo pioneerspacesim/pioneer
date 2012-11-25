@@ -239,10 +239,15 @@ local econTrade = function ()
 	-- way to handle it; hopefully the enclosure will evaporate shortly
 	-- after the UI is disposed of.
 
-	local updateCargoListWidget = function ()
+	-- Make a cargo list widget that we can revisit and update
+	local cargoListWidget = ui:Margin(0)
+
+	function updateCargoListWidget ()
 
 		local cargoNameColumn = {}
 		local cargoQuantityColumn = {}
+		local cargoJettisonColumn = {}
+
 		for i = 1,#Constants.EquipType do
 			local type = Constants.EquipType[i]
 			if type ~= "NONE" then
@@ -253,6 +258,14 @@ local econTrade = function ()
 					if count > 0 then
 						table.insert(cargoNameColumn, ui:Label(et.name))
 						table.insert(cargoQuantityColumn, ui:Label(count.."t"))
+
+						local jettisonButton = UI.SmallLabeledButton.New(t("JETTISON"))
+						jettisonButton.button.onClick:Connect(function ()
+							Game.player:Jettison(type)
+							updateCargoListWidget()
+							cargoListWidget:SetInnerWidget(updateCargoListWidget())
+						end)
+						table.insert(cargoJettisonColumn, jettisonButton.widget)
 					end
 				end
 			end
@@ -263,16 +276,15 @@ local econTrade = function ()
 			ui:VBox(10):PackEnd({
 				ui:Label(t("CARGO")):SetFont("HEADING_LARGE"),
 				ui:Scroller():SetInnerWidget(
-					ui:Grid(2,1)
+					ui:Grid(3,1)
 						:SetColumn(0, { ui:VBox():PackEnd(cargoNameColumn) })
 						:SetColumn(1, { ui:VBox():PackEnd(cargoQuantityColumn) })
+						:SetColumn(2, { ui:VBox():PackEnd(cargoJettisonColumn) })
 				)
 			})
 	end
 
-	-- Make a cargo list widget that we can revisit and update
-	local cargoListWidget = ui:Margin(0)
-		:SetInnerWidget(updateCargoListWidget())
+	cargoListWidget:SetInnerWidget(updateCargoListWidget())
 
 	local totalCargoWidget = ui:Label(t("Total: ")..totalCargo.."t")
 	local usedCargoWidget = ui:Label(t("USED")..": "..usedCargo.."t")
