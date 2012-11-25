@@ -222,8 +222,8 @@ static void LuaInit()
 	LuaConsole::Register();
 
 	// XXX sigh
-	UI::LuaInit();
-	GameUI::LuaInit();
+	UI::Lua::Init();
+	GameUI::Lua::Init();
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
@@ -256,6 +256,9 @@ std::string Pi::GetSaveDir()
 
 void Pi::Init()
 {
+
+	OS::NotifyLoadBegin();
+
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 
@@ -382,6 +385,8 @@ void Pi::Init()
 	}
 	draw_progress(1.0f);
 
+	OS::NotifyLoadEnd();
+
 #if 0
 	// test code to produce list of ship stats
 
@@ -426,8 +431,14 @@ void Pi::Init()
 	luaConsole = new LuaConsole(10);
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
 
+	KeyBindings::toggleManualRotation.onPress.connect(sigc::ptr_fun(&Pi::ToggleManualRotation));
+
 	gameMenuView = new GameMenuView();
 	config->Save();
+}
+
+void Pi::ToggleManualRotation() {
+	Pi::player->SetManualRotationState(!Pi::player->GetManualRotationState());
 }
 
 bool Pi::IsConsoleActive()
@@ -502,7 +513,7 @@ void Pi::HandleEvents()
 				Pi::EndGame();
 			Pi::Quit();
 		}
-		else if (!ui->DispatchSDLEvent(event))
+		else if (ui->DispatchSDLEvent(event))
 			continue;
 
 		Gui::HandleSDLEvent(&event);

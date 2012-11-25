@@ -311,6 +311,18 @@ bool Game::UpdateTimeAccel()
 					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10000X);
 				}
 			}
+
+			const double locVel = m_player->GetAngVelocity().Length();
+			const double strictness = 20.0;
+			if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_10X]) {
+				newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
+			} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_100X]) {
+				newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
+			} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_1000X]) {
+				newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_100X);
+			} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_10000X]) {
+				newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1000X);
+			}
 		}
 	}
 
@@ -536,7 +548,7 @@ const float Game::s_timeAccelRates[] = {
 void Game::SetTimeAccel(TimeAccel t)
 {
 	// don't want player to spin like mad when hitting time accel
-	if ((t != m_timeAccel) && (t > TIMEACCEL_1X)) {
+	if ((t != m_timeAccel) && (t > TIMEACCEL_1X) && !m_player->GetManualRotationState()) {
 		m_player->SetAngVelocity(vector3d(0,0,0));
 		m_player->SetTorque(vector3d(0,0,0));
 		m_player->SetAngThrusterState(vector3d(0.0));

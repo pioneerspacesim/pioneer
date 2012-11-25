@@ -4,11 +4,13 @@
 #include "Lua.h"
 
 namespace GameUI {
+namespace Lua {
 
-void LuaInit()
+void Init()
 {
 	LuaObject<GameUI::Face>::RegisterClass();
 	LuaObject<GameUI::ShipSpinner>::RegisterClass();
 }
 
+}
 }

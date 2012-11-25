@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Box.h"
-#include "LuaObject.h"
+#include "Lua.h"
 #include "LuaConstants.h"
 
 namespace UI {
@@ -14,14 +14,18 @@ public:
 		UI::Box *b = LuaObject<UI::Box>::CheckFromLua(1);
 
 		if (lua_istable(l, 2)) {
-			for (size_t i = lua_rawlen(l, 2); i > 0; i--) {
-				lua_rawgeti(l, 2, i);
-				b->PackStart(LuaObject<UI::Widget>::CheckFromLua(-1));
-				lua_pop(l, 1);
-			}
+			UI::Widget *w = UI::Lua::GetWidget(l, 2);
+			if (w)
+				b->PackEnd(w);
+			else
+				for (size_t i = lua_rawlen(l, 2); i > 0; i--) {
+					lua_rawgeti(l, 2, i);
+					b->PackStart(UI::Lua::CheckWidget(l, -1));
+					lua_pop(l, 1);
+				}
 		}
 		else
-			b->PackEnd(LuaObject<UI::Widget>::CheckFromLua(2));
+			b->PackEnd(UI::Lua::CheckWidget(l, 2));
 
 		lua_pushvalue(l, 1);
 		return 1;
@@ -31,14 +35,18 @@ public:
 		UI::Box *b = LuaObject<UI::Box>::CheckFromLua(1);
 
 		if (lua_istable(l, 2)) {
-			for (size_t i = 0; i < lua_rawlen(l, 2); i++) {
-				lua_rawgeti(l, 2, i+1);
-				b->PackEnd(LuaObject<UI::Widget>::CheckFromLua(-1));
-				lua_pop(l, 1);
-			}
+			UI::Widget *w = UI::Lua::GetWidget(l, 2);
+			if (w)
+				b->PackEnd(w);
+			else
+				for (size_t i = 0; i < lua_rawlen(l, 2); i++) {
+					lua_rawgeti(l, 2, i+1);
+					b->PackEnd(UI::Lua::CheckWidget(l, -1));
+					lua_pop(l, 1);
+				}
 		}
 		else
-			b->PackEnd(LuaObject<UI::Widget>::CheckFromLua(2));
+			b->PackEnd(UI::Lua::CheckWidget(l, 2));
 
 		lua_pushvalue(l, 1);
 		return 1;
@@ -46,7 +54,7 @@ public:
 
 	static int l_remove(lua_State *l) {
 		UI::Box *b = LuaObject<UI::Box>::CheckFromLua(1);
-		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(2);
+		UI::Widget *w = UI::Lua::CheckWidget(l, 2);
 		b->Remove(w);
 		return 0;
 	}
