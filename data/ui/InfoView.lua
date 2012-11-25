@@ -362,8 +362,8 @@ local missions = function ()
 	end
 
 	-- One row for each mission, plus a header
-	local headergrid  = ui:Grid(6,1)
-	local missiongrid = ui:Grid(6,#PersistentCharacters.player.missions)
+	local rowspec = {7,8,10,8,5,5,5}
+	local headergrid  = ui:Grid(rowspec,1)
 
 	headergrid:SetRow(0,
 	{
@@ -376,7 +376,8 @@ local missions = function ()
 		ui:Label(t('STATUS')),
 	})
 
-	local count = 0 -- We need to count rows, can't rely on table keys
+	local missionbox = ui:VBox(10)
+
 	for ref,mission in ipairs(PersistentCharacters.player.missions) do
 		-- Format the location
 		local missionLocationName
@@ -385,26 +386,26 @@ local missions = function ()
 		else
 			missionLocationName = string.format('%s [%d,%d,%d]', mission.location:GetStarSystem().name, mission.location.sectorX, mission.location.sectorY, mission.location.sectorZ)
 		end
-        -- Decide what happens when the button's clicked
-		local button = ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(t(mission.status))))
-		local clickHandler = function ()
+
+		local moreButton = UI.SmallLabeledButton.New("More info...")
+		moreButton.button.onClick:Connect(function ()
 			MissionScreen:SetInnerWidget(ui:VBox()
 				:PackEnd({ui:Label(t('Mission Details')):SetFont('HEADING_LARGE')})
 				:PackEnd((Mission.GetClick(mission.type))(ref)))
-		end
-		button.onClick:Connect(clickHandler)
-		missiongrid:SetRow(count,{
+		end)
+
+		missionbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 			ui:Label(t(mission.type)),
 			ui:Label(mission.client.name),
-			ui:Label(missionLocationName),
+			ui:MultiLineText(missionLocationName),
 			ui:Label(Format.Date(mission.due)),
 			ui:Label(Format.Money(mission.reward)),
-			button,
-		})
-		count = count + 1
+			ui:Label(t(mission.status)),
+			moreButton.widget,
+		}))
 	end
 
-	MissionList:PackEnd({ headergrid, ui:Scroller():SetInnerWidget(missiongrid) })
+	MissionList:PackEnd({ headergrid, ui:Scroller():SetInnerWidget(missionbox) })
 
 	MissionScreen:SetInnerWidget(MissionList)
 
