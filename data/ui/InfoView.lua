@@ -48,7 +48,6 @@ local shipInfo = function (args)
 		ui:Grid(2,1)
 			:SetColumn(0, {
 				ui:VBox(20):PackEnd({
-					ui:Label(t("Ship Information")):SetFont("HEADING_LARGE"),
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
@@ -85,7 +84,7 @@ local shipInfo = function (args)
 								ui:Label(string.format("%d%%", Game.player.fuel)),
 							})
 						}),
-					ui:Label(t("Equipment")):SetFont("HEADING_NORMAL"),
+					ui:Label(t("Equipment")):SetFont("HEADING_LARGE"),
 					ui:Grid(2,1)
 						:SetColumn(0, { ui:VBox():PackEnd(equipColumn[1]) })
 						:SetColumn(1, { ui:VBox():PackEnd(equipColumn[2]) })
@@ -124,7 +123,6 @@ local orbitalAnalysis = function ()
 
 	return ui:Expand():SetInnerWidget(
 		ui:VBox(20):PackEnd({
-			ui:Label(t('Orbital Analysis')):SetFont('HEADING_LARGE'),
 			ui:Label((t('Located {distance}km from the centre of {name}:')):interp({
 														-- convert to kilometres
 														distance = string.format('%6.2f',distance/1000),
@@ -181,8 +179,7 @@ local personalInfo = function ()
 		ui:Grid(2,1)
 			:SetColumn(0, {
 				ui:VBox(20):PackEnd({
-					ui:Label(t("Personal Information")):SetFont("HEADING_LARGE"),
-					ui:Label(t("Combat")):SetFont("HEADING_NORMAL"),
+					ui:Label(t("Combat")):SetFont("HEADING_LARGE"),
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
@@ -196,7 +193,7 @@ local personalInfo = function ()
 								ui:Label(string.format('%d',player.killcount)),
 							})
 						}),
-					ui:Label(t("Military")):SetFont("HEADING_NORMAL"),
+					ui:Label(t("Military")):SetFont("HEADING_LARGE"),
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
@@ -316,7 +313,6 @@ local econTrade = function ()
 		ui:Grid(2,1)
 			:SetColumn(0, {
 				ui:VBox(20):PackEnd({
-					ui:Label(t("Economy & Trade")):SetFont("HEADING_LARGE"),
 					ui:Grid(2,1)
 						:SetColumn(0, {
 							ui:VBox():PackEnd({
@@ -350,11 +346,7 @@ local missions = function ()
 	local MissionList = ui:VBox(10)
 
 	if #PersistentCharacters.player.missions == 0 then
-		MissionList
-			:PackEnd({
-				ui:Label(t("MISSIONS")):SetFont("HEADING_LARGE"),
-				ui:Label(t("No missions."))
-			})
+		MissionList:PackEnd( ui:Label(t("No missions.")) )
 
 		return MissionScreen:SetInnerWidget(MissionList)
 	end
@@ -402,12 +394,7 @@ local missions = function ()
 		count = count + 1
 	end
 
-	MissionList
-			:PackEnd({
-				ui:Label(t("MISSIONS")):SetFont("HEADING_LARGE"),
-				headergrid
-			})
-			:PackEnd(ui:Scroller():SetInnerWidget(missiongrid))
+	MissionList:PackEnd({ headergrid, ui:Scroller():SetInnerWidget(missiongrid) })
 
 	MissionScreen:SetInnerWidget(MissionList)
 
@@ -427,7 +414,7 @@ ui.templates.InfoView = function (args)
 	tabGroup:AddTab({ id = "personalInfo",    title = t("Personal Information"), icon = "User",      template = personalInfo     })
 	tabGroup:AddTab({ id = "econTrade",       title = t("Economy & Trade"),      icon = "Cart",      template = econTrade,       })
 	tabGroup:AddTab({ id = "missions",        title = t("MISSIONS"),             icon = "Star",      template = missions,        })
-	tabGroup:AddTab({ id = "orbitalAnalysis", title = t("Orbit"),                icon = "Planet",    template = orbitalAnalysis, })
+	tabGroup:AddTab({ id = "orbitalAnalysis", title = t("Orbital Analysis"),     icon = "Planet",    template = orbitalAnalysis, })
 
 	return tabGroup.widget
 end
