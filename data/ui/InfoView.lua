@@ -324,6 +324,7 @@ local econTrade = function ()
 								ui:Margin(10),
 								ui:Label(t("CARGO_SPACE")..":"),
 								ui:Label(t("CABINS")..":"),
+								ui:Margin(10),
 								refuelButton.widget,
 							})
 						})
