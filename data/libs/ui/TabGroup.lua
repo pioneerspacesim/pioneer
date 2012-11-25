@@ -71,6 +71,11 @@ AddTab = function (self, args)
 	tab.iconWidget.onClick:Connect(function () self:SwitchTo(tab.id) end)
 	self.icons:PackEnd(tab.iconWidget)
 
+	tab.Refresh = function ()
+		if self.current ~= num then return end
+		self:Refresh()
+	end
+
 	if not self.current then
 		self:SwitchToNum(num)
 	end
@@ -137,5 +142,13 @@ SwitchPrev = function (self)
 		self:SwitchToNum(nextNum)
 	end
 end,
+
+Refresh = function (self)
+	if not self.current then
+		self:SwitchFirst()
+	else
+		self:SwitchToNum(self.current)
+	end
+end
 
 }
