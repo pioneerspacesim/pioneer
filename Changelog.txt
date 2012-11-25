@@ -18,6 +18,7 @@ Alpha 29
    * Fixes
      * Workaround shader glitches for planets with zero temperature (#1712)
      * Pioneer should not be marked as "Not Responding" on startup in Windows (#1743)
+     * Fixed flight log crash after visiting 1000 stations
 
    * Script changes
      * New UI.Gradient container to provide a linear gradient background (#1682)
@@ -34,7 +35,8 @@ Alpha 29
      * debug.deprecated function to warn when a deprecated function is used (#1718)
 
    * Internal changes
-     * Wrapper to allow new UI to provide views for the old GUI system (#1691)
+     * Wrapper to allow new UI to provide views for the old GUI system (#1691,
+       #1755, #1756)
      * Fix the LuaObject the Check/GetFromLua, which were swapped round (#1730)
 
 Alpha 28
