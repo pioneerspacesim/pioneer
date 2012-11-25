@@ -155,29 +155,28 @@ local personalInfo = function ()
 	local faceFlags = { player.female and "FEMALE" or "MALE" }
 
 	-- for updating the caption
-	local faceWidget = uilib.FaceWidget(player)
+	local faceWidget = UI.InfoFace.New(player)
 	-- for updating the entire face
-	local faceWidgetContainer = ui:Margin(0):SetInnerWidget(faceWidget)
+	local faceWidgetContainer = ui:Margin(0, faceWidget)
 
 	local nameEntry = ui:TextEntry(player.name):SetFont("HEADING_LARGE")
 	nameEntry.onEnter:Connect(function (newName)
-		print(newName)
 		player.name = newName
-		uilib.UpdateFaceText(faceWidget,player)
+        faceWidget:UpdateInfo(player)
 	end )
 
 	local genderToggle = UI.SmallLabeledButton.New("Toggle male/female")
 	genderToggle.button.onClick:Connect(function ()
 		player.female = not player.female
-		faceWidget = uilib.FaceWidget(player)
-		faceWidgetContainer:SetInnerWidget(faceWidget)
+		faceWidget = UI.InfoFace.New(player)
+		faceWidgetContainer:SetInnerWidget(faceWidget.widget)
 	end)
 
 	local generateFaceButton = UI.SmallLabeledButton.New("Make new face")
 	generateFaceButton.button.onClick:Connect(function ()
 		player.seed = Engine.rand:Integer()
-		faceWidget = uilib.FaceWidget(player)
-		faceWidgetContainer:SetInnerWidget(faceWidget)
+		faceWidget = UI.InfoFace.New(player)
+		faceWidgetContainer:SetInnerWidget(faceWidget.widget)
 	end)
 
 	return
