@@ -166,13 +166,18 @@ local personalInfo = function ()
 		uilib.UpdateFaceText(faceWidget,player)
 	end )
 
-	local genderLabel = ui:Label(player.female and t("Female") or t("Male"))
-	local genderSelector = ui:Button():SetInnerWidget(genderLabel)
-	genderSelector.onClick:Connect(function ()
+	local genderToggle = UI.SmallLabeledButton.New("Toggle male/female")
+	genderToggle.button.onClick:Connect(function ()
 		player.female = not player.female
 		faceWidget = uilib.FaceWidget(player)
 		faceWidgetContainer:SetInnerWidget(faceWidget)
-		genderLabel:SetText(player.female and t("Female") or t("Male"))
+	end)
+
+	local generateFaceButton = UI.SmallLabeledButton.New("Make new face")
+	generateFaceButton.button.onClick:Connect(function ()
+		player.seed = Engine.rand:Integer()
+		faceWidget = uilib.FaceWidget(player)
+		faceWidgetContainer:SetInnerWidget(faceWidget)
 	end)
 
 	return
@@ -211,10 +216,15 @@ local personalInfo = function ()
 			})
 			:SetColumn(1, {
 				ui:VBox(10)
-					:PackEnd(ui:HBox()
-						:PackEnd(nameEntry)
-						:PackEnd(genderSelector)
-					)
+					:PackEnd(ui:HBox(10):PackEnd({
+						ui:VBox(5):PackEnd({
+							ui:Expand("HORIZONTAL", nameEntry),
+						}),
+						ui:VBox(5):PackEnd({
+							genderToggle,
+							generateFaceButton,
+						})
+					}))
 					:PackEnd(faceWidgetContainer)
 			})
 end
