@@ -36,7 +36,7 @@ Alpha 29
 
    * Internal changes
      * Wrapper to allow new UI to provide views for the old GUI system (#1691,
-       #1755, #1756)
+       #1755, #1756, #1759)
      * Fix the LuaObject the Check/GetFromLua, which were swapped round (#1730)
 
 Alpha 28
