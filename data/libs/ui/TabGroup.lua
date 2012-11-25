@@ -54,6 +54,7 @@ AddTab = function (self, args)
 	local template = args.template
 
 	local tab = {
+		group    = self,
 		id       = id,
 		icon     = icon,
 		title    = title,
@@ -70,6 +71,11 @@ AddTab = function (self, args)
 	tab.iconWidget.onMouseOut:Connect(function () if self.current ~= num then tab.iconWidget:SetColor(normalColor) end end)
 	tab.iconWidget.onClick:Connect(function () self:SwitchTo(tab.id) end)
 	self.icons:PackEnd(tab.iconWidget)
+
+	tab.Refresh = function ()
+		if self.current ~= num then return end
+		self:Refresh()
+	end
 
 	if not self.current then
 		self:SwitchToNum(num)
@@ -104,7 +110,7 @@ SwitchToNum = function (self, num)
 
 	self.title:SetText(tab.title)
 
-	self.body:SetInnerWidget(tab.template())
+	self.body:SetInnerWidget(tab.template(tab))
 end,
 
 SwitchTo = function (self, id)
@@ -130,12 +136,20 @@ end,
 
 SwitchPrev = function (self)
 	if not self.current then
-		self.SwitchFirst()
+		self:SwitchFirst()
 	else
 		local nextNum = self.current - 1
 		if nextNum < 1 then nextNum = #self.tabs end
 		self:SwitchToNum(nextNum)
 	end
 end,
+
+Refresh = function (self)
+	if not self.current then
+		self:SwitchFirst()
+	else
+		self:SwitchToNum(self.current)
+	end
+end
 
 }
