@@ -84,10 +84,19 @@ Widget *Context::GetWidgetAt(const Point &pos)
 
 void Context::Layout()
 {
+	m_needsLayout = false;
+
 	m_float->Layout();
 	Single::Layout();
-	m_eventDispatcher.LayoutUpdated();
+
+	if (m_needsLayout) {
+		m_float->Layout();
+		Single::Layout();
+	}
+
 	m_needsLayout = false;
+
+	m_eventDispatcher.LayoutUpdated();
 }
 
 void Context::Update()
