@@ -32,6 +32,27 @@ public:
 		s->SetInnerWidget(w);
 	}
 
+	static inline Uint32 _unpack_flags(lua_State *l, int idx, const char *constants) {
+		int table = lua_absindex(l, idx);
+
+		if (!lua_istable(l, table))
+			return 0;
+
+		LUA_DEBUG_START(l);
+
+		Uint32 flags = 0;
+
+		lua_pushnil(l);
+		while (lua_next(l, table)) {
+			flags |= static_cast<Uint32>(LuaConstants::GetConstantFromArg(l, constants, -1));
+			lua_pop(l, 1);
+		}
+
+		LUA_DEBUG_END(l, 0);
+
+		return flags;
+	}
+
 	static int l_hbox(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		if (lua_gettop(l) > 1)
@@ -148,10 +169,8 @@ public:
 	static int l_image(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		const std::string filename(luaL_checkstring(l, 2));
-		UI::Image::StretchMode stretchMode = UI::Image::STRETCH_PRESERVE_ASPECT;
-		if (lua_gettop(l) > 2)
-			stretchMode = static_cast<UI::Image::StretchMode>(LuaConstants::GetConstantFromArg(l, "UIImageStretchMode", 3));
-		LuaObject<UI::Image>::PushToLua(c->Image(filename, stretchMode));
+		Uint32 sizeControlFlags = _unpack_flags(l, 3, "UISizeControl");
+		LuaObject<UI::Image>::PushToLua(c->Image(filename, sizeControlFlags));
 		return 1;
 	}
 

@@ -16,7 +16,6 @@ namespace UI {
 class Icon: public Widget {
 public:
 	virtual Point PreferredSize();
-	virtual void Layout();
 	virtual void Draw();
 
 	Icon *SetColor(const Color &c) { m_color = c; return this; }

@@ -10,7 +10,13 @@ Point Slider::PreferredSize()
 {
 	const Skin &skin = GetContext()->GetSkin();
 
-	return m_orient == SLIDER_HORIZONTAL ? Point(SIZE_EXPAND, skin.SliderHorizontalButtonNormal().size.y) : Point(skin.SliderVerticalButtonNormal().size.x, SIZE_EXPAND);
+	if (m_orient == SLIDER_HORIZONTAL) {
+		SetSizeControlFlags(EXPAND_WIDTH);
+		return skin.SliderHorizontalButtonNormal().size;
+	}
+
+	SetSizeControlFlags(EXPAND_HEIGHT);
+	return skin.SliderVerticalButtonNormal().size;
 }
 
 void Slider::Layout()

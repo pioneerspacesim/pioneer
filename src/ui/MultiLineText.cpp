@@ -10,18 +10,22 @@ namespace UI {
 MultiLineText::MultiLineText(Context *context, const std::string &text) : Widget(context), m_text(text)
 {
 	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
+
+	SetSizeControlFlags(EXPAND_WIDTH);
 }
 
 Point MultiLineText::PreferredSize()
 {
 	if (m_preferredSize != Point())
 		return m_preferredSize;
-	return Point(SIZE_EXPAND);
+	return Point();
 }
 
 void MultiLineText::Layout()
 {
-	m_preferredSize = m_layout->ComputeSize(GetSize());
+	const Point newSize(m_layout->ComputeSize(GetSize()));
+	if (m_preferredSize != newSize) GetContext()->RequestLayout();
+	m_preferredSize = newSize;
 	SetActiveArea(m_preferredSize);
 }
 
