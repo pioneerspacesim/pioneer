@@ -54,6 +54,7 @@ AddTab = function (self, args)
 	local template = args.template
 
 	local tab = {
+		group    = self,
 		id       = id,
 		icon     = icon,
 		title    = title,
