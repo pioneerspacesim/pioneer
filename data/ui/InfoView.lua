@@ -396,33 +396,21 @@ local missions = function ()
 	return MissionScreen
 end
 
+local tabGroup
 ui.templates.InfoView = function (args)
-	local buttonDefs = {
-		{ t("Ship Information"),     shipInfo },
-		{ t("Personal Information"), personalInfo },
-		{ t("Economy & Trade"),      econTrade },
-		{ t("MISSIONS"),             missions },
-		{ t('Orbit'),                orbitalAnalysis },
-    }
+	if tabGroup then
+		tabGroup:SwitchFirst()
+		return tabGroup.widget
+	end
 
-	local container = ui:Margin(30)
+	tabGroup = UI.TabGroup.New()
 
-    local buttonSet = {}
-    for i = 1,#buttonDefs do
-        local def = buttonDefs[i]
-        local b = ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(def[1])))
-        b.onClick:Connect(function () container:SetInnerWidget(def[2]()) end)
-        table.insert(buttonSet, ui:Margin(2):SetInnerWidget(b))
-    end
+	tabGroup:AddTab({ id = "shipInfo",        title = t("Ship Information"),     icon = "Satellite", template = shipInfo         })
+	tabGroup:AddTab({ id = "personalInfo",    title = t("Personal Information"), icon = "User",      template = personalInfo     })
+	tabGroup:AddTab({ id = "econTrade",       title = t("Economy & Trade"),      icon = "Cart",      template = econTrade,       })
+	tabGroup:AddTab({ id = "missions",        title = t("MISSIONS"),             icon = "Star",      template = missions,        })
+	tabGroup:AddTab({ id = "orbitalAnalysis", title = t("Orbit"),                icon = "Planet",    template = orbitalAnalysis, })
 
-	container:SetInnerWidget(shipInfo())
-
-	return
-		ui:VBox()
-			:PackEnd(
-				ui:Grid(#buttonDefs,1):SetFont("HEADING_NORMAL")
-					:SetRow(0, buttonSet))
-			:PackEnd(
-				ui:Background():SetInnerWidget(container))
+	return tabGroup.widget
 end
 
