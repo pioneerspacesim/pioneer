@@ -409,7 +409,7 @@ local onClick = function (ref)
 	local mission = missions[ref]
 	local ass_flavours = Translate:GetFlavours('Assassination')
 	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox():PackEnd({ui:MultiLineText((ass_flavours[mission.flavour].introtext):interp({
+		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((ass_flavours[mission.flavour].introtext):interp({
 														name   = mission.client.name,
 														target = mission.target,
 														system = mission.location:GetStarSystem().name,

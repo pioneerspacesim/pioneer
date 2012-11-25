@@ -389,7 +389,7 @@ local missions = function ()
 
 		local moreButton = UI.SmallLabeledButton.New("More info...")
 		moreButton.button.onClick:Connect(function ()
-			MissionScreen:SetInnerWidget(ui:VBox()
+			MissionScreen:SetInnerWidget(ui:VBox(10)
 				:PackEnd({ui:Label(t('Mission Details')):SetFont('HEADING_LARGE')})
 				:PackEnd((Mission.GetClick(mission.type))(ref)))
 		end)

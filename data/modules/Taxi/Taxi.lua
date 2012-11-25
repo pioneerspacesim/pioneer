@@ -333,7 +333,7 @@ local onClick = function (ref)
 	local mission = missions[ref]
 	local taxi_flavours = Translate:GetFlavours('Taxi')
 	return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox():PackEnd({ui:MultiLineText((taxi_flavours[mission.flavour].introtext):interp({
+		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((taxi_flavours[mission.flavour].introtext):interp({
 														name   = mission.client.name,
 														system = mission.location:GetStarSystem().name,
 														sectorx = mission.location.sectorX,
