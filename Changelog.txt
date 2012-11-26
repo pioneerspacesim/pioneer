@@ -20,8 +20,13 @@ Alpha 29
      * Workaround shader glitches for planets with zero temperature (#1712)
      * Pioneer should not be marked as "Not Responding" on startup in Windows (#1743)
      * Fixed flight log crash after visiting 1000 stations
+     * Barnard's Star is now a member of the Federation (#1620)
 
    * Script changes
+     * Custom Systems: Faction allegiance can now be set for custom systems (#1621)
+     * Factions: More than one government type with weighting can now be specified
+       for a Faction (#1621)
+     * Factions: A radius attribute is available on the LuaFaction object (#1660)
      * New UI.Gradient container to provide a linear gradient background (#1682)
      * UI widget SetFontSize has been replaced with SetFont to select both
        type (normal or heading) and size (#1684)
