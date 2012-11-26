@@ -13,7 +13,6 @@ DynamicBody::DynamicBody(): ModelBody()
 {
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
 	m_oldPos = GetPosition();
-	m_oldOrient = GetOrient();
 	m_oldAngDisplacement = vector3d(0.0);
 	m_force = vector3d(0.0);
 	m_torque = vector3d(0.0);
@@ -84,7 +83,6 @@ void DynamicBody::Load(Serializer::Reader &rd, Space *space)
 void DynamicBody::PostLoadFixup(Space *space)
 {
 	m_oldPos = GetPosition();
-	m_oldOrient = GetOrient();
 	CalcExternalForce();
 }
 
@@ -149,7 +147,6 @@ void DynamicBody::CalcExternalForce()
 
 void DynamicBody::TimeStepUpdate(const float timeStep)
 {
-	m_oldOrient = GetOrient();
 	m_oldPos = GetPosition();
 	if (m_isMoving) {
 		m_force += m_externalForce;
@@ -185,20 +182,14 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 void DynamicBody::UpdateInterpTransform(double alpha)
 {
 	m_interpPos = alpha*GetPosition() + (1.0-alpha)*m_oldPos;
-	m_interpOrient = m_oldOrient;
 
-	double len = m_oldAngDisplacement.Length() * alpha;
+	double len = m_oldAngDisplacement.Length() * (1.0-alpha);
 	if (len > 1e-16) {
 		vector3d axis = m_oldAngDisplacement.Normalized();
-		matrix3x3d rot = matrix3x3d::BuildRotate(len, axis);
-		m_interpOrient = rot * m_interpOrient;
+		matrix3x3d rot = matrix3x3d::BuildRotate(-len, axis);		// rotate backwards
+		m_interpOrient = rot * GetOrient();
 	}
-}
-
-void DynamicBody::UndoTimestep()
-{
-	SetPosition(m_oldPos);
-	SetOrient(m_oldOrient);
+	else m_interpOrient = GetOrient();
 }
 
 void DynamicBody::SetMassDistributionFromModel()

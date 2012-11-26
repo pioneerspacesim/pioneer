@@ -51,7 +51,6 @@ protected:
 	virtual void Load(Serializer::Reader &rd, Space *space);
 private:
 	vector3d m_oldPos;
-	matrix3x3d m_oldOrient;
 	vector3d m_oldAngDisplacement;
 
 	vector3d m_force;

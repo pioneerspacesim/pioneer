@@ -170,14 +170,15 @@ matrix3x3d Frame::GetInterpOrientRelTo(const Frame *relTo) const
 void Frame::UpdateInterpTransform(double alpha)
 {
 	m_interpPos = alpha*m_pos + (1.0-alpha)*m_oldPos;
-	m_interpOrient = m_oldOrient;
 
-	double len = m_oldAngDisplacement * double(alpha);
+	double len = m_oldAngDisplacement * (1.0-alpha);
 	if (!is_zero_exact(len)) {			// very small values are normal here
 		vector3d axis = vector3d(0,1,0);
-		matrix3x3d rot = matrix3x3d::BuildRotate(len, axis);
-		m_interpOrient = m_interpOrient * rot;
+		matrix3x3d rot = matrix3x3d::BuildRotate(-len, axis);
+		m_interpOrient = m_orient * rot;
 	}
+	else m_interpOrient = m_orient;
+
 	if (!m_parent) ClearMovement();
 	else {
 		m_rootInterpPos = m_parent->m_rootInterpOrient * m_interpPos
@@ -210,14 +211,13 @@ void Frame::ClearMovement()
 	m_rootInterpPos = m_rootPos;
 	m_rootInterpOrient = m_rootOrient;
 	m_oldPos = m_interpPos = m_pos;
-	m_oldOrient = m_interpOrient = m_orient;
+	m_interpOrient = m_orient;
 	m_oldAngDisplacement = 0.0;
 }
 
 void Frame::UpdateOrbitRails(double time, double timestep)
 {
 	m_oldPos = m_pos;
-	m_oldOrient = m_orient;
 	m_oldAngDisplacement = m_angSpeed * timestep;
 
 	// update frame position and velocity
