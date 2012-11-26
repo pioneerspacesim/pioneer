@@ -496,23 +496,27 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 
 				Gui::Screen::MeasureString(labelText, labelWidth, labelHeight);
 
-				// XXX Use m_renderer with <VertexArray>s rather than gl* calls (materials defeat me at the moment)
-				glBegin(GL_TRIANGLE_STRIP);
-				glColor4f(0.05f, 0.05f, 0.12f, 0.65f);
-				glVertex2f( pos.x - 5.f,              pos.y - 5.f              );
-				glVertex2f( pos.x - 5.f,              pos.y - 5.f + labelHeight);
-				glVertex2f( pos.x + labelWidth + 5.f, pos.y - 5.f              );
-				glVertex2f( pos.x + labelWidth + 5.f, pos.y - 5.f + labelHeight);
-				glEnd();
+				if (!m_material) m_material.Reset(m_renderer->CreateMaterial(Graphics::MaterialDescriptor()));
 
-				glBegin(GL_TRIANGLE_STRIP);
-				glColor4f(labelColor.r, labelColor.g, labelColor.b, labelColor.a);
-				glVertex2f( pos.x - 8.f, pos.y     );
-				glVertex2f( pos.x      , pos.y + 8.f);
-				glVertex2f( pos.x + 8.f, pos.y     );
-				glVertex2f( pos.x,       pos.y - 8.f);
-				glVertex2f( pos.x - 8.f, pos.y     );
-				glEnd();
+				{
+					Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
+					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f,               0));
+					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f + labelHeight, 0));
+					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f,               0));
+					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f + labelHeight, 0));
+					m_material->diffuse = Color(0.05f, 0.05f, 0.12f, 0.65f);
+					m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+				}
+
+				{
+					Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
+					va.Add(vector3f(pos.x - 8.f, pos.y,       0));
+					va.Add(vector3f(pos.x      , pos.y + 8.f, 0));
+					va.Add(vector3f(pos.x,       pos.y - 8.f, 0));
+					va.Add(vector3f(pos.x + 8.f, pos.y,       0));
+					m_material->diffuse = labelColor;
+					m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+				}
 
 				if (labelColor.GetLuminance() > 0.75f) labelColor.a = 0.8f;    // luminance is sometimes a bit overly
 				m_clickableLabels->Add(labelText, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), (*it)->homeworld), pos.x, pos.y, labelColor);

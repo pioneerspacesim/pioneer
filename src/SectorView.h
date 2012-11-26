@@ -138,6 +138,8 @@ private:
 	float m_playerHyperspaceRange;
 	Graphics::Drawables::Line3D m_jumpLine;
 
+	RefCountedPtr<Graphics::Material> m_material;
+
 	std::vector<vector3f> m_farstars;
 	std::vector<Color>    m_farstarsColor;
 
