@@ -162,7 +162,7 @@ static int l_faction_attr_expansion_rate(lua_State *l)
 /*
  * Attribute: radius
  *
- * The radius in light years of the the spherical volume the faction 
+ * The radius in light years of the the spherical volume the faction
  * encompasses as at the year 3200
  *
  * Availability:

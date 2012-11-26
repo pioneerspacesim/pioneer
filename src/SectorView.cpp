@@ -361,9 +361,9 @@ void SectorView::Draw3D()
 	modelview.Translate(0.f, 0.f, -10.f-10.f*m_zoom);    // not zoomClamped, let us zoom out a bit beyond what we're drawing
 	modelview.Rotate(DEG2RAD(m_rotX), 1.f, 0.f, 0.f);
 	modelview.Rotate(DEG2RAD(m_rotZ), 0.f, 0.f, 1.f);
-	modelview.Translate(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);	
+	modelview.Translate(-FFRAC(m_pos.x)*Sector::SIZE, -FFRAC(m_pos.y)*Sector::SIZE, -FFRAC(m_pos.z)*Sector::SIZE);
 	m_renderer->SetTransform(modelview);
-	
+
 	m_renderer->SetBlendMode(BLEND_ALPHA);
 
 	if (m_zoomClamped <= FAR_THRESHOLD) DrawNearSectors(modelview);
@@ -482,18 +482,18 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 	Gui::Screen::EnterOrtho();
 	for (std::set<Faction*>::iterator it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
 		if ((*it)->hasHomeworld && m_hiddenFactions.find((*it)) == m_hiddenFactions.end()) {
-			
+
 			Sector::System sys = GetCached((*it)->homeworld)->m_systems[(*it)->homeworld.systemIndex];
 			if ((m_pos*Sector::SIZE - sys.FullPosition()).Length() > (m_zoomClamped/FAR_THRESHOLD )*OUTER_RADIUS) continue;
-			
+
 			vector3d pos;
 			if (Gui::Screen::Project(vector3d(sys.FullPosition() - origin), pos)) {
-				
+
 				std::string labelText    = sys.name + "\n" + (*it)->name;
 				Color       labelColor  = (*it)->colour;
 				float       labelHeight = 0;
 				float       labelWidth  = 0;
-				
+
 				Gui::Screen::MeasureString(labelText, labelWidth, labelHeight);
 
 				// XXX Use m_renderer with <VertexArray>s rather than gl* calls (materials defeat me at the moment)
@@ -509,8 +509,8 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 				glColor4f(labelColor.r, labelColor.g, labelColor.b, labelColor.a);
 				glVertex2f( pos.x - 8.f, pos.y     );
 				glVertex2f( pos.x      , pos.y + 8.f);
-				glVertex2f( pos.x + 8.f, pos.y     ); 
-				glVertex2f( pos.x,       pos.y - 8.f); 
+				glVertex2f( pos.x + 8.f, pos.y     );
+				glVertex2f( pos.x,       pos.y - 8.f);
 				glVertex2f( pos.x - 8.f, pos.y     );
 				glEnd();
 
@@ -601,12 +601,12 @@ void SectorView::OnToggleFaction(Gui::ToggleButton* button, bool pressed, Factio
 	// hide or show the faction's systems depending on whether the button is pressed
 	if (pressed) m_hiddenFactions.erase(faction);
 	else         m_hiddenFactions.insert(faction);
-	
+
 	m_toggledFaction = true;
 }
 
 void SectorView::UpdateFactionToggles()
-{	
+{
 	// make sure we have enough row in the ui
 	while (m_visibleFactionLabels.size() < m_visibleFactions.size()) {
 		Gui::HBox*         row    = new Gui::HBox();
@@ -647,7 +647,7 @@ void SectorView::UpdateFactionToggles()
 	else                                          m_factionBox->HideAll();
 }
 
-void SectorView::DrawNearSectors(matrix4x4f modelview) 
+void SectorView::DrawNearSectors(matrix4x4f modelview)
 {
 	m_visibleFactions.clear();
 
@@ -663,9 +663,9 @@ void SectorView::DrawNearSectors(matrix4x4f modelview)
 		}
 	}
 
-	// ...then switch and do all the labels	
+	// ...then switch and do all the labels
 	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
-	
+
 	m_renderer->SetTransform(modelview);
 	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
@@ -831,7 +831,7 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 	}
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
-	m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 1.f + (Pi::GetScrHeight() / 720.f)); 
+	m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 1.f + (Pi::GetScrHeight() / 720.f));
 
 	// also add labels for any faction homeworlds among the systems we've drawn
 	PutFactionLabels(Sector::SIZE * secOrigin);
@@ -848,13 +848,13 @@ void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, std::vector
 		m_visibleFactions.insert(i->faction);
 		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end()) continue;
 
-		// otherwise add the system's position (origin must be m_pos's *sector* or we get judder) 
+		// otherwise add the system's position (origin must be m_pos's *sector* or we get judder)
 		// and faction color to the list to draw
 		starColor = (*i).faction->colour;
 		starColor.a = .75f;
 
 		points.push_back((*i).FullPosition() - origin);
-		colors.push_back(starColor);	
+		colors.push_back(starColor);
 	}
 }
 

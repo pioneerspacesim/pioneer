@@ -205,7 +205,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 		} else if (human_infestedness > 0) {
 			// attempt to get the government type from the faction
 			a = s->m_faction->PickGovType(rand);
-						
+
 			// if that fails, either no faction or a faction with no gov types, then pick something at random
 			if (a == GOV_INVALID) {
 				a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));

@@ -259,7 +259,7 @@ public:
 	fixed m_agricultural;
 	fixed m_humanProx;
 	fixed m_totalPop;
-	
+
 	Faction* m_faction;
 
 	// percent price alteration

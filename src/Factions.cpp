@@ -126,7 +126,7 @@ static int l_fac_govtype_weight(lua_State *L)
 		pi_lua_warn(L,
 			"weight must a postive integer: Faction{%s}:govtype_weight('%s', %d)",
 			fac->name.c_str(), typeName, weight);
-		return 0;		
+		return 0;
 	}
 
 	fac->govtype_weights.push_back(std::make_pair(g, weight));
@@ -242,10 +242,10 @@ static int l_fac_add_to_factions(lua_State *L)
 		s_factions.push_back(facbld->fac);
 		s_factions_byName[facbld->fac->name] = facbld->fac;
 		if (facbld->fac->hasHomeworld) s_homesystems.insert(facbld->fac->homeworld.SystemOnly());
-		
+
 		facbld->fac->idx = s_factions.size()-1;
 		facbld->registered = true;
-		
+
 		return 0;
 	} else if (facbld->skip) {
 		printf("l_fac_add_to_factions: invalid homeworld, skipped (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
@@ -362,7 +362,7 @@ const Uint32 Faction::GetNumFactions()
 /*	Answer whether the faction both contains the sysPath, and has a homeworld
 	closer than the passed distance.
 
-	if it is, then the passed distance will also be updated to be the distance 
+	if it is, then the passed distance will also be updated to be the distance
 	from the factions homeworld to the sysPath.
 */
 const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector sec, Uint32 sysIndex)
@@ -376,26 +376,26 @@ const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector
 	bool  inside   = true;
 
 	/*	Factions that have a homeworld... */
-	if (hasHomeworld) 
+	if (hasHomeworld)
 	{
 		/* ...automatically gain the allegiance of worlds within the same sector... */
-		if (sec.Contains(homeworld)) { distance = 0; } 
-		
-		/* ...otherwise we need to calculate whether the world is inside the 
+		if (sec.Contains(homeworld)) { distance = 0; }
+
+		/* ...otherwise we need to calculate whether the world is inside the
 		   the faction border, and how far away it is. */
-		else {		
+		else {
 			if (!m_homesector) m_homesector = new Sector(homeworld.sectorX, homeworld.sectorY, homeworld.sectorZ);
 			distance = Sector::DistanceBetween(m_homesector, homeworld.systemIndex, &sec, sysIndex);
 			inside   = distance < Radius();
 		}
 	}
 
-	/*	if the faction contains the world, and its homeworld is closer, then this faction 
+	/*	if the faction contains the world, and its homeworld is closer, then this faction
 		wins, and we update the closestFactionDist */
 	if (inside && (distance <= closestFactionDist)) {
-		closestFactionDist = distance;		
-		return true;	
-	
+		closestFactionDist = distance;
+		return true;
+
 	/* otherwise this isn't the faction we were looking for */
 	} else {
 		return false;
@@ -444,9 +444,9 @@ const Polit::GovType Faction::PickGovType(MTRand &rand) const
 
 		// ...the first govType with a cumulative weight >= the roll should be our pick
 		GovWeightIterator it = govtype_weights.begin();
-		while(roll > (cumulativeWeight + it->second)) { 
+		while(roll > (cumulativeWeight + it->second)) {
 			cumulativeWeight += it->second;
-			++it; 
+			++it;
 		}
 		return it->first;
 	} else {
@@ -463,7 +463,7 @@ const Polit::GovType Faction::PickGovType(MTRand &rand) const
 */
 void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi)
 {
-	// if the current sector specified is empty move to a sector 
+	// if the current sector specified is empty move to a sector
 	// closer to the origin on the z-axis until we find one that isn't
 	while (si < 0 && z != 0 ) {
 		Sector sec(x,y,z);

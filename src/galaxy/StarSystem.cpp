@@ -1292,7 +1292,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	// XXX hack to avoid issues with sysgen giving 0 temps
 	// temporary as part of sysgen needs to be rewritten before the proper fix can be used
-	if (T < 1) 
+	if (T < 1)
 		T = 40;
 
 	// XXX just use earth's composition for now
@@ -2179,7 +2179,7 @@ SystemBody::~SystemBody()
 {
 	for (std::vector<SystemBody*>::iterator i = children.begin(); i != children.end(); ++i) {
 		delete (*i);
-	}	
+	}
 }
 
 void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)

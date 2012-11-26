@@ -40,13 +40,13 @@ void Sector::GetCustomSystems()
 #define CUSTOM_ONLY_RADIUS	4
 
 //////////////////////// Sector
-Sector::Sector(int x, int y, int z) 
+Sector::Sector(int x, int y, int z)
 {
 	unsigned long _init[4] = { Uint32(x), Uint32(y), Uint32(z), UNIVERSE_SEED };
 	sx = x; sy = y; sz = z;
 	MTRand rng(_init, 4);
 	MTRand rand(UNIVERSE_SEED);
-	
+
 	GetCustomSystems();
 	int customCount = m_systems.size();
 
@@ -58,7 +58,7 @@ Sector::Sector(int x, int y, int z)
 
 		for (int i=0; i<numSystems; i++) {
 			System s(sx, sy, sz);
-			
+
 			switch (rng.Int32(15)) {
 				case 0:
 					s.numStars = 4; break;
@@ -244,7 +244,7 @@ Sector::Sector(int x, int y, int z)
 
 			s.name = GenName(s, customCount + i,  rng);
 			//printf("%s: \n", s.name.c_str());
-									
+
 			m_systems.push_back(s);
 		}
 	}
@@ -328,7 +328,7 @@ bool Sector::WithinBox(const int Xmin, const int Xmax, const int Ymin, const int
 }
 
 void Sector::AssignFactions()
-{	
+{
 	Uint32 index = 0;
 	for (std::vector<Sector::System>::iterator system = m_systems.begin(); system != m_systems.end(); ++system, ++index ) {
 		(*system).faction = Faction::GetNearestFaction(*this, index);

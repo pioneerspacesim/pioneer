@@ -22,7 +22,7 @@ public:
 	static void Init();
 
 	// Sector is within a bounding rectangle - used for SectorView m_sectorCache pruning.
-	bool WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const;	
+	bool WithinBox(const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) const;
 	bool Contains(const SystemPath sysPath) const;
 
 	// sets appropriate factions for all systems in the sector
