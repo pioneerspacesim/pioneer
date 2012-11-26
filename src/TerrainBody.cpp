@@ -40,6 +40,7 @@ void TerrainBody::InitTerrainBody(SystemBody *sbody)
 	m_mass = m_sbody->GetMass();
 	if (!m_geosphere)
 		m_geosphere = new GeoSphere(sbody);
+	m_maxFeatureHeight = (m_geosphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
 }
 
 void TerrainBody::Save(Serializer::Writer &wr, Space *space)

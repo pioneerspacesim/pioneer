@@ -18,8 +18,6 @@ public:
 	virtual ~ModelBody();
 	void SetPosition(const vector3d &p);
 	void SetOrient(const matrix3x3d &r);
-	virtual double GetPhysRadius() const;
-	virtual double GetClipRadius() const;
 	void TransformToModelCoords(const Frame *camFrame);
 	void SetFrame(Frame *f);
 	// Colliding: geoms are checked against collision space
@@ -28,7 +26,7 @@ public:
 	// Static: geoms are static relative to frame
 	void SetStatic(bool isStatic);
 	bool IsStatic() const { return m_isStatic; }
-	const Aabb &GetAabb() const;
+	const Aabb &GetAabb() const { return m_collMesh->GetAabb(); }
 	Geom *GetGeom() { return m_geom; }
 	LmrModel *GetLmrModel() { return m_lmrModel; }
 	LmrCollMesh *GetLmrCollMesh() { return m_collMesh; }
@@ -41,7 +39,6 @@ public:
 
 	void RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
-//	virtual void UpdateInterpolatedTransform(double alpha);		// no different from body.h
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);

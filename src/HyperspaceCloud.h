@@ -27,7 +27,6 @@ public:
 	virtual vector3d GetPosition() const;
 	virtual void SetVelocity(const vector3d &v) { m_vel = v; }
 	virtual vector3d GetVelocity() const { return m_vel; }
-	virtual double GetPhysRadius() const { return 1200.0; }
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void PostLoadFixup(Space *space);
 	virtual void TimeStepUpdate(const float timeStep);

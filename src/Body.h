@@ -31,8 +31,11 @@ public:
 	const matrix3x3d &GetOrient() const { return m_orient; }
 	virtual void SetVelocity(const vector3d &v) { assert(0); }
 	virtual vector3d GetVelocity() const { return vector3d(0.0); }
-	virtual double GetPhysRadius() const = 0;
-	virtual double GetClipRadius() const { return GetPhysRadius(); }
+
+	void SetPhysRadius(double r) { m_physRadius = r; }
+	double GetPhysRadius() const { return m_physRadius; }
+	void SetClipRadius(double r) { m_clipRadius = r; }
+	double GetClipRadius() const { return m_clipRadius; }
 	virtual double GetMass() const { assert(0); return 0; }
 	
 	// return true if to do collision response and apply damage
@@ -113,6 +116,8 @@ private:
 	Frame *m_frame;				// frame of reference
 	std::string m_label;
 	bool m_dead;				// Checked in destructor to make sure body has been marked dead.
+	double m_clipRadius;
+	double m_physRadius;
 };
 
 #endif /* _BODY_H */

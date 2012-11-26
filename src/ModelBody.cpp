@@ -25,7 +25,7 @@ ModelBody::~ModelBody()
 {
 	SetFrame(0);	// Will remove geom from frame if necessary.
 	if (m_collMesh) delete m_collMesh;
-	delete m_geom;
+	if (m_geom) delete m_geom;
 }
 
 void ModelBody::Save(Serializer::Writer &wr, Space *space)
@@ -67,11 +67,6 @@ void ModelBody::SetColliding(bool colliding)
 	else m_geom->Disable();
 }
 
-const Aabb &ModelBody::GetAabb() const
-{
-	return m_collMesh->GetAabb();
-}
-
 void ModelBody::RebuildCollisionMesh()
 {
 	if (m_geom) {
@@ -83,6 +78,7 @@ void ModelBody::RebuildCollisionMesh()
 	if (m_collMesh) delete m_collMesh;
 
 	m_collMesh = new LmrCollMesh(m_lmrModel, &m_params);
+	SetPhysRadius(m_collMesh->GetAabb().GetRadius());
 
 	m_geom = new Geom(m_collMesh->geomTree);
 	m_geom->SetUserData(static_cast<void*>(this));
@@ -101,6 +97,7 @@ void ModelBody::SetModel(const char *lmrModelName)
 		printf("Could not find model '%s'.\n", lmrModelName);
 		Pi::Quit();
 	}
+	SetClipRadius(m_lmrModel->GetDrawClipRadius());
 
 	RebuildCollisionMesh();
 }
@@ -119,16 +116,6 @@ void ModelBody::SetOrient(const matrix3x3d &m)
 	Body::SetOrient(m);
 	matrix4x4d m2 = m;
 	m_geom->MoveTo(m2, GetPosition());
-}
-
-double ModelBody::GetPhysRadius() const
-{
-	return m_collMesh->GetAabb().GetRadius();
-}
-
-double ModelBody::GetClipRadius() const
-{
-	return m_lmrModel->GetDrawClipRadius();
 }
 
 void ModelBody::SetFrame(Frame *f)

@@ -22,9 +22,9 @@ Body::Body()
 {
 	m_pos = vector3d(0.0);
 	m_orient = matrix3x3d::Identity();
+	m_clipRadius = m_physRadius = 0.0;
 	m_frame = 0;
 	m_flags = 0;
-//	m_hasDoubleFrame = false;
 	m_dead = false;
 }
 
@@ -37,7 +37,11 @@ void Body::Save(Serializer::Writer &wr, Space *space)
 	wr.Int32(space->GetIndexForFrame(m_frame));
 	wr.String(m_label);
 	wr.Bool(m_dead);
-//	wr.Bool(m_hasDoubleFrame);
+
+	wr.Vector3d(m_pos);
+	for (int i=0; i<9; i++) wr.Double(m_orient[i]);
+	wr.Double(m_physRadius);
+	wr.Double(m_clipRadius);
 }
 
 void Body::Load(Serializer::Reader &rd, Space *space)
@@ -45,7 +49,11 @@ void Body::Load(Serializer::Reader &rd, Space *space)
 	m_frame = space->GetFrameByIndex(rd.Int32());
 	m_label = rd.String();
 	m_dead = rd.Bool();
-//	m_hasDoubleFrame = rd.Bool();
+
+	m_pos = rd.Vector3d();
+	for (int i=0; i<9; i++) m_orient[i] = rd.Double();
+	m_physRadius = rd.Double();
+	m_clipRadius = rd.Double();
 }
 
 void Body::Serialize(Serializer::Writer &_wr, Space *space)
@@ -67,9 +75,6 @@ void Body::Serialize(Serializer::Writer &_wr, Space *space)
 		default:
 			assert(0);
 	}
-	wr.Vector3d(GetPosition());
-	const matrix3x3d &orient = GetOrient();
-	for (int i=0; i<9; i++) wr.Double(orient[i]);
 	_wr.WrSection("Body", wr.GetData());
 }
 
@@ -102,15 +107,6 @@ Body *Body::Unserialize(Serializer::Reader &_rd, Space *space)
 			assert(0);
 	}
 	b->Load(rd, space);
-	// must SetFrame() correctly so ModelBodies can add geom to space
-	Frame *f = b->m_frame;
-	b->m_frame = 0;
-	b->SetFrame(f);
-	//
-	b->SetPosition(rd.Vector3d());
-	matrix3x3d m;
-	for (int i=0; i<9; i++) m[i] = rd.Double();
-	b->SetOrient(m);
 	return b;
 }
 

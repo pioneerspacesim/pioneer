@@ -337,8 +337,7 @@ void SpaceStation::InitStation()
 	SetStatic(ground);			// orbital stations are dynamic now
 	SetModel(m_type->modelName);
 
-	if (ground) m_clipRadius = CITY_ON_PLANET_RADIUS;
-	else m_clipRadius = ModelBody::GetClipRadius();
+	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS);		// overrides setmodel
 }
 
 SpaceStation::~SpaceStation()

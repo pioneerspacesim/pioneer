@@ -89,7 +89,6 @@ public:
 	SpaceStation(const SystemBody *);
 	SpaceStation() {}
 	virtual ~SpaceStation();
-	virtual double GetClipRadius() const { return m_clipRadius; }
 	virtual vector3d GetAngVelocity() const { return vector3d(0,m_type->angVel,0); }
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
@@ -170,7 +169,6 @@ private:
 	bool m_dockingLock;
 
 	double m_oldAngDisplacement;
-	double m_clipRadius;
 
 	double m_openAnimState[MAX_DOCKING_PORTS];
 	double m_dockAnimState[MAX_DOCKING_PORTS];

@@ -26,9 +26,8 @@ public:
 	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
 	GeoSphere *GetGeoSphere() const { return m_geosphere; }
 
-	double GetMaxFeatureRadius() const { 		// returns value in metres
-		return (m_geosphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
-	}
+	// returns value in metres
+	double GetMaxFeatureRadius() const { return m_maxFeatureHeight; }
 
 protected:
 	TerrainBody(SystemBody*);
@@ -44,6 +43,7 @@ private:
 	SystemBody *m_sbody;
 	double m_mass;
 	GeoSphere *m_geosphere;
+	double m_maxFeatureHeight;
 };
 
 #endif

@@ -24,6 +24,8 @@ HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 		  Body::FLAG_LABEL_HIDDEN;
 	m_ship = s;
 	m_pos = vector3d(0,0,0);
+	SetPhysRadius(0.0);
+	SetClipRadius(0.0);
 	m_vel = (s ? s->GetVelocity() : vector3d(0.0));
 	m_birthdate = Pi::game->GetTime();
 	m_due = dueDate;
@@ -35,6 +37,8 @@ HyperspaceCloud::HyperspaceCloud()
 {
 	m_ship = 0;
 	m_pos = vector3d(0,0,0);
+	SetPhysRadius(0.0);
+	SetClipRadius(0.0);
 	InitGraphics();
 }
 

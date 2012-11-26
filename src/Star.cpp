@@ -11,20 +11,18 @@ using namespace Graphics;
 
 Star::Star() : TerrainBody()
 {
+	// this one should be atmosphere radius when stars have atmosphere
+	SetPhysRadius(GetMaxFeatureRadius());
+
+	// this one is much larger because stars have halo effect
+	// if star is wolf-rayet it gets a very large halo effect
+	const SystemBody *sbody = GetSystemBody();
+	const float wf = (sbody->type < SystemBody::TYPE_STAR_S_BH && sbody->type > SystemBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f;
+	SetClipRadius(sbody->GetRadius() * 8 * wf);
 }
 
 Star::Star(SystemBody *sbody): TerrainBody(sbody)
 {
-}
-
-double Star::GetClipRadius() const
-{
-
-	const SystemBody *sbody = GetSystemBody();
-
-	// if star is wolf-rayet it gets a very large halo effect
-	const float wf = (sbody->type < SystemBody::TYPE_STAR_S_BH && sbody->type > SystemBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f;
-	return sbody->GetRadius() * 8 * wf;
 }
 
 void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
