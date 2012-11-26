@@ -154,9 +154,9 @@ end
 -- To overwrite the constructor (function `New`), don't forget to rename the current
 -- one and call it in the new method.
 --
-utils.inherits = function (baseClass)
+utils.inherits = function (baseClass, name)
 	local new_class = {}
-	local class_mt = { __index = new_class }
+	local class_mt = { __index = new_class, class=name }
 
 	-- generic constructor
 	function new_class.New(args)
