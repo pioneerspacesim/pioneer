@@ -753,10 +753,14 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 		}
 	}
 
-	// linear thrust
-	double maxdecel = m_state ? m_ship->GetAccelMin() : m_ship->GetAccelFwd();
-	maxdecel -= GetGravityAtPos(m_targframe, m_posoff);
-	if(maxdecel <= 0) { m_ship->AIMessage(Ship::AIERROR_GRAV_TOO_HIGH); return true; }
+	// calculate maximum deceleration under gravity
+	double maxdecel = m_state ? m_ship->GetAccelRev() : m_ship->GetAccelFwd();	// Hmm
+	if (m_state < 0) maxdecel = m_ship->GetAccelMin();
+	double gravdir = reldir.Dot(m_ship->GetPosition().Normalized());
+	maxdecel -= gravdir * GetGravityAtPos(m_frame, m_ship->GetPosition());
+	if (maxdecel < 0) maxdecel = 0.0;
+
+	// linear thrust application
 	vector3d vdiff = m_ship->AIMatchPosVel(reldir, targdist, relvel, m_endvel, maxdecel);
 
 	bool flipped = false;
@@ -773,9 +777,14 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	}
 
 	// face appropriate direction
-	if (m_state < 0) m_ship->AIFaceDirection(vdiff);
+	double af = 0.0, au = 0.0;
+	if (m_state < 0) af = m_ship->AIFaceDirection(vdiff);
 	else if (m_state >= 3) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
-	else m_ship->AIFaceDirection(flipped ? -reldir : reldir);
+	else af = m_ship->AIFaceDirection(flipped ? -reldir : reldir);
+	if (af > 0.1) m_state = -1;
+
+	if (m_ship->GetPosition().LengthSqr() < 4*erad*erad)
+		au = m_ship->AIFaceUpdir(m_ship->GetPosition());		// turn bottom thruster towards planet
 
 	// termination conditions
 	if (m_state >= 3) return true;					// finished last adjustment, hopefully
@@ -784,6 +793,16 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	return false;
 }
 
+AICmdDock::AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOCK)
+{
+	m_target = target;
+	m_state = 0;
+	double grav = GetGravityAtPos(m_target->GetFrame(), m_target->GetPosition());
+	if (m_ship->GetAccelUp() < grav) {
+		m_ship->AIMessage(Ship::AIERROR_GRAV_TOO_HIGH);
+		m_target = 0;			// bail out on next timestep call
+	}
+}
 
 // m_state values:
 // 0: get data for docking start pos
@@ -842,7 +861,7 @@ bool AICmdDock::TimeStepUpdate()
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	vector3d relvel = -m_target->GetVelocityRelTo(m_ship);
-	double maxdecel = m_ship->GetAccelMin() - GetGravityAtPos(m_target->GetFrame(), m_dockpos);
+	double maxdecel = m_ship->GetAccelUp() - GetGravityAtPos(m_target->GetFrame(), m_dockpos);
 	vector3d vdiff = m_ship->AIMatchPosVel(reldir, relpos.Length(), relvel, 0.0, maxdecel);
 	if (vdiff.Dot(reldir) < 0) m_ship->SetDecelerating(true);
 
@@ -853,8 +872,9 @@ bool AICmdDock::TimeStepUpdate()
 		vector3d axis = m_target->GetAngVelocity().Normalized();
 		trot = trot * matrix3x3d::BuildRotate(ang, axis);
 	}
-	bool fin = m_ship->AIFaceOrient(trot * m_dockdir, trot * m_dockupdir);
-	if (m_state < 5 && fin && m_ship->GetWheelState() >= 1.0f) m_state++;
+	double af = m_ship->AIFaceDirection(trot * m_dockdir);
+	double au = m_ship->AIFaceUpdir(trot * m_dockupdir);
+	if (m_state < 5 && af < 0.01 && au < 0.01+ang && m_ship->GetWheelState() >= 1.0f) m_state++;
 
 #ifdef DEBUG_AUTOPILOT
 printf("AICmdDock dist = %.1f, speed = %.1f, ythrust = %.2f, state = %i\n",
@@ -991,6 +1011,7 @@ bool AICmdFlyAround::TimeStepUpdate()
 	vector3d finalvel = tanvel + ivel * obsdir;
 	m_ship->AIMatchVel(finalvel);
 	m_ship->AIFaceDirection(fwddir);
+	m_ship->AIFaceUpdir(-obsdir);
 
 //	vector3d newhead = GenerateTangent(m_ship, m_obstructor->GetFrame(), fwddir);
 //	newhead = GetPosInFrame(m_ship->GetFrame(), m_obstructor->GetFrame(), newhead);

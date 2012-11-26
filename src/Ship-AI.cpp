@@ -248,40 +248,18 @@ void Ship::AIMatchAngVelObjSpace(const vector3d &angvel)
 	SetAngThrusterState(diff * invFrameAccel);
 }
 
-// just forces the orientation
-void Ship::AIFaceDirectionImmediate(const vector3d &dir)
-{
-	vector3d xaxis = vector3d(0.0,1.0,0.0).Cross(-dir).Normalized();		// XXX check
-	vector3d yaxis = -dir.Cross(xaxis).Normalized();
-	SetOrient(matrix3x3d::BuildFromVectors(xaxis, yaxis));
-}
-
-// position in ship's frame
-vector3d Ship::AIGetNextFramePos()
-{
-	vector3d thrusters = GetThrusterState();
-	vector3d maxThrust = GetMaxThrust(thrusters);
-	vector3d thrust = vector3d(maxThrust.x*thrusters.x, maxThrust.y*thrusters.y,
-		maxThrust.z*thrusters.z);
-	vector3d vel = GetVelocity() + GetOrient() * thrust * Pi::game->GetTimeStep() / GetMass();
-	vector3d pos = GetPosition() + vel * Pi::game->GetTimeStep();
-	return pos;
-}
-
-// returns true if ship will be aligned at end of frame
-bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
+// get updir as close as possible just using roll thrusters
+double Ship::AIFaceUpdir(const vector3d &updir)
 {
 	double timeStep = Pi::game->GetTimeStep();
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
-	if (maxAccel <= 0.0) return 0.0;
 	double frameAccel = maxAccel * timeStep;
 
-	if (dir.Dot(GetOrient().VectorZ()) > -0.999999) { AIFaceDirection(dir); return false; }
+	vector3d uphead = updir * GetOrient();			// create desired object-space updir
+	uphead.z = 0; uphead = uphead.Normalized();		// only care about roll axis
 
-	vector3d uphead = (updir * GetOrient()).Normalized();		// create desired object-space updir
-	vector3d dav(0.0, 0.0, 0.0);			// desired angular velocity
-	double ang = 0.0;
-	if (uphead.y < 0.999999)
+	double ang = 0.0, dav = 0.0;
+	if (uphead.y < 0.99999999)
 	{
 		ang = acos(Clamp(uphead.y, -1.0, 1.0));		// scalar angle from head to curhead
 		double iangvel = sqrt(2.0 * maxAccel * ang);	// ideal angvel at current time
@@ -289,15 +267,15 @@ bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 		double frameEndAV = iangvel - frameAccel;
 		if (frameEndAV <= 0.0) iangvel = ang / timeStep;	// last frame discrete correction
 		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
-		dav.z = uphead.x > 0 ? -iangvel : iangvel;
+
+		dav = uphead.x > 0 ? -iangvel : iangvel;
 	}
-	vector3d cav = GetAngVelocity() * GetOrient();				// current obj-rel angvel
-	vector3d diff = (dav - cav) / frameAccel;			// find diff between current & desired angvel
+	double cav = (GetAngVelocity() * GetOrient()).z;	// current obj-rel angvel
+	double diff = (dav - cav) / frameAccel;				// find diff between current & desired angvel
 
-	SetAngThrusterState(diff);
-	return (diff.z*diff.z < 1.0);
+	SetAngThrusterState(2, diff);
+	return ang;
 }
-
 
 // Input: direction in ship's frame, doesn't need to be normalized
 // Approximate positive angular velocity at match point

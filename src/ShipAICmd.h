@@ -49,10 +49,8 @@ protected:
 class AICmdDock : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOCK) {
-		m_target = target;
-		m_state = 0;
-	}
+	AICmdDock(Ship *ship, SpaceStation *target);
+
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "Dock: target %s, state %i", m_target->GetLabel().c_str(), m_state);
