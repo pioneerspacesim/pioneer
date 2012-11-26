@@ -2,8 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Factions.h"
-#include "galaxy/SystemPath.h"
 #include "galaxy/Sector.h"
+#include "galaxy/SystemPath.h"
 
 #include "LuaUtils.h"
 #include "LuaVector.h"
@@ -11,15 +11,24 @@
 #include "LuaConstants.h"
 #include "Polit.h"
 #include "FileSystem.h"
+#include "Lang.h"
+#include <set>
 
-const Uint32 Faction::BAD_FACTION_IDX = UINT_MAX;
+const Uint32 Faction::BAD_FACTION_IDX      = UINT_MAX;
+const Color  Faction::BAD_FACTION_COLOUR   = Color(0.8f,0.8f,0.8f,0.50f);
+const float  Faction::FACTION_BASE_ALPHA   = 0.40f;
+const double Faction::FACTION_CURRENT_YEAR = 3200;
 
-typedef std::vector<Faction*>  FactionList;
+typedef std::vector<Faction*> FactionList;
 typedef FactionList::iterator FactionIterator;
-typedef std::map<std::string, Uint32> FactionIndexes;
+typedef std::map<std::string, Faction*> FactionMap;
+typedef std::set<SystemPath>  HomeSystemSet;
 
-static FactionList    s_factions;
-static FactionIndexes s_factions_indexes;
+static Faction       s_no_faction;    // instead of answering null, we often want to answer a working faction object for no faction
+
+static FactionList   s_factions;
+static FactionMap    s_factions_byName;
+static HomeSystemSet s_homesystems;
 
 // ------- Faction --------
 
@@ -104,7 +113,7 @@ static int l_fac_govtype_weight(lua_State *L)
 	Faction *fac = l_fac_check(L, 1);
 	const char *typeName = luaL_checkstring(L, 2);
 	const Polit::GovType g = static_cast<Polit::GovType>(LuaConstants::GetConstant(L, "PolitGovType", typeName));
-	const int32_t weight = luaL_checkinteger(L, 3);	// signed as we will need to compare with signed out of MTRand.Int32
+	const Sint32 weight = luaL_checkinteger(L, 3);	// signed as we will need to compare with signed out of MTRand.Int32
 
 	if (g < Polit::GOV_RAND_MIN || g > Polit::GOV_RAND_MAX) {
 		pi_lua_warn(L,
@@ -173,7 +182,7 @@ static int l_fac_illegal_goods_probability(lua_State *L)
 	Faction *fac = l_fac_check(L, 1);
 	const char *typeName = luaL_checkstring(L, 2);
 	const Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(L, "EquipType", typeName));
-	const uint32_t probability = luaL_checkunsigned(L, 3);
+	const Uint32 probability = luaL_checkunsigned(L, 3);
 
 	if (e < Equip::FIRST_COMMODITY || e > Equip::LAST_COMMODITY) {
 		pi_lua_warn(L,
@@ -231,8 +240,12 @@ static int l_fac_add_to_factions(lua_State *L)
 		}
 
 		s_factions.push_back(facbld->fac);
-		s_factions_indexes[facbld->fac->name] = s_factions.size()-1;
+		s_factions_byName[facbld->fac->name] = facbld->fac;
+		if (facbld->fac->hasHomeworld) s_homesystems.insert(facbld->fac->homeworld.SystemOnly());
+
+		facbld->fac->idx = s_factions.size()-1;
 		facbld->registered = true;
+
 		return 0;
 	} else if (facbld->skip) {
 		printf("l_fac_add_to_factions: invalid homeworld, skipped (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
@@ -322,7 +335,7 @@ void Faction::Uninit()
 		delete *it;
 	}
 	s_factions.clear();
-	s_factions_indexes.clear();
+	s_factions_byName.clear();
 }
 
 
@@ -332,86 +345,102 @@ Faction *Faction::GetFaction(const Uint32 index)
 	return s_factions[index];
 }
 
+Faction* Faction::GetFaction(const std::string factionName)
+{
+	if (s_factions_byName.find(factionName) != s_factions_byName.end()) {
+		return s_factions_byName[factionName];
+	} else {
+		return &s_no_faction;
+	}
+}
+
 const Uint32 Faction::GetNumFactions()
 {
 	return s_factions.size();
 }
 
-const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
+/*	Answer whether the faction both contains the sysPath, and has a homeworld
+	closer than the passed distance.
+
+	if it is, then the passed distance will also be updated to be the distance
+	from the factions homeworld to the sysPath.
+*/
+const bool Faction::IsCloserAndContains(double& closestFactionDist, const Sector sec, Uint32 sysIndex)
 {
-	Uint32 ret_index = BAD_FACTION_IDX;
+	/*	Treat factions without homeworlds as if they are of effectively infinite radius,
+		so every world is potentially within their borders, but also treat them as if
+		they had a homeworld that was infinitely far away, so every other faction has
+		a better claim.
+	*/
+	float distance = HUGE_VAL;
+	bool  inside   = true;
 
-	// firstly if this a custom StarSystem it may already have a faction assigned
-	Sector sec(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
-	if (sec.m_systems[sysPath.systemIndex].customSys) {
-		ret_index = sec.m_systems[sysPath.systemIndex].customSys->factionIdx;
-	}
+	/*	Factions that have a homeworld... */
+	if (hasHomeworld)
+	{
+		/* ...automatically gain the allegiance of worlds within the same sector... */
+		if (sec.Contains(homeworld)) { distance = 0; }
 
-	// if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
-	if (ret_index == BAD_FACTION_IDX) {
-
-		// Iterate through all of the factions and find the one nearest to the system we're checking it against.
-		const Faction *foundFaction = 0;
-		double nearestDistance = HUGE_VAL;
-
-		// get the current year
-		// XXX: cannot access the PI::game->GetTime() method here as game is NULL when deserialised from save game -
-		//	- I had hoped to use this to give a simple expanding spherical volume to each faction. Use 3200 as the-
-		//	- base year, all factions should have come into existence prior to this date.
-		const double current_year = 3200;//get_year(Pi::game->GetTime());
-
-		// iterate
-		for (Uint32 index = 0; index < s_factions.size(); ++index) {
-			const Faction &fac = *s_factions[index];
-
-			if( !fac.hasHomeworld && !foundFaction ) {
-				// We've not yet found a faction that we're within the radius of
-				// and we're currently iterating over a faction that is decentralised (probably Independent)
-				foundFaction = &fac;
-				ret_index = index;
-			}
-			else if( fac.hasHomeworld ) {
-				// We can end early here if they're the same as factions homeworld like Earth or Achernar
-				if( fac.homeworld.IsSameSector(sysPath) ) {
-					foundFaction = &fac;
-					return index;
-				}
-
-				// get the distance
-				const Sector sec1(fac.homeworld.sectorX, fac.homeworld.sectorY, fac.homeworld.sectorZ);
-				const Sector sec2(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
-				const double distance = Sector::DistanceBetween(&sec1, fac.homeworld.systemIndex, &sec2, sysPath.systemIndex);
-
-				// calculate the current radius the faction occupies
-				const double radius = (current_year - fac.foundingDate) * fac.expansionRate;
-
-				// check we've found a closer faction
-				if( (distance <= radius) && (distance < nearestDistance) ) {
-					nearestDistance = distance;
-					foundFaction = &fac;
-					ret_index = index;
-				}
-			}
+		/* ...otherwise we need to calculate whether the world is inside the
+		   the faction border, and how far away it is. */
+		else {
+			if (!m_homesector) m_homesector = new Sector(homeworld.sectorX, homeworld.sectorY, homeworld.sectorZ);
+			distance = Sector::DistanceBetween(m_homesector, homeworld.systemIndex, &sec, sysIndex);
+			inside   = distance < Radius();
 		}
 	}
 
-	return ret_index;
+	/*	if the faction contains the world, and its homeworld is closer, then this faction
+		wins, and we update the closestFactionDist */
+	if (inside && (distance <= closestFactionDist)) {
+		closestFactionDist = distance;
+		return true;
+
+	/* otherwise this isn't the faction we were looking for */
+	} else {
+		return false;
+	}
 }
 
-const Uint32 Faction::GetIndexOfFaction(const std::string factionName)
+Faction* Faction::GetNearestFaction(const Sector sec, Uint32 sysIndex)
 {
-	FactionIndexes::iterator it = s_factions_indexes.find(factionName);
+	/* firstly if this a custom StarSystem it may already have a faction assigned
+	*/
+	if (sec.m_systems[sysIndex].customSys && sec.m_systems[sysIndex].customSys->faction) {
+		return sec.m_systems[sysIndex].customSys->faction;
+	}
 
-	if (it == s_factions_indexes.end()) return BAD_FACTION_IDX;
-	else                                return it->second;
+	/* if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
+	*/
+	Faction* result             = &s_no_faction;
+	double   closestFactionDist = HUGE_VAL;
+
+	for (FactionIterator it = s_factions.begin(); it != s_factions.end(); ++it) {
+		if ((*it)->IsCloserAndContains(closestFactionDist, sec, sysIndex)) result = *it;
+	}
+	return result;
 }
 
-Polit::GovType Faction::PickGovType(MTRand &rand) const
+bool Faction::IsHomeSystem(const SystemPath& sysPath)
+{
+	return s_homesystems.find(sysPath.SystemOnly()) != s_homesystems.end();
+}
+
+const Color Faction::AdjustedColour(fixed population, bool inRange)
+{
+	Color result;
+	result   = population == 0 ? BAD_FACTION_COLOUR : colour;
+	result.a = population > 0  ? FACTION_BASE_ALPHA + (M_E + (logf(population.ToFloat() / 1.25))) / ((2 * M_E) + FACTION_BASE_ALPHA) : FACTION_BASE_ALPHA;
+	result.a = inRange         ? 1.f : result.a;
+	return result;
+}
+
+const Polit::GovType Faction::PickGovType(MTRand &rand) const
 {
 	if( !govtype_weights.empty()) {
 		// if we roll a number between one and the total weighting...
-		int32_t roll = rand.Int32(1, govtype_weights_total);
-		int32_t cumulativeWeight = 0;
+		Sint32 roll = rand.Int32(1, govtype_weights_total);
+		Sint32 cumulativeWeight = 0;
 
 		// ...the first govType with a cumulative weight >= the roll should be our pick
 		GovWeightIterator it = govtype_weights.begin();
@@ -435,26 +464,31 @@ Polit::GovType Faction::PickGovType(MTRand &rand) const
 void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi)
 {
 	// if the current sector specified is empty move to a sector
-	// closer to the origin on the x-axis until we find one that isn't
-	while (si < 0 && x != 0 ) {
+	// closer to the origin on the z-axis until we find one that isn't
+	while (si < 0 && z != 0 ) {
 		Sector sec(x,y,z);
 		if (sec.m_systems.size() > 0 ) {
 			si = 0;
 		} else {
-			if (x > 0) { --x; } else { ++x; };
+			if (z > 0) { --x; } else { ++z; };
 		}
 	}
 	homeworld = SystemPath(x, y, z, si, bi);
 }
 
 Faction::Faction() :
-	govtype_weights_total(0),
+	idx(BAD_FACTION_IDX),
+	name(Lang::NO_CENTRAL_GOVERNANCE),
 	hasHomeworld(false),
 	foundingDate(0.0),
-	expansionRate(0.0)
+	expansionRate(0.0),
+	colour(BAD_FACTION_COLOUR),
+	m_homesector(0)
 {
+	govtype_weights_total = 0;
 }
 
 Faction::~Faction()
 {
+	if (m_homesector) delete m_homesector;
 }

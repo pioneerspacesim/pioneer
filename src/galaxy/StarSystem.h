@@ -28,6 +28,7 @@ enum EconType { // <enum name=EconType prefix=ECON_>
 };
 
 class StarSystem;
+class Faction;
 
 struct Orbit {
 	Orbit(): orbitalPhaseAtStart(0.0) {};
@@ -239,7 +240,6 @@ public:
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
-	const Uint32 GetFactionIndex() const { return m_factionIdx; }
 	const char *GetAllegianceDesc() const;
 	const Color GetFactionColour() const;
 
@@ -257,9 +257,11 @@ public:
 	fixed m_metallicity;
 	fixed m_industrial;
 	fixed m_agricultural;
-
 	fixed m_humanProx;
 	fixed m_totalPop;
+
+	Faction* m_faction;
+
 	// percent price alteration
 	int m_tradeLevel[Equip::TYPE_MAX];
 	int m_econType;
@@ -296,7 +298,6 @@ private:
 	std::string m_name;
 	std::string m_shortDesc, m_longDesc;
 	SysPolit m_polit;
-	Uint32 m_factionIdx;
 
 	bool m_isCustom;
 	bool m_hasCustomBodies;

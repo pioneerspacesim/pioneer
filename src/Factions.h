@@ -4,6 +4,7 @@
 #ifndef _FACTIONS_H
 #define _FACTIONS_H
 
+#include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
 #include "Polit.h"
 #include "vector3.h"
@@ -19,35 +20,39 @@ public:
 	static void Uninit();
 
 	// XXX this is not as const-safe as it should be
-	static Faction *GetFaction(const Uint32 index);
-	static const Uint32      GetNumFactions();
-	static const Uint32      GetNearestFactionIndex(const SystemPath& sysPath);
-	static const Uint32      GetIndexOfFaction(const std::string factionName);
+	static Faction *GetFaction       (const Uint32 index);
+	static Faction *GetFaction       (const std::string factionName);
+	static Faction *GetNearestFaction(const Sector sec, Uint32 sysIndex);
+	static bool     IsHomeSystem     (const SystemPath& sysPath);
 
-	static const Uint32 BAD_FACTION_IDX; // returned by GetNearestFactionIndex if system has no faction
+	static const Uint32 GetNumFactions();
 
+	static const Uint32 BAD_FACTION_IDX;        // used by the no faction object to denote it's not a proper faction
+	static const Color  BAD_FACTION_COLOUR;     // factionColour to use on failing to find an appropriate faction
+	static const float  FACTION_BASE_ALPHA;     // Alpha to use on factionColour of systems with unknown population
 
 	Faction();
 	~Faction();
 
-	std::string				name;				// Formal name "Federation", "Empire", "Bob's Rib-shack consortium of delicious worlds (tm)", etc.
-	std::string				description_short;	// short description
-	std::string				description;		// detailed description describing formation, current status, etc
+	Uint32             idx;                 // faction index
+	std::string	       name;                // Formal name "Federation", "Empire", "Bob's Rib-shack consortium of delicious worlds (tm)", etc.
+	std::string	       description_short;   // short description
+	std::string        description;         // detailed description describing formation, current status, etc
 
 	// government types with weighting
-	typedef std::pair<Polit::GovType, int32_t>	GovWeight;
-	typedef std::vector<GovWeight>				GovWeightVec;
-	typedef GovWeightVec::const_iterator		GovWeightIterator;
-	GovWeightVec								govtype_weights;
-	int32_t										govtype_weights_total;
+	typedef std::pair<Polit::GovType, Sint32> GovWeight;
+	typedef std::vector<GovWeight>            GovWeightVec;
+	typedef GovWeightVec::const_iterator      GovWeightIterator;
+	GovWeightVec       govtype_weights;
+	Sint32             govtype_weights_total;
 
-	bool					hasHomeworld;
-	SystemPath				homeworld;			// sector(x,y,x) + system index + body index = location in a (custom?) system of homeworld
-	double					foundingDate;		// date faction came into existence
-	double					expansionRate;		// lightyears per year that the volume expands.
-	std::string				military_name;		// "Space Defense Force", "Imperial Will Enforcement Division"...
+	bool               hasHomeworld;
+	SystemPath         homeworld;           // sector(x,y,x) + system index + body index = location in a (custom?) system of homeworld
+	double             foundingDate;        // date faction came into existence
+	double             expansionRate;       // lightyears per year that the volume expands.
+	std::string        military_name;       // "Space Defense Force", "Imperial Will Enforcement Division"...
 	//military logo
-	std::string				police_name;		// "Police", "Polizia Locale"...
+	std::string        police_name;         // "Police", "Polizia Locale"...
 
 	//police logo
 	//goods/equipment availability (1-per-economy-type: aka agricultural, industrial, tourist, etc)
@@ -55,17 +60,24 @@ public:
 	//EquipType				types[SC_NUM_ECONOMY_TYPES][Equip::TYPE_MAX];
 
 	//goods/equipment legality
-	typedef std::map<Equip::Type, uint32_t> EquipProbMap;
-	EquipProbMap			equip_legality;
+	typedef std::map<Equip::Type, Uint32> EquipProbMap;
+	EquipProbMap       equip_legality;
 
-	//ship availability
-	Color					colour;
+	Color              colour;
 
-	// answer a gov type picked using a weighted random roll against the govtypes list
-	Polit::GovType PickGovType(MTRand &rand) const;
+	const double         Radius()  const { return (FACTION_CURRENT_YEAR - foundingDate) * expansionRate; };
+	const bool           IsValid() const { return idx != BAD_FACTION_IDX; };
+	const Color          AdjustedColour(fixed population, bool inRange);
+	const Polit::GovType PickGovType(MTRand &rand) const;
 
 	// set the homeworld to one near the supplied co-ordinates
 	void SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi);
+
+private:
+	static const double FACTION_CURRENT_YEAR;	// used to calculate faction radius
+
+	Sector* m_homesector;						// cache of home sector to use in distance calculations
+	const bool IsCloserAndContains(double& closestFactionDist, const Sector sec, Uint32 sysIndex);
 };
 
 #endif /* _FACTIONS_H */
