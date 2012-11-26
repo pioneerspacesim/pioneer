@@ -15,7 +15,7 @@
 #include <set>
 
 const Uint32 Faction::BAD_FACTION_IDX      = UINT_MAX;
-const Color  Faction::BAD_FACTION_COLOUR   = (0.8f,0.8f,0.8f,0.50f);
+const Color  Faction::BAD_FACTION_COLOUR   = Color(0.8f,0.8f,0.8f,0.50f);
 const float  Faction::FACTION_BASE_ALPHA   = 0.40f;
 const double Faction::FACTION_CURRENT_YEAR = 3200;
 
@@ -477,13 +477,13 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 }
 
 Faction::Faction() :
+	idx(BAD_FACTION_IDX),
 	name(Lang::NO_CENTRAL_GOVERNANCE),
 	hasHomeworld(false),
 	foundingDate(0.0),
 	expansionRate(0.0),
-	m_homesector(0),
 	colour(BAD_FACTION_COLOUR),
-	idx(BAD_FACTION_IDX)
+	m_homesector(0)
 {
 	govtype_weights_total = 0;
 }

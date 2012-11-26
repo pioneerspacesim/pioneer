@@ -47,7 +47,7 @@ public:
 
 		vector3f FullPosition() { return Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + p; };
 
-		const int sx, sy, sz;
+		int sx, sy, sz;
 	};
 	std::vector<System> m_systems;
 
