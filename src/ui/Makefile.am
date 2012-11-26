@@ -23,7 +23,9 @@ noinst_HEADERS = \
 	DropDown.h \
 	Event.h \
 	EventDispatcher.h \
+	Expand.h \
 	FloatContainer.h \
+	Gradient.h \
 	Grid.h \
 	Image.h \
 	Label.h \
@@ -37,6 +39,7 @@ noinst_HEADERS = \
 	Single.h \
 	Skin.h \
 	Slider.h \
+	SmallButton.h \
 	TextEntry.h \
 	TextLayout.h \
 	Widget.h \
@@ -55,7 +58,9 @@ libui_a_SOURCES = \
 	DropDown.cpp \
 	Event.cpp \
 	EventDispatcher.cpp \
+	Expand.cpp \
 	FloatContainer.cpp \
+	Gradient.cpp \
 	Grid.cpp \
 	Image.cpp \
 	Label.cpp \
@@ -66,6 +71,7 @@ libui_a_SOURCES = \
 	Single.cpp \
 	Skin.cpp \
 	Slider.cpp \
+	SmallButton.cpp \
 	TextEntry.cpp \
 	TextLayout.cpp \
 	Widget.cpp \
@@ -79,6 +85,8 @@ libui_a_SOURCES = \
 	LuaContainer.cpp \
 	LuaContext.cpp \
 	LuaDropDown.cpp \
+	LuaGradient.cpp \
+	LuaExpand.cpp \
 	LuaGrid.cpp \
 	LuaImage.cpp \
 	LuaLabel.cpp \
@@ -88,5 +96,6 @@ libui_a_SOURCES = \
 	LuaScroller.cpp \
 	LuaSingle.cpp \
 	LuaSlider.cpp \
+	LuaSmallButton.cpp \
 	LuaTextEntry.cpp \
 	LuaWidget.cpp

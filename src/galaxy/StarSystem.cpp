@@ -1339,7 +1339,12 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	const double massPlanet_in_kg = (mass.ToDouble()*EARTH_MASS);
 	const double g = G*massPlanet_in_kg/(radiusPlanet_in_m*radiusPlanet_in_m);
 
-	const double T = static_cast<double>(averageTemp);
+	double T = static_cast<double>(averageTemp);
+
+	// XXX hack to avoid issues with sysgen giving 0 temps
+	// temporary as part of sysgen needs to be rewritten before the proper fix can be used
+	if (T < 1) 
+		T = 40;
 
 	// XXX just use earth's composition for now
 	const double M = 0.02897f; // in kg/mol
@@ -2006,6 +2011,15 @@ const Color StarSystem::GetFactionColour() const
 		}
 	}
 	return Color(0.8f,0.8f,0.8f,0.5f);
+}
+
+const char *StarSystem::GetAllegianceDesc() const
+{
+	if (m_factionIdx != Faction::BAD_FACTION_IDX) {
+		const Faction *fac = Faction::GetFaction(m_factionIdx);
+		return fac ? fac->name.c_str() : Lang::NO_CENTRAL_GOVERNANCE;
+	}
+	return Lang::INDEPENDENT;
 }
 
 /* percent */

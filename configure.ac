@@ -294,6 +294,7 @@ AC_CONFIG_FILES([
 	data/Makefile
 	src/Makefile
 	src/collider/Makefile
+	src/gameui/Makefile
 	src/gui/Makefile
 	src/graphics/Makefile
 	src/galaxy/Makefile

@@ -8,7 +8,15 @@
 #include "Context.h"
 
 namespace UI {
-	void LuaInit();
+namespace Lua {
+
+	void Init();
+
+	// get widget from stack. handles table.widget format as well
+	UI::Widget *GetWidget(lua_State *l, int idx);
+	UI::Widget *CheckWidget(lua_State *l, int idx);
+
+}
 }
 
 template <> class LuaAcquirer<UI::Align> : public LuaAcquirerRefCounted {};
@@ -31,6 +39,7 @@ template <> class LuaAcquirer<UI::MultiLineText> : public LuaAcquirerRefCounted 
 template <> class LuaAcquirer<UI::Scroller> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::Single> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::Slider> : public LuaAcquirerRefCounted {};
+template <> class LuaAcquirer<UI::SmallButton> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::TextEntry> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::HSlider> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::VSlider> : public LuaAcquirerRefCounted {};

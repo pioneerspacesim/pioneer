@@ -182,12 +182,13 @@ private:
 	}
 
 	void Refuel() {
-		float currentFuel = Pi::player->GetFuel();
-		if (is_equal_exact(currentFuel, 1.0f)) return;
-
-		Pi::player->m_equipment.Remove(Equip::WATER, 1);
-		Pi::player->SetFuel(currentFuel + 1.0f/Pi::player->GetShipType().fuelTankMass);
-		Pi::player->UpdateStats();
+		lua_State * l = Lua::manager->GetLuaState();
+		lua_getglobal(l, "Ship");
+		lua_getfield(l, -1, "Refuel");
+		lua_remove(l, -2);
+		LuaShip::PushToLua(Pi::player);
+		lua_pushinteger(l, 1);
+		lua_call(l, 2, 1);
 
 		m_infoView->UpdateInfo();
 	}
@@ -234,6 +235,15 @@ public:
 		Add(info1, 24, 16);
 		Add(info2, 234, 16);
 		ShowAll();
+
+		box1 = new Gui::HBox();
+		box1->SetSpacing(5.0f);
+		manualRotationButton = new Gui::ToggleButton();
+		manualRotationButton->onChange.connect(sigc::mem_fun(this, &ShipInfoPage::ToggleManualRotation));
+		box1->PackEnd(manualRotationButton);
+		box1->PackEnd(new Gui::Label(Lang::TOGGLE_MANUAL_ROTATION));
+		Add(box1, 300, 20);
+		box1->ShowAll();
 	};
 
 	virtual void Show() {
@@ -341,9 +351,18 @@ public:
 		info1->SetText(col1);
 		info2->SetText(col2);
 		this->ResizeRequest();
+
+		manualRotationButton->SetPressed(Pi::player->GetManualRotationState());
+
 	}
 private:
 	Gui::Label *info1, *info2;
+	Gui::ToggleButton *manualRotationButton;
+	Gui::HBox *box1;
+
+	void ToggleManualRotation(Gui::ToggleButton *b, bool state) {
+		Pi::player->SetManualRotationState(state);
+	}
 };
 
 InfoView::InfoView(): View(),
