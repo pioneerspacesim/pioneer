@@ -153,6 +153,8 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setglobal(L, "loadfile");
 	lua_pushnil(L);
 	lua_setglobal(L, "load");
+	lua_pushnil(L);
+	lua_setglobal(L, "loadstring");
 
 	// standard library adjustments (math library)
 	lua_getglobal(L, LUA_MATHLIBNAME);
