@@ -65,6 +65,7 @@ private:
 
 	void UpdateSystemLabels(SystemLabels &labels, const SystemPath &path);
 	void UpdateFactionToggles();
+	void RefreshDetailBoxVisibility();
 
 	void UpdateHyperspaceLockLabel();
 

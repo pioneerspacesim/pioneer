@@ -217,7 +217,7 @@ void SectorView::InitObject()
 	m_factionBox = new Gui::VBox();
 	m_factionBox->SetTransparency(false);
 	m_factionBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
-	m_factionBox->SetSpacing(5.0f);
+	m_factionBox->SetSpacing(5.0f);	
 	m_factionBox->HideAll();
 	Add(m_factionBox, 5, 5);
 }
@@ -613,6 +613,9 @@ void SectorView::UpdateFactionToggles()
 		Gui::ToggleButton* toggle = new Gui::ToggleButton();
 		Gui::Label*        label  = new Gui::Label("");
 
+		toggle->SetToolTip("");
+		label ->SetToolTip("");
+
 		m_visibleFactionToggles.push_back(toggle);
 		m_visibleFactionLabels.push_back(label);
 		m_visibleFactionRows.push_back(row);
@@ -866,6 +869,12 @@ void SectorView::OnSwitchTo() {
 	UpdateSystemLabels(m_targetSystemLabels, m_hyperspaceTarget);
 }
 
+void SectorView::RefreshDetailBoxVisibility()
+{
+	if (m_detailBoxVisible != DETAILBOX_INFO)    m_infoBox->HideAll();    else m_infoBox->ShowAll();
+	if (m_detailBoxVisible != DETAILBOX_FACTION) m_factionBox->HideAll(); else UpdateFactionToggles();
+}
+
 void SectorView::OnKeyPressed(SDL_keysym *keysym)
 {
 	if (Pi::GetView() != this) {
@@ -905,9 +914,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	if (keysym->sym == SDLK_TAB) {
 		if (m_detailBoxVisible == DETAILBOX_FACTION) m_detailBoxVisible = DETAILBOX_NONE;
 		else                                         m_detailBoxVisible++;
-
-		if (m_detailBoxVisible != DETAILBOX_INFO)    m_infoBox->HideAll();    else m_infoBox->ShowAll();
-		if (m_detailBoxVisible != DETAILBOX_FACTION) m_factionBox->HideAll(); else UpdateFactionToggles();
+		RefreshDetailBoxVisibility();
 		return;
 	}
 
@@ -1027,11 +1034,22 @@ void SectorView::Update()
 		if (fabs(travelZ) > fabs(diffZ)) m_rotZ = m_rotZMovingTo;
 		else m_rotZ = m_rotZ + travelZ;
 
+		float prevZoom = m_zoom;
 		float diffZoom = m_zoomMovingTo - m_zoom;
 		float travelZoom = diffZoom * ZOOM_SPEED*frameTime;
 		if (fabs(travelZoom) > fabs(diffZoom)) m_zoom = m_zoomMovingTo;
 		else m_zoom = m_zoom + travelZoom;
 		m_zoomClamped = Clamp(m_zoom, 1.f, FAR_LIMIT);
+
+		// swtich between Info and Faction panels when we zoom over the threshold
+		if (m_zoom <= FAR_THRESHOLD && prevZoom > FAR_THRESHOLD && m_detailBoxVisible == DETAILBOX_FACTION) {
+			m_detailBoxVisible = DETAILBOX_INFO; 
+			RefreshDetailBoxVisibility();
+		}
+		if (m_zoom > FAR_THRESHOLD && prevZoom <= FAR_THRESHOLD && m_detailBoxVisible == DETAILBOX_INFO) {
+			m_detailBoxVisible = DETAILBOX_FACTION;
+			RefreshDetailBoxVisibility();
+		}
 	}
 
 	if (m_selectionFollowsMovement) {
