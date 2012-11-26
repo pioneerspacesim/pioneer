@@ -29,9 +29,11 @@ using namespace Graphics;
 #define FAR_LIMIT     36.f
 #define FAR_MAX       46.f
 
-#define DETAILBOX_NONE    0
-#define DETAILBOX_INFO    1
-#define DETAILBOX_FACTION 2
+enum DetailSelection {
+	DETAILBOX_NONE    = 0
+,	DETAILBOX_INFO    = 1
+,	DETAILBOX_FACTION = 2
+};
 
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
