@@ -3,6 +3,7 @@ Alpha 29
    * New features
      * Economical autopilot. Trades fuel for time (#1582)
      * Your ship's automatic rotation damping can now be turned off (#1570, #1156)
+     * Almost 100 new factions with varying government types (#1621, #1620, #1675)
 
    * Minor changes and tweaks
      * Cargo scooping now only requires a collision against the ship rather
@@ -35,7 +36,8 @@ Alpha 29
      * debug.deprecated function to warn when a deprecated function is used (#1718)
 
    * Internal changes
-     * Wrapper to allow new UI to provide views for the old GUI system (#1691)
+     * Wrapper to allow new UI to provide views for the old GUI system (#1691,
+       #1755, #1756, #1759)
      * Fix the LuaObject the Check/GetFromLua, which were swapped round (#1730)
 
 Alpha 28
