@@ -455,6 +455,9 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 	for (std::vector<Sector::System>::iterator sys = sec->m_systems.begin(); sys !=sec->m_systems.end(); ++sys, ++num) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
 		if ((m_pos*Sector::SIZE - (*sys).FullPosition()).Length() > drawRadius) continue;
+		
+		// skip the system if it belongs to a Faction we've toggled off
+		if (m_hiddenFactions.find((*sys).faction) != m_hiddenFactions.end()) continue;
 
 		// place the label
 		vector3d systemPos = vector3d((*sys).FullPosition() - origin);
