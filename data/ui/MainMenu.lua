@@ -49,7 +49,7 @@ local buttonDefs = {
 local buttonSet = {}
 for i = 1,#buttonDefs do
 	local def = buttonDefs[i]
-	local button = ui:Button():SetInnerWidget(ui:HBox():PackEnd(ui:Label(def[1]), { "FILL", "EXPAND"}))
+	local button = ui:Button(ui:HBox():PackEnd(ui:Label(def[1])))
 	button.onClick:Connect(def[2])
 	buttonSet[i] = button
 end
@@ -59,24 +59,24 @@ local menu =
 		:SetRow(0, {
 			ui:Grid({ 0.1, 0.8, 0.1 }, 1)
 				:SetCell(1, 0,
-					ui:Align("LEFT"):SetInnerWidget(
-						ui:Label("Pioneer"):SetFontSize("XLARGE")
+					ui:Align("LEFT",
+						ui:Label("Pioneer"):SetFont("HEADING_XLARGE")
 					)
 				)
 		})
 		:SetRow(1, {
 			ui:Grid(2,1)
 				:SetColumn(1, {
-					ui:Align("MIDDLE"):SetInnerWidget(
-						ui:VBox(10):PackEnd(buttonSet)
+					ui:Align("MIDDLE",
+						ui:VBox(10):PackEnd(buttonSet):SetFont("HEADING_NORMAL")
 					)
 				} )
 		})
 		:SetRow(2, {
 			ui:Grid({ 0.1, 0.8, 0.1 }, 1)
 				:SetCell(1, 0,
-					ui:Align("RIGHT"):SetInnerWidget(
-						ui:Label("("..Engine.version..")"):SetFontSize("XSMALL")
+					ui:Align("RIGHT",
+						ui:Label("("..Engine.version..")"):SetFont("HEADING_XSMALL")
 					)
 				)
 		})

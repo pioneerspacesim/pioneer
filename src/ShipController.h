@@ -55,7 +55,7 @@ public:
 	void PostLoadFixup(Space *s);
 	void StaticUpdate(float timeStep);
 	// Poll controls, set thruster states, gun states and target velocity
-	void PollControls(float timeStep);
+	void PollControls(float timeStep, const bool manualRotationAllowed = false);
 	bool IsMouseActive() const { return m_mouseActive; }
 	double GetSetSpeed() const { return m_setSpeed; }
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }

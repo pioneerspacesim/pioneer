@@ -10,15 +10,15 @@ CellSpec CellSpec::FromLuaTable(lua_State *l, int idx) {
 	const int table = lua_absindex(l, idx);
 	assert(lua_istable(l, table));
 
-	float cellPercent[MAX_CELLS];
 	const int len = lua_rawlen(l, table);
-	for (int i = 0; i < MAX_CELLS && i < len; i++) {
+	std::vector<float> cellPercent(len);
+	for (int i = 0; i < len; i++) {
 		lua_rawgeti(l, table, i+1);
 		cellPercent[i] = luaL_checknumber(l, -1);
 		lua_pop(l, 1);
 	}
 
-	return CellSpec(cellPercent, len);
+	return CellSpec(cellPercent);
 }
 
 }

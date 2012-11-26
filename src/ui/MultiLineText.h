@@ -17,7 +17,7 @@ public:
 	virtual void Layout();
 	virtual void Draw();
 
-	virtual Widget *SetFontSize(FontSize fontSize);
+	virtual Widget *SetFont(Font font);
 
 	MultiLineText *SetText(const std::string &text);
 	MultiLineText *AppendText(const std::string &text);

@@ -29,7 +29,7 @@
  */
 int l_shiptype_attr_name(lua_State *l)
 {
-	const ShipType *st = LuaShipType::GetFromLua(1);
+	const ShipType *st = LuaShipType::CheckFromLua(1);
 	lua_pushstring(l, st->name.c_str());
 	return 1;
 }
@@ -50,7 +50,7 @@ int l_shiptype_attr_name(lua_State *l)
  */
 int l_shiptype_attr_angular_thrust(lua_State *l)
 {
-	const ShipType *st = LuaShipType::GetFromLua(1);
+	const ShipType *st = LuaShipType::CheckFromLua(1);
 	lua_pushnumber(l, st->angThrust);
 	return 1;
 }
@@ -70,7 +70,7 @@ int l_shiptype_attr_angular_thrust(lua_State *l)
  */
 int l_shiptype_attr_capacity(lua_State *l)
 {
-	const ShipType *st = LuaShipType::GetFromLua(1);
+	const ShipType *st = LuaShipType::CheckFromLua(1);
 	lua_pushinteger(l, st->capacity);
 	return 1;
 }
@@ -92,7 +92,7 @@ int l_shiptype_attr_capacity(lua_State *l)
  */
 int l_shiptype_attr_hull_mass(lua_State *l)
 {
-	const ShipType *st = LuaShipType::GetFromLua(1);
+	const ShipType *st = LuaShipType::CheckFromLua(1);
 	lua_pushinteger(l, st->hullMass);
 	return 1;
 }
@@ -113,7 +113,7 @@ int l_shiptype_attr_hull_mass(lua_State *l)
  */
 int l_shiptype_attr_base_price(lua_State *l)
 {
-	const ShipType *st = LuaShipType::GetFromLua(1);
+	const ShipType *st = LuaShipType::CheckFromLua(1);
 	lua_pushnumber(l, double(st->baseprice) * 0.01);
 	return 1;
 }
@@ -136,7 +136,7 @@ int l_shiptype_attr_base_price(lua_State *l)
  */
 int l_shiptype_attr_default_hyperdrive(lua_State *l)
 {
-	const ShipType *st = LuaShipType::GetFromLua(1);
+	const ShipType *st = LuaShipType::CheckFromLua(1);
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", st->hyperdrive));
 	return 1;
 }
@@ -166,7 +166,7 @@ int l_shiptype_attr_default_hyperdrive(lua_State *l)
  */
 int l_shiptype_get_linear_thrust(lua_State *l)
 {
-	const ShipType *st = LuaShipType::GetFromLua(1);
+	const ShipType *st = LuaShipType::CheckFromLua(1);
 	ShipType::Thruster t = static_cast<ShipType::Thruster>(LuaConstants::GetConstant(l, "ShipTypeThruster", luaL_checkstring(l, 2)));
 	lua_pushnumber(l, st->linThrust[t]);
 	return 1;
@@ -200,7 +200,7 @@ int l_shiptype_get_linear_thrust(lua_State *l)
  */
 int l_shiptype_get_equip_slot_capacity(lua_State *l)
 {
-	const ShipType *st = LuaShipType::GetFromLua(1);
+	const ShipType *st = LuaShipType::CheckFromLua(1);
 	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
 	lua_pushnumber(l, st->equipSlotCapacity[slot]);
 	return 1;
