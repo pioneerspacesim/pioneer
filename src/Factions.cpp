@@ -16,7 +16,10 @@ const Uint32 Faction::BAD_FACTION_IDX = UINT_MAX;
 
 typedef std::vector<Faction*>  FactionList;
 typedef FactionList::iterator FactionIterator;
-static FactionList s_factions;
+typedef std::map<std::string, Uint32> FactionIndexes;
+
+static FactionList    s_factions;
+static FactionIndexes s_factions_indexes;
 
 // ------- Faction --------
 
@@ -93,11 +96,32 @@ static int l_fac_description(lua_State *L)
 	return 1;
 }
 
-static int l_fac_govtype(lua_State *L)
+// weightings to use when picking a government type
+static int l_fac_govtype_weight(lua_State *L)
 {
 	Faction *fac = l_fac_check(L, 1);
-	fac->govType = static_cast<Polit::GovType>(LuaConstants::GetConstantFromArg(L, "PolitGovType", 2));
+	const char *typeName = luaL_checkstring(L, 2);
+	const Polit::GovType g = static_cast<Polit::GovType>(LuaConstants::GetConstant(L, "PolitGovType", typeName));
+	const int32_t weight = luaL_checkinteger(L, 3);	// signed as we will need to compare with signed out of MTRand.Int32
+
+	if (g < Polit::GOV_RAND_MIN || g > Polit::GOV_RAND_MAX) {
+		pi_lua_warn(L,
+			"government type out of range: Faction{%s}:govtype_weight('%s', %d)",
+			fac->name.c_str(), typeName, weight);
+		return 0;
+	}
+
+	if (weight < 0) {
+		pi_lua_warn(L,
+			"weight must a postive integer: Faction{%s}:govtype_weight('%s', %d)",
+			fac->name.c_str(), typeName, weight);
+		return 0;
+	}
+
+	fac->govtype_weights.push_back(std::make_pair(g, weight));
+	fac->govtype_weights_total += weight;
 	lua_settop(L, 1);
+
 	return 1;
 }
 
@@ -195,6 +219,7 @@ static int l_fac_add_to_factions(lua_State *L)
 		printf("l_fac_add_to_factions: added '%s' [%s]\n", facbld->fac->name.c_str(), factionName.c_str());
 
 		s_factions.push_back(facbld->fac);
+		s_factions_indexes[facbld->fac->name] = s_factions.size()-1;
 		facbld->registered = true;
 		return 0;
 	} else {
@@ -216,7 +241,7 @@ static luaL_Reg LuaFaction_meta[] = {
 	{ "new",                       &l_fac_new },
 	{ "description_short",         &l_fac_description_short },
 	{ "description",               &l_fac_description },
-	{ "govtype",                   &l_fac_govtype },
+	{ "govtype_weight",            &l_fac_govtype_weight },
 	{ "homeworld",                 &l_fac_homeworld },
 	{ "foundingDate",              &l_fac_foundingDate },
 	{ "expansionRate",             &l_fac_expansionRate },
@@ -281,7 +306,9 @@ void Faction::Uninit()
 		delete *it;
 	}
 	s_factions.clear();
+	s_factions_indexes.clear();
 }
+
 
 Faction *Faction::GetFaction(const Uint32 index)
 {
@@ -296,70 +323,58 @@ const Uint32 Faction::GetNumFactions()
 
 const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 {
-	// firstly is this a custom StarSystem which might have funny settings
-	Sector sec(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
-	Polit::GovType a = Polit::GOV_INVALID;
+	Uint32 ret_index = BAD_FACTION_IDX;
 
-	/* from custom system definition */
+	// firstly if this a custom StarSystem it may already have a faction assigned
+	Sector sec(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
 	if (sec.m_systems[sysPath.systemIndex].customSys) {
-		Polit::GovType t = sec.m_systems[sysPath.systemIndex].customSys->govType;
-		a = t;
+		ret_index = sec.m_systems[sysPath.systemIndex].customSys->factionIdx;
 	}
-	// if the custom system has a valid govType set then try to find a matching faction
-	if( a != Polit::GOV_INVALID )
-	{
+
+	// if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
+	if (ret_index == BAD_FACTION_IDX) {
+
+		// Iterate through all of the factions and find the one nearest to the system we're checking it against.
+		const Faction *foundFaction = 0;
+		Sint32 nearestDistance = INT_MAX;
+
+		// get the current year
+		// XXX: cannot access the PI::game->GetTime() method here as game is NULL when deserialised from save game -
+		//	- I had hoped to use this to give a simple expanding spherical volume to each faction. Use 3200 as the-
+		//	- base year, all factions should have come into existence prior to this date.
+		const double current_year = 3200;//get_year(Pi::game->GetTime());
+
+		// iterate
 		for (Uint32 index = 0; index < s_factions.size(); ++index) {
 			const Faction &fac = *s_factions[index];
-			if(fac.govType == a) {
-				return index;
-			}
-		}
-		// no matching faction found, return the default
-		return BAD_FACTION_IDX;
-	}
-	// if we don't find a match then we can go on and assign it a faction allegiance like normal below...
 
-	// Iterate through all of the factions and find the one nearest to the system we're checking it against.
-	const Faction *foundFaction = 0;
-	Sint32 nearestDistance = INT_MAX;
-
-	// get the current year
-	// XXX: cannot access the PI::game->GetTime() method here as game is NULL when deserialised from save game -
-	//	- I had hoped to use this to give a simple expanding spherical volume to each faction. Use 3200 as the-
-	//	- base year, all factions should have come into existence prior to this date.
-	const double current_year = 3200;//get_year(Pi::game->GetTime());
-
-	// iterate
-	Uint32 ret_index = BAD_FACTION_IDX;
-	for (Uint32 index = 0; index < s_factions.size(); ++index) {
-		const Faction &fac = *s_factions[index];
-
-		if( !fac.hasHomeworld && !foundFaction ) {
-			// We've not yet found a faction that we're within the radius of
-			// and we're currently iterating over a faction that is decentralised (probably Independent)
-			foundFaction = &fac;
-			ret_index = index;
-		}
-		else if( fac.hasHomeworld ) {
-			// We can end early here if they're the same as factions homeworld like Earth or Achernar
-			if( fac.homeworld.IsSameSector(sysPath) ) {
-				foundFaction = &fac;
-				return index;
-			}
-
-			// get the distance
-			const Sector sec1(fac.homeworld.sectorX, fac.homeworld.sectorY, fac.homeworld.sectorZ);
-			const Sector sec2(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
-			const double distance = Sector::DistanceBetween(&sec1, fac.homeworld.systemIndex, &sec2, sysPath.systemIndex);
-
-			// calculate the current radius the faction occupies
-			const double radius = (current_year - fac.foundingDate) * fac.expansionRate;
-
-			// check we've found a closer faction
-			if( (distance <= radius) && (distance < nearestDistance) ) {
-				nearestDistance = distance;
+			if( !fac.hasHomeworld && !foundFaction ) {
+				// We've not yet found a faction that we're within the radius of
+				// and we're currently iterating over a faction that is decentralised (probably Independent)
 				foundFaction = &fac;
 				ret_index = index;
+			}
+			else if( fac.hasHomeworld ) {
+				// We can end early here if they're the same as factions homeworld like Earth or Achernar
+				if( fac.homeworld.IsSameSector(sysPath) ) {
+					foundFaction = &fac;
+					return index;
+				}
+
+				// get the distance
+				const Sector sec1(fac.homeworld.sectorX, fac.homeworld.sectorY, fac.homeworld.sectorZ);
+				const Sector sec2(sysPath.sectorX, sysPath.sectorY, sysPath.sectorZ);
+				const double distance = Sector::DistanceBetween(&sec1, fac.homeworld.systemIndex, &sec2, sysPath.systemIndex);
+
+				// calculate the current radius the faction occupies
+				const double radius = (current_year - fac.foundingDate) * fac.expansionRate;
+
+				// check we've found a closer faction
+				if( (distance <= radius) && (distance < nearestDistance) ) {
+					nearestDistance = distance;
+					foundFaction = &fac;
+					ret_index = index;
+				}
 			}
 		}
 	}
@@ -367,8 +382,35 @@ const Uint32 Faction::GetNearestFactionIndex(const SystemPath& sysPath)
 	return ret_index;
 }
 
+const Uint32 Faction::GetIndexOfFaction(const std::string factionName)
+{
+	FactionIndexes::iterator it = s_factions_indexes.find(factionName);
+
+	if (it == s_factions_indexes.end()) return BAD_FACTION_IDX;
+	else                                return it->second;
+}
+
+Polit::GovType Faction::PickGovType(MTRand &rand) const
+{
+	if( !govtype_weights.empty()) {
+		// if we roll a number between one and the total weighting...
+		int32_t roll = rand.Int32(1, govtype_weights_total);
+		int32_t cumulativeWeight = 0;
+
+		// ...the first govType with a cumulative weight >= the roll should be our pick
+		GovWeightIterator it = govtype_weights.begin();
+		while(roll > (cumulativeWeight + it->second)) {
+			cumulativeWeight += it->second;
+			++it;
+		}
+		return it->first;
+	} else {
+		return Polit::GOV_INVALID;
+	}
+}
+
 Faction::Faction() :
-	govType(Polit::GOV_INVALID),
+	govtype_weights_total(0),
 	hasHomeworld(false),
 	foundingDate(0.0),
 	expansionRate(0.0)

@@ -1905,6 +1905,15 @@ const Color StarSystem::GetFactionColour() const
 	return Color(0.8f,0.8f,0.8f,0.5f);
 }
 
+const char *StarSystem::GetAllegianceDesc() const
+{
+	if (m_factionIdx != Faction::BAD_FACTION_IDX) {
+		const Faction *fac = Faction::GetFaction(m_factionIdx);
+		return fac ? fac->name.c_str() : Lang::NO_CENTRAL_GOVERNANCE;
+	}
+	return Lang::INDEPENDENT;
+}
+
 /* percent */
 #define MAX_COMMODITY_BASE_PRICE_ADJUSTMENT 25
 

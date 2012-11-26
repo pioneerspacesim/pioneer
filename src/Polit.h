@@ -67,7 +67,6 @@ class SysPolit {
 public:
 	const char *GetGovernmentDesc() const;
 	const char *GetEconomicDesc() const;
-	const char *GetAllegianceDesc() const;
 
 	Polit::GovType govType;
 	fixed lawlessness;
