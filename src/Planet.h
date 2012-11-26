@@ -21,6 +21,7 @@ public:
 	Planet();
 	virtual ~Planet();
 
+	virtual double GetPhysRadius() const { return m_physRadius; }
 	virtual double GetClipRadius() const { return m_clipRadius; }
 	virtual void SubRender(Graphics::Renderer *r, const Camera *camera, const vector3d &camPos);
 
@@ -42,6 +43,7 @@ private:
 
 	double m_atmosphereRadius;
 	double m_surfaceGravity_g;
+	double m_physRadius;
 	double m_clipRadius;
 	RefCountedPtr<Graphics::Texture> m_ringTexture;
 	Graphics::VertexArray m_ringVertices;

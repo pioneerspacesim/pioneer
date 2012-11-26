@@ -295,7 +295,7 @@ bool Game::UpdateTimeAccel()
 
 				vector3d toBody = m_player->GetPosition() - (*i)->GetPositionRelTo(m_player->GetFrame());
 				double dist = toBody.Length();
-				double rad = (*i)->GetBoundingRadius();
+				double rad = (*i)->GetPhysRadius();
 
 				if (dist < 1000.0) {
 					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);

@@ -190,6 +190,8 @@ void SpaceStation::Init()
 			t.numDockingPorts = (*i)->GetIntAttribute("num_docking_ports");
 			t.shipLaunchStage = (*i)->GetIntAttribute("ship_launch_stage");
 			t.dockOneAtATimePlease = (*i)->GetBoolAttribute("dock_one_at_a_time_please");
+			t.parkingDistance = (*i)->GetFloatAttribute("parking_distance");
+			t.parkingGapSize = (*i)->GetFloatAttribute("parking_gap_size");
 			t.ReadStageDurations();
 			//printf("one at a time? %s\n", t.dockOneAtATimePlease ? "yes" : "no");
 			//printf("%s: %d docking ports\n", t.modelName, t.numDockingPorts);
@@ -197,7 +199,10 @@ void SpaceStation::Init()
 				t.angVel = (*i)->GetFloatAttribute("angular_velocity");
 				orbitalStationTypes.push_back(t);
 			}
-			else surfaceStationTypes.push_back(t);
+			else {
+				t.angVel = 0.0;
+				surfaceStationTypes.push_back(t);
+			}
 		}
 	}
 	//printf(SIZET_FMT " orbital station types and " SIZET_FMT " surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
@@ -293,11 +298,6 @@ void SpaceStation::PostLoadFixup(Space *space)
 	}
 }
 
-double SpaceStation::GetBoundingRadius() const
-{
-	return ModelBody::GetBoundingRadius() + CITY_ON_PLANET_RADIUS;
-}
-
 SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 {
 	m_sbody = sbody;
@@ -314,6 +314,7 @@ SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 		m_dockAnimState[i] = 0;
 	}
 	m_dockingLock = false;
+	m_oldAngDisplacement = 0.0;
 
 	SetMoney(1000000000);
 	InitStation();
@@ -335,6 +336,9 @@ void SpaceStation::InitStation()
 	params.animationNamespace = "SpaceStationAnimation";
 	SetStatic(ground);			// orbital stations are dynamic now
 	SetModel(m_type->modelName);
+
+	if (ground) m_clipRadius = CITY_ON_PLANET_RADIUS;
+	else m_clipRadius = ModelBody::GetClipRadius();
 }
 
 SpaceStation::~SpaceStation()
@@ -635,12 +639,13 @@ void SpaceStation::StaticUpdate(const float timeStep)
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
 	// rotate the thing 
-	double len = m_type->angVel;
-	if (len > 1e-16) {
+	double len = m_type->angVel * timeStep;
+	if (!is_zero_exact(len)) {
 		vector3d axis = vector3d(0,1,0);
-		matrix3x3d r = matrix3x3d::BuildRotate(len * timeStep, axis);
+		matrix3x3d r = matrix3x3d::BuildRotate(len, axis);
 		SetOrient(r * GetOrient());
 	}
+	m_oldAngDisplacement = len;
 
 	// reposition the ships that are docked or docking here
 	for (int i=0; i<m_type->numDockingPorts; i++) {
@@ -649,6 +654,18 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 		if (dt.ship->GetFlightState() == Ship::FLYING) continue;
 		PositionDockedShip(dt.ship, i);
 	}
+}
+
+void SpaceStation::UpdateInterpTransform(double alpha)
+{
+	double len = m_oldAngDisplacement * (1.0-alpha);
+	if (!is_zero_exact(len)) {
+		vector3d axis = vector3d(0,1,0);
+		matrix3x3d rot = matrix3x3d::BuildRotate(-len, axis);	// rotate backwards
+		m_interpOrient = rot * GetOrient();
+	}
+	else m_interpOrient = GetOrient();
+	m_interpPos = GetPosition();
 }
 
 bool SpaceStation::IsGroundStation() const
@@ -875,7 +892,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 
 		r->SetAmbientColor(Color::BLACK);
 
-		FadeInModelIfDark(r, GetLmrCollMesh()->GetBoundingRadius(),
+		FadeInModelIfDark(r, GetPhysRadius(),
 							viewCoords.Length(), fadeInEnd, fadeInLength, overallLighting, minIllumination);
 
 		RenderLmrModel(viewCoords, viewTransform);

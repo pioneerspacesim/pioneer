@@ -31,8 +31,8 @@ public:
 	const matrix3x3d &GetOrient() const { return m_orient; }
 	virtual void SetVelocity(const vector3d &v) { assert(0); }
 	virtual vector3d GetVelocity() const { return vector3d(0.0); }
-	virtual double GetBoundingRadius() const = 0;
-	virtual double GetClipRadius() const { return GetBoundingRadius(); }
+	virtual double GetPhysRadius() const = 0;
+	virtual double GetClipRadius() const { return GetPhysRadius(); }
 	virtual double GetMass() const { assert(0); return 0; }
 	
 	// return true if to do collision response and apply damage

@@ -23,7 +23,7 @@ public:
 
 	Projectile();
 	virtual ~Projectile();
-	virtual double GetBoundingRadius() const { return m_radius; }
+	virtual double GetPhysRadius() const { return m_radius; }
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	void TimeStepUpdate(const float timeStep);
 	void StaticUpdate(const float timeStep);

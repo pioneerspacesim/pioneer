@@ -348,44 +348,22 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	Ship *ship = new Ship(type);
 	assert(ship);
 
-	vector3d pos, vel;
-	matrix3x3d rot;
-	
-	if (station->GetSystemBody()->type == SystemBody::TYPE_STARPORT_SURFACE) {
-		vel = vector3d(0.0);
+	double parkDist = station->GetStationType()->parkingDistance;
+	parkDist -= ship->GetPhysRadius();		// park inside parking radius
+	double parkOffset = 0.5 * station->GetStationType()->parkingGapSize;
+	parkOffset += ship->GetPhysRadius();	// but outside the docking gap
 
-		// XXX on tiny planets eg asteroids force this to be larger so the
-		// are out of the docking path
-		pos = station->GetPosition() * 1.1;
-		rot = station->GetOrient();
+	double xpos = (slot == 0 || slot == 3) ? -parkOffset : parkOffset;
+	double zpos = (slot == 0 || slot == 1) ? -parkOffset : parkOffset;
+	vector3d parkPos = vector3d(xpos, parkDist, zpos);
+	parkPos = station->GetPosition() + station->GetOrient() * parkPos;
 
-		vector3d axis1, axis2;
-
-		axis1 = pos.Cross(vector3d(0.0,1.0,0.0));
-		axis2 = pos.Cross(axis1);
-
-		double ang = atan((140 + ship->GetLmrCollMesh()->GetBoundingRadius()) / pos.Length());
-		if (slot<2) ang = -ang;
-
-		vector3d axis = (slot == 0 || slot == 3) ? axis1 : axis2;
-
-		pos.ArbRotate(axis, ang);
-	}
-
-	else {
-		double dist = 100 + ship->GetLmrCollMesh()->GetBoundingRadius();
-		double xpos = (slot == 0 || slot == 3) ? -dist : dist;
-		double zpos = (slot == 0 || slot == 1) ? -dist : dist;
-
-		pos = vector3d(xpos,5000,zpos);
-		vel = vector3d(0.0);
-		rot = matrix3x3d::RotateXMatrix(M_PI/2);
-	}
+	matrix3x3d rot = station->GetOrient();
+	if (station->IsGroundStation()) matrix3x3d::RotateXMatrix(M_PI/2) * rot;
 
 	ship->SetFrame(station->GetFrame());
-
-	ship->SetVelocity(vel);
-	ship->SetPosition(pos);
+	ship->SetVelocity(vector3d(0.0));
+	ship->SetPosition(parkPos);
 	ship->SetOrient(rot);
 
 	Pi::game->GetSpace()->AddBody(ship);

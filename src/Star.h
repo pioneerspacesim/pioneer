@@ -15,6 +15,9 @@ public:
 	Star();
 	virtual ~Star() {};
 
+	// this one should be atmosphere radius when stars have atmosphere
+	virtual double GetPhysRadius() const { return GetMaxFeatureRadius(); }
+	// this one is much larger because stars have halo effect
 	virtual double GetClipRadius() const;
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 };

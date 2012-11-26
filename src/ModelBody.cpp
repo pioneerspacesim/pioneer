@@ -121,7 +121,12 @@ void ModelBody::SetOrient(const matrix3x3d &m)
 	m_geom->MoveTo(m2, GetPosition());
 }
 
-double ModelBody::GetBoundingRadius() const
+double ModelBody::GetPhysRadius() const
+{
+	return m_collMesh->GetAabb().GetRadius();
+}
+
+double ModelBody::GetClipRadius() const
 {
 	return m_lmrModel->GetDrawClipRadius();
 }

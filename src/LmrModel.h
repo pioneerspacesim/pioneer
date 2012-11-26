@@ -108,7 +108,7 @@ public:
 	~LmrCollMesh();
 
 	const Aabb &GetAabb() const { return m_aabb; }
-	float GetBoundingRadius() const { return m_radius; }
+	double GetRadius() const { return m_aabb.GetRadius(); }
 	int GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outVtx) const;
 	GeomTree *geomTree;
 	// num vertices, num indices, num flags
@@ -121,7 +121,6 @@ public:
 	friend class LmrGeomBuffer;
 private:
 	Aabb m_aabb;
-	float m_radius;
 };
 
 

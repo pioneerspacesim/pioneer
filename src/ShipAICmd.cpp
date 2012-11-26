@@ -260,7 +260,7 @@ bool AICmdKill::TimeStepUpdate()
 
 		// Shoot only when close to target
 
-		double vissize = 1.3 * m_ship->GetBoundingRadius() / targpos.Length();
+		double vissize = 1.3 * m_ship->GetPhysRadius() / targpos.Length();
 		vissize += (0.05 + 0.5*leaddiff)*Pi::rng.Double()*skillShoot;
 		if (vissize > headdiff) m_ship->SetGunState(0,1);
 		else m_ship->SetGunState(0,0);
@@ -495,21 +495,18 @@ bool AICmdKill::TimeStepUpdate()
 static double MaxFeatureRad(Body *body)
 {
 	if(!body) return 0.0;
-	if(!body->IsType(Object::TERRAINBODY)) return body->GetBoundingRadius();
-	return static_cast<TerrainBody *>(body)->GetMaxFeatureRadius() + 200.0;		// + building height
+	if(!body->IsType(Object::TERRAINBODY)) return body->GetPhysRadius();
+	return static_cast<TerrainBody *>(body)->GetMaxFeatureRadius() + 1000.0;		// + building height
 }
 
 static double MaxEffectRad(Body *body, Ship *ship)
 {
 	if(!body) return 0.0;
 	if(!body->IsType(Object::TERRAINBODY)) {
-		double brad = body->GetBoundingRadius();
-		return std::max(brad*1.1, brad+2000.0);
+		if (!body->IsType(Object::SPACESTATION)) return body->GetPhysRadius() + 1000.0;
+		return static_cast<SpaceStation*>(body)->GetStationType()->parkingDistance + 1000.0;
 	}
-	double frad = static_cast<TerrainBody *>(body)->GetMaxFeatureRadius() + 200.0;
-	if(body->IsType(Object::PLANET))
-		frad = std::max(frad, static_cast<Planet*>(body)->GetAtmosphereRadius());
-	return std::max(frad, sqrt(G * body->GetMass() / ship->GetAccelMin()));
+	return std::max(body->GetPhysRadius(), sqrt(G * body->GetMass() / ship->GetAccelMin()));
 }
 
 // returns acceleration due to gravity at that point
@@ -674,7 +671,8 @@ static bool CheckOvershoot(Ship *ship, const vector3d &reldir, double targdist, 
 AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand (ship, CMD_FLYTO)
 {
 	double dist = std::max(VICINITY_MIN, VICINITY_MUL*MaxEffectRad(target, ship));
-	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation *>(target)->IsGroundStation()) {
+	if (target->IsType(Object::SPACESTATION)) {
+		dist = 15000.0;
 		m_posoff = target->GetPosition() + dist * target->GetOrient().VectorY();	// up vector for starport
 		m_targframe = target->GetFrame();
 	}
@@ -805,7 +803,7 @@ bool AICmdDock::TimeStepUpdate()
 
 	// if we're not close to target, do a flyto first
 	double targdist = m_target->GetPositionRelTo(m_ship).Length();
-	if (targdist > m_target->GetBoundingRadius() * VICINITY_MUL * 1.5) {
+	if (targdist > 20000.0) {
 		m_child = new AICmdFlyTo(m_ship, m_target);
 		ProcessChild(); return false;
 	}
@@ -820,7 +818,7 @@ bool AICmdDock::TimeStepUpdate()
 
 	// state 0,2: Get docking data
 	if (m_state == 0 || m_state == 2 || m_state == 4) {
-		const SpaceStationType *type = m_target->GetSpaceStationType();
+		const SpaceStationType *type = m_target->GetStationType();
 		SpaceStationType::positionOrient_t dockpos;
 		type->GetShipApproachWaypoints(port, (m_state==0)?1:2, dockpos);
 		if (m_state != 2) m_dockpos = dockpos.pos;
@@ -845,9 +843,16 @@ bool AICmdDock::TimeStepUpdate()
 	vector3d reldir = relpos.NormalizedSafe();
 	vector3d relvel = -m_target->GetVelocityRelTo(m_ship);
 	double maxdecel = m_ship->GetAccelMin() - GetGravityAtPos(m_target->GetFrame(), m_dockpos);
-	m_ship->AIMatchPosVel(reldir, relpos.Length(), relvel, 0.0, maxdecel);
+	vector3d vdiff = m_ship->AIMatchPosVel(reldir, relpos.Length(), relvel, 0.0, maxdecel);
+	if (vdiff.Dot(reldir) < 0) m_ship->SetDecelerating(true);
 
-	const matrix3x3d &trot = m_target->GetOrientRelTo(m_ship->GetFrame());
+	// get rotation of station for next frame
+	matrix3x3d trot = m_target->GetOrientRelTo(m_ship->GetFrame());
+	double ang = m_target->GetAngVelocity().Length() * Pi::game->GetTimeStep();
+	if (ang > 1e-16) {
+		vector3d axis = m_target->GetAngVelocity().Normalized();
+		trot = trot * matrix3x3d::BuildRotate(ang, axis);
+	}
 	bool fin = m_ship->AIFaceOrient(trot * m_dockdir, trot * m_dockupdir);
 	if (m_state < 5 && fin && m_ship->GetWheelState() >= 1.0f) m_state++;
 

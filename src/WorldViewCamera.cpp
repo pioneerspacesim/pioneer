@@ -106,20 +106,20 @@ void ExternalCamera::ZoomIn(float frameTime)
 void ExternalCamera::ZoomOut(float frameTime)
 {
 	m_dist += 400*frameTime;
-	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
+	m_dist = std::max(GetBody()->GetClipRadius(), m_dist);
 	m_distTo = m_dist;
 }
 
 void ExternalCamera::ZoomEvent(float amount)
 {
 	m_distTo += 400*amount;
-	m_distTo = std::max(GetBody()->GetBoundingRadius(), m_distTo);
+	m_distTo = std::max(GetBody()->GetClipRadius(), m_distTo);
 }
 
 void ExternalCamera::ZoomEventUpdate(float frameTime)
 {
 	AnimationCurves::Approach(m_dist, m_distTo, frameTime);
-	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
+	m_dist = std::max(GetBody()->GetClipRadius(), m_dist);
 }
 
 void ExternalCamera::Reset()
@@ -202,20 +202,20 @@ void SiderealCamera::ZoomIn(float frameTime)
 void SiderealCamera::ZoomOut(float frameTime)
 {
 	m_dist += 400*frameTime;
-	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
+	m_dist = std::max(GetBody()->GetClipRadius(), m_dist);
 	m_distTo = m_dist;
 }
 
 void SiderealCamera::ZoomEvent(float amount)
 {
 	m_distTo += 400*amount;
-	m_distTo = std::max(GetBody()->GetBoundingRadius(), m_distTo);
+	m_distTo = std::max(GetBody()->GetClipRadius(), m_distTo);
 }
 
 void SiderealCamera::ZoomEventUpdate(float frameTime)
 {
 	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50./std::max(m_distTo, 1e-7));		// std::max() here just avoid dividing by 0.
-	m_dist = std::max(GetBody()->GetBoundingRadius(), m_dist);
+	m_dist = std::max(GetBody()->GetClipRadius(), m_dist);
 }
 
 void SiderealCamera::RollLeft(float frameTime)

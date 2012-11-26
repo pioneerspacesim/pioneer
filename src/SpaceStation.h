@@ -35,6 +35,8 @@ struct SpaceStationType {
 	double *dockAnimStageDuration;
 	double *undockAnimStageDuration;
 	bool dockOneAtATimePlease;
+	double parkingDistance;
+	double parkingGapSize;
 
 	struct positionOrient_t {
 		vector3d pos;
@@ -87,8 +89,8 @@ public:
 	SpaceStation(const SystemBody *);
 	SpaceStation() {}
 	virtual ~SpaceStation();
-	virtual vector3d GetAngVelocity() const { return vector3d(0,0,m_type->angVel); }
-	virtual double GetBoundingRadius() const;
+	virtual double GetClipRadius() const { return m_clipRadius; }
+	virtual vector3d GetAngVelocity() const { return vector3d(0,m_type->angVel,0); }
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void StaticUpdate(const float timeStep);
@@ -117,7 +119,7 @@ public:
 	int GetFreeDockingPort() const; // returns -1 if none free
 	int GetMyDockingPort(const Ship *s) const;
 
-	const SpaceStationType *GetSpaceStationType() const { return m_type; }
+	const SpaceStationType *GetStationType() const { return m_type; }
 	bool IsGroundStation() const;
 
 	sigc::signal<void> onShipsForSaleChanged;
@@ -136,6 +138,8 @@ public:
 	// use docking bay position, if player has been granted permission
 	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const;
 
+	// need this now because stations rotate in their frame
+	virtual void UpdateInterpTransform(double alpha);
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -164,6 +168,9 @@ private:
 	};
 	shipDocking_t m_shipDocking[MAX_DOCKING_PORTS];
 	bool m_dockingLock;
+
+	double m_oldAngDisplacement;
+	double m_clipRadius;
 
 	double m_openAnimState[MAX_DOCKING_PORTS];
 	double m_dockAnimState[MAX_DOCKING_PORTS];

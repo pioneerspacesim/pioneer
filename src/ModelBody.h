@@ -18,7 +18,8 @@ public:
 	virtual ~ModelBody();
 	void SetPosition(const vector3d &p);
 	void SetOrient(const matrix3x3d &r);
-	virtual double GetBoundingRadius() const;
+	virtual double GetPhysRadius() const;
+	virtual double GetClipRadius() const;
 	void TransformToModelCoords(const Frame *camFrame);
 	void SetFrame(Frame *f);
 	// Colliding: geoms are checked against collision space

@@ -123,7 +123,7 @@ void DynamicBody::CalcExternalForce()
 		double speed = m_vel.Length();
 		double pressure, density;
 		planet->GetAtmosphericState(dist, &pressure, &density);
-		const double radius = GetBoundingRadius();
+		const double radius = GetPhysRadius();
 		const double AREA = radius;
 		// ^^^ yes that is as stupid as it looks
 		const double DRAG_COEFF = 0.1; // 'smooth sphere'
@@ -140,7 +140,7 @@ void DynamicBody::CalcExternalForce()
 	}
 
 	// centrifugal and coriolis forces for rotating frames
-	vector3d angRot = GetFrame()->GetAngVelocity();
+	vector3d angRot(0, GetFrame()->GetAngSpeed(), 0);
 	if (angRot.LengthSqr() > 0.0) {
 		m_externalForce -= m_mass * angRot.Cross(angRot.Cross(GetPosition()));	// centrifugal
 		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity());			// coriolis
@@ -206,7 +206,7 @@ void DynamicBody::SetMassDistributionFromModel()
 	LmrCollMesh *m = GetLmrCollMesh();
 	// XXX totally arbitrarily pick to distribute mass over a half
 	// bounding sphere area
-	m_massRadius = m->GetBoundingRadius()*0.5f;
+	m_massRadius = m->GetRadius()*0.5f;
 	SetMass(m_mass);
 }
 

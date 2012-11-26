@@ -8,6 +8,7 @@
 
 struct Aabb {
 	vector3d max, min;
+	double radsqr;
 	void Update(const vector3d &p) {
 		if (max.x < p.x) max.x = p.x;
 		if (max.y < p.y) max.y = p.y;
@@ -15,6 +16,7 @@ struct Aabb {
 		if (min.x > p.x) min.x = p.x;
 		if (min.y > p.y) min.y = p.y;
 		if (min.z > p.z) min.z = p.z;
+		if (p.Dot(p) > radsqr) radsqr = p.Dot(p);
 	}
 	template <typename T>
 	bool IsIn (const vector3<T> &p) const {
@@ -27,9 +29,8 @@ struct Aabb {
 			(min.y < o.max.y) && (max.y > o.min.y) &&
 			(min.z < o.max.z) && (max.z > o.min.z);
 	}
-	double GetBoundingRadius() const {
-		return std::max(min.Length(), max.Length());
-	}
+	// returns maximum point radius, usually smaller than max radius of bounding box
+	double GetRadius() const { return sqrt(radsqr); }
 };
 
 #endif /* _AABB_H */

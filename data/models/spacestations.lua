@@ -588,6 +588,8 @@ define_model('mushroom_station_2', {
 		materials = {'body', 'text', 'markings', 'lift_floor', 'tower_base', 'inside'},
 		tags = {'surface_station'},
 		num_docking_ports = 2,
+		parking_distance = 5000.0,
+		parking_gap_size = 2000.0,
 		ship_launch_stage = 2,
 		-- 1 - permission granted
 		-- 2 - position docked ship
@@ -610,7 +612,7 @@ define_model('mushroom_station_2', {
 		ship_approach_waypoints = function(port, stage)
 			local port_pos = { v(-100,100,0), v(100,100,0) }
 			if stage == 1 then
-				return { v(port_pos[port].x, port_pos[port].y+10000, port_pos[port].z), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y+5000, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
 				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
@@ -695,6 +697,8 @@ define_model('mushroom_station_4', {
 		materials = {'body', 'text', 'markings', 'lift_floor', 'tower_base', 'inside'},
 		tags = {'surface_station'},
 		num_docking_ports = 4,
+		parking_distance = 5000.0,
+		parking_gap_size = 2000.0,
 		ship_launch_stage = 2,
 		-- 1 - permission granted
 		-- 2 - position docked ship
@@ -717,7 +721,7 @@ define_model('mushroom_station_4', {
 		ship_approach_waypoints = function(port, stage)
 			local port_pos = { v(-100,100,0), v(100,100,0), v(-100,100,200), v(100,100,200)}
 			if stage == 1 then
-				return { v(port_pos[port].x, port_pos[port].y+10000, port_pos[port].z), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y+5000, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
 				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
@@ -812,6 +816,8 @@ define_model('big_crappy_spacestation', {
 		angular_velocity = 0.1,
 		lod_pixels = {0},
 		num_docking_ports = 4,
+		parking_distance = 5000.0,
+		parking_gap_size = 500.0,
 		ship_launch_stage = 3,
 		-- for stations where each docking port shares the
 		-- same front door, set dock_one_at_a_time_please = true,
@@ -837,7 +843,7 @@ define_model('big_crappy_spacestation', {
 		end,
 		ship_approach_waypoints = function(port, stage)
 			if stage == 1 then
-				return { v(0,4000,0), v(1,0,0), v(0,0,1) }
+				return { v(0,5000,0), v(1,0,0), v(0,0,1) }
 			elseif stage == 2 then
 				return { v(0,600,0), v(1,0,0), v(0,0,1) }
 			end
@@ -923,6 +929,8 @@ define_model('nice_spacestation', {
 			angular_velocity = 0.15,
 			lod_pixels = { 50, 0 },
 			num_docking_ports = 1,
+			parking_distance = 5000.0,
+			parking_gap_size = 500.0,
 			ship_launch_stage = 8,		-- lower than animation stage count
 			-- docking:
 			-- 1 - permission granted. open door1
@@ -984,7 +992,7 @@ define_model('nice_spacestation', {
 			end,
 			ship_approach_waypoints = function(port, stage)
 				if stage == 1 then
-					return { v(0,4000,0), v(1,0,0), v(0,0,1) }
+					return { v(0,5000,0), v(1,0,0), v(0,0,1) }
 				elseif stage == 2 then
 					return { v(0,300,0), v(1,0,0), v(0,0,1) }
 				end
@@ -1100,6 +1108,8 @@ define_model('hoop_spacestation', {
 			angular_velocity = 0.08,
 			lod_pixels = { 50, 0 },
 			num_docking_ports = 1,
+			parking_distance = 5000.0,
+			parking_gap_size = 500.0,
 			ship_launch_stage = 8,				-- lower than animation stage count
 			dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0 },
 			undock_anim_stage_duration = { 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 20.0 },
@@ -1137,7 +1147,7 @@ define_model('hoop_spacestation', {
 			end,
 			ship_approach_waypoints = function(port, stage)
 				if stage == 1 then
-					return { v(0,4000,0), v(1,0,0), v(0,0,1) }
+					return { v(0,5000,0), v(1,0,0), v(0,0,1) }
 				elseif stage == 2 then
 					return { v(0,300,0), v(1,0,0), v(0,0,1) }
 				end
@@ -1253,6 +1263,8 @@ define_model('basic_groundstation', {
 			bounding_radius=200.0,
 			materials = {'body', 'text', 'tower_base'},
 			num_docking_ports = 2,
+			parking_distance = 5000.0,
+			parking_gap_size = 1000.0,
 			ship_launch_stage = 0,
 			-- 1 - permission granted
 			-- 2 - position docked ship
@@ -1264,6 +1276,14 @@ define_model('basic_groundstation', {
 				local port_pos = { v(-100,10,50), v(100,10,50) }
 				if stage == 2 then
 					return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
+				end
+			end,
+			ship_approach_waypoints = function(port, stage)
+				local port_pos = { v(-100,10,50), v(100,10,50) }
+				if stage == 1 then
+					return { v(port_pos[port].x, port_pos[port].y+5000, port_pos[port].z), v(1,0,0), v(0,1,0) }
+				elseif stage == 2 then
+					return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 				end
 			end,
 		},

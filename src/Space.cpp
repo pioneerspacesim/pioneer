@@ -485,9 +485,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		rotFrame->SetBodies(sbody, b);
 
 		// rotating frame has atmosphere radius or feature height, whichever is larger
-		double frad = static_cast<Planet*>(b)->GetMaxFeatureRadius() + 200.0;
-		frad = std::max(frad, static_cast<Planet*>(b)->GetAtmosphereRadius());
-		rotFrame->SetRadius(frad);
+		rotFrame->SetRadius(b->GetPhysRadius());
 
 		matrix3x3d rotMatrix = matrix3x3d::RotateXMatrix(sbody->axialTilt.ToDouble());
 		double angSpeed = 2.0*M_PI/sbody->GetRotationPeriod();
@@ -516,8 +514,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		orbFrame = new Frame(f, sbody->name.c_str(), Frame::FLAG_HAS_ROT);
 		orbFrame->SetBodies(sbody, b);
 //		orbFrame->SetRadius(10*sbody->GetRadius());
-		orbFrame->SetRadius(10000.0);				// 10km should be enough?
-						// TODO: Sort out station bounding radii, then set to 4*that
+		orbFrame->SetRadius(20000.0);				// 4x standard parking radius
 		b->SetFrame(orbFrame);
 		return orbFrame;
 

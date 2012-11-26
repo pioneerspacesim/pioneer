@@ -55,13 +55,6 @@ void TerrainBody::Load(Serializer::Reader &rd, Space *space)
 	InitTerrainBody(sbody);
 }
 
-double TerrainBody::GetBoundingRadius() const
-{
-	// needs to include all terrain so culling works {in the future},
-	// and size of rotating frame is correct
-	return m_sbody->GetRadius() * (1.1+m_geosphere->GetMaxFeatureHeight());
-}
-
 void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d ftran = viewTransform;

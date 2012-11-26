@@ -108,7 +108,7 @@ always_divide:
 		geom->SetUserData(this);
 //		f->AddStaticGeom(geom);
 
-		BuildingDef def = { model, cmesh->GetBoundingRadius(), rotTimes90, cent, geom, false };
+		BuildingDef def = { model, cmesh->GetRadius(), rotTimes90, cent, geom, false };
 		m_buildings.push_back(def);
 	}
 }

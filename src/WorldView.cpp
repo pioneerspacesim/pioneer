@@ -592,7 +592,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			} else {
 				// XXX this is an improper use of GetBoundingRadius
 				// since it is not a surface radius
-				radius = astro->GetBoundingRadius();
+				radius = astro->GetPhysRadius();
 			}
 			double altitude = Pi::player->GetPosition().Length() - radius;
 			if (altitude > 9999999.0 || astro->IsType(Object::SPACESTATION))
@@ -1199,7 +1199,7 @@ void WorldView::UpdateProjectedObjects()
 		vector3d mouseDir = Pi::player->GetPlayerController()->GetMouseDir() * cam_rot;
 		if (GetCamType() == CAM_INTERNAL && m_internalCamera->GetMode() == InternalCamera::MODE_REAR)
 			mouseDir = -mouseDir;
-		UpdateIndicator(m_mouseDirIndicator, (Pi::player->GetBoundingRadius() * 1.5) * mouseDir);
+		UpdateIndicator(m_mouseDirIndicator, (Pi::player->GetPhysRadius() * 1.5) * mouseDir);
 	} else
 		HideIndicator(m_mouseDirIndicator);
 

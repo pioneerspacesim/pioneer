@@ -1133,7 +1133,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		glPushMatrix();
 		matrix4x4f trans = matrix4x4f::Identity();
 		trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
-		trans.Scale(GetLmrCollMesh()->GetBoundingRadius());
+		trans.Scale(GetPhysRadius());
 		renderer->SetTransform(trans);
 
 		//fade based on strength
@@ -1152,8 +1152,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 			const double r2 = Pi::rng.Double()-0.5;
 			const double r3 = Pi::rng.Double()-0.5;
 			v[i] = vector3f(viewTransform * (
-				GetPosition() +
-				GetLmrCollMesh()->GetBoundingRadius() *
+				GetPosition() + GetPhysRadius() *
 				vector3d(r1, r2, r3).Normalized()
 			));
 		}

@@ -16,7 +16,6 @@ class TerrainBody : public Body {
 public:
 	OBJDEF(TerrainBody, Body, TERRAINBODY);
 
-	virtual double GetBoundingRadius() const;
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SubRender(Graphics::Renderer *r, const Camera *camera, const vector3d &camPos) {}
 	virtual void SetFrame(Frame *f);
@@ -26,7 +25,8 @@ public:
 	bool IsSuperType(SystemBody::BodySuperType t) const;
 	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
 	GeoSphere *GetGeoSphere() const { return m_geosphere; }
-	double GetMaxFeatureRadius() const { // returns value in metres
+
+	double GetMaxFeatureRadius() const { 		// returns value in metres
 		return (m_geosphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
 	}
 

@@ -76,10 +76,11 @@ void Planet::InitParams(const SystemBody *sbody)
 	}
 	m_atmosphereRadius = h + sbody->GetRadius();
 
+	m_physRadius = std::max(m_atmosphereRadius, GetMaxFeatureRadius()+1000);
 	if (sbody->HasRings()) {
 		m_clipRadius = sbody->GetRadius() * sbody->m_rings.maxRadius.ToDouble();
 	} else {
-		m_clipRadius = GetBoundingRadius();
+		m_clipRadius = m_physRadius;
 	}
 }
 
