@@ -480,7 +480,7 @@ define_model('courier_eng_l', {      -- engine part left all models
 		thruster(BackRightThrust, v(1,0,0), 5)
 
 		if lod > 2 then
-			call_model('posl_green', v(-33.7,-11.156,13.6), v(0,0,1), v(-1,0,0),1.5)
+			call_model('posl_red', v(-33.7,-11.156,13.6), v(0,0,1), v(-1,0,0),1.5)
 			call_model('coll_warn', v(-33.6,-11.156,15.2), v(0,0,1), v(-1,0,0),1.5)
 		end
 	end,
@@ -554,7 +554,7 @@ define_model('courier_eng_r', {      -- engine part right all models
 		thruster(BackRightThrust, v(-1,0,0), 5)
 
 		if lod > 2 then
-			call_model('posl_red', v(33.7,-11.156,13.6), v(0,0,1), v(1,0,0),1.5)
+			call_model('posl_green', v(33.7,-11.156,13.6), v(0,0,1), v(1,0,0),1.5)
 			call_model('coll_warn', v(33.6,-11.156,15.2), v(0,0,1), v(1,0,0),1.5)
 		end
     end,

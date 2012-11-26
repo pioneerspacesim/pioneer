@@ -588,6 +588,8 @@ DECREASE_SCAN_RANGE
     Zmniejsza zasięg skanera
 TOGGLE_LUA_CONSOLE
     Aktywacja konsoli
+TOGGLE_MANUAL_ROTATION
+    Rotacja manualna
 TOGGLE_HUD_MODE
     Zmiana trybu HUD
 JOYSTICK_INPUT
@@ -977,11 +979,13 @@ HIGH_POPULATION_OUTDOOR_WORLD
 MASS
     Masa
 N_WHATEVER_MASSES
-    %mass{f.3} %units mas
+    %mass{f.3} masy %units
+N_WHATEVER_RADII
+    %radius{f.3} promienia %units
 SOLAR
-    Słonecznych
+    Słońca
 EARTH
-    Ziemskich
+    Ziemi
 SURFACE_GRAVITY
     Grawitacja na powierzchni
 SURFACE_TEMPERATURE

@@ -18,23 +18,24 @@ public:
 	virtual Point PreferredSize();
 	virtual void Layout();
 
-	Grid *SetRow(int rowNum, const WidgetSet &set);
-	Grid *SetColumn(int colNum, const WidgetSet &set);
-	Grid *SetCell(int colNum, int rowNum, Widget *widget);
+	Grid *SetRow(unsigned int rowNum, const WidgetSet &set);
+	Grid *SetColumn(unsigned int colNum, const WidgetSet &set);
+	Grid *SetCell(unsigned int colNum, unsigned int rowNum, Widget *widget);
 
-	void ClearRow(int rowNum);
-	void ClearColumn(int colNum);
+	void ClearRow(unsigned int rowNum);
+	void ClearColumn(unsigned int colNum);
+	void ClearCell(unsigned int colNum, unsigned int rowNum);
 	void Clear();
 
-	size_t GetNumRows() const { return m_numRows; }
-	size_t GetNumCols() const { return m_numCols; }
+	unsigned int GetNumRows() const { return m_numRows; }
+	unsigned int GetNumCols() const { return m_numCols; }
 
 protected:
 	virtual void RemoveWidget(Widget *);
 
 private:
 	CellSpec m_rowSpec, m_colSpec;
-	int m_numRows, m_numCols;
+	unsigned int m_numRows, m_numCols;
 	std::vector<Widget*> m_widgets;
 };
 

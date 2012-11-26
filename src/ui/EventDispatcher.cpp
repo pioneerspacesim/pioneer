@@ -158,10 +158,12 @@ bool EventDispatcher::Dispatch(const Event &event)
 			// widget directly under the mouse
 			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
 
+			MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-target->GetAbsolutePosition());
+			bool ret = target->TriggerMouseMove(translatedEvent);
+
 			DispatchMouseOverOut(target.Get(), m_lastMousePosition);
 
-			MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-target->GetAbsolutePosition());
-			return target->TriggerMouseMove(translatedEvent);
+			return ret;
 		}
 
 		case Event::MOUSE_WHEEL: {

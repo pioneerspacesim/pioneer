@@ -505,7 +505,7 @@ NO_MOUNTING
 N_LIGHT_YEARS_N_MAX
     %distance{f.1} años luz (%maxdistance{f.1} max)
 MAX
-        máx
+        max
 SHIP_INFORMATION
     Info de la nave
 PERSONAL
@@ -588,6 +588,8 @@ DECREASE_SCAN_RANGE
     Reducir rango del Scanner
 TOGGLE_LUA_CONSOLE
     ON/OFF Lua Console
+TOGGLE_MANUAL_ROTATION
+    Rotación manual
 TOGGLE_HUD_MODE
     HUD ON/OFF
 JOYSTICK_INPUT
@@ -1135,9 +1137,9 @@ HEADING_LOCK_FORWARD
 HEADING_LOCK_BACKWARD
     Bloqueo direcc. (retro)
 SET_SPEED_KM_S
-    Velocidad: %speed{f.2} km/s
+    Vel: %speed{f.2} km/s
 SET_SPEED_M_S
-    Velocidad: %speed{f.0} m/s
+    Vel: %speed{f.0} m/s
 KM_S_RELATIVE_TO
     %speed{f.2} km/s relativa a %frame
 M_S_RELATIVE_TO

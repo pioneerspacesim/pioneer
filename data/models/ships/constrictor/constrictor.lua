@@ -810,9 +810,6 @@ define_model('conny', {
 
 		if lod == 1 then
 			load_obj('con_coll.obj')
-			geomflag(0x100)
-			quad(v(2.479,-2,2.9), v(7.046,-2,2.9), v(6.048,-4,2.9), v(3.477,-4,2.9))
-			geomflag(0)
 		else
 			set_material('chrome', .63,.7,.83,1,1.26,1.4,1.66,30)
 			set_material('text', .6, .6, .6,.99, .5, .5, .5, 30)

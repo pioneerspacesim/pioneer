@@ -189,6 +189,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_equipment.InitSlotSizes(shipId);
 	m_hyperspace.countdown = 0;
 	m_hyperspace.now = false;
+	m_manualRotation = false;
 	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
 		m_gunState[i] = 0;
 		m_gunRecharge[i] = 0;
@@ -240,6 +241,28 @@ void Ship::SetPercentHull(float p)
 void Ship::UpdateMass()
 {
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
+}
+
+// returns velocity of engine exhausts in m/s
+double Ship::GetEffectiveExhaustVelocity(void) {
+	double denominator = GetShipType().fuelTankMass * GetShipType().thrusterFuelUse * 10;
+	return fabs(denominator > 0 ? GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9);
+}
+
+// inverse of GetEffectiveExhaustVelocity()
+double Ship::GetFuelUseRate(double effectiveExhaustVelocity) {
+  double denominator = effectiveExhaustVelocity * 10;
+  return fabs(denominator > 0 ? GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9);
+}
+
+// returns speed that can be reached using fuelUsed (0.0f-1.0f) of fuel according to the Tsiolkovsky equation
+double Ship::GetVelocityReachedWithFuelUsed(float fuelUsed) {
+	double ShipMassNow = GetMass(),
+			ShipMassAfter = GetMass() - 1000*GetShipType().fuelTankMass * fuelUsed;
+
+	assert(ShipMassAfter > 0 && ShipMassNow > 0); // shouldn't happen
+
+	return GetEffectiveExhaustVelocity() * log(ShipMassNow/ShipMassAfter);
 }
 
 bool Ship::OnDamage(Object *attacker, float kgDamage)
@@ -298,8 +321,9 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 		return true;
 	}
 
-	// hitting cargo scoop surface shouldn't do damage
-	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && (flags & 0x100) && m_stats.free_capacity) {
+	// collisions with cargo while we have a scoop and free space starts scooping
+	// XXX additional tests: underside of ship, matched velocity, etc
+	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && m_stats.free_capacity) {
 		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
 		Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(b));
 		m_equipment.Add(item);
