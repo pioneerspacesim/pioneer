@@ -73,7 +73,7 @@ static int l_rand_new(lua_State *l)
  */
 static int l_rand_number(lua_State *l)
 {
-	MTRand *rand = LuaObject<MTRand>::GetFromLua(1);
+	MTRand *rand = LuaObject<MTRand>::CheckFromLua(1);
 
 	double min, max;
 	if (lua_isnumber(l, 2) && lua_isnumber(l, 3)) {
@@ -127,7 +127,7 @@ static int l_rand_number(lua_State *l)
  */
 static int l_rand_integer(lua_State *l)
 {
-	MTRand *rand = LuaObject<MTRand>::GetFromLua(1);
+	MTRand *rand = LuaObject<MTRand>::CheckFromLua(1);
 
 	int min, max;
 	if (lua_isnumber(l, 2) && lua_isnumber(l, 3)) {

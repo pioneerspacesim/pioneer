@@ -13,8 +13,8 @@ public:
 
 	static int l_set_font_size(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
-		UI::Widget::FontSize fontSize = static_cast<UI::Widget::FontSize>(LuaConstants::GetConstantFromArg(l, "UIFontSize", 2));
-		w->SetFontSize(fontSize);
+		UI::Widget::Font font = static_cast<UI::Widget::Font>(LuaConstants::GetConstantFromArg(l, "UIFont", 2));
+		w->SetFont(font);
 		lua_pushvalue(l, 1);
 		return 1;
 	}
@@ -91,7 +91,7 @@ template <> const char *LuaObject<UI::Widget>::s_type = "UI.Widget";
 template <> void LuaObject<UI::Widget>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
-		{ "SetFontSize", LuaWidget::l_set_font_size },
+		{ "SetFont", LuaWidget::l_set_font_size },
 		{ 0, 0 }
 	};
 
