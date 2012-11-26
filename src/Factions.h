@@ -20,11 +20,12 @@ public:
 
 	// XXX this is not as const-safe as it should be
 	static Faction *GetFaction(const Uint32 index);
-	static const Uint32 GetNumFactions();
-	static const Uint32 GetNearestFactionIndex(const SystemPath& sysPath);
-	static const Uint32 GetIndexOfFaction(const std::string factionName);
+	static const Uint32      GetNumFactions();
+	static const Uint32      GetNearestFactionIndex(const SystemPath& sysPath);
+	static const Uint32      GetIndexOfFaction(const std::string factionName);
 
 	static const Uint32 BAD_FACTION_IDX; // returned by GetNearestFactionIndex if system has no faction
+
 
 	Faction();
 	~Faction();
@@ -63,6 +64,8 @@ public:
 	// answer a gov type picked using a weighted random roll against the govtypes list
 	Polit::GovType PickGovType(MTRand &rand) const;
 
+	// set the homeworld to one near the supplied co-ordinates
+	void SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi);
 };
 
 #endif /* _FACTIONS_H */
