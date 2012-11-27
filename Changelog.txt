@@ -19,7 +19,8 @@ Alpha 29
 
    * Fixes
      * Workaround shader glitches for planets with zero temperature (#1712)
-     * Pioneer should not be marked as "Not Responding" on startup in Windows (#1743)
+     * Pioneer should not be marked as "Not Responding" on startup in Windows
+       (MSVC builds only) (#1743)
      * Fixed flight log crash after visiting 1000 stations
      * Barnard's Star is now a member of the Federation (#1620)
 
