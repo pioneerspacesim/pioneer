@@ -654,11 +654,14 @@ static bool CheckOvershoot(Ship *ship, const vector3d &reldir, double targdist, 
 {
 	// only slightly fake minimum time to target
 	// based on s = (sv+ev)*t/2 + a*t*t/4
-	double fwdacc = ship->GetAccelFwd();
-	double u = 0.5 * (relvel.Dot(reldir) + endvel);	if (u<0) u = 0;
-	double t = (-u + sqrt(u*u + fwdacc*targdist)) / (fwdacc * 0.5);
-	if (t < Pi::game->GetTimeStep()) t = Pi::game->GetTimeStep();
+//	double fwdacc = ship->GetAccelFwd();
+//	double u = 0.5 * (relvel.Dot(reldir) + endvel);	if (u<0) u = 0;
+//	double t = (-u + sqrt(u*u + fwdacc*targdist)) / (fwdacc * 0.5);
+//	if (t < Pi::game->GetTimeStep()) t = Pi::game->GetTimeStep();
 //	double t2 = ship->AITravelTime(reldir, targdist, relvel, endvel, true);
+
+	// very harsh version: considers hard burn over distance
+	double t = sqrt(2.0*targdist / ship->GetAccelFwd());
 
 	// check for uncorrectable side velocity
 	vector3d perpvel = relvel - reldir * relvel.Dot(reldir);
@@ -753,38 +756,54 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 		}
 	}
 
-	// calculate maximum deceleration under gravity
-	double maxdecel = m_state ? m_ship->GetAccelRev() : m_ship->GetAccelFwd();	// Hmm
-	if (m_state < 0) maxdecel = m_ship->GetAccelMin();
-	double gravdir = reldir.Dot(m_ship->GetPosition().Normalized());
+	if (CheckOvershoot(m_ship, reldir, targdist, relvel, endvel)) {		
+		m_ship->AIFaceDirection(-relvel);	// put planet-based updir here?
+		m_ship->AIMatchVel(targvel);		// kill velocity towards target as well
+		m_state = -4; return false;
+	}
+	if (m_state == -4 && m_tangent) return true;				// bail out
+	if (m_state < 0) m_state = targdist > 10000000.0 ? 0 : 1;	// still lame
+
+	double maxdecel;
+	if (!m_state) maxdecel = m_ship->GetAccelFwd();
+//	else {
+//		double head = reldir.Dot(m_ship->GetOrient().VectorZ());
+//		if (head < 0.95 && head > -0.95) maxdecel = m_ship->GetAccelMin();
+		else maxdecel = m_ship->GetAccelRev();
+//	}
+
+	double gravdir = -reldir.Dot(m_ship->GetPosition().Normalized());
 	maxdecel -= gravdir * GetGravityAtPos(m_frame, m_ship->GetPosition());
 	if (maxdecel < 0) maxdecel = 0.0;
 
+//	double fliptime = sqrt(2.0*M_PI*m_ship->GetAngularInertia() / m_ship->GetShipType().angThrust);
+//	fliptime = ceil(fliptime/timestep) * timestep;
+
 	// linear thrust application
-	vector3d vdiff = m_ship->AIMatchPosVel(reldir, targdist, relvel, m_endvel, maxdecel);
+	double ispeed = calc_ivel(targdist, m_endvel, maxdecel);
+	vector3d vdiff = ispeed*reldir - relvel;
+	m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
 
-	bool flipped = false;
-	if (CheckOvershoot(m_ship, reldir, targdist, relvel, endvel)) m_state = -4;
-	else {
-		if (m_state == -4 && m_tangent) return true;				// bail out
-		if (m_state < 0) m_state = targdist > 10000000.0 ? 0 : 1;
+	// check for deceleration and work out whether to flip
+	bool flipped = false; double sdiff = ispeed - relvel.Dot(reldir);
+	if (sdiff <= 0) m_ship->SetDecelerating(true);
+//	if (!m_state && sdiff < maxdecel*timestep*60) flipped = true;
 
-		double sdiff = vdiff.Length(), vdir = vdiff.Dot(reldir);
-		if (vdir <= 0 || sdiff < m_ship->GetAccelMin()*timestep*50) {
-			m_ship->SetDecelerating(true);
-			if (!m_state) flipped = true;
-		}
-	}
+	vector3d head = vdiff;
+	if (m_state) if (sdiff <= 0) head = -head;
+	else if (sdiff >= 0 && sdiff < maxdecel*timestep*60) head = -head;
+
+// need to consider whether ship has really weak side thrusters
+// for station tracking etc
+
 
 	// face appropriate direction
-	double af = 0.0, au = 0.0;
-	if (m_state < 0) af = m_ship->AIFaceDirection(vdiff);
-	else if (m_state >= 3) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
-	else af = m_ship->AIFaceDirection(flipped ? -reldir : reldir);
-	if (af > 0.1) m_state = -1;
+	if (m_state >= 3) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
+	else m_ship->AIFaceDirection(head);
 
+//	else m_ship->AIFaceDirection(flipped ? -reldir : reldir);
 	if (m_ship->GetPosition().LengthSqr() < 4*erad*erad)
-		au = m_ship->AIFaceUpdir(m_ship->GetPosition());		// turn bottom thruster towards planet
+		m_ship->AIFaceUpdir(m_ship->GetPosition());		// turn bottom thruster towards planet
 
 	// termination conditions
 	if (m_state >= 3) return true;					// finished last adjustment, hopefully
@@ -861,8 +880,11 @@ bool AICmdDock::TimeStepUpdate()
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	vector3d relvel = -m_target->GetVelocityRelTo(m_ship);
+
 	double maxdecel = m_ship->GetAccelUp() - GetGravityAtPos(m_target->GetFrame(), m_dockpos);
-	vector3d vdiff = m_ship->AIMatchPosVel(reldir, relpos.Length(), relvel, 0.0, maxdecel);
+	double ispeed = calc_ivel(relpos.Length(), 0.0, maxdecel);
+	vector3d vdiff = ispeed*reldir - relvel;
+	m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
 	if (vdiff.Dot(reldir) < 0) m_ship->SetDecelerating(true);
 
 	// get rotation of station for next frame

@@ -167,7 +167,7 @@ public:
 
 	bool AIMatchVel(const vector3d &vel);
 	bool AIChangeVelBy(const vector3d &diffvel);		// acts in obj space
-	vector3d AIMatchPosVel(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxdecel);
+	vector3d AIChangeVelDir(const vector3d &diffvel);	// world space, maintain direction
 	void AIMatchAngVelObjSpace(const vector3d &angvel);
 	double AIFaceUpdir(const vector3d &updir);
 	double AIFaceDirection(const vector3d &dir, double av=0);
