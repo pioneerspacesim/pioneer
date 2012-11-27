@@ -9,6 +9,7 @@
 #include "LuaFixed.h"
 #include "LuaConstants.h"
 #include "Polit.h"
+#include "Factions.h"
 #include "FileSystem.h"
 #include <map>
 
@@ -319,6 +320,20 @@ static int l_csys_long_desc(lua_State *L)
 	return 1;
 }
 
+static int l_csys_faction(lua_State *L)
+{
+	CustomSystem *cs = l_csys_check(L, 1);
+
+	std::string factionName = luaL_checkstring(L, 2);
+	cs->faction = Faction::GetFaction(factionName);
+	if (cs->faction->idx == Faction::BAD_FACTION_IDX) {
+		luaL_argerror(L, 2, "Faction not found");
+	}
+
+	lua_settop(L, 1);
+	return 1;
+}
+
 static int l_csys_govtype(lua_State *L)
 {
 	CustomSystem *cs = l_csys_check(L, 1);
@@ -426,6 +441,7 @@ static luaL_Reg LuaCustomSystem_meta[] = {
 	{ "explored", &l_csys_explored },
 	{ "short_desc", &l_csys_short_desc },
 	{ "long_desc", &l_csys_long_desc },
+	{ "faction", &l_csys_faction },
 	{ "govtype", &l_csys_govtype },
 	{ "bodies", &l_csys_bodies },
 	{ "add_to_sector", &l_csys_add_to_sector },
@@ -516,6 +532,7 @@ CustomSystem::CustomSystem():
 	numStars(0),
 	seed(0),
 	want_rand_explored(true),
+	faction(0),
 	govType(Polit::GOV_INVALID)
 {
 	for (int i = 0; i < 4; ++i)

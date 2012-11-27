@@ -3,6 +3,8 @@ Alpha 29
    * New features
      * Economical autopilot. Trades fuel for time (#1582)
      * Your ship's automatic rotation damping can now be turned off (#1570, #1156)
+     * Almost 100 new factions with varying government types (#1621, #1620, #1675)
+     * Zoom out the sector view to see a faction map (#1754)
 
    * Minor changes and tweaks
      * Cargo scooping now only requires a collision against the ship rather
@@ -17,10 +19,16 @@ Alpha 29
 
    * Fixes
      * Workaround shader glitches for planets with zero temperature (#1712)
-     * Pioneer should not be marked as "Not Responding" on startup in Windows (#1743)
+     * Pioneer should not be marked as "Not Responding" on startup in Windows
+       (MSVC builds only) (#1743)
      * Fixed flight log crash after visiting 1000 stations
+     * Barnard's Star is now a member of the Federation (#1620)
 
    * Script changes
+     * Custom Systems: Faction allegiance can now be set for custom systems (#1621)
+     * Factions: More than one government type with weighting can now be specified
+       for a Faction (#1621)
+     * Factions: A radius attribute is available on the LuaFaction object (#1660)
      * New UI.Gradient container to provide a linear gradient background (#1682)
      * UI widget SetFontSize has been replaced with SetFont to select both
        type (normal or heading) and size (#1684)
@@ -36,7 +44,7 @@ Alpha 29
 
    * Internal changes
      * Wrapper to allow new UI to provide views for the old GUI system (#1691,
-       #1755, #1756)
+       #1755, #1756, #1759)
      * Fix the LuaObject the Check/GetFromLua, which were swapped round (#1730)
 
 Alpha 28
