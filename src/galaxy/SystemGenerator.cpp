@@ -212,7 +212,7 @@ namespace SystemGeneration
 			return !Custom()->explored;    // may be defined manually in the custom system definition
 		} else {
 			int dist = isqrt(1 + m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ);
-			return (dist > 90) || (dist > 65 && systemRand().Int32(dist) > 40);
+			return !(Faction::IsHomeSystem(m_path) || ((dist <= 90) && ( dist <= 65 || systemRand().Int32(dist) <= 40)));
 		}
 	}
 
@@ -220,7 +220,7 @@ namespace SystemGeneration
 	{ 
 		// This is 1 in sector (0,0,0) and approaches 0 farther out
 		// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
-		return fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ)); 
+		return Faction::IsHomeSystem(m_path) ? fixed(2,3): fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
 	}
 
 	const fixed SystemGenerator::Metallicity() const

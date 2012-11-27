@@ -48,7 +48,7 @@ static int l_game_start_game(lua_State *l)
 		return 0;
 	}
 
-	SystemPath *path = LuaSystemPath::GetFromLua(1);
+	SystemPath *path = LuaSystemPath::CheckFromLua(1);
 
 	RefCountedPtr<StarSystem> system(StarSystem::GetCached(*path));
 	SystemBody *sbody = system->GetBodyByPath(path);

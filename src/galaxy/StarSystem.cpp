@@ -1214,7 +1214,12 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	const double massPlanet_in_kg = (mass.ToDouble()*EARTH_MASS);
 	const double g = G*massPlanet_in_kg/(radiusPlanet_in_m*radiusPlanet_in_m);
 
-	const double T = static_cast<double>(averageTemp);
+	double T = static_cast<double>(averageTemp);
+
+	// XXX hack to avoid issues with sysgen giving 0 temps
+	// temporary as part of sysgen needs to be rewritten before the proper fix can be used
+	if (T < 1)
+		T = 40;
 
 	// XXX just use earth's composition for now
 	const double M = 0.02897f; // in kg/mol
@@ -1233,7 +1238,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 }
 
 
-StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Faction::BAD_FACTION_IDX), rootBody(0)
+StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_faction(0), rootBody(0)
 {
 	assert(path.IsSystemPath());
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
@@ -1256,7 +1261,7 @@ void StarSystem::Initialise() {
 	SystemGenerator generator = SystemGenerator(m_path);
 
 	m_name       = generator.Name();
-	m_factionIdx = generator.FactionIdx();
+	m_faction    = generator.Faction();
 	m_numStars   = generator.NumStars();
 	m_humanProx  = generator.HumanProx();
 	m_isCustom   = generator.Custom();
@@ -1550,13 +1555,12 @@ void StarSystem::MakeShortDescription()
 
 const Color StarSystem::GetFactionColour() const
 {
-	if (m_factionIdx != Faction::BAD_FACTION_IDX) {
-		const Faction *fac = Faction::GetFaction(m_factionIdx);
-		if( fac ) {
-			return fac->colour;
-		}
-	}
-	return Color(0.8f,0.8f,0.8f,0.5f);
+	return m_faction->colour;
+}
+
+const char *StarSystem::GetAllegianceDesc() const
+{
+	return m_faction->name.c_str();
 }
 
 /* percent */
@@ -1564,7 +1568,8 @@ const Color StarSystem::GetFactionColour() const
 
 void StarSystem::Populate(bool addSpaceStations)
 {
-//	printf("Trading rates:\n");
+
+	//	printf("Trading rates:\n");
 	// So now we have balances of trade of various commodities.
 	// Lets use black magic to turn these into percentage base price
 	// alterations

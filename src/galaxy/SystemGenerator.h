@@ -44,7 +44,7 @@ namespace SystemGeneration
 
 		const std::string   Name()         const { return SectorSystem().name; }
 		const CustomSystem* Custom()       const { return SectorSystem().customSys; }
-		const Uint32        FactionIdx()   const { return Faction::GetNearestFactionIndex(m_path); }
+		      Faction*      Faction()      const { return Faction::GetNearestFaction(m_sector, m_path.systemIndex); }
 	
 		const int           NumStars()     const;
 		const bool          Unexplored();
