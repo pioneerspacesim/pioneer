@@ -501,6 +501,7 @@ void ModelViewer::OnAnimSliderChanged(float value)
 {
 	if (m_currentAnimation)
 		m_currentAnimation->SetProgress(value);
+	animValue->SetText(stringf("%0{f.2}", value));
 }
 
 void ModelViewer::OnLightPresetChanged(unsigned int index, const std::string &)
@@ -761,11 +762,8 @@ void ModelViewer::SetupUI()
 	for (unsigned int i=0; i<6; i++)
 		thrustSliders[i] = 0;
 
-	//remove old floaters
-	if (animSlider) {
-		c->RemoveFloatingWidget(animSlider);
-		animSlider = 0;
-	}
+	animSlider = 0;
+	animValue = 0;
 
 	if (!m_model)
 		return SetupFilePicker();
@@ -780,14 +778,17 @@ void ModelViewer::SetupUI()
 	UI::VBox* outerBox = c->VBox();
 
 	UI::VBox* mainBox = c->VBox(5);
+	UI::VBox* bottomBox = c->VBox(5);
+
 	UI::HBox* sliderBox = c->HBox();
+	bottomBox->PackEnd(sliderBox);
 
 	outerBox->PackEnd(UI::WidgetSet(
 		c->Expand()->SetInnerWidget(c->Grid(UI::CellSpec(0.75f,0.25f),1)
 			->SetColumn(0, mainBox)
 			->SetColumn(1, m_logScroller.Get())
 		),
-		sliderBox
+		bottomBox
 	));
 
 	c->SetInnerWidget(c->Margin(spacing)->SetInnerWidget(outerBox));
@@ -875,7 +876,8 @@ void ModelViewer::SetupUI()
 		//add_pair(m_ui, animBox, revBtn = m_ui->Button(), "Play reverse");
 		//add_pair(m_ui, animBox, stopBtn = m_ui->Button(), "Stop");
 
-		c->AddFloatingWidget(animSlider = c->HSlider(), UI::Point(spacing, m_height-300), UI::Point(200, 50));
+		bottomBox->PackStart(c->HBox(10)->PackEnd(UI::WidgetSet(c->Label("Animation:"), animSlider = c->HSlider(), animValue = c->Label("0.0"))));
+		animValue->SetFont(UI::Widget::FONT_NORMAL);
 
 		//playBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), playBtn, false));
 		//revBtn->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnAnimPlay), revBtn, true));

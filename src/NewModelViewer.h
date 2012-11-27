@@ -102,6 +102,7 @@ private:
 	UI::DropDown *patternSelector;
 	UI::Label *nameLabel;
 	UI::Slider *animSlider;
+	UI::Label *animValue;
 	UI::Slider *colorSliders[9];
 	UI::Slider *thrustSliders[2*3]; //thruster sliders 2*xyz (linear & angular)
 
