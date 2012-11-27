@@ -22,8 +22,8 @@ ui.templates.FileDialog = function (args)
 	local list = ui:List()
 	for i = 1,#files do list:AddOption(files[i]) end
 
-	local selectButton = ui:Button():SetInnerWidget(ui:Label(selectLabel))
-	local cancelButton = ui:Button():SetInnerWidget(ui:Label(cancelLabel))
+	local selectButton = ui:Button(ui:Label(selectLabel):SetFont("HEADING_NORMAL"))
+	local cancelButton = ui:Button(ui:Label(cancelLabel):SetFont("HEADING_NORMAL"))
 	selectButton.onClick:Connect(function () onSelect(list.selectedOption) end)
 	cancelButton.onClick:Connect(onCancel)
 
@@ -31,12 +31,12 @@ ui.templates.FileDialog = function (args)
 		ui:Grid({1,3,1}, {1,3,1})
 			:SetCell(1,1,
 				ui:VBox(10)
-					:PackEnd(ui:Background():SetInnerWidget(ui:Label(title)))
-					:PackEnd(ui:Scroller():SetInnerWidget(list), { "EXPAND", "FILL" })
-					:PackEnd(ui:HBox():PackEnd({
-						ui:Align("LEFT"):SetInnerWidget(selectButton),
-						ui:Align("RIGHT"):SetInnerWidget(cancelButton),
-					}, { "EXPAND", "FILL" } ))
+					:PackEnd(ui:Background(ui:Label(title):SetFont("HEADING_NORMAL")))
+					:PackEnd(ui:Expand("BOTH", ui:Scroller():SetInnerWidget(list)))
+					:PackEnd(ui:Grid(2,1):SetRow(0, {
+						ui:Align("LEFT", selectButton),
+						ui:Align("RIGHT", cancelButton),
+					}))
 			)
 
 	return dialog

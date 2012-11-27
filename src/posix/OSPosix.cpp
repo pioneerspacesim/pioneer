@@ -8,6 +8,14 @@
 
 namespace OS {
 
+void NotifyLoadBegin()
+{
+}
+
+void NotifyLoadEnd()
+{
+}
+
 void Error(const char *format, ...)
 {
 	char buf[1024];

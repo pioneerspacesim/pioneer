@@ -7,4 +7,13 @@ local f = Faction:new('Independent')
 	:police_name('Police')
 	:colour(1.0,1.0,0.4)
 
+f:govtype_weight('LIBDEM',      10)
+f:govtype_weight('CORPORATE',   10)
+f:govtype_weight('SOCDEM',      10)
+f:govtype_weight('MILDICT1',    10)
+f:govtype_weight('MILDICT2',    10)
+f:govtype_weight('COMMUNIST',   10)
+f:govtype_weight('PLUTOCRATIC', 10)
+f:govtype_weight('DISORDER',    10)
+
 f:add_to_factions('Independent')
