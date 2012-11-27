@@ -146,6 +146,14 @@ private:
 	vector3f m_secPosFar;
 	int      m_radiusFar;
 	bool     m_toggledFaction;
+
+	int m_cache_xmin;
+	int m_cache_xmax;
+	int m_cache_ymin;
+	int m_cache_ymax;
+	int m_cache_zmin;
+	int m_cache_zmax;
+
 };
 
 #endif /* _SECTORVIEW_H */
