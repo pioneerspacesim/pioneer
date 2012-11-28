@@ -242,7 +242,7 @@ static int l_fac_add_to_factions(lua_State *L)
 		}
 
 		// add the faction to the various faction data structures
-		s_factions.push_back(facbld->fac);	
+		s_factions.push_back(facbld->fac);
 		s_factions_byName[facbld->fac->name] = facbld->fac;
 		s_spatial_index.Add(facbld->fac);
 
@@ -503,30 +503,30 @@ Faction::~Faction()
 
 void FactionOctsapling::Add(Faction* faction)
 {
-	/*  The general principle here is to put the faction in every octbox cell that a system 
-	    that is a member of that faction could be in. This should let us cut the number 
+	/*  The general principle here is to put the faction in every octbox cell that a system
+	    that is a member of that faction could be in. This should let us cut the number
 		of factions that have to be checked by GetNearestFaction, by eliminating right off
 		all the those Factions that aren't in the same cell.
 
-		As I'm just going for the quick performance win, I'm being very sloppy and 
-		treating a Faction as if it was a cube rather than a sphere. I'm also not even 
-		attempting to work out real faction boundaries for this. 
+		As I'm just going for the quick performance win, I'm being very sloppy and
+		treating a Faction as if it was a cube rather than a sphere. I'm also not even
+		attempting to work out real faction boundaries for this.
 
 		Obviously this all could be improved even without this Octsapling growing into
 		a full Octree.
 
-		This part happens at faction generation time so shouldn't be too performance 
+		This part happens at faction generation time so shouldn't be too performance
 		critical
 	*/
 	Sector sec = Sector(faction->homeworld.sectorX, faction->homeworld.sectorY, faction->homeworld.sectorZ);
 
-	/* only factions with homeworlds that are available at faction generation time can 
+	/* only factions with homeworlds that are available at faction generation time can
 	   be added to specific cells...
 	*/
 	if (faction->hasHomeworld && (faction->homeworld.systemIndex < sec.m_systems.size())) {
 		/* calculate potential indexes for the octbox cells the faction needs to go into
 		*/
-		Sector::System sys = sec.m_systems[faction->homeworld.systemIndex];	
+		Sector::System sys = sec.m_systems[faction->homeworld.systemIndex];
 
 		int xmin = BoxIndex(Sint32(sys.FullPosition().x - float((faction->Radius()))));
 		int xmax = BoxIndex(Sint32(sys.FullPosition().x + float((faction->Radius()))));
@@ -535,14 +535,14 @@ void FactionOctsapling::Add(Faction* faction)
 		int zmin = BoxIndex(Sint32(sys.FullPosition().z - float((faction->Radius()))));
 		int zmax = BoxIndex(Sint32(sys.FullPosition().z + float((faction->Radius()))));
 
-		/* put the faction in all the octbox cells needed in a hideously inexact way that 
+		/* put the faction in all the octbox cells needed in a hideously inexact way that
 		   will generate duplicates in each cell in many cases
 		*/
 		octbox[xmin][ymin][zmin].push_back(faction);  // 0,0,0
 		octbox[xmax][ymin][zmin].push_back(faction);  // 1,0,0
 		octbox[xmax][ymax][zmin].push_back(faction);  // 1,1,0
 		octbox[xmax][ymax][zmax].push_back(faction);  // 1,1,1
-		
+
 		octbox[xmin][ymax][zmin].push_back(faction);  // 0,1,0
 		octbox[xmin][ymax][zmax].push_back(faction);  // 0,1,1
 		octbox[xmin][ymin][zmax].push_back(faction);  // 0,0,1
@@ -554,15 +554,15 @@ void FactionOctsapling::Add(Faction* faction)
 		PruneDuplicates(1,0,0);
 		PruneDuplicates(1,1,0);
 		PruneDuplicates(1,1,1);
-		
+
 		PruneDuplicates(0,1,0);
 		PruneDuplicates(0,1,1);
 		PruneDuplicates(0,0,1);
 		PruneDuplicates(1,0,1);
 
 	} else {
-	/* ...other factions, such as ones with no homeworlds, and more annoyingly ones 
-	   whose homeworlds don't exist yet because they're custom systems have to go in 
+	/* ...other factions, such as ones with no homeworlds, and more annoyingly ones
+	   whose homeworlds don't exist yet because they're custom systems have to go in
 	   *every* octbox cell
 	*/
 		octbox[0][0][0].push_back(faction);

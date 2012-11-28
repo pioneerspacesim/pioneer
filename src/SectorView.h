@@ -147,12 +147,12 @@ private:
 	int      m_radiusFar;
 	bool     m_toggledFaction;
 
-	int m_cache_xmin;
-	int m_cache_xmax;
-	int m_cache_ymin;
-	int m_cache_ymax;
-	int m_cache_zmin;
-	int m_cache_zmax;
+	int m_cacheXMin;
+	int m_cacheXMax;
+	int m_cacheYMin;
+	int m_cacheYMax;
+	int m_cacheZMin;
+	int m_cacheZMax;
 
 };
 

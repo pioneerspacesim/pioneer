@@ -97,12 +97,12 @@ void SectorView::InitDefaults()
 
 	m_secPosFar  = vector3f(INT_MAX, INT_MAX, INT_MAX);
 	m_radiusFar  = 0;
-	m_cache_xmin = 0;
-	m_cache_xmax = 0;
-	m_cache_ymin = 0;
-	m_cache_ymax = 0;
-	m_cache_ymin = 0;
-	m_cache_ymax = 0;
+	m_cacheXMin = 0;
+	m_cacheXMax = 0;
+	m_cacheYMin = 0;
+	m_cacheYMax = 0;
+	m_cacheYMin = 0;
+	m_cacheYMax = 0;
 }
 
 void SectorView::InitObject()
@@ -223,7 +223,7 @@ void SectorView::InitObject()
 	m_factionBox = new Gui::VBox();
 	m_factionBox->SetTransparency(false);
 	m_factionBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
-	m_factionBox->SetSpacing(5.0f);	
+	m_factionBox->SetSpacing(5.0f);
 	m_factionBox->HideAll();
 	Add(m_factionBox, 5, 5);
 }
@@ -461,7 +461,7 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 	for (std::vector<Sector::System>::iterator sys = sec->m_systems.begin(); sys !=sec->m_systems.end(); ++sys, ++num) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
 		if ((m_pos*Sector::SIZE - (*sys).FullPosition()).Length() > drawRadius) continue;
-		
+
 		// skip the system if it belongs to a Faction we've toggled off
 		if (m_hiddenFactions.find((*sys).faction) != m_hiddenFactions.end()) continue;
 
@@ -1053,7 +1053,7 @@ void SectorView::Update()
 
 		// swtich between Info and Faction panels when we zoom over the threshold
 		if (m_zoom <= FAR_THRESHOLD && prevZoom > FAR_THRESHOLD && m_detailBoxVisible == DETAILBOX_FACTION) {
-			m_detailBoxVisible = DETAILBOX_INFO; 
+			m_detailBoxVisible = DETAILBOX_INFO;
 			RefreshDetailBoxVisibility();
 		}
 		if (m_zoom > FAR_THRESHOLD && prevZoom <= FAR_THRESHOLD && m_detailBoxVisible == DETAILBOX_INFO) {
@@ -1147,9 +1147,9 @@ void SectorView::ShrinkCache()
 
 	// XXX don't clear the current/selected/target sectors
 
-	if  (xmin != m_cache_xmin || xmax != m_cache_xmax 
-      || ymin != m_cache_ymin || ymax != m_cache_ymax
-	  || zmin != m_cache_zmin || zmax != m_cache_zmax) {
+	if  (xmin != m_cacheXMin || xmax != m_cacheXMax
+	  || ymin != m_cacheYMin || ymax != m_cacheYMax
+	  || zmin != m_cacheZMin || zmax != m_cacheZMax) {
 		std::map<SystemPath,Sector*>::iterator iter = m_sectorCache.begin();
 		while (iter != m_sectorCache.end())	{
 			Sector *s = (*iter).second;
@@ -1162,11 +1162,11 @@ void SectorView::ShrinkCache()
 			}
 		}
 
-		m_cache_xmin = xmin;
-		m_cache_xmax = xmax;
-		m_cache_ymin = ymin;
-		m_cache_ymax = ymax;
-		m_cache_zmin = zmin;
-		m_cache_zmax = zmax;
+		m_cacheXMin = xmin;
+		m_cacheXMax = xmax;
+		m_cacheYMin = ymin;
+		m_cacheYMax = ymax;
+		m_cacheZMin = zmin;
+		m_cacheZMax = zmax;
 	}
 }
