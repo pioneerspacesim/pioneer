@@ -17,6 +17,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "gui/Gui.h"
+#include "StringF.h"
 
 using namespace Graphics;
 
@@ -93,6 +94,7 @@ public:
 	Gui::Adjustment *m_anim[LMR_ARG_MAX];
 	Gui::TextEntry *m_animEntry[LMR_ARG_MAX];
 	Gui::Label *m_trisReadout;
+	Gui::Label *m_dumpLabel;
 	LmrCollMesh *m_cmesh;
 	LmrModel *m_model;
 	CollisionSpace *m_space;
@@ -173,6 +175,9 @@ public:
 			Add(b, 10, 130);
 			Add(new Gui::Label("[shift-d] Dump model to .obj"), 30, 130);
 		}
+
+		m_dumpLabel = new Gui::Label("");
+		Add(m_dumpLabel, 10, 170);
 #if 0
 		{
 			Gui::Button *b = new Gui::SolidButton();
@@ -294,6 +299,7 @@ public:
 	
 	void OnDumpModel() {
 		m_model->Dump();
+		m_dumpLabel->SetText(stringf("Model dumped to %0", FileSystem::userFiles.GetRoot() + "/" + m_model->GetDumpPath()).c_str());
 	}
 
 	void MainLoop() __attribute((noreturn));

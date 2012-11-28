@@ -1577,6 +1577,14 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 	if (m_hasDynamicFunc) m_dynamicGeometry[0]->GetCollMeshGeometry(mesh, m, params);
 }
 
+std::string LmrModel::GetDumpPath(const char *pMainFolderName)
+{
+	const std::string rootFolderName(pMainFolderName ? pMainFolderName : m_name);
+	const std::string folderName(std::string(DUMP_DIR) + "/" + rootFolderName);
+
+	return folderName;
+}
+
 void LmrModel::Dump(const char* pMainFolderName)
 {
 	if (m_dumped) return;

@@ -71,6 +71,7 @@ public:
 	void PushAttributeToLuaStack(const char *attr_name) const;
 	const char *GetName() const { return m_name.c_str(); }
 	bool HasTag(const char *tag) const;
+	std::string GetDumpPath(const char *pMainFolderName=0);
 	void Dump(const char* pMainFolderName=0);
 private:
 	void Build(int lod, const LmrObjParams *params);
