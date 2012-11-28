@@ -95,8 +95,14 @@ void SectorView::InitDefaults()
 	m_zoomDefault = Clamp(m_zoomDefault, 0.1f, 5.0f);
 	m_previousSearch = "";
 
-	m_secPosFar = vector3f(INT_MAX, INT_MAX, INT_MAX);
-	m_radiusFar = 0;
+	m_secPosFar  = vector3f(INT_MAX, INT_MAX, INT_MAX);
+	m_radiusFar  = 0;
+	m_cache_xmin = 0;
+	m_cache_xmax = 0;
+	m_cache_ymin = 0;
+	m_cache_ymax = 0;
+	m_cache_ymin = 0;
+	m_cache_ymax = 0;
 }
 
 void SectorView::InitObject()
@@ -1141,15 +1147,26 @@ void SectorView::ShrinkCache()
 
 	// XXX don't clear the current/selected/target sectors
 
-	std::map<SystemPath,Sector*>::iterator iter = m_sectorCache.begin();
-	while (iter != m_sectorCache.end())	{
-		Sector *s = (*iter).second;
-		//check_point_in_box
-		if (s && !s->WithinBox( xmin, xmax, ymin, ymax, zmin, zmax )) {
-			delete s;
-			m_sectorCache.erase( iter++ );
-		} else {
-			iter++;
+	if  (xmin != m_cache_xmin || xmax != m_cache_xmax 
+      || ymin != m_cache_ymin || ymax != m_cache_ymax
+	  || zmin != m_cache_zmin || zmax != m_cache_zmax) {
+		std::map<SystemPath,Sector*>::iterator iter = m_sectorCache.begin();
+		while (iter != m_sectorCache.end())	{
+			Sector *s = (*iter).second;
+			//check_point_in_box
+			if (s && !s->WithinBox( xmin, xmax, ymin, ymax, zmin, zmax )) {
+				delete s;
+				m_sectorCache.erase( iter++ );
+			} else {
+				iter++;
+			}
 		}
+
+		m_cache_xmin = xmin;
+		m_cache_xmax = xmax;
+		m_cache_ymin = ymin;
+		m_cache_ymax = ymax;
+		m_cache_zmin = zmin;
+		m_cache_zmax = zmax;
 	}
 }

@@ -13,6 +13,7 @@
 #include "FileSystem.h"
 #include "Lang.h"
 #include <set>
+#include <algorithm>
 
 const Uint32 Faction::BAD_FACTION_IDX      = UINT_MAX;
 const Color  Faction::BAD_FACTION_COLOUR   = Color(0.8f,0.8f,0.8f,0.50f);
@@ -26,11 +27,12 @@ typedef std::set<SystemPath>  HomeSystemSet;
 
 static Faction       s_no_faction;    // instead of answering null, we often want to answer a working faction object for no faction
 
-static FactionList   s_factions;
-static FactionMap    s_factions_byName;
-static HomeSystemSet s_homesystems;
+static FactionList       s_factions;
+static FactionMap        s_factions_byName;
+static HomeSystemSet     s_homesystems;
+static FactionOctsapling s_spatial_index;
 
-// ------- Faction --------
+// ------- Lua Faction Builder --------
 
 struct FactionBuilder {
 	Faction *fac;
@@ -239,10 +241,12 @@ static int l_fac_add_to_factions(lua_State *L)
 			printf("l_fac_add_to_factions: added '%s' [%s]\n", fac->name.c_str(), factionName.c_str());
 		}
 
-		s_factions.push_back(facbld->fac);
+		// add the faction to the various faction data structures
+		s_factions.push_back(facbld->fac);	
 		s_factions_byName[facbld->fac->name] = facbld->fac;
-		if (facbld->fac->hasHomeworld) s_homesystems.insert(facbld->fac->homeworld.SystemOnly());
+		s_spatial_index.Add(facbld->fac);
 
+		if (facbld->fac->hasHomeworld) s_homesystems.insert(facbld->fac->homeworld.SystemOnly());
 		facbld->fac->idx = s_factions.size()-1;
 		facbld->registered = true;
 
@@ -338,6 +342,7 @@ void Faction::Uninit()
 	s_factions_byName.clear();
 }
 
+// ------- Factions proper --------
 
 Faction *Faction::GetFaction(const Uint32 index)
 {
@@ -412,10 +417,11 @@ Faction* Faction::GetNearestFaction(const Sector sec, Uint32 sysIndex)
 
 	/* if it didn't, or it wasn't a custom StarStystem, then we go ahead and assign it a faction allegiance like normal below...
 	*/
-	Faction* result             = &s_no_faction;
-	double   closestFactionDist = HUGE_VAL;
+	Faction*    result             = &s_no_faction;
+	double      closestFactionDist = HUGE_VAL;
+	FactionList candidates         = s_spatial_index.CandidateFactions(sec, sysIndex);
 
-	for (FactionIterator it = s_factions.begin(); it != s_factions.end(); ++it) {
+	for (FactionIterator it = candidates.begin(); it != candidates.end(); ++it) {
 		if ((*it)->IsCloserAndContains(closestFactionDist, sec, sysIndex)) result = *it;
 	}
 	return result;
@@ -491,4 +497,98 @@ Faction::Faction() :
 Faction::~Faction()
 {
 	if (m_homesector) delete m_homesector;
+}
+
+// ------ Factions Spatial Indexing ------
+
+void FactionOctsapling::Add(Faction* faction)
+{
+	/*  The general principle here is to put the faction in every octbox cell that a system 
+	    that is a member of that faction could be in. This should let us cut the number 
+		of factions that have to be checked by GetNearestFaction, by eliminating right off
+		all the those Factions that aren't in the same cell.
+
+		As I'm just going for the quick performance win, I'm being very sloppy and 
+		treating a Faction as if it was a cube rather than a sphere. I'm also not even 
+		attempting to work out real faction boundaries for this. 
+
+		Obviously this all could be improved even without this Octsapling growing into
+		a full Octree.
+
+		This part happens at faction generation time so shouldn't be too performance 
+		critical
+	*/
+	Sector sec = Sector(faction->homeworld.sectorX, faction->homeworld.sectorY, faction->homeworld.sectorZ);
+
+	/* only factions with homeworlds that are available at faction generation time can 
+	   be added to specific cells...
+	*/
+	if (faction->hasHomeworld && (faction->homeworld.systemIndex < sec.m_systems.size())) {
+		/* calculate potential indexes for the octbox cells the faction needs to go into
+		*/
+		Sector::System sys = sec.m_systems[faction->homeworld.systemIndex];	
+
+		int xmin = BoxIndex(Sint32(sys.FullPosition().x - float((faction->Radius()))));
+		int xmax = BoxIndex(Sint32(sys.FullPosition().x + float((faction->Radius()))));
+		int ymin = BoxIndex(Sint32(sys.FullPosition().y - float((faction->Radius()))));
+		int ymax = BoxIndex(Sint32(sys.FullPosition().y + float((faction->Radius()))));
+		int zmin = BoxIndex(Sint32(sys.FullPosition().z - float((faction->Radius()))));
+		int zmax = BoxIndex(Sint32(sys.FullPosition().z + float((faction->Radius()))));
+
+		/* put the faction in all the octbox cells needed in a hideously inexact way that 
+		   will generate duplicates in each cell in many cases
+		*/
+		octbox[xmin][ymin][zmin].push_back(faction);  // 0,0,0
+		octbox[xmax][ymin][zmin].push_back(faction);  // 1,0,0
+		octbox[xmax][ymax][zmin].push_back(faction);  // 1,1,0
+		octbox[xmax][ymax][zmax].push_back(faction);  // 1,1,1
+		
+		octbox[xmin][ymax][zmin].push_back(faction);  // 0,1,0
+		octbox[xmin][ymax][zmax].push_back(faction);  // 0,1,1
+		octbox[xmin][ymin][zmax].push_back(faction);  // 0,0,1
+		octbox[xmax][ymin][zmax].push_back(faction);  // 1,0,1
+
+		/* prune any duplicates from the octbox cells making things slightly saner
+		*/
+		PruneDuplicates(0,0,0);
+		PruneDuplicates(1,0,0);
+		PruneDuplicates(1,1,0);
+		PruneDuplicates(1,1,1);
+		
+		PruneDuplicates(0,1,0);
+		PruneDuplicates(0,1,1);
+		PruneDuplicates(0,0,1);
+		PruneDuplicates(1,0,1);
+
+	} else {
+	/* ...other factions, such as ones with no homeworlds, and more annoyingly ones 
+	   whose homeworlds don't exist yet because they're custom systems have to go in 
+	   *every* octbox cell
+	*/
+		octbox[0][0][0].push_back(faction);
+		octbox[1][0][0].push_back(faction);
+		octbox[1][1][0].push_back(faction);
+		octbox[1][1][1].push_back(faction);
+
+		octbox[0][1][0].push_back(faction);
+		octbox[0][1][1].push_back(faction);
+		octbox[0][0][1].push_back(faction);
+		octbox[1][0][1].push_back(faction);
+	}
+}
+
+void FactionOctsapling::PruneDuplicates(const int bx, const int by, const int bz)
+{
+	FactionList vec = octbox[bx][by][bz];
+	octbox[bx][by][bz].erase(std::unique( octbox[bx][by][bz].begin(), octbox[bx][by][bz].end() ), octbox[bx][by][bz].end() );
+}
+
+std::vector<Faction*> FactionOctsapling::CandidateFactions(const Sector sec, Uint32 sysIndex)
+{
+	/* answer the factions that we've put in the same octobox cell as the one the
+	   system would go in. This part happens every time we do GetNearest faction
+	   so *is* performance criticale.e
+	*/
+	Sector::System sys = sec.m_systems[sysIndex];
+	return octbox[BoxIndex(sys.sx)][BoxIndex(sys.sy)][BoxIndex(sys.sz)];
 }

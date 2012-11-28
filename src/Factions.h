@@ -80,4 +80,21 @@ private:
 	const bool IsCloserAndContains(double& closestFactionDist, const Sector sec, Uint32 sysIndex);
 };
 
+/* One day it might grow up to become a full tree, on the  other hand it might be 
+   cut down before it's full growth to be replaced by
+   a proper spatial data structure.
+*/
+
+class FactionOctsapling {
+public:
+	void Add(Faction* faction);
+	std::vector<Faction*> CandidateFactions(const Sector sec, Uint32 sysIndex);
+
+private:
+	std::vector<Faction*> octbox[2][2][2];
+	const int BoxIndex(Sint32 sectorIndex) { return sectorIndex < 0 ? 0: 1; };
+	void PruneDuplicates(const int bx, const int by, const int bz);
+};
+
+
 #endif /* _FACTIONS_H */
