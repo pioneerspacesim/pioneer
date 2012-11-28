@@ -4,7 +4,7 @@ Alpha 29
      * Economical autopilot. Trades fuel for time (#1582)
      * Your ship's automatic rotation damping can now be turned off (#1570, #1156)
      * Almost 100 new factions with varying government types (#1621, #1620, #1675)
-     * Zoom out the sector view to see a faction map (#1754)
+     * Zoom out the sector view to see a faction map (#1754, #1764)
 
    * Minor changes and tweaks
      * Cargo scooping now only requires a collision against the ship rather
