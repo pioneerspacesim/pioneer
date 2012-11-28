@@ -23,6 +23,8 @@ Alpha 29
        (MSVC builds only) (#1743)
      * Fixed flight log crash after visiting 1000 stations
      * Barnard's Star is now a member of the Federation (#1620)
+     * Reduce use of random number generator in sector generation. Fixes gas
+       giant distribution and makes it go a little faster (#1765)
 
    * Script changes
      * Custom Systems: Faction allegiance can now be set for custom systems (#1621)
