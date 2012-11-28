@@ -162,7 +162,7 @@ void Ship::Init()
 	m_hyperspaceCloud = 0;
 
 	m_landingGearAnimation = 0;
-	SceneGraph::NModel *nmodel = dynamic_cast<SceneGraph::NModel*>(GetModel());
+	SceneGraph::Model *nmodel = dynamic_cast<SceneGraph::Model*>(GetModel());
 	if (nmodel) {
 		m_landingGearAnimation = nmodel->FindAnimation("gear_down");
 	}
@@ -765,7 +765,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 	UpdateFuel(timeStep);
 
 	if (m_landingGearAnimation)
-		static_cast<SceneGraph::NModel*>(GetModel())->UpdateAnimations(timeStep);
+		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations(timeStep);
 }
 
 void Ship::DoThrusterSounds() const

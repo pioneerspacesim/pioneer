@@ -8,10 +8,10 @@
 #include "LmrTypes.h"
 namespace Graphics { class Renderer; }
 
-class Model {
+class ModelBase {
 public:
-	Model() {}
-	virtual ~Model() { }
+	ModelBase() {}
+	virtual ~ModelBase() { }
 	virtual float GetDrawClipRadius() const = 0;
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params) = 0;
 	virtual RefCountedPtr<CollMesh> CreateCollisionMesh(const LmrObjParams *p) = 0;

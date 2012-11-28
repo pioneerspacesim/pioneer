@@ -35,7 +35,7 @@ class GameMenuView;
 class LuaConsole;
 class LuaNameGen;
 class ModelCache;
-class Model;
+class ModelBase;
 namespace Graphics { class Renderer; }
 namespace Sound { class MusicPlayer; }
 namespace UI { class Context; }
@@ -103,7 +103,7 @@ public:
 	static float CalcHyperspaceFuelOut(int hyperclass, float dist, float hyperspace_range_max);
 	static void Message(const std::string &message, const std::string &from = "", enum MsgLevel level = MSG_NORMAL);
 	static std::string GetSaveDir();
-	static Model *FindModel(const std::string&);
+	static ModelBase *FindModel(const std::string&);
 
 	static const char SAVE_DIR_NAME[];
 

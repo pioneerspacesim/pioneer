@@ -80,11 +80,11 @@ private:
 	ModelParams m_modelParams;
 	MTRand m_rng;
 	SceneGraph::Animation *m_currentAnimation;
-	SceneGraph::NModel *m_model;
+	SceneGraph::Model *m_model;
 	Options m_options;
 	RefCountedPtr<SceneGraph::ModelNode> m_gunModelNode;
 	RefCountedPtr<UI::Context> m_ui;
-	ScopedPtr<SceneGraph::NModel> m_gunModel;
+	ScopedPtr<SceneGraph::Model> m_gunModel;
 	std::string m_modelName;
 	vector3f m_camPos;
 

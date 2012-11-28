@@ -31,13 +31,13 @@ Loader::~Loader()
 {
 }
 
-NModel *Loader::LoadModel(const std::string &filename)
+Model *Loader::LoadModel(const std::string &filename)
 {
-	NModel *m = LoadModel(filename, "newmodels");
+	Model *m = LoadModel(filename, "newmodels");
 	return m;
 }
 
-NModel *Loader::LoadModel(const std::string &shortname, const std::string &basepath)
+Model *Loader::LoadModel(const std::string &shortname, const std::string &basepath)
 {
 	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
 	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
@@ -81,13 +81,13 @@ Graphics::Texture *Loader::GetWhiteTexture() const
 	return Graphics::TextureBuilder::Model("textures/white.png").GetOrCreateTexture(m_renderer, "model");
 }
 
-NModel *Loader::CreateModel(ModelDefinition &def)
+Model *Loader::CreateModel(ModelDefinition &def)
 {
 	using Graphics::Material;
 	if (def.matDefs.empty()) return 0;
 	if (def.lodDefs.empty()) return 0;
 
-	NModel *model = new NModel(def.name);
+	Model *model = new Model(def.name);
 	m_model = model;
 	bool patternsUsed = false;
 
@@ -329,7 +329,7 @@ bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
 
 RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 {
-	assert(index < NModel::MAX_DECAL_MATERIALS);
+	assert(index < Model::MAX_DECAL_MATERIALS);
 	RefCountedPtr<Graphics::Material> &decMat = m_model->m_decalMaterials[index-1];
 	if (!decMat.Valid()) {
 		Graphics::MaterialDescriptor matDesc;
@@ -342,7 +342,7 @@ RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 	return decMat;
 }
 
-void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surface> > &surfaces, const aiScene *scene, NModel *model)
+void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surface> > &surfaces, const aiScene *scene, Model *model)
 {
 	//XXX sigh, workaround for obj loader
 	int matIdxOffs = 0;

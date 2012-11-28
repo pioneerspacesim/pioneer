@@ -7,7 +7,7 @@
 #include "Body.h"
 #include "vector3.h"
 #include "matrix4x4.h"
-#include "Model.h"
+#include "ModelBase.h"
 #include "CollMesh.h"
 #include "LmrTypes.h"
 #include <vector>
@@ -31,7 +31,7 @@ public:
 	virtual void Enable();
 	void GetAabb(Aabb &aabb) const;
 	Geom *GetGeom() { return m_geom; }
-	Model *GetModel() { return m_model; }
+	ModelBase *GetModel() { return m_model; }
 	CollMesh *GetCollMesh() { return m_collMesh.Get(); }
 	LmrObjParams &GetLmrObjParams() { return m_params; }
 	void SetLmrTimeParams();
@@ -51,7 +51,7 @@ private:
 	RefCountedPtr<CollMesh> m_collMesh;
 	Geom *m_geom;
 	LmrObjParams m_params;
-	Model *m_model;
+	ModelBase *m_model;
 };
 
 #endif /* _MODELBODY_H */

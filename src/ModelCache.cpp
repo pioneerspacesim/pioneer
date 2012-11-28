@@ -12,14 +12,14 @@ ModelCache::~ModelCache()
 	Flush();
 }
 
-SceneGraph::NModel *ModelCache::FindModel(const std::string &name)
+SceneGraph::Model *ModelCache::FindModel(const std::string &name)
 {
 	ModelMap::iterator it = m_models.find(name);
 
 	if (it == m_models.end()) {
 		try {
 			SceneGraph::Loader loader(m_renderer);
-			SceneGraph::NModel *m = loader.LoadModel(name);
+			SceneGraph::Model *m = loader.LoadModel(name);
 			m_models[name] = m;
 			return m;
 		} catch (SceneGraph::LoadingError &) {

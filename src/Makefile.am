@@ -102,6 +102,7 @@ noinst_HEADERS = \
 	MarketAgent.h \
 	MathUtil.h \
 	Missile.h \
+	ModelBase.h \
 	ModelBody.h \
 	ModelCache.h \
 	ModManager.h \

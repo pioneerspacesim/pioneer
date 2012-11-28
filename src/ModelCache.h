@@ -11,7 +11,7 @@ namespace Graphics {
 	class Renderer;
 }
 namespace SceneGraph {
-	class NModel;
+	class Model;
 }
 
 class ModelCache {
@@ -21,11 +21,11 @@ public:
 	};
 	ModelCache(Graphics::Renderer*);
 	~ModelCache();
-	SceneGraph::NModel *FindModel(const std::string&);
+	SceneGraph::Model *FindModel(const std::string&);
 	void Flush();
 
 private:
-	typedef std::map<std::string, SceneGraph::NModel*> ModelMap;
+	typedef std::map<std::string, SceneGraph::Model*> ModelMap;
 	ModelMap m_models;
 	Graphics::Renderer *m_renderer;
 };

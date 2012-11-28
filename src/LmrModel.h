@@ -8,7 +8,7 @@
 #include <vector>
 #include <sigc++/sigc++.h>
 #include "CollMesh.h"
-#include "Model.h"
+#include "ModelBase.h"
 #include "LmrTypes.h"
 
 // LMR = Lua Model Renderer
@@ -26,7 +26,7 @@ struct LmrLight {
 	float quadraticAttenuation;
 };
 
-class LmrModel : public Model {
+class LmrModel : public ModelBase {
 public:
 	LmrModel(const char *model_name);
 	virtual ~LmrModel();

@@ -4,7 +4,7 @@
 //this file includes common headers
 #ifndef _SCENEGRAPH_H
 #define _SCENEGRAPH_H
-#include "NModel.h"
+#include "Model.h"
 #include "Billboard.h"
 #include "Label3D.h"
 #include "Loader.h"

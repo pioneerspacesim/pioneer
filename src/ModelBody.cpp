@@ -15,7 +15,7 @@
 #include "Space.h"
 #include "WorldView.h"
 #include "ModelCache.h"
-#include "scenegraph/NModel.h"
+#include "scenegraph/Model.h"
 
 ModelBody::ModelBody() :
 	Body(),

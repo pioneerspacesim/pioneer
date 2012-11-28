@@ -87,7 +87,7 @@
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
 #include "gui/Gui.h"
-#include "scenegraph/NModel.h"
+#include "scenegraph/Model.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
 #include "gameui/Lua.h"
@@ -253,10 +253,10 @@ static void LuaInitGame() {
 	LuaEvent::Clear();
 }
 
-Model *Pi::FindModel(const std::string &name)
+ModelBase *Pi::FindModel(const std::string &name)
 {
 	// Try LMR models first, then NewModel
-	Model *m = 0;
+	ModelBase *m = 0;
 	try {
 		m = LmrLookupModelByName(name.c_str());
 	} catch (LmrModelNotFoundException) {

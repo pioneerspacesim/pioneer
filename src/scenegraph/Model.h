@@ -60,7 +60,7 @@
  *  - removing unnecessary nodes from the scene graph: pre-translate unanimated meshes etc.
  */
 #include "libs.h"
-#include "Model.h"
+#include "ModelBase.h"
 #include "Animation.h"
 #include "ColorMap.h"
 #include "Group.h"
@@ -81,12 +81,12 @@ struct LoadingError : public std::runtime_error {
 typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > MaterialContainer;
 typedef std::vector<Animation*>::iterator AnimationIterator;
 
-class NModel : public Model
+class Model : public ModelBase
 {
 public:
 	friend class Loader;
-	NModel(const std::string &name);
-	~NModel();
+	Model(const std::string &name);
+	~Model();
 	float GetDrawClipRadius() const { return m_boundingRadius; }
 	void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params);
 	RefCountedPtr<CollMesh> CreateCollisionMesh(const LmrObjParams *p);

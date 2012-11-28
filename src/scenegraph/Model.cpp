@@ -1,7 +1,7 @@
 // Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "NModel.h"
+#include "Model.h"
 #include "CollisionVisitor.h"
 #include "graphics/Renderer.h"
 
@@ -16,8 +16,8 @@ public:
 	std::string label;
 };
 
-NModel::NModel(const std::string &name)
-: Model()
+Model::Model(const std::string &name)
+: ModelBase()
 , m_lastTime(0.0)
 , m_boundingRadius(10.f)
 , m_name(name)
@@ -26,12 +26,12 @@ NModel::NModel(const std::string &name)
 	m_root->SetName(name);
 }
 
-NModel::~NModel()
+Model::~Model()
 {
 	while(!m_animations.empty()) delete m_animations.back(), m_animations.pop_back();
 }
 
-void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, LmrObjParams *params)
+void Model::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, LmrObjParams *params)
 {
 	renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	renderer->SetTransform(trans);
@@ -50,7 +50,7 @@ void NModel::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, LmrOb
 	}
 }
 
-RefCountedPtr<CollMesh> NModel::CreateCollisionMesh(const LmrObjParams *p)
+RefCountedPtr<CollMesh> Model::CreateCollisionMesh(const LmrObjParams *p)
 {
 	CollisionVisitor cv;
 	m_root->Accept(cv);
@@ -59,7 +59,7 @@ RefCountedPtr<CollMesh> NModel::CreateCollisionMesh(const LmrObjParams *p)
 	return m_collMesh;
 }
 
-RefCountedPtr<Graphics::Material> NModel::GetMaterialByName(const std::string &name) const
+RefCountedPtr<Graphics::Material> Model::GetMaterialByName(const std::string &name) const
 {
 	for (MaterialContainer::const_iterator it = m_materials.begin();
 		it != m_materials.end();
@@ -70,18 +70,18 @@ RefCountedPtr<Graphics::Material> NModel::GetMaterialByName(const std::string &n
 	return RefCountedPtr<Graphics::Material>(); //return invalid
 }
 
-RefCountedPtr<Graphics::Material> NModel::GetMaterialByIndex(const int i) const
+RefCountedPtr<Graphics::Material> Model::GetMaterialByIndex(const int i) const
 {
 	return m_materials.at(Clamp(i, 0, int(m_materials.size())-1)).second;
 }
 
-Group * const NModel::GetTagByIndex(const unsigned int i) const
+Group * const Model::GetTagByIndex(const unsigned int i) const
 {
 	if (m_tags.empty() || i > m_tags.size()-1) return 0;
 	return m_tags.at(i);
 }
 
-Group * const NModel::FindTagByName(const std::string &name) const
+Group * const Model::FindTagByName(const std::string &name) const
 {
 	for (TagContainer::const_iterator it = m_tags.begin();
 		it != m_tags.end();
@@ -93,7 +93,7 @@ Group * const NModel::FindTagByName(const std::string &name) const
 	return 0;
 }
 
-void NModel::AddTag(const std::string &name, Group *node)
+void Model::AddTag(const std::string &name, Group *node)
 {
 	if (FindTagByName(name)) return;
 	node->SetName(name);
@@ -101,7 +101,7 @@ void NModel::AddTag(const std::string &name, Group *node)
 	m_tags.push_back(node);
 }
 
-void NModel::SetPattern(unsigned int index)
+void Model::SetPattern(unsigned int index)
 {
 	if (m_patterns.empty() || index > m_patterns.size() - 1) return;
 
@@ -118,7 +118,7 @@ void NModel::SetPattern(unsigned int index)
 	}
 }
 
-void NModel::SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &colors)
+void Model::SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &colors)
 {
 	assert(colors.size() == 3); //primary, seconday, trim
 	m_colorMap.Generate(r, colors.at(0), colors.at(1), colors.at(2));
@@ -134,21 +134,21 @@ void NModel::SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &color
 	}
 }
 
-void NModel::SetDecalTexture(Graphics::Texture *t, unsigned int index)
+void Model::SetDecalTexture(Graphics::Texture *t, unsigned int index)
 {
 	index = std::min(index, MAX_DECAL_MATERIALS-1);
 	if (m_decalMaterials[index].Valid())
 		m_decalMaterials[index]->texture0 = t;
 }
 
-void NModel::SetLabel(const std::string &text)
+void Model::SetLabel(const std::string &text)
 {
 	LabelUpdateVisitor vis;
 	vis.label = text;
 	m_root->Accept(vis);
 }
 
-bool NModel::SupportsDecals()
+bool Model::SupportsDecals()
 {
 	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)
 		if (m_decalMaterials[i].Valid()) return true;
@@ -156,7 +156,7 @@ bool NModel::SupportsDecals()
 	return false;
 }
 
-bool NModel::SupportsPatterns()
+bool Model::SupportsPatterns()
 {
 	for (MaterialContainer::const_iterator it = m_materials.begin();
 		it != m_materials.end();
@@ -171,7 +171,7 @@ bool NModel::SupportsPatterns()
 	return false;
 }
 
-Animation *NModel::FindAnimation(const std::string &name)
+Animation *Model::FindAnimation(const std::string &name)
 {
 	for (AnimationIterator anim = m_animations.begin(); anim != m_animations.end(); ++anim) {
 		if ((*anim)->GetName() == name) return (*anim);
@@ -179,7 +179,7 @@ Animation *NModel::FindAnimation(const std::string &name)
 	return 0;
 }
 
-void NModel::UpdateAnimations(const double time) //change this to use timestep or something
+void Model::UpdateAnimations(const double time) //change this to use timestep or something
 {
 	/*for (unsigned int i=0; i<m_activeAnimations.size(); i++) {
 		m_activeAnimations[i]->Evaluate(time - m_lastTime);
@@ -190,7 +190,7 @@ void NModel::UpdateAnimations(const double time) //change this to use timestep o
 	m_lastTime =  time;
 }
 
-int NModel::PlayAnimation(const std::string &name, Animation::Direction dir)
+int Model::PlayAnimation(const std::string &name, Animation::Direction dir)
 {
 	int success = 0;
 	m_activeAnimations.clear();
@@ -206,7 +206,7 @@ int NModel::PlayAnimation(const std::string &name, Animation::Direction dir)
 	return success;
 }
 
-void NModel::StopAnimations()
+void Model::StopAnimations()
 {
 	for (unsigned int i=0; i<m_animations.size(); i++) {
 		m_animations[i]->Stop();

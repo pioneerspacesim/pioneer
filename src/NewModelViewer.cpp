@@ -84,7 +84,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 	{
 		SceneGraph::Loader loader(m_renderer);
 		try {
-			SceneGraph::NModel *m = loader.LoadModel("test_gun");
+			SceneGraph::Model *m = loader.LoadModel("test_gun");
 			m_gunModel.Reset(m);
 			m_gunModelNode.Reset(new SceneGraph::ModelNode(m_gunModel.Get()));
 		} catch (SceneGraph::LoadingError &) {

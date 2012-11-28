@@ -22,7 +22,7 @@ bool s_cityBuildingsInitted = false;
 struct citybuilding_t {
 	const char *modelname;
 	double xzradius;
-	Model *resolvedModel;
+	ModelBase *resolvedModel;
 	RefCountedPtr<CollMesh> collMesh;
 };
 
@@ -52,7 +52,7 @@ LmrObjParams cityobj_params;
 void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
 {
 	double rad = (p1-p2).Length()*0.5;
-	Model *model(0);
+	ModelBase *model(0);
 	double modelRadXZ(0.0);
 	const CollMesh *cmesh(0);
 	vector3d cent = (p1+p2+p3+p4)*0.25;
@@ -161,7 +161,7 @@ static void enumerateNewBuildings(std::vector<std::string> &filenames)
 static void lookupBuildingListModels(citybuildinglist_t *list)
 {
 	//const char *modelTagName;
-	std::vector<Model*> models;
+	std::vector<ModelBase*> models;
 
 	//get lmr models using a temporary vector (because of GetModelSWithTag)
 	{
@@ -178,7 +178,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		for (std::vector<std::string>::const_iterator it = filenames.begin();
 			it != filenames.end(); ++it)
 		{
-			SceneGraph::NModel *model = Pi::modelCache->FindModel(*it);
+			SceneGraph::Model *model = Pi::modelCache->FindModel(*it);
 			models.push_back(model);
 		}
 	}
@@ -188,7 +188,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	list->numBuildings = models.size();
 
 	int i = 0;
-	for (std::vector<Model*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
+	for (std::vector<ModelBase*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
 		list->buildings[i].collMesh = (*m)->CreateCollisionMesh(&cityobj_params);
 		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
