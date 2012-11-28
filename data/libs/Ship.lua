@@ -2,6 +2,7 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Ship = import_core("Ship")
+local Game = import_core("Game")
 local Engine = import("Engine")
 local Event = import("Event")
 local Serializer = import("Serializer")
@@ -351,6 +352,45 @@ Ship.RemoveEquip = function (self, item, count)
 		item = compat.equip.old2new[item]
 	end
 	return self.equipSet:Remove(self, item, count)
+end
+
+Ship.HyperjumpTo = function (self, path)
+	local engine = self:GetEquip("engine", 1)
+	if not engine then
+		return "NO_DRIVE"
+	end
+	return engine:HyperjumpTo(self, path)
+end
+
+Ship.CanHyperjumpTo = function(self, path)
+    return self:GetHyperspaceDetails(path) == 'OK'
+end
+
+Ship.GetHyperspaceDetails = function (self, path)
+	local engine = self:GetEquip("engine", 1)
+	if not engine then
+		return "NO_DRIVE", 0, 0, 0
+	elseif path:GetStarSystem() == Game.system then
+		return "CURRENT_SYSTEM", 0, 0, 0
+	end
+	local distance, fuel, duration = engine:CheckDestination(self, path)
+	local status = "OK"
+	if not duration then
+        duration = 0
+        fuel = 0
+		status = "OUT_OF_RANGE"
+	elseif fuel > self:CountEquip(engine.fuel) then
+        status = "INSUFFICIENT_FUEL"
+    end
+	return status, distance, fuel, duration
+end
+
+Ship.GetHyperspaceRange = function (self)
+    local engine = self:GetEquip("engine", 1)
+    if not engine then
+        return 0, 0
+    end
+    return engine:GetRange(self)
 end
 
 compat.slots.new2old = {}
