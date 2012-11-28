@@ -48,10 +48,9 @@ void test_enum_models(FileSystem::FileSource &fs)
 {
 	using namespace FileSystem;
 
-	printf("enumerating models and sub-models:\n");
+	printf("enumerating models:\n");
 	FileEnumerator files(fs, FileEnumerator::Recurse | FileEnumerator::IncludeDirs);
-	files.AddSearchRoot("models");
-	files.AddSearchRoot("sub_models");
+	files.AddSearchRoot("lmrmodels");
 	while (!files.Finished()) {
 		const FileInfo &fi = files.Current();
 		if (fi.IsDir() || ends_with(fi.GetPath(), ".lua")) {
