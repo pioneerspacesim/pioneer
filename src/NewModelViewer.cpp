@@ -699,7 +699,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 
 static void collect_models(std::vector<std::string> &list)
 {
-	const std::string basepath("newmodels");
+	const std::string basepath("models");
 	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
 	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
 	{

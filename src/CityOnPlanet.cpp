@@ -149,7 +149,7 @@ void CityOnPlanet::RemoveStaticGeomsFromCollisionSpace()
 // This is temporary. Buildings should be defined in BuildingSet data files, or something.
 static void enumerateNewBuildings(std::vector<std::string> &filenames)
 {
-	const std::string fullpath = FileSystem::JoinPathBelow("newmodels", "buildings");
+	const std::string fullpath = FileSystem::JoinPathBelow("models", "buildings");
 	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, fullpath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
 		const std::string &name = files.Current().GetName();
 		if (ends_with(name, ".model")) {

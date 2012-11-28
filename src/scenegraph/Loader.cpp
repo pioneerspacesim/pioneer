@@ -33,7 +33,7 @@ Loader::~Loader()
 
 Model *Loader::LoadModel(const std::string &filename)
 {
-	Model *m = LoadModel(filename, "newmodels");
+	Model *m = LoadModel(filename, "models");
 	return m;
 }
 
