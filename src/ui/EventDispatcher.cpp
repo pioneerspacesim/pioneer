@@ -38,7 +38,7 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 			return Dispatch(MouseButtonEvent(MouseButtonEvent::BUTTON_UP, MouseButtonFromSDLButton(event.button.button), Point(event.button.x,event.button.y)));
 
 		case SDL_MOUSEMOTION:
-			return Dispatch(MouseMotionEvent(Point(event.motion.x,event.motion.y)));
+			return Dispatch(MouseMotionEvent(Point(event.motion.x,event.motion.y), Point(event.motion.xrel, event.motion.yrel)));
 	}
 
 	return false;
@@ -157,7 +157,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 			// if there's a mouse-active widget, just send motion events directly into it
 			if (m_mouseActiveReceiver) {
-				MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-m_mouseActiveReceiver->GetAbsolutePosition());
+				MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-m_mouseActiveReceiver->GetAbsolutePosition(), mouseMotionEvent.rel);
 				return m_mouseActiveReceiver->TriggerMouseMove(translatedEvent);
 			}
 
@@ -166,7 +166,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 			bool ret = false;
 			if (!target->IsDisabled()) {
-				MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-target->GetAbsolutePosition());
+				MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-target->GetAbsolutePosition(), mouseMotionEvent.rel);
 				ret = target->TriggerMouseMove(translatedEvent);
 			}
 

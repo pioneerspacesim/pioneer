@@ -147,7 +147,7 @@ bool Widget::TriggerMouseMove(const MouseMotionEvent &event, bool emit)
 	HandleMouseMove(event);
 	if (emit) emit = !onMouseMove.emit(event);
 	if (GetContainer() && !IsFloating()) {
-		MouseMotionEvent translatedEvent = MouseMotionEvent(event.pos+GetPosition());
+		MouseMotionEvent translatedEvent = MouseMotionEvent(event.pos+GetPosition(), event.rel);
 		GetContainer()->TriggerMouseMove(translatedEvent, emit);
 	}
 	return !emit;

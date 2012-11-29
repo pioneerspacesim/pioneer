@@ -101,7 +101,8 @@ public:
 
 class MouseMotionEvent : public MouseEvent {
 public:
-	MouseMotionEvent(const Point &_pos) : MouseEvent(Event::MOUSE_MOTION, _pos) {}
+	MouseMotionEvent(const Point &_pos, const Point &_rel) : MouseEvent(Event::MOUSE_MOTION, _pos), rel(_rel) {}
+	const Point rel;
 
 	void ToLuaTable(lua_State *l) const;
 };
