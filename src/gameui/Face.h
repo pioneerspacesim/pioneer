@@ -6,7 +6,7 @@
 
 #include "ui/Context.h"
 #include "SmartPtr.h"
-#include "gui/GuiTexturedQuad.h"
+#include "graphics/Texture.h"
 
 namespace GameUI {
 
@@ -31,7 +31,9 @@ private:
 	Uint32 m_flags;
 	Uint32 m_seed;
 
-	ScopedPtr<Gui::TexturedQuad> m_quad;
+	static RefCountedPtr<Graphics::Material> s_material;
+
+	ScopedPtr<Graphics::Texture> m_texture;
 };
 
 }

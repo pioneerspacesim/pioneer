@@ -28,6 +28,8 @@ static const Uint32 MAX_ACCESSORIES = 16;
 
 static const Uint32 MAX_BACKGROUND = 18;
 
+RefCountedPtr<Graphics::Material> Face::s_material;
+
 static void _blit_image(SDL_Surface *s, const char *filename, int xoff, int yoff)
 {
 	SDLSurfacePtr is = LoadSurfaceFromFile(filename);
@@ -119,7 +121,13 @@ Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context)
 		_blit_image(faceim, filename, 0, 0);
 	}
 
-	m_quad.Reset(new Gui::TexturedQuad(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).CreateTexture(GetContext()->GetRenderer())));
+	m_texture.Reset(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).CreateTexture(GetContext()->GetRenderer()));
+
+	if (!s_material) {
+		Graphics::MaterialDescriptor matDesc;
+		matDesc.textures = 1;
+		s_material.Reset(GetContext()->GetRenderer()->CreateMaterial(matDesc));
+	}
 }
 
 void Face::Layout()
@@ -137,11 +145,25 @@ void Face::Layout()
 
 void Face::Draw()
 {
-    const Point &offset = GetActiveOffset();
-    const Point &area = GetActiveArea();
+	const Point &offset = GetActiveOffset();
+	const Point &area = GetActiveArea();
 
-    Graphics::Renderer *r = GetContext()->GetRenderer();
-    m_quad->Draw(r, vector2f(offset.x, offset.y), vector2f(area.x, area.y));
+	const float x = offset.x;
+	const float y = offset.y;
+	const float sx = area.x;
+	const float sy = area.y;
+
+	const vector2f texSize = m_texture->GetDescriptor().texSize;
+
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+	va.Add(vector3f(x,    y,    0.0f), vector2f(0.0f,      0.0f));
+	va.Add(vector3f(x,    y+sy, 0.0f), vector2f(0.0f,      texSize.y));
+	va.Add(vector3f(x+sx, y,    0.0f), vector2f(texSize.x, 0.0f));
+	va.Add(vector3f(x+sx, y+sy, 0.0f), vector2f(texSize.x, texSize.y));
+
+	Graphics::Renderer *r = GetContext()->GetRenderer();
+	s_material->texture0 = m_texture.Get();
+	r->DrawTriangles(&va, s_material.Get(), Graphics::TRIANGLE_STRIP);
 
 	Single::Draw();
 }
