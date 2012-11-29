@@ -10,6 +10,8 @@
 #include "fixed.h"
 #include "Color.h"
 
+class Faction;
+
 class CustomSystemBody {
 public:
 	CustomSystemBody();
@@ -79,6 +81,7 @@ public:
 	Uint32                 seed;
 	bool                   want_rand_explored;
 	bool                   explored;
+	Faction*               faction;
 	Polit::GovType         govType;
 	std::string            shortDesc;
 	std::string            longDesc;
