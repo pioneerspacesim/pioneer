@@ -35,7 +35,6 @@ Game::Game(const SystemPath &path) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
-	RefreshTimeStep();
 	m_space.Reset(new Space(this, path));
 	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
 	assert(station);
@@ -58,7 +57,6 @@ Game::Game(const SystemPath &path, const vector3d &pos) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
-	RefreshTimeStep();
 	m_space.Reset(new Space(this, path));
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
@@ -105,8 +103,6 @@ Game::Game(Serializer::Reader &rd) :
 	m_requestedTimeAccel(TIMEACCEL_PAUSED),
 	m_forceTimeAccel(false)
 {
-	RefreshTimeStep();
-
 	// signature check
 	for (Uint32 i = 0; i < strlen(s_saveStart)+1; i++)
 		if (rd.Byte() != s_saveStart[i]) throw SavedGameCorruptException();
@@ -550,7 +546,6 @@ void Game::SetTimeAccel(TimeAccel t)
 				(static_cast<Ship*>(*i))->TimeAccelAdjust(0.5f * GetTimeStep());
 
 	m_timeAccel = t;
-	RefreshTimeStep();
 
 	if (m_timeAccel == TIMEACCEL_PAUSED || m_timeAccel == TIMEACCEL_HYPERSPACE) {
 		m_requestedTimeAccel = m_timeAccel;

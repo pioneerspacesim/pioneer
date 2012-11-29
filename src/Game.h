@@ -72,7 +72,7 @@ public:
 	bool IsPaused() const { return m_timeAccel == TIMEACCEL_PAUSED; }
 
 	float GetTimeAccelRate() const { return s_timeAccelRates[m_timeAccel]; }
-	float GetTimeStep() const { return m_timeStep; }
+	float GetTimeStep() const { return s_timeAccelRates[m_timeAccel]*(1.0f/PHYSICS_HZ); }
 
 private:
 	void CreateViews();
@@ -81,8 +81,6 @@ private:
 
 	void SwitchToHyperspace();
 	void SwitchToNormalSpace();
-
-	void RefreshTimeStep() { m_timeStep = s_timeAccelRates[m_timeAccel]*(1.0f/PHYSICS_HZ); }
 
 	ScopedPtr<Space> m_space;
 	double m_time;
@@ -106,7 +104,6 @@ private:
 	TimeAccel m_timeAccel;
 	TimeAccel m_requestedTimeAccel;
 	bool m_forceTimeAccel;
-	float m_timeStep;				// just for performance
 
 	static const float s_timeAccelRates[];
 };
