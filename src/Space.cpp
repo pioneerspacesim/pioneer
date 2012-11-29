@@ -371,8 +371,8 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	// warn and leave it up to the user to relocate custom starports when it's easy to relocate manually, i.e. not on asteroids and other planets which are likely to have high variation in a lot of places
 	const bool isRelocatableIfBuried = !(sbody->isCustomBody && manualRelocationIsEasy);
 
-	bool isInitiallyUnderwater;
-	bool initialVariationTooHigh;
+	bool isInitiallyUnderwater = false;
+	bool initialVariationTooHigh = false;
 
 	MTRand r(sbody->seed);
 
