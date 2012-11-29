@@ -308,12 +308,8 @@ void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-	if (Pi::GetView() == Pi::infoView) {
-		//Pi::infoView->NextPage();
-	} else {
-		//Pi::infoView->UpdateInfo();
+	if (Pi::GetView() != Pi::infoView)
 		Pi::SetView(Pi::infoView);
-	}
 }
 
 void ShipCpanel::OnChangeToMapView(Gui::MultiStateImageButton *b)
