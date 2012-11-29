@@ -18,7 +18,12 @@ public:
 
 	virtual UI::Point PreferredSize() { return UI::Point(INT_MAX); }
 	virtual void Layout();
+	virtual void Update();
 	virtual void Draw();
+
+protected:
+	virtual void HandleMouseDown(const UI::MouseButtonEvent &event);
+	virtual void HandleMouseMove(const UI::MouseMotionEvent &event);
 
 private:
 	ShipFlavour m_flavour;
@@ -32,6 +37,8 @@ private:
 	EquipSet m_equipment;
 	//illumination in ship view
 	Graphics::Light m_light;
+
+	bool m_rightMouseButton;
 };
 
 }

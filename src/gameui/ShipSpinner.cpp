@@ -39,9 +39,18 @@ void ShipSpinner::Layout()
 	SetActiveArea(activeArea, activeOffset);
 }
 
-void ShipSpinner::Draw()
+void ShipSpinner::Update()
 {
 	m_params.time = double(SDL_GetTicks()) * 0.001;
+
+	if (!(m_rightMouseButton && IsMouseActive())) {
+		m_rotX += .5*Pi::GetFrameTime();
+		m_rotY += Pi::GetFrameTime();
+	}
+}
+
+void ShipSpinner::Draw()
+{
 
 	Graphics::Renderer *r = GetContext()->GetRenderer();
 
@@ -60,14 +69,24 @@ void ShipSpinner::Draw()
 
 	r->SetViewport(pos.x, GetContext()->GetSize().y - pos.y - size.y, size.x, size.y);
 
-	m_rotX += .5*Pi::GetFrameTime();
-	m_rotY += Pi::GetFrameTime();
-
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(m_rotX);
 	rot.RotateY(m_rotY);
 	rot[14] = -1.5f * m_model->GetDrawClipRadius();
-
 	m_model->Render(rot, &m_params);
 }
+
+void ShipSpinner::HandleMouseDown(const MouseButtonEvent &event)
+{
+	m_rightMouseButton = event.button == UI::MouseButtonEvent::BUTTON_RIGHT;
+}
+
+void ShipSpinner::HandleMouseMove(const UI::MouseMotionEvent &event)
+{
+	if (m_rightMouseButton && IsMouseActive()) {
+		m_rotX += -0.002*event.rel.y;
+		m_rotY += -0.002*event.rel.x;
+	}
+}
+
 
 }
