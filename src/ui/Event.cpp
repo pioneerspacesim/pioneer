@@ -45,6 +45,7 @@ void MouseMotionEvent::ToLuaTable(lua_State *l) const
 	pi_lua_settable(l, "type", LuaConstants::GetConstantString(l, "UIEventType", type));
 
 	_settable(l, "pos", pos);
+	_settable(l, "rel", rel);
 }
 
 void MouseWheelEvent::ToLuaTable(lua_State *l) const
