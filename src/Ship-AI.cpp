@@ -119,7 +119,15 @@ void Ship::AIJourney(SystemBodyPath &dest)
 void Ship::AIFlyTo(Body *target)
 {
 	AIClearInstructions();
-	m_curAICmd = new AICmdFlyTo(this, target);
+	// Use waypoint rather than vicinity for ground stations
+	if (target->IsType(Object::SPACESTATION)
+		&& static_cast<SpaceStation*>(target)->IsGroundStation())
+	{ 
+		if (GetPositionRelTo(target).Length() <= 15000.0) return;
+		vector3d posoff = target->GetPosition() + 15000.0 * target->GetOrient().VectorY();
+		m_curAICmd = new AICmdFlyTo(this, target->GetFrame(), posoff, 0.0, false);
+	}
+	else m_curAICmd = new AICmdIntercept(this, target);
 }
 
 void Ship::AIDock(SpaceStation *target)
@@ -317,22 +325,22 @@ vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int g
 	return leadpos.Normalized();
 }
 
-// same inputs as matchposvel, returns approximate travel time instead
-// underestimates if targspeed isn't reachable
-double Ship::AITravelTime(const vector3d &reldir, double targdist, const vector3d &relvel, double targspeed, double maxdecel)
+// underestimates if endspeed isn't reachable
+/*
+double Ship::AITravelTime(double targdist, double relspeed, double endspeed, double maxdecel)
 {
-	double speed = relvel.Dot(reldir);		// speed >0 is towards
+//	double speed = relvel.Dot(reldir);		// speed >0 is towards
 	double dist = targdist;
 	double faccel = GetAccelFwd();
 	double time1, time2, time3;
 
 	// time to reduce speed to zero:
-	time1 = -speed / faccel;
-	dist += 0.5 * time1 * -speed;
+	time1 = -relspeed / faccel;
+	dist += 0.5 * time1 * -relspeed;
 
 	// time to reduce speed to zero after target reached:
-	time3 = -targspeed / maxdecel;
-	dist += 0.5 * time3 * -targspeed;
+	time3 = -endspeed / maxdecel;
+	dist += 0.5 * time3 * -endspeed;
 
 	// now time to cover distance between zero-vel points
 	// midpoint = intercept of two gradients
@@ -341,3 +349,4 @@ double Ship::AITravelTime(const vector3d &reldir, double targdist, const vector3
 
 	return time1+time2+time3;
 }
+*/
