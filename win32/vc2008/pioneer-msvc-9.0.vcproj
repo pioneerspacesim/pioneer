@@ -584,6 +584,14 @@
 			<File
 				RelativePath="..\..\src\Lua.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ProgramDataBaseFileName="$(IntDir)\$(ProjectName)D.pdb"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\LuaBody.cpp"
@@ -1203,6 +1211,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Tombstone.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\UIView.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\UIView.h"
 				>
 			</File>
 			<File
@@ -3672,11 +3688,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ui\Expand.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Expand.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ui\FloatContainer.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\ui\FloatContainer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Gradient.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Gradient.h"
 				>
 			</File>
 			<File
@@ -3764,6 +3796,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ui\LuaExpand.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaGradient.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ui\LuaGrid.cpp"
 				>
 			</File>
@@ -3801,6 +3841,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ui\LuaSlider.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaSmallButton.cpp"
 				>
 			</File>
 			<File
@@ -3860,6 +3904,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ui\SmallButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\SmallButton.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ui\TextLayout.cpp"
 				>
 			</File>
@@ -3877,6 +3929,39 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ui\WidgetSet.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="gameui"
+			>
+			<File
+				RelativePath="..\..\src\gameui\GameUI.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Lua.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+						ProgramDataBaseFileName="$(IntDir)\$(ProjectName)D.pdb"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Lua.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Panel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Panel.h"
 				>
 			</File>
 		</Filter>
