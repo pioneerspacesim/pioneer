@@ -36,6 +36,9 @@ public:
 	void SelectWidget(Widget *target);
 	void DeselectWidget(Widget *target);
 
+	void DisableWidget(Widget *target);
+	void EnableWidget(Widget *target);
+
 private:
 	void DispatchMouseOverOut(Widget *target, const Point &mousePos);
 	void DispatchSelect(Widget *target);

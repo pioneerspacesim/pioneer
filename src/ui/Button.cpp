@@ -46,7 +46,9 @@ void Button::Layout()
 
 void Button::Draw()
 {
-	if (IsMouseActive())
+	if (IsDisabled())
+		GetContext()->GetSkin().DrawButtonDisabled(GetActiveOffset(), GetActiveArea());
+	else if (IsMouseActive())
 		GetContext()->GetSkin().DrawButtonActive(GetActiveOffset(), GetActiveArea());
 	else if (IsMouseOver())
 		GetContext()->GetSkin().DrawButtonHover(GetActiveOffset(), GetActiveArea());
