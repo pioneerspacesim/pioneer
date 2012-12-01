@@ -85,11 +85,11 @@ for i1,prefix in ipairs(prefixes) do
 		local seed = salt .. faction_name
 
 		table.insert(faction_names, faction_name)
-		if util.hash_random(seed..'police')   < 0.5 then table.insert(police_names,   prefix..police_suffixes  [util.hash_random(seed..'policep', 1, #police_suffixes)])
-		                                            else table.insert(police_names,   suffix..police_suffixes  [util.hash_random(seed..'polices', 1, #police_suffixes)])
+		if util.hash_random(seed..'police')   < 0.5 then table.insert(police_names,   prefix..' '..police_suffixes  [util.hash_random(seed..'policep', 1, #police_suffixes)])
+		                                            else table.insert(police_names,   suffix..' '..police_suffixes  [util.hash_random(seed..'polices', 1, #police_suffixes)])
 		end
-		if util.hash_random(seed..'military') < 0.5 then table.insert(military_names, prefix..military_suffixes[util.hash_random(seed..'militp',  1, #military_suffixes)])
-		                                            else table.insert(military_names, suffix..military_suffixes[util.hash_random(seed..'milits',  1, #military_suffixes)])
+		if util.hash_random(seed..'military') < 0.5 then table.insert(military_names, prefix..' '..military_suffixes[util.hash_random(seed..'militp',  1, #military_suffixes)])
+		                                            else table.insert(military_names, suffix..' '..military_suffixes[util.hash_random(seed..'milits',  1, #military_suffixes)])
 		end
 	end
 end
