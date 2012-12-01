@@ -7,8 +7,6 @@
  * A generic material & program for simple uses
  * textured/untextured, vertex colors or no...
  *
- * This material uses up to four variations of the Program,
- * one for each directional light
  */
 #include "GL2Material.h"
 #include "Program.h"
@@ -21,13 +19,23 @@ namespace Graphics {
 			MultiProgram(const MaterialDescriptor &, int lights=0);
 		};
 
-		class MultiMaterial : public Material {
+		class MultiMaterial : public Material { //unlit
 		public:
-			MultiMaterial();
-			Program *CreateProgram(const MaterialDescriptor &);
-			virtual void SetProgram(Program *p);
+			virtual Program *CreateProgram(const MaterialDescriptor &);
 			virtual void Apply();
 			virtual void Unapply();
+		};
+
+		/*
+		 * This material uses up to four variations of the Program,
+		 * one for each directional light
+		 */
+		class LitMultiMaterial : public MultiMaterial {
+		public:
+			LitMultiMaterial();
+			virtual Program *CreateProgram(const MaterialDescriptor &);
+			virtual void SetProgram(Program *p);
+			virtual void Apply();
 
 		private:
 			Program* m_programs[5];

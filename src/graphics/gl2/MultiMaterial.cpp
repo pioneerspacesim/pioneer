@@ -44,20 +44,24 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int lights)
 	InitUniforms();
 }
 
-MultiMaterial::MultiMaterial()
-: Material()
-, m_curNumLights(0)
+LitMultiMaterial::LitMultiMaterial()
+: m_curNumLights(0)
 , m_programs()
 {
 }
 
 Program *MultiMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
+	return new MultiProgram(desc);
+}
+
+Program *LitMultiMaterial::CreateProgram(const MaterialDescriptor &desc)
+{
 	m_curNumLights = m_renderer->m_numDirLights;
 	return new MultiProgram(desc, m_curNumLights);
 }
 
-void MultiMaterial::SetProgram(Program *p)
+void LitMultiMaterial::SetProgram(Program *p)
 {
 	m_programs[m_curNumLights] = p;
 	m_program = p;
@@ -65,24 +69,11 @@ void MultiMaterial::SetProgram(Program *p)
 
 void MultiMaterial::Apply()
 {
-	if (GetDescriptor().lighting) {
-		if (m_curNumLights != m_renderer->m_numDirLights) {
-			m_curNumLights = m_renderer->m_numDirLights;
-			if (m_programs[m_curNumLights] == 0) {
-				m_descriptor.dirLights = m_curNumLights; //hax
-				m_programs[m_curNumLights] = m_renderer->GetOrCreateProgram(this);
-			}
-			m_program = m_programs[m_curNumLights];
-		}
-	}
-
 	MultiProgram *p = static_cast<MultiProgram*>(m_program);
 	p->Use();
 	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
+
 	p->diffuse.Set(this->diffuse);
-	p->emission.Set(this->emissive);
-	p->specular.Set(this->specular);
-	p->shininess.Set(float(this->shininess));
 
 	p->texture0.Set(this->texture0, 0);
 	p->texture1.Set(this->texture1, 1);
@@ -93,6 +84,26 @@ void MultiMaterial::Apply()
 	glPushAttrib(GL_ENABLE_BIT);
 	if (this->twoSided)
 		glDisable(GL_CULL_FACE);
+}
+
+void LitMultiMaterial::Apply()
+{
+	//request a new light variation
+	if (m_curNumLights != m_renderer->m_numDirLights) {
+		m_curNumLights = m_renderer->m_numDirLights;
+		if (m_programs[m_curNumLights] == 0) {
+			m_descriptor.dirLights = m_curNumLights; //hax
+			m_programs[m_curNumLights] = m_renderer->GetOrCreateProgram(this);
+		}
+		m_program = m_programs[m_curNumLights];
+	}
+
+	MultiMaterial::Apply();
+
+	MultiProgram *p = static_cast<MultiProgram*>(m_program);
+	p->emission.Set(this->emissive);
+	p->specular.Set(this->specular);
+	p->shininess.Set(float(this->shininess));
 }
 
 void MultiMaterial::Unapply()

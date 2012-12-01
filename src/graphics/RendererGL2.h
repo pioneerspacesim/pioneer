@@ -21,6 +21,7 @@ namespace GL2 {
 	class GeoSphereSurfaceMaterial;
 	class Material;
 	class MultiMaterial;
+	class LitMultiMaterial;
 	class Program;
 	class RingMaterial;
 }
@@ -51,6 +52,7 @@ private:
 	friend class GL2::GeoSphereSurfaceMaterial;
 	friend class GL2::GeoSphereSkyMaterial;
 	friend class GL2::MultiMaterial;
+	friend class GL2::LitMultiMaterial;
 	friend class GL2::RingMaterial;
 	std::vector<std::pair<MaterialDescriptor, GL2::Program*> > m_programs;
 	float m_invLogZfarPlus1;

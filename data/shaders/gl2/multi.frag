@@ -58,7 +58,7 @@ void main(void)
 		discard;
 #endif
 
-	//lighting - only one light right now
+//directional lighting
 #if (NUM_LIGHTS > 0)
 	vec4 light = scene.ambient +
 //ambient and emissive only make sense with lighting
