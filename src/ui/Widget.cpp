@@ -87,7 +87,7 @@ bool Widget::TriggerKeyDown(const KeyboardEvent &event, bool emit)
 	HandleKeyDown(event);
 	if (emit) emit = !onKeyDown.emit(event);
 	if (GetContainer() && !IsFloating()) GetContainer()->TriggerKeyDown(event, emit);
-	return emit;
+	return !emit;
 }
 
 bool Widget::TriggerKeyUp(const KeyboardEvent &event, bool emit)
@@ -95,7 +95,7 @@ bool Widget::TriggerKeyUp(const KeyboardEvent &event, bool emit)
 	HandleKeyUp(event);
 	if (emit) emit = !onKeyUp.emit(event);
 	if (GetContainer() && !IsFloating()) GetContainer()->TriggerKeyUp(event, emit);
-	return emit;
+	return !emit;
 }
 
 bool Widget::TriggerKeyPress(const KeyboardEvent &event, bool emit)
@@ -103,7 +103,7 @@ bool Widget::TriggerKeyPress(const KeyboardEvent &event, bool emit)
 	HandleKeyPress(event);
 	if (emit) emit = !onKeyDown.emit(event);
 	if (GetContainer() && !IsFloating()) GetContainer()->TriggerKeyPress(event, emit);
-	return emit;
+	return !emit;
 }
 
 bool Widget::TriggerMouseDown(const MouseButtonEvent &event, bool emit)
@@ -114,7 +114,7 @@ bool Widget::TriggerMouseDown(const MouseButtonEvent &event, bool emit)
 		MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos+GetPosition());
 		GetContainer()->TriggerMouseDown(translatedEvent, emit);
 	}
-	return emit;
+	return !emit;
 }
 
 bool Widget::TriggerMouseUp(const MouseButtonEvent &event, bool emit)
@@ -125,7 +125,7 @@ bool Widget::TriggerMouseUp(const MouseButtonEvent &event, bool emit)
 		MouseButtonEvent translatedEvent = MouseButtonEvent(event.action, event.button, event.pos+GetPosition());
 		GetContainer()->TriggerMouseUp(translatedEvent, emit);
 	}
-	return emit;
+	return !emit;
 }
 
 bool Widget::TriggerMouseMove(const MouseMotionEvent &event, bool emit)
@@ -136,7 +136,7 @@ bool Widget::TriggerMouseMove(const MouseMotionEvent &event, bool emit)
 		MouseMotionEvent translatedEvent = MouseMotionEvent(event.pos+GetPosition());
 		GetContainer()->TriggerMouseMove(translatedEvent, emit);
 	}
-	return emit;
+	return !emit;
 }
 
 bool Widget::TriggerMouseWheel(const MouseWheelEvent &event, bool emit)
@@ -147,7 +147,7 @@ bool Widget::TriggerMouseWheel(const MouseWheelEvent &event, bool emit)
 		MouseWheelEvent translatedEvent = MouseWheelEvent(event.direction, event.pos+GetPosition());
 		GetContainer()->TriggerMouseWheel(translatedEvent, emit);
 	}
-	return emit;
+	return !emit;
 }
 
 bool Widget::TriggerMouseOver(const Point &pos, bool emit)
@@ -159,7 +159,7 @@ bool Widget::TriggerMouseOver(const Point &pos, bool emit)
 		if (emit) emit = !onMouseOver.emit();
 	}
 	if (GetContainer() && !IsFloating()) GetContainer()->TriggerMouseOver(pos+GetPosition(), emit);
-	return emit;
+	return !emit;
 }
 
 bool Widget::TriggerMouseOut(const Point &pos, bool emit)
@@ -171,7 +171,7 @@ bool Widget::TriggerMouseOut(const Point &pos, bool emit)
 		m_mouseOver = false;
 	}
 	if (GetContainer() && !IsFloating()) GetContainer()->TriggerMouseOut(pos+GetPosition(), emit);
-	return emit;
+	return !emit;
 }
 
 bool Widget::TriggerClick(bool emit)
@@ -179,7 +179,7 @@ bool Widget::TriggerClick(bool emit)
 	HandleClick();
 	if (emit) emit = !onClick.emit();
 	if (GetContainer() && !IsFloating()) GetContainer()->TriggerClick(emit);
-	return emit;
+	return !emit;
 }
 
 void Widget::TriggerMouseActivate()

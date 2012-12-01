@@ -513,7 +513,7 @@ void Pi::HandleEvents()
 				Pi::EndGame();
 			Pi::Quit();
 		}
-		else if (!ui->DispatchSDLEvent(event))
+		else if (ui->DispatchSDLEvent(event))
 			continue;
 
 		Gui::HandleSDLEvent(&event);
