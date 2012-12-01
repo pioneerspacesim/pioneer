@@ -40,6 +40,7 @@ Alpha 29
      * New UI.SmallButton widget (#1722)
      * New UI constructors for 'Single' widgets take an optional final argument
        specifying the inner widget (#1723, #1738)
+     * MouseMove UI event also receives relative mouse travel (#1767)
      * Grids and can now have nil entries and has a ClearCell method (#1723, #1738)
      * Functions taking a widget can now take a table with a 'widget' field (#1723, #1738)
      * debug.deprecated function to warn when a deprecated function is used (#1718)
