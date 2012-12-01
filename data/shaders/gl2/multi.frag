@@ -68,7 +68,9 @@ void main(void)
 		material.emission; //just emissive parameter
 #endif
 	vec4 specular = vec4(0.0);
-	ads(0, eyePos, normal, light, specular);
+	for (int i=0; i<NUM_LIGHTS; ++i) {
+		ads(i, eyePos, normal, light, specular);
+	}
 #endif //NUM_LIGHTS
 
 #if (NUM_LIGHTS > 0)

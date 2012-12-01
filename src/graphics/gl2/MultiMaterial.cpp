@@ -7,12 +7,15 @@
 #include "graphics/Graphics.h"
 #include "graphics/RendererGL2.h"
 #include <sstream>
+#include "StringF.h"
 
 namespace Graphics {
 namespace GL2 {
 
-MultiProgram::MultiProgram(const MaterialDescriptor &desc)
+MultiProgram::MultiProgram(const MaterialDescriptor &desc, int lights)
 {
+	lights = Clamp(lights, 1, 4);
+
 	//build some defines
 	std::stringstream ss;
 	if (desc.textures > 0)
@@ -22,8 +25,8 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc)
 	if (desc.alphaTest)
 		ss << "#define ALPHA_TEST\n";
 	//using only one light
-	if (desc.lighting)
-		ss << "#define NUM_LIGHTS 1\n";
+	if (desc.lighting && lights > 0)
+		ss << stringf("#define NUM_LIGHTS %0{d}\n", lights);
 	else
 		ss << "#define NUM_LIGHTS 0\n";
 
@@ -41,13 +44,38 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc)
 	InitUniforms();
 }
 
+MultiMaterial::MultiMaterial()
+: Material()
+, m_curNumLights(0)
+, m_programs()
+{
+}
+
 Program *MultiMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
-	return new MultiProgram(desc);
+	m_curNumLights = m_renderer->m_numDirLights;
+	return new MultiProgram(desc, m_curNumLights);
+}
+
+void MultiMaterial::SetProgram(Program *p)
+{
+	m_programs[m_curNumLights] = p;
+	m_program = p;
 }
 
 void MultiMaterial::Apply()
 {
+	if (GetDescriptor().lighting) {
+		if (m_curNumLights != m_renderer->m_numDirLights) {
+			m_curNumLights = m_renderer->m_numDirLights;
+			if (m_programs[m_curNumLights] == 0) {
+				m_descriptor.dirLights = m_curNumLights; //hax
+				m_programs[m_curNumLights] = m_renderer->GetOrCreateProgram(this);
+			}
+			m_program = m_programs[m_curNumLights];
+		}
+	}
+
 	MultiProgram *p = static_cast<MultiProgram*>(m_program);
 	p->Use();
 	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);

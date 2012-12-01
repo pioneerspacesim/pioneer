@@ -506,7 +506,7 @@ void ModelViewer::OnAnimSliderChanged(float value)
 
 void ModelViewer::OnLightPresetChanged(unsigned int index, const std::string &)
 {
-	m_options.lightPreset = std::min<unsigned int>(index, 2);
+	m_options.lightPreset = std::min<unsigned int>(index, 3);
 }
 
 void ModelViewer::OnModelColorsChanged(float)
@@ -859,7 +859,9 @@ void ModelViewer::SetupUI()
 			->AddOption("1  Front white")
 			->AddOption("2  Two-point")
 			->AddOption("3  Backlight")
+			//->AddOption("4  Nuts")
 	);
+	m_options.lightPreset = 0;
 
 	add_pair(c, mainBox, gunsCheck = c->CheckBox(), "Attach guns");
 
@@ -970,27 +972,34 @@ void ModelViewer::UpdateCamera()
 void ModelViewer::UpdateLights()
 {
 	using Graphics::Light;
-	Light lights[2];
+	std::vector<Light> lights;
 
 	switch(m_options.lightPreset) {
 	case 0:
 		//Front white
-		lights[0] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(90,0), Color(1.0f, 1.0f, 1.0f), Color(0.f), Color(1.f));
-		lights[1] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0,-90), Color(0.05, 0.05f, 0.1f), Color(0.f), Color(1.f));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(90,0), Color(1.0f, 1.0f, 1.0f), Color(0.f), Color(1.f)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0,-90), Color(0.05, 0.05f, 0.1f), Color(0.f), Color(1.f)));
 		break;
 	case 1:
 		//Two-point
-		lights[0] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(120,0), Color(0.9f, 0.8f, 0.8f), Color(0.f), Color(1.f));
-		lights[1] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(-30,-90), Color(0.7f, 0.5f, 0.0f), Color(0.f), Color(1.f));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(120,0), Color(0.9f, 0.8f, 0.8f), Color(0.f), Color(1.f)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(-30,-90), Color(0.7f, 0.5f, 0.0f), Color(0.f), Color(1.f)));
 		break;
 	case 2:
 		//Backlight
-		lights[0] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(-75,20), Color(1.f), Color(0.f), Color(1.f));
-		lights[1] = Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0,-90), Color(0.05, 0.05f, 0.1f), Color(0.f), Color(1.f));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(-75,20), Color(1.f), Color(0.f), Color(1.f)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0,-90), Color(0.05, 0.05f, 0.1f), Color(0.f), Color(1.f)));
+		break;
+	case 3:
+		//4 lights
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0, 90), Color::YELLOW, Color(0.f), Color(1.f)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0, -90), Color::GREEN, Color(0.f), Color(1.f)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0, 45), Color::BLUE, Color(0.f), Color(1.f)));
+		lights.push_back(Light(Light::LIGHT_DIRECTIONAL, az_el_to_dir(0, -45), Color::WHITE, Color(0.f), Color(1.f)));
 		break;
 	};
 
-	m_renderer->SetLights(2, &lights[0]);
+	m_renderer->SetLights(int(lights.size()), &lights[0]);
 }
 
 void ModelViewer::UpdatePatternList()

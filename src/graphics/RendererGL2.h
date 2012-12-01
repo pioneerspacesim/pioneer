@@ -17,8 +17,9 @@
 namespace Graphics {
 
 namespace GL2 {
-	class GeoSphereSurfaceMaterial;
 	class GeoSphereSkyMaterial;
+	class GeoSphereSurfaceMaterial;
+	class Material;
 	class MultiMaterial;
 	class Program;
 	class RingMaterial;
@@ -46,6 +47,7 @@ public:
 	virtual bool ReloadShaders();
 
 private:
+	GL2::Program* GetOrCreateProgram(GL2::Material*);
 	friend class GL2::GeoSphereSurfaceMaterial;
 	friend class GL2::GeoSphereSkyMaterial;
 	friend class GL2::MultiMaterial;

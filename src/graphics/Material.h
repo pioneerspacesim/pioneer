@@ -82,10 +82,12 @@ public:
 	//XXX may not be necessary. Used by newmodel to check if a material uses patterns
 	const MaterialDescriptor &GetDescriptor() const { return m_descriptor; }
 
+protected:
+	MaterialDescriptor m_descriptor;
+
 private:
 	friend class RendererLegacy;
 	friend class RendererGL2;
-	MaterialDescriptor m_descriptor;
 };
 
 }

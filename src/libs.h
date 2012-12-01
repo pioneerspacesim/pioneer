@@ -34,6 +34,7 @@
 #		pragma warning(disable : 4244) // "conversion from x to x: possible loss of data"
 #		pragma warning(disable : 4800) // int-to-bool "performance warning"
 #		pragma warning(disable : 4355) // 'this' used in base member initializer list
+#		pragma warning(disable : 4351) // new behavior [after vs2003!]: elements of array 'array' will be default initialized
 #	endif
 
 #	ifndef __MINGW32__
