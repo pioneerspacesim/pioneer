@@ -32,8 +32,8 @@ void StaticGeometry::Render(Graphics::Renderer *r, const matrix4x4f &trans, Rend
 		r->SetBlendMode(m_blendMode);
 	for (MeshContainer::iterator it = m_meshes.begin(); it != m_meshes.end(); ++it)
 		r->DrawStaticMesh(it->Get());
-	if (rd->drawBoundingBoxes)
-		DrawBoundingBox(r, m_boundingBox);
+
+	//DrawBoundingBox(r, m_boundingBox);
 }
 
 void StaticGeometry::AddMesh(RefCountedPtr<Graphics::StaticMesh> mesh)

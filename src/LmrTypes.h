@@ -34,12 +34,10 @@ struct LmrObjParams
 
 	//stuff added after newmodel
 	float boundingRadius; //updated by model and passed to submodels
-	bool drawBoundingBoxes;
 	unsigned int nodemask;
 
 	LmrObjParams()
 	: boundingRadius(0.f)
-	, drawBoundingBoxes(false)
 	, nodemask(0x1) //draw solids
 	{
 		std::fill(linthrust, linthrust+3, 0.f);

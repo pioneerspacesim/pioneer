@@ -16,21 +16,13 @@ Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
 	m_model = LmrLookupModelByName("tombstone");
 
 	// Model parameters
-	/*LmrObjParams params = {
-		0, // animation namespace
-		0.0, // time
-		{}, // animation stages
-		{}, // animation positions
-		Lang::TOMBSTONE_EPITAPH, // label
-		0, // equipment
-		0, // flightState
-		{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
-		{	// pColor[3]
-		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-	};
-	m_modelParams = params;*/
+	memset(&m_modelParams, 0, sizeof(LmrObjParams));
+	LmrMaterial matA = { { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+	LmrMaterial matB = { { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+	LmrMaterial matC = { { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+	m_modelParams.pMat[0] = matA;
+	m_modelParams.pMat[1] = matB;
+	m_modelParams.pMat[2] = matC;
 	m_modelParams.label = Lang::TOMBSTONE_EPITAPH;
 }
 
