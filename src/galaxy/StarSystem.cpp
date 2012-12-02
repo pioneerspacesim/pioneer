@@ -2245,3 +2245,13 @@ bool StarSystem::GetUnexplored()
 {
 	return m_unexplored;
 }
+
+fixed StarSystem::GetMetallicity()
+{
+	return m_metallicity;
+}
+
+
+
+
+

@@ -252,7 +252,6 @@ public:
 	// index into this will be the SystemBody ID used by SystemPath
 	std::vector<SystemBody*> m_bodies;
 
-	fixed m_metallicity;
 	fixed m_industrial;
 	fixed m_agricultural;
 	fixed m_humanProx;
@@ -269,6 +268,8 @@ public:
 
 	Faction* GetFaction() const;  
 	bool GetUnexplored(); 
+	fixed GetMetallicity();
+
 private:
 	StarSystem(const SystemPath &path);
 	~StarSystem();
@@ -301,6 +302,7 @@ private:
 	
 	Faction* m_faction; 
 	bool m_unexplored;
+	fixed m_metallicity;
 
 
 
