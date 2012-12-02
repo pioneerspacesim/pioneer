@@ -252,8 +252,6 @@ public:
 	// index into this will be the SystemBody ID used by SystemPath
 	std::vector<SystemBody*> m_bodies;
 
-	fixed m_totalPop;
-
 	int GetCommodityBasePriceModPercent(int t) {
 		return m_tradeLevel[t];
 	}
@@ -267,6 +265,8 @@ public:
 	int* GetTradeLevel();
 	fixed GetAgricultural();
 	fixed GetHumanProx();
+	fixed GetTotalPop();
+
 private:
 	StarSystem(const SystemPath &path);
 	~StarSystem();
@@ -309,6 +309,8 @@ private:
 
 	fixed m_agricultural;
 	fixed m_humanProx;
+	fixed m_totalPop;
+
 
 
 

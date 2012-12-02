@@ -384,7 +384,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		col2->Add(new Gui::Label(m_system->GetFaction()->name.c_str()), 0, 4*YSEP);
 		col1->Add((new Gui::Label(Lang::POPULATION))->Color(1,1,0), 0, 5*YSEP);
 		std::string popmsg;
-		fixed pop = m_system->m_totalPop;
+		fixed pop = m_system->GetTotalPop();
 		if (pop >= fixed(1,1)) { popmsg = stringf(Lang::OVER_N_BILLION, formatarg("population", pop.ToInt32())); }
 		else if (pop >= fixed(1,1000)) { popmsg = stringf(Lang::OVER_N_MILLION, formatarg("population", (pop*1000).ToInt32())); }
 		else if (pop != fixed(0)) { popmsg = Lang::A_FEW_THOUSAND; }

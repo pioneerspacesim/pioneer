@@ -2288,3 +2288,10 @@ fixed StarSystem::GetHumanProx()
 {
 	return m_humanProx;
 }
+
+
+fixed StarSystem::GetTotalPop()
+{
+	return m_totalPop;
+}
+
