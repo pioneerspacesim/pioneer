@@ -127,6 +127,11 @@ void Ship::AIFlyTo(Body *target)
 		vector3d posoff = target->GetPosition() + 15000.0 * target->GetOrient().VectorY();
 		m_curAICmd = new AICmdFlyTo(this, target->GetFrame(), posoff, 0.0, false);
 	}
+	else if (target->IsType(Object::SHIP))	// test code
+	{
+		vector3d posoff(-1000.0, 0.0, 1000.0);
+		m_curAICmd = new AICmdFormation(this, static_cast<Ship*>(target), posoff);
+	}
 	else m_curAICmd = new AICmdIntercept(this, target);
 }
 

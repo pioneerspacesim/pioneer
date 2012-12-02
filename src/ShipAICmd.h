@@ -13,7 +13,7 @@
 class AICommand {
 public:
 	// This enum is solely to make the serialization work
-	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_INTERCEPT, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
+	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_INTERCEPT, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION, CMD_FORMATION };
 
 	AICommand(Ship *ship, CmdName name) {
 	   	m_ship = ship; m_cmdName = name;
@@ -293,4 +293,41 @@ public:
 	AICmdHoldPosition(Ship *ship) : AICommand(ship, CMD_HOLDPOSITION) { }
 	AICmdHoldPosition(Serializer::Reader &rd) : AICommand(rd, CMD_HOLDPOSITION) { }
 };
+
+class AICmdFormation : public AICommand {
+public:
+	virtual bool TimeStepUpdate();
+	AICmdFormation(Ship *ship, Ship *target, const vector3d &posoff);
+
+	virtual void GetStatusText(char *str) {
+		if (m_child) m_child->GetStatusText(str);
+		else snprintf(str, 255, "Formation: %s, dist %.1fkm",
+			m_target->GetLabel().c_str(), m_posoff.Length()/1000.0);
+	}
+	virtual void Save(Serializer::Writer &wr) {
+		if(m_child) { delete m_child; m_child = 0; }
+		AICommand::Save(wr);
+		wr.Int32(Pi::game->GetSpace()->GetIndexForBody(m_target));
+		wr.Vector3d(m_posoff);
+	}
+	AICmdFormation(Serializer::Reader &rd) : AICommand(rd, CMD_FORMATION) {
+		m_targetIndex = rd.Int32();
+		m_posoff = rd.Vector3d();
+	}
+	virtual void PostLoadFixup(Space *space) {
+		AICommand::PostLoadFixup(space);
+		m_target = static_cast<Ship*>(space->GetBodyByIndex(m_targetIndex));
+	}
+	virtual void OnDeleted(const Body *body) {
+		if (static_cast<Body *>(m_target) == body) m_target = 0;
+		AICommand::OnDeleted(body);
+	}
+
+private:
+	Ship *m_target;		// target frame for waypoint
+	vector3d m_posoff;	// offset in target frame
+
+	int m_targetIndex;	// used during deserialisation
+};
+
 #endif /* _SHIPAICMD_H */

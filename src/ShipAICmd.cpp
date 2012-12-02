@@ -22,11 +22,13 @@ AICommand *AICommand::Load(Serializer::Reader &rd)
 	switch (name) {
 		case CMD_NONE: default: return 0;
 		case CMD_DOCK: return new AICmdDock(rd);
+		case CMD_INTERCEPT: return new AICmdIntercept(rd);
 		case CMD_FLYTO: return new AICmdFlyTo(rd);
 		case CMD_FLYAROUND: return new AICmdFlyAround(rd);
 		case CMD_KILL: return new AICmdKill(rd);
 		case CMD_KAMIKAZE: return new AICmdKamikaze(rd);
 		case CMD_HOLDPOSITION: return new AICmdHoldPosition(rd);
+		case CMD_FORMATION: return new AICmdFormation(rd);
 	}
 }
 
@@ -1097,4 +1099,46 @@ bool AICmdFlyAround::TimeStepUpdate()
 	return false;
 }
 
+AICmdFormation::AICmdFormation(Ship *ship, Ship *target, const vector3d &posoff)
+	: AICommand(ship, CMD_FORMATION)
+{
+	m_target = target;
+	m_posoff = posoff;
+}
+
+bool AICmdFormation::TimeStepUpdate()
+{
+	if (!m_target) return true;
+	if (!ProcessChild()) return false;		// In case we're doing an intercept
+
+	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
+	else { LaunchShip(m_ship); return false; }
+
+	// if too far away, do an intercept first
+	// TODO: adjust distance cap by timestep so we don't bounce?
+	if (m_target->GetPositionRelTo(m_ship).Length() > 30000.0) {
+		m_child = new AICmdIntercept(m_ship, m_target);
+		ProcessChild(); return false;
+	}
+
+	matrix3x3d torient = m_target->GetOrientRelTo(m_ship->GetFrame());
+	vector3d relpos = m_target->GetPositionRelTo(m_ship) + torient * m_posoff;
+	vector3d relvel = -m_target->GetVelocityRelTo(m_ship);
+	double targdist = relpos.Length();
+	vector3d reldir = (targdist < 1e-16) ? vector3d(1,0,0) : relpos/targdist;
+
+	// adjust for target acceleration
+	matrix3x3d forient = m_target->GetFrame()->GetOrientRelTo(m_ship->GetFrame());
+	vector3d targaccel = forient * m_target->GetLastForce() / m_target->GetMass();
+	relvel -= targaccel * Pi::game->GetTimeStep();
+	double maxdecel = m_ship->GetAccelFwd() + targaccel.Dot(reldir);
+
+	// linear thrust
+	double ispeed = calc_ivel(targdist, 0.0, maxdecel);
+	vector3d vdiff = ispeed*reldir - relvel;
+	m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
+
+	m_ship->AIFaceDirection(-torient.VectorZ());
+	return false;					// never self-terminates
+}
 
