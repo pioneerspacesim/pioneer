@@ -139,7 +139,13 @@ public:
 	// are we floating
 	bool IsFloating() const { return m_floating; }
 
+	// selectable widgets may receive keyboard focus
 	virtual bool IsSelectable() const { return false; }
+
+	// disabled widgets do not receive input
+	virtual void Disable();
+	virtual void Enable();
+	bool IsDisabled() const { return m_disabled; }
 
 	// font size. obviously used for text size but also sometimes used for
 	// general widget size (eg space size). might do nothing, depends on the
@@ -236,6 +242,8 @@ protected:
 
 	bool IsSelected() const { return m_selected; }
 
+	void SetDisabled(bool disabled) { m_disabled = disabled; }
+
 	// internal event handlers. override to handle events. unlike the external
 	// on* signals, every widget in the stack is guaranteed to receive a call
 	// - there's no facility for stopping propogation up the stack
@@ -297,8 +305,9 @@ private:
 
 	bool TriggerClick(bool emit = true);
 
-	bool TriggerMouseOver(const Point &pos, bool emit = true);
-	bool TriggerMouseOut(const Point &pos, bool emit = true);
+	// stop is used during disable/enable to stop delivery at the given widget
+	bool TriggerMouseOver(const Point &pos, bool emit = true, Widget *stop = 0);
+	bool TriggerMouseOut(const Point &pos, bool emit = true, Widget *stop = 0);
 
 	void TriggerMouseActivate();
 	void TriggerMouseDeactivate();
@@ -341,6 +350,8 @@ private:
 	Font m_font;
 
 	bool m_floating;
+
+	bool m_disabled;
 
 	bool m_mouseOver;
 	bool m_mouseActive;

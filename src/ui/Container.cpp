@@ -77,6 +77,38 @@ void Container::RemoveAllWidgets()
 	GetContext()->RequestLayout();
 }
 
+void Container::Disable()
+{
+	DisableChildren();
+	Widget::Disable();
+}
+
+void Container::Enable()
+{
+	EnableChildren();
+	Widget::Enable();
+}
+
+void Container::DisableChildren()
+{
+	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
+		Widget *w = (*i).Get();
+		w->SetDisabled(true);
+		Container *c = dynamic_cast<Container*>(w);
+		if (c) c->DisableChildren();
+	}
+}
+
+void Container::EnableChildren()
+{
+	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
+		Widget *w = (*i).Get();
+		w->SetDisabled(false);
+		Container *c = dynamic_cast<Container*>(w);
+		if (c) c->EnableChildren();
+	}
+}
+
 void Container::SetWidgetDimensions(Widget *widget, const Point &position, const Point &size)
 {
 	assert(widget->GetContainer() == this);

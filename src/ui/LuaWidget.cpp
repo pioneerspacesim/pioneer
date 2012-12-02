@@ -20,6 +20,25 @@ public:
 	}
 
 
+	static int l_disable(lua_State *l) {
+		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
+		w->Disable();
+		return 0;
+	}
+
+	static int l_enable(lua_State *l) {
+		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
+		w->Disable();
+		return 0;
+	}
+
+	static int l_attr_disabled(lua_State *l) {
+		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
+		lua_pushboolean(l, w->IsDisabled());
+		return 1;
+	}
+
+
 	static int l_attr_on_key_down(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
 		LuaSignalAccumulated<const KeyboardEvent &>().Wrap(l, w->onKeyDown);
@@ -92,10 +111,16 @@ template <> void LuaObject<UI::Widget>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "SetFont", LuaWidget::l_set_font_size },
+
+		{ "Disable", LuaWidget::l_disable       },
+		{ "Enable",  LuaWidget::l_enable        },
+
 		{ 0, 0 }
 	};
 
 	static const luaL_Reg l_attrs[] = {
+		{ "disabled",     LuaWidget::l_attr_disabled       },
+
 		{ "onKeyDown",    LuaWidget::l_attr_on_key_down    },
 		{ "onKeyUp",      LuaWidget::l_attr_on_key_up      },
 		{ "onKeyPress",   LuaWidget::l_attr_on_key_press   },
@@ -106,6 +131,7 @@ template <> void LuaObject<UI::Widget>::RegisterClass()
 		{ "onMouseOver",  LuaWidget::l_attr_on_mouse_over  },
 		{ "onMouseOut",   LuaWidget::l_attr_on_mouse_out   },
 		{ "onClick",      LuaWidget::l_attr_on_click       },
+
 		{ 0, 0 }
 	};
 

@@ -16,6 +16,7 @@ Alpha 29
        glitches (#1572)
      * Don't clear hyperspace target when the current system is selected in
        the Sector View (#1662)
+     * UI elements can now be disabled (#1749, #1721)
 
    * Fixes
      * Workaround shader glitches for planets with zero temperature (#1712)

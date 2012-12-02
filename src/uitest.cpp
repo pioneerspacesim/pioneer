@@ -10,6 +10,13 @@
 static const int WIDTH  = 1024;
 static const int HEIGHT = 768;
 
+static bool toggle_disabled_handler(UI::Widget *w)
+{
+	w->IsDisabled() ? w->Enable() : w->Disable();
+	printf("toggle disabled: %p %s now %s\n", w, typeid(*w).name(), w->IsDisabled() ? "DISABLED" : "ENABLED");
+	return true;
+}
+
 static bool click_handler(UI::Widget *w)
 {
 	printf("click: %p %s\n", w, typeid(*w).name());
@@ -132,6 +139,21 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
+	UI::Button *toggle;
+	UI::CheckBox *target;
+	c->SetInnerWidget(
+		c->HBox(10)->PackEnd(UI::WidgetSet(
+			(toggle = c->Button()),
+			(target = static_cast<UI::CheckBox*>(c->CheckBox()))
+		))
+	);
+
+	toggle->onClick.connect(sigc::bind(sigc::ptr_fun(&toggle_disabled_handler), target));
+	target->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), target));
+	target->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), target));
+	target->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), target));
+
+#if 0
 	c->SetInnerWidget(
 		c->ColorBackground(Color(0.4f, 0.2f, 0.4f, 1.0f))->SetInnerWidget(
 			c->HBox()->PackEnd(UI::WidgetSet(
@@ -489,7 +511,10 @@ int main(int argc, char **argv)
 #if 0
 		if (++count % 10 == 0)
 			text->AppendText("line\n");
+		if (++count % 100 == 0)
+			toggle_disabled_handler(target);
 #endif
+
 	}
 
 	c.Reset();
