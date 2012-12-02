@@ -240,8 +240,6 @@ public:
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
-	const char *GetAllegianceDesc() const;
-	const Color GetFactionColour() const;
 
 	static float starColors[][3];
 	static float starRealColors[][3];
@@ -260,18 +258,17 @@ public:
 	fixed m_humanProx;
 	fixed m_totalPop;
 
-	Faction* m_faction;
-
 	// percent price alteration
 	int m_tradeLevel[Equip::TYPE_MAX];
 	int m_econType;
 	int m_seed;
 
-	bool m_unexplored;
-
 	int GetCommodityBasePriceModPercent(int t) {
 		return m_tradeLevel[t];
 	}
+
+	Faction* GetFaction() const;  
+	bool GetUnexplored(); 
 private:
 	StarSystem(const SystemPath &path);
 	~StarSystem();
@@ -301,6 +298,12 @@ private:
 
 	bool m_isCustom;
 	bool m_hasCustomBodies;
+	
+	Faction* m_faction; 
+	bool m_unexplored;
+
+
+
 };
 
 #endif /* _STARSYSTEM_H */

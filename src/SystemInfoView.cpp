@@ -255,7 +255,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 	m_sbodyInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-100));
 
-	if (m_system->m_unexplored) {
+	if (m_system->GetUnexplored()) {
 		Add(m_sbodyInfoTab, 0, 0);
 
 		std::string _info =
@@ -381,8 +381,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		col2->Add(new Gui::Label(m_system->GetSysPolit().GetEconomicDesc()), 0, 3*YSEP);
 
 		col1->Add((new Gui::Label(Lang::ALLEGIANCE))->Color(1,1,0), 0, 4*YSEP);
-		col2->Add(new Gui::Label(m_system->GetAllegianceDesc()), 0, 4*YSEP);
-
+		col2->Add(new Gui::Label(m_system->GetFaction()->name.c_str()), 0, 4*YSEP);
 		col1->Add((new Gui::Label(Lang::POPULATION))->Color(1,1,0), 0, 5*YSEP);
 		std::string popmsg;
 		fixed pop = m_system->m_totalPop;
