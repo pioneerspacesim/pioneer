@@ -32,6 +32,7 @@
 #include "DropDown.h"
 #include "TextEntry.h"
 #include "SmallButton.h"
+#include "Icon.h"
 
 #include "Lua.h"
 #include "LuaTable.h"
@@ -85,6 +86,7 @@ public:
 	// visual elements
 	UI::Image *Image(const std::string &filename, Image::StretchMode stretchMode = Image::STRETCH_PRESERVE_ASPECT) { return new UI::Image(this, filename, stretchMode); }
 	UI::Label *Label(const std::string &text) { return new UI::Label(this, text); }
+	UI::Icon *Icon(const std::string &iconName) { return new UI::Icon(this, iconName); }
 
 	UI::MultiLineText *MultiLineText(const std::string &text) { return new UI::MultiLineText(this, text); }
 

@@ -38,6 +38,7 @@ Alpha 29
      * New UI.Expand container to force a widget to fill available space (#1685)
      * New UI exposes SetText to Lua (#1690)
      * New UI.SmallButton widget (#1722)
+     * New UI.Icon widget (#1737)
      * New UI constructors for 'Single' widgets take an optional final argument
        specifying the inner widget (#1723, #1738)
      * MouseMove UI event also receives relative mouse travel (#1767)
