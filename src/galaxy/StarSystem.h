@@ -252,7 +252,6 @@ public:
 	// index into this will be the SystemBody ID used by SystemPath
 	std::vector<SystemBody*> m_bodies;
 
-	fixed m_agricultural;
 	fixed m_humanProx;
 	fixed m_totalPop;
 
@@ -267,6 +266,8 @@ public:
 	int GetEconType();
 	int GetSeed();
 	int* GetTradeLevel();
+	fixed GetAgricultural();
+
 private:
 	StarSystem(const SystemPath &path);
 	~StarSystem();
@@ -307,6 +308,7 @@ private:
 	// percent price alteration
 	int m_tradeLevel[Equip::TYPE_MAX];
 
+	fixed m_agricultural;
 
 
 

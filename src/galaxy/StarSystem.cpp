@@ -2276,3 +2276,9 @@ int* StarSystem::GetTradeLevel()
 {
 	return m_tradeLevel;
 }
+
+
+fixed StarSystem::GetAgricultural()
+{
+	return m_agricultural;
+}
