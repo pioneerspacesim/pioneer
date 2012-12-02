@@ -74,7 +74,7 @@ Graphics::VertexArray *DistanceFieldFont::CreateVertexArray() const
 
 void DistanceFieldFont::AddGlyph(Graphics::VertexArray &va, const vector2f &pos, const Glyph& g, vector2f &bounds)
 {
-	vector3f norm(0.f, 0.f, -1.f);
+	vector3f norm(0.f, 0.f, 1.f);
 	const vector2f &uv = g.uv; //uv offset
 	const float uWidth = g.uvSize.x;
 	const float vHeight = g.uvSize.y;

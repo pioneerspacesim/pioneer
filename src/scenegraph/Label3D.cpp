@@ -15,10 +15,13 @@ Label3D::Label3D(RefCountedPtr<Text::DistanceFieldFont> font, Graphics::Renderer
 	Graphics::MaterialDescriptor matdesc;
 	matdesc.textures = 1;
 	matdesc.alphaTest = true;
+	matdesc.lighting = true;
 	m_geometry.Reset(font->CreateVertexArray());
 	m_material.Reset(r->CreateMaterial(matdesc));
 	m_material->texture0 = font->GetTexture();
 	m_material->diffuse = Color::WHITE;
+	m_material->emissive = Color(0.15f);
+	m_material->specular = Color::WHITE;
 }
 
 void Label3D::SetText(const std::string &text)
