@@ -2282,3 +2282,9 @@ fixed StarSystem::GetAgricultural()
 {
 	return m_agricultural;
 }
+
+
+fixed StarSystem::GetHumanProx()
+{
+	return m_humanProx;
+}
