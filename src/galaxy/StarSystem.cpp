@@ -2266,4 +2266,9 @@ int StarSystem::GetEconType()
 }
 
 
+int StarSystem::GetSeed()
+{
+	return m_seed;
+}
+
 
