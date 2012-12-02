@@ -1137,6 +1137,7 @@ bool AICmdFormation::TimeStepUpdate()
 	double ispeed = calc_ivel(targdist, 0.0, maxdecel);
 	vector3d vdiff = ispeed*reldir - relvel;
 	m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
+	if (m_target->IsDecelerating()) m_ship->SetDecelerating(true);
 
 	m_ship->AIFaceDirection(-torient.VectorZ());
 	return false;					// never self-terminates

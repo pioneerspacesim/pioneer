@@ -452,7 +452,7 @@ void Pi::Init()
 	FILE *pStatFile = fopen("shipstat.csv","wt");
 	if (pStatFile)
 	{
-		fprintf(pStatFile, "name,lmrname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,sacc,aacc\n");
+		fprintf(pStatFile, "name,lmrname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,sacc,aacc,exvel\n");
 		for (std::map<std::string, ShipType>::iterator i = ShipType::types.begin();
 				i != ShipType::types.end(); ++i)
 		{
@@ -472,7 +472,7 @@ void Pi::Init()
 			double zsize = aabb.max.z-aabb.min.z;
 			double fakevol = xsize*ysize*zsize;
 			double rescale = pow(fakevol/(100 * (hullmass+capacity)), 0.3333333333);
-			double brad = aabb.GetBoundingRadius();
+			double brad = aabb.GetRadius();
 			double simass = (hullmass + capacity) * 1000.0;
 			double angInertia = (2/5.0)*simass*brad*brad;
 			double acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*simass);
@@ -480,10 +480,12 @@ void Pi::Init()
 			double acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*simass);
 			double acc4 = shipdef->linThrust[ShipType::THRUSTER_RIGHT] / (9.81*simass);
 			double acca = shipdef->angThrust/angInertia;
+			double exvel = shipdef->linThrust[ShipType::THRUSTER_FORWARD] /
+				(shipdef->fuelTankMass * shipdef->thrusterFuelUse * 10 * 1e6);
 
-			fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.3f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f\n",
+			fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.3f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f,%.1f\n",
 				shipdef->name.c_str(), shipdef->lmrModelName.c_str(), hullmass, capacity,
-				fakevol, rescale, xsize, ysize, zsize, acc1, acc2, acc3, acc4, acca);
+				fakevol, rescale, xsize, ysize, zsize, acc1, acc2, acc3, acc4, acca, exvel);
 			delete collMesh;
 		}
 		fclose(pStatFile);

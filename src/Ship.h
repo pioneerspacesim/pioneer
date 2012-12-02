@@ -226,9 +226,10 @@ public:
 	FuelState GetFuelState() { return m_thrusterFuel > 0.05f ? FUEL_OK : m_thrusterFuel > 0.0f ? FUEL_WARNING : FUEL_EMPTY; }
 
 	//fuel left, 0.0-1.0
-	float GetFuel() const {	return m_thrusterFuel;	}
-	//0.0 - 1.0
-	void SetFuel(const float f) {	m_thrusterFuel = Clamp(f, 0.f, 1.f); }
+	double GetFuel() const { return m_thrusterFuel;	}
+	void SetFuel(const double f) { m_thrusterFuel = Clamp(f, 0.0, 1.0); }
+	double GetFuelReserve() const { return m_reserveFuel; }
+	void SetFuelReserve(const double f) { m_reserveFuel = Clamp(f, 0.0, m_thrusterFuel); }
 
 	void EnterSystem();
 
@@ -271,7 +272,7 @@ private:
 	bool IsFiringLasers();
 	void TestLanded();
 	void UpdateAlertState();
-	void UpdateFuel(float timeStep);
+	void UpdateFuel(float timeStep, const vector3d &thrust);
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 
@@ -302,8 +303,8 @@ private:
 	AIError m_aiMessage;
 	bool m_decelerating;
 
-	float m_thrusterFuel; //remaining fuel 0.0-1.0
-	float m_fuelUseWeights[4]; //rear, front, lateral, up&down. Rear thrusters are usually 1.0
+	double m_thrusterFuel; 	// remaining fuel 0.0-1.0
+	double m_reserveFuel;	// 0-1, fuel not to touch for the current AI program
 
 	int m_dockedWithIndex; // deserialisation
 };

@@ -452,19 +452,6 @@ void Ship::UpdateFuelStats()
 	m_stats.fuel_tank_mass = stype.fuelTankMass;
 	m_stats.fuel_use = stype.thrusterFuelUse;
 	m_stats.fuel_tank_mass_left = m_stats.fuel_tank_mass * GetFuel();
-	//calculate thruster fuel usage weights
-	const float fwd = fabs(stype.linThrust[ShipType::THRUSTER_FORWARD]);
-	const float rev = fabs(stype.linThrust[ShipType::THRUSTER_REVERSE]);
-	//left/right assumed to match
-	const float side = fabs(stype.linThrust[ShipType::THRUSTER_LEFT]);
-	//up/down don't always match, but meh. Take average.
-	const float up = (fabs(stype.linThrust[ShipType::THRUSTER_UP]) +
-		fabs(stype.linThrust[ShipType::THRUSTER_DOWN])) / 2.0;
-	const float max = std::max(fwd, rev);
-	m_fuelUseWeights[0] = fwd / max;
-	m_fuelUseWeights[1] = rev / max;
-	m_fuelUseWeights[2] = side / max;
-	m_fuelUseWeights[3] = up / max;
 
 	UpdateMass();
 }
@@ -713,14 +700,15 @@ void Ship::TimeStepUpdate(const float timeStep)
 	// but we call this crap anyway and hope it doesn't do anything bad
 
 	vector3d maxThrust = GetMaxThrust(m_thrusters);
-	AddRelForce(vector3d(maxThrust.x*m_thrusters.x, maxThrust.y*m_thrusters.y,
-		maxThrust.z*m_thrusters.z));
+	vector3d thrust = vector3d(maxThrust.x*m_thrusters.x, maxThrust.y*m_thrusters.y,
+		maxThrust.z*m_thrusters.z);
+	AddRelForce(thrust);
 	AddRelTorque(GetShipType().angThrust * m_angThrusters);
 
 	DynamicBody::TimeStepUpdate(timeStep);
 
 	// fuel use decreases mass, so do this as the last thing in the frame
-	UpdateFuel(timeStep);
+	UpdateFuel(timeStep, thrust);
 }
 
 void Ship::DoThrusterSounds() const
@@ -907,19 +895,11 @@ void Ship::UpdateAlertState()
 		LuaEvent::Queue("onShipAlertChanged", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipAlertStatus", GetAlertState()));
 }
 
-void Ship::UpdateFuel(const float timeStep)
+void Ship::UpdateFuel(const float timeStep, const vector3d &thrust)
 {
-	const float fuelUseRate = GetShipType().thrusterFuelUse * 0.01f;
-	const vector3d &tstate = GetThrusterState();
-	//weights calculated from thrust values during calcstats
-	float totalThrust = 0.f;
-	if (tstate.z > 0.0)
-		totalThrust = fabs(tstate.z) * m_fuelUseWeights[1];  //backwards
-	else
-		totalThrust = fabs(tstate.z) * m_fuelUseWeights[0];  //forwards (usually 1)
-
-	totalThrust += fabs(tstate.x) * m_fuelUseWeights[2]; //left-right
-	totalThrust += fabs(tstate.y) * m_fuelUseWeights[3]; //up-down
+	const double fuelUseRate = GetShipType().thrusterFuelUse * 0.01;
+	double totalThrust = (fabs(thrust.x) + fabs(thrust.y) + fabs(thrust.z))
+		/ -GetShipType().linThrust[ShipType::THRUSTER_FORWARD];
 
 	FuelState lastState = GetFuelState();
 	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
