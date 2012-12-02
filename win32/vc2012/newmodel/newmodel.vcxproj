@@ -17,6 +17,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E34F7DBC-F23D-481A-B920-E53F56C53EE8}</ProjectGuid>
     <RootNamespace>newmodel</RootNamespace>
+    <ProjectName>scenegraph</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -92,8 +93,8 @@
     <ClCompile Include="..\..\..\src\scenegraph\Loader.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\LOD.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\MatrixTransform.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Model.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\ModelNode.cpp" />
-    <ClCompile Include="..\..\..\src\scenegraph\NModel.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Node.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\NodeVisitor.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Parser.cpp" />
@@ -121,9 +122,9 @@
     <ClInclude Include="..\..\..\src\scenegraph\LoaderDefinitions.h" />
     <ClInclude Include="..\..\..\src\scenegraph\LOD.h" />
     <ClInclude Include="..\..\..\src\scenegraph\MatrixTransform.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Model.h" />
     <ClInclude Include="..\..\..\src\scenegraph\ModelNode.h" />
     <ClInclude Include="..\..\..\src\scenegraph\SceneGraph.h" />
-    <ClInclude Include="..\..\..\src\scenegraph\NModel.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Node.h" />
     <ClInclude Include="..\..\..\src\scenegraph\NodeVisitor.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Parser.h" />
