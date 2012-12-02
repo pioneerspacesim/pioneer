@@ -3,8 +3,8 @@ Alpha 29
    * New features
      * Economical autopilot. Trades fuel for time (#1582)
      * Your ship's automatic rotation damping can now be turned off (#1570, #1156)
-     * Almost 100 new factions with varying government types (#1621, #1620, #1675)
-     * Zoom out the sector view to see a faction map (#1754)
+     * Almost 100 new factions with varying government types (#1621, #1620, #1675, #1761)
+     * Zoom out the sector view to see a faction map (#1754, #1764, #1761)
 
    * Minor changes and tweaks
      * Cargo scooping now only requires a collision against the ship rather
@@ -23,6 +23,8 @@ Alpha 29
        (MSVC builds only) (#1743)
      * Fixed flight log crash after visiting 1000 stations
      * Barnard's Star is now a member of the Federation (#1620)
+     * Reduce use of random number generator in sector generation. Fixes gas
+       giant distribution and makes it go a little faster (#1765)
 
    * Script changes
      * Custom Systems: Faction allegiance can now be set for custom systems (#1621)
@@ -38,6 +40,7 @@ Alpha 29
      * New UI.SmallButton widget (#1722)
      * New UI constructors for 'Single' widgets take an optional final argument
        specifying the inner widget (#1723, #1738)
+     * MouseMove UI event also receives relative mouse travel (#1767)
      * Grids and can now have nil entries and has a ClearCell method (#1723, #1738)
      * Functions taking a widget can now take a table with a 'widget' field (#1723, #1738)
      * debug.deprecated function to warn when a deprecated function is used (#1718)

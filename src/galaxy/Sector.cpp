@@ -43,9 +43,9 @@ void Sector::GetCustomSystems()
 Sector::Sector(int x, int y, int z)
 {
 	unsigned long _init[4] = { Uint32(x), Uint32(y), Uint32(z), UNIVERSE_SEED };
-	sx = x; sy = y; sz = z;
 	MTRand rng(_init, 4);
-	MTRand rand(UNIVERSE_SEED);
+
+	sx = x; sy = y; sz = z;
 
 	GetCustomSystems();
 	int customCount = m_systems.size();
@@ -77,120 +77,98 @@ Sector::Sector(int x, int y, int z)
 			s.seed = 0;
 			s.customSys = 0;
 
-			double spec = rng.Double(1000000.0);
-			// frequencies from wikipedia
-			/*if (spec < 100) { // should be 1 but that is boring
-				s.starType[0] = SystemBody::TYPE_STAR_O;
-			} else if (spec < 1300) {
-				s.starType[0] = SystemBody::TYPE_STAR_B;
-			} else if (spec < 7300) {
-				s.starType[0] = SystemBody::TYPE_STAR_A;
-			} else if (spec < 37300) {
-				s.starType[0] = SystemBody::TYPE_STAR_F;
-			} else if (spec < 113300) {
-				s.starType[0] = SystemBody::TYPE_STAR_G;
-			} else if (spec < 234300) {
-				s.starType[0] = SystemBody::TYPE_STAR_K;
-			} else if (spec < 250000) {
-				s.starType[0] = SystemBody::TYPE_WHITE_DWARF;
-			} else if (spec < 900000) {
-				s.starType[0] = SystemBody::TYPE_STAR_M;
-			} else {
-				s.starType[0] = SystemBody::TYPE_BROWN_DWARF;
-			}*/
-			//if ((sx > 50) || (sx < -50) ||
-			//	(sy > 50) || (sy < -50))
+			Uint32 weight = rng.Int32(1000000);
 
 			// Frequencies are low enough that we probably don't need this anymore.
 			if (isqrt(1+sx*sx+sy*sy) > 10)
 			{
-				if (spec < 1) {
+				if (weight < 1) {
 					s.starType[0] = SystemBody::TYPE_STAR_IM_BH;  // These frequencies are made up
-				} else if (spec < 3) {
+				} else if (weight < 3) {
 					s.starType[0] = SystemBody::TYPE_STAR_S_BH;
-				} else if (spec < 5) {
+				} else if (weight < 5) {
 					s.starType[0] = SystemBody::TYPE_STAR_O_WF;
-				} else if (spec < 8) {
+				} else if (weight < 8) {
 					s.starType[0] = SystemBody::TYPE_STAR_B_WF;
-				} else if (spec < 12) {
+				} else if (weight < 12) {
 					s.starType[0] = SystemBody::TYPE_STAR_M_WF;
-				} else if (spec < 15) {
+				} else if (weight < 15) {
 					s.starType[0] = SystemBody::TYPE_STAR_K_HYPER_GIANT;
-				} else if (spec < 18) {
+				} else if (weight < 18) {
 					s.starType[0] = SystemBody::TYPE_STAR_G_HYPER_GIANT;
-				} else if (spec < 23) {
+				} else if (weight < 23) {
 					s.starType[0] = SystemBody::TYPE_STAR_O_HYPER_GIANT;
-				} else if (spec < 28) {
+				} else if (weight < 28) {
 					s.starType[0] = SystemBody::TYPE_STAR_A_HYPER_GIANT;
-				} else if (spec < 33) {
+				} else if (weight < 33) {
 					s.starType[0] = SystemBody::TYPE_STAR_F_HYPER_GIANT;
-				} else if (spec < 41) {
+				} else if (weight < 41) {
 					s.starType[0] = SystemBody::TYPE_STAR_B_HYPER_GIANT;
-				} else if (spec < 48) {
+				} else if (weight < 48) {
 					s.starType[0] = SystemBody::TYPE_STAR_M_HYPER_GIANT;
-				} else if (spec < 58) {
+				} else if (weight < 58) {
 					s.starType[0] = SystemBody::TYPE_STAR_K_SUPER_GIANT;
-				} else if (spec < 68) {
+				} else if (weight < 68) {
 					s.starType[0] = SystemBody::TYPE_STAR_G_SUPER_GIANT;
-				} else if (spec < 78) {
+				} else if (weight < 78) {
 					s.starType[0] = SystemBody::TYPE_STAR_O_SUPER_GIANT;
-				} else if (spec < 88) {
+				} else if (weight < 88) {
 					s.starType[0] = SystemBody::TYPE_STAR_A_SUPER_GIANT;
-				} else if (spec < 98) {
+				} else if (weight < 98) {
 					s.starType[0] = SystemBody::TYPE_STAR_F_SUPER_GIANT;
-				} else if (spec < 108) {
+				} else if (weight < 108) {
 					s.starType[0] = SystemBody::TYPE_STAR_B_SUPER_GIANT;
-				} else if (spec < 158) {
+				} else if (weight < 158) {
 					s.starType[0] = SystemBody::TYPE_STAR_M_SUPER_GIANT;
-				} else if (spec < 208) {
+				} else if (weight < 208) {
 					s.starType[0] = SystemBody::TYPE_STAR_K_GIANT;
-				} else if (spec < 250) {
+				} else if (weight < 250) {
 					s.starType[0] = SystemBody::TYPE_STAR_G_GIANT;
-				} else if (spec < 300) {
+				} else if (weight < 300) {
 					s.starType[0] = SystemBody::TYPE_STAR_O_GIANT;
-				} else if (spec < 350) {
+				} else if (weight < 350) {
 					s.starType[0] = SystemBody::TYPE_STAR_A_GIANT;
-				} else if (spec < 400) {
+				} else if (weight < 400) {
 					s.starType[0] = SystemBody::TYPE_STAR_F_GIANT;
-				} else if (spec < 500) {
+				} else if (weight < 500) {
 					s.starType[0] = SystemBody::TYPE_STAR_B_GIANT;
-				} else if (spec < 700) {
+				} else if (weight < 700) {
 					s.starType[0] = SystemBody::TYPE_STAR_M_GIANT;
-				} else if (spec < 800) {
+				} else if (weight < 800) {
 					s.starType[0] = SystemBody::TYPE_STAR_O;  // should be 1 but that is boring
-				} else if (spec < 2000) { // spec < 1300 / 20500
+				} else if (weight < 2000) { // weight < 1300 / 20500
 					s.starType[0] = SystemBody::TYPE_STAR_B;
-				} else if (spec < 8000) { // spec < 7300
+				} else if (weight < 8000) { // weight < 7300
 					s.starType[0] = SystemBody::TYPE_STAR_A;
-				} else if (spec < 37300) { // spec < 37300
+				} else if (weight < 37300) { // weight < 37300
 					s.starType[0] = SystemBody::TYPE_STAR_F;
-				} else if (spec < 113300) { // spec < 113300
+				} else if (weight < 113300) { // weight < 113300
 					s.starType[0] = SystemBody::TYPE_STAR_G;
-				} else if (spec < 234300) { // spec < 234300
+				} else if (weight < 234300) { // weight < 234300
 					s.starType[0] = SystemBody::TYPE_STAR_K;
-				} else if (spec < 250000) { // spec < 250000
+				} else if (weight < 250000) { // weight < 250000
 					s.starType[0] = SystemBody::TYPE_WHITE_DWARF;
-				} else if (spec < 900000) {  //spec < 900000
+				} else if (weight < 900000) {  //weight < 900000
 					s.starType[0] = SystemBody::TYPE_STAR_M;
 				} else {
 					s.starType[0] = SystemBody::TYPE_BROWN_DWARF;
 				}
 			} else {
-				if (spec < 100) { // should be 1 but that is boring
+				if (weight < 100) { // should be 1 but that is boring
 					s.starType[0] = SystemBody::TYPE_STAR_O;
-				} else if (spec < 1300) {
+				} else if (weight < 1300) {
 					s.starType[0] = SystemBody::TYPE_STAR_B;
-				} else if (spec < 7300) {
+				} else if (weight < 7300) {
 					s.starType[0] = SystemBody::TYPE_STAR_A;
-				} else if (spec < 37300) {
+				} else if (weight < 37300) {
 					s.starType[0] = SystemBody::TYPE_STAR_F;
-				} else if (spec < 113300) {
+				} else if (weight < 113300) {
 					s.starType[0] = SystemBody::TYPE_STAR_G;
-				} else if (spec < 234300) {
+				} else if (weight < 234300) {
 					s.starType[0] = SystemBody::TYPE_STAR_K;
-				} else if (spec < 250000) {
+				} else if (weight < 250000) {
 					s.starType[0] = SystemBody::TYPE_WHITE_DWARF;
-				} else if (spec < 900000) {
+				} else if (weight < 900000) {
 					s.starType[0] = SystemBody::TYPE_STAR_M;
 				} else {
 					s.starType[0] = SystemBody::TYPE_BROWN_DWARF;
@@ -211,27 +189,28 @@ Sector::Sector(int x, int y, int z)
 				// while
 				if (isqrt(1+sx*sx+sy*sy) > 10)
 				{
-					if (rand.Int32(0,1000) >= 999) {
+					weight = rng.Int32(1000);
+					if (weight >= 999) {
 						s.starType[0] = SystemBody::TYPE_STAR_B_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 998) {
+					} else if (weight >= 998) {
 						s.starType[0] = SystemBody::TYPE_STAR_O_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 997) {
+					} else if (weight >= 997) {
 						s.starType[0] = SystemBody::TYPE_STAR_K_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 995) {
+					} else if (weight >= 995) {
 						s.starType[0] = SystemBody::TYPE_STAR_B_SUPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 993) {
+					} else if (weight >= 993) {
 						s.starType[0] = SystemBody::TYPE_STAR_O_SUPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 990) {
+					} else if (weight >= 990) {
 						s.starType[0] = SystemBody::TYPE_STAR_K_SUPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 985) {
+					} else if (weight >= 985) {
 						s.starType[0] = SystemBody::TYPE_STAR_B_GIANT;
-					} else if (rand.Int32(0,1000) >= 980) {
+					} else if (weight >= 980) {
 						s.starType[0] = SystemBody::TYPE_STAR_O_GIANT;
-					} else if (rand.Int32(0,1000) >= 975) {
+					} else if (weight >= 975) {
 						s.starType[0] = SystemBody::TYPE_STAR_K_GIANT;
-					} else if (rand.Int32(0,1000) >= 950) {
+					} else if (weight >= 950) {
 						s.starType[0] = SystemBody::TYPE_STAR_M_HYPER_GIANT;
-					} else if (rand.Int32(0,1000) >= 875) {
+					} else if (weight >= 875) {
 						s.starType[0] = SystemBody::TYPE_STAR_M_SUPER_GIANT;
 					} else {
 						s.starType[0] = SystemBody::TYPE_STAR_M_GIANT;
@@ -293,7 +272,9 @@ std::string Sector::GenName(System &sys, int si, MTRand &rng)
 		case SystemBody::TYPE_STAR_M_HYPER_GIANT: chance = 1; break;  //Should give a nice name almost all the time
 		default: chance += 16*dist; break;
 	}
-	if (rng.Int32(chance) < 500 || Faction::IsHomeSystem(SystemPath(sx, sy, sz, si))) {
+
+	Uint32 weight = rng.Int32(chance);
+	if (weight < 500 || Faction::IsHomeSystem(SystemPath(sx, sy, sz, si))) {
 		/* well done. you get a real name  */
 		int len = rng.Int32(2,3);
 		for (int i=0; i<len; i++) {
@@ -301,11 +282,11 @@ std::string Sector::GenName(System &sys, int si, MTRand &rng)
 		}
 		name[0] = toupper(name[0]);
 		return name;
-	} else if (rng.Int32(chance) < 800) {
+	} else if (weight < 800) {
 		char buf[128];
 		snprintf(buf, sizeof(buf), "MJBN %d%+d%+d", rng.Int32(10,999),sx,sy); // MJBN -> Morton Jordan Bennett Norris
 		return buf;
-	} else if (rng.Int32(chance) < 1200) {
+	} else if (weight < 1200) {
 		char buf[128];
 		snprintf(buf, sizeof(buf), "SC %d%+d%+d", rng.Int32(1000,9999),sx,sy);
 		return buf;
