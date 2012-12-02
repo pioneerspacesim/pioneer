@@ -298,7 +298,7 @@ public:
 	}
 	
 	void OnDumpModel() {
-		m_model->Dump();
+		m_model->Dump(&g_params);
 		m_dumpLabel->SetText(stringf("Model dumped to %0", FileSystem::userFiles.GetRoot() + "/" + m_model->GetDumpPath()).c_str());
 	}
 

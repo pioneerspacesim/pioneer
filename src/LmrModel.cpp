@@ -885,7 +885,7 @@ private:
 	};
 
 public:
-	void Dump(const std::string &rootFolderName, const std::string &name, int lod) {
+	void Dump(const LmrObjParams *params, const std::string &rootFolderName, const std::string &name, int lod) {
 		const std::string prefix(stringf("%0_lod%1{d}", name, lod+1));
 
 		// If we haven't got any vertices then call the ops but otherwise bugger off
@@ -893,7 +893,7 @@ public:
 		{
 			for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
 				if ((*i).type == OP_CALL_MODEL) {
-					(*i).callmodel.model->Dump(rootFolderName.c_str());
+					(*i).callmodel.model->Dump(params, rootFolderName.c_str());
 				}
 			}
 			// 'ear, 'ugger orf
@@ -1056,7 +1056,7 @@ public:
 
 		for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
 			if ((*i).type == OP_CALL_MODEL) {
-				(*i).callmodel.model->Dump(rootFolderName.c_str());
+				(*i).callmodel.model->Dump(params, rootFolderName.c_str());
 			}
 		}
 	}
@@ -1585,19 +1585,29 @@ std::string LmrModel::GetDumpPath(const char *pMainFolderName)
 	return folderName;
 }
 
-void LmrModel::Dump(const char* pMainFolderName)
+void LmrModel::Dump(const LmrObjParams *params, const char* pMainFolderName)
 {
 	if (m_dumped) return;
 	m_dumped = true;
 
 	const std::string rootFolderName(pMainFolderName ? pMainFolderName : m_name);
+	const std::string dynamicRootFolderName(rootFolderName + "/dynamic/");
 	const std::string folderName(std::string(DUMP_DIR) + "/" + rootFolderName);
+	const std::string dynamicFolderName(std::string(DUMP_DIR) + "/" + dynamicRootFolderName);
 
 	FileSystem::userFiles.MakeDirectory(DUMP_DIR);
 	FileSystem::userFiles.MakeDirectory(folderName);
+	FileSystem::userFiles.MakeDirectory(dynamicFolderName);
 
 	for (int lod = 0; lod < m_numLods; lod++) {
-		m_staticGeometry[lod]->Dump(rootFolderName, m_name, lod);
+		m_staticGeometry[lod]->Dump(params, rootFolderName, m_name, lod);
+	}
+	if (m_hasDynamicFunc)
+	{
+		for (int lod = 0; lod < m_numLods; lod++) {
+			Build( lod, params );
+			m_dynamicGeometry[lod]->Dump(params, dynamicRootFolderName, m_name, lod);
+		}
 	}
 }
 
