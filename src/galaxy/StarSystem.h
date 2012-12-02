@@ -256,9 +256,6 @@ public:
 	fixed m_humanProx;
 	fixed m_totalPop;
 
-	// percent price alteration
-	int m_tradeLevel[Equip::TYPE_MAX];
-
 	int GetCommodityBasePriceModPercent(int t) {
 		return m_tradeLevel[t];
 	}
@@ -269,6 +266,7 @@ public:
 	fixed GetIndustrial();
 	int GetEconType();
 	int GetSeed();
+	int* GetTradeLevel();
 private:
 	StarSystem(const SystemPath &path);
 	~StarSystem();
@@ -305,6 +303,10 @@ private:
 	fixed m_industrial;
 	int m_econType;
 	int m_seed;
+
+	// percent price alteration
+	int m_tradeLevel[Equip::TYPE_MAX];
+
 
 
 

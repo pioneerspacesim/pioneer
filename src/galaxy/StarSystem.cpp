@@ -2272,3 +2272,7 @@ int StarSystem::GetSeed()
 }
 
 
+int* StarSystem::GetTradeLevel()
+{
+	return m_tradeLevel;
+}
