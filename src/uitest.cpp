@@ -133,8 +133,22 @@ int main(int argc, char **argv)
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
 	c->SetInnerWidget(
+		c->ColorBackground(Color(0.4f, 0.2f, 0.4f, 1.0f))->SetInnerWidget(
+			c->HBox()->PackEnd(UI::WidgetSet(
+				c->Icon("Agenda"),
+				c->Icon("Bag"),
+				c->Icon("Planet"),
+				c->Icon("Satellite"),
+				c->Icon("TrafficCone")
+			))
+		)
+	);
+
+#if 0
+	c->SetInnerWidget(
 		c->Margin(0)->SetInnerWidget(c->Gradient(Color(1.0f,0,0,1.0f), Color(0,0,1.0f,1.0f), UI::Gradient::HORIZONTAL))
 	);
+#endif
 
 #if 0
 	UI::Button *b1, *b2, *b3;
@@ -200,6 +214,7 @@ int main(int argc, char **argv)
 	image->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), image));
 #endif
 
+#if 0
 	UI::Slider *red, *green, *blue;
 	UI::ColorBackground *back;
 	c->SetInnerWidget(
@@ -213,6 +228,7 @@ int main(int argc, char **argv)
 	red->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
 	green->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
 	blue->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
+#endif
 
 #if 0
 	c->SetInnerWidget(
