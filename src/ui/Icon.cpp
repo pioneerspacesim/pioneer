@@ -7,6 +7,7 @@
 #include "graphics/TextureBuilder.h"
 
 static const char CONFIG_FILE[] = "ui/Icons.ini";
+static const char FALLBACK_ICON[] = "Blank";
 
 namespace UI {
 
@@ -55,7 +56,9 @@ Icon::Icon(Context *context, const std::string &iconName): Widget(context),
 		s_material->texture0 = s_texture.Get();
 	}
 
-	const std::string spec(s_config.String(iconName.c_str()));
+	std::string spec(s_config.String(iconName.c_str()));
+	if (spec.size() == 0)
+		spec = s_config.String(FALLBACK_ICON);
 	assert(spec.size() > 0);
 
 	std::vector<int> v(2);
