@@ -2241,21 +2241,29 @@ Faction* StarSystem::GetFaction() const
 	return m_faction;
 }
 
+
 bool StarSystem::GetUnexplored()
 {
 	return m_unexplored;
 }
+
 
 fixed StarSystem::GetMetallicity()
 {
 	return m_metallicity;
 }
 
+
 fixed StarSystem::GetIndustrial()
 {
 	return m_industrial;
 }
 
+
+int StarSystem::GetEconType()
+{
+	return m_econType;
+}
 
 
 

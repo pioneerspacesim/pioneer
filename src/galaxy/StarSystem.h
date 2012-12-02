@@ -258,7 +258,6 @@ public:
 
 	// percent price alteration
 	int m_tradeLevel[Equip::TYPE_MAX];
-	int m_econType;
 	int m_seed;
 
 	int GetCommodityBasePriceModPercent(int t) {
@@ -269,7 +268,7 @@ public:
 	bool GetUnexplored(); 
 	fixed GetMetallicity();
 	fixed GetIndustrial();
-
+	int GetEconType();
 private:
 	StarSystem(const SystemPath &path);
 	~StarSystem();
@@ -304,6 +303,7 @@ private:
 	bool m_unexplored;
 	fixed m_metallicity;
 	fixed m_industrial;
+	int m_econType;
 
 
 
