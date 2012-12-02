@@ -2251,6 +2251,10 @@ fixed StarSystem::GetMetallicity()
 	return m_metallicity;
 }
 
+fixed StarSystem::GetIndustrial()
+{
+	return m_industrial;
+}
 
 
 
