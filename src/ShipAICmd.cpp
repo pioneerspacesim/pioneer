@@ -716,47 +716,52 @@ bool AICmdIntercept::TimeStepUpdate()
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
 	else { LaunchShip(m_ship); return false; }
 
-	// generate base target pos & vel 
-	vector3d targpos = m_target->GetPositionRelTo(m_ship->GetFrame());
+	// generate base target pos (with vicinity adjustment) & vel 
+	double timestep = Pi::game->GetTimeStep();
+	Frame *frame = m_ship->GetFrame();
+	vector3d targpos = m_target->GetPositionRelTo(frame);
 	targpos -= (targpos - m_ship->GetPosition()).NormalizedSafe() * m_dist;
-	vector3d targvel = m_target->GetVelocityRelTo(m_ship->GetFrame());
-
-	// some basic target leading
-//	AITravelTime(
-
-	// generate other necessary parameters
+	vector3d targvel = m_target->GetVelocityRelTo(frame);
 	bool safe = ParentSafetyAdjust(m_ship, m_target->GetFrame(), targpos);
-	vector3d relvel = m_ship->GetVelocity() - targvel;
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	double targdist = relpos.Length();
-	double timestep = Pi::game->GetTimeStep();
+
+// TODO: collision needs to be processed according to vdiff, not reldir
+
 	CheckFrame();		// update collision frame stuff
-
-#ifdef DEBUG_AUTOPILOT
-if (m_ship->IsType(Object::PLAYER))
-printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
-	targdist, relvel.Length(), m_ship->GetThrusterState().z, m_state);
-#endif
-
 	Body *body = m_ship->GetFrame()->GetBody();
 	double erad = MaxEffectRad(body, m_ship);
 	if (body != m_target) {
 		int coll = CheckCollision(reldir, targdist, targpos, 0.0, erad);
 		if (coll) { m_state = -coll; return false; }
 	}
-
-	if (m_state < 0) m_state = targdist > 10000000.0 ? 0 : 1;	// still lame
-	if (m_target->IsType(Object::SHIP)) m_state = 0;			// not necessary?
+	if (m_state < 0) m_state = 0;
 
 	double maxdecel = m_state ? m_ship->GetAccelRev() : m_ship->GetAccelFwd();
 	double gravdir = -reldir.Dot(m_ship->GetPosition().Normalized());
 	maxdecel -= gravdir * GetGravityAtPos(m_ship->GetFrame(), m_ship->GetPosition());
 	if (maxdecel < 0) maxdecel = 0.0;
 
-// need maxdecel adjustment in here for target-chasing
+	// target ship acceleration adjustment
+	if (m_target->IsType(Object::SHIP)) {
+		Ship *targship = static_cast<Ship*>(m_target);
+		matrix3x3d orient = m_target->GetFrame()->GetOrientRelTo(frame);
+		vector3d targaccel = orient * targship->GetLastForce() / m_target->GetMass();
+		// the one fudge: targets accelerating towards you are usually going to flip
+		if (targaccel.Dot(reldir) < 0.0 && !targship->IsDecelerating()) targaccel *= 0.5;
+		targvel += targaccel * timestep;
+		maxdecel += targaccel.Dot(reldir);
+// should have maxdecel < 0 check here. do what though?
+	}
+
+	// ignore targvel if we could clear with side thrusters in a fraction of minimum time
+	double tt = sqrt(2.0*targdist / m_ship->GetAccelFwd());
+	vector3d perpvel = targvel - reldir * targvel.Dot(reldir);
+	if (perpvel.Length() < tt*0.1*m_ship->GetAccelMin()) targvel -= perpvel;
 
 	// linear thrust application
+	vector3d relvel = m_ship->GetVelocity() - targvel;
 	double ispeed = calc_ivel(targdist, 0.0, maxdecel);
 	vector3d vdiff = ispeed*reldir - relvel;
 	m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
@@ -764,15 +769,19 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	// check for deceleration and work out whether to flip
 	double sdiff = ispeed - relvel.Dot(reldir);
 	if (sdiff <= 0) m_ship->SetDecelerating(true);
-	if (m_state) if (sdiff <= 0) vdiff = -vdiff;
-	else if (sdiff >= 0 && sdiff < maxdecel*timestep*60) vdiff = -vdiff;
+	if (sdiff >= 0 && sdiff < maxdecel*timestep*60) vdiff = -vdiff;
 
 	// face appropriate direction
 	if (m_state >= 3) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
 	else m_ship->AIFaceDirection(vdiff);
-
-	if (m_ship->GetPosition().LengthSqr() < 4*erad*erad)
+	if (body->IsType(Object::PLANET) && m_ship->GetPosition().LengthSqr() < 2*erad*erad)
 		m_ship->AIFaceUpdir(m_ship->GetPosition());		// turn bottom thruster towards planet
+
+#ifdef DEBUG_AUTOPILOT
+if (m_ship->IsType(Object::PLAYER))
+printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
+	targdist, relvel.Length(), m_ship->GetThrusterState().z, m_state);
+#endif
 
 	// termination conditions: check
 	if (m_state >= 3) return true;					// finished last adjustment, hopefully
@@ -863,7 +872,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, term = %.3f, state 
 	if (m_state >= 3) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
 	else m_ship->AIFaceDirection(flipped ? -reldir : reldir);
 
-	if (m_ship->GetPosition().LengthSqr() < 4*erad*erad)
+	if (body->IsType(Object::PLANET) && m_ship->GetPosition().LengthSqr() < 2*erad*erad)
 		m_ship->AIFaceUpdir(m_ship->GetPosition());		// turn bottom thruster towards planet
 
 	// termination conditions

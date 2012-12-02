@@ -100,6 +100,7 @@ public:
 
 	void TimeAccelAdjust(const float timeStep);
 	void SetDecelerating(bool decel) { m_decelerating = decel; }
+	bool IsDecelerating() const { return m_decelerating; }
 
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
