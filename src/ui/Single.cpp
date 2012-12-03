@@ -8,13 +8,13 @@ namespace UI {
 Point Single::PreferredSize()
 {
 	if (!m_innerWidget) return Point();
-	return m_innerWidget->PreferredSize();
+	return CalcLayoutContribution(m_innerWidget);
 }
 
 void Single::Layout()
 {
 	if (!m_innerWidget) return;
-	SetWidgetDimensions(m_innerWidget, Point(), GetSize());
+	SetWidgetDimensions(m_innerWidget, Point(), CalcSize(m_innerWidget, GetSize()));
 	m_innerWidget->Layout();
 }
 

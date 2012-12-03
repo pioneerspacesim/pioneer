@@ -161,10 +161,12 @@ int main(int argc, char **argv)
 				c->Icon("Bag"),
 				c->Icon("Planet"),
 				c->Icon("Satellite"),
-				c->Icon("TrafficCone")
+				c->Icon("TrafficCone"),
+				c->Label("Some text")->SetFont(UI::Widget::FONT_HEADING_XSMALL)
 			))
 		)
 	);
+#endif
 
 #if 0
 	c->SetInnerWidget(
@@ -180,7 +182,7 @@ int main(int argc, char **argv)
 				(b1 = c->Button())
 			),
 			c->Margin(10.0f)->SetInnerWidget(
-				(b2 = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png"))
+				(b2 = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png", UI::Widget::PRESERVE_ASPECT))
 			),
             c->Margin(10.0f)->SetInnerWidget(
                 (b3 = c->Button())->SetInnerWidget(c->Label("PEW PEW"))
@@ -210,15 +212,13 @@ int main(int argc, char **argv)
 			c->Margin(10.0f)->SetInnerWidget(
 				c->ColorBackground(Color(0.1f, 0.4f, 0.4f, 1.0f))->SetInnerWidget(
 					c->VBox()->PackEnd(UI::WidgetSet(
-						c->HBox()->PackEnd(UI::WidgetSet(
-							c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
-							(image = c->Image("icons/object_star_g.png")),
-							c->Image("icons/object_star_m.png")
-						)),
-						c->ColorBackground(Color(1.0f, 0.0f, 0.0f, 1.0f)),
-						c->ColorBackground(Color(0.0f, 1.0f, 0.0f, 1.0f)),
-						c->ColorBackground(Color(0.0f, 0.0f, 1.0f, 1.0f)),
-						c->Image("icons/cpanel.png"),
+						c->Expand(UI::Expand::VERTICAL)->SetInnerWidget(
+							c->HBox()->PackEnd(UI::WidgetSet(
+								c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+								c->Icon("Twitter"),
+								(image = c->Image("icons/object_star_g.png", UI::Widget::PRESERVE_ASPECT))
+							))),
+						c->Image("icons/cpanel.png", UI::Widget::EXPAND_WIDTH),
 						c->HBox(5.0f)->PackEnd(UI::WidgetSet(
 							c->Button()->SetInnerWidget(c->Label("Load game")),
 							c->Button()->SetInnerWidget(c->Label("Save game")),
@@ -226,7 +226,7 @@ int main(int argc, char **argv)
 						))->PackEnd(
 							(slider = c->HSlider())
 						)
-					)
+					))
 				)
 			)
 		)
@@ -258,10 +258,10 @@ int main(int argc, char **argv)
 		c->Grid(3,3)
 			->SetRow(0, UI::WidgetSet(
 				c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
-				c->Image("icons/object_star_g.png")
+				c->Image("icons/object_star_g.png", UI::Widget::PRESERVE_ASPECT)
 			))
 			->SetRow(1, UI::WidgetSet(
-				c->Image("icons/object_star_m.png"),
+				c->Image("icons/object_star_m.png", UI::Widget::PRESERVE_ASPECT),
 				c->Button()->SetInnerWidget(c->Label("Wear monocle"))
 			))
 	);
@@ -280,15 +280,15 @@ int main(int argc, char **argv)
 				(back[3] = c->ColorBackground(Color(0.8f,0.8f,0.2f)))))
 	);
 	c->AddFloatingWidget(
-		(button[0] = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png")), vector2f(472.0f, 344.f), vector2f(80.0f)
+		(button[0] = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png")), UI::Point(472, 344), UI::Point(80)
 	)->AddFloatingWidget(
-		(button[1] = c->Button())->SetInnerWidget(c->Image("icons/object_star_a.png")), vector2f(216.0f, 344.f), vector2f(80.0f)
+		(button[1] = c->Button())->SetInnerWidget(c->Image("icons/object_star_a.png")), UI::Point(216, 344), UI::Point(80)
 	)->AddFloatingWidget(
-		(button[2] = c->Button())->SetInnerWidget(c->Image("icons/object_star_f.png")), vector2f(728.0f, 344.f), vector2f(80.0f)
+		(button[2] = c->Button())->SetInnerWidget(c->Image("icons/object_star_f.png")), UI::Point(728, 344), UI::Point(80)
 	)->AddFloatingWidget(
-		(button[3] = c->Button())->SetInnerWidget(c->Image("icons/object_star_g.png")), vector2f(472.0f, 152.f), vector2f(80.0f)
+		(button[3] = c->Button())->SetInnerWidget(c->Image("icons/object_star_g.png")), UI::Point(472, 152), UI::Point(80)
 	)->AddFloatingWidget(
-		(button[4] = c->Button())->SetInnerWidget(c->Image("icons/object_star_k.png")), vector2f(472.0f, 536.f), vector2f(80.0f)
+		(button[4] = c->Button())->SetInnerWidget(c->Image("icons/object_star_k.png")), UI::Point(472, 536), UI::Point(80)
 	);
 
 	for (int i = 0; i < 4; i++) {

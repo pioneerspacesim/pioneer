@@ -68,13 +68,8 @@ Icon::Icon(Context *context, const std::string &iconName): Widget(context),
 
 Point Icon::PreferredSize()
 {
+	SetSizeControlFlags(NO_HEIGHT | PRESERVE_ASPECT);
 	return Point(48);
-}
-
-void Icon::Layout()
-{
-	const Point &size = GetSize();
-	SetActiveArea(Point(std::min(size.x, 48), std::min(size.y, 48)));
 }
 
 void Icon::Draw()
