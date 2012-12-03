@@ -4521,8 +4521,7 @@ static Uint32 _calculate_all_models_checksum()
 	// do we need to rebuild the model cache?
 	CRC32 crc;
 	FileSystem::FileEnumerator files(FileSystem::gameDataFiles, FileSystem::FileEnumerator::Recurse);
-	files.AddSearchRoot("models");
-	files.AddSearchRoot("sub_models");
+	files.AddSearchRoot("lmrmodels");
 	while (!files.Finished()) {
 		const FileSystem::FileInfo &info = files.Current();
 		assert(info.IsFile());
@@ -4662,7 +4661,7 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 
 	s_buildDynamic = false;
 
-	pi_lua_dofile(L, "pimodels.lua");
+	pi_lua_dofile(L, "lmrmodels.lua");
 
 	LUA_DEBUG_END(sLua, 0);
 
