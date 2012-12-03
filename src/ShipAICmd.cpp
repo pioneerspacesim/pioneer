@@ -729,7 +729,7 @@ bool AICmdIntercept::TimeStepUpdate()
 	vector3d reldir = relpos.NormalizedSafe();
 	double targdist = relpos.Length();
 
-// TODO: collision needs to be processed according to vdiff, not reldir
+// TODO: collision needs to be processed according to vdiff, not reldir?
 
 	CheckFrame();		// update collision frame stuff
 	Body *body = m_ship->GetFrame()->GetBody();
@@ -754,7 +754,7 @@ bool AICmdIntercept::TimeStepUpdate()
 		if (targaccel.Dot(reldir) < 0.0 && !targship->IsDecelerating()) targaccel *= 0.5;
 		targvel += targaccel * timestep;
 		maxdecel += targaccel.Dot(reldir);
-// should have maxdecel < 0 check here. do what though?
+// TODO: should have maxdecel < 0 check here. do what with it though?
 	}
 
 	// ignore targvel if we could clear with side thrusters in a fraction of minimum time
@@ -762,9 +762,24 @@ bool AICmdIntercept::TimeStepUpdate()
 	vector3d perpvel = targvel - reldir * targvel.Dot(reldir);
 	if (perpvel.Length() < tt*0.1*m_ship->GetAccelMin()) targvel -= perpvel;
 
-	// linear thrust application
+	// calculate target speed
 	vector3d relvel = m_ship->GetVelocity() - targvel;
 	double ispeed = calc_ivel(targdist, 0.0, maxdecel);
+	
+	// cap target speed according to spare fuel remaining
+	double fuelspeed = m_ship->GetSpeedReachedWithFuel();
+	double curspeed = relvel.Dot(reldir);
+	if (m_target->IsType(Object::SHIP)) fuelspeed -=
+		m_ship->GetVelocityRelTo(Pi::game->GetSpace()->GetRootFrame()).Length();
+	if (ispeed > curspeed && curspeed > 0.9*fuelspeed) ispeed = curspeed;
+
+	// Don't exit a frame faster than some fraction of radius
+//	double maxframespeed = 0.2 * frame->GetRadius() / timestep;
+//	if (frame->GetParent() && ispeed > maxframespeed) ispeed = maxframespeed;
+// TODO: issues leaving pluto?
+// frame relative velocity issue?
+
+	// linear thrust application
 	vector3d vdiff = ispeed*reldir - relvel;
 	m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
 

@@ -105,6 +105,8 @@ void Ship::AIKamikaze(Body *target)
 void Ship::AIKill(Ship *target)
 {
 	AIClearInstructions();
+	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
+
 	m_curAICmd = new AICmdKill(this, target);
 }
 
@@ -119,6 +121,8 @@ void Ship::AIJourney(SystemBodyPath &dest)
 void Ship::AIFlyTo(Body *target)
 {
 	AIClearInstructions();
+	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
+
 	// Use waypoint rather than vicinity for ground stations
 	if (target->IsType(Object::SPACESTATION)
 		&& static_cast<SpaceStation*>(target)->IsGroundStation())
@@ -138,12 +142,16 @@ void Ship::AIFlyTo(Body *target)
 void Ship::AIDock(SpaceStation *target)
 {
 	AIClearInstructions();
+	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
+
 	m_curAICmd = new AICmdDock(this, target);
 }
 
 void Ship::AIOrbit(Body *target, double alt)
 {
 	AIClearInstructions();
+	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
+
 	m_curAICmd = new AICmdFlyAround(this, target, alt);
 }
 

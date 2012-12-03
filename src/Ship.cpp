@@ -90,7 +90,8 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	if(m_curAICmd) { wr.Int32(1); m_curAICmd->Save(wr); }
 	else wr.Int32(0);
 	wr.Int32(int(m_aiMessage));
-	wr.Float(m_thrusterFuel);
+	wr.Double(m_thrusterFuel);
+	wr.Double(m_reserveFuel);
 
 	wr.Int32(static_cast<int>(m_controller->GetType()));
 	m_controller->Save(wr, space);
@@ -130,8 +131,9 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	if(rd.Int32()) m_curAICmd = AICommand::Load(rd);
 	else m_curAICmd = 0;
 	m_aiMessage = AIError(rd.Int32());
-	SetFuel(rd.Float());
+	SetFuel(rd.Double());
 	m_stats.fuel_tank_mass_left = GetShipType().fuelTankMass * GetFuel();
+	m_reserveFuel = rd.Double();
 
 	m_controller = 0;
 	const ShipController::Type ctype = static_cast<ShipController::Type>(rd.Int32());
@@ -179,7 +181,8 @@ void Ship::PostLoadFixup(Space *space)
 
 Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_controller(0),
-	m_thrusterFuel(1.f)
+	m_thrusterFuel(1.0),
+	m_reserveFuel(0.0)
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
@@ -248,6 +251,26 @@ void Ship::SetPercentHull(float p)
 void Ship::UpdateMass()
 {
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
+}
+
+// returns velocity of engine exhausts in m/s
+double Ship::GetEffectiveExhaustVelocity(void) {
+	double denominator = GetShipType().fuelTankMass * GetShipType().thrusterFuelUse * 10;
+	return denominator > 0 ? -GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9;
+}
+
+// inverse of GetEffectiveExhaustVelocity()
+double Ship::GetFuelUseRate(double effectiveExhaustVelocity) {
+	double denominator = effectiveExhaustVelocity * 10;
+	return denominator > 0 ? -GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9;
+}
+
+// returns speed that can be reached using fuel minus reserve according to the Tsiolkovsky equation
+double Ship::GetSpeedReachedWithFuel()
+{
+	double fuelmass = 1000*GetShipType().fuelTankMass * (m_thrusterFuel - m_reserveFuel);
+	if (fuelmass < 0) return 0.0;
+	return GetEffectiveExhaustVelocity() * log(GetMass()/(GetMass()-fuelmass));
 }
 
 bool Ship::OnDamage(Object *attacker, float kgDamage)
