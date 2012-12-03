@@ -886,7 +886,7 @@ private:
 
 public:
 	void Dump(const LmrObjParams *params, const std::string &rootFolderName, const std::string &name, int lod) {
-		const std::string prefix(stringf("%0_lod%1{d}", name, lod+1));
+		const std::string prefix(stringf("%0_lod%1{d}_%2", name, lod+1, m_isStatic ? "static" : "dynamic"));
 
 		// If we haven't got any vertices then call the ops but otherwise bugger off
 		if( m_vertices.size()==0 )
@@ -1591,13 +1591,10 @@ void LmrModel::Dump(const LmrObjParams *params, const char* pMainFolderName)
 	m_dumped = true;
 
 	const std::string rootFolderName(pMainFolderName ? pMainFolderName : m_name);
-	const std::string dynamicRootFolderName(rootFolderName + "/dynamic/");
 	const std::string folderName(std::string(DUMP_DIR) + "/" + rootFolderName);
-	const std::string dynamicFolderName(std::string(DUMP_DIR) + "/" + dynamicRootFolderName);
 
 	FileSystem::userFiles.MakeDirectory(DUMP_DIR);
 	FileSystem::userFiles.MakeDirectory(folderName);
-	FileSystem::userFiles.MakeDirectory(dynamicFolderName);
 
 	for (int lod = 0; lod < m_numLods; lod++) {
 		m_staticGeometry[lod]->Dump(params, rootFolderName, m_name, lod);
@@ -1606,7 +1603,7 @@ void LmrModel::Dump(const LmrObjParams *params, const char* pMainFolderName)
 	{
 		for (int lod = 0; lod < m_numLods; lod++) {
 			Build( lod, params );
-			m_dynamicGeometry[lod]->Dump(params, dynamicRootFolderName, m_name, lod);
+			m_dynamicGeometry[lod]->Dump(params, rootFolderName, m_name, lod);
 		}
 	}
 }
