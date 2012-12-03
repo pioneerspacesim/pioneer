@@ -77,7 +77,7 @@ public:
 	// single containers
 	UI::Background *Background() { return new UI::Background(this); }
 	UI::ColorBackground *ColorBackground(const Color &color) { return new UI::ColorBackground(this, color); }
-	UI::Margin *Margin(float margin) { return new UI::Margin(this, margin); };
+	UI::Margin *Margin(int margin, Margin::Direction direction = Margin::ALL) { return new UI::Margin(this, margin, direction); };
 	UI::Align *Align(UI::Align::Direction direction) { return new UI::Align(this, direction); }
 	UI::Gradient *Gradient(const Color &beginColor, const Color &endColor, Gradient::Direction direction = Gradient::VERTICAL) { return new UI::Gradient(this, beginColor, endColor, direction); }
 	UI::Expand *Expand(UI::Expand::Direction direction = Expand::BOTH) { return new UI::Expand(this, direction); }

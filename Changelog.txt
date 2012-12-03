@@ -43,6 +43,7 @@ Alpha 29
      * New UI.Icon widget (#1737)
      * New UI constructors for 'Single' widgets take an optional final argument
        specifying the inner widget (#1723, #1738)
+     * UI.Margin can now apply a margin to a single side or direction (#1747)
      * MouseMove UI event also receives relative mouse travel (#1767)
      * Grids and can now have nil entries and has a ClearCell method (#1723, #1738)
      * Functions taking a widget can now take a table with a 'widget' field (#1723, #1738)

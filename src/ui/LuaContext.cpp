@@ -136,9 +136,12 @@ public:
 
 	static int l_margin(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-		UI::Margin *m = c->Margin(luaL_checknumber(l, 2));
+		int margin = luaL_checkinteger(l, 2);
+		UI::Margin::Direction dir = UI::Margin::ALL;
+		if (lua_gettop(l) > 2)
+			dir = static_cast<UI::Margin::Direction>(LuaConstants::GetConstantFromArg(l, "UIMarginDirection", 3));
+        UI::Margin *m = c->Margin(margin, dir);
 		_implicit_set_inner_widget(l, m);
-		LuaObject<UI::Margin>::PushToLua(m);
 		return 1;
 	}
 
