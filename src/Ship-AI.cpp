@@ -123,20 +123,11 @@ void Ship::AIFlyTo(Body *target)
 	AIClearInstructions();
 	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
 
-	// Use waypoint rather than vicinity for ground stations
-	if (target->IsType(Object::SPACESTATION)
-		&& static_cast<SpaceStation*>(target)->IsGroundStation())
-	{ 
-		if (GetPositionRelTo(target).Length() <= 15000.0) return;
-		vector3d posoff = target->GetPosition() + 15000.0 * target->GetOrient().VectorY();
-		m_curAICmd = new AICmdFlyTo(this, target->GetFrame(), posoff, 0.0, false);
-	}
-	else if (target->IsType(Object::SHIP))	// test code
-	{
+	if (target->IsType(Object::SHIP)) {		// test code
 		vector3d posoff(-1000.0, 0.0, 1000.0);
 		m_curAICmd = new AICmdFormation(this, static_cast<Ship*>(target), posoff);
 	}
-	else m_curAICmd = new AICmdIntercept(this, target);
+	else m_curAICmd = new AICmdFlyTo(this, target);
 }
 
 void Ship::AIDock(SpaceStation *target)

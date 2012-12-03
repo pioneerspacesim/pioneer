@@ -13,7 +13,7 @@
 class AICommand {
 public:
 	// This enum is solely to make the serialization work
-	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_INTERCEPT, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION, CMD_FORMATION };
+	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION, CMD_FORMATION };
 
 	AICommand(Ship *ship, CmdName name) {
 	   	m_ship = ship; m_cmdName = name;
@@ -84,76 +84,33 @@ private:
 	int m_targetIndex;	// used during deserialisation
 };
 
-// abstract class used to check for collisions
-class AICmdCollider : public AICommand {
-public:
-	AICmdCollider(Ship *ship, CmdName name)
-		: AICommand(ship, name) { m_frame = 0; }		// passthrough constructors
-	AICmdCollider(Serializer::Reader &rd, CmdName name)
-		: AICommand(rd, name) { m_frame = 0; }
-
-	bool CheckFrame();													// true if frame changed
-	int CheckCollision(const vector3d &reldir, double targdist,
-		const vector3d &targpos, double endvel, double erad);			// 1-4 if collision
-private:
-	Frame *m_frame;		// current frame of ship, used to check for changes
-};
-
-class AICmdIntercept : public AICmdCollider {
-public:
-	virtual bool TimeStepUpdate();
-	AICmdIntercept(Ship *ship, Body *target);
-
-	virtual void GetStatusText(char *str) {
-		if (m_child) m_child->GetStatusText(str);
-		else snprintf(str, 255, "Intercept: %s, dist %.1fkm, state %i",
-			m_target->GetLabel().c_str(), m_dist, m_state);
-	}
-	virtual void Save(Serializer::Writer &wr) {
-		if(m_child) { delete m_child; m_child = 0; }
-		AICommand::Save(wr);
-		wr.Int32(Pi::game->GetSpace()->GetIndexForBody(m_target));
-		wr.Double(m_dist);
-		wr.Int32(m_state);
-	}
-	AICmdIntercept(Serializer::Reader &rd) : AICmdCollider(rd, CMD_INTERCEPT) {
-		m_targetIndex = rd.Int32();
-		m_dist = rd.Double();
-		m_state = rd.Int32();
-	}
-	virtual void PostLoadFixup(Space *space) {
-		AICommand::PostLoadFixup(space);				// regen
-		m_target = space->GetBodyByIndex(m_targetIndex);
-	}
-
-private:
-	Body *m_target;		// target for vicinity. Either this or targframe is 0
-	double m_dist;		// vicinity distance
-	int m_state;		
-
-	int m_targetIndex;	// used during deserialisation
-};
-
-class AICmdFlyTo : public AICmdCollider {
+class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
 	AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent);
+	AICmdFlyTo(Ship *ship, Body *target);
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
+		else if (m_target) snprintf(str, 255, "Intercept: %s, dist %.1fkm, state %i",
+			m_target->GetLabel().c_str(), m_dist, m_state);
 		else snprintf(str, 255, "FlyTo: %s, dist %.1fkm, endvel %.1fkm/s, state %i",
 			m_targframe->GetLabel().c_str(), m_posoff.Length()/1000.0, m_endvel/1000.0, m_state);
 	}
 	virtual void Save(Serializer::Writer &wr) {
 		if(m_child) { delete m_child; m_child = 0; }
 		AICommand::Save(wr);
+		wr.Int32(Pi::game->GetSpace()->GetIndexForBody(m_target));
+		wr.Double(m_dist);
 		wr.Int32(Pi::game->GetSpace()->GetIndexForFrame(m_targframe));
 		wr.Vector3d(m_posoff);
 		wr.Double(m_endvel);
 		wr.Bool(m_tangent);
 		wr.Int32(m_state);
 	}
-	AICmdFlyTo(Serializer::Reader &rd) : AICmdCollider(rd, CMD_FLYTO) {
+	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
+		m_targetIndex = rd.Int32();
+		m_dist = rd.Double();
 		m_targframeIndex = rd.Int32();
 		m_posoff = rd.Vector3d();
 		m_endvel = rd.Double();
@@ -162,18 +119,26 @@ public:
 	}
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
+		m_target = space->GetBodyByIndex(m_targetIndex);
 		m_targframe = space->GetFrameByIndex(m_targframeIndex);
+	}
+	virtual void OnDeleted(const Body *body) {
+		AICommand::OnDeleted(body);
+		if (m_target == body) m_target = 0;
 	}
 
 private:
+	Body *m_target;		// target for vicinity. Either this or targframe is 0
+	double m_dist;		// vicinity distance
 	Frame *m_targframe;	// target frame for waypoint
 	vector3d m_posoff;	// offset in target frame
 	double m_endvel;	// target speed in direction of motion at end of path, positive only
-	int m_state;		
 	bool m_tangent;		// true if path is to a tangent of the target frame's body
+	int m_state;		
 
-	int m_targframeIndex;	// used during deserialisation
+	int m_targetIndex, m_targframeIndex;	// used during deserialisation
 	vector3d m_reldir;	// target direction relative to ship at last frame change
+	Frame *m_frame;		// last frame of ship
 };
 
 
