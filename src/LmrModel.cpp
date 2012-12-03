@@ -905,9 +905,9 @@ public:
 		FILE *out = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPath(outDir, prefix+".obj"));
 		assert(out); // XXX fail gracefully
 
-		printf("Dumping model '%s' LOD %d\n", name.c_str(), lod+1);
+		printf("Dumping model '%s' LOD %d [%s]\n", name.c_str(), lod+1, m_isStatic ? "static" : "dynamic");
 
-		fputs(stringf("# Dump of LMR model '%0' LOD %1{d}\n", name, lod+1).c_str(), out);
+		fputs(stringf("# Dump of LMR model '%0' LOD %1{d} [%2]\n", name, lod+1, m_isStatic ? "static" : "dynamic").c_str(), out);
 
 		fputs(stringf("mtllib %0.mtl\n", prefix).c_str(), out);
 
@@ -993,7 +993,7 @@ public:
 		out = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPath(outDir, prefix+".mtl"));
 		assert(out); // XXX fail gracefully
 
-		fputs(stringf("# Materials LMR model '%0' LOD %1{d}\n", name, lod+1).c_str(), out);
+		fputs(stringf("# Materials for LMR model '%0' LOD %1{d} [%s]\n", name, lod+1, m_isStatic ? "static" : "dynamic").c_str(), out);
 			
 		for (unsigned int i = 0; i < materials.size(); i++) {
 			fputs(stringf("newmtl %0_mat%1{u}\n", prefix, i).c_str(), out);
