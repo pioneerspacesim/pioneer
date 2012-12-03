@@ -1,3 +1,10 @@
+-- Temporary mapping while waiting for new-equipment to embed this information.
+local missile_names = {
+	MISSILE_UNGUIDED="missile_unguided",
+	MISSILE_GUIDED="missile_guided",
+	MISSILE_SMART="missile_smart",
+	MISSILE_NAVAL="missile_naval"
+}
 --
 -- Class: Ship
 --
@@ -7,6 +14,55 @@
 --
 -- Group: Methods
 --
+
+-- Method: FireMissileAt
+--
+-- Fire a missile at the given target
+--
+-- > fired = ship:FireMissileAt(type, target)
+--
+-- Parameters:
+--
+--   missile - a <Constants.EquipType> string for the missile type. specifying an
+--          equipment that is not a missile will result in a Lua error.
+--          You can also provide a number matching the slot of the missile you wish
+--          to launch.
+--
+--   target - the <Ship> to fire the missile at
+--
+-- Return:
+--
+--   fired - true if the missile was fired, false if the ship has no missile
+--           of the requested type
+--
+-- Availability:
+--
+--   alpha 10
+--
+-- Status:
+--
+--   experimental
+--
+function Ship:FireMissileAt(missile, target)
+    if type(missile) == "number" then
+        missile_type = self:GetEquip("MISSILE", missile)
+        if missile_type ~= "NONE" and self:SpawnMissile(missile_names[missile_type], target) then
+            self:SetEquip("MISSILE", missile, "NONE")
+            return true
+        end
+        return false
+    end
+	for i,m in ipairs(self:GetEquip("MISSILE")) do
+		if m == missile then
+			if self:SpawnMissile(missile_names[missile], target) then
+				self:SetEquip("MISSILE", i, "NONE")
+				return true
+			end
+			return false
+		end
+	end
+	return false
+end
 
 --
 -- Method: Refuel

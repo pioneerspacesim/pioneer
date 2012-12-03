@@ -617,33 +617,14 @@ void Ship::UseECM()
 	}
 }
 
-bool Ship::FireMissile(int idx, Ship *target)
-{
-	assert(target);
-
-	if (GetFlightState() != FLYING) return false;
-
-	const Equip::Type t = m_equipment.Get(Equip::SLOT_MISSILE, idx);
-	if (t == Equip::NONE) {
+bool Ship::SpawnMissile(Missile * missile) {
+	if (GetFlightState() != FLYING)
 		return false;
-	}
-
-	m_equipment.Set(Equip::SLOT_MISSILE, idx, Equip::NONE);
-	UpdateEquipStats();
 
 	matrix4x4d m;
 	GetRotMatrix(m);
-	vector3d dir = m*vector3d(0,0,-1);
+	vector3d dir = m*vector3d(0, 0, -1);
 
-	ShipType::Id mtype;
-	switch (t) {
-		case Equip::MISSILE_SMART: mtype = ShipType::MISSILE_SMART; break;
-		case Equip::MISSILE_NAVAL: mtype = ShipType::MISSILE_NAVAL; break;
-		case Equip::MISSILE_UNGUIDED: mtype = ShipType::MISSILE_UNGUIDED; break;
-		default:
-		case Equip::MISSILE_GUIDED: mtype = ShipType::MISSILE_GUIDED; break;
-	}
-	Missile *missile = new Missile(mtype, this, target);
 	missile->SetRotMatrix(m);
 	missile->SetFrame(GetFrame());
 	// XXX DODGY! need to put it in a sensible location

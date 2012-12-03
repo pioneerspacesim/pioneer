@@ -8,6 +8,9 @@
 #include "KeyBindings.h"
 #include "Lang.h"
 #include "libs.h"
+#include "LuaConstants.h"
+#include "LuaShip.h"
+#include "LuaTable.h"
 #include "Missile.h"
 #include "Pi.h"
 #include "Player.h"
@@ -540,19 +543,38 @@ void UseEquipWidget::FireMissile(int idx)
 		return;
 	}
 
-	Pi::player->FireMissile(idx, static_cast<Ship*>(Pi::player->GetCombatTarget()));
+	lua_State *l = Lua::manager->GetLuaState();
+	int pristine_stack = lua_gettop(l);
+	LuaShip::PushToLua(Pi::player);
+	lua_pushstring(l, "FireMissileAt");
+	lua_gettable(l, -2);
+	lua_pushvalue(l, -2);
+	lua_pushinteger(l, idx+1);
+	LuaShip::PushToLua(static_cast<Ship*>(Pi::player->GetCombatTarget()));
+	lua_call(l, 3, 1);
+	lua_settop(l, pristine_stack);
 }
 
 void UseEquipWidget::UpdateEquip()
 {
 	DeleteAllChildren();
-	int numSlots = Pi::player->m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
+	lua_State *l = Lua::manager->GetLuaState();
+	int pristine_stack = lua_gettop(l);
+	LuaShip::PushToLua(Pi::player);
+	lua_pushstring(l, "GetEquip");
+	lua_gettable(l, -2);
+	lua_pushvalue(l, -2);
+	lua_pushstring(l, "MISSILE");
+	lua_call(l, 2, 1);
+	std::vector<std::string> missiles = LuaTable(l, -1).GetVector<std::string>();
+	lua_settop(l, pristine_stack);
+	int numSlots = missiles.size();
 
 	if (numSlots) {
 		float spacing = 380.0f / numSlots;
 
 		for (int i = 0; i < numSlots; ++i) {
-			const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_MISSILE, i);
+			const Equip::Type t = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", missiles[i].c_str()));
 			if (t == Equip::NONE) continue;
 
 			Gui::ImageButton *b;
