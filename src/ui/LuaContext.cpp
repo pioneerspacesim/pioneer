@@ -140,8 +140,9 @@ public:
 		UI::Margin::Direction dir = UI::Margin::ALL;
 		if (lua_gettop(l) > 2)
 			dir = static_cast<UI::Margin::Direction>(LuaConstants::GetConstantFromArg(l, "UIMarginDirection", 3));
-        UI::Margin *m = c->Margin(margin, dir);
+		UI::Margin *m = c->Margin(margin, dir);
 		_implicit_set_inner_widget(l, m);
+		LuaObject<UI::Margin>::PushToLua(m);
 		return 1;
 	}
 
