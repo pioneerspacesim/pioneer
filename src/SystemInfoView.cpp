@@ -15,6 +15,7 @@
 #include "Game.h"
 #include "graphics/Renderer.h"
 #include "graphics/Drawables.h"
+#include "Factions.h"
 
 SystemInfoView::SystemInfoView()
 {
