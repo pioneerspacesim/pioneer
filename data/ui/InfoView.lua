@@ -157,7 +157,7 @@ local personalInfo = function ()
 	-- for updating the caption
 	local faceWidget = UI.InfoFace.New(player)
 	-- for updating the entire face
-	local faceWidgetContainer = ui:Margin(0, faceWidget)
+	local faceWidgetContainer = ui:Margin(0, "ALL", faceWidget)
 
 	local nameEntry = ui:TextEntry(player.name):SetFont("HEADING_LARGE")
 	nameEntry.onEnter:Connect(function (newName)
