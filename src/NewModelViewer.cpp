@@ -46,6 +46,22 @@ namespace {
 	void add_pair(UI::Context *c, UI::Box *box, UI::Widget *widget, const std::string &label) {
 		box->PackEnd(c->HBox(5)->PackEnd(UI::WidgetSet( widget, c->Label(label) )));
 	}
+
+	void collect_decals(std::vector<std::string> &list)
+	{
+		const std::string basepath("textures/decals");
+		FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
+		for (FileSystem::FileEnumerator files(fileSource, basepath); !files.Finished(); files.Next())
+		{
+			const FileSystem::FileInfo &info = files.Current();
+			const std::string &fpath = info.GetPath();
+
+			//check it's the expected type
+			if (info.IsFile() && ends_with(fpath, ".png")) {
+				list.push_back(info.GetName().substr(0, info.GetName().size()-4));
+			}
+		}
+	}
 }
 
 ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int height)
@@ -55,6 +71,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 , m_animTime(0.001 * SDL_GetTicks())
 , m_frameTime(0.f)
 , m_renderer(r)
+, m_decalTexture(0)
 , m_height(height)
 , m_width(width)
 , m_rng(time(0))
@@ -73,12 +90,6 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 	std::fill(m_keyStates, m_keyStates + COUNTOF(m_keyStates), false);
 	std::fill(m_mouseButton, m_mouseButton + COUNTOF(m_mouseButton), false);
 	std::fill(m_mouseMotion, m_mouseMotion + 2, 0);
-
-	//sweet pioneer badge for decal testing
-	m_decalTexture = Graphics::TextureBuilder(
-		"icons/badge.png",
-		Graphics::LINEAR_CLAMP,
-		true, true, false).GetOrCreateTexture(m_renderer, "model");
 
 	//load gun model for attachment test
 	{
@@ -504,7 +515,22 @@ void ModelViewer::OnAnimSliderChanged(float value)
 	animValue->SetText(stringf("%0{f.2}", value));
 }
 
-void ModelViewer::OnLightPresetChanged(unsigned int index, const std::string &)
+void ModelViewer::OnDecalChanged(unsigned int index, const std::string &texname)
+{
+	if (!m_model) return;
+
+	m_decalTexture = Graphics::TextureBuilder(
+		stringf("textures/decals/%0.png", texname),
+		Graphics::LINEAR_CLAMP,
+		true, true, false).GetOrCreateTexture(m_renderer, "model");
+
+	m_model->SetDecalTexture(m_decalTexture, 0);
+	m_model->SetDecalTexture(m_decalTexture, 1);
+	m_model->SetDecalTexture(m_decalTexture, 2);
+	m_model->SetDecalTexture(m_decalTexture, 3);
+}
+
+void ModelViewer::OnLightPresetChanged(unsigned int index, const std::string&)
 {
 	m_options.lightPreset = std::min<unsigned int>(index, 3);
 }
@@ -677,10 +703,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 
 		//set decal textures, max 4 supported.
 		//Identical texture at the moment
-		m_model->SetDecalTexture(m_decalTexture, 0);
-		m_model->SetDecalTexture(m_decalTexture, 1);
-		m_model->SetDecalTexture(m_decalTexture, 2);
-		m_model->SetDecalTexture(m_decalTexture, 3);
+		OnDecalChanged(0, "01_Badge");
 
 		SceneGraph::DumpVisitor d;
 		m_model->GetRoot()->Accept(d);
@@ -849,6 +872,22 @@ void ModelViewer::SetupUI()
 		patternSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnPatternChanged));
 
 		UpdatePatternList();
+	}
+
+	//decal selector
+	//models support up to 4 but 1 is enough here
+	if (m_model->SupportsDecals()) {
+		mainBox->PackEnd(c->Label("Decal:"));
+		mainBox->PackEnd(decalSelector = c->DropDown());
+
+		decalSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnDecalChanged));
+
+		std::vector<std::string> decals;
+		collect_decals(decals);
+
+		for (std::vector<std::string>::const_iterator it = decals.begin(); it != decals.end(); ++it) {
+			decalSelector->AddOption(*it);
+		}
 	}
 
 	//light dropdown

@@ -39,6 +39,7 @@ private:
 	void MainLoop();
 	void OnAnimChanged(unsigned int, const std::string&);
 	void OnAnimSliderChanged(float);
+	void OnDecalChanged(unsigned int, const std::string&);
 	void OnLightPresetChanged(unsigned int index, const std::string &);
 	void OnModelColorsChanged(float);
 	void OnPatternChanged(unsigned int, const std::string&);
@@ -100,6 +101,7 @@ private:
 
 	UI::DropDown *animSelector;
 	UI::DropDown *patternSelector;
+	UI::DropDown *decalSelector;
 	UI::Label *nameLabel;
 	UI::Slider *animSlider;
 	UI::Label *animValue;
