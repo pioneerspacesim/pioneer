@@ -16,6 +16,8 @@ Alpha 29
        glitches (#1572)
      * Don't clear hyperspace target when the current system is selected in
        the Sector View (#1662)
+     * UI elements can now be disabled (#1749, #1721)
+     * More flexible UI widget size control (#1746)
 
    * Fixes
      * Workaround shader glitches for planets with zero temperature (#1712)
@@ -38,8 +40,11 @@ Alpha 29
      * New UI.Expand container to force a widget to fill available space (#1685)
      * New UI exposes SetText to Lua (#1690)
      * New UI.SmallButton widget (#1722)
+     * New UI.Icon widget (#1737)
      * New UI constructors for 'Single' widgets take an optional final argument
        specifying the inner widget (#1723, #1738)
+     * UI.Margin can now apply a margin to a single side or direction (#1747)
+     * MouseMove UI event also receives relative mouse travel (#1767)
      * Grids and can now have nil entries and has a ClearCell method (#1723, #1738)
      * Functions taking a widget can now take a table with a 'widget' field (#1723, #1738)
      * debug.deprecated function to warn when a deprecated function is used (#1718)

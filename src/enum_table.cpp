@@ -18,6 +18,7 @@
 #include "ui/Event.h"
 #include "ui/Expand.h"
 #include "ui/Gradient.h"
+#include "ui/Margin.h"
 #include "ui/Widget.h"
 
 const struct EnumItem ENUM_EquipSlot[] = {
@@ -377,6 +378,17 @@ const struct EnumItem ENUM_UIExpandDirection[] = {
 const struct EnumItem ENUM_UIGradientDirection[] = {
 	{ "HORIZONTAL", UI::Gradient::HORIZONTAL },
 	{ "VERTICAL", UI::Gradient::VERTICAL },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIMarginDirection[] = {
+	{ "ALL", UI::Margin::ALL },
+	{ "HORIZONTAL", UI::Margin::HORIZONTAL },
+	{ "VERTICAL", UI::Margin::VERTICAL },
+	{ "LEFT", UI::Margin::LEFT },
+	{ "RIGHT", UI::Margin::RIGHT },
+	{ "TOP", UI::Margin::TOP },
+	{ "BOTTOM", UI::Margin::BOTTOM },
 	{ 0, 0 },
 };
 
