@@ -39,7 +39,7 @@ private:
 	struct Child {
 		Child(Widget *_widget) : widget(_widget) {}
 		Widget *widget;
-		Point  preferredSize;
+		Point  contribSize;
 	};
 
 	std::list<Child> m_children;

@@ -95,8 +95,14 @@ void SectorView::InitDefaults()
 	m_zoomDefault = Clamp(m_zoomDefault, 0.1f, 5.0f);
 	m_previousSearch = "";
 
-	m_secPosFar = vector3f(INT_MAX, INT_MAX, INT_MAX);
-	m_radiusFar = 0;
+	m_secPosFar  = vector3f(INT_MAX, INT_MAX, INT_MAX);
+	m_radiusFar  = 0;
+	m_cacheXMin = 0;
+	m_cacheXMax = 0;
+	m_cacheYMin = 0;
+	m_cacheYMax = 0;
+	m_cacheYMin = 0;
+	m_cacheYMax = 0;
 }
 
 void SectorView::InitObject()
@@ -217,7 +223,7 @@ void SectorView::InitObject()
 	m_factionBox = new Gui::VBox();
 	m_factionBox->SetTransparency(false);
 	m_factionBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
-	m_factionBox->SetSpacing(5.0f);	
+	m_factionBox->SetSpacing(5.0f);
 	m_factionBox->HideAll();
 	Add(m_factionBox, 5, 5);
 }
@@ -455,7 +461,7 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 	for (std::vector<Sector::System>::iterator sys = sec->m_systems.begin(); sys !=sec->m_systems.end(); ++sys, ++num) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
 		if ((m_pos*Sector::SIZE - (*sys).FullPosition()).Length() > drawRadius) continue;
-		
+
 		// skip the system if it belongs to a Faction we've toggled off
 		if (m_hiddenFactions.find((*sys).faction) != m_hiddenFactions.end()) continue;
 
@@ -820,7 +826,7 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 		m_visibleFactions.clear();
 
 		for (int sx = secOrigin.x-buildRadius; sx <= secOrigin.x+buildRadius; sx++) {
-			for (int sy = secOrigin.z-buildRadius; sy <= secOrigin.y+buildRadius; sy++) {
+			for (int sy = secOrigin.y-buildRadius; sy <= secOrigin.y+buildRadius; sy++) {
 				for (int sz = secOrigin.z-buildRadius; sz <= secOrigin.z+buildRadius; sz++) {
 						if ((vector3f(sx,sy,sz) - secOrigin).Length() <= buildRadius){
 							BuildFarSector(GetCached(sx, sy, sz), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
@@ -1047,7 +1053,7 @@ void SectorView::Update()
 
 		// swtich between Info and Faction panels when we zoom over the threshold
 		if (m_zoom <= FAR_THRESHOLD && prevZoom > FAR_THRESHOLD && m_detailBoxVisible == DETAILBOX_FACTION) {
-			m_detailBoxVisible = DETAILBOX_INFO; 
+			m_detailBoxVisible = DETAILBOX_INFO;
 			RefreshDetailBoxVisibility();
 		}
 		if (m_zoom > FAR_THRESHOLD && prevZoom <= FAR_THRESHOLD && m_detailBoxVisible == DETAILBOX_INFO) {
@@ -1141,15 +1147,26 @@ void SectorView::ShrinkCache()
 
 	// XXX don't clear the current/selected/target sectors
 
-	std::map<SystemPath,Sector*>::iterator iter = m_sectorCache.begin();
-	while (iter != m_sectorCache.end())	{
-		Sector *s = (*iter).second;
-		//check_point_in_box
-		if (s && !s->WithinBox( xmin, xmax, ymin, ymax, zmin, zmax )) {
-			delete s;
-			m_sectorCache.erase( iter++ );
-		} else {
-			iter++;
+	if  (xmin != m_cacheXMin || xmax != m_cacheXMax
+	  || ymin != m_cacheYMin || ymax != m_cacheYMax
+	  || zmin != m_cacheZMin || zmax != m_cacheZMax) {
+		std::map<SystemPath,Sector*>::iterator iter = m_sectorCache.begin();
+		while (iter != m_sectorCache.end())	{
+			Sector *s = (*iter).second;
+			//check_point_in_box
+			if (s && !s->WithinBox( xmin, xmax, ymin, ymax, zmin, zmax )) {
+				delete s;
+				m_sectorCache.erase( iter++ );
+			} else {
+				iter++;
+			}
 		}
+
+		m_cacheXMin = xmin;
+		m_cacheXMax = xmax;
+		m_cacheYMin = ymin;
+		m_cacheYMax = ymax;
+		m_cacheZMin = zmin;
+		m_cacheZMax = zmax;
 	}
 }

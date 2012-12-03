@@ -26,7 +26,9 @@ void Label::Layout()
 
 void Label::Draw()
 {
-	GetContext()->GetFont(GetFont())->RenderString(m_text.c_str(), 0.0f, 0.0f);
+	static const Color normalColor(Color::WHITE);
+	static const Color disabledColor(0.8f, 0.8f, 0.8f, 1.0f);
+	GetContext()->GetFont(GetFont())->RenderString(m_text.c_str(), 0.0f, 0.0f, IsDisabled() ? disabledColor : normalColor);
 }
 
 Label *Label::SetText(const std::string &text)
