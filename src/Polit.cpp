@@ -189,7 +189,6 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 	SystemPath path = s->GetPath();
 	const unsigned long _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
 	MTRand rand(_init, 5);
-	Faction s1;
 
 	Sector sec(path.sectorX, path.sectorY, path.sectorZ);
 
