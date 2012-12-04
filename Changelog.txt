@@ -56,6 +56,7 @@ Alpha 29
        #1755, #1756, #1759)
      * Fix the LuaObject the Check/GetFromLua, which were swapped round (#1730)
      * Models moved to data/lmrmodels to make space for new model system (#1762)
+     * Code cleanup in StarSystem (making several members private) (#1773)
 
 Alpha 28
 

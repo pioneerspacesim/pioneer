@@ -19,6 +19,7 @@ As of 9 November 2012 (alpha 28), the Pioneer Developers are:
 * Craig Thomson
 * Dan Bennett
 * Darren Salt
+* Dionisis Kontominas
 * Enric Morales
 * Fran Morton
 * Gareth Allnutt

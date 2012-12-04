@@ -405,7 +405,7 @@ static int l_starsystem_attr_lawlessness(lua_State *l)
 static int l_starsystem_attr_population(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::CheckFromLua(1);
-	lua_pushnumber(l, s->m_totalPop.ToDouble());
+	lua_pushnumber(l, s->GetTotalPop().ToDouble());
 	return 1;
 }
 
@@ -425,8 +425,8 @@ static int l_starsystem_attr_population(lua_State *l)
 static int l_starsystem_attr_faction(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::CheckFromLua(1);
-	if (s->m_faction->IsValid()) {
-		LuaFaction::PushToLua(s->m_faction);
+	if (s->GetFaction()->IsValid()) {
+		LuaFaction::PushToLua(s->GetFaction());
 		return 1;
 	} else {
 		return 0;
