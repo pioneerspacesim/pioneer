@@ -14,7 +14,7 @@ TerrainColorFractal<TerrainColorVolcanic>::TerrainColorFractal(const SystemBody 
 {
 	PotentialSurfaceComposition &psc = potentialSurfaceComposition;
 	// 50 percent chance of there being exposed lava
-	bool lava = (m_rand.Int32(100) > 50)|1;
+	bool lava = (m_rand.Int32(100) > 50);
 	psc.water = false; psc.snow = false; psc.ice = false; psc.lava = lava;
 }
 
