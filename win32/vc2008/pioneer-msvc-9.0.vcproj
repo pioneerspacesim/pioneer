@@ -3720,6 +3720,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ui\Icon.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Icon.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ui\Image.cpp"
 				>
 			</File>
@@ -3805,6 +3813,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ui\LuaGrid.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaIcon.cpp"
 				>
 			</File>
 			<File
