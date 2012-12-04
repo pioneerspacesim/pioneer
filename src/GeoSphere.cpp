@@ -1465,7 +1465,12 @@ void GeoSphere::SetUpMaterials()
 	// Request material for this star or planet, with or without
 	// atmosphere. Separate material for surface and sky.
 	Graphics::MaterialDescriptor surfDesc;
-	surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
+	Terrain::PotentialSurfaceComposition psc = GetTerrainPotentialSurfaceComposition();
+	if (psc.lava)
+		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA;
+	else
+		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
+
 	if ((m_sbody->type == SystemBody::TYPE_BROWN_DWARF) ||
 		(m_sbody->type == SystemBody::TYPE_STAR_M)) {
 		//dim star (emits and receives light)
