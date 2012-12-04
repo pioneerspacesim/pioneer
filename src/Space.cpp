@@ -50,7 +50,7 @@ Space::Space(Game *game, const SystemPath &path)
 #endif
 {
 	m_starSystem = StarSystem::GetCached(path);
-	m_background.Refresh(m_starSystem->m_seed);
+	m_background.Refresh(m_starSystem->GetSeed());
 
 	// XXX set radius in constructor
 	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
@@ -73,7 +73,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 #endif
 {
 	m_starSystem = StarSystem::Unserialize(rd);
-	m_background.Refresh(m_starSystem->m_seed);
+	m_background.Refresh(m_starSystem->GetSeed());
 	RebuildSystemBodyIndex();
 
 	Serializer::Reader section = rd.RdSection("Frames");

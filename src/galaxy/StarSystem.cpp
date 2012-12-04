@@ -1895,15 +1895,6 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 	}
 }
 
-const Color StarSystem::GetFactionColour() const
-{
-	return m_faction->colour;
-}
-
-const char *StarSystem::GetAllegianceDesc() const
-{
-	return m_faction->name.c_str();
-}
 
 /* percent */
 #define MAX_COMMODITY_BASE_PRICE_ADJUSTMENT 25
@@ -2243,3 +2234,4 @@ void StarSystem::ShrinkCache()
 			i++;
 	}
 }
+
