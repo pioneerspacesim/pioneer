@@ -777,9 +777,8 @@ void Ship::TimeAccelAdjust(const float timeStep)
 		printf("Time accel adjustment, step = %.1f, decel = %s\n", double(timeStep),
 			m_decelerating ? "true" : "false");
 #endif
-
-	if (!m_decelerating) return;
 	vector3d vdiff = double(timeStep) * GetLastForce() * (1.0 / GetMass());
+	if (!m_decelerating) vdiff = -vdiff;
 	SetVelocity(GetVelocity() + vdiff);
 }
 
