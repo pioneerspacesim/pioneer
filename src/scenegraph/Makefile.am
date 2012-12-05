@@ -12,6 +12,7 @@ noinst_HEADERS = \
 	Animation.h \
 	AnimationKey.h \
 	Billboard.h \
+	CollisionGeometry.h \
 	CollisionVisitor.h \
 	ColorMap.h \
 	DumpVisitor.h \
@@ -35,6 +36,7 @@ noinst_HEADERS = \
 libscenegraph_a_SOURCES = \
 	Animation.cpp \
 	Billboard.cpp \
+	CollisionGeometry.cpp \
 	CollisionVisitor.cpp \
 	ColorMap.cpp \
 	DumpVisitor.cpp \
