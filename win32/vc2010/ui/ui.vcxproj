@@ -97,6 +97,7 @@
     <ClCompile Include="..\..\..\src\ui\FloatContainer.cpp" />
     <ClCompile Include="..\..\..\src\ui\Gradient.cpp" />
     <ClCompile Include="..\..\..\src\ui\Grid.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Icon.cpp" />
     <ClCompile Include="..\..\..\src\ui\Image.cpp" />
     <ClCompile Include="..\..\..\src\ui\Label.cpp" />
     <ClCompile Include="..\..\..\src\ui\List.cpp" />
@@ -113,6 +114,7 @@
     <ClCompile Include="..\..\..\src\ui\LuaExpand.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaGradient.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaGrid.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaIcon.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaImage.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaLabel.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaList.cpp" />
@@ -157,6 +159,7 @@
     <ClInclude Include="..\..\..\src\ui\FloatContainer.h" />
     <ClInclude Include="..\..\..\src\ui\Gradient.h" />
     <ClInclude Include="..\..\..\src\ui\Grid.h" />
+    <ClInclude Include="..\..\..\src\ui\Icon.h" />
     <ClInclude Include="..\..\..\src\ui\Image.h" />
     <ClInclude Include="..\..\..\src\ui\Label.h" />
     <ClInclude Include="..\..\..\src\ui\List.h" />
