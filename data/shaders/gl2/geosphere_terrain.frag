@@ -28,6 +28,13 @@ void main(void)
 		diff += gl_LightSource[i].diffuse * nDotVP;
 	}
 
+#ifdef TERRAIN_WITH_LAVA
+	//Glow lava terrains
+	if (vertexColor.r > 0.5 && vertexColor.g < 0.25 && vertexColor.b < 0.01) {
+		diff=vertexColor*2.0;
+	}
+#endif
+
 #ifdef ATMOSPHERE
 	// when does the eye ray intersect atmosphere
 	float atmosStart = findSphereEyeRayEntryDistance(geosphereCenter, eyepos, geosphereScaledRadius * geosphereAtmosTopRad);
