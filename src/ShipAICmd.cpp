@@ -609,21 +609,23 @@ static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, 
 
 // ok, need thing to step down through bodies and find closest approach
 // modify targpos directly to aim short of dangerous bodies
-static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, vector3d &targpos)
+static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, vector3d &targpos, vector3d &targvel)
 {
 	Body *body = 0;
 	Frame *frame = targframe->GetNonRotFrame();
 	while (frame)
 	{
+		if (ship->GetFrame()->GetNonRotFrame() == frame) break;		// ship in frame, stop
+		if (frame->GetBody()) body = frame->GetBody();			// ignore grav points?
+
 		double sdist = ship->GetPositionRelTo(frame).Length();
 		if (sdist < frame->GetRadius()) break;					// ship inside frame, stop
 
-		if (frame->GetBody()) body = frame->GetBody();			// ignore grav points?
-		frame = frame->GetNonRotFrame()->GetParent();			// check next frame down
+		frame = frame->GetParent()->GetNonRotFrame();			// check next frame down
 	}
 	if (!body) return false;
 
-	// ok, so if body != 0, aim for zero velocity at distance to surface of that body
+	// aim for zero velocity at surface of that body
 	// still along path to target
 
 	vector3d targpos2 = targpos - ship->GetPosition();
@@ -631,8 +633,7 @@ static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, vector3d &targpos)
 	double bodydist = body->GetPositionRelTo(ship).Length() - MaxEffectRad(body, ship)*1.5;
 	if (targdist < bodydist) return false;
 	targpos -= (targdist - bodydist) * targpos2 / targdist;
-//	printf("Adjusted targpos for safety from %s: old = %.1f, new = %.1f\n",
-//		body->GetLabel().c_str(), targdist, (targpos-ship->GetPosition()).Length());
+	targvel = body->GetVelocityRelTo(ship->GetFrame());
 	return true;
 }
 
@@ -719,8 +720,8 @@ bool AICmdFlyTo::TimeStepUpdate()
 		targpos = GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 		targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);		
 	}
-	bool safe = ParentSafetyAdjust(m_ship, m_target ? m_target->GetFrame() : m_targframe, targpos);
-// TODO: deal with safety velocity?
+	Frame *targframe = m_target ? m_target->GetFrame() : m_targframe;
+	bool safe = ParentSafetyAdjust(m_ship, targframe, targpos, targvel);
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	vector3d relvel = m_ship->GetVelocity() - targvel;
