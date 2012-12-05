@@ -729,6 +729,8 @@ void LuaConstants::Register(lua_State *l)
 	_create_constant_table_nonconsecutive(l, "UIMouseButtonType", ENUM_UIMouseButtonType);
 	_create_constant_table_nonconsecutive(l, "UIMouseWheelDirection", ENUM_UIMouseWheelDirection);
 
+	_create_constant_table_nonconsecutive(l, "GameUIFaceFlags", ENUM_GameUIFaceFlags);
+
 
 	LUA_DEBUG_END(l, 0);
 }

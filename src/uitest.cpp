@@ -139,6 +139,7 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
+#if 0
 	UI::Button *toggle;
 	UI::CheckBox *target;
 	c->SetInnerWidget(
@@ -152,6 +153,7 @@ int main(int argc, char **argv)
 	target->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), target));
 	target->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), target));
 	target->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), target));
+#endif
 
 #if 0
 	c->SetInnerWidget(
