@@ -21,6 +21,7 @@ void main(void)
 	vec3 eyenorm = normalize(eyepos);
 	vec3 tnorm = normalize(varyingNormal);
 	vec4 diff = vec4(0.0);
+	vec4 emission = material.emission;
 
 #if (NUM_LIGHTS > 0)
 	for (int i=0; i<NUM_LIGHTS; ++i) {
@@ -29,9 +30,9 @@ void main(void)
 	}
 
 #ifdef TERRAIN_WITH_LAVA
-	//Glow lava terrains
-	if (vertexColor.r > 0.5 && vertexColor.g < 0.25 && vertexColor.b < 0.01) {
-		diff=vertexColor*2.0;
+	// Glow lava terrains
+	if (vertexColor.r > 0.5 && vertexColor.g < 0.2 && vertexColor.b < 0.01) {
+		emission += 0.5 * vertexColor;
 	}
 #endif
 
