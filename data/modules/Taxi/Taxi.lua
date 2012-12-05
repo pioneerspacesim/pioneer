@@ -358,7 +358,7 @@ local onClick = function (ref)
 											})
 		})})
 		:SetColumn(1, {
-			ui:VBox(10):PackEnd(uilib.FaceWidget(mission.client))
+			ui:VBox(10):PackEnd(UI.InfoFace.New(mission.client))
 		})
 end
 
