@@ -806,8 +806,8 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	if (ispeed > curspeed && curspeed > 0.9*fuelspeed) ispeed = curspeed;
 
 	// Don't exit a frame faster than some fraction of radius
-	double maxframespeed = 0.2 * m_frame->GetRadius() / timestep;
-	if (m_frame->GetParent() && ispeed > maxframespeed) ispeed = maxframespeed;
+//	double maxframespeed = 0.2 * m_frame->GetRadius() / timestep;
+//	if (m_frame->GetParent() && ispeed > maxframespeed) ispeed = maxframespeed;
 
 	// linear thrust application
 	vector3d vdiff = ispeed*reldir - relvel;

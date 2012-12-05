@@ -778,7 +778,7 @@ void Ship::TimeAccelAdjust(const float timeStep)
 			m_decelerating ? "true" : "false");
 #endif
 	vector3d vdiff = double(timeStep) * GetLastForce() * (1.0 / GetMass());
-	if (!m_decelerating) vdiff = -vdiff;
+	if (!m_decelerating) vdiff = -2.0 * vdiff;
 	SetVelocity(GetVelocity() + vdiff);
 }
 
