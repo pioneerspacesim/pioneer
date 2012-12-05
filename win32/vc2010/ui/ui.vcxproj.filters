@@ -49,12 +49,12 @@
     <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ui\LuaTextEntry.cpp" />
     <ClCompile Include="..\..\..\src\ui\TextEntry.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaTextEntry.cpp" />
     <ClCompile Include="..\..\..\src\ui\Expand.cpp" />
-    <ClCompile Include="..\..\..\src\ui\Gradient.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaExpand.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaGradient.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Gradient.cpp" />
     <ClCompile Include="..\..\..\src\ui\SmallButton.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaSmallButton.cpp" />
     <ClCompile Include="..\..\..\src\ui\Icon.cpp" />

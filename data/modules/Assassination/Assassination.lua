@@ -3,6 +3,8 @@
 
 -- Get the translator function
 local t = Translate:GetTranslator()
+-- Get the UI class
+local ui = Engine.ui
 
 -- don't produce missions for further than this many light years away
 local max_ass_dist = 30
@@ -69,10 +71,9 @@ local onChat = function (form, ref, option)
 		ads[ref] = nil
 
 		local mission = {
-			type		= t("Assassination"),
+			type		= "Assassination",
 			backstation	= backstation,
-			boss		= ad.client.name,
-			client		= ad.shipname .. "\n(" .. ad.shipregid .. ")",
+			client		= ad.client,
 			danger		= ad.danger,
 			due		= ad.due,
 			flavour		= ad.flavour,
@@ -85,7 +86,7 @@ local onChat = function (form, ref, option)
 			target		= ad.target,
 		}
 
-		local mref = Game.player:AddMission(mission)
+		local mref = Mission.Add(mission)
 		missions[mref] = mission
 
 		form:SetMessage(t("Excellent."))
@@ -188,12 +189,11 @@ local onShipDestroyed = function (ship, body)
 				mission.notplayer = 'TRUE'
 			else -- well done, comrade
 				mission.status = 'COMPLETED'
-				mission.client = mission.boss
 				mission.location = mission.backstation
 				mission.notplayer = 'FALSE'
 			end
 			mission.ship = nil
-			Game.player:UpdateMission(ref, mission)
+			Mission.Update(ref, mission)
 			return
 		end
 	end
@@ -248,14 +248,14 @@ local onEnterSystem = function (ship)
 					end
 				else	-- too late
 					mission.status = 'FAILED'
-					ship:UpdateMission(ref, mission)
+					Mission.Update(ref, mission)
 				end
 			else
 				if not mission.ship:exists() then
 					mission.ship = nil
 					if mission.due < Game.time then
 						mission.status = 'FAILED'
-						ship:UpdateMission(ref, mission)
+						Mission.Update(ref, mission)
 					end
 				end
 			end
@@ -280,9 +280,9 @@ local onShipDocked = function (ship, station)
 					target	= mission.target,
 					cash	= Format.Money(mission.reward),
 				})
-				Comms.ImportantMessage(text, mission.boss)
+				Comms.ImportantMessage(text, mission.client.name)
 				ship:AddMoney(mission.reward)
-				ship:RemoveMission(ref)
+				Mission.Remove(ref)
 				missions[ref] = nil
 			elseif mission.status == 'FAILED' then
 				local ass_flavours = Translate:GetFlavours('Assassination')
@@ -296,14 +296,14 @@ local onShipDocked = function (ship, station)
 						target	= mission.target,
 					})
 				end
-				Comms.ImportantMessage(text, mission.boss)
-				ship:RemoveMission(ref)
+				Comms.ImportantMessage(text, mission.client.name)
+				Mission.Remove(ref)
 				missions[ref] = nil
 			end
 		else
 			if mission.ship == ship then
 				mission.status = 'FAILED'
-				Game.player:UpdateMission(ref, mission)
+				Mission.Update(ref, mission)
 			end
 		end
 		return
@@ -395,16 +395,46 @@ local onGameStart = function ()
 		local ref = ad.station:AddAdvert(ad.desc, onChat, onDelete)
 		ads[ref] = ad
 	end
-	for k,mission in pairs(loaded_data.missions) do
-		local mref = Game.player:AddMission(mission)
-		missions[mref] = mission
-	end
+
+	missions = loaded_data.missions
 
 	loaded_data = nil
 end
 
 local onGameEnd = function ()
 	nearbysystems = nil
+end
+
+local onClick = function (ref)
+	local mission = missions[ref]
+	local ass_flavours = Translate:GetFlavours('Assassination')
+	return ui:Grid(2,1)
+		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((ass_flavours[mission.flavour].introtext):interp({
+														name   = mission.client.name,
+														target = mission.target,
+														system = mission.location:GetStarSystem().name,
+														cash   = Format.Money(mission.reward)})
+										),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd(ui:MultiLineText(t('assmissiondetail')))
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(mission.target),
+													ui:Label(mission.location:GetSystemBody().name),
+													ui:Label(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
+													ui:Label(mission.shipname),
+													ui:Label(mission.shipregid),
+													ui:Label(Format.Date(mission.due)),
+													ui:Margin(10),
+													ui:Label(math.ceil(Game.system:DistanceTo(mission.location)).." "..t("ly"))
+												})
+											})
+		})})
+		:SetColumn(1, {
+			ui:VBox(10):PackEnd(UI.InfoFace.New(mission.client))
+		})
 end
 
 local serialize = function ()
@@ -435,5 +465,6 @@ Event.Register("onShipHit", onShipHit)
 Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onGameEnd", onGameEnd)
 
+Mission.RegisterClick('Assassination',onClick)
 
 Serializer:Register("Assassination", serialize, unserialize)
