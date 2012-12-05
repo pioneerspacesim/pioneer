@@ -20,6 +20,7 @@ void main(void)
 	vec3 eyenorm = normalize(eyepos);
 	vec3 tnorm = normalize(varyingNormal);
 	vec4 diff = vec4(0.0);
+	vec4 emission = gl_FrontMaterial.emission;
 
 #if (NUM_LIGHTS > 0)
 	for (int i=0; i<NUM_LIGHTS; ++i) {
@@ -29,8 +30,8 @@ void main(void)
 
 #ifdef TERRAIN_WITH_LAVA
 	//Glow lava terrains
-	if (vertexColor.r > 0.5 && vertexColor.g < 0.25 && vertexColor.b < 0.01) {
-		diff=vertexColor*2.0;
+	if (vertexColor.r > 0.5000 && vertexColor.g < 0.2000 && vertexColor.b < 0.0100) {
+		emission+=0.5*vertexColor;//*(clamp(0.5-diff.r,0.0,1.0));
 	}
 #endif
 
@@ -59,21 +60,21 @@ void main(void)
 	atmosDiffuse.a = 1.0;
 
 	gl_FragColor =
-		gl_FrontMaterial.emission +
+		emission +
 		fogFactor *
 		((scene.ambient * vertexColor) +
 		(diff * vertexColor)) +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
 #else // atmosphere-less planetoids and dim stars
 	gl_FragColor =
-		gl_FrontMaterial.emission +
+		emission +
 		(scene.ambient * vertexColor) +
 		(diff * vertexColor);
 #endif //ATMOSPHERE
 
 #else // NUM_LIGHTS > 0 -- unlit rendering - stars
 	//emission is used to boost colour of stars, which is a bit odd
-	gl_FragColor = gl_FrontMaterial.emission + vertexColor;
+	gl_FragColor = emission + vertexColor;
 #endif
 	SetFragDepth();
 }
