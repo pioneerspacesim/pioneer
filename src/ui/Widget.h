@@ -111,6 +111,17 @@ public:
 	// position relative to top container
 	Point GetAbsolutePosition() const;
 
+	// size control flags let a widget tell its container how it wants to be
+	// sized when it can't get its preferred size
+	Uint32 GetSizeControlFlags() const { return m_sizeControlFlags; }
+	enum SizeControl { // <enum scope='UI::Widget' name=UISizeControl>
+		NO_WIDTH        = 0x01, // do not contribute preferred width to the layout
+		NO_HEIGHT       = 0x02, // do not contribute preferred height to the layout
+		EXPAND_WIDTH    = 0x04, // ignore preferred width, give me as much as possible
+		EXPAND_HEIGHT   = 0x08, // ignore preferred height, give me as much as possible
+		PRESERVE_ASPECT = 0x10, // allocate same aspect ratio as preferred size
+	};
+
 	// draw offset. used to move a widget "under" its visible area (scissor)
 	void SetDrawOffset(const Point &drawOffset) { m_drawOffset = drawOffset; }
 	const Point &GetDrawOffset() const { return m_drawOffset; }
@@ -139,7 +150,13 @@ public:
 	// are we floating
 	bool IsFloating() const { return m_floating; }
 
+	// selectable widgets may receive keyboard focus
 	virtual bool IsSelectable() const { return false; }
+
+	// disabled widgets do not receive input
+	virtual void Disable();
+	virtual void Enable();
+	bool IsDisabled() const { return m_disabled; }
 
 	// font size. obviously used for text size but also sometimes used for
 	// general widget size (eg space size). might do nothing, depends on the
@@ -225,6 +242,9 @@ protected:
 	static inline int SizeAdd(int a, int b) { return a == SIZE_EXPAND || b == SIZE_EXPAND ? SIZE_EXPAND : a+b; }
 	static inline Point SizeAdd(const Point &a, const Point &b) { return Point(SizeAdd(a.x,b.x), SizeAdd(a.y,b.y)); }
 
+	// set size control flags. no flags by default
+	void SetSizeControlFlags(Uint32 flags) { m_sizeControlFlags = flags; }
+
 	// set the active area. defaults to the size allocated by the container
 	void SetActiveArea(const Point &activeArea, const Point &activeOffset = Point());
 
@@ -235,6 +255,8 @@ protected:
 	bool IsMouseOver() const { return m_mouseOver; }
 
 	bool IsSelected() const { return m_selected; }
+
+	void SetDisabled(bool disabled) { m_disabled = disabled; }
 
 	// internal event handlers. override to handle events. unlike the external
 	// on* signals, every widget in the stack is guaranteed to receive a call
@@ -297,8 +319,9 @@ private:
 
 	bool TriggerClick(bool emit = true);
 
-	bool TriggerMouseOver(const Point &pos, bool emit = true);
-	bool TriggerMouseOut(const Point &pos, bool emit = true);
+	// stop is used during disable/enable to stop delivery at the given widget
+	bool TriggerMouseOver(const Point &pos, bool emit = true, Widget *stop = 0);
+	bool TriggerMouseOut(const Point &pos, bool emit = true, Widget *stop = 0);
 
 	void TriggerMouseActivate();
 	void TriggerMouseDeactivate();
@@ -330,8 +353,11 @@ private:
 
 	Context *m_context;
 	Container *m_container;
+
 	Point m_position;
 	Point m_size;
+
+	Uint32 m_sizeControlFlags;
 
 	Point m_drawOffset;
 
@@ -341,6 +367,8 @@ private:
 	Font m_font;
 
 	bool m_floating;
+
+	bool m_disabled;
 
 	bool m_mouseOver;
 	bool m_mouseActive;

@@ -738,7 +738,7 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 			if( (diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f) ) {
 				RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
-				(*i).population = pSS->m_totalPop;
+				(*i).population = pSS->GetTotalPop();
 			}
 
 		}

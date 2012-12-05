@@ -19,6 +19,7 @@ As of 9 November 2012 (alpha 28), the Pioneer Developers are:
 * Craig Thomson
 * Dan Bennett
 * Darren Salt
+* Dionisis Kontominas
 * Enric Morales
 * Fran Morton
 * Gareth Allnutt
@@ -100,6 +101,12 @@ Pioneer includes the following third-party software:
   Based on Orbitron
   Copyright (c) 2009, Matt McInerney
   Licensed under the SIL Open Font Licence v1.1 (see licenses/SIL-1.1.txt)
+
+  WPZOOM Developer Icon Set
+  http://www.wpzoom.com/wpzoom/new-freebie-wpzoom-developer-icon-set-154-free-icons/
+  Copyright (c) 2010 David Ferreira
+  Licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported
+    License (see licenses/CC-BY-SA-3.0.txt)
 
 Acknowledgements
 ================
