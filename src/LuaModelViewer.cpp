@@ -17,6 +17,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "gui/Gui.h"
+#include "StringF.h"
 
 using namespace Graphics;
 
@@ -93,6 +94,7 @@ public:
 	Gui::Adjustment *m_anim[LMR_ARG_MAX];
 	Gui::TextEntry *m_animEntry[LMR_ARG_MAX];
 	Gui::Label *m_trisReadout;
+	Gui::Label *m_dumpLabel;
 	LmrCollMesh *m_cmesh;
 	LmrModel *m_model;
 	CollisionSpace *m_space;
@@ -166,6 +168,16 @@ public:
 			Add(b, 10, 110);
 			Add(new Gui::Label("[shift-g] Toggle grid"), 30, 110);
 		}
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_d, KMOD_LSHIFT);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnDumpModel));
+			Add(b, 10, 130);
+			Add(new Gui::Label("[shift-d] Dump model to .obj"), 30, 130);
+		}
+
+		m_dumpLabel = new Gui::Label("");
+		Add(m_dumpLabel, 10, 170);
 #if 0
 		{
 			Gui::Button *b = new Gui::SolidButton();
@@ -284,6 +296,11 @@ public:
 			}
 		}
 	}
+	
+	void OnDumpModel() {
+		m_model->Dump(&g_params);
+		m_dumpLabel->SetText(stringf("Model dumped to %0", FileSystem::userFiles.GetRoot() + "/" + m_model->GetDumpPath()).c_str());
+	}
 
 	void MainLoop() __attribute((noreturn));
 	void SetSbreParams();
@@ -353,10 +370,48 @@ void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *
 void Viewer::PickModel(const std::string &initial_name, const std::string &initial_errormsg)
 {
 	Gui::Fixed *f = new Gui::Fixed();
-	f->SetSizeRequest(Gui::Screen::GetWidth()*0.5f, Gui::Screen::GetHeight()*0.5);
-	Gui::Screen::AddBaseWidget(f, Gui::Screen::GetWidth()*0.25f, Gui::Screen::GetHeight()*0.25f);
+	f->SetSizeRequest(Gui::Screen::GetWidth()*0.75f, Gui::Screen::GetHeight()*0.75f);
+	Gui::Screen::AddBaseWidget(f, Gui::Screen::GetWidth()*0.125f, Gui::Screen::GetHeight()*0.125f);
 
 	f->Add(new Gui::Label("Enter the name of the model you want to view:"), 0, 0);
+
+	Gui::VScrollBar *scroll = new Gui::VScrollBar();
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(Gui::Screen::GetWidth()*0.75f);
+	scroll->SetAdjustment(&portal->vscrollAdjust);
+	scroll->ShowAll();
+
+	std::vector<std::string> modelNames;
+	{
+		std::vector<LmrModel*> models;
+		LmrGetModelsWithTag("ship", models);
+		LmrGetModelsWithTag("static_ship", models);
+		LmrGetModelsWithTag("orbital_station", models);
+		LmrGetModelsWithTag("surface_station", models);
+
+		for (std::vector<LmrModel*>::iterator i = models.begin(); i != models.end(); ++i) {
+			modelNames.push_back((*i)->GetName());
+		}
+	}
+	//LmrGetAllModelNames(modelNames);
+	std::vector<std::string>::const_iterator iter = modelNames.begin();
+
+	Gui::Fixed *innerbox = new Gui::Fixed(Gui::Screen::GetWidth()*0.75f, modelNames.size()*20);
+	innerbox->SetTransparency(true);
+	float currenty = 0.0f;
+	while(iter!=modelNames.end())
+	{
+		innerbox->Add(new Gui::Label((*iter).c_str()), 0, currenty);
+		currenty += 20.0f;
+		// next
+		++iter;
+	}
+	innerbox->ShowAll();
+
+	portal->Add(innerbox);
+	portal->ShowAll();
+
+	f->Add(portal, 0, 75);
+	f->Add(scroll, Gui::Screen::GetWidth()*0.75f-10, 75);
 
 	Gui::Label *errormsg = new Gui::Label(initial_errormsg);
 	f->Add(errormsg, 0, 64);
@@ -366,6 +421,7 @@ void Viewer::PickModel(const std::string &initial_name, const std::string &initi
 	entry->onKeyPress.connect(sigc::bind(sigc::mem_fun(this, &Viewer::TryModel), entry, errormsg));
 	entry->Show();
 	f->Add(entry, 0, 32);
+	f->ShowAll();
 
 	m_model = 0;
 
