@@ -349,8 +349,13 @@ void ModelViewer::DrawCollisionMesh()
 	std::vector<vector3f> &vertices = mesh->m_vertices;
 	std::vector<int> &indices = mesh->m_indices;
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, indices.size() * 3);
+	int trindex = -1;
 	for(unsigned int i=0; i<indices.size(); i++) {
-		va.Add(vertices.at(indices.at(i)), Color::WHITE);
+		if (i % 3 == 0)
+			trindex++;
+		unsigned int flag = mesh->m_flags[trindex];
+		//show special geomflags in red
+		va.Add(vertices.at(indices.at(i)), flag > 0 ? Color::RED : Color::WHITE);
 	}
 
 	//might want to add some offset

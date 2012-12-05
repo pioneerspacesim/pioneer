@@ -55,7 +55,7 @@ RefCountedPtr<CollMesh> Model::CreateCollisionMesh(const LmrObjParams *p)
 	CollisionVisitor cv;
 	m_root->Accept(cv);
 	m_collMesh = RefCountedPtr<CollMesh>(cv.CreateCollisionMesh());
-	m_boundingRadius = cv.m_boundingRadius;
+	m_boundingRadius = cv.GetBoundingRadius();
 	return m_collMesh;
 }
 

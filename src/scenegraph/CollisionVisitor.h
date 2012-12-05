@@ -11,8 +11,7 @@
  */
 #include "NodeVisitor.h"
 #include "libs.h"
-
-class CollMesh;
+#include "CollMesh.h"
 
 namespace SceneGraph {
 
@@ -24,18 +23,20 @@ class CollisionVisitor : public NodeVisitor
 {
 public:
 	CollisionVisitor();
-	virtual void ApplyStaticGeometry(StaticGeometry &g);
-	virtual void ApplyMatrixTransform(MatrixTransform &m);
+	virtual void ApplyStaticGeometry(StaticGeometry &);
+	virtual void ApplyMatrixTransform(MatrixTransform &);
+	virtual void ApplyCollisionGeometry(CollisionGeometry &);
 	//call after traversal complete
-	CollMesh *CreateCollisionMesh();
-
-	float m_boundingRadius;
+	RefCountedPtr<CollMesh> CreateCollisionMesh();
+	float GetBoundingRadius() const { return m_boundingRadius; }
 
 private:
+	void AabbToMesh(const Aabb&);
 	//geomtree is not built until all nodes are visited and
 	//BuildCollMesh called
-	CollMesh *m_collMesh;
+	RefCountedPtr<CollMesh> m_collMesh;
 	std::vector<matrix4x4f> m_matrixStack;
+	float m_boundingRadius;
 };
 
 }

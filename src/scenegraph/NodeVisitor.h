@@ -4,7 +4,9 @@
 #ifndef _NODEVISITOR_H
 #define _NODEVISITOR_H
 /*
- * Node visitor.
+ * Node visitor using the "double dispatch" model
+ * where the nodes call the appropriate Apply* method
+ *
  * Start traversal with node->Accept(visitor)!
  */
 #include "libs.h"
@@ -12,6 +14,7 @@
 namespace SceneGraph {
 
 class Billboard;
+class CollisionGeometry;
 class Group;
 class Label3D;
 class LOD;
@@ -32,6 +35,7 @@ public:
 	virtual void ApplyBillboard(Billboard&);
 	virtual void ApplyThruster(Thruster&);
 	virtual void ApplyLOD(LOD&);
+	virtual void ApplyCollisionGeometry(CollisionGeometry&);
 };
 
 }

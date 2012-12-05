@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\scenegraph\Animation.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Billboard.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\CollisionGeometry.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\CollisionVisitor.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\ColorMap.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\DumpVisitor.cpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="..\..\..\src\scenegraph\AnimationChannel.h" />
     <ClInclude Include="..\..\..\src\scenegraph\AnimationKey.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Billboard.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\CollisionGeometry.h" />
     <ClInclude Include="..\..\..\src\scenegraph\CollisionVisitor.h" />
     <ClInclude Include="..\..\..\src\scenegraph\ColorMap.h" />
     <ClInclude Include="..\..\..\src\scenegraph\DumpVisitor.h" />

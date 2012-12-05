@@ -3,6 +3,7 @@
 
 #include "NodeVisitor.h"
 #include "Billboard.h"
+#include "CollisionGeometry.h"
 #include "Group.h"
 #include "Label3D.h"
 #include "LOD.h"
@@ -51,6 +52,11 @@ void NodeVisitor::ApplyThruster(Thruster &t)
 void NodeVisitor::ApplyLOD(LOD &l)
 {
 	ApplyGroup(static_cast<Group&>(l));
+}
+
+void NodeVisitor::ApplyCollisionGeometry(CollisionGeometry &g)
+{
+	ApplyNode(static_cast<Node&>(g));
 }
 
 }

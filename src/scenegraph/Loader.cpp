@@ -2,10 +2,11 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Loader.h"
+#include "CollisionGeometry.h"
 #include "FileSystem.h"
 #include "LOD.h"
-#include "SceneGraph.h"
 #include "Parser.h"
+#include "SceneGraph.h"
 #include "StaticGeometry.h"
 #include "StringF.h"
 #include "utils.h"
@@ -194,6 +195,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 	}
 
 	// Load collision meshes
+	// They are added at the top level of the model root as CollisionGeometry nodes
 	for (std::vector<std::string>::const_iterator it = def.collisionDefs.begin();
 		it != def.collisionDefs.end(); ++it)
 	{
@@ -203,10 +205,10 @@ Model *Loader::CreateModel(ModelDefinition &def)
 			throw (LoadingError(stringf("%0:\n%1", *it, err.what())));
 		}
 	}
-	// No CM supplied? Autogenerate a simple BB.
-	if (!m_model->m_collMesh.Valid()) {
-		m_model->CreateCollisionMesh(0);
-	}
+
+	// Run CollisionVisitor to create the initial CM and its GeomTree.
+	// If no collision mesh is defined, a simple bounding box will be generated
+	m_model->CreateCollisionMesh(0);
 
 	// Add tag points
 	// XXX defining tags in .model not implemented
@@ -263,8 +265,7 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 	importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_COLORS);
 	importer.SetPropertyInteger(AI_CONFIG_PP_SLM_VERTEX_LIMIT, Graphics::StaticMesh::MAX_VERTICES);
 
-	//XXX check user dir first
-	//XXX x2 the greater goal is not to use ReadFile but the other assimp data read functions + FileSystem. See assimp docs.
+	//XXX the greater goal is not to use ReadFile but the other assimp data read functions + FileSystem. See assimp docs.
 	//There are several optimizations assimp can do, intentionally skipping them now
 	const aiScene *scene = importer.ReadFile(
 		FileSystem::JoinPath(FileSystem::GetDataDir(), filename),
@@ -604,6 +605,17 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 	_parent->AddChild(parent);
 	parent->SetName(nodename);
 
+	//nodes named collision_* are not added as renderable geometry
+	if (node->mNumMeshes == 1 && starts_with(nodename, "collision_")) {
+		unsigned int collflag = 0x10; //XXX landing pad 1 - detect from node name
+		RefCountedPtr<Graphics::Surface> surf = surfaces.at(node->mMeshes[0]);
+		RefCountedPtr<CollisionGeometry> cgeom(new CollisionGeometry(surf.Get(), collflag));
+		cgeom->SetName(nodename + "_cgeom");
+		parent->AddChild(cgeom.Get());
+		return;
+	}
+
+	//nodes with visible geometry (StaticGeometry and decals)
 	if (node->mNumMeshes > 0) {
 		//is this node animated? add a transform
 		//does this node have children? Add a group
@@ -672,9 +684,6 @@ void Loader::LoadCollision(const std::string &filename)
 	//Animations and node structure can be ignored
 	assert(m_model);
 
-	if (!m_model->m_collMesh.Valid())
-		m_model->m_collMesh.Reset(new CollMesh());
-
 	Assimp::Importer importer;
 
 	//discard extra data
@@ -697,11 +706,8 @@ void Loader::LoadCollision(const std::string &filename)
 	if(scene->mNumMeshes == 0)
 		throw LoadingError("No geometry found");
 
-	//note geomtree keeps a pointer to the arrays but doesn't own them
-	//geomtree does not use vector3, so watch out
-	std::vector<int> &indices = m_model->m_collMesh->m_indices;
-	std::vector<vector3f> &vertices = m_model->m_collMesh->m_vertices;
-	std::vector<unsigned int> &triFlags = m_model->m_collMesh->m_flags;
+	std::vector<unsigned short> indices;
+	std::vector<vector3f> vertices;
 	unsigned int indexOffset = 0;
 
 	for(unsigned int i=0; i<scene->mNumMeshes; i++) {
@@ -714,8 +720,6 @@ void Loader::LoadCollision(const std::string &filename)
 			for (unsigned int j = 0; j < face->mNumIndices; j++) {
 				indices.push_back(indexOffset + face->mIndices[j]);
 			}
-			//add some default collision flags. We do not care about this much now.
-			triFlags.push_back(0);
 		}
 		indexOffset += mesh->mNumFaces*3;
 
@@ -726,6 +730,15 @@ void Loader::LoadCollision(const std::string &filename)
 		}
 	}
 
+	assert(!vertices.empty() && !vertices.empty());
+
+	//add pre-transformed geometry at the top level
+	m_model->GetRoot()->AddChild(new CollisionGeometry(vertices, indices, 0));
+
+#if 0
+	//note geomtree keeps a pointer to the arrays but doesn't own them
+	//geomtree does not use vector3, so watch out
+	//XXX wrong. This can be called multiple times.
 	GeomTree *tree = new GeomTree(
 		vertices.size(),
 		indices.size()/3,
@@ -735,6 +748,7 @@ void Loader::LoadCollision(const std::string &filename)
 	);
 	m_model->m_collMesh->SetGeomTree(tree);
 	m_model->m_boundingRadius = m_model->m_collMesh->GetGeomTree()->GetAabb().GetBoundingRadius();
+#endif
 }
 
 }
