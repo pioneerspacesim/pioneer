@@ -32,6 +32,7 @@
 #include "DropDown.h"
 #include "TextEntry.h"
 #include "SmallButton.h"
+#include "Icon.h"
 
 #include "Lua.h"
 #include "LuaTable.h"
@@ -76,15 +77,16 @@ public:
 	// single containers
 	UI::Background *Background() { return new UI::Background(this); }
 	UI::ColorBackground *ColorBackground(const Color &color) { return new UI::ColorBackground(this, color); }
-	UI::Margin *Margin(float margin) { return new UI::Margin(this, margin); };
+	UI::Margin *Margin(int margin, Margin::Direction direction = Margin::ALL) { return new UI::Margin(this, margin, direction); };
 	UI::Align *Align(UI::Align::Direction direction) { return new UI::Align(this, direction); }
 	UI::Gradient *Gradient(const Color &beginColor, const Color &endColor, Gradient::Direction direction = Gradient::VERTICAL) { return new UI::Gradient(this, beginColor, endColor, direction); }
 	UI::Expand *Expand(UI::Expand::Direction direction = Expand::BOTH) { return new UI::Expand(this, direction); }
 	UI::Scroller *Scroller() { return new UI::Scroller(this); }
 
 	// visual elements
-	UI::Image *Image(const std::string &filename, Image::StretchMode stretchMode = Image::STRETCH_PRESERVE_ASPECT) { return new UI::Image(this, filename, stretchMode); }
+	UI::Image *Image(const std::string &filename, Uint32 sizeControlFlags = 0) { return new UI::Image(this, filename, sizeControlFlags); }
 	UI::Label *Label(const std::string &text) { return new UI::Label(this, text); }
+	UI::Icon *Icon(const std::string &iconName) { return new UI::Icon(this, iconName); }
 
 	UI::MultiLineText *MultiLineText(const std::string &text) { return new UI::MultiLineText(this, text); }
 
@@ -119,6 +121,9 @@ public:
 
 	void SelectWidget(Widget *target) { m_eventDispatcher.SelectWidget(target); }
 	void DeselectWidget(Widget *target) { m_eventDispatcher.DeselectWidget(target); }
+
+	void DisableWidget(Widget *target) { m_eventDispatcher.DisableWidget(target); }
+	void EnableWidget(Widget *target) { m_eventDispatcher.EnableWidget(target); }
 
 	virtual void Layout();
 	virtual void Update();

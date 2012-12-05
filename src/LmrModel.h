@@ -41,6 +41,8 @@ public:
 	void PushAttributeToLuaStack(const char *attr_name) const;
 	const char *GetName() const { return m_name.c_str(); }
 	bool HasTag(const char *tag) const;
+	std::string GetDumpPath(const char *pMainFolderName=0);
+	void Dump(const LmrObjParams *params, const char* pMainFolderName=0);
 private:
 	void Build(int lod, const LmrObjParams *params);
 
@@ -58,6 +60,8 @@ private:
 	float m_drawClipRadius;
 	float m_scale;
 	friend class LmrGeomBuffer;
+
+	bool m_dumped;
 };
 
 void LmrModelCompilerInit(Graphics::Renderer *r);
@@ -68,6 +72,7 @@ void LmrModelRender(LmrModel *m, const matrix4x4f &transform);
 int LmrModelGetStatsTris();
 void LmrModelClearStatsTris();
 void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels);
+void LmrGetAllModelNames(std::vector<std::string> &modelNames);
 lua_State *LmrGetLuaState();
 
 class LmrCollMesh : public CollMesh
