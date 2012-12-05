@@ -247,6 +247,7 @@ void Ship::AIMatchAngVelObjSpace(const vector3d &angvel)
 double Ship::AIFaceUpdir(const vector3d &updir)
 {
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
+	double frameAccel = maxAccel * Pi::game->GetTimeStep();
 	
 	vector3d uphead = updir * GetOrient();			// create desired object-space updir
 	uphead.z = 0; uphead = uphead.Normalized();		// only care about roll axis
@@ -260,7 +261,6 @@ double Ship::AIFaceUpdir(const vector3d &updir)
 		dav = uphead.x > 0 ? -iangvel : iangvel;
 	}
 	double cav = (GetAngVelocity() * GetOrient()).z;	// current obj-rel angvel
-	double frameAccel = maxAccel * Pi::game->GetTimeStep();
 	double diff = (dav - cav) / frameAccel;				// find diff between current & desired angvel
 
 	SetAngThrusterState(2, diff);

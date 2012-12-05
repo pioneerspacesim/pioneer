@@ -190,8 +190,8 @@ void Body::UpdateFrame()
 	if (m_frame->GetRadius() < GetPosition().Length()) {
 		Frame *newFrame = GetFrame()->GetParent();
 		if (newFrame) { 						// don't fall out of root frame
-			SwitchToFrame(newFrame);
 			printf("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel().c_str());
+			SwitchToFrame(newFrame);
 			return;
 		}
 	}

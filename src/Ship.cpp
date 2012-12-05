@@ -774,7 +774,8 @@ void Ship::TimeAccelAdjust(const float timeStep)
 {
 #ifdef DEBUG_AUTOPILOT
 	if (this->IsType(Object::PLAYER))
-		printf("Time accel adjustment, step = %.1f\n", double(timeStep));
+		printf("Time accel adjustment, step = %.1f, decel = %s\n", double(timeStep),
+			m_decelerating ? "true" : "false");
 #endif
 
 	if (!m_decelerating) return;

@@ -727,6 +727,12 @@ bool AICmdFlyTo::TimeStepUpdate()
 	vector3d relvel = m_ship->GetVelocity() - targvel;
 	double targdist = relpos.Length();
 
+#ifdef DEBUG_AUTOPILOT
+if (m_ship->IsType(Object::PLAYER))
+printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
+	targdist, relvel.Length(), m_ship->GetThrusterState().z, m_state);
+#endif
+
 	// frame switch stuff - clear children/collision state
 	if (m_frame != m_ship->GetFrame()) {
 		if (m_child) { delete m_child; m_child = 0; }
@@ -817,12 +823,6 @@ bool AICmdFlyTo::TimeStepUpdate()
 	else m_ship->AIFaceDirection(vdiff);
 	if (body->IsType(Object::PLANET) && m_ship->GetPosition().LengthSqr() < 2*erad*erad)
 		m_ship->AIFaceUpdir(m_ship->GetPosition());		// turn bottom thruster towards planet
-
-#ifdef DEBUG_AUTOPILOT
-if (m_ship->IsType(Object::PLAYER))
-printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
-	targdist, relvel.Length(), m_ship->GetThrusterState().z, m_state);
-#endif
 
 	// termination conditions: check
 	if (m_state >= 3) return true;					// finished last adjustment, hopefully
@@ -915,8 +915,8 @@ bool AICmdDock::TimeStepUpdate()
 		trot = trot * matrix3x3d::BuildRotate(ang, axis);
 	}
 	double af = m_ship->AIFaceDirection(trot * m_dockdir);
-	double au = m_ship->AIFaceUpdir(trot * m_dockupdir);
-	if (m_state < 5 && af < 0.01 && au < 0.01+ang && m_ship->GetWheelState() >= 1.0f) m_state++;
+	if (af < 0.01) af = m_ship->AIFaceUpdir(trot * m_dockupdir) - ang;
+	if (m_state < 5 && af < 0.01 && m_ship->GetWheelState() >= 1.0f) m_state++;
 
 #ifdef DEBUG_AUTOPILOT
 printf("AICmdDock dist = %.1f, speed = %.1f, ythrust = %.2f, state = %i\n",
