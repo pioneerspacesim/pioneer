@@ -27,6 +27,7 @@ noinst_HEADERS = \
 	FloatContainer.h \
 	Gradient.h \
 	Grid.h \
+	Icon.h \
 	Image.h \
 	Label.h \
 	List.h \
@@ -62,6 +63,7 @@ libui_a_SOURCES = \
 	FloatContainer.cpp \
 	Gradient.cpp \
 	Grid.cpp \
+	Icon.cpp \
 	Image.cpp \
 	Label.cpp \
 	List.cpp \
@@ -88,6 +90,7 @@ libui_a_SOURCES = \
 	LuaGradient.cpp \
 	LuaExpand.cpp \
 	LuaGrid.cpp \
+	LuaIcon.cpp \
 	LuaImage.cpp \
 	LuaLabel.cpp \
 	LuaList.cpp \

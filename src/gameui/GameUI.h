@@ -6,6 +6,9 @@
 
 #include "ui/Context.h"
 
+#include "Face.h"
+#include "ShipSpinner.h"
+
 #include "Lua.h"
 
 #endif

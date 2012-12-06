@@ -738,7 +738,7 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 			if( (diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f) ) {
 				RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
-				(*i).population = pSS->m_totalPop;
+				(*i).population = pSS->GetTotalPop();
 			}
 
 		}
@@ -841,7 +841,9 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 	}
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
-	m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 1.f + (Pi::GetScrHeight() / 720.f));
+	if (m_farstars.size() > 0) {
+		m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 1.f + (Pi::GetScrHeight() / 720.f));
+	}
 
 	// also add labels for any faction homeworlds among the systems we've drawn
 	PutFactionLabels(Sector::SIZE * secOrigin);
