@@ -11,6 +11,21 @@ using namespace Graphics;
 
 Star::Star() : TerrainBody()
 {
+}
+
+Star::Star(SystemBody *sbody): TerrainBody(sbody)
+{
+	InitStar();
+}
+
+void Star::Load(Serializer::Reader &rd, Space *space)
+{
+	TerrainBody::Load(rd, space);		// to get sbody
+	InitStar();
+}
+
+void Star::InitStar()
+{
 	// this one should be atmosphere radius when stars have atmosphere
 	SetPhysRadius(GetMaxFeatureRadius());
 
@@ -19,10 +34,6 @@ Star::Star() : TerrainBody()
 	const SystemBody *sbody = GetSystemBody();
 	const float wf = (sbody->type < SystemBody::TYPE_STAR_S_BH && sbody->type > SystemBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f;
 	SetClipRadius(sbody->GetRadius() * 8 * wf);
-}
-
-Star::Star(SystemBody *sbody): TerrainBody(sbody)
-{
 }
 
 void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
