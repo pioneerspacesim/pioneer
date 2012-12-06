@@ -13,12 +13,23 @@ public:
 	virtual Point PreferredSize();
 	virtual void Layout();
 
+	enum Direction { // <enum scope='UI::Margin' name=UIMarginDirection>
+		ALL,
+		HORIZONTAL,
+		VERTICAL,
+		LEFT,
+		RIGHT,
+		TOP,
+		BOTTOM
+	};
+
 protected:
 	friend class Context;
-	Margin(Context *context, float margin) : Single(context), m_margin(margin) {}
+	Margin(Context *context, int margin, Direction direction) : Single(context), m_margin(margin), m_direction(direction) {}
 
 private:
-	float m_margin;
+	int m_margin;
+	Direction m_direction;
 };
 
 }

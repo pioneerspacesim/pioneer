@@ -133,7 +133,6 @@
     <ClCompile Include="..\..\src\GameMenuView.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp" />
-    <ClCompile Include="..\..\src\InfoView.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
     <ClCompile Include="..\..\src\Intro.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
@@ -291,7 +290,6 @@
     <ClInclude Include="..\..\src\GameMenuView.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
     <ClInclude Include="..\..\src\HyperspaceCloud.h" />
-    <ClInclude Include="..\..\src\InfoView.h" />
     <ClInclude Include="..\..\src\IniConfig.h" />
     <ClInclude Include="..\..\src\Intro.h" />
     <ClInclude Include="..\..\src\KeyBindings.h" />

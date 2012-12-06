@@ -14,7 +14,6 @@
 #include "GameLoaderSaver.h"
 #include "GameMenuView.h"
 #include "GeoSphere.h"
-#include "InfoView.h"
 #include "Intro.h"
 #include "Lang.h"
 #include "LmrModel.h"
@@ -75,6 +74,7 @@
 #include "Tombstone.h"
 #include "WorldView.h"
 #include "DeathView.h"
+#include "UIView.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
@@ -115,7 +115,7 @@ View *Pi::currentView;
 WorldView *Pi::worldView;
 DeathView *Pi::deathView;
 SpaceStationView *Pi::spaceStationView;
-InfoView *Pi::infoView;
+UIView *Pi::infoView;
 SectorView *Pi::sectorView;
 GalacticView *Pi::galacticView;
 GameMenuView *Pi::gameMenuView;

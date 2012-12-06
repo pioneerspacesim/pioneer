@@ -13,11 +13,12 @@
 #include "ShipType.h"
 #include "SpaceStation.h"
 #include "galaxy/StarSystem.h"
+#include "gameui/Face.h"
 #include "ui/Align.h"
 #include "ui/Event.h"
 #include "ui/Expand.h"
 #include "ui/Gradient.h"
-#include "ui/Image.h"
+#include "ui/Margin.h"
 #include "ui/Widget.h"
 
 const struct EnumItem ENUM_EquipSlot[] = {
@@ -312,6 +313,14 @@ const struct EnumItem ENUM_BodySuperType[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_GameUIFaceFlags[] = {
+	{ "RAND", GameUI::Face::RAND },
+	{ "MALE", GameUI::Face::MALE },
+	{ "FEMALE", GameUI::Face::FEMALE },
+	{ "ARMOUR", GameUI::Face::ARMOUR },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_UIAlignDirection[] = {
 	{ "TOP_LEFT", UI::Align::TOP_LEFT },
 	{ "TOP", UI::Align::TOP },
@@ -372,9 +381,23 @@ const struct EnumItem ENUM_UIGradientDirection[] = {
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_UIImageStretchMode[] = {
-	{ "PRESERVE_ASPECT", UI::Image::STRETCH_PRESERVE_ASPECT },
-	{ "MAX", UI::Image::STRETCH_MAX },
+const struct EnumItem ENUM_UIMarginDirection[] = {
+	{ "ALL", UI::Margin::ALL },
+	{ "HORIZONTAL", UI::Margin::HORIZONTAL },
+	{ "VERTICAL", UI::Margin::VERTICAL },
+	{ "LEFT", UI::Margin::LEFT },
+	{ "RIGHT", UI::Margin::RIGHT },
+	{ "TOP", UI::Margin::TOP },
+	{ "BOTTOM", UI::Margin::BOTTOM },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UISizeControl[] = {
+	{ "NO_WIDTH", UI::Widget::NO_WIDTH },
+	{ "NO_HEIGHT", UI::Widget::NO_HEIGHT },
+	{ "EXPAND_WIDTH", UI::Widget::EXPAND_WIDTH },
+	{ "EXPAND_HEIGHT", UI::Widget::EXPAND_HEIGHT },
+	{ "PRESERVE_ASPECT", UI::Widget::PRESERVE_ASPECT },
 	{ 0, 0 },
 };
 

@@ -19,7 +19,9 @@ void SmallButton::Layout()
 
 void SmallButton::Draw()
 {
-	if (IsMouseActive())
+	if (IsDisabled())
+		GetContext()->GetSkin().DrawSmallButtonDisabled(GetActiveOffset(), GetActiveArea());
+	else if (IsMouseActive())
 		GetContext()->GetSkin().DrawSmallButtonActive(GetActiveOffset(), GetActiveArea());
 	else if (IsMouseOver())
 		GetContext()->GetSkin().DrawSmallButtonHover(GetActiveOffset(), GetActiveArea());

@@ -15,7 +15,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{EDB31F5D-851C-4CC5-85D2-59781FD920BA}</ProjectGuid>
+    <ProjectGuid>{0E4AEA6E-8FBC-4C71-B41E-74B2E4B7A4C4}</ProjectGuid>
     <RootNamespace>gameui</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -23,21 +23,21 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>	
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>	
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
-  </PropertyGroup>
+	<PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>  
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -71,7 +71,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
     <ClCompile />
@@ -82,19 +81,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\gameui\GameUI.h" />
-    <ClInclude Include="..\..\..\src\gameui\Lua.h" />
-    <ClInclude Include="..\..\..\src\gameui\Panel.h" />
-    <ClInclude Include="..\..\..\src\win32\pch.h" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="..\..\..\src\gameui\Face.cpp" />
     <ClCompile Include="..\..\..\src\gameui\Lua.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\LuaFace.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\LuaShipSpinner.cpp" />
     <ClCompile Include="..\..\..\src\gameui\Panel.cpp" />
-    <ClCompile Include="..\..\..\src\win32\pch.cpp">
+    <ClCompile Include="..\..\..\src\gameui\ShipSpinner.cpp" />
+	<ClCompile Include="..\..\..\src\win32\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
+    </ClCompile>	
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\gameui\Face.h" />
+    <ClInclude Include="..\..\..\src\gameui\GameUI.h" />
+    <ClInclude Include="..\..\..\src\gameui\Lua.h" />
+    <ClInclude Include="..\..\..\src\gameui\Panel.h" />
+    <ClInclude Include="..\..\..\src\gameui\ShipSpinner.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

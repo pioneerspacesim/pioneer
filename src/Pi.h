@@ -27,9 +27,9 @@ class SystemInfoView;
 class ShipCpanel;
 class StarSystem;
 class SpaceStationView;
-class InfoView;
 class SpaceStation;
 class GalacticView;
+class UIView;
 class Ship;
 class GameMenuView;
 class LuaConsole;
@@ -140,7 +140,7 @@ public:
 	static WorldView *worldView;
 	static DeathView *deathView;
 	static SpaceStationView *spaceStationView;
-	static InfoView *infoView;
+	static UIView *infoView;
 	static LuaConsole *luaConsole;
 	static ShipCpanel *cpan;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
