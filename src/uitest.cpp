@@ -139,6 +139,23 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
+	c->SetInnerWidget(
+		c->VBox(10)->PackEnd(UI::WidgetSet(
+			c->Background()->SetInnerWidget(
+				c->HBox(5)->PackEnd(UI::WidgetSet(
+					c->Expand(UI::Expand::HORIZONTAL)->SetInnerWidget(c->Label("right")),
+					c->Icon("ArrowRight")
+				))
+			),
+			c->Background()->SetInnerWidget(
+				c->HBox(5)->PackEnd(UI::WidgetSet(
+					c->Icon("ArrowLeft"),
+					c->Expand(UI::Expand::HORIZONTAL)->SetInnerWidget(c->Label("left"))
+				))
+			)
+		))
+	);
+
 #if 0
 	UI::Button *toggle;
 	UI::CheckBox *target;
