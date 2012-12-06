@@ -8,6 +8,11 @@
 
 namespace UI {
 
+// XXX move to config, share with TabGroup
+static const Color normalColor(0.5f, 0.5f, 0.5f, 1.0f);
+static const Color hoverColor(0.8f, 0.8f, 0.8f, 1.0f);
+static const Color activeColor(1.0f, 1.0f, 1.0f, 1.0f);
+
 DropDown::DropDown(Context *context) : Container(context), m_popupActive(false)
 {
 	Context *c = GetContext();
@@ -19,6 +24,7 @@ DropDown::DropDown(Context *context) : Container(context), m_popupActive(false)
 	m_container = c->Background();
 	m_label = c->Label("");
 	m_icon = c->Icon("ArrowDown");
+	m_icon->SetColor(normalColor);
 	m_container->SetInnerWidget(
 		c->HBox(5)->PackEnd(
 			WidgetSet(c->Expand(UI::Expand::HORIZONTAL)->SetInnerWidget(m_label), m_icon)
@@ -51,6 +57,16 @@ bool DropDown::HandlePopupClick()
 	return true;
 }
 
+void DropDown::HandleMouseOver()
+{
+	m_icon->SetColor(m_popupActive ? activeColor : hoverColor);
+}
+
+void DropDown::HandleMouseOut()
+{
+	m_icon->SetColor(m_popupActive ? activeColor : normalColor);
+}
+
 void DropDown::TogglePopup()
 {
 	Context *c = GetContext();
@@ -59,6 +75,7 @@ void DropDown::TogglePopup()
 		m_label->SetText(m_popup->GetSelectedOption());
 		c->RemoveFloatingWidget(m_popup.Get());
 		m_popupActive = false;
+		m_icon->SetColor(IsMouseOver() ? hoverColor : normalColor);
 	}
 
 	else {
@@ -66,6 +83,7 @@ void DropDown::TogglePopup()
 		m_popup->SetFont(GetFont());
 		c->AddFloatingWidget(m_popup.Get(), pos, m_popup->PreferredSize());
 		m_popupActive = true;
+		m_icon->SetColor(activeColor);
 	}
 
 }

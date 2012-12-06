@@ -29,6 +29,8 @@ protected:
 	DropDown(Context *context);
 
 	void HandleClick();
+	void HandleMouseOver();
+	void HandleMouseOut();
 
 private:
 	Background *m_container;
