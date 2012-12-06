@@ -545,10 +545,11 @@ CustomSystem::~CustomSystem()
 }
 
 CustomSystemBody::CustomSystemBody():
-	averageTemp(0),
+	averageTemp(1),
 	want_rand_offset(true),
 	latitude(0.0),
 	longitude(0.0),
+	volatileGas(0),
 	ringStatus(WANT_RANDOM_RINGS),
 	seed(0),
 	want_rand_seed(true)
