@@ -15,7 +15,6 @@
 #include "GameLoaderSaver.h"
 #include "GameMenuView.h"
 #include "GeoSphere.h"
-#include "InfoView.h"
 #include "Intro.h"
 #include "Lang.h"
 #include "LmrModel.h"
@@ -35,7 +34,6 @@
 #include "LuaGame.h"
 #include "LuaLang.h"
 #include "LuaManager.h"
-#include "LuaManager.h"
 #include "LuaMusic.h"
 #include "LuaNameGen.h"
 #include "LuaPlanet.h"
@@ -44,7 +42,6 @@
 #include "LuaRef.h"
 #include "LuaShip.h"
 #include "LuaShipType.h"
-#include "LuaSpace.h"
 #include "LuaSpace.h"
 #include "LuaSpaceStation.h"
 #include "LuaStar.h"
@@ -55,14 +52,11 @@
 #include "Missile.h"
 #include "ModelCache.h"
 #include "ModManager.h"
-#include "ModManager.h"
-#include "ModManager.h"
 #include "ObjectViewerView.h"
 #include "OS.h"
 #include "Planet.h"
 #include "Player.h"
 #include "Polit.h"
-#include "SDLWrappers.h"
 #include "SDLWrappers.h"
 #include "SectorView.h"
 #include "Serializer.h"
@@ -79,10 +73,12 @@
 #include "SystemInfoView.h"
 #include "SystemView.h"
 #include "Tombstone.h"
+#include "UIView.h"
 #include "WorldView.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
+#include "gameui/Lua.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
@@ -90,10 +86,6 @@
 #include "scenegraph/Model.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
-#include "gameui/Lua.h"
-#include "SDLWrappers.h"
-#include "ModManager.h"
-#include "gui/Gui.h"
 #include <algorithm>
 #include <sstream>
 
@@ -120,7 +112,7 @@ View *Pi::currentView;
 WorldView *Pi::worldView;
 DeathView *Pi::deathView;
 SpaceStationView *Pi::spaceStationView;
-InfoView *Pi::infoView;
+UIView *Pi::infoView;
 SectorView *Pi::sectorView;
 GalacticView *Pi::galacticView;
 GameMenuView *Pi::gameMenuView;

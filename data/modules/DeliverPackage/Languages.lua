@@ -136,6 +136,16 @@ Translate:Add({ English = {
   ["Will I be in any danger?"] = "Will I be in any danger?",
   ["Could you repeat the original request?"] = "Could you repeat the original request?",
   ["Ok, agreed."] = "Ok, agreed.",
+  ["ly"] = "ly",
+  
+  -- Texts for the missions screen
+  delivermissiondetail = [[
+  Spaceport:
+  System:
+  Deadline:
+  
+  Distance:]],
+
  PIRATE_TAUNTS = {
   "You're going to regret dealing with {client}",
 	"Looks like my paycheck has arrived!",
@@ -276,6 +286,16 @@ Translate:Add({ Polski = {
   ["Will I be in any danger?"] = "Jest jakieś zagrożenie?",
   ["Could you repeat the original request?"] = "Możesz powtórzyć swoją ofertę?",
   ["Ok, agreed."] = "Zgoda.",
+  ["ly"] = "lś",  
+
+  -- Texts for the missions screen
+  delivermissiondetail = [[
+  Port kosmiczny:
+  System:
+  Termin:
+  
+  Dystans:]],
+
   PIRATE_TAUNTS = {
   "Pożałujesz kontaktów z {client}",
 	"Wygląda na to, że przybyła moja nagroda!",

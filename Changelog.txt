@@ -1,6 +1,7 @@
 Alpha 29
 
    * New features
+     * InfoView (F3) rewritten using the new UI (#1633)
      * Economical autopilot. Trades fuel for time (#1582)
      * Your ship's automatic rotation damping can now be turned off (#1570, #1156)
      * Almost 100 new factions with varying government types (#1621, #1620, #1675,
