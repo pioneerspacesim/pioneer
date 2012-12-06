@@ -4,17 +4,19 @@
 #ifndef UI_DROPDOWN_H
 #define UI_DROPDOWN_H
 
-#include "Widget.h"
+#include "Container.h"
 
 namespace UI {
 
+class Background;
+class Label;
+class Icon;
 class List;
 
-class DropDown : public Widget {
+class DropDown : public Container {
 public:
 	virtual Point PreferredSize();
 	virtual void Layout();
-	virtual void Draw();
 
 	DropDown *AddOption(const std::string &text);
 	const std::string &GetSelectedOption() const;
@@ -29,14 +31,9 @@ protected:
 	void HandleClick();
 
 private:
-	void CalcSizePos();
-
-	float m_textWidth;
-
-	Point m_textPos, m_textSize;
-	Point m_backgroundPos, m_backgroundSize;
-	Point m_buttonPos, m_buttonSize;
-	Point m_preferredSize;
+	Background *m_container;
+	Label *m_label;
+	Icon *m_icon;
 
 	bool HandlePopupClick();
 	void TogglePopup();

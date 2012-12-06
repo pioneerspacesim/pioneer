@@ -8,55 +8,35 @@
 
 namespace UI {
 
-DropDown::DropDown(Context *context) : Widget(context), m_textWidth(0.0f), m_popupActive(false)
+DropDown::DropDown(Context *context) : Container(context), m_popupActive(false)
 {
-	m_popup.Reset(GetContext()->List());
+	Context *c = GetContext();
+
+	m_popup.Reset(c->List());
 	m_popup->onOptionSelected.connect(sigc::mem_fun(onOptionSelected, &sigc::signal<void,unsigned int,const std::string &>::emit));
 	m_popup->onClick.connect(sigc::mem_fun(this, &DropDown::HandlePopupClick));
-}
 
-void DropDown::CalcSizePos()
-{
-	const float textHeight = GetContext()->GetFont(GetFont())->GetHeight() + GetContext()->GetFont(GetFont())->GetDescender();
+	m_container = c->Background();
+	m_label = c->Label("");
+	m_icon = c->Icon("ArrowDown");
+	m_container->SetInnerWidget(
+		c->HBox(5)->PackEnd(
+			WidgetSet(c->Expand(UI::Expand::HORIZONTAL)->SetInnerWidget(m_label), m_icon)
+		)
+	);
 
-	m_textPos = Point(GetContext()->GetSkin().BackgroundNormal().borderWidth);
-	m_textSize = Point(m_textWidth,textHeight);
-
-	m_backgroundPos = Point();
-	m_backgroundSize = m_textSize + Point(GetContext()->GetSkin().BackgroundNormal().borderWidth*2);
-
-	m_buttonPos = Point(m_backgroundSize.x,0);
-	m_buttonSize = Point(m_backgroundSize.y);
-
-	m_preferredSize = Point(m_backgroundSize.x+m_buttonSize.x,m_backgroundSize.y);
+	AddWidget(m_container);
 }
 
 Point DropDown::PreferredSize()
 {
-	CalcSizePos();
-	return m_preferredSize;
+	return m_container->PreferredSize();
 }
 
 void DropDown::Layout()
 {
-	CalcSizePos();
-
-	const Point size(GetSize());
-	SetActiveArea(Point(std::min(m_preferredSize.x,size.x), std::min(m_preferredSize.y,size.y)));
-}
-
-void DropDown::Draw()
-{
-	if (IsMouseActive()) {
-		GetContext()->GetSkin().DrawBackgroundActive(m_backgroundPos, m_backgroundSize);
-		GetContext()->GetSkin().DrawButtonActive(m_buttonPos, m_buttonSize);
-	}
-	else {
-		GetContext()->GetSkin().DrawBackgroundNormal(m_backgroundPos, m_backgroundSize);
-		GetContext()->GetSkin().DrawButtonNormal(m_buttonPos, m_buttonSize);
-	}
-
-	GetContext()->GetFont(GetFont())->RenderString(m_popup->GetSelectedOption().c_str(), m_textPos.x, m_textPos.y);
+	SetWidgetDimensions(m_container, Point(), GetSize());
+	m_container->Layout();
 }
 
 void DropDown::HandleClick()
@@ -76,12 +56,13 @@ void DropDown::TogglePopup()
 	Context *c = GetContext();
 
 	if (m_popupActive) {
+		m_label->SetText(m_popup->GetSelectedOption());
 		c->RemoveFloatingWidget(m_popup.Get());
 		m_popupActive = false;
 	}
 
 	else {
-		const Point pos(GetAbsolutePosition() + Point(0, m_backgroundSize.y));
+		const Point pos(GetAbsolutePosition() + Point(0, GetSize().y));
 		c->AddFloatingWidget(m_popup.Get(), pos, m_popup->PreferredSize());
 		m_popupActive = true;
 	}
@@ -92,9 +73,10 @@ DropDown *DropDown::AddOption(const std::string &text)
 {
 	float w, h;
 	GetContext()->GetFont(GetFont())->MeasureString(text.c_str(), w, h);
-	if (m_textWidth < w) m_textWidth = w;
 
 	m_popup->AddOption(text);
+
+	m_label->SetText(m_popup->GetSelectedOption());
 
 	return this;
 }
@@ -108,8 +90,6 @@ void DropDown::Clear()
 {
 	m_popup->Clear();
 	if (m_popupActive) TogglePopup();
-
-	m_textWidth = 0.0f;
 }
 
 }

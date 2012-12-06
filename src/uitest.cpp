@@ -139,6 +139,7 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
+#if 0
 	c->SetInnerWidget(
 		c->VBox(10)->PackEnd(UI::WidgetSet(
 			c->Background()->SetInnerWidget(
@@ -155,6 +156,7 @@ int main(int argc, char **argv)
 			)
 		))
 	);
+#endif
 
 #if 0
 	UI::Button *toggle;
@@ -325,7 +327,6 @@ int main(int argc, char **argv)
     c->AddShortcut(UI::KeySym(SDLK_a, KMOD_LCTRL), button[0]);
 #endif
 
-#if 0
 	UI::DropDown *dropdown;
 	UI::List *list;
 	c->SetInnerWidget(
@@ -336,6 +337,7 @@ int main(int argc, char **argv)
 					->AddOption("banana")
 					->AddOption("ox tongue")
 				)
+#if 0
 			),
 			c->HBox()->PackEnd(UI::WidgetSet(
 				c->CheckBox(),
@@ -347,12 +349,12 @@ int main(int argc, char **argv)
 					->AddOption("bar")
 					->AddOption("baz")
 					->AddOption("qwop"))
+#endif
 			)
 		))
 	);
 	dropdown->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
-	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
-#endif
+	//list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 
 #if 0
 	c->SetInnerWidget(
