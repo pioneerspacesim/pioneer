@@ -1124,7 +1124,8 @@ void SystemBody::PickAtmosphere()
 	 */
 	switch (type) {
 		case SystemBody::TYPE_PLANET_GAS_GIANT:
-			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.0005f);
+
+			m_atmosColor = Color(1.0f, 1.0f, 1.0f, 0.01f);
 			m_atmosDensity = 14.0;
 			break;
 		case SystemBody::TYPE_PLANET_ASTEROID:
@@ -1293,12 +1294,20 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	// XXX hack to avoid issues with sysgen giving 0 temps
 	// temporary as part of sysgen needs to be rewritten before the proper fix can be used
 	if (T < 1)
-		T = 40;
+		T = 165;
 
 	// XXX just use earth's composition for now
 	const double M = 0.02897f; // in kg/mol
 
-	const float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R*T/(M*g));
+	float atmosScaleHeight = static_cast<float>(GAS_CONSTANT_R*T/(M*g));
+
+	// XXX temporary hack to fix small scale heights for gas giant atmospheres which are 
+	// a result of using Earth atmosphere properties, as well as due to using
+	// a made up density value at the gas giant terrain 'surface'.
+	// This uses a minimum scale height as a fraction of gas giant radius based on 
+	// Earth's scale height relative to its radius.
+	if (type == TYPE_PLANET_GAS_GIANT)
+		atmosScaleHeight = std::max(atmosScaleHeight, static_cast<float>((0.02*8000.0/EARTH_RADIUS)*GetRadius()));
 
 	// min of 2.0 corresponds to a scale height of 1/20 of the planet's radius,
 	params.atmosInvScaleHeight = std::max(20.0f, static_cast<float>(GetRadius() / atmosScaleHeight));
