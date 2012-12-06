@@ -57,6 +57,8 @@ private:
 	void CreateThruster(Group *parent, const matrix4x4f& nodeTrans, const std::string &name, const matrix4x4f &accum);
 	void FindPatterns(PatternContainer &output); //find pattern texture files from the model directory
 	void LoadCollision(const std::string &filename);
+
+	unsigned int GetGeomFlagForNodeName(const std::string&);
 };
 
 }

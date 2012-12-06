@@ -607,7 +607,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 
 	//nodes named collision_* are not added as renderable geometry
 	if (node->mNumMeshes == 1 && starts_with(nodename, "collision_")) {
-		unsigned int collflag = 0x10; //XXX landing pad 1 - detect from node name
+		const unsigned int collflag = GetGeomFlagForNodeName(nodename);
 		RefCountedPtr<Graphics::Surface> surf = surfaces.at(node->mMeshes[0]);
 		RefCountedPtr<CollisionGeometry> cgeom(new CollisionGeometry(surf.Get(), collflag));
 		cgeom->SetName(nodename + "_cgeom");
@@ -734,21 +734,22 @@ void Loader::LoadCollision(const std::string &filename)
 
 	//add pre-transformed geometry at the top level
 	m_model->GetRoot()->AddChild(new CollisionGeometry(vertices, indices, 0));
+}
 
-#if 0
-	//note geomtree keeps a pointer to the arrays but doesn't own them
-	//geomtree does not use vector3, so watch out
-	//XXX wrong. This can be called multiple times.
-	GeomTree *tree = new GeomTree(
-		vertices.size(),
-		indices.size()/3,
-		&(m_model->m_collMesh->m_vertices[0].x),
-		&(m_model->m_collMesh->m_indices[0]),
-		&(m_model->m_collMesh->m_flags[0])
-	);
-	m_model->m_collMesh->SetGeomTree(tree);
-	m_model->m_boundingRadius = m_model->m_collMesh->GetGeomTree()->GetAabb().GetBoundingRadius();
-#endif
+unsigned int Loader::GetGeomFlagForNodeName(const std::string &nodename)
+{
+	if (nodename.length() >= 14) {
+		const std::string pad = nodename.substr(10, 4);
+		if (pad == "pad1")
+			return 0x10;
+		else if (pad == "pad2")
+			return 0x11;
+		else if (pad == "pad3")
+			return 0x12;
+		else if (pad == "pad4")
+			return 0x14;
+	}
+	return 0x0;
 }
 
 }
