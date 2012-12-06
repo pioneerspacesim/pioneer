@@ -353,6 +353,7 @@ int main(int argc, char **argv)
 			)
 		))
 	);
+	dropdown->SetFont(UI::Widget::FONT_HEADING_XLARGE);
 	dropdown->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 	//list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 

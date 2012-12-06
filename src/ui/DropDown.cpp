@@ -63,6 +63,7 @@ void DropDown::TogglePopup()
 
 	else {
 		const Point pos(GetAbsolutePosition() + Point(0, GetSize().y));
+		m_popup->SetFont(GetFont());
 		c->AddFloatingWidget(m_popup.Get(), pos, m_popup->PreferredSize());
 		m_popupActive = true;
 	}
