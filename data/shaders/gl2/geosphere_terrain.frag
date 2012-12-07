@@ -13,6 +13,7 @@ uniform Scene scene;
 varying vec3 varyingEyepos;
 varying vec3 varyingNormal;
 varying vec4 vertexColor;
+varying vec4 varyingemission;
 
 void main(void)
 {
@@ -20,20 +21,12 @@ void main(void)
 	vec3 eyenorm = normalize(eyepos);
 	vec3 tnorm = normalize(varyingNormal);
 	vec4 diff = vec4(0.0);
-	vec4 emission = gl_FrontMaterial.emission;
 
 #if (NUM_LIGHTS > 0)
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		float nDotVP = max(0.0, dot(tnorm, normalize(vec3(gl_LightSource[i].position))));
 		diff += gl_LightSource[i].diffuse * nDotVP;
 	}
-
-#ifdef TERRAIN_WITH_LAVA
-	//Glow lava terrains
-	if (vertexColor.r > 0.5000 && vertexColor.g < 0.2000 && vertexColor.b < 0.0100) {
-		emission+=0.5*vertexColor;//*(clamp(0.5-diff.r,0.0,1.0));
-	}
-#endif
 
 #ifdef ATMOSPHERE
 	// when does the eye ray intersect atmosphere
@@ -60,21 +53,22 @@ void main(void)
 	atmosDiffuse.a = 1.0;
 
 	gl_FragColor =
-		emission +
+		gl_FrontMaterial.emission + varyingemission +
 		fogFactor *
 		((scene.ambient * vertexColor) +
 		(diff * vertexColor)) +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
 #else // atmosphere-less planetoids and dim stars
 	gl_FragColor =
-		emission +
+		gl_FrontMaterial.emission + varyingemission +
 		(scene.ambient * vertexColor) +
 		(diff * vertexColor);
 #endif //ATMOSPHERE
 
 #else // NUM_LIGHTS > 0 -- unlit rendering - stars
 	//emission is used to boost colour of stars, which is a bit odd
-	gl_FragColor = emission + vertexColor;
+	gl_FragColor = gl_FrontMaterial.emission + vertexColor;
 #endif
 	SetFragDepth();
 }
+
