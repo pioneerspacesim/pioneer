@@ -167,6 +167,7 @@ void ScannerWidget::Draw()
 	GetSize(size);
 	m_x = size[0] * 0.5f;
 	m_y = size[1] * 0.5f;
+
 	SetScissor(true);
 
 	float rangediff = abs(m_lastRange-m_currentRange);
@@ -204,8 +205,6 @@ void ScannerWidget::Draw()
 	m_renderer->SetBlendMode(BLEND_SOLID);
 
 	SetScissor(false);
-	glLineWidth(1.0f);
-	glPointSize(1.0f);
 }
 
 void ScannerWidget::Update()
