@@ -75,6 +75,8 @@ private:
 	void InitObject();
 
 	void DrawBlobs(bool below);
+	void GenerateBaseGeometry();
+	void GenerateRingsAndSpokes();
 	void DrawRingsAndSpokes(bool blend);
 
 	sigc::connection m_toggleScanModeConnection;
@@ -94,6 +96,14 @@ private:
 
 	float m_x;
 	float m_y;
+
+	float m_lastRange;
+
+	std::vector<vector2f> m_circle;
+	std::vector<vector2f> m_spokes;
+	std::vector<vector2f> m_vts;
+	std::vector<vector3f> m_edgeVts;
+	std::vector<Color> m_edgeCols;
 
 	Graphics::Renderer *m_renderer;
 };
