@@ -484,6 +484,10 @@ void ScannerWidget::GenerateRingsAndSpokes()
 	
 	// bright part
 	Color col = Color(0.7f, 0.7f, 0.f, 0.25f);
+	if (m_mode == SCANNER_MODE_AUTO) {
+		// green like the scanner to indicate that the scanner is controlling the range
+		col = Color(0.f, 0.7f, 0.f, 0.25f);
+	}
 	for (int i=0; i<=dimstart; i++) {
 		if (i == csize) return;			// whole circle bright case
 		m_edgeVts.push_back(vector3f(m_circle[i].x, m_circle[i].y, 0.0f));
