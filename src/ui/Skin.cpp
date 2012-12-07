@@ -63,6 +63,8 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 	m_sliderHorizontalButtonHover  = LoadRectElement(cfg.String("SliderHorizontalButtonHover"));
 	m_sliderHorizontalButtonActive = LoadRectElement(cfg.String("SliderHorizontalButtonActive"));
 
+	m_gaugeBorder = LoadBorderedRectElement(cfg.String("GaugeBorder"));
+
 	m_buttonMinInnerSize      = cfg.Int("ButtonMinInnerSize");
 
 	m_listAlphaNormal = cfg.Float("ListAlphaNormal");

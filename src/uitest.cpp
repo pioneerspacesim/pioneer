@@ -154,6 +154,10 @@ int main(int argc, char **argv)
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT, "English"));
 
+	UI::Gauge *gauge;
+	c->SetInnerWidget(c->HBox()->PackEnd(gauge = c->Gauge()));
+
+#if 0
 	Thing thing(Lua::manager);
 
 	UI::Label *l = c->Label("label");
@@ -161,7 +165,7 @@ int main(int argc, char **argv)
 
 	l->Bind("text", &thing, "time");
 
-#if 0
+
 	c->SetInnerWidget(
 		c->VBox(10)->PackEnd(UI::WidgetSet(
 			c->Background()->SetInnerWidget(
@@ -560,7 +564,7 @@ int main(int argc, char **argv)
 		c->Draw();
 		r->SwapBuffers();
 
-		thing.Update();
+//		thing.Update();
 
 //		slider->SetValue(slider->GetValue() + 0.01);
 
