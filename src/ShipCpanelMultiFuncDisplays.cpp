@@ -191,35 +191,17 @@ void ScannerWidget::Draw()
 	va.Add(vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
-	m_renderer->SetBlendMode(BLEND_SOLID);
-
 	// circles and spokes
-	glLineWidth(1);
 	glPushMatrix();
 	glTranslatef(m_x, m_y, 0);
 	glScalef(m_x, m_y, 1.0f);
 	DrawRingsAndSpokes(false);
-
-	// draw blended in slightly different places to anti-alias
-	// XXX replace this insanity with some alpha/line-width combination?
-
-	float c2p[2];
-	Gui::Screen::GetCoords2Pixels(c2p);
-	c2p[0] /= m_x; c2p[1] /= m_y;			// counter scale transform
-	m_renderer->SetBlendMode(BLEND_ALPHA);
-	glTranslatef(0.5f * c2p[0], 0.5f * c2p[1], 0);
-	DrawRingsAndSpokes(true);
-	glTranslatef(0, -c2p[1], 0);
-	DrawRingsAndSpokes(true);
-	glTranslatef(-c2p[0], 0, 0);
-	DrawRingsAndSpokes(true);
-	glTranslatef(0, c2p[1], 0);
-	DrawRingsAndSpokes(true);
-	m_renderer->SetBlendMode(BLEND_SOLID);
 	glPopMatrix();
 
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
+
+	m_renderer->SetBlendMode(BLEND_SOLID);
 
 	SetScissor(false);
 	glLineWidth(1.0f);
@@ -483,10 +465,10 @@ void ScannerWidget::GenerateRingsAndSpokes()
 	vector3f vn(sin(a), SCANNER_YSHRINK * cos(a), 0.0f);
 	
 	// bright part
-	Color col = Color(0.7f, 0.7f, 0.f, 0.25f);
+	Color col = Color(0.7f, 0.7f, 0.f, 0.5f);
 	if (m_mode == SCANNER_MODE_AUTO) {
 		// green like the scanner to indicate that the scanner is controlling the range
-		col = Color(0.f, 0.7f, 0.f, 0.25f);
+		col = Color(0.f, 0.7f, 0.f, 0.5f);
 	}
 	for (int i=0; i<=dimstart; i++) {
 		if (i == csize) return;			// whole circle bright case
@@ -496,7 +478,7 @@ void ScannerWidget::GenerateRingsAndSpokes()
 	m_edgeVts.push_back(vn); m_edgeCols.push_back(col);
 
 	// dim part
-	col = Color(0.2f, 0.3f, 0.2f, 0.25f);
+	col = Color(0.2f, 0.3f, 0.2f, 0.5f);
 	m_edgeVts.push_back(vn); m_edgeCols.push_back(col);
 	for (int i=dimstart+1; i<csize; i++) {
 		m_edgeVts.push_back(vector3f(m_circle[i].x, m_circle[i].y, 0.0f));
@@ -506,7 +488,7 @@ void ScannerWidget::GenerateRingsAndSpokes()
 
 void ScannerWidget::DrawRingsAndSpokes(bool blend)
 {
-	Color col(0.f, 0.4f, 0.f, 0.25f);
+	Color col(0.f, 0.4f, 0.f, 0.5f);
 	m_renderer->DrawLines2D(m_vts.size(), &m_vts[0], col);
 	m_renderer->DrawLines(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0]);
 }
