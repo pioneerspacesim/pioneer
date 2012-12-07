@@ -449,9 +449,9 @@ void ScannerWidget::GenerateBaseGeometry()
 
 	// spokes
 	m_spokes.clear();
-	for (float a = 0; a < circle; a += float(M_PI * 0.25)) {
-		m_spokes.push_back(vector2f(0.1f * sin(a), 0.1f * SCANNER_YSHRINK * cos(a)));
-		m_spokes.push_back(vector2f(sin(a), SCANNER_YSHRINK * cos(a)));
+	for (float ang = 0; ang < circle; ang += float(M_PI * 0.25)) {
+		m_spokes.push_back(vector2f(0.1f * sin(ang), 0.1f * SCANNER_YSHRINK * cos(ang)));
+		m_spokes.push_back(vector2f(sin(ang), SCANNER_YSHRINK * cos(ang)));
 	}
 }
 
