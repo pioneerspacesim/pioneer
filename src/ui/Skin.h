@@ -105,6 +105,12 @@ public:
 	void DrawGaugeBorder(const Point &pos, const Point &size) const {
 		DrawBorderedRectElement(m_gaugeBorder, pos, size);
 	}
+	void DrawGaugeMask(const Point &pos, const Point &size) const {
+		DrawBorderedRectElement(m_gaugeMask, pos, size);
+	}
+	void DrawGaugeFill(const Point &pos, const Point &size) const {
+		DrawRectElement(m_gaugeFill, pos, size);
+	}
 
 
 	struct RectElement {
@@ -215,6 +221,8 @@ private:
 	RectElement m_sliderHorizontalButtonActive;
 
 	BorderedRectElement m_gaugeBorder;
+	BorderedRectElement m_gaugeMask;
+	RectElement m_gaugeFill;
 
 	unsigned int m_buttonMinInnerSize;
 
