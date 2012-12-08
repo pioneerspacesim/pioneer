@@ -93,11 +93,8 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
-				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
-
 				FT_Vector kern;
-				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(chr2).ftIndex, FT_KERNING_UNFITTED, &kern);
 				line_width += float(kern.x) / 64.0;
 			}
 		}
@@ -125,13 +122,12 @@ void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &cha
 			x = 0.0f;
 			y += GetHeight();
 		} else {
-			float advance = GetGlyph(chr).advx;
+			const glfglyph_t &glyph = GetGlyph(chr);
+			float advance = glyph.advx;
 
 			if (nextChar != '\n' && nextChar != '\0') {
-				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-				FT_UInt b = FT_Get_Char_Index(m_face, nextChar);
 				FT_Vector kern;
-				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(nextChar).ftIndex, FT_KERNING_UNFITTED, &kern);
 				advance += float(kern.x) / 64.0f;
 			}
 
@@ -176,13 +172,12 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 			right = std::numeric_limits<float>::max();
 			x = 0.0f;
 		} else {
-			float advance = GetGlyph(chr1).advx;
+			const glfglyph_t &glyph = GetGlyph(chr1);
+			float advance = glyph.advx;
 
 			if (chr2 != '\n' && chr2 != '\0') {
-				FT_UInt a = FT_Get_Char_Index(m_face, chr1);
-				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
 				FT_Vector kern;
-				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(chr2).ftIndex, FT_KERNING_UNFITTED, &kern);
 				advance += float(kern.x) / 64.0f;
 			}
 
@@ -230,11 +225,8 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
-				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
-
 				FT_Vector kern;
-				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(chr2).ftIndex, FT_KERNING_UNFITTED, &kern);
 				px += float(kern.x) / 64.0;
 			}
 
@@ -289,11 +281,8 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
-				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
-
 				FT_Vector kern;
-				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(chr2).ftIndex, FT_KERNING_UNFITTED, &kern);
 				px += float(kern.x) / 64.0;
 			}
 
@@ -362,6 +351,8 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 		for (Uint32 chr = first; chr <= last; chr++) {
 			glfglyph_t glfglyph;
 			FT_Glyph glyph;
+
+			glfglyph.ftIndex = FT_Get_Char_Index(m_face, chr);
 
 			err = FT_Load_Char(m_face, chr, FT_LOAD_FORCE_AUTOHINT);
 			if (err) {

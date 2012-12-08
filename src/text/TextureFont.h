@@ -40,6 +40,7 @@ public:
 		float texWidth, texHeight;
 		int offx, offy;
 		float offU, offV; //atlas UV offset
+		Uint32 ftIndex;
 	};
 	const glfglyph_t &GetGlyph(Uint32 ch) const { return ch < 256 ? m_glyphsFast[ch] : m_glyphs.find(ch)->second; }
 
