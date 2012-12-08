@@ -22,6 +22,8 @@
 
 /* Begin PBXBuildFile section */
 		4A01889715A59908002F540B /* SystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A01889615A59908002F540B /* SystemPath.cpp */; };
+		4A0F25CE165CF00D00208507 /* LuaSmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */; };
+		4A0F25CF165CF00D00208507 /* SmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F25CC165CF00D00208507 /* SmallButton.cpp */; };
 		4A107C2F1525AB0D00EF9FAC /* CRC32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A107C2B1525AB0D00EF9FAC /* CRC32.cpp */; };
 		4A107C301525AB0D00EF9FAC /* ShipController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A107C2D1525AB0D00EF9FAC /* ShipController.cpp */; };
 		4A19038C138AA33300E0229C /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A190325138AA33300E0229C /* Gui.cpp */; };
@@ -105,6 +107,12 @@
 		4A305FD1151341170076D414 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A305FCC151341170076D414 /* FileSystem.cpp */; };
 		4A37073615A879D100E7E5F6 /* lookup3.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A37073315A879D100E7E5F6 /* lookup3.c */; };
 		4A3AE8E5158FD22200EB13DE /* LuaComms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A3AE8E3158FD22200EB13DE /* LuaComms.cpp */; };
+		4A4D25D8167335D9003BC9D5 /* Face.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D2167335D9003BC9D5 /* Face.cpp */; };
+		4A4D25D9167335D9003BC9D5 /* LuaFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */; };
+		4A4D25DA167335D9003BC9D5 /* LuaShipSpinner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D5167335D9003BC9D5 /* LuaShipSpinner.cpp */; };
+		4A4D25DB167335D9003BC9D5 /* ShipSpinner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D6167335D9003BC9D5 /* ShipSpinner.cpp */; };
+		4A4D25DF167335F5003BC9D5 /* Icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25DC167335F5003BC9D5 /* Icon.cpp */; };
+		4A4D25E0167335F5003BC9D5 /* LuaIcon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25DE167335F5003BC9D5 /* LuaIcon.cpp */; };
 		4A4F25D214F524D400FD14A6 /* Drawables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25B914F524D400FD14A6 /* Drawables.cpp */; };
 		4A4F25D314F524D400FD14A6 /* Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25BB14F524D400FD14A6 /* Frustum.cpp */; };
 		4A4F25D414F524D400FD14A6 /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25BD14F524D400FD14A6 /* Graphics.cpp */; };
@@ -148,7 +156,6 @@
 		4A6C4DE713532FC300FDD53F /* GameMenuView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C2D13532FC300FDD53F /* GameMenuView.cpp */; };
 		4A6C4DE913532FC300FDD53F /* GeoSphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C3113532FC300FDD53F /* GeoSphere.cpp */; };
 		4A6C4E0413532FC300FDD53F /* HyperspaceCloud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6A13532FC300FDD53F /* HyperspaceCloud.cpp */; };
-		4A6C4E0513532FC300FDD53F /* InfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6C13532FC300FDD53F /* InfoView.cpp */; };
 		4A6C4E0613532FC300FDD53F /* IniConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6E13532FC300FDD53F /* IniConfig.cpp */; };
 		4A6C4E0713532FC300FDD53F /* KeyBindings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7013532FC300FDD53F /* KeyBindings.cpp */; };
 		4A6C4E0813532FC300FDD53F /* LmrModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7313532FC300FDD53F /* LmrModel.cpp */; };
@@ -243,7 +250,7 @@
 		4AAB881915F4AD3500AAF8A8 /* MaterialLegacy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB881115F4AD3500AAF8A8 /* MaterialLegacy.cpp */; };
 		4AAB881D15F4AD7700AAF8A8 /* Lua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB881A15F4AD7700AAF8A8 /* Lua.cpp */; };
 		4AAB884815FDEA6F00AAF8A8 /* LuaRef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB884515FDEA6E00AAF8A8 /* LuaRef.cpp */; };
-		4AAC9FE215458FE400116131 /* miniz.c in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FDE15458FE400116131 /* miniz.c */; };
+		4AAC9FE215458FE400116131 /* miniz.c in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FDE15458FE400116131 /* miniz.c */; settings = {COMPILER_FLAGS = "-Wno-unused"; }; };
 		4AAC9FE91545901D00116131 /* FileSourceZip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FE51545901D00116131 /* FileSourceZip.cpp */; };
 		4AAC9FEA1545901D00116131 /* ModManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FE71545901D00116131 /* ModManager.cpp */; };
 		4AB3DF8914346952001B783A /* TerrainBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB3DF8714346952001B783A /* TerrainBody.cpp */; };
@@ -474,6 +481,9 @@
 
 /* Begin PBXFileReference section */
 		4A01889615A59908002F540B /* SystemPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemPath.cpp; sourceTree = "<group>"; };
+		4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSmallButton.cpp; sourceTree = "<group>"; };
+		4A0F25CC165CF00D00208507 /* SmallButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmallButton.cpp; sourceTree = "<group>"; };
+		4A0F25CD165CF00D00208507 /* SmallButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallButton.h; sourceTree = "<group>"; };
 		4A107C2B1525AB0D00EF9FAC /* CRC32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CRC32.cpp; sourceTree = "<group>"; };
 		4A107C2C1525AB0D00EF9FAC /* CRC32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRC32.h; sourceTree = "<group>"; };
 		4A107C2D1525AB0D00EF9FAC /* ShipController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShipController.cpp; sourceTree = "<group>"; };
@@ -647,6 +657,15 @@
 		4A37073415A879D100E7E5F6 /* lookup3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lookup3.h; sourceTree = "<group>"; };
 		4A3AE8E3158FD22200EB13DE /* LuaComms.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaComms.cpp; sourceTree = "<group>"; };
 		4A3AE8E4158FD22200EB13DE /* LuaComms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaComms.h; sourceTree = "<group>"; };
+		4A4D25D2167335D9003BC9D5 /* Face.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Face.cpp; sourceTree = "<group>"; };
+		4A4D25D3167335D9003BC9D5 /* Face.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Face.h; sourceTree = "<group>"; };
+		4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaFace.cpp; sourceTree = "<group>"; };
+		4A4D25D5167335D9003BC9D5 /* LuaShipSpinner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaShipSpinner.cpp; sourceTree = "<group>"; };
+		4A4D25D6167335D9003BC9D5 /* ShipSpinner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShipSpinner.cpp; sourceTree = "<group>"; };
+		4A4D25D7167335D9003BC9D5 /* ShipSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipSpinner.h; sourceTree = "<group>"; };
+		4A4D25DC167335F5003BC9D5 /* Icon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Icon.cpp; sourceTree = "<group>"; };
+		4A4D25DD167335F5003BC9D5 /* Icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Icon.h; sourceTree = "<group>"; };
+		4A4D25DE167335F5003BC9D5 /* LuaIcon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaIcon.cpp; sourceTree = "<group>"; };
 		4A4F25B914F524D400FD14A6 /* Drawables.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Drawables.cpp; sourceTree = "<group>"; };
 		4A4F25BA14F524D400FD14A6 /* Drawables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Drawables.h; sourceTree = "<group>"; };
 		4A4F25BB14F524D400FD14A6 /* Frustum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frustum.cpp; sourceTree = "<group>"; };
@@ -733,8 +752,6 @@
 		4A6C4C3213532FC300FDD53F /* GeoSphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSphere.h; sourceTree = "<group>"; };
 		4A6C4C6A13532FC300FDD53F /* HyperspaceCloud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperspaceCloud.cpp; sourceTree = "<group>"; };
 		4A6C4C6B13532FC300FDD53F /* HyperspaceCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperspaceCloud.h; sourceTree = "<group>"; };
-		4A6C4C6C13532FC300FDD53F /* InfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InfoView.cpp; sourceTree = "<group>"; };
-		4A6C4C6D13532FC300FDD53F /* InfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoView.h; sourceTree = "<group>"; };
 		4A6C4C6E13532FC300FDD53F /* IniConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IniConfig.cpp; sourceTree = "<group>"; };
 		4A6C4C6F13532FC300FDD53F /* IniConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IniConfig.h; sourceTree = "<group>"; };
 		4A6C4C7013532FC300FDD53F /* KeyBindings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KeyBindings.cpp; sourceTree = "<group>"; };
@@ -1384,11 +1401,17 @@
 		4A24FD601650F4D100DE7B0F /* gameui */ = {
 			isa = PBXGroup;
 			children = (
+				4A4D25D2167335D9003BC9D5 /* Face.cpp */,
+				4A4D25D3167335D9003BC9D5 /* Face.h */,
 				4A24FD611650F4D100DE7B0F /* GameUI.h */,
 				4A24FD621650F4D100DE7B0F /* Lua.cpp */,
 				4A24FD631650F4D100DE7B0F /* Lua.h */,
+				4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */,
+				4A4D25D5167335D9003BC9D5 /* LuaShipSpinner.cpp */,
 				4A24FD651650F4D100DE7B0F /* Panel.cpp */,
 				4A24FD661650F4D100DE7B0F /* Panel.h */,
+				4A4D25D6167335D9003BC9D5 /* ShipSpinner.cpp */,
+				4A4D25D7167335D9003BC9D5 /* ShipSpinner.h */,
 			);
 			path = gameui;
 			sourceTree = "<group>";
@@ -1546,8 +1569,6 @@
 				4A19030B138AA33300E0229C /* gui */,
 				4A6C4C6A13532FC300FDD53F /* HyperspaceCloud.cpp */,
 				4A6C4C6B13532FC300FDD53F /* HyperspaceCloud.h */,
-				4A6C4C6C13532FC300FDD53F /* InfoView.cpp */,
-				4A6C4C6D13532FC300FDD53F /* InfoView.h */,
 				4A6C4C6E13532FC300FDD53F /* IniConfig.cpp */,
 				4A6C4C6F13532FC300FDD53F /* IniConfig.h */,
 				4AF222E2162103EA00BED38E /* Intro.cpp */,
@@ -1925,6 +1946,8 @@
 				4AA4A8D7164D0EB10006C3BF /* Gradient.h */,
 				4ABF304816335A1100664653 /* Grid.cpp */,
 				4ABF304916335A1100664653 /* Grid.h */,
+				4A4D25DC167335F5003BC9D5 /* Icon.cpp */,
+				4A4D25DD167335F5003BC9D5 /* Icon.h */,
 				4ABF304A16335A1100664653 /* Image.cpp */,
 				4ABF304B16335A1100664653 /* Image.h */,
 				4ABF304C16335A1100664653 /* Label.cpp */,
@@ -1945,6 +1968,7 @@
 				4AA4A8D8164D0EB10006C3BF /* LuaExpand.cpp */,
 				4AA4A8D9164D0EB10006C3BF /* LuaGradient.cpp */,
 				4ABF305B16335A1100664653 /* LuaGrid.cpp */,
+				4A4D25DE167335F5003BC9D5 /* LuaIcon.cpp */,
 				4ABF305C16335A1100664653 /* LuaImage.cpp */,
 				4ABF305D16335A1100664653 /* LuaLabel.cpp */,
 				4ABF305E16335A1100664653 /* LuaList.cpp */,
@@ -1954,6 +1978,7 @@
 				4ABF306216335A1100664653 /* LuaSignal.h */,
 				4ABF306316335A1100664653 /* LuaSingle.cpp */,
 				4ABF306416335A1100664653 /* LuaSlider.cpp */,
+				4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */,
 				4AFBD7BA16412676002928CB /* LuaTextEntry.cpp */,
 				4ABF306516335A1100664653 /* LuaWidget.cpp */,
 				4ABF306716335A1100664653 /* Margin.cpp */,
@@ -1969,6 +1994,8 @@
 				4ABF307116335A1100664653 /* Skin.h */,
 				4ABF307216335A1100664653 /* Slider.cpp */,
 				4ABF307316335A1100664653 /* Slider.h */,
+				4A0F25CC165CF00D00208507 /* SmallButton.cpp */,
+				4A0F25CD165CF00D00208507 /* SmallButton.h */,
 				4AFBD7BB16412676002928CB /* TextEntry.cpp */,
 				4AFBD7BC16412676002928CB /* TextEntry.h */,
 				4ABF307416335A1100664653 /* TextLayout.cpp */,
@@ -2149,7 +2176,6 @@
 				4A6C4DE713532FC300FDD53F /* GameMenuView.cpp in Sources */,
 				4A6C4DE913532FC300FDD53F /* GeoSphere.cpp in Sources */,
 				4A6C4E0413532FC300FDD53F /* HyperspaceCloud.cpp in Sources */,
-				4A6C4E0513532FC300FDD53F /* InfoView.cpp in Sources */,
 				4A6C4E0613532FC300FDD53F /* IniConfig.cpp in Sources */,
 				4A6C4E0713532FC300FDD53F /* KeyBindings.cpp in Sources */,
 				4A6C4E0813532FC300FDD53F /* LmrModel.cpp in Sources */,
@@ -2463,6 +2489,14 @@
 				4A24FD5E1650F4B700DE7B0F /* UIView.cpp in Sources */,
 				4A24FD671650F4D100DE7B0F /* Lua.cpp in Sources */,
 				4A24FD691650F4D100DE7B0F /* Panel.cpp in Sources */,
+				4A0F25CE165CF00D00208507 /* LuaSmallButton.cpp in Sources */,
+				4A0F25CF165CF00D00208507 /* SmallButton.cpp in Sources */,
+				4A4D25D8167335D9003BC9D5 /* Face.cpp in Sources */,
+				4A4D25D9167335D9003BC9D5 /* LuaFace.cpp in Sources */,
+				4A4D25DA167335D9003BC9D5 /* LuaShipSpinner.cpp in Sources */,
+				4A4D25DB167335D9003BC9D5 /* ShipSpinner.cpp in Sources */,
+				4A4D25DF167335F5003BC9D5 /* Icon.cpp in Sources */,
+				4A4D25E0167335F5003BC9D5 /* LuaIcon.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
