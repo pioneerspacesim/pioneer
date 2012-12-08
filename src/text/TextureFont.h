@@ -49,7 +49,7 @@ public:
 private:
 	Graphics::Renderer *m_renderer;
 
-	void AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &color);
+	void AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t *glyph, float x, float y, const Color &color);
 	float m_height;
 	float m_descender;
 	int m_texSize;

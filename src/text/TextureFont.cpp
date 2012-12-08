@@ -35,10 +35,8 @@ const Uint32 TextureFont::CHARACTER_RANGES[] = {
 
 int TextureFont::s_glyphCount = 0;
 
-void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &c)
+void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t *glyph, float x, float y, const Color &c)
 {
-	glfglyph_t *glyph = &m_glyphs[chr];
-
 	const float offx = x + float(glyph->offx);
 	const float offy = y + GetHeight() - float(glyph->offy);
 	const float offU = glyph->offU;
@@ -219,7 +217,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			AddGlyphGeometry(&m_vertices, chr, roundf(px), py, color);
+			AddGlyphGeometry(&m_vertices, glyph, roundf(px), py, color);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -277,7 +275,7 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 			i += n;
 
 			glfglyph_t *glyph = &m_glyphs[chr];
-			AddGlyphGeometry(&m_vertices, chr, roundf(px), py, c);
+			AddGlyphGeometry(&m_vertices, glyph, roundf(px), py, c);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
