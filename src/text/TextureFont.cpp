@@ -42,13 +42,23 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t *
 	const float offU = glyph->offU;
 	const float offV = glyph->offV;
 
-	va->Add(vector3f(offx,                 offy,                  0.0f), c, vector2f(offU, offV));
-	va->Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), c, vector2f(offU, offV + glyph->height));
-	va->Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), c, vector2f(offU + glyph->width, offV));
+	const vector3f p0(offx,                 offy,                  0.0f);
+	const vector3f p1(offx,                 offy+glyph->texHeight, 0.0f);
+	const vector3f p2(offx+glyph->texWidth, offy,                  0.0f);
+	const vector3f p3(offx+glyph->texWidth, offy+glyph->texHeight, 0.0f);
 
-	va->Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), c, vector2f(offU + glyph->width, offV));
-	va->Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), c, vector2f(offU, offV + glyph->height));
-	va->Add(vector3f(offx+glyph->texWidth, offy+glyph->texHeight, 0.0f), c, vector2f(offU + glyph->width, offV + glyph->height));
+	const vector2f t0(offU,              offV              );
+	const vector2f t1(offU,              offV+glyph->height);
+	const vector2f t2(offU+glyph->width, offV              );
+	const vector2f t3(offU+glyph->width, offV+glyph->height);
+
+	va->Add(p0, c, t0);
+	va->Add(p1, c, t1);
+	va->Add(p2, c, t2);
+
+	va->Add(p2, c, t2);
+	va->Add(p1, c, t1);
+	va->Add(p3, c, t3);
 
 	s_glyphCount++;
 }
