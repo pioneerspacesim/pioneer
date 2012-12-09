@@ -73,7 +73,16 @@ bool Ship::AITimeStep(float timeStep)
 		return true;
 	}
 
+#ifdef DEBUG_AUTOPILOT
+	unsigned int control_word;
+	_clearfp();
+	_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
+	bool done = m_curAICmd->TimeStepUpdate();
+	_controlfp_s(&control_word, _MCW_EM, _MCW_EM);
+	if (done) {
+#else
 	if (m_curAICmd->TimeStepUpdate()) {
+#endif
 		AIClearInstructions();
 //		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
 		LuaEvent::Queue("onAICompleted", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipAIError", AIMessage()));

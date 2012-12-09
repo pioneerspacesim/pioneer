@@ -786,7 +786,8 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 		if (targaccel.Dot(reldir) < 0.0 && !targship->IsDecelerating()) targaccel *= 0.5;
 		targvel += targaccel * timestep;
 		maxdecel += targaccel.Dot(reldir);
-// TODO: should have maxdecel < 0 check here. do what with it though?
+		// if we have margin lower than 10%, fly as if 10% anyway
+		maxdecel = std::max(maxdecel, 0.1*m_ship->GetAccelFwd());
 	}
 
 	// ignore targvel if we could clear with side thrusters in a fraction of minimum time
