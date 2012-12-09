@@ -40,6 +40,20 @@ public:
 
 	double GetMaxHeight() const { return m_maxHeight; }
 
+	// The consituents that can potentially make up the surface of a planet according to its colour class.
+	// The locations and abundances are determined by the colour fractals 
+	// and the randomised parameters they recieve which depend on the seed.
+	// It may be possible that no instances of the materials are present anywhere on the planet.
+	struct PotentialSurfaceComposition {
+		PotentialSurfaceComposition(): water(false), snow(false), ice(false), lava(false) { };
+		void Set(bool water_, bool snow_, bool ice_, bool lava_) { water = water_; snow = snow_; ice = ice_; lava = lava_; };
+		bool water;
+		bool snow;
+		bool ice;
+		bool lava;
+	};
+
+	PotentialSurfaceComposition GetPotentialSurfaceComposition() const { return potentialSurfaceComposition; }
 private:
 	template <typename HeightFractal, typename ColorFractal>
 	static Terrain *InstanceGenerator(const SystemBody *body) { return new TerrainGenerator<HeightFractal,ColorFractal>(body); }
@@ -62,6 +76,9 @@ protected:
 	double m_sealevel; // 0 - no water, 1 - 100% coverage
 	double m_icyness; // 0 - 1 (0% to 100% cover)
 	double m_volcanic;
+
+	// These are set in the colour fractal class constructors.
+	PotentialSurfaceComposition potentialSurfaceComposition;
 
 	// heightmap stuff
 	// XXX unify heightmap types

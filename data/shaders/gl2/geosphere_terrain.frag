@@ -13,6 +13,7 @@ uniform Scene scene;
 varying vec3 varyingEyepos;
 varying vec3 varyingNormal;
 varying vec4 vertexColor;
+varying vec4 varyingemission;
 
 void main(void)
 {
@@ -52,14 +53,14 @@ void main(void)
 	atmosDiffuse.a = 1.0;
 
 	gl_FragColor =
-		gl_FrontMaterial.emission +
+		gl_FrontMaterial.emission + varyingemission +
 		fogFactor *
 		((scene.ambient * vertexColor) +
 		(diff * vertexColor)) +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
 #else // atmosphere-less planetoids and dim stars
 	gl_FragColor =
-		gl_FrontMaterial.emission +
+		gl_FrontMaterial.emission + varyingemission +
 		(scene.ambient * vertexColor) +
 		(diff * vertexColor);
 #endif //ATMOSPHERE
@@ -70,3 +71,4 @@ void main(void)
 #endif
 	SetFragDepth();
 }
+

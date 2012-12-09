@@ -83,7 +83,7 @@ vector3d TerrainColorFractal<TerrainColorEarthLike>::GetColor(const vector3d &p,
 		if (m_heightMap) {
 			// waves
 			if (textures) {
-				n += water;
+				n += water1;
 				n *= 0.1;
 			}
 		} else {

@@ -169,7 +169,7 @@ namespace TerrainNoise {
 #define grass  billow_octavenoise(GetFracDef(1), 0.8, p)
 #define grass2 billow_octavenoise(GetFracDef(3), 0.6, p)*voronoiscam_octavenoise(GetFracDef(4), 0.6, p)*river_octavenoise(GetFracDef(5), 0.6, p)
 #define forest octavenoise(GetFracDef(1), 0.65, p)*voronoiscam_octavenoise(GetFracDef(2), 0.65, p)
-#define water  dunes_octavenoise(GetFracDef(6), 0.6, p)
+#define water1  dunes_octavenoise(GetFracDef(6), 0.6, p)
 
 
 #endif
