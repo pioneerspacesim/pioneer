@@ -3,12 +3,13 @@
 
 #include "SpaceStationType.h"
 #include "FileSystem.h"
-#include "LmrModel.h"
+#include "ModelBase.h"
 #include "Lua.h"
 #include "LuaVector.h"
+#include "LuaVector.h"
+#include "Pi.h"
 #include "Ship.h"
 #include "StringF.h"
-#include "LuaVector.h"
 
 static std::string s_currentStationFile = "";
 std::vector<SpaceStationType> SpaceStationType::surfaceStationTypes;
@@ -41,7 +42,7 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 
 	lua_pushcfunction(L, pi_lua_panic);
 	lua_getglobal(L, this->approachWaypointsFunction.c_str());
-	//model->PushAttributeToLuaStack("ship_approach_waypoints");
+
 	if (!lua_isfunction(L, -1)) {
 		printf("no function\n");
 		lua_pop(L, 2);
@@ -98,7 +99,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	// It's a function of form function(stage, t, from)
 	//model->PushAttributeToLuaStack("ship_dock_anim");
 	if (!lua_isfunction(L, -1)) {
-		Error("Spacestation model %s needs ship_dock_anim method", model->GetName());
+		Error("Spacestation %s needs ship_dock_anim method", id.c_str());
 	}
 	lua_pushinteger(L, port+1);
 	lua_pushinteger(L, stage);
@@ -248,7 +249,7 @@ static int _define_station(lua_State *L, SpaceStationType &station)
 	assert(!station.modelName.empty());
 	assert(!station.dockAnimFunction.empty());
 	assert(!station.approachWaypointsFunction.empty());
-	station.model = LmrLookupModelByName(station.modelName.c_str());
+	station.model = Pi::FindModel(station.modelName);
 	return 0;
 }
 

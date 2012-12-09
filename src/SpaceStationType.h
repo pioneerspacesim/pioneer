@@ -8,12 +8,12 @@
 
 //Space station definition, loaded from data/stations
 
-class LmrModel;
+class ModelBase;
 class Ship;
 
 struct SpaceStationType {
 	std::string id;
-	LmrModel *model;
+	ModelBase *model;
 	std::string modelName;
 	float angVel;
 	enum DOCKMETHOD { SURFACE, ORBITAL } dockMethod;
