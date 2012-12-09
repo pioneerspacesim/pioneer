@@ -936,8 +936,11 @@ void Pi::MainLoop()
 
 				accumulator -= step;
 			}
-			Pi::gameTickAlpha = accumulator / step;
-
+			// rendering interpolation between frames: don't use when docked
+			int pstate = Pi::game->GetPlayer()->GetFlightState();
+			if (pstate == Ship::DOCKED || pstate == Ship::DOCKING) Pi::gameTickAlpha = 1.0;
+			else Pi::gameTickAlpha = accumulator / step;
+			
 #if WITH_DEVKEYS
 			phys_stat += phys_ticks;
 #endif
