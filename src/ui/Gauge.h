@@ -14,9 +14,15 @@ public:
 	virtual void Layout();
 	virtual void Draw();
 
+	float GetValue() const { return m_value; }
+	void SetValue(float v) { m_value = Clamp(v, 0.0f, 1.0f); }
+
 protected:
 	friend class Context;
-	Gauge(Context *context): Widget(context) {}
+	Gauge(Context *context): Widget(context), m_value(0.0) {}
+
+private:
+	float m_value;
 };
 
 }

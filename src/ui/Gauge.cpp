@@ -20,19 +20,24 @@ void Gauge::Layout()
 
 void Gauge::Draw()
 {
+	const Point activeOffset(GetActiveOffset());
+	const Point activeArea(GetActiveArea());
+
 	Context *c = GetContext();
 	const Skin &s = c->GetSkin();
 	Graphics::Renderer *r = c->GetRenderer();
 
-	s.DrawGaugeBackground(GetActiveOffset(), GetActiveArea());
+	s.DrawGaugeBackground(activeOffset, activeArea);
 
-	glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_SRC_COLOR, GL_ZERO);
-	s.DrawGaugeMask(GetActiveOffset(), GetActiveArea());
+	if (m_value > 0.0f) {
+		glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_SRC_COLOR, GL_ZERO);
+		s.DrawGaugeMask(activeOffset, activeArea);
 
-	glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
-	s.DrawGaugeFill(GetActiveOffset(), GetActiveArea());
+		glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+		s.DrawGaugeFill(activeOffset, Point(activeArea.x * m_value, activeArea.y));
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //restore default
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //restore default
+	}
 }
 
 }
