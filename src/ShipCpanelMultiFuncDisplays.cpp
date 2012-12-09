@@ -26,6 +26,7 @@ using namespace Graphics;
 #define SCANNER_SCALE		0.00001f
 #define SCANNER_YSHRINK		0.75f
 #define A_BIT				1.1f
+#define SCANNER_STEPS		100
 
 enum ScannerBlobWeight { WEIGHT_LIGHT, WEIGHT_HEAVY };
 
@@ -135,6 +136,8 @@ ScannerWidget::ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd) :
 void ScannerWidget::InitObject()
 {
 	m_toggleScanModeConnection = KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
+	m_lastRange = SCANNER_RANGE_MAX * 100.0f;		// force regen
+	GenerateBaseGeometry();
 }
 
 ScannerWidget::~ScannerWidget()
@@ -164,9 +167,14 @@ void ScannerWidget::Draw()
 	GetSize(size);
 	m_x = size[0] * 0.5f;
 	m_y = size[1] * 0.5f;
+
 	SetScissor(true);
-	float c2p[2];
-	Gui::Screen::GetCoords2Pixels(c2p);
+
+	float rangediff = abs(m_lastRange-m_currentRange);
+	if (rangediff > 200.0 || rangediff / m_currentRange > 0.01) {
+		GenerateRingsAndSpokes();
+		m_lastRange = m_currentRange;
+	}
 
 	// draw objects below player (and below scanner)
 	if (!m_contacts.empty()) DrawBlobs(true);
@@ -184,31 +192,19 @@ void ScannerWidget::Draw()
 	va.Add(vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
-	m_renderer->SetBlendMode(BLEND_SOLID);
-
 	// circles and spokes
-	glLineWidth(1);
-	DrawRingsAndSpokes(false);
-	// draw blended in slightly different places to anti-alias
 	glPushMatrix();
-	m_renderer->SetBlendMode(BLEND_ALPHA);
-	glTranslatef(0.5f * c2p[0], 0.5f * c2p[1], 0);
-	DrawRingsAndSpokes(true);
-	glTranslatef(0, -c2p[1], 0);
-	DrawRingsAndSpokes(true);
-	glTranslatef(-c2p[0], 0, 0);
-	DrawRingsAndSpokes(true);
-	glTranslatef(0, c2p[1], 0);
-	DrawRingsAndSpokes(true);
+	glTranslatef(m_x, m_y, 0);
+	glScalef(m_x, m_y, 1.0f);
+	DrawRingsAndSpokes(false);
 	glPopMatrix();
-	m_renderer->SetBlendMode(BLEND_SOLID);
 
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
 
+	m_renderer->SetBlendMode(BLEND_SOLID);
+
 	SetScissor(false);
-	glLineWidth(1.0f);
-	glPointSize(1.0f);
 }
 
 void ScannerWidget::Update()
@@ -417,83 +413,85 @@ void ScannerWidget::DrawBlobs(bool below)
 	}
 }
 
-void ScannerWidget::DrawRingsAndSpokes(bool blend)
+void ScannerWidget::GenerateBaseGeometry()
 {
 	static const float circle = float(2 * M_PI);
-	static const float step = float(M_PI * 0.02); // 1/100th or 3.6 degrees
+	static const float step = circle / SCANNER_STEPS;
 
-	/* soicles */
-	/* inner soicle */
-	Color col(0.f, 0.4f, 0.f, 0.25f);
-
-	std::vector<vector2f> vts;
-	for (float a = 0; a < circle; a += step) {
-		vts.push_back(vector2f(
-				m_x + 0.1f * m_x * sin(a),
-				m_y + SCANNER_YSHRINK * 0.1f * m_y * cos(a)));
+	// circle (to be scaled and offset)
+	m_circle.clear();
+	m_circle.push_back(vector2f(0.0f, SCANNER_YSHRINK));
+	float a = step;
+	for (int i=1; i < SCANNER_STEPS; i++, a += step) {
+		vector2f v = vector2f(sin(a), SCANNER_YSHRINK * cos(a));
+		m_circle.push_back(v); m_circle.push_back(v);
 	}
-	m_renderer->DrawLines2D(vts.size(), &vts[0], col, LINE_LOOP);
+	m_circle.push_back(vector2f(0.0f, SCANNER_YSHRINK));
 
-	/* dynamic soicles */
+	// spokes
+	m_spokes.clear();
+	for (float ang = 0; ang < circle; ang += float(M_PI * 0.25)) {
+		m_spokes.push_back(vector2f(0.1f * sin(ang), 0.1f * SCANNER_YSHRINK * cos(ang)));
+		m_spokes.push_back(vector2f(sin(ang), SCANNER_YSHRINK * cos(ang)));
+	}
+}
+
+void ScannerWidget::GenerateRingsAndSpokes()
+{
+	int csize = m_circle.size();
+	int ssize = m_spokes.size();
+	m_vts.clear();
+
+	// inner circle
+	for (int i=0; i<csize; i++) m_vts.push_back(m_circle[i] * 0.1f);
+	
+	// dynamic circles
 	for (int p = 0; p < 7; ++p) {
-		std::vector<vector2f> circ;
 		float sz = (pow(2.0f, p) * 1000.0f) / m_currentRange;
 		if (sz <= 0.1f) continue;
 		if (sz >= 1.0f) break;
-		for (float a = 0; a < circle; a += step) {
-			circ.push_back(vector2f(
-				m_x + sz * m_x * sin(a),
-				m_y + SCANNER_YSHRINK * sz * m_y * cos(a)));
-		}
-		m_renderer->DrawLines2D(circ.size(), &circ[0], col, LINE_LOOP);
-	}
-	/* schpokes */
-	std::vector<vector2f> spokes;
-	for (float a = 0; a < circle; a += float(M_PI * 0.25)) {
-		spokes.push_back(vector2f(m_x + m_x * 0.1f * sin(a), m_y + 0.1f * SCANNER_YSHRINK * m_y * cos(a)));
-		spokes.push_back(vector2f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a)));
-	}
-	m_renderer->DrawLines2D(spokes.size(), &spokes[0], col);
-
-	/* outer range soicle */
-	float range_percent = m_currentRange / SCANNER_RANGE_MAX;
-
-	float arc_end_x, arc_end_y;
-	if (range_percent < 1.0f) {
-		arc_end_x = m_x - m_x * sin(range_percent * circle);
-		arc_end_y = m_y + SCANNER_YSHRINK * m_y * cos(range_percent * circle);
-	} else {
-		arc_end_x = m_x;
-		arc_end_y = m_y + SCANNER_YSHRINK * m_y;
+		for (int i=0; i<csize; i++) m_vts.push_back(m_circle[i] * sz);
 	}
 
-	/* draw bright range arg */
-	col = Color(0.7f, 0.7f, 0.f, 0.25f);
+	// spokes
+	for (int i=0; i<ssize; i++) m_vts.push_back(m_spokes[i]);
+
+	// outer ring
+	m_edgeVts.clear();
+	m_edgeCols.clear();
+	int dimstart = 2 * int(SCANNER_STEPS * m_currentRange / SCANNER_RANGE_MAX);
+	float a = 2.0f * M_PI * m_currentRange / SCANNER_RANGE_MAX;
+	vector3f vn(sin(a), SCANNER_YSHRINK * cos(a), 0.0f);
+	
+	// bright part
+	Color col = Color(0.7f, 0.7f, 0.f, 0.5f);
 	if (m_mode == SCANNER_MODE_AUTO) {
-		/* green like the scanner to indicate that the scanner is controlling the range */
-		col = Color(0.f, 0.7f, 0.f, 0.25f);
+		// green like the scanner to indicate that the scanner is controlling the range
+		col = Color(0.f, 0.7f, 0.f, 0.5f);
 	}
-
-	std::vector<vector2f> bg;
-	for (float a = 0; a < range_percent * circle; a += step) {
-		bg.push_back(vector2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a)));
+	for (int i=0; i<=dimstart; i++) {
+		if (i == csize) return;			// whole circle bright case
+		m_edgeVts.push_back(vector3f(m_circle[i].x, m_circle[i].y, 0.0f));
+		m_edgeCols.push_back(col);
 	}
-	bg.push_back(vector2f(arc_end_x, arc_end_y));
-	m_renderer->DrawLines2D(bg.size(), &bg[0], col, LINE_STRIP);
+	m_edgeVts.push_back(vn); m_edgeCols.push_back(col);
 
-	/* and dim surround for the remaining segment */
-	if (range_percent < 1.0f) {
-		col = Color(0.2f, 0.3f, 0.2f, 0.25f);
-		std::vector<vector2f> v;
-		v.push_back(vector2f(arc_end_x, arc_end_y));
-		for (float a = range_percent * circle; a < circle; a += step) {
-			v.push_back(vector2f(m_x - m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a)));
-		}
-		/* add the final segment to connect back to the bottom centre of the scanner */
-		v.push_back(vector2f(m_x, m_y + SCANNER_YSHRINK * m_y));
-		m_renderer->DrawLines2D(v.size(), &v[0], col, LINE_STRIP);
+	// dim part
+	col = Color(0.2f, 0.3f, 0.2f, 0.5f);
+	m_edgeVts.push_back(vn); m_edgeCols.push_back(col);
+	for (int i=dimstart+1; i<csize; i++) {
+		m_edgeVts.push_back(vector3f(m_circle[i].x, m_circle[i].y, 0.0f));
+		m_edgeCols.push_back(col);
 	}
 }
+
+void ScannerWidget::DrawRingsAndSpokes(bool blend)
+{
+	Color col(0.f, 0.4f, 0.f, 0.5f);
+	m_renderer->DrawLines2D(m_vts.size(), &m_vts[0], col);
+	m_renderer->DrawLines(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0]);
+}
+
 
 void ScannerWidget::TimeStepUpdate(float step)
 {

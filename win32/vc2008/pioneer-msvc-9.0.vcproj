@@ -554,10 +554,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\InfoView.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\IniConfig.cpp"
 				>
 			</File>
@@ -3602,6 +3598,22 @@
 						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="PreRelease|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\ui\Background.h"
@@ -3756,6 +3768,22 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="PreRelease|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -3948,6 +3976,14 @@
 			Name="gameui"
 			>
 			<File
+				RelativePath="..\..\src\gameui\Face.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Face.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\gameui\GameUI.h"
 				>
 			</File>
@@ -3963,9 +3999,33 @@
 						ProgramDataBaseFileName="$(IntDir)\$(ProjectName)D.pdb"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="PreRelease|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\gameui\Lua.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\LuaFace.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\LuaShipSpinner.cpp"
 				>
 			</File>
 			<File
@@ -3974,6 +4034,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\gameui\Panel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\ShipSpinner.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\ShipSpinner.h"
 				>
 			</File>
 		</Filter>
