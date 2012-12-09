@@ -102,11 +102,11 @@ public:
 		DrawRectElement(m_sliderHorizontalButtonActive, pos, size);
 	}
 
-	void DrawGaugeBorder(const Point &pos, const Point &size) const {
-		DrawBorderedRectElement(m_gaugeBorder, pos, size);
+	void DrawGaugeBackground(const Point &pos, const Point &size) const {
+		DrawHorizontalEdgedRectElement(m_gaugeBackground, pos, size);
 	}
 	void DrawGaugeMask(const Point &pos, const Point &size) const {
-		DrawBorderedRectElement(m_gaugeMask, pos, size);
+		DrawHorizontalEdgedRectElement(m_gaugeMask, pos, size);
 	}
 	void DrawGaugeFill(const Point &pos, const Point &size) const {
 		DrawRectElement(m_gaugeFill, pos, size);
@@ -163,7 +163,9 @@ public:
 	const RectElement &SliderHorizontalButtonHover()   const { return m_sliderHorizontalButtonHover; }
 	const RectElement &SliderHorizontalButtonActive()  const { return m_sliderHorizontalButtonActive; }
 
-	const BorderedRectElement &GaugeBorder()  const { return m_gaugeBorder; }
+	const EdgedRectElement &GaugeBackground()  const { return m_gaugeBackground; }
+	const EdgedRectElement &GaugeMask()  const { return m_gaugeMask; }
+	const RectElement &GaugeFill()  const { return m_gaugeFill; }
 
 	unsigned int ButtonMinInnerSize() const { return m_buttonMinInnerSize; }
 
@@ -220,8 +222,8 @@ private:
 	RectElement m_sliderHorizontalButtonHover;
 	RectElement m_sliderHorizontalButtonActive;
 
-	BorderedRectElement m_gaugeBorder;
-	BorderedRectElement m_gaugeMask;
+	EdgedRectElement m_gaugeBackground;
+	EdgedRectElement m_gaugeMask;
 	RectElement m_gaugeFill;
 
 	unsigned int m_buttonMinInnerSize;

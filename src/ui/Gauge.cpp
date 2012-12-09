@@ -10,12 +10,12 @@ namespace UI {
 Point Gauge::PreferredSize()
 {
 	SetSizeControlFlags(EXPAND_WIDTH);
-	return GetContext()->GetSkin().GaugeBorder().size;
+	return GetContext()->GetSkin().GaugeBackground().size;
 }
 
 void Gauge::Layout()
 {
-	SetActiveArea(Point(GetSize().x, GetContext()->GetSkin().GaugeBorder().size.y));
+	SetActiveArea(Point(GetSize().x, GetContext()->GetSkin().GaugeBackground().size.y));
 }
 
 void Gauge::Draw()
@@ -24,13 +24,13 @@ void Gauge::Draw()
 	const Skin &s = c->GetSkin();
 	Graphics::Renderer *r = c->GetRenderer();
 
-	s.DrawGaugeBorder(GetActiveOffset(), GetActiveArea());
+	s.DrawGaugeBackground(GetActiveOffset(), GetActiveArea());
 
 	glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_SRC_COLOR, GL_ZERO);
 	s.DrawGaugeMask(GetActiveOffset(), GetActiveArea());
 
 	glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
-	s.DrawGaugeFill(GetActiveOffset(), GetActiveArea() - Point(50, 0));
+	s.DrawGaugeFill(GetActiveOffset(), GetActiveArea());
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //restore default
 }
