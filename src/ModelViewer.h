@@ -1,9 +1,8 @@
-#ifndef _NEWMODELVIEWER_H
-#define _NEWMODELVIEWER_H
-/*
- * Viewer for the new format models.
- * Has nothing to do with Lua.
- */
+#ifndef MODELVIEWER_H
+#define MODELVIEWER_H
+
+// viewer for sgmodels
+
 #include "libs.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"

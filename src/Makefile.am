@@ -105,7 +105,7 @@ noinst_HEADERS = \
 	ModelBody.h \
 	ModelCache.h \
 	ModManager.h \
-	NewModelViewer.h \
+	ModelViewer.h \
 	Object.h \
 	ObjectViewerView.h \
 	OS.h \
@@ -250,7 +250,7 @@ pioneer_SOURCES	= \
 	ModelBody.cpp \
 	ModelCache.cpp \
 	ModManager.cpp \
-	NewModelViewer.cpp \
+	ModelViewer.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
 	Planet.cpp \

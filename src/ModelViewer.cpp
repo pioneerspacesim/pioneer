@@ -1,4 +1,4 @@
-#include "NewModelViewer.h"
+#include "ModelViewer.h"
 #include "FileSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
@@ -138,7 +138,7 @@ void ModelViewer::Run(const std::string &modelName)
 	renderer = Graphics::Init(videoSettings);
 
 	OS::LoadWindowIcon();
-	SDL_WM_SetCaption("Newmodelviewer","Newmodelviewer");
+	SDL_WM_SetCaption("Model viewer","Model viewer");
 
 	//run main loop until quit
 	viewer = new ModelViewer(renderer, Lua::manager);

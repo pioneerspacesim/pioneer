@@ -3,7 +3,7 @@
 
 #include "libs.h"
 #include "Pi.h"
-#include "NewModelViewer.h"
+#include "ModelViewer.h"
 #include <cstdio>
 
 enum RunMode {
