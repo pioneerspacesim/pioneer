@@ -299,11 +299,14 @@ local econTrade = function ()
 	local totalCargoWidget = ui:Label(t("Total: ")..totalCargo.."t")
 	local usedCargoWidget = ui:Label(t("USED")..": "..usedCargo.."t")
 
+	local fuelGauge = ui:Gauge()
+
 	-- Define the refuel button
 	local refuelButton = UI.SmallLabeledButton.New(t('REFUEL'))
 
 	local refuelButtonRefresh = function ()
 		if Game.player.fuel == 100 or Game.player:GetEquipCount('CARGO', 'WATER') == 0 then refuelButton.widget:Disable() end
+		fuelGauge:SetValue(Game.player.fuel/100)
 	end
 	refuelButtonRefresh()
 
@@ -334,7 +337,6 @@ local econTrade = function ()
 								ui:Label(t("CARGO_SPACE")..":"),
 								ui:Label(t("CABINS")..":"),
 								ui:Margin(10),
-								refuelButton.widget,
 							})
 						})
 						:SetColumn(1, {
@@ -343,8 +345,18 @@ local econTrade = function ()
 								ui:Margin(10),
 								ui:Grid(2,1):SetRow(0, { totalCargoWidget, usedCargoWidget }),
 								ui:Grid(2,1):SetRow(0, { ui:Label(t("Total: ")..totalCabins), ui:Label(t("USED")..": "..usedCabins) }),
+								ui:Margin(10),
 							})
 						}),
+					ui:Grid({50,10,40},1)
+						:SetRow(0, {
+							ui:HBox(5):PackEnd({
+								ui:Label("Fuel:"),
+								fuelGauge,
+							}),
+							nil,
+							refuelButton.widget,
+						})
 				})
 			})
 			:SetColumn(1, {
