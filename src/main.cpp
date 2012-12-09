@@ -58,9 +58,13 @@ start:
 			for (;;) Pi::Start();
 			break;
 
-		case MODE_MODELVIEWER:
-			ModelViewer::Run(argc-1, &argv[1]);
+		case MODE_MODELVIEWER: {
+			std::string modelName;
+			if (argc > 2)
+				modelName = argv[2];
+			ModelViewer::Run(modelName);
 			break;
+		}
 
 		case MODE_VERSION: {
 			std::string version(PIONEER_VERSION);

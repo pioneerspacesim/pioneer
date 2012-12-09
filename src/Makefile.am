@@ -105,6 +105,7 @@ noinst_HEADERS = \
 	ModelBody.h \
 	ModelCache.h \
 	ModManager.h \
+	NewModelViewer.h \
 	Object.h \
 	ObjectViewerView.h \
 	OS.h \

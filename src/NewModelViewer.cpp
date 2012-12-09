@@ -64,7 +64,7 @@ namespace {
 	}
 }
 
-ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int height)
+ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 : m_done(false)
 , m_playing(false)
 , m_screenshotQueued(false)
@@ -72,15 +72,13 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm, int width, int h
 , m_frameTime(0.f)
 , m_renderer(r)
 , m_decalTexture(0)
-, m_height(height)
-, m_width(width)
 , m_rng(time(0))
 , m_currentAnimation(0)
 , m_model(0)
 , m_modelName("")
 , m_camPos(0.f)
 {
-	m_ui.Reset(new UI::Context(lm, r, width, height));
+	m_ui.Reset(new UI::Context(lm, r, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
 
 	m_log = m_ui->MultiLineText("");
 	m_log->SetFont(UI::Widget::FONT_XSMALL);
@@ -114,21 +112,12 @@ ModelViewer::~ModelViewer()
 	ClearModel();
 }
 
-void ModelViewer::Run(int argc, char** argv)
+void ModelViewer::Run(const std::string &modelName)
 {
-	int width = 800;
-	int height = 600;
+	ScopedPtr<GameConfig> config(new GameConfig);
+
 	Graphics::Renderer *renderer;
 	ModelViewer *viewer;
-
-	std::string modelName("");
-
-	if (argc >= 3) {
-		width = std::max(width, atoi(argv[1]));
-		height = std::max(height, atoi(argv[2]));
-	}
-	if (argc >= 4)
-		modelName = argv[3];
 
 	//init components
 	FileSystem::Init();
@@ -139,18 +128,20 @@ void ModelViewer::Run(int argc, char** argv)
 
 	//video
 	Graphics::Settings videoSettings = {};
-	videoSettings.width = width;
-	videoSettings.height = height;
-	videoSettings.shaders = true;
-	videoSettings.requestedSamples = 4;
-	videoSettings.vsync = true;
+	videoSettings.width = config->Int("ScrWidth");
+	videoSettings.height = config->Int("ScrHeight");
+	videoSettings.fullscreen = (config->Int("StartFullscreen") != 0);
+	videoSettings.shaders = (config->Int("DisableShaders") == 0);
+	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
+	videoSettings.vsync = (config->Int("VSync") != 0);
+	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
 	renderer = Graphics::Init(videoSettings);
 
 	OS::LoadWindowIcon();
 	SDL_WM_SetCaption("Newmodelviewer","Newmodelviewer");
 
 	//run main loop until quit
-	viewer = new ModelViewer(renderer, Lua::manager, width, height);
+	viewer = new ModelViewer(renderer, Lua::manager);
 	viewer->SetModel(modelName);
 	viewer->MainLoop();
 
@@ -434,7 +425,7 @@ void ModelViewer::DrawModel()
 	assert(m_model);
 	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 
-	m_renderer->SetPerspectiveProjection(85, m_width/float(m_height), 0.1f, 1000.f);
+	m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 1000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	UpdateLights();
 
@@ -691,7 +682,7 @@ void ModelViewer::Screenshot()
 	const time_t t = time(0);
 	const struct tm *_tm = localtime(&t);
 	strftime(buf, sizeof(buf), "modelviewer-%Y%m%d-%H%M%S.png", _tm);
-	Screendump(buf, m_width, m_height);
+	Screendump(buf, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 	AddLog(stringf("Screenshot %0 saved", buf));
 }
 

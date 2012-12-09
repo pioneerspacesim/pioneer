@@ -14,10 +14,10 @@
 
 class ModelViewer {
 public:
-	ModelViewer(Graphics::Renderer *r, LuaManager *l, int width, int height);
+	ModelViewer(Graphics::Renderer *r, LuaManager *l);
 	~ModelViewer();
 
-	static void Run(int argc, char** argv);
+	static void Run(const std::string &modelName);
 
 private:
 	bool OnAnimPlay(UI::Widget*, bool reverse);
@@ -75,8 +75,6 @@ private:
 	double m_frameTime;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;
-	int m_height;
-	int m_width;
 	matrix4x4f m_modelRot;
 	ModelParams m_modelParams;
 	MTRand m_rng;
