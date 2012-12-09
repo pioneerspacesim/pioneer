@@ -450,11 +450,7 @@ static int l_starsystem_attr_faction(lua_State *l)
 static int l_starsystem_attr_explored(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::CheckFromLua(1);
-	if (s->GetUnexplored()) {
-		lua_pushboolean(l, false);
-	} else {
-		lua_pushboolean(l, true);
-	}
+	lua_pushboolean(l, !s->GetUnexplored());
 	return 1;
 }
 
