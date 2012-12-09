@@ -9,6 +9,18 @@ namespace UI {
 class LuaGauge {
 public:
 
+	static int l_set_value(lua_State *l) {
+		UI::Gauge *gauge = LuaObject<UI::Gauge>::CheckFromLua(1);
+		gauge->SetValue(luaL_checknumber(l, 2));
+		return 0;
+	}
+
+	static int l_attr_value(lua_State *l) {
+		UI::Gauge *gauge = LuaObject<UI::Gauge>::CheckFromLua(1);
+		lua_pushnumber(l, gauge->GetValue());
+		return 1;
+	}
+
 };
 
 }
@@ -22,10 +34,15 @@ template <> void LuaObject<UI::Gauge>::RegisterClass()
 	static const char *l_parent = "UI.Widget";
 
 	static const luaL_Reg l_methods[] = {
-
+		{ "SetValue", &LuaGauge::l_set_value },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
+	static const luaL_Reg l_attrs[] = {
+		{ "value", &LuaGauge::l_attr_value },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<UI::Gauge>::DynamicCastPromotionTest);
 }
