@@ -45,8 +45,8 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int lights)
 }
 
 LitMultiMaterial::LitMultiMaterial()
-: m_curNumLights(0)
-, m_programs()
+: m_programs()
+, m_curNumLights(0)
 {
 }
 
