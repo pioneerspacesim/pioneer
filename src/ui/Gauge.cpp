@@ -25,18 +25,19 @@ void Gauge::Draw()
 
 	Context *c = GetContext();
 	const Skin &s = c->GetSkin();
-	Graphics::Renderer *r = c->GetRenderer();
 
 	s.DrawGaugeBackground(activeOffset, activeArea);
 
 	if (m_value > 0.0f) {
-		glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_SRC_COLOR, GL_ZERO);
+		Graphics::Renderer *r = c->GetRenderer();
+
+		r->SetBlendMode(Graphics::BLEND_SET_ALPHA);
 		s.DrawGaugeMask(activeOffset, activeArea);
 
-		glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+		r->SetBlendMode(Graphics::BLEND_DEST_ALPHA);
 		s.DrawGaugeFill(activeOffset, Point(activeArea.x * m_value, activeArea.y));
 
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //restore default
+		r->SetBlendMode(Graphics::BLEND_ALPHA); // restore default
 	}
 }
 
