@@ -1,4 +1,7 @@
-﻿#ifndef _MODELCACHE_H
+﻿// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+#ifndef _MODELCACHE_H
 #define _MODELCACHE_H
 /*
  * This class is a quick thoughtless hack
