@@ -480,7 +480,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "population",  l_starsystem_attr_population  },
 		{ "faction",     l_starsystem_attr_faction     },
 		{ "explored",    l_starsystem_attr_explored    },
-		
+
 		{ 0, 0 }
 	};
 
