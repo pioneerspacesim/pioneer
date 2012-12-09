@@ -13,7 +13,7 @@ AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(WARN_CXXFLAGS)
 
-bin_PROGRAMS = pioneer
+bin_PROGRAMS = pioneer lmrmodelviewer
 noinst_HEADERS = \
 	Aabb.h \
 	AmbientSounds.h \
@@ -328,7 +328,7 @@ if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
 endif
 
-modelviewer_SOURCES = \
+lmrmodelviewer_SOURCES = \
 	Color.cpp \
 	CRC32.cpp \
 	FileSourceZip.cpp \
@@ -353,7 +353,7 @@ modelviewer_SOURCES = \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-modelviewer_LDADD = \
+lmrmodelviewer_LDADD = \
 	../contrib/miniz/libminiz.a \
 	../contrib/jenkins/libjenkins.a \
 	collider/libcollider.a \
@@ -365,11 +365,11 @@ modelviewer_LDADD = \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA
-modelviewer_LDADD += ../contrib/lua/liblua.a
+lmrmodelviewer_LDADD += ../contrib/lua/liblua.a
 endif
 
 if BUILD_WIN32
-modelviewer_LDFLAGS = -Wl,-Map=modelviewer.map
+lmrmodelviewer_LDFLAGS = -Wl,-Map=lmrmodelviewer.map
 endif
 
 check_PROGRAMS = tests uitest
@@ -431,12 +431,12 @@ endif
 
 if BUILD_WIN32
     pioneer_LDADD += win32/libwin32.a $(MINGW_LIBS)
-    modelviewer_LDADD += win32/libwin32.a $(MINGW_LIBS)
+    lmrmodelviewer_LDADD += win32/libwin32.a $(MINGW_LIBS)
 endif
 
 if BUILD_POSIX
     pioneer_LDADD += posix/libposix.a
-    modelviewer_LDADD += posix/libposix.a
+    lmrmodelviewer_LDADD += posix/libposix.a
 endif
 
 if HAVE_WINDRES
