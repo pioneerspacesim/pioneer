@@ -651,26 +651,6 @@ static bool CheckSuicide(Ship *ship, const vector3d &tandir)
 	return false;
 }
 
-// check for inability to reach target waypoint without overshooting
-static bool CheckOvershoot(Ship *ship, const vector3d &reldir, double targdist, const vector3d &relvel, double endvel)
-{
-	// only slightly fake minimum time to target
-	// based on s = (sv+ev)*t/2 + a*t*t/4
-//	double fwdacc = ship->GetAccelFwd();
-//	double u = 0.5 * (relvel.Dot(reldir) + endvel);	if (u<0) u = 0;
-//	double t = (-u + sqrt(u*u + fwdacc*targdist)) / (fwdacc * 0.5);
-//	if (t < Pi::game->GetTimeStep()) t = Pi::game->GetTimeStep();
-//	double t2 = ship->AITravelTime(reldir, targdist, relvel, endvel, true);
-
-	// very harsh version: considers hard burn over distance
-	double t = sqrt(2.0*targdist / ship->GetAccelFwd());
-
-	// check for uncorrectable side velocity
-	vector3d perpvel = relvel - reldir * relvel.Dot(reldir);
-	if (perpvel.Length() > 0.5*ship->GetAccelMin()*t)
-		return true;
-	return false;
-}
 
 extern double calc_ivel(double dist, double vel, double acc);
 
@@ -681,7 +661,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand(ship, CMD_FLYTO)
 	if (!target->IsType(Object::TERRAINBODY)) m_dist = VICINITY_MIN;
 	else m_dist = VICINITY_MUL*MaxEffectRad(target, ship);
 
-	if (target->IsType(Object::SPACESTATION)) {
+	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation*>(target)->IsGroundStation()) {
 		m_posoff = target->GetPosition() + 15000.0 * target->GetOrient().VectorY();
 		m_targframe = target->GetFrame(); m_target = 0;
 	}
@@ -764,13 +744,23 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 		if (coll) { m_state = -coll; return false; }
 	}
 
-	if (!m_target && CheckOvershoot(m_ship, reldir, targdist, relvel, m_endvel)) {
-		m_ship->AIFaceDirection(-relvel);	// put planet-based updir here?
-		m_ship->AIMatchVel(targvel);		// kill velocity towards target as well
-		m_state = -5; return false;
+	double tt = sqrt(2.0*targdist / m_ship->GetAccelFwd());
+	vector3d perpvel = relvel - reldir * relvel.Dot(reldir);
+	double perpspeed = perpvel.Length();
+	bool lockhead = true;
+
+	// ignore targvel if we could clear with side thrusters in a fraction of minimum time
+	if (perpspeed < tt*0.1*m_ship->GetAccelMin()) relvel -= perpvel;
+	else if (perpspeed > tt*0.9*m_ship->GetAccelMin()) {
+		if (!m_target) {
+			m_ship->AIFaceDirection(-relvel);	// put planet-based updir here?
+			m_ship->AIMatchVel(targvel);		// kill velocity towards target as well
+			m_state = -5; return false;
+		}
+		else lockhead = false;
 	}
-	if (m_state < 0 && m_state > -6 && m_tangent) return true;				// bail out
-	if (m_state < 0) m_state = 0;		//targdist > 10000000.0 ? 0 : 1;	// still lame
+	if (m_state < 0 && m_state > -6 && m_tangent) return true;			// bail out
+	if (m_state < 0) m_state = targdist > 10000000.0 ? 0 : 1;			// still lame
 
 	double maxdecel = m_state ? m_ship->GetAccelRev() : m_ship->GetAccelFwd();
 	double gravdir = -reldir.Dot(m_ship->GetPosition().Normalized());
@@ -784,19 +774,13 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 		vector3d targaccel = orient * targship->GetLastForce() / m_target->GetMass();
 		// the one fudge: targets accelerating towards you are usually going to flip
 		if (targaccel.Dot(reldir) < 0.0 && !targship->IsDecelerating()) targaccel *= 0.5;
-		targvel += targaccel * timestep;
+		relvel += targaccel * timestep;
 		maxdecel += targaccel.Dot(reldir);
 		// if we have margin lower than 10%, fly as if 10% anyway
 		maxdecel = std::max(maxdecel, 0.1*m_ship->GetAccelFwd());
 	}
 
-	// ignore targvel if we could clear with side thrusters in a fraction of minimum time
-	double tt = sqrt(2.0*targdist / m_ship->GetAccelFwd());
-	vector3d perpvel = targvel - reldir * targvel.Dot(reldir);
-	if (perpvel.Length() < tt*0.1*m_ship->GetAccelMin()) targvel -= perpvel;
-
 	// calculate target speed
-	relvel = m_ship->GetVelocity() - targvel;
 	double ispeed = calc_ivel(targdist, m_endvel, maxdecel);
 	
 	// cap target speed according to spare fuel remaining
@@ -810,14 +794,18 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 //	double maxframespeed = 0.2 * m_frame->GetRadius() / timestep;
 //	if (m_frame->GetParent() && ispeed > maxframespeed) ispeed = maxframespeed;
 
-	// linear thrust application
+	// linear thrust application, decel check
 	vector3d vdiff = ispeed*reldir - relvel;
-	m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
+	double sdiff = vdiff.Dot(reldir);
+	bool decel = sdiff <= 0;
+	if (decel) m_ship->AIChangeVelBy(vdiff * m_ship->GetOrient());
+	else m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
+	m_ship->SetDecelerating(decel);
 
-	// check for deceleration and work out whether to flip
-	double sdiff = ispeed - relvel.Dot(reldir);
-	if (sdiff <= 0) m_ship->SetDecelerating(true);
-	if (sdiff >= 0 && sdiff < maxdecel*timestep*60) vdiff = -vdiff;
+	// work out which way to head 
+	if (!m_state && !decel && sdiff < maxdecel*timestep*60) vdiff = -vdiff;
+	if (m_state && decel && sdiff > -1.2*maxdecel*timestep) vdiff = -vdiff;
+	if (lockhead) vdiff = reldir * reldir.Dot(vdiff);
 
 	// face appropriate direction
 	if (m_state >= 3) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
