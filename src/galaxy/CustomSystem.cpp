@@ -250,8 +250,7 @@ static int interpret_star_types(int *starTypes, lua_State *L, int idx)
 		lua_rawgeti(L, -1, i + 1);
 		if (lua_type(L, -1) == LUA_TSTRING) {
 			ty = LuaConstants::GetConstantFromArg(L, "BodyType", -1);
-			if ((ty < SystemBody::TYPE_STAR_MIN || ty > SystemBody::TYPE_STAR_MAX)
-					&& ty != SystemBody::TYPE_GRAVPOINT) {
+			if (ty < SystemBody::TYPE_STAR_MIN || ty > SystemBody::TYPE_STAR_MAX) {
 				luaL_error(L, "system star %d does not have a valid star type", i+1);
 				// unreachable (longjmp in luaL_error)
 			}
