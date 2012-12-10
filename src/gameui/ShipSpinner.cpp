@@ -14,7 +14,7 @@ ShipSpinner::ShipSpinner(Context *context, const ShipFlavour &flavour) : Widget(
 	m_flavour(flavour),
 	m_rotX(0), m_rotY(0)
 {
-	m_model = LmrLookupModelByName(ShipType::types[m_flavour.id].lmrModelName.c_str());
+	m_model = Pi::FindModel(ShipType::types[m_flavour.id].lmrModelName.c_str());
 
 	memset(&m_params, 0, sizeof(LmrObjParams));
 	m_params.animationNamespace = "ShipAnimation";
