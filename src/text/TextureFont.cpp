@@ -298,7 +298,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	: Font(descriptor)
 	, m_renderer(renderer)
 	, m_vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0)
-	, m_glyphsFast(256)
+	, m_glyphsFast(MAX_FAST_GLYPHS)
 {
 	int err; // used to store freetype error return codes
 	const int a_width = GetDescriptor().pixelWidth;
@@ -500,7 +500,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 			glfglyph.advx = float(m_face->glyph->advance.x) / 64.f + advx_adjust;
 			glfglyph.advy = float(m_face->glyph->advance.y) / 64.f;
 
-			if (chr < 256)
+			if (chr < MAX_FAST_GLYPHS)
 				m_glyphsFast[chr] = glfglyph;
 			else
 				m_glyphs[chr] = glfglyph;

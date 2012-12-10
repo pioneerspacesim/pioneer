@@ -34,6 +34,8 @@ public:
 	// general descender height
 	float GetDescender() const { return m_descender; }
 
+	enum { MAX_FAST_GLYPHS = 256 };
+
 	struct glfglyph_t {
 		float advx, advy;
 		float width, height;
@@ -42,7 +44,7 @@ public:
 		float offU, offV; //atlas UV offset
 		Uint32 ftIndex;
 	};
-	const glfglyph_t &GetGlyph(Uint32 ch) const { return ch < 256 ? m_glyphsFast[ch] : m_glyphs.find(ch)->second; }
+	const glfglyph_t &GetGlyph(Uint32 ch) const { return ch < MAX_FAST_GLYPHS ? m_glyphsFast[ch] : m_glyphs.find(ch)->second; }
 
 	static int GetGlyphCount() { return s_glyphCount; }
 	static void ClearGlyphCount() { s_glyphCount = 0; }
