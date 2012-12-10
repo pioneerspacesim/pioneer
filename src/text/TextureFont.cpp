@@ -300,6 +300,8 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	, m_vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0)
 	, m_glyphsFast(MAX_FAST_GLYPHS)
 {
+	memset(&m_glyphsFast[0], 0, sizeof(glfglyph_t)*MAX_FAST_GLYPHS);
+
 	int err; // used to store freetype error return codes
 	const int a_width = GetDescriptor().pixelWidth;
 	const int a_height = GetDescriptor().pixelHeight;
