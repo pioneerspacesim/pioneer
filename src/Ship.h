@@ -170,7 +170,7 @@ public:
 	bool AIChangeVelBy(const vector3d &diffvel);		// acts in obj space
 	vector3d AIChangeVelDir(const vector3d &diffvel);	// world space, maintain direction
 	void AIMatchAngVelObjSpace(const vector3d &angvel);
-	double AIFaceUpdir(const vector3d &updir);
+	double AIFaceUpdir(const vector3d &updir, double av=0);
 	double AIFaceDirection(const vector3d &dir, double av=0);
 	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
 	double AITravelTime(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxdecel);

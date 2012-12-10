@@ -121,6 +121,7 @@ public:
 		AICommand::PostLoadFixup(space);
 		m_target = space->GetBodyByIndex(m_targetIndex);
 		m_targframe = space->GetFrameByIndex(m_targframeIndex);
+		m_lockhead = true;
 	}
 	virtual void OnDeleted(const Body *body) {
 		AICommand::OnDeleted(body);
@@ -136,6 +137,7 @@ private:
 	bool m_tangent;		// true if path is to a tangent of the target frame's body
 	int m_state;		
 
+	bool m_lockhead;
 	int m_targetIndex, m_targframeIndex;	// used during deserialisation
 	vector3d m_reldir;	// target direction relative to ship at last frame change
 	Frame *m_frame;		// last frame of ship

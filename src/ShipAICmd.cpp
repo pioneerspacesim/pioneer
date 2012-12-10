@@ -657,7 +657,7 @@ extern double calc_ivel(double dist, double vel, double acc);
 // Fly to vicinity of body
 AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand(ship, CMD_FLYTO)
 {
-	m_frame = 0; m_state = -6; m_endvel = 0; m_tangent = false;
+	m_frame = 0; m_state = -6; m_lockhead = true; m_endvel = 0; m_tangent = false;
 	if (!target->IsType(Object::TERRAINBODY)) m_dist = VICINITY_MIN;
 	else m_dist = VICINITY_MUL*MaxEffectRad(target, ship);
 
@@ -678,7 +678,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, dou
 	m_posoff = posoff;
 	m_endvel = endvel;
 	m_tangent = tangent;
-	m_frame = 0; m_state = -6;
+	m_frame = 0; m_state = -6; m_lockhead = true;
 }
 
 bool AICmdFlyTo::TimeStepUpdate()
@@ -747,17 +747,16 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	double tt = sqrt(2.0*targdist / m_ship->GetAccelFwd());
 	vector3d perpvel = relvel - reldir * relvel.Dot(reldir);
 	double perpspeed = perpvel.Length();
-	bool lockhead = true;
 
 	// ignore targvel if we could clear with side thrusters in a fraction of minimum time
-	if (perpspeed < tt*0.1*m_ship->GetAccelMin()) relvel -= perpvel;
-	else if (perpspeed > tt*0.9*m_ship->GetAccelMin()) {
+//	if (perpspeed < tt*0.1*m_ship->GetAccelMin()) relvel += perpvel;
+	if (perpspeed > tt*0.9*m_ship->GetAccelMin()) {
 		if (!m_target) {
 			m_ship->AIFaceDirection(-relvel);	// put planet-based updir here?
 			m_ship->AIMatchVel(targvel);		// kill velocity towards target as well
 			m_state = -5; return false;
 		}
-		else lockhead = false;
+		else m_lockhead = false;
 	}
 	if (m_state < 0 && m_state > -6 && m_tangent) return true;			// bail out
 	if (m_state < 0) m_state = targdist > 10000000.0 ? 0 : 1;			// still lame
@@ -805,7 +804,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	// work out which way to head 
 	if (!m_state && !decel && sdiff < maxdecel*timestep*60) vdiff = -vdiff;
 	if (m_state && decel && sdiff > -1.2*maxdecel*timestep) vdiff = -vdiff;
-	if (lockhead) vdiff = reldir * reldir.Dot(vdiff);
+	if (m_lockhead) vdiff = reldir * reldir.Dot(vdiff);
 
 	// face appropriate direction
 	if (m_state >= 3) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
@@ -898,13 +897,14 @@ bool AICmdDock::TimeStepUpdate()
 
 	// get rotation of station for next frame
 	matrix3x3d trot = m_target->GetOrientRelTo(m_ship->GetFrame());
-	double ang = m_target->GetAngVelocity().Length() * Pi::game->GetTimeStep();
+	double av = m_target->GetAngVelocity().Length();
+	double ang = av * Pi::game->GetTimeStep();
 	if (ang > 1e-16) {
 		vector3d axis = m_target->GetAngVelocity().Normalized();
 		trot = trot * matrix3x3d::BuildRotate(ang, axis);
 	}
 	double af = m_ship->AIFaceDirection(trot * m_dockdir);
-	if (af < 0.01) af = m_ship->AIFaceUpdir(trot * m_dockupdir) - ang;
+	if (af < 0.01) af = m_ship->AIFaceUpdir(trot * m_dockupdir, av) - ang;
 	if (m_state < 5 && af < 0.01 && m_ship->GetWheelState() >= 1.0f) m_state++;
 
 #ifdef DEBUG_AUTOPILOT
@@ -986,7 +986,7 @@ bool AICmdFlyAround::TimeStepUpdate()
 		vector3d tangent = GenerateTangent(m_ship, obsframe, targpos, m_alt);
 		vector3d tpos_obs = GetPosInFrame(obsframe, m_ship->GetFrame(), targpos);
 		if (m_targmode) v = m_vel;
-		else if (relpos.LengthSqr() < obsdist) v = 0.0;
+		else if (relpos.LengthSqr() < obsdist + tpos_obs.LengthSqr()) v = 0.0;
 		else v = MaxVel((tpos_obs-tangent).Length(), tpos_obs.Length());
 		m_child = new AICmdFlyTo(m_ship, obsframe, tangent, v, true);
 		ProcessChild(); return false;

@@ -253,7 +253,7 @@ void Ship::AIMatchAngVelObjSpace(const vector3d &angvel)
 }
 
 // get updir as close as possible just using roll thrusters
-double Ship::AIFaceUpdir(const vector3d &updir)
+double Ship::AIFaceUpdir(const vector3d &updir, double av)
 {
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
 	double frameAccel = maxAccel * Pi::game->GetTimeStep();
@@ -265,7 +265,7 @@ double Ship::AIFaceUpdir(const vector3d &updir)
 	if (uphead.y < 0.99999999)
 	{
 		ang = acos(Clamp(uphead.y, -1.0, 1.0));		// scalar angle from head to curhead
-		double iangvel = calc_ivel_pos(ang, 0.0, maxAccel);	// ideal angvel at current time
+		double iangvel = av + calc_ivel_pos(ang, 0.0, maxAccel);	// ideal angvel at current time
 
 		dav = uphead.x > 0 ? -iangvel : iangvel;
 	}
