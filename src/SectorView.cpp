@@ -18,6 +18,7 @@
 #include "Game.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include "graphics/Graphics.h"
 #include <algorithm>
 #include <sstream>
 
@@ -842,7 +843,7 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
 	if (m_farstars.size() > 0) {
-		m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 1.f + (Pi::GetScrHeight() / 720.f));
+		m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 1.f + (Graphics::GetScreenHeight() / 720.f));
 	}
 
 	// also add labels for any faction homeworlds among the systems we've drawn

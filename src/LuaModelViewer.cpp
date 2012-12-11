@@ -70,22 +70,7 @@ static int g_wheelMoveDir = -1;
 static int g_renderType = 0;
 static float g_frameTime;
 static EquipSet g_equipment;
-static LmrObjParams g_params = {
-	0, // animation namespace
-	0.0, // time
-	{}, // animation stages
-	{}, // animation positions
-	"PIONEER", // label
-	&g_equipment, // equipment
-	Ship::FLYING, // flightState
-
-	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
-
-	{	// pColor[3]
-	{ { .2f, .2f, .5f, 1 }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
-	{ { 0.5f, 0.5f, 0.5f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.8f, 0.8f, 0.8f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-};
+static LmrObjParams g_params;
 
 class Viewer: public Gui::Fixed {
 public:
@@ -123,6 +108,18 @@ public:
 		m_showGrid = false;
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
+
+		//init modelparams
+		g_params.equipment = &g_equipment;
+		g_params.label = "PIONEER";
+		g_params.flightState = Ship::FLYING;
+
+		LmrMaterial matA = { { .2f, .2f, .5f, 1 }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 };
+		LmrMaterial matB = { { 0.5f, 0.5f, 0.5f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+		LmrMaterial matC = { { 0.8f, 0.8f, 0.8f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+		g_params.pMat[0] = matA;
+		g_params.pMat[1] = matB;
+		g_params.pMat[2] = matC;
 
 		m_trisReadout = new Gui::Label("");
 		Add(m_trisReadout, 500, 0);
@@ -265,7 +262,7 @@ public:
 		delete m_cmesh;
 
 		m_cmesh = new LmrCollMesh(m_model, &g_params);
-		m_geom = new Geom(m_cmesh->geomTree);
+		m_geom = new Geom(m_cmesh->GetGeomTree());
 		m_space->AddGeom(m_geom);
 	}
 
@@ -350,7 +347,7 @@ void Viewer::SetModel(LmrModel *model)
 
 	// construct geometry
 	m_cmesh = new LmrCollMesh(m_model, &g_params);
-	m_geom = new Geom(m_cmesh->geomTree);
+	m_geom = new Geom(m_cmesh->GetGeomTree());
 	m_space->AddGeom(m_geom);
 }
 
@@ -621,9 +618,9 @@ void Viewer::MainLoop()
 			glPushAttrib(GL_ALL_ATTRIB_BITS);
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			if (g_doBenchmark) {
-				for (int i=0; i<1000; i++) m_model->Render(m, &g_params);
+				for (int i=0; i<1000; i++) m_model->Render(renderer, m, &g_params);
 			} else {
-				m_model->Render(m, &g_params);
+				m_model->Render(renderer, m, &g_params);
 			}
 			glPopAttrib();
 		} else if (g_renderType == 1) {
@@ -802,7 +799,6 @@ int main(int argc, char **argv)
 	renderer->SetLights(1, &light);
 
 	LmrModelCompilerInit(renderer);
-	LmrNotifyScreenWidth(g_width);
 
 	ShipType::Init();
 

@@ -31,6 +31,7 @@ namespace Graphics {
 			// bind textures, set uniforms
 			virtual void Apply();
 			virtual void Unapply();
+			virtual void SetProgram(Program *p) { m_program = p; }
 
 		protected:
 			friend class Graphics::RendererGL2;
