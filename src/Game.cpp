@@ -18,12 +18,12 @@
 #include "SystemView.h"
 #include "SystemInfoView.h"
 #include "SpaceStationView.h"
-#include "InfoView.h"
+#include "UIView.h"
 #include "LuaEvent.h"
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 55;
+static const int  s_saveVersion   = 56;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -595,7 +595,7 @@ void Game::CreateViews()
 	Pi::systemView = new SystemView();
 	Pi::systemInfoView = new SystemInfoView();
 	Pi::spaceStationView = new SpaceStationView();
-	Pi::infoView = new InfoView();
+	Pi::infoView = new UIView("InfoView");
 	Pi::deathView = new DeathView();
 
 	// view manager will handle setting this probably
@@ -635,7 +635,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::systemView = new SystemView();
 	Pi::systemInfoView = new SystemInfoView();
 	Pi::spaceStationView = new SpaceStationView();
-	Pi::infoView = new InfoView();
+	Pi::infoView = new UIView("InfoView");
 	Pi::deathView = new DeathView();
 
 #if WITH_OBJECTVIEWER

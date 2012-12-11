@@ -50,7 +50,7 @@ Space::Space(Game *game, const SystemPath &path)
 #endif
 {
 	m_starSystem = StarSystem::GetCached(path);
-	m_background.Refresh(m_starSystem->m_seed);
+	m_background.Refresh(m_starSystem->GetSeed());
 
 	// XXX set radius in constructor
 	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
@@ -73,7 +73,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 #endif
 {
 	m_starSystem = StarSystem::Unserialize(rd);
-	m_background.Refresh(m_starSystem->m_seed);
+	m_background.Refresh(m_starSystem->GetSeed());
 	RebuildSystemBodyIndex();
 
 	Serializer::Reader section = rd.RdSection("Frames");
@@ -371,8 +371,8 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	// warn and leave it up to the user to relocate custom starports when it's easy to relocate manually, i.e. not on asteroids and other planets which are likely to have high variation in a lot of places
 	const bool isRelocatableIfBuried = !(sbody->isCustomBody && manualRelocationIsEasy);
 
-	bool isInitiallyUnderwater;
-	bool initialVariationTooHigh;
+	bool isInitiallyUnderwater = false;
+	bool initialVariationTooHigh = false;
 
 	MTRand r(sbody->seed);
 

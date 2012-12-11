@@ -46,7 +46,6 @@
 #include "gui/GuiVScrollBar.h"
 #include "gui/GuiVScrollPortal.h"
 #include "gui/GuiWidget.h"
-#include "InfoView.h"
 #include "libs.h"
 #include "MarketAgent.h"
 #include "matrix4x4.h"
