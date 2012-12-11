@@ -15,11 +15,13 @@ noinst_HEADERS = \
 	Galaxy.h \
 	Sector.h \
 	StarSystem.h \
-	SystemPath.h
+	SystemPath.h \
+	SystemGenerator.h
 
 libgalaxy_a_SOURCES = \
 	CustomSystem.cpp \
 	Galaxy.cpp \
 	Sector.cpp \
 	StarSystem.cpp \
-	SystemPath.cpp
+	SystemPath.cpp \
+	SystemGenerator.cpp
