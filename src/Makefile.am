@@ -372,7 +372,7 @@ if BUILD_WIN32
 lmrmodelviewer_LDFLAGS = -Wl,-Map=lmrmodelviewer.map
 endif
 
-check_PROGRAMS = tests uitest
+check_PROGRAMS = tests uitest textstress
 tests_SOURCES = \
 	StringF.cpp \
 	tests.cpp \
@@ -422,6 +422,31 @@ uitest_LDADD += \
 
 if !HAVE_LUA
 uitest_LDADD += ../contrib/lua/liblua.a
+endif
+
+textstress_SOURCES = \
+	textstress.cpp \
+	Color.cpp \
+	FileSystem.cpp \
+	SDLWrappers.cpp \
+	FontCache.cpp \
+	IniConfig.cpp \
+	StringF.cpp \
+	Lang.cpp \
+	PngWriter.cpp \
+	utils.cpp
+textstress_LDADD = \
+	gui/libgui.a \
+	text/libtext.a \
+	graphics/libgraphics.a \
+	posix/libposix.a
+
+textstress_LDADD += \
+	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
+
+if !HAVE_LUA
+textstress_LDADD += ../contrib/lua/liblua.a
 endif
 
 INCLUDES = -isystem @top_srcdir@/contrib

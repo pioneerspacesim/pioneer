@@ -3,6 +3,13 @@ Alpha 30
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)
 
+   * UI changes
+     * Improved appearance of Dropdown widget (#1789, #1766)
+     * Fix layout of non-contributing widgets inside pack boxes (#1789)
+
+   * Internal changes
+     * Improvements in text rendering performance (#1791)
+
 Alpha 29
 
    * New features

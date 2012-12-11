@@ -34,14 +34,17 @@ public:
 	// general descender height
 	float GetDescender() const { return m_descender; }
 
+	enum { MAX_FAST_GLYPHS = 256 };
+
 	struct glfglyph_t {
 		float advx, advy;
 		float width, height;
 		float texWidth, texHeight;
 		int offx, offy;
 		float offU, offV; //atlas UV offset
+		Uint32 ftIndex;
 	};
-	const glfglyph_t &GetGlyph(Uint32 ch) const { return m_glyphs.find(ch)->second; }
+	const glfglyph_t &GetGlyph(Uint32 ch) const { return ch < MAX_FAST_GLYPHS ? m_glyphsFast[ch] : m_glyphs.find(ch)->second; }
 
 	static int GetGlyphCount() { return s_glyphCount; }
 	static void ClearGlyphCount() { s_glyphCount = 0; }
@@ -53,7 +56,7 @@ public:
 private:
 	Graphics::Renderer *m_renderer;
 
-	void AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &color);
+	void AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t &glyph, float x, float y, const Color &color);
 	float m_height;
 	float m_descender;
 	int m_texSize;
@@ -62,6 +65,8 @@ private:
 	Graphics::VertexArray m_vertices;
 
 	static int s_glyphCount;
+
+	std::vector<glfglyph_t> m_glyphsFast; // for fast lookup of low-index glyphs
 	std::map<Uint32,glfglyph_t> m_glyphs;
 
 	static const Uint32 CHARACTER_RANGES[];
