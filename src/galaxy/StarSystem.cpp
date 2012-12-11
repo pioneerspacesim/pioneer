@@ -29,6 +29,8 @@ static const fixed PLANET_MIN_SEPARATION = fixed(135,100);
 static const fixed AU_SOL_RADIUS = fixed(305,65536);
 static const fixed AU_EARTH_RADIUS = fixed(3, 65536);
 
+static const fixed SUN_MASS_TO_EARTH_MASS = fixed(332998,1);
+
 // indexed by enum type turd
 float StarSystem::starColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
@@ -919,6 +921,23 @@ SystemPath StarSystem::GetPathOf(const SystemBody *sbody) const
 
 void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, MTRand &rand)
 {
+	// replaces gravpoint mass by sum of masses of its children
+	// the code goes here to cover also planetary gravpoints (gravpoints that are not rootBody)
+	if(parent->type == SystemBody::TYPE_GRAVPOINT) {
+		parent->mass = fixed(0);
+
+		for (std::vector<CustomSystemBody*>::const_iterator i = children.begin(); i != children.end(); ++i) {
+			const CustomSystemBody *csbody = *i;
+
+			if(parent->type == SystemBody::TYPE_GRAVPOINT) {
+				if(csbody->type >= SystemBody::TYPE_STAR_MIN && csbody->type <= SystemBody::TYPE_STAR_MAX)
+					parent->mass = parent->mass + csbody->mass;
+				else
+					parent->mass = parent->mass + csbody->mass/SUN_MASS_TO_EARTH_MASS;
+			}
+		}
+	}
+
 	for (std::vector<CustomSystemBody*>::const_iterator i = children.begin(); i != children.end(); ++i) {
 		const CustomSystemBody *csbody = *i;
 
@@ -952,7 +971,10 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->semiMajorAxis = csbody->semiMajorAxis;
 		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = csbody->semiMajorAxis.ToDouble() * AU;
-		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
+		if(parent->type == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
+			kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis*parent->GetMass()/(parent->GetMass()-kid->GetMass()), parent->GetMass());
+		else
+			kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
 		kid->orbit.orbitalPhaseAtStart = csbody->orbitalPhaseAtStart.ToDouble();
 		if (csbody->heightMapFilename.length() > 0) {
 			kid->heightMapFilename = csbody->heightMapFilename.c_str();
@@ -1679,7 +1701,10 @@ void StarSystem::MakePlanetsAround(SystemBody *primary, MTRand &rand)
 
 		planet->orbit.eccentricity = ecc.ToDouble();
 		planet->orbit.semiMajorAxis = semiMajorAxis.ToDouble() * AU;
-		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
+		if(primary->type == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
+			planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis*primary->GetMass()/(primary->GetMass()-planet->GetMass()), primary->GetMass());
+		else
+			planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
 
 		double r1 = rand.Double(2*M_PI);		// function parameter evaluation order is implementation-dependent
 		double r2 = rand.NDouble(5);			// can't put two rands in the same expression
