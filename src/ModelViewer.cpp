@@ -806,9 +806,9 @@ void ModelViewer::SetupUI()
 	bottomBox->PackEnd(sliderBox);
 
 	outerBox->PackEnd(UI::WidgetSet(
-		c->Expand()->SetInnerWidget(c->Grid(UI::CellSpec(0.75f,0.25f),1)
+		c->Expand()->SetInnerWidget(c->Grid(UI::CellSpec(0.20f,0.8f,0.25f),1)
 			->SetColumn(0, mainBox)
-			->SetColumn(1, m_logScroller.Get())
+			->SetColumn(2, m_logScroller.Get())
 		),
 		bottomBox
 	));
