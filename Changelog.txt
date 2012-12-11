@@ -1,11 +1,12 @@
 Alpha 29
 
    * New features
+     * InfoView (F3) rewritten using the new UI (#1633, #1785)
      * Economical autopilot. Trades fuel for time (#1582)
      * Your ship's automatic rotation damping can now be turned off (#1570, #1156)
      * Almost 100 new factions with varying government types (#1621, #1620, #1675,
        #1761, #1771)
-     * Zoom out the sector view to see a faction map (#1754, #1764, #1761)
+     * Zoom out the sector view to see a faction map (#1754, #1764, #1761, #1796, #1784)
      * modelviewer can now dump models to Wavefront-format files (#1763)
 
    * Minor changes and tweaks
@@ -20,6 +21,7 @@ Alpha 29
        the Sector View (#1662)
      * UI elements can now be disabled (#1749, #1721)
      * More flexible UI widget size control (#1746)
+     * Improved scanner draw performance
 
    * Fixes
      * Workaround shader glitches for planets with zero temperature (#1712)
@@ -27,7 +29,7 @@ Alpha 29
        (MSVC builds only) (#1743)
      * Fixed flight log crash after visiting 1000 stations
      * Barnard's Star is now a member of the Federation (#1620)
-     * Reduce use of random number generator in sector generation. Fixes gas
+     * Reduce use of random number generator in sector generation. Fixes super
        giant distribution and makes it go a little faster (#1765)
 
    * Script changes

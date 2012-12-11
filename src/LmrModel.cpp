@@ -956,7 +956,7 @@ public:
 
 					if (materials.size() == 0 || !(material == materials.back())) {
 						materials.push_back(material);
-						fputs(stringf("usemtl %0_mat%1{u}\n", prefix, materials.size()-1).c_str(), out);
+						fputs(stringf("usemtl %0_mat%1{u}\n", prefix, Uint32(materials.size())-1).c_str(), out);
 					}
 
 					for (int idx = op.elems.start; idx < op.elems.start+op.elems.count;) {

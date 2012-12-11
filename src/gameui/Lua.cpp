@@ -8,6 +8,8 @@ namespace Lua {
 
 void Init()
 {
+	LuaObject<GameUI::Face>::RegisterClass();
+	LuaObject<GameUI::ShipSpinner>::RegisterClass();
 }
 
 }

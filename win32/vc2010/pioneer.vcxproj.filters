@@ -57,9 +57,6 @@
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\InfoView.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\IniConfig.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -408,6 +405,9 @@
     <ClCompile Include="..\..\src\LuaFaction.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\UIView.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\PngWriter.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -486,9 +486,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\HyperspaceCloud.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\InfoView.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\IniConfig.h">
@@ -870,6 +867,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaFaction.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\UIView.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\PngWriter.h">

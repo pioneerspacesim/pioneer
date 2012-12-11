@@ -80,7 +80,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>shlwapi.lib;libogg_static_vc2012_debug.lib;libvorbis_static_vc2012_debug.lib;libvorbisfile_static_vc2012_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;miniz.lib;terrain.lib;text.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>shlwapi.lib;libogg_static_vc2012_debug.lib;libvorbis_static_vc2012_debug.lib;libvorbisfile_static_vc2012_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;gameui.lib;jenkins.lib;lua.lib;miniz.lib;terrain.lib;text.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -89,7 +89,7 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>shlwapi.lib;libogg_static_vc2012_release.lib;libvorbis_static_vc2012_release.lib;libvorbisfile_static_vc2012_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;miniz.lib;terrain.lib;text.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>shlwapi.lib;libogg_static_vc2012_release.lib;libvorbis_static_vc2012_release.lib;libvorbisfile_static_vc2012_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;gameui.lib;jenkins.lib;lua.lib;miniz.lib;terrain.lib;text.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
@@ -135,7 +135,6 @@
     <ClCompile Include="..\..\src\GameMenuView.cpp" />
     <ClCompile Include="..\..\src\GeoSphere.cpp" />
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp" />
-    <ClCompile Include="..\..\src\InfoView.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
     <ClCompile Include="..\..\src\Intro.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
@@ -292,7 +291,6 @@
     <ClInclude Include="..\..\src\GameMenuView.h" />
     <ClInclude Include="..\..\src\GeoSphere.h" />
     <ClInclude Include="..\..\src\HyperspaceCloud.h" />
-    <ClInclude Include="..\..\src\InfoView.h" />
     <ClInclude Include="..\..\src\IniConfig.h" />
     <ClInclude Include="..\..\src\Intro.h" />
     <ClInclude Include="..\..\src\KeyBindings.h" />

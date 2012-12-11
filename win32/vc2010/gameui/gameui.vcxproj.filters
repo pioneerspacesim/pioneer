@@ -7,6 +7,8 @@
     <ClInclude Include="..\..\..\src\win32\pch.h">
       <Filter>win32</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\gameui\Face.h" />
+    <ClInclude Include="..\..\..\src\gameui\ShipSpinner.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\gameui\Panel.cpp" />
@@ -14,6 +16,10 @@
       <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\gameui\Lua.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\Face.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\LuaFace.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\LuaShipSpinner.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\ShipSpinner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

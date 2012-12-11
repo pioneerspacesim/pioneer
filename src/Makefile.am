@@ -51,7 +51,6 @@ noinst_HEADERS = \
 	GameMenuView.h \
 	GeoSphere.h \
 	HyperspaceCloud.h \
-	InfoView.h \
 	IniConfig.h \
 	Intro.h \
 	GameConfig.h \
@@ -198,7 +197,6 @@ pioneer_SOURCES	= \
 	GameMenuView.cpp \
 	GeoSphere.cpp \
 	HyperspaceCloud.cpp \
-	InfoView.cpp \
 	IniConfig.cpp \
 	Intro.cpp \
 	GameConfig.cpp \
