@@ -138,33 +138,25 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 		mat = new GL2::GeoSphereSkyMaterial();
 		break;
 	default:
-		mat = new GL2::MultiMaterial();
+		if (desc.lighting)
+			mat = new GL2::LitMultiMaterial();
+		else
+			mat = new GL2::MultiMaterial();
 		mat->twoSided = desc.twoSided; //other mats don't care about this
 	}
 
 	mat->m_renderer = this;
+	mat->m_descriptor = desc;
 
-	// Find an existing program...
-	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
-		if ((*it).first == desc) {
-			p = (*it).second;
-			break;
-		}
+	try {
+		p = GetOrCreateProgram(mat);
+	} catch (GL2::ShaderException &) {
+		// in release builds, the game does not quit instantly but attempts to revert
+		// to a 'shaderless' state
+		return RendererLegacy::CreateMaterial(desc);
 	}
 
-	// ...or create a new one
-	if (!p) {
-		try {
-			p = mat->CreateProgram(desc);
-			m_programs.push_back(std::make_pair(desc, p));
-		} catch (GL2::ShaderException &) {
-			// in release builds, the game does not quit instantly but attempts to revert
-			// to a 'shaderless' state
-			return RendererLegacy::CreateMaterial(desc);
-		}
-	}
-
-	mat->m_program = p;
+	mat->SetProgram(p);
 	return mat;
 }
 
@@ -177,6 +169,28 @@ bool RendererGL2::ReloadShaders()
 	printf("Done.\n");
 
 	return true;
+}
+
+GL2::Program* RendererGL2::GetOrCreateProgram(GL2::Material *mat)
+{
+	const MaterialDescriptor &desc = mat->GetDescriptor();
+	GL2::Program *p = 0;
+
+	// Find an existing program...
+	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
+		if ((*it).first == desc) {
+			p = (*it).second;
+			break;
+		}
+	}
+
+	// ...or create a new one
+	if (!p) {
+		p = mat->CreateProgram(desc);
+		m_programs.push_back(std::make_pair(desc, p));
+	}
+
+	return p;
 }
 
 }

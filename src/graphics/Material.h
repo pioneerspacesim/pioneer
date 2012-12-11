@@ -18,7 +18,8 @@
 namespace Graphics {
 
 class Texture;
-class MaterialDescriptor;
+class RendererLegacy;
+class RendererGL2;
 
 // Shorthand for unique effects
 // The other descriptor parameters may or may not have effect,
@@ -31,6 +32,26 @@ enum EffectType {
 	EFFECT_GEOSPHERE_SKY
 };
 
+// Renderer creates a material that best matches these requirements.
+// EffectType may override some of the other flags.
+class MaterialDescriptor {
+public:
+	MaterialDescriptor();
+	EffectType effect;
+	bool alphaTest;
+	bool atmosphere;
+	bool glowMap;
+	bool lighting;
+	bool specularMap;
+	bool twoSided;
+	bool usePatterns; //pattern/color system
+	bool vertexColors;
+	int textures; //texture count
+	unsigned int dirLights; //set by rendererGL2 if lighting == true
+
+	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
+};
+
 /*
  * A generic material with some generic parameters.
  */
@@ -40,11 +61,15 @@ public:
 	virtual ~Material() { }
 
 	Texture *texture0;
-	//Texture *texture1;
+	Texture *texture1;
+	Texture *texture2;
+	Texture *texture3;
+	Texture *texture4;
+
 	Color diffuse;
-	//Color specular;
+	Color specular;
 	Color emissive;
-	//specular power etc.. implement things when you need them
+	int shininess; //specular power
 
 	virtual void Apply() { }
 	virtual void Unapply() { }
@@ -53,22 +78,16 @@ public:
 	bool twoSided;
 
 	void *specialParameter0; //this can be whatever. Bit of a hack.
-};
 
-// Renderer creates a material that best matches these requirements.
-// EffectType may override some of the other flags.
-class MaterialDescriptor {
-public:
-	MaterialDescriptor();
-	EffectType effect;
-	bool atmosphere;
-	bool lighting;
-	bool vertexColors;
-	bool twoSided;
-	int textures; //texture count
-	unsigned int dirLights; //set by rendererGL2 if lighting == true
+	//XXX may not be necessary. Used by newmodel to check if a material uses patterns
+	const MaterialDescriptor &GetDescriptor() const { return m_descriptor; }
 
-	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
+protected:
+	MaterialDescriptor m_descriptor;
+
+private:
+	friend class RendererLegacy;
+	friend class RendererGL2;
 };
 
 }

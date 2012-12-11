@@ -13,6 +13,7 @@
 #include "BezierCurve.h"
 #include "Serializer.h"
 #include "Camera.h"
+#include "scenegraph/SceneGraph.h"
 #include <list>
 
 class SpaceStation;
@@ -314,6 +315,8 @@ private:
 	float m_fuelUseWeights[4]; //rear, front, lateral, up&down. Rear thrusters are usually 1.0
 
 	int m_dockedWithIndex; // deserialisation
+
+	SceneGraph::Animation *m_landingGearAnimation;
 };
 
 

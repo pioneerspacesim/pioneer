@@ -155,4 +155,38 @@ void TextureGL::Unbind()
 	glDisable(m_target);
 }
 
+void TextureGL::SetSampleMode(TextureSampleMode mode)
+{
+	GLenum magFilter, minFilter;
+	const bool mipmaps = GetDescriptor().generateMipmaps;
+	switch (mode) {
+		case LINEAR_CLAMP:
+			magFilter = GL_LINEAR;
+			minFilter = mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
+			break;
+
+		case NEAREST_CLAMP:
+			magFilter = GL_NEAREST;
+			minFilter = mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
+			break;
+
+		case LINEAR_REPEAT:
+			magFilter = GL_LINEAR;
+			minFilter = mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
+			break;
+
+		case NEAREST_REPEAT:
+			magFilter = GL_NEAREST;
+			minFilter =mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
+			break;
+
+		default:
+			assert(0);
+	}
+	glBindTexture(m_target, m_texture);
+	glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, magFilter);
+	glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, minFilter);
+	glBindTexture(m_target, 0);
+}
+
 }

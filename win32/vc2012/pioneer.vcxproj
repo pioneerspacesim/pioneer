@@ -80,7 +80,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>shlwapi.lib;libogg_static_vc2012_debug.lib;libvorbis_static_vc2012_debug.lib;libvorbisfile_static_vc2012_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;gameui.lib;jenkins.lib;lua.lib;miniz.lib;terrain.lib;text.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimpD.lib;shlwapi.lib;libogg_static_vc2012_debug.lib;libvorbis_static_vc2012_debug.lib;libvorbisfile_static_vc2012_debug.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;miniz.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -89,7 +89,7 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>shlwapi.lib;libogg_static_vc2012_release.lib;libvorbis_static_vc2012_release.lib;libvorbisfile_static_vc2012_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;gameui.lib;jenkins.lib;lua.lib;miniz.lib;terrain.lib;text.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimpD.lib;shlwapi.lib;libogg_static_vc2012_release.lib;libvorbis_static_vc2012_release.lib;libvorbisfile_static_vc2012_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-d-2_2_8.lib;libpng15_staticd.lib;zlibd.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;miniz.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
@@ -99,7 +99,7 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>lua.lib;jenkins.lib;miniz.lib;shlwapi.lib;libogg_static_vc2012_release.lib;libvorbis_static_vc2012_release.lib;libvorbisfile_static_vc2012_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-2_2_8.lib;libpng15_static.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp.lib;lua.lib;jenkins.lib;miniz.lib;shlwapi.lib;libogg_static_vc2012_release.lib;libvorbis_static_vc2012_release.lib;libvorbisfile_static_vc2012_release.lib;sdl.lib;sdlmain.lib;opengl32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc2012-2_2_8.lib;libpng15_static.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
     </Link>
     <ClCompile />
@@ -183,8 +183,10 @@
     <ClCompile Include="..\..\src\MathUtil.cpp" />
     <ClCompile Include="..\..\src\Missile.cpp" />
     <ClCompile Include="..\..\src\ModelBody.cpp" />
+    <ClCompile Include="..\..\src\ModelCache.cpp" />
     <ClCompile Include="..\..\src\ModManager.cpp" />
     <ClCompile Include="..\..\src\mtrand.cpp" />
+    <ClCompile Include="..\..\src\NewModelViewer.cpp" />
     <ClCompile Include="..\..\src\ObjectViewerView.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Pi.cpp" />
@@ -341,8 +343,10 @@
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\Missile.h" />
     <ClInclude Include="..\..\src\ModelBody.h" />
+    <ClInclude Include="..\..\src\ModelCache.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
     <ClInclude Include="..\..\src\mtrand.h" />
+    <ClInclude Include="..\..\src\NewModelViewer.h" />
     <ClInclude Include="..\..\src\Object.h" />
     <ClInclude Include="..\..\src\ObjectViewerView.h" />
     <ClInclude Include="..\..\src\OS.h" />
