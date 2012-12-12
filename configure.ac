@@ -241,7 +241,7 @@ if test "x$cross_compiling" = "xno" ; then
 	                            [AC_MSG_RESULT(no)])
 	AC_LANG_POP
 	if test "x$have_assimp_version" != "xyes" ; then
-		AC_MSG_ERROR("assimp version >= 3.0 not found. Get it from https://github.com/assimp/assimp")
+		AC_MSG_ERROR("assimp version >= 3.0 not found. Get it from https://assimp.sourceforge.net/")
 	fi
 	CXXFLAGS="$old_cxxflags"
 	LIBS="$old_libs"
