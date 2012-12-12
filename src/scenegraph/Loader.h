@@ -15,7 +15,7 @@
 #include "graphics/Material.h"
 #include "graphics/Surface.h"
 #include "text/DistanceFieldFont.h"
-#include "assimp/types.h"
+#include <assimp/types.h>
 
 struct aiNode;
 struct aiMesh;
