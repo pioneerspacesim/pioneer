@@ -704,7 +704,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	bool safe = ParentSafetyAdjust(m_ship, targframe, targpos, targvel);
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
-	vector3d relvel = m_ship->GetVelocity() - targvel;
+	vector3d relvel = targvel - m_ship->GetVelocity();
 	double targdist = relpos.Length();
 
 #ifdef DEBUG_AUTOPILOT
@@ -743,25 +743,10 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 		}
 		if (coll) { m_state = -coll; return false; }
 	}
-
-	double tt = sqrt(2.0*targdist / m_ship->GetAccelFwd());
-	vector3d perpvel = relvel - reldir * relvel.Dot(reldir);
-	double perpspeed = perpvel.Length();
-
-	// ignore targvel if we could clear with side thrusters in a fraction of minimum time
-//	if (perpspeed < tt*0.1*m_ship->GetAccelMin()) relvel += perpvel;
-	if (perpspeed > tt*0.9*m_ship->GetAccelMin()) {
-		if (!m_target) {
-			m_ship->AIFaceDirection(-relvel);	// put planet-based updir here?
-			m_ship->AIMatchVel(targvel);		// kill velocity towards target as well
-			m_state = -5; return false;
-		}
-		else m_lockhead = false;
-	}
 	if (m_state < 0 && m_state > -6 && m_tangent) return true;			// bail out
-	if (m_state < 0) m_state = targdist > 10000000.0 ? 0 : 1;			// still lame
+	if (m_state < 0) m_state = targdist > 10000000.0 ? 1 : 0;			// still lame
 
-	double maxdecel = m_state ? m_ship->GetAccelRev() : m_ship->GetAccelFwd();
+	double maxdecel = m_state ? m_ship->GetAccelFwd() : m_ship->GetAccelRev();
 	double gravdir = -reldir.Dot(m_ship->GetPosition().Normalized());
 	maxdecel -= gravdir * GetGravityAtPos(m_ship->GetFrame(), m_ship->GetPosition());
 	if (maxdecel < 0) maxdecel = 0.0;
@@ -771,7 +756,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 		Ship *targship = static_cast<Ship*>(m_target);
 		matrix3x3d orient = m_target->GetFrame()->GetOrientRelTo(m_frame);
 		vector3d targaccel = orient * targship->GetLastForce() / m_target->GetMass();
-		// the one fudge: targets accelerating towards you are usually going to flip
+		// fudge: targets accelerating towards you are usually going to flip
 		if (targaccel.Dot(reldir) < 0.0 && !targship->IsDecelerating()) targaccel *= 0.5;
 		relvel += targaccel * timestep;
 		maxdecel += targaccel.Dot(reldir);
@@ -779,12 +764,25 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 		maxdecel = std::max(maxdecel, 0.1*m_ship->GetAccelFwd());
 	}
 
+	double tt = sqrt(2.0*targdist / maxdecel);
+	if (tt < timestep) tt = timestep;
+	double curspeed = -relvel.Dot(reldir);
+	vector3d perpvel = relvel + reldir * curspeed;
+	double perpspeed = perpvel.Length();
+	vector3d perpdir = (perpspeed > 1e-30) ? perpvel / perpspeed : vector3d(0,0,1);
+
+	double sidefactor = perpspeed / (tt*0.5);
+	if (maxdecel < sidefactor) { maxdecel = 0.0; m_state = -5; }
+	else maxdecel = sqrt(maxdecel*maxdecel - sidefactor*sidefactor);
+
+	// ignore targvel if we could clear with side thrusters in a fraction of minimum time
+	if (perpspeed < tt*0.01*m_ship->GetAccelMin()) perpspeed = 0;
+
 	// calculate target speed
-	double ispeed = calc_ivel(targdist, m_endvel, maxdecel);
-	
+	double ispeed = (maxdecel < 1e-10) ? 0.0 : calc_ivel(targdist, m_endvel, maxdecel);
+
 	// cap target speed according to spare fuel remaining
 	double fuelspeed = m_ship->GetSpeedReachedWithFuel();
-	double curspeed = relvel.Dot(reldir);
 	if (m_target && m_target->IsType(Object::SHIP)) fuelspeed -=
 		m_ship->GetVelocityRelTo(Pi::game->GetSpace()->GetRootFrame()).Length();
 	if (ispeed > curspeed && curspeed > 0.9*fuelspeed) ispeed = curspeed;
@@ -793,22 +791,31 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 //	double maxframespeed = 0.2 * m_frame->GetRadius() / timestep;
 //	if (m_frame->GetParent() && ispeed > maxframespeed) ispeed = maxframespeed;
 
+	// cap perpspeed according to what's needed now
+	perpspeed = std::min(perpspeed, 2.0*sidefactor*timestep);
+	
+	// cap sdiff by thrust...
+	double sdiff = ispeed - curspeed;
+	double linaccel = sdiff < 0 ?
+		std::max(sdiff, -m_ship->GetAccelFwd()*timestep) :
+		std::min(sdiff, m_ship->GetAccelFwd()*timestep);
+
 	// linear thrust application, decel check
-	vector3d vdiff = ispeed*reldir - relvel;
-	double sdiff = vdiff.Dot(reldir);
+	vector3d vdiff = linaccel*reldir + perpspeed*perpdir;
+	m_ship->AIChangeVelBy(vdiff * m_ship->GetOrient());
 	bool decel = sdiff <= 0;
-	if (decel) m_ship->AIChangeVelBy(vdiff * m_ship->GetOrient());
-	else m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
 	m_ship->SetDecelerating(decel);
 
 	// work out which way to head 
-	if (!m_state && !decel && sdiff < maxdecel*timestep*60) vdiff = -vdiff;
-	if (m_state && decel && sdiff > -1.2*maxdecel*timestep) vdiff = -vdiff;
-	if (m_lockhead) vdiff = reldir * reldir.Dot(vdiff);
+	vector3d head = reldir;
+	if (!m_state && sdiff < -1.2*maxdecel*timestep) m_state = 1;
+	if (m_state && sdiff < maxdecel*timestep*60) head = -head;
+	if (!m_state && decel) sidefactor = -sidefactor;
+	head = head*maxdecel + perpdir*sidefactor;
 
 	// face appropriate direction
 	if (m_state >= 3) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
-	else m_ship->AIFaceDirection(vdiff);
+	else m_ship->AIFaceDirection(head);
 	if (body->IsType(Object::PLANET) && m_ship->GetPosition().LengthSqr() < 2*erad*erad)
 		m_ship->AIFaceUpdir(m_ship->GetPosition());		// turn bottom thruster towards planet
 
@@ -978,6 +985,12 @@ bool AICmdFlyAround::TimeStepUpdate()
 	vector3d obsdir = obspos / obsdist;
 	vector3d relpos = targpos - m_ship->GetPosition();
 
+	// frame body suicide check, response
+	if (CheckSuicide(m_ship, -obsdir)) {
+		m_ship->AIFaceDirection(m_ship->GetPosition());		// face away from planet
+		m_ship->AIMatchVel(vector3d(0.0)); return false;
+	}
+
 	// if too far away, fly to tangent
 	if (obsdist > 1.1*m_alt)
 	{
@@ -998,12 +1011,6 @@ bool AICmdFlyAround::TimeStepUpdate()
 	// all calculations in ship's frame
 	vector3d fwddir = (obsdir.Cross(relpos).Cross(obsdir)).Normalized();
 	vector3d tanvel = vel * fwddir;
-
-	// frame body suicide check, response
-	if (CheckSuicide(m_ship, -obsdir)) {
-		m_ship->AIFaceDirection(m_ship->GetPosition());		// face away from planet
-		m_ship->AIMatchVel(vector3d(0.0)); return false;
-	}
 
 	// max feature avoidance check, response
 	if (obsdist < MaxFeatureRad(m_obstructor)) {
