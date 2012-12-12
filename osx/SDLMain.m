@@ -11,7 +11,6 @@
 
 static int    gArgc;
 static char  **gArgv;
-static BOOL   gFinderLaunch;
 
 @implementation SDLApplication
 
@@ -87,21 +86,29 @@ static BOOL   gFinderLaunch;
 //
 int main (int argc, char * argv[])
 {
+	// Detect if the option key is pressed on app launch
+	NSUInteger flags = ([NSEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask);
+	BOOL isOptionPressed = (0 != (flags & NSAlternateKeyMask));
+	
     // Copy the arguments into a global variable
     // This is passed if we are launched by double-clicking
     if ( argc >= 2 && strncmp (argv[1], "-psn", 4) == 0 ) {
+		// Launched from FINDER (app icon)
         gArgv = (char **) SDL_malloc(sizeof (char *) * 2);
         gArgv[0] = argv[0];
-        gArgv[1] = NULL;
-        gArgc = 1;
-        gFinderLaunch = YES;
+        gArgv[1] = "-mv"; // Modelviewer param when Option key is held down
+		if (isOptionPressed) {
+			gArgc = 2;
+		} else {
+			gArgc = 1;
+		}
     } else {
+		// Launched manually (via cmd-line)
         int i;
         gArgc = argc;
         gArgv = (char **) SDL_malloc(sizeof (char *) * (argc+1));
         for (i = 0; i <= argc; i++)
             gArgv[i] = argv[i];
-        gFinderLaunch = NO;
     }
 
     NSApplicationMain (argc, (const char **)argv);
