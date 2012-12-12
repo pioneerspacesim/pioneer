@@ -84,7 +84,7 @@ void DynamicBody::PostLoadFixup(Space *space)
 {
 	Body::PostLoadFixup(space);
 	m_oldPos = GetPosition();
-	CalcExternalForce();
+	if (GetFrame()) CalcExternalForce();		// not for hyperspace
 }
 
 void DynamicBody::SetTorque(const vector3d &t)
@@ -126,7 +126,7 @@ void DynamicBody::CalcExternalForce()
 		const double AREA = radius;
 		// ^^^ yes that is as stupid as it looks
 		const double DRAG_COEFF = 0.1; // 'smooth sphere'
-		vector3d dragDir = -m_vel.Normalized();
+		vector3d dragDir = -m_vel.NormalizedSafe();
 		vector3d fDrag = 0.5*density*speed*speed*AREA*DRAG_COEFF*dragDir;
 
 		// make this a bit less daft at high time accel

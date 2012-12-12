@@ -764,15 +764,19 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 		maxdecel = std::max(maxdecel, 0.1*m_ship->GetAccelFwd());
 	}
 
+	double curspeed = -relvel.Dot(reldir);
 	double tt = sqrt(2.0*targdist / maxdecel);
 	if (tt < timestep) tt = timestep;
-	double curspeed = -relvel.Dot(reldir);
 	vector3d perpvel = relvel + reldir * curspeed;
 	double perpspeed = perpvel.Length();
 	vector3d perpdir = (perpspeed > 1e-30) ? perpvel / perpspeed : vector3d(0,0,1);
 
 	double sidefactor = perpspeed / (tt*0.5);
-	if (maxdecel < sidefactor) { maxdecel = 0.0; m_state = -5; }
+	if (curspeed > tt*maxdecel || maxdecel < sidefactor) {
+		m_ship->AIFaceDirection(relvel);
+		m_ship->AIMatchVel(targvel);
+		m_state = -5; return false;
+	}
 	else maxdecel = sqrt(maxdecel*maxdecel - sidefactor*sidefactor);
 
 	// ignore targvel if we could clear with side thrusters in a fraction of minimum time
