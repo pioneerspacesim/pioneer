@@ -98,6 +98,7 @@ void HyperspaceCloud::Load(Serializer::Reader &rd, Space *space)
 
 void HyperspaceCloud::PostLoadFixup(Space *space)
 {
+	Body::PostLoadFixup(space);
 	if (m_ship) m_ship->PostLoadFixup(space);
 }
 

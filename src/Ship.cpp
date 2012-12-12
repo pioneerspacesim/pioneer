@@ -134,6 +134,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	SetFuel(rd.Double());
 	m_stats.fuel_tank_mass_left = GetShipType().fuelTankMass * GetFuel();
 	m_reserveFuel = rd.Double();
+	UpdateStats(); // this is necessary, UpdateStats() in Ship::Init has wrong values of m_thrusterFuel after Load
 
 	m_controller = 0;
 	const ShipController::Type ctype = static_cast<ShipController::Type>(rd.Int32());
@@ -173,7 +174,7 @@ void Ship::Init()
 
 void Ship::PostLoadFixup(Space *space)
 {
-	UpdateStats(); // this is necessary, UpdateStats() in Ship::Init has wrong values of m_thrusterFuel after Load
+	DynamicBody::PostLoadFixup(space);
 	m_dockedWith = reinterpret_cast<SpaceStation*>(space->GetBodyByIndex(m_dockedWithIndex));
 	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
 	m_controller->PostLoadFixup(space);

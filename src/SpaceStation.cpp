@@ -293,6 +293,7 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 
 void SpaceStation::PostLoadFixup(Space *space)
 {
+	ModelBody::PostLoadFixup(space);
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].ship = static_cast<Ship*>(space->GetBodyByIndex(m_shipDocking[i].shipIndex));
 	}

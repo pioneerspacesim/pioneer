@@ -85,9 +85,9 @@ Space::Space(Game *game, Serializer::Reader &rd)
 		m_bodies.push_back(Body::Unserialize(rd, this));
 	RebuildBodyIndex();
 
+	Frame::PostUnserializeFixup(m_rootFrame.Get(), this);
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->PostLoadFixup(this);
-	Frame::PostUnserializeFixup(m_rootFrame.Get(), this);
 }
 
 Space::~Space()

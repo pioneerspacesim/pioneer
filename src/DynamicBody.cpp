@@ -82,6 +82,7 @@ void DynamicBody::Load(Serializer::Reader &rd, Space *space)
 
 void DynamicBody::PostLoadFixup(Space *space)
 {
+	Body::PostLoadFixup(space);
 	m_oldPos = GetPosition();
 	CalcExternalForce();
 }

@@ -120,6 +120,7 @@ void Projectile::Load(Serializer::Reader &rd, Space *space)
 
 void Projectile::PostLoadFixup(Space *space)
 {
+	Body::PostLoadFixup(space);
 	m_parent = space->GetBodyByIndex(m_parentIndex);
 	m_radius = GetRadius();
 }

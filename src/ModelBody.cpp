@@ -82,6 +82,7 @@ void ModelBody::RebuildCollisionMesh()
 
 	m_geom = new Geom(m_collMesh->geomTree);
 	m_geom->SetUserData(static_cast<void*>(this));
+	m_geom->MoveTo(GetOrient(), GetPosition());
 
 	if (GetFrame()) {
 		if (m_isStatic) GetFrame()->AddStaticGeom(m_geom);
@@ -105,6 +106,7 @@ void ModelBody::SetModel(const char *lmrModelName)
 void ModelBody::SetPosition(const vector3d &p)
 {
 	Body::SetPosition(p);
+	if (!m_geom) return;
 	matrix4x4d m2 = GetOrient();
 	m_geom->MoveTo(m2, p);
 	// for rebuild of static objects in collision space
@@ -114,6 +116,7 @@ void ModelBody::SetPosition(const vector3d &p)
 void ModelBody::SetOrient(const matrix3x3d &m)
 {
 	Body::SetOrient(m);
+	if (!m_geom) return;
 	matrix4x4d m2 = m;
 	m_geom->MoveTo(m2, GetPosition());
 }
