@@ -1,5 +1,5 @@
-#ifndef SDLGRAPHICS_H
-#define SDLGRAPHICS_H
+#ifndef GRAPHICS_WINDOW_SDL_H
+#define GRAPHICS_WINDOW_SDL_H
 
 #include <SDL_stdinc.h>
 #include <string>
@@ -7,10 +7,12 @@
 struct SDL_Window;
 struct SDL_Renderer;
 
-class SDLGraphics {
+namespace Graphics {
+
+class WindowSDL {
 public:
-	SDLGraphics(const std::string &name, Uint32 w, Uint32 h);
-    ~SDLGraphics();
+	WindowSDL(const std::string &name, Uint32 w, Uint32 h);
+    ~WindowSDL();
 
 	void SetGrab(bool grabbed);
 
@@ -18,5 +20,7 @@ private:
 	SDL_Window *m_window;
 	SDL_Renderer *m_renderer;
 };
+
+}
 
 #endif

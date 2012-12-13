@@ -111,7 +111,6 @@ noinst_HEADERS = \
 	Quaternion.h \
 	Random.h \
 	RefCounted.h \
-	SDLGraphics.h \
 	SDLWrappers.h \
 	SectorView.h \
 	Serializer.h \
@@ -258,7 +257,6 @@ pioneer_SOURCES	= \
 	Polit.cpp \
 	Projectile.cpp \
 	PropertyMap.cpp \
-	SDLGraphics.cpp \
 	SDLWrappers.cpp \
 	SectorView.cpp \
 	Serializer.cpp \

@@ -10,13 +10,15 @@
 #include <list>
 #include <stack>
 
-namespace Graphics { class Renderer; }
-class SDLGraphics;
+namespace Graphics {
+    class Renderer;
+    class WindowSDL;
+}
 
 namespace Gui {
 	class Screen {
 	public:
-		static void Init(Graphics::Renderer *renderer, SDLGraphics *sdl, int real_width, int real_height, int ui_width, int ui_height);
+		static void Init(Graphics::Renderer *renderer, Graphics::WindowSDL *window, int real_width, int real_height, int ui_width, int ui_height);
 		static void Uninit();
 		static void Draw();
 		static void ShowBadError(const char *msg);
@@ -62,7 +64,7 @@ namespace Gui {
 		static void RenderMarkup(const std::string &s, const Color &color = Color::WHITE, Text::TextureFont *font = 0);
 
 		static Graphics::Renderer *GetRenderer() { return s_renderer; }
-		static SDLGraphics *GetSDL() { return s_sdl; }
+		static Graphics::WindowSDL *GetWindow() { return s_window; }
 
 	private:
 		static void AddShortcutWidget(Widget *w);
@@ -88,7 +90,7 @@ namespace Gui {
 		static RefCountedPtr<Text::TextureFont> s_defaultFont;
 
 		static Graphics::Renderer *s_renderer;
-		static SDLGraphics *s_sdl;
+		static Graphics::WindowSDL *s_window;
 	};
 }
 

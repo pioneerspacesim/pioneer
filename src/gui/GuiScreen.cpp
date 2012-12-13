@@ -26,12 +26,12 @@ std::stack< RefCountedPtr<Text::TextureFont> > Screen::s_fontStack;
 RefCountedPtr<Text::TextureFont>Screen::s_defaultFont;
 
 Graphics::Renderer *Screen::s_renderer;
-SDLGraphics *Screen::s_sdl;
+Graphics::WindowSDL *Screen::s_window;
 
-void Screen::Init(Graphics::Renderer *renderer, SDLGraphics *sdl, int real_width, int real_height, int ui_width, int ui_height)
+void Screen::Init(Graphics::Renderer *renderer, Graphics::WindowSDL *window, int real_width, int real_height, int ui_width, int ui_height)
 {
     s_renderer = renderer;
-	s_sdl = sdl;
+	s_window = window;
 
 	Screen::width = ui_width;
 	Screen::height = ui_height;
