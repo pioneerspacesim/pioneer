@@ -37,7 +37,7 @@ void TextEntry::SetText(const std::string &text)
 	ResizeRequest();
 }
 
-bool TextEntry::OnKeyPress(const SDL_keysym *sym)
+bool TextEntry::OnKeyPress(const SDL_Keysym *sym)
 {
 	bool accepted = onFilterKeys.empty() ? true : onFilterKeys.emit(sym);
 	if (! accepted)
@@ -45,7 +45,7 @@ bool TextEntry::OnKeyPress(const SDL_keysym *sym)
 	accepted = false;
 
 	bool changed = false;
-	Uint16 unicode = sym->unicode;
+	Uint16 unicode = sym->unicode; // XXX SDL2 unicode now handled through SDL_TextInputEvent
 
 	int oldNewlineCount = m_newlineCount;
 

@@ -36,11 +36,11 @@ protected:
 };
 
 struct KeySym {
-	KeySym(const SDLKey &_sym, const SDLMod &_mod, const Uint16 _unicode) : sym(_sym), mod(safe_mods(_mod)), unicode(_unicode) {}
-	KeySym(const SDLKey &_sym, const SDLMod &_mod) : sym(_sym), mod(safe_mods(_mod)), unicode(0) {}
-	KeySym(const SDLKey &_sym) : sym(_sym), mod(KMOD_NONE), unicode(0) {}
-	SDLKey sym;
-	SDLMod mod;
+	KeySym(const SDL_Keycode &_sym, const SDL_Keymod &_mod, const Uint16 _unicode) : sym(_sym), mod(safe_mods(_mod)), unicode(_unicode) {}
+	KeySym(const SDL_Keycode &_sym, const SDL_Keymod &_mod) : sym(_sym), mod(safe_mods(_mod)), unicode(0) {}
+	KeySym(const SDL_Keycode &_sym) : sym(_sym), mod(KMOD_NONE), unicode(0) {}
+	SDL_Keycode sym;
+	SDL_Keymod mod;
 	Uint16 unicode;
 
 	static KeySym FromString(const std::string &spec);
@@ -55,8 +55,8 @@ struct KeySym {
 
 private:
 	// mask off stuff like caps/numlock
-	static SDLMod safe_mods(const SDLMod m) {
-		return SDLMod(Uint32(m) & (KMOD_CTRL | KMOD_SHIFT | KMOD_ALT | KMOD_META));
+	static SDL_Keymod safe_mods(const SDL_Keymod m) {
+		return SDL_Keymod(Uint32(m) & (KMOD_CTRL | KMOD_SHIFT | KMOD_ALT | KMOD_META));
 	}
 };
 

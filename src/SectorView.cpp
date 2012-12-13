@@ -284,7 +284,7 @@ void SectorView::Save(Serializer::Writer &wr)
 	wr.Byte(m_detailBoxVisible);
 }
 
-void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
+void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 {
 	//remember the last search text, hotkey: up
 	if (m_searchBox->GetText().empty() && keysym->sym == SDLK_UP && !m_previousSearch.empty())
@@ -979,7 +979,7 @@ void SectorView::RefreshDetailBoxVisibility()
 	if (m_detailBoxVisible != DETAILBOX_FACTION) m_factionBox->HideAll(); else UpdateFactionToggles();
 }
 
-void SectorView::OnKeyPressed(SDL_keysym *keysym)
+void SectorView::OnKeyPressed(SDL_Keysym *keysym)
 {
 	if (Pi::GetView() != this) {
 		m_onKeyPressConnection.disconnect();

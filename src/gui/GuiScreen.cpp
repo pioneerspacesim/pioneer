@@ -26,10 +26,12 @@ std::stack< RefCountedPtr<Text::TextureFont> > Screen::s_fontStack;
 RefCountedPtr<Text::TextureFont>Screen::s_defaultFont;
 
 Graphics::Renderer *Screen::s_renderer;
+SDLGraphics *Screen::s_sdl;
 
-void Screen::Init(Graphics::Renderer *renderer, int real_width, int real_height, int ui_width, int ui_height)
+void Screen::Init(Graphics::Renderer *renderer, SDLGraphics *sdl, int real_width, int real_height, int ui_width, int ui_height)
 {
     s_renderer = renderer;
+	s_sdl = sdl;
 
 	Screen::width = ui_width;
 	Screen::height = ui_height;
@@ -62,14 +64,16 @@ void Screen::OnDeleteFocusedWidget()
 {
 	_focusedWidgetOnDelete.disconnect();
 	focusedWidget = 0;
-	SDL_EnableKeyRepeat(0, 0); // disable key repeat
+    // XXX SDL2 no key repeat support
+	//SDL_EnableKeyRepeat(0, 0); // disable key repeat
 }
 
 void Screen::SetFocused(Widget *w, bool enableKeyRepeat)
 {
 	ClearFocus();
-	if (enableKeyRepeat)
-		SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+    // XXX SDL2 no key repeat support
+	//if (enableKeyRepeat)
+	//	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 	_focusedWidgetOnDelete = w->onDelete.connect(sigc::ptr_fun(&Screen::OnDeleteFocusedWidget));
 	focusedWidget = w;
 }
@@ -79,7 +83,8 @@ void Screen::ClearFocus()
 	if (!focusedWidget) return;
 	_focusedWidgetOnDelete.disconnect();
 	focusedWidget = 0;
-	SDL_EnableKeyRepeat(0, 0); // disable key repeat
+    // XXX SDL2 no key repeat support
+	//SDL_EnableKeyRepeat(0, 0); // disable key repeat
 }
 
 void Screen::ShowBadError(const char *msg)
@@ -244,7 +249,7 @@ void Screen::OnClick(SDL_MouseButtonEvent *e)
 	}
 }
 
-void Screen::OnKeyDown(const SDL_keysym *sym)
+void Screen::OnKeyDown(const SDL_Keysym *sym)
 {
 	if (focusedWidget) {
 		bool accepted = focusedWidget->OnKeyPress(sym);
@@ -259,7 +264,7 @@ void Screen::OnKeyDown(const SDL_keysym *sym)
 	}
 }
 
-void Screen::OnKeyUp(const SDL_keysym *sym)
+void Screen::OnKeyUp(const SDL_Keysym *sym)
 {
 }
 

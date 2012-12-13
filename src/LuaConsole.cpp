@@ -69,11 +69,11 @@ bool LuaConsole::IsActive() const {
 	return IsVisible() && m_entryField->IsFocused();
 }
 
-bool LuaConsole::OnFilterKeys(const SDL_keysym *sym) {
+bool LuaConsole::OnFilterKeys(const SDL_Keysym *sym) {
 	return !KeyBindings::toggleLuaConsole.binding.Matches(sym);
 }
 
-void LuaConsole::OnKeyPressed(const SDL_keysym *sym) {
+void LuaConsole::OnKeyPressed(const SDL_Keysym *sym) {
 	// XXX totally horrible doing this on every key press
 	ResizeRequest();
 

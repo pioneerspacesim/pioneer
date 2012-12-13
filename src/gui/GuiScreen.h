@@ -11,11 +11,12 @@
 #include <stack>
 
 namespace Graphics { class Renderer; }
+class SDLGraphics;
 
 namespace Gui {
 	class Screen {
 	public:
-		static void Init(Graphics::Renderer *renderer, int real_width, int real_height, int ui_width, int ui_height);
+		static void Init(Graphics::Renderer *renderer, SDLGraphics *sdl, int real_width, int real_height, int ui_width, int ui_height);
 		static void Uninit();
 		static void Draw();
 		static void ShowBadError(const char *msg);
@@ -23,15 +24,15 @@ namespace Gui {
 		static void RemoveBaseWidget(Widget *w);
 		static void OnMouseMotion(SDL_MouseMotionEvent *e);
 		static void OnClick(SDL_MouseButtonEvent *e);
-		static void OnKeyDown(const SDL_keysym *sym);
-		static void OnKeyUp(const SDL_keysym *sym);
+		static void OnKeyDown(const SDL_Keysym *sym);
+		static void OnKeyUp(const SDL_Keysym *sym);
 		static void EnterOrtho();
 		static void LeaveOrtho();
 		static int GetWidth() { return width; }
 		static int GetHeight() { return height; }
 		// gluProject but fixes UI/screen size mismatch
 		static bool Project(const vector3d &in, vector3d &out);
-		friend void Widget::SetShortcut(SDLKey key, SDLMod mod);
+		friend void Widget::SetShortcut(SDL_Keycode key, SDL_Keymod mod);
 		friend Widget::~Widget();
 		static bool IsBaseWidget(const Widget *);
 		static void GetCoords2Pixels(float scale[2]) {
@@ -61,6 +62,7 @@ namespace Gui {
 		static void RenderMarkup(const std::string &s, const Color &color = Color::WHITE, Text::TextureFont *font = 0);
 
 		static Graphics::Renderer *GetRenderer() { return s_renderer; }
+		static SDLGraphics *GetSDL() { return s_sdl; }
 
 	private:
 		static void AddShortcutWidget(Widget *w);
@@ -86,6 +88,7 @@ namespace Gui {
 		static RefCountedPtr<Text::TextureFont> s_defaultFont;
 
 		static Graphics::Renderer *s_renderer;
+		static SDLGraphics *s_sdl;
 	};
 }
 

@@ -26,8 +26,8 @@ public:
 
 	static void Register();
 private:
-	bool OnFilterKeys(const SDL_keysym*);
-	void OnKeyPressed(const SDL_keysym*);
+	bool OnFilterKeys(const SDL_Keysym*);
+	void OnKeyPressed(const SDL_Keysym*);
 	void UpdateCompletion(const std::string & statement);
 	void ExecOrContinue();
 

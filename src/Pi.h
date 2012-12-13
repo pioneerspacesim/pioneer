@@ -37,6 +37,7 @@ class SystemView;
 class UIView;
 class View;
 class WorldView;
+class SDLGraphics;
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Model; }
 namespace Sound { class MusicPlayer; }
@@ -77,7 +78,7 @@ public:
 	static float GetFrameTime() { return frameTime; }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
 	static float GetScrAspect() { return scrAspect; }
-	static int KeyState(SDLKey k) { return keyState[k]; }
+	static int KeyState(SDL_Keycode k) { return keyState[k]; }
 	static int KeyModState() { return keyModState; }
 	static bool IsConsoleActive();
 	static int JoystickButtonState(int joystick, int button);
@@ -108,8 +109,8 @@ public:
 
 	static const char SAVE_DIR_NAME[];
 
-	static sigc::signal<void, SDL_keysym*> onKeyPress;
-	static sigc::signal<void, SDL_keysym*> onKeyRelease;
+	static sigc::signal<void, SDL_Keysym*> onKeyPress;
+	static sigc::signal<void, SDL_Keysym*> onKeyRelease;
 	static sigc::signal<void, int, int, int> onMouseButtonUp;
 	static sigc::signal<void, int, int, int> onMouseButtonDown;
 	static sigc::signal<void> onPlayerChangeTarget; // navigation or combat
@@ -149,6 +150,7 @@ public:
 	static Graphics::Renderer *renderer; // blargh
 	static ModelCache *modelCache;
 	static Intro *intro;
+	static SDLGraphics *sdl;
 
 #if WITH_OBJECTVIEWER
 	static ObjectViewerView *objectViewerView;

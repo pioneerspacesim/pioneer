@@ -64,6 +64,7 @@
 #include "UIView.h"
 #include "WorldView.h"
 #include "EnumStrings.h"
+#include "SDLGraphics.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
@@ -81,8 +82,8 @@
 
 float Pi::gameTickAlpha;
 float Pi::scrAspect;
-sigc::signal<void, SDL_keysym*> Pi::onKeyPress;
-sigc::signal<void, SDL_keysym*> Pi::onKeyRelease;
+sigc::signal<void, SDL_Keysym*> Pi::onKeyPress;
+sigc::signal<void, SDL_Keysym*> Pi::onKeyRelease;
 sigc::signal<void, int, int, int> Pi::onMouseButtonUp;
 sigc::signal<void, int, int, int> Pi::onMouseButtonDown;
 sigc::signal<void> Pi::onPlayerChangeTarget;
@@ -131,6 +132,7 @@ Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
 ModelCache *Pi::modelCache;
 Intro *Pi::intro;
+SDLGraphics *Pi::sdl;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;

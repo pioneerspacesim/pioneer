@@ -27,7 +27,7 @@ namespace Gui {
 		std::string GetText() const { return m_text; }
 		void SetCursorPos(int pos) { m_cursPos = Clamp(pos, 0, signed(m_text.size())); }
 		int GetCursorPos() const { return m_cursPos; };
-		virtual bool OnKeyPress(const SDL_keysym *);
+		virtual bool OnKeyPress(const SDL_Keysym *);
 		virtual void Show() { GrabFocus(); Widget::Show(); }
 		virtual void GrabFocus();
 		void Unfocus();
@@ -39,8 +39,8 @@ namespace Gui {
 		//  last functor that's called when emitting the signal...
 		//  you can provide your own 'accumulator' type though, to combine
 		//  return values in different ways)
-		sigc::signal<bool, const SDL_keysym*> onFilterKeys;
-		sigc::signal<void, const SDL_keysym*> onKeyPress;
+		sigc::signal<bool, const SDL_Keysym*> onFilterKeys;
+		sigc::signal<void, const SDL_Keysym*> onKeyPress;
 		sigc::signal<void> onValueChanged;
 	private:
 

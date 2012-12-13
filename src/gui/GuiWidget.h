@@ -24,7 +24,7 @@ namespace Gui {
 		void GetSize(float size[2]) { size[0] = m_size.w; size[1] = m_size.h; }
 		void SetSize(float w, float h) { m_size.w = w; m_size.h = h; onSetSize.emit(); }
 		void ResizeRequest();
-		void SetShortcut(SDLKey key, SDLMod mod);
+		void SetShortcut(SDL_Keycode key, SDL_Keymod mod);
 		void SetScissor(bool enabled);
 		bool GetEnabled() { return m_enabled; }
 		void SetEnabled(bool v) { m_enabled = v; }
@@ -47,10 +47,10 @@ namespace Gui {
 		virtual void OnActivate() {}
 		virtual void OnMouseEnter();
 		virtual void OnMouseLeave();
-		virtual bool OnKeyPress(const SDL_keysym *sym) { return false; }
+		virtual bool OnKeyPress(const SDL_Keysym *sym) { return false; }
 		bool IsMouseOver() { return m_mouseOver; }
 		// only to be called by Screen::OnKeyDown
-		void OnPreShortcut(const SDL_keysym *sym);
+		void OnPreShortcut(const SDL_Keysym *sym);
 		enum EventMask {
 			EVENT_NONE = 0,
 			EVENT_KEYDOWN = 1<<0,
@@ -69,8 +69,8 @@ namespace Gui {
 	protected:
 		unsigned int m_eventMask;
 		struct {
-			SDLKey sym;
-			SDLMod mod;
+			SDL_Keycode sym;
+			SDL_Keymod mod;
 		} m_shortcut;
 
 		virtual std::string GetOverrideTooltip() { return ""; }

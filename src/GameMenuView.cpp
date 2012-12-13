@@ -63,7 +63,7 @@ private:
 		m_binding.type = KeyBindings::KEYBOARD_KEY;
 		m_binding.u.keyboard.key = e->keysym.sym;
 		// get rid of number lock, caps lock, etc
-		m_binding.u.keyboard.mod = SDLMod(e->keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
+		m_binding.u.keyboard.mod = SDL_Keymod(e->keysym.mod & (KMOD_CTRL | KMOD_ALT | KMOD_META | KMOD_SHIFT));
 		Close();
 	}
 

@@ -103,7 +103,7 @@ void WorldView::InitObject()
 		char buf[8];
 		snprintf(buf, sizeof(buf), "%d", (i + 1));
 		Gui::Button *btn = new Gui::LabelButton(new Gui::Label(buf));
-		btn->SetShortcut(SDLKey(SDLK_1 + i), KMOD_NONE);
+		btn->SetShortcut(SDL_Keycode(SDLK_1 + i), KMOD_NONE);
 		m_lowThrustPowerOptions->Add(btn, 16, float(ypos));
 
 		btn->onClick.connect(sigc::bind(sigc::mem_fun(this, &WorldView::OnSelectLowThrustPower), LOW_THRUST_LEVELS[i]));
@@ -899,7 +899,7 @@ Gui::Button *WorldView::AddCommsOption(std::string msg, int ypos, int optnum)
 	char buf[8];
 	snprintf(buf, sizeof(buf), "%d", optnum);
 	Gui::LabelButton *b = new Gui::LabelButton(new Gui::Label(buf));
-	b->SetShortcut(SDLKey(SDLK_0 + optnum), KMOD_NONE);
+	b->SetShortcut(SDL_Keycode(SDLK_0 + optnum), KMOD_NONE);
 	// hide target actions when things get clicked on
 	b->onClick.connect(sigc::mem_fun(this, &WorldView::ToggleTargetActions));
 	m_commsOptions->Add(b, 16, float(ypos));

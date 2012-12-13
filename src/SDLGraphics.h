@@ -12,6 +12,8 @@ public:
 	SDLGraphics(const std::string &name, Uint32 w, Uint32 h);
     ~SDLGraphics();
 
+	void SetGrab(bool grabbed);
+
 private:
 	SDL_Window *m_window;
 	SDL_Renderer *m_renderer;

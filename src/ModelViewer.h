@@ -30,7 +30,7 @@ private:
 	bool OnToggleGrid(UI::Widget*);
 	bool OnToggleGuns(UI::CheckBox*);
 	void AddLog(const std::string &line);
-	void ChangeCameraPreset(SDLKey, SDLMod);
+	void ChangeCameraPreset(SDL_Keycode, SDL_Keymod);
 	void ClearLog();
 	void ClearModel();
 	void CreateTestResources();

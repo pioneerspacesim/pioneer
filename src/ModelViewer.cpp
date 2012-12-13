@@ -245,7 +245,7 @@ void ModelViewer::AddLog(const std::string &line)
 	printf("%s\n", line.c_str());
 }
 
-void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
+void ModelViewer::ChangeCameraPreset(SDL_Keycode key, SDL_Keymod mod)
 {
 	if (!m_model) return;
 
