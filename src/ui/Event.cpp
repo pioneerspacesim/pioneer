@@ -8,8 +8,8 @@
 namespace UI {
 
 struct KeyMap {
-	const char *name;
-	SDLKey     sym;
+	const char  *name;
+	SDL_Keycode sym;
 };
 static const KeyMap keymap[] = {
 	{ "backspace",   SDLK_BACKSPACE },
@@ -66,16 +66,16 @@ static const KeyMap keymap[] = {
 	{ "y",           SDLK_y },
 	{ "z",           SDLK_z },
 	{ "delete",      SDLK_DELETE },
-	{ "kp0",         SDLK_KP0 },
-	{ "kp1",         SDLK_KP1 },
-	{ "kp2",         SDLK_KP2 },
-	{ "kp3",         SDLK_KP3 },
-	{ "kp4",         SDLK_KP4 },
-	{ "kp5",         SDLK_KP5 },
-	{ "kp6",         SDLK_KP6 },
-	{ "kp7",         SDLK_KP7 },
-	{ "kp8",         SDLK_KP8 },
-	{ "kp9",         SDLK_KP9 },
+	{ "kp0",         SDLK_KP_0 },
+	{ "kp1",         SDLK_KP_1 },
+	{ "kp2",         SDLK_KP_2 },
+	{ "kp3",         SDLK_KP_3 },
+	{ "kp4",         SDLK_KP_4 },
+	{ "kp5",         SDLK_KP_5 },
+	{ "kp6",         SDLK_KP_6 },
+	{ "kp7",         SDLK_KP_7 },
+	{ "kp8",         SDLK_KP_8 },
+	{ "kp9",         SDLK_KP_9 },
 	{ "kp.",         SDLK_KP_PERIOD },
 	{ "kp/",         SDLK_KP_DIVIDE },
 	{ "kp*",         SDLK_KP_MULTIPLY },
@@ -107,15 +107,15 @@ static const KeyMap keymap[] = {
 	{ "f14",         SDLK_F14 },
 	{ "f15",         SDLK_F15 },
 	{ "help",        SDLK_HELP },
-	{ "printscreen", SDLK_PRINT },
-	{ 0, SDLK_LAST }
+	{ "printscreen", SDLK_PRINTSCREEN },
+	{ 0, 0 }
 };
 
 KeySym KeySym::FromString(const std::string &spec)
 {
 	static const std::string delim("+");
 
-	SDLKey sym = SDLK_UNKNOWN;
+	SDL_Keycode sym = SDLK_UNKNOWN;
 	Uint32 mod = KMOD_NONE;
 
 	size_t start = 0, end = 0;
@@ -140,7 +140,7 @@ KeySym KeySym::FromString(const std::string &spec)
 		else if (token == "alt")
 			mod |= KMOD_ALT;
 		else if (token == "meta")
-			mod |= KMOD_META;
+			mod |= KMOD_GUI;
 
 		else {
 			if (sym != SDLK_UNKNOWN)
@@ -155,7 +155,7 @@ KeySym KeySym::FromString(const std::string &spec)
 		}
 	}
 
-	return KeySym(sym, SDLMod(mod));
+	return KeySym(sym, SDL_Keymod(mod));
 }
 
 static void _settable(lua_State *l, const char *key, const Point &value)

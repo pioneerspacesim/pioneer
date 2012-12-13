@@ -22,19 +22,21 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 {
 	switch (event.type) {
 		case SDL_KEYDOWN:
-			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_DOWN, KeySym(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.unicode)));
+			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_DOWN, KeySym(event.key.keysym.sym, SDL_Keymod(event.key.keysym.mod), event.key.keysym.unicode)));
 
 		case SDL_KEYUP:
-			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_UP, KeySym(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.unicode)));
+			return Dispatch(KeyboardEvent(KeyboardEvent::KEY_UP, KeySym(event.key.keysym.sym, SDL_Keymod(event.key.keysym.mod), event.key.keysym.unicode)));
 
 		case SDL_MOUSEBUTTONDOWN:
-			if (event.button.button == SDL_BUTTON_WHEELUP || event.button.button == SDL_BUTTON_WHEELDOWN)
-				return Dispatch(MouseWheelEvent(event.button.button == SDL_BUTTON_WHEELUP ? MouseWheelEvent::WHEEL_UP : MouseWheelEvent::WHEEL_DOWN, Point(event.button.x,event.button.y)));
+			// XXX SDL2 use SDL_MouseWheelEvent
+			//if (event.button.button == SDL_BUTTON_WHEELUP || event.button.button == SDL_BUTTON_WHEELDOWN)
+			//	return Dispatch(MouseWheelEvent(event.button.button == SDL_BUTTON_WHEELUP ? MouseWheelEvent::WHEEL_UP : MouseWheelEvent::WHEEL_DOWN, Point(event.button.x,event.button.y)));
 			return Dispatch(MouseButtonEvent(MouseButtonEvent::BUTTON_DOWN, MouseButtonFromSDLButton(event.button.button), Point(event.button.x,event.button.y)));
 
 		case SDL_MOUSEBUTTONUP:
-			if (event.button.button == SDL_BUTTON_WHEELUP || event.button.button == SDL_BUTTON_WHEELDOWN)
-				return false;
+			// XXX SDL2 use SDL_MouseWheelEvent
+			//if (event.button.button == SDL_BUTTON_WHEELUP || event.button.button == SDL_BUTTON_WHEELDOWN)
+			//	return false;
 			return Dispatch(MouseButtonEvent(MouseButtonEvent::BUTTON_UP, MouseButtonFromSDLButton(event.button.button), Point(event.button.x,event.button.y)));
 
 		case SDL_MOUSEMOTION:
@@ -86,8 +88,8 @@ bool EventDispatcher::Dispatch(const Event &event)
 					if (mod & KMOD_SHIFT) mod |= KMOD_SHIFT;
 					if (mod & KMOD_CTRL)  mod |= KMOD_CTRL;
 					if (mod & KMOD_ALT)   mod |= KMOD_ALT;
-					if (mod & KMOD_META)  mod |= KMOD_META;
-					const KeySym shortcutSym(keyEvent.keysym.sym, SDLMod(mod));
+					if (mod & KMOD_GUI)   mod |= KMOD_GUI;
+					const KeySym shortcutSym(keyEvent.keysym.sym, SDL_Keymod(mod));
 
 					std::map<KeySym,Widget*>::iterator i = m_shortcuts.find(shortcutSym);
 					if (i != m_shortcuts.end()) {
