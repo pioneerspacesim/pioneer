@@ -200,6 +200,26 @@ local onEnterSystem = function (ship)
 	end
 end
 
+local onShipLanded = function (ship, body)
+	local engine = ship:GetEquipFree('ENGINE')
+	if ship:IsPlayer() and engine == 1 then
+		local PRECIOUSMETALS = ship:GetEquipCount('CARGO', 'PRECIOUS_METALS')
+		local rubbish = ship:GetEquipCount('CARGO','RUBBISH')
+		local computerparts = ship:GetEquipCount('CARGO','COMPUTERS')
+		if PRECIOUSMETALS >= 3 and rubbish >= 20 and computerparts >= 2 then
+			ship:AddEquip('DRIVE_CLASS1', 1)
+			ship:RemoveEquip('RUBBISH', 20)
+			ship:RemoveEquip('PRECIOUS_METALS', 3)
+			ship:RemoveEquip('COMPUTERS',2) 
+			Comms.Message('Hyperdrive repairs complete.')
+			service_history.company = nil
+			service_history.lastdate = Game.time
+			service_history.service_period = oneyear
+			service_history.jumpcount = 0
+		end
+	end
+end
+
 local serialize = function ()
 	return { ads = ads, service_history = service_history }
 end
