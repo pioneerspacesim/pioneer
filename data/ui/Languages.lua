@@ -130,3 +130,69 @@ Prędkość ucieczki teoretycznie powoduje opuszczenie orbity, jeśli tylko stat
 		]]				
 	}
 })
+
+Translate:Add({
+	Spanish = {
+		 -- Main menu
+		['Start at Earth'] = 'Comenzar en Tierra',
+		['Start at New Hope'] = 'Comenzar en New Hope',
+		['Start at Lave'] = 'Comanzar en Lave',
+		['Load game'] = 'Cargar',
+		['Options'] = 'Opciones',
+		['Quit'] = 'Salir',
+
+		-- Generic file dialog
+		['Select file...'] = 'Seleccionar archivo...',
+		['Select'] = 'Seleccionar',
+		['Cancel'] = 'Cancelar',
+
+		-- Load dialog
+		['Select game to load...'] = 'Seleccionar juego...',
+
+		-- Equipment
+		['Equipment'] = 'Equipo',
+		['{quantity} Shield Generators'] = '{quantity} Generadores de Escudo',
+		['{quantity} Occupied Passenger Cabins'] = '{quantity} Cabinas de Pasajeros Ocupadas',
+		['{quantity} Unoccupied Passenger Cabins'] = '{quantity} Cabinas de Pasajeros Libres',
+
+		-- Ship Information
+		['Ship Information'] = 'Info de la Nave',
+		['Weight empty:'] = 'Peso en vacío:',
+		['{range} light years ({maxRange} max)'] = '{range} años luz ({maxRange} max)',
+
+		-- Personal information
+		['Personal Information'] = 'Info Personal',
+		['Combat'] = 'Combate',
+		['Rating:'] = 'Rating:',
+		['Kills:'] = 'Muertes:',
+		['Military'] = 'Militar',
+		['Rank:'] = 'Rango:',
+		['Male'] = 'Hombre',
+		['Female'] = 'Mujer',
+
+		-- Economy & Trade
+		['Economy & Trade'] = 'Economía & Comercio',
+		['Total: '] = 'Total: ',
+		['Fuel tank full.'] = 'Tanque de fuel lleno.',
+
+		-- Missions
+		['Mission Details'] = 'Detalles de Misión',
+		['No missions.'] = 'Sin Misiones.',
+
+		-- Orbital analysis
+		['Orbit'] = 'Orbita',
+		['Orbital Analysis'] = 'Análisis Orbital',
+		['Located {distance}km from the centre of {name}:'] = 'Localizado a {distance}km del centro de {name}:',
+		['Circular orbit speed:'] = 'Velocidad de Orbita Circular',
+		['Escape speed:'] = 'Velocidad de escape:',
+		['Descent-to-ground speed:'] = 'Velocidad de descenso a tierra:',
+		['Notes:'] = 'Notas:',
+		ORBITAL_ANALYSIS_NOTES = [[
+La velocidad de órbita circular es dada por una velocidad tangencial. La nave se debería mover en una dirección a 90° del eje de la nave/{name}.
+
+La velocidad de descenso es un mínimo absoluto, y es también tangencial. Una velocidad o ángulo mas bajos resultará en un curso que intersecta con la superficie de {name}.
+
+La velocidad de escape funcionará, en teoría, en cualquier dirección, mientras que la nave no colisione con {name} en la ruta.
+		]]
+	}
+})
