@@ -21,16 +21,15 @@ New = function ()
 		tabs   = {},
 	}
 
-	self.icons  = ui:HBox(10)
-	self.title  = ui:Label(""):SetFont("HEADING_XLARGE")
-	self.body   = ui:Expand()
+	self.header    = ui:HBox(10)
+	self.title     = ui:Label(""):SetFont("HEADING_XLARGE")
+	self.titleArea = ui:Expand("HORIZONTAL"):SetInnerWidget(ui:Align("RIGHT"):SetInnerWidget(self.title))
+	self.body      = ui:Expand()
+
 	self.widget =
 		ui:VBox():PackEnd({
 			ui:Margin(5):SetInnerWidget(
-				ui:HBox():PackEnd({
-					self.icons,
-					ui:Expand("HORIZONTAL"):SetInnerWidget(ui:Align("RIGHT"):SetInnerWidget(self.title))
-				})
+				ui:HBox():PackEnd(self.header)
 			),
 			ui:Margin(5):SetInnerWidget(
 				ui:Background():SetInnerWidget(
@@ -70,7 +69,9 @@ AddTab = function (self, args)
 	tab.iconWidget.onMouseOver:Connect(function () if self.current ~= num then tab.iconWidget:SetColor(hoverColor) end end)
 	tab.iconWidget.onMouseOut:Connect(function () if self.current ~= num then tab.iconWidget:SetColor(normalColor) end end)
 	tab.iconWidget.onClick:Connect(function () self:SwitchTo(tab.id) end)
-	self.icons:PackEnd(tab.iconWidget)
+
+	self.header:Remove(self.titleArea)
+	self.header:PackEnd({ tab.iconWidget, self.titleArea })
 
 	tab.Refresh = function ()
 		if self.current ~= num then return end
@@ -88,7 +89,7 @@ RemoveTab = function (self, id)
 
 	local tab = self.tabs[num]
 
-	self.icons:Remove(tab.iconImage)
+	self.header:Remove(tab.iconImage)
 
 	table.remove(self.tabs, num)
 
