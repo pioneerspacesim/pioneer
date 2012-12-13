@@ -2,6 +2,8 @@ Alpha 30
 
    * New features
      * New model system (SGModel) (#1676, #1208, #813)
+     * OSX: Hold the option key down when launching pioneer.app to launch the
+       model viewer instead (#1803)
 
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)
