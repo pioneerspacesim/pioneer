@@ -507,7 +507,7 @@ static double MaxEffectRad(Body *body, Ship *ship)
 		if (!body->IsType(Object::SPACESTATION)) return body->GetPhysRadius() + 1000.0;
 		return static_cast<SpaceStation*>(body)->GetStationType()->parkingDistance + 1000.0;
 	}
-	return std::max(body->GetPhysRadius(), sqrt(G * body->GetMass() / ship->GetAccelMin()));
+	return std::max(body->GetPhysRadius(), sqrt(G * body->GetMass() / ship->GetAccelUp()));
 }
 
 // returns acceleration due to gravity at that point
