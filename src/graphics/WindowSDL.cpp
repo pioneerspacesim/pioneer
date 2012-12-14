@@ -60,7 +60,8 @@ WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name)
 	m_renderer = SDL_CreateRenderer(m_window, -1, rendererFlags);
 
 	int bpp;
-	SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(m_window), &bpp, 0, 0, 0, 0);
+	Uint32 rmask, gmask, bmask, amask;
+	SDL_PixelFormatEnumToMasks(SDL_GetWindowPixelFormat(m_window), &bpp, &rmask, &gmask, &bmask, &amask);
 
 	switch (bpp) {
 		case 16:
