@@ -2,14 +2,16 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "JobQueue.h"
+#include "StringF.h"
 
 JobRunner::JobRunner(JobQueue *jq, const uint8_t idx) :
 	m_jobQueue(jq),
 	m_job(0),
 	m_threadIdx(idx)
 {
+	m_threadName = stringf("Thread %0{d}", m_threadIdx);
 	m_jobLock = SDL_CreateMutex();
-	m_threadId = SDL_CreateThread(&JobRunner::Trampoline, this);
+	m_threadId = SDL_CreateThread(&JobRunner::Trampoline, m_threadName.c_str(), this);
 }
 
 JobRunner::~JobRunner()
