@@ -327,6 +327,7 @@ int main(int argc, char **argv)
     c->AddShortcut(UI::KeySym(SDLK_a, KMOD_LCTRL), button[0]);
 #endif
 
+#if 0
 	UI::DropDown *dropdown;
 	UI::List *list;
 	c->SetInnerWidget(
@@ -337,7 +338,6 @@ int main(int argc, char **argv)
 					->AddOption("banana")
 					->AddOption("ox tongue")
 				)
-#if 0
 			),
 			c->HBox()->PackEnd(UI::WidgetSet(
 				c->CheckBox(),
@@ -349,13 +349,13 @@ int main(int argc, char **argv)
 					->AddOption("bar")
 					->AddOption("baz")
 					->AddOption("qwop"))
-#endif
 			)
 		))
 	);
 	dropdown->SetFont(UI::Widget::FONT_HEADING_XLARGE);
 	dropdown->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
-	//list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
+	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
+#endif
 
 #if 0
 	c->SetInnerWidget(
@@ -494,7 +494,27 @@ int main(int argc, char **argv)
 	);
 #endif
 
-    int count = 0;
+	UI::VBox *box;
+	UI::Button *b1, *b2, *b3, *b4;
+	c->SetInnerWidget(
+		(box = c->VBox())->PackEnd(UI::WidgetSet(
+			(b1 = c->Button())->SetInnerWidget(c->Label("1")),
+			(b2 = c->Button())->SetInnerWidget(c->Label("2")),
+			(b3 = c->Button())->SetInnerWidget(c->Label("3")),
+			(b4 = c->Button())->SetInnerWidget(c->Label("4")),
+			c->TextEntry()
+		))
+	);
+	b1->onClick.connect(sigc::bind(sigc::ptr_fun(click_handler), b1));
+	b2->onClick.connect(sigc::bind(sigc::ptr_fun(click_handler), b2));
+	b3->onClick.connect(sigc::bind(sigc::ptr_fun(click_handler), b3));
+	b4->onClick.connect(sigc::bind(sigc::ptr_fun(click_handler), b4));
+	b1->AddShortcut(UI::KeySym(SDLK_1));
+	b2->AddShortcut(UI::KeySym(SDLK_2));
+	b3->AddShortcut(UI::KeySym(SDLK_3));
+	b4->AddShortcut(UI::KeySym(SDLK_4));
+
+	//int count = 0;
 
 	while (1) {
 		bool done = false;
