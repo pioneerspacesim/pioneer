@@ -943,7 +943,6 @@ void Ship::StaticUpdate(const float timeStep)
 
 	if (IsDead()) return;
 
-	m_decelerating = false;
 	if (m_controller) m_controller->StaticUpdate(timeStep);
 
 	if (GetHullTemperature() > 1.0)

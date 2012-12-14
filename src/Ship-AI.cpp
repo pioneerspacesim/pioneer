@@ -63,6 +63,7 @@ bool Ship::AITimeStep(float timeStep)
 	// allow the launch thruster thing to happen
 	if (m_launchLockTimeout > 0.0) return false;
 
+	m_decelerating = false;
 	if (!m_curAICmd) {
 		if (this == Pi::player) return true;
 
@@ -97,6 +98,7 @@ void Ship::AIClearInstructions()
 
 	delete m_curAICmd;		// rely on destructor to kill children
 	m_curAICmd = 0;
+	m_decelerating = false;		// don't adjust unless AI is running
 }
 
 void Ship::AIGetStatusText(char *str)
@@ -259,6 +261,7 @@ double Ship::AIFaceUpdir(const vector3d &updir, double av)
 	double frameAccel = maxAccel * Pi::game->GetTimeStep();
 	
 	vector3d uphead = updir * GetOrient();			// create desired object-space updir
+	if (uphead.z > 0.99999) return 0;				// bail out if facing updir
 	uphead.z = 0; uphead = uphead.Normalized();		// only care about roll axis
 
 	double ang = 0.0, dav = 0.0;

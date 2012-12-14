@@ -663,6 +663,7 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand(ship, CMD_FLYTO)
 
 	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation*>(target)->IsGroundStation()) {
 		m_posoff = target->GetPosition() + 15000.0 * target->GetOrient().VectorY();
+//		m_posoff += 500.0 * target->GetOrient().VectorX();
 		m_targframe = target->GetFrame(); m_target = 0;
 	}
 	else { m_target = target; m_targframe = 0; }
@@ -772,7 +773,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	vector3d perpdir = (perpspeed > 1e-30) ? perpvel / perpspeed : vector3d(0,0,1);
 
 	double sidefactor = perpspeed / (tt*0.5);
-	if (curspeed > tt*maxdecel || maxdecel < sidefactor) {
+	if (curspeed > (tt+timestep)*maxdecel || maxdecel < sidefactor) {
 		m_ship->AIFaceDirection(relvel);
 		m_ship->AIMatchVel(targvel);
 		m_state = -5; return false;
@@ -780,7 +781,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	else maxdecel = sqrt(maxdecel*maxdecel - sidefactor*sidefactor);
 
 	// ignore targvel if we could clear with side thrusters in a fraction of minimum time
-	if (perpspeed < tt*0.01*m_ship->GetAccelMin()) perpspeed = 0;
+//	if (perpspeed < tt*0.01*m_ship->GetAccelMin()) perpspeed = 0;
 
 	// calculate target speed
 	double ispeed = (maxdecel < 1e-10) ? 0.0 : calc_ivel(targdist, m_endvel, maxdecel);
@@ -806,9 +807,10 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 
 	// linear thrust application, decel check
 	vector3d vdiff = linaccel*reldir + perpspeed*perpdir;
-	m_ship->AIChangeVelBy(vdiff * m_ship->GetOrient());
 	bool decel = sdiff <= 0;
 	m_ship->SetDecelerating(decel);
+	if (decel) m_ship->AIChangeVelBy(vdiff * m_ship->GetOrient());
+	else m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
 
 	// work out which way to head 
 	vector3d head = reldir;
@@ -820,7 +822,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	// face appropriate direction
 	if (m_state >= 3) m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
 	else m_ship->AIFaceDirection(head);
-	if (body->IsType(Object::PLANET) && m_ship->GetPosition().LengthSqr() < 2*erad*erad)
+	if (body && body->IsType(Object::PLANET) && m_ship->GetPosition().LengthSqr() < 2*erad*erad)
 		m_ship->AIFaceUpdir(m_ship->GetPosition());		// turn bottom thruster towards planet
 
 	// termination conditions: check
@@ -914,7 +916,10 @@ bool AICmdDock::TimeStepUpdate()
 		vector3d axis = m_target->GetAngVelocity().Normalized();
 		trot = trot * matrix3x3d::BuildRotate(ang, axis);
 	}
-	double af = m_ship->AIFaceDirection(trot * m_dockdir);
+	double af;
+	if (m_target->GetStationType()->dockMethod == SpaceStationType::ORBITAL)
+		af = m_ship->AIFaceDirection(trot * m_dockdir);
+	else af = m_ship->AIFaceDirection(m_ship->GetPosition().Cross(m_ship->GetOrient().VectorX()));
 	if (af < 0.01) af = m_ship->AIFaceUpdir(trot * m_dockupdir, av) - ang;
 	if (m_state < 5 && af < 0.01 && m_ship->GetWheelState() >= 1.0f) m_state++;
 
