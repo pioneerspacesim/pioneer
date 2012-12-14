@@ -28,6 +28,7 @@
     <ClCompile Include="..\..\..\src\scenegraph\Pattern.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\FindNodeVisitor.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Model.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\CollisionGeometry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\scenegraph\Thruster.h" />
@@ -56,5 +57,6 @@
     <ClInclude Include="..\..\..\src\scenegraph\Pattern.h" />
     <ClInclude Include="..\..\..\src\scenegraph\FindNodeVisitor.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Model.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\CollisionGeometry.h" />
   </ItemGroup>
 </Project>
