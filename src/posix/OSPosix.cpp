@@ -45,12 +45,15 @@ void Warning(const char *format, ...)
 	fprintf(stderr, "Warning: %s\n", buf);
 }
 
+// XXX SDL2 get rid of this, put it in window settings
 void LoadWindowIcon()
 {
+    /*
 	SDLSurfacePtr surface = LoadSurfaceFromFile("icons/badge.png");
 	if (surface) {
 		SDL_WM_SetIcon(surface.Get(), 0);
 	}
+    */
 }
 
 void RedirectStdio()
