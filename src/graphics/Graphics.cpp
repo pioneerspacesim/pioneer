@@ -49,6 +49,9 @@ Renderer* Init(Settings vs)
 	assert(!initted);
 	if (initted) return 0;
 
+    // XXX SDL2 not sure what do to with modes yet
+    assert(vs.width > 0 && vs.height > 0);
+#if 0
 	// no mode set, find an ok one
 	if ((vs.width <= 0) || (vs.height <= 0)) {
 		const std::vector<VideoMode> modes = GetAvailableVideoModes();
@@ -57,82 +60,9 @@ Renderer* Init(Settings vs)
 		vs.width = modes.front().width;
 		vs.height = modes.front().height;
 	}
+#endif
 
-	const SDL_VideoInfo *info = SDL_GetVideoInfo();
-
-	//printf("SDL_GetVideoInfo says %d bpp\n", info->vfmt->BitsPerPixel);
-
-	switch (info->vfmt->BitsPerPixel) {
-		case 16:
-			SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-			SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
-			SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-			SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-			break;
-		case 24:
-		case 32:
-			SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-			SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-			SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-			SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-			break;
-		default:
-			fprintf(stderr, "Invalid pixel depth: %d bpp\n", info->vfmt->BitsPerPixel);
-	}
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, vs.requestedSamples ? 1 : 0);
-	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, vs.requestedSamples);
-	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, vs.vsync);
-
-	Uint32 flags = SDL_OPENGL;
-	if (vs.fullscreen) flags |= SDL_FULLSCREEN;
-
-	// attempt sequence is:
-	// 1- requested mode
-	SDL_Surface *scrSurface = SDL_SetVideoMode(vs.width, vs.height, info->vfmt->BitsPerPixel, flags);
-
-	// 2- requested mode with no anti-aliasing (skipped if no AA was requested anyway)
-	if (!scrSurface && vs.requestedSamples) {
-		fprintf(stderr, "Failed to set video mode. (%s). Re-trying without multisampling.\n", SDL_GetError());
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
-
-		scrSurface = SDL_SetVideoMode(vs.width, vs.height, info->vfmt->BitsPerPixel, flags);
-	}
-
-	// 3- requested mode with 16 bit depth buffer
-	if (!scrSurface) {
-		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer\n", SDL_GetError());
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, vs.requestedSamples ? 1 : 0);
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, vs.requestedSamples);
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-
-		scrSurface = SDL_SetVideoMode(vs.width, vs.height, info->vfmt->BitsPerPixel, flags);
-	}
-
-	// 4- requested mode with 16-bit depth buffer and no anti-aliasing
-	//    (skipped if no AA was requested anyway)
-	if (!scrSurface && vs.requestedSamples) {
-		fprintf(stderr, "Failed to set video mode. (%s). Re-trying with 16-bit depth buffer and no multisampling\n", SDL_GetError());
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 0);
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-
-		scrSurface = SDL_SetVideoMode(vs.width, vs.height, info->vfmt->BitsPerPixel, flags);
-	}
-
-	// 5- abort!
-	if (!scrSurface) {
-		OS::Error("Failed to set video mode: %s", SDL_GetError());
-	}
-
-	// this valuable is not reliable if antialiasing settings are overridden by
-	// nvidia/ati/whatever settings
-	int actualSamples = 0;
-	SDL_GL_GetAttribute(SDL_GL_MULTISAMPLESAMPLES, &actualSamples);
-	if (vs.requestedSamples != actualSamples)
-		fprintf(stderr, "Requested AA mode: %dx, actual: %dx\n", vs.requestedSamples, actualSamples);
+	WindowSDL *window = new WindowSDL(vs, "Pioneer");
 
 	glewInit();
 
@@ -145,9 +75,9 @@ Renderer* Init(Settings vs)
 	shadersEnabled = vs.shaders && shadersAvailable;
 
 	if (shadersEnabled)
-		renderer = new RendererGL2(vs);
+		renderer = new RendererGL2(window, vs);
 	else
-		renderer = new RendererLegacy(vs);
+		renderer = new RendererLegacy(window, vs);
 
 	printf("Initialized %s\n", renderer->GetName());
 
@@ -176,6 +106,9 @@ bool AreShadersEnabled()
 std::vector<VideoMode> GetAvailableVideoModes()
 {
 	std::vector<VideoMode> modes;
+
+	// XXX SDL2 modes stuff
+#if 0
 	//querying modes using the current pixel format
 	//note - this has always been sdl_fullscreen, hopefully it does not matter
 	SDL_Rect **sdlmodes = SDL_ListModes(0, SDL_HWSURFACE | SDL_FULLSCREEN);
@@ -191,6 +124,7 @@ std::vector<VideoMode> GetAvailableVideoModes()
 			modes.push_back(VideoMode(sdlmodes[i]->w, sdlmodes[i]->h));
 		}
 	}
+#endif
 	return modes;
 }
 
