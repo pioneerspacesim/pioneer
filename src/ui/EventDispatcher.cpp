@@ -76,18 +76,25 @@ bool EventDispatcher::Dispatch(const Event &event)
 					if (m_keyRepeatActive && keyEvent.keysym == m_keyRepeatSym)
 						m_keyRepeatActive = false;
 
+					return m_baseContainer->TriggerKeyUp(keyEvent);
+				}
+
+				case KeyboardEvent::KEY_PRESS: {
+
+					// selected widgets get all the keypress events
+					if (m_selected)
+						return m_selected->TriggerKeyPress(keyEvent);
+
+					// maybe a shortcut would like it
 					std::map<KeySym,Widget*>::iterator i = m_shortcuts.find(keyEvent.keysym);
 					if (i != m_shortcuts.end()) {
 						(*i).second->TriggerClick();
 						DispatchSelect((*i).second);
 						return true;
 					}
-					return m_baseContainer->TriggerKeyUp(keyEvent);
-				}
 
-				case KeyboardEvent::KEY_PRESS: {
-					Widget *target = m_selected ? m_selected.Get() : m_baseContainer;
-					target->TriggerKeyPress(keyEvent);
+					// standard tree dispatch
+					return m_baseContainer->TriggerKeyPress(keyEvent);
 				}
 			}
 			return false;
