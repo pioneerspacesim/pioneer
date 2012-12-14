@@ -1206,12 +1206,14 @@ void SectorView::ShowAll()
 
 void SectorView::MouseButtonDown(int button, int x, int y)
 {
+    /* XXX SDL2 use SDL_MouseWheelEvent
 	if (this == Pi::GetView()) {
 		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
 			m_zoomMovingTo += ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
 		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
 			m_zoomMovingTo -= ZOOM_SPEED * WHEEL_SENSITIVITY * Pi::GetMoveSpeedShiftModifier();
 	}
+    */
 }
 
 Sector* SectorView::GetCached(const SystemPath& loc)

@@ -1736,6 +1736,7 @@ void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 
 void WorldView::MouseButtonDown(int button, int x, int y)
 {
+    /* XXX SDL2 use SDL_MouseWheelEvent
 	if (this == Pi::GetView())
 	{
 		if (m_activeCameraController->IsExternal()) {
@@ -1747,6 +1748,7 @@ void WorldView::MouseButtonDown(int button, int x, int y)
 				cam->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
 		}
 	}
+    */
 }
 NavTunnelWidget::NavTunnelWidget(WorldView *worldview) :
 	Widget(),

@@ -398,10 +398,12 @@ void SystemView::Update()
 
 void SystemView::MouseButtonDown(int button, int x, int y)
 {
+    /* XXX SDL2 use SDL_MouseWheelEvent
 	if (this == Pi::GetView()) {
 		if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))
 			m_zoomTo *= ((ZOOM_OUT_SPEED-1) * WHEEL_SENSITIVITY+1) / Pi::GetMoveSpeedShiftModifier();
 		else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
 			m_zoomTo *= ((ZOOM_IN_SPEED-1) * WHEEL_SENSITIVITY+1) * Pi::GetMoveSpeedShiftModifier();
 	}
+    */
 }
