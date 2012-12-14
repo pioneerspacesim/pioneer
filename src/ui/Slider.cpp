@@ -9,15 +9,32 @@ namespace UI {
 Point Slider::PreferredSize()
 {
 	const Skin &skin = GetContext()->GetSkin();
-	const unsigned int min = skin.SliderMinInnerSize();
-	const Skin::BorderedRectElement &rect = skin.ButtonNormal();
 
-	// XXX use slider gutter size
-	return m_orient == SLIDER_HORIZONTAL ? Point(INT_MAX, min+rect.borderWidth) : Point(min+rect.borderWidth, INT_MAX);
+	if (m_orient == SLIDER_HORIZONTAL) {
+		SetSizeControlFlags(EXPAND_WIDTH);
+		return skin.SliderHorizontalButtonNormal().size;
+	}
+
+	SetSizeControlFlags(EXPAND_HEIGHT);
+	return skin.SliderVerticalButtonNormal().size;
 }
 
 void Slider::Layout()
 {
+	const Skin &skin = GetContext()->GetSkin();
+	const Point &activeArea = GetActiveArea();
+
+	if (m_orient == SLIDER_HORIZONTAL) {
+		const Skin::EdgedRectElement &gutterRect = skin.SliderHorizontalGutter();
+		m_gutterPos  = Point(0, (activeArea.y-gutterRect.size.y)/2);
+		m_gutterSize = Point(activeArea.x, gutterRect.size.y);
+	}
+	else {
+		const Skin::EdgedRectElement &gutterRect = skin.SliderVerticalGutter();
+		m_gutterPos  = Point((activeArea.x-gutterRect.size.x)/2, 0);
+		m_gutterSize = Point(gutterRect.size.x, activeArea.y);
+	}
+
 	UpdateButton();
 	Widget::Layout();
 }
@@ -25,27 +42,56 @@ void Slider::Layout()
 void Slider::UpdateButton()
 {
 	const Skin &skin = GetContext()->GetSkin();
-	const unsigned int min = skin.SliderMinInnerSize();
-	const Skin::BorderedRectElement &rect = skin.ButtonNormal();
+
 	const Point activeArea(GetActiveArea());
 
 	if (m_orient == SLIDER_HORIZONTAL) {
-		m_buttonSize = Point(std::min(activeArea.x-rect.borderWidth*2, min), activeArea.y-rect.borderWidth*2);
-		m_buttonPos = Point((activeArea.x-rect.borderWidth*2-m_buttonSize.x)*m_value+rect.borderWidth, rect.borderWidth);
+		const Skin::EdgedRectElement &gutterRect = skin.SliderHorizontalGutter();
+		const Skin::RectElement &buttonRect = skin.SliderHorizontalButtonNormal();
+
+		m_buttonSize = Point(buttonRect.size.x, buttonRect.size.y);
+		m_buttonPos  = Point(((activeArea.x-gutterRect.edgeWidth*2-buttonRect.size.x)*m_value)+gutterRect.edgeWidth, (activeArea.y-buttonRect.size.y)/2);
 	}
+
 	else {
-		m_buttonSize = Point(activeArea.x-rect.borderWidth*2, std::min(activeArea.y-rect.borderWidth*2, min));
-		m_buttonPos = Point(rect.borderWidth, (activeArea.y-rect.borderWidth*2-m_buttonSize.y)*m_value+rect.borderWidth);
+		const Skin::EdgedRectElement &gutterRect = skin.SliderVerticalGutter();
+		const Skin::RectElement &buttonRect = skin.SliderVerticalButtonNormal();
+
+		m_buttonSize = Point(buttonRect.size.x, buttonRect.size.y);
+		m_buttonPos  = Point((activeArea.x-buttonRect.size.x)/2, ((activeArea.y-gutterRect.edgeWidth*2-buttonRect.size.y)*m_value)+gutterRect.edgeWidth);
 	}
+
+	m_mouseOverButton = IsMouseOver() && PointInsideButton(m_lastMousePosition);
 }
 
 void Slider::Draw()
 {
-	GetContext()->GetSkin().DrawButtonActive(GetActiveOffset(), GetActiveArea());        // XXX gutter
-	if (m_buttonDown && IsMouseActive())
-		GetContext()->GetSkin().DrawButtonActive(GetActiveOffset()+m_buttonPos, m_buttonSize); // XXX button
-	else
-		GetContext()->GetSkin().DrawButtonNormal(GetActiveOffset()+m_buttonPos, m_buttonSize); // XXX button
+	const Skin &skin = GetContext()->GetSkin();
+
+	if (m_orient == SLIDER_HORIZONTAL) {
+		skin.DrawSliderHorizontalGutter(m_gutterPos, m_gutterSize);
+		if (m_buttonDown && IsMouseActive())
+			skin.DrawSliderHorizontalButtonActive(m_buttonPos, m_buttonSize);
+		else if (m_mouseOverButton)
+			skin.DrawSliderHorizontalButtonHover(m_buttonPos, m_buttonSize);
+		else
+			skin.DrawSliderHorizontalButtonNormal(m_buttonPos, m_buttonSize);
+	}
+
+	else {
+		skin.DrawSliderVerticalGutter(m_gutterPos, m_gutterSize);
+		if (m_buttonDown && IsMouseActive())
+			skin.DrawSliderVerticalButtonActive(m_buttonPos, m_buttonSize);
+		else if (m_mouseOverButton)
+			skin.DrawSliderVerticalButtonHover(m_buttonPos, m_buttonSize);
+		else
+			skin.DrawSliderVerticalButtonNormal(m_buttonPos, m_buttonSize);
+	}
+}
+
+bool Slider::PointInsideButton(const Point &p)
+{
+	return p.x >= m_buttonPos.x && p.y >= m_buttonPos.y && p.x < m_buttonPos.x+m_buttonSize.x && p.y <= m_buttonPos.y+m_buttonSize.y;
 }
 
 void Slider::SetValue(float v)
@@ -57,7 +103,27 @@ void Slider::SetValue(float v)
 
 void Slider::HandleMouseDown(const MouseButtonEvent &event)
 {
-	m_buttonDown = event.pos.x >= m_buttonPos.x && event.pos.y >= m_buttonPos.y && event.pos.x < m_buttonPos.x+m_buttonSize.x && event.pos.y < m_buttonPos.y+m_buttonSize.y;
+	m_buttonDown = PointInsideButton(event.pos);
+
+    if (!m_buttonDown) {
+		float change = 0.0f;
+
+		if (m_orient == SLIDER_HORIZONTAL) {
+			if (m_lastMousePosition.x < m_buttonPos.x)
+				change = -0.1f;
+			else
+				change = 0.1f;
+		}
+		else {
+			if (m_lastMousePosition.y < m_buttonPos.y)
+				change = -0.1f;
+			else
+				change = 0.1f;
+		}
+
+		SetValue(GetValue()+change);
+	}
+
 	Widget::HandleMouseDown(event);
 }
 
@@ -69,17 +135,47 @@ void Slider::HandleMouseUp(const MouseButtonEvent &event)
 
 void Slider::HandleMouseMove(const MouseMotionEvent &event)
 {
-	if (m_buttonDown && IsMouseActive()) {
-		const Point::Component c = m_orient == SLIDER_HORIZONTAL ? Point::X : Point::Y;
+	const Skin &skin = GetContext()->GetSkin();
 
-		const int effectiveLength = GetActiveArea()[c] - m_buttonSize[c];
-		const int pos = Clamp(event.pos[c] - GetActiveOffset()[c], 0, effectiveLength);
-		const float travel = float(pos) / effectiveLength;
+	if (m_buttonDown && IsMouseActive()) {
+
+		float travel;
+
+		if (m_orient == SLIDER_HORIZONTAL) {
+			const Skin::EdgedRectElement &gutterRect = skin.SliderHorizontalGutter();
+			const Skin::RectElement &buttonRect = skin.SliderHorizontalButtonNormal();
+
+			const int effectiveLength = GetActiveArea().x - gutterRect.edgeWidth*2 - buttonRect.size.x;
+			const int pos = Clamp(event.pos.x - int(gutterRect.edgeWidth) - buttonRect.size.x/2 - GetActiveOffset().x, 0, effectiveLength);
+			
+			travel = float(pos) / effectiveLength;
+		}
+
+		else {
+			const Skin::EdgedRectElement &gutterRect = skin.SliderVerticalGutter();
+			const Skin::RectElement &buttonRect = skin.SliderVerticalButtonNormal();
+
+			const int effectiveLength = GetActiveArea().y - gutterRect.edgeWidth*2 - buttonRect.size.y;
+			const int pos = Clamp(event.pos.y - int(gutterRect.edgeWidth) - buttonRect.size.y/2 - GetActiveOffset().y, 0, effectiveLength);
+
+			travel = float(pos) / effectiveLength;
+		}
 
 		SetValue(travel);
 	}
 
+	else {
+		m_lastMousePosition = event.pos;
+		m_mouseOverButton = PointInsideButton(event.pos);
+	}
+
 	Widget::HandleMouseMove(event);
+}
+
+void Slider::HandleMouseOut()
+{
+	m_mouseOverButton = false;
+	Widget::HandleMouseOut();
 }
 
 }

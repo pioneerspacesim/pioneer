@@ -10,7 +10,7 @@ namespace UI {
 Point Label::PreferredSize()
 {
 	vector2f textSize;
-	GetContext()->GetFont(GetFontSize())->MeasureString(m_text.c_str(), textSize.x, textSize.y);
+	GetContext()->GetFont(GetFont())->MeasureString(m_text.c_str(), textSize.x, textSize.y);
 	m_preferredSize = Point(ceilf(textSize.x), ceilf(textSize.y));
 	return m_preferredSize;
 }
@@ -26,7 +26,9 @@ void Label::Layout()
 
 void Label::Draw()
 {
-	GetContext()->GetFont(GetFontSize())->RenderString(m_text.c_str(), 0.0f, 0.0f);
+	static const Color normalColor(Color::WHITE);
+	static const Color disabledColor(0.8f, 0.8f, 0.8f, 1.0f);
+	GetContext()->GetFont(GetFont())->RenderString(m_text.c_str(), 0.0f, 0.0f, IsDisabled() ? disabledColor : normalColor);
 }
 
 Label *Label::SetText(const std::string &text)

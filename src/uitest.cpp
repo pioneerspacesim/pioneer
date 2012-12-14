@@ -10,6 +10,13 @@
 static const int WIDTH  = 1024;
 static const int HEIGHT = 768;
 
+static bool toggle_disabled_handler(UI::Widget *w)
+{
+	w->IsDisabled() ? w->Enable() : w->Disable();
+	printf("toggle disabled: %p %s now %s\n", w, typeid(*w).name(), w->IsDisabled() ? "DISABLED" : "ENABLED");
+	return true;
+}
+
 static bool click_handler(UI::Widget *w)
 {
 	printf("click: %p %s\n", w, typeid(*w).name());
@@ -133,6 +140,43 @@ int main(int argc, char **argv)
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
 
 #if 0
+	UI::Button *toggle;
+	UI::CheckBox *target;
+	c->SetInnerWidget(
+		c->HBox(10)->PackEnd(UI::WidgetSet(
+			(toggle = c->Button()),
+			(target = static_cast<UI::CheckBox*>(c->CheckBox()))
+		))
+	);
+
+	toggle->onClick.connect(sigc::bind(sigc::ptr_fun(&toggle_disabled_handler), target));
+	target->onMouseMove.connect(sigc::bind(sigc::ptr_fun(&move_handler), target));
+	target->onMouseOver.connect(sigc::bind(sigc::ptr_fun(&over_handler), target));
+	target->onMouseOut.connect(sigc::bind(sigc::ptr_fun(&out_handler), target));
+#endif
+
+#if 0
+	c->SetInnerWidget(
+		c->ColorBackground(Color(0.4f, 0.2f, 0.4f, 1.0f))->SetInnerWidget(
+			c->HBox()->PackEnd(UI::WidgetSet(
+				c->Icon("Agenda"),
+				c->Icon("Bag"),
+				c->Icon("Planet"),
+				c->Icon("Satellite"),
+				c->Icon("TrafficCone"),
+				c->Label("Some text")->SetFont(UI::Widget::FONT_HEADING_XSMALL)
+			))
+		)
+	);
+#endif
+
+#if 0
+	c->SetInnerWidget(
+		c->Margin(0)->SetInnerWidget(c->Gradient(Color(1.0f,0,0,1.0f), Color(0,0,1.0f,1.0f), UI::Gradient::HORIZONTAL))
+	);
+#endif
+
+#if 0
 	UI::Button *b1, *b2, *b3;
 	c->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
@@ -140,7 +184,7 @@ int main(int argc, char **argv)
 				(b1 = c->Button())
 			),
 			c->Margin(10.0f)->SetInnerWidget(
-				(b2 = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png"))
+				(b2 = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png", UI::Widget::PRESERVE_ASPECT))
 			),
             c->Margin(10.0f)->SetInnerWidget(
                 (b3 = c->Button())->SetInnerWidget(c->Label("PEW PEW"))
@@ -170,23 +214,21 @@ int main(int argc, char **argv)
 			c->Margin(10.0f)->SetInnerWidget(
 				c->ColorBackground(Color(0.1f, 0.4f, 0.4f, 1.0f))->SetInnerWidget(
 					c->VBox()->PackEnd(UI::WidgetSet(
-						c->HBox()->PackEnd(UI::WidgetSet(
-							c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
-							(image = c->Image("icons/object_star_g.png")),
-							c->Image("icons/object_star_m.png")
-						), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL),
-						c->ColorBackground(Color(1.0f, 0.0f, 0.0f, 1.0f)),
-						c->ColorBackground(Color(0.0f, 1.0f, 0.0f, 1.0f)),
-						c->ColorBackground(Color(0.0f, 0.0f, 1.0f, 1.0f)),
-						c->Image("icons/cpanel.png"),
+						c->Expand(UI::Expand::VERTICAL)->SetInnerWidget(
+							c->HBox()->PackEnd(UI::WidgetSet(
+								c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+								c->Icon("Twitter"),
+								(image = c->Image("icons/object_star_g.png", UI::Widget::PRESERVE_ASPECT))
+							))),
+						c->Image("icons/cpanel.png", UI::Widget::EXPAND_WIDTH),
 						c->HBox(5.0f)->PackEnd(UI::WidgetSet(
 							c->Button()->SetInnerWidget(c->Label("Load game")),
 							c->Button()->SetInnerWidget(c->Label("Save game")),
 							c->Button()->SetInnerWidget(c->Label("Win game"))
 						))->PackEnd(
-							(slider = c->HSlider()), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL
+							(slider = c->HSlider())
 						)
-					), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
+					))
 				)
 			)
 		)
@@ -201,10 +243,10 @@ int main(int argc, char **argv)
 	UI::ColorBackground *back;
 	c->SetInnerWidget(
 		c->VBox(5.0f)->PackEnd(UI::WidgetSet(
-			c->HBox(5.0f)->PackEnd(c->Label("Red"))->PackEnd(red = c->HSlider(), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL),
-			c->HBox(5.0f)->PackEnd(c->Label("Green"))->PackEnd(green = c->HSlider(), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL),
-			c->HBox(5.0f)->PackEnd(c->Label("Blue"))->PackEnd(blue = c->HSlider(), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
-		))->PackEnd(back = c->ColorBackground(Color()), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
+			c->HBox(5.0f)->PackEnd(c->Label("Red"))->PackEnd(red = c->HSlider()),
+			c->HBox(5.0f)->PackEnd(c->Label("Green"))->PackEnd(green = c->HSlider()),
+			c->HBox(5.0f)->PackEnd(c->Label("Blue"))->PackEnd(blue = c->HSlider())
+		))->PackEnd(c->Expand()->SetInnerWidget(back = c->ColorBackground(Color())))
 	);
 
 	red->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&colour_change), back, red, green, blue));
@@ -218,10 +260,10 @@ int main(int argc, char **argv)
 		c->Grid(3,3)
 			->SetRow(0, UI::WidgetSet(
 				c->MultiLineText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
-				c->Image("icons/object_star_g.png")
+				c->Image("icons/object_star_g.png", UI::Widget::PRESERVE_ASPECT)
 			))
 			->SetRow(1, UI::WidgetSet(
-				c->Image("icons/object_star_m.png"),
+				c->Image("icons/object_star_m.png", UI::Widget::PRESERVE_ASPECT),
 				c->Button()->SetInnerWidget(c->Label("Wear monocle"))
 			))
 	);
@@ -240,15 +282,15 @@ int main(int argc, char **argv)
 				(back[3] = c->ColorBackground(Color(0.8f,0.8f,0.2f)))))
 	);
 	c->AddFloatingWidget(
-		(button[0] = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png")), vector2f(472.0f, 344.f), vector2f(80.0f)
+		(button[0] = c->Button())->SetInnerWidget(c->Image("icons/object_star_m.png")), UI::Point(472, 344), UI::Point(80)
 	)->AddFloatingWidget(
-		(button[1] = c->Button())->SetInnerWidget(c->Image("icons/object_star_a.png")), vector2f(216.0f, 344.f), vector2f(80.0f)
+		(button[1] = c->Button())->SetInnerWidget(c->Image("icons/object_star_a.png")), UI::Point(216, 344), UI::Point(80)
 	)->AddFloatingWidget(
-		(button[2] = c->Button())->SetInnerWidget(c->Image("icons/object_star_f.png")), vector2f(728.0f, 344.f), vector2f(80.0f)
+		(button[2] = c->Button())->SetInnerWidget(c->Image("icons/object_star_f.png")), UI::Point(728, 344), UI::Point(80)
 	)->AddFloatingWidget(
-		(button[3] = c->Button())->SetInnerWidget(c->Image("icons/object_star_g.png")), vector2f(472.0f, 152.f), vector2f(80.0f)
+		(button[3] = c->Button())->SetInnerWidget(c->Image("icons/object_star_g.png")), UI::Point(472, 152), UI::Point(80)
 	)->AddFloatingWidget(
-		(button[4] = c->Button())->SetInnerWidget(c->Image("icons/object_star_k.png")), vector2f(472.0f, 536.f), vector2f(80.0f)
+		(button[4] = c->Button())->SetInnerWidget(c->Image("icons/object_star_k.png")), UI::Point(472, 536), UI::Point(80)
 	);
 
 	for (int i = 0; i < 4; i++) {
@@ -295,6 +337,7 @@ int main(int argc, char **argv)
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 #endif
 
+#if 0
 	c->SetInnerWidget(
 		c->Scroller()->SetInnerWidget(
 			c->MultiLineText(
@@ -321,12 +364,13 @@ int main(int argc, char **argv)
 			)
 		)
 	);
+#endif
 
 #if 0
 	UI::Label *label;
 	UI::Slider *slider;
 	c->SetInnerWidget(
-		c->HBox(5.0f)->PackEnd(label = c->Label(""))->PackEnd(slider = c->HSlider(), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
+		c->HBox(5.0f)->PackEnd(label = c->Label(""))->PackEnd(slider = c->HSlider()),
 	);
 	slider->onValueChanged.connect(sigc::bind(sigc::ptr_fun(&fill_label), label));
 #endif
@@ -356,11 +400,11 @@ int main(int argc, char **argv)
 #if 0
 	c->SetInnerWidget(
 		c->VBox()->PackEnd(UI::WidgetSet(
-			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XSMALL),
-			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_SMALL),
-			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_NORMAL),
-			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_LARGE),
-			c->Label("through three cheese trees three freezy fleas flew")->SetFontSize(UI::Widget::FONT_SIZE_XLARGE)
+			c->Label("through three cheese trees three freezy fleas flew")->SetFont(UI::Widget::FONT_XSMALL),
+			c->Label("through three cheese trees three freezy fleas flew")->SetFont(UI::Widget::FONT_SMALL),
+			c->Label("through three cheese trees three freezy fleas flew")->SetFont(UI::Widget::FONT_NORMAL),
+			c->Label("through three cheese trees three freezy fleas flew")->SetFont(UI::Widget::FONT_LARGE),
+			c->Label("through three cheese trees three freezy fleas flew")->SetFont(UI::Widget::FONT_XLARGE)
 		))
 	);
 #endif
@@ -417,7 +461,7 @@ int main(int argc, char **argv)
             c->Grid(2,2)
                 ->SetRow(0, UI::WidgetSet(c->Label("one"), c->Label("two")))
                 ->SetRow(1, UI::WidgetSet(c->Label("three"), c->Label("four")))
-        )->PackEnd(c->ColorBackground(Color(0.8f,0.2f,0.2f)), UI::Box::BOX_EXPAND | UI::Box::BOX_FILL)
+        )->PackEnd(c->ColorBackground(Color(0.8f,0.2f,0.2f)))
     );
 #endif
 
@@ -469,7 +513,10 @@ int main(int argc, char **argv)
 #if 0
 		if (++count % 10 == 0)
 			text->AppendText("line\n");
+		if (++count % 100 == 0)
+			toggle_disabled_handler(target);
 #endif
+
 	}
 
 	c.Reset();

@@ -226,6 +226,7 @@ bool AICmdKamikaze::TimeStepUpdate()
 
 bool AICmdKill::TimeStepUpdate()
 {
+	if (!ProcessChild()) return false;
 	if (!m_target || m_target->IsDead()) return true;
 
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
@@ -241,6 +242,12 @@ bool AICmdKill::TimeStepUpdate()
 	vector3d targaccel = (m_target->GetVelocity() - m_lastVel) / Pi::game->GetTimeStep();
 	m_lastVel = m_target->GetVelocity();		// may need next frame
 	vector3d leaddir = m_ship->AIGetLeadDir(m_target, targaccel, 0);
+
+	if (targpos.Length() >= VICINITY_MIN+1000.0) {	// if really far from target, intercept
+//		printf("%s started AUTOPILOT\n", m_ship->GetLabel().c_str());
+		m_child = new AICmdFlyTo(m_ship, m_target);
+		ProcessChild(); return false;
+	}
 
 	// turn towards target lead direction, add inaccuracy
 	// trigger recheck when angular velocity reaches zero or after certain time

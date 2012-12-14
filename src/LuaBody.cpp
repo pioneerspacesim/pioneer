@@ -36,7 +36,7 @@
  */
 static int l_body_attr_label(lua_State *l)
 {
-	Body *b = LuaBody::GetFromLua(1);
+	Body *b = LuaBody::CheckFromLua(1);
 	lua_pushstring(l, b->GetLabel().c_str());
 	return 1;
 }
@@ -59,7 +59,7 @@ static int l_body_attr_label(lua_State *l)
  */
 static int l_body_attr_seed(lua_State *l)
 {
-	Body *b = LuaBody::GetFromLua(1);
+	Body *b = LuaBody::CheckFromLua(1);
 
 	const SystemBody *sbody = b->GetSystemBody();
 	assert(sbody);
@@ -86,7 +86,7 @@ static int l_body_attr_seed(lua_State *l)
  */
 static int l_body_attr_path(lua_State *l)
 {
-	Body *b = LuaBody::GetFromLua(1);
+	Body *b = LuaBody::CheckFromLua(1);
 
 	const SystemBody *sbody = b->GetSystemBody();
 	if (!sbody) {
@@ -117,7 +117,7 @@ static int l_body_attr_path(lua_State *l)
  */
 static int l_body_attr_type(lua_State *l)
 {
-	Body *b = LuaBody::GetFromLua(1);
+	Body *b = LuaBody::CheckFromLua(1);
 	const SystemBody *sbody = b->GetSystemBody();
 	if (!sbody) {
 		lua_pushnil(l);
@@ -145,7 +145,7 @@ static int l_body_attr_type(lua_State *l)
  */
 static int l_body_attr_super_type(lua_State *l)
 {
-	Body *b = LuaBody::GetFromLua(1);
+	Body *b = LuaBody::CheckFromLua(1);
 	const SystemBody *sbody = b->GetSystemBody();
 	if (!sbody) {
 		lua_pushnil(l);
@@ -178,7 +178,7 @@ static int l_body_attr_super_type(lua_State *l)
  */
 static int l_body_attr_frame_body(lua_State *l)
 {
-	Body *b = LuaBody::GetFromLua(1);
+	Body *b = LuaBody::CheckFromLua(1);
 	if (!b->IsType(Object::DYNAMICBODY)) {
 		lua_pushnil(l);
 		return 1;
@@ -207,7 +207,7 @@ static int l_body_attr_frame_body(lua_State *l)
  */
 static int l_body_attr_frame_rotating(lua_State *l)
 {
-	Body *b = LuaBody::GetFromLua(1);
+	Body *b = LuaBody::CheckFromLua(1);
 	if (!b->IsType(Object::DYNAMICBODY)) {
 		lua_pushnil(l);
 		return 1;
@@ -250,7 +250,7 @@ static int l_body_attr_frame_rotating(lua_State *l)
  */
 static int l_body_is_dynamic(lua_State *l)
 {
-	Body *b = LuaBody::GetFromLua(1);
+	Body *b = LuaBody::CheckFromLua(1);
 	lua_pushboolean(l, b->IsType(Object::DYNAMICBODY));
 	return 1;
 }
@@ -280,8 +280,8 @@ static int l_body_is_dynamic(lua_State *l)
  */
 static int l_body_distance_to(lua_State *l)
 {
-	Body *b1 = LuaBody::GetFromLua(1);
-	Body *b2 = LuaBody::GetFromLua(2);
+	Body *b1 = LuaBody::CheckFromLua(1);
+	Body *b2 = LuaBody::CheckFromLua(2);
 	if (!b1->IsInSpace())
 		return luaL_error(l, "Body:DistanceTo() arg #1 is not in space (probably a ship in hyperspace)");
 	if (!b2->IsInSpace())

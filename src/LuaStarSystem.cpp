@@ -59,7 +59,7 @@ static int l_starsystem_get_station_paths(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
 
 	lua_newtable(l);
 
@@ -98,7 +98,7 @@ static int l_starsystem_get_body_paths(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
 
 	lua_newtable(l);
 
@@ -142,7 +142,7 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
 
 	lua_newtable(l);
 
@@ -182,7 +182,7 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
  */
 static int l_starsystem_is_commodity_legal(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
 	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
 	lua_pushboolean(l, Polit::IsCommodityLegal(s, e));
 	return 1;
@@ -222,7 +222,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
 	double dist_ly = luaL_checknumber(l, 2);
 
 	bool filter = false;
@@ -307,12 +307,12 @@ static int l_starsystem_distance_to(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
 	const SystemPath *loc1 = &(s->GetPath());
 
-	const SystemPath *loc2 = LuaSystemPath::CheckFromLua(2);
+	const SystemPath *loc2 = LuaSystemPath::GetFromLua(2);
 	if (!loc2) {
-		StarSystem *s2 = LuaStarSystem::GetFromLua(2);
+		StarSystem *s2 = LuaStarSystem::CheckFromLua(2);
 		loc2 = &(s2->GetPath());
 	}
 
@@ -343,7 +343,7 @@ static int l_starsystem_distance_to(lua_State *l)
  */
 static int l_starsystem_attr_name(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
 	lua_pushstring(l, s->GetName().c_str());
 	return 1;
 }
@@ -363,7 +363,7 @@ static int l_starsystem_attr_name(lua_State *l)
  */
 static int l_starsystem_attr_path(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
 	SystemPath path = s->GetPath();
 	LuaSystemPath::PushToLua(&path);
 	return 1;
@@ -384,7 +384,7 @@ static int l_starsystem_attr_path(lua_State *l)
  */
 static int l_starsystem_attr_lawlessness(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
 	lua_pushnumber(l, s->GetSysPolit().lawlessness.ToDouble());
 	return 1;
 }
@@ -404,8 +404,8 @@ static int l_starsystem_attr_lawlessness(lua_State *l)
  */
 static int l_starsystem_attr_population(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	lua_pushnumber(l, s->m_totalPop.ToDouble());
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	lua_pushnumber(l, s->GetTotalPop().ToDouble());
 	return 1;
 }
 
@@ -424,10 +424,9 @@ static int l_starsystem_attr_population(lua_State *l)
  */
 static int l_starsystem_attr_faction(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::GetFromLua(1);
-	const Uint32 idx = s->GetFactionIndex();
-	if (idx != Faction::BAD_FACTION_IDX) {
-		LuaFaction::PushToLua(Faction::GetFaction(idx));
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	if (s->GetFaction()->IsValid()) {
+		LuaFaction::PushToLua(s->GetFaction());
 		return 1;
 	} else {
 		return 0;

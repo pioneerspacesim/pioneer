@@ -14,7 +14,6 @@
 #include "GameLoaderSaver.h"
 #include "GameMenuView.h"
 #include "GeoSphere.h"
-#include "InfoView.h"
 #include "Intro.h"
 #include "Lang.h"
 #include "LmrModel.h"
@@ -75,6 +74,7 @@
 #include "Tombstone.h"
 #include "WorldView.h"
 #include "DeathView.h"
+#include "UIView.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
@@ -82,6 +82,7 @@
 #include "graphics/Renderer.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
+#include "gameui/Lua.h"
 #include "SDLWrappers.h"
 #include "ModManager.h"
 #include "graphics/Light.h"
@@ -114,7 +115,7 @@ View *Pi::currentView;
 WorldView *Pi::worldView;
 DeathView *Pi::deathView;
 SpaceStationView *Pi::spaceStationView;
-InfoView *Pi::infoView;
+UIView *Pi::infoView;
 SectorView *Pi::sectorView;
 GalacticView *Pi::galacticView;
 GameMenuView *Pi::gameMenuView;
@@ -221,7 +222,8 @@ static void LuaInit()
 	LuaConsole::Register();
 
 	// XXX sigh
-	UI::LuaInit();
+	UI::Lua::Init();
+	GameUI::Lua::Init();
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
@@ -254,6 +256,9 @@ std::string Pi::GetSaveDir()
 
 void Pi::Init()
 {
+
+	OS::NotifyLoadBegin();
+
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 
@@ -380,6 +385,7 @@ void Pi::Init()
 	}
 	draw_progress(1.0f);
 
+	OS::NotifyLoadEnd();
 
 #if 0
 	// frame test code
@@ -495,8 +501,14 @@ void Pi::Init()
 	luaConsole = new LuaConsole(10);
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
 
+	KeyBindings::toggleManualRotation.onPress.connect(sigc::ptr_fun(&Pi::ToggleManualRotation));
+
 	gameMenuView = new GameMenuView();
 	config->Save();
+}
+
+void Pi::ToggleManualRotation() {
+	Pi::player->SetManualRotationState(!Pi::player->GetManualRotationState());
 }
 
 bool Pi::IsConsoleActive()
@@ -566,6 +578,14 @@ void Pi::HandleEvents()
 
 	Pi::mouseMotion[0] = Pi::mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
+		if (event.type == SDL_QUIT) {
+			if (Pi::game)
+				Pi::EndGame();
+			Pi::Quit();
+		}
+		else if (ui->DispatchSDLEvent(event))
+			continue;
+
 		Gui::HandleSDLEvent(&event);
 		KeyBindings::DispatchSDLEvent(&event);
 
@@ -742,11 +762,6 @@ void Pi::HandleEvents()
 					break;
 				joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
 				break;
-			case SDL_QUIT:
-				if (Pi::game)
-					Pi::EndGame();
-				Pi::Quit();
-				break;
 		}
 	}
 }
@@ -865,6 +880,8 @@ void Pi::Start()
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
 	}
+
+	ui->RemoveInnerWidget();
 
 	InitGame();
 	StartGame();

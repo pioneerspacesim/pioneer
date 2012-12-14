@@ -49,8 +49,16 @@
     <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ui\LuaTextEntry.cpp" />
     <ClCompile Include="..\..\..\src\ui\TextEntry.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaTextEntry.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Expand.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaExpand.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaGradient.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Gradient.cpp" />
+    <ClCompile Include="..\..\..\src\ui\SmallButton.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaSmallButton.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Icon.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaIcon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\ui\Align.h" />
@@ -86,6 +94,10 @@
       <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\ui\TextEntry.h" />
+    <ClInclude Include="..\..\..\src\ui\Expand.h" />
+    <ClInclude Include="..\..\..\src\ui\Gradient.h" />
+    <ClInclude Include="..\..\..\src\ui\SmallButton.h" />
+    <ClInclude Include="..\..\..\src\ui\Icon.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

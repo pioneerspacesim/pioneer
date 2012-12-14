@@ -554,10 +554,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\InfoView.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\IniConfig.cpp"
 				>
 			</File>
@@ -584,6 +580,14 @@
 			<File
 				RelativePath="..\..\src\Lua.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ProgramDataBaseFileName="$(IntDir)\$(ProjectName)D.pdb"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\src\LuaBody.cpp"
@@ -1206,6 +1210,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\UIView.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\UIView.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\utils.cpp"
 				>
 			</File>
@@ -1676,6 +1688,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaFaction.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaFileSystem.h"
 				>
 			</File>
@@ -1800,10 +1816,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\matrix3x3.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\matrix4x4.h"
 				>
 			</File>
@@ -1881,6 +1893,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Player.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\PngWriter.h"
 				>
 			</File>
 			<File
@@ -2085,6 +2101,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\terrain\TerrainNoise.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\TextEntry.h"
 				>
 			</File>
 			<File
@@ -3680,6 +3700,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ui\Expand.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Expand.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ui\FloatContainer.cpp"
 				>
 			</File>
@@ -3688,11 +3716,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ui\Gradient.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Gradient.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ui\Grid.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\ui\Grid.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Icon.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Icon.h"
 				>
 			</File>
 			<File
@@ -3788,7 +3832,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ui\LuaExpand.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaGradient.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ui\LuaGrid.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaIcon.cpp"
 				>
 			</File>
 			<File
@@ -3825,6 +3881,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ui\LuaSlider.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaSmallButton.cpp"
 				>
 			</File>
 			<File
@@ -3884,6 +3944,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ui\SmallButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\SmallButton.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ui\TextLayout.cpp"
 				>
 			</File>
@@ -3905,8 +3973,77 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="galaxy"
+			Name="gameui"
 			>
+			<File
+				RelativePath="..\..\src\gameui\Face.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Face.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\GameUI.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Lua.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+						ProgramDataBaseFileName="$(IntDir)\$(ProjectName)D.pdb"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="PreRelease|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Lua.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\LuaFace.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\LuaShipSpinner.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Panel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Panel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\ShipSpinner.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\ShipSpinner.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

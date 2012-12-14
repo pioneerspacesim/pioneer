@@ -15,22 +15,16 @@ protected:
 		BOX_VERTICAL
 	};
 
-	Box(Context *context, BoxOrientation orient, float spacing) : Container(context), m_orient(orient), m_spacing(spacing), m_countExpanded(0) {}
+	Box(Context *context, BoxOrientation orient, int spacing) : Container(context), m_orient(orient), m_spacing(spacing) {}
 
 public:
 	virtual Point PreferredSize();
 	virtual void Layout();
 
-	enum BoxFlags { // <enum scope='UI::Box' name=UIBoxFlags prefix=BOX_>
-		BOX_EXPAND = 0x1,   // if true, give this child a share of the leftover space
-		BOX_FILL   = 0x2    // if true, extra space will be given to the child.
-		                    // if false, extra space will be added as padding around the child
-	};
-
-	Box *PackStart(Widget *child, Uint32 flags = 0);
-	Box *PackStart(const WidgetSet &set, Uint32 flags = 0);
-	Box *PackEnd(Widget *child, Uint32 flags = 0);
-	Box *PackEnd(const WidgetSet &set, Uint32 flags = 0);
+	Box *PackStart(Widget *child);
+	Box *PackStart(const WidgetSet &set);
+	Box *PackEnd(Widget *child);
+	Box *PackEnd(const WidgetSet &set);
 
 	void Remove(Widget *child) { RemoveWidget(child); }
 	void Clear();
@@ -40,21 +34,19 @@ protected:
 
 private:
 	BoxOrientation m_orient;
-	float m_spacing;
+	int m_spacing;
 
 	struct Child {
-		Child(Widget *_widget, Uint32 _flags) : widget(_widget), flags(_flags) {}
-		Widget   *widget;
-		Uint32    flags;
-		Point  preferredSize;
-		Point  size;
-		float     padding;
+		Child(Widget *_widget) : widget(_widget) {}
+		Widget *widget;
+		Point  contribSize;
 	};
 
 	std::list<Child> m_children;
-	int m_countExpanded;
 
 	Point m_preferredSize;
+	int m_minAllocation;
+	int m_numVariable;
 };
 
 class VBox: public Box {

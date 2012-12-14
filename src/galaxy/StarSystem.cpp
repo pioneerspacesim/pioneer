@@ -1288,7 +1288,12 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 	const double massPlanet_in_kg = (mass.ToDouble()*EARTH_MASS);
 	const double g = G*massPlanet_in_kg/(radiusPlanet_in_m*radiusPlanet_in_m);
 
-	const double T = static_cast<double>(averageTemp);
+	double T = static_cast<double>(averageTemp);
+
+	// XXX hack to avoid issues with sysgen giving 0 temps
+	// temporary as part of sysgen needs to be rewritten before the proper fix can be used
+	if (T < 1)
+		T = 40;
 
 	// XXX just use earth's composition for now
 	const double M = 0.02897f; // in kg/mol
@@ -1313,7 +1318,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Faction::BAD_FACTION_IDX)
+StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 {
 	assert(path.IsSystemPath());
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
@@ -1322,8 +1327,9 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Fact
 	Sector s = Sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ);
 	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s.m_systems.size());
 
-	m_seed = s.m_systems[m_path.systemIndex].seed;
-	m_name = s.m_systems[m_path.systemIndex].name;
+	m_seed    = s.m_systems[m_path.systemIndex].seed;
+	m_name    = s.m_systems[m_path.systemIndex].name;
+	m_faction = Faction::GetNearestFaction(s, m_path.systemIndex);
 
 	unsigned long _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
 	MTRand rand(_init, 6);
@@ -1334,7 +1340,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path), m_factionIdx(Fact
 	 * ~700ly+: unexplored
 	 */
 	int dist = isqrt(1 + m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ);
-	m_unexplored = (dist > 90) || (dist > 65 && rand.Int32(dist) > 40);
+	m_unexplored = !(Faction::IsHomeSystem(path) || ((dist <= 90) && ( dist <= 65 || rand.Int32(dist) <= 40)));
 
 	m_isCustom = m_hasCustomBodies = false;
 	if (s.m_systems[m_path.systemIndex].customSys) {
@@ -1889,16 +1895,6 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 	}
 }
 
-const Color StarSystem::GetFactionColour() const
-{
-	if (m_factionIdx != Faction::BAD_FACTION_IDX) {
-		const Faction *fac = Faction::GetFaction(m_factionIdx);
-		if( fac ) {
-			return fac->colour;
-		}
-	}
-	return Color(0.8f,0.8f,0.8f,0.5f);
-}
 
 /* percent */
 #define MAX_COMMODITY_BASE_PRICE_ADJUSTMENT 25
@@ -1912,13 +1908,10 @@ void StarSystem::Populate(bool addSpaceStations)
 	/* Various system-wide characteristics */
 	// This is 1 in sector (0,0,0) and approaches 0 farther out
 	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
-	m_humanProx = fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
+	m_humanProx = Faction::IsHomeSystem(m_path) ? fixed(2,3): fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
 	m_econType = ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
 	m_agricultural = 0;
-
-	// find the faction we're probably aligned with
-	m_factionIdx = Faction::GetNearestFactionIndex(m_path);
 
 	/* system attributes */
 	m_totalPop = fixed(0);
@@ -2241,3 +2234,4 @@ void StarSystem::ShrinkCache()
 			i++;
 	}
 }
+

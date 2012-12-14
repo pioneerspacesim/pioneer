@@ -93,8 +93,11 @@
     <ClCompile Include="..\..\..\src\ui\DropDown.cpp" />
     <ClCompile Include="..\..\..\src\ui\Event.cpp" />
     <ClCompile Include="..\..\..\src\ui\EventDispatcher.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Expand.cpp" />
     <ClCompile Include="..\..\..\src\ui\FloatContainer.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Gradient.cpp" />
     <ClCompile Include="..\..\..\src\ui\Grid.cpp" />
+    <ClCompile Include="..\..\..\src\ui\Icon.cpp" />
     <ClCompile Include="..\..\..\src\ui\Image.cpp" />
     <ClCompile Include="..\..\..\src\ui\Label.cpp" />
     <ClCompile Include="..\..\..\src\ui\List.cpp" />
@@ -108,7 +111,10 @@
     <ClCompile Include="..\..\..\src\ui\LuaContainer.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaContext.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaDropDown.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaExpand.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaGradient.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaGrid.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaIcon.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaImage.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaLabel.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaList.cpp" />
@@ -117,6 +123,7 @@
     <ClCompile Include="..\..\..\src\ui\LuaScroller.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaSingle.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaSlider.cpp" />
+    <ClCompile Include="..\..\..\src\ui\LuaSmallButton.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaTextEntry.cpp" />
     <ClCompile Include="..\..\..\src\ui\LuaWidget.cpp" />
     <ClCompile Include="..\..\..\src\ui\Margin.cpp" />
@@ -125,6 +132,7 @@
     <ClCompile Include="..\..\..\src\ui\Single.cpp" />
     <ClCompile Include="..\..\..\src\ui\Skin.cpp" />
     <ClCompile Include="..\..\..\src\ui\Slider.cpp" />
+    <ClCompile Include="..\..\..\src\ui\SmallButton.cpp" />
     <ClCompile Include="..\..\..\src\ui\TextEntry.cpp" />
     <ClCompile Include="..\..\..\src\ui\TextLayout.cpp" />
     <ClCompile Include="..\..\..\src\ui\Widget.cpp" />
@@ -147,8 +155,11 @@
     <ClInclude Include="..\..\..\src\ui\DropDown.h" />
     <ClInclude Include="..\..\..\src\ui\Event.h" />
     <ClInclude Include="..\..\..\src\ui\EventDispatcher.h" />
+    <ClInclude Include="..\..\..\src\ui\Expand.h" />
     <ClInclude Include="..\..\..\src\ui\FloatContainer.h" />
+    <ClInclude Include="..\..\..\src\ui\Gradient.h" />
     <ClInclude Include="..\..\..\src\ui\Grid.h" />
+    <ClInclude Include="..\..\..\src\ui\Icon.h" />
     <ClInclude Include="..\..\..\src\ui\Image.h" />
     <ClInclude Include="..\..\..\src\ui\Label.h" />
     <ClInclude Include="..\..\..\src\ui\List.h" />
@@ -161,6 +172,7 @@
     <ClInclude Include="..\..\..\src\ui\Single.h" />
     <ClInclude Include="..\..\..\src\ui\Skin.h" />
     <ClInclude Include="..\..\..\src\ui\Slider.h" />
+    <ClInclude Include="..\..\..\src\ui\SmallButton.h" />
     <ClInclude Include="..\..\..\src\ui\TextEntry.h" />
     <ClInclude Include="..\..\..\src\ui\TextLayout.h" />
     <ClInclude Include="..\..\..\src\ui\Widget.h" />

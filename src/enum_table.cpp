@@ -13,10 +13,12 @@
 #include "ShipType.h"
 #include "SpaceStation.h"
 #include "galaxy/StarSystem.h"
+#include "gameui/Face.h"
 #include "ui/Align.h"
-#include "ui/Box.h"
 #include "ui/Event.h"
-#include "ui/Image.h"
+#include "ui/Expand.h"
+#include "ui/Gradient.h"
+#include "ui/Margin.h"
 #include "ui/Widget.h"
 
 const struct EnumItem ENUM_EquipSlot[] = {
@@ -311,6 +313,14 @@ const struct EnumItem ENUM_BodySuperType[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_GameUIFaceFlags[] = {
+	{ "RAND", GameUI::Face::RAND },
+	{ "MALE", GameUI::Face::MALE },
+	{ "FEMALE", GameUI::Face::FEMALE },
+	{ "ARMOUR", GameUI::Face::ARMOUR },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_UIAlignDirection[] = {
 	{ "TOP_LEFT", UI::Align::TOP_LEFT },
 	{ "TOP", UI::Align::TOP },
@@ -321,12 +331,6 @@ const struct EnumItem ENUM_UIAlignDirection[] = {
 	{ "BOTTOM_LEFT", UI::Align::BOTTOM_LEFT },
 	{ "BOTTOM", UI::Align::BOTTOM },
 	{ "BOTTOM_RIGHT", UI::Align::BOTTOM_RIGHT },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_UIBoxFlags[] = {
-	{ "EXPAND", UI::Box::BOX_EXPAND },
-	{ "FILL", UI::Box::BOX_FILL },
 	{ 0, 0 },
 };
 
@@ -341,6 +345,7 @@ const struct EnumItem ENUM_UIEventType[] = {
 const struct EnumItem ENUM_UIKeyboardAction[] = {
 	{ "DOWN", UI::KeyboardEvent::KEY_DOWN },
 	{ "UP", UI::KeyboardEvent::KEY_UP },
+	{ "PRESS", UI::KeyboardEvent::KEY_PRESS },
 	{ 0, 0 },
 };
 
@@ -363,19 +368,51 @@ const struct EnumItem ENUM_UIMouseWheelDirection[] = {
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_UIImageStretchMode[] = {
-	{ "PRESERVE_ASPECT", UI::Image::STRETCH_PRESERVE_ASPECT },
-	{ "MAX", UI::Image::STRETCH_MAX },
+const struct EnumItem ENUM_UIExpandDirection[] = {
+	{ "BOTH", UI::Expand::BOTH },
+	{ "HORIZONTAL", UI::Expand::HORIZONTAL },
+	{ "VERTICAL", UI::Expand::VERTICAL },
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_UIFontSize[] = {
-	{ "INHERIT", UI::Widget::FONT_SIZE_INHERIT },
-	{ "XSMALL", UI::Widget::FONT_SIZE_XSMALL },
-	{ "SMALL", UI::Widget::FONT_SIZE_SMALL },
-	{ "NORMAL", UI::Widget::FONT_SIZE_NORMAL },
-	{ "LARGE", UI::Widget::FONT_SIZE_LARGE },
-	{ "XLARGE", UI::Widget::FONT_SIZE_XLARGE },
+const struct EnumItem ENUM_UIGradientDirection[] = {
+	{ "HORIZONTAL", UI::Gradient::HORIZONTAL },
+	{ "VERTICAL", UI::Gradient::VERTICAL },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIMarginDirection[] = {
+	{ "ALL", UI::Margin::ALL },
+	{ "HORIZONTAL", UI::Margin::HORIZONTAL },
+	{ "VERTICAL", UI::Margin::VERTICAL },
+	{ "LEFT", UI::Margin::LEFT },
+	{ "RIGHT", UI::Margin::RIGHT },
+	{ "TOP", UI::Margin::TOP },
+	{ "BOTTOM", UI::Margin::BOTTOM },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UISizeControl[] = {
+	{ "NO_WIDTH", UI::Widget::NO_WIDTH },
+	{ "NO_HEIGHT", UI::Widget::NO_HEIGHT },
+	{ "EXPAND_WIDTH", UI::Widget::EXPAND_WIDTH },
+	{ "EXPAND_HEIGHT", UI::Widget::EXPAND_HEIGHT },
+	{ "PRESERVE_ASPECT", UI::Widget::PRESERVE_ASPECT },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_UIFont[] = {
+	{ "XSMALL", UI::Widget::FONT_XSMALL },
+	{ "SMALL", UI::Widget::FONT_SMALL },
+	{ "NORMAL", UI::Widget::FONT_NORMAL },
+	{ "LARGE", UI::Widget::FONT_LARGE },
+	{ "XLARGE", UI::Widget::FONT_XLARGE },
+	{ "HEADING_XSMALL", UI::Widget::FONT_HEADING_XSMALL },
+	{ "HEADING_SMALL", UI::Widget::FONT_HEADING_SMALL },
+	{ "HEADING_NORMAL", UI::Widget::FONT_HEADING_NORMAL },
+	{ "HEADING_LARGE", UI::Widget::FONT_HEADING_LARGE },
+	{ "HEADING_XLARGE", UI::Widget::FONT_HEADING_XLARGE },
+	{ "INHERIT", UI::Widget::FONT_INHERIT },
 	{ 0, 0 },
 };
 
