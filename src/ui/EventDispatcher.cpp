@@ -76,7 +76,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 					if (m_keyRepeatActive && keyEvent.keysym == m_keyRepeatSym)
 						m_keyRepeatActive = false;
 
-					ShortcutMap::iterator i = m_shortcuts.find(keyEvent.keysym);
+					std::map<KeySym,Widget*>::iterator i = m_shortcuts.find(keyEvent.keysym);
 					if (i != m_shortcuts.end()) {
 						(*i).second->TriggerClick();
 						DispatchSelect((*i).second);
@@ -296,6 +296,9 @@ void EventDispatcher::Update()
 
 void EventDispatcher::LayoutUpdated()
 {
+	m_shortcuts.clear();
+	m_baseContainer->CollectShortcuts(m_shortcuts);
+
 	RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
 	DispatchMouseOverOut(target.Get(), m_lastMousePosition);
 }

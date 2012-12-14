@@ -53,8 +53,7 @@ private:
 	bool m_keyRepeatActive;
 	Uint32 m_nextKeyRepeat;
 
-	typedef std::map<KeySym,Widget*> ShortcutMap;
-	ShortcutMap m_shortcuts;
+	std::map<KeySym,Widget*> m_shortcuts;
 };
 
 }
