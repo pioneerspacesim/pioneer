@@ -132,7 +132,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -147,7 +147,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <DisableSpecificWarnings>4146</DisableSpecificWarnings>
@@ -161,7 +161,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>

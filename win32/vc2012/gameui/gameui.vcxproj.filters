@@ -33,6 +33,9 @@
     <ClCompile Include="..\..\..\src\gameui\ShipSpinner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\win32\pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\gameui\Face.h">
