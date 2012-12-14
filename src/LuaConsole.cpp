@@ -134,7 +134,7 @@ void LuaConsole::OnKeyPressed(const SDL_Keysym *sym) {
 			m_entryField->SetText(m_precompletionStatement + m_completionList[m_currentCompletion]);
 			ResizeRequest();
 		}
-	} else if (!m_completionList.empty() && (sym->sym < SDLK_NUMLOCK || sym->sym > SDLK_COMPOSE)) {
+	} else if (!m_completionList.empty()) { // XXX SDL2 can't really range check keysyms anymore ...    && (sym->sym < SDLK_NUMLOCK || sym->sym > SDLK_COMPOSE)) {
 		m_completionList.clear();
 	}
 
