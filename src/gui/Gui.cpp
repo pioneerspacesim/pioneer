@@ -4,7 +4,6 @@
 #include "libs.h"
 #include "Gui.h"
 #include "graphics/Graphics.h"
-#include "graphics/WindowSDL.h"
 
 namespace Gui {
 
@@ -89,9 +88,9 @@ void Draw()
 	Screen::Draw();
 }
 
-void Init(Graphics::Renderer *renderer, Graphics::WindowSDL *window, int screen_width, int screen_height, int ui_width, int ui_height)
+void Init(Graphics::Renderer *renderer, int screen_width, int screen_height, int ui_width, int ui_height)
 {
-	Screen::Init(renderer, window, screen_width, screen_height, ui_width, ui_height);
+	Screen::Init(renderer, screen_width, screen_height, ui_width, ui_height);
 }
 
 void Uninit()
@@ -121,9 +120,9 @@ void MainLoopIteration()
 	}
 
 	SDL_ShowCursor(1);
-	Gui::Screen::GetWindow()->SetGrab(false);
+	Gui::Screen::GetRenderer()->GetWindow()->SetGrab(false);
 	Gui::Draw();
-	SDL_GL_SwapBuffers();
+	Gui::Screen::GetRenderer()->GetWindow()->SwapBuffers();
 }
 
 namespace Theme {
