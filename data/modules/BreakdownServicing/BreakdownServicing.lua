@@ -195,14 +195,15 @@ local onEnterSystem = function (ship)
 			local engine = ship:GetEquip('ENGINE',1)
 			ship:RemoveEquip(engine)
 			ship:AddEquip('RUBBISH',EquipType.GetEquipType(engine).mass)
-			Comms.Message(t("The ship's hyperdrive has been destroyed by a malfunction"))
+			Comms.Message(t("The ship's hyperdrive has been destroyed by a malfunction. Land on the nearest planet to initiate emergency repairs."))
 		end
 	end
 end
 
+
 local onShipLanded = function (ship, body)
 	--Make sure the ship doesn't already have a hyperdrive.  
-	local enginebroken = ship:GetEquipFree('ENGINE')
+local enginebroken = ship:GetEquipFree('ENGINE')
 	if ship:IsPlayer() and  enginebroken == 1 then
 		--Define the materials needed
 		local preciousmetals = ship:GetEquipCount('CARGO', 'PRECIOUS_METALS')
@@ -220,8 +221,8 @@ end
 
 local onCargoUnload = function (body, cargotype)
 		--Make sure engine is broken and that rubbish is jettisoned. Can be changed to something else easily.
-		local enginebroken = Game.player:GetEquipFree('ENGINE')
-	if enginebroken == 1 and (cargotype == ('RUBBISH')) then)
+	local enginebroken = Game.player:GetEquipFree('ENGINE')
+	if enginebroken == 1 and (cargotype == ('RUBBISH')) then
 		-- Make sure the player is landed
 		if (Game.player.flightState == "LANDED") then
 			--Define the materials needed.
@@ -259,5 +260,7 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onShipFlavourChanged", onShipFlavourChanged)
 Event.Register("onShipEquipmentChanged", onShipEquipmentChanged)
 Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onShipLanded", onShipLanded)
+Event.Register("onCargoUnload", onCargoUnload)
 
 Serializer:Register("BreakdownServicing", serialize, unserialize)
