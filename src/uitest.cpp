@@ -95,6 +95,8 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 
+	SDL_EnableUNICODE(1);
+
     const SDL_VideoInfo *info = SDL_GetVideoInfo();
     switch (info->vfmt->BitsPerPixel) {
         case 16:
