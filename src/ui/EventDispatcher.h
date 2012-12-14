@@ -29,10 +29,6 @@ public:
 
 	void LayoutUpdated();
 
-	void AddShortcut(const KeySym &keysym, Widget *target);
-	void RemoveShortcut(const KeySym &keysym);
-	void ClearShortcuts();
-
 	void SelectWidget(Widget *target);
 	void DeselectWidget(Widget *target);
 

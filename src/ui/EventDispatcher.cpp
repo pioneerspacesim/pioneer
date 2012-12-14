@@ -300,21 +300,4 @@ void EventDispatcher::LayoutUpdated()
 	DispatchMouseOverOut(target.Get(), m_lastMousePosition);
 }
 
-void EventDispatcher::AddShortcut(const KeySym &keysym, Widget *target)
-{
-	m_shortcuts[keysym] = target;
-}
-
-void EventDispatcher::RemoveShortcut(const KeySym &keysym)
-{
-	ShortcutMap::iterator i = m_shortcuts.find(keysym);
-	if (i != m_shortcuts.end())
-		m_shortcuts.erase(i);
-}
-
-void EventDispatcher::ClearShortcuts()
-{
-	m_shortcuts.clear();
-}
-
 }
