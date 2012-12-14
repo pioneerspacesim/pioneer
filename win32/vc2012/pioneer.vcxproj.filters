@@ -414,7 +414,7 @@
     <ClCompile Include="..\..\src\ModelCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\UIView.cpp" />
+    <ClCompile Include="..\..\src\UIView.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
