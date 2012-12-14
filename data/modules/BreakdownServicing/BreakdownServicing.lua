@@ -201,22 +201,48 @@ local onEnterSystem = function (ship)
 end
 
 local onShipLanded = function (ship, body)
-	local engine = ship:GetEquipFree('ENGINE')
-	if ship:IsPlayer() and engine == 1 then
-		local PRECIOUSMETALS = ship:GetEquipCount('CARGO', 'PRECIOUS_METALS')
+	--Make sure the ship doesn't already have a hyperdrive.  
+	local enginebroken = ship:GetEquipFree('ENGINE')
+	if ship:IsPlayer() and  enginebroken == 1 then
+		--Define the materials needed
+		local preciousmetals = ship:GetEquipCount('CARGO', 'PRECIOUS_METALS')
 		local rubbish = ship:GetEquipCount('CARGO','RUBBISH')
 		local computerparts = ship:GetEquipCount('CARGO','COMPUTERS')
-		if PRECIOUSMETALS >= 3 and rubbish >= 20 and computerparts >= 2 then
-			ship:AddEquip('DRIVE_CLASS1', 1)
-			ship:RemoveEquip('RUBBISH', 20)
-			ship:RemoveEquip('PRECIOUS_METALS', 3)
-			ship:RemoveEquip('COMPUTERS',2) 
-			Comms.Message('Hyperdrive repairs complete.')
-			service_history.company = nil
-			service_history.lastdate = Game.time
-			service_history.service_period = oneyear
-			service_history.jumpcount = 0
+		--Make sure player has the correct amount of materials. The value of these should be at least equal to a class one hyperdrive.
+		--If amount is incorrect, tell player
+		if preciousmetals >= 3 and rubbish >= 19 and computerparts >= 4 then
+			Comms.Message('Unload rubbish to fix the old hyperdrive. You can salvage it but the power will be that of a class 1 drive.')
+		elseif preciousmetals < 2 or rubbish < 20 then
+			Comms.Message('You do not have enough materials to build a hyperdrive.')
 		end
+	end
+end
+
+local onCargoUnload = function (body, cargotype)
+		--Make sure engine is broken and that rubbish is jettisoned. Can be changed to something else easily.
+		local enginebroken = Game.player:GetEquipFree('ENGINE')
+	if enginebroken == 1 and (cargotype == ('RUBBISH')) then)
+		-- Make sure the player is landed
+		if (Game.player.flightState == "LANDED") then
+			--Define the materials needed.
+			local preciousmetals = Game.player:GetEquipCount('CARGO', 'PRECIOUS_METALS')
+			local rubbish = Game.player:GetEquipCount('CARGO','RUBBISH')
+			local computerparts = Game.player:GetEquipCount('CARGO','COMPUTERS')
+				--Make sure the amount of materials is correct
+			if preciousmetals >= 3 and rubbish >= 19 and computerparts >= 4 then
+				-- Add engine and remove materials
+				Game.player:AddEquip('DRIVE_CLASS1', 1)
+				Game.player:RemoveEquip('RUBBISH', 19)
+				Game.player:RemoveEquip('PRECIOUS_METALS', 3)
+				Game.player:RemoveEquip('COMPUTERS',4) 
+				Comms.Message('Hyperdrive salvaged successfully')
+				-- Reset service_history
+				service_history.company = nil
+				service_history.lastdate = Game.time
+				service_history.service_period = oneyear
+				service_history.jumpcount = 0
+			end
+		end	
 	end
 end
 
