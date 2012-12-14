@@ -96,7 +96,7 @@ private:
 
 	//undecided on this input stuff
 	//updating the states of all inputs during PollEvents
-	bool m_keyStates[SDLK_LAST];
+	bool m_keyStates[512]; // XXX SDL2 SDLK_LAST
 	bool m_mouseButton[SDL_BUTTON_WHEELDOWN + 1]; //buttons + scroll start at 1
 	int m_mouseMotion[2];
 	bool m_mouseWheelUp, m_mouseWheelDown;
