@@ -136,7 +136,7 @@ Translate:Add({
 		 -- Main menu
 		['Start at Earth'] = 'Comenzar en Tierra',
 		['Start at New Hope'] = 'Comenzar en New Hope',
-		['Start at Lave'] = 'Comanzar en Lave',
+		['Start at Lave'] = 'Comenzar en Lave',
 		['Load game'] = 'Cargar',
 		['Options'] = 'Opciones',
 		['Quit'] = 'Salir',
