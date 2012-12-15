@@ -85,8 +85,22 @@ bool EventDispatcher::Dispatch(const Event &event)
 					if (m_selected)
 						return m_selected->TriggerKeyPress(keyEvent);
 
-					// maybe a shortcut would like it
-					std::map<KeySym,Widget*>::iterator i = m_shortcuts.find(keyEvent.keysym);
+					// no selected widget, so maybe we can trigger a shortcut
+
+					// any modifier coming in will be a specific key, eg left
+					// shift or right shift. shortcuts can't distinguish
+					// betwen the two, and so have both set in m_shortcuts. we
+					// can't just compare though, because the mods won't
+					// match. so we make a new keysym with a new mod that
+					// includes both of the type of key
+					Uint32 mod = Uint32(keyEvent.keysym.mod);
+					if (mod & KMOD_SHIFT) mod |= KMOD_SHIFT;
+					if (mod & KMOD_CTRL)  mod |= KMOD_CTRL;
+					if (mod & KMOD_ALT)   mod |= KMOD_ALT;
+					if (mod & KMOD_META)  mod |= KMOD_META;
+					const KeySym shortcutSym(keyEvent.keysym.sym, SDLMod(mod));
+
+					std::map<KeySym,Widget*>::iterator i = m_shortcuts.find(shortcutSym);
 					if (i != m_shortcuts.end()) {
 						(*i).second->TriggerClick();
 						DispatchSelect((*i).second);
