@@ -90,4 +90,30 @@ void RedirectStdio()
 	}
 }
 
+void EnableFPE()
+{
+	unsigned int control_word;
+	_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
+}
+
+void DisableFPE()
+{
+	unsigned int control_word;
+	_controlfp_s(&control_word, _MCW_EM, _MCW_EM);
+}
+
+Uint64 HFTimerFreq()
+{
+	LARGE_INTEGER i;
+	QueryPerformanceFrequency(&i);
+	return i.QuadPart;
+}
+
+Uint64 HFTimer()
+{
+	LARGE_INTEGER i;
+	QueryPerformanceCounter(&i);
+	return i.QuadPart;
+}
+
 } // namespace OS
