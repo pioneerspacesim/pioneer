@@ -143,7 +143,7 @@ void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords
 	matrix4x4d m2 = GetInterpOrient();
 	m2.SetTranslate(GetInterpPosition());
 	matrix4x4d t = viewTransform * m2;
-	glPushMatrix();			// Why?
+//	glPushMatrix();			// Why?
 	matrix4x4f trans;
 	for (int i=0; i<12; i++) trans[i] = float(t[i]);
 	trans[12] = viewCoords.x;
@@ -152,5 +152,5 @@ void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords
 	trans[15] = 1.0f;
 
 	m_model->Render(r, trans, &m_params);
-	glPopMatrix();
+//	glPopMatrix();
 }
