@@ -28,7 +28,6 @@ Projectile::Projectile(): Body()
 	m_type = 1;
 	m_age = 0;
 	m_parent = 0;
-	m_radius = 0;
 	m_flags |= FLAG_DRAW_LAST;
 
 	//set up materials
@@ -122,7 +121,6 @@ void Projectile::PostLoadFixup(Space *space)
 {
 	Body::PostLoadFixup(space);
 	m_parent = space->GetBodyByIndex(m_parentIndex);
-	m_radius = GetRadius();
 }
 
 void Projectile::UpdateInterpTransform(double alpha)
@@ -300,6 +298,7 @@ void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const 
 	p->SetPosition(pos);
 	p->m_baseVel = baseVel;
 	p->m_dirVel = dirVel;
-	p->m_radius = p->GetRadius();
+	p->SetClipRadius(p->GetRadius());
+	p->SetPhysRadius(p->GetRadius());
 	Pi::game->GetSpace()->AddBody(p);
 }
