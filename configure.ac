@@ -248,20 +248,6 @@ if test "x$cross_compiling" = "xno" ; then
 
 fi
 
-dnl Headers that come in from pkg-config should be treated at system headers
-dnl to avoid warnings
-AC_DEFUN([PIONEER_CONVERT_ISYSTEM], [
-    ][$1][=`echo $][$1][ | sed -e 's/^-I/ -isystem /g'`
-    ][$1][=`echo $][$1][ | sed -e 's/ -I/ -isystem /g'`
-])
-
-PIONEER_CONVERT_ISYSTEM([SIGC_CFLAGS])
-PIONEER_CONVERT_ISYSTEM([SDL_CFLAGS])
-PIONEER_CONVERT_ISYSTEM([FREETYPE_CFLAGS])
-PIONEER_CONVERT_ISYSTEM([VORBIS_CFLAGS])
-PIONEER_CONVERT_ISYSTEM([PNG_CFLAGS])
-PIONEER_CONVERT_ISYSTEM([ASSIMP_CFLAGS])
-
 dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
 if test "$with_external_liblua" = yes; then
