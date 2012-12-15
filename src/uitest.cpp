@@ -511,10 +511,10 @@ int main(int argc, char **argv)
 	b2->onClick.connect(sigc::bind(sigc::ptr_fun(click_handler), b2));
 	b3->onClick.connect(sigc::bind(sigc::ptr_fun(click_handler), b3));
 	b4->onClick.connect(sigc::bind(sigc::ptr_fun(click_handler), b4));
-	b1->AddShortcut(UI::KeySym(SDLK_1));
-	b2->AddShortcut(UI::KeySym(SDLK_2));
-	b3->AddShortcut(UI::KeySym(SDLK_3));
-	b4->AddShortcut(UI::KeySym(SDLK_4));
+	b1->AddShortcut(UI::KeySym::FromString("shift+1"));
+	b2->AddShortcut(UI::KeySym::FromString("ctrl+2"));
+	b3->AddShortcut(UI::KeySym::FromString("alt+3"));
+	b4->AddShortcut(UI::KeySym::FromString("ctrl+shift+4"));
 
 	//int count = 0;
 
