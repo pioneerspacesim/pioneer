@@ -98,7 +98,7 @@ Uint64 HFTimer()
 {
 	timeval t;
 	gettimeofday(&t, 0);
-	return Uint64(t.tv_usec);
+	return Uint64(t.tv_sec)*1000000 + Uint64(t.tv_usec);
 }
 
 } // namespace OS
