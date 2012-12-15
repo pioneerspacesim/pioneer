@@ -8,6 +8,9 @@ Alpha 30
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)
 
+   * Fixes
+     * Interpret galaxy density bitmap as unsigned values (#1818, #1813)
+
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
      * Fix layout of non-contributing widgets inside pack boxes (#1789)
