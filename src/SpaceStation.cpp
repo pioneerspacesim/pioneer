@@ -822,7 +822,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 
 	if (!b->IsType(Object::PLANET)) {
 		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
-		RenderLmrModel(viewCoords, viewTransform);
+		RenderLmrModel(r, viewCoords, viewTransform);
 	}
 	
 	else {
@@ -895,7 +895,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		FadeInModelIfDark(r, GetPhysRadius(),
 							viewCoords.Length(), fadeInEnd, fadeInLength, overallLighting, minIllumination);
 
-		RenderLmrModel(viewCoords, viewTransform);
+		RenderLmrModel(r, viewCoords, viewTransform);
 
 		// restore old lights
 		r->SetLights(origLights.size(), &origLights[0]);

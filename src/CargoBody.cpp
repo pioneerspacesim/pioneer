@@ -7,7 +7,6 @@
 #include "collider/collider.h"
 #include "Sfx.h"
 #include "Space.h"
-#include "LmrModel.h"
 #include "Game.h"
 
 void CargoBody::Save(Serializer::Writer &wr, Space *space)
@@ -65,5 +64,5 @@ void CargoBody::Render(Graphics::Renderer *r, const Camera *camera, const vector
 {
 //	if (!IsEnabled()) return;
 	GetLmrObjParams().label = Equip::types[m_type].name;
-	RenderLmrModel(viewCoords, viewTransform);
+	RenderLmrModel(r, viewCoords, viewTransform);
 }

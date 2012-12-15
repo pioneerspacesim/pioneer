@@ -195,7 +195,7 @@ void DynamicBody::UpdateInterpTransform(double alpha)
 
 void DynamicBody::SetMassDistributionFromModel()
 {
-	LmrCollMesh *m = GetLmrCollMesh();
+	CollMesh *m = GetCollMesh();
 	// XXX totally arbitrarily pick to distribute mass over a half
 	// bounding sphere area
 	m_massRadius = m->GetRadius()*0.5f;

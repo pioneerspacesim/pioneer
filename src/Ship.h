@@ -13,6 +13,7 @@
 #include "BezierCurve.h"
 #include "Serializer.h"
 #include "Camera.h"
+#include "scenegraph/SceneGraph.h"
 #include <list>
 
 class SpaceStation;
@@ -315,6 +316,8 @@ private:
 	double m_reserveFuel;	// 0-1, fuel not to touch for the current AI program
 
 	int m_dockedWithIndex; // deserialisation
+
+	SceneGraph::Animation *m_landingGearAnimation;
 };
 
 

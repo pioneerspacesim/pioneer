@@ -350,6 +350,20 @@ class matrix4x4 {
 		}
 		printf ("\n");
 	}
+
+	//convenience accessors for getting right/up/back vectors
+	//from rotation matrices
+	vector3<T> Right() const {
+		return vector3<T>(cell[0], cell[4], cell[8]);
+	}
+
+	vector3<T> Up() const {
+		return vector3<T>(cell[1], cell[5], cell[9]);
+	}
+
+	vector3<T> Back() const {
+		return vector3<T>(cell[2], cell[6], cell[10]);
+	}
 };
 
 typedef matrix4x4<float> matrix4x4f;

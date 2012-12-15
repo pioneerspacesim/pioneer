@@ -14,6 +14,7 @@
 #include "GameLoaderSaver.h"
 #include "Game.h"
 #include "FileSystem.h"
+#include "graphics/Graphics.h"
 
 class KeyGetter: public Gui::Fixed {
 public:
@@ -274,8 +275,9 @@ GameMenuView::GameMenuView(): View()
 			hbox->PackEnd(temp);
 			hbox->PackEnd(new Gui::Label(stringf(Lang::X_BY_X, formatarg("x", int(it->width)), formatarg("y", int(it->height)))));
 			vbox2->PackEnd(hbox);
+
 			//mark the current video mode
-			if ((Pi::GetScrWidth() == it->width) && (Pi::GetScrHeight() == it->height)) {
+			if ((Graphics::GetScreenWidth() == it->width) && (Graphics::GetScreenHeight() == it->height)) {
 				temp->SetSelected(true);
 			}
 		}

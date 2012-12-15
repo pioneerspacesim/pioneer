@@ -3,12 +3,15 @@
 
 #include "libs.h"
 #include "CityOnPlanet.h"
+#include "FileSystem.h"
 #include "Frame.h"
-#include "SpaceStation.h"
-#include "Planet.h"
-#include "Pi.h"
 #include "Game.h"
+#include "ModelCache.h"
+#include "Pi.h"
+#include "Planet.h"
+#include "SpaceStation.h"
 #include "collider/Geom.h"
+#include "scenegraph/SceneGraph.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
 
@@ -19,8 +22,8 @@ bool s_cityBuildingsInitted = false;
 struct citybuilding_t {
 	const char *modelname;
 	double xzradius;
-	LmrModel *resolvedModel;
-	const LmrCollMesh *collMesh;
+	ModelBase *resolvedModel;
+	RefCountedPtr<CollMesh> collMesh;
 };
 
 struct citybuildinglist_t {
@@ -49,9 +52,9 @@ LmrObjParams cityobj_params;
 void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
 {
 	double rad = (p1-p2).Length()*0.5;
-	LmrModel *model(0);
-	double modelRadXZ(0);
-	const LmrCollMesh *cmesh(0);
+	ModelBase *model(0);
+	double modelRadXZ(0.0);
+	const CollMesh *cmesh(0);
 	vector3d cent = (p1+p2+p3+p4)*0.25;
 
 	cityflavourdef_t *flavour(0);
@@ -67,7 +70,7 @@ void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, 
 			const citybuilding_t &bt = buildings->buildings[rand.Int32(buildings->numBuildings)];
 			model = bt.resolvedModel;
 			modelRadXZ = bt.xzradius;
-			cmesh = bt.collMesh;
+			cmesh = bt.collMesh.Get();
 			if (modelRadXZ < rad) break;
 			if (tries == 0) return;
 		}
@@ -100,8 +103,7 @@ always_divide:
 		if (height - m_planet->GetSystemBody()->GetRadius() <= 0.0) return;
 		cent = cent * height;
 
-		assert(cmesh);
-		Geom *geom = new Geom(cmesh->geomTree);
+		Geom *geom = new Geom(cmesh->GetGeomTree());
 		int rotTimes90 = rand.Int32(4);
 		matrix4x4d grot = rot * matrix4x4d::RotateYMatrix(M_PI*0.5*double(rotTimes90));
 		geom->MoveTo(grot, cent);
@@ -143,22 +145,55 @@ void CityOnPlanet::RemoveStaticGeomsFromCollisionSpace()
 	}
 }
 
+// Get all model file names under buildings/
+// This is temporary. Buildings should be defined in BuildingSet data files, or something.
+static void enumerateNewBuildings(std::vector<std::string> &filenames)
+{
+	const std::string fullpath = FileSystem::JoinPathBelow("models", "buildings");
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, fullpath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
+		const std::string &name = files.Current().GetName();
+		if (ends_with(name, ".model")) {
+			filenames.push_back(name.substr(0, name.length()-6));
+		}
+	}
+}
+
 static void lookupBuildingListModels(citybuildinglist_t *list)
 {
 	//const char *modelTagName;
-	std::vector<LmrModel*> models;
-	LmrGetModelsWithTag(list->modelTagName, models);
+	std::vector<ModelBase*> models;
+
+	//get lmr models using a temporary vector (because of GetModelSWithTag)
+	{
+		std::vector<LmrModel*> lmrModels;
+		LmrGetModelsWithTag(list->modelTagName, lmrModels);
+		for (std::vector<LmrModel*>::iterator it = lmrModels.begin(); it != lmrModels.end(); ++it)
+			models.push_back(*it);
+	}
+
+	//get test newmodels
+	{
+		std::vector<std::string> filenames;
+		enumerateNewBuildings(filenames);
+		for (std::vector<std::string>::const_iterator it = filenames.begin();
+			it != filenames.end(); ++it)
+		{
+			SceneGraph::Model *model = Pi::modelCache->FindModel(*it);
+			models.push_back(model);
+		}
+	}
+	assert(!models.empty());
 	//printf("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
 	list->buildings = new citybuilding_t[models.size()];
 	list->numBuildings = models.size();
 
 	int i = 0;
-	for (std::vector<LmrModel*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
+	for (std::vector<ModelBase*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
-		const LmrCollMesh *collMesh = new LmrCollMesh(*m, &cityobj_params);
-		list->buildings[i].collMesh = collMesh;
-		double maxx = std::max(fabs(collMesh->GetAabb().max.x), fabs(collMesh->GetAabb().min.x));
-		double maxy = std::max(fabs(collMesh->GetAabb().max.z), fabs(collMesh->GetAabb().min.z));
+		list->buildings[i].collMesh = (*m)->CreateCollisionMesh(&cityobj_params);
+		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
+		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
+		const double maxy = std::max(fabs(aabb.max.z), fabs(aabb.min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
 		//printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
 	}
@@ -178,9 +213,6 @@ void CityOnPlanet::Init()
 void CityOnPlanet::Uninit()
 {
 	for (unsigned int list=0; list<COUNTOF(s_buildingLists); list++) {
-		for (int build=0; build<s_buildingLists[list].numBuildings; build++) {
-			delete s_buildingLists[list].buildings[build].collMesh;
-		}
 		delete[] s_buildingLists[list].buildings;
 	}
 }
@@ -326,11 +358,12 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		_rot[12] = float(pos.x);
 		_rot[13] = float(pos.y);
 		_rot[14] = float(pos.z);
-		(*i).model->Render(_rot, &cityobj_params);
+		glPushMatrix();
+		(*i).model->Render(r, _rot, &cityobj_params);
+		glPopMatrix();
 
 		// restore old ambient colour
 		if (illumination <= minIllumination) 
 			r->SetAmbientColor(oldSceneAmbientColor);
 	}
 }
-

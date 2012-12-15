@@ -433,6 +433,27 @@ static int l_starsystem_attr_faction(lua_State *l)
 	}
 }
 
+/*
+ * Attribute: explored
+ *
+ *   If this system has been explored then returns true
+ *
+ * Availability:
+ *
+ *   alpha 30
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+static int l_starsystem_attr_explored(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	lua_pushboolean(l, !s->GetUnexplored());
+	return 1;
+}
+
 template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
 
 template <> void LuaObject<StarSystem>::RegisterClass()
@@ -458,6 +479,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },
 		{ "faction",     l_starsystem_attr_faction     },
+		{ "explored",    l_starsystem_attr_explored    },
 
 		{ 0, 0 }
 	};

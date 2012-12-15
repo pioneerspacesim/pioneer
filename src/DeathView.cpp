@@ -5,6 +5,7 @@
 #include "Pi.h"
 #include "Player.h"
 #include "ShipCpanel.h"
+#include "graphics/Graphics.h"
 
 DeathView::DeathView(): View()
 {
@@ -18,7 +19,7 @@ DeathView::DeathView(): View()
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
 	const float fovY = Pi::config->Float("FOVVertical");
-	m_cam = new Camera(Pi::player, Pi::GetScrWidth(), Pi::GetScrHeight(), fovY, znear, zfar);
+	m_cam = new Camera(Pi::player, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar);
 }
 
 DeathView::~DeathView() {}

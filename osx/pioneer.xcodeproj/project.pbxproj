@@ -22,6 +22,8 @@
 
 /* Begin PBXBuildFile section */
 		4A01889715A59908002F540B /* SystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A01889615A59908002F540B /* SystemPath.cpp */; };
+		4A0F25CE165CF00D00208507 /* LuaSmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */; };
+		4A0F25CF165CF00D00208507 /* SmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F25CC165CF00D00208507 /* SmallButton.cpp */; };
 		4A107C2F1525AB0D00EF9FAC /* CRC32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A107C2B1525AB0D00EF9FAC /* CRC32.cpp */; };
 		4A107C301525AB0D00EF9FAC /* ShipController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A107C2D1525AB0D00EF9FAC /* ShipController.cpp */; };
 		4A19038C138AA33300E0229C /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A190325138AA33300E0229C /* Gui.cpp */; };
@@ -105,6 +107,12 @@
 		4A305FD1151341170076D414 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A305FCC151341170076D414 /* FileSystem.cpp */; };
 		4A37073615A879D100E7E5F6 /* lookup3.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A37073315A879D100E7E5F6 /* lookup3.c */; };
 		4A3AE8E5158FD22200EB13DE /* LuaComms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A3AE8E3158FD22200EB13DE /* LuaComms.cpp */; };
+		4A4D25D8167335D9003BC9D5 /* Face.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D2167335D9003BC9D5 /* Face.cpp */; };
+		4A4D25D9167335D9003BC9D5 /* LuaFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */; };
+		4A4D25DA167335D9003BC9D5 /* LuaShipSpinner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D5167335D9003BC9D5 /* LuaShipSpinner.cpp */; };
+		4A4D25DB167335D9003BC9D5 /* ShipSpinner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D6167335D9003BC9D5 /* ShipSpinner.cpp */; };
+		4A4D25DF167335F5003BC9D5 /* Icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25DC167335F5003BC9D5 /* Icon.cpp */; };
+		4A4D25E0167335F5003BC9D5 /* LuaIcon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25DE167335F5003BC9D5 /* LuaIcon.cpp */; };
 		4A4F25D214F524D400FD14A6 /* Drawables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25B914F524D400FD14A6 /* Drawables.cpp */; };
 		4A4F25D314F524D400FD14A6 /* Frustum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25BB14F524D400FD14A6 /* Frustum.cpp */; };
 		4A4F25D414F524D400FD14A6 /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25BD14F524D400FD14A6 /* Graphics.cpp */; };
@@ -148,7 +156,6 @@
 		4A6C4DE713532FC300FDD53F /* GameMenuView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C2D13532FC300FDD53F /* GameMenuView.cpp */; };
 		4A6C4DE913532FC300FDD53F /* GeoSphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C3113532FC300FDD53F /* GeoSphere.cpp */; };
 		4A6C4E0413532FC300FDD53F /* HyperspaceCloud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6A13532FC300FDD53F /* HyperspaceCloud.cpp */; };
-		4A6C4E0513532FC300FDD53F /* InfoView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6C13532FC300FDD53F /* InfoView.cpp */; };
 		4A6C4E0613532FC300FDD53F /* IniConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6E13532FC300FDD53F /* IniConfig.cpp */; };
 		4A6C4E0713532FC300FDD53F /* KeyBindings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7013532FC300FDD53F /* KeyBindings.cpp */; };
 		4A6C4E0813532FC300FDD53F /* LmrModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7313532FC300FDD53F /* LmrModel.cpp */; };
@@ -243,7 +250,7 @@
 		4AAB881915F4AD3500AAF8A8 /* MaterialLegacy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB881115F4AD3500AAF8A8 /* MaterialLegacy.cpp */; };
 		4AAB881D15F4AD7700AAF8A8 /* Lua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB881A15F4AD7700AAF8A8 /* Lua.cpp */; };
 		4AAB884815FDEA6F00AAF8A8 /* LuaRef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB884515FDEA6E00AAF8A8 /* LuaRef.cpp */; };
-		4AAC9FE215458FE400116131 /* miniz.c in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FDE15458FE400116131 /* miniz.c */; };
+		4AAC9FE215458FE400116131 /* miniz.c in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FDE15458FE400116131 /* miniz.c */; settings = {COMPILER_FLAGS = "-Wno-unused"; }; };
 		4AAC9FE91545901D00116131 /* FileSourceZip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FE51545901D00116131 /* FileSourceZip.cpp */; };
 		4AAC9FEA1545901D00116131 /* ModManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FE71545901D00116131 /* ModManager.cpp */; };
 		4AB3DF8914346952001B783A /* TerrainBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AB3DF8714346952001B783A /* TerrainBody.cpp */; };
@@ -342,6 +349,31 @@
 		4ACC6D1E15401E7000C59914 /* TextSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC6D1615401E7000C59914 /* TextSupport.cpp */; };
 		4ACC6D1F15401E7000C59914 /* TextureFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC6D1815401E7000C59914 /* TextureFont.cpp */; };
 		4ACC6D2015401E7000C59914 /* VectorFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC6D1A15401E7000C59914 /* VectorFont.cpp */; };
+		4ACDB6B1167878620069FA03 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB684167878610069FA03 /* Animation.cpp */; };
+		4ACDB6B2167878620069FA03 /* Billboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB688167878620069FA03 /* Billboard.cpp */; };
+		4ACDB6B3167878620069FA03 /* CollisionGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB68A167878620069FA03 /* CollisionGeometry.cpp */; };
+		4ACDB6B4167878620069FA03 /* CollisionVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB68C167878620069FA03 /* CollisionVisitor.cpp */; };
+		4ACDB6B5167878620069FA03 /* ColorMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB68E167878620069FA03 /* ColorMap.cpp */; };
+		4ACDB6B6167878620069FA03 /* DumpVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB690167878620069FA03 /* DumpVisitor.cpp */; };
+		4ACDB6B7167878620069FA03 /* FindNodeVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB692167878620069FA03 /* FindNodeVisitor.cpp */; };
+		4ACDB6B8167878620069FA03 /* Group.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB694167878620069FA03 /* Group.cpp */; };
+		4ACDB6B9167878620069FA03 /* Label3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB696167878620069FA03 /* Label3D.cpp */; };
+		4ACDB6BA167878620069FA03 /* Loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB698167878620069FA03 /* Loader.cpp */; };
+		4ACDB6BB167878620069FA03 /* LOD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB69B167878620069FA03 /* LOD.cpp */; };
+		4ACDB6BD167878620069FA03 /* MatrixTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB69E167878620069FA03 /* MatrixTransform.cpp */; };
+		4ACDB6BE167878620069FA03 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6A0167878620069FA03 /* Model.cpp */; };
+		4ACDB6BF167878620069FA03 /* ModelNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6A2167878620069FA03 /* ModelNode.cpp */; };
+		4ACDB6C0167878620069FA03 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6A4167878620069FA03 /* Node.cpp */; };
+		4ACDB6C1167878620069FA03 /* NodeVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6A6167878620069FA03 /* NodeVisitor.cpp */; };
+		4ACDB6C2167878620069FA03 /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6A8167878620069FA03 /* Parser.cpp */; };
+		4ACDB6C3167878620069FA03 /* Pattern.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6AA167878620069FA03 /* Pattern.cpp */; };
+		4ACDB6C4167878620069FA03 /* StaticGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6AD167878620069FA03 /* StaticGeometry.cpp */; };
+		4ACDB6C5167878620069FA03 /* Thruster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6AF167878620069FA03 /* Thruster.cpp */; };
+		4ACDB6CE167878CE0069FA03 /* ModelCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6CA167878CE0069FA03 /* ModelCache.cpp */; };
+		4ACDB6CF167878CE0069FA03 /* ModelViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6CC167878CE0069FA03 /* ModelViewer.cpp */; };
+		4ACDB6D2167879AF0069FA03 /* DistanceFieldFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6D0167879AF0069FA03 /* DistanceFieldFont.cpp */; };
+		4ACDB6D416787A6A0069FA03 /* libassimp.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
+		4ACDB6D5167881AF0069FA03 /* libassimp.3.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
 		4ADA8B36152497AA00FCAD58 /* WorldViewCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA8B34152497AA00FCAD58 /* WorldViewCamera.cpp */; };
 		4ADB0D0C15C50DD900AE2123 /* TerrainHeightAsteroid2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */; };
 		4ADB0D0D15C50DD900AE2123 /* TerrainHeightAsteroid3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D0715C50DD900AE2123 /* TerrainHeightAsteroid3.cpp */; };
@@ -459,6 +491,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4ACDB6D5167881AF0069FA03 /* libassimp.3.0.0.dylib in Copy Libraries */,
 				4A7611271611A8DB00A06F79 /* libGLEW.1.9.0.dylib in Copy Libraries */,
 				4A5619D813867661002A904C /* libvorbisfile.3.dylib in Copy Libraries */,
 				4A5619D313866B5B002A904C /* libfreetype.6.dylib in Copy Libraries */,
@@ -474,6 +507,9 @@
 
 /* Begin PBXFileReference section */
 		4A01889615A59908002F540B /* SystemPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemPath.cpp; sourceTree = "<group>"; };
+		4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSmallButton.cpp; sourceTree = "<group>"; };
+		4A0F25CC165CF00D00208507 /* SmallButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmallButton.cpp; sourceTree = "<group>"; };
+		4A0F25CD165CF00D00208507 /* SmallButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallButton.h; sourceTree = "<group>"; };
 		4A107C2B1525AB0D00EF9FAC /* CRC32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CRC32.cpp; sourceTree = "<group>"; };
 		4A107C2C1525AB0D00EF9FAC /* CRC32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRC32.h; sourceTree = "<group>"; };
 		4A107C2D1525AB0D00EF9FAC /* ShipController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShipController.cpp; sourceTree = "<group>"; };
@@ -647,6 +683,15 @@
 		4A37073415A879D100E7E5F6 /* lookup3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lookup3.h; sourceTree = "<group>"; };
 		4A3AE8E3158FD22200EB13DE /* LuaComms.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaComms.cpp; sourceTree = "<group>"; };
 		4A3AE8E4158FD22200EB13DE /* LuaComms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaComms.h; sourceTree = "<group>"; };
+		4A4D25D2167335D9003BC9D5 /* Face.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Face.cpp; sourceTree = "<group>"; };
+		4A4D25D3167335D9003BC9D5 /* Face.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Face.h; sourceTree = "<group>"; };
+		4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaFace.cpp; sourceTree = "<group>"; };
+		4A4D25D5167335D9003BC9D5 /* LuaShipSpinner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaShipSpinner.cpp; sourceTree = "<group>"; };
+		4A4D25D6167335D9003BC9D5 /* ShipSpinner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShipSpinner.cpp; sourceTree = "<group>"; };
+		4A4D25D7167335D9003BC9D5 /* ShipSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipSpinner.h; sourceTree = "<group>"; };
+		4A4D25DC167335F5003BC9D5 /* Icon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Icon.cpp; sourceTree = "<group>"; };
+		4A4D25DD167335F5003BC9D5 /* Icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Icon.h; sourceTree = "<group>"; };
+		4A4D25DE167335F5003BC9D5 /* LuaIcon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaIcon.cpp; sourceTree = "<group>"; };
 		4A4F25B914F524D400FD14A6 /* Drawables.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Drawables.cpp; sourceTree = "<group>"; };
 		4A4F25BA14F524D400FD14A6 /* Drawables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Drawables.h; sourceTree = "<group>"; };
 		4A4F25BB14F524D400FD14A6 /* Frustum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frustum.cpp; sourceTree = "<group>"; };
@@ -733,8 +778,6 @@
 		4A6C4C3213532FC300FDD53F /* GeoSphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSphere.h; sourceTree = "<group>"; };
 		4A6C4C6A13532FC300FDD53F /* HyperspaceCloud.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HyperspaceCloud.cpp; sourceTree = "<group>"; };
 		4A6C4C6B13532FC300FDD53F /* HyperspaceCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HyperspaceCloud.h; sourceTree = "<group>"; };
-		4A6C4C6C13532FC300FDD53F /* InfoView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InfoView.cpp; sourceTree = "<group>"; };
-		4A6C4C6D13532FC300FDD53F /* InfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoView.h; sourceTree = "<group>"; };
 		4A6C4C6E13532FC300FDD53F /* IniConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IniConfig.cpp; sourceTree = "<group>"; };
 		4A6C4C6F13532FC300FDD53F /* IniConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IniConfig.h; sourceTree = "<group>"; };
 		4A6C4C7013532FC300FDD53F /* KeyBindings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KeyBindings.cpp; sourceTree = "<group>"; };
@@ -1071,6 +1114,60 @@
 		4ACC6D1915401E7000C59914 /* TextureFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureFont.h; sourceTree = "<group>"; };
 		4ACC6D1A15401E7000C59914 /* VectorFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VectorFont.cpp; sourceTree = "<group>"; };
 		4ACC6D1B15401E7000C59914 /* VectorFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VectorFont.h; sourceTree = "<group>"; };
+		4ACDB684167878610069FA03 /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
+		4ACDB685167878610069FA03 /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
+		4ACDB686167878610069FA03 /* AnimationChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationChannel.h; sourceTree = "<group>"; };
+		4ACDB687167878610069FA03 /* AnimationKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationKey.h; sourceTree = "<group>"; };
+		4ACDB688167878620069FA03 /* Billboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Billboard.cpp; sourceTree = "<group>"; };
+		4ACDB689167878620069FA03 /* Billboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Billboard.h; sourceTree = "<group>"; };
+		4ACDB68A167878620069FA03 /* CollisionGeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionGeometry.cpp; sourceTree = "<group>"; };
+		4ACDB68B167878620069FA03 /* CollisionGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollisionGeometry.h; sourceTree = "<group>"; };
+		4ACDB68C167878620069FA03 /* CollisionVisitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollisionVisitor.cpp; sourceTree = "<group>"; };
+		4ACDB68D167878620069FA03 /* CollisionVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollisionVisitor.h; sourceTree = "<group>"; };
+		4ACDB68E167878620069FA03 /* ColorMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ColorMap.cpp; sourceTree = "<group>"; };
+		4ACDB68F167878620069FA03 /* ColorMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorMap.h; sourceTree = "<group>"; };
+		4ACDB690167878620069FA03 /* DumpVisitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DumpVisitor.cpp; sourceTree = "<group>"; };
+		4ACDB691167878620069FA03 /* DumpVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DumpVisitor.h; sourceTree = "<group>"; };
+		4ACDB692167878620069FA03 /* FindNodeVisitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FindNodeVisitor.cpp; sourceTree = "<group>"; };
+		4ACDB693167878620069FA03 /* FindNodeVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindNodeVisitor.h; sourceTree = "<group>"; };
+		4ACDB694167878620069FA03 /* Group.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Group.cpp; sourceTree = "<group>"; };
+		4ACDB695167878620069FA03 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
+		4ACDB696167878620069FA03 /* Label3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Label3D.cpp; sourceTree = "<group>"; };
+		4ACDB697167878620069FA03 /* Label3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Label3D.h; sourceTree = "<group>"; };
+		4ACDB698167878620069FA03 /* Loader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Loader.cpp; sourceTree = "<group>"; };
+		4ACDB699167878620069FA03 /* Loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Loader.h; sourceTree = "<group>"; };
+		4ACDB69A167878620069FA03 /* LoaderDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoaderDefinitions.h; sourceTree = "<group>"; };
+		4ACDB69B167878620069FA03 /* LOD.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LOD.cpp; sourceTree = "<group>"; };
+		4ACDB69C167878620069FA03 /* LOD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LOD.h; sourceTree = "<group>"; };
+		4ACDB69E167878620069FA03 /* MatrixTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MatrixTransform.cpp; sourceTree = "<group>"; };
+		4ACDB69F167878620069FA03 /* MatrixTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatrixTransform.h; sourceTree = "<group>"; };
+		4ACDB6A0167878620069FA03 /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
+		4ACDB6A1167878620069FA03 /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		4ACDB6A2167878620069FA03 /* ModelNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelNode.cpp; sourceTree = "<group>"; };
+		4ACDB6A3167878620069FA03 /* ModelNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelNode.h; sourceTree = "<group>"; };
+		4ACDB6A4167878620069FA03 /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
+		4ACDB6A5167878620069FA03 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		4ACDB6A6167878620069FA03 /* NodeVisitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeVisitor.cpp; sourceTree = "<group>"; };
+		4ACDB6A7167878620069FA03 /* NodeVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeVisitor.h; sourceTree = "<group>"; };
+		4ACDB6A8167878620069FA03 /* Parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
+		4ACDB6A9167878620069FA03 /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
+		4ACDB6AA167878620069FA03 /* Pattern.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pattern.cpp; sourceTree = "<group>"; };
+		4ACDB6AB167878620069FA03 /* Pattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pattern.h; sourceTree = "<group>"; };
+		4ACDB6AC167878620069FA03 /* SceneGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneGraph.h; sourceTree = "<group>"; };
+		4ACDB6AD167878620069FA03 /* StaticGeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticGeometry.cpp; sourceTree = "<group>"; };
+		4ACDB6AE167878620069FA03 /* StaticGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticGeometry.h; sourceTree = "<group>"; };
+		4ACDB6AF167878620069FA03 /* Thruster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Thruster.cpp; sourceTree = "<group>"; };
+		4ACDB6B0167878620069FA03 /* Thruster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thruster.h; sourceTree = "<group>"; };
+		4ACDB6C7167878CE0069FA03 /* CollMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollMesh.h; sourceTree = "<group>"; };
+		4ACDB6C8167878CE0069FA03 /* LmrTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LmrTypes.h; sourceTree = "<group>"; };
+		4ACDB6C9167878CE0069FA03 /* ModelBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelBase.h; sourceTree = "<group>"; };
+		4ACDB6CA167878CE0069FA03 /* ModelCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelCache.cpp; sourceTree = "<group>"; };
+		4ACDB6CB167878CE0069FA03 /* ModelCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelCache.h; sourceTree = "<group>"; };
+		4ACDB6CC167878CE0069FA03 /* ModelViewer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelViewer.cpp; sourceTree = "<group>"; };
+		4ACDB6CD167878CE0069FA03 /* ModelViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelViewer.h; sourceTree = "<group>"; };
+		4ACDB6D0167879AF0069FA03 /* DistanceFieldFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DistanceFieldFont.cpp; sourceTree = "<group>"; };
+		4ACDB6D1167879AF0069FA03 /* DistanceFieldFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistanceFieldFont.h; sourceTree = "<group>"; };
+		4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.0.0.dylib; path = /opt/local/lib/libassimp.3.0.0.dylib; sourceTree = "<absolute>"; };
 		4ADA8B34152497AA00FCAD58 /* WorldViewCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldViewCamera.cpp; sourceTree = "<group>"; };
 		4ADA8B35152497AA00FCAD58 /* WorldViewCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldViewCamera.h; sourceTree = "<group>"; };
 		4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightAsteroid2.cpp; sourceTree = "<group>"; };
@@ -1151,6 +1248,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4ACDB6D416787A6A0069FA03 /* libassimp.3.0.0.dylib in Frameworks */,
 				4A7611261611A8C800A06F79 /* libGLEW.1.9.0.dylib in Frameworks */,
 				4A7611221611A80C00A06F79 /* libz.1.2.7.dylib in Frameworks */,
 				4A7611201611A7B000A06F79 /* libpng15.15.dylib in Frameworks */,
@@ -1341,6 +1439,7 @@
 		4A20B0E1135319770020F43E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */,
 				4A5619CE13866622002A904C /* libfreetype.6.dylib */,
 				4A7611251611A8C800A06F79 /* libGLEW.1.9.0.dylib */,
 				4AE5CA3A1383E2D000B55DEB /* libSDL-1.2.0.dylib */,
@@ -1384,11 +1483,17 @@
 		4A24FD601650F4D100DE7B0F /* gameui */ = {
 			isa = PBXGroup;
 			children = (
+				4A4D25D2167335D9003BC9D5 /* Face.cpp */,
+				4A4D25D3167335D9003BC9D5 /* Face.h */,
 				4A24FD611650F4D100DE7B0F /* GameUI.h */,
 				4A24FD621650F4D100DE7B0F /* Lua.cpp */,
 				4A24FD631650F4D100DE7B0F /* Lua.h */,
+				4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */,
+				4A4D25D5167335D9003BC9D5 /* LuaShipSpinner.cpp */,
 				4A24FD651650F4D100DE7B0F /* Panel.cpp */,
 				4A24FD661650F4D100DE7B0F /* Panel.h */,
+				4A4D25D6167335D9003BC9D5 /* ShipSpinner.cpp */,
+				4A4D25D7167335D9003BC9D5 /* ShipSpinner.h */,
 			);
 			path = gameui;
 			sourceTree = "<group>";
@@ -1488,6 +1593,7 @@
 				4A6C4C0713532FC300FDD53F /* CityOnPlanet.cpp */,
 				4A6C4C0813532FC300FDD53F /* CityOnPlanet.h */,
 				4A6C4C0913532FC300FDD53F /* collider */,
+				4ACDB6C7167878CE0069FA03 /* CollMesh.h */,
 				4A9174FD15187C17006A15A9 /* Color.cpp */,
 				4A6C4C1C13532FC300FDD53F /* Color.h */,
 				4A6C4C1D13532FC300FDD53F /* CommodityTradeWidget.cpp */,
@@ -1546,8 +1652,6 @@
 				4A19030B138AA33300E0229C /* gui */,
 				4A6C4C6A13532FC300FDD53F /* HyperspaceCloud.cpp */,
 				4A6C4C6B13532FC300FDD53F /* HyperspaceCloud.h */,
-				4A6C4C6C13532FC300FDD53F /* InfoView.cpp */,
-				4A6C4C6D13532FC300FDD53F /* InfoView.h */,
 				4A6C4C6E13532FC300FDD53F /* IniConfig.cpp */,
 				4A6C4C6F13532FC300FDD53F /* IniConfig.h */,
 				4AF222E2162103EA00BED38E /* Intro.cpp */,
@@ -1561,6 +1665,7 @@
 				4A6C4C7213532FC300FDD53F /* libs.h */,
 				4A6C4C7313532FC300FDD53F /* LmrModel.cpp */,
 				4A6C4C7413532FC300FDD53F /* LmrModel.h */,
+				4ACDB6C8167878CE0069FA03 /* LmrTypes.h */,
 				4AAB881A15F4AD7700AAF8A8 /* Lua.cpp */,
 				4AAB881B15F4AD7700AAF8A8 /* Lua.h */,
 				4A99371B1368355400EA0EE5 /* LuaBody.cpp */,
@@ -1648,8 +1753,13 @@
 				4A6C4CD913532FC300FDD53F /* matrix4x4.h */,
 				4A6C4CDA13532FC300FDD53F /* Missile.cpp */,
 				4A6C4CDB13532FC300FDD53F /* Missile.h */,
+				4ACDB6C9167878CE0069FA03 /* ModelBase.h */,
 				4A6C4CDE13532FC300FDD53F /* ModelBody.cpp */,
 				4A6C4CDF13532FC300FDD53F /* ModelBody.h */,
+				4ACDB6CA167878CE0069FA03 /* ModelCache.cpp */,
+				4ACDB6CB167878CE0069FA03 /* ModelCache.h */,
+				4ACDB6CC167878CE0069FA03 /* ModelViewer.cpp */,
+				4ACDB6CD167878CE0069FA03 /* ModelViewer.h */,
 				4AAC9FE71545901D00116131 /* ModManager.cpp */,
 				4AAC9FE81545901D00116131 /* ModManager.h */,
 				4A6C4CE013532FC300FDD53F /* mtrand.cpp */,
@@ -1677,6 +1787,7 @@
 				4A6C4D4313532FC300FDD53F /* Quaternion.h */,
 				4A99374E1368355500EA0EE5 /* RefCounted.h */,
 				4A99374F1368355500EA0EE5 /* RefList.h */,
+				4ACDB683167878610069FA03 /* scenegraph */,
 				4ADC7B7F152C703200E359B5 /* SDLWrappers.cpp */,
 				4ADC7B80152C703200E359B5 /* SDLWrappers.h */,
 				4A6C4D4813532FC300FDD53F /* SectorView.cpp */,
@@ -1925,6 +2036,8 @@
 				4AA4A8D7164D0EB10006C3BF /* Gradient.h */,
 				4ABF304816335A1100664653 /* Grid.cpp */,
 				4ABF304916335A1100664653 /* Grid.h */,
+				4A4D25DC167335F5003BC9D5 /* Icon.cpp */,
+				4A4D25DD167335F5003BC9D5 /* Icon.h */,
 				4ABF304A16335A1100664653 /* Image.cpp */,
 				4ABF304B16335A1100664653 /* Image.h */,
 				4ABF304C16335A1100664653 /* Label.cpp */,
@@ -1945,6 +2058,7 @@
 				4AA4A8D8164D0EB10006C3BF /* LuaExpand.cpp */,
 				4AA4A8D9164D0EB10006C3BF /* LuaGradient.cpp */,
 				4ABF305B16335A1100664653 /* LuaGrid.cpp */,
+				4A4D25DE167335F5003BC9D5 /* LuaIcon.cpp */,
 				4ABF305C16335A1100664653 /* LuaImage.cpp */,
 				4ABF305D16335A1100664653 /* LuaLabel.cpp */,
 				4ABF305E16335A1100664653 /* LuaList.cpp */,
@@ -1954,6 +2068,7 @@
 				4ABF306216335A1100664653 /* LuaSignal.h */,
 				4ABF306316335A1100664653 /* LuaSingle.cpp */,
 				4ABF306416335A1100664653 /* LuaSlider.cpp */,
+				4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */,
 				4AFBD7BA16412676002928CB /* LuaTextEntry.cpp */,
 				4ABF306516335A1100664653 /* LuaWidget.cpp */,
 				4ABF306716335A1100664653 /* Margin.cpp */,
@@ -1969,6 +2084,8 @@
 				4ABF307116335A1100664653 /* Skin.h */,
 				4ABF307216335A1100664653 /* Slider.cpp */,
 				4ABF307316335A1100664653 /* Slider.h */,
+				4A0F25CC165CF00D00208507 /* SmallButton.cpp */,
+				4A0F25CD165CF00D00208507 /* SmallButton.h */,
 				4AFBD7BB16412676002928CB /* TextEntry.cpp */,
 				4AFBD7BC16412676002928CB /* TextEntry.h */,
 				4ABF307416335A1100664653 /* TextLayout.cpp */,
@@ -1983,9 +2100,11 @@
 		4ACC6D1115401E7000C59914 /* text */ = {
 			isa = PBXGroup;
 			children = (
-				4AFBD7BF16412688002928CB /* FontDescriptor.cpp */,
+				4ACDB6D0167879AF0069FA03 /* DistanceFieldFont.cpp */,
+				4ACDB6D1167879AF0069FA03 /* DistanceFieldFont.h */,
 				4ACC6D1215401E7000C59914 /* Font.cpp */,
 				4ACC6D1315401E7000C59914 /* Font.h */,
+				4AFBD7BF16412688002928CB /* FontDescriptor.cpp */,
 				4ACC6D1415401E7000C59914 /* FontDescriptor.h */,
 				4ACC6D1615401E7000C59914 /* TextSupport.cpp */,
 				4ACC6D1715401E7000C59914 /* TextSupport.h */,
@@ -1995,6 +2114,57 @@
 				4ACC6D1B15401E7000C59914 /* VectorFont.h */,
 			);
 			path = text;
+			sourceTree = "<group>";
+		};
+		4ACDB683167878610069FA03 /* scenegraph */ = {
+			isa = PBXGroup;
+			children = (
+				4ACDB684167878610069FA03 /* Animation.cpp */,
+				4ACDB685167878610069FA03 /* Animation.h */,
+				4ACDB686167878610069FA03 /* AnimationChannel.h */,
+				4ACDB687167878610069FA03 /* AnimationKey.h */,
+				4ACDB688167878620069FA03 /* Billboard.cpp */,
+				4ACDB689167878620069FA03 /* Billboard.h */,
+				4ACDB68A167878620069FA03 /* CollisionGeometry.cpp */,
+				4ACDB68B167878620069FA03 /* CollisionGeometry.h */,
+				4ACDB68C167878620069FA03 /* CollisionVisitor.cpp */,
+				4ACDB68D167878620069FA03 /* CollisionVisitor.h */,
+				4ACDB68E167878620069FA03 /* ColorMap.cpp */,
+				4ACDB68F167878620069FA03 /* ColorMap.h */,
+				4ACDB690167878620069FA03 /* DumpVisitor.cpp */,
+				4ACDB691167878620069FA03 /* DumpVisitor.h */,
+				4ACDB692167878620069FA03 /* FindNodeVisitor.cpp */,
+				4ACDB693167878620069FA03 /* FindNodeVisitor.h */,
+				4ACDB694167878620069FA03 /* Group.cpp */,
+				4ACDB695167878620069FA03 /* Group.h */,
+				4ACDB696167878620069FA03 /* Label3D.cpp */,
+				4ACDB697167878620069FA03 /* Label3D.h */,
+				4ACDB698167878620069FA03 /* Loader.cpp */,
+				4ACDB699167878620069FA03 /* Loader.h */,
+				4ACDB69A167878620069FA03 /* LoaderDefinitions.h */,
+				4ACDB69B167878620069FA03 /* LOD.cpp */,
+				4ACDB69C167878620069FA03 /* LOD.h */,
+				4ACDB69E167878620069FA03 /* MatrixTransform.cpp */,
+				4ACDB69F167878620069FA03 /* MatrixTransform.h */,
+				4ACDB6A0167878620069FA03 /* Model.cpp */,
+				4ACDB6A1167878620069FA03 /* Model.h */,
+				4ACDB6A2167878620069FA03 /* ModelNode.cpp */,
+				4ACDB6A3167878620069FA03 /* ModelNode.h */,
+				4ACDB6A4167878620069FA03 /* Node.cpp */,
+				4ACDB6A5167878620069FA03 /* Node.h */,
+				4ACDB6A6167878620069FA03 /* NodeVisitor.cpp */,
+				4ACDB6A7167878620069FA03 /* NodeVisitor.h */,
+				4ACDB6A8167878620069FA03 /* Parser.cpp */,
+				4ACDB6A9167878620069FA03 /* Parser.h */,
+				4ACDB6AA167878620069FA03 /* Pattern.cpp */,
+				4ACDB6AB167878620069FA03 /* Pattern.h */,
+				4ACDB6AC167878620069FA03 /* SceneGraph.h */,
+				4ACDB6AD167878620069FA03 /* StaticGeometry.cpp */,
+				4ACDB6AE167878620069FA03 /* StaticGeometry.h */,
+				4ACDB6AF167878620069FA03 /* Thruster.cpp */,
+				4ACDB6B0167878620069FA03 /* Thruster.h */,
+			);
+			path = scenegraph;
 			sourceTree = "<group>";
 		};
 		4ADB0D1215C50DF000AE2123 /* posix */ = {
@@ -2109,7 +2279,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#\n# The following script is used to update all the included libraries with the install_name_tool so that we can create a self\n# contained app bundle with all the included libraries without the user having to hunt down extra libraries etc. Just launch\n# and go! (its the apple way!).\n#\nfunction relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libbz2.1.0.dylib\n\n# GLEW dylibs\nrelocateLibInApp /opt/local/lib/ libGLEW.1.9.0.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n# SDL\nrelocateLibInApp /opt/local/lib/ libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXrandr.2.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXdmcp.6.dylib\n\n# SDL_image\nrelocateLibInApp /opt/local/lib/ libSDL_image-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libpng15.15.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXrandr.2.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXdmcp.6.dylib\n\n# SDL_sound\nlnk libSDL_sound-1.0.1.0.2.dylib libSDL_sound-1.0.1.dylib\nrelocateLibInApp /opt/local/lib/ libSDL_sound-1.0.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libmodplug.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libogg.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libspeex.1.dylib\n\n# vorbisfile\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n#\n# EXTRA LIBS\n#\n\n#bz2\nlnk libbz2.1.0.6.dylib libbz2.1.0.dylib\nrelocateLibInApp /opt/local/lib/ libbz2.1.0.dylib\n\n# FLAC\nidLib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libFLAC.8.dylib libogg.0.dylib\n\n# jpeg\nidLib libjpeg.8.dylib\n\n# modplug\nidLib libmodplug.1.dylib\n\n# ogg\nidLib libogg.0.dylib\n\n# png\nidLib libpng15.15.dylib\nrelocateSubLib /opt/local/lib/ libpng15.15.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng15.15.dylib\n\n# smpeg\nidLib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libsmpeg-0.4.0.dylib libSDL-1.2.0.dylib\n\n#speex\nlnk libspeex.1.5.0.dylib libspeex.1.dylib\nidLib libspeex.1.dylib\n\n# tiff\nidLib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libz.1.dylib\n\n# vorbis\nidLib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\n\n# libX11\nrelocateLibInApp /opt/local/lib/ libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libX11.6.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libX11.6.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libX11.6.dylib libXdmcp.6.dylib\n\n# libXau\nrelocateLibInApp /opt/local/lib/ libXau.6.dylib\n\n# libxcd\nrelocateLibInApp /opt/local/lib/ libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libxcb.1.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libxcb.1.dylib libXdmcp.6.dylib\n\n# libXdmcp\nrelocateLibInApp /opt/local/lib/ libXdmcp.6.dylib\n\n# libext\nrelocateLibInApp /opt/local/lib/ libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libXdmcp.6.dylib\n\n# libXrandr\nrelocateLibInApp /opt/local/lib/ libXrandr.2.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXdmcp.6.dylib\n\n# libXrender\nrelocateLibInApp /opt/local/lib/ libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libXdmcp.6.dylib\n\n# zlib\nlnk libz.1.2.7.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libz.1.dylib\nidLib libz.1.2.7.dylib\n";
+			shellScript = "#\n# The following script is used to update all the included libraries with the install_name_tool so that we can create a self\n# contained app bundle with all the included libraries without the user having to hunt down extra libraries etc. Just launch\n# and go! (its the apple way!).\n#\nfunction relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libbz2.1.0.dylib\n\n# GLEW dylibs\nrelocateLibInApp /opt/local/lib/ libGLEW.1.9.0.dylib\n\n# libassimp\nlnk libassimp.3.0.0.dylib libassimp.3.dylib\nrelocateLibInApp /opt/local/lib/ libassimp.3.dylib\nrelocateSubLib /opt/local/lib/ libassimp.3.0.0.dylib libz.1.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n# SDL\nrelocateLibInApp /opt/local/lib/ libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXrandr.2.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXdmcp.6.dylib\n\n# SDL_image\nrelocateLibInApp /opt/local/lib/ libSDL_image-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libpng15.15.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXrandr.2.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXdmcp.6.dylib\n\n# SDL_sound\nlnk libSDL_sound-1.0.1.0.2.dylib libSDL_sound-1.0.1.dylib\nrelocateLibInApp /opt/local/lib/ libSDL_sound-1.0.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libSDL-1.2.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libmodplug.1.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libogg.0.dylib\nrelocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libspeex.1.dylib\n\n# vorbisfile\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n#\n# EXTRA LIBS\n#\n\n#bz2\nlnk libbz2.1.0.6.dylib libbz2.1.0.dylib\nrelocateLibInApp /opt/local/lib/ libbz2.1.0.dylib\n\n# FLAC\nidLib libFLAC.8.dylib\nrelocateSubLib /opt/local/lib/ libFLAC.8.dylib libogg.0.dylib\n\n# jpeg\nidLib libjpeg.8.dylib\n\n# modplug\nidLib libmodplug.1.dylib\n\n# ogg\nidLib libogg.0.dylib\n\n# png\nidLib libpng15.15.dylib\nrelocateSubLib /opt/local/lib/ libpng15.15.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng15.15.dylib\n\n# smpeg\nidLib libsmpeg-0.4.0.dylib\nrelocateSubLib /opt/local/lib/ libsmpeg-0.4.0.dylib libSDL-1.2.0.dylib\n\n#speex\nlnk libspeex.1.5.0.dylib libspeex.1.dylib\nidLib libspeex.1.dylib\n\n# tiff\nidLib libtiff.3.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libjpeg.8.dylib\nrelocateSubLib /opt/local/lib/ libtiff.3.dylib libz.1.dylib\n\n# vorbis\nidLib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\n\n# libX11\nrelocateLibInApp /opt/local/lib/ libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libX11.6.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libX11.6.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libX11.6.dylib libXdmcp.6.dylib\n\n# libXau\nrelocateLibInApp /opt/local/lib/ libXau.6.dylib\n\n# libxcd\nrelocateLibInApp /opt/local/lib/ libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libxcb.1.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libxcb.1.dylib libXdmcp.6.dylib\n\n# libXdmcp\nrelocateLibInApp /opt/local/lib/ libXdmcp.6.dylib\n\n# libext\nrelocateLibInApp /opt/local/lib/ libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libXext.6.dylib libXdmcp.6.dylib\n\n# libXrandr\nrelocateLibInApp /opt/local/lib/ libXrandr.2.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXext.6.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libXrandr.2.dylib libXdmcp.6.dylib\n\n# libXrender\nrelocateLibInApp /opt/local/lib/ libXrender.1.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libX11.6.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libxcb.1.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libXau.6.dylib\nrelocateSubLib /opt/local/lib/ libXrender.1.dylib libXdmcp.6.dylib\n\n# zlib\nlnk libz.1.2.7.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libz.1.dylib\nidLib libz.1.2.7.dylib\n";
 		};
 		4AE970701436A65D00424F91 /* GenGitVersion */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2149,7 +2319,6 @@
 				4A6C4DE713532FC300FDD53F /* GameMenuView.cpp in Sources */,
 				4A6C4DE913532FC300FDD53F /* GeoSphere.cpp in Sources */,
 				4A6C4E0413532FC300FDD53F /* HyperspaceCloud.cpp in Sources */,
-				4A6C4E0513532FC300FDD53F /* InfoView.cpp in Sources */,
 				4A6C4E0613532FC300FDD53F /* IniConfig.cpp in Sources */,
 				4A6C4E0713532FC300FDD53F /* KeyBindings.cpp in Sources */,
 				4A6C4E0813532FC300FDD53F /* LmrModel.cpp in Sources */,
@@ -2463,6 +2632,37 @@
 				4A24FD5E1650F4B700DE7B0F /* UIView.cpp in Sources */,
 				4A24FD671650F4D100DE7B0F /* Lua.cpp in Sources */,
 				4A24FD691650F4D100DE7B0F /* Panel.cpp in Sources */,
+				4A0F25CE165CF00D00208507 /* LuaSmallButton.cpp in Sources */,
+				4A0F25CF165CF00D00208507 /* SmallButton.cpp in Sources */,
+				4A4D25D8167335D9003BC9D5 /* Face.cpp in Sources */,
+				4A4D25D9167335D9003BC9D5 /* LuaFace.cpp in Sources */,
+				4A4D25DA167335D9003BC9D5 /* LuaShipSpinner.cpp in Sources */,
+				4A4D25DB167335D9003BC9D5 /* ShipSpinner.cpp in Sources */,
+				4A4D25DF167335F5003BC9D5 /* Icon.cpp in Sources */,
+				4A4D25E0167335F5003BC9D5 /* LuaIcon.cpp in Sources */,
+				4ACDB6B1167878620069FA03 /* Animation.cpp in Sources */,
+				4ACDB6B2167878620069FA03 /* Billboard.cpp in Sources */,
+				4ACDB6B3167878620069FA03 /* CollisionGeometry.cpp in Sources */,
+				4ACDB6B4167878620069FA03 /* CollisionVisitor.cpp in Sources */,
+				4ACDB6B5167878620069FA03 /* ColorMap.cpp in Sources */,
+				4ACDB6B6167878620069FA03 /* DumpVisitor.cpp in Sources */,
+				4ACDB6B7167878620069FA03 /* FindNodeVisitor.cpp in Sources */,
+				4ACDB6B8167878620069FA03 /* Group.cpp in Sources */,
+				4ACDB6B9167878620069FA03 /* Label3D.cpp in Sources */,
+				4ACDB6BA167878620069FA03 /* Loader.cpp in Sources */,
+				4ACDB6BB167878620069FA03 /* LOD.cpp in Sources */,
+				4ACDB6BD167878620069FA03 /* MatrixTransform.cpp in Sources */,
+				4ACDB6BE167878620069FA03 /* Model.cpp in Sources */,
+				4ACDB6BF167878620069FA03 /* ModelNode.cpp in Sources */,
+				4ACDB6C0167878620069FA03 /* Node.cpp in Sources */,
+				4ACDB6C1167878620069FA03 /* NodeVisitor.cpp in Sources */,
+				4ACDB6C2167878620069FA03 /* Parser.cpp in Sources */,
+				4ACDB6C3167878620069FA03 /* Pattern.cpp in Sources */,
+				4ACDB6C4167878620069FA03 /* StaticGeometry.cpp in Sources */,
+				4ACDB6C5167878620069FA03 /* Thruster.cpp in Sources */,
+				4ACDB6CE167878CE0069FA03 /* ModelCache.cpp in Sources */,
+				4ACDB6CF167878CE0069FA03 /* ModelViewer.cpp in Sources */,
+				4ACDB6D2167879AF0069FA03 /* DistanceFieldFont.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

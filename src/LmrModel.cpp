@@ -337,7 +337,6 @@ static const char CACHE_DIR[] = "model_cache";
 static const char DUMP_DIR[] = "model_dump";
 
 static Graphics::Material *s_billboardMaterial;
-static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
 static FontCache s_fontCache;
 static RefCountedPtr<Text::VectorFont> s_font;
@@ -359,11 +358,6 @@ struct Vertex {
 static BufferObjectPool<sizeof(Vertex)> *s_staticBufferPool;
 
 lua_State *LmrGetLuaState() { return sLua; }
-
-void LmrNotifyScreenWidth(float width)
-{
-	s_scrWidth = width;
-}
 
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
@@ -445,7 +439,7 @@ public:
 		m_putGeomInsideout = false;
 	}
 
-	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
+	void Render(const RenderState *rstate, const vector3f &cameraPos, LmrObjParams *params) {
 		int activeLights = 0; //point lights
 		const unsigned int numLights = Graphics::State::GetNumLights(); //directional lights
 		s_numTrisRendered += m_indices.size()/3;
@@ -1497,7 +1491,7 @@ bool LmrModel::HasTag(const char *tag) const
 	return has_tag;
 }
 
-void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
+void LmrModel::Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params)
 {
 	RenderState rstate;
 	rstate.subTransform = matrix4x4f::Identity();
@@ -1505,13 +1499,13 @@ void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
 	Render(&rstate, vector3f(-trans[12], -trans[13], -trans[14]), trans, params);
 }
 
-void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params)
+void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, LmrObjParams *params)
 {
 	glPushMatrix();
 	glMultMatrixf(&trans[0]);
 	glScalef(m_scale, m_scale, m_scale);
 
-	float pixrad = 0.5f * s_scrWidth * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
+	float pixrad = 0.5f * Graphics::GetScreenWidth() * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
 	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
 
 	int lod = m_numLods-1;
@@ -1568,6 +1562,13 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 	}
 }
 
+RefCountedPtr<CollMesh> LmrModel::CreateCollisionMesh(const LmrObjParams *params)
+{
+	RefCountedPtr<CollMesh> mesh;
+	mesh.Reset(new LmrCollMesh(this, params));
+	return mesh;
+}
+
 void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params)
 {
 	// use lowest LOD
@@ -1609,13 +1610,17 @@ void LmrModel::Dump(const LmrObjParams *params, const char* pMainFolderName)
 }
 
 LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
+	: CollMesh()
+	, nv(0)
+	, ni(0)
+	, nf(0)
+	, pVertex(0)
+	, pIndex(0)
+	, m_numTris(0)
+	, pFlag(0)
 {
-	memset(this, 0, sizeof(LmrCollMesh));
-	m_aabb.min = vector3d(DBL_MAX, DBL_MAX, DBL_MAX);
-	m_aabb.max = vector3d(-DBL_MAX, -DBL_MAX, -DBL_MAX);
-	m_aabb.radius = 0.0;
 	m->GetCollMeshGeometry(this, matrix4x4f::Identity(), params);
-	geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
+	m_geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
 }
 
 /** returns number of tris found (up to 'num') */
@@ -1635,8 +1640,6 @@ int LmrCollMesh::GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outV
 
 LmrCollMesh::~LmrCollMesh()
 {
-	// nice. mixed allocation. for the love of realloc...
-	delete geomTree;
 	free(pVertex);
 	free(pIndex);
 	free(pFlag);

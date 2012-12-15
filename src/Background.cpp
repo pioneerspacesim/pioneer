@@ -56,7 +56,7 @@ void Starfield::Init(Graphics::Renderer *r)
 	desc.vertexColors = true;
 	m_material.Reset(r->CreateMaterial(desc));
 	m_material->emissive = Color::WHITE;
-	m_model->AddSurface(new Surface(POINTS, stars, m_material));
+	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(POINTS, stars, m_material)));
 
 	m_hyperVtx = 0;
 	m_hyperCol = 0;
@@ -174,8 +174,8 @@ MilkyWay::MilkyWay(Graphics::Renderer *r)
 	desc.vertexColors = true;
 	m_material.Reset(r->CreateMaterial(desc));
 	//This doesn't fade. Could add a generic opacity/intensity value.
-	m_model->AddSurface(new Surface(TRIANGLE_STRIP, bottom, m_material));
-	m_model->AddSurface(new Surface(TRIANGLE_STRIP, top, m_material));
+	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLE_STRIP, bottom, m_material)));
+	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLE_STRIP, top, m_material)));
 }
 
 MilkyWay::~MilkyWay()

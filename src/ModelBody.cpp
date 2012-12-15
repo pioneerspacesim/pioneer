@@ -3,28 +3,32 @@
 
 #include "libs.h"
 #include "ModelBody.h"
-#include "Space.h"
+#include "collider/collider.h"
 #include "Frame.h"
 #include "Game.h"
+#include "graphics/Renderer.h"
+#include "LmrModel.h"
+#include "matrix4x4.h"
 #include "Pi.h"
-#include "WorldView.h"
 #include "Serializer.h"
-#include "collider/collider.h"
+#include "Space.h"
+#include "WorldView.h"
+#include "ModelCache.h"
+#include "scenegraph/Model.h"
 
-ModelBody::ModelBody(): Body()
+ModelBody::ModelBody() :
+	Body(),
+	m_isStatic(false),
+	m_colliding(true),
+	m_geom(0),
+	m_model(0)
 {
-	m_lmrModel = 0;
-	m_collMesh = 0;
-	m_geom = 0;
-	m_isStatic = false;
-	m_colliding = true;
 	memset(&m_params, 0, sizeof(LmrObjParams));
 }
 
 ModelBody::~ModelBody()
 {
 	SetFrame(0);	// Will remove geom from frame if necessary.
-	if (m_collMesh) delete m_collMesh;
 	if (m_geom) delete m_geom;
 }
 
@@ -75,12 +79,11 @@ void ModelBody::RebuildCollisionMesh()
 		else GetFrame()->RemoveGeom(m_geom);
 		delete m_geom;
 	}
-	if (m_collMesh) delete m_collMesh;
 
-	m_collMesh = new LmrCollMesh(m_lmrModel, &m_params);
+	m_collMesh = m_model->CreateCollisionMesh(&m_params);
 	SetPhysRadius(m_collMesh->GetAabb().GetRadius());
+	m_geom = new Geom(m_collMesh->GetGeomTree());
 
-	m_geom = new Geom(m_collMesh->geomTree);
 	m_geom->SetUserData(static_cast<void*>(this));
 	m_geom->MoveTo(GetOrient(), GetPosition());
 
@@ -90,15 +93,10 @@ void ModelBody::RebuildCollisionMesh()
 	}
 }
 
-void ModelBody::SetModel(const char *lmrModelName)
+void ModelBody::SetModel(const char *modelName)
 {
-	try {
-		m_lmrModel = LmrLookupModelByName(lmrModelName);
-	} catch (LmrModelNotFoundException) {
-		printf("Could not find model '%s'.\n", lmrModelName);
-		Pi::Quit();
-	}
-	SetClipRadius(m_lmrModel->GetDrawClipRadius());
+	m_model = Pi::FindModel(modelName);
+	SetClipRadius(m_model->GetDrawClipRadius());
 
 	RebuildCollisionMesh();
 }
@@ -140,11 +138,12 @@ void ModelBody::SetLmrTimeParams()
 	m_params.time = Pi::game->GetTime();
 }
 
-void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d m2 = GetInterpOrient();
 	m2.SetTranslate(GetInterpPosition());
 	matrix4x4d t = viewTransform * m2;
+	glPushMatrix();			// Why?
 	matrix4x4f trans;
 	for (int i=0; i<12; i++) trans[i] = float(t[i]);
 	trans[12] = viewCoords.x;
@@ -152,5 +151,6 @@ void ModelBody::RenderLmrModel(const vector3d &viewCoords, const matrix4x4d &vie
 	trans[14] = viewCoords.z;
 	trans[15] = 1.0f;
 
-	m_lmrModel->Render(trans, &m_params);
+	m_model->Render(r, trans, &m_params);
+	glPopMatrix();
 }

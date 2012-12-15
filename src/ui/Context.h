@@ -22,6 +22,7 @@
 #include "Box.h"
 #include "Grid.h"
 #include "Scroller.h"
+#include "Icon.h"
 #include "Image.h"
 #include "Label.h"
 #include "MultiLineText.h"

@@ -1,7 +1,26 @@
+Alpha 30
+
+   * New features
+     * New model system (SGModel) (#1676, #1208, #813)
+     * OSX: Hold the option key down when launching pioneer.app to launch the
+       model viewer instead (#1803)
+
+   * Script changes
+     * New attribute StarSystem.explored (#1793, #1797)
+
+   * UI changes
+     * Improved appearance of Dropdown widget (#1789, #1766)
+     * Fix layout of non-contributing widgets inside pack boxes (#1789)
+
+   * Internal changes
+     * Improvements in text rendering performance (#1791)
+     * Move MSVC headers and libs to pioneer-thirdparty repository (#1807)
+
 Alpha 29
 
    * New features
-     * InfoView (F3) rewritten using the new UI (#1633, #1785)
+     * InfoView (F3) rewrite. Now has player name/face customisation and per-mission
+       info screens (#1633, #1785)
      * Economical autopilot. Trades fuel for time (#1582)
      * Your ship's automatic rotation damping can now be turned off (#1570, #1156)
      * Almost 100 new factions with varying government types (#1621, #1620, #1675,
@@ -14,13 +33,10 @@ Alpha 29
        than a specific part of it (#1674)
      * Refueling now handled by Lua script (#1649)
      * Fixed navigation lights on Courier, Trader, Meteor, Natrix (#1710, #1711)
-     * Improved UI sliders/scrollbars (#1720)
      * Added transparent backgrounds to planet icons to avoid some visual
        glitches (#1572)
      * Don't clear hyperspace target when the current system is selected in
        the Sector View (#1662)
-     * UI elements can now be disabled (#1749, #1721)
-     * More flexible UI widget size control (#1746)
      * Improved scanner draw performance
 
    * Fixes
@@ -36,23 +52,28 @@ Alpha 29
      * Custom Systems: Faction allegiance can now be set for custom systems (#1621)
      * Factions: More than one government type with weighting can now be specified
        for a Faction (#1621)
-     * Factions: A radius attribute is available on the LuaFaction object (#1660)
-     * New UI.Gradient container to provide a linear gradient background (#1682)
-     * UI widget SetFontSize has been replaced with SetFont to select both
-       type (normal or heading) and size (#1684)
-     * UI Box widgets no longer take expand/fill flags (#1665)
-     * New UI.Expand container to force a widget to fill available space (#1685)
-     * New UI exposes SetText to Lua (#1690)
-     * New UI.SmallButton widget (#1722)
-     * New UI.Icon widget (#1737)
-     * New UI.TabGroup controller
-     * New UI constructors for 'Single' widgets take an optional final argument
-       specifying the inner widget (#1723, #1738)
-     * UI.Margin can now apply a margin to a single side or direction (#1747)
-     * MouseMove UI event also receives relative mouse travel (#1767)
-     * Grids and can now have nil entries and has a ClearCell method (#1723, #1738)
-     * Functions taking a widget can now take a table with a 'widget' field (#1723, #1738)
+     * Factions: A radius attribute is available on the Faction object (#1660)
      * debug.deprecated function to warn when a deprecated function is used (#1718)
+
+   * UI changes
+     * Gradient container to provide a linear gradient background (#1682)
+     * Expand container to force a widget to fill available space (#1685)
+     * SmallButton widget (#1722)
+     * Icon widget (#1737)
+     * TabGroup controller
+     * Label exposes SetText to Lua (#1690)
+     * Box containers no longer take expand/fill flags (#1665)
+     * Margin can now apply a margin to a single side or direction (#1747)
+     * Grid can now have nil entries and has a ClearCell method (#1723, #1738)
+     * Functions taking a widget can now take a table with a 'widget' field (#1723, #1738)
+     * Widget.SetFontSize has been replaced with SetFont to select both type (normal
+     * or heading) and size (#1684)
+     * UI constructors for 'Single' widgets take an optional final argument
+       specifying the inner widget (#1723, #1738)
+     * MouseMove event also receives relative mouse travel (#1767)
+     * Improved UI sliders/scrollbars (#1720)
+     * UI elements can now be disabled (#1749, #1721)
+     * More flexible UI widget size control (#1746)
 
    * Internal changes
      * Wrapper to allow new UI to provide views for the old GUI system (#1691,

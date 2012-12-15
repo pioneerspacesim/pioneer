@@ -190,7 +190,7 @@ AC_ARG_WITH([thirdparty], AS_HELP_STRING([--with-thirdparty], [Location of pione
 	    PKG_CONFIG_PATH="$withval/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
 	    export PKG_CONFIG_PATH
     fi
-	CFLAGS="-I$withval/usr/include"
+	CFLAGS="-isystem $withval/usr/include"
 	LIBS="-L$withval/usr/lib -Wl,-rpath=$withval/usr/lib"
 ])
 
@@ -208,6 +208,59 @@ PKG_CHECK_MODULES([VORBIS], [vorbisfile])
 
 dnl Check for libpng
 PKG_CHECK_MODULES([PNG], [libpng])
+
+dnl Check for assimp
+PKG_CHECK_MODULES([ASSIMP], [assimp])
+
+dnl assimp's pkg-config file has a broken include path. Until upstream fixes
+dnl it we work around it here
+ASSIMP_CFLAGS=`echo $ASSIMP_CFLAGS | sed -e 's/\/assimp$//'`
+
+if test "x$cross_compiling" = "xno" ; then
+
+	dnl Extra version checks for assimp. Last release was 2.0, we need 3.0+ (git
+	dnl version). Unfortunately the pkg-config version has not yet been updated
+	dnl upstream, so we have to test the library directly
+	AC_MSG_CHECKING(for ASSIMP version >= 3.0)
+	dnl Convert -Lfoo to -rpath=, as the wanted dir might not be visible to the dynamic linker
+	assimp_rpath=`echo $ASSIMP_LIBS | sed -e 's/-[^L] *[^ ]\+ *//g' | sed -e 's/-L */-Wl,-rpath=/g'`
+	old_cxxflags="$CXXFLAGS"
+	old_libs="$LIBS"
+	CXXFLAGS="$ASSIMP_CFLAGS"
+	LIBS="$ASSIMP_LIBS $assimp_rpath"
+	AC_LANG_PUSH([C++])
+	AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <assimp/defs.h>
+	                                 #include <assimp/version.h>]],
+	                            [[do {
+	                                if (aiGetVersionMajor() >= 3 && aiGetVersionMinor() >= 0)
+	                                    return 0;
+	                                return 1;
+	                              } while(0)]])],
+	                            [AC_MSG_RESULT(yes)
+	                                have_assimp_version=yes],
+	                            [AC_MSG_RESULT(no)])
+	AC_LANG_POP
+	if test "x$have_assimp_version" != "xyes" ; then
+		AC_MSG_ERROR("assimp version >= 3.0 not found. Get it from https://assimp.sourceforge.net/")
+	fi
+	CXXFLAGS="$old_cxxflags"
+	LIBS="$old_libs"
+
+fi
+
+dnl Headers that come in from pkg-config should be treated at system headers
+dnl to avoid warnings
+AC_DEFUN([PIONEER_CONVERT_ISYSTEM], [
+    ][$1][=`echo $][$1][ | sed -e 's/^-I/ -isystem /g'`
+    ][$1][=`echo $][$1][ | sed -e 's/ -I/ -isystem /g'`
+])
+
+PIONEER_CONVERT_ISYSTEM([SIGC_CFLAGS])
+PIONEER_CONVERT_ISYSTEM([SDL_CFLAGS])
+PIONEER_CONVERT_ISYSTEM([FREETYPE_CFLAGS])
+PIONEER_CONVERT_ISYSTEM([VORBIS_CFLAGS])
+PIONEER_CONVERT_ISYSTEM([PNG_CFLAGS])
+PIONEER_CONVERT_ISYSTEM([ASSIMP_CFLAGS])
 
 dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
@@ -297,6 +350,7 @@ AC_CONFIG_FILES([
 	src/gameui/Makefile
 	src/gui/Makefile
 	src/graphics/Makefile
+	src/scenegraph/Makefile
 	src/galaxy/Makefile
 	src/terrain/Makefile
 	src/text/Makefile
