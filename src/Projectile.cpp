@@ -22,10 +22,10 @@
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
 
-Graphics::VertexArray *Projectile::s_sideVerts = 0;
-Graphics::VertexArray *Projectile::s_glowVerts = 0;
-Graphics::Material *Projectile::s_sideMat = 0;
-Graphics::Material *Projectile::s_glowMat = 0;
+ScopedPtr<Graphics::VertexArray> Projectile::s_sideVerts;
+ScopedPtr<Graphics::VertexArray> Projectile::s_glowVerts;
+ScopedPtr<Graphics::Material> Projectile::s_sideMat;
+ScopedPtr<Graphics::Material> Projectile::s_glowMat;
 
 void Projectile::BuildModel()
 {
@@ -33,8 +33,8 @@ void Projectile::BuildModel()
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
 	desc.twoSided = true;
-	s_sideMat = Pi::renderer->CreateMaterial(desc);
-	s_glowMat = Pi::renderer->CreateMaterial(desc);
+	s_sideMat.Reset(Pi::renderer->CreateMaterial(desc));
+	s_glowMat.Reset(Pi::renderer->CreateMaterial(desc));
 	s_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
 	s_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
 
@@ -55,8 +55,8 @@ void Projectile::BuildModel()
 	const vector2f botLeft(0.f, 0.f);
 	const vector2f botRight(1.f, 0.f);
 
-	s_sideVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
-	s_glowVerts = new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+	s_sideVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
+	s_glowVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
 
 	//add four intersecting planes to create a volumetric effect
 	for (int i=0; i < 4; i++) {
@@ -90,15 +90,6 @@ void Projectile::BuildModel()
 		gw -= 0.1f; // they get smaller
 		gz -= 0.2f; // as they move back
 	}
-}
-
-void Projectile::FreeModel()
-{
-	if (!s_sideMat) return;
-	delete s_sideMat;
-	delete s_glowMat;
-	delete s_sideVerts;
-	delete s_glowVerts;
 }
 
 Projectile::Projectile(): Body()
@@ -301,7 +292,7 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 
 	if (color.a > 0.01f) {
 		s_sideMat->diffuse = color;
-		renderer->DrawTriangles(s_sideVerts, s_sideMat);
+		renderer->DrawTriangles(s_sideVerts.Get(), s_sideMat.Get());
 	}
 
 	// fade out glow quads when viewing nearly edge on
@@ -311,7 +302,7 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 
 	if (color.a > 0.01f) {
 		s_glowMat->diffuse = color;
-		renderer->DrawTriangles(s_glowVerts, s_glowMat);
+		renderer->DrawTriangles(s_glowVerts.Get(), s_glowMat.Get());
 	}
 
 	glPopMatrix();
