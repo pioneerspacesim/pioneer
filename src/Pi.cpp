@@ -57,6 +57,7 @@
 #include "Planet.h"
 #include "Player.h"
 #include "Polit.h"
+#include "Projectile.h"
 #include "SDLWrappers.h"
 #include "SectorView.h"
 #include "Serializer.h"
@@ -478,6 +479,7 @@ void Pi::ToggleLuaConsole()
 
 void Pi::Quit()
 {
+	Projectile::FreeModel();
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
 	Sfx::Uninit();
@@ -846,6 +848,8 @@ void Pi::EndGame()
 
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
+
+	
 
 	assert(game);
 	delete game;
