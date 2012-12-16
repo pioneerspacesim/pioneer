@@ -613,7 +613,7 @@ void Game::CreateViews()
 	Pi::galacticView = new GalacticView();
 	Pi::systemView = new SystemView();
 	Pi::systemInfoView = new SystemInfoView();
-	Pi::spaceStationView = new SpaceStationView();
+	Pi::spaceStationView = new UIView("StationView");
 	Pi::infoView = new UIView("InfoView");
 	Pi::deathView = new DeathView();
 	Pi::settingsView = new UIView("SettingsInGame");
@@ -654,7 +654,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::galacticView = new GalacticView();
 	Pi::systemView = new SystemView();
 	Pi::systemInfoView = new SystemInfoView();
-	Pi::spaceStationView = new SpaceStationView();
+	Pi::spaceStationView = new UIView("StationView");
 	Pi::infoView = new UIView("InfoView");
 	Pi::deathView = new DeathView();
 	Pi::settingsView = new UIView("SettingsInGame");
