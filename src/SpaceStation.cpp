@@ -421,6 +421,7 @@ void SpaceStation::SetDocked(Ship *ship, int port)
 	ship->SetVelocity(vector3d(0.0));
 	ship->SetAngVelocity(vector3d(0.0));
 	ship->ClearThrusterState();
+	PositionDockedShip(ship, port);
 }
 
 bool SpaceStation::LaunchShip(Ship *ship, int port)
