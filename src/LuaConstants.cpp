@@ -678,25 +678,6 @@ void LuaConstants::Register(lua_State *l)
 	 */
 	_create_constant_table_nonconsecutive(l, "SpaceStationAnimation", ENUM_SpaceStationAnimation);
 
-    /*
-     * Constants: MissionStatus
-     *
-     * Status of a mission.
-     *
-     * ACTIVE - mission in progress
-     * COMPLETED - mission completed
-     * FAILED - mission failed
-     *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   stable
-	 */
-	_create_constant_table_nonconsecutive(l, "MissionStatus", ENUM_MissionStatus);
-
 	/*
 	 * Constants: FileSystemRoot
 	 *
