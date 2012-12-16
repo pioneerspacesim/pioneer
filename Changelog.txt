@@ -10,6 +10,7 @@ Alpha 30
 
    * Fixes
      * Interpret galaxy density bitmap as unsigned values (#1818, #1813)
+     * Invert mouse cursor movement in rear view (#1820)
 
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
