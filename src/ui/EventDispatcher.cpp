@@ -76,17 +76,6 @@ bool EventDispatcher::Dispatch(const Event &event)
 					if (m_keyRepeatActive && keyEvent.keysym == m_keyRepeatSym)
 						m_keyRepeatActive = false;
 
-					return m_baseContainer->TriggerKeyUp(keyEvent);
-				}
-
-				case KeyboardEvent::KEY_PRESS: {
-
-					// selected widgets get all the keypress events
-					if (m_selected)
-						return m_selected->TriggerKeyPress(keyEvent);
-
-					// no selected widget, so maybe we can trigger a shortcut
-
 					// any modifier coming in will be a specific key, eg left
 					// shift or right shift. shortcuts can't distinguish
 					// betwen the two, and so have both set in m_shortcuts. we
@@ -107,7 +96,15 @@ bool EventDispatcher::Dispatch(const Event &event)
 						return true;
 					}
 
-					// standard tree dispatch
+					return m_baseContainer->TriggerKeyUp(keyEvent);
+				}
+
+				case KeyboardEvent::KEY_PRESS: {
+
+					// selected widgets get all the keypress events
+					if (m_selected)
+						return m_selected->TriggerKeyPress(keyEvent);
+
 					return m_baseContainer->TriggerKeyPress(keyEvent);
 				}
 			}
