@@ -377,7 +377,7 @@ local missions = function ()
 
 	local missionbox = ui:VBox(10)
 
-	for ref,mission in ipairs(PersistentCharacters.player.missions) do
+	for ref,mission in pairs(PersistentCharacters.player.missions) do
 		-- Format the location
 		local missionLocationName
 		if mission.location.bodyIndex then
