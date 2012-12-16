@@ -5,6 +5,10 @@ Alpha 30
      * OSX: Hold the option key down when launching pioneer.app to launch the
        model viewer instead (#1803)
 
+   * Minor changes and tweaks
+     * Don't allocate projectile geometry for every projectile. Huge
+       performance increase during combat (#1822)
+
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)
 

@@ -22,23 +22,21 @@
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
 
-Projectile::Projectile(): Body()
-{
-	m_orient = matrix4x4d::Identity();
-	m_type = 1;
-	m_age = 0;
-	m_parent = 0;
-	m_radius = 0;
-	m_flags |= FLAG_DRAW_LAST;
+ScopedPtr<Graphics::VertexArray> Projectile::s_sideVerts;
+ScopedPtr<Graphics::VertexArray> Projectile::s_glowVerts;
+ScopedPtr<Graphics::Material> Projectile::s_sideMat;
+ScopedPtr<Graphics::Material> Projectile::s_glowMat;
 
+void Projectile::BuildModel()
+{
 	//set up materials
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
 	desc.twoSided = true;
-	m_sideMat.Reset(Pi::renderer->CreateMaterial(desc));
-	m_glowMat.Reset(Pi::renderer->CreateMaterial(desc));
-	m_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
-	m_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
+	s_sideMat.Reset(Pi::renderer->CreateMaterial(desc));
+	s_glowMat.Reset(Pi::renderer->CreateMaterial(desc));
+	s_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
+	s_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
 
 	//zero at projectile position
 	//+x down
@@ -57,18 +55,18 @@ Projectile::Projectile(): Body()
 	const vector2f botLeft(0.f, 0.f);
 	const vector2f botRight(1.f, 0.f);
 
-	m_sideVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
-	m_glowVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
+	s_sideVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
+	s_glowVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
 
 	//add four intersecting planes to create a volumetric effect
 	for (int i=0; i < 4; i++) {
-		m_sideVerts->Add(one, topLeft);
-		m_sideVerts->Add(two, topRight);
-		m_sideVerts->Add(three, botRight);
+		s_sideVerts->Add(one, topLeft);
+		s_sideVerts->Add(two, topRight);
+		s_sideVerts->Add(three, botRight);
 
-		m_sideVerts->Add(three, botRight);
-		m_sideVerts->Add(four, botLeft);
-		m_sideVerts->Add(one, topLeft);
+		s_sideVerts->Add(three, botRight);
+		s_sideVerts->Add(four, botLeft);
+		s_sideVerts->Add(one, topLeft);
 
 		one.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
 		two.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
@@ -81,17 +79,28 @@ Projectile::Projectile(): Body()
 	float gz = -0.1f;
 
 	for (int i=0; i < 4; i++) {
-		m_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
-		m_glowVerts->Add(vector3f(-gw, gw, gz), topRight);
-		m_glowVerts->Add(vector3f(gw, gw, gz), botRight);
+		s_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
+		s_glowVerts->Add(vector3f(-gw, gw, gz), topRight);
+		s_glowVerts->Add(vector3f(gw, gw, gz), botRight);
 
-		m_glowVerts->Add(vector3f(gw, gw, gz), botRight);
-		m_glowVerts->Add(vector3f(gw, -gw, gz), botLeft);
-		m_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
+		s_glowVerts->Add(vector3f(gw, gw, gz), botRight);
+		s_glowVerts->Add(vector3f(gw, -gw, gz), botLeft);
+		s_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
 
 		gw -= 0.1f; // they get smaller
 		gz -= 0.2f; // as they move back
 	}
+}
+
+Projectile::Projectile(): Body()
+{
+	if (!s_sideMat) BuildModel();
+	m_orient = matrix4x4d::Identity();
+	m_type = 1;
+	m_age = 0;
+	m_parent = 0;
+	m_radius = 0;
+	m_flags |= FLAG_DRAW_LAST;
 }
 
 Projectile::~Projectile()
@@ -282,8 +291,8 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(view_dir)), length));
 
 	if (color.a > 0.01f) {
-		m_sideMat->diffuse = color;
-		renderer->DrawTriangles(m_sideVerts.Get(), m_sideMat.Get());
+		s_sideMat->diffuse = color;
+		renderer->DrawTriangles(s_sideVerts.Get(), s_sideMat.Get());
 	}
 
 	// fade out glow quads when viewing nearly edge on
@@ -292,8 +301,8 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	color.a = base_alpha * powf(fabs(dir.Dot(view_dir)), width);
 
 	if (color.a > 0.01f) {
-		m_glowMat->diffuse = color;
-		renderer->DrawTriangles(m_glowVerts.Get(), m_glowMat.Get());
+		s_glowMat->diffuse = color;
+		renderer->DrawTriangles(s_glowVerts.Get(), s_glowMat.Get());
 	}
 
 	glPopMatrix();
