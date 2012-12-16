@@ -165,7 +165,7 @@ void Body::OrientOnSurface(double radius, double latitude, double longitude)
 	SetPosition(radius * up);
 
 	vector3d right = up.Cross(vector3d(0,0,1)).Normalized();
-	SetOrient(matrix3x3d::BuildFromVectors(right, up));
+	SetOrient(matrix3x3d::FromVectors(right, up));
 }
 
 void Body::SwitchToFrame(Frame *newFrame)

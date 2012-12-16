@@ -420,8 +420,8 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 		// try new random position
 		const double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
 		const double r1 = r.Double();	// can't put two rands in the same expression
-		rot_ = matrix3x3d::RotateZMatrix(2*M_PI*r1)
-			* matrix3x3d::RotateYMatrix(2*M_PI*r2);
+		rot_ = matrix3x3d::RotateZ(2*M_PI*r1)
+			* matrix3x3d::RotateY(2*M_PI*r2);
 		pos_ = rot_ * vector3d(0,1,0);
 	}
 
@@ -487,12 +487,12 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		// rotating frame has atmosphere radius or feature height, whichever is larger
 		rotFrame->SetRadius(b->GetPhysRadius());
 
-		matrix3x3d rotMatrix = matrix3x3d::RotateXMatrix(sbody->axialTilt.ToDouble());
+		matrix3x3d rotMatrix = matrix3x3d::RotateX(sbody->axialTilt.ToDouble());
 		double angSpeed = 2.0*M_PI/sbody->GetRotationPeriod();
 		rotFrame->SetAngSpeed(angSpeed);
 
 		if (sbody->rotationalPhaseAtStart != fixed(0))
-			rotMatrix = rotMatrix * matrix3x3d::RotateYMatrix(sbody->rotationalPhaseAtStart.ToDouble());
+			rotMatrix = rotMatrix * matrix3x3d::RotateY(sbody->rotationalPhaseAtStart.ToDouble());
 		rotFrame->SetOrient(rotMatrix);
 
 		b->SetFrame(rotFrame);

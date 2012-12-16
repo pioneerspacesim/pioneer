@@ -17,6 +17,9 @@ class matrix3x3 {
 	matrix3x3 (const T *vals) {
 		memcpy(cell, vals, sizeof(T)*9);
 	}
+	T& operator [] (const size_t i) { return cell[i]; }			// used for serializing
+	const T& operator[] (const size_t i) const { return cell[i]; }
+
 	vector3<T> VectorX() const { return vector3<T>(cell[0], cell[3], cell[6]); }
 	vector3<T> VectorY() const { return vector3<T>(cell[1], cell[4], cell[7]); }
 	vector3<T> VectorZ() const { return vector3<T>(cell[2], cell[5], cell[8]); }
@@ -27,39 +30,30 @@ class matrix3x3 {
 		m.cell[0] = m.cell[4] = m.cell[8] = 1.0f;
 		return m;
 	}
-	void Scale(T x, T y, T z) {
-		*this = (*this) * BuildScale(x, y, z);
-	}
-	void Scale(T s) {
-		*this = (*this) * BuildScale(s);
-	}
-	static matrix3x3 BuildScale(T x, T y, T z) {
+	static matrix3x3 Scale(T x, T y, T z) {
 		matrix3x3 m;
 		m.cell[1] = m.cell[2] = m.cell[3] = m.cell[5] = m.cell[6] = m.cell[7] = 0.0f;
 		m.cell[0] = x; m.cell[4] = y; m.cell[8] = z;
 		return m;
 	}
-	static matrix3x3 BuildScale(T scale) {
+	static matrix3x3 Scale(T scale) {
 		matrix3x3 m;
 		m.cell[1] = m.cell[2] = m.cell[3] = m.cell[5] = m.cell[6] = m.cell[7] = 0.0f;
-		m.cell[0] = m.cell[4] = m.cell[8] = s;
+		m.cell[0] = m.cell[4] = m.cell[8] = scale;
 		return m;
 	}
-	static matrix3x3 BuildFromVectors(const vector3<T> &rx, const vector3<T> &ry) {
-		vector3<T> rz = rx.Cross(ry);
+	static matrix3x3 FromVectors(const vector3<T> &rx, const vector3<T> &ry, const vector3<T> &rz) {
 		matrix3x3 m;
 		m[0] = rx.x; m[1] = ry.x; m[2] = rz.x;
 		m[3] = rx.y; m[4] = ry.y; m[5] = rz.y;
 		m[6] = rx.z; m[7] = ry.z; m[8] = rz.z;
 		return m;
 	}
-
-	//glRotate equivalent (except radians instead of degrees)
-	void Rotate (T ang, T x, T y, T z) {
-		*this = (*this) * BuildRotate(ang, x, y, z);
+	static matrix3x3 FromVectors(const vector3<T> &rx, const vector3<T> &ry) {
+		return FromVectors(rx, ry, rx.Cross(ry));
 	}
 	// (x,y,z) must be normalized
-	static matrix3x3 BuildRotate(T ang, const vector3<T> &v) {
+	static matrix3x3 Rotate(T ang, const vector3<T> &v) {
 		matrix3x3 m;
 		T c = cos(ang);
 		T s = sin(ang);
@@ -68,60 +62,34 @@ class matrix3x3 {
 		m[6] = v.x*v.z*(1-c)-v.y*s; m[7] = v.y*v.z*(1-c)+v.x*s; m[8] = v.z*v.z*(1-c)+c;
 		return m;
 	}
-	void RotateZ (T radians) { *this = (*this) * RotateZMatrix (radians); }
-	void RotateY (T radians) { *this = (*this) * RotateYMatrix (radians); }
-	void RotateX (T radians) { *this = (*this) * RotateXMatrix (radians); }
-	static matrix3x3 RotateXMatrix (T radians) {
+	static matrix3x3 RotateX (T radians) {
 		matrix3x3 m;
-		T c = cosf(float(radians));
-		T s = sinf(float(radians));
+		T c = cos(radians);
+		T s = sin(radians);
 		m[0] = 1.0f; m[1] = 0; m[2] = 0;
 		m[3] = 0; m[4] = c; m[5] = s;
 		m[6] = 0; m[7] = -s; m[8] = c;
 		return m;
 	}
-	static matrix3x3 RotateYMatrix (T radians) {
+	static matrix3x3 RotateY (T radians) {
 		matrix3x3 m;
-		T c = cosf(float(radians));
-		T s = sinf(float(radians));
+		T c = cos(radians);
+		T s = sin(radians);
 		m[0] = c; m[1] = 0; m[2] = -s;
 		m[3] = 0; m[4] = 1.0; m[5] = 0;
 		m[6] = s; m[7] = 0; m[8] = c;
 		return m;
 	}
-	static matrix3x3 RotateZMatrix (T radians) {
+	static matrix3x3 RotateZ (T radians) {
 		matrix3x3 m;
-		T c = cosf(float(radians));
-		T s = sinf(float(radians));
+		T c = cos(radians);
+		T s = sin(radians);
 		m[0] = c; m[1] = s; m[2] = 0;
 		m[3] = -s; m[4] = c; m[5] = 0;
 		m[6] = 0; m[7] = 0; m[8] = 1.0;
 		return m;
 	}
-	void Renormalize() {
-		vector3<T> x = VectorX().Normalized();
-		vector3<T> y = VectorZ().Cross(x).Normalized();
-		*this = matrix3x3d::BuildFromVectors(x, y);
-	}
-	T& operator [] (const size_t i) { return cell[i]; }			// used for serializing
-	const T& operator[] (const size_t i) const { return cell[i]; }
-//	const T* Data() const { return cell; }
-//	T* Data() { return cell; }
-//	friend matrix3x3 operator+ (const matrix3x3 &a, const matrix3x3 &b) {
-//		matrix3x3 m;
-//		for (int i=0; i<16; i++) m.cell[i] = a.cell[i] + b.cell[i];
-//		return m;
-//	}
-//	friend matrix3x3 operator- (const matrix3x3 &a, const matrix3x3 &b) {
-//		matrix3x3 m;
-//		for (int i=0; i<16; i++) m.cell[i] = a.cell[i] - b.cell[i];
-//		return m;
-//	}
-//	friend matrix3x3 operator- (const matrix3x3 &a) {
-//		matrix3x3 m;
-//		for (int i = 0; i < 16; ++i) { m.cell[i] = -a.cell[i]; }
-//		return m;
-//	}
+
 	friend matrix3x3 operator* (const matrix3x3 &a, const matrix3x3 &b) {
 		matrix3x3 m;
 		m.cell[0] = a.cell[0]*b.cell[0] + a.cell[1]*b.cell[3] + a.cell[2]*b.cell[6];
@@ -152,20 +120,17 @@ class matrix3x3 {
 		out.z = a.cell[2]*v.x + a.cell[5]*v.y + a.cell[8]*v.z;
 		return out;
 	}
-//	friend matrix3x3 operator* (const matrix3x3 &a, T v) {
-//		matrix3x3 m;
-//		for (int i=0; i<16; i++) m[i] = a.cell[i] * v;
-//		return m;
-//	}
-//	friend matrix3x3 operator* (T v, const matrix3x3 &a) {
-//		return (a*v);
-//	}
 	matrix3x3 Transpose() const {
 		matrix3x3 m;
 		m[0] = cell[0]; m[1] = cell[3]; m[2] = cell[6];
 		m[3] = cell[1]; m[4] = cell[4]; m[5] = cell[7];
 		m[6] = cell[2]; m[7] = cell[5]; m[8] = cell[8];
 		return m;
+	}
+	void Renormalize() {
+		vector3<T> x = VectorX().Normalized();
+		vector3<T> y = VectorZ().Cross(x).Normalized();
+		*this = matrix3x3::FromVectors(x, y);
 	}
 	void Print () const {
 		for (int i=0; i<3; i++) {

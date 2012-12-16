@@ -712,7 +712,7 @@ void Ship::TestLanded()
 
 				// position facing in roughly the same direction
 				vector3d right = up.Cross(GetOrient().VectorZ()).Normalized();
-				SetOrient(matrix3x3d::BuildFromVectors(right, up));
+				SetOrient(matrix3x3d::FromVectors(right, up));
 
 				SetVelocity(vector3d(0, 0, 0));
 				SetAngVelocity(vector3d(0, 0, 0));

@@ -921,7 +921,7 @@ bool AICmdDock::TimeStepUpdate()
 	double ang = av * Pi::game->GetTimeStep();
 	if (ang > 1e-16) {
 		vector3d axis = m_target->GetAngVelocity().Normalized();
-		trot = trot * matrix3x3d::BuildRotate(ang, axis);
+		trot = trot * matrix3x3d::Rotate(ang, axis);
 	}
 	double af;
 	if (m_target->GetStationType()->dockMethod == SpaceStationType::ORBITAL)

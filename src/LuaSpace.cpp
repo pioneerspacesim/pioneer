@@ -359,7 +359,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	parkPos = station->GetPosition() + station->GetOrient() * parkPos;
 
 	matrix3x3d rot = station->GetOrient();
-	if (station->IsGroundStation()) matrix3x3d::RotateXMatrix(M_PI/2) * rot;
+	if (station->IsGroundStation()) matrix3x3d::RotateX(M_PI/2) * rot;
 
 	ship->SetFrame(station->GetFrame());
 	ship->SetVelocity(vector3d(0.0));

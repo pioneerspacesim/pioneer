@@ -33,27 +33,27 @@ void InternalCamera::SetMode(Mode m)
 	switch (m_mode) {
 		case MODE_FRONT:
 			m_name = Lang::CAMERA_FRONT_VIEW;
-			SetOrient(matrix3x3d::RotateYMatrix(M_PI*2));
+			SetOrient(matrix3x3d::RotateY(M_PI*2));
 			break;
 		case MODE_REAR:
 			m_name = Lang::CAMERA_REAR_VIEW;
-			SetOrient(matrix3x3d::RotateYMatrix(M_PI));
+			SetOrient(matrix3x3d::RotateY(M_PI));
 			break;
 		case MODE_LEFT:
 			m_name = Lang::CAMERA_LEFT_VIEW;
-			SetOrient(matrix3x3d::RotateYMatrix((M_PI/2)*3));
+			SetOrient(matrix3x3d::RotateY((M_PI/2)*3));
 			break;
 		case MODE_RIGHT:
 			m_name = Lang::CAMERA_RIGHT_VIEW;
-			SetOrient(matrix3x3d::RotateYMatrix(M_PI/2));
+			SetOrient(matrix3x3d::RotateY(M_PI/2));
 			break;
 		case MODE_TOP:
 			m_name = Lang::CAMERA_TOP_VIEW;
-			SetOrient(matrix3x3d::RotateXMatrix((M_PI/2)*3));
+			SetOrient(matrix3x3d::RotateX((M_PI/2)*3));
 			break;
 		case MODE_BOTTOM:
 			m_name = Lang::CAMERA_BOTTOM_VIEW;
-			SetOrient(matrix3x3d::RotateXMatrix(M_PI/2));
+			SetOrient(matrix3x3d::RotateX(M_PI/2));
 			break;
 	}
 }
@@ -140,10 +140,10 @@ void ExternalCamera::UpdateTransform()
 		}
 	}
 	vector3d p = vector3d(0, 0, m_dist);
-	p = matrix3x3d::RotateXMatrix(-DEG2RAD(m_rotX)) * p;
-	p = matrix3x3d::RotateYMatrix(-DEG2RAD(m_rotY)) * p;
-	m_extOrient = matrix3x3d::RotateYMatrix(-DEG2RAD(m_rotY)) *
-		matrix3x3d::RotateXMatrix(-DEG2RAD(m_rotX));
+	p = matrix3x3d::RotateX(-DEG2RAD(m_rotX)) * p;
+	p = matrix3x3d::RotateY(-DEG2RAD(m_rotY)) * p;
+	m_extOrient = matrix3x3d::RotateY(-DEG2RAD(m_rotY)) *
+		matrix3x3d::RotateX(-DEG2RAD(m_rotX));
 	SetPosition(p);
 	SetOrient(m_extOrient);
 }
@@ -173,25 +173,25 @@ SiderealCamera::SiderealCamera(const Ship *s, const vector2f &size, float fovY, 
 void SiderealCamera::RotateUp(float frameTime)
 {
 	const vector3d rotAxis = m_sidOrient.VectorX();
-	m_sidOrient = matrix3x3d::BuildRotate(-M_PI/4 * frameTime, rotAxis) * m_sidOrient;
+	m_sidOrient = matrix3x3d::Rotate(-M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
 void SiderealCamera::RotateDown(float frameTime)
 {
 	const vector3d rotAxis = m_sidOrient.VectorX();
-	m_sidOrient = matrix3x3d::BuildRotate(M_PI/4 * frameTime, rotAxis) * m_sidOrient;
+	m_sidOrient = matrix3x3d::Rotate(M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
 void SiderealCamera::RotateLeft(float frameTime)
 {
 	const vector3d rotAxis = m_sidOrient.VectorY();
-	m_sidOrient = matrix3x3d::BuildRotate(-M_PI/4 * frameTime, rotAxis) * m_sidOrient;
+	m_sidOrient = matrix3x3d::Rotate(-M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
 void SiderealCamera::RotateRight(float frameTime)
 {
 	const vector3d rotAxis = m_sidOrient.VectorY();
-	m_sidOrient = matrix3x3d::BuildRotate(M_PI/4 * frameTime, rotAxis) * m_sidOrient;
+	m_sidOrient = matrix3x3d::Rotate(M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
 void SiderealCamera::ZoomIn(float frameTime)
@@ -221,13 +221,13 @@ void SiderealCamera::ZoomEventUpdate(float frameTime)
 void SiderealCamera::RollLeft(float frameTime)
 {
 	const vector3d rotAxis = m_sidOrient.VectorZ();
-	m_sidOrient = matrix3x3d::BuildRotate(M_PI/4 * frameTime, rotAxis) * m_sidOrient;
+	m_sidOrient = matrix3x3d::Rotate(M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
 void SiderealCamera::RollRight(float frameTime)
 {
 	const vector3d rotAxis = m_sidOrient.VectorZ();
-	m_sidOrient = matrix3x3d::BuildRotate(-M_PI/4 * frameTime, rotAxis) * m_sidOrient;
+	m_sidOrient = matrix3x3d::Rotate(-M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
 void SiderealCamera::Reset()

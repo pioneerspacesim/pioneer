@@ -591,7 +591,7 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port) const
 	// Still in docking animation process?
 	if (dt.stage <= m_type->numDockingStages) {
 		ship->SetPosition(GetPosition() + GetOrient()*dport.pos);
-		matrix3x3d wantRot = matrix3x3d::BuildFromVectors(dport.xaxis, dport.yaxis);
+		matrix3x3d wantRot = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis);
 		// use quaternion spherical linear interpolation to do
 		// rotation smoothly
 		Quaterniond wantQuat = Quaterniond::FromMatrix3x3(wantRot);
@@ -603,10 +603,10 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port) const
 	if (m_type->dockMethod == SpaceStationType::ORBITAL) {
 		ship->SetPosition(GetPosition() + GetOrient()*dport.pos);
 		vector3d zaxis = dport.xaxis.Cross(dport.yaxis);
-		ship->SetOrient(GetOrient() * matrix3x3d::BuildFromVectors(dport.xaxis, dport.yaxis));
+		ship->SetOrient(GetOrient() * matrix3x3d::FromVectors(dport.xaxis, dport.yaxis));
 	} else {
 		ship->SetPosition(GetPosition() + GetOrient()*dport.pos);		// + dport.yaxis));
-		ship->SetOrient(GetOrient() * matrix3x3d::BuildFromVectors(dport.xaxis, dport.yaxis));
+		ship->SetOrient(GetOrient() * matrix3x3d::FromVectors(dport.xaxis, dport.yaxis));
 	}
 }
 
@@ -643,7 +643,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 	double len = m_type->angVel * timeStep;
 	if (!is_zero_exact(len)) {
 		vector3d axis = vector3d(0,1,0);
-		matrix3x3d r = matrix3x3d::BuildRotate(len, axis);
+		matrix3x3d r = matrix3x3d::Rotate(len, axis);
 		SetOrient(r * GetOrient());
 	}
 	m_oldAngDisplacement = len;
@@ -662,7 +662,7 @@ void SpaceStation::UpdateInterpTransform(double alpha)
 	double len = m_oldAngDisplacement * (1.0-alpha);
 	if (!is_zero_exact(len)) {
 		vector3d axis = vector3d(0,1,0);
-		matrix3x3d rot = matrix3x3d::BuildRotate(-len, axis);	// rotate backwards
+		matrix3x3d rot = matrix3x3d::Rotate(-len, axis);	// rotate backwards
 		m_interpOrient = rot * GetOrient();
 	}
 	else m_interpOrient = GetOrient();

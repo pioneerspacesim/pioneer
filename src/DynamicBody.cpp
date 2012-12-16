@@ -158,7 +158,7 @@ void DynamicBody::TimeStepUpdate(const float timeStep)
 		double len = m_angVel.Length();
 		if (len > 1e-16) {
 			vector3d axis = m_angVel * (1.0 / len);
-			matrix3x3d r = matrix3x3d::BuildRotate(len * timeStep, axis);
+			matrix3x3d r = matrix3x3d::Rotate(len * timeStep, axis);
 			SetOrient(r * GetOrient());
 		}
 		m_oldAngDisplacement = m_angVel * timeStep;
@@ -187,7 +187,7 @@ void DynamicBody::UpdateInterpTransform(double alpha)
 	double len = m_oldAngDisplacement.Length() * (1.0-alpha);
 	if (len > 1e-16) {
 		vector3d axis = m_oldAngDisplacement.Normalized();
-		matrix3x3d rot = matrix3x3d::BuildRotate(-len, axis);		// rotate backwards
+		matrix3x3d rot = matrix3x3d::Rotate(-len, axis);		// rotate backwards
 		m_interpOrient = rot * GetOrient();
 	}
 	else m_interpOrient = GetOrient();

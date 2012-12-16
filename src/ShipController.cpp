@@ -181,7 +181,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool manualR
 			m_mouseY -= mody;
 
 			if(!is_zero_general(modx) || !is_zero_general(mody)) {
-				matrix3x3d mrot = matrix3x3d::RotateYMatrix(modx); mrot.RotateX(mody);
+				matrix3x3d mrot = matrix3x3d::RotateY(modx) * matrix3x3d::RotateX(mody);
 				m_mouseDir = (rot * (mrot * objDir)).Normalized();
 			}
 		}
