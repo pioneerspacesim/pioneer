@@ -15,6 +15,8 @@ Alpha 30
    * Fixes
      * Interpret galaxy density bitmap as unsigned values (#1818, #1813)
      * Invert mouse cursor movement in rear view (#1820)
+     * Missions no longer vanish from view when other missions are completed
+       (#1824,#1826)
 
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
@@ -23,6 +25,7 @@ Alpha 30
    * Internal changes
      * Improvements in text rendering performance (#1791)
      * Move MSVC headers and libs to pioneer-thirdparty repository (#1807)
+     * Removed legact MissionStatus code from core (#1824)
 
 Alpha 29
 
