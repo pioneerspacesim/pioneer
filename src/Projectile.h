@@ -34,6 +34,7 @@ public:
 	virtual void PostLoadFixup(Space *space);
 
 	static void FreeModel();
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -52,10 +53,10 @@ private:
 
 	static void BuildModel();
 
-	static Graphics::VertexArray *s_sideVerts;
-	static Graphics::VertexArray *s_glowVerts;
-	static Graphics::Material *s_sideMat;
-	static Graphics::Material *s_glowMat;
+	static ScopedPtr<Graphics::VertexArray> s_sideVerts;
+	static ScopedPtr<Graphics::VertexArray> s_glowVerts;
+	static ScopedPtr<Graphics::Material> s_sideMat;
+	static ScopedPtr<Graphics::Material> s_glowMat;
 };
 
 #endif /* _PROJECTILE_H */
