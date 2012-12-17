@@ -26,6 +26,7 @@ Alpha 30
      * Improvements in text rendering performance (#1791)
      * Move MSVC headers and libs to pioneer-thirdparty repository (#1807)
      * Removed legact MissionStatus code from core (#1824)
+     * Optimisation in access to ship type information (#1827)
 
 Alpha 29
 
