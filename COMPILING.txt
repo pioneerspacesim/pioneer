@@ -105,7 +105,7 @@ OS X - Autotools
 
 2. You will need the following libraries installed. The best method I found
    was to install macports (http://www.macports.org/) and install the
-   following ports (sudo port instal xxxx):
+   following ports (sudo port install xxxx):
 
      assimp
      pkgconfig
@@ -118,7 +118,7 @@ OS X - Autotools
 
 3. Run ./bootstrap to generate your 'configure' file
 
-3. By default the OpenGL frameworks don't seem to be visible the 'automake'
+4. By default the OpenGL frameworks don't seem to be visible to 'automake'
    way so I did a few tricks to get it working:
 
    Create a symlink from the OpenGL framework to your /usr/local/include 
@@ -126,14 +126,14 @@ OS X - Autotools
 
      sudo ln -s /System/Library/Frameworks/OpenGL.framework/Versions/A/Headers/ /usr/local/include/GL
 
-4. Instead of running ./configure run it with this command line:
+5. Instead of running ./configure run it with this command line:
 
      LDFLAGS="-L/System/Library/Frameworks/OpenGL.framework/Libraries -L/System/Library/Frameworks/GLUT.framework" ./configure
 
-5. Now you can run make as per normal. :)
+6. Now you can run make as per normal. :)
 
 Note: Compiling from source this way isn't recommended as it doesn't allow you
-      to 'install' the appication into a different location (pioneer.app
+      to 'install' the application into a different location (pioneer.app
       bundle). It also isn't the 'Apple way', To do that you need to use XCode.
 
 OSX - XCode 4
