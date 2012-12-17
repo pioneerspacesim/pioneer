@@ -46,7 +46,7 @@ Linux - Autotools
    If your platform doesn't have assimp 3.0, you'll need to build it from
    source. Its available in pioneer-thirdparty, see below.
 
-2. Run ./bootstrap.sh to generate your 'configure' file
+2. Run ./bootstrap to generate your 'configure' file
 
 3. Run ./configure to configure the build. If you're using the
    pioneer-thirdparty repository, pass
@@ -87,7 +87,7 @@ Windows - Autotools (Linux cross-compile)
 
 2. Prepare the pioneer-thirdparty repository. See below.
 
-3. Now you can build Pioneer. Run ./bootstrap.sh to generate your 'configure'
+3. Now you can build Pioneer. Run ./bootstrap to generate your 'configure'
    file.
 
 4. Run configure to configure the build:
@@ -112,7 +112,7 @@ OS X - Autotools
      glew
      libsigcxx2
 
-2. Run ./bootstrap.sh to generate your 'configure' file
+2. Run ./bootstrap to generate your 'configure' file
 
 3. By default the OpenGL frameworks don't seem to be visible the 'automake'
    way so I did a few tricks to get it working:
