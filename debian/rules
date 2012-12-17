@@ -15,7 +15,7 @@ CFLAGSMORE =
 CXXFLAGSMORE =
 
 %:
-	dh $@ --with autoreconf --with quilt --parallel
+	dh $@ --with autoreconf --parallel
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
