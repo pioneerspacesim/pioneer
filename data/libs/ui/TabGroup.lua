@@ -84,9 +84,15 @@ function TabGroup.AddTab (self, args)
 		self:Refresh()
 	end
 
+	tab.SetTitle = function (t, text)
+		self.title:SetText(text)
+	end
+
 	if not self.current then
 		self:SwitchToNum(num)
 	end
+
+	return tab
 end
 
 function TabGroup.RemoveTab (self, id)
