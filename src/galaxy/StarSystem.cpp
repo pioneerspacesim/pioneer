@@ -900,7 +900,7 @@ vector3d Orbit::EvenSpacedPosAtTime(double t) const
 	return pos;
 }
 
-double calc_orbital_period(double semiMajorAxis, double centralMass)
+static double calc_orbital_period(double semiMajorAxis, double centralMass)
 {
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
 }
