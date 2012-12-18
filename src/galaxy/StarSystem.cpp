@@ -905,6 +905,15 @@ static double calc_orbital_period(double semiMajorAxis, double centralMass)
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
 }
 
+static double calc_orbital_period_gravpoint(double semiMajorAxis, double totalMass, double bodyMass)
+{
+	const double r1 = semiMajorAxis;
+	const double m2 = (totalMass - bodyMass);
+	const double a = r1 * totalMass / m2;
+	const double a3 = a*a*a;
+	return 2.0 * M_PI * sqrt(a3 / (G * totalMass));
+}
+
 SystemBody *StarSystem::GetBodyByPath(const SystemPath &path) const
 {
 	assert(m_path.IsSameSystem(path));
@@ -972,7 +981,7 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = csbody->semiMajorAxis.ToDouble() * AU;
 		if(parent->type == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
-			kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis*parent->GetMass()/(parent->GetMass()-kid->GetMass()), parent->GetMass());
+			kid->orbit.period = calc_orbital_period_gravpoint(kid->orbit.semiMajorAxis, parent->GetMass(), kid->GetMass());
 		else
 			kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
 		kid->orbit.orbitalPhaseAtStart = csbody->orbitalPhaseAtStart.ToDouble();
@@ -1702,7 +1711,7 @@ void StarSystem::MakePlanetsAround(SystemBody *primary, MTRand &rand)
 		planet->orbit.eccentricity = ecc.ToDouble();
 		planet->orbit.semiMajorAxis = semiMajorAxis.ToDouble() * AU;
 		if(primary->type == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
-			planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis*primary->GetMass()/(primary->GetMass()-planet->GetMass()), primary->GetMass());
+			planet->orbit.period = calc_orbital_period_gravpoint(planet->orbit.semiMajorAxis, primary->GetMass(), planet->GetMass());
 		else
 			planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
 
