@@ -184,8 +184,9 @@ Mission = {
 		-- Initialise the new mission
 		local newMission = {}
 		for k,v in pairs(template) do
-			newCharacter[k] = v
+			newMission[k] = v
 		end
+		setmetatable(newMission,Mission.meta)		
 		if not (type(newMission.due) == "number") then newMission.due = nil end
 		if not (type(newMission.reward) == "number") then newMission.reward = nil end
 		if not (type(newMission.location) == "userdata") then newMission.location = Game.system.path end
@@ -285,7 +286,7 @@ Mission = {
 	GetClick = function (self)
 		local t = Translate:GetTranslator()
 		return MissionClickHandler[self.type] or function (ref) return Engine.ui:Label(t('NOT_FOUND')) end
-	end
+	end,
 
 	Serialize = function (self)
 		return self
