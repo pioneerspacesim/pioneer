@@ -907,6 +907,24 @@ static double calc_orbital_period(double semiMajorAxis, double centralMass)
 
 static double calc_orbital_period_gravpoint(double semiMajorAxis, double totalMass, double bodyMass)
 {
+	// variable names according to the formula in:
+	// http://en.wikipedia.org/wiki/Barycentric_coordinates_(astronomy)#Two-body_problem
+	//
+	// We have a 2-body orbital system, represented as a gravpoint (at the barycentre),
+	// plus two bodies, each orbiting that gravpoint.
+	// We need to compute the orbital period, given the semi-major axis of one body's orbit
+	// around the gravpoint, the total mass of the system, and the mass of the body.
+	//
+	// According to Kepler, the orbital period P is defined by:
+	//
+	// P = 2*pi * sqrt( a**3 / G*(M1 + M2) )
+	//
+	// where a is the semi-major axis of the orbit, M1 is the mass of the primary and M2 is
+	// the mass of the secondary. But we don't have that semi-major axis value, we have the
+	// the semi-major axis for the orbit of the secondary around the gravpoint, instead.
+	//
+	// So, this first computes the semi-major axis of the secondary's orbit around the primary,
+	// and then uses the above formula to compute the orbital period.
 	const double r1 = semiMajorAxis;
 	const double m2 = (totalMass - bodyMass);
 	const double a = r1 * totalMass / m2;
