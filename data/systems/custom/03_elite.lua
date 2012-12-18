@@ -239,17 +239,17 @@ local things_in_orbit = {
 		:mass(f(1,10000))
 		:radius(f(1,10000))
 		:rotation_period(f(1,24*60*17))
-		:orbital_offset(f(1,1000)),
+		:orbital_offset(fixed.deg2rad(f(9,50))),
 	CustomSystemBody:new('Central Cemetary','STARPORT_ORBITAL')
 		:semi_major_axis(f(4,100000))
 		:rotation_period(f(1,24*60*17))
-		:orbital_offset(f(2,1000)),
+		:orbital_offset(fixed.deg2rad(f(18,50))),
 	CustomSystemBody:new('Follower','PLANET_ASTEROID')
 		:semi_major_axis(f(4,100000))
 		:mass(f(1,10000))
 		:radius(f(1,10000))
 		:rotation_period(f(1,24*60*17))
-		:orbital_offset(f(3,1000)),
+		:orbital_offset(fixed.deg2rad(f(27,50))),
 }
 
 s_tionisla:bodies(tionisla, {landfall, things_in_orbit})
