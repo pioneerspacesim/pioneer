@@ -8,14 +8,9 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-ifeq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
-	OPTIMISE = -O2
-else
-	OPTIMISE = -O0
-endif
-
 PIONEER_DATA_DIR = /usr/share/games/pioneer/data
-CFLAGS = $(OPTIMISE) -g
+CFLAGS = $(shell dpkg-buildflags --get CFLAGS)
+CXXFLAGS = $(shell dpkg-buildflags --get CXXFLAGS)
 CFLAGSMORE =
 CXXFLAGSMORE =
 
@@ -27,6 +22,6 @@ override_dh_auto_configure:
 			     --with-external-liblua \
 			     PIONEER_DATA_DIR="$(PIONEER_DATA_DIR)" \
 			     CFLAGS="$(CFLAGS) $(CFLAGSMORE)" \
-			     CXXFLAGS="$(CFLAGS) $(CXXFLAGSMORE)"
+			     CXXFLAGS="$(CXXFLAGS) $(CXXFLAGSMORE)"
 
 override_dh_auto_test:;
