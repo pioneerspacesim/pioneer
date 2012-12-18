@@ -923,19 +923,19 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 {
 	// replaces gravpoint mass by sum of masses of its children
 	// the code goes here to cover also planetary gravpoints (gravpoints that are not rootBody)
-	if(parent->type == SystemBody::TYPE_GRAVPOINT) {
-		parent->mass = fixed(0);
+	if (parent->type == SystemBody::TYPE_GRAVPOINT) {
+		fixed mass(0);
 
 		for (std::vector<CustomSystemBody*>::const_iterator i = children.begin(); i != children.end(); ++i) {
 			const CustomSystemBody *csbody = *i;
 
-			if(parent->type == SystemBody::TYPE_GRAVPOINT) {
-				if(csbody->type >= SystemBody::TYPE_STAR_MIN && csbody->type <= SystemBody::TYPE_STAR_MAX)
-					parent->mass = parent->mass + csbody->mass;
-				else
-					parent->mass = parent->mass + csbody->mass/SUN_MASS_TO_EARTH_MASS;
-			}
+			if (csbody->type >= SystemBody::TYPE_STAR_MIN && csbody->type <= SystemBody::TYPE_STAR_MAX)
+				mass += csbody->mass;
+			else
+				mass += csbody->mass/SUN_MASS_TO_EARTH_MASS;
 		}
+
+		parent->mass = mass;
 	}
 
 	for (std::vector<CustomSystemBody*>::const_iterator i = children.begin(); i != children.end(); ++i) {
