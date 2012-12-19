@@ -28,6 +28,7 @@ Alpha 30
      * Move MSVC headers and libs to pioneer-thirdparty repository (#1807)
      * Removed legact MissionStatus code from core (#1824)
      * Optimisation in access to ship type information (#1827)
+     * Add support for high precision timing and floating-point exceptions (#1836)
 
 Alpha 29
 
