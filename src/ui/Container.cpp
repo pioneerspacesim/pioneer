@@ -173,7 +173,7 @@ void Container::CollectShortcuts(std::map<KeySym,Widget*> &shortcuts)
 {
 	{
 	const std::set<KeySym> &widgetShortcuts = GetShortcuts();
-	if (widgetShortcuts.size() > 0)
+	if (!widgetShortcuts.empty())
 		for (std::set<KeySym>::const_iterator j = widgetShortcuts.begin(); j != widgetShortcuts.end(); ++j)
 			shortcuts[*j] = this;
 	}
@@ -184,7 +184,7 @@ void Container::CollectShortcuts(std::map<KeySym,Widget*> &shortcuts)
 			static_cast<Container*>(widget)->CollectShortcuts(shortcuts);
 		else {
 			const std::set<KeySym> &widgetShortcuts = widget->GetShortcuts();
-			if (widgetShortcuts.size() > 0)
+			if (!widgetShortcuts.empty())
 				for (std::set<KeySym>::const_iterator j = widgetShortcuts.begin(); j != widgetShortcuts.end(); ++j)
 					shortcuts[*j] = widget;
 		}
