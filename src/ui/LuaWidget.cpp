@@ -32,6 +32,20 @@ public:
 		return 0;
 	}
 
+
+	static int l_add_shortcut(lua_State *l) {
+		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
+		w->AddShortcut(UI::KeySym::FromString(luaL_checkstring(l, 2)));
+		return 0;
+	}
+
+	static int l_remove_shortcut(lua_State *l) {
+		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
+		w->RemoveShortcut(UI::KeySym::FromString(luaL_checkstring(l, 2)));
+		return 0;
+	}
+
+
 	static int l_attr_disabled(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
 		lua_pushboolean(l, w->IsDisabled());
@@ -114,6 +128,9 @@ template <> void LuaObject<UI::Widget>::RegisterClass()
 
 		{ "Disable", LuaWidget::l_disable       },
 		{ "Enable",  LuaWidget::l_enable        },
+
+		{ "AddShortcut",    LuaWidget::l_add_shortcut    },
+		{ "RemoveShortcut", LuaWidget::l_remove_shortcut },
 
 		{ 0, 0 }
 	};

@@ -51,6 +51,8 @@ for i = 1,#buttonDefs do
 	local def = buttonDefs[i]
 	local button = ui:Button(ui:HBox():PackEnd(ui:Label(def[1])))
 	button.onClick:Connect(def[2])
+	if i < 10 then button:AddShortcut(i) end
+	if i == 10 then button:AddShortcut("0") end
 	buttonSet[i] = button
 end
 

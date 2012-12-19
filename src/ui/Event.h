@@ -43,6 +43,8 @@ struct KeySym {
 	SDLMod mod;
 	Uint16 unicode;
 
+	static KeySym FromString(const std::string &spec);
+
 	bool operator<(const KeySym &b) const {
 		return sym < b.sym || (sym == b.sym && mod < b.mod);
 	}
