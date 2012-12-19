@@ -8,6 +8,7 @@ Alpha 30
    * Minor changes and tweaks
      * Don't allocate projectile geometry for every projectile. Huge
        performance increase during combat (#1822)
+     * Main menu now has keyboard shortcuts again (#1821)
 
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)
@@ -22,6 +23,7 @@ Alpha 30
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
      * Fix layout of non-contributing widgets inside pack boxes (#1789)
+     * UI widgets can now have keyboard shortcuts (#1821)
 
    * Internal changes
      * Improvements in text rendering performance (#1791)

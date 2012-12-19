@@ -169,4 +169,26 @@ Widget *Container::GetWidgetAt(const Point &pos)
 	return this;
 }
 
+void Container::CollectShortcuts(std::map<KeySym,Widget*> &shortcuts)
+{
+	{
+	const std::set<KeySym> &widgetShortcuts = GetShortcuts();
+	if (!widgetShortcuts.empty())
+		for (std::set<KeySym>::const_iterator j = widgetShortcuts.begin(); j != widgetShortcuts.end(); ++j)
+			shortcuts[*j] = this;
+	}
+
+	for (WidgetIterator i = WidgetsBegin(); i != WidgetsEnd(); ++i) {
+		Widget *widget = (*i).Get();
+		if (widget->IsContainer())
+			static_cast<Container*>(widget)->CollectShortcuts(shortcuts);
+		else {
+			const std::set<KeySym> &widgetShortcuts = widget->GetShortcuts();
+			if (!widgetShortcuts.empty())
+				for (std::set<KeySym>::const_iterator j = widgetShortcuts.begin(); j != widgetShortcuts.end(); ++j)
+					shortcuts[*j] = widget;
+		}
+	}
+}
+
 }
