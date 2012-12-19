@@ -4,6 +4,8 @@
 -- Get the translator function
 local t = Translate:GetTranslator()
 
+
+
 -- Default numeric values --
 ----------------------------
 local oneyear = 31557600 -- One standard Julian year
@@ -16,12 +18,17 @@ local seedbump = 10
 local max_jumps_unserviced = 255
 
 local ads = {}
+
 local service_history = {
 	lastdate = 0, -- Default will be overwritten on game start
 	company = nil, -- Name of company that did the last service
 	service_period = oneyear, -- default
 	jumpcount = 0, -- Number of jumps made after the service_period
+	engine = '', -- Engine at the time of failure
+	Rubbish = 0, --Engine weight at the time of failure
+	hyperdrivedestroyed = false, -- Is the hyperdrive actually destroyed?
 }
+
 
 local lastServiceMessage = function (hyperdrive)
 	-- Fill in the blanks tokens on the {lasttime} string from service_history
@@ -107,6 +114,10 @@ local onChat = function (form, ref, option)
 			service_history.service_period = ad.strength * oneyear
 			service_history.company = ad.title
 			service_history.jumpcount = 0
+			service_history.engine = ''
+			service_history.Rubbish = 0
+			service_history.hyperdrivedestroyed = false
+			
 		end
 	end
 end
@@ -128,6 +139,9 @@ local onShipEquipmentChanged = function (ship, equipment)
 		service_history.lastdate = Game.time
 		service_history.service_period = oneyear
 		service_history.jumpcount = 0
+		service_history.engine = ''
+		service_history.Rubbish = 0
+		service_history.hyperdrivedestroyed = false
 	end
 end
 
@@ -173,7 +187,11 @@ local onGameStart = function ()
 			company = nil, -- Name of company that did the last service
 			service_period = oneyear, -- default
 			jumpcount = 0, -- Number of jumps made after the service_period
+			engine = '',
+			Rubbish = 0,
+			hyperdrivedestroyed = false,
 		}
+		
 	else
 		for k,ad in pairs(loaded_data.ads) do
 			local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
@@ -186,62 +204,67 @@ local onGameStart = function ()
 	end
 end
 
+
+
+	
+
 local onEnterSystem = function (ship)
 	if ship:IsPlayer() then print(('DEBUG: Jumps since warranty: %d, chance of failure (if > 0): 1/%d\nWarranty expires: %s'):format(service_history.jumpcount,max_jumps_unserviced-service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period))) end
-	if ship:IsPlayer() and (service_history.lastdate + service_history.service_period < Game.time) then
-		service_history.jumpcount = service_history.jumpcount + 1
+	if ship:IsPlayer() then
+		service_history.jumpcount = service_history.jumpcount + 255
 		if (service_history.jumpcount > max_jumps_unserviced) or (Engine.rand:Integer(max_jumps_unserviced - service_history.jumpcount) == 0) then
-			-- Destroy the engine
-			local engine = ship:GetEquip('ENGINE',1)
-			ship:RemoveEquip(engine)
-			ship:AddEquip('RUBBISH',EquipType.GetEquipType(engine).mass)
-			Comms.Message(t("The ship's hyperdrive has been destroyed by a malfunction. Land on the nearest planet to initiate emergency repairs."))
+			-- Destroy the engine and get amount of rubbish equal to the engine weight.
+			service_history.engine = ship:GetEquip('ENGINE',1)
+			ship:RemoveEquip(service_history.engine)
+			ship:AddEquip('RUBBISH',EquipType.GetEquipType(service_history.engine).mass)
+			service_history.Rubbish = (EquipType.GetEquipType(service_history.engine).mass)
+			Comms.Message(t("The ship's hyperdrive has been destroyed by a malfunction. Land at the nearest planet to initiate emergency repairs."))
+			service_history.hyperdrivedestroyed = true
 		end
 	end
 end
 
 
 local onShipLanded = function (ship, body)
-	--Make sure the ship doesn't already have a hyperdrive.  
-local enginebroken = ship:GetEquipFree('ENGINE')
-	if ship:IsPlayer() and  enginebroken == 1 then
-		--Define the materials needed
-		local preciousmetals = ship:GetEquipCount('CARGO', 'PRECIOUS_METALS')
-		local rubbish = ship:GetEquipCount('CARGO','RUBBISH')
-		local computerparts = ship:GetEquipCount('CARGO','COMPUTERS')
+	--Check if is player and if the hyperdrive is destroyed.
+	if ship:IsPlayer() and (service_history.hyperdrivedestroyed == true) then
+			--Define the materials needed
+			preciousmetals = Game.player:GetEquipCount('CARGO', 'PRECIOUS_METALS')
+			rubbish = Game.player:GetEquipCount('CARGO','RUBBISH')
+			metalalloys = Game.player:GetEquipCount('CARGO','METAL_ALLOYS')
 		--Make sure player has the correct amount of materials. The value of these should be at least equal to a class one hyperdrive.
 		--If amount is incorrect, tell player
-		if preciousmetals >= 3 and rubbish >= 19 and computerparts >= 4 then
-			Comms.Message('Unload rubbish to fix the old hyperdrive. You can salvage it but the power will be that of a class 1 drive.')
-		elseif preciousmetals < 2 or rubbish < 20 then
-			Comms.Message('You do not have enough materials to build a hyperdrive.')
-		end
+		if (preciousmetals >= 3) and (rubbish >= service_history.Rubbish) and (metalalloys >= 4) then
+			Comms.Message('Unload rubbish to attempt to salvage the old hyperdrive')
+		elseif (preciousmetals < 2) or (rubbish < service_history.Rubbish) or (metalalloys < 4) then
+			Comms.Message('You do not have enough materials to salvage your hyperdrive.')	
+		end	
 	end
 end
 
+
 local onCargoUnload = function (body, cargotype)
 		--Make sure engine is broken and that rubbish is jettisoned. Can be changed to something else easily.
-	local enginebroken = Game.player:GetEquipFree('ENGINE')
-	if enginebroken == 1 and (cargotype == ('RUBBISH')) then
-		-- Make sure the player is landed
-		if (Game.player.flightState == "LANDED") then
-			--Define the materials needed.
-			local preciousmetals = Game.player:GetEquipCount('CARGO', 'PRECIOUS_METALS')
-			local rubbish = Game.player:GetEquipCount('CARGO','RUBBISH')
-			local computerparts = Game.player:GetEquipCount('CARGO','COMPUTERS')
+	if (cargotype == 'RUBBISH') and (service_history.hyperdrivedestroyed == true) then
+		-- Make sure the player is landed; not at a spacestation or port. And make sure engine slot is empty... again.
+		if (Game.player.flightState == "LANDED") and (Game.player:GetEquipFree('ENGINE') == 1) then
 				--Make sure the amount of materials is correct
-			if preciousmetals >= 3 and rubbish >= 19 and computerparts >= 4 then
+			if (preciousmetals >= 3) and (rubbish == service_history.Rubbish - 1) and (metalalloys >= 4) then
 				-- Add engine and remove materials
-				Game.player:AddEquip('DRIVE_CLASS1', 1)
-				Game.player:RemoveEquip('RUBBISH', 19)
-				Game.player:RemoveEquip('PRECIOUS_METALS', 3)
-				Game.player:RemoveEquip('COMPUTERS',4) 
-				Comms.Message('Hyperdrive salvaged successfully')
-				-- Reset service_history
-				service_history.company = nil
-				service_history.lastdate = Game.time
-				service_history.service_period = oneyear
-				service_history.jumpcount = 0
+				Game.player:RemoveEquip('RUBBISH', service_history.Rubbish)
+				Game.player:RemoveEquip('PRECIOUS_METALS', 4)
+				Game.player:RemoveEquip('METAL_ALLOYS',3)
+				Comms.Message('Hyperdrive repair begun. ETC is 6 hours.')
+				--Keep the player from taking off
+				local fuel = Game.player.fuel
+				Game.player:SetFuelPercent(0)
+				--Keep player landed for 6 hours and then display message and set fuel.
+				Timer:CallAt(Game.time + 21600, function () Game.player:SetFuelPercent(fuel) end)
+				Timer:CallAt(Game.time + 21600, function () Comms.Message('Hyperdrive repairs complete. The repaired drive should be good for 30 more jumps.') end)
+				Timer:CallAt(Game.time + 21600, function () Game.player:AddEquip(service_history.engine, 1) end)
+				--Reset service history and give the player 30 more jumps
+				service_history.hyperdrivedestroyed = false
+				service_history.jumpcount = 220
 			end
 		end	
 	end
@@ -261,6 +284,6 @@ Event.Register("onShipFlavourChanged", onShipFlavourChanged)
 Event.Register("onShipEquipmentChanged", onShipEquipmentChanged)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onShipLanded", onShipLanded)
-Event.Register("onCargoUnload", onCargoUnload)
+Event.Register ("onCargoUnload", onCargoUnload)
 
 Serializer:Register("BreakdownServicing", serialize, unserialize)
