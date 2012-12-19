@@ -10,10 +10,13 @@
 #include "Ship.h"
 #include "Space.h"
 #include "WorldView.h"
+#include "OS.h"
 
 void ShipController::StaticUpdate(float timeStep)
 {
+	OS::EnableFPE();
 	m_ship->AITimeStep(timeStep);
+	OS::DisableFPE();
 }
 
 PlayerShipController::PlayerShipController() :
@@ -115,7 +118,9 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 	else SetFlightControlState(CONTROL_MANUAL);
 
 	//call autopilot AI, if active (also applies to set speed and heading lock modes)
+	OS::EnableFPE();
 	m_ship->AITimeStep(timeStep);
+	OS::DisableFPE();
 }
 
 void PlayerShipController::CheckControlsLock()
