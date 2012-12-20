@@ -7,7 +7,6 @@
 #include "enum_table.h"
 #include "EquipType.h"
 #include "LuaFileSystem.h"
-#include "Player.h"
 #include "Polit.h"
 #include "Ship.h"
 #include "ShipType.h"
@@ -125,13 +124,6 @@ const struct EnumItem ENUM_EquipType[] = {
 const struct EnumItem ENUM_FileSystemRoot[] = {
 	{ "USER", LuaFileSystem::ROOT_USER },
 	{ "DATA", LuaFileSystem::ROOT_DATA },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_MissionStatus[] = {
-	{ "ACTIVE", Mission::ACTIVE },
-	{ "COMPLETED", Mission::COMPLETED },
-	{ "FAILED", Mission::FAILED },
 	{ 0, 0 },
 };
 

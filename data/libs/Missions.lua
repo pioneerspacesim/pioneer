@@ -92,8 +92,9 @@ Mission = {
 		if not (type(row.reward) == "number") then row.reward = 0 end
 		if not (type(row.location) == "userdata") then row.location = Game.system.path end
 		if not MissionStatus[row.status] then row.status = 'ACTIVE' end
-		table.insert(PersistentCharacters.player.missions,row)
-		return #PersistentCharacters.player.missions
+		local ref = #PersistentCharacters.player.missions+1
+		table.insert(PersistentCharacters.player.missions,ref,row)
+		return ref;
 	end,
 --
 -- Method: Get

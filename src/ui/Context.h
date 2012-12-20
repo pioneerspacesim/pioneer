@@ -22,6 +22,7 @@
 #include "Box.h"
 #include "Grid.h"
 #include "Scroller.h"
+#include "Icon.h"
 #include "Image.h"
 #include "Label.h"
 #include "MultiLineText.h"
@@ -112,10 +113,6 @@ public:
 	// event dispatch delegates
 	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }
 	bool DispatchSDLEvent(const SDL_Event &event) { return m_eventDispatcher.DispatchSDLEvent(event); }
-
-	void AddShortcut(const KeySym &keysym, Widget *target) { m_eventDispatcher.AddShortcut(keysym, target); }
-	void RemoveShortcut(const KeySym &keysym) { m_eventDispatcher.RemoveShortcut(keysym); }
-	void ClearShortcuts() { m_eventDispatcher.ClearShortcuts(); }
 
 	void RequestLayout() { m_needsLayout = true; }
 

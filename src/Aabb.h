@@ -4,10 +4,14 @@
 #ifndef _AABB_H
 #define _AABB_H
 
-#include "vector3.h"
+#include "libs.h"
 
 struct Aabb {
-	vector3d max, min;
+	vector3d min, max;
+	Aabb()
+		: min(DBL_MAX, DBL_MAX, DBL_MAX)
+		, max(-DBL_MAX, -DBL_MAX, -DBL_MAX)
+	{ }
 	void Update(const vector3d &p) {
 		if (max.x < p.x) max.x = p.x;
 		if (max.y < p.y) max.y = p.y;
@@ -15,6 +19,14 @@ struct Aabb {
 		if (min.x > p.x) min.x = p.x;
 		if (min.y > p.y) min.y = p.y;
 		if (min.z > p.z) min.z = p.z;
+	}
+	void Update(float x, float y, float z) {
+		if (max.x < x) max.x = x;
+		if (max.y < y) max.y = y;
+		if (max.z < z) max.z = z;
+		if (min.x > x) min.x = x;
+		if (min.y > y) min.y = y;
+		if (min.z > z) min.z = z;
 	}
 	template <typename T>
 	bool IsIn (const vector3<T> &p) const {

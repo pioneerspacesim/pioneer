@@ -35,22 +35,30 @@ const Uint32 TextureFont::CHARACTER_RANGES[] = {
 
 int TextureFont::s_glyphCount = 0;
 
-void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, Uint32 chr, float x, float y, const Color &c)
+void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t &glyph, float x, float y, const Color &c)
 {
-	glfglyph_t *glyph = &m_glyphs[chr];
+	const float offx = x + float(glyph.offx);
+	const float offy = y + GetHeight() - float(glyph.offy);
+	const float offU = glyph.offU;
+	const float offV = glyph.offV;
 
-	const float offx = x + float(glyph->offx);
-	const float offy = y + GetHeight() - float(glyph->offy);
-	const float offU = glyph->offU;
-	const float offV = glyph->offV;
+	const vector3f p0(offx,                offy,                  0.0f);
+	const vector3f p1(offx,                offy+glyph.texHeight, 0.0f);
+	const vector3f p2(offx+glyph.texWidth, offy,                  0.0f);
+	const vector3f p3(offx+glyph.texWidth, offy+glyph.texHeight, 0.0f);
 
-	va->Add(vector3f(offx,                 offy,                  0.0f), c, vector2f(offU, offV));
-	va->Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), c, vector2f(offU, offV + glyph->height));
-	va->Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), c, vector2f(offU + glyph->width, offV));
+	const vector2f t0(offU,             offV              );
+	const vector2f t1(offU,             offV+glyph.height);
+	const vector2f t2(offU+glyph.width, offV              );
+	const vector2f t3(offU+glyph.width, offV+glyph.height);
 
-	va->Add(vector3f(offx+glyph->texWidth, offy,                  0.0f), c, vector2f(offU + glyph->width, offV));
-	va->Add(vector3f(offx,                 offy+glyph->texHeight, 0.0f), c, vector2f(offU, offV + glyph->height));
-	va->Add(vector3f(offx+glyph->texWidth, offy+glyph->texHeight, 0.0f), c, vector2f(offU + glyph->width, offV + glyph->height));
+	va->Add(p0, c, t0);
+	va->Add(p1, c, t1);
+	va->Add(p2, c, t2);
+
+	va->Add(p2, c, t2);
+	va->Add(p1, c, t1);
+	va->Add(p3, c, t3);
 
 	s_glyphCount++;
 }
@@ -76,7 +84,7 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 			assert(n);
 			i += n;
 
-			const glfglyph_t &glyph = m_glyphs[chr];
+			const glfglyph_t &glyph = GetGlyph(chr);
 
 			line_width += glyph.advx;
 
@@ -85,11 +93,8 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
-				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
-
 				FT_Vector kern;
-				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(chr2).ftIndex, FT_KERNING_UNFITTED, &kern);
 				line_width += float(kern.x) / 64.0;
 			}
 		}
@@ -117,15 +122,12 @@ void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &cha
 			x = 0.0f;
 			y += GetHeight();
 		} else {
-			std::map<Uint32,glfglyph_t>::const_iterator it = m_glyphs.find(chr);
-			assert(it != m_glyphs.end());
-			float advance = it->second.advx;
+			const glfglyph_t &glyph = GetGlyph(chr);
+			float advance = glyph.advx;
 
 			if (nextChar != '\n' && nextChar != '\0') {
-				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-				FT_UInt b = FT_Get_Char_Index(m_face, nextChar);
 				FT_Vector kern;
-				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(nextChar).ftIndex, FT_KERNING_UNFITTED, &kern);
 				advance += float(kern.x) / 64.0f;
 			}
 
@@ -170,15 +172,12 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 			right = std::numeric_limits<float>::max();
 			x = 0.0f;
 		} else {
-			std::map<Uint32,glfglyph_t>::const_iterator it = m_glyphs.find(chr1);
-			assert(it != m_glyphs.end());
-			float advance = it->second.advx;
+			const glfglyph_t &glyph = GetGlyph(chr1);
+			float advance = glyph.advx;
 
 			if (chr2 != '\n' && chr2 != '\0') {
-				FT_UInt a = FT_Get_Char_Index(m_face, chr1);
-				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
 				FT_Vector kern;
-				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(chr2).ftIndex, FT_KERNING_UNFITTED, &kern);
 				advance += float(kern.x) / 64.0f;
 			}
 
@@ -218,23 +217,20 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 			assert(n);
 			i += n;
 
-			glfglyph_t *glyph = &m_glyphs[chr];
-			AddGlyphGeometry(&m_vertices, chr, roundf(px), py, color);
+			const glfglyph_t &glyph = GetGlyph(chr);
+			AddGlyphGeometry(&m_vertices, glyph, roundf(px), py, color);
 
 			if (str[i]) {
 				Uint32 chr2;
 				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
-				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
-
 				FT_Vector kern;
-				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(chr2).ftIndex, FT_KERNING_UNFITTED, &kern);
 				px += float(kern.x) / 64.0;
 			}
 
-			px += glyph->advx;
+			px += glyph.advx;
 		}
 	}
 
@@ -276,8 +272,8 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 			assert(n);
 			i += n;
 
-			glfglyph_t *glyph = &m_glyphs[chr];
-			AddGlyphGeometry(&m_vertices, chr, roundf(px), py, c);
+			const glfglyph_t &glyph = GetGlyph(chr);
+			AddGlyphGeometry(&m_vertices, glyph, roundf(px), py, c);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
@@ -285,15 +281,12 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 				n = utf8_decode_char(&chr2, &str[i]);
 				assert(n);
 
-				FT_UInt a = FT_Get_Char_Index(m_face, chr);
-				FT_UInt b = FT_Get_Char_Index(m_face, chr2);
-
 				FT_Vector kern;
-				FT_Get_Kerning(m_face, a, b, FT_KERNING_UNFITTED, &kern);
+				FT_Get_Kerning(m_face, glyph.ftIndex, GetGlyph(chr2).ftIndex, FT_KERNING_UNFITTED, &kern);
 				px += float(kern.x) / 64.0;
 			}
 
-			px += glyph->advx;
+			px += glyph.advx;
 		}
 	}
 
@@ -305,7 +298,10 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	: Font(descriptor)
 	, m_renderer(renderer)
 	, m_vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0)
+	, m_glyphsFast(MAX_FAST_GLYPHS)
 {
+	memset(&m_glyphsFast[0], 0, sizeof(glfglyph_t)*MAX_FAST_GLYPHS);
+
 	int err; // used to store freetype error return codes
 	const int a_width = GetDescriptor().pixelWidth;
 	const int a_height = GetDescriptor().pixelHeight;
@@ -357,6 +353,8 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 		for (Uint32 chr = first; chr <= last; chr++) {
 			glfglyph_t glfglyph;
 			FT_Glyph glyph;
+
+			glfglyph.ftIndex = FT_Get_Char_Index(m_face, chr);
 
 			err = FT_Load_Char(m_face, chr, FT_LOAD_FORCE_AUTOHINT);
 			if (err) {
@@ -503,7 +501,11 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 			glfglyph.advx = float(m_face->glyph->advance.x) / 64.f + advx_adjust;
 			glfglyph.advy = float(m_face->glyph->advance.y) / 64.f;
-			m_glyphs[chr] = glfglyph;
+
+			if (chr < MAX_FAST_GLYPHS)
+				m_glyphsFast[chr] = glfglyph;
+			else
+				m_glyphs[chr] = glfglyph;
 		}
 	}
 

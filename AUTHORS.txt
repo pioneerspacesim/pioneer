@@ -118,6 +118,7 @@ and services, without which Pioneer would not be possible:
   FreeType      http://freetype.org/
   Ogg Vorbis    http://vorbis.com/
   libsigc++     http://libsigc.sourceforge.net/
+  assimp        http://assimp.sourceforge.net/
   MXE           http://mxe.cc/
 
   GitHub        https://github.com/

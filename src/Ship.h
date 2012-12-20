@@ -13,6 +13,7 @@
 #include "BezierCurve.h"
 #include "Serializer.h"
 #include "Camera.h"
+#include "scenegraph/SceneGraph.h"
 #include <list>
 
 class SpaceStation;
@@ -83,7 +84,7 @@ public:
 	double GetAccelUp() const { return GetShipType().linThrust[ShipType::THRUSTER_UP] / GetMass(); }
 	double GetAccelMin() const;
 
-	const ShipType &GetShipType() const;
+	const ShipType &GetShipType() const { return *m_type; }
 	void UpdateEquipStats();
 	void UpdateFuelStats();
 	void UpdateStats();
@@ -284,6 +285,7 @@ private:
 	void EnterHyperspace();
 
 	shipstats_t m_stats;
+	ShipType *m_type;
 
 	FlightState m_flightState;
 	bool m_testLanded;
@@ -314,6 +316,8 @@ private:
 	float m_fuelUseWeights[4]; //rear, front, lateral, up&down. Rear thrusters are usually 1.0
 
 	int m_dockedWithIndex; // deserialisation
+
+	SceneGraph::Animation *m_landingGearAnimation;
 };
 
 

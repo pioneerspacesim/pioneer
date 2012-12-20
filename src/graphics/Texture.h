@@ -67,6 +67,7 @@ public:
 
 	// XXX include position
 	virtual void Update(const void *data, const vector2f &dataSize, ImageFormat format, ImageType type) = 0;
+	virtual void SetSampleMode(TextureSampleMode) = 0;
 
 	virtual ~Texture() {}
 

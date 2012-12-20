@@ -120,6 +120,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	}
 	m_ecmRecharge = rd.Float();
 	m_shipFlavour.Load(rd);
+	m_type = &ShipType::types[m_shipFlavour.id];
 	m_dockedWithPort = rd.Int32();
 	m_dockedWithIndex = rd.Int32();
 	m_equipment.InitSlotSizes(m_shipFlavour.id);
@@ -160,6 +161,12 @@ void Ship::Init()
 	m_stats.shield_mass_left = 0;
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 	m_hyperspaceCloud = 0;
+
+	m_landingGearAnimation = 0;
+	SceneGraph::Model *nmodel = dynamic_cast<SceneGraph::Model*>(GetModel());
+	if (nmodel) {
+		m_landingGearAnimation = nmodel->FindAnimation("gear_down");
+	}
 }
 
 void Ship::PostLoadFixup(Space *space)
@@ -184,6 +191,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_dockedWith = 0;
 	m_dockedWithPort = 0;
 	m_shipFlavour = ShipFlavour(shipId);
+	m_type = &ShipType::types[m_shipFlavour.id];
 	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;
 	m_angThrusters.x = m_angThrusters.y = m_angThrusters.z = 0;
 	m_equipment.InitSlotSizes(shipId);
@@ -757,6 +765,9 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	// fuel use decreases mass, so do this as the last thing in the frame
 	UpdateFuel(timeStep);
+
+	if (m_landingGearAnimation)
+		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations(timeStep);
 }
 
 void Ship::DoThrusterSounds() const
@@ -1121,11 +1132,6 @@ void Ship::NotifyRemoved(const Body* const removedBody)
 	if (m_curAICmd) m_curAICmd->OnDeleted(removedBody);
 }
 
-const ShipType &Ship::GetShipType() const
-{
-	return ShipType::types[m_shipFlavour.id];
-}
-
 bool Ship::Undock()
 {
 	if (m_dockedWith && m_dockedWith->LaunchShip(this, m_dockedWithPort)) {
@@ -1188,9 +1194,11 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	params.linthrust[2] = float(m_thrusters.z);
 	params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
 	params.flightState = m_flightState;
+	if (m_landingGearAnimation)
+		m_landingGearAnimation->SetProgress(m_wheelState);
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-	RenderLmrModel(viewCoords, viewTransform);
+	RenderLmrModel(renderer, viewCoords, viewTransform);
 
 	// draw shield recharge bubble
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {
@@ -1199,7 +1207,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		glPushMatrix();
 		matrix4x4f trans = matrix4x4f::Identity();
 		trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
-		trans.Scale(GetLmrCollMesh()->GetBoundingRadius());
+		trans.Scale(GetCollMesh()->GetBoundingRadius());
 		renderer->SetTransform(trans);
 
 		//fade based on strength
@@ -1219,7 +1227,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 			const double r3 = Pi::rng.Double()-0.5;
 			v[i] = vector3f(viewTransform * (
 				GetPosition() +
-				GetLmrCollMesh()->GetBoundingRadius() *
+				GetCollMesh()->GetBoundingRadius() *
 				vector3d(r1, r2, r3).Normalized()
 			));
 		}
@@ -1268,6 +1276,7 @@ void Ship::UpdateFlavour(const ShipFlavour *f)
 void Ship::ResetFlavour(const ShipFlavour *f)
 {
 	m_shipFlavour = *f;
+	m_type = &ShipType::types[m_shipFlavour.id];
 	m_equipment.InitSlotSizes(f->id);
 	SetLabel(f->regid);
 	Init();

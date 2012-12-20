@@ -25,6 +25,7 @@ public:
 	PrimitiveType GetPrimtiveType() const { return m_primitiveType; }
 	VertexArray *GetVertices() const { return m_vertices.Get(); }
 	RefCountedPtr<Material> GetMaterial() const { return m_material; }
+	void SetMaterial(RefCountedPtr<Material> m) { m_material = m; }
 
 	int GetNumVerts() const { return m_vertices ? m_vertices->position.size() : 0; }
 	int GetNumIndices() const { return m_indices.size(); }
