@@ -13,7 +13,7 @@ Alpha 30
 
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)
-     * Custom systems can now define gravpoints/multi-star systems (#1701)
+     * Custom systems can now define gravpoints (#1701, #1074)
 
    * Fixes
      * Interpret galaxy density bitmap as unsigned values (#1818, #1813)
