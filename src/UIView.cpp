@@ -28,4 +28,5 @@ void UIView::OnSwitchTo()
 void UIView::OnSwitchFrom()
 {
 	Pi::ui->RemoveInnerWidget();
+	Pi::ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 }

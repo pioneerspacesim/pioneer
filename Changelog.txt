@@ -23,7 +23,7 @@ Alpha 30
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
      * Fix layout of non-contributing widgets inside pack boxes (#1789)
-     * UI widgets can now have keyboard shortcuts (#1821)
+     * UI widgets can now have keyboard shortcuts (#1821, #1841, #1840)
 
    * Internal changes
      * Improvements in text rendering performance (#1791)

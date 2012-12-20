@@ -832,6 +832,7 @@ void Pi::Start()
 	}
 
 	ui->RemoveInnerWidget();
+	ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 
 	InitGame();
 	StartGame();
