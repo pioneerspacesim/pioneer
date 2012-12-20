@@ -456,6 +456,7 @@ void Pi::Init()
 
 void Pi::ToggleManualRotation() {
 	Pi::player->SetManualRotationState(!Pi::player->GetManualRotationState());
+	Pi::cpan->SetRotationDamping(!Pi::player->GetManualRotationState());
 }
 
 bool Pi::IsConsoleActive()
