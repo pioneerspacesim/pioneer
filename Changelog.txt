@@ -21,6 +21,8 @@ Alpha 30
      * Invert mouse cursor movement in rear view (#1820)
      * Missions no longer vanish from view when other missions are completed
        (#1824,#1826)
+     * Fix crash when switching away from settings screen after death (#1844,
+       #1698, #1742)
 
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
