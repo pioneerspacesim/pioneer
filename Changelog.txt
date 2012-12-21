@@ -33,7 +33,7 @@ Alpha 30
      * Removed legact MissionStatus code from core (#1824)
      * Optimisation in access to ship type information (#1827)
      * Add support for high precision timing and floating-point exceptions (#1836)
-     * Enable floating-point exceptions during AI processing (#1838)
+     * Enable floating-point exceptions during AI processing (#1838, #1846)
 
 Alpha 29
 
