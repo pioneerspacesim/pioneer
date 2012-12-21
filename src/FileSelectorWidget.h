@@ -26,4 +26,22 @@ private:
 	Gui::TextEntry *m_tentry;
 };
 
+class FileSelectorDialog {
+public:
+	FileSelectorDialog(FileSelectorWidget::Type type, const std::string &title);
+
+	bool run();
+	const std::string &GetFilename() const { return m_filename; }
+
+private:
+	void OnSelect(const std::string &path);
+	void OnCancel();
+
+	FileSelectorWidget *m_selector;
+	std::string m_filename;
+	bool m_done;
+};
+
+bool ShowFileSelectorDialog(FileSelectorWidget::Type type, const std::string &title, std::string &filename);
+
 #endif
