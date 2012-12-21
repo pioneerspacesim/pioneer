@@ -147,7 +147,7 @@ Mission = {
 -- Example:
 --
 -- >  local ref = Mission.New({
--- >      'type'     = 'Delivery',
+-- >      'type'     = 'Delivery', -- Must be a translatable token!
 -- >      'client'   = Character.New()
 -- >      'due'      = Game.time + 3*24*60*60,    -- three days
 -- >      'reward'   = 123.45,
@@ -191,7 +191,7 @@ Mission = {
 		if not (type(newMission.reward) == "number") then newMission.reward = nil end
 		if not (type(newMission.location) == "userdata") then newMission.location = Game.system.path end
 		table.insert(PersistentCharacters.player.missions,newMission)
-		return NewMission;
+		return newMission;
 	end,
 --
 -- Method: Remove
@@ -230,7 +230,7 @@ Mission = {
 --
 -- Parameters:
 --
---   type - the mission type, as seen in the Mission.Add() example
+--   type - the mission type, as defined in Mission.New()
 --
 --   handler - a function to be run when the "Active" button is
 --             clicked. Handler is passed a reference compatible with
