@@ -290,8 +290,7 @@ local onGameStart = function ()
 	loaded_data = nil
 end
 
-local onClick = function (ref)
-	local mission = missions[ref]
+local onClick = function (mission)
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((delivery_flavours[mission.flavour].introtext):interp({

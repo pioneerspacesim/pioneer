@@ -400,8 +400,7 @@ local onGameEnd = function ()
 	nearbysystems = nil
 end
 
-local onClick = function (ref)
-	local mission = missions[ref]
+local onClick = function (mission)
 	local ass_flavours = Translate:GetFlavours('Assassination')
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((ass_flavours[mission.flavour].introtext):interp({
