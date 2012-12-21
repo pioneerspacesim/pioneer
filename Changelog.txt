@@ -10,6 +10,7 @@ Alpha 30
      * Don't allocate projectile geometry for every projectile. Huge
        performance increase during combat (#1822)
      * Main menu now has keyboard shortcuts again (#1821)
+     * Player's name now updates during editing in Personal Information view (#1845)
 
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)

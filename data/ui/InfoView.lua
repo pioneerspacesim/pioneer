@@ -160,7 +160,7 @@ local personalInfo = function ()
 	local faceWidgetContainer = ui:Margin(0, "ALL", faceWidget)
 
 	local nameEntry = ui:TextEntry(player.name):SetFont("HEADING_LARGE")
-	nameEntry.onEnter:Connect(function (newName)
+	nameEntry.onChange:Connect(function (newName)
 		player.name = newName
         faceWidget:UpdateInfo(player)
 	end )
