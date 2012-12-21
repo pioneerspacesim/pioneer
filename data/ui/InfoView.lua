@@ -390,7 +390,7 @@ local missions = function ()
 		moreButton.button.onClick:Connect(function ()
 			MissionScreen:SetInnerWidget(ui:VBox(10)
 				:PackEnd({ui:Label(t('Mission Details')):SetFont('HEADING_LARGE')})
-				:PackEnd((Mission:GetClick())(ref)))
+				:PackEnd((mission:GetClick())(mission)))
 		end)
 
 		missionbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
