@@ -86,8 +86,7 @@ local onChat = function (form, ref, option)
 			target		= ad.target,
 		}
 
-		local mref = Mission.Add(mission)
-		missions[mref] = mission
+		table.insert(missions,Mission.New(mission))
 
 		form:SetMessage(t("Excellent."))
 		form:AddOption(t('HANG_UP'), -1)
@@ -193,7 +192,6 @@ local onShipDestroyed = function (ship, body)
 				mission.notplayer = 'FALSE'
 			end
 			mission.ship = nil
-			Mission.Update(ref, mission)
 			return
 		end
 	end
@@ -248,14 +246,12 @@ local onEnterSystem = function (ship)
 					end
 				else	-- too late
 					mission.status = 'FAILED'
-					Mission.Update(ref, mission)
 				end
 			else
 				if not mission.ship:exists() then
 					mission.ship = nil
 					if mission.due < Game.time then
 						mission.status = 'FAILED'
-						Mission.Update(ref, mission)
 					end
 				end
 			end
@@ -303,7 +299,6 @@ local onShipDocked = function (ship, station)
 		else
 			if mission.ship == ship then
 				mission.status = 'FAILED'
-				Mission.Update(ref, mission)
 			end
 		end
 		return
