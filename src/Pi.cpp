@@ -551,7 +551,9 @@ void Pi::HandleEvents()
 							}
 							else {
 								Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
-								SetView(worldView);
+								SetView(Pi::player->IsDead()
+										? static_cast<View*>(deathView)
+										: static_cast<View*>(worldView));
 							}
 						}
 					}
