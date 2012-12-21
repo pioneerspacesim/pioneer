@@ -782,6 +782,10 @@ STAR_SYSTEM_INFORMATION
     Informacja o systemie
 GALACTIC_VIEW
     Galaktyka
+ROTATION_DAMPING_ON
+    Tłumienie rotacji włączone
+ROTATION_DAMPING_OFF
+    Tłumienie rotacji wyłączone
 NO_ALERT
     Brak alarmu
 SHIP_NEARBY
