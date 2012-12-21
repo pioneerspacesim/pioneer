@@ -930,6 +930,7 @@ void Pi::MainLoop()
 				}
 			} else {
 				Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
+				Pi::deathView->Init();
 				Pi::SetView(Pi::deathView);
 				Pi::player->Disable();
 				time_player_died = Pi::game->GetTime();
