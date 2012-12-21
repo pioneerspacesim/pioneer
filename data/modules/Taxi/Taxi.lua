@@ -99,8 +99,7 @@ local onChat = function (form, ref, option)
 			flavour	 = ad.flavour
 		}
 
-		local mref = Mission.Add(mission)
-		missions[mref] = mission
+		table.insert(missions,Mission.New(mission))
 
 		form:SetMessage(t("Excellent."))
 		form:AddOption(t('HANG_UP'), -1)
@@ -257,7 +256,6 @@ local onEnterSystem = function (player)
 
 		if not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
-			Mission.Update(ref, mission)
 			Comms.ImportantMessage(taxi_flavours[mission.flavour].wherearewe, mission.client.name)
 		end
 	end
