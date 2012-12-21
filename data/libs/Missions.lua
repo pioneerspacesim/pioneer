@@ -234,15 +234,15 @@ Mission = {
 --
 --   handler - a function to be run when the "Active" button is
 --             clicked. Handler is passed a reference compatible with
---             Mission.Get() and may return an Engine.ui instance, which
---             will be displayed on screen if not nil.
+--             Mission.Get() and must return an Engine.ui instance, which
+--             may be displayed on the missions screen.
 --
 -- Example:
 --
 -- > Mission.RegisterClick('Race',function (ref)
 -- >   local race = races[ref] -- Assuming some local table of races for example
--- >   Comms.Message(string.interp('Stage {stage}: You are in position {pos}',{stage=race.stage, pos=race.pos}))
--- > end) -- Not returning a UI in this small example
+-- >   return Engine.UI:Label(string.interp('Stage {stage}: You are in position {pos}',{stage=race.stage, pos=race.pos}))
+-- > end)
 --
 -- Availability:
 --
@@ -273,7 +273,8 @@ Mission = {
 -- Returns:
 --
 --   handler - a function to be connected to the missions form 'Active'
---             button.
+--             button. handler will be passed the mission as its sole argument
+--             and is expected to return an [Engine.UI] object.
 --
 -- Availability:
 --
