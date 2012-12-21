@@ -21,6 +21,7 @@
 #include "UIView.h"
 #include "LuaEvent.h"
 #include "ObjectViewerView.h"
+#include "FileSystem.h"
 #include "graphics/Renderer.h"
 
 static const int  s_saveVersion   = 57;
@@ -680,4 +681,35 @@ void Game::DestroyViews()
 	Pi::worldView = 0;
 	Pi::sectorView = 0;
 	Pi::cpan = 0;
+}
+
+Game *Game::LoadGame(const std::string &filename)
+{
+	printf("Game::LoadGame('%s')\n", filename.c_str());
+	FILE *f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	if (!f) throw CouldNotOpenFileException();
+	Serializer::Reader rd(f);
+	fclose(f);
+	return new Game(rd);
+}
+
+void Game::SaveGame(const std::string &filename, Game *game)
+{
+	assert(game);
+	if (!FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME)) {
+		throw CouldNotOpenFileException();
+	}
+
+	Serializer::Writer wr;
+	game->Serialize(wr);
+
+	const std::string data = wr.GetData();
+
+	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	if (!f) throw CouldNotOpenFileException();
+
+	size_t nwritten = fwrite(data.data(), data.length(), 1, f);
+	fclose(f);
+
+	if (nwritten != 1) throw CouldNotWriteToFileException();
 }

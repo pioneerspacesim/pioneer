@@ -16,6 +16,12 @@ class Space;
 
 class Game {
 public:
+	// LoadGame and SaveGame throw exceptions on failure
+	static Game *LoadGame(const std::string &filename);
+	// XXX game arg should be const, and this should probably be a member function
+	// (or LoadGame/SaveGame should be somewhere else entirely)
+	static void SaveGame(const std::string &filename, Game *game);
+
 	// start docked in station referenced by path
 	Game(const SystemPath &path);
 
