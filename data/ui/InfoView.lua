@@ -160,7 +160,7 @@ local personalInfo = function ()
 	local faceWidgetContainer = ui:Margin(0, "ALL", faceWidget)
 
 	local nameEntry = ui:TextEntry(player.name):SetFont("HEADING_LARGE")
-	nameEntry.onEnter:Connect(function (newName)
+	nameEntry.onChange:Connect(function (newName)
 		player.name = newName
         faceWidget:UpdateInfo(player)
 	end )
@@ -377,7 +377,7 @@ local missions = function ()
 
 	local missionbox = ui:VBox(10)
 
-	for ref,mission in ipairs(PersistentCharacters.player.missions) do
+	for ref,mission in pairs(PersistentCharacters.player.missions) do
 		-- Format the location
 		local missionLocationName
 		if mission.location.bodyIndex then

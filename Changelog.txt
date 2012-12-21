@@ -2,19 +2,38 @@ Alpha 30
 
    * New features
      * New model system (SGModel) (#1676, #1208, #813)
+     * Rotation damping icon and control on the panel (#1842, #1837)
      * OSX: Hold the option key down when launching pioneer.app to launch the
        model viewer instead (#1803)
 
+   * Minor changes and tweaks
+     * Don't allocate projectile geometry for every projectile. Huge
+       performance increase during combat (#1822)
+     * Main menu now has keyboard shortcuts again (#1821)
+     * Player's name now updates during editing in Personal Information view (#1845)
+
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)
+     * Custom systems can now define gravpoints (#1701, #1074)
+
+   * Fixes
+     * Interpret galaxy density bitmap as unsigned values (#1818, #1813)
+     * Invert mouse cursor movement in rear view (#1820)
+     * Missions no longer vanish from view when other missions are completed
+       (#1824,#1826)
 
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
      * Fix layout of non-contributing widgets inside pack boxes (#1789)
+     * UI widgets can now have keyboard shortcuts (#1821, #1841, #1840)
 
    * Internal changes
      * Improvements in text rendering performance (#1791)
      * Move MSVC headers and libs to pioneer-thirdparty repository (#1807)
+     * Removed legact MissionStatus code from core (#1824)
+     * Optimisation in access to ship type information (#1827)
+     * Add support for high precision timing and floating-point exceptions (#1836, #1846)
+     * Enable floating-point exceptions during AI processing (#1838)
 
 Alpha 29
 

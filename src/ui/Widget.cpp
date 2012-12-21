@@ -115,7 +115,7 @@ bool Widget::TriggerKeyUp(const KeyboardEvent &event, bool emit)
 bool Widget::TriggerKeyPress(const KeyboardEvent &event, bool emit)
 {
 	HandleKeyPress(event);
-	if (emit) emit = !onKeyDown.emit(event);
+	if (emit) emit = !onKeyPress.emit(event);
 	if (GetContainer() && !IsFloating()) GetContainer()->TriggerKeyPress(event, emit);
 	return !emit;
 }

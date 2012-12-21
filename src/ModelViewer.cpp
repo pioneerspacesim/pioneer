@@ -129,6 +129,9 @@ void ModelViewer::Run(const std::string &modelName)
 		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
 	Lua::Init();
 
+	// needed for the UI
+	SDL_EnableUNICODE(1);
+
 	//video
 	Graphics::Settings videoSettings = {};
 	videoSettings.width = config->Int("ScrWidth");

@@ -287,6 +287,7 @@ void WorldView::ChangeInternalCameraMode(InternalCamera::Mode m)
 
 	Pi::BoinkNoise();
 	m_internalCamera->SetMode(m);
+	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCamera->GetMode() == InternalCamera::MODE_REAR);
 	UpdateCameraName();
 }
 

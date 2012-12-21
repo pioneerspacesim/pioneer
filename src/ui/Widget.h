@@ -10,6 +10,7 @@
 #include "RefCounted.h"
 #include "WidgetSet.h"
 #include <climits>
+#include <set>
 
 // Widget is the base class for all UI elements. There's a couple of things it
 // must implement, and a few more it might want to implement if it wants to do
@@ -157,6 +158,11 @@ public:
 	virtual void Disable();
 	virtual void Enable();
 	bool IsDisabled() const { return m_disabled; }
+
+	// register a key that, when pressed and not handled by any other widget,
+	// will cause a click event to be sent to this widget
+	void AddShortcut(const KeySym &keysym) { m_shortcuts.insert(keysym); }
+	void RemoveShortcut(const KeySym &keysym) { m_shortcuts.erase(keysym); }
 
 	// font size. obviously used for text size but also sometimes used for
 	// general widget size (eg space size). might do nothing, depends on the
@@ -342,14 +348,20 @@ private:
 	void Detach();
 	void SetDimensions(const Point &position, const Point &size);
 
+	// called by Container::CollectShortcuts
+	const std::set<KeySym> &GetShortcuts() const { return m_shortcuts; }
+
+
 	// Context is the top-level container and needs to set its own context
 	// and size directly
 	friend class Context;
 	void SetSize(const Point &size) { m_size = size; SetActiveArea(size); }
 
+
 	// FloatContainer needs to change floating state
 	friend class FloatContainer;
 	void SetFloating(bool floating) { m_floating = floating; }
+
 
 	Context *m_context;
 	Container *m_container;
@@ -373,6 +385,8 @@ private:
 	bool m_mouseOver;
 	bool m_mouseActive;
 	bool m_selected;
+
+	std::set<KeySym> m_shortcuts;
 
 	std::string m_id;
 };
