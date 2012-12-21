@@ -92,6 +92,8 @@ void RedirectStdio()
 
 void EnableFPE()
 {
+	// clear any outstanding exceptions before enabling, otherwise they'll
+	// trip immediately
 	_clearfp();
 	_controlfp(_EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
 }
