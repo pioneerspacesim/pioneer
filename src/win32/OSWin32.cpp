@@ -93,6 +93,7 @@ void RedirectStdio()
 void EnableFPE()
 {
 	unsigned int control_word;
+	_clearfp();
 	_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
 }
 
