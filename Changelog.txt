@@ -25,6 +25,8 @@ Alpha 30
        #1698, #1742)
      * Move SystemView time control buttons above the dash to work around
        input priority problems (#1853, #1851)
+     * Fix occasional bug that could leave a trailing slash on some filesystem
+       paths (#1843, #1486)
 
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
