@@ -331,6 +331,7 @@ void Faction::Init()
 	lua_close(L);
 
 	printf("Number of factions added: " SIZET_FMT "\n", s_factions.size());
+	StarSystem::ShrinkCache();    // clear the star system cache of anything we used for faction generation
 }
 
 void Faction::Uninit()
@@ -470,16 +471,32 @@ const Polit::GovType Faction::PickGovType(MTRand &rand) const
 void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi)
 {
 	// if the current sector specified is empty move to a sector
-	// closer to the origin on the z-axis until we find one that isn't
-	while (si < 0 && z != 0 ) {
+	// closer to the origin. Switch which axis we're changing each
+	// time we move the sector.
+	Uint32 i = 0;
+	RefCountedPtr<StarSystem> sys;
+	while (si < 0 && (abs(x) != 90 && abs(y) != 90 && abs(z) != 90)) {
+
+		// search for a suitable homeworld in the current sector
 		Sector sec(x,y,z);
-		if (sec.m_systems.size() > 0 ) {
-			si = 0;
-		} else {
-			if (z > 0) { --x; } else { ++z; };
+		Uint32 candidateSi = 0;
+		while (candidateSi < sec.m_systems.size()) {
+			sys = StarSystem::GetCached(SystemPath(x,y,z,candidateSi));
+			if (sys->m_spaceStations.size() > 0) { 
+				si = Sint32(candidateSi); 
+				break;
+			}
+			candidateSi++;
 		}
+
+		// adjust the next sector to examine to be closer to the axis, cycling
+		// through x, y and z
+		if      (si < 0 && i%3==0) { if (x >= 0) { ++x; } else { --x; }; }
+		else if (si < 0 && i%3==1) { if (y >= 0) { ++y; } else { --y; }; }
+		else if (si < 0 && i%3==2) { if (z >= 0) { ++z; } else { --z; }; }
+		i++;
 	}
-	homeworld = SystemPath(x, y, z, si, bi);
+	homeworld = SystemPath(x, y, z, si);
 }
 
 Faction::Faction() :
