@@ -13,7 +13,7 @@
  * A global table that provides access to the filesystem.
  *
  * This interface is protected. It can only be used by scripts in Pioneer's
- * data directory. Mods and scripts in the user directory that try to used it
+ * data directory. Mods and scripts in the user directory that try to use it
  * will get a Lua error.
  */
 
