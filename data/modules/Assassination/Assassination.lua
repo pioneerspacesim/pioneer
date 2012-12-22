@@ -278,7 +278,7 @@ local onShipDocked = function (ship, station)
 				})
 				Comms.ImportantMessage(text, mission.client.name)
 				ship:AddMoney(mission.reward)
-				Mission.Remove(ref)
+				mission:Remove()
 				missions[ref] = nil
 			elseif mission.status == 'FAILED' then
 				local ass_flavours = Translate:GetFlavours('Assassination')
@@ -293,7 +293,7 @@ local onShipDocked = function (ship, station)
 					})
 				end
 				Comms.ImportantMessage(text, mission.client.name)
-				Mission.Remove(ref)
+				mission:Remove()
 				missions[ref] = nil
 			end
 		else

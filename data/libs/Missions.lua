@@ -216,7 +216,7 @@ Mission = {
 	Remove = function (self)
 		for k,v in pairs(PersistentCharacters.player.missions) do
 			if v == self then
-				table.remove(PersistentCharacter.player.missions,k)
+				table.remove(PersistentCharacters.player.missions,k)
 			end
 		end
 	end,

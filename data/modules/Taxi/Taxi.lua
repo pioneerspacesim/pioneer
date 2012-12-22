@@ -283,7 +283,7 @@ local onShipDocked = function (player, station)
 
 			remove_passengers(mission.group)
 
-			Mission.Remove(ref)
+			mission:Remove()
 			missions[ref] = nil
 		end
 	end
@@ -298,7 +298,7 @@ local onShipUndocked = function (player, station)
 		remove_passengers(mission.group)
 
 		Comms.ImportantMessage(t("Hey!?! You are going to pay for this!!!"), mission.client.name)
-		Mission.Remove(ref)
+		mission:Remove()
 		missions[ref] = nil
 	end
 end

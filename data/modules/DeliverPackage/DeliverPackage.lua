@@ -262,7 +262,7 @@ local onShipDocked = function (player, station)
 				player:AddMoney(mission.reward)
 			end
 
-			Mission.Remove(ref)
+			mission:Remove()
 			missions[ref] = nil
 
 		elseif not mission.status and Game.time > mission.due then
