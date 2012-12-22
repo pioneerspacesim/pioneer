@@ -131,7 +131,7 @@ static const luaL_Reg STANDARD_LIBS[] = {
 //    guaranteed to be the same across platforms and is often low quality.
 //    Also, global RNGs are almost never a good idea because they make it
 //    almost impossible to produce robustly repeatable results
-//  - dofile(), loadfile(), require(): same reason as the package library
+//  - dofile(), loadfile(), load(): same reason as the package library
 
 // extra/custom functionality:
 //  - math.rad is aliased as math.deg2rad: I prefer the explicit name
@@ -145,10 +145,15 @@ void pi_lua_open_standard_base(lua_State *L)
 		lua_pop(L, 1);
 	}
 
+	// remove stuff that can load untrusted code
 	lua_pushnil(L);
 	lua_setglobal(L, "dofile");
 	lua_pushnil(L);
 	lua_setglobal(L, "loadfile");
+	lua_pushnil(L);
+	lua_setglobal(L, "load");
+	lua_pushnil(L);
+	lua_setglobal(L, "loadstring");
 
 	// standard library adjustments (math library)
 	lua_getglobal(L, LUA_MATHLIBNAME);
@@ -273,7 +278,19 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
 	lua_pushcfunction(l, &pi_lua_panic);
 
 	const StringRange source = code.AsStringRange().StripUTF8BOM();
-	if (luaL_loadbuffer(l, source.begin, source.Size(), code.GetInfo().GetPath().c_str())) {
+
+	const std::string &path(code.GetInfo().GetPath());
+	if (path.at(0) == '[') {
+		fprintf(stderr, "Paths starting with '[' are reserved in pi_lua_dofile('%s'\n",
+		        code.GetInfo().GetAbsolutePath().c_str());
+		lua_pop(l, 1);
+		return;
+	}
+
+	bool trusted = code.GetInfo().GetSource().IsTrusted();
+	const std::string chunkName = (trusted ? "[T] " : "") + path;
+
+	if (luaL_loadbuffer(l, source.begin, source.Size(), chunkName.c_str())) {
 		pi_lua_panic(l);
 	} else {
 		int ret = lua_pcall(l, 0, 0, -2);

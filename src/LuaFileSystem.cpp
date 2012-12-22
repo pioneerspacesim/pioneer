@@ -11,6 +11,10 @@
  * Interface: FileSystem
  *
  * A global table that provides access to the filesystem.
+ *
+ * This interface is protected. It can only be used by scripts in Pioneer's
+ * data directory. Mods and scripts in the user directory that try to use it
+ * will get a Lua error.
  */
 
 /*
@@ -132,6 +136,6 @@ void LuaFileSystem::Register()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateObject(l_methods, 0, 0);
+	LuaObjectBase::CreateObject(l_methods, 0, 0, true); // protected interface
 	lua_setglobal(Lua::manager->GetLuaState(), "FileSystem");
 }

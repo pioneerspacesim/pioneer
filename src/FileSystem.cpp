@@ -13,7 +13,7 @@
 
 namespace FileSystem {
 
-	static FileSourceFS dataFilesApp(GetDataDir());
+	static FileSourceFS dataFilesApp(GetDataDir(), true);
 	static FileSourceFS dataFilesUser(JoinPath(GetUserDir(), "data"));
 	FileSourceUnion gameDataFiles;
 	FileSourceFS userFiles(GetUserDir());

@@ -77,8 +77,8 @@ namespace FileSystem {
 		return data_path;
 	}
 
-	FileSourceFS::FileSourceFS(const std::string &root):
-		FileSource((root == "/") ? "" : absolute_path(root)) {}
+	FileSourceFS::FileSourceFS(const std::string &root, bool trusted):
+		FileSource((root == "/") ? "" : absolute_path(root), trusted) {}
 
 	FileSourceFS::~FileSourceFS() {}
 
