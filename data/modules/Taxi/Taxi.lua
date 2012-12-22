@@ -99,8 +99,7 @@ local onChat = function (form, ref, option)
 			flavour	 = ad.flavour
 		}
 
-		local mref = Mission.Add(mission)
-		missions[mref] = mission
+		table.insert(missions,Mission.New(mission))
 
 		form:SetMessage(t("Excellent."))
 		form:AddOption(t('HANG_UP'), -1)
@@ -257,7 +256,6 @@ local onEnterSystem = function (player)
 
 		if not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
-			Mission.Update(ref, mission)
 			Comms.ImportantMessage(taxi_flavours[mission.flavour].wherearewe, mission.client.name)
 		end
 	end
@@ -285,7 +283,7 @@ local onShipDocked = function (player, station)
 
 			remove_passengers(mission.group)
 
-			Mission.Remove(ref)
+			mission:Remove()
 			missions[ref] = nil
 		end
 	end
@@ -300,7 +298,7 @@ local onShipUndocked = function (player, station)
 		remove_passengers(mission.group)
 
 		Comms.ImportantMessage(t("Hey!?! You are going to pay for this!!!"), mission.client.name)
-		Mission.Remove(ref)
+		mission:Remove()
 		missions[ref] = nil
 	end
 end
@@ -329,8 +327,7 @@ local onGameEnd = function ()
 	nearbysystems = nil
 end
 
-local onClick = function (ref)
-	local mission = missions[ref]
+local onClick = function (mission)
 	local taxi_flavours = Translate:GetFlavours('Taxi')
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((taxi_flavours[mission.flavour].introtext):interp({

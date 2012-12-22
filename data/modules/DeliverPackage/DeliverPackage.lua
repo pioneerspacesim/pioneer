@@ -79,8 +79,7 @@ local onChat = function (form, ref, option)
 			flavour	 = ad.flavour
 		}
 
-		local mref = Mission.Add(mission)
-		missions[mref] = mission
+		table.insert(missions,Mission.New(mission))
 
 		form:SetMessage(t("Excellent. I will let the recipient know you are on your way."))
 		form:AddOption(t('HANG_UP'), -1)
@@ -238,7 +237,6 @@ local onEnterSystem = function (player)
 
 		if not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
-			Mission.Update(ref, mission)
 		end
 	end
 end
@@ -264,12 +262,11 @@ local onShipDocked = function (player, station)
 				player:AddMoney(mission.reward)
 			end
 
-			Mission.Remove(ref)
+			mission:Remove()
 			missions[ref] = nil
 
 		elseif not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
-			Mission.Update(ref, mission)
 		end
 
 	end
@@ -293,8 +290,7 @@ local onGameStart = function ()
 	loaded_data = nil
 end
 
-local onClick = function (ref)
-	local mission = missions[ref]
+local onClick = function (mission)
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((delivery_flavours[mission.flavour].introtext):interp({

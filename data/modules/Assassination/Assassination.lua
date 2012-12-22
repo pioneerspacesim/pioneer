@@ -86,8 +86,7 @@ local onChat = function (form, ref, option)
 			target		= ad.target,
 		}
 
-		local mref = Mission.Add(mission)
-		missions[mref] = mission
+		table.insert(missions,Mission.New(mission))
 
 		form:SetMessage(t("Excellent."))
 		form:AddOption(t('HANG_UP'), -1)
@@ -193,7 +192,6 @@ local onShipDestroyed = function (ship, body)
 				mission.notplayer = 'FALSE'
 			end
 			mission.ship = nil
-			Mission.Update(ref, mission)
 			return
 		end
 	end
@@ -248,14 +246,12 @@ local onEnterSystem = function (ship)
 					end
 				else	-- too late
 					mission.status = 'FAILED'
-					Mission.Update(ref, mission)
 				end
 			else
 				if not mission.ship:exists() then
 					mission.ship = nil
 					if mission.due < Game.time then
 						mission.status = 'FAILED'
-						Mission.Update(ref, mission)
 					end
 				end
 			end
@@ -282,7 +278,7 @@ local onShipDocked = function (ship, station)
 				})
 				Comms.ImportantMessage(text, mission.client.name)
 				ship:AddMoney(mission.reward)
-				Mission.Remove(ref)
+				mission:Remove()
 				missions[ref] = nil
 			elseif mission.status == 'FAILED' then
 				local ass_flavours = Translate:GetFlavours('Assassination')
@@ -297,13 +293,12 @@ local onShipDocked = function (ship, station)
 					})
 				end
 				Comms.ImportantMessage(text, mission.client.name)
-				Mission.Remove(ref)
+				mission:Remove()
 				missions[ref] = nil
 			end
 		else
 			if mission.ship == ship then
 				mission.status = 'FAILED'
-				Mission.Update(ref, mission)
 			end
 		end
 		return
@@ -405,8 +400,7 @@ local onGameEnd = function ()
 	nearbysystems = nil
 end
 
-local onClick = function (ref)
-	local mission = missions[ref]
+local onClick = function (mission)
 	local ass_flavours = Translate:GetFlavours('Assassination')
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((ass_flavours[mission.flavour].introtext):interp({
