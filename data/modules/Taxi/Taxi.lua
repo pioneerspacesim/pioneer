@@ -278,9 +278,11 @@ local onShipDocked = function (player, station)
 
 			if Game.time > mission.due then
 				Comms.ImportantMessage(taxi_flavours[mission.flavour].failuremsg, mission.client.name)
+				PersistentCharacters.player.taxiFailed = PersistentCharacters.player.taxiFailed + 1
 			else
 				Comms.ImportantMessage(taxi_flavours[mission.flavour].successmsg, mission.client.name)
 				player:AddMoney(mission.reward)
+				PersistentCharacters.player.taxiSuccessful = PersistentCharacters.player.taxiSuccessful + 1
 			end
 
 			remove_passengers(mission.group)
