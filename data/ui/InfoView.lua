@@ -378,6 +378,14 @@ local missions = function ()
 	local missionbox = ui:VBox(10)
 
 	for ref,mission in pairs(PersistentCharacters.player.missions) do
+		if not Translate:Translatable(mission.type) then
+			-- This mission's type is likely from a module that has been removed,
+			-- so we'll add a default token here. Messy, but saves a crash. If
+			-- the module is restored, the mission type will be restored also.
+			-- Note: English is the hard-coded fallback language. This is a
+			-- run-time change, with no known side-effects.
+			Translate:Add({English = {[mission.type] = t('NONE')}})
+		end
 		-- Format the location
 		local missionLocationName
 		if mission.location.bodyIndex then

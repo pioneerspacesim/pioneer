@@ -114,6 +114,42 @@ Translate = {
 	end,
 
 --
+-- Method: Translatable
+--
+-- Returns true if argument is a translatable string token, otherwise nil.
+-- Use as a safety function after loading data, to avoid attempting to
+-- translate a missing token after a mod is removed.
+--
+-- > success = Translate:Translatable(token)
+--
+-- Parameters:
+--
+--   token -  string; a translation token to be tested for validity
+--
+-- Returns:
+--
+--   success - Boolean; true if token is translatable, otherwise false
+--
+-- Example:
+--
+--   > if(Translate:Translatable('some_string') then print(t('some_string')) end
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   Experimental
+--
+
+	Translatable = function (self,token)
+		return
+			(self.dictionary[self.language] and self.dictionary[self.language][token]) or
+			(self.dictionary.English and self.dictionary.English[token])
+	end,
+
+--
 -- Method: GetFlavours
 --
 -- Returns a table of flavours, in the current language, or English
