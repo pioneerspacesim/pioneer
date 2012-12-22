@@ -71,7 +71,6 @@ public:
 	static void TombStoneLoop();
 	static void OnChangeDetailLevel();
 	static void ToggleLuaConsole();
-	static void ToggleRotationDamping();
 	static void Quit() __attribute((noreturn));
 	static float GetFrameTime() { return frameTime; }
 	static float GetGameTickAlpha() { return gameTickAlpha; }

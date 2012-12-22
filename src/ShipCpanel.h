@@ -25,7 +25,6 @@ public:
 	void Update();
 	MsgLogWidget *MsgLog() { return m_msglog; }
 	void SetAlertState(Ship::AlertState as);
-	void SetRotationDamping(bool damping_enabled);
 
 	void TimeStepUpdate(float step);
 
@@ -43,6 +42,7 @@ public:
 
 private:
 	void InitObject();
+	void OnRotationDampingChanged();
 
 	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
 
@@ -66,6 +66,7 @@ private:
 	Gui::Label *m_clock;
 
 	sigc::connection m_connOnDockingClearanceExpired;
+	sigc::connection m_connOnRotationDampingChanged;
 
 	MultiFuncSelectorWidget *m_mfsel;
 	ScannerWidget *m_scanner;

@@ -448,15 +448,8 @@ void Pi::Init()
 	luaConsole = new LuaConsole(10);
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
 
-	KeyBindings::toggleRotationDamping.onPress.connect(sigc::ptr_fun(&Pi::ToggleRotationDamping));
-
 	gameMenuView = new GameMenuView();
 	config->Save();
-}
-
-void Pi::ToggleRotationDamping() {
-	Pi::player->SetRotationDamping(!Pi::player->GetRotationDamping());
-	Pi::cpan->SetRotationDamping(Pi::player->GetRotationDamping());
 }
 
 bool Pi::IsConsoleActive()

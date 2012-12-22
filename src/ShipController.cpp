@@ -27,6 +27,7 @@ PlayerShipController::PlayerShipController() :
 	m_controlsLocked(false),
 	m_invertMouse(false),
 	m_mouseActive(false),
+	m_rotationDamping(true),
 	m_mouseX(0.0),
 	m_mouseY(0.0),
 	m_setSpeed(0.0),
@@ -38,11 +39,15 @@ PlayerShipController::PlayerShipController() :
 	m_joystickDeadzone = deadzone * deadzone;
 	m_fovY = Pi::config->Float("FOVVertical");
 	m_lowThrustPower = Pi::config->Float("DefaultLowThrustPower");
+
+	m_connRotationDampingToggleKey = KeyBindings::toggleRotationDamping.onPress.connect(
+			sigc::mem_fun(this, &PlayerShipController::ToggleRotationDamping));
+
 }
 
 PlayerShipController::~PlayerShipController()
 {
-
+	m_connRotationDampingToggleKey.disconnect();
 }
 
 void PlayerShipController::Save(Serializer::Writer &wr, Space *space)
@@ -251,7 +256,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		wantAngVel += changeVec;
 
 		double invTimeAccelRate = 1.0 / Pi::game->GetTimeAccelRate();
-		if(wantAngVel.Length() >= 0.001 || force_rotation_damping || m_ship->GetRotationDamping()) {
+		if(wantAngVel.Length() >= 0.001 || force_rotation_damping || m_rotationDamping) {
 			for (int axis=0; axis<3; axis++)
 				wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccelRate, invTimeAccelRate);
 
@@ -304,6 +309,19 @@ void PlayerShipController::SetLowThrustPower(float power)
 {
 	assert((power >= 0.0f) && (power <= 1.0f));
 	m_lowThrustPower = power;
+}
+
+void PlayerShipController::SetRotationDamping(bool enabled)
+{
+	if (enabled != m_rotationDamping) {
+		m_rotationDamping = enabled;
+		onRotationDampingChanged.emit();
+	}
+}
+
+void PlayerShipController::ToggleRotationDamping()
+{
+	SetRotationDamping(!GetRotationDamping());
 }
 
 Body *PlayerShipController::GetCombatTarget() const

@@ -188,8 +188,10 @@ void ShipCpanel::InitObject()
 	m_rotationDampingButton->AddState(1, "icons/rotation_damping_on.png", Lang::ROTATION_DAMPING_ON);
 	m_rotationDampingButton->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickRotationDamping));
 	m_rotationDampingButton->SetRenderDimensions(20, 13);
-	m_rotationDampingButton->SetActiveState(Pi::player->GetRotationDamping());
+	m_rotationDampingButton->SetActiveState(Pi::player->GetPlayerController()->GetRotationDamping());
 	Add(m_rotationDampingButton, 760, 37);
+	m_connOnRotationDampingChanged = Pi::player->GetPlayerController()->onRotationDampingChanged.connect(
+			sigc::mem_fun(this, &ShipCpanel::OnRotationDampingChanged));
 
 	img = new Gui::Image("icons/alert_green.png");
 	img->SetToolTip(Lang::NO_ALERT);
@@ -233,6 +235,7 @@ ShipCpanel::~ShipCpanel()
 	delete m_msglog;
 	delete m_mfsel;
 	m_connOnDockingClearanceExpired.disconnect();
+	m_connOnRotationDampingChanged.disconnect();
 }
 
 void ShipCpanel::OnUserChangeMultiFunctionDisplay(multifuncfunc_t f)
@@ -378,12 +381,12 @@ void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
 
 void ShipCpanel::OnClickRotationDamping(Gui::MultiStateImageButton *b)
 {
-	Pi::ToggleRotationDamping();
+	Pi::player->GetPlayerController()->ToggleRotationDamping();
 }
 
-void ShipCpanel::SetRotationDamping(bool damping_on)
+void ShipCpanel::OnRotationDampingChanged()
 {
-	m_rotationDampingButton->SetActiveState(damping_on);
+	m_rotationDampingButton->SetActiveState(Pi::player->GetPlayerController()->GetRotationDamping());
 }
 
 void ShipCpanel::SetAlertState(Ship::AlertState as)
