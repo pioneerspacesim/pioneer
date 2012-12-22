@@ -18,7 +18,6 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 	IniConfig cfg;
 	// set defaults
 	cfg.SetInt("ButtonMinInnerSize", 16);
-	cfg.SetInt("SliderMinInnerSize", 32);
 	cfg.SetFloat("ListAlphaNormal", 0.0);
 	cfg.SetFloat("ListAlphaHover", 0.4);
 	cfg.SetFloat("ListAlphaSelect", 0.6);
@@ -41,6 +40,11 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 	m_buttonHover             = LoadBorderedRectElement(cfg.String("ButtonHover"));
 	m_buttonActive            = LoadBorderedRectElement(cfg.String("ButtonActive"));
 
+	m_smallButtonDisabled     = LoadRectElement(cfg.String("SmallButtonDisabled"));
+	m_smallButtonNormal       = LoadRectElement(cfg.String("SmallButtonNormal"));
+	m_smallButtonHover        = LoadRectElement(cfg.String("SmallButtonHover"));
+	m_smallButtonActive       = LoadRectElement(cfg.String("SmallButtonActive"));
+
 	m_checkboxDisabled        = LoadRectElement(cfg.String("CheckboxDisabled"));
 	m_checkboxNormal          = LoadRectElement(cfg.String("CheckboxNormal"));
 	m_checkboxHover           = LoadRectElement(cfg.String("CheckboxHover"));
@@ -50,8 +54,16 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 	m_checkboxCheckedHover    = LoadRectElement(cfg.String("CheckboxCheckedHover"));
 	m_checkboxCheckedActive   = LoadRectElement(cfg.String("CheckboxCheckedActive"));
 
+	m_sliderVerticalGutter         = LoadEdgedRectElement(cfg.String("SliderVerticalGutter"));
+	m_sliderHorizontalGutter       = LoadEdgedRectElement(cfg.String("SliderHorizontalGutter"));
+	m_sliderVerticalButtonNormal   = LoadRectElement(cfg.String("SliderVerticalButtonNormal"));
+	m_sliderVerticalButtonHover    = LoadRectElement(cfg.String("SliderVerticalButtonHover"));
+	m_sliderVerticalButtonActive   = LoadRectElement(cfg.String("SliderVerticalButtonActive"));
+	m_sliderHorizontalButtonNormal = LoadRectElement(cfg.String("SliderHorizontalButtonNormal"));
+	m_sliderHorizontalButtonHover  = LoadRectElement(cfg.String("SliderHorizontalButtonHover"));
+	m_sliderHorizontalButtonActive = LoadRectElement(cfg.String("SliderHorizontalButtonActive"));
+
 	m_buttonMinInnerSize      = cfg.Int("ButtonMinInnerSize");
-	m_sliderMinInnerSize      = cfg.Int("SliderMinInnerSize");
 
 	m_listAlphaNormal = cfg.Float("ListAlphaNormal");
 	m_listAlphaSelect = cfg.Float("ListAlphaSelect");
@@ -118,6 +130,42 @@ void Skin::DrawBorderedRectElement(const BorderedRectElement &element, const Poi
 	m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 
+void Skin::DrawVerticalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size) const
+{
+	const float height = element.edgeWidth;
+
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+
+	va.Add(vector3f(pos.x+size.x, pos.y,               0.0f), scaled(vector2f(element.pos.x+element.size.x, element.pos.y)));
+	va.Add(vector3f(pos.x,        pos.y,               0.0f), scaled(vector2f(element.pos.x,                element.pos.y)));
+	va.Add(vector3f(pos.x+size.x, pos.y+height,        0.0f), scaled(vector2f(element.pos.x+element.size.x, element.pos.y+height)));
+	va.Add(vector3f(pos.x,        pos.y+height,        0.0f), scaled(vector2f(element.pos.x,                element.pos.y+height)));
+	va.Add(vector3f(pos.x+size.x, pos.y+size.y-height, 0.0f), scaled(vector2f(element.pos.x+element.size.x, element.pos.y+element.size.y-height)));
+	va.Add(vector3f(pos.x,        pos.y+size.y-height, 0.0f), scaled(vector2f(element.pos.x,                element.pos.y+element.size.y-height)));
+	va.Add(vector3f(pos.x+size.x, pos.y+size.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x, element.pos.y+element.size.y)));
+	va.Add(vector3f(pos.x,        pos.y+size.y,        0.0f), scaled(vector2f(element.pos.x,                element.pos.y+element.size.y)));
+
+	m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+}
+
+void Skin::DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size) const
+{
+	const float width = element.edgeWidth;
+
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+
+	va.Add(vector3f(pos.x,              pos.y,        0.0f), scaled(vector2f(element.pos.x,                      element.pos.y)));
+	va.Add(vector3f(pos.x,              pos.y+size.y, 0.0f), scaled(vector2f(element.pos.x,                      element.pos.y+element.size.y)));
+	va.Add(vector3f(pos.x+width,        pos.y,        0.0f), scaled(vector2f(element.pos.x+width,                element.pos.y)));
+	va.Add(vector3f(pos.x+width,        pos.y+size.y, 0.0f), scaled(vector2f(element.pos.x+width,                element.pos.y+element.size.y)));
+	va.Add(vector3f(pos.x+size.x-width, pos.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x-width, element.pos.y)));
+	va.Add(vector3f(pos.x+size.x-width, pos.y+size.y, 0.0f), scaled(vector2f(element.pos.x+element.size.x-width, element.pos.y+element.size.y)));
+	va.Add(vector3f(pos.x+size.x,       pos.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y)));
+	va.Add(vector3f(pos.x+size.x,       pos.y+size.y, 0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y)));
+
+	m_renderer->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+}
+
 static void SplitSpec(const std::string &spec, std::vector<int> &output)
 {
 	static const std::string delim(",");
@@ -151,6 +199,13 @@ Skin::BorderedRectElement Skin::LoadBorderedRectElement(const std::string &spec)
 	std::vector<int> v(5);
 	SplitSpec(spec, v);
 	return BorderedRectElement(v[0], v[1], v[2], v[3], v[4]*m_scale);
+}
+
+Skin::EdgedRectElement Skin::LoadEdgedRectElement(const std::string &spec)
+{
+	std::vector<int> v(5);
+	SplitSpec(spec, v);
+	return EdgedRectElement(v[0], v[1], v[2], v[3], v[4]);
 }
 
 }

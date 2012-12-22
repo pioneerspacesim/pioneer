@@ -29,7 +29,7 @@
     <ClCompile Include="..\..\src\perlin.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\perlintest.cpp">
+    <ClCompile Include="..\..\src\win32\perlintest.cpp">
       <Filter>win32\src</Filter>
     </ClCompile>
   </ItemGroup>

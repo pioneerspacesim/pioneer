@@ -9,6 +9,50 @@ namespace UI {
 
 class LuaContext {
 public:
+
+	static inline UI::Widget *_get_implicit_widget(lua_State *l)
+	{
+		// context is always the first arg, don't reuse it
+		const int top = lua_gettop(l);
+		if (top == 1) return 0;
+		return UI::Lua::GetWidget(l, top);
+	}
+
+	static inline void _implicit_set_inner_widget(lua_State *l, UI::Single *s)
+	{
+		UI::Widget *w = _get_implicit_widget(l);
+		if (!w) return;
+		s->SetInnerWidget(w);
+	}
+
+	static inline void _implicit_set_inner_widget(lua_State *l, UI::Scroller *s)
+	{
+		UI::Widget *w = _get_implicit_widget(l);
+		if (!w) return;
+		s->SetInnerWidget(w);
+	}
+
+	static inline Uint32 _unpack_flags(lua_State *l, int idx, const char *constants) {
+		int table = lua_absindex(l, idx);
+
+		if (!lua_istable(l, table))
+			return 0;
+
+		LUA_DEBUG_START(l);
+
+		Uint32 flags = 0;
+
+		lua_pushnil(l);
+		while (lua_next(l, table)) {
+			flags |= static_cast<Uint32>(LuaConstants::GetConstantFromArg(l, constants, -1));
+			lua_pop(l, 1);
+		}
+
+		LUA_DEBUG_END(l, 0);
+
+		return flags;
+	}
+
 	static int l_hbox(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		if (lua_gettop(l) > 1)
@@ -48,7 +92,9 @@ public:
 
 	static int l_background(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-		LuaObject<UI::Background>::PushToLua(c->Background());
+		UI::Background *b = c->Background();
+		_implicit_set_inner_widget(l, b);
+		LuaObject<UI::Background>::PushToLua(b);
 		return 1;
 	}
 
@@ -60,36 +106,75 @@ public:
 		float a = 1.0f;
 		if (lua_gettop(l) > 4)
 			a = luaL_checknumber(l, 5);
-		LuaObject<UI::ColorBackground>::PushToLua(c->ColorBackground(Color(r,g,b,a)));
+		UI::ColorBackground *cb = c->ColorBackground(Color(r,g,b,a));
+		_implicit_set_inner_widget(l, cb);
+		LuaObject<UI::ColorBackground>::PushToLua(cb);
+		return 1;
+	}
+
+	static int l_gradient(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		Color beginColor = Color::FromLuaTable(l, 2);
+		Color endColor = Color::FromLuaTable(l, 3);
+		UI::Gradient::Direction direction = static_cast<UI::Gradient::Direction>(LuaConstants::GetConstantFromArg(l, "UIGradientDirection", 4));
+		UI::Gradient *g = c->Gradient(beginColor, endColor, direction);
+		_implicit_set_inner_widget(l, g);
+		LuaObject<UI::Gradient>::PushToLua(g);
+		return 1;
+	}
+
+	static int l_expand(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		UI::Expand::Direction direction = UI::Expand::BOTH;
+		if (lua_gettop(l) > 1)
+			direction = static_cast<UI::Expand::Direction>(LuaConstants::GetConstantFromArg(l, "UIExpandDirection", 2));
+		UI::Expand *e = c->Expand(direction);
+		_implicit_set_inner_widget(l, e);
+		LuaObject<UI::Expand>::PushToLua(e);
 		return 1;
 	}
 
 	static int l_margin(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-		LuaObject<UI::Margin>::PushToLua(c->Margin(luaL_checknumber(l, 2)));
+		int margin = luaL_checkinteger(l, 2);
+		UI::Margin::Direction dir = UI::Margin::ALL;
+		if (lua_gettop(l) > 2)
+			dir = static_cast<UI::Margin::Direction>(LuaConstants::GetConstantFromArg(l, "UIMarginDirection", 3));
+		UI::Margin *m = c->Margin(margin, dir);
+		_implicit_set_inner_widget(l, m);
+		LuaObject<UI::Margin>::PushToLua(m);
 		return 1;
 	}
 
 	static int l_align(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		UI::Align::Direction dir = static_cast<UI::Align::Direction>(LuaConstants::GetConstantFromArg(l, "UIAlignDirection", 2));
-		LuaObject<UI::Align>::PushToLua(c->Align(dir));
+		UI::Align *a = c->Align(dir);
+		_implicit_set_inner_widget(l, a);
+		LuaObject<UI::Align>::PushToLua(a);
 		return 1;
 	}
 
 	static int l_scroller(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-		LuaObject<UI::Scroller>::PushToLua(c->Scroller());
+		UI::Scroller *s = c->Scroller();
+		_implicit_set_inner_widget(l, s);
+		LuaObject<UI::Scroller>::PushToLua(s);
+		return 1;
+	}
+
+	static int l_icon(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		const std::string iconName(luaL_checkstring(l, 2));
+		LuaObject<UI::Icon>::PushToLua(c->Icon(iconName));
 		return 1;
 	}
 
 	static int l_image(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		const std::string filename(luaL_checkstring(l, 2));
-		UI::Image::StretchMode stretchMode = UI::Image::STRETCH_PRESERVE_ASPECT;
-		if (lua_gettop(l) > 2)
-			stretchMode = static_cast<UI::Image::StretchMode>(LuaConstants::GetConstantFromArg(l, "UIImageStretchMode", 3));
-		LuaObject<UI::Image>::PushToLua(c->Image(filename, stretchMode));
+		Uint32 sizeControlFlags = _unpack_flags(l, 3, "UISizeControl");
+		LuaObject<UI::Image>::PushToLua(c->Image(filename, sizeControlFlags));
 		return 1;
 	}
 
@@ -107,13 +192,21 @@ public:
 
 	static int l_button(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
-		LuaObject<UI::Button>::PushToLua(c->Button());
+		UI::Button *b = c->Button();
+		_implicit_set_inner_widget(l, b);
+		LuaObject<UI::Button>::PushToLua(b);
 		return 1;
 	}
 
 	static int l_checkbox(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::CheckBox>::PushToLua(c->CheckBox());
+		return 1;
+	}
+
+	static int l_smallbutton(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		LuaObject<UI::SmallButton>::PushToLua(c->SmallButton());
 		return 1;
 	}
 
@@ -173,14 +266,18 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "Grid",            LuaContext::l_grid            },
 		{ "Background",      LuaContext::l_background      },
 		{ "ColorBackground", LuaContext::l_colorbackground },
+		{ "Gradient",        LuaContext::l_gradient        },
+		{ "Expand",          LuaContext::l_expand          },
 		{ "Margin",          LuaContext::l_margin          },
 		{ "Align",           LuaContext::l_align           },
 		{ "Scroller",        LuaContext::l_scroller        },
+		{ "Icon",            LuaContext::l_icon            },
 		{ "Image",           LuaContext::l_image           },
 		{ "Label",           LuaContext::l_label           },
 		{ "MultiLineText",   LuaContext::l_multilinetext   },
 		{ "Button",          LuaContext::l_button          },
 		{ "CheckBox",        LuaContext::l_checkbox        },
+		{ "SmallButton",     LuaContext::l_smallbutton     },
 		{ "HSlider",         LuaContext::l_hslider         },
 		{ "VSlider",         LuaContext::l_vslider         },
 		{ "List",            LuaContext::l_list            },

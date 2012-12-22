@@ -33,6 +33,10 @@
 // get a value from the lua stack at index n (causes lua exception if the
 // object doesn't exist or the types don't match)
 //
+//   Ship *s = LuaShip::CheckFromLua(1);
+//
+// or alternatively, get it and return null on failure
+//
 //   Ship *s = LuaShip::GetFromLua(1);
 //
 // note that it uses the singleton lua state provided by LuaManager. there's
@@ -146,10 +150,10 @@ protected:
 	// pulls an object off the lua stack and returns its associated c++
 	// object. type is the lua type string of the object. a lua exception is
 	// triggered if the object on the stack is not of this type
-	static DeleteEmitter *GetFromLua(int index, const char *type);
-
-	// does exactly the same as GetFromLua without triggering exceptions
 	static DeleteEmitter *CheckFromLua(int index, const char *type);
+
+	// does exactly the same as CheckFromLua without triggering exceptions
+	static DeleteEmitter *GetFromLua(int index, const char *type);
 
 	// register a promotion test. when an object with lua type base_type is
 	// pushed, test_fn will be called. if it returns true then the created lua
@@ -251,12 +255,11 @@ public:
 	}
 
 	// pull an object off the the stack, unwrap it and return it
-	static inline T *GetFromLua(int index) {
-		return dynamic_cast<T *>(LuaObjectBase::GetFromLua(index, s_type));
-	}
-
 	static inline T *CheckFromLua(int index) {
 		return dynamic_cast<T *>(LuaObjectBase::CheckFromLua(index, s_type));
+	}
+	static inline T *GetFromLua(int index) {
+		return dynamic_cast<T *>(LuaObjectBase::GetFromLua(index, s_type));
 	}
 
 	// convenience promotion test
@@ -317,12 +320,11 @@ public:
 	}
 
 	// pull from lua, casting back to the original type
-	static inline T *GetFromLua(int index) {
-		return dynamic_cast<T*>(LuaObject<UT>::GetFromLua(index));
-	}
-
 	static inline T *CheckFromLua(int index) {
 		return dynamic_cast<T*>(LuaObject<UT>::CheckFromLua(index));
+	}
+	static inline T *GetFromLua(int index) {
+		return dynamic_cast<T*>(LuaObject<UT>::GetFromLua(index));
 	}
 
 private:

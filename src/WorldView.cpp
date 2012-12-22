@@ -20,6 +20,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
 #include "graphics/TextureBuilder.h"
@@ -210,7 +211,7 @@ void WorldView::InitObject()
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
 	const float fovY = Pi::config->Float("FOVVertical");
-	const vector2f camSize(Pi::GetScrWidth(), Pi::GetScrHeight());
+	const vector2f camSize(Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 	m_internalCamera = new InternalCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_externalCamera = new ExternalCamera(Pi::player, camSize, fovY, znear, zfar);
 	m_siderealCamera = new SiderealCamera(Pi::player, camSize, fovY, znear, zfar);
@@ -286,6 +287,7 @@ void WorldView::ChangeInternalCameraMode(InternalCamera::Mode m)
 
 	Pi::BoinkNoise();
 	m_internalCamera->SetMode(m);
+	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCamera->GetMode() == InternalCamera::MODE_REAR);
 	UpdateCameraName();
 }
 

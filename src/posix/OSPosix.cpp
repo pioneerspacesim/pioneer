@@ -5,8 +5,18 @@
 #include "FileSystem.h"
 #include "SDLWrappers.h"
 #include <SDL.h>
+#include <sys/time.h>
+#include <fenv.h>
 
 namespace OS {
+
+void NotifyLoadBegin()
+{
+}
+
+void NotifyLoadEnd()
+{
+}
 
 void Error(const char *format, ...)
 {
@@ -63,6 +73,32 @@ void RedirectStdio()
 		setvbuf(f, 0, _IOLBF, BUFSIZ);
 		*stderr = *f;
 	}
+}
+
+void EnableFPE()
+{
+#ifdef _GNU_SOURCE
+	feenableexcept(FE_DIVBYZERO | FE_INVALID | FE_OVERFLOW);
+#endif
+}
+
+void DisableFPE()
+{
+#ifdef _GNU_SOURCE
+	fedisableexcept(FE_DIVBYZERO | FE_INVALID | FE_OVERFLOW);
+#endif
+}
+
+Uint64 HFTimerFreq()
+{
+	return 1000000;
+}
+
+Uint64 HFTimer()
+{
+	timeval t;
+	gettimeofday(&t, 0);
+	return Uint64(t.tv_sec)*1000000 + Uint64(t.tv_usec);
 }
 
 } // namespace OS

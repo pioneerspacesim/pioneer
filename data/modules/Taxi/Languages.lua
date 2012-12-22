@@ -209,6 +209,18 @@ Translate:Add({ English = {
   ["Could you repeat the original request?"] = "Could you repeat the original request?",
   ["Ok, agreed."] = "Ok, agreed.",
   ["Hey!?! You are going to pay for this!!!"] = "Hey!?! You are going to pay for this!!!",
+  ["ly"] = "ly",
+
+  -- Texts for the missions screen
+  taximissiondetail = [[
+  From:
+  To:
+  Group details:
+  Danger:
+  Deadline:
+  
+  Distance:]],
+
  PIRATE_TAUNTS = {
 	"You're going to regret dealing with {client}",
 	"You have {client} on board? That was a bad idea.",
@@ -427,6 +439,18 @@ Translate:Add({ Polski = {
   ["Could you repeat the original request?"] = "Możesz powtórzyć swoją ofertę?",
   ["Ok, agreed."] = "Zgoda.",
   ["Hey!?! You are going to pay for this!!!"] = "Hej!?! Zapłacisz za to!!!",
+  ["ly"] = "lś",
+ 
+  -- Texts for the missions screen
+  taximissiondetail = [[
+  Z:
+  Do:
+  Pasażerów:
+  Zagrożenie:
+  Termin:
+  
+  Dystans:]],
+
  PIRATE_TAUNTS = {
 	"Pożałujesz kontaktów z {client}",
 	"Masz na pokładzie {client}? To był zły pomysł.",

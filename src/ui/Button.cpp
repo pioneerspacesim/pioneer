@@ -22,9 +22,7 @@ Point Button::PreferredSize()
 	growToMinimum(preferredSize, GetContext()->GetSkin().ButtonMinInnerSize());
 
 	// add borders
-	preferredSize += Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2);
-
-	return preferredSize;;
+	return SizeAdd(preferredSize, Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2));
 }
 
 void Button::Layout()
@@ -37,7 +35,7 @@ void Button::Layout()
 	}
 
 	const Point innerSize = GetSize() - Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2);
-	SetWidgetDimensions(innerWidget, Point(GetContext()->GetSkin().ButtonNormal().borderWidth), innerSize);
+	SetWidgetDimensions(innerWidget, Point(GetContext()->GetSkin().ButtonNormal().borderWidth), CalcSize(innerWidget, innerSize));
 	innerWidget->Layout();
 
 	Point innerActiveArea(innerWidget->GetActiveArea());
@@ -48,7 +46,9 @@ void Button::Layout()
 
 void Button::Draw()
 {
-	if (IsMouseActive())
+	if (IsDisabled())
+		GetContext()->GetSkin().DrawButtonDisabled(GetActiveOffset(), GetActiveArea());
+	else if (IsMouseActive())
 		GetContext()->GetSkin().DrawButtonActive(GetActiveOffset(), GetActiveArea());
 	else if (IsMouseOver())
 		GetContext()->GetSkin().DrawButtonHover(GetActiveOffset(), GetActiveArea());

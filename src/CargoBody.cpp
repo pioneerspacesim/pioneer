@@ -7,7 +7,6 @@
 #include "collider/collider.h"
 #include "Sfx.h"
 #include "Space.h"
-#include "LmrModel.h"
 #include "Game.h"
 
 void CargoBody::Save(Serializer::Writer &wr, Space *space)
@@ -52,7 +51,9 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage)
 
 bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
 {
-	if (b->IsType(Object::SHIP) && (flags & 0x100)) {
+	// ignore collision if its about to be scooped
+	// XXX this is wrong. should only ignore if its actually going to be scooped. see Ship::OnCollision
+	if (b->IsType(Object::SHIP)) {
 		return true;
 	}
 
@@ -63,5 +64,5 @@ void CargoBody::Render(Graphics::Renderer *r, const Camera *camera, const vector
 {
 	if (!IsEnabled()) return;
 	GetLmrObjParams().label = Equip::types[m_type].name;
-	RenderLmrModel(viewCoords, viewTransform);
+	RenderLmrModel(r, viewCoords, viewTransform);
 }

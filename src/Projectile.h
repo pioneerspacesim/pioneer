@@ -32,6 +32,9 @@ public:
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual void UpdateInterpolatedTransform(double alpha);
 	virtual void PostLoadFixup(Space *space);
+
+	static void FreeModel();
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -48,10 +51,12 @@ private:
 
 	int m_parentIndex; // deserialisation
 
-	ScopedPtr<Graphics::VertexArray> m_sideVerts;
-	ScopedPtr<Graphics::VertexArray> m_glowVerts;
-	ScopedPtr<Graphics::Material> m_sideMat;
-	ScopedPtr<Graphics::Material> m_glowMat;
+	static void BuildModel();
+
+	static ScopedPtr<Graphics::VertexArray> s_sideVerts;
+	static ScopedPtr<Graphics::VertexArray> s_glowVerts;
+	static ScopedPtr<Graphics::Material> s_sideMat;
+	static ScopedPtr<Graphics::Material> s_glowMat;
 };
 
 #endif /* _PROJECTILE_H */

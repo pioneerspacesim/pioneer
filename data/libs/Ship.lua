@@ -9,6 +9,44 @@
 --
 
 --
+-- Method: Refuel
+--
+-- Use the content of the cargo to refuel
+--
+-- > used_units = ship:Refuel(1)
+--
+-- Parameters:
+--
+--   amount - the amount of fuel (in tons) to take from the cargo
+--
+-- Result:
+--
+--   used_units - how much fuel units have been used to fuel the tank.
+--
+-- Availability:
+--
+--   alpha 26
+--
+-- Status:
+--
+--   experimental
+--
+function Ship:Refuel(amount)
+	local t = Translate:GetTranslator()
+    local currentFuel = self.fuel
+    if currentFuel == 100 then
+		Comms.Message(t('Fuel tank full.'))
+        return 0
+    end
+    local ship_stats = self:GetStats()
+    local needed = math.clamp(math.ceil(ship_stats.maxFuelTankMass - ship_stats.fuelMassLeft),0, amount)
+    local removed = self:RemoveEquip('WATER', needed)
+    self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / ship_stats.maxFuelTankMass, 0, 100))
+    return removed
+end
+
+
+--
 -- Method: Jettison
 --
 -- Jettison one unit of the given cargo type

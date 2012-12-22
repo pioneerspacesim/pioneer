@@ -36,7 +36,7 @@ static void _unpack_hyperspace_args(lua_State *l, int index, SystemPath* &path, 
 
 	lua_pushinteger(l, 1);
 	lua_gettable(l, index);
-	if (!(path = LuaSystemPath::CheckFromLua(-1)))
+	if (!(path = LuaSystemPath::GetFromLua(-1)))
 		luaL_error(l, "bad value for hyperspace path at position 1 (SystemPath expected, got %s)", luaL_typename(l, -1));
 	lua_pop(l, 1);
 
@@ -204,7 +204,7 @@ static int l_space_spawn_ship_near(lua_State *l)
 	if (! ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 
-	Body *nearbody = LuaBody::GetFromLua(2);
+	Body *nearbody = LuaBody::CheckFromLua(2);
 	float min_dist = luaL_checknumber(l, 3);
 	float max_dist = luaL_checknumber(l, 4);
 
@@ -277,7 +277,7 @@ static int l_space_spawn_ship_docked(lua_State *l)
 	if (! ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 
-	SpaceStation *station = LuaSpaceStation::GetFromLua(2);
+	SpaceStation *station = LuaSpaceStation::CheckFromLua(2);
 
 	int port = station->GetFreeDockingPort();
 	if (port < 0)
@@ -338,7 +338,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	if (! ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 
-	SpaceStation *station = LuaSpaceStation::GetFromLua(2);
+	SpaceStation *station = LuaSpaceStation::CheckFromLua(2);
 
 	int slot;
 	if (!station->AllocateStaticSlot(slot))
@@ -363,7 +363,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 		axis1 = pos.Cross(vector3d(0.0,1.0,0.0));
 		axis2 = pos.Cross(axis1);
 
-		double ang = atan((140 + ship->GetLmrCollMesh()->GetBoundingRadius()) / pos.Length());
+		double ang = atan((140 + ship->GetCollMesh()->GetBoundingRadius()) / pos.Length());
 		if (slot<2) ang = -ang;
 
 		vector3d axis = (slot == 0 || slot == 3) ? axis1 : axis2;
@@ -372,7 +372,7 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	}
 
 	else {
-		double dist = 100 + ship->GetLmrCollMesh()->GetBoundingRadius();
+		double dist = 100 + ship->GetCollMesh()->GetBoundingRadius();
 		double xpos = (slot == 0 || slot == 3) ? -dist : dist;
 		double zpos = (slot == 0 || slot == 1) ? -dist : dist;
 

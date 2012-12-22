@@ -9,6 +9,7 @@
 #include "LuaFixed.h"
 #include "LuaConstants.h"
 #include "Polit.h"
+#include "Factions.h"
 #include "FileSystem.h"
 #include <map>
 
@@ -39,7 +40,7 @@ static int l_csb_new(lua_State *L)
 	const char *name = luaL_checkstring(L, 2);
 	int type = LuaConstants::GetConstantFromArg(L, "BodyType", 3);
 
-	if (type < SystemBody::TYPE_MIN || type > SystemBody::TYPE_MAX) {
+	if (type < SystemBody::TYPE_GRAVPOINT || type > SystemBody::TYPE_MAX) {
 		return luaL_error(L, "body '%s' does not have a valid type", name);
 	}
 
@@ -319,6 +320,20 @@ static int l_csys_long_desc(lua_State *L)
 	return 1;
 }
 
+static int l_csys_faction(lua_State *L)
+{
+	CustomSystem *cs = l_csys_check(L, 1);
+
+	std::string factionName = luaL_checkstring(L, 2);
+	cs->faction = Faction::GetFaction(factionName);
+	if (cs->faction->idx == Faction::BAD_FACTION_IDX) {
+		luaL_argerror(L, 2, "Faction not found");
+	}
+
+	lua_settop(L, 1);
+	return 1;
+}
+
 static int l_csys_govtype(lua_State *L)
 {
 	CustomSystem *cs = l_csys_check(L, 1);
@@ -374,9 +389,10 @@ static int l_csys_bodies(lua_State *L)
 	int primary_type = (*primary_ptr)->type;
 	luaL_checktype(L, 3, LUA_TTABLE);
 
-	if (primary_type < SystemBody::TYPE_STAR_MIN || primary_type > SystemBody::TYPE_STAR_MAX)
+	if ((primary_type < SystemBody::TYPE_STAR_MIN || primary_type > SystemBody::TYPE_STAR_MAX)
+			&& primary_type != SystemBody::TYPE_GRAVPOINT)
 		return luaL_error(L, "first body does not have a valid star type");
-	if (primary_type != cs->primaryType[0])
+	if (primary_type != cs->primaryType[0] && primary_type != SystemBody::TYPE_GRAVPOINT)
 		return luaL_error(L, "first body type does not match the system's primary star type");
 
 	lua_pushvalue(L, 3);
@@ -426,6 +442,7 @@ static luaL_Reg LuaCustomSystem_meta[] = {
 	{ "explored", &l_csys_explored },
 	{ "short_desc", &l_csys_short_desc },
 	{ "long_desc", &l_csys_long_desc },
+	{ "faction", &l_csys_faction },
 	{ "govtype", &l_csys_govtype },
 	{ "bodies", &l_csys_bodies },
 	{ "add_to_sector", &l_csys_add_to_sector },
@@ -516,6 +533,7 @@ CustomSystem::CustomSystem():
 	numStars(0),
 	seed(0),
 	want_rand_explored(true),
+	faction(0),
 	govType(Polit::GOV_INVALID)
 {
 	for (int i = 0; i < 4; ++i)

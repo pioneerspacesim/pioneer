@@ -13,23 +13,16 @@ namespace UI {
 
 class Image: public Widget {
 public:
-	enum StretchMode { // <enum scope='UI::Image' name=UIImageStretchMode prefix=STRETCH_>
-		STRETCH_PRESERVE_ASPECT,   // preserve ratio
-		STRETCH_MAX         // stretch to entire area allocated by container
-	};
-
 	virtual Point PreferredSize();
-	virtual void Layout();
 	virtual void Draw();
 
 protected:
 	friend class Context;
-	Image(Context *context, const std::string &filename, StretchMode stretchMode);
+	Image(Context *context, const std::string &filename, Uint32 sizeControlFlags);
 
 private:
 	RefCountedPtr<Graphics::Texture> m_texture;
 	RefCountedPtr<Graphics::Material> m_material;
-	StretchMode m_stretchMode;
 	Point m_initialSize;
 };
 

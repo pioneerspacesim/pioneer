@@ -34,7 +34,7 @@ private:
 	void RemoveStaticGeomsFromCollisionSpace();
 
 	struct BuildingDef {
-		LmrModel *model;
+		ModelBase *model;
 		float clipRadius;
 		int rotation; // 0-3
 		vector3d pos;

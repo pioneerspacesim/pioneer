@@ -43,6 +43,8 @@ struct KeySym {
 	SDLMod mod;
 	Uint16 unicode;
 
+	static KeySym FromString(const std::string &spec);
+
 	bool operator<(const KeySym &b) const {
 		return sym < b.sym || (sym == b.sym && mod < b.mod);
 	}
@@ -101,7 +103,8 @@ public:
 
 class MouseMotionEvent : public MouseEvent {
 public:
-	MouseMotionEvent(const Point &_pos) : MouseEvent(Event::MOUSE_MOTION, _pos) {}
+	MouseMotionEvent(const Point &_pos, const Point &_rel) : MouseEvent(Event::MOUSE_MOTION, _pos), rel(_rel) {}
+	const Point rel;
 
 	void ToLuaTable(lua_State *l) const;
 };

@@ -28,7 +28,7 @@
  */
 static int l_cargobody_attr_type(lua_State *l)
 {
-	CargoBody *b = LuaCargoBody::GetFromLua(1);
+	CargoBody *b = LuaCargoBody::CheckFromLua(1);
 	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", b->GetCargoType()));
 	return 1;
 }

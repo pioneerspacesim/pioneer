@@ -13,6 +13,21 @@
 
 namespace OS {
 
+// Notify Windows that the window may become unresponsive
+void NotifyLoadBegin()
+{
+    // XXX MinGW doesn't know this function
+#ifndef __MINGW32__
+	// XXX Remove the following call when loading is moved to a background thread
+	DisableProcessWindowsGhosting(); // Prevent Windows from whiting out the screen for "not responding"
+#endif
+}
+
+// Since there's no way to re-enable Window ghosting, do nothing
+void NotifyLoadEnd()
+{
+}
+
 // Call MessageBox with error icon and abort
 void Error(const char *format, ...)
 {
@@ -73,6 +88,42 @@ void RedirectStdio()
 	} else {
 		setvbuf(f, 0, _IOLBF, BUFSIZ);
 	}
+}
+
+void EnableFPE()
+{
+#ifdef __MINGW32__
+	// MinGW only has _controlfp
+	_controlfp(_EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
+#else
+	unsigned int control_word;
+	_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
+#endif
+}
+
+void DisableFPE()
+{
+#ifdef __MINGW32__
+	// MinGW only has _controlfp
+	_controlfp(_MCW_EM, _MCW_EM);
+#else
+	unsigned int control_word;
+	_controlfp_s(&control_word, _MCW_EM, _MCW_EM);
+#endif
+}
+
+Uint64 HFTimerFreq()
+{
+	LARGE_INTEGER i;
+	QueryPerformanceFrequency(&i);
+	return i.QuadPart;
+}
+
+Uint64 HFTimer()
+{
+	LARGE_INTEGER i;
+	QueryPerformanceCounter(&i);
+	return i.QuadPart;
 }
 
 } // namespace OS

@@ -6,6 +6,7 @@
 #include "AmbientSounds.h"
 #include "CargoBody.h"
 #include "CityOnPlanet.h"
+#include "DeathView.h"
 #include "Factions.h"
 #include "FileSystem.h"
 #include "Frame.h"
@@ -14,23 +15,21 @@
 #include "GameLoaderSaver.h"
 #include "GameMenuView.h"
 #include "GeoSphere.h"
-#include "InfoView.h"
 #include "Intro.h"
 #include "Lang.h"
 #include "LmrModel.h"
-#include "LuaManager.h"
-#include "LuaDev.h"
-#include "LuaRef.h"
 #include "LuaBody.h"
 #include "LuaCargoBody.h"
 #include "LuaChatForm.h"
 #include "LuaComms.h"
 #include "LuaConsole.h"
 #include "LuaConstants.h"
+#include "LuaDev.h"
 #include "LuaEngine.h"
+#include "LuaEquipType.h"
+#include "LuaEvent.h"
 #include "LuaFaction.h"
 #include "LuaFileSystem.h"
-#include "LuaEquipType.h"
 #include "LuaFormat.h"
 #include "LuaGame.h"
 #include "LuaLang.h"
@@ -40,9 +39,9 @@
 #include "LuaPlanet.h"
 #include "LuaPlayer.h"
 #include "LuaRand.h"
+#include "LuaRef.h"
 #include "LuaShip.h"
 #include "LuaShipType.h"
-#include "LuaSpace.h"
 #include "LuaSpace.h"
 #include "LuaSpaceStation.h"
 #include "LuaStar.h"
@@ -50,14 +49,16 @@
 #include "LuaSystemBody.h"
 #include "LuaSystemPath.h"
 #include "LuaTimer.h"
-#include "LuaEvent.h"
 #include "Missile.h"
+#include "ModelCache.h"
 #include "ModManager.h"
 #include "ObjectViewerView.h"
 #include "OS.h"
 #include "Planet.h"
 #include "Player.h"
 #include "Polit.h"
+#include "Projectile.h"
+#include "SDLWrappers.h"
 #include "SectorView.h"
 #include "Serializer.h"
 #include "Sfx.h"
@@ -73,25 +74,23 @@
 #include "SystemInfoView.h"
 #include "SystemView.h"
 #include "Tombstone.h"
+#include "UIView.h"
 #include "WorldView.h"
-#include "DeathView.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
+#include "gameui/Lua.h"
 #include "graphics/Graphics.h"
+#include "graphics/Light.h"
 #include "graphics/Renderer.h"
+#include "gui/Gui.h"
+#include "scenegraph/Model.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
-#include "SDLWrappers.h"
-#include "ModManager.h"
-#include "graphics/Light.h"
-#include "gui/Gui.h"
 #include <algorithm>
 #include <sstream>
 
 float Pi::gameTickAlpha;
-int Pi::scrWidth;
-int Pi::scrHeight;
 float Pi::scrAspect;
 sigc::signal<void, SDL_keysym*> Pi::onKeyPress;
 sigc::signal<void, SDL_keysym*> Pi::onKeyRelease;
@@ -114,7 +113,7 @@ View *Pi::currentView;
 WorldView *Pi::worldView;
 DeathView *Pi::deathView;
 SpaceStationView *Pi::spaceStationView;
-InfoView *Pi::infoView;
+UIView *Pi::infoView;
 SectorView *Pi::sectorView;
 GalacticView *Pi::galacticView;
 GameMenuView *Pi::gameMenuView;
@@ -149,6 +148,7 @@ const char * const Pi::combatRating[] = {
 };
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
+ModelCache *Pi::modelCache;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -221,7 +221,8 @@ static void LuaInit()
 	LuaConsole::Register();
 
 	// XXX sigh
-	UI::LuaInit();
+	UI::Lua::Init();
+	GameUI::Lua::Init();
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
@@ -245,6 +246,23 @@ static void LuaInitGame() {
 	LuaEvent::Clear();
 }
 
+ModelBase *Pi::FindModel(const std::string &name)
+{
+	// Try LMR models first, then NewModel
+	ModelBase *m = 0;
+	try {
+		m = LmrLookupModelByName(name.c_str());
+	} catch (LmrModelNotFoundException) {
+		try {
+			m = Pi::modelCache->FindModel(name);
+		} catch (ModelCache::ModelNotFoundException) {
+			Error("Could not find model %s", name.c_str());
+		}
+	}
+
+	return m;
+}
+
 const char Pi::SAVE_DIR_NAME[] = "savefiles";
 
 std::string Pi::GetSaveDir()
@@ -254,6 +272,9 @@ std::string Pi::GetSaveDir()
 
 void Pi::Init()
 {
+
+	OS::NotifyLoadBegin();
+
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 
@@ -282,6 +303,9 @@ void Pi::Init()
 		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
 	}
 
+	// needed for the UI
+	SDL_EnableUNICODE(1);
+
 	// Do rest of SDL video initialization and create Renderer
 	Graphics::Settings videoSettings = {};
 	videoSettings.width = config->Int("ScrWidth");
@@ -308,8 +332,6 @@ void Pi::Init()
 	OS::LoadWindowIcon();
 	SDL_WM_SetCaption("Pioneer","Pioneer");
 
-	Pi::scrWidth = videoSettings.width;
-	Pi::scrHeight = videoSettings.height;
 	Pi::scrAspect = videoSettings.width / float(videoSettings.height);
 
 	Pi::rng.seed(time(0));
@@ -324,13 +346,13 @@ void Pi::Init()
 	// templates. so now we have crap everywhere :/
 	Lua::Init();
 
-	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, scrWidth, scrHeight));
+	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
 
 	LuaInit();
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
-	Gui::Init(renderer, scrWidth, scrHeight, 800, 600);
+	Gui::Init(renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 800, 600);
 
 	draw_progress(0.1f);
 
@@ -344,7 +366,7 @@ void Pi::Init()
 	draw_progress(0.4f);
 
 	LmrModelCompilerInit(Pi::renderer);
-	LmrNotifyScreenWidth(Pi::scrWidth);
+	modelCache = new ModelCache(Pi::renderer);
 	draw_progress(0.5f);
 
 //unsigned int control_word;
@@ -379,6 +401,8 @@ void Pi::Init()
 		if (config->Int("MusicMuted")) GetMusicPlayer().SetEnabled(false);
 	}
 	draw_progress(1.0f);
+
+	OS::NotifyLoadEnd();
 
 #if 0
 	// test code to produce list of ship stats
@@ -424,8 +448,15 @@ void Pi::Init()
 	luaConsole = new LuaConsole(10);
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
 
+	KeyBindings::toggleManualRotation.onPress.connect(sigc::ptr_fun(&Pi::ToggleManualRotation));
+
 	gameMenuView = new GameMenuView();
 	config->Save();
+}
+
+void Pi::ToggleManualRotation() {
+	Pi::player->SetManualRotationState(!Pi::player->GetManualRotationState());
+	Pi::cpan->SetRotationDamping(!Pi::player->GetManualRotationState());
 }
 
 bool Pi::IsConsoleActive()
@@ -452,6 +483,7 @@ void Pi::ToggleLuaConsole()
 
 void Pi::Quit()
 {
+	Projectile::FreeModel();
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
 	Sfx::Uninit();
@@ -465,6 +497,7 @@ void Pi::Quit()
 	Pi::ui.Reset(0);
 	LuaUninit();
 	Gui::Uninit();
+	delete Pi::modelCache;
 	delete Pi::renderer;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
@@ -495,6 +528,14 @@ void Pi::HandleEvents()
 
 	Pi::mouseMotion[0] = Pi::mouseMotion[1] = 0;
 	while (SDL_PollEvent(&event)) {
+		if (event.type == SDL_QUIT) {
+			if (Pi::game)
+				Pi::EndGame();
+			Pi::Quit();
+		}
+		else if (ui->DispatchSDLEvent(event))
+			continue;
+
 		Gui::HandleSDLEvent(&event);
 		KeyBindings::DispatchSDLEvent(&event);
 
@@ -531,7 +572,7 @@ void Pi::HandleEvents()
 							const time_t t = time(0);
 							struct tm *_tm = localtime(&t);
 							strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.png", _tm);
-							Screendump(buf, GetScrWidth(), GetScrHeight());
+							Screendump(buf, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 							break;
 						}
 #if WITH_DEVKEYS
@@ -672,18 +713,13 @@ void Pi::HandleEvents()
 					break;
 				joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
 				break;
-			case SDL_QUIT:
-				if (Pi::game)
-					Pi::EndGame();
-				Pi::Quit();
-				break;
 		}
 	}
 }
 
 void Pi::TombStoneLoop()
 {
-	ScopedPtr<Tombstone> tombstone(new Tombstone(Pi::renderer, GetScrWidth(), GetScrHeight()));
+	ScopedPtr<Tombstone> tombstone(new Tombstone(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
 	do {
@@ -752,7 +788,7 @@ void Pi::StartGame()
 
 void Pi::Start()
 {
-	Intro *intro = new Intro(Pi::renderer, GetScrWidth(), GetScrHeight());
+	Intro *intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 
 	ui->SetInnerWidget(ui->CallTemplate("MainMenu"));
 
@@ -796,6 +832,9 @@ void Pi::Start()
 		last_time = SDL_GetTicks();
 	}
 
+	ui->RemoveInnerWidget();
+	ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
+
 	InitGame();
 	StartGame();
 	MainLoop();
@@ -814,6 +853,8 @@ void Pi::EndGame()
 
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
+
+	
 
 	assert(game);
 	delete game;

@@ -68,6 +68,19 @@ Translate:Add({ English = {
   ["How soon must it be done?"] = "How soon must it be done?",
   ["How will I be paid?"] = "How will I be paid?",
   ["Ok, agreed."] = "Ok, agreed.",
+  ["ly"] = "ly",
+
+  -- Texts for the missions screen   
+  assmissiondetail = [[
+  Target name:
+  Spaceport:
+  System:
+  Ship:
+  Ship ID:
+  Target will be leaving spaceport at:
+  
+  Distance:]],
+ 
   TITLE = {
 		"Admiral",
 		"Ambassador",
@@ -158,6 +171,19 @@ Translate:Add({ Polski = {
   ["How soon must it be done?"] = "Jak powinienem to zrobić?",
   ["How will I be paid?"] = "Jak będę miał zapłacone?",
   ["Ok, agreed."] = "Zgoda.",
+  ["ly"] = "lś",
+
+  -- Texts for the missions screen  
+  assmissiondetail = [[
+  Cel:
+  Port kosmiczny:
+  System:
+  Statek:
+  Identyfikator:
+  Cel będzie opuszczał port kosmiczny o:
+  
+  Dystans:]],
+  
   TITLE = {
 		"admirał",
 		"ambasador",

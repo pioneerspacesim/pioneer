@@ -15,7 +15,6 @@ struct EnumItem { const char *name; int value; };
 extern const struct EnumItem ENUM_EquipSlot[];
 extern const struct EnumItem ENUM_EquipType[];
 extern const struct EnumItem ENUM_FileSystemRoot[];
-extern const struct EnumItem ENUM_MissionStatus[];
 extern const struct EnumItem ENUM_PolitCrime[];
 extern const struct EnumItem ENUM_PolitEcon[];
 extern const struct EnumItem ENUM_PolitGovType[];
@@ -32,14 +31,17 @@ extern const struct EnumItem ENUM_SpaceStationAnimation[];
 extern const struct EnumItem ENUM_EconType[];
 extern const struct EnumItem ENUM_BodyType[];
 extern const struct EnumItem ENUM_BodySuperType[];
+extern const struct EnumItem ENUM_GameUIFaceFlags[];
 extern const struct EnumItem ENUM_UIAlignDirection[];
-extern const struct EnumItem ENUM_UIBoxFlags[];
 extern const struct EnumItem ENUM_UIEventType[];
 extern const struct EnumItem ENUM_UIKeyboardAction[];
 extern const struct EnumItem ENUM_UIMouseButtonAction[];
 extern const struct EnumItem ENUM_UIMouseButtonType[];
 extern const struct EnumItem ENUM_UIMouseWheelDirection[];
-extern const struct EnumItem ENUM_UIImageStretchMode[];
-extern const struct EnumItem ENUM_UIFontSize[];
+extern const struct EnumItem ENUM_UIExpandDirection[];
+extern const struct EnumItem ENUM_UIGradientDirection[];
+extern const struct EnumItem ENUM_UIMarginDirection[];
+extern const struct EnumItem ENUM_UISizeControl[];
+extern const struct EnumItem ENUM_UIFont[];
 
 #endif
