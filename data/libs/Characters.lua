@@ -399,6 +399,43 @@ Character = {
 --
 	assistcount = 0,
 
+-- Attribute: deliveriesSuccsessful/deliveriesFailed
+--
+-- Integer value; simply keeps track of the amount of successful and failed deliveries respectively.
+-- Would be useful as a basis for some sort of reputation system or reward system based upon successful missions
+
+-- Status:
+--   experimental
+
+	deliveriesSuccessful = 0,
+	
+	deliveriesFailed = 0,
+	
+	
+-- Attribute: taxiSuccessful/taxiFailed
+--
+-- Integer value; simply keeps track of the amount of successful and failed taxi missions respectively.
+-- Would be useful as a basis for some sort of reputation system or reward system based upon successful missions
+
+-- Status:
+--   experimental
+
+	taxiSuccessful = 0,
+
+	taxiFailed = 0,
+	
+-- Attribute: taxiSuccessful/taxiFailed
+--
+-- Integer value; simply keeps track of the amount of successful and failed assassination missions respectively.
+-- Would be useful as a basis for some sort of reputation system or reward system based upon successful missions
+
+-- Status:
+--   experimental
+	
+	AssassinationsSuccessful = 0,
+	
+	AssassinationsFailed = 0,
+
 --
 -- Group: Methods
 --

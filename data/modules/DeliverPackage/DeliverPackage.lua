@@ -259,10 +259,13 @@ local onShipDocked = function (player, station)
 
 			if Game.time > mission.due then
 				Comms.ImportantMessage(delivery_flavours[mission.flavour].failuremsg, mission.client.name)
+				PersistentCharacters.player.deliveriesFailed = PersistentCharacters.player.deliveriesFailed + 1
 			else
 				Comms.ImportantMessage(delivery_flavours[mission.flavour].successmsg, mission.client.name)
 				player:AddMoney(mission.reward)
+				PersistentCharacters.player.deliveriesSuccessful = PersistentCharacters.player.deliveriesSuccessful + 1
 			end
+
 
 			Mission.Remove(ref)
 			missions[ref] = nil
