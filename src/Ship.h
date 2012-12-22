@@ -104,8 +104,8 @@ public:
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
 
-	void SetManualRotationState(bool rotationState) { m_manualRotation = rotationState; }
-	bool GetManualRotationState() { return m_manualRotation; }
+	void SetRotationDamping(bool enabled) { m_rotationDamping = enabled; }
+	bool GetRotationDamping() { return m_rotationDamping; }
 
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState>
 		FLYING,     // open flight (includes autopilot)
@@ -289,7 +289,7 @@ private:
 
 	FlightState m_flightState;
 	bool m_testLanded;
-	bool m_manualRotation;
+	bool m_rotationDamping;
 	float m_launchLockTimeout;
 	float m_wheelState;
 	int m_wheelTransition;

@@ -188,7 +188,7 @@ void ShipCpanel::InitObject()
 	m_rotationDampingButton->AddState(1, "icons/rotation_damping_on.png", Lang::ROTATION_DAMPING_ON);
 	m_rotationDampingButton->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickRotationDamping));
 	m_rotationDampingButton->SetRenderDimensions(20, 13);
-	m_rotationDampingButton->SetActiveState(!Pi::player->GetManualRotationState());
+	m_rotationDampingButton->SetActiveState(Pi::player->GetRotationDamping());
 	Add(m_rotationDampingButton, 760, 37);
 
 	img = new Gui::Image("icons/alert_green.png");
@@ -378,7 +378,7 @@ void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
 
 void ShipCpanel::OnClickRotationDamping(Gui::MultiStateImageButton *b)
 {
-	Pi::ToggleManualRotation();
+	Pi::ToggleRotationDamping();
 }
 
 void ShipCpanel::SetRotationDamping(bool damping_on)
