@@ -334,6 +334,26 @@ static int secure_trampoline(lua_State *l)
 	return fn(l);
 }
 
+static void register_functions(lua_State *l, const luaL_Reg *methods, bool protect, const char *prefix)
+{
+	const size_t prefix_len = prefix ? strlen(prefix) : 0;
+	for (const luaL_Reg *m = methods; m->name; m++) {
+		if (prefix_len) {
+			const size_t name_len = strlen(m->name);
+			luaL_Buffer b;
+			luaL_buffinitsize(l, &b, prefix_len + name_len);
+			luaL_addlstring(&b, prefix, prefix_len);
+			luaL_addlstring(&b, m->name, name_len);
+			luaL_pushresult(&b);
+		} else
+			lua_pushstring(l, m->name);
+		lua_pushcfunction(l, m->func);
+		if (protect)
+			lua_pushcclosure(l, secure_trampoline, 1);
+		lua_rawset(l, -3);
+	}
+}
+
 void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta, bool protect)
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -344,38 +364,14 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 	lua_newtable(l);
 	
 	// add methods
-	if (methods) {
-		for (const luaL_Reg *method = methods; method->name; method++) {
-			lua_pushstring(l, method->name);
-			lua_pushcfunction(l, method->func);
-			if (protect)
-				lua_pushcclosure(l, secure_trampoline, 1);
-			lua_rawset(l, -3);
-		}
-	}
+	if (methods) register_functions(l, methods, protect, "");
 
 	// add attributes
-	if (attrs) {
-		for (const luaL_Reg *attr = attrs; attr->name; attr++) {
-			lua_pushstring(l, (std::string("__attribute_")+attr->name).c_str());
-			lua_pushcfunction(l, attr->func);
-			if (protect)
-				lua_pushcclosure(l, secure_trampoline, 1);
-			lua_rawset(l, -3);
-		}
-	}
+	if (attrs) register_functions(l, attrs, protect, "__attribute_");
 
 	// create metatable for it
 	lua_newtable(l);
-	if (meta) {
-		for (const luaL_Reg *m = meta; m->name; m++) {
-			lua_pushstring(l, m->name);
-			lua_pushcfunction(l, m->func);
-			if (protect)
-				lua_pushcclosure(l, secure_trampoline, 1);
-			lua_rawset(l, -3);
-		}
-	}
+	if (meta) register_functions(l, meta, protect, "");
 
 	// index function
 	lua_pushstring(l, "__index");
