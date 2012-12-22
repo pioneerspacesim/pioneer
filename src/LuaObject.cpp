@@ -326,10 +326,10 @@ static int secure_trampoline(lua_State *l)
 	lua_Debug ar;
 	if (lua_getstack(l, 1, &ar) && lua_getinfo(l, "S", &ar) && strlen(ar.source) >= 3 && ar.source[0] == '[' && ar.source[1] == 'T' && ar.source[2] == ']')
 		trusted = true;
-	
+
 	if (!trusted)
 		luaL_error(l, "attempt to access protected method or attribute from untrusted script blocked");
-	
+
 	lua_CFunction fn = lua_tocfunction(l, lua_upvalueindex(1));
 	return fn(l);
 }
@@ -362,7 +362,7 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 
 	// create "object"
 	lua_newtable(l);
-	
+
 	// add methods
 	if (methods) register_functions(l, methods, protect, "");
 
