@@ -24,3 +24,11 @@ Translate:Add({ Polski = {
 	["Your fuel tank is empty."] = "Zbiornik paliwa jest pusty.",
 }
 })
+
+---- HUNGARIAN / MAGYAR ----
+
+Translate:Add({ Magyar = {
+	["Your fuel tank is almost empty."] = "Az üzemanyagtartályod majdnem üres.",
+	["Your fuel tank is empty."] = "Az üzemanyagtartályod teljesen kiürült.",
+}
+})

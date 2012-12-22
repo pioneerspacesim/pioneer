@@ -8,7 +8,7 @@ LEGAL_STATUS
 CARGO_SPACE
     Raktér méret
 ITEM
-    Item
+    Tárgy
 SHIP
     Hajó
 PRICE
@@ -589,7 +589,7 @@ POOR
 AVERAGE
     Átlagos
 ABOVE_AVERAGE
-    Átleg feletti
+    Átlag feletti
 COMPETENT
     Versenyképes
 DANGEROUS
@@ -707,7 +707,7 @@ BINARY_SYSTEM
 ENABLED_AUTOMATIC_SYSTEM_SELECTION
     Automata rendszerválasztás engedélyezve.
 DISABLED_AUTOMATIC_SYSTEM_SELECTION
-    Automata rendsszerválasztás kikapcsolva.
+    Automata rendszerválasztás kikapcsolva.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Üzemanyagszívó aktív. Jelenleg már %quantity tonna hidrogéned van.
 CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED
@@ -1025,7 +1025,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Félnagytengely
 TIME_POINT
-    Time point:
+    Idő pont:
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     Felfedezetlen rendszer. Rendszernézet nem elérhető.
 WHEELS_ARE_UP
