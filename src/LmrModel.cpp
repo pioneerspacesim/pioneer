@@ -2066,12 +2066,15 @@ namespace ModelFuncs {
 			int nv;
 		} segvtx[FLAT_MAX_SEG];
 
+		const int argmax = lua_gettop(L);
+		if (argmax < 3)
+			return luaL_error(L, "flat() requires at least 3 arguments");
+
 		if (!lua_istable(L, 3)) {
 			luaL_error(L, "argment 3 to flat() must be a table of line segments");
 			return 0;
 		}
 
-		int argmax = lua_gettop(L);
 		int seg = 0;
 		int numPoints = 0;
 		// iterate through table of line segments
