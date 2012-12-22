@@ -40,3 +40,23 @@ Translate:Add({
 		['Select game to load...'] = 'Wybierz zapis do wczytania...',
 	}
 })
+
+Translate:Add({
+	Magyar = {
+		-- Main menu
+		['Start at Earth']    = 'Indítás: Föld',
+		['Start at New Hope'] = 'Indítás: New Hope',
+		['Start at Lave']     = 'Indítás: Lave',
+		['Load game']         = 'Játék betöltése',
+		['Options']           = 'Beállítások',
+		['Quit']              = 'Kilépés',
+
+		-- Generic file dialog
+		['Select file...'] = 'Fájlkiválasztás...',
+		['Select']         = 'Kiválaszt',
+		['Cancel']         = 'Mégsem',
+
+		-- Load dialog
+		['Select game to load...'] = 'Válassz betöltendö fájlt...',
+	}
+})
