@@ -249,6 +249,7 @@ local onEnterSystem = function (ship)
 				else	-- too late
 					mission.status = 'FAILED'
 					Mission.Update(ref, mission)
+					PersistentCharacters.player.AssassinationsFailed = PersistentCharacters.player.AssassinationsFailed + 1
 				end
 			else
 				if not mission.ship:exists() then
@@ -284,6 +285,7 @@ local onShipDocked = function (ship, station)
 				ship:AddMoney(mission.reward)
 				Mission.Remove(ref)
 				missions[ref] = nil
+				PersistentCharacters.player.AssassinationsSuccessful = PersistentCharacters.player.AssassinationsSuccessful + 1
 			elseif mission.status == 'FAILED' then
 				local ass_flavours = Translate:GetFlavours('Assassination')
 				local text
