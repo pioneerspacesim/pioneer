@@ -30,7 +30,7 @@
  *   path - optional. a directory under the root
  *
  * Returns:
- *   
+ *
  *   files - a list of files as full paths from the root
  *   dirs - a list of dirs as full paths from the root
  *
@@ -49,12 +49,12 @@ static int l_filesystem_read_dir(lua_State *l)
 	if (lua_gettop(l) > 1)
 		path = luaL_checkstring(l, 2);
 
-	FileSystem::FileSource *fs;
+	FileSystem::FileSource *fs = 0;
 	switch (root) {
 		case LuaFileSystem::ROOT_USER:
 			fs = &FileSystem::userFiles;
 			break;
-			
+
 		case LuaFileSystem::ROOT_DATA:
 			fs = &FileSystem::gameDataFiles;
 			break;
@@ -86,7 +86,7 @@ static int l_filesystem_read_dir(lua_State *l)
 		const FileSystem::FileInfo &info = files.Current();
 
 		lua_pushlstring(l, info.GetName().c_str(), info.GetName().size());
-		
+
 		if (info.IsDir())
 			lua_rawseti(l, dirsTable, lua_rawlen(l, dirsTable)+1);
 		else

@@ -27,9 +27,9 @@ extern "C" {
  * Parameters:
  *
  *   seed - A string or a number. The output is deterministic based on this value.
- *   m, n - optional. If called as hash_random(seed), the result is in the range 0 ≤ x < 1.
- *          If called as hash_random(seed, n), the result is an integer in the range 1 ≤ x ≤ m.
- *          If called as hash_random(seed, m, n), the result is an integer in the range m ≤ x ≤ n.
+ *   m, n - optional. If called as hash_random(seed), the result is in the range 0 <= x < 1.
+ *          If called as hash_random(seed, n), the result is an integer in the range 1 <= x <= n.
+ *          If called as hash_random(seed, m, n), the result is an integer in the range m <= x <= n.
  *
  * Availability:
  *

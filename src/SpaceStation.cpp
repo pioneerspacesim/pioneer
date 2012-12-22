@@ -791,14 +791,14 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 
 // Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location
 // 1. Calculates the amount of direct illumination available taking into account
-//    * multiple suns 
-//    * sun positions relative to up direction i.e. light is dimmed as suns set 
+//    * multiple suns
+//    * sun positions relative to up direction i.e. light is dimmed as suns set
 //    * Thickness of the atmosphere overhead i.e. as atmospheres get thicker light starts dimming earlier as sun sets, without atmosphere the light switches off at point of sunset
 // 2. Calculates the split between ambient and directly lit portions taking into account
 //    * Atmosphere density (optical thickness) of the sky dome overhead
 //        as optical thickness increases the fraction of ambient light increases
 //        this takes altitude into account automatically
-//    * As suns set the split is biased towards ambient 
+//    * As suns set the split is biased towards ambient
 void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::LightSource> &lightSources)
 {
 	// position relative to the rotating frame of the planet
@@ -822,14 +822,14 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 
 	for(std::vector<Camera::LightSource>::const_iterator l = lightSources.begin();
 		l != lightSources.end(); ++l) {
-			
+
 			double sunAngle;
 			// calculate the extent the sun is towards zenith
 			if (l->GetBody()){
 				// relative to the rotating frame of the planet
 				const vector3d lightDir = (l->GetBody()->GetInterpolatedPositionRelTo(planet->GetFrame()).Normalized());
 				sunAngle = lightDir.Dot(upDir);
-			} else 
+			} else
 				// light is the default light for systems without lights
 				sunAngle = 1.0;
 
@@ -847,7 +847,7 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 			const double end = std::max((endAngle*opticalThicknessFraction),-0.2);
 
 			sunAngle = (Clamp(sunAngle, end, start)-end)/(start-end);
-			
+
 			light += sunAngle;
 			light_clamped += sunAngle2;
 	}
@@ -862,8 +862,8 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 	double fraction = (0.4+0.4*(
 						1.0-light_clamped*(Clamp((opticalThicknessFraction),0.0,1.0))
 						)*0.8+0.2); //fraction goes from 0.6 to 1.0
-					  
-	
+
+
 	// fraction of light left over to be lit directly
 	intensity = (1.0-fraction)*intensity;
 
@@ -876,12 +876,12 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, double fadeInEnd, double fadeInLength, double illumination, double minIllumination)
 {
 	if (illumination <= minIllumination) {
-		
+
 		fadeInEnd = std::max(std::max(modelRadius,10.0), fadeInEnd);
 		const double fadeInStart = fadeInLength+fadeInEnd;
 		// 0 to 1 as dist goes from fadeInEnd to fadeInStart
 		double sceneAmbient = 1.0-(Clamp(dist, fadeInEnd, fadeInStart)-fadeInEnd)/((fadeInStart-fadeInEnd));
-		
+
 		//set scene ambient to the amount needed to take illumination level to 0.2
 		sceneAmbient*= minIllumination-illumination;
 
@@ -890,7 +890,7 @@ void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, d
 }
 // Renders space station and adjacent city if applicable
 // For orbital starports: renders as normal
-// For surface starports: 
+// For surface starports:
 //	Lighting: Calculates available light for model and splits light between directly and ambiently lit
 //            Lighting is done by manipulating global lights or setting uniforms in atmospheric models shader
 //            Adds an ambient light at close ranges if dark by manipulating the global ambient level
@@ -912,10 +912,10 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
 		RenderLmrModel(r, viewCoords, viewTransform);
 	}
-	
+
 	else {
 		Planet *planet = static_cast<Planet*>(b);
-		
+
 		// calculate lighting
 		// available light is calculated and split between directly (diffusely/specularly) lit and ambiently lit
 		const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
@@ -923,7 +923,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		CalcLighting(planet, ambient, intensity, lightSources);
 
 		std::vector<Graphics::Light> origLights, newLights;
-		
+
 		for(size_t i = 0; i < lightSources.size(); i++) {
 			Graphics::Light light(lightSources[i].GetLight());
 
@@ -976,7 +976,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
 			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform, overallLighting, minIllumination);
-		} 
+		}
 
 		r->SetAmbientColor(Color::BLACK);
 

@@ -17,11 +17,11 @@ public:
 		r.PushCopyToStack();
 		m_index = lua_gettop(m_lua);
 	}
-		
+
 	LuaTable(lua_State * l, int index): m_lua(l), m_index(lua_absindex(l, index)) {assert(lua_istable(m_lua, m_index));}
 	explicit LuaTable(lua_State * l): m_lua(l) {
 		lua_newtable(m_lua);
-		m_index = lua_gettop(l); 
+		m_index = lua_gettop(l);
 	}
 
 	~LuaTable() {};

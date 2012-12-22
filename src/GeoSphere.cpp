@@ -111,7 +111,7 @@ public:
 	int getIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags)
 	{
 		// calculate how many tri's there are
-		int tri_count = (VBO_COUNT_MID_IDX() / 3); 
+		int tri_count = (VBO_COUNT_MID_IDX() / 3);
 		for( int i=0; i<4; ++i ) {
 			if( edge_hi_flags & (1 << i) ) {
 				tri_count += (VBO_COUNT_HI_EDGE() / 3);

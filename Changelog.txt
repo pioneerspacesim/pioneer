@@ -45,6 +45,7 @@ Alpha 30
      * Lua methods can be marked "protected", stopping them being called by
        user-supplied scripts and mods (#1706)
      * Rotation damping code cleaned up (#1866)
+     * Various minor cleanups (#1867)
 
 Alpha 29
 

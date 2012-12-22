@@ -147,7 +147,7 @@ void Slider::HandleMouseMove(const MouseMotionEvent &event)
 
 			const int effectiveLength = GetActiveArea().x - gutterRect.edgeWidth*2 - buttonRect.size.x;
 			const int pos = Clamp(event.pos.x - int(gutterRect.edgeWidth) - buttonRect.size.x/2 - GetActiveOffset().x, 0, effectiveLength);
-			
+
 			travel = float(pos) / effectiveLength;
 		}
 
