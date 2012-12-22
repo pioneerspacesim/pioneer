@@ -1,7 +1,7 @@
 Alpha 30
 
    * New features
-     * New model system (SGModel) (#1676, #1208, #813)
+     * New model system (SGModel) (#1676, #1208, #813, #1852)
      * Rotation damping icon and control on the panel (#1842, #1837)
      * OSX: Hold the option key down when launching pioneer.app to launch the
        model viewer instead (#1803)
