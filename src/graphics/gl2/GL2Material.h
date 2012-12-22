@@ -20,7 +20,7 @@ namespace Graphics {
 	class RendererGL2;
 
 	namespace GL2 {
-		
+
 		class Program;
 
 		class Material : public Graphics::Material {

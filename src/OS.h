@@ -26,7 +26,7 @@ namespace OS {
 	void DisableFPE();
 
 	// High frequency timer. HFTimer() returns count, HFTimerFreq() returns frequency.
-	// should not be considered reliable 
+	// should not be considered reliable
 	Uint64 HFTimerFreq();
 	Uint64 HFTimer();
 }

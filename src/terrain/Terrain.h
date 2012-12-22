@@ -194,7 +194,7 @@ class TerrainHeightRuggedDesert;
 //   lava terrain should look like this http://www.spacesimcentral.com/forum/download/file.php?id=1778&mode=view
 class TerrainHeightRuggedLava;
 
-/*Terrains used for Iceworlds, 
+/*Terrains used for Iceworlds,
 only terrain to use the much neglected impact crater function
 (basically I forgot about it;) ) **It makes cool looking sunken craters** */
 class TerrainHeightWaterSolidCanyons;

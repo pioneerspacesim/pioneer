@@ -122,7 +122,7 @@ static int l_game_end_game(lua_State *l)
 {
 	if (!Pi::game)
 		return 0;
-	
+
 	// XXX stuff
 	return luaL_error(l, "Game.EndGame() is not yet implemented");
 }
