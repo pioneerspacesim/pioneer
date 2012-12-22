@@ -44,6 +44,7 @@ Alpha 30
      * Enable floating-point exceptions during AI processing (#1838)
      * Lua methods can be marked "protected", stopping them being called by
        user-supplied scripts and mods (#1706)
+     * Rotation damping code cleaned up (#1866)
 
 Alpha 29
 

@@ -23,7 +23,7 @@
 #include "ObjectViewerView.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 57;
+static const int  s_saveVersion   = 58;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -548,7 +548,8 @@ const float Game::s_timeAccelRates[] = {
 void Game::SetTimeAccel(TimeAccel t)
 {
 	// don't want player to spin like mad when hitting time accel
-	if ((t != m_timeAccel) && (t > TIMEACCEL_1X) && !m_player->GetManualRotationState()) {
+	if ((t != m_timeAccel) && (t > TIMEACCEL_1X) &&
+			m_player->GetPlayerController()->GetRotationDamping()) {
 		m_player->SetAngVelocity(vector3d(0,0,0));
 		m_player->SetTorque(vector3d(0,0,0));
 		m_player->SetAngThrusterState(vector3d(0.0));
