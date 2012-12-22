@@ -21,7 +21,7 @@ TerrainHeightFractal<TerrainHeightAsteroid2>::TerrainHeightFractal(const SystemB
 template <>
 double TerrainHeightFractal<TerrainHeightAsteroid2>::GetHeight(const vector3d &p)
 {
-	double n = voronoiscam_octavenoise(6, 0.2*octavenoise(2, 0.3, 3.7, p), 15.0*octavenoise(2, 0.5, 4.0, p), p) * 
+	double n = voronoiscam_octavenoise(6, 0.2*octavenoise(2, 0.3, 3.7, p), 15.0*octavenoise(2, 0.5, 4.0, p), p) *
 		0.75*ridged_octavenoise(16*octavenoise(2, 0.275, 3.2, p), 0.4*ridged_octavenoise(4, 0.4, 3.0, p), 4.0*octavenoise(3, 0.35, 3.7, p), p);
 
 	return (n > 0.0? m_maxHeight*n : 0.0);

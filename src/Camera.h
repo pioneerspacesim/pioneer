@@ -41,10 +41,10 @@ public:
 	class LightSource {
 	public:
 		LightSource(const Body *b, Graphics::Light light) : m_body(b), m_light(light) {}
-		
+
 		const Body *GetBody() const { return m_body; }
 		const Graphics::Light &GetLight() const { return m_light; }
-	
+
 	private:
 		const Body *m_body;
 		Graphics::Light m_light;
@@ -112,7 +112,7 @@ private:
 	};
 
 	bool m_showCameraBody;
-	
+
 	std::list<BodyAttrs> m_sortedBodies;
 	std::vector<LightSource> m_lightSources;
 

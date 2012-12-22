@@ -345,10 +345,10 @@ void SystemView::Update()
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
 		if (Pi::KeyState(SDLK_EQUALS) ||
-			m_zoomInButton->IsPressed()) 
+			m_zoomInButton->IsPressed())
 				m_zoomTo *= pow(ZOOM_IN_SPEED * Pi::GetMoveSpeedShiftModifier(), ft);
 		if (Pi::KeyState(SDLK_MINUS) ||
-			m_zoomOutButton->IsPressed()) 
+			m_zoomOutButton->IsPressed())
 				m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), ft);
 	}
 	// TODO: add "true" lower/upper bounds to m_zoomTo / m_zoom

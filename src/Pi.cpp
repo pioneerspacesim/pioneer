@@ -856,7 +856,7 @@ void Pi::EndGame()
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
-	
+
 
 	assert(game);
 	delete game;

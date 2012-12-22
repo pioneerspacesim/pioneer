@@ -410,9 +410,9 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 	m_volcanic = Clamp(m_body->m_volcanicity.ToDouble(), 0.0, 1.0); // height scales with volcanicity as well
 
 	const double rad = m_body->GetRadius();
-	
-	// calculate max height	
-	if ((m_body->heightMapFilename) && m_body->heightMapFractal > 1){ // if scaled heightmap 	
+
+	// calculate max height
+	if ((m_body->heightMapFilename) && m_body->heightMapFractal > 1){ // if scaled heightmap
 		m_maxHeightInMeters = 1.1*pow(2.0, 16.0)*m_heightScaling; // no min height required as it's added to radius in lua
 	}else {
 		m_maxHeightInMeters = std::max(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (m_body->GetMass() * 6.64e-12));
