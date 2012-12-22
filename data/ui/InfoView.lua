@@ -164,6 +164,12 @@ local personalInfo = function ()
 		player.name = newName
         faceWidget:UpdateInfo(player)
 	end )
+	
+	local titleEntry = ui:TextEntry(player.title):SetFont("HEADING_LARGE")
+	titleEntry.onChange:Connect(function (newTitle)
+		player.title = newTitle
+        faceWidget:UpdateInfo(player)
+	end )
 
 	local genderToggle = UI.SmallLabeledButton.New("Toggle male/female")
 	genderToggle.button.onClick:Connect(function ()
@@ -218,6 +224,8 @@ local personalInfo = function ()
 					:PackEnd(ui:HBox(10):PackEnd({
 						ui:VBox(5):PackEnd({
 							ui:Expand("HORIZONTAL", nameEntry),
+							ui:Expand("HORIZONTAL", titleEntry),
+							
 						}),
 						ui:VBox(5):PackEnd({
 							genderToggle,
