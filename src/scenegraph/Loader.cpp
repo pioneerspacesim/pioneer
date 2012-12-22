@@ -363,7 +363,6 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 	importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_COLORS);
 	importer.SetPropertyInteger(AI_CONFIG_PP_SLM_VERTEX_LIMIT, Graphics::StaticMesh::MAX_VERTICES);
 
-	//XXX the greater goal is not to use ReadFile but the other assimp data read functions + FileSystem. See assimp docs.
 	//There are several optimizations assimp can do, intentionally skipping them now
 	const aiScene *scene = importer.ReadFile(
 		filename,
