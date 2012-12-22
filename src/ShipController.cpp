@@ -55,6 +55,7 @@ void PlayerShipController::Save(Serializer::Writer &wr, Space *space)
 	wr.Int32(static_cast<int>(m_flightControlState));
 	wr.Double(m_setSpeed);
 	wr.Float(m_lowThrustPower);
+	wr.Bool(m_rotationDamping);
 	wr.Int32(space->GetIndexForBody(m_combatTarget));
 	wr.Int32(space->GetIndexForBody(m_navTarget));
 	wr.Int32(space->GetIndexForBody(m_setSpeedTarget));
@@ -65,6 +66,7 @@ void PlayerShipController::Load(Serializer::Reader &rd)
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
 	m_setSpeed = rd.Double();
 	m_lowThrustPower = rd.Float();
+	m_rotationDamping = rd.Bool();
 	//figure out actual bodies in PostLoadFixup - after Space body index has been built
 	m_combatTargetIndex = rd.Int32();
 	m_navTargetIndex = rd.Int32();
