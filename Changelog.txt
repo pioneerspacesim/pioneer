@@ -20,7 +20,7 @@ Alpha 30
      * Interpret galaxy density bitmap as unsigned values (#1818, #1813)
      * Invert mouse cursor movement in rear view (#1820)
      * Missions no longer vanish from view when other missions are completed
-       (#1824,#1826)
+       (#1824, #1826, #1854, #1856)
      * Fix crash when switching away from settings screen after death (#1844,
        #1698, #1742)
      * Move SystemView time control buttons above the dash to work around
