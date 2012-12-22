@@ -1389,7 +1389,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	 * ~700ly+: unexplored
 	 */
 	int dist = isqrt(1 + m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ);
-	m_unexplored = !(Faction::IsHomeSystem(path) || ((dist <= 90) && ( dist <= 65 || rand.Int32(dist) <= 40)));
+	m_unexplored = !(((dist <= 90) && ( dist <= 65 || rand.Int32(dist) <= 40)) || Faction::IsHomeSystem(path));
 
 	m_isCustom = m_hasCustomBodies = false;
 	if (s.m_systems[m_path.systemIndex].customSys) {
@@ -1960,7 +1960,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	/* Various system-wide characteristics */
 	// This is 1 in sector (0,0,0) and approaches 0 farther out
 	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
-	m_humanProx = Faction::IsHomeSystem(m_path) ? fixed(2,3): fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
+	m_humanProx = Faction::IsHomeSystem(m_path) ? fixed(2,3): fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));	
 	m_econType = ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
 	m_agricultural = 0;
@@ -2286,4 +2286,3 @@ void StarSystem::ShrinkCache()
 			i++;
 	}
 }
-

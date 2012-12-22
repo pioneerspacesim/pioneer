@@ -71,7 +71,7 @@ public:
 	const Polit::GovType PickGovType(MTRand &rand) const;
 
 	// set the homeworld to one near the supplied co-ordinates
-	void SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi);
+	void SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi, Sint32 axisChange);
 
 private:
 	static const double FACTION_CURRENT_YEAR;	// used to calculate faction radius
