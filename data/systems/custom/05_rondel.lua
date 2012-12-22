@@ -6,6 +6,6 @@ local s = CustomSystem:new('Rondel',{'STAR_M'})
 	:faction('Red')
 	:short_desc('Military Listening Post')
 	:long_desc([[A hidden dagger pointed at the heart of the Federation]])
-	:seed(1347)
+	:seed(1824351)
 
-s:add_to_sector(-2,0,0,v(0.007,0.260,0.060))
+s:add_to_sector(-1,6,2,v(0.007,0.260,0.060))
