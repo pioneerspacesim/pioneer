@@ -321,11 +321,22 @@ static int dispatch_index(lua_State *l)
 
 static int secure_trampoline(lua_State *l)
 {
-	bool trusted = false;
+	// walk the stack
+	// pass through any C functions
+	// if we reach a non-C function, then check whether it's trusted and we're done
+	// (note: trusted defaults to true because if the loop bottoms out then we've only gone through C functions)
+
+	bool trusted = true;
 
 	lua_Debug ar;
-	if (lua_getstack(l, 1, &ar) && lua_getinfo(l, "S", &ar) && strlen(ar.source) >= 3 && ar.source[0] == '[' && ar.source[1] == 'T' && ar.source[2] == ']')
-		trusted = true;
+	int stack_pos = 1;
+	while (lua_getstack(l, stack_pos, &ar) && lua_getinfo(l, "S", &ar)) {
+		if (strcmp(ar.what, "C") != 0) {
+			trusted = (strncmp(ar.source, "[T]", 3) == 0);
+			break;
+		}
+		++stack_pos;
+	}
 
 	if (!trusted)
 		luaL_error(l, "attempt to access protected method or attribute from untrusted script blocked");
