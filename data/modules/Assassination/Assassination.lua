@@ -459,6 +459,6 @@ Event.Register("onShipHit", onShipHit)
 Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onGameEnd", onGameEnd)
 
-Mission.RegisterClick('Assassination',onClick)
+Mission.RegisterType('Assassination','Assassination',onClick)
 
 Serializer:Register("Assassination", serialize, unserialize)
