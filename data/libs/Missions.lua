@@ -24,7 +24,7 @@ Mission = {
 --
 -- Attribute: type
 --
--- The type of mission.  This can be any registered mission token.
+-- The type of mission.  This can be any registered mission typeid.
 --
 -- Availability:
 --
@@ -125,7 +125,9 @@ Mission = {
 --
 -- Parameters:
 --
---   typeid - a unique string with which to distinguish the mission type
+--   typeid - a unique string with which to distinguish the mission type.
+--            This must be globally unique; the player cannot load modules
+--            that attempt to register a typeid that already exists.
 --   display - a (translatable) string to be shown in the missions list
 --   onClick - a function which is executed when the details button is
 --             clicked. The mission instance is passed to onClick, which
@@ -134,7 +136,7 @@ Mission = {
 --
 -- Example:
 --
--- > RegisterType('racing','Race',function (mission)
+-- > RegisterType('racing_mission_XC14','Race',function (mission)
 -- >   local race = races[mission] -- Assuming some local table of race missions for example
 -- >   return Engine.UI:Label(string.interp('Stage {stage}: You are in position {pos}',{stage=race.stage, pos=race.pos}))
 -- > end)
