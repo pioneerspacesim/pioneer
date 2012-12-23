@@ -235,6 +235,10 @@ Mission = {
 			newMission[k] = v
 		end
 		setmetatable(newMission,Mission.meta)		
+		if not newMission:GetTypeDescription() then -- An invalid typeid was given
+			error(('Mission.New: type "{typeid}" has not been registered with Mission.RegisterType()')
+					:interp({typeid=newMission.type}))
+		end
 		if not (type(newMission.due) == "number") then newMission.due = nil end
 		if not (type(newMission.reward) == "number") then newMission.reward = nil end
 		if not (type(newMission.location) == "userdata") then newMission.location = Game.system.path end
