@@ -13,13 +13,6 @@
 -- sanitation and error checking.
 --
 
-local MissionStatus = {
-	-- Valid mission states, used in data sanitation
-	ACTIVE = true,
-	COMPLETED = true,
-	FAILED = true,
-}
-
 -- Registered mission type data go here
 local MissionRegister = {}
 
@@ -105,7 +98,7 @@ Mission = {
 --
 -- Attribute: status
 --
--- A string for the current mission status. Must be one of 'ACTIVE', 'COMPLETED' or 'FAILED'
+-- A string for the current mission status.
 --
 -- Availability:
 --
