@@ -615,7 +615,7 @@ void Viewer::MainLoop()
 		int beforeDrawTriStats = LmrModelGetStatsTris();
 
 		if (g_renderType == 0) {
-			glPushAttrib(GL_ALL_ATTRIB_BITS);
+			glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			if (g_doBenchmark) {
 				for (int i=0; i<1000; i++) m_model->Render(renderer, m, &g_params);
