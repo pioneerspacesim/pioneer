@@ -41,9 +41,10 @@ Translate = {
 	GetTranslator = function (self)
 		return function (token)
 			return
+				-- Check the native language, then English, before resorting to handing back the token.
 				(self.dictionary[self.language] and self.dictionary[self.language][token]) or
 				(self.dictionary.English and self.dictionary.English[token]) or
-				error("Translation token not found: "..token)
+				token
 		end
 	end,
 
