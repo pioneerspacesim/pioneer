@@ -319,7 +319,53 @@ static int dispatch_index(lua_State *l)
 	return 0;
 }
 
-void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta)
+static int secure_trampoline(lua_State *l)
+{
+	// walk the stack
+	// pass through any C functions
+	// if we reach a non-C function, then check whether it's trusted and we're done
+	// (note: trusted defaults to true because if the loop bottoms out then we've only gone through C functions)
+
+	bool trusted = true;
+
+	lua_Debug ar;
+	int stack_pos = 1;
+	while (lua_getstack(l, stack_pos, &ar) && lua_getinfo(l, "S", &ar)) {
+		if (strcmp(ar.what, "C") != 0) {
+			trusted = (strncmp(ar.source, "[T]", 3) == 0);
+			break;
+		}
+		++stack_pos;
+	}
+
+	if (!trusted)
+		luaL_error(l, "attempt to access protected method or attribute from untrusted script blocked");
+
+	lua_CFunction fn = lua_tocfunction(l, lua_upvalueindex(1));
+	return fn(l);
+}
+
+static void register_functions(lua_State *l, const luaL_Reg *methods, bool protect, const char *prefix)
+{
+	const size_t prefix_len = prefix ? strlen(prefix) : 0;
+	for (const luaL_Reg *m = methods; m->name; m++) {
+		if (prefix_len) {
+			const size_t name_len = strlen(m->name);
+			luaL_Buffer b;
+			luaL_buffinitsize(l, &b, prefix_len + name_len);
+			luaL_addlstring(&b, prefix, prefix_len);
+			luaL_addlstring(&b, m->name, name_len);
+			luaL_pushresult(&b);
+		} else
+			lua_pushstring(l, m->name);
+		lua_pushcfunction(l, m->func);
+		if (protect)
+			lua_pushcclosure(l, secure_trampoline, 1);
+		lua_rawset(l, -3);
+	}
+}
+
+void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta, bool protect)
 {
 	lua_State *l = Lua::manager->GetLuaState();
 
@@ -327,24 +373,22 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 
 	// create "object"
 	lua_newtable(l);
-	if (methods) luaL_setfuncs(l, methods, 0);
+
+	// add methods
+	if (methods) register_functions(l, methods, protect, "");
 
 	// add attributes
-	if (attrs) {
-		for (const luaL_Reg *attr = attrs; attr->name; attr++) {
-			lua_pushstring(l, (std::string("__attribute_")+attr->name).c_str());
-			lua_pushcfunction(l, attr->func);
-			lua_rawset(l, -3);
-		}
-	}
+	if (attrs) register_functions(l, attrs, protect, "__attribute_");
 
 	// create metatable for it
 	lua_newtable(l);
-	if (meta) luaL_setfuncs(l, meta, 0);
+	if (meta) register_functions(l, meta, protect, "");
 
 	// index function
 	lua_pushstring(l, "__index");
 	lua_pushcfunction(l, dispatch_index);
+	if (protect)
+		lua_pushcclosure(l, secure_trampoline, 1);
 	lua_rawset(l, -3);
 
 	// apply the metatable

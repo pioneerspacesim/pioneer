@@ -37,7 +37,7 @@ DistanceFieldFont::DistanceFieldFont(const std::string &definition, Graphics::Te
 			else if (starts_with(line.begin, "chars ")) //after this, file should be all characters
 				doingCharacters = true;
 		}
-	}	
+	}
 }
 
 void DistanceFieldFont::GetGeometry(Graphics::VertexArray &va, const std::string &text, const vector2f &offset)

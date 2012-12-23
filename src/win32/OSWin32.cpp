@@ -92,14 +92,15 @@ void RedirectStdio()
 
 void EnableFPE()
 {
-	unsigned int control_word;
-	_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
+	// clear any outstanding exceptions before enabling, otherwise they'll
+	// trip immediately
+	_clearfp();
+	_controlfp(_EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
 }
 
 void DisableFPE()
 {
-	unsigned int control_word;
-	_controlfp_s(&control_word, _MCW_EM, _MCW_EM);
+	_controlfp(_MCW_EM, _MCW_EM);
 }
 
 Uint64 HFTimerFreq()

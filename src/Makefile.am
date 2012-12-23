@@ -318,7 +318,7 @@ pioneer_LDADD = \
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
-	$(PNG_LIBS) -lassimp
+	$(PNG_LIBS) $(ASSIMP_LIBS)
 
 if BUILD_WIN32
 pioneer_LDFLAGS = -Wl,-Map=pioneer.map

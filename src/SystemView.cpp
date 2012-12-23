@@ -52,41 +52,44 @@ SystemView::SystemView()
 	m_zoomOutButton->SetRenderDimensions(30, 22);
 	Add(m_zoomOutButton, 732, 5);
 
+	const int time_controls_left = Gui::Screen::GetWidth() - 132;
+	const int time_controls_top = Gui::Screen::GetHeight() - 86;
+
 	Gui::ImageButton *b = new Gui::ImageButton("icons/sysview_accel_r3.png", "icons/sysview_accel_r3_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -10000000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
-	b->SetRenderDimensions(19, 17);
-	m_rightRegion2->Add(b, 0, 0);
+	b->SetRenderDimensions(26, 17);
+	Add(b, time_controls_left + 0, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_r2.png", "icons/sysview_accel_r2_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -1000000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
-	m_rightRegion2->Add(b, 26, 0);
+	Add(b, time_controls_left + 26, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_r1.png", "icons/sysview_accel_r1_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -100000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
-	m_rightRegion2->Add(b, 45, 0);
+	Add(b, time_controls_left + 45, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_f1.png", "icons/sysview_accel_f1_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 100000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
-	m_rightRegion2->Add(b, 64, 0);
+	Add(b, time_controls_left + 64, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_f2.png", "icons/sysview_accel_f2_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 1000000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
-	m_rightRegion2->Add(b, 83, 0);
+	Add(b, time_controls_left + 83, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_f3.png", "icons/sysview_accel_f3_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 10000000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
-	b->SetRenderDimensions(19, 17);
-	m_rightRegion2->Add(b, 102, 0);
+	b->SetRenderDimensions(26, 17);
+	Add(b, time_controls_left + 102, time_controls_top);
 
 	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SystemView::MouseButtonDown));
@@ -342,10 +345,10 @@ void SystemView::Update()
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
 		if (Pi::KeyState(SDLK_EQUALS) ||
-			m_zoomInButton->IsPressed()) 
+			m_zoomInButton->IsPressed())
 				m_zoomTo *= pow(ZOOM_IN_SPEED * Pi::GetMoveSpeedShiftModifier(), ft);
 		if (Pi::KeyState(SDLK_MINUS) ||
-			m_zoomOutButton->IsPressed()) 
+			m_zoomOutButton->IsPressed())
 				m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), ft);
 	}
 	// TODO: add "true" lower/upper bounds to m_zoomTo / m_zoom

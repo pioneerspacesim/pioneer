@@ -988,7 +988,7 @@ public:
 		assert(out); // XXX fail gracefully
 
 		fputs(stringf("# Materials for LMR model '%0' LOD %1{d} [%s]\n", name, lod+1, m_isStatic ? "static" : "dynamic").c_str(), out);
-			
+
 		for (unsigned int i = 0; i < materials.size(); i++) {
 			fputs(stringf("newmtl %0_mat%1{u}\n", prefix, i).c_str(), out);
 
@@ -1037,7 +1037,7 @@ public:
 			const std::string tempFilename = FileSystem::NormalisePath(*i);
 			const size_t lastIdx = tempFilename.find_last_of('/')+1;
 			const std::string outFilename = tempFilename.substr(lastIdx, tempFilename.size()-lastIdx);
-			
+
 			out = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPath(outDir, outFilename));
 			assert(out); // XXX fail gracefully
 			if (out) {
@@ -2066,12 +2066,15 @@ namespace ModelFuncs {
 			int nv;
 		} segvtx[FLAT_MAX_SEG];
 
+		const int argmax = lua_gettop(L);
+		if (argmax < 3)
+			return luaL_error(L, "flat() requires at least 3 arguments");
+
 		if (!lua_istable(L, 3)) {
 			luaL_error(L, "argment 3 to flat() must be a table of line segments");
 			return 0;
 		}
 
-		int argmax = lua_gettop(L);
 		int seg = 0;
 		int numPoints = 0;
 		// iterate through table of line segments

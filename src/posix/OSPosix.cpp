@@ -78,6 +78,9 @@ void RedirectStdio()
 void EnableFPE()
 {
 #ifdef _GNU_SOURCE
+	// clear any outstanding exceptions before enabling, otherwise they'll
+	// trip immediately
+	feclearexcept(FE_DIVBYZERO | FE_INVALID | FE_OVERFLOW);
 	feenableexcept(FE_DIVBYZERO | FE_INVALID | FE_OVERFLOW);
 #endif
 }

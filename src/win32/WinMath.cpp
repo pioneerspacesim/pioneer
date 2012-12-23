@@ -342,7 +342,7 @@ double LogOnePlusX(double x)
     if (x <= -1.0)
     {
         std::stringstream os;
-        os << "Invalid input argument (" << x 
+        os << "Invalid input argument (" << x
            << "); must be greater than -1.0";
         throw std::invalid_argument( os.str() );
     }

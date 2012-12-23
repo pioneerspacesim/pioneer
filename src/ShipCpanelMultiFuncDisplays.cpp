@@ -444,7 +444,7 @@ void ScannerWidget::GenerateRingsAndSpokes()
 
 	// inner circle
 	for (int i=0; i<csize; i++) m_vts.push_back(m_circle[i] * 0.1f);
-	
+
 	// dynamic circles
 	for (int p = 0; p < 7; ++p) {
 		float sz = (pow(2.0f, p) * 1000.0f) / m_currentRange;
@@ -462,7 +462,7 @@ void ScannerWidget::GenerateRingsAndSpokes()
 	int dimstart = 2 * int(SCANNER_STEPS * m_currentRange / SCANNER_RANGE_MAX);
 	float a = 2.0f * M_PI * m_currentRange / SCANNER_RANGE_MAX;
 	vector3f vn(sin(a), SCANNER_YSHRINK * cos(a), 0.0f);
-	
+
 	// bright part
 	Color col = Color(0.7f, 0.7f, 0.f, 0.5f);
 	if (m_mode == SCANNER_MODE_AUTO) {

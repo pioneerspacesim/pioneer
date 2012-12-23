@@ -448,14 +448,8 @@ void Pi::Init()
 	luaConsole = new LuaConsole(10);
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::ptr_fun(&Pi::ToggleLuaConsole));
 
-	KeyBindings::toggleManualRotation.onPress.connect(sigc::ptr_fun(&Pi::ToggleManualRotation));
-
 	gameMenuView = new GameMenuView();
 	config->Save();
-}
-
-void Pi::ToggleManualRotation() {
-	Pi::player->SetManualRotationState(!Pi::player->GetManualRotationState());
 }
 
 bool Pi::IsConsoleActive()
@@ -550,7 +544,9 @@ void Pi::HandleEvents()
 							}
 							else {
 								Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
-								SetView(worldView);
+								SetView(Pi::player->IsDead()
+										? static_cast<View*>(deathView)
+										: static_cast<View*>(worldView));
 							}
 						}
 					}
@@ -832,6 +828,7 @@ void Pi::Start()
 	}
 
 	ui->RemoveInnerWidget();
+	ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 
 	InitGame();
 	StartGame();
@@ -852,7 +849,7 @@ void Pi::EndGame()
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
-	
+
 
 	assert(game);
 	delete game;
@@ -926,6 +923,7 @@ void Pi::MainLoop()
 				}
 			} else {
 				Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
+				Pi::deathView->Init();
 				Pi::SetView(Pi::deathView);
 				Pi::player->Disable();
 				time_player_died = Pi::game->GetTime();

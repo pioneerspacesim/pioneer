@@ -441,7 +441,7 @@ int main(int argc, char **argv)
 			(b3 = c->Button())->SetInnerWidget(c->Label("remove me"))
 		))
 	);
-	
+
 	c->AddFloatingWidget( (b4 = c->Button())->SetInnerWidget(c->Label("remove me (float)")), 300, 300);
 
 	b1->onClick.connect(sigc::bind(sigc::ptr_fun(&remove_widget), box, b2));
