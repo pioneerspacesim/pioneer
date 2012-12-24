@@ -69,6 +69,7 @@ namespace {
 		{
 			assert(0);
 			abort();
+			return 0;
 		}
 
 		virtual void Flush()
