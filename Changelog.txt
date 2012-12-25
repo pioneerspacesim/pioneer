@@ -29,6 +29,7 @@ Alpha 30
        input priority problems (#1853, #1851)
      * Fix occasional bug that could leave a trailing slash on some filesystem
        paths (#1843, #1486)
+     * Fix division-by-zero bugs in missile AI (#1873, #1872)
 
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
