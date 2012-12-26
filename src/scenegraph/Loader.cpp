@@ -69,11 +69,7 @@ namespace {
 		{
 			assert(0);
 			abort();
-<<<<<<< HEAD
-			return 0;
-=======
 			RETURN_ZERO_NONGNU_ONLY;
->>>>>>> upstream/master
 		}
 
 		virtual void Flush()
