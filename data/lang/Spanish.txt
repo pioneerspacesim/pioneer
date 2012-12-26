@@ -588,8 +588,8 @@ DECREASE_SCAN_RANGE
     Reducir rango del Scanner
 TOGGLE_LUA_CONSOLE
     ON/OFF Lua Console
-TOGGLE_MANUAL_ROTATION
-    Rotación manual
+TOGGLE_ROTATION_DAMPING
+    Rotación amortiguada
 TOGGLE_HUD_MODE
     HUD ON/OFF
 JOYSTICK_INPUT
