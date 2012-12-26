@@ -65,11 +65,15 @@ namespace {
 			return size_t(m_cursor - m_data->GetData());
 		}
 
-		virtual size_t Write(const void *buf, size_t size, size_t count)
+		virtual size_t Write(const void *buf, size_t size, size_t count) __attribute((noreturn))
 		{
 			assert(0);
 			abort();
+<<<<<<< HEAD
 			return 0;
+=======
+			RETURN_ZERO_NONGNU_ONLY;
+>>>>>>> upstream/master
 		}
 
 		virtual void Flush()
