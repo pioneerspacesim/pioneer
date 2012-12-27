@@ -47,6 +47,8 @@ Game::Game(const SystemPath &path) :
 	m_player->SetFrame(station->GetFrame());
 	m_player->SetDockedWith(station, 0);
 
+	Polit::Init();
+
 	CreateViews();
 }
 
@@ -71,6 +73,8 @@ Game::Game(const SystemPath &path, const vector3d &pos) :
 
 	m_player->SetPosition(pos);
 	m_player->SetVelocity(vector3d(0,0,0));
+
+	Polit::Init();
 
 	CreateViews();
 }

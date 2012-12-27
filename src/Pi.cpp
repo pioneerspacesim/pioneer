@@ -56,7 +56,6 @@
 #include "OS.h"
 #include "Planet.h"
 #include "Player.h"
-#include "Polit.h"
 #include "Projectile.h"
 #include "SDLWrappers.h"
 #include "SectorView.h"
@@ -747,8 +746,6 @@ void Pi::InitGame()
 		std::fill(stick->hats.begin(), stick->hats.end(), 0);
 		std::fill(stick->axes.begin(), stick->axes.end(), 0.f);
 	}
-
-	Polit::Init();
 
 	if (!config->Int("DisableSound")) AmbientSounds::Init();
 
