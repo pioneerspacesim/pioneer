@@ -1,4 +1,4 @@
-pioneer (0.0~alpha29-1) unstable; urgency=low
+pioneer (0.0~alpha29+git-1) unstable; urgency=low
 
   * Update packaging for current state (alpha29).
 
