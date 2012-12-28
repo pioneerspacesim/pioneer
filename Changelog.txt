@@ -11,9 +11,8 @@ Alpha 30
        performance increase during combat (#1822)
      * Main menu now has keyboard shortcuts again (#1821)
      * Player's name now updates during editing in Personal Information view (#1845)
-     * Rondel system moved further away from Sol and surrounding stars (#1861,
-       #1815)
-     * Stars now fade in later (#1881)
+     * Rondel system moved further away from Sol and surrounding stars (#1861, #1815)
+     * Star fade-in has been adjusted to make stars less visible in daytime (#1881)
 
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)
@@ -51,7 +50,7 @@ Alpha 30
      * Rotation damping code cleaned up (#1866)
      * Various minor cleanups (#1867)
      * Allow point sprites to be rendered with different alpha blending modes (#1880)
-     * Unknown tokens for Lua translations are no longer treated as errors (#1865)
+     * Unknown tokens for Lua translations are no longer treated as errors (#1865, #1862)
 
 Alpha 29
 
