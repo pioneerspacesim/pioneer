@@ -50,6 +50,7 @@ Alpha 30
      * Rotation damping code cleaned up (#1866)
      * Various minor cleanups (#1867)
      * Allow point sprites to be rendered with different alpha blending modes (#1880)
+     * Unknown tokens for Lua translations are no longer treated as errors (#1865)
 
 Alpha 29
 
