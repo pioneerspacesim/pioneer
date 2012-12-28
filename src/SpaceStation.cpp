@@ -600,12 +600,9 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port) const
 		dt.ship->SetOrient(GetOrient() * wantRot);
 		return;
 	}
-	if (m_type->dockMethod == SpaceStationType::ORBITAL) {
+	else {
+		// Note: ship bounding box is used to generate dport.pos
 		ship->SetPosition(GetPosition() + GetOrient()*dport.pos);
-		vector3d zaxis = dport.xaxis.Cross(dport.yaxis);
-		ship->SetOrient(GetOrient() * matrix3x3d::FromVectors(dport.xaxis, dport.yaxis));
-	} else {
-		ship->SetPosition(GetPosition() + GetOrient()*dport.pos);		// + dport.yaxis));
 		ship->SetOrient(GetOrient() * matrix3x3d::FromVectors(dport.xaxis, dport.yaxis));
 	}
 }

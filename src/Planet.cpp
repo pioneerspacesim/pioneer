@@ -105,7 +105,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 #endif
 
 	// This model has no atmosphere beyond the adiabetic limit
-	// Note: some code duplicated in InitRadii(). Check if changing.
+	// Note: some code duplicated in InitParams(). Check if changing.
 	if (dist >= m_atmosphereRadius) {*outDensity = 0.0; *outPressure = 0.0; return;}
 
 	double surfaceDensity;

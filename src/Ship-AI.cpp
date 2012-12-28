@@ -49,7 +49,7 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 {
 	vector3d difVel = v - GetVelocity() * GetOrient();		// required change in velocity
 	vector3d maxThrust = GetMaxThrust(difVel);
-	vector3d maxFrameAccel = maxThrust * Pi::game->GetTimeStep() / GetMass();
+	vector3d maxFrameAccel = maxThrust * (Pi::game->GetTimeStep() / GetMass());
 
 	SetThrusterState(0, difVel.x / maxFrameAccel.x);
 	SetThrusterState(1, difVel.y / maxFrameAccel.y);
@@ -74,16 +74,7 @@ bool Ship::AITimeStep(float timeStep)
 		return true;
 	}
 
-#ifdef DEBUG_AUTOPILOT
-	unsigned int control_word;
-	_clearfp();
-	_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
-	bool done = m_curAICmd->TimeStepUpdate();
-	_controlfp_s(&control_word, _MCW_EM, _MCW_EM);
-	if (done) {
-#else
 	if (m_curAICmd->TimeStepUpdate()) {
-#endif
 		AIClearInstructions();
 //		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
 		LuaEvent::Queue("onAICompleted", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipAIError", AIMessage()));
@@ -212,11 +203,11 @@ bool Ship::AIMatchVel(const vector3d &vel)
 bool Ship::AIChangeVelBy(const vector3d &diffvel)
 {
 	// counter external forces
-	vector3d extf = GetExternalForce() * Pi::game->GetTimeStep() / GetMass();
+	vector3d extf = GetExternalForce() * (Pi::game->GetTimeStep() / GetMass());
 	vector3d diffvel2 = diffvel - extf * GetOrient();
 
 	vector3d maxThrust = GetMaxThrust(diffvel2);
-	vector3d maxFrameAccel = maxThrust * Pi::game->GetTimeStep() / GetMass();
+	vector3d maxFrameAccel = maxThrust * (Pi::game->GetTimeStep() / GetMass());
 	vector3d thrust(diffvel2.x / maxFrameAccel.x,
 					diffvel2.y / maxFrameAccel.y,
 					diffvel2.z / maxFrameAccel.z);
@@ -231,7 +222,7 @@ vector3d Ship::AIChangeVelDir(const vector3d &reqdiffvel)
 	// get max thrust in desired direction after external force compensation
 	vector3d maxthrust = GetMaxThrust(reqdiffvel);
 	maxthrust += GetExternalForce() * GetOrient();
-	vector3d maxFA = maxthrust * Pi::game->GetTimeStep() / GetMass();
+	vector3d maxFA = maxthrust * (Pi::game->GetTimeStep() / GetMass());
 	maxFA.x = abs(maxFA.x); maxFA.y = abs(maxFA.y); maxFA.z = abs(maxFA.z);
 
 	// crunch diffvel by relative thruster power to get acceleration in right direction

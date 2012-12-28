@@ -58,7 +58,6 @@ public:
 	Frame *GetFrame() const { return m_frame; }
 	void SwitchToFrame(Frame *newFrame);
 	void UpdateFrame();				// check for frame switching
-//	bool HasDoubleFrame() const { return m_hasDoubleFrame; }		// do we still need this?
 
 	vector3d GetVelocityRelTo(const Body *) const;
 	vector3d GetVelocityRelTo(const Frame *) const;
