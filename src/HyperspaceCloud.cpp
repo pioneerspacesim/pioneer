@@ -23,9 +23,8 @@ HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 	m_flags = Body::FLAG_CAN_MOVE_FRAME |
 		  Body::FLAG_LABEL_HIDDEN;
 	m_ship = s;
-	m_pos = vector3d(0,0,0);
 	SetPhysRadius(0.0);
-	SetClipRadius(0.0);
+	SetClipRadius(1200.0);
 	m_vel = (s ? s->GetVelocity() : vector3d(0.0));
 	m_birthdate = Pi::game->GetTime();
 	m_due = dueDate;
@@ -36,9 +35,8 @@ HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 HyperspaceCloud::HyperspaceCloud()
 {
 	m_ship = 0;
-	m_pos = vector3d(0,0,0);
 	SetPhysRadius(0.0);
-	SetClipRadius(0.0);
+	SetClipRadius(1200.0);
 	InitGraphics();
 }
 
@@ -61,20 +59,9 @@ void HyperspaceCloud::SetIsArrival(bool isArrival)
 	SetLabel(isArrival ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 }
 
-vector3d HyperspaceCloud::GetPosition() const
-{
-	return m_pos;
-}
-
-void HyperspaceCloud::SetPosition(const vector3d &p)
-{
-	m_pos = p;
-}
-
 void HyperspaceCloud::Save(Serializer::Writer &wr, Space *space)
 {
 	Body::Save(wr, space);
-	wr.Vector3d(m_pos);
 	wr.Vector3d(m_vel);
 	wr.Double(m_birthdate);
 	wr.Double(m_due);
@@ -86,7 +73,6 @@ void HyperspaceCloud::Save(Serializer::Writer &wr, Space *space)
 void HyperspaceCloud::Load(Serializer::Reader &rd, Space *space)
 {
 	Body::Load(rd, space);
-	m_pos = rd.Vector3d();
 	m_vel = rd.Vector3d();
 	m_birthdate = rd.Double();
 	m_due = rd.Double();
@@ -104,13 +90,13 @@ void HyperspaceCloud::PostLoadFixup(Space *space)
 
 void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 {
-	m_pos += m_vel * timeStep;
+	SetPosition(GetPosition() + m_vel * timeStep);
 
 	if (m_isArrival && m_ship && (m_due < Pi::game->GetTime())) {
 		// spawn ship
 		// XXX some overlap with Space::DoHyperspaceTo(). should probably all
 		// be moved into EvictShip()
-		m_ship->SetPosition(m_pos);
+		m_ship->SetPosition(GetPosition());
 		m_ship->SetVelocity(m_vel);
 		m_ship->SetOrient(matrix3x3d::Identity());
 		m_ship->SetFrame(GetFrame());

@@ -23,8 +23,6 @@ public:
 	HyperspaceCloud(Ship *, double dateDue, bool isArrival);
 	HyperspaceCloud();
 	virtual ~HyperspaceCloud();
-	virtual void SetPosition(const vector3d &p);
-	virtual vector3d GetPosition() const;
 	virtual void SetVelocity(const vector3d &v) { m_vel = v; }
 	virtual vector3d GetVelocity() const { return m_vel; }
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
@@ -44,7 +42,6 @@ private:
 	void InitGraphics();
 
 	Ship *m_ship;
-	vector3d m_pos;
 	vector3d m_vel;
 	double m_birthdate;
 	double m_due;
