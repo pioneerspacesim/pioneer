@@ -28,7 +28,7 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 	// ice on mountains and poles
 	if (fabs(m_icyness*p.y) + m_icyness*n > 1) {
 		if (textures) {
-			col = interpolate_color(rock2, color_cliffs, vector3d(.9,.9,.9));
+			col = interpolate_color(terrain_colournoise_rock2, color_cliffs, vector3d(.9,.9,.9));
 			col = interpolate_color(flatness, col, vector3d(1,1,1));
 		} else col = interpolate_color(flatness, color_cliffs, vector3d(1,1,1));
 		return col;
@@ -50,7 +50,7 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		if (m_heightMap) {
 			// waves
 			if (textures) {
-				n += water;
+				n += terrain_colournoise_water;
 				n *= 0.1;
 			}
 		} else {
@@ -69,8 +69,8 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		col = interpolate_color(equatorial_desert, m_rockColor[2], m_rockColor[6]);
 		col = interpolate_color(n, col, m_darkrockColor[6]);
 		if (textures) {
-			tex1 = interpolate_color(rock, col, color_cliffs);
-			tex2 = interpolate_color(rock2, col, color_cliffs);
+			tex1 = interpolate_color(terrain_colournoise_rock, col, color_cliffs);
+			tex2 = interpolate_color(terrain_colournoise_rock2, col, color_cliffs);
 			col = interpolate_color(flatness, tex1, tex2);
 		} else col = interpolate_color(flatness, color_cliffs, col);
 		return col;
@@ -81,8 +81,8 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		col = interpolate_color(equatorial_desert, m_darkrockColor[4], m_darksandColor[6]);
 		col = interpolate_color(n, col, m_rockColor[2]);
 		if (textures) {
-			tex1 = interpolate_color(rock, col, color_cliffs);
-			tex2 = interpolate_color(mud, col, color_cliffs);
+			tex1 = interpolate_color(terrain_colournoise_rock, col, color_cliffs);
+			tex2 = interpolate_color(terrain_colournoise_mud, col, color_cliffs);
 			col = interpolate_color(flatness, tex1, tex2);
 		} else col = interpolate_color(flatness, color_cliffs, col);
 		return col;
@@ -94,8 +94,8 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		col = interpolate_color(equatorial_desert, m_darksandColor[2], m_sandColor[2]);
 		col = interpolate_color(n, col, m_darkrockColor[3]);
 		if (textures) {
-			tex1 = interpolate_color(mud, col, color_cliffs);
-			tex2 = interpolate_color(grass, col, color_cliffs);
+			tex1 = interpolate_color(terrain_colournoise_mud, col, color_cliffs);
+			tex2 = interpolate_color(terrain_colournoise_grass, col, color_cliffs);
 			col = interpolate_color(flatness, tex1, tex2);
 		} else col = interpolate_color(flatness, color_cliffs, col);
 		return col;
@@ -106,8 +106,8 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		col = interpolate_color(equatorial_desert, m_sandColor[1], m_sandColor[0]);
 		col = interpolate_color(n, col, m_darksandColor[2]);
 		if (textures) {
-			tex1 = interpolate_color(grass, col, color_cliffs);
-			tex2 = interpolate_color(grass2, col, color_cliffs);
+			tex1 = interpolate_color(terrain_colournoise_grass, col, color_cliffs);
+			tex2 = interpolate_color(terrain_colournoise_grass2, col, color_cliffs);
 			col = interpolate_color(flatness, tex1, tex2);
 		} else col = interpolate_color(flatness, color_cliffs, col);
 		return col;
@@ -118,8 +118,8 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		col = interpolate_color(equatorial_desert, m_darkplantColor[0], m_sandColor[1]);
 		col = interpolate_color(n, col, m_plantColor[0]);
 		if (textures) {
-			tex1 = interpolate_color(sand2, col, color_cliffs);
-			tex2 = interpolate_color(grass, col, color_cliffs);
+			tex1 = interpolate_color(terrain_colournoise_sand2, col, color_cliffs);
+			tex2 = interpolate_color(terrain_colournoise_grass, col, color_cliffs);
 			col = interpolate_color(flatness, tex1, tex2);
 		} else col = interpolate_color(flatness, color_cliffs, col);
 		return col;
@@ -130,8 +130,8 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 		col = interpolate_color(equatorial_desert, m_sandColor[0], m_sandColor[1]);
 		col = interpolate_color(n, col, m_darkplantColor[0]);
 		if (textures) {
-			tex1 = interpolate_color(sand, col, color_cliffs);
-			//tex2 = interpolate_color(sand2, col, color_cliffs);
+			tex1 = interpolate_color(terrain_colournoise_sand, col, color_cliffs);
+			//tex2 = interpolate_color(terrain_colournoise_sand2, col, color_cliffs);
 			col = interpolate_color(flatness, tex1, col);
 		} else col = interpolate_color(flatness, color_cliffs, col);
 		return col;
