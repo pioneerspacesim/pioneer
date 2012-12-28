@@ -48,6 +48,7 @@ Alpha 30
        user-supplied scripts and mods (#1706, #1869)
      * Rotation damping code cleaned up (#1866)
      * Various minor cleanups (#1867)
+     * Allow point sprites to be rendered with different alpha blending modes (#1880)
 
 Alpha 29
 

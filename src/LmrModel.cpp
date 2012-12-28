@@ -510,6 +510,7 @@ public:
 
 				s_billboardMaterial->texture0 = op.billboards.texture;
 				s_billboardMaterial->diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
+				s_renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 				s_renderer->DrawPointSprites(op.billboards.count, &verts[0], s_billboardMaterial, op.billboards.size);
 				BindBuffers();
 				break;
