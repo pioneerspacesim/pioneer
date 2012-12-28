@@ -639,8 +639,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 	// rotate the thing 
 	double len = m_type->angVel * timeStep;
 	if (!is_zero_exact(len)) {
-		vector3d axis = vector3d(0,1,0);
-		matrix3x3d r = matrix3x3d::Rotate(len, axis);
+		matrix3x3d r = matrix3x3d::RotateY(-len);		// RotateY is backwards
 		SetOrient(r * GetOrient());
 	}
 	m_oldAngDisplacement = len;
@@ -658,8 +657,7 @@ void SpaceStation::UpdateInterpTransform(double alpha)
 {
 	double len = m_oldAngDisplacement * (1.0-alpha);
 	if (!is_zero_exact(len)) {
-		vector3d axis = vector3d(0,1,0);
-		matrix3x3d rot = matrix3x3d::Rotate(-len, axis);	// rotate backwards
+		matrix3x3d rot = matrix3x3d::RotateY(len);		// RotateY is backwards
 		m_interpOrient = rot * GetOrient();
 	}
 	else m_interpOrient = GetOrient();

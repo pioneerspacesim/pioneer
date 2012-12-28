@@ -62,6 +62,7 @@ class matrix3x3 {
 		m[6] = v.x*v.z*(1-c)-v.y*s; m[7] = v.y*v.z*(1-c)+v.x*s; m[8] = v.z*v.z*(1-c)+c;
 		return m;
 	}
+	// Note: these three are backwards compared to the right-handed rotation convention
 	static matrix3x3 RotateX (T radians) {
 		matrix3x3 m;
 		T c = cos(radians);

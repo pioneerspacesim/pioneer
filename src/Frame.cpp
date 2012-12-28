@@ -173,8 +173,7 @@ void Frame::UpdateInterpTransform(double alpha)
 
 	double len = m_oldAngDisplacement * (1.0-alpha);
 	if (!is_zero_exact(len)) {			// very small values are normal here
-		vector3d axis = vector3d(0,1,0);
-		matrix3x3d rot = matrix3x3d::Rotate(-len, axis);
+		matrix3x3d rot = matrix3x3d::RotateY(len);		// RotateY is backwards
 		m_interpOrient = m_orient * rot;
 	}
 	else m_interpOrient = m_orient;
@@ -232,8 +231,7 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 	// update frame rotation
 	double ang = m_angSpeed * timestep;		// hmm. cumulative inaccuracy? worse!
 	if (!is_zero_exact(ang)) {			// frequently used with e^-10 etc
-		vector3d axis = vector3d(0,1,0);
-		matrix3x3d rot = matrix3x3d::Rotate(ang, axis);
+		matrix3x3d rot = matrix3x3d::RotateY(-ang);		// RotateY is backwards
 		m_orient = m_orient * rot;		// angvel always +y
 	}
 	UpdateRootRelativeVars();			// update root-relative pos/vel/orient
