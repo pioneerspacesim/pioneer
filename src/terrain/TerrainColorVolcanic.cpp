@@ -12,6 +12,9 @@ const char *TerrainColorFractal<TerrainColorVolcanic>::GetColorFractalName() con
 template <>
 TerrainColorFractal<TerrainColorVolcanic>::TerrainColorFractal(const SystemBody *body) : Terrain(body)
 {
+	// 50 percent chance of there being exposed lava
+	if (m_rand.Int32(100) > 50)
+		m_surfaceEffects |= Terrain::EFFECT_LAVA;
 }
 
 template <>
