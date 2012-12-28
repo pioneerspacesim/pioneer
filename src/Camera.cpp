@@ -161,7 +161,7 @@ void Camera::Draw(Renderer *renderer)
 				angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * it->GetLight().GetDiffuse().GetLuminance();
 			}
 			//calculate background intensity with some hand-tweaked fuzz applied
-			bgIntensity = Clamp(1.f - std::min(1.f, float(density) * (0.3f + angle)), 0.f, 1.f);
+			bgIntensity = Clamp(1.f - std::min(1.f, float(pow(density,double(0.25))) * (0.3f + pow(angle,float(0.25)))), 0.f, 1.f);
 		}
 	}
 
