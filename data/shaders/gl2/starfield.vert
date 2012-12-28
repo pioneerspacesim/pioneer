@@ -1,8 +1,5 @@
 varying vec4 color;
 
-struct Material {
-	vec4 emission;
-};
 uniform Material material;
 
 void main(void)
