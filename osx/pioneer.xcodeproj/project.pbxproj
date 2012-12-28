@@ -2640,8 +2640,6 @@
 				4A4D25DB167335D9003BC9D5 /* ShipSpinner.cpp in Sources */,
 				4A4D25DF167335F5003BC9D5 /* Icon.cpp in Sources */,
 				4A4D25E0167335F5003BC9D5 /* LuaIcon.cpp in Sources */,
-<<<<<<< HEAD
-=======
 				4ACDB6B1167878620069FA03 /* Animation.cpp in Sources */,
 				4ACDB6B2167878620069FA03 /* Billboard.cpp in Sources */,
 				4ACDB6B3167878620069FA03 /* CollisionGeometry.cpp in Sources */,
@@ -2665,7 +2663,6 @@
 				4ACDB6CE167878CE0069FA03 /* ModelCache.cpp in Sources */,
 				4ACDB6CF167878CE0069FA03 /* ModelViewer.cpp in Sources */,
 				4ACDB6D2167879AF0069FA03 /* DistanceFieldFont.cpp in Sources */,
->>>>>>> upstream/master
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
