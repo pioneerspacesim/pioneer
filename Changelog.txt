@@ -51,6 +51,7 @@ Alpha 30
      * Various minor cleanups (#1867)
      * Allow point sprites to be rendered with different alpha blending modes (#1880)
      * Unknown tokens for Lua translations are no longer treated as errors (#1865, #1862)
+     * Rename terrain noise macros to avoid global namespace polliution (#1883)
 
 Alpha 29
 
