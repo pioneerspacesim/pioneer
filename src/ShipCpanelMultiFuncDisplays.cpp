@@ -170,7 +170,7 @@ void ScannerWidget::Draw()
 
 	SetScissor(true);
 
-	float rangediff = abs(m_lastRange-m_currentRange);
+	float rangediff = fabs(m_lastRange-m_currentRange);
 	if (rangediff > 200.0 || rangediff / m_currentRange > 0.01) {
 		GenerateRingsAndSpokes();
 		m_lastRange = m_currentRange;

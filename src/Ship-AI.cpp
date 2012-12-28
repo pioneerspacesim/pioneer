@@ -223,13 +223,13 @@ vector3d Ship::AIChangeVelDir(const vector3d &reqdiffvel)
 	vector3d maxthrust = GetMaxThrust(reqdiffvel);
 	maxthrust += GetExternalForce() * GetOrient();
 	vector3d maxFA = maxthrust * (Pi::game->GetTimeStep() / GetMass());
-	maxFA.x = abs(maxFA.x); maxFA.y = abs(maxFA.y); maxFA.z = abs(maxFA.z);
+	maxFA.x = fabs(maxFA.x); maxFA.y = fabs(maxFA.y); maxFA.z = fabs(maxFA.z);
 
 	// crunch diffvel by relative thruster power to get acceleration in right direction
 	vector3d diffvel = reqdiffvel;
-	if (abs(diffvel.x) > maxFA.x) diffvel *= maxFA.x / abs(diffvel.x);
-	if (abs(diffvel.y) > maxFA.y) diffvel *= maxFA.y / abs(diffvel.y);
-	if (abs(diffvel.z) > maxFA.z) diffvel *= maxFA.z / abs(diffvel.z);
+	if (fabs(diffvel.x) > maxFA.x) diffvel *= maxFA.x / fabs(diffvel.x);
+	if (fabs(diffvel.y) > maxFA.y) diffvel *= maxFA.y / fabs(diffvel.y);
+	if (fabs(diffvel.z) > maxFA.z) diffvel *= maxFA.z / fabs(diffvel.z);
 
 	AIChangeVelBy(diffvel);		// should always return true because it's already capped?
 	return GetOrient() * (reqdiffvel - diffvel);		// should be remaining diffvel to correct
