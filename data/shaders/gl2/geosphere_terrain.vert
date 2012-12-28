@@ -1,7 +1,11 @@
 varying vec3 varyingEyepos;
 varying vec3 varyingNormal;
 varying vec4 vertexColor;
-varying vec4 varyingemission;
+
+#ifdef TERRAIN_WITH_LAVA
+varying vec4 varyingEmission;
+uniform Material material;
+#endif
 
 void main(void)
 {
@@ -11,13 +15,12 @@ void main(void)
 	varyingNormal = gl_NormalMatrix * gl_Normal;
 
 #ifdef TERRAIN_WITH_LAVA
-	varyingemission=gl_FrontMaterial.emission;
+	varyingEmission = material.emission;
 	//Glow lava terrains
 	if ( vertexColor.r > 0.4 && vertexColor.g < 0.2 && vertexColor.b < 0.4 ) {
-		varyingemission=3.0*vertexColor;
-		varyingemission *= (vertexColor.r+vertexColor.g+vertexColor.b);
+		varyingEmission = 3.0*vertexColor;
+		varyingEmission *= (vertexColor.r+vertexColor.g+vertexColor.b);
 
 	}
 #endif
-
 }
