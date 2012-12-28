@@ -27,6 +27,11 @@ public:
 	virtual void Save(Serializer::Writer &wr) { }
 	virtual void Load(Serializer::Reader &rd) { }
 	virtual bool IsExternal() const { return false; }
+
+	const Ship *GetShip() const { return m_ship; }
+
+private:
+	const Ship *m_ship;
 };
 
 class InternalCamera : public WorldViewCamera {

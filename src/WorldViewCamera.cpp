@@ -8,9 +8,9 @@
 #include "AnimationCurves.h"
 
 WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
-	Camera(s, size.x, size.y, fovY, near, far)
+	Camera(size.x, size.y, fovY, near, far),
+	m_ship(s)
 {
-
 }
 
 InternalCamera::InternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
@@ -18,13 +18,13 @@ InternalCamera::InternalCamera(const Ship *s, const vector2f &size, float fovY, 
 {
 	s->onFlavourChanged.connect(sigc::bind(sigc::mem_fun(this, &InternalCamera::OnShipFlavourChanged), s));
 	OnShipFlavourChanged(s);
-	SetBodyVisible(false);
 	SetMode(MODE_FRONT);
 }
 
 void InternalCamera::OnShipFlavourChanged(const Ship *s)
 {
-	SetPosition(s->GetShipType().cameraOffset);
+    SetFrame(s->GetFrame());
+	SetPosition(s->GetPosition() + s->GetShipType().cameraOffset);
 }
 
 void InternalCamera::SetMode(Mode m)
@@ -106,20 +106,20 @@ void ExternalCamera::ZoomIn(float frameTime)
 void ExternalCamera::ZoomOut(float frameTime)
 {
 	m_dist += 400*frameTime;
-	m_dist = std::max(GetBody()->GetClipRadius(), m_dist);
+	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
 	m_distTo = m_dist;
 }
 
 void ExternalCamera::ZoomEvent(float amount)
 {
 	m_distTo += 400*amount;
-	m_distTo = std::max(GetBody()->GetClipRadius(), m_distTo);
+	m_distTo = std::max(GetShip()->GetClipRadius(), m_distTo);
 }
 
 void ExternalCamera::ZoomEventUpdate(float frameTime)
 {
 	AnimationCurves::Approach(m_dist, m_distTo, frameTime);
-	m_dist = std::max(GetBody()->GetClipRadius(), m_dist);
+	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
 }
 
 void ExternalCamera::Reset()
@@ -132,18 +132,19 @@ void ExternalCamera::UpdateTransform()
 {
 	// when landed don't let external view look from below
 	// XXX shouldn't be limited to player
-	const Body *b = GetBody();
-	if (b->IsType(Object::PLAYER)) {
-		if (static_cast<const Ship*>(b)->GetFlightState() == Ship::LANDED ||
-			static_cast<const Ship*>(b)->GetFlightState() == Ship::DOCKED) {
+	const Ship *ship = GetShip();
+	if (ship->IsType(Object::PLAYER)) {
+		if (ship->GetFlightState() == Ship::LANDED ||
+			ship->GetFlightState() == Ship::DOCKED) {
 			m_rotX = Clamp(m_rotX, -170.0, -10.0);
 		}
 	}
-	vector3d p = vector3d(0, 0, m_dist);
+	vector3d p = ship->GetPosition() + vector3d(0, 0, m_dist);
 	p = matrix3x3d::RotateX(-DEG2RAD(m_rotX)) * p;
 	p = matrix3x3d::RotateY(-DEG2RAD(m_rotY)) * p;
 	m_extOrient = matrix3x3d::RotateY(-DEG2RAD(m_rotY)) *
 		matrix3x3d::RotateX(-DEG2RAD(m_rotX));
+	SetFrame(ship->GetFrame());
 	SetPosition(p);
 	SetOrient(m_extOrient);
 }
@@ -202,20 +203,20 @@ void SiderealCamera::ZoomIn(float frameTime)
 void SiderealCamera::ZoomOut(float frameTime)
 {
 	m_dist += 400*frameTime;
-	m_dist = std::max(GetBody()->GetClipRadius(), m_dist);
+	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
 	m_distTo = m_dist;
 }
 
 void SiderealCamera::ZoomEvent(float amount)
 {
 	m_distTo += 400*amount;
-	m_distTo = std::max(GetBody()->GetClipRadius(), m_distTo);
+	m_distTo = std::max(GetShip()->GetClipRadius(), m_distTo);
 }
 
 void SiderealCamera::ZoomEventUpdate(float frameTime)
 {
 	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50./std::max(m_distTo, 1e-7));		// std::max() here just avoid dividing by 0.
-	m_dist = std::max(GetBody()->GetClipRadius(), m_dist);
+	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
 }
 
 void SiderealCamera::RollLeft(float frameTime)
@@ -238,9 +239,12 @@ void SiderealCamera::Reset()
 
 void SiderealCamera::UpdateTransform()
 {
-	m_sidOrient.Renormalize();			// lots of small rotations
-	matrix3x3d shipOrient = GetBody()->GetInterpOrientRelTo(Pi::game->GetSpace()->GetRootFrame());
+	const Ship *ship = GetShip();
 
+	m_sidOrient.Renormalize();			// lots of small rotations
+	matrix3x3d shipOrient = ship->GetInterpOrientRelTo(Pi::game->GetSpace()->GetRootFrame());
+
+	SetFrame(ship->GetFrame());
 	SetPosition(shipOrient.Transpose() * m_sidOrient.VectorZ() * m_dist);
 	SetOrient(shipOrient.Transpose() * m_sidOrient);
 }
