@@ -34,7 +34,8 @@ public:
 		OVERLAY_TOP_LEFT,
 		OVERLAY_TOP_RIGHT,
 		OVERLAY_BOTTOM_LEFT,
-		OVERLAY_BOTTOM_RIGHT
+		OVERLAY_BOTTOM_RIGHT,
+		OVERLAY_MIDDLE_LEFT
 	};
 	void SetOverlayText(OverlayTextPos pos, const std::string &text);
 	void SetOverlayToolTip(OverlayTextPos pos, const std::string &text);

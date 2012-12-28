@@ -533,6 +533,18 @@ void Pi::HandleEvents()
 
 		switch (event.type) {
 			case SDL_KEYDOWN:
+
+				//Display system and sector name on either CTRL key
+				if (event.key.keysym.sym == SDLK_LCTRL||event.key.keysym.sym == SDLK_RCTRL) {
+							const vector3f spos = sectorView->GetPosition();
+							StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
+							Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_MIDDLE_LEFT, stringf("%system-[%x,%y,%z]",
+								formatarg("system", s->GetName()),
+								formatarg("x", int(floorf(spos.x))),
+								formatarg("y", int(floorf(spos.y))),
+								formatarg("z", int(floorf(spos.z)))));
+				}
+
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
 					if (Pi::game) {
 						// only accessible once game started
@@ -668,6 +680,7 @@ void Pi::HandleEvents()
 				Pi::keyState[event.key.keysym.sym] = 0;
 				Pi::keyModState = event.key.keysym.mod;
 				Pi::onKeyRelease.emit(&event.key.keysym);
+				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_MIDDLE_LEFT, "");  //clear on key up.
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				if (event.button.button < COUNTOF(Pi::mouseButton)) {
