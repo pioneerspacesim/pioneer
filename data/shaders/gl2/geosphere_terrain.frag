@@ -53,14 +53,14 @@ void main(void)
 	atmosDiffuse.a = 1.0;
 
 	gl_FragColor =
-		gl_FrontMaterial.emission + varyingemission +
+		material.emission + varyingemission +
 		fogFactor *
 		((scene.ambient * vertexColor) +
 		(diff * vertexColor)) +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor);
 #else // atmosphere-less planetoids and dim stars
 	gl_FragColor =
-		gl_FrontMaterial.emission + varyingemission +
+		material.emission + varyingemission +
 		(scene.ambient * vertexColor) +
 		(diff * vertexColor);
 #endif //ATMOSPHERE
