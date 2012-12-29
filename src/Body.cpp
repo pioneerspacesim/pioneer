@@ -184,7 +184,6 @@ void Body::SwitchToFrame(Frame *newFrame)
 void Body::UpdateFrame()
 {
 	if (!(m_flags & FLAG_CAN_MOVE_FRAME)) return;	
-//	if (m_frame->IsRotFrame()) return;			// don't move from rotating frames
 
 	// falling out of frames
 	if (m_frame->GetRadius() < GetPosition().Length()) {
@@ -198,7 +197,6 @@ void Body::UpdateFrame()
 
 	// entering into frames
 	for (Frame *c = m_frame->GetFirstChild(); c; c = m_frame->GetNextChild()) {
-//		if ((*j)->IsRotFrame()) continue;			// don't move into rotating frames
 		vector3d pos = GetPositionRelTo(c);
 		if (pos.Length() >= c->GetRadius()) continue;
 		SwitchToFrame(c);
