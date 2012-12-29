@@ -36,6 +36,9 @@ public:
 	void SetOrient(const matrix3x3d &orient) { m_orient = orient; }
 	const matrix3x3d &GetOrient() const { return m_orient; }
 
+	// valid between Update() and Draw()
+	const Frame *GetCamFrame() const { return m_camFrame; }
+
 	// camera-specific light with attached source body
 	class LightSource {
 	public:

@@ -1165,7 +1165,7 @@ void WorldView::UpdateProjectedObjects()
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
 	const Graphics::Frustum frustum = m_activeCamera->GetFrustum();
 
-	const Frame *cam_frame = m_activeCamera->GetFrame();
+	const Frame *cam_frame = m_activeCamera->GetCamFrame();
 	matrix3x3d cam_rot = cam_frame->GetOrient();
 
 	// determine projected positions and update labels
