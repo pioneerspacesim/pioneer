@@ -92,6 +92,83 @@ end
 -- Style note: These function definitions use syntactic sugar not normally used
 -- in Pioneer. Might want to think about changing them. XXX
 
+--------------------------------------
+-- START OF TEMPORARY BODGE-UP CODE --
+--------------------------------------
+-- THIS IS TEMPORARY STUFF! This all needs to be moved into the ships' Lua files
+-- and defined properly, with the following methods re-written as core API functions.
+local ship_crew_min = {
+	adder = 1,
+	asp_explorer = 1,
+	boa_freighter = 5,
+	caribou = 6,
+	cobra3 = 1,
+	cobra = 1,
+	constrictor = 3,
+	eagle_lrf = 1,
+	eagle_mk2 = 1,
+	eagle_mk3 = 1,
+	eagle_mk4 = 1,
+	eye = 1,
+	flowerfairy = 4,
+	hammerhead = 8,
+	imperial_courier = 1,
+	imperial_trader = 3,
+	ip_shuttle = 1,
+	ladybird_starfighter = 1,
+	lanner = 1,
+	long_range_cruiser = 6,
+	lynx_bulk_carrier = 4,
+	meteor = 1,
+	natrix = 1,
+	sidewinder = 1,
+	sirius_interdictor = 1,
+	stardust = 3,
+	talon_military_interceptor = 1,
+	turtle = 1,
+	viper_defence_craft = 1,
+	viper_police_craft = 1,
+	viper_x = 1,
+	wave = 1,
+}
+local ship_crew_full = {
+	adder = 1,
+	asp_explorer = 2,
+	boa_freighter = 8,
+	caribou = 12,
+	cobra3 = 3,
+	cobra = 3,
+	constrictor = 5,
+	eagle_lrf = 1,
+	eagle_mk2 = 1,
+	eagle_mk3 = 1,
+	eagle_mk4 = 1,
+	eye = 1,
+	flowerfairy = 6,
+	hammerhead = 14,
+	imperial_courier = 3,
+	imperial_trader = 6,
+	ip_shuttle = 1,
+	ladybird_starfighter = 1,
+	lanner = 3,
+	long_range_cruiser = 20,
+	lynx_bulk_carrier = 10,
+	meteor = 1,
+	natrix = 1,
+	sidewinder = 1,
+	sirius_interdictor = 2,
+	stardust = 4,
+	talon_military_interceptor = 1,
+	turtle = 1,
+	viper_defence_craft = 2,
+	viper_police_craft = 2,
+	viper_x = 1,
+	wave = 1,
+}
+------------------------------------
+-- END OF TEMPORARY BODGE-UP CODE --
+------------------------------------
+
 --
 -- Method: GetMinimumCrew
 --
@@ -112,7 +189,7 @@ end
 --   experimental
 --
 function Ship:GetMinimumCrew()
-	return 1 -- Placeholder value
+	return ship_crew_min[self.shipId]
 end
 
 --
@@ -135,7 +212,7 @@ end
 --   experimental
 --
 function Ship:GetFullCrew()
-	return 1 -- Placeholder value
+	return ship_crew_full[self.shipId]
 end
 
 --
