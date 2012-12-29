@@ -94,7 +94,8 @@ Frame::~Frame()
 {
 	if (m_sfx) delete [] m_sfx;
 	delete m_collisionSpace;
-	if (m_parent) m_parent->RemoveChild(this);
+	for (ChildIterator it = m_children.begin(); it != m_children.end(); ++it)
+		delete (*it);
 }
 
 void Frame::RemoveChild(Frame *f)
