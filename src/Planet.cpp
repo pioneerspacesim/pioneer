@@ -56,7 +56,6 @@ void Planet::InitParams(const SystemBody *sbody)
 	m_surfaceGravity_g = -G*sbody->GetMass()/(sbody->GetRadius()*sbody->GetRadius());
 	const double lapseRate_L = -m_surfaceGravity_g/SPECIFIC_HEAT_AIR_CP; // negative deg/m
 	const double surfaceTemperature_T0 = sbody->averageTemp; //K
-	const double adiabaticLimit = surfaceTemperature_T0/lapseRate_L;
 
 	double surfaceDensity, h; Color c;
 	sbody->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3

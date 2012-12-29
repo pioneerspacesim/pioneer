@@ -709,7 +709,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 		targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);		
 	}
 	Frame *targframe = m_target ? m_target->GetFrame() : m_targframe;
-	bool safe = ParentSafetyAdjust(m_ship, targframe, targpos, targvel);
+	ParentSafetyAdjust(m_ship, targframe, targpos, targvel);
 	vector3d relpos = targpos - m_ship->GetPosition();
 	vector3d reldir = relpos.NormalizedSafe();
 	vector3d relvel = targvel - m_ship->GetVelocity();

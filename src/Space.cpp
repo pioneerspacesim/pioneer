@@ -449,9 +449,6 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 
 static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 {
-	Frame *orbFrame, *rotFrame;
-	double frameRadius;
-
 	if (!sbody->parent) {
 		if (b) b->SetFrame(f);
 		f->SetBodies(sbody, b);
@@ -459,7 +456,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 	}
 
 	if (sbody->type == SystemBody::TYPE_GRAVPOINT) {
-		orbFrame = new Frame(f, sbody->name.c_str());
+		Frame *orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->SetBodies(sbody, b);
 		orbFrame->SetRadius(sbody->GetMaxChildOrbitalDistance()*1.1);
 		return orbFrame;
@@ -471,8 +468,8 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 	    (supertype == SystemBody::SUPERTYPE_ROCKY_PLANET)) {
 		// for planets we want an non-rotating frame for a few radii
 		// and a rotating frame with no radius to contain attached objects
-		frameRadius = std::max(4.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.05);
-		orbFrame = new Frame(f, sbody->name.c_str(), Frame::FLAG_HAS_ROT);
+		double frameRadius = std::max(4.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.05);
+		Frame *orbFrame = new Frame(f, sbody->name.c_str(), Frame::FLAG_HAS_ROT);
 		orbFrame->SetBodies(sbody, b);
 		orbFrame->SetRadius(frameRadius);
 		//printf("\t\t\t%s has frame size %.0fkm, body radius %.0fkm\n", sbody->name.c_str(),
@@ -480,7 +477,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		//	sbody->GetRadius()*0.001f);
 
 		assert(sbody->rotationPeriod != 0);
-		rotFrame = new Frame(orbFrame, (sbody->name+" (R)").c_str(), Frame::FLAG_ROTATING);
+		Frame *rotFrame = new Frame(orbFrame, (sbody->name+" (R)").c_str(), Frame::FLAG_ROTATING);
 		rotFrame->SetBodies(sbody, b);
 
 		// rotating frame has atmosphere radius or feature height, whichever is larger
@@ -501,7 +498,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		// stars want a single small non-rotating frame
 		// bigger than it's furtherest orbiting body.
 		// if there are no orbiting bodies use a frame of several radii.
-		orbFrame = new Frame(f, sbody->name.c_str());
+		Frame *orbFrame = new Frame(f, sbody->name.c_str());
 		orbFrame->SetBodies(sbody, b);
 		orbFrame->SetRadius(std::max(10.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.1));
 		b->SetFrame(orbFrame);
@@ -510,7 +507,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 	else if (sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) {
 		// space stations want non-rotating frame to some distance
 		// and a zero-size rotating frame
-		orbFrame = new Frame(f, sbody->name.c_str(), Frame::FLAG_HAS_ROT);
+		Frame *orbFrame = new Frame(f, sbody->name.c_str(), Frame::FLAG_HAS_ROT);
 		orbFrame->SetBodies(sbody, b);
 //		orbFrame->SetRadius(10*sbody->GetRadius());
 		orbFrame->SetRadius(20000.0);				// 4x standard parking radius
