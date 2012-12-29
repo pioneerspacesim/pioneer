@@ -475,7 +475,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 		}
 		if (port == -1) return false;					// no permission
 		if (!m_type->dockOneAtATimePlease) {
-			if (port != (flags&0xf)) return false;		// wrong port
+			if (port != int(flags & 0xf)) return false;		// wrong port
 		}
 		if (m_shipDocking[port].stage != 1) return false;	// already docking?
 
