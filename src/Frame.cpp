@@ -9,6 +9,7 @@
 #include "galaxy/StarSystem.h"
 #include "Pi.h"
 #include "Game.h"
+#include <algorithm>
 
 Frame::Frame()
 {
@@ -36,9 +37,8 @@ void Frame::Serialize(Serializer::Writer &wr, Frame *f, Space *space)
 	wr.Int32(space->GetIndexForSystemBody(f->m_sbody));
 	wr.Int32(space->GetIndexForBody(f->m_astroBody));
 	wr.Int32(f->m_children.size());
-	for (Frame *c = f->GetFirstChild(); c; c = f->GetNextChild()) {
-		Serialize(wr, c, space);
-	}
+	for (ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it)
+		Serialize(wr, *it, space);
 	Sfx::Serialize(wr, f);
 }
 
@@ -68,9 +68,8 @@ void Frame::PostUnserializeFixup(Frame *f, Space *space)
 {
 	f->UpdateRootRelativeVars();
 	f->m_astroBody = space->GetBodyByIndex(f->m_astroBodyIndex);
-	for (Frame *c = f->GetFirstChild(); c; c = f->GetNextChild()) {
-		PostUnserializeFixup(c, space);
-	}
+	for (ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it)
+		PostUnserializeFixup(*it, space);
 }
 
 void Frame::Init(Frame *parent, const char *label, unsigned int flags)
@@ -96,6 +95,14 @@ Frame::~Frame()
 	if (m_sfx) delete [] m_sfx;
 	delete m_collisionSpace;
 	if (m_parent) m_parent->RemoveChild(this);
+}
+
+void Frame::RemoveChild(Frame *f)
+{
+	const std::vector<Frame*>::iterator it
+		= std::find(m_children.begin(), m_children.end(), f);
+	if (it != m_children.end())
+		m_children.erase(it);
 }
 
 void Frame::AddGeom(Geom *g) { m_collisionSpace->AddGeom(g); }
@@ -185,9 +192,8 @@ void Frame::UpdateInterpTransform(double alpha)
 		m_rootInterpOrient = m_parent->m_rootInterpOrient * m_interpOrient;
 	}
 
-	for (Frame *c = GetFirstChild(); c; c = GetNextChild()) {
-		c->UpdateInterpTransform(alpha);
-	}
+	for (ChildIterator it = m_children.begin(); it != m_children.end(); ++it)
+		(*it)->UpdateInterpTransform(alpha);
 }
 
 void Frame::GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m)
@@ -236,9 +242,8 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 	}
 	UpdateRootRelativeVars();			// update root-relative pos/vel/orient
 
-	for (Frame *c = GetFirstChild(); c; c = GetNextChild()) {
-		c->UpdateOrbitRails(time, timestep);
-	}
+	for (ChildIterator it = m_children.begin(); it != m_children.end(); ++it)
+		(*it)->UpdateOrbitRails(time, timestep);
 }
 
 void Frame::UpdateRootRelativeVars()

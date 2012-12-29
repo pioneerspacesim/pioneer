@@ -196,11 +196,11 @@ void Body::UpdateFrame()
 	}
 
 	// entering into frames
-	for (Frame *c = m_frame->GetFirstChild(); c; c = m_frame->GetNextChild()) {
-		vector3d pos = GetPositionRelTo(c);
-		if (pos.Length() >= c->GetRadius()) continue;
-		SwitchToFrame(c);
-		printf("%s enters frame %s\n", GetLabel().c_str(), c->GetLabel().c_str());
+	for (Frame::ChildIterator it = m_frame->BeginChildren(); it != m_frame->EndChildren(); ++it) {
+		vector3d pos = GetPositionRelTo(*it);
+		if (pos.Length() >= (*it)->GetRadius()) continue;
+		SwitchToFrame(*it);
+		printf("%s enters frame %s\n", GetLabel().c_str(), (*it)->GetLabel().c_str());
 		break;
 	}
 }

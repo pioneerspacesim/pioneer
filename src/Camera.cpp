@@ -70,8 +70,8 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 		lights.push_back(Camera::LightSource(frame->GetBody(), Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol)));
 	}
 
-	for (Frame *c = frame->GetFirstChild(); c; c = frame->GetNextChild()) {
-		position_system_lights(camFrame, c, lights);
+	for (Frame::ChildIterator it = frame->BeginChildren(); it != frame->EndChildren(); ++it) {
+		position_system_lights(camFrame, *it, lights);
 	}
 }
 

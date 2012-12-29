@@ -165,8 +165,8 @@ void Sfx::TimeStepAll(const float timeStep, Frame *f)
 		}
 	}
 
-	for (Frame *c = f->GetFirstChild(); c; c = f->GetNextChild()) {
-		TimeStepAll(timeStep, c);
+	for (Frame::ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it) {
+		TimeStepAll(timeStep, *it);
 	}
 }
 
@@ -183,8 +183,8 @@ void Sfx::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 		}
 	}
 
-	for (Frame *c = f->GetFirstChild(); c; c = f->GetNextChild()) {
-		RenderAll(renderer, c, camFrame);
+	for (Frame::ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it) {
+		RenderAll(renderer, *it, camFrame);
 	}
 }
 

@@ -55,9 +55,11 @@ public:
 	Body *GetBody() const { return m_astroBody; }
 
 	void AddChild(Frame *f) { m_children.push_back(f); }
-	void RemoveChild(Frame *f) { m_children.remove(f); }
-	Frame *GetFirstChild() { if (!m_children.size()) return 0; else return *(m_child_it = m_children.begin()); }
-	Frame *GetNextChild() { if (++m_child_it == m_children.end()) return 0; else return *m_child_it; }
+	void RemoveChild(Frame *f);
+
+	typedef std::vector<Frame*>::const_iterator ChildIterator;
+	ChildIterator BeginChildren() const { return m_children.begin(); }
+	ChildIterator EndChildren() const { return m_children.end(); }
 
 	void AddGeom(Geom *);
 	void RemoveGeom(Geom *);
@@ -93,8 +95,7 @@ private:
 	void UpdateRootRelativeVars();
 
 	Frame *m_parent;				// if parent is null then frame position is absolute
-	std::list<Frame*> m_children;	// child frames, first may be rotating
-	std::list<Frame*>::iterator m_child_it;
+	std::vector<Frame*> m_children;	// child frames, first may be rotating
 	SystemBody *m_sbody; 			// points to SBodies in Pi::current_system
 	Body *m_astroBody; 				// if frame contains a star or planet or something
 
