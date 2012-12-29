@@ -28,10 +28,22 @@ public:
 	virtual void Load(Serializer::Reader &rd) { }
 	virtual bool IsExternal() const { return false; }
 
+	// camera position relative to the body
+	void SetPosition(const vector3d &pos) { m_pos = pos; }
+	vector3d GetPosition() const { return m_pos; }
+
+	// camera orientation relative to the body
+	void SetOrient(const matrix3x3d &orient) { m_orient = orient; }
+	const matrix3x3d &GetOrient() const { return m_orient; }
+
+	virtual void UpdateTransform();
+
 	const Ship *GetShip() const { return m_ship; }
 
 private:
 	const Ship *m_ship;
+	vector3d m_pos;
+	matrix3x3d m_orient;
 };
 
 class InternalCamera : public WorldViewCamera {
@@ -52,8 +64,8 @@ public:
 	Mode GetMode() const { return m_mode; }
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
+
 private:
-	void OnShipFlavourChanged(const Ship *s);
 	Mode m_mode;
 	const char *m_name;
 };

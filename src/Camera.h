@@ -28,11 +28,11 @@ public:
 	void SetFrame(Frame *frame) { m_frame = frame; }
 	Frame *GetFrame() const { return m_frame; }
 
-	// camera position relative to the body
+	// camera position relative to the frame origin
 	void SetPosition(const vector3d &pos) { m_pos = pos; }
 	vector3d GetPosition() const { return m_pos; }
 
-	// camera orientation relative to the body
+	// camera orientation relative to the frame origin
 	void SetOrient(const matrix3x3d &orient) { m_orient = orient; }
 	const matrix3x3d &GetOrient() const { return m_orient; }
 

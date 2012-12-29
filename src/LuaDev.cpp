@@ -21,7 +21,7 @@ static int l_dev_set_camera_offset(lua_State *l)
 {
 	if (!Pi::worldView)
 		return luaL_error(l, "Dev.SetCameraOffset only works when there is a game running");
-	Camera *cam = Pi::worldView->GetActiveCamera();
+	WorldViewCamera *cam = Pi::worldView->GetActiveCamera();
 	const float x = luaL_checknumber(l, 1);
 	const float y = luaL_checknumber(l, 2);
 	const float z = luaL_checknumber(l, 3);

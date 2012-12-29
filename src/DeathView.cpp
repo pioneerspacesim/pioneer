@@ -42,7 +42,7 @@ void DeathView::Update()
 	assert(Pi::player->IsDead());
 
 	m_cameraDist += 160.0 * Pi::GetFrameTime();
-	m_cam->SetPosition(vector3d(0, 0, m_cameraDist));
+	m_cam->SetPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, m_cameraDist));
 	m_cam->Update();
 }
 

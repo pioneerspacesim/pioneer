@@ -9,22 +9,27 @@
 
 WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	Camera(size.x, size.y, fovY, near, far),
-	m_ship(s)
+	m_ship(s),
+	m_pos(0.0),
+	m_orient(matrix3x3d::Identity())
 {
+}
+
+void WorldViewCamera::UpdateTransform()
+{
+	SetFrame(m_ship->GetFrame());
+
+	// interpolate between last physics tick position and current one,
+	// to remove temporal aliasing
+	const matrix3x3d &m = m_ship->GetInterpOrient();
+	Camera::SetOrient(m * m_orient);
+	Camera::SetPosition(m * m_pos + m_ship->GetInterpPosition());
 }
 
 InternalCamera::InternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	WorldViewCamera(s, size, fovY, near, far)
 {
-	s->onFlavourChanged.connect(sigc::bind(sigc::mem_fun(this, &InternalCamera::OnShipFlavourChanged), s));
-	OnShipFlavourChanged(s);
 	SetMode(MODE_FRONT);
-}
-
-void InternalCamera::OnShipFlavourChanged(const Ship *s)
-{
-    SetFrame(s->GetFrame());
-	SetPosition(s->GetPosition() + s->GetShipType().cameraOffset);
 }
 
 void InternalCamera::SetMode(Mode m)
@@ -139,7 +144,7 @@ void ExternalCamera::UpdateTransform()
 			m_rotX = Clamp(m_rotX, -170.0, -10.0);
 		}
 	}
-	vector3d p = ship->GetPosition() + vector3d(0, 0, m_dist);
+	vector3d p = vector3d(0, 0, m_dist);
 	p = matrix3x3d::RotateX(-DEG2RAD(m_rotX)) * p;
 	p = matrix3x3d::RotateY(-DEG2RAD(m_rotY)) * p;
 	m_extOrient = matrix3x3d::RotateY(-DEG2RAD(m_rotY)) *
@@ -147,6 +152,8 @@ void ExternalCamera::UpdateTransform()
 	SetFrame(ship->GetFrame());
 	SetPosition(p);
 	SetOrient(m_extOrient);
+
+	WorldViewCamera::UpdateTransform();
 }
 
 void ExternalCamera::Save(Serializer::Writer &wr)
@@ -247,6 +254,8 @@ void SiderealCamera::UpdateTransform()
 	SetFrame(ship->GetFrame());
 	SetPosition(shipOrient.Transpose() * m_sidOrient.VectorZ() * m_dist);
 	SetOrient(shipOrient.Transpose() * m_sidOrient);
+
+	WorldViewCamera::UpdateTransform();
 }
 
 void SiderealCamera::Save(Serializer::Writer &wr)

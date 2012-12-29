@@ -796,8 +796,6 @@ void WorldView::Update()
 			if (KeyBindings::cameraRollRight.IsActive()) cam->RollRight(frameTime);
 			if (KeyBindings::resetCamera.IsActive()) cam->Reset();
 			cam->ZoomEventUpdate(frameTime);
-
-			cam->UpdateTransform();
 		}
 
 		// note if we have to target the object in the crosshairs
@@ -812,6 +810,8 @@ void WorldView::Update()
 			m_showCameraName->Show();
 		}
 	}
+
+	m_activeCamera->UpdateTransform();
 
 	m_activeCamera->Update();
 	UpdateProjectedObjects();
