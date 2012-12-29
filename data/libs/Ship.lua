@@ -89,3 +89,74 @@ function Ship:Jettison(equip)
 	end
 end
 
+-- Style note: These function definitions use syntactic sugar not normally used
+-- in Pioneer. Might want to think about changing them. XXX
+
+--
+-- Method: GetMinimumCrew
+--
+-- Return the minimum number of crew required for takeoff or launch
+--
+-- > number = ship:GetMinimumCrew()
+--
+-- Returns:
+--
+--   number - Minimum number of crew required for launch
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+function Ship:GetMinimumCrew()
+	return 1 -- Placeholder value
+end
+
+--
+-- Method: FullCrew
+--
+-- Return the maximum number of crew that this ship can accommodate
+--
+-- > number = ship:GetFullCrew()
+--
+-- Returns:
+--
+--   number - Maximum number of crew this ship can accommodate
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+function Ship:GetFullCrew()
+	return 1 -- Placeholder value
+end
+
+--
+-- Method: HasMinimumCrew
+--
+-- Determine whether a ship has the minimum crew required for launch
+--
+-- > canLaunch = ship:HasMinimumCrew()
+--
+-- Returns:
+--
+--   canLaunch - Boolean, true if ship has minimum required crew for launch, otherwise false/nil
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+function ship:HasMinimumCrew()
+	return true -- placeholder value
+end
