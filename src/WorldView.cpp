@@ -277,7 +277,7 @@ void WorldView::SetCamType(enum CamType c)
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCamera->GetMode() == InternalCamera::MODE_REAR);
 
 	onChangeCamType.emit();
-	
+
 	UpdateCameraName();
 }
 
@@ -305,7 +305,7 @@ void WorldView::UpdateCameraName()
 	float w, h;
 	Gui::Screen::MeasureString(cameraName, w, h);
 	Add(m_showCameraName, 0.5f*(Gui::Screen::GetWidth()-w), 20);
-	
+
 	m_showCameraNameTimeout = SDL_GetTicks();
 }
 
@@ -1692,7 +1692,7 @@ void WorldView::MouseButtonDown(int button, int x, int y)
 	{
 		if (m_activeCamera->IsExternal()) {
 			MoveableCamera *cam = static_cast<MoveableCamera*>(m_activeCamera);
-			
+
 			if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))	// Zoom out
 				cam->ZoomEvent( ZOOM_SPEED * WHEEL_SENSITIVITY);
 			else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))

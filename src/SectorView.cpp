@@ -463,8 +463,12 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 		// skip the system if it doesn't fall within the sphere we're viewing.
 		if ((m_pos*Sector::SIZE - (*sys).FullPosition()).Length() > drawRadius) continue;
 
-		// skip the system if it belongs to a Faction we've toggled off
-		if (m_hiddenFactions.find((*sys).faction) != m_hiddenFactions.end()) continue;
+		// get a system path to pass to the event handler when the label is licked
+		SystemPath sysPath = SystemPath((*sys).sx, (*sys).sy, (*sys).sz, num);
+
+		// skip the system if it belongs to a Faction we've toggled off, and isn't any of our selections
+		if (m_hiddenFactions.find((*sys).faction) != m_hiddenFactions.end() 
+			&& !sysPath.IsSameSystem(m_selected) && !sysPath.IsSameSystem(m_hyperspaceTarget) && !sysPath.IsSameSystem(m_current)) continue;
 
 		// place the label
 		vector3d systemPos = vector3d((*sys).FullPosition() - origin);
@@ -473,9 +477,6 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 			// work out the colour
 			float dist = Sector::DistanceBetween(sec, num, GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ), m_current.systemIndex);
 			Color labelColor = (*sys).faction->AdjustedColour((*sys).population, dist <= m_playerHyperspaceRange);
-
-			// get a system path to pass to the event handler when the label is licked
-			SystemPath sysPath = SystemPath((*sys).sx, (*sys).sy, (*sys).sz, num);
 
 			// setup the label
 			m_clickableLabels->Add((*sys).name, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sysPath), screenPos.x, screenPos.y, labelColor);
@@ -718,16 +719,17 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		// ...and skip the system if it doesn't fall within the sphere we're viewing.
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
-		// if the system belongs to a faction we've chosen to temporarily hide then skip it as well.
-		m_visibleFactions.insert(i->faction);
-		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end()) continue;
+		SystemPath current = SystemPath(sx, sy, sz, num);
 
+		// if the system belongs to a faction we've chosen to temporarily hide, but isn't the current system 
+		// or target then skip it
+		m_visibleFactions.insert(i->faction);
+		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end() 
+			&& !current.IsSameSystem(m_selected) && !current.IsSameSystem(m_hyperspaceTarget) && !current.IsSameSystem(m_current)) continue;
 
 		// don't worry about looking for inhabited systems if they're
 		// unexplored (same calculation as in StarSystem.cpp) or we've
 		// already retrieved their population.
-		SystemPath current = SystemPath(sx, sy, sz, num);
-
 		if ((*i).population < 0 && isqrt(1 + sx*sx + sy*sy + sz*sz) <= 90) {
 
 			// only do this once we've pretty much stopped moving.
@@ -853,13 +855,16 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors)
 {
 	Color starColor;
-	for (std::vector<Sector::System>::iterator i = sec->m_systems.begin(); i != sec->m_systems.end(); ++i) {
+	Uint32 num = 0;
+	for (std::vector<Sector::System>::iterator i = sec->m_systems.begin(); i != sec->m_systems.end(); ++i, ++num) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
 		if ((m_pos*Sector::SIZE - (*i).FullPosition()).Length() > (m_zoomClamped/FAR_THRESHOLD )*OUTER_RADIUS) continue;
 
-		// if the system belongs to a faction we've chosen to temporarily hide also skip it.
+		// if the system belongs to a faction we've chosen to hide also skip it, if it's not selectd in some way
 		m_visibleFactions.insert(i->faction);
-		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end()) continue;
+		SystemPath sysPath = SystemPath((*i).sx, (*i).sy, (*i).sz, num);
+		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end()
+			&& !sysPath.IsSameSystem(m_selected) && !sysPath.IsSameSystem(m_hyperspaceTarget) && !sysPath.IsSameSystem(m_current)) continue;
 
 		// otherwise add the system's position (origin must be m_pos's *sector* or we get judder)
 		// and faction color to the list to draw

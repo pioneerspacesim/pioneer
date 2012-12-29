@@ -11,7 +11,7 @@
 #include "libs.h"
 #include "Material.h"
 #include "Program.h"
- 
+
 namespace Graphics {
 	namespace GL2 {
 		class StarfieldMaterial : public Material {

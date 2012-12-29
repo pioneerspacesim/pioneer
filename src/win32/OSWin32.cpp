@@ -90,4 +90,31 @@ void RedirectStdio()
 	}
 }
 
+void EnableFPE()
+{
+	// clear any outstanding exceptions before enabling, otherwise they'll
+	// trip immediately
+	_clearfp();
+	_controlfp(_EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
+}
+
+void DisableFPE()
+{
+	_controlfp(_MCW_EM, _MCW_EM);
+}
+
+Uint64 HFTimerFreq()
+{
+	LARGE_INTEGER i;
+	QueryPerformanceFrequency(&i);
+	return i.QuadPart;
+}
+
+Uint64 HFTimer()
+{
+	LARGE_INTEGER i;
+	QueryPerformanceCounter(&i);
+	return i.QuadPart;
+}
+
 } // namespace OS

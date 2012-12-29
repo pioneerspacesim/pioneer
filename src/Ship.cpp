@@ -121,6 +121,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	}
 	m_ecmRecharge = rd.Float();
 	m_shipFlavour.Load(rd);
+	m_type = &ShipType::types[m_shipFlavour.id];
 	m_dockedWithPort = rd.Int32();
 	m_dockedWithIndex = rd.Int32();
 	m_equipment.InitSlotSizes(m_shipFlavour.id);
@@ -201,6 +202,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_dockedWith = 0;
 	m_dockedWithPort = 0;
 	m_shipFlavour = ShipFlavour(shipId);
+	m_type = &ShipType::types[m_shipFlavour.id];
 	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;
 	m_angThrusters.x = m_angThrusters.y = m_angThrusters.z = 0;
 	m_equipment.InitSlotSizes(shipId);
@@ -1079,11 +1081,6 @@ void Ship::NotifyRemoved(const Body* const removedBody)
 	if (m_curAICmd) m_curAICmd->OnDeleted(removedBody);
 }
 
-const ShipType &Ship::GetShipType() const
-{
-	return ShipType::types[m_shipFlavour.id];
-}
-
 bool Ship::Undock()
 {
 	if (m_dockedWith && m_dockedWith->LaunchShip(this, m_dockedWithPort)) return true;
@@ -1178,6 +1175,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		}
 
 		Sfx::ecmParticle->diffuse = c;
+		renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 		renderer->DrawPointSprites(100, v, Sfx::ecmParticle, 50.f);
 	}
 }
@@ -1212,6 +1210,7 @@ void Ship::UpdateFlavour(const ShipFlavour *f)
 void Ship::ResetFlavour(const ShipFlavour *f)
 {
 	m_shipFlavour = *f;
+	m_type = &ShipType::types[m_shipFlavour.id];
 	m_equipment.InitSlotSizes(f->id);
 	SetLabel(f->regid);
 	Init();

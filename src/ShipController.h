@@ -55,7 +55,7 @@ public:
 	void PostLoadFixup(Space *s);
 	void StaticUpdate(float timeStep);
 	// Poll controls, set thruster states, gun states and target velocity
-	void PollControls(float timeStep, const bool manualRotationAllowed = false);
+	void PollControls(float timeStep, const bool force_rotation_damping);
 	bool IsMouseActive() const { return m_mouseActive; }
 	double GetSetSpeed() const { return m_setSpeed; }
 	FlightControlState GetFlightControlState() const { return m_flightControlState; }
@@ -65,6 +65,10 @@ public:
 	float GetLowThrustPower() const { return m_lowThrustPower; }
 	void SetLowThrustPower(float power);
 
+	bool GetRotationDamping() const { return m_rotationDamping; }
+	void SetRotationDamping(bool enabled);
+	void ToggleRotationDamping();
+
 	//targeting
 	//XXX AI should utilize one or more of these
 	Body *GetCombatTarget() const;
@@ -72,6 +76,8 @@ public:
 	Body *GetSetSpeedTarget() const;
 	void SetCombatTarget(Body* const target, bool setSpeedTo = false);
 	void SetNavTarget(Body* const target, bool setSpeedTo = false);
+
+	sigc::signal<void> onRotationDampingChanged;
 
 private:
 	bool IsAnyAngularThrusterKeyDown();
@@ -84,6 +90,7 @@ private:
 	bool m_controlsLocked;
 	bool m_invertMouse; // used for rear view, *not* for invert Y-axis option (which is Pi::IsMouseYInvert)
 	bool m_mouseActive;
+	bool m_rotationDamping;
 	double m_mouseX;
 	double m_mouseY;
 	double m_setSpeed;
@@ -95,6 +102,8 @@ private:
 	int m_navTargetIndex;
 	int m_setSpeedTargetIndex;
 	vector3d m_mouseDir;
+
+	sigc::connection m_connRotationDampingToggleKey;
 };
 
 #endif

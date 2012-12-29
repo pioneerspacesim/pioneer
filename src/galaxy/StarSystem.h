@@ -296,8 +296,8 @@ private:
 
 	bool m_isCustom;
 	bool m_hasCustomBodies;
-	
-	Faction* m_faction; 
+
+	Faction* m_faction;
 	bool m_unexplored;
 	fixed m_metallicity;
 	fixed m_industrial;

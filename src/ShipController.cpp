@@ -10,10 +10,13 @@
 #include "Ship.h"
 #include "Space.h"
 #include "WorldView.h"
+#include "OS.h"
 
 void ShipController::StaticUpdate(float timeStep)
 {
+	OS::EnableFPE();
 	m_ship->AITimeStep(timeStep);
+	OS::DisableFPE();
 }
 
 PlayerShipController::PlayerShipController() :
@@ -24,6 +27,7 @@ PlayerShipController::PlayerShipController() :
 	m_controlsLocked(false),
 	m_invertMouse(false),
 	m_mouseActive(false),
+	m_rotationDamping(true),
 	m_mouseX(0.0),
 	m_mouseY(0.0),
 	m_setSpeed(0.0),
@@ -35,11 +39,15 @@ PlayerShipController::PlayerShipController() :
 	m_joystickDeadzone = deadzone * deadzone;
 	m_fovY = Pi::config->Float("FOVVertical");
 	m_lowThrustPower = Pi::config->Float("DefaultLowThrustPower");
+
+	m_connRotationDampingToggleKey = KeyBindings::toggleRotationDamping.onPress.connect(
+			sigc::mem_fun(this, &PlayerShipController::ToggleRotationDamping));
+
 }
 
 PlayerShipController::~PlayerShipController()
 {
-
+	m_connRotationDampingToggleKey.disconnect();
 }
 
 void PlayerShipController::Save(Serializer::Writer &wr, Space *space)
@@ -47,6 +55,7 @@ void PlayerShipController::Save(Serializer::Writer &wr, Space *space)
 	wr.Int32(static_cast<int>(m_flightControlState));
 	wr.Double(m_setSpeed);
 	wr.Float(m_lowThrustPower);
+	wr.Bool(m_rotationDamping);
 	wr.Int32(space->GetIndexForBody(m_combatTarget));
 	wr.Int32(space->GetIndexForBody(m_navTarget));
 	wr.Int32(space->GetIndexForBody(m_setSpeedTarget));
@@ -57,6 +66,7 @@ void PlayerShipController::Load(Serializer::Reader &rd)
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
 	m_setSpeed = rd.Double();
 	m_lowThrustPower = rd.Float();
+	m_rotationDamping = rd.Bool();
 	//figure out actual bodies in PostLoadFixup - after Space body index has been built
 	m_combatTargetIndex = rd.Int32();
 	m_navTargetIndex = rd.Int32();
@@ -78,7 +88,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 	if (m_ship->GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
-			PollControls(timeStep);
+			PollControls(timeStep, true);
 			if (IsAnyLinearThrusterKeyDown()) break;
 			v = -m_ship->GetOrient().VectorZ() * m_setSpeed;
 			if (m_setSpeedTarget) {
@@ -88,7 +98,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 			break;
 		case CONTROL_FIXHEADING_FORWARD:
 		case CONTROL_FIXHEADING_BACKWARD:
-			PollControls(timeStep);
+			PollControls(timeStep, true);
 			if (IsAnyAngularThrusterKeyDown()) break;
 			v = m_ship->GetVelocity().NormalizedSafe();
 			if (m_flightControlState == CONTROL_FIXHEADING_BACKWARD)
@@ -96,7 +106,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 			m_ship->AIFaceDirection(v);
 			break;
 		case CONTROL_MANUAL:
-			PollControls(timeStep, true);
+			PollControls(timeStep, false);
 			break;
 		case CONTROL_AUTOPILOT:
 			if (m_ship->AIIsActive()) break;
@@ -114,7 +124,9 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 	else SetFlightControlState(CONTROL_MANUAL);
 
 	//call autopilot AI, if active (also applies to set speed and heading lock modes)
+	OS::EnableFPE();
 	m_ship->AITimeStep(timeStep);
+	OS::DisableFPE();
 }
 
 void PlayerShipController::CheckControlsLock()
@@ -135,7 +147,7 @@ static double clipmouse(double cur, double inp)
 	return inp;
 }
 
-void PlayerShipController::PollControls(const float timeStep, const bool manualRotationAllowed)
+void PlayerShipController::PollControls(const float timeStep, const bool force_rotation_damping)
 {
 	static bool stickySpeedKey = false;
 
@@ -245,7 +257,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool manualR
 		wantAngVel += changeVec;
 
 		double invTimeAccelRate = 1.0 / Pi::game->GetTimeAccelRate();
-		if(wantAngVel.Length() >= 0.001 || !manualRotationAllowed || !m_ship->GetManualRotationState()) {
+		if(wantAngVel.Length() >= 0.001 || force_rotation_damping || m_rotationDamping) {
 			for (int axis=0; axis<3; axis++)
 				wantAngVel[axis] = Clamp(wantAngVel[axis], -invTimeAccelRate, invTimeAccelRate);
 
@@ -298,6 +310,19 @@ void PlayerShipController::SetLowThrustPower(float power)
 {
 	assert((power >= 0.0f) && (power <= 1.0f));
 	m_lowThrustPower = power;
+}
+
+void PlayerShipController::SetRotationDamping(bool enabled)
+{
+	if (enabled != m_rotationDamping) {
+		m_rotationDamping = enabled;
+		onRotationDampingChanged.emit();
+	}
+}
+
+void PlayerShipController::ToggleRotationDamping()
+{
+	SetRotationDamping(!GetRotationDamping());
 }
 
 Body *PlayerShipController::GetCombatTarget() const

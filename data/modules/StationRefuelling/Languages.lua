@@ -16,3 +16,11 @@ Translate:Add({ Polski = {
 	["This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."] = "Tu stacja {station}. Nie masz wymaganych {fee} opłty za dokowanie. Uzupełnianie paliwa wstrzymane.",
 }
 })
+
+---- HUNGARIAN / MAGYAR ----
+
+Translate:Add({ Magyar = {
+	["Welcome aboard {station}. Your docking and fuelling fee of {fee} has been deducted."] = "Üdv a(z) {station} fedélzetén. A dokkolásod és újratankolásod költsége, {fee} levonásra került.",
+	["This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."] = "Itt a(z) {station} állomás. Nincs elég kredited megfizetni a {fee} dokkolási költséget. Nem kapsz üzemanyagfeltöltést.",
+}
+})

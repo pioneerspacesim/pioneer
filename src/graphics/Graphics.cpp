@@ -177,7 +177,7 @@ Renderer* Init(Settings vs)
 	vtxColorMaterial->IncRefCount();
 
 	Graphics::settings = vs;
-	
+
 	return renderer;
 }
 

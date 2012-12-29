@@ -160,7 +160,7 @@ local personalInfo = function ()
 	local faceWidgetContainer = ui:Margin(0, "ALL", faceWidget)
 
 	local nameEntry = ui:TextEntry(player.name):SetFont("HEADING_LARGE")
-	nameEntry.onEnter:Connect(function (newName)
+	nameEntry.onChange:Connect(function (newName)
 		player.name = newName
         faceWidget:UpdateInfo(player)
 	end )
@@ -377,7 +377,15 @@ local missions = function ()
 
 	local missionbox = ui:VBox(10)
 
-	for ref,mission in ipairs(PersistentCharacters.player.missions) do
+	for ref,mission in pairs(PersistentCharacters.player.missions) do
+		if not Translate:Translatable(mission.type) then
+			-- This mission's type is likely from a module that has been removed,
+			-- so we'll add a default token here. Messy, but saves a crash. If
+			-- the module is restored, the mission type will be restored also.
+			-- Note: English is the hard-coded fallback language. This is a
+			-- run-time change, with no known side-effects.
+			Translate:Add({English = {[mission.type] = t('NONE')}})
+		end
 		-- Format the location
 		local missionLocationName
 		if mission.location.bodyIndex then
@@ -390,7 +398,7 @@ local missions = function ()
 		moreButton.button.onClick:Connect(function ()
 			MissionScreen:SetInnerWidget(ui:VBox(10)
 				:PackEnd({ui:Label(t('Mission Details')):SetFont('HEADING_LARGE')})
-				:PackEnd((Mission.GetClick(mission.type))(ref)))
+				:PackEnd((mission:GetClick())(mission)))
 		end)
 
 		missionbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {

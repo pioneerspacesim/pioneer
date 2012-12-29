@@ -22,6 +22,7 @@ As of 14 December 2012 (alpha 29), the Pioneer Developers are:
 * Dionisis Kontominas
 * Enric Morales
 * Fran Morton
+* Frank Klippenberg
 * Gareth Allnutt
 * Gernot
 * Jan Olsina
@@ -43,6 +44,7 @@ As of 14 December 2012 (alpha 29), the Pioneer Developers are:
 * Phil Howlett
 * Piotr Gredka
 * Robert Norris
+* Roland Mas
 * Sean Bailey
 * Simon Chopin
 * Stefan Kapusniak

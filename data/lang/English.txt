@@ -588,8 +588,8 @@ DECREASE_SCAN_RANGE
 	Decrease scanner range
 TOGGLE_LUA_CONSOLE
     Toggle Lua console
-TOGGLE_MANUAL_ROTATION
-	Manual rotation
+TOGGLE_ROTATION_DAMPING
+	Toggle rotation damping
 TOGGLE_HUD_MODE
     Toggle HUD mode
 JOYSTICK_INPUT
@@ -782,6 +782,10 @@ STAR_SYSTEM_INFORMATION
     Star system information
 GALACTIC_VIEW
     Galactic view
+ROTATION_DAMPING_ON
+	Rotation damping on
+ROTATION_DAMPING_OFF
+	Rotation damping off
 NO_ALERT
     No alert
 SHIP_NEARBY

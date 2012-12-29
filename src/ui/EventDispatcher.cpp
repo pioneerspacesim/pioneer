@@ -76,18 +76,36 @@ bool EventDispatcher::Dispatch(const Event &event)
 					if (m_keyRepeatActive && keyEvent.keysym == m_keyRepeatSym)
 						m_keyRepeatActive = false;
 
-					ShortcutMap::iterator i = m_shortcuts.find(keyEvent.keysym);
+					// any modifier coming in will be a specific key, eg left
+					// shift or right shift. shortcuts can't distinguish
+					// betwen the two, and so have both set in m_shortcuts. we
+					// can't just compare though, because the mods won't
+					// match. so we make a new keysym with a new mod that
+					// includes both of the type of key
+					Uint32 mod = Uint32(keyEvent.keysym.mod);
+					if (mod & KMOD_SHIFT) mod |= KMOD_SHIFT;
+					if (mod & KMOD_CTRL)  mod |= KMOD_CTRL;
+					if (mod & KMOD_ALT)   mod |= KMOD_ALT;
+					if (mod & KMOD_META)  mod |= KMOD_META;
+					const KeySym shortcutSym(keyEvent.keysym.sym, SDLMod(mod));
+
+					std::map<KeySym,Widget*>::iterator i = m_shortcuts.find(shortcutSym);
 					if (i != m_shortcuts.end()) {
 						(*i).second->TriggerClick();
 						DispatchSelect((*i).second);
 						return true;
 					}
+
 					return m_baseContainer->TriggerKeyUp(keyEvent);
 				}
 
 				case KeyboardEvent::KEY_PRESS: {
-					Widget *target = m_selected ? m_selected.Get() : m_baseContainer;
-					target->TriggerKeyPress(keyEvent);
+
+					// selected widgets get all the keypress events
+					if (m_selected)
+						return m_selected->TriggerKeyPress(keyEvent);
+
+					return m_baseContainer->TriggerKeyPress(keyEvent);
 				}
 			}
 			return false;
@@ -296,25 +314,11 @@ void EventDispatcher::Update()
 
 void EventDispatcher::LayoutUpdated()
 {
+	m_shortcuts.clear();
+	m_baseContainer->CollectShortcuts(m_shortcuts);
+
 	RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
 	DispatchMouseOverOut(target.Get(), m_lastMousePosition);
-}
-
-void EventDispatcher::AddShortcut(const KeySym &keysym, Widget *target)
-{
-	m_shortcuts[keysym] = target;
-}
-
-void EventDispatcher::RemoveShortcut(const KeySym &keysym)
-{
-	ShortcutMap::iterator i = m_shortcuts.find(keysym);
-	if (i != m_shortcuts.end())
-		m_shortcuts.erase(i);
-}
-
-void EventDispatcher::ClearShortcuts()
-{
-	m_shortcuts.clear();
 }
 
 }

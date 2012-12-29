@@ -29,10 +29,6 @@ public:
 
 	void LayoutUpdated();
 
-	void AddShortcut(const KeySym &keysym, Widget *target);
-	void RemoveShortcut(const KeySym &keysym);
-	void ClearShortcuts();
-
 	void SelectWidget(Widget *target);
 	void DeselectWidget(Widget *target);
 
@@ -57,8 +53,7 @@ private:
 	bool m_keyRepeatActive;
 	Uint32 m_nextKeyRepeat;
 
-	typedef std::map<KeySym,Widget*> ShortcutMap;
-	ShortcutMap m_shortcuts;
+	std::map<KeySym,Widget*> m_shortcuts;
 };
 
 }

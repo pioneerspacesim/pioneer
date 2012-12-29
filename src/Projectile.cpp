@@ -92,6 +92,14 @@ void Projectile::BuildModel()
 	}
 }
 
+void Projectile::FreeModel()
+{
+	s_sideMat.Reset();
+	s_glowMat.Reset();
+	s_sideVerts.Reset();
+	s_glowVerts.Reset();
+}
+
 Projectile::Projectile(): Body()
 {
 	if (!s_sideMat) BuildModel();

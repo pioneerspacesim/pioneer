@@ -20,6 +20,15 @@ namespace OS {
 	void LoadWindowIcon();
 
 	void RedirectStdio();
+
+	// Enable and disable floating point exceptions. Disabled is usually default.
+	void EnableFPE();
+	void DisableFPE();
+
+	// High frequency timer. HFTimer() returns count, HFTimerFreq() returns frequency.
+	// should not be considered reliable
+	Uint64 HFTimerFreq();
+	Uint64 HFTimer();
 }
 
 #endif

@@ -24,7 +24,7 @@ TerrainHeightFractal<TerrainHeightBarrenRock>::TerrainHeightFractal(const System
 template <>
 double TerrainHeightFractal<TerrainHeightBarrenRock>::GetHeight(const vector3d &p)
 {
-	/*return std::max(0.0, m_maxHeight * (octavenoise(GetFracDef(0), 0.5, p) + 
+	/*return std::max(0.0, m_maxHeight * (octavenoise(GetFracDef(0), 0.5, p) +
 			GetFracDef(1).amplitude * crater_function(GetFracDef(1), p)));*/
 			//fuck the fracdefs, direct control is better:
 	double n = ridged_octavenoise(16, 0.5*octavenoise(8, 0.4, 2.5, p),Clamp(5.0*octavenoise(8, 0.257, 4.0, p), 1.0, 5.0), p);

@@ -15,6 +15,14 @@
 #include <stack>
 #include <algorithm>
 
+#define TRUSTED_CONSOLE 1
+
+#if TRUSTED_CONSOLE
+static const char CONSOLE_CHUNK_NAME[] = "[T] console";
+#else
+static const char CONSOLE_CHUNK_NAME[] = "console";
+#endif
+
 LuaConsole::LuaConsole(int displayedOutputLines):
 	m_maxOutputLines(displayedOutputLines),
 	m_precompletionStatement(),
@@ -290,9 +298,9 @@ void LuaConsole::ExecOrContinue() {
 	lua_State *L = Lua::manager->GetLuaState();
 
     // If the statement is an expression, print its final value.
-	result = luaL_loadbuffer(L, ("return " + stmt).c_str(), stmt.size()+7, "console");
+	result = luaL_loadbuffer(L, ("return " + stmt).c_str(), stmt.size()+7, CONSOLE_CHUNK_NAME);
 	if (result == LUA_ERRSYNTAX)
-		result = luaL_loadbuffer(L, stmt.c_str(), stmt.size(), "console");
+		result = luaL_loadbuffer(L, stmt.c_str(), stmt.size(), CONSOLE_CHUNK_NAME);
 
 	// check for an incomplete statement
 	// (follows logic from the official Lua interpreter lua.c:incomplete())

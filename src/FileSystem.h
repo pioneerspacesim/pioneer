@@ -146,7 +146,7 @@ namespace FileSystem {
 
 	class FileSource {
 	public:
-		explicit FileSource(const std::string &root): m_root(root) {}
+		explicit FileSource(const std::string &root, bool trusted = false): m_root(root), m_trusted(trusted) {}
 		virtual ~FileSource() {}
 
 		const std::string &GetRoot() const { return m_root; }
@@ -155,16 +155,19 @@ namespace FileSystem {
 		virtual RefCountedPtr<FileData> ReadFile(const std::string &path) = 0;
 		virtual bool ReadDirectory(const std::string &path, std::vector<FileInfo> &output) = 0;
 
+		bool IsTrusted() const { return m_trusted; }
+
 	protected:
 		FileInfo MakeFileInfo(const std::string &path, FileInfo::FileType entryType);
 
 	private:
 		std::string m_root;
+		bool m_trusted;
 	};
 
 	class FileSourceFS : public FileSource {
 	public:
-		explicit FileSourceFS(const std::string &root);
+		explicit FileSourceFS(const std::string &root, bool trusted = false);
 		~FileSourceFS();
 
 		virtual FileInfo Lookup(const std::string &path);

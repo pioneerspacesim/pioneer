@@ -13,7 +13,7 @@
 
 namespace FileSystem {
 
-	static FileSourceFS dataFilesApp(GetDataDir());
+	static FileSourceFS dataFilesApp(GetDataDir(), true);
 	static FileSourceFS dataFilesUser(JoinPath(GetUserDir(), "data"));
 	FileSourceUnion gameDataFiles;
 	FileSourceFS userFiles(GetUserDir());
@@ -33,39 +33,34 @@ namespace FileSystem {
 
 	static void normalise_path(std::string &result, const StringRange &path)
 	{
-		StringRange part(path.begin, path.begin);
-		const char *c = path.begin;
-		if ((c != path.end) && (*c == '/')) {
+		StringRange part(path.begin, path.end);
+		if (!path.Empty() && (path[0] == '/')) {
 			result += '/';
-			++c;
 			++part.begin;
 		}
 		const size_t initial_result_length = result.size();
 		while (true) {
-			if ((*c == '/') || (c == path.end)) {
-				part.end = c;
-				if (part.Empty() || (part == ".")) {
-					// skip this part
-				} else if (part == "..") {
-					// pop the last component
-					if (result.size() <= initial_result_length)
-						throw std::invalid_argument(path.ToString());
-					size_t pos = result.rfind('/', result.size()-2);
-					++pos;
-					assert(pos >= initial_result_length);
-					result.erase(pos);
-				} else {
-					// push the new component
-					if (part.end != path.end) {
-						assert(*part.end == '/');
-						++part.end;
-					}
-					result.append(part.begin, part.Size());
-				}
-				part.begin = c+1;
+			part.end = part.FindChar('/'); // returns part.end if the char is not found
+			if (part.Empty() || (part == ".")) {
+				// skip this part
+			} else if (part == "..") {
+				// pop the last component
+				if (result.size() <= initial_result_length)
+					throw std::invalid_argument(path.ToString());
+				size_t pos = result.rfind('/');
+				if (pos == std::string::npos) { pos = 0; }
+				assert(pos >= initial_result_length);
+				result.erase(pos);
+			} else {
+				// push the new component
+				if (result.size() > initial_result_length)
+					result += '/';
+				result.append(part.begin, part.Size());
 			}
-			if (c == path.end) { break; }
-			++c;
+			if (part.end == path.end) { break; }
+			assert(*part.end == '/');
+			part.begin = part.end + 1;
+			part.end = path.end;
 		}
 	}
 

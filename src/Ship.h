@@ -84,7 +84,7 @@ public:
 	double GetAccelUp() const { return GetShipType().linThrust[ShipType::THRUSTER_UP] / GetMass(); }
 	double GetAccelMin() const;
 
-	const ShipType &GetShipType() const;
+	const ShipType &GetShipType() const { return *m_type; }
 	void UpdateEquipStats();
 	void UpdateFuelStats();
 	void UpdateStats();
@@ -106,9 +106,6 @@ public:
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
-
-	void SetManualRotationState(bool rotationState) { m_manualRotation = rotationState; }
-	bool GetManualRotationState() { return m_manualRotation; }
 
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState>
 		FLYING,     // open flight (includes autopilot)
@@ -285,10 +282,10 @@ private:
 	void EnterHyperspace();
 
 	shipstats_t m_stats;
+	ShipType *m_type;
 
 	FlightState m_flightState;
 	bool m_testLanded;
-	bool m_manualRotation;
 	float m_launchLockTimeout;
 	float m_wheelState;
 	int m_wheelTransition;

@@ -13,7 +13,7 @@ public:
 	DeathView();
 	virtual ~DeathView();
 
-	void Init(float camera_distance);
+	void Init();
 
 	virtual void Update();
 	virtual void Draw3D();

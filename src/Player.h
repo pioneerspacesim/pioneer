@@ -15,21 +15,6 @@
 
 namespace Graphics { class Renderer; }
 
-struct Mission : RefItem<Mission> {
-	enum MissionState { // <enum scope='Mission' name=MissionStatus>
-		ACTIVE,
-		COMPLETED,
-		FAILED,
-	};
-
-	std::string  type;
-	std::string  client;
-	SystemPath   location;
-	double       due;
-	Sint64       reward;
-	MissionState status;
-};
-
 class Player: public Ship, public MarketAgent {
 public:
 	OBJDEF(Player, Ship, PLAYER);
@@ -43,8 +28,6 @@ public:
 	virtual bool FireMissile(int idx, Ship *target);
 	virtual void SetAlertState(Ship::AlertState as);
 	virtual void NotifyRemoved(const Body* const removedBody);
-
-	RefList<Mission> missions;
 
 	/* MarketAgent stuff */
 	int GetStock(Equip::Type t) const { assert(0); return 0; }

@@ -42,6 +42,7 @@ public:
 
 private:
 	void InitObject();
+	void OnRotationDampingChanged();
 
 	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
 
@@ -52,6 +53,7 @@ private:
 	void OnClickTimeaccel(Game::TimeAccel val);
 	void OnClickComms(Gui::MultiStateImageButton *b);
 	void OnDockingClearanceExpired(const SpaceStation *);
+	void OnClickRotationDamping(Gui::MultiStateImageButton *b);
 
 	void OnUserChangeMultiFunctionDisplay(multifuncfunc_t f);
 	void ChangeMultiFunctionDisplay(multifuncfunc_t selected);
@@ -64,6 +66,7 @@ private:
 	Gui::Label *m_clock;
 
 	sigc::connection m_connOnDockingClearanceExpired;
+	sigc::connection m_connOnRotationDampingChanged;
 
 	MultiFuncSelectorWidget *m_mfsel;
 	ScannerWidget *m_scanner;
@@ -73,6 +76,7 @@ private:
 	Gui::RadioGroup *m_leftButtonGroup, *m_rightButtonGroup;
 	Gui::ImageRadioButton *m_timeAccelButtons[6];
 	Gui::Widget *m_mapViewButtons[4];
+	Gui::MultiStateImageButton *m_rotationDampingButton;
 	Gui::Image *m_alertLights[3];
 
 	Gui::Label *m_overlay[4];

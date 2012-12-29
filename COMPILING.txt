@@ -46,7 +46,7 @@ Linux - Autotools
    If your platform doesn't have assimp 3.0, you'll need to build it from
    source. Its available in pioneer-thirdparty, see below.
 
-2. Run ./bootstrap.sh to generate your 'configure' file
+2. Run ./bootstrap to generate your 'configure' file
 
 3. Run ./configure to configure the build. If you're using the
    pioneer-thirdparty repository, pass
@@ -87,7 +87,7 @@ Windows - Autotools (Linux cross-compile)
 
 2. Prepare the pioneer-thirdparty repository. See below.
 
-3. Now you can build Pioneer. Run ./bootstrap.sh to generate your 'configure'
+3. Now you can build Pioneer. Run ./bootstrap to generate your 'configure'
    file.
 
 4. Run configure to configure the build:
@@ -100,10 +100,14 @@ Windows - Autotools (Linux cross-compile)
 OS X - Autotools
 ----------------
 
-1. You will need the following libraries installed. The best method I found
-   was to install macports (http://www.macports.org/) and install the
-   following:
+1. Install XCode (free download from apple). This will install the required
+   compilers and other commandline tools.
 
+2. You will need the following libraries installed. The best method I found
+   was to install macports (http://www.macports.org/) and install the
+   following ports (sudo port install xxxx):
+
+     assimp
      pkgconfig
      freetype
      libsdl
@@ -112,9 +116,9 @@ OS X - Autotools
      glew
      libsigcxx2
 
-2. Run ./bootstrap.sh to generate your 'configure' file
+3. Run ./bootstrap to generate your 'configure' file
 
-3. By default the OpenGL frameworks don't seem to be visible the 'automake'
+4. By default the OpenGL frameworks don't seem to be visible to 'automake'
    way so I did a few tricks to get it working:
 
    Create a symlink from the OpenGL framework to your /usr/local/include 
@@ -122,23 +126,23 @@ OS X - Autotools
 
      sudo ln -s /System/Library/Frameworks/OpenGL.framework/Versions/A/Headers/ /usr/local/include/GL
 
-4. Instead of running ./configure run it with this command line:
+5. Instead of running ./configure run it with this command line:
 
      LDFLAGS="-L/System/Library/Frameworks/OpenGL.framework/Libraries -L/System/Library/Frameworks/GLUT.framework" ./configure
 
-5. Now you can run Make as per normal. :)
+6. Now you can run make as per normal. :)
 
+Note: Compiling from source this way isn't recommended as it doesn't allow you
+      to 'install' the application into a different location (pioneer.app
+      bundle). It also isn't the 'Apple way', To do that you need to use XCode.
 
 OSX - XCode 4
 -------------
 
-There is currently an Xcode project located in the ./osx directory. This is
-the project setup that I currently use, and it has not been tested on a
-different system. I have already setup the paths and project settings based on
-the libraries and headers already setup the 'GNU way' as stated above.  This
-saves many #ifdef's that would have to be riddled through the code just
-because of Xcode.
-
+The latest XCode project files are located in ./osx. Simply build the
+aplication bundle. The XCode project uses the mac port libraries that you
+have installed above. Once the pioneer.app bundle is complete you can move it
+around where you like (/Applications is a nice place for it).
 
 
 pioneer-thirdparty
@@ -177,3 +181,9 @@ Windows - Autotools (Linux cross-compile)
 
 3. Run make <package> to compile and prepare the named package for use with
    Pioneer, or just run make alone to build everything.
+
+OSX
+---
+
+- pioneer-thirdparty currently not required.
+

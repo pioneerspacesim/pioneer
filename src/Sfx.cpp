@@ -121,6 +121,7 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 		case TYPE_DAMAGE:
 			vector3f pos(&fpos.x);
 			damageParticle->diffuse = Color(1.f, 1.f, 0.f, 1.0f-(m_age/2.0f));
+			renderer->SetBlendMode(BLEND_ALPHA_ONE);
 			renderer->DrawPointSprites(1, &pos, damageParticle, 20.f);
 			break;
 	}

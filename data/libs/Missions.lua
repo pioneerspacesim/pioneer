@@ -2,10 +2,12 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
--- Interface: Missions
+-- Class: Missions
 --
--- Provides a set of interfaces to the "Missions" infoview screen. These
+-- A mission object, which is displayed in the missions screen. These
 -- missions are stored in the PersistenCharacters.player.missions table.
+-- The class is responsible for inserting itself into the missions table,
+-- and has a method which removes itself from that table.
 --
 -- Lua modules should use the Missions interface, which provides data
 -- sanitation and error checking.
@@ -21,17 +23,110 @@ local MissionStatus = {
 -- Registered mission click functions go here
 local MissionClickHandler = {}
 
+Mission = {
+--
+-- Group: Attributes
+--
+
+--
+-- Attribute: type
+--
+-- The type of mission.  This can be any translatable string token.
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+	type = 'NONE',
+
+--
+-- Attribute: client
+--
+-- The [Character] object that offered the mission
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+
+--
+-- Attribute: due
+--
+-- Due date/time, in seconds since 12:00 01-01-3200
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+	due = 0,
+
+--
+-- Attribute: reward
+--
+-- Reward for mission completion, in dollars
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+	reward = 0,
+
+--
+-- Attribute:Location 
+--
+-- A [SystemPath] for the destination space station
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+	location = nil,
+
+--
+-- Attribute: status
+--
+-- A string for the current mission status. Must be one of 'ACTIVE', 'COMPLETED' or 'FAILED'
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+	status = 'ACTIVE',
+
 --
 -- Group: Methods
 --
 
-Mission = {
 --
--- Method: Add
+-- Method: New
 --
--- Add a mission to the player's mission list
+-- Create a new mission and add it to the player's mission list
 --
--- >	ref = Mission.Add({
+-- >	missionRef = Mission.New({
 -- >		'type'     = type,
 -- >		'client'   = client,
 -- >		'due'      = due,
@@ -42,23 +137,17 @@ Mission = {
 --
 -- Parameters:
 --
--- Add takes a table as its only parameter.  The fields of that table are as follows
---
---   type - type of mission.  This can be any translatable string token.
---   client - the Character object that offered the mission
---   due - due date/time, in seconds since 12:00 01-01-3200
---   reward - reward for mission completion, in dollars
---   location - a SystemPath for the destination space station
---   status - a Constants.MissionStatus string for the current mission status
+-- New takes a table as its only parameter.  The fields of that table match the attributes
+-- of the Mission class.
 --
 -- Return:
 --
---   ref - an integer value for referring to the mission in the future
+--   missionRef - a new instance of the Mission class
 --
 -- Example:
 --
--- >  local ref = Mission.Add({
--- >      'type'     = 'Delivery',
+-- >  local ref = Mission.New({
+-- >      'type'     = 'Delivery', -- Must be a translatable token!
 -- >      'client'   = Character.New()
 -- >      'due'      = Game.time + 3*24*60*60,    -- three days
 -- >      'reward'   = 123.45,
@@ -74,134 +163,64 @@ Mission = {
 --
 -- testing
 --
-	Add = function (row)
+	New = function (template)
 		-- Data sanitation
-		if not row or (type(row) ~= 'table') then
+		if not template or (type(template) ~= 'table') then
 			error("Missing argument: mission table expected")
 		end
-		if not (type(row.type) == "string") then row.type = 'NONE' end
-		if not row.client then row.client = Character.New() end
+		local test = getmetatable(template)
+		if(test and (test.class == 'Mission')) then
+			error("Won't use another mission as a template.")
+		end
+		if not (type(template.type) == "string") then template.type = nil end
+		if not template.client then template.client = Character.New() end
 		if not (
-			type(row.client) == "table" and
-			getmetatable(row.client) and
-			getmetatable(row.client).class == 'Character'
+			type(template.client) == "table" and
+			getmetatable(template.client) and
+			getmetatable(template.client).class == 'Character'
 		) then
-			error("Mission.Add: client must be a Character object")
+			error("Mission.New: client must be a Character object")
 		end
-		if not (type(row.due) == "number") then row.due = 0 end
-		if not (type(row.reward) == "number") then row.reward = 0 end
-		if not (type(row.location) == "userdata") then row.location = Game.system.path end
-		if not MissionStatus[row.status] then row.status = 'ACTIVE' end
-		table.insert(PersistentCharacters.player.missions,row)
-		return #PersistentCharacters.player.missions
-	end,
---
--- Method: Get
---
--- Retrieve a mission from the player's mission list
---
--- > mission = Mission.Get(ref)
---
--- Parameters:
---
---   ref - the mission reference number returned by AddMission
---
--- Return:
---
---   mission - a table containing the mission parameters.  The fields
---   of the table are the same as described in AddMission.
---
--- Availability:
---
--- alpha 29
---
--- Status:
---
--- testing
---
-	Get = function (ref)
-		-- Add some reference checking here, or we could be in trouble
-		if not PersistentCharacters.player.missions[ref] then
-			error("Mission reference not valid")
+		-- Initialise the new mission
+		local newMission = {}
+		for k,v in pairs(template) do
+			newMission[k] = v
 		end
-		local returnCopy = {}
-		for k,v in pairs(PersistentCharacters.player.missions[ref]) do
-			returnCopy[k] = v
-		end
-		return returnCopy
-	end,
---
--- Method: Update
---
--- Update a mission on the player's mission list
---
--- >  Mission.Update(ref, mission)
---
--- The mission data provided to this method is used to overwrite the
--- existing mission data.  The intention is that you will use GetMission
--- to retrieve the mission table, make the modifications you need, and
--- then call UpdateMission to update it.
---
--- Parameters:
---
---   ref - the mission reference number returned by AddMission
---   mission - a table of mission fields.  The fields are the same as those described in AddMission.
---
--- Example:
---
--- > local mission = Mission.Get(ref)
--- > mission.status = 'FAILED'
--- > Mission.Update(ref, mission)
---
--- Availability:
---
--- alpha 29
---
--- Status:
---
--- testing
---
-	Update = function (ref, row)
-		-- Reference and data sanitation
-		if not row or (type(row) ~= 'table') then
-			error("Missing argument: updated mission table expected")
-		end
-		if not PersistentCharacters.player.missions[ref] then
-			error("Mission reference ",ref," not valid")
-		end
-		if row.type and not (type(row.type) == "string") then row.type = 'NONE' end
-		if row.client and not (type(row.client) == "table") then row.client = nil end -- Don't replace with junk
-		if row.due and not (type(row.due) == "number") then row.due = 0 end
-		if row.reward and not (type(row.reward) == "number") then row.reward = 0 end
-		if row.location and not (type(row.location) == "userdata") then row.location = Game.system.path end
-		if row.status and not MissionStatus[row.status] then row.status = 'ACTIVE' end
-		local missions = PersistentCharacters.player.missions
-		for k,v in pairs(row) do
-			missions[ref][k] = v
-		end
+		setmetatable(newMission,Mission.meta)		
+		if not (type(newMission.due) == "number") then newMission.due = nil end
+		if not (type(newMission.reward) == "number") then newMission.reward = nil end
+		if not (type(newMission.location) == "userdata") then newMission.location = Game.system.path end
+		table.insert(PersistentCharacters.player.missions,newMission)
+		return newMission;
 	end,
 --
 -- Method: Remove
 --
 -- Remove a mission from the player's mission list
 --
--- > Mission.Remove(ref)
+-- Mission:Remove()
 --
--- Parameters:
+-- Example:
 --
---   ref - the mission reference number returned by AddMission
+-- > ourMission:Remove() -- Remove mission from list
+-- > ourMission = nil    -- Remove our reference too
 --
 -- Availability:
 --
--- alpha 29
+-- alpha 30
 --
 -- Status:
 --
 -- testing
 --
-	Remove = function (ref)
-		PersistentCharacters.player.missions[ref] = nil
+	Remove = function (self)
+		for k,v in pairs(PersistentCharacters.player.missions) do
+			if v == self then
+				table.remove(PersistentCharacters.player.missions,k)
+			end
+		end
 	end,
+
 --
 -- Method: RegisterClick
 --
@@ -211,18 +230,19 @@ Mission = {
 --
 -- Parameters:
 --
---   type - the mission type, as seen in the Mission.Add() example
---          handler - a function to be run when the "Active" button is
---          clicked. Handler is passed a reference compatible with
---          Mission.Get() and may return an Engine.ui instance, which
---          will be displayed on screen if not nil.
+--   type - the mission type, as defined in Mission.New()
+--
+--   handler - a function to be run when the "Active" button is
+--             clicked. Handler is passed a reference compatible with
+--             Mission.Get() and must return an Engine.ui instance, which
+--             may be displayed on the missions screen.
 --
 -- Example:
 --
 -- > Mission.RegisterClick('Race',function (ref)
 -- >   local race = races[ref] -- Assuming some local table of races for example
--- >   Comms.Message(string.interp('Stage {stage}: You are in position {pos}',{stage=race.stage, pos=race.pos}))
--- > end) -- Not returning a UI in this small example
+-- >   return Engine.UI:Label(string.interp('Stage {stage}: You are in position {pos}',{stage=race.stage, pos=race.pos}))
+-- > end)
 --
 -- Availability:
 --
@@ -247,20 +267,14 @@ Mission = {
 -- Internal method to retrieve a handler function for the mission list button.
 -- Normally called from InfoView/Missions, but could be useful elsewhere.
 --
--- > handler = Mission.GetClick(type)
+-- > handler = ourMission:GetClick()
 --
--- Parameters:
---
---   type - the mission type, as seen in the Mission.Add() example
---          handler - a function to be run when the "Active" button is
---          clicked. Handler is passed a reference compatible with
---          Mission.Get() and may return an Engine.ui instance, which
---          will be displayed on screen if not nil.
 --
 -- Returns:
 --
 --   handler - a function to be connected to the missions form 'Active'
---             button.
+--             button. handler will be passed the mission as its sole argument
+--             and is expected to return an [Engine.UI] object.
 --
 -- Availability:
 --
@@ -270,8 +284,22 @@ Mission = {
 --
 -- experimental
 --
-	GetClick = function (missiontype)
+	GetClick = function (self)
 		local t = Translate:GetTranslator()
-		return MissionClickHandler[missiontype] or function (ref) return Engine.ui:Label(t('NOT_FOUND')) end
-	end
+		return MissionClickHandler[self.type] or function (ref) return Engine.ui:Label(t('NOT_FOUND')) end
+	end,
+
+	Serialize = function (self)
+		return self
+	end,
+
+	Unserialize = function (data)
+		setmetatable(data,Mission.meta)
+		return data
+	end,
+}
+
+Mission.meta = {
+	__index = Mission,
+	class = "Mission",
 }

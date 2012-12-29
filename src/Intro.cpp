@@ -60,7 +60,7 @@ void Intro::Draw(float _time)
 	m_renderer->SetLights(m_lights.size(), &m_lights[0]);
 
 	matrix4x4f trans =
-		matrix4x4f::Translation(-25.0f, 0, -80.0f) * 
+		matrix4x4f::Translation(-25.0f, 0, -80.0f) *
 		matrix4x4f::RotateYMatrix(_time) *
 		matrix4x4f::RotateZMatrix(0.6f*_time) *
 		matrix4x4f::RotateXMatrix(_time*0.7f);

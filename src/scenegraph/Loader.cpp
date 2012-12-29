@@ -13,10 +13,108 @@
 #include "graphics/Renderer.h"
 #include "graphics/Surface.h"
 #include "graphics/TextureBuilder.h"
+#include "FileSystem.h"
 #include <assimp/Importer.hpp>
+#include <assimp/IOStream.hpp>
+#include <assimp/IOSystem.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
 #include <assimp/material.h>
+
+namespace {
+
+	class AssimpFileReadStream : public Assimp::IOStream
+	{
+	public:
+		explicit AssimpFileReadStream(const RefCountedPtr<FileSystem::FileData>& data): m_data(data)
+		{
+			m_cursor = m_data->GetData();
+		}
+
+		virtual ~AssimpFileReadStream() {}
+
+		virtual size_t FileSize() const { return m_data->GetSize(); }
+
+		virtual size_t Read(void *buf, size_t size, size_t count)
+		{
+			const char * const data_end = m_data->GetData() + m_data->GetSize();
+			const size_t remaining = (data_end - m_cursor);
+			const size_t requested = size * count;
+			const size_t len = std::min(remaining, requested);
+			memcpy(static_cast<char*>(buf), m_cursor, len);
+			m_cursor += len;
+			return len;
+		}
+
+		virtual aiReturn Seek(size_t offset, aiOrigin origin)
+		{
+			switch (origin) {
+				case aiOrigin_SET: break;
+				case aiOrigin_CUR: offset += Tell(); break;
+				case aiOrigin_END: offset += m_data->GetSize(); break;
+				default: assert(0); break;
+			}
+			if (offset < 0 || offset > m_data->GetSize())
+				return aiReturn_FAILURE;
+			m_cursor = m_data->GetData() + offset;
+			return aiReturn_SUCCESS;
+		}
+
+		virtual size_t Tell() const
+		{
+			return size_t(m_cursor - m_data->GetData());
+		}
+
+		virtual size_t Write(const void *buf, size_t size, size_t count) __attribute((noreturn))
+		{
+			assert(0);
+			abort();
+			RETURN_ZERO_NONGNU_ONLY;
+		}
+
+		virtual void Flush()
+		{
+			assert(0);
+			abort();
+		}
+
+	private:
+		RefCountedPtr<FileSystem::FileData> m_data;
+		const char *m_cursor;
+	};
+
+	class AssimpFileSystem : public Assimp::IOSystem
+	{
+	public:
+		AssimpFileSystem(FileSystem::FileSource& fs): m_fs(fs) {}
+		virtual ~AssimpFileSystem() {}
+
+		virtual bool Exists(const char *path) const
+		{
+			const FileSystem::FileInfo info = m_fs.Lookup(path);
+			return info.Exists();
+		}
+
+		virtual char getOsSeparator() const { return '/'; }
+
+		virtual Assimp::IOStream *Open(const char *path, const char *mode)
+		{
+			assert(mode[0] == 'r');
+			assert(!strchr(mode, '+'));
+			RefCountedPtr<FileSystem::FileData> data = m_fs.ReadFile(path);
+			return (data ? new AssimpFileReadStream(data) : 0);
+		}
+
+		virtual void Close(Assimp::IOStream *file)
+		{
+			delete file;
+		}
+
+	private:
+		FileSystem::FileSource &m_fs;
+	};
+
+} // anonymous namespace
 
 namespace SceneGraph {
 
@@ -260,15 +358,15 @@ void Loader::FindPatterns(PatternContainer &output)
 RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList &animDefs, TagList &modelTags)
 {
 	Assimp::Importer importer;
+	importer.SetIOHandler(new AssimpFileSystem(FileSystem::gameDataFiles));
 
 	//Removing components is suggested to optimize loading. We do not care about vtx colors now.
 	importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_COLORS);
 	importer.SetPropertyInteger(AI_CONFIG_PP_SLM_VERTEX_LIMIT, Graphics::StaticMesh::MAX_VERTICES);
 
-	//XXX the greater goal is not to use ReadFile but the other assimp data read functions + FileSystem. See assimp docs.
 	//There are several optimizations assimp can do, intentionally skipping them now
 	const aiScene *scene = importer.ReadFile(
-		FileSystem::JoinPath(FileSystem::GetDataDir(), filename),
+		filename,
 		aiProcess_RemoveComponent	|
 		aiProcess_Triangulate		|
 		aiProcess_SortByPType		| //ignore point, line primitive types (collada dummy nodes seem to be fine)
@@ -685,6 +783,7 @@ void Loader::LoadCollision(const std::string &filename)
 	assert(m_model);
 
 	Assimp::Importer importer;
+	importer.SetIOHandler(new AssimpFileSystem(FileSystem::gameDataFiles));
 
 	//discard extra data
 	importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
@@ -694,7 +793,7 @@ void Loader::LoadCollision(const std::string &filename)
 		aiComponent_MATERIALS
 		);
 	const aiScene *scene = importer.ReadFile(
-		FileSystem::JoinPath(FileSystem::GetDataDir(), filename),
+		filename,
 		aiProcess_RemoveComponent |
 		aiProcess_Triangulate     |
 		aiProcess_PreTransformVertices //"bake" transformations so we can disregard the structure
