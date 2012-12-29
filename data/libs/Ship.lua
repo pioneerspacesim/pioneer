@@ -4,6 +4,10 @@
 -- Class representing a ship. Inherits from <Body>.
 --
 
+-- This is a protected table (accessors only) in which details of each ship's crew
+-- will be stored.
+local CrewRoster = {}
+
 --
 -- Group: Methods
 --
@@ -38,7 +42,7 @@ function Ship:Refuel(amount)
 		Comms.Message(t('Fuel tank full.'))
         return 0
     end
-    local ship_stats = self:GetStats()
+    local ship_stats = self:Stats()
     local needed = math.clamp(math.ceil(ship_stats.maxFuelTankMass - ship_stats.fuelMassLeft),0, amount)
     local removed = self:RemoveEquip('WATER', needed)
     self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / ship_stats.maxFuelTankMass, 0, 100))
@@ -170,11 +174,11 @@ local ship_crew_full = {
 ------------------------------------
 
 --
--- Method: GetMinimumCrew
+-- Method: MinimumCrew
 --
 -- Return the minimum number of crew required for takeoff or launch
 --
--- > number = ship:GetMinimumCrew()
+-- > number = ship:MinimumCrew()
 --
 -- Returns:
 --
@@ -188,7 +192,7 @@ local ship_crew_full = {
 --
 --   experimental
 --
-function Ship:GetMinimumCrew()
+function Ship:MinimumCrew()
 	return ship_crew_min[self.shipId]
 end
 
@@ -197,7 +201,7 @@ end
 --
 -- Return the maximum number of crew that this ship can accommodate
 --
--- > number = ship:GetFullCrew()
+-- > number = ship:FullCrew()
 --
 -- Returns:
 --
@@ -211,7 +215,7 @@ end
 --
 --   experimental
 --
-function Ship:GetFullCrew()
+function Ship:FullCrew()
 	return ship_crew_full[self.shipId]
 end
 
