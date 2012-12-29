@@ -654,6 +654,7 @@ Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 		m = new StarfieldMaterialLegacy();
 		break;
 	case EFFECT_GEOSPHERE_TERRAIN:
+	case EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA:
 		m = new GeoSphereSurfaceMaterialLegacy();
 		break;
 	default:

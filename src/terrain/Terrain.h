@@ -25,6 +25,13 @@ template <typename,typename> class TerrainGenerator;
 
 class Terrain {
 public:
+	// location and intensity of effects are controlled by the colour fractals;
+	// it's possible for a Terrain to have a flag set but not actually to exhibit any of that effect
+	enum SurfaceEffectFlags {
+		EFFECT_LAVA  = 1 << 0
+		// can add other effect flags here (e.g., water, snow, ice)
+	};
+
 	static Terrain *InstanceTerrain(const SystemBody *body);
 
 	virtual ~Terrain();
@@ -39,6 +46,8 @@ public:
 	virtual const char *GetColorFractalName() const = 0;
 
 	double GetMaxHeight() const { return m_maxHeight; }
+
+	Uint32 GetSurfaceEffects() const { return m_surfaceEffects; }
 
 private:
 	template <typename HeightFractal, typename ColorFractal>
@@ -62,6 +71,8 @@ protected:
 	double m_sealevel; // 0 - no water, 1 - 100% coverage
 	double m_icyness; // 0 - 1 (0% to 100% cover)
 	double m_volcanic;
+
+	Uint32 m_surfaceEffects;
 
 	// heightmap stuff
 	// XXX unify heightmap types
