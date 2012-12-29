@@ -1083,8 +1083,7 @@ void Ship::NotifyRemoved(const Body* const removedBody)
 
 bool Ship::Undock()
 {
-	if (m_dockedWith && m_dockedWith->LaunchShip(this, m_dockedWithPort)) return true;
-	else return false;
+	return (m_dockedWith && m_dockedWith->LaunchShip(this, m_dockedWithPort));
 }
 
 void Ship::SetDockedWith(SpaceStation *s, int port)
