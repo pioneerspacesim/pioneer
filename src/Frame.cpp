@@ -115,18 +115,10 @@ void Frame::SetPlanetGeom(double radius, Body *obj)
 	m_collisionSpace->SetSphere(vector3d(0,0,0), radius, static_cast<void*>(obj));
 }
 
-// may need one-frame exemptions to reduce camera jitter
-//eg:
-//	vector3d diff;
-//	if (this == relTo) return vector3d(0,0,0);
-//	if (relTo->GetParent() == this) return -relTo->m_pos * m_orient;	// relative to child
-//	if (GetParent() == relTo) return m_pos;			// relative to parent
-//	else diff = m_rootPos - relTo->m_rootPos;
-
 // doesn't consider stasis velocity
 vector3d Frame::GetVelocityRelTo(const Frame *relTo) const
 {
-	if (this == relTo) return vector3d(0,0,0);		// these lines are not strictly necessary
+	if (this == relTo) return vector3d(0,0,0); // early-out to avoid unnecessary computation
 	vector3d diff = m_rootVel - relTo->m_rootVel;
 	if (relTo->IsRotFrame()) return diff * relTo->m_rootOrient;
 	else return diff;
@@ -134,6 +126,7 @@ vector3d Frame::GetVelocityRelTo(const Frame *relTo) const
 
 vector3d Frame::GetPositionRelTo(const Frame *relTo) const
 {
+	// early-outs for simple cases (disabled as premature optimisation)
 //	if (this == relTo) return vector3d(0,0,0);
 //	if (relTo->GetParent() == this) 					// relative to child
 //		return -relTo->m_pos * relTo->m_orient;
@@ -146,6 +139,7 @@ vector3d Frame::GetPositionRelTo(const Frame *relTo) const
 
 vector3d Frame::GetInterpPositionRelTo(const Frame *relTo) const
 {
+	// early-outs for simple cases (disabled as premature optimisation)
 //	if (this == relTo) return vector3d(0,0,0);
 //	if (relTo->GetParent() == this) 							// relative to child
 //		return -relTo->m_interpPos * relTo->m_interpOrient;
