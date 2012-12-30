@@ -185,7 +185,7 @@ static int l_body_attr_frame_body(lua_State *l)
 	}
 
 	Frame *f = b->GetFrame();
-	LuaBody::PushToLua(f->GetBodyFor());
+	LuaBody::PushToLua(f->GetBody());
 	return 1;
 }
 
@@ -214,7 +214,7 @@ static int l_body_attr_frame_rotating(lua_State *l)
 	}
 
 	Frame *f = b->GetFrame();
-	lua_pushboolean(l, f->IsRotatingFrame());
+	lua_pushboolean(l, f->IsRotFrame());
 	return 1;
 }
 

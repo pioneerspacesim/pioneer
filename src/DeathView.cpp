@@ -26,9 +26,9 @@ DeathView::~DeathView() {}
 
 void DeathView::Init()
 {
-	m_cameraDist = Pi::player->GetBoundingRadius() * 5.0;
+	m_cameraDist = Pi::player->GetClipRadius() * 5.0;
 	m_cam->SetPosition(vector3d(0, 0, m_cameraDist));
-	m_cam->SetOrientation(matrix4x4d::Identity());
+	m_cam->SetOrient(matrix3x3d::Identity());
 }
 
 void DeathView::OnSwitchTo()

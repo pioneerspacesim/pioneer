@@ -6,6 +6,7 @@ Alpha 30
      * OSX: Hold the option key down when launching pioneer.app to launch the
        model viewer instead (#1803)
      * New volcanic surface effects on some planets (#1782)
+     * New and improved autopilot (#1812)
 
    * Minor changes and tweaks
      * Don't allocate projectile geometry for every projectile. Huge
@@ -55,6 +56,7 @@ Alpha 30
      * Allow point sprites to be rendered with different alpha blending modes (#1880)
      * Unknown tokens for Lua translations are no longer treated as errors (#1865, #1862)
      * Rename terrain noise macros to avoid global namespace polliution (#1883)
+     * Various code improvements in frame handling and other things (#1812)
 
 Alpha 29
 

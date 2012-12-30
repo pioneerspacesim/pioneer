@@ -425,7 +425,9 @@ function createLandingPadStatic(padNum, position, lod)
 	--pad body
 		texture('textures/bot5.png', v(.5,.5,0), v(.02,0,0), v(0,0,1))
 	end
+	geomflag(0x10 + padNum)			-- landing surface must be at least 1m thick
 	cylinder(10, position + v(0,-.5,0), position + v(0,-10.5,0), v(0,0,1), 51.15)
+	geomflag(0)
 	--pad pylon
 	lathe(10, position + v(-0,-10.5,0), position + v(0,-30.5,0), v(0,0,1), {0.0,25, 1,10})
 	if lod > 1 then
@@ -740,6 +742,9 @@ define_model('ground_station_1', {
 		materials = {'text', 'pad', 'body', 'lens', 'screen', 'lit_lamp'},
 		tags = {'surface_station'},
 		num_docking_ports = 1,
+		parking_distance = 5000.0,
+		parking_gap_size = 2000.0,
+		ship_launch_stage = 0,
 		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
 		undock_anim_stage_duration = { 0 },
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
@@ -751,7 +756,7 @@ define_model('ground_station_1', {
 		ship_approach_waypoints = function(port, stage)
 			local port_pos = { v(-150,50,0) }
 			if stage == 1 then
-				return { v(port_pos[port].x, port_pos[port].y+1000, port_pos[port].z), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y+5000, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
 				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
@@ -775,6 +780,9 @@ define_model('ground_station_2', {
 		materials = {'text', 'pad', 'body', 'lens', 'screen', 'lit_lamp'},
 		tags = {'surface_station'},
 		num_docking_ports = 2,
+		parking_distance = 5000.0,
+		parking_gap_size = 2000.0,
+		ship_launch_stage = 0,
 		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
 		undock_anim_stage_duration = { 0 },
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
@@ -786,7 +794,7 @@ define_model('ground_station_2', {
 		ship_approach_waypoints = function(port, stage)
 			local port_pos = { v(-150,50,0), v(150,50,0) }
 			if stage == 1 then
-				return { v(port_pos[port].x, port_pos[port].y+1000, port_pos[port].z), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y+5000, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
 				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
@@ -812,6 +820,9 @@ define_model('ground_station_3', {
 		materials = {'text', 'pad', 'body', 'lens', 'screen', 'lit_lamp'},
 		tags = {'surface_station'},
 		num_docking_ports = 3,
+		parking_distance = 5000.0,
+		parking_gap_size = 2000.0,
+		ship_launch_stage = 0,
 		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
 		undock_anim_stage_duration = { 0 },
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
@@ -823,7 +834,7 @@ define_model('ground_station_3', {
 		ship_approach_waypoints = function(port, stage)
 			local port_pos = { v(-150,50,0), v(150,50,0), v(0,50,-150) }
 			if stage == 1 then
-				return { v(port_pos[port].x, port_pos[port].y+1000, port_pos[port].z), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y+5000, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
 				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end
@@ -850,6 +861,9 @@ define_model('ground_station_4', {
 		materials = {'text', 'pad', 'body', 'lens', 'screen', 'lit_lamp'},
 		tags = {'surface_station'},
 		num_docking_ports = 4,
+		parking_distance = 5000.0,
+		parking_gap_size = 2000.0,
+		ship_launch_stage = 0,
 		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0},
 		undock_anim_stage_duration = { 0 },
 		ship_dock_anim = function(port, stage, t, from, ship_aabb)
@@ -861,7 +875,7 @@ define_model('ground_station_4', {
 		ship_approach_waypoints = function(port, stage)
 			local port_pos = { v(-150,50,0), v(150,50,0), v(0,50,-150), v(0,50,150) }
 			if stage == 1 then
-				return { v(port_pos[port].x, port_pos[port].y+1000, port_pos[port].z), v(1,0,0), v(0,1,0) }
+				return { v(port_pos[port].x, port_pos[port].y+5000, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			elseif stage == 2 then
 				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 			end

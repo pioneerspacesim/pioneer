@@ -15,6 +15,7 @@ Geom::Geom(const GeomTree *geomtree)
 	m_active = true;
 	m_data = 0;
 	m_mailboxIndex = 0;
+	m_group = 0;
 }
 
 matrix4x4d Geom::GetRotation() const
