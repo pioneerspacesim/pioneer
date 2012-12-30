@@ -190,6 +190,20 @@ Character = {
 	lastSavedSystemPath = nil,
 
 --
+-- Attribute: dead
+--
+-- Boolean attribute. If set to a true value, character is deceased and all test rolls will fail.
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+
+--
 -- Attribute: playerRelationship
 --
 -- Integer attribute for roll-play style dice tests.  PlayerRelationship is
@@ -617,6 +631,8 @@ Character = {
 -- If the DiceRoll is from 60-64, then it was a critical success and that
 -- attribute is exercised.  It is incremented by one for future tests.
 --
+-- If the Character is dead, the test roll will always fail.
+--
 -- Return:
 --
 --   success - Boolean value indicating that the test roll passed or failed
@@ -638,6 +654,7 @@ Character = {
 	TestRoll = function (self,attribute,modifier)
 		local modifier = modifier or 0
 		if type(modifier) ~= 'number' then error('TestRoll(): modifier must be numeric') end
+		if self.dead then return false end -- dead characters fail all tests
 		if self[attribute] and (type(self[attribute])=='number') then
 			local result = self.DiceRoll()
 			if result > 59 then -- punish critical failure
@@ -665,6 +682,8 @@ Character = {
 --
 -- Unlike TestRoll, this function never modifies the value of the attribute.
 --
+-- If the Character is dead, the test roll will always fail.
+--
 -- Return:
 --
 --   success - Boolean value indicating that the test roll passed or failed
@@ -686,6 +705,7 @@ Character = {
 	SafeRoll = function (self,attribute,modifier)
 		local modifier = modifier or 0
 		if type(modifier) ~= 'number' then error('SafeRoll(): modifier must be numeric') end
+		if self.dead then return false end -- dead characters fail all tests
 		if self[attribute] and (type(self[attribute])=='number') then
 			return (self.DiceRoll() < (self[attribute] + modifier))
 		else
