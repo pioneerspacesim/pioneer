@@ -154,7 +154,7 @@ int l_shiptype_attr_min_crew(lua_State *l)
 int l_shiptype_attr_max_crew(lua_State *l)
 {
 	const ShipType *st = LuaShipType::CheckFromLua(1);
-	lua_pushinteger(l, st->minCrew);
+	lua_pushinteger(l, st->maxCrew);
 	return 1;
 }
 
