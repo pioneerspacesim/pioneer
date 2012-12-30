@@ -3,6 +3,9 @@
 
 #include "CameraController.h"
 #include "Ship.h"
+#include "AnimationCurves.h"
+#include "Pi.h"
+#include "Game.h"
 
 CameraController::CameraController(Camera *camera, const Ship *ship) :
 	m_camera(camera),
@@ -77,9 +80,9 @@ void InternalCameraController::Update()
 	CameraController::Update();
 }
 
-#if 0
-ExternalCamera::ExternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
-	MoveableCamera(s, size, fovY, near, far),
+
+ExternalCameraController::ExternalCameraController(Camera *camera, const Ship *ship) :
+	MoveableCameraController(camera, ship),
 	m_dist(200), m_distTo(m_dist),
 	m_rotX(0),
 	m_rotY(0),
@@ -87,57 +90,57 @@ ExternalCamera::ExternalCamera(const Ship *s, const vector2f &size, float fovY, 
 {
 }
 
-void ExternalCamera::RotateUp(float frameTime)
+void ExternalCameraController::RotateUp(float frameTime)
 {
 	m_rotX -= 45*frameTime;
 }
 
-void ExternalCamera::RotateDown(float frameTime)
+void ExternalCameraController::RotateDown(float frameTime)
 {
 	m_rotX += 45*frameTime;
 }
 
-void ExternalCamera::RotateLeft(float frameTime)
+void ExternalCameraController::RotateLeft(float frameTime)
 {
 	m_rotY -= 45*frameTime;
 }
 
-void ExternalCamera::RotateRight(float frameTime)
+void ExternalCameraController::RotateRight(float frameTime)
 {
 	m_rotY += 45*frameTime;
 }
 
-void ExternalCamera::ZoomIn(float frameTime)
+void ExternalCameraController::ZoomIn(float frameTime)
 {
 	ZoomOut(-frameTime);
 }
 
-void ExternalCamera::ZoomOut(float frameTime)
+void ExternalCameraController::ZoomOut(float frameTime)
 {
 	m_dist += 400*frameTime;
 	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
 	m_distTo = m_dist;
 }
 
-void ExternalCamera::ZoomEvent(float amount)
+void ExternalCameraController::ZoomEvent(float amount)
 {
 	m_distTo += 400*amount;
 	m_distTo = std::max(GetShip()->GetClipRadius(), m_distTo);
 }
 
-void ExternalCamera::ZoomEventUpdate(float frameTime)
+void ExternalCameraController::ZoomEventUpdate(float frameTime)
 {
 	AnimationCurves::Approach(m_dist, m_distTo, frameTime);
 	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
 }
 
-void ExternalCamera::Reset()
+void ExternalCameraController::Reset()
 {
 	m_dist = 200;
 	m_distTo = m_dist;
 }
 
-void ExternalCamera::UpdateTransform()
+void ExternalCameraController::Update()
 {
 	// when landed don't let external view look from below
 	// XXX shouldn't be limited to player
@@ -148,26 +151,27 @@ void ExternalCamera::UpdateTransform()
 			m_rotX = Clamp(m_rotX, -170.0, -10.0);
 		}
 	}
+
 	vector3d p = vector3d(0, 0, m_dist);
 	p = matrix3x3d::RotateX(-DEG2RAD(m_rotX)) * p;
 	p = matrix3x3d::RotateY(-DEG2RAD(m_rotY)) * p;
 	m_extOrient = matrix3x3d::RotateY(-DEG2RAD(m_rotY)) *
 		matrix3x3d::RotateX(-DEG2RAD(m_rotX));
-	SetFrame(ship->GetFrame());
+
 	SetPosition(p);
 	SetOrient(m_extOrient);
 
-	WorldViewCamera::UpdateTransform();
+	CameraController::Update();
 }
 
-void ExternalCamera::Save(Serializer::Writer &wr)
+void ExternalCameraController::Save(Serializer::Writer &wr)
 {
 	wr.Double(m_rotX);
 	wr.Double(m_rotY);
 	wr.Double(m_dist);
 }
 
-void ExternalCamera::Load(Serializer::Reader &rd)
+void ExternalCameraController::Load(Serializer::Reader &rd)
 {
 	m_rotX = rd.Double();
 	m_rotY = rd.Double();
@@ -175,103 +179,102 @@ void ExternalCamera::Load(Serializer::Reader &rd)
 	m_distTo = m_dist;
 }
 
-SiderealCamera::SiderealCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
-	MoveableCamera(s, size, fovY, near, far),
+
+SiderealCameraController::SiderealCameraController(Camera *camera, const Ship *ship) :
+	MoveableCameraController(camera, ship),
 	m_dist(200), m_distTo(m_dist),
 	m_sidOrient(matrix3x3d::Identity())
 {
 }
 
-void SiderealCamera::RotateUp(float frameTime)
+void SiderealCameraController::RotateUp(float frameTime)
 {
 	const vector3d rotAxis = m_sidOrient.VectorX();
 	m_sidOrient = matrix3x3d::Rotate(-M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
-void SiderealCamera::RotateDown(float frameTime)
+void SiderealCameraController::RotateDown(float frameTime)
 {
 	const vector3d rotAxis = m_sidOrient.VectorX();
 	m_sidOrient = matrix3x3d::Rotate(M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
-void SiderealCamera::RotateLeft(float frameTime)
+void SiderealCameraController::RotateLeft(float frameTime)
 {
 	const vector3d rotAxis = m_sidOrient.VectorY();
 	m_sidOrient = matrix3x3d::Rotate(-M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
-void SiderealCamera::RotateRight(float frameTime)
+void SiderealCameraController::RotateRight(float frameTime)
 {
 	const vector3d rotAxis = m_sidOrient.VectorY();
 	m_sidOrient = matrix3x3d::Rotate(M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
-void SiderealCamera::ZoomIn(float frameTime)
+void SiderealCameraController::ZoomIn(float frameTime)
 {
 	ZoomOut(-frameTime);
 }
 
-void SiderealCamera::ZoomOut(float frameTime)
+void SiderealCameraController::ZoomOut(float frameTime)
 {
 	m_dist += 400*frameTime;
 	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
 	m_distTo = m_dist;
 }
 
-void SiderealCamera::ZoomEvent(float amount)
+void SiderealCameraController::ZoomEvent(float amount)
 {
 	m_distTo += 400*amount;
 	m_distTo = std::max(GetShip()->GetClipRadius(), m_distTo);
 }
 
-void SiderealCamera::ZoomEventUpdate(float frameTime)
+void SiderealCameraController::ZoomEventUpdate(float frameTime)
 {
 	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50./std::max(m_distTo, 1e-7));		// std::max() here just avoid dividing by 0.
 	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
 }
 
-void SiderealCamera::RollLeft(float frameTime)
+void SiderealCameraController::RollLeft(float frameTime)
 {
 	const vector3d rotAxis = m_sidOrient.VectorZ();
 	m_sidOrient = matrix3x3d::Rotate(M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
-void SiderealCamera::RollRight(float frameTime)
+void SiderealCameraController::RollRight(float frameTime)
 {
 	const vector3d rotAxis = m_sidOrient.VectorZ();
 	m_sidOrient = matrix3x3d::Rotate(-M_PI/4 * frameTime, rotAxis) * m_sidOrient;
 }
 
-void SiderealCamera::Reset()
+void SiderealCameraController::Reset()
 {
 	m_dist = 200;
 	m_distTo = m_dist;
 }
 
-void SiderealCamera::UpdateTransform()
+void SiderealCameraController::Update()
 {
 	const Ship *ship = GetShip();
 
 	m_sidOrient.Renormalize();			// lots of small rotations
 	matrix3x3d shipOrient = ship->GetInterpOrientRelTo(Pi::game->GetSpace()->GetRootFrame());
 
-	SetFrame(ship->GetFrame());
 	SetPosition(shipOrient.Transpose() * m_sidOrient.VectorZ() * m_dist);
 	SetOrient(shipOrient.Transpose() * m_sidOrient);
 
-	WorldViewCamera::UpdateTransform();
+	CameraController::Update();
 }
 
-void SiderealCamera::Save(Serializer::Writer &wr)
+void SiderealCameraController::Save(Serializer::Writer &wr)
 {
 	for (int i = 0; i < 9; i++) wr.Double(m_sidOrient[i]);
 	wr.Double(m_dist);
 }
 
-void SiderealCamera::Load(Serializer::Reader &rd)
+void SiderealCameraController::Load(Serializer::Reader &rd)
 {
 	for (int i = 0; i < 9; i++) m_sidOrient[i] = rd.Double();
 	m_dist = rd.Double();
 	m_distTo = m_dist;
 }
-#endif

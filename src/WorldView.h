@@ -150,10 +150,8 @@ private:
 
 	ScopedPtr<Camera> m_camera;
    	ScopedPtr<InternalCameraController> m_internalCameraController;
-	/* XXX
 	ScopedPtr<ExternalCameraController> m_externalCameraController;
 	ScopedPtr<SiderealCameraController> m_siderealCameraController;
-	*/
 	CameraController *m_activeCameraController; //one of the above
 
 	Indicator m_velIndicator;

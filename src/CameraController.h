@@ -76,11 +76,11 @@ private:
 	const char *m_name;
 };
 
-#if 0
-class MoveableCamera : public WorldViewCamera {
+class MoveableCameraController : public CameraController {
 public:
-	MoveableCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip) :
-		WorldViewCamera(s, size, fovY, nearClip, farClip) {}
+	MoveableCameraController(Camera *camera, const Ship *ship) :
+		CameraController(camera, ship) {}
+
 	virtual void RollLeft(float frameTime) { }
 	virtual void RollRight(float frameTime) { }
 	virtual void RotateDown(float frameTime) { }
@@ -97,14 +97,13 @@ public:
 	/// Animated zoom update (on each frame), primarily designed for mouse wheel.
 	virtual void ZoomEventUpdate(float frameTime) { }
 	virtual void Reset() { }
-	//set translation & orientation
-	virtual void UpdateTransform() { }
 };
 
 // Zoomable, rotatable orbit camera, always looks at the ship
-class ExternalCamera : public MoveableCamera {
+class ExternalCameraController : public MoveableCameraController {
 public:
-	ExternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
+	ExternalCameraController(Camera *camera, const Ship *ship);
+
 	Type GetType() const { return EXTERNAL; }
 	const char *GetName() const { return Lang::EXTERNAL_VIEW; }
 
@@ -117,14 +116,17 @@ public:
 	void ZoomEvent(float amount);
 	void ZoomEventUpdate(float frameTime);
 	void Reset();
-	void UpdateTransform();
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
 	bool IsExternal() const { return true; }
 	void SetRotationAngles(double x, double y) {
 		m_rotX = x;
 		m_rotY = y;
 	}
+
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
+
+	void Update();
+
 private:
 	double m_dist, m_distTo;
 	double m_rotX; //vertical rot
@@ -133,9 +135,10 @@ private:
 };
 
 // Much like external camera, but does not turn when the ship turns
-class SiderealCamera : public MoveableCamera {
+class SiderealCameraController : public MoveableCameraController {
 public:
-	SiderealCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
+	SiderealCameraController(Camera *camera, const Ship *ship);
+
 	Type GetType() const { return SIDEREAL; }
 	const char *GetName() const { return Lang::SIDEREAL_VIEW; }
 
@@ -150,14 +153,16 @@ public:
 	void ZoomEvent(float amount);
 	void ZoomEventUpdate(float frameTime);
 	void Reset();
-	void UpdateTransform();
 	bool IsExternal() const { return true; }
+
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
+
+	void Update();
+
 private:
 	double m_dist, m_distTo;
 	matrix3x3d m_sidOrient;
 };
-#endif
 
 #endif

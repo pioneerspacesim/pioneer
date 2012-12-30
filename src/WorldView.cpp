@@ -47,8 +47,8 @@ WorldView::WorldView(Serializer::Reader &rd): View()
 	m_camType = CamType(rd.Int32());
 	InitObject();
 	m_internalCameraController->Load(rd);
-	//m_externalCameraController->Load(rd);
-	//m_siderealCameraController->Load(rd);
+	m_externalCameraController->Load(rd);
+	m_siderealCameraController->Load(rd);
 }
 
 static const float LOW_THRUST_LEVELS[] = { 0.75, 0.5, 0.25, 0.1, 0.05, 0.01 };
@@ -214,8 +214,8 @@ void WorldView::InitObject()
 
 	m_camera.Reset(new Camera(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
 	m_internalCameraController.Reset(new InternalCameraController(m_camera.Get(), Pi::player));
-	//m_externalCameraController = new ExternalCameraController(m_camera.Get(), Pi::player);
-	//m_siderealCameraController = new SiderealCameraController(m_camera.Get(), Pi::player);
+	m_externalCameraController.Reset(new ExternalCameraController(m_camera.Get(), Pi::player));
+	m_siderealCameraController.Reset(new SiderealCameraController(m_camera.Get(), Pi::player));
 	SetCamType(m_camType); //set the active camera
 
 	m_onHyperspaceTargetChangedCon =
@@ -244,8 +244,8 @@ void WorldView::Save(Serializer::Writer &wr)
 {
 	wr.Int32(int(m_camType));
 	m_internalCameraController->Save(wr);
-	//m_externalCameraController->Save(wr);
-	//m_siderealCameraController->Save(wr);
+	m_externalCameraController->Save(wr);
+	m_siderealCameraController->Save(wr);
 }
 
 void WorldView::SetCamType(enum CamType c)
@@ -264,10 +264,10 @@ void WorldView::SetCamType(enum CamType c)
 			m_activeCameraController = m_internalCameraController.Get();
 			break;
 		case CAM_EXTERNAL:
-			// XXX m_activeCamera = m_externalCamera;
+			m_activeCameraController = m_externalCameraController.Get();
 			break;
 		case CAM_SIDEREAL:
-			// XXX m_activeCamera = m_siderealCamera;
+			m_activeCameraController = m_siderealCameraController.Get();
 			break;
 	}
 
@@ -782,8 +782,7 @@ void WorldView::Update()
 			else if (KeyBindings::topCamera.IsActive())    ChangeInternalCameraMode(InternalCameraController::MODE_TOP);
 			else if (KeyBindings::bottomCamera.IsActive()) ChangeInternalCameraMode(InternalCameraController::MODE_BOTTOM);
 		} else {
-			/* XXX
-			MoveableCamera *cam = static_cast<MoveableCamera*>(m_activeCamera);
+			MoveableCameraController *cam = static_cast<MoveableCameraController*>(m_activeCameraController);
 			if (KeyBindings::cameraRotateUp.IsActive()) cam->RotateUp(frameTime);
 			if (KeyBindings::cameraRotateDown.IsActive()) cam->RotateDown(frameTime);
 			if (KeyBindings::cameraRotateLeft.IsActive()) cam->RotateLeft(frameTime);
@@ -794,7 +793,6 @@ void WorldView::Update()
 			if (KeyBindings::cameraRollRight.IsActive()) cam->RollRight(frameTime);
 			if (KeyBindings::resetCamera.IsActive()) cam->Reset();
 			cam->ZoomEventUpdate(frameTime);
-			*/
 		}
 
 		// note if we have to target the object in the crosshairs
@@ -1689,16 +1687,14 @@ void WorldView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView())
 	{
-		/* XXX
 		if (m_activeCameraController->IsExternal()) {
-			MoveableCamera *cam = static_cast<MoveableCamera*>(m_activeCamera);
+			MoveableCameraController *cam = static_cast<MoveableCameraController*>(m_activeCameraController);
 
 			if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))	// Zoom out
 				cam->ZoomEvent( ZOOM_SPEED * WHEEL_SENSITIVITY);
 			else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
 				cam->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
 		}
-		*/
 	}
 }
 NavTunnelWidget::NavTunnelWidget(WorldView *worldview) :
