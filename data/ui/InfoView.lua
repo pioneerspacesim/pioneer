@@ -419,6 +419,51 @@ local missions = function ()
 	return MissionScreen
 end
 
+local crewRoster
+= function ()
+	-- This Crew Roster screen
+	local CrewScreen = ui:Expand()
+	local CrewList = ui:VBox(10)
+
+	-- One row for each mission, plus a header
+	local rowspec = {8,8,7,4,5}
+	local headergrid  = ui:Grid(rowspec,1)
+
+	headergrid:SetRow(0,
+	{
+		-- Headers
+		ui:Label(t('Name')),
+		ui:Label(t('Position')),
+		ui:Label(t('Date hired')),
+		ui:Label(t('Weekly wage')),
+	})
+
+	local crewlistbox = ui:VBox(10)
+
+	for crewMember in Game.player:EachCrewMember() do
+		local moreButton = UI.SmallLabeledButton.New(t("More info..."))
+		moreButton.button.onClick:Connect(function ()
+			CrewScreen:SetInnerWidget(ui:VBox(10)
+				:PackEnd({ui:Label(t('Crew member: '..crewMember.name)):SetFont('HEADING_LARGE')})
+				:PackEnd((ui:Label(t('Coming soon...')))))
+		end)
+
+		crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
+			ui:Label(crewMember.name),
+			ui:Label(crewMember.title or t('General crew')),
+			ui:Label(Format.Date(0)),
+			ui:Label(Format.Money(0)),
+			moreButton.widget,
+		}))
+	end
+
+	CrewList:PackEnd({ headergrid, ui:Scroller():SetInnerWidget(crewlistbox) })
+
+	CrewScreen:SetInnerWidget(CrewList)
+
+	return CrewScreen
+end
+
 local tabGroup
 ui.templates.InfoView = function (args)
 	if tabGroup then
@@ -432,6 +477,7 @@ ui.templates.InfoView = function (args)
 	tabGroup:AddTab({ id = "personalInfo",    title = t("Personal Information"), icon = "User",      template = personalInfo     })
 	tabGroup:AddTab({ id = "econTrade",       title = t("Economy & Trade"),      icon = "Cart",      template = econTrade,       })
 	tabGroup:AddTab({ id = "missions",        title = t("MISSIONS"),             icon = "Star",      template = missions,        })
+	tabGroup:AddTab({ id = "crew",            title = t("Crew Roster"),          icon = "Agenda",    template = crewRoster,      })
 	--tabGroup:AddTab({ id = "orbitalAnalysis", title = t("Orbital Analysis"),     icon = "Planet",    template = orbitalAnalysis, })
 
 	return tabGroup.widget
