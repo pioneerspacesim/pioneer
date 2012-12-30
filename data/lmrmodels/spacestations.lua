@@ -961,15 +961,15 @@ define_model('nice_spacestation', {
 			ship_dock_anim = function(port, stage, t, from, ship_aabb)
 				-- docking
 				if stage == 2 then
-					return { vlerp(t, from, v(0,250,0)), v(1,0,0), v(0,0,1) }
+					return { vlerp(t, from, v(0,250,0)), v(1,0,0), v(0,0,-1) }
 				elseif stage == 3 then
-					return { from, v(1,0,0), v(0,0,1) }
+					return { from, v(1,0,0), v(0,0,-1) }
 				elseif stage == 4 then
-					return { vlerp(t, from, v(0,0,0)), v(1,0,0), v(0,0,1) }
+					return { vlerp(t, from, v(0,0,0)), v(1,0,0), v(0,0,-1) }
 				elseif stage == 5 then
 					return { vlerp(t, from, v(0,0,0)), v(-1,0,0), v(0,0,-1) }
 				elseif stage == 6 or stage == 7 then
-					return { from, v(-1,0,0), v(0,0,-1) }
+					return { v(0,0,0), v(-1,0,0), v(0,0,-1) }
 				elseif stage == 8 then
 					return { vlerp(t, from, v(0,200,0)), v(-1,0,0), v(0,0,-1) }
 				elseif stage == 9 then
@@ -1116,11 +1116,11 @@ define_model('hoop_spacestation', {
 			ship_dock_anim = function(port, stage, t, from, ship_aabb)
 				-- docking
 				if stage == 2 then
-					return { vlerp(t, from, v(0,250,0)), v(1,0,0), v(0,0,1) }
+					return { vlerp(t, from, v(0,250,0)), v(1,0,0), v(0,0,-1) }
 				elseif stage == 3 then
-					return { from, v(1,0,0), v(0,0,1) }
+					return { from, v(1,0,0), v(0,0,-1) }
 				elseif stage == 4 then
-					return { vlerp(t, from, v(0,0,0)), v(1,0,0), v(0,0,1) }
+					return { vlerp(t, from, v(0,0,0)), v(1,0,0), v(0,0,-1) }
 				elseif stage == 5 then
 					return { vlerp(t, from, v(0,0,0)), v(-1,0,0), v(0,0,-1) }
 				elseif stage == 6 or stage == 7 then

@@ -544,12 +544,17 @@ void SpaceStation::DockingUpdate(const double timeStep)
 		}
 
 		if (dt.stagePos > 1.0) {
+			// use end position of last segment for start position of new segment
+			SpaceStationType::positionOrient_t dport;
+			PiVerify(m_type->GetDockAnimPositionOrient(i, dt.stage, 1.0f, dt.fromPos, dport, dt.ship));
+			matrix3x3d fromRot = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis);
+			dt.fromRot = Quaterniond::FromMatrix3x3(fromRot);
+			dt.fromPos = dport.pos;
+
 			// transition between docking stages
 			dt.stagePos = 0;
 			if (dt.stage >= 0) dt.stage++;
 			else dt.stage--;
-			dt.fromPos = (dt.ship->GetPosition() - GetPosition()) * GetOrient();	// station space
-			dt.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * dt.ship->GetOrient());
 		}
 
 		if (dt.stage < -m_type->shipLaunchStage && dt.ship->GetFlightState() != Ship::FLYING) {
