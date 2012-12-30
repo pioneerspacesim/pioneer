@@ -97,6 +97,63 @@ end
 -- in Pioneer. Might want to think about changing them. XXX
 
 --
+-- Method: Enroll
+--
+-- Enroll a [Character] as a member of the ship's crew
+--
+-- > success = ship:Enroll(newCrewMember)
+--
+-- Parameters:
+--
+--   newCrewMember - a [Character] instance
+--
+-- Returns:
+--
+--   success - True indicates that the Character became a member of the crew. False indicates
+--             that the Character did not become a member of the crew, either because there
+--             is no room for the Character on the crew roster, or because they are already
+--             enrolled as crew on another ship.
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+local function isNotAlreadyEnrolled(crewmember)
+	for ship,crew in pairs(CrewRoster) do
+		for key,existingmember in pairs(crew) do
+			if existingmember == crewmember
+			then
+				return false
+			end
+		end
+	end
+	return true
+end
+
+function Ship:Enroll(newCrewMember)
+	if not (
+		type(newCrewMember) == "table" and
+		getmetatable(newCrewMember) and
+		getmetatable(newCrewMember).class == 'Character'
+	) then
+		error("Ship:Enroll: newCrewMember must be a Character object")
+	end
+	if not CrewRoster[self] then CrewRoster[self] = {} end
+	if #CrewRoster[self] < ShipType.GetShipType(self.shipId).maxCrew
+	and isNotAlreadyEnrolled(newCrewMember)
+	then
+		table.insert(CrewRoster[self],newCrewMember)
+		return true
+	else
+		return false
+	end
+end
+
+--
 -- Method: HasMinimumCrew
 --
 -- Determine whether a ship has the minimum crew required for launch
