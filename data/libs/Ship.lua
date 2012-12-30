@@ -202,6 +202,61 @@ function Ship:Dismiss(crewMember)
 end
 
 --
+-- Method: GenerateCrew
+--
+-- Generates a full crew complement for a ship that has no initialised crew list.
+-- Intended to be run automatically by [EachCrewMember] when querying arbitrary ships.
+--
+-- > ship:GenerateCrew()
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+function Ship:GenerateCrew()
+	if CrewRoster[self] then return end -- Bottle out if there's ever been a crew
+	for i = 1, ShipType.GetShipType(self.shipId).maxCrew do
+		local newCrew = Character.New()
+		newCrew:RollNew(true)
+		self:Enroll(newCrew)
+	end
+end
+
+--
+-- Method: EachCrewMember
+--
+-- Returns an iterator function which returns each crew member in turn
+--
+-- > for crew in ship:EachCrewMember() do print(crew.name) end
+--
+-- Returns:
+--
+--   crew - A [Character], once per crew member per call
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+function Ship:EachCrewMember()
+	-- If there's no crew, magic one up.
+	if not CrewRoster[self] then self:GenerateCrew() end
+	-- Initialise and return enclosed iterator
+	local i = 0
+	return function ()
+		i = i + 1
+		return CrewRoster[self][i]
+	end
+end
+
+--
 -- Method: HasMinimumCrew
 --
 -- Determine whether a ship has the minimum crew required for launch
