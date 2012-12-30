@@ -154,6 +154,54 @@ function Ship:Enroll(newCrewMember)
 end
 
 --
+-- Method: Dismiss
+--
+-- Dismiss a [Character] as a member of the ship's crew
+--
+-- > success = ship:Dismiss(crewMember)
+--
+-- Parameters:
+--
+--   crewMember - a [Character] instance
+--
+-- Returns:
+--
+--   success - True indicates that the Character is no longer a member of the crew. False
+--             indicates that the Character was not removed, either because they were not
+--             a member of the crew, or because they could not be removed because of a
+--             special case. Currently the only special case is that the player's Character
+--             cannot be dismissed from a crew.
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+
+function Ship:Dismiss(crewMember)
+	if not CrewRoster[self] then return false end
+	if not (
+		type(crewMember) == "table" and
+		getmetatable(crewMember) and
+		getmetatable(crewMember).class == 'Character'
+	) then
+		error("Ship:Dismiss: crewMember must be a Character object")
+	end
+	if crewMember.player then return false end -- Can't dismiss the player
+	for key,existingCrewMember in pairs(CrewRoster[self]) do
+		if crewMember == existingCrewMember
+		then
+			table.remove(CrewRoster[self],key)
+			return true
+		end
+	end
+	return false
+end
+
+--
 -- Method: HasMinimumCrew
 --
 -- Determine whether a ship has the minimum crew required for launch
