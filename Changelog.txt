@@ -40,6 +40,7 @@ Alpha 31
        and shipType attribute
      * Ship thruster efficiency can be specified with effective_exhaust_velocity value,
        instead of thruster_fuel_use (either can be used) (#1689)
+     * Add max_crew & min_crew params to ship def (#1973)
 
    * Internal changes
      * Separate station defs from LMR station models (#1913, #1931, #1934)
