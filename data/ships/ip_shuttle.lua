@@ -24,6 +24,8 @@ define_ship {
 	max_cargoscoop = 0,
 	max_ecm = 0,
 	max_engine = 0,
+	min_crew = 1,
+	max_crew = 1,
 	hyperdrive_class = 0,
 	capacity = 12,
 	hull_mass = 11,

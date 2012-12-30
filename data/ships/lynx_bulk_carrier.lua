@@ -21,6 +21,8 @@ define_static_ship {
 	max_laser = 0,
 	max_missile = 0,
 	max_cargoscoop = 0,
+	min_crew = 4,
+	max_crew = 10,
 	capacity = 3500,
 	hull_mass = 800,
 	fuel_tank_mass = 200,

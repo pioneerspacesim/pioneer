@@ -21,6 +21,8 @@ define_ship {
 	max_laser = 1,
 	max_missile = 6,
 	max_cargoscoop = 0,
+	min_crew = 1,
+	max_crew = 3,
 	capacity = 300,
 	hull_mass = 200,
 	fuel_tank_mass = 100,
