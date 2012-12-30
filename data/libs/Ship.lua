@@ -173,5 +173,5 @@ end
 --   experimental
 --
 function Ship:HasMinimumCrew()
-	return true -- placeholder value
+	return CrewRoster[self] and #CrewRoster[self] >= ShipType.GetShipType(self.shipId).minCrew
 end
