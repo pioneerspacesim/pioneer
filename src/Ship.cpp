@@ -754,7 +754,7 @@ void Ship::DoThrusterSounds() const
 
 	// XXX sound logic could be part of a bigger class (ship internal sounds)
 	/* Ship engine noise. less loud inside */
-	float v_env = (Pi::worldView->GetActiveCamera()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	float v_env = (Pi::worldView->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 	static Sound::Event sndev;
 	float volBoth = 0.0f;
 	volBoth += 0.5f*fabs(GetThrusterState().y);

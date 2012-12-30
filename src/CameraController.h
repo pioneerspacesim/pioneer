@@ -1,17 +1,18 @@
 // Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _WORLDVIEWCAMERA_H
-#define _WORLDVIEWCAMERA_H
-/*
- * Front, rear, external etc. cameras used by WorldView.
- */
-#include "Camera.h"
+#ifndef CAMERACONTROLLER_H
+#define CAMERACONTROLLER_H
+
+#include "vector3.h"
+#include "matrix4x4.h"
 #include "Lang.h"
+#include "Serializer.h"
 
 class Ship;
+class Camera;
 
-class WorldViewCamera : public Camera
+class CameraController
 {
 public:
 	enum Type { //can be used for serialization & identification
@@ -20,8 +21,9 @@ public:
 		SIDEREAL
 	};
 
-	//it is not strictly necessary, but WW cameras are now restricted to Ships
-	WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
+	CameraController(Camera *camera, const Ship *ship);
+	virtual ~CameraController() {}
+
 	virtual Type GetType() const = 0;
 	virtual const char *GetName() const { return ""; }
 	virtual void Save(Serializer::Writer &wr) { }
@@ -36,17 +38,18 @@ public:
 	void SetOrient(const matrix3x3d &orient) { m_orient = orient; }
 	const matrix3x3d &GetOrient() const { return m_orient; }
 
-	virtual void UpdateTransform();
+	virtual void Update();
 
 	const Ship *GetShip() const { return m_ship; }
 
 private:
+	Camera *m_camera;
 	const Ship *m_ship;
 	vector3d m_pos;
 	matrix3x3d m_orient;
 };
 
-class InternalCamera : public WorldViewCamera {
+class InternalCameraController : public CameraController {
 public:
 	enum Mode {
 		MODE_FRONT,
@@ -57,7 +60,8 @@ public:
 		MODE_BOTTOM
 	};
 
-	InternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
+	InternalCameraController(Camera *camera, const Ship *ship);
+
 	Type GetType() const { return INTERNAL; }
 	const char *GetName() const { return m_name; }
 	void SetMode(Mode m);
@@ -65,11 +69,14 @@ public:
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
 
+	virtual void Update();
+
 private:
 	Mode m_mode;
 	const char *m_name;
 };
 
+#if 0
 class MoveableCamera : public WorldViewCamera {
 public:
 	MoveableCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip) :
@@ -151,5 +158,6 @@ private:
 	double m_dist, m_distTo;
 	matrix3x3d m_sidOrient;
 };
+#endif
 
 #endif

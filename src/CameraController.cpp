@@ -1,38 +1,35 @@
 // Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "WorldViewCamera.h"
+#include "CameraController.h"
 #include "Ship.h"
-#include "Pi.h"
-#include "Game.h"
-#include "AnimationCurves.h"
 
-WorldViewCamera::WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
-	Camera(size.x, size.y, fovY, near, far),
-	m_ship(s),
+CameraController::CameraController(Camera *camera, const Ship *ship) :
+	m_camera(camera),
+	m_ship(ship),
 	m_pos(0.0),
 	m_orient(matrix3x3d::Identity())
 {
 }
 
-void WorldViewCamera::UpdateTransform()
+void CameraController::Update()
 {
-	SetFrame(m_ship->GetFrame());
+	m_camera->SetFrame(m_ship->GetFrame());
 
 	// interpolate between last physics tick position and current one,
 	// to remove temporal aliasing
 	const matrix3x3d &m = m_ship->GetInterpOrient();
-	Camera::SetOrient(m * m_orient);
-	Camera::SetPosition(m * m_pos + m_ship->GetInterpPosition());
+	m_camera->SetOrient(m * m_orient);
+	m_camera->SetPosition(m * m_pos + m_ship->GetInterpPosition());
 }
 
-InternalCamera::InternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
-	WorldViewCamera(s, size, fovY, near, far)
+InternalCameraController::InternalCameraController(Camera *camera, const Ship *ship) :
+	CameraController(camera, ship)
 {
 	SetMode(MODE_FRONT);
 }
 
-void InternalCamera::SetMode(Mode m)
+void InternalCameraController::SetMode(Mode m)
 {
 	m_mode = m;
 	switch (m_mode) {
@@ -63,17 +60,24 @@ void InternalCamera::SetMode(Mode m)
 	}
 }
 
-void InternalCamera::Save(Serializer::Writer &wr)
+void InternalCameraController::Save(Serializer::Writer &wr)
 {
 	wr.Int32(m_mode);
 }
 
-void InternalCamera::Load(Serializer::Reader &rd)
+void InternalCameraController::Load(Serializer::Reader &rd)
 {
 	SetMode(static_cast<Mode>(rd.Int32()));
 }
 
+void InternalCameraController::Update()
+{
+	SetPosition(GetShip()->GetShipType().cameraOffset);
 
+	CameraController::Update();
+}
+
+#if 0
 ExternalCamera::ExternalCamera(const Ship *s, const vector2f &size, float fovY, float near, float far) :
 	MoveableCamera(s, size, fovY, near, far),
 	m_dist(200), m_distTo(m_dist),
@@ -270,3 +274,4 @@ void SiderealCamera::Load(Serializer::Reader &rd)
 	m_dist = rd.Double();
 	m_distTo = m_dist;
 }
+#endif
