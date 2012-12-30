@@ -824,6 +824,7 @@ Character = {
 -- Method: FindAvailable
 --
 --   Returns an iterator across all PersistentCharacters where available is true
+--   and dead is false
 --
 -- iterator = Character.FindAvailable()
 --
@@ -855,7 +856,7 @@ Character = {
 		local NPC = 0
 		return function ()
 			NPC = NPC + 1
-			while PersistentCharacters[NPC] and not (PersistentCharacters[NPC]).available do
+			while PersistentCharacters[NPC] and (not (PersistentCharacters[NPC]).available or (PersistentCharacters[NPC]).dead) do
 				NPC = NPC + 1
 			end
 			return PersistentCharacters[NPC]
