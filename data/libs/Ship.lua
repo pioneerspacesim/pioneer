@@ -297,5 +297,18 @@ local unserialize = function (data)
     loaded_data = data
 end
 
+-- Function to check whether ships exist after hyperspace, and if they do not,
+-- to remove their crew from the roster.
+local onEnterSystem = function (ship)
+	if ship:IsPlayer() then
+		for ship,crew in pairs(CrewRoster) do
+			if not ship:exists() then
+				CrewRoster[ship] = nil
+			end
+		end
+	end
+end
+
+Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onGameStart", onGameStart)
 Serializer:Register("ShipClass", serialize, unserialize)
