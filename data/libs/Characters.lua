@@ -1070,6 +1070,8 @@ local onGameStart = function ()
 		-- table.  Player won't be ennumerated with NPCs, because player
 		-- is not numerically keyed.
 		PersistentCharacters = { player = PlayerCharacter }
+		-- Enroll the player in their own crew
+		Game.player:Enroll(PlayerCharacter)
 	end
 	loaded_data = nil
 end

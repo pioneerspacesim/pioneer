@@ -283,8 +283,6 @@ local loaded_data
 local onGameStart = function ()
 	if loaded_data then
 		CrewRoster = loaded_data
-	else
-		Game.player:Enroll(PersistentCharacters.player)
 	end
 	loaded_data = nil
 end
