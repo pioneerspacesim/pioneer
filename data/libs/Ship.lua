@@ -115,6 +115,6 @@ end
 --
 --   experimental
 --
-function ship:HasMinimumCrew()
+function Ship:HasMinimumCrew()
 	return true -- placeholder value
 end
