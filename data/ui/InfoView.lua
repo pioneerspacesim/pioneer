@@ -419,8 +419,7 @@ local missions = function ()
 	return MissionScreen
 end
 
-local crewRoster
-= function ()
+local crewRoster = function ()
 	-- This Crew Roster screen
 	local CrewScreen = ui:Expand()
 	local CrewList = ui:VBox(10)
@@ -443,9 +442,45 @@ local crewRoster
 	for crewMember in Game.player:EachCrewMember() do
 		local moreButton = UI.SmallLabeledButton.New(t("More info..."))
 		moreButton.button.onClick:Connect(function ()
-			CrewScreen:SetInnerWidget(ui:VBox(10)
-				:PackEnd({ui:Label(t('Crew member: '..crewMember.name)):SetFont('HEADING_LARGE')})
-				:PackEnd((ui:Label(t('Coming soon...')))))
+			CrewScreen:SetInnerWidget(ui:Grid(2,1)
+			:SetColumn(0, {
+				ui:VBox(20):PackEnd({
+					ui:Label(crewMember.name):SetFont("HEADING_LARGE"),
+					ui:Label(t("Qualification scores")):SetFont("HEADING_NORMAL"),
+					ui:Grid(2,1)
+						:SetColumn(0, {
+							ui:VBox():PackEnd({
+								ui:Label(t("Engineering:")),
+								ui:Label(t("Piloting:")),
+								ui:Label(t("Navigation:")),
+								ui:Label(t("Sensors:")),
+							})
+						})
+						:SetColumn(1, {
+							ui:VBox():PackEnd({
+								ui:Label(crewMember.engineering),
+								ui:Label(crewMember.piloting),
+								ui:Label(crewMember.navigation),
+								ui:Label(crewMember.sensors),
+							})
+						}),
+					ui:Label(t("Tasks")):SetFont("HEADING_NORMAL"),
+					ui:Grid(2,1)
+						:SetColumn(0, {
+							ui:VBox():PackEnd({
+								ui:Label(t("Repair hull")),
+								ui:Label(t("Dock at target")),
+							})
+						})
+						:SetColumn(1, {
+							ui:VBox():PackEnd({
+								UI.SmallLabeledButton.New(t("Not yet")),
+								UI.SmallLabeledButton.New(t("Not yet")),
+							})
+						})
+				})
+			})
+			:SetColumn(1, { UI.InfoFace.New(crewMember) }))
 		end)
 
 		crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
