@@ -129,7 +129,7 @@ Mission = {
 --            This must be globally unique; the player cannot load modules
 --            that attempt to register a typeid that already exists.
 --   display - a (translatable) string to be shown in the missions list
---   onClick - a function which is executed when the details button is
+--   onClick - (optional) a function which is executed when the details button is
 --             clicked. The mission instance is passed to onClick, which
 --             must return an Engine.ui instance to be displayed on the
 --             missions screen.
@@ -154,7 +154,7 @@ Mission = {
 		if not typeid or (type(typeid)~='string') then
 			error('typeid: String expected')
 		end
-		if not typeid or (type(typeid)~='string') then
+		if not display or (type(display)~='string') then
 			error('display: String expected')
 		end
 		if MissionRegister[typeid] then -- We can't have duplicates
