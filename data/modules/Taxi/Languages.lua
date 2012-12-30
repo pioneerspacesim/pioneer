@@ -17,7 +17,7 @@
 
 Translate:AddFlavour('English','Taxi', {
   adtext = "WANTED: Passage for a small group to {system} system. Will pay {cash}.",
-  introtext = "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system. I will pay {cash}.",
+  introtext = "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
   whysomuch = "We are visiting a friend.",
   howmany = "There are {group} of us.",
   danger = "No.",
@@ -31,7 +31,7 @@ Translate:AddFlavour('English','Taxi', {
 
 Translate:AddFlavour('English','Taxi', {
   adtext = "WANTED: Passage for a small group to {system} system. Will pay {cash}.",
-  introtext = "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system. I will pay {cash}.",
+  introtext = "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
   whysomuch = "We work for {corp} corporation and they are paying.",
   howmany = "There are {group} of us.",
   danger = "No.",
@@ -45,7 +45,7 @@ Translate:AddFlavour('English','Taxi', {
 
 Translate:AddFlavour('English','Taxi', {
   adtext = "WANTED: Passage for a small group to {system} system. Will pay {cash}.",
-  introtext = "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system. I will pay {cash}.",
+  introtext = "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
   whysomuch = "It's normal business trip.",
   howmany = "There are {group} of us.",
   danger = "No.",
@@ -59,7 +59,7 @@ Translate:AddFlavour('English','Taxi', {
 
 Translate:AddFlavour('English','Taxi', {
   adtext = "SHIP REQUIRED: Passage to {system} system. Will pay {cash}.",
-  introtext = "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system. I will pay {cash}.",
+  introtext = "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
   whysomuch = "An old rival is trying to kill me.",
   howmany = "It's only me.",
   danger = "I think there is an assassin on my trail, and they may come after you.",
@@ -73,7 +73,7 @@ Translate:AddFlavour('English','Taxi', {
 
 Translate:AddFlavour('English','Taxi', {
   adtext = "SHIP WANTED: Passage to {system} system. Will pay {cash}.",
-  introtext = "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system. I will pay {cash}.",
+  introtext = "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
   whysomuch = "I'm traveling salesman.",
   howmany = "Just me.",
   danger = "No.",
@@ -87,7 +87,7 @@ Translate:AddFlavour('English','Taxi', {
 
 Translate:AddFlavour('English','Taxi', {
   adtext = "WANTED: Passage to {system} system. Will pay {cash}.",
-  introtext = "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system. I will pay {cash}.",
+  introtext = "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
   whysomuch = "Didn't you know - I'm a well known dream star.",
   howmany = "It's only me.",
   danger = "You might get some interest from the press. Just ignore them.",
@@ -101,7 +101,7 @@ Translate:AddFlavour('English','Taxi', {
 
 Translate:AddFlavour('English','Taxi', {
   adtext = "SHIP WANTED: Passage to {system} system. Will pay {cash}.",
-  introtext = "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system. I will pay {cash}.",
+  introtext = "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
   whysomuch = "I'm freelance journalist.",
   howmany = "It's only me.",
   danger = "No.",
@@ -115,7 +115,7 @@ Translate:AddFlavour('English','Taxi', {
 
 Translate:AddFlavour('English','Taxi', {
   adtext = "SHIP WANTED: Safe passage to {system} system. Will pay {cash}.",
-  introtext = "Hi, my name is {name} and I need safe passage to {system} ({sectorx}, {sectory}, {sectorz}) system. I will pay {cash}.",
+  introtext = "Hi, my name is {name} and I need safe passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
   whysomuch = "The Mafia want me dead.",
   howmany = "Me and nobody else.",
   danger = "The Mafia don't take kindly to people helping their enemies.",
@@ -129,7 +129,7 @@ Translate:AddFlavour('English','Taxi', {
 
 Translate:AddFlavour('English','Taxi', {
   adtext = "SHIP WANTED: Passage on a fast ship to {system} system.",
-  introtext = "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system. Will pay {cash}.",
+  introtext = "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}.",
   whysomuch = "I'm visiting a sick relative.",
   howmany = "Only me.",
   danger = "No.",
@@ -143,7 +143,7 @@ Translate:AddFlavour('English','Taxi', {
 
 Translate:AddFlavour('English','Taxi', {
   adtext = "SHIP WANTED: Passage on a fast ship to {system} system.",
-  introtext = "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system. Will pay {cash}.",
+  introtext = "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}.",
   whysomuch = "The Police want me to help them with their enquiries.",
   howmany = "Only me.",
   danger = "The Police may try to stop you.",
@@ -157,7 +157,7 @@ Translate:AddFlavour('English','Taxi', {
 
 Translate:AddFlavour('English','Taxi', {
   adtext = "SHIP WANTED: Passage on a fast ship to {system} system.",
-  introtext = "My name is {name}. I want fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system. Paying {cash}.",
+  introtext = "My name is {name}. I want fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Paying {cash}.",
   whysomuch = "I would rather someone didn't find me.",
   howmany = "Just one.",
   danger = "I think someone is following me.",
@@ -171,7 +171,7 @@ Translate:AddFlavour('English','Taxi', {
 
 Translate:AddFlavour('English','Taxi', {
   adtext = "FAST SHIP: Passage on a fast ship to {system} system.",
-  introtext = "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system. Will pay {cash}.",
+  introtext = "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}.",
   whysomuch = "I'm a factory inspector doing my rounds.",
   howmany = "Just one.",
   danger = "Sometimes people don't want to be inspected.",
@@ -185,7 +185,7 @@ Translate:AddFlavour('English','Taxi', {
 
 Translate:AddFlavour('English','Taxi', {
   adtext = "SHIP REQUIRED: Passage to {system} system.",
-  introtext = "My name is {name}. I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system. Will pay {cash}.",
+  introtext = "My name is {name}. I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}.",
   whysomuch = "I owe someone some money, and they're after me.",
   howmany = "Just one.",
   danger = "Someone is chasing me.",
@@ -218,7 +218,7 @@ Translate:Add({ English = {
   Group details:
   Danger:
   Deadline:
-  
+
   Distance:]],
 
  PIRATE_TAUNTS = {
@@ -247,7 +247,7 @@ Translate:Add({ English = {
 
 Translate:AddFlavour('Polski','Taxi', {
   adtext = "POTRZEBNY TRANSPORT: Przelot małej grupy do systemu {system} za {cash}.",
-  introtext = "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx}, {sectory}, {sectorz}). Płacimy {cash}.",
+  introtext = "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacimy {cash}.",
   whysomuch = "Odwiedzamy przyjaciela.",
   howmany = "Jest nas {group}.",
   danger = "Nie.",
@@ -261,7 +261,7 @@ Translate:AddFlavour('Polski','Taxi', {
 
 Translate:AddFlavour('Polski','Taxi', {
   adtext = "POTRZEBNY TRANSPORT: Przelot małej grupy do systemu {system} za {cash}.",
-  introtext = "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx}, {sectory}, {sectorz}). Płacimy {cash}.",
+  introtext = "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacimy {cash}.",
   whysomuch = "Pracujemy dla korporacji {corp} i to oni pokrywają koszty.",
   howmany = "Jest nas {group}.",
   danger = "Nie.",
@@ -275,7 +275,7 @@ Translate:AddFlavour('Polski','Taxi', {
 
 Translate:AddFlavour('Polski','Taxi', {
   adtext = "POTRZEBNY TRANSPORT: Przelot małej grupy do systemu {system}. Płacimy {cash}.",
-  introtext = "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx}, {sectory}, {sectorz}). Płacimy {cash}.",
+  introtext = "Cześć, nazywam się {name} i szukam transportu dla małej grupy osób do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacimy {cash}.",
   whysomuch = "To zwykła podróż służbowa.",
   howmany = "Jest nas {group}.",
   danger = "Nie.",
@@ -289,7 +289,7 @@ Translate:AddFlavour('Polski','Taxi', {
 
 Translate:AddFlavour('Polski','Taxi', {
   adtext = "SZUKAM STATKU: Przelot do systemu {system}. Płacę {cash}.",
-  introtext = "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}). Płacę {cash}.",
+  introtext = "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
   whysomuch = "Dawny rywal stara się mnie zabić.",
   howmany = "Tylko ja.",
   danger = "Myślę że płatny morderca jest na moim tropie, możliwe że go spotkamy.",
@@ -303,7 +303,7 @@ Translate:AddFlavour('Polski','Taxi', {
 
 Translate:AddFlavour('Polski','Taxi', {
   adtext = "SZUKAM STATKU: Przelot do systemu {system}. Płacę {cash}.",
-  introtext = "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}). Płacę {cash}.",
+  introtext = "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
   whysomuch = "Jestem komiwojażerem",
   howmany = "Tylko ja.",
   danger = "Nie.",
@@ -317,7 +317,7 @@ Translate:AddFlavour('Polski','Taxi', {
 
 Translate:AddFlavour('Polski','Taxi', {
   adtext = "SZUKAM STATKU: Przelot do systemu {system}. Płacę {cash}.",
-  introtext = "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}). Płacę {cash}.",
+  introtext = "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
   whysomuch = "Nie wiesz? Jestem znaną gwiazdą!",
   howmany = "Tylko ja.",
   danger = "Możesz spotkać się z zainteresowaniem ze strony prasy. Po prostu ich ignoruj.",
@@ -331,7 +331,7 @@ Translate:AddFlavour('Polski','Taxi', {
 
 Translate:AddFlavour('Polski','Taxi', {
   adtext = "SZUKAM STATKU: Przelot do systemu {system}. Płacę {cash}.",
-  introtext = "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}). Płacę {cash}.",
+  introtext = "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
   whysomuch = "Jestem niezależnym dziennikarzem.",
   howmany = "Tylko ja.",
   danger = "Nie.",
@@ -345,7 +345,7 @@ Translate:AddFlavour('Polski','Taxi', {
 
 Translate:AddFlavour('Polski','Taxi', {
   adtext = "SZUKAM STATKU: Przelot do systemu {system}. Płacę {cash}.",
-  introtext = "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}). Płacę {cash}.",
+  introtext = "Cześć, nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
   whysomuch = "Mafia chce mojej śmierci.",
   howmany = "Ja i nikt więcej.",
   danger = "Mafia niezbyt lubi ludzi którzy pomagają jej wrogom.",
@@ -359,7 +359,7 @@ Translate:AddFlavour('Polski','Taxi', {
 
 Translate:AddFlavour('Polski','Taxi', {
   adtext = "SZUKAM STATKU: Przelot szybkim statkiem do systemu {system}. Płacę {cash}.",
-  introtext = "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}). Płacę {cash}.",
+  introtext = "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
   whysomuch = "Lecę do chorego krewnego.",
   howmany = "Tylko ja.",
   danger = "Nie.",
@@ -373,7 +373,7 @@ Translate:AddFlavour('Polski','Taxi', {
 
 Translate:AddFlavour('Polski','Taxi', {
   adtext = "SZUKAM STATKU: Przelot szybkim statkiem do systemu {system}. Płacę {cash}.",
-  introtext = "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}). Płacę {cash}.",
+  introtext = "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
   whysomuch = "Policji zależy na przesłuchaniu mnie.",
   howmany = "Tylko ja.",
   danger = "Policja może próbować cię powstrzymać.",
@@ -387,7 +387,7 @@ Translate:AddFlavour('Polski','Taxi', {
 
 Translate:AddFlavour('Polski','Taxi', {
   adtext = "SZUKAM STATKU: Przelot szybkim statkiem do systemu {system}. Płacę {cash}.",
-  introtext = "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}). Płacę {cash}.",
+  introtext = "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
   whysomuch = "Muszę się ukryć.",
   howmany = "Jedna.",
   danger = "Myślę że ktoś mnie śledzi.",
@@ -401,7 +401,7 @@ Translate:AddFlavour('Polski','Taxi', {
 
 Translate:AddFlavour('Polski','Taxi', {
   adtext = "SZUKAM STATKU: Przelot szybkim statkiem do systemu {system}. Płacę {cash}.",
-  introtext = "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}). Płacę {cash}.",
+  introtext = "Cześć, nazywam się {name}, muszę szybko dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
   whysomuch = "Jestem inspektorem pracy w delegacji.",
   howmany = "Tylko jedna.",
   danger = "Czasami ludzie nie lubią być sprawdzani.",
@@ -415,7 +415,7 @@ Translate:AddFlavour('Polski','Taxi', {
 
 Translate:AddFlavour('Polski','Taxi', {
   adtext = "SZUKAM STATKU: Przelot do systemu {system}. Płacę {cash}.",
-  introtext = "Nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}). Płacę {cash}.",
+  introtext = "Nazywam się {name}, chcę dostać się do systemu {system} ({sectorx}, {sectory}, {sectorz}), {dist} lś. Płacę {cash}.",
   whysomuch = "Szuka mnie ktoś od kogo pożyczyłem trochę pieniędzy.",
   howmany = "Tylko jedna.",
   danger = "Ktoś próbuje mnie znaleźć.",
@@ -440,7 +440,7 @@ Translate:Add({ Polski = {
   ["Ok, agreed."] = "Zgoda.",
   ["Hey!?! You are going to pay for this!!!"] = "Hej!?! Zapłacisz za to!!!",
   ["ly"] = "lś",
- 
+
   -- Texts for the missions screen
   taximissiondetail = [[
   Z:
@@ -448,7 +448,7 @@ Translate:Add({ Polski = {
   Pasażerów:
   Zagrożenie:
   Termin:
-  
+
   Dystans:]],
 
  PIRATE_TAUNTS = {
@@ -477,7 +477,7 @@ Translate:Add({ Polski = {
 
 Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA: Pasaje para un pequeño grupo al Sistema {system}. Se pagará {cash}.",
-  introtext = "Hola, Soy {name} y necesito pasaje para un grupo pequeño al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagaré {cash}.",
+  introtext = "Hola, Soy {name} y necesito pasaje para un grupo pequeño al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pagaré {cash}.",
   whysomuch = "Vamos a visitar a un amigo.",
   howmany = "Seremos {group}.",
   danger = "No.",
@@ -491,7 +491,7 @@ Translate:AddFlavour('Spanish','Taxi', {
 
 Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA: Pasaje para un grupo pequeño al Sistema {system}. Se abonará {cash}.",
-  introtext = "Saludos, Soy {name} y necesito pasaje para un pequeño grupo al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Abonaré {cash}.",
+  introtext = "Saludos, Soy {name} y necesito pasaje para un pequeño grupo al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Abonaré {cash}.",
   whysomuch = "Trabajamos para la corporación {corp} y ellos pagan.",
   howmany = "Somos {group}.",
   danger = "No.",
@@ -505,7 +505,7 @@ Translate:AddFlavour('Spanish','Taxi', {
 
 Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA: Pasaje para un grupo pequeño al Sistema {system}. Se pagarán {cash}.",
-  introtext = "Hola, Mi nombre es {name} y necesito pasaje para un pequeño grupo al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagaré {cash}.",
+  introtext = "Hola, Mi nombre es {name} y necesito pasaje para un pequeño grupo al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pagaré {cash}.",
   whysomuch = "Un viaje de negocios rutinario.",
   howmany = "Somos {group}.",
   danger = "No.",
@@ -519,7 +519,7 @@ Translate:AddFlavour('Spanish','Taxi', {
 
 Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE REQUIERE NAVE: Pasaje al Sistema {system}. Se pagará {cash}.",
-  introtext = "Hola, Soy {name} y necesito pasaje al sistema {system} ({sectorx}, {sectory}, {sectorz}). Le pagaré {cash}.",
+  introtext = "Hola, Soy {name} y necesito pasaje al sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Le pagaré {cash}.",
   whysomuch = "Un antiguo enemigo trata de liquidarme.",
   howmany = "Soy solo yo.",
   danger = "Creo que hay un asesino tras de mi, y posiblemente podría ir tras usted.",
@@ -533,7 +533,7 @@ Translate:AddFlavour('Spanish','Taxi', {
 
 Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA NAVE: Pasaje al Sistema {system}. Se abonarán {cash}.",
-  introtext = "Saludos, Mi nombre es {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagaré {cash}.",
+  introtext = "Saludos, Mi nombre es {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pagaré {cash}.",
   whysomuch = "Soy viajante.",
   howmany = "Yo solo.",
   danger = "No.",
@@ -547,7 +547,7 @@ Translate:AddFlavour('Spanish','Taxi', {
 
 Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA: Pasaje al Sistema {system}. Se paga {cash}.",
-  introtext = "Hola, Soy {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagaré {cash}.",
+  introtext = "Hola, Soy {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pagaré {cash}.",
   whysomuch = "Ah, no lo sabías - Soy una conocida Estrella.",
   howmany = "Soy solo yo.",
   danger = "Podrías despertar cierto interés de la prensa. Símplemente ignórales.",
@@ -561,7 +561,7 @@ Translate:AddFlavour('Spanish','Taxi', {
 
 Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA NAVE: Pasaje al Sistema {system}. Se abonará {cash}.",
-  introtext = "Saludos, Mi nombre es {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Abonaré {cash}.",
+  introtext = "Saludos, Mi nombre es {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Abonaré {cash}.",
   whysomuch = "Soy periodista autónomo.",
   howmany = "Soy solo yo.",
   danger = "No.",
@@ -575,7 +575,7 @@ Translate:AddFlavour('Spanish','Taxi', {
 
 Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE REQUIERE NAVE: Pasaje seguro al Sistema {system}. Pagaré {cash}.",
-  introtext = "Hola, mi nombre es {name} y necesito pasaje seguro al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Le pagaré {cash}.",
+  introtext = "Hola, mi nombre es {name} y necesito pasaje seguro al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Le pagaré {cash}.",
   whysomuch = "La Mafia me quiere fiambre.",
   howmany = "Yo y nadie mas.",
   danger = "A la Mafia no le sienta bien que alguien ayude a sus enemigos.",
@@ -589,7 +589,7 @@ Translate:AddFlavour('Spanish','Taxi', {
 
 Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA NAVE: Pasaje en una nave rápida al Sistema {system}.",
-  introtext = "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagaré {cash}.",
+  introtext = "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pagaré {cash}.",
   whysomuch = "Voy a visitar a un familiar enfermo.",
   howmany = "Solo yo.",
   danger = "No.",
@@ -603,7 +603,7 @@ Translate:AddFlavour('Spanish','Taxi', {
 
 Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA NAVE: Pasaje en nave rápida al Sistema {system}.",
-  introtext = "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pagaré {cash}.",
+  introtext = "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pagaré {cash}.",
   whysomuch = "La Policiá quiere que colabore en una investigación.",
   howmany = "Yo solo.",
   danger = "Puede que la Policiía trate de pararle.",
@@ -617,7 +617,7 @@ Translate:AddFlavour('Spanish','Taxi', {
 
 Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE BUSCA NAVE: Pasaje en una nave rápida al Sistema {system}.",
-  introtext = "Mi nombre es {name}. Quiero pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Pago {cash}.",
+  introtext = "Mi nombre es {name}. Quiero pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pago {cash}.",
   whysomuch = "Me gustaría que nadie me encontrara.",
   howmany = "Solo uno.",
   danger = "Creo que alguien me persigue.",
@@ -631,7 +631,7 @@ Translate:AddFlavour('Spanish','Taxi', {
 
 Translate:AddFlavour('Spanish','Taxi', {
   adtext = "NAVE RÁPIDA: Pasaje en nave rápida al Sistema {system}.",
-  introtext = "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Se pagarán {cash}.",
+  introtext = "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Se pagarán {cash}.",
   whysomuch = "Soy Inspector de Fábricas haciendo mi ronda.",
   howmany = "Solo uno.",
   danger = "A veces la gente no gusta de inspecciones oficiales.",
@@ -645,7 +645,7 @@ Translate:AddFlavour('Spanish','Taxi', {
 
 Translate:AddFlavour('Spanish','Taxi', {
   adtext = "SE REQUIERE NAVE: Pasaje al Sistema {system}.",
-  introtext = "Mi nombre es {name}. Necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}). Se le pagará {cash}.",
+  introtext = "Mi nombre es {name}. Necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Se le pagará {cash}.",
   whysomuch = "Le debo pasta a alguien, y va tras de mi.",
   howmany = "Solo uno.",
   danger = "Alguien anda tras de mi.",
@@ -698,7 +698,7 @@ Translate:Add({ Spanish = {
 Translate:AddFlavour('Magyar','Taxi', {
 
   adtext = "KERESÜNK: Egy kisebb csoportot {system} rendszerbe elszállító hajót. A fizetség {cash} kredit.",
-  introtext = "Helló, a nevem {name}. Szeretném, ha elvinnél egy kisebb csoportot a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. A megbízásod fizetsége {cash} kredit.",
+  introtext = "Helló, a nevem {name}. Szeretném, ha elvinnél egy kisebb csoportot a(z) {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly rendszerbe. A megbízásod fizetsége {cash} kredit.",
 
   whysomuch = "Egy barátunkat látogatjuk meg.",
   howmany = "{group} személyről van szó.",
@@ -717,7 +717,7 @@ Translate:AddFlavour('Magyar','Taxi', {
 Translate:AddFlavour('Magyar','Taxi', {
 
   adtext = "KERESÜNK: Utazási lehetőséget egy kisebb csoport számára a(z) {system} rendszerbe. Fizetünk érte {cash} kreditet.",
-  introtext = "Helló, a nevem {name}. Szeretném, ha elvinnél egy kisebb csoportot a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetnénk a szállításért {cash} kreditet.",
+  introtext = "Helló, a nevem {name}. Szeretném, ha elvinnél egy kisebb csoportot a(z) {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly rendszerbe. Fizetnénk a szállításért {cash} kreditet.",
 
   whysomuch = "Mi a(z) {corp} vállalatnak dolgozunk, és ők fizetik az utat.",
   howmany = "{group} személyről van szó.",
@@ -736,7 +736,7 @@ Translate:AddFlavour('Magyar','Taxi', {
 Translate:AddFlavour('Magyar','Taxi', {
 
   adtext = "KERESÜNK: Utazási lehetőséget egy kisebb csoport számára a(z) {system} rendszerbe. Fizetünk érte {cash} kreditet.",
-  introtext = "Helló, a nevem {name}. Szeretném, ha elvinnél egy kisebb csoportot a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetnénk a szállításért {cash} kreditet.",
+  introtext = "Helló, a nevem {name}. Szeretném, ha elvinnél egy kisebb csoportot a(z) {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly rendszerbe. Fizetnénk a szállításért {cash} kreditet.",
 
   whysomuch = "Csak egy egyszerű üzleti út.",
   howmany = "{group} személyről van szó.",
@@ -754,7 +754,7 @@ Translate:AddFlavour('Magyar','Taxi', {
 Translate:AddFlavour('Magyar','Taxi', {
 
   adtext = "HAJÓ KERESTETIK: Hajót keresek utazáshoz a(z) {system} rendszerbe. Fizetek érte {cash} kreditet.",
-  introtext = "Helló, a nevem {name}. El szeretnék jutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek érte {cash} kreditet.",
+  introtext = "Helló, a nevem {name}. El szeretnék jutni a(z) {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly rendszerbe. Fizetek érte {cash} kreditet.",
 
   whysomuch = "Egy régi riválisom meg akar ölni.",
   howmany = "Csak én vagyok.",
@@ -772,7 +772,7 @@ Translate:AddFlavour('Magyar','Taxi', {
 Translate:AddFlavour('Magyar','Taxi', {
 
   adtext = "HAJÓ KERESTETIK: Hajót keresek utazáshoz a(z) {system} rendszerbe. Fizetek érte {cash} kreditet.",
-  introtext = "Helló, a nevem {name}, szeretnék eljutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek érte {cash} kreditet.",
+  introtext = "Helló, a nevem {name}, szeretnék eljutni a(z) {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly rendszerbe. Fizetek érte {cash} kreditet.",
   whysomuch = "Utazó ügynök vagyok.",
   howmany = "Csak én.",
   danger = "Nem.",
@@ -789,7 +789,7 @@ Translate:AddFlavour('Magyar','Taxi', {
 Translate:AddFlavour('Magyar','Taxi', {
 
   adtext = "KERESEK: Utazási lehetőséget a(z) {system} rendszerbe. Fizetek érte {cash} kreditet.",
-  introtext = "Helló, a nevem {name}. El akarok jutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek érte {cash} kreditet.",
+  introtext = "Helló, a nevem {name}. El akarok jutni a(z) {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly rendszerbe. Fizetek érte {cash} kreditet.",
 
   whysomuch = "Nem is tudod - én egy ismert álomsztár vagyok.",
   howmany = "Csak én.",
@@ -809,7 +809,7 @@ Translate:AddFlavour('Magyar','Taxi', {
 Translate:AddFlavour('Magyar','Taxi', {
 
   adtext = "KERESEK: Hajót, ami elszállít a(z) {system} rendszerbe. Fizetek érte {cash} kreditet.",
-  introtext = "Helló, a nevem {name}, és szeretnék eljutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek az útért {cash} kreditet.",
+  introtext = "Helló, a nevem {name}, és szeretnék eljutni a(z) {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly rendszerbe. Fizetek az útért {cash} kreditet.",
   whysomuch = "Szabadúszó újságíró vagyok.",
   howmany = "Csak én vagyok.",
   danger = "Nem.",
@@ -827,7 +827,7 @@ Translate:AddFlavour('Magyar','Taxi', {
 Translate:AddFlavour('Magyar','Taxi', {
 
   adtext = "HAJÓT KERESEK: Hajót, amely biztonságban elvisz a(z) {system} rendszerbe {cash} kreditért cserébe.",
-  introtext = "Helló, a nevem {name}. Szeretnék biztonságban eljutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek érte {cash} kreditet.",
+  introtext = "Helló, a nevem {name}. Szeretnék biztonságban eljutni a(z) {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly rendszerbe. Fizetek érte {cash} kreditet.",
 
   whysomuch = "A maffia meg akar ölni.",
   howmany = "Én és senki más.",
@@ -847,7 +847,7 @@ Translate:AddFlavour('Magyar','Taxi', {
 Translate:AddFlavour('Magyar','Taxi', {
 
   adtext = "HAJÓT KERESEK: Olyat, amely gyorsan elvinne a(z) {system} rendszerbe.",
-  introtext = "A nevem {name}. Gyorsan el szeretnék jutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek az útért {cash} kreditet.",
+  introtext = "A nevem {name}. Gyorsan el szeretnék jutni a(z) {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly rendszerbe. Fizetek az útért {cash} kreditet.",
 
   whysomuch = "Egy beteg rokonomat látogatom meg.",
   howmany = "Csak én.",
@@ -866,7 +866,7 @@ Translate:AddFlavour('Magyar','Taxi', {
 Translate:AddFlavour('Magyar','Taxi', {
 
   adtext = "HAJÓT KERESEK: Olyat, amely gyorsan elvinne a(z) {system} rendszerbe.",
-  introtext = "A nevem {name}. Szeretnék gyorsan eljutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek érte {cash} kreditet.",
+  introtext = "A nevem {name}. Szeretnék gyorsan eljutni a(z) {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly rendszerbe. Fizetek érte {cash} kreditet.",
 
   whysomuch = "A rendőrség megkért, hogy segítsek a nyomozásukban.",
   howmany = "Csak én.",
@@ -886,7 +886,7 @@ Translate:AddFlavour('Magyar','Taxi', {
 Translate:AddFlavour('Magyar','Taxi', {
 
   adtext = "HAJÓT KERESEK: Egy gyors hajót, amely elvinne a(z) {system} rendszerbe.",
-  introtext = "A nevem {name}. Gyorsan el szeretnék jutni a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek {cash} kreditet.",
+  introtext = "A nevem {name}. Gyorsan el szeretnék jutni a(z) {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly rendszerbe. Fizetek {cash} kreditet.",
 
   whysomuch = "Szereném, ha egy bizonyos valaki nem találna rám.",
   howmany = "Csak egy.",
@@ -906,7 +906,7 @@ Translate:AddFlavour('Magyar','Taxi', {
 Translate:AddFlavour('Magyar','Taxi', {
 
   adtext = "GYORS HAJÓT KERESEK: Egy olyat, amely elvinne a(z) {system} rendszerbe.",
-  introtext = "Az én nevem {name}. Egy gyors utazást szeretnék a(z) {system} ({sectorx}, {sectory}, {sectorz}) rendszerbe. Fizetek érte {cash} kreditet.",
+  introtext = "Az én nevem {name}. Egy gyors utazást szeretnék a(z) {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly rendszerbe. Fizetek érte {cash} kreditet.",
 
   whysomuch = "Csak a körutamat járom gyárvizsgálóként.",
   howmany = "Csak egy.",

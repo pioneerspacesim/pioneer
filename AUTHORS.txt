@@ -15,6 +15,7 @@ As of 14 December 2012 (alpha 29), the Pioneer Developers are:
 * Blaga Cosmin
 * Brian Ronald
 * C de Craen
+* Chip Richards
 * Chris Dennett
 * Craig Thomson
 * Dan Bennett

@@ -14,6 +14,7 @@ Alpha 30
      * Player's name now updates during editing in Personal Information view (#1845)
      * Rondel system moved further away from Sol and surrounding stars (#1861, #1815)
      * Star fade-in has been adjusted to make stars less visible in daytime (#1881)
+     * Some missions now state the distance to the target system (#1886)
 
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)

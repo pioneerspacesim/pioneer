@@ -54,6 +54,7 @@ local onChat = function (form, ref, option)
 			sectorx  = ad.location.sectorX,
 			sectory  = ad.location.sectorY,
 			sectorz  = ad.location.sectorZ,
+			dist     = string.format("%.2f", ad.dist),
 		})
 
 		form:SetMessage(introtext)
@@ -156,6 +157,7 @@ local makeAdvert = function (station)
 		flavour		= flavour,
 		client		= client,
 		location	= location.path,
+		dist            = dist,
 		due		= due,
 		group		= group,
 		risk		= risk,
