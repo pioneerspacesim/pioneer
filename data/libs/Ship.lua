@@ -35,7 +35,7 @@ local CrewRoster = {}
 --
 --   experimental
 --
-function Ship:Refuel(amount)
+Ship.Refuel = function (self,amount)
 	local t = Translate:GetTranslator()
     local currentFuel = self.fuel
     if currentFuel == 100 then
@@ -76,7 +76,7 @@ end
 --
 --   experimental
 --
-function Ship:Jettison(equip)
+Ship.Jettison = function (self,equip)
 	if self.flightState ~= "FLYING" and self.flightState ~= "DOCKED" and self.flightState ~= "LANDED" then
 		return false
 	end
@@ -92,9 +92,6 @@ function Ship:Jettison(equip)
 		Event.Queue("onCargoUnload", self, equip)
 	end
 end
-
--- Style note: These function definitions use syntactic sugar not normally used
--- in Pioneer. Might want to think about changing them. XXX
 
 --
 -- Method: Enroll
@@ -122,7 +119,7 @@ end
 --
 --   experimental
 --
-local function isNotAlreadyEnrolled(crewmember)
+local isNotAlreadyEnrolled = function (crewmember)
 	for ship,crew in pairs(CrewRoster) do
 		for key,existingmember in pairs(crew) do
 			if existingmember == crewmember
@@ -134,7 +131,7 @@ local function isNotAlreadyEnrolled(crewmember)
 	return true
 end
 
-function Ship:Enroll(newCrewMember)
+Ship.Enroll = function (self,newCrewMember)
 	if not (
 		type(newCrewMember) == "table" and
 		getmetatable(newCrewMember) and
@@ -181,7 +178,7 @@ end
 --   experimental
 --
 
-function Ship:Dismiss(crewMember)
+Ship.Dismiss = function (self,crewMember)
 	if not CrewRoster[self] then return false end
 	if not (
 		type(crewMember) == "table" and
@@ -217,7 +214,7 @@ end
 --
 --   experimental
 --
-function Ship:GenerateCrew()
+Ship.GenerateCrew = function (self)
 	if CrewRoster[self] then return end -- Bottle out if there's ever been a crew
 	for i = 1, ShipType.GetShipType(self.shipId).maxCrew do
 		local newCrew = Character.New()
@@ -245,7 +242,7 @@ end
 --
 --   experimental
 --
-function Ship:EachCrewMember()
+Ship.EachCrewMember = function (self)
 	-- If there's no crew, magic one up.
 	if not CrewRoster[self] then self:GenerateCrew() end
 	-- Initialise and return enclosed iterator
@@ -275,6 +272,6 @@ end
 --
 --   experimental
 --
-function Ship:HasMinimumCrew()
+Ship.HasMinimumCrew = function (self)
 	return CrewRoster[self] and #CrewRoster[self] >= ShipType.GetShipType(self.shipId).minCrew
 end
