@@ -307,6 +307,18 @@ local onEnterSystem = function (ship)
 	end
 end
 
+local onShipDestroyed = function (ship, attacker)
+	-- When a ship is destroyed, mark is crew as dead
+	-- and remove the ship's crew from CrewRoster
+	if CrewRoster[ship] then
+		for key,crewMember in pairs(CrewRoster[ship]) do
+			crewMember.dead = true
+		end
+		CrewRoster[ship] = nil
+	end
+end
+
 Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onGameStart", onGameStart)
 Serializer:Register("ShipClass", serialize, unserialize)
