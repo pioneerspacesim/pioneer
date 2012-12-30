@@ -275,3 +275,27 @@ end
 Ship.HasMinimumCrew = function (self)
 	return CrewRoster[self] and #CrewRoster[self] >= ShipType.GetShipType(self.shipId).minCrew
 end
+
+-- LOADING AND SAVING
+
+local loaded_data
+
+local onGameStart = function ()
+	if loaded_data then
+		CrewRoster = loaded_data
+	else
+		Game.player:Enroll(PersistentCharacters.player)
+	end
+	loaded_data = nil
+end
+
+local serialize = function ()
+    return CrewRoster
+end
+
+local unserialize = function (data)
+    loaded_data = data
+end
+
+Event.Register("onGameStart", onGameStart)
+Serializer:Register("ShipClass", serialize, unserialize)
