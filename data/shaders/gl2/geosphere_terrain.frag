@@ -15,6 +15,10 @@ varying vec3 varyingEyepos;
 varying vec3 varyingNormal;
 varying vec4 vertexColor;
 
+#ifdef TERRAIN_WITH_LAVA
+varying vec4 varyingEmission;
+#endif
+
 void main(void)
 {
 	vec3 eyepos = varyingEyepos;
@@ -54,6 +58,9 @@ void main(void)
 
 	gl_FragColor =
 		material.emission +
+#ifdef TERRAIN_WITH_LAVA
+		varyingEmission +
+#endif
 		fogFactor *
 		((scene.ambient * vertexColor) +
 		(diff * vertexColor)) +
@@ -61,6 +68,9 @@ void main(void)
 #else // atmosphere-less planetoids and dim stars
 	gl_FragColor =
 		material.emission +
+#ifdef TERRAIN_WITH_LAVA
+		varyingEmission +
+#endif
 		(scene.ambient * vertexColor) +
 		(diff * vertexColor);
 #endif //ATMOSPHERE

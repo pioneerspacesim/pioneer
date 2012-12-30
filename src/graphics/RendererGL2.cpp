@@ -132,6 +132,7 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 		mat = new GL2::StarfieldMaterial();
 		break;
 	case EFFECT_GEOSPHERE_TERRAIN:
+	case EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA:
 		mat = new GL2::GeoSphereSurfaceMaterial();
 		break;
 	case EFFECT_GEOSPHERE_SKY:

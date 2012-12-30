@@ -147,6 +147,9 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	_get_int_attrib(L, "price", s.baseprice, 0);
 	s.baseprice *= 100; // in hundredths of credits
 
+	_get_int_attrib(L, "min_crew", s.minCrew, 1);
+	_get_int_attrib(L, "max_crew", s.maxCrew, 1);
+
 	s.equipSlotCapacity[Equip::SLOT_ENGINE] = Clamp(s.equipSlotCapacity[Equip::SLOT_ENGINE], 0, 1);
 
 	{
@@ -196,6 +199,9 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 
 	if (s.lmrModelName.empty())
 		return luaL_error(L, "Missing model name in ship");
+
+	if (s.minCrew < 1 || s.maxCrew < 1 || s.minCrew > s.maxCrew)
+		return luaL_error(L, "Invalid values for min_crew and max_crew");
 
 	//this shouldn't necessarily be a fatal problem, could just warn+mark ship unusable
 	//or replace with proxy geometry

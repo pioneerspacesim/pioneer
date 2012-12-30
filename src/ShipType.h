@@ -59,6 +59,7 @@ struct ShipType {
 	int baseprice;
 	Equip::Type hyperdrive;
 	vector3d cameraOffset;
+	int minCrew, maxCrew; // XXX really only for Lua, but needs to be declared in the ship def
 	///////
 
 	static std::string LADYBIRD;

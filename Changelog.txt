@@ -5,6 +5,7 @@ Alpha 30
      * Rotation damping icon and control on the panel (#1842, #1837)
      * OSX: Hold the option key down when launching pioneer.app to launch the
        model viewer instead (#1803)
+     * New volcanic surface effects on some planets (#1782)
 
    * Minor changes and tweaks
      * Don't allocate projectile geometry for every projectile. Huge
