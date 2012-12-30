@@ -1124,7 +1124,7 @@ define_model('hoop_spacestation', {
 				elseif stage == 5 then
 					return { vlerp(t, from, v(0,0,0)), v(-1,0,0), v(0,0,-1) }
 				elseif stage == 6 or stage == 7 then
-					return { from, v(-1,0,0), v(0,0,-1) }
+					return { v(0,0,0), v(-1,0,0), v(0,0,-1) }
 				elseif stage == 8 then
 					return { vlerp(t, from, v(0,200,0)), v(-1,0,0), v(0,0,-1) }
 				elseif stage == 9 then
