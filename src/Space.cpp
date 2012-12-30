@@ -477,7 +477,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		//	sbody->GetRadius()*0.001f);
 
 		assert(sbody->rotationPeriod != 0);
-		Frame *rotFrame = new Frame(orbFrame, (sbody->name+" (R)").c_str(), Frame::FLAG_ROTATING);
+		Frame *rotFrame = new Frame(orbFrame, sbody->name.c_str(), Frame::FLAG_ROTATING);
 		rotFrame->SetBodies(sbody, b);
 
 		// rotating frame has atmosphere radius or feature height, whichever is larger
