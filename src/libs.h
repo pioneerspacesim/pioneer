@@ -54,6 +54,7 @@ inline int isfinite(double x) { return _finite(x); }
 #include "vector2.h"
 #include "vector3.h"
 #include "Aabb.h"
+#include "matrix3x3.h"
 #include "matrix4x4.h"
 #include "Color.h"
 #include "mtrand.h"

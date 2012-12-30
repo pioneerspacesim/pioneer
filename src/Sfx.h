@@ -22,7 +22,7 @@ public:
 
 	static void Add(const Body *, TYPE);
 	static void TimeStepAll(const float timeStep, Frame *f);
-	static void RenderAll(Graphics::Renderer *r, const Frame *f, const Frame *camFrame);
+	static void RenderAll(Graphics::Renderer *r, Frame *f, const Frame *camFrame);
 	static void Serialize(Serializer::Writer &wr, const Frame *f);
 	static void Unserialize(Serializer::Reader &rd, Frame *f);
 

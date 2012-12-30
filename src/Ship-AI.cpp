@@ -22,10 +22,7 @@ void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
 	double angAccel = stype.angThrust / GetAngularInertia();
 	const double softTimeStep = Pi::game->GetTimeStep() * softness;
 
-	matrix4x4d rot;
-	GetRotMatrix(rot);
-	vector3d angVel = desiredAngVel - rot.InverseOf() * GetAngVelocity();
-
+	vector3d angVel = desiredAngVel - GetAngVelocity() * GetOrient();
 	vector3d thrust;
 	for (int axis=0; axis<3; axis++) {
 		if (angAccel * softTimeStep >= fabs(angVel[axis])) {
@@ -40,8 +37,7 @@ void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
 
 void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *other)
 {
-	matrix4x4d m; GetRotMatrix(m);
-	vector3d relToVel = m.InverseOf() * other->GetVelocity() + v;
+	vector3d relToVel = other->GetVelocity() * GetOrient() + v;
 	AIAccelToModelRelativeVelocity(relToVel);
 }
 
@@ -51,19 +47,9 @@ void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *other)
 
 void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 {
-	// OK. For rotating frames linked to space stations we want to set
-	// speed relative to non-rotating frame (so we apply Frame::GetStasisVelocityAtPosition.
-	// For rotating frames linked to planets we want to set velocity relative to
-	// surface, so we do not apply Frame::GetStasisVelocityAtPosition
-	vector3d relVel = GetVelocity();
-	if (GetFrame()->IsStationRotFrame()) {
-		relVel -= GetFrame()->GetStasisVelocityAtPosition(GetPosition());
-	}
-	matrix4x4d m; GetRotMatrix(m);
-	vector3d difVel = v - (relVel * m);		// required change in velocity
-
+	vector3d difVel = v - GetVelocity() * GetOrient();		// required change in velocity
 	vector3d maxThrust = GetMaxThrust(difVel);
-	vector3d maxFrameAccel = maxThrust * Pi::game->GetTimeStep() / GetMass();
+	vector3d maxFrameAccel = maxThrust * (Pi::game->GetTimeStep() / GetMass());
 
 	SetThrusterState(0, difVel.x / maxFrameAccel.x);
 	SetThrusterState(1, difVel.y / maxFrameAccel.y);
@@ -77,6 +63,7 @@ bool Ship::AITimeStep(float timeStep)
 	// allow the launch thruster thing to happen
 	if (m_launchLockTimeout > 0.0) return false;
 
+	m_decelerating = false;
 	if (!m_curAICmd) {
 		if (this == Pi::player) return true;
 
@@ -102,18 +89,13 @@ void Ship::AIClearInstructions()
 
 	delete m_curAICmd;		// rely on destructor to kill children
 	m_curAICmd = 0;
+	m_decelerating = false;		// don't adjust unless AI is running
 }
 
 void Ship::AIGetStatusText(char *str)
 {
 	if (!m_curAICmd) strcpy(str, "AI inactive");
 	else m_curAICmd->GetStatusText(str);
-}
-
-Frame *Ship::AIGetRiskFrame()
-{
-	if (!m_curAICmd) return 0;
-	else return m_curAICmd->GetRiskFrame();
 }
 
 void Ship::AIKamikaze(Body *target)
@@ -125,6 +107,8 @@ void Ship::AIKamikaze(Body *target)
 void Ship::AIKill(Ship *target)
 {
 	AIClearInstructions();
+	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
+
 	m_curAICmd = new AICmdKill(this, target);
 }
 
@@ -136,22 +120,32 @@ void Ship::AIJourney(SystemBodyPath &dest)
 }
 */
 
-void Ship::AIFlyTo(Body *target, float hungriness)
+void Ship::AIFlyTo(Body *target)
 {
 	AIClearInstructions();
-	m_curAICmd = new AICmdFlyTo(this, target, hungriness);
+	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
+
+	if (target->IsType(Object::SHIP)) {		// test code
+		vector3d posoff(-1000.0, 0.0, 1000.0);
+		m_curAICmd = new AICmdFormation(this, static_cast<Ship*>(target), posoff);
+	}
+	else m_curAICmd = new AICmdFlyTo(this, target);
 }
 
-void Ship::AIDock(SpaceStation *target, float hungriness)
+void Ship::AIDock(SpaceStation *target)
 {
 	AIClearInstructions();
-	m_curAICmd = new AICmdDock(this, target, hungriness);
+	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
+
+	m_curAICmd = new AICmdDock(this, target);
 }
 
-void Ship::AIOrbit(Body *target, double alt, float hungriness)
+void Ship::AIOrbit(Body *target, double alt)
 {
 	AIClearInstructions();
-	m_curAICmd = new AICmdFlyAround(this, target, alt, hungriness);
+	SetFuelReserve((GetFuel() < 0.5) ? GetFuel() / 2 : 0.25);
+
+	m_curAICmd = new AICmdFlyAround(this, target, alt);
 }
 
 void Ship::AIHoldPosition()
@@ -184,13 +178,23 @@ double calc_ivel(double dist, double vel, double acc)
 	return (inv) ? -ivel : ivel;
 }
 
+// version for all-positive values
+double calc_ivel_pos(double dist, double vel, double acc)
+{
+	double ivel = 0.9 * sqrt(vel*vel + 2.0 * acc * dist);		// fudge hardly necessary
+
+	double endvel = ivel - (acc * Pi::game->GetTimeStep());
+	if (endvel <= 0.0) ivel = dist / Pi::game->GetTimeStep();	// last frame discrete correction
+	else ivel = (ivel + endvel) * 0.5;					// discrete overshoot correction
+
+	return ivel;
+}
+
 // vel is desired velocity in ship's frame
 // returns true if this can be attained in a single timestep
-// todo: check space station rotating frame case
 bool Ship::AIMatchVel(const vector3d &vel)
 {
-	matrix4x4d rot; GetRotMatrix(rot);
-	vector3d diffvel = (vel - GetVelocityRelTo(GetFrame())) * rot;		// convert to object space
+	vector3d diffvel = (vel - GetVelocity()) * GetOrient();
 	return AIChangeVelBy(diffvel);
 }
 
@@ -198,14 +202,12 @@ bool Ship::AIMatchVel(const vector3d &vel)
 // returns true if this can be done in a single timestep
 bool Ship::AIChangeVelBy(const vector3d &diffvel)
 {
-	// counter external forces unless we're in an orbital station rotating frame
-	matrix4x4d rot; GetRotMatrix(rot);
-	vector3d diffvel2 = GetExternalForce() * Pi::game->GetTimeStep() / GetMass();
-	if (GetFrame()->IsStationRotFrame()) diffvel2 = diffvel;
-	else diffvel2 = diffvel - diffvel2 * rot;
+	// counter external forces
+	vector3d extf = GetExternalForce() * (Pi::game->GetTimeStep() / GetMass());
+	vector3d diffvel2 = diffvel - extf * GetOrient();
 
 	vector3d maxThrust = GetMaxThrust(diffvel2);
-	vector3d maxFrameAccel = maxThrust * Pi::game->GetTimeStep() / GetMass();
+	vector3d maxFrameAccel = maxThrust * (Pi::game->GetTimeStep() / GetMass());
 	vector3d thrust(diffvel2.x / maxFrameAccel.x,
 					diffvel2.y / maxFrameAccel.y,
 					diffvel2.z / maxFrameAccel.z);
@@ -214,55 +216,23 @@ bool Ship::AIChangeVelBy(const vector3d &diffvel)
 	return true;
 }
 
-// relpos and relvel are position and velocity of ship relative to target in ship's frame
-// targspeed is in direction of motion, must be positive
-// returns difference in closing speed from ideal, or zero if it thinks it's at the target
-double Ship::AIMatchPosVel(const vector3d &relpos, const vector3d &relvel, double targspeed, const vector3d &maxthrust)
+// Change object-space velocity in direction of param
+vector3d Ship::AIChangeVelDir(const vector3d &reqdiffvel)
 {
-	matrix4x4d rot; GetRotMatrix(rot);
-	vector3d objpos = relpos * rot;
-	vector3d reldir = objpos.NormalizedSafe();
-	vector3d endvel = targspeed * reldir;
-	double invmass = 1.0 / GetMass();
-
-	// find ideal velocities at current time given reverse thrust level
-	vector3d ivel;
-	ivel.x = calc_ivel(objpos.x, endvel.x, maxthrust.x * invmass);
-	ivel.y = calc_ivel(objpos.y, endvel.y, maxthrust.y * invmass);
-	ivel.z = calc_ivel(objpos.z, endvel.z, maxthrust.z * invmass);
-
-	vector3d objvel = relvel * rot;
-	vector3d diffvel = ivel - objvel;		// required change in velocity
-	AIChangeVelBy(diffvel);
-	return diffvel.Dot(reldir);
-}
-
-// reldir*targdist and relvel are pos and vel of ship relative to target in ship's frame
-// endspeed is in direction of motion, must be positive
-// maxdecel is maximum deceleration thrust
-bool Ship::AIMatchPosVel2(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxdecel)
-{
-	matrix4x4d rot; GetRotMatrix(rot);
-	double parspeed = relvel.Dot(reldir);
-	double ivel = calc_ivel(targdist, endspeed, maxdecel);
-	double diffspeed = ivel - parspeed;
-	vector3d diffvel = diffspeed * reldir * rot;
-	bool rval = false;
+	// get max thrust in desired direction after external force compensation
+	vector3d maxthrust = GetMaxThrust(reqdiffvel);
+	maxthrust += GetExternalForce() * GetOrient();
+	vector3d maxFA = maxthrust * (Pi::game->GetTimeStep() / GetMass());
+	maxFA.x = fabs(maxFA.x); maxFA.y = fabs(maxFA.y); maxFA.z = fabs(maxFA.z);
 
 	// crunch diffvel by relative thruster power to get acceleration in right direction
-	if (diffspeed > 0.0) {
-		vector3d maxFA = GetMaxThrust(diffvel) * Pi::game->GetTimeStep() / GetMass();
-		if (abs(diffvel.x) > maxFA.x) diffvel *= maxFA.x / abs(diffvel.x);
-		if (abs(diffvel.y) > maxFA.y) diffvel *= maxFA.y / abs(diffvel.y);
-//		if (abs(diffvel.z) > maxFA.z) diffvel *= maxFA.z / abs(diffvel.z);
-		if (maxFA.z < diffspeed) rval = true;
-	}
+	vector3d diffvel = reqdiffvel;
+	if (fabs(diffvel.x) > maxFA.x) diffvel *= maxFA.x / fabs(diffvel.x);
+	if (fabs(diffvel.y) > maxFA.y) diffvel *= maxFA.y / fabs(diffvel.y);
+	if (fabs(diffvel.z) > maxFA.z) diffvel *= maxFA.z / fabs(diffvel.z);
 
-	// add perpendicular velocity
-	vector3d perpvel = relvel - parspeed*reldir;
-	diffvel -= perpvel * rot;
-	AIChangeVelBy(diffvel);
-	return rval;			// true if acceleration was capped
+	AIChangeVelBy(diffvel);		// should always return true because it's already capped?
+	return GetOrient() * (reqdiffvel - diffvel);		// should be remaining diffvel to correct
 }
 
 // Input in object space
@@ -271,67 +241,34 @@ void Ship::AIMatchAngVelObjSpace(const vector3d &angvel)
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();
 	double invFrameAccel = 1.0 / (maxAccel * Pi::game->GetTimeStep());
 
-	matrix4x4d rot; GetRotMatrix(rot);
-	vector3d diff = angvel - GetAngVelocity() * rot;		// find diff between current & desired angvel
+	vector3d diff = angvel - GetAngVelocity() * GetOrient();		// find diff between current & desired angvel
 	SetAngThrusterState(diff * invFrameAccel);
 }
 
-// just forces the orientation
-void Ship::AIFaceDirectionImmediate(const vector3d &dir)
+// get updir as close as possible just using roll thrusters
+double Ship::AIFaceUpdir(const vector3d &updir, double av)
 {
-	vector3d zaxis = -dir;
-	vector3d xaxis = vector3d(0.0,1.0,0.0).Cross(zaxis).Normalized();
-	vector3d yaxis = zaxis.Cross(xaxis).Normalized();
-	matrix4x4d wantOrient = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
-	SetRotMatrix(wantOrient);
-}
-
-// position in ship's frame
-vector3d Ship::AIGetNextFramePos()
-{
-	vector3d thrusters = GetThrusterState();
-	vector3d maxThrust = GetMaxThrust(thrusters);
-	vector3d thrust = vector3d(maxThrust.x*thrusters.x, maxThrust.y*thrusters.y,
-		maxThrust.z*thrusters.z);
-	matrix4x4d rot; GetRotMatrix(rot);
-	vector3d vel = GetVelocity() + rot * thrust * Pi::game->GetTimeStep() / GetMass();
-	vector3d pos = GetPosition() + vel * Pi::game->GetTimeStep();
-	return pos;
-}
-
-// returns true if ship will be aligned at end of frame
-bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
-{
-	double timeStep = Pi::game->GetTimeStep();
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
-	if (maxAccel <= 0.0) return 0.0;
-	double frameAccel = maxAccel * timeStep;
+	double frameAccel = maxAccel * Pi::game->GetTimeStep();
+	
+	vector3d uphead = updir * GetOrient();			// create desired object-space updir
+	if (uphead.z > 0.99999) return 0;				// bail out if facing updir
+	uphead.z = 0; uphead = uphead.Normalized();		// only care about roll axis
 
-	matrix4x4d rot; GetRotMatrix(rot);
-	if (dir.Dot(vector3d(rot[8], rot[9], rot[10])) > -0.999999)
-		{ AIFaceDirection(dir); return false; }
-
-	vector3d uphead = (updir * rot).Normalized();		// create desired object-space updir
-	vector3d dav(0.0, 0.0, 0.0);			// desired angular velocity
-	double ang = 0.0;
-	if (uphead.y < 0.999999)
+	double ang = 0.0, dav = 0.0;
+	if (uphead.y < 0.99999999)
 	{
 		ang = acos(Clamp(uphead.y, -1.0, 1.0));		// scalar angle from head to curhead
-		double iangvel = sqrt(2.0 * maxAccel * ang);	// ideal angvel at current time
+		double iangvel = av + calc_ivel_pos(ang, 0.0, maxAccel);	// ideal angvel at current time
 
-		double frameEndAV = iangvel - frameAccel;
-		if (frameEndAV <= 0.0) iangvel = ang / timeStep;	// last frame discrete correction
-		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
-		dav.z = uphead.x > 0 ? -iangvel : iangvel;
+		dav = uphead.x > 0 ? -iangvel : iangvel;
 	}
-	vector3d cav = (GetAngVelocity() - GetFrame()->GetAngVelocity()) * rot;				// current obj-rel angvel
-//	vector3d cav = GetAngVelocity() * rot;				// current obj-rel angvel
-	vector3d diff = (dav - cav) / frameAccel;			// find diff between current & desired angvel
+	double cav = (GetAngVelocity() * GetOrient()).z;	// current obj-rel angvel
+	double diff = (dav - cav) / frameAccel;				// find diff between current & desired angvel
 
-	SetAngThrusterState(diff);
-	return (diff.z*diff.z < 1.0);
+	SetAngThrusterState(2, diff);
+	return ang;
 }
-
 
 // Input: direction in ship's frame, doesn't need to be normalized
 // Approximate positive angular velocity at match point
@@ -340,24 +277,16 @@ bool Ship::AIFaceOrient(const vector3d &dir, const vector3d &updir)
 // returns angle to target
 double Ship::AIFaceDirection(const vector3d &dir, double av)
 {
-	double timeStep = Pi::game->GetTimeStep();
 	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
-	if (maxAccel <= 0.0) return 0.0;
-	double frameAccel = maxAccel * timeStep;
 
-	matrix4x4d rot; GetRotMatrix(rot);
-	vector3d head = (dir * rot).Normalized();		// create desired object-space heading
+	vector3d head = (dir * GetOrient()).Normalized();		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
 
 	double ang = 0.0;
 	if (head.z > -0.99999999)
 	{
 		ang = acos (Clamp(-head.z, -1.0, 1.0));		// scalar angle from head to curhead
-		double iangvel = av + sqrt (2.0 * maxAccel * ang);	// ideal angvel at current time
-
-		double frameEndAV = iangvel - frameAccel;
-		if (frameEndAV <= 0.0) iangvel = ang / timeStep;	// last frame discrete correction
-		else iangvel = (iangvel + frameEndAV) * 0.5;		// discrete overshoot correction
+		double iangvel = av + calc_ivel_pos(ang, 0.0, maxAccel);	// ideal angvel at current time
 
 		// Normalize (head.x, head.y) to give desired angvel direction
 		if (head.z > 0.999999) head.x = 1.0;
@@ -365,9 +294,9 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 		dav.x = head.y * head2dnorm * iangvel;
 		dav.y = -head.x * head2dnorm * iangvel;
 	}
-	vector3d cav = (GetAngVelocity() - GetFrame()->GetAngVelocity()) * rot;		// current obj-rel angvel
-//	vector3d cav = GetAngVelocity() * rot;				// current obj-rel angvel
-	vector3d diff = (dav - cav) / frameAccel;					// find diff between current & desired angvel
+	vector3d cav = GetAngVelocity() * GetOrient();				// current obj-rel angvel
+	double frameAccel = maxAccel * Pi::game->GetTimeStep();
+	vector3d diff = (dav - cav) / frameAccel;	// find diff between current & desired angvel
 
 	// If the player is pressing a roll key, don't override roll.
 	// XXX this really shouldn't be here. a better way would be to have a
@@ -403,28 +332,28 @@ vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int g
 	return leadpos.Normalized();
 }
 
-// same inputs as matchposvel, returns approximate travel time instead
-// underestimates if targspeed isn't reachable
-double Ship::AITravelTime(const vector3d &reldir, double targdist, const vector3d &relvel, double targspeed, bool flip)
+// underestimates if endspeed isn't reachable
+/*
+double Ship::AITravelTime(double targdist, double relspeed, double endspeed, double maxdecel)
 {
-	double speed = relvel.Dot(reldir);		// speed >0 is towards
+//	double speed = relvel.Dot(reldir);		// speed >0 is towards
 	double dist = targdist;
 	double faccel = GetAccelFwd();
-	double raccel = flip ? faccel : GetAccelRev();
 	double time1, time2, time3;
 
 	// time to reduce speed to zero:
-	time1 = -speed / faccel;
-	dist += 0.5 * time1 * -speed;
+	time1 = -relspeed / faccel;
+	dist += 0.5 * time1 * -relspeed;
 
 	// time to reduce speed to zero after target reached:
-	time3 = -targspeed / raccel;
-	dist += 0.5 * time3 * -targspeed;
+	time3 = -endspeed / maxdecel;
+	dist += 0.5 * time3 * -endspeed;
 
 	// now time to cover distance between zero-vel points
 	// midpoint = intercept of two gradients
-	double m = dist*raccel / (faccel+raccel);
-	time2 = sqrt(2*m/faccel) + sqrt(2*(dist-m)/raccel);
+	double m = dist*maxdecel / (faccel+maxdecel);
+	time2 = sqrt(2*m/faccel) + sqrt(2*(dist-m)/maxdecel);
 
 	return time1+time2+time3;
 }
+*/

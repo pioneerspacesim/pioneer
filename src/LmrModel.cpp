@@ -1621,7 +1621,6 @@ LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
 	, pFlag(0)
 {
 	m->GetCollMeshGeometry(this, matrix4x4f::Identity(), params);
-	m_radius = m_aabb.GetBoundingRadius();
 	m_geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
 }
 

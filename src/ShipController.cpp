@@ -90,8 +90,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 		case CONTROL_FIXSPEED:
 			PollControls(timeStep, true);
 			if (IsAnyLinearThrusterKeyDown()) break;
-			m_ship->GetRotMatrix(m);
-			v = m * vector3d(0, 0, -m_setSpeed);
+			v = -m_ship->GetOrient().VectorZ() * m_setSpeed;
 			if (m_setSpeedTarget) {
 				v += m_setSpeedTarget->GetVelocityRelTo(m_ship->GetFrame());
 			}
@@ -115,7 +114,7 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 //			AIMatchVel(vector3d(0.0));			// just in case autopilot doesn't...
 						// actually this breaks last timestep slightly in non-relative target cases
 			m_ship->AIMatchAngVelObjSpace(vector3d(0.0));
-			if (m_ship->GetFrame()->IsRotatingFrame()) SetFlightControlState(CONTROL_FIXSPEED);
+			if (m_ship->GetFrame()->IsRotFrame()) SetFlightControlState(CONTROL_FIXSPEED);
 			else SetFlightControlState(CONTROL_MANUAL);
 			m_setSpeed = 0.0;
 			break;
@@ -171,9 +170,9 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1);	// call to flush
 		if (Pi::MouseButtonState(SDL_BUTTON_RIGHT))
 		{
-			matrix4x4d rot; m_ship->GetRotMatrix(rot);
+			const matrix3x3d &rot = m_ship->GetOrient();
 			if (!m_mouseActive) {
-				m_mouseDir = vector3d(-rot[8],-rot[9],-rot[10]);	// in world space
+				m_mouseDir = -rot.VectorZ();	// in world space
 				m_mouseX = m_mouseY = 0;
 				m_mouseActive = true;
 			}
@@ -194,7 +193,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 			m_mouseY -= mody;
 
 			if(!is_zero_general(modx) || !is_zero_general(mody)) {
-				matrix4x4d mrot = matrix4x4d::RotateYMatrix(modx); mrot.RotateX(mody);
+				matrix3x3d mrot = matrix3x3d::RotateY(modx) * matrix3x3d::RotateX(mody);
 				m_mouseDir = (rot * (mrot * objDir)).Normalized();
 			}
 		}

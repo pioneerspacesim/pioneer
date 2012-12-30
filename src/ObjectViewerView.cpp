@@ -130,7 +130,7 @@ void ObjectViewerView::Update()
 	Body *body = Pi::player->GetNavTarget();
 	if(body && (body != lastTarget)) {
 		// Reset view distance for new target.
-		viewingDist = body->GetBoundingRadius() * 2.0f;
+		viewingDist = body->GetClipRadius() * 2.0f;
 		lastTarget = body;
 
 		if (body->IsType(Object::TERRAINBODY)) {
