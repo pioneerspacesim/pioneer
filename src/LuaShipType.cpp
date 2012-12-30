@@ -119,6 +119,46 @@ int l_shiptype_attr_base_price(lua_State *l)
 }
 
 /*
+ * Attribute: minCrew
+ *
+ * Minimum number of crew required to launch.
+ *
+ * Availability:
+ *
+ *   alpha 30
+ *
+ * Status:
+ *
+ *   experimental
+ */
+int l_shiptype_attr_min_crew(lua_State *l)
+{
+	const ShipType *st = LuaShipType::CheckFromLua(1);
+	lua_pushinteger(l, st->minCrew);
+	return 1;
+}
+
+/*
+ * Attribute: maxCrew
+ *
+ * Maximum number of crew the ship can carry.
+ *
+ * Availability:
+ *
+ *   alpha 30
+ *
+ * Status:
+ *
+ *   experimental
+ */
+int l_shiptype_attr_max_crew(lua_State *l)
+{
+	const ShipType *st = LuaShipType::CheckFromLua(1);
+	lua_pushinteger(l, st->minCrew);
+	return 1;
+}
+
+/*
  * Attribute: defaultHyperdrive
  *
  * The default hyperdrive this ship receives. This is a <Constants.EquipType>
@@ -353,6 +393,8 @@ template <> void LuaObject<LuaUncopyable<ShipType> >::RegisterClass()
 		{ "hullMass",          l_shiptype_attr_hull_mass          },
 		{ "basePrice",         l_shiptype_attr_base_price         },
 		{ "defaultHyperdrive", l_shiptype_attr_default_hyperdrive },
+		{ "minCrew",           l_shiptype_attr_min_crew           },
+		{ "maxCrew",           l_shiptype_attr_max_crew           },
 		{ 0, 0 }
 	};
 
