@@ -378,6 +378,6 @@ Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 
-Mission.RegisterClick('Taxi',onClick)
+Mission.RegisterType('Taxi','Taxi',onClick)
 
 Serializer:Register("Taxi", serialize, unserialize)

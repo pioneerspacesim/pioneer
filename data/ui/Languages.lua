@@ -48,6 +48,7 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'Mission Details',
 		['No missions.'] = 'No missions.',
+		['INACTIVE'] = 'Inactive', -- Complement of ACTIVE, COMPLETED and FAILED
 		
 		-- Orbital analysis
 		['Orbit'] = 'Orbit',
