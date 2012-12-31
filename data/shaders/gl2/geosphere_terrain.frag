@@ -37,7 +37,7 @@ void main(void)
 
 		//Specular reflection
 		vec3 L = normalize(gl_LightSource[i].position.xyz - eyepos); 
-		vec3 E = normalize(-eyepos); // we are in Eye Coordinates, so EyePos is (0,0,0)
+		vec3 E = normalize(-eyepos);
 		vec3 R = normalize(-reflect(L,tnorm)); 
 		//water only for specular
 	    	if (vertexColor.b > 0.05 && vertexColor.r < 0.05) {
