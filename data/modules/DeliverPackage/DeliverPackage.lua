@@ -343,6 +343,6 @@ Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 
-Mission.RegisterClick('Delivery',onClick)
+Mission.RegisterType('Delivery','Delivery',onClick)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)
