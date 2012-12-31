@@ -175,8 +175,10 @@ MilkyWay::MilkyWay(Graphics::Renderer *r)
 		dark);
 
 	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_STARFIELD;
 	desc.vertexColors = true;
 	m_material.Reset(r->CreateMaterial(desc));
+	m_material->emissive = Color::WHITE;
 	//This doesn't fade. Could add a generic opacity/intensity value.
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLE_STRIP, bottom, m_material)));
 	m_model->AddSurface(RefCountedPtr<Surface>(new Surface(TRIANGLE_STRIP, top, m_material)));
