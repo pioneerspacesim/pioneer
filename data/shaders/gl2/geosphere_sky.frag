@@ -9,7 +9,6 @@ uniform float geosphereAtmosFogDensity;
 uniform float geosphereAtmosInvScaleHeight;
 
 varying vec4 varyingEyepos;
-varying vec3 varyingNormal;
 
 void sphereEntryExitDist(out float near, out float far, in vec3 sphereCenter, in vec3 eyeTo, in float radius)
 {
@@ -55,8 +54,8 @@ void main(void)
 
 			//Calculate Specular Highlight
 			vec3 L = normalize(gl_LightSource[i].position.xyz - eyepos); 
-			vec3 E = normalize(-eyepos); // we are in Eye Coordinates, so EyePos is (0,0,0)
-			vec3 R = normalize(-reflect(L,varyingNormal)); 
+			vec3 E = normalize(-eyepos);
+			vec3 R = normalize(-reflect(L,vec3(0.0))); 
 			specularHighlight += pow(max(dot(R,E),0.0),64.0)/float(NUM_LIGHTS);
 
 			float nDotVP =  max(0.0, dot(surfaceNorm, normalize(vec3(gl_LightSource[i].position))))	;
