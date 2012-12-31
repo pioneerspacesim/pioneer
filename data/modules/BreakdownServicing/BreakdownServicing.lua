@@ -186,9 +186,17 @@ local onGameStart = function ()
 	end
 end
 
+local savedByCrew = function(ship)
+	for crew in ship:EachCrewMember() do
+		if crew:TestRoll('engineering') then return crew end
+	end
+	return false
+end
+
 local onEnterSystem = function (ship)
 	if ship:IsPlayer() then print(('DEBUG: Jumps since warranty: %d, chance of failure (if > 0): 1/%d\nWarranty expires: %s'):format(service_history.jumpcount,max_jumps_unserviced-service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period))) end
-	if ship:IsPlayer() and (service_history.lastdate + service_history.service_period < Game.time) then
+	local saved_by_this_guy = savedByCrew(ship)
+	if ship:IsPlayer() and (service_history.lastdate + service_history.service_period < Game.time) and not saved_by_this_guy then
 		service_history.jumpcount = service_history.jumpcount + 1
 		if (service_history.jumpcount > max_jumps_unserviced) or (Engine.rand:Integer(max_jumps_unserviced - service_history.jumpcount) == 0) then
 			-- Destroy the engine
@@ -197,6 +205,17 @@ local onEnterSystem = function (ship)
 			ship:AddEquip('RUBBISH',EquipType.GetEquipType(engine).mass)
 			Comms.Message(t("The ship's hyperdrive has been destroyed by a malfunction"))
 		end
+	end
+	if saved_by_this_guy then
+		-- Brag to the player
+		if saved_by_this_guy.player then
+			Comms.Message(t("You fixed the hyperdrive before it broke down."))
+		else
+			Comms.Message(t("I fixed the hyperdrive before it broke down."),saved_by_this_guy.name)
+		end
+		-- Rewind the servicing countdown by a random amount based on crew member's ability
+		local fixup = saved_by_this_guy.engineering - saved_by_this_guy.DiceRoll()
+		if fixup > 0 then service_history.jumpcount = service_history.jumpcount - fixup end
 	end
 end
 
