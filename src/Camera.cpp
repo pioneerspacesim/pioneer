@@ -98,7 +98,7 @@ void Camera::Update()
 	m_sortedBodies.sort();
 }
 
-void Camera::Draw(Renderer *renderer)
+void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 {
 	if (!m_camFrame) return;
 	if (!renderer) return;
@@ -167,7 +167,9 @@ void Camera::Draw(Renderer *renderer)
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
 
-		// XXX don't draw a body if camera is inside its clip radius
+		// explicitly exclude a single body if specified (eg player)
+		if (attrs->body == excludeBody)
+			continue;
 
 		double rad = attrs->body->GetClipRadius();
 		if (!m_frustum.TestPointInfinite((*i).viewCoords, rad))

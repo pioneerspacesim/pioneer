@@ -22,7 +22,7 @@ public:
 	virtual ~Camera();
 
 	void Update();
-	void Draw(Graphics::Renderer *r);
+	void Draw(Graphics::Renderer *r, const Body *excludeBody = 0);
 
 	// frame to position the camera relative to
 	void SetFrame(Frame *frame) { m_frame = frame; }
