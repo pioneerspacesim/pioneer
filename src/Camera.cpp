@@ -80,7 +80,7 @@ void Camera::Update()
 	if (!m_body) return;
 
 	// make temporary camera frame at the body
-	m_camFrame = new Frame(m_body->GetFrame(), "camera", Frame::TEMP_VIEWING | Frame::FLAG_ROTATING);
+	m_camFrame = new Frame(m_body->GetFrame(), "camera", Frame::FLAG_ROTATING);
 
 	// interpolate between last physics tick position and current one,
 	// to remove temporal aliasing
