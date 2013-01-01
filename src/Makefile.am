@@ -47,7 +47,6 @@ noinst_HEADERS = \
 	Frame.h \
 	GalacticView.h \
 	Game.h \
-	GameLoaderSaver.h \
 	GameMenuView.h \
 	GeoSphere.h \
 	HyperspaceCloud.h \
@@ -196,7 +195,6 @@ pioneer_SOURCES	= \
 	Frame.cpp \
 	GalacticView.cpp \
 	Game.cpp \
-	GameLoaderSaver.cpp \
 	GameMenuView.cpp \
 	GeoSphere.cpp \
 	HyperspaceCloud.cpp \

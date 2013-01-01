@@ -12,7 +12,6 @@
 #include "Frame.h"
 #include "GalacticView.h"
 #include "Game.h"
-#include "GameLoaderSaver.h"
 #include "GameMenuView.h"
 #include "GeoSphere.h"
 #include "Intro.h"
@@ -718,9 +717,16 @@ void Pi::HandleEvents()
 
 								else {
 									const std::string name = "_quicksave";
-									GameSaver saver(Pi::game);
-									if (saver.SaveToFile(name))
-										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO + FileSystem::JoinPath(GetSaveDir(), name));
+									const std::string path = FileSystem::JoinPath(GetSaveDir(), name);
+									try {
+										Game::SaveGame(name, Pi::game);
+										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO + path);
+									} catch (CouldNotOpenFileException) {
+										Pi::cpan->MsgLog()->Message("", stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)));
+									}
+									catch (CouldNotWriteToFileException) {
+										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVE_CANNOT_WRITE);
+									}
 								}
 							}
 							break;
