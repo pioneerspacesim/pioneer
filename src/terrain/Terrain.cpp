@@ -22,7 +22,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		return choices[body->heightMapFractal](body);
 	}
 
-	MTRand rand(body->seed);
+	Random rand(body->seed);
 
 	GeneratorInstancer gi = 0;
 

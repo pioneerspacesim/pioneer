@@ -121,7 +121,7 @@ SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
 Game *Pi::game;
-MTRand Pi::rng;
+Random Pi::rng;
 float Pi::frameTime;
 #if WITH_DEVKEYS
 bool Pi::showDebugInfo;
@@ -445,7 +445,7 @@ void Pi::Init()
 	vector3d vel4 = c2->GetVelocityRelTo(c1);
 	double speed4 = c2->GetVelocityRelTo(c1).Length();
 
-	
+
 	root->UpdateOrbitRails(0, 1.0);
 
 	//buildrotate test
@@ -972,7 +972,7 @@ void Pi::MainLoop()
 			int pstate = Pi::game->GetPlayer()->GetFlightState();
 			if (pstate == Ship::DOCKED || pstate == Ship::DOCKING) Pi::gameTickAlpha = 1.0;
 			else Pi::gameTickAlpha = accumulator / step;
-			
+
 #if WITH_DEVKEYS
 			phys_stat += phys_ticks;
 #endif

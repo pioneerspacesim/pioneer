@@ -164,7 +164,6 @@ noinst_HEADERS = \
 	gameconsts.h \
 	libs.h \
 	matrix4x4.h \
-	mtrand.h \
 	perlin.h \
 	utils.h \
 	vector2.h \
@@ -297,7 +296,6 @@ pioneer_SOURCES	= \
 	WorldView.cpp \
 	WorldViewCamera.cpp \
 	main.cpp \
-	mtrand.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp

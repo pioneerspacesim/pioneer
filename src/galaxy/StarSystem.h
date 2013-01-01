@@ -56,7 +56,7 @@ class SystemBody {
 public:
 	SystemBody();
 	~SystemBody();
-	void PickPlanetType(MTRand &rand);
+	void PickPlanetType(Random &rand);
 	const SystemBody *FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax);
 	SystemBody *parent;
 	std::vector<SystemBody*> children;
@@ -278,14 +278,14 @@ private:
 		m_bodies.push_back(body);
 		return body;
 	}
-	void MakeShortDescription(MTRand &rand);
-	void MakePlanetsAround(SystemBody *primary, MTRand &rand);
-	void MakeRandomStar(SystemBody *sbody, MTRand &rand);
-	void MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, MTRand &rand);
-	void MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, MTRand &rand);
-	void MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, MTRand &rand);
-	void CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, MTRand &rand);
-	void GenerateFromCustom(const CustomSystem *, MTRand &rand);
+	void MakeShortDescription(Random &rand);
+	void MakePlanetsAround(SystemBody *primary, Random &rand);
+	void MakeRandomStar(SystemBody *sbody, Random &rand);
+	void MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, Random &rand);
+	void MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, Random &rand);
+	void MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Random &rand);
+	void CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, Random &rand);
+	void GenerateFromCustom(const CustomSystem *, Random &rand);
 	void Populate(bool addSpaceStations);
 
 	SystemPath m_path;

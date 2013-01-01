@@ -67,7 +67,7 @@ void Starfield::Fill(unsigned long seed)
 	VertexArray *va = m_model->GetSurface(0)->GetVertices();
 	va->Clear(); // clear if previously filled
 	// Slight colour variation to stars based on seed
-	MTRand rand(seed);
+	Random rand(seed);
 
 	//fill the array
 	for (int i=0; i<BG_STAR_MAX; i++) {

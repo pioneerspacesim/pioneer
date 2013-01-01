@@ -50,7 +50,7 @@ static void _blit_image(const SDLSurfacePtr &s, const char *filename, int xoff, 
 Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context)
 {
 	if (!seed) seed = time(0);
-	MTRand rand(seed);
+	Random rand(seed);
 
 	m_flags = flags;
 	m_seed = seed;
