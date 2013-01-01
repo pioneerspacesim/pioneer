@@ -15,14 +15,30 @@ public:
 	virtual void Draw();
 
 	float GetValue() const { return m_value; }
-	void SetValue(float v) { m_value = Clamp(v, 0.0f, 1.0f); }
+	void SetValue(float v);
+
+	Gauge *SetWarningLevel(float v);
+	Gauge *SetCriticalLevel(float v);
+	Gauge *SetLevelAscending(bool ascending);
 
 protected:
 	friend class Context;
-	Gauge(Context *context): Widget(context), m_value(0.0) {}
+	Gauge(Context *context);
 
 private:
+	void UpdateStyle();
+
 	float m_value;
+
+	float m_warningLevel;
+	float m_criticalLevel;
+	bool m_levelAscending;
+
+	enum {
+		NORMAL,
+		WARNING,
+		CRITICAL
+	} m_style;
 };
 
 }

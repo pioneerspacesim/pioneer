@@ -7,6 +7,14 @@
 
 namespace UI {
 
+Gauge::Gauge(Context *context) : Widget(context),
+	m_value(0.0f),
+	m_warningLevel(1.0f),
+	m_criticalLevel(1.0f),
+	m_levelAscending(true),
+	m_style(NORMAL)
+{}
+
 Point Gauge::PreferredSize()
 {
 	SetSizeControlFlags(EXPAND_WIDTH);
@@ -16,6 +24,47 @@ Point Gauge::PreferredSize()
 void Gauge::Layout()
 {
 	SetActiveArea(Point(GetSize().x, GetContext()->GetSkin().GaugeBackground().size.y));
+}
+
+Gauge *Gauge::SetWarningLevel(float v)
+{
+	m_warningLevel = Clamp(v, 0.0f, 1.0f);
+	UpdateStyle();
+	return this;
+}
+
+Gauge *Gauge::SetCriticalLevel(float v)
+{
+	m_criticalLevel = Clamp(v, 0.0f, 1.0f);
+	UpdateStyle();
+	return this;
+}
+
+Gauge *Gauge::SetLevelAscending(bool ascending)
+{
+	m_levelAscending = ascending;
+	UpdateStyle();
+	return this;
+}
+
+void Gauge::SetValue(float v)
+{
+	m_value = Clamp(v, 0.0f, 1.0f);
+	UpdateStyle();
+}
+
+void Gauge::UpdateStyle()
+{
+	if (m_levelAscending)
+		m_style =
+			m_value > m_criticalLevel ? CRITICAL :
+			m_value > m_warningLevel  ? WARNING  :
+			                            NORMAL;
+	else
+		m_style =
+			m_value < m_criticalLevel ? CRITICAL :
+			m_value < m_warningLevel  ? WARNING  :
+			                            NORMAL;
 }
 
 void Gauge::Draw()
@@ -35,7 +84,20 @@ void Gauge::Draw()
 		s.DrawGaugeMask(activeOffset, activeArea);
 
 		r->SetBlendMode(Graphics::BLEND_DEST_ALPHA);
-		s.DrawGaugeFill(activeOffset, Point(activeArea.x * m_value, activeArea.y));
+
+		const Point size(activeArea.x * m_value, activeArea.y);
+
+		switch (m_style) {
+			case NORMAL:
+				s.DrawGaugeFillNormal(activeOffset, size);
+				break;
+			case WARNING:
+				s.DrawGaugeFillWarning(activeOffset, size);
+				break;
+			case CRITICAL:
+				s.DrawGaugeFillCritical(activeOffset, size);
+				break;
+		}
 
 		r->SetBlendMode(Graphics::BLEND_ALPHA); // restore default
 	}

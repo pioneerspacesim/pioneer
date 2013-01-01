@@ -65,7 +65,9 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 
 	m_gaugeBackground = LoadEdgedRectElement(cfg.String("GaugeBackground"));
 	m_gaugeMask = LoadEdgedRectElement(cfg.String("GaugeMask"));
-	m_gaugeFill = LoadRectElement(cfg.String("GaugeFill"));
+	m_gaugeFillNormal = LoadRectElement(cfg.String("GaugeFillNormal"));
+	m_gaugeFillWarning = LoadRectElement(cfg.String("GaugeFillWarning"));
+	m_gaugeFillCritical = LoadRectElement(cfg.String("GaugeFillCritical"));
 
 	m_buttonMinInnerSize      = cfg.Int("ButtonMinInnerSize");
 

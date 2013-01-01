@@ -108,8 +108,14 @@ public:
 	void DrawGaugeMask(const Point &pos, const Point &size) const {
 		DrawHorizontalEdgedRectElement(m_gaugeMask, pos, size);
 	}
-	void DrawGaugeFill(const Point &pos, const Point &size) const {
-		DrawRectElement(m_gaugeFill, pos, size);
+	void DrawGaugeFillNormal(const Point &pos, const Point &size) const {
+		DrawRectElement(m_gaugeFillNormal, pos, size);
+	}
+	void DrawGaugeFillWarning(const Point &pos, const Point &size) const {
+		DrawRectElement(m_gaugeFillWarning, pos, size);
+	}
+	void DrawGaugeFillCritical(const Point &pos, const Point &size) const {
+		DrawRectElement(m_gaugeFillCritical, pos, size);
 	}
 
 
@@ -163,9 +169,11 @@ public:
 	const RectElement &SliderHorizontalButtonHover()   const { return m_sliderHorizontalButtonHover; }
 	const RectElement &SliderHorizontalButtonActive()  const { return m_sliderHorizontalButtonActive; }
 
-	const EdgedRectElement &GaugeBackground()  const { return m_gaugeBackground; }
-	const EdgedRectElement &GaugeMask()  const { return m_gaugeMask; }
-	const RectElement &GaugeFill()  const { return m_gaugeFill; }
+	const EdgedRectElement &GaugeBackground() const { return m_gaugeBackground; }
+	const EdgedRectElement &GaugeMask()       const { return m_gaugeMask; }
+	const RectElement &GaugeFillNormal()      const { return m_gaugeFillNormal; }
+	const RectElement &GaugeFillWarning()     const { return m_gaugeFillWarning; }
+	const RectElement &GaugeFillCritical()    const { return m_gaugeFillCritical; }
 
 	unsigned int ButtonMinInnerSize() const { return m_buttonMinInnerSize; }
 
@@ -224,7 +232,9 @@ private:
 
 	EdgedRectElement m_gaugeBackground;
 	EdgedRectElement m_gaugeMask;
-	RectElement m_gaugeFill;
+	RectElement m_gaugeFillNormal;
+	RectElement m_gaugeFillWarning;
+	RectElement m_gaugeFillCritical;
 
 	unsigned int m_buttonMinInnerSize;
 

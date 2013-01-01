@@ -158,6 +158,9 @@ int main(int argc, char **argv)
 
 	UI::Gauge *gauge;
 	c->SetInnerWidget(c->HBox()->PackEnd(gauge = c->Gauge()));
+	gauge->SetWarningLevel(0.4f);
+	gauge->SetCriticalLevel(0.2f);
+	gauge->SetLevelAscending(false);
 
 #if 0
 	Thing thing(Lua::manager);
