@@ -9,8 +9,8 @@ namespace UI {
 
 Gauge::Gauge(Context *context) : Widget(context),
 	m_value(0.0f),
-	m_warningLevel(1.0f),
-	m_criticalLevel(1.0f),
+	m_warningLevel(2.0f),
+	m_criticalLevel(2.0f),
 	m_levelAscending(true),
 	m_style(NORMAL)
 {}
@@ -57,14 +57,14 @@ void Gauge::UpdateStyle()
 {
 	if (m_levelAscending)
 		m_style =
-			m_value > m_criticalLevel ? CRITICAL :
-			m_value > m_warningLevel  ? WARNING  :
-			                            NORMAL;
+			m_value > m_criticalLevel && m_criticalLevel <= 1.0f ? CRITICAL :
+			m_value > m_warningLevel  && m_warningLevel  <= 1.0f ? WARNING  :
+			                                                       NORMAL;
 	else
 		m_style =
-			m_value < m_criticalLevel ? CRITICAL :
-			m_value < m_warningLevel  ? WARNING  :
-			                            NORMAL;
+			m_value < m_criticalLevel && m_criticalLevel <= 1.0f ? CRITICAL :
+			m_value < m_warningLevel  && m_warningLevel  <= 1.0f ? WARNING  :
+			                                                       NORMAL;
 }
 
 void Gauge::Draw()
