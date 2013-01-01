@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -458,25 +458,25 @@ void SectorView::OnClickSystem(const SystemPath &path)
 
 void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRadius)
 {
-	int num=0;
-	for (std::vector<Sector::System>::iterator sys = sec->m_systems.begin(); sys !=sec->m_systems.end(); ++sys, ++num) {
+	Uint32 sysIdx = 0;
+	for (std::vector<Sector::System>::iterator sys = sec->m_systems.begin(); sys !=sec->m_systems.end(); ++sys, ++sysIdx) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
 		if ((m_pos*Sector::SIZE - (*sys).FullPosition()).Length() > drawRadius) continue;
 
-		// get a system path to pass to the event handler when the label is licked
-		SystemPath sysPath = SystemPath((*sys).sx, (*sys).sy, (*sys).sz, num);
-
 		// skip the system if it belongs to a Faction we've toggled off, and isn't any of our selections
 		if (m_hiddenFactions.find((*sys).faction) != m_hiddenFactions.end() 
-			&& !sysPath.IsSameSystem(m_selected) && !sysPath.IsSameSystem(m_hyperspaceTarget) && !sysPath.IsSameSystem(m_current)) continue;
+			&& !sys->IsSameSystem(m_selected) && !sys->IsSameSystem(m_hyperspaceTarget) && !sys->IsSameSystem(m_current)) continue;
 
 		// place the label
 		vector3d systemPos = vector3d((*sys).FullPosition() - origin);
 		vector3d screenPos;
 		if (Gui::Screen::Project(systemPos, screenPos)) {
 			// work out the colour
-			float dist = Sector::DistanceBetween(sec, num, GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ), m_current.systemIndex);
+			float dist = Sector::DistanceBetween(sec, sysIdx, GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ), m_current.systemIndex);
 			Color labelColor = (*sys).faction->AdjustedColour((*sys).population, dist <= m_playerHyperspaceRange);
+
+			// get a system path to pass to the event handler when the label is licked
+			SystemPath sysPath = SystemPath((*sys).sx, (*sys).sy, (*sys).sz, sysIdx);
 
 			// setup the label
 			m_clickableLabels->Add((*sys).name, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sysPath), screenPos.x, screenPos.y, labelColor);
@@ -710,8 +710,8 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		m_renderer->DrawLines(4, vts, darkgreen, LINE_LOOP);
 	}
 
-	Uint32 num=0;
-	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++num) {
+	Uint32 sysIdx = 0;
+	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++sysIdx) {
 		// calculate where the system is in relation the centre of the view...
 		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
@@ -719,13 +719,11 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		// ...and skip the system if it doesn't fall within the sphere we're viewing.
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
-		SystemPath current = SystemPath(sx, sy, sz, num);
-
 		// if the system belongs to a faction we've chosen to temporarily hide, but isn't the current system 
 		// or target then skip it
 		m_visibleFactions.insert(i->faction);
 		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end() 
-			&& !current.IsSameSystem(m_selected) && !current.IsSameSystem(m_hyperspaceTarget) && !current.IsSameSystem(m_current)) continue;
+			&& !i->IsSameSystem(m_selected) && !i->IsSameSystem(m_hyperspaceTarget) && !i->IsSameSystem(m_current)) continue;
 
 		// don't worry about looking for inhabited systems if they're
 		// unexplored (same calculation as in StarSystem.cpp) or we've
@@ -740,6 +738,7 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 			if( (diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f) ) {
+				SystemPath current = SystemPath(sx, sy, sz, sysIdx);
 				RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
 				(*i).population = pSS->GetTotalPop();
 			}
@@ -775,7 +774,7 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 			glVertex3f(0.1f, -0.1f, z);
 		glEnd();
 
-		if (current == m_selected) {
+		if (i->IsSameSystem(m_selected)) {
 			m_jumpLine.SetStart(vector3f(0.f, 0.f, 0.f));
 			m_jumpLine.SetEnd(playerAbsPos - sysAbsPos);
 			m_jumpLine.Draw(m_renderer);
@@ -792,21 +791,21 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		m_disk->Draw(m_renderer);
 
 		// player location indicator
-		if (m_inSystem && current == m_current) {
+		if (m_inSystem && i->IsSameSystem(m_current)) {
 			glDepthRange(0.2,1.0);
 			m_disk->SetColor(Color(0.f, 0.f, 0.8f));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(3.f));
 			m_disk->Draw(m_renderer);
 		}
 		// selected indicator
-		if (current == m_selected) {
+		if (i->IsSameSystem(m_current)) {
 			glDepthRange(0.1,1.0);
 			m_disk->SetColor(Color(0.f, 0.8f, 0.f));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
 		}
 		// hyperspace target indicator (if different from selection)
-		if (current == m_hyperspaceTarget && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
+		if (i->IsSameSystem(m_hyperspaceTarget) && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
 			glDepthRange(0.1,1.0);
 			m_disk->SetColor(Color(0.3f));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
@@ -855,16 +854,14 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 void SectorView::BuildFarSector(Sector* sec, const vector3f &origin, std::vector<vector3f> &points, std::vector<Color> &colors)
 {
 	Color starColor;
-	Uint32 num = 0;
-	for (std::vector<Sector::System>::iterator i = sec->m_systems.begin(); i != sec->m_systems.end(); ++i, ++num) {
+	for (std::vector<Sector::System>::iterator i = sec->m_systems.begin(); i != sec->m_systems.end(); ++i) {
 		// skip the system if it doesn't fall within the sphere we're viewing.
 		if ((m_pos*Sector::SIZE - (*i).FullPosition()).Length() > (m_zoomClamped/FAR_THRESHOLD )*OUTER_RADIUS) continue;
 
 		// if the system belongs to a faction we've chosen to hide also skip it, if it's not selectd in some way
 		m_visibleFactions.insert(i->faction);
-		SystemPath sysPath = SystemPath((*i).sx, (*i).sy, (*i).sz, num);
 		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end()
-			&& !sysPath.IsSameSystem(m_selected) && !sysPath.IsSameSystem(m_hyperspaceTarget) && !sysPath.IsSameSystem(m_current)) continue;
+			&& !i->IsSameSystem(m_selected) && !i->IsSameSystem(m_hyperspaceTarget) && !i->IsSameSystem(m_current)) continue;
 
 		// otherwise add the system's position (origin must be m_pos's *sector* or we get judder)
 		// and faction color to the list to draw

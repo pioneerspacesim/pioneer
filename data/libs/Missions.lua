@@ -1,4 +1,4 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -13,15 +13,8 @@
 -- sanitation and error checking.
 --
 
-local MissionStatus = {
-	-- Valid mission states, used in data sanitation
-	ACTIVE = true,
-	COMPLETED = true,
-	FAILED = true,
-}
-
--- Registered mission click functions go here
-local MissionClickHandler = {}
+-- Registered mission type data go here
+local MissionRegister = {}
 
 Mission = {
 --
@@ -31,7 +24,7 @@ Mission = {
 --
 -- Attribute: type
 --
--- The type of mission.  This can be any translatable string token.
+-- The type of mission.  This can be any registered mission typeid.
 --
 -- Availability:
 --
@@ -105,7 +98,7 @@ Mission = {
 --
 -- Attribute: status
 --
--- A string for the current mission status. Must be one of 'ACTIVE', 'COMPLETED' or 'FAILED'
+-- A string for the current mission status.
 --
 -- Availability:
 --
@@ -120,6 +113,61 @@ Mission = {
 --
 -- Group: Methods
 --
+
+--
+-- Method: RegisterType
+--
+-- Register the mission's type, so that the UI has access to information about it. Includes
+-- the name of the mission type, and a function that returns a UI widget for the missions
+-- screen.
+--
+-- > Mission.RegisterType(typeid, display, onClick)
+--
+-- Parameters:
+--
+--   typeid - a unique string with which to distinguish the mission type.
+--            This must be globally unique; the player cannot load modules
+--            that attempt to register a typeid that already exists.
+--   display - a (translatable) string to be shown in the missions list
+--   onClick - (optional) a function which is executed when the details button is
+--             clicked. The mission instance is passed to onClick, which
+--             must return an Engine.ui instance to be displayed on the
+--             missions screen.
+--
+-- Example:
+--
+-- > RegisterType('racing_mission_XC14','Race',function (mission)
+-- >   local race = races[mission] -- Assuming some local table of race missions for example
+-- >   return Engine.UI:Label(string.interp('Stage {stage}: You are in position {pos}',{stage=race.stage, pos=race.pos}))
+-- > end)
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--    experimental
+--
+
+	RegisterType = function (typeid, display, onClick)
+		if not typeid or (type(typeid)~='string') then
+			error('typeid: String expected')
+		end
+		if not display or (type(display)~='string') then
+			error('display: String expected')
+		end
+		if MissionRegister[typeid] then -- We can't have duplicates
+			error('Mission type already registered: '..typeid)
+		end
+		local missiontype = {display = display}
+		if onClick and not (type(onClick) == 'function') then
+			error('onClick: function expected')
+		else
+			missiontype.onClick = onClick -- Might be nil; that's fine
+		end
+		MissionRegister[typeid] = missiontype
+	end,
 
 --
 -- Method: New
@@ -187,6 +235,10 @@ Mission = {
 			newMission[k] = v
 		end
 		setmetatable(newMission,Mission.meta)		
+		if not newMission:GetTypeDescription() then -- An invalid typeid was given
+			error(('Mission.New: type "{typeid}" has not been registered with Mission.RegisterType()')
+					:interp({typeid=newMission.type}))
+		end
 		if not (type(newMission.due) == "number") then newMission.due = nil end
 		if not (type(newMission.reward) == "number") then newMission.reward = nil end
 		if not (type(newMission.location) == "userdata") then newMission.location = Game.system.path end
@@ -222,46 +274,6 @@ Mission = {
 	end,
 
 --
--- Method: RegisterClick
---
--- Register a handler function for the mission list button
---
--- > Mission.RegisterClick(type, handler)
---
--- Parameters:
---
---   type - the mission type, as defined in Mission.New()
---
---   handler - a function to be run when the "Active" button is
---             clicked. Handler is passed a reference compatible with
---             Mission.Get() and must return an Engine.ui instance, which
---             may be displayed on the missions screen.
---
--- Example:
---
--- > Mission.RegisterClick('Race',function (ref)
--- >   local race = races[ref] -- Assuming some local table of races for example
--- >   return Engine.UI:Label(string.interp('Stage {stage}: You are in position {pos}',{stage=race.stage, pos=race.pos}))
--- > end)
---
--- Availability:
---
--- alpha 29
---
--- Status:
---
--- experimental
---
-	RegisterClick = function (missiontype, handler)
-		if not (type(missiontype) == 'string') then
-			error('Mission.RegisterClick: type must be a translatable string token')
-		end
-		if not (type(handler) == 'function') then
-			error('Mission.RegisterClick: handler must be a function')
-		end
-		MissionClickHandler[missiontype] = handler
-	end,
---
 -- Method: GetClick
 --
 -- Internal method to retrieve a handler function for the mission list button.
@@ -274,7 +286,7 @@ Mission = {
 --
 --   handler - a function to be connected to the missions form 'Active'
 --             button. handler will be passed the mission as its sole argument
---             and is expected to return an [Engine.UI] object.
+--             and is expected to return an [Engine.UI] object, or nil.
 --
 -- Availability:
 --
@@ -286,7 +298,36 @@ Mission = {
 --
 	GetClick = function (self)
 		local t = Translate:GetTranslator()
-		return MissionClickHandler[self.type] or function (ref) return Engine.ui:Label(t('NOT_FOUND')) end
+		return (MissionRegister[self.type] and MissionRegister[self.type].onClick)
+				or function (ref) return Engine.ui:Label(t('NOT_FOUND')) end
+	end,
+
+--
+-- Method: GetTypeDescription
+--
+-- Internal method to retrieve a descriptive text for the mission list.
+-- Normally called from InfoView/Missions, but could be useful elsewhere.
+--
+-- > displayType = ourMission:GetTypeDescription()
+--
+--
+-- Returns:
+--
+--   displayType - a ready-translated string describing the mission's type, or nil.
+--                 A nil return value indicates an unregistered mission type.
+--
+-- Availability:
+--
+-- alpha 30
+--
+-- Status:
+--
+-- experimental
+--
+	GetTypeDescription = function (self)
+		local t = Translate:GetTranslator()
+		return MissionRegister[self.type] and t(MissionRegister[self.type].display)
+		-- Might return nil; this indicates an unregistered mission type.
 	end,
 
 	Serialize = function (self)

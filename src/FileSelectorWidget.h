@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _FILESELECTORWIDGET_H
@@ -25,5 +25,23 @@ private:
 	std::string m_title;
 	Gui::TextEntry *m_tentry;
 };
+
+class FileSelectorDialog {
+public:
+	FileSelectorDialog(FileSelectorWidget::Type type, const std::string &title);
+
+	bool run();
+	const std::string &GetFilename() const { return m_filename; }
+
+private:
+	void OnSelect(const std::string &path);
+	void OnCancel();
+
+	FileSelectorWidget *m_selector;
+	std::string m_filename;
+	bool m_done;
+};
+
+bool ShowFileSelectorDialog(FileSelectorWidget::Type type, const std::string &title, std::string &filename);
 
 #endif

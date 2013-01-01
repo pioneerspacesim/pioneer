@@ -378,14 +378,6 @@ local missions = function ()
 	local missionbox = ui:VBox(10)
 
 	for ref,mission in pairs(PersistentCharacters.player.missions) do
-		if not Translate:Translatable(mission.type) then
-			-- This mission's type is likely from a module that has been removed,
-			-- so we'll add a default token here. Messy, but saves a crash. If
-			-- the module is restored, the mission type will be restored also.
-			-- Note: English is the hard-coded fallback language. This is a
-			-- run-time change, with no known side-effects.
-			Translate:Add({English = {[mission.type] = t('NONE')}})
-		end
 		-- Format the location
 		local missionLocationName
 		if mission.location.bodyIndex then
@@ -401,13 +393,15 @@ local missions = function ()
 				:PackEnd((mission:GetClick())(mission)))
 		end)
 
+		local description = mission:GetTypeDescription()
 		missionbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
-			ui:Label(t(mission.type)),
+			ui:Label(description or t('NONE')),
 			ui:Label(mission.client.name),
 			ui:MultiLineText(missionLocationName),
 			ui:Label(Format.Date(mission.due)),
 			ui:Label(Format.Money(mission.reward)),
-			ui:Label(t(mission.status)),
+			-- nil description means mission type isn't registered.
+			ui:Label((description and t(mission.status)) or t('INACTIVE')),
 			moreButton.widget,
 		}))
 	end

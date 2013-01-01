@@ -1,4 +1,4 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Get the translator function
@@ -378,6 +378,6 @@ Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 
-Mission.RegisterClick('Taxi',onClick)
+Mission.RegisterType('Taxi','Taxi',onClick)
 
 Serializer:Register("Taxi", serialize, unserialize)

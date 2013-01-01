@@ -16,6 +16,8 @@ Alpha 30
      * Rondel system moved further away from Sol and surrounding stars (#1861, #1815)
      * Star fade-in has been adjusted to make stars less visible in daytime (#1881)
      * Some missions now state the distance to the target system (#1886)
+     * Try harder to find a populated homeworld for a faction (#1860, #1792)
+     * Clicking cancel from the Load dialog now returns you to the game (#1847, #1325)
 
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)
@@ -57,6 +59,8 @@ Alpha 30
      * Unknown tokens for Lua translations are no longer treated as errors (#1865, #1862)
      * Rename terrain noise macros to avoid global namespace polliution (#1883)
      * Various code improvements in frame handling and other things (#1812)
+     * Cleanup SectorView system index usage (#1884)
+     * Split FileSelectorDialog and LoadGame/SaveGame out of GameLoaderSaver (#1847)
 
 Alpha 29
 

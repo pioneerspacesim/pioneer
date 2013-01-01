@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SECTOR_H
@@ -30,7 +30,7 @@ public:
 
 	class System {
 	public:
-		System(int x, int y, int z): customSys(0), population(-1), sx(x), sy(y), sz(z) {};
+		System(int x, int y, int z, Uint32 si): customSys(0), population(-1), sx(x), sy(y), sz(z), idx(si) {};
 		~System() {};
 
 		// Check that we've had our habitation status set
@@ -46,8 +46,12 @@ public:
 		fixed population;
 
 		vector3f FullPosition() { return Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + p; };
+		bool IsSameSystem(const SystemPath &b) const { 
+			return sx == b.sectorX && sy == b.sectorY && sz == b.sectorZ && idx == b.systemIndex;
+		}
 
 		int sx, sy, sz;
+		Uint32 idx;
 	};
 	std::vector<System> m_systems;
 

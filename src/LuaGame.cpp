@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaGame.h"
@@ -88,19 +88,10 @@ static int l_game_load_game(lua_State *l)
 		return 0;
 	}
 
-	const std::string filename(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, luaL_checkstring(l, 1)));
+	const std::string filename(luaL_checkstring(l, 1));
 
-	Game *newGame = 0;
-
-	// XXX use FileSystem stuff
 	try {
-		FILE *f = FileSystem::userFiles.OpenReadStream(filename);
-		if (!f) throw CouldNotOpenFileException();
-
-		Serializer::Reader rd(f);
-		fclose(f);
-
-		newGame = new Game(rd);
+		Pi::game = Game::LoadGame(filename);
 	}
 	catch (SavedGameCorruptException) {
 		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
@@ -108,12 +99,6 @@ static int l_game_load_game(lua_State *l)
 	catch (CouldNotOpenFileException) {
 		luaL_error(l, Lang::GAME_LOAD_CANNOT_OPEN);
 	}
-
-	// XXX deal with this gracefully
-	if (!newGame)
-		abort();
-
-	Pi::game = newGame;
 
 	return 0;
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GameMenuView.h"
@@ -11,9 +11,9 @@
 #include "KeyBindings.h"
 #include "Lang.h"
 #include "StringF.h"
-#include "GameLoaderSaver.h"
 #include "Game.h"
 #include "FileSystem.h"
+#include "FileSelectorWidget.h"
 #include "graphics/Graphics.h"
 
 class KeyGetter: public Gui::Fixed {
@@ -637,25 +637,43 @@ void GameMenuView::OpenSaveDialog()
 		Pi::cpan->MsgLog()->Message("", Lang::CANT_SAVE_IN_HYPERSPACE);
 		return;
 	}
-	GameSaver saver(Pi::game);
-	saver.DialogMainLoop();
-	const std::string filename = saver.GetFilename();
-	if (!filename.empty())
-		Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO + FileSystem::JoinPath(Pi::GetSaveDir(), filename));
+
+	std::string filename;
+	bool ok = ShowFileSelectorDialog(FileSelectorWidget::SAVE, Lang::SELECT_FILENAME_TO_SAVE, filename);
+	if (ok) {
+		const std::string path = FileSystem::JoinPath(Pi::GetSaveDir(), filename);
+		try {
+			Game::SaveGame(filename, Pi::game);
+			Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO + path); // XXX stringf with an arg would be better
+		}
+		catch (CouldNotOpenFileException) {
+			Gui::Screen::ShowBadError(stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)).c_str());
+		}
+		catch (CouldNotWriteToFileException) {
+			Gui::Screen::ShowBadError(Lang::GAME_SAVE_CANNOT_WRITE);
+		}
+	}
 }
 
 void GameMenuView::OpenLoadDialog()
 {
-	Pi::EndGame();
-
-	GameLoader loader;
-	loader.DialogMainLoop();
-
-	Game *newGame = loader.GetGame();
-	if (newGame) {
-		Pi::game = newGame;
-		Pi::InitGame();
-		Pi::StartGame();
+	std::string filename;
+	bool ok = ShowFileSelectorDialog(FileSelectorWidget::LOAD, Lang::SELECT_FILENAME_TO_LOAD, filename);
+	if (ok) {
+		// XXX one day we'll be able to load a new game without tearing down the old one
+		Pi::EndGame();
+		try {
+			Game *newGame = Game::LoadGame(filename);
+			Pi::game = newGame;
+			Pi::InitGame();
+			Pi::StartGame();
+		}
+		catch (SavedGameCorruptException) {
+			Gui::Screen::ShowBadError(Lang::GAME_LOAD_CORRUPT);
+		}
+		catch (CouldNotOpenFileException) {
+			Gui::Screen::ShowBadError(Lang::GAME_LOAD_CANNOT_OPEN);
+		}
 	}
 }
 
