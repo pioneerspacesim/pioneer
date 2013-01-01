@@ -237,7 +237,8 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 
 void SystemInfoView::OnClickBackground(Gui::MouseButtonEvent *e)
 {
-	if (e->isdown) {
+	// refresh on left mouse down
+	if (e->isdown && e->button == 1) {
 		// XXX reinit view unnecessary - we only want to show
 		// the general system info text...
 		m_refresh = true;
