@@ -1,4 +1,4 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 -- Currently called "turtle" spacecraft, low relative dv (to something a lot bigger), high 3d impulse manned maneuvering vehicle, for uncooperative intercept in a high number threat environment.
