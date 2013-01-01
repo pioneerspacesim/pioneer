@@ -238,9 +238,6 @@ local econTrade = function ()
 
 	local stats = Game.player:GetStats()
 
-	local usedCargo = stats.usedCargo
-	local totalCargo = stats.freeCapacity
-
 	local usedCabins = Game.player:GetEquipCount("CABIN", "PASSENGER_CABIN")
 	local totalCabins = Game.player:GetEquipCount("CABIN", "UNOCCUPIED_CABIN") + usedCabins
 
@@ -296,8 +293,13 @@ local econTrade = function ()
 
 	cargoListWidget:SetInnerWidget(updateCargoListWidget())
 
-	local totalCargoWidget = ui:Label(t("Total: ")..totalCargo.."t")
-	local usedCargoWidget = ui:Label(t("USED")..": "..usedCargo.."t")
+	local cargoGauge = UI.InfoGauge.New({
+		formatter = function (v)
+			local stats = Game.player:GetStats()
+			return string.format("%d/%dt", stats.usedCargo, stats.freeCapacity)
+		end
+	})
+	cargoGauge:SetValue(stats.usedCargo/stats.freeCapacity)
 
 	local fuelGauge = UI.InfoGauge.New({
 		formatter      = function (v) return string.format("%.1f%%", v*100) end,
@@ -320,10 +322,9 @@ local econTrade = function ()
 		Game.player:Refuel(1)
 		-- ...then we update the cargo list widget...
 		cargoListWidget:SetInnerWidget(updateCargoListWidget())
-		-- ...and the totals.
+		-- ...and the gauge.
 		stats = Game.player:GetStats()
-		totalCargoWidget:SetText(t("Total: ")..stats.freeCapacity.."t")
-		usedCargoWidget:SetText(t("USED")..": "..stats.usedCargo.."t")
+		cargoGauge:SetValue(stats.usedCargo/stats.freeCapacity)
 
 		refuelButtonRefresh()
 	end
@@ -333,36 +334,38 @@ local econTrade = function ()
 	return ui:Expand():SetInnerWidget(
 		ui:Grid(2,1)
 			:SetColumn(0, {
-				ui:VBox(20):PackEnd({
-					ui:Grid(2,1)
-						:SetColumn(0, {
-							ui:VBox():PackEnd({
-								ui:Label(t("CASH")..":"),
-								ui:Margin(10),
-								ui:Label(t("CARGO_SPACE")..":"),
-								ui:Label(t("CABINS")..":"),
-								ui:Margin(10),
+				ui:Margin(5, "HORIZONTAL",
+					ui:VBox(20):PackEnd({
+						ui:Grid(2,1)
+							:SetColumn(0, {
+								ui:VBox():PackEnd({
+									ui:Label(t("CASH")..":"),
+									ui:Margin(10),
+									ui:Label(t("CARGO_SPACE")..":"),
+									ui:Label(t("CABINS")..":"),
+									ui:Margin(10),
+								})
 							})
-						})
-						:SetColumn(1, {
-							ui:VBox():PackEnd({
-								ui:Label(string.format("$%.2f", cash)),
-								ui:Margin(10),
-								ui:Grid(2,1):SetRow(0, { totalCargoWidget, usedCargoWidget }),
-								ui:Grid(2,1):SetRow(0, { ui:Label(t("Total: ")..totalCabins), ui:Label(t("USED")..": "..usedCabins) }),
-								ui:Margin(10),
-							})
-						}),
-					ui:Grid({50,10,40},1)
-						:SetRow(0, {
-							ui:HBox(5):PackEnd({
-								ui:Label("Fuel:"),
-								fuelGauge,
+							:SetColumn(1, {
+								ui:VBox():PackEnd({
+									ui:Label(string.format("$%.2f", cash)),
+									ui:Margin(10),
+									cargoGauge.widget,
+									ui:Grid(2,1):SetRow(0, { ui:Label(t("Total: ")..totalCabins), ui:Label(t("USED")..": "..usedCabins) }),
+									ui:Margin(10),
+								})
 							}),
-							nil,
-							refuelButton.widget,
-						})
-				})
+						ui:Grid({50,10,40},1)
+							:SetRow(0, {
+								ui:HBox(5):PackEnd({
+									ui:Label("Fuel:"),
+									fuelGauge,
+								}),
+								nil,
+								refuelButton.widget,
+							})
+					})
+				)
 			})
 			:SetColumn(1, {
 				cargoListWidget
