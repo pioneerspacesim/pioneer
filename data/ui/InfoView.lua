@@ -299,7 +299,12 @@ local econTrade = function ()
 	local totalCargoWidget = ui:Label(t("Total: ")..totalCargo.."t")
 	local usedCargoWidget = ui:Label(t("USED")..": "..usedCargo.."t")
 
-	local fuelGauge = ui:Gauge()
+	local fuelGauge = UI.InfoGauge.New({
+		formatter      = function (v) return string.format("%.1f%%", v*100) end,
+		warningLevel   = 0.1,
+		criticalLevel  = 0.05,
+		levelAscending = false,
+	})
 
 	-- Define the refuel button
 	local refuelButton = UI.SmallLabeledButton.New(t('REFUEL'))
