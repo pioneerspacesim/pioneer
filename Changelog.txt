@@ -58,6 +58,7 @@ Alpha 30
      * Unknown tokens for Lua translations are no longer treated as errors (#1865, #1862)
      * Rename terrain noise macros to avoid global namespace polliution (#1883)
      * Various code improvements in frame handling and other things (#1812)
+     * Cleanup SectorView system index usage (#1884)
 
 Alpha 29
 
