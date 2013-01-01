@@ -16,11 +16,11 @@ Alpha 30
      * Rondel system moved further away from Sol and surrounding stars (#1861, #1815)
      * Star fade-in has been adjusted to make stars less visible in daytime (#1881)
      * Some missions now state the distance to the target system (#1886)
+     * Try harder to find a populated homeworld for a faction (#1860, #1792)
 
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)
      * Custom systems can now define gravpoints (#1701, #1074)
-     * Mission type registry (#1870, #1863)
 
    * Fixes
      * Interpret galaxy density bitmap as unsigned values (#1818, #1813)
