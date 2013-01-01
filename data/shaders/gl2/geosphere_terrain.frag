@@ -27,7 +27,9 @@ void main(void)
 	vec4 diff = vec4(0.0);
 	float nDotVP;
 	float nnDotVP;
+#ifdef TERRAIN_WITH_WATER
 	float specularReflection;
+#endif
 
 #if (NUM_LIGHTS > 0)
 	for (int i=0; i<NUM_LIGHTS; ++i) {
@@ -35,6 +37,7 @@ void main(void)
 		nnDotVP = max(0.0, dot(tnorm, normalize(-vec3(gl_LightSource[i].position)))); //need backlight to increase horizon
 		diff += 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0)/float(NUM_LIGHTS));
 
+#ifdef TERRAIN_WITH_WATER
 		//Specular reflection
 		vec3 L = normalize(gl_LightSource[i].position.xyz - eyepos); 
 		vec3 E = normalize(-eyepos);
@@ -43,6 +46,7 @@ void main(void)
 	    	if (vertexColor.b > 0.05 && vertexColor.r < 0.05) {
 			specularReflection += pow(max(dot(R,E),0.0),16.0)*0.4/float(NUM_LIGHTS);
 		}
+#endif
 	}
 
 #ifdef ATMOSPHERE
@@ -83,9 +87,11 @@ void main(void)
 		((scene.ambient * vertexColor) +
 		(diff * vertexColor)) +
 		(1.0-fogFactor)*(atmosDiffuse*atmosColor) +
+#ifdef TERRAIN_WITH_WATER
+		  diff*specularReflection*sunset +
+#endif
 		  (0.02-clamp(fogFactor,0.0,0.01))*atmosDiffuse*ldprod*sunset +	      //increase fog scatter				
-		  (pow((1.0-pow(fogFactor,0.75)),256.0)*0.4*diff*atmosColor)*sunset + //distant fog.
-		  +diff*specularReflection*sunset;
+		  (pow((1.0-pow(fogFactor,0.75)),256.0)*0.4*diff*atmosColor)*sunset;  //distant fog.
 #else // atmosphere-less planetoids and dim stars
 	gl_FragColor =
 		material.emission +
