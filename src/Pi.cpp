@@ -106,6 +106,8 @@ char Pi::keyState[SDLK_LAST];
 char Pi::mouseButton[6];
 int Pi::mouseMotion[2];
 bool Pi::doingMouseGrab = false;
+bool Pi::warpAfterMouseGrab = false;
+int Pi::mouseGrabWarpPos[2];
 Player *Pi::player;
 View *Pi::currentView;
 WorldView *Pi::worldView;
@@ -291,6 +293,24 @@ void Pi::Init()
 	Pi::detail.textures = config->Int("Textures");
 	Pi::detail.fracmult = config->Int("FractalMultiple");
 	Pi::detail.cities = config->Int("DetailCities");
+
+#ifdef __linux__
+	// there appears to be a bug in the Linux evdev input driver that stops
+	// DGA mouse grab restoring state correctly. SDL can use an alternative
+	// method, but its only configurable via environment variable. Here we set
+	// that environment variable (unless the user explicitly doesn't want it
+	// via config).
+	//
+	// we also enable warp-after-grab here, as the SDL alternative method
+	// doesn't restore the mouse pointer to its pre-grab position
+	//
+	// XXX SDL2 uses a different mechanism entirely and this environment
+	// variable doesn't exist there, so we can get rid of it when we go to SDL2
+	if (!config->Int("SDLUseDGAMouse")) {
+		Pi::warpAfterMouseGrab = true;
+		setenv("SDL_VIDEO_X11_DGAMOUSE", "0", 1);
+	}
+#endif
 
 	// Initialize SDL
 	Uint32 sdlInitFlags = SDL_INIT_VIDEO | SDL_INIT_JOYSTICK;
@@ -1205,13 +1225,15 @@ void Pi::SetMouseGrab(bool on)
 	if (!doingMouseGrab && on) {
 		SDL_ShowCursor(0);
 		SDL_WM_GrabInput(SDL_GRAB_ON);
-//		SDL_SetRelativeMouseMode(true);
+		if (Pi::warpAfterMouseGrab)
+			SDL_GetMouseState(&mouseGrabWarpPos[0], &mouseGrabWarpPos[1]);
 		doingMouseGrab = true;
 	}
 	else if(doingMouseGrab && !on) {
-		SDL_ShowCursor(1);
 		SDL_WM_GrabInput(SDL_GRAB_OFF);
-//		SDL_SetRelativeMouseMode(false);
+		if (Pi::warpAfterMouseGrab)
+			SDL_WarpMouse(mouseGrabWarpPos[0], mouseGrabWarpPos[1]);
+		SDL_ShowCursor(1);
 		doingMouseGrab = false;
 	}
 }
