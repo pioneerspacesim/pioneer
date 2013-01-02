@@ -771,8 +771,6 @@ void Space::TimeStep(float step)
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
 
-	m_bodyDistFinder.Prepare();
-
 	// XXX don't emit events in hyperspace. this is mostly to maintain the
 	// status quo. in particular without this onEnterSystem will fire in the
 	// frame immediately before the player leaves hyperspace and the system is
@@ -784,6 +782,8 @@ void Space::TimeStep(float step)
 	}
 
 	UpdateBodies();
+
+	m_bodyDistFinder.Prepare();
 }
 
 void Space::UpdateBodies()
