@@ -107,6 +107,9 @@ private:
 		BodyDistFinder(const Space *space) : m_space(space) {}
 		void Prepare();
 
+		unsigned int GetBodiesNear(const Body *b, double dist, std::vector<const Body *> &bodies) const;
+		unsigned int GetBodiesNear(const vector3d &pos, double dist, std::vector<const Body *> &bodies) const;
+
 	private:
 		struct BodyDist {
 			BodyDist(const Body *_body, double _dist) : body(_body), dist(_dist) {}

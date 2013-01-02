@@ -35,6 +35,33 @@ void Space::BodyDistFinder::Prepare()
 	std::sort(m_bodyDist.begin(), m_bodyDist.end());
 }
 
+unsigned int Space::BodyDistFinder::GetBodiesNear(const Body *b, double dist, std::vector<const Body *> &bodies) const
+{
+	return GetBodiesNear(b->GetPositionRelTo(m_space->GetRootFrame()), dist, bodies);
+}
+
+unsigned int Space::BodyDistFinder::GetBodiesNear(const vector3d &pos, double dist, std::vector<const Body *> &bodies) const
+{
+	if (m_bodyDist.empty()) return 0;
+
+	const double len = pos.Length();
+
+	const double minDist = len-dist;
+	unsigned int minPos;
+	for (minPos = 0; minPos < m_bodyDist.size() && m_bodyDist[minPos].dist < minDist; minPos++);
+	if (minPos == m_bodyDist.size()) return 0;
+
+	const double maxDist = len+dist;
+	unsigned int maxPos;
+	for (maxPos = m_bodyDist.size()-1; maxPos > minPos-1 && m_bodyDist[maxPos].dist >= maxDist; maxPos--);
+	if (maxPos < minPos) return 0;
+
+	for (unsigned int i = minPos; i <= maxPos; i++)
+		bodies.push_back(m_bodyDist[i].body);
+
+	return maxPos-minPos+1;
+}
+
 
 Space::Space(Game *game)
 	: m_game(game)
