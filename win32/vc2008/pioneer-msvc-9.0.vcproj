@@ -2627,11 +2627,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\mtrand.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\mtrand.h"
+				RelativePath="..\..\src\rand.h"
 				>
 			</File>
 			<File
