@@ -42,6 +42,7 @@ Alpha 30
      * Fix long-broken mouse flight under Linux by disabling DGA. Set config
        option SDLUseDGAMouse=1 to revert to old behaviour (#1892, #5)
      * Fix system info view to ignore irrelevant mouse wheel scroll events (#1894)
+     * Don't toggle labels and rotation damping while console is active (#1897, #1364)
 
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
