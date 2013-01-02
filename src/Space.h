@@ -102,6 +102,26 @@ private:
 	//e.g. starfield and milky way)
 	Background::Container m_background;
 
+	class BodyDistFinder {
+	public:
+		BodyDistFinder(const Space *space) : m_space(space) {}
+		void Prepare();
+
+	private:
+		struct BodyDist {
+			BodyDist(const Body *_body, double _distSqr) : body(_body), distSqr(_distSqr) {}
+			const Body *body;
+			double      distSqr;
+
+			bool operator<(const BodyDist &a) const { return distSqr < a.distSqr; }
+		};
+
+		const Space *m_space;
+		std::vector<BodyDist> m_bodyDist;
+	};
+
+	BodyDistFinder m_bodyDistFinder;
+
 #ifndef NDEBUG
 	//to check RemoveBody and KillBody are not called from within
 	//the NotifyRemoved callback (#735)

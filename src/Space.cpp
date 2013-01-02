@@ -25,12 +25,24 @@
 #include "MathUtil.h"
 #include "LuaEvent.h"
 
+void Space::BodyDistFinder::Prepare()
+{
+	m_bodyDist.clear();
+
+	for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
+		m_bodyDist.push_back(BodyDist((*i), (*i)->GetPositionRelTo(m_space->GetRootFrame()).LengthSqr()));
+
+	std::sort(m_bodyDist.begin(), m_bodyDist.end());
+}
+
+
 Space::Space(Game *game)
 	: m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
 	, m_background(Pi::renderer, UNIVERSE_SEED)
+	, m_bodyDistFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -45,6 +57,7 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
 	, m_background(Pi::renderer)
+	, m_bodyDistFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -68,6 +81,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
 	, m_background(Pi::renderer)
+	, m_bodyDistFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -729,6 +743,8 @@ void Space::TimeStep(float step)
 
 	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
 		(*i)->TimeStepUpdate(step);
+
+	m_bodyDistFinder.Prepare();
 
 	// XXX don't emit events in hyperspace. this is mostly to maintain the
 	// status quo. in particular without this onEnterSystem will fire in the
