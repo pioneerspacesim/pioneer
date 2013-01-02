@@ -618,7 +618,10 @@ void Pi::HandleEvents()
 			continue;
 
 		Gui::HandleSDLEvent(&event);
-		KeyBindings::DispatchSDLEvent(&event);
+		if (!Pi::IsConsoleActive())
+			KeyBindings::DispatchSDLEvent(&event);
+		else
+			KeyBindings::toggleLuaConsole.CheckSDLEventAndDispatch(&event);
 
 		switch (event.type) {
 			case SDL_KEYDOWN:
