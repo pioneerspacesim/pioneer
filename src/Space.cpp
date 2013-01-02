@@ -30,7 +30,7 @@ void Space::BodyDistFinder::Prepare()
 	m_bodyDist.clear();
 
 	for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
-		m_bodyDist.push_back(BodyDist((*i), (*i)->GetPositionRelTo(m_space->GetRootFrame()).LengthSqr()));
+		m_bodyDist.push_back(BodyDist((*i), (*i)->GetPositionRelTo(m_space->GetRootFrame()).Length()));
 
 	std::sort(m_bodyDist.begin(), m_bodyDist.end());
 }

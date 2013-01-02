@@ -109,11 +109,11 @@ private:
 
 	private:
 		struct BodyDist {
-			BodyDist(const Body *_body, double _distSqr) : body(_body), distSqr(_distSqr) {}
+			BodyDist(const Body *_body, double _dist) : body(_body), dist(_dist) {}
 			const Body *body;
-			double      distSqr;
+			double      dist;
 
-			bool operator<(const BodyDist &a) const { return distSqr < a.distSqr; }
+			bool operator<(const BodyDist &a) const { return dist < a.dist; }
 		};
 
 		const Space *m_space;
