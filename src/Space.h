@@ -64,6 +64,14 @@ public:
 
 	Background::Container& GetBackground() { return m_background; }
 
+	// body finder delegates
+	unsigned int GetBodiesNear(const Body *b, double dist, std::vector<const Body *> &bodies) const {
+		return m_bodyDistFinder.GetBodiesNear(b, dist, bodies);
+	}
+	unsigned int GetBodiesNear(const vector3d &pos, double dist, std::vector<const Body *> &bodies) const {
+		return m_bodyDistFinder.GetBodiesNear(pos, dist, bodies);
+	}
+
 private:
 	void GenBody(SystemBody *b, Frame *f);
 	// make sure SystemBody* is in Pi::currentSystem
