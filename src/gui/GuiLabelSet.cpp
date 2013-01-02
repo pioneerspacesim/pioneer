@@ -16,7 +16,7 @@ LabelSet::LabelSet() : Widget()
 
 bool LabelSet::OnMouseDown(Gui::MouseButtonEvent *e)
 {
-	if ((e->button == 1) && (m_labelsClickable)) {
+	if ((e->button == SDL_BUTTON_LEFT) && (m_labelsClickable)) {
 		for (std::vector<LabelSetItem>::iterator i = m_items.begin(); i != m_items.end(); ++i) {
 			if ((fabs(e->x - (*i).screenx) < 10.0f) &&
 			    (fabs(e->y - (*i).screeny) < 10.0f)) {

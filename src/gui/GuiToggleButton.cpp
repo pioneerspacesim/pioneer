@@ -14,7 +14,7 @@ ToggleButton::ToggleButton()
 }
 bool ToggleButton::OnMouseDown(MouseButtonEvent *e)
 {
-	if (e->button == 1) {
+	if (e->button == SDL_BUTTON_LEFT) {
 		onPress.emit();
 		m_pressed = !m_pressed;
 		if (m_pressed) {
