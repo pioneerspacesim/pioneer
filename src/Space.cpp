@@ -35,12 +35,12 @@ void Space::BodyDistFinder::Prepare()
 	std::sort(m_bodyDist.begin(), m_bodyDist.end());
 }
 
-unsigned int Space::BodyDistFinder::GetBodiesNear(const Body *b, double dist, std::vector<const Body *> &bodies) const
+unsigned int Space::BodyDistFinder::GetBodiesNear(const Body *b, double dist, BodyFindList &bodies) const
 {
 	return GetBodiesNear(b->GetPositionRelTo(m_space->GetRootFrame()), dist, bodies);
 }
 
-unsigned int Space::BodyDistFinder::GetBodiesNear(const vector3d &pos, double dist, std::vector<const Body *> &bodies) const
+unsigned int Space::BodyDistFinder::GetBodiesNear(const vector3d &pos, double dist, BodyFindList &bodies) const
 {
 	if (m_bodyDist.empty()) return 0;
 

@@ -65,12 +65,15 @@ public:
 	Background::Container& GetBackground() { return m_background; }
 
 	// body finder delegates
-	unsigned int GetBodiesNear(const Body *b, double dist, std::vector<const Body *> &bodies) const {
+	typedef std::vector<const Body*> BodyFindList;
+	typedef BodyFindList::const_iterator BodyFindIterator;
+	unsigned int GetBodiesNear(const Body *b, double dist, BodyFindList &bodies) const {
 		return m_bodyDistFinder.GetBodiesNear(b, dist, bodies);
 	}
-	unsigned int GetBodiesNear(const vector3d &pos, double dist, std::vector<const Body *> &bodies) const {
+	unsigned int GetBodiesNear(const vector3d &pos, double dist, BodyFindList &bodies) const {
 		return m_bodyDistFinder.GetBodiesNear(pos, dist, bodies);
 	}
+
 
 private:
 	void GenBody(SystemBody *b, Frame *f);
@@ -115,8 +118,8 @@ private:
 		BodyDistFinder(const Space *space) : m_space(space) {}
 		void Prepare();
 
-		unsigned int GetBodiesNear(const Body *b, double dist, std::vector<const Body *> &bodies) const;
-		unsigned int GetBodiesNear(const vector3d &pos, double dist, std::vector<const Body *> &bodies) const;
+		unsigned int GetBodiesNear(const Body *b, double dist, BodyFindList &bodies) const;
+		unsigned int GetBodiesNear(const vector3d &pos, double dist, BodyFindList &bodies) const;
 
 	private:
 		struct BodyDist {

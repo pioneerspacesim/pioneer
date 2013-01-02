@@ -858,11 +858,11 @@ void Ship::UpdateAlertState()
 
 	static const double ALERT_DISTANCE = 100000.0; // 100km
 
-	std::vector<const Body *> nearby;
+	Space::BodyFindList nearby;
 	Pi::game->GetSpace()->GetBodiesNear(this, ALERT_DISTANCE, nearby);
 
 	bool ship_is_near = false, ship_is_firing = false;
-	for (std::vector<const Body *>::const_iterator i = nearby.begin(); i != nearby.end(); ++i)
+	for (Space::BodyFindIterator i = nearby.begin(); i != nearby.end(); ++i)
 	{
 		if ((*i) == this) continue;
 		if (!(*i)->IsType(Object::SHIP) || (*i)->IsType(Object::MISSILE)) continue;
