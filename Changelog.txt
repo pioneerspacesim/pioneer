@@ -18,6 +18,7 @@ Alpha 30
      * Some missions now state the distance to the target system (#1886)
      * Try harder to find a populated homeworld for a faction (#1860, #1792)
      * Clicking cancel from the Load dialog now returns you to the game (#1847, #1325)
+     * Bulk ships are now only placed at orbital stations (#1890)
 
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)

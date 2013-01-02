@@ -910,6 +910,10 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 // great place for this, but its gotta be tracked somewhere
 bool SpaceStation::AllocateStaticSlot(int& slot)
 {
+	// no slots at ground stations
+	if (IsGroundStation())
+		return false;
+
 	for (int i=0; i<NUM_STATIC_SLOTS; i++) {
 		if (!m_staticSlot[i]) {
 			m_staticSlot[i] = true;
