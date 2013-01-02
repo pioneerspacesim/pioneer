@@ -38,6 +38,8 @@ Alpha 30
      * Fix loading of player's criminal record and fines (#1877, #1874)
      * Selected systems are now always shown in the sector view (#1864)
      * Fix crash bug in Lua function SystemPath.DistanceTo
+     * Fix long-broken mouse flight under Linux by disabling DGA. Set config
+       option SDLUseDGAMouse=1 to revert to old behaviour (#1892)
 
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
