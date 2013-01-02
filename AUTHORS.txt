@@ -25,6 +25,7 @@ As of 14 December 2012 (alpha 29), the Pioneer Developers are:
 * Fran Morton
 * Frank Klippenberg
 * Gareth Allnutt
+* Gaz Davidson
 * Gernot
 * Jan Olsina
 * John Bartholomew

@@ -40,6 +40,7 @@ Alpha 30
      * Fix crash bug in Lua function SystemPath.DistanceTo
      * Fix long-broken mouse flight under Linux by disabling DGA. Set config
        option SDLUseDGAMouse=1 to revert to old behaviour (#1892, #5)
+     * Fix system info view to ignore irrelevant mouse wheel scroll events (#1894)
 
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
