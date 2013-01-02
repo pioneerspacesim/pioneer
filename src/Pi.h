@@ -181,6 +181,8 @@ private:
 	static char mouseButton[6];
 	static int mouseMotion[2];
 	static bool doingMouseGrab;
+	static bool warpAfterMouseGrab;
+	static int mouseGrabWarpPos[2];
 	static const float timeAccelRates[];
 
 	static bool joystickEnabled;

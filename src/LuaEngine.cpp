@@ -111,7 +111,7 @@ static int l_engine_attr_version(lua_State *l)
  *
  * Availability:
  *
- *   not yet
+ *   alpha 28
  *
  * Status:
  *

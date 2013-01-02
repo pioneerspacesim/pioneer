@@ -35,7 +35,7 @@
  *
  * Availability:
  *
- *   not yet
+ *   alpha 28
  *
  * Status:
  *
@@ -75,7 +75,7 @@ static int l_game_start_game(lua_State *l)
  *
  * Availability:
  *
- *   not yet
+ *   alpha 28
  *
  * Status:
  *
