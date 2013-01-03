@@ -55,15 +55,15 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t &
 	const float offU = glyph.offU;
 	const float offV = glyph.offV;
 
-	const vector3f p0(offx,                offy,                  0.0f);
-	const vector3f p1(offx,                offy+glyph.texHeight, 0.0f);
-	const vector3f p2(offx+glyph.texWidth, offy,                  0.0f);
-	const vector3f p3(offx+glyph.texWidth, offy+glyph.texHeight, 0.0f);
+	const vector3f p0(offx,             offy,              0.0f);
+	const vector3f p1(offx,             offy+glyph.height, 0.0f);
+	const vector3f p2(offx+glyph.width, offy,              0.0f);
+	const vector3f p3(offx+glyph.width, offy+glyph.height, 0.0f);
 
-	const vector2f t0(offU,             offV              );
-	const vector2f t1(offU,             offV+glyph.height);
-	const vector2f t2(offU+glyph.width, offV              );
-	const vector2f t3(offU+glyph.width, offV+glyph.height);
+	const vector2f t0(offU,                offV                );
+	const vector2f t1(offU,                offV+glyph.texHeight);
+	const vector2f t2(offU+glyph.texWidth, offV                );
+	const vector2f t3(offU+glyph.texWidth, offV+glyph.texHeight);
 
 	va->Add(p0, c, t0);
 	va->Add(p1, c, t1);
@@ -466,8 +466,8 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					}
 				}
 
-				glfglyph.width = bmStrokeGlyph->bitmap.width / float(FONT_TEXTURE_WIDTH);
-				glfglyph.height = bmStrokeGlyph->bitmap.rows / float(FONT_TEXTURE_HEIGHT);
+				glfglyph.width = bmStrokeGlyph->bitmap.width;
+				glfglyph.height = bmStrokeGlyph->bitmap.rows;
 				glfglyph.offx = bmStrokeGlyph->left;
 				glfglyph.offy = bmStrokeGlyph->top;
 				glfglyph.offU = atlasU / float(FONT_TEXTURE_WIDTH);
@@ -510,8 +510,8 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					}
 				}
 
-				glfglyph.width = bmGlyph->bitmap.width / float(FONT_TEXTURE_WIDTH);
-				glfglyph.height = bmGlyph->bitmap.rows / float(FONT_TEXTURE_HEIGHT);
+				glfglyph.width = bmGlyph->bitmap.width;
+				glfglyph.height = bmGlyph->bitmap.rows;
 				glfglyph.offx = bmGlyph->left;
 				glfglyph.offy = bmGlyph->top;
 				glfglyph.offU = atlasU / float(FONT_TEXTURE_WIDTH);
@@ -522,8 +522,8 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 			FT_Done_Glyph(glyph);
 
-			glfglyph.texWidth = tex_size.x * glfglyph.width;
-			glfglyph.texHeight = tex_size.y * glfglyph.height;
+			glfglyph.texWidth = glfglyph.width / tex_size.x;
+			glfglyph.texHeight = glfglyph.height / tex_size.y;
 
 			glfglyph.advx = float(m_face->glyph->advance.x) / 64.f + advx_adjust;
 			glfglyph.advy = float(m_face->glyph->advance.y) / 64.f;
