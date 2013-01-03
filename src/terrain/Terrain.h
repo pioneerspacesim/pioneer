@@ -28,7 +28,8 @@ public:
 	// location and intensity of effects are controlled by the colour fractals;
 	// it's possible for a Terrain to have a flag set but not actually to exhibit any of that effect
 	enum SurfaceEffectFlags {
-		EFFECT_LAVA  = 1 << 0
+		EFFECT_LAVA  = 1 << 0,
+		EFFECT_WATER = 2
 		// can add other effect flags here (e.g., water, snow, ice)
 	};
 
