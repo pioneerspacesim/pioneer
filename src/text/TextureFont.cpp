@@ -430,7 +430,10 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				}
 
 				if (atlasV + bmStrokeGlyph->bitmap.rows > FONT_TEXTURE_HEIGHT) {
-					fprintf(stderr, "glyph doesn't fit in atlas\n");
+					char utf8buf[8];
+					int len = utf8_encode_char(chr, utf8buf);
+					utf8buf[len] = '\0';
+					fprintf(stderr, "glyph doesn't fit in atlas (U+%04X; height = %d; char: %s; atlasV = %d)\n", chr, bmStrokeGlyph->bitmap.rows, utf8buf, atlasV);
 					FT_Done_Glyph(strokeGlyph);
 					continue;
 				}
@@ -484,7 +487,10 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				}
 
 				if (atlasV + bmGlyph->bitmap.rows > FONT_TEXTURE_HEIGHT) {
-					fprintf(stderr, "glyph doesn't fit in atlas\n");
+					char utf8buf[8];
+					int len = utf8_encode_char(chr, utf8buf);
+					utf8buf[len] = '\0';
+					fprintf(stderr, "glyph doesn't fit in atlas (U+%04X; height = %d; char: %s)\n", chr, bmGlyph->bitmap.rows, utf8buf);
 					continue;
 				}
 
