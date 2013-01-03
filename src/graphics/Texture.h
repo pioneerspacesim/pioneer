@@ -13,14 +13,16 @@ enum TextureFormat {
 	TEXTURE_RGBA,
 	TEXTURE_RGB,
 	TEXTURE_LUMINANCE_ALPHA, // luminance value put into R,G,B components; separate alpha value
-	TEXTURE_INTENSITY        // intensity value is put into all components (effectively white with premultiplied alpha)
+	TEXTURE_INTENSITY,
+	TEXTURE_ALPHA
 };
 
 enum ImageFormat {
 	IMAGE_RGBA,
 	IMAGE_RGB,
 	IMAGE_LUMINANCE_ALPHA,
-	TMAGE_INTENSITY
+	IMAGE_INTENSITY,
+	IMAGE_ALPHA
 };
 
 enum ImageType {
