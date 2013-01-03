@@ -753,7 +753,7 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 			// angle at which light begins to fade on Earth
 			const double startAngle = 0.3;
 			// angle at which sun set completes, which should be after sun has dipped below the horizon on Earth
-			const double endAngle = -0.08;
+			const double endAngle = -0.18;
 
 			const double start = std::min((startAngle*opticalThicknessFraction),1.0);
 			const double end = std::max((endAngle*opticalThicknessFraction),-0.2);
@@ -771,16 +771,16 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 
 	// ambient light fraction
 	// alter ratio between directly and ambiently lit portions towards ambiently lit as sun sets
-	double fraction = (0.4+0.4*(
+	double fraction = (0.1+0.8*(
 						1.0-light_clamped*(Clamp((opticalThicknessFraction),0.0,1.0))
-						)*0.8+0.2); //fraction goes from 0.6 to 1.0
+						)+0.1); //fraction goes from 0.6 to 1.0
 
 
 	// fraction of light left over to be lit directly
 	intensity = (1.0-fraction)*intensity;
 
 	// scale ambient by amount of light
-	ambient = fraction*(Clamp((light),0.0,1.0));
+	ambient = fraction*(Clamp((light),0.0,1.0))*0.25;
 }
 
 // if twilight or night fade in model at close ranges by increasing scene ambient lighting to minIllumination
@@ -832,6 +832,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		// available light is calculated and split between directly (diffusely/specularly) lit and ambiently lit
 		const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
 		double ambient, intensity;
+
 		CalcLighting(planet, ambient, intensity, lightSources);
 
 		std::vector<Graphics::Light> origLights, newLights;
