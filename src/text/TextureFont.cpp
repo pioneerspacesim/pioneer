@@ -201,7 +201,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 
 void TextureFont::RenderString(const char *str, float x, float y, const Color &color)
 {
-	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
+	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA_PREMULT);
 	m_vertices.Clear();
 
 	float px = x;
@@ -243,7 +243,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 
 Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &color)
 {
-	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
+	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA_PREMULT);
 	m_vertices.Clear();
 
 	float px = x;
