@@ -114,7 +114,6 @@ void DynamicBody::CalcExternalForce()
 	m_gravityForce = m_externalForce;
 
 	// atmospheric drag
-	m_atmosForce = vector3d(0.0);
 	if (GetFrame()->IsRotFrame() && body->IsType(Object::PLANET))
 	{
 		Planet *planet = static_cast<Planet*>(body);
@@ -122,7 +121,7 @@ void DynamicBody::CalcExternalForce()
 		double speed = m_vel.Length();
 		double pressure, density;
 		planet->GetAtmosphericState(dist, &pressure, &density);
-		const double radius = GetPhysRadius();
+		const double radius = GetClipRadius();		// bogus, preserving behaviour
 		const double AREA = radius;
 		// ^^^ yes that is as stupid as it looks
 		const double DRAG_COEFF = 0.1; // 'smooth sphere'
@@ -137,6 +136,7 @@ void DynamicBody::CalcExternalForce()
 
 		m_externalForce += m_atmosForce;
 	}
+	else m_atmosForce = vector3d(0.0);
 
 	// centrifugal and coriolis forces for rotating frames
 	vector3d angRot(0, GetFrame()->GetAngSpeed(), 0);

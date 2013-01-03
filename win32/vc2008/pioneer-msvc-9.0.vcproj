@@ -2135,10 +2135,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GameLoaderSaver.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\GameLoaderSaver.h"
 				>
 			</File>
