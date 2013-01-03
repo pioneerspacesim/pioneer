@@ -24,6 +24,9 @@ TextureBuilder::~TextureBuilder()
 
 // RGBA and RGBpixel format for converting textures
 // XXX little-endian. if we ever have a port to a big-endian arch, invert shift and mask
+#if SDL_BYTEORDER != SDL_LIL_ENDIAN
+#error "SDL surface pixel formats are endian-specific"
+#endif
 static SDL_PixelFormat pixelFormatRGBA = {
 	0,                                  // palette
 	32,                                 // bits per pixel
