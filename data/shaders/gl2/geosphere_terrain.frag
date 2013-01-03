@@ -89,7 +89,7 @@ void main(void)
 		varyingEmission +
 #endif
 		(scene.ambient * vertexColor) +
-		(diff * vertexColor);
+		(diff * vertexColor * 2.0);
 #endif //ATMOSPHERE
 
 #else // NUM_LIGHTS > 0 -- unlit rendering - stars
