@@ -35,7 +35,7 @@ void main(void)
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		nDotVP  = max(0.0, dot(tnorm, normalize(vec3(gl_LightSource[i].position))));
 		nnDotVP = max(0.0, dot(tnorm, normalize(-vec3(gl_LightSource[i].position)))); //need backlight to increase horizon
-		diff += 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0)/float(NUM_LIGHTS));
+		diff += gl_LightSource[i].diffuse * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0)/float(NUM_LIGHTS));
 
 #ifdef TERRAIN_WITH_WATER
 		//Specular reflection
@@ -64,19 +64,9 @@ void main(void)
 		fogFactor = clamp( 1.5 / exp(ldprod),0.0,1.0); 
 	}
 
-	vec4 atmosDiffuse = vec4(0.0);
-	{
-		vec3 surfaceNorm = normalize(atmosStart*eyenorm - geosphereCenter);
-		for (int i=0; i<NUM_LIGHTS; ++i) {
-			atmosDiffuse += gl_LightSource[i].diffuse * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0)/float(NUM_LIGHTS));
-		}
-	}
-
 	//calculate sunset tone red when passing through more atmosphere, clamp everything.
-	float atmpower = (atmosDiffuse.r+atmosDiffuse.g+atmosDiffuse.b)/3.0;
+	float atmpower = (diff.r+diff.g+diff.b)/3.0;
 	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
-
-	atmosDiffuse.a = 1.0;
 
 	gl_FragColor =
 		material.emission +
@@ -86,11 +76,11 @@ void main(void)
 		fogFactor *
 		((scene.ambient * vertexColor) +
 		(diff * vertexColor)) +
-		(1.0-fogFactor)*(atmosDiffuse*atmosColor) +
+		(1.0-fogFactor)*(diff*atmosColor) +
 #ifdef TERRAIN_WITH_WATER
 		  diff*specularReflection*sunset +
 #endif
-		  (0.02-clamp(fogFactor,0.0,0.01))*atmosDiffuse*ldprod*sunset +	      //increase fog scatter				
+		  (0.02-clamp(fogFactor,0.0,0.01))*diff*ldprod*sunset +	      //increase fog scatter				
 		  (pow((1.0-pow(fogFactor,0.75)),256.0)*0.4*diff*atmosColor)*sunset;  //distant fog.
 #else // atmosphere-less planetoids and dim stars
 	gl_FragColor =
