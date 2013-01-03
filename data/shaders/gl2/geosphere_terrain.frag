@@ -25,10 +25,10 @@ void main(void)
 	vec3 eyenorm = normalize(eyepos);
 	vec3 tnorm = normalize(varyingNormal);
 	vec4 diff = vec4(0.0);
-	float nDotVP;
-	float nnDotVP;
+	float nDotVP=0.0;
+	float nnDotVP=0.0;
 #ifdef TERRAIN_WITH_WATER
-	float specularReflection;
+	float specularReflection=0.0;
 #endif
 
 #if (NUM_LIGHTS > 0)
@@ -52,8 +52,8 @@ void main(void)
 #ifdef ATMOSPHERE
 	// when does the eye ray intersect atmosphere
 	float atmosStart = findSphereEyeRayEntryDistance(geosphereCenter, eyepos, geosphereScaledRadius * geosphereAtmosTopRad);
-	float ldprod;
-	float fogFactor;
+	float ldprod=0.0;
+	float fogFactor=0.0;
 	{
 		float atmosDist = geosphereScale * (length(eyepos) - atmosStart);
 		
