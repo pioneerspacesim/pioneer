@@ -19,8 +19,8 @@
 #include FT_GLYPH_H
 #include FT_STROKER_H
 
-static const int FONT_TEXTURE_WIDTH = 512;
-static const int FONT_TEXTURE_HEIGHT = 512;
+static const int FONT_TEXTURE_WIDTH = 1024;
+static const int FONT_TEXTURE_MAX_HEIGHT = 1024;
 
 #if DUMP_GLYPH_ATLAS
 static std::string atlas_image_name(const Text::FontDescriptor &desc)
@@ -328,23 +328,13 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	int atlasV = 0;
 	int atlasVIncrement = 0;
 
-	const vector2f tex_size(FONT_TEXTURE_WIDTH, FONT_TEXTURE_HEIGHT);
-
 	const bool outline = GetDescriptor().outline;
 
 	// temporary pixel buffer for the glyph atlas
 	const Graphics::TextureFormat tex_format = outline ? Graphics::TEXTURE_LUMINANCE_ALPHA : Graphics::TEXTURE_INTENSITY;
 	const int tex_bpp = outline ? 2 : 1;
-	std::vector<unsigned char> pixBuf(tex_bpp * FONT_TEXTURE_WIDTH * FONT_TEXTURE_HEIGHT);
+	std::vector<unsigned char> pixBuf(tex_bpp * FONT_TEXTURE_WIDTH * FONT_TEXTURE_MAX_HEIGHT);
 	std::fill(pixBuf.begin(), pixBuf.end(), 0);
-
-	Graphics::MaterialDescriptor desc;
-	desc.vertexColors = true; //to allow per-character colors
-	desc.textures = 1;
-	m_mat.Reset(m_renderer->CreateMaterial(desc));
-	Graphics::TextureDescriptor textureDescriptor(tex_format, tex_size, Graphics::NEAREST_CLAMP, false, false);
-	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
-	m_mat->texture0 = m_texture.Get();
 
 	FT_Stroker stroker(0);
 	if (outline) {
@@ -429,7 +419,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					atlasV += atlasVIncrement;
 				}
 
-				if (atlasV + bmStrokeGlyph->bitmap.rows > FONT_TEXTURE_HEIGHT) {
+				if (atlasV + bmStrokeGlyph->bitmap.rows > FONT_TEXTURE_MAX_HEIGHT) {
 					char utf8buf[8];
 					int len = utf8_encode_char(chr, utf8buf);
 					utf8buf[len] = '\0';
@@ -470,8 +460,8 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				glfglyph.height = bmStrokeGlyph->bitmap.rows;
 				glfglyph.offx = bmStrokeGlyph->left;
 				glfglyph.offy = bmStrokeGlyph->top;
-				glfglyph.offU = atlasU / float(FONT_TEXTURE_WIDTH);
-				glfglyph.offV = atlasV / float(FONT_TEXTURE_HEIGHT);
+				glfglyph.offU = atlasU;
+				glfglyph.offV = atlasV;
 
 				atlasU += bmStrokeGlyph->bitmap.width;
 
@@ -486,7 +476,7 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					atlasV += atlasVIncrement;
 				}
 
-				if (atlasV + bmGlyph->bitmap.rows > FONT_TEXTURE_HEIGHT) {
+				if (atlasV + bmGlyph->bitmap.rows > FONT_TEXTURE_MAX_HEIGHT) {
 					char utf8buf[8];
 					int len = utf8_encode_char(chr, utf8buf);
 					utf8buf[len] = '\0';
@@ -514,16 +504,13 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				glfglyph.height = bmGlyph->bitmap.rows;
 				glfglyph.offx = bmGlyph->left;
 				glfglyph.offy = bmGlyph->top;
-				glfglyph.offU = atlasU / float(FONT_TEXTURE_WIDTH);
-				glfglyph.offV = atlasV / float(FONT_TEXTURE_HEIGHT);
+				glfglyph.offU = atlasU;
+				glfglyph.offV = atlasV;
 
 				atlasU += bmGlyph->bitmap.width;
 			}
 
 			FT_Done_Glyph(glyph);
-
-			glfglyph.texWidth = glfglyph.width / tex_size.x;
-			glfglyph.texHeight = glfglyph.height / tex_size.y;
 
 			glfglyph.advx = float(m_face->glyph->advance.x) / 64.f + advx_adjust;
 			glfglyph.advy = float(m_face->glyph->advance.y) / 64.f;
@@ -535,16 +522,56 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 		}
 	}
 
+	// we may not have used the whole texture;
+	// pick the smallest power-of-two texture height that can hold all the glyphs we've got
+	const int used_height = atlasV + atlasVIncrement;
+	const int tex_height = ceil_pow2(used_height);
+	const vector2f tex_size(FONT_TEXTURE_WIDTH, tex_height);
+
+	// fill in glyph metrics
+	const float inv_width = 1.0f / tex_size.x;
+	const float inv_height = 1.0f / tex_size.y;
+	for (int i = 0; i < MAX_FAST_GLYPHS; ++i)
+	{
+		glfglyph_t &metrics = m_glyphsFast[i];
+		if (!is_zero_exact(metrics.width))
+		{
+			metrics.texWidth = metrics.width * inv_width;
+			metrics.texHeight = metrics.height * inv_height;
+			metrics.offU *= inv_width;
+			metrics.offV *= inv_height;
+		}
+	}
+	for (std::map<Uint32,glfglyph_t>::iterator it = m_glyphs.begin(); it != m_glyphs.end(); ++it)
+	{
+		glfglyph_t &metrics = it->second;
+		if (!is_zero_exact(metrics.width))
+		{
+			metrics.texWidth = metrics.width * inv_width;
+			metrics.texHeight = metrics.height * inv_height;
+			metrics.offU *= inv_width;
+			metrics.offV *= inv_height;
+		}
+	}
+
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true; //to allow per-character colors
+	desc.textures = 1;
+	m_mat.Reset(m_renderer->CreateMaterial(desc));
+	Graphics::TextureDescriptor textureDescriptor(tex_format, tex_size, Graphics::NEAREST_CLAMP, false, false);
+	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
+	m_mat->texture0 = m_texture.Get();
+
 #if DUMP_GLYPH_ATLAS
 	const std::string name = atlas_image_name(GetDescriptor());
 	write_png(FileSystem::userFiles, name.c_str(),
-			&pixBuf[0], FONT_TEXTURE_WIDTH, FONT_TEXTURE_HEIGHT, FONT_TEXTURE_WIDTH*tex_bpp, tex_bpp);
+			&pixBuf[0], FONT_TEXTURE_WIDTH, tex_height, FONT_TEXTURE_WIDTH*tex_bpp, tex_bpp);
 	printf("Font atlas written to '%s'\n", name.c_str());
 #endif
 
 	//upload atlas
-	const Graphics::ImageFormat image_format =
-		(tex_format == Graphics::TEXTURE_LUMINANCE_ALPHA ? Graphics::IMAGE_LUMINANCE_ALPHA : Graphics::IMAGE_INTENSITY);
+	const Graphics::ImageFormat image_format = (tex_format == Graphics::TEXTURE_LUMINANCE_ALPHA
+		 ? Graphics::IMAGE_LUMINANCE_ALPHA : Graphics::IMAGE_INTENSITY);
 	m_texture->Update(&pixBuf[0], tex_size, image_format, Graphics::IMAGE_UNSIGNED_BYTE);
 
 	if (outline)
