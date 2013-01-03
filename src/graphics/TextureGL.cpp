@@ -11,6 +11,8 @@ inline GLint GLCompressedTextureFormat(TextureFormat format) {
 	switch (format) {
 		case TEXTURE_RGBA: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
 		case TEXTURE_RGB:  return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
+		case TEXTURE_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
+		case TEXTURE_INTENSITY:  return GL_INTENSITY;
 		default: assert(0); return 0;
 	}
 }
@@ -19,6 +21,8 @@ inline GLint GLTextureFormat(TextureFormat format) {
 	switch (format) {
 		case TEXTURE_RGBA: return GL_RGBA;
 		case TEXTURE_RGB:  return GL_RGB;
+		case TEXTURE_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
+		case TEXTURE_INTENSITY:  return GL_INTENSITY;
 		default: assert(0); return 0;
 	}
 }
@@ -27,6 +31,8 @@ inline GLint GLImageFormat(ImageFormat format) {
 	switch (format) {
 		case IMAGE_RGBA: return GL_RGBA;
 		case IMAGE_RGB:  return GL_RGB;
+		case IMAGE_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
+		case IMAGE_INTENSITY: return GL_LUMINANCE; // glTexImage can't be given a GL_INTENSITY image directly, but this does the same thing
 		default: assert(0); return 0;
 	}
 }
@@ -42,6 +48,8 @@ inline GLint GLImageFormatForTextureFormat(TextureFormat format) {
 	switch (format) {
 		case TEXTURE_RGBA: return GL_RGBA;
 		case TEXTURE_RGB:  return GL_RGB;
+		case TEXTURE_LUMINANCE_ALPHA: return GL_LUMINANCE_ALPHA;
+		case TEXTURE_INTENSITY: return GL_LUMINANCE; // glTexImage can't be given a GL_INTENSITY image directly, but this does the same thing
 		default: assert(0); return 0;
 	}
 }
@@ -50,6 +58,8 @@ inline GLint GLImageTypeForTextureFormat(TextureFormat format) {
 	switch (format) {
 		case TEXTURE_RGBA: return GL_UNSIGNED_BYTE;
 		case TEXTURE_RGB:  return GL_UNSIGNED_BYTE;
+		case TEXTURE_LUMINANCE_ALPHA: return GL_UNSIGNED_BYTE;
+		case TEXTURE_INTENSITY: return GL_UNSIGNED_BYTE;
 		default: assert(0); return 0;
 	}
 }
