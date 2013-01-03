@@ -314,26 +314,28 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 	FT_Set_Pixel_Sizes(m_face, a_width, a_height);
 
-	//UV offsets for glyphs
+	// UV offsets for glyphs
 	int atlasU = 0;
 	int atlasV = 0;
 	int atlasVIncrement = 0;
 
 	const vector2f tex_size(FONT_TEXTURE_WIDTH, FONT_TEXTURE_HEIGHT);
 
-	//temporary RGBA pixel buffer for the glyph atlas
-	std::vector<unsigned char> pixBuf(4 * FONT_TEXTURE_WIDTH * FONT_TEXTURE_HEIGHT);
+	const bool outline = GetDescriptor().outline;
+
+	// temporary pixel buffer for the glyph atlas
+	const Graphics::TextureFormat tex_format = outline ? Graphics::TEXTURE_LUMINANCE_ALPHA : Graphics::TEXTURE_INTENSITY;
+	const int tex_bpp = outline ? 2 : 1;
+	std::vector<unsigned char> pixBuf(tex_bpp * FONT_TEXTURE_WIDTH * FONT_TEXTURE_HEIGHT);
 	std::fill(pixBuf.begin(), pixBuf.end(), 0);
 
 	Graphics::MaterialDescriptor desc;
 	desc.vertexColors = true; //to allow per-character colors
 	desc.textures = 1;
 	m_mat.Reset(m_renderer->CreateMaterial(desc));
-	Graphics::TextureDescriptor textureDescriptor(Graphics::TEXTURE_RGBA, tex_size, Graphics::NEAREST_CLAMP);
+	Graphics::TextureDescriptor textureDescriptor(tex_format, tex_size, Graphics::NEAREST_CLAMP, false, false);
 	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
 	m_mat->texture0 = m_texture.Get();
-
-	bool outline = GetDescriptor().outline;
 
 	FT_Stroker stroker(0);
 	if (outline) {
@@ -424,16 +426,19 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					continue;
 				}
 
+				assert(tex_bpp == 2);
+				assert(tex_format == Graphics::TEXTURE_LUMINANCE_ALPHA);
+
 				//copy to the atlas texture
 				//stroke first
 				int pitch = bmStrokeGlyph->bitmap.pitch;
 				for (int row=0; row < bmStrokeGlyph->bitmap.rows; row++) {
 					for (int col=0; col < bmStrokeGlyph->bitmap.width; col++) {
 						//assume black outline
-						const int d = 4*FONT_TEXTURE_WIDTH*(row+atlasV) + 4*(col+atlasU);
+						const int d = 2*FONT_TEXTURE_WIDTH*(row+atlasV) + 2*(col+atlasU);
 						const int s = pitch*row + col;
-						pixBuf[d]  = pixBuf[d+1] = pixBuf[d+2] = 0; //lum
-						pixBuf[d+3] = bmStrokeGlyph->bitmap.buffer[s]; //alpha
+						pixBuf[d+0] = 0; // luminance
+						pixBuf[d+1] = bmStrokeGlyph->bitmap.buffer[s]; // alpha
 					}
 				}
 
@@ -443,9 +448,9 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				pitch = bmGlyph->bitmap.pitch;
 				for (int row=0; row < bmGlyph->bitmap.rows; row++) {
 					for (int col=0; col < bmGlyph->bitmap.width; col++) {
-						const int d = 4*FONT_TEXTURE_WIDTH*(row+atlasV+xoff) + 4*(col+atlasU+yoff);
+						const int d = 2*FONT_TEXTURE_WIDTH*(row+atlasV+xoff) + 2*(col+atlasU+yoff);
 						const int s = pitch*row + col;
-						pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = bmGlyph->bitmap.buffer[s];
+						pixBuf[d] = bmGlyph->bitmap.buffer[s]; // luminance
 					}
 				}
 
@@ -474,6 +479,9 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 					continue;
 				}
 
+				assert(tex_bpp == 1);
+				assert(tex_format == Graphics::TEXTURE_INTENSITY);
+
 				//copy glyph bitmap to the atlas texture
 				//the glyphs are upside down in the texture due to how freetype stores them
 				//but it's just a matter of adjusting the texcoords
@@ -481,9 +489,9 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				const int rows = bmGlyph->bitmap.rows;
 				for (int row=0; row < rows; row++) {
 					for (int col=0; col < bmGlyph->bitmap.width; col++) {
-						const int d = 4*FONT_TEXTURE_WIDTH*(row+atlasV) + 4*(col+atlasU);
+						const int d = FONT_TEXTURE_WIDTH*(row+atlasV) + (col+atlasU);
 						const int s = pitch*row + col;
-						pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = pixBuf[d+3] = bmGlyph->bitmap.buffer[s];
+						pixBuf[d] = bmGlyph->bitmap.buffer[s]; // alpha
 					}
 				}
 
@@ -519,7 +527,9 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 #endif
 
 	//upload atlas
-	m_texture->Update(&pixBuf[0], tex_size, Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
+	const Graphics::ImageFormat image_format =
+		(tex_format == Graphics::TEXTURE_LUMINANCE_ALPHA ? Graphics::IMAGE_LUMINANCE_ALPHA : Graphics::IMAGE_INTENSITY);
+	m_texture->Update(&pixBuf[0], tex_size, image_format, Graphics::IMAGE_UNSIGNED_BYTE);
 
 	if (outline)
 		FT_Stroker_Done(stroker);
