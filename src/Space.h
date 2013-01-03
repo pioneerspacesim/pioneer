@@ -65,8 +65,8 @@ public:
 	Background::Container& GetBackground() { return m_background; }
 
 	// body finder delegates
-	typedef std::vector<const Body*> BodyFindList;
-	typedef BodyFindList::const_iterator BodyFindIterator;
+	typedef std::vector<Body*> BodyFindList;
+	typedef BodyFindList::iterator BodyFindIterator;
 	unsigned int GetBodiesNear(const Body *b, double dist, BodyFindList &bodies) const {
 		return m_bodyDistFinder.GetBodiesNear(b, dist, bodies);
 	}
@@ -123,9 +123,9 @@ private:
 
 	private:
 		struct BodyDist {
-			BodyDist(const Body *_body, double _dist) : body(_body), dist(_dist) {}
-			const Body *body;
-			double      dist;
+			BodyDist(Body *_body, double _dist) : body(_body), dist(_dist) {}
+			Body   *body;
+			double dist;
 
 			bool operator<(const BodyDist &a) const { return dist < a.dist; }
 		};
