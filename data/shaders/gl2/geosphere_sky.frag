@@ -34,11 +34,11 @@ void main(void)
 	float skyNear, skyFar;
 	vec3 eyepos = vec3(varyingEyepos);
 	vec3 eyenorm = normalize(eyepos);
-	float specularHighlight;
+	float specularHighlight=0.0;
 
 	sphereEntryExitDist(skyNear, skyFar, geosphereCenter, eyepos, geosphereScaledRadius * geosphereAtmosTopRad);
 	float atmosDist = geosphereScale * (skyFar - skyNear);
-	float ldprod;
+	float ldprod=0.0;
 	{
 		vec3 dir = eyenorm;
 		// a&b scaled so length of 1.0 means planet surface.
