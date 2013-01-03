@@ -13,6 +13,7 @@
 #if DUMP_GLYPH_ATLAS
 #include "PngWriter.h"
 #include "FileSystem.h"
+#include "StringF.h"
 #endif
 
 #include FT_GLYPH_H
@@ -20,6 +21,14 @@
 
 static const int FONT_TEXTURE_WIDTH = 512;
 static const int FONT_TEXTURE_HEIGHT = 512;
+
+#if DUMP_GLYPH_ATLAS
+static std::string atlas_image_name(const Text::FontDescriptor &desc)
+{
+	const int font_size = desc.pixelHeight ? desc.pixelHeight : int(desc.pointSize);
+	return stringf("font-atlas-%0%1-%2.png", desc.filename, (desc.outline ? "-outline" : ""), font_size);
+}
+#endif
 
 namespace Text {
 
@@ -521,8 +530,9 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 	}
 
 #if DUMP_GLYPH_ATLAS
-	const std::string name = "font-atlas-" + GetDescriptor().filename + ".png";
-	write_png(FileSystem::userFiles, name.c_str(), &pixBuf[0], FONT_TEXTURE_WIDTH, FONT_TEXTURE_HEIGHT, FONT_TEXTURE_WIDTH*tex_bpp, tex_bpp);
+	const std::string name = atlas_image_name(GetDescriptor());
+	write_png(FileSystem::userFiles, name.c_str(),
+			&pixBuf[0], FONT_TEXTURE_WIDTH, FONT_TEXTURE_HEIGHT, FONT_TEXTURE_WIDTH*tex_bpp, tex_bpp);
 	printf("Font atlas written to '%s'\n", name.c_str());
 #endif
 
