@@ -424,10 +424,58 @@ local crewRoster = function ()
 	local CrewScreen = ui:Expand()
 	local CrewList = ui:VBox(10)
 
+	-- Function that returns an info page for a crew member
+	local crewMemberInfoButton = function (crewMember)
+		CrewScreen:SetInnerWidget(ui:Grid(2,1)
+		-- Set left hand side of page: General information about the Character
+		:SetColumn(0, {
+			ui:VBox(20):PackEnd({
+				ui:Label(crewMember.name):SetFont("HEADING_LARGE"),
+				ui:Label(t("Qualification scores")):SetFont("HEADING_NORMAL"),
+				-- Table of crew scores:
+				ui:Grid(2,1)
+					:SetColumn(0, {
+						ui:VBox():PackEnd({
+							ui:Label(t("Engineering:")),
+							ui:Label(t("Piloting:")),
+							ui:Label(t("Navigation:")),
+							ui:Label(t("Sensors:")),
+						})
+					})
+					:SetColumn(1, {
+						ui:VBox():PackEnd({
+							ui:Label(crewMember.engineering),
+							ui:Label(crewMember.piloting),
+							ui:Label(crewMember.navigation),
+							ui:Label(crewMember.sensors),
+						})
+					}),
+				-- Things we can do with this crew member
+				ui:Label(t("Tasks")):SetFont("HEADING_NORMAL"),
+				ui:Grid(2,1)
+					:SetColumn(0, {
+						ui:VBox():PackEnd({
+							ui:Label(t("Repair hull")),
+							ui:Label(t("Dock at target")),
+						})
+					})
+					:SetColumn(1, {
+						ui:VBox():PackEnd({
+							UI.SmallLabeledButton.New(t("Not yet")),
+							UI.SmallLabeledButton.New(t("Not yet")),
+						})
+					})
+			})
+		})
+		-- Set Right hand side of page: Character's face
+		:SetColumn(1, { UI.InfoFace.New(crewMember) }))
+	end
+
 	-- One row for each mission, plus a header
 	local rowspec = {8,8,4,7,5}
 	local headergrid  = ui:Grid(rowspec,1)
 
+	-- Set up the headings for the Crew Roster list
 	headergrid:SetRow(0,
 	{
 		-- Headers
@@ -439,49 +487,10 @@ local crewRoster = function ()
 
 	local crewlistbox = ui:VBox(10)
 
+	-- Create a row for each crew member
 	for crewMember in Game.player:EachCrewMember() do
 		local moreButton = UI.SmallLabeledButton.New(t("More info..."))
-		moreButton.button.onClick:Connect(function ()
-			CrewScreen:SetInnerWidget(ui:Grid(2,1)
-			:SetColumn(0, {
-				ui:VBox(20):PackEnd({
-					ui:Label(crewMember.name):SetFont("HEADING_LARGE"),
-					ui:Label(t("Qualification scores")):SetFont("HEADING_NORMAL"),
-					ui:Grid(2,1)
-						:SetColumn(0, {
-							ui:VBox():PackEnd({
-								ui:Label(t("Engineering:")),
-								ui:Label(t("Piloting:")),
-								ui:Label(t("Navigation:")),
-								ui:Label(t("Sensors:")),
-							})
-						})
-						:SetColumn(1, {
-							ui:VBox():PackEnd({
-								ui:Label(crewMember.engineering),
-								ui:Label(crewMember.piloting),
-								ui:Label(crewMember.navigation),
-								ui:Label(crewMember.sensors),
-							})
-						}),
-					ui:Label(t("Tasks")):SetFont("HEADING_NORMAL"),
-					ui:Grid(2,1)
-						:SetColumn(0, {
-							ui:VBox():PackEnd({
-								ui:Label(t("Repair hull")),
-								ui:Label(t("Dock at target")),
-							})
-						})
-						:SetColumn(1, {
-							ui:VBox():PackEnd({
-								UI.SmallLabeledButton.New(t("Not yet")),
-								UI.SmallLabeledButton.New(t("Not yet")),
-							})
-						})
-				})
-			})
-			:SetColumn(1, { UI.InfoFace.New(crewMember) }))
-		end)
+		moreButton.button.onClick:Connect(function () return crewMemberInfoButton(crewMember) end)
 
 		crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 			ui:Label(crewMember.name),
