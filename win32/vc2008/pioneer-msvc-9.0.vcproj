@@ -2135,10 +2135,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GameLoaderSaver.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\GameMenuView.cpp"
 				>
 			</File>
