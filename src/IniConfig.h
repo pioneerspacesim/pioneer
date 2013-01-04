@@ -26,9 +26,9 @@ public:
 	void SetFloat(const std::string &section, const std::string &key, float val);
 	void SetString(const std::string &section, const std::string &key, const std::string &val);
 
-	int Int(const std::string &section, const std::string &key, int defval = 0) const;
-	float Float(const std::string &section, const std::string &key, float defval = 0.0f) const;
-	std::string String(const std::string &section, const std::string &key, const std::string &defval = std::string()) const;
+	int Int(const std::string &section, const std::string &key, int defval) const;
+	float Float(const std::string &section, const std::string &key, float defval) const;
+	std::string String(const std::string &section, const std::string &key, const std::string &defval) const;
 
 	void SetInt(const std::string &key, int val) { SetInt("", key, val); }
 	void SetFloat(const std::string &key, float val) { SetFloat("", key, val); }
