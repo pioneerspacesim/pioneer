@@ -187,7 +187,7 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit)
 {
 	SystemPath path = s->GetPath();
-	const unsigned long _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
+	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
 	Random rand(_init, 5);
 
 	Sector sec(path.sectorX, path.sectorY, path.sectorZ);
@@ -224,7 +224,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 {
 	SystemPath path = s->GetPath();
-	const unsigned long _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SALT };
+	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SALT };
 	Random rand(_init, 5);
 
 	Polit::GovType a = s->GetSysPolit().govType;

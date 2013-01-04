@@ -1380,7 +1380,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	m_name    = s.m_systems[m_path.systemIndex].name;
 	m_faction = Faction::GetNearestFaction(s, m_path.systemIndex);
 
-	unsigned long _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
+	const Uint32 _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
 	Random rand(_init, 6);
 
 	/*
@@ -1953,7 +1953,7 @@ void StarSystem::MakeShortDescription(Random &rand)
 
 void StarSystem::Populate(bool addSpaceStations)
 {
-	unsigned long _init[5] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED };
+	const Uint32 _init[5] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED };
 	Random rand;
 	rand.seed(_init, 5);
 
@@ -2020,7 +2020,7 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		return;
 	}
 
-	unsigned long _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
+	const Uint32 _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
 			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), UNIVERSE_SEED, Uint32(this->seed) };
 
 	Random rand, namerand;
@@ -2137,7 +2137,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		children[i]->PopulateAddStations(system);
 	}
 
-	unsigned long _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
+	const Uint32 _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
 			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), this->seed, UNIVERSE_SEED };
 
 	Random rand, namerand;
