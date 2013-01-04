@@ -424,7 +424,7 @@ local crewRoster = function ()
 	local CrewScreen = ui:Expand()
 	local CrewList = ui:VBox(10)
 
-	-- Function that returns an info page for a crew member
+	-- Function that creates an info page for a crew member
 	local crewMemberInfoButton = function (crewMember)
 		CrewScreen:SetInnerWidget(ui:Grid(2,1)
 		-- Set left hand side of page: General information about the Character
