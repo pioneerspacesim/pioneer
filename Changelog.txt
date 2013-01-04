@@ -9,7 +9,7 @@ Alpha 30
      * New and improved autopilot (#1812)
      * Improved atmosphere rendering: scattering, sunsets, thinner fogs and
        ground lighting fixes (#1888, #1891)
-     * Russian translation (#1899, #1733)
+     * Russian translation (#1899, #1713)
 
    * Minor changes and tweaks
      * Don't allocate projectile geometry for every projectile. Huge
