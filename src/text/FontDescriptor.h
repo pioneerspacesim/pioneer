@@ -36,9 +36,9 @@ struct FontDescriptor {
 		const_cast<float&>(advanceXAdjustment) = o.advanceXAdjustment;
 	}
 
-	static FontDescriptor Load(FileSystem::FileSource &fs, const std::string &path);
+	static FontDescriptor Load(FileSystem::FileSource &fs, const std::string &path, const std::string &lang);
 	/// XXX this one is a hack to support the old Gui code
-	static FontDescriptor Load(FileSystem::FileSource &fs, const std::string &path, float scale_x, float scale_y);
+	static FontDescriptor Load(FileSystem::FileSource &fs, const std::string &path, const std::string &lang, float scale_x, float scale_y);
 };
 
 }

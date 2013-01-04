@@ -6,6 +6,7 @@
 #include "text/VectorFont.h"
 #include "FileSystem.h"
 #include "gui/GuiScreen.h"
+#include "Lang.h"
 
 RefCountedPtr<Text::TextureFont> FontCache::GetTextureFont(const std::string &name)
 {
@@ -16,8 +17,10 @@ RefCountedPtr<Text::TextureFont> FontCache::GetTextureFont(const std::string &na
 	float scale[2];
 	Gui::Screen::GetCoords2Pixels(scale);
 
+	const std::string &lang = Lang::GetCurrentLanguage();
+
 	const Text::FontDescriptor desc =
-		Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/" + name + ".ini", scale[0], scale[1]);
+		Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/" + name + ".ini", lang, scale[0], scale[1]);
 
 	RefCountedPtr<Text::TextureFont> font(new Text::TextureFont(desc, Gui::Screen::GetRenderer()));
 	m_textureFonts.insert(std::pair< std::string,RefCountedPtr<Text::TextureFont> >(name, font));
@@ -31,8 +34,10 @@ RefCountedPtr<Text::VectorFont> FontCache::GetVectorFont(const std::string &name
 	if (i != m_vectorFonts.end())
 		return (*i).second;
 
+	const std::string &lang = Lang::GetCurrentLanguage();
+
 	const Text::FontDescriptor desc =
-		Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/" + name + ".ini");
+		Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/" + name + ".ini", lang);
 	RefCountedPtr<Text::VectorFont> font(new Text::VectorFont(desc));
 	m_vectorFonts.insert(std::pair< std::string,RefCountedPtr<Text::VectorFont> >(name, font));
 

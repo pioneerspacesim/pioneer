@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 	r->SetBlendMode(Graphics::BLEND_ALPHA);
 	r->SetDepthTest(false);
 
-	const Text::FontDescriptor fontDesc(Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/UIFont.ini"));
+	const Text::FontDescriptor fontDesc(Text::FontDescriptor::Load(FileSystem::gameDataFiles, "fonts/UIFont.ini", "English"));
 	Text::TextureFont *font = new Text::TextureFont(fontDesc, r);
 
 	std::string str;
