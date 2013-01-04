@@ -58,16 +58,14 @@ Linux - Autotools
 Windows - MSVC
 --------------
 
-1. Get the pioneer-thirdparty repository. It has all the pre-built
-   dependencies required.
+1. Get both the pioneer and the pioneer-thirdparty repositories and keep them
+   in a directory side by side. Don't rename pioneer-thirdparty because the
+   relative path to it is included in the project files.
 
-2. Open the pioneer project from win32/vc2008, win32/vc2010 or vc2012 as
+2. Open the pioneer solution from win32/vc2008, win32/vc2010 or vc2012 as
    appropriate for the version of Visual Studio you're using.
 
-3. Select Project->Build to build (XXX I made that up)
-
-4. XXX Copy binaries somewhere? How is the environment set up?
-
+3. Build and run the project or solution.
 
 Windows - Autotools (Linux cross-compile)
 -----------------------------------------
