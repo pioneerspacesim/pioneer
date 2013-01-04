@@ -425,16 +425,16 @@ local crewRoster = function ()
 	local CrewList = ui:VBox(10)
 
 	-- One row for each mission, plus a header
-	local rowspec = {8,8,7,4,5}
+	local rowspec = {8,8,4,7,5}
 	local headergrid  = ui:Grid(rowspec,1)
 
 	headergrid:SetRow(0,
 	{
 		-- Headers
-		ui:Label(t('Name')),
-		ui:Label(t('Position')),
-		ui:Label(t('Date hired')),
-		ui:Label(t('Weekly wage')),
+		ui:Label(t('Name')):SetFont("HEADING_NORMAL"),
+		ui:Label(t('Position')):SetFont("HEADING_NORMAL"),
+		ui:Label(t('Wage')):SetFont("HEADING_NORMAL"),
+		ui:Label(t('Next paid')):SetFont("HEADING_NORMAL"),
 	})
 
 	local crewlistbox = ui:VBox(10)
@@ -486,8 +486,8 @@ local crewRoster = function ()
 		crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 			ui:Label(crewMember.name),
 			ui:Label(crewMember.title or t('General crew')),
-			ui:Label(Format.Date(0)),
 			ui:Label(Format.Money(0)),
+			ui:Label(Format.Date(0)),
 			moreButton.widget,
 		}))
 	end
