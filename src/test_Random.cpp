@@ -28,25 +28,20 @@ void test_random() {
 	// seed the random number generator with the sequence above
 	Random rnd(in32, 5);
 
-	cout << "32-bit seeds, Uint32 out: ";
-	for (int i=0; i<5; ++i) assert(rnd.Int32() - in32out32[i] == 0);
-	cout << "pass" << endl;
+	cout << "32-bit seeds, Uint32 out: " << endl;
+	for (int i=0; i<5; ++i) cout << i+1 << ": " << (rnd.Int32() - in32out32[i] == 0 ? "pass" : "fail") << endl;
 
-	cout << "32-bit seeds, Double out: ";
-	for (int i=0; i<5; ++i) assert(fabs(rnd.Double() - in32outDbl[i]) < 0.000001); // close enough
-	cout << "pass" << endl;
+	cout << "32-bit seeds, Double out: " << endl;
+	for (int i=0; i<5; ++i) cout << i+1 << ": " << (fabs(rnd.Double() - in32outDbl[i]) < 0.000001 ? "pass" : "fail") << endl; // close enough
 
 	// now seed with 64-bit numbers
 	rnd.seed(in64, 5);
 
-	cout << "64-bit seeds, Uint32 out: ";
-	for (int i=0; i<5; ++i) assert(rnd.Int32() - in64out32[i] == 0);
-	cout << "pass" << endl;
+	cout << "64-bit seeds, Uint32 out: " << endl;
+	for (int i=0; i<5; ++i) cout << i+1 << ": " << (rnd.Int32() - in64out32[i] == 0 ? "pass" : "fail") << endl;
 
-	cout << "64-bit seeds, Double out: ";
-	for (int i=0; i<5; ++i) assert(fabs(rnd.Double() - in64outDbl[i]) < 0.000001); // close enough
-	cout << "pass" << endl;
-
+	cout << "64-bit seeds, Double out: " << endl;
+	for (int i=0; i<5; ++i) cout << i+1 << ": " << (fabs(rnd.Double() - in64outDbl[i]) < 0.000001 ? "pass" : "fail") << endl; // close enough
 
 	cout << "--------------------" << endl;
 	cout << "End of random tests." << endl;
