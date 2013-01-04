@@ -118,3 +118,30 @@ Translate:Add({Magyar = {
 	["Begin trade"] = "Üzlet megkezdése",
 }})
 
+  ---- RUSSIAN / РУССКИЙ ----
+
+Translate:AddFlavour('Russian','FuelClub',{
+
+	clubname = "Космическое Топливное Содружество Пилотов",
+	welcome = 'Космическое Топливное Содружество Пилотов приветствует вас, капитан!',
+	nonmember_intro = [[{clubname} - независимая организация, предоставляющая своим членам собственные топливные ресурсы. Наша организация работает по всей Галактике. Членство даёт следующие преимущества:
+
+	* Собственные запасы топлива,  независимые от предложения на открытом рынке.
+	* {hydrogen} по привлекательной цене.
+	* {military_fuel} продается без акцизов.
+	* {radioactives} - принимаются для утилизации бесплатно (при определенных условиях).
+
+Присоединяйтесь! Членство в Содружестве стоит всего лишь {membership_fee} в год.]],
+	member_intro = [[Здесь вы можете приобрести топливо и сдать радиоактивные отходы на утилизацию.]],
+	annual_fee = 400,
+})
+
+Translate:Add({Russian = {
+	["What conditions apply to {radioactives} disposal?"] = "Какие ограничения имеются для реализации бесплатной утилизации радиоактивных отходов?",
+	["We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."] = "Вы можете сдать на утилизацию столько же тонн радиоактивных отходов, сколько тонн военного топлива вы у нас приобрели.",
+	["Apply for membership"] = "Мне заинтересовало ваше предложения. Вот моя заявка на вступление в Содружество.",
+	["Your membership application has been declined."] = "Ваша заявка на вступление отклонена, сожалеем.",
+	["You are now a member. Your membership will expire on {expiry_date}."] = "Ваша заявка одобрена Содружеством. Ваш членский билет действует до {expiry_date}.",
+	["You must buy our {military_fuel} before we will take your {radioactives}"] = "Перед тем как сдать на утилизацию {radioactives}, вы должны приобрести у нас {military_fuel}.",
+	["Begin trade"] = "Провести сделку.",
+}})
