@@ -326,7 +326,8 @@ tests_SOURCES = \
 	test_StringF.cpp \
 	FileSystem.cpp \
 	FileSourceZip.cpp \
-	test_FileSystem.cpp
+	test_FileSystem.cpp \
+	test_Random.cpp
 TESTS = tests
 tests_LDADD = \
 	collider/libcollider.a \
@@ -334,7 +335,9 @@ tests_LDADD = \
 	graphics/libgraphics.a \
 	terrain/libterrain.a \
     posix/libposix.a \
-	../contrib/miniz/libminiz.a
+	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
+	$(SIGC_LIBS)
 
 uitest_SOURCES = \
 	uitest.cpp \
