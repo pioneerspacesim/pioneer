@@ -43,6 +43,12 @@ public:
 		return (it != m_map.end()) && (!it->second.empty());
 	}
 
+	bool HasEntry(const std::string &section, const std::string &key) const {
+		SectionMapType::const_iterator it = m_map.find(section);
+		return (it != m_map.end()) && it->second.count(key);
+	}
+	bool HasEntry(const std::string &key) const { return HasEntry("", key); }
+
 protected:
 	typedef std::map<std::string, std::string> MapType;
 	typedef std::map<std::string, MapType> SectionMapType;
