@@ -12,6 +12,7 @@
 #include "Planet.h"
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
+#include "StringF.h"
 
 #if WITH_OBJECTVIEWER
 

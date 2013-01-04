@@ -32,3 +32,11 @@ Translate:Add({ Magyar = {
 	["Your fuel tank is empty."] = "Az üzemanyagtartályod teljesen kiürült.",
 }
 })
+
+---- RUSSIAN / РУССКИЙ ----
+
+Translate:Add({ Russian = {
+	["Your fuel tank is almost empty."] = "Топливные баки корабля почти пусты!",
+	["Your fuel tank is empty."] = "Топливные баки корабля абсолютно пусты!",
+}
+})

@@ -7,6 +7,9 @@ Alpha 30
        model viewer instead (#1803)
      * New volcanic surface effects on some planets (#1782)
      * New and improved autopilot (#1812)
+     * Improved atmosphere rendering: scattering, sunsets, thinner fogs and
+       ground lighting fixes (#1888, #1891)
+     * Russian translation (#1899, #1713)
 
    * Minor changes and tweaks
      * Don't allocate projectile geometry for every projectile. Huge
@@ -19,6 +22,7 @@ Alpha 30
      * Try harder to find a populated homeworld for a faction (#1860, #1792)
      * Clicking cancel from the Load dialog now returns you to the game (#1847, #1325)
      * Bulk ships are now only placed at orbital stations (#1890)
+     * Improve building self-shadowing and lighting (#1898, #1811)
 
    * Script changes
      * New attribute StarSystem.explored (#1793, #1797)
@@ -66,6 +70,7 @@ Alpha 30
      * Various code improvements in frame handling and other things (#1812)
      * Cleanup SectorView system index usage (#1884)
      * Split FileSelectorDialog and LoadGame/SaveGame out of GameLoaderSaver (#1847)
+     * Font optimisations and support for language-specific font overrides (#1899)
 
 Alpha 29
 

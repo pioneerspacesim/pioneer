@@ -655,6 +655,7 @@ Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 		break;
 	case EFFECT_GEOSPHERE_TERRAIN:
 	case EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA:
+	case EFFECT_GEOSPHERE_TERRAIN_WITH_WATER:
 		m = new GeoSphereSurfaceMaterialLegacy();
 		break;
 	default:

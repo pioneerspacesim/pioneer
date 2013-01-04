@@ -139,7 +139,7 @@ int main(int argc, char **argv)
 
 	Lua::Init();
 
-	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT));
+	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT, "English"));
 
 #if 0
 	c->SetInnerWidget(

@@ -5,7 +5,6 @@
 #define _INICONFIG_H
 
 #include "libs.h"
-#include "StringF.h"
 #include <map>
 #include <string>
 
@@ -23,29 +22,37 @@ public:
 	void Read(const FileSystem::FileData &data);
 	bool Write(FileSystem::FileSourceFS &fs, const std::string &path);
 
-	void SetInt(const char *key, int val) {
-		m_map[key] = stringf("%0{d}", val);
-	}
-	void SetFloat(const char *key, float val) {
-		m_map[key] = stringf("%0{f}", val);
-	}
-	void SetString(const char *key, const char *val) {
-		m_map[key] = val;
-	}
-	int Int(const char *key) {
-		return atoi(m_map[key].c_str());
-	}
-	float Float(const char *key) {
-		float val;
-		if (sscanf(m_map[key].c_str(), "%f", &val)==1) return val;
-		else return 0;
-	}
-	std::string String(const char *key) {
-		return m_map[key];
+	void SetInt(const std::string &section, const std::string &key, int val);
+	void SetFloat(const std::string &section, const std::string &key, float val);
+	void SetString(const std::string &section, const std::string &key, const std::string &val);
+
+	int Int(const std::string &section, const std::string &key, int defval) const;
+	float Float(const std::string &section, const std::string &key, float defval) const;
+	std::string String(const std::string &section, const std::string &key, const std::string &defval) const;
+
+	void SetInt(const std::string &key, int val) { SetInt("", key, val); }
+	void SetFloat(const std::string &key, float val) { SetFloat("", key, val); }
+	void SetString(const std::string &key, const std::string &val) { SetString("", key, val); }
+
+	int Int(const std::string &key, int defval = 0) const { return Int("", key, defval); }
+	float Float(const std::string &key, float defval = 0.0f) const { return Float("", key, defval); }
+	std::string String(const std::string &key, const std::string &defval = std::string()) const { return String("", key, defval); }
+
+	bool HasSection(const std::string &section) const {
+		SectionMapType::const_iterator it = m_map.find(section);
+		return (it != m_map.end()) && (!it->second.empty());
 	}
 
+	bool HasEntry(const std::string &section, const std::string &key) const {
+		SectionMapType::const_iterator it = m_map.find(section);
+		return (it != m_map.end()) && it->second.count(key);
+	}
+	bool HasEntry(const std::string &key) const { return HasEntry("", key); }
+
 protected:
-	std::map<std::string, std::string> m_map;
+	typedef std::map<std::string, std::string> MapType;
+	typedef std::map<std::string, MapType> SectionMapType;
+	SectionMapType m_map;
 };
 
 #endif /* _INICONFIG_H */

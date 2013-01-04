@@ -12,11 +12,17 @@ namespace Graphics {
 enum TextureFormat {
 	TEXTURE_RGBA,
 	TEXTURE_RGB,
+	TEXTURE_LUMINANCE_ALPHA, // luminance value put into R,G,B components; separate alpha value
+	TEXTURE_INTENSITY,
+	TEXTURE_ALPHA
 };
 
 enum ImageFormat {
 	IMAGE_RGBA,
 	IMAGE_RGB,
+	IMAGE_LUMINANCE_ALPHA,
+	IMAGE_INTENSITY,
+	IMAGE_ALPHA
 };
 
 enum ImageType {
