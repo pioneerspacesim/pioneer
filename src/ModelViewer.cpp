@@ -10,6 +10,7 @@
 #include "scenegraph/FindNodeVisitor.h"
 #include "OS.h"
 #include "Pi.h"
+#include "StringF.h"
 #include <sstream>
 
 //default options

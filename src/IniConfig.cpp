@@ -5,6 +5,66 @@
 #include "IniConfig.h"
 #include "FileSystem.h"
 #include "StringRange.h"
+#include <cstdlib>
+#include <sstream>
+
+void IniConfig::SetInt(const std::string &section, const std::string &key, int val)
+{
+	std::ostringstream ss;
+	ss << val;
+	SetString(section, key, ss.str());
+}
+
+void IniConfig::SetFloat(const std::string &section, const std::string &key, float val)
+{
+	std::ostringstream ss;
+	ss << val;
+	SetString(section, key, ss.str());
+}
+
+void IniConfig::SetString(const std::string &section, const std::string &key, const std::string &val)
+{
+	m_map[section][key] = val;
+}
+
+int IniConfig::Int(const std::string &section, const std::string &key, int defval) const
+{
+	SectionMapType::const_iterator secIt = m_map.find(section);
+	if (secIt == m_map.end()) return defval;
+	MapType::const_iterator it = secIt->second.find(key);
+	if (it == secIt->second.end()) return defval;
+
+	const StringRange val = StringRange(it->second.c_str(), it->second.size()).StripSpace();
+	if (val.Empty()) return defval;
+	char *end = 0;
+	long x = strtol(val.begin, &end, 10);
+	if (end != val.end) return defval;
+	return int(x);
+}
+
+float IniConfig::Float(const std::string &section, const std::string &key, float defval) const
+{
+	SectionMapType::const_iterator secIt = m_map.find(section);
+	if (secIt == m_map.end()) return defval;
+	MapType::const_iterator it = secIt->second.find(key);
+	if (it == secIt->second.end()) return defval;
+
+	const StringRange val = StringRange(it->second.c_str(), it->second.size()).StripSpace();
+	if (val.Empty()) return defval;
+	char *end = 0;
+	float x = strtof(val.begin, &end);
+	if (end != val.end) return defval;
+	return x;
+}
+
+std::string IniConfig::String(const std::string &section, const std::string &key, const std::string &defval) const
+{
+	SectionMapType::const_iterator secIt = m_map.find(section);
+	if (secIt == m_map.end()) return defval;
+	MapType::const_iterator it = secIt->second.find(key);
+	if (it == secIt->second.end()) return defval;
+	return it->second;
+}
 
 void IniConfig::Read(FileSystem::FileSource &fs, const std::string &path)
 {

@@ -4,6 +4,7 @@
 #include "KeyBindings.h"
 #include "Pi.h"
 #include "Lang.h"
+#include "StringF.h"
 #include <string>
 #include <sstream>
 
