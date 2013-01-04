@@ -451,20 +451,20 @@ local crewRoster = function ()
 						})
 					}),
 				-- Things we can do with this crew member
-				ui:Label(t("Tasks")):SetFont("HEADING_NORMAL"),
-				ui:Grid(2,1)
+				--  (as long as they're not the player!)
+				-- returning nil if crewMember is player
+				not crewMember.player and ui:Label(t("Tasks")):SetFont("HEADING_NORMAL") or nil,
+				not crewMember.player and ui:Grid(2,1)
 					:SetColumn(0, {
 						ui:VBox():PackEnd({
-							ui:Label(t("Repair hull")),
-							ui:Label(t("Dock at target")),
+							UI.SmallLabeledButton.New(t("Dismiss")),
 						})
 					})
 					:SetColumn(1, {
 						ui:VBox():PackEnd({
-							UI.SmallLabeledButton.New(t("Not yet")),
-							UI.SmallLabeledButton.New(t("Not yet")),
+							UI.SmallLabeledButton.New(t("Negotiate")),
 						})
-					})
+					}) or nil -- nothing returned for player
 			})
 		})
 		-- Set Right hand side of page: Character's face
