@@ -59,7 +59,6 @@ private:
 	void AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t &glyph, float x, float y, const Color &color);
 	float m_height;
 	float m_descender;
-	int m_texSize;
 	RefCountedPtr<Graphics::Texture> m_texture;
 	ScopedPtr<Graphics::Material> m_mat;
 	Graphics::VertexArray m_vertices;

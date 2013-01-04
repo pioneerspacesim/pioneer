@@ -24,3 +24,11 @@ Translate:Add({ Magyar = {
 	["This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."] = "Itt a(z) {station} állomás. Nincs elég kredited megfizetni a {fee} dokkolási költséget. Nem kapsz üzemanyagfeltöltést.",
 }
 })
+
+---- RUSSIAN / РУССКИЙ ----
+
+Translate:Add({ Russian = {
+	["Welcome aboard {station}. Your docking and fuelling fee of {fee} has been deducted."] = "Добро пожаловать на станцию {station}! Оплата в {fee} за стыковку и дозаправку списана с вашего счёта.",
+	["This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."] = "Говорит диспетчер станции {station}. У вас нет необходимой суммы в {fee} для оплаты стыковки. В дозаправке отказано.",
+}
+})

@@ -66,7 +66,7 @@ namespace UI {
 
 class Context : public Single {
 public:
-	Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height);
+	Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height, const std::string &lang);
 	virtual ~Context();
 
 	// general purpose containers

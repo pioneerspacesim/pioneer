@@ -12,10 +12,23 @@
 #define DUMP_GLYPH_ATLAS 0
 #if DUMP_GLYPH_ATLAS
 #include "PngWriter.h"
+#include "FileSystem.h"
+#include "StringF.h"
 #endif
 
 #include FT_GLYPH_H
 #include FT_STROKER_H
+
+static const int FONT_TEXTURE_WIDTH = 1024;
+static const int FONT_TEXTURE_MAX_HEIGHT = 1024;
+
+#if DUMP_GLYPH_ATLAS
+static std::string atlas_image_name(const Text::FontDescriptor &desc)
+{
+	const int font_size = desc.pixelHeight ? desc.pixelHeight : int(desc.pointSize);
+	return stringf("font-atlas-%0%1-%2.png", desc.filename, (desc.outline ? "-outline" : ""), font_size);
+}
+#endif
 
 namespace Text {
 
@@ -42,15 +55,15 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t &
 	const float offU = glyph.offU;
 	const float offV = glyph.offV;
 
-	const vector3f p0(offx,                offy,                  0.0f);
-	const vector3f p1(offx,                offy+glyph.texHeight, 0.0f);
-	const vector3f p2(offx+glyph.texWidth, offy,                  0.0f);
-	const vector3f p3(offx+glyph.texWidth, offy+glyph.texHeight, 0.0f);
+	const vector3f p0(offx,             offy,              0.0f);
+	const vector3f p1(offx,             offy+glyph.height, 0.0f);
+	const vector3f p2(offx+glyph.width, offy,              0.0f);
+	const vector3f p3(offx+glyph.width, offy+glyph.height, 0.0f);
 
-	const vector2f t0(offU,             offV              );
-	const vector2f t1(offU,             offV+glyph.height);
-	const vector2f t2(offU+glyph.width, offV              );
-	const vector2f t3(offU+glyph.width, offV+glyph.height);
+	const vector2f t0(offU,                offV                );
+	const vector2f t1(offU,                offV+glyph.texHeight);
+	const vector2f t2(offU+glyph.texWidth, offV                );
+	const vector2f t3(offU+glyph.texWidth, offV+glyph.texHeight);
 
 	va->Add(p0, c, t0);
 	va->Add(p1, c, t1);
@@ -197,7 +210,7 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY) cons
 
 void TextureFont::RenderString(const char *str, float x, float y, const Color &color)
 {
-	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
+	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA_PREMULT);
 	m_vertices.Clear();
 
 	float px = x;
@@ -239,7 +252,7 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 
 Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &color)
 {
-	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA);
+	m_renderer->SetBlendMode(Graphics::BLEND_ALPHA_PREMULT);
 	m_vertices.Clear();
 
 	float px = x;
@@ -310,27 +323,18 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 	FT_Set_Pixel_Sizes(m_face, a_width, a_height);
 
-	const int sz = 512;
-	m_texSize = sz;
-
-	//UV offsets for glyphs
+	// UV offsets for glyphs
 	int atlasU = 0;
 	int atlasV = 0;
 	int atlasVIncrement = 0;
 
-	//temporary RGBA pixel buffer for the glyph atlas
-	std::vector<unsigned char> pixBuf(4*sz*sz);
+	const bool outline = GetDescriptor().outline;
+
+	// temporary pixel buffer for the glyph atlas
+	const Graphics::TextureFormat tex_format = outline ? Graphics::TEXTURE_LUMINANCE_ALPHA : Graphics::TEXTURE_INTENSITY;
+	const int tex_bpp = outline ? 2 : 1;
+	std::vector<unsigned char> pixBuf(tex_bpp * FONT_TEXTURE_WIDTH * FONT_TEXTURE_MAX_HEIGHT);
 	std::fill(pixBuf.begin(), pixBuf.end(), 0);
-
-	Graphics::MaterialDescriptor desc;
-	desc.vertexColors = true; //to allow per-character colors
-	desc.textures = 1;
-	m_mat.Reset(m_renderer->CreateMaterial(desc));
-	Graphics::TextureDescriptor textureDescriptor(Graphics::TEXTURE_RGBA, vector2f(sz,sz), Graphics::NEAREST_CLAMP);
-	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
-	m_mat->texture0 = m_texture.Get();
-
-	bool outline = GetDescriptor().outline;
 
 	FT_Stroker stroker(0);
 	if (outline) {
@@ -410,16 +414,22 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 
 				//don't run off atlas borders
 				atlasVIncrement = std::max(atlasVIncrement, bmStrokeGlyph->bitmap.rows);
-				if (atlasU + bmStrokeGlyph->bitmap.width > sz) {
+				if (atlasU + bmStrokeGlyph->bitmap.width > FONT_TEXTURE_WIDTH) {
 					atlasU = 0;
 					atlasV += atlasVIncrement;
 				}
 
-				if (atlasV + bmStrokeGlyph->bitmap.rows > sz) {
-					fprintf(stderr, "glyph doesn't fit in atlas\n");
+				if (atlasV + bmStrokeGlyph->bitmap.rows > FONT_TEXTURE_MAX_HEIGHT) {
+					char utf8buf[8];
+					int len = utf8_encode_char(chr, utf8buf);
+					utf8buf[len] = '\0';
+					fprintf(stderr, "glyph doesn't fit in atlas (U+%04X; height = %d; char: %s; atlasV = %d)\n", chr, bmStrokeGlyph->bitmap.rows, utf8buf, atlasV);
 					FT_Done_Glyph(strokeGlyph);
 					continue;
 				}
+
+				assert(tex_bpp == 2);
+				assert(tex_format == Graphics::TEXTURE_LUMINANCE_ALPHA);
 
 				//copy to the atlas texture
 				//stroke first
@@ -427,10 +437,10 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				for (int row=0; row < bmStrokeGlyph->bitmap.rows; row++) {
 					for (int col=0; col < bmStrokeGlyph->bitmap.width; col++) {
 						//assume black outline
-						const int d = 4*sz*(row+atlasV) + 4*(col+atlasU);
+						const int d = 2*FONT_TEXTURE_WIDTH*(row+atlasV) + 2*(col+atlasU);
 						const int s = pitch*row + col;
-						pixBuf[d]  = pixBuf[d+1] = pixBuf[d+2] = 0; //lum
-						pixBuf[d+3] = bmStrokeGlyph->bitmap.buffer[s]; //alpha
+						pixBuf[d+0] = 0; // luminance
+						pixBuf[d+1] = bmStrokeGlyph->bitmap.buffer[s]; // alpha
 					}
 				}
 
@@ -440,18 +450,18 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				pitch = bmGlyph->bitmap.pitch;
 				for (int row=0; row < bmGlyph->bitmap.rows; row++) {
 					for (int col=0; col < bmGlyph->bitmap.width; col++) {
-						const int d = 4*sz*(row+atlasV+xoff) + 4*(col+atlasU+yoff);
+						const int d = 2*FONT_TEXTURE_WIDTH*(row+atlasV+xoff) + 2*(col+atlasU+yoff);
 						const int s = pitch*row + col;
-						pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = bmGlyph->bitmap.buffer[s];
+						pixBuf[d] = bmGlyph->bitmap.buffer[s]; // luminance
 					}
 				}
 
-				glfglyph.width = bmStrokeGlyph->bitmap.width / float(sz);
-				glfglyph.height = bmStrokeGlyph->bitmap.rows / float(sz);
+				glfglyph.width = bmStrokeGlyph->bitmap.width;
+				glfglyph.height = bmStrokeGlyph->bitmap.rows;
 				glfglyph.offx = bmStrokeGlyph->left;
 				glfglyph.offy = bmStrokeGlyph->top;
-				glfglyph.offU = atlasU / float(sz);
-				glfglyph.offV = atlasV / float(sz);
+				glfglyph.offU = atlasU;
+				glfglyph.offV = atlasV;
 
 				atlasU += bmStrokeGlyph->bitmap.width;
 
@@ -461,15 +471,21 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 			else {
 				//don't run off atlas borders
 				atlasVIncrement = std::max(atlasVIncrement, bmGlyph->bitmap.rows);
-				if (atlasU + bmGlyph->bitmap.width >= sz) {
+				if (atlasU + bmGlyph->bitmap.width >= FONT_TEXTURE_WIDTH) {
 					atlasU = 0;
 					atlasV += atlasVIncrement;
 				}
 
-				if (atlasV + bmGlyph->bitmap.rows > sz) {
-					fprintf(stderr, "glyph doesn't fit in atlas\n");
+				if (atlasV + bmGlyph->bitmap.rows > FONT_TEXTURE_MAX_HEIGHT) {
+					char utf8buf[8];
+					int len = utf8_encode_char(chr, utf8buf);
+					utf8buf[len] = '\0';
+					fprintf(stderr, "glyph doesn't fit in atlas (U+%04X; height = %d; char: %s)\n", chr, bmGlyph->bitmap.rows, utf8buf);
 					continue;
 				}
+
+				assert(tex_bpp == 1);
+				assert(tex_format == Graphics::TEXTURE_INTENSITY);
 
 				//copy glyph bitmap to the atlas texture
 				//the glyphs are upside down in the texture due to how freetype stores them
@@ -478,26 +494,23 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 				const int rows = bmGlyph->bitmap.rows;
 				for (int row=0; row < rows; row++) {
 					for (int col=0; col < bmGlyph->bitmap.width; col++) {
-						const int d = 4*sz*(row+atlasV) + 4*(col+atlasU);
+						const int d = FONT_TEXTURE_WIDTH*(row+atlasV) + (col+atlasU);
 						const int s = pitch*row + col;
-						pixBuf[d] = pixBuf[d+1] = pixBuf[d+2] = pixBuf[d+3] = bmGlyph->bitmap.buffer[s];
+						pixBuf[d] = bmGlyph->bitmap.buffer[s]; // alpha
 					}
 				}
 
-				glfglyph.width = bmGlyph->bitmap.width / float(sz);
-				glfglyph.height = bmGlyph->bitmap.rows / float(sz);
+				glfglyph.width = bmGlyph->bitmap.width;
+				glfglyph.height = bmGlyph->bitmap.rows;
 				glfglyph.offx = bmGlyph->left;
 				glfglyph.offy = bmGlyph->top;
-				glfglyph.offU = atlasU / float(sz);
-				glfglyph.offV = atlasV / float(sz);
+				glfglyph.offU = atlasU;
+				glfglyph.offV = atlasV;
 
 				atlasU += bmGlyph->bitmap.width;
 			}
 
 			FT_Done_Glyph(glyph);
-
-			glfglyph.texWidth = m_texSize*glfglyph.width;
-			glfglyph.texHeight = m_texSize*glfglyph.height;
 
 			glfglyph.advx = float(m_face->glyph->advance.x) / 64.f + advx_adjust;
 			glfglyph.advy = float(m_face->glyph->advance.y) / 64.f;
@@ -509,14 +522,57 @@ TextureFont::TextureFont(const FontDescriptor &descriptor, Graphics::Renderer *r
 		}
 	}
 
+	// we may not have used the whole texture;
+	// pick the smallest power-of-two texture height that can hold all the glyphs we've got
+	const int used_height = atlasV + atlasVIncrement;
+	const int tex_height = ceil_pow2(used_height);
+	const vector2f tex_size(FONT_TEXTURE_WIDTH, tex_height);
+
+	// fill in glyph metrics
+	const float inv_width = 1.0f / tex_size.x;
+	const float inv_height = 1.0f / tex_size.y;
+	for (int i = 0; i < MAX_FAST_GLYPHS; ++i)
+	{
+		glfglyph_t &metrics = m_glyphsFast[i];
+		if (!is_zero_exact(metrics.width))
+		{
+			metrics.texWidth = metrics.width * inv_width;
+			metrics.texHeight = metrics.height * inv_height;
+			metrics.offU *= inv_width;
+			metrics.offV *= inv_height;
+		}
+	}
+	for (std::map<Uint32,glfglyph_t>::iterator it = m_glyphs.begin(); it != m_glyphs.end(); ++it)
+	{
+		glfglyph_t &metrics = it->second;
+		if (!is_zero_exact(metrics.width))
+		{
+			metrics.texWidth = metrics.width * inv_width;
+			metrics.texHeight = metrics.height * inv_height;
+			metrics.offU *= inv_width;
+			metrics.offV *= inv_height;
+		}
+	}
+
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true; //to allow per-character colors
+	desc.textures = 1;
+	m_mat.Reset(m_renderer->CreateMaterial(desc));
+	Graphics::TextureDescriptor textureDescriptor(tex_format, tex_size, Graphics::NEAREST_CLAMP, false, false);
+	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
+	m_mat->texture0 = m_texture.Get();
+
 #if DUMP_GLYPH_ATLAS
-	const std::string name = "font-atlas-" + GetDescriptor().filename + ".png";
-	write_png(name.c_str(), &pixBuf[0], sz, sz, sz*4, 4);
+	const std::string name = atlas_image_name(GetDescriptor());
+	write_png(FileSystem::userFiles, name.c_str(),
+			&pixBuf[0], FONT_TEXTURE_WIDTH, tex_height, FONT_TEXTURE_WIDTH*tex_bpp, tex_bpp);
 	printf("Font atlas written to '%s'\n", name.c_str());
 #endif
 
 	//upload atlas
-	m_texture->Update(&pixBuf[0], vector2f(sz,sz), Graphics::IMAGE_RGBA, Graphics::IMAGE_UNSIGNED_BYTE);
+	const Graphics::ImageFormat image_format = (tex_format == Graphics::TEXTURE_LUMINANCE_ALPHA
+		 ? Graphics::IMAGE_LUMINANCE_ALPHA : Graphics::IMAGE_INTENSITY);
+	m_texture->Update(&pixBuf[0], tex_size, image_format, Graphics::IMAGE_UNSIGNED_BYTE);
 
 	if (outline)
 		FT_Stroker_Done(stroker);

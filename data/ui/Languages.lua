@@ -217,3 +217,70 @@ Translate:Add({
 		['Select game to load...'] = 'Válassz betöltendö fájlt...',
 	}
 })
+
+Translate:Add({
+	Russian = {
+		-- Main menu
+		['Start at Earth']    = 'Новый старт: Earth',
+		['Start at New Hope'] = 'Новый старт: New Hope',
+		['Start at Lave']     = 'Новый старт: Lave',
+		['Load game']         = 'Загрузить запись',
+		['Options']           = 'Настройки',
+		['Quit']              = 'Выход',
+
+		-- Generic file dialog
+		['Select file...'] = 'Выберите файл...',
+		['Select']         = 'Выбрать',
+		['Cancel']         = 'Отмена',
+		
+		-- Load dialog
+		['Select game to load...'] = 'Выберите файл для загрузки...',
+
+		-- Equipment
+		['Equipment'] = 'Оборудование',
+		['{quantity} Shield Generators'] = 'Генераторы защитного поля {quantity}',
+		['{quantity} Occupied Passenger Cabins'] = 'Занятых пассажирских кают {quantity}',
+		['{quantity} Unoccupied Passenger Cabins'] = 'Свободных пассажирских кают {quantity}',
+		
+		-- Ship Information
+		['Ship Information'] = 'Информация о корабле',
+		['Weight empty:'] = 'Собств.вес корабля:',
+		['{range} light years ({maxRange} max)'] = '{range} св.лет (из {maxRange} макс.)',
+		
+		-- Personal information
+		['Personal Information'] = 'Персональная информация',
+		['Combat'] = 'Боевой рейтинг',
+		['Rating:'] = 'Рейтинг:',
+		['Kills:'] = 'Побед:',
+		['Military'] = 'Военный ранг',
+		['Rank:'] = 'Ранг:',
+		['Male'] = 'Мужчина',
+		['Female'] = 'Женщина',
+		
+		-- Economy & Trade
+		['Economy & Trade'] = 'Экономика и торговля',
+		['Total: '] = 'Всего: ',
+		['Fuel tank full.'] = 'Топливный бак полон.',
+
+		-- Missions
+		['Mission Details'] = 'О задании',
+		['No missions.'] = 'Нет заданий.',
+		['INACTIVE'] = 'Неактивно', -- Complement of ACTIVE, COMPLETED and FAILED
+		
+		-- Orbital analysis
+		['Orbit'] = 'Орбита',
+		['Orbital Analysis'] = 'Анализ орбиты',
+		['Located {distance}km from the centre of {name}:'] = 'Положение: {distance}км от центра {name}:',
+		['Circular orbit speed:'] = 'Круговая орбит.скорость',
+		['Escape speed:'] = 'Скорость отдаления:',
+		['Descent-to-ground speed:'] = 'Скорость снижения:',
+		['Notes:'] = 'Примечание:',
+		ORBITAL_ANALYSIS_NOTES = [[
+Круговая орбитальная скорость дана для тангенциальной скорости. Корабль должен двигаться под 90В° к оси корабля/{name}.
+
+Скорость снижения - минимальная и тангенциальная. Наиболее низка скорость или минимальный угол, которые приведут к пересечению с поверхностью {name}.
+
+Скорость отдаления - теоретическая для любого направления, на котором корабль не пересечется с поверхностью {name}.
+		]]
+	}
+})

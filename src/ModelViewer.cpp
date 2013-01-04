@@ -10,6 +10,7 @@
 #include "scenegraph/FindNodeVisitor.h"
 #include "OS.h"
 #include "Pi.h"
+#include "StringF.h"
 #include <sstream>
 
 //default options
@@ -81,7 +82,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 , m_modelName("")
 , m_camPos(0.f)
 {
-	m_ui.Reset(new UI::Context(lm, r, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
+	m_ui.Reset(new UI::Context(lm, r, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), "English"));
 
 	m_log = m_ui->MultiLineText("");
 	m_log->SetFont(UI::Widget::FONT_XSMALL);

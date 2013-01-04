@@ -13,6 +13,7 @@ namespace Lang {
 bool LoadStrings(const std::string &lang);
 const std::vector<std::string> &GetAvailableLanguages();
 const std::map<std::string, const char*> &GetDictionary();
+const std::string &GetCurrentLanguage();
 
 // declare all strings
 #define DECLARE_STRING(x) extern char x[];
