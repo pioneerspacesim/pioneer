@@ -3,6 +3,7 @@
 
 #include "TextureBuilder.h"
 #include "FileSystem.h"
+#include "utils.h"
 #include <SDL_image.h>
 #include <SDL_rwops.h>
 
@@ -24,6 +25,9 @@ TextureBuilder::~TextureBuilder()
 
 // RGBA and RGBpixel format for converting textures
 // XXX little-endian. if we ever have a port to a big-endian arch, invert shift and mask
+#if SDL_BYTEORDER != SDL_LIL_ENDIAN
+#error "SDL surface pixel formats are endian-specific"
+#endif
 static SDL_PixelFormat pixelFormatRGBA = {
 	0,                                  // palette
 	32,                                 // bits per pixel
@@ -71,17 +75,6 @@ static inline bool GetTargetFormat(const SDL_PixelFormat *sourcePixelFormat, Tex
 	*targetTextureFormat = TEXTURE_RGBA;
 	*targetPixelFormat = &pixelFormatRGBA;
 	return false;
-}
-
-static inline Uint32 ceil_pow2(Uint32 v) {
-	v--;
-	v |= v >> 1;
-	v |= v >> 2;
-	v |= v >> 4;
-	v |= v >> 8;
-	v |= v >> 16;
-	v++;
-	return v;
 }
 
 void TextureBuilder::PrepareSurface()

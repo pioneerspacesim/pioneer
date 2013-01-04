@@ -8,30 +8,30 @@
 
 namespace Text {
 
-	FontDescriptor FontDescriptor::Load(FileSystem::FileSource &fs, const std::string &path)
+	FontDescriptor FontDescriptor::Load(FileSystem::FileSource &fs, const std::string &path, const std::string &lang)
 	{
-		return FontDescriptor::Load(fs, path, 1.0f, 1.0f);
+		return FontDescriptor::Load(fs, path, lang, 1.0f, 1.0f);
 	}
 
-	FontDescriptor FontDescriptor::Load(FileSystem::FileSource &fs, const std::string &path, float scale_x, float scale_y)
+	FontDescriptor FontDescriptor::Load(FileSystem::FileSource &fs, const std::string &path, const std::string &lang, float scale_x, float scale_y)
 	{
 		IniConfig cfg;
-		// set defaults
-		cfg.SetInt("PixelWidth", 12);
-		cfg.SetInt("PixelHeight", 12);
-		cfg.SetInt("AdvanceXAdjustment", 0);
+
 		cfg.Read(fs, path);
 
-		const float pointSize = cfg.Float("PointSize");
+		std::string section;
+		if (cfg.HasEntry(lang, "FontFile")) { section = lang; }
+
+		const float pointSize = cfg.Float(section, "PointSize", 0.0f);
 		if (!is_zero_general(pointSize))
-			return FontDescriptor(cfg.String("FontFile"), pointSize);
+			return FontDescriptor(cfg.String(section, "FontFile", ""), pointSize);
 
 		return FontDescriptor(
-			cfg.String("FontFile"),
-			cfg.Int("PixelWidth") / scale_x,
-			cfg.Int("PixelHeight") / scale_y,
-			cfg.Int("Outline") ? true : false,
-			cfg.Float("AdvanceXAdjustment")
+			cfg.String(section, "FontFile", ""),
+			cfg.Int(section, "PixelWidth", 12) / scale_x,
+			cfg.Int(section, "PixelHeight", 12) / scale_y,
+			cfg.Int(section, "Outline", 0) ? true : false,
+			cfg.Float(section, "AdvanceXAdjustment", 0.0f)
 		);
 	}
 

@@ -31,6 +31,7 @@ namespace {
 // (or std::string, but then we'd be changing the way translated text is stored)
 typedef std::map<std::string, const char*> token_map;
 static token_map s_token_map;
+static std::string s_current_language("English");
 
 static struct init_string_helper_class {
 	init_string_helper_class() {
@@ -328,6 +329,8 @@ bool LoadStrings(const std::string &lang)
 		return false;
 	}
 
+	s_current_language = lang;
+
 	return true;
 }
 
@@ -340,6 +343,11 @@ const std::vector<std::string> &GetAvailableLanguages()
 const std::map<std::string, const char*> &GetDictionary()
 {
     return s_token_map;
+}
+
+const std::string &GetCurrentLanguage()
+{
+	return s_current_language;
 }
 
 } // namespace Lang

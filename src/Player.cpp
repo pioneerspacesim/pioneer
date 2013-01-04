@@ -14,6 +14,7 @@
 #include "SpaceStation.h"
 #include "SpaceStationView.h"
 #include "WorldView.h"
+#include "StringF.h"
 
 //Some player specific sounds
 static Sound::Event s_soundUndercarriage;
