@@ -8,7 +8,7 @@ Alpha 30
      * New volcanic surface effects on some planets (#1782)
      * New and improved autopilot (#1812)
      * Improved atmosphere rendering: scattering, sunsets, thinner fogs and
-       ground lighting fixes (#1888)
+       ground lighting fixes (#1888, #1891)
 
    * Minor changes and tweaks
      * Don't allocate projectile geometry for every projectile. Huge
