@@ -501,7 +501,7 @@ local crewRoster = function ()
 				-- Things we can do with this crew member
 				--  (as long as they're not the player!)
 				-- returning nil if crewMember is player
-				not crewMember.player and ui:Label(t("Tasks")):SetFont("HEADING_NORMAL") or nil,
+				not crewMember.player and ui:Label(t("Employment")):SetFont("HEADING_NORMAL") or nil,
 				not crewMember.player and ui:Grid(2,1)
 					:SetColumn(0, {
 						ui:VBox():PackEnd({

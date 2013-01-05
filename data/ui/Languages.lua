@@ -48,6 +48,22 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'Mission Details',
 		['No missions.'] = 'No missions.',
+
+		-- Crew Roster
+		['Name'] = 'Name',
+		['Position'] = 'Position',
+		['Wage'] = 'Wage',
+		['Next paid'] = 'Next paid',
+		['General crew'] = 'General crew',
+		['Dismiss'] = 'Dismiss',
+		['Qualification scores'] = 'Qualification scores',
+		['Engineering:'] = 'Engineering',
+		['Piloting:'] = 'Piloting:',
+		['Navigation:'] = 'Navigation:',
+		['Sensors:'] = 'Sensors:',
+		['Employment'] = 'Employment',
+		['Negotiate'] = 'Negotiate',
+		['Crew Roster'] = 'Crew Roster',
 		
 		-- Orbital analysis
 		['Orbit'] = 'Orbit',
