@@ -16,6 +16,7 @@ public:
 	virtual ~DynamicBody();
 	virtual vector3d GetVelocity() const;
 	virtual void SetVelocity(const vector3d &v);
+	virtual void SetFrame(Frame *f);
 	vector3d GetAngVelocity() const;
 	void SetAngVelocity(const vector3d &v);
 	void SetMesh(ObjMesh *m);

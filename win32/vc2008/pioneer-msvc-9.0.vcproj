@@ -43,7 +43,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\src;..\..\src\win32;..\..\contrib;..\win32\include;&quot;..\..\..\pioneer-thirdparty\win32\include&quot;"
-				PreprocessorDefinitions="DEBUG_AUTOPILOT;WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				SmallerTypeCheck="true"
@@ -2132,10 +2132,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\gameconsts.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GameLoaderSaver.h"
 				>
 			</File>
 			<File

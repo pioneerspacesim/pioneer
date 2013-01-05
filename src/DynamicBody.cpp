@@ -84,7 +84,7 @@ void DynamicBody::PostLoadFixup(Space *space)
 {
 	Body::PostLoadFixup(space);
 	m_oldPos = GetPosition();
-	if (GetFrame()) CalcExternalForce();		// not for hyperspace
+//	CalcExternalForce();		// too dangerous
 }
 
 void DynamicBody::SetTorque(const vector3d &t)
@@ -99,9 +99,17 @@ void DynamicBody::SetMass(double mass)
 	m_angInertia = (2/5.0)*m_mass*m_massRadius*m_massRadius;
 }
 
+void DynamicBody::SetFrame(Frame *f)
+{
+	ModelBody::SetFrame(f);
+	// external forces will be wrong after frame transition
+	m_externalForce = m_gravityForce = m_atmosForce = vector3d(0.0);
+}
+
 void DynamicBody::CalcExternalForce()
 {
 	// gravity
+	if (!GetFrame()) return;			// no external force if not in a frame
 	Body *body = GetFrame()->GetBody();
 	if (body && !body->IsType(Object::SPACESTATION)) {	// they ought to have mass though...
 		vector3d b1b2 = GetPosition();
@@ -139,8 +147,8 @@ void DynamicBody::CalcExternalForce()
 	else m_atmosForce = vector3d(0.0);
 
 	// centrifugal and coriolis forces for rotating frames
-	vector3d angRot(0, GetFrame()->GetAngSpeed(), 0);
-	if (angRot.LengthSqr() > 0.0) {
+	if (GetFrame()->IsRotFrame()) {
+		vector3d angRot(0, GetFrame()->GetAngSpeed(), 0);
 		m_externalForce -= m_mass * angRot.Cross(angRot.Cross(GetPosition()));	// centrifugal
 		m_externalForce -= 2 * m_mass * angRot.Cross(GetVelocity());			// coriolis
 	}

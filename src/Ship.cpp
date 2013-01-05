@@ -786,6 +786,7 @@ void Ship::DoThrusterSounds() const
 // either adds half of current accel if decelerating
 void Ship::TimeAccelAdjust(const float timeStep)
 {
+	if (!AIIsActive()) return;
 #ifdef DEBUG_AUTOPILOT
 	if (this->IsType(Object::PLAYER))
 		printf("Time accel adjustment, step = %.1f, decel = %s\n", double(timeStep),
