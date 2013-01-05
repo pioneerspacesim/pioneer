@@ -31,9 +31,11 @@ Alpha 30
      * Low/medium/high orbit altitudes reduced to be more likely to fit in
        object frames (#1903)
 
-   * Script changes
+   * Script changes and model changes
      * New attribute StarSystem.explored (#1793, #1797)
      * Custom systems can now define gravpoints (#1701, #1074)
+     * Added attributes in space/ground station models info table:
+         ship_launch_stage, parking_distance, parking_gap_size (#1812)
 
    * Fixes
      * Interpret galaxy density bitmap as unsigned values (#1818, #1813)
