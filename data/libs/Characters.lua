@@ -635,7 +635,7 @@ Character = {
 --
 -- Return:
 --
---   success - Boolean value indicating that the test roll passed or failed
+--   success - False if failed, otherwise the dice roll value (low is good).
 --
 -- Parameters:
 --
@@ -664,7 +664,7 @@ Character = {
 				self[attribute] = self[attribute] + 1
 				modifier = modifier - 1 -- don't affect *this* result
 			end
-			return (result < (self[attribute] + modifier))
+			return (result < (self[attribute] + modifier) and result)
 		else
 			return false
 		end
@@ -686,7 +686,7 @@ Character = {
 --
 -- Return:
 --
---   success - Boolean value indicating that the test roll passed or failed
+--   success - False if failed, otherwise the dice roll value (low is good).
 --
 -- Parameters:
 --
@@ -707,7 +707,8 @@ Character = {
 		if type(modifier) ~= 'number' then error('SafeRoll(): modifier must be numeric') end
 		if self.dead then return false end -- dead characters fail all tests
 		if self[attribute] and (type(self[attribute])=='number') then
-			return (self.DiceRoll() < (self[attribute] + modifier))
+			local result = Self.DiceRoll()
+			return (result < (self[attribute] + modifier) and result)
 		else
 			return false
 		end

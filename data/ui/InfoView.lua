@@ -427,6 +427,70 @@ local crewRoster = function ()
 	-- can call each other.
 	local crewMemberInfoButtonFunc
 
+	-- Function that presents a screen with orders to be given to the crew.
+	-- The crew will each be tested in turn for suitability, and the first
+	-- to respond well will be tasked with the job.
+	local taskCrew = function ()
+		local feedback = ui:Label('') -- Would prefer MultiLineText
+
+		-- Very local function used by functions in crewTasks
+		local testCrewMember = function (attribute,playerOK)
+			for crewMember in Game.player:EachCrewMember() do
+				local result = crewMember:TestRoll(attribute)
+				if (playerOK or not crewMember.player) and result then
+					return crewMember,result
+				end
+			end
+			return false
+		end
+
+		-- A table of task functions, keyed by their description, which will set feedback.
+		-- They take no arguments, and are connected to buttons.
+		local crewTasks = {
+			['Attempt to repair hull'] = function ()
+				-- Convoluted...
+				local hullMass = ShipType.GetShipType(Game.player.shipId).hullMass
+				local hullMassLeft = Game.player:GetStats().hullMassLeft 
+				local hullDamage = hullMass - hullMassLeft
+				if hullDamage > 0 then
+					if Game.player:GetEquipCount('CARGO','METAL_ALLOYS') <= 0 then
+						feedback:SetText(t('Not enough {alloy} to attempt a repair'):interp({alloy = t('METAL_ALLOYS')}))
+						return
+					end
+					local crewMember, result = testCrewMember('engineering',true)
+					if crewMember then
+						local repair = math.min(
+							-- Need metal alloys for repair. Check amount.
+							math.ceil(hullDamage/(64 - result)), -- 65 > result > 3
+							Game.player:GetEquipCount('CARGO','METAL_ALLOYS')
+						)
+						Game.player:RemoveEquip('METAL_ALLOYS',repair) -- These will now be part of the hull.
+						repairPercent = math.min(math.ceil(100 * (repair + hullMassLeft) / hullMass), 100) -- Get new hull percentage...
+						Game.player:SetHullPercent(repairPercent)   -- ...and set it.
+						feedback:SetText(t('Hull repaired by {name}, now at {repairPercent}%'):interp({name = crewMember.name,repairPercent = repairPercent}))
+					else
+						repairPercent = math.max(math.floor(100 * (hullMassLeft - 1) / hullMass), 1) -- Get new hull percentage...
+						Game.player:SetHullPercent(repairPercent)   -- ...and set it.
+						feedback:SetText(t('Hull repair attempt failed. Hull suffered minor damage.'))
+					end
+				else
+					feedback:SetText(t('Hull does not require repair.'))
+				end
+			end,
+		}
+
+		local taskList = ui:VBox() -- This could do with being something prettier
+
+		for label,task in pairs(crewTasks) do
+			local taskButton = UI.SmallLabeledButton.New(t(label))
+			taskButton.button.onClick:Connect(task)
+			taskList:PackEnd(taskButton)
+		end
+		taskList:PackEnd(feedback)
+
+		CrewScreen:SetInnerWidget(taskList)
+	end
+
 	-- Function that creates the crew list
 	local makeCrewList = function ()
 		local crewlistbox = ui:VBox(10)
@@ -458,7 +522,15 @@ local crewRoster = function ()
 				moreButton.widget,
 			}))
 		end
-		return ui:VBox(10):PackEnd({ headergrid, ui:Scroller():SetInnerWidget(crewlistbox) })
+
+		local taskCrewButton = ui:Button():SetInnerWidget(ui:Label(t('Give orders to crew')))
+		taskCrewButton.onClick:Connect(taskCrew)
+
+		return ui:VBox(10):PackEnd({
+			headergrid,
+			ui:Scroller():SetInnerWidget(crewlistbox),
+			taskCrewButton,
+		})
 	end
 
 	-- Function that creates an info page for a crew member
@@ -518,7 +590,6 @@ local crewRoster = function ()
 		-- Set Right hand side of page: Character's face
 		:SetColumn(1, { UI.InfoFace.New(crewMember) }))
 	end
-
 
 	CrewScreen:SetInnerWidget(makeCrewList())
 
