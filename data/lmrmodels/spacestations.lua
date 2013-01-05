@@ -810,7 +810,7 @@ define_model('mushroom_station_4', {
 
 define_model('big_crappy_spacestation', {
 	info = {
-		bounding_radius=500.0,
+		bounding_radius=2000.0,
 		materials = {'text', 'body0'},
 		tags = {'orbital_station'},
 		angular_velocity = 0.1,
@@ -923,7 +923,7 @@ define_model('big_crappy_spacestation', {
 
 define_model('nice_spacestation', {
 	info = {
-			bounding_radius=500.0,
+			bounding_radius=700.0,
 			materials = {'text', 'body', 'green_lens'},
 			tags = {'orbital_station'},
 			angular_velocity = 0.15,
@@ -1102,7 +1102,7 @@ define_model('nice_spacestation', {
 
 define_model('hoop_spacestation', {
 	info = {
-			bounding_radius=500.0,
+			bounding_radius=2000.0,
 			materials = {'text', 'body', 'green_lens'},
 			tags = {'orbital_station'},
 			angular_velocity = 0.08,
