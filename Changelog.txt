@@ -53,6 +53,7 @@ Alpha 30
      * Don't toggle labels and rotation damping while console is active (#1897, #1364)
      * Don't save/restore GL_POINT_BIT attribute, it breaks GL state on old
        Intel chips
+     * Update all material light components when applying a material (#1908, #1887)
 
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
