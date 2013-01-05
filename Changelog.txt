@@ -76,7 +76,8 @@ Alpha 30
      * Various code improvements in frame handling and other things (#1812)
      * Cleanup SectorView system index usage (#1884)
      * Split FileSelectorDialog and LoadGame/SaveGame out of GameLoaderSaver (#1847)
-     * Font optimisations and support for language-specific font overrides (#1899)
+     * Font optimisations and support for language-specific font overrides (#1899,
+       #1907, #1904)
      * Avoid use of strtof, it doesn't exist on MSVC (#1905)
 
 Alpha 29
