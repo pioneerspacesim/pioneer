@@ -1,3 +1,8 @@
+Alpha 31
+
+   * Internal changes
+     * Avoid use of strtof, it doesn't exist on MSVC (#1905)
+
 Alpha 30
 
    * New features
