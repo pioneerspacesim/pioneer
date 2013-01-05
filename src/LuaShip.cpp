@@ -1451,7 +1451,7 @@ static int l_ship_ai_enter_medium_orbit(lua_State *l)
 	Body *target = LuaBody::CheckFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
-	s->AIOrbit(target, 2.0);
+	s->AIOrbit(target, 1.6);
 	return 0;
 }
 
@@ -1482,7 +1482,7 @@ static int l_ship_ai_enter_high_orbit(lua_State *l)
 	Body *target = LuaBody::CheckFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
-	s->AIOrbit(target, 5.0);
+	s->AIOrbit(target, 3.2);
 	return 0;
 }
 
