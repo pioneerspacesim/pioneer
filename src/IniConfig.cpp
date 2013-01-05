@@ -52,7 +52,7 @@ float IniConfig::Float(const std::string &section, const std::string &key, float
 	const StringRange val = StringRange(it->second.c_str(), it->second.size()).StripSpace();
 	if (val.Empty()) return defval;
 	char *end = 0;
-	float x = strtof(val.begin, &end);
+	float x = strtod(val.begin, &end);
 	if (end != val.end) return defval;
 	return x;
 }
