@@ -423,7 +423,7 @@ local crewRoster = function ()
 	-- This Crew Roster screen
 	local CrewScreen = ui:Expand()
 
-	-- Prototype for a function; makeCrewList and crewmemberInfoFunc
+	-- Prototype for a function; makeCrewList and crewMemberInfoButtonFunc
 	-- can call each other.
 	local crewMemberInfoButtonFunc
 
