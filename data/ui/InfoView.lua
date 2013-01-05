@@ -422,10 +422,58 @@ end
 local crewRoster = function ()
 	-- This Crew Roster screen
 	local CrewScreen = ui:Expand()
-	local CrewList = ui:VBox(10)
+
+	-- Prototype for a function; makeCrewList and crewmemberInfoFunc
+	-- can call each other.
+	local crewMemberInfoButtonFunc
+
+	-- Function that creates the crew list
+	local makeCrewList = function ()
+		local crewlistbox = ui:VBox(10)
+
+		-- One row for each mission, plus a header
+		local rowspec = {8,8,4,7,5}
+		local headergrid  = ui:Grid(rowspec,1)
+
+		-- Set up the headings for the Crew Roster list
+		headergrid:SetRow(0,
+		{
+			-- Headers
+			ui:Label(t('Name')):SetFont("HEADING_NORMAL"),
+			ui:Label(t('Position')):SetFont("HEADING_NORMAL"),
+			ui:Label(t('Wage')):SetFont("HEADING_NORMAL"),
+			ui:Label(t('Next paid')):SetFont("HEADING_NORMAL"),
+		})
+
+		-- Create a row for each crew member
+		for crewMember in Game.player:EachCrewMember() do
+			local moreButton = UI.SmallLabeledButton.New(t("More info..."))
+			moreButton.button.onClick:Connect(function () return crewMemberInfoButtonFunc(crewMember) end)
+
+			crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
+				ui:Label(crewMember.name),
+				ui:Label(crewMember.title or t('General crew')),
+				ui:Label(Format.Money(0)),
+				ui:Label(Format.Date(0)),
+				moreButton.widget,
+			}))
+		end
+		return ui:VBox(10):PackEnd({ headergrid, ui:Scroller():SetInnerWidget(crewlistbox) })
+	end
 
 	-- Function that creates an info page for a crew member
-	local crewMemberInfoButton = function (crewMember)
+	-- (local identifier declared earlier)
+	crewMemberInfoButtonFunc = function (crewMember)
+
+		-- Make the button that you'd use to sack somebody
+		local dismissButton = UI.SmallLabeledButton.New(t("Dismiss"))
+		dismissButton.button.onClick:Connect(function ()
+			if Game.player.flightState == 'DOCKED' and Game.player:Dismiss(crewMember) then
+				crewMember:Save()                         -- Save to persistent characters list
+				CrewScreen:SetInnerWidget(makeCrewList()) -- Return to crew roster list
+			end
+		end)
+
 		CrewScreen:SetInnerWidget(ui:Grid(2,1)
 		-- Set left hand side of page: General information about the Character
 		:SetColumn(0, {
@@ -457,7 +505,7 @@ local crewRoster = function ()
 				not crewMember.player and ui:Grid(2,1)
 					:SetColumn(0, {
 						ui:VBox():PackEnd({
-							UI.SmallLabeledButton.New(t("Dismiss")),
+							dismissButton,
 						})
 					})
 					:SetColumn(1, {
@@ -471,39 +519,8 @@ local crewRoster = function ()
 		:SetColumn(1, { UI.InfoFace.New(crewMember) }))
 	end
 
-	-- One row for each mission, plus a header
-	local rowspec = {8,8,4,7,5}
-	local headergrid  = ui:Grid(rowspec,1)
 
-	-- Set up the headings for the Crew Roster list
-	headergrid:SetRow(0,
-	{
-		-- Headers
-		ui:Label(t('Name')):SetFont("HEADING_NORMAL"),
-		ui:Label(t('Position')):SetFont("HEADING_NORMAL"),
-		ui:Label(t('Wage')):SetFont("HEADING_NORMAL"),
-		ui:Label(t('Next paid')):SetFont("HEADING_NORMAL"),
-	})
-
-	local crewlistbox = ui:VBox(10)
-
-	-- Create a row for each crew member
-	for crewMember in Game.player:EachCrewMember() do
-		local moreButton = UI.SmallLabeledButton.New(t("More info..."))
-		moreButton.button.onClick:Connect(function () return crewMemberInfoButton(crewMember) end)
-
-		crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
-			ui:Label(crewMember.name),
-			ui:Label(crewMember.title or t('General crew')),
-			ui:Label(Format.Money(0)),
-			ui:Label(Format.Date(0)),
-			moreButton.widget,
-		}))
-	end
-
-	CrewList:PackEnd({ headergrid, ui:Scroller():SetInnerWidget(crewlistbox) })
-
-	CrewScreen:SetInnerWidget(CrewList)
+	CrewScreen:SetInnerWidget(makeCrewList())
 
 	return CrewScreen
 end
