@@ -419,6 +419,21 @@ local missions = function ()
 	return MissionScreen
 end
 
+-- Anti-abuse feature - this locks out the piloting commands based on a timer.
+-- It knows when the crew were last checked for a piloting skill, and prevents
+-- the player drumming the button until it works.
+local pilotLockoutTimer = 0
+local pilotLockoutTimeout = 30 -- Half a minute (in seconds)
+
+local checkPilotLockout = function ()
+	return Game.time > pilotLockoutTimer + pilotLockoutTimeout
+end
+
+local pilotLockout = function ()
+	pilotLockoutTimer = Game.time
+end
+
+
 local crewRoster = function ()
 	-- This Crew Roster screen
 	local CrewScreen = ui:Expand()
@@ -475,6 +490,52 @@ local crewRoster = function ()
 					end
 				else
 					feedback:SetText(t('Hull does not require repair.'))
+				end
+			end,
+
+			['Destroy enemy ship'] = function ()
+				if Game.player.flightState ~= 'FLYING'
+				then
+					feedback:SetText(({
+						LANDED = t('You must request launch clearance first, Commander.'),
+						DOCKED = t('You must launch first, Commander.'),
+						HYPERSPACE = t('We are in hyperspace, Commander.'),
+						DOCKING = t('The ship is under station control, Commander.'),
+					})[Game.player.flightState])
+				elseif not Game.player:GetCombatTarget() then
+					feedback:SetText(t('You must first select a combat target, Commander.'))
+				else
+					local crewMember = checkPilotLockout() and testCrewMember('piloting')
+					if not crewMember then
+						feedback:SetText(t('There is nobody else on board able to fly this ship.'))
+						pilotLockout()
+					else
+						feedback:SetText(t('Pilot seat is now occupied by {name}'):interp({name = crewMember.name,repairPercent = repairPercent}))
+						Game.player:AIKill(Game.player:GetCombatTarget())
+					end
+				end
+			end,
+
+			['Dock at current target'] = function ()
+				if Game.player.flightState ~= 'FLYING'
+				then
+					feedback:SetText(({
+						LANDED = t('You must request launch clearance first, Commander.'),
+						DOCKED = t('You must launch first, Commander.'),
+						HYPERSPACE = t('We are in hyperspace, Commander.'),
+						DOCKING = t('The ship is under station control, Commander.'),
+					})[Game.player.flightState])
+				elseif not Game.player:GetNavTarget() then
+					feedback:SetText(t('You must first select a navigation target, Commander.'))
+				else
+					local crewMember = checkPilotLockout() and testCrewMember('piloting')
+					if not crewMember then
+						feedback:SetText(t('There is nobody else on board able to fly this ship.'))
+						pilotLockout()
+					else
+						feedback:SetText(t('Pilot seat is now occupied by {name}'):interp({name = crewMember.name,repairPercent = repairPercent}))
+						Game.player:AIDockWith(Game.player:GetNavTarget())
+					end
 				end
 			end,
 		}
