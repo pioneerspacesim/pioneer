@@ -294,6 +294,7 @@ end
 
 local onClick = function (mission)
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
+	local dist = Game.system:DistanceTo(mission.location)
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((delivery_flavours[mission.flavour].introtext):interp({
 														name   = mission.client.name,
@@ -302,7 +303,8 @@ local onClick = function (mission)
 														sectorx = mission.location.sectorX,
 														sectory = mission.location.sectorY,
 														sectorz = mission.location.sectorZ,
-														cash   = Format.Money(mission.reward)})
+														cash   = Format.Money(mission.reward),
+														dist  = string.format("%.2f", dist)})
 										),
 										ui:Grid(2,1)
 											:SetColumn(0, {
@@ -314,7 +316,7 @@ local onClick = function (mission)
 													ui:Label(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
 													ui:Label(Format.Date(mission.due)),
 													ui:Margin(10),
-													ui:Label(math.ceil(Game.system:DistanceTo(mission.location)).." "..t("ly"))
+													ui:Label(math.ceil(dist).." "..t("ly"))
 												})
 											})
 		})})
