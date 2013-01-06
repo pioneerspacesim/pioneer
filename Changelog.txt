@@ -18,7 +18,7 @@ Alpha 30
      * Player's name now updates during editing in Personal Information view (#1845)
      * Rondel system moved further away from Sol and surrounding stars (#1861, #1815)
      * Star fade-in has been adjusted to make stars less visible in daytime (#1881)
-     * Some missions now state the distance to the target system (#1886)
+     * Some missions now state the distance to the target system (#1886, #1909)
      * Try harder to find a populated homeworld for a faction (#1860, #1792)
      * Clicking cancel from the Load dialog now returns you to the game (#1847, #1325)
      * Bulk ships are now only placed at orbital stations (#1890)
