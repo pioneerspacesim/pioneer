@@ -29,36 +29,7 @@
 
 /* Must be called after LmrModel init is called */
 void SpaceStation::Init()
-{	
-#if 0
-	for (int is_orbital=0; is_orbital<2; is_orbital++) {
-		std::vector<LmrModel*> models;
-		if (is_orbital) LmrGetModelsWithTag("orbital_station", models);
-		else LmrGetModelsWithTag("surface_station", models);
-
-		for (std::vector<LmrModel*>::iterator i = models.begin();
-				i != models.end(); ++i) {
-			SpaceStationType t;
-			t.modelName = (*i)->GetName();
-			t.model = LmrLookupModelByName(t.modelName.c_str());
-			t.dockMethod = SpaceStationType::DOCKMETHOD(is_orbital);
-			t.numDockingPorts = (*i)->GetIntAttribute("num_docking_ports");
-			t.shipLaunchStage = (*i)->GetIntAttribute("ship_launch_stage");
-			t.dockOneAtATimePlease = (*i)->GetBoolAttribute("dock_one_at_a_time_please");
-			t.parkingDistance = (*i)->GetFloatAttribute("parking_distance");
-			t.parkingGapSize = (*i)->GetFloatAttribute("parking_gap_size");
-			t.ReadStageDurations();
-			if (is_orbital) {
-				t.angVel = (*i)->GetFloatAttribute("angular_velocity");
-				orbitalStationTypes.push_back(t);
-			}
-			else {
-				t.angVel = 0.0;
-				surfaceStationTypes.push_back(t);
-			}
-		}
-	}
-#endif
+{
 	SpaceStationType::Init();
 }
 
