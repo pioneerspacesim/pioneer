@@ -49,3 +49,4 @@ stamp-h1
 pioneer-*.tar.*
 Thumbs.db
 *.wwdb
+gmon.out
