@@ -264,14 +264,14 @@ void Ship::UpdateMass()
 }
 
 // returns velocity of engine exhausts in m/s
-double Ship::GetEffectiveExhaustVelocity(void) {
-	double denominator = GetShipType().fuelTankMass * GetShipType().thrusterFuelUse * 10;
+double Ship::GetEffectiveExhaustVelocity(double thrusterFuelUse) {
+	double denominator = GetShipType().fuelTankMass * thrusterFuelUse * 10;
 	return denominator > 0 ? -GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9;
 }
 
 // inverse of GetEffectiveExhaustVelocity()
-double Ship::GetFuelUseRate(double effectiveExhaustVelocity) {
-	double denominator = effectiveExhaustVelocity * 10;
+double Ship::GetFuelUseRate(void) {
+	double denominator = GetShipType().effectiveExhaustVelocity * 10;
 	return denominator > 0 ? -GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9;
 }
 
@@ -280,7 +280,7 @@ double Ship::GetSpeedReachedWithFuel()
 {
 	double fuelmass = 1000*GetShipType().fuelTankMass * (m_thrusterFuel - m_reserveFuel);
 	if (fuelmass < 0) return 0.0;
-	return GetEffectiveExhaustVelocity() * log(GetMass()/(GetMass()-fuelmass));
+	return GetShipType().effectiveExhaustVelocity * log(GetMass()/(GetMass()-fuelmass));
 }
 
 bool Ship::OnDamage(Object *attacker, float kgDamage)
@@ -483,7 +483,7 @@ void Ship::UpdateFuelStats()
 	const ShipType &stype = GetShipType();
 
 	m_stats.fuel_tank_mass = stype.fuelTankMass;
-	m_stats.fuel_use = stype.thrusterFuelUse;
+	m_stats.fuel_use = GetFuelUseRate();
 	m_stats.fuel_tank_mass_left = m_stats.fuel_tank_mass * GetFuel();
 
 	UpdateMass();
@@ -935,7 +935,7 @@ void Ship::UpdateAlertState()
 
 void Ship::UpdateFuel(const float timeStep, const vector3d &thrust)
 {
-	const double fuelUseRate = GetShipType().thrusterFuelUse * 0.01;
+	const double fuelUseRate = GetFuelUseRate() * 0.01;
 	double totalThrust = (fabs(thrust.x) + fabs(thrust.y) + fabs(thrust.z))
 		/ -GetShipType().linThrust[ShipType::THRUSTER_FORWARD];
 
