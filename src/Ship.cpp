@@ -271,7 +271,7 @@ double Ship::GetEffectiveExhaustVelocity(double thrusterFuelUse) {
 
 // inverse of GetEffectiveExhaustVelocity()
 double Ship::GetFuelUseRate(void) {
-	double denominator = GetShipType().effectiveExhaustVelocity * 10;
+	double denominator = GetShipType().fuelTankMass * GetShipType().effectiveExhaustVelocity * 10;
 	return denominator > 0 ? -GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9;
 }
 
