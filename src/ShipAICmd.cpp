@@ -1025,7 +1025,7 @@ bool AICmdFlyAround::TimeStepUpdate()
 	double vel = (m_targmode) ? m_vel : MaxVel(relpos.Length(), targpos.Length());
 
 	// all calculations in ship's frame
-	vector3d fwddir = (obsdir.Cross(relpos).Cross(obsdir)).Normalized();
+	vector3d fwddir = (obsdir.Cross(relpos).Cross(obsdir)).NormalizedSafe();
 	vector3d tanvel = vel * fwddir;
 
 	// max feature avoidance check, response
@@ -1088,6 +1088,7 @@ bool AICmdFormation::TimeStepUpdate()
 	vector3d targaccel = forient * m_target->GetLastForce() / m_target->GetMass();
 	relvel -= targaccel * Pi::game->GetTimeStep();
 	double maxdecel = m_ship->GetAccelFwd() + targaccel.Dot(reldir);
+	if (maxdecel < 0.0) maxdecel = 0.0;
 
 	// linear thrust
 	double ispeed = calc_ivel(targdist, 0.0, maxdecel);

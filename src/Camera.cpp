@@ -118,7 +118,7 @@ void Camera::Draw(Renderer *renderer)
 
 	m_renderer = renderer;
 
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 
 	m_renderer->SetPerspectiveProjection(m_fovAng, m_width/m_height, m_zNear, m_zFar);
 	m_renderer->SetTransform(matrix4x4f::Identity());
