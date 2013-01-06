@@ -5,7 +5,7 @@
 #include "FileSystem.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
-#include "mtrand.h"
+#include "rand.h"
 
 using namespace std;
 
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 	FileSystem::Init();
 	Galaxy::Init();
 
-	MTRand rng(0);
+	Random rng(0);
 
 	Uint64 systemCount=0;
 	Uint64 sectorCount=0;
