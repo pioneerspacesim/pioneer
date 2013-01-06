@@ -25,7 +25,7 @@
 #include "MathUtil.h"
 #include "LuaEvent.h"
 
-void Space::BodyDistFinder::Prepare()
+void Space::BodyNearFinder::Prepare()
 {
 	m_bodyDist.clear();
 
@@ -35,12 +35,12 @@ void Space::BodyDistFinder::Prepare()
 	std::sort(m_bodyDist.begin(), m_bodyDist.end());
 }
 
-unsigned int Space::BodyDistFinder::GetBodiesNear(const Body *b, double dist, BodyFindList &bodies) const
+unsigned int Space::BodyNearFinder::GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const
 {
-	return GetBodiesNear(b->GetPositionRelTo(m_space->GetRootFrame()), dist, bodies);
+	return GetBodiesMaybeNear(b->GetPositionRelTo(m_space->GetRootFrame()), dist, bodies);
 }
 
-unsigned int Space::BodyDistFinder::GetBodiesNear(const vector3d &pos, double dist, BodyFindList &bodies) const
+unsigned int Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const
 {
 	if (m_bodyDist.empty()) return 0;
 
@@ -69,7 +69,7 @@ Space::Space(Game *game)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
 	, m_background(Pi::renderer, UNIVERSE_SEED)
-	, m_bodyDistFinder(this)
+	, m_bodyNearFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -84,7 +84,7 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
 	, m_background(Pi::renderer)
-	, m_bodyDistFinder(this)
+	, m_bodyNearFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -108,7 +108,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
 	, m_background(Pi::renderer)
-	, m_bodyDistFinder(this)
+	, m_bodyNearFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -783,7 +783,7 @@ void Space::TimeStep(float step)
 
 	UpdateBodies();
 
-	m_bodyDistFinder.Prepare();
+	m_bodyNearFinder.Prepare();
 }
 
 void Space::UpdateBodies()

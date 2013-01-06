@@ -65,13 +65,13 @@ public:
 	Background::Container& GetBackground() { return m_background; }
 
 	// body finder delegates
-	typedef std::vector<Body*> BodyFindList;
-	typedef BodyFindList::iterator BodyFindIterator;
-	unsigned int GetBodiesNear(const Body *b, double dist, BodyFindList &bodies) const {
-		return m_bodyDistFinder.GetBodiesNear(b, dist, bodies);
+	typedef std::vector<Body*> BodyNearList;
+	typedef BodyNearList::iterator BodyNearIterator;
+	unsigned int GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const {
+		return m_bodyNearFinder.GetBodiesMaybeNear(b, dist, bodies);
 	}
-	unsigned int GetBodiesNear(const vector3d &pos, double dist, BodyFindList &bodies) const {
-		return m_bodyDistFinder.GetBodiesNear(pos, dist, bodies);
+	unsigned int GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const {
+		return m_bodyNearFinder.GetBodiesMaybeNear(pos, dist, bodies);
 	}
 
 
@@ -113,13 +113,13 @@ private:
 	//e.g. starfield and milky way)
 	Background::Container m_background;
 
-	class BodyDistFinder {
+	class BodyNearFinder {
 	public:
-		BodyDistFinder(const Space *space) : m_space(space) {}
+		BodyNearFinder(const Space *space) : m_space(space) {}
 		void Prepare();
 
-		unsigned int GetBodiesNear(const Body *b, double dist, BodyFindList &bodies) const;
-		unsigned int GetBodiesNear(const vector3d &pos, double dist, BodyFindList &bodies) const;
+		unsigned int GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const;
+		unsigned int GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const;
 
 	private:
 		struct BodyDist {
@@ -134,7 +134,7 @@ private:
 		std::vector<BodyDist> m_bodyDist;
 	};
 
-	BodyDistFinder m_bodyDistFinder;
+	BodyNearFinder m_bodyNearFinder;
 
 #ifndef NDEBUG
 	//to check RemoveBody and KillBody are not called from within
