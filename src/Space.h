@@ -67,11 +67,11 @@ public:
 	// body finder delegates
 	typedef std::vector<Body*> BodyNearList;
 	typedef BodyNearList::iterator BodyNearIterator;
-	unsigned int GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const {
-		return m_bodyNearFinder.GetBodiesMaybeNear(b, dist, bodies);
+	void GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const {
+		m_bodyNearFinder.GetBodiesMaybeNear(b, dist, bodies);
 	}
-	unsigned int GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const {
-		return m_bodyNearFinder.GetBodiesMaybeNear(pos, dist, bodies);
+	void GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const {
+		m_bodyNearFinder.GetBodiesMaybeNear(pos, dist, bodies);
 	}
 
 
@@ -118,8 +118,8 @@ private:
 		BodyNearFinder(const Space *space) : m_space(space) {}
 		void Prepare();
 
-		unsigned int GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const;
-		unsigned int GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const;
+		void GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const;
+		void GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const;
 
 	private:
 		struct BodyDist {
@@ -128,6 +128,9 @@ private:
 			double dist;
 
 			bool operator<(const BodyDist &a) const { return dist < a.dist; }
+
+			friend bool operator<(const BodyDist &a, double d) { return a.dist < d; }
+			friend bool operator<(double d, const BodyDist &a) { return d < a.dist; }
 		};
 
 		const Space *m_space;
