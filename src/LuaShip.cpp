@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaShip.h"
@@ -1420,7 +1420,7 @@ static int l_ship_ai_enter_low_orbit(lua_State *l)
 	Body *target = LuaBody::CheckFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
-	s->AIOrbit(target, 1.1);
+	s->AIOrbit(target, 1.2);
 	return 0;
 }
 

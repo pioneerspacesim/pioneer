@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PERLIN_H
@@ -10,6 +10,5 @@ double noise(const double x, const double y, const double z );
 static inline double noise(const vector3d &p) {
 	return noise(p.x, p.y, p.z);
 }
-void perlin_init();
 
 #endif /* _PERLIN_H */

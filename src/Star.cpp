@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Star.h"
@@ -15,17 +15,25 @@ Star::Star() : TerrainBody()
 
 Star::Star(SystemBody *sbody): TerrainBody(sbody)
 {
-	m_hasDoubleFrame = false;
+	InitStar();
 }
 
-double Star::GetClipRadius() const
+void Star::Load(Serializer::Reader &rd, Space *space)
 {
+	TerrainBody::Load(rd, space);		// to get sbody
+	InitStar();
+}
 
-	const SystemBody *sbody = GetSystemBody();
+void Star::InitStar()
+{
+	// this one should be atmosphere radius when stars have atmosphere
+	SetPhysRadius(GetMaxFeatureRadius());
 
+	// this one is much larger because stars have halo effect
 	// if star is wolf-rayet it gets a very large halo effect
+	const SystemBody *sbody = GetSystemBody();
 	const float wf = (sbody->type < SystemBody::TYPE_STAR_S_BH && sbody->type > SystemBody::TYPE_STAR_O_HYPER_GIANT) ? 100.0f : 1.0f;
-	return sbody->GetRadius() * 8 * wf;
+	SetClipRadius(sbody->GetRadius() * 8 * wf);
 }
 
 void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)

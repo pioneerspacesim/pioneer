@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Single.h"
@@ -8,13 +8,13 @@ namespace UI {
 Point Single::PreferredSize()
 {
 	if (!m_innerWidget) return Point();
-	return m_innerWidget->PreferredSize();
+	return CalcLayoutContribution(m_innerWidget);
 }
 
 void Single::Layout()
 {
 	if (!m_innerWidget) return;
-	SetWidgetDimensions(m_innerWidget, Point(), GetSize());
+	SetWidgetDimensions(m_innerWidget, Point(), CalcSize(m_innerWidget, GetSize()));
 	m_innerWidget->Layout();
 }
 

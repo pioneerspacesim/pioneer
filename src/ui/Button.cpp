@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Button.h"
@@ -35,7 +35,7 @@ void Button::Layout()
 	}
 
 	const Point innerSize = GetSize() - Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2);
-	SetWidgetDimensions(innerWidget, Point(GetContext()->GetSkin().ButtonNormal().borderWidth), innerSize);
+	SetWidgetDimensions(innerWidget, Point(GetContext()->GetSkin().ButtonNormal().borderWidth), CalcSize(innerWidget, innerSize));
 	innerWidget->Layout();
 
 	Point innerActiveArea(innerWidget->GetActiveArea());
@@ -46,7 +46,9 @@ void Button::Layout()
 
 void Button::Draw()
 {
-	if (IsMouseActive())
+	if (IsDisabled())
+		GetContext()->GetSkin().DrawButtonDisabled(GetActiveOffset(), GetActiveArea());
+	else if (IsMouseActive())
 		GetContext()->GetSkin().DrawButtonActive(GetActiveOffset(), GetActiveArea());
 	else if (IsMouseOver())
 		GetContext()->GetSkin().DrawButtonHover(GetActiveOffset(), GetActiveArea());

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXTUREGL_H
@@ -21,6 +21,7 @@ public:
 	// XXX for LMR, which can't use the normal Bind methods. remove once all
 	// its drawing goes through the renderer
 	GLuint GetTextureNum() const { return m_texture; }
+	virtual void SetSampleMode(TextureSampleMode);
 
 private:
 	friend class RendererLegacy;

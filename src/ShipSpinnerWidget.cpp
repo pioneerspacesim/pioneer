@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipSpinnerWidget.h"
@@ -12,7 +12,7 @@ ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, fl
 	m_width(width),
 	m_height(height)
 {
-	m_model = LmrLookupModelByName(ShipType::types[flavour.id].lmrModelName.c_str());
+	m_model = Pi::FindModel(ShipType::types[flavour.id].lmrModelName.c_str());
 
 	memset(&m_params, 0, sizeof(LmrObjParams));
 	m_params.animationNamespace = "ShipAnimation";
@@ -78,5 +78,5 @@ void ShipSpinnerWidget::Draw()
 	rot.RotateY(rot2);
 	rot[14] = -1.5f * m_model->GetDrawClipRadius();
 
-	m_model->Render(rot, &m_params);
+	m_model->Render(Pi::renderer, rot, &m_params);
 }

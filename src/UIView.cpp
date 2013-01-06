@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "UIView.h"
@@ -28,4 +28,5 @@ void UIView::OnSwitchTo()
 void UIView::OnSwitchFrom()
 {
 	Pi::ui->RemoveInnerWidget();
+	Pi::ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 }

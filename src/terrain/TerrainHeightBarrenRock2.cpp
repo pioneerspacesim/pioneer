@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Terrain.h"
@@ -8,7 +8,7 @@
 using namespace TerrainNoise;
 using namespace TerrainFeature;
 
-// Strange world, looks like its been hit by thousands of years of erosion. 
+// Strange world, looks like its been hit by thousands of years of erosion.
 // Could be used as a basis for terrains that should have erosion.
 
 template <>

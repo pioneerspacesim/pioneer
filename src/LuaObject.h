@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAOBJECT_H
@@ -121,7 +121,7 @@ public:
 	// creates a single "typeless" object and attaches the listed methods,
 	// attributes and metamethods to it. leaves the created object on the
 	// stack
-	static void CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta);
+	static void CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta, bool protect = false);
 
 protected:
 	// base class constructor, called by the wrapper Push* methods

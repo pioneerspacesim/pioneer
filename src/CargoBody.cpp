@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CargoBody.h"
@@ -7,7 +7,6 @@
 #include "collider/collider.h"
 #include "Sfx.h"
 #include "Space.h"
-#include "LmrModel.h"
 #include "Game.h"
 
 void CargoBody::Save(Serializer::Writer &wr, Space *space)
@@ -63,7 +62,6 @@ bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
 
 void CargoBody::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	if (!IsEnabled()) return;
 	GetLmrObjParams().label = Equip::types[m_type].name;
-	RenderLmrModel(viewCoords, viewTransform);
+	RenderLmrModel(r, viewCoords, viewTransform);
 }

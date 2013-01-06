@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Container.h"
@@ -77,6 +77,74 @@ void Container::RemoveAllWidgets()
 	GetContext()->RequestLayout();
 }
 
+void Container::Disable()
+{
+	DisableChildren();
+	Widget::Disable();
+}
+
+void Container::Enable()
+{
+	EnableChildren();
+	Widget::Enable();
+}
+
+void Container::DisableChildren()
+{
+	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
+		Widget *w = (*i).Get();
+		w->SetDisabled(true);
+		Container *c = dynamic_cast<Container*>(w);
+		if (c) c->DisableChildren();
+	}
+}
+
+void Container::EnableChildren()
+{
+	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
+		Widget *w = (*i).Get();
+		w->SetDisabled(false);
+		Container *c = dynamic_cast<Container*>(w);
+		if (c) c->EnableChildren();
+	}
+}
+
+Point Container::CalcLayoutContribution(Widget *w)
+{
+	Point preferredSize = w->PreferredSize();
+	const Uint32 flags = w->GetSizeControlFlags();
+
+	if (flags & NO_WIDTH)
+		preferredSize.x = 0;
+	if (flags & NO_HEIGHT)
+		preferredSize.y = 0;
+
+	if (flags & EXPAND_WIDTH)
+		preferredSize.x = SIZE_EXPAND;
+	if (flags & EXPAND_HEIGHT)
+		preferredSize.y = SIZE_EXPAND;
+
+	return preferredSize;
+}
+
+Point Container::CalcSize(Widget *w, const Point &avail)
+{
+	if (!(w->GetSizeControlFlags() & PRESERVE_ASPECT))
+		return avail;
+
+	const Point preferredSize = w->PreferredSize();
+
+	float wantRatio = float(preferredSize.x) / float(preferredSize.y);
+
+	// more room on X than Y, use full X, scale Y
+	if (avail.x > avail.y)
+		return Point(float(avail.y) * wantRatio, avail.y);
+
+	// more room on Y than X, use full Y, scale X
+	else
+		return Point(avail.x, float(avail.x) / wantRatio);
+}
+
 void Container::SetWidgetDimensions(Widget *widget, const Point &position, const Point &size)
 {
 	assert(widget->GetContainer() == this);
@@ -99,6 +167,28 @@ Widget *Container::GetWidgetAt(const Point &pos)
 	}
 
 	return this;
+}
+
+void Container::CollectShortcuts(std::map<KeySym,Widget*> &shortcuts)
+{
+	{
+	const std::set<KeySym> &widgetShortcuts = GetShortcuts();
+	if (!widgetShortcuts.empty())
+		for (std::set<KeySym>::const_iterator j = widgetShortcuts.begin(); j != widgetShortcuts.end(); ++j)
+			shortcuts[*j] = this;
+	}
+
+	for (WidgetIterator i = WidgetsBegin(); i != WidgetsEnd(); ++i) {
+		Widget *widget = (*i).Get();
+		if (widget->IsContainer())
+			static_cast<Container*>(widget)->CollectShortcuts(shortcuts);
+		else {
+			const std::set<KeySym> &widgetShortcuts = widget->GetShortcuts();
+			if (!widgetShortcuts.empty())
+				for (std::set<KeySym>::const_iterator j = widgetShortcuts.begin(); j != widgetShortcuts.end(); ++j)
+					shortcuts[*j] = widget;
+		}
+	}
 }
 
 }

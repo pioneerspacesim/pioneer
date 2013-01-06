@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaConstants.h"
@@ -678,25 +678,6 @@ void LuaConstants::Register(lua_State *l)
 	 */
 	_create_constant_table_nonconsecutive(l, "SpaceStationAnimation", ENUM_SpaceStationAnimation);
 
-    /*
-     * Constants: MissionStatus
-     *
-     * Status of a mission.
-     *
-     * ACTIVE - mission in progress
-     * COMPLETED - mission completed
-     * FAILED - mission failed
-     *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   stable
-	 */
-	_create_constant_table_nonconsecutive(l, "MissionStatus", ENUM_MissionStatus);
-
 	/*
 	 * Constants: FileSystemRoot
 	 *
@@ -718,8 +699,9 @@ void LuaConstants::Register(lua_State *l)
 
 	// XXX document these
 	_create_constant_table_nonconsecutive(l, "UIAlignDirection", ENUM_UIAlignDirection);
-	_create_constant_table_nonconsecutive(l, "UIImageStretchMode", ENUM_UIImageStretchMode);
+	_create_constant_table_nonconsecutive(l, "UIMarginDirection", ENUM_UIMarginDirection);
 	_create_constant_table_nonconsecutive(l, "UIFont", ENUM_UIFont);
+	_create_constant_table_nonconsecutive(l, "UISizeControl", ENUM_UISizeControl);
 	_create_constant_table_nonconsecutive(l, "UIEventType", ENUM_UIEventType);
 	_create_constant_table_nonconsecutive(l, "UIGradientDirection", ENUM_UIGradientDirection);
 	_create_constant_table_nonconsecutive(l, "UIExpandDirection", ENUM_UIExpandDirection);
@@ -727,6 +709,8 @@ void LuaConstants::Register(lua_State *l)
 	_create_constant_table_nonconsecutive(l, "UIMouseButtonAction", ENUM_UIMouseButtonAction);
 	_create_constant_table_nonconsecutive(l, "UIMouseButtonType", ENUM_UIMouseButtonType);
 	_create_constant_table_nonconsecutive(l, "UIMouseWheelDirection", ENUM_UIMouseWheelDirection);
+
+	_create_constant_table_nonconsecutive(l, "GameUIFaceFlags", ENUM_GameUIFaceFlags);
 
 
 	LUA_DEBUG_END(l, 0);

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Intro.h"
@@ -18,21 +18,19 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_model = LmrLookupModelByName("lanner_ub");
 
 	// Model parameters
-	LmrObjParams params = {
-		"ShipAnimation", // animation namespace
-		0.0, // time
-		{ }, // animation stages
-		{ 0.0, 1.0 }, // animation positions
-		Lang::PIONEER, // label
-		0, // equipment
-		Ship::FLYING, // flightState
-		{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f }, // rear thrusters active
-		{	// pColor[3]
-		{ { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
-		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-	};
-	m_modelParams = params;
+	memset(&m_modelParams, 0, sizeof(LmrObjParams));
+	m_modelParams.animationNamespace = "ShipAnimation";
+	m_modelParams.label = Lang::PIONEER;
+	m_modelParams.flightState = Ship::FLYING;
+	m_modelParams.linthrust[2] = -1.f;
+	m_modelParams.animValues[1] = 1.f;
+
+	LmrMaterial matA = { { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 };
+	LmrMaterial matB = { { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+	LmrMaterial matC = { { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+	m_modelParams.pMat[0] = matA;
+	m_modelParams.pMat[1] = matB;
+	m_modelParams.pMat[2] = matC;
 
 	// Some equipment (in case the model can show them)
 	m_equipment.Add(Equip::ECM_ADVANCED, 1);
@@ -62,11 +60,11 @@ void Intro::Draw(float _time)
 	m_renderer->SetLights(m_lights.size(), &m_lights[0]);
 
 	matrix4x4f trans =
-		matrix4x4f::Translation(-25.0f, 0, -80.0f) * 
+		matrix4x4f::Translation(-25.0f, 0, -80.0f) *
 		matrix4x4f::RotateYMatrix(_time) *
 		matrix4x4f::RotateZMatrix(0.6f*_time) *
 		matrix4x4f::RotateXMatrix(_time*0.7f);
-	m_model->Render(trans, &m_modelParams);
+	m_model->Render(m_renderer, trans, &m_modelParams);
 	glPopAttrib();
 	m_renderer->SetAmbientColor(oldSceneAmbientColor);
 }

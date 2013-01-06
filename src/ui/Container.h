@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_CONTAINER_H
@@ -38,6 +38,9 @@ public:
 	Widget *GetWidgetAtAbsolute(const Point &pos) { return GetWidgetAt(pos - GetAbsolutePosition()); }
 	virtual Widget *GetWidgetAt(const Point &pos);
 
+	virtual void Disable();
+	virtual void Enable();
+
 	typedef std::vector< RefCountedPtr<Widget> >::const_iterator WidgetIterator;
 	const WidgetIterator WidgetsBegin() const { return m_widgets.begin(); }
 	const WidgetIterator WidgetsEnd() const { return m_widgets.end(); }
@@ -49,9 +52,24 @@ protected:
 	virtual void RemoveWidget(Widget *);
 	void RemoveAllWidgets();
 
+	// calculate layout contribution based on preferred size and flags
+	static Point CalcLayoutContribution(Widget *w);
+	// calculate size based on available space, preferred size and flags
+	static Point CalcSize(Widget *w, const Point &avail);
+
 	void SetWidgetDimensions(Widget *widget, const Point &position, const Point &size);
 
 private:
+
+	// EventDispatcher will call here on layout change to get the shortcuts
+	// for the children of this container
+	friend class EventDispatcher;
+	void CollectShortcuts(std::map<KeySym,Widget*> &shortcuts);
+
+
+	void EnableChildren();
+	void DisableChildren();
+
 	bool m_needsLayout;
 	std::vector< RefCountedPtr<Widget> > m_widgets;
 };

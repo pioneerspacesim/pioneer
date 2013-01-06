@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GRAPHICS_H
@@ -51,6 +51,10 @@ namespace Graphics {
 	extern bool shadersAvailable;
 	extern bool shadersEnabled;
 	extern Material *vtxColorMaterial;
+
+	extern Settings settings;
+	int GetScreenWidth();
+	int GetScreenHeight();
 
 	// does SDL video init, constructs appropriate Renderer
 	Renderer* Init(Settings);

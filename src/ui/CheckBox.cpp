@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CheckBox.h"
@@ -20,12 +20,16 @@ void CheckBox::Layout()
 void CheckBox::Draw()
 {
 	if (m_checked) {
-		if (IsMouseOver())
+		if (IsDisabled())
+			GetContext()->GetSkin().DrawCheckBoxCheckedDisabled(GetActiveOffset(), GetActiveArea());
+		else if (IsMouseOver())
 			GetContext()->GetSkin().DrawCheckBoxCheckedHover(GetActiveOffset(), GetActiveArea());
 		else
 			GetContext()->GetSkin().DrawCheckBoxCheckedNormal(GetActiveOffset(), GetActiveArea());
 	} else {
-		if (IsMouseOver())
+		if (IsDisabled())
+			GetContext()->GetSkin().DrawCheckBoxDisabled(GetActiveOffset(), GetActiveArea());
+		else if (IsMouseOver())
 			GetContext()->GetSkin().DrawCheckBoxHover(GetActiveOffset(), GetActiveArea());
 		else
 			GetContext()->GetSkin().DrawCheckBoxNormal(GetActiveOffset(), GetActiveArea());

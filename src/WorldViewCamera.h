@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _WORLDVIEWCAMERA_H
@@ -105,7 +105,7 @@ private:
 	double m_dist, m_distTo;
 	double m_rotX; //vertical rot
 	double m_rotY; //horizontal rot
-	matrix4x4d m_orient;
+	matrix3x3d m_extOrient;
 };
 
 // Much like external camera, but does not turn when the ship turns
@@ -132,8 +132,7 @@ public:
 	void Load(Serializer::Reader &rd);
 private:
 	double m_dist, m_distTo;
-	matrix4x4d m_orient;
-	matrix4x4d m_prevShipOrient;
+	matrix3x3d m_sidOrient;
 };
 
 #endif

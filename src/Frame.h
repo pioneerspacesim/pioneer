@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _FRAME_H
@@ -16,11 +16,12 @@ class SystemBody;
 class Sfx;
 class Space;
 
-/*
- * Frame of reference.
- */
+// Frame of reference.
+
 class Frame {
 public:
+	enum { TEMP_VIEWING=1, FLAG_ROTATING=(1<<1), FLAG_HAS_ROT=(1<<2) };
+
 	Frame();
 	Frame(Frame *parent, const char *label);
 	Frame(Frame *parent, const char *label, unsigned int flags);
@@ -30,72 +31,93 @@ public:
 	static Frame *Unserialize(Serializer::Reader &rd, Space *space, Frame *parent);
 	const std::string &GetLabel() const { return m_label; }
 	void SetLabel(const char *label) { m_label = label; }
-	void SetPosition(const vector3d &pos) { m_orient.SetTranslate(pos); }
-	vector3d GetPosition() const { return m_orient.GetTranslate(); }
-	void SetRotationOnly(const matrix4x4d &m) { for (int i=0; i<12; i++) m_orient[i] = m[i]; }
-	void SetTransform(const matrix4x4d &m) { m_orient = m; }
-	const matrix4x4d &GetTransform() const { return m_orient; }
+
+	void SetPosition(const vector3d &pos) { m_pos = pos; }
+	vector3d GetPosition() const { return m_pos; }
+	void SetOrient(const matrix3x3d &m) { m_orient = m; }
+	const matrix3x3d &GetOrient() const { return m_orient; }
+	const matrix3x3d &GetInterpOrient() const { return m_interpOrient; }
 	void SetVelocity(const vector3d &vel) { m_vel = vel; }
 	vector3d GetVelocity() const { return m_vel; }
-	void SetAngVelocity(const vector3d &angvel) { m_angVel = angvel; }
-	vector3d GetAngVelocity() const { return m_angVel; }
-	vector3d GetStasisVelocityAtPosition(const vector3d &pos) const;
+	void SetAngSpeed(const double angspeed) { m_angSpeed = angspeed; }
+	double GetAngSpeed() const { return m_angSpeed; }
 	void SetRadius(double radius) { m_radius = radius; }
 	double GetRadius() const { return m_radius; }
+	bool IsRotFrame() const { return m_flags & FLAG_ROTATING; }
+	bool HasRotFrame() const { return m_flags & FLAG_HAS_ROT; }
+
+	Frame *GetParent() const { return m_parent; }
+	Frame *GetNonRotFrame() { return IsRotFrame() ? m_parent : this; }
+	Frame *GetRotFrame() { return HasRotFrame() ? m_children.front() : this; }
+
+	void SetBodies(SystemBody *s, Body *b) { m_sbody = s; m_astroBody = b; }
+	SystemBody *GetSystemBody() const { return m_sbody; }
+	Body *GetBody() const { return m_astroBody; }
+
+	void AddChild(Frame *f) { m_children.push_back(f); }
 	void RemoveChild(Frame *f);
+
+	typedef std::vector<Frame*>::const_iterator ChildIterator;
+	ChildIterator BeginChildren() const { return m_children.begin(); }
+	ChildIterator EndChildren() const { return m_children.end(); }
+
 	void AddGeom(Geom *);
 	void RemoveGeom(Geom *);
 	void AddStaticGeom(Geom *);
 	void RemoveStaticGeom(Geom *);
 	void SetPlanetGeom(double radius, Body *);
 	CollisionSpace *GetCollisionSpace() const { return m_collisionSpace; }
-	void RotateInTimestep(double step);
-	bool IsRotatingFrame() const { return !is_zero_general(m_angVel.Length()); }
-	bool IsStationRotFrame() const;
-	// snoops into parent frames so beware
-	SystemBody *GetSystemBodyFor() const;
-	Body *GetBodyFor() const;
-	void UpdateOrbitRails(double time, double timestep);
 
-	void ApplyLeavingTransform(matrix4x4d &m) const;
-	void ApplyEnteringTransform(matrix4x4d &m) const;
+	void UpdateOrbitRails(double time, double timestep);
+	void UpdateInterpTransform(double alpha);
+	void ClearMovement();
+
+	// For an object in a rotating frame, relative to non-rotating frames it
+	// must attain this velocity within rotating frame to be stationary.
+	vector3d GetStasisVelocity(const vector3d &pos) const { return -vector3d(0,m_angSpeed,0).Cross(pos); }
+
+	vector3d GetPositionRelTo(const Frame *relTo) const;
+	vector3d GetVelocityRelTo(const Frame *relTo) const;
+	matrix3x3d GetOrientRelTo(const Frame *relTo) const;
+
+	// Same as above except it does interpolation between
+	// physics ticks so rendering is smooth above physics hz
+	vector3d GetInterpPositionRelTo(const Frame *relTo) const;
+	matrix3x3d GetInterpOrientRelTo(const Frame *relTo) const;
 
 	static void GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
-	static vector3d GetFrameRelativeVelocity(const Frame *fFrom, const Frame *fTo);
-	/** Same as GetFrameTransform except it does interpolation between
-	  * physics ticks so rendering is smooth above physics hz */
 	static void GetFrameRenderTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
-	void UpdateInterpolatedTransform(double alpha);
-	void ClearMovement() {
-		m_oldOrient = m_interpolatedTransform = m_orient;
-		m_oldAngDisplacement = vector3d(0.0);
-	}
 
+	Sfx *m_sfx;			// the last survivor. actually m_children is pretty grim too.
 
-	bool IsLocalPosInFrame(const vector3d &pos) const {
-		return (pos.Length() < m_radius);
-	}
-	/* if parent is null then frame position is absolute */
-	Frame *m_parent;
-	std::list<Frame*> m_children;
-	SystemBody *m_sbody; // points to SBodies in Pi::current_system
-	Body *m_astroBody; // if frame contains a star or planet or something
-	Sfx *m_sfx;
-
-	enum { TEMP_VIEWING=1 };
 private:
 	void Init(Frame *parent, const char *label, unsigned int flags);
+	void UpdateRootRelativeVars();
+
+	Frame *m_parent;				// if parent is null then frame position is absolute
+	std::vector<Frame*> m_children;	// child frames, first may be rotating
+	SystemBody *m_sbody; 			// points to SBodies in Pi::current_system
+	Body *m_astroBody; 				// if frame contains a star or planet or something
+
+	vector3d m_pos;
+	vector3d m_oldPos;
+	vector3d m_interpPos;
+	matrix3x3d m_orient;
+	matrix3x3d m_interpOrient;
 	vector3d m_vel; // note we don't use this to move frame. rather,
 			// orbital rails determine velocity.
-	vector3d m_angVel; // this however *is* directly applied (for rotating frames)
-	vector3d m_oldAngDisplacement;
-	matrix4x4d m_orient;
-	matrix4x4d m_oldOrient;
-	matrix4x4d m_interpolatedTransform;
+	double m_angSpeed; // this however *is* directly applied (for rotating frames)
+	double m_oldAngDisplacement;
 	std::string m_label;
 	double m_radius;
 	int m_flags;
 	CollisionSpace *m_collisionSpace;
+
+	vector3d m_rootVel;			// velocity, position and orient relative to root frame
+	vector3d m_rootPos;			// updated by UpdateOrbitRails
+	matrix3x3d m_rootOrient;
+	vector3d m_rootInterpPos;		// interp position and orient relative to root frame
+	matrix3x3d m_rootInterpOrient;	// updated by UpdateInterpTransform
 
 	int m_astroBodyIndex; // deserialisation
 };

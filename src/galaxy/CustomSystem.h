@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CUSTOMSYSTEM_H
@@ -9,6 +9,8 @@
 #include "vector3.h"
 #include "fixed.h"
 #include "Color.h"
+
+class Faction;
 
 class CustomSystemBody {
 public:
@@ -23,7 +25,7 @@ public:
 	fixed                  semiMajorAxis; // in AUs
 	fixed                  eccentricity;
 	fixed                  orbitalOffset;
-	fixed                  orbitalPhaseAtStart; // mean anomaly at start 0 to 2 pi 
+	fixed                  orbitalPhaseAtStart; // mean anomaly at start 0 to 2 pi
 	bool                   want_rand_offset;
 	// for orbiting things, latitude = inclination
 	float                  latitude, longitude; // radians
@@ -79,7 +81,7 @@ public:
 	Uint32                 seed;
 	bool                   want_rand_explored;
 	bool                   explored;
-	Uint32                 factionIdx;
+	Faction*               faction;
 	Polit::GovType         govType;
 	std::string            shortDesc;
 	std::string            longDesc;

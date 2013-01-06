@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUA_MODEL_COMPILER_H
@@ -7,27 +7,18 @@
 #include <map>
 #include <vector>
 #include <sigc++/sigc++.h>
+#include "CollMesh.h"
+#include "ModelBase.h"
+#include "LmrTypes.h"
 
 // LMR = Lua Model Renderer
+namespace Graphics { class Renderer; }
 class LmrGeomBuffer;
 class LmrCollMesh;
-class GeomTree;
-
+struct RenderState;
 struct lua_State;
 
-namespace Graphics { class Renderer; }
-
-class EquipSet;
-
 #define LMR_MAX_LOD 4
-
-struct LmrMaterial {
-	float diffuse[4];
-	float specular[4];
-	float emissive[4];
-	float shininess;
-	// make sure save and load routines in ShipFlavour are matching
-};
 
 struct LmrLight {
 	float position[4];
@@ -35,42 +26,23 @@ struct LmrLight {
 	float quadraticAttenuation;
 };
 
-struct LmrObjParams
-{
-	enum { LMR_ANIMATION_MAX = 10 };
-
-	const char *animationNamespace; // the namespace to look up animation names in, from LuaConstants
-
-	double time;
-	int animStages[LMR_ANIMATION_MAX];
-	double animValues[LMR_ANIMATION_MAX];
-	const char *label;
-	const EquipSet *equipment; // for ships
-	int flightState;
-
-	float linthrust[3];		// 1.0 to -1.0
-	float angthrust[3];		// 1.0 to -1.0
-
-	struct LmrMaterial pMat[3];
-};
-
-struct RenderState;
-class LmrCollMesh;
-
-class LmrModel {
+class LmrModel : public ModelBase {
 public:
 	LmrModel(const char *model_name);
 	virtual ~LmrModel();
-	void Render(const matrix4x4f &trans, const LmrObjParams *params);
-	void Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params);
+	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params);
+	void Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, LmrObjParams *params);
+	virtual RefCountedPtr<CollMesh> CreateCollisionMesh(const LmrObjParams *p);
 	void GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params);
-	float GetDrawClipRadius() const { return m_drawClipRadius; }
+	virtual float GetDrawClipRadius() const { return m_drawClipRadius; }
 	float GetFloatAttribute(const char *attr_name) const;
 	int GetIntAttribute(const char *attr_name) const;
 	bool GetBoolAttribute(const char *attr_name) const;
 	void PushAttributeToLuaStack(const char *attr_name) const;
 	const char *GetName() const { return m_name.c_str(); }
 	bool HasTag(const char *tag) const;
+	std::string GetDumpPath(const char *pMainFolderName=0);
+	void Dump(const LmrObjParams *params, const char* pMainFolderName=0);
 private:
 	void Build(int lod, const LmrObjParams *params);
 
@@ -88,6 +60,8 @@ private:
 	float m_drawClipRadius;
 	float m_scale;
 	friend class LmrGeomBuffer;
+
+	bool m_dumped;
 };
 
 void LmrModelCompilerInit(Graphics::Renderer *r);
@@ -97,20 +71,18 @@ LmrModel *LmrLookupModelByName(const char *name);
 void LmrModelRender(LmrModel *m, const matrix4x4f &transform);
 int LmrModelGetStatsTris();
 void LmrModelClearStatsTris();
-void LmrNotifyScreenWidth(float width);
 void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels);
+void LmrGetAllModelNames(std::vector<std::string> &modelNames);
 lua_State *LmrGetLuaState();
 
-class LmrCollMesh
+class LmrCollMesh : public CollMesh
 {
 public:
 	LmrCollMesh(LmrModel *m, const LmrObjParams *params);
 	~LmrCollMesh();
 
-	const Aabb &GetAabb() const { return m_aabb; }
-	float GetBoundingRadius() const { return m_radius; }
 	int GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outVtx) const;
-	GeomTree *geomTree;
+
 	// num vertices, num indices, num flags
 	int nv, ni, nf;
 	float *pVertex;
@@ -119,9 +91,6 @@ public:
 	unsigned int *pFlag; // 1 per tri
 	friend class LmrModel;
 	friend class LmrGeomBuffer;
-private:
-	Aabb m_aabb;
-	float m_radius;
 };
 
 

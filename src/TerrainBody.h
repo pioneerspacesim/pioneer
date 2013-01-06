@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TERRAINBODY_H
@@ -16,9 +16,6 @@ class TerrainBody : public Body {
 public:
 	OBJDEF(TerrainBody, Body, TERRAINBODY);
 
-	virtual void SetPosition(const vector3d &pos) { m_pos = pos; }
-	virtual vector3d GetPosition() const { return m_pos; }
-	virtual double GetBoundingRadius() const;
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void SubRender(Graphics::Renderer *r, const Camera *camera, const vector3d &camPos) {}
 	virtual void SetFrame(Frame *f);
@@ -28,9 +25,9 @@ public:
 	bool IsSuperType(SystemBody::BodySuperType t) const;
 	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
 	GeoSphere *GetGeoSphere() const { return m_geosphere; }
-	double GetMaxFeatureRadius() const { // returns value in metres
-		return (m_geosphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
-	}
+
+	// returns value in metres
+	double GetMaxFeatureRadius() const { return m_maxFeatureHeight; }
 
 protected:
 	TerrainBody(SystemBody*);
@@ -44,9 +41,9 @@ protected:
 
 private:
 	SystemBody *m_sbody;
-	vector3d m_pos;
 	double m_mass;
 	GeoSphere *m_geosphere;
+	double m_maxFeatureHeight;
 };
 
 #endif

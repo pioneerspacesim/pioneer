@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _QUATERNION_H
@@ -87,43 +87,43 @@ public:
 	static T Dot (const Quaternion &a, const Quaternion &b) { return a.w*b.w + a.x*b.x + a.y*b.y + a.z*b.z; }
 
 	template <typename U>
-	static Quaternion FromMatrix4x4(const matrix4x4<U> &m) {
+	static Quaternion FromMatrix3x3(const matrix3x3<U> &m) {
 		Quaternion r;
-		if (m[0] + m[5] + m[10] > 0.0f) {
-			U t = m[0] + m[5] + m[10] + 1.0;
+		if (m[0] + m[4] + m[8] > 0.0f) {
+			U t = m[0] + m[4] + m[8] + 1.0;
 			U s = 0.5 / sqrt(t);
 			r.w = s * t;
-			r.z = (m[1] - m[4]) * s;
-			r.y = (m[8] - m[2]) * s;
-			r.x = (m[6] - m[9]) * s;
-		} else if ((m[0] > m[5]) && (m[0] > m[10])) {
-			U t = m[0] - m[5] - m[10] + 1.0;
+			r.z = (m[3] - m[1]) * s;
+			r.y = (m[2] - m[6]) * s;
+			r.x = (m[7] - m[5]) * s;
+		} else if ((m[0] > m[4]) && (m[0] > m[8])) {
+			U t = m[0] - m[4] - m[8] + 1.0;
 			U s = 0.5 / sqrt(t);
 			r.x = s * t;
-			r.y = (m[4] + m[1]) * s;
-			r.z = (m[8] + m[2]) * s;
-			r.w = (m[6] - m[9]) * s;
-		} else if (m[5] > m[10]) {
-			U t = -m[0] + m[5] - m[10] + 1.0;
+			r.y = (m[1] + m[3]) * s;
+			r.z = (m[2] + m[6]) * s;
+			r.w = (m[7] - m[5]) * s;
+		} else if (m[4] > m[8]) {
+			U t = -m[0] + m[4] - m[8] + 1.0;
 			U s = 0.5 / sqrt(t);
-			r.w = (m[8] - m[2]) * s;
-			r.x = (m[4] + m[1]) * s;
+			r.w = (m[2] - m[6]) * s;
+			r.x = (m[1] + m[3]) * s;
 			r.y = s * t;
-			r.z = (m[9] + m[6]) * s;
+			r.z = (m[5] + m[7]) * s;
 		} else {
-			U t = -m[0] - m[5] + m[10] + 1.0;
+			U t = -m[0] - m[4] + m[8] + 1.0;
 			U s = 0.5 / sqrt(t);
-			r.w = (m[1] - m[4]) * s;
-			r.x = (m[8] + m[2]) * s;
-			r.y = (m[6] + m[9]) * s;
+			r.w = (m[3] - m[1]) * s;
+			r.x = (m[2] + m[6]) * s;
+			r.y = (m[7] + m[5]) * s;
 			r.z = s * t;
 		}
 		return r;
 	}
 
 	template <typename U>
-	matrix4x4<U> ToMatrix4x4() const {
-		matrix4x4<U> m;
+	matrix3x3<U> ToMatrix3x3() const {
+		matrix3x3<U> m;
 		U xx = x * x;
 		U xy = x * y;
 		U xz = x * z;
@@ -137,19 +137,16 @@ public:
 		U zw = z * w;
 
 		m[0] = 1.0 - 2.0 * (yy + zz);
-		m[4] =       2.0 * (xy - zw);
-		m[8] =       2.0 * (xz + yw);
+		m[1] =       2.0 * (xy - zw);
+		m[2] =       2.0 * (xz + yw);
 
-		m[1] =       2.0 * (xy + zw);
-		m[5] = 1.0 - 2.0 * (xx + zz);
-		m[9] =       2.0 * (yz - xw);
+		m[3] =       2.0 * (xy + zw);
+		m[4] = 1.0 - 2.0 * (xx + zz);
+		m[5] =       2.0 * (yz - xw);
 
-		m[2] =       2.0 * (xz - yw);
-		m[6] =       2.0 * (yz + xw);
-		m[10] = 1.0 - 2.0 * (xx + yy);
-
-		m[12] = m[13] = m[14] = m[3] = m[7] = m[11] = 0.0;
-		m[15] = 1.0;
+		m[6] =       2.0 * (xz - yw);
+		m[7] =       2.0 * (yz + xw);
+		m[8] = 1.0 - 2.0 * (xx + yy);
 		return m;
 	}
 	/* normalized linear interpolation between 2 quaternions */

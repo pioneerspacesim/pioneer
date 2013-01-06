@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _HYPERSPACECLOUD_H
@@ -23,11 +23,8 @@ public:
 	HyperspaceCloud(Ship *, double dateDue, bool isArrival);
 	HyperspaceCloud();
 	virtual ~HyperspaceCloud();
-	virtual void SetPosition(const vector3d &p);
-	virtual vector3d GetPosition() const;
 	virtual void SetVelocity(const vector3d &v) { m_vel = v; }
 	virtual vector3d GetVelocity() const { return m_vel; }
-	virtual double GetBoundingRadius() const { return 1200.0; }
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void PostLoadFixup(Space *space);
 	virtual void TimeStepUpdate(const float timeStep);
@@ -36,7 +33,7 @@ public:
 	double GetDueDate() const { return m_due; }
 	void SetIsArrival(bool isArrival);
 	bool IsArrival() const { return m_isArrival; }
-	virtual void UpdateInterpolatedTransform(double alpha);
+	virtual void UpdateInterpTransform(double alpha);
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -45,7 +42,6 @@ private:
 	void InitGraphics();
 
 	Ship *m_ship;
-	vector3d m_pos;
 	vector3d m_vel;
 	double m_birthdate;
 	double m_due;

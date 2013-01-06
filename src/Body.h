@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _BODY_H
@@ -7,10 +7,10 @@
 #include "vector3.h"
 #include "matrix4x4.h"
 #include "Object.h"
+#include "Frame.h"
 #include "Serializer.h"
 #include <string>
 
-class Frame;
 class ObjMesh;
 class Space;
 class Camera;
@@ -25,16 +25,19 @@ public:
 	static Body *Unserialize(Serializer::Reader &rd, Space *space);
 	virtual void PostLoadFixup(Space *space) {};
 
-	virtual void SetPosition(const vector3d &p) = 0;
-	virtual vector3d GetPosition() const = 0; // within frame
+	virtual void SetPosition(const vector3d &p) { m_pos = p; }
+	vector3d GetPosition() const { return m_pos; }
+	virtual void SetOrient(const matrix3x3d &r) { m_orient = r; }
+	const matrix3x3d &GetOrient() const { return m_orient; }
 	virtual void SetVelocity(const vector3d &v) { assert(0); }
 	virtual vector3d GetVelocity() const { return vector3d(0.0); }
-	virtual double GetBoundingRadius() const = 0;
-	virtual double GetClipRadius() const { return GetBoundingRadius(); }
-	virtual double GetMass() const { assert(0); return 0; }
-	virtual void SetRotMatrix(const matrix4x4d &r) {};
-	virtual void GetRotMatrix(matrix4x4d &m) const { };
 
+	void SetPhysRadius(double r) { m_physRadius = r; }
+	double GetPhysRadius() const { return m_physRadius; }
+	void SetClipRadius(double r) { m_clipRadius = r; }
+	double GetClipRadius() const { return m_clipRadius; }
+	virtual double GetMass() const { assert(0); return 0; }
+	
 	// return true if to do collision response and apply damage
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) { return false; }
 	// Attacker may be null
@@ -53,12 +56,14 @@ public:
 
 	virtual void SetFrame(Frame *f) { m_frame = f; }
 	Frame *GetFrame() const { return m_frame; }
+	void SwitchToFrame(Frame *newFrame);
 	void UpdateFrame();				// check for frame switching
-	bool HasDoubleFrame() const { return m_hasDoubleFrame; }
-	vector3d GetVelocityRelTo(const Body *other) const;
-	vector3d GetVelocityRelTo(const Frame *f) const;
+
+	vector3d GetVelocityRelTo(const Body *) const;
+	vector3d GetVelocityRelTo(const Frame *) const;
 	vector3d GetPositionRelTo(const Frame *) const;
 	vector3d GetPositionRelTo(const Body *) const;
+	matrix3x3d GetOrientRelTo(const Frame *) const;
 
 	// Should return pointer in Pi::currentSystem
 	virtual const SystemBody *GetSystemBody() const { return 0; }
@@ -76,45 +81,42 @@ public:
 	virtual bool IsInSpace() const { return true; }
 
 	// Interpolated between physics ticks.
-	const matrix4x4d &GetInterpolatedTransform() const { return m_interpolatedTransform; }
-	vector3d GetInterpolatedPosition() const {
-		return vector3d(m_interpolatedTransform[12], m_interpolatedTransform[13], m_interpolatedTransform[14]);
-	}
-	vector3d GetInterpolatedPositionRelTo(const Frame *relTo) const;
-	vector3d GetInterpolatedPositionRelTo(const Body *relTo) const;
-	matrix4x4d GetInterpolatedTransformRelTo(const Frame *relTo) const;
-	// should set m_interpolatedTransform to the smoothly interpolated
-	// value (interpolated by 0 <= alpha <=1) between the previous and current
-	//  physics tick
-	virtual void UpdateInterpolatedTransform(double alpha) {
-		const vector3d pos = GetPosition();
-		m_interpolatedTransform = matrix4x4d::Identity();
-		m_interpolatedTransform[12] = pos.x;
-		m_interpolatedTransform[13] = pos.y;
-		m_interpolatedTransform[14] = pos.z;
+	const matrix3x3d &GetInterpOrient() const { return m_interpOrient; }
+	vector3d GetInterpPosition() const { return m_interpPos; }
+	vector3d GetInterpPositionRelTo(const Frame *relTo) const;
+	vector3d GetInterpPositionRelTo(const Body *relTo) const;
+	matrix3x3d GetInterpOrientRelTo(const Frame *relTo) const;
+
+	// should set m_interpolatedTransform to the smoothly interpolated value
+	// (interpolated by 0 <= alpha <=1) between the previous and current physics tick
+	virtual void UpdateInterpTransform(double alpha) {
+		m_interpOrient = GetOrient();
+		m_interpPos = GetPosition();
 	}
 
 	// where to draw targeting indicators - usually equal to GetInterpolatedPositionRelTo
 	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const;
 
 	enum { FLAG_CAN_MOVE_FRAME = (1<<0),
-               FLAG_LABEL_HIDDEN = (1<<1),
-	       FLAG_DRAW_LAST = (1<<2) }; // causes the body drawn after other bodies in the z-sort
+			FLAG_LABEL_HIDDEN = (1<<1),
+			FLAG_DRAW_LAST = (1<<2) };		// causes the body drawn after other bodies in the z-sort
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 	unsigned int m_flags;
-	bool m_hasDoubleFrame;
 
 	// Interpolated draw orientation-position
-	matrix4x4d m_interpolatedTransform;
+	vector3d m_interpPos;
+	matrix3x3d m_interpOrient;
 private:
-	// frame of reference
-	Frame *m_frame;
+	vector3d m_pos;
+	matrix3x3d m_orient;
+	Frame *m_frame;				// frame of reference
 	std::string m_label;
-	// Checked in destructor to make sure body has been marked dead.
-	bool m_dead;
+	bool m_dead;				// Checked in destructor to make sure body has been marked dead.
+	double m_clipRadius;
+	double m_physRadius;
 };
 
 #endif /* _BODY_H */

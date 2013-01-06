@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GRAPHICS_GL2PROGRAM_H
@@ -30,8 +30,13 @@ namespace Graphics {
 			Uniform invLogZfarPlus1;
 			Uniform diffuse;
 			Uniform emission;
+			Uniform specular;
+			Uniform shininess;
 			Uniform texture0;
 			Uniform texture1;
+			Uniform texture2;
+			Uniform texture3;
+			Uniform texture4;
 
 			Uniform sceneAmbient;
 

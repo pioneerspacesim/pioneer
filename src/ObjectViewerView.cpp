@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ObjectViewerView.h"
@@ -130,7 +130,7 @@ void ObjectViewerView::Update()
 	Body *body = Pi::player->GetNavTarget();
 	if(body && (body != lastTarget)) {
 		// Reset view distance for new target.
-		viewingDist = body->GetBoundingRadius() * 2.0f;
+		viewingDist = body->GetClipRadius() * 2.0f;
 		lastTarget = body;
 
 		if (body->IsType(Object::TERRAINBODY)) {

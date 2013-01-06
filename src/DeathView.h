@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef DEATH_VIEW_H
@@ -13,7 +13,7 @@ public:
 	DeathView();
 	virtual ~DeathView();
 
-	void Init(float camera_distance);
+	void Init();
 
 	virtual void Update();
 	virtual void Draw3D();

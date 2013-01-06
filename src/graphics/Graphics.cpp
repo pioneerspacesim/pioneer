@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Graphics.h"
@@ -17,9 +17,20 @@ static bool initted = false;
 bool shadersAvailable = false;
 bool shadersEnabled = false;
 Material *vtxColorMaterial;
+Settings settings;
 
 float State::invLogZfarPlus1;
 std::vector<Light> State::m_lights;
+
+int GetScreenWidth()
+{
+	return settings.width;
+}
+
+int GetScreenHeight()
+{
+	return settings.height;
+}
 
 void BindArrayBuffer(GLuint bo)
 {
@@ -163,7 +174,10 @@ Renderer* Init(Settings vs)
 	MaterialDescriptor desc;
 	desc.vertexColors = true;
 	vtxColorMaterial = renderer->CreateMaterial(desc);
-	
+	vtxColorMaterial->IncRefCount();
+
+	Graphics::settings = vs;
+
 	return renderer;
 }
 

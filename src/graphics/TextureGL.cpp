@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TextureGL.h"
@@ -54,7 +54,7 @@ inline GLint GLImageTypeForTextureFormat(TextureFormat format) {
 	}
 }
 
-TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed) : 
+TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed) :
 	Texture(descriptor), m_target(GL_TEXTURE_2D) // XXX don't force target
 {
 	glGenTextures(1, &m_texture);
@@ -74,7 +74,7 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 			glTexImage2D(
 				m_target, 0, compressTexture ? GLCompressedTextureFormat(descriptor.format) : GLTextureFormat(descriptor.format),
 				descriptor.dataSize.x, descriptor.dataSize.y, 0,
-				GLImageFormatForTextureFormat(descriptor.format), 
+				GLImageFormatForTextureFormat(descriptor.format),
 				GLImageTypeForTextureFormat(descriptor.format), 0);
 			break;
 
@@ -153,6 +153,40 @@ void TextureGL::Unbind()
 {
 	glBindTexture(m_target, 0);
 	glDisable(m_target);
+}
+
+void TextureGL::SetSampleMode(TextureSampleMode mode)
+{
+	GLenum magFilter, minFilter;
+	const bool mipmaps = GetDescriptor().generateMipmaps;
+	switch (mode) {
+		case LINEAR_CLAMP:
+			magFilter = GL_LINEAR;
+			minFilter = mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
+			break;
+
+		case NEAREST_CLAMP:
+			magFilter = GL_NEAREST;
+			minFilter = mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
+			break;
+
+		case LINEAR_REPEAT:
+			magFilter = GL_LINEAR;
+			minFilter = mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
+			break;
+
+		case NEAREST_REPEAT:
+			magFilter = GL_NEAREST;
+			minFilter =mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
+			break;
+
+		default:
+			assert(0);
+	}
+	glBindTexture(m_target, m_texture);
+	glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, magFilter);
+	glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, minFilter);
+	glBindTexture(m_target, 0);
 }
 
 }
