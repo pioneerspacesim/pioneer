@@ -12,6 +12,8 @@
 #include "utils.h"
 #include "Lang.h"
 #include "StringF.h"
+#include "Planet.h"
+#include "Player.h"
 
 #define CELSIUS	273.15
 //#define DEBUG_DUMP
@@ -1357,6 +1359,17 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 
 	params.planetRadius = static_cast<float>(radiusPlanet_in_m);
 
+	//get camera dynamicDensity
+	Body *astro = Pi::player->GetFrame()->GetBody();
+	double pressure, density;
+	if (astro && astro->IsType(Object::PLANET)) {
+		Planet *pl = static_cast<Planet*>(astro);
+		double dist = Pi::player->GetPosition().Length();
+		pl->GetAtmosphericState(dist, &pressure, &density);
+		params.dynamicDensity = float(density);
+	}
+	else params.dynamicDensity = 0.f;
+		
 	return params;
 }
 

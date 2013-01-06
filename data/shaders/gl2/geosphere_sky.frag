@@ -7,6 +7,7 @@ uniform float geosphereAtmosTopRad;
 uniform vec3 geosphereCenter;
 uniform float geosphereAtmosFogDensity;
 uniform float geosphereAtmosInvScaleHeight;
+uniform float currentDensity;
 
 varying vec4 varyingEyepos;
 
@@ -70,11 +71,21 @@ void main(void)
 	float atmpower = (atmosDiffuse.r+atmosDiffuse.g+atmosDiffuse.b)/3.0;
 	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
 
+	float decay = max(1.0,sqrt(currentDensity));
+	vec4 atmcolorin  = mix(atmosColor,vec4(1.0),1.0-1.0/decay);
+	vec4 atmcolorout = mix(vec4(1.0),atmosColor,1.0-1.0/decay);
+
 	atmosDiffuse.a = 1.0;
 	gl_FragColor = (1.0-fogFactor) * (atmosDiffuse*
 		vec4(atmosColor.rgb, 1.0)) +
-		(0.02-clamp(fogFactor,0.0,0.01))*atmosDiffuse*ldprod*sunset +     //increase light on lower atmosphere.
-		atmosColor*specularHighlight*(1.0-fogFactor)*sunset;		  //add light from specularHighlight.
+		(0.02-clamp(fogFactor,0.0,0.01))*atmosDiffuse*ldprod*sunset/decay +     //increase light on lower atmosphere.
+		atmosColor*specularHighlight*(1.0-fogFactor)*sunset/decay;		  //add light from specularHighlight.
+
+	//fade in thick atmosphere
+	gl_FragColor = vec4((clamp(gl_FragColor.r,0.0,1.0)/decay)+0.15*(1.0-1.0/decay),
+			    (clamp(gl_FragColor.g,0.0,1.0)/decay)+0.01*(1.0-1.0/decay),
+                            (clamp(gl_FragColor.b,0.0,1.0)/decay)-0.15*(1.0-1.0/decay),
+                                  gl_FragColor.a);
 
 	SetFragDepth();
 }
