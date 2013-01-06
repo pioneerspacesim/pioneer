@@ -187,7 +187,7 @@ bool Parser::parseLine(const std::string &line)
 				else if (match(token, "shininess")) {
 					int shininess;
 					ss >> shininess;
-					m_curMat->shininess = std::max(shininess, 0);
+					m_curMat->shininess = Clamp(shininess, 0, 128);
 					return true;
 				} else if (match(token, "opacity")) {
 					int opacity;

@@ -219,6 +219,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		mat->specular = (*it).specular;
 		mat->emissive = (*it).emissive;
 		mat->shininess = (*it).shininess;
+
 		//semitransparent material
 		//the node must be marked transparent when using this material
 		//and should not be mixed with opaque materials
