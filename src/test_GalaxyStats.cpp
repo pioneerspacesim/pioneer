@@ -60,9 +60,10 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	cout << "Sectors checked    = " << sectorCount << " ("  << double(sectorCount) / galaxy_volume * 100.0 << "%)" << endl;
-	cout << "Systems per sector = " << double(systemCount) / double(sectorCount) << endl;
-	cout << "Stars per sector   = " << double(starCount)   / double(sectorCount) << endl;
+	cout << "Sectors checked      = " << sectorCount << " ("  << double(sectorCount) / galaxy_volume * 100.0 << "%)" << endl;
+	cout << "Systems per sector   = " << double(systemCount) / double(sectorCount) << endl;
+	cout << "Stars per sector     = " << double(starCount)   / double(sectorCount) << endl;
+	cout << "Estimated star count = " << double(starCount)   / (double(sectorCount) / galaxy_volume) / 1000000000.0 << " billion" << endl;
 
 	for (int i=SystemBody::TYPE_STAR_MIN; i <= SystemBody::TYPE_STAR_MAX; ++i)
 		cout << "Type " << i << " stars = " << starTypeCount[i] << " (" << double(starTypeCount[i]) / double(starCount) * 100.0 << "%)" << endl;
