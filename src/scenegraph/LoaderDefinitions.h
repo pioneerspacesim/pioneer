@@ -19,7 +19,7 @@ struct MaterialDefinition {
 		specular(Color(1.f)),
 		ambient(Color(0.f)),
 		emissive(Color(0.f)),
-		shininess(200),
+		shininess(100),
 		opacity(100),
 		use_pattern(false)
 	{ }
@@ -31,8 +31,8 @@ struct MaterialDefinition {
 	Color specular;
 	Color ambient;
 	Color emissive;
-	int shininess; //specular power, 0+
-	int opacity;
+	unsigned int shininess; //specular power, 0-128
+	unsigned int opacity; //0-100
 	bool use_pattern;
 };
 
@@ -75,4 +75,5 @@ struct ModelDefinition {
 };
 
 }
+
 #endif
