@@ -3,7 +3,10 @@
 
 DOCKING_TIMEOUT_SECONDS = 300
 
---for station waypoint interpolation etc
+-- provide shortcut vector constructor
+v = vector.new
+
+--for station waypoint interpolation
 function vlerp(t, v1, v2)
 	return t*v2 + (1.0-t)*v1
 end

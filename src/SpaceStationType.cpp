@@ -11,6 +11,7 @@
 #include "Ship.h"
 #include "StringF.h"
 
+static lua_State *s_lua;
 static std::string s_currentStationFile = "";
 std::vector<SpaceStationType> SpaceStationType::surfaceStationTypes;
 std::vector<SpaceStationType> SpaceStationType::orbitalStationTypes;
@@ -36,7 +37,7 @@ SpaceStationType::SpaceStationType()
 
 bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const
 {
-	lua_State *L = Lua::manager->GetLuaState();
+	lua_State *L = s_lua;
 
 	LUA_DEBUG_START(L);
 
@@ -90,7 +91,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	if (stage > numDockingStages || !stage) { stage = numDockingStages; t = 1.0; }
 	// note case for stageless launch (shipLaunchStage==0)
 
-	lua_State *L = Lua::manager->GetLuaState();
+	lua_State *L = s_lua;
 
 	LUA_DEBUG_START(L);
 
@@ -273,20 +274,16 @@ static int define_surface_station(lua_State *L)
 
 void SpaceStationType::Init()
 {
-	static bool stationTypesInitted = false;
-	assert(!stationTypesInitted);
-	if (stationTypesInitted) return;
-	stationTypesInitted = true;
+	assert(s_lua == 0);
+	if (s_lua != 0) return;
 
-	lua_State *L = Lua::manager->GetLuaState();
+	s_lua = luaL_newstate();
+	lua_State *L = s_lua;
+
 	LUA_DEBUG_START(L);
+	pi_lua_open_standard_base(L);
+
 	LuaVector::Register(L);
-	// provide shortcut vector constructor: v = vector.new
-	lua_getglobal(L, LuaVector::LibName);
-	lua_getfield(L, -1, "new");
-	assert(lua_iscfunction(L, -1));
-	lua_setglobal(L, "v");
-	lua_pop(L, 1); // pop the vector library table
 
 	LUA_DEBUG_CHECK(L, 0);
 
@@ -318,4 +315,6 @@ void SpaceStationType::Uninit()
 		delete[] (*i).dockAnimStageDuration;
 		delete[] (*i).undockAnimStageDuration;
 	}
+
+	lua_close(s_lua); s_lua = 0;
 }
