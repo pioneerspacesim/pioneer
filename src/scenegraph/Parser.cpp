@@ -46,6 +46,14 @@ void Parser::Parse(ModelDefinition *m)
 			throw ParseError(ss.str());
 		}
 	}
+
+	if (m->lodDefs.empty() || m->lodDefs.back().meshNames.empty())
+		throw ParseError("No meshes defined");
+
+	//model without materials is not very useful but not fatal - add white default mat
+	if (m->matDefs.empty())
+		m->matDefs.push_back(MaterialDefinition("Default"));
+
 	//sort lods by feature size
 	std::sort(m->lodDefs.begin(), m->lodDefs.end(), LodSortPredicate);
 }
@@ -116,9 +124,8 @@ bool Parser::parseLine(const std::string &line)
 			m_isMaterial = true;
 			string matname;
 			checkMaterialName(ss, matname);
-			m_model->matDefs.push_back(MaterialDefinition());
+			m_model->matDefs.push_back(MaterialDefinition(matname));
 			m_curMat = &m_model->matDefs.back();
-			m_curMat->name = matname;
 			return true;
 		} else if(match(token, "lod")) {
 			endMaterial();

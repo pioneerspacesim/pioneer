@@ -1,3 +1,9 @@
+Alpha 31
+
+   * Model changes
+     * Handle missing material definitions by providing a basic white default
+       material if none are specified (#1817, #1916)
+
 Alpha 30
 
    * New features

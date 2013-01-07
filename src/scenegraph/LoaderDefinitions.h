@@ -10,8 +10,8 @@
 namespace SceneGraph {
 
 struct MaterialDefinition {
-	MaterialDefinition() :
-		name(""),
+	MaterialDefinition(const std::string &n) :
+		name(n),
 		tex_diff(""),
 		tex_spec(""),
 		tex_glow(""),
