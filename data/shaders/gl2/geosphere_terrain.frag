@@ -26,10 +26,13 @@ void main(void)
 	vec3 eyenorm = normalize(eyepos);
 	vec3 tnorm = normalize(varyingNormal);
 	vec4 diff = vec4(0.0);
-	float nDotVP=0.0;
-	float nnDotVP=0.0;
-	float decay = max(1.0,sqrt(currentDensity));
-	float planetsurfaceDensity=geosphereAtmosFogDensity*10000.0;
+	float decaynormals,nDotVP,nnDotVP=0.0;
+	float planetsurfaceDensity=geosphereAtmosFogDensity*10000.0;	
+	float decay = max(1.0,sqrt(currentDensity)/2.5);  //density above darkens fast
+
+	//Dense planet ?
+	if (planetsurfaceDensity > 1.0) decaynormals = clamp(currentDensity/planetsurfaceDensity,0.0,1.0);
+	else decaynormals = 1.0;
 
 	#ifdef TERRAIN_WITH_WATER
 	float specularReflection=0.0;
@@ -37,15 +40,15 @@ void main(void)
 
 #if (NUM_LIGHTS > 0)
 
-	float atmosStart = findSphereEyeRayEntryDistance(geosphereCenter, eyepos, geosphereScaledRadius * geosphereAtmosTopRad);
 	// when does the eye ray intersect atmosphere
+	float atmosStart = findSphereEyeRayEntryDistance(geosphereCenter, eyepos, geosphereScaledRadius * geosphereAtmosTopRad);
 	vec3 surfaceNorm = normalize(atmosStart*eyenorm - geosphereCenter);
 
-	for (int i=0; i<NUM_LIGHTS; ++i) {
+	for (int i=0; i<NUM_LIGHTS; ++i) {	
 		#ifdef ATMOSPHERE
-		//use surfacenorm strength based on current density (normal decay), use dot vector from both sides to extend horizon.
-		nDotVP  = max(0.0, dot(mix(surfaceNorm,tnorm,clamp(currentDensity/planetsurfaceDensity,0.0,1.0)), normalize(vec3(gl_LightSource[i].position))));
-		nnDotVP = max(0.0, dot(mix(surfaceNorm,tnorm,clamp(currentDensity/planetsurfaceDensity,0.0,1.0)), normalize(-vec3(gl_LightSource[i].position)))); //need backlight to increase horizon
+		//use surfacenorm strength based on current density (normals decay), use dot vector from both sides to extend horizon.
+		nDotVP  = max(0.0, dot(mix(surfaceNorm,tnorm,decaynormals), normalize(vec3(gl_LightSource[i].position))));
+		nnDotVP = max(0.0, dot(mix(surfaceNorm,tnorm,decaynormals), normalize(-vec3(gl_LightSource[i].position)))); //need backlight to increase horizon
 		#else
 		nDotVP  = max(0.0, dot(tnorm, normalize(vec3(gl_LightSource[i].position))));
 		nnDotVP = max(0.0, dot(tnorm, normalize(-vec3(gl_LightSource[i].position)))); //need backlight to increase horizon
@@ -81,9 +84,6 @@ void main(void)
 	float atmpower = (diff.r+diff.g+diff.b)/3.0;
 	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
 
-	//vec4 atmcolorin  = mix(atmosColor,vec4(1.0),1.0-1.0/decay);
-	//vec4 atmcolorout = mix(vec4(1.0),atmosColor,1.0-1.0/decay);
-
 	gl_FragColor =
 		material.emission +
 		#ifdef TERRAIN_WITH_LAVA
@@ -96,14 +96,14 @@ void main(void)
 		  #ifdef TERRAIN_WITH_WATER
 		  diff*specularReflection*sunset +
 		  #endif
-		  (0.02-clamp(fogFactor,0.0,0.01))*diff*ldprod*sunset/decay +	      //increase fog scatter				
-		  (pow((1.0-pow(fogFactor,0.75)),256.0)*0.4*diff*atmosColor)*sunset/decay;  //distant fog.
+		  ((0.02-clamp(fogFactor,0.0,0.01))*diff*ldprod*sunset/max(1.0,pow(planetsurfaceDensity,4.0)))/decay +	      //increase fog scatter				
+		  ((pow((1.0-pow(fogFactor,0.75)),256.0)*0.4*diff*atmosColor)*sunset/max(1.0,pow(planetsurfaceDensity,4.0)))/decay;  //distant fog.
 
 	//decay light in thick atmosphere and tone red
-	gl_FragColor = vec4((clamp(gl_FragColor.r,0.0,1.0)/decay)+0.15*(1.0-1.0/decay),
-			    (clamp(gl_FragColor.g,0.0,1.0)/decay)+0.01*(1.0-1.0/decay),
-                            (clamp(gl_FragColor.b,0.0,1.0)/decay)-0.15*(1.0-1.0/decay)		,
-                                  gl_FragColor.a);
+	gl_FragColor = vec4((clamp(gl_FragColor.r,0.0,1.0)/decay)+0.25*(1.0-1.0/decay),
+			    (clamp(gl_FragColor.g,0.0,1.0)/decay)+0.10*(1.0-1.0/decay),
+                            (clamp(gl_FragColor.b,0.0,1.0)/decay)-0.99*(1.0-1.0/decay)		,
+                            gl_FragColor.a);
 
 	#else // atmosphere-less planetoids and dim stars
 	gl_FragColor =

@@ -36,6 +36,8 @@ void main(void)
 	vec3 eyepos = vec3(varyingEyepos);
 	vec3 eyenorm = normalize(eyepos);
 	float specularHighlight=0.0;
+	float planetsurfaceDensity=geosphereAtmosFogDensity*10000.0;
+	float decay = max(1.0,sqrt(currentDensity)/2.5);  //density above darkens fast
 
 	sphereEntryExitDist(skyNear, skyFar, geosphereCenter, eyepos, geosphereScaledRadius * geosphereAtmosTopRad);
 	float atmosDist = geosphereScale * (skyFar - skyNear);
@@ -71,21 +73,17 @@ void main(void)
 	float atmpower = (atmosDiffuse.r+atmosDiffuse.g+atmosDiffuse.b)/3.0;
 	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
 
-	float decay = max(1.0,sqrt(currentDensity));
-	vec4 atmcolorin  = mix(atmosColor,vec4(1.0),1.0-1.0/decay);
-	vec4 atmcolorout = mix(vec4(1.0),atmosColor,1.0-1.0/decay);
-
 	atmosDiffuse.a = 1.0;
 	gl_FragColor = (1.0-fogFactor) * (atmosDiffuse*
 		vec4(atmosColor.rgb, 1.0)) +
-		(0.02-clamp(fogFactor,0.0,0.01))*atmosDiffuse*ldprod*sunset/decay +     //increase light on lower atmosphere.
-		atmosColor*specularHighlight*(1.0-fogFactor)*sunset/decay;		  //add light from specularHighlight.
+		((0.02-clamp(fogFactor,0.0,0.01))*atmosDiffuse*ldprod*sunset/max(1.0,pow(planetsurfaceDensity,4.0)))/decay +     //increase light on lower atmosphere.
+		(atmosColor*specularHighlight*(1.0-fogFactor)*sunset/max(1.0,pow(planetsurfaceDensity,4.0)))/decay;		  //add light from specularHighlight.
 
 	//fade in thick atmosphere
-	gl_FragColor = vec4((clamp(gl_FragColor.r,0.0,1.0)/decay)+0.15*(1.0-1.0/decay),
-			    (clamp(gl_FragColor.g,0.0,1.0)/decay)+0.01*(1.0-1.0/decay),
-                            (clamp(gl_FragColor.b,0.0,1.0)/decay)-0.15*(1.0-1.0/decay),
-                                  gl_FragColor.a);
+	gl_FragColor = vec4((clamp(gl_FragColor.r,0.0,1.0)/decay)+0.25*(1.0-1.0/decay),
+			    (clamp(gl_FragColor.g,0.0,1.0)/decay)+0.10*(1.0-1.0/decay),
+                            (clamp(gl_FragColor.b,0.0,1.0)/decay)-0.99*(1.0-1.0/decay),
+                            gl_FragColor.a);
 
 	SetFragDepth();
 }
