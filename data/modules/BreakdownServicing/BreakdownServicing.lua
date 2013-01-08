@@ -280,7 +280,7 @@ end
 local onEnterSystem = function (ship)
 	if ship:IsPlayer() then print(('DEBUG: Jumps since warranty: %d, chance of failure (if > 0): 1/%d\nWarranty expires: %s'):format(service_history.jumpcount,max_jumps_unserviced-service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period))) end
 	if ship:IsPlayer() and (service_history.lastdate + service_history.service_period < Game.time) then 
-		service_history.jumpcount = service_history.jumpcount + 255
+		service_history.jumpcount = service_history.jumpcount + 1
 		if (service_history.jumpcount > max_jumps_unserviced) or (Engine.rand:Integer(max_jumps_unserviced - service_history.jumpcount) == 0) then
 			-- Destroy the engine and get amount of rubbish equal to the engine weight.
 			service_history.engine = Game.player:GetEquip('ENGINE',1)
