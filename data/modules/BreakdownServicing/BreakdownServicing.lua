@@ -87,6 +87,8 @@ GetDriveCondition = function ()
 		return 
 			RepairButton (),
 				repairButton.button.onClick:Connect(RepairHyperdrive)
+	elseif Game.player:GetEquip('ENGINE') == 'NONE' and service_history.hyperdrivedestroyed == false then
+		return ui:Label('None')
 	elseif service_history.hyperdrivedestroyed == true and Game.player.flightState ~= 'LANDED' then
 		return ui:Label('Destroyed')
 	elseif (service_history.lastdate + service_history.service_period > Game.time) then
