@@ -13,6 +13,12 @@ local shipInfo = function (args)
 	rearWeapon =  rearWeapon  or "NONE"
 
 	local stats = Game.player:GetStats()
+	
+	local repairDrive = function ()
+		RepairHyperdrive()
+	end
+	
+	local repairButton = UI.SmallLabeledButtonLeftText.New ("Destroyed. Repair?")
 
 	local equipColumn = { {}, {} }
 	local columnNum = 1
@@ -53,6 +59,7 @@ local shipInfo = function (args)
 							ui:VBox():PackEnd({
 								ui:Label(t("HYPERDRIVE")..":"),
 								ui:Label(t("HYPERSPACE_RANGE")..":"),
+								ui:Label(t("HYPERDRIVE_CONDITION")..(":")),
 								ui:Margin(10),
 								ui:Label(t("Weight empty:")),								
 								ui:Label(t("CAPACITY_USED")..":"),
@@ -73,6 +80,7 @@ local shipInfo = function (args)
 										maxRange = string.format("%.1f",stats.maxHyperspaceRange)
 									}
 								)),
+								GetDriveCondition(),
 								ui:Margin(10),
 								ui:Label(string.format("%dt", stats.totalMass - stats.usedCapacity)),								
 								ui:Label(string.format("%dt (%dt free)", stats.usedCapacity,  stats.freeCapacity)),
