@@ -1,10 +1,8 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Get the translator function
 local t = Translate:GetTranslator()
-
-
 
 -- Default numeric values --
 ----------------------------
@@ -19,7 +17,7 @@ local max_jumps_unserviced = 255
 
 local ads = {}
 
-local service_history = {
+ local service_history = {
 	lastdate = 0, -- Default will be overwritten on game start
 	company = nil, -- Name of company that did the last service
 	service_period = oneyear, -- default
@@ -28,6 +26,90 @@ local service_history = {
 	Rubbish = 0, --Engine weight at the time of failure
 	hyperdrivedestroyed = false, -- Is the hyperdrive actually destroyed?
 }
+
+
+local RepairHyperdrive = function ()
+		--Define the materials needed
+	local function round(num, idp)
+		local mult = 10^(idp or 0)
+		return math.floor(num * mult + 0.5) / mult
+	end
+	local preciousmetals = Game.player:GetEquipCount('CARGO', 'PRECIOUS_METALS')
+	local rubbish = Game.player:GetEquipCount('CARGO','RUBBISH')
+	local metalalloys = Game.player:GetEquipCount('CARGO','METAL_ALLOYS')
+	--If the player is landed, and has the correct materiels, replaces the drive.
+	if Game.player.flightState == 'LANDED' and service_history.hyperdrivedestroyed == true then	
+		if preciousmetals >= 2 and rubbish >= service_history.Rubbish and metalalloys >= 2 then
+			-- Add engine and remove materials
+			Game.player:RemoveEquip('RUBBISH', service_history.Rubbish)
+			Game.player:RemoveEquip('PRECIOUS_METALS', 2)
+			Game.player:RemoveEquip('METAL_ALLOYS',2)
+			--Generate a random time between 3 and 6 hours.
+			local seconds = Engine.rand:Integer(10800, 21600)
+			local hours = (seconds / 60) / 60
+			Comms.ImportantMessage(t"Hyperdrive repairs begun. ETC is " .. round (hours, 1) .. " hrs")
+			--Define fuel
+			--Keep the player from taking off
+			local fuel = Game.player.fuel
+			Game.player:SetFuelPercent(0)
+			--Keep player landed for x hours and then display message and set fuel.
+			Timer:CallAt(Game.time + seconds, function () Game.player:SetFuelPercent(fuel) end)
+			Timer:CallAt(Game.time + seconds, function () Comms.ImportantMessage(t('Hyperdrive repairs complete. The repaired drive should be good for 50-100 more jumps')) end)
+			Timer:CallAt(Game.time + seconds, function () Game.player:AddEquip(service_history.engine, 1) end)
+			--Reset service history and give the player a random number of more jumps
+			service_history.hyperdrivedestroyed = false
+			service_history.jumpcount = Engine.rand:Integer(100 , 200)
+			service_history.Rubbish = 0
+		end	
+	end
+end
+
+
+
+
+GetDriveCondition = function ()
+
+	local ui = Engine.ui
+	
+	local RepairButton = function ()
+		local preciousmetals = Game.player:GetEquipCount('CARGO', 'PRECIOUS_METALS')
+		local rubbish = Game.player:GetEquipCount('CARGO','RUBBISH')
+		local metalalloys = Game.player:GetEquipCount('CARGO','METAL_ALLOYS')
+		if preciousmetals >= 2 and rubbish >= service_history.Rubbish and metalalloys >= 2 then
+			repairButton = UI.SmallLabeledButtonLeftText.New ("Destroyed. Repair?")
+			return repairButton.widget
+		else
+			return ui:Label('Destroyed')
+		end
+	end
+	
+	if service_history.hyperdrivedestroyed == true and Game.player.flightState == 'LANDED' then
+		return 
+			RepairButton (),
+				repairButton.button.onClick:Connect(RepairHyperdrive)
+	elseif service_history.hyperdrivedestroyed == true and Game.player.flightState ~= 'LANDED' then
+		return ui:Label('Destroyed')
+	elseif (service_history.lastdate + service_history.service_period > Game.time) then
+		return ui:Label('Under Warranty')
+	elseif service_history.jumpcount < 25 then
+		return ui:Label('Warranty expired')
+	elseif service_history.jumpcount  < 50 then
+		return ui:Label('Great')
+	elseif service_history.jumpcount  < 100 then
+		return ui:Label('Good')
+	elseif service_history.jumpcount  < 150 then
+		return ui:Label('Stable')
+	elseif service_history.jumpcount  < 175 then
+		return ui:Label('Poor')
+	elseif service_history.jumpcount  < 200 then
+		return ui:Label('Unstable')
+	elseif service_history.jumpcount  < 255 then
+		return ui:Label('Failure Imminent')
+
+	end	
+end
+
+
 
 
 local lastServiceMessage = function (hyperdrive)
@@ -114,10 +196,6 @@ local onChat = function (form, ref, option)
 			service_history.service_period = ad.strength * oneyear
 			service_history.company = ad.title
 			service_history.jumpcount = 0
-			service_history.engine = ''
-			service_history.Rubbish = 0
-			service_history.hyperdrivedestroyed = false
-			
 		end
 	end
 end
@@ -134,14 +212,10 @@ local onShipFlavourChanged = function (ship)
 end
 
 local onShipEquipmentChanged = function (ship, equipment)
-	if ship:IsPlayer() and (EquipType.GetEquipType(equipment).slot == 'ENGINE') then
+	if ship:IsPlayer() and (EquipType.GetEquipType(equipment).slot == 'ENGINE') and Game.player:GetEquip('ENGINE') ~= 'NONE' and EquipType.GetEquipType(equipment) ~= service_history.engine then
 		service_history.company = nil
 		service_history.lastdate = Game.time
-		service_history.service_period = oneyear
 		service_history.jumpcount = 0
-		service_history.engine = ''
-		service_history.Rubbish = 0
-		service_history.hyperdrivedestroyed = false
 	end
 end
 
@@ -191,7 +265,6 @@ local onGameStart = function ()
 			Rubbish = 0,
 			hyperdrivedestroyed = false,
 		}
-		
 	else
 		for k,ad in pairs(loaded_data.ads) do
 			local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
@@ -204,19 +277,15 @@ local onGameStart = function ()
 	end
 end
 
-
-
-	
-
 local onEnterSystem = function (ship)
 	if ship:IsPlayer() then print(('DEBUG: Jumps since warranty: %d, chance of failure (if > 0): 1/%d\nWarranty expires: %s'):format(service_history.jumpcount,max_jumps_unserviced-service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period))) end
-	if ship:IsPlayer() then
+	if ship:IsPlayer() and (service_history.lastdate + service_history.service_period < Game.time) then 
 		service_history.jumpcount = service_history.jumpcount + 255
 		if (service_history.jumpcount > max_jumps_unserviced) or (Engine.rand:Integer(max_jumps_unserviced - service_history.jumpcount) == 0) then
 			-- Destroy the engine and get amount of rubbish equal to the engine weight.
-			service_history.engine = ship:GetEquip('ENGINE',1)
-			ship:RemoveEquip(service_history.engine)
-			ship:AddEquip('RUBBISH',EquipType.GetEquipType(service_history.engine).mass)
+			service_history.engine = Game.player:GetEquip('ENGINE',1)
+			Game.player:RemoveEquip(service_history.engine)
+			Game.player:AddEquip('RUBBISH',EquipType.GetEquipType(service_history.engine).mass)
 			service_history.Rubbish = (EquipType.GetEquipType(service_history.engine).mass)
 			Comms.Message(t("The ship's hyperdrive has been destroyed by a malfunction. Land at the nearest planet to initiate emergency repairs."))
 			service_history.hyperdrivedestroyed = true
@@ -229,46 +298,19 @@ local onShipLanded = function (ship, body)
 	--Check if is player and if the hyperdrive is destroyed.
 	if ship:IsPlayer() and (service_history.hyperdrivedestroyed == true) then
 			--Define the materials needed
-			preciousmetals = Game.player:GetEquipCount('CARGO', 'PRECIOUS_METALS')
-			rubbish = Game.player:GetEquipCount('CARGO','RUBBISH')
-			metalalloys = Game.player:GetEquipCount('CARGO','METAL_ALLOYS')
 		--Make sure player has the correct amount of materials. The value of these should be at least equal to a class one hyperdrive.
 		--If amount is incorrect, tell player
-		if (preciousmetals >= 3) and (rubbish >= service_history.Rubbish) and (metalalloys >= 4) then
-			Comms.Message('Unload rubbish to attempt to salvage the old hyperdrive')
-		elseif (preciousmetals < 2) or (rubbish < service_history.Rubbish) or (metalalloys < 4) then
-			Comms.Message('You do not have enough materials to salvage your hyperdrive.')	
+		local preciousmetals = Game.player:GetEquipCount('CARGO', 'PRECIOUS_METALS')
+		local rubbish = Game.player:GetEquipCount('CARGO','RUBBISH')
+		local metalalloys = Game.player:GetEquipCount('CARGO','METAL_ALLOYS')
+		if (preciousmetals >= 2) and (rubbish >= service_history.Rubbish) and (metalalloys >= 2) then
+			Comms.ImportantMessage('You have enough materials to salvage your hyperdrive.')
+		elseif (preciousmetals < 2) or (rubbish < service_history.Rubbish) or (metalalloys < 2) then
+			Comms.ImportantMessage('You do not have enough materials to salvage your hyperdrive.')	
 		end	
 	end
 end
 
-
-local onCargoUnload = function (body, cargotype)
-		--Make sure engine is broken and that rubbish is jettisoned. Can be changed to something else easily.
-	if (cargotype == 'RUBBISH') and (service_history.hyperdrivedestroyed == true) then
-		-- Make sure the player is landed; not at a spacestation or port. And make sure engine slot is empty... again.
-		if (Game.player.flightState == "LANDED") and (Game.player:GetEquipFree('ENGINE') == 1) then
-				--Make sure the amount of materials is correct
-			if (preciousmetals >= 3) and (rubbish == service_history.Rubbish - 1) and (metalalloys >= 4) then
-				-- Add engine and remove materials
-				Game.player:RemoveEquip('RUBBISH', service_history.Rubbish)
-				Game.player:RemoveEquip('PRECIOUS_METALS', 4)
-				Game.player:RemoveEquip('METAL_ALLOYS',3)
-				Comms.Message('Hyperdrive repair begun. ETC is 6 hours.')
-				--Keep the player from taking off
-				local fuel = Game.player.fuel
-				Game.player:SetFuelPercent(0)
-				--Keep player landed for 6 hours and then display message and set fuel.
-				Timer:CallAt(Game.time + 21600, function () Game.player:SetFuelPercent(fuel) end)
-				Timer:CallAt(Game.time + 21600, function () Comms.Message('Hyperdrive repairs complete. The repaired drive should be good for 30 more jumps.') end)
-				Timer:CallAt(Game.time + 21600, function () Game.player:AddEquip(service_history.engine, 1) end)
-				--Reset service history and give the player 30 more jumps
-				service_history.hyperdrivedestroyed = false
-				service_history.jumpcount = 220
-			end
-		end	
-	end
-end
 
 local serialize = function ()
 	return { ads = ads, service_history = service_history }
@@ -283,7 +325,7 @@ Event.Register("onGameStart", onGameStart)
 Event.Register("onShipFlavourChanged", onShipFlavourChanged)
 Event.Register("onShipEquipmentChanged", onShipEquipmentChanged)
 Event.Register("onEnterSystem", onEnterSystem)
-Event.Register("onShipLanded", onShipLanded)
-Event.Register ("onCargoUnload", onCargoUnload)
+Event.Register("onShipLanded",onShipLanded)
+
 
 Serializer:Register("BreakdownServicing", serialize, unserialize)
