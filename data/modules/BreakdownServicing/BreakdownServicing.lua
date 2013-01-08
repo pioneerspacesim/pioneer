@@ -83,15 +83,15 @@ GetDriveCondition = function ()
 		end
 	end
 	
-	if service_history.hyperdrivedestroyed == true and Game.player.flightState == 'LANDED' then
+	if Game.player:GetEquipFree('ENGINE') == 1 and service_history.hyperdrivedestroyed == false then
+		return ui:Label('No Hyperdrive')
+	elseif service_history.hyperdrivedestroyed == true and Game.player.flightState == 'LANDED' and Game.player:GetEquipFree('ENGINE') == 1 then
 		return 
 			RepairButton (),
 				repairButton.button.onClick:Connect(RepairHyperdrive)
-	elseif Game.player:GetEquip('ENGINE') == 'NONE' and service_history.hyperdrivedestroyed == false then
-		return ui:Label('None')
 	elseif service_history.hyperdrivedestroyed == true and Game.player.flightState ~= 'LANDED' then
 		return ui:Label('Destroyed')
-	elseif (service_history.lastdate + service_history.service_period > Game.time) then
+	elseif (service_history.lastdate + service_history.service_period > Game.time) and Game.player:GetEquipFree('ENGINE') == 0 then
 		return ui:Label('Under Warranty')
 	elseif service_history.jumpcount < 25 then
 		return ui:Label('Warranty expired')
