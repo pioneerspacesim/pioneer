@@ -6,13 +6,13 @@
 
 #include "libs.h"
 #include "gui/Gui.h"
-#include "View.h"
+#include "UIView.h"
 
 #if WITH_OBJECTVIEWER
 
 class Body;
 
-class ObjectViewerView: public View {
+class ObjectViewerView: public UIView {
 public:
 	ObjectViewerView();
 	virtual void Update();

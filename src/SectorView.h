@@ -6,6 +6,10 @@
 
 #include "libs.h"
 #include "gui/Gui.h"
+#include "UIView.h"
+#include <vector>
+#include <set>
+#include <string>
 #include "View.h"
 #include "galaxy/Sector.h"
 #include "galaxy/SystemPath.h"
@@ -13,7 +17,7 @@
 #include "graphics/RenderState.h"
 #include <set>
 
-class SectorView: public View {
+class SectorView: public UIView {
 public:
 	SectorView();
 	SectorView(Serializer::Reader &rd);

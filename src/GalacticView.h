@@ -11,8 +11,9 @@
 #include <string>
 #include "View.h"
 #include "graphics/RenderState.h"
+#include "UIView.h"
 
-class GalacticView: public View {
+class GalacticView: public UIView {
 public:
 	GalacticView();
 	virtual ~GalacticView();
