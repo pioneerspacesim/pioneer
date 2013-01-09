@@ -75,8 +75,13 @@ local menu =
 				} )
 		})
 		:SetRow(2, {
-			ui:Grid({ 0.1, 0.8, 0.1 }, 1)
+			ui:Grid({ 0.1, 0.6, 0.2, 0.1 }, 1)
 				:SetCell(1, 0,
+					ui:Align("LEFT",
+						ui:Label("Dedicated to the memory of Sir Patrick Moore (1923-2012)"):SetFont("HEADING_SMALL")
+					)
+				)
+				:SetCell(2, 0,
 					ui:Align("RIGHT",
 						ui:Label("("..Engine.version..")"):SetFont("HEADING_XSMALL")
 					)
