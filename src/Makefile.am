@@ -107,6 +107,7 @@ noinst_HEADERS = \
 	PngWriter.h \
 	Polit.h \
 	Projectile.h \
+	PropertyHolder.h \
 	Quaternion.h \
 	Random.h \
 	RefCounted.h \
