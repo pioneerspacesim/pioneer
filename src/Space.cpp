@@ -49,8 +49,10 @@ void Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist,
 	std::vector<BodyDist>::const_iterator min = std::lower_bound(m_bodyDist.begin(), m_bodyDist.end(), len-dist);
 	std::vector<BodyDist>::const_iterator max = std::upper_bound(m_bodyDist.begin(), m_bodyDist.end(), len+dist);
 
-	while (++min != max)
+	while (min != max) {
 		bodies.push_back((*min).body);
+		++min;
+	}
 }
 
 
