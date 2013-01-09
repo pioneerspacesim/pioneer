@@ -19,12 +19,13 @@ void UIView::Draw3D()
 
 void UIView::OnSwitchTo()
 {
+	UI::VBox *box = Pi::ui->VBox();
+	if (m_templateName)
+		box->PackEnd(Pi::ui->CallTemplate(m_templateName));
+	box->PackEnd(new GameUI::Panel(Pi::ui.Get()));
+
 	Pi::ui->DropAllLayers();
-	Pi::ui->GetTopLayer()->SetInnerWidget(
-		Pi::ui->VBox()
-			->PackEnd(Pi::ui->CallTemplate(m_templateName))
-			->PackEnd(new GameUI::Panel(Pi::ui.Get()))
-	);
+	Pi::ui->GetTopLayer()->SetInnerWidget(box);
 }
 
 void UIView::OnSwitchFrom()

@@ -11,6 +11,7 @@
 class UIView : public View {
 public:
 	UIView(const char *templateName) : m_templateName(templateName) {}
+	UIView() : m_templateName(0) {}
 
 	virtual void Update();
 	virtual void Draw3D();
