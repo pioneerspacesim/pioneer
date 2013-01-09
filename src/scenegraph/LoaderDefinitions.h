@@ -52,13 +52,15 @@ struct TagDefinition {
 typedef std::vector<TagDefinition> TagList;
 
 struct AnimDefinition {
-	AnimDefinition(const std::string &name_, double start_, double end_, bool loop_) :
+	AnimDefinition(const std::string &name_, int num_, double start_, double end_, bool loop_) :
 		name(name_),
+		num(num_),
 		start(start_),
 		end(end_),
 		loop(loop_)
 	{ }
 	std::string name;
+	int num;
 	double start;
 	double end;
 	bool loop;

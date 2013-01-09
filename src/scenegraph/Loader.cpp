@@ -514,17 +514,19 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 	//meshes, potentially leading to duplicate and wrongly split animations
 	if (animDefs.empty() || scene->mNumAnimations == 0) return;
 
-	if (scene->mNumAnimations > 1) throw LoadingError("More than one animation in file! Your exporter is too good");
-
 	//Blender .X exporter exports only one animation (without a name!) so
 	//we read only one animation from the scene and split it according to animDefs
 	std::vector<Animation*> &animations = m_model->m_animations;
 
-	const aiAnimation* aianim = scene->mAnimations[0];
 	for (AnimList::const_iterator def = animDefs.begin();
 		def != animDefs.end();
 		++def)
 	{
+		if (static_cast<unsigned int>(def->num) >= scene->mNumAnimations)
+			throw LoadingError(stringf("Animation %0 has number %1, but file only has %2 animations", def->name, def->num, scene->mNumAnimations));
+
+		const aiAnimation* aianim = scene->mAnimations[def->num];
+
 		//XXX format differences: for a 40-frame animation exported from Blender,
 		//.X results in duration 39 and Collada in Duration 1.25.
 		//duration is calculated after adding all keys
