@@ -63,7 +63,7 @@ void main(void)
 
 			float nDotVP =  max(0.0, dot(surfaceNorm, normalize(vec3(gl_LightSource[i].position))))	;
 			float nnDotVP = max(0.0, dot(surfaceNorm, normalize(-vec3(gl_LightSource[i].position))));  //need backlight to increase horizon
-			atmosDiffuse +=   gl_LightSource[i].diffuse * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0)/float(NUM_LIGHTS));
+			atmosDiffuse += gl_LightSource[i].diffuse * 0.5*(nDotVP+0.8*clamp(1.0+nDotVP-nnDotVP*5.0,0.0,1.0)/float(NUM_LIGHTS));
 
 			
 		}
@@ -71,7 +71,7 @@ void main(void)
 
 	//calculate sunset tone red when passing through more atmosphere, clamp everything.
 	float atmpower = (atmosDiffuse.r+atmosDiffuse.g+atmosDiffuse.b)/3.0;
-	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
+	vec4 sunset = vec4(1.0,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
 
 	atmosDiffuse.a = 1.0;
 	gl_FragColor = (1.0-fogFactor) * (atmosDiffuse*

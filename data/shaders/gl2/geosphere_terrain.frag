@@ -53,7 +53,7 @@ void main(void)
 		nDotVP  = max(0.0, dot(tnorm, normalize(vec3(gl_LightSource[i].position))));
 		nnDotVP = max(0.0, dot(tnorm, normalize(-vec3(gl_LightSource[i].position)))); //need backlight to increase horizon
 		#endif
-		diff += gl_LightSource[i].diffuse * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0)/float(NUM_LIGHTS));
+		diff += gl_LightSource[i].diffuse * 0.5*(nDotVP+0.8*clamp(1.0+nDotVP-nnDotVP*5.0,0.0,1.0)/float(NUM_LIGHTS));
 
 		#ifdef TERRAIN_WITH_WATER
 		//Specular reflection if water is present.
@@ -82,7 +82,7 @@ void main(void)
 
 	//calculate sunset tone red when passing through more atmosphere, clamp everything.
 	float atmpower = (diff.r+diff.g+diff.b)/3.0;
-	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
+	vec4 sunset = vec4(1.0,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
 
 	gl_FragColor =
 		material.emission +
