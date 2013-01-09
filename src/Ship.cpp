@@ -217,6 +217,8 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 
 	Init();
 	SetController(new ShipController());
+
+	DeclareProperties();
 }
 
 Ship::~Ship()
@@ -709,6 +711,8 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	if (m_landingGearAnimation)
 		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations();
+
+	UpdateProperties();
 }
 
 void Ship::DoThrusterSounds() const
@@ -1253,4 +1257,14 @@ void Ship::SetSkin(const SceneGraph::ModelSkin &skin)
 {
 	m_skin = skin;
 	m_skin.Apply(GetModel());
+}
+
+void Ship::DeclareProperties()
+{
+	DeclareFloatProperty("fuel");
+}
+
+void Ship::UpdateProperties()
+{
+	SetProperty("fuel", GetFuel());
 }

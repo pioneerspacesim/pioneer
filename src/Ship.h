@@ -55,6 +55,7 @@ public:
 	Ship(ShipType::Id shipId);
 	Ship() {} //default constructor used before Load
 	virtual ~Ship();
+
 	void SetController(ShipController *c); //deletes existing
 	ShipController *GetController() const { return m_controller; }
 	virtual bool IsPlayerShip() const { return false; } //XXX to be replaced with an owner check
@@ -268,6 +269,9 @@ protected:
 	ShipController *m_controller;
 
 private:
+	void DeclareProperties();
+	void UpdateProperties();
+
 	float GetECMRechargeTime();
 	void DoThrusterSounds() const;
 	void FireWeapon(int num);
