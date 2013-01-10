@@ -14,7 +14,7 @@ Material::Material() :
 	diffuse(Color::WHITE),
 	specular(Color::BLACK),
 	emissive(Color::BLACK),
-	shininess(100.0), //somewhat sharp
+	shininess(100), //somewhat sharp
 	twoSided(false),
 	specialParameter0(0)
 {

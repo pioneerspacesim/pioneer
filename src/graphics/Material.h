@@ -71,7 +71,7 @@ public:
 	Color diffuse;
 	Color specular;
 	Color emissive;
-	int shininess; //specular power
+	int shininess; //specular power 0-128
 
 	virtual void Apply() { }
 	virtual void Unapply() { }
