@@ -253,6 +253,7 @@ pioneer_SOURCES	= \
 	PngWriter.cpp \
 	Polit.cpp \
 	Projectile.cpp \
+	PropertyHolder.cpp \
 	SDLWrappers.cpp \
 	SectorView.cpp \
 	Serializer.cpp \

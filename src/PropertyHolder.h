@@ -8,6 +8,8 @@
 #include <map>
 #include <cassert>
 
+struct lua_State;
+
 template <typename T>
 class TypedPropertyHolder {
 protected:
@@ -31,8 +33,15 @@ protected:
 		return i->second;
 	}
 
+	void AddPropertiesToLuaTable(lua_State *l, int tableIdx);
+
+	typedef std::map<std::string,T> PropertyMap;
+	typedef typename PropertyMap::const_iterator PropertyMapIterator;
+
+	PropertyMapIterator PropertiesBegin() const { return m_props.begin(); }
+	PropertyMapIterator PropertiesEnd() const { return m_props.end(); }
+
 private:
-	typedef std::map<std::string,T> PropertyMap ;
 	PropertyMap m_props;
 };
 
@@ -52,6 +61,8 @@ public:
 	void GetProperty(const std::string &k, int &v)         { v = TypedPropertyHolder<int>::GetProperty(k); }
 	void GetProperty(const std::string &k, double &v)      { v = TypedPropertyHolder<double>::GetProperty(k); }
 	void GetProperty(const std::string &k, std::string &v) { v = TypedPropertyHolder<std::string>::GetProperty(k); }
+
+	void AddPropertiesToLuaTable(lua_State *l, int tableIdx);
 
 protected:
 	PropertyHolder() {}
