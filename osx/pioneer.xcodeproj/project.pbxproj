@@ -427,7 +427,6 @@
 		4AF222E9162103EA00BED38E /* Tombstone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF222E5162103EA00BED38E /* Tombstone.cpp */; };
 		4AF999A31496D51F009821AF /* FileSelectorWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999B1496D51F009821AF /* FileSelectorWidget.cpp */; };
 		4AF999A41496D51F009821AF /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999D1496D51F009821AF /* Game.cpp */; };
-		4AF999A51496D51F009821AF /* GameLoaderSaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF9999F1496D51F009821AF /* GameLoaderSaver.cpp */; };
 		4AF999A61496D51F009821AF /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AF999A11496D51F009821AF /* MathUtil.cpp */; };
 		4AFBD7B91641265D002928CB /* PngWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBD7B71641265D002928CB /* PngWriter.cpp */; };
 		4AFBD7BD16412676002928CB /* LuaTextEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBD7BA16412676002928CB /* LuaTextEntry.cpp */; };
@@ -1231,8 +1230,6 @@
 		4AF9999C1496D51F009821AF /* FileSelectorWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSelectorWidget.h; sourceTree = "<group>"; };
 		4AF9999D1496D51F009821AF /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
 		4AF9999E1496D51F009821AF /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
-		4AF9999F1496D51F009821AF /* GameLoaderSaver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameLoaderSaver.cpp; sourceTree = "<group>"; };
-		4AF999A01496D51F009821AF /* GameLoaderSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLoaderSaver.h; sourceTree = "<group>"; };
 		4AF999A11496D51F009821AF /* MathUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MathUtil.cpp; sourceTree = "<group>"; };
 		4AF999A21496D51F009821AF /* MathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathUtil.h; sourceTree = "<group>"; };
 		4AFBD7B71641265D002928CB /* PngWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PngWriter.cpp; sourceTree = "<group>"; };
@@ -1641,8 +1638,6 @@
 				4A82AA7D1386969B0028CCED /* GameConfig.cpp */,
 				4A82AA7E1386969B0028CCED /* GameConfig.h */,
 				4A6C4C2C13532FC300FDD53F /* gameconsts.h */,
-				4AF9999F1496D51F009821AF /* GameLoaderSaver.cpp */,
-				4AF999A01496D51F009821AF /* GameLoaderSaver.h */,
 				4A6C4C2D13532FC300FDD53F /* GameMenuView.cpp */,
 				4A6C4C2E13532FC300FDD53F /* GameMenuView.h */,
 				4A24FD601650F4D100DE7B0F /* gameui */,
@@ -2506,7 +2501,6 @@
 				4AB7D6301472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp in Sources */,
 				4AF999A31496D51F009821AF /* FileSelectorWidget.cpp in Sources */,
 				4AF999A41496D51F009821AF /* Game.cpp in Sources */,
-				4AF999A51496D51F009821AF /* GameLoaderSaver.cpp in Sources */,
 				4AF999A61496D51F009821AF /* MathUtil.cpp in Sources */,
 				4AED721D14E1501D004D171E /* TerrainHeightMapped2.cpp in Sources */,
 				4A94CA4514F26875002CA792 /* FontCache.cpp in Sources */,
@@ -2725,7 +2719,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pioneer/pioneer-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					_GNU_SOURCE,
 					DEBUG,
 					_XCODE,
 				);
@@ -2777,10 +2770,7 @@
 				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pioneer/pioneer-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					_GNU_SOURCE,
-					_XCODE,
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = _XCODE;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
