@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "PropertyHolder.h"
 
 #include <map>
 #include <utility>
@@ -275,7 +276,7 @@ static bool get_method(lua_State *l)
 	return false;
 }
 
-static int dispatch_index(lua_State *l)
+int LuaObjectBase::l_dispatch_index(lua_State *l)
 {
 	// userdata are typed, tables are not
 	bool typeless = lua_istable(l, 1);
@@ -290,6 +291,14 @@ static int dispatch_index(lua_State *l)
 
 	// normal userdata object
 	else {
+
+		// first check properties. we don't need to drill through lua if the
+		// property is already available
+		LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
+		PropertyHolder *o = dynamic_cast<PropertyHolder*>(lo->GetObject());
+		if (o && o->PushPropertyToLua(l, lua_tostring(l, 2)))
+			return 1;
+
 		lua_getmetatable(l, 1);
 		while (1) {
 			get_next_method_table(l);
@@ -486,7 +495,7 @@ void LuaObjectBase::CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs,
 
 	// index function
 	lua_pushstring(l, "__index");
-	lua_pushcfunction(l, dispatch_index);
+	lua_pushcfunction(l, l_dispatch_index);
 	if (protect)
 		lua_pushcclosure(l, secure_trampoline, 1);
 	lua_rawset(l, -3);
@@ -581,7 +590,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	// finding the right function or attribute and walking the inheritance
 	// hierarchy as necessary
 	lua_pushstring(l, "__index");
-	lua_pushcfunction(l, dispatch_index);
+	lua_pushcfunction(l, l_dispatch_index);
 	lua_rawset(l, -3);
 
 	// record the type in the metatable so we know what we're looking at for

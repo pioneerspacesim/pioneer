@@ -51,3 +51,49 @@ void PropertyHolder::AddPropertiesToLuaTable(lua_State *l, int tableIdx)
 	TypedPropertyHolder<double>::AddPropertiesToLuaTable(l, tableIdx);
 	TypedPropertyHolder<std::string>::AddPropertiesToLuaTable(l, tableIdx);
 }
+
+template <> bool TypedPropertyHolder<bool>::PushPropertyToLua(lua_State *l, const std::string &k)
+{
+	typename PropertyMap::iterator i;
+	if (!GetIterator(k, i))
+		return false;
+	lua_pushboolean(l, i->second);
+	return true;
+}
+
+template <> bool TypedPropertyHolder<int>::PushPropertyToLua(lua_State *l, const std::string &k)
+{
+	typename PropertyMap::iterator i;
+	if (!GetIterator(k, i))
+		return false;
+	lua_pushinteger(l, i->second);
+	return true;
+}
+
+template <> bool TypedPropertyHolder<double>::PushPropertyToLua(lua_State *l, const std::string &k)
+{
+	typename PropertyMap::iterator i;
+	if (!GetIterator(k, i))
+		return false;
+	lua_pushnumber(l, i->second);
+	return true;
+}
+
+template <> bool TypedPropertyHolder<std::string>::PushPropertyToLua(lua_State *l, const std::string &k)
+{
+	typename PropertyMap::iterator i;
+	if (!GetIterator(k, i))
+		return false;
+	lua_pushlstring(l, i->second.c_str(), i->second.size());
+	return true;
+}
+
+bool PropertyHolder::PushPropertyToLua(lua_State *l, const std::string &k)
+{
+	return
+		TypedPropertyHolder<bool>::PushPropertyToLua(l, k) ||
+		TypedPropertyHolder<int>::PushPropertyToLua(l, k) ||
+		TypedPropertyHolder<double>::PushPropertyToLua(l, k) ||
+		TypedPropertyHolder<std::string>::PushPropertyToLua(l, k);
+}
+

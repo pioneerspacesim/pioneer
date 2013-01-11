@@ -15,28 +15,35 @@ class TypedPropertyHolder {
 protected:
 	TypedPropertyHolder() {}
 
+	typedef std::map<std::string,T> PropertyMap;
+	typedef typename PropertyMap::const_iterator PropertyMapIterator;
+
 	void DeclareProperty(const std::string &k) {
-		typename PropertyMap::iterator i = m_props.lower_bound(k);
-		assert(i == m_props.end() || m_props.key_comp()(k, i->first)); // key must not exist
+		typename PropertyMap::iterator i;
+		assert(!GetIterator(k, i));
 		m_props.insert(i, typename PropertyMap::value_type(k, T()));
 	}
 
 	void SetProperty(const std::string &k, const T &v) {
-		typename PropertyMap::iterator i = m_props.lower_bound(k);
-		assert(i != m_props.end() && !(m_props.key_comp()(k, i->first))); // key must exist already
+		typename PropertyMap::iterator i;
+		assert(GetIterator(k, i));
 		i->second = v;
 	}
 
 	const T &GetProperty(const std::string &k) {
-		typename PropertyMap::iterator i = m_props.lower_bound(k);
-		assert(i != m_props.end() && !(m_props.key_comp()(k, i->first))); // key must exist already
+		typename PropertyMap::iterator i;
+		assert(GetIterator(k, i));
 		return i->second;
 	}
 
-	void AddPropertiesToLuaTable(lua_State *l, int tableIdx);
+	bool GetIterator(const std::string &k, typename PropertyMap::iterator &i)
+	{
+		i = m_props.lower_bound(k);
+		return (i != m_props.end() && !(m_props.key_comp()(k, i->first))); // key must exist already
+	}
 
-	typedef std::map<std::string,T> PropertyMap;
-	typedef typename PropertyMap::const_iterator PropertyMapIterator;
+	bool PushPropertyToLua(lua_State *l, const std::string &k);
+	void AddPropertiesToLuaTable(lua_State *l, int tableIdx);
 
 	PropertyMapIterator PropertiesBegin() const { return m_props.begin(); }
 	PropertyMapIterator PropertiesEnd() const { return m_props.end(); }
@@ -62,6 +69,7 @@ public:
 	void GetProperty(const std::string &k, double &v)      { v = TypedPropertyHolder<double>::GetProperty(k); }
 	void GetProperty(const std::string &k, std::string &v) { v = TypedPropertyHolder<std::string>::GetProperty(k); }
 
+	bool PushPropertyToLua(lua_State *l, const std::string &k);
 	void AddPropertiesToLuaTable(lua_State *l, int tableIdx);
 
 protected:
