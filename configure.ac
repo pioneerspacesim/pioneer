@@ -191,7 +191,7 @@ AC_ARG_WITH([thirdparty], AS_HELP_STRING([--with-thirdparty], [Location of pione
 	    export PKG_CONFIG_PATH
     fi
 	CFLAGS="-isystem $withval/usr/include"
-	LIBS="-L$withval/usr/lib -Wl,-rpath=$withval/usr/lib"
+	LIBS="-L$withval/usr/lib -Wl,-rpath,$withval/usr/lib"
 ])
 
 dnl Check for sigc++
@@ -223,7 +223,7 @@ if test "x$cross_compiling" = "xno" ; then
 	dnl upstream, so we have to test the library directly
 	AC_MSG_CHECKING(for ASSIMP version >= 3.0)
 	dnl Convert -Lfoo to -rpath=, as the wanted dir might not be visible to the dynamic linker
-	assimp_rpath=`echo $ASSIMP_LIBS | sed -e 's/-[^L] *[^ ]\+ *//g' | sed -e 's/-L */-Wl,-rpath=/g'`
+	assimp_rpath=`echo $ASSIMP_LIBS | sed -e 's/-[^L] *[^ ]\+ *//g' | sed -e 's/-L */-Wl,-rpath,/g'`
 	old_cxxflags="$CXXFLAGS"
 	old_libs="$LIBS"
 	CXXFLAGS="$ASSIMP_CFLAGS"
