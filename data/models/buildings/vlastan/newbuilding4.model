@@ -1,0 +1,18 @@
+# vlastan's buildings don't have any materials defined, how will this work?
+material newbuilding
+tex_diff newbuilding.png
+tex_glow glowmap.png
+diffuse 1.0 1.0 1.0
+specular 0.6 0.6 0.8
+shininess 40
+
+lod 10
+mesh newbuilding4LQ.obj
+
+lod 30
+mesh newbuilding4MQ.obj
+
+lod 1000
+mesh newbuilding4HQ.obj
+
+collision newbuilding4LQ.obj
