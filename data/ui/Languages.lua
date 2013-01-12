@@ -49,6 +49,22 @@ Translate:Add({
 		['Mission Details'] = 'Mission Details',
 		['No missions.'] = 'No missions.',
 
+		-- Crew Tasks
+		['Attempt to repair hull'] = 'Attempt to repair hull',
+		['Not enough {alloy} to attempt a repair'] = 'Not enough {alloy} to attempt a repair',
+		['Hull repaired by {name}, now at {repairPercent}%'] = 'Hull repaired by {name}, now at {repairPercent}%',
+		['Hull repair attempt failed. Hull suffered minor damage.'] = 'Hull repair attempt failed. Hull suffered minor damage.',
+		['Hull does not require repair.'] = 'Hull does not require repair.',
+		['Destroy enemy ship'] = 'Destroy enemy ship',
+		['You must request launch clearance first, Commander.'] = 'You must request launch clearance first, Commander.',
+		['You must launch first, Commander.'] = 'You must launch first, Commander.',
+		['We are in hyperspace, Commander.'] = 'We are in hyperspace, Commander.',
+		['The ship is under station control, Commander.'] = 'The ship is under station control, Commander.',
+		['You must first select a combat target, Commander.'] = 'You must first select a combat target, Commander.',
+		['There is nobody else on board able to fly this ship.'] = 'There is nobody else on board able to fly this ship.',
+		['Pilot seat is now occupied by {name}'] = 'Pilot seat is now occupied by {name}',
+		['Dock at current target'] = 'Dock at current target',
+
 		-- Crew Roster
 		['Name'] = 'Name',
 		['Position'] = 'Position',
@@ -64,6 +80,7 @@ Translate:Add({
 		['Employment'] = 'Employment',
 		['Negotiate'] = 'Negotiate',
 		['Crew Roster'] = 'Crew Roster',
+		['Give orders to crew'] = 'Give orders to crew',
 		
 		-- Orbital analysis
 		['Orbit'] = 'Orbit',
