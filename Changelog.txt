@@ -10,6 +10,9 @@ Alpha 31
      * Handle missing material definitions by providing a basic white default
        material if none are specified (#1817, #1916)
 
+   * Internal changes
+     * Separate station defs from LMR station models (#1913)
+
 Alpha 30
 
    * New features

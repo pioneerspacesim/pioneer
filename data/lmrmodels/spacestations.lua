@@ -6,8 +6,6 @@
 -- info->ship_dock_anim function's last docking anim ship location will be
 -- used to place the ship when docked.
 
-DOCKING_TIMEOUT_SECONDS = 300
-
 define_model('spacestation_door', {
 	info = {
 			lod_pixels = { 10, 0},
@@ -587,36 +585,6 @@ define_model('mushroom_station_2', {
 		bounding_radius=200.0,
 		materials = {'body', 'text', 'markings', 'lift_floor', 'tower_base', 'inside'},
 		tags = {'surface_station'},
-		num_docking_ports = 2,
-		parking_distance = 5000.0,
-		parking_gap_size = 2000.0,
-		ship_launch_stage = 2,
-		-- 1 - permission granted
-		-- 2 - position docked ship
-		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2, 4, 4 },
-		undock_anim_stage_duration = { 4, 4 },
-		-- this stuff doesn't work right with the new docking
-		-- code
-		ship_dock_anim = function(port, stage, t, from, ship_aabb)
-			local port_pos = { v(-100,100,0), v(100,100,0) }
-			if stage == 2 then
-				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
-			elseif stage == 3 then
-				return { vlerp(t, from, port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
-			elseif stage == 4 or stage == -1 then
-				return { port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min.y,0), v(1,0,0), v(0,1,0) }
-			elseif stage == -2 then
-				return { vlerp(t, from, port_pos[port] + v(0,1,0) - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
-			end
-		end,
-		ship_approach_waypoints = function(port, stage)
-			local port_pos = { v(-100,100,0), v(100,100,0) }
-			if stage == 1 then
-				return { v(port_pos[port].x, port_pos[port].y+5000, port_pos[port].z), v(1,0,0), v(0,1,0) }
-			elseif stage == 2 then
-				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
-			end
-		end,
 	},
 	static = function(lod)
 		set_material('inside',.35,.4,.4,1,.2,.35,.35,30)
@@ -696,36 +664,6 @@ define_model('mushroom_station_4', {
 		bounding_radius=400.0,
 		materials = {'body', 'text', 'markings', 'lift_floor', 'tower_base', 'inside'},
 		tags = {'surface_station'},
-		num_docking_ports = 4,
-		parking_distance = 5000.0,
-		parking_gap_size = 2000.0,
-		ship_launch_stage = 2,
-		-- 1 - permission granted
-		-- 2 - position docked ship
-		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2, 4, 4 },
-		undock_anim_stage_duration = { 4, 4 },
-		-- this stuff doesn't work right with the new docking
-		-- code
-		ship_dock_anim = function(port, stage, t, from, ship_aabb)
-			local port_pos = { v(-100,100,0), v(100,100,0), v(-100,100,200), v(100,100,200)}
-			if stage == 2 then
-				return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
-			elseif stage == 3 then
-				return { vlerp(t, from, port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
-			elseif stage == 4 or stage == -1 then
-				return { port_pos[port] + v(0,-75,0) - v(0,ship_aabb.min.y,0), v(1,0,0), v(0,1,0) }
-			elseif stage == -2 then
-				return { vlerp(t, from, port_pos[port] + v(0,1,0) - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
-			end
-		end,
-		ship_approach_waypoints = function(port, stage)
-			local port_pos = { v(-100,100,0), v(100,100,0), v(-100,100,200), v(100,100,200)}
-			if stage == 1 then
-				return { v(port_pos[port].x, port_pos[port].y+5000, port_pos[port].z), v(1,0,0), v(0,1,0) }
-			elseif stage == 2 then
-				return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
-			end
-		end,
 	},
 	static = function(lod)
 		set_material('inside',.35,.4,.4,1,.2,.35,.35,30)
@@ -813,41 +751,7 @@ define_model('big_crappy_spacestation', {
 		bounding_radius=2000.0,
 		materials = {'text', 'body0'},
 		tags = {'orbital_station'},
-		angular_velocity = 0.1,
 		lod_pixels = {0},
-		num_docking_ports = 4,
-		parking_distance = 5000.0,
-		parking_gap_size = 500.0,
-		ship_launch_stage = 3,
-		-- for stations where each docking port shares the
-		-- same front door, set dock_one_at_a_time_please = true,
-		dock_one_at_a_time_please = true,
-		dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 10.0, 5.0, 5.0 },
-		undock_anim_stage_duration = { 5.0, 5.0, 10.0 },
-		ship_dock_anim = function(port, stage, t, from, ship_aabb)
-			local baypos = { v(-150,-350,0), v(-100,-350,100),
-				v(100,-350,100), v(150,-350,0) }
-			if stage == 2 then
-				return { vlerp(t, from, v(0,-350,0)), v(1,0,0), v(0,0,1) }
-			elseif stage == 3 then
-				return { v(0,-350,0), v(1,0,0), v(0,1,0) }
-			elseif stage == 4 then
-				return { vlerp(t, v(0,-350,0), baypos[port]), v(1,0,0), v(0,1,0) }
-			elseif stage == -1 then
-				return { vlerp(t, baypos[port], v(0,-350,0)), v(1,0,0), v(0,1,0) }
-			elseif stage == -2 then
-				return { v(0,-350,0), v(-1,0,0), v(0,0,-1) }
-			elseif stage == -3 then
-				return { vlerp(t, v(0,-350,0), v(0,600,0)), v(-1,0,0), v(0,0,-1) }
-			end
-		end,
-		ship_approach_waypoints = function(port, stage)
-			if stage == 1 then
-				return { v(0,5000,0), v(1,0,0), v(0,0,1) }
-			elseif stage == 2 then
-				return { v(0,600,0), v(1,0,0), v(0,0,1) }
-			end
-		end,
 	},
 	static = function(lod)
 
@@ -926,77 +830,7 @@ define_model('nice_spacestation', {
 			bounding_radius=700.0,
 			materials = {'text', 'body', 'green_lens'},
 			tags = {'orbital_station'},
-			angular_velocity = 0.15,
 			lod_pixels = { 50, 0 },
-			num_docking_ports = 1,
-			parking_distance = 5000.0,
-			parking_gap_size = 500.0,
-			ship_launch_stage = 8,		-- lower than animation stage count
-			-- docking:
-			-- 1 - permission granted. open door1
-			-- 2 - center ship, close door1
-			-- 3 - open door2
-			-- 4 - enter lift
-			-- 5 - close door2 and rotate ship 180
-			-- 6 - make lift noise for a while
-			-- 7 - open door2
-			-- 8 - move ship forward into docking bay
-			-- 9 - close door2. dock
-			-- undocking:
-			-- -1 - open door2
-			-- -2 - move backwards into lift
-			-- -3 - close door2
-			-- -4 - make lift noises ;)
-			-- -5 - open door2
-			-- -6 - move forward into docking bay
-			-- -7 - close door2
-			-- -8 - open door1, launch
-			-- -9 - close door behind our hero
-			dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0 },
-			undock_anim_stage_duration = { 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 20.0 },
-			-- stage will be 1..n for dock_anim, and -1..-n for undock_anim
-			-- t is where we are in the stage. 0.0 .. 1.0
-			-- from is the ship position at the end of the previous stage (use for interpolating position)
-			-- must return 3 vectors for position & orientation: { position, xaxis, yaxis }
-			ship_dock_anim = function(port, stage, t, from, ship_aabb)
-				-- docking
-				if stage == 2 then
-					return { vlerp(t, from, v(0,250,0)), v(1,0,0), v(0,0,-1) }
-				elseif stage == 3 then
-					return { from, v(1,0,0), v(0,0,-1) }
-				elseif stage == 4 then
-					return { vlerp(t, from, v(0,0,0)), v(1,0,0), v(0,0,-1) }
-				elseif stage == 5 then
-					return { vlerp(t, from, v(0,0,0)), v(-1,0,0), v(0,0,-1) }
-				elseif stage == 6 or stage == 7 then
-					return { v(0,0,0), v(-1,0,0), v(0,0,-1) }
-				elseif stage == 8 then
-					return { vlerp(t, from, v(0,200,0)), v(-1,0,0), v(0,0,-1) }
-				elseif stage == 9 then
-					return { v(0,200,0), v(-1,0,0), v(0,0,-1) }
-				end
-				-- undocking
-				if stage == -1 then
-					return { v(0,200,0), v(-1,0,0), v(0,0,-1) }
-				elseif stage == -2 then
-					return { vlerp(t, from, v(0,0,0)), v(-1,0,0), v(0,0,-1) }
-				elseif stage == -3 or stage == -4 or stage == -5 then
-					return { v(0,0,0), v(-1,0,0), v(0,0,-1) }
-				elseif stage == -6 then
-					return { vlerp(t, from, v(0,250,0)), v(-1,0,0), v(0,0,-1) }
-				elseif stage == -7 or stage == -8 then
-					return { v(0,250,0), v(-1,0,0), v(0,0,-1) }
-				end
-				-- note stage -9 returns nil. this means 'launch ship but continue space station
-				-- animations'
-			end,
-			ship_approach_waypoints = function(port, stage)
-				if stage == 1 then
-					return { v(0,5000,0), v(1,0,0), v(0,0,1) }
-				elseif stage == 2 then
-					return { v(0,300,0), v(1,0,0), v(0,0,1) }
-				end
-			end,
 		},
 	static = function(lod)
 		-- front
@@ -1105,53 +939,7 @@ define_model('hoop_spacestation', {
 			bounding_radius=2000.0,
 			materials = {'text', 'body', 'green_lens'},
 			tags = {'orbital_station'},
-			angular_velocity = 0.08,
 			lod_pixels = { 50, 0 },
-			num_docking_ports = 1,
-			parking_distance = 5000.0,
-			parking_gap_size = 500.0,
-			ship_launch_stage = 8,				-- lower than animation stage count
-			dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0 },
-			undock_anim_stage_duration = { 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 20.0 },
-			ship_dock_anim = function(port, stage, t, from, ship_aabb)
-				-- docking
-				if stage == 2 then
-					return { vlerp(t, from, v(0,250,0)), v(1,0,0), v(0,0,-1) }
-				elseif stage == 3 then
-					return { from, v(1,0,0), v(0,0,-1) }
-				elseif stage == 4 then
-					return { vlerp(t, from, v(0,0,0)), v(1,0,0), v(0,0,-1) }
-				elseif stage == 5 then
-					return { vlerp(t, from, v(0,0,0)), v(-1,0,0), v(0,0,-1) }
-				elseif stage == 6 or stage == 7 then
-					return { v(0,0,0), v(-1,0,0), v(0,0,-1) }
-				elseif stage == 8 then
-					return { vlerp(t, from, v(0,200,0)), v(-1,0,0), v(0,0,-1) }
-				elseif stage == 9 then
-					return { v(0,200,0), v(-1,0,0), v(0,0,-1) }
-				end
-				-- undocking
-				if stage == -1 then
-					return { v(0,200,0), v(-1,0,0), v(0,0,-1) }
-				elseif stage == -2 then
-					return { vlerp(t, from, v(0,0,0)), v(-1,0,0), v(0,0,-1) }
-				elseif stage == -3 or stage == -4 or stage == -5 then
-					return { v(0,0,0), v(-1,0,0), v(0,0,-1) }
-				elseif stage == -6 then
-					return { vlerp(t, from, v(0,250,0)), v(-1,0,0), v(0,0,-1) }
-				elseif stage == -7 or stage == -8 then
-					return { v(0,250,0), v(-1,0,0), v(0,0,-1) }
-				end
-				-- note stage -9 returns nil. this means 'launch ship but continue space station
-				-- animations'
-			end,
-			ship_approach_waypoints = function(port, stage)
-				if stage == 1 then
-					return { v(0,5000,0), v(1,0,0), v(0,0,1) }
-				elseif stage == 2 then
-					return { v(0,300,0), v(1,0,0), v(0,0,1) }
-				end
-			end,
 		},
 	static = function(lod)
 		-- front
@@ -1256,70 +1044,3 @@ define_model('hoop_spacestation', {
 		end
 	end
 })
-
-define_model('basic_groundstation', {
-	info = {
-			lod_pixels = {10,100,300,0},
-			bounding_radius=200.0,
-			materials = {'body', 'text', 'tower_base'},
-			num_docking_ports = 2,
-			parking_distance = 5000.0,
-			parking_gap_size = 1000.0,
-			ship_launch_stage = 0,
-			-- 1 - permission granted
-			-- 2 - position docked ship
-			dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2 },
-			undock_anim_stage_duration = { 0 },
-			-- this stuff doesn't work right with the new docking
-			-- code
-			ship_dock_anim = function(port, stage, t, from, ship_aabb)
-				local port_pos = { v(-100,10,50), v(100,10,50) }
-				if stage == 2 then
-					return { vlerp(t, from, port_pos[port] - v(0,ship_aabb.min.y,0)), v(1,0,0), v(0,1,0) }
-				end
-			end,
-			ship_approach_waypoints = function(port, stage)
-				local port_pos = { v(-100,10,50), v(100,10,50) }
-				if stage == 1 then
-					return { v(port_pos[port].x, port_pos[port].y+5000, port_pos[port].z), v(1,0,0), v(0,1,0) }
-				elseif stage == 2 then
-					return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
-				end
-			end,
-		},
-	static = function(lod)
-		set_material('tower_base', .2,.2,.5,1)
-		use_material('tower_base')
-		tapered_cylinder(16, v(0,0,-150), v(0,40,-150), v(0,0,1), 100, 30)
-		set_material('body', .5,.5,.5,1)
-		use_material('body')
-		cylinder(8, v(0,40,-150), v(0,70,-150), v(0,0,1), 10)
-		tapered_cylinder(8, v(0,70,-150), v(0,85,-150), v(0,0,1), 10, 15)
-		-- surface recognised for landing on (bay 1)
-		geomflag(0x10)
-		extrusion(v(-100,0,0), v(-100,0,100), v(0,1,0), 1.0,
-			v(-50,0,0), v(50,0,0), v(50,10,0), v(-50,10,0))
-		geomflag(0x11)
-		extrusion(v(100,0,0), v(100,0,100), v(0,1,0), 1.0,
-			v(-50,0,0), v(50,0,0), v(50,10,0), v(-50,10,0))
-		geomflag(0)
-		if lod > 2 then
-			local bay1top = v(-100,10,50)
-			local bay2top = v(100,10,50)
-			-- docking bay 1 location,xaxis,yaxis
-			set_material('text', 1,1,1,1)
-			use_material('text')
-			zbias(1, bay1top, v(0,1,0))
-			text("1", bay1top, v(0,1,0), v(1,0,0), 20.0, {center=true})
-			zbias(1, bay2top, v(0,1,0))	
-			text("2", bay2top, v(0,1,0), v(1,0,0), 20.0, {center=true})
-			zbias(0)
-		end
-	end,
-	dynamic = function(lod)
-		-- light on tower
-		local lightphase = math.fmod(get_time('SECONDS')+0.620486, 1)
-		billboard('smoke.png', 40, lightphase > .5 and v(1,0,0) or v(0,1,0), { v(0, 88, -150) })
-	end
-})
-

@@ -146,6 +146,7 @@ noinst_HEADERS = \
 	SoundMusic.h \
 	Space.h \
 	SpaceStation.h \
+	SpaceStationType.h \
 	SpaceStationView.h \
 	Star.h \
 	SystemInfoView.h \
@@ -284,6 +285,7 @@ pioneer_SOURCES	= \
 	SoundMusic.cpp \
 	Space.cpp \
 	SpaceStation.cpp \
+	SpaceStationType.cpp \
 	SpaceStationView.cpp \
 	Star.cpp \
 	SystemInfoView.cpp \
