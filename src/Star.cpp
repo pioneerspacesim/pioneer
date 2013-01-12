@@ -51,8 +51,8 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		rad *= 0.99;
 		fpos = 0.99*fpos;
 		len *= 0.99;
-		if (rad <= 30.0) rad=30.0;
 	}
+	if (rad <= 30.0) rad=30.0; //minimum halo size
 
 	matrix4x4d trans = matrix4x4d::Identity();
 	trans.Translate(float(fpos.x), float(fpos.y), float(fpos.z));
