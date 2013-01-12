@@ -323,7 +323,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*double(i));
 	}
 
-	const Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
+	const Graphics::Frustum frustum = camera->GetFrustum();
 	//modelview seems to be always identity
 
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
