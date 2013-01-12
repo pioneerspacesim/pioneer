@@ -1531,6 +1531,8 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 
 	m_staticGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
 	if (m_hasDynamicFunc) {
+		// XXX need to repush this as it seems that it gets corrupted when there are some conditional dynamic models???
+		s_renderer->SetTransform(rot);
 		m_dynamicGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
 	}
 	s_curBuf = 0;
