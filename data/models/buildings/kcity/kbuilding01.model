@@ -1,4 +1,4 @@
-# vlastan's buildings don't have any materials defined, how will this work?
+# original model by Vlastan
 material kbuilding
 tex_diff diffuse.png
 tex_glow glow.png
@@ -6,13 +6,13 @@ diffuse 1.0 1.0 1.0
 specular 0.6 0.6 0.8
 shininess 40
 
-lod 10
+lod 5
 mesh kbuildingLQ.obj
 
-lod 30
+lod 60
 mesh kbuildingMQ.obj
 
-lod 1000
+lod 100
 mesh kbuildingHQ.obj
 
 collision kbuildingLQ.obj

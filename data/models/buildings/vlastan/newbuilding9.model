@@ -1,4 +1,4 @@
-# vlastan's buildings don't have any materials defined, how will this work?
+# original model by Vlastan
 material newbuilding
 tex_diff newbuilding.png
 tex_glow glowmap.png
@@ -6,13 +6,13 @@ diffuse 1.0 1.0 1.0
 specular 0.6 0.6 0.8
 shininess 40
 
-lod 10
+lod 5
 mesh newbuilding9LQ.obj
 
-lod 30
+lod 15
 mesh newbuilding9MQ.obj
 
-lod 1000
+lod 100
 mesh newbuilding9HQ.obj
 
 collision newbuilding9LQ.obj
