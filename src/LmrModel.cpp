@@ -1506,6 +1506,12 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	glMultMatrixf(&trans[0]);
 	glScalef(m_scale, m_scale, m_scale);
 
+	// XXX push the current modelview matrix to the renderer so its correct
+	// for things that draw through the renderer, like billboards
+	matrix4x4f rot;
+	glGetFloatv(GL_MODELVIEW_MATRIX, &rot[0]);
+	s_renderer->SetTransform(rot);
+
 	float pixrad = 0.5f * Graphics::GetScreenWidth() * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
 	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
 
