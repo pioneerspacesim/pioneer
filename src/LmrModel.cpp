@@ -1505,10 +1505,11 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 	glPushMatrix();
 	glMultMatrixf(&trans[0]);
 	glScalef(m_scale, m_scale, m_scale);
-	// do this once here rather than multiple times in sub functions
+
+	// XXX push the current modelview matrix to the renderer so its correct
+	// for things that draw through the renderer, like billboards
 	matrix4x4f rot;
 	glGetFloatv(GL_MODELVIEW_MATRIX, &rot[0]);
-	// this is the correct and RendererGL2 compatible way of setting the modelview matrix
 	s_renderer->SetTransform(rot);
 
 	float pixrad = 0.5f * Graphics::GetScreenWidth() * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
