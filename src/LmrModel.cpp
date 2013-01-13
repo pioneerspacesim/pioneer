@@ -1502,15 +1502,22 @@ void LmrModel::Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjPara
 
 void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, LmrObjParams *params)
 {
-	glPushMatrix();
+	// XXX some parts of models (eg billboards) are drawn through the
+	// renderer, while other stuff is drawn directly. we must make sure that
+	// we keep the renderer and the GL transform in sync otherwise weird stuff
+	// happens. this is a horrible performance-destroying hack, but will do ok
+	// for now since all this stuff is going away soon
+
+	matrix4x4f origmv;
+	glGetFloatv(GL_MODELVIEW_MATRIX, &origmv[0]);
+
 	glMultMatrixf(&trans[0]);
 	glScalef(m_scale, m_scale, m_scale);
 
-	// XXX push the current modelview matrix to the renderer so its correct
-	// for things that draw through the renderer, like billboards
-	matrix4x4f rot;
-	glGetFloatv(GL_MODELVIEW_MATRIX, &rot[0]);
-	s_renderer->SetTransform(rot);
+	matrix4x4f curmv;
+	glGetFloatv(GL_MODELVIEW_MATRIX, &curmv[0]);
+
+	s_renderer->SetTransform(curmv);
 
 	float pixrad = 0.5f * Graphics::GetScreenWidth() * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
 	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
@@ -1531,8 +1538,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 
 	m_staticGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
 	if (m_hasDynamicFunc) {
-		// XXX need to repush this as it seems that it gets corrupted when there are some conditional dynamic models???
-		s_renderer->SetTransform(rot);
+		s_renderer->SetTransform(curmv);
 		m_dynamicGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
 	}
 	s_curBuf = 0;
@@ -1547,7 +1553,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 
 	s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 
-	glPopMatrix();
+	s_renderer->SetTransform(origmv);
 }
 
 void LmrModel::Build(int lod, const LmrObjParams *params)
