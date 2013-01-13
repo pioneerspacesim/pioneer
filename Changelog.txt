@@ -3,7 +3,8 @@ Alpha 31
    * Minor changes and tweaks
      * Cargo scooping now only requires a collision against the ship rather
        than a specific part of it (again) (#1922)
-     * Improve point sprite (LMR billboard) rendering performance (#1927)
+     * Improve point sprite (LMR billboard) rendering performance (#1927,
+       #1929, #1928)
      * Improve city rendering performance (#1927)
 
    * Model changes
