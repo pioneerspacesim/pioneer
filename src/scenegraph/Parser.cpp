@@ -159,20 +159,25 @@ bool Parser::parseLine(const std::string &line)
 			if (m_isMaterial || m_model->lodDefs.empty() || m_model->lodDefs.back().meshNames.empty())
 				throw ParseError("Animation definition must come after a mesh definition");
 			std::string animName;
+			int animNum;
 			double startFrame;
 			double endFrame;
 			bool loopMode = false;
 			std::string loop;
 			checkString(ss, animName, "animation name");
+			if (ss >> animNum == 0)
+				throw ParseError("Animation number not defined");
 			if (ss >> startFrame == 0)
 				throw ParseError("Animation start frame not defined");
 			if (ss >> endFrame == 0)
 				throw ParseError("Animation end frame not defined");
 			if (ss >> loop && match(loop, "loop"))
 				loopMode = true;
+			if (animNum < 0)
+				throw ParseError("Animation number must be >= 0");
 			if (startFrame < 0 || endFrame < startFrame)
 				throw ParseError("Animation start/end frames seem wrong");
-			m_model->animDefs.push_back(AnimDefinition(animName, startFrame, endFrame, loopMode));
+			m_model->animDefs.push_back(AnimDefinition(animName, animNum, startFrame, endFrame, loopMode));
 			return true;
 		} else {
 			if (m_isMaterial) {
