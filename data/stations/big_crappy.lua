@@ -6,8 +6,8 @@ define_orbital_station {
 	parking_gap_size = 500.0,
 	ship_launch_stage = 3,
 	-- for stations where each docking port shares the
-	-- same front door, set dock_one_at_a_time_please = true,
-	dock_one_at_a_time_please = true,
+	-- same front door, set dock_one_at_a_time = true,
+	dock_one_at_a_time = true,
 	-- docking:
 	-- 1 - ???
 	-- undocking:
