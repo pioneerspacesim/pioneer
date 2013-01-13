@@ -288,7 +288,7 @@ shininess 100.0000
 
 
 
-# docking mesh
+# docking
 mesh ground_station_4_docking_plane.obj
 
 # meshes
@@ -306,4 +306,4 @@ mesh ground_station_4_lod4_static.obj
 
 # collision
 collision control_tower_lod1_static.obj
-collision mesh ground_station_4_lod1_static.obj
+collision ground_station_4_lod1_static.obj
