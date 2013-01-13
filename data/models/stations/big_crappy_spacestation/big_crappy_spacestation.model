@@ -1,0 +1,41 @@
+# several different materials used by big crappy apparently
+material big_crappy_spacestation_lod1_static_mat0
+tex_diff tex12.png
+diffuse 1.0000 1.0000 1.0000
+specular 1.0000 1.0000 1.0000
+emissive 0.0000 0.0000 0.0000
+shininess 100.0000
+
+material big_crappy_spacestation_lod1_static_mat1
+tex_diff tex2.png
+diffuse 1.0000 1.0000 1.0000
+specular 1.0000 1.0000 1.0000
+emissive 0.0000 0.0000 0.0000
+shininess 100.0000
+
+material big_crappy_spacestation_lod1_static_mat2
+tex_diff tex12.png
+diffuse 1.0000 1.0000 1.0000
+specular 1.0000 1.0000 1.0000
+emissive 0.0000 0.0000 0.0000
+shininess 100.0000
+
+material big_crappy_spacestation_lod1_static_mat3
+tex_diff tex2.png
+diffuse 1.0000 1.0000 1.0000
+specular 1.0000 1.0000 1.0000
+emissive 0.0000 0.0000 0.0000
+shininess 100.0000
+
+material wire_006134006
+shininess 32.0000
+diffuse 0.8392 0.8941 0.6000
+specular 0.3500 0.3500 0.3500
+emissive 0.0000 0.0000 0.0000
+
+# big crappy mesh
+mesh big_crappy_spacestation_lod1_static.obj
+mesh big_crappy_spacestation_docking_plane.obj
+
+#big crappy collision
+collision big_crappy_spacestation_lod1_static.obj
