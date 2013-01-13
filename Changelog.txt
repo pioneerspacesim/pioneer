@@ -7,6 +7,8 @@ Alpha 31
        #1929, #1928)
      * Improve city rendering performance (#1927)
      * Removed "mushroom" ground stations
+     * Converted standard building set to SGModel (#1923)
+     * Removed long-unused building models (#1923)
 
    * Model changes
      * Handle missing material definitions by providing a basic white default
