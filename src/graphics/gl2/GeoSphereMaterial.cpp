@@ -29,6 +29,7 @@ void GeoSphereProgram::InitUniforms()
 	geosphereCenter.Init("geosphereCenter", m_program);
 	geosphereScale.Init("geosphereScale", m_program);
 	geosphereScaledRadius.Init("geosphereScaledRadius", m_program);
+	currentDensity.Init("currentDensity", m_program);
 }
 
 Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
@@ -69,6 +70,7 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	p->geosphereCenter.Set(ap.center);
 	p->geosphereScaledRadius.Set(ap.planetRadius / ap.scale);
 	p->geosphereScale.Set(ap.scale);
+	p->currentDensity.Set(ap.dynamicDensity);
 }
 
 Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)

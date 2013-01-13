@@ -172,6 +172,7 @@ public:
 		Color atmosCol;
 		vector3d center;
 		float scale;
+		float dynamicDensity;
 	};
 
 	AtmosphereParameters CalcAtmosphereParams() const;

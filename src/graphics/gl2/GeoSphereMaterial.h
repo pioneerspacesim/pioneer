@@ -24,6 +24,7 @@ namespace Graphics {
 			Uniform geosphereCenter;
 			Uniform geosphereScale;
 			Uniform geosphereScaledRadius; // (planet radius) / scale
+			Uniform currentDensity; 
 
 		protected:
 			virtual void InitUniforms();
