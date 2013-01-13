@@ -1,0 +1,309 @@
+# Materials for LMR model 'ground_station_4'
+material ground_station_4_mat0
+diffuse 0.7000 0.7000 0.7000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff seamless_texture_07.png
+material ground_station_4_mat1
+diffuse 0.7000 0.7000 0.7000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff bot5.png
+material ground_station_4_mat2
+diffuse 0.0000 0.0000 0.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.7000 0.7000 0.7000
+shininess 5.0000
+tex_diff tex12.png
+material ground_station_4_mat3
+diffuse 0.2000 0.2000 0.2000
+specular 0.2000 0.2000 0.2000
+emissive 0.2000 0.2000 0.2000
+shininess 100.0000
+material ground_station_4_mat4
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff seamless_texture_07.png
+material ground_station_4_mat5
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff bot5.png
+material ground_station_4_mat6
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff tex7Uruboros.png
+material ground_station_4_mat7
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff metal_7280826.png
+material ground_station_4_mat8
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff tex4.png
+material ground_station_4_mat9
+diffuse 0.3000 0.3000 0.3000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff tex12.png
+material ground_station_4_mat10
+diffuse 0.2000 0.2000 0.2000
+specular 0.2000 0.2000 0.2000
+emissive 0.2000 0.2000 0.2000
+shininess 100.0000
+material ground_station_4_mat11
+diffuse 0.7000 0.7000 0.7000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff seamless_texture_07.png
+material ground_station_4_mat12
+diffuse 0.7000 0.7000 0.7000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff bot5.png
+material ground_station_4_mat13
+diffuse 0.0000 0.0000 0.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.7000 0.7000 0.7000
+shininess 5.0000
+tex_diff tex12.png
+material ground_station_4_mat14
+diffuse 0.2000 0.2000 0.2000
+specular 0.2000 0.2000 0.2000
+emissive 0.2000 0.2000 0.2000
+shininess 100.0000
+material ground_station_4_mat15
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff seamless_texture_07.png
+material ground_station_4_mat16
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff bot5.png
+material ground_station_4_mat17
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff tex7Uruboros.png
+material ground_station_4_mat18
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff metal_7280826.png
+material ground_station_4_mat19
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff tex4.png
+material ground_station_4_mat20
+diffuse 0.3000 0.3000 0.3000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff tex12.png
+material ground_station_4_mat21
+diffuse 0.2000 0.2000 0.2000
+specular 0.2000 0.2000 0.2000
+emissive 0.2000 0.2000 0.2000
+shininess 100.0000
+material ground_station_4_mat22
+diffuse 0.7000 0.7000 0.7000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff seamless_texture_07.png
+material ground_station_4_mat23
+diffuse 0.7000 0.7000 0.7000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff bot5.png
+material ground_station_4_mat24
+diffuse 0.0000 0.0000 0.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.7000 0.7000 0.7000
+shininess 5.0000
+tex_diff tex12.png
+material ground_station_4_mat25
+diffuse 0.2000 0.2000 0.2000
+specular 0.2000 0.2000 0.2000
+emissive 0.2000 0.2000 0.2000
+shininess 100.0000
+material ground_station_4_mat26
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff seamless_texture_07.png
+material ground_station_4_mat27
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff bot5.png
+material ground_station_4_mat28
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff tex7Uruboros.png
+material ground_station_4_mat29
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff metal_7280826.png
+material ground_station_4_mat30
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff tex4.png
+material ground_station_4_mat31
+diffuse 0.3000 0.3000 0.3000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff tex12.png
+material ground_station_4_mat32
+diffuse 0.2000 0.2000 0.2000
+specular 0.2000 0.2000 0.2000
+emissive 0.2000 0.2000 0.2000
+shininess 100.0000
+material ground_station_4_mat33
+diffuse 0.7000 0.7000 0.7000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff seamless_texture_07.png
+material ground_station_4_mat34
+diffuse 0.7000 0.7000 0.7000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff bot5.png
+material ground_station_4_mat35
+diffuse 0.0000 0.0000 0.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.7000 0.7000 0.7000
+shininess 5.0000
+tex_diff tex12.png
+material ground_station_4_mat36
+diffuse 0.2000 0.2000 0.2000
+specular 0.2000 0.2000 0.2000
+emissive 0.2000 0.2000 0.2000
+shininess 100.0000
+material ground_station_4_mat37
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff seamless_texture_07.png
+material ground_station_4_mat38
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff bot5.png
+material ground_station_4_mat39
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff tex7Uruboros.png
+material ground_station_4_mat40
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff metal_7280826.png
+material ground_station_4_mat41
+diffuse 1.0000 1.0000 1.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff tex4.png
+material ground_station_4_mat42
+diffuse 0.3000 0.3000 0.3000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff tex12.png
+material ground_station_4_mat43
+diffuse 0.2000 0.2000 0.2000
+specular 0.2000 0.2000 0.2000
+emissive 0.2000 0.2000 0.2000
+shininess 100.0000
+
+# Materials for LMR model 'control_tower'
+material control_tower_mat0
+diffuse 0.5000 0.5000 0.5000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff seamless_texture_07.png
+material control_tower_mat1
+diffuse 0.5000 0.5000 0.5000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff tex12.png
+material control_tower_mat2
+diffuse 0.5000 0.5000 0.5000
+specular 0.0000 0.0000 0.0000
+emissive 0.0000 0.0000 0.0000
+shininess 1.0000
+tex_diff bot5.png
+material control_tower_mat3
+diffuse 0.0000 0.0000 0.0000
+specular 0.0000 0.0000 0.0000
+emissive 0.7000 0.7000 0.7000
+shininess 5.0000
+material control_tower_mat4
+diffuse 0.0100 0.0100 0.0100
+specular 0.1000 0.1000 0.1000
+emissive 0.0000 0.0000 0.0000
+shininess 100.0000
+
+
+
+# docking mesh
+mesh ground_station_4_docking_plane.obj
+
+# meshes
+lod 1
+mesh control_tower_lod2_static.obj
+mesh ground_station_4_lod2_static.obj
+
+lod 80
+mesh control_tower_lod3_static.obj
+mesh ground_station_4_lod3_static.obj
+
+lod 160
+mesh control_tower_lod4_static.obj
+mesh ground_station_4_lod4_static.obj
+
+# collision
+collision control_tower_lod1_static.obj
+collision mesh ground_station_4_lod1_static.obj

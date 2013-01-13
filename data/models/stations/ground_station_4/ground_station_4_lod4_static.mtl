@@ -1,0 +1,381 @@
+# Materials for LMR model 'ground_station_4' LOD 4 [%(err: unknown arg 's')]
+newmtl ground_station_4_mat0
+Ka 0.7000 0.7000 0.7000
+Kd 0.7000 0.7000 0.7000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka seamless_texture_07.png
+map_Kd seamless_texture_07.png
+newmtl ground_station_4_mat1
+Ka 0.7000 0.7000 0.7000
+Kd 0.7000 0.7000 0.7000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka bot5.png
+map_Kd bot5.png
+newmtl ground_station_4_mat2
+Ka 0.0000 0.0000 0.0000
+Kd 0.0000 0.0000 0.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.7000 0.7000 0.7000
+Ns 5.0000
+illum 2
+map_Ka tex12.png
+map_Kd tex12.png
+newmtl ground_station_4_mat3
+Ka 0.2000 0.2000 0.2000
+Kd 0.2000 0.2000 0.2000
+Ks 0.2000 0.2000 0.2000
+Ke 0.2000 0.2000 0.2000
+Ns 100.0000
+illum 2
+newmtl ground_station_4_mat4
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka seamless_texture_07.png
+map_Kd seamless_texture_07.png
+newmtl ground_station_4_mat5
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka bot5.png
+map_Kd bot5.png
+newmtl ground_station_4_mat6
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex7Uruboros.png
+map_Kd tex7Uruboros.png
+newmtl ground_station_4_mat7
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka metal_7280826.png
+map_Kd metal_7280826.png
+newmtl ground_station_4_mat8
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex4.png
+map_Kd tex4.png
+newmtl ground_station_4_mat9
+Ka 0.3000 0.3000 0.3000
+Kd 0.3000 0.3000 0.3000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex12.png
+map_Kd tex12.png
+newmtl ground_station_4_mat10
+Ka 0.2000 0.2000 0.2000
+Kd 0.2000 0.2000 0.2000
+Ks 0.2000 0.2000 0.2000
+Ke 0.2000 0.2000 0.2000
+Ns 100.0000
+illum 2
+newmtl ground_station_4_mat11
+Ka 0.7000 0.7000 0.7000
+Kd 0.7000 0.7000 0.7000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka seamless_texture_07.png
+map_Kd seamless_texture_07.png
+newmtl ground_station_4_mat12
+Ka 0.7000 0.7000 0.7000
+Kd 0.7000 0.7000 0.7000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka bot5.png
+map_Kd bot5.png
+newmtl ground_station_4_mat13
+Ka 0.0000 0.0000 0.0000
+Kd 0.0000 0.0000 0.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.7000 0.7000 0.7000
+Ns 5.0000
+illum 2
+map_Ka tex12.png
+map_Kd tex12.png
+newmtl ground_station_4_mat14
+Ka 0.2000 0.2000 0.2000
+Kd 0.2000 0.2000 0.2000
+Ks 0.2000 0.2000 0.2000
+Ke 0.2000 0.2000 0.2000
+Ns 100.0000
+illum 2
+newmtl ground_station_4_mat15
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka seamless_texture_07.png
+map_Kd seamless_texture_07.png
+newmtl ground_station_4_mat16
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka bot5.png
+map_Kd bot5.png
+newmtl ground_station_4_mat17
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex7Uruboros.png
+map_Kd tex7Uruboros.png
+newmtl ground_station_4_mat18
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka metal_7280826.png
+map_Kd metal_7280826.png
+newmtl ground_station_4_mat19
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex4.png
+map_Kd tex4.png
+newmtl ground_station_4_mat20
+Ka 0.3000 0.3000 0.3000
+Kd 0.3000 0.3000 0.3000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex12.png
+map_Kd tex12.png
+newmtl ground_station_4_mat21
+Ka 0.2000 0.2000 0.2000
+Kd 0.2000 0.2000 0.2000
+Ks 0.2000 0.2000 0.2000
+Ke 0.2000 0.2000 0.2000
+Ns 100.0000
+illum 2
+newmtl ground_station_4_mat22
+Ka 0.7000 0.7000 0.7000
+Kd 0.7000 0.7000 0.7000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka seamless_texture_07.png
+map_Kd seamless_texture_07.png
+newmtl ground_station_4_mat23
+Ka 0.7000 0.7000 0.7000
+Kd 0.7000 0.7000 0.7000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka bot5.png
+map_Kd bot5.png
+newmtl ground_station_4_mat24
+Ka 0.0000 0.0000 0.0000
+Kd 0.0000 0.0000 0.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.7000 0.7000 0.7000
+Ns 5.0000
+illum 2
+map_Ka tex12.png
+map_Kd tex12.png
+newmtl ground_station_4_mat25
+Ka 0.2000 0.2000 0.2000
+Kd 0.2000 0.2000 0.2000
+Ks 0.2000 0.2000 0.2000
+Ke 0.2000 0.2000 0.2000
+Ns 100.0000
+illum 2
+newmtl ground_station_4_mat26
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka seamless_texture_07.png
+map_Kd seamless_texture_07.png
+newmtl ground_station_4_mat27
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka bot5.png
+map_Kd bot5.png
+newmtl ground_station_4_mat28
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex7Uruboros.png
+map_Kd tex7Uruboros.png
+newmtl ground_station_4_mat29
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka metal_7280826.png
+map_Kd metal_7280826.png
+newmtl ground_station_4_mat30
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex4.png
+map_Kd tex4.png
+newmtl ground_station_4_mat31
+Ka 0.3000 0.3000 0.3000
+Kd 0.3000 0.3000 0.3000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex12.png
+map_Kd tex12.png
+newmtl ground_station_4_mat32
+Ka 0.2000 0.2000 0.2000
+Kd 0.2000 0.2000 0.2000
+Ks 0.2000 0.2000 0.2000
+Ke 0.2000 0.2000 0.2000
+Ns 100.0000
+illum 2
+newmtl ground_station_4_mat33
+Ka 0.7000 0.7000 0.7000
+Kd 0.7000 0.7000 0.7000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka seamless_texture_07.png
+map_Kd seamless_texture_07.png
+newmtl ground_station_4_mat34
+Ka 0.7000 0.7000 0.7000
+Kd 0.7000 0.7000 0.7000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka bot5.png
+map_Kd bot5.png
+newmtl ground_station_4_mat35
+Ka 0.0000 0.0000 0.0000
+Kd 0.0000 0.0000 0.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.7000 0.7000 0.7000
+Ns 5.0000
+illum 2
+map_Ka tex12.png
+map_Kd tex12.png
+newmtl ground_station_4_mat36
+Ka 0.2000 0.2000 0.2000
+Kd 0.2000 0.2000 0.2000
+Ks 0.2000 0.2000 0.2000
+Ke 0.2000 0.2000 0.2000
+Ns 100.0000
+illum 2
+newmtl ground_station_4_mat37
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka seamless_texture_07.png
+map_Kd seamless_texture_07.png
+newmtl ground_station_4_mat38
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka bot5.png
+map_Kd bot5.png
+newmtl ground_station_4_mat39
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex7Uruboros.png
+map_Kd tex7Uruboros.png
+newmtl ground_station_4_mat40
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka metal_7280826.png
+map_Kd metal_7280826.png
+newmtl ground_station_4_mat41
+Ka 1.0000 1.0000 1.0000
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex4.png
+map_Kd tex4.png
+newmtl ground_station_4_mat42
+Ka 0.3000 0.3000 0.3000
+Kd 0.3000 0.3000 0.3000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex12.png
+map_Kd tex12.png
+newmtl ground_station_4_mat43
+Ka 0.2000 0.2000 0.2000
+Kd 0.2000 0.2000 0.2000
+Ks 0.2000 0.2000 0.2000
+Ke 0.2000 0.2000 0.2000
+Ns 100.0000
+illum 2

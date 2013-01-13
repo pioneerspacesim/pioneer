@@ -8,7 +8,7 @@
 -- optimizations by potsmoke66
 --
 
-define_model('control_tower', {
+--[[define_model('control_tower', {
 	info = {
 		lod_pixels = {1,80,160,0},
 		bounding_radius = 250.0,
@@ -817,4 +817,4 @@ define_model('ground_station_4', {
 		createLandingPadDynamic(2, v(0,50,-150),lod)
 		createLandingPadDynamic(3, v(0,50,150),lod)
 	end,
-})
+})]]
