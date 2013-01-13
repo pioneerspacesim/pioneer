@@ -107,7 +107,7 @@ noinst_HEADERS = \
 	PngWriter.h \
 	Polit.h \
 	Projectile.h \
-	PropertyHolder.h \
+	PropertyMap.h \
 	Quaternion.h \
 	Random.h \
 	RefCounted.h \
@@ -253,7 +253,7 @@ pioneer_SOURCES	= \
 	PngWriter.cpp \
 	Polit.cpp \
 	Projectile.cpp \
-	PropertyHolder.cpp \
+	PropertyMap.cpp \
 	SDLWrappers.cpp \
 	SectorView.cpp \
 	Serializer.cpp \

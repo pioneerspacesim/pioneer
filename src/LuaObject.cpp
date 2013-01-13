@@ -4,10 +4,12 @@
 #include "libs.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "PropertyHolder.h"
+#include "PropertyMap.h"
 
 #include <map>
 #include <utility>
+
+#include "Body.h"
 
 /*
  * Namespace: Object
@@ -231,10 +233,10 @@ static void get_next_method_table(lua_State *l)
 	LUA_DEBUG_END(l, 1);
 }
 
-// takes method table, name on top of stack
+// takes table, name on top of stack
 // if found, returns true, leaves item to return to lua on top of stack
 // if not found, returns false
-static bool get_method(lua_State *l)
+static bool get_method_or_attr(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
@@ -285,7 +287,7 @@ int LuaObjectBase::l_dispatch_index(lua_State *l)
 	// typeless objects have no parents, and are their own method table, so
 	// this is easy
 	if (typeless) {
-		if (get_method(l))
+		if (get_method_or_attr(l))
 			return 1;
 	}
 
@@ -294,17 +296,21 @@ int LuaObjectBase::l_dispatch_index(lua_State *l)
 
 		// first check properties. we don't need to drill through lua if the
 		// property is already available
-		LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
-		PropertyHolder *o = dynamic_cast<PropertyHolder*>(lo->GetObject());
-		if (o && o->PushPropertyToLua(l, lua_tostring(l, 2)))
-			return 1;
+		lua_getuservalue(l, 1);
+		if (!lua_isnil(l, -1)) {
+			lua_pushvalue(l, 2);
+			if (get_method_or_attr(l))
+				return 1;
+			lua_pop(l, 1);
+		}
+		lua_pop(l, 1);
 
 		lua_getmetatable(l, 1);
 		while (1) {
 			get_next_method_table(l);
 
 			lua_pushvalue(l, 2);
-			if (get_method(l))
+			if (get_method_or_attr(l))
 				return 1;
 
 			// not found. remove name copy and method table
@@ -693,6 +699,14 @@ void LuaObjectBase::Register(LuaObjectBase *lo)
 
 	luaL_getmetatable(l, lo->m_type);                           // lo userdata, lo metatable
 	lua_setmetatable(l, -2);                                    // lo userdata
+
+	// attach properties table if available
+	// XXX shouldn't know about Body. do it in specialisation
+	Body *b = dynamic_cast<Body*>(lo->GetObject());
+	if (b) {
+		b->Properties().PushLuaTable();
+		lua_setuservalue(l, -2);
+	}
 
 	LUA_DEBUG_END(l, 0);
 }

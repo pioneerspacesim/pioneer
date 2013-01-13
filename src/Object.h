@@ -5,10 +5,9 @@
 #define _OBJECT_H
 
 #include "DeleteEmitter.h"
-#include "PropertyHolder.h"
 #include "libs.h"
 
-class Object : public DeleteEmitter, public PropertyHolder {
+class Object : public DeleteEmitter {
 	public:
 	enum Type { OBJECT, BODY, MODELBODY, DYNAMICBODY, SHIP, PLAYER, SPACESTATION, TERRAINBODY, PLANET, STAR, CARGOBODY, CITYONPLANET, PROJECTILE, MISSILE, HYPERSPACECLOUD };
 	virtual Type GetType() const { return OBJECT; }

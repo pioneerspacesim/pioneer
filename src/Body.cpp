@@ -27,6 +27,7 @@ Body::Body() : m_flags(0)
 	, m_dead(false)
 	, m_clipRadius(0.0)
 	, m_physRadius(0.0)
+	, m_properties(Lua::manager)
 {
 }
 

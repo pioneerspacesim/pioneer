@@ -1259,5 +1259,6 @@ void Ship::SetSkin(const SceneGraph::ModelSkin &skin)
 
 void Ship::UpdateProperties()
 {
-	SetProperty("fuel", GetFuel());
+	PropertyMap &p = Properties();
+	p.Set("fuel", GetFuel());
 }
