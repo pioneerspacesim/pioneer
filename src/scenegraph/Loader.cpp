@@ -442,6 +442,28 @@ RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 	return decMat;
 }
 
+void Loader::CheckAnimationConflicts(const Animation* anim, const std::vector<Animation*> &otherAnims)
+{
+	typedef std::vector<AnimationChannel>::const_iterator ChannelIterator;
+	typedef std::vector<Animation*>::const_iterator AnimIterator;
+
+	if (anim->m_channels.empty() || otherAnims.empty()) return;
+
+	//check all other animations that they don't control the same nodes as this animation, since
+	//that is not supported at this point
+	for (ChannelIterator chan = anim->m_channels.begin(); chan != anim->m_channels.end(); ++chan) {
+		for (AnimIterator other = otherAnims.begin(); other != otherAnims.end(); ++other) {
+			const Animation *otherAnim = (*other);
+			assert(otherAnim != anim);
+			for (ChannelIterator otherChan = otherAnim->m_channels.begin(); otherChan != otherAnim->m_channels.end(); ++otherChan) {
+				//warnings as errors mentality - this is not really fatal
+				if (chan->node == otherChan->node)
+					throw LoadingError(stringf("Animations %0 and %1 both control node: %2", anim->GetName(), otherAnim->GetName(), chan->node->GetName()));
+			}
+		}
+	}
+}
+
 void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surface> > &surfaces, const aiScene *scene, Model *model)
 {
 	//XXX sigh, workaround for obj loader
@@ -596,10 +618,18 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		//set actual duration
 		animation->m_duration = end - start;
 
-		if (animation->m_channels.empty())
+		//do final sanity checking before adding
+		if (animation->m_channels.empty()) {
 			delete animation;
-		else
+		} else {
+			try {
+				CheckAnimationConflicts(animation, animations);
+			} catch (LoadingError &) {
+				delete animation;
+				throw;
+			}
 			animations.push_back(animation);
+		}
 	}
 }
 
