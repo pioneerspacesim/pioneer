@@ -133,9 +133,7 @@ void Camera::Draw(Renderer *renderer)
 	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), m_lightSources);
 
 	if (m_lightSources.empty()) {
-		// no lights means we're somewhere weird (eg hyperspace).
-		// fake one up and give a little ambient light so that we can see and
-		// so that things that need lights don't explode
+		// no lights means we're somewhere weird (eg hyperspace). fake one
 		const Color col(1.f);
 		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col)));
 	}
