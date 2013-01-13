@@ -1,4 +1,3 @@
-# original model by Vlastan
 material newbuilding
 tex_diff newbuilding.png
 tex_glow glowmap.png
