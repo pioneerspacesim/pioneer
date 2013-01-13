@@ -27,7 +27,6 @@ uniform Scene scene;
 	nDotHV = max(0.0, dot(normal, halfVector));					\
 	if (nDotVP == 0.0) pf = 0.0;									\
 	else pf = pow(nDotHV, gl_FrontMaterial.shininess);				\
-	amb += gl_LightSource[i].ambient * attenuation;				\
 	diff += gl_LightSource[i].diffuse * nDotVP * attenuation;		\
 	spec += gl_LightSource[i].specular * pf * attenuation;
 
@@ -35,7 +34,6 @@ void main(void)
 {
 	vec3 eye = vec3(0.0, 0.0, 0.0);//gl_TexCoord[2]); XXX what
 	vec3 normal = normalize(norm);
-	vec4 amb = vec4(0.0);
 	vec4 diff = vec4(0.0);
 	vec4 spec = vec4(0.0);
 
@@ -80,7 +78,6 @@ void main(void)
 
 	gl_FragColor =
 		(scene.ambient * gl_FrontMaterial.ambient) +
-		(amb * gl_FrontMaterial.ambient) +
 		(diff * gl_FrontMaterial.diffuse) +
 		(spec * gl_FrontMaterial.specular) +
 		emission;

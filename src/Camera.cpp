@@ -59,15 +59,14 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 	// IsRotFrame check prevents double counting
 	if (body && !frame->IsRotFrame() && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
 		vector3d lpos = frame->GetPositionRelTo(camFrame);
-		double dist = lpos.Length() / AU;
+		const double dist = lpos.Length() / AU;
 		lpos *= 1.0/dist; // normalize
 
 		const float *col = StarSystem::starRealColors[body->type];
 
-		Color lightCol(col[0], col[1], col[2], 0.f);
-		Color ambCol(0.f);
+		const Color lightCol(col[0], col[1], col[2], 0.f);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
-		lights.push_back(Camera::LightSource(frame->GetBody(), Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol)));
+		lights.push_back(Camera::LightSource(frame->GetBody(), Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, lightCol)));
 	}
 
 	for (Frame::ChildIterator it = frame->BeginChildren(); it != frame->EndChildren(); ++it) {
@@ -134,11 +133,9 @@ void Camera::Draw(Renderer *renderer)
 	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), m_lightSources);
 
 	if (m_lightSources.empty()) {
-		// no lights means we're somewhere weird (eg hyperspace).
-		// fake one up and give a little ambient light so that we can see and
-		// so that things that need lights don't explode
-		Color col(1.f);
-		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col)));
+		// no lights means we're somewhere weird (eg hyperspace). fake one
+		const Color col(1.f);
+		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col)));
 	}
 
 	//fade space background based on atmosphere thickness and light angle

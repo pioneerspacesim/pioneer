@@ -21,9 +21,8 @@ ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, fl
 	m_params.animValues[Ship::ANIM_WHEEL_STATE] = 1.0;
 	m_params.flightState = Ship::FLYING;
 
-	Color lc(0.5f, 0.5f, 0.5f, 0.f);
+	Color lc(1.f);
 	m_light.SetDiffuse(lc);
-	m_light.SetAmbient(lc);
 	m_light.SetSpecular(lc);
 	m_light.SetPosition(vector3f(1.f, 1.f, 0.f));
 	m_light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);
