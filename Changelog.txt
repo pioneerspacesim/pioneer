@@ -6,6 +6,7 @@ Alpha 31
      * Improve point sprite (LMR billboard) rendering performance (#1927,
        #1929, #1928)
      * Improve city rendering performance (#1927)
+     * Removed "mushroom" ground stations
 
    * Model changes
      * Handle missing material definitions by providing a basic white default
