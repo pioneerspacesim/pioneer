@@ -660,11 +660,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			origLights.push_back(light);
 
 			Color c = light.GetDiffuse();
-			Color ca = light.GetAmbient();
 			Color cs = light.GetSpecular();
-			ca.r = c.r * float(ambient);
-			ca.g = c.g * float(ambient);
-			ca.b = c.b * float(ambient);
 			c.r*=float(intensity);
 			c.g*=float(intensity);
 			c.b*=float(intensity);
@@ -672,7 +668,6 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			cs.g*=float(intensity);
 			cs.b*=float(intensity);
 			light.SetDiffuse(c);
-			light.SetAmbient(ca);
 			light.SetSpecular(cs);
 
 			newLights.push_back(light);

@@ -13,7 +13,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_ambientColor = Color(0.1f, 0.1f, 0.1f, 1.f);
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	m_lights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc));
+	m_lights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc));
 
 	m_model = LmrLookupModelByName("lanner_ub");
 
