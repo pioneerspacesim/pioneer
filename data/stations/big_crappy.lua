@@ -6,8 +6,8 @@ define_orbital_station {
 	parking_gap_size = 500.0,
 	ship_launch_stage = 3,
 	-- for stations where each docking port shares the
-	-- same front door, set dock_one_at_a_time_please = true,
-	dock_one_at_a_time_please = true,
+	-- same front door, set dock_one_at_a_time = true,
+	dock_one_at_a_time = true,
 	dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 10.0, 5.0, 5.0 },
 	undock_anim_stage_duration = { 5.0, 5.0, 10.0 },
 	ship_dock_anim = function(port, stage, t, from, ship_aabb)

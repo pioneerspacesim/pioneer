@@ -626,7 +626,7 @@ define_model('big_crappy_spacestation', {
 		billboard('smoke.png', 350.0, v(0,1,0), {v(1620,0,0)})
 		billboard('smoke.png', 350.0, v(1,1,1), {v(0,-515,0)})
 		-- docking trigger surface (only need to indicate surface for
-		-- port zero since this is a 'dock_one_at_a_time_please' station
+		-- port zero since this is a 'dock_one_at_a_time' station
 		geomflag(0x10)
 		invisible_tri(v(-100,600,-100),v(100,600,100),v(100,600,-100))
 		invisible_tri(v(-100,600,-100), v(-100,600,100),v(100,600,100))
