@@ -156,6 +156,4 @@ private:
 	bool m_bbCreated, m_bbShuffled;
 };
 
-void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, double fadeInEnd, double fadeInLength, double illumination, double minIllumination);
-
 #endif /* _SPACESTATION_H */
