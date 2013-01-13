@@ -164,9 +164,9 @@ define_model('spacestation_entry1_stage3', {
 			cuboid(v(-94.85,137,22),v(.5,1,.5))--right
 			--screens
 			use_material('wall1')
-			texture('buildings/city3k/grav.png', v(.5,.5,0), v(.01,0,0), v(0,0,-1.25))
+			texture('grav.png', v(.5,.5,0), v(.01,0,0), v(0,0,-1.25))
 			cuboid(v(-42.5,198,-22.75),v(85,2,47))--rear
-			texture('buildings/city3k/grav.png', v(.5,.5,0), v(0,0,1.25), v(.01,0,0))
+			texture('grav.png', v(.5,.5,0), v(0,0,1.25), v(.01,0,0))
 			cuboid(v(95,57.5,-22.75),v(2,85,47))--left
 			cuboid(v(-97,57.5,-22.75),v(2,85,47))--right
 			end
@@ -451,7 +451,7 @@ define_model('spacestation_entry1_stage1', {
 			--cuboid(v(-94.85,137,22),v(.5,1,.5))--right
 			--screens
 			use_material('text')--wall1
-			texture('buildings/city3k/grav.png', v(.5,.5,0), v(0,0,1.25), v(.01,0,0))
+			texture('grav.png', v(.5,.5,0), v(0,0,1.25), v(.01,0,0))
 			cuboid(v(94.85,-142.5,-22.75),v(2,85,47))--left
 			--cuboid(v(95,57.5,-22.75),v(2,85,47))--left
 			use_material('text')
