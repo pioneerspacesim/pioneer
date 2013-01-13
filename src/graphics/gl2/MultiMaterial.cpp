@@ -104,6 +104,7 @@ void LitMultiMaterial::Apply()
 	p->emission.Set(this->emissive);
 	p->specular.Set(this->specular);
 	p->shininess.Set(float(this->shininess));
+	p->sceneAmbient.Set(m_renderer->GetAmbientColor());
 }
 
 void MultiMaterial::Unapply()

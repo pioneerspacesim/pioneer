@@ -9,11 +9,15 @@
 Intro::Intro(Graphics::Renderer *r, int width, int height)
 : Cutscene(r, width, height)
 {
-	m_background.Reset(new Background::Container(r, UNIVERSE_SEED));
-	m_ambientColor = Color(0.1f, 0.1f, 0.1f, 1.f);
+	using Graphics::Light;
 
-	const Color lc(1.f, 1.f, 1.f, 0.f);
-	m_lights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc));
+	m_background.Reset(new Background::Container(r, UNIVERSE_SEED));
+	m_ambientColor = Color(0.f);
+
+	const Color one = Color::WHITE;
+	const Color two = Color(0.1f, 0.1f, 0.5f, 0.f);
+	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 0.3f, 1.f), one, one));
+	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, -1.f, 0.f), two, Color::BLACK));
 
 	m_model = LmrLookupModelByName("lanner_ub");
 
