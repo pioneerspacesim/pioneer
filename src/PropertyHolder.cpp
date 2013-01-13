@@ -4,6 +4,7 @@
 #include "PropertyHolder.h"
 #include "LuaUtils.h"
 
+#if 0
 template <> void TypedPropertyHolder<bool>::AddPropertiesToLuaTable(lua_State *l, int tableIdx)
 {
 	tableIdx = lua_absindex(l, tableIdx);
@@ -96,4 +97,94 @@ bool PropertyHolder::PushPropertyToLua(lua_State *l, const std::string &k)
 		TypedPropertyHolder<double>::PushPropertyToLua(l, k) ||
 		TypedPropertyHolder<std::string>::PushPropertyToLua(l, k);
 }
+#endif
 
+
+PropertyHolder::PropertyHolder(LuaManager *lua)
+{
+	lua_State *l = lua->GetLuaState();
+	lua_newtable(l);
+	m_table = LuaRef(l, -1);
+}
+
+
+void PropertyHolder::SetProperty(const std::string &k, bool v)
+{
+	lua_State *l = m_table.GetLua();
+	m_table.PushCopyToStack();
+	lua_pushlstring(l, k.c_str(), k.size());
+	lua_pushboolean(l, v);
+	lua_rawset(l, -3);
+	lua_pop(l, 1);
+}
+
+void PropertyHolder::SetProperty(const std::string &k, int v)
+{
+	lua_State *l = m_table.GetLua();
+	m_table.PushCopyToStack();
+	lua_pushlstring(l, k.c_str(), k.size());
+	lua_pushinteger(l, v);
+	lua_rawset(l, -3);
+	lua_pop(l, 1);
+}
+
+void PropertyHolder::SetProperty(const std::string &k, double v)
+{
+	lua_State *l = m_table.GetLua();
+	m_table.PushCopyToStack();
+	lua_pushlstring(l, k.c_str(), k.size());
+	lua_pushnumber(l, v);
+	lua_rawset(l, -3);
+	lua_pop(l, 1);
+}
+
+void PropertyHolder::SetProperty(const std::string &k, const std::string &v)
+{
+	lua_State *l = m_table.GetLua();
+	m_table.PushCopyToStack();
+	lua_pushlstring(l, k.c_str(), k.size());
+	lua_pushlstring(l, v.c_str(), v.size());
+	lua_rawset(l, -3);
+	lua_pop(l, 1);
+}
+
+
+void PropertyHolder::GetProperty(const std::string &k, bool &v)
+{
+	lua_State *l = m_table.GetLua();
+	m_table.PushCopyToStack();
+	lua_pushlstring(l, k.c_str(), k.size());
+	lua_rawget(l, -2);
+	v = lua_toboolean(l, -1);
+	lua_pop(l, 2);
+}
+
+void PropertyHolder::GetProperty(const std::string &k, int &v)
+{
+	lua_State *l = m_table.GetLua();
+	m_table.PushCopyToStack();
+	lua_pushlstring(l, k.c_str(), k.size());
+	lua_rawget(l, -2);
+	v = lua_tointeger(l, -1);
+	lua_pop(l, 2);
+}
+
+void PropertyHolder::GetProperty(const std::string &k, double &v)
+{
+	lua_State *l = m_table.GetLua();
+	m_table.PushCopyToStack();
+	lua_pushlstring(l, k.c_str(), k.size());
+	lua_rawget(l, -2);
+	v = lua_tonumber(l, -1);
+	lua_pop(l, 2);
+}
+
+void PropertyHolder::GetProperty(const std::string &k, std::string &v)
+{
+	lua_State *l = m_table.GetLua();
+	m_table.PushCopyToStack();
+	lua_pushlstring(l, k.c_str(), k.size());
+	lua_rawget(l, -2);
+	v = lua_tostring(l, -1);
+	lua_pop(l, 2);
+}
