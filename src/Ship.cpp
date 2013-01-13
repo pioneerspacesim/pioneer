@@ -217,8 +217,6 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 
 	Init();
 	SetController(new ShipController());
-
-	DeclareProperties();
 }
 
 Ship::~Ship()
@@ -1257,11 +1255,6 @@ void Ship::SetSkin(const SceneGraph::ModelSkin &skin)
 {
 	m_skin = skin;
 	m_skin.Apply(GetModel());
-}
-
-void Ship::DeclareProperties()
-{
-	DeclareFloatProperty("fuel");
 }
 
 void Ship::UpdateProperties()

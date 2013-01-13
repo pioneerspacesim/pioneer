@@ -269,7 +269,6 @@ protected:
 	ShipController *m_controller;
 
 private:
-	void DeclareProperties();
 	void UpdateProperties();
 
 	float GetECMRechargeTime();
