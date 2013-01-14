@@ -15,6 +15,10 @@ Alpha 31
      * Handle missing material definitions by providing a basic white default
        material if none are specified (#1817, #1916)
 
+   * Script changes
+     * Remove deprecated Ship methods.SetPrimaryColour and SetSecondaryColour
+       and shipType attribute
+
    * Internal changes
      * Separate station defs from LMR station models (#1913, #1931, #1934)
 
