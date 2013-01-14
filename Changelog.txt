@@ -16,7 +16,7 @@ Alpha 31
        material if none are specified (#1817, #1916)
 
    * Internal changes
-     * Separate station defs from LMR station models (#1913)
+     * Separate station defs from LMR station models (#1913, #1931, #1934)
 
 Alpha 30
 
