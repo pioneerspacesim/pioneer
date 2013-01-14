@@ -1260,5 +1260,8 @@ void Ship::SetSkin(const SceneGraph::ModelSkin &skin)
 void Ship::UpdateProperties()
 {
 	PropertyMap &p = Properties();
-	p.Set("fuel", GetFuel());
+	p.Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", GetAlertState()));
+	p.Set("flightState", EnumStrings::GetString("ShipFlightState", GetFlightState()));
+	p.Set("shipId", GetShipType()->id);
+	p.Set("fuel", GetFuel()*100); // XXX for GetFuelPercent
 }
