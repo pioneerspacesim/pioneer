@@ -4,12 +4,11 @@
 #include "libs.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "PropertiedObject.h"
 #include "PropertyMap.h"
 
 #include <map>
 #include <utility>
-
-#include "Body.h"
 
 /*
  * Namespace: Object
@@ -701,10 +700,9 @@ void LuaObjectBase::Register(LuaObjectBase *lo)
 	lua_setmetatable(l, -2);                                    // lo userdata
 
 	// attach properties table if available
-	// XXX shouldn't know about Body. do it in specialisation
-	Body *b = dynamic_cast<Body*>(lo->GetObject());
-	if (b) {
-		b->Properties().PushLuaTable();
+	PropertiedObject *po = dynamic_cast<PropertiedObject*>(lo->GetObject());
+	if (po) {
+		po->Properties().PushLuaTable();
 		lua_setuservalue(l, -2);
 	}
 

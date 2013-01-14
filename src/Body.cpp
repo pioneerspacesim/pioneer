@@ -18,7 +18,8 @@
 #include "Game.h"
 #include "LuaEvent.h"
 
-Body::Body() : m_flags(0)
+Body::Body() : PropertiedObject(Lua::manager)
+	, m_flags(0)
 	, m_interpPos(0.0)
 	, m_interpOrient(matrix3x3d::Identity())
 	, m_pos(0.0)
@@ -27,7 +28,6 @@ Body::Body() : m_flags(0)
 	, m_dead(false)
 	, m_clipRadius(0.0)
 	, m_physRadius(0.0)
-	, m_properties(Lua::manager)
 {
 }
 

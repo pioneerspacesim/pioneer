@@ -9,7 +9,7 @@
 #include "Object.h"
 #include "Frame.h"
 #include "Serializer.h"
-#include "PropertyMap.h"
+#include "PropertiedObject.h"
 #include <string>
 
 class ObjMesh;
@@ -17,7 +17,7 @@ class Space;
 class Camera;
 namespace Graphics { class Renderer; }
 
-class Body: public Object {
+class Body: public Object, public PropertiedObject {
 public:
 	OBJDEF(Body, Object, BODY);
 	Body();
@@ -100,8 +100,6 @@ public:
 			FLAG_LABEL_HIDDEN = (1<<1),
 			FLAG_DRAW_LAST = (1<<2) };		// causes the body drawn after other bodies in the z-sort
 
-	PropertyMap &Properties() { return m_properties; }
-
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -118,7 +116,6 @@ private:
 	bool m_dead;				// Checked in destructor to make sure body has been marked dead.
 	double m_clipRadius;
 	double m_physRadius;
-	PropertyMap m_properties;
 };
 
 #endif /* _BODY_H */
