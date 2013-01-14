@@ -535,14 +535,10 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 	//This is very limited, and all animdefs are processed for all
 	//meshes, potentially leading to duplicate and wrongly split animations
 	if (animDefs.empty() || scene->mNumAnimations == 0) return;
+	if (scene->mNumAnimations > 1) printf("File has %d animations, treating as one animation\n", scene->mNumAnimations);
 
-	if (scene->mNumAnimations > 1) throw LoadingError("More than one animation in file! Your exporter is too good");
-
-	//Blender .X exporter exports only one animation (without a name!) so
-	//we read only one animation from the scene and split it according to animDefs
 	std::vector<Animation*> &animations = m_model->m_animations;
 
-	const aiAnimation* aianim = scene->mAnimations[0];
 	for (AnimList::const_iterator def = animDefs.begin();
 		def != animDefs.end();
 		++def)
@@ -550,9 +546,11 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		//XXX format differences: for a 40-frame animation exported from Blender,
 		//.X results in duration 39 and Collada in Duration 1.25.
 		//duration is calculated after adding all keys
+		//take TPS from the first animation
+		const aiAnimation* firstAnim = scene->mAnimations[0];
+		const double ticksPerSecond = firstAnim->mTicksPerSecond > 0.0 ? firstAnim->mTicksPerSecond : 24.0;
 		double start = DBL_MAX;
 		double end = 0.0;
-		const double ticksPerSecond = aianim->mTicksPerSecond > 0.0 ? aianim->mTicksPerSecond : 24.0;
 
 		//Ranges are specified in frames (since that's nice) but Collada
 		//uses seconds. This is easiest to detect from ticksPerSecond,
@@ -568,49 +566,53 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 			def->name, 0.0,
 			def->loop ? Animation::LOOP : Animation::ONCE,
 			ticksPerSecond);
-		for (unsigned int j=0; j<aianim->mNumChannels; j++) {
-			const aiNodeAnim *aichan = aianim->mChannels[j];
-			//do a preliminary check that at least two keys in one channel are within range
-			if (!CheckKeysInRange(aichan, defStart, defEnd))
-				continue;
 
-			const std::string channame(aichan->mNodeName.C_Str());
-			MatrixTransform *trans = dynamic_cast<MatrixTransform*>(meshRoot->FindNode(channame));
-			assert(trans);
-			animation->m_channels.push_back(AnimationChannel(trans));
-			AnimationChannel &chan = animation->m_channels.back();
+		for (unsigned int i=0; i < scene->mNumAnimations; i++) {
+			const aiAnimation* aianim = scene->mAnimations[i];
+			for (unsigned int j=0; j<aianim->mNumChannels; j++) {
+				const aiNodeAnim *aichan = aianim->mChannels[j];
+				//do a preliminary check that at least two keys in one channel are within range
+				if (!CheckKeysInRange(aichan, defStart, defEnd))
+					continue;
 
-			for(unsigned int k=0; k<aichan->mNumPositionKeys; k++) {
-				const aiVectorKey &aikey = aichan->mPositionKeys[k];
-				const aiVector3D &aipos = aikey.mValue;
-				if (in_range(aikey.mTime, defStart, defEnd)) {
-					chan.positionKeys.push_back(PositionKey(aikey.mTime - defStart, vector3f(aipos.x, aipos.y, aipos.z)));
-					start = std::min(start, aikey.mTime);
-					end = std::max(end, aikey.mTime);
+				const std::string channame(aichan->mNodeName.C_Str());
+				MatrixTransform *trans = dynamic_cast<MatrixTransform*>(meshRoot->FindNode(channame));
+				assert(trans);
+				animation->m_channels.push_back(AnimationChannel(trans));
+				AnimationChannel &chan = animation->m_channels.back();
+
+				for(unsigned int k=0; k<aichan->mNumPositionKeys; k++) {
+					const aiVectorKey &aikey = aichan->mPositionKeys[k];
+					const aiVector3D &aipos = aikey.mValue;
+					if (in_range(aikey.mTime, defStart, defEnd)) {
+						chan.positionKeys.push_back(PositionKey(aikey.mTime - defStart, vector3f(aipos.x, aipos.y, aipos.z)));
+						start = std::min(start, aikey.mTime);
+						end = std::max(end, aikey.mTime);
+					}
 				}
-			}
 
-			//scale interpolation will blow up without rotation keys,
-			//so skipping them when rotkeys < 2 is correct
-			if (aichan->mNumRotationKeys < 2) continue;
+				//scale interpolation will blow up without rotation keys,
+				//so skipping them when rotkeys < 2 is correct
+				if (aichan->mNumRotationKeys < 2) continue;
 
-			for(unsigned int k=0; k<aichan->mNumRotationKeys; k++) {
-				const aiQuatKey &aikey = aichan->mRotationKeys[k];
-				const aiQuaternion &airot = aikey.mValue;
-				if (in_range(aikey.mTime, defStart, defEnd)) {
-					chan.rotationKeys.push_back(RotationKey(aikey.mTime - defStart, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
-					start = std::min(start, aikey.mTime);
-					end = std::max(end, aikey.mTime);
+				for(unsigned int k=0; k<aichan->mNumRotationKeys; k++) {
+					const aiQuatKey &aikey = aichan->mRotationKeys[k];
+					const aiQuaternion &airot = aikey.mValue;
+					if (in_range(aikey.mTime, defStart, defEnd)) {
+						chan.rotationKeys.push_back(RotationKey(aikey.mTime - defStart, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
+						start = std::min(start, aikey.mTime);
+						end = std::max(end, aikey.mTime);
+					}
 				}
-			}
 
-			for(unsigned int k=0; k<aichan->mNumScalingKeys; k++) {
-				const aiVectorKey &aikey = aichan->mScalingKeys[k];
-				const aiVector3D &aipos = aikey.mValue;
-				if (in_range(aikey.mTime, defStart, defEnd)) {
-					chan.scaleKeys.push_back(ScaleKey(aikey.mTime - defStart, vector3f(aipos.x, aipos.y, aipos.z)));
-					start = std::min(start, aikey.mTime);
-					end = std::max(end, aikey.mTime);
+				for(unsigned int k=0; k<aichan->mNumScalingKeys; k++) {
+					const aiVectorKey &aikey = aichan->mScalingKeys[k];
+					const aiVector3D &aipos = aikey.mValue;
+					if (in_range(aikey.mTime, defStart, defEnd)) {
+						chan.scaleKeys.push_back(ScaleKey(aikey.mTime - defStart, vector3f(aipos.x, aipos.y, aipos.z)));
+						start = std::min(start, aikey.mTime);
+						end = std::max(end, aikey.mTime);
+					}
 				}
 			}
 		}
