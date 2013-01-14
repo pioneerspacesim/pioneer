@@ -18,6 +18,7 @@ public:
 	void Set(const std::string &k, int v);
 	void Set(const std::string &k, double v);
 	void Set(const std::string &k, const std::string &v);
+	void Set(const std::string &k, const char *v) { Set(k, std::string(v)); }
 
 	void Get(const std::string &k, bool &v);
 	void Get(const std::string &k, int &v);
