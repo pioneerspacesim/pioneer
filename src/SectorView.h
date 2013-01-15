@@ -21,6 +21,12 @@ namespace Graphics {
 
 class SectorView: public View {
 public:
+	struct CachedSystem {
+		bool inhabited        = false;
+		int  impLevel         = 0;
+		int  expLevel         = 0;
+	};
+
 	SectorView();
 	SectorView(Serializer::Reader &rd);
 	virtual ~SectorView();
@@ -67,6 +73,7 @@ private:
 	void UpdateHyperspaceLockLabel();
 
 	Sector* GetCached(int sectorX, int sectorY, int sectorZ);
+	void CheckSector(int sectorX, int sectorY, int sectorZ);
 	void ShrinkCache();
 
 	void MouseButtonDown(int button, int x, int y);
@@ -131,6 +138,12 @@ private:
 
 	float m_playerHyperspaceRange;
 	Graphics::Drawables::Line3D m_jumpLine;
+	
+	std::map<SystemPath, CachedSystem> m_cachedSystems;
+	std::map<SystemPath, bool> m_sectorsChecked;
+	
+	bool m_hasLastPath = false;
+	SystemPath m_lastPath;
 };
 
 #endif /* _SECTORVIEW_H */

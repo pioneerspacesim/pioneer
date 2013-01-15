@@ -28,6 +28,40 @@ using namespace Graphics;
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
 
+
+#include "sys/sysctl.h"
+
+extern "C" {
+
+bool IsDebuggerPresent() {
+    int mib[4];
+    struct kinfo_proc info;
+    size_t size;
+
+    info.kp_proc.p_flag = 0;
+    mib[0] = CTL_KERN;
+    mib[1] = KERN_PROC;
+    mib[2] = KERN_PROC_PID;
+    mib[3] = getpid();
+
+    size = sizeof(info);
+    sysctl(mib, sizeof(mib) / sizeof(*mib), &info, &size, NULL, 0);
+
+    return ((info.kp_proc.p_flag & P_TRACED) != 0);
+}
+
+void OutputDebugString(const char *fmt, ...) {
+    if( !IsDebuggerPresent() )
+        return;
+
+    va_list args;
+    va_start(args, fmt);
+    vprintf(fmt, args);
+    va_end(args);
+}
+
+}
+
 SectorView::SectorView()
 {
 	InitDefaults();
@@ -576,7 +610,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 {
 	m_renderer->SetTransform(trans);
 	Sector* ps = GetCached(sx, sy, sz);
-
+	
 	int cz = int(floor(m_pos.z+0.5f));
 
 	if (cz == sz) {
@@ -587,108 +621,38 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			vector3f(Sector::SIZE, Sector::SIZE, 0.f),
 			vector3f(Sector::SIZE, 0.f, 0.f)
 		};
-
+		
 		m_renderer->DrawLines(4, vts, darkgreen, LINE_LOOP);
 	}
 
-	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
-	SystemPath currentSysPath = currentSys->GetPath();
-
+	//RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+	//SystemPath currentSysPath = currentSys->GetPath();
+	
 	Uint32 num=0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++num) {
 		SystemPath current = SystemPath(sx, sy, sz, num);
-
+	
 		const vector3f sysAbsPos = Sector::SIZE*vector3f(float(sx), float(sy), float(sz)) + (*i).p;
 		const vector3f toCentreOfView = m_pos*Sector::SIZE - sysAbsPos;
 
-		int impLevel = 0, expLevel = 0;
-
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
-
-		// don't worry about looking for inhabited systems if they're
-		// unexplored (same calculation as in StarSystem.cpp)
-		if (isqrt(1 + sx*sx + sy*sy + sz*sz) <= 90) {
-
-			// only do this once we've pretty much stopped moving.
-			vector3f diff = vector3f(
-					fabs(m_posMovingTo.x - m_pos.x),
-					fabs(m_posMovingTo.y - m_pos.y),
-					fabs(m_posMovingTo.z - m_pos.z));
-			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
-			if( !(*i).IsSetInhabited() && diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f ) {
-				RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
-				(*i).SetInhabited((!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0));
-			}
-		}
+		
+		CachedSystem cs = m_cachedSystems[current];
 
 		std::string extrastr;
-
-		if ((*i).IsInhabited()) {
-			RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
-			if (!currentSysPath.IsSameSystem(current)) {
-				// work out econ info
-				for (int e=1; e<Equip::TYPE_MAX; e++) {
-					int ourprice   = currentSys->GetCommodityBasePriceModPercent(e);
-					int theirprice = pSS->GetCommodityBasePriceModPercent(e);
-
-					if (ourprice < -10) {
-						// major export (curr)
-						if ((theirprice > 2) && (theirprice <= 10)) {
-							expLevel = std::max(expLevel, 2);
-						} else if (theirprice > 10) {
-							expLevel = std::max(expLevel, 3);
-						}					
-					} else if ((ourprice < -2) && (ourprice >= -10)) {
-						// minor export (curr)
-						if ((theirprice > 2) && (theirprice <= 10)) {
-							expLevel = std::max(expLevel, 1);
-						} else if (theirprice > 10) {
-							expLevel = std::max(expLevel, 2);
-						}
-					} else if ((ourprice > 2) && (ourprice <= 10)) {
-						// minor import (curr)
-						if ((theirprice < -2) && (theirprice >= -10)) {
-							impLevel = std::max(impLevel, 1);
-						} else if (theirprice < -10) {
-							impLevel = std::max(impLevel, 2);
-						}
-					} else if (ourprice > 10) {
-						// major import (curr)
-						if ((theirprice < -2) && (theirprice >= -10)) {
-							impLevel = std::max(impLevel, 2);
-						} else if (theirprice < -10) {
-							impLevel = std::max(impLevel, 3);
-						}
-					}
-				}
+		std::vector<std::string> extra;
+		
+		if (!extra.empty()) {
+			std::ostringstream ss(std::ostringstream::out);
+			ss << " (";
+			bool first = true;
+			for (unsigned int l = 0; l < extra.size(); l++) {
+				if (!first) ss << ',';
+				else first = false;
+				ss << extra[l];
 			}
-			std::vector<std::string> extra;
-			/*
-			if (impLevel > 0) {
-				std::ostringstream ss(std::ostringstream::out);
-				ss << "i";
-				for (int l = 0; l < impLevel - 1; l++) ss << "+";
-				extra.push_back(ss.str());
-			}
-			if (expLevel > 0) {
-				std::ostringstream ss(std::ostringstream::out);
-				ss << "e";
-				for (int l = 0; l < expLevel - 1; l++) ss << "+";
-				extra.push_back(ss.str());
-			}
-			*/
-			if (!extra.empty()) {
-				std::ostringstream ss(std::ostringstream::out);
-				ss << " (";
-				bool first = true;
-				for (unsigned int l = 0; l < extra.size(); l++) {
-					if (!first) ss << ',';
-					else first = false;
-					ss << extra[l];
-				}
-				ss << ')';
-				extrastr = ss.str();
-			}
+			ss << ')';
+			extrastr = ss.str();
 		}
 
 		matrix4x4f systrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
@@ -771,8 +735,7 @@ void SectorView::DrawSector(int sx, int sy, int sz, const vector3f &playerAbsPos
 			if (dist <= m_playerHyperspaceRange)
 				labelColor.a = 1.0f;
 		}
-
-		PutClickableLabel((*i).name + extrastr, labelColor, current, impLevel, expLevel);
+		PutClickableLabel((*i).name + extrastr, labelColor, current, cs.impLevel, cs.expLevel);
 	}
 }
 
@@ -1003,19 +966,123 @@ void SectorView::MouseButtonDown(int button, int x, int y)
 	}
 }
 
+void SectorView::CheckSector(int sectorX, int sectorY, int sectorZ) {
+	const SystemPath loc(sectorX, sectorY, sectorZ);
+	if (m_sectorsChecked[loc]) return;
+	
+	Sector *s = 0;
+	std::map<SystemPath,Sector*>::iterator i = m_sectorCache.find(loc);
+	if (i != m_sectorCache.end()) {
+		s = (*i).second;
+	} else {
+		return;
+	}
+	
+	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+	SystemPath currentSysPath = currentSys->GetPath();
+
+	// only do this once we've pretty much stopped moving.
+	vector3f diff = vector3f(
+		fabs(m_posMovingTo.x - m_pos.x),
+		fabs(m_posMovingTo.y - m_pos.y),
+		fabs(m_posMovingTo.z - m_pos.z)
+	);
+			
+	bool stopped = (diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f );
+	
+	if (stopped) {
+		Uint32 num=0;
+		for (std::vector<Sector::System>::iterator i = s->m_systems.begin(); i != s->m_systems.end(); ++i, ++num) {
+			CachedSystem cs;
+			SystemPath current = SystemPath(sectorX, sectorY, sectorZ, num);
+			
+			// don't worry about looking for inhabited systems if they're
+			// unexplored (same calculation as in StarSystem.cpp)
+			if (isqrt(1 + sectorX*sectorX + sectorY*sectorY + sectorZ*sectorZ) <= 90) {
+				if(!(*i).IsSetInhabited()) {
+					RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
+					(*i).SetInhabited((!pSS->m_unexplored) && (pSS->m_spaceStations.size()>0));
+				}
+			}
+			
+			if ((*i).IsInhabited()) {
+				//OutputDebugString("inhabited\n");
+			
+				cs.inhabited = true;
+			
+				if (!currentSysPath.IsSameSystem(current)) {
+					RefCountedPtr<StarSystem> pSS = StarSystem::GetCached(current);
+					// work out econ info
+					for (int e=1; e<Equip::TYPE_MAX; e++) {
+						int ourprice   = currentSys->GetCommodityBasePriceModPercent(e);
+						int theirprice = pSS->GetCommodityBasePriceModPercent(e);
+
+						if (ourprice < -10) {
+							// major export (curr)
+							if ((theirprice > 2) && (theirprice <= 10)) {
+								cs.expLevel = std::max(cs.expLevel, 2);
+							} else if (theirprice > 10) {
+								cs.expLevel = std::max(cs.expLevel, 3);
+							}					
+						} else if ((ourprice < -2) && (ourprice >= -10)) {
+							// minor export (curr)
+							if ((theirprice > 2) && (theirprice <= 10)) {
+								cs.expLevel = std::max(cs.expLevel, 1);
+							} else if (theirprice > 10) {
+								cs.expLevel = std::max(cs.expLevel, 2);
+							}
+						} else if ((ourprice > 2) && (ourprice <= 10)) {
+							// minor import (curr)
+							if ((theirprice < -2) && (theirprice >= -10)) {
+								cs.impLevel = std::max(cs.impLevel, 1);
+							} else if (theirprice < -10) {
+								cs.impLevel = std::max(cs.impLevel, 2);
+							}
+						} else if (ourprice > 10) {
+							// major import (curr)
+							if ((theirprice < -2) && (theirprice >= -10)) {
+								cs.impLevel = std::max(cs.impLevel, 2);
+							} else if (theirprice < -10) {
+								cs.impLevel = std::max(cs.impLevel, 3);
+							}
+						}
+					}
+				}
+			}
+			m_cachedSystems.insert(std::pair<SystemPath, CachedSystem>(current, cs));
+		}
+		m_sectorsChecked[loc] = true;
+		//OutputDebugString("inhabited: %d, imp: %d, exp: %d\n", cs.inhabited, cs.impLevel, cs.expLevel);
+	}
+}
+
 Sector* SectorView::GetCached(int sectorX, int sectorY, int sectorZ)
 {
-	const SystemPath loc(sectorX, sectorY, sectorZ);
+	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+	SystemPath currentSysPath = currentSys->GetPath();
 
+	const SystemPath loc(sectorX, sectorY, sectorZ);
 	Sector *s = 0;
 
-	std::map<SystemPath,Sector*>::iterator i = m_sectorCache.find(loc);
-	if (i != m_sectorCache.end())
-		return (*i).second;
+	if (m_hasLastPath && m_lastPath != currentSysPath) {
+		m_cachedSystems.clear();
+		m_sectorsChecked.clear();
+		m_lastPath = currentSysPath;
+	}
+	m_lastPath = currentSysPath;
+	m_hasLastPath = true;
 
+	std::map<SystemPath,Sector*>::iterator i = m_sectorCache.find(loc);
+	if (i != m_sectorCache.end()) {
+		s = (*i).second;
+		CheckSector(sectorX, sectorY, sectorZ);
+		return s;
+	}
+
+	//OutputDebugString("sX:%d,sY:%d,sZ:%d\n", sectorX, sectorY, sectorZ);
 	s = new Sector(sectorX, sectorY, sectorZ);
 	m_sectorCache.insert( std::pair<SystemPath,Sector*>(loc, s) );
-
+	CheckSector(sectorX, sectorY, sectorZ);
 	return s;
 }
 
@@ -1036,6 +1103,12 @@ void SectorView::ShrinkCache()
 		Sector *s = (*iter).second;
 		//check_point_in_box
 		if (s && !s->WithinBox( xmin, xmax, ymin, ymax, zmin, zmax )) {
+			Uint32 num=0;
+			for (std::vector<Sector::System>::iterator i = s->m_systems.begin(); i != s->m_systems.end(); ++i, ++num) {
+				SystemPath current = SystemPath((*iter).first.sectorX, (*iter).first.sectorY, (*iter).first.sectorZ, num);
+				m_cachedSystems.erase(current);
+			}
+			m_sectorsChecked.erase((*iter).first);
 			delete s;
 			m_sectorCache.erase( iter++ );
 		} else {
