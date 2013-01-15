@@ -145,6 +145,7 @@ Ship.Enroll = function (self,newCrewMember)
 	then
 		newCrewMember:CheckOut() -- Don't want other scripts using our crew for missions etc
 		table.insert(CrewRoster[self],newCrewMember)
+		Event.Queue('onJoinCrew',self,newCrewMember) -- Signal any scripts that care!
 		return true
 	else
 		return false
@@ -285,6 +286,7 @@ local loaded_data
 local onGameStart = function ()
 	if loaded_data then
 		CrewRoster = loaded_data
+		Event.Queue('crewAvailable') -- Signal any scripts that depend on initialised crew
 	end
 	loaded_data = nil
 end
