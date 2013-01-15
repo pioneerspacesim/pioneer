@@ -143,6 +143,7 @@ Ship.Enroll = function (self,newCrewMember)
 	if #CrewRoster[self] < ShipType.GetShipType(self.shipId).maxCrew
 	and isNotAlreadyEnrolled(newCrewMember)
 	then
+		newCrewMember:CheckOut() -- Don't want other scripts using our crew for missions etc
 		table.insert(CrewRoster[self],newCrewMember)
 		return true
 	else
@@ -192,6 +193,7 @@ Ship.Dismiss = function (self,crewMember)
 		if crewMember == existingCrewMember
 		then
 			table.remove(CrewRoster[self],key)
+			crewMember:Save() -- Crew member can pop up elsewhere
 			return true
 		end
 	end
