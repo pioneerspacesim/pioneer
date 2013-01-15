@@ -578,8 +578,8 @@ local crewRoster = function ()
 			crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 				ui:Label(crewMember.name),
 				ui:Label(crewMember.title or t('General crew')),
-				ui:Label(Format.Money(0)),
-				ui:Label(Format.Date(0)),
+				ui:Label(Format.Money(crewMember.contract and crewMember.contract.wage or 0)),
+				ui:Label(Format.Date(crewMember.contract and crewMember.contract.payday or 0)),
 				moreButton.widget,
 			}))
 		end
