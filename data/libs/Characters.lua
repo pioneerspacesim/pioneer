@@ -219,6 +219,7 @@ Character = {
 --
 --   experimental
 --
+	playerRelationship = 34,
 
 --
 -- Attribute: luck
