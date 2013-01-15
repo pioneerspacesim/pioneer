@@ -28,9 +28,12 @@ local boostCrewSkills = function (crewMember)
 	}
 	for i = 1,#attribute do
 		-- Test with a penalty of four, to slow down their growth.
-		-- The best get better more quickly using this technique.
-		if crewMember:TestRoll(attribute[i],-4) then
-			crewMember[attribute] = crewMember[attribute]+1
+		-- The worst get better more quickly using this technique.
+		-- They must fail a test roll, given the advantage of a quarter
+		-- of their skill, in order to improve that skill.
+		if not crewMember:TestRoll(attribute[i],math.floor(crewMember[attribute[i]] / 4)) then
+			-- They learned from their failure.
+			crewMember[attribute[i]] = crewMember[attribute[i]]+1
 		end
 	end
 end
