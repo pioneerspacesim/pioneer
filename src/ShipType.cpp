@@ -91,7 +91,7 @@ static void _get_vec_attrib(lua_State *L, const char *key, vector3d &output,
 }
 
 // returns velocity of engine exhausts in m/s
-double GetEffectiveExhaustVelocity(double fuelTankMass, double thrusterFuelUse, double forwardThrust) {
+static double GetEffectiveExhaustVelocity(double fuelTankMass, double thrusterFuelUse, double forwardThrust) {
 	double denominator = fuelTankMass * thrusterFuelUse * 10;
 	return fabs(denominator > 0 ? forwardThrust/denominator : 1e9);
 }
