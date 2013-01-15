@@ -1119,8 +1119,8 @@ void Pi::MainLoop()
 
 float Pi::CalcHyperspaceRangeMax(int hyperclass, int total_mass_in_tonnes)
 {
-	// 400.0f is balancing parameter
-	return 400.0f * hyperclass * hyperclass / (total_mass_in_tonnes);
+	// 625.0f is balancing parameter
+	return 625.0f * hyperclass * hyperclass / (total_mass_in_tonnes);
 }
 
 float Pi::CalcHyperspaceRange(int hyperclass, float total_mass_in_tonnes, int fuel)
@@ -1148,8 +1148,8 @@ float Pi::CalcHyperspaceDuration(int hyperclass, int total_mass_in_tonnes, float
 {
 	float hyperspace_range_max = CalcHyperspaceRangeMax(hyperclass, total_mass_in_tonnes);
 
-	// 0.45 is balancing parameter
-	return ((dist * dist * 0.45) / (hyperspace_range_max * hyperclass)) *
+	// 0.36 is balancing parameter
+	return ((dist * dist * 0.36) / (hyperspace_range_max * hyperclass)) *
 			(60.0 * 60.0 * 24.0 * sqrtf(total_mass_in_tonnes));
 }
 

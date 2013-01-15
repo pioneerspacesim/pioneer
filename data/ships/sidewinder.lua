@@ -4,13 +4,13 @@
 define_ship {
 	name='Sidewinder',
 	model='rattlesnake',
-	forward_thrust = 4e6,
-	reverse_thrust = 3e6,
-	up_thrust = 2e6,
-	down_thrust = 2e6,
-	left_thrust = 2e6,
-	right_thrust = 2e6,
-	angular_thrust = 10e6,
+	forward_thrust = 82e5,
+	reverse_thrust = 62e5,
+	up_thrust = 41e5,
+	down_thrust = 41e5,
+	left_thrust = 41e5,
+	right_thrust = 41e5,
+	angular_thrust = 130e5,
 	camera_offset = v(0,2.5,0),
 	gun_mounts =
 	{
@@ -24,8 +24,10 @@ define_ship {
 	max_cargoscoop = 1,
 	capacity = 30,
 	hull_mass = 20,
-	fuel_tank_mass = 10,
-	thruster_fuel_use = 0.00035,
+	fuel_tank_mass = 28,
+	-- Exhaust velocity Vc [m/s] is equivalent of engine efficiency and depend on used technology. Higher Vc means lower fuel consumption.
+	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.
+	effective_exhaust_velocity = 63333e3,
 	price = 44000,
 	hyperdrive_class = 2,
 }
