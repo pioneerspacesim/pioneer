@@ -194,6 +194,7 @@ Ship.Dismiss = function (self,crewMember)
 		if crewMember == existingCrewMember
 		then
 			table.remove(CrewRoster[self],key)
+			Event.Queue('onLeaveCrew',self,crewMember) -- Signal any scripts that care!
 			crewMember:Save() -- Crew member can pop up elsewhere
 			return true
 		end
