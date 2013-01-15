@@ -194,9 +194,13 @@ local savedByCrew = function(ship)
 end
 
 local onEnterSystem = function (ship)
-	if ship:IsPlayer() then print(('DEBUG: Jumps since warranty: %d, chance of failure (if > 0): 1/%d\nWarranty expires: %s'):format(service_history.jumpcount,max_jumps_unserviced-service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period))) end
+	if ship:IsPlayer() then
+		print(('DEBUG: Jumps since warranty: %d, chance of failure (if > 0): 1/%d\nWarranty expires: %s'):format(service_history.jumpcount,max_jumps_unserviced-service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period)))
+	else
+		return -- Don't care about NPC ships
+	end
 	local saved_by_this_guy = savedByCrew(ship)
-	if ship:IsPlayer() and (service_history.lastdate + service_history.service_period < Game.time) and not saved_by_this_guy then
+	if (service_history.lastdate + service_history.service_period < Game.time) and not saved_by_this_guy then
 		service_history.jumpcount = service_history.jumpcount + 1
 		if (service_history.jumpcount > max_jumps_unserviced) or (Engine.rand:Integer(max_jumps_unserviced - service_history.jumpcount) == 0) then
 			-- Destroy the engine
