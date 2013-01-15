@@ -232,9 +232,8 @@ public:
 	double GetFuelReserve() const { return m_reserveFuel; }
 	void SetFuelReserve(const double f) { m_reserveFuel = Clamp(f, 0.0, 1.0); }
 
-	double GetFuelUseRate();
-	double GetEffectiveExhaustVelocity(double thrusterFuelUse);
-	double GetSpeedReachedWithFuel();
+	double GetFuelUseRate() const;
+	double GetSpeedReachedWithFuel() const;
 
 	void EnterSystem();
 

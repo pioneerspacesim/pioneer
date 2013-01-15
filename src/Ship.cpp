@@ -263,22 +263,15 @@ void Ship::UpdateMass()
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
 }
 
-// returns velocity of engine exhausts in m/s
-double Ship::GetEffectiveExhaustVelocity(double thrusterFuelUse) {
-	double denominator = GetShipType().fuelTankMass * thrusterFuelUse * 10;
-	return denominator > 0 ? -GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9;
-}
-
-// inverse of GetEffectiveExhaustVelocity()
-double Ship::GetFuelUseRate(void) {
-	double denominator = GetShipType().fuelTankMass * GetShipType().effectiveExhaustVelocity * 10;
+double Ship::GetFuelUseRate() const {
+	const double denominator = GetShipType().fuelTankMass * GetShipType().effectiveExhaustVelocity * 10;
 	return denominator > 0 ? -GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9;
 }
 
 // returns speed that can be reached using fuel minus reserve according to the Tsiolkovsky equation
-double Ship::GetSpeedReachedWithFuel()
+double Ship::GetSpeedReachedWithFuel() const
 {
-	double fuelmass = 1000*GetShipType().fuelTankMass * (m_thrusterFuel - m_reserveFuel);
+	const double fuelmass = 1000*GetShipType().fuelTankMass * (m_thrusterFuel - m_reserveFuel);
 	if (fuelmass < 0) return 0.0;
 	return GetShipType().effectiveExhaustVelocity * log(GetMass()/(GetMass()-fuelmass));
 }
