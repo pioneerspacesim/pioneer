@@ -149,7 +149,7 @@ private:
 	std::map<Body*,vector3d> m_projectedPos;
 
 	ScopedPtr<Camera> m_camera;
-   	ScopedPtr<InternalCameraController> m_internalCameraController;
+	ScopedPtr<InternalCameraController> m_internalCameraController;
 	ScopedPtr<ExternalCameraController> m_externalCameraController;
 	ScopedPtr<SiderealCameraController> m_siderealCameraController;
 	CameraController *m_activeCameraController; //one of the above
