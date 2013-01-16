@@ -497,8 +497,8 @@ local crewRoster = function ()
 				if Game.player.flightState ~= 'FLYING'
 				then
 					feedback:SetText(({
-						LANDED = t('You must request launch clearance first, Commander.'),
-						DOCKED = t('You must launch first, Commander.'),
+						DOCKED = t('You must request launch clearance first, Commander.'),
+						LANDED = t('You must launch first, Commander.'),
 						HYPERSPACE = t('We are in hyperspace, Commander.'),
 						DOCKING = t('The ship is under station control, Commander.'),
 					})[Game.player.flightState])
@@ -520,8 +520,8 @@ local crewRoster = function ()
 				if Game.player.flightState ~= 'FLYING'
 				then
 					feedback:SetText(({
-						LANDED = t('You must request launch clearance first, Commander.'),
-						DOCKED = t('You must launch first, Commander.'),
+						DOCKED = t('You must request launch clearance first, Commander.'),
+						LANDED = t('You must launch first, Commander.'),
 						HYPERSPACE = t('We are in hyperspace, Commander.'),
 						DOCKING = t('The ship is under station control, Commander.'),
 					})[Game.player.flightState])
