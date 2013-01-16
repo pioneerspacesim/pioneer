@@ -24,6 +24,8 @@ Alpha 31
 
    * Internal changes
      * Separate station defs from LMR station models (#1913, #1931, #1934)
+     * Cameras are no longer attached to a body, and World View camera
+       controllers are no longer derived from Camera (#1889)
 
 Alpha 30
 

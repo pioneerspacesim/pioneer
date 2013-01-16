@@ -13,7 +13,6 @@
 
 /*
  * Set current camera offset to vector,
- * it will also make the camera body visible
  * (the offset will reset when switching cameras)
  *
  * Dev.SetCameraOffset(x, y, z)
@@ -22,12 +21,11 @@ static int l_dev_set_camera_offset(lua_State *l)
 {
 	if (!Pi::worldView)
 		return luaL_error(l, "Dev.SetCameraOffset only works when there is a game running");
-	Camera *cam = Pi::worldView->GetActiveCamera();
+	CameraController *cam = Pi::worldView->GetCameraController();
 	const float x = luaL_checknumber(l, 1);
 	const float y = luaL_checknumber(l, 2);
 	const float z = luaL_checknumber(l, 3);
 	cam->SetPosition(vector3d(x, y, z));
-	cam->SetBodyVisible(true);
 	return 0;
 }
 

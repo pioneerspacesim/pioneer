@@ -20,7 +20,7 @@ class Space;
 
 class Frame {
 public:
-	enum { TEMP_VIEWING=1, FLAG_ROTATING=(1<<1), FLAG_HAS_ROT=(1<<2) };
+	enum { FLAG_ROTATING=(1<<1), FLAG_HAS_ROT=(1<<2) };
 
 	Frame();
 	Frame(Frame *parent, const char *label);

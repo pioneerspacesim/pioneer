@@ -17,8 +17,7 @@
 
 using namespace Graphics;
 
-Camera::Camera(const Body *body, float width, float height, float fovY, float znear, float zfar) :
-	m_body(body),
+Camera::Camera(float width, float height, float fovY, float znear, float zfar) :
 	m_width(width),
 	m_height(height),
 	m_fovAng(fovY),
@@ -27,28 +26,18 @@ Camera::Camera(const Body *body, float width, float height, float fovY, float zn
 	m_frustum(m_width, m_height, m_fovAng, znear, zfar),
 	m_pos(0.0),
 	m_orient(matrix3x3d::Identity()),
+	m_frame(0),
 	m_camFrame(0),
-	m_showCameraBody(true),
 	m_renderer(0)
 {
-	m_onBodyDeletedConnection = m_body->onDelete.connect(sigc::mem_fun(this, &Camera::OnBodyDeleted));
 }
 
 Camera::~Camera()
 {
-	if (m_onBodyDeletedConnection.connected())
-		m_onBodyDeletedConnection.disconnect();
-
 	if (m_camFrame) {
-		m_body->GetFrame()->RemoveChild(m_camFrame);
+		m_frame->RemoveChild(m_camFrame);
 		delete m_camFrame;
 	}
-}
-
-void Camera::OnBodyDeleted()
-{
-	m_onBodyDeletedConnection.disconnect();
-	m_body = 0;
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::LightSource> &lights)
@@ -76,16 +65,14 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 
 void Camera::Update()
 {
-	if (!m_body) return;
+	if (!m_frame) return;
 
-	// make temporary camera frame at the body
-	m_camFrame = new Frame(m_body->GetFrame(), "camera", Frame::TEMP_VIEWING | Frame::FLAG_ROTATING);
+	// make temporary camera frame
+	m_camFrame = new Frame(m_frame, "camera", Frame::FLAG_ROTATING);
 
-	// interpolate between last physics tick position and current one,
-	// to remove temporal aliasing
-	const matrix3x3d &m = m_body->GetInterpOrient();
-	m_camFrame->SetOrient(m * m_orient);
-	m_camFrame->SetPosition(m * m_pos + m_body->GetInterpPosition());
+	// move and orient it to the camera position
+	m_camFrame->SetOrient(m_orient);
+	m_camFrame->SetPosition(m_pos);
 
 	// make sure old orient and interpolated orient (rendering orient) are not rubbish
 	m_camFrame->ClearMovement();
@@ -110,9 +97,9 @@ void Camera::Update()
 	m_sortedBodies.sort();
 }
 
-void Camera::Draw(Renderer *renderer)
+void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 {
-	if (!m_body) return;
+	if (!m_camFrame) return;
 	if (!renderer) return;
 
 	m_renderer = renderer;
@@ -177,7 +164,9 @@ void Camera::Draw(Renderer *renderer)
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
 
-		if (attrs->body == GetBody() && !m_showCameraBody) continue;
+		// explicitly exclude a single body if specified (eg player)
+		if (attrs->body == excludeBody)
+			continue;
 
 		double rad = attrs->body->GetClipRadius();
 		if (!m_frustum.TestPointInfinite((*i).viewCoords, rad))
@@ -198,7 +187,7 @@ void Camera::Draw(Renderer *renderer)
 	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
 	UnbindAllBuffers();
 
-	m_body->GetFrame()->RemoveChild(m_camFrame);
+	m_frame->RemoveChild(m_camFrame);
 	delete m_camFrame;
 	m_camFrame = 0;
 
