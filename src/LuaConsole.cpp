@@ -248,14 +248,8 @@ void LuaConsole::UpdateCompletion(const std::string & statement) {
 	}
 	if (lua_istable(l, -1))
 		fetch_keys_from_table(l, -1, chunks.top(), m_completionList, method);
-	if (lua_getmetatable(l, -1)) {
-		try {
-			fetch_keys_from_metatable(l, -1, chunks.top(), m_completionList, method);
-		} catch (RecursionLimit &) {
-			AddOutput("Warning: The recursion limit has been hit during the completion run.");
-			AddOutput("         There is most likely a recursion within the metatable structure.");
-		}
-	}
+	else
+		LuaObjectBase::GetNames(m_completionList, chunks.top(), method);
 	if(!m_completionList.empty()) {
 		std::sort(m_completionList.begin(), m_completionList.end());
 		m_completionList.erase(std::unique(m_completionList.begin(), m_completionList.end()), m_completionList.end());

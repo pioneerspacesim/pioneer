@@ -353,6 +353,58 @@ static int dispatch_index(lua_State *l)
 	return 0;
 }
 
+void LuaObjectBase::GetNames(std::vector<std::string> &names, const std::string &prefix, bool methodsOnly)
+{
+	// never show hidden names
+	if (prefix[0] == '_')
+		return;
+
+	lua_State *l = Lua::manager->GetLuaState();
+
+	// XXX only handles userdata so far
+	assert(lua_isuserdata(l, -1));
+
+	LUA_DEBUG_START(l);
+
+	lua_getmetatable(l, -1);
+	while (1) {
+		get_next_method_table(l);
+
+		lua_pushnil(l);
+		while (lua_next(l, -2)) {
+			const std::string name(lua_tostring(l, -2));
+
+			// only include callable things if requested
+			if (methodsOnly && lua_type(l, -1) != LUA_TFUNCTION) {
+				lua_pop(l, 1);
+				continue;
+			}
+
+			// try to match directly
+			if (prefix.size() <= name.size() && name.substr(0, prefix.size()) == prefix)
+				names.push_back(name.substr(prefix.size()));
+
+			else {
+				// no match, try to match a magic attribute
+				const std::string attrPrefix("__attribute_"+prefix);
+				if (attrPrefix.size() <= name.size() && name.substr(0, attrPrefix.size()) == attrPrefix)
+					names.push_back(name.substr(attrPrefix.size()));
+			}
+
+			lua_pop(l, 1);
+		}
+
+		lua_pop(l, 1);
+
+		if (lua_isnil(l, -1))
+			break;
+	}
+
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
+}
+
 static int secure_trampoline(lua_State *l)
 {
 	// walk the stack
