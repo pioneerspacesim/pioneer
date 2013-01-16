@@ -580,34 +580,12 @@ YAW
     Kitér
 MISSILE
     rakéta
-HARMLESS
-    Ártalmatlan
-MOSTLY_HARMLESS
-    Jobbára ártalmatlan
-POOR
-    Gyenge
-AVERAGE
-    Átlagos
-ABOVE_AVERAGE
-    Átlag feletti
-COMPETENT
-    Versenyképes
-DANGEROUS
-    Veszélyes
-DEADLY
-    Halálos
-ELITE
-    ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Az univerzum evolúciószimulálása:  %age{f.1} milliárd év ;-)
 TOMBSTONE_EPITAPH
     RIP OLD BEAN
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Pioneer pilótakézikönyv
-RIGHT_ON_COMMANDER
-    Nagyszerű, parancsnok! Fejlődött a harci képessége!
 ALERT_CANCELLED
     Riadó visszavonva.
 SHIP_DETECTED_NEARBY
