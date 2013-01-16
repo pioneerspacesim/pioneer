@@ -357,7 +357,6 @@ static void get_names_from_table(lua_State *l, std::vector<std::string> &names, 
 {
 	lua_pushnil(l);
 	while (lua_next(l, -2)) {
-		const std::string name(lua_tostring(l, -2));
 
 		// only include callable things if requested
 		if (methodsOnly && lua_type(l, -1) != LUA_TFUNCTION) {
@@ -365,16 +364,20 @@ static void get_names_from_table(lua_State *l, std::vector<std::string> &names, 
 			continue;
 		}
 
-		// try to match directly
-		if (prefix.size() <= name.size() && name.substr(0, prefix.size()) == prefix)
-			names.push_back(name.substr(prefix.size()));
+		std::string name(lua_tostring(l, -2));
 
-		else {
-			// no match, try to match a magic attribute
-			const std::string attrPrefix("__attribute_"+prefix);
-			if (attrPrefix.size() <= name.size() && name.substr(0, attrPrefix.size()) == attrPrefix)
-				names.push_back(name.substr(attrPrefix.size()));
+		// strip off magic attribute prefix
+		if (name.substr(0, 12) == "__attribute_")
+			name = name.substr(12);
+
+		// anything else starting with an underscore is hidden
+		else if (name[0] == '_') {
+			lua_pop(l, 1);
+			continue;
 		}
+
+		if (name.substr(0, prefix.size()) == prefix)
+			names.push_back(name.substr(prefix.size()));
 
 		lua_pop(l, 1);
 	}
