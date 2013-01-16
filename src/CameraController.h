@@ -1,17 +1,18 @@
 // Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _WORLDVIEWCAMERA_H
-#define _WORLDVIEWCAMERA_H
-/*
- * Front, rear, external etc. cameras used by WorldView.
- */
-#include "Camera.h"
+#ifndef CAMERACONTROLLER_H
+#define CAMERACONTROLLER_H
+
+#include "vector3.h"
+#include "matrix4x4.h"
 #include "Lang.h"
+#include "Serializer.h"
 
 class Ship;
+class Camera;
 
-class WorldViewCamera : public Camera
+class CameraController
 {
 public:
 	enum Type { //can be used for serialization & identification
@@ -20,16 +21,35 @@ public:
 		SIDEREAL
 	};
 
-	//it is not strictly necessary, but WW cameras are now restricted to Ships
-	WorldViewCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
+	CameraController(Camera *camera, const Ship *ship);
+	virtual ~CameraController() {}
+
 	virtual Type GetType() const = 0;
 	virtual const char *GetName() const { return ""; }
 	virtual void Save(Serializer::Writer &wr) { }
 	virtual void Load(Serializer::Reader &rd) { }
 	virtual bool IsExternal() const { return false; }
+
+	// camera position relative to the body
+	void SetPosition(const vector3d &pos) { m_pos = pos; }
+	vector3d GetPosition() const { return m_pos; }
+
+	// camera orientation relative to the body
+	void SetOrient(const matrix3x3d &orient) { m_orient = orient; }
+	const matrix3x3d &GetOrient() const { return m_orient; }
+
+	virtual void Update();
+
+	const Ship *GetShip() const { return m_ship; }
+
+private:
+	Camera *m_camera;
+	const Ship *m_ship;
+	vector3d m_pos;
+	matrix3x3d m_orient;
 };
 
-class InternalCamera : public WorldViewCamera {
+class InternalCameraController : public CameraController {
 public:
 	enum Mode {
 		MODE_FRONT,
@@ -40,23 +60,27 @@ public:
 		MODE_BOTTOM
 	};
 
-	InternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
+	InternalCameraController(Camera *camera, const Ship *ship);
+
 	Type GetType() const { return INTERNAL; }
 	const char *GetName() const { return m_name; }
 	void SetMode(Mode m);
 	Mode GetMode() const { return m_mode; }
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
+
+	virtual void Update();
+
 private:
-	void OnShipFlavourChanged(const Ship *s);
 	Mode m_mode;
 	const char *m_name;
 };
 
-class MoveableCamera : public WorldViewCamera {
+class MoveableCameraController : public CameraController {
 public:
-	MoveableCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip) :
-		WorldViewCamera(s, size, fovY, nearClip, farClip) {}
+	MoveableCameraController(Camera *camera, const Ship *ship) :
+		CameraController(camera, ship) {}
+
 	virtual void RollLeft(float frameTime) { }
 	virtual void RollRight(float frameTime) { }
 	virtual void RotateDown(float frameTime) { }
@@ -73,14 +97,13 @@ public:
 	/// Animated zoom update (on each frame), primarily designed for mouse wheel.
 	virtual void ZoomEventUpdate(float frameTime) { }
 	virtual void Reset() { }
-	//set translation & orientation
-	virtual void UpdateTransform() { }
 };
 
 // Zoomable, rotatable orbit camera, always looks at the ship
-class ExternalCamera : public MoveableCamera {
+class ExternalCameraController : public MoveableCameraController {
 public:
-	ExternalCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
+	ExternalCameraController(Camera *camera, const Ship *ship);
+
 	Type GetType() const { return EXTERNAL; }
 	const char *GetName() const { return Lang::EXTERNAL_VIEW; }
 
@@ -93,14 +116,17 @@ public:
 	void ZoomEvent(float amount);
 	void ZoomEventUpdate(float frameTime);
 	void Reset();
-	void UpdateTransform();
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
 	bool IsExternal() const { return true; }
 	void SetRotationAngles(double x, double y) {
 		m_rotX = x;
 		m_rotY = y;
 	}
+
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
+
+	void Update();
+
 private:
 	double m_dist, m_distTo;
 	double m_rotX; //vertical rot
@@ -109,9 +135,10 @@ private:
 };
 
 // Much like external camera, but does not turn when the ship turns
-class SiderealCamera : public MoveableCamera {
+class SiderealCameraController : public MoveableCameraController {
 public:
-	SiderealCamera(const Ship *s, const vector2f &size, float fovY, float nearClip, float farClip);
+	SiderealCameraController(Camera *camera, const Ship *ship);
+
 	Type GetType() const { return SIDEREAL; }
 	const char *GetName() const { return Lang::SIDEREAL_VIEW; }
 
@@ -126,10 +153,13 @@ public:
 	void ZoomEvent(float amount);
 	void ZoomEventUpdate(float frameTime);
 	void Reset();
-	void UpdateTransform();
 	bool IsExternal() const { return true; }
+
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
+
+	void Update();
+
 private:
 	double m_dist, m_distTo;
 	matrix3x3d m_sidOrient;
