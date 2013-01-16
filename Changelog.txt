@@ -10,6 +10,7 @@ Alpha 31
      * Converted standard building set to SGModel (#1923)
      * Removed long-unused building models (#1923)
      * Removed per-light ambient color and building fade (#1930)
+     * Ship thrust and fuel tank size have been rebalanced (#1689)
 
    * Model changes
      * Handle missing material definitions by providing a basic white default
@@ -18,6 +19,8 @@ Alpha 31
    * Script changes
      * Remove deprecated Ship methods.SetPrimaryColour and SetSecondaryColour
        and shipType attribute
+     * Ship thruster efficiency can be specified with effective_exhaust_velocity value,
+       instead of thruster_fuel_use (either can be used) (#1689)
 
    * Internal changes
      * Separate station defs from LMR station models (#1913, #1931, #1934)

@@ -36,7 +36,13 @@ local onEnterSystem = function (player)
 		local ship = Space.SpawnShip(shipid, 8, 12)
 		ship:AddEquip(default_drive)
 		ship:AddEquip(laser)
-		ship:AIKill(Game.player)
+
+		local playerStats = player:GetStats()
+		local playerCargoCapacity = playerStats.maxCapacity
+		local probabilityPirateIsInterested = playerCargoCapacity/100.0
+		if Engine.rand:Number(1) < probabilityPirateIsInterested then
+			ship:AIKill(Game.player)
+		end
 	end
 end
 

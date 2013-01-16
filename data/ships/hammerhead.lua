@@ -4,13 +4,13 @@
 define_ship {
 	name='Hammerhead Heavy Freighter',
 	model='hh',
-	forward_thrust = 14e7,
-	reverse_thrust = 5e7,
-	up_thrust = 5e7,
-	down_thrust = 2e7,
-	left_thrust = 2e7,
-	right_thrust = 2e7,
-	angular_thrust = 50e7,
+	forward_thrust = 930e5,
+	reverse_thrust = 332e5,
+	up_thrust = 332e5,
+	down_thrust = 288e5,
+	left_thrust = 288e5,
+	right_thrust = 288e5,
+	angular_thrust = 6500e5,
 	camera_offset = v(-1,1.3,-54.5),
 	gun_mounts =
 	{
@@ -18,14 +18,16 @@ define_ship {
 		{ v(0,0,0), v(0,0,1), 5, 'HORIZONTAL' },
 	},
 	max_atmoshield = 0,
-	max_cargo = 1220,
+	max_cargo = 1600,
 	max_laser = 2,
 	max_missile = 12,
 	max_cargoscoop = 0,
-	capacity = 1220,
+	capacity = 1600,
 	hull_mass = 666,
-	fuel_tank_mass = 337, --full tank, tons in addition to hull_mass
-	thruster_fuel_use = 0.0003, --percent, per second (at max thrust, determined by strongest thruster)
+	fuel_tank_mass = 622,
+	-- Exhaust velocity Vc [m/s] is equivalent of engine efficiency and depend on used technology. Higher Vc means lower fuel consumption.
+	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.
+	effective_exhaust_velocity = 55712e3,
 	price = 3e6,
 	hyperdrive_class = 7,
 }
