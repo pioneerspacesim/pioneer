@@ -398,6 +398,18 @@ void LuaObjectBase::GetNames(std::vector<std::string> &names, const std::string 
 	LUA_DEBUG_START(l);
 
 	if (typeless) {
+		// Check the metatable indexes
+		lua_pushvalue(l, -1);
+		while(lua_getmetatable(l, -1)) {
+			luaL_getsubtable(l, -1, "__index");
+
+			// Replace the previous table to keep a stable stack size.
+			lua_copy(l, -1, -3);
+			lua_pop(l, 2);
+
+			get_names_from_table(l, names, prefix, methodsOnly);
+		}
+		lua_pop(l, 1);
 		get_names_from_table(l, names, prefix, methodsOnly);
 		return;
 	}
