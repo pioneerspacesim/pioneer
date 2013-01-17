@@ -6,6 +6,7 @@
 
 -- Get the translator function
 local t = Translate:GetTranslator()
+local wage_period = 604800 -- a week of seconds
 
 -- The contract for a crew member is a table containing their weekly wage,
 -- the date that they should next be paid and the amount outstanding if
@@ -27,13 +28,12 @@ local boostCrewSkills = function (crewMember)
 		'sensors',
 	}
 	for i = 1,#attribute do
-		-- Test with a penalty of four, to slow down their growth.
-		-- The worst get better more quickly using this technique.
-		-- They must fail a test roll, given the advantage of a quarter
-		-- of their skill, in order to improve that skill.
-		if not crewMember:TestRoll(attribute[i],math.floor(crewMember[attribute[i]] / 4)) then
-			-- They learned from their failure.
+		-- A carefully weighted test here. Scores will creep up to the low 50s.
+		if not crewMember:TestRoll(attribute[i],math.floor(crewMember[attribute[i]] * 0.2 - 10)) then
+			-- They learned from their failure,
 			crewMember[attribute[i]] = crewMember[attribute[i]]+1
+			-- but only on this skill.
+			break
 		end
 	end
 end
@@ -64,7 +64,7 @@ local scheduleWages = function (crewMember)
 
 		-- Schedule the next pay day, if there is one.
 		if contract.payday then
-			contract.payday = contract.payday + 604800 -- a week of seconds
+			contract.payday = contract.payday + wage_period
 			Timer:CallAt(contract.payday,payWages)
 		end
 	end
