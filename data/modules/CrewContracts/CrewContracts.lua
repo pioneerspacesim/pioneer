@@ -21,6 +21,10 @@ local wage_period = 604800 -- a week of seconds
 local boostCrewSkills = function (crewMember)
 	-- Each week, there's a small chance that a crew member gets better
 	-- at each skill, due to the experience of working on the ship.
+
+	-- If they fail their intelligence roll, they learn nothing.
+	if not crewMember:TestRoll('intelligence') then return end
+
 	local attribute = {
 		'engineering',
 		'piloting',

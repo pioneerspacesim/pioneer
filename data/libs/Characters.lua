@@ -240,6 +240,24 @@ Character = {
 	luck = 34,
 
 --
+-- Attribute: intelligence
+--
+-- Integer attribute for roll-play style dice tests.  Intelligence is intended to
+-- reflect the character's ability to learn.
+-- Tested with 4xD16; useful values are 4 (moron) to 65 (genius).
+-- Modifiers can cause numbers outside this range to become useful (see TestRoll).
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+	intelligence = 34,
+
+--
 -- Attribute: charisma
 --
 -- Integer attribute for roll-play style dice tests.  Charisma is intended to reflect
@@ -605,6 +623,7 @@ Character = {
 --
 	RollNew = function (self,crew)
 		self.luck = self.DiceRoll()
+		self.intelligence = self.DiceRoll()
 		self.charisma = self.DiceRoll()
 		self.notoriety = self.DiceRoll()
 		self.lawfulness = self.DiceRoll()
@@ -1038,6 +1057,7 @@ Character = {
 	PrintStats = function (self)
 		print('Name: ',self.name)
 		print('Luck: ',self.luck)
+		print('Intelligence: ',self.intelligence)
 		print('Charisma: ',self.charisma)
 		print('Notoriety: ',self.notoriety)
 		print('Lawfulness: ',self.lawfulness)
