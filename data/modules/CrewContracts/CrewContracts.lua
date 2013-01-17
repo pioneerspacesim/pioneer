@@ -46,7 +46,7 @@ local boostCrewSkills = function (crewMember)
 		-- A carefully weighted test here. Scores will creep up to the low 50s.
 		if not crewMember:TestRoll(attribute[i][1],math.floor(attribute[i][2] * 0.2 - 10)) then
 			-- They learned from their failure,
-			crewMember[attribute[i][1]] = attribute[i][2]+1
+			crewMember[attribute[i][1]] = crewMember[attribute[i][1]]+1
 			-- but only on this skill.
 			break
 		end
