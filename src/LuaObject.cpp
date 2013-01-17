@@ -417,6 +417,14 @@ void LuaObjectBase::GetNames(std::vector<std::string> &names, const std::string 
 		return;
 	}
 
+	// properties
+	if (!methodsOnly) {
+		lua_getuservalue(l, -1);
+		if (!lua_isnil(l, -1))
+			get_names_from_table(l, names, prefix, false);
+		lua_pop(l, 1);
+	}
+
 	lua_getmetatable(l, -1);
 	while (1) {
 		get_next_method_table(l);
