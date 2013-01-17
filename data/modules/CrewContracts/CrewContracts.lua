@@ -25,17 +25,28 @@ local boostCrewSkills = function (crewMember)
 	-- If they fail their intelligence roll, they learn nothing.
 	if not crewMember:TestRoll('intelligence') then return end
 
+	-- The attributes to be tested and possibly enhanced. These will be sorted
+	-- by their current value, but appear first in arbitrary order.
 	local attribute = {
-		'engineering',
-		'piloting',
-		'navigation',
-		'sensors',
+		{'engineering',crewMember.engineering},
+		{'piloting',crewMember.piloting},
+		{'navigation',crewMember.piloting},
+		{'sensors',crewMember.sensors},
 	}
+	table.sort(attribute,function (a,b) return a[2] > b[2] end)
+	-- The sorted attributes mean that the highest scoring attribute gets the
+	-- first opportunity for improvement. The next loop actually makes it harder
+	-- for the highest scoring attributes to improve, so if they fail, the next
+	-- one is given an opportunity. At most one attribute will be improved, and
+	-- the distribution means that, for example, a pilot will improve in piloting
+	-- first, but once that starts to get very good, the other skills will start
+	-- to see an improvement.
+
 	for i = 1,#attribute do
 		-- A carefully weighted test here. Scores will creep up to the low 50s.
-		if not crewMember:TestRoll(attribute[i],math.floor(crewMember[attribute[i]] * 0.2 - 10)) then
+		if not crewMember:TestRoll(attribute[i][1],math.floor(attribute[i][2] * 0.2 - 10)) then
 			-- They learned from their failure,
-			crewMember[attribute[i]] = crewMember[attribute[i]]+1
+			crewMember[attribute[i][1]] = attribute[i][2]+1
 			-- but only on this skill.
 			break
 		end
