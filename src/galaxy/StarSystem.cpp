@@ -2131,6 +2131,21 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	outTotalPop += m_population;
 }
 
+std::string gen_unique_station_name(SystemBody *sp, const StarSystem *system, MTRand &namerand) {
+	std::string name;
+	bool exit = false;
+	while (!exit) {
+		exit = true;
+		name = Pi::luaNameGen->BodyName(sp, namerand);
+		for (int i = 0 ; i < system->m_spaceStations.size() ; ++i)
+			if (system->m_spaceStations[i]->name == name) {
+				exit = false;
+				break;
+			}
+	}
+	return name;
+}
+
 void SystemBody::PopulateAddStations(StarSystem *system)
 {
 	for (unsigned int i=0; i<children.size(); i++) {
@@ -2177,7 +2192,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		sp->orbMin = sp->semiMajorAxis;
 		sp->orbMax = sp->semiMajorAxis;
 
-		sp->name = Pi::luaNameGen->BodyName(sp, namerand);
+		sp->name = gen_unique_station_name(sp, system, namerand);
 
 		pop -= rand.Fixed();
 		if (pop > 0) {
@@ -2186,7 +2201,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 			*sp2 = *sp;
 			sp2->path = path2;
 			sp2->orbit.rotMatrix = matrix3x3d::RotateZ(M_PI);
-			sp2->name = Pi::luaNameGen->BodyName(sp2, namerand);
+			sp2->name = gen_unique_station_name(sp, system, namerand);
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);
 		}
@@ -2205,7 +2220,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		sp->parent = this;
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
-		sp->name = Pi::luaNameGen->BodyName(sp, namerand);
+		sp->name = gen_unique_station_name(sp, system, namerand);
 		memset(&sp->orbit, 0, sizeof(Orbit));
 		position_settlement_on_planet(sp);
 		children.insert(children.begin(), sp);
