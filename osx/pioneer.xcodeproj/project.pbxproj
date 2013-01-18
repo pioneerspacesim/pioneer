@@ -107,6 +107,7 @@
 		4A305FD1151341170076D414 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A305FCC151341170076D414 /* FileSystem.cpp */; };
 		4A37073615A879D100E7E5F6 /* lookup3.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A37073315A879D100E7E5F6 /* lookup3.c */; };
 		4A3AE8E5158FD22200EB13DE /* LuaComms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A3AE8E3158FD22200EB13DE /* LuaComms.cpp */; };
+		4A4A86E916A992D600F81F18 /* CameraController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A86E716A992D600F81F18 /* CameraController.cpp */; };
 		4A4D25D8167335D9003BC9D5 /* Face.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D2167335D9003BC9D5 /* Face.cpp */; };
 		4A4D25D9167335D9003BC9D5 /* LuaFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */; };
 		4A4D25DA167335D9003BC9D5 /* LuaShipSpinner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D5167335D9003BC9D5 /* LuaShipSpinner.cpp */; };
@@ -374,7 +375,6 @@
 		4ACDB6D2167879AF0069FA03 /* DistanceFieldFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6D0167879AF0069FA03 /* DistanceFieldFont.cpp */; };
 		4ACDB6D416787A6A0069FA03 /* libassimp.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
 		4ACDB6D5167881AF0069FA03 /* libassimp.3.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
-		4ADA8B36152497AA00FCAD58 /* WorldViewCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA8B34152497AA00FCAD58 /* WorldViewCamera.cpp */; };
 		4ADB0D0C15C50DD900AE2123 /* TerrainHeightAsteroid2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */; };
 		4ADB0D0D15C50DD900AE2123 /* TerrainHeightAsteroid3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D0715C50DD900AE2123 /* TerrainHeightAsteroid3.cpp */; };
 		4ADB0D0E15C50DD900AE2123 /* TerrainHeightAsteroid4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D0815C50DD900AE2123 /* TerrainHeightAsteroid4.cpp */; };
@@ -403,6 +403,7 @@
 		4AE9706714369D7500424F91 /* LuaLang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AE9706514369D7500424F91 /* LuaLang.cpp */; };
 		4AEC8A1A15C7886A00B281C3 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AEC8A1815C7886A00B281C3 /* Light.cpp */; };
 		4AED721D14E1501D004D171E /* TerrainHeightMapped2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AED721C14E1501D004D171E /* TerrainHeightMapped2.cpp */; };
+		4AEE56DD16A44CD800AA1C53 /* SpaceStationType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AEE56DB16A44CD800AA1C53 /* SpaceStationType.cpp */; };
 		4AEEBC48162A499400C6EA6F /* libpng15.15.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A76111F1611A7B000A06F79 /* libpng15.15.dylib */; };
 		4AEEBC4A162A4A5700C6EA6F /* libXrandr.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AEEBC49162A4A5700C6EA6F /* libXrandr.2.dylib */; };
 		4AEEBC4C162A4ADC00C6EA6F /* libXext.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AEEBC4B162A4ADC00C6EA6F /* libXext.6.dylib */; };
@@ -682,6 +683,8 @@
 		4A37073415A879D100E7E5F6 /* lookup3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lookup3.h; sourceTree = "<group>"; };
 		4A3AE8E3158FD22200EB13DE /* LuaComms.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaComms.cpp; sourceTree = "<group>"; };
 		4A3AE8E4158FD22200EB13DE /* LuaComms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaComms.h; sourceTree = "<group>"; };
+		4A4A86E716A992D600F81F18 /* CameraController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CameraController.cpp; sourceTree = "<group>"; };
+		4A4A86E816A992D600F81F18 /* CameraController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraController.h; sourceTree = "<group>"; };
 		4A4D25D2167335D9003BC9D5 /* Face.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Face.cpp; sourceTree = "<group>"; };
 		4A4D25D3167335D9003BC9D5 /* Face.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Face.h; sourceTree = "<group>"; };
 		4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaFace.cpp; sourceTree = "<group>"; };
@@ -1167,8 +1170,6 @@
 		4ACDB6D0167879AF0069FA03 /* DistanceFieldFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DistanceFieldFont.cpp; sourceTree = "<group>"; };
 		4ACDB6D1167879AF0069FA03 /* DistanceFieldFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistanceFieldFont.h; sourceTree = "<group>"; };
 		4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.0.0.dylib; path = /opt/local/lib/libassimp.3.0.0.dylib; sourceTree = "<absolute>"; };
-		4ADA8B34152497AA00FCAD58 /* WorldViewCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldViewCamera.cpp; sourceTree = "<group>"; };
-		4ADA8B35152497AA00FCAD58 /* WorldViewCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldViewCamera.h; sourceTree = "<group>"; };
 		4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightAsteroid2.cpp; sourceTree = "<group>"; };
 		4ADB0D0715C50DD900AE2123 /* TerrainHeightAsteroid3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightAsteroid3.cpp; sourceTree = "<group>"; };
 		4ADB0D0815C50DD900AE2123 /* TerrainHeightAsteroid4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightAsteroid4.cpp; sourceTree = "<group>"; };
@@ -1206,6 +1207,8 @@
 		4AEC8A1815C7886A00B281C3 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
 		4AEC8A1915C7886A00B281C3 /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 		4AED721C14E1501D004D171E /* TerrainHeightMapped2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightMapped2.cpp; sourceTree = "<group>"; };
+		4AEE56DB16A44CD800AA1C53 /* SpaceStationType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpaceStationType.cpp; sourceTree = "<group>"; };
+		4AEE56DC16A44CD800AA1C53 /* SpaceStationType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpaceStationType.h; sourceTree = "<group>"; };
 		4AEEBC49162A4A5700C6EA6F /* libXrandr.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXrandr.2.dylib; path = ../../../../../opt/local/lib/libXrandr.2.dylib; sourceTree = "<group>"; };
 		4AEEBC4B162A4ADC00C6EA6F /* libXext.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXext.6.dylib; path = ../../../../../opt/local/lib/libXext.6.dylib; sourceTree = "<group>"; };
 		4AEEBC4F162A4B9B00C6EA6F /* libXrender.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXrender.1.dylib; path = ../../../../../opt/local/lib/libXrender.1.dylib; sourceTree = "<group>"; };
@@ -1583,6 +1586,8 @@
 				4A305FCB151341170076D414 /* ByteRange.h */,
 				4A84CB82146027DC0051C848 /* Camera.cpp */,
 				4A84CB83146027DC0051C848 /* Camera.h */,
+				4A4A86E716A992D600F81F18 /* CameraController.cpp */,
+				4A4A86E816A992D600F81F18 /* CameraController.h */,
 				4A6C4C0513532FC300FDD53F /* CargoBody.cpp */,
 				4A6C4C0613532FC300FDD53F /* CargoBody.h */,
 				4A24075513F5240F002A5C12 /* ChatForm.cpp */,
@@ -1817,6 +1822,8 @@
 				4A6C4D5E13532FC300FDD53F /* Space.h */,
 				4A6C4D5F13532FC300FDD53F /* SpaceStation.cpp */,
 				4A6C4D6013532FC300FDD53F /* SpaceStation.h */,
+				4AEE56DB16A44CD800AA1C53 /* SpaceStationType.cpp */,
+				4AEE56DC16A44CD800AA1C53 /* SpaceStationType.h */,
 				4A6C4D6113532FC300FDD53F /* SpaceStationView.cpp */,
 				4A6C4D6213532FC300FDD53F /* SpaceStationView.h */,
 				4A6C4D6313532FC300FDD53F /* Star.cpp */,
@@ -1866,8 +1873,6 @@
 				4A6C4D7113532FC300FDD53F /* View.h */,
 				4A6C4D7213532FC300FDD53F /* WorldView.cpp */,
 				4A6C4D7313532FC300FDD53F /* WorldView.h */,
-				4ADA8B34152497AA00FCAD58 /* WorldViewCamera.cpp */,
-				4ADA8B35152497AA00FCAD58 /* WorldViewCamera.h */,
 			);
 			name = src;
 			path = ../src;
@@ -2518,7 +2523,6 @@
 				4A9174FB15187B97006A15A9 /* TextureBuilder.cpp in Sources */,
 				4A9174FC15187B97006A15A9 /* TextureGL.cpp in Sources */,
 				4A9174FE15187C17006A15A9 /* Color.cpp in Sources */,
-				4ADA8B36152497AA00FCAD58 /* WorldViewCamera.cpp in Sources */,
 				4A107C2F1525AB0D00EF9FAC /* CRC32.cpp in Sources */,
 				4A107C301525AB0D00EF9FAC /* ShipController.cpp in Sources */,
 				4ADC7B82152C703200E359B5 /* SDLWrappers.cpp in Sources */,
@@ -2657,6 +2661,8 @@
 				4ACDB6CE167878CE0069FA03 /* ModelCache.cpp in Sources */,
 				4ACDB6CF167878CE0069FA03 /* ModelViewer.cpp in Sources */,
 				4ACDB6D2167879AF0069FA03 /* DistanceFieldFont.cpp in Sources */,
+				4AEE56DD16A44CD800AA1C53 /* SpaceStationType.cpp in Sources */,
+				4A4A86E916A992D600F81F18 /* CameraController.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
