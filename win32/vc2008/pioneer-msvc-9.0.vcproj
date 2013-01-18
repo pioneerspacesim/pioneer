@@ -1927,6 +1927,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\CameraController.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\CameraController.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\CargoBody.cpp"
 				>
 			</File>
@@ -2851,6 +2859,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\SpaceStationType.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\SpaceStationType.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\SpaceStationView.cpp"
 				>
 			</File>
@@ -3032,14 +3048,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\WorldView.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\WorldViewCamera.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\WorldViewCamera.h"
 				>
 			</File>
 		</Filter>

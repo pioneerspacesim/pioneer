@@ -12,6 +12,9 @@ Alpha 31
      * Removed per-light ambient color and building fade (#1930)
      * Ship thrust and fuel tank size have been rebalanced (#1689)
 
+   * Fixes
+     * Collisions with stars now work again (#1942)
+
    * Model changes
      * Handle missing material definitions by providing a basic white default
        material if none are specified (#1817, #1916)
