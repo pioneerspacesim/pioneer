@@ -4,6 +4,7 @@
 #include "LuaConstants.h"
 #include "LuaUtils.h"
 
+#include "EnumStrings.h"
 #include "enum_table.h"
 
 /*
@@ -74,31 +75,17 @@ int LuaConstants::GetConstantFromArg(lua_State *l, const char *ns, int idx)
 
 int LuaConstants::GetConstant(lua_State *l, const char *ns, const char *name)
 {
-	lua_pushstring(l, name);
-	int val = GetConstantFromArg(l, ns, -1);
-	lua_pop(l, 1);
-	return val;
+	int value = EnumStrings::GetValue(ns, name);
+	if (value < 0)
+		luaL_error(l, "couldn't find constant with name '%s' in namespace '%s\n", name, ns);
+	return value;
 }
 
 const char *LuaConstants::GetConstantString(lua_State *l, const char *ns, int value)
 {
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiConstants");
-	assert(lua_istable(l, -1));
-
-	lua_pushstring(l, ns);
-	lua_rawget(l, -2);
-	assert(lua_istable(l, -1));
-
-	lua_pushinteger(l, value);
-	lua_rawget(l, -2);
-	if (lua_isnil(l, -1))
+	const char *name = EnumStrings::GetString(ns, value);
+	if (!name)
 		luaL_error(l, "couldn't find constant with value %d in namespace '%s'\n", value, ns);
-	assert(lua_isstring(l, -1));
-
-	const char *name = lua_tostring(l, -1);
-
-	lua_pop(l, 3);
-
 	return name;
 }
 
