@@ -74,6 +74,7 @@
 #include "Tombstone.h"
 #include "UIView.h"
 #include "WorldView.h"
+#include "EnumStrings.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
@@ -342,6 +343,7 @@ void Pi::Init()
 	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), Lang::GetCurrentLanguage()));
 
 	LuaInit();
+	EnumStrings::Init();
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
