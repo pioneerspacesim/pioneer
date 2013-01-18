@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "enum_table.h"
+#include <stdio.h>
 #include <string>
 #include <map>
 
@@ -15,6 +16,7 @@ struct EnumTable {
 	const EnumItem *item;
 };
 static const EnumTable enumTables[] = {
+	{ "BodyType",              ENUM_BodyType },
 	{ "BodySuperType",         ENUM_BodySuperType },
 	{ "PolitCrime",            ENUM_PolitCrime },
 	{ "PolitEcon",             ENUM_PolitEcon },
