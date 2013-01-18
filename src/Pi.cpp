@@ -248,14 +248,14 @@ static void LuaInitGame() {
 
 ModelBase *Pi::FindModel(const std::string &name)
 {
-	// Try LMR models first, then NewModel
+	// Try NewModel models first, then LMR
 	ModelBase *m = 0;
 	try {
-		m = LmrLookupModelByName(name.c_str());
-	} catch (LmrModelNotFoundException) {
+		m = Pi::modelCache->FindModel(name);
+	} catch (ModelCache::ModelNotFoundException) {
 		try {
-			m = Pi::modelCache->FindModel(name);
-		} catch (ModelCache::ModelNotFoundException) {
+			m = LmrLookupModelByName(name.c_str());
+		} catch (LmrModelNotFoundException) {
 			Error("Could not find model %s", name.c_str());
 		}
 	}
