@@ -333,6 +333,7 @@ endif
 lmrmodelviewer_SOURCES = \
 	Color.cpp \
 	CRC32.cpp \
+	EnumStrings.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
 	FontCache.cpp \
