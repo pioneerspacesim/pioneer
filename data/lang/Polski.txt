@@ -602,34 +602,12 @@ YAW
     Odchylenie
 MISSILE
     pocisk
-HARMLESS
-    Nieszkodliwy
-MOSTLY_HARMLESS
-    Przeważnie nieszkodliwy
-POOR
-    Żółtodziób
-AVERAGE
-    Przeciętny
-ABOVE_AVERAGE
-    Ponadprzeciętny
-COMPETENT
-    Fachowiec
-DANGEROUS
-    Groźny
-DEADLY
-    Zabójczy
-ELITE
-    ELITA
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Symulacja ewolucji wszechświata: %age{f.1} miliardów lat ;-)
 TOMBSTONE_EPITAPH
     SPOCZYWAJ W POKOJU
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Gildia Pilotów Pioniera
-RIGHT_ON_COMMANDER
-    Dobra robota komandorze! Twoja ranga bojowa została podniesiona!
 ALERT_CANCELLED
     Alarm odwołany.
 SHIP_DETECTED_NEARBY

@@ -293,11 +293,8 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 		m_stats.hull_mass_left -= dam;
 		if (m_stats.hull_mass_left < 0) {
 			if (attacker) {
-				if (attacker->IsType(Object::BODY)) {
-					// XXX remove this call. kill stuff (including elite rating) should be in a script
-					static_cast<Body*>(attacker)->OnHaveKilled(this);
+				if (attacker->IsType(Object::BODY))
 					LuaEvent::Queue("onShipDestroyed", this, dynamic_cast<Body*>(attacker));
-				}
 
 				if (attacker->IsType(Object::SHIP))
 					Polit::NotifyOfCrime(static_cast<Ship*>(attacker), Polit::CRIME_MURDER);

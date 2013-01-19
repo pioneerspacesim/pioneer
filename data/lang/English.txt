@@ -602,34 +602,12 @@ YAW
     Yaw
 MISSILE
     missile
-HARMLESS
-    Harmless
-MOSTLY_HARMLESS
-    Mostly harmless
-POOR
-    Poor
-AVERAGE
-    Average
-ABOVE_AVERAGE
-    Above Average
-COMPETENT
-    Competent
-DANGEROUS
-    Dangerous
-DEADLY
-    Deadly
-ELITE
-    ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulating evolution of the universe: %age{f.1} billion years ;-)
 TOMBSTONE_EPITAPH
     RIP OLD BEAN
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Pioneering Pilots' Guild
-RIGHT_ON_COMMANDER
-    Well done commander! Your combat rating has improved!
 ALERT_CANCELLED
     Alert cancelled.
 SHIP_DETECTED_NEARBY

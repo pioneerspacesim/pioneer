@@ -29,6 +29,7 @@ Alpha 31
      * Separate station defs from LMR station models (#1913, #1931, #1934)
      * Cameras are no longer attached to a body, and World View camera
        controllers are no longer derived from Camera (#1889)
+     * Remove kill count from core (#1944)
 
 Alpha 30
 
