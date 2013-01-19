@@ -1,5 +1,8 @@
 Alpha 31
 
+   * New features
+     * Converted Lanner ship to SGModel (#1957)
+
    * Minor changes and tweaks
      * Cargo scooping now only requires a collision against the ship rather
        than a specific part of it (again) (#1922)
