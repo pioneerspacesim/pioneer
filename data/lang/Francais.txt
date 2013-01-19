@@ -582,34 +582,12 @@ YAW
     Yaw
 MISSILE
     missile
-HARMLESS
-    Innoffensif
-MOSTLY_HARMLESS
-    Quasi innoffensif
-POOR
-    Faible
-AVERAGE
-    Moyen
-ABOVE_AVERAGE
-    Au-dessus de la moyenne
-COMPETENT
-    Compétent
-DANGEROUS
-    Dangereux
-DEADLY
-    Mortel
-ELITE
-    ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulation de l'évolution de l'univers : %age{f.1} milliards d'années ;-)
 TOMBSTONE_EPITAPH
     Paix à ton âme!
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Guilde des Pilotes pionniers
-RIGHT_ON_COMMANDER
-    Bien joué commandant! Votre niveau de combat a augmenté!
 ALERT_CANCELLED
     Alerte annulée.
 SHIP_DETECTED_NEARBY

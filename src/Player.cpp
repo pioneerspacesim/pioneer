@@ -23,16 +23,14 @@ static Sound::Event s_soundHyperdrive;
 Player::Player(ShipType::Id shipId): Ship(shipId)
 {
 	SetController(new PlayerShipController());
-	m_killCount = 0;
-	m_knownKillCount = 0;
 }
 
 void Player::Save(Serializer::Writer &wr, Space *space)
 {
 	Ship::Save(wr, space);
 	MarketAgent::Save(wr);
-	wr.Int32(m_killCount);
-	wr.Int32(m_knownKillCount);
+	wr.Int32(0); // kill count (preserving save-file compatibility)
+	wr.Int32(0); // known kill count (preserving save-file compatibility)
 }
 
 void Player::Load(Serializer::Reader &rd, Space *space)
@@ -40,17 +38,8 @@ void Player::Load(Serializer::Reader &rd, Space *space)
 	Pi::player = this;
 	Ship::Load(rd, space);
 	MarketAgent::Load(rd);
-	m_killCount = rd.Int32();
-	m_knownKillCount = rd.Int32();
-}
-
-//XXX remove + move to lua
-void Player::OnHaveKilled(Body *guyWeKilled)
-{
-	if (guyWeKilled->IsType(Object::SHIP)) {
-		printf("Well done. you killed some poor fucker\n");
-		m_killCount++;
-	}
+	rd.Int32(); // kill count (preserving save-file compatability)
+	rd.Int32(); // known kill count (preserving save-file compatability)
 }
 
 //XXX perhaps remove this, the sound is very annoying
@@ -67,14 +56,6 @@ bool Player::OnDamage(Object *attacker, float kgDamage)
 void Player::SetDockedWith(SpaceStation *s, int port)
 {
 	Ship::SetDockedWith(s, port);
-	if (s) {
-		if (Pi::CombatRating(m_killCount) > Pi::CombatRating(m_knownKillCount)) {
-			Pi::cpan->MsgLog()->ImportantMessage(Lang::PIONEERING_PILOTS_GUILD, Lang::RIGHT_ON_COMMANDER);
-		}
-		m_knownKillCount = m_killCount;
-
-		Pi::SetView(Pi::spaceStationView);
-	}
 }
 
 //XXX all ships should make this sound

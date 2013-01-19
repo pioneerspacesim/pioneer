@@ -39,7 +39,17 @@ Translate:Add({
 		['Rank:'] = 'Rank:',
 		['Male'] = 'Male',
 		['Female'] = 'Female',
-		
+
+		['HARMLESS'] = 'Harmless',
+		['MOSTLY_HARMLESS'] = 'Mostly Harmless',
+		['POOR'] = 'Poor',
+		['AVERAGE'] = 'Average',
+		['ABOVE_AVERAGE'] = 'Above Average',
+		['COMPETENT'] = 'Competent',
+		['DANGEROUS'] = 'Dangerous',
+		['DEADLY'] = 'Deadly',
+		['ELITE'] = 'ELITE',
+
 		-- Economy & Trade
 		['Economy & Trade'] = 'Economy & Trade',
 		['Total: '] = 'Total: ',
@@ -104,6 +114,16 @@ Translate:Add({
 		['Kills:'] = 'Pokonanych:',
 		['Military'] = 'Status wojskowy',
 		['Rank:'] = 'Ranga:',
+
+		['HARMLESS'] = 'Nieszkodliwy',
+		['MOSTLY_HARMLESS'] = 'Przeważnie nieszkodliwy',
+		['POOR'] = 'Żółtodziób',
+		['AVERAGE'] = 'Przeciętny',
+		['ABOVE_AVERAGE'] = 'Ponadprzeciętny',
+		['COMPETENT'] = 'Fachowiec',
+		['DANGEROUS'] = 'Groźny',
+		['DEADLY'] = 'Zabójczy',
+		['ELITE'] = 'ELITA',
 		
 		-- Economy & Trade
 		['Economy & Trade'] = 'Ekonomia i Handel',
@@ -171,6 +191,16 @@ Translate:Add({
 		['Male'] = 'Hombre',
 		['Female'] = 'Mujer',
 
+		['HARMLESS'] = 'Inofensivo',
+		['MOSTLY_HARMLESS'] = 'En su mayoría inofensivo',
+		['POOR'] = 'Pobre',
+		['AVERAGE'] = 'Standard',
+		['ABOVE_AVERAGE'] = 'Por encima de la media',
+		['COMPETENT'] = 'Competente',
+		['DANGEROUS'] = 'Peligroso',
+		['DEADLY'] = 'Mortal',
+		['ELITE'] = 'ELITE',
+
 		-- Economy & Trade
 		['Economy & Trade'] = 'Economía & Comercio',
 		['Total: '] = 'Total: ',
@@ -215,6 +245,17 @@ Translate:Add({
 
 		-- Load dialog
 		['Select game to load...'] = 'Válassz betöltendö fájlt...',
+
+		-- Personal Information
+		['HARMLESS'] = 'Ártalmatlan',
+		['MOSTLY_HARMLESS'] = 'Jobbára ártalmatlan',
+		['POOR'] = 'Gyenge',
+		['AVERAGE'] = 'Átlagos',
+		['ABOVE_AVERAGE'] = 'Átlag feletti',
+		['COMPETENT'] = 'Versenyképes',
+		['DANGEROUS'] = 'Veszélyes',
+		['DEADLY'] = 'Halálos',
+		['ELITE'] = 'ELITE',
 	}
 })
 
@@ -256,6 +297,16 @@ Translate:Add({
 		['Rank:'] = 'Ранг:',
 		['Male'] = 'Мужчина',
 		['Female'] = 'Женщина',
+
+		['HARMLESS'] = 'Безобидный',
+		['MOSTLY_HARMLESS'] = 'Почти безобидный',
+		['POOR'] = 'Слабый',
+		['AVERAGE'] = 'Средний',
+		['ABOVE_AVERAGE'] = 'Выше среднего',
+		['COMPETENT'] = 'Умелый',
+		['DANGEROUS'] = 'Опасный',
+		['DEADLY'] = 'Смертельный',
+		['ELITE'] = 'ЭЛИТА',
 		
 		-- Economy & Trade
 		['Economy & Trade'] = 'Экономика и торговля',

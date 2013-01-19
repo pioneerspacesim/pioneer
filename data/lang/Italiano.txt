@@ -576,34 +576,12 @@ YAW
     Imbardata
 MISSILE
     missile
-HARMLESS
-    Innocuo
-MOSTLY_HARMLESS
-    Abbastanza innocuo
-POOR
-    Scarso
-AVERAGE
-    Mediocre
-ABOVE_AVERAGE
-    Sopra la media
-COMPETENT
-    Competente
-DANGEROUS
-    Pericoloso
-DEADLY
-    Mortale
-ELITE
-    ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Sto simulando l'evoluzione dell'Universo: %age{f.1} miliardi di anni ;-)
 TOMBSTONE_EPITAPH
     Riposa in Pace,\nVecchio Mio
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Confederazione Interstellare dei Piloti PIONEER
-RIGHT_ON_COMMANDER
-    Ben fatto Comandante! La Sua Classe di Combattimento è aumentata!
 ALERT_CANCELLED
     Allarme rientrato.
 SHIP_DETECTED_NEARBY
