@@ -20,8 +20,11 @@ specular 0 0 0
 emissive 0.7 0.7 0.7
 tex_diff lanner-diffuse.png
 
-mesh lanner.dae
+lod 50
+mesh lanner-mq.dae
 
+lod 1000
+mesh lanner.dae
 anim gear_down 1 100
 
 collision lanner-collision.obj
