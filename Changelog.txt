@@ -31,6 +31,8 @@ Alpha 31
      * Cameras are no longer attached to a body, and World View camera
        controllers are no longer derived from Camera (#1889)
      * Remove kill count from core (#1944)
+     * Intro & tombstone can now use SGModels (#1956)
+     * SGModels now have priority over LMR models of the same name (#1956)
 
 Alpha 30
 
