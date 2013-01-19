@@ -55,11 +55,11 @@ timedate &timedate::operator=(int stamp)
 {
 	int i = int(stamp) % 86400;
 
-	hour   = i / 3600; i %= 3600;
-	minute = i /   60; i %=   60;
-	second = i;
+	hour   = (i / 3600 + 24)%24; i %= 3600;
+	minute = (i /   60 + 60)%60; i %=   60;
+	second = (i+60)%60;
 
-	i = int(stamp) / 86400 + 1168410; // days since "year 0"
+	i = int(stamp) / 86400 + 1168410 - ((stamp < 0)?1:0); // days since "year 0"
 
 	int n400 = i / 146097; i %= 146097;
 	int n100 = i /  36524; i %=  36524;

@@ -4,13 +4,13 @@
 define_ship {
 	name='Turtle',
 	model='turtle',
-	forward_thrust = 10e6,
-	reverse_thrust = 10e6,
-	up_thrust = 10e6,
-	down_thrust = 10e6,
-	left_thrust = 10e6,
-	right_thrust = 10e6,
-	angular_thrust = 30e6,
+	forward_thrust = 165e5,
+	reverse_thrust = 165e5,
+	up_thrust = 165e5,
+	down_thrust = 165e5,
+	left_thrust = 165e5,
+	right_thrust = 165e5,
+	angular_thrust = 390e5,
 	camera_offset = v(0,-2,-16),
 	gun_mounts =
 	{
@@ -22,9 +22,11 @@ define_ship {
 	max_missile = 4,
 	max_cargoscoop = 0,
 	capacity = 90,
-	hull_mass = 50,
-	fuel_tank_mass = 5,
-	thruster_fuel_use = 0.0004,
+	hull_mass = 47,
+	fuel_tank_mass = 52,
+	-- Exhaust velocity Vc [m/s] is equivalent of engine efficiency and depend on used technology. Higher Vc means lower fuel consumption.
+	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.
+	effective_exhaust_velocity = 58226e3,
 	price = 250000,
 	hyperdrive_class = 3,
 }

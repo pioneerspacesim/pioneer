@@ -559,34 +559,12 @@ YAW
     Gier
 MISSILE
     raket
-HARMLESS
-    Ongevaarlijk
-MOSTLY_HARMLESS
-    Grotendeels Ongevaarlijk
-POOR
-    Armzalig
-AVERAGE
-    Gemiddeld
-ABOVE_AVERAGE
-    Bovengemiddeld
-COMPETENT
-    Competent
-DANGEROUS
-    Gevaarlijk
-DEADLY
-    Dodelijk
-ELITE
-    ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Bezig met simuleren: evolutie van het universum - %age{f.1} biljoen jaar ;-)
 TOMBSTONE_EPITAPH
     RIP OUDE KNAR
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Pionerend Piloten Gilde
-RIGHT_ON_COMMANDER
-    Goed gedaan commandant! Uw gevechtswaardering is verhoogd!
 ALERT_CANCELLED
     Alarm geannuleerd.
 SHIP_DETECTED_NEARBY

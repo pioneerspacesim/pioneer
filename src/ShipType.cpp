@@ -90,6 +90,12 @@ static void _get_vec_attrib(lua_State *L, const char *key, vector3d &output,
 	LUA_DEBUG_END(L, 0);
 }
 
+// returns velocity of engine exhausts in m/s
+static double GetEffectiveExhaustVelocity(double fuelTankMass, double thrusterFuelUse, double forwardThrust) {
+	double denominator = fuelTankMass * thrusterFuelUse * 10;
+	return fabs(denominator > 0 ? forwardThrust/denominator : 1e9);
+}
+
 static std::string s_currentShipFile;
 
 int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *list)
@@ -143,7 +149,22 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	_get_int_attrib(L, "capacity", s.capacity, 0);
 	_get_int_attrib(L, "hull_mass", s.hullMass, 100);
 	_get_int_attrib(L, "fuel_tank_mass", s.fuelTankMass, 5);
-	_get_float_attrib(L, "thruster_fuel_use", s.thrusterFuelUse, 1.f);
+
+	// fuel_use_rate can be given in two ways
+	float thruster_fuel_use = 0;
+	_get_float_attrib(L, "effective_exhaust_velocity", s.effectiveExhaustVelocity, -1.0f);
+	_get_float_attrib(L, "thruster_fuel_use", thruster_fuel_use, -1.0f);
+	if(s.effectiveExhaustVelocity < 0 && thruster_fuel_use < 0) {
+		// default value of v_c is used
+		s.effectiveExhaustVelocity = 55000000;
+	} else if(s.effectiveExhaustVelocity < 0 && thruster_fuel_use >= 0) {
+		// v_c undefined and thruster fuel use defined -- use it!
+		s.effectiveExhaustVelocity = GetEffectiveExhaustVelocity(s.fuelTankMass, thruster_fuel_use, s.linThrust[ShipType::THRUSTER_FORWARD]);
+	} else {
+		if(thruster_fuel_use >= 0)
+			printf("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", s.lmrModelName.c_str());
+	}
+
 	_get_int_attrib(L, "price", s.baseprice, 0);
 	s.baseprice *= 100; // in hundredths of credits
 

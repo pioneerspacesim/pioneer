@@ -681,7 +681,7 @@ static void CollideWithTerrain(Body *body)
 	if (!dynBody->IsMoving()) return;
 
 	Frame *f = body->GetFrame();
-	if (!f || !f->IsRotFrame() || !f->GetBody()) return;
+	if (!f || !f->GetBody() || f != f->GetBody()->GetFrame()) return;
 	if (!f->GetBody()->IsType(Object::TERRAINBODY)) return;
 	TerrainBody *terrain = static_cast<TerrainBody*>(f->GetBody());
 

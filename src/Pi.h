@@ -153,9 +153,6 @@ public:
 
 	static Game *game;
 
-	static int CombatRating(int kills);
-	static const char * const combatRating[];
-
 	static struct DetailLevel detail;
 	static GameConfig *config;
 private:

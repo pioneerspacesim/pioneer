@@ -111,6 +111,7 @@
     <ClCompile Include="..\..\src\Background.cpp" />
     <ClCompile Include="..\..\src\Body.cpp" />
     <ClCompile Include="..\..\src\Camera.cpp" />
+    <ClCompile Include="..\..\src\CameraController.cpp" />
     <ClCompile Include="..\..\src\CargoBody.cpp" />
     <ClCompile Include="..\..\src\ChatForm.cpp" />
     <ClCompile Include="..\..\src\CityOnPlanet.cpp" />
@@ -253,7 +254,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\win32\WinMath.cpp" />
     <ClCompile Include="..\..\src\WorldView.cpp" />
-    <ClCompile Include="..\..\src\WorldViewCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h" />
@@ -266,6 +266,7 @@
     <ClInclude Include="..\..\src\buildopts.h" />
     <ClInclude Include="..\..\src\ByteRange.h" />
     <ClInclude Include="..\..\src\Camera.h" />
+    <ClInclude Include="..\..\src\CameraController.h" />
     <ClInclude Include="..\..\src\CargoBody.h" />
     <ClInclude Include="..\..\src\ChatForm.h" />
     <ClInclude Include="..\..\src\CityOnPlanet.h" />
@@ -411,7 +412,6 @@
     <ClInclude Include="..\..\src\win32\TextUtils.h" />
     <ClInclude Include="..\..\src\win32\WinMath.h" />
     <ClInclude Include="..\..\src\WorldView.h" />
-    <ClInclude Include="..\..\src\WorldViewCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am" />
