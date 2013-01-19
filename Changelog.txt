@@ -14,6 +14,7 @@ Alpha 31
 
    * Fixes
      * Collisions with stars now work again (#1942)
+     * Dates before 3200-01-01 no longer display negative (#1955, #1954)
 
    * Model changes
      * Handle missing material definitions by providing a basic white default
