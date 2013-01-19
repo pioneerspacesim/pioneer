@@ -18,6 +18,9 @@ local wage_period = 604800 -- a week of seconds
 --   outstanding = 0,
 -- }
 
+---------------------- Part 1 ----------------------
+-- Life aboard ship
+
 local boostCrewSkills = function (crewMember)
 	-- Each week, there's a small chance that a crew member gets better
 	-- at each skill, due to the experience of working on the ship.
@@ -108,3 +111,16 @@ Event.Register('onLeaveCrew',function(ship, crewMember)
 		crewMember.contract.payday = nil
 	end
 end)
+
+---------------------- Part 2 ----------------------
+-- The bulletin board
+
+local onChat = function (form)
+end
+
+local onCreateBB = function (station)
+	-- Only one crew hiring thingy per station
+	station:AddAdvert(t('Crew for hire'), onChat)
+end
+
+Event.Register("onCreateBB", onCreateBB)
