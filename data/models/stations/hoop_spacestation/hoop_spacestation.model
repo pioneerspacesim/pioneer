@@ -3,7 +3,6 @@ tex_diff hoop_diff.png
 specular 1.0 1.0 1.0
 diffuse 1.0 1.0 1.0
 
-mesh hoop_spacestation.obj
+mesh hoop_spacestation.DAE
 
-collision hoop_spacestation.obj
-collision hoop_entrance_collide.obj
+collision hoop_collide.DAE
