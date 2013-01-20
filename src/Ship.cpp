@@ -596,7 +596,9 @@ void Ship::UseECM()
 		// damage neaby missiles
 		const float ECM_RADIUS = 4000.0f;
 
-		for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
+		Space::BodyNearList nearby;
+		Pi::game->GetSpace()->GetBodiesMaybeNear(this, ECM_RADIUS, nearby);
+		for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
 			if ((*i)->GetFrame() != GetFrame()) continue;
 			if (!(*i)->IsType(Object::MISSILE)) continue;
 
@@ -853,18 +855,23 @@ void Ship::UpdateAlertState()
 		return;
 	}
 
+	static const double ALERT_DISTANCE = 100000.0; // 100km
+
+	Space::BodyNearList nearby;
+	Pi::game->GetSpace()->GetBodiesMaybeNear(this, ALERT_DISTANCE, nearby);
+
 	bool ship_is_near = false, ship_is_firing = false;
-	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i)
+	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i)
 	{
 		if ((*i) == this) continue;
 		if (!(*i)->IsType(Object::SHIP) || (*i)->IsType(Object::MISSILE)) continue;
 
-		Ship *ship = static_cast<Ship*>(*i);
+		const Ship *ship = static_cast<const Ship*>(*i);
 
 		if (ship->GetShipType().tag == ShipType::TAG_STATIC_SHIP) continue;
 		if (ship->GetFlightState() == LANDED || ship->GetFlightState() == DOCKED) continue;
 
-		if (GetPositionRelTo(ship).LengthSqr() < 100000.0*100000.0) {
+		if (GetPositionRelTo(ship).LengthSqr() < ALERT_DISTANCE*ALERT_DISTANCE) {
 			ship_is_near = true;
 
 			Uint32 gunstate = 0;

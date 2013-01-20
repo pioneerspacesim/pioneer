@@ -96,7 +96,9 @@ void Missile::Explode()
 	const double damageRadius = 200.0;
 	const double kgDamage = 10000.0;
 
-	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
+	Space::BodyNearList nearby;
+	Pi::game->GetSpace()->GetBodiesMaybeNear(this, damageRadius, nearby);
+	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
 		if ((*i)->GetFrame() != GetFrame()) continue;
 		double dist = ((*i)->GetPosition() - GetPosition()).Length();
 		if (dist < damageRadius) {
