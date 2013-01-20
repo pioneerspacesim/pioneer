@@ -115,14 +115,11 @@ public:
 
 	Animation *FindAnimation(const std::string&); //0 if not found
 	const std::vector<Animation *> GetAnimations() const { return m_animations; }
-	int PlayAnimation(const std::string &name, Animation::Direction = Animation::FORWARD); //immediately play an animation (forward), if found, returns count of animations triggered
-	void StopAnimations(); //stop all animation
-	void UpdateAnimations(double time); //change this to timestep or something
+	void UpdateAnimations();
 
 private:
 	static const unsigned int MAX_DECAL_MATERIALS = 4;
 	ColorMap m_colorMap;
-	double m_lastTime;
 	float m_boundingRadius;
 	MaterialContainer m_materials; //materials are shared throughout the model graph
 	PatternContainer m_patterns;
@@ -131,7 +128,6 @@ private:
 	RefCountedPtr<Group> m_root;
 	RenderData *m_renderData;
 	std::string m_name;
-	std::vector<Animation *> m_activeAnimations;
 	std::vector<Animation *> m_animations;
 	std::vector<Group *> m_tags; //named attachment points
 };
