@@ -265,6 +265,10 @@ local onCreateBB = function (station)
 						form:SetMessage(t("Thanks, I'll get settled on board immediately."))
 						form:AddOption(t('GO_BACK'), 0)
 						form:AddOption(t('HANG_UP'), -1)
+						for k,v in ipairs(crewInThisStation) do
+							-- Take them off the available list in the ad
+							if v == candidate then table.remove(nonPersistentCharactersForCrew[station],k) end
+						end
 					else
 						form:SetMessage(t("Sorry, there seems to be a problem. Do you already have a full crew?"))
 						form:AddOption(t('GO_BACK'), 0)
