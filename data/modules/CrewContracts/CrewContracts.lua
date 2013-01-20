@@ -118,7 +118,7 @@ Event.Register('onLeaveCrew',function(ship, crewMember)
 			crewMember.playerRelationship = crewMember.playerRelationship - 5 -- Hate!
 		elseif crewMember:TestRoll('playerRelationship') then
 			Comms.Message(t("It's been great working for you. If you need me again, I'll be here a while."),crewMember.name)
-		elseif crewMember:TestRoll('lawfulness') then
+		elseif not crewMember:TestRoll('lawfulness') then
 			Comms.Message(t("You're going to regret sacking me!"),crewMember.name)
 			crewMember.playerRelationship = crewMember.playerRelationship - 1
 		else
