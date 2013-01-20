@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Sfx.h"
@@ -165,13 +165,12 @@ void Sfx::TimeStepAll(const float timeStep, Frame *f)
 		}
 	}
 
-	for (std::list<Frame*>::iterator i = f->m_children.begin();
-			i != f->m_children.end(); ++i) {
-		TimeStepAll(timeStep, *i);
+	for (Frame::ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it) {
+		TimeStepAll(timeStep, *it);
 	}
 }
 
-void Sfx::RenderAll(Renderer *renderer, const Frame *f, const Frame *camFrame)
+void Sfx::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 {
 	if (f->m_sfx) {
 		matrix4x4d ftran;
@@ -184,9 +183,8 @@ void Sfx::RenderAll(Renderer *renderer, const Frame *f, const Frame *camFrame)
 		}
 	}
 
-	for (std::list<Frame*>::const_iterator i = f->m_children.begin();
-			i != f->m_children.end(); ++i) {
-		RenderAll(renderer, *i, camFrame);
+	for (Frame::ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it) {
+		RenderAll(renderer, *it, camFrame);
 	}
 }
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LOADERDEFINITIONS_H_
@@ -10,8 +10,8 @@
 namespace SceneGraph {
 
 struct MaterialDefinition {
-	MaterialDefinition() :
-		name(""),
+	MaterialDefinition(const std::string &n) :
+		name(n),
 		tex_diff(""),
 		tex_spec(""),
 		tex_glow(""),
@@ -19,7 +19,7 @@ struct MaterialDefinition {
 		specular(Color(1.f)),
 		ambient(Color(0.f)),
 		emissive(Color(0.f)),
-		shininess(200),
+		shininess(100),
 		opacity(100),
 		use_pattern(false)
 	{ }
@@ -31,8 +31,8 @@ struct MaterialDefinition {
 	Color specular;
 	Color ambient;
 	Color emissive;
-	int shininess; //specular power, 0+
-	int opacity;
+	unsigned int shininess; //specular power, 0-128
+	unsigned int opacity; //0-100
 	bool use_pattern;
 };
 
@@ -75,4 +75,5 @@ struct ModelDefinition {
 };
 
 }
+
 #endif

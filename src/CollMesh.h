@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _COLLMESH_H
@@ -9,13 +9,13 @@
 
 class CollMesh : public RefCounted {
 public:
-	CollMesh() : m_radius(0.f), m_geomTree(0) { }
+	CollMesh() : m_geomTree(0) { }
 	virtual ~CollMesh() {
 		delete m_geomTree;
 	}
 	virtual Aabb &GetAabb() { return m_aabb; }
-	virtual float GetBoundingRadius() const { return m_radius; }
-	virtual void SetBoundingRadius(float v) { m_radius = std::max(v, 0.1f); } //0 radius = trouble
+	virtual double GetRadius() const { return m_aabb.GetRadius(); }
+	virtual void SetRadius(double v) { m_aabb.radius = std::max(v, 0.1); } //0 radius = trouble
 	virtual GeomTree *GetGeomTree() const { return m_geomTree; }
 	void SetGeomTree(GeomTree *t) { m_geomTree = t; }
 
@@ -25,7 +25,6 @@ public:
 
 protected:
 	Aabb m_aabb;
-	float m_radius;
 	GeomTree *m_geomTree;
 };
 

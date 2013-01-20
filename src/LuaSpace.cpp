@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaSpace.h"
@@ -220,12 +220,13 @@ static int l_space_spawn_ship_near(lua_State *l)
 	// XXX protect against spawning inside the body
 	Frame * newframe = nearbody->GetFrame();
 	const vector3d newPosition = (MathUtil::RandomPointOnSphere(min_dist, max_dist)* 1000.0) + nearbody->GetPosition();
+	
 	// If the frame is rotating and the chosen position is too far, use non-rotating parent.
 	// Otherwise the ship will be given a massive initial velocity when it's bumped out of the
 	// rotating frame in the next update
-	if (newframe->IsRotatingFrame() && !newframe->IsLocalPosInFrame(newPosition)) {
-		assert(newframe->m_parent);
-		newframe = newframe->m_parent;
+	if (newframe->IsRotFrame() && newframe->GetRadius() < newPosition.Length()) {
+		assert(newframe->GetParent());
+		newframe = newframe->GetParent();
 	}
 
 	thing->SetFrame(newframe);;
@@ -347,45 +348,23 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	Ship *ship = new Ship(type);
 	assert(ship);
 
-	vector3d pos, vel;
-	matrix4x4d rot = matrix4x4d::Identity();
+	double parkDist = station->GetStationType()->parkingDistance;
+	parkDist -= ship->GetPhysRadius();		// park inside parking radius
+	double parkOffset = 0.5 * station->GetStationType()->parkingGapSize;
+	parkOffset += ship->GetPhysRadius();	// but outside the docking gap
 
-	if (station->GetSystemBody()->type == SystemBody::TYPE_STARPORT_SURFACE) {
-		vel = vector3d(0.0);
+	double xpos = (slot == 0 || slot == 3) ? -parkOffset : parkOffset;
+	double zpos = (slot == 0 || slot == 1) ? -parkOffset : parkOffset;
+	vector3d parkPos = vector3d(xpos, parkDist, zpos);
+	parkPos = station->GetPosition() + station->GetOrient() * parkPos;
 
-		// XXX on tiny planets eg asteroids force this to be larger so the
-		// are out of the docking path
-		pos = station->GetPosition() * 1.1;
-		station->GetRotMatrix(rot);
-
-		vector3d axis1, axis2;
-
-		axis1 = pos.Cross(vector3d(0.0,1.0,0.0));
-		axis2 = pos.Cross(axis1);
-
-		double ang = atan((140 + ship->GetCollMesh()->GetBoundingRadius()) / pos.Length());
-		if (slot<2) ang = -ang;
-
-		vector3d axis = (slot == 0 || slot == 3) ? axis1 : axis2;
-
-		pos.ArbRotate(axis, ang);
-	}
-
-	else {
-		double dist = 100 + ship->GetCollMesh()->GetBoundingRadius();
-		double xpos = (slot == 0 || slot == 3) ? -dist : dist;
-		double zpos = (slot == 0 || slot == 1) ? -dist : dist;
-
-		pos = vector3d(xpos,5000,zpos);
-		vel = vector3d(0.0);
-		rot.RotateX(M_PI/2);
-	}
+	// orbital stations have Y as axis of rotation
+	matrix3x3d rot = matrix3x3d::RotateX(M_PI/2) * station->GetOrient();
 
 	ship->SetFrame(station->GetFrame());
-
-	ship->SetVelocity(vel);
-	ship->SetPosition(pos);
-	ship->SetRotMatrix(rot);
+	ship->SetVelocity(vector3d(0.0));
+	ship->SetPosition(parkPos);
+	ship->SetOrient(rot);
 
 	Pi::game->GetSpace()->AddBody(ship);
 

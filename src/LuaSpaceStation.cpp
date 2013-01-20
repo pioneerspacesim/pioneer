@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaSpaceStation.h"
@@ -280,6 +280,26 @@ static int l_spacestation_attr_num_docks(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: isGroundStation
+ *
+ * true if station is on the ground, false if its an orbital
+ *
+ * Availability:
+ *
+ *   alpha 30
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_spacestation_attr_is_ground_station(lua_State *l)
+{
+	SpaceStation *s = LuaSpaceStation::CheckFromLua(1);
+	lua_pushboolean(l, s->IsGroundStation());
+	return 1;
+}
+
 template <> const char *LuaObject<SpaceStation>::s_type = "SpaceStation";
 
 template <> void LuaObject<SpaceStation>::RegisterClass()
@@ -296,7 +316,8 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 	};
 
 	static luaL_Reg l_attrs[] = {
-		{ "numDocks", l_spacestation_attr_num_docks },
+		{ "numDocks",        l_spacestation_attr_num_docks         },
+		{ "isGroundStation", l_spacestation_attr_is_ground_station },
 
 		{ 0, 0 }
 	};

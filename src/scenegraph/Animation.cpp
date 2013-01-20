@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Animation.h"
@@ -83,12 +83,14 @@ void Animation::Interpolate()
 			double diffTime = b.time - a.time;
 			if (diffTime < 0.0)
 				diffTime += m_duration;
+			vector3f temp = trans.GetTranslate();
 			if (diffTime > 0.0) {
 				const float factor = Clamp(float((mtime - a.time) / diffTime), 0.f, 1.f);
-				trans.SetRotationOnly(Quaternionf::Nlerp(a.rotation, b.rotation, factor).ToMatrix4x4<float>());
+				trans = Quaternionf::Nlerp(a.rotation, b.rotation, factor).ToMatrix3x3<float>();
 			} else {
-				trans.SetRotationOnly(a.rotation.ToMatrix4x4<float>());
+				trans = a.rotation.ToMatrix3x3<float>();
 			}
+			trans.SetTranslate(temp);
 		}
 
 		//scaling will not work without rotation since it would

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CAMERA_H
@@ -18,24 +18,26 @@ namespace Graphics { class Renderer; }
 class Camera {
 public:
 	// create camera relative to the given body, for rendering to area width x height
-	Camera(const Body *body, float width, float height, float fovY, float nearClip, float farClip);
+	Camera(float width, float height, float fovY, float nearClip, float farClip);
 	virtual ~Camera();
 
 	void Update();
-	void Draw(Graphics::Renderer *r);
+	void Draw(Graphics::Renderer *r, const Body *excludeBody = 0);
 
-	const Body *GetBody() const { return m_body; }
+	// frame to position the camera relative to
+	void SetFrame(Frame *frame) { m_frame = frame; }
+	Frame *GetFrame() const { return m_frame; }
 
-	// camera position relative to the body
-	void SetPosition(const vector3d &pos) { m_pose.SetTranslate(pos); }
-	vector3d GetPosition() const { return m_pose.GetTranslate(); }
+	// camera position relative to the frame origin
+	void SetPosition(const vector3d &pos) { m_pos = pos; }
+	vector3d GetPosition() const { return m_pos; }
 
-	// camera orientation relative to the body
-	void SetOrientation(const matrix4x4d &orient) { m_pose.SetRotationOnly(orient); }
-	matrix4x4d GetOrientation() const { matrix4x4d m(m_pose); m.ClearToRotOnly(); return m; }
+	// camera orientation relative to the frame origin
+	void SetOrient(const matrix3x3d &orient) { m_orient = orient; }
+	const matrix3x3d &GetOrient() const { return m_orient; }
 
-	// only valid between Update() and Draw()
-	const Frame *GetFrame() const { return m_camFrame; }
+	// valid between Update() and Draw()
+	const Frame *GetCamFrame() const { return m_camFrame; }
 
 	// camera-specific light with attached source body
 	class LightSource {
@@ -57,15 +59,9 @@ public:
 	// get the frustum. use for projection
 	const Graphics::Frustum &GetFrustum() const { return m_frustum; }
 
-	void SetBodyVisible(bool v) { m_showCameraBody = v; }
-
 private:
-	void OnBodyDeleted();
-	sigc::connection m_onBodyDeletedConnection;
-
 	void DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
-	const Body *m_body;
 	float m_width;
 	float m_height;
 	float m_fovAng;
@@ -74,8 +70,10 @@ private:
 
 	Graphics::Frustum m_frustum;
 
-	matrix4x4d m_pose;
+	vector3d m_pos;
+	matrix3x3d m_orient;
 
+	Frame *m_frame;
 	Frame *m_camFrame;
 
 	// temp attrs for sorting and drawing
@@ -110,8 +108,6 @@ private:
 			return a.camDist > b.camDist;
 		}
 	};
-
-	bool m_showCameraBody;
 
 	std::list<BodyAttrs> m_sortedBodies;
 	std::vector<LightSource> m_lightSources;

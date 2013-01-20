@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LANG_H
@@ -13,6 +13,7 @@ namespace Lang {
 bool LoadStrings(const std::string &lang);
 const std::vector<std::string> &GetAvailableLanguages();
 const std::map<std::string, const char*> &GetDictionary();
+const std::string &GetCurrentLanguage();
 
 // declare all strings
 #define DECLARE_STRING(x) extern char x[];

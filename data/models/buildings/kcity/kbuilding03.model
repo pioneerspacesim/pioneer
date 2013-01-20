@@ -1,0 +1,17 @@
+material kbuilding
+tex_diff diffuse.png
+tex_glow glow.png
+diffuse 1.0 1.0 1.0
+specular 0.6 0.6 0.8
+shininess 40
+
+lod 12
+mesh kbuilding03LQ.obj
+
+lod 70
+mesh kbuilding03MQ.obj
+
+lod 100
+mesh kbuilding03HQ.obj
+
+collision kbuilding03LQ.obj

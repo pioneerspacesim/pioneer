@@ -68,8 +68,13 @@ local scheduleWages = function (crewMember)
 
 		if Game.player:GetMoney() > contract.wage then
 			Game.player:AddMoney(0 - contract.wage)
+			-- Being paid can make awkward crew like you more
+			if not crewMember:TestRoll('playerRelationship') then
+				crewMember.playerRelationship = crewMember.playerRelationship + 1
+			end
 		else
 			contract.outstanding = contract.outstanding + contract.wage
+			crewMember.playerRelationship = crewMember.playerRelationship - 1
 		end
 		
 		-- Attempt to pay off any arrears

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Parser.h"
@@ -46,6 +46,14 @@ void Parser::Parse(ModelDefinition *m)
 			throw ParseError(ss.str());
 		}
 	}
+
+	if (m->lodDefs.empty() || m->lodDefs.back().meshNames.empty())
+		throw ParseError("No meshes defined");
+
+	//model without materials is not very useful but not fatal - add white default mat
+	if (m->matDefs.empty())
+		m->matDefs.push_back(MaterialDefinition("Default"));
+
 	//sort lods by feature size
 	std::sort(m->lodDefs.begin(), m->lodDefs.end(), LodSortPredicate);
 }
@@ -116,9 +124,8 @@ bool Parser::parseLine(const std::string &line)
 			m_isMaterial = true;
 			string matname;
 			checkMaterialName(ss, matname);
-			m_model->matDefs.push_back(MaterialDefinition());
+			m_model->matDefs.push_back(MaterialDefinition(matname));
 			m_curMat = &m_model->matDefs.back();
-			m_curMat->name = matname;
 			return true;
 		} else if(match(token, "lod")) {
 			endMaterial();
@@ -187,7 +194,7 @@ bool Parser::parseLine(const std::string &line)
 				else if (match(token, "shininess")) {
 					int shininess;
 					ss >> shininess;
-					m_curMat->shininess = std::max(shininess, 0);
+					m_curMat->shininess = Clamp(shininess, 0, 128);
 					return true;
 				} else if (match(token, "opacity")) {
 					int opacity;

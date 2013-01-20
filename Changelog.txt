@@ -1,11 +1,57 @@
+Alpha 31
+
+   * New features
+     * Converted Lanner ship to SGModel (#1957, #1969)
+
+   * Minor changes and tweaks
+     * Cargo scooping now only requires a collision against the ship rather
+       than a specific part of it (again) (#1922)
+     * Improve point sprite (LMR billboard) rendering performance (#1927,
+       #1929, #1928)
+     * Improve city rendering performance (#1927)
+     * Removed "mushroom" ground stations
+     * Converted standard building set to SGModel (#1923)
+     * Removed long-unused building models (#1923)
+     * Removed per-light ambient color and building fade (#1930)
+     * Ship thrust and fuel tank size have been rebalanced (#1689)
+
+   * Fixes
+     * Collisions with stars now work again (#1942)
+     * Dates before 3200-01-01 no longer display negative (#1955, #1954)
+
+   * Model changes
+     * Modelviewer: Reloading model also reloads textures (#1968, #1939)
+     * Handle missing material definitions by providing a basic white default
+       material if none are specified (#1817, #1916)
+
+   * Script changes
+     * Remove deprecated Ship methods.SetPrimaryColour and SetSecondaryColour
+       and shipType attribute
+     * Ship thruster efficiency can be specified with effective_exhaust_velocity value,
+       instead of thruster_fuel_use (either can be used) (#1689)
+
+   * Internal changes
+     * Separate station defs from LMR station models (#1913, #1931, #1934)
+     * Cameras are no longer attached to a body, and World View camera
+       controllers are no longer derived from Camera (#1889)
+     * Remove kill count from core (#1944)
+     * Intro & tombstone can now use SGModels (#1956)
+     * SGModels now have priority over LMR models of the same name (#1956)
+     * Console completion now handled through the LuaObject dispatcher (#1945, #1672)
+     * Queries for near-by objects now use a very basic acceleration structure (#1910)
+
 Alpha 30
 
    * New features
-     * New model system (SGModel) (#1676, #1208, #813, #1852)
+     * New model system (SGModel) (#1676, #1208, #813, #1852, #1914)
      * Rotation damping icon and control on the panel (#1842, #1837)
      * OSX: Hold the option key down when launching pioneer.app to launch the
        model viewer instead (#1803)
      * New volcanic surface effects on some planets (#1782)
+     * New and improved autopilot (#1812)
+     * Improved atmosphere rendering: scattering, sunsets, thinner fogs and
+       ground lighting fixes (#1888, #1891)
+     * Russian translation (#1899, #1713)
 
    * Minor changes and tweaks
      * Don't allocate projectile geometry for every projectile. Huge
@@ -14,10 +60,19 @@ Alpha 30
      * Player's name now updates during editing in Personal Information view (#1845)
      * Rondel system moved further away from Sol and surrounding stars (#1861, #1815)
      * Star fade-in has been adjusted to make stars less visible in daytime (#1881)
+     * Some missions now state the distance to the target system (#1886, #1909)
+     * Try harder to find a populated homeworld for a faction (#1860, #1792)
+     * Clicking cancel from the Load dialog now returns you to the game (#1847, #1325)
+     * Bulk ships are now only placed at orbital stations (#1890)
+     * Improve building self-shadowing and lighting (#1898, #1811)
+     * Low/medium/high orbit altitudes reduced to be more likely to fit in
+       object frames (#1903)
 
-   * Script changes
+   * Script changes and model changes
      * New attribute StarSystem.explored (#1793, #1797)
      * Custom systems can now define gravpoints (#1701, #1074)
+     * Added attributes in space/ground station models info table:
+         ship_launch_stage, parking_distance, parking_gap_size (#1812)
 
    * Fixes
      * Interpret galaxy density bitmap as unsigned values (#1818, #1813)
@@ -33,6 +88,14 @@ Alpha 30
      * Fix division-by-zero bugs in missile AI (#1873, #1872)
      * Fix loading of player's criminal record and fines (#1877, #1874)
      * Selected systems are now always shown in the sector view (#1864)
+     * Fix crash bug in Lua function SystemPath.DistanceTo
+     * Fix long-broken mouse flight under Linux by disabling DGA. Set config
+       option SDLUseDGAMouse=1 to revert to old behaviour (#1892, #5)
+     * Fix system info view to ignore irrelevant mouse wheel scroll events (#1894)
+     * Don't toggle labels and rotation damping while console is active (#1897, #1364)
+     * Don't save/restore GL_POINT_BIT attribute, it breaks GL state on old
+       Intel chips
+     * Update all material light components when applying a material (#1908, #1887)
 
    * UI changes
      * Improved appearance of Dropdown widget (#1789, #1766)
@@ -53,6 +116,12 @@ Alpha 30
      * Allow point sprites to be rendered with different alpha blending modes (#1880)
      * Unknown tokens for Lua translations are no longer treated as errors (#1865, #1862)
      * Rename terrain noise macros to avoid global namespace polliution (#1883)
+     * Various code improvements in frame handling and other things (#1812)
+     * Cleanup SectorView system index usage (#1884)
+     * Split FileSelectorDialog and LoadGame/SaveGame out of GameLoaderSaver (#1847)
+     * Font optimisations and support for language-specific font overrides (#1899,
+       #1907, #1904)
+     * Avoid use of strtof, it doesn't exist on MSVC (#1905)
 
 Alpha 29
 

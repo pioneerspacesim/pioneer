@@ -1,4 +1,4 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 
@@ -65,5 +65,21 @@ Translate:Add({ Magyar = {
   "{name} holding",
   "{name} & fiai"
   }
+ }
+})
+
+  ---- RUSSIAN / РУССКИЙ ----
+
+Translate:Add({ Russian = {
+  ["Welcome to "] = "Добро пожаловать! Вас приветствует ",
+
+ GOODS_TRADER = {
+  "Торговый Центр {name}",
+  "Торговый Дом {name}",
+  "Складской Комплекс {name}",
+  "Товарная Биржа {name}",
+  "Холдинг {name}",
+  "компания {name} и Сыновья",
+	}
  }
 })

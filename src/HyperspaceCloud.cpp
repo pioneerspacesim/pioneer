@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "HyperspaceCloud.h"
@@ -23,7 +23,8 @@ HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 	m_flags = Body::FLAG_CAN_MOVE_FRAME |
 		  Body::FLAG_LABEL_HIDDEN;
 	m_ship = s;
-	m_pos = vector3d(0,0,0);
+	SetPhysRadius(0.0);
+	SetClipRadius(1200.0);
 	m_vel = (s ? s->GetVelocity() : vector3d(0.0));
 	m_birthdate = Pi::game->GetTime();
 	m_due = dueDate;
@@ -34,7 +35,8 @@ HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 HyperspaceCloud::HyperspaceCloud()
 {
 	m_ship = 0;
-	m_pos = vector3d(0,0,0);
+	SetPhysRadius(0.0);
+	SetClipRadius(1200.0);
 	InitGraphics();
 }
 
@@ -57,20 +59,9 @@ void HyperspaceCloud::SetIsArrival(bool isArrival)
 	SetLabel(isArrival ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 }
 
-vector3d HyperspaceCloud::GetPosition() const
-{
-	return m_pos;
-}
-
-void HyperspaceCloud::SetPosition(const vector3d &p)
-{
-	m_pos = p;
-}
-
 void HyperspaceCloud::Save(Serializer::Writer &wr, Space *space)
 {
 	Body::Save(wr, space);
-	wr.Vector3d(m_pos);
 	wr.Vector3d(m_vel);
 	wr.Double(m_birthdate);
 	wr.Double(m_due);
@@ -82,7 +73,6 @@ void HyperspaceCloud::Save(Serializer::Writer &wr, Space *space)
 void HyperspaceCloud::Load(Serializer::Reader &rd, Space *space)
 {
 	Body::Load(rd, space);
-	m_pos = rd.Vector3d();
 	m_vel = rd.Vector3d();
 	m_birthdate = rd.Double();
 	m_due = rd.Double();
@@ -94,23 +84,23 @@ void HyperspaceCloud::Load(Serializer::Reader &rd, Space *space)
 
 void HyperspaceCloud::PostLoadFixup(Space *space)
 {
+	Body::PostLoadFixup(space);
 	if (m_ship) m_ship->PostLoadFixup(space);
 }
 
 void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 {
-	m_pos += m_vel * timeStep;
+	SetPosition(GetPosition() + m_vel * timeStep);
 
 	if (m_isArrival && m_ship && (m_due < Pi::game->GetTime())) {
 		// spawn ship
 		// XXX some overlap with Space::DoHyperspaceTo(). should probably all
 		// be moved into EvictShip()
-		m_ship->SetPosition(m_pos);
+		m_ship->SetPosition(GetPosition());
 		m_ship->SetVelocity(m_vel);
-		m_ship->SetRotMatrix(matrix4x4d::Identity());
+		m_ship->SetOrient(matrix3x3d::Identity());
 		m_ship->SetFrame(GetFrame());
 		Pi::game->GetSpace()->AddBody(m_ship);
-		m_ship->Enable();
 
 		if (Pi::player->GetNavTarget() == this && !Pi::player->GetCombatTarget())
 			Pi::player->SetCombatTarget(m_ship, Pi::player->GetSetSpeedTarget() == this);
@@ -137,15 +127,11 @@ static void make_circle_thing(VertexArray &va, float radius, const Color &colCen
 	va.Add(vector3f(0.f, radius, 0.f), colEdge);
 }
 
-void HyperspaceCloud::UpdateInterpolatedTransform(double alpha)
+void HyperspaceCloud::UpdateInterpTransform(double alpha)
 {
-	m_interpolatedTransform = matrix4x4d::Identity();
-	const vector3d newPos = GetPosition();
-	const vector3d oldPos = newPos - m_vel*Pi::game->GetTimeStep();
-	const vector3d p = alpha*newPos + (1.0-alpha)*oldPos;
-	m_interpolatedTransform[12] = p.x;
-	m_interpolatedTransform[13] = p.y;
-	m_interpolatedTransform[14] = p.z;
+	m_interpOrient = matrix3x3d::Identity();
+	const vector3d oldPos = GetPosition() - m_vel*Pi::game->GetTimeStep();
+	m_interpPos = alpha*GetPosition() + (1.0-alpha)*oldPos;
 }
 
 void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -20,9 +20,11 @@
 
 Body::Body()
 {
+	m_pos = vector3d(0.0);
+	m_orient = matrix3x3d::Identity();
+	m_clipRadius = m_physRadius = 0.0;
 	m_frame = 0;
 	m_flags = 0;
-	m_hasDoubleFrame = false;
 	m_dead = false;
 }
 
@@ -35,7 +37,11 @@ void Body::Save(Serializer::Writer &wr, Space *space)
 	wr.Int32(space->GetIndexForFrame(m_frame));
 	wr.String(m_label);
 	wr.Bool(m_dead);
-	wr.Bool(m_hasDoubleFrame);
+
+	wr.Vector3d(m_pos);
+	for (int i=0; i<9; i++) wr.Double(m_orient[i]);
+	wr.Double(m_physRadius);
+	wr.Double(m_clipRadius);
 }
 
 void Body::Load(Serializer::Reader &rd, Space *space)
@@ -43,7 +49,11 @@ void Body::Load(Serializer::Reader &rd, Space *space)
 	m_frame = space->GetFrameByIndex(rd.Int32());
 	m_label = rd.String();
 	m_dead = rd.Bool();
-	m_hasDoubleFrame = rd.Bool();
+
+	m_pos = rd.Vector3d();
+	for (int i=0; i<9; i++) m_orient[i] = rd.Double();
+	m_physRadius = rd.Double();
+	m_clipRadius = rd.Double();
 }
 
 void Body::Serialize(Serializer::Writer &_wr, Space *space)
@@ -65,10 +75,6 @@ void Body::Serialize(Serializer::Writer &_wr, Space *space)
 		default:
 			assert(0);
 	}
-	wr.Vector3d(GetPosition());
-	matrix4x4d m;
-	GetRotMatrix(m);
-	for (int i=0; i<16; i++) wr.Double(m[i]);
 	_wr.WrSection("Body", wr.GetData());
 }
 
@@ -101,141 +107,105 @@ Body *Body::Unserialize(Serializer::Reader &_rd, Space *space)
 			assert(0);
 	}
 	b->Load(rd, space);
-	// must SetFrame() correctly so ModelBodies can add geom to space
-	Frame *f = b->m_frame;
-	b->m_frame = 0;
-	b->SetFrame(f);
-	//
-	b->SetPosition(rd.Vector3d());
-	matrix4x4d m;
-	for (int i=0; i<16; i++) m[i] = rd.Double();
-	b->SetRotMatrix(m);
 	return b;
 }
 
-/* f == NULL, then absolute position within system */
 vector3d Body::GetPositionRelTo(const Frame *relTo) const
 {
-	matrix4x4d m;
-	Frame::GetFrameTransform(m_frame, relTo, m);
-	return m * GetPosition();
+	vector3d fpos = m_frame->GetPositionRelTo(relTo);
+	matrix3x3d forient = m_frame->GetOrientRelTo(relTo);
+	return forient * GetPosition() + fpos;
 }
 
-vector3d Body::GetInterpolatedPositionRelTo(const Frame *relTo) const
+vector3d Body::GetInterpPositionRelTo(const Frame *relTo) const
 {
-	matrix4x4d m;
-	Frame::GetFrameRenderTransform(m_frame, relTo, m);
-	return m * GetInterpolatedPosition();
-}
-
-vector3d Body::GetInterpolatedPositionRelTo(const Body *relTo) const
-{
-	return GetInterpolatedPositionRelTo(relTo->GetFrame()) - relTo->GetInterpolatedPosition();
+	vector3d fpos = m_frame->GetInterpPositionRelTo(relTo);
+	matrix3x3d forient = m_frame->GetInterpOrientRelTo(relTo);
+	return forient * GetInterpPosition() + fpos;
 }
 
 vector3d Body::GetPositionRelTo(const Body *relTo) const
 {
-	return GetPositionRelTo(relTo->GetFrame()) - relTo->GetPosition();
+	return GetPositionRelTo(relTo->m_frame) - relTo->GetPosition();
 }
 
-matrix4x4d Body::GetInterpolatedTransformRelTo(const Frame *relTo) const
+vector3d Body::GetInterpPositionRelTo(const Body *relTo) const
 {
-	matrix4x4d m;
-	Frame::GetFrameRenderTransform(m_frame, relTo, m);
-	return m * GetInterpolatedTransform();
+	return GetInterpPositionRelTo(relTo->m_frame) - relTo->GetInterpPosition();
+}
+
+matrix3x3d Body::GetOrientRelTo(const Frame *relTo) const
+{
+	matrix3x3d forient = m_frame->GetOrientRelTo(relTo);
+	return forient * GetOrient();
+}
+
+matrix3x3d Body::GetInterpOrientRelTo(const Frame *relTo) const
+{
+	matrix3x3d forient = m_frame->GetInterpOrientRelTo(relTo);
+	return forient * GetInterpOrient();
+}
+
+vector3d Body::GetVelocityRelTo(const Frame *relTo) const
+{
+	matrix3x3d forient = m_frame->GetOrientRelTo(relTo);
+	vector3d vel = GetVelocity();
+	if (m_frame != relTo) vel -= m_frame->GetStasisVelocity(GetPosition());
+	return forient * vel + m_frame->GetVelocityRelTo(relTo);
+}
+
+vector3d Body::GetVelocityRelTo(const Body *relTo) const
+{
+	return GetVelocityRelTo(relTo->m_frame) - relTo->GetVelocityRelTo(relTo->m_frame);
 }
 
 void Body::OrientOnSurface(double radius, double latitude, double longitude)
 {
 	vector3d up = vector3d(cos(latitude)*cos(longitude), sin(latitude)*cos(longitude), sin(longitude));
-	vector3d pos = radius * up;
-	SetPosition(pos);
+	SetPosition(radius * up);
 
-	vector3d forward = vector3d(0,0,1);
-	vector3d other = up.Cross(forward).Normalized();
-	forward = other.Cross(up);
-
-	matrix4x4d rot = matrix4x4d::MakeRotMatrix(other, up, forward);
-	rot = rot.InverseOf();
-	SetRotMatrix(rot);
+	vector3d right = up.Cross(vector3d(0,0,1)).Normalized();
+	SetOrient(matrix3x3d::FromVectors(right, up));
 }
 
-vector3d Body::GetVelocityRelTo(const Frame *f) const
+void Body::SwitchToFrame(Frame *newFrame)
 {
-	matrix4x4d m;
-	Frame::GetFrameTransform(GetFrame(), f, m);
-	vector3d vel = GetVelocity();
-	if (f != GetFrame() || f->IsStationRotFrame())
-		vel -= GetFrame()->GetStasisVelocityAtPosition(GetPosition());
-	return (m.ApplyRotationOnly(vel) + Frame::GetFrameRelativeVelocity(f, GetFrame()));
-}
+	vector3d vel = GetVelocityRelTo(newFrame);		// do this first because it uses position
+	vector3d fpos = m_frame->GetPositionRelTo(newFrame);
+	matrix3x3d forient = m_frame->GetOrientRelTo(newFrame);
+	SetPosition(forient * GetPosition() + fpos);
+	SetOrient(forient * GetOrient());
+	SetVelocity(vel + newFrame->GetStasisVelocity(GetPosition()));
+	SetFrame(newFrame);
 
-vector3d Body::GetVelocityRelTo(const Body *other) const
-{
-	return GetVelocityRelTo(GetFrame()) - other->GetVelocityRelTo(GetFrame());
+	LuaEvent::Queue("onFrameChanged", this);
 }
 
 void Body::UpdateFrame()
 {
-	if (!(GetFlags() & Body::FLAG_CAN_MOVE_FRAME)) return;
+	if (!(m_flags & FLAG_CAN_MOVE_FRAME)) return;	
 
 	// falling out of frames
-	if (!GetFrame()->IsLocalPosInFrame(GetPosition())) {
-		printf("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel().c_str());
-
-		Frame *new_frame = GetFrame()->m_parent;
-		if (new_frame) { // don't let fall out of root frame
-			matrix4x4d m = matrix4x4d::Identity();
-			GetFrame()->ApplyLeavingTransform(m);
-
-			vector3d new_pos = m * GetPosition();
-
-			matrix4x4d rot;
-			GetRotMatrix(rot);
-			SetRotMatrix(m * rot);
-
-			m.ClearToRotOnly();
-			SetVelocity(GetFrame()->GetVelocity() + m*(GetVelocity() -
-				GetFrame()->GetStasisVelocityAtPosition(GetPosition())));
-
-			SetFrame(new_frame);
-			SetPosition(new_pos);
-
-			LuaEvent::Queue("onFrameChanged", this);
-
+	if (m_frame->GetRadius() < GetPosition().Length()) {
+		Frame *newFrame = GetFrame()->GetParent();
+		if (newFrame) { 						// don't fall out of root frame
+			printf("%s leaves frame %s\n", GetLabel().c_str(), GetFrame()->GetLabel().c_str());
+			SwitchToFrame(newFrame);
 			return;
 		}
 	}
 
 	// entering into frames
-	for (std::list<Frame*>::iterator j = GetFrame()->m_children.begin(); j != GetFrame()->m_children.end(); ++j) {
-		Frame *kid = *j;
-		matrix4x4d m;
-		Frame::GetFrameTransform(GetFrame(), kid, m);
-		vector3d pos = m * GetPosition();
-		if (!kid->IsLocalPosInFrame(pos)) continue;
-
-		printf("%s enters frame %s\n", GetLabel().c_str(), kid->GetLabel().c_str());
-
-		SetPosition(pos);
-		SetFrame(kid);
-
-		matrix4x4d rot;
-		GetRotMatrix(rot);
-		SetRotMatrix(m * rot);
-
-		// get rid of transforms
-		m.ClearToRotOnly();
-		SetVelocity(m*(GetVelocity() - kid->GetVelocity())
-			+ kid->GetStasisVelocityAtPosition(pos));
-
-		LuaEvent::Queue("onFrameChanged", this);
-
+	for (Frame::ChildIterator it = m_frame->BeginChildren(); it != m_frame->EndChildren(); ++it) {
+		vector3d pos = GetPositionRelTo(*it);
+		if (pos.Length() >= (*it)->GetRadius()) continue;
+		SwitchToFrame(*it);
+		printf("%s enters frame %s\n", GetLabel().c_str(), (*it)->GetLabel().c_str());
 		break;
 	}
 }
 
 vector3d Body::GetTargetIndicatorPosition(const Frame *relTo) const
 {
-	return GetInterpolatedPositionRelTo(relTo);
+	return GetInterpPositionRelTo(relTo);
 }

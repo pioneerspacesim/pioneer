@@ -1,4 +1,4 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 -- model & textures, gernot
@@ -817,10 +817,10 @@ it's not such a high poly model that it really would be needed to do so
 			local v26 = v(31.6-trans1*9.5,-11.2+trans1*8,2.7-trans1*5)
 			local v27 = v(31.6-trans1*9.5,-11.2+trans1*8,6.3-trans1*5) -- new
 			local v28 = v(31.6-trans1*9.5,-11.2+trans1*8,21.5-trans1*5)
-			local v29 = v(31-trans1*9.5,-12+trans1*3.5,2-trans1*4)
-			local v30 = v(32-trans1*9.5,-12+trans1*3.5,2-trans1*4)
-			local v31 = v(32-trans1*9.5,-12+trans1*3.5,10-trans1*4)
-			local v32 = v(31-trans1*9.5,-12+trans1*3.5,10-trans1*4)
+			local v29 = v(31.5-trans1*9.5,-10+trans1*3.5,2-trans1*4)
+			local v30 = v(31.5-trans1*9.5,-10+trans1*3.5,10-trans1*4)
+			local v31 = v(31.5-trans1*9.5,-12+trans1*3.5,10-trans1*4)
+			local v32 = v(31.5-trans1*9.5,-12+trans1*3.5,2-trans1*4)
 
 			xref_quad(v20,v21,v23,v22)
 			xref_quad(v20,v22,v23,v21)
@@ -934,10 +934,10 @@ define_model('trader', {
 			local v24 = v(31.5-trans1*9.5,-11+trans1*8,-17-trans1*5)
 			local v25 = v(31.5-trans1*9.5,-11+trans1*8,6-trans1*5)
 			local v26 = v(31.5-trans1*9.5,-11+trans1*8,21-trans1*5)
-			local v27 = v(31-trans1*9.5,-12+trans1*3.5,2-trans1*4)
-			local v28 = v(32-trans1*9.5,-12+trans1*3.5,2-trans1*4)
-			local v29 = v(32-trans1*9.5,-12+trans1*3.5,10-trans1*4)
-			local v30 = v(31-trans1*9.5,-12+trans1*3.5,10-trans1*4)
+			local v27 = v(31.5-trans1*9.5,-10+trans1*3.5,2-trans1*4)
+			local v28 = v(31.5-trans1*9.5,-10+trans1*3.5,10-trans1*4)
+			local v29 = v(31.5-trans1*9.5,-12+trans1*3.5,10-trans1*4)
+			local v30 = v(31.5-trans1*9.5,-12+trans1*3.5,2-trans1*4)
 
 			xref_quad(v20,v21,v23,v22)
 			xref_quad(v20,v22,v23,v21)

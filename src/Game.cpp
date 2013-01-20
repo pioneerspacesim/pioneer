@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Game.h"
@@ -21,9 +21,10 @@
 #include "UIView.h"
 #include "LuaEvent.h"
 #include "ObjectViewerView.h"
+#include "FileSystem.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 58;
+static const int  s_saveVersion   = 60;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -43,7 +44,6 @@ Game::Game(const SystemPath &path) :
 
 	m_space->AddBody(m_player.Get());
 
-	m_player->Enable();
 	m_player->SetFrame(station->GetFrame());
 	m_player->SetDockedWith(station, 0);
 
@@ -68,7 +68,6 @@ Game::Game(const SystemPath &path, const vector3d &pos) :
 
 	m_space->AddBody(m_player.Get());
 
-	m_player->Enable();
 	m_player->SetFrame(b->GetFrame());
 
 	m_player->SetPosition(pos);
@@ -301,7 +300,7 @@ bool Game::UpdateTimeAccel()
 
 				vector3d toBody = m_player->GetPosition() - (*i)->GetPositionRelTo(m_player->GetFrame());
 				double dist = toBody.Length();
-				double rad = (*i)->GetBoundingRadius();
+				double rad = (*i)->GetPhysRadius();
 
 				if (dist < 1000.0) {
 					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
@@ -316,16 +315,18 @@ bool Game::UpdateTimeAccel()
 				}
 			}
 
-			const double locVel = m_player->GetAngVelocity().Length();
-			const double strictness = 20.0;
-			if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_10X]) {
-				newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
-			} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_100X]) {
-				newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
-			} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_1000X]) {
-				newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_100X);
-			} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_10000X]) {
-				newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1000X);
+			if (!m_player->AIIsActive()) {		// don't do this when autopilot is active
+				const double locVel = m_player->GetAngVelocity().Length();
+				const double strictness = 20.0;
+				if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_10X]) {
+					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
+				} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_100X]) {
+					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
+				} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_1000X]) {
+					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_100X);
+				} else if(locVel > strictness / Game::s_timeAccelRates[TIMEACCEL_10000X]) {
+					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1000X);
+				}
 			}
 		}
 	}
@@ -408,7 +409,7 @@ void Game::SwitchToHyperspace()
 	// but at least it gives some consistency
 	m_player->SetPosition(vector3d(0,0,0));
 	m_player->SetVelocity(vector3d(0,0,0));
-	m_player->SetRotMatrix(matrix4x4d::Identity());
+	m_player->SetOrient(matrix3x3d::Identity());
 
 	// animation and end time counters
 	m_hyperspaceProgress = 0;
@@ -437,7 +438,7 @@ void Game::SwitchToNormalSpace()
 	// place it
 	m_player->SetPosition(m_space->GetHyperspaceExitPoint(m_hyperspaceSource));
 	m_player->SetVelocity(vector3d(0,0,-100.0));
-	m_player->SetRotMatrix(matrix4x4d::Identity());
+	m_player->SetOrient(matrix3x3d::Identity());
 
 	// place the exit cloud
 	HyperspaceCloud *cloud = new HyperspaceCloud(0, Pi::game->GetTime(), true);
@@ -459,8 +460,7 @@ void Game::SwitchToNormalSpace()
 
 			ship->SetFrame(m_space->GetRootFrame());
 			ship->SetVelocity(vector3d(0,0,-100.0));
-			ship->SetRotMatrix(matrix4x4d::Identity());
-			ship->Enable();
+			ship->SetOrient(matrix3x3d::Identity());
 			ship->SetFlightState(Ship::FLYING);
 
 			const SystemPath &sdest = ship->GetHyperspaceDest();
@@ -563,7 +563,7 @@ void Game::SetTimeAccel(TimeAccel t)
 	if (t < m_timeAccel)
 		for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
 			if ((*i)->IsType(Object::SHIP))
-				(static_cast<Ship*>(*i))->ApplyAccel(0.5f * GetTimeStep());
+				(static_cast<Ship*>(*i))->TimeAccelAdjust(0.5f * GetTimeStep());
 
 	m_timeAccel = t;
 
@@ -685,4 +685,35 @@ void Game::DestroyViews()
 	Pi::worldView = 0;
 	Pi::sectorView = 0;
 	Pi::cpan = 0;
+}
+
+Game *Game::LoadGame(const std::string &filename)
+{
+	printf("Game::LoadGame('%s')\n", filename.c_str());
+	FILE *f = FileSystem::userFiles.OpenReadStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	if (!f) throw CouldNotOpenFileException();
+	Serializer::Reader rd(f);
+	fclose(f);
+	return new Game(rd);
+}
+
+void Game::SaveGame(const std::string &filename, Game *game)
+{
+	assert(game);
+	if (!FileSystem::userFiles.MakeDirectory(Pi::SAVE_DIR_NAME)) {
+		throw CouldNotOpenFileException();
+	}
+
+	Serializer::Writer wr;
+	game->Serialize(wr);
+
+	const std::string data = wr.GetData();
+
+	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	if (!f) throw CouldNotOpenFileException();
+
+	size_t nwritten = fwrite(data.data(), data.length(), 1, f);
+	fclose(f);
+
+	if (nwritten != 1) throw CouldNotWriteToFileException();
 }

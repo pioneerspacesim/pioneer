@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipCpanelMultiFuncDisplays.h"
@@ -170,7 +170,7 @@ void ScannerWidget::Draw()
 
 	SetScissor(true);
 
-	float rangediff = abs(m_lastRange-m_currentRange);
+	float rangediff = fabs(m_lastRange-m_currentRange);
 	if (rangediff > 200.0 || rangediff / m_currentRange > 0.01) {
 		GenerateRingsAndSpokes();
 		m_lastRange = m_currentRange;
@@ -222,11 +222,12 @@ void ScannerWidget::Update()
 	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
 
 	// collect the bodies to be displayed, and if AUTO, distances
-	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
+	Space::BodyNearList nearby;
+	Pi::game->GetSpace()->GetBodiesMaybeNear(Pi::player, SCANNER_RANGE_MAX, nearby);
+	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
 		if ((*i) == Pi::player) continue;
 
 		float dist = float((*i)->GetPositionRelTo(Pi::player).Length());
-		if (dist > SCANNER_RANGE_MAX) continue;
 
 		Contact c;
 		c.type = (*i)->GetType();
@@ -237,7 +238,7 @@ void ScannerWidget::Update()
 
 			case Object::MISSILE:
 				// player's own missiles are ignored for range calc but still shown
-				if (static_cast<Missile*>(*i)->GetOwner() == Pi::player) {
+				if (static_cast<const Missile*>(*i)->GetOwner() == Pi::player) {
 					c.isSpecial = true;
 					break;
 				}
@@ -245,7 +246,7 @@ void ScannerWidget::Update()
 				// else fall through
 
 			case Object::SHIP: {
-				Ship *s = static_cast<Ship*>(*i);
+				const Ship *s = static_cast<const Ship*>(*i);
 				if (s->GetFlightState() != Ship::FLYING && s->GetFlightState() != Ship::LANDED)
 					continue;
 
@@ -391,10 +392,7 @@ void ScannerWidget::DrawBlobs(bool below)
 			pointSize = 4.f;
 		}
 
-		matrix4x4d rot;
-		Pi::player->GetRotMatrix(rot);
-		vector3d pos = rot.InverseOf() * i->pos;
-
+		vector3d pos = i->pos * Pi::player->GetOrient();
 		if ((pos.y > 0) && (below)) continue;
 		if ((pos.y < 0) && (!below)) continue;
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TerrainBody.h"
@@ -13,7 +13,6 @@
 TerrainBody::TerrainBody(SystemBody *sbody) :
 	Body(),
 	m_sbody(0),
-	m_pos(vector3d(0,0,0)),
 	m_mass(0),
 	m_geosphere(0)
 {
@@ -23,7 +22,6 @@ TerrainBody::TerrainBody(SystemBody *sbody) :
 TerrainBody::TerrainBody() :
 	Body(),
 	m_sbody(0),
-	m_pos(vector3d(0,0,0)),
 	m_mass(0),
 	m_geosphere(0)
 {
@@ -42,28 +40,20 @@ void TerrainBody::InitTerrainBody(SystemBody *sbody)
 	m_mass = m_sbody->GetMass();
 	if (!m_geosphere)
 		m_geosphere = new GeoSphere(sbody);
+	m_maxFeatureHeight = (m_geosphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
 }
 
 void TerrainBody::Save(Serializer::Writer &wr, Space *space)
 {
 	Body::Save(wr, space);
-	wr.Vector3d(m_pos);
 	wr.Int32(space->GetIndexForSystemBody(m_sbody));
 }
 
 void TerrainBody::Load(Serializer::Reader &rd, Space *space)
 {
 	Body::Load(rd, space);
-	m_pos = rd.Vector3d();
 	SystemBody *sbody = space->GetSystemBodyByIndex(rd.Int32());
 	InitTerrainBody(sbody);
-}
-
-double TerrainBody::GetBoundingRadius() const
-{
-	// needs to include all terrain so culling works {in the future},
-	// and size of rotating frame is correct
-	return m_sbody->GetRadius() * (1.1+m_geosphere->GetMaxFeatureHeight());
 }
 
 void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)

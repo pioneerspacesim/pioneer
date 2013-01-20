@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _STARSYSTEM_H
@@ -41,7 +41,7 @@ struct Orbit {
 	double orbitalPhaseAtStart; // 0 to 2 pi radians
 	/* dup " " --------------------------------------- */
 	double period; // seconds
-	matrix4x4d rotMatrix;
+	matrix3x3d rotMatrix;
 };
 
 struct RingStyle {

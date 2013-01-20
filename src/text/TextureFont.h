@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXT_TEXTUREFONT_H
@@ -59,7 +59,6 @@ private:
 	void AddGlyphGeometry(Graphics::VertexArray *va, const glfglyph_t &glyph, float x, float y, const Color &color);
 	float m_height;
 	float m_descender;
-	int m_texSize;
 	RefCountedPtr<Graphics::Texture> m_texture;
 	ScopedPtr<Graphics::Material> m_mat;
 	Graphics::VertexArray m_vertices;

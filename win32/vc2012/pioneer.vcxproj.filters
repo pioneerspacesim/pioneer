@@ -315,16 +315,10 @@
     <ClCompile Include="..\..\src\Game.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GameLoaderSaver.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\MathUtil.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ShipController.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\WorldViewCamera.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\CRC32.cpp">
@@ -415,6 +409,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ModelViewer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SpaceStationType.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\CameraController.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -779,13 +779,7 @@
     <ClInclude Include="..\..\src\Game.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GameLoaderSaver.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\ShipController.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\WorldViewCamera.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\CRC32.h">
@@ -879,6 +873,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ModelViewer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SpaceStationType.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\CameraController.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

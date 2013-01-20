@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXTURE_H
@@ -12,11 +12,17 @@ namespace Graphics {
 enum TextureFormat {
 	TEXTURE_RGBA,
 	TEXTURE_RGB,
+	TEXTURE_LUMINANCE_ALPHA, // luminance value put into R,G,B components; separate alpha value
+	TEXTURE_INTENSITY,
+	TEXTURE_ALPHA
 };
 
 enum ImageFormat {
 	IMAGE_RGBA,
 	IMAGE_RGB,
+	IMAGE_LUMINANCE_ALPHA,
+	IMAGE_INTENSITY,
+	IMAGE_ALPHA
 };
 
 enum ImageType {

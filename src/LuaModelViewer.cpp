@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -561,7 +561,7 @@ void Viewer::MainLoop()
 	Uint32 t = SDL_GetTicks();
 	int numFrames = 0, fps = 0, numTris = 0;
 	Uint32 lastFpsReadout = SDL_GetTicks();
-	g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
+	g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetRadius());
 	g_camorient = matrix4x4f::Identity();
 	matrix4x4f modelRot = matrix4x4f::Identity();
 
@@ -615,7 +615,7 @@ void Viewer::MainLoop()
 		int beforeDrawTriStats = LmrModelGetStatsTris();
 
 		if (g_renderType == 0) {
-			glPushAttrib(GL_ALL_ATTRIB_BITS);
+			glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			if (g_doBenchmark) {
 				for (int i=0; i<1000; i++) m_model->Render(renderer, m, &g_params);
@@ -655,7 +655,7 @@ void Viewer::MainLoop()
 					aabb.max.x-aabb.min.x,
 					aabb.max.y-aabb.min.y,
 					aabb.max.z-aabb.min.z,
-					aabb.GetBoundingRadius(),
+					aabb.GetRadius(),
 					m_model->GetDrawClipRadius(),
 					int(gridInterval));
 			m_trisReadout->SetText(buf);
@@ -795,7 +795,7 @@ int main(int argc, char **argv)
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc);
 	renderer->SetLights(1, &light);
 
 	LmrModelCompilerInit(renderer);

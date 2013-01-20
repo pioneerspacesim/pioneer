@@ -1,4 +1,4 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Get the translator function
@@ -9,7 +9,8 @@ local ui = Engine.ui
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 30
 -- typical time for travel to a system max_delivery_dist away
-local typical_travel_time = 0.9 * max_delivery_dist * 24 * 60 * 60
+--	Irigi: ~ 4 days for in-system travel, the rest is FTL travel time
+local typical_travel_time = (1.6 * max_delivery_dist + 4) * 24 * 60 * 60
 -- typical reward for delivery to a system max_delivery_dist away
 local typical_reward = 25 * max_delivery_dist
 
@@ -41,6 +42,7 @@ local onChat = function (form, ref, option)
 			sectorx  = ad.location.sectorX,
 			sectory  = ad.location.sectorY,
 			sectorz  = ad.location.sectorZ,
+			dist     = string.format("%.2f", ad.dist),
 		})
 
 		form:SetMessage(introtext)
@@ -101,7 +103,7 @@ end
 
 local nearbysystems
 local makeAdvert = function (station)
-	local reward, due, location, nearbysystem
+	local reward, due, location, nearbysystem, dist
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
 	local client = Character.New()
 	local flavour = Engine.rand:Integer(1,#delivery_flavours)
@@ -114,7 +116,7 @@ local makeAdvert = function (station)
 		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
 		if location ==  station.path then return end
 		local locdist = Space.GetBody(location.bodyIndex)
-		local dist = station:DistanceTo(locdist)
+		dist = station:DistanceTo(locdist)
 		if dist < 1000 then return end
 		reward = 25 + (math.sqrt(dist) / 15000) * (1+urgency)
 		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
@@ -124,7 +126,7 @@ local makeAdvert = function (station)
 		end
 		if #nearbysystems == 0 then return end
 		nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
-		local dist = nearbysystem:DistanceTo(Game.system)
+		dist = nearbysystem:DistanceTo(Game.system)
 		local nearbystations = nearbysystem:GetStationPaths()
 		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
 		reward = ((dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * Engine.rand:Number(0.8,1.2))
@@ -136,6 +138,7 @@ local makeAdvert = function (station)
 		flavour		= flavour,
 		client		= client,
 		location	= location,
+		dist            = dist,
 		due		= due,
 		risk		= risk,
 		urgency		= urgency,
@@ -292,6 +295,7 @@ end
 
 local onClick = function (mission)
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
+	local dist = Game.system:DistanceTo(mission.location)
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((delivery_flavours[mission.flavour].introtext):interp({
 														name   = mission.client.name,
@@ -300,7 +304,8 @@ local onClick = function (mission)
 														sectorx = mission.location.sectorX,
 														sectory = mission.location.sectorY,
 														sectorz = mission.location.sectorZ,
-														cash   = Format.Money(mission.reward)})
+														cash   = Format.Money(mission.reward),
+														dist  = string.format("%.2f", dist)})
 										),
 										ui:Grid(2,1)
 											:SetColumn(0, {
@@ -312,7 +317,7 @@ local onClick = function (mission)
 													ui:Label(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
 													ui:Label(Format.Date(mission.due)),
 													ui:Margin(10),
-													ui:Label(math.ceil(Game.system:DistanceTo(mission.location)).." "..t("ly"))
+													ui:Label(math.ceil(dist).." "..t("ly"))
 												})
 											})
 		})})
@@ -341,6 +346,6 @@ Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 
-Mission.RegisterClick('Delivery',onClick)
+Mission.RegisterType('Delivery','Delivery',onClick)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)

@@ -1,4 +1,4 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local loaded
@@ -10,7 +10,7 @@ local spawnShips = function ()
 		return
 	end
 
-	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") end)
+	local stations = Space.GetBodies(function (body) return body:isa("SpaceStation") and not body.isGroundStation end)
 	if #stations == 0 then
 		return
 	end
@@ -18,27 +18,8 @@ local spawnShips = function ()
 	local shiptypes = ShipType.GetShipTypes('STATIC_SHIP')
 	if #shiptypes == 0 then return end
 
-	--[[
-	assuming these are huge supply ships and not your run-of-the-mill
-	traders and not warships or whatever, we'll do it like this:
-
-	- first one is free
-	- one ship per billion up to 4 billion
-	- one ship per 5 billion after that
-	]]
-
-	local num_bulk_ships = 1
-	while population > 1 do
-		if num_bulk_ships < 4 then
-			population = population-1
-			num_bulk_ships = num_bulk_ships+1
-		elseif population > 5 then
-			population = population-5
-			num_bulk_ships = num_bulk_ships+1
-		else
-			break
-		end
-	end
+	-- one ship per three billion, min 1, max 2*num of stations
+	local num_bulk_ships = math.min(#stations*2, math.floor((math.ceil(population)+2)/3))
 
 	for i=1, num_bulk_ships do
 	local station = stations[Engine.rand:Integer(1,#stations)]

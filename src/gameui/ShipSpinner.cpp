@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipSpinner.h"
@@ -23,9 +23,8 @@ ShipSpinner::ShipSpinner(Context *context, const ShipFlavour &flavour) : Widget(
 	m_params.animValues[Ship::ANIM_WHEEL_STATE] = 1.0;
 	m_params.flightState = Ship::FLYING;
 
-	Color lc(0.5f, 0.5f, 0.5f, 0.f);
+	Color lc(1.f);
 	m_light.SetDiffuse(lc);
-	m_light.SetAmbient(lc);
 	m_light.SetSpecular(lc);
 	m_light.SetPosition(vector3f(1.f, 1.f, 0.f));
 	m_light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);

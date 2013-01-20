@@ -557,34 +557,12 @@ YAW
     Girare
 MISSILE
     rachetă
-HARMLESS
-    Inofensiv
-MOSTLY_HARMLESS
-    Aproape inofensiv
-POOR
-    Slabuţ
-AVERAGE
-    Mediocru
-ABOVE_AVERAGE
-    Peste medie
-COMPETENT
-    Competent
-DANGEROUS
-    Periculos
-DEADLY
-    Mortal
-ELITE
-    DE ELITĂ
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Se simulează evoluţia universului: %age{f.1} mii de milioane de ani ;-)
 TOMBSTONE_EPITAPH
     ETERNE REGRETE
 SCREENSHOT_FILENAME_TEMPLATE
     captura%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Asociaţia Piloţilor Pionieri
-RIGHT_ON_COMMANDER
-    Felicitări comandante! Clasificarea nivelului dumneavoastră de luptă a crescut!
 ALERT_CANCELLED
     Alertă anulată.
 SHIP_DETECTED_NEARBY

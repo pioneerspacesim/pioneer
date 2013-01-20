@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MATRIX4X4_H
@@ -7,6 +7,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "vector3.h"
+#include "matrix3x3.h"
 
 template <typename T>
 class matrix4x4 {
@@ -26,6 +27,21 @@ class matrix4x4 {
 	vector3<T> GetTranslate() const { return vector3<T>(cell[12], cell[13], cell[14]); }
 	void SetRotationOnly(const matrix4x4& m) {
 		for (int i=0; i<12; i++) cell[i] = m.cell[i];
+	}
+	matrix4x4 (const matrix3x3<T> &m)
+	{
+		cell[0] = m[0]; cell[4] = m[1]; cell[8] = m[2]; cell[12] = 0;
+		cell[1] = m[3]; cell[5] = m[4]; cell[9] = m[5]; cell[13] = 0;
+		cell[2] = m[6]; cell[6] = m[7]; cell[10] = m[8]; cell[14] = 0;
+		cell[3] = 0;    cell[7] = 0;    cell[11] = 0;    cell[15] = 1;
+	}
+	matrix3x3<T> GetOrient() 
+	{
+		matrix3x3<T> m;
+		m[0] = cell[0]; m[1] = cell[4]; m[2] = cell[8];
+		m[3] = cell[1]; m[4] = cell[5]; m[5] = cell[9];
+		m[6] = cell[2]; m[7] = cell[6]; m[8] = cell[10];
+		return m;
 	}
 	// row-major 3x3 matrix
 	void LoadFrom3x3Matrix(const T *r) {

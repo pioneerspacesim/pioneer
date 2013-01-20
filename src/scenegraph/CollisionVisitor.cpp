@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CollisionVisitor.h"
@@ -143,8 +143,7 @@ RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 	GeomTree *t = new GeomTree(
 		vts.size(), ind.size()/3, reinterpret_cast<float*>(&vts[0]), &ind[0], &m_collMesh->m_flags[0]);
 	m_collMesh->SetGeomTree(t);
-	m_boundingRadius = m_collMesh->GetAabb().GetBoundingRadius();
-	m_collMesh->SetBoundingRadius(m_collMesh->GetAabb().GetBoundingRadius());
+	m_boundingRadius = m_collMesh->GetAabb().GetRadius();
 
 	return m_collMesh;
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "DeathView.h"
@@ -19,16 +19,17 @@ DeathView::DeathView(): View()
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
 	const float fovY = Pi::config->Float("FOVVertical");
-	m_cam = new Camera(Pi::player, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar);
+	m_cam = new Camera(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar);
 }
 
 DeathView::~DeathView() {}
 
 void DeathView::Init()
 {
-	m_cameraDist = Pi::player->GetBoundingRadius() * 5.0;
-	m_cam->SetPosition(vector3d(0, 0, m_cameraDist));
-	m_cam->SetOrientation(matrix4x4d::Identity());
+	m_cameraDist = Pi::player->GetClipRadius() * 5.0;
+	m_cam->SetFrame(Pi::player->GetFrame());
+	m_cam->SetPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, m_cameraDist));
+	m_cam->SetOrient(matrix3x3d::Identity());
 }
 
 void DeathView::OnSwitchTo()
@@ -41,7 +42,7 @@ void DeathView::Update()
 	assert(Pi::player->IsDead());
 
 	m_cameraDist += 160.0 * Pi::GetFrameTime();
-	m_cam->SetPosition(vector3d(0, 0, m_cameraDist));
+	m_cam->SetPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, m_cameraDist));
 	m_cam->Update();
 }
 

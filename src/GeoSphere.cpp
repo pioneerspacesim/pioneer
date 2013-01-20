@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -1468,6 +1468,8 @@ void GeoSphere::SetUpMaterials()
 	const Uint32 effect_flags = m_terrain->GetSurfaceEffects();
 	if (effect_flags & Terrain::EFFECT_LAVA)
 		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA;
+	else if (effect_flags & Terrain::EFFECT_WATER)
+		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN_WITH_WATER;
 	else
 		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
 

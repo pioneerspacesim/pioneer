@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Loader.h"
@@ -219,6 +219,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		mat->specular = (*it).specular;
 		mat->emissive = (*it).emissive;
 		mat->shininess = (*it).shininess;
+
 		//semitransparent material
 		//the node must be marked transparent when using this material
 		//and should not be mixed with opaque materials
@@ -428,7 +429,7 @@ bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
 
 RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 {
-	assert(index < Model::MAX_DECAL_MATERIALS);
+	assert(index <= Model::MAX_DECAL_MATERIALS);
 	RefCountedPtr<Graphics::Material> &decMat = m_model->m_decalMaterials[index-1];
 	if (!decMat.Valid()) {
 		Graphics::MaterialDescriptor matDesc;

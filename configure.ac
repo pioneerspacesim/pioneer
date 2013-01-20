@@ -1,4 +1,4 @@
-dnl Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+dnl Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 dnl Licensed under the terms of the GPL v3. See COPYING.txt for details
 
 dnl Process this file with autoconf to create configure.
@@ -8,7 +8,7 @@ dnl Setup
 dnl ###########################################################################
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [alpha-30-dev], [pioneer-dev@pioneerspacesim.net])
+AC_INIT([pioneer], [alpha-31-dev], [pioneer-dev@pioneerspacesim.net])
 dnl AC_CONFIG_HEADERS([config.h])
 
 AC_DEFUN([MXE_SETUP], [
@@ -191,7 +191,7 @@ AC_ARG_WITH([thirdparty], AS_HELP_STRING([--with-thirdparty], [Location of pione
 	    export PKG_CONFIG_PATH
     fi
 	CFLAGS="-isystem $withval/usr/include"
-	LIBS="-L$withval/usr/lib -Wl,-rpath=$withval/usr/lib"
+	LIBS="-L$withval/usr/lib -Wl,-rpath,$withval/usr/lib"
 ])
 
 dnl Check for sigc++
@@ -223,7 +223,7 @@ if test "x$cross_compiling" = "xno" ; then
 	dnl upstream, so we have to test the library directly
 	AC_MSG_CHECKING(for ASSIMP version >= 3.0)
 	dnl Convert -Lfoo to -rpath=, as the wanted dir might not be visible to the dynamic linker
-	assimp_rpath=`echo $ASSIMP_LIBS | sed -e 's/-[^L] *[^ ]\+ *//g' | sed -e 's/-L */-Wl,-rpath=/g'`
+	assimp_rpath=`echo $ASSIMP_LIBS | sed -e 's/-[^L] *[^ ]\+ *//g' | sed -e 's/-L */-Wl,-rpath,/g'`
 	old_cxxflags="$CXXFLAGS"
 	old_libs="$LIBS"
 	CXXFLAGS="$ASSIMP_CFLAGS"

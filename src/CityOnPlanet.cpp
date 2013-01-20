@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -110,7 +110,7 @@ always_divide:
 		geom->SetUserData(this);
 //		f->AddStaticGeom(geom);
 
-		BuildingDef def = { model, cmesh->GetBoundingRadius(), rotTimes90, cent, geom, false };
+		BuildingDef def = { model, float(cmesh->GetRadius()), rotTimes90, cent, geom, false };
 		m_buildings.push_back(def);
 	}
 }
@@ -241,11 +241,8 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 		}
 	}
 
-	Aabb aabb;
-	station->GetAabb(aabb);
-
-	matrix4x4d m;
-	station->GetRotMatrix(m);
+	const Aabb &aabb = station->GetAabb();
+	matrix4x4d m = station->GetOrient();
 
 	vector3d mx = m*vector3d(1,0,0);
 	vector3d mz = m*vector3d(0,0,1);
@@ -309,11 +306,10 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	AddStaticGeomsToCollisionSpace();
 }
 
-//Note: models get some ambient colour added when dark as the camera moves closer
-void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform, double illumination, double minIllumination)
+void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d rot[4];
-	station->GetRotMatrix(rot[0]);
+	rot[0] = station->GetOrient();
 
 	// change detail level if necessary
 	if (m_detailLevel != Pi::detail.cities) {
@@ -326,7 +322,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*double(i));
 	}
 
-	const Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
+	const Graphics::Frustum frustum = camera->GetFrustum();
 	//modelview seems to be always identity
 
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
@@ -341,21 +337,6 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		if (!frustum.TestPoint(pos, (*i).clipRadius))
 			continue;
 
-		const Color oldSceneAmbientColor = r->GetAmbientColor();
-
-		// fade conditions for models
-		double fadeInEnd, fadeInLength;
-		if (Graphics::AreShadersEnabled()) {
-			fadeInEnd = 10.0;
-			fadeInLength = 500.0;
-		}
-		else {
-			fadeInEnd = 2000.0;
-			fadeInLength = 6000.0;
-		}
-
-		FadeInModelIfDark(r, (*i).clipRadius, pos.Length(), fadeInEnd, fadeInLength, illumination, minIllumination);
-
 		matrix4x4f _rot;
 		for (int e=0; e<16; e++) _rot[e] = float(rot[(*i).rotation][e]);
 		_rot[12] = float(pos.x);
@@ -364,9 +345,5 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		glPushMatrix();
 		(*i).model->Render(r, _rot, &cityobj_params);
 		glPopMatrix();
-
-		// restore old ambient colour
-		if (illumination <= minIllumination)
-			r->SetAmbientColor(oldSceneAmbientColor);
 	}
 }

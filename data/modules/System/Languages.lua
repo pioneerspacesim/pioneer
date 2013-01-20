@@ -1,4 +1,4 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 ---- ENGLISH / ENGLISH ----
@@ -30,5 +30,13 @@ Translate:Add({ Polski = {
 Translate:Add({ Magyar = {
 	["Your fuel tank is almost empty."] = "Az üzemanyagtartályod majdnem üres.",
 	["Your fuel tank is empty."] = "Az üzemanyagtartályod teljesen kiürült.",
+}
+})
+
+---- RUSSIAN / РУССКИЙ ----
+
+Translate:Add({ Russian = {
+	["Your fuel tank is almost empty."] = "Топливные баки корабля почти пусты!",
+	["Your fuel tank is empty."] = "Топливные баки корабля абсолютно пусты!",
 }
 })

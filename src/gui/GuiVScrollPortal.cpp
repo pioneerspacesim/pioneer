@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -90,8 +90,8 @@ float VScrollPortal::GetScrollPixels()
 
 bool VScrollPortal::OnMouseDown(MouseButtonEvent *e)
 {
-	if (e->button == 4 || e->button == 5) {
-		float change = e->button == 4 ? -0.1 : 0.1;
+	if (e->button == SDL_BUTTON_WHEELUP || e->button == SDL_BUTTON_WHEELDOWN) {
+		float change = e->button == SDL_BUTTON_WHEELUP ? -0.1 : 0.1;
 		float pos = vscrollAdjust.GetValue();
 		vscrollAdjust.SetValue(Clamp(pos+change, 0.0f, 1.0f));
 		return false;

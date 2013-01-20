@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LIBS_H
@@ -54,6 +54,7 @@ inline int isfinite(double x) { return _finite(x); }
 #include "vector2.h"
 #include "vector3.h"
 #include "Aabb.h"
+#include "matrix3x3.h"
 #include "matrix4x4.h"
 #include "Color.h"
 #include "mtrand.h"

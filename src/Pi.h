@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PI_H
@@ -153,9 +153,6 @@ public:
 
 	static Game *game;
 
-	static int CombatRating(int kills);
-	static const char * const combatRating[];
-
 	static struct DetailLevel detail;
 	static GameConfig *config;
 private:
@@ -181,6 +178,8 @@ private:
 	static char mouseButton[6];
 	static int mouseMotion[2];
 	static bool doingMouseGrab;
+	static bool warpAfterMouseGrab;
+	static int mouseGrabWarpPos[2];
 	static const float timeAccelRates[];
 
 	static bool joystickEnabled;
