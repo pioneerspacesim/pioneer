@@ -17,12 +17,18 @@ Translate:Add({
 		['Minimal time served aboard ship'] = 'Minimal time served aboard ship',
 		['Time served crew member'] = 'Time served crew member',
 		['Veteran, time served crew member'] = 'Veteran, time served crew member',
+		-- Crew positions
+		["Ship's Engineer"] = "Ship's Engineer",
+		["Pilot"] = "Pilot",
+		["Navigator"] = "Navigator",
+		["Sensors and defence"] = "Sensors and defence",
 		-- Details form for a single crew member
 		crewDetailSheetBB = [[Crew for hire
 
 Name: {name}
 Experience: {experience}
+Asking wage: {wage} per week
 
-]]
+]],
 	}
 })

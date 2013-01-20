@@ -125,6 +125,17 @@ local onCreateBB = function (station)
 		local hopefulCrew = Character.New()
 		-- Roll new stats, with a 1/3 chance that they're utterly inexperienced
 		hopefulCrew:RollNew(Engine.rand:Integer(0, 2) > 0)
+		-- Make them a title if they're good at anything
+		local maxScore = math.max(hopefulCrew.engineering,
+									hopefulCrew.piloting,
+									hopefulCrew.navigation,
+									hopefulCrew.sensors)
+		if maxScore > 45 then
+			if hopefulCrew.engineering == maxScore then hopefulCrew.title = t("Ship's Engineer") end
+			if hopefulCrew.piloting == maxScore then hopefulCrew.title = t("Pilot") end
+			if hopefulCrew.navigation == maxScore then hopefulCrew.title = t("Navigator") end
+			if hopefulCrew.sensors == maxScore then hopefulCrew.title = t("Sensors and defence") end
+		end
 		table.insert(nonPersistentCharactersForCrew[station],hopefulCrew)
 	end
 
@@ -163,18 +174,28 @@ local onCreateBB = function (station)
 											and Game.time - c.lastSavedTime < 2419200 -- (28 days)
 									end) do
 				table.insert(crewInThisStation,c)
+				c.experienceScore = c.engineering
+												+c.piloting
+												+c.navigation
+												+c.sensors
+				c.estimatedWage = math.floor(c.experienceScore / 6)
 			end
 			-- Now add any non-persistent characters (which are persistent only in the sense
 			-- that this BB ad is storing them)
 			for k,c in ipairs(nonPersistentCharactersForCrew[station]) do
 				table.insert(crewInThisStation,c)
+				c.experienceScore = c.engineering
+												+c.piloting
+												+c.navigation
+												+c.sensors
+				c.estimatedWage = math.floor(c.experienceScore / 6)
 			end
 
 			form:SetTitle(t("Crew for hire"))
 			form:Clear()
-			form:SetMessage(t("Potential crew members are registered as seeking employment on {station}:"):interp({station=station.label}))
+			form:SetMessage(t("Potential crew members are registered as seeking employment at {station}:"):interp({station=station.label}))
 			for k,c in ipairs(crewInThisStation) do
-				form:AddOption(t('Examine {potentialCrewMember}'):interp({potentialCrewMember = c.name}),k)
+				form:AddOption(t('Examine {potentialCrewMember} ({wage}/wk)'):interp({potentialCrewMember = c.name,wage = c.contract and c.contract.wage or c.estimatedWage}),k)
 				if k > 12 then break end -- XXX They just won't all fit on screen. New UI can scroll.
 			end
 			form:AddOption(t('HANG_UP'), -1)
@@ -186,10 +207,6 @@ local onCreateBB = function (station)
 			-- Now we're candidate, option values will indicate conversation state
 			-- so we track the current candidate directly
 			candidate = crewInThisStation[option]
-			candidate.experienceScore = candidate.engineering
-											+candidate.piloting
-											+candidate.navigation
-											+candidate.sensors
 			local experience =
 				candidate.experienceScore > 160 and t('Veteran, time served crew member') or
 				candidate.experienceScore > 140 and t('Time served crew member') or
@@ -203,7 +220,7 @@ local onCreateBB = function (station)
 			form:SetMessage(t('crewDetailSheetBB'):interp({
 				name = candidate.name,
 				experience = experience,
-				wages = candidate.contract and candidate.contract.wage or estimatedWage,
+				wage = Format.Money(candidate.contract and candidate.contract.wage or candidate.estimatedWage),
 			}))
 			form:AddOption(t('GO_BACK'), 0)
 			form:AddOption(t('HANG_UP'), -1)
