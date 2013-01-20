@@ -50,6 +50,11 @@ Engineering and repair: {engineering}%
 Piloting and spaceflight: {piloting}%
 Navigation and plotting: {navigation}%
 Sensors and defence: {sensors}%
-Overall exam score: {overall}%]]
+Overall exam score: {overall}%]],
+		-- Taunts
+		["I'm tired of working for nothing. Don't you know what a contract is?"] = "I'm tired of working for nothing. Don't you know what a contract is?",
+		["It's been great working for you. If you need me again, I'll be here a while."] = "It's been great working for you. If you need me again, I'll be here a while.",
+		["You're going to regret sacking me!"] = "You're going to regret sacking me!",
+		["Good riddance to you, too."] = "Good riddance to you, too.",
 	}
 })

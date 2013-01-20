@@ -557,7 +557,7 @@ local crewRoster = function ()
 		local crewlistbox = ui:VBox(10)
 
 		-- One row for each mission, plus a header
-		local rowspec = {8,8,4,7,5}
+		local rowspec = {8,8,4,4,7,5}
 		local headergrid  = ui:Grid(rowspec,1)
 
 		-- Set up the headings for the Crew Roster list
@@ -603,7 +603,7 @@ local crewRoster = function ()
 		-- Make the button that you'd use to sack somebody
 		local dismissButton = UI.SmallLabeledButton.New(t("Dismiss"))
 		dismissButton.button.onClick:Connect(function ()
-			if Game.player.flightState == 'DOCKED' and crewMember.outstanding == 0 and Game.player:Dismiss(crewMember) then
+			if Game.player.flightState == 'DOCKED' and not(crewMember.contract and crewMember.contract.outstanding > 0) and Game.player:Dismiss(crewMember) then
 				crewMember:Save()                         -- Save to persistent characters list
 				CrewScreen:SetInnerWidget(makeCrewList()) -- Return to crew roster list
 			end

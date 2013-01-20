@@ -81,19 +81,9 @@ local scheduleWages = function (crewMember)
 		boostCrewSkills(crewMember)
 
 		-- Schedule the next pay day, if there is one.
-		if contract.payday then
-			if contract.payday == -1 then
-				-- Continuing to draw wages from the player until all owed wages are paid!
-				-- Harsh, but fair. This stops if the crewmember dies, of course...
-				if contract.outstanding > 0 and not crewMember.dead then
-					Timer:CallAt(Game.time+wage_period,payWages)
-				else
-					crewMember.contract = nil
-				end
-			else
-				contract.payday = contract.payday + wage_period
-				Timer:CallAt(contract.payday,payWages)
-			end
+		if contract.payday and not crewMember.dead then
+			contract.payday = contract.payday + wage_period
+			Timer:CallAt(contract.payday,payWages)
 		end
 	end
 
@@ -117,15 +107,21 @@ end)
 
 -- This gets run whenever a crew member leaves a ship
 Event.Register('onLeaveCrew',function(ship, crewMember)
+print('OK')
 	if ship:IsPlayer() and crewMember.contract then
 		if crewMember.contract.outstanding > 0 then
-			crewMember.contract.payday = -1
+			Comms.Message(t("I'm tired of working for nothing. Don't you know what a contract is?"),crewMember.name)
+		elseif crewMember:TestRoll('playerRelationship') then
+			Comms.Message(t("It's been great working for you. If you need me again, I'll be here a while."),crewMember.name)
+		elseif crewMember:TestRoll('lawfulness') then
+			Comms.Message(t("You're going to regret sacking me!"),crewMember.name)
 		else
-			-- Prepare them for the job market
-			crewMember.estimatedWage = crewMember.contract.wage + 5
-			-- Terminate their contract
-			crewMember.contract = nil
+			Comms.Message(t("Good riddance to you, too."),crewMember.name)
 		end
+		-- Prepare them for the job market
+		crewMember.estimatedWage = crewMember.contract.wage + 5
+		-- Terminate their contract
+		crewMember.contract = nil
 	end
 end)
 
