@@ -107,16 +107,18 @@ end)
 
 -- This gets run whenever a crew member leaves a ship
 Event.Register('onLeaveCrew',function(ship, crewMember)
-print('OK')
 	if ship:IsPlayer() and crewMember.contract then
 		if crewMember.contract.outstanding > 0 then
 			Comms.Message(t("I'm tired of working for nothing. Don't you know what a contract is?"),crewMember.name)
+			crewMember.playerRelationship = crewMember.playerRelationship - 5 -- Hate!
 		elseif crewMember:TestRoll('playerRelationship') then
 			Comms.Message(t("It's been great working for you. If you need me again, I'll be here a while."),crewMember.name)
 		elseif crewMember:TestRoll('lawfulness') then
 			Comms.Message(t("You're going to regret sacking me!"),crewMember.name)
+			crewMember.playerRelationship = crewMember.playerRelationship - 1
 		else
 			Comms.Message(t("Good riddance to you, too."),crewMember.name)
+			crewMember.playerRelationship = crewMember.playerRelationship - 1
 		end
 		-- Prepare them for the job market
 		crewMember.estimatedWage = crewMember.contract.wage + 5
