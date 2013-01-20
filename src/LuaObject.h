@@ -123,6 +123,11 @@ public:
 	// stack
 	static void CreateObject(const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta, bool protect = false);
 
+	// get all valid method/attribute names for the object on the top of the
+	// stack. mainly intended for the console. uses the same logic as the
+	// method dispatcher
+	static void GetNames(std::vector<std::string> &names, const std::string &prefix = "", bool methodsOnly = false);
+
 protected:
 	// base class constructor, called by the wrapper Push* methods
 	LuaObjectBase(DeleteEmitter *o, const char *type) : m_object(o), m_type(type) {};
