@@ -7,6 +7,7 @@
 -- Get the translator function
 local t = Translate:GetTranslator()
 local wage_period = 604800 -- a week of seconds
+local wage_period = 120 -- two minutes
 
 -- The contract for a crew member is a table containing their weekly wage,
 -- the date that they should next be paid and the amount outstanding if
@@ -82,8 +83,18 @@ local scheduleWages = function (crewMember)
 
 		-- Schedule the next pay day, if there is one.
 		if contract.payday then
-			contract.payday = contract.payday + wage_period
-			Timer:CallAt(contract.payday,payWages)
+			if contract.payday == -1 then
+				-- Continuing to draw wages from the player until all owed wages are paid!
+				-- Harsh, but fair. This stops if the crewmember dies, of course...
+				if contract.outstanding > 0 and not crewMember.dead then
+					Timer:CallAt(Game.time+wage_period,payWages)
+				else
+					crewMember.contract = nil
+				end
+			else
+				contract.payday = contract.payday + wage_period
+				Timer:CallAt(contract.payday,payWages)
+			end
 		end
 	end
 
@@ -108,7 +119,14 @@ end)
 -- This gets run whenever a crew member leaves a ship
 Event.Register('onLeaveCrew',function(ship, crewMember)
 	if ship:IsPlayer() and crewMember.contract then
-		crewMember.contract.payday = nil
+		if crewMember.contract.outstanding > 0 then
+			crewMember.contract.payday = -1
+		else
+			-- Prepare them for the job market
+			crewMember.estimatedWage = crewMember.contract.wage + 5
+			-- Terminate their contract
+			crewMember.contract = nil
+		end
 	end
 end)
 
@@ -167,16 +185,17 @@ local onChat = function (form,ref,option)
 											+c.navigation
 											+c.sensors
 			-- Either base wage on experience, or as a slight increase on their previous wage
-			c.estimatedWage = c.contract and c.contract.wage + 5 or c.estimatedWage or wageFromScore(c.experience)
+			-- (which should only happen if this candidate was dismissed with wages owing)
+			c.estimatedWage = math.max(c.contract and (c.contract.wage + 5) or 0, c.estimatedWage or wageFromScore(c.experience))
 		end
 		-- Now add any non-persistent characters (which are persistent only in the sense
 		-- that this BB ad is storing them)
 		for k,c in ipairs(nonPersistentCharactersForCrew[station]) do
 			table.insert(crewInThisStation,c)
 			c.experience = c.engineering
-											+c.piloting
-											+c.navigation
-											+c.sensors
+							+c.piloting
+							+c.navigation
+							+c.sensors
 			-- Base wage on experience
 			c.estimatedWage = c.estimatedWage or wageFromScore(c.experience)
 		end
@@ -185,7 +204,7 @@ local onChat = function (form,ref,option)
 		form:Clear()
 		form:SetMessage(t("Potential crew members are registered as seeking employment at {station}:"):interp({station=station.label}))
 		for k,c in ipairs(crewInThisStation) do
-			form:AddOption(t('{potentialCrewMember} ({wage}/wk)'):interp({potentialCrewMember = c.name,wage = c.contract and c.contract.wage or c.estimatedWage}),k)
+			form:AddOption(t('{potentialCrewMember} ({wage}/wk)'):interp({potentialCrewMember = c.name,wage = c.estimatedWage}),k)
 			if k > 12 then break end -- XXX They just won't all fit on screen. New UI can scroll.
 		end
 		form:AddOption(t('HANG_UP'), -1)
