@@ -119,8 +119,8 @@ local nonPersistentCharactersForCrew = {}
 
 local onCreateBB = function (station)
 	-- Create non-persistent Characters as available crew
-	-- Number is based on population, nicked from Assassinations.lua and tweaked
 	nonPersistentCharactersForCrew[station] = {}
+	-- Number is based on population, nicked from Assassinations.lua and tweaked
 	for i = 1, Engine.rand:Integer(0, math.ceil(Game.system.population) * 2 + 1) do
 		local hopefulCrew = Character.New()
 		-- Roll new stats, with a 1/3 chance that they're utterly inexperienced
@@ -128,50 +128,87 @@ local onCreateBB = function (station)
 		table.insert(nonPersistentCharactersForCrew[station],hopefulCrew)
 	end
 
+	local crewInThisStation -- Table of available folk available for hire here
+
 	-- Define onChat locally, so that it can see station arg
 	local onChat = function (form,ref,option)
-		local crewInThisStation = {} -- Table of available folk available for hire here
 
-		-- Look for any persistent characters that are available in this station
-		-- and have some sort of crew experience (however minor)
-		-- and were last seen less than a week ago
-		for c in Character.Find(function (c)
-									return true
-										and c.lastSavedSystemPath == station.path
-										and c.available
-										and (
-											c.engineering > 16
-											or c.piloting > 16
-											or c.navigation > 16
-											or c.sensors > 16
-										)
-										and Game.time - c.lastSavedTime < 604800 -- (a week)
-								end) do
-			table.insert(crewInThisStation,c)
-		end
-		for k,c in ipairs(nonPersistentCharactersForCrew[station]) do
-			table.insert(crewInThisStation,c)
+		if option == -1 then
+			-- Hang up
+			form:Close()
+			return
 		end
 
-		-- Form options (indexed table of anonymous functions called by index passed in 'option')
-		({
+		local candidate -- Use this to select options > 0
 
-			[-1] = function ()
-				form:Close()
-			end,
+		if option == 0 then
+			-- Not currently candidate; option values indicate crewInThisStation index
+			candidate = nil
+			-- Re-initialise crew list, and build it fresh
+			crewInThisStation = {}
 
-			[0] = function ()
-				form:SetTitle(t("Crew for hire"))
-				form:Clear()
-				local crewlist = "\n"
-				for k,crew in ipairs(crewInThisStation) do
-					crewlist = crewlist .. crew.name .. "\n"
-				end
-				form:SetMessage(t("List of crew members registered as seeking employment on {station}:"):interp({station=station.label}) .. crewlist)
-				form:AddOption(t('HANG_UP'), -1)
-			end,
+			-- Look for any persistent characters that are available in this station
+			-- and have some sort of crew experience (however minor)
+			-- and were last seen less than a month ago
+			for c in Character.Find(function (c)
+										return true
+											and c.lastSavedSystemPath == station.path
+											and c.available
+											and (
+												c.engineering > 16
+												or c.piloting > 16
+												or c.navigation > 16
+												or c.sensors > 16
+											)
+											and Game.time - c.lastSavedTime < 2419200 -- (28 days)
+									end) do
+				table.insert(crewInThisStation,c)
+			end
+			-- Now add any non-persistent characters (which are persistent only in the sense
+			-- that this BB ad is storing them)
+			for k,c in ipairs(nonPersistentCharactersForCrew[station]) do
+				table.insert(crewInThisStation,c)
+			end
 
-		})[option]()
+			form:SetTitle(t("Crew for hire"))
+			form:Clear()
+			form:SetMessage(t("Potential crew members are registered as seeking employment on {station}:"):interp({station=station.label}))
+			for k,c in ipairs(crewInThisStation) do
+				form:AddOption(t('Examine {potentialCrewMember}'):interp({potentialCrewMember = c.name}),k)
+				if k > 12 then break end -- XXX They just won't all fit on screen. New UI can scroll.
+			end
+			form:AddOption(t('HANG_UP'), -1)
+		end
+
+		-- 
+
+		if option > 0 and not candidate then
+			-- Now we're candidate, option values will indicate conversation state
+			-- so we track the current candidate directly
+			candidate = crewInThisStation[option]
+			candidate.experienceScore = candidate.engineering
+											+candidate.piloting
+											+candidate.navigation
+											+candidate.sensors
+			local experience =
+				candidate.experienceScore > 160 and t('Veteran, time served crew member') or
+				candidate.experienceScore > 140 and t('Time served crew member') or
+				candidate.experienceScore > 120 and t('Minimal time served aboard ship') or
+				candidate.experienceScore >  60 and t('Some experience in controlled environments') or
+				candidate.experienceScore >  10 and t('Simulator training only') or
+				t('No experience')
+			form:SetFace(candidate)
+			form:Clear()
+			candidate:PrintStats()
+			form:SetMessage(t('crewDetailSheetBB'):interp({
+				name = candidate.name,
+				experience = experience,
+				wages = candidate.contract and candidate.contract.wage or estimatedWage,
+			}))
+			form:AddOption(t('GO_BACK'), 0)
+			form:AddOption(t('HANG_UP'), -1)
+		end
+
 	end
 
 	-- Only one crew hiring thingy per station

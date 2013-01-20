@@ -8,6 +8,21 @@ Translate:AddFlavour('English','CrewContracts',{
 Translate:Add({
 	English = {
 		['Crew for hire'] = 'Crew for hire',
-		['List of crew members registered as seeking employment on {station}:'] = 'List of crew members registered as seeking employment on {station}:',
+		['Potential crew members are registered as seeking employment at {station}:'] = 'Potential crew members are registered as seeking employment at {station}:',
+		['Examine {potentialCrewMember}'] = 'Examine {potentialCrewMember}',
+		-- Experience levels
+		['No experience'] = 'No experience',
+		['Simulator training only'] = 'Simulator training only',
+		['Some experience in controlled environments'] = 'Some experience in controlled environments',
+		['Minimal time served aboard ship'] = 'Minimal time served aboard ship',
+		['Time served crew member'] = 'Time served crew member',
+		['Veteran, time served crew member'] = 'Veteran, time served crew member',
+		-- Details form for a single crew member
+		crewDetailSheetBB = [[Crew for hire
+
+Name: {name}
+Experience: {experience}
+
+]]
 	}
 })
