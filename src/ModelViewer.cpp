@@ -697,6 +697,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 {
 	AddLog(stringf("Loading model %0...", filename));
 
+	m_renderer->RemoveAllCachedTextures();
 	ClearModel();
 
 	try {
