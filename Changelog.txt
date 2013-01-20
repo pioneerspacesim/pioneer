@@ -37,7 +37,8 @@ Alpha 31
      * Remove kill count from core (#1944)
      * Intro & tombstone can now use SGModels (#1956)
      * SGModels now have priority over LMR models of the same name (#1956)
-     * Console completion now handled through the LuaObject dispatcher (#1945, #1672)
+     * Console completion now handled through the LuaObject dispatcher
+       (#1945, #1672, #1972, #1974)
      * Queries for near-by objects now use a very basic acceleration structure (#1910)
 
 Alpha 30
