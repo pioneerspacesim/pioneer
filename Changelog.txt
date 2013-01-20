@@ -20,6 +20,7 @@ Alpha 31
      * Dates before 3200-01-01 no longer display negative (#1955, #1954)
 
    * Model changes
+     * Modelviewer: Reloading model also reloads textures (#1968, #1939)
      * Handle missing material definitions by providing a basic white default
        material if none are specified (#1817, #1916)
 
