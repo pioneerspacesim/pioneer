@@ -115,10 +115,65 @@ end)
 ---------------------- Part 2 ----------------------
 -- The bulletin board
 
-local onChat = function (form)
-end
+local nonPersistentCharactersForCrew = {}
 
 local onCreateBB = function (station)
+	-- Create non-persistent Characters as available crew
+	-- Number is based on population, nicked from Assassinations.lua and tweaked
+	nonPersistentCharactersForCrew[station] = {}
+	for i = 1, Engine.rand:Integer(0, math.ceil(Game.system.population) * 2 + 1) do
+		local hopefulCrew = Character.New()
+		-- Roll new stats, with a 1/3 chance that they're utterly inexperienced
+		hopefulCrew:RollNew(Engine.rand:Integer(0, 2) > 0)
+		table.insert(nonPersistentCharactersForCrew[station],hopefulCrew)
+	end
+
+	-- Define onChat locally, so that it can see station arg
+	local onChat = function (form,ref,option)
+		local crewInThisStation = {} -- Table of available folk available for hire here
+
+		-- Look for any persistent characters that are available in this station
+		-- and have some sort of crew experience (however minor)
+		-- and were last seen less than a week ago
+		for c in Character.Find(function (c)
+									return true
+										and c.lastSavedSystemPath == station.path
+										and c.available
+										and (
+											c.engineering > 16
+											or c.piloting > 16
+											or c.navigation > 16
+											or c.sensors > 16
+										)
+										and Game.time - c.lastSavedTime < 604800 -- (a week)
+								end) do
+			table.insert(crewInThisStation,c)
+		end
+		for k,c in ipairs(nonPersistentCharactersForCrew[station]) do
+			table.insert(crewInThisStation,c)
+		end
+
+		-- Form options (indexed table of anonymous functions called by index passed in 'option')
+		({
+
+			[-1] = function ()
+				form:Close()
+			end,
+
+			[0] = function ()
+				form:SetTitle(t("Crew for hire"))
+				form:Clear()
+				local crewlist = "\n"
+				for k,crew in ipairs(crewInThisStation) do
+					crewlist = crewlist .. crew.name .. "\n"
+				end
+				form:SetMessage(t("List of crew members registered as seeking employment on {station}:"):interp({station=station.label}) .. crewlist)
+				form:AddOption(t('HANG_UP'), -1)
+			end,
+
+		})[option]()
+	end
+
 	-- Only one crew hiring thingy per station
 	station:AddAdvert(t('Crew for hire'), onChat)
 end

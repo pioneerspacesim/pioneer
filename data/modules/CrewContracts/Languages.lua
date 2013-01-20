@@ -8,5 +8,6 @@ Translate:AddFlavour('English','CrewContracts',{
 Translate:Add({
 	English = {
 		['Crew for hire'] = 'Crew for hire',
+		['List of crew members registered as seeking employment on {station}:'] = 'List of crew members registered as seeking employment on {station}:',
 	}
 })
