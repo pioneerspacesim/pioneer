@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.65.0 runknown</authoring_tool>
     </contributor>
-    <created>2013-01-19T20:00:28</created>
-    <modified>2013-01-19T20:00:28</modified>
+    <created>2013-01-20T01:39:32</created>
+    <modified>2013-01-20T01:39:32</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -1625,6 +1625,20 @@
             </technique_common>
           </bind_material>
         </instance_geometry>
+      </node>
+      <node id="label_regid_L" name="label_regid_L" type="NODE">
+        <translate sid="location">-27.66923 -9.11685 -4.211901</translate>
+        <rotate sid="rotationZ">0 0 1 -99.43748</rotate>
+        <rotate sid="rotationY">0 1 0 0.173213</rotate>
+        <rotate sid="rotationX">1 0 0 47.89176</rotate>
+        <scale sid="scale">3.200001 3.2 3.2</scale>
+      </node>
+      <node id="label_regid_R" name="label_regid_R" type="NODE">
+        <translate sid="location">27.66923 -9.11685 -4.211901</translate>
+        <rotate sid="rotationZ">0 0 1 99.43748</rotate>
+        <rotate sid="rotationY">0 1 0 -0.1732134</rotate>
+        <rotate sid="rotationX">1 0 0 47.89176</rotate>
+        <scale sid="scale">3.200001 3.2 3.2</scale>
       </node>
       <node id="hull-shiny" name="hull-shiny" type="NODE">
         <translate sid="location">0 0 0</translate>
