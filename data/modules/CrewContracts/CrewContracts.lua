@@ -326,3 +326,24 @@ local onCreateBB = function (station)
 end
 
 Event.Register("onCreateBB", onCreateBB)
+
+local loaded_data
+
+Event.Register("onEnterSystem", function()
+	nonPersistentCharactersForCrew = {}
+end)
+
+Event.Register("onGameStart", function()
+	if loaded_data then
+		nonPersistentCharactersForCrew = loaded_data.nonPersistentCharactersForCrew
+	end
+end)
+
+local serialize = function ()
+        return { nonPersistentCharactersForCrew = nonPersistentCharactersForCrew }
+end
+
+local unserialize = function (data)
+        loaded_data = data
+end
+
