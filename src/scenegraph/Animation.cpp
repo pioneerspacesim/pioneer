@@ -48,52 +48,39 @@ void Animation::Interpolate()
 		if (!chan->scaleKeys.empty() && !chan->rotationKeys.empty()) {
 			//find a frame. To optimize, should begin search from previous frame (when mTime > previous mTime)
 			unsigned int frame = 0;
-			while (frame < chan->scaleKeys.size() - 1) {
+			while (frame < chan->scaleKeys.size() - 2) {
 				if (mtime < chan->scaleKeys[frame+1].time)
 					break;
 				frame++;
 			}
-			const unsigned int nextFrame = (frame + 1) % chan->scaleKeys.size();
+			const unsigned int nextFrame = (frame + 1);
 
 			const ScaleKey &a = chan->scaleKeys[frame];
 			const ScaleKey &b = chan->scaleKeys[nextFrame];
 			double diffTime = b.time - a.time;
-			if (diffTime < 0.0)
-				diffTime += m_duration;
-			vector3f out;
-			if (diffTime > 0.0) {
-				const float factor = Clamp(float((mtime - a.time) / diffTime), 0.f, 1.f);
-				out = a.scale + (b.scale - a.scale) * factor;
-			} else {
-				out = a.scale;
-			}
-
+			assert(diffTime > 0.0);
+			const float factor = Clamp(float((mtime - a.time) / diffTime), 0.f, 1.f);
+			vector3f out = a.scale + (b.scale - a.scale) * factor;
 			trans.Scale(out.x, out.y, out.z);
 		}
 
 		if (!chan->positionKeys.empty()) {
 			//find a frame. To optimize, should begin search from previous frame (when mTime > previous mTime)
 			unsigned int frame = 0;
-			while (frame < chan->positionKeys.size() - 1) {
+			while (frame < chan->positionKeys.size() - 2) {
 				if (mtime < chan->positionKeys[frame+1].time)
 					break;
 				frame++;
 			}
-			const unsigned int nextFrame = (frame + 1) % chan->positionKeys.size();
+			const unsigned int nextFrame = (frame + 1);
 
 			const PositionKey &a = chan->positionKeys[frame];
 			const PositionKey &b = chan->positionKeys[nextFrame];
 			double diffTime = b.time - a.time;
-			if (diffTime < 0.0)
-				diffTime += m_duration;
-			if (diffTime > 0.0) {
-				const float factor = Clamp(float((mtime - a.time) / diffTime), 0.f, 1.f);
-				vector3f out(0.f);
-				out = a.position + (b.position - a.position) * factor;
-				trans.SetTranslate(out);
-			} else {
-				trans.SetTranslate(a.position);
-			}
+			assert(diffTime > 0.0);
+			const float factor = Clamp(float((mtime - a.time) / diffTime), 0.f, 1.f);
+			vector3f out = a.position + (b.position - a.position) * factor;
+			trans.SetTranslate(out);
 		}
 
 		chan->node->SetTransform(trans);
