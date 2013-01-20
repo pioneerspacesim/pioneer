@@ -254,8 +254,8 @@ local onCreateBB = function (station)
 			if option == 1 then
 				-- Offer of employment
 				form:Clear()
-				if candidate:TestRoll(playerRelationship,10) then
-					-- Boosting roll by 10, because they want to work
+				if candidate:TestRoll('playerRelationship',15) then
+					-- Boosting roll by 15, because they want to work
 					if Game.player:Enroll(candidate) then
 						candidate.contract = {
 							wage = offer,
@@ -298,7 +298,7 @@ local onCreateBB = function (station)
 			if option == 4 then
 				-- Player suggested $5 less
 				candidate.playerRelationship = candidate.playerRelationship - 1
-				if candidate:TestRoll(playerRelationship) then
+				if candidate:TestRoll('playerRelationship') then
 					offer = offer - 5
 					showCandidateDetails(t("OK, I suppose that's all right."))
 				else
@@ -309,7 +309,7 @@ local onCreateBB = function (station)
 			if option == 5 then
 				-- Player suggested halving the offer
 				candidate.playerRelationship = candidate.playerRelationship - 5
-				if candidate:TestRoll(playerRelationship) then
+				if candidate:TestRoll('playerRelationship') then
 					offer = math.floor(offer / 2)
 					showCandidateDetails(t("OK, I suppose that's all right."))
 				else
