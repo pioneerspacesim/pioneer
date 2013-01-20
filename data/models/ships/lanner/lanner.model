@@ -20,7 +20,7 @@ specular 0 0 0
 emissive 0.7 0.7 0.7
 tex_diff lanner-diffuse.png
 
-lod 50
+lod 25
 mesh lanner-mq.dae
 
 lod 1000
