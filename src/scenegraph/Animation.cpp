@@ -25,25 +25,20 @@ void Animation::Interpolate()
 		if (!chan->rotationKeys.empty()) {
 			//find a frame. To optimize, should begin search from previous frame (when mTime > previous mTime)
 			unsigned int frame = 0;
-			while (frame < chan->rotationKeys.size() - 1) {
+			while (frame < chan->rotationKeys.size() - 2) {
 				if (mtime < chan->rotationKeys[frame+1].time)
 					break;
 				frame++;
 			}
-			const unsigned int nextFrame = (frame + 1) % chan->rotationKeys.size();
+			const unsigned int nextFrame = (frame + 1);
 
 			const RotationKey &a = chan->rotationKeys[frame];
 			const RotationKey &b = chan->rotationKeys[nextFrame];
 			double diffTime = b.time - a.time;
-			if (diffTime < 0.0)
-				diffTime += m_duration;
+			assert(diffTime > 0.0);
+			const float factor = Clamp(float((mtime - a.time) / diffTime), 0.f, 1.f);
 			vector3f temp = trans.GetTranslate();
-			if (diffTime > 0.0) {
-				const float factor = Clamp(float((mtime - a.time) / diffTime), 0.f, 1.f);
-				trans = Quaternionf::Nlerp(a.rotation, b.rotation, factor).ToMatrix3x3<float>();
-			} else {
-				trans = a.rotation.ToMatrix3x3<float>();
-			}
+			trans = Quaternionf::Nlerp(a.rotation, b.rotation, factor).ToMatrix3x3<float>();
 			trans.SetTranslate(temp);
 		}
 
