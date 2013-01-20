@@ -117,6 +117,13 @@ end)
 
 local nonPersistentCharactersForCrew = {}
 
+local wageFromScore = function(score)
+	-- Default score is four 15s (=60). Anybody with that or less
+	-- gets minimum wage offered.
+	score = math.max(0,score-60)
+	return math.floor(score * score / 100) + 10
+end
+
 local onCreateBB = function (station)
 	-- Create non-persistent Characters as available crew
 	nonPersistentCharactersForCrew[station] = {}
@@ -180,7 +187,7 @@ local onCreateBB = function (station)
 												+c.navigation
 												+c.sensors
 				-- Either base wage on experience, or as a slight increase on their previous wage
-				c.estimatedWage = candidate.contract and candidate.contract.wage + 5 or math.floor(c.experienceScore / 6)
+				c.estimatedWage = c.contract and c.contract.wage + 5 or wageFromScore(c.experienceScore)
 			end
 			-- Now add any non-persistent characters (which are persistent only in the sense
 			-- that this BB ad is storing them)
@@ -191,7 +198,7 @@ local onCreateBB = function (station)
 												+c.navigation
 												+c.sensors
 				-- Base wage on experience
-				c.estimatedWage = math.floor(c.experienceScore / 6)
+				c.estimatedWage = wageFromScore(c.experienceScore)
 			end
 
 			form:SetTitle(t("Crew for hire"))
@@ -208,7 +215,7 @@ local onCreateBB = function (station)
 			local experience =
 				candidate.experienceScore > 160 and t('Veteran, time served crew member') or
 				candidate.experienceScore > 140 and t('Time served crew member') or
-				candidate.experienceScore > 120 and t('Minimal time served aboard ship') or
+				candidate.experienceScore > 100 and t('Minimal time served aboard ship') or
 				candidate.experienceScore >  60 and t('Some experience in controlled environments') or
 				candidate.experienceScore >  10 and t('Simulator training only') or
 				t('No experience')
