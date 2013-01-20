@@ -222,11 +222,12 @@ void ScannerWidget::Update()
 	float combat_dist = 0, far_ship_dist = 0, nav_dist = 0, far_other_dist = 0;
 
 	// collect the bodies to be displayed, and if AUTO, distances
-	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
+	Space::BodyNearList nearby;
+	Pi::game->GetSpace()->GetBodiesMaybeNear(Pi::player, SCANNER_RANGE_MAX, nearby);
+	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
 		if ((*i) == Pi::player) continue;
 
 		float dist = float((*i)->GetPositionRelTo(Pi::player).Length());
-		if (dist > SCANNER_RANGE_MAX) continue;
 
 		Contact c;
 		c.type = (*i)->GetType();
@@ -237,7 +238,7 @@ void ScannerWidget::Update()
 
 			case Object::MISSILE:
 				// player's own missiles are ignored for range calc but still shown
-				if (static_cast<Missile*>(*i)->GetOwner() == Pi::player) {
+				if (static_cast<const Missile*>(*i)->GetOwner() == Pi::player) {
 					c.isSpecial = true;
 					break;
 				}
@@ -245,7 +246,7 @@ void ScannerWidget::Update()
 				// else fall through
 
 			case Object::SHIP: {
-				Ship *s = static_cast<Ship*>(*i);
+				const Ship *s = static_cast<const Ship*>(*i);
 				if (s->GetFlightState() != Ship::FLYING && s->GetFlightState() != Ship::LANDED)
 					continue;
 
