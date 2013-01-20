@@ -8,56 +8,10 @@ namespace SceneGraph {
 
 typedef std::vector<AnimationChannel>::iterator ChannelIterator;
 
-Animation::Animation(const std::string &name, double duration, Behavior behavior, double tps)
-: m_behavior(behavior)
-, m_paused(true)
-, m_dir(FORWARD)
-, m_currentTime(0.0)
-, m_duration(duration)
-, m_prevMTime(0.0)
-, m_ticksPerSecond(tps)
+Animation::Animation(const std::string &name, double duration)
+: m_duration(duration)
 , m_name(name)
 {
-
-}
-
-void Animation::Play(Direction dir)
-{
-	m_paused = false;
-	m_prevMTime = 0.0;
-	m_dir = dir;
-}
-
-void Animation::Pause()
-{
-	m_paused = true;
-}
-
-void Animation::Stop()
-{
-	m_paused = true;
-	m_currentTime = 0.0;
-	m_prevMTime = 0.0;
-}
-
-void Animation::Evaluate(const double time)
-{
-	if (!m_paused && m_duration > 0.0)
-	{
-		m_currentTime += time * m_ticksPerSecond;
-	}
-
-	//map into anim duration
-	double mtime = fmod(m_currentTime, m_duration);
-
-	if (m_behavior == ONCE && m_prevMTime > mtime) {
-		Stop();
-		mtime = m_duration;
-	}
-	m_prevMTime = mtime;
-	if (m_dir == REVERSE) mtime = m_duration - mtime;
-
-	m_time = mtime;
 }
 
 void Animation::Interpolate()

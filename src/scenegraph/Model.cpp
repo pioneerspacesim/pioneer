@@ -18,7 +18,6 @@ public:
 
 Model::Model(Graphics::Renderer *r, const std::string &name)
 : ModelBase()
-, m_lastTime(0.0)
 , m_boundingRadius(10.f)
 , m_renderer(r)
 , m_name(name)
@@ -180,38 +179,11 @@ Animation *Model::FindAnimation(const std::string &name)
 	return 0;
 }
 
-void Model::UpdateAnimations(const double time) //change this to use timestep or something
+void Model::UpdateAnimations()
 {
-	/*for (unsigned int i=0; i<m_activeAnimations.size(); i++) {
-		m_activeAnimations[i]->Evaluate(time - m_lastTime);
-	}*/
 	// XXX WIP. Assuming animations are controlled manually by SetProgress.
 	for (AnimationIterator anim = m_animations.begin(); anim != m_animations.end(); ++anim)
 		(*anim)->Interpolate();
-	m_lastTime =  time;
-}
-
-int Model::PlayAnimation(const std::string &name, Animation::Direction dir)
-{
-	int success = 0;
-	m_activeAnimations.clear();
-	//should also go through submodels
-	for (unsigned int i=0; i<m_animations.size(); i++) {
-		Animation *anim = m_animations[i];
-		if (anim->GetName() == name) {
-			anim->Play(dir);
-			m_activeAnimations.push_back(anim);
-			success++;
-		}
-	}
-	return success;
-}
-
-void Model::StopAnimations()
-{
-	for (unsigned int i=0; i<m_animations.size(); i++) {
-		m_animations[i]->Stop();
-	}
 }
 
 }

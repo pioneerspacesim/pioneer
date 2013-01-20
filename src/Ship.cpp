@@ -737,7 +737,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 	UpdateFuel(timeStep, thrust);
 
 	if (m_landingGearAnimation)
-		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations(timeStep);
+		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations();
 }
 
 void Ship::DoThrusterSounds() const

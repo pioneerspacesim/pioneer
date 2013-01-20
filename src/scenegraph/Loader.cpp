@@ -558,10 +558,8 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 			defStart /= 24.0;
 			defEnd /= 24.0;
 		}
-		Animation *animation = new Animation(
-			def->name, 0.0,
-			def->loop ? Animation::LOOP : Animation::ONCE,
-			ticksPerSecond);
+
+		Animation *animation = new Animation(def->name, 0.0);
 
 		for (unsigned int i=0; i < scene->mNumAnimations; i++) {
 			const aiAnimation* aianim = scene->mAnimations[i];
