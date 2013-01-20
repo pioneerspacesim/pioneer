@@ -31,8 +31,11 @@ Asking wage: {wage} per week
 
 {response}
 ]],
+		-- Buttons to click
 		['Make offer of position on ship for stated amount'] = 'Make offer of position on ship for stated amount',
 		['Suggest new weekly wage of {newAmount}'] = 'Suggest new weekly wage of {newAmount}',
+		['Ask candidate to sit a test'] = 'Ask candidate to sit a test',
+		-- Responses
 		["Thanks, I'll get settled on board immediately."] = "Thanks, I'll get settled on board immediately.",
 		["There doesn't seem to be space for me on board!"] = "There doesn't seem to be space for me on board!",
 		["I'm sorry, your offer isn't attractive to me."] = "I'm sorry, your offer isn't attractive to me.",
@@ -40,5 +43,13 @@ Asking wage: {wage} per week
 		["That certainly makes this offer look better!"] = "That certainly makes this offer look better!",
 		["OK, I suppose that's all right."] = "OK, I suppose that's all right.",
 		["I'm sorry, I'm not prepared to go any lower."] = "I'm sorry, I'm not prepared to go any lower.",
+		crewTestResultsBB = [[Examination results:
+
+General crew competence: {general}%
+Engineering and repair: {engineering}%
+Piloting and spaceflight: {piloting}%
+Navigation and plotting: {navigation}%
+Sensors and defence: {sensors}%
+Overall exam score: {overall}%]]
 	}
 })
