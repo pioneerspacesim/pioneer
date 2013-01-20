@@ -141,6 +141,9 @@ local onCreateBB = function (station)
 
 	local crewInThisStation -- Table of available folk available for hire here
 
+	local candidate -- Run-time "static" variable for onChat
+	local offer
+
 	-- Define onChat locally, so that it can see station arg
 	local onChat = function (form,ref,option)
 
@@ -149,8 +152,6 @@ local onCreateBB = function (station)
 			form:Close()
 			return
 		end
-
-		local candidate -- Use this to select options > 0
 
 		if option == 0 then
 			-- Not currently candidate; option values indicate crewInThisStation index
@@ -178,7 +179,8 @@ local onCreateBB = function (station)
 												+c.piloting
 												+c.navigation
 												+c.sensors
-				c.estimatedWage = math.floor(c.experienceScore / 6)
+				-- Either base wage on experience, or as a slight increase on their previous wage
+				c.estimatedWage = candidate.contract and candidate.contract.wage + 5 or math.floor(c.experienceScore / 6)
 			end
 			-- Now add any non-persistent characters (which are persistent only in the sense
 			-- that this BB ad is storing them)
@@ -188,6 +190,7 @@ local onCreateBB = function (station)
 												+c.piloting
 												+c.navigation
 												+c.sensors
+				-- Base wage on experience
 				c.estimatedWage = math.floor(c.experienceScore / 6)
 			end
 
@@ -201,12 +204,7 @@ local onCreateBB = function (station)
 			form:AddOption(t('HANG_UP'), -1)
 		end
 
-		-- 
-
-		if option > 0 and not candidate then
-			-- Now we're candidate, option values will indicate conversation state
-			-- so we track the current candidate directly
-			candidate = crewInThisStation[option]
+		local showCandidateDetails = function (response)
 			local experience =
 				candidate.experienceScore > 160 and t('Veteran, time served crew member') or
 				candidate.experienceScore > 140 and t('Time served crew member') or
@@ -220,10 +218,48 @@ local onCreateBB = function (station)
 			form:SetMessage(t('crewDetailSheetBB'):interp({
 				name = candidate.name,
 				experience = experience,
-				wage = Format.Money(candidate.contract and candidate.contract.wage or candidate.estimatedWage),
+				wage = Format.Money(offer),
+				response = response,
 			}))
+			form:AddOption(t('Make offer of position on ship for stated amount'),1)
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(math.floor(offer*2))}),2)
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+5)}),3)
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-5)}),4)
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(math.floor(offer/2))}),5)
 			form:AddOption(t('GO_BACK'), 0)
 			form:AddOption(t('HANG_UP'), -1)
+		end
+		
+		if option > 0 and not candidate then
+			-- Now we've a candidate, option values will indicate conversation state
+			-- so we track the current candidate directly
+			candidate = crewInThisStation[option]
+			offer = candidate.estimatedWage
+			showCandidateDetails('')
+		end
+
+		if option > 0 and candidate then
+
+			if option == 1 then
+				-- Offer of employment
+			end
+
+			if option == 2 then
+				-- Player suggested doubling the offer
+			end
+
+			if option == 3 then
+				-- Player suggested an extra $5
+			end
+
+			if option == 4 then
+				-- Player suggested $5 less
+			end
+
+			if option == 5 then
+				-- Player suggested halving the offer
+			end
+
 		end
 
 	end
