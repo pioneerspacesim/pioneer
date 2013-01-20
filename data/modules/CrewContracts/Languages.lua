@@ -9,7 +9,7 @@ Translate:Add({
 	English = {
 		['Crew for hire'] = 'Crew for hire',
 		['Potential crew members are registered as seeking employment at {station}:'] = 'Potential crew members are registered as seeking employment at {station}:',
-		['Examine {potentialCrewMember} ({wage}/wk)'] = 'Examine {potentialCrewMember} ({wage}/wk)',
+		['{potentialCrewMember} ({wage}/wk)'] = '{potentialCrewMember} ({wage}/wk)',
 		-- Experience levels
 		['No experience'] = 'No experience',
 		['Simulator training only'] = 'Simulator training only',

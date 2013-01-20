@@ -185,7 +185,7 @@ local onChat = function (form,ref,option)
 		form:Clear()
 		form:SetMessage(t("Potential crew members are registered as seeking employment at {station}:"):interp({station=station.label}))
 		for k,c in ipairs(crewInThisStation) do
-			form:AddOption(t('Examine {potentialCrewMember} ({wage}/wk)'):interp({potentialCrewMember = c.name,wage = c.contract and c.contract.wage or c.estimatedWage}),k)
+			form:AddOption(t('{potentialCrewMember} ({wage}/wk)'):interp({potentialCrewMember = c.name,wage = c.contract and c.contract.wage or c.estimatedWage}),k)
 			if k > 12 then break end -- XXX They just won't all fit on screen. New UI can scroll.
 		end
 		form:AddOption(t('HANG_UP'), -1)
