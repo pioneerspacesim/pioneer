@@ -7,7 +7,6 @@
 -- Get the translator function
 local t = Translate:GetTranslator()
 local wage_period = 604800 -- a week of seconds
-local wage_period = 120 -- two minutes
 
 -- The contract for a crew member is a table containing their weekly wage,
 -- the date that they should next be paid and the amount outstanding if

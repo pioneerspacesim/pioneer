@@ -567,6 +567,7 @@ local crewRoster = function ()
 			ui:Label(t('Name')):SetFont("HEADING_NORMAL"),
 			ui:Label(t('Position')):SetFont("HEADING_NORMAL"),
 			ui:Label(t('Wage')):SetFont("HEADING_NORMAL"),
+			ui:Label(t('Owed')):SetFont("HEADING_NORMAL"),
 			ui:Label(t('Next paid')):SetFont("HEADING_NORMAL"),
 		})
 
@@ -579,6 +580,7 @@ local crewRoster = function ()
 				ui:Label(crewMember.name),
 				ui:Label(crewMember.title or t('General crew')),
 				ui:Label(Format.Money(crewMember.contract and crewMember.contract.wage or 0)),
+				ui:Label(Format.Money(crewMember.contract and crewMember.contract.outstanding or 0)),
 				ui:Label(Format.Date(crewMember.contract and crewMember.contract.payday or 0)),
 				moreButton.widget,
 			}))
