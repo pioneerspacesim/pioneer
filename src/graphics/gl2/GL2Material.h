@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GL2_MATERIAL_H
@@ -20,7 +20,7 @@ namespace Graphics {
 	class RendererGL2;
 
 	namespace GL2 {
-		
+
 		class Program;
 
 		class Material : public Graphics::Material {
@@ -31,6 +31,7 @@ namespace Graphics {
 			// bind textures, set uniforms
 			virtual void Apply();
 			virtual void Unapply();
+			virtual void SetProgram(Program *p) { m_program = p; }
 
 		protected:
 			friend class Graphics::RendererGL2;

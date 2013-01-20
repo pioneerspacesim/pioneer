@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GEOM_H
@@ -32,6 +32,8 @@ public:
 	void *GetUserData() { return m_data; }
 	void SetMailboxIndex(int idx) { m_mailboxIndex = idx; }
 	int GetMailboxIndex() const { return m_mailboxIndex; }
+	void SetGroup(int g) { m_group = g; }
+	int GetGroup() const { return m_group; }
 private:
 	void CollideEdgesWithTrisOf(int &maxContacts, Geom *b, const matrix4x4d &transTo, void (*callback)(CollisionContact*));
 	void CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const matrix4x4d &transToB,
@@ -43,6 +45,7 @@ private:
 	bool m_active;
 	const GeomTree *m_geomtree;
 	void *m_data;
+	int m_group;
 };
 
 #endif /* _GEOM_H */

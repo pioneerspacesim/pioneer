@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIPAICMD_H
@@ -13,10 +13,10 @@
 class AICommand {
 public:
 	// This enum is solely to make the serialization work
-	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION };
+	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION, CMD_FORMATION };
 
 	AICommand(Ship *ship, CmdName name) {
-	   	m_ship = ship; m_cmdName = name; m_fuelEconomy = 0.0f;
+	   	m_ship = ship; m_cmdName = name;
 		m_child = 0;
 		m_ship->AIMessage(Ship::AIERROR_NONE);
 	}
@@ -28,10 +28,6 @@ public:
 		if (m_child) m_child->GetStatusText(str);
 		else strcpy(str, "AI state unknown");
 	}
-	virtual Frame *GetRiskFrame() {
-		if (m_child) return m_child->GetRiskFrame();
-		return m_ship->GetFrame();			// or local frame?
-	}
 
 	// Serialisation functions
 	static AICommand *Load(Serializer::Reader &rd);
@@ -42,12 +38,8 @@ public:
 	// Signal functions
 	virtual void OnDeleted(const Body *body) { if (m_child) m_child->OnDeleted(body); }
 
-	void SetFuelEconomy(float hungriness) { m_fuelEconomy = hungriness; }
-
 protected:
 	CmdName m_cmdName;
-	float m_fuelEconomy;  	// 0.0f - 1.0f,	0 = Economy mode: fuel is saved if it is running low, speed is sacrificed,
-							// 				1 = Hungry mode: fuel is burned quite aggresively even if low on it
 	Ship *m_ship;
 	AICommand *m_child;
 
@@ -57,18 +49,11 @@ protected:
 class AICmdDock : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdDock(Ship *ship, SpaceStation *target, float hungriness) : AICommand(ship, CMD_DOCK) {
-		m_target = target;
-		m_state = 0;
-		m_fuelEconomy = Clamp(hungriness, 0.0f, 1.0f);;
-	}
+	AICmdDock(Ship *ship, SpaceStation *target);
+
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "Dock: target %s, state %i", m_target->GetLabel().c_str(), m_state);
-	}
-	virtual Frame *GetRiskFrame() {
-		if (m_child) return m_child->GetRiskFrame();
-		return m_target->GetFrame();
 	}
 	virtual void Save(Serializer::Writer &wr) {
         Space *space = Pi::game->GetSpace();
@@ -99,124 +84,107 @@ private:
 	int m_targetIndex;	// used during deserialisation
 };
 
-
 class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFlyTo(Ship *ship, Body *target, float hungriness);					// fly to vicinity
-	AICmdFlyTo(Ship *ship, Body *target, double alt, float hungriness);		// orbit
-	AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent, float hungriness);
-	AICmdFlyTo(Ship *ship, Ship *target, float hungriness);					// pursue ship!
+	AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent);
+	AICmdFlyTo(Ship *ship, Body *target);
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
-		else snprintf(str, 255, "FlyTo: endvel %.1f, state %i", m_endvel/1000.0, m_state);
-	}
-	virtual Frame *GetRiskFrame() {
-		if (m_child) return m_child->GetRiskFrame();
-		return m_targframe;
+		else if (m_target) snprintf(str, 255, "Intercept: %s, dist %.1fkm, state %i",
+			m_target->GetLabel().c_str(), m_dist, m_state);
+		else snprintf(str, 255, "FlyTo: %s, dist %.1fkm, endvel %.1fkm/s, state %i",
+			m_targframe->GetLabel().c_str(), m_posoff.Length()/1000.0, m_endvel/1000.0, m_state);
 	}
 	virtual void Save(Serializer::Writer &wr) {
-        Space *space = Pi::game->GetSpace();
 		if(m_child) { delete m_child; m_child = 0; }
 		AICommand::Save(wr);
-		wr.Int32(space->GetIndexForFrame(m_targframe));
+		wr.Int32(Pi::game->GetSpace()->GetIndexForBody(m_target));
+		wr.Double(m_dist);
+		wr.Int32(Pi::game->GetSpace()->GetIndexForFrame(m_targframe));
 		wr.Vector3d(m_posoff);
 		wr.Double(m_endvel);
-		wr.Int32(m_state);
 		wr.Bool(m_tangent);
-		wr.Int32(space->GetIndexForBody(m_targetShip));
+		wr.Int32(m_state);
 	}
 	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
+		m_targetIndex = rd.Int32();
+		m_dist = rd.Double();
 		m_targframeIndex = rd.Int32();
 		m_posoff = rd.Vector3d();
 		m_endvel = rd.Double();
-		m_state = rd.Int32();
 		m_tangent = rd.Bool();
-		m_targetShipIndex = rd.Int32();
-	}
-	virtual void PostLoadFixup(Space *space) {
-		AICommand::PostLoadFixup(space); m_frame = 0;		// regen
-		m_targframe = space->GetFrameByIndex(m_targframeIndex);
-		m_targetShip = static_cast<Ship *>(space->GetBodyByIndex(m_targetShipIndex));
-	}
-
-private:
-	Frame *m_targframe;	// target frame for waypoint
-	int m_targframeIndex;	// used during deserialisation
-	vector3d m_posoff;	// offset in target frame
-	double m_endvel;	// target speed in direction of motion at end of path, positive only
-	int m_state;		//
-	bool m_tangent;		// true if path is to a tangent of the target frame's body
-
-	Frame *m_frame;		// current frame of ship, used to check for changes
-	vector3d m_reldir;	// target direction relative to ship at last frame change
-
-	Ship *m_targetShip; // target ship, if the target is not a ship, set to NULL
-	int m_targetShipIndex; // serialization
-};
-
-
-class AICmdFlyAround : public AICommand {
-public:
-	virtual bool TimeStepUpdate();
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, float hungriness);
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, float hungriness);
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Body *target, const vector3d &posoff, float hungriness);
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, Frame *targframe, const vector3d &posoff, float hungriness);
-
-	virtual void GetStatusText(char *str) {
-		if (m_child) m_child->GetStatusText(str);
-		else snprintf(str, 255, "FlyAround: alt %.1f, targmode %i", m_alt/1000.0, m_targmode);
-	}
-	virtual Frame *GetRiskFrame() {
-		if (m_child) return m_child->GetRiskFrame();
-		return m_obstructor->GetFrame();
-	}
-	virtual void Save(Serializer::Writer &wr) {
-        Space *space = Pi::game->GetSpace();
-		if (m_child) { delete m_child; m_child = 0; }
-		AICommand::Save(wr);
-		wr.Int32(space->GetIndexForBody(m_obstructor));
-		wr.Double(m_vel); wr.Double(m_alt);
-		wr.Int32(m_targmode);
-		if (m_targmode == 2) wr.Int32(space->GetIndexForFrame(m_targframe));
-		else wr.Int32(space->GetIndexForBody(m_target));
-		wr.Vector3d(m_posoff);
-	}
-	AICmdFlyAround(Serializer::Reader &rd) : AICommand(rd, CMD_FLYAROUND) {
-		m_obstructorIndex = rd.Int32();
-		m_vel = rd.Double(); m_alt = rd.Double();
-		m_targmode = rd.Int32();
-		m_targetIndex = rd.Int32();
-		m_posoff = rd.Vector3d();
+		m_state = rd.Int32();
 	}
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
-		m_obstructor = space->GetBodyByIndex(m_obstructorIndex);
-		if (m_targmode == 2) m_target = space->GetBodyByIndex(m_targetIndex);
-		else m_targframe = space->GetFrameByIndex(m_targetIndex);
+		m_target = space->GetBodyByIndex(m_targetIndex);
+		m_targframe = space->GetFrameByIndex(m_targframeIndex);
+		m_lockhead = true;
 	}
 	virtual void OnDeleted(const Body *body) {
 		AICommand::OnDeleted(body);
 		if (m_target == body) m_target = 0;
 	}
 
+private:
+	Body *m_target;		// target for vicinity. Either this or targframe is 0
+	double m_dist;		// vicinity distance
+	Frame *m_targframe;	// target frame for waypoint
+	vector3d m_posoff;	// offset in target frame
+	double m_endvel;	// target speed in direction of motion at end of path, positive only
+	bool m_tangent;		// true if path is to a tangent of the target frame's body
+	int m_state;		
+
+	bool m_lockhead;
+	int m_targetIndex, m_targframeIndex;	// used during deserialisation
+	vector3d m_reldir;	// target direction relative to ship at last frame change
+	Frame *m_frame;		// last frame of ship
+};
+
+
+class AICmdFlyAround : public AICommand {
+public:
+	virtual bool TimeStepUpdate();
+	AICmdFlyAround(Ship *ship, Body *obstructor, double relalt, int mode=2);
+	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, int mode=1);
+
+	virtual void GetStatusText(char *str) {
+		if (m_child) m_child->GetStatusText(str);
+		else snprintf(str, 255, "FlyAround: alt %.1fkm, vel %.1fkm/s, mode %i",
+			m_alt/1000.0, m_vel/1000.0, m_targmode);
+	}
+	virtual void Save(Serializer::Writer &wr) {
+		if (m_child) { delete m_child; m_child = 0; }
+		AICommand::Save(wr);
+		wr.Int32(Pi::game->GetSpace()->GetIndexForBody(m_obstructor));
+		wr.Double(m_vel); wr.Double(m_alt); wr.Int32(m_targmode);
+	}
+	AICmdFlyAround(Serializer::Reader &rd) : AICommand(rd, CMD_FLYAROUND) {
+		m_obstructorIndex = rd.Int32();
+		m_vel = rd.Double(); m_alt = rd.Double(); m_targmode = rd.Int32();
+	}
+	virtual void PostLoadFixup(Space *space) {
+		AICommand::PostLoadFixup(space);
+		m_obstructor = space->GetBodyByIndex(m_obstructorIndex);
+	}
+	virtual void OnDeleted(const Body *body) {
+		AICommand::OnDeleted(body);
+		// check against obstructor?
+	}
+	void SetTargPos(const vector3d &targpos) { m_targpos = targpos; m_targmode = 0; }
+
 protected:
-	void Setup(Body *obstructor, double alt, double vel, int targmode, Body *target, Frame *targframe, const vector3d &posoff);
+	void Setup(Body *obstructor, double alt, double vel, int mode);
 	double MaxVel(double targdist, double targalt);
-	vector3d Targpos();
 
 private:
 	Body *m_obstructor;		// body to fly around
 	int m_obstructorIndex;	// deserialisation
 	double m_alt, m_vel;
-
-	int m_targmode;			// 0 = no target, 1 = target body, 2 = target waypoint
-	Body *m_target;			// target body
-	Frame *m_targframe;		// target frame
-	int m_targetIndex;		// deserialisation
-	vector3d m_posoff;		// target offset from body or frame
+	int m_targmode;			// 0 targpos termination, 1 infinite, 2+ orbital termination
+	vector3d m_targpos;		// target position in ship space
 };
 
 class AICmdKill : public AICommand {
@@ -226,8 +194,6 @@ public:
 		m_target = target;
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
-		m_fuelEconomy = 1.0f; // is always hungry
-		printf("%s is a pirate, yo ho!\n", ship->GetLabel().c_str());
 	}
 
 	// don't actually need to save all this crap
@@ -294,4 +260,41 @@ public:
 	AICmdHoldPosition(Ship *ship) : AICommand(ship, CMD_HOLDPOSITION) { }
 	AICmdHoldPosition(Serializer::Reader &rd) : AICommand(rd, CMD_HOLDPOSITION) { }
 };
+
+class AICmdFormation : public AICommand {
+public:
+	virtual bool TimeStepUpdate();
+	AICmdFormation(Ship *ship, Ship *target, const vector3d &posoff);
+
+	virtual void GetStatusText(char *str) {
+		if (m_child) m_child->GetStatusText(str);
+		else snprintf(str, 255, "Formation: %s, dist %.1fkm",
+			m_target->GetLabel().c_str(), m_posoff.Length()/1000.0);
+	}
+	virtual void Save(Serializer::Writer &wr) {
+		if(m_child) { delete m_child; m_child = 0; }
+		AICommand::Save(wr);
+		wr.Int32(Pi::game->GetSpace()->GetIndexForBody(m_target));
+		wr.Vector3d(m_posoff);
+	}
+	AICmdFormation(Serializer::Reader &rd) : AICommand(rd, CMD_FORMATION) {
+		m_targetIndex = rd.Int32();
+		m_posoff = rd.Vector3d();
+	}
+	virtual void PostLoadFixup(Space *space) {
+		AICommand::PostLoadFixup(space);
+		m_target = static_cast<Ship*>(space->GetBodyByIndex(m_targetIndex));
+	}
+	virtual void OnDeleted(const Body *body) {
+		if (static_cast<Body *>(m_target) == body) m_target = 0;
+		AICommand::OnDeleted(body);
+	}
+
+private:
+	Ship *m_target;		// target frame for waypoint
+	vector3d m_posoff;	// offset in target frame
+
+	int m_targetIndex;	// used during deserialisation
+};
+
 #endif /* _SHIPAICMD_H */

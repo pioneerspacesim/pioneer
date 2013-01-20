@@ -1,4 +1,4 @@
-dnl Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+dnl Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 dnl Licensed under the terms of the GPL v3. See COPYING.txt for details
 
 dnl Process this file with autoconf to create configure.
@@ -8,7 +8,7 @@ dnl Setup
 dnl ###########################################################################
 AC_PREREQ(2.59)
 
-AC_INIT([pioneer], [alpha-29-dev], [pioneer-dev@pioneerspacesim.net])
+AC_INIT([pioneer], [alpha-31-dev], [pioneer-dev@pioneerspacesim.net])
 dnl AC_CONFIG_HEADERS([config.h])
 
 AC_DEFUN([MXE_SETUP], [
@@ -190,8 +190,8 @@ AC_ARG_WITH([thirdparty], AS_HELP_STRING([--with-thirdparty], [Location of pione
 	    PKG_CONFIG_PATH="$withval/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
 	    export PKG_CONFIG_PATH
     fi
-	CFLAGS="-I$withval/usr/include"
-	LIBS="-L$withval/usr/lib -Wl,-rpath=$withval/usr/lib"
+	CFLAGS="-isystem $withval/usr/include"
+	LIBS="-L$withval/usr/lib -Wl,-rpath,$withval/usr/lib"
 ])
 
 dnl Check for sigc++
@@ -209,10 +209,52 @@ PKG_CHECK_MODULES([VORBIS], [vorbisfile])
 dnl Check for libpng
 PKG_CHECK_MODULES([PNG], [libpng])
 
+dnl Check for assimp
+PKG_CHECK_MODULES([ASSIMP], [assimp])
+
+dnl assimp's pkg-config file has a broken include path. Until upstream fixes
+dnl it we work around it here
+ASSIMP_CFLAGS=`echo $ASSIMP_CFLAGS | sed -e 's/\/assimp$//'`
+
+if test "x$cross_compiling" = "xno" ; then
+
+	dnl Extra version checks for assimp. Last release was 2.0, we need 3.0+ (git
+	dnl version). Unfortunately the pkg-config version has not yet been updated
+	dnl upstream, so we have to test the library directly
+	AC_MSG_CHECKING(for ASSIMP version >= 3.0)
+	dnl Convert -Lfoo to -rpath=, as the wanted dir might not be visible to the dynamic linker
+	assimp_rpath=`echo $ASSIMP_LIBS | sed -e 's/-[^L] *[^ ]\+ *//g' | sed -e 's/-L */-Wl,-rpath,/g'`
+	old_cxxflags="$CXXFLAGS"
+	old_libs="$LIBS"
+	CXXFLAGS="$ASSIMP_CFLAGS"
+	LIBS="$ASSIMP_LIBS $assimp_rpath"
+	AC_LANG_PUSH([C++])
+	AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <assimp/defs.h>
+	                                 #include <assimp/version.h>]],
+	                            [[do {
+	                                if (aiGetVersionMajor() >= 3 && aiGetVersionMinor() >= 0)
+	                                    return 0;
+	                                return 1;
+	                              } while(0)]])],
+	                            [AC_MSG_RESULT(yes)
+	                                have_assimp_version=yes],
+	                            [AC_MSG_RESULT(no)])
+	AC_LANG_POP
+	if test "x$have_assimp_version" != "xyes" ; then
+		AC_MSG_ERROR("assimp version >= 3.0 not found. Get it from https://assimp.sourceforge.net/")
+	fi
+	CXXFLAGS="$old_cxxflags"
+	LIBS="$old_libs"
+
+fi
+
 dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
 if test "$with_external_liblua" = yes; then
-  PKG_CHECK_MODULES([LUA], [lua >= 5.2], [HAVE_LUA=yes], [AC_MSG_ERROR([External liblua was requested but is not available])])
+  PKG_CHECK_MODULES([LUA], [lua >= 5.2], [HAVE_LUA=yes], [foundlua=no])
+  if test "$foundlua" = no; then
+    PKG_CHECK_MODULES([LUA], [lua5.2 >= 5.2], [HAVE_LUA=yes], [AC_MSG_ERROR([External liblua was requested but is not available])])
+  fi
 fi
 AM_CONDITIONAL([HAVE_LUA], [test "$HAVE_LUA" = yes])
 case "$host" in
@@ -297,6 +339,7 @@ AC_CONFIG_FILES([
 	src/gameui/Makefile
 	src/gui/Makefile
 	src/graphics/Makefile
+	src/scenegraph/Makefile
 	src/galaxy/Makefile
 	src/terrain/Makefile
 	src/text/Makefile

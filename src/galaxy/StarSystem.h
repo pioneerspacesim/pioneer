@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _STARSYSTEM_H
@@ -41,7 +41,7 @@ struct Orbit {
 	double orbitalPhaseAtStart; // 0 to 2 pi radians
 	/* dup " " --------------------------------------- */
 	double period; // seconds
-	matrix4x4d rotMatrix;
+	matrix3x3d rotMatrix;
 };
 
 struct RingStyle {
@@ -240,8 +240,6 @@ public:
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
-	const char *GetAllegianceDesc() const;
-	const Color GetFactionColour() const;
 
 	static float starColors[][3];
 	static float starRealColors[][3];
@@ -254,24 +252,21 @@ public:
 	// index into this will be the SystemBody ID used by SystemPath
 	std::vector<SystemBody*> m_bodies;
 
-	fixed m_metallicity;
-	fixed m_industrial;
-	fixed m_agricultural;
-	fixed m_humanProx;
-	fixed m_totalPop;
-
-	Faction* m_faction;
-
-	// percent price alteration
-	int m_tradeLevel[Equip::TYPE_MAX];
-	int m_econType;
-	int m_seed;
-
-	bool m_unexplored;
-
 	int GetCommodityBasePriceModPercent(int t) {
 		return m_tradeLevel[t];
 	}
+
+	Faction* GetFaction() const  { return m_faction; }
+	bool GetUnexplored() const { return m_unexplored; }
+	fixed GetMetallicity() const { return m_metallicity; }
+	fixed GetIndustrial() const { return m_industrial; }
+	int GetEconType() const { return m_econType; }
+	int GetSeed() const { return m_seed; }
+	const int* GetTradeLevel() const { return m_tradeLevel; }
+	fixed GetAgricultural() const { return m_agricultural; }
+	fixed GetHumanProx() const { return m_humanProx; }
+	fixed GetTotalPop() const { return m_totalPop; }
+
 private:
 	StarSystem(const SystemPath &path);
 	~StarSystem();
@@ -301,6 +296,20 @@ private:
 
 	bool m_isCustom;
 	bool m_hasCustomBodies;
+
+	Faction* m_faction;
+	bool m_unexplored;
+	fixed m_metallicity;
+	fixed m_industrial;
+	int m_econType;
+	int m_seed;
+
+	// percent price alteration
+	int m_tradeLevel[Equip::TYPE_MAX];
+
+	fixed m_agricultural;
+	fixed m_humanProx;
+	fixed m_totalPop;
 };
 
 #endif /* _STARSYSTEM_H */

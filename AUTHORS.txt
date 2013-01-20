@@ -1,7 +1,7 @@
 Authors
 =======
 
-As of 9 November 2012 (alpha 28), the Pioneer Developers are:
+As of 11 January 2013 (alpha 30), the Pioneer Developers are:
 
 * Aaron Lewis
 * Aaron Senese
@@ -15,14 +15,19 @@ As of 9 November 2012 (alpha 28), the Pioneer Developers are:
 * Blaga Cosmin
 * Brian Ronald
 * C de Craen
+* Chip Richards
 * Chris Dennett
 * Craig Thomson
 * Dan Bennett
 * Darren Salt
+* Dionisis Kontominas
 * Enric Morales
 * Fran Morton
+* Frank Klippenberg
 * Gareth Allnutt
+* Gaz Davidson
 * Gernot
+* HeadHunter
 * Jan Olsina
 * John Bartholomew
 * John Jordan
@@ -32,6 +37,7 @@ As of 9 November 2012 (alpha 28), the Pioneer Developers are:
 * Lee Reilly
 * Lars Westerhoff
 * Leonardo Manna
+* Maksim Kulikov aka sapog662
 * Marcel Tulloh
 * Marcus de Roos
 * Michele Botticelli
@@ -42,6 +48,7 @@ As of 9 November 2012 (alpha 28), the Pioneer Developers are:
 * Phil Howlett
 * Piotr Gredka
 * Robert Norris
+* Roland Mas
 * Sean Bailey
 * Simon Chopin
 * Stefan Kapusniak
@@ -58,7 +65,7 @@ As of 9 November 2012 (alpha 28), the Pioneer Developers are:
 Licensing
 =========
 
-Copyright © 2008-2012 Pioneer Developers
+Copyright © 2008-2013 Pioneer Developers
 
 Pioneer's core code and extension modules are licensed under the terms of the
 GNU General Public License version 3. See licenses/GPL-3.txt for details.
@@ -101,6 +108,11 @@ Pioneer includes the following third-party software:
   Copyright (c) 2009, Matt McInerney
   Licensed under the SIL Open Font Licence v1.1 (see licenses/SIL-1.1.txt)
 
+  Deja Vu font
+  Copyright (c) 2003, Bitstream Inc.
+  parts Copyright (c) 2006, Tavmjong Bah
+  License: see licenses/DejaVu-license.txt
+
   WPZOOM Developer Icon Set
   http://www.wpzoom.com/wpzoom/new-freebie-wpzoom-developer-icon-set-154-free-icons/
   Copyright (c) 2010 David Ferreira
@@ -117,6 +129,7 @@ and services, without which Pioneer would not be possible:
   FreeType      http://freetype.org/
   Ogg Vorbis    http://vorbis.com/
   libsigc++     http://libsigc.sourceforge.net/
+  assimp        http://assimp.sourceforge.net/
   MXE           http://mxe.cc/
 
   GitHub        https://github.com/

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaShip.h"
@@ -334,148 +334,6 @@ static int l_ship_set_label(lua_State *l)
 
 	s->SetLabel(label);
 	return 0;
-}
-
-static void _prepare_colour(lua_State *l, LmrMaterial &m)
-{
-	float r, g, b;
-
-	if (lua_type(l, 2) == LUA_TSTRING) {
-		const char *hexstr = lua_tostring(l, 2);
-		if (strlen(hexstr) != 7 || *hexstr != '#')
-			luaL_error(l, "Colour string should be a hex triple (#rrggbb)");
-		int n = strtol(&hexstr[1], NULL, 16);
-		r = float((n & 0xff0000) >> 16);
-		g = float((n & 0xff00) >> 8);
-		b = float(n & 0xff);
-	}
-
-	else {
-		r = luaL_checknumber(l, 2);
-		g = luaL_checknumber(l, 3);
-		b = luaL_checknumber(l, 4);
-	}
-
-	r /= 256;
-	g /= 256;
-	b /= 256;
-
-	float invmax = 1.0f / std::max(r, std::max(g, b));
-
-	r *= invmax;
-	g *= invmax;
-	b *= invmax;
-
-	m.diffuse[0] = 0.5f * r;
-	m.diffuse[1] = 0.5f * g;
-	m.diffuse[2] = 0.5f * b;
-	m.diffuse[3] = 1.0f;
-	m.specular[0] = r;
-	m.specular[1] = g;
-	m.specular[2] = b;
-	m.specular[3] = 0.0f;
-	m.emissive[0] = m.emissive[1] = m.emissive[2] = m.emissive[3] = 0.0f;
-	m.shininess = 50.0f + float(Pi::rng.Double())*50.0f;
-}
-
-/*
- * Method: SetPrimaryColour
- *
- * Change the ship model's primary colour
- *
- * > ship:SetPrimaryColour(hex)
- * > ship:SetPrimaryColour(red, green, blue)
- *
- * Parameters:
- *
- *   hex - a hex RGB triplet describing the colour, eg. "#99cc99"
- *
- *   red - a real number describing the red component of the colour. 0.0 is no
- *         red component, 1.0 is full red
- *
- *   green - a real number describing the green component of the colour. 0.0
- *           is no green component, 1.0 is full green
- *
- *   blue - a real number describing the blue component of the colour. 0.0 is
- *          no blue component, 1.0 is full blue
- *
- * Example:
- *
- * > ship:SetPrimaryColour("#002366")       -- royal blue
- * > ship:SetPrimaryColour(1.0, 0.27, 0.0)  -- orange red
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  deprecated
- */
-static int l_ship_set_primary_colour(lua_State *l)
-{
-	Ship *s = LuaShip::CheckFromLua(1);
-
-	ShipFlavour f = *(s->GetFlavour());
-	_prepare_colour(l, f.primaryColor);
-	s->UpdateFlavour(&f);
-
-	return 0;
-}
-
-/*
- * Method: SetSecondaryColour
- *
- * Change the ship model's secondary colour
- *
- * > ship:SetSecondaryColour(hex)
- * > ship:SetSecondaryColour(red, green, blue)
- *
- * Parameters:
- *
- *   hex - a hex RGB triplet describing the colour, eg. "#99cc99"
- *
- *   red - a real number describing the red component of the colour. 0.0 is no
- *         red component, 1.0 is full red
- *
- *   green - a real number describing the green component of the colour. 0.0
- *           is no green component, 1.0 is full green
- *
- *   blue - a real number describing the blue component of the colour. 0.0 is
- *          no blue component, 1.0 is full blue
- *
- * Example:
- *
- * > ship:SetSecondaryColour("#002366")       -- royal blue
- * > ship:SetSecondaryColour(1.0, 0.27, 0.0)  -- orange red
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  deprecated
- */
-static int l_ship_set_secondary_colour(lua_State *l)
-{
-	Ship *s = LuaShip::CheckFromLua(1);
-
-	ShipFlavour f = *(s->GetFlavour());
-	_prepare_colour(l, f.secondaryColor);
-	s->UpdateFlavour(&f);
-
-	return 0;
-}
-
-static inline void _colour_to_table(lua_State *l, const char *name, const float rgba[4])
-{
-	lua_newtable(l);
-	pi_lua_settable(l, "r", rgba[0]);
-	pi_lua_settable(l, "g", rgba[1]);
-	pi_lua_settable(l, "b", rgba[2]);
-	pi_lua_settable(l, "a", rgba[3]);
-	lua_setfield(l, -2, name);
 }
 
 /*
@@ -1154,6 +1012,16 @@ static int l_ship_hyperspace_to(lua_State *l)
  *
  *   experimental
  */
+static inline void _colour_to_table(lua_State *l, const char *name, const float rgba[4])
+{
+	lua_newtable(l);
+	pi_lua_settable(l, "r", rgba[0]);
+	pi_lua_settable(l, "g", rgba[1]);
+	pi_lua_settable(l, "b", rgba[2]);
+	pi_lua_settable(l, "a", rgba[3]);
+	lua_setfield(l, -2, name);
+}
+
 static int l_ship_attr_flavour(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
@@ -1237,30 +1105,6 @@ static int l_ship_attr_flight_state(lua_State *l)
  *  stable
  */
 static int l_ship_attr_ship_id(lua_State *l)
-{
-	Ship *s = LuaShip::CheckFromLua(1);
-	const ShipType &st = s->GetShipType();
-	lua_pushstring(l, st.id.c_str());
-	return 1;
-}
-
-/*
- * Attribute: shipType
- *
- * The internal id of the ship type. This value can be passed to
- * <ShipType.GetShipType> to retrieve information about this ship type.
- *
- * This attribute is deprecated. Use <shipId> instead.
- *
- * Availability:
- *
- *  alpha 19
- *
- * Status:
- *
- *  deprecated
- */
-static int l_ship_attr_ship_type(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
 	const ShipType &st = s->GetShipType();
@@ -1452,7 +1296,7 @@ static int l_ship_ai_enter_low_orbit(lua_State *l)
 	Body *target = LuaBody::CheckFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
-	s->AIOrbit(target, 1.1);
+	s->AIOrbit(target, 1.2);
 	return 0;
 }
 
@@ -1483,7 +1327,7 @@ static int l_ship_ai_enter_medium_orbit(lua_State *l)
 	Body *target = LuaBody::CheckFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
-	s->AIOrbit(target, 2.0);
+	s->AIOrbit(target, 1.6);
 	return 0;
 }
 
@@ -1514,7 +1358,7 @@ static int l_ship_ai_enter_high_orbit(lua_State *l)
 	Body *target = LuaBody::CheckFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
-	s->AIOrbit(target, 5.0);
+	s->AIOrbit(target, 3.2);
 	return 0;
 }
 
@@ -1564,10 +1408,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetHullPercent", l_ship_set_hull_percent },
 		{ "SetFuelPercent", l_ship_set_fuel_percent },
 
-		{ "SetLabel",           l_ship_set_label            },
-		{ "SetPrimaryColour",   l_ship_set_primary_colour   },
-		{ "SetSecondaryColour", l_ship_set_secondary_colour },
-		{ "SetFlavour",         l_ship_set_flavour          },
+		{ "SetLabel",   l_ship_set_label   },
+		{ "SetFlavour", l_ship_set_flavour },
 
 		{ "GetEquipSlotCapacity", l_ship_get_equip_slot_capacity },
 		{ "GetEquip",         l_ship_get_equip           },
@@ -1607,7 +1449,6 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "alertStatus", l_ship_attr_alert_status },
 		{ "flightState", l_ship_attr_flight_state },
 		{ "shipId",      l_ship_attr_ship_id },
-		{ "shipType",    l_ship_attr_ship_type },
 		{ "fuel",        l_ship_attr_fuel },
 		{ 0, 0 }
 	};

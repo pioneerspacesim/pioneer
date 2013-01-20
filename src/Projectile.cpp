@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -22,23 +22,21 @@
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
 
-Projectile::Projectile(): Body()
-{
-	m_orient = matrix4x4d::Identity();
-	m_type = 1;
-	m_age = 0;
-	m_parent = 0;
-	m_radius = 0;
-	m_flags |= FLAG_DRAW_LAST;
+ScopedPtr<Graphics::VertexArray> Projectile::s_sideVerts;
+ScopedPtr<Graphics::VertexArray> Projectile::s_glowVerts;
+ScopedPtr<Graphics::Material> Projectile::s_sideMat;
+ScopedPtr<Graphics::Material> Projectile::s_glowMat;
 
+void Projectile::BuildModel()
+{
 	//set up materials
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
 	desc.twoSided = true;
-	m_sideMat.Reset(Pi::renderer->CreateMaterial(desc));
-	m_glowMat.Reset(Pi::renderer->CreateMaterial(desc));
-	m_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
-	m_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
+	s_sideMat.Reset(Pi::renderer->CreateMaterial(desc));
+	s_glowMat.Reset(Pi::renderer->CreateMaterial(desc));
+	s_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
+	s_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
 
 	//zero at projectile position
 	//+x down
@@ -57,18 +55,18 @@ Projectile::Projectile(): Body()
 	const vector2f botLeft(0.f, 0.f);
 	const vector2f botRight(1.f, 0.f);
 
-	m_sideVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
-	m_glowVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
+	s_sideVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
+	s_glowVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0));
 
 	//add four intersecting planes to create a volumetric effect
 	for (int i=0; i < 4; i++) {
-		m_sideVerts->Add(one, topLeft);
-		m_sideVerts->Add(two, topRight);
-		m_sideVerts->Add(three, botRight);
+		s_sideVerts->Add(one, topLeft);
+		s_sideVerts->Add(two, topRight);
+		s_sideVerts->Add(three, botRight);
 
-		m_sideVerts->Add(three, botRight);
-		m_sideVerts->Add(four, botLeft);
-		m_sideVerts->Add(one, topLeft);
+		s_sideVerts->Add(three, botRight);
+		s_sideVerts->Add(four, botLeft);
+		s_sideVerts->Add(one, topLeft);
 
 		one.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
 		two.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
@@ -81,17 +79,35 @@ Projectile::Projectile(): Body()
 	float gz = -0.1f;
 
 	for (int i=0; i < 4; i++) {
-		m_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
-		m_glowVerts->Add(vector3f(-gw, gw, gz), topRight);
-		m_glowVerts->Add(vector3f(gw, gw, gz), botRight);
+		s_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
+		s_glowVerts->Add(vector3f(-gw, gw, gz), topRight);
+		s_glowVerts->Add(vector3f(gw, gw, gz), botRight);
 
-		m_glowVerts->Add(vector3f(gw, gw, gz), botRight);
-		m_glowVerts->Add(vector3f(gw, -gw, gz), botLeft);
-		m_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
+		s_glowVerts->Add(vector3f(gw, gw, gz), botRight);
+		s_glowVerts->Add(vector3f(gw, -gw, gz), botLeft);
+		s_glowVerts->Add(vector3f(-gw, -gw, gz), topLeft);
 
 		gw -= 0.1f; // they get smaller
 		gz -= 0.2f; // as they move back
 	}
+}
+
+void Projectile::FreeModel()
+{
+	s_sideMat.Reset();
+	s_glowMat.Reset();
+	s_sideVerts.Reset();
+	s_glowVerts.Reset();
+}
+
+Projectile::Projectile(): Body()
+{
+	if (!s_sideMat) BuildModel();
+	SetOrient(matrix3x3d::Identity());
+	m_type = 1;
+	m_age = 0;
+	m_parent = 0;
+	m_flags |= FLAG_DRAW_LAST;
 }
 
 Projectile::~Projectile()
@@ -101,7 +117,6 @@ Projectile::~Projectile()
 void Projectile::Save(Serializer::Writer &wr, Space *space)
 {
 	Body::Save(wr, space);
-	for (int i=0; i<16; i++) wr.Double(m_orient[i]);
 	wr.Vector3d(m_baseVel);
 	wr.Vector3d(m_dirVel);
 	wr.Float(m_age);
@@ -112,7 +127,6 @@ void Projectile::Save(Serializer::Writer &wr, Space *space)
 void Projectile::Load(Serializer::Reader &rd, Space *space)
 {
 	Body::Load(rd, space);
-	for (int i=0; i<16; i++) m_orient[i] = rd.Double();
 	m_baseVel = rd.Vector3d();
 	m_dirVel = rd.Vector3d();
 	m_age = rd.Float();
@@ -122,26 +136,15 @@ void Projectile::Load(Serializer::Reader &rd, Space *space)
 
 void Projectile::PostLoadFixup(Space *space)
 {
+	Body::PostLoadFixup(space);
 	m_parent = space->GetBodyByIndex(m_parentIndex);
-	m_radius = GetRadius();
 }
 
-void Projectile::UpdateInterpolatedTransform(double alpha)
+void Projectile::UpdateInterpTransform(double alpha)
 {
-	m_interpolatedTransform = m_orient;
-	const vector3d newPos = GetPosition();
-	const vector3d oldPos = newPos - (m_baseVel+m_dirVel)*Pi::game->GetTimeStep();
-	const vector3d p = alpha*newPos + (1.0-alpha)*oldPos;
-	m_interpolatedTransform[12] = p.x;
-	m_interpolatedTransform[13] = p.y;
-	m_interpolatedTransform[14] = p.z;
-}
-
-void Projectile::SetPosition(const vector3d &p)
-{
-	m_orient[12] = p.x;
-	m_orient[13] = p.y;
-	m_orient[14] = p.z;
+	m_interpOrient = GetOrient();
+	const vector3d oldPos = GetPosition() - (m_baseVel+m_dirVel)*Pi::game->GetTimeStep();
+	m_interpPos = alpha*GetPosition() + (1.0-alpha)*oldPos;
 }
 
 void Projectile::NotifyRemoved(const Body* const removedBody)
@@ -221,8 +224,8 @@ void Projectile::StaticUpdate(const float timeStep)
 	}
 	if (Equip::lasers[m_type].flags & Equip::LASER_MINING) {
 		// need to test for terrain hit
-		if (GetFrame()->m_astroBody && GetFrame()->m_astroBody->IsType(Object::PLANET)) {
-			Planet *const planet = static_cast<Planet*>(GetFrame()->m_astroBody);
+		if (GetFrame()->GetBody() && GetFrame()->GetBody()->IsType(Object::PLANET)) {
+			Planet *const planet = static_cast<Planet*>(GetFrame()->GetBody());
 			const SystemBody *b = planet->GetSystemBody();
 			vector3d pos = GetPosition();
 			double terrainHeight = planet->GetTerrainHeight(pos.Normalized());
@@ -241,8 +244,8 @@ void Projectile::StaticUpdate(const float timeStep)
 
 void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	vector3d _from = viewTransform * GetInterpolatedPosition();
-	vector3d _to = viewTransform * (GetInterpolatedPosition() + m_dirVel);
+	vector3d _from = viewTransform * GetInterpPosition();
+	vector3d _to = viewTransform * (GetInterpPosition() + m_dirVel);
 	vector3d _dir = _to - _from;
 	vector3f from(&_from.x);
 	vector3f dir = vector3f(_dir).Normalized();
@@ -282,8 +285,8 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	color.a = base_alpha * (1.f - powf(fabs(dir.Dot(view_dir)), length));
 
 	if (color.a > 0.01f) {
-		m_sideMat->diffuse = color;
-		renderer->DrawTriangles(m_sideVerts.Get(), m_sideMat.Get());
+		s_sideMat->diffuse = color;
+		renderer->DrawTriangles(s_sideVerts.Get(), s_sideMat.Get());
 	}
 
 	// fade out glow quads when viewing nearly edge on
@@ -292,8 +295,8 @@ void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, cons
 	color.a = base_alpha * powf(fabs(dir.Dot(view_dir)), width);
 
 	if (color.a > 0.01f) {
-		m_glowMat->diffuse = color;
-		renderer->DrawTriangles(m_glowVerts.Get(), m_glowMat.Get());
+		s_glowMat->diffuse = color;
+		renderer->DrawTriangles(s_glowVerts.Get(), s_glowMat.Get());
 	}
 
 	glPopMatrix();
@@ -308,10 +311,11 @@ void Projectile::Add(Body *parent, Equip::Type type, const vector3d &pos, const 
 	p->m_type = Equip::types[type].tableIndex;
 	p->SetFrame(parent->GetFrame());
 
-	parent->GetRotMatrix(p->m_orient);
+	p->SetOrient(parent->GetOrient());
 	p->SetPosition(pos);
 	p->m_baseVel = baseVel;
 	p->m_dirVel = dirVel;
-	p->m_radius = p->GetRadius();
+	p->SetClipRadius(p->GetRadius());
+	p->SetPhysRadius(p->GetRadius());
 	Pi::game->GetSpace()->AddBody(p);
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include <float.h>
@@ -15,6 +15,7 @@ Geom::Geom(const GeomTree *geomtree)
 	m_active = true;
 	m_data = 0;
 	m_mailboxIndex = 0;
+	m_group = 0;
 }
 
 matrix4x4d Geom::GetRotation() const

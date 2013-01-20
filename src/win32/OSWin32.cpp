@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Win32Setup.h"
@@ -88,6 +88,33 @@ void RedirectStdio()
 	} else {
 		setvbuf(f, 0, _IOLBF, BUFSIZ);
 	}
+}
+
+void EnableFPE()
+{
+	// clear any outstanding exceptions before enabling, otherwise they'll
+	// trip immediately
+	_clearfp();
+	_controlfp(_EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
+}
+
+void DisableFPE()
+{
+	_controlfp(_MCW_EM, _MCW_EM);
+}
+
+Uint64 HFTimerFreq()
+{
+	LARGE_INTEGER i;
+	QueryPerformanceFrequency(&i);
+	return i.QuadPart;
+}
+
+Uint64 HFTimer()
+{
+	LARGE_INTEGER i;
+	QueryPerformanceCounter(&i);
+	return i.QuadPart;
 }
 
 } // namespace OS

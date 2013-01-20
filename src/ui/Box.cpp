@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Box.h"
@@ -32,6 +32,14 @@ Point Box::PreferredSize()
 	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i) {
 		const Point contribSize = (*i).contribSize = CalcLayoutContribution((*i).widget);
 
+		// if they're not contributing anything on the fixed axis then we need
+		// to defer their inclusion until we know the size of the fixed axis
+		// and can ask for their best size. otherwise we can assign the wrong
+		// amount of space on the variable axis if they would get aspect
+		// scaled down
+		if (contribSize[fc] == 0)
+			continue;
+
 		// they've asked for as much as possible
 		if (contribSize[vc] == SIZE_EXPAND) {
 			// we'll need to be as big as possible too
@@ -54,6 +62,33 @@ Point Box::PreferredSize()
 		}
 
 		// fixed axis should just be as large as our largest
+		m_preferredSize[fc] = std::max(m_preferredSize[fc], contribSize[fc]);
+	}
+
+	// we have fixed size, so we can do the deferred ones now
+	for (std::list<Child>::iterator i = m_children.begin(); i != m_children.end(); ++i)
+	{
+		// already handled
+		if ((*i).contribSize[fc] != 0)
+			continue;
+
+		// calculate final size usng its own variable size and the accumulated
+		// fixed size
+		Point availableSize;
+		availableSize[vc] = (*i).contribSize[vc];
+		availableSize[fc] = m_preferredSize[fc];
+		const Point contribSize = (*i).contribSize = CalcSize((*i).widget, availableSize);
+
+		// repeat of above, sigh
+		if (contribSize[vc] == SIZE_EXPAND) {
+			m_preferredSize[vc] = SIZE_EXPAND;
+			m_numVariable++;
+		}
+		else {
+			if (m_preferredSize[vc] != SIZE_EXPAND)
+			    m_preferredSize[vc] += contribSize[vc];
+			m_minAllocation += contribSize[vc];
+		}
 		m_preferredSize[fc] = std::max(m_preferredSize[fc], contribSize[fc]);
 	}
 

@@ -57,9 +57,6 @@
     <ClCompile Include="..\..\src\HyperspaceCloud.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\InfoView.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\IniConfig.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -318,16 +315,10 @@
     <ClCompile Include="..\..\src\Game.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GameLoaderSaver.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\MathUtil.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ShipController.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\WorldViewCamera.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\CRC32.cpp">
@@ -378,10 +369,16 @@
     <ClCompile Include="..\..\src\win32\WinMath.cpp">
       <Filter>src\win32</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Intro.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\LuaEvent.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaFileSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ModelCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Lua.cpp">
@@ -408,10 +405,22 @@
     <ClCompile Include="..\..\src\LuaFaction.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\UIView.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\PngWriter.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\UIView.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ModelViewer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SpaceStationType.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\CameraController.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -486,9 +495,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\HyperspaceCloud.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\InfoView.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\IniConfig.h">
@@ -779,13 +785,7 @@
     <ClInclude Include="..\..\src\Game.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\GameLoaderSaver.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\ShipController.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\WorldViewCamera.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\CRC32.h">
@@ -818,14 +818,17 @@
     <ClInclude Include="..\..\src\win32\pch.h">
       <Filter>src\win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\OS.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\win32\TextUtils.h">
       <Filter>src\win32</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\win32\WinMath.h">
       <Filter>src\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Intro.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ModelCache.h">
+      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaEvent.h">
       <Filter>src</Filter>
@@ -833,16 +836,19 @@
     <ClInclude Include="..\..\src\LuaFileSystem.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LmrTypes.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\Lua.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\CollMesh.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\AnimationCurves.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaRef.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaTable.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaPushPull.h">
@@ -872,10 +878,25 @@
     <ClInclude Include="..\..\src\LuaFaction.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\UIView.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\PngWriter.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\UIView.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ModelBase.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ModelViewer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SpaceStationType.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\CameraController.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

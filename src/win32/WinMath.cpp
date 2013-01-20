@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 // Visit http://www.johndcook.com/stand_alone_code.html for the source of this code and more like it.
@@ -342,7 +342,7 @@ double LogOnePlusX(double x)
     if (x <= -1.0)
     {
         std::stringstream os;
-        os << "Invalid input argument (" << x 
+        os << "Invalid input argument (" << x
            << "); must be greater than -1.0";
         throw std::invalid_argument( os.str() );
     }

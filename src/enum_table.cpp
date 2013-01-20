@@ -1,4 +1,4 @@
-/* Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details */
+/* Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details */
 /* Licensed under the terms of the GPL v3. See licenses/GPL-3.txt        */
 
 /* THIS FILE IS AUTO-GENERATED, CHANGES WILL BE OVERWRITTEN */
@@ -7,12 +7,12 @@
 #include "enum_table.h"
 #include "EquipType.h"
 #include "LuaFileSystem.h"
-#include "Player.h"
 #include "Polit.h"
 #include "Ship.h"
 #include "ShipType.h"
 #include "SpaceStation.h"
 #include "galaxy/StarSystem.h"
+#include "gameui/Face.h"
 #include "ui/Align.h"
 #include "ui/Event.h"
 #include "ui/Expand.h"
@@ -124,13 +124,6 @@ const struct EnumItem ENUM_EquipType[] = {
 const struct EnumItem ENUM_FileSystemRoot[] = {
 	{ "USER", LuaFileSystem::ROOT_USER },
 	{ "DATA", LuaFileSystem::ROOT_DATA },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_MissionStatus[] = {
-	{ "ACTIVE", Mission::ACTIVE },
-	{ "COMPLETED", Mission::COMPLETED },
-	{ "FAILED", Mission::FAILED },
 	{ 0, 0 },
 };
 
@@ -309,6 +302,14 @@ const struct EnumItem ENUM_BodySuperType[] = {
 	{ "ROCKY_PLANET", SystemBody::SUPERTYPE_ROCKY_PLANET },
 	{ "GAS_GIANT", SystemBody::SUPERTYPE_GAS_GIANT },
 	{ "STARPORT", SystemBody::SUPERTYPE_STARPORT },
+	{ 0, 0 },
+};
+
+const struct EnumItem ENUM_GameUIFaceFlags[] = {
+	{ "RAND", GameUI::Face::RAND },
+	{ "MALE", GameUI::Face::MALE },
+	{ "FEMALE", GameUI::Face::FEMALE },
+	{ "ARMOUR", GameUI::Face::ARMOUR },
 	{ 0, 0 },
 };
 

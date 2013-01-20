@@ -22,6 +22,7 @@
 			IntermediateDirectory="$(ConfigurationName)\$(ProjectName)\"
 			ConfigurationType="1"
 			CharacterSet="1"
+			DeleteExtensionsOnClean="*.pdb;*.idb;*.obj;*.ilk;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;$(TargetPath)"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib;../../src/win32"
+				AdditionalIncludeDirectories="..\..\src;..\..\src\win32;..\..\contrib;..\win32\include;&quot;..\..\..\pioneer-thirdparty\win32\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -66,14 +67,15 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15_staticd.lib zlibd.lib"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15_staticd.lib zlibd.lib assimp.lib"
 				OutputFile="$(ProjectDir)..\..\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\lib"
+				AdditionalLibraryDirectories="&quot;..\..\..\pioneer-thirdparty\win32\lib&quot;;..\lib"
 				IgnoreDefaultLibraryNames="libcmt.lib"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
+				OptimizeForWindows98="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -104,6 +106,7 @@
 			IntermediateDirectory="$(ConfigurationName)\$(ProjectName)\"
 			ConfigurationType="1"
 			CharacterSet="1"
+			DeleteExtensionsOnClean="*.pch;*.pdb;*.idb;*.obj;*.ilk;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;$(TargetPath)"
 			WholeProgramOptimization="0"
 			>
 			<Tool
@@ -129,7 +132,7 @@
 				FavorSizeOrSpeed="0"
 				OmitFramePointers="true"
 				WholeProgramOptimization="true"
-				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib"
+				AdditionalIncludeDirectories="..\..\src;..\..\src\win32;..\..\contrib;..\win32\include;&quot;..\..\..\pioneer-thirdparty\win32\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -154,15 +157,16 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15_static.lib zlib.lib"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15_static.lib zlib.lib assimp.lib"
 				OutputFile="$(ProjectDir)..\..\$(ProjectName)_release.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\lib"
+				AdditionalLibraryDirectories="&quot;..\..\..\pioneer-thirdparty\win32\lib&quot;;..\lib"
 				GenerateDebugInformation="true"
 				MapFileName=""
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				OptimizeForWindows98="0"
 				LinkTimeCodeGeneration="1"
 				TargetMachine="1"
 			/>
@@ -194,6 +198,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
+			DeleteExtensionsOnClean="*.pdb;*.idb;*.obj;*.ilk;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;$(TargetPath)"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -216,8 +221,8 @@
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="../../src;../../win32/include;../../contrib"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
+				AdditionalIncludeDirectories="..\..\src;..\..\src\win32;..\..\contrib;..\win32\include;&quot;..\..\..\pioneer-thirdparty\win32\include&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;_SECURE_SCL=0;_HAS_ITERATOR_DEBUGGING=0"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
 				SmallerTypeCheck="false"
@@ -243,15 +248,15 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15_staticd.lib zlibd.lib"
-				OutputFile="$(ProjectDir)..\..\$(ProjectName)_debug.exe"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-p-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15_staticd.lib zlibd.lib assimp.lib"
+				OutputFile="$(ProjectDir)..\..\$(ProjectName)_prerelease.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\lib"
+				AdditionalLibraryDirectories="&quot;..\..\..\pioneer-thirdparty\win32\lib&quot;;..\lib"
 				IgnoreDefaultLibraryNames="libcmt.lib"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
-				OptimizeForWindows98="1"
+				OptimizeForWindows98="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -281,700 +286,14 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			Name="terrain"
 			>
-			<File
-				RelativePath="..\..\src\AmbientSounds.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Background.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Body.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\collider\BVHTree.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Camera.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CargoBody.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ChatForm.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CityOnPlanet.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\collider\CollisionSpace.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Color.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CommodityTradeWidget.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\CRC32.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\galaxy\CustomSystem.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\DeadVideoLink.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\DeathView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\DynamicBody.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\enum_table.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\EquipType.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\FaceVideoLink.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Factions.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Factions.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\FileSelectorWidget.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\FileSourceZip.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\FileSystem.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\win32\FileSystemWin32.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\text\Font.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\FontCache.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\text\FontDescriptor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\FormController.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Frame.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GalacticView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\galaxy\Galaxy.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Game.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GameConfig.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GameLoaderSaver.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GameMenuView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\collider\Geom.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\collider\GeomTree.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\GeoSphere.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\Gui.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiBox.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiButton.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiContainer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiFixed.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiGradient.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiImage.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiImageButton.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiImageRadioButton.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiLabel.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiLabelSet.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiMeterBar.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiMultiStateImageButton.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiRadioButton.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiRadioGroup.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiRepeaterButton.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiScreen.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiStack.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiTabbed.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiTextEntry.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiTextLayout.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiTexturedQuad.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiToggleButton.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiToolTip.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiVScrollBar.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiVScrollPortal.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiWidget.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\HyperspaceCloud.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\InfoView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\IniConfig.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Intro.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Intro.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\KeyBindings.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Lang.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LmrModel.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Lua.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaBody.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaCargoBody.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaChatForm.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaComms.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaConsole.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaConstants.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaDev.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaEngine.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaEquipType.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaEvent.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaFaction.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaFileSystem.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaFixed.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaFormat.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaGame.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaLang.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaMatrix.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaMusic.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaNameGen.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaPlanet.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaPlayer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaRand.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaRef.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaSerializer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaShip.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaShipType.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaSpace.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaSpaceStation.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaStar.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaStarSystem.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaSystemBody.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaSystemPath.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ui\LuaTextEntry.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaTimer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaUtils.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\LuaVector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\main.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\MarketAgent.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\MathUtil.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Missile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ModelBody.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ModManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\mtrand.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ObjectViewerView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\win32\OSWin32.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\win32\pch.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="PreRelease|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\perlin.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Pi.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Planet.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Player.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PngWriter.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Polit.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Projectile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\SDLWrappers.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\galaxy\Sector.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\SectorView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Serializer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Sfx.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Ship-AI.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Ship.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ShipAICmd.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ShipController.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ShipCpanel.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ShipCpanelMultiFuncDisplays.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ShipFlavour.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ShipSpinnerWidget.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ShipType.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Sound.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\SoundMusic.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Space.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\SpaceStation.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\SpaceStationView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Star.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\galaxy\StarSystem.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\StationAdvertForm.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\StationBulletinBoardForm.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\StationCommodityMarketForm.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\StationPoliceForm.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\StationServicesForm.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\StationShipEquipmentForm.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\StationShipMarketForm.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\StationShipRepairForm.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\StationShipViewForm.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\StationShipyardForm.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\StringF.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\SystemInfoView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\galaxy\SystemPath.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\SystemView.cpp"
-				>
-			</File>
 			<File
 				RelativePath="..\..\src\terrain\Terrain.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\TerrainBody.cpp"
+				RelativePath="..\..\src\terrain\Terrain.h"
 				>
 			</File>
 			<File
@@ -1075,6 +394,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\terrain\TerrainFeature.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\terrain\TerrainFeature.h"
 				>
 			</File>
 			<File
@@ -1186,35 +509,1329 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\ui\TextEntry.cpp"
+				RelativePath="..\..\src\terrain\TerrainNoise.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="contrib"
+			>
+			<Filter
+				Name="vcacheopt"
+				>
+				<File
+					RelativePath="..\..\contrib\vcacheopt\vcacheopt.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="miniz"
+				>
+				<File
+					RelativePath="..\..\contrib\miniz\miniz.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							PrecompiledHeaderThrough=""
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							PrecompiledHeaderThrough=""
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="PreRelease|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							PrecompiledHeaderThrough=""
+							ForcedIncludeFiles="$(NOINHERIT)"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\contrib\miniz\miniz.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="jenkins"
+				>
+				<Filter
+					Name="headers"
+					Filter="h;hpp;hxx;hm;inl;inc;xsd"
+					>
+					<File
+						RelativePath="..\..\contrib\jenkins\lookup3.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="source"
+					Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asm"
+					>
+					<File
+						RelativePath="..\..\contrib\jenkins\lookup3.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="lua"
+				>
+				<Filter
+					Name="headers"
+					Filter="h;hpp;hxx;hm;inl;inc;xsd"
+					>
+					<File
+						RelativePath="..\..\contrib\lua\lapi.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCustomBuildTool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lauxlib.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lcode.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lctype.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\ldebug.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\ldo.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lfunc.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lgc.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\llex.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\llimits.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lmem.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lobject.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lopcodes.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lparser.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lstate.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lstring.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\ltable.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\ltm.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lua.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lua.hpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\luaconf.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lualib.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lundump.h"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCustomBuildTool"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lvm.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lzio.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="source"
+					Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+					>
+					<File
+						RelativePath="..\..\contrib\lua\lapi.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lauxlib.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								WarnAsError="false"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lbaselib.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lbitlib.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								WarnAsError="false"
+								CompileAs="1"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lcode.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lcorolib.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lctype.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\ldblib.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\ldebug.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\ldo.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\ldump.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lfunc.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lgc.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\linit.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\liolib.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\llex.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lmathlib.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lmem.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\loadlib.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lobject.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lopcodes.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\loslib.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lparser.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lstate.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lstring.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lstrlib.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\ltable.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\ltablib.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\ltm.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lundump.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lvm.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\contrib\lua\lzio.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="PreRelease|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+								ForcedIncludeFiles="$(NOINHERIT)"
+							/>
+						</FileConfiguration>
+					</File>
+				</Filter>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="collider"
+			>
+			<File
+				RelativePath="..\..\src\collider\BVHTree.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\text\TextSupport.cpp"
+				RelativePath="..\..\src\collider\BVHTree.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\text\TextureFont.cpp"
+				RelativePath="..\..\src\collider\collider.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Tombstone.cpp"
+				RelativePath="..\..\src\collider\CollisionContact.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Tombstone.cpp"
+				RelativePath="..\..\src\collider\CollisionSpace.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\utils.cpp"
+				RelativePath="..\..\src\collider\CollisionSpace.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\text\VectorFont.cpp"
+				RelativePath="..\..\src\collider\Geom.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\View.cpp"
+				RelativePath="..\..\src\collider\Geom.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\collider\GeomTree.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\collider\GeomTree.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="win32"
+			>
+			<File
+				RelativePath="..\..\src\win32\FileSystemWin32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\OSWin32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\pch.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="PreRelease|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\pch.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\TextUtils.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\Win32Setup.h"
 				>
 			</File>
 			<File
@@ -1222,21 +1839,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\WorldView.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\WorldViewCamera.cpp"
+				RelativePath="..\..\src\win32\WinMath.h"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			Name="src"
 			>
 			<File
 				RelativePath="..\..\src\Aabb.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\AmbientSounds.cpp"
 				>
 			</File>
 			<File
@@ -1248,11 +1863,43 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Background.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="PreRelease|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\src\Background.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\BezierCurve.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Body.cpp"
 				>
 			</File>
 			<File
@@ -1268,11 +1915,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\collider\BVHTree.h"
+				RelativePath="..\..\src\ByteRange.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\ByteRange.h"
+				RelativePath="..\..\src\Camera.cpp"
 				>
 			</File>
 			<File
@@ -1280,7 +1927,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\CameraController.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\CameraController.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\CargoBody.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\CargoBody.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ChatForm.cpp"
 				>
 			</File>
 			<File
@@ -1288,19 +1951,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\CityOnPlanet.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\CityOnPlanet.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\collider\collider.h"
+				RelativePath="..\..\src\CollMesh.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\collider\CollisionContact.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\collider\CollisionSpace.h"
+				RelativePath="..\..\src\Color.cpp"
 				>
 			</File>
 			<File
@@ -1308,7 +1971,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\CommodityTradeWidget.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\CommodityTradeWidget.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\CRC32.cpp"
 				>
 			</File>
 			<File
@@ -1316,23 +1987,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\custom_starsystems.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\galaxy\CustomSystem.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Cutscene.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Cutscene.h"
+				RelativePath="..\..\src\DeadVideoLink.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\DeadVideoLink.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\DeathView.cpp"
 				>
 			</File>
 			<File
@@ -1344,7 +2011,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\DynamicBody.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\DynamicBody.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\enum_table.cpp"
 				>
 			</File>
 			<File
@@ -1356,7 +2031,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\EquipType.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\EquipType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FaceVideoLink.cpp"
 				>
 			</File>
 			<File
@@ -1364,11 +2047,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Factions.h"
+				RelativePath="..\..\src\Factions.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\Factions.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FileSelectorWidget.cpp"
 				>
 			</File>
 			<File
@@ -1376,7 +2063,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\FileSourceZip.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\FileSourceZip.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FileSystem.cpp"
 				>
 			</File>
 			<File
@@ -1392,7 +2087,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\text\Font.h"
+				RelativePath="..\..\src\FontCache.cpp"
 				>
 			</File>
 			<File
@@ -1400,19 +2095,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\FontConfig.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\text\FontDescriptor.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\FontManager.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Form.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\FormController.cpp"
 				>
 			</File>
 			<File
@@ -1420,7 +2107,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Frame.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Frame.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GalacticView.cpp"
 				>
 			</File>
 			<File
@@ -1428,11 +2123,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\galaxy\Galaxy.h"
+				RelativePath="..\..\src\Game.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\Game.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\GameConfig.cpp"
 				>
 			</File>
 			<File
@@ -1444,7 +2143,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GameLoaderSaver.h"
+				RelativePath="..\..\src\GameMenuView.cpp"
 				>
 			</File>
 			<File
@@ -1452,15 +2151,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GenericChatForm.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\collider\Geom.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\collider\GeomTree.h"
+				RelativePath="..\..\src\GeoSphere.cpp"
 				>
 			</File>
 			<File
@@ -1468,123 +2159,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\gui\Gui.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiAdjustment.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiBox.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiButton.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiContainer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiEvents.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiFixed.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiGradient.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiImage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiImageButton.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiImageRadioButton.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiISelectable.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiLabel.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiLabelSet.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiMeterBar.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiMultiStateImageButton.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiRadioButton.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiRadioGroup.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiRepeaterButton.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiScreen.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiStack.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiTabbed.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiTextEntry.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiTextLayout.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiTexturedQuad.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiToggleButton.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiToolTip.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiVScrollBar.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiVScrollPortal.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gui\GuiWidget.h"
+				RelativePath="..\..\src\HyperspaceCloud.cpp"
 				>
 			</File>
 			<File
@@ -1592,7 +2167,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\InfoView.h"
+				RelativePath="..\..\src\IniConfig.cpp"
 				>
 			</File>
 			<File
@@ -1600,11 +2175,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Intro.h"
+				RelativePath="..\..\src\Intro.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\Intro.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\KeyBindings.cpp"
 				>
 			</File>
 			<File
@@ -1613,6 +2192,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\KeyBindings.inc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Lang.cpp"
 				>
 			</File>
 			<File
@@ -1628,11 +2211,51 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LmrModel.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LmrModel.h"
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LmrTypes.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Lua.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="PreRelease|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\src\Lua.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaBody.cpp"
 				>
 			</File>
 			<File
@@ -1640,7 +2263,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaCargoBody.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaCargoBody.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaChatForm.cpp"
 				>
 			</File>
 			<File
@@ -1648,7 +2279,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaComms.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaComms.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaConsole.cpp"
 				>
 			</File>
 			<File
@@ -1656,7 +2295,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaConstants.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaConstants.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaDev.cpp"
 				>
 			</File>
 			<File
@@ -1664,7 +2311,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaEngine.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaEngine.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaEquipType.cpp"
 				>
 			</File>
 			<File
@@ -1672,7 +2327,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaEvent.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaEvent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaFaction.cpp"
 				>
 			</File>
 			<File
@@ -1680,7 +2343,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaFileSystem.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaFileSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaFixed.cpp"
 				>
 			</File>
 			<File
@@ -1688,7 +2359,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaFormat.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaFormat.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaGame.cpp"
 				>
 			</File>
 			<File
@@ -1696,7 +2375,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaLang.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaLang.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaManager.cpp"
 				>
 			</File>
 			<File
@@ -1704,7 +2391,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaMatrix.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaMatrix.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaMusic.cpp"
 				>
 			</File>
 			<File
@@ -1712,7 +2407,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaNameGen.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaNameGen.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaObject.cpp"
 				>
 			</File>
 			<File
@@ -1720,7 +2423,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaPlanet.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaPlanet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaPlayer.cpp"
 				>
 			</File>
 			<File
@@ -1732,7 +2443,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaRand.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaRand.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaRef.cpp"
 				>
 			</File>
 			<File
@@ -1740,7 +2459,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\LuaSBody.h"
+				RelativePath="..\..\src\LuaSerializer.cpp"
 				>
 			</File>
 			<File
@@ -1748,7 +2467,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaShip.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaShip.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaShipType.cpp"
 				>
 			</File>
 			<File
@@ -1756,7 +2483,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaSpace.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaSpace.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSpaceStation.cpp"
 				>
 			</File>
 			<File
@@ -1764,7 +2499,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaStar.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaStar.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaStarSystem.cpp"
 				>
 			</File>
 			<File
@@ -1772,7 +2515,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaSystemBody.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaSystemBody.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaSystemPath.cpp"
 				>
 			</File>
 			<File
@@ -1784,7 +2535,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaTimer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaTimer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\LuaUtils.cpp"
 				>
 			</File>
 			<File
@@ -1792,11 +2551,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\LuaVector.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\LuaVector.h"
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\MarketAgent.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\MarketAgent.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\MathUtil.cpp"
 				>
 			</File>
 			<File
@@ -1808,11 +2583,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Missile.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Missile.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Mission.h"
+				RelativePath="..\..\src\ModelBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ModelBody.cpp"
 				>
 			</File>
 			<File
@@ -1820,7 +2603,31 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ModelCache.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ModelCache.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ModelViewer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ModelViewer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ModManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ModManager.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\mtrand.cpp"
 				>
 			</File>
 			<File
@@ -1828,15 +2635,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\mylua.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\NameGenerator.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Object.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ObjectViewerView.cpp"
 				>
 			</File>
 			<File
@@ -1848,7 +2651,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\win32\pch.h"
+				RelativePath="..\..\src\perlin.cpp"
 				>
 			</File>
 			<File
@@ -1860,19 +2663,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Pi.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Pi.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\PiLuaAPI.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PiLuaConstants.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\PiLuaModules.h"
+				RelativePath="..\..\src\Planet.cpp"
 				>
 			</File>
 			<File
@@ -1880,7 +2679,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Player.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Player.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\PngWriter.cpp"
 				>
 			</File>
 			<File
@@ -1888,11 +2695,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\PoliceChatForm.h"
+				RelativePath="..\..\src\Polit.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\Polit.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Projectile.cpp"
 				>
 			</File>
 			<File
@@ -1912,23 +2723,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\render\Render.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\render\RenderFrustum.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\render\RenderShader.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\render\RenderTarget.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\render\RenderTexture.h"
+				RelativePath="..\..\src\SDLWrappers.cpp"
 				>
 			</File>
 			<File
@@ -1936,7 +2731,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\galaxy\Sector.h"
+				RelativePath="..\..\src\SectorView.cpp"
 				>
 			</File>
 			<File
@@ -1944,7 +2739,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Serializer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Serializer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Sfx.cpp"
 				>
 			</File>
 			<File
@@ -1952,7 +2755,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Ship-AI.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Ship.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Ship.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ShipAICmd.cpp"
 				>
 			</File>
 			<File
@@ -1960,7 +2775,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ShipController.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ShipController.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ShipCpanel.cpp"
 				>
 			</File>
 			<File
@@ -1968,7 +2791,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ShipCpanelMultiFuncDisplays.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ShipCpanelMultiFuncDisplays.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ShipFlavour.cpp"
 				>
 			</File>
 			<File
@@ -1976,7 +2807,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ShipSpinnerWidget.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ShipSpinnerWidget.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ShipType.cpp"
 				>
 			</File>
 			<File
@@ -1988,7 +2827,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Sound.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Sound.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\SoundMusic.cpp"
 				>
 			</File>
 			<File
@@ -1996,7 +2843,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Space.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Space.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\SpaceStation.cpp"
 				>
 			</File>
 			<File
@@ -2004,7 +2859,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\SpaceStationType.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\SpaceStationType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\SpaceStationView.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\SpaceStationView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Star.cpp"
 				>
 			</File>
 			<File
@@ -2012,7 +2883,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\galaxy\StarSystem.h"
+				RelativePath="..\..\src\StationAdvertForm.cpp"
 				>
 			</File>
 			<File
@@ -2020,7 +2891,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\StationBulletinBoardForm.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\StationBulletinBoardForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationCommodityMarketForm.cpp"
 				>
 			</File>
 			<File
@@ -2028,7 +2907,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\StationPoliceForm.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\StationPoliceForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationServicesForm.cpp"
 				>
 			</File>
 			<File
@@ -2036,7 +2923,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\StationShipEquipmentForm.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\StationShipEquipmentForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipMarketForm.cpp"
 				>
 			</File>
 			<File
@@ -2044,7 +2939,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\StationShipRepairForm.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\StationShipRepairForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StationShipViewForm.cpp"
 				>
 			</File>
 			<File
@@ -2052,7 +2955,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\StationShipyardForm.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\StationShipyardForm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\StringF.cpp"
 				>
 			</File>
 			<File
@@ -2064,11 +2975,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\SystemInfoView.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\SystemInfoView.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\galaxy\SystemPath.h"
+				RelativePath="..\..\src\SystemView.cpp"
 				>
 			</File>
 			<File
@@ -2076,7 +2991,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\terrain\Terrain.h"
+				RelativePath="..\..\src\TerrainBody.cpp"
 				>
 			</File>
 			<File
@@ -2084,27 +2999,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\terrain\TerrainFeature.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\terrain\TerrainNoise.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\ui\TextEntry.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\text\TextSupport.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\text\TextureFont.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\TextureManager.h"
+				RelativePath="..\..\src\Tombstone.cpp"
 				>
 			</File>
 			<File
@@ -2112,7 +3007,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Tombstone.h"
+				RelativePath="..\..\src\UIView.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\UIView.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\utils.cpp"
 				>
 			</File>
 			<File
@@ -2128,11 +3031,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\text\VectorFont.h"
+				RelativePath="..\..\src\VideoLink.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\VideoLink.h"
+				RelativePath="..\..\src\View.cpp"
 				>
 			</File>
 			<File
@@ -2140,1196 +3043,13 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\win32\WinMath.h"
+				RelativePath="..\..\src\WorldView.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\WorldView.h"
 				>
 			</File>
-			<File
-				RelativePath="..\..\src\WorldViewCamera.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
-		</Filter>
-		<Filter
-			Name="lua"
-			>
-			<Filter
-				Name="headers"
-				Filter="h;hpp;hxx;hm;inl;inc;xsd"
-				>
-				<File
-					RelativePath="..\..\contrib\lua\lapi.h"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lauxlib.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lcode.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lctype.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\ldebug.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\ldo.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lfunc.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lgc.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\llex.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\llimits.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lmem.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lobject.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lopcodes.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lparser.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lstate.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lstring.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\ltable.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\ltm.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lua.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lua.hpp"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\luaconf.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lualib.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lundump.h"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lvm.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lzio.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="source"
-				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-				>
-				<File
-					RelativePath="..\..\contrib\lua\lapi.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lauxlib.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							WarnAsError="false"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lbaselib.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lbitlib.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							WarnAsError="false"
-							CompileAs="1"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lcode.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lcorolib.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lctype.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\ldblib.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\ldebug.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\ldo.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\ldump.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lfunc.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lgc.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\linit.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\liolib.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\llex.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lmathlib.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lmem.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\loadlib.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lobject.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lopcodes.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\loslib.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lparser.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lstate.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lstring.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lstrlib.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\ltable.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\ltablib.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\ltm.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lundump.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lvm.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\contrib\lua\lzio.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="miniz"
-			>
-			<Filter
-				Name="source"
-				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-				>
-				<File
-					RelativePath="..\..\contrib\miniz\miniz.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-							ForcedUsingFiles=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-			<Filter
-				Name="headers"
-				Filter="h;hpp;hxx;hm;inl;inc;xsd"
-				>
-				<File
-					RelativePath="..\..\contrib\miniz\miniz.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="graphics"
@@ -3508,59 +3228,234 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="jenkins"
-			>
-			<Filter
-				Name="headers"
-				Filter="h;hpp;hxx;hm;inl;inc;xsd"
-				>
-				<File
-					RelativePath="..\..\contrib\jenkins\lookup3.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="source"
-				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asm"
-				>
-				<File
-					RelativePath="..\..\contrib\jenkins\lookup3.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="PreRelease|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-							ForcedIncludeFiles="$(NOINHERIT)"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="vcacheopt"
+			Name="gui"
 			>
 			<File
-				RelativePath="..\..\contrib\vcacheopt\vcacheopt.h"
+				RelativePath="..\..\src\gui\Gui.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\Gui.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiAdjustment.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiBox.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiButton.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiContainer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiContainer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiEvents.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiFixed.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiFixed.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiGradient.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiGradient.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiImage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiImage.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiImageButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiImageButton.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiImageRadioButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiImageRadioButton.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiISelectable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiLabel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiLabel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiLabelSet.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiLabelSet.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiMeterBar.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiMeterBar.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiMultiStateImageButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiMultiStateImageButton.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiRadioButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiRadioButton.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiRadioGroup.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiRadioGroup.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiRepeaterButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiRepeaterButton.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiScreen.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiScreen.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiStack.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiStack.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiTabbed.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiTabbed.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiTextEntry.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiTextEntry.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiTextLayout.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiTextLayout.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiTexturedQuad.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiTexturedQuad.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiToggleButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiToggleButton.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiToolTip.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiToolTip.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiVScrollBar.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiVScrollBar.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiVScrollPortal.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiVScrollPortal.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiWidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gui\GuiWidget.h"
 				>
 			</File>
 		</Filter>
@@ -3580,6 +3475,22 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="PreRelease|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -3672,6 +3583,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ui\Expand.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Expand.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ui\FloatContainer.cpp"
 				>
 			</File>
@@ -3680,11 +3599,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ui\Gradient.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Gradient.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ui\Grid.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\ui\Grid.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Icon.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\Icon.h"
 				>
 			</File>
 			<File
@@ -3716,6 +3651,22 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="PreRelease|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -3764,7 +3715,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ui\LuaExpand.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaGradient.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ui\LuaGrid.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaIcon.cpp"
 				>
 			</File>
 			<File
@@ -3801,6 +3764,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ui\LuaSlider.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaSmallButton.cpp"
 				>
 			</File>
 			<File
@@ -3860,6 +3827,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\ui\SmallButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\SmallButton.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\TextEntry.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\TextEntry.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\ui\TextLayout.cpp"
 				>
 			</File>
@@ -3877,6 +3860,359 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ui\WidgetSet.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="gameui"
+			>
+			<File
+				RelativePath="..\..\src\gameui\Face.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Face.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\GameUI.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Lua.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+						ProgramDataBaseFileName="$(IntDir)\$(ProjectName)D.pdb"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="PreRelease|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)-$(ParentName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Lua.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\LuaFace.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\LuaShipSpinner.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\ui\LuaTextEntry.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Panel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\Panel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\ShipSpinner.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\gameui\ShipSpinner.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="scenegraph"
+			>
+			<File
+				RelativePath="..\..\src\scenegraph\Animation.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Animation.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\AnimationChannel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\AnimationKey.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Billboard.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Billboard.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\CollisionGeometry.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\CollisionGeometry.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\CollisionVisitor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\CollisionVisitor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\ColorMap.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\ColorMap.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\DumpVisitor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\DumpVisitor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\FindNodeVisitor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\FindNodeVisitor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Group.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Group.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Label3D.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Label3D.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Loader.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Loader.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\LoaderDefinitions.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\LOD.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\LOD.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\MatrixTransform.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\MatrixTransform.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Model.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Model.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\ModelNode.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\ModelNode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Node.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Node.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\NodeVisitor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\NodeVisitor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Parser.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Parser.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Pattern.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Pattern.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\SceneGraph.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\StaticGeometry.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\StaticGeometry.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Thruster.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\scenegraph\Thruster.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="text"
+			>
+			<File
+				RelativePath="..\..\src\text\DistanceFieldFont.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\DistanceFieldFont.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\Font.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\Font.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\FontDescriptor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\FontDescriptor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\TextSupport.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\TextSupport.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\TextureFont.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\TextureFont.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\VectorFont.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\VectorFont.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="galaxy"
+			>
+			<File
+				RelativePath="..\..\src\galaxy\CustomSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\galaxy\CustomSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\galaxy\Galaxy.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\galaxy\Galaxy.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\galaxy\Sector.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\galaxy\Sector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\galaxy\StarSystem.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\galaxy\StarSystem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\galaxy\SystemPath.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\galaxy\SystemPath.h"
 				>
 			</File>
 		</Filter>

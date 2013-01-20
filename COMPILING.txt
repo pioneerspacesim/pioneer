@@ -1,0 +1,187 @@
+How to compile Pioneer
+======================
+
+Pioneer is known to build on the following platforms and build systems:
+
+Linux: GNU Autotools with GCC or Clang
+Windows: Microsoft Visual C++ 2008, 2010 & 2012
+Windows: GNU Autotools with MXE (MinGW GCC) (cross-compile on Linux)
+OS X: GNU Autotools or XCode 4
+
+The Autotools build system is usually the most up-to-date, and is what is used
+to produce the Linux and Windows nightly and alpha builds. The others
+typically lag behind, depending on the motivation of those using them to keep
+them up too date with source file changes.
+
+There is an additional repository called pioneer-thirdparty that contains
+various files that may assist with building. If the instructions for your
+platforms indicates you may need it, then read the section below for details.
+
+If you're having trouble compiling, please ask in #pioneer on
+irc.freenode.net.
+
+
+Linux - Autotools
+-----------------
+
+1. Install the following libraries (with development headers) for your system.
+   If your system is not Debian/Ubuntu based, they may have different names.
+
+    Debian/Ubuntu
+    -------------
+    g++
+    automake
+    pkg-config
+    libsigc++-dev
+    libsdl1.2-dev
+    libsdl-image1.2-dev
+    libfreetype6-dev
+    libvorbis-dev
+    libpng-dev
+    libassimp-dev >= 3.0
+    libglew-dev
+    libglu1-mesa-dev
+    mesa-common-dev
+
+   If your platform doesn't have assimp 3.0, you'll need to build it from
+   source. Its available in pioneer-thirdparty, see below.
+
+2. Run ./bootstrap to generate your 'configure' file
+
+3. Run ./configure to configure the build. If you're using the
+   pioneer-thirdparty repository, pass
+   --with-thirdparty=/path/to/pioneer-thirdparty to configure.
+
+4. Run make to build everything
+
+
+Windows - MSVC
+--------------
+
+1. Get both the pioneer and the pioneer-thirdparty repositories and keep them
+   in a directory side by side. Don't rename pioneer-thirdparty because the
+   relative path to it is included in the project files.
+
+2. Open the pioneer solution from win32/vc2008, win32/vc2010 or vc2012 as
+   appropriate for the version of Visual Studio you're using.
+
+3. Build and run the project or solution.
+
+Windows - Autotools (Linux cross-compile)
+-----------------------------------------
+
+1. First you need a cross-compiling environment. We use MXE (http://mxe.cc).
+   The version of GCC that ships with MXE (4.7.2) has a bug that prevents it
+   from building Pioneer correctly. For now, clone this fork which has GCC
+   4.6.3:
+
+     git://github.com/robn/mxe.git
+
+   Then checkout the gcc-463 branch.
+
+   Now compile GCC and the dependencies needed for Pioneer:
+
+     make gcc freetype glew sdl sdl_image vorbis libsigc++
+
+2. Prepare the pioneer-thirdparty repository. See below.
+
+3. Now you can build Pioneer. Run ./bootstrap to generate your 'configure'
+   file.
+
+4. Run configure to configure the build:
+
+     ./configure --with-mxe=/path/to/mxe --with-thirdparty=/path/to/pioneer-thirdparty
+
+5. Run make to build everything
+
+
+OS X - Autotools
+----------------
+
+1. Install XCode (free download from apple). This will install the required
+   compilers and other commandline tools.
+
+2. You will need the following libraries installed. The best method I found
+   was to install macports (http://www.macports.org/) and install the
+   following ports (sudo port install xxxx):
+
+     assimp
+     pkgconfig
+     freetype
+     libsdl
+     libsdl_image
+     libsdl_sound
+     glew
+     libsigcxx2
+
+3. Run ./bootstrap to generate your 'configure' file
+
+4. By default the OpenGL frameworks don't seem to be visible to 'automake'
+   way so I did a few tricks to get it working:
+
+   Create a symlink from the OpenGL framework to your /usr/local/include 
+   directory
+
+     sudo ln -s /System/Library/Frameworks/OpenGL.framework/Versions/A/Headers/ /usr/local/include/GL
+
+5. Instead of running ./configure run it with this command line:
+
+     LDFLAGS="-L/System/Library/Frameworks/OpenGL.framework/Libraries -L/System/Library/Frameworks/GLUT.framework" ./configure
+
+6. Now you can run make as per normal. :)
+
+Note: Compiling from source this way isn't recommended as it doesn't allow you
+      to 'install' the application into a different location (pioneer.app
+      bundle). It also isn't the 'Apple way', To do that you need to use XCode.
+
+OSX - XCode 4
+-------------
+
+The latest XCode project files are located in ./osx. Simply build the
+aplication bundle. The XCode project uses the mac port libraries that you
+have installed above. Once the pioneer.app bundle is complete you can move it
+around where you like (/Applications is a nice place for it).
+
+
+pioneer-thirdparty
+==================
+
+The pioneer-thirdparty repository contains:
+ - source for dependencies that may be difficult to obtain or build
+ - pre-built dependencies for MSVC targets
+
+To get it, clone git://github.com/pioneerspacesim/pioneer-thirdparty.git.
+
+Linux - Autotools
+-----------------
+
+1. After cloning the repo, run autoconf to generate 'configure'.
+
+2. Run ./configure to configure the build
+
+3. Run make <package> to compile and prepare the named package for use with
+   Pioneer, or just run make alone to build everything.
+
+
+Windows - MSVC
+--------------
+
+1. After cloning the repo, move it to a folder called "pioneer-thirdparty"
+   alongside your "pioneer" folder.
+
+
+Windows - Autotools (Linux cross-compile)
+-----------------------------------------
+
+1. After cloning the repo, run autoconf to generate 'configure'.
+
+2. Run ./configure --with-mxe=/path/to/mxe to configure the build.
+
+3. Run make <package> to compile and prepare the named package for use with
+   Pioneer, or just run make alone to build everything.
+
+OSX
+---
+
+- pioneer-thirdparty currently not required.
+

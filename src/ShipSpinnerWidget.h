@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIPSPINNERWIDGET_H
@@ -22,7 +22,7 @@ private:
 	float m_width;
 	float m_height;
 
-	LmrModel *m_model;
+	ModelBase *m_model;
 	LmrObjParams m_params;
 	// XXX m_equipment is currently not hooked up to anything,
 	// it's just used to pass equipment parameters to the displayed model

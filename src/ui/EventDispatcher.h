@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_EVENTDISPATCHER_H
@@ -29,10 +29,6 @@ public:
 
 	void LayoutUpdated();
 
-	void AddShortcut(const KeySym &keysym, Widget *target);
-	void RemoveShortcut(const KeySym &keysym);
-	void ClearShortcuts();
-
 	void SelectWidget(Widget *target);
 	void DeselectWidget(Widget *target);
 
@@ -57,8 +53,7 @@ private:
 	bool m_keyRepeatActive;
 	Uint32 m_nextKeyRepeat;
 
-	typedef std::map<KeySym,Widget*> ShortcutMap;
-	ShortcutMap m_shortcuts;
+	std::map<KeySym,Widget*> m_shortcuts;
 };
 
 }

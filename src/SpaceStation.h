@@ -1,61 +1,33 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPACESTATION_H
 #define _SPACESTATION_H
 
 #include "libs.h"
-#include "ModelBody.h"
-#include "ShipType.h"
-#include "MarketAgent.h"
-#include "ShipFlavour.h"
-#include "Quaternion.h"
-#include "Serializer.h"
-#include "RefList.h"
 #include "Camera.h"
+#include "MarketAgent.h"
+#include "ModelBody.h"
+#include "Quaternion.h"
+#include "RefList.h"
+#include "Serializer.h"
+#include "ShipFlavour.h"
+#include "ShipType.h"
+#include "SpaceStationType.h"
 
 #define MAX_DOCKING_PORTS	4
 
-class CollMeshSet;
-class Ship;
-struct Mission;
-class Planet;
 class CityOnPlanet;
-namespace Graphics { class Renderer; }
-
-struct SpaceStationType {
-	LmrModel *model;
-	const char *modelName;
-	float angVel;
-	enum DOCKMETHOD { SURFACE, ORBITAL } dockMethod;
-	int numDockingPorts;
-	int numDockingStages;
-	int numUndockStages;
-	double *dockAnimStageDuration;
-	double *undockAnimStageDuration;
-	bool dockOneAtATimePlease;
-
-	struct positionOrient_t {
-		vector3d pos;
-		vector3d xaxis;
-		vector3d yaxis;
-	};
-
-	void _ReadStageDurations(const char *key, int *outNumStages, double **durationArray);
-	// read from lua model definition
-	void ReadStageDurations();
-	bool GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const;
-	/** when ship is on rails it returns true and fills outPosOrient.
-	 * when ship has been released (or docked) it returns false.
-	 * Note station animations may continue for any number of stages after
-	 * ship has been released and is under player control again */
-	bool GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
-};
-
-class StationAdvertForm;
+class CollMeshSet;
 class FormController;
+class Planet;
+class Ship;
 class SpaceStation;
+class StationAdvertForm;
+class SystemBody;
 struct BBAdvert;
+struct Mission;
+namespace Graphics { class Renderer; }
 
 typedef StationAdvertForm* (*AdvertFormBuilder)(FormController *controller, SpaceStation *station, const BBAdvert &ad);
 
@@ -65,15 +37,11 @@ struct BBAdvert {
 	AdvertFormBuilder builder;
 };
 
-
-class SystemBody;
-
 class SpaceStation: public ModelBody, public MarketAgent {
 public:
 	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
 	static void Init();
 	static void Uninit();
-	enum TYPE { JJHOOP, GROUND_FLAVOURED, TYPE_MAX };
 
 	enum Animation { // <enum scope='SpaceStation' name=SpaceStationAnimation prefix=ANIM_>
 		ANIM_DOCKING_BAY_1,
@@ -86,17 +54,12 @@ public:
 	SpaceStation(const SystemBody *);
 	SpaceStation() {}
 	virtual ~SpaceStation();
-	virtual double GetBoundingRadius() const;
+	virtual vector3d GetAngVelocity() const { return vector3d(0,m_type->angVel,0); }
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
-	/** You should call Ship::Undock() rather than this.
-	 * Returns true on success, false if permission denied */
-	bool LaunchShip(Ship *ship, int port);
-	void OrientDockedShip(Ship *ship, int port) const;
-	bool GetDockingClearance(Ship *s, std::string &outMsg);
+	virtual void StaticUpdate(const float timeStep);
 	virtual void TimeStepUpdate(const float timeStep);
-	bool IsGroundStation() const;
-	float GetDesiredAngVel() const;
+
 	void AddEquipmentStock(Equip::Type t, int num) { m_equipmentStock[t] += num; }
 	/* MarketAgent stuff */
 	int GetStock(Equip::Type t) const { return m_equipmentStock[t]; }
@@ -109,16 +72,20 @@ public:
 	const std::vector<ShipFlavour> &GetShipsOnSale() const { return m_shipsOnSale; }
 	virtual void PostLoadFixup(Space *space);
 	virtual void NotifyRemoved(const Body* const removedBody);
+
+	// should call Ship::Undock and Ship::SetDockedWith instead
+	// Returns true on success, false if permission denied
+	bool LaunchShip(Ship *ship, int port);
+	void SetDocked(Ship *ship, int port);
+
+	bool GetDockingClearance(Ship *s, std::string &outMsg);
 	int GetDockingPortCount() const { return m_type->numDockingPorts; }
 	int GetFreeDockingPort() const; // returns -1 if none free
-	int GetMyDockingPort(const Ship *s) const {
-		for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-			if (s == m_shipDocking[i].ship) return i;
-		}
-		return -1;
-	}
-	void SetDocked(Ship *ship, int port);
-	const SpaceStationType *GetSpaceStationType() const { return m_type; }
+	int GetMyDockingPort(const Ship *s) const;
+
+	const SpaceStationType *GetStationType() const { return m_type; }
+	bool IsGroundStation() const;
+
 	sigc::signal<void> onShipsForSaleChanged;
 	sigc::signal<void, BBAdvert&> onBulletinBoardAdvertDeleted;
 	sigc::signal<void> onBulletinBoardChanged;
@@ -127,7 +94,6 @@ public:
 	bool AllocateStaticSlot(int& slot);
 
 	void CreateBB();
-
 	int AddBBAdvert(std::string description, AdvertFormBuilder builder);
 	const BBAdvert *GetBBAdvert(int ref);
 	bool RemoveBBAdvert(int ref);
@@ -136,14 +102,18 @@ public:
 	// use docking bay position, if player has been granted permission
 	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const;
 
+	// need this now because stations rotate in their frame
+	virtual void UpdateInterpTransform(double alpha);
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
+
 private:
-	void DoDockingAnimation(const double timeStep);
+	void DockingUpdate(const double timeStep);
+	void PositionDockedShip(Ship *ship, int port) const;
 	void DoLawAndOrder();
 	void CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::LightSource> &lightSources);
 
@@ -162,12 +132,14 @@ private:
 		double stagePos; // 0 -> 1.0
 	};
 	shipDocking_t m_shipDocking[MAX_DOCKING_PORTS];
+	bool m_dockingLock;
+
+	double m_oldAngDisplacement;
 
 	double m_openAnimState[MAX_DOCKING_PORTS];
 	double m_dockAnimState[MAX_DOCKING_PORTS];
 
 	void InitStation();
-	void PositionDockedShip(Ship *ship, int port);
 	void UpdateShipyard();
 	const SpaceStationType *m_type;
 	const SystemBody *m_sbody;
@@ -183,7 +155,5 @@ private:
 	std::vector<BBAdvert> m_bbAdverts;
 	bool m_bbCreated, m_bbShuffled;
 };
-
-void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, double fadeInEnd, double fadeInLength, double illumination, double minIllumination);
 
 #endif /* _SPACESTATION_H */

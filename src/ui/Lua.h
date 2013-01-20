@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_LUA_H
@@ -30,6 +30,7 @@ template <> class LuaAcquirer<UI::ColorBackground> : public LuaAcquirerRefCounte
 template <> class LuaAcquirer<UI::Container> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::Context> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::DropDown> : public LuaAcquirerRefCounted {};
+template <> class LuaAcquirer<UI::Expand> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::Grid> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::Icon> : public LuaAcquirerRefCounted {};
 template <> class LuaAcquirer<UI::Image> : public LuaAcquirerRefCounted {};

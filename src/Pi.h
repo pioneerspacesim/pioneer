@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PI_H
@@ -27,13 +27,15 @@ class SystemInfoView;
 class ShipCpanel;
 class StarSystem;
 class SpaceStationView;
-class InfoView;
 class SpaceStation;
 class GalacticView;
+class UIView;
 class Ship;
 class GameMenuView;
 class LuaConsole;
 class LuaNameGen;
+class ModelCache;
+class ModelBase;
 namespace Graphics { class Renderer; }
 namespace Sound { class MusicPlayer; }
 namespace UI { class Context; }
@@ -69,12 +71,9 @@ public:
 	static void TombStoneLoop();
 	static void OnChangeDetailLevel();
 	static void ToggleLuaConsole();
-	static void ToggleManualRotation();
 	static void Quit() __attribute((noreturn));
 	static float GetFrameTime() { return frameTime; }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
-	static int GetScrWidth() { return scrWidth; }
-	static int GetScrHeight() { return scrHeight; }
 	static float GetScrAspect() { return scrAspect; }
 	static int KeyState(SDLKey k) { return keyState[k]; }
 	static int KeyModState() { return keyModState; }
@@ -103,6 +102,7 @@ public:
 	static float CalcHyperspaceFuelOut(int hyperclass, float dist, float hyperspace_range_max);
 	static void Message(const std::string &message, const std::string &from = "", enum MsgLevel level = MSG_NORMAL);
 	static std::string GetSaveDir();
+	static ModelBase *FindModel(const std::string&);
 
 	static const char SAVE_DIR_NAME[];
 
@@ -140,20 +140,18 @@ public:
 	static WorldView *worldView;
 	static DeathView *deathView;
 	static SpaceStationView *spaceStationView;
-	static InfoView *infoView;
+	static UIView *infoView;
 	static LuaConsole *luaConsole;
 	static ShipCpanel *cpan;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
-	static Graphics::Renderer* renderer; // blargh
+	static Graphics::Renderer *renderer; // blargh
+	static ModelCache *modelCache;
 
 #if WITH_OBJECTVIEWER
 	static ObjectViewerView *objectViewerView;
 #endif
 
 	static Game *game;
-
-	static int CombatRating(int kills);
-	static const char * const combatRating[];
 
 	static struct DetailLevel detail;
 	static GameConfig *config;
@@ -174,13 +172,14 @@ private:
 	static int requestedTimeAccelIdx;
 	static bool forceTimeAccel;
 	static float frameTime;
-	static int scrWidth, scrHeight;
 	static float scrAspect;
 	static char keyState[SDLK_LAST];
 	static int keyModState;
 	static char mouseButton[6];
 	static int mouseMotion[2];
 	static bool doingMouseGrab;
+	static bool warpAfterMouseGrab;
+	static int mouseGrabWarpPos[2];
 	static const float timeAccelRates[];
 
 	static bool joystickEnabled;

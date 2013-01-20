@@ -1,3 +1,9 @@
+pioneer (0.0~alpha29+git-1) unstable; urgency=low
+
+  * Update packaging for current state (alpha29).
+
+ -- Roland Mas <lolando@debian.org>  Mon, 17 Dec 2012 16:08:25 +0100
+
 pioneer (0.0~alpha11-1) unstable; urgency=low
 
   * Nice fresh release.

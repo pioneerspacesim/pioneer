@@ -588,34 +588,12 @@ YAW
     Yaw
 MISSILE
     míssil
-HARMLESS
-    Inofensiu
-MOSTLY_HARMLESS
-    Pràcticament inofensiu
-POOR
-    Pobre
-AVERAGE
-    Normal
-ABOVE_AVERAGE
-    Més del normal
-COMPETENT
-    Competent
-DANGEROUS
-    Perillós
-DEADLY
-    Mortal
-ELITE
-    ÈLIT
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulant l'evolució de l'univers: %age{f.1}00 milions d'anys ;-)
 TOMBSTONE_EPITAPH
     RIP OLD BEAN
 SCREENSHOT_FILENAME_TEMPLATE
     captura%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Gremi de Pilots Pioners
-RIGHT_ON_COMMANDER
-    Bona feina comandant! La vostra qualificació de pilot ha millorat!
 ALERT_CANCELLED
     Alerta cancel·lada.
 SHIP_DETECTED_NEARBY

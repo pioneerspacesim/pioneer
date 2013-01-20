@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaEngine.h"
@@ -111,7 +111,7 @@ static int l_engine_attr_version(lua_State *l)
  *
  * Availability:
  *
- *   not yet
+ *   alpha 28
  *
  * Status:
  *

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _RENDERER_H
@@ -131,6 +131,7 @@ public:
 	Texture *GetCachedTexture(const std::string &type, const std::string &name);
 	void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);
 	void RemoveCachedTexture(const std::string &type, const std::string &name);
+	void RemoveAllCachedTextures();
 
 	// output human-readable debug info to the given stream
 	virtual bool PrintDebugInfo(std::ostream &out) { return false; }
@@ -162,7 +163,6 @@ private:
 	typedef std::map<TextureCacheKey,RefCountedPtr<Texture>*> TextureCacheMap;
 	TextureCacheMap m_textures;
 
-	void RemoveAllCachedTextures();
 };
 
 // subclass this to store renderer specific information
@@ -174,7 +174,7 @@ struct RenderInfo {
 
 // baseclass for a renderable thing. so far it just means that the renderer
 // can store renderer-specific data in it (RenderInfo)
-struct Renderable {
+struct Renderable : public RefCounted {
 public:
 	Renderable(): m_renderInfo(0) {}
 

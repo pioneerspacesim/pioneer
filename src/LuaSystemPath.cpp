@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -244,7 +244,7 @@ static int l_sbodypath_distance_to(lua_State *l)
 	}
 
 	Sector sec1(loc1->sectorX, loc1->sectorY, loc1->sectorZ);
-	Sector sec2(loc2->sectorX, loc2->sectorY, loc1->sectorZ);
+	Sector sec2(loc2->sectorX, loc2->sectorY, loc2->sectorZ);
 
 	double dist = Sector::DistanceBetween(&sec1, loc1->systemIndex, &sec2, loc2->systemIndex);
 

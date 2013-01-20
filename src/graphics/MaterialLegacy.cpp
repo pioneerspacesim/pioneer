@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MaterialLegacy.h"
@@ -23,13 +23,19 @@ void MaterialLegacy::Apply()
 		glDisable(GL_LIGHTING);
 	} else {
 		glEnable(GL_LIGHTING);
-		glMaterialfv (GL_FRONT, GL_DIFFUSE, &diffuse[0]);
-		//todo: the rest
+		glMaterialfv (GL_FRONT, GL_AMBIENT_AND_DIFFUSE, &diffuse[0]);
+		glMaterialfv (GL_FRONT, GL_SPECULAR, &specular[0]);
+		glMaterialfv (GL_FRONT, GL_EMISSION, &emissive[0]);
+		glMaterialf (GL_FRONT, GL_SHININESS, shininess);
 	}
 	if (twoSided) {
 		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 		glDisable(GL_CULL_FACE);
 	}
+
+	if (GetDescriptor().alphaTest)
+		glEnable(GL_ALPHA_TEST);
+
 	if (texture0)
 		static_cast<TextureGL*>(texture0)->Bind();
 }

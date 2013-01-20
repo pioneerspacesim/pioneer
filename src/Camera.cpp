@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Camera.h"
@@ -17,80 +17,66 @@
 
 using namespace Graphics;
 
-Camera::Camera(const Body *body, float width, float height, float fovY, float znear, float zfar) :
-	m_body(body),
+Camera::Camera(float width, float height, float fovY, float znear, float zfar) :
 	m_width(width),
 	m_height(height),
 	m_fovAng(fovY),
 	m_zNear(znear),
 	m_zFar(zfar),
 	m_frustum(m_width, m_height, m_fovAng, znear, zfar),
-	m_pose(matrix4x4d::Identity()),
+	m_pos(0.0),
+	m_orient(matrix3x3d::Identity()),
+	m_frame(0),
 	m_camFrame(0),
-	m_showCameraBody(true),
 	m_renderer(0)
 {
-	m_onBodyDeletedConnection = m_body->onDelete.connect(sigc::mem_fun(this, &Camera::OnBodyDeleted));
 }
 
 Camera::~Camera()
 {
-	if (m_onBodyDeletedConnection.connected())
-		m_onBodyDeletedConnection.disconnect();
-
 	if (m_camFrame) {
-		m_body->GetFrame()->RemoveChild(m_camFrame);
+		m_frame->RemoveChild(m_camFrame);
 		delete m_camFrame;
 	}
-}
-
-void Camera::OnBodyDeleted()
-{
-	m_onBodyDeletedConnection.disconnect();
-	m_body = 0;
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::LightSource> &lights)
 {
 	if (lights.size() > 3) return;
-	// not using frame->GetSystemBodyFor() because it snoops into parent frames,
-	// causing duplicate finds for static and rotating frame
-	SystemBody *body = frame->m_sbody;
 
-	if (body && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
-		matrix4x4d m;
-		Frame::GetFrameTransform(frame, camFrame, m);
-		vector3d lpos = (m * vector3d(0,0,0));
-		double dist = lpos.Length() / AU;
+	SystemBody *body = frame->GetSystemBody();
+	// IsRotFrame check prevents double counting
+	if (body && !frame->IsRotFrame() && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
+		vector3d lpos = frame->GetPositionRelTo(camFrame);
+		const double dist = lpos.Length() / AU;
 		lpos *= 1.0/dist; // normalize
 
 		const float *col = StarSystem::starRealColors[body->type];
 
-		Color lightCol(col[0], col[1], col[2], 0.f);
-		Color ambCol(0.f);
+		const Color lightCol(col[0], col[1], col[2], 0.f);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
-		lights.push_back(Camera::LightSource(frame->m_astroBody, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol)));
+		lights.push_back(Camera::LightSource(frame->GetBody(), Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, lightCol)));
 	}
 
-	for (std::list<Frame*>::iterator i = frame->m_children.begin(); i!=frame->m_children.end(); ++i) {
-		position_system_lights(camFrame, *i, lights);
+	for (Frame::ChildIterator it = frame->BeginChildren(); it != frame->EndChildren(); ++it) {
+		position_system_lights(camFrame, *it, lights);
 	}
 }
 
 void Camera::Update()
 {
-	if (!m_body) return;
+	if (!m_frame) return;
 
-	// make temporary camera frame at the body
-	m_camFrame = new Frame(m_body->GetFrame(), "camera", Frame::TEMP_VIEWING);
+	// make temporary camera frame
+	m_camFrame = new Frame(m_frame, "camera", Frame::FLAG_ROTATING);
 
-	// interpolate between last physics tick position and current one,
-	// to remove temporal aliasing
-	matrix4x4d bodyPose = m_body->GetInterpolatedTransform();
-	m_camFrame->SetTransform(bodyPose * m_pose);
+	// move and orient it to the camera position
+	m_camFrame->SetOrient(m_orient);
+	m_camFrame->SetPosition(m_pos);
 
 	// make sure old orient and interpolated orient (rendering orient) are not rubbish
 	m_camFrame->ClearMovement();
+	m_camFrame->UpdateInterpTransform(1.0);			// update root-relative pos/orient
 
 	// evaluate each body and determine if/where/how to draw it
 	m_sortedBodies.clear();
@@ -101,7 +87,7 @@ void Camera::Update()
 		BodyAttrs attrs;
 		attrs.body = b;
 		Frame::GetFrameRenderTransform(b->GetFrame(), m_camFrame, attrs.viewTransform);
-		attrs.viewCoords = attrs.viewTransform * b->GetInterpolatedPosition();
+		attrs.viewCoords = attrs.viewTransform * b->GetInterpPosition();
 		attrs.camDist = attrs.viewCoords.Length();
 		attrs.bodyFlags = b->GetFlags();
 		m_sortedBodies.push_back(attrs);
@@ -111,14 +97,14 @@ void Camera::Update()
 	m_sortedBodies.sort();
 }
 
-void Camera::Draw(Renderer *renderer)
+void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 {
-	if (!m_body) return;
+	if (!m_camFrame) return;
 	if (!renderer) return;
 
 	m_renderer = renderer;
 
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 
 	m_renderer->SetPerspectiveProjection(m_fovAng, m_width/m_height, m_zNear, m_zFar);
 	m_renderer->SetTransform(matrix4x4f::Identity());
@@ -134,34 +120,34 @@ void Camera::Draw(Renderer *renderer)
 	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), m_lightSources);
 
 	if (m_lightSources.empty()) {
-		// no lights means we're somewhere weird (eg hyperspace).
-		// fake one up and give a little ambient light so that we can see and
-		// so that things that need lights don't explode
-		Color col(1.f);
-		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col)));
+		// no lights means we're somewhere weird (eg hyperspace). fake one
+		const Color col(1.f);
+		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col)));
 	}
 
 	//fade space background based on atmosphere thickness and light angle
 	float bgIntensity = 1.f;
-	if (m_camFrame->m_parent) {
+	if (m_camFrame->GetParent() && m_camFrame->GetParent()->IsRotFrame()) {
 		//check if camera is near a planet
-		Body *camParentBody = m_camFrame->m_parent->GetBodyFor();
+		Body *camParentBody = m_camFrame->GetParent()->GetBody();
 		if (camParentBody && camParentBody->IsType(Object::PLANET)) {
 			Planet *planet = static_cast<Planet*>(camParentBody);
-			const vector3f relpos(planet->GetPositionRelTo(m_camFrame));
+			const vector3f relpos(planet->GetInterpPositionRelTo(m_camFrame));
 			double altitude(relpos.Length());
 			double pressure, density;
 			planet->GetAtmosphericState(altitude, &pressure, &density);
-
-			//go through all lights to calculate something resembling light intensity
-			float angle = 0.f;
-			for(std::vector<LightSource>::const_iterator it = m_lightSources.begin();
-				it != m_lightSources.end(); ++it) {
-				const vector3f lightDir(it->GetLight().GetPosition().Normalized());
-				angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * it->GetLight().GetDiffuse().GetLuminance();
+			if (pressure >= 0.001)
+			{
+				//go through all lights to calculate something resembling light intensity
+				float angle = 0.f;
+				for(std::vector<LightSource>::const_iterator it = m_lightSources.begin();
+					it != m_lightSources.end(); ++it) {
+					const vector3f lightDir(it->GetLight().GetPosition().Normalized());
+					angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * it->GetLight().GetDiffuse().GetLuminance();
+				}
+				//calculate background intensity with some hand-tweaked fuzz applied
+				bgIntensity = Clamp(1.f - std::min(1.f, powf(density, 0.25f)) * (0.3f + powf(angle, 0.25f)), 0.f, 1.f);
 			}
-			//calculate background intensity with some hand-tweaked fuzz applied
-			bgIntensity = Clamp(1.f - std::min(1.f, float(density) * (0.3f + angle)), 0.f, 1.f);
 		}
 	}
 
@@ -178,7 +164,9 @@ void Camera::Draw(Renderer *renderer)
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
 
-		if (attrs->body == GetBody() && !m_showCameraBody) continue;
+		// explicitly exclude a single body if specified (eg player)
+		if (attrs->body == excludeBody)
+			continue;
 
 		double rad = attrs->body->GetClipRadius();
 		if (!m_frustum.TestPointInfinite((*i).viewCoords, rad))
@@ -199,7 +187,7 @@ void Camera::Draw(Renderer *renderer)
 	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
 	UnbindAllBuffers();
 
-	m_body->GetFrame()->RemoveChild(m_camFrame);
+	m_frame->RemoveChild(m_camFrame);
 	delete m_camFrame;
 	m_camFrame = 0;
 

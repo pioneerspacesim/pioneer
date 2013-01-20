@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -14,7 +14,7 @@ ToggleButton::ToggleButton()
 }
 bool ToggleButton::OnMouseDown(MouseButtonEvent *e)
 {
-	if (e->button == 1) {
+	if (e->button == SDL_BUTTON_LEFT) {
 		onPress.emit();
 		m_pressed = !m_pressed;
 		if (m_pressed) {

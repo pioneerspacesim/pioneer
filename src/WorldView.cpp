@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "WorldView.h"
@@ -20,6 +20,7 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
 #include "graphics/TextureBuilder.h"
@@ -45,9 +46,9 @@ WorldView::WorldView(Serializer::Reader &rd): View()
 {
 	m_camType = CamType(rd.Int32());
 	InitObject();
-	m_internalCamera->Load(rd);
-	m_externalCamera->Load(rd);
-	m_siderealCamera->Load(rd);
+	m_internalCameraController->Load(rd);
+	m_externalCameraController->Load(rd);
+	m_siderealCameraController->Load(rd);
 }
 
 static const float LOW_THRUST_LEVELS[] = { 0.75, 0.5, 0.25, 0.1, 0.05, 0.01 };
@@ -210,10 +211,11 @@ void WorldView::InitObject()
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
 	const float fovY = Pi::config->Float("FOVVertical");
-	const vector2f camSize(Pi::GetScrWidth(), Pi::GetScrHeight());
-	m_internalCamera = new InternalCamera(Pi::player, camSize, fovY, znear, zfar);
-	m_externalCamera = new ExternalCamera(Pi::player, camSize, fovY, znear, zfar);
-	m_siderealCamera = new SiderealCamera(Pi::player, camSize, fovY, znear, zfar);
+
+	m_camera.Reset(new Camera(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar));
+	m_internalCameraController.Reset(new InternalCameraController(m_camera.Get(), Pi::player));
+	m_externalCameraController.Reset(new ExternalCameraController(m_camera.Get(), Pi::player));
+	m_siderealCameraController.Reset(new SiderealCameraController(m_camera.Get(), Pi::player));
 	SetCamType(m_camType); //set the active camera
 
 	m_onHyperspaceTargetChangedCon =
@@ -226,16 +228,12 @@ void WorldView::InitObject()
 	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &WorldView::MouseButtonDown));
 
-	Pi::player->GetPlayerController()->SetMouseForRearView(GetCamType() == CAM_INTERNAL && m_internalCamera->GetMode() == InternalCamera::MODE_REAR);
+	Pi::player->GetPlayerController()->SetMouseForRearView(GetCamType() == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 	KeyBindings::toggleHudMode.onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
 }
 
 WorldView::~WorldView()
 {
-	delete m_internalCamera;
-	delete m_externalCamera;
-	delete m_siderealCamera;
-
 	m_onHyperspaceTargetChangedCon.disconnect();
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
@@ -245,9 +243,9 @@ WorldView::~WorldView()
 void WorldView::Save(Serializer::Writer &wr)
 {
 	wr.Int32(int(m_camType));
-	m_internalCamera->Save(wr);
-	m_externalCamera->Save(wr);
-	m_siderealCamera->Save(wr);
+	m_internalCameraController->Save(wr);
+	m_externalCameraController->Save(wr);
+	m_siderealCameraController->Save(wr);
 }
 
 void WorldView::SetCamType(enum CamType c)
@@ -263,29 +261,30 @@ void WorldView::SetCamType(enum CamType c)
 
 	switch(m_camType) {
 		case CAM_INTERNAL:
-			m_activeCamera = m_internalCamera;
+			m_activeCameraController = m_internalCameraController.Get();
 			break;
 		case CAM_EXTERNAL:
-			m_activeCamera = m_externalCamera;
+			m_activeCameraController = m_externalCameraController.Get();
 			break;
 		case CAM_SIDEREAL:
-			m_activeCamera = m_siderealCamera;
+			m_activeCameraController = m_siderealCameraController.Get();
 			break;
 	}
 
-	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCamera->GetMode() == InternalCamera::MODE_REAR);
+	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 
 	onChangeCamType.emit();
-	
+
 	UpdateCameraName();
 }
 
-void WorldView::ChangeInternalCameraMode(InternalCamera::Mode m)
+void WorldView::ChangeInternalCameraMode(InternalCameraController::Mode m)
 {
-	if (m_internalCamera->GetMode() == m) return;
+	if (m_internalCameraController->GetMode() == m) return;
 
 	Pi::BoinkNoise();
-	m_internalCamera->SetMode(m);
+	m_internalCameraController->SetMode(m);
+	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 	UpdateCameraName();
 }
 
@@ -294,7 +293,7 @@ void WorldView::UpdateCameraName()
 	if (m_showCameraName)
 		Remove(m_showCameraName);
 
-	const std::string cameraName(m_activeCamera->GetName());
+	const std::string cameraName(m_activeCameraController->GetName());
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_showCameraName = new Gui::Label("#ff0"+cameraName);
@@ -303,7 +302,7 @@ void WorldView::UpdateCameraName()
 	float w, h;
 	Gui::Screen::MeasureString(cameraName, w, h);
 	Add(m_showCameraName, 0.5f*(Gui::Screen::GetWidth()-w), 20);
-	
+
 	m_showCameraNameTimeout = SDL_GetTicks();
 }
 
@@ -377,7 +376,7 @@ void WorldView::Draw3D()
 	assert(Pi::game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
-	m_activeCamera->Draw(m_renderer);
+	m_camera->Draw(m_renderer, GetCamType() == CAM_INTERNAL ? Pi::player : 0);
 }
 
 void WorldView::OnToggleLabels()
@@ -494,7 +493,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 
 	// Direction indicator
-	vector3d vel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame());
+	vector3d vel = Pi::player->GetVelocity();
 
 	if (m_showTargetActionsTimeout) {
 		if (SDL_GetTicks() - m_showTargetActionsTimeout > 20000) {
@@ -523,7 +522,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		vector3d pos = Pi::player->GetPosition();
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
-		const char *rot_frame = (Pi::player->GetFrame()->IsRotatingFrame() ? "yes" : "no");
+		const char *rot_frame = (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no");
 		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
@@ -582,8 +581,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, "");
 
 		// altitude
-		if (Pi::player->GetFrame()->m_astroBody) {
-			Body *astro = Pi::player->GetFrame()->m_astroBody;
+		if (Pi::player->GetFrame()->GetBody() && Pi::player->GetFrame()->IsRotFrame()) {
+			Body *astro = Pi::player->GetFrame()->GetBody();
 			//(GetFrame()->m_sbody->GetSuperType() == SUPERTYPE_ROCKY_PLANET)) {
 			double radius;
 			vector3d surface_pos = Pi::player->GetPosition().Normalized();
@@ -592,7 +591,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			} else {
 				// XXX this is an improper use of GetBoundingRadius
 				// since it is not a surface radius
-				radius = Pi::player->GetFrame()->m_astroBody->GetBoundingRadius();
+				radius = astro->GetPhysRadius();
 			}
 			double altitude = Pi::player->GetPosition().Length() - radius;
 			if (altitude > 9999999.0 || astro->IsType(Object::SPACESTATION))
@@ -776,14 +775,14 @@ void WorldView::Update()
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
 		if (GetCamType() == CAM_INTERNAL) {
-			if      (KeyBindings::frontCamera.IsActive())  ChangeInternalCameraMode(InternalCamera::MODE_FRONT);
-			else if (KeyBindings::rearCamera.IsActive())   ChangeInternalCameraMode(InternalCamera::MODE_REAR);
-			else if (KeyBindings::leftCamera.IsActive())   ChangeInternalCameraMode(InternalCamera::MODE_LEFT);
-			else if (KeyBindings::rightCamera.IsActive())  ChangeInternalCameraMode(InternalCamera::MODE_RIGHT);
-			else if (KeyBindings::topCamera.IsActive())    ChangeInternalCameraMode(InternalCamera::MODE_TOP);
-			else if (KeyBindings::bottomCamera.IsActive()) ChangeInternalCameraMode(InternalCamera::MODE_BOTTOM);
+			if      (KeyBindings::frontCamera.IsActive())  ChangeInternalCameraMode(InternalCameraController::MODE_FRONT);
+			else if (KeyBindings::rearCamera.IsActive())   ChangeInternalCameraMode(InternalCameraController::MODE_REAR);
+			else if (KeyBindings::leftCamera.IsActive())   ChangeInternalCameraMode(InternalCameraController::MODE_LEFT);
+			else if (KeyBindings::rightCamera.IsActive())  ChangeInternalCameraMode(InternalCameraController::MODE_RIGHT);
+			else if (KeyBindings::topCamera.IsActive())    ChangeInternalCameraMode(InternalCameraController::MODE_TOP);
+			else if (KeyBindings::bottomCamera.IsActive()) ChangeInternalCameraMode(InternalCameraController::MODE_BOTTOM);
 		} else {
-			MoveableCamera *cam = static_cast<MoveableCamera*>(m_activeCamera);
+			MoveableCameraController *cam = static_cast<MoveableCameraController*>(m_activeCameraController);
 			if (KeyBindings::cameraRotateUp.IsActive()) cam->RotateUp(frameTime);
 			if (KeyBindings::cameraRotateDown.IsActive()) cam->RotateDown(frameTime);
 			if (KeyBindings::cameraRotateLeft.IsActive()) cam->RotateLeft(frameTime);
@@ -794,8 +793,6 @@ void WorldView::Update()
 			if (KeyBindings::cameraRollRight.IsActive()) cam->RollRight(frameTime);
 			if (KeyBindings::resetCamera.IsActive()) cam->Reset();
 			cam->ZoomEventUpdate(frameTime);
-
-			cam->UpdateTransform();
 		}
 
 		// note if we have to target the object in the crosshairs
@@ -811,7 +808,9 @@ void WorldView::Update()
 		}
 	}
 
-	m_activeCamera->Update();
+	m_activeCameraController->Update();
+	m_camera->Update();
+
 	UpdateProjectedObjects();
 
 	// target object under the crosshairs. must be done after
@@ -1066,15 +1065,15 @@ void WorldView::UpdateCommsOptions()
 
 			if (navtarget->IsType(Object::PLANET) || navtarget->IsType(Object::STAR)) {
 				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_LOW_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.1));
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.2));
 				ypos += 32;
 
 				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 2.0));
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 1.6));
 				ypos += 32;
 
 				button = AddCommsOption(stringf(Lang::AUTOPILOT_ENTER_HIGH_ORBIT_AROUND, formatarg("target", navtarget->GetLabel())), ypos, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 5.0));
+				button->onClick.connect(sigc::bind(sigc::ptr_fun(autopilot_orbit), navtarget, 3.2));
 				ypos += 32;
 			}
 		}
@@ -1141,7 +1140,7 @@ int WorldView::GetActiveWeapon() const
 {
 	switch (GetCamType()) {
 		case CAM_INTERNAL:
-			return m_internalCamera->GetMode() == InternalCamera::MODE_REAR ? 1 : 0;
+			return m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR ? 1 : 0;
 
 		case CAM_EXTERNAL:
 		case CAM_SIDEREAL:
@@ -1161,11 +1160,10 @@ static inline bool project_to_screen(const vector3d &in, vector3d &out, const Gr
 void WorldView::UpdateProjectedObjects()
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
-	const Graphics::Frustum frustum = m_activeCamera->GetFrustum();
+	const Graphics::Frustum frustum = m_camera->GetFrustum();
 
-	const Frame *cam_frame = m_activeCamera->GetFrame();
-	matrix4x4d cam_rot = cam_frame->GetTransform();
-	cam_rot.ClearToRotOnly();
+	const Frame *cam_frame = m_camera->GetCamFrame();
+	matrix3x3d cam_rot = cam_frame->GetOrient();
 
 	// determine projected positions and update labels
 	m_bodyLabels->Clear();
@@ -1177,7 +1175,7 @@ void WorldView::UpdateProjectedObjects()
 		if (b->IsType(Object::PLAYER) && GetCamType() == CAM_INTERNAL)
 			continue;
 
-		vector3d pos = b->GetInterpolatedPositionRelTo(cam_frame);
+		vector3d pos = b->GetInterpPositionRelTo(cam_frame);
 		if ((pos.z < -1.0) && project_to_screen(pos, pos, frustum, guiSize)) {
 
 			// only show labels on large or nearby bodies
@@ -1189,8 +1187,7 @@ void WorldView::UpdateProjectedObjects()
 	}
 
 	// velocity relative to current frame (white)
-	// GetVelocityRelTo considers statis velocity of rotating frame, which GetVelocity() doesn't
-	const vector3d camSpaceVel = Pi::player->GetVelocityRelTo(Pi::player->GetFrame()) * cam_rot;
+	const vector3d camSpaceVel = Pi::player->GetVelocity() * cam_rot;
 	if (camSpaceVel.LengthSqr() >= 1e-4)
 		UpdateIndicator(m_velIndicator, camSpaceVel);
 	else
@@ -1199,9 +1196,9 @@ void WorldView::UpdateProjectedObjects()
 	// orientation according to mouse
 	if (Pi::player->GetPlayerController()->IsMouseActive()) {
 		vector3d mouseDir = Pi::player->GetPlayerController()->GetMouseDir() * cam_rot;
-		if (GetCamType() == CAM_INTERNAL && m_internalCamera->GetMode() == InternalCamera::MODE_REAR)
+		if (GetCamType() == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR)
 			mouseDir = -mouseDir;
-		UpdateIndicator(m_mouseDirIndicator, (Pi::player->GetBoundingRadius() * 1.5) * mouseDir);
+		UpdateIndicator(m_mouseDirIndicator, (Pi::player->GetPhysRadius() * 1.5) * mouseDir);
 	} else
 		HideIndicator(m_mouseDirIndicator);
 
@@ -1210,7 +1207,7 @@ void WorldView::UpdateProjectedObjects()
 		// if navtarget and body frame are the same,
 		// then we hide the frame-relative velocity indicator
 		// (which would be hidden underneath anyway)
-		if (navtarget == Pi::player->GetFrame()->GetBodyFor())
+		if (navtarget == Pi::player->GetFrame()->GetBody())
 			HideIndicator(m_velIndicator);
 
 		// navtarget distance/target square indicator (displayed with navtarget label)
@@ -1220,7 +1217,7 @@ void WorldView::UpdateProjectedObjects()
 		UpdateIndicator(m_navTargetIndicator, navtarget->GetTargetIndicatorPosition(cam_frame));
 
 		// velocity relative to navigation target
-		vector3d navvelocity = Pi::player->GetVelocityRelTo(navtarget);
+		vector3d navvelocity = -navtarget->GetVelocityRelTo(Pi::player);
 		double navspeed = navvelocity.Length();
 		const vector3d camSpaceNavVel = navvelocity * cam_rot;
 
@@ -1251,9 +1248,9 @@ void WorldView::UpdateProjectedObjects()
 	Ship *enemy = static_cast<Ship *>(Pi::player->GetCombatTarget());
 	if (enemy) {
 		char buf[128];
-		const vector3d targpos = enemy->GetInterpolatedPositionRelTo(Pi::player) * cam_rot;
+		const vector3d targpos = enemy->GetInterpPositionRelTo(Pi::player) * cam_rot;
 		const double dist = targpos.Length();
-		const vector3d targScreenPos = enemy->GetInterpolatedPositionRelTo(cam_frame);
+		const vector3d targScreenPos = enemy->GetInterpPositionRelTo(cam_frame);
 
 		snprintf(buf, sizeof(buf), "%.0fm", dist);
 		m_combatTargetIndicator.label->SetText(buf);
@@ -1262,9 +1259,9 @@ void WorldView::UpdateProjectedObjects()
 		// calculate firing solution and relative velocity along our z axis
 		int laser = -1;
 		if (GetCamType() == CAM_INTERNAL) {
-			switch (m_internalCamera->GetMode()) {
-				case InternalCamera::MODE_FRONT: laser = 0; break;
-				case InternalCamera::MODE_REAR:  laser = 1; break;
+			switch (m_internalCameraController->GetMode()) {
+				case InternalCameraController::MODE_FRONT: laser = 0; break;
+				case InternalCameraController::MODE_REAR:  laser = 1; break;
 				default: break;
 			}
 		}
@@ -1317,7 +1314,7 @@ void WorldView::UpdateProjectedObjects()
 void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpacePos)
 {
 	const int guiSize[2] = { Gui::Screen::GetWidth(), Gui::Screen::GetHeight() };
-	const Graphics::Frustum frustum = m_activeCamera->GetFrustum();
+	const Graphics::Frustum frustum = m_camera->GetFrustum();
 
 	const float BORDER = 10.0;
 	const float BORDER_BOTTOM = 90.0;
@@ -1532,11 +1529,11 @@ void WorldView::Draw()
 
 	// normal crosshairs
 	if (GetCamType() == CAM_INTERNAL) {
-		switch (m_internalCamera->GetMode()) {
-			case InternalCamera::MODE_FRONT:
+		switch (m_internalCameraController->GetMode()) {
+			case InternalCameraController::MODE_FRONT:
 				DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
 				break;
-			case InternalCamera::MODE_REAR:
+			case InternalCameraController::MODE_REAR:
 				DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
 				break;
 			default:
@@ -1690,9 +1687,9 @@ void WorldView::MouseButtonDown(int button, int x, int y)
 {
 	if (this == Pi::GetView())
 	{
-		if (m_activeCamera->IsExternal()) {
-			MoveableCamera *cam = static_cast<MoveableCamera*>(m_activeCamera);
-			
+		if (m_activeCameraController->IsExternal()) {
+			MoveableCameraController *cam = static_cast<MoveableCameraController*>(m_activeCameraController);
+
 			if (Pi::MouseButtonState(SDL_BUTTON_WHEELDOWN))	// Zoom out
 				cam->ZoomEvent( ZOOM_SPEED * WHEEL_SENSITIVITY);
 			else if (Pi::MouseButtonState(SDL_BUTTON_WHEELUP))
@@ -1712,8 +1709,8 @@ void NavTunnelWidget::Draw() {
 	Body *navtarget = Pi::player->GetNavTarget();
 	if (navtarget) {
 		const vector3d navpos = navtarget->GetPositionRelTo(Pi::player);
-		matrix4x4d rotmat; Pi::player->GetRotMatrix(rotmat); rotmat.ClearToRotOnly();
-		const vector3d eyevec = rotmat * m_worldView->m_activeCamera->GetOrientation() * vector3d(0.0, 0.0, 1.0);
+		const matrix3x3d &rotmat = Pi::player->GetOrient();
+		const vector3d eyevec = rotmat * m_worldView->m_activeCameraController->GetOrient().VectorZ();
 		if (eyevec.Dot(navpos) >= 0.0) return;
 
 		const Color green = Color(0.f, 1.f, 0.f, 0.8f);

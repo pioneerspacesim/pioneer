@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PLAYER_H
@@ -15,21 +15,6 @@
 
 namespace Graphics { class Renderer; }
 
-struct Mission : RefItem<Mission> {
-	enum MissionState { // <enum scope='Mission' name=MissionStatus>
-		ACTIVE,
-		COMPLETED,
-		FAILED,
-	};
-
-	std::string  type;
-	std::string  client;
-	SystemPath   location;
-	double       due;
-	Sint64       reward;
-	MissionState status;
-};
-
 class Player: public Ship, public MarketAgent {
 public:
 	OBJDEF(Player, Ship, PLAYER);
@@ -37,14 +22,10 @@ public:
 	Player() { }; //default constructor used before Load
 	virtual void SetDockedWith(SpaceStation *, int port);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
-	virtual void OnHaveKilled(Body *guyWeKilled);
-	int GetKillCount() const { return m_knownKillCount; }
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	virtual bool SpawnMissile(Missile * missile);
 	virtual void SetAlertState(Ship::AlertState as);
 	virtual void NotifyRemoved(const Body* const removedBody);
-
-	RefList<Mission> missions;
 
 	/* MarketAgent stuff */
 	int GetStock(Equip::Type t) const { assert(0); return 0; }
@@ -74,10 +55,6 @@ protected:
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
-
-private:
-	int m_killCount;
-	int m_knownKillCount; // updated on docking
 };
 
 #endif /* _PLAYER_H */

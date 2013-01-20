@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -57,12 +57,12 @@ Uint8 GetSectorDensity(int sx, int sy, int sz)
 	int y = int(floor(offset_y * (s_galaxybmp->h - 1)));
 
 	SDL_LockSurface(s_galaxybmp);
-	int val = static_cast<char*>(s_galaxybmp->pixels)[x + y*s_galaxybmp->pitch];
+	int val = static_cast<unsigned char*>(s_galaxybmp->pixels)[x + y*s_galaxybmp->pitch];
 	SDL_UnlockSurface(s_galaxybmp);
 	// crappy unrealistic but currently adequate density dropoff with sector z
-	val = val * (256 - std::min(abs(sz),256)) >> 8;
+	val = val * (256 - std::min(abs(sz),256)) / 256;
 	// reduce density somewhat to match real (gliese) density
-	val >>= 1;
+	val /= 2;
 	return Uint8(val);
 }
 

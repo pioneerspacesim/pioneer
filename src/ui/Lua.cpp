@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Lua.h"
@@ -50,13 +50,13 @@ UI::Widget *GetWidget(lua_State *l, int idx)
 	int table = lua_absindex(l, idx);
 	lua_pushlstring(l, "widget", 6);
 	lua_rawget(l, table);
-	
+
 	if (lua_isuserdata(l, -1))
 		w = LuaObject<UI::Widget>::GetFromLua(-1);
-	
+
 	lua_pop(l, 1);
 	LUA_DEBUG_END(l, 0);
-	
+
 	return w;
 }
 
@@ -64,7 +64,7 @@ UI::Widget *CheckWidget(lua_State *l, int idx)
 {
 	UI::Widget *w = GetWidget(l, idx);
 	if (w) return w;
-	
+
 	// will fail and produce a standard error message
 	w = LuaObject<UI::Widget>::CheckFromLua(idx);
 

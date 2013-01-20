@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -405,7 +405,7 @@ static int l_starsystem_attr_lawlessness(lua_State *l)
 static int l_starsystem_attr_population(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::CheckFromLua(1);
-	lua_pushnumber(l, s->m_totalPop.ToDouble());
+	lua_pushnumber(l, s->GetTotalPop().ToDouble());
 	return 1;
 }
 
@@ -425,12 +425,33 @@ static int l_starsystem_attr_population(lua_State *l)
 static int l_starsystem_attr_faction(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::CheckFromLua(1);
-	if (s->m_faction->IsValid()) {
-		LuaFaction::PushToLua(s->m_faction);
+	if (s->GetFaction()->IsValid()) {
+		LuaFaction::PushToLua(s->GetFaction());
 		return 1;
 	} else {
 		return 0;
 	}
+}
+
+/*
+ * Attribute: explored
+ *
+ *   If this system has been explored then returns true
+ *
+ * Availability:
+ *
+ *   alpha 30
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+static int l_starsystem_attr_explored(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	lua_pushboolean(l, !s->GetUnexplored());
+	return 1;
 }
 
 template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
@@ -458,6 +479,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },
 		{ "faction",     l_starsystem_attr_faction     },
+		{ "explored",    l_starsystem_attr_explored    },
 
 		{ 0, 0 }
 	};

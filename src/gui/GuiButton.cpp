@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -22,7 +22,7 @@ Button::~Button()
 
 bool Button::OnMouseDown(MouseButtonEvent *e)
 {
-	if (e->button == 1) {
+	if (e->button == SDL_BUTTON_LEFT) {
 		m_isPressed = true;
 		onPress.emit();
 		// wait for mouse release, regardless of where on screen
@@ -33,7 +33,7 @@ bool Button::OnMouseDown(MouseButtonEvent *e)
 
 bool Button::OnMouseUp(MouseButtonEvent *e)
 {
-	if ((e->button == 1) && m_isPressed) {
+	if ((e->button == SDL_BUTTON_LEFT) && m_isPressed) {
 		m_isPressed = false;
 		_m_release.disconnect();
 		onRelease.emit();
@@ -62,7 +62,7 @@ void Button::OnRawKeyUp(SDL_KeyboardEvent *e)
 
 void Button::OnRawMouseUp(MouseButtonEvent *e)
 {
-	if (e->button == 1) {
+	if (e->button == SDL_BUTTON_LEFT) {
 		m_isPressed = false;
 		_m_release.disconnect();
 		onRelease.emit();

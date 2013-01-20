@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TERRAIN_H
@@ -25,6 +25,14 @@ template <typename,typename> class TerrainGenerator;
 
 class Terrain {
 public:
+	// location and intensity of effects are controlled by the colour fractals;
+	// it's possible for a Terrain to have a flag set but not actually to exhibit any of that effect
+	enum SurfaceEffectFlags {
+		EFFECT_LAVA  = 1 << 0,
+		EFFECT_WATER = 2
+		// can add other effect flags here (e.g., water, snow, ice)
+	};
+
 	static Terrain *InstanceTerrain(const SystemBody *body);
 
 	virtual ~Terrain();
@@ -39,6 +47,8 @@ public:
 	virtual const char *GetColorFractalName() const = 0;
 
 	double GetMaxHeight() const { return m_maxHeight; }
+
+	Uint32 GetSurfaceEffects() const { return m_surfaceEffects; }
 
 private:
 	template <typename HeightFractal, typename ColorFractal>
@@ -62,6 +72,8 @@ protected:
 	double m_sealevel; // 0 - no water, 1 - 100% coverage
 	double m_icyness; // 0 - 1 (0% to 100% cover)
 	double m_volcanic;
+
+	Uint32 m_surfaceEffects;
 
 	// heightmap stuff
 	// XXX unify heightmap types
@@ -194,7 +206,7 @@ class TerrainHeightRuggedDesert;
 //   lava terrain should look like this http://www.spacesimcentral.com/forum/download/file.php?id=1778&mode=view
 class TerrainHeightRuggedLava;
 
-/*Terrains used for Iceworlds, 
+/*Terrains used for Iceworlds,
 only terrain to use the much neglected impact crater function
 (basically I forgot about it;) ) **It makes cool looking sunken craters** */
 class TerrainHeightWaterSolidCanyons;

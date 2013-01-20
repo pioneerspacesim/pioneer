@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _COLOR_H
@@ -24,7 +24,9 @@ struct Color4f {
 	static const Color4f BLACK;
 	static const Color4f WHITE;
 	static const Color4f RED;
+	static const Color4f GREEN;
 	static const Color4f BLUE;
+	static const Color4f YELLOW;
 };
 
 struct Color4ub {
@@ -42,6 +44,10 @@ struct Color4ub {
 
 	static const Color4ub BLACK;
 	static const Color4ub WHITE;
+	static const Color4ub RED;
+	static const Color4ub GREEN;
+	static const Color4ub BLUE;
+	static const Color4ub YELLOW;
 };
 
 typedef Color4f Color;

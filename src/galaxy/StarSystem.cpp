@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StarSystem.h"
@@ -28,6 +28,8 @@ static const fixed PLANET_MIN_SEPARATION = fixed(135,100);
 // very crudely
 static const fixed AU_SOL_RADIUS = fixed(305,65536);
 static const fixed AU_EARTH_RADIUS = fixed(3, 65536);
+
+static const fixed SUN_MASS_TO_EARTH_MASS = fixed(332998,1);
 
 // indexed by enum type turd
 float StarSystem::starColors[][3] = {
@@ -780,8 +782,8 @@ static void position_settlement_on_planet(SystemBody *b)
 	// used for orientation on planet surface
 	double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
 	double r1 = r.Double();		// can't put two rands in the same expression
-	b->orbit.rotMatrix = matrix4x4d::RotateZMatrix(2*M_PI*r1) *
-			matrix4x4d::RotateYMatrix(2*M_PI*r2);
+	b->orbit.rotMatrix = matrix3x3d::RotateZ(2*M_PI*r1) *
+			matrix3x3d::RotateY(2*M_PI*r2);
 }
 
 double SystemBody::GetMaxChildOrbitalDistance() const
@@ -898,9 +900,36 @@ vector3d Orbit::EvenSpacedPosAtTime(double t) const
 	return pos;
 }
 
-double calc_orbital_period(double semiMajorAxis, double centralMass)
+static double calc_orbital_period(double semiMajorAxis, double centralMass)
 {
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
+}
+
+static double calc_orbital_period_gravpoint(double semiMajorAxis, double totalMass, double bodyMass)
+{
+	// variable names according to the formula in:
+	// http://en.wikipedia.org/wiki/Barycentric_coordinates_(astronomy)#Two-body_problem
+	//
+	// We have a 2-body orbital system, represented as a gravpoint (at the barycentre),
+	// plus two bodies, each orbiting that gravpoint.
+	// We need to compute the orbital period, given the semi-major axis of one body's orbit
+	// around the gravpoint, the total mass of the system, and the mass of the body.
+	//
+	// According to Kepler, the orbital period P is defined by:
+	//
+	// P = 2*pi * sqrt( a**3 / G*(M1 + M2) )
+	//
+	// where a is the semi-major axis of the orbit, M1 is the mass of the primary and M2 is
+	// the mass of the secondary. But we don't have that semi-major axis value, we have the
+	// the semi-major axis for the orbit of the secondary around the gravpoint, instead.
+	//
+	// So, this first computes the semi-major axis of the secondary's orbit around the primary,
+	// and then uses the above formula to compute the orbital period.
+	const double r1 = semiMajorAxis;
+	const double m2 = (totalMass - bodyMass);
+	const double a = r1 * totalMass / m2;
+	const double a3 = a*a*a;
+	return 2.0 * M_PI * sqrt(a3 / (G * totalMass));
 }
 
 SystemBody *StarSystem::GetBodyByPath(const SystemPath &path) const
@@ -919,6 +948,23 @@ SystemPath StarSystem::GetPathOf(const SystemBody *sbody) const
 
 void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, MTRand &rand)
 {
+	// replaces gravpoint mass by sum of masses of its children
+	// the code goes here to cover also planetary gravpoints (gravpoints that are not rootBody)
+	if (parent->type == SystemBody::TYPE_GRAVPOINT) {
+		fixed mass(0);
+
+		for (std::vector<CustomSystemBody*>::const_iterator i = children.begin(); i != children.end(); ++i) {
+			const CustomSystemBody *csbody = *i;
+
+			if (csbody->type >= SystemBody::TYPE_STAR_MIN && csbody->type <= SystemBody::TYPE_STAR_MAX)
+				mass += csbody->mass;
+			else
+				mass += csbody->mass/SUN_MASS_TO_EARTH_MASS;
+		}
+
+		parent->mass = mass;
+	}
+
 	for (std::vector<CustomSystemBody*>::const_iterator i = children.begin(); i != children.end(); ++i) {
 		const CustomSystemBody *csbody = *i;
 
@@ -952,21 +998,24 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->semiMajorAxis = csbody->semiMajorAxis;
 		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
 		kid->orbit.semiMajorAxis = csbody->semiMajorAxis.ToDouble() * AU;
-		kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
+		if(parent->type == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
+			kid->orbit.period = calc_orbital_period_gravpoint(kid->orbit.semiMajorAxis, parent->GetMass(), kid->GetMass());
+		else
+			kid->orbit.period = calc_orbital_period(kid->orbit.semiMajorAxis, parent->GetMass());
 		kid->orbit.orbitalPhaseAtStart = csbody->orbitalPhaseAtStart.ToDouble();
 		if (csbody->heightMapFilename.length() > 0) {
 			kid->heightMapFilename = csbody->heightMapFilename.c_str();
 			kid->heightMapFractal = csbody->heightMapFractal;
 		}
 		if (kid->type == SystemBody::TYPE_STARPORT_SURFACE) {
-			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(csbody->longitude) *
-				matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
+			kid->orbit.rotMatrix = matrix3x3d::RotateY(csbody->longitude) *
+				matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude);
 		} else {
 			if (kid->orbit.semiMajorAxis < 1.2 * parent->GetRadius()) {
 				Error("%s's orbit is too close to its parent", csbody->name.c_str());
 			}
 			double offset = csbody->want_rand_offset ? rand.Double(2*M_PI) : (csbody->orbitalOffset.ToDouble()*M_PI);
-			kid->orbit.rotMatrix = matrix4x4d::RotateYMatrix(offset) * matrix4x4d::RotateXMatrix(-0.5*M_PI + csbody->latitude);
+			kid->orbit.rotMatrix = matrix3x3d::RotateY(offset) * matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude);
 		}
 		if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;
@@ -1079,8 +1128,8 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, MTR
 
 	const float rotX = -0.5f*float(M_PI);//(float)(rand.Double()*M_PI/2.0);
 	const float rotY = static_cast<float>(rand.Double(M_PI));
-	a->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY) * matrix4x4d::RotateXMatrix(rotX);
-	b->orbit.rotMatrix = matrix4x4d::RotateYMatrix(rotY-M_PI) * matrix4x4d::RotateXMatrix(rotX);
+	a->orbit.rotMatrix = matrix3x3d::RotateY(rotY) * matrix3x3d::RotateX(rotX);
+	b->orbit.rotMatrix = matrix3x3d::RotateY(rotY-M_PI) * matrix3x3d::RotateX(rotX);
 
 	b->orbit.eccentricity = a->eccentricity.ToDouble();
 	b->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a1).ToDouble();
@@ -1340,7 +1389,7 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	 * ~700ly+: unexplored
 	 */
 	int dist = isqrt(1 + m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ);
-	m_unexplored = !(Faction::IsHomeSystem(path) || ((dist <= 90) && ( dist <= 65 || rand.Int32(dist) <= 40)));
+	m_unexplored = !(((dist <= 90) && ( dist <= 65 || rand.Int32(dist) <= 40)) || Faction::IsHomeSystem(path));
 
 	m_isCustom = m_hasCustomBodies = false;
 	if (s.m_systems[m_path.systemIndex].customSys) {
@@ -1679,12 +1728,15 @@ void StarSystem::MakePlanetsAround(SystemBody *primary, MTRand &rand)
 
 		planet->orbit.eccentricity = ecc.ToDouble();
 		planet->orbit.semiMajorAxis = semiMajorAxis.ToDouble() * AU;
-		planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
+		if(primary->type == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
+			planet->orbit.period = calc_orbital_period_gravpoint(planet->orbit.semiMajorAxis, primary->GetMass(), planet->GetMass());
+		else
+			planet->orbit.period = calc_orbital_period(planet->orbit.semiMajorAxis, primary->GetMass());
 
 		double r1 = rand.Double(2*M_PI);		// function parameter evaluation order is implementation-dependent
 		double r2 = rand.NDouble(5);			// can't put two rands in the same expression
-		planet->orbit.rotMatrix = matrix4x4d::RotateYMatrix(r1) *
-			matrix4x4d::RotateXMatrix(-0.5*M_PI + r2*M_PI/2.0);
+		planet->orbit.rotMatrix = matrix3x3d::RotateY(r1) *
+			matrix3x3d::RotateX(-0.5*M_PI + r2*M_PI/2.0);
 
 		planet->orbMin = periapsis;
 		planet->orbMax = apoapsis;
@@ -1895,15 +1947,6 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 	}
 }
 
-const Color StarSystem::GetFactionColour() const
-{
-	return m_faction->colour;
-}
-
-const char *StarSystem::GetAllegianceDesc() const
-{
-	return m_faction->name.c_str();
-}
 
 /* percent */
 #define MAX_COMMODITY_BASE_PRICE_ADJUSTMENT 25
@@ -1917,7 +1960,7 @@ void StarSystem::Populate(bool addSpaceStations)
 	/* Various system-wide characteristics */
 	// This is 1 in sector (0,0,0) and approaches 0 farther out
 	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
-	m_humanProx = Faction::IsHomeSystem(m_path) ? fixed(2,3): fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));
+	m_humanProx = Faction::IsHomeSystem(m_path) ? fixed(2,3): fixed(3,1) / isqrt(9 + 10*(m_path.sectorX*m_path.sectorX + m_path.sectorY*m_path.sectorY + m_path.sectorZ*m_path.sectorZ));	
 	m_econType = ECON_INDUSTRY;
 	m_industrial = rand.Fixed();
 	m_agricultural = 0;
@@ -2128,7 +2171,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		sp->orbit.eccentricity = 0;
 		sp->orbit.semiMajorAxis = sp->semiMajorAxis.ToDouble()*AU;
 		sp->orbit.period = calc_orbital_period(sp->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS);
-		sp->orbit.rotMatrix = matrix4x4d::Identity();
+		sp->orbit.rotMatrix = matrix3x3d::Identity();
 		children.insert(children.begin(), sp);
 		system->m_spaceStations.push_back(sp);
 		sp->orbMin = sp->semiMajorAxis;
@@ -2142,7 +2185,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 			SystemPath path2 = sp2->path;
 			*sp2 = *sp;
 			sp2->path = path2;
-			sp2->orbit.rotMatrix = matrix4x4d::RotateZMatrix(M_PI);
+			sp2->orbit.rotMatrix = matrix3x3d::RotateZ(M_PI);
 			sp2->name = Pi::luaNameGen->BodyName(sp2, namerand);
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CUTSCENE_H
@@ -24,7 +24,7 @@ protected:
 	Color m_ambientColor;
 	float m_aspectRatio;
 	Graphics::Renderer *m_renderer;
-	LmrModel *m_model;
+	ModelBase *m_model;
 	LmrObjParams m_modelParams;
 	std::vector<Graphics::Light> m_lights;
 };

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CITYONPLANET_H
@@ -23,7 +23,7 @@ public:
 	OBJDEF(CityOnPlanet, Object, CITYONPLANET);
 	CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed);
 	virtual ~CityOnPlanet();
-	void Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform, double illumination, double minIllumination);
+	void Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	inline Planet *GetPlanet() const { return m_planet; }
 
 	static void Init();
@@ -34,7 +34,7 @@ private:
 	void RemoveStaticGeomsFromCollisionSpace();
 
 	struct BuildingDef {
-		LmrModel *model;
+		ModelBase *model;
 		float clipRadius;
 		int rotation; // 0-3
 		vector3d pos;

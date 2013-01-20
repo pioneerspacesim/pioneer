@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -30,6 +30,7 @@
 #include <set>
 #include <algorithm>
 #include <sstream>
+#include <fstream>
 #include "StringF.h"
 
 static Graphics::Renderer *s_renderer;
@@ -107,7 +108,7 @@ void ApplyShader() {
 	p->texture1.Set(1);
 }
 
-static const Uint32 s_cacheVersion = 2;
+static const Uint32 s_cacheVersion = 3;
 
 /*
  * Interface: LMR
@@ -333,9 +334,9 @@ namespace ShipThruster {
 class LmrGeomBuffer;
 
 static const char CACHE_DIR[] = "model_cache";
+static const char DUMP_DIR[] = "model_dump";
 
 static Graphics::Material *s_billboardMaterial;
-static float s_scrWidth = 800.0f;
 static bool s_buildDynamic;
 static FontCache s_fontCache;
 static RefCountedPtr<Text::VectorFont> s_font;
@@ -357,11 +358,6 @@ struct Vertex {
 static BufferObjectPool<sizeof(Vertex)> *s_staticBufferPool;
 
 lua_State *LmrGetLuaState() { return sLua; }
-
-void LmrNotifyScreenWidth(float width)
-{
-	s_scrWidth = width;
-}
 
 int LmrModelGetStatsTris() { return s_numTrisRendered; }
 void LmrModelClearStatsTris() { s_numTrisRendered = 0; }
@@ -408,6 +404,7 @@ public:
 		m_isStatic = isStatic;
 		m_bo = 0;
 		m_putGeomInsideout = false;
+		m_isFromObjFile = false;
 	}
 	int GetIndicesPos() const {
 		return m_indices.size();
@@ -442,7 +439,7 @@ public:
 		m_putGeomInsideout = false;
 	}
 
-	void Render(const RenderState *rstate, const vector3f &cameraPos, const LmrObjParams *params) {
+	void Render(const RenderState *rstate, const vector3f &cameraPos, LmrObjParams *params) {
 		int activeLights = 0; //point lights
 		const unsigned int numLights = Graphics::State::GetNumLights(); //directional lights
 		s_numTrisRendered += m_indices.size()/3;
@@ -513,6 +510,7 @@ public:
 
 				s_billboardMaterial->texture0 = op.billboards.texture;
 				s_billboardMaterial->diffuse = Color(op.billboards.col[0], op.billboards.col[1], op.billboards.col[2], op.billboards.col[3]);
+				s_renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 				s_renderer->DrawPointSprites(op.billboards.count, &verts[0], s_billboardMaterial, op.billboards.size);
 				BindBuffers();
 				break;
@@ -856,6 +854,213 @@ public:
 	}
 
 private:
+	struct WavefrontMaterial {
+		WavefrontMaterial() :
+			diffuse(0.8f,0.8f,0.8f,1.0f),         // OpenGL default material values
+			specular(0.0f,0.0f,0.0f,1.0f),
+			emissive(0.0f,0.0f,0.0f,1.0f),
+			specularExponent(0.0f)
+			{}
+		Color diffuse;
+		Color specular;
+		Color emissive;
+		float specularExponent;
+		std::string diffuseMap;
+		std::string emissiveMap;
+
+		bool operator==(const WavefrontMaterial &a) {
+			return
+				diffuse == a.diffuse &&
+				specular == a.specular &&
+				emissive == a.emissive &&
+				is_equal_general(specularExponent, a.specularExponent) &&
+				diffuseMap == a.diffuseMap &&
+				emissiveMap == a.emissiveMap;
+		}
+	};
+
+public:
+	void Dump(const LmrObjParams *params, const std::string &rootFolderName, const std::string &name, int lod) {
+		const std::string prefix(stringf("%0_lod%1{d}_%2", name, lod+1, m_isStatic ? "static" : "dynamic"));
+
+		// If we haven't got any vertices then call the ops but otherwise bugger off
+		if( m_vertices.size()==0 )
+		{
+			for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
+				if ((*i).type == OP_CALL_MODEL) {
+					(*i).callmodel.model->Dump(params, rootFolderName.c_str());
+				}
+			}
+			// 'ear, 'ugger orf
+			return;
+		}
+
+		const std::string outDir(FileSystem::JoinPath(DUMP_DIR, rootFolderName));
+
+		FILE *out = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPath(outDir, prefix+".obj"));
+		assert(out); // XXX fail gracefully
+
+		printf("Dumping model '%s' LOD %d [%s]\n", name.c_str(), lod+1, m_isStatic ? "static" : "dynamic");
+
+		fputs(stringf("# Dump of LMR model '%0' LOD %1{d} [%2]\n", name, lod+1, m_isStatic ? "static" : "dynamic").c_str(), out);
+
+		fputs(stringf("mtllib %0.mtl\n", prefix).c_str(), out);
+
+		fputs(stringf("o %0\n", prefix).c_str(), out);
+
+		const int numVerts = (m_vertices.size());
+
+		// positons
+		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
+			fputs(stringf("v %0{f.6} %1{f.6} %2{f.6}\n", (*i).v.x, (*i).v.y, (*i).v.z).c_str(), out);
+
+		fputs(stringf("# %0{d} vertices\n", numVerts).c_str(), out);
+
+		// texture coords
+		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i) {
+			const GLfloat u = (*i).tex_u;
+			const GLfloat v = (m_isFromObjFile) ? (1.0f - (*i).tex_v) : (*i).tex_v;
+			fputs(stringf("vt %0{f.6} %1{f.6}\n", u, v).c_str(), out);
+		}
+
+		fputs(stringf("# %0{d} texture coords\n", numVerts).c_str(), out);
+
+		// normals
+		for (std::vector<Vertex>::const_iterator i = m_vertices.begin(); i != m_vertices.end(); ++i)
+			fputs(stringf("vn %0{f.6} %1{f.6} %2{f.6}\n", (*i).n.x, (*i).n.y, (*i).n.z).c_str(), out);
+
+		fputs(stringf("# %0{d} vertex normals\n", numVerts).c_str(), out);
+
+		std::vector<WavefrontMaterial> materials;
+		WavefrontMaterial material;
+
+		for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
+			const Op &op = (*i);
+			switch (op.type) {
+				case OP_DRAW_ELEMENTS: {
+					fputs(stringf("# draw elements %0{d}-%1{d} (%2{d} tris)\n", op.elems.start, op.elems.start+op.elems.count-1, op.elems.count/3).c_str(), out);
+
+					if (op.elems.textureFile)
+						material.diffuseMap = *op.elems.textureFile;
+					else
+						material.diffuseMap.clear();
+					if (op.elems.glowmapFile)
+						material.emissiveMap = *op.elems.glowmapFile;
+					else
+						material.emissiveMap.clear();
+
+					if (materials.size() == 0 || !(material == materials.back())) {
+						materials.push_back(material);
+						fputs(stringf("usemtl %0_mat%1{u}\n", prefix, Uint32(materials.size())-1).c_str(), out);
+					}
+
+					for (int idx = op.elems.start; idx < op.elems.start+op.elems.count;) {
+						fputs("f", out);
+						fputs(stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx]+1).c_str(), out); ++idx;
+						fputs(stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx]+1).c_str(), out); ++idx;
+						fputs(stringf(" %0{d}/%0{d}/%0{d}", m_indices[idx]+1).c_str(), out); ++idx;
+						fputs("\n", out);
+					}
+
+					fputs("s 1\n", out);
+
+					break;
+				}
+
+				case OP_SET_MATERIAL: {
+					const LmrMaterial &m = m_model->m_materials[op.col.material_idx];
+					material.diffuse = Color(m.diffuse[0], m.diffuse[1], m.diffuse[2], m.diffuse[3]);
+					material.specular = Color(m.specular[0], m.specular[1], m.specular[2], m.specular[3]);
+					material.emissive = Color(m.emissive[0], m.emissive[1], m.emissive[2], m.emissive[3]);
+					material.specularExponent = m.shininess;
+					break;
+				}
+
+				default:
+					break;
+			}
+		}
+
+		fclose(out);
+
+		std::vector<std::string> textureFilenames;
+
+		out = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPath(outDir, prefix+".mtl"));
+		assert(out); // XXX fail gracefully
+
+		fputs(stringf("# Materials for LMR model '%0' LOD %1{d} [%s]\n", name, lod+1, m_isStatic ? "static" : "dynamic").c_str(), out);
+
+		for (unsigned int i = 0; i < materials.size(); i++) {
+			fputs(stringf("newmtl %0_mat%1{u}\n", prefix, i).c_str(), out);
+
+			const WavefrontMaterial &m = materials[i];
+			// XXX alpha?
+			fputs(stringf("Ka %0{f.4} %0{f.4} %0{f.4}\n", m.diffuse.r, m.diffuse.g, m.diffuse.b).c_str(), out);
+			fputs(stringf("Kd %0{f.4} %0{f.4} %0{f.4}\n", m.diffuse.r, m.diffuse.g, m.diffuse.b).c_str(), out);
+			fputs(stringf("Ks %0{f.4} %0{f.4} %0{f.4}\n", m.specular.r, m.specular.g, m.specular.b).c_str(), out);
+			fputs(stringf("Ke %0{f.4} %0{f.4} %0{f.4}\n", m.emissive.r, m.emissive.g, m.emissive.b).c_str(), out);
+			fputs(stringf("Ns %0{f.4}\n", m.specularExponent).c_str(), out);
+
+			fputs("illum 2\n", out);
+
+			if (m.diffuseMap.size() > 0) {
+				// need to store the path to the source texture
+				textureFilenames.push_back(m.diffuseMap);
+				// however, only want to store the new local name of the texture
+				const std::string tempFilename = FileSystem::NormalisePath(m.diffuseMap);
+				const size_t lastIdx = tempFilename.find_last_of('/')+1;
+				const std::string outFilename = tempFilename.substr(lastIdx, tempFilename.size()-lastIdx);
+				fputs(stringf("map_Ka %0\n", outFilename).c_str(), out);
+				fputs(stringf("map_Kd %0\n", outFilename).c_str(), out);
+			}
+			if (m.emissiveMap.size() > 0) {
+				// need to store the path to the source texture
+				textureFilenames.push_back(m.emissiveMap);
+				// however, only want to store the new local name of the texture
+				const std::string tempFilename = FileSystem::NormalisePath(m.emissiveMap);
+				const size_t lastIdx = tempFilename.find_last_of('/')+1;
+				const std::string outFilename = tempFilename.substr(lastIdx, tempFilename.size()-lastIdx);
+				fputs(stringf("map_Ke %0\n", outFilename).c_str(), out);
+			}
+		}
+
+		fclose(out);
+
+		// copy the textures over
+		for(std::vector<std::string>::const_iterator i = textureFilenames.begin(); i!=textureFilenames.end(); ++i)
+		{
+			RefCountedPtr<FileSystem::FileData> indata = FileSystem::gameDataFiles.ReadFile(*i);
+			assert(indata); // XXX fail gracefully
+			if (!indata) {
+				printf("Failed to open \"%s\" for reading.\n", i->c_str());
+			}
+
+			const std::string tempFilename = FileSystem::NormalisePath(*i);
+			const size_t lastIdx = tempFilename.find_last_of('/')+1;
+			const std::string outFilename = tempFilename.substr(lastIdx, tempFilename.size()-lastIdx);
+
+			out = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPath(outDir, outFilename));
+			assert(out); // XXX fail gracefully
+			if (out) {
+				fwrite(indata->GetData(), sizeof(char), indata->GetSize(), out); // XXX error checking
+				fclose(out);
+			} else {
+				printf("Failed to open \"%s\" for writing.\n", FileSystem::JoinPath(outDir, outFilename).c_str());
+			}
+		}
+
+		for (std::vector<Op>::iterator i = m_ops.begin(); i != m_ops.end(); ++i) {
+			if ((*i).type == OP_CALL_MODEL) {
+				(*i).callmodel.model->Dump(params, rootFolderName.c_str());
+			}
+		}
+	}
+
+	void SetIsFromObjFile(const bool isFromObjFile) {
+		m_isFromObjFile = isFromObjFile;
+	}
+
+private:
 	void BindBuffers() {
 		glEnableClientState (GL_VERTEX_ARRAY);
 		glEnableClientState (GL_NORMAL_ARRAY);
@@ -932,6 +1137,7 @@ private:
 	BufferObject<sizeof(Vertex)> *m_bo;
 	bool m_isStatic;
 	bool m_putGeomInsideout;
+	bool m_isFromObjFile;
 
 public:
 	void SaveToCache(FILE *f) {
@@ -941,6 +1147,7 @@ public:
 		int numThrusters = m_thrusters.size();
 		int numOps = m_ops.size();
 		assert(numOps < 1000);
+		fwrite(&m_isFromObjFile, sizeof(m_isFromObjFile), 1, f);
 		fwrite(&numVertices, sizeof(numVertices), 1, f);
 		fwrite(&numIndices, sizeof(numIndices), 1, f);
 		fwrite(&numTriflags, sizeof(numTriflags), 1, f);
@@ -969,6 +1176,7 @@ public:
 	}
 	void LoadFromCache(FILE *f) {
 		int numVertices, numIndices, numTriflags, numThrusters, numOps;
+		fread_or_die(&m_isFromObjFile, sizeof(m_isFromObjFile), 1, f);
 		fread_or_die(&numVertices, sizeof(numVertices), 1, f);
 		fread_or_die(&numIndices, sizeof(numIndices), 1, f);
 		fread_or_die(&numTriflags, sizeof(numTriflags), 1, f);
@@ -1018,7 +1226,7 @@ public:
 	}
 };
 
-LmrModel::LmrModel(const char *model_name)
+LmrModel::LmrModel(const char *model_name) : m_dumped(false)
 {
 	m_name = model_name;
 	m_drawClipRadius = 1.0f;
@@ -1186,6 +1394,13 @@ void LmrGetModelsWithTag(const char *tag, std::vector<LmrModel*> &outModels)
 	}
 }
 
+void LmrGetAllModelNames(std::vector<std::string> &modelNames)
+{
+	for (std::map<std::string, LmrModel*>::iterator i = s_models.begin(); i != s_models.end(); ++i) {
+		modelNames.push_back(i->second->GetName());
+	}
+}
+
 float LmrModel::GetFloatAttribute(const char *attr_name) const
 {
 	LUA_DEBUG_START(sLua);
@@ -1277,7 +1492,7 @@ bool LmrModel::HasTag(const char *tag) const
 	return has_tag;
 }
 
-void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
+void LmrModel::Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params)
 {
 	RenderState rstate;
 	rstate.subTransform = matrix4x4f::Identity();
@@ -1285,13 +1500,26 @@ void LmrModel::Render(const matrix4x4f &trans, const LmrObjParams *params)
 	Render(&rstate, vector3f(-trans[12], -trans[13], -trans[14]), trans, params);
 }
 
-void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, const LmrObjParams *params)
+void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, LmrObjParams *params)
 {
-	glPushMatrix();
+	// XXX some parts of models (eg billboards) are drawn through the
+	// renderer, while other stuff is drawn directly. we must make sure that
+	// we keep the renderer and the GL transform in sync otherwise weird stuff
+	// happens. this is a horrible performance-destroying hack, but will do ok
+	// for now since all this stuff is going away soon
+
+	matrix4x4f origmv;
+	glGetFloatv(GL_MODELVIEW_MATRIX, &origmv[0]);
+
 	glMultMatrixf(&trans[0]);
 	glScalef(m_scale, m_scale, m_scale);
 
-	float pixrad = 0.5f * s_scrWidth * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
+	matrix4x4f curmv;
+	glGetFloatv(GL_MODELVIEW_MATRIX, &curmv[0]);
+
+	s_renderer->SetTransform(curmv);
+
+	float pixrad = 0.5f * Graphics::GetScreenWidth() * rstate->combinedScale * m_drawClipRadius / cameraPos.Length();
 	//printf("%s: %fpx\n", m_name.c_str(), pixrad);
 
 	int lod = m_numLods-1;
@@ -1310,6 +1538,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 
 	m_staticGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
 	if (m_hasDynamicFunc) {
+		s_renderer->SetTransform(curmv);
 		m_dynamicGeometry[lod]->Render(rstate, modelRelativeCamPos, params);
 	}
 	s_curBuf = 0;
@@ -1324,7 +1553,7 @@ void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, cons
 
 	s_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 
-	glPopMatrix();
+	s_renderer->SetTransform(origmv);
 }
 
 void LmrModel::Build(int lod, const LmrObjParams *params)
@@ -1348,6 +1577,13 @@ void LmrModel::Build(int lod, const LmrObjParams *params)
 	}
 }
 
+RefCountedPtr<CollMesh> LmrModel::CreateCollisionMesh(const LmrObjParams *params)
+{
+	RefCountedPtr<CollMesh> mesh;
+	mesh.Reset(new LmrCollMesh(this, params));
+	return mesh;
+}
+
 void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transform, const LmrObjParams *params)
 {
 	// use lowest LOD
@@ -1357,14 +1593,49 @@ void LmrModel::GetCollMeshGeometry(LmrCollMesh *mesh, const matrix4x4f &transfor
 	if (m_hasDynamicFunc) m_dynamicGeometry[0]->GetCollMeshGeometry(mesh, m, params);
 }
 
-LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
+std::string LmrModel::GetDumpPath(const char *pMainFolderName)
 {
-	memset(this, 0, sizeof(LmrCollMesh));
-	m_aabb.min = vector3d(DBL_MAX, DBL_MAX, DBL_MAX);
-	m_aabb.max = vector3d(-DBL_MAX, -DBL_MAX, -DBL_MAX);
+	const std::string rootFolderName(pMainFolderName ? pMainFolderName : m_name);
+	const std::string folderName(std::string(DUMP_DIR) + "/" + rootFolderName);
+
+	return folderName;
+}
+
+void LmrModel::Dump(const LmrObjParams *params, const char* pMainFolderName)
+{
+	if (m_dumped) return;
+	m_dumped = true;
+
+	const std::string rootFolderName(pMainFolderName ? pMainFolderName : m_name);
+	const std::string folderName(std::string(DUMP_DIR) + "/" + rootFolderName);
+
+	FileSystem::userFiles.MakeDirectory(DUMP_DIR);
+	FileSystem::userFiles.MakeDirectory(folderName);
+
+	for (int lod = 0; lod < m_numLods; lod++) {
+		m_staticGeometry[lod]->Dump(params, rootFolderName, m_name, lod);
+	}
+	if (m_hasDynamicFunc)
+	{
+		for (int lod = 0; lod < m_numLods; lod++) {
+			Build( lod, params );
+			m_dynamicGeometry[lod]->Dump(params, rootFolderName, m_name, lod);
+		}
+	}
+}
+
+LmrCollMesh::LmrCollMesh(LmrModel *m, const LmrObjParams *params)
+	: CollMesh()
+	, nv(0)
+	, ni(0)
+	, nf(0)
+	, pVertex(0)
+	, pIndex(0)
+	, m_numTris(0)
+	, pFlag(0)
+{
 	m->GetCollMeshGeometry(this, matrix4x4f::Identity(), params);
-	m_radius = m_aabb.GetBoundingRadius();
-	geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
+	m_geomTree = new GeomTree(nv, m_numTris, pVertex, pIndex, pFlag);
 }
 
 /** returns number of tris found (up to 'num') */
@@ -1384,8 +1655,6 @@ int LmrCollMesh::GetTrisWithGeomflag(unsigned int flags, int num, vector3d *outV
 
 LmrCollMesh::~LmrCollMesh()
 {
-	// nice. mixed allocation. for the love of realloc...
-	delete geomTree;
 	free(pVertex);
 	free(pIndex);
 	free(pFlag);
@@ -1811,12 +2080,15 @@ namespace ModelFuncs {
 			int nv;
 		} segvtx[FLAT_MAX_SEG];
 
+		const int argmax = lua_gettop(L);
+		if (argmax < 3)
+			return luaL_error(L, "flat() requires at least 3 arguments");
+
 		if (!lua_istable(L, 3)) {
 			luaL_error(L, "argment 3 to flat() must be a table of line segments");
 			return 0;
 		}
 
-		int argmax = lua_gettop(L);
 		int seg = 0;
 		int numPoints = 0;
 		// iterate through table of line segments
@@ -4286,6 +4558,8 @@ namespace ObjLoader {
 			Error("Could not open '%s'\n", path.c_str());
 		}
 
+		s_curBuf->SetIsFromObjFile(true);
+
 		StringRange objdatabuf = objdata->AsStringRange();
 
 		std::vector<vector3f> vertices;
@@ -4521,8 +4795,7 @@ static Uint32 _calculate_all_models_checksum()
 	// do we need to rebuild the model cache?
 	CRC32 crc;
 	FileSystem::FileEnumerator files(FileSystem::gameDataFiles, FileSystem::FileEnumerator::Recurse);
-	files.AddSearchRoot("models");
-	files.AddSearchRoot("sub_models");
+	files.AddSearchRoot("lmrmodels");
 	while (!files.Finished()) {
 		const FileSystem::FileInfo &info = files.Current();
 		assert(info.IsFile());
@@ -4662,7 +4935,7 @@ void LmrModelCompilerInit(Graphics::Renderer *renderer)
 
 	s_buildDynamic = false;
 
-	pi_lua_dofile(L, "pimodels.lua");
+	pi_lua_dofile(L, "lmrmodels.lua");
 
 	LUA_DEBUG_END(sLua, 0);
 

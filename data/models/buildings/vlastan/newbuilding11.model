@@ -1,0 +1,17 @@
+material newbuilding
+tex_diff newbuilding.png
+tex_glow glowmap.png
+diffuse 1.0 1.0 1.0
+specular 0.6 0.6 0.8
+shininess 40
+
+lod 10
+mesh newbuilding11LQ.obj
+
+lod 40
+mesh newbuilding11MQ.obj
+
+lod 100
+mesh newbuilding11HQ.obj
+
+collision newbuilding11LQ.obj

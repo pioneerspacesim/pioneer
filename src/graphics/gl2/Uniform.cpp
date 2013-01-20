@@ -1,7 +1,8 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Uniform.h"
+#include "graphics/TextureGL.h"
 
 namespace Graphics {
 namespace GL2 {
@@ -44,6 +45,15 @@ void Uniform::Set(const Color4f &c)
 {
 	if (m_location != -1)
 		glUniform4f(m_location, c.r, c.g, c.b, c.a);
+}
+
+void Uniform::Set(Texture *tex, unsigned int unit)
+{
+	if (m_location != -1 && tex) {
+		glActiveTexture(GL_TEXTURE0 + unit);
+		static_cast<TextureGL*>(tex)->Bind();
+		glUniform1i(m_location, unit);
+	}
 }
 
 }

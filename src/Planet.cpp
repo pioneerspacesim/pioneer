@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Planet.h"
@@ -30,12 +30,7 @@ Planet::Planet(): TerrainBody(), m_ringVertices(RING_VERTEX_ATTRIBS)
 
 Planet::Planet(SystemBody *sbody): TerrainBody(sbody), m_ringVertices(RING_VERTEX_ATTRIBS)
 {
-	m_hasDoubleFrame = true;
-	if (sbody->HasRings()) {
-		m_clipRadius = sbody->GetRadius() * sbody->m_rings.maxRadius.ToDouble();
-	} else {
-		m_clipRadius = GetBoundingRadius();
-	}
+	InitParams(sbody);
 }
 
 Planet::~Planet() {}
@@ -46,10 +41,45 @@ void Planet::Load(Serializer::Reader &rd, Space *space)
 
 	const SystemBody *sbody = GetSystemBody();
 	assert(sbody);
+	InitParams(sbody);
+}
+
+void Planet::InitParams(const SystemBody *sbody)
+{
+	const double SPECIFIC_HEAT_AIR_CP=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
+	// XXX using earth's molar mass of air...
+	const double GAS_MOLAR_MASS = 0.02897;
+	const double GAS_CONSTANT = 8.3144621;
+	const double PA_2_ATMOS = 1.0 / 101325.0;
+
+	// surface gravity = -G*M/planet radius^2
+	m_surfaceGravity_g = -G*sbody->GetMass()/(sbody->GetRadius()*sbody->GetRadius());
+	const double lapseRate_L = -m_surfaceGravity_g/SPECIFIC_HEAT_AIR_CP; // negative deg/m
+	const double surfaceTemperature_T0 = sbody->averageTemp; //K
+
+	double surfaceDensity, h; Color c;
+	sbody->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
+	surfaceDensity/=GAS_MOLAR_MASS;			// convert to moles/m^3
+
+	//P = density*R*T=(n/V)*R*T
+	const double surfaceP_p0 = PA_2_ATMOS*((surfaceDensity)*GAS_CONSTANT*surfaceTemperature_T0); // in atmospheres
+	if (surfaceP_p0 < 0.002) h = 0;
+	else {
+		//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
+		// want height for pressure 0.001 atm:
+		// h = (1 - exp(RL/gM * log(P/p0))) * T0 / l
+		double RLdivgM = (GAS_CONSTANT*lapseRate_L)/(-m_surfaceGravity_g*GAS_MOLAR_MASS);
+		h = (1.0 - exp(RLdivgM * log(0.001/surfaceP_p0))) * surfaceTemperature_T0 / lapseRate_L;
+//		double h2 = (1.0 - pow(0.001/surfaceP_p0, RLdivgM)) * surfaceTemperature_T0 / lapseRate_L;
+//		double P = surfaceP_p0*pow((1.0-lapseRate_L*h/surfaceTemperature_T0),1/RLdivgM);
+	}
+	m_atmosphereRadius = h + sbody->GetRadius();
+
+	SetPhysRadius(std::max(m_atmosphereRadius, GetMaxFeatureRadius()+1000));
 	if (sbody->HasRings()) {
-		m_clipRadius = sbody->GetRadius() * sbody->m_rings.maxRadius.ToDouble();
+		SetClipRadius(sbody->GetRadius() * sbody->m_rings.maxRadius.ToDouble());
 	} else {
-		m_clipRadius = GetBoundingRadius();
+		SetClipRadius(GetPhysRadius());
 	}
 }
 
@@ -73,6 +103,10 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	}
 #endif
 
+	// This model has no atmosphere beyond the adiabetic limit
+	// Note: some code duplicated in InitParams(). Check if changing.
+	if (dist >= m_atmosphereRadius) {*outDensity = 0.0; *outPressure = 0.0; return;}
+
 	double surfaceDensity;
 	const double SPECIFIC_HEAT_AIR_CP=1000.5;// constant pressure specific heat, for the combination of gasses that make up air
 	// XXX using earth's molar mass of air...
@@ -80,25 +114,19 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	const double GAS_CONSTANT = 8.3144621;
 	const double PA_2_ATMOS = 1.0 / 101325.0;
 
-	// surface gravity = -G*M/planet radius^2
-	const double surfaceGravity_g = -G*this->GetSystemBody()->GetMass()/pow((this->GetSystemBody()->GetRadius()),2); // should be stored in sbody
 	// lapse rate http://en.wikipedia.org/wiki/Adiabatic_lapse_rate#Dry_adiabatic_lapse_rate
 	// the wet adiabatic rate can be used when cloud layers are incorporated
 	// fairly accurate in the troposphere
-	const double lapseRate_L = -surfaceGravity_g/SPECIFIC_HEAT_AIR_CP; // negative deg/m
+	const double lapseRate_L = -m_surfaceGravity_g/SPECIFIC_HEAT_AIR_CP; // negative deg/m
 
-	const double height_h = (dist-GetSystemBody()->GetRadius()); // height in m
-	const double surfaceTemperature_T0 = this->GetSystemBody()->averageTemp; //K
+	const SystemBody *sbody = this->GetSystemBody();
+	const double height_h = (dist-sbody->GetRadius()); // height in m
+	const double surfaceTemperature_T0 = sbody->averageTemp; //K
 
 	Color c;
-	GetSystemBody()->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
+	sbody->GetAtmosphereFlavor(&c, &surfaceDensity);// kg / m^3
 	// convert to moles/m^3
 	surfaceDensity/=GAS_MOLAR_MASS;
-
-	const double adiabaticLimit = surfaceTemperature_T0/lapseRate_L; //should be stored
-
-	// This model has no atmosphere beyond the adiabetic limit
-	if (height_h >= adiabaticLimit) {*outDensity = 0.0; *outPressure = 0.0; return;}
 
 	//P = density*R*T=(n/V)*R*T
 	const double surfaceP_p0 = PA_2_ATMOS*((surfaceDensity)*GAS_CONSTANT*surfaceTemperature_T0); // in atmospheres
@@ -107,7 +135,7 @@ void Planet::GetAtmosphericState(double dist, double *outPressure, double *outDe
 	if (height_h < 0.0) { *outPressure = surfaceP_p0; *outDensity = surfaceDensity*GAS_MOLAR_MASS; return; }
 
 	//*outPressure = p0*(1-l*h/T0)^(g*M/(R*L);
-	*outPressure = surfaceP_p0*pow((1-lapseRate_L*height_h/surfaceTemperature_T0),(-surfaceGravity_g*GAS_MOLAR_MASS/(GAS_CONSTANT*lapseRate_L)));// in ATM since p0 was in ATM
+	*outPressure = surfaceP_p0*pow((1-lapseRate_L*height_h/surfaceTemperature_T0),(-m_surfaceGravity_g*GAS_MOLAR_MASS/(GAS_CONSTANT*lapseRate_L)));// in ATM since p0 was in ATM
 	//                                                                               ^^g used is abs(g)
 	// temperature at height
 	double temp = surfaceTemperature_T0+lapseRate_L*height_h;

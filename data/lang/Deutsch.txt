@@ -559,34 +559,12 @@ YAW
     Gieren
 MISSILE
     Rakete
-HARMLESS
-    Harmlos
-MOSTLY_HARMLESS
-    Eher harmlos
-POOR
-    Unterdurchschnittlich
-AVERAGE
-    Durchschnittlich
-ABOVE_AVERAGE
-    Überdurchschnittlich
-COMPETENT
-    Kompetent
-DANGEROUS
-    Gefährlich
-DEADLY
-    Tödlich
-ELITE
-    ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulierte Evolution des Universums: %age{f.1} Milliarde(n) Jahre ;-)
 TOMBSTONE_EPITAPH
     Ruhe in Frieden, Kumpel
 SCREENSHOT_FILENAME_TEMPLATE
     Pioneer Screenshot%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Pioneer Piloten Gilde
-RIGHT_ON_COMMANDER
-    Sehr gut Commander! Ihre Gefechtseinstufung hat sich verbessert!
 ALERT_CANCELLED
     Alarm aufgehoben.
 SHIP_DETECTED_NEARBY

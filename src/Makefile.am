@@ -5,7 +5,7 @@ endif
 if BUILD_POSIX
     PLATFORM_SUBDIRS = posix
 endif
-SUBDIRS = collider gui graphics galaxy terrain text ui gameui $(PLATFORM_SUBDIRS)
+SUBDIRS = collider gui graphics galaxy scenegraph terrain text ui gameui $(PLATFORM_SUBDIRS)
 
 include $(top_srcdir)/Makefile.common
 
@@ -13,7 +13,7 @@ AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(WARN_CXXFLAGS)
 
-bin_PROGRAMS = pioneer modelviewer
+bin_PROGRAMS = pioneer lmrmodelviewer
 noinst_HEADERS = \
 	Aabb.h \
 	AmbientSounds.h \
@@ -24,6 +24,7 @@ noinst_HEADERS = \
 	BufferObject.h \
 	ByteRange.h \
 	Camera.h \
+	CameraController.h \
 	CargoBody.h \
 	ChatForm.h \
 	CityOnPlanet.h \
@@ -47,11 +48,9 @@ noinst_HEADERS = \
 	Frame.h \
 	GalacticView.h \
 	Game.h \
-	GameLoaderSaver.h \
 	GameMenuView.h \
 	GeoSphere.h \
 	HyperspaceCloud.h \
-	InfoView.h \
 	IniConfig.h \
 	Intro.h \
 	GameConfig.h \
@@ -102,8 +101,11 @@ noinst_HEADERS = \
 	MarketAgent.h \
 	MathUtil.h \
 	Missile.h \
+	ModelBase.h \
 	ModelBody.h \
+	ModelCache.h \
 	ModManager.h \
+	ModelViewer.h \
 	Object.h \
 	ObjectViewerView.h \
 	OS.h \
@@ -145,6 +147,7 @@ noinst_HEADERS = \
 	SoundMusic.h \
 	Space.h \
 	SpaceStation.h \
+	SpaceStationType.h \
 	SpaceStationView.h \
 	Star.h \
 	SystemInfoView.h \
@@ -155,7 +158,6 @@ noinst_HEADERS = \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
-	WorldViewCamera.h \
 	SmartPtr.h \
 	buildopts.h \
 	fixed.h \
@@ -174,6 +176,7 @@ pioneer_SOURCES	= \
 	Background.cpp \
 	Body.cpp \
 	Camera.cpp \
+	CameraController.cpp \
 	CargoBody.cpp \
 	Color.cpp \
 	ChatForm.cpp \
@@ -194,11 +197,9 @@ pioneer_SOURCES	= \
 	Frame.cpp \
 	GalacticView.cpp \
 	Game.cpp \
-	GameLoaderSaver.cpp \
 	GameMenuView.cpp \
 	GeoSphere.cpp \
 	HyperspaceCloud.cpp \
-	InfoView.cpp \
 	IniConfig.cpp \
 	Intro.cpp \
 	GameConfig.cpp \
@@ -247,7 +248,9 @@ pioneer_SOURCES	= \
 	MathUtil.cpp \
 	Missile.cpp \
 	ModelBody.cpp \
+	ModelCache.cpp \
 	ModManager.cpp \
+	ModelViewer.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
 	Planet.cpp \
@@ -283,6 +286,7 @@ pioneer_SOURCES	= \
 	SoundMusic.cpp \
 	Space.cpp \
 	SpaceStation.cpp \
+	SpaceStationType.cpp \
 	SpaceStationView.cpp \
 	Star.cpp \
 	SystemInfoView.cpp \
@@ -292,7 +296,6 @@ pioneer_SOURCES	= \
 	UIView.cpp \
 	View.cpp \
 	WorldView.cpp \
-	WorldViewCamera.cpp \
 	main.cpp \
 	mtrand.cpp \
 	perlin.cpp \
@@ -303,10 +306,11 @@ pioneer_LDADD = \
 	../contrib/miniz/libminiz.a \
 	../contrib/jenkins/libjenkins.a \
 	collider/libcollider.a \
-	text/libtext.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \
 	galaxy/libgalaxy.a \
+	scenegraph/libscenegraph.a \
+	text/libtext.a \
 	terrain/libterrain.a \
 	ui/libui.a \
 	gameui/libgameui.a
@@ -314,7 +318,7 @@ pioneer_LDADD = \
 pioneer_LDADD += \
 	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
-	$(PNG_LIBS)
+	$(PNG_LIBS) $(ASSIMP_LIBS)
 
 if BUILD_WIN32
 pioneer_LDFLAGS = -Wl,-Map=pioneer.map
@@ -324,7 +328,7 @@ if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
 endif
 
-modelviewer_SOURCES = \
+lmrmodelviewer_SOURCES = \
 	Color.cpp \
 	CRC32.cpp \
 	FileSourceZip.cpp \
@@ -349,7 +353,7 @@ modelviewer_SOURCES = \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
-modelviewer_LDADD = \
+lmrmodelviewer_LDADD = \
 	../contrib/miniz/libminiz.a \
 	../contrib/jenkins/libjenkins.a \
 	collider/libcollider.a \
@@ -361,14 +365,14 @@ modelviewer_LDADD = \
 		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
 		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
 if !HAVE_LUA
-modelviewer_LDADD += ../contrib/lua/liblua.a
+lmrmodelviewer_LDADD += ../contrib/lua/liblua.a
 endif
 
 if BUILD_WIN32
-modelviewer_LDFLAGS = -Wl,-Map=modelviewer.map
+lmrmodelviewer_LDFLAGS = -Wl,-Map=lmrmodelviewer.map
 endif
 
-check_PROGRAMS = tests uitest
+check_PROGRAMS = tests uitest textstress
 tests_SOURCES = \
 	StringF.cpp \
 	tests.cpp \
@@ -420,6 +424,31 @@ if !HAVE_LUA
 uitest_LDADD += ../contrib/lua/liblua.a
 endif
 
+textstress_SOURCES = \
+	textstress.cpp \
+	Color.cpp \
+	FileSystem.cpp \
+	SDLWrappers.cpp \
+	FontCache.cpp \
+	IniConfig.cpp \
+	StringF.cpp \
+	Lang.cpp \
+	PngWriter.cpp \
+	utils.cpp
+textstress_LDADD = \
+	gui/libgui.a \
+	text/libtext.a \
+	graphics/libgraphics.a \
+	posix/libposix.a
+
+textstress_LDADD += \
+	$(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
+	$(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
+
+if !HAVE_LUA
+textstress_LDADD += ../contrib/lua/liblua.a
+endif
+
 INCLUDES = -isystem @top_srcdir@/contrib
 if !HAVE_LUA
 INCLUDES += -isystem @top_srcdir@/contrib/lua
@@ -427,12 +456,12 @@ endif
 
 if BUILD_WIN32
     pioneer_LDADD += win32/libwin32.a $(MINGW_LIBS)
-    modelviewer_LDADD += win32/libwin32.a $(MINGW_LIBS)
+    lmrmodelviewer_LDADD += win32/libwin32.a $(MINGW_LIBS)
 endif
 
 if BUILD_POSIX
     pioneer_LDADD += posix/libposix.a
-    modelviewer_LDADD += posix/libposix.a
+    lmrmodelviewer_LDADD += posix/libposix.a
 endif
 
 if HAVE_WINDRES

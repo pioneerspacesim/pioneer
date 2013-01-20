@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -27,7 +27,7 @@ bool ScrollBar::OnMouseDown(MouseButtonEvent *e)
 {
 	float size[2];
 	GetSize(size);
-	if (e->button == 1) {
+	if (e->button == SDL_BUTTON_LEFT) {
 		m_isPressed = true;
 		if (m_isHoriz) {
 			m_adjustment->SetValue(e->x / float(size[0]));
@@ -37,8 +37,8 @@ bool ScrollBar::OnMouseDown(MouseButtonEvent *e)
 		_m_release = RawEvents::onMouseUp.connect(sigc::mem_fun(this, &ScrollBar::OnRawMouseUp));
 		_m_motion = RawEvents::onMouseMotion.connect(sigc::mem_fun(this, &ScrollBar::OnRawMouseMotion));
 	}
-	else if (e->button == 4 || e->button == 5) {
-		float change = e->button == 4 ? -0.1 : 0.1;
+	else if (e->button == SDL_BUTTON_WHEELUP || e->button == SDL_BUTTON_WHEELDOWN) {
+		float change = e->button == SDL_BUTTON_WHEELUP ? -0.1 : 0.1;
 		float pos = m_adjustment->GetValue();
 		m_adjustment->SetValue(Clamp(pos+change, 0.0f, 1.0f));
 	}
@@ -46,7 +46,7 @@ bool ScrollBar::OnMouseDown(MouseButtonEvent *e)
 }
 
 void ScrollBar::OnRawMouseUp(MouseButtonEvent *e) {
-	if (e->button == 1) {
+	if (e->button == SDL_BUTTON_LEFT) {
 		m_isPressed = false;
 		_m_release.disconnect();
 		_m_motion.disconnect();

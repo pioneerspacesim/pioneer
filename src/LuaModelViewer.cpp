@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -17,6 +17,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "gui/Gui.h"
+#include "StringF.h"
 
 using namespace Graphics;
 
@@ -69,22 +70,7 @@ static int g_wheelMoveDir = -1;
 static int g_renderType = 0;
 static float g_frameTime;
 static EquipSet g_equipment;
-static LmrObjParams g_params = {
-	0, // animation namespace
-	0.0, // time
-	{}, // animation stages
-	{}, // animation positions
-	"PIONEER", // label
-	&g_equipment, // equipment
-	Ship::FLYING, // flightState
-
-	{ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 0.0f },
-
-	{	// pColor[3]
-	{ { .2f, .2f, .5f, 1 }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 },
-	{ { 0.5f, 0.5f, 0.5f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-	{ { 0.8f, 0.8f, 0.8f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-};
+static LmrObjParams g_params;
 
 class Viewer: public Gui::Fixed {
 public:
@@ -93,6 +79,7 @@ public:
 	Gui::Adjustment *m_anim[LMR_ARG_MAX];
 	Gui::TextEntry *m_animEntry[LMR_ARG_MAX];
 	Gui::Label *m_trisReadout;
+	Gui::Label *m_dumpLabel;
 	LmrCollMesh *m_cmesh;
 	LmrModel *m_model;
 	CollisionSpace *m_space;
@@ -121,6 +108,18 @@ public:
 		m_showGrid = false;
 		Gui::Screen::AddBaseWidget(this, 0, 0);
 		SetTransparency(true);
+
+		//init modelparams
+		g_params.equipment = &g_equipment;
+		g_params.label = "PIONEER";
+		g_params.flightState = Ship::FLYING;
+
+		LmrMaterial matA = { { .2f, .2f, .5f, 1 }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 };
+		LmrMaterial matB = { { 0.5f, 0.5f, 0.5f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+		LmrMaterial matC = { { 0.8f, 0.8f, 0.8f, 1 }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
+		g_params.pMat[0] = matA;
+		g_params.pMat[1] = matB;
+		g_params.pMat[2] = matC;
 
 		m_trisReadout = new Gui::Label("");
 		Add(m_trisReadout, 500, 0);
@@ -166,6 +165,16 @@ public:
 			Add(b, 10, 110);
 			Add(new Gui::Label("[shift-g] Toggle grid"), 30, 110);
 		}
+		{
+			Gui::Button *b = new Gui::SolidButton();
+			b->SetShortcut(SDLK_d, KMOD_LSHIFT);
+			b->onClick.connect(sigc::mem_fun(*this, &Viewer::OnDumpModel));
+			Add(b, 10, 130);
+			Add(new Gui::Label("[shift-d] Dump model to .obj"), 30, 130);
+		}
+
+		m_dumpLabel = new Gui::Label("");
+		Add(m_dumpLabel, 10, 170);
 #if 0
 		{
 			Gui::Button *b = new Gui::SolidButton();
@@ -253,7 +262,7 @@ public:
 		delete m_cmesh;
 
 		m_cmesh = new LmrCollMesh(m_model, &g_params);
-		m_geom = new Geom(m_cmesh->geomTree);
+		m_geom = new Geom(m_cmesh->GetGeomTree());
 		m_space->AddGeom(m_geom);
 	}
 
@@ -283,6 +292,11 @@ public:
 				gridInterval = 0.0f;
 			}
 		}
+	}
+
+	void OnDumpModel() {
+		m_model->Dump(&g_params);
+		m_dumpLabel->SetText(stringf("Model dumped to %0", FileSystem::userFiles.GetRoot() + "/" + m_model->GetDumpPath()).c_str());
 	}
 
 	void MainLoop() __attribute((noreturn));
@@ -333,7 +347,7 @@ void Viewer::SetModel(LmrModel *model)
 
 	// construct geometry
 	m_cmesh = new LmrCollMesh(m_model, &g_params);
-	m_geom = new Geom(m_cmesh->geomTree);
+	m_geom = new Geom(m_cmesh->GetGeomTree());
 	m_space->AddGeom(m_geom);
 }
 
@@ -353,10 +367,48 @@ void Viewer::TryModel(const SDL_keysym *sym, Gui::TextEntry *entry, Gui::Label *
 void Viewer::PickModel(const std::string &initial_name, const std::string &initial_errormsg)
 {
 	Gui::Fixed *f = new Gui::Fixed();
-	f->SetSizeRequest(Gui::Screen::GetWidth()*0.5f, Gui::Screen::GetHeight()*0.5);
-	Gui::Screen::AddBaseWidget(f, Gui::Screen::GetWidth()*0.25f, Gui::Screen::GetHeight()*0.25f);
+	f->SetSizeRequest(Gui::Screen::GetWidth()*0.75f, Gui::Screen::GetHeight()*0.75f);
+	Gui::Screen::AddBaseWidget(f, Gui::Screen::GetWidth()*0.125f, Gui::Screen::GetHeight()*0.125f);
 
 	f->Add(new Gui::Label("Enter the name of the model you want to view:"), 0, 0);
+
+	Gui::VScrollBar *scroll = new Gui::VScrollBar();
+	Gui::VScrollPortal *portal = new Gui::VScrollPortal(Gui::Screen::GetWidth()*0.75f);
+	scroll->SetAdjustment(&portal->vscrollAdjust);
+	scroll->ShowAll();
+
+	std::vector<std::string> modelNames;
+	{
+		std::vector<LmrModel*> models;
+		LmrGetModelsWithTag("ship", models);
+		LmrGetModelsWithTag("static_ship", models);
+		LmrGetModelsWithTag("orbital_station", models);
+		LmrGetModelsWithTag("surface_station", models);
+
+		for (std::vector<LmrModel*>::iterator i = models.begin(); i != models.end(); ++i) {
+			modelNames.push_back((*i)->GetName());
+		}
+	}
+	//LmrGetAllModelNames(modelNames);
+	std::vector<std::string>::const_iterator iter = modelNames.begin();
+
+	Gui::Fixed *innerbox = new Gui::Fixed(Gui::Screen::GetWidth()*0.75f, modelNames.size()*20);
+	innerbox->SetTransparency(true);
+	float currenty = 0.0f;
+	while(iter!=modelNames.end())
+	{
+		innerbox->Add(new Gui::Label((*iter).c_str()), 0, currenty);
+		currenty += 20.0f;
+		// next
+		++iter;
+	}
+	innerbox->ShowAll();
+
+	portal->Add(innerbox);
+	portal->ShowAll();
+
+	f->Add(portal, 0, 75);
+	f->Add(scroll, Gui::Screen::GetWidth()*0.75f-10, 75);
 
 	Gui::Label *errormsg = new Gui::Label(initial_errormsg);
 	f->Add(errormsg, 0, 64);
@@ -366,6 +418,7 @@ void Viewer::PickModel(const std::string &initial_name, const std::string &initi
 	entry->onKeyPress.connect(sigc::bind(sigc::mem_fun(this, &Viewer::TryModel), entry, errormsg));
 	entry->Show();
 	f->Add(entry, 0, 32);
+	f->ShowAll();
 
 	m_model = 0;
 
@@ -508,7 +561,7 @@ void Viewer::MainLoop()
 	Uint32 t = SDL_GetTicks();
 	int numFrames = 0, fps = 0, numTris = 0;
 	Uint32 lastFpsReadout = SDL_GetTicks();
-	g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetBoundingRadius());
+	g_campos = vector3f(0.0f, 0.0f, m_cmesh->GetRadius());
 	g_camorient = matrix4x4f::Identity();
 	matrix4x4f modelRot = matrix4x4f::Identity();
 
@@ -562,12 +615,12 @@ void Viewer::MainLoop()
 		int beforeDrawTriStats = LmrModelGetStatsTris();
 
 		if (g_renderType == 0) {
-			glPushAttrib(GL_ALL_ATTRIB_BITS);
+			glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 			matrix4x4f m = g_camorient.InverseOf() * matrix4x4f::Translation(-g_campos) * modelRot.InverseOf();
 			if (g_doBenchmark) {
-				for (int i=0; i<1000; i++) m_model->Render(m, &g_params);
+				for (int i=0; i<1000; i++) m_model->Render(renderer, m, &g_params);
 			} else {
-				m_model->Render(m, &g_params);
+				m_model->Render(renderer, m, &g_params);
 			}
 			glPopAttrib();
 		} else if (g_renderType == 1) {
@@ -602,7 +655,7 @@ void Viewer::MainLoop()
 					aabb.max.x-aabb.min.x,
 					aabb.max.y-aabb.min.y,
 					aabb.max.z-aabb.min.z,
-					aabb.GetBoundingRadius(),
+					aabb.GetRadius(),
 					m_model->GetDrawClipRadius(),
 					int(gridInterval));
 			m_trisReadout->SetText(buf);
@@ -742,11 +795,10 @@ int main(int argc, char **argv)
 	Gui::Init(renderer, g_width, g_height, g_width, g_height);
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc);
+	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc);
 	renderer->SetLights(1, &light);
 
 	LmrModelCompilerInit(renderer);
-	LmrNotifyScreenWidth(g_width);
 
 	ShipType::Init();
 

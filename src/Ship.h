@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIP_H
@@ -13,6 +13,7 @@
 #include "BezierCurve.h"
 #include "Serializer.h"
 #include "Camera.h"
+#include "scenegraph/SceneGraph.h"
 #include <list>
 
 class SpaceStation;
@@ -36,7 +37,7 @@ struct shipstats_t {
 	float shield_mass_left;
 	float fuel_tank_mass; //thruster, not hyperspace fuel
 	float fuel_tank_mass_left;
-	float fuel_use;
+	float fuel_use; // percentage (ie, 0--100) of tank used per second at full thrust
 };
 
 class SerializableEquipSet: public EquipSet {
@@ -84,7 +85,7 @@ public:
 	double GetAccelUp() const { return GetShipType().linThrust[ShipType::THRUSTER_UP] / GetMass(); }
 	double GetAccelMin() const;
 
-	const ShipType &GetShipType() const;
+	const ShipType &GetShipType() const { return *m_type; }
 	void UpdateEquipStats();
 	void UpdateFuelStats();
 	void UpdateStats();
@@ -98,14 +99,14 @@ public:
 	bool Undock();
 	virtual void TimeStepUpdate(const float timeStep);
 	virtual void StaticUpdate(const float timeStep);
-	void ApplyAccel(const float timeStep);
+
+	void TimeAccelAdjust(const float timeStep);
+	void SetDecelerating(bool decel) { m_decelerating = decel; }
+	bool IsDecelerating() const { return m_decelerating; }
 
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage);
-
-	void SetManualRotationState(bool rotationState) { m_manualRotation = rotationState; }
-	bool GetManualRotationState() { return m_manualRotation; }
 
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState>
 		FLYING,     // open flight (includes autopilot)
@@ -169,15 +170,12 @@ public:
 
 	bool AIMatchVel(const vector3d &vel);
 	bool AIChangeVelBy(const vector3d &diffvel);		// acts in obj space
-	bool AIMatchPosVel2(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxthrust);
-	double AIMatchPosVel(const vector3d &relpos, const vector3d &relvel, double endspeed, const vector3d &maxthrust);
+	vector3d AIChangeVelDir(const vector3d &diffvel);	// world space, maintain direction
 	void AIMatchAngVelObjSpace(const vector3d &angvel);
-	void AIFaceDirectionImmediate(const vector3d &dir);
-	bool AIFaceOrient(const vector3d &dir, const vector3d &updir);
+	double AIFaceUpdir(const vector3d &updir, double av=0);
 	double AIFaceDirection(const vector3d &dir, double av=0);
-	vector3d AIGetNextFramePos();
 	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
-	double AITravelTime(const vector3d &reldir, double targdist, const vector3d &relvel, double targspeed, bool flip);
+	double AITravelTime(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxdecel);
 
 	// old stuff, deprecated
 	void AIAccelToModelRelativeVelocity(const vector3d v);
@@ -187,7 +185,6 @@ public:
 	void AIClearInstructions();
 	bool AIIsActive() { return m_curAICmd ? true : false; }
 	void AIGetStatusText(char *str);
-	Frame *AIGetRiskFrame();
 
 	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_>
 		AIERROR_NONE=0,
@@ -200,9 +197,9 @@ public:
 	void AIKamikaze(Body *target);
 	void AIKill(Ship *target);
 	//void AIJourney(SystemBodyPath &dest);
-	void AIDock(SpaceStation *target, float hungriness = 0.0f);
-	void AIFlyTo(Body *target, float hungriness = 0.0f);
-	void AIOrbit(Body *target, double alt, float hungriness = 0.0f);
+	void AIDock(SpaceStation *target);
+	void AIFlyTo(Body *target);
+	void AIOrbit(Body *target, double alt);
 	void AIHoldPosition();
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
@@ -230,14 +227,15 @@ public:
 	};
 	FuelState GetFuelState() { return m_thrusterFuel > 0.05f ? FUEL_OK : m_thrusterFuel > 0.0f ? FUEL_WARNING : FUEL_EMPTY; }
 
-	//fuel left, 0.0-1.0
-	float GetFuel() const {	return m_thrusterFuel;	}
-	//0.0 - 1.0
-	void SetFuel(const float f) {	m_thrusterFuel = Clamp(f, 0.f, 1.f); }
+	// fuel left, 0.0-1.0
+	double GetFuel() const { return m_thrusterFuel;	}
+	void SetFuel(const double f) { m_thrusterFuel = Clamp(f, 0.0, 1.0); }
+	double GetFuelReserve() const { return m_reserveFuel; }
+	void SetFuelReserve(const double f) { m_reserveFuel = Clamp(f, 0.0, 1.0); }
 
-	double GetFuelUseRate(double effectiveExhaustVelocity);
-	double GetEffectiveExhaustVelocity();
-	double GetVelocityReachedWithFuelUsed(float fuelUsed);
+	// percentage (ie, 0--100) of tank used per second at full thrust
+	double GetFuelUseRate() const;
+	double GetSpeedReachedWithFuel() const;
 
 	void EnterSystem();
 
@@ -280,15 +278,15 @@ private:
 	bool IsFiringLasers();
 	void TestLanded();
 	void UpdateAlertState();
-	void UpdateFuel(float timeStep);
+	void UpdateFuel(float timeStep, const vector3d &thrust);
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 
 	shipstats_t m_stats;
+	ShipType *m_type;
 
 	FlightState m_flightState;
 	bool m_testLanded;
-	bool m_manualRotation;
 	float m_launchLockTimeout;
 	float m_wheelState;
 	int m_wheelTransition;
@@ -310,11 +308,14 @@ private:
 
 	AICommand *m_curAICmd;
 	AIError m_aiMessage;
+	bool m_decelerating;
 
-	float m_thrusterFuel; //remaining fuel 0.0-1.0
-	float m_fuelUseWeights[4]; //rear, front, lateral, up&down. Rear thrusters are usually 1.0
+	double m_thrusterFuel; 	// remaining fuel 0.0-1.0
+	double m_reserveFuel;	// 0-1, fuel not to touch for the current AI program
 
 	int m_dockedWithIndex; // deserialisation
+
+	SceneGraph::Animation *m_landingGearAnimation;
 };
 
 

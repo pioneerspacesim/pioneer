@@ -22,6 +22,7 @@
 			IntermediateDirectory="$(ConfigurationName)\$(ProjectName)\"
 			ConfigurationType="1"
 			CharacterSet="1"
+			DeleteExtensionsOnClean="*.pch;*.pdb;*.idb;*.obj;*.ilk;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;$(TargetPath)"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib"
+				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib;&quot;../../../pioneer-thirdparty/win32/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -49,7 +50,6 @@
 				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="pch.h"
-				PrecompiledHeaderFile="C:\temp\modelviewer.pch"
 				ProgramDataBaseFileName="$(IntDir)\$(ProjectName)D.pdb"
 				WarningLevel="3"
 				DebugInformationFormat="4"
@@ -67,10 +67,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib glew32.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib libpng15d.lib"
-				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
+				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15_staticd.lib zlibd.lib"
+				OutputFile="$(ProjectDir)..\..\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\lib"
+				AdditionalLibraryDirectories="&quot;..\..\..\pioneer-thirdparty\win32\lib&quot;"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -104,6 +104,7 @@
 			IntermediateDirectory="$(ConfigurationName)\$(ProjectName)\"
 			ConfigurationType="1"
 			CharacterSet="1"
+			DeleteExtensionsOnClean="*.pch;*.pdb;*.idb;*.obj;*.ilk;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;$(TargetPath)"
 			WholeProgramOptimization="0"
 			>
 			<Tool
@@ -125,7 +126,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib"
+				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib;&quot;../../../pioneer-thirdparty/win32/include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -149,7 +150,7 @@
 				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib sdl.lib sdlmain.lib sigc-vc90-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib glew32.lib libpng15.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_release.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\lib"
+				AdditionalLibraryDirectories="&quot;..\..\..\pioneer-thirdparty\win32\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -184,6 +185,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
+			DeleteExtensionsOnClean="*.pch;*.pdb;*.idb;*.obj;*.ilk;*.tlb;*.tli;*.tlh;*.tmp;*.rsp;*.pgc;*.pgd;*.meta;$(TargetPath)"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -206,7 +208,7 @@
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib"
+				AdditionalIncludeDirectories="../../src;../../win32/src;../../win32/include;../../contrib;&quot;../../../pioneer-thirdparty/win32/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
@@ -236,7 +238,7 @@
 				AdditionalDependencies="shlwapi.lib libogg.lib libvorbis.lib libvorbisfile.lib glew32.lib sdl.lib sdlmain.lib sigc-vc90-d-2_0.lib opengl32.lib glu32.lib SDL_image.lib freetype2312MT.lib libpng15.lib"
 				OutputFile="$(OutDir)\$(ProjectName)_debug.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\lib"
+				AdditionalLibraryDirectories="&quot;..\..\..\pioneer-thirdparty\win32\lib&quot;"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -457,6 +459,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\gui\GuiTexturedQuad.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\gui\GuiToggleButton.cpp"
 				>
 			</File>
@@ -501,6 +507,526 @@
 			Name="sdf"
 			>
 		</Filter>
+		<Filter
+			Name="text"
+			>
+			<File
+				RelativePath="..\..\src\text\Font.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\Font.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\FontDescriptor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\FontDescriptor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\TextSupport.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\TextSupport.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\TextureFont.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\TextureFont.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\VectorFont.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\text\VectorFont.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="graphics"
+			>
+			<File
+				RelativePath="..\..\src\graphics\Drawables.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Drawables.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Frustum.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Frustum.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Graphics.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Graphics.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Light.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Light.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Material.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Material.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\MaterialLegacy.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\MaterialLegacy.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Renderer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Renderer.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RendererGL2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RendererGL2.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RendererGLBuffers.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RendererLegacy.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\RendererLegacy.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\StaticMesh.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\StaticMesh.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Surface.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\Texture.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\TextureBuilder.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\TextureBuilder.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\TextureGL.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\TextureGL.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\VertexArray.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\graphics\VertexArray.h"
+				>
+			</File>
+			<Filter
+				Name="gl2"
+				>
+				<File
+					RelativePath="..\..\src\graphics\gl2\GeoSphereMaterial.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\GeoSphereMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\GL2Material.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\GL2Material.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\MultiMaterial.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\MultiMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\Program.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\Program.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\RingMaterial.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\RingMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\StarfieldMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\Uniform.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\graphics\gl2\Uniform.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="jenkins"
+			>
+			<File
+				RelativePath="..\..\contrib\jenkins\lookup3.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\jenkins\lookup3.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="win32"
+			>
+			<File
+				RelativePath="..\..\src\win32\FileSystemWin32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\msvc_bug.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\OSWin32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\Win32Setup.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\WinMath.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\win32\WinMath.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="miniz"
+			>
+			<File
+				RelativePath="..\..\contrib\miniz\miniz.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\miniz\miniz.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="lua"
+			>
+			<File
+				RelativePath="..\..\contrib\lua\lapi.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lapi.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lauxlib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lauxlib.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lbaselib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lbitlib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lcode.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lcode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lcorolib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lctype.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lctype.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\ldblib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\ldebug.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\ldebug.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\ldo.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\ldo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\ldump.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lfunc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lfunc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lgc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lgc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\linit.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\liolib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\llex.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\llex.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\llimits.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lmathlib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lmem.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lmem.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\loadlib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lobject.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lobject.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lopcodes.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lopcodes.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\loslib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lparser.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lparser.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lstate.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lstate.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lstring.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lstring.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lstrlib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\ltable.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\ltable.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\ltablib.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\ltm.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\ltm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lua.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lua.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\luaconf.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lualib.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lundump.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lundump.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lvm.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lvm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lzio.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\contrib\lua\lzio.h"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath="..\..\src\Color.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\Color.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\CRC32.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\CRC32.h"
+			>
+		</File>
 		<File
 			RelativePath="..\..\src\enum_table.cpp"
 			>
@@ -510,19 +1036,27 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\FontConfig.cpp"
+			RelativePath="..\..\src\FileSourceZip.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\FontConfig.h"
+			RelativePath="..\..\src\FileSourceZip.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\FontManager.cpp"
+			RelativePath="..\..\src\FileSystem.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\FontManager.h"
+			RelativePath="..\..\src\FileSystem.h"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\FontCache.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\FontCache.h"
 			>
 		</File>
 		<File
@@ -542,195 +1076,11 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\contrib\lua\lapi.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lapi.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lauxlib.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lauxlib.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lbaselib.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lcode.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lcode.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\ldblib.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\ldebug.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\ldebug.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\ldo.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\ldo.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\ldump.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lfunc.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lfunc.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lgc.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lgc.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\libs.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\linit.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\liolib.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\llex.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\llex.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\llimits.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lmathlib.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lmem.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lmem.h"
-			>
-		</File>
-		<File
 			RelativePath="..\..\src\LmrModel.cpp"
 			>
 		</File>
 		<File
 			RelativePath="..\..\src\LmrModel.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\loadlib.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lobject.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lobject.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lopcodes.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lopcodes.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\loslib.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lparser.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lparser.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lstate.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lstate.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lstring.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lstring.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lstrlib.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\ltable.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\ltable.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\ltablib.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\ltm.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\ltm.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lua.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\luaconf.h"
 			>
 		</File>
 		<File
@@ -742,7 +1092,11 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\contrib\lua\lualib.h"
+			RelativePath="..\..\src\LuaMatrix.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\LuaMatrix.h"
 			>
 		</File>
 		<File
@@ -758,27 +1112,11 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\contrib\lua\lundump.c"
+			RelativePath="..\..\src\LuaVector.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\contrib\lua\lundump.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lvm.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lvm.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lzio.c"
-			>
-		</File>
-		<File
-			RelativePath="..\..\contrib\lua\lzio.h"
+			RelativePath="..\..\src\LuaVector.h"
 			>
 		</File>
 		<File
@@ -786,19 +1124,11 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\MyLuaMathTypes.cpp"
+			RelativePath="..\..\src\ModManager.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\MyLuaMathTypes.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\win32\src\pch.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\win32\src\pch.h"
+			RelativePath="..\..\src\ModManager.h"
 			>
 		</File>
 		<File
@@ -810,39 +1140,19 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\contrib\lua\print.c"
+			RelativePath="..\..\src\PngWriter.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\render\Render.cpp"
+			RelativePath="..\..\src\PngWriter.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\render\Render.h"
+			RelativePath="..\..\src\SDLWrappers.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\render\RenderShader.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\render\RenderShader.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\render\RenderTarget.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\render\RenderTarget.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\render\RenderTexture.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\render\RenderTexture.h"
+			RelativePath="..\..\src\SDLWrappers.h"
 			>
 		</File>
 		<File
@@ -862,19 +1172,7 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\TextureFont.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\TextureFont.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\TextureManager.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\TextureManager.h"
+			RelativePath="..\..\src\win32\TextUtils.h"
 			>
 		</File>
 		<File
@@ -887,22 +1185,6 @@
 		</File>
 		<File
 			RelativePath="..\..\src\vector3.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\VectorFont.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\src\VectorFont.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\win32\src\win32-dirent.cpp"
-			>
-		</File>
-		<File
-			RelativePath="..\..\win32\src\win32-dirent.h"
 			>
 		</File>
 	</Files>

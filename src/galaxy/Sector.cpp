@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Sector.h"
@@ -22,9 +22,10 @@ void Sector::GetCustomSystems()
 	const std::vector<CustomSystem*> &systems = CustomSystem::GetCustomSystemsForSector(sx, sy, sz);
 	if (systems.size() == 0) return;
 
-	for (std::vector<CustomSystem*>::const_iterator it = systems.begin(); it != systems.end(); it++) {
+	Uint32 sysIdx = 0;
+	for (std::vector<CustomSystem*>::const_iterator it = systems.begin(); it != systems.end(); it++, sysIdx++) {
 		const CustomSystem *cs = *it;
-		System s(sx, sy, sz);
+		System s(sx, sy, sz, sysIdx);
 		s.p = SIZE*cs->pos;
 		s.name = cs->name;
 		for (s.numStars=0; s.numStars<cs->numStars; s.numStars++) {
@@ -57,7 +58,7 @@ Sector::Sector(int x, int y, int z)
 		int numSystems = (rng.Int32(4,20) * Galaxy::GetSectorDensity(x, y, z)) >> 8;
 
 		for (int i=0; i<numSystems; i++) {
-			System s(sx, sy, sz);
+			System s(sx, sy, sz, customCount + i);
 
 			switch (rng.Int32(15)) {
 				case 0:

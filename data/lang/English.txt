@@ -588,8 +588,8 @@ DECREASE_SCAN_RANGE
 	Decrease scanner range
 TOGGLE_LUA_CONSOLE
     Toggle Lua console
-TOGGLE_MANUAL_ROTATION
-	Manual rotation
+TOGGLE_ROTATION_DAMPING
+	Toggle rotation damping
 TOGGLE_HUD_MODE
     Toggle HUD mode
 JOYSTICK_INPUT
@@ -602,34 +602,12 @@ YAW
     Yaw
 MISSILE
     missile
-HARMLESS
-    Harmless
-MOSTLY_HARMLESS
-    Mostly harmless
-POOR
-    Poor
-AVERAGE
-    Average
-ABOVE_AVERAGE
-    Above Average
-COMPETENT
-    Competent
-DANGEROUS
-    Dangerous
-DEADLY
-    Deadly
-ELITE
-    ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulating evolution of the universe: %age{f.1} billion years ;-)
 TOMBSTONE_EPITAPH
     RIP OLD BEAN
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Pioneering Pilots' Guild
-RIGHT_ON_COMMANDER
-    Well done commander! Your combat rating has improved!
 ALERT_CANCELLED
     Alert cancelled.
 SHIP_DETECTED_NEARBY
@@ -782,6 +760,10 @@ STAR_SYSTEM_INFORMATION
     Star system information
 GALACTIC_VIEW
     Galactic view
+ROTATION_DAMPING_ON
+	Rotation damping on
+ROTATION_DAMPING_OFF
+	Rotation damping off
 NO_ALERT
     No alert
 SHIP_NEARBY
