@@ -32,5 +32,7 @@ Asking wage: {wage} per week
 {response}
 ]],
 		['Make offer of position on ship for stated amount'] = 'Make offer of position on ship for stated amount',
+		['Suggest new weekly wage of {newAmount}'] = 'Suggest new weekly wage of {newAmount}',
+		["Thanks, I'll get settled on board immediately."] = "Thanks, I'll get settled on board immediately.",
 	}
 })

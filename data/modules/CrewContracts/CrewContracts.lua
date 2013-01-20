@@ -156,6 +156,7 @@ local onCreateBB = function (station)
 
 		if option == -1 then
 			-- Hang up
+			candidate = nil
 			form:Close()
 			return
 		end
@@ -187,7 +188,7 @@ local onCreateBB = function (station)
 												+c.navigation
 												+c.sensors
 				-- Either base wage on experience, or as a slight increase on their previous wage
-				c.estimatedWage = c.contract and c.contract.wage + 5 or wageFromScore(c.experienceScore)
+				c.estimatedWage = c.contract and c.contract.wage + 5 or c.estimatedWage or wageFromScore(c.experienceScore)
 			end
 			-- Now add any non-persistent characters (which are persistent only in the sense
 			-- that this BB ad is storing them)
@@ -198,7 +199,7 @@ local onCreateBB = function (station)
 												+c.navigation
 												+c.sensors
 				-- Base wage on experience
-				c.estimatedWage = wageFromScore(c.experienceScore)
+				c.estimatedWage = c.estimatedWage or wageFromScore(c.experienceScore)
 			end
 
 			form:SetTitle(t("Crew for hire"))
@@ -222,6 +223,8 @@ local onCreateBB = function (station)
 			form:SetFace(candidate)
 			form:Clear()
 			candidate:PrintStats()
+			print("Attitude: ",candidate.playerRelationship)
+			print("Aspiration: ",candidate.estimatedWage)
 			form:SetMessage(t('crewDetailSheetBB'):interp({
 				name = candidate.name,
 				experience = experience,
@@ -229,7 +232,7 @@ local onCreateBB = function (station)
 				response = response,
 			}))
 			form:AddOption(t('Make offer of position on ship for stated amount'),1)
-			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(math.floor(offer*2))}),2)
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer*2)}),2)
 			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+5)}),3)
 			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-5)}),4)
 			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(math.floor(offer/2))}),5)
@@ -237,34 +240,81 @@ local onCreateBB = function (station)
 			form:AddOption(t('HANG_UP'), -1)
 		end
 		
-		if option > 0 and not candidate then
-			-- Now we've a candidate, option values will indicate conversation state
-			-- so we track the current candidate directly
-			candidate = crewInThisStation[option]
-			offer = candidate.estimatedWage
-			showCandidateDetails('')
-		end
-
-		if option > 0 and candidate then
+		if option > 0 then
+			
+			if not candidate then
+				-- Absence of candidate indicates that option is to select a candidate,
+				-- and that is all.
+				candidate = crewInThisStation[option]
+				offer = candidate.estimatedWage
+				showCandidateDetails('')
+				return
+			end
 
 			if option == 1 then
 				-- Offer of employment
+				form:Clear()
+				offer = nil
+				candidate = nil
+				if candidate:TestRoll(playerRelationship,10) then
+					-- Boosting roll by 10, because they want to work
+					if Game.player:Enroll(candidate) then
+						candidate.contract = {
+							wage = offer,
+							payday = Game.time + wage_period,
+							outstanding = 0
+						}
+						form:SetMessage(t("Thanks, I'll get settled on board immediately."))
+						form:AddOption(t('GO_BACK'), 0)
+						form:AddOption(t('HANG_UP'), -1)
+					else
+						form:SetMessage(t("Sorry, there seems to be a problem. Do you already have a full crew?"))
+						form:AddOption(t('GO_BACK'), 0)
+						form:AddOption(t('HANG_UP'), -1)
+					end
+				else
+					form:SetMessage(t("I'm sorry, your offer isn't attractive to me."))
+					form:AddOption(t('GO_BACK'), 0)
+					form:AddOption(t('HANG_UP'), -1)
+				end
 			end
 
 			if option == 2 then
 				-- Player suggested doubling the offer
+				candidate.playerRelationship = candidate.playerRelationship + 5
+				offer = offer * 2
+				candidate.estimatedWage = offer -- They'll now re-evaluate themself
+				showCandidateDetails(t("That's extremely generous of you!"))
 			end
 
 			if option == 3 then
 				-- Player suggested an extra $5
+				candidate.playerRelationship = candidate.playerRelationship + 1
+				offer = offer + 5
+				candidate.estimatedWage = offer -- They'll now re-evaluate themself
+				showCandidateDetails(t("That certainly makes this offer look better!"))
 			end
 
 			if option == 4 then
 				-- Player suggested $5 less
+				candidate.playerRelationship = candidate.playerRelationship - 1
+				if candidate:TestRoll(playerRelationship) then
+					offer = offer - 5
+					showCandidateDetails(t("OK, I suppose that's all right."))
+				else
+					showCandidateDetails(t("I'm sorry, I'm not prepared to go any lower."))
+				end				
 			end
 
 			if option == 5 then
 				-- Player suggested halving the offer
+				candidate.playerRelationship = candidate.playerRelationship - 5
+				if candidate:TestRoll(playerRelationship) then
+					offer = math.floor(offer / 2)
+					showCandidateDetails(t("OK, I suppose that's all right."))
+				else
+					showCandidateDetails(t("I'm sorry, I'm not prepared to go any lower."))
+				end				
 			end
 
 		end
