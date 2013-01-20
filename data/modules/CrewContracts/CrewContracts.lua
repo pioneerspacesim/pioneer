@@ -254,8 +254,6 @@ local onCreateBB = function (station)
 			if option == 1 then
 				-- Offer of employment
 				form:Clear()
-				offer = nil
-				candidate = nil
 				if candidate:TestRoll(playerRelationship,10) then
 					-- Boosting roll by 10, because they want to work
 					if Game.player:Enroll(candidate) then
@@ -277,6 +275,8 @@ local onCreateBB = function (station)
 					form:AddOption(t('GO_BACK'), 0)
 					form:AddOption(t('HANG_UP'), -1)
 				end
+				offer = nil
+				candidate = nil
 			end
 
 			if option == 2 then
@@ -327,12 +327,13 @@ end
 
 Event.Register("onCreateBB", onCreateBB)
 
-local loaded_data
-
-Event.Register("onEnterSystem", function()
-	nonPersistentCharactersForCrew = {}
+-- Wipe temporary crew out when hyperspacing
+Event.Register("onEnterSystem", function(ship)
+	if ship:IsPlayer() then nonPersistentCharactersForCrew = {} end
 end)
 
+-- Load temporary crew from saved data
+local loaded_data
 Event.Register("onGameStart", function()
 	if loaded_data then
 		nonPersistentCharactersForCrew = loaded_data.nonPersistentCharactersForCrew
