@@ -34,5 +34,11 @@ Asking wage: {wage} per week
 		['Make offer of position on ship for stated amount'] = 'Make offer of position on ship for stated amount',
 		['Suggest new weekly wage of {newAmount}'] = 'Suggest new weekly wage of {newAmount}',
 		["Thanks, I'll get settled on board immediately."] = "Thanks, I'll get settled on board immediately.",
+		["There doesn't seem to be space for me on board!"] = "There doesn't seem to be space for me on board!",
+		["I'm sorry, your offer isn't attractive to me."] = "I'm sorry, your offer isn't attractive to me.",
+		["That's extremely generous of you!"] = "That's extremely generous of you!",
+		["That certainly makes this offer look better!"] = "That certainly makes this offer look better!",
+		["OK, I suppose that's all right."] = "OK, I suppose that's all right.",
+		["I'm sorry, I'm not prepared to go any lower."] = "I'm sorry, I'm not prepared to go any lower.",
 	}
 })

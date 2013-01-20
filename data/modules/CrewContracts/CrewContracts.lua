@@ -270,7 +270,7 @@ local onCreateBB = function (station)
 							if v == candidate then table.remove(nonPersistentCharactersForCrew[station],k) end
 						end
 					else
-						form:SetMessage(t("Sorry, there seems to be a problem. Do you already have a full crew?"))
+						form:SetMessage(t("There doesn't seem to be space for me on board!"))
 						form:AddOption(t('GO_BACK'), 0)
 						form:AddOption(t('HANG_UP'), -1)
 					end
