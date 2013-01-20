@@ -131,6 +131,7 @@ public:
 	Texture *GetCachedTexture(const std::string &type, const std::string &name);
 	void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);
 	void RemoveCachedTexture(const std::string &type, const std::string &name);
+	void RemoveAllCachedTextures();
 
 	// output human-readable debug info to the given stream
 	virtual bool PrintDebugInfo(std::ostream &out) { return false; }
@@ -162,7 +163,6 @@ private:
 	typedef std::map<TextureCacheKey,RefCountedPtr<Texture>*> TextureCacheMap;
 	TextureCacheMap m_textures;
 
-	void RemoveAllCachedTextures();
 };
 
 // subclass this to store renderer specific information
