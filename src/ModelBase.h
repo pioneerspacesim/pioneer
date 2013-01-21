@@ -18,6 +18,8 @@ public:
 	virtual float GetDrawClipRadius() const = 0;
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params) = 0;
 	virtual RefCountedPtr<CollMesh> CreateCollisionMesh(const LmrObjParams *p) = 0;
+
+	virtual void SetLabel(const std::string&) = 0;
 };
 
 #endif

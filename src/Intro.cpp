@@ -21,11 +21,11 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, -1.f, 0.f), two, Color::BLACK));
 
 	m_model = Pi::FindModel("lanner");
+	m_model->SetLabel(Lang::PIONEER);
 
 	// Model parameters
 	memset(&m_modelParams, 0, sizeof(LmrObjParams));
 	m_modelParams.animationNamespace = "ShipAnimation";
-	m_modelParams.label = Lang::PIONEER;
 	m_modelParams.flightState = Ship::FLYING;
 	m_modelParams.linthrust[2] = -1.f;
 	m_modelParams.animValues[1] = 1.f;
