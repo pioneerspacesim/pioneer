@@ -76,6 +76,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 , m_frameTime(0.f)
 , m_renderer(r)
 , m_decalTexture(0)
+, m_rotX(0), m_rotY(0)
 , m_rng(time(0))
 , m_currentAnimation(0)
 , m_model(0)
@@ -278,34 +279,36 @@ void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
 	switch (key)
 	{
 	case SDLK_KP7: case SDLK_m:
-		m_modelRot = matrix4x4f::RotateXMatrix(invert ? -M_PI/2 : M_PI/2);
+		m_rotX = invert ? 90.f : -90.f;
+		m_rotY = 0.f;
 		AddLog(invert ? "Bottom view" : "Top view");
 		break;
 	case SDLK_KP3: case SDLK_o:
-		m_modelRot = matrix4x4f::RotateYMatrix(invert ? M_PI/2 : -M_PI/2);
+		m_rotX = 0.f;
+		m_rotY = invert ? -90.f : 90.f;
 		AddLog(invert ? "Left view" : "Right view");
 		break;
 	case SDLK_KP1: case SDLK_u:
-		m_modelRot = matrix4x4f::RotateYMatrix(invert ? M_PI : 0.f);
+		m_rotX = 0.f;
+		m_rotY = invert ? 0.f : 180.f;
 		AddLog(invert ? "Rear view" : "Front view");
 		break;
 	case SDLK_KP4: case SDLK_j:
-		m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(M_PI/12);
+		m_rotY += 15.f;
 		break;
 	case SDLK_KP6: case SDLK_l:
-		m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(-M_PI/12);
+		m_rotY -= 15.f;
 		break;
 	case SDLK_KP2: case SDLK_i:
-		m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(-M_PI/12);
+		m_rotX += 15.f;
 		break;
 	case SDLK_KP8: case SDLK_COMMA:
-		m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(M_PI/12);
+		m_rotX -= 15.f;
 		break;
 	default:
 		break;
 		//no others yet
 	}
-	m_camPos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius() * 1.5f);
 }
 
 void ModelViewer::ClearModel()
@@ -436,7 +439,12 @@ void ModelViewer::DrawModel()
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	UpdateLights();
 
-	matrix4x4f mv = matrix4x4f::Translation(-m_camPos) * m_modelRot.InverseOf();
+	m_rotX = Clamp(m_rotX, -90.0f, 90.0f);
+	matrix4x4f rot = matrix4x4f::Identity();
+	rot.RotateY(DEG2RAD(-m_rotY));
+	rot.RotateX(DEG2RAD(-m_rotX));
+
+	matrix4x4f mv = matrix4x4f::Translation(-m_camPos) * rot.InverseOf();
 
 	if (m_options.showGrid)
 		DrawGrid(mv, m_model->GetDrawClipRadius());
@@ -671,7 +679,7 @@ void ModelViewer::ResetCamera()
 	else
 		m_camPos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius() * 1.5f);
 	//m_camOrient = matrix4x4f::Identity();
-	m_modelRot = matrix4x4f::Identity();
+	m_rotX = m_rotY = 0.f;
 }
 
 void ModelViewer::ResetThrusters()
@@ -990,26 +998,31 @@ void ModelViewer::UpdateAnimList()
 
 void ModelViewer::UpdateCamera()
 {
-	float rate = 10.f * m_frameTime;
-	if (m_keyStates[SDLK_LSHIFT]) rate = 200.f * m_frameTime;
-	if (m_keyStates[SDLK_RSHIFT]) rate = 50.f * m_frameTime;
+	float zoomRate = 10.f * m_frameTime;
+	float moveRate = 25.f * m_frameTime;
+	if (m_keyStates[SDLK_LSHIFT]) {
+		zoomRate = 200.f * m_frameTime;
+		moveRate = 100.f * m_frameTime;
+	}
+	else if (m_keyStates[SDLK_RSHIFT]) {
+		zoomRate = 50.f * m_frameTime;
+		moveRate = 50.f * m_frameTime;
+	}
 
 	//zoom
-	if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * rate;
-	if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * rate;
+	if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * zoomRate;
+	if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * zoomRate;
 
 	//rotate
-	if (m_keyStates[SDLK_UP]) m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(m_frameTime);
-	if (m_keyStates[SDLK_DOWN]) m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(-m_frameTime);
-	if (m_keyStates[SDLK_LEFT]) m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(-m_frameTime);
-	if (m_keyStates[SDLK_RIGHT]) m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(m_frameTime);
+	if (m_keyStates[SDLK_UP]) m_rotX += moveRate;
+	if (m_keyStates[SDLK_DOWN]) m_rotX -= moveRate;
+	if (m_keyStates[SDLK_LEFT]) m_rotY += moveRate;
+	if (m_keyStates[SDLK_RIGHT]) m_rotY -= moveRate;
 
 	//mouse rotate when right button held
 	if (m_mouseButton[SDL_BUTTON_RIGHT]) {
-		const float rx = 0.01f*m_mouseMotion[1];
-		const float ry = 0.01f*m_mouseMotion[0];
-		m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(rx);
-		m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(ry);
+		m_rotY += 0.2f*m_mouseMotion[0];
+		m_rotX += 0.2f*m_mouseMotion[1];
 	}
 }
 

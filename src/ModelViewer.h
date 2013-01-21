@@ -77,7 +77,7 @@ private:
 	double m_frameTime;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;
-	matrix4x4f m_modelRot;
+	float m_rotX, m_rotY;
 	ModelParams m_modelParams;
 	MTRand m_rng;
 	SceneGraph::Animation *m_currentAnimation;
