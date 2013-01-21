@@ -1,0 +1,22 @@
+# Wave
+
+material wave-material
+diffuse 0.7 0.7 0.7
+specular 0.05 0.05 0.05
+shininess 100
+tex_diff wave.png
+
+material glow-material
+diffuse 0.9 0.9 0.9
+specular 0 0 0
+emissive 0.85 0.85 0.85
+tex_diff glow.png
+
+lod 300
+mesh wave-mq.dae
+
+lod 1000
+mesh wave.dae
+anim gear_down 0 99
+
+collision wave-collision.obj
