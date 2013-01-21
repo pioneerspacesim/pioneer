@@ -277,28 +277,28 @@ void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
 
 	switch (key)
 	{
-	case SDLK_KP7:
+	case SDLK_KP7: case SDLK_m:
 		m_modelRot = matrix4x4f::RotateXMatrix(invert ? -M_PI/2 : M_PI/2);
 		AddLog(invert ? "Bottom view" : "Top view");
 		break;
-	case SDLK_KP3:
+	case SDLK_KP3: case SDLK_o:
 		m_modelRot = matrix4x4f::RotateYMatrix(invert ? M_PI/2 : -M_PI/2);
 		AddLog(invert ? "Left view" : "Right view");
 		break;
-	case SDLK_KP1:
+	case SDLK_KP1: case SDLK_u:
 		m_modelRot = matrix4x4f::RotateYMatrix(invert ? M_PI : 0.f);
 		AddLog(invert ? "Rear view" : "Front view");
 		break;
-	case SDLK_KP4:
+	case SDLK_KP4: case SDLK_j:
 		m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(M_PI/12);
 		break;
-	case SDLK_KP6:
+	case SDLK_KP6: case SDLK_l:
 		m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(-M_PI/12);
 		break;
-	case SDLK_KP2:
+	case SDLK_KP2: case SDLK_i:
 		m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(-M_PI/12);
 		break;
-	case SDLK_KP8:
+	case SDLK_KP8: case SDLK_COMMA:
 		m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(M_PI/12);
 		break;
 	default:
@@ -635,13 +635,13 @@ void ModelViewer::PollEvents()
 				if (event.key.keysym.mod & KMOD_SHIFT)
 					m_renderer->ReloadShaders();
 				break;
-			case SDLK_KP1:
-			case SDLK_KP2:
-			case SDLK_KP3:
-			case SDLK_KP4:
-			case SDLK_KP6:
-			case SDLK_KP7:
-			case SDLK_KP8:
+			case SDLK_KP1: case SDLK_u:
+			case SDLK_KP2: case SDLK_i:
+			case SDLK_KP3: case SDLK_o:
+			case SDLK_KP4: case SDLK_j:
+			case SDLK_KP6: case SDLK_l:
+			case SDLK_KP7: case SDLK_m:
+			case SDLK_KP8: case SDLK_COMMA:
 				ChangeCameraPreset(event.key.keysym.sym, event.key.keysym.mod);
 				break;
 			case SDLK_r: //random colors, eastereggish
