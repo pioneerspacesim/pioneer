@@ -441,8 +441,8 @@ void ModelViewer::DrawModel()
 
 	m_rotX = Clamp(m_rotX, -90.0f, 90.0f);
 	matrix4x4f rot = matrix4x4f::Identity();
-	rot.RotateY(DEG2RAD(-m_rotY));
-	rot.RotateX(DEG2RAD(-m_rotX));
+	rot.RotateY(DEG2RAD(m_rotY));
+	rot.RotateX(DEG2RAD(m_rotX));
 
 	matrix4x4f mv = matrix4x4f::Translation(-m_camPos) * rot.InverseOf();
 
