@@ -1,7 +1,7 @@
 # Wave
 
 material wave-material
-diffuse 0.7 0.7 0.7
+diffuse 0.9 0.9 0.9
 specular 0.05 0.05 0.05
 shininess 100
 tex_diff wave.png
