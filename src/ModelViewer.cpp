@@ -991,7 +991,8 @@ void ModelViewer::UpdateAnimList()
 void ModelViewer::UpdateCamera()
 {
 	float rate = 10.f * m_frameTime;
-	if (m_keyStates[SDLK_LSHIFT]) rate = 50.f * m_frameTime;
+	if (m_keyStates[SDLK_LSHIFT]) rate = 200.f * m_frameTime;
+	if (m_keyStates[SDLK_RSHIFT]) rate = 50.f * m_frameTime;
 
 	//zoom
 	if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * rate;
