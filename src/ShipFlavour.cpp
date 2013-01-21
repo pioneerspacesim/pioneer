@@ -77,10 +77,14 @@ void ShipFlavour::MakeTrulyRandom(ShipFlavour &v, bool atmospheric)
 
 void ShipFlavour::ApplyTo(LmrObjParams *p) const
 {
-	p->label = regid.c_str();
 	p->pMat[0] = primaryColor;
 	p->pMat[1] = secondaryColor;
 	p->pMat[2] = s_white;
+}
+
+void ShipFlavour::ApplyTo(ModelBase *m) const
+{
+	m->SetLabel(regid);
 }
 
 void ShipFlavour::SaveLmrMaterial(Serializer::Writer &wr, LmrMaterial *m)
