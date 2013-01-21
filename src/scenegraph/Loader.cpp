@@ -180,6 +180,11 @@ Graphics::Texture *Loader::GetWhiteTexture() const
 	return Graphics::TextureBuilder::Model("textures/white.png").GetOrCreateTexture(m_renderer, "model");
 }
 
+Graphics::Texture *Loader::GetTransparentTexture() const
+{
+	return Graphics::TextureBuilder::Model("textures/transparent.png").GetOrCreateTexture(m_renderer, "model");
+}
+
 Model *Loader::CreateModel(ModelDefinition &def)
 {
 	using Graphics::Material;
@@ -436,6 +441,7 @@ RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 		matDesc.textures = 1;
 		matDesc.lighting = true;
 		decMat.Reset(m_renderer->CreateMaterial(matDesc));
+		decMat->texture0 = GetTransparentTexture();
 		decMat->specular = Color::BLACK;
 		decMat->diffuse = Color::WHITE;
 	}
