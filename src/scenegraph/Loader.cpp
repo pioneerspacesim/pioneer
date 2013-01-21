@@ -558,6 +558,8 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		//take TPS from the first animation
 		const aiAnimation* firstAnim = scene->mAnimations[0];
 		const double ticksPerSecond = firstAnim->mTicksPerSecond > 0.0 ? firstAnim->mTicksPerSecond : 24.0;
+		const double secondsPerTick = 1.0 / ticksPerSecond;
+
 		double start = DBL_MAX;
 		double end = 0.0;
 
@@ -596,9 +598,10 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 					const aiVectorKey &aikey = aichan->mPositionKeys[k];
 					const aiVector3D &aipos = aikey.mValue;
 					if (in_range(aikey.mTime, defStart, defEnd)) {
-						chan.positionKeys.push_back(PositionKey(aikey.mTime - defStart, vector3f(aipos.x, aipos.y, aipos.z)));
-						start = std::min(start, aikey.mTime);
-						end = std::max(end, aikey.mTime);
+						const double t = aikey.mTime * secondsPerTick;
+						chan.positionKeys.push_back(PositionKey(t, vector3f(aipos.x, aipos.y, aipos.z)));
+						start = std::min(start, t);
+						end = std::max(end, t);
 					}
 				}
 
@@ -610,9 +613,10 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 					const aiQuatKey &aikey = aichan->mRotationKeys[k];
 					const aiQuaternion &airot = aikey.mValue;
 					if (in_range(aikey.mTime, defStart, defEnd)) {
-						chan.rotationKeys.push_back(RotationKey(aikey.mTime - defStart, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
-						start = std::min(start, aikey.mTime);
-						end = std::max(end, aikey.mTime);
+						const double t = aikey.mTime * secondsPerTick;
+						chan.rotationKeys.push_back(RotationKey(t, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
+						start = std::min(start, t);
+						end = std::max(end, t);
 					}
 				}
 
@@ -620,15 +624,30 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 					const aiVectorKey &aikey = aichan->mScalingKeys[k];
 					const aiVector3D &aipos = aikey.mValue;
 					if (in_range(aikey.mTime, defStart, defEnd)) {
-						chan.scaleKeys.push_back(ScaleKey(aikey.mTime - defStart, vector3f(aipos.x, aipos.y, aipos.z)));
-						start = std::min(start, aikey.mTime);
-						end = std::max(end, aikey.mTime);
+						const double t = aikey.mTime * secondsPerTick;
+						chan.scaleKeys.push_back(ScaleKey(t, vector3f(aipos.x, aipos.y, aipos.z)));
+						start = std::min(start, t);
+						end = std::max(end, t);
 					}
 				}
 			}
 		}
 
-		//set actual duration
+		// convert remove initial offset (so the first keyframe is at exactly t=0)
+		for (std::vector<AnimationChannel>::iterator chan = animation->m_channels.begin();
+				chan != animation->m_channels.end(); ++chan) {
+			for (unsigned int k = 0; k < chan->positionKeys.size(); ++k) {
+				chan->positionKeys[k].time -= start;
+			}
+			for (unsigned int k = 0; k < chan->rotationKeys.size(); ++k) {
+				chan->rotationKeys[k].time -= start;
+			}
+			for (unsigned int k = 0; k < chan->scaleKeys.size(); ++k) {
+				chan->scaleKeys[k].time -= start;
+			}
+		}
+
+		// set actual duration
 		animation->m_duration = end - start;
 
 		//do final sanity checking before adding
