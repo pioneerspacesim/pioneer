@@ -26,8 +26,8 @@ enum NodeMask {
 class Node : public RefCounted
 {
 public:
-	Node();
-	Node(unsigned int nodemask);
+	Node(Graphics::Renderer *r);
+	Node(Graphics::Renderer *r, unsigned int nodemask);
 	virtual const char *GetTypeName() { return "Node"; }
 	virtual void Accept(NodeVisitor &v);
 	virtual void Traverse(NodeVisitor &v);
@@ -41,12 +41,15 @@ public:
 	unsigned int GetNodeMask() const { return m_nodeMask; }
 	void SetNodeMask(unsigned int m) { m_nodeMask = m; }
 
+	Graphics::Renderer *GetRenderer() const { return m_renderer; }
+
 protected:
 	//can only to be deleted using DecRefCount
 	virtual ~Node() { }
 	Node *m_parent;
 	std::string m_name;
 	unsigned int m_nodeMask;
+	Graphics::Renderer *m_renderer;
 };
 
 }

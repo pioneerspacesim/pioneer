@@ -8,8 +8,8 @@
 
 namespace SceneGraph {
 
-Label3D::Label3D(RefCountedPtr<Text::DistanceFieldFont> font, Graphics::Renderer *r)
-: Node(NODE_SOLID) //appropriate for alpha testing
+Label3D::Label3D(Graphics::Renderer *r, RefCountedPtr<Text::DistanceFieldFont> font)
+: Node(r, NODE_SOLID) //appropriate for alpha testing
 , m_font(font)
 {
 	Graphics::MaterialDescriptor matdesc;

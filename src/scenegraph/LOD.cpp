@@ -7,7 +7,7 @@
 
 namespace SceneGraph {
 
-LOD::LOD() : Group()
+LOD::LOD(Graphics::Renderer *r) : Group(r)
 {
 }
 

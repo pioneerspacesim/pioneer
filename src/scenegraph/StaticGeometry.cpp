@@ -10,8 +10,8 @@
 
 namespace SceneGraph {
 
-StaticGeometry::StaticGeometry()
-: Node(NODE_SOLID)
+StaticGeometry::StaticGeometry(Graphics::Renderer *r)
+: Node(r, NODE_SOLID)
 , m_blendMode(Graphics::BLEND_SOLID)
 {
 }

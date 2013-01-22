@@ -16,13 +16,14 @@ public:
 	std::string label;
 };
 
-Model::Model(const std::string &name)
+Model::Model(Graphics::Renderer *r, const std::string &name)
 : ModelBase()
 , m_lastTime(0.0)
 , m_boundingRadius(10.f)
+, m_renderer(r)
 , m_name(name)
 {
-	m_root.Reset(new Group());
+	m_root.Reset(new Group(m_renderer));
 	m_root->SetName(name);
 }
 

@@ -6,15 +6,15 @@
 
 namespace SceneGraph {
 
-Billboard::Billboard(RefCountedPtr<Graphics::Material> mat, float size)
-: Node(NODE_TRANSPARENT)
+Billboard::Billboard(Graphics::Renderer *r, RefCountedPtr<Graphics::Material> mat, float size)
+: Node(r, NODE_TRANSPARENT)
 , m_size(size)
 , m_material(mat)
 {
 }
 
-Billboard::Billboard(const std::vector<vector3f> &pts, RefCountedPtr<Graphics::Material> mat, float size)
-: Node(NODE_TRANSPARENT)
+Billboard::Billboard(Graphics::Renderer *r, const std::vector<vector3f> &pts, RefCountedPtr<Graphics::Material> mat, float size)
+: Node(r, NODE_TRANSPARENT)
 , m_size(size)
 , m_material(mat)
 , m_points(pts)

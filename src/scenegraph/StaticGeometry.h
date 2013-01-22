@@ -19,7 +19,7 @@ class NodeVisitor;
 class StaticGeometry : public Node
 {
 public:
-	StaticGeometry();
+	StaticGeometry(Graphics::Renderer *r);
 	virtual const char *GetTypeName() { return "StaticGeometry"; }
 	virtual void Accept(NodeVisitor &nv);
 	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);

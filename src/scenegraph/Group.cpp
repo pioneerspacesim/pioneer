@@ -6,8 +6,8 @@
 
 namespace SceneGraph {
 
-Group::Group()
-: Node(NODE_SOLID | NODE_TRANSPARENT)
+Group::Group(Graphics::Renderer *r)
+: Node(r, NODE_SOLID | NODE_TRANSPARENT)
 {
 }
 

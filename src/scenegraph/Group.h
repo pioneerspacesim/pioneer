@@ -12,7 +12,7 @@ namespace SceneGraph {
 class Group : public Node
 {
 public:
-	Group();
+	Group(Graphics::Renderer *r);
 	virtual const char *GetTypeName() { return "Group"; }
 	virtual void AddChild(Node *child);
 	virtual bool RemoveChild(Node *node); //true on success

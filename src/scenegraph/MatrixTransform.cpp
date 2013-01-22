@@ -6,8 +6,8 @@
 #include "graphics/Renderer.h"
 namespace SceneGraph {
 
-MatrixTransform::MatrixTransform(const matrix4x4f &m)
-: Group()
+MatrixTransform::MatrixTransform(Graphics::Renderer *r, const matrix4x4f &m)
+: Group(r)
 , m_transform(m)
 {
 }

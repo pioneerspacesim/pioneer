@@ -7,15 +7,17 @@
 
 namespace SceneGraph {
 
-Node::Node()
+Node::Node(Graphics::Renderer *r)
 : m_name("")
 , m_nodeMask(NODE_SOLID)
+, m_renderer(r)
 {
 }
 
-Node::Node(unsigned int nodemask)
+Node::Node(Graphics::Renderer *r, unsigned int nodemask)
 : m_name("")
 , m_nodeMask(nodemask)
+, m_renderer(r)
 {
 }
 

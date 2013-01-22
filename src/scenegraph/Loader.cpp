@@ -186,7 +186,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 	if (def.matDefs.empty()) return 0;
 	if (def.lodDefs.empty()) return 0;
 
-	Model *model = new Model(def.name);
+	Model *model = new Model(m_renderer, def.name);
 	m_model = model;
 	bool patternsUsed = false;
 
@@ -247,7 +247,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 	std::map<std::string, RefCountedPtr<Node> > meshCache;
 	LOD *lodNode = 0;
 	if (def.lodDefs.size() > 1) { //don't bother with a lod node if only one level
-		lodNode = new LOD();
+		lodNode = new LOD(m_renderer);
 		model->GetRoot()->AddChild(lodNode);
 	}
 	for(std::vector<LodDefinition>::const_iterator lod = def.lodDefs.begin();
@@ -256,7 +256,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		//does a detail level have multiple meshes? If so, we need a Group.
 		Group *group = 0;
 		if (lodNode && (*lod).meshNames.size() > 1) {
-			group = new Group();
+			group = new Group(m_renderer);
 			lodNode->AddLevel((*lod).pixelSize, group);
 		}
 		for(std::vector<std::string>::const_iterator it = (*lod).meshNames.begin();
@@ -317,7 +317,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		++it)
 	{
 		const vector3f &pos = (*it).position;
-		RefCountedPtr<MatrixTransform> tagTrans(new MatrixTransform(matrix4x4f::Translation(pos.x, pos.y, pos.z)));
+		RefCountedPtr<MatrixTransform> tagTrans(new MatrixTransform(m_renderer, matrix4x4f::Translation(pos.x, pos.y, pos.z)));
 		model->AddTag((*it).name, tagTrans.Get());
 	}
 
@@ -389,7 +389,7 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 
 	// Recursive structure conversion. Matrix needs to be accumulated for
 	// special features that are absolute-positioned (thrusters)
-	RefCountedPtr<Node> meshRoot(new Group());
+	RefCountedPtr<Node> meshRoot(new Group(m_renderer));
 
 	ConvertNodes(scene->mRootNode, static_cast<Group*>(meshRoot.Get()), surfaces, matrix4x4f::Identity());
 	ConvertAnimations(scene, animDefs, static_cast<Group*>(meshRoot.Get()));
@@ -662,8 +662,8 @@ matrix4x4f Loader::ConvertMatrix(const aiMatrix4x4& trans) const
 
 void Loader::CreateLabel(Group *parent, const matrix4x4f &m)
 {
-	MatrixTransform *trans = new MatrixTransform(m);
-	Label3D *label = new Label3D(m_labelFont, m_renderer);
+	MatrixTransform *trans = new MatrixTransform(m_renderer, m);
+	Label3D *label = new Label3D(m_renderer, m_labelFont);
 	label->SetText("Bananas");
 	trans->AddChild(label);
 	parent->AddChild(trans);
@@ -680,7 +680,7 @@ void Loader::CreateLight(Group *parent, const matrix4x4f &m)
 	RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial(desc));
 	mat->texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(m_renderer, "billboard");
 	mat->diffuse = Color(1.f, 0.f, 0.f, 1.f);
-	Billboard *bill = new Billboard(points, mat, 1.f);
+	Billboard *bill = new Billboard(m_renderer, points, mat, 1.f);
 	parent->AddChild(bill);
 }
 
@@ -690,7 +690,7 @@ void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const std::strin
 	//not supposed to create a new thruster node every time since they contain their geometry
 	//it is fine to create one thruster node and add that to various parents
 	//(it wouldn't really matter, it's a tiny amount of geometry)
-	MatrixTransform *trans = new MatrixTransform(m);
+	MatrixTransform *trans = new MatrixTransform(m_renderer, m);
 
 	//need the accumulated transform or the direction is off
 	matrix4x4f transform = accum * m;
@@ -724,7 +724,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 			CreateLabel(parent, m);
 		} else if (starts_with(nodename, "tag_")) {
 			vector3f tagpos = accum * m.GetTranslate();
-			MatrixTransform *tagMt = new MatrixTransform(matrix4x4f::Translation(tagpos));
+			MatrixTransform *tagMt = new MatrixTransform(m_renderer, matrix4x4f::Translation(tagpos));
 			m_model->AddTag(nodename, tagMt);
 		}
 		return;
@@ -732,7 +732,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 
 	//if the transform is identity and the node is not animated,
 	//could just add a group
-	parent = new MatrixTransform(m);
+	parent = new MatrixTransform(m_renderer, m);
 	_parent->AddChild(parent);
 	parent->SetName(nodename);
 
@@ -740,7 +740,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 	if (node->mNumMeshes == 1 && starts_with(nodename, "collision_")) {
 		const unsigned int collflag = GetGeomFlagForNodeName(nodename);
 		RefCountedPtr<Graphics::Surface> surf = surfaces.at(node->mMeshes[0]);
-		RefCountedPtr<CollisionGeometry> cgeom(new CollisionGeometry(surf.Get(), collflag));
+		RefCountedPtr<CollisionGeometry> cgeom(new CollisionGeometry(m_renderer, surf.Get(), collflag));
 		cgeom->SetName(nodename + "_cgeom");
 		parent->AddChild(cgeom.Get());
 		return;
@@ -750,7 +750,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 	if (node->mNumMeshes > 0) {
 		//is this node animated? add a transform
 		//does this node have children? Add a group
-		RefCountedPtr<StaticGeometry> geom(new StaticGeometry());
+		RefCountedPtr<StaticGeometry> geom(new StaticGeometry(m_renderer));
 		geom->SetName(nodename + "_mesh");
 		RefCountedPtr<Graphics::StaticMesh> smesh(new Graphics::StaticMesh(Graphics::TRIANGLES));
 
@@ -865,7 +865,7 @@ void Loader::LoadCollision(const std::string &filename)
 	assert(!vertices.empty() && !vertices.empty());
 
 	//add pre-transformed geometry at the top level
-	m_model->GetRoot()->AddChild(new CollisionGeometry(vertices, indices, 0));
+	m_model->GetRoot()->AddChild(new CollisionGeometry(m_renderer, vertices, indices, 0));
 }
 
 unsigned int Loader::GetGeomFlagForNodeName(const std::string &nodename)

@@ -14,7 +14,7 @@ static const std::string thrusterGlowTextureFilename("textures/halo.png");
 static Color baseColor(0.7f, 0.6f, 1.f, 1.f);
 
 Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, const vector3f &_dir)
-: Node(NODE_TRANSPARENT)
+: Node(r, NODE_TRANSPARENT)
 , linearOnly(_linear)
 , dir(_dir)
 , pos(_pos)
