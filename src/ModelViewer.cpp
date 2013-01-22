@@ -278,17 +278,17 @@ void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
 
 	switch (key)
 	{
-	case SDLK_KP7: case SDLK_m:
+	case SDLK_KP7: case SDLK_u:
 		m_rotX = invert ? 90.f : -90.f;
 		m_rotY = 0.f;
 		AddLog(invert ? "Bottom view" : "Top view");
 		break;
-	case SDLK_KP3: case SDLK_o:
+	case SDLK_KP3: case SDLK_PERIOD:
 		m_rotX = 0.f;
 		m_rotY = invert ? -90.f : 90.f;
 		AddLog(invert ? "Left view" : "Right view");
 		break;
-	case SDLK_KP1: case SDLK_u:
+	case SDLK_KP1: case SDLK_m:
 		m_rotX = 0.f;
 		m_rotY = invert ? 0.f : 180.f;
 		AddLog(invert ? "Rear view" : "Front view");
@@ -299,10 +299,10 @@ void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
 	case SDLK_KP6: case SDLK_l:
 		m_rotY -= 15.f;
 		break;
-	case SDLK_KP2: case SDLK_i:
+	case SDLK_KP2: case SDLK_COMMA:
 		m_rotX += 15.f;
 		break;
-	case SDLK_KP8: case SDLK_COMMA:
+	case SDLK_KP8: case SDLK_i:
 		m_rotX -= 15.f;
 		break;
 	default:
@@ -648,13 +648,13 @@ void ModelViewer::PollEvents()
 				if (event.key.keysym.mod & KMOD_SHIFT)
 					m_renderer->ReloadShaders();
 				break;
-			case SDLK_KP1: case SDLK_u:
-			case SDLK_KP2: case SDLK_i:
-			case SDLK_KP3: case SDLK_o:
+			case SDLK_KP1: case SDLK_m:
+			case SDLK_KP2: case SDLK_COMMA:
+			case SDLK_KP3: case SDLK_PERIOD:
 			case SDLK_KP4: case SDLK_j:
 			case SDLK_KP6: case SDLK_l:
-			case SDLK_KP7: case SDLK_m:
-			case SDLK_KP8: case SDLK_COMMA:
+			case SDLK_KP7: case SDLK_u:
+			case SDLK_KP8: case SDLK_i:
 				ChangeCameraPreset(event.key.keysym.sym, event.key.keysym.mod);
 				break;
 			case SDLK_r: //random colors, eastereggish
