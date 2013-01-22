@@ -546,7 +546,7 @@ void ModelViewer::OnModelColorsChanged(float)
 	colors.push_back(get_slider_color(colorSliders[0], colorSliders[1], colorSliders[2]));
 	colors.push_back(get_slider_color(colorSliders[3], colorSliders[4], colorSliders[5]));
 	colors.push_back(get_slider_color(colorSliders[6], colorSliders[7], colorSliders[8]));
-	m_model->SetColors(m_renderer, colors);
+	m_model->SetColors(colors);
 }
 
 void ModelViewer::OnPatternChanged(unsigned int index, const std::string &value)

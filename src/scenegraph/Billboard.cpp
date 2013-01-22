@@ -21,8 +21,9 @@ Billboard::Billboard(Graphics::Renderer *r, const std::vector<vector3f> &pts, Re
 {
 }
 
-void Billboard::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
+void Billboard::Render(const matrix4x4f &trans, RenderData *rd)
 {
+	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
 	r->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 	r->DrawPointSprites(m_points.size(), &m_points[0], m_material.Get(), m_size);

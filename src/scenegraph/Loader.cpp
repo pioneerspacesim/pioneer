@@ -337,7 +337,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		colors.push_back(Color4ub::RED);
 		colors.push_back(Color4ub::GREEN);
 		colors.push_back(Color4ub::BLUE);
-		model->SetColors(m_renderer, colors);
+		model->SetColors(colors);
 		model->SetPattern(0);
 	}
 

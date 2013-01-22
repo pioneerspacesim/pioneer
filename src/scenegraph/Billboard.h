@@ -16,7 +16,7 @@ public:
 	Billboard(Graphics::Renderer *r, RefCountedPtr<Graphics::Material>, float size);
 	Billboard(Graphics::Renderer *r, const std::vector<vector3f>&, RefCountedPtr<Graphics::Material>, float size);
 	virtual const char *GetTypeName() { return "Billboard"; }
-	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
+	virtual void Render(const matrix4x4f &trans, RenderData *rd);
 
 	void AddPoint(const vector3f &pt);
 

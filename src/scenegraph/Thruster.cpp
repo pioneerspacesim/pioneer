@@ -63,7 +63,7 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 	m_tMat->diffuse = baseColor;
 }
 
-void Thruster::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
+void Thruster::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	float power = 0.f;
 	power = -dir.Dot(vector3f(rd->linthrust));
@@ -88,6 +88,7 @@ void Thruster::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData
 	}
 	if (power < 0.001f) return;
 
+	Graphics::Renderer *r = GetRenderer();
 	r->SetBlendMode(Graphics::BLEND_ADDITIVE);
 	r->SetDepthWrite(false);
 	r->SetTransform(trans);

@@ -32,22 +32,22 @@ Model::~Model()
 	while(!m_animations.empty()) delete m_animations.back(), m_animations.pop_back();
 }
 
-void Model::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, LmrObjParams *params)
+void Model::Render(const matrix4x4f &trans, LmrObjParams *params)
 {
-	renderer->SetBlendMode(Graphics::BLEND_SOLID);
-	renderer->SetTransform(trans);
+	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
+	m_renderer->SetTransform(trans);
 	//using the entire model bounding radius for all nodes at the moment.
 	//BR could also be a property of Node.
 	params->boundingRadius = GetDrawClipRadius();
 
 	//render in two passes, if this is the top-level model
 	if (params->nodemask & MASK_IGNORE) {
-		m_root->Render(renderer, trans, params);
+		m_root->Render(trans, params);
 	} else {
 		params->nodemask = NODE_SOLID;
-		m_root->Render(renderer, trans, params);
+		m_root->Render(trans, params);
 		params->nodemask = NODE_TRANSPARENT;
-		m_root->Render(renderer, trans, params);
+		m_root->Render(trans, params);
 	}
 }
 
@@ -119,10 +119,10 @@ void Model::SetPattern(unsigned int index)
 	}
 }
 
-void Model::SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &colors)
+void Model::SetColors(const std::vector<Color4ub> &colors)
 {
 	assert(colors.size() == 3); //primary, seconday, trim
-	m_colorMap.Generate(r, colors.at(0), colors.at(1), colors.at(2));
+	m_colorMap.Generate(GetRenderer(), colors.at(0), colors.at(1), colors.at(2));
 	for (MaterialContainer::const_iterator it = m_materials.begin();
 		it != m_materials.end();
 		++it)

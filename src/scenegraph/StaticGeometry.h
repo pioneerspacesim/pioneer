@@ -22,14 +22,14 @@ public:
 	StaticGeometry(Graphics::Renderer *r);
 	virtual const char *GetTypeName() { return "StaticGeometry"; }
 	virtual void Accept(NodeVisitor &nv);
-	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
+	virtual void Render(const matrix4x4f &trans, RenderData *rd);
 	void AddMesh(RefCountedPtr<Graphics::StaticMesh>);
 	Aabb m_boundingBox;
 	Graphics::BlendMode m_blendMode;
 
 protected:
 	~StaticGeometry();
-	void DrawBoundingBox(Graphics::Renderer *r, const Aabb &bb);
+	void DrawBoundingBox(const Aabb &bb);
 	std::vector<RefCountedPtr<Graphics::StaticMesh> > m_meshes;
 	typedef std::vector<RefCountedPtr<Graphics::StaticMesh> > MeshContainer;
 };

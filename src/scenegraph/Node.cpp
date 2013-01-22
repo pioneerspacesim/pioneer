@@ -38,7 +38,7 @@ Node* Node::FindNode(const std::string &name)
 		return 0;
 }
 
-void Node::DrawAxes(Graphics::Renderer *r)
+void Node::DrawAxes()
 {
 	//Draw plain XYZ axes using the current transform
 	const vector3f vtsXYZ[] = {
@@ -58,8 +58,8 @@ void Node::DrawAxes(Graphics::Renderer *r)
 		Color::GREEN,
 	};
 
-	r->SetBlendMode(Graphics::BLEND_SOLID);
-	r->DrawLines(6, vtsXYZ, colors);
+	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
+	m_renderer->DrawLines(6, vtsXYZ, colors);
 }
 
 }

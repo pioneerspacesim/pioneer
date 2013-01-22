@@ -12,11 +12,11 @@ ModelNode::ModelNode(Model *m)
 {
 }
 
-void ModelNode::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
+void ModelNode::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	//slight hack here
 	rd->nodemask |= MASK_IGNORE;
-	m_model->Render(r, trans, rd);
+	m_model->Render(GetRenderer(), trans, rd);
 	rd->nodemask &= ~MASK_IGNORE;
 }
 
