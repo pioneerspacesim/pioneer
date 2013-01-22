@@ -12,7 +12,7 @@ specular 0 0 0
 emissive 0.85 0.85 0.85
 tex_diff glow.png
 
-lod 300
+lod 30
 mesh wave-mq.dae
 
 lod 1000
