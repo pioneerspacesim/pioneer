@@ -591,6 +591,7 @@ void ModelViewer::PollEvents()
 	 *
 	 */
 	m_mouseMotion[0] = m_mouseMotion[1] = 0;
+	m_mouseWheelUp = m_mouseWheelDown = false;
 
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
@@ -607,7 +608,11 @@ void ModelViewer::PollEvents()
 			m_mouseMotion[1] += event.motion.yrel;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
-			m_mouseButton[event.button.button] = true;
+			switch (event.button.button) {
+				case SDL_BUTTON_WHEELUP:   m_mouseWheelUp = true; break;
+				case SDL_BUTTON_WHEELDOWN: m_mouseWheelDown = true; break;
+				default: m_mouseButton[event.button.button] = true ; break;
+			}
 			break;
 		case SDL_MOUSEBUTTONUP:
 			m_mouseButton[event.button.button] = false;
@@ -1012,6 +1017,10 @@ void ModelViewer::UpdateCamera()
 	//zoom
 	if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * zoomRate;
 	if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * zoomRate;
+
+	//zoom with mouse wheel
+	if (m_mouseWheelUp) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * 10.f;
+	if (m_mouseWheelDown) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * 10.f;
 
 	//rotate
 	if (m_keyStates[SDLK_UP]) m_rotX += moveRate;
