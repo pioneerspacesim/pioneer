@@ -15,7 +15,7 @@ Alpha 31
      * Removed long-unused building models (#1923)
      * Removed per-light ambient color and building fade (#1930)
      * Ship thrust and fuel tank size have been rebalanced (#1689)
-     * Restore "Pioneering Pilots' Guild" text (#1987)
+     * Restore "Pioneering Pilots' Guild" text (#1987, #1989)
 
    * Fixes
      * Collisions with stars now work again (#1942)
