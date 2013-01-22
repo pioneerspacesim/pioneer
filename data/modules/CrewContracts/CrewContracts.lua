@@ -88,11 +88,11 @@ local scheduleWages = function (crewMember)
 		-- Schedule the next pay day, if there is one.
 		if contract.payday and not crewMember.dead then
 			contract.payday = contract.payday + wage_period
-			Timer:CallAt(contract.payday,payWages)
+			Timer:CallAt(math.max(Game.time + 5,contract.payday),payWages)
 		end
 	end
 
-	Timer:CallAt(crewMember.contract.payday,payWages)
+	Timer:CallAt(math.max(Game.time + 1,crewMember.contract.payday),payWages)
 end
 
 -- This gets run just after crew are restored from a saved game
