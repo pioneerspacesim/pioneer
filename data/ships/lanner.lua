@@ -3,7 +3,7 @@
 
 define_ship {
 	name='Lanner',
-	model='lanner_ub',
+	model='lanner',
 	forward_thrust = 478e5,
 	reverse_thrust = 159e5,
 	up_thrust = 159e5,

@@ -49,6 +49,7 @@ private:
 	Model *CreateModel(ModelDefinition &def);
 	RefCountedPtr<Graphics::Material> GetDecalMaterial(unsigned int index);
 	RefCountedPtr<Node> LoadMesh(const std::string &filename, const AnimList &animDefs, TagList &modelTags); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
+	void CheckAnimationConflicts(const Animation*, const std::vector<Animation*>&); //detect animation overlap
 	void ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surface> >&, const aiScene*, Model*); //model is only for material lookup
 	void ConvertAnimations(const aiScene *, const AnimList &, Node *meshRoot);
 	void ConvertNodes(aiNode *node, Group *parent, std::vector<RefCountedPtr<Graphics::Surface> >& meshes, const matrix4x4f&);
