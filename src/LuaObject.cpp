@@ -236,87 +236,202 @@ int LuaObjectBase::l_tostring(lua_State *l)
 	return 1;
 }
 
+// takes metatable on top of stack
+// if there's a parent, leaves next metatable, method on stack
+// if there's no parent, leaves nil, method on stack
+static void get_next_method_table(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	// get the type from the table
+	lua_pushstring(l, "type");
+	lua_rawget(l, -2);           // object, metatable, type
+
+	const std::string type(lua_tostring(l, -1));
+	lua_pop(l, 1);               // object, metatable
+	SplitTablePath(l, type);     // object, metatable, "global" table, leaf type name
+	lua_rawget(l, -2);           // object, metatable, "global" table, method table
+	lua_remove(l, -2);           // object, metatable, method table
+
+	// see if the metatable has a parent
+	lua_pushstring(l, "parent");
+	lua_rawget(l, -3);           // object, metatable, method table, parent type
+
+	// it does, lets fetch it
+	if (!lua_isnil(l, -1)) {
+		lua_rawget(l, LUA_REGISTRYINDEX); // object, metatable, method table, parent metatable
+		lua_replace(l, -3);               // object, parent metatable, method table
+		LUA_DEBUG_END(l, 1);
+		return;
+	}
+
+	// no parent
+	                    // object, metatable, method table, nil
+	lua_replace(l, -3); // object, nil, method table
+
+	LUA_DEBUG_END(l, 1);
+}
+
+// takes method table, name on top of stack
+// if found, returns true, leaves item to return to lua on top of stack
+// if not found, returns false
+static bool get_method(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	// lookup wanted thing
+	lua_pushvalue(l, -1);
+	lua_rawget(l, -3);
+
+	// found something, return it
+	if (!lua_isnil(l, -1)) {
+		LUA_DEBUG_END(l, 1);
+		return true;
+	}
+	lua_pop(l, 1);
+
+	// didn't find a method, so now we go looking for an attribute handler
+	lua_pushstring(l, (std::string("__attribute_")+lua_tostring(l, -1)).c_str());
+	lua_rawget(l, -3);
+
+	// found something, return it
+	if (!lua_isnil(l, -1)) {
+		// found something. since its likely a regular attribute lookup and not a
+		// method call we have to do the call ourselves
+		if (lua_isfunction(l, -1)) {
+			lua_pushvalue(l, 1);
+			pi_lua_protected_call(l, 1, 1);
+			LUA_DEBUG_END(l, 1);
+			return true;
+		}
+
+		// for the odd case where someone has set __attribute_foo to a
+		// non-function value
+		LUA_DEBUG_END(l, 1);
+		return true;
+	}
+	lua_pop(l, 1);
+
+	// not found
+	LUA_DEBUG_END(l, 0);
+	return false;
+}
+
 static int dispatch_index(lua_State *l)
 {
 	// userdata are typed, tables are not
 	bool typeless = lua_istable(l, 1);
 	assert(typeless || lua_isuserdata(l, 1));
 
-	// ensure we have enough stack space
-	luaL_checkstack(l, 8, 0);
-
-	// everything we need is in the metatable, so lets start with that
-	lua_getmetatable(l, 1);             // object, key, metatable
-
-	// loop until we find what we're looking for or we run out of metatables
-	while (!lua_isnil(l, -1)) {
-
-		// get the method table
-		if (typeless) {
-			// the object is the method table
-			lua_pushvalue(l, 1);            // object, key, metatable, method table
-		}
-
-		else {
-			// first is method lookup. we get the object type from the metatable and
-			// use it to look up the method table and from there, the method itself
-			lua_pushstring(l, "type");
-			lua_rawget(l, -2);                  // object, key, metatable, type
-
-			const std::string type(lua_tostring(l, -1));
-			lua_pop(l, 1);                      // object, key, metatable
-			SplitTablePath(l, type);            // object, key, metatable, "global" table, leaf type name
-			lua_rawget(l, -2);                  // object, key, metatable, "global" table, method table
-			lua_remove(l, -2);                  // object, key, metatable, method table
-		}
-
-		lua_pushvalue(l, 2);
-		lua_rawget(l, -2);                  // object, key, metatable, method table, method
-
-		// found something, return it
-		if (!lua_isnil(l, -1))
+	// typeless objects have no parents, and are their own method table, so
+	// this is easy
+	if (typeless) {
+		if (get_method(l))
 			return 1;
-		lua_pop(l, 1);                      // object, key, globals, metatable, method table
+	}
 
-		// didn't find a method, so now we go looking for an attribute handler
-		lua_pushstring(l, (std::string("__attribute_")+lua_tostring(l, 2)).c_str());
-		lua_rawget(l, -2);                  // object, key, globals, metatable, method table, method
+	// normal userdata object
+	else {
+		lua_getmetatable(l, 1);
+		while (1) {
+			get_next_method_table(l);
 
-		// found something, return it
-		if (!lua_isnil(l, -1)) {
-			// found something. since its likely a regular attribute lookup and not a
-			// method call we have to do the call ourselves
-			if (lua_isfunction(l, -1)) {
-				lua_pushvalue(l, 1);
-				pi_lua_protected_call(l, 1, 1);
+			lua_pushvalue(l, 2);
+			if (get_method(l))
 				return 1;
-			}
 
-			// for the odd case where someone has set __attribute_foo to a
-			// non-function value
-			return 1;
+			// not found. remove name copy and method table
+			lua_pop(l, 2);
+
+			// if there's no parent metatable, get out
+			if (lua_isnil(l, -1))
+				break;
 		}
-
-		lua_pop(l, 2);                      // object, key, globals, metatable
-
-		// didn't find anything. if the object has a parent object then we look
-		// there instead
-		lua_pushstring(l, "parent");
-		lua_rawget(l, -2);                  // object, key, metatable, parent type
-
-		// not found means we have no parents and we can't search any further
-		if (lua_isnil(l, -1))
-			break;
-
-		// clean up the stack
-		lua_remove(l, -2);                  // object, key, parent type
-
-		// get the parent metatable
-		lua_rawget(l, LUA_REGISTRYINDEX);   // object, key, parent metatable
 	}
 
 	luaL_error(l, "unable to resolve method or attribute '%s'", lua_tostring(l, 2));
 	return 0;
+}
+
+static void get_names_from_table(lua_State *l, std::vector<std::string> &names, const std::string &prefix, bool methodsOnly)
+{
+	lua_pushnil(l);
+	while (lua_next(l, -2)) {
+
+		// only include callable things if requested
+		if (methodsOnly && lua_type(l, -1) != LUA_TFUNCTION) {
+			lua_pop(l, 1);
+			continue;
+		}
+
+		std::string name(lua_tostring(l, -2));
+
+		// strip off magic attribute prefix
+		if (name.substr(0, 12) == "__attribute_")
+			name = name.substr(12);
+
+		// anything else starting with an underscore is hidden
+		else if (name[0] == '_') {
+			lua_pop(l, 1);
+			continue;
+		}
+
+		if (name.substr(0, prefix.size()) == prefix)
+			names.push_back(name.substr(prefix.size()));
+
+		lua_pop(l, 1);
+	}
+}
+
+void LuaObjectBase::GetNames(std::vector<std::string> &names, const std::string &prefix, bool methodsOnly)
+{
+	// never show hidden names
+	if (prefix[0] == '_')
+		return;
+
+	lua_State *l = Lua::manager->GetLuaState();
+
+	// userdata are typed, tables are not
+	bool typeless = lua_istable(l, -1);
+	assert(typeless || lua_isuserdata(l, -1));
+
+	LUA_DEBUG_START(l);
+
+	if (typeless) {
+		// Check the metatable indexes
+		lua_pushvalue(l, -1);
+		while(lua_getmetatable(l, -1)) {
+			lua_pushstring(l, "__index");
+			lua_gettable(l, -2);
+
+			// Replace the previous table to keep a stable stack size.
+			lua_copy(l, -1, -3);
+			lua_pop(l, 2);
+
+			if (lua_istable(l, -1))
+				get_names_from_table(l, names, prefix, methodsOnly);
+			else
+				break;
+		}
+		lua_pop(l, 1);
+		get_names_from_table(l, names, prefix, methodsOnly);
+		return;
+	}
+
+	lua_getmetatable(l, -1);
+	while (1) {
+		get_next_method_table(l);
+		get_names_from_table(l, names, prefix, methodsOnly);
+
+		lua_pop(l, 1);
+
+		if (lua_isnil(l, -1))
+			break;
+	}
+
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
 }
 
 static int secure_trampoline(lua_State *l)

@@ -1,5 +1,9 @@
 Alpha 31
 
+   * New features
+     * Converted Lanner ship to SGModel (#1957, #1969)
+     * Converted "big crappy" spacestation to SGModel (#1964)
+
    * Minor changes and tweaks
      * Cargo scooping now only requires a collision against the ship rather
        than a specific part of it (again) (#1922)
@@ -11,13 +15,17 @@ Alpha 31
      * Removed long-unused building models (#1923)
      * Removed per-light ambient color and building fade (#1930)
      * Ship thrust and fuel tank size have been rebalanced (#1689)
+     * Restore "Pioneering Pilots' Guild" text (#1987, #1989)
 
    * Fixes
      * Collisions with stars now work again (#1942)
+     * Dates before 3200-01-01 no longer display negative (#1955, #1954)
 
    * Model changes
+     * Modelviewer: Reloading model also reloads textures (#1968, #1939)
      * Handle missing material definitions by providing a basic white default
        material if none are specified (#1817, #1916)
+     * Detect conflicts between animations (#1938)
 
    * Script changes
      * Remove deprecated Ship methods.SetPrimaryColour and SetSecondaryColour
@@ -29,6 +37,12 @@ Alpha 31
      * Separate station defs from LMR station models (#1913, #1931, #1934)
      * Cameras are no longer attached to a body, and World View camera
        controllers are no longer derived from Camera (#1889)
+     * Remove kill count from core (#1944)
+     * Intro & tombstone can now use SGModels (#1956)
+     * SGModels now have priority over LMR models of the same name (#1956)
+     * Console completion now handled through the LuaObject dispatcher
+       (#1945, #1672, #1972, #1974)
+     * Queries for near-by objects now use a very basic acceleration structure (#1910)
 
 Alpha 30
 

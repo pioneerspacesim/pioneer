@@ -1,0 +1,20 @@
+material Outer-material
+tex_diff craphull.png
+tex_spec specu.png
+specular 1.0 1.0 1.0
+diffuse 1.0 1.0 1.0
+
+material Inner-material
+tex_diff tex12.png
+diffuse 0.8 0.8 0.8
+emissive 0.4 0.7 0.4
+specular 0.0 0.0 0.0
+
+material Details-material
+diffuse 0.9 0.9 0.9
+tex_diff details.png
+tex_glow details_glow.png
+
+mesh bcstation.dae
+#mesh bcdecals.dae disabled until station ads added
+collision bccoll.dae

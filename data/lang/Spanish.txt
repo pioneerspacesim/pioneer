@@ -602,34 +602,12 @@ YAW
     Guiñada
 MISSILE
     misil
-HARMLESS
-    Inofensivo
-MOSTLY_HARMLESS
-    En su mayoría inofensivo
-POOR
-    Pobre
-AVERAGE
-    Standard
-ABOVE_AVERAGE
-    Por encima de la media
-COMPETENT
-    Competente
-DANGEROUS
-    Peligroso
-DEADLY
-    Mortal
-ELITE
-    ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulando la evolución del universo: %age{f.1} billones de años ;-)
 TOMBSTONE_EPITAPH
     RIP VIEJO AMIGO
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Confederación interestelar de pilotos PIONEER
-RIGHT_ON_COMMANDER
-    Buen trabajo Capitán! Su clasificación de combate ha mejorado!
 ALERT_CANCELLED
     Alerta cancelada.
 SHIP_DETECTED_NEARBY
@@ -782,6 +760,10 @@ STAR_SYSTEM_INFORMATION
     Info del Sistema Estelar
 GALACTIC_VIEW
     Vista galáctica
+ROTATION_DAMPING_ON
+    Rotación amortiguada on
+ROTATION_DAMPING_OFF
+    Rotación amortiguada off
 NO_ALERT
     Sin alerta
 SHIP_NEARBY
