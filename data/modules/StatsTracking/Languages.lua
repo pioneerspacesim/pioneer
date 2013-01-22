@@ -1,9 +1,4 @@
 Translate:Add({ English = {
-	["Right on, Commander!"] = "Right on, Commander!",
-	["Elite Federation of Pilots"] = "Elite Federation of Pilots",
-} })
-
-Translate:Add({ Russian = {
-	["Right on, Commander!"] = "Так держать, пилот!",
-	["Elite Federation of Pilots"] = "Федерация Пилотов Класса Элита",
+	["Well done commander! Your combat rating has improved!"] = "Well done commander! Your combat rating has improved!",
+	["Pioneering Pilots' Guild"] = "Pioneering Pilots' Guild",
 } })
