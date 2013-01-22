@@ -268,25 +268,25 @@ void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
 {
 	if (!m_model) return;
 
-	//Blender is:
-	//1 - front (+ctrl back)
-	//7 - top (+ctrl bottom)
-	//3 - right (+ctrl left)
-	//2,4,6,8 incrementally rotate (+ctrl pan)
+	// Like Blender, but a bit different because we like that
+	// 1 - front (+ctrl back)
+	// 7 - top (+ctrl bottom)
+	// 3 - left (+ctrl right)
+	// 2,4,6,8 incrementally rotate
 
 	const bool invert = mod & KMOD_CTRL;
 
 	switch (key)
 	{
 	case SDLK_KP7: case SDLK_u:
-		m_rotX = invert ? 90.f : -90.f;
+		m_rotX = invert ? -90.f : 90.f;
 		m_rotY = 0.f;
 		AddLog(invert ? "Bottom view" : "Top view");
 		break;
 	case SDLK_KP3: case SDLK_PERIOD:
 		m_rotX = 0.f;
 		m_rotY = invert ? -90.f : 90.f;
-		AddLog(invert ? "Left view" : "Right view");
+		AddLog(invert ? "Right view" : "Left view");
 		break;
 	case SDLK_KP1: case SDLK_m:
 		m_rotX = 0.f;
