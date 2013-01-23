@@ -1,0 +1,10 @@
+material JoinedMaterial__2
+tex_diff flatTop8bays.png
+diffuse 1.0 1.0 1.0
+specular 0.6 0.6 0.8
+shininess 40
+
+mesh flatTop8bays.obj
+mesh flatTop8bays_collision_pads.obj
+
+collision flatTop8bays.obj
