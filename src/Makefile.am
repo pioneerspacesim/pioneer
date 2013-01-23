@@ -78,6 +78,7 @@ noinst_HEADERS = \
 	LuaVector.h \
 	LuaFixed.h \
 	LuaManager.h \
+	LuaMissile.h \
 	LuaMusic.h \
 	LuaNameGen.h \
 	LuaObject.h \
@@ -226,6 +227,7 @@ pioneer_SOURCES	= \
 	LuaVector.cpp \
 	LuaFixed.cpp \
 	LuaManager.cpp \
+	LuaMissile.cpp \
 	LuaMusic.cpp \
 	LuaNameGen.cpp \
 	LuaObject.cpp \

@@ -33,6 +33,7 @@
 #include "LuaGame.h"
 #include "LuaLang.h"
 #include "LuaManager.h"
+#include "LuaMissile.h"
 #include "LuaMusic.h"
 #include "LuaNameGen.h"
 #include "LuaPlanet.h"
@@ -166,6 +167,7 @@ static void LuaInit()
 	LuaPlanet::RegisterClass();
 	LuaStar::RegisterClass();
 	LuaPlayer::RegisterClass();
+	LuaMissile::RegisterClass();
 	LuaCargoBody::RegisterClass();
 	LuaStarSystem::RegisterClass();
 	LuaSystemPath::RegisterClass();

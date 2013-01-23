@@ -10,6 +10,7 @@
 #include "LuaConstants.h"
 #include "Ship.h"
 #include "Missile.h"
+#include "LuaMissile.h"
 #include "SpaceStation.h"
 #include "ShipType.h"
 #include "Sfx.h"
@@ -808,7 +809,7 @@ static int l_ship_spawn_missile(lua_State *l)
 
 	Missile * missile = s->SpawnMissile(missile_type, power);
 	if (missile)
-		LuaShip::PushToLua(missile);
+		LuaMissile::PushToLua(missile);
 	else
 		lua_pushnil(l);
 	return 1;
