@@ -62,10 +62,22 @@ function Ship:FireMissileAt(missile, target)
 			end
 		end
 	end
-	if missile_object and target then
-		print("Calling AIKamikaze.")
-		missile_object:AIKamikaze(target)
+
+	if missile_object then
+		if target then
+			missile_object:AIKamikaze(target)
+		end
+		-- Let's keep a safe distance before activating this device, shall we ?
+		Timer:CallEvery(2, function ()
+			if missile_object:DistanceTo(self) < 300 then
+				return false
+			else
+				missile_object:Arm()
+				return true
+			end
+		end)
 	end
+
 	return missile_object
 end
 

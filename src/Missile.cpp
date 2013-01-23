@@ -66,7 +66,7 @@ void Missile::TimeStepUpdate(const float timeStep)
 		Space::BodyNearList nearby;
 		Pi::game->GetSpace()->GetBodiesMaybeNear(this, MISSILE_DETECTION_RADIUS, nearby);
 		for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
-			if (*i == this || *i == m_owner) continue;
+			if (*i == this) continue;
 			double dist = ((*i)->GetPosition() - GetPosition()).Length();
 			if (dist < MISSILE_DETECTION_RADIUS) {
 				Explode();
