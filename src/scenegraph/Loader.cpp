@@ -201,7 +201,9 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		const std::string &glowTex = (*it).tex_glow;
 
 		Graphics::MaterialDescriptor matDesc;
-		matDesc.lighting = true;
+		matDesc.lighting = !it->unlit;
+		matDesc.alphaTest = it->alpha_test;
+		matDesc.twoSided = it->two_sided;
 
 		if ((*it).use_pattern) {
 			patternsUsed = true;
