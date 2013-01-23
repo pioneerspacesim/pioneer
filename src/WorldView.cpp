@@ -519,17 +519,42 @@ void WorldView::RefreshButtonStateAndVisibility()
 #if WITH_DEVKEYS
 	if (Pi::showDebugInfo) {
 		char buf[1024], aibuf[256];
-		vector3d pos = Pi::player->GetPosition();
+	
+	//Calculate lat/lon for ship position
+	float lat = 0.0 ;
+	float lon = 0.0 ; 
+
+	vector3d pos = Pi::player->GetPosition();
+	Body *astro = Pi::player->GetFrame()->GetBody();
+	if (astro && astro->IsType(Object::PLANET)) {
+		SystemBody *sb = Pi::player->GetFrame()->GetSystemBody();
+		const float radius = sb->GetRadius();
+
+		//Get latitude
+		lat = acos(abs(pos.y) / radius )*180.f/M_PI;  
+		if	(pos.y < 0.f) lat-=90.f;  //northern hemisphere
+		else lat=90.f-lat;			  //southern hemisphere
+
+		//Get longitude
+		lon = atan(abs(pos.x) / abs(pos.z) )*180.f/M_PI;    
+		if			(pos.x >=0.f && pos.z >=0.f) lon*=-1;		  	
+		else if		(pos.x >=0.f && pos.z <	0.f ) lon=-180.f+lon; 
+		else if		(pos.x < 0.f && pos.z < 0.f ) lon=180.f-lon;
+		else	    lon=lon;	// --> (pos.x < 0.f && pos.z >= 0.f) 	
+	}
+
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
+
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no");
 		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km), rotating: %s\n" "%s",
+			"Rel-to: %s (%.0f km), rotating: %s\n" "%s"
+			"\nLat / Lon : %.8f / %.8f",
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000, rot_frame, aibuf);
+			rel_to, pos.Length()/1000, rot_frame, aibuf,lat,lon);
 
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
