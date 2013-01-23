@@ -162,7 +162,7 @@ void DistanceFieldFont::ParseChar(const StringRange &r)
 	g.uv = vector2f(float(x)/m_sheetSize.x, float(y)/m_sheetSize.y);
 	g.uvSize = vector2f(float(uSize)/m_sheetSize.x, float(vSize)/m_sheetSize.y);
 	g.size = vector2f(float(uSize), float(vSize)) * scale;
-	g.offset = vector2f(float(xoffset), float(yoffset)) * scale;
+	g.offset = vector2f(float(xoffset), float(m_lineHeight-vSize-yoffset)) * scale;
 	g.xAdvance = advance * scale;
 	m_glyphs[id] = g;
 }
@@ -179,6 +179,8 @@ void DistanceFieldFont::ParseCommon(const StringRange &line)
 			m_sheetSize.x = get_value<float>(pair.second);
 		else if (pair.first == "scaleH")
 			m_sheetSize.y = get_value<float>(pair.second);
+		else if (pair.first == "lineHeight")
+			m_lineHeight = get_value<float>(pair.second);
 	}
 }
 
