@@ -11,7 +11,7 @@
 #include "Game.h"
 #include "LuaEvent.h"
 
-Missile::Missile(ShipType::Id shipId, Body *owner, Body *target, int power): Ship(shipId)
+Missile::Missile(ShipType::Id shipId, Body *owner, int power): Ship(shipId)
 {
 	if (power < 0) {
 		m_power = 0;
@@ -22,11 +22,7 @@ Missile::Missile(ShipType::Id shipId, Body *owner, Body *target, int power): Shi
 		m_power = power;
 
 	m_owner = owner;
-	m_target = target;
-	m_distToTarget = FLT_MAX;
 	SetLabel(Lang::MISSILE);
-
-	AIKamikaze(target);
 }
 
 void Missile::ECMAttack(int power_val)
@@ -40,15 +36,12 @@ void Missile::PostLoadFixup(Space *space)
 {
 	Ship::PostLoadFixup(space);
 	m_owner = space->GetBodyByIndex(m_ownerIndex);
-	m_target = space->GetBodyByIndex(m_targetIndex);
 }
 
 void Missile::Save(Serializer::Writer &wr, Space *space)
 {
 	Ship::Save(wr, space);
 	wr.Int32(space->GetIndexForBody(m_owner));
-	wr.Int32(space->GetIndexForBody(m_target));
-	wr.Double(m_distToTarget);
 	wr.Int32(m_power);
 }
 
@@ -56,8 +49,6 @@ void Missile::Load(Serializer::Reader &rd, Space *space)
 {
 	Ship::Load(rd, space);
 	m_ownerIndex = rd.Int32();
-	m_targetIndex = rd.Int32();
-	m_distToTarget = rd.Double();
 	m_power = rd.Int32();
 }
 
@@ -65,14 +56,20 @@ void Missile::TimeStepUpdate(const float timeStep)
 {
 	Ship::TimeStepUpdate(timeStep);
 
-	if (!m_target || !m_owner) {
+	const float MISSILE_DETECTION_RADIUS = 100.0f;
+	if (!m_owner) {
 		Explode();
 	} else {
-		double dist = (GetPosition() - m_target->GetPosition()).Length();
-		if ((m_distToTarget < 150.0) && (dist > m_distToTarget)) {
-			Explode();
+		Space::BodyNearList nearby;
+		Pi::game->GetSpace()->GetBodiesMaybeNear(this, MISSILE_DETECTION_RADIUS, nearby);
+		for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
+			if (*i == this || *i == m_owner) continue;
+			double dist = ((*i)->GetPosition() - GetPosition()).Length();
+			if (dist < MISSILE_DETECTION_RADIUS) {
+				Explode();
+				break;
+			}
 		}
-		m_distToTarget = dist;
 	}
 }
 

@@ -613,10 +613,11 @@ void Ship::UseECM()
 	}
 }
 
-bool Ship::SpawnMissile(Missile * missile) {
+Missile * Ship::SpawnMissile(ShipType::Id missile_type, int power) {
 	if (GetFlightState() != FLYING)
-		return false;
+		return 0;
 
+	Missile *missile = new Missile(missile_type, this, power);
 	missile->SetOrient(GetOrient());
 	missile->SetFrame(GetFrame());
 	// XXX DODGY! need to put it in a sensible location
@@ -624,7 +625,7 @@ bool Ship::SpawnMissile(Missile * missile) {
 	missile->SetPosition(GetPosition()+50.0*dir);
 	missile->SetVelocity(GetVelocity());
 	Pi::game->GetSpace()->AddBody(missile);
-	return true;
+	return missile;
 }
 
 void Ship::SetFlightState(Ship::FlightState newState)

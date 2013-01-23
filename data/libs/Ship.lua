@@ -32,8 +32,7 @@ local missile_names = {
 --
 -- Return:
 --
---   fired - true if the missile was fired, false if the ship has no missile
---           of the requested type
+--   fired - the fired missile
 --
 -- Availability:
 --
@@ -44,24 +43,30 @@ local missile_names = {
 --   experimental
 --
 function Ship:FireMissileAt(missile, target)
-    if type(missile) == "number" then
-        missile_type = self:GetEquip("MISSILE", missile)
-        if missile_type ~= "NONE" and self:SpawnMissile(missile_names[missile_type], target) then
-            self:SetEquip("MISSILE", missile, "NONE")
-            return true
-        end
-        return false
-    end
-	for i,m in ipairs(self:GetEquip("MISSILE")) do
-		if m == missile then
-			if self:SpawnMissile(missile_names[missile], target) then
-				self:SetEquip("MISSILE", i, "NONE")
-				return true
+	local missile_object = false
+	if type(missile) == "number" then
+		missile_type = self:GetEquip("MISSILE", missile)
+		if missile_type ~= "NONE" then
+			missile_object = self:SpawnMissile(missile_names[missile_type])
+			if missile_object ~= nil then
+				self:SetEquip("MISSILE", missile, "NONE")
 			end
-			return false
+		end
+	else
+		for i,m in ipairs(self:GetEquip("MISSILE")) do
+			if m == missile then
+				missile_object = self:SpawnMissile(missile_names[missile])
+				if missile_object ~= nil then
+					self:SetEquip("MISSILE", i, "NONE")
+				end
+			end
 		end
 	end
-	return false
+	if missile_object and target then
+		print("Calling AIKamikaze.")
+		missile_object:AIKamikaze(target)
+	end
+	return missile_object
 end
 
 --

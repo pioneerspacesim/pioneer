@@ -798,25 +798,19 @@ static int l_ship_spawn_missile(lua_State *l)
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:SpawnMissile() cannot be called on a ship in hyperspace");
 	ShipType::Id missile_type(lua_tostring(l, 2));
-	Ship *target = LuaShip::CheckFromLua(3);
 
 	if (missile_type != ShipType::MISSILE_UNGUIDED &&
 			missile_type != ShipType::MISSILE_GUIDED &&
 			missile_type != ShipType::MISSILE_SMART &&
 			missile_type != ShipType::MISSILE_NAVAL)
 		luaL_error(l, "Ship type '%s' is not a valid missile type", lua_tostring(l, 2));
-	Missile * missile;
-	if (lua_isnone(l, 4))
-		missile = new Missile(missile_type, s, target);
-	else
-		missile = new Missile(missile_type, s, target, lua_tointeger(l, 4));
+	int power = (lua_isnone(l, 3))? -1 : lua_tointeger(l, 3);
 
-	if (s->SpawnMissile(missile))
+	Missile * missile = s->SpawnMissile(missile_type, power);
+	if (missile)
 		LuaShip::PushToLua(missile);
-	else {
+	else
 		lua_pushnil(l);
-		delete missile;
-	}
 	return 1;
 }
 

@@ -11,7 +11,7 @@
 class Missile: public Ship {
 public:
 	OBJDEF(Missile, Ship, MISSILE);
-	Missile(ShipType::Id type, Body *owner, Body *target, int power=-1);
+	Missile(ShipType::Id type, Body *owner, int power=-1);
 	Missile() {}
 	virtual ~Missile() {}
 	void TimeStepUpdate(const float timeStep);
@@ -28,11 +28,9 @@ private:
 	void Explode();
 
 	int m_power;
-	Body *m_target;
 	Body *m_owner;
-	double m_distToTarget;
 
-	int m_ownerIndex, m_targetIndex; // deserialisation
+	int m_ownerIndex; // deserialisation
 };
 
 #endif /* _MISSILE_H */
