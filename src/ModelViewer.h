@@ -77,7 +77,7 @@ private:
 	double m_frameTime;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;
-	matrix4x4f m_modelRot;
+	float m_rotX, m_rotY;
 	ModelParams m_modelParams;
 	MTRand m_rng;
 	SceneGraph::Animation *m_currentAnimation;
@@ -94,6 +94,7 @@ private:
 	bool m_keyStates[SDLK_LAST];
 	bool m_mouseButton[SDL_BUTTON_WHEELDOWN + 1]; //buttons + scroll start at 1
 	int m_mouseMotion[2];
+	bool m_mouseWheelUp, m_mouseWheelDown;
 
 	//interface stuff that needs to be accessed later (unorganized)
 	UI::MultiLineText *m_log;

@@ -76,6 +76,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 , m_frameTime(0.f)
 , m_renderer(r)
 , m_decalTexture(0)
+, m_rotX(0), m_rotY(0)
 , m_rng(time(0))
 , m_currentAnimation(0)
 , m_model(0)
@@ -267,45 +268,47 @@ void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
 {
 	if (!m_model) return;
 
-	//Blender is:
-	//1 - front (+ctrl back)
-	//7 - top (+ctrl bottom)
-	//3 - right (+ctrl left)
-	//2,4,6,8 incrementally rotate (+ctrl pan)
+	// Like Blender, but a bit different because we like that
+	// 1 - front (+ctrl back)
+	// 7 - top (+ctrl bottom)
+	// 3 - left (+ctrl right)
+	// 2,4,6,8 incrementally rotate
 
 	const bool invert = mod & KMOD_CTRL;
 
 	switch (key)
 	{
-	case SDLK_KP7:
-		m_modelRot = matrix4x4f::RotateXMatrix(invert ? -M_PI/2 : M_PI/2);
+	case SDLK_KP7: case SDLK_u:
+		m_rotX = invert ? -90.f : 90.f;
+		m_rotY = 0.f;
 		AddLog(invert ? "Bottom view" : "Top view");
 		break;
-	case SDLK_KP3:
-		m_modelRot = matrix4x4f::RotateYMatrix(invert ? M_PI/2 : -M_PI/2);
-		AddLog(invert ? "Left view" : "Right view");
+	case SDLK_KP3: case SDLK_PERIOD:
+		m_rotX = 0.f;
+		m_rotY = invert ? -90.f : 90.f;
+		AddLog(invert ? "Right view" : "Left view");
 		break;
-	case SDLK_KP1:
-		m_modelRot = matrix4x4f::RotateYMatrix(invert ? M_PI : 0.f);
+	case SDLK_KP1: case SDLK_m:
+		m_rotX = 0.f;
+		m_rotY = invert ? 0.f : 180.f;
 		AddLog(invert ? "Rear view" : "Front view");
 		break;
-	case SDLK_KP4:
-		m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(M_PI/12);
+	case SDLK_KP4: case SDLK_j:
+		m_rotY += 15.f;
 		break;
-	case SDLK_KP6:
-		m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(-M_PI/12);
+	case SDLK_KP6: case SDLK_l:
+		m_rotY -= 15.f;
 		break;
-	case SDLK_KP2:
-		m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(-M_PI/12);
+	case SDLK_KP2: case SDLK_COMMA:
+		m_rotX += 15.f;
 		break;
-	case SDLK_KP8:
-		m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(M_PI/12);
+	case SDLK_KP8: case SDLK_i:
+		m_rotX -= 15.f;
 		break;
 	default:
 		break;
 		//no others yet
 	}
-	m_camPos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius() * 1.5f);
 }
 
 void ModelViewer::ClearModel()
@@ -432,11 +435,16 @@ void ModelViewer::DrawModel()
 	assert(m_model);
 	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 
-	m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 1000.f);
+	m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 10000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	UpdateLights();
 
-	matrix4x4f mv = matrix4x4f::Translation(-m_camPos) * m_modelRot.InverseOf();
+	m_rotX = Clamp(m_rotX, -90.0f, 90.0f);
+	matrix4x4f rot = matrix4x4f::Identity();
+	rot.RotateY(DEG2RAD(m_rotY));
+	rot.RotateX(DEG2RAD(m_rotX));
+
+	matrix4x4f mv = matrix4x4f::Translation(-m_camPos) * rot.InverseOf();
 
 	if (m_options.showGrid)
 		DrawGrid(mv, m_model->GetDrawClipRadius());
@@ -583,6 +591,7 @@ void ModelViewer::PollEvents()
 	 *
 	 */
 	m_mouseMotion[0] = m_mouseMotion[1] = 0;
+	m_mouseWheelUp = m_mouseWheelDown = false;
 
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
@@ -599,7 +608,11 @@ void ModelViewer::PollEvents()
 			m_mouseMotion[1] += event.motion.yrel;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
-			m_mouseButton[event.button.button] = true;
+			switch (event.button.button) {
+				case SDL_BUTTON_WHEELUP:   m_mouseWheelUp = true; break;
+				case SDL_BUTTON_WHEELDOWN: m_mouseWheelDown = true; break;
+				default: m_mouseButton[event.button.button] = true ; break;
+			}
 			break;
 		case SDL_MOUSEBUTTONUP:
 			m_mouseButton[event.button.button] = false;
@@ -635,13 +648,13 @@ void ModelViewer::PollEvents()
 				if (event.key.keysym.mod & KMOD_SHIFT)
 					m_renderer->ReloadShaders();
 				break;
-			case SDLK_KP1:
-			case SDLK_KP2:
-			case SDLK_KP3:
-			case SDLK_KP4:
-			case SDLK_KP6:
-			case SDLK_KP7:
-			case SDLK_KP8:
+			case SDLK_KP1: case SDLK_m:
+			case SDLK_KP2: case SDLK_COMMA:
+			case SDLK_KP3: case SDLK_PERIOD:
+			case SDLK_KP4: case SDLK_j:
+			case SDLK_KP6: case SDLK_l:
+			case SDLK_KP7: case SDLK_u:
+			case SDLK_KP8: case SDLK_i:
 				ChangeCameraPreset(event.key.keysym.sym, event.key.keysym.mod);
 				break;
 			case SDLK_r: //random colors, eastereggish
@@ -671,7 +684,7 @@ void ModelViewer::ResetCamera()
 	else
 		m_camPos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius() * 1.5f);
 	//m_camOrient = matrix4x4f::Identity();
-	m_modelRot = matrix4x4f::Identity();
+	m_rotX = m_rotY = 0.f;
 }
 
 void ModelViewer::ResetThrusters()
@@ -990,25 +1003,35 @@ void ModelViewer::UpdateAnimList()
 
 void ModelViewer::UpdateCamera()
 {
-	float rate = 10.f * m_frameTime;
-	if (m_keyStates[SDLK_LSHIFT]) rate = 50.f * m_frameTime;
+	float zoomRate = 10.f * m_frameTime;
+	float moveRate = 25.f * m_frameTime;
+	if (m_keyStates[SDLK_LSHIFT]) {
+		zoomRate = 200.f * m_frameTime;
+		moveRate = 100.f * m_frameTime;
+	}
+	else if (m_keyStates[SDLK_RSHIFT]) {
+		zoomRate = 50.f * m_frameTime;
+		moveRate = 50.f * m_frameTime;
+	}
 
 	//zoom
-	if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * rate;
-	if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * rate;
+	if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * zoomRate;
+	if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * zoomRate;
+
+	//zoom with mouse wheel
+	if (m_mouseWheelUp) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * 10.f;
+	if (m_mouseWheelDown) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * 10.f;
 
 	//rotate
-	if (m_keyStates[SDLK_UP]) m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(m_frameTime);
-	if (m_keyStates[SDLK_DOWN]) m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(-m_frameTime);
-	if (m_keyStates[SDLK_LEFT]) m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(-m_frameTime);
-	if (m_keyStates[SDLK_RIGHT]) m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(m_frameTime);
+	if (m_keyStates[SDLK_UP]) m_rotX += moveRate;
+	if (m_keyStates[SDLK_DOWN]) m_rotX -= moveRate;
+	if (m_keyStates[SDLK_LEFT]) m_rotY += moveRate;
+	if (m_keyStates[SDLK_RIGHT]) m_rotY -= moveRate;
 
 	//mouse rotate when right button held
 	if (m_mouseButton[SDL_BUTTON_RIGHT]) {
-		const float rx = 0.01f*m_mouseMotion[1];
-		const float ry = 0.01f*m_mouseMotion[0];
-		m_modelRot = m_modelRot * matrix4x4f::RotateXMatrix(rx);
-		m_modelRot = m_modelRot * matrix4x4f::RotateYMatrix(ry);
+		m_rotY += 0.2f*m_mouseMotion[0];
+		m_rotX += 0.2f*m_mouseMotion[1];
 	}
 }
 
