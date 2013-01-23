@@ -773,8 +773,9 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 		for(unsigned int i=0; i<node->mNumMeshes; i++) {
 			RefCountedPtr<Graphics::Surface> surf = surfaces.at(node->mMeshes[i]);
 
-			//Mark the entire node as transparent (all importers split by material so far)
-			if (surf->GetMaterial()->diffuse.a < 0.999f) {
+			//turn on alpha blending and mark entire node as transparent
+			//(all importers split by material so far)
+			if (surf->GetMaterial()->diffuse.a < 0.99f) {
 				geom->SetNodeMask(NODE_TRANSPARENT);
 				geom->m_blendMode = Graphics::BLEND_ALPHA;
 			}
