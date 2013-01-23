@@ -836,18 +836,15 @@ void Loader::LoadCollision(const std::string &filename)
 	m_model->GetRoot()->AddChild(new CollisionGeometry(vertices, indices, 0));
 }
 
+#pragma optimize( "", off )
 unsigned int Loader::GetGeomFlagForNodeName(const std::string &nodename)
 {
 	if (nodename.length() >= 14) {
-		const std::string pad = nodename.substr(10, 4);
-		if (pad == "pad1")
-			return 0x10;
-		else if (pad == "pad2")
-			return 0x11;
-		else if (pad == "pad3")
-			return 0x12;
-		else if (pad == "pad4")
-			return 0x14;
+		const std::string pad = nodename.substr(13);
+		const int padID = atoi(pad.c_str())-1;
+		if(padID<240) {
+			return 0x10 + padID;
+		}
 	}
 	return 0x0;
 }
