@@ -21,6 +21,10 @@ public:
 	virtual void PostLoadFixup(Space *space);
 	void ECMAttack(int power_val);
 	Body *GetOwner() const { return m_owner; }
+	bool IsArmed() const {return m_armed;}
+	void Arm() {m_armed = true;}
+	void Disarm() {m_armed = false;}
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -29,6 +33,7 @@ private:
 
 	int m_power;
 	Body *m_owner;
+	bool m_armed;
 
 	int m_ownerIndex; // deserialisation
 };

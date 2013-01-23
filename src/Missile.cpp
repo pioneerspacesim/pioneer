@@ -22,6 +22,7 @@ Missile::Missile(ShipType::Id shipId, Body *owner, int power): Ship(shipId)
 		m_power = power;
 
 	m_owner = owner;
+	m_armed = false;
 	SetLabel(Lang::MISSILE);
 }
 
@@ -43,6 +44,7 @@ void Missile::Save(Serializer::Writer &wr, Space *space)
 	Ship::Save(wr, space);
 	wr.Int32(space->GetIndexForBody(m_owner));
 	wr.Int32(m_power);
+	wr.Bool(m_armed);
 }
 
 void Missile::Load(Serializer::Reader &rd, Space *space)
@@ -50,6 +52,7 @@ void Missile::Load(Serializer::Reader &rd, Space *space)
 	Ship::Load(rd, space);
 	m_ownerIndex = rd.Int32();
 	m_power = rd.Int32();
+	m_armed = rd.Bool();
 }
 
 void Missile::TimeStepUpdate(const float timeStep)
@@ -59,7 +62,7 @@ void Missile::TimeStepUpdate(const float timeStep)
 	const float MISSILE_DETECTION_RADIUS = 100.0f;
 	if (!m_owner) {
 		Explode();
-	} else {
+	} else if (m_armed) {
 		Space::BodyNearList nearby;
 		Pi::game->GetSpace()->GetBodiesMaybeNear(this, MISSILE_DETECTION_RADIUS, nearby);
 		for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
@@ -116,9 +119,6 @@ void Missile::NotifyRemoved(const Body* const removedBody)
 {
 	if (m_owner == removedBody) {
 		m_owner = 0;
-	}
-	else if (m_target == removedBody) {
-		m_target = 0;
 	}
 }
 
