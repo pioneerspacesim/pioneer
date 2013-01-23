@@ -27,7 +27,8 @@ Alpha 31
      * Handle missing material definitions by providing a basic white default
        material if none are specified (#1817, #1916)
      * Detect conflicts between animations (#1938)
-     * Modelviewer: view controls are improved and larger models are supported (#1982)
+     * Modelviewer: View controls are improved (#1982)
+     * Modelviewer: Larger models are displayed without z clipping (#1982, #1933)
 
    * Script changes
      * Remove deprecated Ship methods.SetPrimaryColour and SetSecondaryColour
