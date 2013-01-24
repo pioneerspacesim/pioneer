@@ -5,6 +5,7 @@
 #include "LuaEquipType.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
+#include "EnumStrings.h"
 #include "EquipType.h"
 
 /*
@@ -49,7 +50,7 @@ static int l_equiptype_attr_name(lua_State *l)
 static int l_equiptype_attr_slot(lua_State *l)
 {
 	const EquipType *et = LuaEquipType::CheckFromLua(1);
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipSlot", et->slot));
+	lua_pushstring(l, EnumStrings::GetString("EquipSlot", et->slot));
 	return 1;
 }
 
@@ -184,7 +185,7 @@ static int l_equiptype_get_equip_types(lua_State *l)
 	for (int i = Equip::NONE; i < Equip::TYPE_MAX; i++) {
 		EquipType *et = const_cast<EquipType*>(&(Equip::types[i]));
 		if (Equip::types[i].slot == slot) {
-			const char *name = LuaConstants::GetConstantString(l, "EquipType", i);
+			const char *name = EnumStrings::GetString("EquipType", i);
 
 			if (filter) {
 				lua_pushvalue(l, 2);

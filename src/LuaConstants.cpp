@@ -52,14 +52,6 @@ int LuaConstants::GetConstant(lua_State *l, const char *ns, const char *name)
 	return value;
 }
 
-const char *LuaConstants::GetConstantString(lua_State *l, const char *ns, int value)
-{
-	const char *name = EnumStrings::GetString(ns, value);
-	if (!name)
-		luaL_error(l, "couldn't find constant with value %d in namespace '%s'\n", value, ns);
-	return name;
-}
-
 static void _create_constant_table(lua_State *l, const char *ns, const EnumItem *c, bool consecutive)
 {
 	LUA_DEBUG_START(l);

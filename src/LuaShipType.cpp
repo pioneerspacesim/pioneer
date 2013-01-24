@@ -5,6 +5,7 @@
 #include "LuaShipType.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
+#include "EnumStrings.h"
 #include "ShipType.h"
 #include "EquipType.h"
 
@@ -137,7 +138,7 @@ int l_shiptype_attr_base_price(lua_State *l)
 int l_shiptype_attr_default_hyperdrive(lua_State *l)
 {
 	const ShipType *st = LuaShipType::CheckFromLua(1);
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", st->hyperdrive));
+	lua_pushstring(l, EnumStrings::GetString("EquipType", st->hyperdrive));
 	return 1;
 }
 

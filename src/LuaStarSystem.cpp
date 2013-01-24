@@ -9,6 +9,7 @@
 #include "LuaStarSystem.h"
 #include "LuaSystemPath.h"
 #include "LuaConstants.h"
+#include "EnumStrings.h"
 #include "LuaUtils.h"
 #include "galaxy/StarSystem.h"
 #include "EquipType.h"
@@ -147,7 +148,7 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 	lua_newtable(l);
 
 	for (int e = Equip::FIRST_COMMODITY; e <= Equip::LAST_COMMODITY; e++) {
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", e));
+		lua_pushstring(l, EnumStrings::GetString("EquipType", e));
 		lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));
 		lua_rawset(l, -3);
 	}

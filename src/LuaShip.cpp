@@ -8,6 +8,7 @@
 #include "LuaBody.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
+#include "EnumStrings.h"
 #include "Ship.h"
 #include "SpaceStation.h"
 #include "ShipType.h"
@@ -450,7 +451,7 @@ static int l_ship_get_equip(lua_State *l)
 				s->GetLabel().c_str(), slotName, idx+1);
 		}
 		Equip::Type e = (idx >= 0) ? s->m_equipment.Get(slot, idx) : Equip::NONE;
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", e));
+		lua_pushstring(l, EnumStrings::GetString("EquipType", e));
 		return 1;
 	} else {
 		// 1-argument version; returns table of equipment items
@@ -458,7 +459,7 @@ static int l_ship_get_equip(lua_State *l)
 
 		for (int idx = 0; idx < size; idx++) {
 			lua_pushinteger(l, idx+1);
-			lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
+			lua_pushstring(l, EnumStrings::GetString("EquipType", s->m_equipment.Get(slot, idx)));
 			lua_rawset(l, -3);
 		}
 
@@ -859,7 +860,7 @@ static int l_ship_check_hyperspace_to(lua_State *l)
 	double duration;
 	Ship::HyperjumpStatus status = s->CheckHyperspaceTo(*dest, fuel, duration);
 
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
 	if (status == Ship::HYPERJUMP_OK) {
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
@@ -911,7 +912,7 @@ static int l_ship_get_hyperspace_details(lua_State *l)
 	double duration;
 	Ship::HyperjumpStatus status = s->GetHyperspaceDetails(*dest, fuel, duration);
 
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
 	if (status == Ship::HYPERJUMP_OK) {
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
@@ -963,7 +964,7 @@ static int l_ship_hyperspace_to(lua_State *l)
 	double duration;
 	Ship::HyperjumpStatus status = s->CheckHyperspaceTo(*dest, fuel, duration);
 
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
 	if (status != Ship::HYPERJUMP_OK)
 		return 1;
 
@@ -1063,7 +1064,7 @@ static int l_ship_attr_flavour(lua_State *l)
 static int l_ship_attr_alert_status(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipAlertStatus", s->GetAlertState()));
+	lua_pushstring(l, EnumStrings::GetString("ShipAlertStatus", s->GetAlertState()));
 	return 1;
 }
 
@@ -1083,7 +1084,7 @@ static int l_ship_attr_alert_status(lua_State *l)
 static int l_ship_attr_flight_state(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipFlightState", s->GetFlightState()));
+	lua_pushstring(l, EnumStrings::GetString("ShipFlightState", s->GetFlightState()));
 	return 1;
 }
 
