@@ -30,7 +30,7 @@ Alpha 31
      * Detect conflicts between animations (#1938)
      * Modelviewer: View controls are improved (#1982)
      * Modelviewer: Larger models are displayed without z clipping (#1982, #1933)
-     * New material parameters: unlit, two_sided and alpha_test
+     * New material parameters: unlit, two_sided and alpha_test (#1995, #1935)
      * Labels on SGModels can now be set (#1979)
 
    * Script changes
