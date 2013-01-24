@@ -50,7 +50,7 @@ void Parser::Parse(ModelDefinition *m)
 	if (m->lodDefs.empty() || m->lodDefs.back().meshNames.empty())
 		throw ParseError("No meshes defined");
 
-	//model without materials is not very useful but not fatal - add white default mat
+	//model without materials is not very useful, but not fatal - add white default mat
 	if (m->matDefs.empty())
 		m->matDefs.push_back(MaterialDefinition("Default"));
 
@@ -200,6 +200,15 @@ bool Parser::parseLine(const std::string &line)
 					int opacity;
 					ss >> opacity;
 					m_curMat->opacity = Clamp(opacity, 0, 100);
+					return true;
+				} else if (match(token, "alpha_test")) {
+					m_curMat->alpha_test = true;
+					return true;
+				} else if (match(token, "two_sided")) {
+					m_curMat->two_sided = true;
+					return true;
+				} else if (match(token, "unlit")) {
+					m_curMat->unlit = true;
 					return true;
 				} else if (match(token, "use_patterns")) {
 					m_curMat->use_pattern = true;

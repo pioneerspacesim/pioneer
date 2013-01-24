@@ -201,7 +201,9 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		const std::string &glowTex = (*it).tex_glow;
 
 		Graphics::MaterialDescriptor matDesc;
-		matDesc.lighting = true;
+		matDesc.lighting = !it->unlit;
+		matDesc.alphaTest = it->alpha_test;
+		matDesc.twoSided = it->two_sided;
 
 		if ((*it).use_pattern) {
 			patternsUsed = true;
@@ -771,8 +773,9 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 		for(unsigned int i=0; i<node->mNumMeshes; i++) {
 			RefCountedPtr<Graphics::Surface> surf = surfaces.at(node->mMeshes[i]);
 
-			//Mark the entire node as transparent (all importers split by material so far)
-			if (surf->GetMaterial()->diffuse.a < 0.999f) {
+			//turn on alpha blending and mark entire node as transparent
+			//(all importers split by material so far)
+			if (surf->GetMaterial()->diffuse.a < 0.99f) {
 				geom->SetNodeMask(NODE_TRANSPARENT);
 				geom->m_blendMode = Graphics::BLEND_ALPHA;
 			}
