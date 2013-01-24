@@ -21,15 +21,13 @@ Alpha 31
      * Collisions with stars now work again (#1942)
      * Dates before 3200-01-01 no longer display negative (#1955, #1954)
      * Text on SGModel ships now uses correct character offsets (#1980)
-     * New Hope is now located on land (#1977)
 
    * Model changes
      * Modelviewer: Reloading model also reloads textures (#1968, #1939)
      * Handle missing material definitions by providing a basic white default
        material if none are specified (#1817, #1916)
      * Detect conflicts between animations (#1938)
-     * Modelviewer: View controls are improved (#1982)
-     * Modelviewer: Larger models are displayed without z clipping (#1982, #1933)
+     * New material parameters: unlit, two_sided and alpha_test
 
    * Script changes
      * Remove deprecated Ship methods.SetPrimaryColour and SetSecondaryColour
