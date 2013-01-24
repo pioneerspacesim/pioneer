@@ -520,28 +520,24 @@ void WorldView::RefreshButtonStateAndVisibility()
 	if (Pi::showDebugInfo) {
 		char buf[1024], aibuf[256];
 	
-	//Calculate lat/lon for ship position
-	float lat = 0.0 ;
-	float lon = 0.0 ; 
+		//Calculate lat/lon for ship position
+		float lat = 0.0 ;
+		float lon = 0.0 ; 
 
-	vector3d pos = Pi::player->GetPosition();
-	Body *astro = Pi::player->GetFrame()->GetBody();
-	if (astro && astro->IsType(Object::PLANET)) {
-		SystemBody *sb = Pi::player->GetFrame()->GetSystemBody();
-		const float radius = sb->GetRadius();
+		vector3d pos = Pi::player->GetPosition();
+		Body *astro = Pi::player->GetFrame()->GetBody();
+		if (astro && astro->IsType(Object::PLANET)) {
+			SystemBody *sb = Pi::player->GetFrame()->GetSystemBody();
+			const float radius = sb->GetRadius();
 
-		//Get latitude
-		lat = acos(abs(pos.y) / radius )*180.f/M_PI;  
-		if	(pos.y < 0.f) lat-=90.f;  //northern hemisphere
-		else lat=90.f-lat;			  //southern hemisphere
+			//Get latitude
+			lat = acos(abs(pos.y) / radius )*RAD_2_DEG;  
+			if	(pos.y < 0.f) lat-=90.f;  //southern hemisphere
+			else lat=90.f-lat;			  //northern hemisphere
 
-		//Get longitude
-		lon = atan(abs(pos.x) / abs(pos.z) )*180.f/M_PI;    
-		if			(pos.x >=0.f && pos.z >=0.f) lon*=-1;		  	
-		else if		(pos.x >=0.f && pos.z <	0.f ) lon=-180.f+lon; 
-		else if		(pos.x < 0.f && pos.z < 0.f ) lon=180.f-lon;
-		else	    lon=lon;	// --> (pos.x < 0.f && pos.z >= 0.f) 	
-	}
+			//Get longitude
+			lon = atan2(pos.x,pos.z)*-RAD_2_DEG;
+		}
 
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
 
