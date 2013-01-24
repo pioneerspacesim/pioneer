@@ -11,51 +11,13 @@ namespace EnumStrings {
 static std::map< std::string, std::map<int,std::string> > enumStrings;
 static std::map< std::string, std::map<std::string,int> > enumValues;
 
-struct EnumTable {
-	const char *ns;
-	const EnumItem *item;
-};
-static const EnumTable enumTables[] = {
-	{ "BodyType",              ENUM_BodyType },
-	{ "BodySuperType",         ENUM_BodySuperType },
-	{ "PolitCrime",            ENUM_PolitCrime },
-	{ "PolitEcon",             ENUM_PolitEcon },
-	{ "PolitGovType",          ENUM_PolitGovType },
-	{ "EquipSlot",             ENUM_EquipSlot },
-	{ "EquipType",             ENUM_EquipType },
-	{ "DualLaserOrientation",  ENUM_DualLaserOrientation },
-	{ "ShipTypeTag",           ENUM_ShipTypeTag },
-	{ "ShipTypeThruster",      ENUM_ShipTypeThruster },
-	{ "ShipJumpStatus",        ENUM_ShipJumpStatus },
-	{ "ShipAlertStatus",       ENUM_ShipAlertStatus },
-	{ "ShipFuelStatus",        ENUM_ShipFuelStatus },
-	{ "ShipFlightState",       ENUM_ShipFlightState },
-	{ "ShipAIError",           ENUM_ShipAIError },
-	{ "ShipAnimation",         ENUM_ShipAnimation },
-	{ "SpaceStationAnimation", ENUM_SpaceStationAnimation },
-	{ "FileSystemRoot",        ENUM_FileSystemRoot },
-	{ "UIAlignDirection",      ENUM_UIAlignDirection },
-	{ "UIMarginDirection",     ENUM_UIMarginDirection },
-	{ "UIFont",                ENUM_UIFont },
-	{ "UISizeControl",         ENUM_UISizeControl },
-	{ "UIEventType",           ENUM_UIEventType },
-	{ "UIGradientDirection",   ENUM_UIGradientDirection },
-	{ "UIExpandDirection",     ENUM_UIExpandDirection },
-	{ "UIKeyboardAction",      ENUM_UIKeyboardAction },
-	{ "UIMouseButtonAction",   ENUM_UIMouseButtonAction },
-	{ "UIMouseButtonType",     ENUM_UIMouseButtonType },
-	{ "UIMouseWheelDirection", ENUM_UIMouseWheelDirection },
-	{ "GameUIFaceFlags",       ENUM_GameUIFaceFlags },
-	{ 0, 0 }
-};
-
 void Init()
 {
-	for (const EnumTable *table = enumTables; table->ns; table++) {
-		std::map<int,std::string> &stringMap = enumStrings[table->ns];
-		std::map<std::string,int> &valueMap = enumValues[table->ns];
+	for (const EnumTable *table = ENUM_TABLES; table->name; table++) {
+		std::map<int,std::string> &stringMap = enumStrings[table->name];
+		std::map<std::string,int> &valueMap = enumValues[table->name];
 
-		for (const EnumItem *item = table->item; item->name; item++) {
+		for (const EnumItem *item = table->first; item->name; item++) {
 			stringMap.insert(std::make_pair(item->value, item->name));
 			valueMap.insert(std::make_pair(item->name, item->value));
 		}
