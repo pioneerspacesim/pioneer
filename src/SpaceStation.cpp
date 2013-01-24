@@ -52,15 +52,16 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 			i != m_shipsOnSale.end(); ++i) {
 		(*i).Save(wr);
 	}
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	wr.Int32(m_shipDocking.size());
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		wr.Int32(space->GetIndexForBody(m_shipDocking[i].ship));
 		wr.Int32(m_shipDocking[i].stage);
 		wr.Float(float(m_shipDocking[i].stagePos));
 		wr.Vector3d(m_shipDocking[i].fromPos);
 		wr.WrQuaternionf(m_shipDocking[i].fromRot);
 
-		wr.Float(float(m_openAnimState[i]));
-		wr.Float(float(m_dockAnimState[i]));
+		wr.Float(float(m_shipDocking[i].openAnimState));
+		wr.Float(float(m_shipDocking[i].dockAnimState));
 	}
 	wr.Bool(m_dockingLock);
 
@@ -89,15 +90,19 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 		s.Load(rd);
 		m_shipsOnSale.push_back(s);
 	}
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_shipDocking[i].shipIndex = rd.Int32();
-		m_shipDocking[i].stage = rd.Int32();
-		m_shipDocking[i].stagePos = rd.Float();
-		m_shipDocking[i].fromPos = rd.Vector3d();
-		m_shipDocking[i].fromRot = rd.RdQuaternionf();
+	const int32_t numShipDocking = rd.Int32();
+	m_shipDocking.reserve(numShipDocking);
+	for (int i=0; i<numShipDocking; i++) {
+		m_shipDocking.push_back(shipDocking_t());
+		shipDocking_t &sd = m_shipDocking.back();
+		sd.shipIndex = rd.Int32();
+		sd.stage = rd.Int32();
+		sd.stagePos = rd.Float();
+		sd.fromPos = rd.Vector3d();
+		sd.fromRot = rd.RdQuaternionf();
 
-		m_openAnimState[i] = rd.Float();
-		m_dockAnimState[i] = rd.Float();
+		sd.openAnimState = rd.Float();
+		sd.dockAnimState = rd.Float();
 	}
 	m_dockingLock = rd.Bool();
 
@@ -111,7 +116,7 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 void SpaceStation::PostLoadFixup(Space *space)
 {
 	ModelBody::PostLoadFixup(space);
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		m_shipDocking[i].ship = static_cast<Ship*>(space->GetBodyByIndex(m_shipDocking[i].shipIndex));
 	}
 }
@@ -124,13 +129,6 @@ SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 	m_bbCreated = false;
 	m_bbShuffled = false;
 
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_shipDocking[i].ship = 0;
-		m_shipDocking[i].stage = 0;
-		m_shipDocking[i].stagePos = 0;
-		m_openAnimState[i] = 0;
-		m_dockAnimState[i] = 0;
-	}
 	m_dockingLock = false;
 	m_oldAngDisplacement = 0.0;
 
@@ -144,8 +142,15 @@ void SpaceStation::InitStation()
 	for(int i=0; i<NUM_STATIC_SLOTS; i++) m_staticSlot[i] = false;
 	MTRand rand(m_sbody->seed);
 	bool ground = m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL ? false : true;
-	if (ground) m_type = &SpaceStationType::surfaceStationTypes[ rand.Int32(SpaceStationType::surfaceStationTypes.size()) ];
-	else m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
+	if (ground) { 
+		m_type = &SpaceStationType::surfaceStationTypes[ rand.Int32(SpaceStationType::surfaceStationTypes.size()) ];
+	} else { 
+		m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
+	}
+
+	for (int i=0; i<m_type->numDockingPorts; i++) {
+		m_shipDocking.push_back(shipDocking_t());
+	}
 
 	LmrObjParams &params = GetLmrObjParams();
 	params.animStages[ANIM_DOCKING_BAY_1] = 1;
@@ -203,7 +208,7 @@ void SpaceStation::UpdateShipyard()
 
 void SpaceStation::NotifyRemoved(const Body* const removedBody)
 {
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		if (m_shipDocking[i].ship == removedBody) {
 			m_shipDocking[i].ship = 0;
 		}
@@ -212,7 +217,7 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 
 int SpaceStation::GetMyDockingPort(const Ship *s) const
 {
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		if (s == m_shipDocking[i].ship) return i;
 	}
 	return -1;
@@ -260,14 +265,14 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 
 bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 {
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		if (i >= m_type->numDockingPorts) break;
 		if ((m_shipDocking[i].ship == s) && (m_shipDocking[i].stage > 0)) {
 			outMsg = stringf(Lang::CLEARANCE_ALREADY_GRANTED_BAY_N, formatarg("bay", i+1));
 			return true;
 		}
 	}
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		if (i >= m_type->numDockingPorts) break;
 		if (m_shipDocking[i].ship != 0) continue;
 		shipDocking_t &sd = m_shipDocking[i];
@@ -287,7 +292,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 		Ship *s = static_cast<Ship*>(b);
 
 		int port = -1;
-		for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 			if (m_shipDocking[i].ship == s) { port = i; break; }
 		}
 		if (port == -1) return false;					// no permission
@@ -336,7 +341,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 void SpaceStation::DockingUpdate(const double timeStep)
 {
 	vector3d p1, p2, zaxis;
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		shipDocking_t &dt = m_shipDocking[i];
 		if (!dt.ship) continue;
 		// docked stage is m_type->numDockingPorts + 1 => ship docked
@@ -349,8 +354,8 @@ void SpaceStation::DockingUpdate(const double timeStep)
 
 		if (dt.stage == 1) {
 			// SPECIAL stage! Docking granted but waiting for ship to dock
-			m_openAnimState[i] += 0.3*timeStep;
-			m_dockAnimState[i] -= 0.3*timeStep;
+			m_shipDocking[i].openAnimState += 0.3*timeStep;
+			m_shipDocking[i].dockAnimState -= 0.3*timeStep;
 
 			if (dt.stagePos >= 1.0) {
 				if (dt.ship == static_cast<Ship*>(Pi::player)) Pi::onDockingClearanceExpired.emit(this);
@@ -398,9 +403,9 @@ void SpaceStation::DockingUpdate(const double timeStep)
 			if (m_type->dockOneAtATimePlease) m_dockingLock = false;
 		}
 	}
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_openAnimState[i] = Clamp(m_openAnimState[i], 0.0, 1.0);
-		m_dockAnimState[i] = Clamp(m_dockAnimState[i], 0.0, 1.0);
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
+		m_shipDocking[i].openAnimState = Clamp(m_shipDocking[i].openAnimState, 0.0, 1.0);
+		m_shipDocking[i].dockAnimState = Clamp(m_shipDocking[i].dockAnimState, 0.0, 1.0);
 	}
 }
 
@@ -612,7 +617,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 	params.label = GetLabel().c_str();
 	SetLmrTimeParams();
 
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (int i=0; i<MAX_LMR_DOCKING_PORTS; i++) {
 		params.animStages[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stage;
 		params.animValues[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stagePos;
 	}
@@ -772,7 +777,7 @@ vector3d SpaceStation::GetTargetIndicatorPosition(const Frame *relTo) const
 {
 	// return the next waypoint if permission has been granted for player,
 	// and the docking point's position once the docking anim starts
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		if (i >= m_type->numDockingPorts) break;
 		if ((m_shipDocking[i].ship == Pi::player) && (m_shipDocking[i].stage > 0)) {
 

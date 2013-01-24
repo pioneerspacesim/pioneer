@@ -836,7 +836,6 @@ void Loader::LoadCollision(const std::string &filename)
 	m_model->GetRoot()->AddChild(new CollisionGeometry(vertices, indices, 0));
 }
 
-#pragma optimize( "", off )
 unsigned int Loader::GetGeomFlagForNodeName(const std::string &nodename)
 {
 	if (nodename.length() >= 14) {

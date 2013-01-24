@@ -15,7 +15,9 @@
 #include "ShipType.h"
 #include "SpaceStationType.h"
 
-#define MAX_DOCKING_PORTS	4
+#define MAX_DOCKING_PORTS		240	//256-(0x10)
+#define MAX_LMR_DOCKING_PORTS	4
+
 
 class CityOnPlanet;
 class CollMeshSet;
@@ -124,20 +126,26 @@ private:
 	 * Stage -1 to -m_type->numUndockStages is undocking animation
 	 */
 	struct shipDocking_t {
+		shipDocking_t() : ship(NULL), shipIndex(0),
+			stage(0), stagePos(0), openAnimState(0.0),
+			dockAnimState(0.0) {}
+
 		Ship *ship;
 		int shipIndex; // deserialisation
 		int stage;
 		vector3d fromPos; // in station model coords
 		Quaterniond fromRot;
 		double stagePos; // 0 -> 1.0
+
+		double openAnimState;
+		double dockAnimState;
 	};
-	shipDocking_t m_shipDocking[MAX_DOCKING_PORTS];
+	typedef std::vector<shipDocking_t>::const_iterator	constShipDockingIter;
+	typedef std::vector<shipDocking_t>::iterator		shipDockingIter;
+	std::vector<shipDocking_t> m_shipDocking;
 	bool m_dockingLock;
 
 	double m_oldAngDisplacement;
-
-	double m_openAnimState[MAX_DOCKING_PORTS];
-	double m_dockAnimState[MAX_DOCKING_PORTS];
 
 	void InitStation();
 	void UpdateShipyard();
