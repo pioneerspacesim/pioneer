@@ -16,6 +16,7 @@ Alpha 31
      * Removed per-light ambient color and building fade (#1930)
      * Ship thrust and fuel tank size have been rebalanced (#1689)
      * Restore "Pioneering Pilots' Guild" text (#1987, #1989)
+     * New Hope is now located on land (#1977)
 
    * Fixes
      * Collisions with stars now work again (#1942)
@@ -27,6 +28,8 @@ Alpha 31
      * Handle missing material definitions by providing a basic white default
        material if none are specified (#1817, #1916)
      * Detect conflicts between animations (#1938)
+     * Modelviewer: View controls are improved (#1982)
+     * Modelviewer: Larger models are displayed without z clipping (#1982, #1933)
      * New material parameters: unlit, two_sided and alpha_test
 
    * Script changes
