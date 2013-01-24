@@ -17,8 +17,7 @@
 
 using namespace Graphics;
 
-Camera::Camera(const Body *body, float width, float height, float fovY, float znear, float zfar) :
-	m_body(body),
+Camera::Camera(float width, float height, float fovY, float znear, float zfar) :
 	m_width(width),
 	m_height(height),
 	m_fovAng(fovY),
@@ -27,28 +26,18 @@ Camera::Camera(const Body *body, float width, float height, float fovY, float zn
 	m_frustum(m_width, m_height, m_fovAng, znear, zfar),
 	m_pos(0.0),
 	m_orient(matrix3x3d::Identity()),
+	m_frame(0),
 	m_camFrame(0),
-	m_showCameraBody(true),
 	m_renderer(0)
 {
-	m_onBodyDeletedConnection = m_body->onDelete.connect(sigc::mem_fun(this, &Camera::OnBodyDeleted));
 }
 
 Camera::~Camera()
 {
-	if (m_onBodyDeletedConnection.connected())
-		m_onBodyDeletedConnection.disconnect();
-
 	if (m_camFrame) {
-		m_body->GetFrame()->RemoveChild(m_camFrame);
+		m_frame->RemoveChild(m_camFrame);
 		delete m_camFrame;
 	}
-}
-
-void Camera::OnBodyDeleted()
-{
-	m_onBodyDeletedConnection.disconnect();
-	m_body = 0;
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::LightSource> &lights)
@@ -59,15 +48,14 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 	// IsRotFrame check prevents double counting
 	if (body && !frame->IsRotFrame() && (body->GetSuperType() == SystemBody::SUPERTYPE_STAR)) {
 		vector3d lpos = frame->GetPositionRelTo(camFrame);
-		double dist = lpos.Length() / AU;
+		const double dist = lpos.Length() / AU;
 		lpos *= 1.0/dist; // normalize
 
 		const float *col = StarSystem::starRealColors[body->type];
 
-		Color lightCol(col[0], col[1], col[2], 0.f);
-		Color ambCol(0.f);
+		const Color lightCol(col[0], col[1], col[2], 0.f);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
-		lights.push_back(Camera::LightSource(frame->GetBody(), Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, ambCol, lightCol)));
+		lights.push_back(Camera::LightSource(frame->GetBody(), Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, lightCol)));
 	}
 
 	for (Frame::ChildIterator it = frame->BeginChildren(); it != frame->EndChildren(); ++it) {
@@ -77,16 +65,14 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 
 void Camera::Update()
 {
-	if (!m_body) return;
+	if (!m_frame) return;
 
-	// make temporary camera frame at the body
-	m_camFrame = new Frame(m_body->GetFrame(), "camera", Frame::TEMP_VIEWING | Frame::FLAG_ROTATING);
+	// make temporary camera frame
+	m_camFrame = new Frame(m_frame, "camera", Frame::FLAG_ROTATING);
 
-	// interpolate between last physics tick position and current one,
-	// to remove temporal aliasing
-	const matrix3x3d &m = m_body->GetInterpOrient();
-	m_camFrame->SetOrient(m * m_orient);
-	m_camFrame->SetPosition(m * m_pos + m_body->GetInterpPosition());
+	// move and orient it to the camera position
+	m_camFrame->SetOrient(m_orient);
+	m_camFrame->SetPosition(m_pos);
 
 	// make sure old orient and interpolated orient (rendering orient) are not rubbish
 	m_camFrame->ClearMovement();
@@ -111,9 +97,9 @@ void Camera::Update()
 	m_sortedBodies.sort();
 }
 
-void Camera::Draw(Renderer *renderer)
+void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 {
-	if (!m_body) return;
+	if (!m_camFrame) return;
 	if (!renderer) return;
 
 	m_renderer = renderer;
@@ -134,11 +120,9 @@ void Camera::Draw(Renderer *renderer)
 	position_system_lights(m_camFrame, Pi::game->GetSpace()->GetRootFrame(), m_lightSources);
 
 	if (m_lightSources.empty()) {
-		// no lights means we're somewhere weird (eg hyperspace).
-		// fake one up and give a little ambient light so that we can see and
-		// so that things that need lights don't explode
-		Color col(1.f);
-		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col, col)));
+		// no lights means we're somewhere weird (eg hyperspace). fake one
+		const Color col(1.f);
+		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col)));
 	}
 
 	//fade space background based on atmosphere thickness and light angle
@@ -180,7 +164,9 @@ void Camera::Draw(Renderer *renderer)
 	for (std::list<BodyAttrs>::iterator i = m_sortedBodies.begin(); i != m_sortedBodies.end(); ++i) {
 		BodyAttrs *attrs = &(*i);
 
-		if (attrs->body == GetBody() && !m_showCameraBody) continue;
+		// explicitly exclude a single body if specified (eg player)
+		if (attrs->body == excludeBody)
+			continue;
 
 		double rad = attrs->body->GetClipRadius();
 		if (!m_frustum.TestPointInfinite((*i).viewCoords, rad))
@@ -201,7 +187,7 @@ void Camera::Draw(Renderer *renderer)
 	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
 	UnbindAllBuffers();
 
-	m_body->GetFrame()->RemoveChild(m_camFrame);
+	m_frame->RemoveChild(m_camFrame);
 	delete m_camFrame;
 	m_camFrame = 0;
 

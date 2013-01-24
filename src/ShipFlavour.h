@@ -26,6 +26,7 @@ public:
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
 	void ApplyTo(LmrObjParams *p) const;
+	void ApplyTo(ModelBase *m) const;
 	static void MakeTrulyRandom(ShipFlavour &v, bool atmosphereCapableOnly = false);
 private:
 	void SaveLmrMaterial(Serializer::Writer &wr, LmrMaterial *m);

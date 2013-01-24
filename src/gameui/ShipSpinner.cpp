@@ -19,13 +19,14 @@ ShipSpinner::ShipSpinner(Context *context, const ShipFlavour &flavour) : Widget(
 	memset(&m_params, 0, sizeof(LmrObjParams));
 	m_params.animationNamespace = "ShipAnimation";
 	m_params.equipment = &m_equipment;
-	m_flavour.ApplyTo(&m_params);
 	m_params.animValues[Ship::ANIM_WHEEL_STATE] = 1.0;
 	m_params.flightState = Ship::FLYING;
 
-	Color lc(0.5f, 0.5f, 0.5f, 0.f);
+	m_flavour.ApplyTo(&m_params);
+	m_flavour.ApplyTo(m_model);
+
+	Color lc(1.f);
 	m_light.SetDiffuse(lc);
-	m_light.SetAmbient(lc);
 	m_light.SetSpecular(lc);
 	m_light.SetPosition(vector3f(1.f, 1.f, 0.f));
 	m_light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);

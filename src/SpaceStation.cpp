@@ -2,223 +2,40 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SpaceStation.h"
-#include "Ship.h"
-#include "Planet.h"
-#include "gameconsts.h"
-#include "galaxy/StarSystem.h"
-#include "Serializer.h"
-#include "Frame.h"
-#include "Pi.h"
 #include "CityOnPlanet.h"
+#include "FileSystem.h"
+#include "Frame.h"
+#include "Game.h"
+#include "gameconsts.h"
+#include "Lang.h"
+#include "LmrModel.h"
+#include "LuaEvent.h"
+#include "LuaVector.h"
+#include "Pi.h"
+#include "Planet.h"
 #include "Player.h"
 #include "Polit.h"
-#include "LmrModel.h"
-#include "LuaVector.h"
-#include "LuaEvent.h"
 #include "Polit.h"
+#include "Serializer.h"
+#include "Ship.h"
 #include "Space.h"
-#include "Lang.h"
 #include "StringF.h"
-#include <algorithm>
-#include "Game.h"
+#include "galaxy/StarSystem.h"
 #include "graphics/Graphics.h"
+#include <algorithm>
 
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
 
-void SpaceStationType::_ReadStageDurations(const char *key, int *outNumStages, double **durationArray) {
-	lua_State *L = LmrGetLuaState();
-
-	LUA_DEBUG_START(L);
-
-	model->PushAttributeToLuaStack(key);
-	assert(lua_istable(L, -1));
-
-	int num = lua_rawlen(L, -1);
-	*outNumStages = num;
-	if (num == 0) {
-		*durationArray = 0;
-	} else {
-		*durationArray = new double[num];
-		for (int i=1; i<=num; i++) {
-			lua_pushinteger(L, i);
-			lua_gettable(L, -2);
-			(*durationArray)[i-1] = lua_tonumber(L, -1);
-			lua_pop(L, 1);
-		}
-	}
-	if (outNumStages <= 0) {
-		Error("Space station %s must have atleast 1 docking and 1 undocking animation stage.",
-				modelName);
-	}
-
-	lua_pop(L, 1);
-
-	LUA_DEBUG_END(L, 0);
-}
-// read from lua model definition
-void SpaceStationType::ReadStageDurations() {
-	_ReadStageDurations("dock_anim_stage_duration", &numDockingStages, &dockAnimStageDuration);
-	_ReadStageDurations("undock_anim_stage_duration", &numUndockStages, &undockAnimStageDuration);
-}
-
-bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const
-{
-	lua_State *L = LmrGetLuaState();
-
-	LUA_DEBUG_START(L);
-
-	lua_pushcfunction(L, pi_lua_panic);
-	model->PushAttributeToLuaStack("ship_approach_waypoints");
-	if (!lua_isfunction(L, -1)) {
-		printf("no function\n");
-		lua_pop(L, 2);
-		LUA_DEBUG_END(L, 0);
-		return false;
-	}
-
-	lua_pushinteger(L, port+1);
-	lua_pushinteger(L, stage);
-	lua_pcall(L, 2, 1, -4);
-	bool gotOrient;
-	if (lua_istable(L, -1)) {
-		gotOrient = true;
-		lua_pushinteger(L, 1);
-		lua_gettable(L, -2);
-		outPosOrient.pos = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-
-		lua_pushinteger(L, 2);
-		lua_gettable(L, -2);
-		outPosOrient.xaxis = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-
-		lua_pushinteger(L, 3);
-		lua_gettable(L, -2);
-		outPosOrient.yaxis = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-	} else {
-		gotOrient = false;
-	}
-	lua_pop(L, 2);
-
-	LUA_DEBUG_END(L, 0);
-
-	return gotOrient;
-}
-
-// returns true and fills outPosOrient if model has suitable data available
-// if stage is at one end, fills out last position in animation
-bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
-{
-	if (stage < -shipLaunchStage) { stage = -shipLaunchStage; t = 1.0; }
-	if (stage > numDockingStages || !stage) { stage = numDockingStages; t = 1.0; }
-	// note case for stageless launch (shipLaunchStage==0)
-
-	lua_State *L = LmrGetLuaState();
-
-	LUA_DEBUG_START(L);
-
-	lua_pushcfunction(L, pi_lua_panic);
-	// It's a function of form function(stage, t, from)
-	model->PushAttributeToLuaStack("ship_dock_anim");
-	if (!lua_isfunction(L, -1)) {
-		Error("Spacestation model %s needs ship_dock_anim method", model->GetName());
-	}
-	lua_pushinteger(L, port+1);
-	lua_pushinteger(L, stage);
-	lua_pushnumber(L, double(t));
-	LuaVector::PushToLua(L, from);
-	// push model aabb as lua table: { min: vec3, max: vec3 }
-	{
-		const Aabb &aabb = ship->GetAabb();
-		lua_createtable (L, 0, 2);
-		LuaVector::PushToLua(L, aabb.max);
-		lua_setfield(L, -2, "max");
-		LuaVector::PushToLua(L, aabb.min);
-		lua_setfield(L, -2, "min");
-	}
-
-	lua_pcall(L, 5, 1, -7);
-	bool gotOrient;
-	if (lua_istable(L, -1)) {
-		gotOrient = true;
-		lua_pushinteger(L, 1);
-		lua_gettable(L, -2);
-		outPosOrient.pos = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-
-		lua_pushinteger(L, 2);
-		lua_gettable(L, -2);
-		outPosOrient.xaxis = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-
-		lua_pushinteger(L, 3);
-		lua_gettable(L, -2);
-		outPosOrient.yaxis = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-	} else {
-		gotOrient = false;
-	}
-	lua_pop(L, 2);
-
-	LUA_DEBUG_END(L, 0);
-
-	return gotOrient;
-}
-
-static bool stationTypesInitted = false;
-static std::vector<SpaceStationType> surfaceStationTypes;
-static std::vector<SpaceStationType> orbitalStationTypes;
-
 /* Must be called after LmrModel init is called */
 void SpaceStation::Init()
 {
-	if (stationTypesInitted) return;
-	stationTypesInitted = true;
-	for (int is_orbital=0; is_orbital<2; is_orbital++) {
-		std::vector<LmrModel*> models;
-		if (is_orbital) LmrGetModelsWithTag("orbital_station", models);
-		else LmrGetModelsWithTag("surface_station", models);
-
-		for (std::vector<LmrModel*>::iterator i = models.begin();
-				i != models.end(); ++i) {
-			SpaceStationType t;
-			t.modelName = (*i)->GetName();
-			t.model = LmrLookupModelByName(t.modelName);
-			t.dockMethod = SpaceStationType::DOCKMETHOD(is_orbital);
-			t.numDockingPorts = (*i)->GetIntAttribute("num_docking_ports");
-			t.shipLaunchStage = (*i)->GetIntAttribute("ship_launch_stage");
-			t.dockOneAtATimePlease = (*i)->GetBoolAttribute("dock_one_at_a_time_please");
-			t.parkingDistance = (*i)->GetFloatAttribute("parking_distance");
-			t.parkingGapSize = (*i)->GetFloatAttribute("parking_gap_size");
-			t.ReadStageDurations();
-			//printf("one at a time? %s\n", t.dockOneAtATimePlease ? "yes" : "no");
-			//printf("%s: %d docking ports\n", t.modelName, t.numDockingPorts);
-			if (is_orbital) {
-				t.angVel = (*i)->GetFloatAttribute("angular_velocity");
-				orbitalStationTypes.push_back(t);
-			}
-			else {
-				t.angVel = 0.0;
-				surfaceStationTypes.push_back(t);
-			}
-		}
-	}
-	//printf(SIZET_FMT " orbital station types and " SIZET_FMT " surface station types.\n", orbitalStationTypes.size(), surfaceStationTypes.size());
+	SpaceStationType::Init();
 }
 
 void SpaceStation::Uninit()
 {
-	std::vector<SpaceStationType>::iterator i;
-	for (i=surfaceStationTypes.begin(); i!=surfaceStationTypes.end(); ++i) {
-		delete[] (*i).dockAnimStageDuration;
-		delete[] (*i).undockAnimStageDuration;
-	}
-	for (i=orbitalStationTypes.begin(); i!=orbitalStationTypes.end(); ++i) {
-		delete[] (*i).dockAnimStageDuration;
-		delete[] (*i).undockAnimStageDuration;
-	}
+	SpaceStationType::Uninit();
 }
 
 void SpaceStation::Save(Serializer::Writer &wr, Space *space)
@@ -327,8 +144,8 @@ void SpaceStation::InitStation()
 	for(int i=0; i<NUM_STATIC_SLOTS; i++) m_staticSlot[i] = false;
 	Random rand(m_sbody->seed);
 	bool ground = m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL ? false : true;
-	if (ground) m_type = &surfaceStationTypes[ rand.Int32(surfaceStationTypes.size()) ];
-	else m_type = &orbitalStationTypes[ rand.Int32(orbitalStationTypes.size()) ];
+	if (ground) m_type = &SpaceStationType::surfaceStationTypes[ rand.Int32(SpaceStationType::surfaceStationTypes.size()) ];
+	else m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
 
 	LmrObjParams &params = GetLmrObjParams();
 	params.animStages[ANIM_DOCKING_BAY_1] = 1;
@@ -336,7 +153,7 @@ void SpaceStation::InitStation()
 	// XXX the animation namespace must match that in LuaConstants
 	params.animationNamespace = "SpaceStationAnimation";
 	SetStatic(ground);			// orbital stations are dynamic now
-	SetModel(m_type->modelName);
+	SetModel(m_type->modelName.c_str());
 
 	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS);		// overrides setmodel
 }
@@ -715,7 +532,7 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 {
 	// position relative to the rotating frame of the planet
 	vector3d upDir = GetPosition();
-	double dist = upDir.Length();
+	const double dist = upDir.Length();
 	upDir = upDir.Normalized();
 	double pressure, density;
 	planet->GetAtmosphericState(dist, &pressure, &density);
@@ -741,9 +558,10 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 				// relative to the rotating frame of the planet
 				const vector3d lightDir = (l->GetBody()->GetInterpPositionRelTo(planet->GetFrame()).Normalized());
 				sunAngle = lightDir.Dot(upDir);
-			} else
+			} else {
 				// light is the default light for systems without lights
 				sunAngle = 1.0;
+			}
 
 			//0 to 1 as sunangle goes from 0.0 to 1.0
 			double sunAngle2 = (Clamp(sunAngle, 0.0,1.0))/1.0;
@@ -771,7 +589,7 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 
 	// ambient light fraction
 	// alter ratio between directly and ambiently lit portions towards ambiently lit as sun sets
-	double fraction = (0.1+0.8*(
+	const double fraction = (0.1+0.8*(
 						1.0-light_clamped*(Clamp((opticalThicknessFraction),0.0,1.0))
 						)+0.1); //fraction goes from 0.6 to 1.0
 
@@ -783,29 +601,11 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 	ambient = fraction*(Clamp((light),0.0,1.0))*0.25;
 }
 
-// if twilight or night fade in model at close ranges by increasing scene ambient lighting to minIllumination
-// dist is distance in meters to model in camera space
-void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, double fadeInEnd, double fadeInLength, double illumination, double minIllumination)
-{
-	if (illumination <= minIllumination) {
-
-		fadeInEnd = std::max(std::max(modelRadius,10.0), fadeInEnd);
-		const double fadeInStart = fadeInLength+fadeInEnd;
-		// 0 to 1 as dist goes from fadeInEnd to fadeInStart
-		double sceneAmbient = 1.0-(Clamp(dist, fadeInEnd, fadeInStart)-fadeInEnd)/((fadeInStart-fadeInEnd));
-
-		//set scene ambient to the amount needed to take illumination level to 0.2
-		sceneAmbient*= minIllumination-illumination;
-
-		r->SetAmbientColor(Color(sceneAmbient, sceneAmbient, sceneAmbient, 1.0));
-	}
-}
 // Renders space station and adjacent city if applicable
 // For orbital starports: renders as normal
 // For surface starports:
 //	Lighting: Calculates available light for model and splits light between directly and ambiently lit
 //            Lighting is done by manipulating global lights or setting uniforms in atmospheric models shader
-//            Adds an ambient light at close ranges if dark by manipulating the global ambient level
 void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	LmrObjParams &params = GetLmrObjParams();
@@ -834,6 +634,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		double ambient, intensity;
 
 		CalcLighting(planet, ambient, intensity, lightSources);
+		ambient = std::max(0.05, ambient);
 
 		std::vector<Graphics::Light> origLights, newLights;
 
@@ -843,11 +644,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			origLights.push_back(light);
 
 			Color c = light.GetDiffuse();
-			Color ca = light.GetAmbient();
 			Color cs = light.GetSpecular();
-			ca.r = c.r * float(ambient);
-			ca.g = c.g * float(ambient);
-			ca.b = c.b * float(ambient);
 			c.r*=float(intensity);
 			c.g*=float(intensity);
 			c.b*=float(intensity);
@@ -855,53 +652,27 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			cs.g*=float(intensity);
 			cs.b*=float(intensity);
 			light.SetDiffuse(c);
-			light.SetAmbient(ca);
 			light.SetSpecular(cs);
 
 			newLights.push_back(light);
 		}
 
-		r->SetLights(newLights.size(), &newLights[0]);
-
-		double overallLighting = ambient+intensity;
-
-		// turn off global ambient color
 		const Color oldAmbient = r->GetAmbientColor();
-		r->SetAmbientColor(Color::BLACK);
-
-		// as the camera gets close adjust scene ambient so that intensity+ambient = minIllumination
-		double fadeInEnd, fadeInLength, minIllumination;
-		if (Graphics::AreShadersEnabled()) {
-			minIllumination = 0.125;
-			fadeInEnd = 800.0;
-			fadeInLength = 2000.0;
-		}
-		else {
-			minIllumination = 0.25;
-			fadeInEnd = 1500.0;
-			fadeInLength = 3000.0;
-		}
+		r->SetAmbientColor(Color(ambient));
+		r->SetLights(newLights.size(), &newLights[0]);
 
 		/* don't render city if too far away */
 		if (viewCoords.Length() < 1000000.0){
-			r->SetAmbientColor(Color::BLACK);
 			if (!m_adjacentCity) {
 				m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->seed);
 			}
-			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform, overallLighting, minIllumination);
+			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
 		}
-
-		r->SetAmbientColor(Color::BLACK);
-
-		FadeInModelIfDark(r, GetPhysRadius(),
-							viewCoords.Length(), fadeInEnd, fadeInLength, overallLighting, minIllumination);
 
 		RenderLmrModel(r, viewCoords, viewTransform);
 
-		// restore old lights
+		// restore old lights & ambient
 		r->SetLights(origLights.size(), &origLights[0]);
-
-		// restore old ambient color
 		r->SetAmbientColor(oldAmbient);
 	}
 }

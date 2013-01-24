@@ -24,7 +24,7 @@ protected:
 	Color m_ambientColor;
 	float m_aspectRatio;
 	Graphics::Renderer *m_renderer;
-	LmrModel *m_model;
+	ModelBase *m_model;
 	LmrObjParams m_modelParams;
 	std::vector<Graphics::Light> m_lights;
 };

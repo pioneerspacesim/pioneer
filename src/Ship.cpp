@@ -263,24 +263,17 @@ void Ship::UpdateMass()
 	SetMass((m_stats.total_mass + GetFuel()*GetShipType().fuelTankMass)*1000);
 }
 
-// returns velocity of engine exhausts in m/s
-double Ship::GetEffectiveExhaustVelocity(void) {
-	double denominator = GetShipType().fuelTankMass * GetShipType().thrusterFuelUse * 10;
-	return denominator > 0 ? -GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9;
-}
-
-// inverse of GetEffectiveExhaustVelocity()
-double Ship::GetFuelUseRate(double effectiveExhaustVelocity) {
-	double denominator = effectiveExhaustVelocity * 10;
+double Ship::GetFuelUseRate() const {
+	const double denominator = GetShipType().fuelTankMass * GetShipType().effectiveExhaustVelocity * 10;
 	return denominator > 0 ? -GetShipType().linThrust[ShipType::THRUSTER_FORWARD]/denominator : 1e9;
 }
 
 // returns speed that can be reached using fuel minus reserve according to the Tsiolkovsky equation
-double Ship::GetSpeedReachedWithFuel()
+double Ship::GetSpeedReachedWithFuel() const
 {
-	double fuelmass = 1000*GetShipType().fuelTankMass * (m_thrusterFuel - m_reserveFuel);
+	const double fuelmass = 1000*GetShipType().fuelTankMass * (m_thrusterFuel - m_reserveFuel);
 	if (fuelmass < 0) return 0.0;
-	return GetEffectiveExhaustVelocity() * log(GetMass()/(GetMass()-fuelmass));
+	return GetShipType().effectiveExhaustVelocity * log(GetMass()/(GetMass()-fuelmass));
 }
 
 bool Ship::OnDamage(Object *attacker, float kgDamage)
@@ -300,11 +293,8 @@ bool Ship::OnDamage(Object *attacker, float kgDamage)
 		m_stats.hull_mass_left -= dam;
 		if (m_stats.hull_mass_left < 0) {
 			if (attacker) {
-				if (attacker->IsType(Object::BODY)) {
-					// XXX remove this call. kill stuff (including elite rating) should be in a script
-					static_cast<Body*>(attacker)->OnHaveKilled(this);
+				if (attacker->IsType(Object::BODY))
 					LuaEvent::Queue("onShipDestroyed", this, dynamic_cast<Body*>(attacker));
-				}
 
 				if (attacker->IsType(Object::SHIP))
 					Polit::NotifyOfCrime(static_cast<Ship*>(attacker), Polit::CRIME_MURDER);
@@ -340,7 +330,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 	}
 
 	// hitting cargo scoop surface shouldn't do damage
-	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && (flags & 0x100) && m_stats.free_capacity) {
+	if ((m_equipment.Get(Equip::SLOT_CARGOSCOOP) != Equip::NONE) && b->IsType(Object::CARGOBODY) && m_stats.free_capacity) {
 		Equip::Type item = dynamic_cast<CargoBody*>(b)->GetCargoType();
 		Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(b));
 		m_equipment.Add(item);
@@ -483,7 +473,7 @@ void Ship::UpdateFuelStats()
 	const ShipType &stype = GetShipType();
 
 	m_stats.fuel_tank_mass = stype.fuelTankMass;
-	m_stats.fuel_use = stype.thrusterFuelUse;
+	m_stats.fuel_use = GetFuelUseRate();
 	m_stats.fuel_tank_mass_left = m_stats.fuel_tank_mass * GetFuel();
 
 	UpdateMass();
@@ -606,7 +596,9 @@ void Ship::UseECM()
 		// damage neaby missiles
 		const float ECM_RADIUS = 4000.0f;
 
-		for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
+		Space::BodyNearList nearby;
+		Pi::game->GetSpace()->GetBodiesMaybeNear(this, ECM_RADIUS, nearby);
+		for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
 			if ((*i)->GetFrame() != GetFrame()) continue;
 			if (!(*i)->IsType(Object::MISSILE)) continue;
 
@@ -755,7 +747,7 @@ void Ship::DoThrusterSounds() const
 
 	// XXX sound logic could be part of a bigger class (ship internal sounds)
 	/* Ship engine noise. less loud inside */
-	float v_env = (Pi::worldView->GetActiveCamera()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	float v_env = (Pi::worldView->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 	static Sound::Event sndev;
 	float volBoth = 0.0f;
 	volBoth += 0.5f*fabs(GetThrusterState().y);
@@ -863,18 +855,23 @@ void Ship::UpdateAlertState()
 		return;
 	}
 
+	static const double ALERT_DISTANCE = 100000.0; // 100km
+
+	Space::BodyNearList nearby;
+	Pi::game->GetSpace()->GetBodiesMaybeNear(this, ALERT_DISTANCE, nearby);
+
 	bool ship_is_near = false, ship_is_firing = false;
-	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i)
+	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i)
 	{
 		if ((*i) == this) continue;
 		if (!(*i)->IsType(Object::SHIP) || (*i)->IsType(Object::MISSILE)) continue;
 
-		Ship *ship = static_cast<Ship*>(*i);
+		const Ship *ship = static_cast<const Ship*>(*i);
 
 		if (ship->GetShipType().tag == ShipType::TAG_STATIC_SHIP) continue;
 		if (ship->GetFlightState() == LANDED || ship->GetFlightState() == DOCKED) continue;
 
-		if (GetPositionRelTo(ship).LengthSqr() < 100000.0*100000.0) {
+		if (GetPositionRelTo(ship).LengthSqr() < ALERT_DISTANCE*ALERT_DISTANCE) {
 			ship_is_near = true;
 
 			Uint32 gunstate = 0;
@@ -935,7 +932,7 @@ void Ship::UpdateAlertState()
 
 void Ship::UpdateFuel(const float timeStep, const vector3d &thrust)
 {
-	const double fuelUseRate = GetShipType().thrusterFuelUse * 0.01;
+	const double fuelUseRate = GetFuelUseRate() * 0.01;
 	double totalThrust = (fabs(thrust.x) + fabs(thrust.y) + fabs(thrust.z))
 		/ -GetShipType().linThrust[ShipType::THRUSTER_FORWARD];
 
@@ -1124,6 +1121,8 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	LmrObjParams &params = GetLmrObjParams();
 
 	m_shipFlavour.ApplyTo(&params);
+	m_shipFlavour.ApplyTo(GetModel());
+
 	SetLmrTimeParams();
 	params.angthrust[0] = float(-m_angThrusters.x);
 	params.angthrust[1] = float(-m_angThrusters.y);

@@ -42,8 +42,6 @@ public:
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) { return false; }
 	// Attacker may be null
 	virtual bool OnDamage(Object *attacker, float kgDamage) { return false; }
-	virtual void OnHaveKilled(Body *guyWeKilled) {}
-	// Note: Does not mean killed, just deleted.
 	// Override to clear any pointers you hold to the body
 	virtual void NotifyRemoved(const Body* const removedBody) {}
 

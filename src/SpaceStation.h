@@ -5,60 +5,29 @@
 #define _SPACESTATION_H
 
 #include "libs.h"
-#include "ModelBody.h"
-#include "ShipType.h"
-#include "MarketAgent.h"
-#include "ShipFlavour.h"
-#include "Quaternion.h"
-#include "Serializer.h"
-#include "RefList.h"
 #include "Camera.h"
+#include "MarketAgent.h"
+#include "ModelBody.h"
+#include "Quaternion.h"
+#include "RefList.h"
+#include "Serializer.h"
+#include "ShipFlavour.h"
+#include "ShipType.h"
+#include "SpaceStationType.h"
 
 #define MAX_DOCKING_PORTS	4
 
-class CollMeshSet;
-class Ship;
-struct Mission;
-class Planet;
 class CityOnPlanet;
-namespace Graphics { class Renderer; }
-
-struct SpaceStationType {
-	LmrModel *model;
-	const char *modelName;
-	float angVel;
-	enum DOCKMETHOD { SURFACE, ORBITAL } dockMethod;
-	int numDockingPorts;
-	int numDockingStages;
-	int numUndockStages;
-	int shipLaunchStage;
-	double *dockAnimStageDuration;
-	double *undockAnimStageDuration;
-	bool dockOneAtATimePlease;
-	double parkingDistance;
-	double parkingGapSize;
-
-	struct positionOrient_t {
-		vector3d pos;
-		vector3d xaxis;
-		vector3d yaxis;
-	};
-
-	void _ReadStageDurations(const char *key, int *outNumStages, double **durationArray);
-	// read from lua model definition
-	void ReadStageDurations();
-	bool GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const;
-	/** when ship is on rails it returns true and fills outPosOrient.
-	 * when ship has been released (or docked) it returns false.
-	 * Note station animations may continue for any number of stages after
-	 * ship has been released and is under player control again */
-	bool GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
-};
-
-class StationAdvertForm;
+class CollMeshSet;
 class FormController;
+class Planet;
+class Ship;
 class SpaceStation;
+class StationAdvertForm;
+class SystemBody;
 struct BBAdvert;
+struct Mission;
+namespace Graphics { class Renderer; }
 
 typedef StationAdvertForm* (*AdvertFormBuilder)(FormController *controller, SpaceStation *station, const BBAdvert &ad);
 
@@ -68,15 +37,11 @@ struct BBAdvert {
 	AdvertFormBuilder builder;
 };
 
-
-class SystemBody;
-
 class SpaceStation: public ModelBody, public MarketAgent {
 public:
 	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
 	static void Init();
 	static void Uninit();
-	enum TYPE { JJHOOP, GROUND_FLAVOURED, TYPE_MAX };
 
 	enum Animation { // <enum scope='SpaceStation' name=SpaceStationAnimation prefix=ANIM_>
 		ANIM_DOCKING_BAY_1,
@@ -145,6 +110,7 @@ protected:
 	/* MarketAgent stuff */
 	void Bought(Equip::Type t);
 	void Sold(Equip::Type t);
+
 private:
 	void DockingUpdate(const double timeStep);
 	void PositionDockedShip(Ship *ship, int port) const;
@@ -189,7 +155,5 @@ private:
 	std::vector<BBAdvert> m_bbAdverts;
 	bool m_bbCreated, m_bbShuffled;
 };
-
-void FadeInModelIfDark(Graphics::Renderer *r, double modelRadius, double dist, double fadeInEnd, double fadeInLength, double illumination, double minIllumination);
 
 #endif /* _SPACESTATION_H */

@@ -151,6 +151,7 @@ void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords
 	trans[14] = viewCoords.z;
 	trans[15] = 1.0f;
 
+	m_params.label = GetLabel().c_str();
 	m_model->Render(r, trans, &m_params);
 	glPopMatrix();
 }

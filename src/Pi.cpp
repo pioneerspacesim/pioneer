@@ -135,17 +135,6 @@ bool Pi::mouseYInvert;
 std::vector<Pi::JoystickState> Pi::joysticks;
 bool Pi::navTunnelDisplayed;
 Gui::Fixed *Pi::menu;
-const char * const Pi::combatRating[] = {
-	Lang::HARMLESS,
-	Lang::MOSTLY_HARMLESS,
-	Lang::POOR,
-	Lang::AVERAGE,
-	Lang::ABOVE_AVERAGE,
-	Lang::COMPETENT,
-	Lang::DANGEROUS,
-	Lang::DEADLY,
-	Lang::ELITE
-};
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
 ModelCache *Pi::modelCache;
@@ -155,20 +144,6 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
-
-int Pi::CombatRating(int kills)
-{
-	if (kills < 8) return 0;
-	if (kills < 16) return 1;
-	if (kills < 32) return 2;
-	if (kills < 64) return 3;
-	if (kills < 128) return 4;
-	if (kills < 512) return 5;
-	if (kills < 2400) return 6;
-	if (kills < 6000) return 7;
-	/* nothing better to do with their lives? */
-	return 8;
-}
 
 static void draw_progress(float progress)
 {
@@ -248,14 +223,14 @@ static void LuaInitGame() {
 
 ModelBase *Pi::FindModel(const std::string &name)
 {
-	// Try LMR models first, then NewModel
+	// Try NewModel models first, then LMR
 	ModelBase *m = 0;
 	try {
-		m = LmrLookupModelByName(name.c_str());
-	} catch (LmrModelNotFoundException) {
+		m = Pi::modelCache->FindModel(name);
+	} catch (ModelCache::ModelNotFoundException) {
 		try {
-			m = Pi::modelCache->FindModel(name);
-		} catch (ModelCache::ModelNotFoundException) {
+			m = LmrLookupModelByName(name.c_str());
+		} catch (LmrModelNotFoundException) {
 			Error("Could not find model %s", name.c_str());
 		}
 	}
@@ -1119,8 +1094,8 @@ void Pi::MainLoop()
 
 float Pi::CalcHyperspaceRangeMax(int hyperclass, int total_mass_in_tonnes)
 {
-	// 400.0f is balancing parameter
-	return 400.0f * hyperclass * hyperclass / (total_mass_in_tonnes);
+	// 625.0f is balancing parameter
+	return 625.0f * hyperclass * hyperclass / (total_mass_in_tonnes);
 }
 
 float Pi::CalcHyperspaceRange(int hyperclass, float total_mass_in_tonnes, int fuel)
@@ -1148,8 +1123,8 @@ float Pi::CalcHyperspaceDuration(int hyperclass, int total_mass_in_tonnes, float
 {
 	float hyperspace_range_max = CalcHyperspaceRangeMax(hyperclass, total_mass_in_tonnes);
 
-	// 0.45 is balancing parameter
-	return ((dist * dist * 0.45) / (hyperspace_range_max * hyperclass)) *
+	// 0.36 is balancing parameter
+	return ((dist * dist * 0.36) / (hyperspace_range_max * hyperclass)) *
 			(60.0 * 60.0 * 24.0 * sqrtf(total_mass_in_tonnes));
 }
 

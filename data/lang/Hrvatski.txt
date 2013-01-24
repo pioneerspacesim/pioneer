@@ -571,34 +571,12 @@ YAW
     Skretanje
 MISSILE
     raketa
-HARMLESS
-    Bezopasan
-MOSTLY_HARMLESS
-    Pretežno bezopasan
-POOR
-    Loš
-AVERAGE
-    Prosječan
-ABOVE_AVERAGE
-    Nadprosješan
-COMPETENT
-    Sposoban
-DANGEROUS
-    Opasan
-DEADLY
-    Smrtonosan
-ELITE
-    ELITE
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simulacija evolucije svemira: %age{f.1} miljarda godina ;-)
 TOMBSTONE_EPITAPH
     POČIVAJ U MIRU
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Pioneering Pilots' Guild
-RIGHT_ON_COMMANDER
-    Vrlo dobro kapetane! Vaš borbeni status se poboljšao!
 ALERT_CANCELLED
     Uzbuna prekinuta.
 SHIP_DETECTED_NEARBY

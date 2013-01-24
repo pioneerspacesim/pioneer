@@ -43,6 +43,7 @@ public:
 	bool HasTag(const char *tag) const;
 	std::string GetDumpPath(const char *pMainFolderName=0);
 	void Dump(const LmrObjParams *params, const char* pMainFolderName=0);
+	void SetLabel(const std::string &label) { m_label = label; }
 private:
 	void Build(int lod, const LmrObjParams *params);
 
@@ -59,6 +60,7 @@ private:
 	// only used for lod pixel size at the moment
 	float m_drawClipRadius;
 	float m_scale;
+	std::string m_label;
 	friend class LmrGeomBuffer;
 
 	bool m_dumped;

@@ -19,7 +19,7 @@ DeathView::DeathView(): View()
 	Pi::renderer->GetNearFarRange(znear, zfar);
 
 	const float fovY = Pi::config->Float("FOVVertical");
-	m_cam = new Camera(Pi::player, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar);
+	m_cam = new Camera(Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), fovY, znear, zfar);
 }
 
 DeathView::~DeathView() {}
@@ -27,7 +27,8 @@ DeathView::~DeathView() {}
 void DeathView::Init()
 {
 	m_cameraDist = Pi::player->GetClipRadius() * 5.0;
-	m_cam->SetPosition(vector3d(0, 0, m_cameraDist));
+	m_cam->SetFrame(Pi::player->GetFrame());
+	m_cam->SetPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, m_cameraDist));
 	m_cam->SetOrient(matrix3x3d::Identity());
 }
 
@@ -41,7 +42,7 @@ void DeathView::Update()
 	assert(Pi::player->IsDead());
 
 	m_cameraDist += 160.0 * Pi::GetFrameTime();
-	m_cam->SetPosition(vector3d(0, 0, m_cameraDist));
+	m_cam->SetPosition(Pi::player->GetInterpPosition() + vector3d(0, 0, m_cameraDist));
 	m_cam->Update();
 }
 

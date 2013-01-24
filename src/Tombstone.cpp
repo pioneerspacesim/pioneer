@@ -3,6 +3,7 @@
 
 #include "Tombstone.h"
 #include "Lang.h"
+#include "Pi.h"
 #include "graphics/Renderer.h"
 
 Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
@@ -11,9 +12,9 @@ Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
 	m_ambientColor = Color(0.1f, 0.1f, 0.1f, 1.f);
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	m_lights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc));
+	m_lights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc));
 
-	m_model = LmrLookupModelByName("tombstone");
+	m_model = Pi::FindModel("tombstone");
 
 	// Model parameters
 	memset(&m_modelParams, 0, sizeof(LmrObjParams));

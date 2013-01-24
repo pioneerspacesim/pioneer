@@ -4,13 +4,13 @@
 define_ship {
 	name='E.Y.E',
 	model='peye',
-	forward_thrust = 20e6,
-	reverse_thrust = 10e6,
-	up_thrust = 5e6,
-	down_thrust = 4e6,
-	left_thrust = 4e6,
-	right_thrust = 4e6,
-	angular_thrust = 20e6,
+	forward_thrust = 320e5,
+	reverse_thrust = 160e5,
+	up_thrust = 80e5,
+	down_thrust = 64e5,
+	left_thrust = 64e5,
+	right_thrust = 64e5,
+	angular_thrust = 260e5,
 	camera_offset = v(0,.2,-10.2),
 	gun_mounts =
 	{
@@ -24,8 +24,10 @@ define_ship {
 	max_cargoscoop = 0,
 	capacity = 80,
 	hull_mass = 25,
-	fuel_tank_mass = 55,
-	thruster_fuel_use = 0.00025,
+	fuel_tank_mass = 103,
+	-- Exhaust velocity Vc [m/s] is equivalent of engine efficiency and depend on used technology. Higher Vc means lower fuel consumption.
+	-- Smaller ships built for speed often mount engines with higher Vc. Another way to make faster ship is to increase fuel_tank_mass.
+	effective_exhaust_velocity = 58125e3,
 	price = 100000,
 	hyperdrive_class = 3,
 }

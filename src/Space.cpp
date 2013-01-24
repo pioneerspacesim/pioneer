@@ -25,12 +25,44 @@
 #include "MathUtil.h"
 #include "LuaEvent.h"
 
+void Space::BodyNearFinder::Prepare()
+{
+	m_bodyDist.clear();
+
+	for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
+		m_bodyDist.push_back(BodyDist((*i), (*i)->GetPositionRelTo(m_space->GetRootFrame()).Length()));
+
+	std::sort(m_bodyDist.begin(), m_bodyDist.end());
+}
+
+void Space::BodyNearFinder::GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const
+{
+	GetBodiesMaybeNear(b->GetPositionRelTo(m_space->GetRootFrame()), dist, bodies);
+}
+
+void Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const
+{
+	if (m_bodyDist.empty()) return;
+
+	const double len = pos.Length();
+
+	std::vector<BodyDist>::const_iterator min = std::lower_bound(m_bodyDist.begin(), m_bodyDist.end(), len-dist);
+	std::vector<BodyDist>::const_iterator max = std::upper_bound(min, m_bodyDist.end(), len+dist);
+
+	while (min != max) {
+		bodies.push_back((*min).body);
+		++min;
+	}
+}
+
+
 Space::Space(Game *game)
 	: m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
 	, m_background(Pi::renderer, UNIVERSE_SEED)
+	, m_bodyNearFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -45,6 +77,7 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
 	, m_background(Pi::renderer)
+	, m_bodyNearFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -68,6 +101,7 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
 	, m_background(Pi::renderer)
+	, m_bodyNearFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
@@ -681,7 +715,7 @@ static void CollideWithTerrain(Body *body)
 	if (!dynBody->IsMoving()) return;
 
 	Frame *f = body->GetFrame();
-	if (!f || !f->IsRotFrame() || !f->GetBody()) return;
+	if (!f || !f->GetBody() || f != f->GetBody()->GetFrame()) return;
 	if (!f->GetBody()->IsType(Object::TERRAINBODY)) return;
 	TerrainBody *terrain = static_cast<TerrainBody*>(f->GetBody());
 
@@ -741,6 +775,8 @@ void Space::TimeStep(float step)
 	}
 
 	UpdateBodies();
+
+	m_bodyNearFinder.Prepare();
 }
 
 void Space::UpdateBodies()

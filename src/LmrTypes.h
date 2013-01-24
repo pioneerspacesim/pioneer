@@ -24,7 +24,7 @@ struct LmrObjParams
 	double time;
 	int animStages[LMR_ANIMATION_MAX];
 	double animValues[LMR_ANIMATION_MAX];
-	const char *label;
+	const char *label; // ignored, use model->SetLabel
 	const EquipSet *equipment; // for ships
 	int flightState;
 

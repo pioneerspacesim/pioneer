@@ -11,7 +11,7 @@
 #include "Serializer.h"
 #include "Background.h"
 #include "EquipType.h"
-#include "WorldViewCamera.h"
+#include "CameraController.h"
 
 class Body;
 class Frame;
@@ -39,7 +39,7 @@ public:
 	};
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const { return m_camType; }
-	WorldViewCamera *GetActiveCamera() const { return m_activeCamera; }
+	CameraController *GetCameraController() const { return m_activeCameraController; }
 	void ToggleTargetActions();
 	void ShowTargetActions();
 	void HideTargetActions();
@@ -57,7 +57,7 @@ private:
 	void RefreshButtonStateAndVisibility();
 	void UpdateCommsOptions();
 
-	void ChangeInternalCameraMode(InternalCamera::Mode m);
+	void ChangeInternalCameraMode(InternalCameraController::Mode m);
 	void UpdateCameraName();
 
 	enum IndicatorSide {
@@ -148,10 +148,11 @@ private:
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;
 
-	InternalCamera *m_internalCamera;
-	ExternalCamera *m_externalCamera;
-	SiderealCamera *m_siderealCamera;
-	WorldViewCamera *m_activeCamera; //one of the above
+	ScopedPtr<Camera> m_camera;
+	ScopedPtr<InternalCameraController> m_internalCameraController;
+	ScopedPtr<ExternalCameraController> m_externalCameraController;
+	ScopedPtr<SiderealCameraController> m_siderealCameraController;
+	CameraController *m_activeCameraController; //one of the above
 
 	Indicator m_velIndicator;
 	Indicator m_navVelIndicator;

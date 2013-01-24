@@ -2,7 +2,7 @@ local ui = Engine.ui
 local t = Translate:GetTranslator()
 
 local shipInfo = function (args)
-	local shipId = Game.player.shipType
+	local shipId = Game.player.shipId
 	local shipType = ShipType.GetShipType(shipId)
 
 	local hyperdrive =              table.unpack(Game.player:GetEquip("ENGINE"))

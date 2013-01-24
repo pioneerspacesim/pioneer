@@ -169,6 +169,10 @@ bool RendererLegacy::SetViewport(int x, int y, int width, int height)
 
 bool RendererLegacy::SetTransform(const matrix4x4d &m)
 {
+	//XXX this is not pretty but there's no standard way of converting between them.
+	for (int i=0; i<16; ++i) {
+		m_currentTransform[i] = m[i];
+	}
 	//XXX you might still need the occasional push/pop
 	//GL2+ or ES2 renderers can forego the classic matrix stuff entirely and use uniforms
 	glMatrixMode(GL_MODELVIEW);
@@ -179,6 +183,7 @@ bool RendererLegacy::SetTransform(const matrix4x4d &m)
 bool RendererLegacy::SetTransform(const matrix4x4f &m)
 {
 	//same as above
+	m_currentTransform = m;
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(&m[0]);
 	return true;
@@ -276,7 +281,6 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 		};
 		glLightfv(GL_LIGHT0+i, GL_POSITION, pos);
 		glLightfv(GL_LIGHT0+i, GL_DIFFUSE, l.GetDiffuse());
-		glLightfv(GL_LIGHT0+i, GL_AMBIENT, l.GetAmbient());
 		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular());
 		glEnable(GL_LIGHT0+i);
 
@@ -454,8 +458,7 @@ bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, Mate
 	SetDepthWrite(false);
 	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0, count * 6);
 
-	matrix4x4f rot;
-	glGetFloatv(GL_MODELVIEW_MATRIX, &rot[0]);
+	matrix4x4f rot(GetCurrentTransform());
 	rot.ClearToRotOnly();
 	rot = rot.InverseOf();
 

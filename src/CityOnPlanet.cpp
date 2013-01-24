@@ -306,8 +306,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	AddStaticGeomsToCollisionSpace();
 }
 
-//Note: models get some ambient colour added when dark as the camera moves closer
-void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform, double illumination, double minIllumination)
+void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d rot[4];
 	rot[0] = station->GetOrient();
@@ -323,7 +322,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*double(i));
 	}
 
-	const Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
+	const Graphics::Frustum frustum = camera->GetFrustum();
 	//modelview seems to be always identity
 
 	memset(&cityobj_params, 0, sizeof(LmrObjParams));
@@ -338,21 +337,6 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		if (!frustum.TestPoint(pos, (*i).clipRadius))
 			continue;
 
-		const Color oldSceneAmbientColor = r->GetAmbientColor();
-
-		// fade conditions for models
-		double fadeInEnd, fadeInLength;
-		if (Graphics::AreShadersEnabled()) {
-			fadeInEnd = 10.0;
-			fadeInLength = 500.0;
-		}
-		else {
-			fadeInEnd = 2000.0;
-			fadeInLength = 6000.0;
-		}
-
-		FadeInModelIfDark(r, (*i).clipRadius, pos.Length(), fadeInEnd, fadeInLength, illumination, minIllumination);
-
 		matrix4x4f _rot;
 		for (int e=0; e<16; e++) _rot[e] = float(rot[(*i).rotation][e]);
 		_rot[12] = float(pos.x);
@@ -361,9 +345,5 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		glPushMatrix();
 		(*i).model->Render(r, _rot, &cityobj_params);
 		glPopMatrix();
-
-		// restore old ambient colour
-		if (illumination <= minIllumination)
-			r->SetAmbientColor(oldSceneAmbientColor);
 	}
 }

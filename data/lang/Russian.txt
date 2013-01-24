@@ -602,34 +602,12 @@ YAW
     Управление рысканьем
 MISSILE
     Ракета
-HARMLESS
-    Безобидный
-MOSTLY_HARMLESS
-    Почти безобидный
-POOR
-    Слабый
-AVERAGE
-    Средний
-ABOVE_AVERAGE
-    Выше среднего
-COMPETENT
-    Умелый
-DANGEROUS
-    Опасный
-DEADLY
-    Смертельный
-ELITE
-    ЭЛИТА
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Внимание. Идет генерация Вселенной: %age{f.1} млрд. лет ;-)
 TOMBSTONE_EPITAPH
     ОДИН СРЕДИ ЗВЕЗД
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Гильдия пилотов Пионера
-RIGHT_ON_COMMANDER
-    Так держать, капитан! Ваш боевой рейтинг растет!
 ALERT_CANCELLED
     Отмена тревоги.
 SHIP_DETECTED_NEARBY

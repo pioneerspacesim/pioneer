@@ -31,7 +31,7 @@ void AmbientSounds::Uninit()
 
 void AmbientSounds::Update()
 {
-	float v_env = (Pi::worldView->GetActiveCamera()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	float v_env = (Pi::worldView->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 
 	if (Pi::player->GetFlightState() == Ship::DOCKED) {
 		if (starNoise.IsPlaying()) {

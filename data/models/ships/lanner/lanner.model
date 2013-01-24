@@ -1,0 +1,30 @@
+# Lanner
+
+material matte-material
+diffuse 0.7 0.72 0.75
+specular 0 0 0
+# shininess 0
+tex_diff lanner-diffuse.png
+
+material shiny-material
+diffuse 0.8 0.85 0.95
+specular 0.7 0.8 1
+shininess 50
+tex_diff lanner-diffuse.png
+use_patterns yes
+
+material glow-material
+diffuse 0.9 0.9 0.9
+specular 0 0 0
+# shininess 0
+emissive 0.85 0.85 0.85
+tex_diff lanner-diffuse.png
+
+lod 25
+mesh lanner-mq.dae
+
+lod 1000
+mesh lanner.dae
+anim gear_down 1 100
+
+collision lanner-collision.obj
