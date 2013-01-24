@@ -122,7 +122,7 @@ static int l_equiptype_attr_mass(lua_State *l)
  */
 static int l_equiptype_get_equip_type(lua_State *l)
 {
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 1)));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 1));
 	LuaEquipType::PushToLua(const_cast<EquipType*>(&(Equip::types[e])));
 	return 1;
 }
@@ -172,7 +172,7 @@ static int l_equiptype_get_equip_types(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 1)));
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstantFromArg(l, "EquipSlot", 1));
 
 	bool filter = false;
 	if (lua_gettop(l) >= 2) {

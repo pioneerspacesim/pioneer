@@ -168,7 +168,7 @@ int l_shiptype_attr_default_hyperdrive(lua_State *l)
 int l_shiptype_get_linear_thrust(lua_State *l)
 {
 	const ShipType *st = LuaShipType::CheckFromLua(1);
-	ShipType::Thruster t = static_cast<ShipType::Thruster>(LuaConstants::GetConstant(l, "ShipTypeThruster", luaL_checkstring(l, 2)));
+	ShipType::Thruster t = static_cast<ShipType::Thruster>(LuaConstants::GetConstantFromArg(l, "ShipTypeThruster", 2));
 	lua_pushnumber(l, st->linThrust[t]);
 	return 1;
 }
@@ -202,7 +202,7 @@ int l_shiptype_get_linear_thrust(lua_State *l)
 int l_shiptype_get_equip_slot_capacity(lua_State *l)
 {
 	const ShipType *st = LuaShipType::CheckFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstantFromArg(l, "EquipSlot", 2));
 	lua_pushnumber(l, st->equipSlotCapacity[slot]);
 	return 1;
 }
@@ -289,7 +289,7 @@ static int l_shiptype_get_ship_types(lua_State *l)
 	ShipType::Tag tag = ShipType::TAG_NONE;
 
 	if (lua_gettop(l) >= 1)
-		tag = static_cast<ShipType::Tag>(LuaConstants::GetConstant(l, "ShipTypeTag", luaL_checkstring(l, 1)));
+		tag = static_cast<ShipType::Tag>(LuaConstants::GetConstantFromArg(l, "ShipTypeTag", 1));
 
 	bool filter = false;
 	if (lua_gettop(l) >= 2) {

@@ -184,7 +184,7 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 static int l_starsystem_is_commodity_legal(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::CheckFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
 	lua_pushboolean(l, Polit::IsCommodityLegal(s, e));
 	return 1;
 }
