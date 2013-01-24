@@ -1502,8 +1502,6 @@ void LmrModel::Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjPara
 
 void LmrModel::Render(const RenderState *rstate, const vector3f &cameraPos, const matrix4x4f &trans, LmrObjParams *params)
 {
-	if (!params->label) params->label = m_label.c_str();
-
 	// XXX some parts of models (eg billboards) are drawn through the
 	// renderer, while other stuff is drawn directly. we must make sure that
 	// we keep the renderer and the GL transform in sync otherwise weird stuff
