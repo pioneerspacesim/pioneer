@@ -391,11 +391,28 @@ void LuaObjectBase::GetNames(std::vector<std::string> &names, const std::string 
 
 	lua_State *l = Lua::manager->GetLuaState();
 
-	// userdata are typed, tables are not
-	bool typeless = lua_istable(l, -1);
-	assert(typeless || lua_isuserdata(l, -1));
-
 	LUA_DEBUG_START(l);
+
+	// work out if/how we can deal with the value
+	bool typeless;
+	if (lua_istable(l, -1))
+		// we can always look into tables
+		typeless = true;
+
+	else if (lua_isuserdata(l, -1)) {
+		// two known types of userdata
+		// - LuaObject, metatable has a "type" field
+		// - RO table proxy, no type
+		lua_getmetatable(l, -1);
+		lua_getfield(l, -1, "type");
+		typeless = lua_isnil(l, -1);
+		lua_pop(l, 2);
+	}
+
+	else
+		// not a table or userdata, nothing to do
+		// XXX if it has a __index metatable entry maybe we can do more?
+		return;
 
 	if (typeless) {
 		// Check the metatable indexes
@@ -414,7 +431,10 @@ void LuaObjectBase::GetNames(std::vector<std::string> &names, const std::string 
 				break;
 		}
 		lua_pop(l, 1);
-		get_names_from_table(l, names, prefix, methodsOnly);
+
+		if (lua_istable(l, -1))
+			get_names_from_table(l, names, prefix, methodsOnly);
+
 		return;
 	}
 
