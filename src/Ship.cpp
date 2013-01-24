@@ -1121,6 +1121,8 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	LmrObjParams &params = GetLmrObjParams();
 
 	m_shipFlavour.ApplyTo(&params);
+	m_shipFlavour.ApplyTo(GetModel());
+
 	SetLmrTimeParams();
 	params.angthrust[0] = float(-m_angThrusters.x);
 	params.angthrust[1] = float(-m_angThrusters.y);
