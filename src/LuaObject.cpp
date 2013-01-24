@@ -358,6 +358,13 @@ static void get_names_from_table(lua_State *l, std::vector<std::string> &names, 
 	lua_pushnil(l);
 	while (lua_next(l, -2)) {
 
+		// only include string keys. the . syntax doesn't work for anything
+		// else
+		if (lua_type(l, -2) != LUA_TSTRING) {
+			lua_pop(l, 1);
+			continue;
+		}
+
 		// only include callable things if requested
 		if (methodsOnly && lua_type(l, -1) != LUA_TFUNCTION) {
 			lua_pop(l, 1);
