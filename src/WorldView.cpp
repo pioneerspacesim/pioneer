@@ -519,18 +519,13 @@ void WorldView::RefreshButtonStateAndVisibility()
 #if WITH_DEVKEYS
 	if (Pi::showDebugInfo) {
 		char buf[1024], aibuf[256];
-	
-		//Calculate lat/lon for ship position
-		float lat = 0.0 ;
-		float lon = 0.0 ; 
-
 		vector3d pos = Pi::player->GetPosition();
-
-		vector3d dir = pos.NormalizedSafe();
-		lat = asin(dir.y) * RAD_2_DEG;
-		lon = atan2(dir.x, dir.z) * -RAD_2_DEG;
-
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
+
+		//Calculate lat/lon for ship position
+		const vector3d dir = pos.NormalizedSafe();
+		const float lat = asin(dir.y) * RAD_2_DEG;
+		const float lon = atan2(dir.x, dir.z) * -RAD_2_DEG;
 
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no");
