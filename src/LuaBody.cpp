@@ -33,12 +33,6 @@
  *
  *   stable
  */
-static int l_body_attr_label(lua_State *l)
-{
-	Body *b = LuaObject<Body>::CheckFromLua(1);
-	lua_pushstring(l, b->GetLabel().c_str());
-	return 1;
-}
 
 /*
  * Attribute: seed
@@ -300,7 +294,6 @@ template <> void LuaObject<Body>::RegisterClass()
 	};
 
 	static luaL_Reg l_attrs[] = {
-		{ "label",         l_body_attr_label          },
 		{ "seed",          l_body_attr_seed           },
 		{ "path",          l_body_attr_path           },
 		{ "type",          l_body_attr_type           },

@@ -29,6 +29,7 @@ Body::Body() : PropertiedObject(Lua::manager)
 	, m_clipRadius(0.0)
 	, m_physRadius(0.0)
 {
+	SetLabel("");
 }
 
 Body::~Body()
@@ -50,7 +51,7 @@ void Body::Save(Serializer::Writer &wr, Space *space)
 void Body::Load(Serializer::Reader &rd, Space *space)
 {
 	m_frame = space->GetFrameByIndex(rd.Int32());
-	m_label = rd.String();
+	SetLabel(rd.String());
 	m_dead = rd.Bool();
 
 	m_pos = rd.Vector3d();
@@ -211,4 +212,10 @@ void Body::UpdateFrame()
 vector3d Body::GetTargetIndicatorPosition(const Frame *relTo) const
 {
 	return GetInterpPositionRelTo(relTo);
+}
+
+void Body::SetLabel(const std::string &label)
+{
+	m_label = label;
+	Properties().Set("label", label);
 }
