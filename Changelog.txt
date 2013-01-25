@@ -22,6 +22,7 @@ Alpha 31
      * Collisions with stars now work again (#1942)
      * Dates before 3200-01-01 no longer display negative (#1955, #1954)
      * Text on SGModel ships now uses correct character offsets (#1980)
+     * An unset decal no longer displays a black square on Intel graphics (#1976)
 
    * Model changes
      * Modelviewer: Reloading model also reloads textures (#1968, #1939)
