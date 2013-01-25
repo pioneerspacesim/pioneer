@@ -525,19 +525,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 		float lon = 0.0 ; 
 
 		vector3d pos = Pi::player->GetPosition();
-		Body *astro = Pi::player->GetFrame()->GetBody();
-		if (astro && astro->IsType(Object::PLANET)) {
-			SystemBody *sb = Pi::player->GetFrame()->GetSystemBody();
-			const float radius = sb->GetRadius();
 
-			//Get latitude
-			lat = acos(abs(pos.y) / radius )*RAD_2_DEG;  
-			if	(pos.y < 0.f) lat-=90.f;  //southern hemisphere
-			else lat=90.f-lat;			  //northern hemisphere
-
-			//Get longitude
-			lon = atan2(pos.x,pos.z)*-RAD_2_DEG;
-		}
+		vector3d dir = pos.NormalizedSafe();
+		lat = asin(dir.y) * RAD_2_DEG;
+		lon = atan2(dir.x, dir.z) * -RAD_2_DEG;
 
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
 
