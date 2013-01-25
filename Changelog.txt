@@ -24,6 +24,7 @@ Alpha 31
      * Dates before 3200-01-01 no longer display negative (#1955, #1954)
      * Text on SGModel ships now uses correct character offsets (#1980)
      * An unset decal no longer displays a black square on Intel graphics (#1976)
+     * Fixed various crashes caused by console completion (#1998)
 
    * Model changes
      * Modelviewer: Reloading model also reloads textures (#1968, #1939)
