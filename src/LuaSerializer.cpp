@@ -3,12 +3,6 @@
 
 #include "LuaSerializer.h"
 #include "LuaObject.h"
-#include "LuaBody.h"
-#include "LuaShip.h"
-#include "LuaSpaceStation.h"
-#include "LuaPlanet.h"
-#include "LuaStar.h"
-#include "LuaPlayer.h"
 #include "LuaSystemPath.h"
 #include "galaxy/StarSystem.h"
 #include "Body.h"
@@ -333,22 +327,22 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 
 				switch (body->GetType()) {
 					case Object::BODY:
-						LuaBody::PushToLua(body);
+						LuaObject<Body>::PushToLua(body);
 						break;
 					case Object::SHIP:
-						LuaShip::PushToLua(dynamic_cast<Ship*>(body));
+						LuaObject<Ship>::PushToLua(dynamic_cast<Ship*>(body));
 						break;
 					case Object::SPACESTATION:
-						LuaSpaceStation::PushToLua(dynamic_cast<SpaceStation*>(body));
+						LuaObject<SpaceStation>::PushToLua(dynamic_cast<SpaceStation*>(body));
 						break;
 					case Object::PLANET:
-						LuaPlanet::PushToLua(dynamic_cast<Planet*>(body));
+						LuaObject<Planet>::PushToLua(dynamic_cast<Planet*>(body));
 						break;
 					case Object::STAR:
-						LuaStar::PushToLua(dynamic_cast<Star*>(body));
+						LuaObject<Star>::PushToLua(dynamic_cast<Star*>(body));
 						break;
 					case Object::PLAYER:
-						LuaPlayer::PushToLua(dynamic_cast<Player*>(body));
+						LuaObject<Player>::PushToLua(dynamic_cast<Player*>(body));
 						break;
 					default:
 						throw SavedGameCorruptException();

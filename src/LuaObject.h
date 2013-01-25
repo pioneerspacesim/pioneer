@@ -21,52 +21,47 @@
 // remains responsible for deallocating the object)
 //
 //   Ship *s = new Ship("eagle_lrf");
-//   LuaShip::PushToLua(s);
+//   LuaObject<Ship>::PushToLua(s);
 //
 // push a value onto the lua stack (lua will deallocate the object when it
 // goes out of scope and the garbage collector runs. OBJECT MUST BE
 // HEAP-ALLOCATED)
 //
 //   Ship *s = new Ship("eagle_lrf");
-//   LuaShip::PushToLuaGC(s);
+//   LuaObject<Ship>::PushToLuaGC(s);
 //
 // get a value from the lua stack at index n (causes lua exception if the
 // object doesn't exist or the types don't match)
 //
-//   Ship *s = LuaShip::CheckFromLua(1);
+//   Ship *s = LuaObject<Ship>::CheckFromLua(1);
 //
 // or alternatively, get it and return null on failure
 //
-//   Ship *s = LuaShip::GetFromLua(1);
+//   Ship *s = LuaObject<Ship>::GetFromLua(1);
 //
 // note that it uses the singleton lua state provided by LuaManager. there's
 // no facility to use a different lua state. if you think you need to you're
 // probably doing something wrong. ask the devs if you're not sure.
 //
 //
-// if you need to expose a new class to lua, do this (using Ship/LuaShip as an
-// example)
+// if you need to expose a new class to lua, do this (using
+// Ship/LuaObject<Ship> as an example)
 //
 //  - have your class inherit from DeleteEmitter
 //
-//  - add a typedef for the wrapper class to the bottom of LuaObjectBase.h:
-//
-//      class Ship;
-//      typedef LuaObject<Ship> LuaShip;
-//
-//  OR if your class can't inherit from DeleteEmitter for some reason, use
-//  this kind of typedef instead to create a subclass
+//  - if your class can't inherit from DeleteEmitter for some reason, use
+//    this kind of typedef instead to create a subclass
 //
 //      class SystemPath;
 //      typedef LuaObjectUncopyable<SystemPath,LuaUncopyable<SystemPath> > LuaSystemPath;
 //
-//  you probably don't want to do this unless you understand the entire
-//  LuaObjectBase system. read on and ask for help :)
+//    you probably don't want to do this unless you understand the entire
+//    LuaObjectBase system. read on and ask for help :)
 //
 //  - arrange for the wrapper class RegisterClass() method to be called in
 //    LuaManager::Init in LuaManager.cpp
 //
-//      LuaShip::RegisterClass();
+//      LuaObject<Ship>::RegisterClass();
 //
 //  - make a new file LuaShip.cpp with static data for the lua class name and
 //  method/metamethod pointer tables (copy from one of the others to get the

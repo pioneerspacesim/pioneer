@@ -16,8 +16,6 @@
 #include "GeoSphere.h"
 #include "Intro.h"
 #include "Lang.h"
-#include "LuaBody.h"
-#include "LuaCargoBody.h"
 #include "LuaChatForm.h"
 #include "LuaComms.h"
 #include "LuaConsole.h"
@@ -26,7 +24,6 @@
 #include "LuaEngine.h"
 #include "LuaEquipType.h"
 #include "LuaEvent.h"
-#include "LuaFaction.h"
 #include "LuaFileSystem.h"
 #include "LuaFormat.h"
 #include "LuaGame.h"
@@ -35,15 +32,9 @@
 #include "LuaMissile.h"
 #include "LuaMusic.h"
 #include "LuaNameGen.h"
-#include "LuaPlanet.h"
-#include "LuaPlayer.h"
-#include "LuaRand.h"
 #include "LuaRef.h"
-#include "LuaShip.h"
 #include "LuaShipType.h"
 #include "LuaSpace.h"
-#include "LuaSpaceStation.h"
-#include "LuaStar.h"
 #include "LuaStarSystem.h"
 #include "LuaSystemBody.h"
 #include "LuaSystemPath.h"
@@ -162,21 +153,21 @@ static void draw_progress(float progress)
 
 static void LuaInit()
 {
-	LuaBody::RegisterClass();
-	LuaShip::RegisterClass();
-	LuaSpaceStation::RegisterClass();
-	LuaPlanet::RegisterClass();
-	LuaStar::RegisterClass();
-	LuaPlayer::RegisterClass();
-	LuaMissile::RegisterClass();
-	LuaCargoBody::RegisterClass();
+	LuaObject<Body>::RegisterClass();
+	LuaObject<Ship>::RegisterClass();
+	LuaObject<SpaceStation>::RegisterClass();
+	LuaObject<Planet>::RegisterClass();
+	LuaObject<Star>::RegisterClass();
+	LuaObject<Player>::RegisterClass();
+	LuaObject<Missile>::RegisterClass();
+	LuaObject<CargoBody>::RegisterClass();
 	LuaStarSystem::RegisterClass();
 	LuaSystemPath::RegisterClass();
 	LuaSystemBody::RegisterClass();
 	LuaShipType::RegisterClass();
 	LuaEquipType::RegisterClass();
-	LuaRand::RegisterClass();
-	LuaFaction::RegisterClass();
+	LuaObject<MTRand>::RegisterClass();
+	LuaObject<Faction>::RegisterClass();
 
 	LuaObject<LuaChatForm>::RegisterClass();
 

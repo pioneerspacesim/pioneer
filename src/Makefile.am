@@ -58,8 +58,6 @@ noinst_HEADERS = \
 	Lang.h \
 	LangStrings.inc.h \
 	Lua.h \
-	LuaBody.h \
-	LuaCargoBody.h \
 	LuaChatForm.h \
 	LuaComms.h \
 	LuaConsole.h \
@@ -68,7 +66,6 @@ noinst_HEADERS = \
 	LuaEngine.h \
 	LuaEquipType.h \
 	LuaEvent.h \
-	LuaFaction.h \
 	LuaFileSystem.h \
 	LuaFormat.h \
 	LuaGame.h \
@@ -81,19 +78,13 @@ noinst_HEADERS = \
 	LuaMusic.h \
 	LuaNameGen.h \
 	LuaObject.h \
-	LuaPlanet.h \
-	LuaPlayer.h \
 	LuaPushPull.h \
-	LuaRand.h \
 	LuaRef.h \
 	LuaSystemBody.h \
 	LuaSystemPath.h \
 	LuaSerializer.h \
-	LuaShip.h \
 	LuaShipType.h \
 	LuaSpace.h \
-	LuaSpaceStation.h \
-	LuaStar.h \
 	LuaStarSystem.h \
 	LuaTable.h \
 	LuaTimer.h \
