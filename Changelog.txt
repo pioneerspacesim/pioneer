@@ -17,6 +17,7 @@ Alpha 31
      * Ship thrust and fuel tank size have been rebalanced (#1689)
      * Restore "Pioneering Pilots' Guild" text (#1987, #1989)
      * New Hope is now located on land (#1977)
+     * Debug information overlay now includes latitude and longitude (#1994)
 
    * Fixes
      * Collisions with stars now work again (#1942)
