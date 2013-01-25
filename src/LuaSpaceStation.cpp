@@ -254,7 +254,7 @@ static int l_spacestation_remove_advert(lua_State *l)
 static int l_spacestation_get_equipment_price(lua_State *l)
 {
 	SpaceStation *s = LuaSpaceStation::CheckFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
 	Sint64 cost = s->GetPrice(e);
 	lua_pushnumber(l, cost * 0.01);
 	return 1;

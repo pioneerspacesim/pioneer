@@ -51,6 +51,7 @@ Alpha 31
      * Console completion now handled through the LuaObject dispatcher
        (#1945, #1672, #1972, #1974)
      * Queries for near-by objects now use a very basic acceleration structure (#1910)
+     * String <-> Integer enum mapping tables have been separated from Lua (#1996)
 
 Alpha 30
 

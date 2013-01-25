@@ -3,7 +3,7 @@
 
 #include "LuaCargoBody.h"
 #include "LuaUtils.h"
-#include "LuaConstants.h"
+#include "EnumStrings.h"
 
 /*
  * Class: CargoBody
@@ -29,7 +29,7 @@
 static int l_cargobody_attr_type(lua_State *l)
 {
 	CargoBody *b = LuaCargoBody::CheckFromLua(1);
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", b->GetCargoType()));
+	lua_pushstring(l, EnumStrings::GetString("EquipType", b->GetCargoType()));
 	return 1;
 }
 
