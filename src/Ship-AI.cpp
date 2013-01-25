@@ -14,6 +14,7 @@
 #include "LuaConstants.h"
 #include "LuaEvent.h"
 #include "KeyBindings.h"
+#include "EnumStrings.h"
 
 
 void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
@@ -77,7 +78,7 @@ bool Ship::AITimeStep(float timeStep)
 	if (m_curAICmd->TimeStepUpdate()) {
 		AIClearInstructions();
 //		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
-		LuaEvent::Queue("onAICompleted", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipAIError", AIMessage()));
+		LuaEvent::Queue("onAICompleted", this, EnumStrings::GetString("ShipAIError", AIMessage()));
 		return true;
 	}
 	else return false;

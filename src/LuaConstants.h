@@ -11,7 +11,6 @@ namespace LuaConstants {
 
 	int GetConstantFromArg(lua_State *l, const char *ns, int idx);
 	int GetConstant(lua_State *l, const char *ns, const char *name);
-	const char *GetConstantString(lua_State *l, const char *ns, int value);
 }
 
 #endif
