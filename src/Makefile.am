@@ -409,6 +409,7 @@ uitest_SOURCES = \
 	LuaConstants.cpp \
 	LuaRef.cpp \
 	PngWriter.cpp \
+	EnumStrings.cpp \
 	enum_table.cpp \
 	utils.cpp
 uitest_LDADD = \
