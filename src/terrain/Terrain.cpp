@@ -370,49 +370,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 
 	// load the heightmap
 	if (m_body->heightMapFilename) {
-		RefCountedPtr<FileSystem::FileData> fdata = FileSystem::gameDataFiles.ReadFile(m_body->heightMapFilename);
-		if (!fdata) {
-			fprintf(stderr, "Error: could not open file '%s'\n", m_body->heightMapFilename);
-			abort();
-		}
-
-		ByteRange databuf = fdata->AsByteRange();
-
-		// read size!
-		Uint16 v;
-
-		// XXX unify heightmap types
-		switch (m_body->heightMapFractal) {
-			case 0: {
-				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
-				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
-
-				m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
-				bufread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, databuf);
-				break;
-			}
-
-			case 1: {
-				// XXX x and y reversed from above *sigh*
-				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
-				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
-
-				// read height scaling and min height which are doubles
-				double te;
-				bufread_or_die(&te, 8, 1, databuf);
-				m_heightScaling = te;
-				bufread_or_die(&te, 8, 1, databuf);
-				m_minh = te;
-
-				m_heightMapScaled = new Uint16[m_heightMapSizeX * m_heightMapSizeY];
-				bufread_or_die(m_heightMapScaled, sizeof(Uint16), m_heightMapSizeX * m_heightMapSizeY, databuf);
-
-				break;
-			}
-
-			default:
-				assert(0);
-		}
+		
 	}
 
 	switch (Pi::detail.textures) {
