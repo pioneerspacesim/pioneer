@@ -1440,4 +1440,3 @@ Translate:Add({ English = {
 	 "Arment Aerodynamik"
   },
 }, })
-

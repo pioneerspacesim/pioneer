@@ -99,4 +99,3 @@ Translate:Add({ Deutsch = {
   }
  }
 })
-

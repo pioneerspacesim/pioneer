@@ -48,4 +48,3 @@ Translate:Add({ Deutsch = {
 	["Your fuel tank is empty."] = "Dein Treibstofftank ist leer.",
 }
 })
-

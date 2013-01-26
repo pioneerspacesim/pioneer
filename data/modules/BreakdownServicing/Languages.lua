@@ -611,4 +611,3 @@ Translate:Add({ Deutsch = {
 	["You do not have a drive to service!"] = "Es ist kein Antrieb vorhanden, der überholt werden könnte!",
 	["The ship's hyperdrive has been destroyed by a malfunction"] = "Der Hyperraumantrieb des Schiffes wurde durch eine Fehlfunktion zerstört",
 }, })
-

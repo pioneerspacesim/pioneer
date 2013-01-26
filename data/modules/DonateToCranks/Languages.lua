@@ -205,4 +205,3 @@ Translate:Add({ Deutsch = {
   ["Thank you. All donations are welcome."] = "Danke. Alle Spenden sind wilkommen.",
   }
 })
-

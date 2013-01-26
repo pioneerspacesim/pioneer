@@ -176,4 +176,3 @@ Translate:Add({Deutsch = {
 	["You must buy our {military_fuel} before we will take your {radioactives}"] = "Du musst unseren {military_fuel} kaufen, bevor wir deine {radioactives} annehmen",
 	["Begin trade"] = "Beginne Handel",
 }})
-
