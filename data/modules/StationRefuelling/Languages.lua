@@ -32,3 +32,11 @@ Translate:Add({ Russian = {
 	["This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."] = "Говорит диспетчер станции {station}. У вас нет необходимой суммы в {fee} для оплаты стыковки. В дозаправке отказано.",
 }
 })
+
+---- GERMAN / DEUTSCH ----
+
+Translate:Add({ Deutsch = {
+	["Welcome aboard {station}. Your docking and fuelling fee of {fee} has been deducted."] = "Wilkommen an Bord von {station}. Deine Dock- und Tankgebühren von {fee} wurden abgerechnet.",
+	["This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."] = "Dies ist {station}. Du hast nicht genug Geld, um die Dockgebühren von {fee} zu Zahlen. Dein Treibstoff wurde einbehalten.",
+}
+})
