@@ -48,11 +48,11 @@ TextLayout::TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::
 	}
 }
 
-Point TextLayout::ComputeSize(const Point &maxArea)
+Point TextLayout::ComputeSize(const Point &layoutSize)
 {
-	if (maxArea == Point()) return Point();
+	if (layoutSize == Point()) return Point();
 
-	if (maxArea == m_lastRequested)
+	if (layoutSize == m_lastRequested)
 		return m_lastSize;
 
 	int spaceWidth = ceilf(m_font->GetGlyph(' ').advx);
@@ -78,7 +78,7 @@ Point TextLayout::ComputeSize(const Point &maxArea)
 		// - the word does not go past the right edge of the box
 		bool wordAdded = false;
 		while (!wordAdded) {
-			if (pos.x == 0 || pos.x + wordSize.x < maxArea.x) {
+			if (pos.x == 0 || pos.x + wordSize.x < layoutSize.x) {
 				(*i).pos = pos;
 
 				// move to the end of the word
