@@ -462,7 +462,8 @@ void Loader::CheckAnimationConflicts(const Animation* anim, const std::vector<An
 	for (ChannelIterator chan = anim->m_channels.begin(); chan != anim->m_channels.end(); ++chan) {
 		for (AnimIterator other = otherAnims.begin(); other != otherAnims.end(); ++other) {
 			const Animation *otherAnim = (*other);
-			assert(otherAnim != anim);
+			if (otherAnim == anim)
+				continue;
 			for (ChannelIterator otherChan = otherAnim->m_channels.begin(); otherChan != otherAnim->m_channels.end(); ++otherChan) {
 				//warnings as errors mentality - this is not really fatal
 				if (chan->node == otherChan->node)
@@ -571,7 +572,11 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 			defEnd /= 24.0;
 		}
 
-		Animation *animation = new Animation(def->name, 0.0);
+		// Add channels to current animation if it's already present
+		// Necessary to make animations work in multiple LODs
+		Animation *animation = m_model->FindAnimation(def->name);
+		bool newAnim = !animation;
+		if (newAnim) animation = new Animation(def->name, 0.0);
 
 		for (unsigned int i=0; i < scene->mNumAnimations; i++) {
 			const aiAnimation* aianim = scene->mAnimations[i];
@@ -627,16 +632,18 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		animation->m_duration = end - start;
 
 		//do final sanity checking before adding
-		if (animation->m_channels.empty()) {
-			delete animation;
-		} else {
-			try {
-				CheckAnimationConflicts(animation, animations);
-			} catch (LoadingError &) {
+		try {
+			CheckAnimationConflicts(animation, animations);
+		} catch (LoadingError &) {
+			if (newAnim) delete animation;
+			throw;
+		}
+
+		if (newAnim) {
+			if (animation->m_channels.empty())
 				delete animation;
-				throw;
-			}
-			animations.push_back(animation);
+			else
+				animations.push_back(animation);
 		}
 	}
 }
