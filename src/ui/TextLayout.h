@@ -20,7 +20,7 @@ public:
 
 	Point ComputeSize(const Point &hint);
 
-	void Draw(const Point &size);
+	void Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize);
 
 private:
 	struct Word {
