@@ -29,6 +29,7 @@ public:
 	Node(Graphics::Renderer *r);
 	Node(Graphics::Renderer *r, unsigned int nodemask);
 	Node(const Node&);
+	virtual Node *Clone() = 0; //implement clone to return shallow or deep copy
 	virtual const char *GetTypeName() { return "Node"; }
 	virtual void Accept(NodeVisitor &v);
 	virtual void Traverse(NodeVisitor &v);

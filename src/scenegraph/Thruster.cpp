@@ -40,6 +40,11 @@ Thruster::Thruster(const Thruster &thruster)
 	m_tVerts.Reset(CreateGeometry());
 }
 
+Node* Thruster::Clone()
+{
+	return this; //thrusters are shared
+}
+
 void Thruster::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	float power = 0.f;

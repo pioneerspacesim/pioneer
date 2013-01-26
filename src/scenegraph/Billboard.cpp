@@ -29,6 +29,11 @@ Billboard::Billboard(const Billboard &billboard)
 {
 }
 
+Node* Billboard::Clone()
+{
+	return new Billboard(*this);
+}
+
 void Billboard::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	Graphics::Renderer *r = GetRenderer();

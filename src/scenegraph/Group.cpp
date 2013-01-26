@@ -28,10 +28,14 @@ Group::Group(const Group &group)
 		itr != group.m_children.end();
 		++itr)
 	{
-		//XXX how to trigger correct copy?
-		//Node *node = *itr;
-		//AddChild(node);
+		Node *node = (*itr)->Clone();
+		AddChild(node);
 	}
+}
+
+Node* Group::Clone()
+{
+	return new Group(*this);
 }
 
 void Group::AddChild(Node *child)

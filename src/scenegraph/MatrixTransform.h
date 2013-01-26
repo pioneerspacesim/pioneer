@@ -15,6 +15,7 @@ class MatrixTransform : public Group {
 public:
 	MatrixTransform(Graphics::Renderer *r, const matrix4x4f &m);
 	MatrixTransform(const MatrixTransform&);
+	virtual Node *Clone();
 	virtual const char *GetTypeName() { return "MatrixTransform"; }
 	virtual void Accept(NodeVisitor &v);
 	void Render(const matrix4x4f &trans, RenderData *rd);

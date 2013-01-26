@@ -32,6 +32,11 @@ Label3D::Label3D(const Label3D &label)
 	m_geometry.Reset(m_font->CreateVertexArray());
 }
 
+Node* Label3D::Clone()
+{
+	return new Label3D(*this);
+}
+
 void Label3D::SetText(const std::string &text)
 {
 	//regenerate geometry

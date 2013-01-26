@@ -18,6 +18,11 @@ ModelNode::ModelNode(const ModelNode &modelNode)
 {
 }
 
+Node* ModelNode::Clone()
+{
+	return this; //modelnodes are shared
+}
+
 void ModelNode::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	//slight hack here

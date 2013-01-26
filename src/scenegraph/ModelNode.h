@@ -15,6 +15,7 @@ class ModelNode : public Node {
 public:
 	ModelNode(Model *m);
 	ModelNode(const ModelNode&);
+	virtual Node *Clone();
 	virtual const char *GetTypeName() { return "ModelNode"; }
 	virtual void Render(const matrix4x4f &trans, RenderData *rd);
 

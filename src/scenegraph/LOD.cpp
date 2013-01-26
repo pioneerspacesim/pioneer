@@ -17,6 +17,11 @@ LOD::LOD(const LOD &lod)
 {
 }
 
+Node* LOD::Clone()
+{
+	return new LOD(*this);
+}
+
 void LOD::AddLevel(float pixelSize, Node *nod)
 {
 	m_pixelSizes.push_back(pixelSize);

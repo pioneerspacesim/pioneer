@@ -28,6 +28,11 @@ StaticGeometry::StaticGeometry(const StaticGeometry &sg)
 {
 }
 
+Node* StaticGeometry::Clone()
+{
+	return this; //geometries are shared
+}
+
 void StaticGeometry::Accept(NodeVisitor &nv)
 {
 	nv.ApplyStaticGeometry(*this);

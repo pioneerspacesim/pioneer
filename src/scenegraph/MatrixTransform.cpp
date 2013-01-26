@@ -18,6 +18,11 @@ MatrixTransform::MatrixTransform(const MatrixTransform &mt)
 {
 }
 
+Node* MatrixTransform::Clone()
+{
+	return new MatrixTransform(*this);
+}
+
 void MatrixTransform::Accept(NodeVisitor &nv)
 {
 	nv.ApplyMatrixTransform(*this);

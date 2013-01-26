@@ -21,6 +21,7 @@ class StaticGeometry : public Node
 public:
 	StaticGeometry(Graphics::Renderer *r);
 	StaticGeometry(const StaticGeometry&);
+	virtual Node *Clone();
 	virtual const char *GetTypeName() { return "StaticGeometry"; }
 	virtual void Accept(NodeVisitor &nv);
 	virtual void Render(const matrix4x4f &trans, RenderData *rd);
