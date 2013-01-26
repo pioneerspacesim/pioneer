@@ -409,7 +409,7 @@ static bool in_range(double keytime, double start, double end)
 	return (keytime >= start - 0.001 && keytime - 0.001 <= end);
 }
 
-//check animation channel has at least two P, R or S keys within time range
+// check animation channel has a key within time range
 bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
 {
 	int posKeysInRange = 0;
@@ -431,7 +431,7 @@ bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
 		if (in_range(aikey.mTime, start, end)) sclKeysInRange++;
 	}
 
-	return (posKeysInRange > 1 || rotKeysInRange > 1 || sclKeysInRange > 1);
+	return (posKeysInRange > 0 || rotKeysInRange > 0 || sclKeysInRange > 0);
 }
 
 RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
@@ -561,7 +561,7 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		const double secondsPerTick = 1.0 / ticksPerSecond;
 
 		double start = DBL_MAX;
-		double end = 0.0;
+		double end = -DBL_MAX;
 
 		//Ranges are specified in frames (since that's nice) but Collada
 		//uses seconds. This is easiest to detect from ticksPerSecond,
@@ -579,6 +579,8 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		Animation *animation = m_model->FindAnimation(def->name);
 		bool newAnim = !animation;
 		if (newAnim) animation = new Animation(def->name, 0.0);
+
+		const size_t first_new_channel = animation->m_channels.size();
 
 		for (unsigned int i=0; i < scene->mNumAnimations; i++) {
 			const aiAnimation* aianim = scene->mAnimations[i];
@@ -634,16 +636,19 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		}
 
 		// convert remove initial offset (so the first keyframe is at exactly t=0)
-		for (std::vector<AnimationChannel>::iterator chan = animation->m_channels.begin();
+		for (std::vector<AnimationChannel>::iterator chan = animation->m_channels.begin() + first_new_channel;
 				chan != animation->m_channels.end(); ++chan) {
 			for (unsigned int k = 0; k < chan->positionKeys.size(); ++k) {
 				chan->positionKeys[k].time -= start;
+				assert(chan->positionKeys[k].time >= 0.0);
 			}
 			for (unsigned int k = 0; k < chan->rotationKeys.size(); ++k) {
 				chan->rotationKeys[k].time -= start;
+				assert(chan->rotationKeys[k].time >= 0.0);
 			}
 			for (unsigned int k = 0; k < chan->scaleKeys.size(); ++k) {
 				chan->scaleKeys[k].time -= start;
+				assert(chan->scaleKeys[k].time >= 0.0);
 			}
 		}
 
