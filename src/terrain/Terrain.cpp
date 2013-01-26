@@ -370,7 +370,50 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 
 	// load the heightmap
 	if (m_body->heightMapFilename) {
-		
+		std::string fName(m_body->heightMapFilename);
+		std::string imageFile = FileSystem::GetDataDir().c_str();
+		imageFile+="/"+fName;
+
+		SDL_Surface* heightmap;
+		heightmap = IMG_Load(imageFile.c_str());
+		if (!heightmap) {
+			fprintf(stderr, "Error: could not open file '%s'\n", m_body->heightMapFilename);
+				abort();
+		}
+
+		//format and lock
+		SDL_PixelFormat *fmt = heightmap->format;
+		SDL_LockSurface(heightmap);
+
+		//get dim
+		m_heightMapSizeX = heightmap->w;
+		m_heightMapSizeY = heightmap->h; 
+
+		//Create heightmap array  
+		if (m_body->heightMapFractal==1) {
+			m_heightMapScaled = new Uint16[m_heightMapSizeX * m_heightMapSizeY];
+			m_heightScaling = 10.0;	
+			m_minh = 0.0;
+		}
+		else
+			m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
+
+		//parse pixels
+		int k=0;
+		for (int i=0 ; i < m_heightMapSizeY ; ++i) {
+			for (int j=0 ; j < m_heightMapSizeX ; ++j) {
+				Uint8 r = 0;
+				Uint8 g = 0;
+				Uint8 b = 0;
+				SDL_GetRGB(GetPixel(heightmap, i, j), fmt, &r, &g, &b);			
+				if (m_body->heightMapFractal==1)
+					m_heightMapScaled[k] = Uint16(r+b+g);  
+				else
+					m_heightMap[k] = Sint16(r+b+g)*8-10;  
+				k++;
+			}
+		} 
+		SDL_FreeSurface(heightmap); 
 	}
 
 	switch (Pi::detail.textures) {
