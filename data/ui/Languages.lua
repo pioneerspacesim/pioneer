@@ -29,6 +29,8 @@ Translate:Add({
 		['Ship Information'] = 'Ship Information',
 		['Weight empty:'] = 'Weight empty:',
 		['{range} light years ({maxRange} max)'] = '{range} light years ({maxRange} max)',
+		['Minimum crew'] = 'Minimum crew',
+		['Crew cabins'] = 'Crew cabins',
 		
 		-- Personal information
 		['Personal Information'] = 'Personal Information',

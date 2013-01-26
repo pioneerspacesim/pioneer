@@ -62,6 +62,9 @@ local shipInfo = function (args)
 								ui:Label(t("FRONT_WEAPON")..":"),
 								ui:Label(t("REAR_WEAPON")..":"),
 								ui:Label(t("FUEL")..":"),
+								ui:Margin(10),
+								ui:Label(t("Minimum crew")..":"),
+								ui:Label(t("Crew cabins")..":"),
 							})
 						})
 						:SetColumn(1, {
@@ -82,6 +85,9 @@ local shipInfo = function (args)
 								ui:Label(EquipType.GetEquipType(frontWeapon).name),
 								ui:Label(EquipType.GetEquipType(rearWeapon).name),
 								ui:Label(string.format("%d%%", Game.player.fuel)),
+								ui:Margin(10),
+								ui:Label(ShipType.GetShipType(Game.player.shipId).minCrew),
+								ui:Label(ShipType.GetShipType(Game.player.shipId).maxCrew),
 							})
 						}),
 					ui:Label(t("Equipment")):SetFont("HEADING_LARGE"),
