@@ -147,4 +147,14 @@ void TextureBuilder::UpdateTexture(Texture *texture)
 	texture->Update(m_surface->pixels, vector2f(m_surface->w,m_surface->h), m_descriptor.format == TEXTURE_RGBA ? IMAGE_RGBA : IMAGE_RGB, IMAGE_UNSIGNED_BYTE);
 }
 
+Texture *TextureBuilder::GetWhiteTexture(Renderer *r)
+{
+	return Model("textures/white.png").GetOrCreateTexture(r, "model");
+}
+
+Texture *TextureBuilder::GetTransparentTexture(Renderer *r)
+{
+	return Model("textures/transparent.png").GetOrCreateTexture(r, "model");
+}
+
 }

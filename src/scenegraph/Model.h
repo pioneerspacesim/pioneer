@@ -89,6 +89,7 @@ public:
 	Model(Graphics::Renderer *r, const std::string &name);
 	~Model();
 	Model *MakeInstance() const;
+	virtual bool IsSGModel() const { return true; } //XXX transitional junk
 	float GetDrawClipRadius() const { return m_boundingRadius; }
 	void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params) { Render(trans, params); } // XXX only takes renderer because ModelBase requires it
 	void Render(const matrix4x4f &trans, LmrObjParams *params);
@@ -109,6 +110,7 @@ public:
 	void SetColors(const std::vector<Color4ub> &colors);
 	void SetDecalTexture(Graphics::Texture *t, unsigned int index = 0);
 	void SetLabel(const std::string&);
+	void ClearDecals();
 
 	//for modelviewer, at least
 	bool SupportsDecals();

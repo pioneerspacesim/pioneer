@@ -4,6 +4,7 @@
 #include "Model.h"
 #include "CollisionVisitor.h"
 #include "graphics/Renderer.h"
+#include "graphics/TextureBuilder.h"
 
 namespace SceneGraph {
 
@@ -25,7 +26,7 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 {
 	m_root.Reset(new Group(m_renderer));
 	m_root->SetName(name);
-	memset(m_curDecals, 0, sizeof(m_curDecals));
+	ClearDecals();
 }
 
 Model::Model(const Model &model)
@@ -44,9 +45,9 @@ Model::Model(const Model &model)
 	m_root.Reset(root);
 
 	//materials are shared by meshes
-	memset(m_curDecals, 0, sizeof(m_curDecals));
 	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)
 		m_decalMaterials[i] = model.m_decalMaterials[i];
+	ClearDecals();
 
 	//create unique color texture, if used
 	//patterns are shared
@@ -99,7 +100,7 @@ void Model::Render(const matrix4x4f &trans, LmrObjParams *params)
 
 	//update decals (materials and geometries are shared)
 	for (unsigned int i=0; i < MAX_DECAL_MATERIALS; i++)
-		if (m_curDecals[i] != 0)
+		if (m_decalMaterials[i].Valid())
 			m_decalMaterials[i]->texture0 = m_curDecals[i];
 
 	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
@@ -189,8 +190,6 @@ void Model::SetDecalTexture(Graphics::Texture *t, unsigned int index)
 	index = std::min(index, MAX_DECAL_MATERIALS-1);
 	if (m_decalMaterials[index].Valid())
 		m_curDecals[index] = t;
-	else
-		m_curDecals[index] = 0;
 }
 
 void Model::SetLabel(const std::string &text)
@@ -198,6 +197,13 @@ void Model::SetLabel(const std::string &text)
 	LabelUpdateVisitor vis;
 	vis.label = text;
 	m_root->Accept(vis);
+}
+
+void Model::ClearDecals()
+{
+	Graphics::Texture *t = Graphics::TextureBuilder::GetTransparentTexture(m_renderer);
+	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)
+		m_curDecals[i] = t;
 }
 
 bool Model::SupportsDecals()

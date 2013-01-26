@@ -44,8 +44,6 @@ private:
 	RefCountedPtr<Text::DistanceFieldFont> m_labelFont;
 
 	bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
-	Graphics::Texture *GetWhiteTexture() const;
-	Graphics::Texture *GetTransparentTexture() const;
 	matrix4x4f ConvertMatrix(const aiMatrix4x4&) const;
 	Model *CreateModel(ModelDefinition &def);
 	RefCountedPtr<Graphics::Material> GetDecalMaterial(unsigned int index);
