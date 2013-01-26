@@ -277,7 +277,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 					mesh = (*cacheIt).second;
 				else {
 					try {
-						mesh = LoadMesh(*it, def.animDefs, def.tagDefs);
+						mesh = LoadMesh(*it, def.animDefs);
 					} catch (LoadingError &err) {
 						//append filename - easiest to do here
 						throw (LoadingError(stringf("%0:\n%1", *it, err.what())));
@@ -316,18 +316,6 @@ Model *Loader::CreateModel(ModelDefinition &def)
 	// If no collision mesh is defined, a simple bounding box will be generated
 	m_model->CreateCollisionMesh(0);
 
-	// Add tag points
-	// XXX defining tags in .model not implemented
-	// the question is if everything can be expected to use collada/etc
-	for(TagList::const_iterator it = def.tagDefs.begin();
-		it != def.tagDefs.end();
-		++it)
-	{
-		const vector3f &pos = (*it).position;
-		RefCountedPtr<MatrixTransform> tagTrans(new MatrixTransform(matrix4x4f::Translation(pos.x, pos.y, pos.z)));
-		model->AddTag((*it).name, tagTrans.Get());
-	}
-
 	//find usable pattern textures from the model directory
 	if (patternsUsed) {
 		FindPatterns(model->m_patterns);
@@ -363,7 +351,7 @@ void Loader::FindPatterns(PatternContainer &output)
 	}
 }
 
-RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList &animDefs, TagList &modelTags)
+RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList &animDefs)
 {
 	Assimp::Importer importer;
 	importer.SetIOHandler(new AssimpFileSystem(FileSystem::gameDataFiles));
