@@ -21,9 +21,11 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 , m_boundingRadius(10.f)
 , m_renderer(r)
 , m_name(name)
+, m_curPattern(0)
 {
 	m_root.Reset(new Group(m_renderer));
 	m_root->SetName(name);
+	memset(m_curDecals, 0, sizeof(m_curDecals));
 }
 
 Model::Model(const Model &model)
@@ -34,6 +36,7 @@ Model::Model(const Model &model)
 , m_materials(model.m_materials)
 , m_patterns(model.m_patterns)
 , m_collMesh(model.m_collMesh) //might have to make this per-instance at some point
+, m_curPattern(model.m_curPattern)
 {
 	//selective copying of node structure
 	Group *root = dynamic_cast<Group*>(model.m_root->Clone());
@@ -41,10 +44,12 @@ Model::Model(const Model &model)
 	m_root.Reset(root);
 
 	//materials are shared by meshes
+	memset(m_curDecals, 0, sizeof(m_curDecals));
 	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)
 		m_decalMaterials[i] = model.m_decalMaterials[i];
 
 	//create unique color texture, if used
+	//patterns are shared
 	if (SupportsPatterns()) {
 		std::vector<Color4ub> colors;
 		colors.push_back(Color4ub::RED);
@@ -82,6 +87,21 @@ Model *Model::MakeInstance() const
 
 void Model::Render(const matrix4x4f &trans, LmrObjParams *params)
 {
+	//update color parameters (materials are shared by model instances)
+	if (m_curPattern) {
+		for (MaterialContainer::const_iterator it = m_materials.begin(); it != m_materials.end(); ++it) {
+			if ((*it).second->GetDescriptor().usePatterns) {
+				(*it).second->texture4 = m_colorMap.GetTexture();
+				(*it).second->texture3 = m_curPattern;
+			}
+		}
+	}
+
+	//update decals (materials and geometries are shared)
+	for (unsigned int i=0; i < MAX_DECAL_MATERIALS; i++)
+		if (m_curDecals[i] != 0)
+			m_decalMaterials[i]->texture0 = m_curDecals[i];
+
 	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	m_renderer->SetTransform(trans);
 	//using the entire model bounding radius for all nodes at the moment.
@@ -153,44 +173,24 @@ void Model::AddTag(const std::string &name, MatrixTransform *node)
 void Model::SetPattern(unsigned int index)
 {
 	if (m_patterns.empty() || index > m_patterns.size() - 1) return;
-
-	//XXX don't set this yet, do it in render
-	for (MaterialContainer::const_iterator it = m_materials.begin();
-		it != m_materials.end();
-		++it)
-	{
-		//Set pattern only on a material that supports it
-		//XXX hacky using the descriptor
-		if ((*it).second->GetDescriptor().usePatterns) {
-			(*it).second->texture3 = m_patterns.at(index).texture.Get();
-			m_colorMap.SetSmooth(m_patterns.at(index).smoothColor);
-		}
-	}
+	const Pattern &pat = m_patterns.at(index);
+	m_colorMap.SetSmooth(pat.smoothColor);
+	m_curPattern = pat.texture.Get();
 }
 
 void Model::SetColors(const std::vector<Color4ub> &colors)
 {
 	assert(colors.size() == 3); //primary, seconday, trim
 	m_colorMap.Generate(GetRenderer(), colors.at(0), colors.at(1), colors.at(2));
-
-	//XXX don't set this yet, do it in render instead
-	for (MaterialContainer::const_iterator it = m_materials.begin();
-		it != m_materials.end();
-		++it)
-	{
-		//Set colortexture only on a material that uses patterns
-		//XXX hacky using the descriptor
-		if ((*it).second->GetDescriptor().usePatterns) {
-			(*it).second->texture4 = m_colorMap.GetTexture();
-		}
-	}
 }
 
 void Model::SetDecalTexture(Graphics::Texture *t, unsigned int index)
 {
 	index = std::min(index, MAX_DECAL_MATERIALS-1);
 	if (m_decalMaterials[index].Valid())
-		m_decalMaterials[index]->texture0 = t;
+		m_curDecals[index] = t;
+	else
+		m_curDecals[index] = 0;
 }
 
 void Model::SetLabel(const std::string &text)

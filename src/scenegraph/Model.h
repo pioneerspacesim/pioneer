@@ -134,6 +134,10 @@ private:
 	std::string m_name;
 	std::vector<Animation *> m_animations;
 	TagContainer m_tags; //named attachment points
+
+	//per-instance flavour data
+	Graphics::Texture *m_curPattern;
+	Graphics::Texture *m_curDecals[MAX_DECAL_MATERIALS];
 };
 
 }
