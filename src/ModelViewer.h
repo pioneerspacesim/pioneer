@@ -22,8 +22,6 @@ public:
 	static void Run(const std::string &modelName);
 
 private:
-	bool OnAnimPlay(UI::Widget*, bool reverse);
-	bool OnAnimStop(UI::Widget*);
 	bool OnPickModel(UI::List*);
 	bool OnQuit();
 	bool OnReloadModel(UI::Widget*);
@@ -71,9 +69,7 @@ private:
 		Options();
 	};
 	bool m_done;
-	bool m_playing;
 	bool m_screenshotQueued;
-	double m_animTime; //separate, because it may be paused
 	double m_frameTime;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;

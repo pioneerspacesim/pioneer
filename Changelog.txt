@@ -25,6 +25,7 @@ Alpha 31
      * Text on SGModel ships now uses correct character offsets (#1980)
      * An unset decal no longer displays a black square on Intel graphics (#1976)
      * Fixed various crashes caused by console completion (#1998)
+     * SGModel animation timing fixes (#1978, #1970)
 
    * Model changes
      * Modelviewer: Reloading model also reloads textures (#1968, #1939)
@@ -35,6 +36,7 @@ Alpha 31
      * Modelviewer: Larger models are displayed without z clipping (#1982, #1933)
      * New material parameters: unlit, two_sided and alpha_test (#1995, #1935)
      * Labels on SGModels can now be set (#1979)
+     * Animations now work correctly across detail level switches (#1978)
 
    * Script changes
      * Remove deprecated Ship methods.SetPrimaryColour and SetSecondaryColour
