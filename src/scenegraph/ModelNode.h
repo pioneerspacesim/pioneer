@@ -15,7 +15,7 @@ class ModelNode : public Node {
 public:
 	ModelNode(Model *m);
 	virtual const char *GetTypeName() { return "ModelNode"; }
-	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
+	virtual void Render(const matrix4x4f &trans, RenderData *rd);
 
 protected:
 	virtual ~ModelNode() { }

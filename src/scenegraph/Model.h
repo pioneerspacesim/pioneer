@@ -86,10 +86,11 @@ class Model : public ModelBase
 {
 public:
 	friend class Loader;
-	Model(const std::string &name);
+	Model(Graphics::Renderer *r, const std::string &name);
 	~Model();
 	float GetDrawClipRadius() const { return m_boundingRadius; }
-	void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params);
+	void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params) { Render(trans, params); } // XXX only takes renderer because ModelBase requires it
+	void Render(const matrix4x4f &trans, LmrObjParams *params);
 	RefCountedPtr<CollMesh> CreateCollisionMesh(const LmrObjParams *p);
 	CollMesh *GetCollisionMesh() const { return m_collMesh.Get(); }
 	RefCountedPtr<Group> GetRoot() { return m_root; }
@@ -105,7 +106,7 @@ public:
 	void SetRenderData(RenderData *d) { m_renderData = d; }
 	const PatternContainer &GetPatterns() const { return m_patterns; }
 	void SetPattern(unsigned int index);
-	void SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &colors); //renderer needed for texture creation
+	void SetColors(const std::vector<Color4ub> &colors);
 	void SetDecalTexture(Graphics::Texture *t, unsigned int index = 0);
 	void SetLabel(const std::string&);
 
@@ -119,6 +120,8 @@ public:
 	void StopAnimations(); //stop all animation
 	void UpdateAnimations(double time); //change this to timestep or something
 
+	Graphics::Renderer *GetRenderer() const { return m_renderer; }
+
 private:
 	static const unsigned int MAX_DECAL_MATERIALS = 4;
 	ColorMap m_colorMap;
@@ -130,6 +133,7 @@ private:
 	RefCountedPtr<Graphics::Material> m_decalMaterials[MAX_DECAL_MATERIALS]; //spaceship insignia, advertising billboards
 	RefCountedPtr<Group> m_root;
 	RenderData *m_renderData;
+	Graphics::Renderer *m_renderer;
 	std::string m_name;
 	std::vector<Animation *> m_activeAnimations;
 	std::vector<Animation *> m_animations;
