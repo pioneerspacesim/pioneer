@@ -653,7 +653,8 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		}
 
 		// set actual duration
-		animation->m_duration = end - start;
+		const double dur = end - start;
+		animation->m_duration = newAnim ? dur : std::max(animation->m_duration, dur);
 
 		//do final sanity checking before adding
 		try {
