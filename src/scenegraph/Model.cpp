@@ -35,13 +35,16 @@ Model::Model(const Model &model)
 , m_patterns(model.m_patterns)
 , m_collMesh(model.m_collMesh) //might have to make this per-instance at some point
 {
+	//selective copying of node structure
 	Group *root = dynamic_cast<Group*>(model.m_root->Clone());
 	assert(root != 0);
 	m_root.Reset(root);
 
+	//materials are shared by meshes
 	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)
 		m_decalMaterials[i] = model.m_decalMaterials[i];
 
+	//create unique color texture, if used
 	if (SupportsPatterns()) {
 		std::vector<Color4ub> colors;
 		colors.push_back(Color4ub::RED);
@@ -51,7 +54,12 @@ Model::Model(const Model &model)
 		SetPattern(0);
 	}
 
-	//animations need to be recreated
+	//animations need to be copied and retargeted
+	for (AnimationContainer::const_iterator it = model.m_animations.begin(); it != model.m_animations.end(); ++it) {
+		const Animation *anim = *it;
+		m_animations.push_back(new Animation(*anim));
+		m_animations.back()->UpdateChannelTargets(m_root.Get());
+	}
 
 	//m_tags needs to be updated
 	for (TagContainer::const_iterator it = model.m_tags.begin(); it != model.m_tags.end(); ++it) {
@@ -207,7 +215,6 @@ bool Model::SupportsPatterns()
 		++it)
 	{
 		//Set pattern only on a material that supports it
-		//XXX hacky using the descriptor
 		if ((*it).second->GetDescriptor().usePatterns)
 			return true;
 	}
@@ -217,7 +224,7 @@ bool Model::SupportsPatterns()
 
 Animation *Model::FindAnimation(const std::string &name)
 {
-	for (AnimationIterator anim = m_animations.begin(); anim != m_animations.end(); ++anim) {
+	for (AnimationContainer::iterator anim = m_animations.begin(); anim != m_animations.end(); ++anim) {
 		if ((*anim)->GetName() == name) return (*anim);
 	}
 	return 0;
@@ -226,7 +233,7 @@ Animation *Model::FindAnimation(const std::string &name)
 void Model::UpdateAnimations()
 {
 	// XXX WIP. Assuming animations are controlled manually by SetProgress.
-	for (AnimationIterator anim = m_animations.begin(); anim != m_animations.end(); ++anim)
+	for (AnimationContainer::iterator anim = m_animations.begin(); anim != m_animations.end(); ++anim)
 		(*anim)->Interpolate();
 }
 

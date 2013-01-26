@@ -79,7 +79,7 @@ struct LoadingError : public std::runtime_error {
 };
 
 typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > MaterialContainer;
-typedef std::vector<Animation*>::iterator AnimationIterator;
+typedef std::vector<Animation*> AnimationContainer;
 typedef std::vector<MatrixTransform *> TagContainer;
 
 class Model : public ModelBase
