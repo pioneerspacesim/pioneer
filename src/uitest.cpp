@@ -359,7 +359,6 @@ int main(int argc, char **argv)
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 #endif
 
-#if 0
 	c->SetInnerWidget(
 		c->Scroller()->SetInnerWidget(
 			c->MultiLineText(
@@ -386,7 +385,6 @@ int main(int argc, char **argv)
 			)
 		)
 	);
-#endif
 
 #if 0
 	UI::Label *label;
@@ -496,6 +494,7 @@ int main(int argc, char **argv)
 	);
 #endif
 
+#if 0
 	UI::VBox *box;
 	UI::Button *b1, *b2, *b3, *b4;
 	c->SetInnerWidget(
@@ -515,6 +514,7 @@ int main(int argc, char **argv)
 	b2->AddShortcut(UI::KeySym::FromString("ctrl+2"));
 	b3->AddShortcut(UI::KeySym::FromString("alt+3"));
 	b4->AddShortcut(UI::KeySym::FromString("ctrl+shift+4"));
+#endif
 
 	//int count = 0;
 
