@@ -48,11 +48,11 @@ TextLayout::TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::
 	}
 }
 
-Point TextLayout::ComputeSize(const Point &maxArea)
+Point TextLayout::ComputeSize(const Point &layoutSize)
 {
-	if (maxArea == Point()) return Point();
+	if (layoutSize == Point()) return Point();
 
-	if (maxArea == m_lastRequested)
+	if (layoutSize == m_lastRequested)
 		return m_lastSize;
 
 	int spaceWidth = ceilf(m_font->GetGlyph(' ').advx);
@@ -78,7 +78,7 @@ Point TextLayout::ComputeSize(const Point &maxArea)
 		// - the word does not go past the right edge of the box
 		bool wordAdded = false;
 		while (!wordAdded) {
-			if (pos.x == 0 || pos.x + wordSize.x < maxArea.x) {
+			if (pos.x == 0 || pos.x + wordSize.x < layoutSize.x) {
 				(*i).pos = pos;
 
 				// move to the end of the word
@@ -99,18 +99,23 @@ Point TextLayout::ComputeSize(const Point &maxArea)
 		pos.x += spaceWidth;
 	}
 
-	m_lastRequested = maxArea;
+	m_lastRequested = layoutSize;
 	m_lastSize = bounds;
 
 	return bounds;
 }
 
-void TextLayout::Draw(const Point &maxArea)
+void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize)
 {
-	ComputeSize(maxArea);
+	ComputeSize(layoutSize);
 
-	for (std::vector<Word>::iterator i = m_words.begin(); i != m_words.end(); ++i)
-		m_font->RenderString((*i).text.c_str(), (*i).pos.x, (*i).pos.y, Color::WHITE);
+	const int top = -drawPos.y - m_font->GetHeight();
+	const int bottom = -drawPos.y + drawSize.y;
+
+	for (std::vector<Word>::iterator i = m_words.begin(); i != m_words.end(); ++i) {
+		if ((*i).pos.y >= top && (*i).pos.y < bottom)
+			m_font->RenderString((*i).text.c_str(), (*i).pos.x, (*i).pos.y, Color::WHITE);
+	}
 }
 
 }
