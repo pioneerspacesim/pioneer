@@ -674,7 +674,7 @@ void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const std::strin
 	trans->AddChild(thruster);
 	parent->AddChild(trans);
 }
-
+#pragma optimize( "", off )
 void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPtr<Graphics::Surface> >& surfaces, const matrix4x4f &accum)
 {
 	Group *parent = _parent;
@@ -694,6 +694,24 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 			vector3f tagpos = accum * m.GetTranslate();
 			MatrixTransform *tagMt = new MatrixTransform(matrix4x4f::Translation(tagpos));
 			m_model->AddTag(nodename, tagMt);
+		} else if (starts_with(nodename, "docking_")) {
+			MatrixTransform *dockMt = new MatrixTransform(m);
+			int port, stage;
+			PiVerify(2 == sscanf(nodename.c_str(), "docking_port%d_stage%d", &port, &stage));
+			PiVerify(port>0 && stage>0);
+			m_dockingWaypoints[port][stage] = dockMt;
+		} else if (starts_with(nodename, "leaving_")) {
+			MatrixTransform *dockMt = new MatrixTransform(m);
+			int port, stage;
+			PiVerify(2 == sscanf(nodename.c_str(), "leaving_port%d_stage%d", &port, &stage));
+			PiVerify(port>0 && stage>0);
+			m_leavingWaypoints[port][stage] = dockMt;
+		} else if (starts_with(nodename, "approach_")) {
+			MatrixTransform *dockMt = new MatrixTransform(m);
+			int port, stage;
+			PiVerify(2 == sscanf(nodename.c_str(), "approach_port%d_stage%d", &port, &stage));
+			PiVerify(port>0 && stage>0);
+			m_approachWaypoints[port][stage] = dockMt;
 		}
 		return;
 	}

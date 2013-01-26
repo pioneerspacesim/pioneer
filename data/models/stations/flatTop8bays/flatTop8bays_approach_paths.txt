@@ -1,0 +1,63 @@
+if port == 3 then
+	if stage == 2 then
+		return { v(-10.3072,635.4337,195.1540), v(1,0,0), v(0,0,1) }
+	elseif stage == 1 then
+		return { v(-10.3072,2000.0000,195.1540), v(1,0,0), v(0,0,1) }
+	end
+end
+
+if port == 1 then
+	if stage == 2 then
+		return { v(-10.3071,635.4337,795.1541), v(1,0,0), v(0,0,1) }
+	elseif stage == 1 then
+		return { v(-10.3071,2000.0000,795.1541), v(1,0,0), v(0,0,1) }
+	end
+end
+
+if port == 5 then
+	if stage == 2 then
+		return { v(-10.3072,635.4337,-204.8460), v(1,0,0), v(0,0,1) }
+	elseif stage == 1 then
+		return { v(-10.3072,2000.0000,-204.8460), v(1,0,0), v(0,0,1) }
+	end
+end
+
+if port == 7 then
+	if stage == 2 then
+		return { v(-10.3071,635.4337,-804.8459), v(1,0,0), v(0,0,1) }
+	elseif stage == 1 then
+		return { v(-10.3071,2000.0000,-804.8459), v(1,0,0), v(0,0,1) }
+	end
+end
+
+if port == 2 then
+	if stage == 2 then
+		return { v(-10.3071,-634.9541,795.1541), v(1,0,0), v(0,0,1) }
+	elseif stage == 1 then
+		return { v(-10.3071,-1999.5204,795.1541), v(1,0,0), v(0,0,1) }
+	end
+end
+
+if port == 6 then
+	if stage == 2 then
+		return { v(-10.3072,-634.9541,-204.8460), v(1,0,0), v(0,0,1) }
+	elseif stage == 1 then
+		return { v(-10.3072,-1999.5204,-204.8460), v(1,0,0), v(0,0,1) }
+	end
+end
+
+if port == 8 then
+	if stage == 2 then
+		return { v(-10.3071,-634.9541,-804.8459), v(1,0,0), v(0,0,1) }
+	elseif stage == 1 then
+		return { v(-10.3071,-1999.5204,-804.8459), v(1,0,0), v(0,0,1) }
+	end
+end
+
+if port == 4 then
+	if stage == 2 then
+		return { v(-10.3072,-634.9541,195.1540), v(1,0,0), v(0,0,1) }
+	elseif stage == 1 then
+		return { v(-10.3072,-1999.5204,195.1540), v(1,0,0), v(0,0,1) }
+	end
+end
