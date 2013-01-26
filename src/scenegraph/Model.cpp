@@ -26,9 +26,50 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 	m_root->SetName(name);
 }
 
+Model::Model(const Model &model)
+: ModelBase()
+, m_boundingRadius(model.m_boundingRadius)
+, m_renderer(model.m_renderer)
+, m_name(model.m_name)
+, m_materials(model.m_materials)
+, m_patterns(model.m_patterns)
+, m_collMesh(model.m_collMesh) //might have to make this per-instance at some point
+{
+	Group *root = dynamic_cast<Group*>(model.m_root->Clone());
+	assert(root != 0);
+	m_root.Reset(root);
+
+	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)
+		m_decalMaterials[i] = model.m_decalMaterials[i];
+
+	if (SupportsPatterns()) {
+		std::vector<Color4ub> colors;
+		colors.push_back(Color4ub::RED);
+		colors.push_back(Color4ub::GREEN);
+		colors.push_back(Color4ub::BLUE);
+		SetColors(colors);
+		SetPattern(0);
+	}
+
+	//animations need to be recreated
+
+	//m_tags needs to be updated
+	for (TagContainer::const_iterator it = model.m_tags.begin(); it != model.m_tags.end(); ++it) {
+		MatrixTransform *t = dynamic_cast<MatrixTransform*>(m_root->FindNode((*it)->GetName()));
+		assert(t != 0);
+		m_tags.push_back(t);
+	}
+}
+
 Model::~Model()
 {
 	while(!m_animations.empty()) delete m_animations.back(), m_animations.pop_back();
+}
+
+Model *Model::MakeInstance() const
+{
+	Model *m = new Model(*this);
+	return m;
 }
 
 void Model::Render(const matrix4x4f &trans, LmrObjParams *params)
@@ -54,7 +95,7 @@ RefCountedPtr<CollMesh> Model::CreateCollisionMesh(const LmrObjParams *p)
 {
 	CollisionVisitor cv;
 	m_root->Accept(cv);
-	m_collMesh = RefCountedPtr<CollMesh>(cv.CreateCollisionMesh());
+	m_collMesh = cv.CreateCollisionMesh();
 	m_boundingRadius = cv.GetBoundingRadius();
 	return m_collMesh;
 }
@@ -105,6 +146,7 @@ void Model::SetPattern(unsigned int index)
 {
 	if (m_patterns.empty() || index > m_patterns.size() - 1) return;
 
+	//XXX don't set this yet, do it in render
 	for (MaterialContainer::const_iterator it = m_materials.begin();
 		it != m_materials.end();
 		++it)
@@ -122,6 +164,8 @@ void Model::SetColors(const std::vector<Color4ub> &colors)
 {
 	assert(colors.size() == 3); //primary, seconday, trim
 	m_colorMap.Generate(GetRenderer(), colors.at(0), colors.at(1), colors.at(2));
+
+	//XXX don't set this yet, do it in render instead
 	for (MaterialContainer::const_iterator it = m_materials.begin();
 		it != m_materials.end();
 		++it)
