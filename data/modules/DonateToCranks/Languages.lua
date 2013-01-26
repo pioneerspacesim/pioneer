@@ -171,3 +171,37 @@ Translate:Add({ Russian = {
   ["Thank you. All donations are welcome."] = "Спасибо, мы ценим любую помощь.",
   }
 })
+
+  ---- GERMAN / DEUTSCH ----
+
+Translate:AddFlavour('Deutsch','DonateToCranks', {
+  title = "SPENDE! Die Kirche des Fliegenden Himmel-Spagettimonster braucht DEIN Geld, um das Wort von Gott zu verbreiten!",
+  message = "Bitte wähle eine Summe um an die Kirche des Fliegenden Himmel-Spagettimonster zu spenden.",
+})
+
+Translate:AddFlavour('Deutsch','DonateToCranks', {
+  title = "SPENDE. Die Wächter des Freien Geistes appellieren demütig an Ihre Wohltätigkeit, um unsere Klöster zu unterstützen.",
+  message = "Friede sei mit dir, Bruder. Bitte wähle die Summe, die du den Wächtern des Freien Geistes spenden möchtest.",
+})
+
+Translate:AddFlavour('Deutsch','DonateToCranks', {
+  title = "IN SPENDENLAUNE? Die Kriegswaisen-Unterstützung braucht deine Hilfe um die Lebenswichtige Arbeit weiterzuführen.",
+  message = "Bitte wähle die Summe, die du der Kriegswaisen-Unterstützung spenden willst, um damit das Leiden von Kindern aus der ganzen Galaxie zu lindern.",
+})
+
+Translate:AddFlavour('Deutsch','DonateToCranks', {
+  title = "TRAGE BEI. Die Freundde der Galaktischen 'Verbot Militärischer Antriebe' Kampagne braucht dein Geld.",
+  message = "Bitte wähle eine Summe, die du GreenWatch spenden willst, um die Verschmutzung unserer Galaxie zu beenden.",
+})
+
+Translate:AddFlavour('Deutsch','DonateToCranks', {
+  title = "SPENDE! Rette unsere Spezies. Stoppe das Massensterben auf neu besiedelten Welten.",
+  message = "Bitte wähle aus, wie viel du spenden willst."
+})
+
+Translate:Add({ Deutsch = {
+  ["You do not have enough money."] = "Du hast nicht genug Geld.",
+  ["Wow! That was very generous."] = "Wow! Das war sehr großzügig.",
+  ["Thank you. All donations are welcome."] = "Danke. Alle Spenden sind wilkommen.",
+  }
+})
