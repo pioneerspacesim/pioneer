@@ -80,6 +80,7 @@ struct LoadingError : public std::runtime_error {
 
 typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > MaterialContainer;
 typedef std::vector<Animation*>::iterator AnimationIterator;
+typedef std::vector<MatrixTransform *> TagContainer;
 
 class Model : public ModelBase
 {
@@ -96,11 +97,10 @@ public:
 	RefCountedPtr<Graphics::Material> GetMaterialByName(const std::string &name) const;
 	RefCountedPtr<Graphics::Material> GetMaterialByIndex(int) const;
 
-	//XXX these ignore possible ModelNodes
 	int GetNumTags() const { return m_tags.size(); }
-	Group * const GetTagByIndex(unsigned int index) const;
-	Group * const FindTagByName(const std::string &name) const;
-	void AddTag(const std::string &name, Group *node);
+	MatrixTransform * const GetTagByIndex(unsigned int index) const;
+	MatrixTransform * const FindTagByName(const std::string &name) const;
+	void AddTag(const std::string &name, MatrixTransform *node);
 
 	void SetRenderData(RenderData *d) { m_renderData = d; }
 	const PatternContainer &GetPatterns() const { return m_patterns; }
@@ -133,10 +133,8 @@ private:
 	std::string m_name;
 	std::vector<Animation *> m_activeAnimations;
 	std::vector<Animation *> m_animations;
-	std::vector<Group *> m_tags; //named attachment points
+	TagContainer m_tags; //named attachment points
 };
-
-typedef std::vector<Group *> TagContainer;
 
 }
 

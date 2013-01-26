@@ -75,13 +75,13 @@ RefCountedPtr<Graphics::Material> Model::GetMaterialByIndex(const int i) const
 	return m_materials.at(Clamp(i, 0, int(m_materials.size())-1)).second;
 }
 
-Group * const Model::GetTagByIndex(const unsigned int i) const
+MatrixTransform * const Model::GetTagByIndex(const unsigned int i) const
 {
 	if (m_tags.empty() || i > m_tags.size()-1) return 0;
 	return m_tags.at(i);
 }
 
-Group * const Model::FindTagByName(const std::string &name) const
+MatrixTransform * const Model::FindTagByName(const std::string &name) const
 {
 	for (TagContainer::const_iterator it = m_tags.begin();
 		it != m_tags.end();
@@ -93,7 +93,7 @@ Group * const Model::FindTagByName(const std::string &name) const
 	return 0;
 }
 
-void Model::AddTag(const std::string &name, Group *node)
+void Model::AddTag(const std::string &name, MatrixTransform *node)
 {
 	if (FindTagByName(name)) return;
 	node->SetName(name);
