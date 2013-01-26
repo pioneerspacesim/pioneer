@@ -202,11 +202,11 @@ local onEnterSystem = function (player)
 			-- if there is some risk and still no ships, flip a tricoin
 			if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
 
-			local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
-				local mass = t.hullMass
-				return mass >= 100 and mass <= 400
-			end)
-			if #shiptypes == 0 then return end
+			local shipids = {}
+			for id,def in pairs(ShipDef) do
+				if (def.tag == 'SHIP' and def.hullMass >= 100 and def.hullMass <= 400) then table.insert(shipids, id) end
+			end
+			if #shipids == 0 then return end
 
 			local ship
 
@@ -214,11 +214,11 @@ local onEnterSystem = function (player)
 				ships = ships-1
 
 				if Engine.rand:Number(1) <= risk then
-					local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-					local shiptype = ShipType.GetShipType(shipid)
-					local default_drive = shiptype.defaultHyperdrive
+					local shipid = shipids[Engine.rand:Integer(1,#shipids)]
+					local shipdef = ShipDef[shipid]
+					local default_drive = shipdef.defaultHyperdrive
 
-					local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
+					local max_laser_size = shipdef.capacity - EquipType.GetEquipType(default_drive).mass
 					local lasers = EquipType.GetEquipTypes('LASER', function (e,et)
 						return et.mass <= max_laser_size and string.sub(e,0,11) == 'PULSECANNON'
 					end)

@@ -2,8 +2,7 @@ local ui = Engine.ui
 local t = Translate:GetTranslator()
 
 local shipInfo = function (args)
-	local shipId = Game.player.shipId
-	local shipType = ShipType.GetShipType(shipId)
+	local shipDef = ShipDef[Game.player.shipId]
 
 	local hyperdrive =              table.unpack(Game.player:GetEquip("ENGINE"))
 	local frontWeapon, rearWeapon = table.unpack(Game.player:GetEquip("LASER"))
@@ -98,7 +97,7 @@ local shipInfo = function (args)
 			})
 			:SetColumn(1, {
 				ui:VBox(10)
-					:PackEnd(ui:Label(shipType.name):SetFont("HEADING_LARGE"))
+					:PackEnd(ui:Label(shipDef.name):SetFont("HEADING_LARGE"))
 					:PackEnd(UI.Game.ShipSpinner.New(ui, Game.player.flavour))
 			})
 end

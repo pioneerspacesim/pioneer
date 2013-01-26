@@ -3,7 +3,6 @@
 
 #include "LuaObject.h"
 #include "LuaSystemPath.h"
-#include "LuaShipType.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "EnumStrings.h"

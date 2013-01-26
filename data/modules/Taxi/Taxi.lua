@@ -76,7 +76,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(howmany)
 
 	elseif option == 3 then
-		local capacity = Game.player:GetEquipSlotCapacity('CABIN')
+		local capacity = ShipDef[Game.player.shipId].equipSlotCapacity.CABIN
 		if capacity < ad.group or Game.player:GetEquipCount('CABIN', 'UNOCCUPIED_CABIN') < ad.group then
 			form:SetMessage(t("You do not have enough cabin space on your ship."))
 			form:AddOption(t('HANG_UP'), -1)
@@ -215,11 +215,11 @@ local onEnterSystem = function (player)
 
 			if ships < 1 and risk > 0 and Engine.rand:Integer(math.ceil(1/risk)) == 1 then ships = 1 end
 
-			local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
-				local mass = t.hullMass
-				return mass >= 80 and mass <= 200
-			end)
-			if #shiptypes == 0 then return end
+			local shipids = {}
+			for id,def in pairs(ShipDef) do
+				if (def.tag == 'SHIP' and def.hullMass >= 80 and def.hullMass <= 200) then table.insert(shipids, id) end
+			end
+			if #shipids == 0 then return end
 
 			local ship
 
@@ -227,11 +227,11 @@ local onEnterSystem = function (player)
 				ships = ships-1
 
 				if Engine.rand:Number(1) <= risk then
-					local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-					local shiptype = ShipType.GetShipType(shipid)
-					local default_drive = shiptype.defaultHyperdrive
+					local shipid = shipids[Engine.rand:Integer(1,#shipids)]
+					local shipdef = ShipDef[shipid]
+					local default_drive = shipdef.defaultHyperdrive
 
-					local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
+					local max_laser_size = shipdef.capacity - EquipType.GetEquipType(default_drive).mass
 					local lasers = EquipType.GetEquipTypes('LASER', function (e,et)
 						return et.mass <= max_laser_size and string.sub(e,0,11) == 'PULSECANNON'
 					end)

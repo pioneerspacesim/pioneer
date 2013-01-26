@@ -130,10 +130,12 @@ local makeAdvert = function (station)
 	local due = Game.time + Engine.rand:Number(7*60*60*24, time * 31*60*60*24)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
-	local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
-		return (t.hullMass >= (danger * 17)) and (t:GetEquipSlotCapacity('ATMOSHIELD') > 0) end)
-	local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-	local shipname = ShipType.GetShipType(shipid).name
+	local shipids = {}
+	for id,def in pairs(ShipDef) do
+		if (def.tag == 'SHIP' and def.hullMass >= 50 and def.hullMass <= 150) then table.insert(shipids, id) end
+	end
+	local shipid = shipids[Engine.rand:Integer(1,#shipids)]
+	local shipname = ShipDef[shipid].name
 
 	local ad = {
 		client = client,
@@ -222,7 +224,7 @@ local onEnterSystem = function (ship)
 				if mission.due > Game.time then
 					if mission.location:IsSameSystem(syspath) then -- spawn our target ship
 						local station = Space.GetBody(mission.location.bodyIndex)
-						local shiptype = ShipType.GetShipType(mission.shipid)
+						local shiptype = ShipDef[mission.shipid]
 						local default_drive = shiptype.defaultHyperdrive
 						local lasers = EquipType.GetEquipTypes('LASER', function (e,et) return et.slot == "LASER" end)
 						local count = tonumber(string.sub(default_drive, -1)) ^ 2

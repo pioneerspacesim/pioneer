@@ -33,7 +33,7 @@
 #include "LuaMusic.h"
 #include "LuaNameGen.h"
 #include "LuaRef.h"
-#include "LuaShipType.h"
+#include "LuaShipDef.h"
 #include "LuaSpace.h"
 #include "LuaStarSystem.h"
 #include "LuaSystemBody.h"
@@ -164,7 +164,6 @@ static void LuaInit()
 	LuaStarSystem::RegisterClass();
 	LuaSystemPath::RegisterClass();
 	LuaSystemBody::RegisterClass();
-	LuaShipType::RegisterClass();
 	LuaEquipType::RegisterClass();
 	LuaObject<MTRand>::RegisterClass();
 	LuaObject<Faction>::RegisterClass();
@@ -185,6 +184,7 @@ static void LuaInit()
 	LuaComms::Register();
 	LuaFormat::Register();
 	LuaSpace::Register();
+	LuaShipDef::Register();
 	LuaMusic::Register();
 	LuaDev::Register();
 	LuaConsole::Register();
@@ -331,6 +331,9 @@ void Pi::Init()
 
 	EnumStrings::Init();
 
+	// XXX early, Lua init needs it
+	ShipType::Init();
+
 	// XXX UI requires Lua  but Pi::ui must exist before we start loading
 	// templates. so now we have crap everywhere :/
 	Lua::Init();
@@ -362,7 +365,6 @@ void Pi::Init()
 //_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW | _EM_ZERODIVIDE, _MCW_EM);
 //double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
 
-	ShipType::Init();
 	draw_progress(0.6f);
 
 	GeoSphere::Init();
