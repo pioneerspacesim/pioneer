@@ -498,10 +498,7 @@ void ModelViewer::OnDecalChanged(unsigned int index, const std::string &texname)
 {
 	if (!m_model) return;
 
-	m_decalTexture = Graphics::TextureBuilder(
-		stringf("textures/decals/%0.png", texname),
-		Graphics::LINEAR_CLAMP,
-		true, true, false).GetOrCreateTexture(m_renderer, "model");
+	m_decalTexture = Graphics::TextureBuilder::Decal(stringf("textures/decals/%0.png", texname)).GetOrCreateTexture(m_renderer, "decal");
 
 	m_model->SetDecalTexture(m_decalTexture, 0);
 	m_model->SetDecalTexture(m_decalTexture, 1);

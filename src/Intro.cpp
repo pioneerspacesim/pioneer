@@ -6,6 +6,7 @@
 #include "Lang.h"
 #include "Ship.h"
 #include "graphics/Renderer.h"
+#include "graphics/TextureBuilder.h"
 
 Intro::Intro(Graphics::Renderer *r, int width, int height)
 : Cutscene(r, width, height)
@@ -23,7 +24,13 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_model = Pi::FindModel("lanner");
 	m_model->SetLabel(Lang::PIONEER);
 
+	// XXX just until LMR is gone
+	SceneGraph::Model *sgm = dynamic_cast<SceneGraph::Model*>(m_model);
+	if (sgm)
+		sgm->SetDecalTexture(Graphics::TextureBuilder::Decal("textures/decals/01_Badge.png").GetOrCreateTexture(r, "decal"));
+
 	// Model parameters
+	// XXX all LMR-specific
 	memset(&m_modelParams, 0, sizeof(LmrObjParams));
 	m_modelParams.animationNamespace = "ShipAnimation";
 	m_modelParams.flightState = Ship::FLYING;
