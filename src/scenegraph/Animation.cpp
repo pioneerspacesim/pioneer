@@ -25,26 +25,24 @@ void Animation::Interpolate()
 		if (!chan->rotationKeys.empty()) {
 			//find a frame. To optimize, should begin search from previous frame (when mTime > previous mTime)
 			unsigned int frame = 0;
-			while (frame < chan->rotationKeys.size() - 1) {
+			while (frame + 1 < chan->rotationKeys.size()) {
 				if (mtime < chan->rotationKeys[frame+1].time)
 					break;
 				frame++;
 			}
-			const unsigned int nextFrame = (frame + 1) % chan->rotationKeys.size();
 
 			const RotationKey &a = chan->rotationKeys[frame];
-			const RotationKey &b = chan->rotationKeys[nextFrame];
-			double diffTime = b.time - a.time;
-			if (diffTime < 0.0)
-				diffTime += m_duration;
-			vector3f temp = trans.GetTranslate();
-			if (diffTime > 0.0) {
+			vector3f saved_position = trans.GetTranslate();
+			if (frame + 1 < chan->rotationKeys.size()) {
+				const RotationKey &b = chan->rotationKeys[frame + 1];
+				double diffTime = b.time - a.time;
+				assert(diffTime > 0.0);
 				const float factor = Clamp(float((mtime - a.time) / diffTime), 0.f, 1.f);
 				trans = Quaternionf::Nlerp(a.rotation, b.rotation, factor).ToMatrix3x3<float>();
 			} else {
 				trans = a.rotation.ToMatrix3x3<float>();
 			}
-			trans.SetTranslate(temp);
+			trans.SetTranslate(saved_position);
 		}
 
 		//scaling will not work without rotation since it would
@@ -53,52 +51,47 @@ void Animation::Interpolate()
 		if (!chan->scaleKeys.empty() && !chan->rotationKeys.empty()) {
 			//find a frame. To optimize, should begin search from previous frame (when mTime > previous mTime)
 			unsigned int frame = 0;
-			while (frame < chan->scaleKeys.size() - 1) {
+			while (frame + 1 < chan->scaleKeys.size()) {
 				if (mtime < chan->scaleKeys[frame+1].time)
 					break;
 				frame++;
 			}
-			const unsigned int nextFrame = (frame + 1) % chan->scaleKeys.size();
 
 			const ScaleKey &a = chan->scaleKeys[frame];
-			const ScaleKey &b = chan->scaleKeys[nextFrame];
-			double diffTime = b.time - a.time;
-			if (diffTime < 0.0)
-				diffTime += m_duration;
 			vector3f out;
-			if (diffTime > 0.0) {
+			if (frame + 1 < chan->scaleKeys.size()) {
+				const ScaleKey &b = chan->scaleKeys[frame + 1];
+				double diffTime = b.time - a.time;
+				assert(diffTime > 0.0);
 				const float factor = Clamp(float((mtime - a.time) / diffTime), 0.f, 1.f);
 				out = a.scale + (b.scale - a.scale) * factor;
 			} else {
 				out = a.scale;
 			}
-
 			trans.Scale(out.x, out.y, out.z);
 		}
 
 		if (!chan->positionKeys.empty()) {
 			//find a frame. To optimize, should begin search from previous frame (when mTime > previous mTime)
 			unsigned int frame = 0;
-			while (frame < chan->positionKeys.size() - 1) {
+			while (frame + 1 < chan->positionKeys.size()) {
 				if (mtime < chan->positionKeys[frame+1].time)
 					break;
 				frame++;
 			}
-			const unsigned int nextFrame = (frame + 1) % chan->positionKeys.size();
 
 			const PositionKey &a = chan->positionKeys[frame];
-			const PositionKey &b = chan->positionKeys[nextFrame];
-			double diffTime = b.time - a.time;
-			if (diffTime < 0.0)
-				diffTime += m_duration;
-			if (diffTime > 0.0) {
+			vector3f out;
+			if (frame + 1 < chan->positionKeys.size()) {
+				const PositionKey &b = chan->positionKeys[frame + 1];
+				double diffTime = b.time - a.time;
+				assert(diffTime > 0.0);
 				const float factor = Clamp(float((mtime - a.time) / diffTime), 0.f, 1.f);
-				vector3f out(0.f);
 				out = a.position + (b.position - a.position) * factor;
-				trans.SetTranslate(out);
 			} else {
-				trans.SetTranslate(a.position);
+				out = a.position;
 			}
+			trans.SetTranslate(out);
 		}
 
 		chan->node->SetTransform(trans);
