@@ -86,6 +86,9 @@ protected:
 	int m_heightMapSizeX;
 	int m_heightMapSizeY;
 
+	//For image pixels for heightmaps
+	Uint32 Terrain::GetPixel(SDL_Surface *surface, int x, int y);
+
 	/** General attributes */
 	double m_maxHeight;
 	double m_maxHeightInMeters;
