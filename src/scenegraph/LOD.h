@@ -13,6 +13,7 @@ namespace SceneGraph {
 class LOD : public Group {
 public:
 	LOD(Graphics::Renderer *r);
+	LOD(const LOD&);
 	virtual const char *GetTypeName() { return "LOD"; }
 	void AddLevel(float pixelRadius, Node *child);
 	virtual void Render(const matrix4x4f &trans, RenderData *rd);

@@ -21,6 +21,19 @@ Group::~Group()
 	}
 }
 
+Group::Group(const Group &group)
+: Node(group)
+{
+	for(std::vector<Node*>::const_iterator itr = group.m_children.begin();
+		itr != group.m_children.end();
+		++itr)
+	{
+		//XXX how to trigger correct copy?
+		//Node *node = *itr;
+		//AddChild(node);
+	}
+}
+
 void Group::AddChild(Node *child)
 {
 	child->IncRefCount();

@@ -20,6 +20,14 @@ StaticGeometry::~StaticGeometry()
 {
 }
 
+StaticGeometry::StaticGeometry(const StaticGeometry &sg)
+: Node(sg)
+, m_boundingBox(sg.m_boundingBox)
+, m_blendMode(sg.m_blendMode)
+, m_meshes(sg.m_meshes)
+{
+}
+
 void StaticGeometry::Accept(NodeVisitor &nv)
 {
 	nv.ApplyStaticGeometry(*this);

@@ -11,6 +11,12 @@ LOD::LOD(Graphics::Renderer *r) : Group(r)
 {
 }
 
+LOD::LOD(const LOD &lod)
+: Group(lod)
+, m_pixelSizes(lod.m_pixelSizes)
+{
+}
+
 void LOD::AddLevel(float pixelSize, Node *nod)
 {
 	m_pixelSizes.push_back(pixelSize);
