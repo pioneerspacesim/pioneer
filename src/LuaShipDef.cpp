@@ -214,17 +214,25 @@ void LuaShipDef::Register()
 		lua_newtable(l);
 		for (int t = ShipType::THRUSTER_REVERSE; t < ShipType::THRUSTER_MAX; t++)
 			pi_lua_settable(l, EnumStrings::GetString("ShipTypeThruster", t), st.linThrust[t]);
-		lua_setfield(l, -2, "linearThrust");
+		pi_lua_readonly_table_proxy(l, -1);
+		lua_setfield(l, -3, "linearThrust");
+		lua_pop(l, 1);
 
 		lua_newtable(l);
 		for (int slot = Equip::SLOT_CARGO; slot < Equip::SLOT_MAX; slot++)
 			pi_lua_settable(l, EnumStrings::GetString("EquipSlot", slot), st.equipSlotCapacity[slot]);
-		lua_setfield(l, -2, "equipSlotCapacity");
+		pi_lua_readonly_table_proxy(l, -1);
+		lua_setfield(l, -3, "equipSlotCapacity");
+		lua_pop(l, 1);
 
-		lua_setfield(l, -2, (*i).first.c_str());
+		pi_lua_readonly_table_proxy(l, -1);
+		lua_setfield(l, -3, (*i).first.c_str());
+		lua_pop(l, 1);
 	}
 
+	pi_lua_readonly_table_proxy(l, -1);
 	lua_setglobal(l, "ShipDef");
+	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }
