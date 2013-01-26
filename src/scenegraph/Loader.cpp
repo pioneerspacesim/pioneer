@@ -409,7 +409,7 @@ static bool in_range(double keytime, double start, double end)
 	return (keytime >= start - 0.001 && keytime - 0.001 <= end);
 }
 
-//check animation channel has at least two P, R or S keys within time range
+// check animation channel has a key within time range
 bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
 {
 	int posKeysInRange = 0;
@@ -431,7 +431,7 @@ bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
 		if (in_range(aikey.mTime, start, end)) sclKeysInRange++;
 	}
 
-	return (posKeysInRange > 1 || rotKeysInRange > 1 || sclKeysInRange > 1);
+	return (posKeysInRange > 0 || rotKeysInRange > 0 || sclKeysInRange > 0);
 }
 
 RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
@@ -462,7 +462,8 @@ void Loader::CheckAnimationConflicts(const Animation* anim, const std::vector<An
 	for (ChannelIterator chan = anim->m_channels.begin(); chan != anim->m_channels.end(); ++chan) {
 		for (AnimIterator other = otherAnims.begin(); other != otherAnims.end(); ++other) {
 			const Animation *otherAnim = (*other);
-			assert(otherAnim != anim);
+			if (otherAnim == anim)
+				continue;
 			for (ChannelIterator otherChan = otherAnim->m_channels.begin(); otherChan != otherAnim->m_channels.end(); ++otherChan) {
 				//warnings as errors mentality - this is not really fatal
 				if (chan->node == otherChan->node)
@@ -557,8 +558,10 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		//take TPS from the first animation
 		const aiAnimation* firstAnim = scene->mAnimations[0];
 		const double ticksPerSecond = firstAnim->mTicksPerSecond > 0.0 ? firstAnim->mTicksPerSecond : 24.0;
+		const double secondsPerTick = 1.0 / ticksPerSecond;
+
 		double start = DBL_MAX;
-		double end = 0.0;
+		double end = -DBL_MAX;
 
 		//Ranges are specified in frames (since that's nice) but Collada
 		//uses seconds. This is easiest to detect from ticksPerSecond,
@@ -570,10 +573,14 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 			defStart /= 24.0;
 			defEnd /= 24.0;
 		}
-		Animation *animation = new Animation(
-			def->name, 0.0,
-			def->loop ? Animation::LOOP : Animation::ONCE,
-			ticksPerSecond);
+
+		// Add channels to current animation if it's already present
+		// Necessary to make animations work in multiple LODs
+		Animation *animation = m_model->FindAnimation(def->name);
+		bool newAnim = !animation;
+		if (newAnim) animation = new Animation(def->name, 0.0);
+
+		const size_t first_new_channel = animation->m_channels.size();
 
 		for (unsigned int i=0; i < scene->mNumAnimations; i++) {
 			const aiAnimation* aianim = scene->mAnimations[i];
@@ -593,9 +600,10 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 					const aiVectorKey &aikey = aichan->mPositionKeys[k];
 					const aiVector3D &aipos = aikey.mValue;
 					if (in_range(aikey.mTime, defStart, defEnd)) {
-						chan.positionKeys.push_back(PositionKey(aikey.mTime - defStart, vector3f(aipos.x, aipos.y, aipos.z)));
-						start = std::min(start, aikey.mTime);
-						end = std::max(end, aikey.mTime);
+						const double t = aikey.mTime * secondsPerTick;
+						chan.positionKeys.push_back(PositionKey(t, vector3f(aipos.x, aipos.y, aipos.z)));
+						start = std::min(start, t);
+						end = std::max(end, t);
 					}
 				}
 
@@ -607,9 +615,10 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 					const aiQuatKey &aikey = aichan->mRotationKeys[k];
 					const aiQuaternion &airot = aikey.mValue;
 					if (in_range(aikey.mTime, defStart, defEnd)) {
-						chan.rotationKeys.push_back(RotationKey(aikey.mTime - defStart, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
-						start = std::min(start, aikey.mTime);
-						end = std::max(end, aikey.mTime);
+						const double t = aikey.mTime * secondsPerTick;
+						chan.rotationKeys.push_back(RotationKey(t, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
+						start = std::min(start, t);
+						end = std::max(end, t);
 					}
 				}
 
@@ -617,28 +626,49 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 					const aiVectorKey &aikey = aichan->mScalingKeys[k];
 					const aiVector3D &aipos = aikey.mValue;
 					if (in_range(aikey.mTime, defStart, defEnd)) {
-						chan.scaleKeys.push_back(ScaleKey(aikey.mTime - defStart, vector3f(aipos.x, aipos.y, aipos.z)));
-						start = std::min(start, aikey.mTime);
-						end = std::max(end, aikey.mTime);
+						const double t = aikey.mTime * secondsPerTick;
+						chan.scaleKeys.push_back(ScaleKey(t, vector3f(aipos.x, aipos.y, aipos.z)));
+						start = std::min(start, t);
+						end = std::max(end, t);
 					}
 				}
 			}
 		}
 
-		//set actual duration
-		animation->m_duration = end - start;
+		// convert remove initial offset (so the first keyframe is at exactly t=0)
+		for (std::vector<AnimationChannel>::iterator chan = animation->m_channels.begin() + first_new_channel;
+				chan != animation->m_channels.end(); ++chan) {
+			for (unsigned int k = 0; k < chan->positionKeys.size(); ++k) {
+				chan->positionKeys[k].time -= start;
+				assert(chan->positionKeys[k].time >= 0.0);
+			}
+			for (unsigned int k = 0; k < chan->rotationKeys.size(); ++k) {
+				chan->rotationKeys[k].time -= start;
+				assert(chan->rotationKeys[k].time >= 0.0);
+			}
+			for (unsigned int k = 0; k < chan->scaleKeys.size(); ++k) {
+				chan->scaleKeys[k].time -= start;
+				assert(chan->scaleKeys[k].time >= 0.0);
+			}
+		}
+
+		// set actual duration
+		const double dur = end - start;
+		animation->m_duration = newAnim ? dur : std::max(animation->m_duration, dur);
 
 		//do final sanity checking before adding
-		if (animation->m_channels.empty()) {
-			delete animation;
-		} else {
-			try {
-				CheckAnimationConflicts(animation, animations);
-			} catch (LoadingError &) {
+		try {
+			CheckAnimationConflicts(animation, animations);
+		} catch (LoadingError &) {
+			if (newAnim) delete animation;
+			throw;
+		}
+
+		if (newAnim) {
+			if (animation->m_channels.empty())
 				delete animation;
-				throw;
-			}
-			animations.push_back(animation);
+			else
+				animations.push_back(animation);
 		}
 	}
 }
