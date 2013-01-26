@@ -152,6 +152,7 @@ void ModelViewer::Run(const std::string &modelName)
 	viewer->MainLoop();
 
 	//uninit components
+	delete viewer;
 	Lua::Uninit();
 	delete renderer;
 	Graphics::Uninit();
