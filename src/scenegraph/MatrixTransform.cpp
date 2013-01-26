@@ -6,8 +6,8 @@
 #include "graphics/Renderer.h"
 namespace SceneGraph {
 
-MatrixTransform::MatrixTransform(const matrix4x4f &m)
-: Group()
+MatrixTransform::MatrixTransform(Graphics::Renderer *r, const matrix4x4f &m)
+: Group(r)
 , m_transform(m)
 {
 }
@@ -17,12 +17,12 @@ void MatrixTransform::Accept(NodeVisitor &nv)
 	nv.ApplyMatrixTransform(*this);
 }
 
-void MatrixTransform::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, RenderData *rd)
+void MatrixTransform::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	const matrix4x4f t = trans * m_transform;
 	//renderer->SetTransform(t);
-	//DrawAxes(renderer);
-	RenderChildren(renderer, t, rd);
+	//DrawAxes();
+	RenderChildren(t, rd);
 }
 
 }

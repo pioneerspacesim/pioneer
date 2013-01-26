@@ -8,8 +8,8 @@
 
 namespace SceneGraph {
 
-Label3D::Label3D(RefCountedPtr<Text::DistanceFieldFont> font, Graphics::Renderer *r)
-: Node(NODE_SOLID) //appropriate for alpha testing
+Label3D::Label3D(Graphics::Renderer *r, RefCountedPtr<Text::DistanceFieldFont> font)
+: Node(r, NODE_SOLID) //appropriate for alpha testing
 , m_font(font)
 {
 	Graphics::MaterialDescriptor matdesc;
@@ -31,9 +31,10 @@ void Label3D::SetText(const std::string &text)
 	m_font->GetGeometry(*m_geometry.Get(), text, vector2f(0.f));
 }
 
-void Label3D::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
+void Label3D::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	//needs alpha test
+	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
 	r->DrawTriangles(m_geometry.Get(), m_material.Get());
 }

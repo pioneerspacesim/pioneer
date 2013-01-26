@@ -57,6 +57,7 @@ Alpha 31
      * Queries for near-by objects now use a very basic acceleration structure (#1910)
      * String <-> Integer enum mapping tables have been separated from Lua (#1996)
      * Improve MultiLineText draw performance (#1999)
+     * SGModel nodes all carry a pointer to the renderer (#1986)
 
 Alpha 30
 
