@@ -258,11 +258,11 @@ Ship.EachCrewMember = function (self)
 end
 
 --
--- Method: HasMinimumCrew
+-- Method: HasCorrectCrew
 --
 -- Determine whether a ship has the minimum crew required for launch
 --
--- > canLaunch = ship:HasMinimumCrew()
+-- > canLaunch = ship:HasCorrectCrew()
 --
 -- Returns:
 --
@@ -276,8 +276,11 @@ end
 --
 --   experimental
 --
-Ship.HasMinimumCrew = function (self)
-	return CrewRoster[self] and #CrewRoster[self] >= ShipType.GetShipType(self.shipId).minCrew
+Ship.HasCorrectCrew = function (self)
+	return (CrewRoster[self] and (
+		#CrewRoster[self] >= ShipType.GetShipType(self.shipId).minCrew and
+		#CrewRoster[self] <= ShipType.GetShipType(self.shipId).maxCrew
+	))
 end
 
 -- LOADING AND SAVING
