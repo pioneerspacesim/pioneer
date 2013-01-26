@@ -148,9 +148,8 @@ Translate:Add({Russian = {
 
   ---- GERMAN / DEUTSCH ----
 
-Translate:AddFlavour('Deutsch','KraftstoffKlub',{
-	-- Translators: Feel free to change this in your language!
-	-- It's a proper name, so exact translation is not vital.
+Translate:AddFlavour('Deutsch','FuelClub',{
+
 	clubname = "Treibstoff-Kooperative Interstellarer Piloten",
 	welcome = 'Wilkommen bei der {clubname}',
 	nonmember_intro = [[{clubname} ist eine unabhängige Organisation, deren Ziel es ist, günstigen Raumschifftreibstoff an seine Mitglieder zu Verkaufen. Ableger können überall in der Galaxie gefunden werden. Die Vorteile einer Mitgliedschaft umfassen:
@@ -162,7 +161,7 @@ Translate:AddFlavour('Deutsch','KraftstoffKlub',{
 	* {radioactives}, kostenlose Entsorgung (siehe Konditionen)
 	* Kraftstoff-Nachfüllung wo es nötig ist
 
-Trete uns noch heute bei! Jährliche Mitgliedschaft nur only {membership_fee}]],
+Trete uns noch heute bei! Jährliche Mitgliedschaft nur {membership_fee}]],
 	member_intro = [[Du kannst hier Kraftstoffe kaufen und {radioactives} entsorgen.]],
 	annual_fee = 400,
 })

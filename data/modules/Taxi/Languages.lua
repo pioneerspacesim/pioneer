@@ -1355,7 +1355,7 @@ Translate:AddFlavour('Deutsch','Taxi', {
 
 Translate:AddFlavour('Deutsch','Taxi', {
   adtext = "SUCHE SCHIFF: Passage auf einem schnellen schiff zum {system} System.",
-  iintrotext = "Mein Name ist {name}. Ich brauche eine schnelle Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, etwa {dist} ly entfernt von hier. Zahlung ist {cash}.",
+  introtext = "Mein Name ist {name}. Ich brauche eine schnelle Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, etwa {dist} ly entfernt von hier. Zahlung ist {cash}.",
   whysomuch = "Ich will nicht gefunden werden.",
   howmany = "Nur einer.",
   danger = "Ich habe die Vermutung, dass mir jemand folgt.",
@@ -1369,7 +1369,7 @@ Translate:AddFlavour('Deutsch','Taxi', {
 
 Translate:AddFlavour('Deutsch','Taxi', {
   adtext = "SCHNELLES SCHIFF: Passage auf einem schnellen Schiff zum {system} System.",
-  iintrotext = "Mein Name ist {name}. Ich brauche eine schnelle Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, etwa {dist} ly entfernt von hier. Ich werde {cash} zahlen.",
+  introtext = "Mein Name ist {name}. Ich brauche eine schnelle Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, etwa {dist} ly entfernt von hier. Ich werde {cash} zahlen.",
   whysomuch = "Ich bin ein Fabrikinspektor und mache meine Runde.",
   howmany = "Eine Person.",
   danger = "Manchmal wollen Leute nicht inspiziert werden.",
@@ -1383,7 +1383,7 @@ Translate:AddFlavour('Deutsch','Taxi', {
 
 Translate:AddFlavour('Deutsch','Taxi', {
   adtext = "BRAUCHE SCHIFF: Passage zum {system} System.",
-  iintrotext = "Mein Name ist {name}. Ich brauche eine Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, {dist} ly entfernt von hier. Ich werde {cash} zahlen.",
+  introtext = "Mein Name ist {name}. Ich brauche eine Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, {dist} ly entfernt von hier. Ich werde {cash} zahlen.",
   whysomuch = "Ich schulde jemandem Geld und sie sind hinter mir her.",
   howmany = "Nur eine Person.",
   danger = "Jemand jagt mich.",
