@@ -70,9 +70,7 @@ namespace {
 
 ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 : m_done(false)
-, m_playing(false)
 , m_screenshotQueued(false)
-, m_animTime(0.001 * SDL_GetTicks())
 , m_frameTime(0.f)
 , m_renderer(r)
 , m_decalTexture(0)
@@ -159,33 +157,6 @@ void ModelViewer::Run(const std::string &modelName)
 	Graphics::Uninit();
 	FileSystem::Uninit();
 	SDL_Quit();
-}
-
-bool ModelViewer::OnAnimPlay(UI::Widget *w, bool reverse)
-{
-	SceneGraph::Animation::Direction dir = reverse ? SceneGraph::Animation::REVERSE : SceneGraph::Animation::FORWARD;
-	const std::string animname = animSelector->GetSelectedOption();
-	m_playing = !m_playing;
-	if (m_playing) {
-		int success = m_model->PlayAnimation(animname, dir);
-		if (success)
-			AddLog(stringf("Playing animation \"%0\"", animname));
-		else {
-			AddLog(stringf("Model does not have animation \"%0\"", animname));
-			m_playing = false;
-		}
-	} else {
-		AddLog("Animation paused");
-	}
-	return m_playing;
-}
-
-bool ModelViewer::OnAnimStop(UI::Widget *w)
-{
-    if (m_playing) AddLog("Animation stopped");
-    m_playing = false;
-    m_model->StopAnimations();
-    return false;
 }
 
 bool ModelViewer::OnPickModel(UI::List *list)
@@ -452,7 +423,7 @@ void ModelViewer::DrawModel()
 	m_renderer->SetDepthTest(true);
 	m_renderer->SetDepthWrite(true);
 
-	m_model->UpdateAnimations(m_animTime);
+	m_model->UpdateAnimations();
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(true);
 	m_model->Render(m_renderer, mv, &m_modelParams);
@@ -472,9 +443,6 @@ void ModelViewer::MainLoop()
 	{
 		const double ticks = SDL_GetTicks() * 0.001;
 		m_frameTime = (ticks - lastTime);
-		if (m_playing) {
-			m_animTime += (ticks - lastTime);
-		}
 		lastTime = ticks;
 
 		m_renderer->ClearScreen();
