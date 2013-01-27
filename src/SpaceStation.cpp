@@ -617,7 +617,8 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 	params.label = GetLabel().c_str();
 	SetLmrTimeParams();
 
-	for (int i=0; i<MAX_LMR_DOCKING_PORTS; i++) {
+	const int maxPorts = std::min(MAX_LMR_DOCKING_PORTS, int(m_shipDocking.size()));
+	for (int i=0; i<maxPorts; i++) {
 		params.animStages[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stage;
 		params.animValues[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stagePos;
 	}

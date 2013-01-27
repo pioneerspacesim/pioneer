@@ -44,6 +44,7 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 
 	if (!bHasApproachWaypointsFunction)
 	{
+		assert(port<model->m_ports.size());
 		ModelBase::Port &rPort = model->m_ports[port];
 		if (stage>0) {
 			const bool bHasStageData = (rPort.m_approach.find( stage ) != rPort.m_approach.end());
@@ -121,6 +122,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 
 	if (!bHasDockAnimFunction)
 	{
+		assert(port<model->m_ports.size());
 		ModelBase::Port &rPort = model->m_ports[port];
 		vector3f fromPos, toPos;
 		vector3f fromXaxis,	toXaxis;
@@ -150,7 +152,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 				fromPos		= rPort.m_docking[stage].GetTranslate();
 				fromXaxis	= rPort.m_docking[stage].GetOrient().VectorX();
 				fromYaxis	= rPort.m_docking[stage].GetOrient().VectorY();
-				if (rPort.m_leaving.find( stage+1 ) != rPort.m_leaving.end()) {
+				if (rPort.m_docking.find( stage+1 ) != rPort.m_docking.end()) {
 					toPos	= rPort.m_docking[stage+1].GetTranslate();
 					toXaxis = rPort.m_docking[stage+1].GetOrient().VectorX();
 					toYaxis = rPort.m_docking[stage+1].GetOrient().VectorY();
