@@ -40,9 +40,9 @@
  */
 static int l_missile_is_armed(lua_State *l)
 {
-    Missile * m = LuaMissile::CheckFromLua(1);
-    lua_pushboolean(l, m->IsArmed());
-    return 1;
+	Missile * m = LuaMissile::CheckFromLua(1);
+	lua_pushboolean(l, m->IsArmed());
+	return 1;
 }
 
 /*
@@ -62,9 +62,9 @@ static int l_missile_is_armed(lua_State *l)
  */
 static int l_missile_arm(lua_State *l)
 {
-    Missile * m = LuaMissile::CheckFromLua(1);
-    m->Arm();
-    return 0;
+	Missile * m = LuaMissile::CheckFromLua(1);
+	m->Arm();
+	return 0;
 }
 
 /*
@@ -84,9 +84,9 @@ static int l_missile_arm(lua_State *l)
  */
 static int l_missile_disarm(lua_State *l)
 {
-    Missile * m = LuaMissile::CheckFromLua(1);
-    m->Disarm();
-    return 0;
+	Missile * m = LuaMissile::CheckFromLua(1);
+	m->Disarm();
+	return 0;
 }
 
 template <> const char *LuaObject<Missile>::s_type = "Missile";
@@ -97,12 +97,12 @@ template <> void LuaObject<Missile>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "IsArmed", l_missile_is_armed },
-        { "Arm", l_missile_arm },
-        { "Disarm", l_missile_disarm },
+		{ "Arm",     l_missile_arm },
+		{ "Disarm",  l_missile_disarm },
 		{ 0, 0 }
 	};
 
-    static const luaL_Reg l_attrs[] = { { 0, 0} };
+	static const luaL_Reg l_attrs[] = { { 0, 0} };
 
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, NULL);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Missile>::DynamicCastPromotionTest);
