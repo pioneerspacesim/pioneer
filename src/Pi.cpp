@@ -33,6 +33,7 @@
 #include "LuaGame.h"
 #include "LuaLang.h"
 #include "LuaManager.h"
+#include "LuaMissile.h"
 #include "LuaMusic.h"
 #include "LuaNameGen.h"
 #include "LuaPlanet.h"
@@ -167,6 +168,7 @@ static void LuaInit()
 	LuaPlanet::RegisterClass();
 	LuaStar::RegisterClass();
 	LuaPlayer::RegisterClass();
+	LuaMissile::RegisterClass();
 	LuaCargoBody::RegisterClass();
 	LuaStarSystem::RegisterClass();
 	LuaSystemPath::RegisterClass();
@@ -655,12 +657,13 @@ void Pi::HandleEvents()
 								/* add test object */
 								if (KeyState(SDLK_RSHIFT)) {
 									Missile *missile =
-										new Missile(ShipType::MISSILE_GUIDED, Pi::player, Pi::player->GetCombatTarget());
+										new Missile(ShipType::MISSILE_GUIDED, Pi::player);
 									missile->SetOrient(Pi::player->GetOrient());
 									missile->SetFrame(Pi::player->GetFrame());
 									missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
 									missile->SetVelocity(Pi::player->GetVelocity());
 									game->GetSpace()->AddBody(missile);
+									missile->AIKamikaze(Pi::player->GetCombatTarget());
 								} else if (KeyState(SDLK_LSHIFT)) {
 									SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
 									if (s) {

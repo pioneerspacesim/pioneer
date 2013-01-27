@@ -613,29 +613,11 @@ void Ship::UseECM()
 	}
 }
 
-bool Ship::FireMissile(int idx, Ship *target)
-{
-	assert(target);
+Missile * Ship::SpawnMissile(ShipType::Id missile_type, int power) {
+	if (GetFlightState() != FLYING)
+		return 0;
 
-	if (GetFlightState() != FLYING) return false;
-
-	const Equip::Type t = m_equipment.Get(Equip::SLOT_MISSILE, idx);
-	if (t == Equip::NONE) {
-		return false;
-	}
-
-	m_equipment.Set(Equip::SLOT_MISSILE, idx, Equip::NONE);
-	UpdateEquipStats();
-
-	ShipType::Id mtype;
-	switch (t) {
-		case Equip::MISSILE_SMART: mtype = ShipType::MISSILE_SMART; break;
-		case Equip::MISSILE_NAVAL: mtype = ShipType::MISSILE_NAVAL; break;
-		case Equip::MISSILE_UNGUIDED: mtype = ShipType::MISSILE_UNGUIDED; break;
-		default:
-		case Equip::MISSILE_GUIDED: mtype = ShipType::MISSILE_GUIDED; break;
-	}
-	Missile *missile = new Missile(mtype, this, target);
+	Missile *missile = new Missile(missile_type, this, power);
 	missile->SetOrient(GetOrient());
 	missile->SetFrame(GetFrame());
 	// XXX DODGY! need to put it in a sensible location
@@ -643,7 +625,7 @@ bool Ship::FireMissile(int idx, Ship *target)
 	missile->SetPosition(GetPosition()+50.0*dir);
 	missile->SetVelocity(GetVelocity());
 	Pi::game->GetSpace()->AddBody(missile);
-	return true;
+	return missile;
 }
 
 void Ship::SetFlightState(Ship::FlightState newState)
