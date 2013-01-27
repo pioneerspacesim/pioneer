@@ -451,7 +451,7 @@ void SpaceStation::StaticUpdate(const float timeStep)
 		m_lastUpdatedShipyard = Pi::game->GetTime() + 3600.0 + 3600.0*Pi::rng.Double();
 	}
 
-	DoLawAndOrder();
+	DoLawAndOrder(timeStep);
 	DockingUpdate(timeStep);
 }
 
@@ -788,7 +788,7 @@ vector3d SpaceStation::GetTargetIndicatorPosition(const Frame *relTo) const
 	return GetInterpPositionRelTo(relTo);
 }
 
-void SpaceStation::DoLawAndOrder()
+void SpaceStation::DoLawAndOrder(const double timeStep)
 {
 	Sint64 fine, crimeBitset;
 	Polit::GetCrime(&crimeBitset, &fine);
@@ -797,7 +797,8 @@ void SpaceStation::DoLawAndOrder()
 			&& (fine > 1000)
 			&& (GetPositionRelTo(Pi::player).Length() < 100000.0)) {
 		int port = GetFreeDockingPort();
-		if (port != -1) {
+		//Spawn police with small delay between ships
+		if (port != -1 && 2.0*Pi::rng.Double() < timeStep) {
 			m_numPoliceDocked--;
 			// Make police ship intent on killing the player
 			Ship *ship = new Ship(ShipType::LADYBIRD);
