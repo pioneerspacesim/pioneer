@@ -799,7 +799,7 @@ static int l_ship_spawn_missile(lua_State *l)
 	Ship *s = LuaShip::CheckFromLua(1);
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:SpawnMissile() cannot be called on a ship in hyperspace");
-	ShipType::Id missile_type(lua_tostring(l, 2));
+	ShipType::Id missile_type(luaL_checkstring(l, 2));
 
 	if (missile_type != ShipType::MISSILE_UNGUIDED &&
 			missile_type != ShipType::MISSILE_GUIDED &&
