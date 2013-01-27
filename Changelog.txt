@@ -60,6 +60,8 @@ Alpha 31
      * SGModel nodes all carry a pointer to the renderer (#1986)
      * SGModels can now be instanced, with separate appearance and animation
        state for each (#2007, #1975)
+     * Bad terrain generator output will now emit lots of debug info before
+       crashing (#2005)
 
 Alpha 30
 
