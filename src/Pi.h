@@ -17,25 +17,26 @@
 #include <string>
 #include <vector>
 
-class Player;
-class View;
-class SectorView;
-class SystemView;
-class WorldView;
 class DeathView;
-class SystemInfoView;
-class ShipCpanel;
-class StarSystem;
-class SpaceStationView;
-class SpaceStation;
 class GalacticView;
-class UIView;
-class Ship;
 class GameMenuView;
+class Intro;
 class LuaConsole;
 class LuaNameGen;
-class ModelCache;
 class ModelBase;
+class ModelCache;
+class Player;
+class SectorView;
+class Ship;
+class ShipCpanel;
+class SpaceStation;
+class SpaceStationView;
+class StarSystem;
+class SystemInfoView;
+class SystemView;
+class UIView;
+class View;
+class WorldView;
 namespace Graphics { class Renderer; }
 namespace Sound { class MusicPlayer; }
 namespace UI { class Context; }
@@ -146,6 +147,7 @@ public:
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 	static Graphics::Renderer *renderer; // blargh
 	static ModelCache *modelCache;
+	static Intro *intro;
 
 #if WITH_OBJECTVIEWER
 	static ObjectViewerView *objectViewerView;
