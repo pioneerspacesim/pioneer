@@ -44,12 +44,10 @@ private:
 	RefCountedPtr<Text::DistanceFieldFont> m_labelFont;
 
 	bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
-	Graphics::Texture *GetWhiteTexture() const;
-	Graphics::Texture *GetTransparentTexture() const;
 	matrix4x4f ConvertMatrix(const aiMatrix4x4&) const;
 	Model *CreateModel(ModelDefinition &def);
 	RefCountedPtr<Graphics::Material> GetDecalMaterial(unsigned int index);
-	RefCountedPtr<Node> LoadMesh(const std::string &filename, const AnimList &animDefs, TagList &modelTags); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
+	RefCountedPtr<Node> LoadMesh(const std::string &filename, const AnimList &animDefs); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
 	void CheckAnimationConflicts(const Animation*, const std::vector<Animation*>&); //detect animation overlap
 	void ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surface> >&, const aiScene*, Model*); //model is only for material lookup
 	void ConvertAnimations(const aiScene *, const AnimList &, Node *meshRoot);

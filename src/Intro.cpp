@@ -22,12 +22,12 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, -1.f, 0.f), two, Color::BLACK));
 
 	m_model = Pi::FindModel("lanner");
-	m_model->SetLabel(Lang::PIONEER);
-
 	// XXX just until LMR is gone
-	SceneGraph::Model *sgm = dynamic_cast<SceneGraph::Model*>(m_model);
-	if (sgm)
-		sgm->SetDecalTexture(Graphics::TextureBuilder::Decal("textures/decals/01_Badge.png").GetOrCreateTexture(r, "decal"));
+	if (m_model->IsSGModel()) {
+		m_model = static_cast<SceneGraph::Model*>(m_model)->MakeInstance();
+		m_model->SetDecalTexture(Graphics::TextureBuilder::Decal("textures/decals/01_Badge.png").GetOrCreateTexture(r, "decal"));
+	}
+	m_model->SetLabel(Lang::PIONEER);
 
 	// Model parameters
 	// XXX all LMR-specific
@@ -53,6 +53,12 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_equipment.Add(Equip::RADAR_MAPPER, 1);
 	m_equipment.Add(Equip::MISSILE_NAVAL, 4);
 	m_modelParams.equipment = &m_equipment;
+}
+
+Intro::~Intro()
+{
+	//delete instance
+	if (m_model && m_model->IsSGModel()) delete m_model;
 }
 
 void Intro::Draw(float _time)

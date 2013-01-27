@@ -21,6 +21,13 @@ Node::Node(Graphics::Renderer *r, unsigned int nodemask)
 {
 }
 
+Node::Node(const Node &node)
+: m_name(node.m_name)
+, m_nodeMask(node.m_nodeMask)
+, m_renderer(node.m_renderer)
+{
+}
+
 void Node::Accept(NodeVisitor &v)
 {
 	v.ApplyNode(*this);

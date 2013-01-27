@@ -21,6 +21,19 @@ Billboard::Billboard(Graphics::Renderer *r, const std::vector<vector3f> &pts, Re
 {
 }
 
+Billboard::Billboard(const Billboard &billboard)
+: Node(billboard)
+, m_size(billboard.m_size)
+, m_material(billboard.m_material)
+, m_points(billboard.m_points)
+{
+}
+
+Node* Billboard::Clone()
+{
+	return new Billboard(*this);
+}
+
 void Billboard::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	Graphics::Renderer *r = GetRenderer();

@@ -51,6 +51,10 @@ public:
 		return t;
 	}
 
+	//commonly used dummy textures
+	static Texture *GetWhiteTexture(Renderer *);
+	static Texture *GetTransparentTexture(Renderer *);
+
 private:
 	SDLSurfacePtr m_surface;
 	std::string m_filename;

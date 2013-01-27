@@ -30,6 +30,10 @@ ModelBody::~ModelBody()
 {
 	SetFrame(0);	// Will remove geom from frame if necessary.
 	if (m_geom) delete m_geom;
+
+	//delete instanced model
+	if (m_model && m_model->IsSGModel())
+		delete m_model;
 }
 
 void ModelBody::Save(Serializer::Writer &wr, Space *space)
@@ -95,7 +99,14 @@ void ModelBody::RebuildCollisionMesh()
 
 void ModelBody::SetModel(const char *modelName)
 {
+	//remove old instance
+	if (m_model && m_model->IsSGModel())
+		delete m_model;
 	m_model = Pi::FindModel(modelName);
+	//create model instance (some modelbodies, like missiles could avoid this)
+	if (m_model->IsSGModel())
+		m_model = static_cast<SceneGraph::Model*>(m_model)->MakeInstance();
+
 	SetClipRadius(m_model->GetDrawClipRadius());
 
 	RebuildCollisionMesh();

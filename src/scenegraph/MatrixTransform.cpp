@@ -12,6 +12,17 @@ MatrixTransform::MatrixTransform(Graphics::Renderer *r, const matrix4x4f &m)
 {
 }
 
+MatrixTransform::MatrixTransform(const MatrixTransform &mt)
+: Group(mt)
+, m_transform(mt.m_transform)
+{
+}
+
+Node* MatrixTransform::Clone()
+{
+	return new MatrixTransform(*this);
+}
+
 void MatrixTransform::Accept(NodeVisitor &nv)
 {
 	nv.ApplyMatrixTransform(*this);

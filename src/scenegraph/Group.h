@@ -13,6 +13,8 @@ class Group : public Node
 {
 public:
 	Group(Graphics::Renderer *r);
+	Group(const Group&);
+	virtual Node *Clone();
 	virtual const char *GetTypeName() { return "Group"; }
 	virtual void AddChild(Node *child);
 	virtual bool RemoveChild(Node *node); //true on success
