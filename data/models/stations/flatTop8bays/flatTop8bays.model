@@ -5,6 +5,6 @@ specular 0.6 0.6 0.8
 shininess 40
 
 mesh flatTop8bays.obj
-mesh flatTop8bays_docking.DAE
+mesh flatTop8bays_docking.ASE
 
 collision flatTop8bays.obj

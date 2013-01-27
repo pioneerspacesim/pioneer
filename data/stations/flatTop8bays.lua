@@ -1,7 +1,7 @@
 define_orbital_station {
 	model = 'flatTop8bays',
 	angular_velocity = 0.0,
-	num_docking_ports = 8,
+	num_docking_ports = 4,
 	parking_distance = 5000.0,
 	parking_gap_size = 500.0,
 	ship_launch_stage = 3,
