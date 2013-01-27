@@ -26,6 +26,7 @@ Alpha 31
      * An unset decal no longer displays a black square on Intel graphics (#1976)
      * Fixed various crashes caused by console completion (#1998)
      * SGModel animation timing fixes (#1978, #1970)
+     * Greatly reduced chance of police ships spawning on top of each other (#1993)
 
    * Model changes
      * Modelviewer: Reloading model also reloads textures (#1968, #1939)
