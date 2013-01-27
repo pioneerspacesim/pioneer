@@ -3,7 +3,7 @@
 
 #include "Event.h"
 #include "LuaObject.h"
-#include "LuaConstants.h"
+#include "EnumStrings.h"
 
 namespace UI {
 
@@ -172,9 +172,9 @@ static void _settable(lua_State *l, const char *key, const Point &value)
 void KeyboardEvent::ToLuaTable(lua_State *l) const
 {
 	lua_newtable(l);
-	pi_lua_settable(l, "type", LuaConstants::GetConstantString(l, "UIEventType", type));
+	pi_lua_settable(l, "type", EnumStrings::GetString("UIEventType", type));
 
-	pi_lua_settable(l, "action", LuaConstants::GetConstantString(l, "UIKeyboardAction", action));
+	pi_lua_settable(l, "action", EnumStrings::GetString("UIKeyboardAction", action));
 
 	// XXX expose sym and mod constants
 }
@@ -182,18 +182,18 @@ void KeyboardEvent::ToLuaTable(lua_State *l) const
 void MouseButtonEvent::ToLuaTable(lua_State *l) const
 {
 	lua_newtable(l);
-	pi_lua_settable(l, "type", LuaConstants::GetConstantString(l, "UIEventType", type));
+	pi_lua_settable(l, "type", EnumStrings::GetString("UIEventType", type));
 
 	_settable(l, "pos", pos);
 
-	pi_lua_settable(l, "action", LuaConstants::GetConstantString(l, "UIMouseButtonAction", action));
-	pi_lua_settable(l, "button", LuaConstants::GetConstantString(l, "UIMouseButtonType", button));
+	pi_lua_settable(l, "action", EnumStrings::GetString("UIMouseButtonAction", action));
+	pi_lua_settable(l, "button", EnumStrings::GetString("UIMouseButtonType", button));
 }
 
 void MouseMotionEvent::ToLuaTable(lua_State *l) const
 {
 	lua_newtable(l);
-	pi_lua_settable(l, "type", LuaConstants::GetConstantString(l, "UIEventType", type));
+	pi_lua_settable(l, "type", EnumStrings::GetString("UIEventType", type));
 
 	_settable(l, "pos", pos);
 	_settable(l, "rel", rel);
@@ -202,11 +202,11 @@ void MouseMotionEvent::ToLuaTable(lua_State *l) const
 void MouseWheelEvent::ToLuaTable(lua_State *l) const
 {
 	lua_newtable(l);
-	pi_lua_settable(l, "type", LuaConstants::GetConstantString(l, "UIEventType", type));
+	pi_lua_settable(l, "type", EnumStrings::GetString("UIEventType", type));
 
 	_settable(l, "pos", pos);
 
-	pi_lua_settable(l, "direction", LuaConstants::GetConstantString(l, "UIMouseWheelDirection", direction));
+	pi_lua_settable(l, "direction", EnumStrings::GetString("UIMouseWheelDirection", direction));
 }
 
 }

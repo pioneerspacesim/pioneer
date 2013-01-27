@@ -138,6 +138,8 @@ public:
 	RefCountedPtr<Text::TextureFont> GetFont() const { return GetFont(Widget::FONT_NORMAL); }
 	RefCountedPtr<Text::TextureFont> GetFont(Widget::Font font) const { return m_font[font]; }
 
+	const Point &GetScissor() const { return m_scissorStack.top().second; }
+
 private:
 	virtual Point PreferredSize() { return Point(); }
 

@@ -6,8 +6,8 @@
 
 namespace SceneGraph {
 
-Group::Group()
-: Node(NODE_SOLID | NODE_TRANSPARENT)
+Group::Group(Graphics::Renderer *r)
+: Node(r, NODE_SOLID | NODE_TRANSPARENT)
 {
 }
 
@@ -84,19 +84,19 @@ void Group::Traverse(NodeVisitor &nv)
 	}
 }
 
-void Group::Render(Graphics::Renderer *renderer, const matrix4x4f &trans, RenderData *rd)
+void Group::Render(const matrix4x4f &trans, RenderData *rd)
 {
-	RenderChildren(renderer, trans, rd);
+	RenderChildren(trans, rd);
 }
 
-void Group::RenderChildren(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
+void Group::RenderChildren(const matrix4x4f &trans, RenderData *rd)
 {
 	for(std::vector<Node*>::iterator itr = m_children.begin();
 		itr != m_children.end();
 		++itr)
 	{
 		if((*itr)->GetNodeMask() & rd->nodemask)
-			(*itr)->Render(r, trans, rd);
+			(*itr)->Render(trans, rd);
 	}
 }
 
