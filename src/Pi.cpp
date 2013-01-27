@@ -560,6 +560,7 @@ void Pi::Quit()
 	Gui::Uninit();
 	delete Pi::modelCache;
 	delete Pi::renderer;
+	delete Pi::config;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
 	FileSystem::Uninit();
