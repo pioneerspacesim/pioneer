@@ -35,14 +35,16 @@ Translate:Add({English = {
 
 Translate:AddFlavour('Polski','FuelClub',{
 
-	clubname = "Spółdzielnia Paliwowa",
-	welcome = 'Witamy w Spółdzielni Paliwowej',
+	clubname = "Spółdzielnia Paliwowa Pilotów Międzygwiezdnych",
+	welcome = 'Witamy w Spółdzielni Paliwowej Pilotów Międzygwiezdnych',
 	nonmember_intro = [[{clubname} jest niezależną organizacją, udostępniającą swoim członkom własne zapasy paliwa, posiadamy filie w całej galaktyce. Korzyści płynące z członkostwa:
 
 	* Posiadamy własne zapasy paliwa, niezależne od zapasów na wolnym rynku.
 	* {hydrogen} w atrakcyjnej cenie.
-	* {military_fuel} bez akcyzy.
-	* {radioactives} - darmowa utylizacja. (pod pewnymi warunkami)
+	* {military_fuel} w atrakcyjnej cenie.
+	* {water} w atrakcyjnej cenie.
+	* {radioactives} - darmowa utylizacja (pod pewnymi warunkami).
+	* Uzupełnienie zbiornika z paliwem, kiedy to konieczne.
 
 Przyłącz się! Członkostwo kosztuje tylko {membership_fee} rocznie]],
 	member_intro = [[Zakup paliwa i utylizacja odpadów radioaktywnych.]],
