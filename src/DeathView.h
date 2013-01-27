@@ -22,7 +22,7 @@ protected:
 	virtual void OnSwitchTo();
 
 private:
-	Camera *m_cam;
+	ScopedPtr<Camera> m_cam;
 	float m_cameraDist;
 };
 
