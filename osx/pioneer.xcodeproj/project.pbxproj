@@ -375,6 +375,7 @@
 		4ACDB6D2167879AF0069FA03 /* DistanceFieldFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6D0167879AF0069FA03 /* DistanceFieldFont.cpp */; };
 		4ACDB6D416787A6A0069FA03 /* libassimp.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
 		4ACDB6D5167881AF0069FA03 /* libassimp.3.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
+		4ACE132F16B4B19D00CAE524 /* EnumStrings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACE132C16B4B19D00CAE524 /* EnumStrings.cpp */; };
 		4ADB0D0C15C50DD900AE2123 /* TerrainHeightAsteroid2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */; };
 		4ADB0D0D15C50DD900AE2123 /* TerrainHeightAsteroid3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D0715C50DD900AE2123 /* TerrainHeightAsteroid3.cpp */; };
 		4ADB0D0E15C50DD900AE2123 /* TerrainHeightAsteroid4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D0815C50DD900AE2123 /* TerrainHeightAsteroid4.cpp */; };
@@ -1170,6 +1171,9 @@
 		4ACDB6D0167879AF0069FA03 /* DistanceFieldFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DistanceFieldFont.cpp; sourceTree = "<group>"; };
 		4ACDB6D1167879AF0069FA03 /* DistanceFieldFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistanceFieldFont.h; sourceTree = "<group>"; };
 		4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.0.0.dylib; path = /opt/local/lib/libassimp.3.0.0.dylib; sourceTree = "<absolute>"; };
+		4ACE132C16B4B19D00CAE524 /* EnumStrings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EnumStrings.cpp; sourceTree = "<group>"; };
+		4ACE132D16B4B19D00CAE524 /* EnumStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnumStrings.h; sourceTree = "<group>"; };
+		4ACE132E16B4B19D00CAE524 /* matrix3x3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix3x3.h; sourceTree = "<group>"; };
 		4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightAsteroid2.cpp; sourceTree = "<group>"; };
 		4ADB0D0715C50DD900AE2123 /* TerrainHeightAsteroid3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightAsteroid3.cpp; sourceTree = "<group>"; };
 		4ADB0D0815C50DD900AE2123 /* TerrainHeightAsteroid4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightAsteroid4.cpp; sourceTree = "<group>"; };
@@ -1613,6 +1617,8 @@
 				4A6C4C2213532FC300FDD53F /* DynamicBody.h */,
 				4A84CB7B14595D850051C848 /* enum_table.cpp */,
 				4A84CB7C14595D850051C848 /* enum_table.h */,
+				4ACE132C16B4B19D00CAE524 /* EnumStrings.cpp */,
+				4ACE132D16B4B19D00CAE524 /* EnumStrings.h */,
 				4A94CA4014F26875002CA792 /* EquipSet.h */,
 				4A6C4C2313532FC300FDD53F /* EquipType.cpp */,
 				4A6C4C2413532FC300FDD53F /* EquipType.h */,
@@ -1750,6 +1756,7 @@
 				4A6C4CD813532FC300FDD53F /* MarketAgent.h */,
 				4AF999A11496D51F009821AF /* MathUtil.cpp */,
 				4AF999A21496D51F009821AF /* MathUtil.h */,
+				4ACE132E16B4B19D00CAE524 /* matrix3x3.h */,
 				4A6C4CD913532FC300FDD53F /* matrix4x4.h */,
 				4A6C4CDA13532FC300FDD53F /* Missile.cpp */,
 				4A6C4CDB13532FC300FDD53F /* Missile.h */,
@@ -2663,6 +2670,7 @@
 				4ACDB6D2167879AF0069FA03 /* DistanceFieldFont.cpp in Sources */,
 				4AEE56DD16A44CD800AA1C53 /* SpaceStationType.cpp in Sources */,
 				4A4A86E916A992D600F81F18 /* CameraController.cpp in Sources */,
+				4ACE132F16B4B19D00CAE524 /* EnumStrings.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
