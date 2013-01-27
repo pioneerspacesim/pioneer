@@ -14,38 +14,6 @@
  */
 
 /*
- * Method: IsArmed
- *
- * Determines if the missile is armed.
- *
- * > isarmed = missile:IsArmed()
- *
- * Returns:
- *
- *   isarmed - true if the missile is armed, false otherwise.
- *
- * Example:
- *
- * > if approaching_missile:IsArmed() then
- * >     print("DANGER! DANGER!")
- * > end
- *
- * Availability:
- *
- *  alpha 31
- *
- * Status:
- *
- *  experimental
- */
-static int l_missile_is_armed(lua_State *l)
-{
-	Missile * m = LuaMissile::CheckFromLua(1);
-	lua_pushboolean(l, m->IsArmed());
-	return 1;
-}
-
-/*
  * Method: Arm
  *
  * Arms the missile
@@ -89,6 +57,36 @@ static int l_missile_disarm(lua_State *l)
 	return 0;
 }
 
+/*
+ * Group: Attributes
+ */
+
+/*
+ * Attribute: isArmed
+ *
+ * Determines if the missile is armed. True is farmed, false otherwise.
+ *
+ * Example:
+ *
+ * > if approaching_missile:isArmed then
+ * >     print("DANGER! DANGER!")
+ * > end
+ *
+ * Availability:
+ *
+ *  alpha 31
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_missile_attr_is_armed(lua_State *l)
+{
+	Missile * m = LuaMissile::CheckFromLua(1);
+	lua_pushboolean(l, m->IsArmed());
+	return 1;
+}
+
 template <> const char *LuaObject<Missile>::s_type = "Missile";
 
 template <> void LuaObject<Missile>::RegisterClass()
@@ -96,13 +94,15 @@ template <> void LuaObject<Missile>::RegisterClass()
 	static const char *l_parent = "Ship";
 
 	static const luaL_Reg l_methods[] = {
-		{ "IsArmed", l_missile_is_armed },
 		{ "Arm",     l_missile_arm },
 		{ "Disarm",  l_missile_disarm },
 		{ 0, 0 }
 	};
 
-	static const luaL_Reg l_attrs[] = { { 0, 0} };
+	static const luaL_Reg l_attrs[] = {
+		{ "isArmed", l_missile_attr_is_armed },
+		{ 0, 0 }
+	};
 
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, NULL);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Missile>::DynamicCastPromotionTest);
