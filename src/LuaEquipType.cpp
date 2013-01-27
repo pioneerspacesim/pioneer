@@ -5,6 +5,7 @@
 #include "LuaEquipType.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
+#include "EnumStrings.h"
 #include "EquipType.h"
 
 /*
@@ -49,7 +50,7 @@ static int l_equiptype_attr_name(lua_State *l)
 static int l_equiptype_attr_slot(lua_State *l)
 {
 	const EquipType *et = LuaEquipType::CheckFromLua(1);
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipSlot", et->slot));
+	lua_pushstring(l, EnumStrings::GetString("EquipSlot", et->slot));
 	return 1;
 }
 
@@ -121,7 +122,7 @@ static int l_equiptype_attr_mass(lua_State *l)
  */
 static int l_equiptype_get_equip_type(lua_State *l)
 {
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 1)));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 1));
 	LuaEquipType::PushToLua(const_cast<EquipType*>(&(Equip::types[e])));
 	return 1;
 }
@@ -171,7 +172,7 @@ static int l_equiptype_get_equip_types(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 1)));
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstantFromArg(l, "EquipSlot", 1));
 
 	bool filter = false;
 	if (lua_gettop(l) >= 2) {
@@ -184,7 +185,7 @@ static int l_equiptype_get_equip_types(lua_State *l)
 	for (int i = Equip::NONE; i < Equip::TYPE_MAX; i++) {
 		EquipType *et = const_cast<EquipType*>(&(Equip::types[i]));
 		if (Equip::types[i].slot == slot) {
-			const char *name = LuaConstants::GetConstantString(l, "EquipType", i);
+			const char *name = EnumStrings::GetString("EquipType", i);
 
 			if (filter) {
 				lua_pushvalue(l, 2);

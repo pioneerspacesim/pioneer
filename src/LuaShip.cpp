@@ -8,6 +8,7 @@
 #include "LuaBody.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
+#include "EnumStrings.h"
 #include "Ship.h"
 #include "SpaceStation.h"
 #include "ShipType.h"
@@ -395,7 +396,7 @@ static int l_ship_set_flavour(lua_State *l)
 static int l_ship_get_equip_slot_capacity(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstantFromArg(l, "EquipSlot", 2));
 	lua_pushinteger(l, s->m_equipment.GetSlotSize(slot));
 	return 1;
 }
@@ -450,7 +451,7 @@ static int l_ship_get_equip(lua_State *l)
 				s->GetLabel().c_str(), slotName, idx+1);
 		}
 		Equip::Type e = (idx >= 0) ? s->m_equipment.Get(slot, idx) : Equip::NONE;
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", e));
+		lua_pushstring(l, EnumStrings::GetString("EquipType", e));
 		return 1;
 	} else {
 		// 1-argument version; returns table of equipment items
@@ -458,7 +459,7 @@ static int l_ship_get_equip(lua_State *l)
 
 		for (int idx = 0; idx < size; idx++) {
 			lua_pushinteger(l, idx+1);
-			lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
+			lua_pushstring(l, EnumStrings::GetString("EquipType", s->m_equipment.Get(slot, idx)));
 			lua_rawset(l, -3);
 		}
 
@@ -550,7 +551,7 @@ static int l_ship_set_equip(lua_State *l)
 static int l_ship_add_equip(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
 
 	int num = luaL_optinteger(l, 3, 1);
 	if (num < 0)
@@ -597,7 +598,7 @@ static int l_ship_add_equip(lua_State *l)
 static int l_ship_remove_equip(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
 
 	int num = luaL_optinteger(l, 3, 1);
 	if (num < 0)
@@ -636,8 +637,8 @@ static int l_ship_remove_equip(lua_State *l)
 static int l_ship_get_equip_count(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 3)));
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstantFromArg(l, "EquipSlot", 2));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 3));
 	lua_pushinteger(l, s->m_equipment.Count(slot, e));
 	return 1;
 }
@@ -668,7 +669,7 @@ static int l_ship_get_equip_count(lua_State *l)
 static int l_ship_get_equip_free(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstantFromArg(l, "EquipSlot", 2));
 
 	lua_pushinteger(l, s->m_equipment.FreeSpace(slot));
 	return 1;
@@ -699,7 +700,7 @@ static int l_ship_get_equip_free(lua_State *l)
  */
 static int l_ship_spawn_cargo(lua_State *l) {
 	Ship *s = LuaShip::CheckFromLua(1);
-	CargoBody * c_body = new CargoBody(static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2))));
+	CargoBody * c_body = new CargoBody(static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2)));
     lua_pushboolean(l, s->SpawnCargo(c_body));
     return 1;
 }
@@ -796,7 +797,7 @@ static int l_ship_fire_missile_at(lua_State *l)
 	Ship *s = LuaShip::CheckFromLua(1);
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:FireMissileAt() cannot be called on a ship in hyperspace");
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
 	Ship *target = LuaShip::CheckFromLua(3);
 
 	if (e < Equip::MISSILE_UNGUIDED || e > Equip::MISSILE_NAVAL)
@@ -859,7 +860,7 @@ static int l_ship_check_hyperspace_to(lua_State *l)
 	double duration;
 	Ship::HyperjumpStatus status = s->CheckHyperspaceTo(*dest, fuel, duration);
 
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
 	if (status == Ship::HYPERJUMP_OK) {
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
@@ -911,7 +912,7 @@ static int l_ship_get_hyperspace_details(lua_State *l)
 	double duration;
 	Ship::HyperjumpStatus status = s->GetHyperspaceDetails(*dest, fuel, duration);
 
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
 	if (status == Ship::HYPERJUMP_OK) {
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
@@ -963,7 +964,7 @@ static int l_ship_hyperspace_to(lua_State *l)
 	double duration;
 	Ship::HyperjumpStatus status = s->CheckHyperspaceTo(*dest, fuel, duration);
 
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
 	if (status != Ship::HYPERJUMP_OK)
 		return 1;
 
@@ -1063,7 +1064,7 @@ static int l_ship_attr_flavour(lua_State *l)
 static int l_ship_attr_alert_status(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipAlertStatus", s->GetAlertState()));
+	lua_pushstring(l, EnumStrings::GetString("ShipAlertStatus", s->GetAlertState()));
 	return 1;
 }
 
@@ -1083,7 +1084,7 @@ static int l_ship_attr_alert_status(lua_State *l)
 static int l_ship_attr_flight_state(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipFlightState", s->GetFlightState()));
+	lua_pushstring(l, EnumStrings::GetString("ShipFlightState", s->GetFlightState()));
 	return 1;
 }
 

@@ -760,6 +760,10 @@ STAR_SYSTEM_INFORMATION
     Info del Sistema Estelar
 GALACTIC_VIEW
     Vista galáctica
+ROTATION_DAMPING_ON
+    Rotación amortiguada on
+ROTATION_DAMPING_OFF
+    Rotación amortiguada off
 NO_ALERT
     Sin alerta
 SHIP_NEARBY

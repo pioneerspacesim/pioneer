@@ -17,9 +17,11 @@ ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, fl
 	memset(&m_params, 0, sizeof(LmrObjParams));
 	m_params.animationNamespace = "ShipAnimation";
 	m_params.equipment = &m_equipment;
-	flavour.ApplyTo(&m_params);
 	m_params.animValues[Ship::ANIM_WHEEL_STATE] = 1.0;
 	m_params.flightState = Ship::FLYING;
+
+	flavour.ApplyTo(&m_params);
+	flavour.ApplyTo(m_model);
 
 	Color lc(1.f);
 	m_light.SetDiffuse(lc);

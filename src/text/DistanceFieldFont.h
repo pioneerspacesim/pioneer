@@ -50,6 +50,7 @@ private:
 	Graphics::Texture *m_texture;
 	std::map<Uint32, Glyph> m_glyphs;
 	vector2f m_sheetSize;
+	float m_lineHeight;
 	float m_fontSize; //32 etc. Glyph size/advance will be scaled to 1/fontSize.
 
 	void AddGlyph(Graphics::VertexArray &va, const vector2f &pos, const Glyph&, vector2f &bounds);

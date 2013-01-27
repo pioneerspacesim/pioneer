@@ -13,10 +13,10 @@ namespace Graphics { class Renderer; }
 namespace SceneGraph {
 class MatrixTransform : public Group {
 public:
-	MatrixTransform(const matrix4x4f &m);
+	MatrixTransform(Graphics::Renderer *r, const matrix4x4f &m);
 	virtual const char *GetTypeName() { return "MatrixTransform"; }
 	virtual void Accept(NodeVisitor &v);
-	void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
+	void Render(const matrix4x4f &trans, RenderData *rd);
 	const matrix4x4f &GetTransform() const { return m_transform; }
 	void SetTransform(const matrix4x4f &m) { m_transform = m; }
 

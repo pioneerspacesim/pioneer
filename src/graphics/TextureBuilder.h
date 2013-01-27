@@ -28,6 +28,9 @@ public:
 	static TextureBuilder UI(const std::string &filename) {
 		return TextureBuilder(filename, LINEAR_CLAMP, false, true, true, false);
 	}
+	static TextureBuilder Decal(const std::string &filename) {
+		return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true);
+	}
 
 	const TextureDescriptor &GetDescriptor() { PrepareSurface(); return m_descriptor; }
 	void UpdateTexture(Texture *texture); // XXX pass src/dest rectangles

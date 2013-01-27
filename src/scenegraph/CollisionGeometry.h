@@ -17,8 +17,8 @@ namespace SceneGraph {
 
 class CollisionGeometry : public Node {
 public:
-	CollisionGeometry(Graphics::Surface*, unsigned int flag);
-	CollisionGeometry(const std::vector<vector3f>&, const std::vector<unsigned short>&, unsigned int flag);
+	CollisionGeometry(Graphics::Renderer *r, Graphics::Surface*, unsigned int flag);
+	CollisionGeometry(Graphics::Renderer *r, const std::vector<vector3f>&, const std::vector<unsigned short>&, unsigned int flag);
 	virtual const char *GetTypeName() { return "CollisionGeometry"; }
 	virtual void Accept(NodeVisitor &nv);
 
