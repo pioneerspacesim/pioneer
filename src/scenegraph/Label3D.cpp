@@ -8,8 +8,8 @@
 
 namespace SceneGraph {
 
-Label3D::Label3D(RefCountedPtr<Text::DistanceFieldFont> font, Graphics::Renderer *r)
-: Node(NODE_SOLID) //appropriate for alpha testing
+Label3D::Label3D(Graphics::Renderer *r, RefCountedPtr<Text::DistanceFieldFont> font)
+: Node(r, NODE_SOLID) //appropriate for alpha testing
 , m_font(font)
 {
 	Graphics::MaterialDescriptor matdesc;
@@ -24,6 +24,19 @@ Label3D::Label3D(RefCountedPtr<Text::DistanceFieldFont> font, Graphics::Renderer
 	m_material->specular = Color::WHITE;
 }
 
+Label3D::Label3D(const Label3D &label)
+: Node(label)
+, m_material(label.m_material)
+, m_font(label.m_font)
+{
+	m_geometry.Reset(m_font->CreateVertexArray());
+}
+
+Node* Label3D::Clone()
+{
+	return new Label3D(*this);
+}
+
 void Label3D::SetText(const std::string &text)
 {
 	//regenerate geometry
@@ -31,9 +44,10 @@ void Label3D::SetText(const std::string &text)
 	m_font->GetGeometry(*m_geometry.Get(), text, vector2f(0.f));
 }
 
-void Label3D::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
+void Label3D::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	//needs alpha test
+	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
 	r->DrawTriangles(m_geometry.Get(), m_material.Get());
 }

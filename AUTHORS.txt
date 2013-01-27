@@ -29,6 +29,7 @@ As of 11 January 2013 (alpha 30), the Pioneer Developers are:
 * Gernot
 * HeadHunter
 * Jan Olsina
+* jmf
 * John Bartholomew
 * John Jordan
 * Kimmo Kotajärvi

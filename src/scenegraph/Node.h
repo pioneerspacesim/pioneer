@@ -26,13 +26,15 @@ enum NodeMask {
 class Node : public RefCounted
 {
 public:
-	Node();
-	Node(unsigned int nodemask);
+	Node(Graphics::Renderer *r);
+	Node(Graphics::Renderer *r, unsigned int nodemask);
+	Node(const Node&);
+	virtual Node *Clone() = 0; //implement clone to return shallow or deep copy
 	virtual const char *GetTypeName() { return "Node"; }
 	virtual void Accept(NodeVisitor &v);
 	virtual void Traverse(NodeVisitor &v);
-	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd) { }
-	void DrawAxes(Graphics::Renderer *r);
+	virtual void Render(const matrix4x4f &trans, RenderData *rd) { }
+	void DrawAxes();
 	void SetName(const std::string &name) { m_name = name; }
 	const std::string &GetName() { return m_name; }
 
@@ -41,12 +43,14 @@ public:
 	unsigned int GetNodeMask() const { return m_nodeMask; }
 	void SetNodeMask(unsigned int m) { m_nodeMask = m; }
 
+	Graphics::Renderer *GetRenderer() const { return m_renderer; }
+
 protected:
 	//can only to be deleted using DecRefCount
 	virtual ~Node() { }
-	Node *m_parent;
 	std::string m_name;
 	unsigned int m_nodeMask;
+	Graphics::Renderer *m_renderer;
 };
 
 }

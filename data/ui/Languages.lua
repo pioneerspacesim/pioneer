@@ -114,6 +114,8 @@ Translate:Add({
 		['Kills:'] = 'Pokonanych:',
 		['Military'] = 'Status wojskowy',
 		['Rank:'] = 'Ranga:',
+		['Male'] = 'Mężczyzna',
+		['Female'] = 'Kobieta',
 
 		['HARMLESS'] = 'Nieszkodliwy',
 		['MOSTLY_HARMLESS'] = 'Przeważnie nieszkodliwy',
@@ -133,6 +135,7 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'Szczegóły misji',
 		['No missions.'] = 'Brak misji.',
+		['INACTIVE'] = 'Nieaktywna', -- Complement of ACTIVE, COMPLETED and FAILED
 		
 		-- Orbital analysis
 		['Orbit'] = 'Orbita',

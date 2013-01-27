@@ -75,6 +75,7 @@
 #include "Tombstone.h"
 #include "UIView.h"
 #include "WorldView.h"
+#include "EnumStrings.h"
 #include "galaxy/CustomSystem.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
@@ -336,6 +337,8 @@ void Pi::Init()
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
 
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
+
+	EnumStrings::Init();
 
 	// XXX UI requires Lua  but Pi::ui must exist before we start loading
 	// templates. so now we have crap everywhere :/

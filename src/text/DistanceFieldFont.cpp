@@ -130,6 +130,8 @@ void DistanceFieldFont::ParseChar(const StringRange &r)
 	double y = 0.0;
 	double uSize = 0.0;
 	double vSize = 0.0;
+	double xoffset = 0.0;
+	double yoffset = 0.0;
 	double advance = 0.0;
 
 	while (ss >> token != 0) {
@@ -147,6 +149,10 @@ void DistanceFieldFont::ParseChar(const StringRange &r)
 				uSize = get_value<double>(pair.second);
 			else if (pair.first == "height")
 				vSize = get_value<double>(pair.second);
+			else if (pair.first == "xoffset")
+				xoffset = get_value<float>(pair.second);
+			else if (pair.first == "yoffset")
+				yoffset = get_value<float>(pair.second);
 			else if (pair.first == "xadvance")
 				advance = get_value<float>(pair.second);
 	}
@@ -156,6 +162,7 @@ void DistanceFieldFont::ParseChar(const StringRange &r)
 	g.uv = vector2f(float(x)/m_sheetSize.x, float(y)/m_sheetSize.y);
 	g.uvSize = vector2f(float(uSize)/m_sheetSize.x, float(vSize)/m_sheetSize.y);
 	g.size = vector2f(float(uSize), float(vSize)) * scale;
+	g.offset = vector2f(float(xoffset), float(m_lineHeight-vSize-yoffset)) * scale;
 	g.xAdvance = advance * scale;
 	m_glyphs[id] = g;
 }
@@ -172,6 +179,8 @@ void DistanceFieldFont::ParseCommon(const StringRange &line)
 			m_sheetSize.x = get_value<float>(pair.second);
 		else if (pair.first == "scaleH")
 			m_sheetSize.y = get_value<float>(pair.second);
+		else if (pair.first == "lineHeight")
+			m_lineHeight = get_value<float>(pair.second);
 	}
 }
 

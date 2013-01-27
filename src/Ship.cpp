@@ -5,7 +5,7 @@
 #include "CityOnPlanet.h"
 #include "Planet.h"
 #include "Lang.h"
-#include "LuaConstants.h"
+#include "EnumStrings.h"
 #include "LuaEvent.h"
 #include "Missile.h"
 #include "Projectile.h"
@@ -719,7 +719,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 	UpdateFuel(timeStep, thrust);
 
 	if (m_landingGearAnimation)
-		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations(timeStep);
+		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations();
 }
 
 void Ship::DoThrusterSounds() const
@@ -832,7 +832,7 @@ void Ship::UpdateAlertState()
 		// clear existing alert state if there was one
 		if (GetAlertState() != ALERT_NONE) {
 			SetAlertState(ALERT_NONE);
-			LuaEvent::Queue("onShipAlertChanged", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipAlertStatus", ALERT_NONE));
+			LuaEvent::Queue("onShipAlertChanged", this, EnumStrings::GetString("ShipAlertStatus", ALERT_NONE));
 		}
 		return;
 	}
@@ -909,7 +909,7 @@ void Ship::UpdateAlertState()
 	}
 
 	if (changed)
-		LuaEvent::Queue("onShipAlertChanged", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipAlertStatus", GetAlertState()));
+		LuaEvent::Queue("onShipAlertChanged", this, EnumStrings::GetString("ShipAlertStatus", GetAlertState()));
 }
 
 void Ship::UpdateFuel(const float timeStep, const vector3d &thrust)
@@ -925,7 +925,7 @@ void Ship::UpdateFuel(const float timeStep, const vector3d &thrust)
 	UpdateFuelStats();
 
 	if (currentState != lastState)
-		LuaEvent::Queue("onShipFuelChanged", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipFuelStatus", currentState));
+		LuaEvent::Queue("onShipFuelChanged", this, EnumStrings::GetString("ShipFuelStatus", currentState));
 }
 
 void Ship::StaticUpdate(const float timeStep)
@@ -1103,6 +1103,8 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	LmrObjParams &params = GetLmrObjParams();
 
 	m_shipFlavour.ApplyTo(&params);
+	m_shipFlavour.ApplyTo(GetModel());
+
 	SetLmrTimeParams();
 	params.angthrust[0] = float(-m_angThrusters.x);
 	params.angthrust[1] = float(-m_angThrusters.y);
@@ -1173,7 +1175,7 @@ bool Ship::SpawnCargo(CargoBody * c_body) const
 
 void Ship::OnEquipmentChange(Equip::Type e)
 {
-	LuaEvent::Queue("onShipEquipmentChanged", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "EquipType", e));
+	LuaEvent::Queue("onShipEquipmentChanged", this, EnumStrings::GetString("EquipType", e));
 }
 
 void Ship::UpdateFlavour(const ShipFlavour *f)

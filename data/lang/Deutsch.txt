@@ -552,7 +552,7 @@ TOGGLE_LUA_CONSOLE
 JOYSTICK_INPUT
     Joystickeingabe
 PITCH
-    Kippen
+    Nicken
 ROLL
     Rollen
 YAW

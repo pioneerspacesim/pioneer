@@ -18,6 +18,7 @@
 #include "ShipType.h"
 #include "FileSystem.h"
 #include "CRC32.h"
+#include "EnumStrings.h"
 #include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
@@ -3966,7 +3967,7 @@ namespace ModelFuncs {
 				if (equip == Equip::NONE)
 					lua_pushnil(L);
 				else
-					lua_pushstring(L, LuaConstants::GetConstantString(L, "EquipType", equip));
+					lua_pushstring(L, EnumStrings::GetString("EquipType", equip));
 				return 1;
 			} else {
 				const EquipSet &es = *s_curParams->equipment;
@@ -3977,7 +3978,7 @@ namespace ModelFuncs {
 					equip = es.Get(slot, i++);
 					if (equip != Equip::NONE) {
 						PiVerify(lua_checkstack(L, 1));
-						lua_pushstring(L, LuaConstants::GetConstantString(L, "EquipType", equip));
+						lua_pushstring(L, EnumStrings::GetString("EquipType", equip));
 						++count;
 					}
 				}
@@ -4100,7 +4101,7 @@ namespace ModelFuncs {
 		assert(s_curParams != 0);
 		// if there is equipment then there should also be a flightState
 		if (s_curParams->equipment) {
-			lua_pushstring(L, LuaConstants::GetConstantString(L, "ShipFlightState", s_curParams->flightState));
+			lua_pushstring(L, EnumStrings::GetString("ShipFlightState", s_curParams->flightState));
 			return 1;
 		} else
 			return luaL_error(L, "Flight state is only valid for ships.");
