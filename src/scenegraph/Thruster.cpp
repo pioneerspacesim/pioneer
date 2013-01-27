@@ -32,10 +32,10 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 
 Thruster::Thruster(const Thruster &thruster)
 : Node(thruster)
+, m_tMat(thruster.m_tMat)
 , linearOnly(thruster.linearOnly)
 , dir(thruster.dir)
 , pos(thruster.pos)
-, m_tMat(thruster.m_tMat)
 {
 	m_tVerts.Reset(CreateGeometry());
 }

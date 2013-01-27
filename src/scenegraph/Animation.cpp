@@ -12,15 +12,15 @@ typedef ChannelList::iterator ChannelIterator;
 
 Animation::Animation(const std::string &name, double duration)
 : m_duration(duration)
-, m_name(name)
 , m_time(0.0)
+, m_name(name)
 {
 }
 
 Animation::Animation(const Animation &anim)
 : m_duration(anim.m_duration)
-, m_name(anim.m_name)
 , m_time(0.0)
+, m_name(anim.m_name)
 {
 	for(ChannelList::const_iterator chan = anim.m_channels.begin(); chan != anim.m_channels.end(); ++chan) {
 		m_channels.push_back(*chan);

@@ -24,9 +24,9 @@ CollisionGeometry::CollisionGeometry(Graphics::Renderer *r, const std::vector<ve
 
 CollisionGeometry::CollisionGeometry(const CollisionGeometry &cg)
 : Node(cg)
-, m_triFlag(cg.m_triFlag)
 , m_vertices(cg.m_vertices)
 , m_indices(cg.m_indices)
+, m_triFlag(cg.m_triFlag)
 {
 }
 

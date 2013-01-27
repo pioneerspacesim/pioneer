@@ -26,8 +26,8 @@ Label3D::Label3D(Graphics::Renderer *r, RefCountedPtr<Text::DistanceFieldFont> f
 
 Label3D::Label3D(const Label3D &label)
 : Node(label)
-, m_font(label.m_font)
 , m_material(label.m_material)
+, m_font(label.m_font)
 {
 	m_geometry.Reset(m_font->CreateVertexArray());
 }

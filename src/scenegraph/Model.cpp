@@ -32,11 +32,11 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 Model::Model(const Model &model)
 : ModelBase()
 , m_boundingRadius(model.m_boundingRadius)
-, m_renderer(model.m_renderer)
-, m_name(model.m_name)
 , m_materials(model.m_materials)
 , m_patterns(model.m_patterns)
 , m_collMesh(model.m_collMesh) //might have to make this per-instance at some point
+, m_renderer(model.m_renderer)
+, m_name(model.m_name)
 , m_curPattern(model.m_curPattern)
 {
 	//selective copying of node structure
