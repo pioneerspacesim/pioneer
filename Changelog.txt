@@ -58,6 +58,8 @@ Alpha 31
      * String <-> Integer enum mapping tables have been separated from Lua (#1996)
      * Improve MultiLineText draw performance (#1999)
      * SGModel nodes all carry a pointer to the renderer (#1986)
+     * SGModels can now be instanced, with separate appearance and animation
+       state for each (#2007, #1975)
 
 Alpha 30
 

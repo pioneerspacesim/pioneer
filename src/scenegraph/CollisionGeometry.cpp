@@ -22,8 +22,21 @@ CollisionGeometry::CollisionGeometry(Graphics::Renderer *r, const std::vector<ve
 	CopyData(vts, idx);
 }
 
+CollisionGeometry::CollisionGeometry(const CollisionGeometry &cg)
+: Node(cg)
+, m_vertices(cg.m_vertices)
+, m_indices(cg.m_indices)
+, m_triFlag(cg.m_triFlag)
+{
+}
+
 CollisionGeometry::~CollisionGeometry()
 {
+}
+
+Node* CollisionGeometry::Clone()
+{
+	return this; //collgeoms are shared
 }
 
 void CollisionGeometry::Accept(NodeVisitor &nv)

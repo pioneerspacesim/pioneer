@@ -11,6 +11,7 @@
 class Intro : public Cutscene {
 public:
 	Intro(Graphics::Renderer *r, int width, int height);
+	~Intro();
 	virtual void Draw(float time);
 
 private:

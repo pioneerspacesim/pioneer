@@ -21,6 +21,23 @@ Group::~Group()
 	}
 }
 
+Group::Group(const Group &group)
+: Node(group)
+{
+	for(std::vector<Node*>::const_iterator itr = group.m_children.begin();
+		itr != group.m_children.end();
+		++itr)
+	{
+		Node *node = (*itr)->Clone();
+		AddChild(node);
+	}
+}
+
+Node* Group::Clone()
+{
+	return new Group(*this);
+}
+
 void Group::AddChild(Node *child)
 {
 	child->IncRefCount();

@@ -13,10 +13,13 @@
 namespace SceneGraph {
 
 class Loader;
+class Node;
 
 class Animation {
 public:
 	Animation(const std::string &name, double duration);
+	Animation(const Animation&);
+	void UpdateChannelTargets(Node *root);
 	double GetDuration() const { return m_duration; }
 	const std::string &GetName() const { return m_name; }
 	double GetProgress();

@@ -20,6 +20,19 @@ StaticGeometry::~StaticGeometry()
 {
 }
 
+StaticGeometry::StaticGeometry(const StaticGeometry &sg)
+: Node(sg)
+, m_boundingBox(sg.m_boundingBox)
+, m_blendMode(sg.m_blendMode)
+, m_meshes(sg.m_meshes)
+{
+}
+
+Node* StaticGeometry::Clone()
+{
+	return this; //geometries are shared
+}
+
 void StaticGeometry::Accept(NodeVisitor &nv)
 {
 	nv.ApplyStaticGeometry(*this);
