@@ -788,6 +788,7 @@ vector3d SpaceStation::GetTargetIndicatorPosition(const Frame *relTo) const
 	return GetInterpPositionRelTo(relTo);
 }
 
+// XXX this whole thing should be done by Lua
 void SpaceStation::DoLawAndOrder(const double timeStep)
 {
 	Sint64 fine, crimeBitset;
@@ -797,7 +798,11 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 			&& (fine > 1000)
 			&& (GetPositionRelTo(Pi::player).Length() < 100000.0)) {
 		int port = GetFreeDockingPort();
-		//Spawn police with small delay between ships
+		// at 60 Hz updates (ie, 1x time acceleration),
+		// this spawns a police ship with probability ~0.83% each frame
+		// This makes it unlikely (but not impossible) that police will spawn on top of each other
+		// the expected number of game-time seconds between spawns: 120 (2*60 Hz)
+		// variance is quite high though
 		if (port != -1 && 2.0*Pi::rng.Double() < timeStep) {
 			m_numPoliceDocked--;
 			// Make police ship intent on killing the player
