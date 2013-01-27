@@ -552,6 +552,7 @@ void Pi::Quit()
 	GeoSphere::Uninit();
 	LmrModelCompilerUninit();
 	Galaxy::Uninit();
+	CustomSystem::Uninit();
 	Graphics::Uninit();
 	Pi::ui.Reset(0);
 	LuaUninit();
