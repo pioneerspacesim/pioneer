@@ -43,10 +43,15 @@ private:
 	Model *m_model;
 	RefCountedPtr<Text::DistanceFieldFont> m_labelFont;
 
+	struct Port
+	{
+		std::map<uint32_t, matrix4x4f> m_docking;
+		std::map<uint32_t, matrix4x4f> m_leaving;
+		std::map<uint32_t, matrix4x4f> m_approach;
+	};
+
 	// map< port, map< stage, data > >
-	std::map<uint32_t, std::map<uint32_t, MatrixTransform*>> m_dockingWaypoints;
-	std::map<uint32_t, std::map<uint32_t, MatrixTransform*>> m_leavingWaypoints;
-	std::map<uint32_t, std::map<uint32_t, MatrixTransform*>> m_approachWaypoints;
+	std::map<uint32_t, Port> m_waypoints;
 
 	bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
 	Graphics::Texture *GetWhiteTexture() const;

@@ -33,10 +33,30 @@ SpaceStationType::SpaceStationType()
 , parkingGapSize(0)
 , dockAnimFunction("")
 , approachWaypointsFunction("")
+, bHasDockAnimFunction(false)
+, bHasApproachWaypointsFunction(false)
 {}
 
+#pragma optimize( "", off )
 bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const
 {
+	bool gotOrient = false;
+
+	if (!bHasApproachWaypointsFunction)
+	{
+		ModelBase::Port &rPort = model->m_ports[port];
+		if (stage>0) {
+			const bool bHasStageData = (rPort.m_approach.find( stage ) != rPort.m_approach.end());
+			if (bHasStageData) {
+				outPosOrient.pos	= vector3d(rPort.m_approach[stage].GetTranslate());
+				outPosOrient.xaxis	= vector3d(rPort.m_approach[stage].GetOrient().VectorX());
+				outPosOrient.yaxis	= vector3d(rPort.m_approach[stage].GetOrient().VectorY());
+				gotOrient = true;
+			}
+		}
+		return gotOrient;
+	}
+
 	lua_State *L = s_lua;
 
 	LUA_DEBUG_START(L);
@@ -54,7 +74,6 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 	lua_pushinteger(L, port+1);
 	lua_pushinteger(L, stage);
 	lua_pcall(L, 2, 1, -4);
-	bool gotOrient;
 	if (lua_istable(L, -1)) {
 		gotOrient = true;
 		lua_pushinteger(L, 1);
@@ -81,15 +100,84 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 	return gotOrient;
 }
 
+//for station waypoint interpolation
+vector3f vlerp(double t, const vector3f& v1, const vector3f& v2)
+{
+	return t*v2 + (1.0-t)*v1;
+}
+
 /* when ship is on rails it returns true and fills outPosOrient.
  * when ship has been released (or docked) it returns false.
  * Note station animations may continue for any number of stages after
  * ship has been released and is under player control again */
+#pragma optimize( "", off )
 bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
 {
 	if (stage < -shipLaunchStage) { stage = -shipLaunchStage; t = 1.0; }
 	if (stage > numDockingStages || !stage) { stage = numDockingStages; t = 1.0; }
 	// note case for stageless launch (shipLaunchStage==0)
+
+	bool gotOrient = false;
+
+	if (!bHasDockAnimFunction)
+	{
+		ModelBase::Port &rPort = model->m_ports[port];
+		vector3f fromPos, toPos;
+		vector3f fromXaxis,	toXaxis;
+		vector3f fromYaxis,	toYaxis;
+		if (stage<0) {
+			const int leavingStage = (-1*stage);
+			const bool bHasStageData = (rPort.m_leaving.find( leavingStage ) != rPort.m_leaving.end());
+			if (bHasStageData) {
+				fromPos		= rPort.m_leaving[leavingStage].GetTranslate();
+				fromXaxis	= rPort.m_leaving[leavingStage].GetOrient().VectorX();
+				fromYaxis	= rPort.m_leaving[leavingStage].GetOrient().VectorY();
+				
+				if (rPort.m_leaving.find( leavingStage+1 ) != rPort.m_leaving.end()) {
+					toPos = rPort.m_leaving[leavingStage+1].GetTranslate();
+					toXaxis = rPort.m_leaving[leavingStage+1].GetOrient().VectorX();
+					toYaxis = rPort.m_leaving[leavingStage+1].GetOrient().VectorY();
+				} else {
+					toPos	= fromPos;
+					toXaxis = fromXaxis;
+					toYaxis = fromYaxis;
+				}
+				gotOrient = true;
+			}
+		} else if (stage>0) {
+			const bool bHasStageData = (rPort.m_docking.find( stage ) != rPort.m_docking.end());
+			if (bHasStageData) {
+				fromPos		= rPort.m_docking[stage].GetTranslate();
+				fromXaxis	= rPort.m_docking[stage].GetOrient().VectorX();
+				fromYaxis	= rPort.m_docking[stage].GetOrient().VectorY();
+				if (rPort.m_leaving.find( stage+1 ) != rPort.m_leaving.end()) {
+					toPos	= rPort.m_docking[stage+1].GetTranslate();
+					toXaxis = rPort.m_docking[stage+1].GetOrient().VectorX();
+					toYaxis = rPort.m_docking[stage+1].GetOrient().VectorY();
+				} else {
+					toPos	= fromPos;
+					toXaxis = fromXaxis;
+					toYaxis = fromYaxis;
+				}
+				gotOrient = true;
+			}
+		}
+
+		if (gotOrient)
+		{
+			vector3f pos	= vlerp(t, fromPos, toPos);
+			vector3f xaxis	= vlerp(t, fromXaxis, toXaxis);
+			vector3f yaxis	= vlerp(t, fromYaxis, toYaxis);
+			xaxis	= xaxis.Normalized();
+			yaxis	= yaxis.Normalized();
+
+			outPosOrient.pos	= vector3d(pos);
+			outPosOrient.xaxis	= vector3d(xaxis);
+			outPosOrient.yaxis	= vector3d(yaxis);
+		}
+
+		return gotOrient;
+	}
 
 	lua_State *L = s_lua;
 
@@ -117,7 +205,6 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	}
 
 	lua_pcall(L, 5, 1, -7);
-	bool gotOrient;
 	if (lua_istable(L, -1)) {
 		gotOrient = true;
 		lua_pushinteger(L, 1);
@@ -248,8 +335,11 @@ static int _define_station(lua_State *L, SpaceStationType &station)
 	LUA_DEBUG_END(L, 0);
 
 	assert(!station.modelName.empty());
-	assert(!station.dockAnimFunction.empty());
-	assert(!station.approachWaypointsFunction.empty());
+	//assert(!station.dockAnimFunction.empty());
+	//assert(!station.approachWaypointsFunction.empty());
+	station.bHasDockAnimFunction = (!station.dockAnimFunction.empty());
+	station.bHasApproachWaypointsFunction = (!station.approachWaypointsFunction.empty());
+
 	station.model = Pi::FindModel(station.modelName);
 	return 0;
 }

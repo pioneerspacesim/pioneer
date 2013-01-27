@@ -28,6 +28,8 @@ struct SpaceStationType {
 	float parkingGapSize;
 	std::string dockAnimFunction;
 	std::string approachWaypointsFunction;
+	bool bHasDockAnimFunction;
+	bool bHasApproachWaypointsFunction;
 
 	struct positionOrient_t {
 		vector3d pos;

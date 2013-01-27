@@ -755,6 +755,43 @@
         <channel source="#leaving_port1_stage3-Matrix-animation-transform" target="leaving_port1_stage3/matrix"/>
       </animation>
     </animation>
+    <animation id="approach_port1_stage1-anim" name="approach_port1_stage1">
+      <animation>
+        <source id="approach_port1_stage1-Matrix-animation-input">
+          <float_array id="approach_port1_stage1-Matrix-animation-input-array" count="0">
+</float_array>
+          <technique_common>
+            <accessor source="#approach_port1_stage1-Matrix-animation-input-array" count="0">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="approach_port1_stage1-Matrix-animation-output-transform">
+          <float_array id="approach_port1_stage1-Matrix-animation-output-transform-array" count="0">
+</float_array>
+          <technique_common>
+            <accessor source="#approach_port1_stage1-Matrix-animation-output-transform-array" count="0" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="approach_port1_stage1-Interpolations">
+          <Name_array id="approach_port1_stage1-Interpolations-array" count="0">
+</Name_array>
+          <technique_common>
+            <accessor source="#approach_port1_stage1-Interpolations-array" count="0">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="approach_port1_stage1-Matrix-animation-transform">
+          <input semantic="INPUT" source="#approach_port1_stage1-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#approach_port1_stage1-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#approach_port1_stage1-Interpolations"/>
+        </sampler>
+        <channel source="#approach_port1_stage1-Matrix-animation-transform" target="approach_port1_stage1/matrix"/>
+      </animation>
+    </animation>
     <animation id="approach_port1_stage2-anim" name="approach_port1_stage2">
       <animation>
         <source id="approach_port1_stage2-Matrix-animation-input">
@@ -792,41 +829,41 @@
         <channel source="#approach_port1_stage2-Matrix-animation-transform" target="approach_port1_stage2/matrix"/>
       </animation>
     </animation>
-    <animation id="approach_port1_stage1-anim" name="approach_port1_stage1">
+    <animation id="docking_port1_stage4-anim" name="docking_port1_stage4">
       <animation>
-        <source id="approach_port1_stage1-Matrix-animation-input">
-          <float_array id="approach_port1_stage1-Matrix-animation-input-array" count="0">
+        <source id="docking_port1_stage4-Matrix-animation-input">
+          <float_array id="docking_port1_stage4-Matrix-animation-input-array" count="0">
 </float_array>
           <technique_common>
-            <accessor source="#approach_port1_stage1-Matrix-animation-input-array" count="0">
+            <accessor source="#docking_port1_stage4-Matrix-animation-input-array" count="0">
               <param name="TIME" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="approach_port1_stage1-Matrix-animation-output-transform">
-          <float_array id="approach_port1_stage1-Matrix-animation-output-transform-array" count="0">
+        <source id="docking_port1_stage4-Matrix-animation-output-transform">
+          <float_array id="docking_port1_stage4-Matrix-animation-output-transform-array" count="0">
 </float_array>
           <technique_common>
-            <accessor source="#approach_port1_stage1-Matrix-animation-output-transform-array" count="0" stride="16">
+            <accessor source="#docking_port1_stage4-Matrix-animation-output-transform-array" count="0" stride="16">
               <param type="float4x4"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="approach_port1_stage1-Interpolations">
-          <Name_array id="approach_port1_stage1-Interpolations-array" count="0">
+        <source id="docking_port1_stage4-Interpolations">
+          <Name_array id="docking_port1_stage4-Interpolations-array" count="0">
 </Name_array>
           <technique_common>
-            <accessor source="#approach_port1_stage1-Interpolations-array" count="0">
+            <accessor source="#docking_port1_stage4-Interpolations-array" count="0">
               <param type="name"/>
             </accessor>
           </technique_common>
         </source>
-        <sampler id="approach_port1_stage1-Matrix-animation-transform">
-          <input semantic="INPUT" source="#approach_port1_stage1-Matrix-animation-input"/>
-          <input semantic="OUTPUT" source="#approach_port1_stage1-Matrix-animation-output-transform"/>
-          <input semantic="INTERPOLATION" source="#approach_port1_stage1-Interpolations"/>
+        <sampler id="docking_port1_stage4-Matrix-animation-transform">
+          <input semantic="INPUT" source="#docking_port1_stage4-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#docking_port1_stage4-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#docking_port1_stage4-Interpolations"/>
         </sampler>
-        <channel source="#approach_port1_stage1-Matrix-animation-transform" target="approach_port1_stage1/matrix"/>
+        <channel source="#docking_port1_stage4-Matrix-animation-transform" target="docking_port1_stage4/matrix"/>
       </animation>
     </animation>
     <animation id="docking_port1_stage3-anim" name="docking_port1_stage3">
@@ -901,43 +938,6 @@
           <input semantic="INTERPOLATION" source="#docking_port1_stage2-Interpolations"/>
         </sampler>
         <channel source="#docking_port1_stage2-Matrix-animation-transform" target="docking_port1_stage2/matrix"/>
-      </animation>
-    </animation>
-    <animation id="docking_port1_stage1-anim" name="docking_port1_stage1">
-      <animation>
-        <source id="docking_port1_stage1-Matrix-animation-input">
-          <float_array id="docking_port1_stage1-Matrix-animation-input-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#docking_port1_stage1-Matrix-animation-input-array" count="0">
-              <param name="TIME" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="docking_port1_stage1-Matrix-animation-output-transform">
-          <float_array id="docking_port1_stage1-Matrix-animation-output-transform-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#docking_port1_stage1-Matrix-animation-output-transform-array" count="0" stride="16">
-              <param type="float4x4"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="docking_port1_stage1-Interpolations">
-          <Name_array id="docking_port1_stage1-Interpolations-array" count="0">
-</Name_array>
-          <technique_common>
-            <accessor source="#docking_port1_stage1-Interpolations-array" count="0">
-              <param type="name"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <sampler id="docking_port1_stage1-Matrix-animation-transform">
-          <input semantic="INPUT" source="#docking_port1_stage1-Matrix-animation-input"/>
-          <input semantic="OUTPUT" source="#docking_port1_stage1-Matrix-animation-output-transform"/>
-          <input semantic="INTERPOLATION" source="#docking_port1_stage1-Interpolations"/>
-        </sampler>
-        <channel source="#docking_port1_stage1-Matrix-animation-transform" target="docking_port1_stage1/matrix"/>
       </animation>
     </animation>
   </library_animations>
@@ -1087,7 +1087,7 @@
           </technique>
         </extra>
       </node>
-      <node name="approach_port1_stage2" id="approach_port1_stage2" sid="approach_port1_stage2">
+      <node name="approach_port1_stage1" id="approach_port1_stage1" sid="approach_port1_stage1">
         <matrix sid="matrix">0.000000 -1.000000 0.000000 23.483337 0.000000 -0.000000 -1.000000 764.580627 1.000000 0.000000 -0.000000 -2000.000000 0.000000 0.000000 0.000000 1.000000</matrix>
         <extra>
           <technique profile="FCOLLADA">
@@ -1095,7 +1095,7 @@
           </technique>
         </extra>
       </node>
-      <node name="approach_port1_stage1" id="approach_port1_stage1" sid="approach_port1_stage1">
+      <node name="approach_port1_stage2" id="approach_port1_stage2" sid="approach_port1_stage2">
         <matrix sid="matrix">0.000000 -1.000000 0.000000 23.483337 0.000000 -0.000000 -1.000000 764.580627 1.000000 0.000000 -0.000000 -635.433716 0.000000 0.000000 0.000000 1.000000</matrix>
         <extra>
           <technique profile="FCOLLADA">
@@ -1103,7 +1103,7 @@
           </technique>
         </extra>
       </node>
-      <node name="docking_port1_stage3" id="docking_port1_stage3" sid="docking_port1_stage3">
+      <node name="docking_port1_stage4" id="docking_port1_stage4" sid="docking_port1_stage4">
         <matrix sid="matrix">0.000000 -1.000000 0.000000 63.483337 0.000000 -0.000000 -1.000000 764.580627 1.000000 0.000000 -0.000000 -110.000000 0.000000 0.000000 0.000000 1.000000</matrix>
         <extra>
           <technique profile="FCOLLADA">
@@ -1111,7 +1111,7 @@
           </technique>
         </extra>
       </node>
-      <node name="docking_port1_stage2" id="docking_port1_stage2" sid="docking_port1_stage2">
+      <node name="docking_port1_stage3" id="docking_port1_stage3" sid="docking_port1_stage3">
         <matrix sid="matrix">0.000000 -1.000000 0.000000 23.483337 0.000000 -0.000000 -1.000000 764.580627 1.000000 0.000000 -0.000000 -110.000000 0.000000 0.000000 0.000000 1.000000</matrix>
         <extra>
           <technique profile="FCOLLADA">
@@ -1119,7 +1119,7 @@
           </technique>
         </extra>
       </node>
-      <node name="docking_port1_stage1" id="docking_port1_stage1" sid="docking_port1_stage1">
+      <node name="docking_port1_stage2" id="docking_port1_stage2" sid="docking_port1_stage2">
         <matrix sid="matrix">0.000000 -1.000000 0.000000 23.483337 0.000000 -0.000000 -1.000000 764.580627 1.000000 0.000000 -0.000000 -610.573608 0.000000 0.000000 0.000000 1.000000</matrix>
         <extra>
           <technique profile="FCOLLADA">
