@@ -801,6 +801,8 @@ int main(int argc, char **argv)
 	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc);
 	renderer->SetLights(1, &light);
 
+	renderer->SetAmbientColor(Color(.5f,.5f,.5f));
+
 	LmrModelCompilerInit(renderer);
 
 	ShipType::Init();
