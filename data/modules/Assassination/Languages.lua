@@ -546,7 +546,7 @@ Translate:AddFlavour('Deutsch','Assassination', {
   failuremsg2 = "{target} wurde von jemand Anderem neutralisiert.",
 })
 
-Translate:Add({ English = {
+Translate:Add({ Deutsch = {
   ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} wird {spaceport} im {system} system ({sectorX}, {sectorY}, {sectorZ}) am Datum {date} verlassen. Das Schiff heißt {shipname} und hat die Registrations-ID {shipregid}.",
   ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "Es muss passieren, nachdem {target}  {spaceport} verlässt. Lass dir diese Chance nicht entgehen.",
   ["Assassination"] = "Attentat",
