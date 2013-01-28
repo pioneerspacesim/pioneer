@@ -417,6 +417,12 @@
     <ClCompile Include="..\..\src\CameraController.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\EnumStrings.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaMissile.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -879,6 +885,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\CameraController.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\EnumStrings.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaMissile.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
