@@ -109,56 +109,38 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 }
 
 //for station waypoint interpolation
-vector3f vlerp(double t, const vector3f& v1, const vector3f& v2)
+vector3f vlerp(const double t, const vector3f& v1, const vector3f& v2)
 {
 	return t*v2 + (1.0-t)*v1;
 }
 
+#pragma optimize( "", off )
 static bool GetPosOrient(ModelBase::Port::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from, 
 				  SpaceStationType::positionOrient_t &outPosOrient, const Ship *ship)
 {
 	bool gotOrient = false;
 
 	vector3f fromPos, toPos;
-	vector3f fromXaxis,	toXaxis;
-	vector3f fromYaxis,	toYaxis;
-	vector3f fromZaxis,	toZaxis;
 
 	const bool bHasStageData = (bayMap.find( stage ) != bayMap.end());
 	if (bHasStageData) {
 		fromPos		= bayMap[stage].GetTranslate();
-		fromXaxis	= bayMap[stage].GetOrient().VectorX();
-		fromYaxis	= bayMap[stage].GetOrient().VectorY();
-		fromZaxis	= bayMap[stage].GetOrient().VectorZ();
+		outPosOrient.xaxis	= vector3d(bayMap[stage].GetOrient().VectorX()).Normalized();
+		outPosOrient.yaxis	= vector3d(bayMap[stage].GetOrient().VectorY()).Normalized();
+		outPosOrient.zaxis	= vector3d(bayMap[stage].GetOrient().VectorZ()).Normalized();
 				
 		if (bayMap.find( stage+1 ) != bayMap.end()) {
 			toPos = bayMap[stage+1].GetTranslate();
-			toXaxis = bayMap[stage+1].GetOrient().VectorX();
-			toYaxis = bayMap[stage+1].GetOrient().VectorY();
-			toZaxis = bayMap[stage+1].GetOrient().VectorZ();
 		} else {
-			toPos	= fromPos;
-			toXaxis = fromXaxis;
-			toYaxis = fromYaxis;
-			toZaxis = fromZaxis;
+			toPos = fromPos;
 		}
 		gotOrient = true;
 	}
 
 	if (gotOrient)
 	{
-		vector3f pos	= vlerp(t, fromPos, toPos);
-		vector3f xaxis	= vlerp(t, fromXaxis, toXaxis);
-		vector3f yaxis	= vlerp(t, fromYaxis, toYaxis);
-		vector3f zaxis	= vlerp(t, fromZaxis, toZaxis);
-		xaxis	= xaxis.Normalized();
-		yaxis	= yaxis.Normalized();
-		zaxis	= zaxis.Normalized();
-
+		vector3f pos		= vlerp(t, fromPos, toPos);
 		outPosOrient.pos	= vector3d(pos);
-		outPosOrient.xaxis	= vector3d(xaxis);
-		outPosOrient.yaxis	= vector3d(yaxis);
-		outPosOrient.zaxis	= vector3d(zaxis);
 	}
 
 	return gotOrient;
