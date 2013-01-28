@@ -1,3 +1,10 @@
+-- Temporary mapping while waiting for new-equipment to embed this information.
+local missile_names = {
+	MISSILE_UNGUIDED="missile_unguided",
+	MISSILE_GUIDED="missile_guided",
+	MISSILE_SMART="missile_smart",
+	MISSILE_NAVAL="missile_naval"
+}
 --
 -- Class: Ship
 --
@@ -7,6 +14,72 @@
 --
 -- Group: Methods
 --
+
+-- Method: FireMissileAt
+--
+-- Fire a missile at the given target
+--
+-- > fired = ship:FireMissileAt(type, target)
+--
+-- Parameters:
+--
+--   missile - a <Constants.EquipType> string for the missile type. specifying an
+--          equipment that is not a missile will result in a Lua error.
+--          You can also provide a number matching the slot of the missile you wish
+--          to launch.
+--
+--   target - the <Ship> to fire the missile at
+--
+-- Return:
+--
+--   fired - the fired missile
+--
+-- Availability:
+--
+--   alpha 10
+--
+-- Status:
+--
+--   experimental
+--
+function Ship:FireMissileAt(missile, target)
+	local missile_object = false
+	if type(missile) == "number" then
+		missile_type = self:GetEquip("MISSILE", missile)
+		if missile_type ~= "NONE" then
+			missile_object = self:SpawnMissile(missile_names[missile_type])
+			if missile_object ~= nil then
+				self:SetEquip("MISSILE", missile, "NONE")
+			end
+		end
+	else
+		for i,m in ipairs(self:GetEquip("MISSILE")) do
+			if m == missile then
+				missile_object = self:SpawnMissile(missile_names[missile])
+				if missile_object ~= nil then
+					self:SetEquip("MISSILE", i, "NONE")
+				end
+			end
+		end
+	end
+
+	if missile_object then
+		if target then
+			missile_object:AIKamikaze(target)
+		end
+		-- Let's keep a safe distance before activating this device, shall we ?
+		Timer:CallEvery(2, function ()
+			if missile_object:DistanceTo(self) < 300 then
+				return false
+			else
+				missile_object:Arm()
+				return true
+			end
+		end)
+	end
+
+	return missile_object
+end
 
 --
 -- Method: Refuel

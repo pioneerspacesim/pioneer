@@ -21,6 +21,7 @@ class HyperspaceCloud;
 class AICommand;
 class ShipController;
 class CargoBody;
+class Missile;
 namespace Graphics { class Renderer; }
 
 struct shipstats_t {
@@ -158,7 +159,7 @@ public:
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
 	void UseECM();
-	virtual bool FireMissile(int idx, Ship *target);
+	virtual Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
 
 	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_>
 		ALERT_NONE,
