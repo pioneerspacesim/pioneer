@@ -35,6 +35,7 @@ struct SpaceStationType {
 		vector3d pos;
 		vector3d xaxis;
 		vector3d yaxis;
+		vector3d zaxis;
 	};
 
 	SpaceStationType();

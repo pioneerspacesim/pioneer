@@ -6,6 +6,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Drawables.h"
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "OS.h"
@@ -16,6 +17,7 @@
 //default options
 ModelViewer::Options::Options()
 : attachGuns(false)
+, showDockingLocators(false)
 , showCollMesh(false)
 , showGrid(false)
 , showUI(true)
@@ -209,6 +211,7 @@ bool ModelViewer::OnReloadModel(UI::Widget *w)
 
 bool ModelViewer::OnToggleCollMesh(UI::CheckBox *w)
 {
+	m_options.showDockingLocators = !m_options.showDockingLocators;
 	m_options.showCollMesh = !m_options.showCollMesh;
 	return m_options.showCollMesh;
 }
@@ -337,6 +340,117 @@ void ModelViewer::DrawBackground()
 
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
 }
+#pragma optimize( "", off )
+void ModelViewer::DrawDockingLocators()
+{
+	using namespace Graphics::Drawables;
+
+	static std::vector<Line3D> sLines;
+	static bool sCachedLines = false;
+	if (!sCachedLines)
+	{
+		sLines.clear();
+
+		ModelBase::PortVec::const_iterator portIter = m_model->m_ports.begin();
+		for( ; portIter != m_model->m_ports.end() ; ++portIter )
+		{
+			const ModelBase::Port &MBPort = (*portIter);
+
+			std::map<uint32_t, matrix4x4f>::const_iterator iter = MBPort.m_docking.begin();
+			for( ; iter!=MBPort.m_docking.end(); ++iter) {
+				const vector3f pos = (*iter).second.GetTranslate();
+				const vector3f xAxis = (*iter).second.GetOrient().VectorX() * 100.0f;
+				const vector3f yAxis = (*iter).second.GetOrient().VectorY() * 100.0f;
+				const vector3f zAxis = (*iter).second.GetOrient().VectorZ() * 100.0f;
+				Line3D lineX;
+				lineX.SetStart( pos );
+				lineX.SetEnd( pos + xAxis );
+				lineX.SetColor( Color::RED );
+
+				Line3D lineY;
+				lineY.SetStart( pos );
+				lineY.SetEnd( pos + yAxis );
+				lineY.SetColor( Color::GREEN );
+
+				Line3D lineZ;
+				lineZ.SetStart( pos );
+				lineZ.SetEnd( pos + zAxis );
+				lineZ.SetColor( Color::BLUE );
+
+				sLines.push_back(lineX);
+				sLines.push_back(lineY);
+				sLines.push_back(lineZ);
+			}
+
+			iter = MBPort.m_leaving.begin();
+			for( ; iter!=MBPort.m_leaving.end(); ++iter) {
+				const vector3f pos = (*iter).second.GetTranslate();
+				const vector3f xAxis = (*iter).second.GetOrient().VectorX() * 100.0f;
+				const vector3f yAxis = (*iter).second.GetOrient().VectorY() * 100.0f;
+				const vector3f zAxis = (*iter).second.GetOrient().VectorZ() * 100.0f;
+				Line3D lineX;
+				lineX.SetStart( pos );
+				lineX.SetEnd( pos + xAxis );
+				lineX.SetColor( Color::RED );
+
+				Line3D lineY;
+				lineY.SetStart( pos );
+				lineY.SetEnd( pos + yAxis );
+				lineY.SetColor( Color::GREEN );
+
+				Line3D lineZ;
+				lineZ.SetStart( pos );
+				lineZ.SetEnd( pos + zAxis );
+				lineZ.SetColor( Color::BLUE );
+
+				sLines.push_back(lineX);
+				sLines.push_back(lineY);
+				sLines.push_back(lineZ);
+			}
+
+			iter = MBPort.m_approach.begin();
+			for( ; iter!=MBPort.m_approach.end(); ++iter) {
+				const vector3f pos = (*iter).second.GetTranslate();
+				const vector3f xAxis = (*iter).second.GetOrient().VectorX() * 100.0f;
+				const vector3f yAxis = (*iter).second.GetOrient().VectorY() * 100.0f;
+				const vector3f zAxis = (*iter).second.GetOrient().VectorZ() * 100.0f;
+				Line3D lineX;
+				lineX.SetStart( pos );
+				lineX.SetEnd( pos + xAxis );
+				lineX.SetColor( Color::RED );
+
+				Line3D lineY;
+				lineY.SetStart( pos );
+				lineY.SetEnd( pos + yAxis );
+				lineY.SetColor( Color::GREEN );
+
+				Line3D lineZ;
+				lineZ.SetStart( pos );
+				lineZ.SetEnd( pos + zAxis );
+				lineZ.SetColor( Color::BLUE );
+
+				sLines.push_back(lineX);
+				sLines.push_back(lineY);
+				sLines.push_back(lineZ);
+			}
+
+			/*Color::BLACK;
+			Color::WHITE;
+			Color::RED;
+			Color::GREEN;
+			Color::BLUE;
+			Color::YELLOW;*/
+
+			sCachedLines = true;
+		}
+	}
+
+	std::vector<Line3D>::iterator lineIter = sLines.begin();
+	for( ; lineIter!=sLines.end(); ++lineIter)
+	{
+		(*lineIter).Draw(m_renderer);
+	}
+}
 
 // Draw collision mesh as a wireframe overlay
 void ModelViewer::DrawCollisionMesh()
@@ -432,7 +546,7 @@ void ModelViewer::DrawModel()
 	assert(m_model);
 	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 
-	m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 1000.f);
+	m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 10000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	UpdateLights();
 
@@ -454,6 +568,11 @@ void ModelViewer::DrawModel()
 	if (m_options.showCollMesh) {
 		m_renderer->SetTransform(mv);
 		DrawCollisionMesh();
+	}
+
+	if (m_options.showDockingLocators) {
+		m_renderer->SetTransform(mv);
+		DrawDockingLocators();
 	}
 }
 

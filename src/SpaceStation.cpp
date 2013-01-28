@@ -369,7 +369,7 @@ void SpaceStation::DockingUpdate(const double timeStep)
 			// use end position of last segment for start position of new segment
 			SpaceStationType::positionOrient_t dport;
 			PiVerify(m_type->GetDockAnimPositionOrient(i, dt.stage, 1.0f, dt.fromPos, dport, dt.ship));
-			matrix3x3d fromRot = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis);
+			matrix3x3d fromRot = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis, dport.zaxis);
 			dt.fromRot = Quaterniond::FromMatrix3x3(fromRot);
 			dt.fromPos = dport.pos;
 
@@ -420,7 +420,7 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port) const
 
 	// Still in docking animation process?
 	if (dt.stage <= m_type->numDockingStages) {
-		matrix3x3d wantRot = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis);
+		matrix3x3d wantRot = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis, dport.zaxis);
 		// use quaternion spherical linear interpolation to do
 		// rotation smoothly
 		Quaterniond wantQuat = Quaterniond::FromMatrix3x3(wantRot);
@@ -429,7 +429,7 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port) const
 		ship->SetOrient(GetOrient() * wantRot);
 	} else {
 		// Note: ship bounding box is used to generate dport.pos
-		ship->SetOrient(GetOrient() * matrix3x3d::FromVectors(dport.xaxis, dport.yaxis));
+		ship->SetOrient(GetOrient() * matrix3x3d::FromVectors(dport.xaxis, dport.yaxis, dport.zaxis));
 	}
 }
 

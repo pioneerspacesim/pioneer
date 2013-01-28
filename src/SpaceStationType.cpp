@@ -52,6 +52,10 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 				outPosOrient.pos	= vector3d(rPort.m_approach[stage].GetTranslate());
 				outPosOrient.xaxis	= vector3d(rPort.m_approach[stage].GetOrient().VectorX());
 				outPosOrient.yaxis	= vector3d(rPort.m_approach[stage].GetOrient().VectorY());
+				outPosOrient.zaxis	= vector3d(rPort.m_approach[stage].GetOrient().VectorZ());
+				outPosOrient.xaxis	= outPosOrient.xaxis.Normalized();
+				outPosOrient.yaxis	= outPosOrient.yaxis.Normalized();
+				outPosOrient.zaxis	= outPosOrient.zaxis.Normalized();
 				gotOrient = true;
 			}
 		}
@@ -90,6 +94,9 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 		lua_pushinteger(L, 3);
 		lua_gettable(L, -2);
 		outPosOrient.yaxis = *LuaVector::CheckFromLua(L, -1);
+
+		// calculate te zaxis from the x^y
+		outPosOrient.zaxis = outPosOrient.xaxis.Cross(outPosOrient.yaxis).Normalized();
 		lua_pop(L, 1);
 	} else {
 		gotOrient = false;
@@ -105,6 +112,56 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 vector3f vlerp(double t, const vector3f& v1, const vector3f& v2)
 {
 	return t*v2 + (1.0-t)*v1;
+}
+
+static bool GetPosOrient(ModelBase::Port::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from, 
+				  SpaceStationType::positionOrient_t &outPosOrient, const Ship *ship)
+{
+	bool gotOrient = false;
+
+	vector3f fromPos, toPos;
+	vector3f fromXaxis,	toXaxis;
+	vector3f fromYaxis,	toYaxis;
+	vector3f fromZaxis,	toZaxis;
+
+	const bool bHasStageData = (bayMap.find( stage ) != bayMap.end());
+	if (bHasStageData) {
+		fromPos		= bayMap[stage].GetTranslate();
+		fromXaxis	= bayMap[stage].GetOrient().VectorX();
+		fromYaxis	= bayMap[stage].GetOrient().VectorY();
+		fromZaxis	= bayMap[stage].GetOrient().VectorZ();
+				
+		if (bayMap.find( stage+1 ) != bayMap.end()) {
+			toPos = bayMap[stage+1].GetTranslate();
+			toXaxis = bayMap[stage+1].GetOrient().VectorX();
+			toYaxis = bayMap[stage+1].GetOrient().VectorY();
+			toZaxis = bayMap[stage+1].GetOrient().VectorZ();
+		} else {
+			toPos	= fromPos;
+			toXaxis = fromXaxis;
+			toYaxis = fromYaxis;
+			toZaxis = fromZaxis;
+		}
+		gotOrient = true;
+	}
+
+	if (gotOrient)
+	{
+		vector3f pos	= vlerp(t, fromPos, toPos);
+		vector3f xaxis	= vlerp(t, fromXaxis, toXaxis);
+		vector3f yaxis	= vlerp(t, fromYaxis, toYaxis);
+		vector3f zaxis	= vlerp(t, fromZaxis, toZaxis);
+		xaxis	= xaxis.Normalized();
+		yaxis	= yaxis.Normalized();
+		zaxis	= zaxis.Normalized();
+
+		outPosOrient.pos	= vector3d(pos);
+		outPosOrient.xaxis	= vector3d(xaxis);
+		outPosOrient.yaxis	= vector3d(yaxis);
+		outPosOrient.zaxis	= vector3d(zaxis);
+	}
+
+	return gotOrient;
 }
 
 /* when ship is on rails it returns true and fills outPosOrient.
@@ -124,58 +181,11 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	{
 		assert(port<model->m_ports.size());
 		ModelBase::Port &rPort = model->m_ports[port];
-		vector3f fromPos, toPos;
-		vector3f fromXaxis,	toXaxis;
-		vector3f fromYaxis,	toYaxis;
 		if (stage<0) {
 			const int leavingStage = (-1*stage);
-			const bool bHasStageData = (rPort.m_leaving.find( leavingStage ) != rPort.m_leaving.end());
-			if (bHasStageData) {
-				fromPos		= rPort.m_leaving[leavingStage].GetTranslate();
-				fromXaxis	= rPort.m_leaving[leavingStage].GetOrient().VectorX();
-				fromYaxis	= rPort.m_leaving[leavingStage].GetOrient().VectorY();
-				
-				if (rPort.m_leaving.find( leavingStage+1 ) != rPort.m_leaving.end()) {
-					toPos = rPort.m_leaving[leavingStage+1].GetTranslate();
-					toXaxis = rPort.m_leaving[leavingStage+1].GetOrient().VectorX();
-					toYaxis = rPort.m_leaving[leavingStage+1].GetOrient().VectorY();
-				} else {
-					toPos	= fromPos;
-					toXaxis = fromXaxis;
-					toYaxis = fromYaxis;
-				}
-				gotOrient = true;
-			}
+			gotOrient = GetPosOrient(rPort.m_leaving, leavingStage, t, from, outPosOrient, ship);
 		} else if (stage>0) {
-			const bool bHasStageData = (rPort.m_docking.find( stage ) != rPort.m_docking.end());
-			if (bHasStageData) {
-				fromPos		= rPort.m_docking[stage].GetTranslate();
-				fromXaxis	= rPort.m_docking[stage].GetOrient().VectorX();
-				fromYaxis	= rPort.m_docking[stage].GetOrient().VectorY();
-				if (rPort.m_docking.find( stage+1 ) != rPort.m_docking.end()) {
-					toPos	= rPort.m_docking[stage+1].GetTranslate();
-					toXaxis = rPort.m_docking[stage+1].GetOrient().VectorX();
-					toYaxis = rPort.m_docking[stage+1].GetOrient().VectorY();
-				} else {
-					toPos	= fromPos;
-					toXaxis = fromXaxis;
-					toYaxis = fromYaxis;
-				}
-				gotOrient = true;
-			}
-		}
-
-		if (gotOrient)
-		{
-			vector3f pos	= vlerp(t, fromPos, toPos);
-			vector3f xaxis	= vlerp(t, fromXaxis, toXaxis);
-			vector3f yaxis	= vlerp(t, fromYaxis, toYaxis);
-			xaxis	= xaxis.Normalized();
-			yaxis	= yaxis.Normalized();
-
-			outPosOrient.pos	= vector3d(pos);
-			outPosOrient.xaxis	= vector3d(xaxis);
-			outPosOrient.yaxis	= vector3d(yaxis);
+			gotOrient = GetPosOrient(rPort.m_docking, stage, t, from, outPosOrient, ship);
 		}
 
 		return gotOrient;

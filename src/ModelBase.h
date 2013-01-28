@@ -24,9 +24,10 @@ public:
 
 	struct Port
 	{
-		std::map<uint32_t, matrix4x4f> m_docking;
-		std::map<uint32_t, matrix4x4f> m_leaving;
-		std::map<uint32_t, matrix4x4f> m_approach;
+		typedef std::map<uint32_t, matrix4x4f> TMapBayIDMat;
+		TMapBayIDMat m_docking;
+		TMapBayIDMat m_leaving;
+		TMapBayIDMat m_approach;
 	};
 
 	typedef std::vector<ModelBase::Port> PortVec;
