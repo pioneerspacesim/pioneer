@@ -6,6 +6,7 @@
 #include "FileSystem.h"
 #include "LmrModel.h"
 #include "ModManager.h"
+#include "EnumStrings.h"
 #include "OS.h"
 #include "Ship.h" // for the flight state and ship animation enums
 #include "ShipType.h"
@@ -778,6 +779,8 @@ int main(int argc, char **argv)
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 	ModManager::Init();
+
+	EnumStrings::Init();
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
