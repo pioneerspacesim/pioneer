@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.0">
   <asset>
     <contributor>
       <author></author>
       <authoring_tool>FBX COLLADA exporter</authoring_tool>
       <comments></comments>
     </contributor>
-    <created>2013-01-26T21:56:55Z</created>
-    <keywords></keywords>
-    <modified>2013-01-26T21:56:55Z</modified>
+    <created>2013-01-28T13:45:06Z</created>
+    <modified>2013-01-28T13:45:06Z</modified>
     <revision></revision>
-    <subject></subject>
     <title></title>
-    <unit meter="0.025400" name="centimeter"></unit>
+    <subject></subject>
+    <keywords></keywords>
+    <unit meter="0.025400"/>
     <up_axis>Y_UP</up_axis>
   </asset>
   <library_materials>
@@ -46,7 +46,7 @@
             <reflectivity>
               <float sid="reflectivity">1.000000</float>
             </reflectivity>
-            <transparent opaque="RGB_ZERO">
+            <transparent>
               <color sid="transparent">1.000000  1.000000 1.000000 1.000000</color>
             </transparent>
             <transparency>
@@ -60,8 +60,8 @@
   <library_geometries>
     <geometry id="collision_pad3-lib" name="collision_pad3Mesh">
       <mesh>
-        <source id="collision_pad3-POSITION">
-          <float_array id="collision_pad3-POSITION-array" count="24">
+        <source id="collision_pad3-lib-Position">
+          <float_array id="collision_pad3-lib-Position-array" count="36">
 -108.241997 108.241997 507.292999
 -108.241997 -108.241997 507.292999
 108.241997 -108.241997 507.292999
@@ -70,23 +70,27 @@
 -108.241997 108.241997 507.292999
 108.241989 108.241989 294.526031
 -108.241989 108.241989 294.526031
+-108.241997 108.241997 507.292999
+-108.241997 108.241997 507.292999
+108.241997 108.241997 507.292999
+108.241989 108.241989 294.526031
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad3-POSITION-array" count="8" stride="3">
+            <accessor source="#collision_pad3-lib-Position-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad3-Normal0">
-          <float_array id="collision_pad3-Normal0-array" count="36">
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
+        <source id="collision_pad3-lib-Normal0">
+          <float_array id="collision_pad3-lib-Normal0-array" count="36">
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
@@ -95,15 +99,15 @@
 0.000000 1.000000 -0.000000
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad3-Normal0-array" count="12" stride="3">
+            <accessor source="#collision_pad3-lib-Normal0-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad3-UV0">
-          <float_array id="collision_pad3-UV0-array" count="16">
+        <source id="collision_pad3-lib-UV0">
+          <float_array id="collision_pad3-lib-UV0-array" count="24">
 0.000100 0.999900
 0.000100 0.000100
 0.999900 0.000100
@@ -112,29 +116,36 @@
 0.000100 0.999900
 0.999900 0.999900
 0.000100 0.999900
+0.000100 0.999900
+0.000100 0.999900
+0.999900 0.999900
+0.999900 0.999900
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad3-UV0-array" count="8" stride="2">
+            <accessor source="#collision_pad3-lib-UV0-array" count="12" stride="2">
               <param name="S" type="float"/>
               <param name="T" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <vertices id="collision_pad3-VERTEX">
-          <input semantic="POSITION" source="#collision_pad3-POSITION"/>
+        <vertices id="collision_pad3-lib-Vertex">
+          <input semantic="POSITION" source="#collision_pad3-lib-Position"/>
         </vertices>
-        <triangles count="4" material="JoinedMaterial__2">
-          <input semantic="VERTEX" offset="0" source="#collision_pad3-VERTEX"/>
-          <input semantic="NORMAL" offset="1" source="#collision_pad3-Normal0"/>
-          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad3-UV0"/>
-          <p> 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5 6 6 6 7 7 7 5 8 5 5 9 5 4 10 4 6 11 6</p>
-        </triangles>
+        <polygons material="JoinedMaterial__2" count="4">
+          <input semantic="VERTEX" offset="0" source="#collision_pad3-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#collision_pad3-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad3-lib-UV0"/>
+          <p>0 0 0 1 1 1 2 2 2</p>
+          <p>3 3 3 4 4 4 5 5 5</p>
+          <p>6 6 6 7 7 7 8 8 8</p>
+          <p>9 9 9 10 10 10 11 11 11</p>
+        </polygons>
       </mesh>
     </geometry>
     <geometry id="collision_pad1-lib" name="collision_pad1Mesh">
       <mesh>
-        <source id="collision_pad1-POSITION">
-          <float_array id="collision_pad1-POSITION-array" count="24">
+        <source id="collision_pad1-lib-Position">
+          <float_array id="collision_pad1-lib-Position-array" count="36">
 -108.241997 108.241997 507.292999
 -108.241997 -108.241997 507.292999
 108.241997 -108.241997 507.292999
@@ -143,23 +154,27 @@
 -108.241997 108.241997 507.292999
 108.241989 108.241989 294.526031
 -108.241989 108.241989 294.526031
+-108.241997 108.241997 507.292999
+-108.241997 108.241997 507.292999
+108.241997 108.241997 507.292999
+108.241989 108.241989 294.526031
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad1-POSITION-array" count="8" stride="3">
+            <accessor source="#collision_pad1-lib-Position-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad1-Normal0">
-          <float_array id="collision_pad1-Normal0-array" count="36">
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
+        <source id="collision_pad1-lib-Normal0">
+          <float_array id="collision_pad1-lib-Normal0-array" count="36">
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
@@ -168,15 +183,15 @@
 0.000000 1.000000 -0.000000
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad1-Normal0-array" count="12" stride="3">
+            <accessor source="#collision_pad1-lib-Normal0-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad1-UV0">
-          <float_array id="collision_pad1-UV0-array" count="16">
+        <source id="collision_pad1-lib-UV0">
+          <float_array id="collision_pad1-lib-UV0-array" count="24">
 0.000100 0.999900
 0.000100 0.000100
 0.999900 0.000100
@@ -185,29 +200,36 @@
 0.000100 0.999900
 0.999900 0.999900
 0.000100 0.999900
+0.000100 0.999900
+0.000100 0.999900
+0.999900 0.999900
+0.999900 0.999900
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad1-UV0-array" count="8" stride="2">
+            <accessor source="#collision_pad1-lib-UV0-array" count="12" stride="2">
               <param name="S" type="float"/>
               <param name="T" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <vertices id="collision_pad1-VERTEX">
-          <input semantic="POSITION" source="#collision_pad1-POSITION"/>
+        <vertices id="collision_pad1-lib-Vertex">
+          <input semantic="POSITION" source="#collision_pad1-lib-Position"/>
         </vertices>
-        <triangles count="4" material="JoinedMaterial__2">
-          <input semantic="VERTEX" offset="0" source="#collision_pad1-VERTEX"/>
-          <input semantic="NORMAL" offset="1" source="#collision_pad1-Normal0"/>
-          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad1-UV0"/>
-          <p> 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5 6 6 6 7 7 7 5 8 5 5 9 5 4 10 4 6 11 6</p>
-        </triangles>
+        <polygons material="JoinedMaterial__2" count="4">
+          <input semantic="VERTEX" offset="0" source="#collision_pad1-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#collision_pad1-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad1-lib-UV0"/>
+          <p>0 0 0 1 1 1 2 2 2</p>
+          <p>3 3 3 4 4 4 5 5 5</p>
+          <p>6 6 6 7 7 7 8 8 8</p>
+          <p>9 9 9 10 10 10 11 11 11</p>
+        </polygons>
       </mesh>
     </geometry>
     <geometry id="collision_pad5-lib" name="collision_pad5Mesh">
       <mesh>
-        <source id="collision_pad5-POSITION">
-          <float_array id="collision_pad5-POSITION-array" count="24">
+        <source id="collision_pad5-lib-Position">
+          <float_array id="collision_pad5-lib-Position-array" count="36">
 -108.241997 108.241997 507.292999
 -108.241997 -108.241997 507.292999
 108.241997 -108.241997 507.292999
@@ -216,23 +238,27 @@
 -108.241997 108.241997 507.292999
 108.241989 108.241989 294.526031
 -108.241989 108.241989 294.526031
+-108.241997 108.241997 507.292999
+-108.241997 108.241997 507.292999
+108.241997 108.241997 507.292999
+108.241989 108.241989 294.526031
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad5-POSITION-array" count="8" stride="3">
+            <accessor source="#collision_pad5-lib-Position-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad5-Normal0">
-          <float_array id="collision_pad5-Normal0-array" count="36">
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
+        <source id="collision_pad5-lib-Normal0">
+          <float_array id="collision_pad5-lib-Normal0-array" count="36">
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
@@ -241,15 +267,15 @@
 0.000000 1.000000 -0.000000
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad5-Normal0-array" count="12" stride="3">
+            <accessor source="#collision_pad5-lib-Normal0-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad5-UV0">
-          <float_array id="collision_pad5-UV0-array" count="16">
+        <source id="collision_pad5-lib-UV0">
+          <float_array id="collision_pad5-lib-UV0-array" count="24">
 0.000100 0.999900
 0.000100 0.000100
 0.999900 0.000100
@@ -258,29 +284,36 @@
 0.000100 0.999900
 0.999900 0.999900
 0.000100 0.999900
+0.000100 0.999900
+0.000100 0.999900
+0.999900 0.999900
+0.999900 0.999900
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad5-UV0-array" count="8" stride="2">
+            <accessor source="#collision_pad5-lib-UV0-array" count="12" stride="2">
               <param name="S" type="float"/>
               <param name="T" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <vertices id="collision_pad5-VERTEX">
-          <input semantic="POSITION" source="#collision_pad5-POSITION"/>
+        <vertices id="collision_pad5-lib-Vertex">
+          <input semantic="POSITION" source="#collision_pad5-lib-Position"/>
         </vertices>
-        <triangles count="4" material="JoinedMaterial__2">
-          <input semantic="VERTEX" offset="0" source="#collision_pad5-VERTEX"/>
-          <input semantic="NORMAL" offset="1" source="#collision_pad5-Normal0"/>
-          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad5-UV0"/>
-          <p> 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5 6 6 6 7 7 7 5 8 5 5 9 5 4 10 4 6 11 6</p>
-        </triangles>
+        <polygons material="JoinedMaterial__2" count="4">
+          <input semantic="VERTEX" offset="0" source="#collision_pad5-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#collision_pad5-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad5-lib-UV0"/>
+          <p>0 0 0 1 1 1 2 2 2</p>
+          <p>3 3 3 4 4 4 5 5 5</p>
+          <p>6 6 6 7 7 7 8 8 8</p>
+          <p>9 9 9 10 10 10 11 11 11</p>
+        </polygons>
       </mesh>
     </geometry>
     <geometry id="collision_pad7-lib" name="collision_pad7Mesh">
       <mesh>
-        <source id="collision_pad7-POSITION">
-          <float_array id="collision_pad7-POSITION-array" count="24">
+        <source id="collision_pad7-lib-Position">
+          <float_array id="collision_pad7-lib-Position-array" count="36">
 -108.241997 108.241997 507.292999
 -108.241997 -108.241997 507.292999
 108.241997 -108.241997 507.292999
@@ -289,23 +322,27 @@
 -108.241997 108.241997 507.292999
 108.241989 108.241989 294.526031
 -108.241989 108.241989 294.526031
+-108.241997 108.241997 507.292999
+-108.241997 108.241997 507.292999
+108.241997 108.241997 507.292999
+108.241989 108.241989 294.526031
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad7-POSITION-array" count="8" stride="3">
+            <accessor source="#collision_pad7-lib-Position-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad7-Normal0">
-          <float_array id="collision_pad7-Normal0-array" count="36">
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
+        <source id="collision_pad7-lib-Normal0">
+          <float_array id="collision_pad7-lib-Normal0-array" count="36">
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
@@ -314,15 +351,15 @@
 0.000000 1.000000 -0.000000
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad7-Normal0-array" count="12" stride="3">
+            <accessor source="#collision_pad7-lib-Normal0-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad7-UV0">
-          <float_array id="collision_pad7-UV0-array" count="16">
+        <source id="collision_pad7-lib-UV0">
+          <float_array id="collision_pad7-lib-UV0-array" count="24">
 0.000100 0.999900
 0.000100 0.000100
 0.999900 0.000100
@@ -331,29 +368,36 @@
 0.000100 0.999900
 0.999900 0.999900
 0.000100 0.999900
+0.000100 0.999900
+0.000100 0.999900
+0.999900 0.999900
+0.999900 0.999900
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad7-UV0-array" count="8" stride="2">
+            <accessor source="#collision_pad7-lib-UV0-array" count="12" stride="2">
               <param name="S" type="float"/>
               <param name="T" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <vertices id="collision_pad7-VERTEX">
-          <input semantic="POSITION" source="#collision_pad7-POSITION"/>
+        <vertices id="collision_pad7-lib-Vertex">
+          <input semantic="POSITION" source="#collision_pad7-lib-Position"/>
         </vertices>
-        <triangles count="4" material="JoinedMaterial__2">
-          <input semantic="VERTEX" offset="0" source="#collision_pad7-VERTEX"/>
-          <input semantic="NORMAL" offset="1" source="#collision_pad7-Normal0"/>
-          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad7-UV0"/>
-          <p> 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5 6 6 6 7 7 7 5 8 5 5 9 5 4 10 4 6 11 6</p>
-        </triangles>
+        <polygons material="JoinedMaterial__2" count="4">
+          <input semantic="VERTEX" offset="0" source="#collision_pad7-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#collision_pad7-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad7-lib-UV0"/>
+          <p>0 0 0 1 1 1 2 2 2</p>
+          <p>3 3 3 4 4 4 5 5 5</p>
+          <p>6 6 6 7 7 7 8 8 8</p>
+          <p>9 9 9 10 10 10 11 11 11</p>
+        </polygons>
       </mesh>
     </geometry>
     <geometry id="collision_pad8-lib" name="collision_pad8Mesh">
       <mesh>
-        <source id="collision_pad8-POSITION">
-          <float_array id="collision_pad8-POSITION-array" count="24">
+        <source id="collision_pad8-lib-Position">
+          <float_array id="collision_pad8-lib-Position-array" count="36">
 -108.241997 108.241997 507.292999
 -108.241997 -108.241997 507.292999
 108.241997 -108.241997 507.292999
@@ -362,23 +406,27 @@
 -108.241997 108.241997 507.292999
 108.241989 108.241989 294.526031
 -108.241989 108.241989 294.526031
+-108.241997 108.241997 507.292999
+-108.241997 108.241997 507.292999
+108.241997 108.241997 507.292999
+108.241989 108.241989 294.526031
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad8-POSITION-array" count="8" stride="3">
+            <accessor source="#collision_pad8-lib-Position-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad8-Normal0">
-          <float_array id="collision_pad8-Normal0-array" count="36">
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
+        <source id="collision_pad8-lib-Normal0">
+          <float_array id="collision_pad8-lib-Normal0-array" count="36">
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
@@ -387,15 +435,15 @@
 0.000000 1.000000 -0.000000
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad8-Normal0-array" count="12" stride="3">
+            <accessor source="#collision_pad8-lib-Normal0-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad8-UV0">
-          <float_array id="collision_pad8-UV0-array" count="16">
+        <source id="collision_pad8-lib-UV0">
+          <float_array id="collision_pad8-lib-UV0-array" count="24">
 0.000100 0.999900
 0.000100 0.000100
 0.999900 0.000100
@@ -404,29 +452,36 @@
 0.000100 0.999900
 0.999900 0.999900
 0.000100 0.999900
+0.000100 0.999900
+0.000100 0.999900
+0.999900 0.999900
+0.999900 0.999900
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad8-UV0-array" count="8" stride="2">
+            <accessor source="#collision_pad8-lib-UV0-array" count="12" stride="2">
               <param name="S" type="float"/>
               <param name="T" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <vertices id="collision_pad8-VERTEX">
-          <input semantic="POSITION" source="#collision_pad8-POSITION"/>
+        <vertices id="collision_pad8-lib-Vertex">
+          <input semantic="POSITION" source="#collision_pad8-lib-Position"/>
         </vertices>
-        <triangles count="4" material="JoinedMaterial__2">
-          <input semantic="VERTEX" offset="0" source="#collision_pad8-VERTEX"/>
-          <input semantic="NORMAL" offset="1" source="#collision_pad8-Normal0"/>
-          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad8-UV0"/>
-          <p> 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5 6 6 6 7 7 7 5 8 5 5 9 5 4 10 4 6 11 6</p>
-        </triangles>
+        <polygons material="JoinedMaterial__2" count="4">
+          <input semantic="VERTEX" offset="0" source="#collision_pad8-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#collision_pad8-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad8-lib-UV0"/>
+          <p>0 0 0 1 1 1 2 2 2</p>
+          <p>3 3 3 4 4 4 5 5 5</p>
+          <p>6 6 6 7 7 7 8 8 8</p>
+          <p>9 9 9 10 10 10 11 11 11</p>
+        </polygons>
       </mesh>
     </geometry>
     <geometry id="collision_pad6-lib" name="collision_pad6Mesh">
       <mesh>
-        <source id="collision_pad6-POSITION">
-          <float_array id="collision_pad6-POSITION-array" count="24">
+        <source id="collision_pad6-lib-Position">
+          <float_array id="collision_pad6-lib-Position-array" count="36">
 -108.241997 108.241997 507.292999
 -108.241997 -108.241997 507.292999
 108.241997 -108.241997 507.292999
@@ -435,23 +490,27 @@
 -108.241997 108.241997 507.292999
 108.241989 108.241989 294.526031
 -108.241989 108.241989 294.526031
+-108.241997 108.241997 507.292999
+-108.241997 108.241997 507.292999
+108.241997 108.241997 507.292999
+108.241989 108.241989 294.526031
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad6-POSITION-array" count="8" stride="3">
+            <accessor source="#collision_pad6-lib-Position-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad6-Normal0">
-          <float_array id="collision_pad6-Normal0-array" count="36">
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
+        <source id="collision_pad6-lib-Normal0">
+          <float_array id="collision_pad6-lib-Normal0-array" count="36">
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
@@ -460,15 +519,15 @@
 0.000000 1.000000 -0.000000
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad6-Normal0-array" count="12" stride="3">
+            <accessor source="#collision_pad6-lib-Normal0-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad6-UV0">
-          <float_array id="collision_pad6-UV0-array" count="16">
+        <source id="collision_pad6-lib-UV0">
+          <float_array id="collision_pad6-lib-UV0-array" count="24">
 0.000100 0.999900
 0.000100 0.000100
 0.999900 0.000100
@@ -477,29 +536,36 @@
 0.000100 0.999900
 0.999900 0.999900
 0.000100 0.999900
+0.000100 0.999900
+0.000100 0.999900
+0.999900 0.999900
+0.999900 0.999900
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad6-UV0-array" count="8" stride="2">
+            <accessor source="#collision_pad6-lib-UV0-array" count="12" stride="2">
               <param name="S" type="float"/>
               <param name="T" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <vertices id="collision_pad6-VERTEX">
-          <input semantic="POSITION" source="#collision_pad6-POSITION"/>
+        <vertices id="collision_pad6-lib-Vertex">
+          <input semantic="POSITION" source="#collision_pad6-lib-Position"/>
         </vertices>
-        <triangles count="4" material="JoinedMaterial__2">
-          <input semantic="VERTEX" offset="0" source="#collision_pad6-VERTEX"/>
-          <input semantic="NORMAL" offset="1" source="#collision_pad6-Normal0"/>
-          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad6-UV0"/>
-          <p> 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5 6 6 6 7 7 7 5 8 5 5 9 5 4 10 4 6 11 6</p>
-        </triangles>
+        <polygons material="JoinedMaterial__2" count="4">
+          <input semantic="VERTEX" offset="0" source="#collision_pad6-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#collision_pad6-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad6-lib-UV0"/>
+          <p>0 0 0 1 1 1 2 2 2</p>
+          <p>3 3 3 4 4 4 5 5 5</p>
+          <p>6 6 6 7 7 7 8 8 8</p>
+          <p>9 9 9 10 10 10 11 11 11</p>
+        </polygons>
       </mesh>
     </geometry>
     <geometry id="collision_pad4-lib" name="collision_pad4Mesh">
       <mesh>
-        <source id="collision_pad4-POSITION">
-          <float_array id="collision_pad4-POSITION-array" count="24">
+        <source id="collision_pad4-lib-Position">
+          <float_array id="collision_pad4-lib-Position-array" count="36">
 -108.241997 108.241997 507.292999
 -108.241997 -108.241997 507.292999
 108.241997 -108.241997 507.292999
@@ -508,23 +574,27 @@
 -108.241997 108.241997 507.292999
 108.241989 108.241989 294.526031
 -108.241989 108.241989 294.526031
+-108.241997 108.241997 507.292999
+-108.241997 108.241997 507.292999
+108.241997 108.241997 507.292999
+108.241989 108.241989 294.526031
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad4-POSITION-array" count="8" stride="3">
+            <accessor source="#collision_pad4-lib-Position-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad4-Normal0">
-          <float_array id="collision_pad4-Normal0-array" count="36">
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
+        <source id="collision_pad4-lib-Normal0">
+          <float_array id="collision_pad4-lib-Normal0-array" count="36">
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
@@ -533,15 +603,15 @@
 0.000000 1.000000 -0.000000
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad4-Normal0-array" count="12" stride="3">
+            <accessor source="#collision_pad4-lib-Normal0-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad4-UV0">
-          <float_array id="collision_pad4-UV0-array" count="16">
+        <source id="collision_pad4-lib-UV0">
+          <float_array id="collision_pad4-lib-UV0-array" count="24">
 0.000100 0.999900
 0.000100 0.000100
 0.999900 0.000100
@@ -550,29 +620,36 @@
 0.000100 0.999900
 0.999900 0.999900
 0.000100 0.999900
+0.000100 0.999900
+0.000100 0.999900
+0.999900 0.999900
+0.999900 0.999900
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad4-UV0-array" count="8" stride="2">
+            <accessor source="#collision_pad4-lib-UV0-array" count="12" stride="2">
               <param name="S" type="float"/>
               <param name="T" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <vertices id="collision_pad4-VERTEX">
-          <input semantic="POSITION" source="#collision_pad4-POSITION"/>
+        <vertices id="collision_pad4-lib-Vertex">
+          <input semantic="POSITION" source="#collision_pad4-lib-Position"/>
         </vertices>
-        <triangles count="4" material="JoinedMaterial__2">
-          <input semantic="VERTEX" offset="0" source="#collision_pad4-VERTEX"/>
-          <input semantic="NORMAL" offset="1" source="#collision_pad4-Normal0"/>
-          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad4-UV0"/>
-          <p> 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5 6 6 6 7 7 7 5 8 5 5 9 5 4 10 4 6 11 6</p>
-        </triangles>
+        <polygons material="JoinedMaterial__2" count="4">
+          <input semantic="VERTEX" offset="0" source="#collision_pad4-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#collision_pad4-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad4-lib-UV0"/>
+          <p>0 0 0 1 1 1 2 2 2</p>
+          <p>3 3 3 4 4 4 5 5 5</p>
+          <p>6 6 6 7 7 7 8 8 8</p>
+          <p>9 9 9 10 10 10 11 11 11</p>
+        </polygons>
       </mesh>
     </geometry>
     <geometry id="collision_pad2-lib" name="collision_pad2Mesh">
       <mesh>
-        <source id="collision_pad2-POSITION">
-          <float_array id="collision_pad2-POSITION-array" count="24">
+        <source id="collision_pad2-lib-Position">
+          <float_array id="collision_pad2-lib-Position-array" count="36">
 -108.241997 108.241997 507.292999
 -108.241997 -108.241997 507.292999
 108.241997 -108.241997 507.292999
@@ -581,23 +658,27 @@
 -108.241997 108.241997 507.292999
 108.241989 108.241989 294.526031
 -108.241989 108.241989 294.526031
+-108.241997 108.241997 507.292999
+-108.241997 108.241997 507.292999
+108.241997 108.241997 507.292999
+108.241989 108.241989 294.526031
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad2-POSITION-array" count="8" stride="3">
+            <accessor source="#collision_pad2-lib-Position-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad2-Normal0">
-          <float_array id="collision_pad2-Normal0-array" count="36">
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
-0.000000 -1.000000 0.000000
+        <source id="collision_pad2-lib-Normal0">
+          <float_array id="collision_pad2-lib-Normal0-array" count="36">
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
 0.000000 1.000000 -0.000000
@@ -606,15 +687,15 @@
 0.000000 1.000000 -0.000000
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad2-Normal0-array" count="12" stride="3">
+            <accessor source="#collision_pad2-lib-Normal0-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="collision_pad2-UV0">
-          <float_array id="collision_pad2-UV0-array" count="16">
+        <source id="collision_pad2-lib-UV0">
+          <float_array id="collision_pad2-lib-UV0-array" count="24">
 0.000100 0.999900
 0.000100 0.000100
 0.999900 0.000100
@@ -623,328 +704,37 @@
 0.000100 0.999900
 0.999900 0.999900
 0.000100 0.999900
+0.000100 0.999900
+0.000100 0.999900
+0.999900 0.999900
+0.999900 0.999900
 </float_array>
           <technique_common>
-            <accessor source="#collision_pad2-UV0-array" count="8" stride="2">
+            <accessor source="#collision_pad2-lib-UV0-array" count="12" stride="2">
               <param name="S" type="float"/>
               <param name="T" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <vertices id="collision_pad2-VERTEX">
-          <input semantic="POSITION" source="#collision_pad2-POSITION"/>
+        <vertices id="collision_pad2-lib-Vertex">
+          <input semantic="POSITION" source="#collision_pad2-lib-Position"/>
         </vertices>
-        <triangles count="4" material="JoinedMaterial__2">
-          <input semantic="VERTEX" offset="0" source="#collision_pad2-VERTEX"/>
-          <input semantic="NORMAL" offset="1" source="#collision_pad2-Normal0"/>
-          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad2-UV0"/>
-          <p> 0 0 0 1 1 1 2 2 2 3 3 3 4 4 4 5 5 5 6 6 6 7 7 7 5 8 5 5 9 5 4 10 4 6 11 6</p>
-        </triangles>
+        <polygons material="JoinedMaterial__2" count="4">
+          <input semantic="VERTEX" offset="0" source="#collision_pad2-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#collision_pad2-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#collision_pad2-lib-UV0"/>
+          <p>0 0 0 1 1 1 2 2 2</p>
+          <p>3 3 3 4 4 4 5 5 5</p>
+          <p>6 6 6 7 7 7 8 8 8</p>
+          <p>9 9 9 10 10 10 11 11 11</p>
+        </polygons>
       </mesh>
     </geometry>
   </library_geometries>
-  <library_animations>
-    <animation id="leaving_port1_stage2-anim" name="leaving_port1_stage2">
-      <animation>
-        <source id="leaving_port1_stage2-Matrix-animation-input">
-          <float_array id="leaving_port1_stage2-Matrix-animation-input-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#leaving_port1_stage2-Matrix-animation-input-array" count="0">
-              <param name="TIME" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="leaving_port1_stage2-Matrix-animation-output-transform">
-          <float_array id="leaving_port1_stage2-Matrix-animation-output-transform-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#leaving_port1_stage2-Matrix-animation-output-transform-array" count="0" stride="16">
-              <param type="float4x4"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="leaving_port1_stage2-Interpolations">
-          <Name_array id="leaving_port1_stage2-Interpolations-array" count="0">
-</Name_array>
-          <technique_common>
-            <accessor source="#leaving_port1_stage2-Interpolations-array" count="0">
-              <param type="name"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <sampler id="leaving_port1_stage2-Matrix-animation-transform">
-          <input semantic="INPUT" source="#leaving_port1_stage2-Matrix-animation-input"/>
-          <input semantic="OUTPUT" source="#leaving_port1_stage2-Matrix-animation-output-transform"/>
-          <input semantic="INTERPOLATION" source="#leaving_port1_stage2-Interpolations"/>
-        </sampler>
-        <channel source="#leaving_port1_stage2-Matrix-animation-transform" target="leaving_port1_stage2/matrix"/>
-      </animation>
-    </animation>
-    <animation id="leaving_port1_stage1-anim" name="leaving_port1_stage1">
-      <animation>
-        <source id="leaving_port1_stage1-Matrix-animation-input">
-          <float_array id="leaving_port1_stage1-Matrix-animation-input-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#leaving_port1_stage1-Matrix-animation-input-array" count="0">
-              <param name="TIME" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="leaving_port1_stage1-Matrix-animation-output-transform">
-          <float_array id="leaving_port1_stage1-Matrix-animation-output-transform-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#leaving_port1_stage1-Matrix-animation-output-transform-array" count="0" stride="16">
-              <param type="float4x4"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="leaving_port1_stage1-Interpolations">
-          <Name_array id="leaving_port1_stage1-Interpolations-array" count="0">
-</Name_array>
-          <technique_common>
-            <accessor source="#leaving_port1_stage1-Interpolations-array" count="0">
-              <param type="name"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <sampler id="leaving_port1_stage1-Matrix-animation-transform">
-          <input semantic="INPUT" source="#leaving_port1_stage1-Matrix-animation-input"/>
-          <input semantic="OUTPUT" source="#leaving_port1_stage1-Matrix-animation-output-transform"/>
-          <input semantic="INTERPOLATION" source="#leaving_port1_stage1-Interpolations"/>
-        </sampler>
-        <channel source="#leaving_port1_stage1-Matrix-animation-transform" target="leaving_port1_stage1/matrix"/>
-      </animation>
-    </animation>
-    <animation id="leaving_port1_stage3-anim" name="leaving_port1_stage3">
-      <animation>
-        <source id="leaving_port1_stage3-Matrix-animation-input">
-          <float_array id="leaving_port1_stage3-Matrix-animation-input-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#leaving_port1_stage3-Matrix-animation-input-array" count="0">
-              <param name="TIME" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="leaving_port1_stage3-Matrix-animation-output-transform">
-          <float_array id="leaving_port1_stage3-Matrix-animation-output-transform-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#leaving_port1_stage3-Matrix-animation-output-transform-array" count="0" stride="16">
-              <param type="float4x4"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="leaving_port1_stage3-Interpolations">
-          <Name_array id="leaving_port1_stage3-Interpolations-array" count="0">
-</Name_array>
-          <technique_common>
-            <accessor source="#leaving_port1_stage3-Interpolations-array" count="0">
-              <param type="name"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <sampler id="leaving_port1_stage3-Matrix-animation-transform">
-          <input semantic="INPUT" source="#leaving_port1_stage3-Matrix-animation-input"/>
-          <input semantic="OUTPUT" source="#leaving_port1_stage3-Matrix-animation-output-transform"/>
-          <input semantic="INTERPOLATION" source="#leaving_port1_stage3-Interpolations"/>
-        </sampler>
-        <channel source="#leaving_port1_stage3-Matrix-animation-transform" target="leaving_port1_stage3/matrix"/>
-      </animation>
-    </animation>
-    <animation id="approach_port1_stage1-anim" name="approach_port1_stage1">
-      <animation>
-        <source id="approach_port1_stage1-Matrix-animation-input">
-          <float_array id="approach_port1_stage1-Matrix-animation-input-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#approach_port1_stage1-Matrix-animation-input-array" count="0">
-              <param name="TIME" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="approach_port1_stage1-Matrix-animation-output-transform">
-          <float_array id="approach_port1_stage1-Matrix-animation-output-transform-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#approach_port1_stage1-Matrix-animation-output-transform-array" count="0" stride="16">
-              <param type="float4x4"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="approach_port1_stage1-Interpolations">
-          <Name_array id="approach_port1_stage1-Interpolations-array" count="0">
-</Name_array>
-          <technique_common>
-            <accessor source="#approach_port1_stage1-Interpolations-array" count="0">
-              <param type="name"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <sampler id="approach_port1_stage1-Matrix-animation-transform">
-          <input semantic="INPUT" source="#approach_port1_stage1-Matrix-animation-input"/>
-          <input semantic="OUTPUT" source="#approach_port1_stage1-Matrix-animation-output-transform"/>
-          <input semantic="INTERPOLATION" source="#approach_port1_stage1-Interpolations"/>
-        </sampler>
-        <channel source="#approach_port1_stage1-Matrix-animation-transform" target="approach_port1_stage1/matrix"/>
-      </animation>
-    </animation>
-    <animation id="approach_port1_stage2-anim" name="approach_port1_stage2">
-      <animation>
-        <source id="approach_port1_stage2-Matrix-animation-input">
-          <float_array id="approach_port1_stage2-Matrix-animation-input-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#approach_port1_stage2-Matrix-animation-input-array" count="0">
-              <param name="TIME" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="approach_port1_stage2-Matrix-animation-output-transform">
-          <float_array id="approach_port1_stage2-Matrix-animation-output-transform-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#approach_port1_stage2-Matrix-animation-output-transform-array" count="0" stride="16">
-              <param type="float4x4"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="approach_port1_stage2-Interpolations">
-          <Name_array id="approach_port1_stage2-Interpolations-array" count="0">
-</Name_array>
-          <technique_common>
-            <accessor source="#approach_port1_stage2-Interpolations-array" count="0">
-              <param type="name"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <sampler id="approach_port1_stage2-Matrix-animation-transform">
-          <input semantic="INPUT" source="#approach_port1_stage2-Matrix-animation-input"/>
-          <input semantic="OUTPUT" source="#approach_port1_stage2-Matrix-animation-output-transform"/>
-          <input semantic="INTERPOLATION" source="#approach_port1_stage2-Interpolations"/>
-        </sampler>
-        <channel source="#approach_port1_stage2-Matrix-animation-transform" target="approach_port1_stage2/matrix"/>
-      </animation>
-    </animation>
-    <animation id="docking_port1_stage4-anim" name="docking_port1_stage4">
-      <animation>
-        <source id="docking_port1_stage4-Matrix-animation-input">
-          <float_array id="docking_port1_stage4-Matrix-animation-input-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#docking_port1_stage4-Matrix-animation-input-array" count="0">
-              <param name="TIME" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="docking_port1_stage4-Matrix-animation-output-transform">
-          <float_array id="docking_port1_stage4-Matrix-animation-output-transform-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#docking_port1_stage4-Matrix-animation-output-transform-array" count="0" stride="16">
-              <param type="float4x4"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="docking_port1_stage4-Interpolations">
-          <Name_array id="docking_port1_stage4-Interpolations-array" count="0">
-</Name_array>
-          <technique_common>
-            <accessor source="#docking_port1_stage4-Interpolations-array" count="0">
-              <param type="name"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <sampler id="docking_port1_stage4-Matrix-animation-transform">
-          <input semantic="INPUT" source="#docking_port1_stage4-Matrix-animation-input"/>
-          <input semantic="OUTPUT" source="#docking_port1_stage4-Matrix-animation-output-transform"/>
-          <input semantic="INTERPOLATION" source="#docking_port1_stage4-Interpolations"/>
-        </sampler>
-        <channel source="#docking_port1_stage4-Matrix-animation-transform" target="docking_port1_stage4/matrix"/>
-      </animation>
-    </animation>
-    <animation id="docking_port1_stage3-anim" name="docking_port1_stage3">
-      <animation>
-        <source id="docking_port1_stage3-Matrix-animation-input">
-          <float_array id="docking_port1_stage3-Matrix-animation-input-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#docking_port1_stage3-Matrix-animation-input-array" count="0">
-              <param name="TIME" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="docking_port1_stage3-Matrix-animation-output-transform">
-          <float_array id="docking_port1_stage3-Matrix-animation-output-transform-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#docking_port1_stage3-Matrix-animation-output-transform-array" count="0" stride="16">
-              <param type="float4x4"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="docking_port1_stage3-Interpolations">
-          <Name_array id="docking_port1_stage3-Interpolations-array" count="0">
-</Name_array>
-          <technique_common>
-            <accessor source="#docking_port1_stage3-Interpolations-array" count="0">
-              <param type="name"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <sampler id="docking_port1_stage3-Matrix-animation-transform">
-          <input semantic="INPUT" source="#docking_port1_stage3-Matrix-animation-input"/>
-          <input semantic="OUTPUT" source="#docking_port1_stage3-Matrix-animation-output-transform"/>
-          <input semantic="INTERPOLATION" source="#docking_port1_stage3-Interpolations"/>
-        </sampler>
-        <channel source="#docking_port1_stage3-Matrix-animation-transform" target="docking_port1_stage3/matrix"/>
-      </animation>
-    </animation>
-    <animation id="docking_port1_stage2-anim" name="docking_port1_stage2">
-      <animation>
-        <source id="docking_port1_stage2-Matrix-animation-input">
-          <float_array id="docking_port1_stage2-Matrix-animation-input-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#docking_port1_stage2-Matrix-animation-input-array" count="0">
-              <param name="TIME" type="float"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="docking_port1_stage2-Matrix-animation-output-transform">
-          <float_array id="docking_port1_stage2-Matrix-animation-output-transform-array" count="0">
-</float_array>
-          <technique_common>
-            <accessor source="#docking_port1_stage2-Matrix-animation-output-transform-array" count="0" stride="16">
-              <param type="float4x4"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <source id="docking_port1_stage2-Interpolations">
-          <Name_array id="docking_port1_stage2-Interpolations-array" count="0">
-</Name_array>
-          <technique_common>
-            <accessor source="#docking_port1_stage2-Interpolations-array" count="0">
-              <param type="name"/>
-            </accessor>
-          </technique_common>
-        </source>
-        <sampler id="docking_port1_stage2-Matrix-animation-transform">
-          <input semantic="INPUT" source="#docking_port1_stage2-Matrix-animation-input"/>
-          <input semantic="OUTPUT" source="#docking_port1_stage2-Matrix-animation-output-transform"/>
-          <input semantic="INTERPOLATION" source="#docking_port1_stage2-Interpolations"/>
-        </sampler>
-        <channel source="#docking_port1_stage2-Matrix-animation-transform" target="docking_port1_stage2/matrix"/>
-      </animation>
-    </animation>
-  </library_animations>
   <library_visual_scenes>
-    <visual_scene id="" name="">
-      <node name="collision_pad3" id="collision_pad3" sid="collision_pad3">
-        <matrix sid="matrix">0.000000 0.594873 0.000000 -10.186523 0.902416 -0.000000 0.000000 198.900391 0.000000 0.000000 -1.000000 -190.482880 0.000000 0.000000 0.000000 1.000000</matrix>
+    <visual_scene id="RootNode" name="RootNode">
+      <node id="collision_pad3" name="collision_pad3">
+        <matrix sid="matrix">0.000000 0.000000 -1.000000 -190.482910 0.000000 -0.594873 -0.000000 0.000000 -0.902416 0.000000 -0.000000 -199.999985 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_pad3-lib">
           <bind_material>
             <technique_common>
@@ -952,14 +742,9 @@
             </technique_common>
           </bind_material>
         </instance_geometry>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
       </node>
-      <node name="collision_pad1" id="collision_pad1" sid="collision_pad1">
-        <matrix sid="matrix">0.000000 0.594873 0.000000 -10.186523 0.902416 -0.000000 0.000000 798.900391 0.000000 0.000000 -1.000000 -190.482880 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="collision_pad1" name="collision_pad1">
+        <matrix sid="matrix">0.000000 0.000000 -1.000000 -190.482910 0.000000 -0.594873 -0.000000 0.000000 -0.902416 0.000000 -0.000000 -800.000000 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_pad1-lib">
           <bind_material>
             <technique_common>
@@ -967,14 +752,9 @@
             </technique_common>
           </bind_material>
         </instance_geometry>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
       </node>
-      <node name="collision_pad5" id="collision_pad5" sid="collision_pad5">
-        <matrix sid="matrix">0.000000 0.594873 0.000000 -10.186523 0.902416 -0.000000 0.000000 -201.099609 0.000000 0.000000 -1.000000 -190.482880 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="collision_pad5" name="collision_pad5">
+        <matrix sid="matrix">0.000000 0.000000 -1.000000 -190.482864 0.000000 -0.594873 -0.000000 0.000000 -0.902416 0.000000 -0.000000 200.000031 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_pad5-lib">
           <bind_material>
             <technique_common>
@@ -982,14 +762,9 @@
             </technique_common>
           </bind_material>
         </instance_geometry>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
       </node>
-      <node name="collision_pad7" id="collision_pad7" sid="collision_pad7">
-        <matrix sid="matrix">0.000000 0.594873 0.000000 -10.186523 0.902416 -0.000000 0.000000 -802.493103 0.000000 0.000000 -1.000000 -190.482880 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="collision_pad7" name="collision_pad7">
+        <matrix sid="matrix">0.000000 0.000000 -1.000000 -190.482849 0.000000 -0.594873 -0.000000 0.000000 -0.902416 0.000000 -0.000000 801.393433 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_pad7-lib">
           <bind_material>
             <technique_common>
@@ -997,14 +772,9 @@
             </technique_common>
           </bind_material>
         </instance_geometry>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
       </node>
-      <node name="collision_pad8" id="collision_pad8" sid="collision_pad8">
-        <matrix sid="matrix">-0.000000 0.594873 -0.000000 -10.186523 0.902416 0.000000 -0.000000 -802.493103 0.000000 0.000000 1.000000 190.483002 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="collision_pad8" name="collision_pad8">
+        <matrix sid="matrix">-0.000000 -0.000000 1.000000 190.483032 0.000000 -0.594873 -0.000000 0.000000 -0.902416 0.000000 -0.000000 801.393555 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_pad8-lib">
           <bind_material>
             <technique_common>
@@ -1012,14 +782,9 @@
             </technique_common>
           </bind_material>
         </instance_geometry>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
       </node>
-      <node name="collision_pad6" id="collision_pad6" sid="collision_pad6">
-        <matrix sid="matrix">-0.000000 0.594873 -0.000000 -10.186523 0.902416 0.000000 -0.000000 -201.099609 0.000000 0.000000 1.000000 190.483002 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="collision_pad6" name="collision_pad6">
+        <matrix sid="matrix">-0.000000 -0.000000 1.000000 190.483032 0.000000 -0.594873 -0.000000 0.000000 -0.902416 0.000000 -0.000000 199.999985 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_pad6-lib">
           <bind_material>
             <technique_common>
@@ -1027,14 +792,9 @@
             </technique_common>
           </bind_material>
         </instance_geometry>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
       </node>
-      <node name="collision_pad4" id="collision_pad4" sid="collision_pad4">
-        <matrix sid="matrix">-0.000000 0.594873 -0.000000 -10.186523 0.902416 0.000000 -0.000000 198.900391 0.000000 0.000000 1.000000 190.483002 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="collision_pad4" name="collision_pad4">
+        <matrix sid="matrix">-0.000000 -0.000000 1.000000 190.482986 0.000000 -0.594873 -0.000000 0.000000 -0.902416 0.000000 -0.000000 -200.000031 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_pad4-lib">
           <bind_material>
             <technique_common>
@@ -1042,14 +802,9 @@
             </technique_common>
           </bind_material>
         </instance_geometry>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
       </node>
-      <node name="collision_pad2" id="collision_pad2" sid="collision_pad2">
-        <matrix sid="matrix">-0.000000 0.594873 -0.000000 -10.186523 0.902416 0.000000 -0.000000 798.900391 0.000000 0.000000 1.000000 190.483002 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="collision_pad2" name="collision_pad2">
+        <matrix sid="matrix">-0.000000 -0.000000 1.000000 190.482971 0.000000 -0.594873 -0.000000 0.000000 -0.902416 0.000000 -0.000000 -800.000000 0.000000 0.000000 0.000000 1.000000</matrix>
         <instance_geometry url="#collision_pad2-lib">
           <bind_material>
             <technique_common>
@@ -1057,89 +812,107 @@
             </technique_common>
           </bind_material>
         </instance_geometry>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
       </node>
-      <node name="leaving_port1_stage2" id="leaving_port1_stage2" sid="leaving_port1_stage2">
-        <matrix sid="matrix">0.000000 -1.000000 0.000000 23.483337 0.000000 -0.000000 -1.000000 764.580627 1.000000 0.000000 -0.000000 -110.000000 0.000000 0.000000 0.000000 1.000000</matrix>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
+      <node id="approach_port4_stage1_pt02" name="approach_port4_stage1_pt02">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 2000.000000 0.000000 0.000000 1.000000 0.000000 -1.000000 -0.000000 0.000000 -200.000244 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node name="leaving_port1_stage1" id="leaving_port1_stage1" sid="leaving_port1_stage1">
-        <matrix sid="matrix">0.000000 -1.000000 0.000000 63.483337 0.000000 -0.000000 -1.000000 764.580627 1.000000 0.000000 -0.000000 -110.000000 0.000000 0.000000 0.000000 1.000000</matrix>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
+      <node id="approach_port4_stage2_pt02" name="approach_port4_stage2_pt02">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 635.000000 0.000000 0.000000 1.000000 0.000000 -1.000000 -0.000000 0.000000 -200.000000 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node name="leaving_port1_stage3" id="leaving_port1_stage3" sid="leaving_port1_stage3">
-        <matrix sid="matrix">0.000000 -1.000000 0.000000 23.483337 0.000000 -0.000000 -1.000000 764.580627 1.000000 0.000000 -0.000000 -610.573608 0.000000 0.000000 0.000000 1.000000</matrix>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
+      <node id="docking_port4_stage2_pt02" name="docking_port4_stage2_pt02">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 635.000000 0.000000 0.000000 1.000000 0.000000 -1.000000 -0.000000 0.000000 -200.000000 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node name="approach_port1_stage1" id="approach_port1_stage1" sid="approach_port1_stage1">
-        <matrix sid="matrix">0.000000 -1.000000 0.000000 23.483337 0.000000 -0.000000 -1.000000 764.580627 1.000000 0.000000 -0.000000 -2000.000000 0.000000 0.000000 0.000000 1.000000</matrix>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
+      <node id="docking_port4_stage3_pt02" name="docking_port4_stage3_pt02">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 109.999992 0.000000 0.000000 1.000000 0.000000 -1.000000 -0.000000 0.000000 -199.999878 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node name="approach_port1_stage2" id="approach_port1_stage2" sid="approach_port1_stage2">
-        <matrix sid="matrix">0.000000 -1.000000 0.000000 23.483337 0.000000 -0.000000 -1.000000 764.580627 1.000000 0.000000 -0.000000 -635.433716 0.000000 0.000000 0.000000 1.000000</matrix>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
+      <node id="docking_port4_stage4_pt02" name="docking_port4_stage4_pt02">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 109.999992 0.000000 0.000000 1.000000 -40.000000 -1.000000 -0.000000 0.000000 -199.999878 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node name="docking_port1_stage4" id="docking_port1_stage4" sid="docking_port1_stage4">
-        <matrix sid="matrix">0.000000 -1.000000 0.000000 63.483337 0.000000 -0.000000 -1.000000 764.580627 1.000000 0.000000 -0.000000 -110.000000 0.000000 0.000000 0.000000 1.000000</matrix>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
+      <node id="leaving_port4_stage1_pt02" name="leaving_port4_stage1_pt02">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 109.999992 0.000000 0.000000 1.000000 -40.000000 -1.000000 -0.000000 0.000000 -199.999878 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node name="docking_port1_stage3" id="docking_port1_stage3" sid="docking_port1_stage3">
-        <matrix sid="matrix">0.000000 -1.000000 0.000000 23.483337 0.000000 -0.000000 -1.000000 764.580627 1.000000 0.000000 -0.000000 -110.000000 0.000000 0.000000 0.000000 1.000000</matrix>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
+      <node id="leaving_port4_stage2_pt02" name="leaving_port4_stage2_pt02">
+        <matrix sid="matrix">1.000000 -0.000000 -0.000000 109.999992 0.000000 0.000000 1.000000 0.000000 -0.000000 -1.000000 0.000000 -199.999878 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node name="docking_port1_stage2" id="docking_port1_stage2" sid="docking_port1_stage2">
-        <matrix sid="matrix">0.000000 -1.000000 0.000000 23.483337 0.000000 -0.000000 -1.000000 764.580627 1.000000 0.000000 -0.000000 -610.573608 0.000000 0.000000 0.000000 1.000000</matrix>
-        <extra>
-          <technique profile="FCOLLADA">
-            <visibility>1.000000</visibility>
-          </technique>
-        </extra>
+      <node id="leaving_port4_stage3_pt02" name="leaving_port4_stage3_pt02">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 635.000000 0.000000 0.000000 1.000000 0.000000 1.000000 -0.000000 0.000000 -200.000000 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <extra>
-        <technique profile="MAX3D">
-          <frame_rate>30.000000</frame_rate>
-        </technique>
-        <technique profile="FCOLLADA">
-          <start_time>0.000000</start_time>
-          <end_time>3.333333</end_time>
-        </technique>
-      </extra>
+      <node id="approach_port3_stage1_pt01" name="approach_port3_stage1_pt01">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 -2000.000000 0.000000 0.000000 1.000000 0.000000 1.000000 -0.000000 0.000000 -199.999878 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="approach_port3_stage2_pt01" name="approach_port3_stage2_pt01">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 -635.000000 0.000000 0.000000 1.000000 0.000000 1.000000 -0.000000 0.000000 -199.999969 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_port3_stage2_pt01" name="docking_port3_stage2_pt01">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 -635.000000 0.000000 0.000000 1.000000 0.000000 1.000000 -0.000000 0.000000 -199.999969 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_port3_stage3_pt01" name="docking_port3_stage3_pt01">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 -110.000000 0.000000 0.000000 1.000000 0.000000 1.000000 -0.000000 0.000000 -200.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_port3_stage4_pt01" name="docking_port3_stage4_pt01">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 -110.000000 0.000000 0.000000 1.000000 -40.000000 1.000000 -0.000000 0.000000 -200.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_port3_stage1_pt01" name="leaving_port3_stage1_pt01">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 -110.000000 0.000000 0.000000 1.000000 -40.000000 1.000000 -0.000000 0.000000 -200.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_port3_stage2_pt01" name="leaving_port3_stage2_pt01">
+        <matrix sid="matrix">-1.000000 0.000000 -0.000000 -110.000000 -0.000000 -0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 -200.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_port3_stage3_pt01" name="leaving_port3_stage3_pt01">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 -635.000000 0.000000 0.000000 1.000000 0.000000 -1.000000 -0.000000 0.000000 -199.999969 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="approach_port2_stage1_pt01" name="approach_port2_stage1_pt01">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 2000.000000 0.000000 0.000000 1.000000 0.000000 -1.000000 -0.000000 0.000000 -800.000244 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="approach_port2_stage2_pt01" name="approach_port2_stage2_pt01">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 634.999939 0.000000 0.000000 1.000000 0.000000 -1.000000 -0.000000 0.000000 -800.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_port2_stage2_pt01" name="docking_port2_stage2_pt01">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 634.999939 0.000000 0.000000 1.000000 0.000000 -1.000000 -0.000000 0.000000 -800.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_port2_stage3_pt01" name="docking_port2_stage3_pt01">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 109.999939 0.000000 0.000000 1.000000 0.000000 -1.000000 -0.000000 0.000000 -799.999939 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_port2_stage4_pt01" name="docking_port2_stage4_pt01">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 109.999939 0.000000 0.000000 1.000000 -40.000000 -1.000000 -0.000000 0.000000 -799.999939 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_port2_stage1_pt01" name="leaving_port2_stage1_pt01">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 109.999939 0.000000 0.000000 1.000000 -40.000000 -1.000000 -0.000000 0.000000 -799.999939 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_port2_stage2_pt01" name="leaving_port2_stage2_pt01">
+        <matrix sid="matrix">1.000000 -0.000000 -0.000000 109.999939 0.000000 0.000000 1.000000 0.000000 -0.000000 -1.000000 0.000000 -799.999939 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_port2_stage3_pt01" name="leaving_port2_stage3_pt01">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 634.999939 0.000000 0.000000 1.000000 0.000000 1.000000 -0.000000 0.000000 -800.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="approach_port1_stage1_pt00" name="approach_port1_stage1_pt00">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 -2000.000000 0.000000 0.000000 1.000000 0.000000 1.000000 -0.000000 0.000000 -800.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="approach_port1_stage2_pt00" name="approach_port1_stage2_pt00">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 -635.000000 0.000000 0.000000 1.000000 0.000000 1.000000 -0.000000 0.000000 -800.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_port1_stage2_pt00" name="docking_port1_stage2_pt00">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 -635.000000 0.000000 0.000000 1.000000 0.000000 1.000000 -0.000000 0.000000 -800.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_port1_stage3_pt00" name="docking_port1_stage3_pt00">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 -110.000061 0.000000 0.000000 1.000000 0.000000 1.000000 -0.000000 0.000000 -800.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_port1_stage4_pt00" name="docking_port1_stage4_pt00">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 -110.000061 0.000000 0.000000 1.000000 -40.000000 1.000000 -0.000000 0.000000 -800.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_port1_stage1_pt00" name="leaving_port1_stage1_pt00">
+        <matrix sid="matrix">0.000000 1.000000 -0.000000 -110.000061 0.000000 0.000000 1.000000 -40.000000 1.000000 -0.000000 0.000000 -800.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_port1_stage2_pt00" name="leaving_port1_stage2_pt00">
+        <matrix sid="matrix">-1.000000 0.000000 -0.000000 -110.000061 -0.000000 -0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 -800.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_port1_stage3_pt00" name="leaving_port1_stage3_pt00">
+        <matrix sid="matrix">0.000000 -1.000000 0.000000 -635.000000 0.000000 0.000000 1.000000 0.000000 -1.000000 -0.000000 0.000000 -800.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
     </visual_scene>
   </library_visual_scenes>
   <scene>
-    <instance_visual_scene url="#"></instance_visual_scene>
+    <instance_visual_scene url="#RootNode"/>
   </scene>
 </COLLADA>
 
