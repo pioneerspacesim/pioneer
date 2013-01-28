@@ -1,0 +1,28 @@
+# Materials for LMR model 'spacestation_door' LOD 2 [%(err: unknown arg 's')]
+newmtl spacestation_door_lod2_static_mat0
+Ka 0.7000 0.7000 0.7000
+Kd 0.7000 0.7000 0.7000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex8.png
+map_Kd tex8.png
+newmtl spacestation_door_lod2_static_mat1
+Ka 0.9000 0.9000 0.9000
+Kd 0.9000 0.9000 0.9000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex8.png
+map_Kd tex8.png
+newmtl spacestation_door_lod2_static_mat2
+Ka 0.9000 0.9000 0.9000
+Kd 0.9000 0.9000 0.9000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex8.png
+map_Kd tex8.png

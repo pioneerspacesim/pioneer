@@ -6,7 +6,7 @@
 -- info->ship_dock_anim function's last docking anim ship location will be
 -- used to place the ship when docked.
 
-define_model('spacestation_door', {
+--[[define_model('spacestation_door', {
 	info = {
 			lod_pixels = { 10, 0},
 			bounding_radius = 200.0,
@@ -797,4 +797,4 @@ define_model('hoop_spacestation', {
 			billboard('smoke.png', 50, v(0,1,0), { v(150,405.5,0), v(175,405.5,0), v(200,405.5,0) })
 		end
 	end
-})
+})]]

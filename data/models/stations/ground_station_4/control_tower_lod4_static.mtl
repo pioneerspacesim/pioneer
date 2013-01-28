@@ -1,0 +1,42 @@
+# Materials for LMR model 'control_tower' LOD 4 [%(err: unknown arg 's')]
+newmtl control_tower_mat0
+Ka 0.5000 0.5000 0.5000
+Kd 0.5000 0.5000 0.5000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka seamless_texture_07.png
+map_Kd seamless_texture_07.png
+newmtl control_tower_mat1
+Ka 0.5000 0.5000 0.5000
+Kd 0.5000 0.5000 0.5000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka tex12.png
+map_Kd tex12.png
+newmtl control_tower_mat2
+Ka 0.5000 0.5000 0.5000
+Kd 0.5000 0.5000 0.5000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+Ns 1.0000
+illum 2
+map_Ka bot5.png
+map_Kd bot5.png
+newmtl control_tower_mat3
+Ka 0.0000 0.0000 0.0000
+Kd 0.0000 0.0000 0.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.7000 0.7000 0.7000
+Ns 5.0000
+illum 2
+newmtl control_tower_mat4
+Ka 0.0100 0.0100 0.0100
+Kd 0.0100 0.0100 0.0100
+Ks 0.1000 0.1000 0.1000
+Ke 0.0000 0.0000 0.0000
+Ns 100.0000
+illum 2

@@ -16,5 +16,4 @@ tex_diff details.png
 tex_glow details_glow.png
 
 mesh bcstation.dae
-#mesh bcdecals.dae disabled until station ads added
 collision bccoll.dae
