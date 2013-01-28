@@ -1,7 +1,8 @@
 Alpha 31
 
    * New features
-     * Converted Lanner ship to SGModel (#1957, #1969)
+     * Converted Lanner ship to SGModel (#1957, #1969, #2002)
+     * Converted "big crappy" spacestation to SGModel (#1964)
 
    * Minor changes and tweaks
      * Cargo scooping now only requires a collision against the ship rather
@@ -14,31 +15,57 @@ Alpha 31
      * Removed long-unused building models (#1923)
      * Removed per-light ambient color and building fade (#1930)
      * Ship thrust and fuel tank size have been rebalanced (#1689)
+     * Restore "Pioneering Pilots' Guild" text (#1987, #1989)
+     * New Hope is now located on land (#1977)
+     * Debug information overlay now includes latitude and longitude (#1994)
+     * Missile spawn and control moved to Lua (#1663)
 
    * Fixes
      * Collisions with stars now work again (#1942)
      * Dates before 3200-01-01 no longer display negative (#1955, #1954)
+     * Text on SGModel ships now uses correct character offsets (#1980)
+     * An unset decal no longer displays a black square on Intel graphics (#1976)
+     * Fixed various crashes caused by console completion (#1998)
+     * SGModel animation timing fixes (#1978, #1970)
+     * Greatly reduced chance of police ships spawning on top of each other (#1993)
 
    * Model changes
      * Modelviewer: Reloading model also reloads textures (#1968, #1939)
      * Handle missing material definitions by providing a basic white default
        material if none are specified (#1817, #1916)
+     * Detect conflicts between animations (#1938)
+     * Modelviewer: View controls are improved (#1982)
+     * Modelviewer: Larger models are displayed without z clipping (#1982, #1933)
+     * New material parameters: unlit, two_sided and alpha_test (#1995, #1935)
+     * Labels on SGModels can now be set (#1979)
+     * Animations now work correctly across detail level switches (#1978)
 
    * Script changes
      * Remove deprecated Ship methods.SetPrimaryColour and SetSecondaryColour
        and shipType attribute
      * Ship thruster efficiency can be specified with effective_exhaust_velocity value,
        instead of thruster_fuel_use (either can be used) (#1689)
+     * Add max_crew & min_crew params to ship def (#1973)
+     * Missile control methods Missile.Arm, Missile.Disarm, Ship.SpawnMissile
+       and Ship.AIKamikaze (#1663)
 
    * Internal changes
      * Separate station defs from LMR station models (#1913, #1931, #1934)
      * Cameras are no longer attached to a body, and World View camera
        controllers are no longer derived from Camera (#1889)
      * Remove kill count from core (#1944)
-     * Intro & tombstone can now use SGModels (#1956)
+     * Intro & tombstone can now use SGModels (#1956, #2006)
      * SGModels now have priority over LMR models of the same name (#1956)
-     * Console completion now handled through the LuaObject dispatcher (#1945, #1672)
+     * Console completion now handled through the LuaObject dispatcher
+       (#1945, #1672, #1972, #1974)
      * Queries for near-by objects now use a very basic acceleration structure (#1910)
+     * String <-> Integer enum mapping tables have been separated from Lua (#1996)
+     * Improve MultiLineText draw performance (#1999)
+     * SGModel nodes all carry a pointer to the renderer (#1986)
+     * SGModels can now be instanced, with separate appearance and animation
+       state for each (#2007, #1975)
+     * Bad terrain generator output will now emit lots of debug info before
+       crashing (#2005)
 
 Alpha 30
 

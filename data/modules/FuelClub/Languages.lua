@@ -35,14 +35,16 @@ Translate:Add({English = {
 
 Translate:AddFlavour('Polski','FuelClub',{
 
-	clubname = "Spółdzielnia Paliwowa",
-	welcome = 'Witamy w Spółdzielni Paliwowej',
+	clubname = "Spółdzielnia Paliwowa Pilotów Międzygwiezdnych",
+	welcome = 'Witamy w Spółdzielni Paliwowej Pilotów Międzygwiezdnych',
 	nonmember_intro = [[{clubname} jest niezależną organizacją, udostępniającą swoim członkom własne zapasy paliwa, posiadamy filie w całej galaktyce. Korzyści płynące z członkostwa:
 
 	* Posiadamy własne zapasy paliwa, niezależne od zapasów na wolnym rynku.
 	* {hydrogen} w atrakcyjnej cenie.
-	* {military_fuel} bez akcyzy.
-	* {radioactives} - darmowa utylizacja. (pod pewnymi warunkami)
+	* {military_fuel} w atrakcyjnej cenie.
+	* {water} w atrakcyjnej cenie.
+	* {radioactives} - darmowa utylizacja (pod pewnymi warunkami).
+	* Uzupełnienie zbiornika z paliwem, kiedy to konieczne.
 
 Przyłącz się! Członkostwo kosztuje tylko {membership_fee} rocznie]],
 	member_intro = [[Zakup paliwa i utylizacja odpadów radioaktywnych.]],
@@ -144,4 +146,34 @@ Translate:Add({Russian = {
 	["You are now a member. Your membership will expire on {expiry_date}."] = "Ваша заявка одобрена Содружеством. Ваш членский билет действует до {expiry_date}.",
 	["You must buy our {military_fuel} before we will take your {radioactives}"] = "Перед тем как сдать на утилизацию {radioactives}, вы должны приобрести у нас {military_fuel}.",
 	["Begin trade"] = "Провести сделку.",
+}})
+
+  ---- GERMAN / DEUTSCH ----
+
+Translate:AddFlavour('Deutsch','FuelClub',{
+
+	clubname = "Treibstoff-Kooperative Interstellarer Piloten",
+	welcome = 'Wilkommen bei der {clubname}',
+	nonmember_intro = [[{clubname} ist eine unabhängige Organisation, deren Ziel es ist, günstigen Raumschifftreibstoff an seine Mitglieder zu Verkaufen. Ableger können überall in der Galaxie gefunden werden. Die Vorteile einer Mitgliedschaft umfassen:
+
+	* Unsere eigenen, vom Markt unabhängigen, Treibstoffvorräte
+	* {hydrogen} zu Discount-Preisen
+	* {military_fuel} zu Discount-Preisen
+	* {water} zu Discount-Preisen
+	* {radioactives}, kostenlose Entsorgung (siehe Konditionen)
+	* Kraftstoff-Nachfüllung wo es nötig ist
+
+Trete uns noch heute bei! Jährliche Mitgliedschaft nur {membership_fee}]],
+	member_intro = [[Du kannst hier Kraftstoffe kaufen und {radioactives} entsorgen.]],
+	annual_fee = 400,
+})
+
+Translate:Add({Deutsch = {
+	["What conditions apply to {radioactives} disposal?"] = "Welche Konditionen gelten bei der Entsorgung von {radioactives}?",
+	["We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."] = "Wir werden die gleiche Menge {radioactives} entsorgen, wie du {military_fuel} von uns gekauft hast.",
+	["Apply for membership"] = "Für Mitgliedschaft bewerben",
+	["Your membership application has been declined."] = "Deine Bewerbung wurde abgelehnt.",
+	["You are now a member. Your membership will expire on {expiry_date}."] = "Du bist nun Mitglied. Die Mitgliedschaft verfällt am {expiry_date}.",
+	["You must buy our {military_fuel} before we will take your {radioactives}"] = "Du musst unseren {military_fuel} kaufen, bevor wir deine {radioactives} annehmen",
+	["Begin trade"] = "Beginne Handel",
 }})

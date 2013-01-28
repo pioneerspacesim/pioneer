@@ -8,7 +8,10 @@
 #include "LuaBody.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
+#include "EnumStrings.h"
 #include "Ship.h"
+#include "Missile.h"
+#include "LuaMissile.h"
 #include "SpaceStation.h"
 #include "ShipType.h"
 #include "Sfx.h"
@@ -395,7 +398,7 @@ static int l_ship_set_flavour(lua_State *l)
 static int l_ship_get_equip_slot_capacity(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstantFromArg(l, "EquipSlot", 2));
 	lua_pushinteger(l, s->m_equipment.GetSlotSize(slot));
 	return 1;
 }
@@ -450,7 +453,7 @@ static int l_ship_get_equip(lua_State *l)
 				s->GetLabel().c_str(), slotName, idx+1);
 		}
 		Equip::Type e = (idx >= 0) ? s->m_equipment.Get(slot, idx) : Equip::NONE;
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", e));
+		lua_pushstring(l, EnumStrings::GetString("EquipType", e));
 		return 1;
 	} else {
 		// 1-argument version; returns table of equipment items
@@ -458,7 +461,7 @@ static int l_ship_get_equip(lua_State *l)
 
 		for (int idx = 0; idx < size; idx++) {
 			lua_pushinteger(l, idx+1);
-			lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", s->m_equipment.Get(slot, idx)));
+			lua_pushstring(l, EnumStrings::GetString("EquipType", s->m_equipment.Get(slot, idx)));
 			lua_rawset(l, -3);
 		}
 
@@ -550,7 +553,7 @@ static int l_ship_set_equip(lua_State *l)
 static int l_ship_add_equip(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
 
 	int num = luaL_optinteger(l, 3, 1);
 	if (num < 0)
@@ -597,7 +600,7 @@ static int l_ship_add_equip(lua_State *l)
 static int l_ship_remove_equip(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
 
 	int num = luaL_optinteger(l, 3, 1);
 	if (num < 0)
@@ -636,8 +639,8 @@ static int l_ship_remove_equip(lua_State *l)
 static int l_ship_get_equip_count(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 3)));
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstantFromArg(l, "EquipSlot", 2));
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 3));
 	lua_pushinteger(l, s->m_equipment.Count(slot, e));
 	return 1;
 }
@@ -668,7 +671,7 @@ static int l_ship_get_equip_count(lua_State *l)
 static int l_ship_get_equip_free(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", luaL_checkstring(l, 2)));
+	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstantFromArg(l, "EquipSlot", 2));
 
 	lua_pushinteger(l, s->m_equipment.FreeSpace(slot));
 	return 1;
@@ -699,7 +702,7 @@ static int l_ship_get_equip_free(lua_State *l)
  */
 static int l_ship_spawn_cargo(lua_State *l) {
 	Ship *s = LuaShip::CheckFromLua(1);
-	CargoBody * c_body = new CargoBody(static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2))));
+	CargoBody * c_body = new CargoBody(static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2)));
     lua_pushboolean(l, s->SpawnCargo(c_body));
     return 1;
 }
@@ -764,56 +767,52 @@ static int l_ship_undock(lua_State *l)
 	return 1;
 }
 
-/*
- * Method: FireMissileAt
+/* Method: SpawnMissile
  *
- * Fire a missile at the given target
+ * Spawn a missile near the ship.
  *
- * > fired = ship:FireMissileAt(type, target)
- *
+ * > missile = ship:SpawnMissile(type, target, power)
+ * 
  * Parameters:
  *
- *   type - a <Constants.EquipType> string for the missile type. specifying an
- *          equipment that is not a missile will result in a Lua error
+ *   shiptype - a string for the missile type. specifying an
+ *          ship that is not a missile will result in a Lua error
  *
  *   target - the <Ship> to fire the missile at
  *
+ *   power - the power of the missile. If unspecified, the default power for the
+ *
  * Return:
  *
- *   fired - true if the missile was fired, false if the ship has no missile
- *           of the requested type
+ *   missile - The missile spawned, or nil if it was unsuccessful.
  *
  * Availability:
  *
- *   alpha 10
+ *   alpha 26
  *
  * Status:
  *
  *   experimental
  */
-static int l_ship_fire_missile_at(lua_State *l)
+static int l_ship_spawn_missile(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
 	if (s->GetFlightState() == Ship::HYPERSPACE)
-		return luaL_error(l, "Ship:FireMissileAt() cannot be called on a ship in hyperspace");
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
-	Ship *target = LuaShip::CheckFromLua(3);
+		return luaL_error(l, "Ship:SpawnMissile() cannot be called on a ship in hyperspace");
+	ShipType::Id missile_type(luaL_checkstring(l, 2));
 
-	if (e < Equip::MISSILE_UNGUIDED || e > Equip::MISSILE_NAVAL)
-		luaL_error(l, "Equipment type '%s' is not a valid missile type", lua_tostring(l, 2));
+	if (missile_type != ShipType::MISSILE_UNGUIDED &&
+			missile_type != ShipType::MISSILE_GUIDED &&
+			missile_type != ShipType::MISSILE_SMART &&
+			missile_type != ShipType::MISSILE_NAVAL)
+		luaL_error(l, "Ship type '%s' is not a valid missile type", lua_tostring(l, 2));
+	int power = (lua_isnone(l, 3))? -1 : lua_tointeger(l, 3);
 
-	int max_missiles = s->m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
-	int idx;
-	for (idx = 0; idx < max_missiles; idx++)
-		if (s->m_equipment.Get(Equip::SLOT_MISSILE, idx) == e)
-			break;
-
-	if (idx == max_missiles) {
-		lua_pushboolean(l, false);
-		return 1;
-	}
-
-	lua_pushboolean(l, s->FireMissile(idx, target));
+	Missile * missile = s->SpawnMissile(missile_type, power);
+	if (missile)
+		LuaMissile::PushToLua(missile);
+	else
+		lua_pushnil(l);
 	return 1;
 }
 
@@ -859,7 +858,7 @@ static int l_ship_check_hyperspace_to(lua_State *l)
 	double duration;
 	Ship::HyperjumpStatus status = s->CheckHyperspaceTo(*dest, fuel, duration);
 
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
 	if (status == Ship::HYPERJUMP_OK) {
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
@@ -911,7 +910,7 @@ static int l_ship_get_hyperspace_details(lua_State *l)
 	double duration;
 	Ship::HyperjumpStatus status = s->GetHyperspaceDetails(*dest, fuel, duration);
 
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
 	if (status == Ship::HYPERJUMP_OK) {
 		lua_pushinteger(l, fuel);
 		lua_pushnumber(l, duration);
@@ -963,7 +962,7 @@ static int l_ship_hyperspace_to(lua_State *l)
 	double duration;
 	Ship::HyperjumpStatus status = s->CheckHyperspaceTo(*dest, fuel, duration);
 
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipJumpStatus", status));
+	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
 	if (status != Ship::HYPERJUMP_OK)
 		return 1;
 
@@ -1063,7 +1062,7 @@ static int l_ship_attr_flavour(lua_State *l)
 static int l_ship_attr_alert_status(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipAlertStatus", s->GetAlertState()));
+	lua_pushstring(l, EnumStrings::GetString("ShipAlertStatus", s->GetAlertState()));
 	return 1;
 }
 
@@ -1083,7 +1082,7 @@ static int l_ship_attr_alert_status(lua_State *l)
 static int l_ship_attr_flight_state(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "ShipFlightState", s->GetFlightState()));
+	lua_pushstring(l, EnumStrings::GetString("ShipFlightState", s->GetFlightState()));
 	return 1;
 }
 
@@ -1176,6 +1175,35 @@ static int l_ship_ai_kill(lua_State *l)
 		return luaL_error(l, "Ship:AIKill() cannot be called on a ship in hyperspace");
 	Ship *target = LuaShip::CheckFromLua(2);
 	s->AIKill(target);
+	return 0;
+}
+
+/*
+ * Method: AIKamikaze
+ *
+ * Crash into the target ship.
+ *
+ * > ship:AIKamikaze(target)
+ *
+ * Parameters:
+ *
+ *   target - the <Ship> to destroy
+ *
+ * Availability:
+ *
+ *  alpha 26
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_ai_kamikaze(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIKamikaze() cannot be called on a ship in hyperspace");
+	Ship *target = LuaShip::GetFromLua(2);
+	s->AIKamikaze(target);
 	return 0;
 }
 
@@ -1389,7 +1417,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "SpawnCargo", l_ship_spawn_cargo },
 
-		{ "FireMissileAt", l_ship_fire_missile_at },
+		{ "SpawnMissile", l_ship_spawn_missile },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },
@@ -1397,6 +1425,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "Explode", l_ship_explode },
 
 		{ "AIKill",             l_ship_ai_kill               },
+		{ "AIKamikaze",         l_ship_ai_kamikaze           },
 		{ "AIFlyTo",            l_ship_ai_fly_to             },
 		{ "AIDockWith",         l_ship_ai_dock_with          },
 		{ "AIEnterLowOrbit",    l_ship_ai_enter_low_orbit    },

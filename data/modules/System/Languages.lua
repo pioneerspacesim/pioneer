@@ -40,3 +40,11 @@ Translate:Add({ Russian = {
 	["Your fuel tank is empty."] = "Топливные баки корабля абсолютно пусты!",
 }
 })
+
+---- GERMAN / DEUTSCH ----
+
+Translate:Add({ Deutsch = {
+	["Your fuel tank is almost empty."] = "Dein Treibstofftank ist fast leer.",
+	["Your fuel tank is empty."] = "Dein Treibstofftank ist leer.",
+}
+})

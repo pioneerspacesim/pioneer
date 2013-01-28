@@ -358,6 +358,13 @@ static void get_names_from_table(lua_State *l, std::vector<std::string> &names, 
 	lua_pushnil(l);
 	while (lua_next(l, -2)) {
 
+		// only include string keys. the . syntax doesn't work for anything
+		// else
+		if (lua_type(l, -2) != LUA_TSTRING) {
+			lua_pop(l, 1);
+			continue;
+		}
+
 		// only include callable things if requested
 		if (methodsOnly && lua_type(l, -1) != LUA_TFUNCTION) {
 			lua_pop(l, 1);
@@ -391,26 +398,50 @@ void LuaObjectBase::GetNames(std::vector<std::string> &names, const std::string 
 
 	lua_State *l = Lua::manager->GetLuaState();
 
-	// userdata are typed, tables are not
-	bool typeless = lua_istable(l, -1);
-	assert(typeless || lua_isuserdata(l, -1));
-
 	LUA_DEBUG_START(l);
+
+	// work out if/how we can deal with the value
+	bool typeless;
+	if (lua_istable(l, -1))
+		// we can always look into tables
+		typeless = true;
+
+	else if (lua_isuserdata(l, -1)) {
+		// two known types of userdata
+		// - LuaObject, metatable has a "type" field
+		// - RO table proxy, no type
+		lua_getmetatable(l, -1);
+		lua_getfield(l, -1, "type");
+		typeless = lua_isnil(l, -1);
+		lua_pop(l, 2);
+	}
+
+	else
+		// not a table or userdata, nothing to do
+		// XXX if it has a __index metatable entry maybe we can do more?
+		return;
 
 	if (typeless) {
 		// Check the metatable indexes
 		lua_pushvalue(l, -1);
 		while(lua_getmetatable(l, -1)) {
-			luaL_getsubtable(l, -1, "__index");
+			lua_pushstring(l, "__index");
+			lua_gettable(l, -2);
 
 			// Replace the previous table to keep a stable stack size.
 			lua_copy(l, -1, -3);
 			lua_pop(l, 2);
 
-			get_names_from_table(l, names, prefix, methodsOnly);
+			if (lua_istable(l, -1))
+				get_names_from_table(l, names, prefix, methodsOnly);
+			else
+				break;
 		}
 		lua_pop(l, 1);
-		get_names_from_table(l, names, prefix, methodsOnly);
+
+		if (lua_istable(l, -1))
+			get_names_from_table(l, names, prefix, methodsOnly);
+
 		return;
 	}
 

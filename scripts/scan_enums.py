@@ -263,6 +263,10 @@ class EnumData:
         fl.write('\t{ 0, 0 },\n')
         fl.write('};\n')
 
+    def write_c_table_table_row(s, fl):
+        id = s.ident()
+        fl.write('\t{ "' + id + '", ENUM_' + id + ' },\n')
+
     def write_c_header(s, fl):
         id = s.ident()
         fl.write('extern const struct EnumItem ENUM_' + id + '[];\n')
@@ -347,10 +351,12 @@ def write_header(enums, fl):
     fl.write('#ifndef HX_GEN_ENUM_TABLES\n')
     fl.write('#define HX_GEN_ENUM_TABLES\n\n')
     write_generation_header(fl)
-    fl.write('struct EnumItem { const char *name; int value; };\n\n')
+    fl.write('struct EnumItem { const char *name; int value; };\n')
+    fl.write('struct EnumTable { const char *name; const EnumItem *first; };\n\n')
     for e in enums:
         e.write_c_header(fl)
     fl.write('\n')
+    fl.write('extern const struct EnumTable ENUM_TABLES[];\n\n')
     fl.write('#endif\n')
 
 def write_tables(enums, headers, hpath, fl):
@@ -364,6 +370,11 @@ def write_tables(enums, headers, hpath, fl):
     for e in enums:
         e.write_c_table(fl)
         fl.write('\n')
+    fl.write('const struct EnumTable ENUM_TABLES[] = {\n')
+    for e in enums:
+        e.write_c_table_table_row(fl)
+    fl.write('\t{ 0, 0 },\n')
+    fl.write('};\n')
 
 def extract_enums(lines):
     lines = splice_lines(lines)

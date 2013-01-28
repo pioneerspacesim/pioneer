@@ -6,6 +6,7 @@
 #include "Lang.h"
 #include "Ship.h"
 #include "graphics/Renderer.h"
+#include "graphics/TextureBuilder.h"
 
 Intro::Intro(Graphics::Renderer *r, int width, int height)
 : Cutscene(r, width, height)
@@ -21,11 +22,17 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, -1.f, 0.f), two, Color::BLACK));
 
 	m_model = Pi::FindModel("lanner");
+	// XXX just until LMR is gone
+	if (m_model->IsSGModel()) {
+		m_model = static_cast<SceneGraph::Model*>(m_model)->MakeInstance();
+		m_model->SetDecalTexture(Graphics::TextureBuilder::Decal("textures/decals/01_Badge.png").GetOrCreateTexture(r, "decal"));
+	}
+	m_model->SetLabel(Lang::PIONEER);
 
 	// Model parameters
+	// XXX all LMR-specific
 	memset(&m_modelParams, 0, sizeof(LmrObjParams));
 	m_modelParams.animationNamespace = "ShipAnimation";
-	m_modelParams.label = Lang::PIONEER;
 	m_modelParams.flightState = Ship::FLYING;
 	m_modelParams.linthrust[2] = -1.f;
 	m_modelParams.animValues[1] = 1.f;
@@ -46,6 +53,12 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_equipment.Add(Equip::RADAR_MAPPER, 1);
 	m_equipment.Add(Equip::MISSILE_NAVAL, 4);
 	m_modelParams.equipment = &m_equipment;
+}
+
+Intro::~Intro()
+{
+	//delete instance
+	if (m_model && m_model->IsSGModel()) delete m_model;
 }
 
 void Intro::Draw(float _time)

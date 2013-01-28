@@ -6,23 +6,37 @@
 
 namespace SceneGraph {
 
-Billboard::Billboard(RefCountedPtr<Graphics::Material> mat, float size)
-: Node(NODE_TRANSPARENT)
+Billboard::Billboard(Graphics::Renderer *r, RefCountedPtr<Graphics::Material> mat, float size)
+: Node(r, NODE_TRANSPARENT)
 , m_size(size)
 , m_material(mat)
 {
 }
 
-Billboard::Billboard(const std::vector<vector3f> &pts, RefCountedPtr<Graphics::Material> mat, float size)
-: Node(NODE_TRANSPARENT)
+Billboard::Billboard(Graphics::Renderer *r, const std::vector<vector3f> &pts, RefCountedPtr<Graphics::Material> mat, float size)
+: Node(r, NODE_TRANSPARENT)
 , m_size(size)
 , m_material(mat)
 , m_points(pts)
 {
 }
 
-void Billboard::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
+Billboard::Billboard(const Billboard &billboard)
+: Node(billboard)
+, m_size(billboard.m_size)
+, m_material(billboard.m_material)
+, m_points(billboard.m_points)
 {
+}
+
+Node* Billboard::Clone()
+{
+	return new Billboard(*this);
+}
+
+void Billboard::Render(const matrix4x4f &trans, RenderData *rd)
+{
+	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
 	r->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 	r->DrawPointSprites(m_points.size(), &m_points[0], m_material.Get(), m_size);

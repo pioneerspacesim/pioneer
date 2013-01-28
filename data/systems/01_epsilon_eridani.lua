@@ -74,8 +74,8 @@ local newhope = CustomSystemBody:new('New Hope', 'PLANET_TERRESTRIAL')
 
 	local newhope_starports = {
 	CustomSystemBody:new('New Hope', 'STARPORT_SURFACE')
-		:latitude(math.deg2rad(31))
-		:longitude(math.deg2rad(-121)),
+		:latitude(math.deg2rad(-32.578))
+		:longitude(math.deg2rad(90.12)),
 	CustomSystemBody:new("Gandhi's Revenge", 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(19))
 		:longitude(math.deg2rad(99)),

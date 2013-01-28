@@ -83,3 +83,19 @@ Translate:Add({ Russian = {
 	}
  }
 })
+
+ ---- GERMAN / DEUTSCH ----
+
+Translate:Add({ Deutsch = {
+  ["Welcome to "] = "Wilkommen in ",
+
+ GOODS_TRADER = {
+  "Honest {name}'s Handelsplatz",
+  "{name}'s Kaufladen",
+  "{name}'s Makazin",
+  "{name}'s Warenbörse",
+  "{name} Aktiengesellschaft",
+  "{name} & Söhne"
+  }
+ }
+})

@@ -36,6 +36,7 @@ noinst_HEADERS = \
 	DeathView.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
+	EnumStrings.h \
 	EquipSet.h \
 	EquipType.h \
 	FaceVideoLink.h \
@@ -78,6 +79,7 @@ noinst_HEADERS = \
 	LuaVector.h \
 	LuaFixed.h \
 	LuaManager.h \
+	LuaMissile.h \
 	LuaMusic.h \
 	LuaNameGen.h \
 	LuaObject.h \
@@ -186,6 +188,7 @@ pioneer_SOURCES	= \
 	DeadVideoLink.cpp \
 	DeathView.cpp \
 	DynamicBody.cpp \
+	EnumStrings.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
 	Factions.cpp \
@@ -226,6 +229,7 @@ pioneer_SOURCES	= \
 	LuaVector.cpp \
 	LuaFixed.cpp \
 	LuaManager.cpp \
+	LuaMissile.cpp \
 	LuaMusic.cpp \
 	LuaNameGen.cpp \
 	LuaObject.cpp \
@@ -331,6 +335,7 @@ endif
 lmrmodelviewer_SOURCES = \
 	Color.cpp \
 	CRC32.cpp \
+	EnumStrings.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
 	FontCache.cpp \
@@ -406,6 +411,7 @@ uitest_SOURCES = \
 	LuaConstants.cpp \
 	LuaRef.cpp \
 	PngWriter.cpp \
+	EnumStrings.cpp \
 	enum_table.cpp \
 	utils.cpp
 uitest_LDADD = \
