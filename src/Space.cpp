@@ -406,7 +406,7 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	bool isInitiallyUnderwater = false;
 	bool initialVariationTooHigh = false;
 
-	MTRand r(sbody->seed);
+	Random r(sbody->seed);
 
 	for (int tries = 0; tries < 200; tries++) {
 		variationWithinLimits = true;
@@ -725,7 +725,7 @@ static void CollideWithTerrain(Body *body)
 
 	double terrHeight = terrain->GetTerrainHeight(body->GetPosition().Normalized());
 	if (altitude >= terrHeight) return;
-	
+
 	CollisionContact c;
 	c.pos = body->GetPosition();
 	c.normal = c.pos.Normalized();

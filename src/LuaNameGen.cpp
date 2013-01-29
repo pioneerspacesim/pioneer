@@ -5,7 +5,7 @@
 #include "LuaObject.h"
 #include "LuaRand.h"
 #include "LuaSystemBody.h"
-#include "mtrand.h"
+#include "rand.h"
 
 static const std::string DEFAULT_FULL_NAME_MALE("Tom Morton");
 static const std::string DEFAULT_FULL_NAME_FEMALE("Thomasina Mortonella");
@@ -36,7 +36,7 @@ static bool GetNameGenFunc(lua_State *l, const char *func)
 	return true;
 }
 
-std::string LuaNameGen::FullName(bool isFemale, MTRand &rng)
+std::string LuaNameGen::FullName(bool isFemale, Random &rng)
 {
 	lua_State *l = m_luaManager->GetLuaState();
 
@@ -53,7 +53,7 @@ std::string LuaNameGen::FullName(bool isFemale, MTRand &rng)
 	return fullname;
 }
 
-std::string LuaNameGen::Surname(MTRand &rng)
+std::string LuaNameGen::Surname(Random &rng)
 {
 	lua_State *l = m_luaManager->GetLuaState();
 
@@ -69,7 +69,7 @@ std::string LuaNameGen::Surname(MTRand &rng)
 	return surname;
 }
 
-std::string LuaNameGen::BodyName(SystemBody *body, MTRand &rng)
+std::string LuaNameGen::BodyName(SystemBody *body, Random &rng)
 {
 	lua_State *l = m_luaManager->GetLuaState();
 

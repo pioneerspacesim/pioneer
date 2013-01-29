@@ -56,7 +56,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 	m_message = new Gui::ToolTip(0, Lang::VID_LINK_ESTABLISHED);
 
 	if (!seed) seed = time(NULL);
-	MTRand rand(seed);
+	Random rand(seed);
 
 	m_flags = flags;
 	m_seed = seed;

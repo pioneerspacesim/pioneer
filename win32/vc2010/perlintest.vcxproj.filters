@@ -15,7 +15,7 @@
     <ClInclude Include="..\..\src\fixed.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\mtrand.h">
+    <ClInclude Include="..\..\src\rand.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\perlin.h">
@@ -23,9 +23,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\mtrand.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\perlin.cpp">
       <Filter>src</Filter>
     </ClCompile>

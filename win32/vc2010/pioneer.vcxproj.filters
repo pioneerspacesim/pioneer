@@ -147,9 +147,6 @@
     <ClCompile Include="..\..\src\ModelBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\mtrand.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\ObjectViewerView.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -596,7 +593,7 @@
     <ClInclude Include="..\..\src\ModelBody.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\mtrand.h">
+    <ClInclude Include="..\..\src\rand.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Object.h">

@@ -4,6 +4,8 @@
 #ifndef _GALAXY_H
 #define _GALAXY_H
 
+#include <SDL_video.h>
+
 /* Sector density lookup */
 namespace Galaxy {
 	// lightyears

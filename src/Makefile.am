@@ -166,7 +166,6 @@ noinst_HEADERS = \
 	gameconsts.h \
 	libs.h \
 	matrix4x4.h \
-	mtrand.h \
 	perlin.h \
 	utils.h \
 	vector2.h \
@@ -301,7 +300,6 @@ pioneer_SOURCES	= \
 	View.cpp \
 	WorldView.cpp \
 	main.cpp \
-	mtrand.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
@@ -385,14 +383,15 @@ tests_SOURCES = \
 	test_StringF.cpp \
 	FileSystem.cpp \
 	FileSourceZip.cpp \
-	test_FileSystem.cpp
+	test_FileSystem.cpp \
+	test_Random.cpp
 TESTS = tests
 tests_LDADD = \
 	collider/libcollider.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \
 	terrain/libterrain.a \
-    posix/libposix.a \
+	posix/libposix.a \
 	../contrib/miniz/libminiz.a
 
 uitest_SOURCES = \

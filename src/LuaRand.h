@@ -5,8 +5,8 @@
 #define _LUARAND_H
 
 #include "LuaObject.h"
-#include "mtrand.h"
+#include "rand.h"
 
-typedef LuaObject<MTRand> LuaRand;
+typedef LuaObject<Random> LuaRand;
 
 #endif
