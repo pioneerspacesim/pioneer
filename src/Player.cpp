@@ -29,8 +29,6 @@ void Player::Save(Serializer::Writer &wr, Space *space)
 {
 	Ship::Save(wr, space);
 	MarketAgent::Save(wr);
-	wr.Int32(0); // kill count (preserving save-file compatibility)
-	wr.Int32(0); // known kill count (preserving save-file compatibility)
 }
 
 void Player::Load(Serializer::Reader &rd, Space *space)
@@ -38,8 +36,6 @@ void Player::Load(Serializer::Reader &rd, Space *space)
 	Pi::player = this;
 	Ship::Load(rd, space);
 	MarketAgent::Load(rd);
-	rd.Int32(); // kill count (preserving save-file compatability)
-	rd.Int32(); // known kill count (preserving save-file compatability)
 }
 
 //XXX perhaps remove this, the sound is very annoying
