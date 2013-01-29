@@ -66,6 +66,7 @@ Alpha 31
        state for each (#2007, #1975)
      * Bad terrain generator output will now emit lots of debug info before
        crashing (#2005)
+     * Fixed some memory leaks (#2011)
 
 Alpha 30
 

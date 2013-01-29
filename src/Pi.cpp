@@ -140,6 +140,7 @@ Gui::Fixed *Pi::menu;
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
 ModelCache *Pi::modelCache;
+Intro *Pi::intro;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -545,6 +546,7 @@ void Pi::ToggleLuaConsole()
 void Pi::Quit()
 {
 	Projectile::FreeModel();
+	delete Pi::intro;
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
 	Sfx::Uninit();
@@ -554,12 +556,15 @@ void Pi::Quit()
 	GeoSphere::Uninit();
 	LmrModelCompilerUninit();
 	Galaxy::Uninit();
+	Faction::Uninit();
+	CustomSystem::Uninit();
 	Graphics::Uninit();
 	Pi::ui.Reset(0);
 	LuaUninit();
 	Gui::Uninit();
 	delete Pi::modelCache;
 	delete Pi::renderer;
+	delete Pi::config;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
 	FileSystem::Uninit();
@@ -859,7 +864,7 @@ void Pi::StartGame()
 
 void Pi::Start()
 {
-	Intro *intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 
 	ui->SetInnerWidget(ui->CallTemplate("MainMenu"));
 
@@ -906,6 +911,8 @@ void Pi::Start()
 	ui->RemoveInnerWidget();
 	ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 
+	delete Pi::intro; Pi::intro = 0;
+
 	InitGame();
 	StartGame();
 	MainLoop();
@@ -924,8 +931,6 @@ void Pi::EndGame()
 
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
-
-
 
 	assert(game);
 	delete game;
