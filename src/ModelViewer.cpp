@@ -66,6 +66,11 @@ namespace {
 			}
 		}
 	}
+
+	float zoom_distance(const float base_distance, const float zoom)
+	{
+		return base_distance * powf(2.0f, zoom);
+	}
 }
 
 ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
@@ -74,12 +79,12 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 , m_frameTime(0.f)
 , m_renderer(r)
 , m_decalTexture(0)
-, m_rotX(0), m_rotY(0)
+, m_rotX(0), m_rotY(0), m_zoom(0)
+, m_baseDistance(100.0f)
 , m_rng(time(0))
 , m_currentAnimation(0)
 , m_model(0)
 , m_modelName("")
-, m_camPos(0.f)
 {
 	m_ui.Reset(new UI::Context(lm, r, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), "English"));
 
@@ -344,7 +349,7 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 {
 	assert(m_options.showGrid);
 
-	const float dist = abs(m_camPos.z);
+	const float dist = zoom_distance(m_baseDistance, m_zoom);
 
 	const float max = std::min(powf(10, ceilf(log10f(dist))), ceilf(radius/m_options.gridInterval)*m_options.gridInterval);
 
@@ -416,7 +421,7 @@ void ModelViewer::DrawModel()
 	rot.RotateY(DEG2RAD(m_rotY));
 	rot.RotateX(DEG2RAD(m_rotX));
 
-	matrix4x4f mv = matrix4x4f::Translation(-m_camPos) * rot.InverseOf();
+	matrix4x4f mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot.InverseOf();
 
 	if (m_options.showGrid)
 		DrawGrid(mv, m_model->GetDrawClipRadius());
@@ -645,12 +650,9 @@ void ModelViewer::PollEvents()
 
 void ModelViewer::ResetCamera()
 {
-	if (!m_model)
-		m_camPos = vector3f(0.f, 0.f, 100.f);
-	else
-		m_camPos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius() * 1.5f);
-	//m_camOrient = matrix4x4f::Identity();
+	m_baseDistance = m_model ? m_model->GetDrawClipRadius() * 1.5f : 100.f;
 	m_rotX = m_rotY = 0.f;
+	m_zoom = 0.f;
 }
 
 void ModelViewer::ResetThrusters()
@@ -969,24 +971,27 @@ void ModelViewer::UpdateAnimList()
 
 void ModelViewer::UpdateCamera()
 {
-	float zoomRate = 10.f * m_frameTime;
+	static const float BASE_ZOOM_RATE = 1.0f / 12.0f;
+	float zoomRate = (BASE_ZOOM_RATE * 8.0f) * m_frameTime;
 	float moveRate = 25.f * m_frameTime;
 	if (m_keyStates[SDLK_LSHIFT]) {
-		zoomRate = 200.f * m_frameTime;
+		zoomRate *= 8.0f;
 		moveRate = 100.f * m_frameTime;
 	}
 	else if (m_keyStates[SDLK_RSHIFT]) {
-		zoomRate = 50.f * m_frameTime;
+		zoomRate *= 3.0f;
 		moveRate = 50.f * m_frameTime;
 	}
 
 	//zoom
-	if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * zoomRate;
-	if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * zoomRate;
+	if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_zoom -= zoomRate;
+	if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_zoom += zoomRate;
 
 	//zoom with mouse wheel
-	if (m_mouseWheelUp) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * 10.f;
-	if (m_mouseWheelDown) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * 10.f;
+	if (m_mouseWheelUp) m_zoom -= BASE_ZOOM_RATE;
+	if (m_mouseWheelDown) m_zoom += BASE_ZOOM_RATE;
+
+	m_zoom = Clamp(m_zoom, -10.0f, 10.0f); // distance range: [baseDistance * 1/1024, baseDistance * 1024]
 
 	//rotate
 	if (m_keyStates[SDLK_UP]) m_rotX += moveRate;
