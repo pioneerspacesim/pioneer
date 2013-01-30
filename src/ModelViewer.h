@@ -84,6 +84,7 @@ private:
 	ScopedPtr<SceneGraph::Model> m_gunModel;
 	std::string m_modelName;
 	vector3f m_camPos;
+	float m_zoomMult;
 
 	//undecided on this input stuff
 	//updating the states of all inputs during PollEvents
