@@ -255,12 +255,46 @@ void Model::SetThrust(const vector3f &lin, const vector3f &ang)
 	m_renderData.angthrust[2] = ang.z;
 }
 
+class SaveVisitor : public NodeVisitor {
+public:
+	SaveVisitor(Serializer::Writer *wr_): wr(wr_) {}
+
+	void ApplyMatrixTransform(MatrixTransform &node) {
+		const matrix4x4f &m = node.GetTransform();
+		for (int i = 0; i < 16; i++)
+			wr->Float(m[i]);
+	}
+
+private:
+	Serializer::Writer *wr;
+};
+
 void Model::Save(Serializer::Writer &wr) const
 {
+	SaveVisitor sv(&wr);
+	m_root->Accept(sv);
 }
+
+
+class LoadVisitor : public NodeVisitor {
+public:
+	LoadVisitor(Serializer::Reader *rd_): rd(rd_) {}
+
+	void ApplyMatrixTransform(MatrixTransform &node) {
+		matrix4x4f m;
+		for (int i = 0; i < 16; i++)
+			m[i] = rd->Float();
+		node.SetTransform(m);
+	}
+
+private:
+	Serializer::Reader *rd;
+};
 
 void Model::Load(Serializer::Reader &rd)
 {
+	LoadVisitor lv(&rd);
+	m_root->Accept(lv);
 }
 
 }
