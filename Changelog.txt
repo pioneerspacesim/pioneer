@@ -40,6 +40,7 @@ Alpha 31
      * New material parameters: unlit, two_sided and alpha_test (#1995, #1935)
      * Labels on SGModels can now be set (#1979)
      * Animations now work correctly across detail level switches (#1978)
+     * Modelviewer: Improve zoom behaviour (#2020)
 
    * Script changes
      * Remove deprecated Ship methods.SetPrimaryColour and SetSecondaryColour
