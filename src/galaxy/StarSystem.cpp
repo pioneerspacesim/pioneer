@@ -2131,18 +2131,21 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	outTotalPop += m_population;
 }
 
+bool check_unique_station_name(const std::string & name, const StarSystem * system) {
+	bool ret = true;
+	for (unsigned int i = 0 ; i < system->m_spaceStations.size() ; ++i)
+		if (system->m_spaceStations[i]->name == name) {
+			ret = false;
+			break;
+		}
+	return ret;
+}
+
 std::string gen_unique_station_name(SystemBody *sp, const StarSystem *system, MTRand &namerand) {
 	std::string name;
-	bool exit = false;
-	while (!exit) {
-		exit = true;
+	do {
 		name = Pi::luaNameGen->BodyName(sp, namerand);
-		for (int i = 0 ; i < system->m_spaceStations.size() ; ++i)
-			if (system->m_spaceStations[i]->name == name) {
-				exit = false;
-				break;
-			}
-	}
+	} while (!check_unique_station_name(name, system));
 	return name;
 }
 
