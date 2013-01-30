@@ -255,4 +255,12 @@ void Model::SetThrust(const vector3f &lin, const vector3f &ang)
 	m_renderData.angthrust[2] = ang.z;
 }
 
+void Model::Save(Serializer::Writer &wr) const
+{
+}
+
+void Model::Load(Serializer::Reader &rd)
+{
+}
+
 }

@@ -38,6 +38,7 @@ void ModelBody::Save(Serializer::Writer &wr, Space *space)
 	Body::Save(wr, space);
 	wr.Bool(m_isStatic);
 	wr.Bool(m_colliding);
+	m_model->Save(wr);
 }
 
 void ModelBody::Load(Serializer::Reader &rd, Space *space)
@@ -45,6 +46,7 @@ void ModelBody::Load(Serializer::Reader &rd, Space *space)
 	Body::Load(rd, space);
 	m_isStatic = rd.Bool();
 	m_colliding = rd.Bool();
+	m_model->Load(rd);
 }
 
 void ModelBody::SetStatic(bool isStatic)
