@@ -80,6 +80,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 , m_model(0)
 , m_modelName("")
 , m_camPos(0.f)
+, m_zoomMult(10.f)
 {
 	m_ui.Reset(new UI::Context(lm, r, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), "English"));
 
@@ -691,6 +692,8 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		SceneGraph::DumpVisitor d;
 		m_model->GetRoot()->Accept(d);
 		AddLog("Done.");
+
+		m_zoomMult = m_model->GetDrawClipRadius() * 0.2f;
 	} catch (SceneGraph::LoadingError &err) {
 		// report the error and show model picker.
 		m_model = 0;
@@ -969,14 +972,14 @@ void ModelViewer::UpdateAnimList()
 
 void ModelViewer::UpdateCamera()
 {
-	float zoomRate = 10.f * m_frameTime;
+	float zoomRate = m_zoomMult * m_frameTime;
 	float moveRate = 25.f * m_frameTime;
 	if (m_keyStates[SDLK_LSHIFT]) {
-		zoomRate = 200.f * m_frameTime;
+		zoomRate = m_zoomMult * 20.0f * m_frameTime;
 		moveRate = 100.f * m_frameTime;
 	}
 	else if (m_keyStates[SDLK_RSHIFT]) {
-		zoomRate = 50.f * m_frameTime;
+		zoomRate = m_zoomMult * m_frameTime;
 		moveRate = 50.f * m_frameTime;
 	}
 
@@ -985,8 +988,8 @@ void ModelViewer::UpdateCamera()
 	if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * zoomRate;
 
 	//zoom with mouse wheel
-	if (m_mouseWheelUp) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * 10.f;
-	if (m_mouseWheelDown) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * 10.f;
+	if (m_mouseWheelUp) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * m_zoomMult;
+	if (m_mouseWheelDown) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * m_zoomMult;
 
 	//rotate
 	if (m_keyStates[SDLK_UP]) m_rotX += moveRate;
