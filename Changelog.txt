@@ -28,6 +28,7 @@ Alpha 31
      * Fixed various crashes caused by console completion (#1998)
      * SGModel animation timing fixes (#1978, #1970)
      * Greatly reduced chance of police ships spawning on top of each other (#1993)
+     * Fixed station names being repeated within a single system (#1958, #1911)
 
    * Model changes
      * Modelviewer: Reloading model also reloads textures (#1968, #1939)
