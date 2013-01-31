@@ -1,0 +1,8 @@
+# MTL written from C:\Users\rivalin\Desktop\pioneer-3003b91-win32\data\models\ships\lanner\lannershield.obj
+newmtl shield
+Kd 0.8 0.8 0.8
+Ns 256
+d 1
+illum 1
+Ka 0 0 0
+Ks 0.2 0.2 0.2
