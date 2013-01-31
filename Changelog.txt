@@ -19,6 +19,7 @@ Alpha 31
      * New Hope is now located on land (#1977)
      * Debug information overlay now includes latitude and longitude (#1994)
      * Missile spawn and control moved to Lua (#1663)
+     * Add more names to the name generator (#2021)
 
    * Fixes
      * Collisions with stars now work again (#1942)
