@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.65.0 runknown</authoring_tool>
     </contributor>
-    <created>2013-01-31T02:06:56</created>
-    <modified>2013-01-31T02:06:56</modified>
+    <created>2013-01-31T02:12:16</created>
+    <modified>2013-01-31T02:12:16</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -451,14 +451,24 @@
             </accessor>
           </technique_common>
         </source>
+        <source id="Cylinder_002-mesh-map-0">
+          <float_array id="Cylinder_002-mesh-map-0-array" count="48">0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 1 1 0 1 0 0 1 0 0 0 1 0 1 1 0 1</float_array>
+          <technique_common>
+            <accessor source="#Cylinder_002-mesh-map-0-array" count="24" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
         <vertices id="Cylinder_002-mesh-vertices">
           <input semantic="POSITION" source="#Cylinder_002-mesh-positions"/>
         </vertices>
         <polylist material="landing-gear-material" count="6">
           <input semantic="VERTEX" source="#Cylinder_002-mesh-vertices" offset="0"/>
           <input semantic="NORMAL" source="#Cylinder_002-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Cylinder_002-mesh-map-0" offset="2" set="0"/>
           <vcount>4 4 4 4 4 4 </vcount>
-          <p>0 0 1 0 3 0 2 0 2 1 3 1 5 1 4 1 4 2 5 2 7 2 6 2 6 3 7 3 9 3 8 3 1 4 0 4 10 4 11 4 8 5 9 5 11 5 10 5</p>
+          <p>0 0 0 1 0 1 3 0 2 2 0 3 2 1 4 3 1 5 5 1 6 4 1 7 4 2 8 5 2 9 7 2 10 6 2 11 6 3 12 7 3 13 9 3 14 8 3 15 1 4 16 0 4 17 10 4 18 11 4 19 8 5 20 9 5 21 11 5 22 10 5 23</p>
         </polylist>
       </mesh>
       <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
@@ -485,14 +495,24 @@
             </accessor>
           </technique_common>
         </source>
+        <source id="Cube_002-mesh-map-0">
+          <float_array id="Cube_002-mesh-map-0-array" count="432">1 1 0 1 0 0 1 0 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1</float_array>
+          <technique_common>
+            <accessor source="#Cube_002-mesh-map-0-array" count="216" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
         <vertices id="Cube_002-mesh-vertices">
           <input semantic="POSITION" source="#Cube_002-mesh-positions"/>
         </vertices>
         <polylist material="landing-gear-material" count="54">
           <input semantic="VERTEX" source="#Cube_002-mesh-vertices" offset="0"/>
           <input semantic="NORMAL" source="#Cube_002-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Cube_002-mesh-map-0" offset="2" set="0"/>
           <vcount>4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 </vcount>
-          <p>38 0 0 0 4 0 37 0 2 1 1 1 16 1 17 1 26 2 44 2 43 2 30 2 3 3 7 3 23 3 21 3 0 4 38 4 33 4 3 4 4 5 7 5 11 5 8 5 28 6 10 6 14 6 31 6 26 7 6 7 10 7 28 7 5 8 25 8 24 8 9 8 6 9 5 9 9 9 10 9 31 10 14 10 13 10 27 10 8 11 11 11 15 11 12 11 9 12 24 12 27 12 13 12 10 13 9 13 13 13 14 13 18 14 19 14 17 14 16 14 5 15 6 15 19 15 18 15 1 16 5 16 18 16 16 16 6 17 2 17 17 17 19 17 23 18 22 18 20 18 21 18 7 19 4 19 22 19 23 19 4 20 0 20 20 20 22 20 0 21 3 21 21 21 20 21 25 22 5 22 1 22 29 22 6 23 26 23 30 23 2 23 29 24 1 24 2 24 30 24 52 25 46 25 42 25 48 25 47 26 54 26 51 26 45 26 48 27 42 27 41 27 55 27 45 28 51 28 55 28 41 28 50 29 44 29 46 29 52 29 47 30 25 30 29 30 40 30 34 31 7 31 3 31 33 31 40 32 29 32 30 32 43 32 37 33 4 33 8 33 35 33 35 34 8 34 12 34 32 34 11 35 36 35 39 35 15 35 15 36 39 36 32 36 12 36 7 37 34 37 36 37 11 37 50 38 34 38 33 38 49 38 25 39 47 39 45 39 24 39 24 40 45 40 41 40 27 40 54 41 47 41 40 41 53 41 38 42 53 42 49 42 33 42 46 43 28 43 31 43 42 43 42 44 31 44 27 44 41 44 44 45 26 45 28 45 46 45 37 46 54 46 53 46 38 46 54 47 37 47 35 47 51 47 51 48 35 48 32 48 55 48 44 49 50 49 49 49 43 49 53 50 40 50 43 50 49 50 36 51 52 51 48 51 39 51 39 52 48 52 55 52 32 52 34 53 50 53 52 53 36 53</p>
+          <p>38 0 0 0 0 1 4 0 2 37 0 3 2 1 4 1 1 5 16 1 6 17 1 7 26 2 8 44 2 9 43 2 10 30 2 11 3 3 12 7 3 13 23 3 14 21 3 15 0 4 16 38 4 17 33 4 18 3 4 19 4 5 20 7 5 21 11 5 22 8 5 23 28 6 24 10 6 25 14 6 26 31 6 27 26 7 28 6 7 29 10 7 30 28 7 31 5 8 32 25 8 33 24 8 34 9 8 35 6 9 36 5 9 37 9 9 38 10 9 39 31 10 40 14 10 41 13 10 42 27 10 43 8 11 44 11 11 45 15 11 46 12 11 47 9 12 48 24 12 49 27 12 50 13 12 51 10 13 52 9 13 53 13 13 54 14 13 55 18 14 56 19 14 57 17 14 58 16 14 59 5 15 60 6 15 61 19 15 62 18 15 63 1 16 64 5 16 65 18 16 66 16 16 67 6 17 68 2 17 69 17 17 70 19 17 71 23 18 72 22 18 73 20 18 74 21 18 75 7 19 76 4 19 77 22 19 78 23 19 79 4 20 80 0 20 81 20 20 82 22 20 83 0 21 84 3 21 85 21 21 86 20 21 87 25 22 88 5 22 89 1 22 90 29 22 91 6 23 92 26 23 93 30 23 94 2 23 95 29 24 96 1 24 97 2 24 98 30 24 99 52 25 100 46 25 101 42 25 102 48 25 103 47 26 104 54 26 105 51 26 106 45 26 107 48 27 108 42 27 109 41 27 110 55 27 111 45 28 112 51 28 113 55 28 114 41 28 115 50 29 116 44 29 117 46 29 118 52 29 119 47 30 120 25 30 121 29 30 122 40 30 123 34 31 124 7 31 125 3 31 126 33 31 127 40 32 128 29 32 129 30 32 130 43 32 131 37 33 132 4 33 133 8 33 134 35 33 135 35 34 136 8 34 137 12 34 138 32 34 139 11 35 140 36 35 141 39 35 142 15 35 143 15 36 144 39 36 145 32 36 146 12 36 147 7 37 148 34 37 149 36 37 150 11 37 151 50 38 152 34 38 153 33 38 154 49 38 155 25 39 156 47 39 157 45 39 158 24 39 159 24 40 160 45 40 161 41 40 162 27 40 163 54 41 164 47 41 165 40 41 166 53 41 167 38 42 168 53 42 169 49 42 170 33 42 171 46 43 172 28 43 173 31 43 174 42 43 175 42 44 176 31 44 177 27 44 178 41 44 179 44 45 180 26 45 181 28 45 182 46 45 183 37 46 184 54 46 185 53 46 186 38 46 187 54 47 188 37 47 189 35 47 190 51 47 191 51 48 192 35 48 193 32 48 194 55 48 195 44 49 196 50 49 197 49 49 198 43 49 199 53 50 200 40 50 201 43 50 202 49 50 203 36 51 204 52 51 205 48 51 206 39 51 207 39 52 208 48 52 209 55 52 210 32 52 211 34 53 212 50 53 213 52 53 214 36 53 215</p>
         </polylist>
       </mesh>
       <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
@@ -519,14 +539,24 @@
             </accessor>
           </technique_common>
         </source>
+        <source id="Cube-mesh-map-0">
+          <float_array id="Cube-mesh-map-0-array" count="144">0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 1 1 0 1 0 0 1 0 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1</float_array>
+          <technique_common>
+            <accessor source="#Cube-mesh-map-0-array" count="72" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
         <vertices id="Cube-mesh-vertices">
           <input semantic="POSITION" source="#Cube-mesh-positions"/>
         </vertices>
         <polylist material="landing-gear-material" count="18">
           <input semantic="VERTEX" source="#Cube-mesh-vertices" offset="0"/>
           <input semantic="NORMAL" source="#Cube-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Cube-mesh-map-0" offset="2" set="0"/>
           <vcount>4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 </vcount>
-          <p>0 0 1 0 3 0 2 0 2 1 3 1 5 1 4 1 4 2 5 2 7 2 6 2 6 3 7 3 9 3 8 3 8 4 9 4 11 4 10 4 1 5 0 5 10 5 11 5 16 6 17 6 13 6 12 6 17 7 18 7 14 7 13 7 18 8 19 8 15 8 14 8 19 9 16 9 12 9 15 9 12 10 13 10 14 10 15 10 19 11 18 11 17 11 16 11 24 12 25 12 21 12 20 12 25 13 26 13 22 13 21 13 26 14 27 14 23 14 22 14 27 15 24 15 20 15 23 15 20 16 21 16 22 16 23 16 27 17 26 17 25 17 24 17</p>
+          <p>0 0 0 1 0 1 3 0 2 2 0 3 2 1 4 3 1 5 5 1 6 4 1 7 4 2 8 5 2 9 7 2 10 6 2 11 6 3 12 7 3 13 9 3 14 8 3 15 8 4 16 9 4 17 11 4 18 10 4 19 1 5 20 0 5 21 10 5 22 11 5 23 16 6 24 17 6 25 13 6 26 12 6 27 17 7 28 18 7 29 14 7 30 13 7 31 18 8 32 19 8 33 15 8 34 14 8 35 19 9 36 16 9 37 12 9 38 15 9 39 12 10 40 13 10 41 14 10 42 15 10 43 19 11 44 18 11 45 17 11 46 16 11 47 24 12 48 25 12 49 21 12 50 20 12 51 25 13 52 26 13 53 22 13 54 21 13 55 26 14 56 27 14 57 23 14 58 22 14 59 27 15 60 24 15 61 20 15 62 23 15 63 20 16 64 21 16 65 22 16 66 23 16 67 27 17 68 26 17 69 25 17 70 24 17 71</p>
         </polylist>
       </mesh>
       <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
@@ -2715,7 +2745,9 @@
           <instance_geometry url="#Cylinder_002-mesh">
             <bind_material>
               <technique_common>
-                <instance_material symbol="landing-gear-material" target="#landing-gear-material"/>
+                <instance_material symbol="landing-gear-material" target="#landing-gear-material">
+                  <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+                </instance_material>
               </technique_common>
             </bind_material>
           </instance_geometry>
@@ -2729,7 +2761,9 @@
           <instance_geometry url="#Cube_002-mesh">
             <bind_material>
               <technique_common>
-                <instance_material symbol="landing-gear-material" target="#landing-gear-material"/>
+                <instance_material symbol="landing-gear-material" target="#landing-gear-material">
+                  <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+                </instance_material>
               </technique_common>
             </bind_material>
           </instance_geometry>
@@ -2750,7 +2784,9 @@
           <instance_geometry url="#Cube_002-mesh">
             <bind_material>
               <technique_common>
-                <instance_material symbol="landing-gear-material" target="#landing-gear-material"/>
+                <instance_material symbol="landing-gear-material" target="#landing-gear-material">
+                  <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+                </instance_material>
               </technique_common>
             </bind_material>
           </instance_geometry>
@@ -2764,7 +2800,9 @@
           <instance_geometry url="#Cylinder_002-mesh">
             <bind_material>
               <technique_common>
-                <instance_material symbol="landing-gear-material" target="#landing-gear-material"/>
+                <instance_material symbol="landing-gear-material" target="#landing-gear-material">
+                  <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+                </instance_material>
               </technique_common>
             </bind_material>
           </instance_geometry>
@@ -2785,7 +2823,9 @@
           <instance_geometry url="#Cube-mesh">
             <bind_material>
               <technique_common>
-                <instance_material symbol="landing-gear-material" target="#landing-gear-material"/>
+                <instance_material symbol="landing-gear-material" target="#landing-gear-material">
+                  <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+                </instance_material>
               </technique_common>
             </bind_material>
           </instance_geometry>
