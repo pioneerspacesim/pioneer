@@ -307,9 +307,9 @@ end
 -- to remove their crew from the roster.
 local onEnterSystem = function (ship)
 	if ship:IsPlayer() then
-		for ship,crew in pairs(CrewRoster) do
-			if not ship:exists() then
-				CrewRoster[ship] = nil
+		for crewedShip,crew in pairs(CrewRoster) do
+			if not crewedShip:exists() then
+				CrewRoster[crewedShip] = nil
 			end
 		end
 	end
