@@ -17,7 +17,7 @@ material landing-gear-material
 diffuse 0.3 0.3 0.3
 specular 0 0 0
 
-lod 30
+lod 50
 mesh wave-mq.dae
 
 lod 1000
