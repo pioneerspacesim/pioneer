@@ -97,6 +97,8 @@ Translate:Add({ English = {
 	["Your drive has not been serviced since it was installed on {date}"] = "Your drive has not been serviced since it was installed on {date}",
 	["You do not have a drive to service!"] = "You do not have a drive to service!",
 	["The ship's hyperdrive has been destroyed by a malfunction"] = "The ship's hyperdrive has been destroyed by a malfunction",
+	["You fixed the hyperdrive before it broke down."] = "You fixed the hyperdrive before it broke down.",
+	["I fixed the hyperdrive before it broke down."] = "I fixed the hyperdrive before it broke down.",
 }, })
 
 ---- POLISH / POLSKI ----
