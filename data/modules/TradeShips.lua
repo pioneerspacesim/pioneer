@@ -25,6 +25,8 @@
 				cowering - docked after having been attacked, waiting for
 					attacker to go away
 				orbit - was unable to dock, heading to or waiting in orbit
+				broken - was unable to land and unable to unable to hyperspace away,
+					now it waits to be resced or ransacked by pirates					
 			cargo - table of cargo types and amounts currently carried;
 				key: Constants.EquipType string, value: number
 			attacker - what this was last attacked by; Body object
@@ -200,8 +202,11 @@ local getNearestStarport = function (ship, current)
 		if next_starport ~= current then
 			local next_distance = ship:DistanceTo(next_starport)
 			local next_canland = (trader.ATMOSHIELD or
-				(next_starport.type == 'STARPORT_ORBITAL') or
 				(not next_starport.path:GetSystemBody().parent.hasAtmosphere))
+				
+			next_canland = (next_canland and 
+				(next_starport.path:GetSystemBody().parent.gravity < ship:GetMinAcceleration() ) )
+			next_canland = (next_canland or (next_starport.type == 'STARPORT_ORBITAL'))
 
 			if next_canland and ((starport == nil) or (next_distance < distance)) then
 				starport, distance = next_starport, next_distance
@@ -209,6 +214,31 @@ local getNearestStarport = function (ship, current)
 		end
 	end
 	return starport or current
+end
+
+local getRandomStarport = function (ship_name)
+	if #starports == 0 then return nil end
+
+	local random_offset = Engine.rand:Integer(1, #starports)
+	local ship_type = ShipType.GetShipType(ship_name)
+
+	-- Find the random starport that we can land at.
+	-- Pick random offset and keep skipping improper starports until the proper one is found.
+	local starport
+	for i = 1, #starports do
+		local next_starport = starports[((i + random_offset - 1)%(#starports) + 1)]
+		local next_canland = ((ship_type:GetEquipSlotCapacity('ATMOSHIELD') > 0) or
+			(not next_starport.path:GetSystemBody().parent.hasAtmosphere))
+				
+		next_canland = (next_canland and 
+			(next_starport.path:GetSystemBody().parent.gravity < ship_type:GetMinAcceleration(1) ) )
+		next_canland = (next_canland or (next_starport.type == 'STARPORT_ORBITAL'))
+		
+		if(next_canland) then
+			return next_starport
+		end
+	end
+	return nil
 end
 
 local getSystem = function (ship)
@@ -281,9 +311,36 @@ local getSystemAndJump = function (ship)
 	return jumpToSystem(ship, getSystem(ship))
 end
 
+local orbitalStarportsPresent = function ()
+	for i = 1, #starports do
+		local next_starport = starports[i]
+		if (next_starport.type == 'STARPORT_ORBITAL') then
+			return true
+			end
+	end
+	return false
+end
+
+local minimalRequiredAcceleration = function ()
+	local acc = 999
+	for i = 1, #starports do
+		local next_starport = starports[i]
+		if (next_starport.path:GetSystemBody().parent.gravity < acc) then
+			acc = next_starport.path:GetSystemBody().parent.gravity
+			end
+	end
+	return acc
+end
+
 local filterAcceptableShips = function (ship_type)
-	-- only accept ships with enough capacity that are capable of landing in atmospheres
-	return (ship_type.hullMass >= 100) and (ship_type:GetEquipSlotCapacity('ATMOSHIELD') > 0)
+	-- only accept ships with enough capacity
+	return (ship_type.hullMass >= 50)
+end
+
+local filterAcceptableShipsForLanding = function (ship_type)
+	-- only accept ships with good enough accelerations for landing that are capable of landing in atmospheres
+	return (filterAcceptableShips(ship_type) and ship_type:GetMinAcceleration(1) > minimalRequiredAcceleration()
+		and (ship_type:GetEquipSlotCapacity('ATMOSHIELD') > 0) )
 end
 
 local spawnInitialShips = function (game_start)
@@ -292,7 +349,12 @@ local spawnInitialShips = function (game_start)
 	if #starports == 0 then return nil end
 	local population = Game.system.population
 	if population == 0 then return nil end
-	local ship_names = ShipType.GetShipTypes('SHIP', filterAcceptableShips)
+	local ship_names
+	if orbitalStarportsPresent() then -- if there are no starports, omit types that cannot land
+		ship_names = ShipType.GetShipTypes('SHIP', filterAcceptableShips)
+		else
+		ship_names = ShipType.GetShipTypes('SHIP', filterAcceptableShipsForLanding)
+		end
 	if #ship_names == 0 then return nil end
 
 	-- get a measure of the market size and build lists of imports and exports
@@ -355,7 +417,11 @@ local spawnInitialShips = function (game_start)
 
 		if game_start and i < num_trade_ships / 4 then
 			-- spawn the first quarter in port if at game start
-			local starport = starports[Engine.rand:Integer(1, #starports)]
+			local starport = getRandomStarport(ship_name)
+			if(starport == nil) then -- we accidentally generated ship type that can land nowhere
+				starport = starports[Engine.rand:Integer(1, #starports)]
+				print(ship.label..' '..' will be spawned in improper starport'..starport.label..' since nothing else suited it')
+			end
 
 			ship = Space.SpawnShipDocked(ship_name, starport)
 			if ship ~= nil then
@@ -365,6 +431,7 @@ local spawnInitialShips = function (game_start)
 					ship_name	= ship_name,
 				}
 				addShipEquip(ship)
+				print(ship.label..' '..trade_ships[ship].ship_name..' spawned in '..starport.label..' docked')
 			else
 				-- the starport must have been full
 				ship = Space.SpawnShipNear(ship_name, starport, 10000000, 149598000) -- 10mkm - 1AU
@@ -374,6 +441,7 @@ local spawnInitialShips = function (game_start)
 					ship_name	= ship_name,
 				}
 				addShipEquip(ship)
+				print(ship.label..' '..trade_ships[ship].ship_name..' to be spawned at '..starport.label..' was spawned near because it was full')
 			end
 		elseif i < num_trade_ships * 0.75 then
 			-- spawn the first three quarters in space, or middle half if game start
@@ -391,6 +459,14 @@ local spawnInitialShips = function (game_start)
 			addShipEquip(ship)
 			-- ...this next call needs to see if there's an atmospheric shield.
 			trade_ships[ship].starport	= getNearestStarport(ship)
+			-- there is no proper starport, e.g. orbital starport no availiable
+			if trade_ships[ship].starport == nil then
+				trade_ships[ship].starport = starports[Engine.rand:Integer(1, #starports)]
+				trade_ships[ship].status = 'outbound'
+				print(ship.label..' '..ship_name..' will leave system, no orbital starports, '..ship:GetMinAcceleration()..' '..trade_ships[ship].starport.path:GetSystemBody().parent.gravity..' '..ShipType.GetShipType(ship_name):GetMinAcceleration(1))
+			else
+				print(ship.label..' spawned near '..trade_ships[ship].starport.label..' well')
+			end
 		else
 			-- spawn the last quarter in hyperspace
 			local min_time = trade_ships.interval * (i - num_trade_ships * 0.75)
@@ -512,9 +588,13 @@ local onEnterSystem = function (ship)
 			-- if we couldn't reach any systems wait for player to attack
 		else
 			local starport = getNearestStarport(ship)
-			ship:AIDockWith(starport)
-			trade_ships[ship]['starport'] = starport
-			trade_ships[ship]['status'] = 'inbound'
+			if starport ~= nil then
+				ship:AIDockWith(starport)
+				trade_ships[ship]['starport'] = starport
+				trade_ships[ship]['status'] = 'inbound'
+				else
+				trade_ships[ship]['status'] = 'outbound'
+				end
 		end
 	end
 end
@@ -628,11 +708,14 @@ local onAICompleted = function (ship, ai_error)
 	local trader = trade_ships[ship]
 	if ai_error ~= 'NONE' then
 		print(ship.label..' AICompleted: Error: '..ai_error..' Status: '..trader.status) end
-
+		
 	if trader.status == 'outbound' then
 		if getSystemAndJump(ship) ~= 'OK' then
 			ship:AIDockWith(trader.starport)
-			trader['status'] = 'inbound'
+			-- Ship cannot leave the system and probably cannot even land (tried and failed).
+			-- Switch to 'inbound' is incorrect, since the possible inbound..outbound..inbound..outbound loop.
+			trader['status'] = 'broken'
+			print(ship.label..' is '..ship.status..', pirates celebrate!')
 		end
 	elseif trader.status == 'orbit' then
 		if ai_error == 'NONE' then
@@ -650,6 +733,20 @@ local onAICompleted = function (ship, ai_error)
 	elseif trader.status == 'inbound' then
 		if ai_error == 'REFUSED_PERM' then doOrbit(ship) end
 	end
+	
+	if ai_error == 'GRAV_TOO_HIGH' and trader.status == 'inbound' then
+		local starport = trader.starport
+		print(ship.label..' will change to orbital spaceport from '..trader.starport.label)
+		trader['starport'] = getNearestStarport(ship, trader.starport) 
+		
+		if trade_ships[ship].starport == starport then
+			trade_ships[ship].status = 'outbound'
+			print('to another system, no orbital starport found, status '..trade_ships[ship].status..' '..ship:GetMinAcceleration()..' '..ShipType.GetShipType(trader.ship_name):GetMinAcceleration(1))
+			else
+			print('.. to '..trader.starport.label)
+			end
+		end
+	
 end
 Event.Register("onAICompleted", onAICompleted)
 

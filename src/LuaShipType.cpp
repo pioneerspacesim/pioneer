@@ -283,6 +283,39 @@ static int l_shiptype_get_ship_type(lua_State *l)
 }
 
 /*
+ * Method: GetMinAcceleration
+ *
+ * Get minimum of acceleration of the ship. Argument load is float ranging from 0-1,
+ * 		0 = ship is empty
+ * 		1 = ship is fully laden
+ *
+ * > ship_type:GetMinAcceleration(load)
+ *
+ * Availability:
+ *
+ *  alpha 28
+ *
+ * Status:
+ *
+ *  experimental
+ */
+int l_ship_type_get_acc(lua_State *l)
+{
+	const ShipType *st = LuaShipType::GetFromLua(1);
+	const float load = float(luaL_checknumber(l, 2));
+	float thrust_min = 1e99;
+	for(int i = 0; i < st->THRUSTER_MAX; i++) {
+		if(thrust_min > fabs(st->linThrust[i]))
+			thrust_min = fabs(st->linThrust[i]);
+	}
+	thrust_min /= 1000*(st->hullMass + st->fuelTankMass + st->capacity*Clamp(load, 0.0f, 1.0f));
+	//printf("%s %.2f (%.2f %.2f %.2f) -- %.2f\n", st->lmrModelName.c_str(), thrust_min, st->linThrust[0] , float(st->hullMass), float(st->fuelTankMass), load);
+	lua_pushnumber(l, thrust_min);
+	return 1;
+}
+
+
+/*
  * Function: GetShipTypes
  *
  * Returns an array of ship description objects that match the specified
@@ -384,6 +417,7 @@ template <> void LuaObject<LuaUncopyable<ShipType> >::RegisterClass()
 
 		{ "GetShipType",  l_shiptype_get_ship_type  },
 		{ "GetShipTypes", l_shiptype_get_ship_types },
+		{ "GetMinAcceleration", l_ship_type_get_acc},
 		{ 0, 0 }
 	};
 

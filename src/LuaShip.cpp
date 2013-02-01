@@ -1390,6 +1390,28 @@ static int l_ship_cancel_ai(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: GetAcceleration
+ *
+ * Get minimum of forward, rear, up, down, right left accelerations
+ *
+ * > ship:GetMinAcceleration()
+ *
+ * Availability:
+ *
+ *  alpha 28
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_get_acc(lua_State *l)
+{
+        Ship *s = LuaShip::GetFromLua(1);
+        lua_pushnumber(l, std::min(std::min(s->GetAccelFwd(), s->GetAccelRev()), s->GetAccelMin()) );
+        return 1;
+}
+
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
@@ -1436,6 +1458,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "CheckHyperspaceTo", l_ship_check_hyperspace_to },
 		{ "GetHyperspaceDetails", l_ship_get_hyperspace_details },
 		{ "HyperspaceTo",    l_ship_hyperspace_to     },
+
+		{ "GetMinAcceleration", l_ship_get_acc },
 
 		{ 0, 0 }
 	};
