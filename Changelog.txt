@@ -5,6 +5,7 @@ Alpha 31
      * Converted Lanner ship to SGModel (#1957, #1969, #2002)
      * Converted Wave ship to SGModel (#2022)
      * Converted "big crappy" spacestation to SGModel (#1964, #2017)
+     * Converted "hoop" spacestation to SGModel (#1932)
      * New ship "Deep Space Miner" (#2023)
 
    * Minor changes and tweaks
