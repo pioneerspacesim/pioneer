@@ -2,6 +2,7 @@ Alpha 31
 
    * New features
      * Converted Lanner ship to SGModel (#1957, #1969, #2002)
+     * Converted Wave ship to SGModel (#2022)
      * Converted "big crappy" spacestation to SGModel (#1964, #2017)
 
    * Minor changes and tweaks
