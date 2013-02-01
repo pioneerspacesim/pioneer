@@ -11,6 +11,10 @@ local missile_names = {
 -- Class representing a ship. Inherits from <Body>.
 --
 
+-- This is a protected table (accessors only) in which details of each ship's crew
+-- will be stored.
+local CrewRoster = {}
+
 --
 -- Group: Methods
 --
@@ -104,14 +108,14 @@ end
 --
 --   experimental
 --
-function Ship:Refuel(amount)
+Ship.Refuel = function (self,amount)
 	local t = Translate:GetTranslator()
     local currentFuel = self.fuel
     if currentFuel == 100 then
 		Comms.Message(t('Fuel tank full.'))
         return 0
     end
-    local ship_stats = self:GetStats()
+    local ship_stats = self:Stats()
     local needed = math.clamp(math.ceil(ship_stats.maxFuelTankMass - ship_stats.fuelMassLeft),0, amount)
     local removed = self:RemoveEquip('WATER', needed)
     self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / ship_stats.maxFuelTankMass, 0, 100))
@@ -145,7 +149,7 @@ end
 --
 --   experimental
 --
-function Ship:Jettison(equip)
+Ship.Jettison = function (self,equip)
 	if self.flightState ~= "FLYING" and self.flightState ~= "DOCKED" and self.flightState ~= "LANDED" then
 		return false
 	end
@@ -162,3 +166,240 @@ function Ship:Jettison(equip)
 	end
 end
 
+--
+-- Method: Enroll
+--
+-- Enroll a [Character] as a member of the ship's crew
+--
+-- > success = ship:Enroll(newCrewMember)
+--
+-- Parameters:
+--
+--   newCrewMember - a [Character] instance
+--
+-- Returns:
+--
+--   success - True indicates that the Character became a member of the crew. False indicates
+--             that the Character did not become a member of the crew, either because there
+--             is no room for the Character on the crew roster, or because they are already
+--             enrolled as crew on another ship.
+--
+-- Availability:
+--
+--   alpha 31
+--
+-- Status:
+--
+--   experimental
+--
+local isNotAlreadyEnrolled = function (crewmember)
+	for ship,crew in pairs(CrewRoster) do
+		for key,existingmember in pairs(crew) do
+			if existingmember == crewmember
+			then
+				return false
+			end
+		end
+	end
+	return true
+end
+
+Ship.Enroll = function (self,newCrewMember)
+	if not (
+		type(newCrewMember) == "table" and
+		getmetatable(newCrewMember) and
+		getmetatable(newCrewMember).class == 'Character'
+	) then
+		error("Ship:Enroll: newCrewMember must be a Character object")
+	end
+	if not CrewRoster[self] then CrewRoster[self] = {} end
+	if #CrewRoster[self] < ShipType.GetShipType(self.shipId).maxCrew
+	and isNotAlreadyEnrolled(newCrewMember)
+	then
+		newCrewMember:CheckOut() -- Don't want other scripts using our crew for missions etc
+		table.insert(CrewRoster[self],newCrewMember)
+		Event.Queue('onJoinCrew',self,newCrewMember) -- Signal any scripts that care!
+		return true
+	else
+		return false
+	end
+end
+
+--
+-- Method: Dismiss
+--
+-- Dismiss a [Character] as a member of the ship's crew
+--
+-- > success = ship:Dismiss(crewMember)
+--
+-- Parameters:
+--
+--   crewMember - a [Character] instance
+--
+-- Returns:
+--
+--   success - True indicates that the Character is no longer a member of the crew. False
+--             indicates that the Character was not removed, either because they were not
+--             a member of the crew, or because they could not be removed because of a
+--             special case. Currently the only special case is that the player's Character
+--             cannot be dismissed from a crew.
+--
+-- Availability:
+--
+--   alpha 31
+--
+-- Status:
+--
+--   experimental
+--
+
+Ship.Dismiss = function (self,crewMember)
+	if not CrewRoster[self] then return false end
+	if not (
+		type(crewMember) == "table" and
+		getmetatable(crewMember) and
+		getmetatable(crewMember).class == 'Character'
+	) then
+		error("Ship:Dismiss: crewMember must be a Character object")
+	end
+	if crewMember.player then return false end -- Can't dismiss the player
+	for key,existingCrewMember in pairs(CrewRoster[self]) do
+		if crewMember == existingCrewMember
+		then
+			table.remove(CrewRoster[self],key)
+			Event.Queue('onLeaveCrew',self,crewMember) -- Signal any scripts that care!
+			crewMember:Save() -- Crew member can pop up elsewhere
+			return true
+		end
+	end
+	return false
+end
+
+--
+-- Method: GenerateCrew
+--
+-- Generates a full crew complement for a ship that has no initialised crew list.
+-- Intended to be run automatically by [EachCrewMember] when querying arbitrary ships.
+--
+-- > ship:GenerateCrew()
+--
+-- Availability:
+--
+--   alpha 31
+--
+-- Status:
+--
+--   experimental
+--
+Ship.GenerateCrew = function (self)
+	if CrewRoster[self] then return end -- Bottle out if there's ever been a crew
+	for i = 1, ShipType.GetShipType(self.shipId).maxCrew do
+		local newCrew = Character.New()
+		newCrew:RollNew(true)
+		self:Enroll(newCrew)
+	end
+end
+
+--
+-- Method: EachCrewMember
+--
+-- Returns an iterator function which returns each crew member in turn
+--
+-- > for crew in ship:EachCrewMember() do print(crew.name) end
+--
+-- Returns:
+--
+--   crew - A [Character], once per crew member per call
+--
+-- Availability:
+--
+--   alpha 31
+--
+-- Status:
+--
+--   experimental
+--
+Ship.EachCrewMember = function (self)
+	-- If there's no crew, magic one up.
+	if not CrewRoster[self] then self:GenerateCrew() end
+	-- Initialise and return enclosed iterator
+	local i = 0
+	return function ()
+		i = i + 1
+		return CrewRoster[self][i]
+	end
+end
+
+--
+-- Method: HasCorrectCrew
+--
+-- Determine whether a ship has the minimum crew required for launch
+--
+-- > canLaunch = ship:HasCorrectCrew()
+--
+-- Returns:
+--
+--   canLaunch - Boolean, true if ship has minimum required crew for launch, otherwise false/nil
+--
+-- Availability:
+--
+--   alpha 31
+--
+-- Status:
+--
+--   experimental
+--
+Ship.HasCorrectCrew = function (self)
+	return (CrewRoster[self] and (
+		#CrewRoster[self] >= ShipType.GetShipType(self.shipId).minCrew and
+		#CrewRoster[self] <= ShipType.GetShipType(self.shipId).maxCrew
+	))
+end
+
+-- LOADING AND SAVING
+
+local loaded_data
+
+local onGameStart = function ()
+	if loaded_data then
+		CrewRoster = loaded_data
+		Event.Queue('crewAvailable') -- Signal any scripts that depend on initialised crew
+	end
+	loaded_data = nil
+end
+
+local serialize = function ()
+    return CrewRoster
+end
+
+local unserialize = function (data)
+    loaded_data = data
+end
+
+-- Function to check whether ships exist after hyperspace, and if they do not,
+-- to remove their crew from the roster.
+local onEnterSystem = function (ship)
+	if ship:IsPlayer() then
+		for crewedShip,crew in pairs(CrewRoster) do
+			if not crewedShip:exists() then
+				CrewRoster[crewedShip] = nil
+			end
+		end
+	end
+end
+
+local onShipDestroyed = function (ship, attacker)
+	-- When a ship is destroyed, mark is crew as dead
+	-- and remove the ship's crew from CrewRoster
+	if CrewRoster[ship] then
+		for key,crewMember in pairs(CrewRoster[ship]) do
+			crewMember.dead = true
+		end
+		CrewRoster[ship] = nil
+	end
+end
+
+Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onShipDestroyed", onShipDestroyed)
+Event.Register("onGameStart", onGameStart)
+Serializer:Register("ShipClass", serialize, unserialize)
