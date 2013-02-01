@@ -18,6 +18,8 @@ define_ship {
 	max_missile = 2,
 	max_cargoscoop = 1,
 	max_fuelscoop = 1,
+	min_crew = 5,
+	max_crew = 8,
 	capacity = 500,
 	hull_mass = 350,
 	fuel_tank_mass = 150,
