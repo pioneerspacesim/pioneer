@@ -48,10 +48,11 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	double len = fpos.Length();
 
 	while (len > 1000.0f) {
-		rad *= 0.25;
-		fpos = 0.25*fpos;
-		len *= 0.25;
+		rad *= 0.99;
+		fpos = 0.99*fpos;
+		len *= 0.99;
 	}
+	if (rad <= 30.0) rad=30.0; //minimum halo size
 
 	matrix4x4d trans = matrix4x4d::Identity();
 	trans.Translate(float(fpos.x), float(fpos.y), float(fpos.z));
@@ -72,7 +73,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	//render star halo
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
-	const Color bright(col[0], col[1], col[2], 1.f);
+	const Color bright(col[0], col[1], col[2], 1.f-1.f/(rad*0.1f));
 	const Color dark(0.f, 0.f, 0.f, 0.f);
 
 	va.Add(vector3f(0.f), bright);
