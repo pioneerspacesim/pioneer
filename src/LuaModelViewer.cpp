@@ -6,6 +6,7 @@
 #include "FileSystem.h"
 #include "LmrModel.h"
 #include "ModManager.h"
+#include "EnumStrings.h"
 #include "OS.h"
 #include "Ship.h" // for the flight state and ship animation enums
 #include "ShipType.h"
@@ -779,6 +780,8 @@ int main(int argc, char **argv)
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 	ModManager::Init();
 
+	EnumStrings::Init();
+
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
 	}
@@ -797,6 +800,8 @@ int main(int argc, char **argv)
 	const Color lc(1.f, 1.f, 1.f, 0.f);
 	const Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc);
 	renderer->SetLights(1, &light);
+
+	renderer->SetAmbientColor(Color(.5f,.5f,.5f));
 
 	LmrModelCompilerInit(renderer);
 

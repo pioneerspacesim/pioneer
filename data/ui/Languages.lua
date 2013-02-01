@@ -338,3 +338,80 @@ Translate:Add({
 		]]
 	}
 })
+
+Translate:Add({
+	Deutsch = {
+		-- Main menu
+		['Start at Earth']    = 'Starte auf der Erde',
+		['Start at New Hope'] = 'Starte auf New Hope',
+		['Start at Lave']     = 'Starte auf Lave',
+		['Load game']         = 'Lade Spiel',
+		['Options']           = 'Optionen',
+		['Quit']              = 'Beenden',
+
+		-- Generic file dialog
+		['Select file...'] = 'Datei auswählen...',
+		['Select']         = 'Auswählen',
+		['Cancel']         = 'Abbrechen',
+
+		-- Load dialog
+		['Select game to load...'] = 'Spiel zum Laden auswählen...',
+
+		-- Equipment
+		['Equipment'] = 'Ausrüstung',
+		['{quantity} Shield Generators'] = '{quantity} Schild-Generatoren',
+		['{quantity} Occupied Passenger Cabins'] = '{quantity} Belegte Passagierkabinen',
+		['{quantity} Unoccupied Passenger Cabins'] = '{quantity} Unbelegte Passagierkabinen',
+		
+		-- Ship Information
+		['Ship Information'] = 'Schiffs-Informationen',
+		['Weight empty:'] = 'Leergewicht:',
+		['{range} light years ({maxRange} max)'] = '{range} Lichtjahre ({maxRange} max)',
+		
+		-- Personal information
+		['Personal Information'] = 'Persönliche Informationen',
+		['Combat'] = 'Kampf',
+		['Rating:'] = 'Einstufung:',
+		['Kills:'] = 'Abschüsse:',
+		['Military'] = 'Militärisch',
+		['Rank:'] = 'Rang:',
+		['Male'] = 'Männlich',
+		['Female'] = 'Weiblich',
+
+		['HARMLESS'] = 'Harmlos',
+		['MOSTLY_HARMLESS'] = 'Relativ harmlos',
+		['POOR'] = 'Schlecht',
+		['AVERAGE'] = 'Durchschnittlich',
+		['ABOVE_AVERAGE'] = 'Überdurchschnittlich',
+		['COMPETENT'] = 'Kompetent',
+		['DANGEROUS'] = 'Gefährlich',
+		['DEADLY'] = 'Tödlich',
+		['ELITE'] = 'ELITE',
+
+		-- Economy & Trade
+		['Economy & Trade'] = 'Wirtschaft & Handel',
+		['Total: '] = 'Komplett: ',
+		['Fuel tank full.'] = 'Treibstofftank ist voll.',
+
+		-- Missions
+		['Mission Details'] = 'Missionsdetails',
+		['No missions.'] = 'Keine Missionen.',
+		['INACTIVE'] = 'Inaktiv', -- Complement of ACTIVE, COMPLETED and FAILED
+		
+		-- Orbital analysis
+		['Orbit'] = 'Bahn',
+		['Orbital Analysis'] = 'Bahnanalyse',
+		['Located {distance}km from the centre of {name}:'] = '{distance}km vom Zentrum von {name} lokalisiert:',
+		['Circular orbit speed:'] = 'Kreisbahn-Geschwindigkeit',
+		['Escape speed:'] = 'Fluchtgeschwindigkeit:',
+		['Descent-to-ground speed:'] = 'Landegeschwindigkeit:',
+		['Notes:'] = 'Notizen:',
+		ORBITAL_ANALYSIS_NOTES = [[
+Die Kreisbahn-Geschwindigkeit wird für eine tangentiale Geschwindigkeit angegeben. Das schiff sollte in einem 90°-Winkel zur Schiff/{name}-Achse stehen.
+
+Die Landegeschwindigkeit ist ein absolutes Minimum und ist auch tangential. Eine geringere Geschwindigkeit und ein kleinerer Winkel wird in einem Kurs resultieren, der die Oberfläche von {name} schneidet.
+
+Die Fluchtgeschwindigkeit funktioniert theoretisch gesehen in alle Richtungen, solange das Schiff auf dem Weg mit {name} kollidiert.
+		]]
+	}
+})

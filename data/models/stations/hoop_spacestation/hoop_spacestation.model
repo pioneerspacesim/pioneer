@@ -1,0 +1,8 @@
+material default
+tex_diff hoop_diff.png
+specular 1.0 1.0 1.0
+diffuse 1.0 1.0 1.0
+
+mesh hoop_spacestation.dae
+
+collision hoop_collide.dae

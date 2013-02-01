@@ -175,16 +175,6 @@ Model *Loader::LoadModel(const std::string &shortname, const std::string &basepa
 	throw (LoadingError("File not found"));
 }
 
-Graphics::Texture *Loader::GetWhiteTexture() const
-{
-	return Graphics::TextureBuilder::Model("textures/white.png").GetOrCreateTexture(m_renderer, "model");
-}
-
-Graphics::Texture *Loader::GetTransparentTexture() const
-{
-	return Graphics::TextureBuilder::Model("textures/transparent.png").GetOrCreateTexture(m_renderer, "model");
-}
-
 Model *Loader::CreateModel(ModelDefinition &def)
 {
 	using Graphics::Material;
@@ -236,7 +226,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		if (!diffTex.empty())
 			mat->texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
 		else
-			mat->texture0 = GetWhiteTexture();
+			mat->texture0 = Graphics::TextureBuilder::GetWhiteTexture(m_renderer);
 		if (!specTex.empty())
 			mat->texture1 = Graphics::TextureBuilder::Model(specTex).GetOrCreateTexture(m_renderer, "model");
 		if (!glowTex.empty())
@@ -277,7 +267,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 					mesh = (*cacheIt).second;
 				else {
 					try {
-						mesh = LoadMesh(*it, def.animDefs, def.tagDefs);
+						mesh = LoadMesh(*it, def.animDefs);
 					} catch (LoadingError &err) {
 						//append filename - easiest to do here
 						throw (LoadingError(stringf("%0:\n%1", *it, err.what())));
@@ -316,18 +306,6 @@ Model *Loader::CreateModel(ModelDefinition &def)
 	// If no collision mesh is defined, a simple bounding box will be generated
 	m_model->CreateCollisionMesh(0);
 
-	// Add tag points
-	// XXX defining tags in .model not implemented
-	// the question is if everything can be expected to use collada/etc
-	for(TagList::const_iterator it = def.tagDefs.begin();
-		it != def.tagDefs.end();
-		++it)
-	{
-		const vector3f &pos = (*it).position;
-		RefCountedPtr<MatrixTransform> tagTrans(new MatrixTransform(m_renderer, matrix4x4f::Translation(pos.x, pos.y, pos.z)));
-		model->AddTag((*it).name, tagTrans.Get());
-	}
-
 	//find usable pattern textures from the model directory
 	if (patternsUsed) {
 		FindPatterns(model->m_patterns);
@@ -336,7 +314,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 			model->m_patterns.push_back(Pattern());
 			Pattern &dumpat = m_model->m_patterns.back();
 			dumpat.name = "Dummy";
-			dumpat.texture = RefCountedPtr<Graphics::Texture>(GetWhiteTexture());
+			dumpat.texture = RefCountedPtr<Graphics::Texture>(Graphics::TextureBuilder::GetWhiteTexture(m_renderer));
 		}
 
 		//set up some noticeable default colors
@@ -363,7 +341,7 @@ void Loader::FindPatterns(PatternContainer &output)
 	}
 }
 
-RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList &animDefs, TagList &modelTags)
+RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList &animDefs)
 {
 	Assimp::Importer importer;
 	importer.SetIOHandler(new AssimpFileSystem(FileSystem::gameDataFiles));
@@ -443,7 +421,7 @@ RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 		matDesc.textures = 1;
 		matDesc.lighting = true;
 		decMat.Reset(m_renderer->CreateMaterial(matDesc));
-		decMat->texture0 = GetTransparentTexture();
+		decMat->texture0 = Graphics::TextureBuilder::GetTransparentTexture(m_renderer);
 		decMat->specular = Color::BLACK;
 		decMat->diffuse = Color::WHITE;
 	}

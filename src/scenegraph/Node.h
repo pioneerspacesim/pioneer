@@ -28,6 +28,8 @@ class Node : public RefCounted
 public:
 	Node(Graphics::Renderer *r);
 	Node(Graphics::Renderer *r, unsigned int nodemask);
+	Node(const Node&);
+	virtual Node *Clone() = 0; //implement clone to return shallow or deep copy
 	virtual const char *GetTypeName() { return "Node"; }
 	virtual void Accept(NodeVisitor &v);
 	virtual void Traverse(NodeVisitor &v);
@@ -46,7 +48,6 @@ public:
 protected:
 	//can only to be deleted using DecRefCount
 	virtual ~Node() { }
-	Node *m_parent;
 	std::string m_name;
 	unsigned int m_nodeMask;
 	Graphics::Renderer *m_renderer;

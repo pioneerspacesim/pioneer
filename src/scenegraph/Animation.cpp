@@ -2,16 +2,39 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Animation.h"
+#include "scenegraph/Model.h"
 #include <iostream>
 
 namespace SceneGraph {
 
-typedef std::vector<AnimationChannel>::iterator ChannelIterator;
+typedef std::vector<AnimationChannel> ChannelList;
+typedef ChannelList::iterator ChannelIterator;
 
 Animation::Animation(const std::string &name, double duration)
 : m_duration(duration)
+, m_time(0.0)
 , m_name(name)
 {
+}
+
+Animation::Animation(const Animation &anim)
+: m_duration(anim.m_duration)
+, m_time(0.0)
+, m_name(anim.m_name)
+{
+	for(ChannelList::const_iterator chan = anim.m_channels.begin(); chan != anim.m_channels.end(); ++chan) {
+		m_channels.push_back(*chan);
+	}
+}
+
+void Animation::UpdateChannelTargets(Node *root)
+{
+	for(ChannelList::iterator chan = m_channels.begin(); chan != m_channels.end(); ++chan) {
+		//update channels to point to new node structure
+		MatrixTransform *trans = dynamic_cast<MatrixTransform*>(root->FindNode(chan->node->GetName()));
+		assert(trans);
+		chan->node = trans;
+	}
 }
 
 void Animation::Interpolate()

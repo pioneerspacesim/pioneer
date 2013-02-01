@@ -853,7 +853,7 @@ Translate:AddFlavour('Deutsch','DeliverPackage', {
   localdelivery = 1,
 })
 
-Translate:Add({ English = {
+Translate:Add({ Deutsch = {
   ["I highly doubt it."] = "Ich bezweifele das.",
   ["Not any more than usual."] = "Nicht mehr als üblich.",
   ["This is a valuable package, you should keep your eyes open."] = "Das ist ein wertvolles Paket, du solltest die Augen offenhalten.",

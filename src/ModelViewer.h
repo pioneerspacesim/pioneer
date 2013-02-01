@@ -73,7 +73,8 @@ private:
 	double m_frameTime;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;
-	float m_rotX, m_rotY;
+	float m_rotX, m_rotY, m_zoom;
+	float m_baseDistance;
 	ModelParams m_modelParams;
 	MTRand m_rng;
 	SceneGraph::Animation *m_currentAnimation;
@@ -83,7 +84,6 @@ private:
 	RefCountedPtr<UI::Context> m_ui;
 	ScopedPtr<SceneGraph::Model> m_gunModel;
 	std::string m_modelName;
-	vector3f m_camPos;
 
 	//undecided on this input stuff
 	//updating the states of all inputs during PollEvents

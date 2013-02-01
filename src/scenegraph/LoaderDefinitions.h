@@ -49,14 +49,6 @@ struct LodDefinition {
 	std::vector<std::string> meshNames;
 };
 
-struct TagDefinition {
-	TagDefinition(const std::string &tagname, const vector3f &pos) : name(tagname), position(pos)
-	{ }
-	std::string name;
-	vector3f position;
-};
-typedef std::vector<TagDefinition> TagList;
-
 struct AnimDefinition {
 	AnimDefinition(const std::string &name_, double start_, double end_, bool loop_) :
 		name(name_),
@@ -77,7 +69,6 @@ struct ModelDefinition {
 	std::vector<MaterialDefinition> matDefs;
 	std::vector<std::string> collisionDefs;
 	AnimList animDefs;
-	TagList tagDefs;
 };
 
 }

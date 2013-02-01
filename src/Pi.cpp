@@ -33,6 +33,7 @@
 #include "LuaGame.h"
 #include "LuaLang.h"
 #include "LuaManager.h"
+#include "LuaMissile.h"
 #include "LuaMusic.h"
 #include "LuaNameGen.h"
 #include "LuaPlanet.h"
@@ -139,6 +140,7 @@ Gui::Fixed *Pi::menu;
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
 ModelCache *Pi::modelCache;
+Intro *Pi::intro;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -167,6 +169,7 @@ static void LuaInit()
 	LuaPlanet::RegisterClass();
 	LuaStar::RegisterClass();
 	LuaPlayer::RegisterClass();
+	LuaMissile::RegisterClass();
 	LuaCargoBody::RegisterClass();
 	LuaStarSystem::RegisterClass();
 	LuaSystemPath::RegisterClass();
@@ -543,6 +546,7 @@ void Pi::ToggleLuaConsole()
 void Pi::Quit()
 {
 	Projectile::FreeModel();
+	delete Pi::intro;
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
 	Sfx::Uninit();
@@ -552,12 +556,15 @@ void Pi::Quit()
 	GeoSphere::Uninit();
 	LmrModelCompilerUninit();
 	Galaxy::Uninit();
+	Faction::Uninit();
+	CustomSystem::Uninit();
 	Graphics::Uninit();
 	Pi::ui.Reset(0);
 	LuaUninit();
 	Gui::Uninit();
 	delete Pi::modelCache;
 	delete Pi::renderer;
+	delete Pi::config;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
 	FileSystem::Uninit();
@@ -655,12 +662,13 @@ void Pi::HandleEvents()
 								/* add test object */
 								if (KeyState(SDLK_RSHIFT)) {
 									Missile *missile =
-										new Missile(ShipType::MISSILE_GUIDED, Pi::player, Pi::player->GetCombatTarget());
+										new Missile(ShipType::MISSILE_GUIDED, Pi::player);
 									missile->SetOrient(Pi::player->GetOrient());
 									missile->SetFrame(Pi::player->GetFrame());
 									missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
 									missile->SetVelocity(Pi::player->GetVelocity());
 									game->GetSpace()->AddBody(missile);
+									missile->AIKamikaze(Pi::player->GetCombatTarget());
 								} else if (KeyState(SDLK_LSHIFT)) {
 									SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
 									if (s) {
@@ -856,7 +864,7 @@ void Pi::StartGame()
 
 void Pi::Start()
 {
-	Intro *intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 
 	ui->SetInnerWidget(ui->CallTemplate("MainMenu"));
 
@@ -903,6 +911,8 @@ void Pi::Start()
 	ui->RemoveInnerWidget();
 	ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 
+	delete Pi::intro; Pi::intro = 0;
+
 	InitGame();
 	StartGame();
 	MainLoop();
@@ -921,8 +931,6 @@ void Pi::EndGame()
 
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
-
-
 
 	assert(game);
 	delete game;

@@ -20,11 +20,14 @@ namespace SceneGraph {
 class Thruster : public Node {
 public:
 	Thruster(Graphics::Renderer *, bool linear, const vector3f &pos, const vector3f &dir);
+	Thruster(const Thruster&);
+	Node *Clone();
 	virtual const char *GetTypeName() { return "Thruster"; }
 	virtual void Render(const matrix4x4f &trans, RenderData *rd);
 
 private:
-	ScopedPtr<Graphics::Material> m_tMat;
+	static Graphics::VertexArray* CreateGeometry();
+	RefCountedPtr<Graphics::Material> m_tMat;
 	ScopedPtr<Graphics::VertexArray> m_tVerts;
 	bool linearOnly;
 	vector3f dir;
