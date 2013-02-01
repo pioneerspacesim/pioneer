@@ -3,7 +3,7 @@
 
 define_ship {
 	name = 'Deep Space Miner',
-	model = 'DSMiner',
+	model = 'dsminer',
 	forward_thrust = 60e6,
 	reverse_thrust = 20e6,
 	up_thrust = 20e6,
