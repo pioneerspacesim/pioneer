@@ -213,8 +213,10 @@ void ShipCpanel::InitObject()
 	m_overlay[OVERLAY_TOP_RIGHT]    = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_BOTTOM_LEFT]  = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_BOTTOM_RIGHT] = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_overlay[OVERLAY_MIDDLE_LEFT]  = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_overlay[OVERLAY_TOP_LEFT],     170.0f, 2.0f);
 	Add(m_overlay[OVERLAY_TOP_RIGHT],    500.0f, 2.0f);
+	Add(m_overlay[OVERLAY_MIDDLE_LEFT],  160.0f, 25.0f);
 	Add(m_overlay[OVERLAY_BOTTOM_LEFT],  150.0f, 62.0f);
 	Add(m_overlay[OVERLAY_BOTTOM_RIGHT], 580.0f, 62.0f);
 
