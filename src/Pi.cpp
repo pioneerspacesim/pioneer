@@ -231,7 +231,12 @@ ModelBase *Pi::FindModel(const std::string &name)
 	try {
 		m = Pi::modelCache->FindModel(name);
 	} catch (ModelCache::ModelNotFoundException) {
-		Error("Could not find model %s", name.c_str());
+		printf("Could not find model %s", name.c_str());
+		try {
+			m = Pi::modelCache->FindModel("error");
+		} catch (ModelCache::ModelNotFoundException) {
+			Error("Could not find placeholder model");
+		}
 	}
 
 	return m;
