@@ -35,7 +35,7 @@ public:
 	ModelParams &GetModelParams() { return m_params; }
 	void RebuildCollisionMesh();
 
-	void SetModel(const char *lmrModelName);
+	void SetModel(const char *modelName);
 
 	void RenderModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 

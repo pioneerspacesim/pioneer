@@ -14,7 +14,7 @@ ShipSpinner::ShipSpinner(Context *context, const ShipFlavour &flavour) : Widget(
 	m_flavour(flavour),
 	m_rotX(0), m_rotY(0)
 {
-	m_model = Pi::FindModel(ShipType::types[m_flavour.id].lmrModelName.c_str());
+	m_model = Pi::FindModel(ShipType::types[m_flavour.id].modelName.c_str());
 
 	m_flavour.ApplyTo(m_model);
 

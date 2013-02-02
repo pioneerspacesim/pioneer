@@ -157,13 +157,7 @@ void Ship::Init()
 
 	const ShipType &stype = GetShipType();
 
-	// Dirty hack: Always use gear-down mesh for collision detection
-	// necessary because some ships have non-docking meshes too large for docking
-	//XXX nope, cannot do this anymore
-	//float temp = GetLmrObjParams().animValues[ANIM_WHEEL_STATE];
-	//GetLmrObjParams().animValues[ANIM_WHEEL_STATE] = 1.0f;
-	SetModel(stype.lmrModelName.c_str());
-	//GetLmrObjParams().animValues[ANIM_WHEEL_STATE] = temp;
+	SetModel(stype.modelName.c_str());
 
 	SetMassDistributionFromModel();
 	UpdateStats();

@@ -108,7 +108,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 
 	LUA_DEBUG_START(L);
 	_get_string_attrib(L, "name", s.name, "");
-	_get_string_attrib(L, "model", s.lmrModelName, "");
+	_get_string_attrib(L, "model", s.modelName, "");
 	_get_float_attrib(L, "reverse_thrust", s.linThrust[ShipType::THRUSTER_REVERSE], 0.0f);
 	_get_float_attrib(L, "forward_thrust", s.linThrust[ShipType::THRUSTER_FORWARD], 0.0f);
 	_get_float_attrib(L, "up_thrust", s.linThrust[ShipType::THRUSTER_UP], 0.0f);
@@ -161,7 +161,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 		s.effectiveExhaustVelocity = GetEffectiveExhaustVelocity(s.fuelTankMass, thruster_fuel_use, s.linThrust[ShipType::THRUSTER_FORWARD]);
 	} else {
 		if(thruster_fuel_use >= 0)
-			printf("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", s.lmrModelName.c_str());
+			printf("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", s.modelName.c_str());
 	}
 
 	_get_int_attrib(L, "price", s.baseprice, 0);
@@ -217,7 +217,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	if (s.name.empty())
 		return luaL_error(L, "Ship has no name");
 
-	if (s.lmrModelName.empty())
+	if (s.modelName.empty())
 		return luaL_error(L, "Missing model name in ship");
 
 	if (s.minCrew < 1 || s.maxCrew < 1 || s.minCrew > s.maxCrew)
