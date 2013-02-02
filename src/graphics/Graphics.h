@@ -5,8 +5,6 @@
 #define _GRAPHICS_H
 
 #include "libs.h"
-#include "Color.h"
-#include "Light.h"
 
 /*
  * bunch of reused 3d drawy routines.
@@ -35,17 +33,6 @@ namespace Graphics {
 
 		int width;
 		int height;
-	};
-
-	/* static */ class State {
-	private:
-		static std::vector<Light> m_lights;
-
-	public:
-		static float invLogZfarPlus1; // for LMR, updated by rendererGL2
-		static void SetLights(int n, const Light *lights);
-		static int GetNumLights() { return m_lights.size(); } // for LMR
-		static std::vector<Light> GetLights() { return m_lights; }
 	};
 
 	extern bool shadersAvailable;

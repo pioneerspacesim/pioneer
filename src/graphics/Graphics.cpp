@@ -16,9 +16,6 @@ bool shadersEnabled = false;
 Material *vtxColorMaterial;
 Settings settings;
 
-float State::invLogZfarPlus1;
-std::vector<Light> State::m_lights;
-
 int GetScreenWidth()
 {
 	return settings.width;
@@ -180,14 +177,6 @@ std::vector<VideoMode> GetAvailableVideoModes()
 		}
 	}
 	return modes;
-}
-
-void Graphics::State::SetLights(int n, const Light *lights)
-{
-	m_lights.clear();
-	m_lights.reserve(n);
-	for (int i = 0;i < n;i++)
-		m_lights.push_back(lights[i]);
 }
 
 }
