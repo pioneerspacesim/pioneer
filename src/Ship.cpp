@@ -151,10 +151,6 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 
 void Ship::Init()
 {
-	// XXX the animation namespace must match that in LuaConstants
-	// note: this must be set before generating the collision mesh
-	// (which happens in SetModel()) and before rendering
-
 	const ShipType &stype = GetShipType();
 
 	SetModel(stype.modelName.c_str());
@@ -166,11 +162,7 @@ void Ship::Init()
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 	m_hyperspaceCloud = 0;
 
-	m_landingGearAnimation = 0;
-	SceneGraph::Model *nmodel = dynamic_cast<SceneGraph::Model*>(GetModel());
-	if (nmodel) {
-		m_landingGearAnimation = nmodel->FindAnimation("gear_down");
-	}
+	m_landingGearAnimation = GetModel()->FindAnimation("gear_down");
 }
 
 void Ship::PostLoadFixup(Space *space)

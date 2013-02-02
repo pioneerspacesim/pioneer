@@ -432,7 +432,7 @@ void ModelViewer::DrawModel()
 	m_model->UpdateAnimations();
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(true);
-	m_model->Render(m_renderer, mv, &m_modelParams);
+	m_model->Render(mv, &m_modelParams);
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(false);
 

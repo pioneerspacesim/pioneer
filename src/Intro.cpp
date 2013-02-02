@@ -21,12 +21,10 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 0.3f, 1.f), one, one));
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, -1.f, 0.f), two, Color::BLACK));
 
-	m_model = Pi::FindModel("lanner");
-	// XXX just until LMR is gone
-	if (m_model->IsSGModel()) {
-		m_model = static_cast<SceneGraph::Model*>(m_model)->MakeInstance();
-		m_model->SetDecalTexture(Graphics::TextureBuilder::Decal("textures/decals/01_Badge.png").GetOrCreateTexture(r, "decal"));
-	}
+	Model *model = Pi::FindModel("lanner");
+
+	m_model = model->MakeInstance();
+	m_model->SetDecalTexture(Graphics::TextureBuilder::Decal("textures/decals/01_Badge.png").GetOrCreateTexture(r, "decal"));
 	m_model->SetLabel(Lang::PIONEER);
 
 	m_modelParams.linthrust[2] = -1.f;
@@ -35,7 +33,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 Intro::~Intro()
 {
 	//delete instance
-	if (m_model && m_model->IsSGModel()) delete m_model;
+	delete m_model;
 }
 
 void Intro::Draw(float _time)
@@ -59,7 +57,7 @@ void Intro::Draw(float _time)
 		matrix4x4f::RotateYMatrix(_time) *
 		matrix4x4f::RotateZMatrix(0.6f*_time) *
 		matrix4x4f::RotateXMatrix(_time*0.7f);
-	m_model->Render(m_renderer, trans, &m_modelParams);
+	m_model->Render(trans, &m_modelParams);
 	glPopAttrib();
 	m_renderer->SetAmbientColor(oldSceneAmbientColor);
 }

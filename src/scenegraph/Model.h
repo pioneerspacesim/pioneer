@@ -89,9 +89,7 @@ public:
 	Model(Graphics::Renderer *r, const std::string &name);
 	~Model();
 	Model *MakeInstance() const;
-	virtual bool IsSGModel() const { return true; } //XXX transitional junk
 	float GetDrawClipRadius() const { return m_boundingRadius; }
-	void Render(Graphics::Renderer *r, const matrix4x4f &trans, ModelParams *params) { Render(trans, params); } // XXX only takes renderer because ModelBase requires it
 	void Render(const matrix4x4f &trans, ModelParams *params);
 	RefCountedPtr<CollMesh> CreateCollisionMesh(const ModelParams *p);
 	CollMesh *GetCollisionMesh() const { return m_collMesh.Get(); }

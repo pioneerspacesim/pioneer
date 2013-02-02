@@ -3,16 +3,16 @@
 
 #include "libs.h"
 #include "ModelBody.h"
-#include "collider/collider.h"
 #include "Frame.h"
 #include "Game.h"
-#include "graphics/Renderer.h"
 #include "matrix4x4.h"
+#include "ModelCache.h"
 #include "Pi.h"
 #include "Serializer.h"
 #include "Space.h"
 #include "WorldView.h"
-#include "ModelCache.h"
+#include "collider/collider.h"
+#include "graphics/Renderer.h"
 #include "scenegraph/Model.h"
 
 ModelBody::ModelBody() :
@@ -30,8 +30,7 @@ ModelBody::~ModelBody()
 	if (m_geom) delete m_geom;
 
 	//delete instanced model
-	if (m_model && m_model->IsSGModel())
-		delete m_model;
+	delete m_model;
 }
 
 void ModelBody::Save(Serializer::Writer &wr, Space *space)
@@ -98,12 +97,10 @@ void ModelBody::RebuildCollisionMesh()
 void ModelBody::SetModel(const char *modelName)
 {
 	//remove old instance
-	if (m_model && m_model->IsSGModel())
-		delete m_model;
-	m_model = Pi::FindModel(modelName);
+	delete m_model; m_model = 0;
+
 	//create model instance (some modelbodies, like missiles could avoid this)
-	if (m_model->IsSGModel())
-		m_model = static_cast<SceneGraph::Model*>(m_model)->MakeInstance();
+	m_model = Pi::FindModel(modelName)->MakeInstance();
 
 	SetClipRadius(m_model->GetDrawClipRadius());
 
@@ -155,6 +152,6 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const vector3d &viewCoords, c
 	trans[14] = viewCoords.z;
 	trans[15] = 1.0f;
 
-	m_model->Render(r, trans, &m_params);
+	m_model->Render(trans, &m_params);
 	glPopMatrix();
 }

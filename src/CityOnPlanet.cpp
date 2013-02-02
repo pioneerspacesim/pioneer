@@ -333,7 +333,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		_rot[13] = float(pos.y);
 		_rot[14] = float(pos.z);
 		glPushMatrix();
-		(*i).model->Render(r, _rot, &cityobj_params);
+		(*i).model->Render(_rot, &cityobj_params);
 		glPopMatrix();
 	}
 }
