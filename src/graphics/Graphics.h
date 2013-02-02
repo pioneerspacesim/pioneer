@@ -62,11 +62,6 @@ namespace Graphics {
 	bool AreShadersEnabled();
 	std::vector<VideoMode> GetAvailableVideoModes();
 
-	void UnbindAllBuffers();
-	void BindArrayBuffer(GLuint bo);
-	void BindElementArrayBuffer(GLuint bo);
-	bool IsArrayBufferBound(GLuint bo);
-	bool IsElementArrayBufferBound(GLuint bo);
 	//XXX keeping this because gui uses it...
 	void SwapBuffers();
 }
