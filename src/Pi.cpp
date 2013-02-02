@@ -224,10 +224,9 @@ static void LuaInitGame() {
 	LuaEvent::Clear();
 }
 
-ModelBase *Pi::FindModel(const std::string &name)
+Model *Pi::FindModel(const std::string &name)
 {
-	// Try NewModel models first, then LMR
-	ModelBase *m = 0;
+	Model *m = 0;
 	try {
 		m = Pi::modelCache->FindModel(name);
 	} catch (ModelCache::ModelNotFoundException) {

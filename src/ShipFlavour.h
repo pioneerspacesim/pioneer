@@ -21,7 +21,7 @@ public:
 	ShipFlavour(ShipType::Id id);
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
-	void ApplyTo(ModelBase *m) const;
+	void ApplyTo(Model *m) const;
 	static void MakeTrulyRandom(ShipFlavour &v, bool atmosphereCapableOnly = false);
 };
 

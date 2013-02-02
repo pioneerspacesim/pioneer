@@ -60,12 +60,12 @@
  *  - removing unnecessary nodes from the scene graph: pre-translate unanimated meshes etc.
  */
 #include "libs.h"
-#include "ModelBase.h"
 #include "Animation.h"
 #include "ColorMap.h"
 #include "Group.h"
 #include "Label3D.h"
 #include "Pattern.h"
+#include "LmrTypes.h"
 #include "graphics/Material.h"
 #include <stdexcept>
 
@@ -82,7 +82,7 @@ typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > >
 typedef std::vector<Animation*> AnimationContainer;
 typedef std::vector<MatrixTransform *> TagContainer;
 
-class Model : public ModelBase
+class Model
 {
 public:
 	friend class Loader;
@@ -143,5 +143,7 @@ private:
 };
 
 }
+
+using SceneGraph::Model; //yep.
 
 #endif

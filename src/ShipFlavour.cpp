@@ -41,7 +41,7 @@ void ShipFlavour::MakeTrulyRandom(ShipFlavour &v, bool atmospheric)
 	}
 }
 
-void ShipFlavour::ApplyTo(ModelBase *m) const
+void ShipFlavour::ApplyTo(Model *m) const
 {
 	m->SetLabel(regid);
 }

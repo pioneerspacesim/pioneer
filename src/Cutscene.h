@@ -7,8 +7,7 @@
 #include "libs.h"
 #include "graphics/Renderer.h"
 #include "graphics/Light.h"
-
-class ModelBase;
+#include "scenegraph/Model.h"
 
 class Cutscene {
 public:
@@ -25,7 +24,7 @@ protected:
 	Color m_ambientColor;
 	float m_aspectRatio;
 	Graphics::Renderer *m_renderer;
-	ModelBase *m_model;
+	Model *m_model;
 	ModelParams m_modelParams;
 	std::vector<Graphics::Light> m_lights;
 };

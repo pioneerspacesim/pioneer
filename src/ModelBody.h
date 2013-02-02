@@ -6,9 +6,9 @@
 
 #include "Body.h"
 #include "vector3.h"
-#include "ModelBase.h"
 #include "CollMesh.h"
 #include "LmrTypes.h"
+#include "scenegraph/Model.h"
 #include <vector>
 class Geom;
 namespace Graphics { class Renderer; }
@@ -30,7 +30,7 @@ public:
 	bool IsStatic() const { return m_isStatic; }
 	const Aabb &GetAabb() const { return m_collMesh->GetAabb(); }
 	Geom *GetGeom() { return m_geom; }
-	ModelBase *GetModel() { return m_model; }
+	Model *GetModel() { return m_model; }
 	CollMesh *GetCollMesh() { return m_collMesh.Get(); }
 	ModelParams &GetModelParams() { return m_params; }
 	void RebuildCollisionMesh();
@@ -48,7 +48,7 @@ private:
 	RefCountedPtr<CollMesh> m_collMesh;
 	Geom *m_geom;
 	ModelParams m_params;
-	ModelBase *m_model;
+	Model *m_model;
 };
 
 #endif /* _MODELBODY_H */

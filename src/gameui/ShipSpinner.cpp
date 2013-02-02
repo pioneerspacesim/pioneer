@@ -5,6 +5,7 @@
 #include "Ship.h"
 #include "Pi.h"
 #include "Game.h"
+#include "scenegraph/Model.h"
 
 using namespace UI;
 

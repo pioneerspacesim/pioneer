@@ -10,6 +10,8 @@
 #include "ShipType.h"
 #include "EquipSet.h"
 
+class Model;
+
 class ShipSpinnerWidget : public Gui::Widget {
 public:
 	ShipSpinnerWidget(const ShipFlavour &flavour, float width, float height);
@@ -21,7 +23,7 @@ private:
 	float m_width;
 	float m_height;
 
-	ModelBase *m_model;
+	Model *m_model;
 	ModelParams m_params;
 	// XXX m_equipment is currently not hooked up to anything,
 	// it's just used to pass equipment parameters to the displayed model

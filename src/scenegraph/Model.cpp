@@ -18,8 +18,7 @@ public:
 };
 
 Model::Model(Graphics::Renderer *r, const std::string &name)
-: ModelBase()
-, m_boundingRadius(10.f)
+: m_boundingRadius(10.f)
 , m_renderer(r)
 , m_name(name)
 , m_curPattern(0)
@@ -30,8 +29,7 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 }
 
 Model::Model(const Model &model)
-: ModelBase()
-, m_boundingRadius(model.m_boundingRadius)
+: m_boundingRadius(model.m_boundingRadius)
 , m_materials(model.m_materials)
 , m_patterns(model.m_patterns)
 , m_collMesh(model.m_collMesh) //might have to make this per-instance at some point

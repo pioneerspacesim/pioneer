@@ -9,6 +9,8 @@
 #include "graphics/Light.h"
 #include "EquipSet.h"
 
+class Model;
+
 namespace GameUI {
 
 class ShipSpinner : public UI::Widget {
@@ -29,7 +31,7 @@ private:
 
 	float m_rotX, m_rotY;
 
-	ModelBase *m_model;
+	Model *m_model;
 	ModelParams m_params;
 	// XXX m_equipment is currently not hooked up to anything,
 	// it's just used to pass equipment parameters to the displayed model

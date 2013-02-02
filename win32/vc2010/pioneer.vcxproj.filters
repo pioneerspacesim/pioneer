@@ -881,9 +881,6 @@
     <ClInclude Include="..\..\src\UIView.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\ModelBase.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\ModelViewer.h">
       <Filter>src</Filter>
     </ClInclude>
