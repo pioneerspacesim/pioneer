@@ -26,7 +26,7 @@ protected:
 	float m_aspectRatio;
 	Graphics::Renderer *m_renderer;
 	ModelBase *m_model;
-	LmrObjParams m_modelParams;
+	ModelParams m_modelParams;
 	std::vector<Graphics::Light> m_lights;
 };
 

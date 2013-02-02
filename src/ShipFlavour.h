@@ -7,7 +7,6 @@
 #include "ShipType.h"
 #include "Serializer.h"
 
-struct LmrObjParams;
 struct lua_State;
 
 class ShipFlavour {

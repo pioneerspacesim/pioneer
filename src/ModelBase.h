@@ -20,8 +20,8 @@ public:
 	ModelBase() {}
 	virtual ~ModelBase() { }
 	virtual float GetDrawClipRadius() const = 0;
-	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params) = 0;
-	virtual RefCountedPtr<CollMesh> CreateCollisionMesh(const LmrObjParams *p) = 0;
+	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, ModelParams *params) = 0;
+	virtual RefCountedPtr<CollMesh> CreateCollisionMesh(const ModelParams *p) = 0;
 	virtual bool IsSGModel() const { return false; }
 	virtual void SetLabel(const std::string&) = 0;
 	virtual void SetDecalTexture(Graphics::Texture *, unsigned int index = 0) { }

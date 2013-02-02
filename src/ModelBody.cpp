@@ -22,7 +22,6 @@ ModelBody::ModelBody() :
 	m_geom(0),
 	m_model(0)
 {
-	memset(&m_params, 0, sizeof(LmrObjParams));
 }
 
 ModelBody::~ModelBody()

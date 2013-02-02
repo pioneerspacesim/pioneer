@@ -30,7 +30,7 @@ private:
 	float m_rotX, m_rotY;
 
 	ModelBase *m_model;
-	LmrObjParams m_params;
+	ModelParams m_params;
 	// XXX m_equipment is currently not hooked up to anything,
 	// it's just used to pass equipment parameters to the displayed model
 	EquipSet m_equipment;

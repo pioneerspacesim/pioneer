@@ -47,7 +47,7 @@ struct cityflavourdef_t {
 } cityflavour[CITYFLAVOURS];
 
 
-LmrObjParams cityobj_params;
+ModelParams cityobj_params;
 
 void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
 {
@@ -317,7 +317,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 	const Graphics::Frustum frustum = camera->GetFrustum();
 	//modelview seems to be always identity
 
-	memset(&cityobj_params, 0, sizeof(LmrObjParams));
+	memset(&cityobj_params, 0, sizeof(ModelParams));
 
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
 			i != m_buildings.end(); ++i) {

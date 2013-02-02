@@ -6,7 +6,7 @@
 
 //this file might be temporary - but don't want to fight dependency issues right now
 
-struct LmrObjParams
+struct ModelParams
 {
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0
@@ -15,7 +15,7 @@ struct LmrObjParams
 	float boundingRadius; //updated by model and passed to submodels
 	unsigned int nodemask;
 
-	LmrObjParams()
+	ModelParams()
 	: boundingRadius(0.f)
 	, nodemask(0x1) //draw solids
 	{
@@ -23,7 +23,6 @@ struct LmrObjParams
 		std::fill(angthrust, angthrust+3, 0.f);
 	}
 };
-typedef LmrObjParams ModelParams;
-typedef LmrObjParams RenderData;
+typedef ModelParams RenderData;
 
 #endif

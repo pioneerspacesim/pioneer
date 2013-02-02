@@ -32,7 +32,7 @@ public:
 	Geom *GetGeom() { return m_geom; }
 	ModelBase *GetModel() { return m_model; }
 	CollMesh *GetCollMesh() { return m_collMesh.Get(); }
-	LmrObjParams &GetLmrObjParams() { return m_params; }
+	ModelParams &GetModelParams() { return m_params; }
 	void RebuildCollisionMesh();
 
 	void SetModel(const char *lmrModelName);
@@ -47,7 +47,7 @@ private:
 	bool m_colliding;
 	RefCountedPtr<CollMesh> m_collMesh;
 	Geom *m_geom;
-	LmrObjParams m_params;
+	ModelParams m_params;
 	ModelBase *m_model;
 };
 

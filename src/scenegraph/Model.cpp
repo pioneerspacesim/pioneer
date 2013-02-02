@@ -86,7 +86,7 @@ Model *Model::MakeInstance() const
 	return m;
 }
 
-void Model::Render(const matrix4x4f &trans, LmrObjParams *params)
+void Model::Render(const matrix4x4f &trans, ModelParams *params)
 {
 	//update color parameters (materials are shared by model instances)
 	if (m_curPattern) {
@@ -120,7 +120,7 @@ void Model::Render(const matrix4x4f &trans, LmrObjParams *params)
 	}
 }
 
-RefCountedPtr<CollMesh> Model::CreateCollisionMesh(const LmrObjParams *p)
+RefCountedPtr<CollMesh> Model::CreateCollisionMesh(const ModelParams *)
 {
 	CollisionVisitor cv;
 	m_root->Accept(cv);

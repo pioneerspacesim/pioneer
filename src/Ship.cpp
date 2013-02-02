@@ -1099,7 +1099,7 @@ bool Ship::SetWheelState(bool down)
 void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (IsDead()) return;
-	LmrObjParams &params = GetLmrObjParams();
+	ModelParams &params = GetModelParams();
 
 	m_shipFlavour.ApplyTo(GetModel());
 

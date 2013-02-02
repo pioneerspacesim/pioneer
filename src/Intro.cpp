@@ -17,7 +17,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_ambientColor = Color(0.f);
 
 	const Color one = Color::WHITE;
-	const Color two = Color(0.1f, 0.1f, 0.5f, 0.f);
+	const Color two = Color(0.3f, 0.3f, 0.8f, 0.f);
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 0.3f, 1.f), one, one));
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, -1.f, 0.f), two, Color::BLACK));
 
@@ -29,9 +29,6 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	}
 	m_model->SetLabel(Lang::PIONEER);
 
-	// Model parameters
-	// XXX all LMR-specific
-	memset(&m_modelParams, 0, sizeof(LmrObjParams));
 	m_modelParams.linthrust[2] = -1.f;
 }
 

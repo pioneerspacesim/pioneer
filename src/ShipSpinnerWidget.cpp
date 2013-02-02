@@ -14,8 +14,6 @@ ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, fl
 {
 	m_model = Pi::FindModel(ShipType::types[flavour.id].lmrModelName.c_str());
 
-	memset(&m_params, 0, sizeof(LmrObjParams));
-
 	flavour.ApplyTo(m_model);
 
 	Color lc(1.f);
