@@ -4,8 +4,6 @@
 #ifndef _LMRTYPES_H
 #define _LMRTYPES_H
 
-class EquipSet;
-
 //this file might be temporary - but don't want to fight dependency issues right now
 struct LmrMaterial {
 	float diffuse[4];
@@ -17,21 +15,8 @@ struct LmrMaterial {
 
 struct LmrObjParams
 {
-	enum { LMR_ANIMATION_MAX = 10 };
-
-	const char *animationNamespace; // the namespace to look up animation names in, from LuaConstants
-
-	double time;
-	int animStages[LMR_ANIMATION_MAX];
-	double animValues[LMR_ANIMATION_MAX];
-	const char *label; // ignored, use model->SetLabel
-	const EquipSet *equipment; // for ships
-	int flightState;
-
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0
-	//vector3f linthrust;
-	//vector3f angthrust;
 
 	struct LmrMaterial pMat[3];
 

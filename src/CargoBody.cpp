@@ -63,5 +63,5 @@ bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
 void CargoBody::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	GetModel()->SetLabel(Equip::types[m_type].name);
-	RenderLmrModel(r, viewCoords, viewTransform);
+	RenderModel(r, viewCoords, viewTransform);
 }

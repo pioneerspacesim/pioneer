@@ -33,12 +33,11 @@ public:
 	ModelBase *GetModel() { return m_model; }
 	CollMesh *GetCollMesh() { return m_collMesh.Get(); }
 	LmrObjParams &GetLmrObjParams() { return m_params; }
-	void SetLmrTimeParams();
 	void RebuildCollisionMesh();
 
 	void SetModel(const char *lmrModelName);
 
-	void RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	void RenderModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);

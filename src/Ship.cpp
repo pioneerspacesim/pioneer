@@ -154,17 +154,16 @@ void Ship::Init()
 	// XXX the animation namespace must match that in LuaConstants
 	// note: this must be set before generating the collision mesh
 	// (which happens in SetModel()) and before rendering
-	GetLmrObjParams().animationNamespace = "ShipAnimation";
-	GetLmrObjParams().equipment = &m_equipment;
 
 	const ShipType &stype = GetShipType();
 
 	// Dirty hack: Always use gear-down mesh for collision detection
 	// necessary because some ships have non-docking meshes too large for docking
-	float temp = GetLmrObjParams().animValues[ANIM_WHEEL_STATE];
-	GetLmrObjParams().animValues[ANIM_WHEEL_STATE] = 1.0f;
+	//XXX nope, cannot do this anymore
+	//float temp = GetLmrObjParams().animValues[ANIM_WHEEL_STATE];
+	//GetLmrObjParams().animValues[ANIM_WHEEL_STATE] = 1.0f;
 	SetModel(stype.lmrModelName.c_str());
-	GetLmrObjParams().animValues[ANIM_WHEEL_STATE] = temp;
+	//GetLmrObjParams().animValues[ANIM_WHEEL_STATE] = temp;
 
 	SetMassDistributionFromModel();
 	UpdateStats();
@@ -1105,20 +1104,17 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	m_shipFlavour.ApplyTo(&params);
 	m_shipFlavour.ApplyTo(GetModel());
 
-	SetLmrTimeParams();
 	params.angthrust[0] = float(-m_angThrusters.x);
 	params.angthrust[1] = float(-m_angThrusters.y);
 	params.angthrust[2] = float(-m_angThrusters.z);
 	params.linthrust[0] = float(m_thrusters.x);
 	params.linthrust[1] = float(m_thrusters.y);
 	params.linthrust[2] = float(m_thrusters.z);
-	params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
-	params.flightState = m_flightState;
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-	RenderLmrModel(renderer, viewCoords, viewTransform);
+	RenderModel(renderer, viewCoords, viewTransform);
 
 	// draw shield recharge bubble
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {

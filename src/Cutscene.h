@@ -8,6 +8,8 @@
 #include "graphics/Renderer.h"
 #include "graphics/Light.h"
 
+class ModelBase;
+
 class Cutscene {
 public:
 	Cutscene(Graphics::Renderer *r, int width, int height)

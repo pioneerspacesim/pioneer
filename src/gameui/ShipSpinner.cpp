@@ -17,10 +17,6 @@ ShipSpinner::ShipSpinner(Context *context, const ShipFlavour &flavour) : Widget(
 	m_model = Pi::FindModel(ShipType::types[m_flavour.id].lmrModelName.c_str());
 
 	memset(&m_params, 0, sizeof(LmrObjParams));
-	m_params.animationNamespace = "ShipAnimation";
-	m_params.equipment = &m_equipment;
-	m_params.animValues[Ship::ANIM_WHEEL_STATE] = 1.0;
-	m_params.flightState = Ship::FLYING;
 
 	m_flavour.ApplyTo(&m_params);
 	m_flavour.ApplyTo(m_model);
@@ -42,8 +38,6 @@ void ShipSpinner::Layout()
 
 void ShipSpinner::Update()
 {
-	m_params.time = double(SDL_GetTicks()) * 0.001;
-
 	if (!(m_rightMouseButton && IsMouseActive())) {
 		m_rotX += .5*Pi::GetFrameTime();
 		m_rotY += Pi::GetFrameTime();

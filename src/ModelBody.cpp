@@ -143,12 +143,7 @@ void ModelBody::SetFrame(Frame *f)
 	}
 }
 
-void ModelBody::SetLmrTimeParams()
-{
-	m_params.time = Pi::game->GetTime();
-}
-
-void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void ModelBody::RenderModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d m2 = GetInterpOrient();
 	m2.SetTranslate(GetInterpPosition());
@@ -161,7 +156,6 @@ void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords
 	trans[14] = viewCoords.z;
 	trans[15] = 1.0f;
 
-	m_params.label = GetLabel().c_str();
 	m_model->Render(r, trans, &m_params);
 	glPopMatrix();
 }

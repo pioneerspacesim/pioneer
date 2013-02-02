@@ -146,11 +146,6 @@ void SpaceStation::InitStation()
 	if (ground) m_type = &SpaceStationType::surfaceStationTypes[ rand.Int32(SpaceStationType::surfaceStationTypes.size()) ];
 	else m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
 
-	LmrObjParams &params = GetLmrObjParams();
-	params.animStages[ANIM_DOCKING_BAY_1] = 1;
-	params.animValues[ANIM_DOCKING_BAY_1] = 1.0;
-	// XXX the animation namespace must match that in LuaConstants
-	params.animationNamespace = "SpaceStationAnimation";
 	SetStatic(ground);			// orbital stations are dynamic now
 	SetModel(m_type->modelName.c_str());
 
@@ -608,20 +603,13 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	LmrObjParams &params = GetLmrObjParams();
-	params.label = GetLabel().c_str();
-	SetLmrTimeParams();
-
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		params.animStages[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stage;
-		params.animValues[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stagePos;
-	}
 
 	Body *b = GetFrame()->GetBody();
 	assert(b);
 
 	if (!b->IsType(Object::PLANET)) {
 		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
-		RenderLmrModel(r, viewCoords, viewTransform);
+		RenderModel(r, viewCoords, viewTransform);
 	}
 
 	else {
@@ -668,7 +656,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
 		}
 
-		RenderLmrModel(r, viewCoords, viewTransform);
+		RenderModel(r, viewCoords, viewTransform);
 
 		// restore old lights & ambient
 		r->SetLights(origLights.size(), &origLights[0]);

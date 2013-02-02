@@ -15,10 +15,6 @@ ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, fl
 	m_model = Pi::FindModel(ShipType::types[flavour.id].lmrModelName.c_str());
 
 	memset(&m_params, 0, sizeof(LmrObjParams));
-	m_params.animationNamespace = "ShipAnimation";
-	m_params.equipment = &m_equipment;
-	m_params.animValues[Ship::ANIM_WHEEL_STATE] = 1.0;
-	m_params.flightState = Ship::FLYING;
 
 	flavour.ApplyTo(&m_params);
 	flavour.ApplyTo(m_model);
@@ -34,8 +30,6 @@ void ShipSpinnerWidget::Draw()
 {
 	float pos[2];
 	GetAbsolutePosition(pos);
-
-	m_params.time = Pi::game->GetTime();
 
 	float guiscale[2];
 	Gui::Screen::GetCoords2Pixels(guiscale);

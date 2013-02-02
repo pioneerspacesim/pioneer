@@ -32,27 +32,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	// Model parameters
 	// XXX all LMR-specific
 	memset(&m_modelParams, 0, sizeof(LmrObjParams));
-	m_modelParams.animationNamespace = "ShipAnimation";
-	m_modelParams.flightState = Ship::FLYING;
 	m_modelParams.linthrust[2] = -1.f;
-	m_modelParams.animValues[1] = 1.f;
-
-	LmrMaterial matA = { { .2f, .2f, .5f, 1.0f }, { 1, 1, 1 }, { 0, 0, 0 }, 100.0 };
-	LmrMaterial matB = { { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
-	LmrMaterial matC = { { 0.8f, 0.8f, 0.8f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 };
-	m_modelParams.pMat[0] = matA;
-	m_modelParams.pMat[1] = matB;
-	m_modelParams.pMat[2] = matC;
-
-	// Some equipment (in case the model can show them)
-	m_equipment.Add(Equip::ECM_ADVANCED, 1);
-	m_equipment.Add(Equip::HYPERCLOUD_ANALYZER, 1);
-	m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING, 1);
-	m_equipment.Add(Equip::FUEL_SCOOP, 1);
-	m_equipment.Add(Equip::SCANNER, 1);
-	m_equipment.Add(Equip::RADAR_MAPPER, 1);
-	m_equipment.Add(Equip::MISSILE_NAVAL, 4);
-	m_modelParams.equipment = &m_equipment;
 }
 
 Intro::~Intro()
