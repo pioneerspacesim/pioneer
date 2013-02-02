@@ -176,6 +176,7 @@ void LuaShipDef::Register()
 		const ShipType &st = (*i).second;
 		lua_newtable(l);
 
+		pi_lua_settable(l, "id",                (*i).first.c_str());
 		pi_lua_settable(l, "name",              st.name.c_str());
 		pi_lua_settable(l, "tag",               EnumStrings::GetString("ShipTypeTag", st.tag));
 		pi_lua_settable(l, "angularThrust",     st.angThrust);

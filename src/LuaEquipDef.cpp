@@ -24,15 +24,18 @@ void LuaEquipDef::Register()
 	for (int i = Equip::NONE; i < Equip::TYPE_MAX; i++)
 	{
 		const EquipType *et = &(Equip::types[i]);
+		const char *id = EnumStrings::GetString("EquipType", i);
+
 		lua_newtable(l);
 
+		pi_lua_settable(l, "id",        id);
 		pi_lua_settable(l, "name",      et->name);
 		pi_lua_settable(l, "slot",      EnumStrings::GetString("EquipSlot", et->slot));
 		pi_lua_settable(l, "basePrice", double(et->basePrice)*0.01);
 		pi_lua_settable(l, "mass",      et->mass);
 
 		pi_lua_readonly_table_proxy(l, -1);
-		lua_setfield(l, -3, EnumStrings::GetString("EquipType", i));
+		lua_setfield(l, -3, id);
 		lua_pop(l, 1);
 	}
 
