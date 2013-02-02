@@ -432,7 +432,7 @@ void ModelViewer::DrawModel()
 	m_model->UpdateAnimations();
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(true);
-	m_model->Render(m_renderer, mv, &m_modelParams);
+	m_model->Render(mv);
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(false);
 
@@ -537,14 +537,19 @@ void ModelViewer::OnPatternChanged(unsigned int index, const std::string &value)
 
 void ModelViewer::OnThrustChanged(float)
 {
-	m_modelParams.linthrust[0] = get_thrust(thrustSliders[0]);
-	m_modelParams.linthrust[1] = get_thrust(thrustSliders[1]);
-	m_modelParams.linthrust[2] = get_thrust(thrustSliders[2]);
+	vector3f linthrust;
+	vector3f angthrust;
+
+	linthrust.x = get_thrust(thrustSliders[0]);
+	linthrust.y = get_thrust(thrustSliders[1]);
+	linthrust.z = get_thrust(thrustSliders[2]);
 
 	// angthrusts are negated in ship.cpp for some reason
-	m_modelParams.angthrust[0] = -get_thrust(thrustSliders[3]);
-	m_modelParams.angthrust[1] = -get_thrust(thrustSliders[4]);
-	m_modelParams.angthrust[2] = -get_thrust(thrustSliders[5]);
+	angthrust.x = -get_thrust(thrustSliders[3]);
+	angthrust.y = -get_thrust(thrustSliders[4]);
+	angthrust.z = -get_thrust(thrustSliders[5]);
+
+	m_model->SetThrust(linthrust, angthrust);
 }
 
 void ModelViewer::PollEvents()

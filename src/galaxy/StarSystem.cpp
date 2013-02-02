@@ -1300,7 +1300,6 @@ void SystemBody::PickRings(bool forceRings)
 }
 
 // Calculate parameters used in the atmospheric model for shaders
-// used by both LmrModels and Geosphere
 SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 {
 	AtmosphereParameters params;

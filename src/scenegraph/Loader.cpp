@@ -304,7 +304,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 
 	// Run CollisionVisitor to create the initial CM and its GeomTree.
 	// If no collision mesh is defined, a simple bounding box will be generated
-	m_model->CreateCollisionMesh(0);
+	m_model->CreateCollisionMesh();
 
 	//find usable pattern textures from the model directory
 	if (patternsUsed) {

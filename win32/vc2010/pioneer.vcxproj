@@ -142,7 +142,6 @@
     <ClCompile Include="..\..\src\Intro.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
-    <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\Lua.cpp" />
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
@@ -264,7 +263,6 @@
     <ClInclude Include="..\..\src\Background.h" />
     <ClInclude Include="..\..\src\BezierCurve.h" />
     <ClInclude Include="..\..\src\Body.h" />
-    <ClInclude Include="..\..\src\BufferObject.h" />
     <ClInclude Include="..\..\src\buildopts.h" />
     <ClInclude Include="..\..\src\ByteRange.h" />
     <ClInclude Include="..\..\src\Camera.h" />
@@ -304,8 +302,6 @@
     <ClInclude Include="..\..\src\Intro.h" />
     <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
-    <ClInclude Include="..\..\src\LmrModel.h" />
-    <ClInclude Include="..\..\src\LmrTypes.h" />
     <ClInclude Include="..\..\src\Lua.h" />
     <ClInclude Include="..\..\src\LuaBody.h" />
     <ClInclude Include="..\..\src\LuaCargoBody.h" />
@@ -350,7 +346,6 @@
     <ClInclude Include="..\..\src\MathUtil.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\Missile.h" />
-    <ClInclude Include="..\..\src\ModelBase.h" />
     <ClInclude Include="..\..\src\ModelBody.h" />
     <ClInclude Include="..\..\src\ModelCache.h" />
     <ClInclude Include="..\..\src\ModelViewer.h" />

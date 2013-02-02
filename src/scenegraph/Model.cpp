@@ -18,8 +18,7 @@ public:
 };
 
 Model::Model(Graphics::Renderer *r, const std::string &name)
-: ModelBase()
-, m_boundingRadius(10.f)
+: m_boundingRadius(10.f)
 , m_renderer(r)
 , m_name(name)
 , m_curPattern(0)
@@ -30,8 +29,7 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 }
 
 Model::Model(const Model &model)
-: ModelBase()
-, m_boundingRadius(model.m_boundingRadius)
+: m_boundingRadius(model.m_boundingRadius)
 , m_materials(model.m_materials)
 , m_patterns(model.m_patterns)
 , m_collMesh(model.m_collMesh) //might have to make this per-instance at some point
@@ -86,7 +84,7 @@ Model *Model::MakeInstance() const
 	return m;
 }
 
-void Model::Render(const matrix4x4f &trans, LmrObjParams *params)
+void Model::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	//update color parameters (materials are shared by model instances)
 	if (m_curPattern) {
@@ -102,6 +100,9 @@ void Model::Render(const matrix4x4f &trans, LmrObjParams *params)
 	for (unsigned int i=0; i < MAX_DECAL_MATERIALS; i++)
 		if (m_decalMaterials[i].Valid())
 			m_decalMaterials[i]->texture0 = m_curDecals[i];
+
+	//Override renderdata if this model is called from ModelNode
+	RenderData *params = (rd != 0) ? rd : &m_renderData;
 
 	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	m_renderer->SetTransform(trans);
@@ -120,7 +121,7 @@ void Model::Render(const matrix4x4f &trans, LmrObjParams *params)
 	}
 }
 
-RefCountedPtr<CollMesh> Model::CreateCollisionMesh(const LmrObjParams *p)
+RefCountedPtr<CollMesh> Model::CreateCollisionMesh()
 {
 	CollisionVisitor cv;
 	m_root->Accept(cv);
@@ -241,6 +242,17 @@ void Model::UpdateAnimations()
 	// XXX WIP. Assuming animations are controlled manually by SetProgress.
 	for (AnimationContainer::iterator anim = m_animations.begin(); anim != m_animations.end(); ++anim)
 		(*anim)->Interpolate();
+}
+
+void Model::SetThrust(const vector3f &lin, const vector3f &ang)
+{
+	m_renderData.linthrust[0] = lin.x;
+	m_renderData.linthrust[1] = lin.y;
+	m_renderData.linthrust[2] = lin.z;
+
+	m_renderData.angthrust[0] = ang.x;
+	m_renderData.angthrust[1] = ang.y;
+	m_renderData.angthrust[2] = ang.z;
 }
 
 }

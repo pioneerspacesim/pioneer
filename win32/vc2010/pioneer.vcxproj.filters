@@ -63,9 +63,6 @@
     <ClCompile Include="..\..\src\KeyBindings.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LmrModel.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LuaBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -446,9 +443,6 @@
     <ClInclude Include="..\..\src\Body.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\BufferObject.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\buildopts.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -510,9 +504,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\libs.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LmrModel.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaBody.h">
@@ -842,9 +833,6 @@
     <ClInclude Include="..\..\src\LuaFileSystem.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\LmrTypes.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Lua.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -891,9 +879,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\UIView.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ModelBase.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ModelViewer.h">
