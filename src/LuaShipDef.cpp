@@ -136,23 +136,12 @@
 /*
  * Attribute: linearThrust
  *
- * XXX
- *
- * Gets the linear thrust of a given thruster.
- *
- * > thrust = shiptype:GetLinearThrust(thruster)
- *
- * Parameters:
- *
- *   thruster - a <Constants.ShipTypeThruster> string for the wanted thruster
- *
- * Returns:
- *
- *   thrust - maximum thrust, in newtons
+ * Table keyed on <Constants.ShipTypeThruster>, containing linear thrust of
+ * that thruster in newtons
  *
  * Availability:
  *
- *   alpha 10
+ *   alpha 32
  *
  * Status:
  *
@@ -162,26 +151,12 @@
 /*
  * Attribute: equipSlotCapacity
  *
- * XXX
- *
- * Get the maximum number of a particular type of equipment this ship can
- * hold. This is the number of items that can be held, not the mass.
- * <Ship.AddEquip> will take care of ensuring the hull capacity is not
- * exceeded.
- *
- * > capacity = shiptype:GetEquipSlotCapacity(slot)
- *
- * Parameters:
- *
- *   slot - a <Constants.EquipSlot> string for the wanted equipment type
- *
- * Returns:
- *
- *   capacity - the maximum capacity of the equipment slot
+ * Table keyed on <Constants.EquipSlot>, containing maximum number of items
+ * that can be held in that slot (ignoring mass)
  *
  * Availability:
  *
- *   alpha 10
+ *   alpha 32
  *
  * Status:
  *
