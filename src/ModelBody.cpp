@@ -81,7 +81,7 @@ void ModelBody::RebuildCollisionMesh()
 		delete m_geom;
 	}
 
-	m_collMesh = m_model->CreateCollisionMesh(&m_params);
+	m_collMesh = m_model->CreateCollisionMesh();
 	SetPhysRadius(m_collMesh->GetAabb().GetRadius());
 	m_geom = new Geom(m_collMesh->GetGeomTree());
 
@@ -152,6 +152,6 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const vector3d &viewCoords, c
 	trans[14] = viewCoords.z;
 	trans[15] = 1.0f;
 
-	m_model->Render(trans, &m_params);
+	m_model->Render(trans);
 	glPopMatrix();
 }

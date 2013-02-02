@@ -602,8 +602,6 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 //            Lighting is done by manipulating global lights or setting uniforms in atmospheric models shader
 void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	ModelParams &params = GetModelParams();
-
 	Body *b = GetFrame()->GetBody();
 	assert(b);
 

@@ -5,7 +5,6 @@
 #define _SHIPSPINNERWIDGET_H
 
 #include "EquipSet.h"
-#include "LmrTypes.h"
 #include "ShipFlavour.h"
 #include "ShipType.h"
 #include "gui/Gui.h"
@@ -25,7 +24,6 @@ private:
 	float m_height;
 
 	SceneGraph::Model *m_model;
-	ModelParams m_params;
 	// XXX m_equipment is currently not hooked up to anything,
 	// it's just used to pass equipment parameters to the displayed model
 	EquipSet m_equipment;

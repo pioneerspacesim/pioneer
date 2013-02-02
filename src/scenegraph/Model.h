@@ -66,7 +66,6 @@
 #include "Label3D.h"
 #include "Pattern.h"
 #include "CollMesh.h"
-#include "LmrTypes.h"
 #include "graphics/Material.h"
 #include <stdexcept>
 
@@ -91,8 +90,8 @@ public:
 	~Model();
 	Model *MakeInstance() const;
 	float GetDrawClipRadius() const { return m_boundingRadius; }
-	void Render(const matrix4x4f &trans, ModelParams *params);
-	RefCountedPtr<CollMesh> CreateCollisionMesh(const ModelParams *p);
+	void Render(const matrix4x4f &trans, RenderData *params = 0); //ModelNode can override RD
+	RefCountedPtr<CollMesh> CreateCollisionMesh();
 	CollMesh *GetCollisionMesh() const { return m_collMesh.Get(); }
 	RefCountedPtr<Group> GetRoot() { return m_root; }
 	//materials used in the nodes should be accessible from here for convenience
@@ -121,6 +120,9 @@ public:
 
 	Graphics::Renderer *GetRenderer() const { return m_renderer; }
 
+	//special for ship model use
+	void SetThrust(const vector3f& linear, const vector3f &angular);
+
 private:
 	Model(const Model&);
 	static const unsigned int MAX_DECAL_MATERIALS = 4;
@@ -135,6 +137,7 @@ private:
 	std::string m_name;
 	std::vector<Animation *> m_animations;
 	TagContainer m_tags; //named attachment points
+	RenderData m_renderData;
 
 	//per-instance flavour data
 	Graphics::Texture *m_curPattern;

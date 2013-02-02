@@ -31,7 +31,7 @@ void Tombstone::Draw(float _time)
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
 	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
-	m_model->Render(rot, &m_modelParams);
+	m_model->Render(rot);
 	glPopAttrib();
 	m_renderer->SetAmbientColor(oldSceneAmbientColor);
 }

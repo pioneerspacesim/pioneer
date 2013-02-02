@@ -7,7 +7,6 @@
 #include "libs.h"
 #include "graphics/Renderer.h"
 #include "graphics/Light.h"
-#include "LmrTypes.h"
 
 namespace SceneGraph { class Model; }
 
@@ -27,7 +26,6 @@ protected:
 	float m_aspectRatio;
 	Graphics::Renderer *m_renderer;
 	SceneGraph::Model *m_model;
-	ModelParams m_modelParams;
 	std::vector<Graphics::Light> m_lights;
 };
 

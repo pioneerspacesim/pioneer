@@ -8,7 +8,6 @@
 #include "ShipFlavour.h"
 #include "graphics/Light.h"
 #include "EquipSet.h"
-#include "LmrTypes.h"
 
 namespace SceneGraph { class Model; }
 
@@ -33,7 +32,7 @@ private:
 	float m_rotX, m_rotY;
 
 	SceneGraph::Model *m_model;
-	ModelParams m_params;
+
 	// XXX m_equipment is currently not hooked up to anything,
 	// it's just used to pass equipment parameters to the displayed model
 	EquipSet m_equipment;

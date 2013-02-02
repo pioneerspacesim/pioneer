@@ -302,7 +302,6 @@
     <ClInclude Include="..\..\src\Intro.h" />
     <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
-    <ClInclude Include="..\..\src\LmrTypes.h" />
     <ClInclude Include="..\..\src\Lua.h" />
     <ClInclude Include="..\..\src\LuaBody.h" />
     <ClInclude Include="..\..\src\LuaCargoBody.h" />

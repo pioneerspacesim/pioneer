@@ -8,7 +8,6 @@
 #include "Body.h"
 #include "vector3.h"
 #include "CollMesh.h"
-#include "LmrTypes.h"
 
 class Geom;
 namespace Graphics { class Renderer; }
@@ -33,7 +32,6 @@ public:
 	Geom *GetGeom() { return m_geom; }
 	SceneGraph::Model *GetModel() { return m_model; }
 	CollMesh *GetCollMesh() { return m_collMesh.Get(); }
-	ModelParams &GetModelParams() { return m_params; }
 	void RebuildCollisionMesh();
 
 	void SetModel(const char *modelName);
@@ -43,12 +41,12 @@ public:
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
+
 private:
 	bool m_isStatic;
 	bool m_colliding;
 	RefCountedPtr<CollMesh> m_collMesh;
 	Geom *m_geom;
-	ModelParams m_params;
 	SceneGraph::Model *m_model;
 };
 

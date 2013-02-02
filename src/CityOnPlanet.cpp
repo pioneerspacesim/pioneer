@@ -48,9 +48,6 @@ struct cityflavourdef_t {
 	double size;
 } cityflavour[CITYFLAVOURS];
 
-
-ModelParams cityobj_params;
-
 void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
 {
 	double rad = (p1-p2).Length()*0.5;
@@ -183,7 +180,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	int i = 0;
 	for (std::vector<Model*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
-		list->buildings[i].collMesh = (*m)->CreateCollisionMesh(&cityobj_params);
+		list->buildings[i].collMesh = (*m)->CreateCollisionMesh();
 		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
 		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
 		const double maxy = std::max(fabs(aabb.max.z), fabs(aabb.min.z));
@@ -318,8 +315,6 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 	const Graphics::Frustum frustum = camera->GetFrustum();
 	//modelview seems to be always identity
 
-	memset(&cityobj_params, 0, sizeof(ModelParams));
-
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
 			i != m_buildings.end(); ++i) {
 
@@ -335,7 +330,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		_rot[13] = float(pos.y);
 		_rot[14] = float(pos.z);
 		glPushMatrix();
-		(*i).model->Render(_rot, &cityobj_params);
+		(*i).model->Render(_rot);
 		glPopMatrix();
 	}
 }

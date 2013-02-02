@@ -28,7 +28,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_model->SetDecalTexture(Graphics::TextureBuilder::Decal("textures/decals/01_Badge.png").GetOrCreateTexture(r, "decal"));
 	m_model->SetLabel(Lang::PIONEER);
 
-	m_modelParams.linthrust[2] = -1.f;
+	m_model->SetThrust(vector3f(0.f, 0.f, -0.6f), vector3f(0.f));
 }
 
 Intro::~Intro()
@@ -58,7 +58,7 @@ void Intro::Draw(float _time)
 		matrix4x4f::RotateYMatrix(_time) *
 		matrix4x4f::RotateZMatrix(0.6f*_time) *
 		matrix4x4f::RotateXMatrix(_time*0.7f);
-	m_model->Render(trans, &m_modelParams);
+	m_model->Render(trans);
 	glPopAttrib();
 	m_renderer->SetAmbientColor(oldSceneAmbientColor);
 }

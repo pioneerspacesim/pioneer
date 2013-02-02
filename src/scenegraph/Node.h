@@ -8,7 +8,6 @@
  */
 #include "libs.h"
 #include "RefCounted.h"
-#include "LmrTypes.h" //for renderdata
 
 namespace Graphics { class Renderer; }
 
@@ -21,6 +20,24 @@ enum NodeMask {
 	NODE_SOLID = 0x1,
 	NODE_TRANSPARENT = 0x2,
 	MASK_IGNORE = 0x4
+};
+
+//Small structure used internally to pass rendering data
+struct RenderData
+{
+	float linthrust[3];		// 1.0 to -1.0
+	float angthrust[3];		// 1.0 to -1.0
+
+	float boundingRadius;	//updated by model and passed to submodels
+	unsigned int nodemask;
+
+	RenderData()
+	: boundingRadius(0.f)
+	, nodemask(0x1) //draw solids
+	, linthrust()
+	, angthrust()
+	{
+	}
 };
 
 class Node : public RefCounted

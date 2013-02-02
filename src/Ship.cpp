@@ -1085,16 +1085,12 @@ bool Ship::SetWheelState(bool down)
 void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (IsDead()) return;
-	ModelParams &params = GetModelParams();
 
 	m_shipFlavour.ApplyTo(GetModel());
 
-	params.angthrust[0] = float(-m_angThrusters.x);
-	params.angthrust[1] = float(-m_angThrusters.y);
-	params.angthrust[2] = float(-m_angThrusters.z);
-	params.linthrust[0] = float(m_thrusters.x);
-	params.linthrust[1] = float(m_thrusters.y);
-	params.linthrust[2] = float(m_thrusters.z);
+	//angthrust negated, for some reason
+	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
+
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
 

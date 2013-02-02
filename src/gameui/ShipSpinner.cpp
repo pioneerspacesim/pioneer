@@ -65,7 +65,7 @@ void ShipSpinner::Draw()
 	matrix4x4f rot = matrix4x4f::RotateXMatrix(m_rotX);
 	rot.RotateY(m_rotY);
 	rot[14] = -1.5f * m_model->GetDrawClipRadius();
-	m_model->Render(rot, &m_params);
+	m_model->Render(rot);
 }
 
 void ShipSpinner::HandleMouseDown(const MouseButtonEvent &event)
