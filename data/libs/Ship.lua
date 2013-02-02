@@ -369,6 +369,12 @@ local onGameStart = function ()
 end
 
 local serialize = function ()
+	-- Remove non-existent ships first, or the serializer will choke
+	for crewedShip,crew in pairs(CrewRoster) do
+		if not crewedShip:exists() then
+			CrewRoster[crewedShip] = nil
+		end
+	end
     return CrewRoster
 end
 
