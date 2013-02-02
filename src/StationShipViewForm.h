@@ -7,7 +7,6 @@
 #include "Form.h"
 #include "SpaceStation.h"
 #include "ShipFlavour.h"
-#include "LmrModel.h"
 
 class StationShipViewForm : public BlankForm {
 public:

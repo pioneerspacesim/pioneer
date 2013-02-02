@@ -163,14 +163,6 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	//const char *modelTagName;
 	std::vector<ModelBase*> models;
 
-	//get lmr models using a temporary vector (because of GetModelSWithTag)
-	{
-		std::vector<LmrModel*> lmrModels;
-		LmrGetModelsWithTag(list->modelTagName, lmrModels);
-		for (std::vector<LmrModel*>::iterator it = lmrModels.begin(); it != lmrModels.end(); ++it)
-			models.push_back(*it);
-	}
-
 	//get test newmodels
 	{
 		std::vector<std::string> filenames;

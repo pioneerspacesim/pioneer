@@ -5,7 +5,6 @@
 #define _CUTSCENE_H
 
 #include "libs.h"
-#include "LmrModel.h"
 #include "graphics/Renderer.h"
 #include "graphics/Light.h"
 

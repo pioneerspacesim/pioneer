@@ -8,7 +8,6 @@
 #include "Game.h"
 #include "gameconsts.h"
 #include "Lang.h"
-#include "LmrModel.h"
 #include "LuaEvent.h"
 #include "LuaVector.h"
 #include "Pi.h"

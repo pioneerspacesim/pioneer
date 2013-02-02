@@ -5,7 +5,6 @@
 #define _SHIPFLAVOUR_H
 
 #include "ShipType.h"
-#include "LmrModel.h"
 #include "Serializer.h"
 
 struct LmrObjParams;

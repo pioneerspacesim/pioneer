@@ -7,7 +7,6 @@
 #include "gui/Gui.h"
 #include "graphics/Light.h"
 #include "ShipFlavour.h"
-#include "LmrModel.h"
 #include "ShipType.h"
 #include "EquipSet.h"
 

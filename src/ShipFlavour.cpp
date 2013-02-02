@@ -7,7 +7,6 @@
 #include "ShipFlavour.h"
 #include "Pi.h"
 #include "Serializer.h"
-#include "LmrModel.h"
 
 static const LmrMaterial s_white = {
     { 1.0f, 1.0f, 1.0f, 1.0f }, //diffuse

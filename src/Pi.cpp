@@ -16,7 +16,6 @@
 #include "GeoSphere.h"
 #include "Intro.h"
 #include "Lang.h"
-#include "LmrModel.h"
 #include "LuaBody.h"
 #include "LuaCargoBody.h"
 #include "LuaChatForm.h"
@@ -232,11 +231,7 @@ ModelBase *Pi::FindModel(const std::string &name)
 	try {
 		m = Pi::modelCache->FindModel(name);
 	} catch (ModelCache::ModelNotFoundException) {
-		try {
-			m = LmrLookupModelByName(name.c_str());
-		} catch (LmrModelNotFoundException) {
-			Error("Could not find model %s", name.c_str());
-		}
+		Error("Could not find model %s", name.c_str());
 	}
 
 	return m;
@@ -364,7 +359,6 @@ void Pi::Init()
 	CustomSystem::Init();
 	draw_progress(0.4f);
 
-	LmrModelCompilerInit(Pi::renderer);
 	modelCache = new ModelCache(Pi::renderer);
 	draw_progress(0.5f);
 
@@ -554,7 +548,6 @@ void Pi::Quit()
 	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
 	GeoSphere::Uninit();
-	LmrModelCompilerUninit();
 	Galaxy::Uninit();
 	Faction::Uninit();
 	CustomSystem::Uninit();
@@ -1072,8 +1065,6 @@ void Pi::MainLoop()
 			int lua_memKB = int(lua_mem >> 10) % 1024;
 			int lua_memMB = int(lua_mem >> 20);
 
-			Pi::statSceneTris += LmrModelGetStatsTris();
-
 			snprintf(
 				fps_readout, sizeof(fps_readout),
 				"%d fps (%.1f ms/f), %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec\n"
@@ -1090,7 +1081,6 @@ void Pi::MainLoop()
 			else last_stats += 1000;
 		}
 		Pi::statSceneTris = 0;
-		LmrModelClearStatsTris();
 #endif
 
 #ifdef MAKING_VIDEO

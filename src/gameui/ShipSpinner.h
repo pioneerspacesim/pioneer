@@ -7,7 +7,6 @@
 #include "ui/Context.h"
 #include "ShipFlavour.h"
 #include "graphics/Light.h"
-#include "LmrModel.h"
 #include "EquipSet.h"
 
 namespace GameUI {
