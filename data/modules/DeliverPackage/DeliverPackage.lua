@@ -218,10 +218,11 @@ local onEnterSystem = function (player)
 					local shipdef = ShipDef[shipid]
 					local default_drive = shipdef.defaultHyperdrive
 
-					local max_laser_size = shipdef.capacity - EquipType.GetEquipType(default_drive).mass
-					local lasers = EquipType.GetEquipTypes('LASER', function (e,et)
-						return et.mass <= max_laser_size and string.sub(e,0,11) == 'PULSECANNON'
-					end)
+					local max_laser_size = shipdef.capacity - EquipDef[default_drive].mass
+					local lasers = {}
+					for id,def in pairs (EquipDef) do
+						if (def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(id,0,11) == 'PULSECANNON') then table.insert(lasers, id) end
+					end
 					local laser = lasers[Engine.rand:Integer(1,#lasers)]
 
 					ship = Space.SpawnShipNear(shipid, Game.player, 50, 100)

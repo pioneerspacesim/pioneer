@@ -226,9 +226,12 @@ local onEnterSystem = function (ship)
 						local station = Space.GetBody(mission.location.bodyIndex)
 						local shiptype = ShipDef[mission.shipid]
 						local default_drive = shiptype.defaultHyperdrive
-						local lasers = EquipType.GetEquipTypes('LASER', function (e,et) return et.slot == "LASER" end)
-						local count = tonumber(string.sub(default_drive, -1)) ^ 2
+						local lasers = {}
+						for id,def in pairs (EquipDef) do
+							if def.slot == 'LASER' then table.insert(lasers, id) end
+						end
 						local laser = lasers[mission.danger]
+						local count = tonumber(string.sub(default_drive, -1)) ^ 2
 
 						mission.ship = Space.SpawnShipDocked(mission.shipid, station)
 						if mission.ship == nil then

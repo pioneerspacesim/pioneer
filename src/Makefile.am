@@ -64,7 +64,7 @@ noinst_HEADERS = \
 	LuaConstants.h \
 	LuaDev.h \
 	LuaEngine.h \
-	LuaEquipType.h \
+	LuaEquipDef.h \
 	LuaEvent.h \
 	LuaFileSystem.h \
 	LuaFormat.h \
@@ -205,7 +205,7 @@ pioneer_SOURCES	= \
 	LuaConstants.cpp \
 	LuaDev.cpp \
 	LuaEngine.cpp \
-	LuaEquipType.cpp \
+	LuaEquipDef.cpp \
 	LuaEvent.cpp \
 	LuaFaction.cpp \
 	LuaFileSystem.cpp \
