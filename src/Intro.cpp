@@ -7,6 +7,7 @@
 #include "Ship.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include "scenegraph/SceneGraph.h"
 
 Intro::Intro(Graphics::Renderer *r, int width, int height)
 : Cutscene(r, width, height)
@@ -21,7 +22,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 0.3f, 1.f), one, one));
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, -1.f, 0.f), two, Color::BLACK));
 
-	Model *model = Pi::FindModel("lanner");
+	SceneGraph::Model *model = Pi::FindModel("lanner");
 
 	m_model = model->MakeInstance();
 	m_model->SetDecalTexture(Graphics::TextureBuilder::Decal("textures/decals/01_Badge.png").GetOrCreateTexture(r, "decal"));

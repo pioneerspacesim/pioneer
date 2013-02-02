@@ -11,12 +11,14 @@
 #include "Planet.h"
 #include "SpaceStation.h"
 #include "collider/Geom.h"
-#include "scenegraph/SceneGraph.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
+#include "scenegraph/SceneGraph.h"
 
 #define START_SEG_SIZE CITY_ON_PLANET_RADIUS
 #define MIN_SEG_SIZE 50.0
+
+using SceneGraph::Model;
 
 bool s_cityBuildingsInitted = false;
 struct citybuilding_t {
@@ -169,7 +171,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		for (std::vector<std::string>::const_iterator it = filenames.begin();
 			it != filenames.end(); ++it)
 		{
-			SceneGraph::Model *model = Pi::modelCache->FindModel(*it);
+			Model *model = Pi::modelCache->FindModel(*it);
 			models.push_back(model);
 		}
 	}

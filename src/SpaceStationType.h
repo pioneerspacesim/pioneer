@@ -8,12 +8,12 @@
 
 //Space station definition, loaded from data/stations
 
-class Model;
 class Ship;
+namespace SceneGraph { class Model; }
 
 struct SpaceStationType {
 	std::string id;
-	Model *model;
+	SceneGraph::Model *model;
 	std::string modelName;
 	float angVel;
 	enum DOCKMETHOD { SURFACE, ORBITAL } dockMethod;

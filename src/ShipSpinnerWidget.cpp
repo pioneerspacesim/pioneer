@@ -7,6 +7,7 @@
 #include "Ship.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "scenegraph/SceneGraph.h"
 
 ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, float height) :
 	m_width(width),

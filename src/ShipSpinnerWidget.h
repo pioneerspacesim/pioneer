@@ -4,13 +4,14 @@
 #ifndef _SHIPSPINNERWIDGET_H
 #define _SHIPSPINNERWIDGET_H
 
-#include "gui/Gui.h"
-#include "graphics/Light.h"
+#include "EquipSet.h"
+#include "LmrTypes.h"
 #include "ShipFlavour.h"
 #include "ShipType.h"
-#include "EquipSet.h"
+#include "gui/Gui.h"
+#include "graphics/Light.h"
 
-class Model;
+namespace SceneGraph { class Model; }
 
 class ShipSpinnerWidget : public Gui::Widget {
 public:
@@ -23,7 +24,7 @@ private:
 	float m_width;
 	float m_height;
 
-	Model *m_model;
+	SceneGraph::Model *m_model;
 	ModelParams m_params;
 	// XXX m_equipment is currently not hooked up to anything,
 	// it's just used to pass equipment parameters to the displayed model

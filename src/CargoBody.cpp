@@ -2,12 +2,13 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CargoBody.h"
+#include "Game.h"
 #include "Pi.h"
 #include "Serializer.h"
-#include "collider/collider.h"
 #include "Sfx.h"
 #include "Space.h"
-#include "Game.h"
+#include "collider/collider.h"
+#include "scenegraph/SceneGraph.h"
 
 void CargoBody::Save(Serializer::Writer &wr, Space *space)
 {

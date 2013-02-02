@@ -5,6 +5,7 @@
 #include "Lang.h"
 #include "Pi.h"
 #include "graphics/Renderer.h"
+#include "scenegraph/SceneGraph.h"
 
 Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
 : Cutscene(r, width, height)

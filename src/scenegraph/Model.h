@@ -65,6 +65,7 @@
 #include "Group.h"
 #include "Label3D.h"
 #include "Pattern.h"
+#include "CollMesh.h"
 #include "LmrTypes.h"
 #include "graphics/Material.h"
 #include <stdexcept>
@@ -141,7 +142,5 @@ private:
 };
 
 }
-
-using SceneGraph::Model; //yep.
 
 #endif

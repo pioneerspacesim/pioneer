@@ -14,6 +14,7 @@ class Frame;
 class Geom;
 class Camera;
 namespace Graphics { class Renderer; }
+namespace SceneGraph { class Model; }
 
 #define CITY_ON_PLANET_RADIUS 5000.0
 
@@ -33,7 +34,7 @@ private:
 	void RemoveStaticGeomsFromCollisionSpace();
 
 	struct BuildingDef {
-		Model *model;
+		SceneGraph::Model *model;
 		float clipRadius;
 		int rotation; // 0-3
 		vector3d pos;

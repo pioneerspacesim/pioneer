@@ -224,9 +224,9 @@ static void LuaInitGame() {
 	LuaEvent::Clear();
 }
 
-Model *Pi::FindModel(const std::string &name)
+SceneGraph::Model *Pi::FindModel(const std::string &name)
 {
-	Model *m = 0;
+	SceneGraph::Model *m = 0;
 	try {
 		m = Pi::modelCache->FindModel(name);
 	} catch (ModelCache::ModelNotFoundException) {

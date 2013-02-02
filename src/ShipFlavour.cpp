@@ -7,6 +7,7 @@
 #include "ShipFlavour.h"
 #include "Pi.h"
 #include "Serializer.h"
+#include "scenegraph/SceneGraph.h"
 
 ShipFlavour::ShipFlavour()
 {
@@ -41,7 +42,7 @@ void ShipFlavour::MakeTrulyRandom(ShipFlavour &v, bool atmospheric)
 	}
 }
 
-void ShipFlavour::ApplyTo(Model *m) const
+void ShipFlavour::ApplyTo(SceneGraph::Model *m) const
 {
 	m->SetLabel(regid);
 }

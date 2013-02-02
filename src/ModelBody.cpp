@@ -13,7 +13,7 @@
 #include "WorldView.h"
 #include "collider/collider.h"
 #include "graphics/Renderer.h"
-#include "scenegraph/Model.h"
+#include "scenegraph/SceneGraph.h"
 
 ModelBody::ModelBody() :
 	Body(),
