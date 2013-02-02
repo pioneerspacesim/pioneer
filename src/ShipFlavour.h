@@ -15,8 +15,6 @@ public:
 	ShipType::Id id;
 	std::string regid;
 	int price;
-	LmrMaterial primaryColor;
-	LmrMaterial secondaryColor;
 
 	static ShipFlavour FromLuaTable(lua_State *l, int idx);
 
@@ -24,13 +22,8 @@ public:
 	ShipFlavour(ShipType::Id id);
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
-	void ApplyTo(LmrObjParams *p) const;
 	void ApplyTo(ModelBase *m) const;
 	static void MakeTrulyRandom(ShipFlavour &v, bool atmosphereCapableOnly = false);
-private:
-	void SaveLmrMaterial(Serializer::Writer &wr, LmrMaterial *m);
-	void LoadLmrMaterial(Serializer::Reader &rd, LmrMaterial *m);
-	void MakeRandomColor(LmrMaterial &m);
 };
 
 

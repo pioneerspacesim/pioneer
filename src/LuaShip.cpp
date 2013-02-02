@@ -1028,20 +1028,6 @@ static int l_ship_attr_flavour(lua_State *l)
 	pi_lua_settable(l, "regId", f.regid.c_str());
 	pi_lua_settable(l, "price", double(f.price)*0.01);
 
-	lua_newtable(l);
-	_colour_to_table(l, "diffuse", f.primaryColor.diffuse);
-	_colour_to_table(l, "specular", f.primaryColor.specular);
-	_colour_to_table(l, "emissive", f.primaryColor.emissive);
-	pi_lua_settable(l, "shininess", f.primaryColor.shininess);
-	lua_setfield(l, -2, "primaryColour");
-
-	lua_newtable(l);
-	_colour_to_table(l, "diffuse", f.secondaryColor.diffuse);
-	_colour_to_table(l, "specular", f.secondaryColor.specular);
-	_colour_to_table(l, "emissive", f.secondaryColor.emissive);
-	pi_lua_settable(l, "shininess", f.secondaryColor.shininess);
-	lua_setfield(l, -2, "secondaryColour");
-
 	return 1;
 }
 

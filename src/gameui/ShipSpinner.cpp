@@ -18,7 +18,6 @@ ShipSpinner::ShipSpinner(Context *context, const ShipFlavour &flavour) : Widget(
 
 	memset(&m_params, 0, sizeof(LmrObjParams));
 
-	m_flavour.ApplyTo(&m_params);
 	m_flavour.ApplyTo(m_model);
 
 	Color lc(1.f);

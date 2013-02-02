@@ -1101,7 +1101,6 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	if (IsDead()) return;
 	LmrObjParams &params = GetLmrObjParams();
 
-	m_shipFlavour.ApplyTo(&params);
 	m_shipFlavour.ApplyTo(GetModel());
 
 	params.angthrust[0] = float(-m_angThrusters.x);
