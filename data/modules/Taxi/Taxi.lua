@@ -215,11 +215,8 @@ local onEnterSystem = function (player)
 
 			if ships < 1 and risk > 0 and Engine.rand:Integer(math.ceil(1/risk)) == 1 then ships = 1 end
 
-			local shipids = {}
-			for id,def in pairs(ShipDef) do
-				if (def.tag == 'SHIP' and def.hullMass >= 80 and def.hullMass <= 200) then table.insert(shipids, id) end
-			end
-			if #shipids == 0 then return end
+			local shipdefs = table.filter(function (def) return def.tag == 'SHIP' and def.hullMass >= 80 and def.hullMass <= 200 end, ShipDef, pairs)
+			if #shipdefs == 0 then return end
 
 			local ship
 
@@ -227,20 +224,16 @@ local onEnterSystem = function (player)
 				ships = ships-1
 
 				if Engine.rand:Number(1) <= risk then
-					local shipid = shipids[Engine.rand:Integer(1,#shipids)]
-					local shipdef = ShipDef[shipid]
+					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 					local default_drive = shipdef.defaultHyperdrive
 
 					local max_laser_size = shipdef.capacity - EquipDef[default_drive].mass
-					local lasers = {}
-					for id,def in pairs (EquipDef) do
-						if (def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(id,0,11) == 'PULSECANNON') then table.insert(lasers, id) end
-					end
-					local laser = lasers[Engine.rand:Integer(1,#lasers)]
+					local laserdefs = table.filter(function (def) return def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(def.id,0,11) == 'PULSECANNON' end, EquipDef, pairs)
+					local laserdef = lasers[Engine.rand:Integer(1,#laserdefs)]
 
-					ship = Space.SpawnShipNear(shipid, Game.player, 50, 100)
+					ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
 					ship:AddEquip(default_drive)
-					ship:AddEquip(laser)
+					ship:AddEquip(laserdef.id)
 					ship:AddEquip('SHIELD_GENERATOR', math.ceil(risk * 3))
 					if Engine.rand:Number(2) <= risk then
 						ship:AddEquip('LASER_COOLING_BOOSTER')

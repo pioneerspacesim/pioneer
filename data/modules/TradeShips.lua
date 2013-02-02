@@ -282,14 +282,11 @@ local getSystemAndJump = function (ship)
 end
 
 local getAcceptableShips = function ()
-	local ships = {}
-	for id,def in pairs(ShipDef) do
-		-- only accept ships with enough capacity that are capable of landing in atmospheres
-		if (def.tag == 'SHIP') and (def.hullMass >= 100) and (def.equipSlotCapacity.ATMOSHIELD > 0) then
-			table.insert(ships, id)
-		end
-    end
-	return ships
+    -- only accept ships with enough capacity that are capable of landing in atmospheres
+	return table.map(
+        function (def) return def.id end,
+        table.filter(function (def) return def.tag == 'SHIP' and def.hullMass >= 100 and def.equipSlotCapacity.ATMOSHIELD > 150 end, ShipDef, pairs)
+    )
 end
 
 local spawnInitialShips = function (game_start)

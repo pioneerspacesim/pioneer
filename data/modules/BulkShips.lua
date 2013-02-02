@@ -15,18 +15,15 @@ local spawnShips = function ()
 		return
 	end
 
-	local shipids = {}
-	for id,def in pairs(ShipDef) do
-		if (def.tag == 'STATIC_SHIP') then table.insert(shipids, id) end
-	end
-	if #shipids == 0 then return end
+	local shipdefs = table.filter(function (def) return def.tag == 'STATIC_SHIP' end, ShipDef, pairs)
+	if #shipdefs == 0 then return end
 
 	-- one ship per three billion, min 1, max 2*num of stations
 	local num_bulk_ships = math.min(#stations*2, math.floor((math.ceil(population)+2)/3))
 
 	for i=1, num_bulk_ships do
 	local station = stations[Engine.rand:Integer(1,#stations)]
-		Space.SpawnShipParked(shipids[Engine.rand:Integer(1,#shipids)], station)
+		Space.SpawnShipParked(shipdefs[Engine.rand:Integer(1,#shipdefs)].id, station)
 	end
 end
 

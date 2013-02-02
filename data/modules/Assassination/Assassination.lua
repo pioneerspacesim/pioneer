@@ -130,12 +130,11 @@ local makeAdvert = function (station)
 	local due = Game.time + Engine.rand:Number(7*60*60*24, time * 31*60*60*24)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
-	local shipids = {}
-	for id,def in pairs(ShipDef) do
-		if (def.tag == 'SHIP' and def.hullMass >= 50 and def.hullMass <= 150) then table.insert(shipids, id) end
-	end
-	local shipid = shipids[Engine.rand:Integer(1,#shipids)]
-	local shipname = ShipDef[shipid].name
+
+	local shipdefs = table.filter(function (def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, ShipDef, pairs)
+	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
+	local shipid = shipdef.id
+	local shipname = shipdef.name
 
 	local ad = {
 		client = client,
@@ -226,10 +225,7 @@ local onEnterSystem = function (ship)
 						local station = Space.GetBody(mission.location.bodyIndex)
 						local shiptype = ShipDef[mission.shipid]
 						local default_drive = shiptype.defaultHyperdrive
-						local lasers = {}
-						for id,def in pairs (EquipDef) do
-							if def.slot == 'LASER' then table.insert(lasers, id) end
-						end
+						local lasers = table.filter(function (def) return def.slot == 'LASER' end, EquipDef, pairs)
 						local laser = lasers[mission.danger]
 						local count = tonumber(string.sub(default_drive, -1)) ^ 2
 
