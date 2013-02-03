@@ -12,6 +12,13 @@ class ModelBase;
 class Ship;
 
 struct SpaceStationType {
+	struct SBayGroup {
+		int minShipSize, maxShipSize;
+		bool inUse;
+		std::vector<int> bayIDs;
+	};
+	typedef std::vector<SBayGroup> TBayGroups;
+
 	std::string id;
 	ModelBase *model;
 	std::string modelName;
@@ -30,6 +37,7 @@ struct SpaceStationType {
 	std::string approachWaypointsFunction;
 	bool bHasDockAnimFunction;
 	bool bHasApproachWaypointsFunction;
+	TBayGroups bayGroups;
 
 	struct positionOrient_t {
 		vector3d pos;

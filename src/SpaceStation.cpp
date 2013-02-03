@@ -63,7 +63,17 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 		wr.Float(float(m_shipDocking[i].openAnimState));
 		wr.Float(float(m_shipDocking[i].dockAnimState));
 	}
-	wr.Bool(m_dockingLock);
+	// store each of the bay groupings
+	wr.Int32(mBayGroups.size());
+	for (uint32_t i=0; i<mBayGroups.size(); i++) {
+		wr.Int32(mBayGroups[i].minShipSize);
+		wr.Int32(mBayGroups[i].maxShipSize);
+		wr.Bool(mBayGroups[i].inUse);
+		wr.Int32(mBayGroups[i].bayIDs.size());
+		for (uint32_t j=0; j<mBayGroups[i].bayIDs.size(); j++) {
+			wr.Int32(mBayGroups[i].bayIDs[j]);
+		}
+	}
 
 	wr.Bool(m_bbCreated);
 	wr.Double(m_lastUpdatedShipyard);
@@ -104,7 +114,22 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 		sd.openAnimState = rd.Float();
 		sd.dockAnimState = rd.Float();
 	}
-	m_dockingLock = rd.Bool();
+	// retrieve each of the bay groupings
+	const int32_t numBays = rd.Int32();
+	mBayGroups.reserve(numBays);
+	for (int32_t i=0; i<numBays; i++) {
+		mBayGroups.push_back(SpaceStationType::SBayGroup());
+		SpaceStationType::SBayGroup &bay = mBayGroups.back();
+		bay.minShipSize = rd.Int32();
+		bay.maxShipSize = rd.Int32();
+		bay.inUse = rd.Bool();
+		const int32_t numBayIds = rd.Int32();
+		bay.bayIDs.reserve(numBayIds);
+		for (int32_t j=0; j<numBayIds; j++) {
+			const int32_t ID = rd.Int32();
+			bay.bayIDs.push_back(ID);
+		}
+	}
 
 	m_bbCreated = rd.Bool();
 	m_lastUpdatedShipyard = rd.Double();
@@ -129,7 +154,6 @@ SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 	m_bbCreated = false;
 	m_bbShuffled = false;
 
-	m_dockingLock = false;
 	m_oldAngDisplacement = 0.0;
 
 	SetMoney(1000000000);
@@ -151,6 +175,9 @@ void SpaceStation::InitStation()
 	for (int i=0; i<m_type->numDockingPorts; i++) {
 		m_shipDocking.push_back(shipDocking_t());
 	}
+
+	// This SpaceStation's bay groups is an instance of...
+	mBayGroups = m_type->bayGroups;
 
 	LmrObjParams &params = GetLmrObjParams();
 	params.animStages[ANIM_DOCKING_BAY_1] = 1;
@@ -250,8 +277,8 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 {
 	shipDocking_t &sd = m_shipDocking[port];
 	if (sd.stage < 0) return true;			// already launching
-	if (m_dockingLock) return false;		// another ship docking
-	if (m_type->dockOneAtATimePlease) m_dockingLock = true;
+	if (IsPortLocked(port)) return false;	// another ship docking
+	LockPort(port, true);
 
 	sd.ship = ship;
 	sd.stage = -1;
@@ -322,7 +349,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			sd.stagePos = 0;
 			sd.fromPos = (s->GetPosition() - GetPosition()) * GetOrient();	// station space
 			sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * s->GetOrient());
-			if (m_type->dockOneAtATimePlease) m_dockingLock = true;
+			LockPort(port, true);
 
 			s->SetFlightState(Ship::DOCKING);
 			s->SetVelocity(vector3d(0.0));
@@ -394,13 +421,13 @@ void SpaceStation::DockingUpdate(const double timeStep)
 			// undock animation finished, clear port
 			dt.stage = 0;
 			dt.ship = 0;
-			if (m_type->dockOneAtATimePlease) m_dockingLock = false;
+			LockPort(i, false);
 		}
 		else if (dt.stage > m_type->numDockingStages) {
 			// set docked
 			dt.ship->SetDockedWith(this, i);
 			LuaEvent::Queue("onShipDocked", dt.ship, this);
-			if (m_type->dockOneAtATimePlease) m_dockingLock = false;
+			LockPort(i, false);
 		}
 	}
 	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
@@ -838,6 +865,34 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 			ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
 			ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 			ship->UpdateStats();
+		}
+	}
+}
+
+bool SpaceStation::IsPortLocked(const int bay) const
+{
+	SpaceStationType::TBayGroups::const_iterator bayIter = mBayGroups.begin();
+	for ( ; bayIter!=mBayGroups.end() ; ++bayIter ) {
+		std::vector<int>::const_iterator idIter = (*bayIter).bayIDs.begin();
+		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
+			if ((*idIter)==bay) {
+				return (*bayIter).inUse;
+			}
+		}
+	}
+	// is it safer to return that the
+	return true;
+}
+
+void SpaceStation::LockPort(const int bay, const bool lockIt)
+{
+	SpaceStationType::TBayGroups::iterator bayIter = mBayGroups.begin();
+	for ( ; bayIter!=mBayGroups.end() ; ++bayIter ) {
+		std::vector<int>::iterator idIter = (*bayIter).bayIDs.begin();
+		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
+			if ((*idIter)==bay) {
+				(*bayIter).inUse = lockIt;
+			}
 		}
 	}
 }

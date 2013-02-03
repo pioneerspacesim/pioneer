@@ -118,6 +118,8 @@ private:
 	void PositionDockedShip(Ship *ship, int port) const;
 	void DoLawAndOrder(const double timeStep);
 	void CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::LightSource> &lightSources);
+	bool IsPortLocked(const int bay) const;
+	void LockPort(const int bay, const bool lockIt);
 
 	/* Stage 0 means docking port empty
 	 * Stage 1 means docking clearance granted to ->ship
@@ -143,7 +145,9 @@ private:
 	typedef std::vector<shipDocking_t>::const_iterator	constShipDockingIter;
 	typedef std::vector<shipDocking_t>::iterator		shipDockingIter;
 	std::vector<shipDocking_t> m_shipDocking;
-	bool m_dockingLock;
+
+	SpaceStationType::TBayGroups mBayGroups;
+	//bool m_dockingLock;
 
 	double m_oldAngDisplacement;
 

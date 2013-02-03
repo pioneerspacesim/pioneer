@@ -273,6 +273,7 @@ static inline void _get_float(lua_State *l, const char *key, float &output, cons
 	lua_pop(l, 1);
 }
 
+#pragma optimize( "", off )
 static int _get_stage_durations(lua_State *L, const char *key, int &outNumStages, double **outDurationArray)
 {
 	LUA_DEBUG_START(L);
@@ -290,6 +291,37 @@ static int _get_stage_durations(lua_State *L, const char *key, int &outNumStages
 			(*outDurationArray)[i-1] = lua_tonumber(L, -1);
 			lua_pop(L, 1);
 		}
+	}
+	lua_pop(L, 1);
+	LUA_DEBUG_END(L, 0);
+	return 0;
+}
+
+// Data format example:
+//	bay_groups = {
+//		{0, 500, {1}},
+//	},
+#pragma optimize( "", off )
+static int _get_bay_ids(lua_State *L, const char *key, SpaceStationType::TBayGroups &outBayGroups)
+{
+	LUA_DEBUG_START(L);
+	lua_pushstring(L, key);
+	lua_gettable(L, -2);
+	if (lua_istable(L, -1)) {
+		const int numBayGroups = lua_rawlen(L, -1);
+		if (numBayGroups < 1) {
+			return luaL_error(L, "Station must have at least 1 group of bays in %s", key);
+		}
+
+		outBayGroups.reserve(numBayGroups);
+		/*outNumStages = numStages;
+		*outDurationArray = new double[numStages];
+		for (int i=1; i <= numStages; i++) {
+			lua_pushinteger(L, i);
+			lua_gettable(L, -2);
+			(*outDurationArray)[i-1] = lua_tonumber(L, -1);
+			lua_pop(L, 1);
+		}*/
 	}
 	lua_pop(L, 1);
 	LUA_DEBUG_END(L, 0);
@@ -318,6 +350,7 @@ static int _define_station(lua_State *L, SpaceStationType &station)
 	_get_string(L, "model", station.modelName);
 	_get_int(L, "num_docking_ports", station.numDockingPorts);
 	_get_bool(L, "dock_one_at_a_time", station.dockOneAtATimePlease, false);
+	_get_bay_ids(L, "bay_groups", station.numUndockStages, &station.undockAnimStageDuration);
 	_get_float(L, "angular_velocity", station.angVel, 0.f);
 	_get_float(L, "parking_distance", station.parkingDistance, 5000.f);
 	_get_float(L, "parking_gap_size", station.parkingGapSize, 2000.f);
