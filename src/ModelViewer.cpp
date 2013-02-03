@@ -11,6 +11,7 @@
 #include "OS.h"
 #include "Pi.h"
 #include "StringF.h"
+#include "ModManager.h"
 #include <sstream>
 
 //default options
@@ -133,6 +134,8 @@ void ModelViewer::Run(const std::string &modelName)
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
 	Lua::Init();
+
+	ModManager::Init();
 
 	// needed for the UI
 	SDL_EnableUNICODE(1);
