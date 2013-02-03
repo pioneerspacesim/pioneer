@@ -32,10 +32,10 @@ struct RenderData
 	unsigned int nodemask;
 
 	RenderData()
-	: boundingRadius(0.f)
-	, nodemask(0x1) //draw solids
-	, linthrust()
+	: linthrust()
 	, angthrust()
+	, boundingRadius(0.f)
+	, nodemask(0x1) //draw solids
 	{
 	}
 };
