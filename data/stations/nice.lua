@@ -1,10 +1,15 @@
---[[define_orbital_station {
+define_orbital_station {
 	model = 'nice_spacestation',
 	angular_velocity = 0.15,
 	num_docking_ports = 1,
 	parking_distance = 5000.0,
 	parking_gap_size = 500.0,
 	ship_launch_stage = 8,		-- lower than animation stage count
+	-- define groups of bays, in this case 1 group with 1 bay.
+	-- params are = {minSize, maxSize, {list,of,bay,numbers}}
+	bay_groups = {
+		{0, 500, {1}},
+	},
 	-- docking:
 	-- 1 - permission granted. open door1
 	-- 2 - center ship, close door1
@@ -70,4 +75,4 @@
 			return { v(0,300,0), v(1,0,0), v(0,0,1) }
 		end
 	end,
-}]]
+}

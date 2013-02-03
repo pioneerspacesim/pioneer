@@ -5,9 +5,6 @@ define_orbital_station {
 	parking_distance = 5000.0,
 	parking_gap_size = 500.0,
 	ship_launch_stage = 3,
-	-- for stations where each docking port shares the
-	-- same front door, set dock_one_at_a_time = true,
-	dock_one_at_a_time = false,
 	-- define groups of bays, in this case 1 group with 1 bay.
 	-- params are = {minSize, maxSize, {list,of,bay,numbers}}
 	bay_groups = {
