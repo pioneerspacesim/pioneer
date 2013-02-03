@@ -239,6 +239,7 @@ void ModelViewer::AddLog(const std::string &line)
 {
 	m_log->AppendText(line+"\n");
 	m_logScroller->SetScrollPosition(1.0f);
+	printf("%s\n", line.c_str());
 }
 
 void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
@@ -286,6 +287,11 @@ void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
 		break;
 		//no others yet
 	}
+}
+
+void ModelViewer::ClearLog()
+{
+	m_log->SetText("");
 }
 
 void ModelViewer::ClearModel()
@@ -688,7 +694,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 
 	try {
 		m_modelName = filename;
-		SceneGraph::Loader loader(m_renderer);
+		SceneGraph::Loader loader(m_renderer, true);
 		m_model = loader.LoadModel(filename);
 
 		//set decal textures, max 4 supported.
@@ -697,7 +703,14 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 
 		SceneGraph::DumpVisitor d;
 		m_model->GetRoot()->Accept(d);
-		AddLog("Done.");
+
+		//dump warnings
+		for (std::vector<std::string>::const_iterator it = loader.GetLogMessages().begin();
+			it != loader.GetLogMessages().end(); ++it)
+		{
+			AddLog(*it);
+		}
+
 	} catch (SceneGraph::LoadingError &err) {
 		// report the error and show model picker.
 		m_model = 0;
@@ -760,6 +773,7 @@ void ModelViewer::SetupFilePicker()
 	);
 
 	c->Layout();
+	m_logScroller->SetScrollPosition(1.f);
 
 	loadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnPickModel), list));
 	quitButton->onClick.connect(sigc::mem_fun(*this, &ModelViewer::OnQuit));

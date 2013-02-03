@@ -29,6 +29,7 @@ private:
 	bool OnToggleGuns(UI::CheckBox*);
 	void AddLog(const std::string &line);
 	void ChangeCameraPreset(SDLKey, SDLMod);
+	void ClearLog();
 	void ClearModel();
 	void DrawBackground();
 	void DrawCollisionMesh();

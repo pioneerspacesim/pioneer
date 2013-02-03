@@ -118,9 +118,10 @@ namespace {
 
 namespace SceneGraph {
 
-Loader::Loader(Graphics::Renderer *r) :
-	m_renderer(r),
-	m_model(0)
+Loader::Loader(Graphics::Renderer *r, bool logWarnings)
+: m_renderer(r)
+, m_model(0)
+, m_doLog(logWarnings)
 {
 	Graphics::Texture *sdfTex = Graphics::TextureBuilder("fonts/label3d.png", Graphics::LINEAR_CLAMP, true, true, true).GetOrCreateTexture(r, "model");
 	m_labelFont.Reset(new Text::DistanceFieldFont("fonts/sdf_definition.txt", sdfTex));
@@ -138,6 +139,7 @@ Model *Loader::LoadModel(const std::string &filename)
 
 Model *Loader::LoadModel(const std::string &shortname, const std::string &basepath)
 {
+	m_logMessages.clear();
 	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
 	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
 	{
@@ -343,6 +345,10 @@ void Loader::FindPatterns(PatternContainer &output)
 
 RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList &animDefs)
 {
+	//remove path from filename for nicer logging
+	size_t slashpos = filename.rfind("/");
+	m_curMeshDef = filename.substr(slashpos+1, filename.length()-slashpos);
+
 	Assimp::Importer importer;
 	importer.SetIOHandler(new AssimpFileSystem(FileSystem::gameDataFiles));
 
@@ -356,7 +362,7 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 		aiProcess_RemoveComponent	|
 		aiProcess_Triangulate		|
 		aiProcess_SortByPType		| //ignore point, line primitive types (collada dummy nodes seem to be fine)
-		aiProcess_GenUVCoords		| //only if they don't exist
+		aiProcess_GenUVCoords		|
 		aiProcess_FlipUVs			|
 		aiProcess_SplitLargeMeshes	|
 		aiProcess_GenSmoothNormals);  //only if normals not specified
@@ -428,6 +434,11 @@ RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 	return decMat;
 }
 
+void Loader::AddLog(const std::string &msg)
+{
+	if (m_doLog) m_logMessages.push_back(msg);
+}
+
 void Loader::CheckAnimationConflicts(const Animation* anim, const std::vector<Animation*> &otherAnims)
 {
 	typedef std::vector<AnimationChannel>::const_iterator ChannelIterator;
@@ -460,26 +471,25 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surfa
 
 	//turn meshes into surfaces
 	for (unsigned int i=0; i<scene->mNumMeshes; i++) {
-		aiMesh *mesh = scene->mMeshes[i];
+		const aiMesh *mesh = scene->mMeshes[i];
 		assert(mesh->HasNormals());
 
-		if (!mesh->HasTextureCoords(0))
-			throw LoadingError("Missing UV coordinates");
+		const bool hasUVs = mesh->HasTextureCoords(0);
+		if (!hasUVs) AddLog(stringf("%0: missing UV coordinates", m_curMeshDef));
+		//sadly, aimesh name is usually empty so no help for logging
 
-		//Material names are not consistent throughout formats...
-		//try to figure out a material
-		//try name first, if that fails use index
+		//Material names are not consistent throughout formats.
+		//try matching name first, if that fails use index
 		RefCountedPtr<Graphics::Material> mat;
 		const aiMaterial *amat = scene->mMaterials[mesh->mMaterialIndex];
-		aiString s;
-		if(AI_SUCCESS == amat->Get(AI_MATKEY_NAME,s)) {
-			//std::cout << "Looking for " << std::string(s.data,s.length) << std::endl;
-			const std::string aiMatName = std::string(s.data, s.length);
-			mat = model->GetMaterialByName(aiMatName);
-		}
+		aiString aiMatName;
+		if(AI_SUCCESS == amat->Get(AI_MATKEY_NAME,aiMatName))
+			mat = model->GetMaterialByName(std::string(aiMatName.C_Str()));
 
 		if (!mat.Valid()) {
-			mat = model->GetMaterialByIndex(mesh->mMaterialIndex - matIdxOffs);
+			const unsigned int matIdx = mesh->mMaterialIndex - matIdxOffs;
+			AddLog(stringf("%0: no material %1, using material %2{u} instead", m_curMeshDef, aiMatName.C_Str(), matIdx+1));
+			mat = model->GetMaterialByIndex(matIdx);
 		}
 
 		assert(mat.Valid());
@@ -488,10 +498,12 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surfa
 			new Graphics::VertexArray(
 				Graphics::ATTRIB_POSITION |
 				Graphics::ATTRIB_NORMAL |
-				Graphics::ATTRIB_UV0);
+				Graphics::ATTRIB_UV0,
+				mesh->mNumVertices);
 
 		RefCountedPtr<Graphics::Surface> surface(new Graphics::Surface(Graphics::TRIANGLES, vts, mat));
 		std::vector<unsigned short> &indices = surface->GetIndices();
+		indices.reserve(mesh->mNumFaces * 3);
 
 		//copy indices first
 		//note: index offsets are not adjusted, StaticMesh should do that for us
@@ -502,11 +514,12 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surfa
 			}
 		}
 
-		//then vertices, making gross assumptions of the format
+		//copy vertices, always assume normals
+		//replace nonexistent UVs with zeros
 		for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
 			const aiVector3D &vtx = mesh->mVertices[v];
 			const aiVector3D &norm = mesh->mNormals[v];
-			const aiVector3D &uv0 = mesh->mTextureCoords[0][v];
+			const aiVector3D &uv0 = hasUVs ? mesh->mTextureCoords[0][v] : aiVector3D(0.f);
 			vts->Add(vector3f(vtx.x, vtx.y, vtx.z),
 				vector3f(norm.x, norm.y, norm.z),
 				vector2f(uv0.x, uv0.y));
@@ -555,7 +568,7 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		// Add channels to current animation if it's already present
 		// Necessary to make animations work in multiple LODs
 		Animation *animation = m_model->FindAnimation(def->name);
-		bool newAnim = !animation;
+		const bool newAnim = !animation;
 		if (newAnim) animation = new Animation(def->name, 0.0);
 
 		const size_t first_new_channel = animation->m_channels.size();
@@ -713,7 +726,7 @@ void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const std::strin
 	vector3f pos = transform.GetTranslate();
 	transform.ClearToRotOnly();
 
-	vector3f direction = transform * vector3f(0.f, 0.f, 1.f);
+	const vector3f direction = transform * vector3f(0.f, 0.f, 1.f);
 
 	Thruster *thruster = new Thruster(m_renderer, linear,
 		pos, direction.Normalized());
@@ -770,17 +783,11 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 		geom->SetName(nodename + "_mesh");
 		RefCountedPtr<Graphics::StaticMesh> smesh(new Graphics::StaticMesh(Graphics::TRIANGLES));
 
+		//expecting decal_0X
 		unsigned int numDecal = 0;
 		if (starts_with(nodename, "decal_")) {
-			if (nodename.compare(7,1, "1") == 0)
-				numDecal = 1;
-			else if (nodename.compare(7,1, "2") == 0)
-				numDecal = 2;
-			else if (nodename.compare(7,1, "3") == 0)
-				numDecal = 3;
-			else if (nodename.compare(7,1, "4") == 0)
-				numDecal = 4;
-			else
+			numDecal = atoi(nodename.substr(7,1).c_str());
+			if (numDecal > 4)
 				throw LoadingError("More than 4 different decals");
 		}
 
