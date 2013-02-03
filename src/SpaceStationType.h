@@ -13,6 +13,7 @@ class Ship;
 
 struct SpaceStationType {
 	struct SBayGroup {
+		SBayGroup() : minShipSize(-1), maxShipSize(-1), inUse(false) {}
 		int minShipSize, maxShipSize;
 		bool inUse;
 		std::vector<int> bayIDs;

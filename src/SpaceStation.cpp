@@ -892,6 +892,7 @@ void SpaceStation::LockPort(const int bay, const bool lockIt)
 		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
 			if ((*idIter)==bay) {
 				(*bayIter).inUse = lockIt;
+				return;
 			}
 		}
 	}

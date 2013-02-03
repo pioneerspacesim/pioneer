@@ -314,14 +314,55 @@ static int _get_bay_ids(lua_State *L, const char *key, SpaceStationType::TBayGro
 		}
 
 		outBayGroups.reserve(numBayGroups);
-		/*outNumStages = numStages;
-		*outDurationArray = new double[numStages];
-		for (int i=1; i <= numStages; i++) {
-			lua_pushinteger(L, i);
+
+		for (int iGroup=1; iGroup <= numBayGroups; iGroup++) {
+			// get the number of items meaning minSize, maxSize and the array of day ids
+			lua_pushinteger(L, iGroup);
 			lua_gettable(L, -2);
-			(*outDurationArray)[i-1] = lua_tonumber(L, -1);
+			if (lua_istable(L, -1)) {
+				const int numItems = lua_rawlen(L, -1);
+				if (numItems != 3) {
+					return luaL_error(L, "??? wtf %s", key);
+				}
+
+				SpaceStationType::SBayGroup newBay;
+				for (int iItem=1; iItem <= numItems; iItem++) {
+					lua_pushinteger(L, iItem);
+					lua_gettable(L, -2);
+					switch(iItem) {
+					case 1: 
+						newBay.minShipSize = lua_tointeger(L, -1);
+						break;
+					case 2: 
+						newBay.maxShipSize = lua_tointeger(L, -1);
+						break;
+					case 3: 
+						if (lua_istable(L, -1)) {
+							const int numBays = lua_rawlen(L, -1);
+							if (numBays < 1) {
+								return luaL_error(L, "Group must have at least 1 bay %s", key);
+							}
+							newBay.bayIDs.reserve(numBays);
+							for (int i=1; i <= numBays; i++) {
+								lua_pushinteger(L, i);
+								lua_gettable(L, -2);
+								const int bayID = lua_tointeger(L, -1);
+								if (bayID < 1) {
+									return luaL_error(L, "Valid bay ID ranges start from 1 %s", key);
+								}
+								newBay.bayIDs.push_back(bayID-1);
+								lua_pop(L, 1);
+							}
+						} 
+						break;
+					}
+					lua_pop(L, 1);
+				}
+				outBayGroups.push_back(newBay);
+
+			}
 			lua_pop(L, 1);
-		}*/
+		}
 	}
 	lua_pop(L, 1);
 	LUA_DEBUG_END(L, 0);
@@ -350,7 +391,7 @@ static int _define_station(lua_State *L, SpaceStationType &station)
 	_get_string(L, "model", station.modelName);
 	_get_int(L, "num_docking_ports", station.numDockingPorts);
 	_get_bool(L, "dock_one_at_a_time", station.dockOneAtATimePlease, false);
-	_get_bay_ids(L, "bay_groups", station.numUndockStages, &station.undockAnimStageDuration);
+	_get_bay_ids(L, "bay_groups", station.bayGroups);
 	_get_float(L, "angular_velocity", station.angVel, 0.f);
 	_get_float(L, "parking_distance", station.parkingDistance, 5000.f);
 	_get_float(L, "parking_gap_size", station.parkingGapSize, 2000.f);
