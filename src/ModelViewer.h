@@ -9,7 +9,6 @@
 #include "libs.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
-#include "LmrTypes.h"
 #include "LuaManager.h"
 #include "scenegraph/SceneGraph.h"
 #include "ui/Context.h"
@@ -75,7 +74,6 @@ private:
 	Graphics::Texture *m_decalTexture;
 	float m_rotX, m_rotY, m_zoom;
 	float m_baseDistance;
-	ModelParams m_modelParams;
 	MTRand m_rng;
 	SceneGraph::Animation *m_currentAnimation;
 	SceneGraph::Model *m_model;

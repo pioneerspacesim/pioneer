@@ -290,9 +290,6 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 		assert(m_numDirLights < 5);
 	}
 	//XXX should probably disable unused lights (for legacy renderer only)
-
-	Graphics::State::SetLights(numlights, lights);
-
 	return true;
 }
 

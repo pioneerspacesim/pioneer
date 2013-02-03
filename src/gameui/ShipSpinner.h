@@ -7,8 +7,9 @@
 #include "ui/Context.h"
 #include "ShipFlavour.h"
 #include "graphics/Light.h"
-#include "LmrModel.h"
 #include "EquipSet.h"
+
+namespace SceneGraph { class Model; }
 
 namespace GameUI {
 
@@ -30,8 +31,8 @@ private:
 
 	float m_rotX, m_rotY;
 
-	ModelBase *m_model;
-	LmrObjParams m_params;
+	SceneGraph::Model *m_model;
+
 	// XXX m_equipment is currently not hooked up to anything,
 	// it's just used to pass equipment parameters to the displayed model
 	EquipSet m_equipment;

@@ -10,12 +10,8 @@
 #include "libs.h"
 #include <stdexcept>
 
-namespace Graphics {
-	class Renderer;
-}
-namespace SceneGraph {
-	class Model;
-}
+namespace Graphics { class Renderer; }
+namespace SceneGraph { class Model; }
 
 class ModelCache {
 public:

@@ -13,7 +13,7 @@ AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(WARN_CXXFLAGS)
 
-bin_PROGRAMS = pioneer lmrmodelviewer
+bin_PROGRAMS = pioneer
 noinst_HEADERS = \
 	Aabb.h \
 	AmbientSounds.h \
@@ -21,7 +21,6 @@ noinst_HEADERS = \
 	Background.h \
 	BezierCurve.h \
 	Body.h \
-	BufferObject.h \
 	ByteRange.h \
 	Camera.h \
 	CameraController.h \
@@ -58,7 +57,6 @@ noinst_HEADERS = \
 	KeyBindings.h \
 	Lang.h \
 	LangStrings.inc.h \
-	LmrModel.h \
 	Lua.h \
 	LuaBody.h \
 	LuaCargoBody.h \
@@ -103,7 +101,6 @@ noinst_HEADERS = \
 	MarketAgent.h \
 	MathUtil.h \
 	Missile.h \
-	ModelBase.h \
 	ModelBody.h \
 	ModelCache.h \
 	ModManager.h \
@@ -208,7 +205,6 @@ pioneer_SOURCES	= \
 	GameConfig.cpp \
 	KeyBindings.cpp \
 	Lang.cpp \
-	LmrModel.cpp \
 	Lua.cpp \
 	LuaBody.cpp \
 	LuaCargoBody.cpp \
@@ -332,51 +328,6 @@ if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
 endif
 
-lmrmodelviewer_SOURCES = \
-	Color.cpp \
-	CRC32.cpp \
-	EnumStrings.cpp \
-	FileSourceZip.cpp \
-	FileSystem.cpp \
-	FontCache.cpp \
-	IniConfig.cpp \
-	Lang.cpp \
-	LuaMatrix.cpp \
-	LuaVector.cpp \
-	LuaFixed.cpp \
-	LmrModel.cpp \
-	LuaModelViewer.cpp \
-	LuaRef.cpp \
-	LuaUtils.cpp \
-	LuaConstants.cpp \
-	ModManager.cpp \
-	PngWriter.cpp \
-	EquipType.cpp \
-	ShipType.cpp \
-	SDLWrappers.cpp \
-	StringF.cpp \
-	perlin.cpp \
-	utils.cpp \
-	enum_table.cpp
-lmrmodelviewer_LDADD = \
-	../contrib/miniz/libminiz.a \
-	../contrib/jenkins/libjenkins.a \
-	collider/libcollider.a \
-	text/libtext.a \
-	gui/libgui.a \
-	graphics/libgraphics.a \
-	terrain/libterrain.a \
-	ui/libui.a \
-		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
-		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
-if !HAVE_LUA
-lmrmodelviewer_LDADD += ../contrib/lua/liblua.a
-endif
-
-if BUILD_WIN32
-lmrmodelviewer_LDFLAGS = -Wl,-Map=lmrmodelviewer.map
-endif
-
 check_PROGRAMS = tests uitest textstress
 tests_SOURCES = \
 	StringF.cpp \
@@ -462,12 +413,10 @@ endif
 
 if BUILD_WIN32
     pioneer_LDADD += win32/libwin32.a $(MINGW_LIBS)
-    lmrmodelviewer_LDADD += win32/libwin32.a $(MINGW_LIBS)
 endif
 
 if BUILD_POSIX
     pioneer_LDADD += posix/libposix.a
-    lmrmodelviewer_LDADD += posix/libposix.a
 endif
 
 if HAVE_WINDRES
