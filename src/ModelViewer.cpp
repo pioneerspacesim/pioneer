@@ -18,6 +18,7 @@ ModelViewer::Options::Options()
 : attachGuns(false)
 , showCollMesh(false)
 , showGrid(false)
+, showLandingPad(false)
 , showUI(true)
 , wireframe(false)
 , gridInterval(10.f)
@@ -96,18 +97,6 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 	std::fill(m_keyStates, m_keyStates + COUNTOF(m_keyStates), false);
 	std::fill(m_mouseButton, m_mouseButton + COUNTOF(m_mouseButton), false);
 	std::fill(m_mouseMotion, m_mouseMotion + 2, 0);
-
-	//load gun model for attachment test
-	{
-		SceneGraph::Loader loader(m_renderer);
-		try {
-			SceneGraph::Model *m = loader.LoadModel("test_gun");
-			m_gunModel.Reset(m);
-			m_gunModelNode.Reset(new SceneGraph::ModelNode(m_gunModel.Get()));
-		} catch (SceneGraph::LoadingError &) {
-			AddLog("Could not load test_gun model");
-		}
-	}
 
 	//some widgets
 	animSlider = 0;
@@ -212,7 +201,11 @@ bool ModelViewer::OnToggleGrid(UI::Widget *)
 
 bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 {
-	if (!m_gunModel.Valid() || !m_gunModelNode.Valid()) {
+	if (!m_gunModel.Valid()) {
+		CreateTestResources();
+	}
+
+	if (!m_gunModel.Valid()) {
 		AddLog("test_gun.model not available");
 		return false;
 	}
@@ -225,8 +218,8 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 		return false;
 	}
 	if (m_options.attachGuns) {
-		tagL->AddChild(m_gunModelNode.Get());
-		tagR->AddChild(m_gunModelNode.Get());
+		tagL->AddChild(new SceneGraph::ModelNode(m_gunModel.Get()));
+		tagR->AddChild(new SceneGraph::ModelNode(m_gunModel.Get()));
 	} else { //detach
 		//we know there's nothing else
 		tagL->RemoveChildAt(0);
@@ -239,6 +232,7 @@ void ModelViewer::AddLog(const std::string &line)
 {
 	m_log->AppendText(line+"\n");
 	m_logScroller->SetScrollPosition(1.0f);
+	printf("%s\n", line.c_str());
 }
 
 void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
@@ -288,11 +282,31 @@ void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
 	}
 }
 
+void ModelViewer::ClearLog()
+{
+	m_log->SetText("");
+}
+
 void ModelViewer::ClearModel()
 {
-	if (m_model) {
-		delete m_model;
-		m_model = 0;
+	delete m_model; m_model = 0;
+	m_gunModel.Reset();
+	m_scaleModel.Reset();
+}
+
+void ModelViewer::CreateTestResources()
+{
+	//load gun model for attachment test
+	//landingpad model for scale test
+	SceneGraph::Loader loader(m_renderer);
+	try {
+		SceneGraph::Model *m = loader.LoadModel("test_gun");
+		m_gunModel.Reset(m);
+
+		m = loader.LoadModel("scale");
+		m_scaleModel.Reset(m);
+	} catch (SceneGraph::LoadingError &) {
+		AddLog("Could not load test_gun model");
 	}
 }
 
@@ -421,7 +435,7 @@ void ModelViewer::DrawModel()
 	rot.RotateY(DEG2RAD(m_rotY));
 	rot.RotateX(DEG2RAD(m_rotX));
 
-	matrix4x4f mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot.InverseOf();
+	const matrix4x4f mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot.InverseOf();
 
 	if (m_options.showGrid)
 		DrawGrid(mv, m_model->GetDrawClipRadius());
@@ -433,6 +447,11 @@ void ModelViewer::DrawModel()
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(true);
 	m_model->Render(mv);
+	if (m_options.showLandingPad) {
+		if (!m_scaleModel.Valid()) CreateTestResources();
+		const float landingPadOffset = m_model->GetCollisionMesh()->GetAabb().min.y;
+		m_scaleModel->Render(matrix4x4f::Translation(0.f, landingPadOffset, 0.f) * mv);
+	}
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(false);
 
@@ -633,6 +652,10 @@ void ModelViewer::PollEvents()
 			case SDLK_KP8: case SDLK_i:
 				ChangeCameraPreset(event.key.keysym.sym, event.key.keysym.mod);
 				break;
+			case SDLK_p: //landing pad test
+				m_options.showLandingPad = !m_options.showLandingPad;
+				AddLog(stringf("Scale/landing pad test %0", m_options.showLandingPad ? "on" : "off"));
+				break;
 			case SDLK_r: //random colors, eastereggish
 				for(unsigned int i=0; i<3*3; i++) {
 					if (colorSliders[i])
@@ -688,7 +711,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 
 	try {
 		m_modelName = filename;
-		SceneGraph::Loader loader(m_renderer);
+		SceneGraph::Loader loader(m_renderer, true);
 		m_model = loader.LoadModel(filename);
 
 		//set decal textures, max 4 supported.
@@ -697,7 +720,14 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 
 		SceneGraph::DumpVisitor d;
 		m_model->GetRoot()->Accept(d);
-		AddLog("Done.");
+
+		//dump warnings
+		for (std::vector<std::string>::const_iterator it = loader.GetLogMessages().begin();
+			it != loader.GetLogMessages().end(); ++it)
+		{
+			AddLog(*it);
+		}
+
 	} catch (SceneGraph::LoadingError &err) {
 		// report the error and show model picker.
 		m_model = 0;
@@ -760,6 +790,7 @@ void ModelViewer::SetupFilePicker()
 	);
 
 	c->Layout();
+	m_logScroller->SetScrollPosition(1.f);
 
 	loadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnPickModel), list));
 	quitButton->onClick.connect(sigc::mem_fun(*this, &ModelViewer::OnQuit));

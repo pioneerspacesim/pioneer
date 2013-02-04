@@ -29,7 +29,9 @@ private:
 	bool OnToggleGuns(UI::CheckBox*);
 	void AddLog(const std::string &line);
 	void ChangeCameraPreset(SDLKey, SDLMod);
+	void ClearLog();
 	void ClearModel();
+	void CreateTestResources();
 	void DrawBackground();
 	void DrawCollisionMesh();
 	void DrawGrid(const matrix4x4f &trans, float radius);
@@ -60,6 +62,7 @@ private:
 		bool attachGuns;
 		bool showCollMesh;
 		bool showGrid;
+		bool showLandingPad;
 		bool showUI;
 		bool wireframe;
 		float gridInterval;
@@ -78,10 +81,10 @@ private:
 	SceneGraph::Animation *m_currentAnimation;
 	SceneGraph::Model *m_model;
 	Options m_options;
-	RefCountedPtr<SceneGraph::ModelNode> m_gunModelNode;
-	RefCountedPtr<UI::Context> m_ui;
 	ScopedPtr<SceneGraph::Model> m_gunModel;
+	ScopedPtr<SceneGraph::Model> m_scaleModel;
 	std::string m_modelName;
+	RefCountedPtr<UI::Context> m_ui;
 
 	//undecided on this input stuff
 	//updating the states of all inputs during PollEvents
