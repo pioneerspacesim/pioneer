@@ -6,6 +6,7 @@ Alpha 32
    * Model changes
      * Modelviewer: Scale/landingpad test model (press 'p') (#2034, #1981)
      * Modelviewer: More/better log output (#2034, #1876)
+     * Modelviewer: Enable mods (#2032)
 
    * Internal changes
      * Removed Lua model system (LMR) (#2029)
