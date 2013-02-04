@@ -416,9 +416,9 @@ static int l_sbody_attr_is_scoopable(lua_State *l)
 	return 1;
 }
 
-template <> const char *LuaObject<LuaUncopyable<SystemBody> >::s_type = "SystemBody";
+template <> const char *LuaObject<SystemBody>::s_type = "SystemBody";
 
-template <> void LuaObject<LuaUncopyable<SystemBody> >::RegisterClass()
+template <> void LuaObject<SystemBody>::RegisterClass()
 {
 	static const luaL_Reg l_attrs[] = {
 		{ "index",          l_sbody_attr_index           },

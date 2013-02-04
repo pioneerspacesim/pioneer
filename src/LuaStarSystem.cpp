@@ -99,7 +99,7 @@ static int l_starsystem_get_body_paths(lua_State *l)
 
 	lua_newtable(l);
 
-	for (std::vector<SystemBody*>::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); ++i)
+	for (std::vector< RefCountedPtr<SystemBody> >::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); ++i)
 	{
 		lua_pushinteger(l, lua_rawlen(l, -1)+1);
 		LuaSystemPath::PushToLua(&(*i)->path);
