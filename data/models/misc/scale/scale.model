@@ -1,0 +1,20 @@
+material Scale-material
+tex_diff scale.png
+diffuse 1.0 1.0 1.0
+unlit
+
+material Misc-material
+diffuse 1.0 0.0 0.0
+specular 0.0 0.0 0.0
+
+material Shuttle-material
+tex_diff shuttle.png
+alpha_test
+unlit
+
+material Shuttle_top-material
+tex_diff shuttle_top.png
+alpha_test
+unlit
+
+mesh scale.dae
