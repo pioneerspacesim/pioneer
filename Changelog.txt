@@ -4,6 +4,7 @@ Alpha 32
      * Work around missing model UV coordinates (#2034, #1952)
 
    * Model changes
+     * Converted Natrix ship to SGModel (#2033)
      * Modelviewer: Scale/landingpad test model (press 'p') (#2034, #1981)
      * Modelviewer: More/better log output (#2034, #1876)
      * Modelviewer: Enable mods (#2032)
