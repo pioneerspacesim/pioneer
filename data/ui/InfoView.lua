@@ -517,6 +517,7 @@ local crewRoster = function ()
 			end,
 
 			['Dock at current target'] = function ()
+				local target = Game.player:GetNavTarget()
 				if Game.player.flightState ~= 'FLYING'
 				then
 					feedback:SetText(({
@@ -525,8 +526,8 @@ local crewRoster = function ()
 						HYPERSPACE = t('We are in hyperspace, Commander.'),
 						DOCKING = t('The ship is under station control, Commander.'),
 					})[Game.player.flightState])
-				elseif not Game.player:GetNavTarget() then
-					feedback:SetText(t('You must first select a navigation target, Commander.'))
+				elseif not (target and target:isa('SpaceStation')) then
+					feedback:SetText(t('You must first select a suitable navigation target, Commander.'))
 				else
 					local crewMember = checkPilotLockout() and testCrewMember('piloting')
 					if not crewMember then
@@ -534,7 +535,7 @@ local crewRoster = function ()
 						pilotLockout()
 					else
 						feedback:SetText(t('Pilot seat is now occupied by {name}'):interp({name = crewMember.name,repairPercent = repairPercent}))
-						Game.player:AIDockWith(Game.player:GetNavTarget())
+						Game.player:AIDockWith(target)
 					end
 				end
 			end,

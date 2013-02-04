@@ -73,6 +73,7 @@ Translate:Add({
 		['We are in hyperspace, Commander.'] = 'We are in hyperspace, Commander.',
 		['The ship is under station control, Commander.'] = 'The ship is under station control, Commander.',
 		['You must first select a combat target, Commander.'] = 'You must first select a combat target, Commander.',
+		['You must first select a suitable navigation target, Commander.'] = 'You must first select a suitable navigation target, Commander.',
 		['There is nobody else on board able to fly this ship.'] = 'There is nobody else on board able to fly this ship.',
 		['Pilot seat is now occupied by {name}'] = 'Pilot seat is now occupied by {name}',
 		['Dock at current target'] = 'Dock at current target',
