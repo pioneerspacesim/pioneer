@@ -1,5 +1,12 @@
 Alpha 32
 
+   * Fixes
+     * Work around missing model UV coordinates (#2034, #1952)
+
+   * Model changes
+     * Modelviewer: Scale/landingpad test model (press 'p') (#2034, #1981)
+     * Modelviewer: More/better log output (#2034, #1876)
+
    * Internal changes
      * Removed Lua model system (LMR) (#2029)
 
