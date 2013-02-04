@@ -15,7 +15,7 @@ Alpha 32
 Alpha 31
 
    * New features
-     * Crew! Hire people to do stuff for you (experimental) (#1973, #2025)
+     * Crew! Hire people to do stuff for you (experimental) (#1973, #2025, #2030)
      * Converted Lanner ship to SGModel (#1957, #1969, #2002)
      * Converted Wave ship to SGModel (#2022)
      * Converted "big crappy" spacestation to SGModel (#1964, #2017)
