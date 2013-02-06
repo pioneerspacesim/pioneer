@@ -31,6 +31,8 @@ Translate:Add({
 		['{range} light years ({maxRange} max)'] = '{range} light years ({maxRange} max)',
 		['Minimum crew'] = 'Minimum crew',
 		['Crew cabins'] = 'Crew cabins',
+		['free'] = 'free',
+		['max'] = 'max',
 		
 		-- Personal information
 		['Personal Information'] = 'Personal Information',
@@ -152,6 +154,8 @@ Translate:Add({
 		['{range} light years ({maxRange} max)'] = '{range} lat świetlnych ({maxRange} maks.)',
 		['Minimum crew'] = 'Minimalna ilość załogi',
 		['Crew cabins'] = 'Kabiny załogi',
+		['free'] = 'wolne',
+		['max'] = 'maks.',
 		
 		-- Personal information
 		['Personal Information'] = 'Informacje o pilocie',
