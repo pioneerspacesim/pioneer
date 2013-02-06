@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
-#include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "EnumStrings.h"
@@ -848,7 +847,7 @@ static int l_ship_spawn_missile(lua_State *l)
 static int l_ship_check_hyperspace_to(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	SystemPath *dest = LuaSystemPath::CheckFromLua(2);
+	SystemPath *dest = LuaObject<SystemPath>::CheckFromLua(2);
 
 	int fuel;
 	double duration;
@@ -900,7 +899,7 @@ static int l_ship_check_hyperspace_to(lua_State *l)
 static int l_ship_get_hyperspace_details(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	SystemPath *dest = LuaSystemPath::CheckFromLua(2);
+	SystemPath *dest = LuaObject<SystemPath>::CheckFromLua(2);
 
 	int fuel;
 	double duration;
@@ -952,7 +951,7 @@ static int l_ship_get_hyperspace_details(lua_State *l)
 static int l_ship_hyperspace_to(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	SystemPath *dest = LuaSystemPath::CheckFromLua(2);
+	SystemPath *dest = LuaObject<SystemPath>::CheckFromLua(2);
 
 	int fuel;
 	double duration;

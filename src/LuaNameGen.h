@@ -4,6 +4,7 @@
 #ifndef _LUANAMEGEN_H
 #define _LUANAMEGEN_H
 
+#include "RefCounted.h"
 #include <string>
 
 class LuaManager;
@@ -14,9 +15,9 @@ class LuaNameGen {
 public:
 	LuaNameGen(LuaManager *manager): m_luaManager(manager) {}
 
-	std::string FullName(bool isFemale, Random &rng);
-	std::string Surname(Random &rng);
-	std::string BodyName(SystemBody *body, Random &rng);
+	std::string FullName(bool isFemale, RefCountedPtr<Random> &rng);
+	std::string Surname(RefCountedPtr<Random> &rng);
+	std::string BodyName(SystemBody *body, RefCountedPtr<Random> &rng);
 
 private:
 	LuaManager *m_luaManager;

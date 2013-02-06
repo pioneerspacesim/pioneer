@@ -13,14 +13,14 @@
 #include <assert.h>
 
 #include "fixed.h"
-#include "DeleteEmitter.h" // for lua
+#include "RefCounted.h"
 
 extern "C" {
 #include "jenkins/lookup3.h"
 }
 
 // A deterministic random number generator
-class Random : public DeleteEmitter
+class Random : public RefCounted
 {
     Uint32 current;
 

@@ -10,7 +10,6 @@
 #include "Serializer.h"
 #include <vector>
 #include <string>
-#include "DeleteEmitter.h"
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
 
@@ -52,7 +51,7 @@ struct RingStyle {
 	Color4ub baseColor;
 };
 
-class SystemBody : public RefCounted, public DeleteEmitter {
+class SystemBody : public RefCounted {
 public:
 	SystemBody();
 	void PickPlanetType(Random &rand);
@@ -221,7 +220,7 @@ private:
 	double m_atmosDensity;
 };
 
-class StarSystem : public DeleteEmitter, public RefCounted {
+class StarSystem : public RefCounted {
 public:
 	friend class SystemBody;
 

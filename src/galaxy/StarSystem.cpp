@@ -2021,9 +2021,11 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	unsigned long _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
 			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), UNIVERSE_SEED, Uint32(this->seed) };
 
-	Random rand, namerand;
+	Random rand;
 	rand.seed(_init, 6);
-	namerand.seed(_init, 6);
+
+	RefCountedPtr<Random> namerand(new Random);
+	namerand->seed(_init, 6);
 
 	m_population = fixed(0);
 
@@ -2139,7 +2141,7 @@ static bool check_unique_station_name(const std::string & name, const StarSystem
 	return ret;
 }
 
-static std::string gen_unique_station_name(SystemBody *sp, const StarSystem *system, Random &namerand) {
+static std::string gen_unique_station_name(SystemBody *sp, const StarSystem *system, RefCountedPtr<Random> &namerand) {
 	std::string name;
 	do {
 		name = Pi::luaNameGen->BodyName(sp, namerand);
@@ -2156,9 +2158,11 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 	unsigned long _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
 			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), this->seed, UNIVERSE_SEED };
 
-	Random rand, namerand;
+	Random rand;
 	rand.seed(_init, 6);
-	namerand.seed(_init, 6);
+
+	RefCountedPtr<Random> namerand(new Random);
+	namerand->seed(_init, 6);
 
 	if (m_population < fixed(1,1000)) return;
 

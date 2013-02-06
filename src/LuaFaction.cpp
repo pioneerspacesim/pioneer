@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
-#include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Factions.h"
@@ -111,7 +110,7 @@ static int l_faction_attr_has_homeworld(lua_State *l)
 static int l_faction_attr_homeworld(lua_State *l)
 {
 	Faction *faction = LuaObject<Faction>::CheckFromLua(1);
-	LuaSystemPath::PushToLua(&faction->homeworld);
+	LuaObject<SystemPath>::PushToLua(faction->homeworld);
 	return 1;
 }
 

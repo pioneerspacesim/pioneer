@@ -84,7 +84,7 @@ namespace UI {
 class Context;
 class Container;
 
-class Widget : public RefCounted, public DeleteEmitter {
+class Widget : public RefCounted {
 protected:
 	// can't instantiate a base widget directly
 	Widget(Context *context);

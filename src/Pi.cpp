@@ -35,9 +35,6 @@
 #include "LuaRef.h"
 #include "LuaShipDef.h"
 #include "LuaSpace.h"
-#include "LuaStarSystem.h"
-#include "LuaSystemBody.h"
-#include "LuaSystemPath.h"
 #include "LuaTimer.h"
 #include "Missile.h"
 #include "ModelCache.h"
@@ -161,9 +158,9 @@ static void LuaInit()
 	LuaObject<Player>::RegisterClass();
 	LuaObject<Missile>::RegisterClass();
 	LuaObject<CargoBody>::RegisterClass();
-	LuaStarSystem::RegisterClass();
-	LuaSystemPath::RegisterClass();
-	LuaSystemBody::RegisterClass();
+	LuaObject<StarSystem>::RegisterClass();
+	LuaObject<SystemPath>::RegisterClass();
+	LuaObject<SystemBody>::RegisterClass();
 	LuaObject<Random>::RegisterClass();
 	LuaObject<Faction>::RegisterClass();
 
@@ -321,6 +318,7 @@ void Pi::Init()
 
 	Pi::scrAspect = videoSettings.width / float(videoSettings.height);
 
+	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
 
 	InitJoysticks();

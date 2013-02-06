@@ -80,15 +80,13 @@ noinst_HEADERS = \
 	LuaObject.h \
 	LuaPushPull.h \
 	LuaRef.h \
-	LuaSystemBody.h \
-	LuaSystemPath.h \
 	LuaSerializer.h \
 	LuaShipDef.h \
 	LuaSpace.h \
-	LuaStarSystem.h \
 	LuaTable.h \
 	LuaTimer.h \
 	LuaUtils.h \
+	LuaWrappable.h \
 	MarketAgent.h \
 	MathUtil.h \
 	Missile.h \
