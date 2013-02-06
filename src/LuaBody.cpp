@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
-#include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "EnumStrings.h"
 #include "Body.h"
@@ -94,8 +93,8 @@ static int l_body_attr_path(lua_State *l)
 		return 1;
 	}
 
-	SystemPath path = sbody->path;
-	LuaSystemPath::PushToLua(&path);
+	const SystemPath path(sbody->path);
+	LuaObject<SystemPath>::PushToLua(path);
 
 	return 1;
 }

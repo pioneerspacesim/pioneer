@@ -3,7 +3,6 @@
 
 #include "LuaSerializer.h"
 #include "LuaObject.h"
-#include "LuaSystemPath.h"
 #include "galaxy/StarSystem.h"
 #include "Body.h"
 #include "Ship.h"
@@ -176,15 +175,16 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 
 		case LUA_TUSERDATA: {
 			out += "u";
-			lid *idp = static_cast<lid*>(lua_touserdata(l, idx));
-			LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
-			if (!lo)
-				Error("Lua serializer '%s' tried to serialize object with id 0x%08x, but it no longer exists", key, *idp);
+
+			LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
+			void *o = lo->GetObject();
+			if (!o)
+				Error("Lua serializer '%s' tried to serialize an invalid object", key);
 
 			// XXX object wrappers should really have Serialize/Unserialize
 			// methods to deal with this
 			if (lo->Isa("SystemPath")) {
-				SystemPath *sbp = dynamic_cast<SystemPath*>(lo->m_object);
+				SystemPath *sbp = static_cast<SystemPath*>(o);
 				snprintf(buf, sizeof(buf), "SystemPath\n%d\n%d\n%d\n%u\n%u\n",
 					sbp->sectorX, sbp->sectorY, sbp->sectorZ, sbp->systemIndex, sbp->bodyIndex);
 				out += buf;
@@ -192,7 +192,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			}
 
 			if (lo->Isa("Body")) {
-				Body *b = dynamic_cast<Body*>(lo->m_object);
+				Body *b = static_cast<Body*>(o);
 				snprintf(buf, sizeof(buf), "Body\n%u\n", Pi::game->GetSpace()->GetIndexForBody(b));
 				out += buf;
 				break;
@@ -309,8 +309,8 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 				if (pos == end) throw SavedGameCorruptException();
 				pos = end+1; // skip newline
 
-				SystemPath *sbp = new SystemPath(sectorX, sectorY, sectorZ, systemNum, sbodyId);
-				LuaSystemPath::PushToLuaGC(sbp);
+				const SystemPath sbp(sectorX, sectorY, sectorZ, systemNum, sbodyId);
+				LuaObject<SystemPath>::PushToLua(sbp);
 
 				break;
 			}

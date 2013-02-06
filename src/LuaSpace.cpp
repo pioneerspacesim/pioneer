@@ -5,7 +5,6 @@
 #include "LuaSpace.h"
 #include "LuaManager.h"
 #include "LuaUtils.h"
-#include "LuaSystemPath.h"
 #include "Space.h"
 #include "Ship.h"
 #include "HyperspaceCloud.h"
@@ -32,7 +31,7 @@ static void _unpack_hyperspace_args(lua_State *l, int index, SystemPath* &path, 
 
 	lua_pushinteger(l, 1);
 	lua_gettable(l, index);
-	if (!(path = LuaSystemPath::GetFromLua(-1)))
+	if (!(path = LuaObject<SystemPath>::GetFromLua(-1)))
 		luaL_error(l, "bad value for hyperspace path at position 1 (SystemPath expected, got %s)", luaL_typename(l, -1));
 	lua_pop(l, 1);
 
