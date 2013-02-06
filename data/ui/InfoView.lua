@@ -78,8 +78,8 @@ local shipInfo = function (args)
 								)),
 								ui:Margin(10),
 								ui:Label(string.format("%dt", stats.totalMass - stats.usedCapacity)),								
-								ui:Label(string.format("%dt (%dt free)", stats.usedCapacity,  stats.freeCapacity)),
-								ui:Label(string.format("%dt (%dt max)", math.floor(Game.player.fuel/100*stats.maxFuelTankMass + 0.5), stats.maxFuelTankMass )),
+								ui:Label(string.format("%dt (%dt "..t("free")..")", stats.usedCapacity,  stats.freeCapacity)),
+								ui:Label(string.format("%dt (%dt "..t("max")..")", math.floor(Game.player.fuel/100*stats.maxFuelTankMass + 0.5), stats.maxFuelTankMass )),
 								ui:Label(string.format("%dt", math.floor(stats.totalMass+Game.player.fuel/100*stats.maxFuelTankMass + 0.5) )),
 								ui:Margin(10),
 								ui:Label(EquipType.GetEquipType(frontWeapon).name),
@@ -171,14 +171,14 @@ local personalInfo = function ()
         faceWidget:UpdateInfo(player)
 	end )
 
-	local genderToggle = UI.SmallLabeledButton.New("Toggle male/female")
+	local genderToggle = UI.SmallLabeledButton.New(t("Toggle male/female"))
 	genderToggle.button.onClick:Connect(function ()
 		player.female = not player.female
 		faceWidget = UI.InfoFace.New(player)
 		faceWidgetContainer:SetInnerWidget(faceWidget.widget)
 	end)
 
-	local generateFaceButton = UI.SmallLabeledButton.New("Make new face")
+	local generateFaceButton = UI.SmallLabeledButton.New(t("Make new face"))
 	generateFaceButton.button.onClick:Connect(function ()
 		player.seed = Engine.rand:Integer()
 		faceWidget = UI.InfoFace.New(player)
@@ -392,7 +392,7 @@ local missions = function ()
 			missionLocationName = string.format('%s [%d,%d,%d]', mission.location:GetStarSystem().name, mission.location.sectorX, mission.location.sectorY, mission.location.sectorZ)
 		end
 
-		local moreButton = UI.SmallLabeledButton.New("More info...")
+		local moreButton = UI.SmallLabeledButton.New(t("More info..."))
 		moreButton.button.onClick:Connect(function ()
 			MissionScreen:SetInnerWidget(ui:VBox(10)
 				:PackEnd({ui:Label(t('Mission Details')):SetFont('HEADING_LARGE')})
