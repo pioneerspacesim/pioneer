@@ -43,6 +43,8 @@ Translate:Add({
 		['Rank:'] = 'Rank:',
 		['Male'] = 'Male',
 		['Female'] = 'Female',
+		['Toggle male/female'] = 'Toggle male/female',
+		['Make new face'] = 'Make new face',
 
 		['HARMLESS'] = 'Harmless',
 		['MOSTLY_HARMLESS'] = 'Mostly Harmless',
@@ -166,6 +168,8 @@ Translate:Add({
 		['Rank:'] = 'Ranga:',
 		['Male'] = 'Mężczyzna',
 		['Female'] = 'Kobieta',
+		['Toggle male/female'] = 'Mężczyzna/Kobieta',
+		['Make new face'] = 'Nowa twarz',
 
 		['HARMLESS'] = 'Nieszkodliwy',
 		['MOSTLY_HARMLESS'] = 'Przeważnie nieszkodliwy',
