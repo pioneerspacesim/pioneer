@@ -171,14 +171,14 @@ local personalInfo = function ()
         faceWidget:UpdateInfo(player)
 	end )
 
-	local genderToggle = UI.SmallLabeledButton.New("Toggle male/female")
+	local genderToggle = UI.SmallLabeledButton.New(t("Toggle male/female"))
 	genderToggle.button.onClick:Connect(function ()
 		player.female = not player.female
 		faceWidget = UI.InfoFace.New(player)
 		faceWidgetContainer:SetInnerWidget(faceWidget.widget)
 	end)
 
-	local generateFaceButton = UI.SmallLabeledButton.New("Make new face")
+	local generateFaceButton = UI.SmallLabeledButton.New(t("Make new face"))
 	generateFaceButton.button.onClick:Connect(function ()
 		player.seed = Engine.rand:Integer()
 		faceWidget = UI.InfoFace.New(player)
