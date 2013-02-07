@@ -396,25 +396,6 @@ bool RendererLegacy::DrawPoints(int count, const vector3f *points, const Color *
 	return true;
 }
 
-bool RendererLegacy::DrawPoints2D(int count, const vector2f *points, const Color *colors, float size)
-{
-	if (count < 1 || !points || !colors) return false;
-
-	glDisable(GL_LIGHTING);
-
-	glPointSize(size);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(2, GL_FLOAT, 0, points);
-	glColorPointer(4, GL_FLOAT, 0, colors);
-	glDrawArrays(GL_POINTS, 0, count);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glPointSize(1.f); // XXX wont't be necessary
-
-	return true;
-}
-
 bool RendererLegacy::DrawTriangles(const VertexArray *v, Material *m, PrimitiveType t)
 {
 	if (!v || v->position.size() < 3) return false;
