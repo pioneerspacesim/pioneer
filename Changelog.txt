@@ -11,6 +11,8 @@ Alpha 32
 
    * Internal changes
      * Removed Lua model system (LMR) (#2029)
+     * Removed Text::VectorFont (#2041)
+     * Removed Renderer::DrawPoints2D (#2041)
 
 Alpha 31
 
