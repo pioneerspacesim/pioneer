@@ -4,7 +4,7 @@
 local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
 
-	local shipdefs = table.filter(function (def) return def.tag == 'SHIP' and def.hullMass >= 50 and def.hullMass <= 150 end, ShipDef, pairs)
+	local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= 50 and def.hullMass <= 150 end, pairs(ShipDef)))
 	if #shipdefs == 0 then return end
 
 	local lawlessness = Game.system.lawlessness
@@ -24,8 +24,8 @@ local onEnterSystem = function (player)
 		-- XXX this should use external factors (eg lawlessness) and not be
 		-- dependent on the player in any way
 		local max_laser_size = shipdef.capacity - EquipDef[default_drive].mass
-		local laserdefs = table.filter(function (def) return def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(def.id,0,11) == 'PULSECANNON' end, EquipDef, pairs)
-		local laserdef = lasers[Engine.rand:Integer(1,#laserdefs)]
+		local laserdefs = build_array(filter(function (k, def) return def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(def.id,0,11) == 'PULSECANNON' end, pairs(EquipDef)))
+		local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
 		local ship = Space.SpawnShip(shipdef.id, 8, 12)
 		ship:AddEquip(default_drive)

@@ -131,7 +131,7 @@ local makeAdvert = function (station)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
 
-	local shipdefs = table.filter(function (def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, ShipDef, pairs)
+	local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
 	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 	local shipid = shipdef.id
 	local shipname = shipdef.name
@@ -225,8 +225,8 @@ local onEnterSystem = function (ship)
 						local station = Space.GetBody(mission.location.bodyIndex)
 						local shiptype = ShipDef[mission.shipid]
 						local default_drive = shiptype.defaultHyperdrive
-						local lasers = table.filter(function (def) return def.slot == 'LASER' end, EquipDef, pairs)
-						local laser = lasers[mission.danger]
+						local laserdefs = build_array(filter(function (k,def) return def.slot == 'LASER' end, pairs(EquipDef)))
+						local laserdef = laserdefs[mission.danger]
 						local count = tonumber(string.sub(default_drive, -1)) ^ 2
 
 						mission.ship = Space.SpawnShipDocked(mission.shipid, station)
@@ -236,7 +236,7 @@ local onEnterSystem = function (ship)
 						mission.ship:SetLabel(mission.shipregid)
 						mission.ship:AddEquip('ATMOSPHERIC_SHIELDING')
 						mission.ship:AddEquip(default_drive)
-						mission.ship:AddEquip(laser)
+						mission.ship:AddEquip(laserdef.id)
 						mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
 						mission.ship:AddEquip('HYDROGEN', count)
 						if mission.danger > 2 then

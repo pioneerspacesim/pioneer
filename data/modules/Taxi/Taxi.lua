@@ -215,7 +215,7 @@ local onEnterSystem = function (player)
 
 			if ships < 1 and risk > 0 and Engine.rand:Integer(math.ceil(1/risk)) == 1 then ships = 1 end
 
-			local shipdefs = table.filter(function (def) return def.tag == 'SHIP' and def.hullMass >= 80 and def.hullMass <= 200 end, ShipDef, pairs)
+			local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= 80 and def.hullMass <= 200 end, pairs(ShipDef)))
 			if #shipdefs == 0 then return end
 
 			local ship
@@ -228,8 +228,11 @@ local onEnterSystem = function (player)
 					local default_drive = shipdef.defaultHyperdrive
 
 					local max_laser_size = shipdef.capacity - EquipDef[default_drive].mass
-					local laserdefs = table.filter(function (def) return def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(def.id,0,11) == 'PULSECANNON' end, EquipDef, pairs)
-					local laserdef = lasers[Engine.rand:Integer(1,#laserdefs)]
+					local laserdefs = build_array(filter(
+                        function (k,def) return def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(def.id,0,11) == 'PULSECANNON' end,
+                        pairs(EquipDef)
+                    ))
+					local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
 					ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
 					ship:AddEquip(default_drive)

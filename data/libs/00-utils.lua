@@ -14,49 +14,83 @@ end
 
 
 --
--- Various table functions
--- Adapted from: https://bitbucket.org/luafunctional/lua-functional/src
+-- numbered_keys: transform an iterator to one that returns numbered keys
 --
-
--- filter
--- Take out all elements of a list not satisfying some condition.
--- Parameters:
---   func: a function applied to each element and returning true or false
---   t:    a table (the list)
---   iter: (optional) an iterator to use with t
---     Default value: ipairs
--- Return:
---   t2: a new table satisying that, for each k,v returned by iter,
---       if func(v) then add v to t2
-table.filter = function(func, t, iter)
-	iter = iter or ipairs
-	local t2 = {}
-
-	for k,v in iter(t) do
-		if func(v) then table.insert(t2,v) end
-	end
-
-	return t2
+-- for k,v in numbered_keys(pairs(table)) do ... end
+--
+function numbered_keys(step, context, position)
+  local k = position
+  local f = function(s, i)
+    local v
+    k,v = step(s, k)
+    if k ~= nil then
+      return (i+1), v
+    end
+  end
+  return f, context, 0
 end
 
--- map
--- Apply a function to each element of an array or table.
--- Return a new table satisfying that, for each k,v returned
--- by 'iter', t2[k] = func(v)
--- Parameters:
---   func: the function to apply
---   t: the table we apply 'func' to
---   iter: (optional) an iterator over t
---     Default value: pairs
--- Return:
---   t2: the new table
-table.map = function(func, t, iter)
-	iter = iter or pairs
-	local t2 = {}
+--
+-- filter: transform an iterator to one that only returns items that
+--         match some predicate
+--
+-- for k,v in filter(function (k,v) ... return true end, pairs(table))
+--
+function filter(predicate, step, context, position)
+  local f = function (s, k)
+    local v
+    repeat k,v = step(s,k); until (k == nil) or predicate(k,v)
+    return k,v
+  end
+  return f, context, position
+end
 
-	for k,v in iter(t) do
-		t2[k] = func(v)
-	end
+--
+-- map: transform an iterator to one that returns modified keys/values
+--
+-- for k,v in map(function (k,v) ... return newk, newv end, pairs(table))
+--
+function map(transformer, step, context, position)
+  local f = function (s, k)
+    local v
+    k, v = step(s, k)
+    if k ~= nil then
+      return transformer(k,v)
+    end
+  end
+  return f, context, position
+end
 
-	return t2
+--
+-- build_array: return a table containing all values returned by an iterator
+--              returned table is built using table.insert (integer keys)
+--
+-- array = build_array(pairs(table))
+--
+function build_array(f, s, k)
+  local v
+  local t = {}
+  while true do
+    k, v = f(s, k)
+    if k == nil then break end
+    table.insert(t, v)
+  end
+  return t
+end
+
+--
+-- build_table: return a table containing all values returned by an iterator
+--              returned table is build using t[k] = v
+--
+-- filtered = build_table(filter(function () ... end, pairs(table)))
+--
+function build_table(f, s, k)
+  local v
+  local t = {}
+  while true do
+    k, v = f(s, k)
+    if k == nil then break end
+    t[k] = v
+  end
+  return t
 end

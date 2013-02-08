@@ -283,10 +283,15 @@ end
 
 local getAcceptableShips = function ()
     -- only accept ships with enough capacity that are capable of landing in atmospheres
-	return table.map(
-        function (def) return def.id end,
-        table.filter(function (def) return def.tag == 'SHIP' and def.hullMass >= 100 and def.equipSlotCapacity.ATMOSHIELD > 150 end, ShipDef, pairs)
-    )
+	return build_array(
+		map(function (k,def)
+			return def.id
+		end,
+		filter(function (k,def)
+			return def.tag == 'SHIP' and def.hullMass >= 100 and def.equipSlotCapacity.ATMOSHIELD > 150
+		end,
+		pairs(ShipDef)
+	)))
 end
 
 local spawnInitialShips = function (game_start)

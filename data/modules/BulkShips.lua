@@ -15,7 +15,7 @@ local spawnShips = function ()
 		return
 	end
 
-	local shipdefs = table.filter(function (def) return def.tag == 'STATIC_SHIP' end, ShipDef, pairs)
+	local shipdefs = build_array(filter(function (k,def) return def.tag == 'STATIC_SHIP' end, pairs(ShipDef)))
 	if #shipdefs == 0 then return end
 
 	-- one ship per three billion, min 1, max 2*num of stations
