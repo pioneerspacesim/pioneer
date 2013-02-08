@@ -29,13 +29,13 @@ void CargoBody::Init()
 {
 	m_hitpoints = 1.0f;
 	SetLabel(Equip::types[m_type].name);
-	SetModel("cargo");
 	SetMassDistributionFromModel();
 }
 
 CargoBody::CargoBody(Equip::Type t)
 {
 	m_type = t;
+	SetModel("cargo");
 	Init();
 	SetMass(1.0);
 }
