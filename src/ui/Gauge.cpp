@@ -78,12 +78,7 @@ void Gauge::Draw()
 	s.DrawGaugeBackground(activeOffset, activeArea);
 
 	if (m_value > 0.0f) {
-		Graphics::Renderer *r = c->GetRenderer();
-
-		r->SetBlendMode(Graphics::BLEND_SET_ALPHA);
 		s.DrawGaugeMask(activeOffset, activeArea);
-
-		r->SetBlendMode(Graphics::BLEND_DEST_ALPHA);
 
 		const Point size(activeArea.x * m_value, activeArea.y);
 
@@ -98,8 +93,6 @@ void Gauge::Draw()
 				s.DrawGaugeFillCritical(activeOffset, size);
 				break;
 		}
-
-		r->SetBlendMode(Graphics::BLEND_ALPHA); // restore default
 	}
 }
 

@@ -106,16 +106,16 @@ public:
 		DrawHorizontalEdgedRectElement(m_gaugeBackground, pos, size);
 	}
 	void DrawGaugeMask(const Point &pos, const Point &size) const {
-		DrawHorizontalEdgedRectElement(m_gaugeMask, pos, size);
+		DrawHorizontalEdgedRectElement(m_gaugeMask, pos, size, Graphics::BLEND_SET_ALPHA);
 	}
 	void DrawGaugeFillNormal(const Point &pos, const Point &size) const {
-		DrawRectElement(m_gaugeFillNormal, pos, size);
+		DrawRectElement(m_gaugeFillNormal, pos, size, Graphics::BLEND_DEST_ALPHA);
 	}
 	void DrawGaugeFillWarning(const Point &pos, const Point &size) const {
-		DrawRectElement(m_gaugeFillWarning, pos, size);
+		DrawRectElement(m_gaugeFillWarning, pos, size, Graphics::BLEND_DEST_ALPHA);
 	}
 	void DrawGaugeFillCritical(const Point &pos, const Point &size) const {
-		DrawRectElement(m_gaugeFillCritical, pos, size);
+		DrawRectElement(m_gaugeFillCritical, pos, size, Graphics::BLEND_DEST_ALPHA);
 	}
 
 
