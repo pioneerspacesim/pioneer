@@ -10,6 +10,9 @@ Alpha 32
      * Modelviewer: More/better log output (#2034, #1876)
      * Modelviewer: Enable mods (#2032)
 
+   * Script changes
+     * UI: MultiLineText objects now have SetText and AppendText methods (#2045)
+
    * Internal changes
      * Removed Lua model system (LMR) (#2029)
      * Removed Text::VectorFont (#2041)
