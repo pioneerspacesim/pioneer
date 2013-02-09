@@ -348,10 +348,10 @@ void ModelViewer::DrawDockingLocators()
 	{
 		sLines.clear();
 
-		ModelBase::PortVec::const_iterator portIter = m_model->m_ports.begin();
+		SceneGraph::Model::PortVec::const_iterator portIter = m_model->m_ports.begin();
 		for( ; portIter != m_model->m_ports.end() ; ++portIter )
 		{
-			const ModelBase::Port &MBPort = (*portIter);
+			const SceneGraph::Model::Port &MBPort = (*portIter);
 
 			std::map<uint32_t, matrix4x4f>::const_iterator iter = MBPort.m_docking.begin();
 			for( ; iter!=MBPort.m_docking.end(); ++iter) {

@@ -16,7 +16,6 @@
 #include "SpaceStationType.h"
 
 #define MAX_DOCKING_PORTS		240	//256-(0x10)
-#define MAX_LMR_DOCKING_PORTS	4
 
 
 class CityOnPlanet;

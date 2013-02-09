@@ -31,7 +31,6 @@ struct SpaceStationType {
 	int shipLaunchStage;
 	double *dockAnimStageDuration;
 	double *undockAnimStageDuration;
-	bool dockOneAtATimePlease;
 	float parkingDistance;
 	float parkingGapSize;
 	std::string dockAnimFunction;

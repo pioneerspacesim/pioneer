@@ -395,8 +395,8 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 	{
 		const uint32_t portId = (*portIter).first;
 		const Port &portData = (*portIter).second;
-		m_model->m_ports.push_back(ModelBase::Port());
-		ModelBase::Port &MBPort = m_model->m_ports.back();
+		m_model->m_ports.push_back(Model::Port());
+		Model::Port &MBPort = m_model->m_ports.back();
 
 		MBPort.m_docking = portData.m_docking;
 		MBPort.m_leaving = portData.m_leaving;

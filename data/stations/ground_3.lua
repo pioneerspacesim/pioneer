@@ -1,4 +1,4 @@
-define_surface_station {
+--[[define_surface_station {
 	model = 'ground_station_3',
 	num_docking_ports = 3,
 	-- define groups of bays, in this case 1 group with 1 bay.
@@ -27,4 +27,4 @@ define_surface_station {
 			return { v(port_pos[port].x, port_pos[port].y, port_pos[port].z), v(1,0,0), v(0,1,0) }
 		end
 	end,
-}
+}]]

@@ -1,4 +1,4 @@
-define_orbital_station {
+--[[define_orbital_station {
 	model = 'nice_spacestation',
 	angular_velocity = 0.15,
 	num_docking_ports = 1,
@@ -75,4 +75,4 @@ define_orbital_station {
 			return { v(0,300,0), v(1,0,0), v(0,0,1) }
 		end
 	end,
-}
+}]]

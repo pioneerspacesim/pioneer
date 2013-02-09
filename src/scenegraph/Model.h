@@ -123,6 +123,17 @@ public:
 	//special for ship model use
 	void SetThrust(const vector3f& linear, const vector3f &angular);
 
+	struct Port
+	{
+		typedef std::map<uint32_t, matrix4x4f> TMapBayIDMat;
+		TMapBayIDMat m_docking;
+		TMapBayIDMat m_leaving;
+		TMapBayIDMat m_approach;
+	};
+
+	typedef std::vector<Port> PortVec;
+	PortVec m_ports;
+
 private:
 	Model(const Model&);
 	static const unsigned int MAX_DECAL_MATERIALS = 4;
@@ -138,6 +149,8 @@ private:
 	std::vector<Animation *> m_animations;
 	TagContainer m_tags; //named attachment points
 	RenderData m_renderData;
+
+	
 
 	//per-instance flavour data
 	Graphics::Texture *m_curPattern;

@@ -28,7 +28,6 @@ SpaceStationType::SpaceStationType()
 , shipLaunchStage(0)
 , dockAnimStageDuration(0)
 , undockAnimStageDuration(0)
-, dockOneAtATimePlease(false)
 , parkingDistance(0)
 , parkingGapSize(0)
 , dockAnimFunction("")
@@ -45,7 +44,7 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 	if (!bHasApproachWaypointsFunction)
 	{
 		assert(port<model->m_ports.size());
-		ModelBase::Port &rPort = model->m_ports[port];
+		SceneGraph::Model::Port &rPort = model->m_ports[port];
 		if (stage>0) {
 			const bool bHasStageData = (rPort.m_approach.find( stage ) != rPort.m_approach.end());
 			if (bHasStageData) {
@@ -115,7 +114,7 @@ vector3f vlerp(const double t, const vector3f& v1, const vector3f& v2)
 }
 
 #pragma optimize( "", off )
-static bool GetPosOrient(ModelBase::Port::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from, 
+static bool GetPosOrient(SceneGraph::Model::Port::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from, 
 				  SpaceStationType::positionOrient_t &outPosOrient, const Ship *ship)
 {
 	bool gotOrient = false;
@@ -162,7 +161,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	if (!bHasDockAnimFunction)
 	{
 		assert(port<model->m_ports.size());
-		ModelBase::Port &rPort = model->m_ports[port];
+		SceneGraph::Model::Port &rPort = model->m_ports[port];
 		if (stage<0) {
 			const int leavingStage = (-1*stage);
 			gotOrient = GetPosOrient(rPort.m_leaving, leavingStage, t, from, outPosOrient, ship);
@@ -390,7 +389,6 @@ static int _define_station(lua_State *L, SpaceStationType &station)
 	LUA_DEBUG_START(L);
 	_get_string(L, "model", station.modelName);
 	_get_int(L, "num_docking_ports", station.numDockingPorts);
-	_get_bool(L, "dock_one_at_a_time", station.dockOneAtATimePlease, false);
 	_get_bay_ids(L, "bay_groups", station.bayGroups);
 	_get_float(L, "angular_velocity", station.angVel, 0.f);
 	_get_float(L, "parking_distance", station.parkingDistance, 5000.f);

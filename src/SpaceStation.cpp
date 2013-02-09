@@ -317,7 +317,10 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			if (m_shipDocking[i].ship == s) { port = i; break; }
 		}
 		if (port == -1) return false;					// no permission
-		if (!m_type->dockOneAtATimePlease) {
+		//if (!m_type->dockOneAtATimePlease) {
+		//	if (port != int(flags & 0xf)) return false;		// wrong port
+		//}
+		if (!IsPortLocked(port)) {
 			if (port != int(flags & 0xf)) return false;		// wrong port
 		}
 		if (m_shipDocking[port].stage != 1) return false;	// already docking?
@@ -634,13 +637,6 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 //            Lighting is done by manipulating global lights or setting uniforms in atmospheric models shader
 void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	
-	const int maxPorts = std::min(MAX_LMR_DOCKING_PORTS, int(m_shipDocking.size()));
-	for (int i=0; i<maxPorts; i++) {
-		params.animStages[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stage;
-		params.animValues[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stagePos;
-	}
-
 	Body *b = GetFrame()->GetBody();
 	assert(b);
 
