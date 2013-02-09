@@ -337,7 +337,7 @@ void ModelViewer::DrawBackground()
 
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
 }
-#pragma optimize( "", off )
+
 void ModelViewer::DrawDockingLocators()
 {
 	using namespace Graphics::Drawables;

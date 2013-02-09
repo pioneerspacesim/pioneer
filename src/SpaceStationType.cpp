@@ -214,6 +214,8 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 		lua_gettable(L, -2);
 		outPosOrient.yaxis = *LuaVector::CheckFromLua(L, -1);
 		lua_pop(L, 1);
+
+		outPosOrient.zaxis = outPosOrient.xaxis.Cross(outPosOrient.yaxis);
 	} else {
 		gotOrient = false;
 	}
