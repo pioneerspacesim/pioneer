@@ -7,6 +7,9 @@
 #include "LuaConstants.h"
 #include "Player.h"
 #include "Polit.h"
+#include "Pi.h"
+#include "Game.h"
+#include "SectorView.h"
 
 /*
  * Class: Player
@@ -246,6 +249,71 @@ static int l_set_combat_target(lua_State *l)
     return 0;
 }
 
+/*
+ * Method: GetHyperspaceTarget
+ *
+ * Get the player's hyperspace target
+ *
+ * > target = player:GetHyperspaceTarget()
+ *
+ * Return:
+ *
+ *   target - nil, or a <SystemPath>
+ *
+ * Availability:
+ *
+ *   alpha 32
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+static int l_get_hyperspace_target(lua_State *l)
+{
+	LuaObject<Player>::CheckFromLua(1);
+	if (Pi::game->IsNormalSpace()) {
+		SystemPath sys = Pi::sectorView->GetHyperspaceTarget();
+		assert(sys.IsSystemPath());
+		LuaSystemPath::PushToLua(&sys);
+	} else
+		lua_pushnil(l);
+	return 1;
+}
+
+/*
+ * Method: SetHyperspaceTarget
+ *
+ * Set the player's hyperspace target
+ *
+ * > player:SetHyperspaceTarget(target)
+ *
+ * Parameters:
+ *
+ *   target - a <SystemPath> to which to set the hyperspace target
+ *
+ * Availability:
+ *
+ *   alpha 32
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+static int l_set_hyperspace_target(lua_State *l)
+{
+	LuaObject<Player>::CheckFromLua(1);
+	if (Pi::game->IsNormalSpace()) {
+		const SystemPath sys = *LuaSystemPath::CheckFromLua(2);
+		if (!sys.IsSystemPath())
+			return luaL_error(l, "Player:SetHyperspaceTarget() -- second parameter is not a system path");
+		Pi::sectorView->SetHyperspaceTarget(sys);
+		return 0;
+	} else
+		return luaL_error(l, "Player:SetHyperspaceTarget() cannot be used while in hyperspace");
+}
+
 template <> const char *LuaObject<Player>::s_type = "Player";
 
 template <> void LuaObject<Player>::RegisterClass()
@@ -265,6 +333,8 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "SetNavTarget",    l_set_nav_target    },
 		{ "GetCombatTarget", l_get_combat_target },
 		{ "SetCombatTarget", l_set_combat_target },
+		{ "GetHyperspaceTarget", l_get_hyperspace_target },
+		{ "SetHyperspaceTarget", l_set_hyperspace_target },
 		{ 0, 0 }
 	};
 
