@@ -189,10 +189,10 @@ private:
 	RefCountedPtr<Graphics::Texture> m_texture;
 	RefCountedPtr<Graphics::Material> m_material;
 
-	void DrawRectElement(const RectElement &element, const Point &pos, const Point &size) const;
-	void DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size) const;
-	void DrawVerticalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size) const;
-	void DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size) const;
+	void DrawRectElement(const RectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
+	void DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
+	void DrawVerticalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
+	void DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
 
 	RectElement LoadRectElement(const std::string &spec);
 	BorderedRectElement LoadBorderedRectElement(const std::string &spec);
