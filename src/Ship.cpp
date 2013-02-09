@@ -259,7 +259,7 @@ void Ship::UpdateMass()
 void Ship::SetFuel(const double f)
 {
 	m_thrusterFuel = Clamp(f, 0.0, 1.0);
-	Properties().Set("fuel", m_thrusterFuel*100); // XXX for GetFuelPercent
+	Properties().Set("fuel", m_thrusterFuel*100); // XXX to match SetFuelPercent
 }
 
 double Ship::GetFuelUseRate() const {

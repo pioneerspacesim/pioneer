@@ -27,11 +27,6 @@ public:
 
 	void PushLuaTable();
 
-	/*
-	bool PushPropertyToLua(lua_State *l, const std::string &k);
-	void AddPropertiesToLuaTable(lua_State *l, int tableIdx);
-	*/
-
 private:
 	LuaRef m_table;
 };
