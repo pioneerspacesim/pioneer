@@ -15,6 +15,7 @@ Alpha 32
      * UI: MultiLineText objects now have SetText and AppendText methods (#2045)
      * ShipTypes is deprecated, and EquipTypes has been removed; use the new ShipDef
        and EquipDef tables (#2026)
+     * Player.SetHyperspaceTarget and GetHyperspaceTarget methods (#2028, #2027)
 
    * Internal changes
      * Removed Lua model system (LMR) (#2029)
