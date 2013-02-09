@@ -151,20 +151,9 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 
 void Ship::Init()
 {
-	// XXX the animation namespace must match that in LuaConstants
-	// note: this must be set before generating the collision mesh
-	// (which happens in SetModel()) and before rendering
-	GetLmrObjParams().animationNamespace = "ShipAnimation";
-	GetLmrObjParams().equipment = &m_equipment;
-
 	const ShipType &stype = GetShipType();
 
-	// Dirty hack: Always use gear-down mesh for collision detection
-	// necessary because some ships have non-docking meshes too large for docking
-	float temp = GetLmrObjParams().animValues[ANIM_WHEEL_STATE];
-	GetLmrObjParams().animValues[ANIM_WHEEL_STATE] = 1.0f;
-	SetModel(stype.lmrModelName.c_str());
-	GetLmrObjParams().animValues[ANIM_WHEEL_STATE] = temp;
+	SetModel(stype.modelName.c_str());
 
 	SetMassDistributionFromModel();
 	UpdateStats();
@@ -173,11 +162,7 @@ void Ship::Init()
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 	m_hyperspaceCloud = 0;
 
-	m_landingGearAnimation = 0;
-	SceneGraph::Model *nmodel = dynamic_cast<SceneGraph::Model*>(GetModel());
-	if (nmodel) {
-		m_landingGearAnimation = nmodel->FindAnimation("gear_down");
-	}
+	m_landingGearAnimation = GetModel()->FindAnimation("gear_down");
 }
 
 void Ship::PostLoadFixup(Space *space)
@@ -1100,25 +1085,17 @@ bool Ship::SetWheelState(bool down)
 void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (IsDead()) return;
-	LmrObjParams &params = GetLmrObjParams();
 
-	m_shipFlavour.ApplyTo(&params);
 	m_shipFlavour.ApplyTo(GetModel());
 
-	SetLmrTimeParams();
-	params.angthrust[0] = float(-m_angThrusters.x);
-	params.angthrust[1] = float(-m_angThrusters.y);
-	params.angthrust[2] = float(-m_angThrusters.z);
-	params.linthrust[0] = float(m_thrusters.x);
-	params.linthrust[1] = float(m_thrusters.y);
-	params.linthrust[2] = float(m_thrusters.z);
-	params.animValues[ANIM_WHEEL_STATE] = m_wheelState;
-	params.flightState = m_flightState;
+	//angthrust negated, for some reason
+	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
+
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-	RenderLmrModel(renderer, viewCoords, viewTransform);
+	RenderModel(renderer, viewCoords, viewTransform);
 
 	// draw shield recharge bubble
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {

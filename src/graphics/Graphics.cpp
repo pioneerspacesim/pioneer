@@ -8,9 +8,6 @@
 #include "RendererLegacy.h"
 #include "OS.h"
 
-static GLuint boundArrayBufferObject = 0;
-static GLuint boundElementArrayBufferObject = 0;
-
 namespace Graphics {
 
 static bool initted = false;
@@ -18,9 +15,6 @@ bool shadersAvailable = false;
 bool shadersEnabled = false;
 Material *vtxColorMaterial;
 Settings settings;
-
-float State::invLogZfarPlus1;
-std::vector<Light> State::m_lights;
 
 int GetScreenWidth()
 {
@@ -30,38 +24,6 @@ int GetScreenWidth()
 int GetScreenHeight()
 {
 	return settings.height;
-}
-
-void BindArrayBuffer(GLuint bo)
-{
-	if (boundArrayBufferObject != bo) {
-		glBindBufferARB(GL_ARRAY_BUFFER_ARB, bo);
-		boundArrayBufferObject = bo;
-	}
-}
-
-bool IsArrayBufferBound(GLuint bo)
-{
-	return boundArrayBufferObject == bo;
-}
-
-void BindElementArrayBuffer(GLuint bo)
-{
-	if (boundElementArrayBufferObject != bo) {
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, bo);
-		boundElementArrayBufferObject = bo;
-	}
-}
-
-bool IsElementArrayBufferBound(GLuint bo)
-{
-	return boundElementArrayBufferObject == bo;
-}
-
-void UnbindAllBuffers()
-{
-	BindElementArrayBuffer(0);
-	BindArrayBuffer(0);
 }
 
 Renderer* Init(Settings vs)
@@ -215,14 +177,6 @@ std::vector<VideoMode> GetAvailableVideoModes()
 		}
 	}
 	return modes;
-}
-
-void Graphics::State::SetLights(int n, const Light *lights)
-{
-	m_lights.clear();
-	m_lights.reserve(n);
-	for (int i = 0;i < n;i++)
-		m_lights.push_back(lights[i]);
 }
 
 }

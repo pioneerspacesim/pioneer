@@ -3,13 +3,13 @@
 
 #include "SpaceStationType.h"
 #include "FileSystem.h"
-#include "ModelBase.h"
 #include "Lua.h"
 #include "LuaVector.h"
 #include "LuaVector.h"
 #include "Pi.h"
 #include "Ship.h"
 #include "StringF.h"
+#include "scenegraph/Model.h"
 
 static lua_State *s_lua;
 static std::string s_currentStationFile = "";

@@ -787,7 +787,7 @@ Translate:AddFlavour('Deutsch','DeliverPackage', {
   localdelivery = 0,
 })
 
-Translate:AddFlavour('English','DeliverPackage', {
+Translate:AddFlavour('Deutsch','DeliverPackage', {
   adtext = "POSTDIENST. Wir brauchen ein Schiff für eine Lieferung zum {system} System.",
   introtext = "Hallo. Dies ist eine automatische Nachricht vom Bedford und {name} Kurierdienst. Wir zahlen {cash} für eine Lieferung nach {starport} im {system} ({sectorx}, {sectory}, {sectorz}) System, {dist} ly entfernt.",
   whysomuchtext = "Wir können auch weniger zahlen, kein Problem für uns.",

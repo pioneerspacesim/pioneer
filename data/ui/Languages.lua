@@ -29,6 +29,10 @@ Translate:Add({
 		['Ship Information'] = 'Ship Information',
 		['Weight empty:'] = 'Weight empty:',
 		['{range} light years ({maxRange} max)'] = '{range} light years ({maxRange} max)',
+		['Minimum crew'] = 'Minimum crew',
+		['Crew cabins'] = 'Crew cabins',
+		['free'] = 'free',
+		['max'] = 'max',
 		
 		-- Personal information
 		['Personal Information'] = 'Personal Information',
@@ -39,6 +43,8 @@ Translate:Add({
 		['Rank:'] = 'Rank:',
 		['Male'] = 'Male',
 		['Female'] = 'Female',
+		['Toggle male/female'] = 'Toggle male/female',
+		['Make new face'] = 'Make new face',
 
 		['HARMLESS'] = 'Harmless',
 		['MOSTLY_HARMLESS'] = 'Mostly Harmless',
@@ -59,6 +65,48 @@ Translate:Add({
 		['Mission Details'] = 'Mission Details',
 		['No missions.'] = 'No missions.',
 		['INACTIVE'] = 'Inactive', -- Complement of ACTIVE, COMPLETED and FAILED
+
+		-- Crew Tasks
+		['Attempt to repair hull'] = 'Attempt to repair hull',
+		['Not enough {alloy} to attempt a repair'] = 'Not enough {alloy} to attempt a repair',
+		['Hull repaired by {name}, now at {repairPercent}%'] = 'Hull repaired by {name}, now at {repairPercent}%',
+		['Hull repair attempt failed. Hull suffered minor damage.'] = 'Hull repair attempt failed. Hull suffered minor damage.',
+		['Hull does not require repair.'] = 'Hull does not require repair.',
+		['Destroy enemy ship'] = 'Destroy enemy ship',
+		['You must request launch clearance first, Commander.'] = 'You must request launch clearance first, Commander.',
+		['You must launch first, Commander.'] = 'You must launch first, Commander.',
+		['We are in hyperspace, Commander.'] = 'We are in hyperspace, Commander.',
+		['The ship is under station control, Commander.'] = 'The ship is under station control, Commander.',
+		['You must first select a combat target, Commander.'] = 'You must first select a combat target, Commander.',
+		['You must first select a suitable navigation target, Commander.'] = 'You must first select a suitable navigation target, Commander.',
+		['There is nobody else on board able to fly this ship.'] = 'There is nobody else on board able to fly this ship.',
+		['Pilot seat is now occupied by {name}'] = 'Pilot seat is now occupied by {name}',
+		['Dock at current target'] = 'Dock at current target',
+
+		-- Crew Roster
+		['Name'] = 'Name',
+		['Position'] = 'Position',
+		['Wage'] = 'Wage',
+		['Owed'] = 'Owed',
+		['Next paid'] = 'Next paid',
+		['More info...'] = 'More info...',
+		['General crew'] = 'General crew',
+		['Dismiss'] = 'Dismiss',
+		['Qualification scores'] = 'Qualification scores',
+		['Engineering:'] = 'Engineering',
+		['Piloting:'] = 'Piloting:',
+		['Navigation:'] = 'Navigation:',
+		['Sensors:'] = 'Sensors:',
+		['Employment'] = 'Employment',
+		['Negotiate'] = 'Negotiate',
+		['Crew Roster'] = 'Crew Roster',
+		['Give orders to crew'] = 'Give orders to crew',
+
+		-- Taunts
+		["I'm tired of working for nothing. Don't you know what a contract is?"] = "I'm tired of working for nothing. Don't you know what a contract is?",
+		["It's been great working for you. If you need me again, I'll be here a while."] = "It's been great working for you. If you need me again, I'll be here a while.",
+		["You're going to regret sacking me!"] = "You're going to regret sacking me!",
+		["Good riddance to you, too."] = "Good riddance to you, too.",
 		
 		-- Orbital analysis
 		['Orbit'] = 'Orbit',
@@ -106,6 +154,10 @@ Translate:Add({
 		['Ship Information'] = 'Informacje o statku',
 		['Weight empty:'] = 'Masa minimalna:',
 		['{range} light years ({maxRange} max)'] = '{range} lat świetlnych ({maxRange} maks.)',
+		['Minimum crew'] = 'Minimalna ilość załogi',
+		['Crew cabins'] = 'Kabiny załogi',
+		['free'] = 'wolne',
+		['max'] = 'maks.',
 		
 		-- Personal information
 		['Personal Information'] = 'Informacje o pilocie',
@@ -116,6 +168,8 @@ Translate:Add({
 		['Rank:'] = 'Ranga:',
 		['Male'] = 'Mężczyzna',
 		['Female'] = 'Kobieta',
+		['Toggle male/female'] = 'Mężczyzna/Kobieta',
+		['Make new face'] = 'Nowa twarz',
 
 		['HARMLESS'] = 'Nieszkodliwy',
 		['MOSTLY_HARMLESS'] = 'Przeważnie nieszkodliwy',
@@ -137,6 +191,48 @@ Translate:Add({
 		['No missions.'] = 'Brak misji.',
 		['INACTIVE'] = 'Nieaktywna', -- Complement of ACTIVE, COMPLETED and FAILED
 		
+		-- Crew Tasks
+		['Attempt to repair hull'] = 'Przystąpić do naprawy kadłuba',
+		['Not enough {alloy} to attempt a repair'] = '{alloy} - jest zbyt mało by rozpocząć naprawę.',
+		['Hull repaired by {name}, now at {repairPercent}%'] = '{name} naprawia kadłub, teraz jest {repairPercent}%',
+		['Hull repair attempt failed. Hull suffered minor damage.'] = 'Rozpoczęcie naprawy kadłuba nieudane. Kadłub doznał uszkodzeń.',
+		['Hull does not require repair.'] = 'Kadłub nie wymaga naprawy.',
+		['Destroy enemy ship'] = 'Zniszczyć wrogi statek',
+		['You must request launch clearance first, Commander.'] = 'Komandorze, najpierw musisz uzyskać zgodę na start.',
+		['You must launch first, Commander.'] = 'Komandorze, najpierw musisz wystartować.',
+		['We are in hyperspace, Commander.'] = 'Komandorze, jesteśmy w nadprzestrzeni',
+		['The ship is under station control, Commander.'] = 'Komandorze, statek jest pod kontrolą stacji.',
+		['You must first select a combat target, Commander.'] = 'Komandorze, najpierw musisz wskazać cel ataku.',
+		['You must first select a suitable navigation target, Commander.'] = 'Komandorze, najpierw musisz wskazać właściwy cel nawigacyjny.',
+		['There is nobody else on board able to fly this ship.'] = 'Nikt więcej na pokładzie nie jest zdolny pilotować ten statek.',
+		['Pilot seat is now occupied by {name}'] = '{name} zajmuje fotel pilota.',
+		['Dock at current target'] = 'Dokować do wskazanego celu',
+
+		-- Crew Roster
+		['Name'] = 'Nazwisko',
+		['Position'] = 'Stanowisko',
+		['Wage'] = 'Stawka',
+		['Owed'] = 'Zalegasz',
+		['Next paid'] = 'Następna wypłata',
+		['More info...'] = 'Więcej...',
+		['General crew'] = 'Członek załogi',
+		['Dismiss'] = 'Zwolnij',
+		['Qualification scores'] = 'Posiadane kwalifikacje',
+		['Engineering:'] = 'Naprawa:',
+		['Piloting:'] = 'Pilotaż:',
+		['Navigation:'] = 'Nawigacja:',
+		['Sensors:'] = 'Sensory:',
+		['Employment'] = 'Zatrudnienie',
+		['Negotiate'] = 'Negocjacje',
+		['Crew Roster'] = 'Lista załogi',
+		['Give orders to crew'] = 'Wydaj rozkaz załodze',
+
+		-- Taunts
+		["I'm tired of working for nothing. Don't you know what a contract is?"] = "Odczuwam zmęczenie pracując za darmo. Czy Ty wiesz co to kontrakt?",
+		["It's been great working for you. If you need me again, I'll be here a while."] = "Praca dla ciebie to przyjemność. Jeśli znów będziesz mnie potrzebować, to bedę tu chwilowo.",
+		["You're going to regret sacking me!"] = "Jeszcze pożałujesz! Zwolnić, mnie?!",
+		["Good riddance to you, too."] = "Dobrze by było tobie też się zwolnić.",
+
 		-- Orbital analysis
 		['Orbit'] = 'Orbita',
 		['Orbital Analysis'] = 'Analiza Orbity',

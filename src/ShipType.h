@@ -42,7 +42,7 @@ struct ShipType {
 	Tag tag;
 	Id id;
 	std::string name;
-	std::string lmrModelName;
+	std::string modelName;
 	float linThrust[THRUSTER_MAX];
 	float angThrust;
 	struct GunMount {

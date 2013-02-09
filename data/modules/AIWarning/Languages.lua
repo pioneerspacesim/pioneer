@@ -66,7 +66,7 @@ Translate:Add({
   ---- GERMAN / DEUTSCH ----
 
 Translate:Add({
-	German = {
+	Deutsch = {
 		['Cannot compensate for local gravity'] = 'Lokale Anziehungskraft kann nicht kompensiert werden',
 		['Starport refused docking permission'] = 'Andocken an den Starport verweigert',
 		['Cannot compute orbit parameters']     = 'Bahnparameter konnten nicht berechnet werden',
