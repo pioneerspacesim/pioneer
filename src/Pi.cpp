@@ -16,17 +16,14 @@
 #include "GeoSphere.h"
 #include "Intro.h"
 #include "Lang.h"
-#include "LuaBody.h"
-#include "LuaCargoBody.h"
 #include "LuaChatForm.h"
 #include "LuaComms.h"
 #include "LuaConsole.h"
 #include "LuaConstants.h"
 #include "LuaDev.h"
 #include "LuaEngine.h"
-#include "LuaEquipType.h"
+#include "LuaEquipDef.h"
 #include "LuaEvent.h"
-#include "LuaFaction.h"
 #include "LuaFileSystem.h"
 #include "LuaFormat.h"
 #include "LuaGame.h"
@@ -35,15 +32,9 @@
 #include "LuaMissile.h"
 #include "LuaMusic.h"
 #include "LuaNameGen.h"
-#include "LuaPlanet.h"
-#include "LuaPlayer.h"
-#include "LuaRand.h"
 #include "LuaRef.h"
-#include "LuaShip.h"
-#include "LuaShipType.h"
+#include "LuaShipDef.h"
 #include "LuaSpace.h"
-#include "LuaSpaceStation.h"
-#include "LuaStar.h"
 #include "LuaStarSystem.h"
 #include "LuaSystemBody.h"
 #include "LuaSystemPath.h"
@@ -162,21 +153,19 @@ static void draw_progress(float progress)
 
 static void LuaInit()
 {
-	LuaBody::RegisterClass();
-	LuaShip::RegisterClass();
-	LuaSpaceStation::RegisterClass();
-	LuaPlanet::RegisterClass();
-	LuaStar::RegisterClass();
-	LuaPlayer::RegisterClass();
-	LuaMissile::RegisterClass();
-	LuaCargoBody::RegisterClass();
+	LuaObject<Body>::RegisterClass();
+	LuaObject<Ship>::RegisterClass();
+	LuaObject<SpaceStation>::RegisterClass();
+	LuaObject<Planet>::RegisterClass();
+	LuaObject<Star>::RegisterClass();
+	LuaObject<Player>::RegisterClass();
+	LuaObject<Missile>::RegisterClass();
+	LuaObject<CargoBody>::RegisterClass();
 	LuaStarSystem::RegisterClass();
 	LuaSystemPath::RegisterClass();
 	LuaSystemBody::RegisterClass();
-	LuaShipType::RegisterClass();
-	LuaEquipType::RegisterClass();
-	LuaRand::RegisterClass();
-	LuaFaction::RegisterClass();
+	LuaObject<MTRand>::RegisterClass();
+	LuaObject<Faction>::RegisterClass();
 
 	LuaObject<LuaChatForm>::RegisterClass();
 
@@ -189,11 +178,13 @@ static void LuaInit()
 	LuaConstants::Register(Lua::manager->GetLuaState());
 	LuaLang::Register();
 	LuaEngine::Register();
+	LuaEquipDef::Register();
 	LuaFileSystem::Register();
 	LuaGame::Register();
 	LuaComms::Register();
 	LuaFormat::Register();
 	LuaSpace::Register();
+	LuaShipDef::Register();
 	LuaMusic::Register();
 	LuaDev::Register();
 	LuaConsole::Register();
@@ -340,6 +331,9 @@ void Pi::Init()
 
 	EnumStrings::Init();
 
+	// XXX early, Lua init needs it
+	ShipType::Init();
+
 	// XXX UI requires Lua  but Pi::ui must exist before we start loading
 	// templates. so now we have crap everywhere :/
 	Lua::Init();
@@ -371,7 +365,6 @@ void Pi::Init()
 //_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW | _EM_ZERODIVIDE, _MCW_EM);
 //double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
 
-	ShipType::Init();
 	draw_progress(0.6f);
 
 	GeoSphere::Init();
