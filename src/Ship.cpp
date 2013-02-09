@@ -168,6 +168,8 @@ void Ship::Init()
 	m_hyperspaceCloud = 0;
 
 	m_landingGearAnimation = GetModel()->FindAnimation("gear_down");
+
+	UpdateProperties();
 }
 
 void Ship::PostLoadFixup(Space *space)
