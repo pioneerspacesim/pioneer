@@ -27,7 +27,7 @@ void ModelNode::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	//slight hack here
 	rd->nodemask |= MASK_IGNORE;
-	m_model->Render(GetRenderer(), trans, rd);
+	m_model->Render(trans, rd);
 	rd->nodemask &= ~MASK_IGNORE;
 }
 

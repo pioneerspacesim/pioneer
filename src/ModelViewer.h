@@ -9,7 +9,6 @@
 #include "libs.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
-#include "LmrTypes.h"
 #include "LuaManager.h"
 #include "scenegraph/SceneGraph.h"
 #include "ui/Context.h"
@@ -30,7 +29,9 @@ private:
 	bool OnToggleGuns(UI::CheckBox*);
 	void AddLog(const std::string &line);
 	void ChangeCameraPreset(SDLKey, SDLMod);
+	void ClearLog();
 	void ClearModel();
+	void CreateTestResources();
 	void DrawBackground();
 	void DrawDockingLocators();
 	void DrawCollisionMesh();
@@ -63,6 +64,7 @@ private:
 		bool showDockingLocators;
 		bool showCollMesh;
 		bool showGrid;
+		bool showLandingPad;
 		bool showUI;
 		bool wireframe;
 		float gridInterval;
@@ -75,17 +77,16 @@ private:
 	double m_frameTime;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;
-	float m_rotX, m_rotY;
-	ModelParams m_modelParams;
+	float m_rotX, m_rotY, m_zoom;
+	float m_baseDistance;
 	MTRand m_rng;
 	SceneGraph::Animation *m_currentAnimation;
 	SceneGraph::Model *m_model;
 	Options m_options;
-	RefCountedPtr<SceneGraph::ModelNode> m_gunModelNode;
-	RefCountedPtr<UI::Context> m_ui;
 	ScopedPtr<SceneGraph::Model> m_gunModel;
+	ScopedPtr<SceneGraph::Model> m_scaleModel;
 	std::string m_modelName;
-	vector3f m_camPos;
+	RefCountedPtr<UI::Context> m_ui;
 
 	//undecided on this input stuff
 	//updating the states of all inputs during PollEvents

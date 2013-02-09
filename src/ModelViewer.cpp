@@ -21,6 +21,7 @@ ModelViewer::Options::Options()
 , showDockingLocators(false)
 , showCollMesh(false)
 , showGrid(false)
+, showLandingPad(false)
 , showUI(true)
 , wireframe(false)
 , gridInterval(10.f)
@@ -69,6 +70,11 @@ namespace {
 			}
 		}
 	}
+
+	float zoom_distance(const float base_distance, const float zoom)
+	{
+		return base_distance * powf(2.0f, zoom);
+	}
 }
 
 ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
@@ -77,12 +83,12 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 , m_frameTime(0.f)
 , m_renderer(r)
 , m_decalTexture(0)
-, m_rotX(0), m_rotY(0)
+, m_rotX(0), m_rotY(0), m_zoom(0)
+, m_baseDistance(100.0f)
 , m_rng(time(0))
 , m_currentAnimation(0)
 , m_model(0)
 , m_modelName("")
-, m_camPos(0.f)
 {
 	m_ui.Reset(new UI::Context(lm, r, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), "English"));
 
@@ -94,18 +100,6 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 	std::fill(m_keyStates, m_keyStates + COUNTOF(m_keyStates), false);
 	std::fill(m_mouseButton, m_mouseButton + COUNTOF(m_mouseButton), false);
 	std::fill(m_mouseMotion, m_mouseMotion + 2, 0);
-
-	//load gun model for attachment test
-	{
-		SceneGraph::Loader loader(m_renderer);
-		try {
-			SceneGraph::Model *m = loader.LoadModel("test_gun");
-			m_gunModel.Reset(m);
-			m_gunModelNode.Reset(new SceneGraph::ModelNode(m_gunModel.Get()));
-		} catch (SceneGraph::LoadingError &) {
-			AddLog("Could not load test_gun model");
-		}
-	}
 
 	//some widgets
 	animSlider = 0;
@@ -213,7 +207,11 @@ bool ModelViewer::OnToggleGrid(UI::Widget *)
 
 bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 {
-	if (!m_gunModel.Valid() || !m_gunModelNode.Valid()) {
+	if (!m_gunModel.Valid()) {
+		CreateTestResources();
+	}
+
+	if (!m_gunModel.Valid()) {
 		AddLog("test_gun.model not available");
 		return false;
 	}
@@ -226,8 +224,8 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 		return false;
 	}
 	if (m_options.attachGuns) {
-		tagL->AddChild(m_gunModelNode.Get());
-		tagR->AddChild(m_gunModelNode.Get());
+		tagL->AddChild(new SceneGraph::ModelNode(m_gunModel.Get()));
+		tagR->AddChild(new SceneGraph::ModelNode(m_gunModel.Get()));
 	} else { //detach
 		//we know there's nothing else
 		tagL->RemoveChildAt(0);
@@ -240,6 +238,7 @@ void ModelViewer::AddLog(const std::string &line)
 {
 	m_log->AppendText(line+"\n");
 	m_logScroller->SetScrollPosition(1.0f);
+	printf("%s\n", line.c_str());
 }
 
 void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
@@ -289,11 +288,31 @@ void ModelViewer::ChangeCameraPreset(SDLKey key, SDLMod mod)
 	}
 }
 
+void ModelViewer::ClearLog()
+{
+	m_log->SetText("");
+}
+
 void ModelViewer::ClearModel()
 {
-	if (m_model) {
-		delete m_model;
-		m_model = 0;
+	delete m_model; m_model = 0;
+	m_gunModel.Reset();
+	m_scaleModel.Reset();
+}
+
+void ModelViewer::CreateTestResources()
+{
+	//load gun model for attachment test
+	//landingpad model for scale test
+	SceneGraph::Loader loader(m_renderer);
+	try {
+		SceneGraph::Model *m = loader.LoadModel("test_gun");
+		m_gunModel.Reset(m);
+
+		m = loader.LoadModel("scale");
+		m_scaleModel.Reset(m);
+	} catch (SceneGraph::LoadingError &) {
+		AddLog("Could not load test_gun model");
 	}
 }
 
@@ -461,7 +480,7 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 {
 	assert(m_options.showGrid);
 
-	const float dist = abs(m_camPos.z);
+	const float dist = zoom_distance(m_baseDistance, m_zoom);
 
 	const float max = std::min(powf(10, ceilf(log10f(dist))), ceilf(radius/m_options.gridInterval)*m_options.gridInterval);
 
@@ -533,7 +552,7 @@ void ModelViewer::DrawModel()
 	rot.RotateY(DEG2RAD(m_rotY));
 	rot.RotateX(DEG2RAD(m_rotX));
 
-	matrix4x4f mv = matrix4x4f::Translation(-m_camPos) * rot.InverseOf();
+	const matrix4x4f mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot.InverseOf();
 
 	if (m_options.showGrid)
 		DrawGrid(mv, m_model->GetDrawClipRadius());
@@ -544,7 +563,12 @@ void ModelViewer::DrawModel()
 	m_model->UpdateAnimations();
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(true);
-	m_model->Render(m_renderer, mv, &m_modelParams);
+	m_model->Render(mv);
+	if (m_options.showLandingPad) {
+		if (!m_scaleModel.Valid()) CreateTestResources();
+		const float landingPadOffset = m_model->GetCollisionMesh()->GetAabb().min.y;
+		m_scaleModel->Render(matrix4x4f::Translation(0.f, landingPadOffset, 0.f) * mv);
+	}
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(false);
 
@@ -654,14 +678,19 @@ void ModelViewer::OnPatternChanged(unsigned int index, const std::string &value)
 
 void ModelViewer::OnThrustChanged(float)
 {
-	m_modelParams.linthrust[0] = get_thrust(thrustSliders[0]);
-	m_modelParams.linthrust[1] = get_thrust(thrustSliders[1]);
-	m_modelParams.linthrust[2] = get_thrust(thrustSliders[2]);
+	vector3f linthrust;
+	vector3f angthrust;
+
+	linthrust.x = get_thrust(thrustSliders[0]);
+	linthrust.y = get_thrust(thrustSliders[1]);
+	linthrust.z = get_thrust(thrustSliders[2]);
 
 	// angthrusts are negated in ship.cpp for some reason
-	m_modelParams.angthrust[0] = -get_thrust(thrustSliders[3]);
-	m_modelParams.angthrust[1] = -get_thrust(thrustSliders[4]);
-	m_modelParams.angthrust[2] = -get_thrust(thrustSliders[5]);
+	angthrust.x = -get_thrust(thrustSliders[3]);
+	angthrust.y = -get_thrust(thrustSliders[4]);
+	angthrust.z = -get_thrust(thrustSliders[5]);
+
+	m_model->SetThrust(linthrust, angthrust);
 }
 
 void ModelViewer::PollEvents()
@@ -745,6 +774,10 @@ void ModelViewer::PollEvents()
 			case SDLK_KP8: case SDLK_i:
 				ChangeCameraPreset(event.key.keysym.sym, event.key.keysym.mod);
 				break;
+			case SDLK_p: //landing pad test
+				m_options.showLandingPad = !m_options.showLandingPad;
+				AddLog(stringf("Scale/landing pad test %0", m_options.showLandingPad ? "on" : "off"));
+				break;
 			case SDLK_r: //random colors, eastereggish
 				for(unsigned int i=0; i<3*3; i++) {
 					if (colorSliders[i])
@@ -767,12 +800,9 @@ void ModelViewer::PollEvents()
 
 void ModelViewer::ResetCamera()
 {
-	if (!m_model)
-		m_camPos = vector3f(0.f, 0.f, 100.f);
-	else
-		m_camPos = vector3f(0.0f, 0.0f, m_model->GetDrawClipRadius() * 1.5f);
-	//m_camOrient = matrix4x4f::Identity();
+	m_baseDistance = m_model ? m_model->GetDrawClipRadius() * 1.5f : 100.f;
 	m_rotX = m_rotY = 0.f;
+	m_zoom = 0.f;
 }
 
 void ModelViewer::ResetThrusters()
@@ -803,7 +833,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 
 	try {
 		m_modelName = filename;
-		SceneGraph::Loader loader(m_renderer);
+		SceneGraph::Loader loader(m_renderer, true);
 		m_model = loader.LoadModel(filename);
 
 		//set decal textures, max 4 supported.
@@ -812,7 +842,14 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 
 		SceneGraph::DumpVisitor d;
 		m_model->GetRoot()->Accept(d);
-		AddLog("Done.");
+
+		//dump warnings
+		for (std::vector<std::string>::const_iterator it = loader.GetLogMessages().begin();
+			it != loader.GetLogMessages().end(); ++it)
+		{
+			AddLog(*it);
+		}
+
 	} catch (SceneGraph::LoadingError &err) {
 		// report the error and show model picker.
 		m_model = 0;
@@ -875,6 +912,7 @@ void ModelViewer::SetupFilePicker()
 	);
 
 	c->Layout();
+	m_logScroller->SetScrollPosition(1.f);
 
 	loadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnPickModel), list));
 	quitButton->onClick.connect(sigc::mem_fun(*this, &ModelViewer::OnQuit));
@@ -1091,24 +1129,27 @@ void ModelViewer::UpdateAnimList()
 
 void ModelViewer::UpdateCamera()
 {
-	float zoomRate = 10.f * m_frameTime;
+	static const float BASE_ZOOM_RATE = 1.0f / 12.0f;
+	float zoomRate = (BASE_ZOOM_RATE * 8.0f) * m_frameTime;
 	float moveRate = 25.f * m_frameTime;
 	if (m_keyStates[SDLK_LSHIFT]) {
-		zoomRate = 200.f * m_frameTime;
+		zoomRate *= 8.0f;
 		moveRate = 100.f * m_frameTime;
 	}
 	else if (m_keyStates[SDLK_RSHIFT]) {
-		zoomRate = 50.f * m_frameTime;
+		zoomRate *= 3.0f;
 		moveRate = 50.f * m_frameTime;
 	}
 
 	//zoom
-	if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * zoomRate;
-	if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * zoomRate;
+	if (m_keyStates[SDLK_EQUALS] || m_keyStates[SDLK_KP_PLUS]) m_zoom -= zoomRate;
+	if (m_keyStates[SDLK_MINUS] || m_keyStates[SDLK_KP_MINUS]) m_zoom += zoomRate;
 
 	//zoom with mouse wheel
-	if (m_mouseWheelUp) m_camPos = m_camPos - vector3f(0.0f,0.0f,1.f) * 10.f;
-	if (m_mouseWheelDown) m_camPos = m_camPos + vector3f(0.0f,0.0f,1.f) * 10.f;
+	if (m_mouseWheelUp) m_zoom -= BASE_ZOOM_RATE;
+	if (m_mouseWheelDown) m_zoom += BASE_ZOOM_RATE;
+
+	m_zoom = Clamp(m_zoom, -10.0f, 10.0f); // distance range: [baseDistance * 1/1024, baseDistance * 1024]
 
 	//rotate
 	if (m_keyStates[SDLK_UP]) m_rotX += moveRate;

@@ -8,7 +8,6 @@
 #include "Game.h"
 #include "gameconsts.h"
 #include "Lang.h"
-#include "LmrModel.h"
 #include "LuaEvent.h"
 #include "LuaVector.h"
 #include "Pi.h"
@@ -179,11 +178,6 @@ void SpaceStation::InitStation()
 	// This SpaceStation's bay groups is an instance of...
 	mBayGroups = m_type->bayGroups;
 
-	LmrObjParams &params = GetLmrObjParams();
-	params.animStages[ANIM_DOCKING_BAY_1] = 1;
-	params.animValues[ANIM_DOCKING_BAY_1] = 1.0;
-	// XXX the animation namespace must match that in LuaConstants
-	params.animationNamespace = "SpaceStationAnimation";
 	SetStatic(ground);			// orbital stations are dynamic now
 	SetModel(m_type->modelName.c_str());
 
@@ -640,10 +634,7 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 //            Lighting is done by manipulating global lights or setting uniforms in atmospheric models shader
 void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	LmrObjParams &params = GetLmrObjParams();
-	params.label = GetLabel().c_str();
-	SetLmrTimeParams();
-
+	
 	const int maxPorts = std::min(MAX_LMR_DOCKING_PORTS, int(m_shipDocking.size()));
 	for (int i=0; i<maxPorts; i++) {
 		params.animStages[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stage;
@@ -655,7 +646,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 
 	if (!b->IsType(Object::PLANET)) {
 		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
-		RenderLmrModel(r, viewCoords, viewTransform);
+		RenderModel(r, viewCoords, viewTransform);
 	}
 
 	else {
@@ -702,7 +693,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
 		}
 
-		RenderLmrModel(r, viewCoords, viewTransform);
+		RenderModel(r, viewCoords, viewTransform);
 
 		// restore old lights & ambient
 		r->SetLights(origLights.size(), &origLights[0]);
@@ -844,20 +835,11 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 			ship->SetFrame(GetFrame());
 			ship->SetDockedWith(this, port);
 			Pi::game->GetSpace()->AddBody(ship);
-			{ // blue and white thang
+			{
 				ShipFlavour f;
 				f.id = ShipType::LADYBIRD;
 				f.regid = Lang::POLICE_SHIP_REGISTRATION;
 				f.price = ship->GetFlavour()->price;
-				LmrMaterial m;
-				m.diffuse[0] = 0.0f; m.diffuse[1] = 0.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
-				m.specular[0] = 0.0f; m.specular[1] = 0.0f; m.specular[2] = 1.0f; m.specular[3] = 1.0f;
-				m.emissive[0] = 0.0f; m.emissive[1] = 0.0f; m.emissive[2] = 0.0f; m.emissive[3] = 0.0f;
-				m.shininess = 50.0f;
-				f.primaryColor = m;
-				m.shininess = 0.0f;
-				m.diffuse[0] = 1.0f; m.diffuse[1] = 1.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
-				f.secondaryColor = m;
 				ship->ResetFlavour(&f);
 			}
 			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);

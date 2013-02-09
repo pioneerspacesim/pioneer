@@ -1395,7 +1395,7 @@ Translate:AddFlavour('Deutsch','Taxi', {
   risk = 0.17,
 })
 
-Translate:Add({ English = {
+Translate:Add({ Deutsch = {
   ["Taxi"] = "Taxi",
   ["Why so much money?"] = "Warum so viel Geld?",
   ["How many of you are there?"] = "Wie viele Personen seid ihr?",

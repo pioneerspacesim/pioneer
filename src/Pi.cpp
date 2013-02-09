@@ -16,7 +16,6 @@
 #include "GeoSphere.h"
 #include "Intro.h"
 #include "Lang.h"
-#include "LmrModel.h"
 #include "LuaBody.h"
 #include "LuaCargoBody.h"
 #include "LuaChatForm.h"
@@ -140,6 +139,7 @@ Gui::Fixed *Pi::menu;
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
 ModelCache *Pi::modelCache;
+Intro *Pi::intro;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -224,17 +224,17 @@ static void LuaInitGame() {
 	LuaEvent::Clear();
 }
 
-ModelBase *Pi::FindModel(const std::string &name)
+SceneGraph::Model *Pi::FindModel(const std::string &name)
 {
-	// Try NewModel models first, then LMR
-	ModelBase *m = 0;
+	SceneGraph::Model *m = 0;
 	try {
 		m = Pi::modelCache->FindModel(name);
 	} catch (ModelCache::ModelNotFoundException) {
+		printf("Could not find model: %s\n", name.c_str());
 		try {
-			m = LmrLookupModelByName(name.c_str());
-		} catch (LmrModelNotFoundException) {
-			Error("Could not find model %s", name.c_str());
+			m = Pi::modelCache->FindModel("error");
+		} catch (ModelCache::ModelNotFoundException) {
+			Error("Could not find placeholder model");
 		}
 	}
 
@@ -363,7 +363,6 @@ void Pi::Init()
 	CustomSystem::Init();
 	draw_progress(0.4f);
 
-	LmrModelCompilerInit(Pi::renderer);
 	modelCache = new ModelCache(Pi::renderer);
 	draw_progress(0.5f);
 
@@ -545,6 +544,7 @@ void Pi::ToggleLuaConsole()
 void Pi::Quit()
 {
 	Projectile::FreeModel();
+	delete Pi::intro;
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
 	Sfx::Uninit();
@@ -552,14 +552,16 @@ void Pi::Quit()
 	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
 	GeoSphere::Uninit();
-	LmrModelCompilerUninit();
 	Galaxy::Uninit();
+	Faction::Uninit();
+	CustomSystem::Uninit();
 	Graphics::Uninit();
 	Pi::ui.Reset(0);
 	LuaUninit();
 	Gui::Uninit();
 	delete Pi::modelCache;
 	delete Pi::renderer;
+	delete Pi::config;
 	StarSystem::ShrinkCache();
 	SDL_Quit();
 	FileSystem::Uninit();
@@ -859,7 +861,7 @@ void Pi::StartGame()
 
 void Pi::Start()
 {
-	Intro *intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 
 	ui->SetInnerWidget(ui->CallTemplate("MainMenu"));
 
@@ -906,6 +908,8 @@ void Pi::Start()
 	ui->RemoveInnerWidget();
 	ui->Layout(); // UI does important things on layout, like updating keyboard shortcuts
 
+	delete Pi::intro; Pi::intro = 0;
+
 	InitGame();
 	StartGame();
 	MainLoop();
@@ -924,8 +928,6 @@ void Pi::EndGame()
 
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
-
-
 
 	assert(game);
 	delete game;
@@ -1067,8 +1069,6 @@ void Pi::MainLoop()
 			int lua_memKB = int(lua_mem >> 10) % 1024;
 			int lua_memMB = int(lua_mem >> 20);
 
-			Pi::statSceneTris += LmrModelGetStatsTris();
-
 			snprintf(
 				fps_readout, sizeof(fps_readout),
 				"%d fps (%.1f ms/f), %d phys updates, %d triangles, %.3f M tris/sec, %d terrain vtx/sec, %d glyphs/sec\n"
@@ -1085,7 +1085,6 @@ void Pi::MainLoop()
 			else last_stats += 1000;
 		}
 		Pi::statSceneTris = 0;
-		LmrModelClearStatsTris();
 #endif
 
 #ifdef MAKING_VIDEO
