@@ -7,6 +7,7 @@
 #include "Serializer.h"
 #include "Sfx.h"
 #include "Space.h"
+#include "EnumStrings.h"
 #include "collider/collider.h"
 #include "scenegraph/SceneGraph.h"
 
@@ -37,6 +38,8 @@ void CargoBody::Init()
 	colors.push_back(Color4ub(0, 222, 255));
 	colors.push_back(Color4ub(255, 255, 255));
 	GetModel()->SetColors(colors);
+
+	Properties().Set("type", EnumStrings::GetString("EquipType", m_type));
 }
 
 CargoBody::CargoBody(Equip::Type t)
