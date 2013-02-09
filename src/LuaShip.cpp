@@ -10,6 +10,8 @@
 #include "LuaConstants.h"
 #include "EnumStrings.h"
 #include "Ship.h"
+#include "Missile.h"
+#include "LuaMissile.h"
 #include "SpaceStation.h"
 #include "ShipType.h"
 #include "Sfx.h"
@@ -18,7 +20,6 @@
 #include "Pi.h"
 #include "Player.h"
 #include "HyperspaceCloud.h"
-#include "LmrModel.h"
 #include "Game.h"
 
 /*
@@ -765,56 +766,52 @@ static int l_ship_undock(lua_State *l)
 	return 1;
 }
 
-/*
- * Method: FireMissileAt
+/* Method: SpawnMissile
  *
- * Fire a missile at the given target
+ * Spawn a missile near the ship.
  *
- * > fired = ship:FireMissileAt(type, target)
- *
+ * > missile = ship:SpawnMissile(type, target, power)
+ * 
  * Parameters:
  *
- *   type - a <Constants.EquipType> string for the missile type. specifying an
- *          equipment that is not a missile will result in a Lua error
+ *   shiptype - a string for the missile type. specifying an
+ *          ship that is not a missile will result in a Lua error
  *
  *   target - the <Ship> to fire the missile at
  *
+ *   power - the power of the missile. If unspecified, the default power for the
+ *
  * Return:
  *
- *   fired - true if the missile was fired, false if the ship has no missile
- *           of the requested type
+ *   missile - The missile spawned, or nil if it was unsuccessful.
  *
  * Availability:
  *
- *   alpha 10
+ *   alpha 26
  *
  * Status:
  *
  *   experimental
  */
-static int l_ship_fire_missile_at(lua_State *l)
+static int l_ship_spawn_missile(lua_State *l)
 {
 	Ship *s = LuaShip::CheckFromLua(1);
 	if (s->GetFlightState() == Ship::HYPERSPACE)
-		return luaL_error(l, "Ship:FireMissileAt() cannot be called on a ship in hyperspace");
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
-	Ship *target = LuaShip::CheckFromLua(3);
+		return luaL_error(l, "Ship:SpawnMissile() cannot be called on a ship in hyperspace");
+	ShipType::Id missile_type(luaL_checkstring(l, 2));
 
-	if (e < Equip::MISSILE_UNGUIDED || e > Equip::MISSILE_NAVAL)
-		luaL_error(l, "Equipment type '%s' is not a valid missile type", lua_tostring(l, 2));
+	if (missile_type != ShipType::MISSILE_UNGUIDED &&
+			missile_type != ShipType::MISSILE_GUIDED &&
+			missile_type != ShipType::MISSILE_SMART &&
+			missile_type != ShipType::MISSILE_NAVAL)
+		luaL_error(l, "Ship type '%s' is not a valid missile type", lua_tostring(l, 2));
+	int power = (lua_isnone(l, 3))? -1 : lua_tointeger(l, 3);
 
-	int max_missiles = s->m_equipment.GetSlotSize(Equip::SLOT_MISSILE);
-	int idx;
-	for (idx = 0; idx < max_missiles; idx++)
-		if (s->m_equipment.Get(Equip::SLOT_MISSILE, idx) == e)
-			break;
-
-	if (idx == max_missiles) {
-		lua_pushboolean(l, false);
-		return 1;
-	}
-
-	lua_pushboolean(l, s->FireMissile(idx, target));
+	Missile * missile = s->SpawnMissile(missile_type, power);
+	if (missile)
+		LuaMissile::PushToLua(missile);
+	else
+		lua_pushnil(l);
 	return 1;
 }
 
@@ -1031,20 +1028,6 @@ static int l_ship_attr_flavour(lua_State *l)
 	pi_lua_settable(l, "regId", f.regid.c_str());
 	pi_lua_settable(l, "price", double(f.price)*0.01);
 
-	lua_newtable(l);
-	_colour_to_table(l, "diffuse", f.primaryColor.diffuse);
-	_colour_to_table(l, "specular", f.primaryColor.specular);
-	_colour_to_table(l, "emissive", f.primaryColor.emissive);
-	pi_lua_settable(l, "shininess", f.primaryColor.shininess);
-	lua_setfield(l, -2, "primaryColour");
-
-	lua_newtable(l);
-	_colour_to_table(l, "diffuse", f.secondaryColor.diffuse);
-	_colour_to_table(l, "specular", f.secondaryColor.specular);
-	_colour_to_table(l, "emissive", f.secondaryColor.emissive);
-	pi_lua_settable(l, "shininess", f.secondaryColor.shininess);
-	lua_setfield(l, -2, "secondaryColour");
-
 	return 1;
 }
 
@@ -1177,6 +1160,35 @@ static int l_ship_ai_kill(lua_State *l)
 		return luaL_error(l, "Ship:AIKill() cannot be called on a ship in hyperspace");
 	Ship *target = LuaShip::CheckFromLua(2);
 	s->AIKill(target);
+	return 0;
+}
+
+/*
+ * Method: AIKamikaze
+ *
+ * Crash into the target ship.
+ *
+ * > ship:AIKamikaze(target)
+ *
+ * Parameters:
+ *
+ *   target - the <Ship> to destroy
+ *
+ * Availability:
+ *
+ *  alpha 26
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_ai_kamikaze(lua_State *l)
+{
+	Ship *s = LuaShip::GetFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:AIKamikaze() cannot be called on a ship in hyperspace");
+	Ship *target = LuaShip::GetFromLua(2);
+	s->AIKamikaze(target);
 	return 0;
 }
 
@@ -1390,7 +1402,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "SpawnCargo", l_ship_spawn_cargo },
 
-		{ "FireMissileAt", l_ship_fire_missile_at },
+		{ "SpawnMissile", l_ship_spawn_missile },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },
@@ -1398,6 +1410,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "Explode", l_ship_explode },
 
 		{ "AIKill",             l_ship_ai_kill               },
+		{ "AIKamikaze",         l_ship_ai_kamikaze           },
 		{ "AIFlyTo",            l_ship_ai_fly_to             },
 		{ "AIDockWith",         l_ship_ai_dock_with          },
 		{ "AIEnterLowOrbit",    l_ship_ai_enter_low_orbit    },

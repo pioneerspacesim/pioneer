@@ -11,19 +11,19 @@
 #include "Game.h"
 #include "LuaEvent.h"
 
-Missile::Missile(ShipType::Id shipId, Body *owner, Body *target): Ship(shipId)
+Missile::Missile(ShipType::Id shipId, Body *owner, int power): Ship(shipId)
 {
-	m_power = 0;
-	if (shipId == ShipType::MISSILE_GUIDED) m_power = 1;
-	if (shipId == ShipType::MISSILE_SMART) m_power = 2;
-	if (shipId == ShipType::MISSILE_NAVAL) m_power = 3;
+	if (power < 0) {
+		m_power = 0;
+		if (shipId == ShipType::MISSILE_GUIDED) m_power = 1;
+		if (shipId == ShipType::MISSILE_SMART) m_power = 2;
+		if (shipId == ShipType::MISSILE_NAVAL) m_power = 3;
+	} else
+		m_power = power;
 
 	m_owner = owner;
-	m_target = target;
-	m_distToTarget = FLT_MAX;
+	m_armed = false;
 	SetLabel(Lang::MISSILE);
-
-	AIKamikaze(target);
 }
 
 void Missile::ECMAttack(int power_val)
@@ -37,39 +37,42 @@ void Missile::PostLoadFixup(Space *space)
 {
 	Ship::PostLoadFixup(space);
 	m_owner = space->GetBodyByIndex(m_ownerIndex);
-	m_target = space->GetBodyByIndex(m_targetIndex);
 }
 
 void Missile::Save(Serializer::Writer &wr, Space *space)
 {
 	Ship::Save(wr, space);
 	wr.Int32(space->GetIndexForBody(m_owner));
-	wr.Int32(space->GetIndexForBody(m_target));
-	wr.Double(m_distToTarget);
 	wr.Int32(m_power);
+	wr.Bool(m_armed);
 }
 
 void Missile::Load(Serializer::Reader &rd, Space *space)
 {
 	Ship::Load(rd, space);
 	m_ownerIndex = rd.Int32();
-	m_targetIndex = rd.Int32();
-	m_distToTarget = rd.Double();
 	m_power = rd.Int32();
+	m_armed = rd.Bool();
 }
 
 void Missile::TimeStepUpdate(const float timeStep)
 {
 	Ship::TimeStepUpdate(timeStep);
 
-	if (!m_target || !m_owner) {
+	const float MISSILE_DETECTION_RADIUS = 100.0f;
+	if (!m_owner) {
 		Explode();
-	} else {
-		double dist = (GetPosition() - m_target->GetPosition()).Length();
-		if ((m_distToTarget < 150.0) && (dist > m_distToTarget)) {
-			Explode();
+	} else if (m_armed) {
+		Space::BodyNearList nearby;
+		Pi::game->GetSpace()->GetBodiesMaybeNear(this, MISSILE_DETECTION_RADIUS, nearby);
+		for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
+			if (*i == this) continue;
+			double dist = ((*i)->GetPosition() - GetPosition()).Length();
+			if (dist < MISSILE_DETECTION_RADIUS) {
+				Explode();
+				break;
+			}
 		}
-		m_distToTarget = dist;
 	}
 }
 
@@ -116,9 +119,6 @@ void Missile::NotifyRemoved(const Body* const removedBody)
 {
 	if (m_owner == removedBody) {
 		m_owner = 0;
-	}
-	else if (m_target == removedBody) {
-		m_target = 0;
 	}
 }
 

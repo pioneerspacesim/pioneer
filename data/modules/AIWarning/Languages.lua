@@ -62,3 +62,13 @@ Translate:Add({
 		['Cannot compute orbit parameters']     = 'Не удается вычислить параметры орбиты',
 	}
 })
+
+  ---- GERMAN / DEUTSCH ----
+
+Translate:Add({
+	Deutsch = {
+		['Cannot compensate for local gravity'] = 'Lokale Anziehungskraft kann nicht kompensiert werden',
+		['Starport refused docking permission'] = 'Andocken an den Starport verweigert',
+		['Cannot compute orbit parameters']     = 'Bahnparameter konnten nicht berechnet werden',
+	}
+})

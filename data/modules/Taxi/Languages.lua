@@ -1210,3 +1210,233 @@ Translate:Add({ Russian = {
 	 "Arment Aerodynamics"
   },
 }, })
+
+  ---- GERMAN / DEUTSCH ----
+
+Translate:AddFlavour('Deutsch','Taxi', {
+  adtext = "GESUCHT: Passage für eine kleine Gruppe zum {system} System. Wir werden {cash} zahlen.",
+  introtext = "Hi, Ich bin {name} und ich brauche eine Passage für eine kleine Gruppe zum {system} ({sectorx}, {sectory}, {sectorz}) System, eine Strecke von {dist} ly. Ich werde {cash} zahlen.",
+  whysomuch = "Wir besuchen einen Freund.",
+  howmany = "Wir sind {group}.",
+  danger = "Nein.",
+  successmsg = "Danke für die nette Reise. Du wurdest voll bezahlt.",
+  failuremsg = "Unakzeptabel! Du hast ewig gebraucht. Für diese Leistung wollen wir dich nicht zahlen.",
+  wherearewe = "Wo sind wir? Wir haben lange genug gewartet - Bringe uns zur nächsten Station, SOFORT!",
+  single = 0,
+  urgency = 0,
+  risk = 0.001,
+})
+
+Translate:AddFlavour('Deutsch','Taxi', {
+  adtext = "GESUCHT: Passage für eine kleine Gruppe zum {system} System. Wir werden {cash} zahlen.",
+  introtext = "Hi, ich bin {name} und brauche eine Passage für eine kleine Gruppe zum {system} ({sectorx}, {sectory}, {sectorz}) System,  {dist} ly entfernt von hier. Ich werde {cash} zahlen.",
+  whysomuch = "Wir arbeiten für {corp} Unternehmen und sie zahlen.",
+  howmany = "Wir sind {group} Personen.",
+  danger = "Nein.",
+  successmsg = "Danke für die nette Reise. Du wurdest voll bezahlt.",
+  failuremsg = "Unakzeptabel! Du hast ewig gebraucht. Für diese Leistung wollen wir dich nicht zahlen.",
+  wherearewe = "Wo sind wir? Wir haben lange genug gewartet - Bringe uns zur nächsten Station, SOFORT!",
+  single = 0,
+  urgency = 0,
+  risk = 0,
+})
+
+Translate:AddFlavour('Deutsch','Taxi', {
+  adtext = "GESUCHT: Passage für eine kleine Gruppe zum {system} System. Wir werden {cash} zahlen.",
+  introtext = "Hi, Ich bin {name} und ich brauche eine Passage für eine kleine Gruppe zum {system} ({sectorx}, {sectory}, {sectorz}) System, das ist eine Entfernung von {dist} ly. Ich werde will {cash} zahlen.",
+  whysomuch = "Es ist eine normale Geschäftsreise.",
+  howmany = "Wir sind {group} Personen.",
+  danger = "No.",
+  successmsg = "Danke, dass du uns hier her gebracht hast. Wir haben dich in voller Höhe bezahlt. Viel Glück!",
+  failuremsg = "Unakzeptabel! Du hast ewig gebraucht. Für diese Leistung wollen wir dich nicht zahlen.",
+  wherearewe = "Wo sind wir? Wir haben lange genug gewartet - Bringe uns zur nächsten Station, SOFORT!",
+  single = 0,
+  urgency = 0,
+  risk = 0,
+})
+
+Translate:AddFlavour('Deutsch','Taxi', {
+  adtext = "BRAUCHE SCHIFF: Passage zum {system} System. Werde {cash} zahlen.",
+  introtext = "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}.",
+  whysomuch = "Ein alter Rivale versucht mich zu ermorden.",
+  howmany = "Ich reise alleine.",
+  danger = "Ich vermute, dass mir ein Attentäter auf den Fersen ist und er könnte uns verfolgen.",
+  successmsg = "Danke, du hast mir das Leben gerettet. Du wurdest voll bezahlt.",
+  failuremsg = "Unakzeptabel! Du hast ewig gebraucht. Für diese Leistung wollen wir dich nicht zahlen.",
+  wherearewe = "Wo sind wir? Ich habe lange genug gewartet - Bringe mich zur nächsten Station, SOFORT!",
+  single = 1,
+  urgency = 0.13,
+  risk = 0.73,
+})
+
+Translate:AddFlavour('Deutsch','Taxi', {
+  adtext = "SUCHE SCHIFF: Passage zum {system} System. Ich zahle {cash}.",
+  introtext = "Hi, Ich bin {name} und ich brauche eine Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, {dist} ly Entfernung. Ich zahle {cash}.",
+  whysomuch = "Ich bin ein Handlungsreisender.", --Traveling salesman problem? ;)
+  howmany = "Nur ich allein.",
+  danger = "Nein.",
+  successmsg = "Danke, dass du mich hier her gebracht hast. Ich habe dir den Lohn überwiesen. Viel Glück!",
+  failuremsg = "Wage es nicht nach einer Belohnung zu fragen! Ich werde dich der Polizei melden.",
+  wherearewe = "Wo sind wir? Ich habe lange genug gewartet - Bringe mich zur nächsten Station, SOFORT!",
+  single = 1,
+  urgency = 0.3,
+  risk = 0.02,
+})
+
+Translate:AddFlavour('Deutsch','Taxi', {
+  adtext = "GESUCHT: Passage zum {system} System. Ich zahle {cash}.",
+  introtext = "Hi, Ich bin {name} und ich brauche eine Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, {dist} ly Entfernung. Ich zahle {cash}.",
+  whysomuch = "Das weißt du nicht? Ich bin ein bekannter Superstar!",
+  howmany = "Ich reise alleine.",
+  danger = "Du wirst vielleicht von der Presse belästigt. Ignoriere sie einfach.",
+  successmsg = "Danke für die nette Reise. Du wurdest voll bezahlt.",
+  failuremsg = "Was hast du getan? Meine Tour ist versaut und ich habe die Hälfte meiner Fans verloren.",
+  wherearewe = "Wo sind wir? Ich habe lange genug gewartet - Bringe mich zur nächsten Station, SOFORT!",
+  single = 1,
+  urgency = 0.1,
+  risk = 0.05,
+})
+
+Translate:AddFlavour('Deutsch','Taxi', {
+  adtext = "BRAUCHE SCHIFF: Passage zum {system} System. Ich zahle {cash}.",
+  introtext = "Hi, Ich bin {name} und ich brauche eine Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, {dist} ly Entfernung. Ich zahle {cash}.",
+  whysomuch = "Ich bin ein selbstständiger Journalist.",
+  howmany = "Nur ich alleine.",
+  danger = "Nein.",
+  successmsg = "Danke für die nette Reise. Du wurdest voll bezahlt.",
+  failuremsg = "Unakzeptabel! Du hast ewig gebraucht. Für diese Leistung wollen wir dich nicht zahlen.",
+  wherearewe = "Wo sind wir? Ich habe lange genug gewartet - Bringe mich zur nächsten Station, SOFORT!",
+  single = 1,
+  urgency = 0.02,
+  risk = 0.07,
+})
+
+Translate:AddFlavour('Deutsch','Taxi', {
+  adtext = "SCHIFF GESUCHT: Sichere Passage zum {system} System. Ich werde {cash} zahlen.",
+  introtext = "Hi, Ich bin {name} und ich brauche eine Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, {dist} ly Entfernung. Ich zahle {cash}.",
+  whysomuch = "Die Mafia will mich tot sehen.",
+  howmany = "Ich und niemand anderes.",
+  danger = "Die Mafia mag keine Leute, die ihren Feinden hilft.",
+  successmsg = "Danke, dass du mich sicher hierher gebracht hast. Hier ist dein Lohn. Viel Glück!",
+  failuremsg = "Unakzeptabel! Du hast ewig gebraucht. Für diese Leistung wollen wir dich nicht zahlen.",
+  wherearewe = "Wo sind wir? Ich habe lange genug gewartet - Bringe mich zur nächsten Station, SOFORT!",
+  single = 1,
+  urgency = 0.15,
+  risk = 1,
+})
+
+Translate:AddFlavour('Deutsch','Taxi', {
+  adtext = "SHIP WANTED: Passage on a fast ship to {system} system.",
+  introtext = "Mein Name ist {name}. Ich brauche eine schnelle Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, etwa {dist} ly entfernt von hier. Ich werde dich mit {cash} entlohnen.",
+  whysomuch = "Ich besuche einen kranken Verwandten.",
+  howmany = "Nur ich.",
+  danger = "Nein.",
+  successmsg = "Danke für diesen schnellen Flud. Du wurdest dafür wie abgemacht entlohnt.",
+  failuremsg = "Unakzeptabel! Du hast ewig gebraucht. Für diese Leistung wollen wir dich nicht zahlen.",
+  wherearewe = "Wo sind wir? Ich habe lange genug gewartet - Bringe mich zur nächsten Station, SOFORT!",
+  single = 1,
+  urgency = 0.5,
+  risk = 0.001,
+})
+
+Translate:AddFlavour('Deutsch','Taxi', {
+  adtext = "SCHIFF GESUCHT: Passage auf einem schnellen schiff zum {system} System.",
+  introtext = "Mein Name ist {name}. Ich brauche eine schnelle Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, etwa {dist} ly entfernt von hier. Ich zahle dir {cash}.",
+  whysomuch = "Die Polizei will mich ausfragen.",
+  howmany = "Nur ich alleine.",
+  danger = "Die Polizei wird vielleicht versuchen, dich zu stoppen.",
+  successmsg = "Danke für den schnellen Flug. Hier ist dein Lohn.",
+  failuremsg = "Nutzlos! Du hast ewig gebraucht. Für diese Leistung wollen wir dich nicht zahlen.",
+  wherearewe = "Wo sind wir? Ich habe lange genug gewartet - Bringe mich zur nächsten Station, SOFORT!",
+  single = 1,
+  urgency = 0.85,
+  risk = 0.20,
+})
+
+Translate:AddFlavour('Deutsch','Taxi', {
+  adtext = "SUCHE SCHIFF: Passage auf einem schnellen schiff zum {system} System.",
+  introtext = "Mein Name ist {name}. Ich brauche eine schnelle Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, etwa {dist} ly entfernt von hier. Zahlung ist {cash}.",
+  whysomuch = "Ich will nicht gefunden werden.",
+  howmany = "Nur einer.",
+  danger = "Ich habe die Vermutung, dass mir jemand folgt.",
+  successmsg = "Danke für den schnellen Flug. Hier ist der abgemachte Lohn.",
+  failuremsg = "Nutzlos! Du hast ewig gebraucht. Für diese Leistung wollen wir dich nicht zahlen.",
+  wherearewe = "Wo sind wir? Ich habe lange genug gewartet - Bringe mich zur nächsten Station, SOFORT!",
+  single = 1,
+  urgency = 0.9,
+  risk = 0.40,
+})
+
+Translate:AddFlavour('Deutsch','Taxi', {
+  adtext = "SCHNELLES SCHIFF: Passage auf einem schnellen Schiff zum {system} System.",
+  introtext = "Mein Name ist {name}. Ich brauche eine schnelle Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, etwa {dist} ly entfernt von hier. Ich werde {cash} zahlen.",
+  whysomuch = "Ich bin ein Fabrikinspektor und mache meine Runde.",
+  howmany = "Eine Person.",
+  danger = "Manchmal wollen Leute nicht inspiziert werden.",
+  successmsg = "Danke für den schnellen Flug. Hier ist der abgemachte Lohn.",
+  failuremsg = "Wegen deiner Inkompetenz werde ich meinen Job verlieren. Also werde ich dieses Geld dringender brauchen als du.",
+  wherearewe = "Wo sind wir? Ich habe lange genug gewartet - Bringe mich zur nächsten Station, SOFORT!",
+  single = 1,
+  urgency = 1,
+  risk = 0.31,
+})
+
+Translate:AddFlavour('Deutsch','Taxi', {
+  adtext = "BRAUCHE SCHIFF: Passage zum {system} System.",
+  introtext = "Mein Name ist {name}. Ich brauche eine Passage zum {system} ({sectorx}, {sectory}, {sectorz}) System, {dist} ly entfernt von hier. Ich werde {cash} zahlen.",
+  whysomuch = "Ich schulde jemandem Geld und sie sind hinter mir her.",
+  howmany = "Nur eine Person.",
+  danger = "Jemand jagt mich.",
+  successmsg = "Danke für den schnellen Flug. Hier ist der abgemachte Lohn.",
+  failuremsg = "Entschuldigung, Ich habe nicht genug Geld.",
+  wherearewe = "Wo sind wir? Ich habe lange genug gewartet - Bringe mich zur nächsten Station, SOFORT!",
+  single = 1,
+  urgency = 0,
+  risk = 0.17,
+})
+
+Translate:Add({ Deutsch = {
+  ["Taxi"] = "Taxi",
+  ["Why so much money?"] = "Warum so viel Geld?",
+  ["How many of you are there?"] = "Wie viele Personen seid ihr?",
+  ["How soon you must be there?"] = "Wie bald musst du da sein?",
+  ["Will I be in any danger?"] = "Gibt es Gefahren?",
+  ["I must be there before "] = "Ich mus dort sein vor ",
+  ["We want to be there before "] = "Wir wollen dort sein vor ",
+  ["You do not have enough cabin space on your ship."] = "Du hast nicht genug Raum in deinem Schiff.",
+  ["Could you repeat the original request?"] = "Was war nochmal die Frage?",
+  ["Ok, agreed."] = "Ok, ich werde den Flug übernehmen.",
+  ["Hey!?! You are going to pay for this!!!"] = "Hey!?! Du wirst dafür bezahlen!!!",
+  ["ly"] = "ly",
+
+  -- Texts for the missions screen
+  taximissiondetail = [[
+  Von:
+  Nach:
+  Gruppendetails:
+  Gefahr:
+  Deadline:
+
+  Distanz:]],
+
+ PIRATE_TAUNTS = {
+	"Du wirst deine Kooperation mit {client} bedauern.",
+	"Du hast {client} an Bord? Das war keine gute Idee.",
+	"Heute ist nicht dein Glückstag. Bereite dich auf deinen Tod vor.",
+	"Du wirst heute nicht mehr Docken!",
+  },
+ CORPORATIONS = {
+	 "Sirius",
+	 "ACME",
+	 "Cool Cola",
+	 "Taranis",
+	 "Aquarian Schiffbau",
+	 "Rockforth",
+	 "Amaliel",
+	 "Marett Raum",
+	 "Vega Linie",
+	 "Digital",
+	 "Bulk Schiffe",
+	 "Arment Aerodynamik"
+  },
+}, })

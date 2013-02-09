@@ -29,8 +29,6 @@ void Player::Save(Serializer::Writer &wr, Space *space)
 {
 	Ship::Save(wr, space);
 	MarketAgent::Save(wr);
-	wr.Int32(0); // kill count (preserving save-file compatibility)
-	wr.Int32(0); // known kill count (preserving save-file compatibility)
 }
 
 void Player::Load(Serializer::Reader &rd, Space *space)
@@ -38,8 +36,6 @@ void Player::Load(Serializer::Reader &rd, Space *space)
 	Pi::player = this;
 	Ship::Load(rd, space);
 	MarketAgent::Load(rd);
-	rd.Int32(); // kill count (preserving save-file compatability)
-	rd.Int32(); // known kill count (preserving save-file compatability)
 }
 
 //XXX perhaps remove this, the sound is very annoying
@@ -69,13 +65,12 @@ bool Player::SetWheelState(bool down)
 }
 
 //XXX all ships should make this sound
-bool Player::FireMissile(int idx, Ship *target)
+Missile * Player::SpawnMissile(ShipType::Id missile_type, int power)
 {
-	if (!Ship::FireMissile(idx, target))
-		return false;
-
-	Sound::PlaySfx("Missile_launch", 1.0f, 1.0f, 0);
-	return true;
+	Missile * m = Ship::SpawnMissile(missile_type, power);
+	if (m)
+		Sound::PlaySfx("Missile_launch", 1.0f, 1.0f, 0);
+	return m;
 }
 
 //XXX do in lua, or use the alert concept for all ships

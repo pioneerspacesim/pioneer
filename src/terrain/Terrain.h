@@ -50,6 +50,8 @@ public:
 
 	Uint32 GetSurfaceEffects() const { return m_surfaceEffects; }
 
+	void DebugDump() const;
+
 private:
 	template <typename HeightFractal, typename ColorFractal>
 	static Terrain *InstanceGenerator(const SystemBody *body) { return new TerrainGenerator<HeightFractal,ColorFractal>(body); }
