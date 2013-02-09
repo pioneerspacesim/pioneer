@@ -151,7 +151,7 @@
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
     <ClCompile Include="..\..\src\LuaDev.cpp" />
     <ClCompile Include="..\..\src\LuaEngine.cpp" />
-    <ClCompile Include="..\..\src\LuaEquipType.cpp" />
+    <ClCompile Include="..\..\src\LuaEquipDef.cpp" />
     <ClCompile Include="..\..\src\LuaEvent.cpp" />
     <ClCompile Include="..\..\src\LuaFaction.cpp" />
     <ClCompile Include="..\..\src\LuaFileSystem.cpp" />
@@ -171,7 +171,7 @@
     <ClCompile Include="..\..\src\LuaRef.cpp" />
     <ClCompile Include="..\..\src\LuaSerializer.cpp" />
     <ClCompile Include="..\..\src\LuaShip.cpp" />
-    <ClCompile Include="..\..\src\LuaShipType.cpp" />
+    <ClCompile Include="..\..\src\LuaShipDef.cpp" />
     <ClCompile Include="..\..\src\LuaSpace.cpp" />
     <ClCompile Include="..\..\src\LuaSpaceStation.cpp" />
     <ClCompile Include="..\..\src\LuaStar.cpp" />
@@ -311,7 +311,7 @@
     <ClInclude Include="..\..\src\LuaConstants.h" />
     <ClInclude Include="..\..\src\LuaDev.h" />
     <ClInclude Include="..\..\src\LuaEngine.h" />
-    <ClInclude Include="..\..\src\LuaEquipType.h" />
+    <ClInclude Include="..\..\src\LuaEquipDef.h" />
     <ClInclude Include="..\..\src\LuaEvent.h" />
     <ClInclude Include="..\..\src\LuaFaction.h" />
     <ClInclude Include="..\..\src\LuaFileSystem.h" />
@@ -332,7 +332,7 @@
     <ClInclude Include="..\..\src\LuaRef.h" />
     <ClInclude Include="..\..\src\LuaSerializer.h" />
     <ClInclude Include="..\..\src\LuaShip.h" />
-    <ClInclude Include="..\..\src\LuaShipType.h" />
+    <ClInclude Include="..\..\src\LuaShipDef.h" />
     <ClInclude Include="..\..\src\LuaSpace.h" />
     <ClInclude Include="..\..\src\LuaSpaceStation.h" />
     <ClInclude Include="..\..\src\LuaStar.h" />
