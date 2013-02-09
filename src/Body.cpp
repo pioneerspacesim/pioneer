@@ -18,14 +18,16 @@
 #include "Game.h"
 #include "LuaEvent.h"
 
-Body::Body()
+Body::Body() : m_flags(0)
+	, m_interpPos(0.0)
+	, m_interpOrient(matrix3x3d::Identity())
+	, m_pos(0.0)
+	, m_orient(matrix3x3d::Identity())
+	, m_frame(NULL)
+	, m_dead(false)
+	, m_clipRadius(0.0)
+	, m_physRadius(0.0)
 {
-	m_pos = vector3d(0.0);
-	m_orient = matrix3x3d::Identity();
-	m_clipRadius = m_physRadius = 0.0;
-	m_frame = 0;
-	m_flags = 0;
-	m_dead = false;
 }
 
 Body::~Body()
