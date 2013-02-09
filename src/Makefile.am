@@ -58,17 +58,14 @@ noinst_HEADERS = \
 	Lang.h \
 	LangStrings.inc.h \
 	Lua.h \
-	LuaBody.h \
-	LuaCargoBody.h \
 	LuaChatForm.h \
 	LuaComms.h \
 	LuaConsole.h \
 	LuaConstants.h \
 	LuaDev.h \
 	LuaEngine.h \
-	LuaEquipType.h \
+	LuaEquipDef.h \
 	LuaEvent.h \
-	LuaFaction.h \
 	LuaFileSystem.h \
 	LuaFormat.h \
 	LuaGame.h \
@@ -81,19 +78,13 @@ noinst_HEADERS = \
 	LuaMusic.h \
 	LuaNameGen.h \
 	LuaObject.h \
-	LuaPlanet.h \
-	LuaPlayer.h \
 	LuaPushPull.h \
-	LuaRand.h \
 	LuaRef.h \
 	LuaSystemBody.h \
 	LuaSystemPath.h \
 	LuaSerializer.h \
-	LuaShip.h \
-	LuaShipType.h \
+	LuaShipDef.h \
 	LuaSpace.h \
-	LuaSpaceStation.h \
-	LuaStar.h \
 	LuaStarSystem.h \
 	LuaTable.h \
 	LuaTimer.h \
@@ -214,7 +205,7 @@ pioneer_SOURCES	= \
 	LuaConstants.cpp \
 	LuaDev.cpp \
 	LuaEngine.cpp \
-	LuaEquipType.cpp \
+	LuaEquipDef.cpp \
 	LuaEvent.cpp \
 	LuaFaction.cpp \
 	LuaFileSystem.cpp \
@@ -237,7 +228,7 @@ pioneer_SOURCES	= \
 	LuaSystemPath.cpp \
 	LuaSerializer.cpp \
 	LuaShip.cpp \
-	LuaShipType.cpp \
+	LuaShipDef.cpp \
 	LuaSpace.cpp \
 	LuaSpaceStation.cpp \
 	LuaStar.cpp \
