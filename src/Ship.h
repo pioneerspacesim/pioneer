@@ -5,16 +5,16 @@
 #define _SHIP_H
 
 #include "libs.h"
-#include "DynamicBody.h"
-#include "ShipType.h"
-#include "EquipSet.h"
-#include "ShipFlavour.h"
-#include "galaxy/SystemPath.h"
 #include "BezierCurve.h"
-#include "Serializer.h"
 #include "Camera.h"
+#include "DynamicBody.h"
+#include "EquipSet.h"
+#include "NavLights.h"
+#include "Serializer.h"
+#include "ShipFlavour.h"
+#include "ShipType.h"
+#include "galaxy/SystemPath.h"
 #include "scenegraph/SceneGraph.h"
-#include <list>
 
 class SpaceStation;
 class HyperspaceCloud;
@@ -312,6 +312,7 @@ private:
 	int m_dockedWithIndex; // deserialisation
 
 	SceneGraph::Animation *m_landingGearAnimation;
+	ScopedPtr<NavLights> m_navLights;
 };
 
 

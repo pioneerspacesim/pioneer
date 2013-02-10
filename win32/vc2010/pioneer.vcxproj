@@ -189,6 +189,7 @@
     <ClCompile Include="..\..\src\ModelCache.cpp" />
     <ClCompile Include="..\..\src\ModelViewer.cpp" />
     <ClCompile Include="..\..\src\ModManager.cpp" />
+    <ClCompile Include="..\..\src\NavLights.cpp" />
     <ClCompile Include="..\..\src\ObjectViewerView.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Pi.cpp" />
@@ -343,12 +344,14 @@
     <ClInclude Include="..\..\src\LuaVector.h" />
     <ClInclude Include="..\..\src\MarketAgent.h" />
     <ClInclude Include="..\..\src\MathUtil.h" />
+    <ClInclude Include="..\..\src\matrix3x3.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\Missile.h" />
     <ClInclude Include="..\..\src\ModelBody.h" />
     <ClInclude Include="..\..\src\ModelCache.h" />
     <ClInclude Include="..\..\src\ModelViewer.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
+    <ClInclude Include="..\..\src\NavLights.h" />
     <ClInclude Include="..\..\src\Object.h" />
     <ClInclude Include="..\..\src\ObjectViewerView.h" />
     <ClInclude Include="..\..\src\perlin.h" />

@@ -19,6 +19,7 @@ public:
 	virtual void Accept(NodeVisitor &v);
 	virtual const char *GetTypeName() { return "Billboard"; }
 	virtual void Render(const matrix4x4f &trans, RenderData *rd);
+	void SetMaterial(RefCountedPtr<Graphics::Material> mat) { m_material = mat; }
 
 private:
 	float m_size;

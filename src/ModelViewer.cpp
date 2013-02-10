@@ -481,8 +481,10 @@ void ModelViewer::MainLoop()
 		DrawBackground();
 
 		//update animations, draw model etc.
-		if (m_model)
+		if (m_model) {
+			m_navLights->Update(m_frameTime);
 			DrawModel();
+		}
 
 		m_ui->Update();
 		if (m_options.showUI && !m_screenshotQueued) {
@@ -730,6 +732,9 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 		{
 			AddLog(*it);
 		}
+
+		m_navLights.Reset(new NavLights(m_model));
+		m_navLights->SetEnabled(true);
 
 	} catch (SceneGraph::LoadingError &err) {
 		// report the error and show model picker.

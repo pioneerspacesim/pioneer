@@ -153,6 +153,9 @@ void Ship::Init()
 {
 	const ShipType &stype = GetShipType();
 
+	m_navLights.Reset(new NavLights(GetModel()));
+	m_navLights->SetEnabled(true);
+
 	SetMassDistributionFromModel();
 	UpdateStats();
 	m_stats.hull_mass_left = float(stype.hullMass);
@@ -701,6 +704,9 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	// fuel use decreases mass, so do this as the last thing in the frame
 	UpdateFuel(timeStep, thrust);
+
+	m_navLights->SetEnabled(m_wheelState > 0.01f);
+	m_navLights->Update(timeStep);
 
 	if (m_landingGearAnimation)
 		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations();

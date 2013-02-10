@@ -744,7 +744,11 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 	//lights, and possibly other special nodes should be leaf nodes (without meshes)
 	if (node->mNumChildren == 0 && node->mNumMeshes == 0) {
 		if (starts_with(nodename, "navlight_")) {
-			CreateLight(parent, m);
+			//Create a MT, lights are attached by client.
+			MatrixTransform *lightPoint = new MatrixTransform(m_renderer, m);
+			lightPoint->SetNodeMask(0x0); //don't render
+			lightPoint->SetName(nodename);
+			_parent->AddChild(lightPoint);
 		} else if (starts_with(nodename, "thruster_")) {
 			CreateThruster(parent, m, nodename, accum);
 		} else if (starts_with(nodename, "label_")) {
