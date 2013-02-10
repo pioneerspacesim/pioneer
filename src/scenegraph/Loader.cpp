@@ -701,15 +701,13 @@ void Loader::CreateLabel(Group *parent, const matrix4x4f &m)
 void Loader::CreateLight(Group *parent, const matrix4x4f &m)
 {
 	//One node per light, obviously not as optimal as intended
-	std::vector<vector3f> points;
-	points.push_back(m.GetTranslate());
 	Graphics::MaterialDescriptor desc;
 	desc.twoSided = true;
 	desc.textures = 1;
 	RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial(desc));
 	mat->texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(m_renderer, "billboard");
 	mat->diffuse = Color(1.f, 0.f, 0.f, 1.f);
-	Billboard *bill = new Billboard(m_renderer, points, mat, 1.f);
+	Billboard *bill = new Billboard(m_renderer, mat, m.GetTranslate(), 1.f);
 	parent->AddChild(bill);
 }
 

@@ -4,21 +4,15 @@
 #include "Billboard.h"
 #include "NodeVisitor.h"
 #include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
 
 namespace SceneGraph {
 
-Billboard::Billboard(Graphics::Renderer *r, RefCountedPtr<Graphics::Material> mat, float size)
+Billboard::Billboard(Graphics::Renderer *r, RefCountedPtr<Graphics::Material> mat, const vector3f &offset, float size)
 : Node(r, NODE_TRANSPARENT)
 , m_size(size)
 , m_material(mat)
-{
-}
-
-Billboard::Billboard(Graphics::Renderer *r, const std::vector<vector3f> &pts, RefCountedPtr<Graphics::Material> mat, float size)
-: Node(r, NODE_TRANSPARENT)
-, m_size(size)
-, m_material(mat)
-, m_points(pts)
+, m_offset(offset)
 {
 }
 
@@ -26,7 +20,7 @@ Billboard::Billboard(const Billboard &billboard)
 : Node(billboard)
 , m_size(billboard.m_size)
 , m_material(billboard.m_material)
-, m_points(billboard.m_points)
+, m_offset(billboard.m_offset)
 {
 }
 
@@ -43,14 +37,28 @@ void Billboard::Accept(NodeVisitor &nv)
 void Billboard::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	Graphics::Renderer *r = GetRenderer();
-	r->SetTransform(trans);
-	r->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
-	r->DrawPointSprites(m_points.size(), &m_points[0], m_material.Get(), m_size);
-}
 
-void Billboard::AddPoint(const vector3f &pt)
-{
-	m_points.push_back(pt);
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0, 6);
+
+	const matrix3x3f rot = trans.GetOrient().Transpose();
+
+	const vector3f rotv1 = rot * vector3f(m_size/2.f, -m_size/2.f, 0.0f);
+	const vector3f rotv2 = rot * vector3f(m_size/2.f, m_size/2.f, 0.0f);
+
+	va.Add(m_offset-rotv1, vector2f(0.f, 0.f)); //top left
+	va.Add(m_offset-rotv2, vector2f(0.f, 1.f)); //bottom left
+	va.Add(m_offset+rotv2, vector2f(1.f, 0.f)); //top right
+
+	va.Add(m_offset+rotv2, vector2f(1.f, 0.f)); //top right
+	va.Add(m_offset-rotv2, vector2f(0.f, 1.f)); //bottom left
+	va.Add(m_offset+rotv1, vector2f(1.f, 1.f)); //bottom right
+
+	r->SetTransform(trans);
+	r->SetBlendMode(Graphics::BLEND_ADDITIVE);
+	r->SetDepthWrite(false);
+	r->DrawTriangles(&va, m_material.Get());
+	r->SetBlendMode(Graphics::BLEND_SOLID);
+	r->SetDepthWrite(true);
 }
 
 }
