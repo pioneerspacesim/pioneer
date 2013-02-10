@@ -1,0 +1,20 @@
+material VisualMaterial
+diffuse 1.0 1.0 1.0
+specular 1.0 1.0 1.0
+shininess 80
+tex_diff shipHullMap.png
+tex_spec shipHullMap.png
+tex_glow shipHullMapglow.png
+
+material VisualMaterial1
+diffuse 1.0 1.0 1.0
+specular 1.0 1.0 1.0
+tex_diff win.png
+tex_glow win.png
+opacity 90
+shininess 100
+
+lod 1000
+mesh kanara.dae
+collision kanara_collision.obj
+
