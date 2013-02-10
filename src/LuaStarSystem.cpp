@@ -2,10 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
-#include "LuaStar.h"
-#include "LuaPlanet.h"
-#include "LuaFaction.h"
-#include "LuaSpaceStation.h"
 #include "LuaStarSystem.h"
 #include "LuaSystemPath.h"
 #include "LuaConstants.h"
@@ -427,7 +423,7 @@ static int l_starsystem_attr_faction(lua_State *l)
 {
 	StarSystem *s = LuaStarSystem::CheckFromLua(1);
 	if (s->GetFaction()->IsValid()) {
-		LuaFaction::PushToLua(s->GetFaction());
+		LuaObject<Faction>::PushToLua(s->GetFaction());
 		return 1;
 	} else {
 		return 0;

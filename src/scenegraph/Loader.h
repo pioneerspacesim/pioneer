@@ -39,9 +39,9 @@ public:
 	const std::vector<std::string> &GetLogMessages() const { return m_logMessages; }
 
 private:
-	bool m_doLog;
 	Graphics::Renderer *m_renderer;
 	Model *m_model;
+	bool m_doLog;
 	RefCountedPtr<Text::DistanceFieldFont> m_labelFont;
 	std::string m_curPath;
 	std::vector<std::string> m_logMessages;
