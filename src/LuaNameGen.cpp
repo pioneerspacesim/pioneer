@@ -3,7 +3,6 @@
 
 #include "LuaNameGen.h"
 #include "LuaObject.h"
-#include "LuaRand.h"
 #include "LuaSystemBody.h"
 #include "mtrand.h"
 
@@ -44,7 +43,7 @@ std::string LuaNameGen::FullName(bool isFemale, MTRand &rng)
 		return isFemale ? DEFAULT_FULL_NAME_FEMALE : DEFAULT_FULL_NAME_MALE;
 
 	lua_pushboolean(l, isFemale);
-	LuaRand::PushToLua(&rng);
+	LuaObject<MTRand>::PushToLua(&rng);
 	pi_lua_protected_call(l, 2, 1);
 
 	std::string fullname = luaL_checkstring(l, -1);
@@ -60,7 +59,7 @@ std::string LuaNameGen::Surname(MTRand &rng)
 	if (!GetNameGenFunc(l, "Surname"))
 		return DEFAULT_SURNAME;
 
-	LuaRand::PushToLua(&rng);
+	LuaObject<MTRand>::PushToLua(&rng);
 	pi_lua_protected_call(l, 1, 1);
 
 	std::string surname = luaL_checkstring(l, -1);
@@ -77,7 +76,7 @@ std::string LuaNameGen::BodyName(SystemBody *body, MTRand &rng)
 		return DEFAULT_BODY_NAME;
 
 	LuaSystemBody::PushToLua(body);
-	LuaRand::PushToLua(&rng);
+	LuaObject<MTRand>::PushToLua(&rng);
 	pi_lua_protected_call(l, 2, 1);
 
 	std::string bodyname = luaL_checkstring(l, -1);

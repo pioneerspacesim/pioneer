@@ -4,10 +4,10 @@
 #include "LuaGame.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "LuaPlayer.h"
 #include "LuaStarSystem.h"
 #include "LuaSystemPath.h"
 #include "FileSystem.h"
+#include "Player.h"
 #include "Pi.h"
 #include "Game.h"
 #include "Lang.h"
@@ -130,7 +130,7 @@ static int l_game_attr_player(lua_State *l)
 	if (!Pi::game)
 		lua_pushnil(l);
 	else
-		LuaPlayer::PushToLua(Pi::player);
+		LuaObject<Player>::PushToLua(Pi::player);
 	return 1;
 }
 

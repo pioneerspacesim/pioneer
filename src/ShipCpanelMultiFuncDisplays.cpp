@@ -9,7 +9,6 @@
 #include "Lang.h"
 #include "libs.h"
 #include "LuaConstants.h"
-#include "LuaShip.h"
 #include "LuaTable.h"
 #include "Missile.h"
 #include "Pi.h"
@@ -541,12 +540,12 @@ void UseEquipWidget::FireMissile(int idx)
 
 	lua_State *l = Lua::manager->GetLuaState();
 	int pristine_stack = lua_gettop(l);
-	LuaShip::PushToLua(Pi::player);
+	LuaObject<Ship>::PushToLua(Pi::player);
 	lua_pushstring(l, "FireMissileAt");
 	lua_gettable(l, -2);
 	lua_pushvalue(l, -2);
 	lua_pushinteger(l, idx+1);
-	LuaShip::PushToLua(static_cast<Ship*>(Pi::player->GetCombatTarget()));
+	LuaObject<Ship>::PushToLua(static_cast<Ship*>(Pi::player->GetCombatTarget()));
 	lua_call(l, 3, 1);
 	lua_settop(l, pristine_stack);
 }
@@ -556,7 +555,7 @@ void UseEquipWidget::UpdateEquip()
 	DeleteAllChildren();
 	lua_State *l = Lua::manager->GetLuaState();
 	int pristine_stack = lua_gettop(l);
-	LuaShip::PushToLua(Pi::player);
+	LuaObject<Ship>::PushToLua(Pi::player);
 	lua_pushstring(l, "GetEquip");
 	lua_gettable(l, -2);
 	lua_pushvalue(l, -2);

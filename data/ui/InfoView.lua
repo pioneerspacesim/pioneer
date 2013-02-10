@@ -2,8 +2,7 @@ local ui = Engine.ui
 local t = Translate:GetTranslator()
 
 local shipInfo = function (args)
-	local shipId = Game.player.shipId
-	local shipType = ShipType.GetShipType(shipId)
+	local shipDef = ShipDef[Game.player.shipId]
 
 	local hyperdrive =              table.unpack(Game.player:GetEquip("ENGINE"))
 	local frontWeapon, rearWeapon = table.unpack(Game.player:GetEquip("LASER"))
@@ -18,7 +17,7 @@ local shipInfo = function (args)
 	local columnNum = 1
 	for i = 1,#Constants.EquipType do
 		local type = Constants.EquipType[i]
-		local et = EquipType.GetEquipType(type)
+		local et = EquipDef[type]
 		local slot = et.slot
 		if (slot ~= "CARGO" and slot ~= "MISSILE" and slot ~= "ENGINE" and slot ~= "LASER") then
 			local count = Game.player:GetEquipCount(slot, type)
@@ -69,7 +68,7 @@ local shipInfo = function (args)
 						})
 						:SetColumn(1, {
 							ui:VBox():PackEnd({
-								ui:Label(EquipType.GetEquipType(hyperdrive).name),
+								ui:Label(EquipDef[hyperdrive].name),
 								ui:Label(string.interp(
 									t("{range} light years ({maxRange} max)"), {
 										range    = string.format("%.1f",stats.hyperspaceRange),
@@ -82,8 +81,8 @@ local shipInfo = function (args)
 								ui:Label(string.format("%dt (%dt "..t("max")..")", math.floor(Game.player.fuel/100*stats.maxFuelTankMass + 0.5), stats.maxFuelTankMass )),
 								ui:Label(string.format("%dt", math.floor(stats.totalMass+Game.player.fuel/100*stats.maxFuelTankMass + 0.5) )),
 								ui:Margin(10),
-								ui:Label(EquipType.GetEquipType(frontWeapon).name),
-								ui:Label(EquipType.GetEquipType(rearWeapon).name),
+								ui:Label(EquipDef[frontWeapon].name),
+								ui:Label(EquipDef[rearWeapon].name),
 								ui:Label(string.format("%d%%", Game.player.fuel)),
 								ui:Margin(10),
 								ui:Label(ShipType.GetShipType(Game.player.shipId).minCrew),
@@ -98,7 +97,7 @@ local shipInfo = function (args)
 			})
 			:SetColumn(1, {
 				ui:VBox(10)
-					:PackEnd(ui:Label(shipType.name):SetFont("HEADING_LARGE"))
+					:PackEnd(ui:Label(shipDef.name):SetFont("HEADING_LARGE"))
 					:PackEnd(UI.Game.ShipSpinner.New(ui, Game.player.flavour))
 			})
 end
@@ -263,7 +262,7 @@ local econTrade = function ()
 		for i = 1,#Constants.EquipType do
 			local type = Constants.EquipType[i]
 			if type ~= "NONE" then
-				local et = EquipType.GetEquipType(type)
+				local et = EquipDef[type]
 				local slot = et.slot
 				if slot == "CARGO" then
 					local count = Game.player:GetEquipCount(slot, type)

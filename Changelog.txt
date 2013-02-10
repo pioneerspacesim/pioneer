@@ -2,6 +2,8 @@ Alpha 32
 
    * Fixes
      * Work around missing model UV coordinates (#2034, #1952)
+     * Fully initialise Body object in its constructor (#2048)
+     * Fix crash when refueling (#2050)
 
    * Model changes
      * Converted Natrix ship to SGModel (#2033)
@@ -12,11 +14,15 @@ Alpha 32
 
    * Script changes
      * UI: MultiLineText objects now have SetText and AppendText methods (#2045)
+     * ShipTypes is deprecated, and EquipTypes has been removed; use the new ShipDef
+       and EquipDef tables (#2026)
+     * Player.SetHyperspaceTarget and GetHyperspaceTarget methods (#2028, #2027)
 
    * Internal changes
      * Removed Lua model system (LMR) (#2029)
      * Removed Text::VectorFont (#2041)
      * Removed Renderer::DrawPoints2D (#2041)
+     * LuaObject wrapper cleanup (#2026)
 
 Alpha 31
 
