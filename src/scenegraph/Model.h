@@ -150,8 +150,6 @@ private:
 	TagContainer m_tags; //named attachment points
 	RenderData m_renderData;
 
-	
-
 	//per-instance flavour data
 	Graphics::Texture *m_curPattern;
 	Graphics::Texture *m_curDecals[MAX_DECAL_MATERIALS];
