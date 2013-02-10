@@ -108,7 +108,7 @@ bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOri
 }
 
 //for station waypoint interpolation
-vector3f vlerp(const double t, const vector3f& v1, const vector3f& v2)
+vector3d vlerp(const double t, const vector3d& v1, const vector3d& v2)
 {
 	return t*v2 + (1.0-t)*v1;
 }
@@ -119,27 +119,54 @@ static bool GetPosOrient(SceneGraph::Model::Port::TMapBayIDMat &bayMap, const in
 {
 	bool gotOrient = false;
 
-	vector3f fromPos, toPos;
+	/*
+	-- docking
+	if stage == 2 then
+		return { vlerp(t, from, v(0,250,0)), v(1,0,0), v(0,0,-1) }
+	elseif stage == 3 then
+		return { from, v(1,0,0), v(0,0,-1) }
+	elseif stage == 4 then
+		return { vlerp(t, from, v(0,0,0)), v(1,0,0), v(0,0,-1) }
+	elseif stage == 5 then
+		return { vlerp(t, from, v(0,0,0)), v(-1,0,0), v(0,0,-1) }
+	elseif stage == 6 or stage == 7 then
+		return { v(0,0,0), v(-1,0,0), v(0,0,-1) }
+	elseif stage == 8 then
+		return { vlerp(t, from, v(0,200,0)), v(-1,0,0), v(0,0,-1) }
+	elseif stage == 9 then
+		return { v(0,200,0), v(-1,0,0), v(0,0,-1) }
+	end
+	-- undocking
+	if stage == -1 then
+		return { v(0,200,0), v(-1,0,0), v(0,0,-1) }
+	elseif stage == -2 then
+		return { vlerp(t, from, v(0,0,0)), v(-1,0,0), v(0,0,-1) }
+	elseif stage == -3 or stage == -4 or stage == -5 then
+		return { v(0,0,0), v(-1,0,0), v(0,0,-1) }
+	elseif stage == -6 then
+		return { vlerp(t, from, v(0,250,0)), v(-1,0,0), v(0,0,-1) }
+	elseif stage == -7 or stage == -8 then
+		return { v(0,250,0), v(-1,0,0), v(0,0,-1) }
+	end
+	-- note stage -9 returns nil. this means 'launch ship but continue space station
+	-- animations' 
+	*/
+
+	vector3d toPos;
 
 	const bool bHasStageData = (bayMap.find( stage ) != bayMap.end());
 	if (bHasStageData) {
-		fromPos		= bayMap[stage].GetTranslate();
 		outPosOrient.xaxis	= vector3d(bayMap[stage].GetOrient().VectorX()).Normalized();
 		outPosOrient.yaxis	= vector3d(bayMap[stage].GetOrient().VectorY()).Normalized();
 		outPosOrient.zaxis	= vector3d(bayMap[stage].GetOrient().VectorZ()).Normalized();
-				
-		if (bayMap.find( stage+1 ) != bayMap.end()) {
-			toPos = bayMap[stage+1].GetTranslate();
-		} else {
-			toPos = fromPos;
-		}
+		toPos				= vector3d(bayMap[stage].GetTranslate());
 		gotOrient = true;
 	}
 
 	if (gotOrient)
 	{
-		vector3f pos		= vlerp(t, fromPos, toPos);
-		outPosOrient.pos	= vector3d(pos);
+		vector3d pos		= vlerp(t, from, toPos);
+		outPosOrient.pos	= pos;
 	}
 
 	return gotOrient;
