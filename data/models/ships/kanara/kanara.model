@@ -11,8 +11,13 @@ diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 tex_diff win.png
 tex_glow win.png
-opacity 90
-shininess 100
+shininess 8
+
+material VisualMaterial2
+diffuse 1.0 1.0 1.0
+specular 1.0 1.0 1.0
+tex_diff thrus.png
+shininess 128
 
 lod 1000
 mesh kanara.dae
