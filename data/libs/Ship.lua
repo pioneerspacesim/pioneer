@@ -115,7 +115,7 @@ Ship.Refuel = function (self,amount)
 		Comms.Message(t('Fuel tank full.'))
         return 0
     end
-    local ship_stats = self:Stats()
+    local ship_stats = self:GetStats()
     local needed = math.clamp(math.ceil(ship_stats.maxFuelTankMass - ship_stats.fuelMassLeft),0, amount)
     local removed = self:RemoveEquip('WATER', needed)
     self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / ship_stats.maxFuelTankMass, 0, 100))

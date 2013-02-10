@@ -3,6 +3,7 @@ Alpha 32
    * Fixes
      * Work around missing model UV coordinates (#2034, #1952)
      * Fully initialise Body object in its constructor (#2048)
+     * Fix crash when refueling (#2050)
 
    * Model changes
      * Converted Natrix ship to SGModel (#2033)
