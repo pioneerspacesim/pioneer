@@ -567,7 +567,7 @@ void ModelViewer::DrawModel()
 	if (m_options.showLandingPad) {
 		if (!m_scaleModel.Valid()) CreateTestResources();
 		const float landingPadOffset = m_model->GetCollisionMesh()->GetAabb().min.y;
-		m_scaleModel->Render(matrix4x4f::Translation(0.f, landingPadOffset, 0.f) * mv);
+		m_scaleModel->Render(mv * matrix4x4f::Translation(0.f, landingPadOffset, 0.f));
 	}
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(false);
