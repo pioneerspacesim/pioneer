@@ -162,11 +162,16 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	{
 		assert(port<model->m_ports.size());
 		SceneGraph::Model::Port &rPort = model->m_ports[port];
+		const Aabb &aabb = ship->GetAabb();
 		if (stage<0) {
 			const int leavingStage = (-1*stage);
 			gotOrient = GetPosOrient(rPort.m_leaving, leavingStage, t, from, outPosOrient, ship);
+			const vector3d up = outPosOrient.yaxis.Normalized() * aabb.min.y;
+			outPosOrient.pos = outPosOrient.pos - up;
 		} else if (stage>0) {
 			gotOrient = GetPosOrient(rPort.m_docking, stage, t, from, outPosOrient, ship);
+			const vector3d up = outPosOrient.yaxis.Normalized() * aabb.min.y;
+			outPosOrient.pos = outPosOrient.pos - up;
 		}
 
 		return gotOrient;
@@ -179,7 +184,6 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 	lua_pushcfunction(L, pi_lua_panic);
 	lua_getglobal(L, this->dockAnimFunction.c_str());
 	// It's a function of form function(stage, t, from)
-	//model->PushAttributeToLuaStack("ship_dock_anim");
 	if (!lua_isfunction(L, -1)) {
 		Error("Spacestation %s needs ship_dock_anim method", id.c_str());
 	}
