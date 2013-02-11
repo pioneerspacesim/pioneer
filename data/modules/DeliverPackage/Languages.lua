@@ -142,8 +142,9 @@ Translate:Add({ English = {
   delivermissiondetail = [[
   Spaceport:
   System:
+  
+  
   Deadline:
-
   Distance:]],
 
  PIRATE_TAUNTS = {
