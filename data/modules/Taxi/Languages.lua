@@ -215,6 +215,8 @@ Translate:Add({ English = {
   taximissiondetail = [[
   From:
   To:
+  
+  
   Group details:
   Danger:
   Deadline:
