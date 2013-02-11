@@ -293,6 +293,8 @@ Translate:Add({ Polski = {
   delivermissiondetail = [[
   Port kosmiczny:
   System:
+  
+  
   Termin:
 
   Dystans:]],
@@ -724,6 +726,8 @@ Translate:Add({ Russian = {
   delivermissiondetail = [[
   Станция получателя:
   Система получателя:
+  
+  
   Срок доставки:
   
   Расстояние:]],
@@ -874,6 +878,8 @@ Translate:Add({ Deutsch = {
   delivermissiondetail = [[
   Raumhafen:
   System:
+  
+  
   Deadline:
 
   Distanz:]],
