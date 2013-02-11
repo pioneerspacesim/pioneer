@@ -158,10 +158,8 @@ static int l_ship_set_type(lua_State *l)
 	if (! ShipType::Get(type))
 		luaL_error(l, "Unknown ship type '%s'", type);
 
-	ShipFlavour f(type);
-
-	s->ResetFlavour(&f);
-	s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[f.id].hyperdrive);
+	s->SetShipType(type);
+	s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[type].hyperdrive);
 	s->UpdateStats();
 
 	LUA_DEBUG_END(l, 0);
@@ -991,8 +989,7 @@ static int l_ship_attr_flight_state(lua_State *l)
 static int l_ship_attr_ship_id(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	const ShipType &st = s->GetShipType();
-	lua_pushstring(l, st.id.c_str());
+	lua_pushstring(l, s->GetShipType()->id.c_str());
 	return 1;
 }
 

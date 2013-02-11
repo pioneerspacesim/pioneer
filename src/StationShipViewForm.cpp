@@ -128,14 +128,14 @@ void StationShipViewForm::BuyShip()
 		return;
 	}
 
-	ShipFlavour old = *(Pi::player->GetFlavour());
+	//ShipFlavour old = *(Pi::player->GetFlavour()); XXX SKIN put old player ship on the market
 
 	Pi::player->SetMoney(Pi::player->GetMoney() - cost);
-	Pi::player->ResetFlavour(&m_flavour);
+	Pi::player->SetShipType(m_flavour.id);
 	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_flavour.id].hyperdrive);
 	Pi::player->UpdateStats();
 
-	m_station->ReplaceShipOnSale(m_marketIndex, &old);
+	//m_station->ReplaceShipOnSale(m_marketIndex, &old); XXX SKIN put old player ship on the market
 
     Pi::cpan->MsgLog()->Message("", Lang::THANKS_AND_REMEMBER_TO_BUY_FUEL);
 

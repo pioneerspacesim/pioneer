@@ -660,7 +660,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 			assert(b->IsType(Object::SHIP));
 			Ship *s = static_cast<Ship*>(b);
 
-			const ShipFlavour *flavour = s->GetFlavour();
 			const shipstats_t &stats = s->GetStats();
 
 			float sHull = s->GetPercentHull();
@@ -677,7 +676,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_hudTargetShieldIntegrity->Show();
 
 			std::string text;
-			text += ShipType::types[flavour->id].name;
+			text += s->GetShipType()->id;
 			text += "\n";
 			text += s->GetLabel();
 			text += "\n";
@@ -1288,7 +1287,7 @@ void WorldView::UpdateProjectedObjects()
 
 			double vel = targvel.Dot(targpos.NormalizedSafe()); // position should be towards
 			double raccel =
-				Pi::player->GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / Pi::player->GetMass();
+				Pi::player->GetShipType()->linThrust[ShipType::THRUSTER_REVERSE] / Pi::player->GetMass();
 
 			double c = Clamp(vel / sqrt(2.0 * raccel * dist), -1.0, 1.0);
 			float r = float(0.2+(c+1.0)*0.4);

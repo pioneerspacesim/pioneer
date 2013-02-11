@@ -800,11 +800,6 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 			ship->SetFrame(GetFrame());
 			ship->SetDockedWith(this, port);
 			Pi::game->GetSpace()->AddBody(ship);
-			{
-				ShipFlavour f;
-				f.id = ShipType::POLICE;
-				ship->ResetFlavour(&f);
-			}
 			ship->SetLabel(Lang::POLICE_SHIP_REGISTRATION);
 			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
 			ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
