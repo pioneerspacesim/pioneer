@@ -37,8 +37,7 @@ StationShipMarketForm::StationShipMarketForm(FormController *controller) : FaceF
 	const Color &col = Gui::Theme::Colors::tableHeading;
 	heading->Add((new Gui::Label(Lang::SHIP))->Color(col), 0, 0);
 	heading->Add((new Gui::Label(Lang::PRICE))->Color(col), 200, 0);
-	heading->Add((new Gui::Label(Lang::PART_EX))->Color(col), 275, 0);
-	heading->Add((new Gui::Label(Lang::CAPACITY))->Color(col), 370, 0);
+	heading->Add((new Gui::Label(Lang::CAPACITY))->Color(col), 350, 0);
 	heading->Add((new Gui::Label(Lang::VIEW))->Color(col), 430, 0);
 	outerbox->PackEnd(heading);
 
@@ -78,9 +77,8 @@ void StationShipMarketForm::UpdateShipList()
 
 		Gui::Label *l = new Gui::Label(ShipType::types[(*i).id].name);
 		f->Add(l,0,0);
-		f->Add(new Gui::Label(format_money((*i).price)), 200, 0);
-		f->Add(new Gui::Label(format_money((*i).price - Pi::player->GetFlavour()->price) ), 275, 0);
-		f->Add(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", ShipType::types[(*i).id].capacity))), 370, 0);
+		f->Add(new Gui::Label(format_money(ShipType::types[(*i).id].baseprice)), 200, 0);
+		f->Add(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", ShipType::types[(*i).id].capacity))), 350, 0);
 
 		Gui::SolidButton *sb = new Gui::SolidButton();
 		sb->onClick.connect(sigc::bind(sigc::mem_fun(this, &StationShipMarketForm::ViewShip), num));

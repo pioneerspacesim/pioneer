@@ -37,7 +37,6 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	Gui::VBox *labelBox = new Gui::VBox();
 	labelBox->PackEnd(new Gui::Label(Lang::SHIP_TYPE));
 	labelBox->PackEnd(new Gui::Label(Lang::PRICE));
-	labelBox->PackEnd(new Gui::Label(Lang::PART_EX));
 	labelBox->PackEnd(new Gui::Label(Lang::REGISTRATION_ID));
 	labelBox->PackEnd(new Gui::Label(" "));
 	labelBox->PackEnd(new Gui::Label(Lang::WEIGHT_EMPTY));
@@ -60,8 +59,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 
 	Gui::VBox *dataBox = new Gui::VBox();
 	dataBox->PackEnd(new Gui::Label(type.name));
-	dataBox->PackEnd(new Gui::Label(format_money(m_flavour.price)));
-	dataBox->PackEnd(new Gui::Label(format_money(m_flavour.price - Pi::player->GetFlavour()->price)));
+	dataBox->PackEnd(new Gui::Label(format_money(type.baseprice)));
 	dataBox->PackEnd(new Gui::Label(m_flavour.regid));
 	dataBox->PackEnd(new Gui::Label(" "));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.hullMass))));
@@ -124,7 +122,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 
 void StationShipViewForm::BuyShip()
 {
-	Sint64 cost = m_flavour.price - Pi::player->GetFlavour()->price;
+	Sint64 cost = ShipType::types[m_flavour.id].baseprice;
 	if (Pi::player->GetMoney() < cost) {
 		Pi::cpan->MsgLog()->Message("", Lang::YOU_NOT_ENOUGH_MONEY);
 		return;

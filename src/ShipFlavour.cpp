@@ -11,7 +11,6 @@
 
 ShipFlavour::ShipFlavour()
 {
-	price = 0;
 }
 
 ShipFlavour::ShipFlavour(ShipType::Id id_)
@@ -25,8 +24,6 @@ ShipFlavour::ShipFlavour(ShipType::Id id_)
 	regid[4] = '0' + ((code /  100) % 10);
 	regid[5] = '0' + ((code /   10) % 10);
 	regid[6] = '0' + ((code /    1) % 10);
-	price = std::max(ShipType::types[id].baseprice, 1);
-	price = price + Pi::rng.Int32(price)/64;
 }
 
 // Pick a random ship type, and randomize the flavour
@@ -50,13 +47,11 @@ void ShipFlavour::ApplyTo(SceneGraph::Model *m) const
 void ShipFlavour::Save(Serializer::Writer &wr)
 {
 	wr.String(id);
-	wr.Int32(price);
 	wr.String(regid);
 }
 
 void ShipFlavour::Load(Serializer::Reader &rd)
 {
 	id = rd.String();
-	price = rd.Int32();
 	regid = rd.String();
 }

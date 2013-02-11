@@ -14,7 +14,6 @@ class ShipFlavour {
 public:
 	ShipType::Id id;
 	std::string regid;
-	int price;
 
 	ShipFlavour();
 	ShipFlavour(ShipType::Id id);

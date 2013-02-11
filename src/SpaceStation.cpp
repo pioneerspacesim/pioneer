@@ -804,7 +804,6 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 				ShipFlavour f;
 				f.id = ShipType::POLICE;
 				f.regid = Lang::POLICE_SHIP_REGISTRATION;
-				f.price = ship->GetFlavour()->price;
 				ship->ResetFlavour(&f);
 			}
 			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
