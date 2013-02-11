@@ -26,6 +26,7 @@ noinst_HEADERS = \
 	ModelNode.h \
 	SceneGraph.h \
 	Model.h \
+	ModelSkin.h \
 	Node.h \
 	NodeVisitor.h \
 	Parser.h \
@@ -48,6 +49,7 @@ libscenegraph_a_SOURCES = \
 	MatrixTransform.cpp \
 	ModelNode.cpp \
 	Model.cpp \
+	ModelSkin.cpp \
 	Node.cpp \
 	NodeVisitor.cpp \
 	Parser.cpp \
