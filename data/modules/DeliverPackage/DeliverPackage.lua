@@ -293,6 +293,13 @@ end
 local onClick = function (mission)
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
 	local dist = Game.system:DistanceTo(mission.location)
+	local setHyperspaceButton = UI.SmallLabeledButton.New(t('Set as Hyperspace Target'), 'SMALL')
+	setHyperspaceButton.button.onClick:Connect(function () 
+		if Game.player:GetHyperspaceTarget() ~= mission.location:GetStarSystem().path then
+			Game.player:SetHyperspaceTarget(mission.location:GetStarSystem().path) 
+		end
+		end)
+	if delivery_flavours[mission.flavour].localdelivery == 1 then setHyperspaceButton.widget:Disable() end
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((delivery_flavours[mission.flavour].introtext):interp({
 														name   = mission.client.name,
@@ -312,11 +319,14 @@ local onClick = function (mission)
 												ui:VBox():PackEnd({
 													ui:Label(mission.location:GetSystemBody().name),
 													ui:Label(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
+													setHyperspaceButton.widget,
+													ui:Margin(6),
 													ui:Label(Format.Date(mission.due)),
-													ui:Margin(10),
 													ui:Label(math.ceil(dist).." "..t("ly"))
 												})
 											})
+
+			
 		})})
 		:SetColumn(1, {
 			ui:VBox(10):PackEnd(UI.InfoFace.New(mission.client))

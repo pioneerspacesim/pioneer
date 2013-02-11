@@ -142,8 +142,9 @@ Translate:Add({ English = {
   delivermissiondetail = [[
   Spaceport:
   System:
+  
+  
   Deadline:
-
   Distance:]],
 
  PIRATE_TAUNTS = {
@@ -292,6 +293,8 @@ Translate:Add({ Polski = {
   delivermissiondetail = [[
   Port kosmiczny:
   System:
+  
+  
   Termin:
 
   Dystans:]],
@@ -723,6 +726,8 @@ Translate:Add({ Russian = {
   delivermissiondetail = [[
   Станция получателя:
   Система получателя:
+  
+  
   Срок доставки:
   
   Расстояние:]],
@@ -873,6 +878,8 @@ Translate:Add({ Deutsch = {
   delivermissiondetail = [[
   Raumhafen:
   System:
+  
+  
   Deadline:
 
   Distanz:]],
