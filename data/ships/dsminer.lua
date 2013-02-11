@@ -14,7 +14,7 @@ define_ship {
 	camera_offset = v(0,4,-35),
 	max_atmoshield = 0,
 	max_cargo = 500,
-	max_laser = 0,
+	max_laser = 1,
 	max_missile = 2,
 	max_cargoscoop = 1,
 	max_fuelscoop = 1,
