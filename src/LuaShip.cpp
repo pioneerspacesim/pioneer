@@ -334,38 +334,6 @@ static int l_ship_set_label(lua_State *l)
 }
 
 /*
- * Method: SetFlavour
- *
- * Set various attributes that describe variations in the way the ship model
- * is rendered.
- *
- * > ship:SetFlavour(flavour)
- *
- * The recommended way to use this method is to get the existing flavour from
- * the ship's <flavour> attribute, modify the data you want, and then call
- * <SetFlavour> to reset it.
- *
- * Parameters:
- *
- *   flavour - a table with structure as defined in <flavour>.
- *
- * Availability:
- *
- *   alpha 27
- *
- * Status:
- *
- *   experimental
- */
-static int l_ship_set_flavour(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	ShipFlavour f = ShipFlavour::FromLuaTable(l, 2);
-	s->UpdateFlavour(&f);
-	return 0;
-}
-
-/*
  * Method: GetEquipSlotCapacity
  *
  * Get the maximum number of a particular type of equipment this ship can
@@ -972,62 +940,6 @@ static int l_ship_hyperspace_to(lua_State *l)
  */
 
 /*
- * Attribute: flavour
- *
- * Various attributes that describe variations in the way the ship model is
- * rendered.
- *
- * flavour is a table with the following keys:
- *
- *   id - the id (name) of the ship definition
- *
- *   regId - the registration ID that will be displayed on the side of the
- *           ship. Usually the same as the ship's label
- *
- *   price - trade price for the ship
- *
- *   primaryColour - a table describing the ship's primary colour. Contains
- *                  three tables "diffuse", "specular" and "emissive", each
- *                  containing values "r", "g", "b" and "a" for the colour,
- *                  and a fourth value "shininess". These form a typical
- *                  OpenGL material
- *
- *   secondaryColour - a table describing the ship's secondary colour. The
- *                     structure is the same as primaryColour
- *
- * Availability:
- *
- *   alpha 27
- *
- * Status:
- *
- *   experimental
- */
-static inline void _colour_to_table(lua_State *l, const char *name, const float rgba[4])
-{
-	lua_newtable(l);
-	pi_lua_settable(l, "r", rgba[0]);
-	pi_lua_settable(l, "g", rgba[1]);
-	pi_lua_settable(l, "b", rgba[2]);
-	pi_lua_settable(l, "a", rgba[3]);
-	lua_setfield(l, -2, name);
-}
-
-static int l_ship_attr_flavour(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-
-	ShipFlavour f = *(s->GetFlavour());
-
-	lua_newtable(l);
-	pi_lua_settable(l, "id",    f.id.c_str());
-	pi_lua_settable(l, "regId", f.regid.c_str());
-	pi_lua_settable(l, "price", double(f.price)*0.01);
-
-	return 1;
-}
-
-/*
  * Attribute: alertStatus
  *
  * The current alert status of the ship. A <Constants.ShipAlertStatus> string.
@@ -1386,7 +1298,6 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetFuelPercent", l_ship_set_fuel_percent },
 
 		{ "SetLabel",   l_ship_set_label   },
-		{ "SetFlavour", l_ship_set_flavour },
 
 		{ "GetEquipSlotCapacity", l_ship_get_equip_slot_capacity },
 		{ "GetEquip",         l_ship_get_equip           },
@@ -1422,7 +1333,6 @@ template <> void LuaObject<Ship>::RegisterClass()
 	};
 
 	static const luaL_Reg l_attrs[] = {
-        { "flavour",     l_ship_attr_flavour },
 		{ "alertStatus", l_ship_attr_alert_status },
 		{ "flightState", l_ship_attr_flight_state },
 		{ "shipId",      l_ship_attr_ship_id },

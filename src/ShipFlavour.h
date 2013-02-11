@@ -16,8 +16,6 @@ public:
 	std::string regid;
 	int price;
 
-	static ShipFlavour FromLuaTable(lua_State *l, int idx);
-
 	ShipFlavour();
 	ShipFlavour(ShipType::Id id);
 	void Save(Serializer::Writer &wr);
