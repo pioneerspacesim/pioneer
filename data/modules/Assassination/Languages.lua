@@ -75,6 +75,8 @@ Translate:Add({ English = {
   Target name:
   Spaceport:
   System:
+  
+  
   Ship:
   Ship ID:
   Target will be leaving spaceport at:
@@ -178,6 +180,8 @@ Translate:Add({ Polski = {
   Cel:
   Port kosmiczny:
   System:
+  
+  
   Statek:
   Identyfikator:
   Cel będzie opuszczał port kosmiczny o:
@@ -461,6 +465,8 @@ Translate:Add({ Russian = {
  Цель:
   Станция нахождения:
   Система нахождения:
+  
+  
   Тип корабля:
   Номер корабля:
   Цель покинет станцию:
@@ -563,6 +569,8 @@ Translate:Add({ Deutsch = {
   Zielname:
   Raumhafen:
   System:
+  
+  
   Schiff:
   Schiff-ID:
   Ziel wird Raumhafen verlassen um:
