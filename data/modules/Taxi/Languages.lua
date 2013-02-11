@@ -447,6 +447,8 @@ Translate:Add({ Polski = {
   taximissiondetail = [[
   Z:
   Do:
+  
+  
   Pasażerów:
   Zagrożenie:
   Termin:
@@ -1185,6 +1187,8 @@ Translate:Add({ Russian = {
   taximissiondetail = [[
   Начало маршрута:
   Конец маршрута:
+  
+  
   О группе:
   Опасность:
   Крайний срок:
@@ -1415,6 +1419,8 @@ Translate:Add({ Deutsch = {
   taximissiondetail = [[
   Von:
   Nach:
+  
+  
   Gruppendetails:
   Gefahr:
   Deadline:
