@@ -803,9 +803,9 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 			{
 				ShipFlavour f;
 				f.id = ShipType::POLICE;
-				f.regid = Lang::POLICE_SHIP_REGISTRATION;
 				ship->ResetFlavour(&f);
 			}
+			ship->SetLabel(Lang::POLICE_SHIP_REGISTRATION);
 			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
 			ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
 			ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);

@@ -16,14 +16,6 @@ ShipFlavour::ShipFlavour()
 ShipFlavour::ShipFlavour(ShipType::Id id_)
 {
 	id = id_;
-	regid = "XX-1111";
-	regid[0] = 'A' + Pi::rng.Int32(26);
-	regid[1] = 'A' + Pi::rng.Int32(26);
-	int code = Pi::rng.Int32(10000);
-	regid[3] = '0' + ((code / 1000) % 10);
-	regid[4] = '0' + ((code /  100) % 10);
-	regid[5] = '0' + ((code /   10) % 10);
-	regid[6] = '0' + ((code /    1) % 10);
 }
 
 // Pick a random ship type, and randomize the flavour
@@ -39,19 +31,12 @@ void ShipFlavour::MakeTrulyRandom(ShipFlavour &v, bool atmospheric)
 	}
 }
 
-void ShipFlavour::ApplyTo(SceneGraph::Model *m) const
-{
-	m->SetLabel(regid);
-}
-
 void ShipFlavour::Save(Serializer::Writer &wr)
 {
 	wr.String(id);
-	wr.String(regid);
 }
 
 void ShipFlavour::Load(Serializer::Reader &rd)
 {
 	id = rd.String();
-	regid = rd.String();
 }

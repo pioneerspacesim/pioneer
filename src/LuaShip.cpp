@@ -323,12 +323,7 @@ static int l_ship_explode(lua_State *l)
 static int l_ship_set_label(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	const char *label = luaL_checkstring(l, 2);
-
-	ShipFlavour f = *(s->GetFlavour());
-	f.regid = label;
-	s->UpdateFlavour(&f);
-
+	const std::string label(luaL_checkstring(l, 2));
 	s->SetLabel(label);
 	return 0;
 }

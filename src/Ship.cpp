@@ -198,7 +198,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 		m_gunTemperature[i] = 0;
 	}
 	m_ecmRecharge = 0;
-	SetLabel(m_shipFlavour.regid);
+	SetLabel(MakeRandomLabel());
 	m_curAICmd = 0;
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
@@ -1085,8 +1085,6 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 {
 	if (IsDead()) return;
 
-	m_shipFlavour.ApplyTo(GetModel());
-
 	//angthrust negated, for some reason
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
 
@@ -1171,7 +1169,6 @@ void Ship::ResetFlavour(const ShipFlavour *f)
 	m_type = &ShipType::types[m_shipFlavour.id];
 	m_equipment.InitSlotSizes(f->id);
 	SetModel(m_type->modelName.c_str());
-	SetLabel(f->regid);
 	Init();
 	onFlavourChanged.emit();
 	if (IsType(Object::PLAYER))
@@ -1233,4 +1230,17 @@ void Ship::EnterSystem() {
 
 void Ship::OnEnterSystem() {
 	m_hyperspaceCloud = 0;
+}
+
+std::string Ship::MakeRandomLabel()
+{
+	std::string regid = "XX-1111";
+	regid[0] = 'A' + Pi::rng.Int32(26);
+	regid[1] = 'A' + Pi::rng.Int32(26);
+	int code = Pi::rng.Int32(10000);
+	regid[3] = '0' + ((code / 1000) % 10);
+	regid[4] = '0' + ((code /  100) % 10);
+	regid[5] = '0' + ((code /   10) % 10);
+	regid[6] = '0' + ((code /    1) % 10);
+	return regid;
 }

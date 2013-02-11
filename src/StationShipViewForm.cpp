@@ -60,7 +60,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	Gui::VBox *dataBox = new Gui::VBox();
 	dataBox->PackEnd(new Gui::Label(type.name));
 	dataBox->PackEnd(new Gui::Label(format_money(type.baseprice)));
-	dataBox->PackEnd(new Gui::Label(m_flavour.regid));
+	dataBox->PackEnd(new Gui::Label("XXX SKIN")); // XXX SKIN
 	dataBox->PackEnd(new Gui::Label(" "));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.hullMass))));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.capacity))));

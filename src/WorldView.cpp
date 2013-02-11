@@ -679,7 +679,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			std::string text;
 			text += ShipType::types[flavour->id].name;
 			text += "\n";
-			text += flavour->regid;
+			text += s->GetLabel();
 			text += "\n";
 
 			if (s->m_equipment.Get(Equip::SLOT_ENGINE) == Equip::NONE) {

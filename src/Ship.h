@@ -215,6 +215,8 @@ public:
 	// equipment, etc
 	void ResetFlavour(const ShipFlavour *f);
 
+	static std::string MakeRandomLabel(); // XXX doesn't really belong here
+
 	float GetPercentShields() const;
 	float GetPercentHull() const;
 	void SetPercentHull(float);

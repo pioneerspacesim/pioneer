@@ -13,13 +13,11 @@ namespace SceneGraph { class Model; }
 class ShipFlavour {
 public:
 	ShipType::Id id;
-	std::string regid;
 
 	ShipFlavour();
 	ShipFlavour(ShipType::Id id);
 	void Save(Serializer::Writer &wr);
 	void Load(Serializer::Reader &rd);
-	void ApplyTo(SceneGraph::Model *m) const;
 	static void MakeTrulyRandom(ShipFlavour &v, bool atmosphereCapableOnly = false);
 };
 
