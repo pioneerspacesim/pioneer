@@ -48,7 +48,7 @@ float AtmosLengthDensityProduct(vec3 a, vec3 b, float surfaceDensity, float len,
 			exp(-invScaleHeight*(length(a + 0.4*dir)-1.0)) +
 			exp(-invScaleHeight*(length(a + 0.6*dir)-1.0)) +
 			exp(-invScaleHeight*(length(a + 0.8*dir)-1.0)) +
-			exp(-invScaleHeight*(length(b)-1.0)));
+			exp(-invScaleHeight*max(length(b)-1.0, 0.0)));
 	ldprod *= len;
 	return ldprod;
 }
