@@ -119,39 +119,6 @@ static bool GetPosOrient(SceneGraph::Model::Port::TMapBayIDMat &bayMap, const in
 {
 	bool gotOrient = false;
 
-	/*
-	-- docking
-	if stage == 2 then
-		return { vlerp(t, from, v(0,250,0)), v(1,0,0), v(0,0,-1) }
-	elseif stage == 3 then
-		return { from, v(1,0,0), v(0,0,-1) }
-	elseif stage == 4 then
-		return { vlerp(t, from, v(0,0,0)), v(1,0,0), v(0,0,-1) }
-	elseif stage == 5 then
-		return { vlerp(t, from, v(0,0,0)), v(-1,0,0), v(0,0,-1) }
-	elseif stage == 6 or stage == 7 then
-		return { v(0,0,0), v(-1,0,0), v(0,0,-1) }
-	elseif stage == 8 then
-		return { vlerp(t, from, v(0,200,0)), v(-1,0,0), v(0,0,-1) }
-	elseif stage == 9 then
-		return { v(0,200,0), v(-1,0,0), v(0,0,-1) }
-	end
-	-- undocking
-	if stage == -1 then
-		return { v(0,200,0), v(-1,0,0), v(0,0,-1) }
-	elseif stage == -2 then
-		return { vlerp(t, from, v(0,0,0)), v(-1,0,0), v(0,0,-1) }
-	elseif stage == -3 or stage == -4 or stage == -5 then
-		return { v(0,0,0), v(-1,0,0), v(0,0,-1) }
-	elseif stage == -6 then
-		return { vlerp(t, from, v(0,250,0)), v(-1,0,0), v(0,0,-1) }
-	elseif stage == -7 or stage == -8 then
-		return { v(0,250,0), v(-1,0,0), v(0,0,-1) }
-	end
-	-- note stage -9 returns nil. this means 'launch ship but continue space station
-	-- animations' 
-	*/
-
 	vector3d toPos;
 
 	const bool bHasStageData = (bayMap.find( stage ) != bayMap.end());
