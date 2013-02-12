@@ -13,9 +13,11 @@ public:
 	static int l_new(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		const std::string name(luaL_checkstring(l, 2));
+		SceneGraph::ModelSkin noskin, *skin = &noskin;
+		if (lua_gettop(l) > 2)
+			skin = LuaObject<SceneGraph::ModelSkin>::CheckFromLua(3);
 		SceneGraph::Model *model = Pi::FindModel(name);
-		SceneGraph::ModelSkin skin; // XXX SKIN
-		LuaObject<ModelSpinner>::PushToLua(new ModelSpinner(c, model, skin));
+		LuaObject<ModelSpinner>::PushToLua(new ModelSpinner(c, model, *skin));
 		return 1;
 	}
 
