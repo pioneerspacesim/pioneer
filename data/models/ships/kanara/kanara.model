@@ -25,4 +25,3 @@ collision kanara_collision.obj
 
 lod 100
 mesh kanaraLOD.dae
-collision kanara_collision.obj
