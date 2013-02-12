@@ -1,4 +1,4 @@
-material VisualMaterial
+material Hull-material
 diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 shininess 80
@@ -6,14 +6,14 @@ tex_diff shipHullMap.png
 tex_spec shipHullMap.png
 tex_glow shipHullMapglow.png
 
-material VisualMaterial1
+material Cockpit-material
 diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 tex_diff win.png
 tex_glow win.png
 shininess 8
 
-material VisualMaterial2
+material Thrusters-material
 diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 tex_diff thrus.png
@@ -21,7 +21,8 @@ shininess 128
 
 lod 1000
 mesh kanara.dae
-collision kanara_collision.obj
 
-lod 100
-mesh kanaraLOD.dae
+lod 20
+mesh kanara-low.dae
+
+collision kanara_collision.obj
