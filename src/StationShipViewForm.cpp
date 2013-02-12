@@ -12,13 +12,11 @@
 
 StationShipViewForm::StationShipViewForm(FormController *controller, int marketIndex) :
 	BlankForm(controller),
-	m_marketIndex(marketIndex)
+	m_station(Pi::player->GetDockedWith()),
+	m_marketIndex(marketIndex),
+	m_sos(m_station->GetShipsOnSale()[marketIndex])
 {
-	m_station = Pi::player->GetDockedWith();
-
-	m_flavour = m_station->GetShipsOnSale()[marketIndex];
-
-	const ShipType &type = ShipType::types[m_flavour.id];
+	const ShipType &type = ShipType::types[m_sos.id];
 
 	SetTitle(stringf(Lang::SOMEWHERE_SHIP_MARKET, formatarg("station", m_station->GetLabel())));
 
@@ -60,7 +58,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	Gui::VBox *dataBox = new Gui::VBox();
 	dataBox->PackEnd(new Gui::Label(type.name));
 	dataBox->PackEnd(new Gui::Label(format_money(type.baseprice)));
-	dataBox->PackEnd(new Gui::Label("XXX SKIN")); // XXX SKIN
+	dataBox->PackEnd(new Gui::Label(m_sos.regId));
 	dataBox->PackEnd(new Gui::Label(" "));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.hullMass))));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.capacity))));
@@ -122,20 +120,21 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 
 void StationShipViewForm::BuyShip()
 {
-	Sint64 cost = ShipType::types[m_flavour.id].baseprice;
+	Sint64 cost = ShipType::types[m_sos.id].baseprice;
 	if (Pi::player->GetMoney() < cost) {
 		Pi::cpan->MsgLog()->Message("", Lang::YOU_NOT_ENOUGH_MONEY);
 		return;
 	}
 
-	//ShipFlavour old = *(Pi::player->GetFlavour()); XXX SKIN put old player ship on the market
+	ShipOnSale old(Pi::player->GetShipType()->id, Pi::player->GetLabel());
 
 	Pi::player->SetMoney(Pi::player->GetMoney() - cost);
-	Pi::player->SetShipType(m_flavour.id);
-	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_flavour.id].hyperdrive);
+	Pi::player->SetShipType(m_sos.id);
+	Pi::player->SetLabel(m_sos.regId);
+	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_sos.id].hyperdrive);
 	Pi::player->UpdateStats();
 
-	//m_station->ReplaceShipOnSale(m_marketIndex, &old); XXX SKIN put old player ship on the market
+	m_station->ReplaceShipOnSale(m_marketIndex, old);
 
     Pi::cpan->MsgLog()->Message("", Lang::THANKS_AND_REMEMBER_TO_BUY_FUEL);
 

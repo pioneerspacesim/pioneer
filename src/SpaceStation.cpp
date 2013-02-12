@@ -47,9 +47,10 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 	}
 	// save shipyard
 	wr.Int32(m_shipsOnSale.size());
-	for (std::vector<ShipFlavour>::iterator i = m_shipsOnSale.begin();
+	for (std::vector<ShipOnSale>::iterator i = m_shipsOnSale.begin();
 			i != m_shipsOnSale.end(); ++i) {
-		(*i).Save(wr);
+		wr.String((*i).id);
+		wr.String((*i).regId);
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		wr.Int32(space->GetIndexForBody(m_shipDocking[i].ship));
@@ -84,9 +85,10 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 	// load shityard
 	int numShipsForSale = rd.Int32();
 	for (int i=0; i<numShipsForSale; i++) {
-		ShipFlavour s;
-		s.Load(rd);
-		m_shipsOnSale.push_back(s);
+		ShipType::Id id(rd.String());
+		std::string regId(rd.String());
+		ShipOnSale sos(id, regId);
+		m_shipsOnSale.push_back(sos);
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		m_shipDocking[i].shipIndex = rd.Int32();
@@ -162,9 +164,9 @@ SpaceStation::~SpaceStation()
 	if (m_adjacentCity) delete m_adjacentCity;
 }
 
-void SpaceStation::ReplaceShipOnSale(int idx, const ShipFlavour *with)
+void SpaceStation::ReplaceShipOnSale(int idx, const ShipOnSale &with)
 {
-	m_shipsOnSale[idx] = *with;
+	m_shipsOnSale[idx] = with;
 	onShipsForSaleChanged.emit();
 }
 
@@ -179,23 +181,38 @@ void SpaceStation::UpdateShipyard()
 		atmospheric = planet->GetSystemBody()->HasAtmosphere();
 	}
 
-	if (m_shipsOnSale.size() == 0) {
+	const std::vector<ShipType::Id> &ships = atmospheric ? ShipType::playable_atmospheric_ships : ShipType::player_ships;
+
+	unsigned int toAdd = 0, toRemove = 0;
+
+	if (m_shipsOnSale.size() == 0)
 		// fill shipyard
-		for (int i=Pi::rng.Int32(20); i; i--) {
-			ShipFlavour s;
-			ShipFlavour::MakeTrulyRandom(s, atmospheric);
-			m_shipsOnSale.push_back(s);
-		}
-	} else if (Pi::rng.Int32(2)) {
+		toAdd = Pi::rng.Int32(20);
+
+	else if (Pi::rng.Int32(2))
 		// add one
-		ShipFlavour s;
-		ShipFlavour::MakeTrulyRandom(s, atmospheric);
-		m_shipsOnSale.push_back(s);
-	} else {
+		toAdd = 1;
+
+	else if(m_shipsOnSale.size() > 0)
 		// remove one
+		toRemove = 1;
+
+	else
+		// nothing happens
+		return;
+
+	for (; toAdd > 0; toAdd--) {
+		ShipType::Id id = ships[Pi::rng.Int32(ships.size())];
+		std::string regId = Ship::MakeRandomLabel();
+		ShipOnSale sos(id, regId);
+		m_shipsOnSale.push_back(sos);
+	}
+
+	for (; toRemove > 0; toRemove--) {
 		int pos = Pi::rng.Int32(m_shipsOnSale.size());
 		m_shipsOnSale.erase(m_shipsOnSale.begin() + pos);
 	}
+
 	onShipsForSaleChanged.emit();
 }
 
