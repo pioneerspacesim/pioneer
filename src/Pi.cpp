@@ -666,7 +666,7 @@ void Pi::HandleEvents()
 										if (port != -1) {
 											printf("Putting ship into station\n");
 											// Make police ship intent on killing the player
-											Ship *ship = new Ship(ShipType::LADYBIRD);
+											Ship *ship = new Ship(ShipType::POLICE);
 											ship->AIKill(Pi::player);
 											ship->SetFrame(Pi::player->GetFrame());
 											ship->SetDockedWith(s, port);
@@ -678,17 +678,14 @@ void Pi::HandleEvents()
 											printf("Select a space station...\n");
 									}
 								} else {
-									Ship *ship = new Ship(ShipType::LADYBIRD);
-									ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+									Ship *ship = new Ship(ShipType::POLICE);
 									ship->AIKill(Pi::player);
+									ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
+									ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
+									ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 									ship->SetFrame(Pi::player->GetFrame());
 									ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
 									ship->SetVelocity(Pi::player->GetVelocity());
-									ship->m_equipment.Add(Equip::DRIVE_CLASS2);
-									ship->m_equipment.Add(Equip::RADAR_MAPPER);
-									ship->m_equipment.Add(Equip::SCANNER);
-									ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
-									ship->m_equipment.Add(Equip::HYDROGEN, 10);
 									ship->UpdateStats();
 									game->GetSpace()->AddBody(ship);
 								}
