@@ -50,6 +50,7 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 			i != m_shipsOnSale.end(); ++i) {
 		wr.String((*i).id);
 		wr.String((*i).regId);
+		(*i).skin.Save(wr);
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
 		wr.Int32(space->GetIndexForBody(m_shipDocking[i].ship));
@@ -86,7 +87,9 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 	for (int i=0; i<numShipsForSale; i++) {
 		ShipType::Id id(rd.String());
 		std::string regId(rd.String());
-		ShipOnSale sos(id, regId);
+		SceneGraph::ModelSkin skin;
+		skin.Load(rd);
+		ShipOnSale sos(id, regId, skin);
 		m_shipsOnSale.push_back(sos);
 	}
 	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
@@ -203,7 +206,9 @@ void SpaceStation::UpdateShipyard()
 	for (; toAdd > 0; toAdd--) {
 		ShipType::Id id = ships[Pi::rng.Int32(ships.size())];
 		std::string regId = Ship::MakeRandomLabel();
-		ShipOnSale sos(id, regId);
+		SceneGraph::ModelSkin skin;
+		skin.SetRandomColors(Pi::rng); // XXX SKIN random pattern
+		ShipOnSale sos(id, regId, skin);
 		m_shipsOnSale.push_back(sos);
 	}
 

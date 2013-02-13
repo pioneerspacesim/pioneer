@@ -21,8 +21,7 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	SetTitle(stringf(Lang::SOMEWHERE_SHIP_MARKET, formatarg("station", m_station->GetLabel())));
 
 	SceneGraph::Model *model = Pi::FindModel(type.modelName);
-	SceneGraph::ModelSkin skin; // XXX SKIN
-	Add(new ShipSpinnerWidget(model, skin, 400, 400), 0, 0);
+	Add(new ShipSpinnerWidget(model, m_sos.skin, 400, 400), 0, 0);
 
 
 	Gui::VBox *layoutBox = new Gui::VBox();
@@ -127,11 +126,12 @@ void StationShipViewForm::BuyShip()
 		return;
 	}
 
-	ShipOnSale old(Pi::player->GetShipType()->id, Pi::player->GetLabel());
+	ShipOnSale old(Pi::player->GetShipType()->id, Pi::player->GetLabel(), Pi::player->GetSkin());
 
 	Pi::player->SetMoney(Pi::player->GetMoney() - cost);
 	Pi::player->SetShipType(m_sos.id);
 	Pi::player->SetLabel(m_sos.regId);
+	Pi::player->SetSkin(m_sos.skin);
 	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_sos.id].hyperdrive);
 	Pi::player->UpdateStats();
 
