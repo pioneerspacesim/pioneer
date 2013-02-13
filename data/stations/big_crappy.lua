@@ -1,4 +1,4 @@
---[[define_orbital_station {
+define_orbital_station {
 	model = 'big_crappy_spacestation',
 	angular_velocity = 0.1,
 	num_docking_ports = 4,
@@ -36,4 +36,4 @@
 			return { v(0,550,0), v(1,0,0), v(0,0,1) }
 		end
 	end,
-}]]
+}
