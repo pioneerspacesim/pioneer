@@ -62,6 +62,7 @@ void SerializableEquipSet::Load(Serializer::Reader &rd)
 void Ship::Save(Serializer::Writer &wr, Space *space)
 {
 	DynamicBody::Save(wr, space);
+	m_skin.Save(wr);
 	wr.Vector3d(m_angThrusters);
 	wr.Vector3d(m_thrusters);
 	wr.Int32(m_wheelTransition);
@@ -101,6 +102,8 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 void Ship::Load(Serializer::Reader &rd, Space *space)
 {
 	DynamicBody::Load(rd, space);
+	m_skin.Load(rd);
+	m_skin.Apply(GetModel());
 	// needs fixups
 	m_angThrusters = rd.Vector3d();
 	m_thrusters = rd.Vector3d();
@@ -201,6 +204,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	SetModel(m_type->modelName.c_str());
+	m_skin.Apply(GetModel());
 	Init();
 	SetController(new ShipController());
 }
@@ -1211,6 +1215,7 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	m_type = &ShipType::types[shipId];
 	m_equipment.InitSlotSizes(shipId);
 	SetModel(m_type->modelName.c_str());
+	m_skin.Apply(GetModel());
 	Init();
 	onFlavourChanged.emit();
 	if (IsType(Object::PLAYER))

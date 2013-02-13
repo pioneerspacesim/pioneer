@@ -13,6 +13,7 @@
 #include "Serializer.h"
 #include "Camera.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/ModelSkin.h"
 #include <list>
 
 class SpaceStation;
@@ -275,6 +276,7 @@ private:
 
 	shipstats_t m_stats;
 	const ShipType *m_type;
+	SceneGraph::ModelSkin m_skin;
 
 	FlightState m_flightState;
 	bool m_testLanded;
