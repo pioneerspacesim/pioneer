@@ -1,5 +1,8 @@
 Alpha 32
 
+   * New features
+     * New ship "Kanara Interceptor" (#2037)
+
    * Fixes
      * Work around missing model UV coordinates (#2034, #1952)
      * Fully initialise Body object in its constructor (#2048)
