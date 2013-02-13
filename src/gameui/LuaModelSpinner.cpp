@@ -14,7 +14,8 @@ public:
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		const std::string name(luaL_checkstring(l, 2));
 		SceneGraph::Model *model = Pi::FindModel(name);
-		LuaObject<ModelSpinner>::PushToLua(new ModelSpinner(c, model));
+		SceneGraph::ModelSkin skin; // XXX SKIN
+		LuaObject<ModelSpinner>::PushToLua(new ModelSpinner(c, model, skin));
 		return 1;
 	}
 
