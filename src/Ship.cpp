@@ -197,14 +197,15 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 		m_gunTemperature[i] = 0;
 	}
 	m_ecmRecharge = 0;
-	SetLabel(MakeRandomLabel());
 	m_curAICmd = 0;
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	SetModel(m_type->modelName.c_str());
+	SetLabel(MakeRandomLabel());
 	m_skin.Apply(GetModel());
+
 	Init();
 	SetController(new ShipController());
 }
@@ -1221,4 +1222,11 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	if (IsType(Object::PLAYER))
 		Pi::worldView->SetCamType(Pi::worldView->GetCamType());
 	LuaEvent::Queue("onShipTypeChanged", this);
+}
+
+void Ship::SetLabel(const std::string &label)
+{
+	DynamicBody::SetLabel(label);
+	m_skin.SetLabel(label);
+	m_skin.Apply(GetModel());
 }

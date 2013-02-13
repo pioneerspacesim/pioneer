@@ -206,6 +206,7 @@ public:
 	const ShipType *GetShipType() const { return m_type; }
 	void SetShipType(const ShipType::Id &shipId);
 
+	void SetLabel(const std::string &label);
 	static std::string MakeRandomLabel(); // XXX doesn't really belong here
 
 	float GetPercentShields() const;
