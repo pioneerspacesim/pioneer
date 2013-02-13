@@ -22,7 +22,8 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 
 	SetTitle(stringf(Lang::SOMEWHERE_SHIP_MARKET, formatarg("station", m_station->GetLabel())));
 
-	Add(new ShipSpinnerWidget(m_flavour, 400, 400), 0, 0);
+	SceneGraph::Model *model = Pi::FindModel(type.modelName);
+	Add(new ShipSpinnerWidget(model, 400, 400), 0, 0);
 
 
 	Gui::VBox *layoutBox = new Gui::VBox();
