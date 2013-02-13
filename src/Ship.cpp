@@ -1215,5 +1215,5 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	onFlavourChanged.emit();
 	if (IsType(Object::PLAYER))
 		Pi::worldView->SetCamType(Pi::worldView->GetCamType());
-	LuaEvent::Queue("onShipFlavourChanged", this);
+	LuaEvent::Queue("onShipTypeChanged", this);
 }

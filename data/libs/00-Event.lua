@@ -636,20 +636,20 @@ Event = {
 --
 
 --
--- Event: onShipFlavourChanged
+-- Event: onShipTypeChanged
 --
--- Triggered when a ship's type, registration or graphical flavour changes.
+-- Triggered when a ship's type changes (eg player buys a new ship).
 --
--- > local onShipFlavourChanged = function (ship) ... end
--- > Event.Register("onShipFlavourChanged", onShipFlavourChanged)
+-- > local onShipTypeChanged = function (ship) ... end
+-- > Event.Register("onShipTypeChanged", onShipTypeChanged)
 --
 -- Parameters:
 --
---   ship - the <Ship> whose type or graphical flavour just changed
+--   ship - the <Ship> whose type just changed
 --
 -- Availability:
 --
---   alpha 15
+--   alpha 32
 --
 -- Status:
 --
