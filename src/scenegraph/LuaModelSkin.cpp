@@ -20,7 +20,26 @@ public:
 
 	static int l_set_colors(lua_State *l)
 	{
-		return 0;
+		ModelSkin *skin = LuaObject<ModelSkin>::CheckFromLua(1);
+
+		luaL_checktype(l, 2, LUA_TTABLE);
+
+		lua_getfield(l, 2, "primary");
+		if (lua_istable(l, -1))
+			skin->SetPrimaryColor(Color4ub(Color4f::FromLuaTable(l, -1)));
+
+		lua_getfield(l, 2, "secondary");
+		if (lua_istable(l, -1))
+			skin->SetSecondaryColor(Color4ub(Color4f::FromLuaTable(l, -1)));
+
+		lua_getfield(l, 2, "trim");
+		if (lua_istable(l, -1))
+			skin->SetTrimColor(Color4ub(Color4f::FromLuaTable(l, -1)));
+
+		lua_pop(l, 3);
+
+		lua_pushvalue(l, 1);
+		return 1;
 	}
 
 	static int l_set_random_colors(lua_State *l)
