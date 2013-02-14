@@ -7,13 +7,14 @@
 #include "Color.h"
 #include "Serializer.h"
 #include "Random.h"
+#include "LuaWrappable.h"
 #include <string>
 
 namespace SceneGraph {
 
 class Model;
 
-class ModelSkin {
+class ModelSkin : public LuaWrappable {
 public:
 	ModelSkin();
 
