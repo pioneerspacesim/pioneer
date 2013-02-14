@@ -11,7 +11,11 @@ public:
 
 	static int l_set_pattern(lua_State *l)
 	{
-		return 0;
+		ModelSkin *skin = LuaObject<ModelSkin>::CheckFromLua(1);
+		unsigned int index = luaL_checkinteger(l, 2);
+		skin->SetPattern(index);
+		lua_pushvalue(l, 1);
+		return 1;
 	}
 
 	static int l_set_colors(lua_State *l)
@@ -21,27 +25,51 @@ public:
 
 	static int l_set_random_colors(lua_State *l)
 	{
-		return 0;
+		ModelSkin *skin = LuaObject<ModelSkin>::CheckFromLua(1);
+		Random *rand = LuaObject<Random>::CheckFromLua(2);
+		skin->SetRandomColors(*rand);
+		lua_pushvalue(l, 1);
+		return 1;
 	}
 
 	static int l_set_decal(lua_State *l)
 	{
-		return 0;
+		ModelSkin *skin = LuaObject<ModelSkin>::CheckFromLua(1);
+		const char *name = luaL_checkstring(l, 2);
+		unsigned int index = 0;
+		if (lua_gettop(l) > 2)
+			index = luaL_checkinteger(l, 3);
+		skin->SetDecal(name, index);
+		lua_pushvalue(l, 1);
+		return 1;
 	}
 
 	static int l_clear_decal(lua_State *l)
 	{
-		return 0;
+		ModelSkin *skin = LuaObject<ModelSkin>::CheckFromLua(1);
+		unsigned int index = 0;
+		if (lua_gettop(l) > 1)
+			index = luaL_checkinteger(l, 3);
+		skin->ClearDecal(index);
+		lua_pushvalue(l, 1);
+		return 1;
 	}
 
 	static int l_clear_decals(lua_State *l)
 	{
-		return 0;
+		ModelSkin *skin = LuaObject<ModelSkin>::CheckFromLua(1);
+		skin->ClearDecals();
+		lua_pushvalue(l, 1);
+		return 1;
 	}
 
 	static int l_set_label(lua_State *l)
 	{
-		return 0;
+		ModelSkin *skin = LuaObject<ModelSkin>::CheckFromLua(1);
+		const char *label = luaL_checkstring(l, 2);
+		skin->SetLabel(label);
+		lua_pushvalue(l, 1);
+		return 1;
 	}
 
 };
@@ -55,13 +83,13 @@ template <> const char *LuaObject<SceneGraph::ModelSkin>::s_type = "SceneGraph.M
 template <> void LuaObject<SceneGraph::ModelSkin>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
-		{ "SetPattern",      LuaModelSkin::l_set_pattern  },
-		{ "SetColors",       LuaModelSkin::l_set_colors   },
-		{ "SetRandomColors", LuaModelSkin::l_set_colors   },
-		{ "SetDecal",        LuaModelSkin::l_set_decal    },
-		{ "ClearDecal",      LuaModelSkin::l_clear_decal  },
-		{ "ClearDecals",     LuaModelSkin::l_clear_decals },
-		{ "SetLabel",        LuaModelSkin::l_set_label    },
+		{ "SetPattern",      LuaModelSkin::l_set_pattern       },
+		{ "SetColors",       LuaModelSkin::l_set_colors        },
+		{ "SetRandomColors", LuaModelSkin::l_set_random_colors },
+		{ "SetDecal",        LuaModelSkin::l_set_decal         },
+		{ "ClearDecal",      LuaModelSkin::l_clear_decal       },
+		{ "ClearDecals",     LuaModelSkin::l_clear_decals      },
+		{ "SetLabel",        LuaModelSkin::l_set_label         },
 		{ 0, 0 }
 	};
 
