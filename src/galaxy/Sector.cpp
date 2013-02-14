@@ -44,7 +44,7 @@ void Sector::GetCustomSystems()
 Sector::Sector(int x, int y, int z)
 {
 	unsigned long _init[4] = { Uint32(x), Uint32(y), Uint32(z), UNIVERSE_SEED };
-	MTRand rng(_init, 4);
+	Random rng(_init, 4);
 
 	sx = x; sy = y; sz = z;
 
@@ -237,7 +237,7 @@ float Sector::DistanceBetween(const Sector *a, int sysIdxA, const Sector *b, int
 	return dv.Length();
 }
 
-std::string Sector::GenName(System &sys, int si, MTRand &rng)
+std::string Sector::GenName(System &sys, int si, Random &rng)
 {
 	std::string name;
 	const int dist = std::max(std::max(abs(sx),abs(sy)),abs(sz));

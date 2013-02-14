@@ -141,7 +141,7 @@ void SpaceStation::InitStation()
 {
 	m_adjacentCity = 0;
 	for(int i=0; i<NUM_STATIC_SLOTS; i++) m_staticSlot[i] = false;
-	MTRand rand(m_sbody->seed);
+	Random rand(m_sbody->seed);
 	bool ground = m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL ? false : true;
 	if (ground) m_type = &SpaceStationType::surfaceStationTypes[ rand.Int32(SpaceStationType::surfaceStationTypes.size()) ];
 	else m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
@@ -451,7 +451,7 @@ void SpaceStation::StaticUpdate(const float timeStep)
 
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
-	// rotate the thing 
+	// rotate the thing
 	double len = m_type->angVel * timeStep;
 	if (!is_zero_exact(len)) {
 		matrix3x3d r = matrix3x3d::RotateY(-len);		// RotateY is backwards

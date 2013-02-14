@@ -7,7 +7,7 @@
 #include <SDL_stdinc.h>
 
 #include "vector3.h"
-#include "mtrand.h"
+#include "Random.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"

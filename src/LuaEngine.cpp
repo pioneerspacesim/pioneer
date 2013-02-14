@@ -4,7 +4,7 @@
 #include "LuaEngine.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "mtrand.h"
+#include "Random.h"
 #include "Pi.h"
 #include "utils.h"
 #include "FileSystem.h"
@@ -36,7 +36,7 @@
  */
 static int l_engine_attr_rand(lua_State *l)
 {
-	LuaObject<MTRand>::PushToLua(&Pi::rng);
+	LuaObject<Random>::PushToLua(&Pi::rng);
 	return 1;
 }
 

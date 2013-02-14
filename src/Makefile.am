@@ -107,6 +107,7 @@ noinst_HEADERS = \
 	Polit.h \
 	Projectile.h \
 	Quaternion.h \
+	Random.h \
 	RefCounted.h \
 	RefList.h \
 	SDLWrappers.h \
@@ -154,7 +155,6 @@ noinst_HEADERS = \
 	gameconsts.h \
 	libs.h \
 	matrix4x4.h \
-	mtrand.h \
 	perlin.h \
 	utils.h \
 	vector2.h \
@@ -288,7 +288,6 @@ pioneer_SOURCES	= \
 	View.cpp \
 	WorldView.cpp \
 	main.cpp \
-	mtrand.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp

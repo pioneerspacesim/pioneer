@@ -48,7 +48,7 @@ struct cityflavourdef_t {
 	double size;
 } cityflavour[CITYFLAVOURS];
 
-void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
+void CityOnPlanet::PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
 {
 	double rad = (p1-p2).Length()*0.5;
 	Model *model(0);
@@ -237,7 +237,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	vector3d mx = m*vector3d(1,0,0);
 	vector3d mz = m*vector3d(0,0,1);
 
-	MTRand rand;
+	Random rand;
 	rand.seed(seed);
 
 	vector3d p = station->GetPosition();
