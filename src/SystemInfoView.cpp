@@ -79,11 +79,11 @@ void SystemInfoView::OnBodyViewed(SystemBody *b)
 	}
 
 	if (b->parent) {
-		float days = float(b->orbit.period) / float(60*60*24);
+		float days = float(b->orbit.Period()) / float(60*60*24);
 		if (days > 1000) {
 			data = stringf(Lang::N_YEARS, formatarg("years", days/365));
 		} else {
-			data = stringf(Lang::N_DAYS, formatarg("days", b->orbit.period / (60*60*24)));
+			data = stringf(Lang::N_DAYS, formatarg("days", b->orbit.Period() / (60*60*24)));
 		}
 		_add_label_and_value(Lang::ORBITAL_PERIOD, data);
 		_add_label_and_value(Lang::PERIAPSIS_DISTANCE, format_distance(b->orbMin.ToDouble()*AU, 3));

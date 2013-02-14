@@ -131,16 +131,26 @@ void SystemView::ResetViewpoint()
 	m_time = Pi::game->GetTime();
 }
 
-void SystemView::PutOrbit(SystemBody *b, vector3d offset)
+void SystemView::PutOrbit(Orbit *orb, vector3d offset, Color color, double planetRadius)
 {
 	vector3f vts[100];
-	Color green(0.f, 1.f, 0.f, 1.f);
+	bool hideAllFollowing = false; // hide all further points because we crushed to planet
 	for (int i = 0; i < int(COUNTOF(vts)); ++i) {
 		const double t = double(i) / double(COUNTOF(vts));
-		vector3d pos = b->orbit.EvenSpacedPosAtTime(t);
-		vts[i] = vector3f(offset + pos * double(m_zoom));
+		vector3d pos = orb->EvenSpacedPosTrajectory(t);
+
+		if(pos.Length() < planetRadius)
+			hideAllFollowing = true;
+
+		if(hideAllFollowing && i > 0)
+			vts[i] = vts[i-1];
+		else
+			vts[i] = vector3f(offset + pos * double(m_zoom));
 	}
-	m_renderer->DrawLines(COUNTOF(vts), vts, green, LINE_LOOP);
+	if(orb->eccentricity < 1 && !hideAllFollowing) // not close the loop for hyperbolas and parabolas and crashed ellipses
+		m_renderer->DrawLines(COUNTOF(vts), vts, color, LINE_LOOP);
+	else
+		m_renderer->DrawLines(COUNTOF(vts), vts, color, LINE_STRIP);
 }
 
 void SystemView::OnClickObject(SystemBody *b)
@@ -169,7 +179,7 @@ void SystemView::OnClickObject(SystemBody *b)
 
 		desc += std::string(Lang::ORBITAL_PERIOD);
 	desc += ":\n";
-		data += stringf(Lang::N_DAYS, formatarg("days", b->orbit.period / (24*60*60))) + "\n";
+		data += stringf(Lang::N_DAYS, formatarg("days", b->orbit.Period() / (24*60*60))) + "\n";
 	}
 	m_infoLabel->SetText(desc);
 	m_infoText->SetText(data);
@@ -227,11 +237,19 @@ void SystemView::PutBody(SystemBody *b, vector3d offset, const matrix4x4f &trans
 		PutLabel(b, offset);
 	}
 
+	Frame * fram = Pi::player->GetFrame();
+	if(fram->IsRotFrame()) fram = fram->GetNonRotFrame();
+	if(fram->GetSystemBody() == b && fram->GetSystemBody()->GetMass() > 0) {
+		Orbit * playerOrbit = Pi::player->ReturnOrbit();
+		PutOrbit(playerOrbit, offset, Color(1.0f, 0.0f, 0.0f), b->GetRadius());
+		PutSelectionBox(offset + playerOrbit->OrbitalPosAtTime(m_time)* double(m_zoom), Color(1.0f, 0.0f, 0.0f));
+	}
+
 	if (b->children.size()) for(std::vector<SystemBody*>::iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
 
 		if (is_zero_general((*kid)->orbit.semiMajorAxis)) continue;
 		if ((*kid)->orbit.semiMajorAxis * m_zoom < ROUGH_SIZE_OF_TURD) {
-			PutOrbit(*kid, offset);
+			PutOrbit(&((*kid)->orbit), offset);
 		}
 
 		// not using current time yet

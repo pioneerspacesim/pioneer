@@ -6,6 +6,7 @@
 #include "Space.h"
 #include "Frame.h"
 #include "Serializer.h"
+#include "Game.h"
 #include "Planet.h"
 #include "Pi.h"
 
@@ -257,4 +258,17 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 	// ignore damage less than a gram
 	if (kineticEnergy > 1e-3) OnDamage(o, float(kineticEnergy));
 	return true;
+}
+
+// return parameters for orbit of any body, gives both elliptic and hyperbolic trajectories
+Orbit *DynamicBody::ReturnOrbit() {
+	Frame *fram = this->GetFrame();
+	if(fram->IsRotFrame()) fram = fram->GetNonRotFrame();
+	double mass = fram->GetSystemBody()->GetMass();
+
+	// current velocity and position with respect to non-rotating frame
+	vector3d vel = this->GetVelocityRelTo(fram);
+	vector3d pos = this->GetPositionRelTo(fram);
+
+	return Orbit::calc_orbit(&(this->orbit), pos, vel, mass);
 }

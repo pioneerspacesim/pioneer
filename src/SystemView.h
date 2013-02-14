@@ -11,6 +11,7 @@
 
 class StarSystem;
 class SystemBody;
+class Orbit;
 
 class SystemView: public View {
 public:
@@ -22,7 +23,7 @@ protected:
 	virtual void OnSwitchTo() {}
 private:
 	static const double PICK_OBJECT_RECT_SIZE;
-	void PutOrbit(SystemBody *b, vector3d offset);
+	void PutOrbit(Orbit *orb, vector3d offset, Color color = Color(0.f, 1.f, 0.f, 1.f), double planetRadius = 0.0);
 	void PutBody(SystemBody *b, vector3d offset, const matrix4x4f &trans);
 	void PutLabel(SystemBody *b, vector3d offset);
 	void PutSelectionBox(const SystemBody *b, const vector3d &rootPos, const Color &col);
