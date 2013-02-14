@@ -209,6 +209,7 @@ void SpaceStation::UpdateShipyard()
 		SceneGraph::ModelSkin skin;
 		skin.SetRandomColors(Pi::rng);
 		skin.SetPattern(Pi::rng.Int32(0, Pi::FindModel(id)->GetNumPatterns()));
+		skin.SetLabel(regId);
 		ShipOnSale sos(id, regId, skin);
 		m_shipsOnSale.push_back(sos);
 	}
