@@ -406,6 +406,7 @@ end
 
 local onClick = function (mission)
 	local ass_flavours = Translate:GetFlavours('Assassination')
+	local dist
 	if not Game.system then dist = "???" else dist = string.format("%.2f", Game.system:DistanceTo(mission.location)) end
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((ass_flavours[mission.flavour].introtext):interp({
