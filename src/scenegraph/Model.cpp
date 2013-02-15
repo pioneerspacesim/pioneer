@@ -3,6 +3,7 @@
 
 #include "Model.h"
 #include "CollisionVisitor.h"
+#include "LOD.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 
@@ -28,6 +29,50 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 	ClearDecals();
 }
 
+class CopyVisitor : public NodeVisitor {
+public:
+	CopyVisitor() : root(0) {}
+
+	virtual void ApplyNode(Node &node) {
+		assert(root);
+		root->AddChild(node.Clone());
+	}
+
+	virtual void ApplyGroup(Group &group) {
+		Group *old = root;
+
+		std::map<Group*,Group*>::iterator i = cache.find(&group);
+		if (i != cache.end())
+			root = (*i).second;
+		else {
+			// can't use the copy constructor or Clone
+			// they will do too much work
+			root = new Group(group.GetRenderer());
+			root->SetName(group.GetName());
+			root->SetNodeMask(group.GetNodeMask());
+			cache.insert(std::make_pair(&group, root));
+		}
+
+		group.Traverse(*this);
+
+		if (old) {
+			old->AddChild(root);
+			root = old;
+		}
+	}
+
+	virtual void ApplyLOD(LOD &lod) {
+		ApplyNode(lod);
+	}
+
+	virtual void ApplyMatrixTransform(MatrixTransform &mt) {
+		ApplyNode(mt);
+	}
+
+	std::map<Group*,Group*> cache;
+	Group *root;
+};
+
 Model::Model(const Model &model)
 : m_boundingRadius(model.m_boundingRadius)
 , m_materials(model.m_materials)
@@ -38,9 +83,10 @@ Model::Model(const Model &model)
 , m_curPattern(model.m_curPattern)
 {
 	//selective copying of node structure
-	Group *root = dynamic_cast<Group*>(model.m_root->Clone());
-	assert(root != 0);
-	m_root.Reset(root);
+	CopyVisitor cv;
+	model.m_root->Accept(cv);
+	assert(cv.root);
+	m_root.Reset(cv.root);
 
 	//materials are shared by meshes
 	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)
