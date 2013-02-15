@@ -428,7 +428,7 @@ local onClick = function (mission)
 													ui:Label(mission.shipregid),
 													ui:Label(Format.Date(mission.due)),
 													ui:Margin(10),
-													ui:Label(dist).." "..t("ly")
+													ui:Label(dist.." "..t("ly"))
 												})
 											})
 		})})
