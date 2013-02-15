@@ -329,6 +329,7 @@ end
 
 local onClick = function (mission)
 	local taxi_flavours = Translate:GetFlavours('Taxi')
+	local dist
 	if not Game.system then dist = "???" else dist = string.format("%.2f", Game.system:DistanceTo(mission.location)) end
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((taxi_flavours[mission.flavour].introtext):interp({
