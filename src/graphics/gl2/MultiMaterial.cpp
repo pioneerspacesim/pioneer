@@ -110,8 +110,7 @@ void LitMultiMaterial::Apply()
 void MultiMaterial::Unapply()
 {
 	glPopAttrib();
-	//Might not be necessary to unbind textures, but let's not
-	//confuse UI and LMR
+	// Might not be necessary to unbind textures, but let's not old graphics code (eg, old-UI)
 	if (texture4) {
 		static_cast<TextureGL*>(texture4)->Unbind();
 		glActiveTexture(GL_TEXTURE3);

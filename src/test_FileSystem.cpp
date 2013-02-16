@@ -50,10 +50,10 @@ void test_enum_models(FileSystem::FileSource &fs)
 
 	printf("enumerating models:\n");
 	FileEnumerator files(fs, FileEnumerator::Recurse | FileEnumerator::IncludeDirs);
-	files.AddSearchRoot("lmrmodels");
+	files.AddSearchRoot("models");
 	while (!files.Finished()) {
 		const FileInfo &fi = files.Current();
-		if (fi.IsDir() || ends_with(fi.GetPath(), ".lua")) {
+		if (fi.IsDir() || ends_with(fi.GetPath(), ".model")) {
 			printf("  %s (%s) (%s)\n", fi.GetPath().c_str(), ftype_name(fi), fi.GetSource().GetRoot().c_str());
 		}
 		files.Next();
@@ -91,5 +91,5 @@ void test_filesystem()
 
 	//fs.RemoveSource(&fsZip);
 	//printf("Just data:\n");
-	test_enum_models(fs);
+	//test_enum_models(fs);
 }

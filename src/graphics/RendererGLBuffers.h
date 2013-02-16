@@ -25,7 +25,7 @@ struct UnlitVertex /*: public GLVertex*/ {
 };
 
 //+normal, uv0
-//Users: LMRModel
+//Users: SGModel
 struct ModelVertex /*: public GLVertex*/ {
 	vector3f position;
 	vector3f normal;
@@ -133,7 +133,7 @@ public:
 		glColorPointer(4, GL_FLOAT, stride, reinterpret_cast<const GLvoid *>(pointer));
 	}
 
-	//XXX this only supports LMR vertices!!
+	//XXX this only supports ModelVertex vertices!!
 	virtual void SetPointers() {
 		VertexPointer(sizeof(ModelVertex), offsetof(ModelVertex, position));
 		NormalPointer(sizeof(ModelVertex), offsetof(ModelVertex, normal));
