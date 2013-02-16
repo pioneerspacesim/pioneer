@@ -20,10 +20,7 @@ std::vector<ShipType::Id> ShipType::missile_ships;
 
 std::vector<ShipType::Id> ShipType::playable_atmospheric_ships;
 
-std::string ShipType::LADYBIRD				= "ladybird_starfighter";
-std::string ShipType::SIRIUS_INTERDICTOR	= "sirius_interdictor";
-std::string ShipType::EAGLE_LRF				= "eagle_lrf";
-std::string ShipType::EAGLE_MK3				= "eagle_mk3";
+std::string ShipType::POLICE				= "kanara";
 std::string ShipType::MISSILE_GUIDED		= "missile_guided";
 std::string ShipType::MISSILE_NAVAL			= "missile_naval";
 std::string ShipType::MISSILE_SMART			= "missile_smart";
