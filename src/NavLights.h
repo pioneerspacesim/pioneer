@@ -13,17 +13,21 @@ namespace SceneGraph { class Model; class Billboard; }
 class NavLights
 {
 public:
+	struct LightBulb
+	{
+		LightBulb(Uint8 mask, SceneGraph::Billboard *bb);
+		Uint8 mask;
+		SceneGraph::Billboard *billboard;
+	};
 	NavLights(SceneGraph::Model*);
 	~NavLights();
 	void SetEnabled(bool on) { m_enabled = on; }
 	void Update(float time);
 
 private:
-	std::vector<SceneGraph::Billboard*> m_groupRed;
-	std::vector<SceneGraph::Billboard*> m_groupGreen;
-	std::vector<SceneGraph::Billboard*> m_groupBlue;
-	std::vector<SceneGraph::Billboard*> m_allLights;
+	std::vector<LightBulb> m_allLights;
 	float m_time;
+	float m_period;
 	bool m_enabled;
 };
 

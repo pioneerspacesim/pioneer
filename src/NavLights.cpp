@@ -6,8 +6,15 @@
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/FindNodeVisitor.h"
 
+NavLights::LightBulb::LightBulb(Uint8 _mask, SceneGraph::Billboard *bb)
+: mask(_mask)
+, billboard(bb)
+{
+}
+
 NavLights::NavLights(SceneGraph::Model *model)
 : m_time(0.f)
+, m_period(2.f)
 , m_enabled(false)
 {
 	using SceneGraph::Node;
@@ -38,16 +45,15 @@ NavLights::NavLights(SceneGraph::Model *model)
 		MatrixTransform *mt = dynamic_cast<MatrixTransform*>(results.at(i));
 		assert(mt);
 		Billboard *bblight = new Billboard(renderer, matBlue, vector3f(0.f), 5.f);
-		m_allLights.push_back(bblight);
+		Uint8 mask = 0xff; //always on
 		if (mt->GetName().substr(9, 3) == "red") {
 			bblight->SetMaterial(matRed);
-			m_groupRed.push_back(bblight);
+			mask = 0x0f;
 		} else if (mt->GetName().substr(9, 5) == "green") {
 			bblight->SetMaterial(matGreen);
-			m_groupGreen.push_back(bblight);
-		} else {
-			m_groupBlue.push_back(bblight);
+			mask = 0xf0;
 		}
+		m_allLights.push_back(LightBulb(mask, bblight));
 		mt->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 		mt->AddChild(bblight);
 	}
@@ -61,23 +67,19 @@ void NavLights::Update(float time)
 {
 	if (!m_enabled) {
 		for (unsigned int i = 0; i < m_allLights.size(); i++)
-			m_allLights[i]->SetNodeMask(0x0);
+			m_allLights[i].billboard->SetNodeMask(0x0);
 		return;
 	}
 
 	m_time += time;
 
-	int phase = int(fmod(m_time, 2.f));
+	int phase((fmod(m_time, m_period) / m_period) * 8);
+	Uint8 mask = 1 << phase;
 
-	for (unsigned int i = 0; i < m_groupRed.size(); i++) {
-		m_groupRed[i]->SetNodeMask(phase == 0 ? SceneGraph::NODE_TRANSPARENT : 0x0);
-	}
-
-	for (unsigned int i = 0; i < m_groupGreen.size(); i++) {
-		m_groupGreen[i]->SetNodeMask(phase == 1 ? SceneGraph::NODE_TRANSPARENT : 0x0);
-	}
-
-	for (unsigned int i = 0; i < m_groupBlue.size(); i++) {
-		m_groupBlue[i]->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
+	for (unsigned int i = 0; i < m_allLights.size(); i++) {
+		if (m_allLights[i].mask & mask)
+			m_allLights[i].billboard->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
+		else
+			m_allLights[i].billboard->SetNodeMask(0x0);
 	}
 }
