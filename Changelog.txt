@@ -37,7 +37,7 @@ Alpha 32
      * Removed Lua model system (LMR) (#2029)
      * Removed Text::VectorFont (#2041)
      * Removed Renderer::DrawPoints2D (#2041)
-     * LuaObject wrapper cleanup (#2026, #2049)
+     * LuaObject wrapper cleanup (#2026, #2049, #2073, #2075)
 
 Alpha 31
 
