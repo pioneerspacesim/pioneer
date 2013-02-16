@@ -2,7 +2,7 @@ Alpha 32
 
    * New features
      * New ship "Kanara Interceptor" (#2037)
-     * New fast random number generator (#1893)
+     * New fast random number generator (#1893, #2078)
 
    * Minor changes and tweaks
      * Balanced DSMiner fuel use (#2062)
