@@ -16,6 +16,7 @@ Alpha 32
      * Fix crash in several mission screens when accessed during hyperspace
        (#2064, #2056)
      * Fix crash when missiles explode before activation (#2067, #2066)
+     * Fix duplicated model animation groups (#2063, #2024)
 
    * Model changes
      * Converted Natrix ship to SGModel (#2033)
