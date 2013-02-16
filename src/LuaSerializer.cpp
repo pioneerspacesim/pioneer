@@ -176,7 +176,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 		case LUA_TUSERDATA: {
 			out += "u";
 
-			LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
+			LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, idx));
 			void *o = lo->GetObject();
 			if (!o)
 				Error("Lua serializer '%s' tried to serialize an invalid object", key);
