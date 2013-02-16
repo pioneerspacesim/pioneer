@@ -8,6 +8,8 @@ Alpha 32
      * Fully initialise Body object in its constructor (#2048)
      * Fix crash when refueling (#2050)
      * Reduce terrain "grid" effect (#2053, #1631)
+     * Fix crash in several mission screens when accessed during hyperspace
+       (#2064, #2056)
 
    * Model changes
      * Converted Natrix ship to SGModel (#2033)

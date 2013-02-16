@@ -406,14 +406,14 @@ end
 
 local onClick = function (mission)
 	local ass_flavours = Translate:GetFlavours('Assassination')
-	local dist = Game.system:DistanceTo(mission.location)
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((ass_flavours[mission.flavour].introtext):interp({
 														name   = mission.client.name,
 														target = mission.target,
 														system = mission.location:GetStarSystem().name,
 														cash   = Format.Money(mission.reward),
-														dist  = string.format("%.2f", dist)})
+														dist  = dist})
 										),
 										ui:Grid(2,1)
 											:SetColumn(0, {
@@ -428,7 +428,7 @@ local onClick = function (mission)
 													ui:Label(mission.shipregid),
 													ui:Label(Format.Date(mission.due)),
 													ui:Margin(10),
-													ui:Label(math.ceil(dist).." "..t("ly"))
+													ui:Label(dist.." "..t("ly"))
 												})
 											})
 		})})
