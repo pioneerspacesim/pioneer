@@ -9,9 +9,18 @@
 //Space station definition, loaded from data/stations
 
 class Ship;
-namespace SceneGraph { class Model; }
 
 struct SpaceStationType {
+	struct Port
+	{
+		typedef std::map<uint32_t, matrix4x4f> TMapBayIDMat;
+		TMapBayIDMat m_docking;
+		TMapBayIDMat m_leaving;
+		TMapBayIDMat m_approach;
+	};
+	typedef std::map<uint32_t, Port> PortMap;
+	PortMap m_ports;
+
 	struct SBayGroup {
 		SBayGroup() : minShipSize(-1), maxShipSize(-1), inUse(false) {}
 		int minShipSize, maxShipSize;
@@ -47,13 +56,16 @@ struct SpaceStationType {
 	};
 
 	SpaceStationType();
+
+	void OnSetupComplete();
+
 	// Call functions in the station .lua
-	bool GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const;
+	bool GetShipApproachWaypoints(const int port, const int stage, positionOrient_t &outPosOrient) const;
 	/** when ship is on rails it returns true and fills outPosOrient.
 	 * when ship has been released (or docked) it returns false.
 	 * Note station animations may continue for any number of stages after
 	 * ship has been released and is under player control again */
-	bool GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
+	bool GetDockAnimPositionOrient(const int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
 
 	static void Init();
 	static void Uninit();

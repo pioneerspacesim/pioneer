@@ -140,8 +140,6 @@ Model *Loader::LoadModel(const std::string &filename)
 Model *Loader::LoadModel(const std::string &shortname, const std::string &basepath)
 {
 	m_logMessages.clear();
-	// clear the waypoint cache
-	m_waypoints.clear();
 
 	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
 	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
@@ -387,24 +385,7 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 
 	ConvertNodes(scene->mRootNode, static_cast<Group*>(meshRoot.Get()), surfaces, matrix4x4f::Identity());
 	ConvertAnimations(scene, animDefs, static_cast<Group*>(meshRoot.Get()));
-
-	// map< port, map< stage, data > >
-	std::map<uint32_t, Port>::const_iterator portIter = m_waypoints.begin();
-	m_model->m_ports.reserve(m_waypoints.size());
-	for( ; portIter != m_waypoints.end() ; ++portIter )
-	{
-		const uint32_t portId = (*portIter).first;
-		const Port &portData = (*portIter).second;
-		m_model->m_ports.push_back(Model::Port());
-		Model::Port &MBPort = m_model->m_ports.back();
-
-		MBPort.m_docking = portData.m_docking;
-		MBPort.m_leaving = portData.m_leaving;
-		MBPort.m_approach = portData.m_approach;
-	}
 	
-	//m_model->m_ports.
-
 	return meshRoot;
 }
 
@@ -776,20 +757,11 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 			MatrixTransform *tagMt = new MatrixTransform(m_renderer, matrix4x4f::Translation(tagpos));
 			m_model->AddTag(nodename, tagMt);
 		} else if (starts_with(nodename, "docking_")) {
-			int port, stage;
-			PiVerify(2 == sscanf(nodename.c_str(), "docking_port%d_stage%d", &port, &stage));
-			PiVerify(port>0 && stage>0);
-			m_waypoints[port].m_docking[stage] = m;
+			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
 		} else if (starts_with(nodename, "leaving_")) {
-			int port, stage;
-			PiVerify(2 == sscanf(nodename.c_str(), "leaving_port%d_stage%d", &port, &stage));
-			PiVerify(port>0 && stage>0);
-			m_waypoints[port].m_leaving[stage] = m;
+			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
 		} else if (starts_with(nodename, "approach_")) {
-			int port, stage;
-			PiVerify(2 == sscanf(nodename.c_str(), "approach_port%d_stage%d", &port, &stage));
-			PiVerify(port>0 && stage>0);
-			m_waypoints[port].m_approach[stage] = m;
+			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
 		}
 		return;
 	}

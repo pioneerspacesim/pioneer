@@ -47,16 +47,6 @@ private:
 	std::vector<std::string> m_logMessages;
 	std::string m_curMeshDef; //for logging
 
-	struct Port
-	{
-		std::map<uint32_t, matrix4x4f> m_docking;
-		std::map<uint32_t, matrix4x4f> m_leaving;
-		std::map<uint32_t, matrix4x4f> m_approach;
-	};
-
-	// map< port, map< stage, data > >
-	std::map<uint32_t, Port> m_waypoints;
-
 	bool CheckKeysInRange(const aiNodeAnim *, double start, double end);
 	matrix4x4f ConvertMatrix(const aiMatrix4x4&) const;
 	Model *CreateModel(ModelDefinition &def);

@@ -102,6 +102,8 @@ public:
 	int GetNumTags() const { return m_tags.size(); }
 	MatrixTransform * const GetTagByIndex(unsigned int index) const;
 	MatrixTransform * const FindTagByName(const std::string &name) const;
+	typedef std::vector<MatrixTransform *> TVecMT;
+	void FindTagsByStartOfName(const std::string &name, TVecMT &outNameMTs) const;
 	void AddTag(const std::string &name, MatrixTransform *node);
 
 	const PatternContainer &GetPatterns() const { return m_patterns; }
@@ -126,17 +128,6 @@ public:
 
 	void Save(Serializer::Writer &wr) const;
 	void Load(Serializer::Reader &rd);
-
-	struct Port
-	{
-		typedef std::map<uint32_t, matrix4x4f> TMapBayIDMat;
-		TMapBayIDMat m_docking;
-		TMapBayIDMat m_leaving;
-		TMapBayIDMat m_approach;
-	};
-
-	typedef std::vector<Port> PortVec;
-	PortVec m_ports;
 
 private:
 	Model(const Model&);

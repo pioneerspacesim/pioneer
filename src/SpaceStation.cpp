@@ -861,7 +861,7 @@ bool SpaceStation::IsPortLocked(const int bay) const
 			}
 		}
 	}
-	// is it safer to return that the
+	// is it safer to return that the is loacked?
 	return true;
 }
 

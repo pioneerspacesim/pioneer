@@ -340,7 +340,7 @@ void ModelViewer::DrawBackground()
 
 void ModelViewer::DrawDockingLocators()
 {
-	using namespace Graphics::Drawables;
+	/*	using namespace Graphics::Drawables;
 
 	static std::vector<Line3D> sLines;
 	static bool sCachedLines = false;
@@ -431,13 +431,6 @@ void ModelViewer::DrawDockingLocators()
 				sLines.push_back(lineZ);
 			}
 
-			/*Color::BLACK;
-			Color::WHITE;
-			Color::RED;
-			Color::GREEN;
-			Color::BLUE;
-			Color::YELLOW;*/
-
 			sCachedLines = true;
 		}
 	}
@@ -446,7 +439,7 @@ void ModelViewer::DrawDockingLocators()
 	for( ; lineIter!=sLines.end(); ++lineIter)
 	{
 		(*lineIter).Draw(m_renderer);
-	}
+	}*/
 }
 
 // Draw collision mesh as a wireframe overlay

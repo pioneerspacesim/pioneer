@@ -37,21 +37,62 @@ SpaceStationType::SpaceStationType()
 {}
 
 #pragma optimize( "", off )
-bool SpaceStationType::GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const
+void SpaceStationType::OnSetupComplete()
+{
+	SceneGraph::Model::TVecMT approach_mts;
+	SceneGraph::Model::TVecMT docking_mts;
+	SceneGraph::Model::TVecMT leaving_mts;
+	model->FindTagsByStartOfName("approach_", approach_mts);
+	model->FindTagsByStartOfName("docking_", docking_mts);
+	model->FindTagsByStartOfName("leaving_", leaving_mts);
+
+	{
+		SceneGraph::Model::TVecMT::const_iterator apprIter = approach_mts.begin();
+		for (; apprIter!=approach_mts.end() ; ++apprIter)
+		{
+			int port, stage;
+			PiVerify(2 == sscanf((*apprIter)->GetName().c_str(), "approach_port%d_stage%d", &port, &stage));
+			PiVerify(port>0 && stage>0);
+			m_ports[port].m_approach[stage] = (*apprIter)->GetTransform();
+		}
+
+		SceneGraph::Model::TVecMT::const_iterator dockIter = docking_mts.begin();
+		for (; dockIter!=docking_mts.end() ; ++dockIter)
+		{
+			int port, stage;
+			PiVerify(2 == sscanf((*dockIter)->GetName().c_str(), "docking_port%d_stage%d", &port, &stage));
+			PiVerify(port>0 && stage>0);
+			m_ports[port].m_docking[stage] = (*dockIter)->GetTransform();
+		}
+		
+		SceneGraph::Model::TVecMT::const_iterator leaveIter = leaving_mts.begin();
+		for (; leaveIter!=leaving_mts.end() ; ++leaveIter)
+		{
+			int port, stage;
+			PiVerify(2 == sscanf((*leaveIter)->GetName().c_str(), "leaving_port%d_stage%d", &port, &stage));
+			PiVerify(port>0 && stage>0);
+			m_ports[port].m_leaving[stage] = (*leaveIter)->GetTransform();
+		}
+	}
+}
+
+#pragma optimize( "", off )
+bool SpaceStationType::GetShipApproachWaypoints(const int port, const int stage, positionOrient_t &outPosOrient) const
 {
 	bool gotOrient = false;
 
 	if (!bHasApproachWaypointsFunction)
 	{
-		assert(port<model->m_ports.size());
-		SceneGraph::Model::Port &rPort = model->m_ports[port];
+		assert(port<=model->m_ports.size());
+		const Port &rPort = m_ports.at(port+1);
 		if (stage>0) {
 			const bool bHasStageData = (rPort.m_approach.find( stage ) != rPort.m_approach.end());
 			if (bHasStageData) {
-				outPosOrient.pos	= vector3d(rPort.m_approach[stage].GetTranslate());
-				outPosOrient.xaxis	= vector3d(rPort.m_approach[stage].GetOrient().VectorX());
-				outPosOrient.yaxis	= vector3d(rPort.m_approach[stage].GetOrient().VectorY());
-				outPosOrient.zaxis	= vector3d(rPort.m_approach[stage].GetOrient().VectorZ());
+				const matrix4x4f &mt = rPort.m_approach.at(stage);
+				outPosOrient.pos	= vector3d(mt.GetTranslate());
+				outPosOrient.xaxis	= vector3d(mt.GetOrient().VectorX());
+				outPosOrient.yaxis	= vector3d(mt.GetOrient().VectorY());
+				outPosOrient.zaxis	= vector3d(mt.GetOrient().VectorZ());
 				outPosOrient.xaxis	= outPosOrient.xaxis.Normalized();
 				outPosOrient.yaxis	= outPosOrient.yaxis.Normalized();
 				outPosOrient.zaxis	= outPosOrient.zaxis.Normalized();
@@ -114,7 +155,7 @@ vector3d vlerp(const double t, const vector3d& v1, const vector3d& v2)
 }
 
 #pragma optimize( "", off )
-static bool GetPosOrient(SceneGraph::Model::Port::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from, 
+static bool GetPosOrient(const SpaceStationType::Port::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from, 
 				  SpaceStationType::positionOrient_t &outPosOrient, const Ship *ship)
 {
 	bool gotOrient = false;
@@ -123,10 +164,11 @@ static bool GetPosOrient(SceneGraph::Model::Port::TMapBayIDMat &bayMap, const in
 
 	const bool bHasStageData = (bayMap.find( stage ) != bayMap.end());
 	if (bHasStageData) {
-		outPosOrient.xaxis	= vector3d(bayMap[stage].GetOrient().VectorX()).Normalized();
-		outPosOrient.yaxis	= vector3d(bayMap[stage].GetOrient().VectorY()).Normalized();
-		outPosOrient.zaxis	= vector3d(bayMap[stage].GetOrient().VectorZ()).Normalized();
-		toPos				= vector3d(bayMap[stage].GetTranslate());
+		const matrix4x4f &mt = bayMap.at(stage);
+		outPosOrient.xaxis	= vector3d(mt.GetOrient().VectorX()).Normalized();
+		outPosOrient.yaxis	= vector3d(mt.GetOrient().VectorY()).Normalized();
+		outPosOrient.zaxis	= vector3d(mt.GetOrient().VectorZ()).Normalized();
+		toPos				= vector3d(mt.GetTranslate());
 		gotOrient = true;
 	}
 
@@ -144,7 +186,7 @@ static bool GetPosOrient(SceneGraph::Model::Port::TMapBayIDMat &bayMap, const in
  * Note station animations may continue for any number of stages after
  * ship has been released and is under player control again */
 #pragma optimize( "", off )
-bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
+bool SpaceStationType::GetDockAnimPositionOrient(const int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
 {
 	if (stage < -shipLaunchStage) { stage = -shipLaunchStage; t = 1.0; }
 	if (stage > numDockingStages || !stage) { stage = numDockingStages; t = 1.0; }
@@ -154,8 +196,8 @@ bool SpaceStationType::GetDockAnimPositionOrient(int port, int stage, double t, 
 
 	if (!bHasDockAnimFunction)
 	{
-		assert(port<model->m_ports.size());
-		SceneGraph::Model::Port &rPort = model->m_ports[port];
+		assert(port<=model->m_ports.size());
+		const Port &rPort = m_ports.at(port+1);
 		const Aabb &aabb = ship->GetAabb();
 		if (stage<0) {
 			const int leavingStage = (-1*stage);
@@ -407,6 +449,7 @@ static int _define_station(lua_State *L, SpaceStationType &station)
 	station.bHasApproachWaypointsFunction = (!station.approachWaypointsFunction.empty());
 
 	station.model = Pi::FindModel(station.modelName);
+	station.OnSetupComplete();
 	return 0;
 }
 
