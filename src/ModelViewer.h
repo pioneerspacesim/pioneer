@@ -77,7 +77,7 @@ private:
 	Graphics::Texture *m_decalTexture;
 	float m_rotX, m_rotY, m_zoom;
 	float m_baseDistance;
-	MTRand m_rng;
+	Random m_rng;
 	SceneGraph::Animation *m_currentAnimation;
 	SceneGraph::Model *m_model;
 	Options m_options;
