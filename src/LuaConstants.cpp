@@ -542,40 +542,6 @@ void LuaConstants::Register(lua_State *l)
 	 */
 
 	/*
-	 * Constants: ShipAnimation
-	 *
-	 * Animation code used by LMR. Pass one of these constants to
-	 * get_animation_stage() or get_animation_position() in a model script.
-	 *
-	 * WHEEL_STATE  - animation state unused; position gives position of undercarriage
-	 *
-	 * Availability:
-	 *
-	 *   alpha 16
-	 *
-	 * Status:
-	 *
-	 *   experimental
-	 */
-
-	/*
-	 * Constants: SpaceStationAnimation
-	 *
-	 * Animation code used by LMR. Pass one of these constants to
-	 * get_animation_stage() or get_animation_position() in a model script.
-	 *
-	 * WHEEL_STATE  - animation state unused; position gives position of undercarriage
-	 *
-	 * Availability:
-	 *
-	 *   alpha 16
-	 *
-	 * Status:
-	 *
-	 *   experimental
-	 */
-
-	/*
 	 * Constants: FileSystemRoot
 	 *
 	 * Specifier of filesystem base.
