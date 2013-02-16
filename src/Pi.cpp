@@ -35,9 +35,6 @@
 #include "LuaRef.h"
 #include "LuaShipDef.h"
 #include "LuaSpace.h"
-#include "LuaStarSystem.h"
-#include "LuaSystemBody.h"
-#include "LuaSystemPath.h"
 #include "LuaTimer.h"
 #include "Missile.h"
 #include "ModelCache.h"
@@ -114,7 +111,7 @@ SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
 Game *Pi::game;
-MTRand Pi::rng;
+Random Pi::rng;
 float Pi::frameTime;
 #if WITH_DEVKEYS
 bool Pi::showDebugInfo;
@@ -161,10 +158,10 @@ static void LuaInit()
 	LuaObject<Player>::RegisterClass();
 	LuaObject<Missile>::RegisterClass();
 	LuaObject<CargoBody>::RegisterClass();
-	LuaStarSystem::RegisterClass();
-	LuaSystemPath::RegisterClass();
-	LuaSystemBody::RegisterClass();
-	LuaObject<MTRand>::RegisterClass();
+	LuaObject<StarSystem>::RegisterClass();
+	LuaObject<SystemPath>::RegisterClass();
+	LuaObject<SystemBody>::RegisterClass();
+	LuaObject<Random>::RegisterClass();
 	LuaObject<Faction>::RegisterClass();
 
 	LuaObject<LuaChatForm>::RegisterClass();
@@ -321,6 +318,7 @@ void Pi::Init()
 
 	Pi::scrAspect = videoSettings.width / float(videoSettings.height);
 
+	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
 
 	InitJoysticks();
@@ -436,7 +434,7 @@ void Pi::Init()
 	vector3d vel4 = c2->GetVelocityRelTo(c1);
 	double speed4 = c2->GetVelocityRelTo(c1).Length();
 
-	
+
 	root->UpdateOrbitRails(0, 1.0);
 
 	//buildrotate test
@@ -974,7 +972,7 @@ void Pi::MainLoop()
 			int pstate = Pi::game->GetPlayer()->GetFlightState();
 			if (pstate == Ship::DOCKED || pstate == Ship::DOCKING) Pi::gameTickAlpha = 1.0;
 			else Pi::gameTickAlpha = accumulator / step;
-			
+
 #if WITH_DEVKEYS
 			phys_stat += phys_ticks;
 #endif

@@ -69,7 +69,7 @@ protected:
 	const SystemBody *m_body;
 
 	Uint32 m_seed;
-	MTRand m_rand;
+	Random m_rand;
 
 	double m_sealevel; // 0 - no water, 1 - 100% coverage
 	double m_icyness; // 0 - 1 (0% to 100% cover)

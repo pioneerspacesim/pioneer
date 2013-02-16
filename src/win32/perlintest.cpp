@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include <stdio.h>
-#include "mtrand.h"
+#include "Random.h"
 #include "perlin.h"
 #include "vector3.h"
 #include "matrix4x4.h"
@@ -10,7 +10,7 @@
 
 double testfunc()
 {
-	MTRand rng;
+	Random rng;
 	double r = 0.0;
 	for (int i=0; i<1000; i++)
 		r += noise(1000.0*rng.Double(), 1000.0*rng.Double(), 1000.0*rng.Double());
@@ -19,7 +19,7 @@ double testfunc()
 
 double testfunc2()
 {
-	MTRand rng;
+	Random rng;
 	double r = 0.0;
 	for (int i=0; i<1000; i++) {
 		r += 1000.0*rng.Double();

@@ -153,8 +153,6 @@ void Ship::Init()
 {
 	const ShipType &stype = GetShipType();
 
-	SetModel(stype.modelName.c_str());
-
 	SetMassDistributionFromModel();
 	UpdateStats();
 	m_stats.hull_mass_left = float(stype.hullMass);
@@ -206,6 +204,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_decelerating = false;
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
+	SetModel(m_type->modelName.c_str());
 	Init();
 	SetController(new ShipController());
 }
@@ -1171,6 +1170,7 @@ void Ship::ResetFlavour(const ShipFlavour *f)
 	m_shipFlavour = *f;
 	m_type = &ShipType::types[m_shipFlavour.id];
 	m_equipment.InitSlotSizes(f->id);
+	SetModel(m_type->modelName.c_str());
 	SetLabel(f->regid);
 	Init();
 	onFlavourChanged.emit();

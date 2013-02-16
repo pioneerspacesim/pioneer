@@ -6,7 +6,7 @@
 
 #include "utils.h"
 #include "gui/Gui.h"
-#include "mtrand.h"
+#include "Random.h"
 #include "gameconsts.h"
 #include "GameConfig.h"
 #include "LuaSerializer.h"
@@ -123,7 +123,7 @@ public:
 
 	static RefCountedPtr<UI::Context> ui;
 
-	static MTRand rng;
+	static Random rng;
 	static int statSceneTris;
 
 	static void SetView(View *v);
