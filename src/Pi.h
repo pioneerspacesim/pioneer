@@ -103,7 +103,7 @@ public:
 	static float CalcHyperspaceFuelOut(int hyperclass, float dist, float hyperspace_range_max);
 	static void Message(const std::string &message, const std::string &from = "", enum MsgLevel level = MSG_NORMAL);
 	static std::string GetSaveDir();
-	static SceneGraph::Model *FindModel(const std::string&);
+	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
 
 	static const char SAVE_DIR_NAME[];
 

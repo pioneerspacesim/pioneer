@@ -34,7 +34,7 @@ Alpha 32
      * Player.SetHyperspaceTarget and GetHyperspaceTarget methods (#2028, #2027)
 
    * Internal changes
-     * Removed Lua model system (LMR) (#2029)
+     * Removed Lua model system (LMR) (#2029, #2071)
      * Removed Text::VectorFont (#2041)
      * Removed Renderer::DrawPoints2D (#2041)
      * LuaObject wrapper cleanup (#2026, #2049, #2073, #2075)

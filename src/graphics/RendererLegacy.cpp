@@ -546,10 +546,10 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 {
 	const AttributeSet set = mesh->GetAttributeSet();
 	bool background = false;
-	bool lmr = false;
+	bool model = false;
 	//XXX does this really have to support every case. I don't know.
 	if (set == (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0))
-		lmr = true;
+		model = true;
 	else if (set == (ATTRIB_POSITION | ATTRIB_DIFFUSE))
 		background = true;
 	else
@@ -570,7 +570,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 		const VertexArray *va = (*surface)->GetVertices();
 
 		int offset = 0;
-		if (lmr) {
+		if (model) {
 			ScopedArray<ModelVertex> vts(new ModelVertex[numsverts]);
 			for(int j=0; j<numsverts; j++) {
 				vts[j].position = va->position[j];

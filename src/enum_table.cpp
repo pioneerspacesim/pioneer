@@ -10,7 +10,6 @@
 #include "Polit.h"
 #include "Ship.h"
 #include "ShipType.h"
-#include "SpaceStation.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Face.h"
 #include "ui/Align.h"
@@ -164,11 +163,6 @@ const struct EnumItem ENUM_PolitGovType[] = {
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_ShipAnimation[] = {
-	{ "WHEEL_STATE", Ship::ANIM_WHEEL_STATE },
-	{ 0, 0 },
-};
-
 const struct EnumItem ENUM_ShipFlightState[] = {
 	{ "FLYING", Ship::FLYING },
 	{ "DOCKING", Ship::DOCKING },
@@ -232,14 +226,6 @@ const struct EnumItem ENUM_ShipTypeTag[] = {
 	{ "SHIP", ShipType::TAG_SHIP },
 	{ "STATIC_SHIP", ShipType::TAG_STATIC_SHIP },
 	{ "MISSILE", ShipType::TAG_MISSILE },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_SpaceStationAnimation[] = {
-	{ "DOCKING_BAY_1", SpaceStation::ANIM_DOCKING_BAY_1 },
-	{ "DOCKING_BAY_2", SpaceStation::ANIM_DOCKING_BAY_2 },
-	{ "DOCKING_BAY_3", SpaceStation::ANIM_DOCKING_BAY_3 },
-	{ "DOCKING_BAY_4", SpaceStation::ANIM_DOCKING_BAY_4 },
 	{ 0, 0 },
 };
 
@@ -415,7 +401,6 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "PolitCrime", ENUM_PolitCrime },
 	{ "PolitEcon", ENUM_PolitEcon },
 	{ "PolitGovType", ENUM_PolitGovType },
-	{ "ShipAnimation", ENUM_ShipAnimation },
 	{ "ShipFlightState", ENUM_ShipFlightState },
 	{ "ShipJumpStatus", ENUM_ShipJumpStatus },
 	{ "ShipAlertStatus", ENUM_ShipAlertStatus },
@@ -424,7 +409,6 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "ShipTypeThruster", ENUM_ShipTypeThruster },
 	{ "DualLaserOrientation", ENUM_DualLaserOrientation },
 	{ "ShipTypeTag", ENUM_ShipTypeTag },
-	{ "SpaceStationAnimation", ENUM_SpaceStationAnimation },
 	{ "EconType", ENUM_EconType },
 	{ "BodyType", ENUM_BodyType },
 	{ "BodySuperType", ENUM_BodySuperType },
