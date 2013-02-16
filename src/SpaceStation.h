@@ -43,13 +43,6 @@ public:
 	static void Init();
 	static void Uninit();
 
-	enum Animation { // <enum scope='SpaceStation' name=SpaceStationAnimation prefix=ANIM_>
-		ANIM_DOCKING_BAY_1,
-		ANIM_DOCKING_BAY_2,
-		ANIM_DOCKING_BAY_3,
-		ANIM_DOCKING_BAY_4,
-	};
-
 	// Should point to SystemBody in Pi::currentSystem
 	SpaceStation(const SystemBody *);
 	SpaceStation() {}

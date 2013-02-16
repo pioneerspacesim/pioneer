@@ -50,10 +50,6 @@ class Ship: public DynamicBody {
 	friend class ShipController; //only controllers need access to AITimeStep
 	friend class PlayerShipController;
 public:
-	enum Animation { // <enum scope='Ship' name=ShipAnimation prefix=ANIM_>
-		ANIM_WHEEL_STATE
-	};
-
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Id shipId);
 	Ship() {} //default constructor used before Load

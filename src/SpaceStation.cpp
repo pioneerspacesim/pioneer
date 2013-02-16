@@ -26,7 +26,6 @@
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
 
-/* Must be called after LmrModel init is called */
 void SpaceStation::Init()
 {
 	SpaceStationType::Init();
