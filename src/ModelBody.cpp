@@ -38,6 +38,8 @@ void ModelBody::Save(Serializer::Writer &wr, Space *space)
 	Body::Save(wr, space);
 	wr.Bool(m_isStatic);
 	wr.Bool(m_colliding);
+	wr.String(m_modelName);
+	m_model->Save(wr);
 }
 
 void ModelBody::Load(Serializer::Reader &rd, Space *space)
@@ -45,6 +47,8 @@ void ModelBody::Load(Serializer::Reader &rd, Space *space)
 	Body::Load(rd, space);
 	m_isStatic = rd.Bool();
 	m_colliding = rd.Bool();
+	SetModel(rd.String().c_str());
+	m_model->Load(rd);
 }
 
 void ModelBody::SetStatic(bool isStatic)
@@ -99,8 +103,10 @@ void ModelBody::SetModel(const char *modelName)
 	//remove old instance
 	delete m_model; m_model = 0;
 
+	m_modelName = modelName;
+
 	//create model instance (some modelbodies, like missiles could avoid this)
-	m_model = Pi::FindModel(modelName)->MakeInstance();
+	m_model = Pi::FindModel(m_modelName)->MakeInstance();
 
 	SetClipRadius(m_model->GetDrawClipRadius());
 
