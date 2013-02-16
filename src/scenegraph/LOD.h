@@ -16,6 +16,7 @@ public:
 	LOD(const LOD&);
 	virtual Node *Clone();
 	virtual const char *GetTypeName() { return "LOD"; }
+	virtual void Accept(NodeVisitor &v);
 	void AddLevel(float pixelRadius, Node *child);
 	virtual void Render(const matrix4x4f &trans, RenderData *rd);
 protected:
