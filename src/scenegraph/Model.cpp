@@ -40,17 +40,26 @@ public:
 
 	virtual void ApplyGroup(Group &group) {
 		Group *old = root;
+		root = 0;
 
-		std::map<Group*,Group*>::iterator i = cache.find(&group);
-		if (i != cache.end())
-			root = (*i).second;
-		else {
+		// only play in the cache if the group is shared
+		const bool doCache = group.GetRefCount() > 1;
+
+		if (doCache) {
+			std::map<Group*,Group*>::iterator i = cache.find(&group);
+			if (i != cache.end())
+				root = (*i).second;
+		}
+
+		if (!root) {
 			// can't use the copy constructor or Clone
 			// they will do too much work
 			root = new Group(group.GetRenderer());
 			root->SetName(group.GetName());
 			root->SetNodeMask(group.GetNodeMask());
-			cache.insert(std::make_pair(&group, root));
+
+			if (doCache)
+				cache.insert(std::make_pair(&group, root));
 		}
 
 		group.Traverse(*this);
