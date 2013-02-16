@@ -20,7 +20,7 @@ void StationPoliceForm::OnOptionClicked(int option)
 			SetTitle(stringf(Lang::SOMEWHERE_POLICE, formatarg("station", station->GetLabel())));
 
 			SetFaceFlags(FaceVideoLink::ARMOUR);
-			SetFaceSeed(MTRand(station->GetSystemBody()->seed).Int32());
+			SetFaceSeed(Random(station->GetSystemBody()->seed).Int32());
 
 			Sint64 crime, fine;
 			Polit::GetCrime(&crime, &fine);

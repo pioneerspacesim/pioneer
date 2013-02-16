@@ -5,7 +5,7 @@
 #define _CITYONPLANET_H
 
 #include "libs.h"
-#include "mtrand.h"
+#include "Random.h"
 #include "Object.h"
 
 class Planet;
@@ -29,7 +29,7 @@ public:
 	static void Init();
 	static void Uninit();
 private:
-	void PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4);
+	void PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4);
 	void AddStaticGeomsToCollisionSpace();
 	void RemoveStaticGeomsFromCollisionSpace();
 

@@ -57,7 +57,7 @@ inline int isfinite(double x) { return _finite(x); }
 #include "matrix3x3.h"
 #include "matrix4x4.h"
 #include "Color.h"
-#include "mtrand.h"
+#include "Random.h"
 
 #include "FloatComparison.h"
 #include "SmartPtr.h"

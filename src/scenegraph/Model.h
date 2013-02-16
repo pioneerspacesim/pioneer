@@ -67,6 +67,7 @@
 #include "Pattern.h"
 #include "CollMesh.h"
 #include "graphics/Material.h"
+#include "Serializer.h"
 #include <stdexcept>
 
 namespace Graphics { class Renderer; }
@@ -122,6 +123,9 @@ public:
 
 	//special for ship model use
 	void SetThrust(const vector3f& linear, const vector3f &angular);
+
+	void Save(Serializer::Writer &wr) const;
+	void Load(Serializer::Reader &rd);
 
 	struct Port
 	{

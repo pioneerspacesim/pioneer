@@ -163,7 +163,7 @@ void SpaceStation::InitStation()
 {
 	m_adjacentCity = 0;
 	for(int i=0; i<NUM_STATIC_SLOTS; i++) m_staticSlot[i] = false;
-	MTRand rand(m_sbody->seed);
+	Random rand(m_sbody->seed);
 	bool ground = m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL ? false : true;
 	if (ground) { 
 		m_type = &SpaceStationType::surfaceStationTypes[ rand.Int32(SpaceStationType::surfaceStationTypes.size()) ];
@@ -179,7 +179,11 @@ void SpaceStation::InitStation()
 	mBayGroups = m_type->bayGroups;
 
 	SetStatic(ground);			// orbital stations are dynamic now
-	SetModel(m_type->modelName.c_str());
+
+	// XXX hack. if we loaded a game then ModelBody::Load already restored the
+	// model and we shouldn't overwrite it
+	if (!GetModel())
+		SetModel(m_type->modelName.c_str());
 
 	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS);		// overrides setmodel
 }
@@ -486,7 +490,7 @@ void SpaceStation::StaticUpdate(const float timeStep)
 
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
-	// rotate the thing 
+	// rotate the thing
 	double len = m_type->angVel * timeStep;
 	if (!is_zero_exact(len)) {
 		matrix3x3d r = matrix3x3d::RotateY(-len);		// RotateY is backwards
@@ -826,20 +830,19 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 		if (port != -1 && 2.0*Pi::rng.Double() < timeStep) {
 			m_numPoliceDocked--;
 			// Make police ship intent on killing the player
-			Ship *ship = new Ship(ShipType::LADYBIRD);
+			Ship *ship = new Ship(ShipType::POLICE);
 			ship->AIKill(Pi::player);
 			ship->SetFrame(GetFrame());
 			ship->SetDockedWith(this, port);
 			Pi::game->GetSpace()->AddBody(ship);
 			{
 				ShipFlavour f;
-				f.id = ShipType::LADYBIRD;
+				f.id = ShipType::POLICE;
 				f.regid = Lang::POLICE_SHIP_REGISTRATION;
 				f.price = ship->GetFlavour()->price;
 				ship->ResetFlavour(&f);
 			}
 			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
-			ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 			ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
 			ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 			ship->UpdateStats();

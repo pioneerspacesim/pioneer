@@ -208,7 +208,6 @@
     <ClCompile Include="..\..\src\ModelCache.cpp" />
     <ClCompile Include="..\..\src\ModelViewer.cpp" />
     <ClCompile Include="..\..\src\ModManager.cpp" />
-    <ClCompile Include="..\..\src\mtrand.cpp" />
     <ClCompile Include="..\..\src\ObjectViewerView.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Pi.cpp" />
@@ -346,13 +345,11 @@
     <ClInclude Include="..\..\src\LuaSerializer.h" />
     <ClInclude Include="..\..\src\LuaShipDef.h" />
     <ClInclude Include="..\..\src\LuaSpace.h" />
-    <ClInclude Include="..\..\src\LuaStarSystem.h" />
-    <ClInclude Include="..\..\src\LuaSystemBody.h" />
-    <ClInclude Include="..\..\src\LuaSystemPath.h" />
     <ClInclude Include="..\..\src\LuaTable.h" />
     <ClInclude Include="..\..\src\LuaTimer.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
     <ClInclude Include="..\..\src\LuaVector.h" />
+    <ClInclude Include="..\..\src\LuaWrappable.h" />
     <ClInclude Include="..\..\src\MarketAgent.h" />
     <ClInclude Include="..\..\src\MathUtil.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
@@ -361,7 +358,6 @@
     <ClInclude Include="..\..\src\ModelCache.h" />
     <ClInclude Include="..\..\src\ModelViewer.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
-    <ClInclude Include="..\..\src\mtrand.h" />
     <ClInclude Include="..\..\src\Object.h" />
     <ClInclude Include="..\..\src\ObjectViewerView.h" />
     <ClInclude Include="..\..\src\OS.h" />
@@ -374,6 +370,7 @@
     <ClInclude Include="..\..\src\Polit.h" />
     <ClInclude Include="..\..\src\Projectile.h" />
     <ClInclude Include="..\..\src\Quaternion.h" />
+    <ClInclude Include="..\..\src\Random.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\RefList.h" />
     <ClInclude Include="..\..\src\SDLWrappers.h" />

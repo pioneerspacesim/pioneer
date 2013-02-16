@@ -80,15 +80,13 @@ noinst_HEADERS = \
 	LuaObject.h \
 	LuaPushPull.h \
 	LuaRef.h \
-	LuaSystemBody.h \
-	LuaSystemPath.h \
 	LuaSerializer.h \
 	LuaShipDef.h \
 	LuaSpace.h \
-	LuaStarSystem.h \
 	LuaTable.h \
 	LuaTimer.h \
 	LuaUtils.h \
+	LuaWrappable.h \
 	MarketAgent.h \
 	MathUtil.h \
 	Missile.h \
@@ -107,6 +105,7 @@ noinst_HEADERS = \
 	Polit.h \
 	Projectile.h \
 	Quaternion.h \
+	Random.h \
 	RefCounted.h \
 	RefList.h \
 	SDLWrappers.h \
@@ -154,7 +153,6 @@ noinst_HEADERS = \
 	gameconsts.h \
 	libs.h \
 	matrix4x4.h \
-	mtrand.h \
 	perlin.h \
 	utils.h \
 	vector2.h \
@@ -288,7 +286,6 @@ pioneer_SOURCES	= \
 	View.cpp \
 	WorldView.cpp \
 	main.cpp \
-	mtrand.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
@@ -327,7 +324,8 @@ tests_SOURCES = \
 	test_StringF.cpp \
 	FileSystem.cpp \
 	FileSourceZip.cpp \
-	test_FileSystem.cpp
+	test_FileSystem.cpp \
+	test_Random.cpp
 TESTS = tests
 tests_LDADD = \
 	collider/libcollider.a \
@@ -335,7 +333,9 @@ tests_LDADD = \
 	graphics/libgraphics.a \
 	terrain/libterrain.a \
     posix/libposix.a \
-	../contrib/miniz/libminiz.a
+	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
+	$(SIGC_LIBS)
 
 uitest_SOURCES = \
 	uitest.cpp \

@@ -50,7 +50,7 @@
 #include "MarketAgent.h"
 #include "matrix4x4.h"
 #include "ModelBody.h"
-#include "mtrand.h"
+#include "Random.h"
 #include "Object.h"
 #include "ObjectViewerView.h"
 #include "perlin.h"

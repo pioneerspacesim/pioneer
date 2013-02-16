@@ -327,7 +327,7 @@ void SystemView::Draw3D()
 	if (m_system->GetUnexplored())
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
 	else if (m_system->rootBody) {
-		PutBody(m_system->rootBody, pos, trans);
+		PutBody(m_system->rootBody.Get(), pos, trans);
 		if (Pi::game->GetSpace()->GetStarSystem() == m_system) {
 			const Body *navTarget = Pi::player->GetNavTarget();
 			const SystemBody *navTargetSystemBody = navTarget ? navTarget->GetSystemBody() : 0;

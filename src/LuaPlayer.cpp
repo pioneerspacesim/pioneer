@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
-#include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Player.h"
@@ -275,7 +274,7 @@ static int l_get_hyperspace_target(lua_State *l)
 	if (Pi::game->IsNormalSpace()) {
 		SystemPath sys = Pi::sectorView->GetHyperspaceTarget();
 		assert(sys.IsSystemPath());
-		LuaSystemPath::PushToLua(&sys);
+		LuaObject<SystemPath>::PushToLua(sys);
 	} else
 		lua_pushnil(l);
 	return 1;
@@ -305,7 +304,7 @@ static int l_set_hyperspace_target(lua_State *l)
 {
 	LuaObject<Player>::CheckFromLua(1);
 	if (Pi::game->IsNormalSpace()) {
-		const SystemPath sys = *LuaSystemPath::CheckFromLua(2);
+		const SystemPath sys = *LuaObject<SystemPath>::CheckFromLua(2);
 		if (!sys.IsSystemPath())
 			return luaL_error(l, "Player:SetHyperspaceTarget() -- second parameter is not a system path");
 		Pi::sectorView->SetHyperspaceTarget(sys);

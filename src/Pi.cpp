@@ -35,9 +35,6 @@
 #include "LuaRef.h"
 #include "LuaShipDef.h"
 #include "LuaSpace.h"
-#include "LuaStarSystem.h"
-#include "LuaSystemBody.h"
-#include "LuaSystemPath.h"
 #include "LuaTimer.h"
 #include "Missile.h"
 #include "ModelCache.h"
@@ -114,7 +111,7 @@ SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
 Game *Pi::game;
-MTRand Pi::rng;
+Random Pi::rng;
 float Pi::frameTime;
 #if WITH_DEVKEYS
 bool Pi::showDebugInfo;
@@ -161,10 +158,10 @@ static void LuaInit()
 	LuaObject<Player>::RegisterClass();
 	LuaObject<Missile>::RegisterClass();
 	LuaObject<CargoBody>::RegisterClass();
-	LuaStarSystem::RegisterClass();
-	LuaSystemPath::RegisterClass();
-	LuaSystemBody::RegisterClass();
-	LuaObject<MTRand>::RegisterClass();
+	LuaObject<StarSystem>::RegisterClass();
+	LuaObject<SystemPath>::RegisterClass();
+	LuaObject<SystemBody>::RegisterClass();
+	LuaObject<Random>::RegisterClass();
 	LuaObject<Faction>::RegisterClass();
 
 	LuaObject<LuaChatForm>::RegisterClass();
@@ -321,6 +318,7 @@ void Pi::Init()
 
 	Pi::scrAspect = videoSettings.width / float(videoSettings.height);
 
+	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
 
 	InitJoysticks();
@@ -436,7 +434,7 @@ void Pi::Init()
 	vector3d vel4 = c2->GetVelocityRelTo(c1);
 	double speed4 = c2->GetVelocityRelTo(c1).Length();
 
-	
+
 	root->UpdateOrbitRails(0, 1.0);
 
 	//buildrotate test
@@ -666,7 +664,7 @@ void Pi::HandleEvents()
 										if (port != -1) {
 											printf("Putting ship into station\n");
 											// Make police ship intent on killing the player
-											Ship *ship = new Ship(ShipType::LADYBIRD);
+											Ship *ship = new Ship(ShipType::POLICE);
 											ship->AIKill(Pi::player);
 											ship->SetFrame(Pi::player->GetFrame());
 											ship->SetDockedWith(s, port);
@@ -678,17 +676,14 @@ void Pi::HandleEvents()
 											printf("Select a space station...\n");
 									}
 								} else {
-									Ship *ship = new Ship(ShipType::LADYBIRD);
-									ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+									Ship *ship = new Ship(ShipType::POLICE);
 									ship->AIKill(Pi::player);
+									ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
+									ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
+									ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 									ship->SetFrame(Pi::player->GetFrame());
 									ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
 									ship->SetVelocity(Pi::player->GetVelocity());
-									ship->m_equipment.Add(Equip::DRIVE_CLASS2);
-									ship->m_equipment.Add(Equip::RADAR_MAPPER);
-									ship->m_equipment.Add(Equip::SCANNER);
-									ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
-									ship->m_equipment.Add(Equip::HYDROGEN, 10);
 									ship->UpdateStats();
 									game->GetSpace()->AddBody(ship);
 								}
@@ -977,7 +972,7 @@ void Pi::MainLoop()
 			int pstate = Pi::game->GetPlayer()->GetFlightState();
 			if (pstate == Ship::DOCKED || pstate == Ship::DOCKING) Pi::gameTickAlpha = 1.0;
 			else Pi::gameTickAlpha = accumulator / step;
-			
+
 #if WITH_DEVKEYS
 			phys_stat += phys_ticks;
 #endif
