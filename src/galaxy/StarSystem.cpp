@@ -938,7 +938,7 @@ SystemBody *StarSystem::GetBodyByPath(const SystemPath &path) const
 	assert(path.IsBodyPath());
 	assert(path.bodyIndex < m_bodies.size());
 
-	return m_bodies[path.bodyIndex];
+	return m_bodies[path.bodyIndex].Get();
 }
 
 SystemPath StarSystem::GetPathOf(const SystemBody *sbody) const
@@ -1057,7 +1057,7 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, Random &rand)
 {
 	const CustomSystemBody *csbody = customSys->sBody;
 
-	rootBody = NewBody();
+	rootBody.Reset(NewBody());
 	rootBody->type = csbody->type;
 	rootBody->parent = NULL;
 	rootBody->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
@@ -1072,7 +1072,7 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, Random &rand)
 	rootBody->orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
 
 	int humanInfestedness = 0;
-	CustomGetKidsOf(rootBody, csbody->children, &humanInfestedness, rand);
+	CustomGetKidsOf(rootBody.Get(), csbody->children, &humanInfestedness, rand);
 	Populate(false);
 
 }
@@ -1370,7 +1370,6 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 {
 	assert(path.IsSystemPath());
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
-	rootBody = 0;
 
 	Sector s = Sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ);
 	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s.m_systems.size());
@@ -1419,14 +1418,14 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 		star[0]->orbMin = 0;
 		star[0]->orbMax = 0;
 		MakeStarOfType(star[0], type, rand);
-		rootBody = star[0];
+		rootBody.Reset(star[0]);
 		m_numStars = 1;
 	} else {
 		centGrav1 = NewBody();
 		centGrav1->type = SystemBody::TYPE_GRAVPOINT;
 		centGrav1->parent = NULL;
 		centGrav1->name = s.m_systems[m_path.systemIndex].name+" A,B";
-		rootBody = centGrav1;
+		rootBody.Reset(centGrav1);
 
 		SystemBody::BodyType type = s.m_systems[m_path.systemIndex].starType[0];
 		star[0] = NewBody();
@@ -1495,7 +1494,7 @@ try_that_again_guvnah:
 			superCentGrav->name = s.m_systems[m_path.systemIndex].name;
 			centGrav1->parent = superCentGrav;
 			centGrav2->parent = superCentGrav;
-			rootBody = superCentGrav;
+			rootBody.Reset(superCentGrav);
 			const fixed minDistSuper = star[0]->orbMax + star[2]->orbMax;
 			MakeBinaryPair(centGrav1, centGrav2, 4*minDistSuper, rand);
 			superCentGrav->children.push_back(centGrav1);
@@ -2022,9 +2021,11 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	unsigned long _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
 			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), UNIVERSE_SEED, Uint32(this->seed) };
 
-	Random rand, namerand;
+	Random rand;
 	rand.seed(_init, 6);
-	namerand.seed(_init, 6);
+
+	RefCountedPtr<Random> namerand(new Random);
+	namerand->seed(_init, 6);
 
 	m_population = fixed(0);
 
@@ -2140,7 +2141,7 @@ static bool check_unique_station_name(const std::string & name, const StarSystem
 	return ret;
 }
 
-static std::string gen_unique_station_name(SystemBody *sp, const StarSystem *system, Random &namerand) {
+static std::string gen_unique_station_name(SystemBody *sp, const StarSystem *system, RefCountedPtr<Random> &namerand) {
 	std::string name;
 	do {
 		name = Pi::luaNameGen->BodyName(sp, namerand);
@@ -2157,9 +2158,11 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 	unsigned long _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
 			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), this->seed, UNIVERSE_SEED };
 
-	Random rand, namerand;
+	Random rand;
 	rand.seed(_init, 6);
-	namerand.seed(_init, 6);
+
+	RefCountedPtr<Random> namerand(new Random);
+	namerand->seed(_init, 6);
 
 	if (m_population < fixed(1,1000)) return;
 
@@ -2230,16 +2233,19 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 	}
 }
 
-StarSystem::~StarSystem()
+static void clear_parent_and_child_pointers(SystemBody *body)
 {
-	if (rootBody) delete rootBody;
+	for (std::vector<SystemBody*>::iterator i = body->children.begin(); i != body->children.end(); ++i)
+		clear_parent_and_child_pointers(*i);
+	body->parent = 0;
+	body->children.clear();
 }
 
-SystemBody::~SystemBody()
+StarSystem::~StarSystem()
 {
-	for (std::vector<SystemBody*>::iterator i = children.begin(); i != children.end(); ++i) {
-		delete (*i);
-	}
+	// clear parent and children pointers. someone (Lua) might still have a
+	// reference to things that are about to be deleted
+	clear_parent_and_child_pointers(rootBody.Get());
 }
 
 void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)

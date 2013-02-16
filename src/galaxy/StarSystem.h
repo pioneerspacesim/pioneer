@@ -10,7 +10,6 @@
 #include "Serializer.h"
 #include <vector>
 #include <string>
-#include "DeleteEmitter.h"
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
 
@@ -52,14 +51,13 @@ struct RingStyle {
 	Color4ub baseColor;
 };
 
-class SystemBody {
+class SystemBody : public RefCounted {
 public:
 	SystemBody();
-	~SystemBody();
 	void PickPlanetType(Random &rand);
 	const SystemBody *FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax);
-	SystemBody *parent;
-	std::vector<SystemBody*> children;
+	SystemBody *parent;                // these are only valid if the StarSystem
+	std::vector<SystemBody*> children; // that create them still exists
 
 	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_>
 		TYPE_GRAVPOINT = 0,
@@ -222,7 +220,7 @@ private:
 	double m_atmosDensity;
 };
 
-class StarSystem : public DeleteEmitter, public RefCounted {
+class StarSystem : public RefCounted {
 public:
 	friend class SystemBody;
 
@@ -247,10 +245,10 @@ public:
 	static float starScale[];
 	static fixed starMetallicities[];
 
-	SystemBody *rootBody;
+	RefCountedPtr<SystemBody> rootBody;
 	std::vector<SystemBody*> m_spaceStations;
 	// index into this will be the SystemBody ID used by SystemPath
-	std::vector<SystemBody*> m_bodies;
+	std::vector< RefCountedPtr<SystemBody> > m_bodies;
 
 	int GetCommodityBasePriceModPercent(int t) {
 		return m_tradeLevel[t];
@@ -275,7 +273,7 @@ private:
 		SystemBody *body = new SystemBody;
 		body->path = m_path;
 		body->path.bodyIndex = m_bodies.size();
-		m_bodies.push_back(body);
+		m_bodies.push_back(RefCountedPtr<SystemBody>(body));
 		return body;
 	}
 	void MakeShortDescription(Random &rand);

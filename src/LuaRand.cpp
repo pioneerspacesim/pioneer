@@ -39,7 +39,7 @@ static int l_rand_new(lua_State *l)
 	int seed = int(time(NULL));
 	if (lua_isnumber(l, 1))
 		seed = lua_tointeger(l, 1);
-	LuaObject<Random>::PushToLuaGC(new Random(seed));
+	LuaObject<Random>::PushToLua(new Random(seed));
 	return 1;
 }
 

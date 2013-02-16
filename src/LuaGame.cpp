@@ -4,8 +4,6 @@
 #include "LuaGame.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "LuaStarSystem.h"
-#include "LuaSystemPath.h"
 #include "FileSystem.h"
 #include "Player.h"
 #include "Pi.h"
@@ -48,7 +46,7 @@ static int l_game_start_game(lua_State *l)
 		return 0;
 	}
 
-	SystemPath *path = LuaSystemPath::CheckFromLua(1);
+	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
 
 	RefCountedPtr<StarSystem> system(StarSystem::GetCached(*path));
 	SystemBody *sbody = system->GetBodyByPath(path);
@@ -152,7 +150,7 @@ static int l_game_attr_system(lua_State *l)
 	if (!Pi::game)
 		lua_pushnil(l);
 	else
-		LuaStarSystem::PushToLua(Pi::game->GetSpace()->GetStarSystem().Get());
+		LuaObject<StarSystem>::PushToLua(Pi::game->GetSpace()->GetStarSystem().Get());
 	return 1;
 }
 

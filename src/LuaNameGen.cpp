@@ -3,7 +3,7 @@
 
 #include "LuaNameGen.h"
 #include "LuaObject.h"
-#include "LuaSystemBody.h"
+#include "galaxy/StarSystem.h"
 #include "Random.h"
 
 static const std::string DEFAULT_FULL_NAME_MALE("Tom Morton");
@@ -35,7 +35,7 @@ static bool GetNameGenFunc(lua_State *l, const char *func)
 	return true;
 }
 
-std::string LuaNameGen::FullName(bool isFemale, Random &rng)
+std::string LuaNameGen::FullName(bool isFemale, RefCountedPtr<Random> &rng)
 {
 	lua_State *l = m_luaManager->GetLuaState();
 
@@ -43,7 +43,7 @@ std::string LuaNameGen::FullName(bool isFemale, Random &rng)
 		return isFemale ? DEFAULT_FULL_NAME_FEMALE : DEFAULT_FULL_NAME_MALE;
 
 	lua_pushboolean(l, isFemale);
-	LuaObject<Random>::PushToLua(&rng);
+	LuaObject<Random>::PushToLua(rng.Get());
 	pi_lua_protected_call(l, 2, 1);
 
 	std::string fullname = luaL_checkstring(l, -1);
@@ -52,14 +52,14 @@ std::string LuaNameGen::FullName(bool isFemale, Random &rng)
 	return fullname;
 }
 
-std::string LuaNameGen::Surname(Random &rng)
+std::string LuaNameGen::Surname(RefCountedPtr<Random> &rng)
 {
 	lua_State *l = m_luaManager->GetLuaState();
 
 	if (!GetNameGenFunc(l, "Surname"))
 		return DEFAULT_SURNAME;
 
-	LuaObject<Random>::PushToLua(&rng);
+	LuaObject<Random>::PushToLua(rng.Get());
 	pi_lua_protected_call(l, 1, 1);
 
 	std::string surname = luaL_checkstring(l, -1);
@@ -68,15 +68,15 @@ std::string LuaNameGen::Surname(Random &rng)
 	return surname;
 }
 
-std::string LuaNameGen::BodyName(SystemBody *body, Random &rng)
+std::string LuaNameGen::BodyName(SystemBody *body, RefCountedPtr<Random> &rng)
 {
 	lua_State *l = m_luaManager->GetLuaState();
 
 	if (!GetNameGenFunc(l, "BodyName"))
 		return DEFAULT_BODY_NAME;
 
-	LuaSystemBody::PushToLua(body);
-	LuaObject<Random>::PushToLua(&rng);
+	LuaObject<SystemBody>::PushToLua(body);
+	LuaObject<Random>::PushToLua(rng.Get());
 	pi_lua_protected_call(l, 2, 1);
 
 	std::string bodyname = luaL_checkstring(l, -1);
