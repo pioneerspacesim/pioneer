@@ -96,6 +96,7 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 			group = atoi(mt->GetName().substr(12, 1).c_str());
 			mask = 0xf0;
 		}
+		//everything else is blue & static
 
 		m_lights.push_back(LightBulb(group, mask, bblight));
 		mt->SetNodeMask(SceneGraph::NODE_TRANSPARENT);

@@ -3,6 +3,7 @@
 
 #include "Billboard.h"
 #include "NodeVisitor.h"
+#include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 
@@ -42,8 +43,12 @@ void Billboard::Render(const matrix4x4f &trans, RenderData *rd)
 
 	const matrix3x3f rot = trans.GetOrient().Transpose();
 
-	const vector3f rotv1 = rot * vector3f(m_size/2.f, -m_size/2.f, 0.0f);
-	const vector3f rotv2 = rot * vector3f(m_size/2.f, m_size/2.f, 0.0f);
+	//some hand-tweaked scaling, to make the lights seem larger from distance
+	const float fovfactor = 2 * tan(DEG2RAD(Graphics::GetFOV()) / 2.f);
+	const float size = m_size * fovfactor * Clamp(trans.GetTranslate().Length() / 100.f, 0.25f, 15.f);
+
+	const vector3f rotv1 = rot * vector3f(size/2.f, -size/2.f, 0.0f);
+	const vector3f rotv2 = rot * vector3f(size/2.f, size/2.f, 0.0f);
 
 	va.Add(m_offset-rotv1, vector2f(0.f, 0.f)); //top left
 	va.Add(m_offset-rotv2, vector2f(0.f, 1.f)); //bottom left

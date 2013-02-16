@@ -43,6 +43,9 @@ namespace Graphics {
 	int GetScreenWidth();
 	int GetScreenHeight();
 
+	float GetFOV();
+	void SetFOV(float);
+
 	// does SDL video init, constructs appropriate Renderer
 	Renderer* Init(Settings);
 	void Uninit();

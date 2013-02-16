@@ -191,6 +191,8 @@ bool RendererLegacy::SetTransform(const matrix4x4f &m)
 
 bool RendererLegacy::SetPerspectiveProjection(float fov, float aspect, float near, float far)
 {
+	Graphics::SetFOV(fov);
+
 	double ymax = near * tan(fov * M_PI / 360.0);
 	double ymin = -ymax;
 	double xmin = ymin * aspect;

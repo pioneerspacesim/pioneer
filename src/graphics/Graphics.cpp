@@ -15,6 +15,7 @@ bool shadersAvailable = false;
 bool shadersEnabled = false;
 Material *vtxColorMaterial;
 Settings settings;
+static float g_fov = 85.f;
 
 int GetScreenWidth()
 {
@@ -24,6 +25,16 @@ int GetScreenWidth()
 int GetScreenHeight()
 {
 	return settings.height;
+}
+
+float GetFOV()
+{
+	return g_fov;
+}
+
+void SetFOV(float fov)
+{
+	g_fov = fov;
 }
 
 Renderer* Init(Settings vs)
