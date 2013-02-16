@@ -13,23 +13,36 @@ namespace SceneGraph { class Model; class Billboard; }
 class NavLights
 {
 public:
+	enum LightColor {
+		NAVLIGHT_RED,
+		NAVLIGHT_GREEN,
+		NAVLIGHT_BLUE,
+		NAVLIGHT_YELLOW
+	};
+
 	struct LightBulb
 	{
-		LightBulb(Uint8 mask, SceneGraph::Billboard *bb);
+		LightBulb(Uint8 group, Uint8 mask, SceneGraph::Billboard *bb);
+		Uint8 group;
 		Uint8 mask;
+		LightColor color;
 		SceneGraph::Billboard *billboard;
 	};
-	NavLights(SceneGraph::Model*);
-	~NavLights();
+
+	NavLights(SceneGraph::Model*, float period = 2.f);
+	virtual ~NavLights();
 	void SetEnabled(bool on) { m_enabled = on; }
 	void Update(float time);
+	void SetColor(unsigned int group, LightColor);
 
-private:
-	std::vector<LightBulb> m_allLights;
+	static void NavLights::Init(Graphics::Renderer*);
+	static void NavLights::Uninit();
+
+protected:
+	std::vector<LightBulb> m_lights;
 	float m_time;
 	float m_period;
 	bool m_enabled;
 };
 
 #endif
-

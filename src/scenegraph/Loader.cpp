@@ -745,7 +745,8 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 	if (node->mNumChildren == 0 && node->mNumMeshes == 0) {
 		if (starts_with(nodename, "navlight_")) {
 			//Create a MT, lights are attached by client.
-			MatrixTransform *lightPoint = new MatrixTransform(m_renderer, m);
+			matrix4x4f lightPos = matrix4x4f::Translation(m.GetTranslate());
+			MatrixTransform *lightPoint = new MatrixTransform(m_renderer, lightPos);
 			lightPoint->SetNodeMask(0x0); //don't render
 			lightPoint->SetName(nodename);
 			_parent->AddChild(lightPoint);

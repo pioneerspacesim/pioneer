@@ -143,6 +143,8 @@ void ModelViewer::Run(const std::string &modelName)
 	OS::LoadWindowIcon();
 	SDL_WM_SetCaption("Model viewer","Model viewer");
 
+	NavLights::Init(renderer);
+
 	//run main loop until quit
 	viewer = new ModelViewer(renderer, Lua::manager);
 	viewer->SetModel(modelName);
@@ -152,6 +154,7 @@ void ModelViewer::Run(const std::string &modelName)
 	delete viewer;
 	Lua::Uninit();
 	delete renderer;
+	NavLights::Uninit();
 	Graphics::Uninit();
 	FileSystem::Uninit();
 	SDL_Quit();
@@ -733,6 +736,7 @@ void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true
 			AddLog(*it);
 		}
 
+		//note: stations won't demonstrate full docking light logic in MV
 		m_navLights.Reset(new NavLights(m_model));
 		m_navLights->SetEnabled(true);
 
