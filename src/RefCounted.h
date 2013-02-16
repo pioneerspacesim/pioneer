@@ -5,8 +5,9 @@
 #define _REFCOUNTED_H
 
 #include "SmartPtr.h"
+#include "LuaWrappable.h"
 
-class RefCounted {
+class RefCounted : public LuaWrappable {
 public:
 	RefCounted() : m_refCount(0) {}
 	virtual ~RefCounted() {}

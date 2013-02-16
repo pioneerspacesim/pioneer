@@ -49,7 +49,7 @@
 #define MTRAND_H
 
 #include "fixed.h"
-#include "DeleteEmitter.h" // for lua
+#include "RefCounted.h"
 #include <assert.h>
 
 class MTRand_int32 { // Mersenne Twister random number generator
@@ -98,7 +98,7 @@ inline unsigned long MTRand_int32::rand_int32() { // generate 32 bit random int
   return x ^ (x >> 18);
 }
 
-class MTRand : public MTRand_int32, public DeleteEmitter {
+class MTRand : public MTRand_int32, public RefCounted {
 public:
   MTRand() : MTRand_int32() {}
   MTRand(unsigned long seed_) : MTRand_int32(seed_) {}

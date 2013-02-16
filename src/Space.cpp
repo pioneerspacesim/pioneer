@@ -89,7 +89,7 @@ Space::Space(Game *game, const SystemPath &path)
 	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenBody(m_starSystem->rootBody, m_rootFrame.Get());
+	GenBody(m_starSystem->rootBody.Get(), m_rootFrame.Get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
 	//DebugDumpFrames();
@@ -249,7 +249,7 @@ void Space::RebuildSystemBodyIndex()
 	m_sbodyIndex.push_back(0);
 
 	if (m_starSystem)
-		AddSystemBodyToIndex(m_starSystem->rootBody);
+		AddSystemBodyToIndex(m_starSystem->rootBody.Get());
 
 	m_sbodyIndexValid = true;
 }
