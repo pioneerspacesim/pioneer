@@ -147,7 +147,11 @@ void SpaceStation::InitStation()
 	else m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
 
 	SetStatic(ground);			// orbital stations are dynamic now
-	SetModel(m_type->modelName.c_str());
+
+	// XXX hack. if we loaded a game then ModelBody::Load already restored the
+	// model and we shouldn't overwrite it
+	if (!GetModel())
+		SetModel(m_type->modelName.c_str());
 
 	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS);		// overrides setmodel
 }

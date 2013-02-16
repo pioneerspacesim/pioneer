@@ -47,6 +47,7 @@ private:
 	bool m_colliding;
 	RefCountedPtr<CollMesh> m_collMesh;
 	Geom *m_geom;
+	std::string m_modelName;
 	SceneGraph::Model *m_model;
 };
 
