@@ -14,6 +14,7 @@ Alpha 32
      * Reduce terrain "grid" effect (#2053, #1631)
      * Fix crash in several mission screens when accessed during hyperspace
        (#2064, #2056)
+     * Fix crash when missiles explode before activation (#2067, #2066)
 
    * Model changes
      * Converted Natrix ship to SGModel (#2033)
