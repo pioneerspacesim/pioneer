@@ -212,17 +212,19 @@ static void LuaInitGame() {
 	LuaEvent::Clear();
 }
 
-SceneGraph::Model *Pi::FindModel(const std::string &name)
+SceneGraph::Model *Pi::FindModel(const std::string &name, bool allowPlaceholder)
 {
 	SceneGraph::Model *m = 0;
 	try {
 		m = Pi::modelCache->FindModel(name);
 	} catch (ModelCache::ModelNotFoundException) {
 		printf("Could not find model: %s\n", name.c_str());
-		try {
-			m = Pi::modelCache->FindModel("error");
-		} catch (ModelCache::ModelNotFoundException) {
-			Error("Could not find placeholder model");
+		if (allowPlaceholder) {
+			try {
+				m = Pi::modelCache->FindModel("error");
+			} catch (ModelCache::ModelNotFoundException) {
+				Error("Could not find placeholder model");
+			}
 		}
 	}
 
