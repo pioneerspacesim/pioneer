@@ -73,6 +73,9 @@ function Ship:FireMissileAt(missile, target)
 		end
 		-- Let's keep a safe distance before activating this device, shall we ?
 		Timer:CallEvery(2, function ()
+			if not missile_object:exists() then -- Usually means it has already exploded
+				return true
+			end
 			if missile_object:DistanceTo(self) < 300 then
 				return false
 			else
