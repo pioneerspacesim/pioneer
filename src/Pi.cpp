@@ -465,27 +465,29 @@ void Pi::Init()
 	FILE *pStatFile = fopen("shipstat.csv","wt");
 	if (pStatFile)
 	{
-		fprintf(pStatFile, "name,lmrname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,sacc,aacc,exvel\n");
+		fprintf(pStatFile, "name,modelname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,sacc,aacc,exvel\n");
 		for (std::map<std::string, ShipType>::iterator i = ShipType::types.begin();
 				i != ShipType::types.end(); ++i)
 		{
-			ShipType *shipdef = &(i->second);
-			LmrModel *lmrModel = LmrLookupModelByName(shipdef->lmrModelName.c_str());
-			LmrObjParams lmrParams; memset(&lmrParams, 0, sizeof(LmrObjParams));
-			lmrParams.animationNamespace = "ShipAnimation";
-			EquipSet equip; equip.InitSlotSizes(shipdef->id);
-			lmrParams.equipment = &equip;
-			LmrCollMesh *collMesh = new LmrCollMesh(lmrModel, &lmrParams);
-			Aabb aabb = collMesh->GetAabb();
+			const ShipType *shipdef = &(i->second);
+			SceneGraph::Model *model = Pi::FindModel(shipdef->modelName, false);
 
 			double hullmass = shipdef->hullMass;
 			double capacity = shipdef->capacity;
-			double xsize = aabb.max.x-aabb.min.x;
-			double ysize = aabb.max.y-aabb.min.y;
-			double zsize = aabb.max.z-aabb.min.z;
-			double fakevol = xsize*ysize*zsize;
-			double rescale = pow(fakevol/(100 * (hullmass+capacity)), 0.3333333333);
-			double brad = aabb.GetRadius();
+
+			double xsize = 0.0, ysize = 0.0, zsize = 0.0, fakevol = 0.0, rescale = 0.0, brad = 0.0;
+			if (model) {
+				ScopedPtr<SceneGraph::Model> inst(model->MakeInstance());
+				model->CreateCollisionMesh();
+				Aabb aabb = model->GetCollisionMesh()->GetAabb();
+				xsize = aabb.max.x-aabb.min.x;
+				ysize = aabb.max.y-aabb.min.y;
+				zsize = aabb.max.z-aabb.min.z;
+				fakevol = xsize*ysize*zsize;
+				brad = aabb.GetRadius();
+				rescale = pow(fakevol/(100 * (hullmass+capacity)), 0.3333333333);
+			}
+
 			double simass = (hullmass + capacity) * 1000.0;
 			double angInertia = (2/5.0)*simass*brad*brad;
 			double acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*simass);
@@ -493,13 +495,11 @@ void Pi::Init()
 			double acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*simass);
 			double acc4 = shipdef->linThrust[ShipType::THRUSTER_RIGHT] / (9.81*simass);
 			double acca = shipdef->angThrust/angInertia;
-			double exvel = shipdef->linThrust[ShipType::THRUSTER_FORWARD] /
-				(shipdef->fuelTankMass * shipdef->thrusterFuelUse * 10 * 1e6);
+			double exvel = shipdef->effectiveExhaustVelocity;
 
 			fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.3f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f,%.1f\n",
-				shipdef->name.c_str(), shipdef->lmrModelName.c_str(), hullmass, capacity,
+				shipdef->name.c_str(), shipdef->modelName.c_str(), hullmass, capacity,
 				fakevol, rescale, xsize, ysize, zsize, acc1, acc2, acc3, acc4, acca, exvel);
-			delete collMesh;
 		}
 		fclose(pStatFile);
 	}
