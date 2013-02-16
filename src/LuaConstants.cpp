@@ -504,7 +504,7 @@ void LuaConstants::Register(lua_State *l)
 	/*
 	 * Constants: ShipFlightState
 	 *
-	 * Ship flight state (used by LMR)
+	 * Ship flight state
 	 *
 	 * FLYING     - open flight (includes autopilot)
 	 * DOCKING    - in docking animation
