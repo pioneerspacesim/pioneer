@@ -32,3 +32,5 @@ lod 1000
 mesh lunarshuttle_poly.obj
 mesh lunarshuttle_thrusters_lights_labels.dae
 
+collision lunarshuttle_collision.obj
+
