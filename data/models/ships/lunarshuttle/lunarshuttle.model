@@ -1,0 +1,34 @@
+# Lunar Shuttle
+
+material Material1
+tex_diff shuttle_win.png
+shininess 15
+
+material Material2
+tex_diff shuttle_deck.png
+shininess 128
+
+material Material3
+tex_diff shuttle_stripe.png
+shininess 25
+
+material Material4
+tex_diff shuttle_hull.png
+shininess 128
+
+material Unassigned
+tex_diff shuttle_deck.png
+shininess 128
+
+material Material5
+tex_diff shuttle_hull.png
+shininess 128
+
+material glow
+tex_glow shuttle_stripe.png
+shininess 128
+
+lod 1000
+mesh lunarshuttle_poly.obj
+mesh lunarshuttle_thrusters_lights_labels.dae
+
