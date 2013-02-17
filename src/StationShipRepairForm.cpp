@@ -60,7 +60,7 @@ void StationShipRepairForm::ShowAll()
 
 int StationShipRepairForm::GetRepairCost(float percent) const
 {
-	return int(Pi::player->GetFlavour()->price * 0.001 * percent);
+	return int(Pi::player->GetShipType()->baseprice * percent);
 }
 
 void StationShipRepairForm::RepairHull(float percent)

@@ -7,7 +7,7 @@
 #include "ui/Context.h"
 
 #include "Face.h"
-#include "ShipSpinner.h"
+#include "ModelSpinner.h"
 
 #include "Lua.h"
 

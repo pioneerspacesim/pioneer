@@ -6,7 +6,6 @@
 
 #include "Form.h"
 #include "SpaceStation.h"
-#include "ShipFlavour.h"
 
 class StationShipViewForm : public BlankForm {
 public:
@@ -18,7 +17,7 @@ private:
 	SpaceStation *m_station;
 
 	int m_marketIndex;
-	ShipFlavour m_flavour;
+	ShipOnSale m_sos;
 };
 
 #endif

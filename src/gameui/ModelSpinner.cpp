@@ -1,7 +1,7 @@
 // Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "ShipSpinner.h"
+#include "ModelSpinner.h"
 #include "Ship.h"
 #include "Pi.h"
 #include "Game.h"
@@ -11,13 +11,10 @@ using namespace UI;
 
 namespace GameUI {
 
-ShipSpinner::ShipSpinner(Context *context, const ShipFlavour &flavour) : Widget(context),
-	m_flavour(flavour),
+ModelSpinner::ModelSpinner(Context *context, SceneGraph::Model *model) : Widget(context),
 	m_rotX(0), m_rotY(0)
 {
-	m_model = Pi::FindModel(ShipType::types[m_flavour.id].modelName.c_str());
-
-	m_flavour.ApplyTo(m_model);
+	m_model.Reset(model->MakeInstance());
 
 	Color lc(1.f);
 	m_light.SetDiffuse(lc);
@@ -26,7 +23,7 @@ ShipSpinner::ShipSpinner(Context *context, const ShipFlavour &flavour) : Widget(
 	m_light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);
 }
 
-void ShipSpinner::Layout()
+void ModelSpinner::Layout()
 {
 	Point size(GetSize());
 	Point activeArea(std::min(size.x, size.y));
@@ -34,7 +31,7 @@ void ShipSpinner::Layout()
 	SetActiveArea(activeArea, activeOffset);
 }
 
-void ShipSpinner::Update()
+void ModelSpinner::Update()
 {
 	if (!(m_rightMouseButton && IsMouseActive())) {
 		m_rotX += .5*Pi::GetFrameTime();
@@ -42,9 +39,8 @@ void ShipSpinner::Update()
 	}
 }
 
-void ShipSpinner::Draw()
+void ModelSpinner::Draw()
 {
-
 	Graphics::Renderer *r = GetContext()->GetRenderer();
 
 	Graphics::Renderer::StateTicket ticket(r);
@@ -68,12 +64,12 @@ void ShipSpinner::Draw()
 	m_model->Render(rot);
 }
 
-void ShipSpinner::HandleMouseDown(const MouseButtonEvent &event)
+void ModelSpinner::HandleMouseDown(const MouseButtonEvent &event)
 {
 	m_rightMouseButton = event.button == UI::MouseButtonEvent::BUTTON_RIGHT;
 }
 
-void ShipSpinner::HandleMouseMove(const UI::MouseMotionEvent &event)
+void ModelSpinner::HandleMouseMove(const UI::MouseMotionEvent &event)
 {
 	if (m_rightMouseButton && IsMouseActive()) {
 		m_rotX += -0.002*event.rel.y;
