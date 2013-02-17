@@ -53,7 +53,9 @@ void SpaceStationType::OnSetupComplete()
 			int port, stage;
 			PiVerify(2 == sscanf((*apprIter)->GetName().c_str(), "approach_port%d_stage%d", &port, &stage));
 			PiVerify(port>0 && stage>0);
-			m_ports[port].m_approach[stage] = (*apprIter)->GetTransform();
+			SBayGroup* pGroup = GetGroupByPort(port-1);
+			assert(pGroup);
+			pGroup->m_approach[stage] = (*apprIter)->GetTransform();
 		}
 
 		SceneGraph::Model::TVecMT::const_iterator dockIter = docking_mts.begin();
@@ -76,6 +78,36 @@ void SpaceStationType::OnSetupComplete()
 	}
 }
 
+const SpaceStationType::SBayGroup* SpaceStationType::FindGroupByPort(const int zeroBaseBayID) const
+{
+	TBayGroups::const_iterator bayIter = bayGroups.begin();
+	for ( ; bayIter!=bayGroups.end() ; ++bayIter ) {
+		std::vector<int>::const_iterator idIter = (*bayIter).bayIDs.begin();
+		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
+			if ((*idIter)==zeroBaseBayID) {
+				return &(*bayIter);
+			}
+		}
+	}
+	// is it safer to return that the is loacked?
+	return NULL;
+}
+
+SpaceStationType::SBayGroup* SpaceStationType::GetGroupByPort(const int zeroBaseBayID)
+{
+	TBayGroups::iterator bayIter = bayGroups.begin();
+	for ( ; bayIter!=bayGroups.end() ; ++bayIter ) {
+		std::vector<int>::iterator idIter = (*bayIter).bayIDs.begin();
+		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
+			if ((*idIter)==zeroBaseBayID) {
+				return &(*bayIter);
+			}
+		}
+	}
+	// is it safer to return that the is loacked?
+	return NULL;
+}
+
 #pragma optimize( "", off )
 bool SpaceStationType::GetShipApproachWaypoints(const int port, const int stage, positionOrient_t &outPosOrient) const
 {
@@ -83,12 +115,11 @@ bool SpaceStationType::GetShipApproachWaypoints(const int port, const int stage,
 
 	if (!bHasApproachWaypointsFunction)
 	{
-		assert(port<=model->m_ports.size());
-		const Port &rPort = m_ports.at(port+1);
-		if (stage>0) {
-			const bool bHasStageData = (rPort.m_approach.find( stage ) != rPort.m_approach.end());
+		const SBayGroup* pGroup = FindGroupByPort(port);
+		if (pGroup && stage>0) {
+			const bool bHasStageData = (pGroup->m_approach.find( stage ) != pGroup->m_approach.end());
 			if (bHasStageData) {
-				const matrix4x4f &mt = rPort.m_approach.at(stage);
+				const matrix4x4f &mt = pGroup->m_approach.at(stage);
 				outPosOrient.pos	= vector3d(mt.GetTranslate());
 				outPosOrient.xaxis	= vector3d(mt.GetOrient().VectorX());
 				outPosOrient.yaxis	= vector3d(mt.GetOrient().VectorY());
@@ -155,7 +186,7 @@ vector3d vlerp(const double t, const vector3d& v1, const vector3d& v2)
 }
 
 #pragma optimize( "", off )
-static bool GetPosOrient(const SpaceStationType::Port::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from, 
+static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from, 
 				  SpaceStationType::positionOrient_t &outPosOrient, const Ship *ship)
 {
 	bool gotOrient = false;

@@ -11,12 +11,11 @@
 class Ship;
 
 struct SpaceStationType {
+	typedef std::map<uint32_t, matrix4x4f> TMapBayIDMat;
 	struct Port
 	{
-		typedef std::map<uint32_t, matrix4x4f> TMapBayIDMat;
 		TMapBayIDMat m_docking;
 		TMapBayIDMat m_leaving;
-		TMapBayIDMat m_approach;
 	};
 	typedef std::map<uint32_t, Port> PortMap;
 	PortMap m_ports;
@@ -26,6 +25,7 @@ struct SpaceStationType {
 		int minShipSize, maxShipSize;
 		bool inUse;
 		std::vector<int> bayIDs;
+		TMapBayIDMat m_approach;
 	};
 	typedef std::vector<SBayGroup> TBayGroups;
 
@@ -58,6 +58,8 @@ struct SpaceStationType {
 	SpaceStationType();
 
 	void OnSetupComplete();
+	const SBayGroup* FindGroupByPort(const int zeroBaseBayID) const;
+	SBayGroup* GetGroupByPort(const int zeroBaseBayID);
 
 	// Call functions in the station .lua
 	bool GetShipApproachWaypoints(const int port, const int stage, positionOrient_t &outPosOrient) const;
