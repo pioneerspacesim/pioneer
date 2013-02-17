@@ -72,3 +72,13 @@ Translate:Add({
 		['Cannot compute orbit parameters']     = 'Bahnparameter konnten nicht berechnet werden',
 	}
 })
+
+  ---- CZECH / ČESKY ----
+
+Translate:Add({
+	Czech = {
+		['Cannot compensate for local gravity'] = 'Lokální gravitaci nelze kompenzovat',
+		['Starport refused docking permission'] = 'Stanice zamítla povolení k přistání',
+		['Cannot compute orbit parameters']     = 'Orbitální parametry nelze vypočítat',
+	}
+})
