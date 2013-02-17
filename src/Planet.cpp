@@ -171,7 +171,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 
 	const float ringScale = (outer-inner)*sbody->GetRadius() / 1.5e7f;
 
-	MTRand rng(GetSystemBody()->seed+4609837);
+	Random rng(GetSystemBody()->seed+4609837);
 	Color4f baseCol = sbody->m_rings.baseColor.ToColor4f();
 	double noiseOffset = 2048.0 * rng.Double();
 	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {

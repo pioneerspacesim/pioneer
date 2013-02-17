@@ -3,6 +3,7 @@
 
 #include "Model.h"
 #include "CollisionVisitor.h"
+#include "LOD.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 
@@ -18,8 +19,7 @@ public:
 };
 
 Model::Model(Graphics::Renderer *r, const std::string &name)
-: ModelBase()
-, m_boundingRadius(10.f)
+: m_boundingRadius(10.f)
 , m_renderer(r)
 , m_name(name)
 , m_curPattern(0)
@@ -29,9 +29,61 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 	ClearDecals();
 }
 
+class CopyVisitor : public NodeVisitor {
+public:
+	CopyVisitor() : root(0) {}
+
+	virtual void ApplyNode(Node &node) {
+		assert(root);
+		root->AddChild(node.Clone());
+	}
+
+	virtual void ApplyGroup(Group &group) {
+		Group *old = root;
+		root = 0;
+
+		// only play in the cache if the group is shared
+		const bool doCache = group.GetRefCount() > 1;
+
+		if (doCache) {
+			std::map<Group*,Group*>::iterator i = cache.find(&group);
+			if (i != cache.end())
+				root = (*i).second;
+		}
+
+		if (!root) {
+			// can't use the copy constructor or Clone
+			// they will do too much work
+			root = new Group(group.GetRenderer());
+			root->SetName(group.GetName());
+			root->SetNodeMask(group.GetNodeMask());
+
+			if (doCache)
+				cache.insert(std::make_pair(&group, root));
+		}
+
+		group.Traverse(*this);
+
+		if (old) {
+			old->AddChild(root);
+			root = old;
+		}
+	}
+
+	virtual void ApplyLOD(LOD &lod) {
+		ApplyNode(lod);
+	}
+
+	virtual void ApplyMatrixTransform(MatrixTransform &mt) {
+		ApplyNode(mt);
+	}
+
+	std::map<Group*,Group*> cache;
+	Group *root;
+};
+
 Model::Model(const Model &model)
-: ModelBase()
-, m_boundingRadius(model.m_boundingRadius)
+: m_boundingRadius(model.m_boundingRadius)
 , m_materials(model.m_materials)
 , m_patterns(model.m_patterns)
 , m_collMesh(model.m_collMesh) //might have to make this per-instance at some point
@@ -40,9 +92,10 @@ Model::Model(const Model &model)
 , m_curPattern(model.m_curPattern)
 {
 	//selective copying of node structure
-	Group *root = dynamic_cast<Group*>(model.m_root->Clone());
-	assert(root != 0);
-	m_root.Reset(root);
+	CopyVisitor cv;
+	model.m_root->Accept(cv);
+	assert(cv.root);
+	m_root.Reset(cv.root);
 
 	//materials are shared by meshes
 	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)
@@ -86,7 +139,7 @@ Model *Model::MakeInstance() const
 	return m;
 }
 
-void Model::Render(const matrix4x4f &trans, LmrObjParams *params)
+void Model::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	//update color parameters (materials are shared by model instances)
 	if (m_curPattern) {
@@ -102,6 +155,9 @@ void Model::Render(const matrix4x4f &trans, LmrObjParams *params)
 	for (unsigned int i=0; i < MAX_DECAL_MATERIALS; i++)
 		if (m_decalMaterials[i].Valid())
 			m_decalMaterials[i]->texture0 = m_curDecals[i];
+
+	//Override renderdata if this model is called from ModelNode
+	RenderData *params = (rd != 0) ? rd : &m_renderData;
 
 	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	m_renderer->SetTransform(trans);
@@ -120,7 +176,7 @@ void Model::Render(const matrix4x4f &trans, LmrObjParams *params)
 	}
 }
 
-RefCountedPtr<CollMesh> Model::CreateCollisionMesh(const LmrObjParams *p)
+RefCountedPtr<CollMesh> Model::CreateCollisionMesh()
 {
 	CollisionVisitor cv;
 	m_root->Accept(cv);
@@ -241,6 +297,66 @@ void Model::UpdateAnimations()
 	// XXX WIP. Assuming animations are controlled manually by SetProgress.
 	for (AnimationContainer::iterator anim = m_animations.begin(); anim != m_animations.end(); ++anim)
 		(*anim)->Interpolate();
+}
+
+void Model::SetThrust(const vector3f &lin, const vector3f &ang)
+{
+	m_renderData.linthrust[0] = lin.x;
+	m_renderData.linthrust[1] = lin.y;
+	m_renderData.linthrust[2] = lin.z;
+
+	m_renderData.angthrust[0] = ang.x;
+	m_renderData.angthrust[1] = ang.y;
+	m_renderData.angthrust[2] = ang.z;
+}
+
+class SaveVisitor : public NodeVisitor {
+public:
+	SaveVisitor(Serializer::Writer *wr_): wr(wr_) {}
+
+	void ApplyMatrixTransform(MatrixTransform &node) {
+		const matrix4x4f &m = node.GetTransform();
+		for (int i = 0; i < 16; i++)
+			wr->Float(m[i]);
+	}
+
+private:
+	Serializer::Writer *wr;
+};
+
+void Model::Save(Serializer::Writer &wr) const
+{
+	SaveVisitor sv(&wr);
+	m_root->Accept(sv);
+
+	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
+		wr.Double((*i)->GetProgress());
+}
+
+
+class LoadVisitor : public NodeVisitor {
+public:
+	LoadVisitor(Serializer::Reader *rd_): rd(rd_) {}
+
+	void ApplyMatrixTransform(MatrixTransform &node) {
+		matrix4x4f m;
+		for (int i = 0; i < 16; i++)
+			m[i] = rd->Float();
+		node.SetTransform(m);
+	}
+
+private:
+	Serializer::Reader *rd;
+};
+
+void Model::Load(Serializer::Reader &rd)
+{
+	LoadVisitor lv(&rd);
+	m_root->Accept(lv);
+
+	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
+		(*i)->SetProgress(rd.Double());
+	UpdateAnimations();
 }
 
 }

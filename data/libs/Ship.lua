@@ -73,6 +73,9 @@ function Ship:FireMissileAt(missile, target)
 		end
 		-- Let's keep a safe distance before activating this device, shall we ?
 		Timer:CallEvery(2, function ()
+			if not missile_object:exists() then -- Usually means it has already exploded
+				return true
+			end
 			if missile_object:DistanceTo(self) < 300 then
 				return false
 			else
@@ -115,7 +118,7 @@ Ship.Refuel = function (self,amount)
 		Comms.Message(t('Fuel tank full.'))
         return 0
     end
-    local ship_stats = self:Stats()
+    local ship_stats = self:GetStats()
     local needed = math.clamp(math.ceil(ship_stats.maxFuelTankMass - ship_stats.fuelMassLeft),0, amount)
     local removed = self:RemoveEquip('WATER', needed)
     self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / ship_stats.maxFuelTankMass, 0, 100))
@@ -369,6 +372,12 @@ local onGameStart = function ()
 end
 
 local serialize = function ()
+	-- Remove non-existent ships first, or the serializer will choke
+	for crewedShip,crew in pairs(CrewRoster) do
+		if not crewedShip:exists() then
+			CrewRoster[crewedShip] = nil
+		end
+	end
     return CrewRoster
 end
 

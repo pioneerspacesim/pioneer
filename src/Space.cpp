@@ -89,7 +89,7 @@ Space::Space(Game *game, const SystemPath &path)
 	m_rootFrame.Reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenBody(m_starSystem->rootBody, m_rootFrame.Get());
+	GenBody(m_starSystem->rootBody.Get(), m_rootFrame.Get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
 	//DebugDumpFrames();
@@ -249,7 +249,7 @@ void Space::RebuildSystemBodyIndex()
 	m_sbodyIndex.push_back(0);
 
 	if (m_starSystem)
-		AddSystemBodyToIndex(m_starSystem->rootBody);
+		AddSystemBodyToIndex(m_starSystem->rootBody.Get());
 
 	m_sbodyIndexValid = true;
 }
@@ -406,7 +406,7 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	bool isInitiallyUnderwater = false;
 	bool initialVariationTooHigh = false;
 
-	MTRand r(sbody->seed);
+	Random r(sbody->seed);
 
 	for (int tries = 0; tries < 200; tries++) {
 		variationWithinLimits = true;
@@ -725,7 +725,7 @@ static void CollideWithTerrain(Body *body)
 
 	double terrHeight = terrain->GetTerrainHeight(body->GetPosition().Normalized());
 	if (altitude >= terrHeight) return;
-	
+
 	CollisionContact c;
 	c.pos = body->GetPosition();
 	c.normal = c.pos.Normalized();

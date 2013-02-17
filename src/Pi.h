@@ -6,7 +6,7 @@
 
 #include "utils.h"
 #include "gui/Gui.h"
-#include "mtrand.h"
+#include "Random.h"
 #include "gameconsts.h"
 #include "GameConfig.h"
 #include "LuaSerializer.h"
@@ -23,7 +23,6 @@ class GameMenuView;
 class Intro;
 class LuaConsole;
 class LuaNameGen;
-class ModelBase;
 class ModelCache;
 class Player;
 class SectorView;
@@ -38,6 +37,7 @@ class UIView;
 class View;
 class WorldView;
 namespace Graphics { class Renderer; }
+namespace SceneGraph { class Model; }
 namespace Sound { class MusicPlayer; }
 namespace UI { class Context; }
 
@@ -103,7 +103,7 @@ public:
 	static float CalcHyperspaceFuelOut(int hyperclass, float dist, float hyperspace_range_max);
 	static void Message(const std::string &message, const std::string &from = "", enum MsgLevel level = MSG_NORMAL);
 	static std::string GetSaveDir();
-	static ModelBase *FindModel(const std::string&);
+	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
 
 	static const char SAVE_DIR_NAME[];
 
@@ -123,7 +123,7 @@ public:
 
 	static RefCountedPtr<UI::Context> ui;
 
-	static MTRand rng;
+	static Random rng;
 	static int statSceneTris;
 
 	static void SetView(View *v);

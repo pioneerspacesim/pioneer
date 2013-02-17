@@ -1,6 +1,7 @@
-material newbuilding
+material DefaultMaterial
 tex_diff newbuilding.png
 tex_glow glowmap.png
+tex_spec specular.png
 diffuse 1.0 1.0 1.0
 specular 0.6 0.6 0.8
 shininess 40

@@ -4,14 +4,14 @@
 #ifndef _MODELBODY_H
 #define _MODELBODY_H
 
+#include "libs.h"
 #include "Body.h"
 #include "vector3.h"
-#include "ModelBase.h"
 #include "CollMesh.h"
-#include "LmrTypes.h"
-#include <vector>
+
 class Geom;
 namespace Graphics { class Renderer; }
+namespace SceneGraph { class Model; }
 
 class ModelBody: public Body {
 public:
@@ -30,26 +30,25 @@ public:
 	bool IsStatic() const { return m_isStatic; }
 	const Aabb &GetAabb() const { return m_collMesh->GetAabb(); }
 	Geom *GetGeom() { return m_geom; }
-	ModelBase *GetModel() { return m_model; }
+	SceneGraph::Model *GetModel() { return m_model; }
 	CollMesh *GetCollMesh() { return m_collMesh.Get(); }
-	LmrObjParams &GetLmrObjParams() { return m_params; }
-	void SetLmrTimeParams();
 	void RebuildCollisionMesh();
 
-	void SetModel(const char *lmrModelName);
+	void SetModel(const char *modelName);
 
-	void RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	void RenderModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
+
 private:
 	bool m_isStatic;
 	bool m_colliding;
 	RefCountedPtr<CollMesh> m_collMesh;
 	Geom *m_geom;
-	LmrObjParams m_params;
-	ModelBase *m_model;
+	std::string m_modelName;
+	SceneGraph::Model *m_model;
 };
 
 #endif /* _MODELBODY_H */

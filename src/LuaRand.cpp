@@ -1,7 +1,8 @@
 // Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "LuaRand.h"
+#include "LuaObject.h"
+#include "Random.h"
 
 /*
  * Class: Rand
@@ -38,7 +39,7 @@ static int l_rand_new(lua_State *l)
 	int seed = int(time(NULL));
 	if (lua_isnumber(l, 1))
 		seed = lua_tointeger(l, 1);
-	LuaObject<MTRand>::PushToLuaGC(new MTRand(seed));
+	LuaObject<Random>::PushToLua(new Random(seed));
 	return 1;
 }
 
@@ -73,7 +74,7 @@ static int l_rand_new(lua_State *l)
  */
 static int l_rand_number(lua_State *l)
 {
-	MTRand *rand = LuaObject<MTRand>::CheckFromLua(1);
+	Random *rand = LuaObject<Random>::CheckFromLua(1);
 
 	double min, max;
 	if (lua_isnumber(l, 2) && lua_isnumber(l, 3)) {
@@ -127,7 +128,7 @@ static int l_rand_number(lua_State *l)
  */
 static int l_rand_integer(lua_State *l)
 {
-	MTRand *rand = LuaObject<MTRand>::CheckFromLua(1);
+	Random *rand = LuaObject<Random>::CheckFromLua(1);
 
 	int min, max;
 	if (lua_isnumber(l, 2) && lua_isnumber(l, 3)) {
@@ -150,9 +151,9 @@ static int l_rand_integer(lua_State *l)
 	return 1;
 }
 
-template <> const char *LuaObject<MTRand>::s_type = "Rand";
+template <> const char *LuaObject<Random>::s_type = "Rand";
 
-template <> void LuaObject<MTRand>::RegisterClass()
+template <> void LuaObject<Random>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "New",     l_rand_new     },

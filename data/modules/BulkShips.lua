@@ -15,15 +15,15 @@ local spawnShips = function ()
 		return
 	end
 
-	local shiptypes = ShipType.GetShipTypes('STATIC_SHIP')
-	if #shiptypes == 0 then return end
+	local shipdefs = build_array(filter(function (k,def) return def.tag == 'STATIC_SHIP' end, pairs(ShipDef)))
+	if #shipdefs == 0 then return end
 
 	-- one ship per three billion, min 1, max 2*num of stations
 	local num_bulk_ships = math.min(#stations*2, math.floor((math.ceil(population)+2)/3))
 
 	for i=1, num_bulk_ships do
 	local station = stations[Engine.rand:Integer(1,#stations)]
-		Space.SpawnShipParked(shiptypes[Engine.rand:Integer(1,#shiptypes)], station)
+		Space.SpawnShipParked(shipdefs[Engine.rand:Integer(1,#shipdefs)].id, station)
 	end
 end
 

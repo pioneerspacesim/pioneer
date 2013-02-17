@@ -1,11 +1,50 @@
+Alpha 32
+
+   * New features
+     * New ship "Kanara Interceptor" (#2037)
+     * New fast random number generator (#1893, #2078)
+
+   * Minor changes and tweaks
+     * Balanced DSMiner fuel use (#2062)
+     * Model animation state saved and restored to savefile (#2044)
+
+   * Fixes
+     * Work around missing model UV coordinates (#2034, #1952)
+     * Fully initialise Body object in its constructor (#2048)
+     * Fix crash when refueling (#2050)
+     * Reduce terrain "grid" effect (#2053, #1631)
+     * Fix crash in several mission screens when accessed during hyperspace
+       (#2064, #2056)
+     * Fix crash when missiles explode before activation (#2067, #2066)
+     * Fix duplicated model animation groups (#2063, #2024)
+
+   * Model changes
+     * Converted Natrix ship to SGModel (#2033)
+     * New missile model (#2036)
+     * Downscaled building models (#2052)
+     * Add test_gun model (#2060)
+     * Modelviewer: Scale/landingpad test model (press 'p') (#2034, #1981)
+     * Modelviewer: More/better log output (#2034, #1876)
+     * Modelviewer: Enable mods (#2032)
+
+   * Script changes
+     * UI: MultiLineText objects now have SetText and AppendText methods (#2045)
+     * ShipTypes is deprecated, and EquipTypes has been removed; use the new ShipDef
+       and EquipDef tables (#2026)
+     * Player.SetHyperspaceTarget and GetHyperspaceTarget methods (#2028, #2027)
+
+   * Internal changes
+     * Removed Lua model system (LMR) (#2029, #2071)
+     * Removed Text::VectorFont (#2041)
+     * Removed Renderer::DrawPoints2D (#2041)
+     * LuaObject wrapper cleanup (#2026, #2049, #2073, #2075)
+     * Fix SGModel NodeVisitor not applying correctly to all node types (#2076, #2074)
+
 Alpha 31
 
    * New features
-     * Crew! Hire people to do stuff for you (experimental) (#1973)
-     * Converted Lanner ship to SGModel (#1957, #1969, #2002)
-     * Converted Wave ship to SGModel (#2022)
-     * Converted "big crappy" spacestation to SGModel (#1964, #2017)
-     * Converted "hoop" spacestation to SGModel (#1932)
+     * Crew! Hire people to do stuff for you (experimental) (#1973, #2025, #2030,
+       #2039)
      * New ship "Deep Space Miner" (#2023)
 
    * Minor changes and tweaks
@@ -14,9 +53,6 @@ Alpha 31
      * Improve point sprite (LMR billboard) rendering performance (#1927,
        #1929, #1928)
      * Improve city rendering performance (#1927)
-     * Removed "mushroom" ground stations
-     * Converted standard building set to SGModel (#1923)
-     * Removed long-unused building models (#1923)
      * Removed per-light ambient color and building fade (#1930)
      * Ship thrust and fuel tank size have been rebalanced (#1689)
      * Restore "Pioneering Pilots' Guild" text (#1987, #1989)
@@ -24,6 +60,7 @@ Alpha 31
      * Debug information overlay now includes latitude and longitude (#1994)
      * Missile spawn and control moved to Lua (#1663)
      * Add more names to the name generator (#2021)
+     * Labels on SGModels can now be set (#1979)
 
    * Fixes
      * Collisions with stars now work again (#1942)
@@ -34,18 +71,24 @@ Alpha 31
      * SGModel animation timing fixes (#1978, #1970)
      * Greatly reduced chance of police ships spawning on top of each other (#1993)
      * Fixed station names being repeated within a single system (#1958, #1911)
-
-   * Model changes
-     * Modelviewer: Reloading model also reloads textures (#1968, #1939)
      * Handle missing material definitions by providing a basic white default
        material if none are specified (#1817, #1916)
      * Detect conflicts between animations (#1938)
+     * Animations now work correctly across detail level switches (#1978)
+
+   * Model changes
+     * Converted Lanner ship to SGModel (#1957, #1969, #2002)
+     * Converted Wave ship to SGModel (#2022)
+     * Converted "big crappy" spacestation to SGModel (#1964, #2017)
+     * Converted "hoop" spacestation to SGModel (#1932)
+     * Converted standard building set to SGModel (#1923)
+     * Removed "mushroom" ground stations
+     * Removed long-unused building models (#1923)
+     * Modelviewer: Reloading model also reloads textures (#1968, #1939)
      * Modelviewer: View controls are improved (#1982)
      * Modelviewer: Larger models are displayed without z clipping (#1982, #1933)
-     * New material parameters: unlit, two_sided and alpha_test (#1995, #1935)
-     * Labels on SGModels can now be set (#1979)
-     * Animations now work correctly across detail level switches (#1978)
      * Modelviewer: Improve zoom behaviour (#2020)
+     * New material parameters: unlit, two_sided and alpha_test (#1995, #1935)
 
    * Script changes
      * Remove deprecated Ship methods.SetPrimaryColour and SetSecondaryColour
@@ -55,9 +98,9 @@ Alpha 31
      * Add max_crew & min_crew params to ship def (#1973)
      * Missile control methods Missile.Arm, Missile.Disarm, Ship.SpawnMissile
        and Ship.AIKamikaze (#1663)
+     * Separate station defs from LMR station models (#1913, #1931, #1934)
 
    * Internal changes
-     * Separate station defs from LMR station models (#1913, #1931, #1934)
      * Cameras are no longer attached to a body, and World View camera
        controllers are no longer derived from Camera (#1889)
      * Remove kill count from core (#1944)

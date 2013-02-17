@@ -192,6 +192,14 @@ static int l_readonly_table_pairs(lua_State *l)
 	return 3;
 }
 
+static int l_readonly_table_ipairs(lua_State *l)
+{
+	lua_getglobal(l, "ipairs");
+	lua_getuservalue(l, 1);
+	lua_call(l, 1, 3);
+	return 3;
+}
+
 void pi_lua_readonly_table_proxy(lua_State *l, int table_idx)
 {
 	table_idx = lua_absindex(l, table_idx);
@@ -210,6 +218,9 @@ void pi_lua_readonly_table_proxy(lua_State *l, int table_idx)
 	lua_rawset(l, -3);
 	lua_pushliteral(l, "__pairs");
 	lua_pushcfunction(l, &l_readonly_table_pairs);
+	lua_rawset(l, -3);
+	lua_pushliteral(l, "__ipairs");
+	lua_pushcfunction(l, &l_readonly_table_ipairs);
 	lua_rawset(l, -3);
 	lua_pushliteral(l, "__newindex");
 	lua_pushcfunction(l, &l_readonly_table_newindex);

@@ -60,13 +60,14 @@
  *  - removing unnecessary nodes from the scene graph: pre-translate unanimated meshes etc.
  */
 #include "libs.h"
-#include "ModelBase.h"
 #include "Animation.h"
 #include "ColorMap.h"
 #include "Group.h"
 #include "Label3D.h"
 #include "Pattern.h"
+#include "CollMesh.h"
 #include "graphics/Material.h"
+#include "Serializer.h"
 #include <stdexcept>
 
 namespace Graphics { class Renderer; }
@@ -82,18 +83,16 @@ typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > >
 typedef std::vector<Animation*> AnimationContainer;
 typedef std::vector<MatrixTransform *> TagContainer;
 
-class Model : public ModelBase
+class Model
 {
 public:
 	friend class Loader;
 	Model(Graphics::Renderer *r, const std::string &name);
 	~Model();
 	Model *MakeInstance() const;
-	virtual bool IsSGModel() const { return true; } //XXX transitional junk
 	float GetDrawClipRadius() const { return m_boundingRadius; }
-	void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params) { Render(trans, params); } // XXX only takes renderer because ModelBase requires it
-	void Render(const matrix4x4f &trans, LmrObjParams *params);
-	RefCountedPtr<CollMesh> CreateCollisionMesh(const LmrObjParams *p);
+	void Render(const matrix4x4f &trans, RenderData *params = 0); //ModelNode can override RD
+	RefCountedPtr<CollMesh> CreateCollisionMesh();
 	CollMesh *GetCollisionMesh() const { return m_collMesh.Get(); }
 	RefCountedPtr<Group> GetRoot() { return m_root; }
 	//materials used in the nodes should be accessible from here for convenience
@@ -122,6 +121,12 @@ public:
 
 	Graphics::Renderer *GetRenderer() const { return m_renderer; }
 
+	//special for ship model use
+	void SetThrust(const vector3f& linear, const vector3f &angular);
+
+	void Save(Serializer::Writer &wr) const;
+	void Load(Serializer::Reader &rd);
+
 private:
 	Model(const Model&);
 	static const unsigned int MAX_DECAL_MATERIALS = 4;
@@ -136,6 +141,7 @@ private:
 	std::string m_name;
 	std::vector<Animation *> m_animations;
 	TagContainer m_tags; //named attachment points
+	RenderData m_renderData;
 
 	//per-instance flavour data
 	Graphics::Texture *m_curPattern;

@@ -185,7 +185,6 @@ void Camera::Draw(Renderer *renderer, const Body *excludeBody)
 	}
 
 	Sfx::RenderAll(renderer, Pi::game->GetSpace()->GetRootFrame(), m_camFrame);
-	UnbindAllBuffers();
 
 	m_frame->RemoveChild(m_camFrame);
 	delete m_camFrame;

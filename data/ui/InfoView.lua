@@ -2,8 +2,7 @@ local ui = Engine.ui
 local t = Translate:GetTranslator()
 
 local shipInfo = function (args)
-	local shipId = Game.player.shipId
-	local shipType = ShipType.GetShipType(shipId)
+	local shipDef = ShipDef[Game.player.shipId]
 
 	local hyperdrive =              table.unpack(Game.player:GetEquip("ENGINE"))
 	local frontWeapon, rearWeapon = table.unpack(Game.player:GetEquip("LASER"))
@@ -18,7 +17,7 @@ local shipInfo = function (args)
 	local columnNum = 1
 	for i = 1,#Constants.EquipType do
 		local type = Constants.EquipType[i]
-		local et = EquipType.GetEquipType(type)
+		local et = EquipDef[type]
 		local slot = et.slot
 		if (slot ~= "CARGO" and slot ~= "MISSILE" and slot ~= "ENGINE" and slot ~= "LASER") then
 			local count = Game.player:GetEquipCount(slot, type)
@@ -69,7 +68,7 @@ local shipInfo = function (args)
 						})
 						:SetColumn(1, {
 							ui:VBox():PackEnd({
-								ui:Label(EquipType.GetEquipType(hyperdrive).name),
+								ui:Label(EquipDef[hyperdrive].name),
 								ui:Label(string.interp(
 									t("{range} light years ({maxRange} max)"), {
 										range    = string.format("%.1f",stats.hyperspaceRange),
@@ -78,12 +77,12 @@ local shipInfo = function (args)
 								)),
 								ui:Margin(10),
 								ui:Label(string.format("%dt", stats.totalMass - stats.usedCapacity)),								
-								ui:Label(string.format("%dt (%dt free)", stats.usedCapacity,  stats.freeCapacity)),
-								ui:Label(string.format("%dt (%dt max)", math.floor(Game.player.fuel/100*stats.maxFuelTankMass + 0.5), stats.maxFuelTankMass )),
+								ui:Label(string.format("%dt (%dt "..t("free")..")", stats.usedCapacity,  stats.freeCapacity)),
+								ui:Label(string.format("%dt (%dt "..t("max")..")", math.floor(Game.player.fuel/100*stats.maxFuelTankMass + 0.5), stats.maxFuelTankMass )),
 								ui:Label(string.format("%dt", math.floor(stats.totalMass+Game.player.fuel/100*stats.maxFuelTankMass + 0.5) )),
 								ui:Margin(10),
-								ui:Label(EquipType.GetEquipType(frontWeapon).name),
-								ui:Label(EquipType.GetEquipType(rearWeapon).name),
+								ui:Label(EquipDef[frontWeapon].name),
+								ui:Label(EquipDef[rearWeapon].name),
 								ui:Label(string.format("%d%%", Game.player.fuel)),
 								ui:Margin(10),
 								ui:Label(ShipType.GetShipType(Game.player.shipId).minCrew),
@@ -98,7 +97,7 @@ local shipInfo = function (args)
 			})
 			:SetColumn(1, {
 				ui:VBox(10)
-					:PackEnd(ui:Label(shipType.name):SetFont("HEADING_LARGE"))
+					:PackEnd(ui:Label(shipDef.name):SetFont("HEADING_LARGE"))
 					:PackEnd(UI.Game.ShipSpinner.New(ui, Game.player.flavour))
 			})
 end
@@ -171,14 +170,14 @@ local personalInfo = function ()
         faceWidget:UpdateInfo(player)
 	end )
 
-	local genderToggle = UI.SmallLabeledButton.New("Toggle male/female")
+	local genderToggle = UI.SmallLabeledButton.New(t("Toggle male/female"))
 	genderToggle.button.onClick:Connect(function ()
 		player.female = not player.female
 		faceWidget = UI.InfoFace.New(player)
 		faceWidgetContainer:SetInnerWidget(faceWidget.widget)
 	end)
 
-	local generateFaceButton = UI.SmallLabeledButton.New("Make new face")
+	local generateFaceButton = UI.SmallLabeledButton.New(t("Make new face"))
 	generateFaceButton.button.onClick:Connect(function ()
 		player.seed = Engine.rand:Integer()
 		faceWidget = UI.InfoFace.New(player)
@@ -263,7 +262,7 @@ local econTrade = function ()
 		for i = 1,#Constants.EquipType do
 			local type = Constants.EquipType[i]
 			if type ~= "NONE" then
-				local et = EquipType.GetEquipType(type)
+				local et = EquipDef[type]
 				local slot = et.slot
 				if slot == "CARGO" then
 					local count = Game.player:GetEquipCount(slot, type)
@@ -392,7 +391,7 @@ local missions = function ()
 			missionLocationName = string.format('%s [%d,%d,%d]', mission.location:GetStarSystem().name, mission.location.sectorX, mission.location.sectorY, mission.location.sectorZ)
 		end
 
-		local moreButton = UI.SmallLabeledButton.New("More info...")
+		local moreButton = UI.SmallLabeledButton.New(t("More info..."))
 		moreButton.button.onClick:Connect(function ()
 			MissionScreen:SetInnerWidget(ui:VBox(10)
 				:PackEnd({ui:Label(t('Mission Details')):SetFont('HEADING_LARGE')})
@@ -517,6 +516,7 @@ local crewRoster = function ()
 			end,
 
 			['Dock at current target'] = function ()
+				local target = Game.player:GetNavTarget()
 				if Game.player.flightState ~= 'FLYING'
 				then
 					feedback:SetText(({
@@ -525,8 +525,8 @@ local crewRoster = function ()
 						HYPERSPACE = t('We are in hyperspace, Commander.'),
 						DOCKING = t('The ship is under station control, Commander.'),
 					})[Game.player.flightState])
-				elseif not Game.player:GetNavTarget() then
-					feedback:SetText(t('You must first select a navigation target, Commander.'))
+				elseif not (target and target:isa('SpaceStation')) then
+					feedback:SetText(t('You must first select a suitable navigation target, Commander.'))
 				else
 					local crewMember = checkPilotLockout() and testCrewMember('piloting')
 					if not crewMember then
@@ -534,7 +534,7 @@ local crewRoster = function ()
 						pilotLockout()
 					else
 						feedback:SetText(t('Pilot seat is now occupied by {name}'):interp({name = crewMember.name,repairPercent = repairPercent}))
-						Game.player:AIDockWith(Game.player:GetNavTarget())
+						Game.player:AIDockWith(target)
 					end
 				end
 			end,

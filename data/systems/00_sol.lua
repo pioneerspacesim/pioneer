@@ -12,7 +12,7 @@ local sol = CustomSystemBody:new('Sol', 'STAR_G')
 	:temp(5700)
 
 local mercury = CustomSystemBody:new('Mercury', 'PLANET_TERRESTRIAL')
-	:seed(1601554287)
+	:seed(6)
 	:radius(f(38,100))
 	:mass(f(55,1000))
 	:temp(340)
@@ -111,7 +111,7 @@ local moon = {
 }
 
 local mars = CustomSystemBody:new('Mars', 'PLANET_TERRESTRIAL')
-	:seed(0)
+	:seed(-3)
 	:radius(f(533,1000))
 	:mass(f(107,1000))
 	:temp(278)
@@ -125,7 +125,7 @@ local mars = CustomSystemBody:new('Mars', 'PLANET_TERRESTRIAL')
 	:volcanicity(f(2,10))
 	:atmos_density(f(489,1000))
 	:atmos_oxidizing(f(950001,1000000))
-	:ocean_cover(f(38,100))
+	:ocean_cover(f(10,100))
 	:ice_cover(f(678,1000))
 	:life(f(15,100))
 
@@ -174,7 +174,7 @@ local mars_moons = {
 }
 
 local jupiter = CustomSystemBody:new('Jupiter', 'PLANET_GAS_GIANT')
-	:seed(128)
+	:seed(786424627)
 	:radius(f(11,1))
 	:mass(f(3178,10))
 	:temp(165)
@@ -189,7 +189,7 @@ local jupiter = CustomSystemBody:new('Jupiter', 'PLANET_GAS_GIANT')
 
 local jupiter_moons = {
 	CustomSystemBody:new('Io', 'PLANET_TERRESTRIAL')
-		:seed(7510)
+		:seed(-4)
 		:radius(f(286,1000))
 		:mass(f(15,1000))
 		:temp(130)
@@ -201,7 +201,7 @@ local jupiter_moons = {
 		:volcanicity(f(1,1))
 		:atmos_density(f(100,1225))
 		:atmos_oxidizing(f(12,100))
-		:ocean_cover(f(1,5))
+		:ocean_cover(f(0,1))
 		:ice_cover(f(0,1))
 		:life(f(0,1)),
 	{
@@ -210,7 +210,7 @@ local jupiter_moons = {
 			:longitude(math.deg2rad(26.2)),
 	},
 	CustomSystemBody:new('Europa', 'PLANET_TERRESTRIAL')
-		:seed(1319391771)
+		:seed(2102431459)
 		:radius(f(245,1000))
 		:mass(f(8,1000))
 		:temp(102)
@@ -229,7 +229,7 @@ local jupiter_moons = {
 			:rotation_period(f(1,24*60*3)),
 	},
 	CustomSystemBody:new('Ganymede', 'PLANET_TERRESTRIAL')
-		:seed(-194927805)
+		:seed(-1232011660)
 		:radius(f(413,1000))
 		:mass(f(25,1000))
 		:temp(180)
@@ -263,7 +263,7 @@ local jupiter_moons = {
 }
 
 local saturn = CustomSystemBody:new('Saturn', 'PLANET_GAS_GIANT')
-	:seed(14)
+	:seed(1)
 	:radius(f(9,1))
 	:mass(f(95152,1000))
 	:temp(134)
@@ -295,7 +295,7 @@ local saturn_moons = {
 		:rotation_period(f(452,100))
 		:atmos_density(f(82,1000)),
 	CustomSystemBody:new('Titan', 'PLANET_TERRESTRIAL')
-		:seed(7)
+		:seed(0)
 		:radius(f(400,1000))
 		:mass(f(225,10000))
 		:temp(94)
@@ -318,7 +318,7 @@ local saturn_moons = {
 			:rotation_period(f(11,9)),
 	},
 	CustomSystemBody:new('Iapetus', 'PLANET_TERRESTRIAL')
-		:seed(763979898)
+		:seed(-644022643)
 		:radius(f(1155,10000))
 		:mass(f(3,10000))
 		:temp(115)
@@ -330,7 +330,7 @@ local saturn_moons = {
 }
 
 local uranus = CustomSystemBody:new('Uranus', 'PLANET_GAS_GIANT')
-	:seed(28)
+	:seed(4)
 	:radius(f(4,1))
 	:mass(f(145,10))
 	:temp(76)
@@ -378,7 +378,7 @@ local uranus_moons = {
 }
 
 local neptune = CustomSystemBody:new('Neptune', 'PLANET_GAS_GIANT')
-	:seed(43)
+	:seed(42)
 	:radius(f(38,10))
 	:mass(f(17147,1000))
 	:temp(72)

@@ -142,7 +142,6 @@
     <ClCompile Include="..\..\src\Intro.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
-    <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\Lua.cpp" />
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
@@ -152,7 +151,7 @@
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
     <ClCompile Include="..\..\src\LuaDev.cpp" />
     <ClCompile Include="..\..\src\LuaEngine.cpp" />
-    <ClCompile Include="..\..\src\LuaEquipType.cpp" />
+    <ClCompile Include="..\..\src\LuaEquipDef.cpp" />
     <ClCompile Include="..\..\src\LuaEvent.cpp" />
     <ClCompile Include="..\..\src\LuaFaction.cpp" />
     <ClCompile Include="..\..\src\LuaFileSystem.cpp" />
@@ -172,7 +171,7 @@
     <ClCompile Include="..\..\src\LuaRef.cpp" />
     <ClCompile Include="..\..\src\LuaSerializer.cpp" />
     <ClCompile Include="..\..\src\LuaShip.cpp" />
-    <ClCompile Include="..\..\src\LuaShipType.cpp" />
+    <ClCompile Include="..\..\src\LuaShipDef.cpp" />
     <ClCompile Include="..\..\src\LuaSpace.cpp" />
     <ClCompile Include="..\..\src\LuaSpaceStation.cpp" />
     <ClCompile Include="..\..\src\LuaStar.cpp" />
@@ -190,7 +189,6 @@
     <ClCompile Include="..\..\src\ModelCache.cpp" />
     <ClCompile Include="..\..\src\ModelViewer.cpp" />
     <ClCompile Include="..\..\src\ModManager.cpp" />
-    <ClCompile Include="..\..\src\mtrand.cpp" />
     <ClCompile Include="..\..\src\ObjectViewerView.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Pi.cpp" />
@@ -264,7 +262,6 @@
     <ClInclude Include="..\..\src\Background.h" />
     <ClInclude Include="..\..\src\BezierCurve.h" />
     <ClInclude Include="..\..\src\Body.h" />
-    <ClInclude Include="..\..\src\BufferObject.h" />
     <ClInclude Include="..\..\src\buildopts.h" />
     <ClInclude Include="..\..\src\ByteRange.h" />
     <ClInclude Include="..\..\src\Camera.h" />
@@ -304,8 +301,6 @@
     <ClInclude Include="..\..\src\Intro.h" />
     <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
-    <ClInclude Include="..\..\src\LmrModel.h" />
-    <ClInclude Include="..\..\src\LmrTypes.h" />
     <ClInclude Include="..\..\src\Lua.h" />
     <ClInclude Include="..\..\src\LuaBody.h" />
     <ClInclude Include="..\..\src\LuaCargoBody.h" />
@@ -315,7 +310,7 @@
     <ClInclude Include="..\..\src\LuaConstants.h" />
     <ClInclude Include="..\..\src\LuaDev.h" />
     <ClInclude Include="..\..\src\LuaEngine.h" />
-    <ClInclude Include="..\..\src\LuaEquipType.h" />
+    <ClInclude Include="..\..\src\LuaEquipDef.h" />
     <ClInclude Include="..\..\src\LuaEvent.h" />
     <ClInclude Include="..\..\src\LuaFaction.h" />
     <ClInclude Include="..\..\src\LuaFileSystem.h" />
@@ -336,7 +331,7 @@
     <ClInclude Include="..\..\src\LuaRef.h" />
     <ClInclude Include="..\..\src\LuaSerializer.h" />
     <ClInclude Include="..\..\src\LuaShip.h" />
-    <ClInclude Include="..\..\src\LuaShipType.h" />
+    <ClInclude Include="..\..\src\LuaShipDef.h" />
     <ClInclude Include="..\..\src\LuaSpace.h" />
     <ClInclude Include="..\..\src\LuaSpaceStation.h" />
     <ClInclude Include="..\..\src\LuaStar.h" />
@@ -350,12 +345,10 @@
     <ClInclude Include="..\..\src\MathUtil.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
     <ClInclude Include="..\..\src\Missile.h" />
-    <ClInclude Include="..\..\src\ModelBase.h" />
     <ClInclude Include="..\..\src\ModelBody.h" />
     <ClInclude Include="..\..\src\ModelCache.h" />
     <ClInclude Include="..\..\src\ModelViewer.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
-    <ClInclude Include="..\..\src\mtrand.h" />
     <ClInclude Include="..\..\src\Object.h" />
     <ClInclude Include="..\..\src\ObjectViewerView.h" />
     <ClInclude Include="..\..\src\perlin.h" />

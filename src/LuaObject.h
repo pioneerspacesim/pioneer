@@ -5,7 +5,11 @@
 #define _LUAOBJECT_H
 
 #include "Lua.h"
+#include "LuaRef.h"
+#include "LuaWrappable.h"
+#include "RefCounted.h"
 #include "DeleteEmitter.h"
+#include <typeinfo>
 
 //
 // LuaObject provides proxy objects and tracking facilities to safely get
@@ -14,106 +18,56 @@
 // lua name lua name, methods and metamethods for that class. you then call
 // methods on this class to push and pull objects to and from the lua stack
 //
+// Push an object to the Lua stack:
 //
-// if you just want to use it, do something like:
+//   // C++-owned, still responsible for deletion
+//   Ship *s = new Ship("wave");
+//   LuaObject<Ship>::PushToLua(s);
 //
-// push a value onto the lua stack before method call or return (you (c++)
-// remains responsible for deallocating the object)
+//   // RefCounted, Lua will take a reference
+//   StarSystem *s = StarSystem::GetCached(SystemPath(0,0,0,0));
+//   LuaObject<StarSystem>::PushToLua(s);
 //
-//   Ship *s = new Ship("eagle_lrf");
-//   LuaShip::PushToLua(s);
+//   // Heap-allocated, Lua will get a copy
+//   SystemPath path(0,0,0,0,1);
+//   LuaObject<SystamPath>::PushToLua(path);
 //
-// push a value onto the lua stack (lua will deallocate the object when it
-// goes out of scope and the garbage collector runs. OBJECT MUST BE
-// HEAP-ALLOCATED)
+// Get an object from the Lua stack at index n. Causes a Lua exception if the
+// object doesn't exist or the types don't match.
 //
-//   Ship *s = new Ship("eagle_lrf");
-//   LuaShip::PushToLuaGC(s);
+//   Ship *s = LuaObject<Ship>::CheckFromLua(1);
 //
-// get a value from the lua stack at index n (causes lua exception if the
-// object doesn't exist or the types don't match)
+// Or alternatively, get it and return 0 on failure.
 //
-//   Ship *s = LuaShip::CheckFromLua(1);
-//
-// or alternatively, get it and return null on failure
-//
-//   Ship *s = LuaShip::GetFromLua(1);
-//
-// note that it uses the singleton lua state provided by LuaManager. there's
-// no facility to use a different lua state. if you think you need to you're
-// probably doing something wrong. ask the devs if you're not sure.
+//   Ship *s = LuaObject<Ship>::GetFromLua(1);
 //
 //
-// if you need to expose a new class to lua, do this (using Ship/LuaShip as an
-// example)
+// If you need to expose a new class to Lua:
 //
-//  - have your class inherit from DeleteEmitter
+// - Have it inherit from LuaWrappable
 //
-//  - add a typedef for the wrapper class to the bottom of LuaObjectBase.h:
+// - Have it either:
+//   - inherit from DeleteEmitter
+//   - inherit from RefCounted
+//   - implement a copy constructor
 //
-//      class Ship;
-//      typedef LuaObject<Ship> LuaShip;
+// - Arrange for the wrapper class RegisterClass() method to be called in
+//   LuaInit in Pi.cpp
 //
-//  OR if your class can't inherit from DeleteEmitter for some reason, use
-//  this kind of typedef instead to create a subclass
+// - Make a new file LuaWhatever.cpp implement RegisterClass() and any
+//   methods, metamethods and attribute methods you want. Copy from one of the
+//   other files to get the idea
 //
-//      class SystemPath;
-//      typedef LuaObjectUncopyable<SystemPath,LuaUncopyable<SystemPath> > LuaSystemPath;
-//
-//  you probably don't want to do this unless you understand the entire
-//  LuaObjectBase system. read on and ask for help :)
-//
-//  - arrange for the wrapper class RegisterClass() method to be called in
-//    LuaManager::Init in LuaManager.cpp
-//
-//      LuaShip::RegisterClass();
-//
-//  - make a new file LuaShip.cpp with static data for the lua class name and
-//  method/metamethod pointer tables (copy from one of the others to get the
-//  idea)
-//
-//  - add the new file to the build system
-//
-//  - implement your lua methods in that file
-//
-//
-// if you want to understand how this works, read on :)
-//
-// the basic premise of all this is that lua never holds a pointer to the c++
-// object. instead, when a c++ object is pushed to the lua stack a lua object
-// (that is, a value with a metatable) is created that internally has a
-// numeric identifier. the original object is added to a hashtable (the
-// registry) with the identifier as the key. when lua calls a method against
-// the object, the appropriate method/metamethod is called with the lua object
-// on the stack. the method implementation (c++) then pulls these objects from
-// the stack via wrapper classes that handle the details of looking up the
-// real object in the registry
-//
-// a object pointer (lightuserdata) -> userdata mapping is held in the lua
-// registry. when a value is pushed this is consulted first. if lua already
-// knows about the object the userdata is reused. this ensures that objects
-// that only exist once outside lua also only exist once inside lua, and means
-// that object equality works as expected. these mapping holds weak references
-// so that the operation of the garbage collector is not affected
-//
-// objects are removed from the registry when either the c++ or the lua side
-// releases them. on the lua side this is handled by the __gc metamethod. on
-// the c++ side this is done via the DeleteEmitter class that all wrapped
-// classes are expected to inherit from. a callback is add to the onDelete
-// signal when the object is registered. when either of these things are
-// called the object is removed from the registry. the callback will also
-// delete the object if it was pushed with PushToLuaGC to indicate that lua
-// owns the object
+// - Add the new file to the build system
 //
 
-// type for internal object identifiers
-typedef unsigned int lid;
 
 // type for promotion test callbacks
-typedef bool (*PromotionTest)(DeleteEmitter *o);
+typedef bool (*PromotionTest)(LuaWrappable *o);
 
-// the base class for wrapper classes. it has no public interface. everything
-// you need goes through the wrapper classes
+
+// wrapper baseclass, and extra bits for getting at certain parts of the
+// LuaObject layer 
 class LuaObjectBase {
 	friend class LuaSerializer;
 
@@ -130,7 +84,7 @@ public:
 
 protected:
 	// base class constructor, called by the wrapper Push* methods
-	LuaObjectBase(DeleteEmitter *o, const char *type) : m_object(o), m_type(type) {};
+	LuaObjectBase(const char *type) : m_type(type) {};
 	virtual ~LuaObjectBase() {}
 
 	// creates a class in the lua vm with the given name and attaches the
@@ -140,44 +94,43 @@ protected:
 	static void CreateClass(const char *type, const char *parent, const luaL_Reg *methods, const luaL_Reg *attrs, const luaL_Reg *meta);
 
 	// push an already-registered object onto the lua stack. the object is
-	// looked up in the lua registry, if it exists a copy of its userdata is
-	// placed on the lua stack. returns true if the object exist and was
+	// looked up in the lua registry, if it exists its userdata its userdata
+	// is pushed onto the lua stack. returns true if the object exists and was
 	// pushed, false otherwise
-	static bool PushRegistered(DeleteEmitter *o);
+	static bool PushRegistered(LuaWrappable *o);
 
-	// pushes the raw object into lua. new userdata is create and stored in
-	// the lookup table in the lua registry for PushRegistered to user later,
-	// and then is added to the stack. if wantdelete is true, lua takes
-	// control of the object and will call delete on it when it is finished
-	// with it
-	static void Push(LuaObjectBase *lo, bool wantdelete);
+	// adds an object->wrapper mapping to the registry for the given wrapper
+	// object. the wrapper's corresponding userdata should be on the top of
+	// the stack
+	static void Register(LuaObjectBase *lo);
+
+	// remove the object->wrapper from the registry. checks to make sure the
+	// the mapping matches first, to protect against memory being reused
+	static void Deregister(LuaObjectBase *lo);
 
 	// pulls an object off the lua stack and returns its associated c++
 	// object. type is the lua type string of the object. a lua exception is
 	// triggered if the object on the stack is not of this type
-	static DeleteEmitter *CheckFromLua(int index, const char *type);
+	static LuaWrappable *CheckFromLua(int index, const char *type);
 
-	// does exactly the same as CheckFromLua without triggering exceptions
-	static DeleteEmitter *GetFromLua(int index, const char *type);
+	// does exactly the same as Check without triggering exceptions
+	static LuaWrappable *GetFromLua(int index, const char *type);
 
 	// register a promotion test. when an object with lua type base_type is
 	// pushed, test_fn will be called. if it returns true then the created lua
 	// object will be of target_type
 	static void RegisterPromotion(const char *base_type, const char *target_type, PromotionTest test_fn);
 
-	// abstract functions for the object acquire/release functions. these are
-	// called to somehow record that the object is "in use". the wrapper class
-	// handles the hard details of this (most of the time it results in a noop)
-	virtual void Acquire(DeleteEmitter *) = 0;
-	virtual void Release(DeleteEmitter *) = 0;
+    // allocate n bytes from Lua memory and leave it an associated userdata on
+    // the stack. this is a wrapper around lua_newuserdata
+	static void *Allocate(size_t n);
+
+    // get a pointer to the underlying object
+	virtual LuaWrappable *GetObject() const = 0;
 
 private:
 	LuaObjectBase() {}
 	LuaObjectBase(const LuaObjectBase &) {}
-
-	// remove an object from the registry. deletes lo and the underlying c++
-	// object if necessary
-	static void Deregister(LuaObjectBase *lo);
 
 	// lua method to determine if the underlying object is still present in
 	// the registry (ie still exists)
@@ -188,152 +141,151 @@ private:
 	static int l_isa(lua_State *l);
 
 	// the lua object "destructor" that gets called by the garbage collector.
-	// its only part of the class so that it can call Deregister()
 	static int l_gc(lua_State *l);
 
 	// default tostring. shows a little more info about the object, like its
 	// type
 	static int l_tostring(lua_State *l);
 
-	// pull an LuaObjectBase wrapper from the registry given an id. returns NULL
-	// if the object is not in the registry
-	static LuaObjectBase *Lookup(lid id);
-
     // determine if the object has a class in its ancestry
     bool Isa(const char *base) const;
 
-	// object id, pointer to the c++ object and lua type string
-	lid            m_id;
-	DeleteEmitter *m_object;
-	const char    *m_type;
-
-	// flag to indicate that lua owns the object and should delete it when its
-	// deregistered
-	bool m_wantDelete;
-
-	// the wrapper object's connection to the deletion signal. this gets
-	// connected on registration and disconnected on deregistration
-	sigc::connection m_deleteConnection;
+	// lua type (ie method/metatable name)
+	const char *m_type;
 };
 
 
-// basic acquirer template. used by the wrapper to implement
-// LuaObjectBase::Acquire and LuaObjectBase::Release. this is the general
-// case, which does nothing at all
+// templated portion of the wrapper baseclass
 template <typename T>
-class LuaAcquirer {
-public:
-	virtual void OnAcquire(T *) {}
-	virtual void OnRelease(T *) {}
-};
-
-// acquirer baseclass for RefCounted types. subclass this when you need Lua to
-// take a reference to an object
-class LuaAcquirerRefCounted {
-public:
-	virtual void OnAcquire(RefCounted *o) {
-		o->IncRefCount();
-	}
-	virtual void OnRelease(RefCounted *o) {
-		o->DecRefCount();
-	}
-};
-
-// template for a wrapper class
-template <typename T>
-class LuaObject : public LuaObjectBase, LuaAcquirer<T> {
+class LuaObject : public LuaObjectBase {
 public:
 
 	// registers the class with the lua vm
 	static void RegisterClass();
 
-	// wrap the object and push it onto the lua stack
-	static inline void PushToLua(T *o) {
-		if (! LuaObjectBase::PushRegistered(o))
-			LuaObjectBase::Push(new LuaObject(o), false);
+	// wrap an object and push it onto the stack. these create a wrapper
+	// object that knows how to deal with the type of object
+	static inline void PushToLua(DeleteEmitter *o); // LuaCoreObject
+	static inline void PushToLua(RefCounted *o);    // LuaSharedObject
+	static inline void PushToLua(const T &o);       // LuaCopyObject
+
+	// pull an object off the stack, unwrap and return it
+	// if not found or doesn't match the type, throws a lua exception
+	static inline T *CheckFromLua(int idx) {
+		return dynamic_cast<T*>(LuaObjectBase::CheckFromLua(idx, s_type));
 	}
 
-	// wrap the object and push it onto the lua stack, taking ownership of it
-	static inline void PushToLuaGC(T *o) {
-		if (! LuaObjectBase::PushRegistered(o))
-			LuaObjectBase::Push(new LuaObject(o), true);
+	// same but without error checks. returns 0 on failure
+	static inline T *GetFromLua(int idx) {
+		return dynamic_cast<T*>(LuaObjectBase::GetFromLua(idx, s_type));
 	}
 
-	// pull an object off the the stack, unwrap it and return it
-	static inline T *CheckFromLua(int index) {
-		return dynamic_cast<T *>(LuaObjectBase::CheckFromLua(index, s_type));
-	}
-	static inline T *GetFromLua(int index) {
-		return dynamic_cast<T *>(LuaObjectBase::GetFromLua(index, s_type));
-	}
-
-	// convenience promotion test
-	static inline bool DynamicCastPromotionTest(DeleteEmitter *o) {
-		return dynamic_cast<T *>(o);
+	// standard cast promotion test for convenience
+	static inline bool DynamicCastPromotionTest(LuaWrappable *o) {
+		return dynamic_cast<T*>(o);
 	}
 
 protected:
-	// hook up the appropriate acquirer for the wrapped object.
-	virtual void Acquire(DeleteEmitter *o) { this->LuaAcquirer<T>::OnAcquire(dynamic_cast<T*>(o)); }
-	virtual void Release(DeleteEmitter *o) { this->LuaAcquirer<T>::OnRelease(dynamic_cast<T*>(o)); }
+	LuaObject() : LuaObjectBase(s_type) {}
 
 private:
-	LuaObject(T *o) : LuaObjectBase(o, s_type) {}
 
-	// lua type string. this is defined per wrapper class in the appropriate
-    // .cpp file
+	// initial lua type string. defined in a specialisation in the appropriate
+	// .cpp file
 	static const char *s_type;
 };
 
 
-// this one is more complicated. if a class needs to be copyable it can't
-// inherit from DeleteEmitter as required to be wrapped by LuaObject. so we
-// create a new class and inherit from both. it takes a full copy of the
-// original when instantiated, so is decoupled from the original
+// wrapper for a "core" object - one owned by c++ (eg Body).
+// Lua needs to know when the object is deleted so that it can handle
+// requests for it appropriately (ie with an exception, or exists())
 template <typename T>
-class LuaUncopyable : public T, public DeleteEmitter {
+class LuaCoreObject : public LuaObject<T> {
 public:
-	LuaUncopyable(const T &p) : T(p), DeleteEmitter() {}
-private:
-	LuaUncopyable() {}
-	LuaUncopyable(const LuaUncopyable &) {}
-};
-
-// if we wanted we could just use LuaUncopyable<T> as-is, but that would mean
-// having to create a uncopyable of every object before passing it to
-// PushToLua() and always casting the return from GetFromLua(). instead we
-// subclass the object and implement some wrapper methods for the "real"
-// types.
-template <typename T, typename UT>
-class LuaObjectUncopyable : LuaObject<UT> {
-public:
-	static inline void RegisterClass() { LuaObject<UT>::RegisterClass(); }
-
-	// create an uncopyable version and pass it in. we use PushToLuaGC because
-	// this is our object and we have to clean it up
-	static inline void PushToLua(T *p) {
-		UT *up = new UT(*p);
-		LuaObject<UT>::PushToLuaGC(up);
+	LuaCoreObject(T *o) : m_object(o) {
+		m_deleteConnection = m_object->DeleteEmitter::onDelete.connect(sigc::mem_fun(this, &LuaCoreObject::OnDelete));
 	}
 
-	// same idea, but caller asked us to clean it up when we're done so we
-	// have to do that straight away
-	static inline void PushToLuaGC(T *p) {
-		UT *up = new UT(*p);
-		delete p;
-		LuaObject<UT>::PushToLuaGC(up);
+	~LuaCoreObject() {
+		if (m_deleteConnection.connected())
+			m_deleteConnection.disconnect();
 	}
 
-	// pull from lua, casting back to the original type
-	static inline T *CheckFromLua(int index) {
-		return dynamic_cast<T*>(LuaObject<UT>::CheckFromLua(index));
-	}
-	static inline T *GetFromLua(int index) {
-		return dynamic_cast<T*>(LuaObject<UT>::GetFromLua(index));
+	LuaWrappable *GetObject() const {
+		return m_object;
 	}
 
 private:
-	LuaObjectUncopyable() {}
+	void OnDelete() {
+		LuaObjectBase::Deregister(this);
+		m_object = 0;
+	}
+
+	T *m_object;
+	sigc::connection m_deleteConnection;
 };
+
+
+// wrapper for a "shared" object - one that can comfortably exist in both
+// environments. usually for long-lived (StarSystem) or standalone (UI
+// widget) objects
+// Lua simply needs to keep a reference to these
+template <typename T>
+class LuaSharedObject : public LuaObject<T> {
+public:
+	LuaSharedObject(T *o) : m_object(o) {}
+
+	LuaWrappable *GetObject() const {
+		return m_object.Get();
+	}
+
+private:
+	RefCountedPtr<T> m_object;
+};
+
+
+// wrapper for a "copied" object. a new one is created via the copy
+// constructor and fully owned by Lua. good for lightweight POD-style objects
+// (eg SystemPath)
+template <typename T>
+class LuaCopyObject : public LuaObject<T> {
+public:
+	LuaCopyObject(const T &o) {
+		lua_State *l = Lua::manager->GetLuaState();
+		m_object = new (LuaObjectBase::Allocate(sizeof(T))) T(o);
+		m_ref = LuaRef(l, -1);
+		lua_pop(l, 1);
+	}
+
+	~LuaCopyObject() {
+		m_object->~T();
+		m_object = 0;
+	}
+
+	LuaWrappable *GetObject() const {
+		return m_object;
+	}
+
+private:
+	T *m_object;
+	LuaRef m_ref;
+};
+
+
+// push methods, create wrappers if necessary
+// wrappers are allocated from Lua memory
+template <typename T> inline void LuaObject<T>::PushToLua(DeleteEmitter *o) {
+	if (!PushRegistered(o))
+		Register(new (LuaObjectBase::Allocate(sizeof(LuaCoreObject<T>))) LuaCoreObject<T>(static_cast<T*>(o)));
+}
+
+template <typename T> inline void LuaObject<T>::PushToLua(RefCounted *o) {
+	if (!PushRegistered(o))
+		Register(new (LuaObjectBase::Allocate(sizeof(LuaSharedObject<T>))) LuaSharedObject<T>(static_cast<T*>(o)));
+}
+
+template <typename T> inline void LuaObject<T>::PushToLua(const T &o) {
+	Register(new (LuaObjectBase::Allocate(sizeof(LuaCopyObject<T>))) LuaCopyObject<T>(o));
+}
 
 #endif

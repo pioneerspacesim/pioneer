@@ -8,7 +8,6 @@
 #include "Game.h"
 #include "gameconsts.h"
 #include "Lang.h"
-#include "LmrModel.h"
 #include "LuaEvent.h"
 #include "LuaVector.h"
 #include "Pi.h"
@@ -27,7 +26,6 @@
 #define ARG_STATION_BAY1_STAGE 6
 #define ARG_STATION_BAY1_POS   10
 
-/* Must be called after LmrModel init is called */
 void SpaceStation::Init()
 {
 	SpaceStationType::Init();
@@ -142,18 +140,17 @@ void SpaceStation::InitStation()
 {
 	m_adjacentCity = 0;
 	for(int i=0; i<NUM_STATIC_SLOTS; i++) m_staticSlot[i] = false;
-	MTRand rand(m_sbody->seed);
+	Random rand(m_sbody->seed);
 	bool ground = m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL ? false : true;
 	if (ground) m_type = &SpaceStationType::surfaceStationTypes[ rand.Int32(SpaceStationType::surfaceStationTypes.size()) ];
 	else m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
 
-	LmrObjParams &params = GetLmrObjParams();
-	params.animStages[ANIM_DOCKING_BAY_1] = 1;
-	params.animValues[ANIM_DOCKING_BAY_1] = 1.0;
-	// XXX the animation namespace must match that in LuaConstants
-	params.animationNamespace = "SpaceStationAnimation";
 	SetStatic(ground);			// orbital stations are dynamic now
-	SetModel(m_type->modelName.c_str());
+
+	// XXX hack. if we loaded a game then ModelBody::Load already restored the
+	// model and we shouldn't overwrite it
+	if (!GetModel())
+		SetModel(m_type->modelName.c_str());
 
 	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS);		// overrides setmodel
 }
@@ -457,7 +454,7 @@ void SpaceStation::StaticUpdate(const float timeStep)
 
 void SpaceStation::TimeStepUpdate(const float timeStep)
 {
-	// rotate the thing 
+	// rotate the thing
 	double len = m_type->angVel * timeStep;
 	if (!is_zero_exact(len)) {
 		matrix3x3d r = matrix3x3d::RotateY(-len);		// RotateY is backwards
@@ -608,21 +605,12 @@ void SpaceStation::CalcLighting(Planet *planet, double &ambient, double &intensi
 //            Lighting is done by manipulating global lights or setting uniforms in atmospheric models shader
 void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	LmrObjParams &params = GetLmrObjParams();
-	params.label = GetLabel().c_str();
-	SetLmrTimeParams();
-
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		params.animStages[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stage;
-		params.animValues[ANIM_DOCKING_BAY_1 + i] = m_shipDocking[i].stagePos;
-	}
-
 	Body *b = GetFrame()->GetBody();
 	assert(b);
 
 	if (!b->IsType(Object::PLANET)) {
 		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
-		RenderLmrModel(r, viewCoords, viewTransform);
+		RenderModel(r, viewCoords, viewTransform);
 	}
 
 	else {
@@ -669,7 +657,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
 		}
 
-		RenderLmrModel(r, viewCoords, viewTransform);
+		RenderModel(r, viewCoords, viewTransform);
 
 		// restore old lights & ambient
 		r->SetLights(origLights.size(), &origLights[0]);
@@ -806,29 +794,19 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 		if (port != -1 && 2.0*Pi::rng.Double() < timeStep) {
 			m_numPoliceDocked--;
 			// Make police ship intent on killing the player
-			Ship *ship = new Ship(ShipType::LADYBIRD);
+			Ship *ship = new Ship(ShipType::POLICE);
 			ship->AIKill(Pi::player);
 			ship->SetFrame(GetFrame());
 			ship->SetDockedWith(this, port);
 			Pi::game->GetSpace()->AddBody(ship);
-			{ // blue and white thang
+			{
 				ShipFlavour f;
-				f.id = ShipType::LADYBIRD;
+				f.id = ShipType::POLICE;
 				f.regid = Lang::POLICE_SHIP_REGISTRATION;
 				f.price = ship->GetFlavour()->price;
-				LmrMaterial m;
-				m.diffuse[0] = 0.0f; m.diffuse[1] = 0.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
-				m.specular[0] = 0.0f; m.specular[1] = 0.0f; m.specular[2] = 1.0f; m.specular[3] = 1.0f;
-				m.emissive[0] = 0.0f; m.emissive[1] = 0.0f; m.emissive[2] = 0.0f; m.emissive[3] = 0.0f;
-				m.shininess = 50.0f;
-				f.primaryColor = m;
-				m.shininess = 0.0f;
-				m.diffuse[0] = 1.0f; m.diffuse[1] = 1.0f; m.diffuse[2] = 1.0f; m.diffuse[3] = 1.0f;
-				f.secondaryColor = m;
 				ship->ResetFlavour(&f);
 			}
 			ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
-			ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
 			ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
 			ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 			ship->UpdateStats();

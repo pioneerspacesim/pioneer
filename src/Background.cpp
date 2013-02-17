@@ -33,7 +33,7 @@ Starfield::Starfield(Graphics::Renderer *r)
 	//starfield is not filled without a seed
 }
 
-Starfield::Starfield(Graphics::Renderer *r, unsigned long seed)
+Starfield::Starfield(Graphics::Renderer *r, Uint32 seed)
 {
 	Init(r);
 	Fill(seed);
@@ -62,12 +62,12 @@ void Starfield::Init(Graphics::Renderer *r)
 	m_hyperCol = 0;
 }
 
-void Starfield::Fill(unsigned long seed)
+void Starfield::Fill(Uint32 seed)
 {
 	VertexArray *va = m_model->GetSurface(0)->GetVertices();
 	va->Clear(); // clear if previously filled
 	// Slight colour variation to stars based on seed
-	MTRand rand(seed);
+	Random rand(seed);
 
 	//fill the array
 	for (int i=0; i<BG_STAR_MAX; i++) {
@@ -197,14 +197,14 @@ Container::Container(Graphics::Renderer *r)
 {
 }
 
-Container::Container(Graphics::Renderer *r, unsigned long seed)
+Container::Container(Graphics::Renderer *r, Uint32 seed)
 : m_milkyWay(r)
 , m_starField(r)
 {
 	Refresh(seed);
 };
 
-void Container::Refresh(unsigned long seed)
+void Container::Refresh(Uint32 seed)
 {
 	// redo starfield, milkyway stays normal for now
 	m_starField.Fill(seed);

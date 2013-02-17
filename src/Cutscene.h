@@ -5,9 +5,10 @@
 #define _CUTSCENE_H
 
 #include "libs.h"
-#include "LmrModel.h"
 #include "graphics/Renderer.h"
 #include "graphics/Light.h"
+
+namespace SceneGraph { class Model; }
 
 class Cutscene {
 public:
@@ -24,8 +25,7 @@ protected:
 	Color m_ambientColor;
 	float m_aspectRatio;
 	Graphics::Renderer *m_renderer;
-	ModelBase *m_model;
-	LmrObjParams m_modelParams;
+	SceneGraph::Model *m_model;
 	std::vector<Graphics::Light> m_lights;
 };
 

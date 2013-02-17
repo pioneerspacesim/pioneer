@@ -66,8 +66,6 @@ bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, 
 
 	// update values for log-z hack
 	m_invLogZfarPlus1 = 1.0f / (log(far+1.0f)/log(2.0f));
-	//LMR reads the value from Graphics::State
-	Graphics::State::invLogZfarPlus1 = m_invLogZfarPlus1;
 	return true;
 }
 

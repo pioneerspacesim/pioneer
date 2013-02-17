@@ -384,6 +384,9 @@ end)
 -- Load temporary crew from saved data
 local loaded_data
 Event.Register("onGameStart", function()
+    -- XXX Need to re-initialise these until Lua is re-initialised with a new game
+    nonPersistentCharactersForCrew = {}
+    stationsWithAdverts = {}
 	if loaded_data then
 		nonPersistentCharactersForCrew = loaded_data.nonPersistentCharactersForCrew
 		for k,station in ipairs(loaded_data.stationsWithAdverts) do

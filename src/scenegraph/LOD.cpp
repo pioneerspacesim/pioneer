@@ -2,8 +2,9 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LOD.h"
-#include "graphics/Graphics.h"
+#include "NodeVisitor.h"
 #include "StringF.h"
+#include "graphics/Graphics.h"
 
 namespace SceneGraph {
 
@@ -20,6 +21,11 @@ LOD::LOD(const LOD &lod)
 Node* LOD::Clone()
 {
 	return new LOD(*this);
+}
+
+void LOD::Accept(NodeVisitor &nv)
+{
+	nv.ApplyLOD(*this);
 }
 
 void LOD::AddLevel(float pixelSize, Node *nod)

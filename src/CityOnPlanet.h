@@ -5,9 +5,8 @@
 #define _CITYONPLANET_H
 
 #include "libs.h"
-#include "mtrand.h"
+#include "Random.h"
 #include "Object.h"
-#include "LmrModel.h"
 
 class Planet;
 class SpaceStation;
@@ -15,6 +14,7 @@ class Frame;
 class Geom;
 class Camera;
 namespace Graphics { class Renderer; }
+namespace SceneGraph { class Model; }
 
 #define CITY_ON_PLANET_RADIUS 5000.0
 
@@ -29,12 +29,12 @@ public:
 	static void Init();
 	static void Uninit();
 private:
-	void PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4);
+	void PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4);
 	void AddStaticGeomsToCollisionSpace();
 	void RemoveStaticGeomsFromCollisionSpace();
 
 	struct BuildingDef {
-		ModelBase *model;
+		SceneGraph::Model *model;
 		float clipRadius;
 		int rotation; // 0-3
 		vector3d pos;

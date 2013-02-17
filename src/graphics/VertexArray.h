@@ -50,7 +50,7 @@ public:
 	virtual void Add(const vector3f &v, const Color &c, const vector3f &normal);
 	virtual void Add(const vector3f &v, const Color &c, const vector2f &uv);
 	virtual void Add(const vector3f &v, const vector2f &uv);
-	virtual void Add(const vector3f &v, const vector3f &normal, const vector2f &uv); //lmr static mesh
+	virtual void Add(const vector3f &v, const vector3f &normal, const vector2f &uv);
 	//virtual void Reserve(unsigned int howmuch)
 
 	//could make these private, but it is nice to be able to

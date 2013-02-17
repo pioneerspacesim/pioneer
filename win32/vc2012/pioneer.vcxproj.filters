@@ -63,9 +63,6 @@
     <ClCompile Include="..\..\src\KeyBindings.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LmrModel.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LuaBody.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -79,9 +76,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaEngine.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LuaEquipType.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaFormat.cpp">
@@ -114,9 +108,6 @@
     <ClCompile Include="..\..\src\LuaShip.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\LuaShipType.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LuaSpace.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -145,9 +136,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ModelBody.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\mtrand.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ObjectViewerView.cpp">
@@ -423,6 +411,12 @@
     <ClCompile Include="..\..\src\LuaMissile.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaEquipDef.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaShipDef.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -506,10 +500,7 @@
     <ClInclude Include="..\..\src\libs.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\LmrModel.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaBody.h">
+    <ClInclude Include="..\..\src\LuaEquipDef.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaCargoBody.h">
@@ -522,9 +513,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaEngine.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaEquipType.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaFormat.h">
@@ -542,34 +530,13 @@
     <ClInclude Include="..\..\src\LuaObject.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\LuaPlanet.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaPlayer.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaRand.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\LuaSerializer.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\LuaShip.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaShipType.h">
+    <ClInclude Include="..\..\src\LuaShipDef.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaSpace.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaSpaceStation.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaStar.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaStarSystem.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaTimer.h">
@@ -588,9 +555,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ModelBody.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\mtrand.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Object.h">
@@ -696,9 +660,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaMusic.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaSystemPath.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ShipSpinnerWidget.h">
@@ -809,9 +770,6 @@
     <ClInclude Include="..\..\src\LuaMatrix.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\LuaSystemBody.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\LuaComms.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -863,9 +821,6 @@
     <ClInclude Include="..\..\src\Tombstone.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\LuaFaction.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\PngWriter.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -891,6 +846,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaMissile.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Random.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaWrappable.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
