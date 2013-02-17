@@ -96,6 +96,8 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 
 	wr.Int32(static_cast<int>(m_controller->GetType()));
 	m_controller->Save(wr, space);
+
+	m_navLights->Save(wr);
 }
 
 void Ship::Load(Serializer::Reader &rd, Space *space)
@@ -145,6 +147,8 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	else
 		SetController(new ShipController());
 	m_controller->Load(rd);
+
+	m_navLights->Load(rd);
 
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }

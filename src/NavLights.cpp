@@ -18,11 +18,23 @@ static RefCountedPtr<Graphics::Material> matYellow;
 
 typedef std::vector<NavLights::LightBulb>::iterator LightIterator;
 
-NavLights::LightBulb::LightBulb(Uint8 _group, Uint8 _mask, SceneGraph::Billboard *bb)
+static RefCountedPtr<Graphics::Material> get_material(Uint8 c)
+{
+	if (c == NavLights::NAVLIGHT_RED)
+		return matRed;
+	else if (c == NavLights::NAVLIGHT_GREEN)
+		return matGreen;
+	else if (c == NavLights::NAVLIGHT_YELLOW)
+		return matYellow;
+	else
+		return matBlue;
+}
+
+NavLights::LightBulb::LightBulb(Uint8 _group, Uint8 _mask, Uint8 _color, SceneGraph::Billboard *_bb)
 : group(_group)
 , mask(_mask)
-, billboard(bb)
-, color(NAVLIGHT_BLUE)
+, billboard(_bb)
+, color(_color)
 {
 }
 
@@ -83,22 +95,24 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 		assert(mt);
 		Billboard *bblight = new Billboard(renderer, matBlue, vector3f(0.f), BILLBOARD_SIZE);
 		Uint8 group = 0;
-		Uint8 mask = 0xff; //always on
+		Uint8 mask  = 0xff; //always on
+		Uint8 color = NAVLIGHT_BLUE;
 
 		if (mt->GetName().substr(9, 3) == "red") {
 			bblight->SetMaterial(matRed);
-			mask = 0x0f;
+			mask  = 0x0f;
+			color = NAVLIGHT_RED;
 		} else if (mt->GetName().substr(9, 5) == "green") {
-			bblight->SetMaterial(matGreen);
-			mask = 0xf0;
+			mask  = 0xf0;
+			color = NAVLIGHT_GREEN;
 		} else if (mt->GetName().substr(9, 3) == "pad") {
 			//group by pad number
 			group = atoi(mt->GetName().substr(12, 1).c_str());
-			mask = 0xf0;
+			mask  = 0xf0;
 		}
-		//everything else is blue & static
+		bblight->SetMaterial(get_material(color));
 
-		m_lights.push_back(LightBulb(group, mask, bblight));
+		m_lights.push_back(LightBulb(group, mask, color, bblight));
 		mt->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 		mt->AddChild(bblight);
 	}
@@ -106,6 +120,27 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 
 NavLights::~NavLights()
 {
+}
+
+void NavLights::Save(Serializer::Writer &wr)
+{
+	wr.Float(m_time);
+	wr.Bool(m_enabled);
+
+	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
+		wr.Byte(it->color);
+}
+
+void NavLights::Load(Serializer::Reader &rd)
+{
+	m_time    = rd.Float();
+	m_enabled = rd.Bool();
+
+	RefCountedPtr<Graphics::Material> mat;
+	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
+		Uint8 c = rd.Byte();
+		it->billboard->SetMaterial(get_material(c));
+	}
 }
 
 void NavLights::Update(float time)
@@ -131,19 +166,9 @@ void NavLights::Update(float time)
 
 void NavLights::SetColor(unsigned int group, LightColor c)
 {
-	RefCountedPtr<Graphics::Material> mat;
-
 	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
 		if (it->group != group || it->color == c) continue;
-		if (c == NAVLIGHT_RED)
-			mat = matRed;
-		else if (c == NAVLIGHT_GREEN)
-			mat = matGreen;
-		else if (c == NAVLIGHT_YELLOW)
-			mat = matYellow;
-		else
-			mat = matBlue;
-		it->billboard->SetMaterial(mat);
+		it->billboard->SetMaterial(get_material(c));
 		it->color = c;
 	}
 }

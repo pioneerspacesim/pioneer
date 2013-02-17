@@ -66,6 +66,8 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 	wr.Double(m_lastUpdatedShipyard);
 	wr.Int32(space->GetIndexForSystemBody(m_sbody));
 	wr.Int32(m_numPoliceDocked);
+
+	m_navLights->Save(wr);
 }
 
 void SpaceStation::Load(Serializer::Reader &rd, Space *space)
@@ -104,6 +106,8 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 	m_sbody = space->GetSystemBodyByIndex(rd.Int32());
 	m_numPoliceDocked = rd.Int32();
 	InitStation();
+
+	m_navLights->Load(rd);
 }
 
 void SpaceStation::PostLoadFixup(Space *space)
