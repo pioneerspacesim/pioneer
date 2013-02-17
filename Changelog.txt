@@ -2,7 +2,7 @@ Alpha 32
 
    * New features
      * New ship "Kanara Interceptor" (#2037)
-     * New fast random number generator (#1893)
+     * New fast random number generator (#1893, #2078)
 
    * Minor changes and tweaks
      * Balanced DSMiner fuel use (#2062)
@@ -34,10 +34,11 @@ Alpha 32
      * Player.SetHyperspaceTarget and GetHyperspaceTarget methods (#2028, #2027)
 
    * Internal changes
-     * Removed Lua model system (LMR) (#2029)
+     * Removed Lua model system (LMR) (#2029, #2071)
      * Removed Text::VectorFont (#2041)
      * Removed Renderer::DrawPoints2D (#2041)
-     * LuaObject wrapper cleanup (#2026, #2049)
+     * LuaObject wrapper cleanup (#2026, #2049, #2073, #2075)
+     * Fix SGModel NodeVisitor not applying correctly to all node types (#2076, #2074)
 
 Alpha 31
 
