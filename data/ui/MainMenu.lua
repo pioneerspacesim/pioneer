@@ -4,8 +4,8 @@
 local ui = Engine.ui
 local t = Translate:GetTranslator()
 
-local setupPlayerEagle = function ()
-	Game.player:SetShipType("eagle_lrf")
+local setupPlayerNatrix = function ()
+	Game.player:SetShipType("natrix")
 	Game.player:AddEquip("PULSECANNON_1MW")
 	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
 	Game.player:AddEquip("AUTOPILOT")
@@ -15,8 +15,8 @@ local setupPlayerEagle = function ()
 	Game.player:SetMoney(100)
 end
 
-local setupPlayerCobra = function ()
-	Game.player:SetShipType("cobra3")
+local setupPlayerLanner = function ()
+	Game.player:SetShipType("lanner")
 	Game.player:AddEquip("PULSECANNON_1MW")
 	Game.player:AddEquip("SCANNER")
 	Game.player:AddEquip("MISSILE_GUIDED", 2)
@@ -37,9 +37,9 @@ local doLoadDialog = function ()
 end
 
 local buttonDefs = {
-	{ t("Start at Earth"),    function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerEagle() end },
-	{ t("Start at New Hope"), function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerEagle() end },
-	{ t("Start at Lave"),     function () Game.StartGame(SystemPath.New(-2,1,90,0,2)) setupPlayerCobra() end },
+	{ t("Start at Earth"),    function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerNatrix() end },
+	{ t("Start at New Hope"), function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerNatrix() end },
+	{ t("Start at Lave"),     function () Game.StartGame(SystemPath.New(-2,1,90,0,2)) setupPlayerLanner() end },
 	{ t("Load game"),         doLoadDialog },
 	{ t("Options"),           function () Engine.SettingsView() end },
 	{ t("Quit"),              function () Engine.Quit() end },
