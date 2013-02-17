@@ -129,7 +129,6 @@ noinst_HEADERS = \
 	ShipController.h \
 	ShipCpanel.h \
 	ShipCpanelMultiFuncDisplays.h \
-	ShipFlavour.h \
 	ShipSpinnerWidget.h \
 	ShipType.h \
 	Sound.h \
@@ -268,7 +267,6 @@ pioneer_SOURCES	= \
 	ShipController.cpp \
 	ShipCpanel.cpp \
 	ShipCpanelMultiFuncDisplays.cpp \
-	ShipFlavour.cpp \
 	ShipSpinnerWidget.cpp \
 	ShipType.cpp \
 	Sound.cpp \

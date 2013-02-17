@@ -11,7 +11,6 @@
 #include "Quaternion.h"
 #include "RefList.h"
 #include "Serializer.h"
-#include "ShipFlavour.h"
 #include "ShipType.h"
 #include "SpaceStationType.h"
 
@@ -35,6 +34,13 @@ struct BBAdvert {
 	int               ref;
 	std::string       description;
 	AdvertFormBuilder builder;
+};
+
+struct ShipOnSale {
+	ShipOnSale(const ShipType::Id &_id, const std::string &_regId) :
+		id(_id), regId(_regId) {}
+	ShipType::Id          id;
+	std::string           regId;
 };
 
 class SpaceStation: public ModelBody, public MarketAgent {
@@ -61,8 +67,8 @@ public:
 	bool CanSell(Equip::Type t, bool verbose) const;
 	bool DoesSell(Equip::Type t) const;
 	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
-	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
-	const std::vector<ShipFlavour> &GetShipsOnSale() const { return m_shipsOnSale; }
+	void ReplaceShipOnSale(int idx, const ShipOnSale &with);
+	const std::vector<ShipOnSale> &GetShipsOnSale() const { return m_shipsOnSale; }
 	virtual void PostLoadFixup(Space *space);
 	virtual void NotifyRemoved(const Body* const removedBody);
 
@@ -137,7 +143,7 @@ private:
 	const SpaceStationType *m_type;
 	const SystemBody *m_sbody;
 	int m_equipmentStock[Equip::TYPE_MAX];
-	std::vector<ShipFlavour> m_shipsOnSale;
+	std::vector<ShipOnSale> m_shipsOnSale;
 	double m_lastUpdatedShipyard;
 	CityOnPlanet *m_adjacentCity;
 	double m_distFromPlanet;
