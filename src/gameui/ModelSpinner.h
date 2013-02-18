@@ -1,21 +1,19 @@
 // Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef GAMEUI_SHIPSPINNER_H
-#define GAMEUI_SHIPSPINNER_H
+#ifndef GAMEUI_MODELSPINNER_H
+#define GAMEUI_MODELSPINNER_H
 
 #include "ui/Context.h"
-#include "ShipFlavour.h"
 #include "graphics/Light.h"
-#include "EquipSet.h"
-
-namespace SceneGraph { class Model; }
+#include "scenegraph/SceneGraph.h"
+#include "SmartPtr.h"
 
 namespace GameUI {
 
-class ShipSpinner : public UI::Widget {
+class ModelSpinner : public UI::Widget {
 public:
-	ShipSpinner(UI::Context *context, const ShipFlavour &flavour);
+	ModelSpinner(UI::Context *context, SceneGraph::Model *model);
 
 	virtual UI::Point PreferredSize() { return UI::Point(INT_MAX); }
 	virtual void Layout();
@@ -27,16 +25,10 @@ protected:
 	virtual void HandleMouseMove(const UI::MouseMotionEvent &event);
 
 private:
-	ShipFlavour m_flavour;
+	ScopedPtr<SceneGraph::Model> m_model;
 
 	float m_rotX, m_rotY;
 
-	SceneGraph::Model *m_model;
-
-	// XXX m_equipment is currently not hooked up to anything,
-	// it's just used to pass equipment parameters to the displayed model
-	EquipSet m_equipment;
-	//illumination in ship view
 	Graphics::Light m_light;
 
 	bool m_rightMouseButton;
