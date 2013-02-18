@@ -115,7 +115,7 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
-local onShipFlavourChanged = function (ship)
+local onShipTypeChanged = function (ship)
 	if ship:IsPlayer() then
 		service_history.company = nil
 		service_history.lastdate = Game.time
@@ -233,7 +233,7 @@ end
 
 Event.Register("onCreateBB", onCreateBB)
 Event.Register("onGameStart", onGameStart)
-Event.Register("onShipFlavourChanged", onShipFlavourChanged)
+Event.Register("onShipTypeChanged", onShipTypeChanged)
 Event.Register("onShipEquipmentChanged", onShipEquipmentChanged)
 Event.Register("onEnterSystem", onEnterSystem)
 

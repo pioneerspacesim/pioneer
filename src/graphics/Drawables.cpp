@@ -85,8 +85,6 @@ static const int icosahedron_faces[20][3] = {
 
 Sphere3D::Sphere3D(RefCountedPtr<Material> mat, int subdivs, float scale)
 {
-	//The sphere building code comes from LmrModel, which in turn comes from the
-	//red book I believe
 	subdivs = Clamp(subdivs, 0, 4);
 	scale = fabs(scale);
 	matrix4x4f trans = matrix4x4f::Identity();

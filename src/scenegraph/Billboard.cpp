@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Billboard.h"
+#include "NodeVisitor.h"
 #include "graphics/Renderer.h"
 
 namespace SceneGraph {
@@ -32,6 +33,11 @@ Billboard::Billboard(const Billboard &billboard)
 Node* Billboard::Clone()
 {
 	return new Billboard(*this);
+}
+
+void Billboard::Accept(NodeVisitor &nv)
+{
+	nv.ApplyBillboard(*this);
 }
 
 void Billboard::Render(const matrix4x4f &trans, RenderData *rd)
