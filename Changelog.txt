@@ -23,6 +23,7 @@ Alpha 32
      * New missile model (#2036)
      * Downscaled building models (#2052)
      * Add test_gun model (#2060)
+     * Converted tombstone to SGModel (#2083)
      * Modelviewer: Scale/landingpad test model (press 'p') (#2034, #1981)
      * Modelviewer: More/better log output (#2034, #1876)
      * Modelviewer: Enable mods (#2032)
