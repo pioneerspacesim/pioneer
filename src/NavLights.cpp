@@ -33,8 +33,8 @@ static RefCountedPtr<Graphics::Material> get_material(Uint8 c)
 NavLights::LightBulb::LightBulb(Uint8 _group, Uint8 _mask, Uint8 _color, SceneGraph::Billboard *_bb)
 : group(_group)
 , mask(_mask)
-, billboard(_bb)
 , color(_color)
+, billboard(_bb)
 {
 }
 
@@ -72,9 +72,9 @@ void NavLights::Uninit()
 }
 
 NavLights::NavLights(SceneGraph::Model *model, float period)
-: m_period(period)
+: m_time(0.f)
+, m_period(period)
 , m_enabled(false)
-, m_time(0.f)
 {
 	assert(g_initted);
 

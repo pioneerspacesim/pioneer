@@ -94,6 +94,7 @@ noinst_HEADERS = \
 	ModelCache.h \
 	ModManager.h \
 	ModelViewer.h \
+	NavLights.h \
 	Object.h \
 	ObjectViewerView.h \
 	OS.h \
@@ -239,6 +240,7 @@ pioneer_SOURCES	= \
 	ModelCache.cpp \
 	ModManager.cpp \
 	ModelViewer.cpp \
+	NavLights.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
 	Planet.cpp \

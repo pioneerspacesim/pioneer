@@ -40,8 +40,8 @@ public:
 	void Update(float time);
 	void SetColor(unsigned int group, LightColor);
 
-	static void NavLights::Init(Graphics::Renderer*);
-	static void NavLights::Uninit();
+	static void Init(Graphics::Renderer*);
+	static void Uninit();
 
 protected:
 	std::vector<LightBulb> m_lights;
