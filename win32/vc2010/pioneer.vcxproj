@@ -245,6 +245,7 @@
     <ClCompile Include="..\..\src\UIView.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\View.cpp" />
+    <ClCompile Include="..\..\src\Weapon.cpp" />
     <ClCompile Include="..\..\src\win32\FileSystemWin32.cpp" />
     <ClCompile Include="..\..\src\win32\OSWin32.cpp" />
     <ClCompile Include="..\..\src\win32\pch.cpp">
@@ -406,6 +407,7 @@
     <ClInclude Include="..\..\src\vector3.h" />
     <ClInclude Include="..\..\src\VideoLink.h" />
     <ClInclude Include="..\..\src\View.h" />
+    <ClInclude Include="..\..\src\Weapon.h" />
     <ClInclude Include="..\..\src\win32\pch.h" />
     <ClInclude Include="..\..\src\win32\TextUtils.h" />
     <ClInclude Include="..\..\src\win32\WinMath.h" />

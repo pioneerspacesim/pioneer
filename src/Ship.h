@@ -12,15 +12,16 @@
 #include "NavLights.h"
 #include "Serializer.h"
 #include "ShipType.h"
+#include "Weapon.h"
 #include "galaxy/SystemPath.h"
 #include "scenegraph/SceneGraph.h"
 
-class SpaceStation;
-class HyperspaceCloud;
 class AICommand;
-class ShipController;
 class CargoBody;
+class HyperspaceCloud;
 class Missile;
+class ShipController;
+class SpaceStation;
 namespace Graphics { class Renderer; }
 
 struct shipstats_t {
@@ -84,6 +85,8 @@ public:
 	void UpdateFuelStats();
 	void UpdateStats();
 	const shipstats_t &GetStats() const { return m_stats; }
+
+	std::vector<Weapon*> &GetWeapons() { return m_weapons; }
 
 	void Explode();
 	void SetGunState(int idx, int state);
@@ -210,7 +213,6 @@ public:
 	float GetPercentShields() const;
 	float GetPercentHull() const;
 	void SetPercentHull(float);
-	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
 
 	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_>
 		FUEL_OK,
@@ -243,7 +245,6 @@ public:
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
-	void RenderLaserfire();
 
 	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
 
@@ -254,9 +255,6 @@ protected:
 
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;
-	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
-	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
-	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
 	float m_ecmRecharge;
 
 	ShipController *m_controller;
@@ -264,9 +262,7 @@ protected:
 private:
 	float GetECMRechargeTime();
 	void DoThrusterSounds() const;
-	void FireWeapon(int num);
 	void Init();
-	bool IsFiringLasers();
 	void TestLanded();
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep, const vector3d &thrust);
@@ -307,6 +303,7 @@ private:
 	int m_dockedWithIndex; // deserialisation
 
 	SceneGraph::Animation *m_landingGearAnimation;
+	std::vector<Weapon*> m_weapons;
 	ScopedPtr<NavLights> m_navLights;
 };
 
