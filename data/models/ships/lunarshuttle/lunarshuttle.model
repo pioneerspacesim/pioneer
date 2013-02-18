@@ -24,6 +24,10 @@ material Material5
 tex_diff shuttle_hull.png
 shininess 128
 
+material VisualMaterial
+tex_diff shuttle_hull.png
+shininess 128
+
 material glow
 tex_glow shuttle_stripe.png
 shininess 128
@@ -31,6 +35,8 @@ shininess 128
 lod 1000
 mesh lunarshuttle_poly.obj
 mesh lunarshuttle_thrusters_lights_labels.dae
+mesh lunarshuttle_gear.dae
+anim gear_down 0 115
 
 collision lunarshuttle_collision.obj
 
