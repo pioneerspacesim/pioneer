@@ -6,14 +6,19 @@ shininess 15
 
 material Material2
 tex_diff shuttle_deck.png
+specular 0.0 0.0 0.0
 shininess 128
 
 material Material3
-tex_diff shuttle_stripe.png
+tex_diff shuttle_hull.png
+use_patterns 
+diffuse 0.6 0.6 0.6
 shininess 25
 
 material Material4
 tex_diff shuttle_hull.png
+tex_spec shuttle_hull.png
+specular 0.25 0.25 0.25
 shininess 128
 
 material Unassigned
@@ -29,7 +34,10 @@ tex_diff shuttle_hull.png
 shininess 128
 
 material glow
-tex_glow shuttle_stripe.png
+tex_glow shuttle_hull.png
+diffuse 1.0 1.0 1.0
+specular 0.0 0.0 0.0
+use_patterns
 shininess 128
 
 lod 1000
