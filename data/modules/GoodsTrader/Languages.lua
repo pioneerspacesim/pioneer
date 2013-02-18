@@ -99,3 +99,19 @@ Translate:Add({ Deutsch = {
   }
  }
 })
+
+  ---- CZECH / ČESKY ----
+
+Translate:Add({ Czech = {
+  ["Welcome to "] = "Vítejte v ",
+
+ GOODS_TRADER = {
+  "poctivém {name}'s obchodním středisku",
+  "{name}'s tržnici",
+  "{name}'s skladišti",
+  "{name}'s burze",
+  "{name} a.s.",
+  "{name} & synové"
+  }
+ }
+})
