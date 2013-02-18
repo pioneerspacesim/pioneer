@@ -444,7 +444,7 @@ Translate:AddFlavour('Russian','Assassination', {
 })
 
 Translate:Add({ Russian = {
-  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."] = "Ваша цель - {target} - покинет станцию {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}) ровно в {date} года.\n Корабль {shipname} имеет регистрационный номер {shipregid}.",
+  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."] = "Ваша цель - {target} - покинет станцию {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist}, ровно в {date} года.\n Корабль {shipname} имеет регистрационный номер {shipregid}.",
   ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "Вы должны сделать это когда {target} покинет {spaceport}. Не упустите момент.",
   ["Assassination"] = "Ликвидация",
   ["Excellent."] = "Отлично.",

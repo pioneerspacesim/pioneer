@@ -386,6 +386,10 @@ Translate:Add({
 		['Ship Information'] = 'Информация о корабле',
 		['Weight empty:'] = 'Собств.вес корабля:',
 		['{range} light years ({maxRange} max)'] = '{range} св.лет (из {maxRange} макс.)',
+		['Minimum crew'] = 'Минимальный экипаж',
+		['Crew cabins'] = 'Каюты экипажа',
+		['free'] = 'свободно',
+		['max'] = 'макс.',
 		
 		-- Personal information
 		['Personal Information'] = 'Персональная информация',
@@ -396,7 +400,9 @@ Translate:Add({
 		['Rank:'] = 'Ранг:',
 		['Male'] = 'Мужчина',
 		['Female'] = 'Женщина',
-
+		['Toggle male/female'] = 'Пол муж./жен.',
+		['Make new face'] = 'Новое лицо',
+		
 		['HARMLESS'] = 'Безобидный',
 		['MOSTLY_HARMLESS'] = 'Почти безобидный',
 		['POOR'] = 'Слабый',
@@ -416,6 +422,48 @@ Translate:Add({
 		['Mission Details'] = 'О задании',
 		['No missions.'] = 'Нет заданий.',
 		['INACTIVE'] = 'Неактивно', -- Complement of ACTIVE, COMPLETED and FAILED
+		
+				-- Crew Tasks
+		['Attempt to repair hull'] = 'Попытка починки корпуса',
+		['Not enough {alloy} to attempt a repair'] = 'Недостаточно {alloy} для проведения ремонта',
+		['Hull repaired by {name}, now at {repairPercent}%'] = '{name} отремонтировал корпус до {repairPercent}%',
+		['Hull repair attempt failed. Hull suffered minor damage.'] = 'Попытка ремонта не удалась. Корпус получил незначительные повреждения.',
+		['Hull does not require repair.'] = 'Корпус не требует ремонта.',
+		['Destroy enemy ship'] = 'Уничтожить корабль противника',
+		['You must request launch clearance first, Commander.'] = 'Сначала мы должны запросить разрешение на взлет, капитан!',
+		['You must launch first, Commander.'] = 'Сначала мы должны взлететь, капитан.',
+		['We are in hyperspace, Commander.'] = 'Мы в гиперпространстве, капитан!',
+		['The ship is under station control, Commander.'] = 'Корабль под контролем станции, капитан.',
+		['You must first select a combat target, Commander.'] = 'Вы должны указать боевую цель, капитан!',
+		['You must first select a suitable navigation target, Commander.'] = 'Сначала вы должны указать навигационную цель, капитан.',
+		['There is nobody else on board able to fly this ship.'] = 'Больше никто на борту не умеет управлять этим кораблем.',
+		['Pilot seat is now occupied by {name}'] = 'Обязанности пилота сейчас выполняет {name}.',
+		['Dock at current target'] = 'Стыковка с выбранной целью.',
+
+		-- Crew Roster
+		['Name'] = 'Имя',
+		['Position'] = 'Должность',
+		['Wage'] = 'Оклад',
+		['Owed'] = 'Долг',
+		['Next paid'] = 'След.платеж',
+		['More info...'] = 'Доп.информация...',
+		['General crew'] = 'Основной экипаж',
+		['Dismiss'] = 'Уволить',
+		['Qualification scores'] = 'Ур.квалификации',
+		['Engineering:'] = 'Инженерия:',
+		['Piloting:'] = 'Пилотирование:',
+		['Navigation:'] = 'Навигация:',
+		['Sensors:'] = 'Сенсоры:',
+		['Employment'] = 'Занятость',
+		['Negotiate'] = 'Условия',
+		['Crew Roster'] = 'Список экипажа',
+		['Give orders to crew'] = 'Приказы экипажу',
+
+		-- Taunts
+		["I'm tired of working for nothing. Don't you know what a contract is?"] = "Я устал работать даром. Разве вы не знаете, что такое контракт?",
+		["It's been great working for you. If you need me again, I'll be here a while."] = "Работать на вас было одним удовольствием. Если вновь захотите меня нанять - некоторое время я буду здесь.",
+		["You're going to regret sacking me!"] = "Вы пожалеете о том, что уволили меня!",
+		["Good riddance to you, too."] = "Скатертью дорожка!",
 		
 		-- Orbital analysis
 		['Orbit'] = 'Орбита',
