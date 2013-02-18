@@ -28,15 +28,15 @@ VID_LINK_ESTABLISHED
 VID_CONNECTING
     Připojuji...
 BOUGHT_1T_OF
-    Koupili jste si 1t %commodity.
+    Koupil jste 1t %commodity.
 SOLD_1T_OF
-    Prodali jste 1t %commodity.
+    Prodal jste 1t %commodity.
 WELCOME_TO_MARKET
-    Vítá Vás %station obchod
+    Vítá vás %station obchod
 GO_BACK
     Zpět
 FITTING
-    "Umísťuji "
+    "Instaluji "
 REMOVING
     "Odstraňuji "
 FIT_TO_WHICH_MOUNT
@@ -48,7 +48,7 @@ YOU_NOT_ENOUGH_MONEY
 TRADER_NOT_ENOUGH_MONEY
     Obchodník nemá dostatek peněz
 NO_SPACE_ON_SHIP
-    Na lodi již není místo
+    Na lodi už není místo
 SOMEWHERE_SERVICES
     %station služby
 SOMEWHERE_SHIPYARD
@@ -62,11 +62,11 @@ PRICE_TO_REMOVE
 WT
     Váha
 FIT
-    Kup
+    Ins.
 REMOVE
-    Prodej
+    Ods.
 BUY_THIS_SHIP
-    Kup tuto loď
+    Koupit loď
 SHIP_TYPE
     Typ lodi
 REGISTRATION_ID
@@ -80,7 +80,7 @@ WEIGHT_FULLY_LADEN
 CAPACITY
     Kapacita
 CAPACITY_USED
-	Využitá kapacita
+    Využitá kapacita
 FORWARD_ACCEL_EMPTY
     Zrychlení vpřed (prázdný)
 NUMBER_G
@@ -92,9 +92,9 @@ REVERSE_ACCEL_EMPTY
 REVERSE_ACCEL_LADEN
     Zrychlení vzad (naložený)
 HYPERDRIVE_FITTED
-    Hypermotor umístěn:
+    Hypermotor:
 HYPERSPACE_RANGE_LADEN
-    Hyperprostor dosah (plně naložený):
+    Hyperprostor. dosah (plně naložený):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
     Děkujeme za nákup. Nezapomeňte před odletem nakoupit palivo a vybavení.
 CLASS_NUMBER
@@ -102,7 +102,7 @@ CLASS_NUMBER
 NUMBER_LY
     %distance{f.2} ly
 SHIP_IS_ALREADY_FULLY_REPAIRED
-    Vaše loď je již plně funkční.
+    Vaše loď je již zcela opravena.
 REPAIR_1_PERCENT_HULL
     Opravit 1.0% poškození trupu
 REPAIR_ENTIRE_HULL
@@ -110,7 +110,7 @@ REPAIR_ENTIRE_HULL
 REPAIR
     Oprava
 PART_EX
-    Výměna součástky
+    Výměna
 VIEW
     Pohled
 SHIP_EQUIPMENT
@@ -143,7 +143,7 @@ SOMEWHERE_SHIP_MARKET
 CONTACT_LOCAL_POLICE
     Kontaktuj místní policii
 COMMS_LINK
-    Komunikační linka
+    Komunikátor
 ZOOM_IN
     Zvětšit
 ZOOM_OUT
@@ -385,7 +385,7 @@ RADAR_MAPPER_DESCRIPTION
 FUEL_SCOOP
     Sběrač paliva
 FUEL_SCOOP_DESCRIPTION
-    Umožňuje nabírat vodíkové palivo z plynných obrů (planet).
+    Umožňuje čerpat vodíkové palivo z plynných obrů (planet).
 CARGO_SCOOP
     Sběrač nákladu
 CARGO_SCOOP_DESCRIPTION
@@ -625,7 +625,7 @@ YOU_MUST_PAY_FINE_OF_N_CREDITS
 PAY_THE_FINE_NOW
     Zaplať pokutu hned.
 HANG_UP
-    Zavěsit.
+    Zavěsit
 TRADING_ILLEGAL_GOODS
     Obchod s nelegálním zbožím
 UNLAWFUL_WEAPONS_DISCHARGE

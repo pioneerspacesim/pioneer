@@ -106,7 +106,7 @@ Ogólny wynik egzaminu: {overall}%]],
 Translate:Add({
 	Czech = {
 		['Crew for hire'] = 'Najmout posádku',
-		['Potential crew members are registered as seeking employment at {station}:'] = 'Potencionální členové posádky, hledající práci, jsou registrováni na stanici {station}:',
+		['Potential crew members are registered as seeking employment at {station}:'] = 'Potencionální členové posádky, hledající práci, registrovaní na stanici {station}:',
 		['{potentialCrewMember} ({wage}/wk)'] = '{potentialCrewMember} ({wage}/wk)',
 		-- Experience levels
 		['No experience'] = 'Bez zkušeností',

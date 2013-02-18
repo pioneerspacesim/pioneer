@@ -984,7 +984,7 @@ Translate:AddFlavour('Czech','DeliverPackage', {
 
 Translate:AddFlavour('Czech','DeliverPackage', {
   adtext = "DORUČOVÁNÍ v SOUSEDSTVÍ. Požadováno rychlé doručení předmětu do stanice {starport}.",
-  introtext = "Jmenuji se {name} a potřebuji pronto doručit tento předmět příteli do stanice {starport}, Zaplatím ti {cash}, když to zvládneš v rozumném čase.",
+  introtext = "Jmenuji se {name} a potřebuji pronto doručit tento předmět příteli do stanice {starport}. Zaplatím ti {cash}, když to zvládneš v rozumném čase.",
   whysomuchtext = "Protože to opravdu spěchá.",
   successmsg = "Tvůj rychlý přístup velmi oceňuji. Platba je proto již na tvém účtu.",
   failuremsg = "Tomu říkáš rychlé doručení? Odmítám za to ještě platit!",
