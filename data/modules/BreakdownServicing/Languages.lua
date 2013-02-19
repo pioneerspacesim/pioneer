@@ -526,6 +526,8 @@ Translate:Add({ Russian = {
 	["Your drive has not been serviced since it was installed on {date}"] = "Ваш двигатель ещё не обслуживался, т.к. его эксплуатация началась только в {date} года.",
 	["You do not have a drive to service!"] = "У вас нет двигателя для сервиса!",
 	["The ship's hyperdrive has been destroyed by a malfunction"] = "Гипердвигатель вашего корабля полностью разрушен.",
+        ["You fixed the hyperdrive before it broke down."] = "Вы отремонтировали гипердвигатель прежде, чем он сломался.",
+	["I fixed the hyperdrive before it broke down."] = "Я отремонтировал гипердвигатель прежде, чем он сломался.",
 }, })
 
 ---- GERMAN / DEUTSCH ----

@@ -233,7 +233,6 @@ bool AICmdKill::TimeStepUpdate()
 	else { LaunchShip(m_ship); return false; }
 
 	const matrix3x3d &rot = m_ship->GetOrient();
-	const ShipType &stype = m_ship->GetShipType();
 	vector3d targpos = m_target->GetPositionRelTo(m_ship);
 	vector3d targvel = m_target->GetVelocityRelTo(m_ship);
 	vector3d targdir = targpos.NormalizedSafe();
@@ -330,7 +329,7 @@ bool AICmdKill::TimeStepUpdate()
 
 		double reqdist = 500.0 + skillEvade * Pi::rng.Double(-500.0, 250);
 		double dist = targpos.Length(), ispeed;
-		double rearaccel = stype.linThrust[ShipType::THRUSTER_REVERSE] / m_ship->GetMass();
+		double rearaccel = m_ship->GetShipType()->linThrust[ShipType::THRUSTER_REVERSE] / m_ship->GetMass();
 		rearaccel += targaccel.Dot(targdir);
 		// v = sqrt(2as), positive => towards
 		double as2 = 2.0 * rearaccel * (dist - reqdist);

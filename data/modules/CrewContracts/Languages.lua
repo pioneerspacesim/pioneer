@@ -102,3 +102,52 @@ Sensory i obrona: {sensors}%
 Ogólny wynik egzaminu: {overall}%]],
 	}
 })
+
+Translate:Add({
+	Russian = {
+		['Crew for hire'] = 'Найм экипажа',
+		['Potential crew members are registered as seeking employment at {station}:'] = 'Потенциальные члены экипажа, зарегистрированные в качестве ищущих работу на {station}:',
+		['{potentialCrewMember} ({wage}/wk)'] = '{potentialCrewMember} ({wage}/неделя)',
+		-- Experience levels
+		['No experience'] = 'Опыт отсутствует',
+		['Simulator training only'] = 'Тренировки на симуляторе',
+		['Some experience in controlled environments'] = 'Некоторый опыт под наблюдением инструкторов.',
+		['Minimal time served aboard ship'] = 'Недолго служил на корабле',
+		['Time served crew member'] = 'Служил в составе экипажа корабля',
+		['Veteran, time served crew member'] = 'Ветеран, служил в составе экипажа корабля',
+		-- Crew positions
+		["Ship's Engineer"] = "Корабельный инженер",
+		["Pilot"] = "Пилот",
+		["Navigator"] = "Навигатор",
+		["Sensors and defence"] = "Сенсоры и защита",
+		-- Details form for a single crew member
+		crewDetailSheetBB = [[Найм экипажа
+
+Имя: {name}
+Опыт: {experience}
+Желаемая з\п: {wage} в неделю
+
+{response}
+]],
+		-- Buttons to click
+		['Make offer of position on ship for stated amount'] = 'Предложить должность на корабле с указанной зарплатой',
+		['Suggest new weekly wage of {newAmount}'] = 'Предложить уровень зарплаты в {newAmount}',
+		['Ask candidate to sit a test'] = 'Попросить кандидата пройти тест',
+		-- Responses
+		["Thanks, I'll get settled on board immediately."] = "Спасибо, я немедленно поднимаюсь на борт.",
+		["There doesn't seem to be space for me on board!"] = "Кажется, для меня нет места на корабле!",
+		["I'm sorry, your offer isn't attractive to me."] = "Извините, но ваше предложение меня не заинтересовало.",
+		["That's extremely generous of you!"] = "Это очень великодушно с вашей стороны!",
+		["That certainly makes this offer look better!"] = "Это, конечно, делает ваше предложение интересней!",
+		["OK, I suppose that's all right."] = "ОК, мне кажется, что всё в порядке.",
+		["I'm sorry, I'm not prepared to go any lower."] = "Извините, но я не готов к понижению.",
+		crewTestResultsBB = [[Экзаменационные результаты:
+
+Общая компетенция экипажа: {general}%
+Инженерия и ремонт: {engineering}%
+Пилотирование и перелеты: {piloting}%
+Навигация и картография: {navigation}%
+Сенсоры и защита: {sensors}%
+Общая экзаменационная оценка: {overall}%]],
+	}
+})
