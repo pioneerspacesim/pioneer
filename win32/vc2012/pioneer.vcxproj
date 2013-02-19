@@ -236,7 +236,6 @@
     <ClCompile Include="..\..\src\ShipController.cpp" />
     <ClCompile Include="..\..\src\ShipCpanel.cpp" />
     <ClCompile Include="..\..\src\ShipCpanelMultiFuncDisplays.cpp" />
-    <ClCompile Include="..\..\src\ShipFlavour.cpp" />
     <ClCompile Include="..\..\src\ShipSpinnerWidget.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\Sound.cpp" />
@@ -382,7 +381,6 @@
     <ClInclude Include="..\..\src\ShipController.h" />
     <ClInclude Include="..\..\src\ShipCpanel.h" />
     <ClInclude Include="..\..\src\ShipCpanelMultiFuncDisplays.h" />
-    <ClInclude Include="..\..\src\ShipFlavour.h" />
     <ClInclude Include="..\..\src\ShipSpinnerWidget.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\SmartPtr.h" />
