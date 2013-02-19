@@ -195,7 +195,7 @@ Translate:Add({
 		['Attempt to repair hull'] = 'Przystąpić do naprawy kadłuba',
 		['Not enough {alloy} to attempt a repair'] = '{alloy} - jest zbyt mało by rozpocząć naprawę.',
 		['Hull repaired by {name}, now at {repairPercent}%'] = '{name} naprawia kadłub, teraz jest {repairPercent}%',
-		['Hull repair attempt failed. Hull suffered minor damage.'] = 'Rozpoczęcie naprawy kadłuba nieudane. Kadłub doznał uszkodzeń.',
+		['Hull repair attempt failed. Hull suffered minor damage.'] = 'Naprawa kadłuba nieudana. Kadłub został nieznacznie uszkodzony.',
 		['Hull does not require repair.'] = 'Kadłub nie wymaga naprawy.',
 		['Destroy enemy ship'] = 'Zniszczyć wrogi statek',
 		['You must request launch clearance first, Commander.'] = 'Komandorze, najpierw musisz uzyskać zgodę na start.',
