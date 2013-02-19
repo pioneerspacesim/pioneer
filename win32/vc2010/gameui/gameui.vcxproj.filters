@@ -18,8 +18,8 @@
     <ClCompile Include="..\..\..\src\gameui\Lua.cpp" />
     <ClCompile Include="..\..\..\src\gameui\Face.cpp" />
     <ClCompile Include="..\..\..\src\gameui\LuaFace.cpp" />
-    <ClCompile Include="..\..\..\src\gameui\ModelSpinner.cpp" />
     <ClCompile Include="..\..\..\src\gameui\LuaModelSpinner.cpp" />
+    <ClCompile Include="..\..\..\src\gameui\ModelSpinner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">
