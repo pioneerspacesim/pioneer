@@ -698,21 +698,6 @@ void Loader::CreateLabel(Group *parent, const matrix4x4f &m)
 	parent->AddChild(trans);
 }
 
-void Loader::CreateLight(Group *parent, const matrix4x4f &m)
-{
-	//One node per light, obviously not as optimal as intended
-	std::vector<vector3f> points;
-	points.push_back(m.GetTranslate());
-	Graphics::MaterialDescriptor desc;
-	desc.twoSided = true;
-	desc.textures = 1;
-	RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial(desc));
-	mat->texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(m_renderer, "billboard");
-	mat->diffuse = Color(1.f, 0.f, 0.f, 1.f);
-	Billboard *bill = new Billboard(m_renderer, points, mat, 1.f);
-	parent->AddChild(bill);
-}
-
 void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const std::string &name, const matrix4x4f& accum)
 {
 	const bool linear = starts_with(name, "thruster_linear");
@@ -746,7 +731,12 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 	//lights, and possibly other special nodes should be leaf nodes (without meshes)
 	if (node->mNumChildren == 0 && node->mNumMeshes == 0) {
 		if (starts_with(nodename, "navlight_")) {
-			CreateLight(parent, m);
+			//Create a MT, lights are attached by client.
+			matrix4x4f lightPos = matrix4x4f::Translation(m.GetTranslate());
+			MatrixTransform *lightPoint = new MatrixTransform(m_renderer, lightPos);
+			lightPoint->SetNodeMask(0x0); //don't render
+			lightPoint->SetName(nodename);
+			_parent->AddChild(lightPoint);
 		} else if (starts_with(nodename, "thruster_")) {
 			CreateThruster(parent, m, nodename, accum);
 		} else if (starts_with(nodename, "label_")) {

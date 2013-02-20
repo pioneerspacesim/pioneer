@@ -96,6 +96,8 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 
 	wr.Int32(static_cast<int>(m_controller->GetType()));
 	m_controller->Save(wr, space);
+
+	m_navLights->Save(wr);
 }
 
 void Ship::Load(Serializer::Reader &rd, Space *space)
@@ -145,11 +147,16 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 		SetController(new ShipController());
 	m_controller->Load(rd);
 
+	m_navLights->Load(rd);
+
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 }
 
 void Ship::Init()
 {
+	m_navLights.Reset(new NavLights(GetModel()));
+	m_navLights->SetEnabled(true);
+
 	SetMassDistributionFromModel();
 	UpdateStats();
 	m_stats.hull_mass_left = float(m_type->hullMass);
@@ -689,6 +696,9 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	// fuel use decreases mass, so do this as the last thing in the frame
 	UpdateFuel(timeStep, thrust);
+
+	m_navLights->SetEnabled(m_wheelState > 0.01f);
+	m_navLights->Update(timeStep);
 
 	if (m_landingGearAnimation)
 		static_cast<SceneGraph::Model*>(GetModel())->UpdateAnimations();
