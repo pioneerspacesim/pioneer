@@ -183,9 +183,6 @@
     <ClCompile Include="..\..\src\ShipCpanelMultiFuncDisplays.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\ShipFlavour.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\ShipType.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -636,9 +633,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ShipCpanelMultiFuncDisplays.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ShipFlavour.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ShipType.h">

@@ -9,11 +9,10 @@
 #include "Camera.h"
 #include "DynamicBody.h"
 #include "EquipSet.h"
+#include "galaxy/SystemPath.h"
 #include "NavLights.h"
 #include "Serializer.h"
-#include "ShipFlavour.h"
 #include "ShipType.h"
-#include "galaxy/SystemPath.h"
 #include "scenegraph/SceneGraph.h"
 
 class SpaceStation;
@@ -76,12 +75,11 @@ public:
 	void ClearThrusterState();
 
 	vector3d GetMaxThrust(const vector3d &dir) const;
-	double GetAccelFwd() const { return -GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); }
-	double GetAccelRev() const { return GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); }
-	double GetAccelUp() const { return GetShipType().linThrust[ShipType::THRUSTER_UP] / GetMass(); }
+	double GetAccelFwd() const { return -m_type->linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); }
+	double GetAccelRev() const { return m_type->linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); }
+	double GetAccelUp() const { return m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); }
 	double GetAccelMin() const;
 
-	const ShipType &GetShipType() const { return *m_type; }
 	void UpdateEquipStats();
 	void UpdateFuelStats();
 	void UpdateStats();
@@ -204,12 +202,10 @@ public:
 
 	virtual void PostLoadFixup(Space *space);
 
-	const ShipFlavour *GetFlavour() const { return &m_shipFlavour; }
-	// used to change ship label or colour. asserts if you try to change type
-	void UpdateFlavour(const ShipFlavour *f);
-	// used when buying a new ship. changes the flavour and resets cargo,
-	// equipment, etc
-	void ResetFlavour(const ShipFlavour *f);
+	const ShipType *GetShipType() const { return m_type; }
+	void SetShipType(const ShipType::Id &shipId);
+
+	static std::string MakeRandomLabel(); // XXX doesn't really belong here
 
 	float GetPercentShields() const;
 	float GetPercentHull() const;
@@ -258,7 +254,6 @@ protected:
 
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;
-	ShipFlavour m_shipFlavour;
 	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
 	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
 	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
@@ -279,7 +274,7 @@ private:
 	void EnterHyperspace();
 
 	shipstats_t m_stats;
-	ShipType *m_type;
+	const ShipType *m_type;
 
 	FlightState m_flightState;
 	bool m_testLanded;

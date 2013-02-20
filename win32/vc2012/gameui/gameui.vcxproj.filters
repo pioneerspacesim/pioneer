@@ -24,16 +24,16 @@
     <ClCompile Include="..\..\..\src\gameui\LuaFace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\gameui\LuaShipSpinner.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\gameui\Panel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\gameui\ShipSpinner.cpp">
+    <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\win32\pch.cpp">
+    <ClCompile Include="..\..\..\src\gameui\ModelSpinner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\gameui\LuaModelSpinner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,7 +50,7 @@
     <ClInclude Include="..\..\..\src\gameui\Panel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\gameui\ShipSpinner.h">
+    <ClInclude Include="..\..\..\src\gameui\ModelSpinner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
