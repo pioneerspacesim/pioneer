@@ -27,6 +27,7 @@ class SystemBody;
 struct BBAdvert;
 struct Mission;
 namespace Graphics { class Renderer; }
+namespace SceneGraph { class Animation; }
 
 typedef StationAdvertForm* (*AdvertFormBuilder)(FormController *controller, SpaceStation *station, const BBAdvert &ad);
 
@@ -135,9 +136,6 @@ private:
 
 	double m_oldAngDisplacement;
 
-	double m_openAnimState[MAX_DOCKING_PORTS];
-	double m_dockAnimState[MAX_DOCKING_PORTS];
-
 	void InitStation();
 	void UpdateShipyard();
 	const SpaceStationType *m_type;
@@ -153,6 +151,10 @@ private:
 
 	std::vector<BBAdvert> m_bbAdverts;
 	bool m_bbCreated, m_bbShuffled;
+
+	SceneGraph::Animation *m_doorAnimation;
+	double m_doorAnimationStep;
+	double m_doorAnimationState;
 };
 
 #endif /* _SPACESTATION_H */
