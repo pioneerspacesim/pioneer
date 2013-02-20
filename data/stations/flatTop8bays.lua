@@ -1,4 +1,4 @@
-define_orbital_station {
+--[[define_orbital_station {
 	model = 'flatTop8bays',
 	angular_velocity = 0.0,
 	num_docking_ports = 8,
@@ -19,4 +19,4 @@ define_orbital_station {
 	},
 	dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 5.0, 5.0, 5.0 },
 	undock_anim_stage_duration = { 5.0, 5.0, 5.0 },
-}
+}]]

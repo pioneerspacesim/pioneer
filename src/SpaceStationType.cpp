@@ -118,6 +118,7 @@ bool SpaceStationType::GetShipApproachWaypoints(const int port, const int stage,
 		const SBayGroup* pGroup = FindGroupByPort(port);
 		if (pGroup && stage>0) {
 			const bool bHasStageData = (pGroup->m_approach.find( stage ) != pGroup->m_approach.end());
+			assert(bHasStageData);
 			if (bHasStageData) {
 				const matrix4x4f &mt = pGroup->m_approach.at(stage);
 				outPosOrient.pos	= vector3d(mt.GetTranslate());
@@ -194,6 +195,7 @@ static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int
 	vector3d toPos;
 
 	const bool bHasStageData = (bayMap.find( stage ) != bayMap.end());
+	assert(bHasStageData);
 	if (bHasStageData) {
 		const matrix4x4f &mt = bayMap.at(stage);
 		outPosOrient.xaxis	= vector3d(mt.GetOrient().VectorX()).Normalized();
@@ -227,7 +229,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(const int port, int stage, doub
 
 	if (!bHasDockAnimFunction)
 	{
-		assert(port<=model->m_ports.size());
+		assert(port<=m_ports.size());
 		const Port &rPort = m_ports.at(port+1);
 		const Aabb &aabb = ship->GetAabb();
 		if (stage<0) {
