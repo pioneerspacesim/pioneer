@@ -340,7 +340,7 @@ void ModelViewer::DrawBackground()
 
 void ModelViewer::DrawDockingLocators()
 {
-	/*	using namespace Graphics::Drawables;
+	using namespace Graphics::Drawables;
 
 	static std::vector<Line3D> sLines;
 	static bool sCachedLines = false;
@@ -348,17 +348,19 @@ void ModelViewer::DrawDockingLocators()
 	{
 		sLines.clear();
 
-		SceneGraph::Model::PortVec::const_iterator portIter = m_model->m_ports.begin();
-		for( ; portIter != m_model->m_ports.end() ; ++portIter )
+		SceneGraph::Model::TVecMT approach_mts;
+		SceneGraph::Model::TVecMT docking_mts;
+		SceneGraph::Model::TVecMT leaving_mts;
+		m_model->FindTagsByStartOfName("approach_", approach_mts);
+		m_model->FindTagsByStartOfName("docking_", docking_mts);
+		m_model->FindTagsByStartOfName("leaving_", leaving_mts);
+
 		{
-			const SceneGraph::Model::Port &MBPort = (*portIter);
-
-			std::map<uint32_t, matrix4x4f>::const_iterator iter = MBPort.m_docking.begin();
-			for( ; iter!=MBPort.m_docking.end(); ++iter) {
-				const vector3f pos = (*iter).second.GetTranslate();
-				const vector3f xAxis = (*iter).second.GetOrient().VectorX() * 100.0f;
-				const vector3f yAxis = (*iter).second.GetOrient().VectorY() * 100.0f;
-				const vector3f zAxis = (*iter).second.GetOrient().VectorZ() * 100.0f;
+			for(SceneGraph::Model::TVecMT::const_iterator iter = docking_mts.begin(), itEnd=docking_mts.end(); iter!=itEnd; ++iter) {
+				const vector3f pos = (*iter)->GetTransform().GetTranslate();
+				const vector3f xAxis = (*iter)->GetTransform().GetOrient().VectorX() * 100.0f;
+				const vector3f yAxis = (*iter)->GetTransform().GetOrient().VectorY() * 100.0f;
+				const vector3f zAxis = (*iter)->GetTransform().GetOrient().VectorZ() * 100.0f;
 				Line3D lineX;
 				lineX.SetStart( pos );
 				lineX.SetEnd( pos + xAxis );
@@ -379,12 +381,11 @@ void ModelViewer::DrawDockingLocators()
 				sLines.push_back(lineZ);
 			}
 
-			iter = MBPort.m_leaving.begin();
-			for( ; iter!=MBPort.m_leaving.end(); ++iter) {
-				const vector3f pos = (*iter).second.GetTranslate();
-				const vector3f xAxis = (*iter).second.GetOrient().VectorX() * 100.0f;
-				const vector3f yAxis = (*iter).second.GetOrient().VectorY() * 100.0f;
-				const vector3f zAxis = (*iter).second.GetOrient().VectorZ() * 100.0f;
+			for(SceneGraph::Model::TVecMT::const_iterator iter = leaving_mts.begin(), itEnd=leaving_mts.end(); iter!=itEnd; ++iter) {
+				const vector3f pos = (*iter)->GetTransform().GetTranslate();
+				const vector3f xAxis = (*iter)->GetTransform().GetOrient().VectorX() * 100.0f;
+				const vector3f yAxis = (*iter)->GetTransform().GetOrient().VectorY() * 100.0f;
+				const vector3f zAxis = (*iter)->GetTransform().GetOrient().VectorZ() * 100.0f;
 				Line3D lineX;
 				lineX.SetStart( pos );
 				lineX.SetEnd( pos + xAxis );
@@ -405,12 +406,11 @@ void ModelViewer::DrawDockingLocators()
 				sLines.push_back(lineZ);
 			}
 
-			iter = MBPort.m_approach.begin();
-			for( ; iter!=MBPort.m_approach.end(); ++iter) {
-				const vector3f pos = (*iter).second.GetTranslate();
-				const vector3f xAxis = (*iter).second.GetOrient().VectorX() * 100.0f;
-				const vector3f yAxis = (*iter).second.GetOrient().VectorY() * 100.0f;
-				const vector3f zAxis = (*iter).second.GetOrient().VectorZ() * 100.0f;
+			for(SceneGraph::Model::TVecMT::const_iterator iter = approach_mts.begin(), itEnd=approach_mts.end(); iter!=itEnd; ++iter) {
+				const vector3f pos = (*iter)->GetTransform().GetTranslate();
+				const vector3f xAxis = (*iter)->GetTransform().GetOrient().VectorX() * 100.0f;
+				const vector3f yAxis = (*iter)->GetTransform().GetOrient().VectorY() * 100.0f;
+				const vector3f zAxis = (*iter)->GetTransform().GetOrient().VectorZ() * 100.0f;
 				Line3D lineX;
 				lineX.SetStart( pos );
 				lineX.SetEnd( pos + xAxis );
@@ -439,7 +439,7 @@ void ModelViewer::DrawDockingLocators()
 	for( ; lineIter!=sLines.end(); ++lineIter)
 	{
 		(*lineIter).Draw(m_renderer);
-	}*/
+	}
 }
 
 // Draw collision mesh as a wireframe overlay
