@@ -105,11 +105,13 @@ public:
 	void AddTag(const std::string &name, MatrixTransform *node);
 
 	const PatternContainer &GetPatterns() const { return m_patterns; }
+	unsigned int GetNumPatterns() const { return m_patterns.size(); }
 	void SetPattern(unsigned int index);
 	void SetColors(const std::vector<Color4ub> &colors);
 	void SetDecalTexture(Graphics::Texture *t, unsigned int index = 0);
-	void SetLabel(const std::string&);
+	void ClearDecal(unsigned int index = 0);
 	void ClearDecals();
+	void SetLabel(const std::string&);
 
 	//for modelviewer, at least
 	bool SupportsDecals();

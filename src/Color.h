@@ -17,6 +17,7 @@ struct Color4f {
 	Color4f &operator*=(const float v) { r*=v; g*=v; b*=v; a*=v; return *this; }
 	friend Color4f operator*(const Color4f &c, const float v) { return Color4f(c.r*v, c.g*v, c.b*v, c.a*v); }
 
+	void ToLuaTable(lua_State *l);
 	static Color4f FromLuaTable(lua_State *l, int idx);
 
 	float GetLuminance() const;

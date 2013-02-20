@@ -13,6 +13,7 @@
 #include "Serializer.h"
 #include "ShipType.h"
 #include "SpaceStationType.h"
+#include "scenegraph/ModelSkin.h"
 
 #define MAX_DOCKING_PORTS	4
 
@@ -37,10 +38,11 @@ struct BBAdvert {
 };
 
 struct ShipOnSale {
-	ShipOnSale(const ShipType::Id &_id, const std::string &_regId) :
-		id(_id), regId(_regId) {}
+	ShipOnSale(const ShipType::Id &_id, const std::string &_regId, const SceneGraph::ModelSkin &_skin) :
+		id(_id), regId(_regId), skin(_skin) {}
 	ShipType::Id          id;
 	std::string           regId;
+	SceneGraph::ModelSkin skin;
 };
 
 class SpaceStation: public ModelBody, public MarketAgent {

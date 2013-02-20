@@ -294,6 +294,21 @@ static int l_ship_explode(lua_State *l)
 	return 0;
 }
 
+static int l_ship_get_skin(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaObject<SceneGraph::ModelSkin>::PushToLua(s->GetSkin());
+	return 1;
+}
+
+static int l_ship_set_skin(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	const SceneGraph::ModelSkin *skin = LuaObject<SceneGraph::ModelSkin>::CheckFromLua(2);
+	s->SetSkin(*skin);
+	return 0;
+}
+
 /*
  * Method: SetLabel
  *
@@ -1289,6 +1304,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetHullPercent", l_ship_set_hull_percent },
 		{ "SetFuelPercent", l_ship_set_fuel_percent },
 
+		{ "GetSkin",    l_ship_get_skin    },
+		{ "SetSkin",    l_ship_set_skin    },
 		{ "SetLabel",   l_ship_set_label   },
 
 		{ "GetEquipSlotCapacity", l_ship_get_equip_slot_capacity },
