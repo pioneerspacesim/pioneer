@@ -20,7 +20,7 @@ Alpha 32
      * Fix duplicated model animation groups (#2063, #2024)
 
    * Model changes
-     * Converted Natrix ship to SGModel (#2033)
+     * Converted Natrix ship to SGModel (#2033, #2095)
      * New missile model (#2036)
      * Downscaled building models (#2052)
      * Add test_gun model (#2060)
