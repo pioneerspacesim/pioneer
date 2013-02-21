@@ -3,6 +3,7 @@ Alpha 32
    * New features
      * New ship "Kanara Interceptor" (#2037)
      * New fast random number generator (#1893, #2078, #2079)
+     * Upgraded hoop station (#2046)
 
    * Minor changes and tweaks
      * Balanced DSMiner fuel use (#2062)
@@ -24,6 +25,7 @@ Alpha 32
      * Downscaled building models (#2052)
      * Add test_gun model (#2060)
      * Converted tombstone to SGModel (#2083)
+     * Basic support for station door animations (#2046)
      * Modelviewer: Scale/landingpad test model (press 'p') (#2034, #1981)
      * Modelviewer: More/better log output (#2034, #1876)
      * Modelviewer: Enable mods (#2032)
