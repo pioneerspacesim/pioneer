@@ -288,7 +288,9 @@ local getAcceptableShips = function ()
 			return k,def.id
 		end,
 		filter(function (k,def)
-			return def.tag == 'SHIP' and def.hullMass >= 100 and def.equipSlotCapacity.ATMOSHIELD > 0
+			-- XXX should limit to ships large enough to carry significant
+			--     cargo, but we don't have enough ships yet
+			return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE'
 		end,
 		pairs(ShipDef)
 	)))
