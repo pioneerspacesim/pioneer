@@ -35,7 +35,7 @@ class matrix4x4 {
 		cell[2] = m[6]; cell[6] = m[7]; cell[10] = m[8]; cell[14] = 0;
 		cell[3] = 0;    cell[7] = 0;    cell[11] = 0;    cell[15] = 1;
 	}
-	matrix3x3<T> GetOrient() 
+	matrix3x3<T> GetOrient() const
 	{
 		matrix3x3<T> m;
 		m[0] = cell[0]; m[1] = cell[4]; m[2] = cell[8];

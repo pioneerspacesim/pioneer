@@ -64,6 +64,8 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 	wr.Double(m_lastUpdatedShipyard);
 	wr.Int32(space->GetIndexForSystemBody(m_sbody));
 	wr.Int32(m_numPoliceDocked);
+
+	m_navLights->Save(wr);
 }
 
 void SpaceStation::Load(Serializer::Reader &rd, Space *space)
@@ -100,6 +102,8 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 	m_sbody = space->GetSystemBodyByIndex(rd.Int32());
 	m_numPoliceDocked = rd.Int32();
 	InitStation();
+
+	m_navLights->Load(rd);
 }
 
 void SpaceStation::PostLoadFixup(Space *space)
@@ -145,6 +149,9 @@ void SpaceStation::InitStation()
 	// model and we shouldn't overwrite it
 	if (!GetModel())
 		SetModel(m_type->modelName.c_str());
+
+	m_navLights.Reset(new NavLights(GetModel(), 2.2f));
+	m_navLights->SetEnabled(true);
 
 	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS);		// overrides setmodel
 
@@ -482,6 +489,7 @@ void SpaceStation::StaticUpdate(const float timeStep)
 
 	DoLawAndOrder(timeStep);
 	DockingUpdate(timeStep);
+	m_navLights->Update(timeStep);
 }
 
 void SpaceStation::TimeStepUpdate(const float timeStep)
@@ -497,9 +505,16 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 	// reposition the ships that are docked or docking here
 	for (int i=0; i<m_type->numDockingPorts; i++) {
 		const shipDocking_t &dt = m_shipDocking[i];
-		if (!dt.ship || dt.stage == 1) continue;
-		if (dt.ship->GetFlightState() == Ship::FLYING) continue;
+		if (!dt.ship) { //free
+			m_navLights->SetColor(i+1, NavLights::NAVLIGHT_GREEN);
+			continue;
+		}
+		if (dt.stage == 1) //reserved
+			m_navLights->SetColor(i+1, NavLights::NAVLIGHT_YELLOW);
+		if (dt.ship->GetFlightState() == Ship::FLYING)
+			continue;
 		PositionDockedShip(dt.ship, i);
+		m_navLights->SetColor(i+1, NavLights::NAVLIGHT_RED); //docked
 	}
 
 	if (m_doorAnimation)

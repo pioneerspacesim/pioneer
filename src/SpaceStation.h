@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "MarketAgent.h"
 #include "ModelBody.h"
+#include "NavLights.h"
 #include "Quaternion.h"
 #include "RefList.h"
 #include "Serializer.h"
@@ -104,6 +105,7 @@ public:
 
 	// need this now because stations rotate in their frame
 	virtual void UpdateInterpTransform(double alpha);
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -155,6 +157,8 @@ private:
 	SceneGraph::Animation *m_doorAnimation;
 	double m_doorAnimationStep;
 	double m_doorAnimationState;
+
+	ScopedPtr<NavLights> m_navLights;
 };
 
 #endif /* _SPACESTATION_H */

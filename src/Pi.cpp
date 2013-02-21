@@ -39,6 +39,7 @@
 #include "Missile.h"
 #include "ModelCache.h"
 #include "ModManager.h"
+#include "NavLights.h"
 #include "ObjectViewerView.h"
 #include "OS.h"
 #include "Planet.h"
@@ -376,6 +377,7 @@ void Pi::Init()
 	SpaceStation::Init();
 	draw_progress(0.9f);
 
+	NavLights::Init(Pi::renderer);
 	Sfx::Init(Pi::renderer);
 	draw_progress(0.95f);
 
@@ -540,6 +542,7 @@ void Pi::Quit()
 	delete Pi::intro;
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
+	NavLights::Uninit();
 	Sfx::Uninit();
 	Sound::Uninit();
 	SpaceStation::Uninit();
