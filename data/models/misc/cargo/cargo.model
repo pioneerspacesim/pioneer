@@ -1,0 +1,7 @@
+material Default-material
+tex_diff fiberglass.png
+specular 0.2 1.0 0.2
+shininess 30
+
+collision cargo_collision.obj
+mesh cargo.dae
