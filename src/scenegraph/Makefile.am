@@ -27,6 +27,7 @@ noinst_HEADERS = \
 	SceneGraph.h \
 	Model.h \
 	Node.h \
+	NodeCopyCache.h \
 	NodeVisitor.h \
 	Parser.h \
 	Pattern.h \

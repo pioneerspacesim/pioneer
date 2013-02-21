@@ -3,6 +3,7 @@
 
 #include "MatrixTransform.h"
 #include "NodeVisitor.h"
+#include "NodeCopyCache.h"
 #include "graphics/Renderer.h"
 namespace SceneGraph {
 
@@ -12,15 +13,15 @@ MatrixTransform::MatrixTransform(Graphics::Renderer *r, const matrix4x4f &m)
 {
 }
 
-MatrixTransform::MatrixTransform(const MatrixTransform &mt)
-: Group(mt)
+MatrixTransform::MatrixTransform(const MatrixTransform &mt, NodeCopyCache *cache)
+: Group(mt, cache)
 , m_transform(mt.m_transform)
 {
 }
 
-Node* MatrixTransform::Clone()
+Node* MatrixTransform::Clone(NodeCopyCache *cache)
 {
-	return new MatrixTransform(*this);
+	return cache->Copy<MatrixTransform>(this);
 }
 
 void MatrixTransform::Accept(NodeVisitor &nv)

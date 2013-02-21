@@ -24,17 +24,17 @@ Label3D::Label3D(Graphics::Renderer *r, RefCountedPtr<Text::DistanceFieldFont> f
 	m_material->specular = Color::WHITE;
 }
 
-Label3D::Label3D(const Label3D &label)
-: Node(label)
+Label3D::Label3D(const Label3D &label, NodeCopyCache *cache)
+: Node(label, cache)
 , m_material(label.m_material)
 , m_font(label.m_font)
 {
 	m_geometry.Reset(m_font->CreateVertexArray());
 }
 
-Node* Label3D::Clone()
+Node* Label3D::Clone(NodeCopyCache *cache)
 {
-	return new Label3D(*this);
+	return new Label3D(*this, cache);
 }
 
 void Label3D::SetText(const std::string &text)

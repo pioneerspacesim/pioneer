@@ -14,8 +14,8 @@ namespace SceneGraph {
 class Billboard : public Node {
 public:
 	Billboard(Graphics::Renderer *r, RefCountedPtr<Graphics::Material>, const vector3f &offset, float size);
-	Billboard(const Billboard&);
-	virtual Node *Clone();
+	Billboard(const Billboard&, NodeCopyCache *cache = 0);
+	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual void Accept(NodeVisitor &v);
 	virtual const char *GetTypeName() { return "Billboard"; }
 	virtual void Render(const matrix4x4f &trans, RenderData *rd);

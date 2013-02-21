@@ -12,13 +12,13 @@ ModelNode::ModelNode(Model *m)
 {
 }
 
-ModelNode::ModelNode(const ModelNode &modelNode)
-: Node(modelNode)
+ModelNode::ModelNode(const ModelNode &modelNode, NodeCopyCache *cache)
+: Node(modelNode, cache)
 , m_model(modelNode.m_model)
 {
 }
 
-Node* ModelNode::Clone()
+Node* ModelNode::Clone(NodeCopyCache *cache)
 {
 	return this; //modelnodes are shared
 }

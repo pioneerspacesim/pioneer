@@ -19,8 +19,8 @@ namespace SceneGraph {
 class Label3D : public Node {
 public:
 	Label3D(Graphics::Renderer *r, RefCountedPtr<Text::DistanceFieldFont>);
-	Label3D(const Label3D&);
-	virtual Node *Clone();
+	Label3D(const Label3D&, NodeCopyCache *cache = 0);
+	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual const char *GetTypeName() { return "Label3D"; }
 	void SetText(const std::string&);
 	virtual void Render(const matrix4x4f &trans, RenderData *rd);
