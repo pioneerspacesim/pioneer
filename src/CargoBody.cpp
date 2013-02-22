@@ -9,6 +9,7 @@
 #include "Space.h"
 #include "collider/collider.h"
 #include "scenegraph/SceneGraph.h"
+#include "graphics/TextureBuilder.h"
 
 void CargoBody::Save(Serializer::Writer &wr, Space *space)
 {
@@ -36,6 +37,7 @@ CargoBody::CargoBody(Equip::Type t)
 {
 	m_type = t;
 	SetModel("cargo");
+	GetModel()->SetDecalTexture(Graphics::TextureBuilder::Decal("textures/decals/01_Badge.png").GetOrCreateTexture(GetModel()->GetRenderer(), "decal"));
 	Init();
 	SetMass(1.0);
 }
