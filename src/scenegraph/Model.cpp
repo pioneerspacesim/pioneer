@@ -207,6 +207,13 @@ void Model::ClearDecals()
 		m_curDecals[i] = t;
 }
 
+void Model::ClearDecal(unsigned int index)
+{
+	index = std::min(index, MAX_DECAL_MATERIALS-1);
+	if (m_decalMaterials[index].Valid())
+		m_curDecals[index] = Graphics::TextureBuilder::GetTransparentTexture(m_renderer);
+}
+
 bool Model::SupportsDecals()
 {
 	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)

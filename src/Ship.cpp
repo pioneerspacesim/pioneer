@@ -62,6 +62,7 @@ void SerializableEquipSet::Load(Serializer::Reader &rd)
 void Ship::Save(Serializer::Writer &wr, Space *space)
 {
 	DynamicBody::Save(wr, space);
+	m_skin.Save(wr);
 	wr.Vector3d(m_angThrusters);
 	wr.Vector3d(m_thrusters);
 	wr.Int32(m_wheelTransition);
@@ -103,6 +104,8 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 void Ship::Load(Serializer::Reader &rd, Space *space)
 {
 	DynamicBody::Load(rd, space);
+	m_skin.Load(rd);
+	m_skin.Apply(GetModel());
 	// needs fixups
 	m_angThrusters = rd.Vector3d();
 	m_thrusters = rd.Vector3d();
@@ -201,13 +204,17 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 		m_gunTemperature[i] = 0;
 	}
 	m_ecmRecharge = 0;
-	SetLabel(MakeRandomLabel());
 	m_curAICmd = 0;
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
 	m_equipment.onChange.connect(sigc::mem_fun(this, &Ship::OnEquipmentChange));
 
 	SetModel(m_type->modelName.c_str());
+	SetLabel(MakeRandomLabel());
+	m_skin.SetRandomColors(Pi::rng);
+	m_skin.SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()));
+	m_skin.Apply(GetModel());
+
 	Init();
 	SetController(new ShipController());
 }
@@ -1221,9 +1228,23 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	m_type = &ShipType::types[shipId];
 	m_equipment.InitSlotSizes(shipId);
 	SetModel(m_type->modelName.c_str());
+	m_skin.Apply(GetModel());
 	Init();
 	onFlavourChanged.emit();
 	if (IsType(Object::PLAYER))
 		Pi::worldView->SetCamType(Pi::worldView->GetCamType());
 	LuaEvent::Queue("onShipTypeChanged", this);
+}
+
+void Ship::SetLabel(const std::string &label)
+{
+	DynamicBody::SetLabel(label);
+	m_skin.SetLabel(label);
+	m_skin.Apply(GetModel());
+}
+
+void Ship::SetSkin(const SceneGraph::ModelSkin &skin)
+{
+	m_skin = skin;
+	m_skin.Apply(GetModel());
 }

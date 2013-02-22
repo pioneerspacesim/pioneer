@@ -7,13 +7,14 @@
 #include "ui/Context.h"
 #include "graphics/Light.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/ModelSkin.h"
 #include "SmartPtr.h"
 
 namespace GameUI {
 
 class ModelSpinner : public UI::Widget {
 public:
-	ModelSpinner(UI::Context *context, SceneGraph::Model *model);
+	ModelSpinner(UI::Context *context, SceneGraph::Model *model, const SceneGraph::ModelSkin &skin);
 
 	virtual UI::Point PreferredSize() { return UI::Point(INT_MAX); }
 	virtual void Layout();
@@ -26,6 +27,7 @@ protected:
 
 private:
 	ScopedPtr<SceneGraph::Model> m_model;
+	SceneGraph::ModelSkin m_skin;
 
 	float m_rotX, m_rotY;
 

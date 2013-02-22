@@ -98,7 +98,7 @@ local shipInfo = function (args)
 			:SetColumn(1, {
 				ui:VBox(10)
 					:PackEnd(ui:Label(shipDef.name):SetFont("HEADING_LARGE"))
-					:PackEnd(UI.Game.ModelSpinner.New(ui, shipDef.modelName)) -- XXX SKIN
+					:PackEnd(UI.Game.ModelSpinner.New(ui, shipDef.modelName, Game.player:GetSkin()))
 			})
 end
 

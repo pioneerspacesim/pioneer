@@ -28,6 +28,7 @@ Alpha 32
      * Converted tombstone to SGModel (#2083)
      * Basic support for station door animations (#2046)
      * Support for navigation lights (#2080)
+     * Support for per-instance skinning (#2088)
      * Modelviewer: Scale/landingpad test model (press 'p') (#2034, #1981)
      * Modelviewer: More/better log output (#2034, #1876)
      * Modelviewer: Enable mods (#2032)
@@ -37,6 +38,7 @@ Alpha 32
      * ShipTypes is deprecated, and EquipTypes has been removed; use the new ShipDef
        and EquipDef tables (#2026)
      * Player.SetHyperspaceTarget and GetHyperspaceTarget methods (#2028, #2027)
+     * Model: Ship.GetSkin & SetSkin and skin manipulation methods (#2080)
 
    * Internal changes
      * Removed Lua model system (LMR) (#2029, #2071)

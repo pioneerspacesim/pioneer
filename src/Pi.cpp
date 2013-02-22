@@ -73,6 +73,7 @@
 #include "graphics/Renderer.h"
 #include "gui/Gui.h"
 #include "scenegraph/Model.h"
+#include "scenegraph/Lua.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
 #include <algorithm>
@@ -190,6 +191,7 @@ static void LuaInit()
 	// XXX sigh
 	UI::Lua::Init();
 	GameUI::Lua::Init();
+	SceneGraph::Lua::Init();
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
