@@ -23,6 +23,7 @@ Alpha 32
      * Converted Natrix ship to SGModel (#2033, #2095)
      * Upscaled DSMiner model (#2096)
      * New missile model (#2036)
+     * New cargo model (#2101)
      * Downscaled building models (#2052)
      * Add test_gun model (#2060)
      * Converted tombstone to SGModel (#2083)
