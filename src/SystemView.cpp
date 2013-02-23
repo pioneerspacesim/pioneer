@@ -28,6 +28,8 @@ SystemView::SystemView()
 {
 	SetTransparency(true);
 
+	m_realtime = true;
+
 	Gui::Screen::PushFont("OverlayFont");
 	m_objectLabels = new Gui::LabelSet();
 	Add(m_objectLabels, 0, 0);
@@ -109,6 +111,7 @@ SystemView::~SystemView()
 
 void SystemView::OnClickAccel(float step)
 {
+	m_realtime = false;
 	m_timeStep = step;
 }
 
@@ -116,7 +119,7 @@ void SystemView::OnClickAccel(float step)
 // tramsch, florian.schmidt@tramsch.de, 2013-02-23
 void SystemView::OnClickRealt(int foo)
 {
-	m_time = Pi::game->GetTime();
+	m_realtime = true;
 }
 
 void SystemView::ResetViewpoint()
@@ -312,7 +315,13 @@ void SystemView::Draw3D()
 			ResetViewpoint();
 		}
 	}
-	m_time += m_timeStep*Pi::GetFrameTime();
+	
+	if (m_realtime) {
+		m_time = Pi::game->GetTime();
+	}
+	else {
+		m_time += m_timeStep*Pi::GetFrameTime();
+	}
 	std::string t = Lang::TIME_POINT+format_date(m_time);
 	m_timePoint->SetText(t);
 
