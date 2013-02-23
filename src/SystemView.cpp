@@ -116,6 +116,7 @@ void SystemView::OnClickAccel(float step)
 // tramsch, florian.schmidt@tramsch.de, 2013-02-23
 void SystemView::OnClickRealt(int foo)
 {
+	m_time = Pi::game->GetTime();
 }
 
 void SystemView::ResetViewpoint()
