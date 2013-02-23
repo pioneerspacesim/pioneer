@@ -17,17 +17,17 @@ Billboard::Billboard(Graphics::Renderer *r, RefCountedPtr<Graphics::Material> ma
 {
 }
 
-Billboard::Billboard(const Billboard &billboard)
-: Node(billboard)
+Billboard::Billboard(const Billboard &billboard, NodeCopyCache *cache)
+: Node(billboard, cache)
 , m_size(billboard.m_size)
 , m_material(billboard.m_material)
 , m_offset(billboard.m_offset)
 {
 }
 
-Node* Billboard::Clone()
+Node* Billboard::Clone(NodeCopyCache *cache)
 {
-	return new Billboard(*this);
+	return new Billboard(*this, cache);
 }
 
 void Billboard::Accept(NodeVisitor &nv)

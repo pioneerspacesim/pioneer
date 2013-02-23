@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright Â© 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _NAVLIGHTS_H
@@ -40,8 +40,8 @@ public:
 	void Update(float time);
 	void SetColor(unsigned int group, LightColor);
 
-	static void NavLights::Init(Graphics::Renderer*);
-	static void NavLights::Uninit();
+	static void Init(Graphics::Renderer*);
+	static void Uninit();
 
 protected:
 	std::vector<LightBulb> m_lights;

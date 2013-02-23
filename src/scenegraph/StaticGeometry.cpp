@@ -20,15 +20,15 @@ StaticGeometry::~StaticGeometry()
 {
 }
 
-StaticGeometry::StaticGeometry(const StaticGeometry &sg)
-: Node(sg)
+StaticGeometry::StaticGeometry(const StaticGeometry &sg, NodeCopyCache *cache)
+: Node(sg, cache)
 , m_boundingBox(sg.m_boundingBox)
 , m_blendMode(sg.m_blendMode)
 , m_meshes(sg.m_meshes)
 {
 }
 
-Node* StaticGeometry::Clone()
+Node* StaticGeometry::Clone(NodeCopyCache *cache)
 {
 	return this; //geometries are shared
 }

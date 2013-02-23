@@ -68,7 +68,7 @@ public:
 	// for putting on planet surface, oriented +y up
 	void OrientOnSurface(double radius, double latitude, double longitude);
 
-	void SetLabel(const std::string &label) { m_label = label; }
+	virtual void SetLabel(const std::string &label) { m_label = label; }
 	const std::string &GetLabel() const { return m_label; }
 	unsigned int GetFlags() const { return m_flags; }
 	// Only Space::KillBody() should call this method.

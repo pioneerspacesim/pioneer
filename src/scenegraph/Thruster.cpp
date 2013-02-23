@@ -31,8 +31,8 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 	m_tMat->diffuse = baseColor;
 }
 
-Thruster::Thruster(const Thruster &thruster)
-: Node(thruster)
+Thruster::Thruster(const Thruster &thruster, NodeCopyCache *cache)
+: Node(thruster, cache)
 , m_tMat(thruster.m_tMat)
 , linearOnly(thruster.linearOnly)
 , dir(thruster.dir)
@@ -41,7 +41,7 @@ Thruster::Thruster(const Thruster &thruster)
 	m_tVerts.Reset(CreateGeometry());
 }
 
-Node* Thruster::Clone()
+Node* Thruster::Clone(NodeCopyCache *cache)
 {
 	return this; //thrusters are shared
 }

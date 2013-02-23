@@ -9,12 +9,14 @@
 #include "Camera.h"
 #include "DynamicBody.h"
 #include "EquipSet.h"
+#include "galaxy/SystemPath.h"
 #include "NavLights.h"
 #include "Serializer.h"
 #include "ShipType.h"
 #include "Weapon.h"
-#include "galaxy/SystemPath.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/ModelSkin.h"
+#include <list>
 
 class AICommand;
 class CargoBody;
@@ -208,6 +210,10 @@ public:
 	const ShipType *GetShipType() const { return m_type; }
 	void SetShipType(const ShipType::Id &shipId);
 
+	const SceneGraph::ModelSkin &GetSkin() const { return m_skin; }
+	void SetSkin(const SceneGraph::ModelSkin &skin);
+
+	void SetLabel(const std::string &label);
 	static std::string MakeRandomLabel(); // XXX doesn't really belong here
 
 	float GetPercentShields() const;
@@ -271,6 +277,7 @@ private:
 
 	shipstats_t m_stats;
 	const ShipType *m_type;
+	SceneGraph::ModelSkin m_skin;
 
 	FlightState m_flightState;
 	bool m_testLanded;

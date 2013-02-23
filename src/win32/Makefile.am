@@ -4,7 +4,7 @@ AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(WARN_CXXFLAGS)
 
-INCLUDES = -I$(top_srcdir)/src
+INCLUDES = -I$(srcdir)/.. -isystem $(top_srcdir)/contrib
 
 noinst_LIBRARIES = libwin32.a
 libwin32_a_SOURCES = \

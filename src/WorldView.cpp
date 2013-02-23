@@ -676,7 +676,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_hudTargetShieldIntegrity->Show();
 
 			std::string text;
-			text += s->GetShipType()->id;
+			text += s->GetShipType()->name;
 			text += "\n";
 			text += s->GetLabel();
 			text += "\n";
