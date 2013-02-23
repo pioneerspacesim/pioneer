@@ -207,7 +207,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_skin.Apply(GetModel());
 
 	//test weapon
-	m_weapons.push_back(new Weapon());
+	m_weapons.push_back(new Weapon(Equip::PULSECANNON_1MW));
 	m_weapons.back()->SetShip(this);
 
 	Init();

@@ -5,15 +5,18 @@
 #include "Ship.h"
 #include "Polit.h"
 #include "Sound.h"
+#include "Projectile.h"
 
-Weapon::Weapon()
+Weapon::Weapon(Equip::Type type)
 : m_state(0)
 , m_recharge(0.f)
 , m_temperature(0.f)
 , m_coolingRate(0.01f)
 , m_coolingMultiplier(1.f)
 , m_ship(0)
+, m_equipType(type)
 {
+	m_laserType = Equip::lasers[Equip::types[m_equipType].tableIndex];
 }
 
 Weapon::~Weapon()
@@ -53,21 +56,23 @@ void Weapon::Update(float timeStep)
 
 void Weapon::Fire()
 {
-	if (m_ship->GetFlightState() != Ship::FLYING) return;
-/*
-	const matrix3x3d &m = GetOrient();
-	const vector3d dir = m * vector3d(m_type->gunMount[num].dir);
-	const vector3d pos = m * vector3d(m_type->gunMount[num].pos) + GetPosition();
-*/
 	m_temperature += 0.01f;
+	m_recharge = m_laserType.rechargeTime;
 
+	const matrix3x3d &m = m_ship->GetOrient();
+	const vector3d dir = m * vector3d(0.0, 0.0, -1.0);//vector3d(m_type->gunMount[num].dir);
+	const vector3d pos = m * vector3d(0.0, 0.0, 30.0) + m_ship->GetPosition();//vector3d(m_type->gunMount[num].pos) + GetPosition();
+
+	const vector3d baseVel = m_ship->GetVelocity();
+	const vector3d dirVel = m_laserType.speed * dir.Normalized();
+
+	Projectile::Add(m_ship, m_equipType, pos, baseVel, dirVel);
+
+	//XXX passing equipType to Projectile is silly, they are lasers anyway
+	//XXX use correct orientation
+	//XXX use correct position
+	//XXX add projectile for each muzzle
 /*
-	Equip::Type t = m_equipment.Get(Equip::SLOT_LASER, num);
-	const LaserType &lt = Equip::lasers[Equip::types[t].tableIndex];
-	m_gunRecharge[num] = lt.rechargeTime;
-	vector3d baseVel = GetVelocity();
-	vector3d dirVel = lt.speed * dir.Normalized();
-
 	if (lt.flags & Equip::LASER_DUAL)
 	{
 		const ShipType::DualLaserOrientation orient = m_type->gunMount[num].orient;

@@ -7,13 +7,14 @@
  * Gun used by ships (or why not other entities too)
  */
 #include "libs.h"
+#include "EquipType.h"
 #include "Serializer.h"
 
 class Ship;
 
 class Weapon {
 public:
-	Weapon();
+	Weapon(Equip::Type);
 	virtual ~Weapon();
 
 	virtual void Save(Serializer::Writer &wr);
@@ -42,6 +43,8 @@ private:
 	float m_coolingMultiplier;
 
 	Ship* m_ship;
+	Equip::Type m_equipType;
+	LaserType m_laserType;
 };
 
 typedef std::vector<Weapon*>::iterator WeaponIterator;
