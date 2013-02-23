@@ -74,8 +74,7 @@ SystemView::SystemView()
 	Add(b, time_controls_left + 45, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_rl.png", "icons/sysview_accel_rl_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 10000000.f));
-	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickRealt), 1));
 	b->SetRenderDimensions(19, 17);
 	Add(b, time_controls_left + 64, time_controls_top);
 
@@ -111,6 +110,12 @@ SystemView::~SystemView()
 void SystemView::OnClickAccel(float step)
 {
 	m_timeStep = step;
+}
+
+// takes int only because I did not find a sigc::bind candidate that does not pass an argument
+// tramsch, florian.schmidt@tramsch.de, 2013-02-23
+void SystemView::OnClickRealt(int foo)
+{
 }
 
 void SystemView::ResetViewpoint()
