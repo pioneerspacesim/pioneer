@@ -92,11 +92,11 @@ public:
 	std::vector<Weapon*> &GetWeapons() { return m_weapons; }
 	Weapon *GetActiveWeapon() const;
 	void FireActiveWeapon();
+	void ClearWeaponState();
 	void UseECM();
 	Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
 
 	void Explode();
-	void SetGunState(int idx, int state);
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();

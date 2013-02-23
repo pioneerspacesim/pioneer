@@ -603,7 +603,13 @@ Weapon *Ship::GetActiveWeapon() const
 
 void Ship::FireActiveWeapon()
 {
-	if (!m_weapons.empty()) m_weapons[0]->Fire();
+	if (!m_weapons.empty()) m_weapons[0]->SetState(1);
+}
+
+void Ship::ClearWeaponState()
+{
+	for (WeaponIterator it = m_weapons.begin(); it != m_weapons.end(); ++it)
+		(*it)->SetState(0);
 }
 
 Missile * Ship::SpawnMissile(ShipType::Id missile_type, int power) {
@@ -1016,12 +1022,6 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 	} else {
 		Undock();
 	}
-}
-
-void Ship::SetGunState(int idx, int state)
-{
-	if (m_equipment.Get(Equip::SLOT_LASER, idx) != Equip::NONE)
-		m_weapons[idx]->SetState(state);
 }
 
 bool Ship::SetWheelState(bool down)
