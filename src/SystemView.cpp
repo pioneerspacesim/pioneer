@@ -52,7 +52,7 @@ SystemView::SystemView()
 	m_zoomOutButton->SetRenderDimensions(30, 22);
 	Add(m_zoomOutButton, 732, 5);
 
-	const int time_controls_left = Gui::Screen::GetWidth() - 132;
+	const int time_controls_left = Gui::Screen::GetWidth() - 150;
 	const int time_controls_top = Gui::Screen::GetHeight() - 86;
 
 	Gui::ImageButton *b = new Gui::ImageButton("icons/sysview_accel_r3.png", "icons/sysview_accel_r3_on.png");
@@ -73,23 +73,29 @@ SystemView::SystemView()
 	b->SetRenderDimensions(19, 17);
 	Add(b, time_controls_left + 45, time_controls_top);
 
+	b = new Gui::ImageButton("icons/sysview_accel_rl.png", "icons/sysview_accel_rl_on.png");
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 10000000.f));
+	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
+	b->SetRenderDimensions(19, 17);
+	Add(b, time_controls_left + 64, time_controls_top);
+
 	b = new Gui::ImageButton("icons/sysview_accel_f1.png", "icons/sysview_accel_f1_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 100000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
-	Add(b, time_controls_left + 64, time_controls_top);
+	Add(b, time_controls_left + 83, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_f2.png", "icons/sysview_accel_f2_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 1000000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
-	Add(b, time_controls_left + 83, time_controls_top);
+	Add(b, time_controls_left + 102, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_f3.png", "icons/sysview_accel_f3_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 10000000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(26, 17);
-	Add(b, time_controls_left + 102, time_controls_top);
+	Add(b, time_controls_left + 121, time_controls_top);
 
 	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SystemView::MouseButtonDown));
