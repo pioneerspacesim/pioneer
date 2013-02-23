@@ -30,7 +30,7 @@ private:
 	void GetTransformTo(SystemBody *b, vector3d &pos);
 	void OnClickObject(SystemBody *b);
 	void OnClickAccel(float step);
-	void OnClickRealt(int foo);
+	void OnClickRealt();
 	void ResetViewpoint();
 	void MouseButtonDown(int button, int x, int y);
 
