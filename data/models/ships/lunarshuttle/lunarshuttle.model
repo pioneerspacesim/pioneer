@@ -1,0 +1,39 @@
+# Lunar Shuttle
+#
+material VisualMaterial4
+tex_glow shuttle_glow.png
+diffuse 0.75 0.75 0.75
+specular 1 1 1
+use_patterns
+
+material VisualMaterial
+tex_diff shuttle_hull.png
+diffuse 0.5 0.5 0.5
+specular 0 0 0
+
+material VisualMaterial1
+diffuse 0.65 0.65 0.7
+specular 0.5 0.5 1
+
+material VisualMaterial2
+tex_diff shuttle_deck.png
+diffuse 1 1 1 
+specular 0 0 0
+
+material VisualMaterial3
+tex_diff shuttle_hull.png
+tex_spec shuttle_hull.png
+diffuse 1 1 1 
+specular 0.15 0.15 0.15
+
+material VisualMaterial4
+tex_diff shuttle_deck.png
+
+lod 1000
+mesh lunarshuttle_thrusters_lights_labels.dae
+mesh lunarshuttle_gear.dae
+anim gear_down 0 115
+mesh lunarshuttle_poly.dae
+
+collision lunarshuttle_collision.obj
+
