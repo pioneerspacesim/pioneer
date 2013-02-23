@@ -48,12 +48,6 @@ bool Player::OnDamage(Object *attacker, float kgDamage)
 	return r;
 }
 
-//XXX handle killcounts in lua
-void Player::SetDockedWith(SpaceStation *s, int port)
-{
-	Ship::SetDockedWith(s, port);
-}
-
 //XXX all ships should make this sound
 bool Player::SetWheelState(bool down)
 {
@@ -62,15 +56,6 @@ bool Player::SetWheelState(bool down)
 		s_soundUndercarriage.Play(down ? "UC_out" : "UC_in", 1.0f, 1.0f, 0);
 	}
 	return did;
-}
-
-//XXX all ships should make this sound
-Missile * Player::SpawnMissile(ShipType::Id missile_type, int power)
-{
-	Missile * m = Ship::SpawnMissile(missile_type, power);
-	if (m)
-		Sound::PlaySfx("Missile_launch", 1.0f, 1.0f, 0);
-	return m;
 }
 
 //XXX do in lua, or use the alert concept for all ships

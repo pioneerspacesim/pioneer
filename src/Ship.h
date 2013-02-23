@@ -158,7 +158,7 @@ public:
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
 	void UseECM();
-	virtual Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
+	Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
 
 	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_>
 		ALERT_NONE,
