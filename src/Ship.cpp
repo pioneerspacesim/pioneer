@@ -230,7 +230,6 @@ void Ship::SetController(ShipController *c)
 	m_controller->m_ship = this;
 }
 
-
 float Ship::GetPercentHull() const
 {
 	return 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass));
@@ -594,6 +593,17 @@ void Ship::UseECM()
 			}
 		}
 	}
+}
+
+Weapon *Ship::GetActiveWeapon() const
+{
+	if (!m_weapons.empty()) return m_weapons[0];
+	return 0;
+}
+
+void Ship::FireActiveWeapon()
+{
+	if (!m_weapons.empty()) m_weapons[0]->Fire();
 }
 
 Missile * Ship::SpawnMissile(ShipType::Id missile_type, int power) {

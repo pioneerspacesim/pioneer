@@ -88,7 +88,12 @@ public:
 	void UpdateStats();
 	const shipstats_t &GetStats() const { return m_stats; }
 
+	/// Weapons & countermeasures
 	std::vector<Weapon*> &GetWeapons() { return m_weapons; }
+	Weapon *GetActiveWeapon() const;
+	void FireActiveWeapon();
+	void UseECM();
+	Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
 
 	void Explode();
 	void SetGunState(int idx, int state);
@@ -157,8 +162,6 @@ public:
 	Equip::Type GetHyperdriveFuelType() const;
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
-	void UseECM();
-	Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
 
 	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_>
 		ALERT_NONE,
@@ -314,8 +317,5 @@ private:
 	ScopedPtr<NavLights> m_navLights;
 };
 
-
-
 #endif /* _SHIP_H */
-
 

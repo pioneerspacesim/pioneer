@@ -392,7 +392,6 @@ void WorldView::ShowAll()
 	RefreshButtonStateAndVisibility();
 }
 
-
 static Color get_color_for_warning_meter_bar(float v) {
 	Color c;
 	if (v < 50.0f)
@@ -629,9 +628,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
 	}
 
-	const float activeWeaponTemp = Pi::player->GetWeapons()[GetActiveWeapon()]->GetTemperature();
-	if (activeWeaponTemp > 0.0f) {
-		m_hudWeaponTemp->SetValue(activeWeaponTemp);
+	// XXX should show status for all weapons
+	const Weapon *activeWeapon = Pi::player->GetActiveWeapon();
+	if (activeWeapon && activeWeapon->GetTemperature() > 0.001f) {
+		m_hudWeaponTemp->SetValue(activeWeapon->GetTemperature());
 		m_hudWeaponTemp->Show();
 	} else {
 		m_hudWeaponTemp->Hide();
@@ -1140,19 +1140,6 @@ Body* WorldView::PickBody(const double screenX, const double screenY) const
 	}
 
 	return 0;
-}
-
-int WorldView::GetActiveWeapon() const
-{
-	switch (GetCamType()) {
-		case CAM_INTERNAL:
-			return m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR ? 1 : 0;
-
-		case CAM_EXTERNAL:
-		case CAM_SIDEREAL:
-		default:
-			return 0;
-	}
 }
 
 static inline bool project_to_screen(const vector3d &in, vector3d &out, const Graphics::Frustum &frustum, const int guiSize[2])
