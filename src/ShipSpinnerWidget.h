@@ -7,11 +7,12 @@
 #include "gui/Gui.h"
 #include "graphics/Light.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/ModelSkin.h"
 #include "SmartPtr.h"
 
 class ShipSpinnerWidget : public Gui::Widget {
 public:
-	ShipSpinnerWidget(SceneGraph::Model *model, float width, float height);
+	ShipSpinnerWidget(SceneGraph::Model *model, const SceneGraph::ModelSkin &skin, float width, float height);
 
 	virtual void Draw();
 	virtual void GetSizeRequested(float size[2]) { size[0] = m_width; size[1] = m_height; }
@@ -21,6 +22,7 @@ private:
 	float m_height;
 
 	ScopedPtr<SceneGraph::Model> m_model;
+	SceneGraph::ModelSkin m_skin;
 
 	Graphics::Light m_light;
 };

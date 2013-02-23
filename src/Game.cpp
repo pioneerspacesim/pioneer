@@ -24,7 +24,7 @@
 #include "FileSystem.h"
 #include "graphics/Renderer.h"
 
-static const int  s_saveVersion   = 63;
+static const int  s_saveVersion   = 64;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -40,7 +40,7 @@ Game::Game(const SystemPath &path) :
 	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
 	assert(station);
 
-    m_player.Reset(new Player("ip_shuttle"));
+	m_player.Reset(new Player("kanara"));
 
 	m_space->AddBody(m_player.Get());
 
@@ -64,7 +64,7 @@ Game::Game(const SystemPath &path, const vector3d &pos) :
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
 
-    m_player.Reset(new Player("ip_shuttle"));
+	m_player.Reset(new Player("kanara"));
 
 	m_space->AddBody(m_player.Get());
 

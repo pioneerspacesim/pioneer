@@ -1,0 +1,6 @@
+material Default-material
+diffuse 0.8 0.8 0.8
+specular 0.3 0.3 0.3
+shininess 40
+
+mesh tombstone.dae

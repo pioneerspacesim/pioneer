@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.65.0 r53189</authoring_tool>
     </contributor>
-    <created>2013-02-02T13:54:57</created>
-    <modified>2013-02-02T13:54:57</modified>
+    <created>2013-02-16T13:29:09</created>
+    <modified>2013-02-16T13:29:09</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -437,6 +437,125 @@
         <rotate sid="rotationX">1 0 0 48.68971</rotate>
         <scale sid="scale">1 1 1</scale>
         <instance_camera url="#Camera-camera"/>
+      </node>
+      <node id="navlight_pad1_001" name="navlight_pad1_001" type="NODE">
+        <translate sid="location">-150 30 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad1_000" name="navlight_pad1_000" type="NODE">
+        <translate sid="location">-180 0 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad1_002" name="navlight_pad1_002" type="NODE">
+        <translate sid="location">-120 0 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad1_003" name="navlight_pad1_003" type="NODE">
+        <translate sid="location">-150 -30 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad2_003" name="navlight_pad2_003" type="NODE">
+        <translate sid="location">150 -30 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad2_002" name="navlight_pad2_002" type="NODE">
+        <translate sid="location">180 0 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad2_000" name="navlight_pad2_000" type="NODE">
+        <translate sid="location">120 0 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad2_001" name="navlight_pad2_001" type="NODE">
+        <translate sid="location">150 30 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad3_000" name="navlight_pad3_000" type="NODE">
+        <translate sid="location">-30 -150 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad3_001" name="navlight_pad3_001" type="NODE">
+        <translate sid="location">0 -120 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad3_002" name="navlight_pad3_002" type="NODE">
+        <translate sid="location">30 -150 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad3_003" name="navlight_pad3_003" type="NODE">
+        <translate sid="location">0 -180 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad4_000" name="navlight_pad4_000" type="NODE">
+        <translate sid="location">-30 150 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad4_001" name="navlight_pad4_001" type="NODE">
+        <translate sid="location">0 180 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad4_002" name="navlight_pad4_002" type="NODE">
+        <translate sid="location">30 150 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_pad4_003" name="navlight_pad4_003" type="NODE">
+        <translate sid="location">0 120 50</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_red" name="navlight_red" type="NODE">
+        <translate sid="location">0 0 160</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
       </node>
     </visual_scene>
   </library_visual_scenes>

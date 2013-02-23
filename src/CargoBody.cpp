@@ -30,6 +30,13 @@ void CargoBody::Init()
 	m_hitpoints = 1.0f;
 	SetLabel(Equip::types[m_type].name);
 	SetMassDistributionFromModel();
+
+	std::vector<Color4ub> colors;
+	//metallic blue-orangeish color scheme
+	colors.push_back(Color4ub(255, 198, 64));
+	colors.push_back(Color4ub(0, 222, 255));
+	colors.push_back(Color4ub(255, 255, 255));
+	GetModel()->SetColors(colors);
 }
 
 CargoBody::CargoBody(Equip::Type t)

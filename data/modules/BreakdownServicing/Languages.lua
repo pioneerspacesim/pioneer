@@ -183,7 +183,9 @@ Translate:Add({ Polski = {
 	["Your drive was last serviced on {date} by {company}"] = "Ostatni przegląd wykonany {date} przez {company}",
 	["Your drive has not been serviced since it was installed on {date}"] = "Twój napęd nie przechodził przeglądu od czasu instalacji - dnia {date}",
 	["You do not have a drive to service!"] = "Nie posiadasz hipernapędu!",
-	["The ship's hyperdrive has been destroyed by a malfunction"] = "Awaria, napęd nadprzestrzenny zniszczony.",
+	["The ship's hyperdrive has been destroyed by a malfunction"] = "Napęd nadprzestrzenny statku uległ zniszczeniu w wyniku awarii.",
+	["You fixed the hyperdrive before it broke down."] = "Naprawiasz napęd nadprzestrzenny zapobiegając awarii.",
+	["I fixed the hyperdrive before it broke down."] = "Naprawia napęd nadprzestrzenny zapobiegając awarii.",
 }, })
 
 ---- DUTCH / NEDERLANDS ----
@@ -526,6 +528,8 @@ Translate:Add({ Russian = {
 	["Your drive has not been serviced since it was installed on {date}"] = "Ваш двигатель ещё не обслуживался, т.к. его эксплуатация началась только в {date} года.",
 	["You do not have a drive to service!"] = "У вас нет двигателя для сервиса!",
 	["The ship's hyperdrive has been destroyed by a malfunction"] = "Гипердвигатель вашего корабля полностью разрушен.",
+        ["You fixed the hyperdrive before it broke down."] = "Вы отремонтировали гипердвигатель прежде, чем он сломался.",
+	["I fixed the hyperdrive before it broke down."] = "Я отремонтировал гипердвигатель прежде, чем он сломался.",
 }, })
 
 ---- GERMAN / DEUTSCH ----

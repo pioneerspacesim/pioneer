@@ -285,10 +285,12 @@ local getAcceptableShips = function ()
     -- only accept ships with enough capacity that are capable of landing in atmospheres
 	return build_array(
 		map(function (k,def)
-			return def.id
+			return k,def.id
 		end,
 		filter(function (k,def)
-			return def.tag == 'SHIP' and def.hullMass >= 100 and def.equipSlotCapacity.ATMOSHIELD > 150
+			-- XXX should limit to ships large enough to carry significant
+			--     cargo, but we don't have enough ships yet
+			return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE'
 		end,
 		pairs(ShipDef)
 	)))
