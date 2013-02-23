@@ -185,7 +185,7 @@ Translate:Add({ Polski = {
 	["You do not have a drive to service!"] = "Nie posiadasz hipernapędu!",
 	["The ship's hyperdrive has been destroyed by a malfunction"] = "Napęd nadprzestrzenny statku uległ zniszczeniu w wyniku awarii.",
 	["You fixed the hyperdrive before it broke down."] = "Naprawiasz napęd nadprzestrzenny zapobiegając awarii.",
-	["I fixed the hyperdrive before it broke down."] = "Naprawia napęd nadprzestrzenny zapobiegając awarii.",
+	["I fixed the hyperdrive before it broke down."] = "Naprawiam napęd nadprzestrzenny zapobiegając awarii.",
 }, })
 
 ---- DUTCH / NEDERLANDS ----
