@@ -177,7 +177,8 @@ void Ship::PostLoadFixup(Space *space)
 Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_controller(0),
 	m_thrusterFuel(1.0),
-	m_reserveFuel(0.0)
+	m_reserveFuel(0.0),
+	m_activeWeapon(0)
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
@@ -594,22 +595,36 @@ void Ship::UseECM()
 
 Weapon *Ship::GetActiveWeapon() const
 {
-	if (!m_weapons.empty()) return m_weapons[0];
-	return 0;
+	return m_activeWeapon;
 }
 
 void Ship::FireActiveWeapon()
 {
-	if (!m_weapons.empty()) {
-		m_weapons[0]->SetState(1);
-		Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
-	}
+	if (!m_activeWeapon) return;
+
+	m_activeWeapon->SetState(1);
+	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
 }
 
 void Ship::ClearWeaponState()
 {
 	for (WeaponIterator it = m_weapons.begin(); it != m_weapons.end(); ++it)
 		(*it)->SetState(0);
+}
+
+void Ship::ChooseWeaponFromView(const matrix3x3d &orient)
+{
+	m_activeWeapon = 0;
+
+	for (WeaponIterator it = m_weapons.begin(); it != m_weapons.end(); ++it) {
+		if (orient.VectorZ().Dot((*it)->GetDirection()) < 0.0) {
+			m_activeWeapon = *it;
+			return;
+		}
+	}
+
+	//fall back to first
+	if (!m_weapons.empty()) m_activeWeapon = m_weapons.front();
 }
 
 Missile * Ship::SpawnMissile(ShipType::Id missile_type, int power) {
@@ -1119,6 +1134,8 @@ void Ship::CreateWeaponsFromEquipSet()
 		wep->SetShip(this);
 		m_weapons.push_back(wep);
 	}
+
+	m_activeWeapon = !m_weapons.empty() ? m_weapons.front() : 0;
 }
 
 void Ship::EnterHyperspace() {

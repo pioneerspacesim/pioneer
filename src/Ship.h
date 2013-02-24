@@ -93,6 +93,7 @@ public:
 	Weapon *GetActiveWeapon() const;
 	void FireActiveWeapon();
 	void ClearWeaponState();
+	void ChooseWeaponFromView(const matrix3x3d&);
 	void UseECM();
 	Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
 
@@ -316,6 +317,7 @@ private:
 	SceneGraph::Animation *m_landingGearAnimation;
 	std::vector<Weapon*> m_weapons;
 	ScopedPtr<NavLights> m_navLights;
+	Weapon *m_activeWeapon;
 };
 
 #endif /* _SHIP_H */
