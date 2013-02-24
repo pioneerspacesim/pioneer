@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Ultimate Unwrap3D Pro</author>
+      <authoring_tool>Ultimate Unwrap3D Pro v3.41</authoring_tool>
+      <comments>Exported from Ultimate Unwrap3D Pro on Mon Feb 18 19:41:54 2013</comments>
+      <source_data>file:///C:/Users/F/pioneer/data/models/ships/lunarshuttle/lunarshuttle_thrusters_lights_labels.dae</source_data>
+    </contributor>
+    <created>2013-02-18T18:41:54Z</created>
+    <modified>2013-02-18T18:41:54Z</modified>
+    <unit meter="1" name="meter"/>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_materials>
+    <material id="VisualMaterial1" name="Unassigned0">
+      <instance_effect url="#Effect"/>
+    </material>
+    <material id="VisualMaterial" name="Unassigned">
+      <instance_effect url="#Effect1"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="Effect" name="Unassigned0_eff">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <ambient>
+              <color>0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color>1 1 1 1</color>
+            </diffuse>
+            <specular>
+              <color>0 0 0 1</color>
+            </specular>
+            <shininess>
+              <float>100</float>
+            </shininess>
+            <reflective>
+              <color>0 0 0 1</color>
+            </reflective>
+            <reflectivity>
+              <float>1</float>
+            </reflectivity>
+            <transparent opaque="A_ONE">
+              <color>1 1 1 1</color>
+            </transparent>
+            <transparency>
+              <float>0</float>
+            </transparency>
+            <index_of_refraction>
+              <float>0</float>
+            </index_of_refraction>
+          </phong>
+          <extra>
+            <technique profile="FCOLLADA">
+              <spec_level>
+                <float>0</float>
+              </spec_level>
+              <emission_level>
+                <float>0</float>
+              </emission_level>
+            </technique>
+          </extra>
+        </technique>
+      </profile_COMMON>
+      <extra>
+        <technique profile="MAX3D">
+          <faceted>0</faceted>
+          <double_sided>0</double_sided>
+          <wireframe>0</wireframe>
+          <face_map>0</face_map>
+        </technique>
+      </extra>
+    </effect>
+    <effect id="Effect1" name="Unassigned_eff">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <ambient>
+              <color>0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color>1 1 1 1</color>
+            </diffuse>
+            <specular>
+              <color>0 0 0 1</color>
+            </specular>
+            <shininess>
+              <float>100</float>
+            </shininess>
+            <reflective>
+              <color>0 0 0 1</color>
+            </reflective>
+            <reflectivity>
+              <float>1</float>
+            </reflectivity>
+            <transparent opaque="A_ONE">
+              <color>1 1 1 1</color>
+            </transparent>
+            <transparency>
+              <float>0</float>
+            </transparency>
+            <index_of_refraction>
+              <float>0</float>
+            </index_of_refraction>
+          </phong>
+          <extra>
+            <technique profile="FCOLLADA">
+              <spec_level>
+                <float>0</float>
+              </spec_level>
+              <emission_level>
+                <float>0</float>
+              </emission_level>
+            </technique>
+          </extra>
+        </technique>
+      </profile_COMMON>
+      <extra>
+        <technique profile="MAX3D">
+          <faceted>0</faceted>
+          <double_sided>0</double_sided>
+          <wireframe>0</wireframe>
+          <face_map>0</face_map>
+        </technique>
+      </extra>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="geomU3D1_id" name="geomU3D1">
+      <mesh>
+        <source id="PositionSrc_id" name="PositionSrc">
+          <float_array id="PositionSrc_id-array" count="72">-0.05 0.17 0.05 -0.05 0.07 0.05 0.05 0.07 0.05 0.05 0.17 0.05 0.05 0.17 -0.05 0.05 0.07 -0.05 -0.05 0.07 -0.05 -0.05 0.17 -0.05 0.05 0.17 0.05 0.05 0.07 0.05 0.05 0.07 -0.05 0.05 0.17 -0.05 -0.05 0.17 -0.05 -0.05 0.07 -0.05 -0.05 0.07 0.05 -0.05 0.17 0.05 -0.05 0.17 0.05 0.05 0.17 0.05 0.05 0.17 -0.05 -0.05 0.17 -0.05 -0.05 0.07 -0.05 0.05 0.07 -0.05 0.05 0.07 0.05 -0.05 0.07 0.05</float_array>
+          <technique_common>
+            <accessor source="#PositionSrc_id-array" count="24" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="NormalSrc_id" name="NormalSrc">
+          <float_array id="NormalSrc_id-array" count="72">0 0 1 0 0 1 0 0 1 0 0 1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 1 0 0 1 0 0 1 0 0 1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0</float_array>
+          <technique_common>
+            <accessor source="#NormalSrc_id-array" count="24" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="ColorSrc_id" name="ColorSrc">
+          <float_array id="ColorSrc_id-array" count="96">1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</float_array>
+          <technique_common>
+            <accessor source="#ColorSrc_id-array" count="24" stride="4">
+              <param name="R" type="float"/>
+              <param name="G" type="float"/>
+              <param name="B" type="float"/>
+              <param name="A" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Tex1Src_id" name="Tex1Src">
+          <float_array id="Tex1Src_id-array" count="48">0.182432 1 0.182432 0.72973 0.452703 0.72973 0.452703 1 0.547297 1 0.547297 0.72973 0.817568 0.72973 0.817568 1 0.182432 0.635135 0.182432 0.364865 0.452703 0.364865 0.452703 0.635135 0.547297 0.635135 0.547297 0.364865 0.817568 0.364865 0.817568 0.635135 0.182432 0 0.452703 0 0.452703 0.27027 0.182432 0.27027 0.547297 0 0.817568 0 0.817568 0.27027 0.547297 0.27027</float_array>
+          <technique_common>
+            <accessor source="#Tex1Src_id-array" count="24" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Tex2Src_id" name="Tex2Src">
+          <float_array id="Tex2Src_id-array" count="48">0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1</float_array>
+          <technique_common>
+            <accessor source="#Tex2Src_id-array" count="24" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="geomU3D1_id-vertices">
+          <input semantic="POSITION" source="#PositionSrc_id"/>
+        </vertices>
+        <polylist material="VisualMaterial0" count="6">
+          <input semantic="VERTEX" source="#geomU3D1_id-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#NormalSrc_id" offset="1"/>
+          <input semantic="COLOR" source="#ColorSrc_id" offset="2" set="0"/>
+          <input semantic="TEXCOORD" source="#Tex1Src_id" offset="3" set="0"/>
+          <input semantic="TEXCOORD" source="#Tex2Src_id" offset="4" set="1"/>
+          <vcount>4 4 4 4 4 4</vcount>
+          <p>0 0 0 0 0 1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7 8 8 8 8 8 9 9 9 9 9 10 10 10 10 10 11 11 11 11 11 12 12 12 12 12 13 13 13 13 13 14 14 14 14 14 15 15 15 15 15 16 16 16 16 16 17 17 17 17 17 18 18 18 18 18 19 19 19 19 19 20 20 20 20 20 21 21 21 21 21 22 22 22 22 22 23 23 23 23 23</p>
+        </polylist>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers>
+    <controller id="skinU3D1_id" name="skinU3D1">
+      <skin source="#geomU3D1_id">
+        <bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+        <source id="skinU3D1_id-joints">
+          <Name_array id="skinU3D1_id-joints-array" count="1">Box_id</Name_array>
+          <technique_common>
+            <accessor source="#skinU3D1_id-joints-array" count="1" stride="1">
+              <param name="JOINT" type="Name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="skinU3D1_id-bind_poses">
+          <float_array id="skinU3D1_id-bind_poses-array" count="16">1 0 0 0 0 1 0 -0.12 0 0 1 0 0 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#skinU3D1_id-bind_poses-array" count="1" stride="16">
+              <param name="TRANSFORM" type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="skinU3D1_id-weights">
+          <float_array id="skinU3D1_id-weights-array" count="1">1</float_array>
+          <technique_common>
+            <accessor source="#skinU3D1_id-weights-array" count="1" stride="1">
+              <param name="WEIGHT" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <joints>
+          <input semantic="JOINT" source="#skinU3D1_id-joints"/>
+          <input semantic="INV_BIND_MATRIX" source="#skinU3D1_id-bind_poses"/>
+        </joints>
+        <vertex_weights count="24">
+          <input semantic="JOINT" source="#skinU3D1_id-joints" offset="0"/>
+          <input semantic="WEIGHT" source="#skinU3D1_id-weights" offset="1"/>
+          <vcount>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 </vcount>
+          <v>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+        </vertex_weights>
+      </skin>
+    </controller>
+  </library_controllers>
+  <library_visual_scenes>
+    <visual_scene id="VisualSceneNode" name="rootU3D">
+      <node id="rootU3D0_id" name="rootU3D0" type="JOINT">
+        <translate>0 0.12 0</translate>
+        <rotate sid="rotateZ">0 0 1 0</rotate>
+        <rotate sid="rotateY">0 1 0 0</rotate>
+        <rotate sid="rotateX">1 0 0 0</rotate>
+        <scale>1 1 1</scale>
+        <node id="thruster_linear_r_id" name="thruster_linear_r" type="JOINT">
+          <translate>2.05 -0.4 8</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 0</rotate>
+          <rotate sid="rotateX">1 0 0 0</rotate>
+          <scale>5 5 5</scale>
+        </node>
+        <node id="thruster_linear_l_id" name="thruster_linear_l" type="JOINT">
+          <translate>-1.9112 -0.4 8</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 0</rotate>
+          <rotate sid="rotateX">1 0 0 0</rotate>
+          <scale>5 5 5</scale>
+        </node>
+        <node id="thruster_d1_id" name="thruster_d1" type="JOINT">
+          <translate>0 -2.5 -2.4</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 0</rotate>
+          <rotate sid="rotateX">1 0 0 90</rotate>
+          <scale>2 2 2</scale>
+        </node>
+        <node id="thruster_d2_id" name="thruster_d2" type="JOINT">
+          <translate>0.9 -2.5 4</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 0</rotate>
+          <rotate sid="rotateX">1 0 0 90</rotate>
+          <scale>2 2 2</scale>
+        </node>
+        <node id="thruster_d3_id" name="thruster_d3" type="JOINT">
+          <translate>-0.9 -2.5 4</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 0</rotate>
+          <rotate sid="rotateX">1 0 0 90</rotate>
+          <scale>2 2 2</scale>
+        </node>
+        <node id="thruster_s1_id" name="thruster_s1" type="JOINT">
+          <translate>1.1 1.2 -2.6</translate>
+          <rotate sid="rotateZ">0 0 1 -40</rotate>
+          <rotate sid="rotateY">0 1 0 -0.000001</rotate>
+          <rotate sid="rotateX">1 0 0 -90</rotate>
+          <scale>1 1 1</scale>
+        </node>
+        <node id="thruster_s2_id" name="thruster_s2" type="JOINT">
+          <translate>-1.2 1.2 -2.6</translate>
+          <rotate sid="rotateZ">0 0 1 40</rotate>
+          <rotate sid="rotateY">0 1 0 0.000001</rotate>
+          <rotate sid="rotateX">1 0 0 -90</rotate>
+          <scale>1 1 1</scale>
+        </node>
+        <node id="thruster_b1_id" name="thruster_b1" type="JOINT">
+          <translate>1.3 -1.9 -5.45</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 90</rotate>
+          <rotate sid="rotateX">1 0 0 41.5</rotate>
+          <scale>1 1 1</scale>
+        </node>
+        <node id="thruster_b2_id" name="thruster_b2" type="JOINT">
+          <translate>-1.3 -1.92 -5.45</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 -90</rotate>
+          <rotate sid="rotateX">1 0 0 41.5</rotate>
+          <scale>1 1 1</scale>
+        </node>
+        <node id="thruster_f1_id" name="thruster_f1" type="JOINT">
+          <translate>0.73 -1.66 -7.6</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 0</rotate>
+          <rotate sid="rotateX">1 0 0 180</rotate>
+          <scale>1 1 1</scale>
+        </node>
+        <node id="thruster_f2_id" name="thruster_f2" type="JOINT">
+          <translate>-0.755 -1.66 -7.6</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 0</rotate>
+          <rotate sid="rotateX">1 0 0 180</rotate>
+          <scale>1 1 1</scale>
+        </node>
+        <node id="label_r_id" name="label_r" type="JOINT">
+          <translate>-3.2 -1.9 2.4</translate>
+          <rotate sid="rotateZ">0 0 1 176.621</rotate>
+          <rotate sid="rotateY">0 1 0 -74.6805</rotate>
+          <rotate sid="rotateX">1 0 0 -140.251</rotate>
+          <scale>0.5 0.5 0.5</scale>
+        </node>
+        <node id="label_l_id" name="label_l" type="JOINT">
+          <translate>3.2 -1.9 2.4</translate>
+          <rotate sid="rotateZ">0 0 1 -173.935</rotate>
+          <rotate sid="rotateY">0 1 0 75.974</rotate>
+          <rotate sid="rotateX">1 0 0 -134.464</rotate>
+          <scale>0.5 0.5 0.5</scale>
+        </node>
+        <node id="navlight_1_id" name="navlight_1" type="JOINT">
+          <translate>-0.2 -1.7 -9.5</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 0</rotate>
+          <rotate sid="rotateX">1 0 0 0</rotate>
+          <scale>0.5 0.5 0.5</scale>
+        </node>
+        <node id="navlight_2_id" name="navlight_2" type="JOINT">
+          <translate>0.2 -1.7 -9.5</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 0</rotate>
+          <rotate sid="rotateX">1 0 0 0</rotate>
+          <scale>1 1 1</scale>
+        </node>
+        <node id="navlight_3_id" name="navlight_3" type="JOINT">
+          <translate>5.2 -1.2 8.6</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 0</rotate>
+          <rotate sid="rotateX">1 0 0 0</rotate>
+          <scale>1 1 1</scale>
+        </node>
+        <node id="navlight_4_id" name="navlight_4" type="JOINT">
+          <translate>-5.2 -1.2 8.6</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 0</rotate>
+          <rotate sid="rotateX">1 0 0 0</rotate>
+          <scale>1 1 1</scale>
+        </node>
+        <node id="Box_id" name="Box" sid="Box_id" type="JOINT">
+          <translate>0 0 0</translate>
+          <rotate sid="rotateZ">0 0 1 0</rotate>
+          <rotate sid="rotateY">0 1 0 0</rotate>
+          <rotate sid="rotateX">1 0 0 0</rotate>
+          <scale>1 1 1</scale>
+        </node>
+      </node>
+      <node id="Unassigned_id" name="Unassigned" type="NODE">
+        <translate>0 0 0</translate>
+        <rotate>1 0 0 0</rotate>
+        <scale>1 1 1</scale>
+        <instance_controller url="#skinU3D1_id">
+          <skeleton>#Box_id</skeleton>
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="VisualMaterial0" target="#VisualMaterial">
+                <bind_vertex_input semantic="UVSET0" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_controller>
+      </node>
+      <extra>
+        <technique profile="MAX3D">
+          <frame_rate>30</frame_rate>
+        </technique>
+        <technique profile="MAYA">
+          <start_time>0</start_time>
+          <end_time>1</end_time>
+        </technique>
+      </extra>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#VisualSceneNode"/>
+  </scene>
+</COLLADA>
