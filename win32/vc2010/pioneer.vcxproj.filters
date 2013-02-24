@@ -899,6 +899,9 @@
     <ClInclude Include="..\..\src\Weapon.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\EquipSet.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Makefile.am">

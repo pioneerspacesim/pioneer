@@ -281,6 +281,7 @@
     <ClInclude Include="..\..\src\DynamicBody.h" />
     <ClInclude Include="..\..\src\EnumStrings.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
+    <ClInclude Include="..\..\src\EquipSet.h" />
     <ClInclude Include="..\..\src\EquipType.h" />
     <ClInclude Include="..\..\src\FaceVideoLink.h" />
     <ClInclude Include="..\..\src\Factions.h" />
