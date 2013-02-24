@@ -5,10 +5,7 @@
 #define _SHIPTYPE_H
 
 #include "libs.h"
-#include "vector3.h"
 #include "EquipType.h"
-#include <vector>
-#include <map>
 
 struct ShipType {
 	enum Thruster { // <enum scope='ShipType' name=ShipTypeThruster prefix=THRUSTER_>

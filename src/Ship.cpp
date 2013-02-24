@@ -1128,10 +1128,7 @@ void Ship::CreateWeaponsFromEquipSet()
 	for (unsigned int i = 0; i < ShipType::GUNMOUNT_MAX; i++) {
 		if (m_equipment.Get(Equip::SLOT_LASER, i) == Equip::NONE) continue;
 
-		Weapon *wep = new Weapon(m_equipment.Get(Equip::SLOT_LASER, i));
-		wep->SetPosition(vector3d(m_type->gunMount[i].pos));
-		wep->SetDirection(vector3d(m_type->gunMount[i].dir));
-		wep->SetShip(this);
+		Weapon *wep = new Weapon(m_equipment.Get(Equip::SLOT_LASER, i), this, m_type->gunMount[i]);
 		m_weapons.push_back(wep);
 	}
 

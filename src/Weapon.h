@@ -9,12 +9,13 @@
 #include "libs.h"
 #include "EquipType.h"
 #include "Serializer.h"
+#include "ShipType.h"
 
 class Ship;
 
 class Weapon {
 public:
-	Weapon(Equip::Type);
+	Weapon(Equip::Type, Ship *s, const ShipType::GunMount&);
 	virtual ~Weapon();
 
 	virtual void Save(Serializer::Writer &wr);
@@ -32,8 +33,6 @@ public:
 	float GetTemperature() const { return m_temperature; }
 
 	void SetCoolingMultiplier(float) { m_coolingMultiplier = 1.f; }
-
-	void SetShip(Ship *s) { m_ship = s; }
 
 private:
 	friend class Ship;

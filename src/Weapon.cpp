@@ -7,22 +7,24 @@
 #include "Sound.h"
 #include "Projectile.h"
 
-Weapon::Weapon(Equip::Type type)
+Weapon::Weapon(Equip::Type type, Ship *s, const ShipType::GunMount &hardpoint)
 : m_state(0)
 , m_recharge(0.f)
 , m_temperature(0.f)
 , m_coolingRate(0.01f)
 , m_coolingMultiplier(1.f)
-, m_ship(0)
+, m_ship(s)
 , m_equipType(type)
-, m_position(0.0)
-, m_direction(0.0, 0.0, -1.0)
+, m_position(hardpoint.pos)
+, m_direction(hardpoint.dir)
 {
 	m_laserType = Equip::lasers[Equip::types[m_equipType].tableIndex];
 
 	if (m_laserType.flags & Equip::LASER_DUAL) {
-		m_muzzles.push_back(vector3d(3.0, 0.0, 0.0));
-		m_muzzles.push_back(vector3d(-3.0, 0.0, 0.0));
+		const vector3d orient = hardpoint.orient == ShipType::DUAL_LASERS_HORIZONTAL ?
+			vector3d(1.0, 0.0, 0.0) : vector3d(0.0, 1.0, 0.0);
+		m_muzzles.push_back(hardpoint.sep * orient);
+		m_muzzles.push_back(hardpoint.sep * -orient);
 	} else {
 		m_muzzles.push_back(vector3d(0.0));
 	}
