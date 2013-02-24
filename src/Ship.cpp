@@ -442,8 +442,8 @@ void Ship::UpdateEquipStats()
 	Equip::Type fuelType = GetHyperdriveFuelType();
 
 	if (m_type->equipSlotCapacity[Equip::SLOT_ENGINE]) {
-		Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-		int hyperclass = Equip::types[t].pval;
+		const Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
+		const int hyperclass = Equip::types[t].pval;
 		if (!hyperclass) { // no drive
 			m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 		} else {
@@ -494,21 +494,21 @@ Ship::HyperjumpStatus Ship::GetHyperspaceDetails(const SystemPath &dest, int &ou
 	if (GetFlightState() == HYPERSPACE)
 		return HYPERJUMP_DRIVE_ACTIVE;
 
-	Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
-	Equip::Type fuelType = GetHyperdriveFuelType();
-	int hyperclass = Equip::types[t].pval;
-	int fuel = m_equipment.Count(Equip::SLOT_CARGO, fuelType);
+	const Equip::Type t = m_equipment.Get(Equip::SLOT_ENGINE);
+	const Equip::Type fuelType = GetHyperdriveFuelType();
+	const int hyperclass = Equip::types[t].pval;
+	const int fuel = m_equipment.Count(Equip::SLOT_CARGO, fuelType);
 	if (hyperclass == 0)
 		return HYPERJUMP_NO_DRIVE;
 
-	StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
+	const StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
 	if (s && s->GetPath().IsSameSystem(dest))
 		return HYPERJUMP_CURRENT_SYSTEM;
 
-	float dist = distance_to_system(dest);
+	const float dist = distance_to_system(dest);
 
 	outFuelRequired = Pi::CalcHyperspaceFuelOut(hyperclass, dist, m_stats.hyperspace_range_max);
-	double m_totalmass = GetMass()/1000;
+	const double m_totalmass = GetMass()/1000;
 	if (dist > m_stats.hyperspace_range_max) {
 		outFuelRequired = 0;
 		return HYPERJUMP_OUT_OF_RANGE;
@@ -587,7 +587,7 @@ void Ship::UseECM()
 			if ((*i)->GetFrame() != GetFrame()) continue;
 			if (!(*i)->IsType(Object::MISSILE)) continue;
 
-			double dist = ((*i)->GetPosition() - GetPosition()).Length();
+			const double dist = ((*i)->GetPosition() - GetPosition()).Length();
 			if (dist < ECM_RADIUS) {
 				// increasing chance of destroying it with proximity
 				if (Pi::rng.Double() > (dist / ECM_RADIUS)) {
@@ -625,7 +625,7 @@ Missile * Ship::SpawnMissile(ShipType::Id missile_type, int power) {
 	missile->SetOrient(GetOrient());
 	missile->SetFrame(GetFrame());
 	// XXX DODGY! need to put it in a sensible location
-	vector3d dir = -GetOrient().VectorZ();
+	const vector3d dir = -GetOrient().VectorZ();
 	missile->SetPosition(GetPosition()+50.0*dir);
 	missile->SetVelocity(GetVelocity());
 	Pi::game->GetSpace()->AddBody(missile);
@@ -663,7 +663,7 @@ void Ship::Blastoff()
 {
 	if (m_flightState != LANDED) return;
 
-	vector3d up = GetPosition().Normalized();
+	const vector3d up = GetPosition().Normalized();
 	assert(GetFrame()->GetBody()->IsType(Object::PLANET));
 	const double planetRadius = 2.0 + static_cast<Planet*>(GetFrame()->GetBody())->GetTerrainHeight(up);
 	SetVelocity(vector3d(0, 0, 0));
@@ -682,8 +682,8 @@ void Ship::TestLanded()
 	if (m_launchLockTimeout > 0.0f) return;
 	if (m_wheelState < 1.0f) return;
 	if (GetFrame()->GetBody()->IsType(Object::PLANET)) {
-		double speed = GetVelocity().Length();
-		vector3d up = GetPosition().Normalized();
+		const double speed = GetVelocity().Length();
+		const vector3d up = GetPosition().Normalized();
 		const double planetRadius = static_cast<Planet*>(GetFrame()->GetBody())->GetTerrainHeight(up);
 
 		if (speed < MAX_LANDING_SPEED) {
@@ -693,7 +693,7 @@ void Ship::TestLanded()
 				SetPosition(up * (planetRadius - GetAabb().min.y));
 
 				// position facing in roughly the same direction
-				vector3d right = up.Cross(GetOrient().VectorZ()).Normalized();
+				const vector3d right = up.Cross(GetOrient().VectorZ()).Normalized();
 				SetOrient(matrix3x3d::FromVectors(right, up));
 
 				SetVelocity(vector3d(0, 0, 0));
@@ -712,8 +712,8 @@ void Ship::TimeStepUpdate(const float timeStep)
 	// If docked, station is responsible for updating position/orient of ship
 	// but we call this crap anyway and hope it doesn't do anything bad
 
-	vector3d maxThrust = GetMaxThrust(m_thrusters);
-	vector3d thrust = vector3d(maxThrust.x*m_thrusters.x, maxThrust.y*m_thrusters.y,
+	const vector3d maxThrust = GetMaxThrust(m_thrusters);
+	const vector3d thrust = vector3d(maxThrust.x*m_thrusters.x, maxThrust.y*m_thrusters.y,
 		maxThrust.z*m_thrusters.z);
 	AddRelForce(thrust);
 	AddRelTorque(GetShipType()->angThrust * m_angThrusters);
@@ -737,7 +737,7 @@ void Ship::DoThrusterSounds() const
 
 	// XXX sound logic could be part of a bigger class (ship internal sounds)
 	/* Ship engine noise. less loud inside */
-	float v_env = (Pi::worldView->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	const float v_env = (Pi::worldView->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 	static Sound::Event sndev;
 	float volBoth = 0.0f;
 	volBoth += 0.5f*fabs(GetThrusterState().y);
@@ -750,12 +750,12 @@ void Ship::DoThrusterSounds() const
 
 	targetVol[0] = v_env * Clamp(targetVol[0], 0.0f, 1.0f);
 	targetVol[1] = v_env * Clamp(targetVol[1], 0.0f, 1.0f);
-	float dv_dt[2] = { 4.0f, 4.0f };
+	const float dv_dt[2] = { 4.0f, 4.0f };
 	if (!sndev.VolumeAnimate(targetVol, dv_dt)) {
 		sndev.Play("Thruster_large", 0.0f, 0.0f, Sound::OP_REPEAT);
 		sndev.VolumeAnimate(targetVol, dv_dt);
 	}
-	float angthrust = 0.1f * v_env * float(GetAngThrusterState().Length());
+	const float angthrust = 0.1f * v_env * float(GetAngThrusterState().Length());
 
 	static Sound::Event angThrustSnd;
 	if (!angThrustSnd.VolumeAnimate(angthrust, angthrust, 5.0f, 5.0f)) {
@@ -781,7 +781,7 @@ void Ship::TimeAccelAdjust(const float timeStep)
 
 double Ship::GetHullTemperature() const
 {
-	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
+	const double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
 	if (m_equipment.Get(Equip::SLOT_ATMOSHIELD) == Equip::NONE) {
 		return dragGs / 5.0;
 	} else {
@@ -873,12 +873,12 @@ void Ship::UpdateAlertState()
 void Ship::UpdateFuel(const float timeStep, const vector3d &thrust)
 {
 	const double fuelUseRate = GetFuelUseRate() * 0.01;
-	double totalThrust = (fabs(thrust.x) + fabs(thrust.y) + fabs(thrust.z))
+	const double totalThrust = (fabs(thrust.x) + fabs(thrust.y) + fabs(thrust.z))
 		/ -GetShipType()->linThrust[ShipType::THRUSTER_FORWARD];
 
-	FuelState lastState = GetFuelState();
+	const FuelState lastState = GetFuelState();
 	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
-	FuelState currentState = GetFuelState();
+	const FuelState currentState = GetFuelState();
 
 	UpdateFuelStats();
 
@@ -910,12 +910,12 @@ void Ship::StaticUpdate(const float timeStep)
 				double pressure, density;
 				p->GetAtmosphericState(dist, &pressure, &density);
 
-				double speed = GetVelocity().Length();
-				vector3d vdir = GetVelocity().Normalized();
-				vector3d pdir = -GetOrient().VectorZ();
-				double dot = vdir.Dot(pdir);
+				const double speed = GetVelocity().Length();
+				const vector3d vdir = GetVelocity().Normalized();
+				const vector3d pdir = -GetOrient().VectorZ();
+				const double dot = vdir.Dot(pdir);
 				if ((m_stats.free_capacity) && (dot > 0.95) && (speed > 2000.0) && (density > 1.0)) {
-					double rate = speed*density*0.00001f;
+					const double rate = speed*density*0.00001f;
 					if (Pi::rng.Double() < rate) {
 						m_equipment.Add(Equip::HYDROGEN);
 						UpdateEquipStats();
@@ -1095,7 +1095,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 bool Ship::SpawnCargo(CargoBody * c_body) const
 {
 	if (m_flightState != FLYING) return false;
-	vector3d pos = GetOrient() * vector3d(0, GetAabb().min.y - 5, 0);
+	const vector3d pos = GetOrient() * vector3d(0, GetAabb().min.y - 5, 0);
 	c_body->SetFrame(GetFrame());
 	c_body->SetPosition(GetPosition() + pos);
 	c_body->SetVelocity(GetVelocity() + GetOrient()*vector3d(0, -10, 0));
@@ -1122,7 +1122,7 @@ void Ship::EnterHyperspace() {
 		return;
 	}
 
-	Equip::Type fuelType = GetHyperdriveFuelType();
+	const Equip::Type fuelType = GetHyperdriveFuelType();
 	m_equipment.Remove(fuelType, fuel_cost);
 	if (fuelType == Equip::MILITARY_FUEL) {
 		m_equipment.Add(Equip::RADIOACTIVES, fuel_cost);
