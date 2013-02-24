@@ -123,6 +123,7 @@
     <ClCompile Include="..\..\src\DynamicBody.cpp" />
     <ClCompile Include="..\..\src\EnumStrings.cpp" />
     <ClCompile Include="..\..\src\enum_table.cpp" />
+    <ClCompile Include="..\..\src\EquipSet.cpp" />
     <ClCompile Include="..\..\src\EquipType.cpp" />
     <ClCompile Include="..\..\src\FaceVideoLink.cpp" />
     <ClCompile Include="..\..\src\Factions.cpp" />

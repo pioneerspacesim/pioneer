@@ -175,6 +175,7 @@ pioneer_SOURCES	= \
 	DeathView.cpp \
 	DynamicBody.cpp \
 	EnumStrings.cpp \
+	EquipSet.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
 	Factions.cpp \
