@@ -276,6 +276,7 @@ private:
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep, const vector3d &thrust);
 	void OnEquipmentChange(Equip::Type e);
+	void CreateWeaponsFromEquipSet();
 	void EnterHyperspace();
 
 	shipstats_t m_stats;

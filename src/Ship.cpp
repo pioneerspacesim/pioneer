@@ -144,6 +144,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 
 	m_navLights->Load(rd);
 
+	CreateWeaponsFromEquipSet();
 	for (WeaponIterator it = m_weapons.begin(); it != m_weapons.end(); ++it)
 		(*it)->Load(rd);
 
@@ -205,13 +206,6 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()));
 	m_skin.Apply(GetModel());
-
-	//test weapon
-	Weapon *wep = new Weapon(Equip::PULSECANNON_1MW);
-	wep->SetPosition(vector3d(0.0));
-	wep->SetDirection(vector3d(0.0, 0.0, -1.0));
-	wep->SetShip(this);
-	m_weapons.push_back(wep);
 
 	Init();
 	SetController(new ShipController());
@@ -606,9 +600,10 @@ Weapon *Ship::GetActiveWeapon() const
 
 void Ship::FireActiveWeapon()
 {
-	if (!m_weapons.empty()) m_weapons[0]->SetState(1);
-
-	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
+	if (!m_weapons.empty()) {
+		m_weapons[0]->SetState(1);
+		Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
+	}
 }
 
 void Ship::ClearWeaponState()
@@ -1103,9 +1098,27 @@ bool Ship::SpawnCargo(CargoBody * c_body) const
 	return true;
 }
 
+// Equipment changes often, weapons rarely.
 void Ship::OnEquipmentChange(Equip::Type e)
 {
+	if (Equip::types[e].slot == Equip::SLOT_LASER) CreateWeaponsFromEquipSet();
 	LuaEvent::Queue("onShipEquipmentChanged", this, EnumStrings::GetString("EquipType", e));
+}
+
+// This handles only guns
+void Ship::CreateWeaponsFromEquipSet()
+{
+	while (!m_weapons.empty()) delete m_weapons.back(), m_weapons.pop_back();
+
+	for (unsigned int i = 0; i < ShipType::GUNMOUNT_MAX; i++) {
+		if (m_equipment.Get(Equip::SLOT_LASER, i) == Equip::NONE) continue;
+
+		Weapon *wep = new Weapon(m_equipment.Get(Equip::SLOT_LASER, i));
+		wep->SetPosition(vector3d(m_type->gunMount[i].pos));
+		wep->SetDirection(vector3d(m_type->gunMount[i].dir));
+		wep->SetShip(this);
+		m_weapons.push_back(wep);
+	}
 }
 
 void Ship::EnterHyperspace() {
