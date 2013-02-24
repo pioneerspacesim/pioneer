@@ -15,8 +15,17 @@ Weapon::Weapon(Equip::Type type)
 , m_coolingMultiplier(1.f)
 , m_ship(0)
 , m_equipType(type)
+, m_position(0.0)
+, m_direction(0.0, 0.0, -1.0)
 {
 	m_laserType = Equip::lasers[Equip::types[m_equipType].tableIndex];
+
+	if (m_laserType.flags & Equip::LASER_DUAL) {
+		m_muzzles.push_back(vector3d(3.0, 0.0, 0.0));
+		m_muzzles.push_back(vector3d(-3.0, 0.0, 0.0));
+	} else {
+		m_muzzles.push_back(vector3d(0.0));
+	}
 }
 
 Weapon::~Weapon()
@@ -37,6 +46,15 @@ void Weapon::Load(Serializer::Reader &rd)
 	m_temperature = rd.Float();
 }
 
+bool Weapon::CanFire() const
+{
+	if (m_recharge > 0.0f) return false;
+	if (m_temperature > 1.0) return false;
+	if (m_ship->GetFlightState() != Ship::FLYING) return false;
+
+	return true;
+}
+
 void Weapon::Update(float timeStep)
 {
 	m_recharge -= timeStep;
@@ -45,13 +63,7 @@ void Weapon::Update(float timeStep)
 	if (m_temperature < 0.0f) m_temperature = 0.f;
 	if (m_recharge < 0.0f) m_recharge = 0.f;
 
-	if (!m_state) return;
-	if (m_recharge > 0.0f) return;
-	if (m_temperature > 1.0) return;
-
-	if (m_ship->GetFlightState() != Ship::FLYING) return;
-
-	Fire();
+	if (m_state == 1 && CanFire()) Fire();
 }
 
 void Weapon::Fire()
@@ -60,32 +72,15 @@ void Weapon::Fire()
 	m_recharge = m_laserType.rechargeTime;
 
 	const matrix3x3d &m = m_ship->GetOrient();
-	const vector3d dir = m * vector3d(0.0, 0.0, -1.0);//vector3d(m_type->gunMount[num].dir);
-	const vector3d pos = m * vector3d(0.0, 0.0, 30.0) + m_ship->GetPosition();//vector3d(m_type->gunMount[num].pos) + GetPosition();
+	const vector3d dir = m * m_direction;
 
 	const vector3d baseVel = m_ship->GetVelocity();
 	const vector3d dirVel = m_laserType.speed * dir.Normalized();
 
-	Projectile::Add(m_ship, m_equipType, pos, baseVel, dirVel);
-
-	//XXX passing equipType to Projectile is silly, they are lasers anyway
-	//XXX use correct orientation
-	//XXX use correct position
-	//XXX add projectile for each muzzle
-/*
-	if (lt.flags & Equip::LASER_DUAL)
-	{
-		const ShipType::DualLaserOrientation orient = m_type->gunMount[num].orient;
-		const vector3d orient_norm =
-				(orient == ShipType::DUAL_LASERS_VERTICAL) ? m.VectorX() : m.VectorY();
-		const vector3d sep = m_type->gunMount[num].sep * dir.Cross(orient_norm).NormalizedSafe();
-
-		Projectile::Add(this, t, pos + sep, baseVel, dirVel);
-		Projectile::Add(this, t, pos - sep, baseVel, dirVel);
+	for (unsigned int i = 0; i < m_muzzles.size(); i++) {
+		const vector3d pos = m * (m_position + m_muzzles[i]) + m_ship->GetPosition();
+		Projectile::Add(m_ship, m_equipType, pos, baseVel, dirVel);
 	}
-	else
-		Projectile::Add(this, t, pos, baseVel, dirVel);
-*/
-	Polit::NotifyOfCrime(m_ship, Polit::CRIME_WEAPON_DISCHARGE); //fishy
-	Sound::BodyMakeNoise(m_ship, "Pulse_Laser", 1.0f); //appropriate
+
+	Sound::BodyMakeNoise(m_ship, "Pulse_Laser", 1.0f);
 }

@@ -207,8 +207,11 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_skin.Apply(GetModel());
 
 	//test weapon
-	m_weapons.push_back(new Weapon(Equip::PULSECANNON_1MW));
-	m_weapons.back()->SetShip(this);
+	Weapon *wep = new Weapon(Equip::PULSECANNON_1MW);
+	wep->SetPosition(vector3d(0.0));
+	wep->SetDirection(vector3d(0.0, 0.0, -1.0));
+	wep->SetShip(this);
+	m_weapons.push_back(wep);
 
 	Init();
 	SetController(new ShipController());
@@ -604,6 +607,8 @@ Weapon *Ship::GetActiveWeapon() const
 void Ship::FireActiveWeapon()
 {
 	if (!m_weapons.empty()) m_weapons[0]->SetState(1);
+
+	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
 }
 
 void Ship::ClearWeaponState()

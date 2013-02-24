@@ -20,13 +20,14 @@ public:
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
 
+	bool CanFire() const;
+	void Fire();
 	void Update(float timeStep);
 
-	void Fire();
-
-	//XXX silly. Remove?
-	void SetState(int state) { m_state = state; }
-	Uint32 GetState() const  { return m_state;  }
+	const vector3d &GetPosition() const  { return m_position; }
+	void SetPosition(const vector3d &v)  { m_position = v; }
+	const vector3d &GetDirection() const { return m_direction; }
+	void SetDirection(const vector3d &v) { m_direction = v; }
 
 	float GetTemperature() const { return m_temperature; }
 
@@ -35,6 +36,11 @@ public:
 	void SetShip(Ship *s) { m_ship = s; }
 
 private:
+	friend class Ship;
+	//XXX silly. Remove?
+	void SetState(int state) { m_state = state; }
+	Uint32 GetState() const  { return m_state;  }
+
 	Uint32 m_state;
 	float m_recharge;
 	float m_temperature;
@@ -45,6 +51,10 @@ private:
 	Ship* m_ship;
 	Equip::Type m_equipType;
 	LaserType m_laserType;
+
+	vector3d m_position;
+	vector3d m_direction;
+	std::vector<vector3d> m_muzzles;
 };
 
 typedef std::vector<Weapon*>::iterator WeaponIterator;
