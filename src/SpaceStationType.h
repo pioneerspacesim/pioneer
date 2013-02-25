@@ -58,8 +58,8 @@ struct SpaceStationType {
 	SpaceStationType();
 
 	void OnSetupComplete();
-	const SBayGroup* FindGroupByPort(const int zeroBaseBayID) const;
-	SBayGroup* GetGroupByPort(const int zeroBaseBayID);
+	const SBayGroup* FindGroupByBay(const int zeroBaseBayID) const;
+	SBayGroup* GetGroupByBay(const int zeroBaseBayID);
 
 	// Call functions in the station .lua
 	bool GetShipApproachWaypoints(const int port, const int stage, positionOrient_t &outPosOrient) const;

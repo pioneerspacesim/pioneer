@@ -6,8 +6,8 @@
       <authoring_tool>FBX COLLADA exporter</authoring_tool>
       <comments></comments>
     </contributor>
-    <created>2013-02-25T13:28:14Z</created>
-    <modified>2013-02-25T13:28:14Z</modified>
+    <created>2013-02-25T18:38:03Z</created>
+    <modified>2013-02-25T18:38:03Z</modified>
     <revision></revision>
     <title></title>
     <subject></subject>
@@ -595,82 +595,82 @@
           </bind_material>
         </instance_geometry>
       </node>
-      <node id="docking_port1_stage3_centre" name="docking_port1_stage3_centre">
+      <node id="docking_stage3_bay1" name="docking_stage3_bay1">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.363073 0.000000 0.000000 1.000000 -340.086639 0.000000 -1.000000 0.000000 201.783264 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="docking_port2_stage3_centre" name="docking_port2_stage3_centre">
+      <node id="docking_stage3_bay2" name="docking_stage3_bay2">
         <matrix sid="matrix">0.000000 1.000000 -0.000000 -202.815857 0.000000 0.000000 1.000000 -340.031067 1.000000 -0.000000 0.000000 0.203204 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="docking_port3_stage3_centre" name="docking_port3_stage3_centre">
+      <node id="docking_stage3_bay3" name="docking_stage3_bay3">
         <matrix sid="matrix">1.000000 0.000000 0.000000 1.044297 0.000000 0.000000 -1.000000 -339.405426 0.000000 1.000000 0.000000 -201.441513 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="docking_port4_stage3_centre" name="docking_port4_stage3_centre">
+      <node id="docking_stage3_bay4" name="docking_stage3_bay4">
         <matrix sid="matrix">0.000000 -1.000000 -0.000000 202.268921 0.000000 0.000000 -1.000000 -340.031067 1.000000 0.000000 0.000000 0.885062 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="docking_port1_stage2_centre" name="docking_port1_stage2_centre">
+      <node id="docking_stage2_bay1" name="docking_stage2_bay1">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 -300.000000 0.000000 -1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="docking_port1_stage1_centre" name="docking_port1_stage1_centre">
+      <node id="docking_stage1_bay1" name="docking_stage1_bay1">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 525.269287 0.000000 -1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="approach_port1_stage2_centre" name="approach_port1_stage2_centre">
+      <node id="approach_stage2_bay1" name="approach_stage2_bay1">
         <matrix sid="matrix">-1.000000 0.000000 0.000000 0.000000 -0.000000 -0.000000 -1.000000 525.269287 -0.000000 -1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="approach_port1_stage1_centre" name="approach_port1_stage1_centre">
+      <node id="approach_stage1_bay1" name="approach_stage1_bay1">
         <matrix sid="matrix">-1.000000 0.000000 0.000000 0.000000 -0.000000 -0.000000 -1.000000 1500.000000 -0.000000 -1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="leaving_port1_stage1_centre" name="leaving_port1_stage1_centre">
+      <node id="leaving_stage1_bay1" name="leaving_stage1_bay1">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.363073 0.000000 0.000000 1.000000 -340.086639 0.000000 -1.000000 0.000000 201.783264 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="leaving_port2_stage1_centre" name="leaving_port2_stage1_centre">
+      <node id="leaving_stage1_bay2" name="leaving_stage1_bay2">
         <matrix sid="matrix">0.000000 1.000000 -0.000000 -202.815857 0.000000 0.000000 1.000000 -340.031067 1.000000 -0.000000 0.000000 0.203204 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="leaving_port3_stage1_centre" name="leaving_port3_stage1_centre">
+      <node id="leaving_stage1_bay3" name="leaving_stage1_bay3">
         <matrix sid="matrix">1.000000 0.000000 0.000000 1.044297 0.000000 0.000000 -1.000000 -339.405426 0.000000 1.000000 0.000000 -201.441513 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="leaving_port4_stage1_centre" name="leaving_port4_stage1_centre">
+      <node id="leaving_stage1_bay4" name="leaving_stage1_bay4">
         <matrix sid="matrix">0.000000 -1.000000 -0.000000 202.268921 0.000000 0.000000 -1.000000 -340.031067 1.000000 0.000000 0.000000 0.885062 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="leaving_port1_stage2_centre" name="leaving_port1_stage2_centre">
+      <node id="leaving_stage2_bay1" name="leaving_stage2_bay1">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 -1.000000 -300.000000 0.000000 1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="leaving_port1_stage3_centre" name="leaving_port1_stage3_centre">
+      <node id="leaving_stage3_bay1" name="leaving_stage3_bay1">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 -1.000000 525.269287 0.000000 1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="docking_port2_stage2_centre" name="docking_port2_stage2_centre">
+      <node id="docking_stage2_bay2" name="docking_stage2_bay2">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 -300.000000 0.000000 -1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="docking_port2_stage1_centre" name="docking_port2_stage1_centre">
+      <node id="docking_stage1_bay2" name="docking_stage1_bay2">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 525.269287 0.000000 -1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="docking_port4_stage1_centre" name="docking_port4_stage1_centre">
+      <node id="docking_stage1_bay4" name="docking_stage1_bay4">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 525.269287 0.000000 -1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="docking_port3_stage2_centre" name="docking_port3_stage2_centre">
+      <node id="docking_stage2_bay3" name="docking_stage2_bay3">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 -300.000000 0.000000 -1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="docking_port4_stage2_centre" name="docking_port4_stage2_centre">
+      <node id="docking_stage2_bay4" name="docking_stage2_bay4">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 -300.000000 0.000000 -1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="docking_port3_stage1_centre" name="docking_port3_stage1_centre">
+      <node id="docking_stage1_bay3" name="docking_stage1_bay3">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 525.269287 0.000000 -1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="leaving_port2_stage2_centre" name="leaving_port2_stage2_centre">
+      <node id="leaving_stage2_bay2" name="leaving_stage2_bay2">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 -1.000000 -300.000000 0.000000 1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="leaving_port2_stage3_centre" name="leaving_port2_stage3_centre">
+      <node id="leaving_stage3_bay2" name="leaving_stage3_bay2">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 -1.000000 525.269287 0.000000 1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="leaving_port3_stage3_centre" name="leaving_port3_stage3_centre">
+      <node id="leaving_stage3_bay3" name="leaving_stage3_bay3">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 -1.000000 525.269287 0.000000 1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="leaving_port3_stage2_centre" name="leaving_port3_stage2_centre">
+      <node id="leaving_stage2_bay3" name="leaving_stage2_bay3">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 -1.000000 -300.000000 0.000000 1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="leaving_port4_stage2_centre" name="leaving_port4_stage2_centre">
+      <node id="leaving_stage2_bay4" name="leaving_stage2_bay4">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 -1.000000 -300.000000 0.000000 1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
-      <node id="leaving_port4_stage3_centre" name="leaving_port4_stage3_centre">
+      <node id="leaving_stage3_bay4" name="leaving_stage3_bay4">
         <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 -1.000000 525.269287 0.000000 1.000000 0.000000 0.000002 0.000000 0.000000 0.000000 1.000000</matrix>
       </node>
     </visual_scene>

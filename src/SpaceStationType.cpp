@@ -50,10 +50,10 @@ void SpaceStationType::OnSetupComplete()
 		SceneGraph::Model::TVecMT::const_iterator apprIter = approach_mts.begin();
 		for (; apprIter!=approach_mts.end() ; ++apprIter)
 		{
-			int port, stage;
-			PiVerify(2 == sscanf((*apprIter)->GetName().c_str(), "approach_port%d_stage%d", &port, &stage));
-			PiVerify(port>0 && stage>0);
-			SBayGroup* pGroup = GetGroupByPort(port-1);
+			int bay, stage;
+			PiVerify(2 == sscanf((*apprIter)->GetName().c_str(), "approach_stage%d_bay%d", &stage, &bay));
+			PiVerify(bay>0 && stage>0);
+			SBayGroup* pGroup = GetGroupByBay(bay-1);
 			assert(pGroup);
 			pGroup->m_approach[stage] = (*apprIter)->GetTransform();
 		}
@@ -61,24 +61,24 @@ void SpaceStationType::OnSetupComplete()
 		SceneGraph::Model::TVecMT::const_iterator dockIter = docking_mts.begin();
 		for (; dockIter!=docking_mts.end() ; ++dockIter)
 		{
-			int port, stage;
-			PiVerify(2 == sscanf((*dockIter)->GetName().c_str(), "docking_port%d_stage%d", &port, &stage));
-			PiVerify(port>0 && stage>0);
-			m_ports[port].m_docking[stage+1] = (*dockIter)->GetTransform();
+			int bay, stage;
+			PiVerify(2 == sscanf((*dockIter)->GetName().c_str(), "docking_stage%d_bay%d", &stage, &bay));
+			PiVerify(bay>0 && stage>0);
+			m_ports[bay].m_docking[stage+1] = (*dockIter)->GetTransform();
 		}
 		
 		SceneGraph::Model::TVecMT::const_iterator leaveIter = leaving_mts.begin();
 		for (; leaveIter!=leaving_mts.end() ; ++leaveIter)
 		{
-			int port, stage;
-			PiVerify(2 == sscanf((*leaveIter)->GetName().c_str(), "leaving_port%d_stage%d", &port, &stage));
-			PiVerify(port>0 && stage>0);
-			m_ports[port].m_leaving[stage] = (*leaveIter)->GetTransform();
+			int bay, stage;
+			PiVerify(2 == sscanf((*leaveIter)->GetName().c_str(), "leaving_stage%d_bay%d", &stage, &bay));
+			PiVerify(bay>0 && stage>0);
+			m_ports[bay].m_leaving[stage] = (*leaveIter)->GetTransform();
 		}
 	}
 }
 
-const SpaceStationType::SBayGroup* SpaceStationType::FindGroupByPort(const int zeroBaseBayID) const
+const SpaceStationType::SBayGroup* SpaceStationType::FindGroupByBay(const int zeroBaseBayID) const
 {
 	TBayGroups::const_iterator bayIter = bayGroups.begin();
 	for ( ; bayIter!=bayGroups.end() ; ++bayIter ) {
@@ -89,11 +89,11 @@ const SpaceStationType::SBayGroup* SpaceStationType::FindGroupByPort(const int z
 			}
 		}
 	}
-	// is it safer to return that the is loacked?
+	// is it safer to return that the bay is locked?
 	return NULL;
 }
 
-SpaceStationType::SBayGroup* SpaceStationType::GetGroupByPort(const int zeroBaseBayID)
+SpaceStationType::SBayGroup* SpaceStationType::GetGroupByBay(const int zeroBaseBayID)
 {
 	TBayGroups::iterator bayIter = bayGroups.begin();
 	for ( ; bayIter!=bayGroups.end() ; ++bayIter ) {
@@ -104,7 +104,7 @@ SpaceStationType::SBayGroup* SpaceStationType::GetGroupByPort(const int zeroBase
 			}
 		}
 	}
-	// is it safer to return that the is loacked?
+	// is it safer to return that the bay is locked?
 	return NULL;
 }
 
@@ -115,7 +115,7 @@ bool SpaceStationType::GetShipApproachWaypoints(const int port, const int stage,
 
 	if (!bHasApproachWaypointsFunction)
 	{
-		const SBayGroup* pGroup = FindGroupByPort(port);
+		const SBayGroup* pGroup = FindGroupByBay(port);
 		if (pGroup && stage>0) {
 			const bool bHasStageData = (pGroup->m_approach.find( stage ) != pGroup->m_approach.end());
 			if (bHasStageData) {
