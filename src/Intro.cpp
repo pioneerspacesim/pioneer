@@ -9,6 +9,7 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/Graphics.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/ModelSkin.h"
 #include <algorithm>
 
 Intro::Intro(Graphics::Renderer *r, int width, int height)
@@ -27,10 +28,14 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	std::vector<ShipType::Id> shipIds = ShipType::player_ships;
 	std::random_shuffle(shipIds.begin(), shipIds.end());
 
+	SceneGraph::ModelSkin skin;
+	skin.SetDecal("01_Badge");
+	skin.SetLabel(Lang::PIONEER);
+
 	for (std::vector<ShipType::Id>::const_iterator i = shipIds.begin(); i != shipIds.end(); ++i) {
 		SceneGraph::Model *model = Pi::FindModel(*i)->MakeInstance();
-		model->SetDecalTexture(Graphics::TextureBuilder::Decal("textures/decals/01_Badge.png").GetOrCreateTexture(m_renderer, "decal"));
-		model->SetLabel(Lang::PIONEER);
+		skin.SetRandomColors(Pi::rng);
+		skin.Apply(model);
 		model->SetThrust(vector3f(0.f, 0.f, -0.6f), vector3f(0.f));
 		m_models.push_back(model);
 	}
