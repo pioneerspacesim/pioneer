@@ -17,7 +17,6 @@ bin_PROGRAMS = pioneer
 noinst_HEADERS = \
 	Aabb.h \
 	AmbientSounds.h \
-	AnimationCurves.h \
 	Background.h \
 	BezierCurve.h \
 	Body.h \
