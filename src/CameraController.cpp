@@ -3,7 +3,7 @@
 
 #include "CameraController.h"
 #include "Ship.h"
-#include "AnimationCurves.h"
+#include "Easing.h"
 #include "Pi.h"
 #include "Game.h"
 
@@ -130,8 +130,7 @@ void ExternalCameraController::ZoomEvent(float amount)
 
 void ExternalCameraController::ZoomEventUpdate(float frameTime)
 {
-	AnimationCurves::Approach(m_dist, m_distTo, frameTime);
-	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
+	m_dist = Easing::Linear::EaseInOut(double(frameTime*10.0), m_dist, m_distTo-m_dist, 1.0);
 }
 
 void ExternalCameraController::Reset()
@@ -231,8 +230,7 @@ void SiderealCameraController::ZoomEvent(float amount)
 
 void SiderealCameraController::ZoomEventUpdate(float frameTime)
 {
-	AnimationCurves::Approach(m_dist, m_distTo, frameTime, 4.0, 50./std::max(m_distTo, 1e-7));		// std::max() here just avoid dividing by 0.
-	m_dist = std::max(GetShip()->GetClipRadius(), m_dist);
+	m_dist = Easing::Linear::EaseInOut(double(frameTime*10.0), m_dist, m_distTo-m_dist, 1.0);
 }
 
 void SiderealCameraController::RollLeft(float frameTime)
