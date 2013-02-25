@@ -1,4 +1,4 @@
---[[define_orbital_station {
+define_orbital_station {
 	model = 'hoop_spacestation',
 	angular_velocity = 0.08,
 	num_docking_ports = 1,
@@ -12,7 +12,7 @@
 	},
 	dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0 },
 	undock_anim_stage_duration = { 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 20.0 },
-	ship_dock_anim = function(port, stage, t, from, ship_aabb)
+	--[[ship_dock_anim = function(port, stage, t, from, ship_aabb)
 		-- docking
 		if stage == 2 then
 			return { vlerp(t, from, v(0,250,0)), v(1,0,0), v(0,0,-1) }
@@ -50,5 +50,5 @@
 		elseif stage == 2 then
 			return { v(0,300,0), v(1,0,0), v(0,0,1) }
 		end
-	end,
-}]]
+	end,]]
+}

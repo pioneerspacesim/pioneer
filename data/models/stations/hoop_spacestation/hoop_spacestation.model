@@ -4,5 +4,6 @@ specular 1.0 1.0 1.0
 diffuse 1.0 1.0 1.0
 
 mesh hoop_spacestation.dae
+mesh hoop_docking.dae
 
 collision hoop_collide.dae

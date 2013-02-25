@@ -30,10 +30,6 @@ SpaceStationType::SpaceStationType()
 , undockAnimStageDuration(0)
 , parkingDistance(0)
 , parkingGapSize(0)
-, dockAnimFunction("")
-, approachWaypointsFunction("")
-, bHasDockAnimFunction(false)
-, bHasApproachWaypointsFunction(false)
 {}
 
 #pragma optimize( "", off )
@@ -113,69 +109,21 @@ bool SpaceStationType::GetShipApproachWaypoints(const int port, const int stage,
 {
 	bool gotOrient = false;
 
-	if (!bHasApproachWaypointsFunction)
-	{
-		const SBayGroup* pGroup = FindGroupByBay(port);
-		if (pGroup && stage>0) {
-			const bool bHasStageData = (pGroup->m_approach.find( stage ) != pGroup->m_approach.end());
-			if (bHasStageData) {
-				const matrix4x4f &mt = pGroup->m_approach.at(stage);
-				outPosOrient.pos	= vector3d(mt.GetTranslate());
-				outPosOrient.xaxis	= vector3d(mt.GetOrient().VectorX());
-				outPosOrient.yaxis	= vector3d(mt.GetOrient().VectorY());
-				outPosOrient.zaxis	= vector3d(mt.GetOrient().VectorZ());
-				outPosOrient.xaxis	= outPosOrient.xaxis.Normalized();
-				outPosOrient.yaxis	= outPosOrient.yaxis.Normalized();
-				outPosOrient.zaxis	= outPosOrient.zaxis.Normalized();
-				gotOrient = true;
-			}
+	const SBayGroup* pGroup = FindGroupByBay(port);
+	if (pGroup && stage>0) {
+		const bool bHasStageData = (pGroup->m_approach.find( stage ) != pGroup->m_approach.end());
+		if (bHasStageData) {
+			const matrix4x4f &mt = pGroup->m_approach.at(stage);
+			outPosOrient.pos	= vector3d(mt.GetTranslate());
+			outPosOrient.xaxis	= vector3d(mt.GetOrient().VectorX());
+			outPosOrient.yaxis	= vector3d(mt.GetOrient().VectorY());
+			outPosOrient.zaxis	= vector3d(mt.GetOrient().VectorZ());
+			outPosOrient.xaxis	= outPosOrient.xaxis.Normalized();
+			outPosOrient.yaxis	= outPosOrient.yaxis.Normalized();
+			outPosOrient.zaxis	= outPosOrient.zaxis.Normalized();
+			gotOrient = true;
 		}
-		return gotOrient;
 	}
-
-	lua_State *L = s_lua;
-
-	LUA_DEBUG_START(L);
-
-	lua_pushcfunction(L, pi_lua_panic);
-	lua_getglobal(L, this->approachWaypointsFunction.c_str());
-
-	if (!lua_isfunction(L, -1)) {
-		printf("no function\n");
-		lua_pop(L, 2);
-		LUA_DEBUG_END(L, 0);
-		return false;
-	}
-
-	lua_pushinteger(L, port+1);
-	lua_pushinteger(L, stage);
-	lua_pcall(L, 2, 1, -4);
-	if (lua_istable(L, -1)) {
-		gotOrient = true;
-		lua_pushinteger(L, 1);
-		lua_gettable(L, -2);
-		outPosOrient.pos = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-
-		lua_pushinteger(L, 2);
-		lua_gettable(L, -2);
-		outPosOrient.xaxis = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-
-		lua_pushinteger(L, 3);
-		lua_gettable(L, -2);
-		outPosOrient.yaxis = *LuaVector::CheckFromLua(L, -1);
-
-		// calculate te zaxis from the x^y
-		outPosOrient.zaxis = outPosOrient.xaxis.Cross(outPosOrient.yaxis).Normalized();
-		lua_pop(L, 1);
-	} else {
-		gotOrient = false;
-	}
-	lua_pop(L, 2);
-
-	LUA_DEBUG_END(L, 0);
-
 	return gotOrient;
 }
 
@@ -226,74 +174,19 @@ bool SpaceStationType::GetDockAnimPositionOrient(const int port, int stage, doub
 
 	bool gotOrient = false;
 
-	if (!bHasDockAnimFunction)
-	{
-		assert(port<=m_ports.size());
-		const Port &rPort = m_ports.at(port+1);
-		const Aabb &aabb = ship->GetAabb();
-		if (stage<0) {
-			const int leavingStage = (-1*stage);
-			gotOrient = GetPosOrient(rPort.m_leaving, leavingStage, t, from, outPosOrient, ship);
-			const vector3d up = outPosOrient.yaxis.Normalized() * aabb.min.y;
-			outPosOrient.pos = outPosOrient.pos - up;
-		} else if (stage>0) {
-			gotOrient = GetPosOrient(rPort.m_docking, stage, t, from, outPosOrient, ship);
-			const vector3d up = outPosOrient.yaxis.Normalized() * aabb.min.y;
-			outPosOrient.pos = outPosOrient.pos - up;
-		}
-
-		return gotOrient;
+	assert(port<=m_ports.size());
+	const Port &rPort = m_ports.at(port+1);
+	const Aabb &aabb = ship->GetAabb();
+	if (stage<0) {
+		const int leavingStage = (-1*stage);
+		gotOrient = GetPosOrient(rPort.m_leaving, leavingStage, t, from, outPosOrient, ship);
+		const vector3d up = outPosOrient.yaxis.Normalized() * aabb.min.y;
+		outPosOrient.pos = outPosOrient.pos - up;
+	} else if (stage>0) {
+		gotOrient = GetPosOrient(rPort.m_docking, stage, t, from, outPosOrient, ship);
+		const vector3d up = outPosOrient.yaxis.Normalized() * aabb.min.y;
+		outPosOrient.pos = outPosOrient.pos - up;
 	}
-
-	lua_State *L = s_lua;
-
-	LUA_DEBUG_START(L);
-
-	lua_pushcfunction(L, pi_lua_panic);
-	lua_getglobal(L, this->dockAnimFunction.c_str());
-	// It's a function of form function(stage, t, from)
-	if (!lua_isfunction(L, -1)) {
-		Error("Spacestation %s needs ship_dock_anim method", id.c_str());
-	}
-	lua_pushinteger(L, port+1);
-	lua_pushinteger(L, stage);
-	lua_pushnumber(L, double(t));
-	LuaVector::PushToLua(L, from);
-	// push model aabb as lua table: { min: vec3, max: vec3 }
-	{
-		Aabb aabb = ship->GetAabb();
-		lua_createtable (L, 0, 2);
-		LuaVector::PushToLua(L, aabb.max);
-		lua_setfield(L, -2, "max");
-		LuaVector::PushToLua(L, aabb.min);
-		lua_setfield(L, -2, "min");
-	}
-
-	lua_pcall(L, 5, 1, -7);
-	if (lua_istable(L, -1)) {
-		gotOrient = true;
-		lua_pushinteger(L, 1);
-		lua_gettable(L, -2);
-		outPosOrient.pos = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-
-		lua_pushinteger(L, 2);
-		lua_gettable(L, -2);
-		outPosOrient.xaxis = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-
-		lua_pushinteger(L, 3);
-		lua_gettable(L, -2);
-		outPosOrient.yaxis = *LuaVector::CheckFromLua(L, -1);
-		lua_pop(L, 1);
-
-		outPosOrient.zaxis = outPosOrient.xaxis.Cross(outPosOrient.yaxis);
-	} else {
-		gotOrient = false;
-	}
-	lua_pop(L, 2);
-
-	LUA_DEBUG_END(L, 0);
 
 	return gotOrient;
 }
@@ -470,15 +363,9 @@ static int _define_station(lua_State *L, SpaceStationType &station)
 	_get_stage_durations(L, "dock_anim_stage_duration", station.numDockingStages, &station.dockAnimStageDuration);
 	_get_stage_durations(L, "undock_anim_stage_duration", station.numUndockStages, &station.undockAnimStageDuration);
 	_get_int(L, "ship_launch_stage", station.shipLaunchStage);
-	station.dockAnimFunction = _set_global_function(L, "ship_dock_anim", station.id.c_str());
-	station.approachWaypointsFunction = _set_global_function(L, "ship_approach_waypoints", station.id.c_str());
 	LUA_DEBUG_END(L, 0);
 
 	assert(!station.modelName.empty());
-	//assert(!station.dockAnimFunction.empty());
-	//assert(!station.approachWaypointsFunction.empty());
-	station.bHasDockAnimFunction = (!station.dockAnimFunction.empty());
-	station.bHasApproachWaypointsFunction = (!station.approachWaypointsFunction.empty());
 
 	station.model = Pi::FindModel(station.modelName);
 	station.OnSetupComplete();

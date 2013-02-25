@@ -42,10 +42,10 @@ struct SpaceStationType {
 	double *undockAnimStageDuration;
 	float parkingDistance;
 	float parkingGapSize;
-	std::string dockAnimFunction;
-	std::string approachWaypointsFunction;
-	bool bHasDockAnimFunction;
-	bool bHasApproachWaypointsFunction;
+	//std::string dockAnimFunction;
+	//std::string approachWaypointsFunction;
+	//bool bHasDockAnimFunction;
+	//bool bHasApproachWaypointsFunction;
 	TBayGroups bayGroups;
 
 	struct positionOrient_t {
