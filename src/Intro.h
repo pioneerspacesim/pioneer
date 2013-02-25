@@ -6,7 +6,7 @@
 
 #include "Cutscene.h"
 #include "Background.h"
-#include "EquipSet.h"
+#include "ShipType.h"
 
 class Intro : public Cutscene {
 public:
@@ -15,7 +15,21 @@ public:
 	virtual void Draw(float time);
 
 private:
-	EquipSet m_equipment;
+	std::vector<SceneGraph::Model*> m_models;
+
+	enum State {
+		STATE_SELECT,
+		STATE_ZOOM_IN,
+		STATE_WAIT,
+		STATE_ZOOM_OUT
+	};
+	State m_state;
+	float m_startTime;
+
+	unsigned int m_modelIndex;
+	float m_zoomBegin, m_zoomEnd;
+	float m_dist;
+
 	ScopedPtr<Background::Container> m_background;
 };
 
