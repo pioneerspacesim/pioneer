@@ -296,9 +296,14 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 
 	sd.ship = ship;
 	sd.stage = -1;
-	sd.stagePos = 0;
-	sd.fromPos = (ship->GetPosition() - GetPosition()) * GetOrient();	// station space
-	sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * ship->GetOrient());
+	sd.stagePos = 0.0;
+
+	const Aabb& aabb = ship->GetAabb();
+	const matrix3x3d mt = ship->GetOrient();
+	const vector3d up = mt.VectorY().Normalized() * aabb.min.y;
+	
+	sd.fromPos = (ship->GetPosition() - GetPosition() + up) * GetOrient();	// station space
+	sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * mt);
 
 	ship->SetFlightState(Ship::DOCKING);
 	return true;

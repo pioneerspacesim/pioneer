@@ -64,7 +64,7 @@ void SpaceStationType::OnSetupComplete()
 			int port, stage;
 			PiVerify(2 == sscanf((*dockIter)->GetName().c_str(), "docking_port%d_stage%d", &port, &stage));
 			PiVerify(port>0 && stage>0);
-			m_ports[port].m_docking[stage] = (*dockIter)->GetTransform();
+			m_ports[port].m_docking[stage+1] = (*dockIter)->GetTransform();
 		}
 		
 		SceneGraph::Model::TVecMT::const_iterator leaveIter = leaving_mts.begin();
@@ -118,7 +118,6 @@ bool SpaceStationType::GetShipApproachWaypoints(const int port, const int stage,
 		const SBayGroup* pGroup = FindGroupByPort(port);
 		if (pGroup && stage>0) {
 			const bool bHasStageData = (pGroup->m_approach.find( stage ) != pGroup->m_approach.end());
-			assert(bHasStageData);
 			if (bHasStageData) {
 				const matrix4x4f &mt = pGroup->m_approach.at(stage);
 				outPosOrient.pos	= vector3d(mt.GetTranslate());
