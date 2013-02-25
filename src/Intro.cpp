@@ -33,7 +33,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	skin.SetLabel(Lang::PIONEER);
 
 	for (std::vector<ShipType::Id>::const_iterator i = shipIds.begin(); i != shipIds.end(); ++i) {
-		SceneGraph::Model *model = Pi::FindModel(*i)->MakeInstance();
+		SceneGraph::Model *model = Pi::FindModel(ShipType::types[*i].modelName)->MakeInstance();
 		skin.SetRandomColors(Pi::rng);
 		skin.Apply(model);
 		model->SetThrust(vector3f(0.f, 0.f, -0.6f), vector3f(0.f));
