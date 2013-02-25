@@ -51,6 +51,9 @@ public:
 class Ship: public DynamicBody {
 	friend class ShipController; //only controllers need access to AITimeStep
 	friend class PlayerShipController;
+
+	bool attacking; //used by sensors
+
 public:
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Id shipId);
@@ -92,7 +95,6 @@ public:
 	std::vector<Weapon*> &GetWeapons() { return m_weapons; }
 	Weapon *GetActiveWeapon() const;
 	void FireActiveWeapon();
-	void ClearWeaponState();
 	void ChooseWeaponFromView(const matrix3x3d&);
 	void UseECM();
 	Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);

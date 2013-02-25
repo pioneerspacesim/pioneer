@@ -178,7 +178,8 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_controller(0),
 	m_thrusterFuel(1.0),
 	m_reserveFuel(0.0),
-	m_activeWeapon(0)
+	m_activeWeapon(0),
+	attacking(false)
 {
 	m_flightState = FLYING;
 	m_alertState = ALERT_NONE;
@@ -602,14 +603,10 @@ void Ship::FireActiveWeapon()
 {
 	if (!m_activeWeapon) return;
 
-	m_activeWeapon->SetState(1);
-	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
-}
-
-void Ship::ClearWeaponState()
-{
-	for (WeaponIterator it = m_weapons.begin(); it != m_weapons.end(); ++it)
-		(*it)->SetState(0);
+	if (m_activeWeapon->Fire()) {
+		Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
+		attacking = true;
+	}
 }
 
 void Ship::ChooseWeaponFromView(const matrix3x3d &orient)
@@ -822,7 +819,7 @@ void Ship::UpdateAlertState()
 		if ((*i) == this) continue;
 		if (!(*i)->IsType(Object::SHIP) || (*i)->IsType(Object::MISSILE)) continue;
 
-		const Ship *ship = static_cast<const Ship*>(*i);
+		Ship *ship = static_cast<Ship*>(*i);
 
 		if (ship->GetShipType()->tag == ShipType::TAG_STATIC_SHIP) continue;
 		if (ship->GetFlightState() == LANDED || ship->GetFlightState() == DOCKED) continue;
@@ -830,8 +827,10 @@ void Ship::UpdateAlertState()
 		if (GetPositionRelTo(ship).LengthSqr() < ALERT_DISTANCE*ALERT_DISTANCE) {
 			ship_is_near = true;
 
-			for (WeaponIterator it = m_weapons.begin(); it != m_weapons.end(); ++it)
-				if ((*it)->GetState() > 0) ship_is_firing = true;
+			if (ship->attacking) {
+				ship_is_firing = true;
+				ship->attacking = false;
+			}
 		}
 	}
 

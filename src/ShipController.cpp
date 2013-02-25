@@ -157,7 +157,6 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 	// if flying
 	{
 		m_ship->ClearThrusterState();
-		m_ship->ClearWeaponState();
 
 		vector3d wantAngVel(0.0);
 		double angThrustSoftness = 10.0;

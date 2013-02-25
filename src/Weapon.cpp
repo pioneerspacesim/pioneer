@@ -8,8 +8,7 @@
 #include "Projectile.h"
 
 Weapon::Weapon(Equip::Type type, Ship *s, const ShipType::GunMount &hardpoint)
-: m_state(0)
-, m_recharge(0.f)
+: m_recharge(0.f)
 , m_temperature(0.f)
 , m_coolingRate(0.01f)
 , m_coolingMultiplier(1.f)
@@ -36,14 +35,12 @@ Weapon::~Weapon()
 
 void Weapon::Save(Serializer::Writer &wr)
 {
-	wr.Int32(m_state);
 	wr.Float(m_recharge);
 	wr.Float(m_temperature);
 }
 
 void Weapon::Load(Serializer::Reader &rd)
 {
-	m_state = rd.Int32();
 	m_recharge = rd.Float();
 	m_temperature = rd.Float();
 }
@@ -64,12 +61,12 @@ void Weapon::Update(float timeStep)
 
 	if (m_temperature < 0.0f) m_temperature = 0.f;
 	if (m_recharge < 0.0f) m_recharge = 0.f;
-
-	if (m_state == 1 && CanFire()) Fire();
 }
 
-void Weapon::Fire()
+bool Weapon::Fire()
 {
+	if (!CanFire()) return false;
+
 	m_temperature += 0.01f;
 	m_recharge = m_laserType.rechargeTime;
 
@@ -85,4 +82,6 @@ void Weapon::Fire()
 	}
 
 	Sound::BodyMakeNoise(m_ship, "Pulse_Laser", 1.0f);
+
+	return true;
 }

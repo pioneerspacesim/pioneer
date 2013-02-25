@@ -22,7 +22,7 @@ public:
 	virtual void Load(Serializer::Reader &rd);
 
 	bool CanFire() const;
-	void Fire();
+	bool Fire();
 	void Update(float timeStep);
 
 	const vector3d &GetPosition() const  { return m_position; }
@@ -36,11 +36,7 @@ public:
 
 private:
 	friend class Ship;
-	//XXX silly. Remove?
-	void SetState(int state) { m_state = state; }
-	Uint32 GetState() const  { return m_state;  }
 
-	Uint32 m_state;
 	float m_recharge;
 	float m_temperature;
 

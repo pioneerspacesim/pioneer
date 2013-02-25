@@ -65,7 +65,6 @@ bool Ship::AITimeStep(float timeStep)
 
 		// just in case the AI left it on
 		ClearThrusterState();
-		ClearWeaponState();
 		return true;
 	}
 

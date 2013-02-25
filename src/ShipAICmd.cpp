@@ -198,8 +198,6 @@ bool AICmdKamikaze::TimeStepUpdate()
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
 	else { LaunchShip(m_ship); return false; }
 
-	m_ship->ClearWeaponState();
-
 	// needs to deal with frames, large distances, and success
 	if (m_ship->GetFrame() == m_target->GetFrame()) {
 		double dist = (m_target->GetPosition() - m_ship->GetPosition()).Length();
@@ -267,8 +265,6 @@ bool AICmdKill::TimeStepUpdate()
 		vissize += (0.05 + 0.5*leaddiff)*Pi::rng.Double()*skillShoot;
 		if (vissize > headdiff && targpos.LengthSqr() < 4000*4000)
 			m_ship->FireActiveWeapon();
-		else
-			m_ship->ClearWeaponState();
 	}
 	m_leadOffset += m_leadDrift * Pi::game->GetTimeStep();
 	double leadAV = (leaddir-targdir).Dot((leaddir-heading).NormalizedSafe());	// leaddir angvel
