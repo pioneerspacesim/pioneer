@@ -55,10 +55,18 @@ void ModelSkin::SetTrimColor(const Color4ub &color)
 
 void ModelSkin::SetRandomColors(Random &rand)
 {
-	// XXX make complementary
-	m_colors[0] = Color4ub(rand.Int32(256), rand.Int32(256), rand.Int32(256));
-	m_colors[1] = Color4ub(rand.Int32(256), rand.Int32(256), rand.Int32(256));
-	m_colors[2] = Color4ub(rand.Int32(256), rand.Int32(256), rand.Int32(256));
+	// primary colour is random, but try to avoid ridiculous extremes
+	m_colors[0] = Color4ub(rand.Int32(192)+32, rand.Int32(192)+32, rand.Int32(192)+32);
+
+	// secondary is the inverse of the primary, so has identical hue
+	m_colors[1] = Color4ub(256-m_colors[0].r, 256-m_colors[0].g, 256-m_colors[0].b);
+
+	// trim is a darker version of the primary
+	m_colors[2] = Color4ub(
+		std::max(m_colors[0].r,static_cast<unsigned char>(32))-32,
+		std::max(m_colors[0].g,static_cast<unsigned char>(32))-32,
+		std::max(m_colors[0].b,static_cast<unsigned char>(32))-32
+	);
 }
 
 void ModelSkin::SetDecal(const std::string &name, unsigned int index)
