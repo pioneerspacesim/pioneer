@@ -46,6 +46,8 @@ Translate:Add({
 		['Toggle male/female'] = 'Toggle male/female',
 		['Make new face'] = 'Make new face',
 
+		['Commander'] = 'Commander',
+
 		['HARMLESS'] = 'Harmless',
 		['MOSTLY_HARMLESS'] = 'Mostly Harmless',
 		['POOR'] = 'Poor',
@@ -170,6 +172,8 @@ Translate:Add({
 		['Female'] = 'Kobieta',
 		['Toggle male/female'] = 'Mężczyzna/Kobieta',
 		['Make new face'] = 'Nowa twarz',
+
+		['Commander'] = 'Komandor',
 
 		['HARMLESS'] = 'Nieszkodliwy',
 		['MOSTLY_HARMLESS'] = 'Przeważnie nieszkodliwy',
