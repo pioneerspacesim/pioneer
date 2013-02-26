@@ -4,5 +4,6 @@ specular 0.5 0.5 0.5
 tex_diff ao.png
 
 mesh placeholder_ground.dae
+mesh placeholder_docking.dae
 
 collision placeholder_collide.dae
