@@ -1,0 +1,18 @@
+#Comments can be written like this
+#Define all used materials first
+material Body-material
+tex_diff deneb.png
+tex_glow deneb_glow.png
+tex_spec deneb_spec.png
+#tex_patt deneb_pat.png
+#diffuse 1.0 1.0 1.0
+#specular 0.3 0.3 0.3
+#shininess 100
+
+
+#Meshes to be imported into this model, should be in the current folder
+#Mixing different formats should be OK
+mesh deneb.dae
+
+anim gear_down 0 73
+
