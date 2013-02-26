@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author></author>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments></comments>
+    </contributor>
+    <created>2013-02-26T17:40:32Z</created>
+    <keywords></keywords>
+    <modified>2013-02-26T17:40:32Z</modified>
+    <revision></revision>
+    <subject></subject>
+    <title></title>
+    <unit meter="1.000000" name="centimeter"></unit>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_images>
+    <image id="Map #1-image" name="Map #1">
+      <init_from>file://C:\Code\PioneerGit\pioneer-alt\data\models\ships\wave\shielddiff.png</init_from>
+    </image>
+    <image id="Map #3-image" name="Map #3">
+      <init_from>file://C:\Code\PioneerGit\pioneer-alt\data\models\ships\wave\shieldglow.png</init_from>
+    </image>
+    <image id="Map #2-image" name="Map #2">
+      <init_from>file://C:\Code\PioneerGit\pioneer-alt\data\models\ships\wave\shieldspec.png</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="shield" name="shield">
+      <instance_effect url="#shield-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="shield-fx" name="shield">
+      <profile_COMMON>
+        <technique sid="standard">
+          <phong>
+            <emission>
+              <texture texture="Map #3-image" texcoord="CHANNEL0">
+                <extra>
+                  <technique profile="MAYA">
+                    <wrapU sid="wrapU0">TRUE</wrapU>
+                    <wrapV sid="wrapV0">TRUE</wrapV>
+                    <blend_mode>ADD</blend_mode>
+                  </technique>
+                </extra>
+              </texture>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.800000  0.800000 0.800000 1.000000</color>
+            </ambient>
+            <diffuse>
+              <texture texture="Map #1-image" texcoord="CHANNEL0">
+                <extra>
+                  <technique profile="MAYA">
+                    <wrapU sid="wrapU0">TRUE</wrapU>
+                    <wrapV sid="wrapV0">TRUE</wrapV>
+                    <blend_mode>ADD</blend_mode>
+                  </technique>
+                </extra>
+              </texture>
+            </diffuse>
+            <specular>
+              <texture texture="Map #2-image" texcoord="CHANNEL0">
+                <extra>
+                  <technique profile="MAYA">
+                    <wrapU sid="wrapU0">TRUE</wrapU>
+                    <wrapV sid="wrapV0">TRUE</wrapV>
+                    <blend_mode>ADD</blend_mode>
+                  </technique>
+                </extra>
+              </texture>
+            </specular>
+            <shininess>
+              <float sid="shininess">1024.000000</float>
+            </shininess>
+            <reflective>
+              <color sid="reflective">0.000000  0.000000 0.000000 1.000000</color>
+            </reflective>
+            <reflectivity>
+              <float sid="reflectivity">1.000000</float>
+            </reflectivity>
+            <transparent opaque="RGB_ZERO">
+              <color sid="transparent">1.000000  1.000000 1.000000 1.000000</color>
+            </transparent>
+            <transparency>
+              <float sid="transparency">0.000000</float>
+            </transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="shield-lib" name="shieldMesh">
+      <mesh>
+        <source id="shield-POSITION">
+          <float_array id="shield-POSITION-array" count="30">
+0.000000 -915.362122 862.934387
+0.000000 -915.362183 -862.934265
+-1761.909424 -915.362183 -0.000034
+1761.909424 -915.362183 -0.000034
+0.000000 2005.925171 -0.000034
+0.000027 -1569.096191 -0.000007
+0.000000 -38.977386 -862.934326
+1761.909424 -38.977364 -0.000034
+-1761.909424 -38.977364 -0.000034
+0.000000 -38.977356 862.934326
+</float_array>
+          <technique_common>
+            <accessor source="#shield-POSITION-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="shield-Normal0">
+          <float_array id="shield-Normal0-array" count="144">
+-0.472417 0.881375 0.000000
+-0.472417 0.881375 0.000000
+-0.472417 0.881375 0.000000
+-0.472417 0.881375 0.000000
+-0.472417 0.881375 0.000000
+-0.472417 0.881375 0.000000
+0.472417 -0.881375 0.000000
+0.472417 -0.881375 0.000000
+0.472417 -0.881375 0.000000
+0.472417 -0.881375 0.000000
+0.472417 -0.881375 0.000000
+0.472417 -0.881375 0.000000
+-0.394534 -0.736071 -0.550039
+-0.394534 -0.736071 -0.550039
+-0.394534 -0.736071 -0.550039
+-0.394534 0.736071 -0.550039
+-0.394534 0.736071 -0.550039
+-0.394534 0.736071 -0.550039
+0.394534 -0.736071 -0.550039
+0.394534 -0.736071 -0.550039
+0.394534 -0.736071 -0.550039
+0.437558 0.816340 0.377005
+0.437558 0.816340 0.377005
+0.437558 0.816340 0.377005
+0.394534 0.736071 -0.550039
+0.394534 0.736071 -0.550039
+0.394534 0.736071 -0.550039
+-0.437558 -0.816340 0.377005
+-0.437558 -0.816340 0.377005
+-0.437558 -0.816340 0.377005
+-0.472417 -0.881375 0.000000
+-0.472417 -0.881375 0.000000
+-0.472417 -0.881375 0.000000
+-0.472417 -0.881375 0.000000
+-0.472417 -0.881375 0.000000
+-0.472417 -0.881375 0.000000
+0.472417 0.881375 0.000000
+0.472417 0.881375 0.000000
+0.472417 0.881375 0.000000
+0.472417 0.881375 0.000000
+0.472417 0.881375 0.000000
+0.472417 0.881375 0.000000
+-0.437558 0.816340 0.377005
+-0.437558 0.816340 0.377005
+-0.437558 0.816340 0.377005
+0.437558 -0.816340 0.377005
+0.437558 -0.816340 0.377005
+0.437558 -0.816340 0.377005
+</float_array>
+          <technique_common>
+            <accessor source="#shield-Normal0-array" count="48" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="shield-UV0">
+          <float_array id="shield-UV0-array" count="32">
+0.250000 0.255508
+0.250000 0.154181
+0.491935 0.154181
+0.491935 0.255508
+0.991935 0.154181
+0.991935 0.255508
+0.750000 0.255508
+0.750000 0.154181
+0.508065 0.154181
+0.750000 0.008065
+0.250000 0.008065
+0.250000 0.491935
+0.008065 0.255508
+0.008065 0.154181
+0.750000 0.491935
+0.508065 0.255508
+</float_array>
+          <technique_common>
+            <accessor source="#shield-UV0-array" count="16" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="shield-VERTEX">
+          <input semantic="POSITION" source="#shield-POSITION"/>
+        </vertices>
+        <triangles count="16" material="shield">
+          <input semantic="VERTEX" offset="0" source="#shield-VERTEX"/>
+          <input semantic="NORMAL" offset="1" source="#shield-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#shield-UV0"/>
+          <p> 1 0 1 2 1 2 8 2 3 8 3 3 6 4 0 1 5 1 7 6 5 9 7 6 0 8 7 0 9 7 3 10 4 7 11 5 2 12 8 5 13 9 0 14 7 2 15 2 1 16 1 5 17 10 3 18 4 0 19 7 5 20 9 4 21 11 7 22 12 6 23 0 3 24 13 5 25 10 1 26 1 4 27 14 8 28 15 9 29 6 9 30 6 8 31 15 2 32 8 2 33 8 0 34 7 9 35 6 3 36 13 1 37 1 6 38 0 6 39 0 7 40 12 3 41 13 4 42 11 6 43 0 8 44 3 4 45 14 9 46 6 7 47 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_animations>
+    <animation id="shield-anim" name="shield">
+      <animation>
+        <source id="shield-Matrix-animation-input">
+          <float_array id="shield-Matrix-animation-input-array" count="0">
+</float_array>
+          <technique_common>
+            <accessor source="#shield-Matrix-animation-input-array" count="0">
+              <param name="TIME" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="shield-Matrix-animation-output-transform">
+          <float_array id="shield-Matrix-animation-output-transform-array" count="0">
+</float_array>
+          <technique_common>
+            <accessor source="#shield-Matrix-animation-output-transform-array" count="0" stride="16">
+              <param type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="shield-Interpolations">
+          <Name_array id="shield-Interpolations-array" count="0">
+</Name_array>
+          <technique_common>
+            <accessor source="#shield-Interpolations-array" count="0">
+              <param type="name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <sampler id="shield-Matrix-animation-transform">
+          <input semantic="INPUT" source="#shield-Matrix-animation-input"/>
+          <input semantic="OUTPUT" source="#shield-Matrix-animation-output-transform"/>
+          <input semantic="INTERPOLATION" source="#shield-Interpolations"/>
+        </sampler>
+        <channel source="#shield-Matrix-animation-transform" target="shield/matrix"/>
+      </animation>
+    </animation>
+  </library_animations>
+  <library_visual_scenes>
+    <visual_scene id="" name="">
+      <node name="shield" id="shield" sid="shield">
+        <matrix sid="matrix">0.013056 0.000000 0.000000 0.000000 0.000000 0.000000 0.013056 -0.483340 0.000000 -0.013056 0.000000 2.307759 0.000000 0.000000 0.000000 1.000000</matrix>
+        <instance_geometry url="#shield-lib">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="shield" target="#shield"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+        <extra>
+          <technique profile="FCOLLADA">
+            <visibility>1.000000</visibility>
+          </technique>
+        </extra>
+      </node>
+      <extra>
+        <technique profile="MAX3D">
+          <frame_rate>30.000000</frame_rate>
+        </technique>
+        <technique profile="FCOLLADA">
+          <start_time>0.000000</start_time>
+          <end_time>3.333333</end_time>
+        </technique>
+      </extra>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#"></instance_visual_scene>
+  </scene>
+</COLLADA>
+

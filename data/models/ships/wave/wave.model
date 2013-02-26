@@ -36,4 +36,4 @@ anim gear_down 0 85
 collision wave-collision.obj
 
 # note: in an implementation of shield meshes the below would say: shield lannershield.obj
-mesh shield.obj
+mesh shield.DAE
