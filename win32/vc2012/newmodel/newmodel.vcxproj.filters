@@ -29,6 +29,9 @@
     <ClCompile Include="..\..\..\src\scenegraph\FindNodeVisitor.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Model.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\CollisionGeometry.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Lua.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\LuaModelSkin.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\ModelSkin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\scenegraph\Thruster.h" />
@@ -58,5 +61,8 @@
     <ClInclude Include="..\..\..\src\scenegraph\FindNodeVisitor.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Model.h" />
     <ClInclude Include="..\..\..\src\scenegraph\CollisionGeometry.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Lua.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\ModelSkin.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\NodeCopyCache.h" />
   </ItemGroup>
 </Project>

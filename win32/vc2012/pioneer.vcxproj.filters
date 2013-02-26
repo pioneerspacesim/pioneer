@@ -414,6 +414,9 @@
     <ClCompile Include="..\..\src\LuaShipDef.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\NavLights.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -846,6 +849,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaWrappable.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\NavLights.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
