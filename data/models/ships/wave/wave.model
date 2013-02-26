@@ -12,6 +12,15 @@ specular 0 0 0
 emissive 0.85 0.85 0.85
 tex_diff glow.png
 
+material shield
+tex_diff shielddiff.png
+tex_glow shieldglow.png
+tex_spec shieldspec.png
+diffuse 1.0 1.0 1.0
+opacity 98
+specular 1 1 1
+shininess 0
+
 # note: landing gear should be put into the UV map and use wave-material
 material landing-gear-material
 diffuse 0.3 0.3 0.3
@@ -25,3 +34,6 @@ mesh wave.dae
 anim gear_down 0 85
 
 collision wave-collision.obj
+
+# note: in an implementation of shield meshes the below would say: shield lannershield.obj
+mesh shield.obj
