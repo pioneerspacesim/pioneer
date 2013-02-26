@@ -6,6 +6,9 @@
 #include "Polit.h"
 #include "Sound.h"
 #include "Projectile.h"
+#include "Pi.h"
+#include "graphics/Renderer.h"
+#include "scenegraph/SceneGraph.h"
 
 Weapon::Weapon(Equip::Type type, Ship *s, const ShipType::GunMount &hardpoint)
 : m_recharge(0.f)
@@ -16,6 +19,7 @@ Weapon::Weapon(Equip::Type type, Ship *s, const ShipType::GunMount &hardpoint)
 , m_equipType(type)
 , m_position(hardpoint.pos)
 , m_direction(hardpoint.dir)
+, m_model(0)
 {
 	m_laserType = Equip::lasers[Equip::types[m_equipType].tableIndex];
 
@@ -27,6 +31,8 @@ Weapon::Weapon(Equip::Type type, Ship *s, const ShipType::GunMount &hardpoint)
 	} else {
 		m_muzzles.push_back(vector3d(0.0));
 	}
+
+	m_model = Pi::FindModel("test_gun");
 }
 
 Weapon::~Weapon()
@@ -43,6 +49,18 @@ void Weapon::Load(Serializer::Reader &rd)
 {
 	m_recharge = rd.Float();
 	m_temperature = rd.Float();
+}
+
+void Weapon::Render(Graphics::Renderer *r, const matrix4x4f &trans)
+{
+	//XXX store orientation, don't calc on render
+	const vector3f zaxis = vector3f(-m_direction).Normalized();
+	const vector3f xaxis = vector3f(0.f,1.f,0.f).Cross(zaxis).Normalized();
+	const vector3f yaxis = zaxis.Cross(xaxis).Normalized();
+	matrix4x4f rot = matrix4x4f::MakeRotMatrix(xaxis, yaxis, zaxis);
+	rot.SetTranslate(vector3f(m_position));
+
+	if (m_model) m_model->Render(trans * rot, 0);
 }
 
 bool Weapon::CanFire() const

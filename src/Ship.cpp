@@ -1049,6 +1049,7 @@ bool Ship::SetWheelState(bool down)
 void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	if (IsDead()) return;
+	glPushMatrix();
 
 	//angthrust negated, for some reason
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
@@ -1056,14 +1057,25 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
 
-	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-	RenderModel(renderer, viewCoords, viewTransform);
+	matrix4x4d m2 = GetInterpOrient();
+	m2.SetTranslate(GetInterpPosition());
+	matrix4x4d t = viewTransform * m2;
+	matrix4x4f trans;
+	for (int i=0; i<12; i++) trans[i] = float(t[i]);
+	trans[12] = viewCoords.x;
+	trans[13] = viewCoords.y;
+	trans[14] = viewCoords.z;
+	trans[15] = 1.0f;
+
+	GetModel()->Render(trans);
+
+	for (WeaponIterator it = m_weapons.begin(); it != m_weapons.end(); ++it)
+		(*it)->Render(renderer, trans);
 
 	// draw shield recharge bubble
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {
 		const float shield = 0.01f*GetPercentShields();
 		renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
-		glPushMatrix();
 		matrix4x4f trans = matrix4x4f::Identity();
 		trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
 		trans.Scale(GetPhysRadius());
@@ -1073,7 +1085,6 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		Sfx::shieldEffect->GetMaterial()->diffuse =
 			Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
 		Sfx::shieldEffect->Draw(renderer);
-		glPopMatrix();
 		renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	}
 
@@ -1099,6 +1110,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 		renderer->DrawPointSprites(100, v, Sfx::ecmParticle, 50.f);
 	}
+	glPopMatrix();
 }
 
 bool Ship::SpawnCargo(CargoBody * c_body) const

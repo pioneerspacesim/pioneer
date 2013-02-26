@@ -12,6 +12,8 @@
 #include "ShipType.h"
 
 class Ship;
+namespace Graphics { class Renderer; }
+namespace SceneGraph { class Model; }
 
 class Weapon {
 public:
@@ -20,6 +22,8 @@ public:
 
 	virtual void Save(Serializer::Writer &wr);
 	virtual void Load(Serializer::Reader &rd);
+
+	void Render(Graphics::Renderer*, const matrix4x4f&);
 
 	bool CanFire() const;
 	bool Fire();
@@ -50,6 +54,8 @@ private:
 	vector3d m_position;
 	vector3d m_direction;
 	std::vector<vector3d> m_muzzles;
+
+	SceneGraph::Model *m_model; //not an instance
 };
 
 typedef std::vector<Weapon*>::iterator WeaponIterator;
