@@ -228,7 +228,7 @@ public:
 
 	// fuel left, 0.0-1.0
 	double GetFuel() const { return m_thrusterFuel;	}
-	void SetFuel(const double f) { m_thrusterFuel = Clamp(f, 0.0, 1.0); }
+	void SetFuel(const double f);
 	double GetFuelReserve() const { return m_reserveFuel; }
 	void SetFuelReserve(const double f) { m_reserveFuel = Clamp(f, 0.0, 1.0); }
 
@@ -254,7 +254,7 @@ protected:
 
 	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
 
-	virtual void SetAlertState(AlertState as) { m_alertState = as; }
+	virtual void SetAlertState(AlertState as);
 
 	virtual void OnEnterHyperspace();
 	virtual void OnEnterSystem();
@@ -269,8 +269,6 @@ protected:
 	ShipController *m_controller;
 
 private:
-	void UpdateProperties();
-
 	float GetECMRechargeTime();
 	void DoThrusterSounds() const;
 	void FireWeapon(int num);
@@ -279,6 +277,7 @@ private:
 	void TestLanded();
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep, const vector3d &thrust);
+    void SetShipId(const ShipType::Id &shipId);
 	void OnEquipmentChange(Equip::Type e);
 	void EnterHyperspace();
 
