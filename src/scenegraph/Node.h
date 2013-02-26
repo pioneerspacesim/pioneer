@@ -15,6 +15,7 @@ namespace SceneGraph
 {
 
 class NodeVisitor;
+class NodeCopyCache;
 
 enum NodeMask {
 	NODE_SOLID = 0x1,
@@ -45,8 +46,8 @@ class Node : public RefCounted
 public:
 	Node(Graphics::Renderer *r);
 	Node(Graphics::Renderer *r, unsigned int nodemask);
-	Node(const Node&);
-	virtual Node *Clone() = 0; //implement clone to return shallow or deep copy
+	Node(const Node&, NodeCopyCache*);
+	virtual Node *Clone(NodeCopyCache*) = 0; //implement clone to return shallow or deep copy
 	virtual const char *GetTypeName() { return "Node"; }
 	virtual void Accept(NodeVisitor &v);
 	virtual void Traverse(NodeVisitor &v);

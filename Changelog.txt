@@ -2,7 +2,9 @@ Alpha 32
 
    * New features
      * New ship "Kanara Interceptor" (#2037)
+     * New ship "Lunar Shuttle" (#2082)
      * New fast random number generator (#1893, #2078, #2079)
+     * Upgraded hoop station (#2046)
 
    * Minor changes and tweaks
      * Balanced DSMiner fuel use (#2062)
@@ -19,11 +21,16 @@ Alpha 32
      * Fix duplicated model animation groups (#2063, #2024)
 
    * Model changes
-     * Converted Natrix ship to SGModel (#2033)
+     * Converted Natrix ship to SGModel (#2033, #2095)
+     * Upscaled DSMiner model (#2096)
      * New missile model (#2036)
+     * New cargo model (#2101)
      * Downscaled building models (#2052)
      * Add test_gun model (#2060)
      * Converted tombstone to SGModel (#2083)
+     * Basic support for station door animations (#2046)
+     * Support for navigation lights (#2080)
+     * Support for per-instance skinning (#2088)
      * Modelviewer: Scale/landingpad test model (press 'p') (#2034, #1981)
      * Modelviewer: More/better log output (#2034, #1876)
      * Modelviewer: Enable mods (#2032)
@@ -33,6 +40,7 @@ Alpha 32
      * ShipTypes is deprecated, and EquipTypes has been removed; use the new ShipDef
        and EquipDef tables (#2026)
      * Player.SetHyperspaceTarget and GetHyperspaceTarget methods (#2028, #2027)
+     * Model: Ship.GetSkin & SetSkin and skin manipulation methods (#2080)
 
    * Internal changes
      * Removed Lua model system (LMR) (#2029, #2071)

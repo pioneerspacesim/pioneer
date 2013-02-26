@@ -7,9 +7,10 @@
 // viewer for sgmodels
 
 #include "libs.h"
+#include "LuaManager.h"
+#include "NavLights.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
-#include "LuaManager.h"
 #include "scenegraph/SceneGraph.h"
 #include "ui/Context.h"
 
@@ -83,6 +84,7 @@ private:
 	SceneGraph::Animation *m_currentAnimation;
 	SceneGraph::Model *m_model;
 	Options m_options;
+	ScopedPtr<NavLights> m_navLights;
 	ScopedPtr<SceneGraph::Model> m_gunModel;
 	ScopedPtr<SceneGraph::Model> m_scaleModel;
 	std::string m_modelName;

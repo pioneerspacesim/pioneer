@@ -5,14 +5,16 @@
 #define _SHIP_H
 
 #include "libs.h"
+#include "BezierCurve.h"
+#include "Camera.h"
 #include "DynamicBody.h"
-#include "ShipType.h"
 #include "EquipSet.h"
 #include "galaxy/SystemPath.h"
-#include "BezierCurve.h"
+#include "NavLights.h"
 #include "Serializer.h"
-#include "Camera.h"
+#include "ShipType.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/ModelSkin.h"
 #include <list>
 
 class SpaceStation;
@@ -205,6 +207,10 @@ public:
 	const ShipType *GetShipType() const { return m_type; }
 	void SetShipType(const ShipType::Id &shipId);
 
+	const SceneGraph::ModelSkin &GetSkin() const { return m_skin; }
+	void SetSkin(const SceneGraph::ModelSkin &skin);
+
+	void SetLabel(const std::string &label);
 	static std::string MakeRandomLabel(); // XXX doesn't really belong here
 
 	float GetPercentShields() const;
@@ -275,6 +281,7 @@ private:
 
 	shipstats_t m_stats;
 	const ShipType *m_type;
+	SceneGraph::ModelSkin m_skin;
 
 	FlightState m_flightState;
 	bool m_testLanded;
@@ -307,6 +314,7 @@ private:
 	int m_dockedWithIndex; // deserialisation
 
 	SceneGraph::Animation *m_landingGearAnimation;
+	ScopedPtr<NavLights> m_navLights;
 };
 
 

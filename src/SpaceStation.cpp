@@ -50,6 +50,7 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 			i != m_shipsOnSale.end(); ++i) {
 		wr.String((*i).id);
 		wr.String((*i).regId);
+		(*i).skin.Save(wr);
 	}
 	wr.Int32(m_shipDocking.size());
 	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
@@ -78,6 +79,8 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 	wr.Double(m_lastUpdatedShipyard);
 	wr.Int32(space->GetIndexForSystemBody(m_sbody));
 	wr.Int32(m_numPoliceDocked);
+
+	m_navLights->Save(wr);
 }
 
 void SpaceStation::Load(Serializer::Reader &rd, Space *space)
@@ -97,7 +100,9 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 	for (int i=0; i<numShipsForSale; i++) {
 		ShipType::Id id(rd.String());
 		std::string regId(rd.String());
-		ShipOnSale sos(id, regId);
+		SceneGraph::ModelSkin skin;
+		skin.Load(rd);
+		ShipOnSale sos(id, regId, skin);
 		m_shipsOnSale.push_back(sos);
 	}
 	const int32_t numShipDocking = rd.Int32();
@@ -136,6 +141,8 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 	m_sbody = space->GetSystemBodyByIndex(rd.Int32());
 	m_numPoliceDocked = rd.Int32();
 	InitStation();
+
+	m_navLights->Load(rd);
 }
 
 void SpaceStation::PostLoadFixup(Space *space)
@@ -186,7 +193,13 @@ void SpaceStation::InitStation()
 	if (!GetModel())
 		SetModel(m_type->modelName.c_str());
 
+	m_navLights.Reset(new NavLights(GetModel(), 2.2f));
+	m_navLights->SetEnabled(true);
+
 	if (ground) SetClipRadius(CITY_ON_PLANET_RADIUS);		// overrides setmodel
+
+	m_doorAnimation = GetModel()->FindAnimation("doors");
+	m_doorAnimationStep = m_doorAnimationState = 0.0;
 }
 
 SpaceStation::~SpaceStation()
@@ -235,7 +248,11 @@ void SpaceStation::UpdateShipyard()
 	for (; toAdd > 0; toAdd--) {
 		ShipType::Id id = ships[Pi::rng.Int32(ships.size())];
 		std::string regId = Ship::MakeRandomLabel();
-		ShipOnSale sos(id, regId);
+		SceneGraph::ModelSkin skin;
+		skin.SetRandomColors(Pi::rng);
+		skin.SetPattern(Pi::rng.Int32(0, Pi::FindModel(id)->GetNumPatterns()));
+		skin.SetLabel(regId);
+		ShipOnSale sos(id, regId, skin);
 		m_shipsOnSale.push_back(sos);
 	}
 
@@ -298,6 +315,8 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 	sd.stage = -1;
 	sd.stagePos = 0.0;
 
+	m_doorAnimationStep = 0.3; // open door
+
 	const Aabb& aabb = ship->GetAabb();
 	const matrix3x3d mt = ship->GetOrient();
 	const vector3d up = mt.VectorY().Normalized() * aabb.min.y;
@@ -306,6 +325,7 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 	sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * mt);
 
 	ship->SetFlightState(Ship::DOCKING);
+
 	return true;
 }
 
@@ -387,6 +407,20 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 	}
 }
 
+// XXX SGModel door animation. We have one station (hoop_spacestation) with a
+// door, so this is pretty much based on how it does things. This all needs
+// rewriting to handle triggering animations at waypoints.
+//
+// Docking:
+//   Stage 1 (clearance granted): open
+//           (clearance expired): close
+//   Docked:                      close
+// 
+// Undocking:
+//   Stage -1 (LaunchShip): open
+//   Post-launch:           close
+//   
+
 void SpaceStation::DockingUpdate(const double timeStep)
 {
 	vector3d p1, p2, zaxis;
@@ -406,10 +440,13 @@ void SpaceStation::DockingUpdate(const double timeStep)
 			m_shipDocking[i].openAnimState += 0.3*timeStep;
 			m_shipDocking[i].dockAnimState -= 0.3*timeStep;
 
+			m_doorAnimationStep = 0.3; // open door
+
 			if (dt.stagePos >= 1.0) {
 				if (dt.ship == static_cast<Ship*>(Pi::player)) Pi::onDockingClearanceExpired.emit(this);
 				dt.ship = 0;
 				dt.stage = 0;
+				m_doorAnimationStep = -0.3; // close door
 			}
 			continue;
 		}
@@ -444,19 +481,20 @@ void SpaceStation::DockingUpdate(const double timeStep)
 			dt.stage = 0;
 			dt.ship = 0;
 			LockPort(i, false);
+			m_doorAnimationStep = -0.3; // close door
 		}
 		else if (dt.stage > m_type->numDockingStages) {
 			// set docked
 			dt.ship->SetDockedWith(this, i);
 			LuaEvent::Queue("onShipDocked", dt.ship, this);
 			LockPort(i, false);
+			m_doorAnimationStep = -0.3; // close door
 		}
 	}
 	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		m_shipDocking[i].openAnimState = Clamp(m_shipDocking[i].openAnimState, 0.0, 1.0);
 		m_shipDocking[i].dockAnimState = Clamp(m_shipDocking[i].dockAnimState, 0.0, 1.0);
 	}
-}
 
 void SpaceStation::PositionDockedShip(Ship *ship, int port) const
 {
@@ -507,6 +545,7 @@ void SpaceStation::StaticUpdate(const float timeStep)
 
 	DoLawAndOrder(timeStep);
 	DockingUpdate(timeStep);
+	m_navLights->Update(timeStep);
 }
 
 void SpaceStation::TimeStepUpdate(const float timeStep)
@@ -522,10 +561,20 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 	// reposition the ships that are docked or docking here
 	for (int i=0; i<m_type->numDockingPorts; i++) {
 		const shipDocking_t &dt = m_shipDocking[i];
-		if (!dt.ship || dt.stage == 1) continue;
-		if (dt.ship->GetFlightState() == Ship::FLYING) continue;
+		if (!dt.ship) { //free
+			m_navLights->SetColor(i+1, NavLights::NAVLIGHT_GREEN);
+			continue;
+		}
+		if (dt.stage == 1) //reserved
+			m_navLights->SetColor(i+1, NavLights::NAVLIGHT_YELLOW);
+		if (dt.ship->GetFlightState() == Ship::FLYING)
+			continue;
 		PositionDockedShip(dt.ship, i);
+		m_navLights->SetColor(i+1, NavLights::NAVLIGHT_RED); //docked
 	}
+
+	if (m_doorAnimation)
+		GetModel()->UpdateAnimations();
 }
 
 void SpaceStation::UpdateInterpTransform(double alpha)
