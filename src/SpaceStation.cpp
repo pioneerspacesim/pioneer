@@ -59,9 +59,6 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 		wr.Float(float(m_shipDocking[i].stagePos));
 		wr.Vector3d(m_shipDocking[i].fromPos);
 		wr.WrQuaternionf(m_shipDocking[i].fromRot);
-
-		wr.Float(float(m_shipDocking[i].openAnimState));
-		wr.Float(float(m_shipDocking[i].dockAnimState));
 	}
 	// store each of the bay groupings
 	wr.Int32(mBayGroups.size());
@@ -115,9 +112,6 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 		sd.stagePos = rd.Float();
 		sd.fromPos = rd.Vector3d();
 		sd.fromRot = rd.RdQuaternionf();
-
-		sd.openAnimState = rd.Float();
-		sd.dockAnimState = rd.Float();
 	}
 	// retrieve each of the bay groupings
 	const int32_t numBays = rd.Int32();
@@ -437,8 +431,6 @@ void SpaceStation::DockingUpdate(const double timeStep)
 
 		if (dt.stage == 1) {
 			// SPECIAL stage! Docking granted but waiting for ship to dock
-			m_shipDocking[i].openAnimState += 0.3*timeStep;
-			m_shipDocking[i].dockAnimState -= 0.3*timeStep;
 
 			m_doorAnimationStep = 0.3; // open door
 
@@ -491,10 +483,11 @@ void SpaceStation::DockingUpdate(const double timeStep)
 			m_doorAnimationStep = -0.3; // close door
 		}
 	}
-	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
-		m_shipDocking[i].openAnimState = Clamp(m_shipDocking[i].openAnimState, 0.0, 1.0);
-		m_shipDocking[i].dockAnimState = Clamp(m_shipDocking[i].dockAnimState, 0.0, 1.0);
-	}
+	
+	m_doorAnimationState = Clamp(m_doorAnimationState + m_doorAnimationStep*timeStep, 0.0, 1.0);
+	if (m_doorAnimation)
+		m_doorAnimation->SetProgress(m_doorAnimationState);
+}
 
 void SpaceStation::PositionDockedShip(Ship *ship, int port) const
 {

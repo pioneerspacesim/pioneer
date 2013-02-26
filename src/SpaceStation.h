@@ -132,8 +132,8 @@ private:
 	 */
 	struct shipDocking_t {
 		shipDocking_t() : ship(NULL), shipIndex(0),
-			stage(0), stagePos(0), openAnimState(0.0),
-			dockAnimState(0.0) {}
+			stage(0), stagePos(0)
+		{}
 
 		Ship *ship;
 		int shipIndex; // deserialisation
@@ -141,22 +141,15 @@ private:
 		vector3d fromPos; // in station model coords
 		Quaterniond fromRot;
 		double stagePos; // 0 -> 1.0
-
-		double openAnimState;
-		double dockAnimState;
 	};
 	typedef std::vector<shipDocking_t>::const_iterator	constShipDockingIter;
 	typedef std::vector<shipDocking_t>::iterator		shipDockingIter;
 	std::vector<shipDocking_t> m_shipDocking;
 
 	SpaceStationType::TBayGroups mBayGroups;
-	//bool m_dockingLock;
 
-<<<<<<< HEAD
 	double m_oldAngDisplacement;
 
-=======
->>>>>>> 1d4bfbe783b41c58b02e331575b0b3ec84c36059
 	void InitStation();
 	void UpdateShipyard();
 	const SpaceStationType *m_type;
