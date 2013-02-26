@@ -102,9 +102,12 @@
     <ClCompile Include="..\..\..\src\scenegraph\Label3D.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Loader.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\LOD.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Lua.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\LuaModelSkin.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\MatrixTransform.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Model.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\ModelNode.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\ModelSkin.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Node.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\NodeVisitor.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Parser.cpp" />
@@ -132,9 +135,12 @@
     <ClInclude Include="..\..\..\src\scenegraph\Loader.h" />
     <ClInclude Include="..\..\..\src\scenegraph\LoaderDefinitions.h" />
     <ClInclude Include="..\..\..\src\scenegraph\LOD.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Lua.h" />
     <ClInclude Include="..\..\..\src\scenegraph\MatrixTransform.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Model.h" />
     <ClInclude Include="..\..\..\src\scenegraph\ModelNode.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\ModelSkin.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\NodeCopyCache.h" />
     <ClInclude Include="..\..\..\src\scenegraph\SceneGraph.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Node.h" />
     <ClInclude Include="..\..\..\src\scenegraph\NodeVisitor.h" />
