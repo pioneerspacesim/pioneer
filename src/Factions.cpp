@@ -115,7 +115,7 @@ static int l_fac_govtype_weight(lua_State *L)
 	Faction *fac = l_fac_check(L, 1);
 	const char *typeName = luaL_checkstring(L, 2);
 	const Polit::GovType g = static_cast<Polit::GovType>(LuaConstants::GetConstant(L, "PolitGovType", typeName));
-	const Sint32 weight = luaL_checkinteger(L, 3);	// signed as we will need to compare with signed out of MTRand.Int32
+	const Sint32 weight = luaL_checkinteger(L, 3);	// signed as we will need to compare with signed out of Random.Int32
 
 	if (g < Polit::GOV_RAND_MIN || g > Polit::GOV_RAND_MAX) {
 		pi_lua_warn(L,
@@ -446,7 +446,7 @@ const Color Faction::AdjustedColour(fixed population, bool inRange)
 	return result;
 }
 
-const Polit::GovType Faction::PickGovType(MTRand &rand) const
+const Polit::GovType Faction::PickGovType(Random &rand) const
 {
 	if( !govtype_weights.empty()) {
 		// if we roll a number between one and the total weighting...

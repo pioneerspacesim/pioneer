@@ -16,17 +16,14 @@
 #include "GeoSphere.h"
 #include "Intro.h"
 #include "Lang.h"
-#include "LuaBody.h"
-#include "LuaCargoBody.h"
 #include "LuaChatForm.h"
 #include "LuaComms.h"
 #include "LuaConsole.h"
 #include "LuaConstants.h"
 #include "LuaDev.h"
 #include "LuaEngine.h"
-#include "LuaEquipType.h"
+#include "LuaEquipDef.h"
 #include "LuaEvent.h"
-#include "LuaFaction.h"
 #include "LuaFileSystem.h"
 #include "LuaFormat.h"
 #include "LuaGame.h"
@@ -35,22 +32,14 @@
 #include "LuaMissile.h"
 #include "LuaMusic.h"
 #include "LuaNameGen.h"
-#include "LuaPlanet.h"
-#include "LuaPlayer.h"
-#include "LuaRand.h"
 #include "LuaRef.h"
-#include "LuaShip.h"
-#include "LuaShipType.h"
+#include "LuaShipDef.h"
 #include "LuaSpace.h"
-#include "LuaSpaceStation.h"
-#include "LuaStar.h"
-#include "LuaStarSystem.h"
-#include "LuaSystemBody.h"
-#include "LuaSystemPath.h"
 #include "LuaTimer.h"
 #include "Missile.h"
 #include "ModelCache.h"
 #include "ModManager.h"
+#include "NavLights.h"
 #include "ObjectViewerView.h"
 #include "OS.h"
 #include "Planet.h"
@@ -84,6 +73,7 @@
 #include "graphics/Renderer.h"
 #include "gui/Gui.h"
 #include "scenegraph/Model.h"
+#include "scenegraph/Lua.h"
 #include "ui/Context.h"
 #include "ui/Lua.h"
 #include <algorithm>
@@ -123,7 +113,7 @@ SystemInfoView *Pi::systemInfoView;
 ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
 Game *Pi::game;
-MTRand Pi::rng;
+Random Pi::rng;
 float Pi::frameTime;
 #if WITH_DEVKEYS
 bool Pi::showDebugInfo;
@@ -162,21 +152,19 @@ static void draw_progress(float progress)
 
 static void LuaInit()
 {
-	LuaBody::RegisterClass();
-	LuaShip::RegisterClass();
-	LuaSpaceStation::RegisterClass();
-	LuaPlanet::RegisterClass();
-	LuaStar::RegisterClass();
-	LuaPlayer::RegisterClass();
-	LuaMissile::RegisterClass();
-	LuaCargoBody::RegisterClass();
-	LuaStarSystem::RegisterClass();
-	LuaSystemPath::RegisterClass();
-	LuaSystemBody::RegisterClass();
-	LuaShipType::RegisterClass();
-	LuaEquipType::RegisterClass();
-	LuaRand::RegisterClass();
-	LuaFaction::RegisterClass();
+	LuaObject<Body>::RegisterClass();
+	LuaObject<Ship>::RegisterClass();
+	LuaObject<SpaceStation>::RegisterClass();
+	LuaObject<Planet>::RegisterClass();
+	LuaObject<Star>::RegisterClass();
+	LuaObject<Player>::RegisterClass();
+	LuaObject<Missile>::RegisterClass();
+	LuaObject<CargoBody>::RegisterClass();
+	LuaObject<StarSystem>::RegisterClass();
+	LuaObject<SystemPath>::RegisterClass();
+	LuaObject<SystemBody>::RegisterClass();
+	LuaObject<Random>::RegisterClass();
+	LuaObject<Faction>::RegisterClass();
 
 	LuaObject<LuaChatForm>::RegisterClass();
 
@@ -189,11 +177,13 @@ static void LuaInit()
 	LuaConstants::Register(Lua::manager->GetLuaState());
 	LuaLang::Register();
 	LuaEngine::Register();
+	LuaEquipDef::Register();
 	LuaFileSystem::Register();
 	LuaGame::Register();
 	LuaComms::Register();
 	LuaFormat::Register();
 	LuaSpace::Register();
+	LuaShipDef::Register();
 	LuaMusic::Register();
 	LuaDev::Register();
 	LuaConsole::Register();
@@ -201,6 +191,7 @@ static void LuaInit()
 	// XXX sigh
 	UI::Lua::Init();
 	GameUI::Lua::Init();
+	SceneGraph::Lua::Init();
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
@@ -224,17 +215,19 @@ static void LuaInitGame() {
 	LuaEvent::Clear();
 }
 
-SceneGraph::Model *Pi::FindModel(const std::string &name)
+SceneGraph::Model *Pi::FindModel(const std::string &name, bool allowPlaceholder)
 {
 	SceneGraph::Model *m = 0;
 	try {
 		m = Pi::modelCache->FindModel(name);
 	} catch (ModelCache::ModelNotFoundException) {
 		printf("Could not find model: %s\n", name.c_str());
-		try {
-			m = Pi::modelCache->FindModel("error");
-		} catch (ModelCache::ModelNotFoundException) {
-			Error("Could not find placeholder model");
+		if (allowPlaceholder) {
+			try {
+				m = Pi::modelCache->FindModel("error");
+			} catch (ModelCache::ModelNotFoundException) {
+				Error("Could not find placeholder model");
+			}
 		}
 	}
 
@@ -330,6 +323,7 @@ void Pi::Init()
 
 	Pi::scrAspect = videoSettings.width / float(videoSettings.height);
 
+	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
 
 	InitJoysticks();
@@ -339,6 +333,9 @@ void Pi::Init()
 	navTunnelDisplayed = (config->Int("DisplayNavTunnel")) ? true : false;
 
 	EnumStrings::Init();
+
+	// XXX early, Lua init needs it
+	ShipType::Init();
 
 	// XXX UI requires Lua  but Pi::ui must exist before we start loading
 	// templates. so now we have crap everywhere :/
@@ -371,7 +368,6 @@ void Pi::Init()
 //_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW | _EM_ZERODIVIDE, _MCW_EM);
 //double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
 
-	ShipType::Init();
 	draw_progress(0.6f);
 
 	GeoSphere::Init();
@@ -383,6 +379,7 @@ void Pi::Init()
 	SpaceStation::Init();
 	draw_progress(0.9f);
 
+	NavLights::Init(Pi::renderer);
 	Sfx::Init(Pi::renderer);
 	draw_progress(0.95f);
 
@@ -443,7 +440,7 @@ void Pi::Init()
 	vector3d vel4 = c2->GetVelocityRelTo(c1);
 	double speed4 = c2->GetVelocityRelTo(c1).Length();
 
-	
+
 	root->UpdateOrbitRails(0, 1.0);
 
 	//buildrotate test
@@ -472,27 +469,29 @@ void Pi::Init()
 	FILE *pStatFile = fopen("shipstat.csv","wt");
 	if (pStatFile)
 	{
-		fprintf(pStatFile, "name,lmrname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,sacc,aacc,exvel\n");
+		fprintf(pStatFile, "name,modelname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,sacc,aacc,exvel\n");
 		for (std::map<std::string, ShipType>::iterator i = ShipType::types.begin();
 				i != ShipType::types.end(); ++i)
 		{
-			ShipType *shipdef = &(i->second);
-			LmrModel *lmrModel = LmrLookupModelByName(shipdef->lmrModelName.c_str());
-			LmrObjParams lmrParams; memset(&lmrParams, 0, sizeof(LmrObjParams));
-			lmrParams.animationNamespace = "ShipAnimation";
-			EquipSet equip; equip.InitSlotSizes(shipdef->id);
-			lmrParams.equipment = &equip;
-			LmrCollMesh *collMesh = new LmrCollMesh(lmrModel, &lmrParams);
-			Aabb aabb = collMesh->GetAabb();
+			const ShipType *shipdef = &(i->second);
+			SceneGraph::Model *model = Pi::FindModel(shipdef->modelName, false);
 
 			double hullmass = shipdef->hullMass;
 			double capacity = shipdef->capacity;
-			double xsize = aabb.max.x-aabb.min.x;
-			double ysize = aabb.max.y-aabb.min.y;
-			double zsize = aabb.max.z-aabb.min.z;
-			double fakevol = xsize*ysize*zsize;
-			double rescale = pow(fakevol/(100 * (hullmass+capacity)), 0.3333333333);
-			double brad = aabb.GetRadius();
+
+			double xsize = 0.0, ysize = 0.0, zsize = 0.0, fakevol = 0.0, rescale = 0.0, brad = 0.0;
+			if (model) {
+				ScopedPtr<SceneGraph::Model> inst(model->MakeInstance());
+				model->CreateCollisionMesh();
+				Aabb aabb = model->GetCollisionMesh()->GetAabb();
+				xsize = aabb.max.x-aabb.min.x;
+				ysize = aabb.max.y-aabb.min.y;
+				zsize = aabb.max.z-aabb.min.z;
+				fakevol = xsize*ysize*zsize;
+				brad = aabb.GetRadius();
+				rescale = pow(fakevol/(100 * (hullmass+capacity)), 0.3333333333);
+			}
+
 			double simass = (hullmass + capacity) * 1000.0;
 			double angInertia = (2/5.0)*simass*brad*brad;
 			double acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*simass);
@@ -500,13 +499,11 @@ void Pi::Init()
 			double acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*simass);
 			double acc4 = shipdef->linThrust[ShipType::THRUSTER_RIGHT] / (9.81*simass);
 			double acca = shipdef->angThrust/angInertia;
-			double exvel = shipdef->linThrust[ShipType::THRUSTER_FORWARD] /
-				(shipdef->fuelTankMass * shipdef->thrusterFuelUse * 10 * 1e6);
+			double exvel = shipdef->effectiveExhaustVelocity;
 
 			fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.3f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f,%.1f\n",
-				shipdef->name.c_str(), shipdef->lmrModelName.c_str(), hullmass, capacity,
+				shipdef->name.c_str(), shipdef->modelName.c_str(), hullmass, capacity,
 				fakevol, rescale, xsize, ysize, zsize, acc1, acc2, acc3, acc4, acca, exvel);
-			delete collMesh;
 		}
 		fclose(pStatFile);
 	}
@@ -547,6 +544,7 @@ void Pi::Quit()
 	delete Pi::intro;
 	delete Pi::gameMenuView;
 	delete Pi::luaConsole;
+	NavLights::Uninit();
 	Sfx::Uninit();
 	Sound::Uninit();
 	SpaceStation::Uninit();
@@ -673,7 +671,7 @@ void Pi::HandleEvents()
 										if (port != -1) {
 											printf("Putting ship into station\n");
 											// Make police ship intent on killing the player
-											Ship *ship = new Ship(ShipType::LADYBIRD);
+											Ship *ship = new Ship(ShipType::POLICE);
 											ship->AIKill(Pi::player);
 											ship->SetFrame(Pi::player->GetFrame());
 											ship->SetDockedWith(s, port);
@@ -685,17 +683,14 @@ void Pi::HandleEvents()
 											printf("Select a space station...\n");
 									}
 								} else {
-									Ship *ship = new Ship(ShipType::LADYBIRD);
-									ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_1MW);
+									Ship *ship = new Ship(ShipType::POLICE);
 									ship->AIKill(Pi::player);
+									ship->m_equipment.Set(Equip::SLOT_LASER, 0, Equip::PULSECANNON_DUAL_1MW);
+									ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
+									ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 									ship->SetFrame(Pi::player->GetFrame());
 									ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
 									ship->SetVelocity(Pi::player->GetVelocity());
-									ship->m_equipment.Add(Equip::DRIVE_CLASS2);
-									ship->m_equipment.Add(Equip::RADAR_MAPPER);
-									ship->m_equipment.Add(Equip::SCANNER);
-									ship->m_equipment.Add(Equip::SHIELD_GENERATOR);
-									ship->m_equipment.Add(Equip::HYDROGEN, 10);
 									ship->UpdateStats();
 									game->GetSpace()->AddBody(ship);
 								}
@@ -984,7 +979,7 @@ void Pi::MainLoop()
 			int pstate = Pi::game->GetPlayer()->GetFlightState();
 			if (pstate == Ship::DOCKED || pstate == Ship::DOCKING) Pi::gameTickAlpha = 1.0;
 			else Pi::gameTickAlpha = accumulator / step;
-			
+
 #if WITH_DEVKEYS
 			phys_stat += phys_ticks;
 #endif

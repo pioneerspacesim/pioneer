@@ -58,17 +58,14 @@ noinst_HEADERS = \
 	Lang.h \
 	LangStrings.inc.h \
 	Lua.h \
-	LuaBody.h \
-	LuaCargoBody.h \
 	LuaChatForm.h \
 	LuaComms.h \
 	LuaConsole.h \
 	LuaConstants.h \
 	LuaDev.h \
 	LuaEngine.h \
-	LuaEquipType.h \
+	LuaEquipDef.h \
 	LuaEvent.h \
-	LuaFaction.h \
 	LuaFileSystem.h \
 	LuaFormat.h \
 	LuaGame.h \
@@ -81,23 +78,15 @@ noinst_HEADERS = \
 	LuaMusic.h \
 	LuaNameGen.h \
 	LuaObject.h \
-	LuaPlanet.h \
-	LuaPlayer.h \
 	LuaPushPull.h \
-	LuaRand.h \
 	LuaRef.h \
-	LuaSystemBody.h \
-	LuaSystemPath.h \
 	LuaSerializer.h \
-	LuaShip.h \
-	LuaShipType.h \
+	LuaShipDef.h \
 	LuaSpace.h \
-	LuaSpaceStation.h \
-	LuaStar.h \
-	LuaStarSystem.h \
 	LuaTable.h \
 	LuaTimer.h \
 	LuaUtils.h \
+	LuaWrappable.h \
 	MarketAgent.h \
 	MathUtil.h \
 	Missile.h \
@@ -105,6 +94,7 @@ noinst_HEADERS = \
 	ModelCache.h \
 	ModManager.h \
 	ModelViewer.h \
+	NavLights.h \
 	Object.h \
 	ObjectViewerView.h \
 	OS.h \
@@ -116,6 +106,7 @@ noinst_HEADERS = \
 	Polit.h \
 	Projectile.h \
 	Quaternion.h \
+	Random.h \
 	RefCounted.h \
 	RefList.h \
 	SDLWrappers.h \
@@ -139,7 +130,6 @@ noinst_HEADERS = \
 	ShipController.h \
 	ShipCpanel.h \
 	ShipCpanelMultiFuncDisplays.h \
-	ShipFlavour.h \
 	ShipSpinnerWidget.h \
 	ShipType.h \
 	Sound.h \
@@ -163,7 +153,6 @@ noinst_HEADERS = \
 	gameconsts.h \
 	libs.h \
 	matrix4x4.h \
-	mtrand.h \
 	perlin.h \
 	utils.h \
 	vector2.h \
@@ -214,7 +203,7 @@ pioneer_SOURCES	= \
 	LuaConstants.cpp \
 	LuaDev.cpp \
 	LuaEngine.cpp \
-	LuaEquipType.cpp \
+	LuaEquipDef.cpp \
 	LuaEvent.cpp \
 	LuaFaction.cpp \
 	LuaFileSystem.cpp \
@@ -237,7 +226,7 @@ pioneer_SOURCES	= \
 	LuaSystemPath.cpp \
 	LuaSerializer.cpp \
 	LuaShip.cpp \
-	LuaShipType.cpp \
+	LuaShipDef.cpp \
 	LuaSpace.cpp \
 	LuaSpaceStation.cpp \
 	LuaStar.cpp \
@@ -251,6 +240,7 @@ pioneer_SOURCES	= \
 	ModelCache.cpp \
 	ModManager.cpp \
 	ModelViewer.cpp \
+	NavLights.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
 	Planet.cpp \
@@ -279,7 +269,6 @@ pioneer_SOURCES	= \
 	ShipController.cpp \
 	ShipCpanel.cpp \
 	ShipCpanelMultiFuncDisplays.cpp \
-	ShipFlavour.cpp \
 	ShipSpinnerWidget.cpp \
 	ShipType.cpp \
 	Sound.cpp \
@@ -297,7 +286,6 @@ pioneer_SOURCES	= \
 	View.cpp \
 	WorldView.cpp \
 	main.cpp \
-	mtrand.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
@@ -336,7 +324,8 @@ tests_SOURCES = \
 	test_StringF.cpp \
 	FileSystem.cpp \
 	FileSourceZip.cpp \
-	test_FileSystem.cpp
+	test_FileSystem.cpp \
+	test_Random.cpp
 TESTS = tests
 tests_LDADD = \
 	collider/libcollider.a \
@@ -344,7 +333,9 @@ tests_LDADD = \
 	graphics/libgraphics.a \
 	terrain/libterrain.a \
     posix/libposix.a \
-	../contrib/miniz/libminiz.a
+	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
+	$(SIGC_LIBS)
 
 uitest_SOURCES = \
 	uitest.cpp \

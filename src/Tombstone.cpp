@@ -10,12 +10,13 @@
 Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
 : Cutscene(r, width, height)
 {
-	m_ambientColor = Color(0.1f, 0.1f, 0.1f, 1.f);
+	m_ambientColor = Color(0.05f, 0.05f, 0.1f, 1.f);
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	m_lights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc));
+	m_lights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 0.8f, 1.0f), lc, lc));
 
 	m_model = Pi::FindModel("tombstone");
+	m_model->SetLabel(Lang::TOMBSTONE_EPITAPH);
 }
 
 void Tombstone::Draw(float _time)

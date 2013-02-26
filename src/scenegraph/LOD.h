@@ -13,9 +13,10 @@ namespace SceneGraph {
 class LOD : public Group {
 public:
 	LOD(Graphics::Renderer *r);
-	LOD(const LOD&);
-	virtual Node *Clone();
+	LOD(const LOD&, NodeCopyCache *cache = 0);
+	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual const char *GetTypeName() { return "LOD"; }
+	virtual void Accept(NodeVisitor &v);
 	void AddLevel(float pixelRadius, Node *child);
 	virtual void Render(const matrix4x4f &trans, RenderData *rd);
 protected:

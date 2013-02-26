@@ -17,6 +17,7 @@ As of 8 February 2013 (alpha 31), the Pioneer Developers are:
 * C de Craen
 * Chip Richards
 * Chris Dennett
+* Connor Findlay
 * Craig Thomson
 * Dan Bennett
 * Darren Salt
@@ -53,6 +54,7 @@ As of 8 February 2013 (alpha 31), the Pioneer Developers are:
 * Roland Mas
 * Sean Bailey
 * Simon Chopin
+* SolCommand
 * Stefan Kapusniak
 * Steve Tyler
 * Sukender (Benoit Neil)

@@ -2,8 +2,10 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LOD.h"
-#include "graphics/Graphics.h"
+#include "NodeVisitor.h"
+#include "NodeCopyCache.h"
 #include "StringF.h"
+#include "graphics/Graphics.h"
 
 namespace SceneGraph {
 
@@ -11,15 +13,20 @@ LOD::LOD(Graphics::Renderer *r) : Group(r)
 {
 }
 
-LOD::LOD(const LOD &lod)
-: Group(lod)
+LOD::LOD(const LOD &lod, NodeCopyCache *cache)
+: Group(lod, cache)
 , m_pixelSizes(lod.m_pixelSizes)
 {
 }
 
-Node* LOD::Clone()
+Node* LOD::Clone(NodeCopyCache *cache)
 {
-	return new LOD(*this);
+	return cache->Copy<LOD>(this);
+}
+
+void LOD::Accept(NodeVisitor &nv)
+{
+	nv.ApplyLOD(*this);
 }
 
 void LOD::AddLevel(float pixelSize, Node *nod)

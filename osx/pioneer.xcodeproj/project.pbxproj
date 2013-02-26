@@ -107,6 +107,7 @@
 		4A305FD1151341170076D414 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A305FCC151341170076D414 /* FileSystem.cpp */; };
 		4A37073615A879D100E7E5F6 /* lookup3.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A37073315A879D100E7E5F6 /* lookup3.c */; };
 		4A3AE8E5158FD22200EB13DE /* LuaComms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A3AE8E3158FD22200EB13DE /* LuaComms.cpp */; };
+		4A4A86E916A992D600F81F18 /* CameraController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A86E716A992D600F81F18 /* CameraController.cpp */; };
 		4A4D25D8167335D9003BC9D5 /* Face.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D2167335D9003BC9D5 /* Face.cpp */; };
 		4A4D25D9167335D9003BC9D5 /* LuaFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */; };
 		4A4D25DA167335D9003BC9D5 /* LuaShipSpinner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D5167335D9003BC9D5 /* LuaShipSpinner.cpp */; };
@@ -158,13 +159,11 @@
 		4A6C4E0413532FC300FDD53F /* HyperspaceCloud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6A13532FC300FDD53F /* HyperspaceCloud.cpp */; };
 		4A6C4E0613532FC300FDD53F /* IniConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6E13532FC300FDD53F /* IniConfig.cpp */; };
 		4A6C4E0713532FC300FDD53F /* KeyBindings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7013532FC300FDD53F /* KeyBindings.cpp */; };
-		4A6C4E0813532FC300FDD53F /* LmrModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C7313532FC300FDD53F /* LmrModel.cpp */; };
 		4A6C4E4B13532FC300FDD53F /* LuaChatForm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CD013532FC300FDD53F /* LuaChatForm.cpp */; };
 		4A6C4E4D13532FC300FDD53F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CD313532FC300FDD53F /* main.cpp */; };
 		4A6C4E5113532FC300FDD53F /* MarketAgent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CD713532FC300FDD53F /* MarketAgent.cpp */; };
 		4A6C4E5213532FC300FDD53F /* Missile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CDA13532FC300FDD53F /* Missile.cpp */; };
 		4A6C4E5413532FC300FDD53F /* ModelBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CDE13532FC300FDD53F /* ModelBody.cpp */; };
-		4A6C4E5513532FC300FDD53F /* mtrand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CE013532FC300FDD53F /* mtrand.cpp */; };
 		4A6C4E5913532FC300FDD53F /* ObjectViewerView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4CE913532FC300FDD53F /* ObjectViewerView.cpp */; };
 		4A6C4E7113532FC300FDD53F /* perlin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D2C13532FC300FDD53F /* perlin.cpp */; };
 		4A6C4E7213532FC300FDD53F /* Pi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D2F13532FC300FDD53F /* Pi.cpp */; };
@@ -219,7 +218,6 @@
 		4A9937521368355500EA0EE5 /* LuaCargoBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371D1368355400EA0EE5 /* LuaCargoBody.cpp */; };
 		4A9937531368355500EA0EE5 /* LuaConstants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99371F1368355500EA0EE5 /* LuaConstants.cpp */; };
 		4A9937541368355500EA0EE5 /* LuaEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937211368355500EA0EE5 /* LuaEngine.cpp */; };
-		4A9937551368355500EA0EE5 /* LuaEquipType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937231368355500EA0EE5 /* LuaEquipType.cpp */; };
 		4A9937571368355500EA0EE5 /* LuaFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937271368355500EA0EE5 /* LuaFormat.cpp */; };
 		4A9937581368355500EA0EE5 /* LuaGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937291368355500EA0EE5 /* LuaGame.cpp */; };
 		4A9937591368355500EA0EE5 /* LuaManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99372B1368355500EA0EE5 /* LuaManager.cpp */; };
@@ -230,7 +228,6 @@
 		4A99375E1368355500EA0EE5 /* LuaRand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937341368355500EA0EE5 /* LuaRand.cpp */; };
 		4A9937611368355500EA0EE5 /* LuaSerializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99373A1368355500EA0EE5 /* LuaSerializer.cpp */; };
 		4A9937621368355500EA0EE5 /* LuaShip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99373C1368355500EA0EE5 /* LuaShip.cpp */; };
-		4A9937631368355500EA0EE5 /* LuaShipType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A99373E1368355500EA0EE5 /* LuaShipType.cpp */; };
 		4A9937641368355500EA0EE5 /* LuaSpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937401368355500EA0EE5 /* LuaSpace.cpp */; };
 		4A9937651368355500EA0EE5 /* LuaSpaceStation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937421368355500EA0EE5 /* LuaSpaceStation.cpp */; };
 		4A9937661368355500EA0EE5 /* LuaStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9937441368355500EA0EE5 /* LuaStar.cpp */; };
@@ -241,6 +238,8 @@
 		4AA4A8DB164D0EB10006C3BF /* Gradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA4A8D6164D0EB10006C3BF /* Gradient.cpp */; };
 		4AA4A8DC164D0EB10006C3BF /* LuaExpand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA4A8D8164D0EB10006C3BF /* LuaExpand.cpp */; };
 		4AA4A8DD164D0EB10006C3BF /* LuaGradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA4A8D9164D0EB10006C3BF /* LuaGradient.cpp */; };
+		4AA84A2716D0E18700220311 /* LuaEquipDef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA84A2116D0E18700220311 /* LuaEquipDef.cpp */; };
+		4AA84A2816D0E18700220311 /* LuaShipDef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA84A2316D0E18700220311 /* LuaShipDef.cpp */; };
 		4AAB881315F4AD3500AAF8A8 /* GeoSphereMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880415F4AD3500AAF8A8 /* GeoSphereMaterial.cpp */; };
 		4AAB881415F4AD3500AAF8A8 /* GL2Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880615F4AD3500AAF8A8 /* GL2Material.cpp */; };
 		4AAB881515F4AD3500AAF8A8 /* MultiMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880815F4AD3500AAF8A8 /* MultiMaterial.cpp */; };
@@ -348,7 +347,6 @@
 		4ACC6D1C15401E7000C59914 /* Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC6D1215401E7000C59914 /* Font.cpp */; };
 		4ACC6D1E15401E7000C59914 /* TextSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC6D1615401E7000C59914 /* TextSupport.cpp */; };
 		4ACC6D1F15401E7000C59914 /* TextureFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC6D1815401E7000C59914 /* TextureFont.cpp */; };
-		4ACC6D2015401E7000C59914 /* VectorFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACC6D1A15401E7000C59914 /* VectorFont.cpp */; };
 		4ACDB6B1167878620069FA03 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB684167878610069FA03 /* Animation.cpp */; };
 		4ACDB6B2167878620069FA03 /* Billboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB688167878620069FA03 /* Billboard.cpp */; };
 		4ACDB6B3167878620069FA03 /* CollisionGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB68A167878620069FA03 /* CollisionGeometry.cpp */; };
@@ -374,7 +372,8 @@
 		4ACDB6D2167879AF0069FA03 /* DistanceFieldFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6D0167879AF0069FA03 /* DistanceFieldFont.cpp */; };
 		4ACDB6D416787A6A0069FA03 /* libassimp.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
 		4ACDB6D5167881AF0069FA03 /* libassimp.3.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
-		4ADA8B36152497AA00FCAD58 /* WorldViewCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA8B34152497AA00FCAD58 /* WorldViewCamera.cpp */; };
+		4ACE132F16B4B19D00CAE524 /* EnumStrings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACE132C16B4B19D00CAE524 /* EnumStrings.cpp */; };
+		4ACED56A16BBCC7200E53808 /* LuaMissile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACED56816BBCC7200E53808 /* LuaMissile.cpp */; };
 		4ADB0D0C15C50DD900AE2123 /* TerrainHeightAsteroid2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */; };
 		4ADB0D0D15C50DD900AE2123 /* TerrainHeightAsteroid3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D0715C50DD900AE2123 /* TerrainHeightAsteroid3.cpp */; };
 		4ADB0D0E15C50DD900AE2123 /* TerrainHeightAsteroid4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D0815C50DD900AE2123 /* TerrainHeightAsteroid4.cpp */; };
@@ -403,6 +402,7 @@
 		4AE9706714369D7500424F91 /* LuaLang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AE9706514369D7500424F91 /* LuaLang.cpp */; };
 		4AEC8A1A15C7886A00B281C3 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AEC8A1815C7886A00B281C3 /* Light.cpp */; };
 		4AED721D14E1501D004D171E /* TerrainHeightMapped2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AED721C14E1501D004D171E /* TerrainHeightMapped2.cpp */; };
+		4AEE56DD16A44CD800AA1C53 /* SpaceStationType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AEE56DB16A44CD800AA1C53 /* SpaceStationType.cpp */; };
 		4AEEBC48162A499400C6EA6F /* libpng15.15.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A76111F1611A7B000A06F79 /* libpng15.15.dylib */; };
 		4AEEBC4A162A4A5700C6EA6F /* libXrandr.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AEEBC49162A4A5700C6EA6F /* libXrandr.2.dylib */; };
 		4AEEBC4C162A4ADC00C6EA6F /* libXext.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AEEBC4B162A4ADC00C6EA6F /* libXext.6.dylib */; };
@@ -632,7 +632,6 @@
 		4A20B11913531CD10020F43E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = pioneer/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4A20B11F13531E950020F43E /* pioneerApp.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = pioneerApp.xib; sourceTree = "<group>"; };
 		4A239FC9163E78D60037BE24 /* LuaFaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaFaction.cpp; sourceTree = "<group>"; };
-		4A239FCA163E78D60037BE24 /* LuaFaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaFaction.h; sourceTree = "<group>"; };
 		4A24075513F5240F002A5C12 /* ChatForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ChatForm.cpp; sourceTree = "<group>"; };
 		4A24075613F5240F002A5C12 /* ChatForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatForm.h; sourceTree = "<group>"; };
 		4A24075713F5240F002A5C12 /* Form.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Form.h; sourceTree = "<group>"; };
@@ -682,6 +681,8 @@
 		4A37073415A879D100E7E5F6 /* lookup3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lookup3.h; sourceTree = "<group>"; };
 		4A3AE8E3158FD22200EB13DE /* LuaComms.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaComms.cpp; sourceTree = "<group>"; };
 		4A3AE8E4158FD22200EB13DE /* LuaComms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaComms.h; sourceTree = "<group>"; };
+		4A4A86E716A992D600F81F18 /* CameraController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CameraController.cpp; sourceTree = "<group>"; };
+		4A4A86E816A992D600F81F18 /* CameraController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraController.h; sourceTree = "<group>"; };
 		4A4D25D2167335D9003BC9D5 /* Face.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Face.cpp; sourceTree = "<group>"; };
 		4A4D25D3167335D9003BC9D5 /* Face.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Face.h; sourceTree = "<group>"; };
 		4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaFace.cpp; sourceTree = "<group>"; };
@@ -743,7 +744,6 @@
 		4A6C4C0113532FC300FDD53F /* BezierCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BezierCurve.h; sourceTree = "<group>"; };
 		4A6C4C0213532FC300FDD53F /* Body.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Body.cpp; sourceTree = "<group>"; };
 		4A6C4C0313532FC300FDD53F /* Body.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Body.h; sourceTree = "<group>"; };
-		4A6C4C0413532FC300FDD53F /* BufferObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BufferObject.h; sourceTree = "<group>"; };
 		4A6C4C0513532FC300FDD53F /* CargoBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CargoBody.cpp; sourceTree = "<group>"; };
 		4A6C4C0613532FC300FDD53F /* CargoBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CargoBody.h; sourceTree = "<group>"; };
 		4A6C4C0713532FC300FDD53F /* CityOnPlanet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CityOnPlanet.cpp; sourceTree = "<group>"; };
@@ -782,11 +782,8 @@
 		4A6C4C7013532FC300FDD53F /* KeyBindings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KeyBindings.cpp; sourceTree = "<group>"; };
 		4A6C4C7113532FC300FDD53F /* KeyBindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyBindings.h; sourceTree = "<group>"; };
 		4A6C4C7213532FC300FDD53F /* libs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libs.h; sourceTree = "<group>"; };
-		4A6C4C7313532FC300FDD53F /* LmrModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LmrModel.cpp; sourceTree = "<group>"; };
-		4A6C4C7413532FC300FDD53F /* LmrModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LmrModel.h; sourceTree = "<group>"; };
 		4A6C4CD013532FC300FDD53F /* LuaChatForm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaChatForm.cpp; sourceTree = "<group>"; };
 		4A6C4CD113532FC300FDD53F /* LuaChatForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaChatForm.h; sourceTree = "<group>"; };
-		4A6C4CD213532FC300FDD53F /* LuaModelViewer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaModelViewer.cpp; sourceTree = "<group>"; };
 		4A6C4CD313532FC300FDD53F /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		4A6C4CD713532FC300FDD53F /* MarketAgent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MarketAgent.cpp; sourceTree = "<group>"; };
 		4A6C4CD813532FC300FDD53F /* MarketAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarketAgent.h; sourceTree = "<group>"; };
@@ -795,8 +792,6 @@
 		4A6C4CDB13532FC300FDD53F /* Missile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Missile.h; sourceTree = "<group>"; };
 		4A6C4CDE13532FC300FDD53F /* ModelBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelBody.cpp; sourceTree = "<group>"; };
 		4A6C4CDF13532FC300FDD53F /* ModelBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelBody.h; sourceTree = "<group>"; };
-		4A6C4CE013532FC300FDD53F /* mtrand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mtrand.cpp; sourceTree = "<group>"; };
-		4A6C4CE113532FC300FDD53F /* mtrand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mtrand.h; sourceTree = "<group>"; };
 		4A6C4CE813532FC300FDD53F /* Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = "<group>"; };
 		4A6C4CE913532FC300FDD53F /* ObjectViewerView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectViewerView.cpp; sourceTree = "<group>"; };
 		4A6C4CEA13532FC300FDD53F /* ObjectViewerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectViewerView.h; sourceTree = "<group>"; };
@@ -874,7 +869,6 @@
 		4A85A86313C4631D00C2B986 /* LuaMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaMusic.cpp; sourceTree = "<group>"; };
 		4A85A86413C4631D00C2B986 /* LuaMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaMusic.h; sourceTree = "<group>"; };
 		4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSystemPath.cpp; sourceTree = "<group>"; };
-		4A85A86613C4631D00C2B986 /* LuaSystemPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSystemPath.h; sourceTree = "<group>"; };
 		4A85A86713C4631D00C2B986 /* SoundMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundMusic.cpp; sourceTree = "<group>"; };
 		4A85A86813C4631D00C2B986 /* SoundMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundMusic.h; sourceTree = "<group>"; };
 		4A8DD539142E19B6006DD821 /* LuaConsole.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaConsole.cpp; sourceTree = "<group>"; };
@@ -900,15 +894,11 @@
 		4A9822B3142E02AF00B423F1 /* Changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Changelog.txt; path = ../Changelog.txt; sourceTree = "<group>"; };
 		4A99371A1368355400EA0EE5 /* DeleteEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteEmitter.h; sourceTree = "<group>"; };
 		4A99371B1368355400EA0EE5 /* LuaBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaBody.cpp; sourceTree = "<group>"; };
-		4A99371C1368355400EA0EE5 /* LuaBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaBody.h; sourceTree = "<group>"; };
 		4A99371D1368355400EA0EE5 /* LuaCargoBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaCargoBody.cpp; sourceTree = "<group>"; };
-		4A99371E1368355500EA0EE5 /* LuaCargoBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaCargoBody.h; sourceTree = "<group>"; };
 		4A99371F1368355500EA0EE5 /* LuaConstants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaConstants.cpp; sourceTree = "<group>"; };
 		4A9937201368355500EA0EE5 /* LuaConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaConstants.h; sourceTree = "<group>"; };
 		4A9937211368355500EA0EE5 /* LuaEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaEngine.cpp; sourceTree = "<group>"; };
 		4A9937221368355500EA0EE5 /* LuaEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaEngine.h; sourceTree = "<group>"; };
-		4A9937231368355500EA0EE5 /* LuaEquipType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaEquipType.cpp; sourceTree = "<group>"; };
-		4A9937241368355500EA0EE5 /* LuaEquipType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaEquipType.h; sourceTree = "<group>"; };
 		4A9937271368355500EA0EE5 /* LuaFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaFormat.cpp; sourceTree = "<group>"; };
 		4A9937281368355500EA0EE5 /* LuaFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaFormat.h; sourceTree = "<group>"; };
 		4A9937291368355500EA0EE5 /* LuaGame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaGame.cpp; sourceTree = "<group>"; };
@@ -919,25 +909,16 @@
 		4A99372E1368355500EA0EE5 /* LuaNameGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaNameGen.h; sourceTree = "<group>"; };
 		4A99372F1368355500EA0EE5 /* LuaObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaObject.cpp; sourceTree = "<group>"; };
 		4A9937301368355500EA0EE5 /* LuaPlanet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaPlanet.cpp; sourceTree = "<group>"; };
-		4A9937311368355500EA0EE5 /* LuaPlanet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaPlanet.h; sourceTree = "<group>"; };
 		4A9937321368355500EA0EE5 /* LuaPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaPlayer.cpp; sourceTree = "<group>"; };
-		4A9937331368355500EA0EE5 /* LuaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaPlayer.h; sourceTree = "<group>"; };
 		4A9937341368355500EA0EE5 /* LuaRand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaRand.cpp; sourceTree = "<group>"; };
-		4A9937351368355500EA0EE5 /* LuaRand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaRand.h; sourceTree = "<group>"; };
 		4A99373A1368355500EA0EE5 /* LuaSerializer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSerializer.cpp; sourceTree = "<group>"; };
 		4A99373B1368355500EA0EE5 /* LuaSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSerializer.h; sourceTree = "<group>"; };
 		4A99373C1368355500EA0EE5 /* LuaShip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaShip.cpp; sourceTree = "<group>"; };
-		4A99373D1368355500EA0EE5 /* LuaShip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaShip.h; sourceTree = "<group>"; };
-		4A99373E1368355500EA0EE5 /* LuaShipType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaShipType.cpp; sourceTree = "<group>"; };
-		4A99373F1368355500EA0EE5 /* LuaShipType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaShipType.h; sourceTree = "<group>"; };
 		4A9937401368355500EA0EE5 /* LuaSpace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSpace.cpp; sourceTree = "<group>"; };
 		4A9937411368355500EA0EE5 /* LuaSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSpace.h; sourceTree = "<group>"; };
 		4A9937421368355500EA0EE5 /* LuaSpaceStation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSpaceStation.cpp; sourceTree = "<group>"; };
-		4A9937431368355500EA0EE5 /* LuaSpaceStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSpaceStation.h; sourceTree = "<group>"; };
 		4A9937441368355500EA0EE5 /* LuaStar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaStar.cpp; sourceTree = "<group>"; };
-		4A9937451368355500EA0EE5 /* LuaStar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaStar.h; sourceTree = "<group>"; };
 		4A9937461368355500EA0EE5 /* LuaStarSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaStarSystem.cpp; sourceTree = "<group>"; };
-		4A9937471368355500EA0EE5 /* LuaStarSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaStarSystem.h; sourceTree = "<group>"; };
 		4A9937481368355500EA0EE5 /* LuaTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaTimer.cpp; sourceTree = "<group>"; };
 		4A9937491368355500EA0EE5 /* LuaTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaTimer.h; sourceTree = "<group>"; };
 		4A99374C1368355500EA0EE5 /* LuaUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaUtils.cpp; sourceTree = "<group>"; };
@@ -950,6 +931,12 @@
 		4AA4A8D7164D0EB10006C3BF /* Gradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gradient.h; sourceTree = "<group>"; };
 		4AA4A8D8164D0EB10006C3BF /* LuaExpand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaExpand.cpp; sourceTree = "<group>"; };
 		4AA4A8D9164D0EB10006C3BF /* LuaGradient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaGradient.cpp; sourceTree = "<group>"; };
+		4AA84A2116D0E18700220311 /* LuaEquipDef.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaEquipDef.cpp; sourceTree = "<group>"; };
+		4AA84A2216D0E18700220311 /* LuaEquipDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaEquipDef.h; sourceTree = "<group>"; };
+		4AA84A2316D0E18700220311 /* LuaShipDef.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaShipDef.cpp; sourceTree = "<group>"; };
+		4AA84A2416D0E18700220311 /* LuaShipDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaShipDef.h; sourceTree = "<group>"; };
+		4AA84A2516D0E18700220311 /* LuaWrappable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaWrappable.h; sourceTree = "<group>"; };
+		4AA84A2616D0E18700220311 /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
 		4AAB880415F4AD3500AAF8A8 /* GeoSphereMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeoSphereMaterial.cpp; sourceTree = "<group>"; };
 		4AAB880515F4AD3500AAF8A8 /* GeoSphereMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSphereMaterial.h; sourceTree = "<group>"; };
 		4AAB880615F4AD3500AAF8A8 /* GL2Material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GL2Material.cpp; sourceTree = "<group>"; };
@@ -1111,8 +1098,6 @@
 		4ACC6D1715401E7000C59914 /* TextSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextSupport.h; sourceTree = "<group>"; };
 		4ACC6D1815401E7000C59914 /* TextureFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureFont.cpp; sourceTree = "<group>"; };
 		4ACC6D1915401E7000C59914 /* TextureFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureFont.h; sourceTree = "<group>"; };
-		4ACC6D1A15401E7000C59914 /* VectorFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VectorFont.cpp; sourceTree = "<group>"; };
-		4ACC6D1B15401E7000C59914 /* VectorFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VectorFont.h; sourceTree = "<group>"; };
 		4ACDB684167878610069FA03 /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
 		4ACDB685167878610069FA03 /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		4ACDB686167878610069FA03 /* AnimationChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationChannel.h; sourceTree = "<group>"; };
@@ -1158,8 +1143,6 @@
 		4ACDB6AF167878620069FA03 /* Thruster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Thruster.cpp; sourceTree = "<group>"; };
 		4ACDB6B0167878620069FA03 /* Thruster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thruster.h; sourceTree = "<group>"; };
 		4ACDB6C7167878CE0069FA03 /* CollMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollMesh.h; sourceTree = "<group>"; };
-		4ACDB6C8167878CE0069FA03 /* LmrTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LmrTypes.h; sourceTree = "<group>"; };
-		4ACDB6C9167878CE0069FA03 /* ModelBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelBase.h; sourceTree = "<group>"; };
 		4ACDB6CA167878CE0069FA03 /* ModelCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelCache.cpp; sourceTree = "<group>"; };
 		4ACDB6CB167878CE0069FA03 /* ModelCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelCache.h; sourceTree = "<group>"; };
 		4ACDB6CC167878CE0069FA03 /* ModelViewer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelViewer.cpp; sourceTree = "<group>"; };
@@ -1167,8 +1150,11 @@
 		4ACDB6D0167879AF0069FA03 /* DistanceFieldFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DistanceFieldFont.cpp; sourceTree = "<group>"; };
 		4ACDB6D1167879AF0069FA03 /* DistanceFieldFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistanceFieldFont.h; sourceTree = "<group>"; };
 		4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.0.0.dylib; path = /opt/local/lib/libassimp.3.0.0.dylib; sourceTree = "<absolute>"; };
-		4ADA8B34152497AA00FCAD58 /* WorldViewCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorldViewCamera.cpp; sourceTree = "<group>"; };
-		4ADA8B35152497AA00FCAD58 /* WorldViewCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldViewCamera.h; sourceTree = "<group>"; };
+		4ACE132C16B4B19D00CAE524 /* EnumStrings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EnumStrings.cpp; sourceTree = "<group>"; };
+		4ACE132D16B4B19D00CAE524 /* EnumStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnumStrings.h; sourceTree = "<group>"; };
+		4ACE132E16B4B19D00CAE524 /* matrix3x3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix3x3.h; sourceTree = "<group>"; };
+		4ACED56816BBCC7200E53808 /* LuaMissile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaMissile.cpp; sourceTree = "<group>"; };
+		4ACED56916BBCC7200E53808 /* LuaMissile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaMissile.h; sourceTree = "<group>"; };
 		4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightAsteroid2.cpp; sourceTree = "<group>"; };
 		4ADB0D0715C50DD900AE2123 /* TerrainHeightAsteroid3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightAsteroid3.cpp; sourceTree = "<group>"; };
 		4ADB0D0815C50DD900AE2123 /* TerrainHeightAsteroid4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightAsteroid4.cpp; sourceTree = "<group>"; };
@@ -1194,7 +1180,6 @@
 		4ADF51911557477400ACF5A0 /* LuaMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaMatrix.cpp; sourceTree = "<group>"; };
 		4ADF51921557477400ACF5A0 /* LuaMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaMatrix.h; sourceTree = "<group>"; };
 		4ADF51931557477400ACF5A0 /* LuaSystemBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSystemBody.cpp; sourceTree = "<group>"; };
-		4ADF51941557477400ACF5A0 /* LuaSystemBody.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaSystemBody.h; sourceTree = "<group>"; };
 		4ADF51951557477400ACF5A0 /* LuaVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaVector.cpp; sourceTree = "<group>"; };
 		4ADF51961557477400ACF5A0 /* LuaVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaVector.h; sourceTree = "<group>"; };
 		4AE46C491607513400308C22 /* vcacheopt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vcacheopt.h; sourceTree = "<group>"; };
@@ -1206,6 +1191,8 @@
 		4AEC8A1815C7886A00B281C3 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
 		4AEC8A1915C7886A00B281C3 /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 		4AED721C14E1501D004D171E /* TerrainHeightMapped2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TerrainHeightMapped2.cpp; sourceTree = "<group>"; };
+		4AEE56DB16A44CD800AA1C53 /* SpaceStationType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpaceStationType.cpp; sourceTree = "<group>"; };
+		4AEE56DC16A44CD800AA1C53 /* SpaceStationType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpaceStationType.h; sourceTree = "<group>"; };
 		4AEEBC49162A4A5700C6EA6F /* libXrandr.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXrandr.2.dylib; path = ../../../../../opt/local/lib/libXrandr.2.dylib; sourceTree = "<group>"; };
 		4AEEBC4B162A4ADC00C6EA6F /* libXext.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXext.6.dylib; path = ../../../../../opt/local/lib/libXext.6.dylib; sourceTree = "<group>"; };
 		4AEEBC4F162A4B9B00C6EA6F /* libXrender.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libXrender.1.dylib; path = ../../../../../opt/local/lib/libXrender.1.dylib; sourceTree = "<group>"; };
@@ -1578,11 +1565,12 @@
 				4A6C4C0113532FC300FDD53F /* BezierCurve.h */,
 				4A6C4C0213532FC300FDD53F /* Body.cpp */,
 				4A6C4C0313532FC300FDD53F /* Body.h */,
-				4A6C4C0413532FC300FDD53F /* BufferObject.h */,
 				4A6392C4136BD51E008352F1 /* buildopts.h */,
 				4A305FCB151341170076D414 /* ByteRange.h */,
 				4A84CB82146027DC0051C848 /* Camera.cpp */,
 				4A84CB83146027DC0051C848 /* Camera.h */,
+				4A4A86E716A992D600F81F18 /* CameraController.cpp */,
+				4A4A86E816A992D600F81F18 /* CameraController.h */,
 				4A6C4C0513532FC300FDD53F /* CargoBody.cpp */,
 				4A6C4C0613532FC300FDD53F /* CargoBody.h */,
 				4A24075513F5240F002A5C12 /* ChatForm.cpp */,
@@ -1608,6 +1596,8 @@
 				4A6C4C2213532FC300FDD53F /* DynamicBody.h */,
 				4A84CB7B14595D850051C848 /* enum_table.cpp */,
 				4A84CB7C14595D850051C848 /* enum_table.h */,
+				4ACE132C16B4B19D00CAE524 /* EnumStrings.cpp */,
+				4ACE132D16B4B19D00CAE524 /* EnumStrings.h */,
 				4A94CA4014F26875002CA792 /* EquipSet.h */,
 				4A6C4C2313532FC300FDD53F /* EquipType.cpp */,
 				4A6C4C2413532FC300FDD53F /* EquipType.h */,
@@ -1658,15 +1648,10 @@
 				4A24075B13F5240F002A5C12 /* Lang.h */,
 				4A305FCF151341170076D414 /* LangStrings.inc.h */,
 				4A6C4C7213532FC300FDD53F /* libs.h */,
-				4A6C4C7313532FC300FDD53F /* LmrModel.cpp */,
-				4A6C4C7413532FC300FDD53F /* LmrModel.h */,
-				4ACDB6C8167878CE0069FA03 /* LmrTypes.h */,
 				4AAB881A15F4AD7700AAF8A8 /* Lua.cpp */,
 				4AAB881B15F4AD7700AAF8A8 /* Lua.h */,
 				4A99371B1368355400EA0EE5 /* LuaBody.cpp */,
-				4A99371C1368355400EA0EE5 /* LuaBody.h */,
 				4A99371D1368355400EA0EE5 /* LuaCargoBody.cpp */,
-				4A99371E1368355500EA0EE5 /* LuaCargoBody.h */,
 				4A6C4CD013532FC300FDD53F /* LuaChatForm.cpp */,
 				4A6C4CD113532FC300FDD53F /* LuaChatForm.h */,
 				4A3AE8E3158FD22200EB13DE /* LuaComms.cpp */,
@@ -1679,12 +1664,11 @@
 				4A973BF61618688F0029562D /* LuaDev.h */,
 				4A9937211368355500EA0EE5 /* LuaEngine.cpp */,
 				4A9937221368355500EA0EE5 /* LuaEngine.h */,
-				4A9937231368355500EA0EE5 /* LuaEquipType.cpp */,
-				4A9937241368355500EA0EE5 /* LuaEquipType.h */,
+				4AA84A2116D0E18700220311 /* LuaEquipDef.cpp */,
+				4AA84A2216D0E18700220311 /* LuaEquipDef.h */,
 				4AF0058915F0F30400CC19C0 /* LuaEvent.cpp */,
 				4AF0058A15F0F30400CC19C0 /* LuaEvent.h */,
 				4A239FC9163E78D60037BE24 /* LuaFaction.cpp */,
-				4A239FCA163E78D60037BE24 /* LuaFaction.h */,
 				4AF0059115F17C6700CC19C0 /* LuaFileSystem.cpp */,
 				4AF0059215F17C6700CC19C0 /* LuaFileSystem.h */,
 				4ADF518F1557477400ACF5A0 /* LuaFixed.cpp */,
@@ -1699,7 +1683,8 @@
 				4A99372C1368355500EA0EE5 /* LuaManager.h */,
 				4ADF51911557477400ACF5A0 /* LuaMatrix.cpp */,
 				4ADF51921557477400ACF5A0 /* LuaMatrix.h */,
-				4A6C4CD213532FC300FDD53F /* LuaModelViewer.cpp */,
+				4ACED56816BBCC7200E53808 /* LuaMissile.cpp */,
+				4ACED56916BBCC7200E53808 /* LuaMissile.h */,
 				4A85A86313C4631D00C2B986 /* LuaMusic.cpp */,
 				4A85A86413C4631D00C2B986 /* LuaMusic.h */,
 				4A99372D1368355500EA0EE5 /* LuaNameGen.cpp */,
@@ -1707,32 +1692,23 @@
 				4A99372F1368355500EA0EE5 /* LuaObject.cpp */,
 				4A82AA7F1386969B0028CCED /* LuaObject.h */,
 				4A9937301368355500EA0EE5 /* LuaPlanet.cpp */,
-				4A9937311368355500EA0EE5 /* LuaPlanet.h */,
 				4A9937321368355500EA0EE5 /* LuaPlayer.cpp */,
-				4A9937331368355500EA0EE5 /* LuaPlayer.h */,
 				4AAB884415FDEA6E00AAF8A8 /* LuaPushPull.h */,
 				4A9937341368355500EA0EE5 /* LuaRand.cpp */,
-				4A9937351368355500EA0EE5 /* LuaRand.h */,
 				4AAB884515FDEA6E00AAF8A8 /* LuaRef.cpp */,
 				4AAB884615FDEA6F00AAF8A8 /* LuaRef.h */,
 				4A99373A1368355500EA0EE5 /* LuaSerializer.cpp */,
 				4A99373B1368355500EA0EE5 /* LuaSerializer.h */,
 				4A99373C1368355500EA0EE5 /* LuaShip.cpp */,
-				4A99373D1368355500EA0EE5 /* LuaShip.h */,
-				4A99373E1368355500EA0EE5 /* LuaShipType.cpp */,
-				4A99373F1368355500EA0EE5 /* LuaShipType.h */,
+				4AA84A2316D0E18700220311 /* LuaShipDef.cpp */,
+				4AA84A2416D0E18700220311 /* LuaShipDef.h */,
 				4A9937401368355500EA0EE5 /* LuaSpace.cpp */,
 				4A9937411368355500EA0EE5 /* LuaSpace.h */,
 				4A9937421368355500EA0EE5 /* LuaSpaceStation.cpp */,
-				4A9937431368355500EA0EE5 /* LuaSpaceStation.h */,
 				4A9937441368355500EA0EE5 /* LuaStar.cpp */,
-				4A9937451368355500EA0EE5 /* LuaStar.h */,
 				4A9937461368355500EA0EE5 /* LuaStarSystem.cpp */,
-				4A9937471368355500EA0EE5 /* LuaStarSystem.h */,
 				4ADF51931557477400ACF5A0 /* LuaSystemBody.cpp */,
-				4ADF51941557477400ACF5A0 /* LuaSystemBody.h */,
 				4A85A86513C4631D00C2B986 /* LuaSystemPath.cpp */,
-				4A85A86613C4631D00C2B986 /* LuaSystemPath.h */,
 				4AAB884715FDEA6F00AAF8A8 /* LuaTable.h */,
 				4A9937481368355500EA0EE5 /* LuaTimer.cpp */,
 				4A9937491368355500EA0EE5 /* LuaTimer.h */,
@@ -1740,15 +1716,16 @@
 				4A99374D1368355500EA0EE5 /* LuaUtils.h */,
 				4ADF51951557477400ACF5A0 /* LuaVector.cpp */,
 				4ADF51961557477400ACF5A0 /* LuaVector.h */,
+				4AA84A2516D0E18700220311 /* LuaWrappable.h */,
 				4A6C4CD313532FC300FDD53F /* main.cpp */,
 				4A6C4CD713532FC300FDD53F /* MarketAgent.cpp */,
 				4A6C4CD813532FC300FDD53F /* MarketAgent.h */,
 				4AF999A11496D51F009821AF /* MathUtil.cpp */,
 				4AF999A21496D51F009821AF /* MathUtil.h */,
+				4ACE132E16B4B19D00CAE524 /* matrix3x3.h */,
 				4A6C4CD913532FC300FDD53F /* matrix4x4.h */,
 				4A6C4CDA13532FC300FDD53F /* Missile.cpp */,
 				4A6C4CDB13532FC300FDD53F /* Missile.h */,
-				4ACDB6C9167878CE0069FA03 /* ModelBase.h */,
 				4A6C4CDE13532FC300FDD53F /* ModelBody.cpp */,
 				4A6C4CDF13532FC300FDD53F /* ModelBody.h */,
 				4ACDB6CA167878CE0069FA03 /* ModelCache.cpp */,
@@ -1757,8 +1734,6 @@
 				4ACDB6CD167878CE0069FA03 /* ModelViewer.h */,
 				4AAC9FE71545901D00116131 /* ModManager.cpp */,
 				4AAC9FE81545901D00116131 /* ModManager.h */,
-				4A6C4CE013532FC300FDD53F /* mtrand.cpp */,
-				4A6C4CE113532FC300FDD53F /* mtrand.h */,
 				4A6C4CE813532FC300FDD53F /* Object.h */,
 				4A6C4CE913532FC300FDD53F /* ObjectViewerView.cpp */,
 				4A6C4CEA13532FC300FDD53F /* ObjectViewerView.h */,
@@ -1780,6 +1755,7 @@
 				4A6C4D4113532FC300FDD53F /* Projectile.cpp */,
 				4A6C4D4213532FC300FDD53F /* Projectile.h */,
 				4A6C4D4313532FC300FDD53F /* Quaternion.h */,
+				4AA84A2616D0E18700220311 /* Random.h */,
 				4A99374E1368355500EA0EE5 /* RefCounted.h */,
 				4A99374F1368355500EA0EE5 /* RefList.h */,
 				4ACDB683167878610069FA03 /* scenegraph */,
@@ -1817,6 +1793,8 @@
 				4A6C4D5E13532FC300FDD53F /* Space.h */,
 				4A6C4D5F13532FC300FDD53F /* SpaceStation.cpp */,
 				4A6C4D6013532FC300FDD53F /* SpaceStation.h */,
+				4AEE56DB16A44CD800AA1C53 /* SpaceStationType.cpp */,
+				4AEE56DC16A44CD800AA1C53 /* SpaceStationType.h */,
 				4A6C4D6113532FC300FDD53F /* SpaceStationView.cpp */,
 				4A6C4D6213532FC300FDD53F /* SpaceStationView.h */,
 				4A6C4D6313532FC300FDD53F /* Star.cpp */,
@@ -1866,8 +1844,6 @@
 				4A6C4D7113532FC300FDD53F /* View.h */,
 				4A6C4D7213532FC300FDD53F /* WorldView.cpp */,
 				4A6C4D7313532FC300FDD53F /* WorldView.h */,
-				4ADA8B34152497AA00FCAD58 /* WorldViewCamera.cpp */,
-				4ADA8B35152497AA00FCAD58 /* WorldViewCamera.h */,
 			);
 			name = src;
 			path = ../src;
@@ -2105,8 +2081,6 @@
 				4ACC6D1715401E7000C59914 /* TextSupport.h */,
 				4ACC6D1815401E7000C59914 /* TextureFont.cpp */,
 				4ACC6D1915401E7000C59914 /* TextureFont.h */,
-				4ACC6D1A15401E7000C59914 /* VectorFont.cpp */,
-				4ACC6D1B15401E7000C59914 /* VectorFont.h */,
 			);
 			path = text;
 			sourceTree = "<group>";
@@ -2316,13 +2290,11 @@
 				4A6C4E0413532FC300FDD53F /* HyperspaceCloud.cpp in Sources */,
 				4A6C4E0613532FC300FDD53F /* IniConfig.cpp in Sources */,
 				4A6C4E0713532FC300FDD53F /* KeyBindings.cpp in Sources */,
-				4A6C4E0813532FC300FDD53F /* LmrModel.cpp in Sources */,
 				4A6C4E4B13532FC300FDD53F /* LuaChatForm.cpp in Sources */,
 				4A6C4E4D13532FC300FDD53F /* main.cpp in Sources */,
 				4A6C4E5113532FC300FDD53F /* MarketAgent.cpp in Sources */,
 				4A6C4E5213532FC300FDD53F /* Missile.cpp in Sources */,
 				4A6C4E5413532FC300FDD53F /* ModelBody.cpp in Sources */,
-				4A6C4E5513532FC300FDD53F /* mtrand.cpp in Sources */,
 				4A6C4E5913532FC300FDD53F /* ObjectViewerView.cpp in Sources */,
 				4A6C4E7113532FC300FDD53F /* perlin.cpp in Sources */,
 				4A6C4E7213532FC300FDD53F /* Pi.cpp in Sources */,
@@ -2353,7 +2325,6 @@
 				4A9937521368355500EA0EE5 /* LuaCargoBody.cpp in Sources */,
 				4A9937531368355500EA0EE5 /* LuaConstants.cpp in Sources */,
 				4A9937541368355500EA0EE5 /* LuaEngine.cpp in Sources */,
-				4A9937551368355500EA0EE5 /* LuaEquipType.cpp in Sources */,
 				4A9937571368355500EA0EE5 /* LuaFormat.cpp in Sources */,
 				4A9937581368355500EA0EE5 /* LuaGame.cpp in Sources */,
 				4A9937591368355500EA0EE5 /* LuaManager.cpp in Sources */,
@@ -2364,7 +2335,6 @@
 				4A99375E1368355500EA0EE5 /* LuaRand.cpp in Sources */,
 				4A9937611368355500EA0EE5 /* LuaSerializer.cpp in Sources */,
 				4A9937621368355500EA0EE5 /* LuaShip.cpp in Sources */,
-				4A9937631368355500EA0EE5 /* LuaShipType.cpp in Sources */,
 				4A9937641368355500EA0EE5 /* LuaSpace.cpp in Sources */,
 				4A9937651368355500EA0EE5 /* LuaSpaceStation.cpp in Sources */,
 				4A9937661368355500EA0EE5 /* LuaStar.cpp in Sources */,
@@ -2518,7 +2488,6 @@
 				4A9174FB15187B97006A15A9 /* TextureBuilder.cpp in Sources */,
 				4A9174FC15187B97006A15A9 /* TextureGL.cpp in Sources */,
 				4A9174FE15187C17006A15A9 /* Color.cpp in Sources */,
-				4ADA8B36152497AA00FCAD58 /* WorldViewCamera.cpp in Sources */,
 				4A107C2F1525AB0D00EF9FAC /* CRC32.cpp in Sources */,
 				4A107C301525AB0D00EF9FAC /* ShipController.cpp in Sources */,
 				4ADC7B82152C703200E359B5 /* SDLWrappers.cpp in Sources */,
@@ -2526,7 +2495,6 @@
 				4ACC6D1C15401E7000C59914 /* Font.cpp in Sources */,
 				4ACC6D1E15401E7000C59914 /* TextSupport.cpp in Sources */,
 				4ACC6D1F15401E7000C59914 /* TextureFont.cpp in Sources */,
-				4ACC6D2015401E7000C59914 /* VectorFont.cpp in Sources */,
 				4AAC9FE215458FE400116131 /* miniz.c in Sources */,
 				4AAC9FE91545901D00116131 /* FileSourceZip.cpp in Sources */,
 				4AAC9FEA1545901D00116131 /* ModManager.cpp in Sources */,
@@ -2657,6 +2625,12 @@
 				4ACDB6CE167878CE0069FA03 /* ModelCache.cpp in Sources */,
 				4ACDB6CF167878CE0069FA03 /* ModelViewer.cpp in Sources */,
 				4ACDB6D2167879AF0069FA03 /* DistanceFieldFont.cpp in Sources */,
+				4AEE56DD16A44CD800AA1C53 /* SpaceStationType.cpp in Sources */,
+				4A4A86E916A992D600F81F18 /* CameraController.cpp in Sources */,
+				4ACE132F16B4B19D00CAE524 /* EnumStrings.cpp in Sources */,
+				4ACED56A16BBCC7200E53808 /* LuaMissile.cpp in Sources */,
+				4AA84A2716D0E18700220311 /* LuaEquipDef.cpp in Sources */,
+				4AA84A2816D0E18700220311 /* LuaShipDef.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

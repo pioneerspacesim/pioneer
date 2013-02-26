@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Thruster.h"
+#include "NodeVisitor.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "graphics/Material.h"
@@ -30,8 +31,8 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 	m_tMat->diffuse = baseColor;
 }
 
-Thruster::Thruster(const Thruster &thruster)
-: Node(thruster)
+Thruster::Thruster(const Thruster &thruster, NodeCopyCache *cache)
+: Node(thruster, cache)
 , m_tMat(thruster.m_tMat)
 , linearOnly(thruster.linearOnly)
 , dir(thruster.dir)
@@ -40,9 +41,14 @@ Thruster::Thruster(const Thruster &thruster)
 	m_tVerts.Reset(CreateGeometry());
 }
 
-Node* Thruster::Clone()
+Node* Thruster::Clone(NodeCopyCache *cache)
 {
 	return this; //thrusters are shared
+}
+
+void Thruster::Accept(NodeVisitor &nv)
+{
+	nv.ApplyThruster(*this);
 }
 
 void Thruster::Render(const matrix4x4f &trans, RenderData *rd)

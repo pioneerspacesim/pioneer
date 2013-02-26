@@ -9,6 +9,19 @@ namespace UI {
 class LuaMultiLineText {
 public:
 
+	static int l_set_text(lua_State *l) {
+		UI::MultiLineText *mlt = LuaObject<UI::MultiLineText>::CheckFromLua(1);
+		const std::string text(luaL_checkstring(l, 2));
+		mlt->SetText(text);
+		return 0;
+	}
+
+	static int l_append_text(lua_State *l) {
+		UI::MultiLineText *mlt = LuaObject<UI::MultiLineText>::CheckFromLua(1);
+		const std::string text(luaL_checkstring(l, 2));
+		mlt->AppendText(text);
+		return 0;
+	}
 };
 
 }
@@ -22,7 +35,8 @@ template <> void LuaObject<UI::MultiLineText>::RegisterClass()
 	static const char *l_parent = "UI.Widget";
 
 	static const luaL_Reg l_methods[] = {
-
+		{ "SetText",    &LuaMultiLineText::l_set_text    },
+		{ "AppendText", &LuaMultiLineText::l_append_text },
 		{ 0, 0 }
 	};
 

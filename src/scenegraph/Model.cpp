@@ -3,6 +3,7 @@
 
 #include "Model.h"
 #include "CollisionVisitor.h"
+#include "NodeCopyCache.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
 
@@ -38,9 +39,8 @@ Model::Model(const Model &model)
 , m_curPattern(model.m_curPattern)
 {
 	//selective copying of node structure
-	Group *root = dynamic_cast<Group*>(model.m_root->Clone());
-	assert(root != 0);
-	m_root.Reset(root);
+	NodeCopyCache cache;
+	m_root.Reset(dynamic_cast<Group*>(model.m_root->Clone(&cache)));
 
 	//materials are shared by meshes
 	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)
@@ -207,6 +207,13 @@ void Model::ClearDecals()
 		m_curDecals[i] = t;
 }
 
+void Model::ClearDecal(unsigned int index)
+{
+	index = std::min(index, MAX_DECAL_MATERIALS-1);
+	if (m_decalMaterials[index].Valid())
+		m_curDecals[index] = Graphics::TextureBuilder::GetTransparentTexture(m_renderer);
+}
+
 bool Model::SupportsDecals()
 {
 	for (unsigned int i=0; i<MAX_DECAL_MATERIALS; i++)
@@ -253,6 +260,55 @@ void Model::SetThrust(const vector3f &lin, const vector3f &ang)
 	m_renderData.angthrust[0] = ang.x;
 	m_renderData.angthrust[1] = ang.y;
 	m_renderData.angthrust[2] = ang.z;
+}
+
+class SaveVisitor : public NodeVisitor {
+public:
+	SaveVisitor(Serializer::Writer *wr_): wr(wr_) {}
+
+	void ApplyMatrixTransform(MatrixTransform &node) {
+		const matrix4x4f &m = node.GetTransform();
+		for (int i = 0; i < 16; i++)
+			wr->Float(m[i]);
+	}
+
+private:
+	Serializer::Writer *wr;
+};
+
+void Model::Save(Serializer::Writer &wr) const
+{
+	SaveVisitor sv(&wr);
+	m_root->Accept(sv);
+
+	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
+		wr.Double((*i)->GetProgress());
+}
+
+
+class LoadVisitor : public NodeVisitor {
+public:
+	LoadVisitor(Serializer::Reader *rd_): rd(rd_) {}
+
+	void ApplyMatrixTransform(MatrixTransform &node) {
+		matrix4x4f m;
+		for (int i = 0; i < 16; i++)
+			m[i] = rd->Float();
+		node.SetTransform(m);
+	}
+
+private:
+	Serializer::Reader *rd;
+};
+
+void Model::Load(Serializer::Reader &rd)
+{
+	LoadVisitor lv(&rd);
+	m_root->Accept(lv);
+
+	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
+		(*i)->SetProgress(rd.Double());
+	UpdateAnimations();
 }
 
 }

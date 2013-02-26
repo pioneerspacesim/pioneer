@@ -15,12 +15,12 @@ noinst_HEADERS = \
 	Lua.h \
 	Panel.h \
 	Face.h \
-	ShipSpinner.h
+	ModelSpinner.h
 
 libgameui_a_SOURCES = \
 	Panel.cpp \
 	Face.cpp \
-	ShipSpinner.cpp \
+	ModelSpinner.cpp \
 	Lua.cpp \
 	LuaFace.cpp \
-	LuaShipSpinner.cpp
+	LuaModelSpinner.cpp

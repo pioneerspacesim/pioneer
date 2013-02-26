@@ -5,9 +5,10 @@
 #define _SYSTEMPATH_H
 
 #include "Serializer.h"
+#include "LuaWrappable.h"
 #include <stdexcept>
 
-class SystemPath {
+class SystemPath : public LuaWrappable {
 public:
 	struct ParseFailure : public std::invalid_argument {
 		ParseFailure(): std::invalid_argument("invalid SystemPath format") {}

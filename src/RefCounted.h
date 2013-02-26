@@ -5,15 +5,16 @@
 #define _REFCOUNTED_H
 
 #include "SmartPtr.h"
+#include "LuaWrappable.h"
 
-class RefCounted {
+class RefCounted : public LuaWrappable {
 public:
 	RefCounted() : m_refCount(0) {}
 	virtual ~RefCounted() {}
 
 	inline void IncRefCount() { m_refCount++; }
 	inline void DecRefCount() { assert(m_refCount > 0); if (! --m_refCount) delete this; }
-	inline int GetRefCount() { return m_refCount; }
+	inline int GetRefCount() const { return m_refCount; }
 
 private:
 	int m_refCount;

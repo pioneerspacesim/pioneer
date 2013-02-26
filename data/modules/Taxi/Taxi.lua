@@ -76,7 +76,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(howmany)
 
 	elseif option == 3 then
-		local capacity = Game.player:GetEquipSlotCapacity('CABIN')
+		local capacity = ShipDef[Game.player.shipId].equipSlotCapacity.CABIN
 		if capacity < ad.group or Game.player:GetEquipCount('CABIN', 'UNOCCUPIED_CABIN') < ad.group then
 			form:SetMessage(t("You do not have enough cabin space on your ship."))
 			form:AddOption(t('HANG_UP'), -1)
@@ -215,11 +215,8 @@ local onEnterSystem = function (player)
 
 			if ships < 1 and risk > 0 and Engine.rand:Integer(math.ceil(1/risk)) == 1 then ships = 1 end
 
-			local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
-				local mass = t.hullMass
-				return mass >= 80 and mass <= 200
-			end)
-			if #shiptypes == 0 then return end
+			local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= 80 and def.hullMass <= 200 end, pairs(ShipDef)))
+			if #shipdefs == 0 then return end
 
 			local ship
 
@@ -227,19 +224,19 @@ local onEnterSystem = function (player)
 				ships = ships-1
 
 				if Engine.rand:Number(1) <= risk then
-					local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-					local shiptype = ShipType.GetShipType(shipid)
-					local default_drive = shiptype.defaultHyperdrive
+					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
+					local default_drive = shipdef.defaultHyperdrive
 
-					local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
-					local lasers = EquipType.GetEquipTypes('LASER', function (e,et)
-						return et.mass <= max_laser_size and string.sub(e,0,11) == 'PULSECANNON'
-					end)
-					local laser = lasers[Engine.rand:Integer(1,#lasers)]
+					local max_laser_size = shipdef.capacity - EquipDef[default_drive].mass
+					local laserdefs = build_array(filter(
+                        function (k,def) return def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(def.id,0,11) == 'PULSECANNON' end,
+                        pairs(EquipDef)
+                    ))
+					local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
-					ship = Space.SpawnShipNear(shipid, Game.player, 50, 100)
+					ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
 					ship:AddEquip(default_drive)
-					ship:AddEquip(laser)
+					ship:AddEquip(laserdef.id)
 					ship:AddEquip('SHIELD_GENERATOR', math.ceil(risk * 3))
 					if Engine.rand:Number(2) <= risk then
 						ship:AddEquip('LASER_COOLING_BOOSTER')
@@ -332,7 +329,7 @@ end
 
 local onClick = function (mission)
 	local taxi_flavours = Translate:GetFlavours('Taxi')
-	local dist = Game.system:DistanceTo(mission.location)
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((taxi_flavours[mission.flavour].introtext):interp({
 														name   = mission.client.name,
@@ -341,7 +338,7 @@ local onClick = function (mission)
 														sectory = mission.location.sectorY,
 														sectorz = mission.location.sectorZ,
 														cash   = Format.Money(mission.reward),
-														dist  = string.format("%.2f", dist)})
+														dist  = dist})
 										),
 										ui:Grid(2,1)
 											:SetColumn(0, {
@@ -355,7 +352,7 @@ local onClick = function (mission)
 													ui:Label(taxi_flavours[mission.flavour].danger),
 													ui:Label(Format.Date(mission.due)),
 													ui:Margin(10),
-													ui:Label(math.ceil(dist).." "..t("ly"))
+													ui:Label(dist.." "..t("ly"))
 												})
 											})
 		})})

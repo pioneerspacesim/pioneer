@@ -4,17 +4,15 @@
 #ifndef _SHIPSPINNERWIDGET_H
 #define _SHIPSPINNERWIDGET_H
 
-#include "EquipSet.h"
-#include "ShipFlavour.h"
-#include "ShipType.h"
 #include "gui/Gui.h"
 #include "graphics/Light.h"
-
-namespace SceneGraph { class Model; }
+#include "scenegraph/SceneGraph.h"
+#include "scenegraph/ModelSkin.h"
+#include "SmartPtr.h"
 
 class ShipSpinnerWidget : public Gui::Widget {
 public:
-	ShipSpinnerWidget(const ShipFlavour &flavour, float width, float height);
+	ShipSpinnerWidget(SceneGraph::Model *model, const SceneGraph::ModelSkin &skin, float width, float height);
 
 	virtual void Draw();
 	virtual void GetSizeRequested(float size[2]) { size[0] = m_width; size[1] = m_height; }
@@ -23,11 +21,9 @@ private:
 	float m_width;
 	float m_height;
 
-	SceneGraph::Model *m_model;
-	// XXX m_equipment is currently not hooked up to anything,
-	// it's just used to pass equipment parameters to the displayed model
-	EquipSet m_equipment;
-	//illumination in ship view
+	ScopedPtr<SceneGraph::Model> m_model;
+	SceneGraph::ModelSkin m_skin;
+
 	Graphics::Light m_light;
 };
 

@@ -9,13 +9,13 @@
 #include "graphics/Renderer.h"
 #include "scenegraph/SceneGraph.h"
 
-ShipSpinnerWidget::ShipSpinnerWidget(const ShipFlavour &flavour, float width, float height) :
+ShipSpinnerWidget::ShipSpinnerWidget(SceneGraph::Model *model, const SceneGraph::ModelSkin &skin, float width, float height) :
 	m_width(width),
-	m_height(height)
+	m_height(height),
+	m_skin(skin)
 {
-	m_model = Pi::FindModel(ShipType::types[flavour.id].modelName.c_str());
-
-	flavour.ApplyTo(m_model);
+	m_model.Reset(model->MakeInstance());
+	m_skin.Apply(m_model.Get());
 
 	Color lc(1.f);
 	m_light.SetDiffuse(lc);

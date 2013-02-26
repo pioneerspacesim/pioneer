@@ -65,7 +65,7 @@ local onChat = function (form, ref, option)
 
 	-- Replace those tokens into ad's intro text that can change during play
 	message = string.interp(ad.intro, {
-		drive = EquipType.GetEquipType(hyperdrive).name,
+		drive = EquipDef[hyperdrive].name,
 		price = Format.Money(price),
 	})
 
@@ -115,7 +115,7 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
-local onShipFlavourChanged = function (ship)
+local onShipTypeChanged = function (ship)
 	if ship:IsPlayer() then
 		service_history.company = nil
 		service_history.lastdate = Game.time
@@ -123,7 +123,7 @@ local onShipFlavourChanged = function (ship)
 end
 
 local onShipEquipmentChanged = function (ship, equipment)
-	if ship:IsPlayer() and (EquipType.GetEquipType(equipment).slot == 'ENGINE') then
+	if ship:IsPlayer() and (EquipDef[equipment].slot == 'ENGINE') then
 		service_history.company = nil
 		service_history.lastdate = Game.time
 		service_history.service_period = oneyear
@@ -206,7 +206,7 @@ local onEnterSystem = function (ship)
 			-- Destroy the engine
 			local engine = ship:GetEquip('ENGINE',1)
 			ship:RemoveEquip(engine)
-			ship:AddEquip('RUBBISH',EquipType.GetEquipType(engine).mass)
+			ship:AddEquip('RUBBISH',EquipDef[engine].mass)
 			Comms.Message(t("The ship's hyperdrive has been destroyed by a malfunction"))
 		end
 	end
@@ -233,7 +233,7 @@ end
 
 Event.Register("onCreateBB", onCreateBB)
 Event.Register("onGameStart", onGameStart)
-Event.Register("onShipFlavourChanged", onShipFlavourChanged)
+Event.Register("onShipTypeChanged", onShipTypeChanged)
 Event.Register("onShipEquipmentChanged", onShipEquipmentChanged)
 Event.Register("onEnterSystem", onEnterSystem)
 
