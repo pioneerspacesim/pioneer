@@ -10,20 +10,22 @@
 #include "graphics/Renderer.h"
 #include "scenegraph/SceneGraph.h"
 
+const float DEFAULT_COOLING_RATE = 0.01f;
+const float TEMPERATURE_PER_SHOT = 0.01f;
+
 Weapon::Weapon(Equip::Type type, Ship *s, const ShipType::GunMount &hardpoint)
 : m_recharge(0.f)
 , m_temperature(0.f)
-, m_coolingRate(0.01f)
+, m_coolingRate(DEFAULT_COOLING_RATE)
 , m_coolingMultiplier(1.f)
 , m_ship(s)
 , m_equipType(type)
 , m_position(hardpoint.pos)
 , m_direction(hardpoint.dir)
-, m_model(0)
 {
-	m_laserType = Equip::lasers[Equip::types[m_equipType].tableIndex];
+	m_laserType = &Equip::lasers[Equip::types[m_equipType].tableIndex];
 
-	if (m_laserType.flags & Equip::LASER_DUAL) {
+	if (m_laserType->flags & Equip::LASER_DUAL) {
 		const vector3d orient = hardpoint.orient == ShipType::DUAL_LASERS_HORIZONTAL ?
 			vector3d(1.0, 0.0, 0.0) : vector3d(0.0, 1.0, 0.0);
 		m_muzzles.push_back(hardpoint.sep * orient);
@@ -51,9 +53,8 @@ void Weapon::Load(Serializer::Reader &rd)
 	m_temperature = rd.Float();
 }
 
-void Weapon::Render(Graphics::Renderer *r, const matrix4x4f &trans)
+void Weapon::Render(Graphics::Renderer *, const matrix4x4f &trans)
 {
-	//XXX store orientation, don't calc on render
 	const vector3f zaxis = vector3f(-m_direction).Normalized();
 	const vector3f xaxis = vector3f(0.f,1.f,0.f).Cross(zaxis).Normalized();
 	const vector3f yaxis = zaxis.Cross(xaxis).Normalized();
@@ -85,14 +86,14 @@ bool Weapon::Fire()
 {
 	if (!CanFire()) return false;
 
-	m_temperature += 0.01f;
-	m_recharge = m_laserType.rechargeTime;
+	m_temperature += TEMPERATURE_PER_SHOT;
+	m_recharge = m_laserType->rechargeTime;
 
 	const matrix3x3d &m = m_ship->GetOrient();
 	const vector3d dir = m * m_direction;
 
 	const vector3d baseVel = m_ship->GetVelocity();
-	const vector3d dirVel = m_laserType.speed * dir.Normalized();
+	const vector3d dirVel = m_laserType->speed * dir.Normalized();
 
 	for (unsigned int i = 0; i < m_muzzles.size(); i++) {
 		const vector3d pos = m * (m_position + m_muzzles[i]) + m_ship->GetPosition();

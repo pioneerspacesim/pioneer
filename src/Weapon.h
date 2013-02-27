@@ -36,7 +36,7 @@ public:
 
 	float GetTemperature() const { return m_temperature; }
 
-	void SetCoolingMultiplier(float) { m_coolingMultiplier = 1.f; }
+	void SetCoolingMultiplier(float mult) { m_coolingMultiplier = mult; }
 
 private:
 	friend class Ship;
@@ -47,9 +47,9 @@ private:
 	float m_coolingRate;
 	float m_coolingMultiplier;
 
-	Ship* m_ship;
+	Ship *m_ship;
 	Equip::Type m_equipType;
-	LaserType m_laserType;
+	const LaserType *m_laserType;
 
 	vector3d m_position;
 	vector3d m_direction;
