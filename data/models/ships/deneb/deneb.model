@@ -4,19 +4,20 @@ material Body-material
 tex_diff deneb.png
 tex_glow deneb_glow.png
 tex_spec deneb_spec.png
-#use_patterns
 
-collision deneb_med.dae
+#collision deneb_med.dae
 
 # LOD
 lod 1000
 mesh deneb.dae
 
-# This LOD needs some work so ill omit for now.
-#lod 100
-#mesh deneb_med.dae
+lod 500
+mesh deneb_medhigh.dae
 
-lod 25
+lod 100
+mesh deneb_med.dae
+
+lod 20
 mesh deneb_low.dae
 
 # Animations
