@@ -25,20 +25,19 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 0.3f, 1.f), one, one));
 	m_lights.push_back(Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, -1.f, 0.f), two, Color::BLACK));
 
-	std::vector<ShipType::Id> shipIds = ShipType::player_ships;
-	std::random_shuffle(shipIds.begin(), shipIds.end());
-
 	SceneGraph::ModelSkin skin;
 	skin.SetDecal("01_Badge");
 	skin.SetLabel(Lang::PIONEER);
 
-	for (std::vector<ShipType::Id>::const_iterator i = shipIds.begin(); i != shipIds.end(); ++i) {
+	for (std::vector<ShipType::Id>::const_iterator i = ShipType::player_ships.begin(); i != ShipType::player_ships.end(); ++i) {
 		SceneGraph::Model *model = Pi::FindModel(ShipType::types[*i].modelName)->MakeInstance();
 		skin.SetRandomColors(Pi::rng);
 		skin.Apply(model);
 		model->SetThrust(vector3f(0.f, 0.f, -0.6f), vector3f(0.f));
 		m_models.push_back(model);
 	}
+
+	std::random_shuffle(m_models.begin(), m_models.end());
 
 	m_state = STATE_SELECT;
 	m_modelIndex = 0;
