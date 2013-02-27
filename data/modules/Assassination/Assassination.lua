@@ -420,14 +420,14 @@ local onClick = function (mission)
 												ui:VBox():PackEnd(ui:MultiLineText(t('assmissiondetail')))
 											})
 											:SetColumn(1, {
-												ui:VBox():PackEnd({
+												ui:VBox(-1):PackEnd({
 													ui:Label(mission.target),
 													ui:Label(mission.location:GetSystemBody().name),
 													ui:Label(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
 													ui:Label(mission.shipname),
 													ui:Label(mission.shipregid),
+													ui:Label(""),
 													ui:Label(Format.Date(mission.due)),
-													ui:Margin(10),
 													ui:Label(dist.." "..t("ly"))
 												})
 											})

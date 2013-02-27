@@ -77,8 +77,8 @@ Translate:Add({ English = {
   System:
   Ship:
   Ship ID:
-  Target will be leaving spaceport at:
-  
+  Target will be leaving
+  spaceport at:
   Distance:]],
  
   TITLE = {
@@ -180,8 +180,8 @@ Translate:Add({ Polski = {
   System:
   Statek:
   Identyfikator:
-  Cel będzie opuszczał port kosmiczny o:
-  
+  Cel będzie opuszczał
+  port kosmiczny o:
   Dystans:]],
   
   TITLE = {
@@ -463,8 +463,8 @@ Translate:Add({ Russian = {
   Система нахождения:
   Тип корабля:
   Номер корабля:
+    
   Цель покинет станцию:
-  
   Расстояние:]],
   
   TITLE = {
@@ -565,8 +565,8 @@ Translate:Add({ Deutsch = {
   System:
   Schiff:
   Schiff-ID:
-  Ziel wird Raumhafen verlassen um:
-  
+  Ziel wird Raumhafen
+  verlassen um:
   Distanz:]],
  
   TITLE = {
