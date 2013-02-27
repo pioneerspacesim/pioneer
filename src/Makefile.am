@@ -17,7 +17,6 @@ bin_PROGRAMS = pioneer
 noinst_HEADERS = \
 	Aabb.h \
 	AmbientSounds.h \
-	AnimationCurves.h \
 	Background.h \
 	BezierCurve.h \
 	Body.h \
@@ -35,6 +34,7 @@ noinst_HEADERS = \
 	DeathView.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
+	Easing.h \
 	EnumStrings.h \
 	EquipSet.h \
 	EquipType.h \

@@ -11,7 +11,7 @@
 #include "Player.h"
 #include "FloatComparison.h"
 #include "Game.h"
-#include "AnimationCurves.h"
+#include "Easing.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 
@@ -354,7 +354,7 @@ void SystemView::Update()
 	// TODO: add "true" lower/upper bounds to m_zoomTo / m_zoom
 	m_zoomTo = Clamp(m_zoomTo, MIN_ZOOM, MAX_ZOOM);
 	m_zoom = Clamp(m_zoom, MIN_ZOOM, MAX_ZOOM);
-	AnimationCurves::Approach(m_zoom, m_zoomTo, ft);
+	m_zoom = Easing::Linear::EaseInOut(ft*10.0f, m_zoom, m_zoomTo-m_zoom, 1.0f);
 
 	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
 		int motion[2];
