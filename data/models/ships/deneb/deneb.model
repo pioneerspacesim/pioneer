@@ -5,7 +5,7 @@ tex_diff deneb.png
 tex_glow deneb_glow.png
 tex_spec deneb_spec.png
 
-#collision deneb_med.dae
+collision deneb_collision.obj
 
 # LOD
 lod 1000
