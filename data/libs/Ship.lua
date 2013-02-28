@@ -59,7 +59,7 @@ function Ship:FireMissileAt(missile, target)
 		end
 	else
 		for i,m in ipairs(self:GetEquip("MISSILE")) do
-			if m == missile or (missile == "any" and missile_names[m]) then
+			if m == missile or (missile == "any" and m ~= "NONE") then
 				missile_object = self:SpawnMissile(missile_names[m])
 				if missile_object ~= nil then
 					self:SetEquip("MISSILE", i, "NONE")
