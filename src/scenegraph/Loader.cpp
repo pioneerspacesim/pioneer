@@ -7,6 +7,7 @@
 #include "LOD.h"
 #include "Parser.h"
 #include "SceneGraph.h"
+#include "Shield.h"
 #include "StaticGeometry.h"
 #include "StringF.h"
 #include "utils.h"
@@ -769,13 +770,21 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 	if (node->mNumMeshes > 0) {
 		//is this node animated? add a transform
 		//does this node have children? Add a group
-		RefCountedPtr<StaticGeometry> geom(new StaticGeometry(m_renderer));
-		geom->SetName(nodename + "_mesh");
+		RefCountedPtr<StaticGeometry> geom;
+		const bool isShield = starts_with(nodename, "shield");
+		if (isShield) {
+			geom.Reset(new Shield(m_renderer));
+			geom->SetName(nodename + "_shield");
+		} else {
+			geom.Reset(new StaticGeometry(m_renderer));
+			geom->SetName(nodename + "_mesh");
+		}
 		RefCountedPtr<Graphics::StaticMesh> smesh(new Graphics::StaticMesh(Graphics::TRIANGLES));
 
 		//expecting decal_0X
 		unsigned int numDecal = 0;
-		if (starts_with(nodename, "decal_")) {
+		const bool isDecal = starts_with(nodename, "decal_");
+		if (isDecal) {
 			numDecal = atoi(nodename.substr(7,1).c_str());
 			if (numDecal > 4)
 				throw LoadingError("More than 4 different decals");

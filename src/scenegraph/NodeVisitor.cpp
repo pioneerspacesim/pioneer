@@ -11,6 +11,7 @@
 #include "Node.h"
 #include "StaticGeometry.h"
 #include "Thruster.h"
+#include "Shield.h"
 
 namespace SceneGraph {
 
@@ -57,6 +58,11 @@ void NodeVisitor::ApplyLOD(LOD &l)
 void NodeVisitor::ApplyCollisionGeometry(CollisionGeometry &g)
 {
 	ApplyNode(static_cast<Node&>(g));
+}
+
+void NodeVisitor::ApplyShield(Shield &s)
+{
+	ApplyNode(static_cast<Node&>(s));
 }
 
 }

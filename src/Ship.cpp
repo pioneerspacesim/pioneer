@@ -1090,6 +1090,9 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	//angthrust negated, for some reason
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
 
+	const bool shieldsVisible = (m_stats.shield_mass_left < m_stats.shield_mass);
+	GetModel()->SetShield(shieldsVisible);
+
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
 
@@ -1097,22 +1100,22 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	RenderModel(renderer, viewCoords, viewTransform);
 
 	// draw shield recharge bubble
-	if (m_stats.shield_mass_left < m_stats.shield_mass) {
-		const float shield = 0.01f*GetPercentShields();
-		renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
-		glPushMatrix();
-		matrix4x4f trans = matrix4x4f::Identity();
-		trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
-		trans.Scale(GetPhysRadius());
-		renderer->SetTransform(trans);
+	//if (m_stats.shield_mass_left < m_stats.shield_mass) {
+	//	const float shield = 0.01f*GetPercentShields();
+	//	renderer->SetBlendMode(Graphics::BLEND_ADDITIVE);
+	//	glPushMatrix();
+	//	matrix4x4f trans = matrix4x4f::Identity();
+	//	trans.Translate(viewCoords.x, viewCoords.y, viewCoords.z);
+	//	trans.Scale(GetPhysRadius());
+	//	renderer->SetTransform(trans);
 
-		//fade based on strength
-		Sfx::shieldEffect->GetMaterial()->diffuse =
-			Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
-		Sfx::shieldEffect->Draw(renderer);
-		glPopMatrix();
-		renderer->SetBlendMode(Graphics::BLEND_SOLID);
-	}
+	//	//fade based on strength
+	//	Sfx::shieldEffect->GetMaterial()->diffuse =
+	//		Color((1.0f-shield),shield,0.0,0.33f*(1.0f-shield));
+	//	Sfx::shieldEffect->Draw(renderer);
+	//	glPopMatrix();
+	//	renderer->SetBlendMode(Graphics::BLEND_SOLID);
+	//}
 
 	if (m_ecmRecharge > 0.0f) {
 		// ECM effect: a cloud of particles for a sparkly effect

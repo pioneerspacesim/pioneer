@@ -112,6 +112,7 @@
     <ClCompile Include="..\..\..\src\scenegraph\NodeVisitor.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Parser.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Pattern.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\Shield.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\StaticGeometry.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Thruster.cpp" />
     <ClCompile Include="..\..\..\src\win32\pch.cpp">
@@ -146,6 +147,7 @@
     <ClInclude Include="..\..\..\src\scenegraph\NodeVisitor.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Parser.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Pattern.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\Shield.h" />
     <ClInclude Include="..\..\..\src\scenegraph\StaticGeometry.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Thruster.h" />
     <ClInclude Include="..\..\..\src\win32\pch.h" />

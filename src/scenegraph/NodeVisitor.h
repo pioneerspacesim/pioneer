@@ -22,6 +22,7 @@ class MatrixTransform;
 class Node;
 class StaticGeometry;
 class Thruster;
+class Shield;
 
 class NodeVisitor
 {
@@ -36,6 +37,7 @@ public:
 	virtual void ApplyThruster(Thruster&);
 	virtual void ApplyLOD(LOD&);
 	virtual void ApplyCollisionGeometry(CollisionGeometry&);
+	virtual void ApplyShield(Shield&);
 };
 
 }

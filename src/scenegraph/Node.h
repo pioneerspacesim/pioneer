@@ -32,11 +32,14 @@ struct RenderData
 	float boundingRadius;	//updated by model and passed to submodels
 	unsigned int nodemask;
 
+	bool shieldVisible;
+
 	RenderData()
 	: linthrust()
 	, angthrust()
 	, boundingRadius(0.f)
 	, nodemask(0x1) //draw solids
+	, shieldVisible(false)
 	{
 	}
 };
