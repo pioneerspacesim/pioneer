@@ -213,7 +213,7 @@ bool AICmdKamikaze::TimeStepUpdate()
 	// too much if we miss the target.
 
 	// Aim to collide at a speed which would take us 4s to reverse.
-	static const double aimCollisionSpeed = m_ship->GetAccelFwd()*2;
+	const double aimCollisionSpeed = m_ship->GetAccelFwd()*2;
 
 	// Aim to use 1/4 of our acceleration for braking while closing
 	// distance, leaving the rest for course adjustment.
