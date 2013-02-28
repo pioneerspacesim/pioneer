@@ -12,6 +12,12 @@
 #include "scenegraph/ModelSkin.h"
 #include <algorithm>
 
+struct PiRngWrapper {
+	unsigned int operator()(unsigned int n) {
+		return Pi::rng.Int32(n);
+	}
+};
+
 Intro::Intro(Graphics::Renderer *r, int width, int height)
 : Cutscene(r, width, height)
 {
@@ -37,7 +43,8 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 		m_models.push_back(model);
 	}
 
-	std::random_shuffle(m_models.begin(), m_models.end());
+	PiRngWrapper rng;
+	std::random_shuffle(m_models.begin(), m_models.end(), rng);
 
 	m_state = STATE_SELECT;
 	m_modelIndex = 0;
