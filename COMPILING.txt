@@ -33,6 +33,7 @@ Linux - Autotools
     automake
     pkg-config
     libsigc++-dev
+    libsigc++-2.0-dev
     libsdl1.2-dev
     libsdl-image1.2-dev
     libfreetype6-dev
