@@ -70,9 +70,9 @@ Translate:Add({ English = {
   ["Ok, agreed."] = "Ok, agreed.",
   ["ly"] = "ly",
 
-  -- Texts for the missions screen   
+  -- Texts for the missions screen
+  ["Target name:"] = "Target name:",
   assmissiondetail = [[
-  Target name:
   Spaceport:
   System:
   Ship:
@@ -173,9 +173,9 @@ Translate:Add({ Polski = {
   ["Ok, agreed."] = "Zgoda.",
   ["ly"] = "lś",
 
-  -- Texts for the missions screen  
+  -- Texts for the missions screen
+  ["Target name:"] = "Cel:",
   assmissiondetail = [[
-  Cel:
   Port kosmiczny:
   System:
   Statek:
@@ -456,9 +456,9 @@ Translate:Add({ Russian = {
   ["Ok, agreed."] = "Согласен, подписываю контракт.",
   ["ly"] = "св.лет",
 
-  -- Texts for the missions screen   
+  -- Texts for the missions screen
+  ["Target name:"] = "Цель:",
   assmissiondetail = [[
- Цель:
   Станция нахождения:
   Система нахождения:
   Тип корабля:
@@ -558,9 +558,9 @@ Translate:Add({ Deutsch = {
   ["How will I be paid?"] = "Wie werde ich Bezahlt?",
   ["Ok, agreed."] = "Okay, ich mache das..",
 
-  -- Texts for the missions screen   
+  -- Texts for the missions screen
+  ["Target name:"] = "Zielname:",
   assmissiondetail = [[
-  Zielname:
   Raumhafen:
   System:
   Schiff:
