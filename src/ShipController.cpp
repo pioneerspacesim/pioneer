@@ -157,8 +157,6 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 	// if flying
 	{
 		m_ship->ClearThrusterState();
-		m_ship->SetGunState(0,0);
-		m_ship->SetGunState(1,0);
 
 		vector3d wantAngVel(0.0);
 		double angThrustSoftness = 10.0;
@@ -229,10 +227,8 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		if (KeyBindings::thrustLeft.IsActive()) m_ship->SetThrusterState(0, -linearThrustPower);
 		if (KeyBindings::thrustRight.IsActive()) m_ship->SetThrusterState(0, linearThrustPower);
 
-		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
-				//XXX worldview? madness, ask from ship instead
-				m_ship->SetGunState(Pi::worldView->GetActiveWeapon(), 1);
-		}
+		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT)))
+			m_ship->FireActiveWeapon();
 
 		if (KeyBindings::yawLeft.IsActive()) wantAngVel.y += 1.0;
 		if (KeyBindings::yawRight.IsActive()) wantAngVel.y += -1.0;

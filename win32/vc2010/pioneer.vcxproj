@@ -123,6 +123,7 @@
     <ClCompile Include="..\..\src\DynamicBody.cpp" />
     <ClCompile Include="..\..\src\EnumStrings.cpp" />
     <ClCompile Include="..\..\src\enum_table.cpp" />
+    <ClCompile Include="..\..\src\EquipSet.cpp" />
     <ClCompile Include="..\..\src\EquipType.cpp" />
     <ClCompile Include="..\..\src\FaceVideoLink.cpp" />
     <ClCompile Include="..\..\src\Factions.cpp" />
@@ -245,6 +246,7 @@
     <ClCompile Include="..\..\src\UIView.cpp" />
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\View.cpp" />
+    <ClCompile Include="..\..\src\Weapon.cpp" />
     <ClCompile Include="..\..\src\win32\FileSystemWin32.cpp" />
     <ClCompile Include="..\..\src\win32\OSWin32.cpp" />
     <ClCompile Include="..\..\src\win32\pch.cpp">
@@ -280,6 +282,7 @@
     <ClInclude Include="..\..\src\DynamicBody.h" />
     <ClInclude Include="..\..\src\EnumStrings.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
+    <ClInclude Include="..\..\src\EquipSet.h" />
     <ClInclude Include="..\..\src\EquipType.h" />
     <ClInclude Include="..\..\src\FaceVideoLink.h" />
     <ClInclude Include="..\..\src\Factions.h" />
@@ -406,6 +409,7 @@
     <ClInclude Include="..\..\src\vector3.h" />
     <ClInclude Include="..\..\src\VideoLink.h" />
     <ClInclude Include="..\..\src\View.h" />
+    <ClInclude Include="..\..\src\Weapon.h" />
     <ClInclude Include="..\..\src\win32\pch.h" />
     <ClInclude Include="..\..\src\win32\TextUtils.h" />
     <ClInclude Include="..\..\src\win32\WinMath.h" />

@@ -12,7 +12,6 @@
 #include "SpaceStation.h"
 #include "Space.h"
 
-
 static const double VICINITY_MIN = 15000.0;
 static const double VICINITY_MUL = 4.0;
 
@@ -52,7 +51,6 @@ void AICommand::PostLoadFixup(Space *space)
 	m_ship = static_cast<Ship *>(space->GetBodyByIndex(m_shipIndex));
 	if (m_child) m_child->PostLoadFixup(space);
 }
-
 
 bool AICommand::ProcessChild()
 {
@@ -141,7 +139,6 @@ bool AICmdKill::TimeStepUpdate()
 
 //	m_wpnSpeedRatio = Equip::types[m_ship->m_equipment.Get(Equip::SLOT_LASERS, 0)]
 
-
 	// Immediate factors:
 	// if their laser temperature is high, counter-evade and close range
 
@@ -155,9 +152,7 @@ bool AICmdKill::TimeStepUpdate()
 
 	// if not visible to opponent and close, may attempt to stay in blind spot?
 
-
 	if (rval) {			// current pattern complete, pick which to use next
-
 
 		// danger metrics: damage taken, target heading & range,
 		// separate danger from target and danger from elsewhere?
@@ -203,7 +198,6 @@ bool AICmdKamikaze::TimeStepUpdate()
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
 	else { LaunchShip(m_ship); return false; }
 
-	m_ship->SetGunState(0,0);
 	// needs to deal with frames, large distances, and success
 	if (m_ship->GetFrame() == m_target->GetFrame()) {
 		double dist = (m_target->GetPosition() - m_ship->GetPosition()).Length();
@@ -266,17 +260,15 @@ bool AICmdKill::TimeStepUpdate()
 		m_leadDrift = (newoffset - m_leadOffset) / (m_leadTime - Pi::game->GetTime());
 
 		// Shoot only when close to target
-
+		// XXX query weapon range
 		double vissize = 1.3 * m_ship->GetPhysRadius() / targpos.Length();
 		vissize += (0.05 + 0.5*leaddiff)*Pi::rng.Double()*skillShoot;
-		if (vissize > headdiff) m_ship->SetGunState(0,1);
-		else m_ship->SetGunState(0,0);
-		if (targpos.LengthSqr() > 4000*4000) m_ship->SetGunState(0,0);		// temp
+		if (vissize > headdiff && targpos.LengthSqr() < 4000*4000)
+			m_ship->FireActiveWeapon();
 	}
 	m_leadOffset += m_leadDrift * Pi::game->GetTimeStep();
 	double leadAV = (leaddir-targdir).Dot((leaddir-heading).NormalizedSafe());	// leaddir angvel
 	m_ship->AIFaceDirection((leaddir + m_leadOffset).Normalized(), leadAV);
-
 
 	vector3d evadethrust(0,0,0);
 	if (m_evadeTime < Pi::game->GetTime())		// evasion time!
@@ -318,7 +310,6 @@ bool AICmdKill::TimeStepUpdate()
 	}
 	else evadethrust = m_ship->GetThrusterState();
 
-
 	// todo: some logic behind desired range? pass from higher level
 	if (m_closeTime < Pi::game->GetTime())
 	{
@@ -355,7 +346,6 @@ bool AICmdKill::TimeStepUpdate()
 // ok, can't really decide what's best.
 // best: evade from heading if low velocity, otherwise evade in direction of angvel
 
-
 // first need to consider whether danger is sufficiently high to prioritise evasion
 // back to the threat metrics thing
 
@@ -374,7 +364,6 @@ bool AICmdKill::TimeStepUpdate()
 
 // hmm. could consider heading strictly, like watching laser bolts.
 
-
 //	vector3d targld = m_target->AIGetLeadDir(m_ship, vector3d(0,0,0), 0);
 //	(-targpos).Normalized().Dot(targld);
 // compare against target's actual heading and this ship's current velocity
@@ -391,17 +380,11 @@ bool AICmdKill::TimeStepUpdate()
 
 // 1. closer range, closing velocity => worth doing a flypast
 
-
-
-
-
 // need fuzzy range-maintenance
 // every time period, hit forward or reverse thruster or neither
 
 // actually just use real one except only occasionally and with randomised distances
 //
-
-
 
 /*
 bool AICmdKill::TimeStepUpdate()
@@ -657,7 +640,6 @@ static bool CheckSuicide(Ship *ship, const vector3d &tandir)
 	return false;
 }
 
-
 extern double calc_ivel(double dist, double vel, double acc);
 
 // Fly to vicinity of body
@@ -696,7 +678,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
 	else { LaunchShip(m_ship); return false; }
 
-	// generate base target pos (with vicinity adjustment) & vel 
+	// generate base target pos (with vicinity adjustment) & vel
 	double timestep = Pi::game->GetTimeStep();
 	vector3d targpos, targvel;
 	if (m_target) {
@@ -705,7 +687,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 		targvel = m_target->GetVelocityRelTo(m_ship->GetFrame());
 	} else {
 		targpos = GetPosInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
-		targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);		
+		targvel = GetVelInFrame(m_ship->GetFrame(), m_targframe, m_posoff);
 	}
 	Frame *targframe = m_target ? m_target->GetFrame() : m_targframe;
 	ParentSafetyAdjust(m_ship, targframe, targpos, targvel);
@@ -804,7 +786,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 
 	// cap perpspeed according to what's needed now
 	perpspeed = std::min(perpspeed, 2.0*sidefactor*timestep);
-	
+
 	// cap sdiff by thrust...
 	double sdiff = ispeed - curspeed;
 	double linaccel = sdiff < 0 ?
@@ -818,7 +800,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	if (decel) m_ship->AIChangeVelBy(vdiff * m_ship->GetOrient());
 	else m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
 
-	// work out which way to head 
+	// work out which way to head
 	vector3d head = reldir;
 	if (!m_state && sdiff < -1.2*maxdecel*timestep) m_state = 1;
 	if (m_state && sdiff < maxdecel*timestep*60) head = -head;
@@ -837,7 +819,6 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	else if (targdist < 0.5*m_ship->GetAccelMin()*timestep*timestep) m_state = 3;
 	return false;
 }
-
 
 AICmdDock::AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOCK)
 {
@@ -943,7 +924,6 @@ bool AICmdHoldPosition::TimeStepUpdate()
 	m_ship->AIMatchVel(vector3d(0,0,0));
 	return false;
 }
-
 
 void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 {

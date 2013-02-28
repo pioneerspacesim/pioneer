@@ -423,6 +423,12 @@
     <ClCompile Include="..\..\src\NavLights.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Weapon.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\EquipSet.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -891,6 +897,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\matrix3x3.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Weapon.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\EquipSet.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

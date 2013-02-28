@@ -43,7 +43,6 @@ public:
 	void ToggleTargetActions();
 	void ShowTargetActions();
 	void HideTargetActions();
-	int GetActiveWeapon() const;
 	void OnClickBlastoff();
 
 	sigc::signal<void> onChangeCamType;

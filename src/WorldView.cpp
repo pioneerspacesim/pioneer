@@ -30,11 +30,10 @@
 #include <algorithm>
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
+const float HUD_CROSSHAIR_SIZE = 24.f;
 static const Color s_hudTextColor(0.0f,1.0f,0.0f,0.9f);
-static const float ZOOM_SPEED = 1.f;
 static const float WHEEL_SENSITIVITY = .2f;	// Should be a variable in user settings.
-
-#define HUD_CROSSHAIR_SIZE	24.0f
+static const float ZOOM_SPEED = 1.f;
 
 WorldView::WorldView(): View()
 {
@@ -392,7 +391,6 @@ void WorldView::ShowAll()
 	RefreshButtonStateAndVisibility();
 }
 
-
 static Color get_color_for_warning_meter_bar(float v) {
 	Color c;
 	if (v < 50.0f)
@@ -629,9 +627,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
 	}
 
-	const float activeWeaponTemp = Pi::player->GetGunTemperature(GetActiveWeapon());
-	if (activeWeaponTemp > 0.0f) {
-		m_hudWeaponTemp->SetValue(activeWeaponTemp);
+	// XXX should show status for all weapons
+	const Weapon *activeWeapon = Pi::player->GetActiveWeapon();
+	if (activeWeapon && activeWeapon->GetTemperature() > 0.001f) {
+		m_hudWeaponTemp->SetValue(activeWeapon->GetTemperature());
 		m_hudWeaponTemp->Show();
 	} else {
 		m_hudWeaponTemp->Hide();
@@ -816,6 +815,9 @@ void WorldView::Update()
 
 	m_activeCameraController->Update();
 	m_camera->Update();
+
+	// Prefer rear weapons fo rear view
+	Pi::player->ChooseWeaponFromView(m_activeCameraController->GetOrient());
 
 	UpdateProjectedObjects();
 
@@ -1140,19 +1142,6 @@ Body* WorldView::PickBody(const double screenX, const double screenY) const
 	}
 
 	return 0;
-}
-
-int WorldView::GetActiveWeapon() const
-{
-	switch (GetCamType()) {
-		case CAM_INTERNAL:
-			return m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR ? 1 : 0;
-
-		case CAM_EXTERNAL:
-		case CAM_SIDEREAL:
-		default:
-			return 0;
-	}
 }
 
 static inline bool project_to_screen(const vector3d &in, vector3d &out, const Graphics::Frustum &frustum, const int guiSize[2])

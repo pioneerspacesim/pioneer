@@ -13,16 +13,17 @@
 #include "NavLights.h"
 #include "Serializer.h"
 #include "ShipType.h"
+#include "Weapon.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 #include <list>
 
-class SpaceStation;
-class HyperspaceCloud;
 class AICommand;
-class ShipController;
 class CargoBody;
+class HyperspaceCloud;
 class Missile;
+class ShipController;
+class SpaceStation;
 namespace Graphics { class Renderer; }
 
 struct shipstats_t {
@@ -50,6 +51,9 @@ public:
 class Ship: public DynamicBody {
 	friend class ShipController; //only controllers need access to AITimeStep
 	friend class PlayerShipController;
+
+	bool attacking; //used by sensors
+
 public:
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Id shipId);
@@ -87,8 +91,15 @@ public:
 	void UpdateStats();
 	const shipstats_t &GetStats() const { return m_stats; }
 
+	/// Weapons & countermeasures
+	std::vector<Weapon*> &GetWeapons() { return m_weapons; }
+	Weapon *GetActiveWeapon() const;
+	void FireActiveWeapon();
+	void ChooseWeaponFromView(const matrix3x3d&);
+	void UseECM();
+	Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
+
 	void Explode();
-	void SetGunState(int idx, int state);
 	void UpdateMass();
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();
@@ -154,8 +165,6 @@ public:
 	Equip::Type GetHyperdriveFuelType() const;
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
-	void UseECM();
-	virtual Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
 
 	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_>
 		ALERT_NONE,
@@ -216,7 +225,6 @@ public:
 	float GetPercentShields() const;
 	float GetPercentHull() const;
 	void SetPercentHull(float);
-	float GetGunTemperature(int idx) const { return m_gunTemperature[idx]; }
 
 	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_>
 		FUEL_OK,
@@ -249,7 +257,6 @@ public:
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
-	void RenderLaserfire();
 
 	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
 
@@ -260,9 +267,6 @@ protected:
 
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;
-	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
-	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
-	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
 	float m_ecmRecharge;
 
 	ShipController *m_controller;
@@ -270,13 +274,12 @@ protected:
 private:
 	float GetECMRechargeTime();
 	void DoThrusterSounds() const;
-	void FireWeapon(int num);
 	void Init();
-	bool IsFiringLasers();
 	void TestLanded();
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep, const vector3d &thrust);
 	void OnEquipmentChange(Equip::Type e);
+	void CreateWeaponsFromEquipSet();
 	void EnterHyperspace();
 
 	shipstats_t m_stats;
@@ -314,11 +317,10 @@ private:
 	int m_dockedWithIndex; // deserialisation
 
 	SceneGraph::Animation *m_landingGearAnimation;
+	std::vector<Weapon*> m_weapons;
 	ScopedPtr<NavLights> m_navLights;
+	Weapon *m_activeWeapon;
 };
 
-
-
 #endif /* _SHIP_H */
-
 

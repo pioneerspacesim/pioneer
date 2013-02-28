@@ -16,7 +16,6 @@
 #include "KeyBindings.h"
 #include "EnumStrings.h"
 
-
 void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
 {
 	double angAccel = m_type->angThrust / GetAngularInertia();
@@ -34,13 +33,11 @@ void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
 	SetAngThrusterState(thrust);
 }
 
-
 void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *other)
 {
 	vector3d relToVel = other->GetVelocity() * GetOrient() + v;
 	AIAccelToModelRelativeVelocity(relToVel);
 }
-
 
 // Try to reach this model-relative velocity.
 // (0,0,-100) would mean going 100m/s forward.
@@ -56,7 +53,6 @@ void Ship::AIAccelToModelRelativeVelocity(const vector3d v)
 	SetThrusterState(2, difVel.z / maxFrameAccel.z);	// use clamping
 }
 
-
 // returns true if command is complete
 bool Ship::AITimeStep(float timeStep)
 {
@@ -69,8 +65,6 @@ bool Ship::AITimeStep(float timeStep)
 
 		// just in case the AI left it on
 		ClearThrusterState();
-		for (int i=0; i<ShipType::GUNMOUNT_MAX; i++)
-			SetGunState(i,0);
 		return true;
 	}
 
@@ -309,7 +303,6 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 	SetAngThrusterState(diff);
 	return ang;
 }
-
 
 // returns direction in ship's frame from this ship to target lead position
 vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex)
