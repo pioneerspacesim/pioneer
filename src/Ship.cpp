@@ -607,7 +607,7 @@ Missile * Ship::SpawnMissile(ShipType::Id missile_type, int power) {
 	missile->SetOrient(GetOrient());
 	missile->SetFrame(GetFrame());
 	vector3d pos = GetOrient() * vector3d(0, GetAabb().min.y - 10, GetAabb().min.z);
-	vector3d vel = GetOrient() * vector3d(0, 0, -40.0);
+	vector3d vel = -40.0 * GetOrient().VectorZ();
 	missile->SetPosition(GetPosition()+pos);
 	missile->SetVelocity(GetVelocity()+vel);
 	Pi::game->GetSpace()->AddBody(missile);
