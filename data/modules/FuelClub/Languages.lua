@@ -196,7 +196,6 @@ Translate:AddFlavour('Czech','FuelClub',{
 	* Doplnění paliva, kde je potřeba
 
 Přidej se k nám! Roční členství stojí pouhých {membership_fee}]],
-	member_intro = [[You may purhase fuel and dispose of {radioactives} here.]],
 	member_intro = [[Zde si můžeš zakoupit palivo a zlikvidovat {radioactives}.]],
 	annual_fee = 400,
 })
@@ -208,5 +207,5 @@ Translate:Add({Czech = {
 	["Your membership application has been declined."] = "Vaše žádost o členství byla zamítnuta.",
 	["You are now a member. Your membership will expire on {expiry_date}."] = "Nyní jste členem. Vaše členství vyprší {expiry_date}.",
 	["You must buy our {military_fuel} before we will take your {radioactives}"] = "Nejdřív musíš koupit naše {military_fuel} než převezmeme tvůj {radioactives}",
-	["Begin trade"] = "Začít výměnu",
+	["Begin trade"] = "Provést výměnu",
 }})

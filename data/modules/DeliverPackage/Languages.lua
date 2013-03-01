@@ -1028,8 +1028,8 @@ Translate:Add({ Czech = {
 
   Vzdálenost:]],
 
- PIRATE_TAUNTS = {
-  "Budeš litovat, že jsis něco začal s {client}",
+  PIRATE_TAUNTS = {
+	"Budeš litovat, že jsis něco začal s {client}",
 	"Vypadá to, že můj výplatní šek právě dorazil!",
 	"Ty pracuješ pro {client}? To nebyl dobrý nápad.",
 	"Tvůj náklad a tvůj život, pilote!",
@@ -1037,7 +1037,6 @@ Translate:Add({ Czech = {
 	"Dnes není tvůj šťastný den! Připrav se na smrt.",
 	"Vyřiď mému starému příteli {client}, že se uvidíme v pekle!",
 	"Tak tenhle balík už do svého cíle dnes nedorazí.",
-	"You're not getting to {location} today!",
 	"Ty už dnes do {location} nedorazíš!",
 	"Za ten náklad zaplatíš, svým životem!",
   },

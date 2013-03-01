@@ -28,9 +28,9 @@ VID_LINK_ESTABLISHED
 VID_CONNECTING
     Připojuji...
 BOUGHT_1T_OF
-    Koupil jste 1t %commodity.
+    Koupil(a) jste 1t %commodity.
 SOLD_1T_OF
-    Prodal jste 1t %commodity.
+    Prodal(a) jste 1t %commodity.
 WELCOME_TO_MARKET
     Vítá vás %station obchod
 GO_BACK
@@ -40,9 +40,9 @@ FITTING
 REMOVING
     "Odstraňuji "
 FIT_TO_WHICH_MOUNT
-    Umísťit laser na kterou pozici?
+    Kam zbraň umístit?
 REMOVE_FROM_WHICH_MOUNT
-    Odstranit laser ze které pozice?
+    Odkud zbraň odebrat?
 YOU_NOT_ENOUGH_MONEY
     Nemáš dostatek peněz
 TRADER_NOT_ENOUGH_MONEY
@@ -82,19 +82,19 @@ CAPACITY
 CAPACITY_USED
     Využitá kapacita
 FORWARD_ACCEL_EMPTY
-    Zrychlení vpřed (prázdný)
+    Zrychlení vpřed (prázdná)
 NUMBER_G
     %acceleration{f.1} G
 FORWARD_ACCEL_LADEN
-    Zrychlení vpřed (naložený)
+    Zrychlení vpřed (naložená)
 REVERSE_ACCEL_EMPTY
-    Zrychlení vzad (prázdný)
+    Zrychlení vzad (prázdná)
 REVERSE_ACCEL_LADEN
-    Zrychlení vzad (naložený)
+    Zrychlení vzad (naložená)
 HYPERDRIVE_FITTED
     Hypermotor:
 HYPERSPACE_RANGE_LADEN
-    Hyperprostor. dosah (plně naložený):
+    Hyperprostor. dosah (plně naložená):
 THANKS_AND_REMEMBER_TO_BUY_FUEL
     Děkujeme za nákup. Nezapomeňte před odletem nakoupit palivo a vybavení.
 CLASS_NUMBER
@@ -122,7 +122,7 @@ REPAIRS_AND_SERVICING
 NEW_AND_RECONDITIONED_SHIPS
     Nové a repasované lodě
 BULLETIN_BOARD
-    Zprávy a mise
+    Bulletin: Zprávy / Mise
 WELCOME_TO_SOMEWHERE
     Vítejte v %station
 # This next translation does not have to be a real translation.  You can
@@ -131,9 +131,9 @@ WELCOME_TO_SOMEWHERE
 SPACESTATION_LONG_WELCOME_MESSAGE
     Zdravím tě poutníče, vítej v naší malé modré ohrádce.  Pokud jsi zde poprvé, klidně se seznam s našimi obyvateli. Doufáme, že se ti pobyt zde bude líbit.\nPamatuj prosím, že zde probíhají úpravy, takže se scenérie může mezi návštěvami změnit.
 REQUEST_LAUNCH
-    Povolit odlet
+    Požádat o povolení k odletu
 SHIPYARD
-    Dok
+    Lodní dok
 COMMODITIES_MARKET
     Obchod s komoditami
 SOMEWHERE_COMMODITIES_MARKET
@@ -143,45 +143,45 @@ SOMEWHERE_SHIP_MARKET
 CONTACT_LOCAL_POLICE
     Kontaktuj místní policii
 COMMS_LINK
-    Komunikátor
+    Kom.linka
 ZOOM_IN
     Zvětšit
 ZOOM_OUT
     Zmenšit
 NORMA_ARM
-    Norma arm
+    rameno Pravítko
 PERSEUS_ARM
-    Perseus arm
+    rameno Perseus
 OUTER_ARM
-    Outer arm
+    rameno Labuť
 SAGITTARIUS_ARM
-    Sagittarius arm
+    rameno Střelec
 SCUTUM_CENTAURUS_ARM
-    Scutum-Centaurus arm
+    rameno Štít/Jižní kříž
 INT_LY
     %scale ly
 SEARCH
-    Hledej
+    Najít
 
 # Config / game control
 PRESS_BUTTON_WANTED_FOR
     "Zmáčkni klávesu kterou chceš použít pro "
 MOVE_AXIS_WANTED_FOR
-    "Posuň osu joysticku kterou chceš použít pro "
+    "Pohni osou joysticku kterou chceš použít pro "
 SAVE
-    Ulož
+    Uložit
 LOAD
-    Načti
+    Načíst
 CANCEL
     Zrušit
 SELECT_FILENAME_TO_SAVE
     Vyber soubor do kterého uložit, nebo zadej nový název
 CANT_SAVE_IN_HYPERSPACE
-    V hyperprostoru nelze hru uložit
+    V hyperprostoru nelze hru ukládat
 GAME_SAVED_TO
     "Hra uložena do "
 SELECT_FILENAME_TO_LOAD
-    Načti soubor
+    Načíst soubor
 COULD_NOT_OPEN_FILENAME
     Nemohu otevřít cestu %path
 GAME_LOAD_CORRUPT
@@ -213,7 +213,7 @@ PIONEER
 SAVE_THE_GAME
     [S] Uložit hru
 LOAD_A_GAME
-    [L] Načti hru
+    [L] Načíst hru
 EXIT_THIS_GAME
     Ukončit hru
 RETURN_TO_MENU
@@ -351,11 +351,11 @@ ATMOSPHERIC_SHIELDING_DESCRIPTION
 ECM_BASIC
     ECM systém
 ECM_BASIC_DESCRIPTION
-    Elektronická rušička střel, schopná zničit některé naváděné střely.
+    Elektronická rušička, schopná zničit některé naváděné střely.
 SCANNER
-    Skener
+    Radar
 SCANNER_DESCRIPTION
-    Zobrazuje 3D přehledovou mapu lodí ve vaší blízkosti.
+    Zobrazuje 3D mapu lodí/objektů ve vaší blízkosti.
 ECM_ADVANCED
     Zdokonalený ECM systém
 ECM_ADVANCED_DESCRIPTION
@@ -365,7 +365,7 @@ SHIELD_GENERATOR
 X_SHIELD_GENERATORS
     %quantity generátory štítů
 SHIELD_GENERATOR_DESCRIPTION
-    Každý další generátor štítů posiluje ochranu trupu.
+    Každý (další) generátor štítů posiluje ochranu trupu.
 LASER_COOLING_BOOSTER
     Posilovač chlazení laseru
 LASER_COOLING_BOOSTER_DESCRIPTION
@@ -377,9 +377,9 @@ CARGO_LIFE_SUPPORT_DESCRIPTION
 AUTOPILOT
     Autopilot
 AUTOPILOT_DESCRIPTION
-    Palubní letový počítač.
+    Palubní navigační počítač.
 RADAR_MAPPER
-    Skener
+    Skener lodí
 RADAR_MAPPER_DESCRIPTION
     Umožňuje na dálku prozkoumat vybavení, nákladový prostor a stav jiných lodí.
 FUEL_SCOOP
@@ -541,21 +541,21 @@ WEAPONS
 TARGET_OBJECT_IN_SIGHTS
     Zaměřit objekt v zaměřovači
 FIRE_LASER
-    Vystřelit z laseru
+    Vystřelit laser
 SHIP_ORIENTATION
-    Orientace lodi
+    Orientace lodi (vzhledem k HUD)
 PITCH_UP
-    Stoupat
+    Nahoru
 PITCH_DOWN
-    Klesat
+    Dolů
 YAW_LEFT
-    Vybočit vlevo
+    Doleva
 YAW_RIGHT
-    Vybočit vpravo
+    Doprava
 ROLL_LEFT
-    Otočit vlevo
+    Otočit po směru h.
 ROLL_RIGHT
-    Otočit vpravo
+    Otočit proti směru h.
 MANUAL_CONTROL_MODE
     Manuální ovládání
 THRUSTER_MAIN
@@ -579,13 +579,13 @@ INCREASE_SET_SPEED
 DECREASE_SET_SPEED
     Snížit nastavenou rychlost
 SCANNER_CONTROL
-    Ovládání skeneru
+    Ovládání radaru
 TOGGLE_SCAN_MODE
     Změnit mód
 INCREASE_SCAN_RANGE
-    Zvýšit dosah skeneru
+    Zvýšit dosah radaru
 DECREASE_SCAN_RANGE
-    Snížit dosah skeneru
+    Snížit dosah radaru
 TOGGLE_HUD_MODE
     HUD mód
 TOGGLE_LUA_CONSOLE
@@ -597,15 +597,15 @@ JOYSTICK_INPUT
 PITCH
     Stoupání/klesání
 ROLL
-    Otáčení
+    Otáčení (kolem osy)
 YAW
-    Vybočení
+    Zatáčení
 MISSILE
     Střela
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Simuluji evoluci vesmíru: %age{f.1} miliard let ;-)
 TOMBSTONE_EPITAPH
-    Odpočívej v pokoji
+    R.I.P.
 SCREENSHOT_FILENAME_TEMPLATE
     pioneer_screenshot%index{d08}.png
 ALERT_CANCELLED
@@ -625,7 +625,7 @@ YOU_MUST_PAY_FINE_OF_N_CREDITS
 PAY_THE_FINE_NOW
     Zaplať pokutu hned.
 HANG_UP
-    Zavěsit
+    Konec
 TRADING_ILLEGAL_GOODS
     Obchod s nelegálním zbožím
 UNLAWFUL_WEAPONS_DISCHARGE
@@ -735,23 +735,23 @@ CAMERA_BOTTOM_VIEW
 INTERNAL_VIEW
     Pohled uvnitř
 EXTERNAL_VIEW
-    Pohled zvenku
+    Pohled zvenku (kamera)
 SIDEREAL_VIEW
     Pohled ze strany
 ROTATE_UP
-    Rotovat nahoru
+    Otáčet nahoru
 ROTATE_DOWN
-    Rotovat dolů
+    Otáčet dolů
 ROTATE_LEFT
-    Rotovat vlevo
+    Otáčet doleva
 ROTATE_RIGHT
-    Rotovat vpravo
+    Otáčet doprava
 RESET
     Reset
 NAVIGATION_STAR_MAPS
     Navigace a hvězdné mapy
 COMMS
-    Komunikace
+    Kom.linka
 GALAXY_SECTOR_VIEW
     Sektorový náhled
 SYSTEM_ORBIT_VIEW
@@ -867,15 +867,15 @@ ASTEROID
 MASSIVE
     Masivní
 LARGE
-    Velký
+    Velká
 TINY
-    Maličký
+    Drobná
 SMALL
-    Malý
+    Malá
 COMMA_HIGHLY_VOLCANIC
-    , vysoce vulkanický
+    , vysoce vulkanická
 HIGHLY_VOLCANIC
-    Vysoce vulkanický
+    Vysoce vulkanická
 ICE_WORLD
      " ledová planeta"
 ROCKY_PLANET
@@ -989,7 +989,7 @@ ECCENTRICITY
 AXIAL_TILT
     Sklon osy otáčení
 N_DEGREES
-    %angle{f.1} stupňů
+    %angle{f.1}°
 DAY_LENGTH
     Délka dne
 N_EARTH_DAYS
@@ -1107,11 +1107,11 @@ LAUNCH_PERMISSION_DENIED_BUSY
 HYPERSPACE_JUMP_ABORTED
     Hyperprostorový skok zrušen.
 LANDED
-    Přistání dokončeno
+    Landed
 DOCKING
-    Přistávání
+    Docking
 DOCKED
-    Přistání dokončeno
+    Docked
 HYPERSPACE
     Hyperprostor
 HEADING_LOCK_FORWARD
@@ -1119,9 +1119,9 @@ HEADING_LOCK_FORWARD
 HEADING_LOCK_BACKWARD
     Kurs zamknut (vzad)
 SET_SPEED_KM_S
-    Nastavená rychlost: %speed{f.2} km/s
+    Rychlost: %speed{f.2} km/s
 SET_SPEED_M_S
-    Nastavená rychlost: %speed{f.0} m/s
+    Rychlost: %speed{f.0} m/s
 KM_S_RELATIVE_TO
     %speed{f.2} km/s relativně k %frame
 M_S_RELATIVE_TO
