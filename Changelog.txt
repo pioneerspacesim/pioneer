@@ -12,6 +12,7 @@ Alpha 32
 
    * Minor changes and tweaks
      * Balanced DSMiner fuel use (#2062)
+     * Added laser mount to DSMiner (#2055)
      * Model animation state saved and restored to savefile (#2044)
      * New missile AI (#2094)
      * Shortcut key to launch missiles ('m') (#2094)
