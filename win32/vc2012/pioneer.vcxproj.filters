@@ -434,9 +434,6 @@
     <ClInclude Include="..\..\src\Body.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\BufferObject.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\buildopts.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -501,9 +498,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaEquipDef.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LuaCargoBody.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaChatForm.h">
@@ -852,6 +846,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\NavLights.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\EquipSet.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Cutscene.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

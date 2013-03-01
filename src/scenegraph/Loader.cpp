@@ -435,6 +435,27 @@ RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 	return decMat;
 }
 
+RefCountedPtr<Graphics::Material> Loader::GetShieldMaterial(RefCountedPtr<Graphics::Material> matIn)
+{
+	RefCountedPtr<Graphics::Material> &decMat = m_model->m_shieldMaterial;
+	if (!decMat.Valid()) {
+		Graphics::MaterialDescriptor matDesc;
+		matDesc.textures = 1;
+		matDesc.lighting = false;
+		matDesc.twoSided = false;
+		matDesc.alphaTest = false;
+		matDesc.effect = Graphics::EffectType::EFFECT_SHIELD;
+		decMat.Reset(m_renderer->CreateMaterial(matDesc));
+		decMat->texture0 = matIn->texture0;
+		decMat->texture1 = matIn->texture1;
+		decMat->texture2 = matIn->texture2;
+		decMat->specular = matIn->specular;
+		decMat->diffuse = matIn->diffuse;
+		decMat->emissive = matIn->emissive;
+	}
+	return decMat;
+}
+
 void Loader::AddLog(const std::string &msg)
 {
 	if (m_doLog) m_logMessages.push_back(msg);
@@ -804,6 +825,12 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 				geom->SetNodeMask(NODE_TRANSPARENT);
 				geom->m_blendMode = Graphics::BLEND_ALPHA;
 				surf->SetMaterial(GetDecalMaterial(numDecal));
+			}
+			if (isShield) {
+				geom->SetNodeMask(NODE_TRANSPARENT);
+				geom->m_blendMode = Graphics::BLEND_ALPHA;
+				RefCountedPtr<Graphics::Material> mat = surf->GetMaterial();
+				surf->SetMaterial(GetShieldMaterial(mat));
 			}
 			//update bounding box
 			//untransformed points, collision visitor will transform

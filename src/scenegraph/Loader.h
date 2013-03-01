@@ -51,6 +51,7 @@ private:
 	matrix4x4f ConvertMatrix(const aiMatrix4x4&) const;
 	Model *CreateModel(ModelDefinition &def);
 	RefCountedPtr<Graphics::Material> GetDecalMaterial(unsigned int index);
+	RefCountedPtr<Graphics::Material> GetShieldMaterial(RefCountedPtr<Graphics::Material> matIn);
 	RefCountedPtr<Node> LoadMesh(const std::string &filename, const AnimList &animDefs); //load one mesh file so it can be added to the model scenegraph. Materials should be created before this!
 	void AddLog(const std::string&);
 	void CheckAnimationConflicts(const Animation*, const std::vector<Animation*>&); //detect animation overlap

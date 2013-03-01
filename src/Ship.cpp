@@ -1091,7 +1091,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
 
 	const bool shieldsVisible = (m_stats.shield_mass_left < m_stats.shield_mass);
-	GetModel()->SetShield(shieldsVisible);
+	GetModel()->SetShieldData(shieldsVisible);
 
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);

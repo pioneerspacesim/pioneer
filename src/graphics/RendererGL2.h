@@ -24,6 +24,7 @@ namespace GL2 {
 	class LitMultiMaterial;
 	class Program;
 	class RingMaterial;
+	class ShieldMaterial;
 }
 
 class RendererGL2 : public RendererLegacy
@@ -54,6 +55,7 @@ private:
 	friend class GL2::MultiMaterial;
 	friend class GL2::LitMultiMaterial;
 	friend class GL2::RingMaterial;
+	friend class GL2::ShieldMaterial;
 	std::vector<std::pair<MaterialDescriptor, GL2::Program*> > m_programs;
 	float m_invLogZfarPlus1;
 };
