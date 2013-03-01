@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.65.0 r52859</authoring_tool>
     </contributor>
-    <created>2013-02-27T15:07:28</created>
-    <modified>2013-02-27T15:07:28</modified>
+    <created>2013-03-01T09:07:09</created>
+    <modified>2013-03-01T09:07:09</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -56,6 +56,131 @@
       </mesh>
       <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
     </geometry>
+    <geometry id="Plane_001-mesh" name="Plane.001">
+      <mesh>
+        <source id="Plane_001-mesh-positions">
+          <float_array id="Plane_001-mesh-positions-array" count="0"/>
+          <technique_common>
+            <accessor source="#Plane_001-mesh-positions-array" count="0" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane_001-mesh-normals">
+          <float_array id="Plane_001-mesh-normals-array" count="0"/>
+          <technique_common>
+            <accessor source="#Plane_001-mesh-normals-array" count="0" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane_001-mesh-map-0">
+          <float_array id="Plane_001-mesh-map-0-array" count="0"/>
+          <technique_common>
+            <accessor source="#Plane_001-mesh-map-0-array" count="0" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Plane_001-mesh-vertices">
+          <input semantic="POSITION" source="#Plane_001-mesh-positions"/>
+        </vertices>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
+    <geometry id="Plane_002-mesh" name="Plane.002">
+      <mesh>
+        <source id="Plane_002-mesh-positions">
+          <float_array id="Plane_002-mesh-positions-array" count="12">1 -1 0 -1 -1 0 1 1 0 -1 1 0</float_array>
+          <technique_common>
+            <accessor source="#Plane_002-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane_002-mesh-normals">
+          <float_array id="Plane_002-mesh-normals-array" count="3">0 0 1</float_array>
+          <technique_common>
+            <accessor source="#Plane_002-mesh-normals-array" count="1" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane_002-mesh-map-0">
+          <float_array id="Plane_002-mesh-map-0-array" count="8">1.00099e-4 9.998e-5 0.9999001 1.0004e-4 0.9999001 0.9999001 9.998e-5 0.9999001</float_array>
+          <technique_common>
+            <accessor source="#Plane_002-mesh-map-0-array" count="4" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Plane_002-mesh-vertices">
+          <input semantic="POSITION" source="#Plane_002-mesh-positions"/>
+        </vertices>
+        <polylist count="1">
+          <input semantic="VERTEX" source="#Plane_002-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Plane_002-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Plane_002-mesh-map-0" offset="2" set="0"/>
+          <vcount>4 </vcount>
+          <p>1 0 0 0 0 1 2 0 2 3 0 3</p>
+        </polylist>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
+    <geometry id="Plane_003-mesh" name="Plane.003">
+      <mesh>
+        <source id="Plane_003-mesh-positions">
+          <float_array id="Plane_003-mesh-positions-array" count="12">1 -1 0 -1 -1 0 1 1 0 -1 1 0</float_array>
+          <technique_common>
+            <accessor source="#Plane_003-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane_003-mesh-normals">
+          <float_array id="Plane_003-mesh-normals-array" count="3">0 0 1</float_array>
+          <technique_common>
+            <accessor source="#Plane_003-mesh-normals-array" count="1" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane_003-mesh-map-0">
+          <float_array id="Plane_003-mesh-map-0-array" count="8">1.00099e-4 9.998e-5 0.9999001 1.0004e-4 0.9999001 0.9999001 9.998e-5 0.9999001</float_array>
+          <technique_common>
+            <accessor source="#Plane_003-mesh-map-0-array" count="4" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Plane_003-mesh-vertices">
+          <input semantic="POSITION" source="#Plane_003-mesh-positions"/>
+        </vertices>
+        <polylist count="1">
+          <input semantic="VERTEX" source="#Plane_003-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Plane_003-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Plane_003-mesh-map-0" offset="2" set="0"/>
+          <vcount>4 </vcount>
+          <p>1 0 0 0 0 1 2 0 2 3 0 3</p>
+        </polylist>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
   </library_geometries>
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
@@ -66,6 +191,170 @@
         <rotate sid="rotationX">1 0 0 0</rotate>
         <scale sid="scale">1 1 1</scale>
         <instance_geometry url="#Sphere_001-mesh"/>
+      </node>
+      <node id="thruster_linear_main" name="thruster_linear_main" type="NODE">
+        <translate sid="location">1.40751e-6 -15 1.28</translate>
+        <rotate sid="rotationZ">0 0 1 -180</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 -90.00004</rotate>
+        <scale sid="scale">4 20 20</scale>
+      </node>
+      <node id="thruster_linear_retro_left" name="thruster_linear_retro_left" type="NODE">
+        <translate sid="location">-3.3 21 -0.3</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 -90.00004</rotate>
+        <scale sid="scale">5 5 5</scale>
+      </node>
+      <node id="thruster_linear_retro_right" name="thruster_linear_retro_right" type="NODE">
+        <translate sid="location">3.3 21 -0.3</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 -90.00004</rotate>
+        <scale sid="scale">5 5 5</scale>
+      </node>
+      <node id="thruster_rp" name="thruster_rp" type="NODE">
+        <translate sid="location">-5.936924 -8.503355 0.1376608</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">2 2 2</scale>
+      </node>
+      <node id="thruster_rs" name="thruster_rs" type="NODE">
+        <translate sid="location">5.936929 -8.503353 0.1376608</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">2 2 2</scale>
+      </node>
+      <node id="thruster_fp" name="thruster_fp" type="NODE">
+        <translate sid="location">-5.936928 9.020123 0.1376608</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">2 2 2</scale>
+      </node>
+      <node id="thruster_fs" name="thruster_fs" type="NODE">
+        <translate sid="location">5.936928 9.020124 0.1376608</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">2 2 2</scale>
+      </node>
+      <node id="thruster_bfs" name="thruster_bfs" type="NODE">
+        <translate sid="location">5.936927 9.49626 -0.6557441</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 180.0001</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">2 2 2</scale>
+      </node>
+      <node id="thruster_bfp" name="thruster_bfp" type="NODE">
+        <translate sid="location">-5.936928 9.496258 -0.6557441</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 180.0001</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">2 2 2</scale>
+      </node>
+      <node id="thruster_brs" name="thruster_brs" type="NODE">
+        <translate sid="location">5.936928 -7.968247 -0.6557441</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 180.0001</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">2 2 2</scale>
+      </node>
+      <node id="thruster_brp" name="thruster_brp" type="NODE">
+        <translate sid="location">-5.936924 -7.968247 -0.6557441</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 180.0001</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">2 2 2</scale>
+      </node>
+      <node id="thruster_fpp" name="thruster_fpp" type="NODE">
+        <translate sid="location">-4.988075 17.85159 -0.3079151</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 -90.00004</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">2 2 2</scale>
+      </node>
+      <node id="thruster_fss" name="thruster_fss" type="NODE">
+        <translate sid="location">4.988072 17.85159 -0.3079151</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 90.00004</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">2 2 2</scale>
+      </node>
+      <node id="thruster_rss" name="thruster_rss" type="NODE">
+        <translate sid="location">4.080969 -14.18556 -0.00409469</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 90.00004</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">2 2 2</scale>
+      </node>
+      <node id="thruster_rpp" name="thruster_rpp" type="NODE">
+        <translate sid="location">-4.080962 -14.18556 -0.01384947</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 -90.00004</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">2 2 2</scale>
+      </node>
+      <node id="decal_01_001" name="decal_01_001" type="NODE">
+        <translate sid="location">15.92515 -12.18301 1.943993</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 100.9723</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+        <instance_geometry url="#Plane_001-mesh"/>
+      </node>
+      <node id="navlight_green_001" name="navlight_green_001" type="NODE">
+        <translate sid="location">15.61505 -14.05661 4.607392</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_red_001" name="navlight_red_001" type="NODE">
+        <translate sid="location">-15.6618 -14.13125 4.607392</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="navlight_white_001" name="navlight_white_001" type="NODE">
+        <translate sid="location">0 -16.93364 5.336131</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 0</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="label_starboard" name="label_starboard" type="NODE">
+        <translate sid="location">14.7697 -9.643747 1.144596</translate>
+        <rotate sid="rotationZ">0 0 1 90.00004</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 103.6</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="label_port" name="label_port" type="NODE">
+        <translate sid="location">-14.77 -9.643751 1.144596</translate>
+        <rotate sid="rotationZ">0 0 1 -90.00004</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 103.6</rotate>
+        <scale sid="scale">1 1 1</scale>
+      </node>
+      <node id="decal_01_003" name="decal_01_003" type="NODE">
+        <translate sid="location">-15.35 -11.72783 3.461276</translate>
+        <rotate sid="rotationZ">0 0 1 -90.00004</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 103.6</rotate>
+        <scale sid="scale">1 1 1</scale>
+        <instance_geometry url="#Plane_002-mesh"/>
+      </node>
+      <node id="decal_01" name="decal_01" type="NODE">
+        <translate sid="location">15.35 -11.72783 3.461276</translate>
+        <rotate sid="rotationZ">0 0 1 90.00004</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 103.6</rotate>
+        <scale sid="scale">1 1 1</scale>
+        <instance_geometry url="#Plane_003-mesh"/>
       </node>
     </visual_scene>
   </library_visual_scenes>

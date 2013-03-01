@@ -2,16 +2,16 @@
 -- Licensed under the terms of CC-BY-SA 3.0. See licenses/CC-BY-SA-3.0.txt
 
 define_ship {
-	name='Deneb Transport',
+	name='Deneb',
 	model='deneb',
-	forward_thrust = 15e6,
-	reverse_thrust = 10e6,
-	up_thrust = 12e6,
+	forward_thrust = 30e6,
+	reverse_thrust = 20e6,
+	up_thrust = 20e6,
 	down_thrust = 8e6,
 	left_thrust = 8e6,
 	right_thrust = 8e6,
 	angular_thrust = 30e6,
-	camera_offset = v(0,6,-4),
+	camera_offset = v(0,4,-4),
 	gun_mounts =
 	{
 		{ v(0,-0.5,-10.7), v(0,0,-1), 5, 'HORIZONTAL' },
@@ -29,6 +29,6 @@ define_ship {
 	hull_mass = 100,
 	fuel_tank_mass = 100,
 	thruster_fuel_use = 0.0001,
-	price = 330000,
+	price = 430000,
 	hyperdrive_class = 3,
 }
