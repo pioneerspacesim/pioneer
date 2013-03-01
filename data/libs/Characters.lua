@@ -1100,11 +1100,6 @@ local onGameStart = function ()
 		-- the average values.  We'll find some way to ask the
 		-- player for a new name in the future.
 		local PlayerCharacter = Character.New()
-		if PlayerCharacter.female then
-			PlayerCharacter.name = 'Petra Jameson'
-		else
-			PlayerCharacter.name = 'Peter Jameson'
-		end
 		PlayerCharacter.title = 'Commander'
 		PlayerCharacter.player = true
 		-- Gave the player a missions table (for Misssions.lua)

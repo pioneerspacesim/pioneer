@@ -202,8 +202,9 @@ local onEnterSystem = function (player)
 			-- if there is some risk and still no ships, flip a tricoin
 			if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
 
-            local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= 100 and def.hullMass <= 400 end, pairs(ShipDef)))
-            if #shipdefs == 0 then return end
+			-- XXX hull mass is a bad way to determine suitability for role
+			local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass <= 400 end, pairs(ShipDef)))
+			if #shipdefs == 0 then return end
 
 			local ship
 
