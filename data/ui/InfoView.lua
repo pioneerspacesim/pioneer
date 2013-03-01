@@ -98,7 +98,7 @@ local shipInfo = function (args)
 			:SetColumn(1, {
 				ui:VBox(10)
 					:PackEnd(ui:Label(shipDef.name):SetFont("HEADING_LARGE"))
-					:PackEnd(UI.Game.ShipSpinner.New(ui, Game.player.flavour))
+					:PackEnd(UI.Game.ModelSpinner.New(ui, shipDef.modelName, Game.player:GetSkin()))
 			})
 end
 
@@ -578,7 +578,7 @@ local crewRoster = function ()
 
 			crewlistbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
 				ui:Label(crewMember.name),
-				ui:Label(crewMember.title or t('General crew')),
+				ui:Label(t(crewMember.title) or t('General crew')),
 				ui:Label(Format.Money(crewMember.contract and crewMember.contract.wage or 0)),
 				ui:Label(Format.Money(crewMember.contract and crewMember.contract.outstanding or 0)),
 				ui:Label(Format.Date(crewMember.contract and crewMember.contract.payday or 0)),

@@ -14,7 +14,7 @@ public:
 
 	inline void IncRefCount() { m_refCount++; }
 	inline void DecRefCount() { assert(m_refCount > 0); if (! --m_refCount) delete this; }
-	inline int GetRefCount() { return m_refCount; }
+	inline int GetRefCount() const { return m_refCount; }
 
 private:
 	int m_refCount;

@@ -27,7 +27,7 @@ CustomSystem:new('Hamal',{'STAR_K_GIANT'}):add_to_sector(3,-7,3,v(0.982,0.576,0.
 CustomSystem:new('Epsilon Persei',{'STAR_B'}):add_to_sector(44,-27,43,v(0.383,0.818,0.255))
 CustomSystem:new('Beta Trianguli Australis',{'STAR_F_GIANT'}):add_to_sector(-2,1,-5,v(0.080,0.163,0.512))
 CustomSystem:new('Epsilon Scorpii',{'STAR_K_GIANT'}):add_to_sector(-7,2,-5,v(0.554,0.027,0.392))
---CustomSystem:new('Achernar',{'STAR_B'}):add_to_sector(4,-9,-16,v(0.023,0.143,0.883)) NOW done as a custom system
+CustomSystem:new('Achernar',{'STAR_B'}):add_to_sector(4,-9,-16,v(0.023,0.143,0.883))
 CustomSystem:new('Zeta Puppis',{'STAR_O_SUPER_GIANT'}):add_to_sector(115,68,-113,v(0.017,0.826,0.517))
 CustomSystem:new('Alpha Trianguli Australis',{'STAR_K_SUPER_GIANT'}):add_to_sector(-18,5,-49,v(0.304,0.693,0.504))
 CustomSystem:new('Algieba',{'STAR_K_GIANT'}):add_to_sector(6,13,5,v(0.245,0.388,0.331))

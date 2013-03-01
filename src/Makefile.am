@@ -35,6 +35,7 @@ noinst_HEADERS = \
 	DeathView.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
+	Easing.h \
 	EnumStrings.h \
 	EquipSet.h \
 	EquipType.h \
@@ -94,6 +95,7 @@ noinst_HEADERS = \
 	ModelCache.h \
 	ModManager.h \
 	ModelViewer.h \
+	NavLights.h \
 	Object.h \
 	ObjectViewerView.h \
 	OS.h \
@@ -129,7 +131,6 @@ noinst_HEADERS = \
 	ShipController.h \
 	ShipCpanel.h \
 	ShipCpanelMultiFuncDisplays.h \
-	ShipFlavour.h \
 	ShipSpinnerWidget.h \
 	ShipType.h \
 	Sound.h \
@@ -240,6 +241,7 @@ pioneer_SOURCES	= \
 	ModelCache.cpp \
 	ModManager.cpp \
 	ModelViewer.cpp \
+	NavLights.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
 	Planet.cpp \
@@ -268,7 +270,6 @@ pioneer_SOURCES	= \
 	ShipController.cpp \
 	ShipCpanel.cpp \
 	ShipCpanelMultiFuncDisplays.cpp \
-	ShipFlavour.cpp \
 	ShipSpinnerWidget.cpp \
 	ShipType.cpp \
 	Sound.cpp \

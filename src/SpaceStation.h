@@ -8,12 +8,13 @@
 #include "Camera.h"
 #include "MarketAgent.h"
 #include "ModelBody.h"
+#include "NavLights.h"
 #include "Quaternion.h"
 #include "RefList.h"
 #include "Serializer.h"
-#include "ShipFlavour.h"
 #include "ShipType.h"
 #include "SpaceStationType.h"
+#include "scenegraph/ModelSkin.h"
 
 #define MAX_DOCKING_PORTS	4
 
@@ -28,6 +29,7 @@ class SystemBody;
 struct BBAdvert;
 struct Mission;
 namespace Graphics { class Renderer; }
+namespace SceneGraph { class Animation; }
 
 typedef StationAdvertForm* (*AdvertFormBuilder)(FormController *controller, SpaceStation *station, const BBAdvert &ad);
 
@@ -35,6 +37,14 @@ struct BBAdvert {
 	int               ref;
 	std::string       description;
 	AdvertFormBuilder builder;
+};
+
+struct ShipOnSale {
+	ShipOnSale(const ShipType::Id &_id, const std::string &_regId, const SceneGraph::ModelSkin &_skin) :
+		id(_id), regId(_regId), skin(_skin) {}
+	ShipType::Id          id;
+	std::string           regId;
+	SceneGraph::ModelSkin skin;
 };
 
 class SpaceStation: public ModelBody, public MarketAgent {
@@ -61,8 +71,8 @@ public:
 	bool CanSell(Equip::Type t, bool verbose) const;
 	bool DoesSell(Equip::Type t) const;
 	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
-	void ReplaceShipOnSale(int idx, const ShipFlavour *with);
-	const std::vector<ShipFlavour> &GetShipsOnSale() const { return m_shipsOnSale; }
+	void ReplaceShipOnSale(int idx, const ShipOnSale &with);
+	const std::vector<ShipOnSale> &GetShipsOnSale() const { return m_shipsOnSale; }
 	virtual void PostLoadFixup(Space *space);
 	virtual void NotifyRemoved(const Body* const removedBody);
 
@@ -97,6 +107,7 @@ public:
 
 	// need this now because stations rotate in their frame
 	virtual void UpdateInterpTransform(double alpha);
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -129,15 +140,12 @@ private:
 
 	double m_oldAngDisplacement;
 
-	double m_openAnimState[MAX_DOCKING_PORTS];
-	double m_dockAnimState[MAX_DOCKING_PORTS];
-
 	void InitStation();
 	void UpdateShipyard();
 	const SpaceStationType *m_type;
 	const SystemBody *m_sbody;
 	int m_equipmentStock[Equip::TYPE_MAX];
-	std::vector<ShipFlavour> m_shipsOnSale;
+	std::vector<ShipOnSale> m_shipsOnSale;
 	double m_lastUpdatedShipyard;
 	CityOnPlanet *m_adjacentCity;
 	double m_distFromPlanet;
@@ -147,6 +155,12 @@ private:
 
 	std::vector<BBAdvert> m_bbAdverts;
 	bool m_bbCreated, m_bbShuffled;
+
+	SceneGraph::Animation *m_doorAnimation;
+	double m_doorAnimationStep;
+	double m_doorAnimationState;
+
+	ScopedPtr<NavLights> m_navLights;
 };
 
 #endif /* _SPACESTATION_H */

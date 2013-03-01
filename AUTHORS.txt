@@ -1,11 +1,13 @@
 Authors
 =======
 
-As of 8 February 2013 (alpha 31), the Pioneer Developers are:
+As of 8 March 2013 (alpha 32), the Pioneer Developers are:
 
 * Aaron Lewis
 * Aaron Senese
+* Abram Hindle
 * Ae
+* Alan Briggs
 * Alessandro Giachi
 * Andrew Cook
 * Andrew Copland
