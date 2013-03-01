@@ -26,6 +26,7 @@ private:
 	bool OnQuit();
 	bool OnReloadModel(UI::Widget*);
 	bool OnToggleCollMesh(UI::CheckBox*);
+	bool OnToggleShowShields(UI::CheckBox*);
 	bool OnToggleGrid(UI::Widget*);
 	bool OnToggleGuns(UI::CheckBox*);
 	void AddLog(const std::string &line);
@@ -62,6 +63,7 @@ private:
 	struct Options {
 		bool attachGuns;
 		bool showCollMesh;
+		bool showShields;
 		bool showGrid;
 		bool showLandingPad;
 		bool showUI;

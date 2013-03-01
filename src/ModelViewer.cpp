@@ -18,6 +18,7 @@
 ModelViewer::Options::Options()
 : attachGuns(false)
 , showCollMesh(false)
+, showShields(false)
 , showGrid(false)
 , showLandingPad(false)
 , showUI(true)
@@ -184,6 +185,12 @@ bool ModelViewer::OnToggleCollMesh(UI::CheckBox *w)
 {
 	m_options.showCollMesh = !m_options.showCollMesh;
 	return m_options.showCollMesh;
+}
+
+bool ModelViewer::OnToggleShowShields(UI::CheckBox *w)
+{
+	m_options.showShields = !m_options.showShields;
+	return m_options.showShields;
 }
 
 bool ModelViewer::OnToggleGrid(UI::Widget *)
@@ -452,6 +459,7 @@ void ModelViewer::DrawModel()
 	m_model->UpdateAnimations();
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(true);
+	m_model->SetShieldData(m_options.showShields);
 	m_model->Render(mv);
 	if (m_options.showLandingPad) {
 		if (!m_scaleModel.Valid()) CreateTestResources();
@@ -829,6 +837,7 @@ void ModelViewer::SetupUI()
 	UI::SmallButton *reloadButton;
 	UI::SmallButton *toggleGridButton;
 	UI::CheckBox *collMeshCheck;
+	UI::CheckBox *showShieldsCheck;
 	UI::CheckBox *gunsCheck;
 
 	UI::VBox* outerBox = c->VBox();
@@ -862,6 +871,7 @@ void ModelViewer::SetupUI()
 
 	add_pair(c, mainBox, toggleGridButton = c->SmallButton(), "Grid mode");
 	add_pair(c, mainBox, collMeshCheck = c->CheckBox(), "Collision mesh");
+	add_pair(c, mainBox, showShieldsCheck = c->CheckBox(), "Show Shields");
 
 	//pattern selector
 	if (m_model->SupportsPatterns()) {
@@ -999,6 +1009,7 @@ void ModelViewer::SetupUI()
 
 	//event handlers
 	collMeshCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleCollMesh), collMeshCheck));
+	showShieldsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleShowShields), showShieldsCheck));
 	gunsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGuns), gunsCheck));
 	lightSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnLightPresetChanged));
 	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));
