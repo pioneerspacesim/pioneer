@@ -339,53 +339,81 @@ static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &bu
 	return read_count;
 }
 
+Uint32 Terrain::GetPixel(SDL_Surface *surface, int x, int y)
+{
+    int bpp = surface->format->BytesPerPixel;
+    // Here p is the address to the pixel we want to retrieve.
+    Uint8 *p = (Uint8 *)surface->pixels + x * surface->pitch + y * bpp;
+
+    switch(bpp) {
+    case 1:
+        return *p;
+
+    case 2:
+        return *(Uint16 *)p;
+
+    case 3:
+        if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
+            return p[0] << 16 | p[1] << 8 | p[2];
+        else
+            return p[0] | p[1] << 8 | p[2] << 16;
+
+    case 4:
+        return *(Uint32 *)p;
+
+    default:
+        return 0; /* shouldn't happen, but avoids warnings */
+    }
+}
+
 Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_rand(body->seed), m_heightMap(0), m_heightMapScaled(0), m_heightScaling(0), m_minh(0) {
 
 	// load the heightmap
 	if (m_body->heightMapFilename) {
-		RefCountedPtr<FileSystem::FileData> fdata = FileSystem::gameDataFiles.ReadFile(m_body->heightMapFilename);
-		if (!fdata) {
+		std::string fName(m_body->heightMapFilename);
+		std::string imageFile = FileSystem::GetDataDir().c_str();
+		imageFile+="/"+fName;
+
+		SDL_Surface* heightmap;
+		heightmap = IMG_Load(imageFile.c_str());
+		if (!heightmap) {
 			fprintf(stderr, "Error: could not open file '%s'\n", m_body->heightMapFilename);
-			abort();
+				abort();
 		}
 
-		ByteRange databuf = fdata->AsByteRange();
+		//format and lock
+		SDL_PixelFormat *fmt = heightmap->format;
+		SDL_LockSurface(heightmap);
 
-		// read size!
-		Uint16 v;
+		//get dim
+		m_heightMapSizeX = heightmap->w;
+		m_heightMapSizeY = heightmap->h; 
 
-		// XXX unify heightmap types
-		switch (m_body->heightMapFractal) {
-			case 0: {
-				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
-				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
-
-				m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
-				bufread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, databuf);
-				break;
-			}
-
-			case 1: {
-				// XXX x and y reversed from above *sigh*
-				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
-				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
-
-				// read height scaling and min height which are doubles
-				double te;
-				bufread_or_die(&te, 8, 1, databuf);
-				m_heightScaling = te;
-				bufread_or_die(&te, 8, 1, databuf);
-				m_minh = te;
-
-				m_heightMapScaled = new Uint16[m_heightMapSizeX * m_heightMapSizeY];
-				bufread_or_die(m_heightMapScaled, sizeof(Uint16), m_heightMapSizeX * m_heightMapSizeY, databuf);
-
-				break;
-			}
-
-			default:
-				assert(0);
+		//Create heightmap array  
+		if (m_body->heightMapFractal==1) {
+			m_heightMapScaled = new Uint16[m_heightMapSizeX * m_heightMapSizeY];
+			m_heightScaling = 10.0;	
+			m_minh = 0.0;
 		}
+		else
+			m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
+
+		//parse pixels
+		int k=0;
+		for (int i=0 ; i < m_heightMapSizeY ; ++i) {
+			for (int j=0 ; j < m_heightMapSizeX ; ++j) {
+				Uint8 r = 0;
+				Uint8 g = 0;
+				Uint8 b = 0;
+				SDL_GetRGB(GetPixel(heightmap, i, j), fmt, &r, &g, &b);			
+				if (m_body->heightMapFractal==1)
+					m_heightMapScaled[k] = Uint16(r+b+g);  
+				else
+					m_heightMap[k] = Sint16(r+b+g)*8-10;  
+				k++;
+			}
+		} 
+		SDL_FreeSurface(heightmap); 
 	}
 
 	switch (Pi::detail.textures) {
