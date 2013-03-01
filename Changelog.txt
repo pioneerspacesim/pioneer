@@ -1,6 +1,7 @@
 Alpha 32
 
    * New features
+     * Ship parade on the menu screen (#2112)
      * New ship "Kanara Interceptor" (#2037)
      * New ship "Lunar Shuttle" (#2082)
      * New fast random number generator (#1893, #2078, #2079)
