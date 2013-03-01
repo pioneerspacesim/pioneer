@@ -15,15 +15,6 @@ local setupPlayerWave = function ()
 	Game.player:SetMoney(100)
 end
 
-local setupPlayerLanner = function ()
-	Game.player:SetShipType("lanner")
-	Game.player:AddEquip("PULSECANNON_1MW")
-	Game.player:AddEquip("SCANNER")
-	Game.player:AddEquip("MISSILE_GUIDED", 2)
-	Game.player:AddEquip("HYDROGEN", 2)
-	Game.player:SetMoney(100)
-end
-
 local doLoadDialog = function ()
 	ui:SetInnerWidget(
 		ui.templates.FileDialog({
@@ -39,7 +30,6 @@ end
 local buttonDefs = {
 	{ t("Start at Earth"),    function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerWave() end },
 	{ t("Start at New Hope"), function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerWave() end },
-	{ t("Start at Lave"),     function () Game.StartGame(SystemPath.New(-2,1,90,0,2)) setupPlayerLanner() end },
 	{ t("Load game"),         doLoadDialog },
 	{ t("Options"),           function () Engine.SettingsView() end },
 	{ t("Quit"),              function () Engine.Quit() end },

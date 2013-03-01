@@ -6,6 +6,9 @@ Alpha 32
      * New ship "Lunar Shuttle" (#2082)
      * New fast random number generator (#1893, #2078, #2079)
      * Upgraded hoop station (#2046)
+     * Removed Lua model system (LMR) (#2029, #2071)
+     * Removed LMR-based ships (#2061)
+     * Removed Elite/Frontier content (#2093)
 
    * Minor changes and tweaks
      * Balanced DSMiner fuel use (#2062)
@@ -44,8 +47,6 @@ Alpha 32
      * Model: Ship.GetSkin & SetSkin and skin manipulation methods (#2080)
 
    * Internal changes
-     * Removed Lua model system (LMR) (#2029, #2071)
-     * Removed LMR-based ships (#2061)
      * Removed Text::VectorFont (#2041)
      * Removed Renderer::DrawPoints2D (#2041)
      * LuaObject wrapper cleanup (#2026, #2049, #2073, #2075)
