@@ -15,6 +15,7 @@ Alpha 32
      * Model animation state saved and restored to savefile (#2044)
      * New missile AI (#2094)
      * Shortcut key to launch missiles ('m') (#2094)
+     * Show realtime orbit positions in system view (#2104)
 
    * Fixes
      * Work around missing model UV coordinates (#2034, #1952)
