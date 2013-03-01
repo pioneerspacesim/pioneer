@@ -68,6 +68,7 @@ public:
 	bool GetRotationDamping() const { return m_rotationDamping; }
 	void SetRotationDamping(bool enabled);
 	void ToggleRotationDamping();
+	void FireMissile();
 
 	//targeting
 	//XXX AI should utilize one or more of these
@@ -104,6 +105,7 @@ private:
 	vector3d m_mouseDir;
 
 	sigc::connection m_connRotationDampingToggleKey;
+	sigc::connection m_fireMissileKey;
 };
 
 #endif

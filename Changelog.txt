@@ -13,6 +13,8 @@ Alpha 32
    * Minor changes and tweaks
      * Balanced DSMiner fuel use (#2062)
      * Model animation state saved and restored to savefile (#2044)
+     * New missile AI (#2094)
+     * Shortcut key to launch missiles ('m') (#2094)
 
    * Fixes
      * Work around missing model UV coordinates (#2034, #1952)

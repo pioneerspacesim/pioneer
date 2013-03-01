@@ -606,10 +606,10 @@ Missile * Ship::SpawnMissile(ShipType::Id missile_type, int power) {
 	Missile *missile = new Missile(missile_type, this, power);
 	missile->SetOrient(GetOrient());
 	missile->SetFrame(GetFrame());
-	// XXX DODGY! need to put it in a sensible location
-	vector3d dir = -GetOrient().VectorZ();
-	missile->SetPosition(GetPosition()+50.0*dir);
-	missile->SetVelocity(GetVelocity());
+	const vector3d pos = GetOrient() * vector3d(0, GetAabb().min.y - 10, GetAabb().min.z);
+	const vector3d vel = -40.0 * GetOrient().VectorZ();
+	missile->SetPosition(GetPosition()+pos);
+	missile->SetVelocity(GetVelocity()+vel);
 	Pi::game->GetSpace()->AddBody(missile);
 	return missile;
 }
