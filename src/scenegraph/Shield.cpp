@@ -36,6 +36,15 @@ void Shield::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	if (!rd->shieldVisible) return;
 
+	m_params.strength = rd->shieldStrength;
+	if (m_mat.Valid()) {
+		m_mat->specialParameter0 = &m_params;
+	} else {
+		m_mat.Reset((*m_meshes.begin())->GetSurface(0)->GetMaterial().Get());
+		assert(m_mat.Valid());
+		m_mat->specialParameter0 = &m_params;
+	}
+
 	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
 	for (MeshContainer::iterator it = m_meshes.begin(), endIt = m_meshes.end(); it != endIt; ++it) {

@@ -8,6 +8,7 @@
 #include "graphics/RendererGL2.h"
 #include <sstream>
 #include "StringF.h"
+#include "Ship.h"
 
 namespace Graphics {
 namespace GL2 {
@@ -22,13 +23,9 @@ ShieldProgram::ShieldProgram(const MaterialDescriptor &desc, int lights)
 		ss << "#define TEXTURE0\n";
 	if (desc.vertexColors)
 		ss << "#define VERTEXCOLOR\n";
-	if (desc.alphaTest)
-		ss << "#define ALPHA_TEST\n";
-	//using only one light
-	if (desc.lighting && lights > 0)
-		ss << stringf("#define NUM_LIGHTS %0{d}\n", lights);
-	else
-		ss << "#define NUM_LIGHTS 0\n";
+
+	assert(!desc.alphaTest);
+	ss << "#define NUM_LIGHTS 0\n";
 
 	if (desc.specularMap)
 		ss << "#define MAP_SPECULAR\n";
@@ -44,6 +41,13 @@ ShieldProgram::ShieldProgram(const MaterialDescriptor &desc, int lights)
 	InitUniforms();
 }
 
+void ShieldProgram::InitUniforms()
+{
+	Program::InitUniforms();
+
+	shieldStrength.Init("shieldStrength", m_program);
+}
+
 Program *ShieldMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
 	return new ShieldProgram(desc);
@@ -52,6 +56,7 @@ Program *ShieldMaterial::CreateProgram(const MaterialDescriptor &desc)
 void ShieldMaterial::Apply()
 {
 	ShieldProgram *p = static_cast<ShieldProgram*>(m_program);
+	const ShieldRenderParameters srp = *static_cast<ShieldRenderParameters*>(this->specialParameter0);
 	p->Use();
 	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 
@@ -62,6 +67,8 @@ void ShieldMaterial::Apply()
 	p->texture2.Set(this->texture2, 2);
 	p->texture3.Set(this->texture3, 3);
 	p->texture4.Set(this->texture4, 4);
+
+	p->shieldStrength.Set(srp.strength);
 
 	glPushAttrib(GL_ENABLE_BIT);
 	if (this->twoSided)

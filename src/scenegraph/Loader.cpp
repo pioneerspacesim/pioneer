@@ -444,6 +444,8 @@ RefCountedPtr<Graphics::Material> Loader::GetShieldMaterial(RefCountedPtr<Graphi
 		matDesc.lighting = false;
 		matDesc.twoSided = false;
 		matDesc.alphaTest = false;
+		matDesc.specularMap = (NULL!=matIn->texture1);
+		matDesc.glowMap		= (NULL!=matIn->texture2);
 		matDesc.effect = Graphics::EffectType::EFFECT_SHIELD;
 		decMat.Reset(m_renderer->CreateMaterial(matDesc));
 		decMat->texture0 = matIn->texture0;

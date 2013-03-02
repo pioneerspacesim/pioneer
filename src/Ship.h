@@ -25,6 +25,10 @@ class CargoBody;
 class Missile;
 namespace Graphics { class Renderer; }
 
+struct ShieldRenderParameters {
+	float strength;
+};
+
 struct shipstats_t {
 	int max_capacity;
 	int used_capacity;

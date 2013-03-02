@@ -9,6 +9,7 @@
 #include "libs.h"
 #include "Node.h"
 #include "StaticGeometry.h"
+#include "Ship.h"
 
 namespace Graphics {
 	class Renderer;
@@ -29,6 +30,8 @@ public:
 
 private:
 	bool visible;
+	RefCountedPtr<Graphics::Material> m_mat;
+	ShieldRenderParameters m_params;
 };
 
 }

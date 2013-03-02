@@ -262,9 +262,10 @@ void Model::SetThrust(const vector3f &lin, const vector3f &ang)
 	m_renderData.angthrust[2] = ang.z;
 }
 
-void Model::SetShieldData(const bool isOn)
+void Model::SetShieldData(const bool isOn, const float strength)
 {
 	m_renderData.shieldVisible = isOn;
+	m_renderData.shieldStrength = strength;
 }
 
 class SaveVisitor : public NodeVisitor {

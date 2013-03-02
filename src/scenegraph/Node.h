@@ -33,6 +33,7 @@ struct RenderData
 	unsigned int nodemask;
 
 	bool shieldVisible;
+	float shieldStrength; // 0.0 to 1.0
 
 	RenderData()
 	: linthrust()
@@ -40,6 +41,7 @@ struct RenderData
 	, boundingRadius(0.f)
 	, nodemask(0x1) //draw solids
 	, shieldVisible(false)
+	, shieldStrength(1.0f)
 	{
 	}
 };

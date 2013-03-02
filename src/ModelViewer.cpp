@@ -459,7 +459,7 @@ void ModelViewer::DrawModel()
 	m_model->UpdateAnimations();
 	if (m_options.wireframe)
 		m_renderer->SetWireFrameMode(true);
-	m_model->SetShieldData(m_options.showShields);
+	m_model->SetShieldData(m_options.showShields, 1.0f);
 	m_model->Render(mv);
 	if (m_options.showLandingPad) {
 		if (!m_scaleModel.Valid()) CreateTestResources();
