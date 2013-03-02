@@ -25,6 +25,7 @@ As of 8 March 2013 (alpha 32), the Pioneer Developers are:
 * Darren Salt
 * Dionisis Kontominas
 * Enric Morales
+* Florian Schmidt
 * Fran Morton
 * Frank Klippenberg
 * Gareth Allnutt
