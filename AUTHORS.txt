@@ -1,11 +1,13 @@
 Authors
 =======
 
-As of 11 January 2013 (alpha 30), the Pioneer Developers are:
+As of 8 March 2013 (alpha 32), the Pioneer Developers are:
 
 * Aaron Lewis
 * Aaron Senese
+* Abram Hindle
 * Ae
+* Alan Briggs
 * Alessandro Giachi
 * Andrew Cook
 * Andrew Copland
@@ -17,6 +19,7 @@ As of 11 January 2013 (alpha 30), the Pioneer Developers are:
 * C de Craen
 * Chip Richards
 * Chris Dennett
+* Connor Findlay
 * Craig Thomson
 * Dan Bennett
 * Darren Salt
@@ -29,6 +32,7 @@ As of 11 January 2013 (alpha 30), the Pioneer Developers are:
 * Gernot
 * HeadHunter
 * Jan Olsina
+* jmf
 * John Bartholomew
 * John Jordan
 * Kimmo Kotajärvi
@@ -48,9 +52,11 @@ As of 11 January 2013 (alpha 30), the Pioneer Developers are:
 * Phil Howlett
 * Piotr Gredka
 * Robert Norris
+* Robert Pallier
 * Roland Mas
 * Sean Bailey
 * Simon Chopin
+* SolCommand
 * Stefan Kapusniak
 * Steve Tyler
 * Sukender (Benoit Neil)

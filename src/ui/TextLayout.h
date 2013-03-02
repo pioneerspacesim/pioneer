@@ -18,9 +18,9 @@ class TextLayout {
 public:
 	TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::string &text);
 
-	Point ComputeSize(const Point &hint);
+	Point ComputeSize(const Point &layoutSize);
 
-	void Draw(const Point &size);
+	void Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize);
 
 private:
 	struct Word {

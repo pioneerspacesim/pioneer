@@ -14,12 +14,12 @@
 #include "LuaConstants.h"
 #include "LuaEvent.h"
 #include "KeyBindings.h"
+#include "EnumStrings.h"
 
 
 void Ship::AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness)
 {
-	const ShipType &stype = GetShipType();
-	double angAccel = stype.angThrust / GetAngularInertia();
+	double angAccel = m_type->angThrust / GetAngularInertia();
 	const double softTimeStep = Pi::game->GetTimeStep() * softness;
 
 	vector3d angVel = desiredAngVel - GetAngVelocity() * GetOrient();
@@ -77,7 +77,7 @@ bool Ship::AITimeStep(float timeStep)
 	if (m_curAICmd->TimeStepUpdate()) {
 		AIClearInstructions();
 //		ClearThrusterState();		// otherwise it does one timestep at 10k and gravity is fatal
-		LuaEvent::Queue("onAICompleted", this, LuaConstants::GetConstantString(Lua::manager->GetLuaState(), "ShipAIError", AIMessage()));
+		LuaEvent::Queue("onAICompleted", this, EnumStrings::GetString("ShipAIError", AIMessage()));
 		return true;
 	}
 	else return false;
@@ -238,7 +238,7 @@ vector3d Ship::AIChangeVelDir(const vector3d &reqdiffvel)
 // Input in object space
 void Ship::AIMatchAngVelObjSpace(const vector3d &angvel)
 {
-	double maxAccel = GetShipType().angThrust / GetAngularInertia();
+	double maxAccel = m_type->angThrust / GetAngularInertia();
 	double invFrameAccel = 1.0 / (maxAccel * Pi::game->GetTimeStep());
 
 	vector3d diff = angvel - GetAngVelocity() * GetOrient();		// find diff between current & desired angvel
@@ -248,9 +248,9 @@ void Ship::AIMatchAngVelObjSpace(const vector3d &angvel)
 // get updir as close as possible just using roll thrusters
 double Ship::AIFaceUpdir(const vector3d &updir, double av)
 {
-	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
+	double maxAccel = m_type->angThrust / GetAngularInertia();		// should probably be in stats anyway
 	double frameAccel = maxAccel * Pi::game->GetTimeStep();
-	
+
 	vector3d uphead = updir * GetOrient();			// create desired object-space updir
 	if (uphead.z > 0.99999) return 0;				// bail out if facing updir
 	uphead.z = 0; uphead = uphead.Normalized();		// only care about roll axis
@@ -277,7 +277,7 @@ double Ship::AIFaceUpdir(const vector3d &updir, double av)
 // returns angle to target
 double Ship::AIFaceDirection(const vector3d &dir, double av)
 {
-	double maxAccel = GetShipType().angThrust / GetAngularInertia();		// should probably be in stats anyway
+	double maxAccel = m_type->angThrust / GetAngularInertia();		// should probably be in stats anyway
 
 	vector3d head = (dir * GetOrient()).Normalized();		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity

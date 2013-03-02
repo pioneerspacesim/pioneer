@@ -31,7 +31,7 @@ void MultiLineText::Layout()
 
 void MultiLineText::Draw()
 {
-	m_layout->Draw(GetSize());
+	m_layout->Draw(GetSize(), GetDrawOffset(), GetContext()->GetScissor());
 }
 
 Widget *MultiLineText::SetFont(Font font) {

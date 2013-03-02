@@ -21,6 +21,9 @@ struct MaterialDefinition {
 		emissive(Color(0.f)),
 		shininess(100),
 		opacity(100),
+		alpha_test(false),
+		two_sided(false),
+		unlit(false),
 		use_pattern(false)
 	{ }
 	std::string name;
@@ -33,6 +36,9 @@ struct MaterialDefinition {
 	Color emissive;
 	unsigned int shininess; //specular power, 0-128
 	unsigned int opacity; //0-100
+	bool alpha_test;
+	bool two_sided;
+	bool unlit;
 	bool use_pattern;
 };
 
@@ -42,14 +48,6 @@ struct LodDefinition {
 	float pixelSize;
 	std::vector<std::string> meshNames;
 };
-
-struct TagDefinition {
-	TagDefinition(const std::string &tagname, const vector3f &pos) : name(tagname), position(pos)
-	{ }
-	std::string name;
-	vector3f position;
-};
-typedef std::vector<TagDefinition> TagList;
 
 struct AnimDefinition {
 	AnimDefinition(const std::string &name_, double start_, double end_, bool loop_) :
@@ -71,7 +69,6 @@ struct ModelDefinition {
 	std::vector<MaterialDefinition> matDefs;
 	std::vector<std::string> collisionDefs;
 	AnimList animDefs;
-	TagList tagDefs;
 };
 
 }

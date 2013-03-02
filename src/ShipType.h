@@ -42,7 +42,7 @@ struct ShipType {
 	Tag tag;
 	Id id;
 	std::string name;
-	std::string lmrModelName;
+	std::string modelName;
 	float linThrust[THRUSTER_MAX];
 	float angThrust;
 	struct GunMount {
@@ -59,12 +59,10 @@ struct ShipType {
 	int baseprice;
 	Equip::Type hyperdrive;
 	vector3d cameraOffset;
+	int minCrew, maxCrew; // XXX really only for Lua, but needs to be declared in the ship def
 	///////
 
-	static std::string LADYBIRD;
-	static std::string SIRIUS_INTERDICTOR;
-	static std::string EAGLE_LRF;
-	static std::string EAGLE_MK3;
+	static std::string POLICE;
 	static std::string MISSILE_GUIDED;
 	static std::string MISSILE_NAVAL;
 	static std::string MISSILE_SMART;

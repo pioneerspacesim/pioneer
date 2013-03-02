@@ -72,11 +72,11 @@ end
 
 local addShipEquip = function (ship)
 	local trader = trade_ships[ship]
-	local ship_type = ShipType.GetShipType(trader.ship_name)
+	local ship_type = ShipDef[trader.ship_name]
 
 	-- add standard equipment
 	ship:AddEquip(ship_type.defaultHyperdrive)
-	if ship:GetEquipSlotCapacity('ATMOSHIELD') > 0 then
+	if ShipDef[ship.shipId].equipSlotCapacity.ATMOSHIELD > 0 then
 		ship:AddEquip('ATMOSPHERIC_SHIELDING')
 		trader.ATMOSHIELD = true -- flag this to save function calls later
 	else
@@ -97,14 +97,14 @@ local addShipEquip = function (ship)
 		local num = math.floor(math.sqrt(stats.freeCapacity / 50)) -
 					 ship:GetEquipCount('SHIELD', 'SHIELD_GENERATOR')
 		if num > 0 then ship:AddEquip('SHIELD_GENERATOR', num) end
-		if ship_type:GetEquipSlotCapacity('ENERGYBOOSTER') > 0 and
+		if ship_type.equipSlotCapacity.ENERGYBOOSTER > 0 and
 		Engine.rand:Number(1) + 0.5 - size_factor < lawlessness then
 			ship:AddEquip('SHIELD_ENERGY_BOOSTER')
 		end
 	end
 
 	-- we can't use these yet
-	if ship_type:GetEquipSlotCapacity('ECM') > 0 then
+	if ship_type.equipSlotCapacity.ECM > 0 then
 		if Engine.rand:Number(1) + 0.2 < lawlessness then
 			ship:AddEquip('ECM_ADVANCED')
 		elseif Engine.rand:Number(1) < lawlessness then
@@ -113,7 +113,7 @@ local addShipEquip = function (ship)
 	end
 
 	-- this should be rare
-	if ship_type:GetEquipSlotCapacity('HULLAUTOREPAIR') > 0 and
+	if ship_type.equipSlotCapacity.HULLAUTOREPAIR > 0 and
 	Engine.rand:Number(1) + 0.75 - size_factor < lawlessness then
 		ship:AddEquip('HULL_AUTOREPAIR')
 	end
@@ -281,9 +281,19 @@ local getSystemAndJump = function (ship)
 	return jumpToSystem(ship, getSystem(ship))
 end
 
-local filterAcceptableShips = function (ship_type)
-	-- only accept ships with enough capacity that are capable of landing in atmospheres
-	return (ship_type.hullMass >= 100) and (ship_type:GetEquipSlotCapacity('ATMOSHIELD') > 0)
+local getAcceptableShips = function ()
+    -- only accept ships with enough capacity that are capable of landing in atmospheres
+	return build_array(
+		map(function (k,def)
+			return k,def.id
+		end,
+		filter(function (k,def)
+			-- XXX should limit to ships large enough to carry significant
+			--     cargo, but we don't have enough ships yet
+			return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE'
+		end,
+		pairs(ShipDef)
+	)))
 end
 
 local spawnInitialShips = function (game_start)
@@ -292,7 +302,7 @@ local spawnInitialShips = function (game_start)
 	if #starports == 0 then return nil end
 	local population = Game.system.population
 	if population == 0 then return nil end
-	local ship_names = ShipType.GetShipTypes('SHIP', filterAcceptableShips)
+	local ship_names = getAcceptableShips()
 	if #ship_names == 0 then return nil end
 
 	-- get a measure of the market size and build lists of imports and exports
@@ -432,7 +442,7 @@ end
 local spawnReplacement = function ()
 	-- spawn new ship in hyperspace
 	if #starports > 0 and Game.system.population > 0 and #imports > 0 and #exports > 0 then
-		local ship_names = ShipType.GetShipTypes('SHIP', filterAcceptableShips)
+		local ship_names = getAcceptableShips()
 		local ship_name = ship_names[Engine.rand:Integer(1, #ship_names)]
 
 		local dest_time = Game.time + Engine.rand:Number(trade_ships.interval, trade_ships.interval * 2)
@@ -588,7 +598,7 @@ local onShipDocked = function (ship, starport)
 		delay = delay + ship:RemoveEquip(cargo, 1000000)
 	end
 
-	local damage = ShipType.GetShipType(trader.ship_name).hullMass -
+	local damage = ShipDef[trader.ship_name].hullMass -
 					ship:GetStats().hullMassLeft
 	if damage > 0 then
 		ship:SetHullPercent()

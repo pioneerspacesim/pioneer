@@ -3,18 +3,17 @@
 
 #include "libs.h"
 #include "ModelBody.h"
-#include "collider/collider.h"
 #include "Frame.h"
 #include "Game.h"
-#include "graphics/Renderer.h"
-#include "LmrModel.h"
 #include "matrix4x4.h"
+#include "ModelCache.h"
 #include "Pi.h"
 #include "Serializer.h"
 #include "Space.h"
 #include "WorldView.h"
-#include "ModelCache.h"
-#include "scenegraph/Model.h"
+#include "collider/collider.h"
+#include "graphics/Renderer.h"
+#include "scenegraph/SceneGraph.h"
 
 ModelBody::ModelBody() :
 	Body(),
@@ -23,13 +22,15 @@ ModelBody::ModelBody() :
 	m_geom(0),
 	m_model(0)
 {
-	memset(&m_params, 0, sizeof(LmrObjParams));
 }
 
 ModelBody::~ModelBody()
 {
 	SetFrame(0);	// Will remove geom from frame if necessary.
 	if (m_geom) delete m_geom;
+
+	//delete instanced model
+	delete m_model;
 }
 
 void ModelBody::Save(Serializer::Writer &wr, Space *space)
@@ -37,6 +38,8 @@ void ModelBody::Save(Serializer::Writer &wr, Space *space)
 	Body::Save(wr, space);
 	wr.Bool(m_isStatic);
 	wr.Bool(m_colliding);
+	wr.String(m_modelName);
+	m_model->Save(wr);
 }
 
 void ModelBody::Load(Serializer::Reader &rd, Space *space)
@@ -44,6 +47,8 @@ void ModelBody::Load(Serializer::Reader &rd, Space *space)
 	Body::Load(rd, space);
 	m_isStatic = rd.Bool();
 	m_colliding = rd.Bool();
+	SetModel(rd.String().c_str());
+	m_model->Load(rd);
 }
 
 void ModelBody::SetStatic(bool isStatic)
@@ -80,7 +85,7 @@ void ModelBody::RebuildCollisionMesh()
 		delete m_geom;
 	}
 
-	m_collMesh = m_model->CreateCollisionMesh(&m_params);
+	m_collMesh = m_model->CreateCollisionMesh();
 	SetPhysRadius(m_collMesh->GetAabb().GetRadius());
 	m_geom = new Geom(m_collMesh->GetGeomTree());
 
@@ -95,7 +100,14 @@ void ModelBody::RebuildCollisionMesh()
 
 void ModelBody::SetModel(const char *modelName)
 {
-	m_model = Pi::FindModel(modelName);
+	//remove old instance
+	delete m_model; m_model = 0;
+
+	m_modelName = modelName;
+
+	//create model instance (some modelbodies, like missiles could avoid this)
+	m_model = Pi::FindModel(m_modelName)->MakeInstance();
+
 	SetClipRadius(m_model->GetDrawClipRadius());
 
 	RebuildCollisionMesh();
@@ -133,12 +145,7 @@ void ModelBody::SetFrame(Frame *f)
 	}
 }
 
-void ModelBody::SetLmrTimeParams()
-{
-	m_params.time = Pi::game->GetTime();
-}
-
-void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void ModelBody::RenderModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d m2 = GetInterpOrient();
 	m2.SetTranslate(GetInterpPosition());
@@ -151,6 +158,6 @@ void ModelBody::RenderLmrModel(Graphics::Renderer *r, const vector3d &viewCoords
 	trans[14] = viewCoords.z;
 	trans[15] = 1.0f;
 
-	m_model->Render(r, trans, &m_params);
+	m_model->Render(trans);
 	glPopMatrix();
 }

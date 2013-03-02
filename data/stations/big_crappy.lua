@@ -31,7 +31,7 @@ define_orbital_station {
 		if stage == 1 then
 			return { v(0,5000,0), v(1,0,0), v(0,0,1) }
 		elseif stage == 2 then
-			return { v(0,600,0), v(1,0,0), v(0,0,1) }
+			return { v(0,550,0), v(1,0,0), v(0,0,1) }
 		end
 	end,
 }

@@ -13,7 +13,7 @@ AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(WARN_CXXFLAGS)
 
-bin_PROGRAMS = pioneer lmrmodelviewer
+bin_PROGRAMS = pioneer
 noinst_HEADERS = \
 	Aabb.h \
 	AmbientSounds.h \
@@ -21,7 +21,6 @@ noinst_HEADERS = \
 	Background.h \
 	BezierCurve.h \
 	Body.h \
-	BufferObject.h \
 	ByteRange.h \
 	Camera.h \
 	CameraController.h \
@@ -36,6 +35,8 @@ noinst_HEADERS = \
 	DeathView.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
+	Easing.h \
+	EnumStrings.h \
 	EquipSet.h \
 	EquipType.h \
 	FaceVideoLink.h \
@@ -57,19 +58,15 @@ noinst_HEADERS = \
 	KeyBindings.h \
 	Lang.h \
 	LangStrings.inc.h \
-	LmrModel.h \
 	Lua.h \
-	LuaBody.h \
-	LuaCargoBody.h \
 	LuaChatForm.h \
 	LuaComms.h \
 	LuaConsole.h \
 	LuaConstants.h \
 	LuaDev.h \
 	LuaEngine.h \
-	LuaEquipType.h \
+	LuaEquipDef.h \
 	LuaEvent.h \
-	LuaFaction.h \
 	LuaFileSystem.h \
 	LuaFormat.h \
 	LuaGame.h \
@@ -78,34 +75,27 @@ noinst_HEADERS = \
 	LuaVector.h \
 	LuaFixed.h \
 	LuaManager.h \
+	LuaMissile.h \
 	LuaMusic.h \
 	LuaNameGen.h \
 	LuaObject.h \
-	LuaPlanet.h \
-	LuaPlayer.h \
 	LuaPushPull.h \
-	LuaRand.h \
 	LuaRef.h \
-	LuaSystemBody.h \
-	LuaSystemPath.h \
 	LuaSerializer.h \
-	LuaShip.h \
-	LuaShipType.h \
+	LuaShipDef.h \
 	LuaSpace.h \
-	LuaSpaceStation.h \
-	LuaStar.h \
-	LuaStarSystem.h \
 	LuaTable.h \
 	LuaTimer.h \
 	LuaUtils.h \
+	LuaWrappable.h \
 	MarketAgent.h \
 	MathUtil.h \
 	Missile.h \
-	ModelBase.h \
 	ModelBody.h \
 	ModelCache.h \
 	ModManager.h \
 	ModelViewer.h \
+	NavLights.h \
 	Object.h \
 	ObjectViewerView.h \
 	OS.h \
@@ -117,6 +107,7 @@ noinst_HEADERS = \
 	Polit.h \
 	Projectile.h \
 	Quaternion.h \
+	Random.h \
 	RefCounted.h \
 	RefList.h \
 	SDLWrappers.h \
@@ -140,7 +131,6 @@ noinst_HEADERS = \
 	ShipController.h \
 	ShipCpanel.h \
 	ShipCpanelMultiFuncDisplays.h \
-	ShipFlavour.h \
 	ShipSpinnerWidget.h \
 	ShipType.h \
 	Sound.h \
@@ -164,7 +154,6 @@ noinst_HEADERS = \
 	gameconsts.h \
 	libs.h \
 	matrix4x4.h \
-	mtrand.h \
 	perlin.h \
 	utils.h \
 	vector2.h \
@@ -186,6 +175,7 @@ pioneer_SOURCES	= \
 	DeadVideoLink.cpp \
 	DeathView.cpp \
 	DynamicBody.cpp \
+	EnumStrings.cpp \
 	EquipType.cpp \
 	FaceVideoLink.cpp \
 	Factions.cpp \
@@ -205,7 +195,6 @@ pioneer_SOURCES	= \
 	GameConfig.cpp \
 	KeyBindings.cpp \
 	Lang.cpp \
-	LmrModel.cpp \
 	Lua.cpp \
 	LuaBody.cpp \
 	LuaCargoBody.cpp \
@@ -215,7 +204,7 @@ pioneer_SOURCES	= \
 	LuaConstants.cpp \
 	LuaDev.cpp \
 	LuaEngine.cpp \
-	LuaEquipType.cpp \
+	LuaEquipDef.cpp \
 	LuaEvent.cpp \
 	LuaFaction.cpp \
 	LuaFileSystem.cpp \
@@ -226,6 +215,7 @@ pioneer_SOURCES	= \
 	LuaVector.cpp \
 	LuaFixed.cpp \
 	LuaManager.cpp \
+	LuaMissile.cpp \
 	LuaMusic.cpp \
 	LuaNameGen.cpp \
 	LuaObject.cpp \
@@ -237,7 +227,7 @@ pioneer_SOURCES	= \
 	LuaSystemPath.cpp \
 	LuaSerializer.cpp \
 	LuaShip.cpp \
-	LuaShipType.cpp \
+	LuaShipDef.cpp \
 	LuaSpace.cpp \
 	LuaSpaceStation.cpp \
 	LuaStar.cpp \
@@ -251,6 +241,7 @@ pioneer_SOURCES	= \
 	ModelCache.cpp \
 	ModManager.cpp \
 	ModelViewer.cpp \
+	NavLights.cpp \
 	ObjectViewerView.cpp \
 	Pi.cpp \
 	Planet.cpp \
@@ -279,7 +270,6 @@ pioneer_SOURCES	= \
 	ShipController.cpp \
 	ShipCpanel.cpp \
 	ShipCpanelMultiFuncDisplays.cpp \
-	ShipFlavour.cpp \
 	ShipSpinnerWidget.cpp \
 	ShipType.cpp \
 	Sound.cpp \
@@ -297,7 +287,6 @@ pioneer_SOURCES	= \
 	View.cpp \
 	WorldView.cpp \
 	main.cpp \
-	mtrand.cpp \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp
@@ -328,50 +317,6 @@ if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
 endif
 
-lmrmodelviewer_SOURCES = \
-	Color.cpp \
-	CRC32.cpp \
-	FileSourceZip.cpp \
-	FileSystem.cpp \
-	FontCache.cpp \
-	IniConfig.cpp \
-	Lang.cpp \
-	LuaMatrix.cpp \
-	LuaVector.cpp \
-	LuaFixed.cpp \
-	LmrModel.cpp \
-	LuaModelViewer.cpp \
-	LuaRef.cpp \
-	LuaUtils.cpp \
-	LuaConstants.cpp \
-	ModManager.cpp \
-	PngWriter.cpp \
-	EquipType.cpp \
-	ShipType.cpp \
-	SDLWrappers.cpp \
-	StringF.cpp \
-	perlin.cpp \
-	utils.cpp \
-	enum_table.cpp
-lmrmodelviewer_LDADD = \
-	../contrib/miniz/libminiz.a \
-	../contrib/jenkins/libjenkins.a \
-	collider/libcollider.a \
-	text/libtext.a \
-	gui/libgui.a \
-	graphics/libgraphics.a \
-	terrain/libterrain.a \
-	ui/libui.a \
-		    $(FREETYPE_LIBS) $(GLEW_LIBS) $(GLU_LIBS) $(GL_LIBS) \
-		    $(SDL_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(PNG_LIBS)
-if !HAVE_LUA
-lmrmodelviewer_LDADD += ../contrib/lua/liblua.a
-endif
-
-if BUILD_WIN32
-lmrmodelviewer_LDFLAGS = -Wl,-Map=lmrmodelviewer.map
-endif
-
 check_PROGRAMS = tests uitest textstress
 tests_SOURCES = \
 	StringF.cpp \
@@ -380,7 +325,8 @@ tests_SOURCES = \
 	test_StringF.cpp \
 	FileSystem.cpp \
 	FileSourceZip.cpp \
-	test_FileSystem.cpp
+	test_FileSystem.cpp \
+	test_Random.cpp
 TESTS = tests
 tests_LDADD = \
 	collider/libcollider.a \
@@ -388,7 +334,9 @@ tests_LDADD = \
 	graphics/libgraphics.a \
 	terrain/libterrain.a \
     posix/libposix.a \
-	../contrib/miniz/libminiz.a
+	../contrib/miniz/libminiz.a \
+	../contrib/jenkins/libjenkins.a \
+	$(SIGC_LIBS)
 
 uitest_SOURCES = \
 	uitest.cpp \
@@ -406,6 +354,7 @@ uitest_SOURCES = \
 	LuaConstants.cpp \
 	LuaRef.cpp \
 	PngWriter.cpp \
+	EnumStrings.cpp \
 	enum_table.cpp \
 	utils.cpp
 uitest_LDADD = \
@@ -456,12 +405,10 @@ endif
 
 if BUILD_WIN32
     pioneer_LDADD += win32/libwin32.a $(MINGW_LIBS)
-    lmrmodelviewer_LDADD += win32/libwin32.a $(MINGW_LIBS)
 endif
 
 if BUILD_POSIX
     pioneer_LDADD += posix/libposix.a
-    lmrmodelviewer_LDADD += posix/libposix.a
 endif
 
 if HAVE_WINDRES

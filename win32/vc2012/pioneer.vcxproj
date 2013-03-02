@@ -140,6 +140,7 @@
     <ClCompile Include="..\..\src\DeadVideoLink.cpp" />
     <ClCompile Include="..\..\src\DeathView.cpp" />
     <ClCompile Include="..\..\src\DynamicBody.cpp" />
+    <ClCompile Include="..\..\src\EnumStrings.cpp" />
     <ClCompile Include="..\..\src\enum_table.cpp" />
     <ClCompile Include="..\..\src\EquipType.cpp" />
     <ClCompile Include="..\..\src\FaceVideoLink.cpp" />
@@ -160,7 +161,6 @@
     <ClCompile Include="..\..\src\Intro.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
-    <ClCompile Include="..\..\src\LmrModel.cpp" />
     <ClCompile Include="..\..\src\Lua.cpp" />
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
@@ -170,7 +170,7 @@
     <ClCompile Include="..\..\src\LuaConstants.cpp" />
     <ClCompile Include="..\..\src\LuaDev.cpp" />
     <ClCompile Include="..\..\src\LuaEngine.cpp" />
-    <ClCompile Include="..\..\src\LuaEquipType.cpp" />
+    <ClCompile Include="..\..\src\LuaEquipDef.cpp" />
     <ClCompile Include="..\..\src\LuaEvent.cpp" />
     <ClCompile Include="..\..\src\LuaFaction.cpp" />
     <ClCompile Include="..\..\src\LuaFileSystem.cpp" />
@@ -180,6 +180,7 @@
     <ClCompile Include="..\..\src\LuaLang.cpp" />
     <ClCompile Include="..\..\src\LuaManager.cpp" />
     <ClCompile Include="..\..\src\LuaMatrix.cpp" />
+    <ClCompile Include="..\..\src\LuaMissile.cpp" />
     <ClCompile Include="..\..\src\LuaMusic.cpp" />
     <ClCompile Include="..\..\src\LuaNameGen.cpp" />
     <ClCompile Include="..\..\src\LuaObject.cpp" />
@@ -189,7 +190,7 @@
     <ClCompile Include="..\..\src\LuaRef.cpp" />
     <ClCompile Include="..\..\src\LuaSerializer.cpp" />
     <ClCompile Include="..\..\src\LuaShip.cpp" />
-    <ClCompile Include="..\..\src\LuaShipType.cpp" />
+    <ClCompile Include="..\..\src\LuaShipDef.cpp" />
     <ClCompile Include="..\..\src\LuaSpace.cpp" />
     <ClCompile Include="..\..\src\LuaSpaceStation.cpp" />
     <ClCompile Include="..\..\src\LuaStar.cpp" />
@@ -207,7 +208,7 @@
     <ClCompile Include="..\..\src\ModelCache.cpp" />
     <ClCompile Include="..\..\src\ModelViewer.cpp" />
     <ClCompile Include="..\..\src\ModManager.cpp" />
-    <ClCompile Include="..\..\src\mtrand.cpp" />
+    <ClCompile Include="..\..\src\NavLights.cpp" />
     <ClCompile Include="..\..\src\ObjectViewerView.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Pi.cpp" />
@@ -236,7 +237,6 @@
     <ClCompile Include="..\..\src\ShipController.cpp" />
     <ClCompile Include="..\..\src\ShipCpanel.cpp" />
     <ClCompile Include="..\..\src\ShipCpanelMultiFuncDisplays.cpp" />
-    <ClCompile Include="..\..\src\ShipFlavour.cpp" />
     <ClCompile Include="..\..\src\ShipSpinnerWidget.cpp" />
     <ClCompile Include="..\..\src\ShipType.cpp" />
     <ClCompile Include="..\..\src\Sound.cpp" />
@@ -296,6 +296,7 @@
     <ClInclude Include="..\..\src\DeathView.h" />
     <ClInclude Include="..\..\src\DeleteEmitter.h" />
     <ClInclude Include="..\..\src\DynamicBody.h" />
+    <ClInclude Include="..\..\src\EnumStrings.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
     <ClInclude Include="..\..\src\EquipType.h" />
     <ClInclude Include="..\..\src\FaceVideoLink.h" />
@@ -318,9 +319,8 @@
     <ClInclude Include="..\..\src\Intro.h" />
     <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
-    <ClInclude Include="..\..\src\LmrModel.h" />
     <ClInclude Include="..\..\src\Lua.h" />
-    <ClInclude Include="..\..\src\LuaBody.h" />
+    <ClInclude Include="..\..\src\LuaEquipDef.h" />
     <ClInclude Include="..\..\src\LuaCargoBody.h" />
     <ClInclude Include="..\..\src\LuaChatForm.h" />
     <ClInclude Include="..\..\src\LuaComms.h" />
@@ -328,9 +328,7 @@
     <ClInclude Include="..\..\src\LuaConstants.h" />
     <ClInclude Include="..\..\src\LuaDev.h" />
     <ClInclude Include="..\..\src\LuaEngine.h" />
-    <ClInclude Include="..\..\src\LuaEquipType.h" />
     <ClInclude Include="..\..\src\LuaEvent.h" />
-    <ClInclude Include="..\..\src\LuaFaction.h" />
     <ClInclude Include="..\..\src\LuaFileSystem.h" />
     <ClInclude Include="..\..\src\LuaFixed.h" />
     <ClInclude Include="..\..\src\LuaFormat.h" />
@@ -338,27 +336,20 @@
     <ClInclude Include="..\..\src\LuaLang.h" />
     <ClInclude Include="..\..\src\LuaManager.h" />
     <ClInclude Include="..\..\src\LuaMatrix.h" />
+    <ClInclude Include="..\..\src\LuaMissile.h" />
     <ClInclude Include="..\..\src\LuaMusic.h" />
     <ClInclude Include="..\..\src\LuaNameGen.h" />
     <ClInclude Include="..\..\src\LuaObject.h" />
-    <ClInclude Include="..\..\src\LuaPlanet.h" />
-    <ClInclude Include="..\..\src\LuaPlayer.h" />
     <ClInclude Include="..\..\src\LuaPushPull.h" />
-    <ClInclude Include="..\..\src\LuaRand.h" />
     <ClInclude Include="..\..\src\LuaRef.h" />
     <ClInclude Include="..\..\src\LuaSerializer.h" />
-    <ClInclude Include="..\..\src\LuaShip.h" />
-    <ClInclude Include="..\..\src\LuaShipType.h" />
+    <ClInclude Include="..\..\src\LuaShipDef.h" />
     <ClInclude Include="..\..\src\LuaSpace.h" />
-    <ClInclude Include="..\..\src\LuaSpaceStation.h" />
-    <ClInclude Include="..\..\src\LuaStar.h" />
-    <ClInclude Include="..\..\src\LuaStarSystem.h" />
-    <ClInclude Include="..\..\src\LuaSystemBody.h" />
-    <ClInclude Include="..\..\src\LuaSystemPath.h" />
     <ClInclude Include="..\..\src\LuaTable.h" />
     <ClInclude Include="..\..\src\LuaTimer.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
     <ClInclude Include="..\..\src\LuaVector.h" />
+    <ClInclude Include="..\..\src\LuaWrappable.h" />
     <ClInclude Include="..\..\src\MarketAgent.h" />
     <ClInclude Include="..\..\src\MathUtil.h" />
     <ClInclude Include="..\..\src\matrix4x4.h" />
@@ -367,7 +358,7 @@
     <ClInclude Include="..\..\src\ModelCache.h" />
     <ClInclude Include="..\..\src\ModelViewer.h" />
     <ClInclude Include="..\..\src\ModManager.h" />
-    <ClInclude Include="..\..\src\mtrand.h" />
+    <ClInclude Include="..\..\src\NavLights.h" />
     <ClInclude Include="..\..\src\Object.h" />
     <ClInclude Include="..\..\src\ObjectViewerView.h" />
     <ClInclude Include="..\..\src\OS.h" />
@@ -380,6 +371,7 @@
     <ClInclude Include="..\..\src\Polit.h" />
     <ClInclude Include="..\..\src\Projectile.h" />
     <ClInclude Include="..\..\src\Quaternion.h" />
+    <ClInclude Include="..\..\src\Random.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\RefList.h" />
     <ClInclude Include="..\..\src\SDLWrappers.h" />
@@ -391,7 +383,6 @@
     <ClInclude Include="..\..\src\ShipController.h" />
     <ClInclude Include="..\..\src\ShipCpanel.h" />
     <ClInclude Include="..\..\src\ShipCpanelMultiFuncDisplays.h" />
-    <ClInclude Include="..\..\src\ShipFlavour.h" />
     <ClInclude Include="..\..\src\ShipSpinnerWidget.h" />
     <ClInclude Include="..\..\src\ShipType.h" />
     <ClInclude Include="..\..\src\SmartPtr.h" />

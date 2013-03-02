@@ -58,7 +58,7 @@ public:
 private:
 	int sx, sy, sz;
 	void GetCustomSystems();
-	std::string GenName(System &sys, int si, MTRand &rand);
+	std::string GenName(System &sys, int si, Random &rand);
 };
 
 #endif /* _SECTOR_H */

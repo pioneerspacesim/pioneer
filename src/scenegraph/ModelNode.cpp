@@ -6,17 +6,28 @@
 
 namespace SceneGraph {
 
-ModelNode::ModelNode(Model *m) :
-	Node(),
-	m_model(m)
+ModelNode::ModelNode(Model *m)
+: Node(m->GetRenderer())
+, m_model(m)
 {
 }
 
-void ModelNode::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
+ModelNode::ModelNode(const ModelNode &modelNode, NodeCopyCache *cache)
+: Node(modelNode, cache)
+, m_model(modelNode.m_model)
+{
+}
+
+Node* ModelNode::Clone(NodeCopyCache *cache)
+{
+	return this; //modelnodes are shared
+}
+
+void ModelNode::Render(const matrix4x4f &trans, RenderData *rd)
 {
 	//slight hack here
 	rd->nodemask |= MASK_IGNORE;
-	m_model->Render(r, trans, rd);
+	m_model->Render(trans, rd);
 	rd->nodemask &= ~MASK_IGNORE;
 }
 

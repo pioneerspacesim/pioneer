@@ -56,12 +56,13 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 	m_message = new Gui::ToolTip(0, Lang::VID_LINK_ESTABLISHED);
 
 	if (!seed) seed = time(NULL);
-	MTRand rand(seed);
+
+	RefCountedPtr<Random> rand(new Random(seed));
 
 	m_flags = flags;
 	m_seed = seed;
 
-	int race = rand.Int32(0,2);
+	int race = rand->Int32(0,2);
 
 	int gender;
 	switch (flags & GENDER_MASK) {
@@ -73,7 +74,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 			break;
 		case GENDER_RAND:
 		default:
-			gender = rand.Int32(0,1);
+			gender = rand->Int32(0,1);
 			break;
 	}
 
@@ -83,19 +84,19 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 
 	m_characterInfo = new CharacterInfoText(w * 0.8f, h * 0.15f, charname, title);
 
-	int head  = rand.Int32(0,MAX_HEAD);
-	int eyes  = rand.Int32(0,MAX_EYES);
-	int nose  = rand.Int32(0,MAX_NOSE);
-	int mouth = rand.Int32(0,MAX_MOUTH);
-	int hair  = rand.Int32(0,MAX_HAIR);
+	int head  = rand->Int32(0,MAX_HEAD);
+	int eyes  = rand->Int32(0,MAX_EYES);
+	int nose  = rand->Int32(0,MAX_NOSE);
+	int mouth = rand->Int32(0,MAX_MOUTH);
+	int hair  = rand->Int32(0,MAX_HAIR);
 
-	int clothes = rand.Int32(0,MAX_CLOTHES);
+	int clothes = rand->Int32(0,MAX_CLOTHES);
 
-	int armour = rand.Int32(0,MAX_ARMOUR);
+	int armour = rand->Int32(0,MAX_ARMOUR);
 
-	int accessories = rand.Int32(0,MAX_ACCESSORIES);
+	int accessories = rand->Int32(0,MAX_ACCESSORIES);
 
-	int background = rand.Int32(0,MAX_BACKGROUND);
+	int background = rand->Int32(0,MAX_BACKGROUND);
 
 	char filename[1024];
 
@@ -123,7 +124,7 @@ FaceVideoLink::FaceVideoLink(float w, float h, Uint32 flags, Uint32 seed,
 
 	if (!(flags & ARMOUR)) {
 		snprintf(filename, sizeof(filename), "facegen/accessories/acc_%d.png", accessories);
-		if (rand.Int32(0,1)>0)	_blit_image(faceim, filename, 0, 0);
+		if (rand->Int32(0,1)>0)	_blit_image(faceim, filename, 0, 0);
 
 		snprintf(filename, sizeof(filename), "facegen/race_%d/hair/hair_%d_%d.png", race, gender, hair);
 		_blit_image(faceim, filename, 0, 0);

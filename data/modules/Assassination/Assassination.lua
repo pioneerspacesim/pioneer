@@ -130,10 +130,13 @@ local makeAdvert = function (station)
 	local due = Game.time + Engine.rand:Number(7*60*60*24, time * 31*60*60*24)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
-	local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
-		return (t.hullMass >= (danger * 17)) and (t:GetEquipSlotCapacity('ATMOSHIELD') > 0) end)
-	local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-	local shipname = ShipType.GetShipType(shipid).name
+
+	-- XXX hull mass is a bad way to determine suitability for role
+	--local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
+	local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE' and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
+	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
+	local shipid = shipdef.id
+	local shipname = shipdef.name
 
 	local ad = {
 		client = client,
@@ -222,11 +225,11 @@ local onEnterSystem = function (ship)
 				if mission.due > Game.time then
 					if mission.location:IsSameSystem(syspath) then -- spawn our target ship
 						local station = Space.GetBody(mission.location.bodyIndex)
-						local shiptype = ShipType.GetShipType(mission.shipid)
+						local shiptype = ShipDef[mission.shipid]
 						local default_drive = shiptype.defaultHyperdrive
-						local lasers = EquipType.GetEquipTypes('LASER', function (e,et) return et.slot == "LASER" end)
+						local laserdefs = build_array(filter(function (k,def) return def.slot == 'LASER' end, pairs(EquipDef)))
+						local laserdef = laserdefs[mission.danger]
 						local count = tonumber(string.sub(default_drive, -1)) ^ 2
-						local laser = lasers[mission.danger]
 
 						mission.ship = Space.SpawnShipDocked(mission.shipid, station)
 						if mission.ship == nil then
@@ -235,7 +238,7 @@ local onEnterSystem = function (ship)
 						mission.ship:SetLabel(mission.shipregid)
 						mission.ship:AddEquip('ATMOSPHERIC_SHIELDING')
 						mission.ship:AddEquip(default_drive)
-						mission.ship:AddEquip(laser)
+						mission.ship:AddEquip(laserdef.id)
 						mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
 						mission.ship:AddEquip('HYDROGEN', count)
 						if mission.danger > 2 then
@@ -405,14 +408,14 @@ end
 
 local onClick = function (mission)
 	local ass_flavours = Translate:GetFlavours('Assassination')
-	local dist = Game.system:DistanceTo(mission.location)
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((ass_flavours[mission.flavour].introtext):interp({
 														name   = mission.client.name,
 														target = mission.target,
 														system = mission.location:GetStarSystem().name,
 														cash   = Format.Money(mission.reward),
-														dist  = string.format("%.2f", dist)})
+														dist  = dist})
 										),
 										ui:Grid(2,1)
 											:SetColumn(0, {
@@ -427,7 +430,7 @@ local onClick = function (mission)
 													ui:Label(mission.shipregid),
 													ui:Label(Format.Date(mission.due)),
 													ui:Margin(10),
-													ui:Label(math.ceil(dist).." "..t("ly"))
+													ui:Label(dist.." "..t("ly"))
 												})
 											})
 		})})

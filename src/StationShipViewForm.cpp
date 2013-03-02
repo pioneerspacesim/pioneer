@@ -12,17 +12,16 @@
 
 StationShipViewForm::StationShipViewForm(FormController *controller, int marketIndex) :
 	BlankForm(controller),
-	m_marketIndex(marketIndex)
+	m_station(Pi::player->GetDockedWith()),
+	m_marketIndex(marketIndex),
+	m_sos(m_station->GetShipsOnSale()[marketIndex])
 {
-	m_station = Pi::player->GetDockedWith();
-
-	m_flavour = m_station->GetShipsOnSale()[marketIndex];
-
-	const ShipType &type = ShipType::types[m_flavour.id];
+	const ShipType &type = ShipType::types[m_sos.id];
 
 	SetTitle(stringf(Lang::SOMEWHERE_SHIP_MARKET, formatarg("station", m_station->GetLabel())));
 
-	Add(new ShipSpinnerWidget(m_flavour, 400, 400), 0, 0);
+	SceneGraph::Model *model = Pi::FindModel(type.modelName);
+	Add(new ShipSpinnerWidget(model, m_sos.skin, 400, 400), 0, 0);
 
 
 	Gui::VBox *layoutBox = new Gui::VBox();
@@ -36,7 +35,6 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 	Gui::VBox *labelBox = new Gui::VBox();
 	labelBox->PackEnd(new Gui::Label(Lang::SHIP_TYPE));
 	labelBox->PackEnd(new Gui::Label(Lang::PRICE));
-	labelBox->PackEnd(new Gui::Label(Lang::PART_EX));
 	labelBox->PackEnd(new Gui::Label(Lang::REGISTRATION_ID));
 	labelBox->PackEnd(new Gui::Label(" "));
 	labelBox->PackEnd(new Gui::Label(Lang::WEIGHT_EMPTY));
@@ -59,9 +57,8 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 
 	Gui::VBox *dataBox = new Gui::VBox();
 	dataBox->PackEnd(new Gui::Label(type.name));
-	dataBox->PackEnd(new Gui::Label(format_money(m_flavour.price)));
-	dataBox->PackEnd(new Gui::Label(format_money(m_flavour.price - Pi::player->GetFlavour()->price)));
-	dataBox->PackEnd(new Gui::Label(m_flavour.regid));
+	dataBox->PackEnd(new Gui::Label(format_money(type.baseprice)));
+	dataBox->PackEnd(new Gui::Label(m_sos.regId));
 	dataBox->PackEnd(new Gui::Label(" "));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.hullMass))));
 	dataBox->PackEnd(new Gui::Label(stringf(Lang::NUMBER_TONNES, formatarg("mass", type.capacity))));
@@ -123,20 +120,22 @@ StationShipViewForm::StationShipViewForm(FormController *controller, int marketI
 
 void StationShipViewForm::BuyShip()
 {
-	Sint64 cost = m_flavour.price - Pi::player->GetFlavour()->price;
+	Sint64 cost = ShipType::types[m_sos.id].baseprice;
 	if (Pi::player->GetMoney() < cost) {
 		Pi::cpan->MsgLog()->Message("", Lang::YOU_NOT_ENOUGH_MONEY);
 		return;
 	}
 
-	ShipFlavour old = *(Pi::player->GetFlavour());
+	ShipOnSale old(Pi::player->GetShipType()->id, Pi::player->GetLabel(), Pi::player->GetSkin());
 
 	Pi::player->SetMoney(Pi::player->GetMoney() - cost);
-	Pi::player->ResetFlavour(&m_flavour);
-	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_flavour.id].hyperdrive);
+	Pi::player->SetShipType(m_sos.id);
+	Pi::player->SetLabel(m_sos.regId);
+	Pi::player->SetSkin(m_sos.skin);
+	Pi::player->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[m_sos.id].hyperdrive);
 	Pi::player->UpdateStats();
 
-	m_station->ReplaceShipOnSale(m_marketIndex, &old);
+	m_station->ReplaceShipOnSale(m_marketIndex, old);
 
     Pi::cpan->MsgLog()->Message("", Lang::THANKS_AND_REMEMBER_TO_BUY_FUEL);
 

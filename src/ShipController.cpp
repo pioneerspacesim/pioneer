@@ -43,11 +43,15 @@ PlayerShipController::PlayerShipController() :
 	m_connRotationDampingToggleKey = KeyBindings::toggleRotationDamping.onPress.connect(
 			sigc::mem_fun(this, &PlayerShipController::ToggleRotationDamping));
 
+	m_fireMissileKey = KeyBindings::fireMissile.onPress.connect(
+			sigc::mem_fun(this, &PlayerShipController::FireMissile));
+
 }
 
 PlayerShipController::~PlayerShipController()
 {
 	m_connRotationDampingToggleKey.disconnect();
+	m_fireMissileKey.disconnect();
 }
 
 void PlayerShipController::Save(Serializer::Writer &wr, Space *space)
@@ -323,6 +327,23 @@ void PlayerShipController::SetRotationDamping(bool enabled)
 void PlayerShipController::ToggleRotationDamping()
 {
 	SetRotationDamping(!GetRotationDamping());
+}
+
+void PlayerShipController::FireMissile()
+{
+	if (!Pi::player->GetCombatTarget())
+		return;
+
+	lua_State *l = Lua::manager->GetLuaState();
+	int pristine_stack = lua_gettop(l);
+	LuaObject<Ship>::PushToLua(Pi::player);
+	lua_pushstring(l, "FireMissileAt");
+	lua_gettable(l, -2);
+	lua_pushvalue(l, -2);
+	lua_pushstring(l, "any");
+	LuaObject<Ship>::PushToLua(static_cast<Ship*>(Pi::player->GetCombatTarget()));
+	lua_call(l, 3, 1);
+	lua_settop(l, pristine_stack);
 }
 
 Body *PlayerShipController::GetCombatTarget() const

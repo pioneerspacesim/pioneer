@@ -190,6 +190,20 @@ Character = {
 	lastSavedSystemPath = nil,
 
 --
+-- Attribute: dead
+--
+-- Boolean attribute. If set to a true value, character is deceased and all test rolls will fail.
+--
+-- Availability:
+--
+--   alpha 31
+--
+-- Status:
+--
+--   experimental
+--
+
+--
 -- Attribute: playerRelationship
 --
 -- Integer attribute for roll-play style dice tests.  PlayerRelationship is
@@ -205,6 +219,7 @@ Character = {
 --
 --   experimental
 --
+	playerRelationship = 34,
 
 --
 -- Attribute: luck
@@ -223,6 +238,24 @@ Character = {
 --   experimental
 --
 	luck = 34,
+
+--
+-- Attribute: intelligence
+--
+-- Integer attribute for roll-play style dice tests.  Intelligence is intended to
+-- reflect the character's ability to learn.
+-- Tested with 4xD16; useful values are 4 (moron) to 65 (genius).
+-- Modifiers can cause numbers outside this range to become useful (see TestRoll).
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+	intelligence = 34,
 
 --
 -- Attribute: charisma
@@ -590,6 +623,7 @@ Character = {
 --
 	RollNew = function (self,crew)
 		self.luck = self.DiceRoll()
+		self.intelligence = self.DiceRoll()
 		self.charisma = self.DiceRoll()
 		self.notoriety = self.DiceRoll()
 		self.lawfulness = self.DiceRoll()
@@ -617,9 +651,11 @@ Character = {
 -- If the DiceRoll is from 60-64, then it was a critical success and that
 -- attribute is exercised.  It is incremented by one for future tests.
 --
+-- If the Character is dead, the test roll will always fail.
+--
 -- Return:
 --
---   success - Boolean value indicating that the test roll passed or failed
+--   success - False if failed, otherwise the dice roll value (low is good).
 --
 -- Parameters:
 --
@@ -638,6 +674,7 @@ Character = {
 	TestRoll = function (self,attribute,modifier)
 		local modifier = modifier or 0
 		if type(modifier) ~= 'number' then error('TestRoll(): modifier must be numeric') end
+		if self.dead then return false end -- dead characters fail all tests
 		if self[attribute] and (type(self[attribute])=='number') then
 			local result = self.DiceRoll()
 			if result > 59 then -- punish critical failure
@@ -647,7 +684,7 @@ Character = {
 				self[attribute] = self[attribute] + 1
 				modifier = modifier - 1 -- don't affect *this* result
 			end
-			return (result < (self[attribute] + modifier))
+			return (result < (self[attribute] + modifier) and result)
 		else
 			return false
 		end
@@ -665,9 +702,11 @@ Character = {
 --
 -- Unlike TestRoll, this function never modifies the value of the attribute.
 --
+-- If the Character is dead, the test roll will always fail.
+--
 -- Return:
 --
---   success - Boolean value indicating that the test roll passed or failed
+--   success - False if failed, otherwise the dice roll value (low is good).
 --
 -- Parameters:
 --
@@ -686,8 +725,10 @@ Character = {
 	SafeRoll = function (self,attribute,modifier)
 		local modifier = modifier or 0
 		if type(modifier) ~= 'number' then error('SafeRoll(): modifier must be numeric') end
+		if self.dead then return false end -- dead characters fail all tests
 		if self[attribute] and (type(self[attribute])=='number') then
-			return (self.DiceRoll() < (self[attribute] + modifier))
+			local result = Self.DiceRoll()
+			return (result < (self[attribute] + modifier) and result)
 		else
 			return false
 		end
@@ -804,6 +845,7 @@ Character = {
 -- Method: FindAvailable
 --
 --   Returns an iterator across all PersistentCharacters where available is true
+--   and dead is false
 --
 -- iterator = Character.FindAvailable()
 --
@@ -835,7 +877,7 @@ Character = {
 		local NPC = 0
 		return function ()
 			NPC = NPC + 1
-			while PersistentCharacters[NPC] and not (PersistentCharacters[NPC]).available do
+			while PersistentCharacters[NPC] and (not (PersistentCharacters[NPC]).available or (PersistentCharacters[NPC]).dead) do
 				NPC = NPC + 1
 			end
 			return PersistentCharacters[NPC]
@@ -1015,6 +1057,7 @@ Character = {
 	PrintStats = function (self)
 		print('Name: ',self.name)
 		print('Luck: ',self.luck)
+		print('Intelligence: ',self.intelligence)
 		print('Charisma: ',self.charisma)
 		print('Notoriety: ',self.notoriety)
 		print('Lawfulness: ',self.lawfulness)
@@ -1057,11 +1100,6 @@ local onGameStart = function ()
 		-- the average values.  We'll find some way to ask the
 		-- player for a new name in the future.
 		local PlayerCharacter = Character.New()
-		if PlayerCharacter.female then
-			PlayerCharacter.name = 'Petra Jameson'
-		else
-			PlayerCharacter.name = 'Peter Jameson'
-		end
 		PlayerCharacter.title = 'Commander'
 		PlayerCharacter.player = true
 		-- Gave the player a missions table (for Misssions.lua)
@@ -1070,6 +1108,8 @@ local onGameStart = function ()
 		-- table.  Player won't be ennumerated with NPCs, because player
 		-- is not numerically keyed.
 		PersistentCharacters = { player = PlayerCharacter }
+		-- Enroll the player in their own crew
+		Game.player:Enroll(PlayerCharacter)
 	end
 	loaded_data = nil
 end

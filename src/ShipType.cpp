@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipType.h"
-#include "LmrModel.h"
 #include "LuaVector.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
@@ -21,10 +20,7 @@ std::vector<ShipType::Id> ShipType::missile_ships;
 
 std::vector<ShipType::Id> ShipType::playable_atmospheric_ships;
 
-std::string ShipType::LADYBIRD				= "ladybird_starfighter";
-std::string ShipType::SIRIUS_INTERDICTOR	= "sirius_interdictor";
-std::string ShipType::EAGLE_LRF				= "eagle_lrf";
-std::string ShipType::EAGLE_MK3				= "eagle_mk3";
+std::string ShipType::POLICE				= "kanara";
 std::string ShipType::MISSILE_GUIDED		= "missile_guided";
 std::string ShipType::MISSILE_NAVAL			= "missile_naval";
 std::string ShipType::MISSILE_SMART			= "missile_smart";
@@ -109,7 +105,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 
 	LUA_DEBUG_START(L);
 	_get_string_attrib(L, "name", s.name, "");
-	_get_string_attrib(L, "model", s.lmrModelName, "");
+	_get_string_attrib(L, "model", s.modelName, "");
 	_get_float_attrib(L, "reverse_thrust", s.linThrust[ShipType::THRUSTER_REVERSE], 0.0f);
 	_get_float_attrib(L, "forward_thrust", s.linThrust[ShipType::THRUSTER_FORWARD], 0.0f);
 	_get_float_attrib(L, "up_thrust", s.linThrust[ShipType::THRUSTER_UP], 0.0f);
@@ -162,11 +158,14 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 		s.effectiveExhaustVelocity = GetEffectiveExhaustVelocity(s.fuelTankMass, thruster_fuel_use, s.linThrust[ShipType::THRUSTER_FORWARD]);
 	} else {
 		if(thruster_fuel_use >= 0)
-			printf("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", s.lmrModelName.c_str());
+			printf("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", s.modelName.c_str());
 	}
 
 	_get_int_attrib(L, "price", s.baseprice, 0);
 	s.baseprice *= 100; // in hundredths of credits
+
+	_get_int_attrib(L, "min_crew", s.minCrew, 1);
+	_get_int_attrib(L, "max_crew", s.maxCrew, 1);
 
 	s.equipSlotCapacity[Equip::SLOT_ENGINE] = Clamp(s.equipSlotCapacity[Equip::SLOT_ENGINE], 0, 1);
 
@@ -215,18 +214,11 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	if (s.name.empty())
 		return luaL_error(L, "Ship has no name");
 
-	if (s.lmrModelName.empty())
+	if (s.modelName.empty())
 		return luaL_error(L, "Missing model name in ship");
 
-	//this shouldn't necessarily be a fatal problem, could just warn+mark ship unusable
-	//or replace with proxy geometry
-#if 0
-	try {
-		LmrLookupModelByName(s.lmrModelName.c_str());
-	} catch (LmrModelNotFoundException &) {
-		return luaL_error(L, "Model %s is not defined", s.lmrModelName.c_str());
-	}
-#endif
+	if (s.minCrew < 1 || s.maxCrew < 1 || s.minCrew > s.maxCrew)
+		return luaL_error(L, "Invalid values for min_crew and max_crew");
 
 	const std::string& id = s_currentShipFile;
 	typedef std::map<ShipType::Id, ShipType>::iterator iter;

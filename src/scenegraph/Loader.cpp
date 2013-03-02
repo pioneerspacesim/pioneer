@@ -118,9 +118,10 @@ namespace {
 
 namespace SceneGraph {
 
-Loader::Loader(Graphics::Renderer *r) :
-	m_renderer(r),
-	m_model(0)
+Loader::Loader(Graphics::Renderer *r, bool logWarnings)
+: m_renderer(r)
+, m_model(0)
+, m_doLog(logWarnings)
 {
 	Graphics::Texture *sdfTex = Graphics::TextureBuilder("fonts/label3d.png", Graphics::LINEAR_CLAMP, true, true, true).GetOrCreateTexture(r, "model");
 	m_labelFont.Reset(new Text::DistanceFieldFont("fonts/sdf_definition.txt", sdfTex));
@@ -138,6 +139,7 @@ Model *Loader::LoadModel(const std::string &filename)
 
 Model *Loader::LoadModel(const std::string &shortname, const std::string &basepath)
 {
+	m_logMessages.clear();
 	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
 	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
 	{
@@ -175,18 +177,13 @@ Model *Loader::LoadModel(const std::string &shortname, const std::string &basepa
 	throw (LoadingError("File not found"));
 }
 
-Graphics::Texture *Loader::GetWhiteTexture() const
-{
-	return Graphics::TextureBuilder::Model("textures/white.png").GetOrCreateTexture(m_renderer, "model");
-}
-
 Model *Loader::CreateModel(ModelDefinition &def)
 {
 	using Graphics::Material;
 	if (def.matDefs.empty()) return 0;
 	if (def.lodDefs.empty()) return 0;
 
-	Model *model = new Model(def.name);
+	Model *model = new Model(m_renderer, def.name);
 	m_model = model;
 	bool patternsUsed = false;
 
@@ -201,7 +198,9 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		const std::string &glowTex = (*it).tex_glow;
 
 		Graphics::MaterialDescriptor matDesc;
-		matDesc.lighting = true;
+		matDesc.lighting = !it->unlit;
+		matDesc.alphaTest = it->alpha_test;
+		matDesc.twoSided = it->two_sided;
 
 		if ((*it).use_pattern) {
 			patternsUsed = true;
@@ -229,7 +228,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		if (!diffTex.empty())
 			mat->texture0 = Graphics::TextureBuilder::Model(diffTex).GetOrCreateTexture(m_renderer, "model");
 		else
-			mat->texture0 = GetWhiteTexture();
+			mat->texture0 = Graphics::TextureBuilder::GetWhiteTexture(m_renderer);
 		if (!specTex.empty())
 			mat->texture1 = Graphics::TextureBuilder::Model(specTex).GetOrCreateTexture(m_renderer, "model");
 		if (!glowTex.empty())
@@ -247,7 +246,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 	std::map<std::string, RefCountedPtr<Node> > meshCache;
 	LOD *lodNode = 0;
 	if (def.lodDefs.size() > 1) { //don't bother with a lod node if only one level
-		lodNode = new LOD();
+		lodNode = new LOD(m_renderer);
 		model->GetRoot()->AddChild(lodNode);
 	}
 	for(std::vector<LodDefinition>::const_iterator lod = def.lodDefs.begin();
@@ -256,7 +255,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		//does a detail level have multiple meshes? If so, we need a Group.
 		Group *group = 0;
 		if (lodNode && (*lod).meshNames.size() > 1) {
-			group = new Group();
+			group = new Group(m_renderer);
 			lodNode->AddLevel((*lod).pixelSize, group);
 		}
 		for(std::vector<std::string>::const_iterator it = (*lod).meshNames.begin();
@@ -270,7 +269,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 					mesh = (*cacheIt).second;
 				else {
 					try {
-						mesh = LoadMesh(*it, def.animDefs, def.tagDefs);
+						mesh = LoadMesh(*it, def.animDefs);
 					} catch (LoadingError &err) {
 						//append filename - easiest to do here
 						throw (LoadingError(stringf("%0:\n%1", *it, err.what())));
@@ -307,19 +306,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 
 	// Run CollisionVisitor to create the initial CM and its GeomTree.
 	// If no collision mesh is defined, a simple bounding box will be generated
-	m_model->CreateCollisionMesh(0);
-
-	// Add tag points
-	// XXX defining tags in .model not implemented
-	// the question is if everything can be expected to use collada/etc
-	for(TagList::const_iterator it = def.tagDefs.begin();
-		it != def.tagDefs.end();
-		++it)
-	{
-		const vector3f &pos = (*it).position;
-		RefCountedPtr<MatrixTransform> tagTrans(new MatrixTransform(matrix4x4f::Translation(pos.x, pos.y, pos.z)));
-		model->AddTag((*it).name, tagTrans.Get());
-	}
+	m_model->CreateCollisionMesh();
 
 	//find usable pattern textures from the model directory
 	if (patternsUsed) {
@@ -329,7 +316,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 			model->m_patterns.push_back(Pattern());
 			Pattern &dumpat = m_model->m_patterns.back();
 			dumpat.name = "Dummy";
-			dumpat.texture = RefCountedPtr<Graphics::Texture>(GetWhiteTexture());
+			dumpat.texture = RefCountedPtr<Graphics::Texture>(Graphics::TextureBuilder::GetWhiteTexture(m_renderer));
 		}
 
 		//set up some noticeable default colors
@@ -337,7 +324,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 		colors.push_back(Color4ub::RED);
 		colors.push_back(Color4ub::GREEN);
 		colors.push_back(Color4ub::BLUE);
-		model->SetColors(m_renderer, colors);
+		model->SetColors(colors);
 		model->SetPattern(0);
 	}
 
@@ -356,8 +343,12 @@ void Loader::FindPatterns(PatternContainer &output)
 	}
 }
 
-RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList &animDefs, TagList &modelTags)
+RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList &animDefs)
 {
+	//remove path from filename for nicer logging
+	size_t slashpos = filename.rfind("/");
+	m_curMeshDef = filename.substr(slashpos+1, filename.length()-slashpos);
+
 	Assimp::Importer importer;
 	importer.SetIOHandler(new AssimpFileSystem(FileSystem::gameDataFiles));
 
@@ -371,7 +362,7 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 		aiProcess_RemoveComponent	|
 		aiProcess_Triangulate		|
 		aiProcess_SortByPType		| //ignore point, line primitive types (collada dummy nodes seem to be fine)
-		aiProcess_GenUVCoords		| //only if they don't exist
+		aiProcess_GenUVCoords		|
 		aiProcess_FlipUVs			|
 		aiProcess_SplitLargeMeshes	|
 		aiProcess_GenSmoothNormals);  //only if normals not specified
@@ -389,7 +380,7 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 
 	// Recursive structure conversion. Matrix needs to be accumulated for
 	// special features that are absolute-positioned (thrusters)
-	RefCountedPtr<Node> meshRoot(new Group());
+	RefCountedPtr<Node> meshRoot(new Group(m_renderer));
 
 	ConvertNodes(scene->mRootNode, static_cast<Group*>(meshRoot.Get()), surfaces, matrix4x4f::Identity());
 	ConvertAnimations(scene, animDefs, static_cast<Group*>(meshRoot.Get()));
@@ -402,7 +393,7 @@ static bool in_range(double keytime, double start, double end)
 	return (keytime >= start - 0.001 && keytime - 0.001 <= end);
 }
 
-//check animation channel has at least two P, R or S keys within time range
+// check animation channel has a key within time range
 bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
 {
 	int posKeysInRange = 0;
@@ -424,7 +415,7 @@ bool Loader::CheckKeysInRange(const aiNodeAnim *chan, double start, double end)
 		if (in_range(aikey.mTime, start, end)) sclKeysInRange++;
 	}
 
-	return (posKeysInRange > 1 || rotKeysInRange > 1 || sclKeysInRange > 1);
+	return (posKeysInRange > 0 || rotKeysInRange > 0 || sclKeysInRange > 0);
 }
 
 RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
@@ -436,10 +427,39 @@ RefCountedPtr<Graphics::Material> Loader::GetDecalMaterial(unsigned int index)
 		matDesc.textures = 1;
 		matDesc.lighting = true;
 		decMat.Reset(m_renderer->CreateMaterial(matDesc));
+		decMat->texture0 = Graphics::TextureBuilder::GetTransparentTexture(m_renderer);
 		decMat->specular = Color::BLACK;
 		decMat->diffuse = Color::WHITE;
 	}
 	return decMat;
+}
+
+void Loader::AddLog(const std::string &msg)
+{
+	if (m_doLog) m_logMessages.push_back(msg);
+}
+
+void Loader::CheckAnimationConflicts(const Animation* anim, const std::vector<Animation*> &otherAnims)
+{
+	typedef std::vector<AnimationChannel>::const_iterator ChannelIterator;
+	typedef std::vector<Animation*>::const_iterator AnimIterator;
+
+	if (anim->m_channels.empty() || otherAnims.empty()) return;
+
+	//check all other animations that they don't control the same nodes as this animation, since
+	//that is not supported at this point
+	for (ChannelIterator chan = anim->m_channels.begin(); chan != anim->m_channels.end(); ++chan) {
+		for (AnimIterator other = otherAnims.begin(); other != otherAnims.end(); ++other) {
+			const Animation *otherAnim = (*other);
+			if (otherAnim == anim)
+				continue;
+			for (ChannelIterator otherChan = otherAnim->m_channels.begin(); otherChan != otherAnim->m_channels.end(); ++otherChan) {
+				//warnings as errors mentality - this is not really fatal
+				if (chan->node == otherChan->node)
+					throw LoadingError(stringf("Animations %0 and %1 both control node: %2", anim->GetName(), otherAnim->GetName(), chan->node->GetName()));
+			}
+		}
+	}
 }
 
 void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surface> > &surfaces, const aiScene *scene, Model *model)
@@ -451,26 +471,25 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surfa
 
 	//turn meshes into surfaces
 	for (unsigned int i=0; i<scene->mNumMeshes; i++) {
-		aiMesh *mesh = scene->mMeshes[i];
+		const aiMesh *mesh = scene->mMeshes[i];
 		assert(mesh->HasNormals());
 
-		if (!mesh->HasTextureCoords(0))
-			throw LoadingError("Missing UV coordinates");
+		const bool hasUVs = mesh->HasTextureCoords(0);
+		if (!hasUVs) AddLog(stringf("%0: missing UV coordinates", m_curMeshDef));
+		//sadly, aimesh name is usually empty so no help for logging
 
-		//Material names are not consistent throughout formats...
-		//try to figure out a material
-		//try name first, if that fails use index
+		//Material names are not consistent throughout formats.
+		//try matching name first, if that fails use index
 		RefCountedPtr<Graphics::Material> mat;
 		const aiMaterial *amat = scene->mMaterials[mesh->mMaterialIndex];
-		aiString s;
-		if(AI_SUCCESS == amat->Get(AI_MATKEY_NAME,s)) {
-			//std::cout << "Looking for " << std::string(s.data,s.length) << std::endl;
-			const std::string aiMatName = std::string(s.data, s.length);
-			mat = model->GetMaterialByName(aiMatName);
-		}
+		aiString aiMatName;
+		if(AI_SUCCESS == amat->Get(AI_MATKEY_NAME,aiMatName))
+			mat = model->GetMaterialByName(std::string(aiMatName.C_Str()));
 
 		if (!mat.Valid()) {
-			mat = model->GetMaterialByIndex(mesh->mMaterialIndex - matIdxOffs);
+			const unsigned int matIdx = mesh->mMaterialIndex - matIdxOffs;
+			AddLog(stringf("%0: no material %1, using material %2{u} instead", m_curMeshDef, aiMatName.C_Str(), matIdx+1));
+			mat = model->GetMaterialByIndex(matIdx);
 		}
 
 		assert(mat.Valid());
@@ -479,10 +498,12 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surfa
 			new Graphics::VertexArray(
 				Graphics::ATTRIB_POSITION |
 				Graphics::ATTRIB_NORMAL |
-				Graphics::ATTRIB_UV0);
+				Graphics::ATTRIB_UV0,
+				mesh->mNumVertices);
 
 		RefCountedPtr<Graphics::Surface> surface(new Graphics::Surface(Graphics::TRIANGLES, vts, mat));
 		std::vector<unsigned short> &indices = surface->GetIndices();
+		indices.reserve(mesh->mNumFaces * 3);
 
 		//copy indices first
 		//note: index offsets are not adjusted, StaticMesh should do that for us
@@ -493,11 +514,12 @@ void Loader::ConvertAiMeshesToSurfaces(std::vector<RefCountedPtr<Graphics::Surfa
 			}
 		}
 
-		//then vertices, making gross assumptions of the format
+		//copy vertices, always assume normals
+		//replace nonexistent UVs with zeros
 		for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
 			const aiVector3D &vtx = mesh->mVertices[v];
 			const aiVector3D &norm = mesh->mNormals[v];
-			const aiVector3D &uv0 = mesh->mTextureCoords[0][v];
+			const aiVector3D &uv0 = hasUVs ? mesh->mTextureCoords[0][v] : aiVector3D(0.f);
 			vts->Add(vector3f(vtx.x, vtx.y, vtx.z),
 				vector3f(norm.x, norm.y, norm.z),
 				vector2f(uv0.x, uv0.y));
@@ -513,14 +535,10 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 	//This is very limited, and all animdefs are processed for all
 	//meshes, potentially leading to duplicate and wrongly split animations
 	if (animDefs.empty() || scene->mNumAnimations == 0) return;
+	if (scene->mNumAnimations > 1) printf("File has %d animations, treating as one animation\n", scene->mNumAnimations);
 
-	if (scene->mNumAnimations > 1) throw LoadingError("More than one animation in file! Your exporter is too good");
-
-	//Blender .X exporter exports only one animation (without a name!) so
-	//we read only one animation from the scene and split it according to animDefs
 	std::vector<Animation*> &animations = m_model->m_animations;
 
-	const aiAnimation* aianim = scene->mAnimations[0];
 	for (AnimList::const_iterator def = animDefs.begin();
 		def != animDefs.end();
 		++def)
@@ -528,9 +546,13 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 		//XXX format differences: for a 40-frame animation exported from Blender,
 		//.X results in duration 39 and Collada in Duration 1.25.
 		//duration is calculated after adding all keys
+		//take TPS from the first animation
+		const aiAnimation* firstAnim = scene->mAnimations[0];
+		const double ticksPerSecond = firstAnim->mTicksPerSecond > 0.0 ? firstAnim->mTicksPerSecond : 24.0;
+		const double secondsPerTick = 1.0 / ticksPerSecond;
+
 		double start = DBL_MAX;
-		double end = 0.0;
-		const double ticksPerSecond = aianim->mTicksPerSecond > 0.0 ? aianim->mTicksPerSecond : 24.0;
+		double end = -DBL_MAX;
 
 		//Ranges are specified in frames (since that's nice) but Collada
 		//uses seconds. This is easiest to detect from ticksPerSecond,
@@ -542,64 +564,103 @@ void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, N
 			defStart /= 24.0;
 			defEnd /= 24.0;
 		}
-		Animation *animation = new Animation(
-			def->name, 0.0,
-			def->loop ? Animation::LOOP : Animation::ONCE,
-			ticksPerSecond);
-		for (unsigned int j=0; j<aianim->mNumChannels; j++) {
-			const aiNodeAnim *aichan = aianim->mChannels[j];
-			//do a preliminary check that at least two keys in one channel are within range
-			if (!CheckKeysInRange(aichan, defStart, defEnd))
-				continue;
 
-			const std::string channame(aichan->mNodeName.C_Str());
-			MatrixTransform *trans = dynamic_cast<MatrixTransform*>(meshRoot->FindNode(channame));
-			assert(trans);
-			animation->m_channels.push_back(AnimationChannel(trans));
-			AnimationChannel &chan = animation->m_channels.back();
+		// Add channels to current animation if it's already present
+		// Necessary to make animations work in multiple LODs
+		Animation *animation = m_model->FindAnimation(def->name);
+		const bool newAnim = !animation;
+		if (newAnim) animation = new Animation(def->name, 0.0);
 
-			for(unsigned int k=0; k<aichan->mNumPositionKeys; k++) {
-				const aiVectorKey &aikey = aichan->mPositionKeys[k];
-				const aiVector3D &aipos = aikey.mValue;
-				if (in_range(aikey.mTime, defStart, defEnd)) {
-					chan.positionKeys.push_back(PositionKey(aikey.mTime - defStart, vector3f(aipos.x, aipos.y, aipos.z)));
-					start = std::min(start, aikey.mTime);
-					end = std::max(end, aikey.mTime);
+		const size_t first_new_channel = animation->m_channels.size();
+
+		for (unsigned int i=0; i < scene->mNumAnimations; i++) {
+			const aiAnimation* aianim = scene->mAnimations[i];
+			for (unsigned int j=0; j<aianim->mNumChannels; j++) {
+				const aiNodeAnim *aichan = aianim->mChannels[j];
+				//do a preliminary check that at least two keys in one channel are within range
+				if (!CheckKeysInRange(aichan, defStart, defEnd))
+					continue;
+
+				const std::string channame(aichan->mNodeName.C_Str());
+				MatrixTransform *trans = dynamic_cast<MatrixTransform*>(meshRoot->FindNode(channame));
+				assert(trans);
+				animation->m_channels.push_back(AnimationChannel(trans));
+				AnimationChannel &chan = animation->m_channels.back();
+
+				for(unsigned int k=0; k<aichan->mNumPositionKeys; k++) {
+					const aiVectorKey &aikey = aichan->mPositionKeys[k];
+					const aiVector3D &aipos = aikey.mValue;
+					if (in_range(aikey.mTime, defStart, defEnd)) {
+						const double t = aikey.mTime * secondsPerTick;
+						chan.positionKeys.push_back(PositionKey(t, vector3f(aipos.x, aipos.y, aipos.z)));
+						start = std::min(start, t);
+						end = std::max(end, t);
+					}
 				}
-			}
 
-			//scale interpolation will blow up without rotation keys,
-			//so skipping them when rotkeys < 2 is correct
-			if (aichan->mNumRotationKeys < 2) continue;
+				//scale interpolation will blow up without rotation keys,
+				//so skipping them when rotkeys < 2 is correct
+				if (aichan->mNumRotationKeys < 2) continue;
 
-			for(unsigned int k=0; k<aichan->mNumRotationKeys; k++) {
-				const aiQuatKey &aikey = aichan->mRotationKeys[k];
-				const aiQuaternion &airot = aikey.mValue;
-				if (in_range(aikey.mTime, defStart, defEnd)) {
-					chan.rotationKeys.push_back(RotationKey(aikey.mTime - defStart, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
-					start = std::min(start, aikey.mTime);
-					end = std::max(end, aikey.mTime);
+				for(unsigned int k=0; k<aichan->mNumRotationKeys; k++) {
+					const aiQuatKey &aikey = aichan->mRotationKeys[k];
+					const aiQuaternion &airot = aikey.mValue;
+					if (in_range(aikey.mTime, defStart, defEnd)) {
+						const double t = aikey.mTime * secondsPerTick;
+						chan.rotationKeys.push_back(RotationKey(t, Quaternionf(airot.w, airot.x, airot.y, airot.z)));
+						start = std::min(start, t);
+						end = std::max(end, t);
+					}
 				}
-			}
 
-			for(unsigned int k=0; k<aichan->mNumScalingKeys; k++) {
-				const aiVectorKey &aikey = aichan->mScalingKeys[k];
-				const aiVector3D &aipos = aikey.mValue;
-				if (in_range(aikey.mTime, defStart, defEnd)) {
-					chan.scaleKeys.push_back(ScaleKey(aikey.mTime - defStart, vector3f(aipos.x, aipos.y, aipos.z)));
-					start = std::min(start, aikey.mTime);
-					end = std::max(end, aikey.mTime);
+				for(unsigned int k=0; k<aichan->mNumScalingKeys; k++) {
+					const aiVectorKey &aikey = aichan->mScalingKeys[k];
+					const aiVector3D &aipos = aikey.mValue;
+					if (in_range(aikey.mTime, defStart, defEnd)) {
+						const double t = aikey.mTime * secondsPerTick;
+						chan.scaleKeys.push_back(ScaleKey(t, vector3f(aipos.x, aipos.y, aipos.z)));
+						start = std::min(start, t);
+						end = std::max(end, t);
+					}
 				}
 			}
 		}
 
-		//set actual duration
-		animation->m_duration = end - start;
+		// convert remove initial offset (so the first keyframe is at exactly t=0)
+		for (std::vector<AnimationChannel>::iterator chan = animation->m_channels.begin() + first_new_channel;
+				chan != animation->m_channels.end(); ++chan) {
+			for (unsigned int k = 0; k < chan->positionKeys.size(); ++k) {
+				chan->positionKeys[k].time -= start;
+				assert(chan->positionKeys[k].time >= 0.0);
+			}
+			for (unsigned int k = 0; k < chan->rotationKeys.size(); ++k) {
+				chan->rotationKeys[k].time -= start;
+				assert(chan->rotationKeys[k].time >= 0.0);
+			}
+			for (unsigned int k = 0; k < chan->scaleKeys.size(); ++k) {
+				chan->scaleKeys[k].time -= start;
+				assert(chan->scaleKeys[k].time >= 0.0);
+			}
+		}
 
-		if (animation->m_channels.empty())
-			delete animation;
-		else
-			animations.push_back(animation);
+		// set actual duration
+		const double dur = end - start;
+		animation->m_duration = newAnim ? dur : std::max(animation->m_duration, dur);
+
+		//do final sanity checking before adding
+		try {
+			CheckAnimationConflicts(animation, animations);
+		} catch (LoadingError &) {
+			if (newAnim) delete animation;
+			throw;
+		}
+
+		if (newAnim) {
+			if (animation->m_channels.empty())
+				delete animation;
+			else
+				animations.push_back(animation);
+		}
 	}
 }
 
@@ -630,26 +691,11 @@ matrix4x4f Loader::ConvertMatrix(const aiMatrix4x4& trans) const
 
 void Loader::CreateLabel(Group *parent, const matrix4x4f &m)
 {
-	MatrixTransform *trans = new MatrixTransform(m);
-	Label3D *label = new Label3D(m_labelFont, m_renderer);
+	MatrixTransform *trans = new MatrixTransform(m_renderer, m);
+	Label3D *label = new Label3D(m_renderer, m_labelFont);
 	label->SetText("Bananas");
 	trans->AddChild(label);
 	parent->AddChild(trans);
-}
-
-void Loader::CreateLight(Group *parent, const matrix4x4f &m)
-{
-	//One node per light, obviously not as optimal as intended
-	std::vector<vector3f> points;
-	points.push_back(m.GetTranslate());
-	Graphics::MaterialDescriptor desc;
-	desc.twoSided = true;
-	desc.textures = 1;
-	RefCountedPtr<Graphics::Material> mat(m_renderer->CreateMaterial(desc));
-	mat->texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").GetOrCreateTexture(m_renderer, "billboard");
-	mat->diffuse = Color(1.f, 0.f, 0.f, 1.f);
-	Billboard *bill = new Billboard(points, mat, 1.f);
-	parent->AddChild(bill);
 }
 
 void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const std::string &name, const matrix4x4f& accum)
@@ -658,14 +704,14 @@ void Loader::CreateThruster(Group* parent, const matrix4x4f &m, const std::strin
 	//not supposed to create a new thruster node every time since they contain their geometry
 	//it is fine to create one thruster node and add that to various parents
 	//(it wouldn't really matter, it's a tiny amount of geometry)
-	MatrixTransform *trans = new MatrixTransform(m);
+	MatrixTransform *trans = new MatrixTransform(m_renderer, m);
 
 	//need the accumulated transform or the direction is off
 	matrix4x4f transform = accum * m;
 	vector3f pos = transform.GetTranslate();
 	transform.ClearToRotOnly();
 
-	vector3f direction = transform * vector3f(0.f, 0.f, 1.f);
+	const vector3f direction = transform * vector3f(0.f, 0.f, 1.f);
 
 	Thruster *thruster = new Thruster(m_renderer, linear,
 		pos, direction.Normalized());
@@ -685,14 +731,19 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 	//lights, and possibly other special nodes should be leaf nodes (without meshes)
 	if (node->mNumChildren == 0 && node->mNumMeshes == 0) {
 		if (starts_with(nodename, "navlight_")) {
-			CreateLight(parent, m);
+			//Create a MT, lights are attached by client.
+			matrix4x4f lightPos = matrix4x4f::Translation(m.GetTranslate());
+			MatrixTransform *lightPoint = new MatrixTransform(m_renderer, lightPos);
+			lightPoint->SetNodeMask(0x0); //don't render
+			lightPoint->SetName(nodename);
+			_parent->AddChild(lightPoint);
 		} else if (starts_with(nodename, "thruster_")) {
 			CreateThruster(parent, m, nodename, accum);
 		} else if (starts_with(nodename, "label_")) {
 			CreateLabel(parent, m);
 		} else if (starts_with(nodename, "tag_")) {
 			vector3f tagpos = accum * m.GetTranslate();
-			MatrixTransform *tagMt = new MatrixTransform(matrix4x4f::Translation(tagpos));
+			MatrixTransform *tagMt = new MatrixTransform(m_renderer, matrix4x4f::Translation(tagpos));
 			m_model->AddTag(nodename, tagMt);
 		}
 		return;
@@ -700,7 +751,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 
 	//if the transform is identity and the node is not animated,
 	//could just add a group
-	parent = new MatrixTransform(m);
+	parent = new MatrixTransform(m_renderer, m);
 	_parent->AddChild(parent);
 	parent->SetName(nodename);
 
@@ -708,7 +759,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 	if (node->mNumMeshes == 1 && starts_with(nodename, "collision_")) {
 		const unsigned int collflag = GetGeomFlagForNodeName(nodename);
 		RefCountedPtr<Graphics::Surface> surf = surfaces.at(node->mMeshes[0]);
-		RefCountedPtr<CollisionGeometry> cgeom(new CollisionGeometry(surf.Get(), collflag));
+		RefCountedPtr<CollisionGeometry> cgeom(new CollisionGeometry(m_renderer, surf.Get(), collflag));
 		cgeom->SetName(nodename + "_cgeom");
 		parent->AddChild(cgeom.Get());
 		return;
@@ -718,29 +769,24 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 	if (node->mNumMeshes > 0) {
 		//is this node animated? add a transform
 		//does this node have children? Add a group
-		RefCountedPtr<StaticGeometry> geom(new StaticGeometry());
+		RefCountedPtr<StaticGeometry> geom(new StaticGeometry(m_renderer));
 		geom->SetName(nodename + "_mesh");
 		RefCountedPtr<Graphics::StaticMesh> smesh(new Graphics::StaticMesh(Graphics::TRIANGLES));
 
+		//expecting decal_0X
 		unsigned int numDecal = 0;
 		if (starts_with(nodename, "decal_")) {
-			if (nodename.compare(7,1, "1") == 0)
-				numDecal = 1;
-			else if (nodename.compare(7,1, "2") == 0)
-				numDecal = 2;
-			else if (nodename.compare(7,1, "3") == 0)
-				numDecal = 3;
-			else if (nodename.compare(7,1, "4") == 0)
-				numDecal = 4;
-			else
+			numDecal = atoi(nodename.substr(7,1).c_str());
+			if (numDecal > 4)
 				throw LoadingError("More than 4 different decals");
 		}
 
 		for(unsigned int i=0; i<node->mNumMeshes; i++) {
 			RefCountedPtr<Graphics::Surface> surf = surfaces.at(node->mMeshes[i]);
 
-			//Mark the entire node as transparent (all importers split by material so far)
-			if (surf->GetMaterial()->diffuse.a < 0.999f) {
+			//turn on alpha blending and mark entire node as transparent
+			//(all importers split by material so far)
+			if (surf->GetMaterial()->diffuse.a < 0.99f) {
 				geom->SetNodeMask(NODE_TRANSPARENT);
 				geom->m_blendMode = Graphics::BLEND_ALPHA;
 			}
@@ -833,7 +879,7 @@ void Loader::LoadCollision(const std::string &filename)
 	assert(!vertices.empty() && !vertices.empty());
 
 	//add pre-transformed geometry at the top level
-	m_model->GetRoot()->AddChild(new CollisionGeometry(vertices, indices, 0));
+	m_model->GetRoot()->AddChild(new CollisionGeometry(m_renderer, vertices, indices, 0));
 }
 
 unsigned int Loader::GetGeomFlagForNodeName(const std::string &nodename)

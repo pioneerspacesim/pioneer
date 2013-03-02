@@ -18,9 +18,6 @@ public:
 	void Bind();
 	void Unbind();
 
-	// XXX for LMR, which can't use the normal Bind methods. remove once all
-	// its drawing goes through the renderer
-	GLuint GetTextureNum() const { return m_texture; }
 	virtual void SetSampleMode(TextureSampleMode);
 
 private:

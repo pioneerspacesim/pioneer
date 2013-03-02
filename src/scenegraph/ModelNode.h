@@ -14,8 +14,10 @@ namespace SceneGraph {
 class ModelNode : public Node {
 public:
 	ModelNode(Model *m);
+	ModelNode(const ModelNode&, NodeCopyCache *cache = 0);
+	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual const char *GetTypeName() { return "ModelNode"; }
-	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd);
+	virtual void Render(const matrix4x4f &trans, RenderData *rd);
 
 protected:
 	virtual ~ModelNode() { }

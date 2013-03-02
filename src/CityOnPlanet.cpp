@@ -11,18 +11,20 @@
 #include "Planet.h"
 #include "SpaceStation.h"
 #include "collider/Geom.h"
-#include "scenegraph/SceneGraph.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
+#include "scenegraph/SceneGraph.h"
 
 #define START_SEG_SIZE CITY_ON_PLANET_RADIUS
 #define MIN_SEG_SIZE 50.0
+
+using SceneGraph::Model;
 
 bool s_cityBuildingsInitted = false;
 struct citybuilding_t {
 	const char *modelname;
 	double xzradius;
-	ModelBase *resolvedModel;
+	Model *resolvedModel;
 	RefCountedPtr<CollMesh> collMesh;
 };
 
@@ -46,13 +48,10 @@ struct cityflavourdef_t {
 	double size;
 } cityflavour[CITYFLAVOURS];
 
-
-LmrObjParams cityobj_params;
-
-void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
+void CityOnPlanet::PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
 {
 	double rad = (p1-p2).Length()*0.5;
-	ModelBase *model(0);
+	Model *model(0);
 	double modelRadXZ(0.0);
 	const CollMesh *cmesh(0);
 	vector3d cent = (p1+p2+p3+p4)*0.25;
@@ -160,25 +159,16 @@ static void enumerateNewBuildings(std::vector<std::string> &filenames)
 
 static void lookupBuildingListModels(citybuildinglist_t *list)
 {
-	//const char *modelTagName;
-	std::vector<ModelBase*> models;
+	std::vector<Model*> models;
 
-	//get lmr models using a temporary vector (because of GetModelSWithTag)
-	{
-		std::vector<LmrModel*> lmrModels;
-		LmrGetModelsWithTag(list->modelTagName, lmrModels);
-		for (std::vector<LmrModel*>::iterator it = lmrModels.begin(); it != lmrModels.end(); ++it)
-			models.push_back(*it);
-	}
-
-	//get test newmodels
+	//get test newmodels - to be replaced with building set definitions
 	{
 		std::vector<std::string> filenames;
 		enumerateNewBuildings(filenames);
 		for (std::vector<std::string>::const_iterator it = filenames.begin();
 			it != filenames.end(); ++it)
 		{
-			SceneGraph::Model *model = Pi::modelCache->FindModel(*it);
+			Model *model = Pi::modelCache->FindModel(*it);
 			models.push_back(model);
 		}
 	}
@@ -188,9 +178,9 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	list->numBuildings = models.size();
 
 	int i = 0;
-	for (std::vector<ModelBase*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
+	for (std::vector<Model*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
-		list->buildings[i].collMesh = (*m)->CreateCollisionMesh(&cityobj_params);
+		list->buildings[i].collMesh = (*m)->CreateCollisionMesh();
 		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
 		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
 		const double maxy = std::max(fabs(aabb.max.z), fabs(aabb.min.z));
@@ -247,7 +237,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	vector3d mx = m*vector3d(1,0,0);
 	vector3d mz = m*vector3d(0,0,1);
 
-	MTRand rand;
+	Random rand;
 	rand.seed(seed);
 
 	vector3d p = station->GetPosition();
@@ -325,9 +315,6 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 	const Graphics::Frustum frustum = camera->GetFrustum();
 	//modelview seems to be always identity
 
-	memset(&cityobj_params, 0, sizeof(LmrObjParams));
-	cityobj_params.time = Pi::game->GetTime();
-
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
 			i != m_buildings.end(); ++i) {
 
@@ -343,7 +330,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		_rot[13] = float(pos.y);
 		_rot[14] = float(pos.z);
 		glPushMatrix();
-		(*i).model->Render(r, _rot, &cityobj_params);
+		(*i).model->Render(_rot);
 		glPopMatrix();
 	}
 }

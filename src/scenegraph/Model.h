@@ -60,13 +60,14 @@
  *  - removing unnecessary nodes from the scene graph: pre-translate unanimated meshes etc.
  */
 #include "libs.h"
-#include "ModelBase.h"
 #include "Animation.h"
 #include "ColorMap.h"
 #include "Group.h"
 #include "Label3D.h"
 #include "Pattern.h"
+#include "CollMesh.h"
 #include "graphics/Material.h"
+#include "Serializer.h"
 #include <stdexcept>
 
 namespace Graphics { class Renderer; }
@@ -79,34 +80,37 @@ struct LoadingError : public std::runtime_error {
 };
 
 typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > MaterialContainer;
-typedef std::vector<Animation*>::iterator AnimationIterator;
+typedef std::vector<Animation*> AnimationContainer;
+typedef std::vector<MatrixTransform *> TagContainer;
 
-class Model : public ModelBase
+class Model
 {
 public:
 	friend class Loader;
-	Model(const std::string &name);
+	Model(Graphics::Renderer *r, const std::string &name);
 	~Model();
+	Model *MakeInstance() const;
 	float GetDrawClipRadius() const { return m_boundingRadius; }
-	void Render(Graphics::Renderer *r, const matrix4x4f &trans, LmrObjParams *params);
-	RefCountedPtr<CollMesh> CreateCollisionMesh(const LmrObjParams *p);
+	void Render(const matrix4x4f &trans, RenderData *params = 0); //ModelNode can override RD
+	RefCountedPtr<CollMesh> CreateCollisionMesh();
 	CollMesh *GetCollisionMesh() const { return m_collMesh.Get(); }
 	RefCountedPtr<Group> GetRoot() { return m_root; }
 	//materials used in the nodes should be accessible from here for convenience
 	RefCountedPtr<Graphics::Material> GetMaterialByName(const std::string &name) const;
 	RefCountedPtr<Graphics::Material> GetMaterialByIndex(int) const;
 
-	//XXX these ignore possible ModelNodes
 	int GetNumTags() const { return m_tags.size(); }
-	Group * const GetTagByIndex(unsigned int index) const;
-	Group * const FindTagByName(const std::string &name) const;
-	void AddTag(const std::string &name, Group *node);
+	MatrixTransform * const GetTagByIndex(unsigned int index) const;
+	MatrixTransform * const FindTagByName(const std::string &name) const;
+	void AddTag(const std::string &name, MatrixTransform *node);
 
-	void SetRenderData(RenderData *d) { m_renderData = d; }
 	const PatternContainer &GetPatterns() const { return m_patterns; }
+	unsigned int GetNumPatterns() const { return m_patterns.size(); }
 	void SetPattern(unsigned int index);
-	void SetColors(Graphics::Renderer *r, const std::vector<Color4ub> &colors); //renderer needed for texture creation
+	void SetColors(const std::vector<Color4ub> &colors);
 	void SetDecalTexture(Graphics::Texture *t, unsigned int index = 0);
+	void ClearDecal(unsigned int index = 0);
+	void ClearDecals();
 	void SetLabel(const std::string&);
 
 	//for modelviewer, at least
@@ -115,28 +119,36 @@ public:
 
 	Animation *FindAnimation(const std::string&); //0 if not found
 	const std::vector<Animation *> GetAnimations() const { return m_animations; }
-	int PlayAnimation(const std::string &name, Animation::Direction = Animation::FORWARD); //immediately play an animation (forward), if found, returns count of animations triggered
-	void StopAnimations(); //stop all animation
-	void UpdateAnimations(double time); //change this to timestep or something
+	void UpdateAnimations();
+
+	Graphics::Renderer *GetRenderer() const { return m_renderer; }
+
+	//special for ship model use
+	void SetThrust(const vector3f& linear, const vector3f &angular);
+
+	void Save(Serializer::Writer &wr) const;
+	void Load(Serializer::Reader &rd);
 
 private:
+	Model(const Model&);
 	static const unsigned int MAX_DECAL_MATERIALS = 4;
 	ColorMap m_colorMap;
-	double m_lastTime;
 	float m_boundingRadius;
 	MaterialContainer m_materials; //materials are shared throughout the model graph
 	PatternContainer m_patterns;
 	RefCountedPtr<CollMesh> m_collMesh;
 	RefCountedPtr<Graphics::Material> m_decalMaterials[MAX_DECAL_MATERIALS]; //spaceship insignia, advertising billboards
 	RefCountedPtr<Group> m_root;
-	RenderData *m_renderData;
+	Graphics::Renderer *m_renderer;
 	std::string m_name;
-	std::vector<Animation *> m_activeAnimations;
 	std::vector<Animation *> m_animations;
-	std::vector<Group *> m_tags; //named attachment points
-};
+	TagContainer m_tags; //named attachment points
+	RenderData m_renderData;
 
-typedef std::vector<Group *> TagContainer;
+	//per-instance flavour data
+	Graphics::Texture *m_curPattern;
+	Graphics::Texture *m_curDecals[MAX_DECAL_MATERIALS];
+};
 
 }
 

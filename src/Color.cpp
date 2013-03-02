@@ -23,6 +23,15 @@ float Color4f::GetLuminance() const
 	return (0.299f * r) + (0.587f * g) + (0.114f * b);
 }
 
+void Color4f::ToLuaTable(lua_State *l)
+{
+	lua_newtable(l);
+	pi_lua_settable(l, "r", r);
+	pi_lua_settable(l, "g", g);
+	pi_lua_settable(l, "b", b);
+	pi_lua_settable(l, "a", a);
+}
+
 static inline void _get_number(lua_State *l, int table, const char *key, float &output)
 {
 	lua_pushstring(l, key);

@@ -2,13 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
-#include "LuaStar.h"
-#include "LuaPlanet.h"
-#include "LuaFaction.h"
-#include "LuaSpaceStation.h"
-#include "LuaStarSystem.h"
-#include "LuaSystemPath.h"
 #include "LuaConstants.h"
+#include "EnumStrings.h"
 #include "LuaUtils.h"
 #include "galaxy/StarSystem.h"
 #include "EquipType.h"
@@ -59,14 +54,14 @@ static int l_starsystem_get_station_paths(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 
 	lua_newtable(l);
 
 	for (std::vector<SystemBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); ++i)
 	{
 		lua_pushinteger(l, lua_rawlen(l, -1)+1);
-		LuaSystemPath::PushToLua(&(*i)->path);
+		LuaObject<SystemPath>::PushToLua(&(*i)->path);
 		lua_rawset(l, -3);
 	}
 
@@ -98,14 +93,14 @@ static int l_starsystem_get_body_paths(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 
 	lua_newtable(l);
 
-	for (std::vector<SystemBody*>::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); ++i)
+	for (std::vector< RefCountedPtr<SystemBody> >::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); ++i)
 	{
 		lua_pushinteger(l, lua_rawlen(l, -1)+1);
-		LuaSystemPath::PushToLua(&(*i)->path);
+		LuaObject<SystemPath>::PushToLua(&(*i)->path);
 		lua_rawset(l, -3);
 	}
 
@@ -142,12 +137,12 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 
 	lua_newtable(l);
 
 	for (int e = Equip::FIRST_COMMODITY; e <= Equip::LAST_COMMODITY; e++) {
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", e));
+		lua_pushstring(l, EnumStrings::GetString("EquipType", e));
 		lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));
 		lua_rawset(l, -3);
 	}
@@ -182,8 +177,8 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
  */
 static int l_starsystem_is_commodity_legal(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
 	lua_pushboolean(l, Polit::IsCommodityLegal(s, e));
 	return 1;
 }
@@ -222,7 +217,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	double dist_ly = luaL_checknumber(l, 2);
 
 	bool filter = false;
@@ -258,7 +253,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 					RefCountedPtr<StarSystem> sys = StarSystem::GetCached(SystemPath(x, y, z, idx));
 					if (filter) {
 						lua_pushvalue(l, 3);
-						LuaStarSystem::PushToLua(sys.Get());
+						LuaObject<StarSystem>::PushToLua(sys.Get());
 						lua_call(l, 1, 1);
 						if (!lua_toboolean(l, -1)) {
 							lua_pop(l, 1);
@@ -268,7 +263,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 					}
 
 					lua_pushinteger(l, lua_rawlen(l, -1)+1);
-					LuaStarSystem::PushToLua(sys.Get());
+					LuaObject<StarSystem>::PushToLua(sys.Get());
 					lua_rawset(l, -3);
 				}
 			}
@@ -307,12 +302,12 @@ static int l_starsystem_distance_to(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	const SystemPath *loc1 = &(s->GetPath());
 
-	const SystemPath *loc2 = LuaSystemPath::GetFromLua(2);
+	const SystemPath *loc2 = LuaObject<SystemPath>::GetFromLua(2);
 	if (!loc2) {
-		StarSystem *s2 = LuaStarSystem::CheckFromLua(2);
+		StarSystem *s2 = LuaObject<StarSystem>::CheckFromLua(2);
 		loc2 = &(s2->GetPath());
 	}
 
@@ -343,7 +338,7 @@ static int l_starsystem_distance_to(lua_State *l)
  */
 static int l_starsystem_attr_name(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	lua_pushstring(l, s->GetName().c_str());
 	return 1;
 }
@@ -363,9 +358,9 @@ static int l_starsystem_attr_name(lua_State *l)
  */
 static int l_starsystem_attr_path(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	SystemPath path = s->GetPath();
-	LuaSystemPath::PushToLua(&path);
+	LuaObject<SystemPath>::PushToLua(&path);
 	return 1;
 }
 
@@ -384,7 +379,7 @@ static int l_starsystem_attr_path(lua_State *l)
  */
 static int l_starsystem_attr_lawlessness(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	lua_pushnumber(l, s->GetSysPolit().lawlessness.ToDouble());
 	return 1;
 }
@@ -404,7 +399,7 @@ static int l_starsystem_attr_lawlessness(lua_State *l)
  */
 static int l_starsystem_attr_population(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	lua_pushnumber(l, s->GetTotalPop().ToDouble());
 	return 1;
 }
@@ -424,9 +419,9 @@ static int l_starsystem_attr_population(lua_State *l)
  */
 static int l_starsystem_attr_faction(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	if (s->GetFaction()->IsValid()) {
-		LuaFaction::PushToLua(s->GetFaction());
+		LuaObject<Faction>::PushToLua(s->GetFaction());
 		return 1;
 	} else {
 		return 0;
@@ -449,7 +444,7 @@ static int l_starsystem_attr_faction(lua_State *l)
 
 static int l_starsystem_attr_explored(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	lua_pushboolean(l, !s->GetUnexplored());
 	return 1;
 }

@@ -90,19 +90,15 @@
 // stack-allocated, they will be torn down at program shutdown before the
 // singleton is. This will cause LuaObject to crash during garbage collection
 static bool instantiated = false;
-static lid next_id = 0;
 
-static std::map<lid, LuaObjectBase*> *registry;
 static std::map< std::string, std::map<std::string,PromotionTest> > *promotions;
 
 static void _teardown() {
-	delete registry;
 	delete promotions;
 }
 
 static inline void _instantiate() {
 	if (!instantiated) {
-		registry = new std::map<lid, LuaObjectBase*>;
 		promotions = new std::map< std::string, std::map<std::string,PromotionTest> >;
 
 		// XXX atexit is not a very nice way to deal with this in C++
@@ -112,61 +108,20 @@ static inline void _instantiate() {
 	}
 }
 
-void LuaObjectBase::Deregister(LuaObjectBase *lo)
-{
-	lo->m_deleteConnection.disconnect();
-	registry->erase(lo->m_id);
-
-	lua_State *l = Lua::manager->GetLuaState();
-
-	LUA_DEBUG_START(l);
-
-	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
-	assert(lua_istable(l, -1));
-
-	lua_pushlightuserdata(l, lo->m_object);
-	lua_pushnil(l);
-	lua_settable(l, -3);
-
-	lua_pop(l, 1);
-
-	LUA_DEBUG_END(l, 0);
-
-	lo->Release(lo->m_object);
-
-	if (lo->m_wantDelete) delete lo->m_object;
-	delete lo;
-}
-
-LuaObjectBase *LuaObjectBase::Lookup(lid id)
-{
-	std::map<lid, LuaObjectBase*>::const_iterator i = registry->find(id);
-	if (i == registry->end()) return NULL;
-	return (*i).second;
-}
-
 int LuaObjectBase::l_exists(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
-	lid *idp = static_cast<lid*>(lua_touserdata(l, 1));
-	LuaObjectBase *lo = Lookup(*idp);
-	lua_pushboolean(l, lo != 0);
+	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
+	lua_pushboolean(l, lo->GetObject() != 0);
 	return 1;
 }
 
 int LuaObjectBase::l_isa(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
-	lid *idp = static_cast<lid*>(lua_touserdata(l, 1));
-
-	LuaObjectBase *lo = Lookup(*idp);
-	if (!lo) {
-		// luaL_error format codes are very limited (can't handle width or fill specifiers),
-		// so we use snprintf here to do the real formatting
-		char objectCode[16];
-		snprintf(objectCode, sizeof(objectCode), "0x%08x", *idp);
-		luaL_error(l, "Lua object with id %s not found in registry", objectCode);
-	}
+	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
+	if (!lo->GetObject())
+		return luaL_error(l, "Object is no longer valid");
 
 	lua_pushboolean(l, lo->Isa(luaL_checkstring(l, 2)));
 	return 1;
@@ -175,9 +130,12 @@ int LuaObjectBase::l_isa(lua_State *l)
 int LuaObjectBase::l_gc(lua_State *l)
 {
 	luaL_checktype(l, 1, LUA_TUSERDATA);
-	lid *idp = static_cast<lid*>(lua_touserdata(l, 1));
-	LuaObjectBase *lo = Lookup(*idp);
-	if (lo) Deregister(lo);
+	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, 1));
+
+	Deregister(lo);
+
+	lo->~LuaObjectBase();
+
 	return 0;
 }
 
@@ -358,6 +316,13 @@ static void get_names_from_table(lua_State *l, std::vector<std::string> &names, 
 	lua_pushnil(l);
 	while (lua_next(l, -2)) {
 
+		// only include string keys. the . syntax doesn't work for anything
+		// else
+		if (lua_type(l, -2) != LUA_TSTRING) {
+			lua_pop(l, 1);
+			continue;
+		}
+
 		// only include callable things if requested
 		if (methodsOnly && lua_type(l, -1) != LUA_TFUNCTION) {
 			lua_pop(l, 1);
@@ -391,11 +356,28 @@ void LuaObjectBase::GetNames(std::vector<std::string> &names, const std::string 
 
 	lua_State *l = Lua::manager->GetLuaState();
 
-	// userdata are typed, tables are not
-	bool typeless = lua_istable(l, -1);
-	assert(typeless || lua_isuserdata(l, -1));
-
 	LUA_DEBUG_START(l);
+
+	// work out if/how we can deal with the value
+	bool typeless;
+	if (lua_istable(l, -1))
+		// we can always look into tables
+		typeless = true;
+
+	else if (lua_isuserdata(l, -1)) {
+		// two known types of userdata
+		// - LuaObject, metatable has a "type" field
+		// - RO table proxy, no type
+		lua_getmetatable(l, -1);
+		lua_getfield(l, -1, "type");
+		typeless = lua_isnil(l, -1);
+		lua_pop(l, 2);
+	}
+
+	else
+		// not a table or userdata, nothing to do
+		// XXX if it has a __index metatable entry maybe we can do more?
+		return;
 
 	if (typeless) {
 		// Check the metatable indexes
@@ -414,7 +396,10 @@ void LuaObjectBase::GetNames(std::vector<std::string> &names, const std::string 
 				break;
 		}
 		lua_pop(l, 1);
-		get_names_from_table(l, names, prefix, methodsOnly);
+
+		if (lua_istable(l, -1))
+			get_names_from_table(l, names, prefix, methodsOnly);
+
 		return;
 	}
 
@@ -618,7 +603,7 @@ void LuaObjectBase::CreateClass(const char *type, const char *parent, const luaL
 	LUA_DEBUG_END(l, 0);
 }
 
-bool LuaObjectBase::PushRegistered(DeleteEmitter *o)
+bool LuaObjectBase::PushRegistered(LuaWrappable *o)
 {
 	assert(instantiated);
 
@@ -654,14 +639,10 @@ bool LuaObjectBase::PushRegistered(DeleteEmitter *o)
 	return false;
 }
 
-void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
+void LuaObjectBase::Register(LuaObjectBase *lo)
 {
 	assert(instantiated);
-
-	lo->m_wantDelete = wantdelete;
-
-	lo->m_id = ++next_id;
-	assert(lo->m_id);
+	assert(lo->GetObject());
 
 	bool have_promotions = true;
 	bool tried_promote = false;
@@ -676,7 +657,7 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 				target_iter != (*base_iter).second.end();
 				++target_iter)
 			{
-				if ((*target_iter).second(lo->m_object)) {
+				if ((*target_iter).second(lo->GetObject())) {
 					lo->m_type = (*target_iter).first.c_str();
 					tried_promote = false;
 				}
@@ -688,11 +669,28 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 			have_promotions = false;
 	}
 
-	lo->Acquire(lo->m_object);
+	lua_State *l = Lua::manager->GetLuaState();
 
-	lo->m_deleteConnection = lo->m_object->onDelete.connect(sigc::bind(sigc::ptr_fun(&LuaObjectBase::Deregister), lo));
+	LUA_DEBUG_START(l);                                         // lo userdata
 
-	registry->insert(std::make_pair(lo->m_id, lo));
+	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");    // lo userdata, registry table
+	assert(lua_istable(l, -1));
+
+	lua_pushlightuserdata(l, lo->GetObject());                  // lo userdata, registry table, o lightuserdata
+	lua_pushvalue(l, -3);                                       // lo userdata, registry table, o lightuserdata, lo userdata
+	lua_settable(l, -3);                                        // lo userdata, registry table
+
+	lua_pop(l, 1);                                              // lo userdata
+
+	luaL_getmetatable(l, lo->m_type);                           // lo userdata, lo metatable
+	lua_setmetatable(l, -2);                                    // lo userdata
+
+	LUA_DEBUG_END(l, 0);
+}
+
+void LuaObjectBase::Deregister(LuaObjectBase *lo)
+{
+	LuaWrappable *o = lo->GetObject();
 
 	lua_State *l = Lua::manager->GetLuaState();
 
@@ -701,80 +699,59 @@ void LuaObjectBase::Push(LuaObjectBase *lo, bool wantdelete)
 	lua_getfield(l, LUA_REGISTRYINDEX, "LuaObjectRegistry");
 	assert(lua_istable(l, -1));
 
-	lid *idp = static_cast<lid*>(lua_newuserdata(l, sizeof(lid)));
-	*idp = lo->m_id;
+	lua_pushlightuserdata(l, o);
+	lua_pushnil(l);
+	lua_rawset(l, -3);
 
-	luaL_getmetatable(l, lo->m_type);
-	lua_setmetatable(l, -2);
-
-	lua_pushlightuserdata(l, lo->m_object);
-	lua_pushvalue(l, -2);
-	lua_settable(l, -4);
-
-	lua_insert(l, -2);
 	lua_pop(l, 1);
 
-	LUA_DEBUG_END(l, 1);
+	LUA_DEBUG_END(l, 0);
+
+	return;
 }
 
-DeleteEmitter *LuaObjectBase::CheckFromLua(int index, const char *type)
+LuaWrappable *LuaObjectBase::CheckFromLua(int index, const char *type)
 {
 	assert(instantiated);
 
 	lua_State *l = Lua::manager->GetLuaState();
-
-	LUA_DEBUG_START(l);
 
 	luaL_checktype(l, index, LUA_TUSERDATA);
+	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, index));
 
-	lid *idp = static_cast<lid*>(lua_touserdata(l, index));
-	if (!idp)
-		luaL_error(l, "Lua value on stack is of type userdata but has no userdata associated with it");
-
-	LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
-	if (!lo) {
-		// luaL_error format codes are very limited (can't handle width or fill specifiers),
-		// so we use snprintf here to do the real formatting
-		char objectCode[16];
-		snprintf(objectCode, sizeof(objectCode), "0x%08x", *idp);
-		luaL_error(l, "Lua object with id %s not found in registry", objectCode);
+	LuaWrappable *o = lo->GetObject();
+	if (!o) {
+		luaL_error(l, "Object is no longer valid");
+		return 0;
 	}
 
-	LUA_DEBUG_END(l, 0);
-
 	if (!lo->Isa(type))
-		luaL_error(l, "Lua object on stack has type %s which can not be used as type %s\n", lo->m_type, type);
+		luaL_error(l, "Object on stack has type %s which can not be used as type %s\n", lo->m_type, type);
 
 	// found it
-	return lo->m_object;
+	return o;
 }
 
-DeleteEmitter *LuaObjectBase::GetFromLua(int index, const char *type)
+LuaWrappable *LuaObjectBase::GetFromLua(int index, const char *type)
 {
 	assert(instantiated);
 
 	lua_State *l = Lua::manager->GetLuaState();
 
-	LUA_DEBUG_START(l);
-
 	if (lua_type(l, index) != LUA_TUSERDATA)
-		return NULL;
+		return 0;
 
-	lid *idp = static_cast<lid*>(lua_touserdata(l, index));
-	if (!idp)
-		return NULL;
+	LuaObjectBase *lo = static_cast<LuaObjectBase*>(lua_touserdata(l, index));
 
-	LuaObjectBase *lo = LuaObjectBase::Lookup(*idp);
-	if (!lo)
-		return NULL;
-
-	LUA_DEBUG_END(l, 0);
+	LuaWrappable *o = lo->GetObject();
+	if (!o)
+		return 0;
 
 	if (!lo->Isa(type))
-		return NULL;
+		return 0;
 
 	// found it
-	return lo->m_object;
+	return o;
 }
 
 bool LuaObjectBase::Isa(const char *base) const
@@ -817,4 +794,9 @@ bool LuaObjectBase::Isa(const char *base) const
 void LuaObjectBase::RegisterPromotion(const char *base_type, const char *target_type, PromotionTest test_fn)
 {
 	(*promotions)[base_type][target_type] = test_fn;
+}
+
+void *LuaObjectBase::Allocate(size_t n) {
+	lua_State *l = Lua::manager->GetLuaState();
+	return lua_newuserdata(l, n);
 }

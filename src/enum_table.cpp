@@ -10,7 +10,6 @@
 #include "Polit.h"
 #include "Ship.h"
 #include "ShipType.h"
-#include "SpaceStation.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Face.h"
 #include "ui/Align.h"
@@ -164,11 +163,6 @@ const struct EnumItem ENUM_PolitGovType[] = {
 	{ 0, 0 },
 };
 
-const struct EnumItem ENUM_ShipAnimation[] = {
-	{ "WHEEL_STATE", Ship::ANIM_WHEEL_STATE },
-	{ 0, 0 },
-};
-
 const struct EnumItem ENUM_ShipFlightState[] = {
 	{ "FLYING", Ship::FLYING },
 	{ "DOCKING", Ship::DOCKING },
@@ -232,14 +226,6 @@ const struct EnumItem ENUM_ShipTypeTag[] = {
 	{ "SHIP", ShipType::TAG_SHIP },
 	{ "STATIC_SHIP", ShipType::TAG_STATIC_SHIP },
 	{ "MISSILE", ShipType::TAG_MISSILE },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_SpaceStationAnimation[] = {
-	{ "DOCKING_BAY_1", SpaceStation::ANIM_DOCKING_BAY_1 },
-	{ "DOCKING_BAY_2", SpaceStation::ANIM_DOCKING_BAY_2 },
-	{ "DOCKING_BAY_3", SpaceStation::ANIM_DOCKING_BAY_3 },
-	{ "DOCKING_BAY_4", SpaceStation::ANIM_DOCKING_BAY_4 },
 	{ 0, 0 },
 };
 
@@ -408,3 +394,35 @@ const struct EnumItem ENUM_UIFont[] = {
 	{ 0, 0 },
 };
 
+const struct EnumTable ENUM_TABLES[] = {
+	{ "EquipSlot", ENUM_EquipSlot },
+	{ "EquipType", ENUM_EquipType },
+	{ "FileSystemRoot", ENUM_FileSystemRoot },
+	{ "PolitCrime", ENUM_PolitCrime },
+	{ "PolitEcon", ENUM_PolitEcon },
+	{ "PolitGovType", ENUM_PolitGovType },
+	{ "ShipFlightState", ENUM_ShipFlightState },
+	{ "ShipJumpStatus", ENUM_ShipJumpStatus },
+	{ "ShipAlertStatus", ENUM_ShipAlertStatus },
+	{ "ShipAIError", ENUM_ShipAIError },
+	{ "ShipFuelStatus", ENUM_ShipFuelStatus },
+	{ "ShipTypeThruster", ENUM_ShipTypeThruster },
+	{ "DualLaserOrientation", ENUM_DualLaserOrientation },
+	{ "ShipTypeTag", ENUM_ShipTypeTag },
+	{ "EconType", ENUM_EconType },
+	{ "BodyType", ENUM_BodyType },
+	{ "BodySuperType", ENUM_BodySuperType },
+	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
+	{ "UIAlignDirection", ENUM_UIAlignDirection },
+	{ "UIEventType", ENUM_UIEventType },
+	{ "UIKeyboardAction", ENUM_UIKeyboardAction },
+	{ "UIMouseButtonAction", ENUM_UIMouseButtonAction },
+	{ "UIMouseButtonType", ENUM_UIMouseButtonType },
+	{ "UIMouseWheelDirection", ENUM_UIMouseWheelDirection },
+	{ "UIExpandDirection", ENUM_UIExpandDirection },
+	{ "UIGradientDirection", ENUM_UIGradientDirection },
+	{ "UIMarginDirection", ENUM_UIMarginDirection },
+	{ "UISizeControl", ENUM_UISizeControl },
+	{ "UIFont", ENUM_UIFont },
+	{ 0, 0 },
+};

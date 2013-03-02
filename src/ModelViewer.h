@@ -7,10 +7,10 @@
 // viewer for sgmodels
 
 #include "libs.h"
+#include "LuaManager.h"
+#include "NavLights.h"
 #include "graphics/Renderer.h"
 #include "graphics/Texture.h"
-#include "LmrTypes.h"
-#include "LuaManager.h"
 #include "scenegraph/SceneGraph.h"
 #include "ui/Context.h"
 
@@ -22,8 +22,6 @@ public:
 	static void Run(const std::string &modelName);
 
 private:
-	bool OnAnimPlay(UI::Widget*, bool reverse);
-	bool OnAnimStop(UI::Widget*);
 	bool OnPickModel(UI::List*);
 	bool OnQuit();
 	bool OnReloadModel(UI::Widget*);
@@ -32,7 +30,9 @@ private:
 	bool OnToggleGuns(UI::CheckBox*);
 	void AddLog(const std::string &line);
 	void ChangeCameraPreset(SDLKey, SDLMod);
+	void ClearLog();
 	void ClearModel();
+	void CreateTestResources();
 	void DrawBackground();
 	void DrawCollisionMesh();
 	void DrawGrid(const matrix4x4f &trans, float radius);
@@ -63,6 +63,7 @@ private:
 		bool attachGuns;
 		bool showCollMesh;
 		bool showGrid;
+		bool showLandingPad;
 		bool showUI;
 		bool wireframe;
 		float gridInterval;
@@ -71,29 +72,28 @@ private:
 		Options();
 	};
 	bool m_done;
-	bool m_playing;
 	bool m_screenshotQueued;
-	double m_animTime; //separate, because it may be paused
 	double m_frameTime;
 	Graphics::Renderer *m_renderer;
 	Graphics::Texture *m_decalTexture;
-	matrix4x4f m_modelRot;
-	ModelParams m_modelParams;
-	MTRand m_rng;
+	float m_rotX, m_rotY, m_zoom;
+	float m_baseDistance;
+	Random m_rng;
 	SceneGraph::Animation *m_currentAnimation;
 	SceneGraph::Model *m_model;
 	Options m_options;
-	RefCountedPtr<SceneGraph::ModelNode> m_gunModelNode;
-	RefCountedPtr<UI::Context> m_ui;
+	ScopedPtr<NavLights> m_navLights;
 	ScopedPtr<SceneGraph::Model> m_gunModel;
+	ScopedPtr<SceneGraph::Model> m_scaleModel;
 	std::string m_modelName;
-	vector3f m_camPos;
+	RefCountedPtr<UI::Context> m_ui;
 
 	//undecided on this input stuff
 	//updating the states of all inputs during PollEvents
 	bool m_keyStates[SDLK_LAST];
 	bool m_mouseButton[SDL_BUTTON_WHEELDOWN + 1]; //buttons + scroll start at 1
 	int m_mouseMotion[2];
+	bool m_mouseWheelUp, m_mouseWheelDown;
 
 	//interface stuff that needs to be accessed later (unorganized)
 	UI::MultiLineText *m_log;

@@ -778,7 +778,7 @@ const char *SystemBody::GetIcon() const
  */
 static void position_settlement_on_planet(SystemBody *b)
 {
-	MTRand r(b->seed);
+	Random r(b->seed);
 	// used for orientation on planet surface
 	double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
 	double r1 = r.Double();		// can't put two rands in the same expression
@@ -938,7 +938,7 @@ SystemBody *StarSystem::GetBodyByPath(const SystemPath &path) const
 	assert(path.IsBodyPath());
 	assert(path.bodyIndex < m_bodies.size());
 
-	return m_bodies[path.bodyIndex];
+	return m_bodies[path.bodyIndex].Get();
 }
 
 SystemPath StarSystem::GetPathOf(const SystemBody *sbody) const
@@ -946,7 +946,7 @@ SystemPath StarSystem::GetPathOf(const SystemBody *sbody) const
 	return sbody->path;
 }
 
-void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, MTRand &rand)
+void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, Random &rand)
 {
 	// replaces gravpoint mass by sum of masses of its children
 	// the code goes here to cover also planetary gravpoints (gravpoints that are not rootBody)
@@ -1053,11 +1053,11 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 
 }
 
-void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
+void StarSystem::GenerateFromCustom(const CustomSystem *customSys, Random &rand)
 {
 	const CustomSystemBody *csbody = customSys->sBody;
 
-	rootBody = NewBody();
+	rootBody.Reset(NewBody());
 	rootBody->type = csbody->type;
 	rootBody->parent = NULL;
 	rootBody->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
@@ -1072,12 +1072,12 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, MTRand &rand)
 	rootBody->orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
 
 	int humanInfestedness = 0;
-	CustomGetKidsOf(rootBody, csbody->children, &humanInfestedness, rand);
+	CustomGetKidsOf(rootBody.Get(), csbody->children, &humanInfestedness, rand);
 	Populate(false);
 
 }
 
-void StarSystem::MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, MTRand &rand)
+void StarSystem::MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, Random &rand)
 {
 	sbody->type = type;
 	sbody->seed = rand.Int32();
@@ -1089,13 +1089,13 @@ void StarSystem::MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, MT
 				starTypeInfo[type].tempMax);
 }
 
-void StarSystem::MakeRandomStar(SystemBody *sbody, MTRand &rand)
+void StarSystem::MakeRandomStar(SystemBody *sbody, Random &rand)
 {
 	SystemBody::BodyType type = SystemBody::BodyType(rand.Int32(SystemBody::TYPE_STAR_MIN, SystemBody::TYPE_STAR_MAX));
 	MakeStarOfType(sbody, type, rand);
 }
 
-void StarSystem::MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, MTRand &rand)
+void StarSystem::MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, Random &rand)
 {
 	int tries = 16;
 	do {
@@ -1103,7 +1103,7 @@ void StarSystem::MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyTy
 	} while ((sbody->mass > maxMass) && (--tries));
 }
 
-void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, MTRand &rand)
+void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Random &rand)
 {
 	fixed m = a->mass + b->mass;
 	fixed a0 = b->mass / m;
@@ -1261,7 +1261,7 @@ void SystemBody::PickRings(bool forceRings)
 	m_rings.baseColor = Color4ub(255,255,255,255);
 
 	if (type == SystemBody::TYPE_PLANET_GAS_GIANT) {
-		MTRand ringRng(seed + 965467);
+		Random ringRng(seed + 965467);
 
 		// today's forecast: 50% chance of rings
 		double rings_die = ringRng.Double();
@@ -1300,7 +1300,6 @@ void SystemBody::PickRings(bool forceRings)
 }
 
 // Calculate parameters used in the atmospheric model for shaders
-// used by both LmrModels and Geosphere
 SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
 {
 	AtmosphereParameters params;
@@ -1371,7 +1370,6 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 {
 	assert(path.IsSystemPath());
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
-	rootBody = 0;
 
 	Sector s = Sector(m_path.sectorX, m_path.sectorY, m_path.sectorZ);
 	assert(m_path.systemIndex >= 0 && m_path.systemIndex < s.m_systems.size());
@@ -1380,8 +1378,8 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 	m_name    = s.m_systems[m_path.systemIndex].name;
 	m_faction = Faction::GetNearestFaction(s, m_path.systemIndex);
 
-	unsigned long _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
-	MTRand rand(_init, 6);
+	Uint32 _init[6] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED, Uint32(m_seed) };
+	Random rand(_init, 6);
 
 	/*
 	 * 0 - ~500ly from sol: explored
@@ -1420,14 +1418,14 @@ StarSystem::StarSystem(const SystemPath &path) : m_path(path)
 		star[0]->orbMin = 0;
 		star[0]->orbMax = 0;
 		MakeStarOfType(star[0], type, rand);
-		rootBody = star[0];
+		rootBody.Reset(star[0]);
 		m_numStars = 1;
 	} else {
 		centGrav1 = NewBody();
 		centGrav1->type = SystemBody::TYPE_GRAVPOINT;
 		centGrav1->parent = NULL;
 		centGrav1->name = s.m_systems[m_path.systemIndex].name+" A,B";
-		rootBody = centGrav1;
+		rootBody.Reset(centGrav1);
 
 		SystemBody::BodyType type = s.m_systems[m_path.systemIndex].starType[0];
 		star[0] = NewBody();
@@ -1496,7 +1494,7 @@ try_that_again_guvnah:
 			superCentGrav->name = s.m_systems[m_path.systemIndex].name;
 			centGrav1->parent = superCentGrav;
 			centGrav2->parent = superCentGrav;
-			rootBody = superCentGrav;
+			rootBody.Reset(superCentGrav);
 			const fixed minDistSuper = star[0]->orbMax + star[2]->orbMax;
 			MakeBinaryPair(centGrav1, centGrav2, 4*minDistSuper, rand);
 			superCentGrav->children.push_back(centGrav1);
@@ -1635,7 +1633,7 @@ static fixed get_disc_density(SystemBody *primary, fixed discMin, fixed discMax,
 	return primary->GetMassInEarths() * percentOfPrimaryMass / total;
 }
 
-void StarSystem::MakePlanetsAround(SystemBody *primary, MTRand &rand)
+void StarSystem::MakePlanetsAround(SystemBody *primary, Random &rand)
 {
 	fixed discMin = fixed(0);
 	fixed discMax = fixed(5000,1);
@@ -1789,7 +1787,7 @@ const SystemBody *SystemBody::FindStarAndTrueOrbitalRange(fixed &orbMin_, fixed 
 	return star;
 }
 
-void SystemBody::PickPlanetType(MTRand &rand)
+void SystemBody::PickPlanetType(Random &rand)
 {
 	fixed albedo = fixed(0);
 	fixed greenhouse = fixed(0);
@@ -1902,7 +1900,7 @@ void SystemBody::PickPlanetType(MTRand &rand)
 	PickRings();
 }
 
-void StarSystem::MakeShortDescription(MTRand &rand)
+void StarSystem::MakeShortDescription(Random &rand)
 {
 	m_econType = 0;
 	if ((m_industrial > m_metallicity) && (m_industrial > m_agricultural)) {
@@ -1953,8 +1951,8 @@ void StarSystem::MakeShortDescription(MTRand &rand)
 
 void StarSystem::Populate(bool addSpaceStations)
 {
-	unsigned long _init[5] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED };
-	MTRand rand;
+	Uint32 _init[5] = { m_path.systemIndex, Uint32(m_path.sectorX), Uint32(m_path.sectorY), Uint32(m_path.sectorZ), UNIVERSE_SEED };
+	Random rand;
 	rand.seed(_init, 5);
 
 	/* Various system-wide characteristics */
@@ -2020,12 +2018,14 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		return;
 	}
 
-	unsigned long _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
+	Uint32 _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
 			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), UNIVERSE_SEED, Uint32(this->seed) };
 
-	MTRand rand, namerand;
+	Random rand;
 	rand.seed(_init, 6);
-	namerand.seed(_init, 6);
+
+	RefCountedPtr<Random> namerand(new Random);
+	namerand->seed(_init, 6);
 
 	m_population = fixed(0);
 
@@ -2131,18 +2131,38 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	outTotalPop += m_population;
 }
 
+static bool check_unique_station_name(const std::string & name, const StarSystem * system) {
+	bool ret = true;
+	for (unsigned int i = 0 ; i < system->m_spaceStations.size() ; ++i)
+		if (system->m_spaceStations[i]->name == name) {
+			ret = false;
+			break;
+		}
+	return ret;
+}
+
+static std::string gen_unique_station_name(SystemBody *sp, const StarSystem *system, RefCountedPtr<Random> &namerand) {
+	std::string name;
+	do {
+		name = Pi::luaNameGen->BodyName(sp, namerand);
+	} while (!check_unique_station_name(name, system));
+	return name;
+}
+
 void SystemBody::PopulateAddStations(StarSystem *system)
 {
 	for (unsigned int i=0; i<children.size(); i++) {
 		children[i]->PopulateAddStations(system);
 	}
 
-	unsigned long _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
+	Uint32 _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
 			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), this->seed, UNIVERSE_SEED };
 
-	MTRand rand, namerand;
+	Random rand;
 	rand.seed(_init, 6);
-	namerand.seed(_init, 6);
+
+	RefCountedPtr<Random> namerand(new Random);
+	namerand->seed(_init, 6);
 
 	if (m_population < fixed(1,1000)) return;
 
@@ -2177,7 +2197,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		sp->orbMin = sp->semiMajorAxis;
 		sp->orbMax = sp->semiMajorAxis;
 
-		sp->name = Pi::luaNameGen->BodyName(sp, namerand);
+		sp->name = gen_unique_station_name(sp, system, namerand);
 
 		pop -= rand.Fixed();
 		if (pop > 0) {
@@ -2186,7 +2206,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 			*sp2 = *sp;
 			sp2->path = path2;
 			sp2->orbit.rotMatrix = matrix3x3d::RotateZ(M_PI);
-			sp2->name = Pi::luaNameGen->BodyName(sp2, namerand);
+			sp2->name = gen_unique_station_name(sp, system, namerand);
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);
 		}
@@ -2205,7 +2225,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		sp->parent = this;
 		sp->averageTemp = this->averageTemp;
 		sp->mass = 0;
-		sp->name = Pi::luaNameGen->BodyName(sp, namerand);
+		sp->name = gen_unique_station_name(sp, system, namerand);
 		memset(&sp->orbit, 0, sizeof(Orbit));
 		position_settlement_on_planet(sp);
 		children.insert(children.begin(), sp);
@@ -2213,16 +2233,19 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 	}
 }
 
-StarSystem::~StarSystem()
+static void clear_parent_and_child_pointers(SystemBody *body)
 {
-	if (rootBody) delete rootBody;
+	for (std::vector<SystemBody*>::iterator i = body->children.begin(); i != body->children.end(); ++i)
+		clear_parent_and_child_pointers(*i);
+	body->parent = 0;
+	body->children.clear();
 }
 
-SystemBody::~SystemBody()
+StarSystem::~StarSystem()
 {
-	for (std::vector<SystemBody*>::iterator i = children.begin(); i != children.end(); ++i) {
-		delete (*i);
-	}
+	// clear parent and children pointers. someone (Lua) might still have a
+	// reference to things that are about to be deleted
+	clear_parent_and_child_pointers(rootBody.Get());
 }
 
 void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)

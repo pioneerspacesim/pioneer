@@ -4,6 +4,7 @@
 #include "LuaConstants.h"
 #include "LuaUtils.h"
 
+#include "EnumStrings.h"
 #include "enum_table.h"
 
 /*
@@ -30,7 +31,6 @@
 
 int LuaConstants::GetConstantFromArg(lua_State *l, const char *ns, int idx)
 {
-	LUA_DEBUG_START(l);
 	if (lua_type(l, idx) != LUA_TSTRING) {
 		// heuristic assumption that positive (absolute) stack indexes refer to function args
 		if (idx > 0) {
@@ -41,68 +41,18 @@ int LuaConstants::GetConstantFromArg(lua_State *l, const char *ns, int idx)
 		}
 	}
 
-	// copy the value to top-of-stack so we know where it is
-	lua_pushvalue(l, idx);
-
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiConstants");
-	assert(lua_istable(l, -1));
-
-	lua_pushstring(l, ns);
-	lua_rawget(l, -2);
-	assert(lua_istable(l, -1));
-
-	// stack: arg-value, PiConstants, ConstTable
-	lua_replace(l, -2);
-	// stack: arg-value, ConstTable
-	lua_pushvalue(l, -2);
-	// stack: arg-value, ConstTable, arg-value
-	lua_rawget(l, -2);
-	// stack: arg-value, ConstTable, const-value
-
-	if (lua_isnil(l, -1)) {
-		const char *name = lua_tostring(l, -3);
-		luaL_error(l, "couldn't find constant with name '%s' in namespace '%s'\n", name, ns);
-	}
-	assert(lua_isnumber(l, -1));
-
-	int value = lua_tointeger(l, -1);
-
-	lua_pop(l, 3);
-	LUA_DEBUG_END(l, 0);
-	return value;
+	return GetConstant(l, ns, lua_tostring(l, idx));
 }
 
 int LuaConstants::GetConstant(lua_State *l, const char *ns, const char *name)
 {
-	lua_pushstring(l, name);
-	int val = GetConstantFromArg(l, ns, -1);
-	lua_pop(l, 1);
-	return val;
+	int value = EnumStrings::GetValue(ns, name);
+	if (value < 0)
+		luaL_error(l, "couldn't find constant with name '%s' in namespace '%s\n", name, ns);
+	return value;
 }
 
-const char *LuaConstants::GetConstantString(lua_State *l, const char *ns, int value)
-{
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiConstants");
-	assert(lua_istable(l, -1));
-
-	lua_pushstring(l, ns);
-	lua_rawget(l, -2);
-	assert(lua_istable(l, -1));
-
-	lua_pushinteger(l, value);
-	lua_rawget(l, -2);
-	if (lua_isnil(l, -1))
-		luaL_error(l, "couldn't find constant with value %d in namespace '%s'\n", value, ns);
-	assert(lua_isstring(l, -1));
-
-	const char *name = lua_tostring(l, -1);
-
-	lua_pop(l, 3);
-
-	return name;
-}
-
-static void _create_constant_table(lua_State *l, const char *ns, const EnumItem *c, bool consecutive)
+static void _create_constant_table(lua_State *l, const char *ns, const EnumItem *c)
 {
 	LUA_DEBUG_START(l);
 
@@ -131,57 +81,25 @@ static void _create_constant_table(lua_State *l, const char *ns, const EnumItem 
 	pi_lua_readonly_table_proxy(l, enum_table_idx);
 	lua_rawset(l, -4);
 
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiConstants");
-	if (lua_isnil(l, -1)) {
-		lua_pop(l, 1);
-		lua_newtable(l);
-		lua_pushstring(l, "PiConstants");
-		lua_pushvalue(l, -2);
-		lua_rawset(l, LUA_REGISTRYINDEX);
-	}
-	assert(lua_istable(l, -1));
-
-	lua_newtable(l); // 'Constants' table, enum table, 'PiConstants' table, mapping table
-	lua_pushstring(l, ns);
-	lua_pushvalue(l, -2);
-	lua_rawset(l, -4);
-
-	int value = 0;
 	int index = 1;
 	for (; c->name; c++) {
-		if (! consecutive)
-			value = c->value;
-		pi_lua_settable(l, c->name, value);
-		pi_lua_settable(l, value, c->name);
-		++value;
-
 		lua_pushinteger(l, index);
 		lua_pushstring(l, c->name);
 		lua_rawset(l, enum_table_idx);
 		++index;
 	}
 
-	lua_pop(l, 4);
+	lua_pop(l, 2);
 
 	LUA_DEBUG_END(l, 0);
 }
-
-static void _create_constant_table_nonconsecutive(lua_State *l, const char *ns, const EnumItem *c)
-{
-	_create_constant_table(l, ns, c, false);
-}
-
-#if 0 // no longer used, since enum tables are auto-generated and always have their values filled in
-static void _create_constant_table_consecutive(lua_State *l, const char *ns, const EnumItem *c)
-{
-	_create_constant_table(l, ns, c, true);
-}
-#endif
 
 void LuaConstants::Register(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
+	for (const EnumTable *table = ENUM_TABLES; table->name; table++)
+		_create_constant_table(l, table->name, table->first);
 
 	/*
 	 * Constants: BodyType
@@ -241,8 +159,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   stable
 	 */
-	_create_constant_table_nonconsecutive(l, "BodyType", ENUM_BodyType);
-
 
 	/*
 	 * Constants: BodySuperType
@@ -263,8 +179,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   stable
 	 */
-	_create_constant_table_nonconsecutive(l, "BodySuperType", ENUM_BodySuperType);
-
 
 	/*
 	 * Constants: PolitCrime
@@ -284,7 +198,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	_create_constant_table_nonconsecutive(l, "PolitCrime", ENUM_PolitCrime);
 
 	/*
 	 * Constants: PolitEcon
@@ -305,7 +218,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	_create_constant_table_nonconsecutive(l, "PolitEcon", ENUM_PolitEcon);
 
 	/*
 	 * Constants: PolitGovType
@@ -337,8 +249,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	_create_constant_table_nonconsecutive(l, "PolitGovType", ENUM_PolitGovType);
-
 
 	/*
 	 * Constants: EquipSlot
@@ -373,7 +283,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	_create_constant_table_nonconsecutive(l, "EquipSlot", ENUM_EquipSlot);
 
 	/*
 	 * Constants: EquipType
@@ -466,7 +375,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	_create_constant_table_nonconsecutive(l, "EquipType", ENUM_EquipType);
 
 	/*
 	 * Constants: DualLaserOrientation
@@ -484,7 +392,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	_create_constant_table_nonconsecutive(l, "DualLaserOrientation", ENUM_DualLaserOrientation);
 
 	/*
 	 * Constants: ShipTypeTag
@@ -509,7 +416,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   stable
 	 */
-	_create_constant_table_nonconsecutive(l, "ShipTypeTag", ENUM_ShipTypeTag);
 
 	/*
 	 * Constants: ShipTypeThruster
@@ -532,8 +438,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   stable
 	 */
-	_create_constant_table_nonconsecutive(l, "ShipTypeThruster", ENUM_ShipTypeThruster);
-
 
 	/*
 	 * Constants: ShipJumpStatus
@@ -559,7 +463,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   stable
 	 */
-	_create_constant_table_nonconsecutive(l, "ShipJumpStatus", ENUM_ShipJumpStatus);
 
 	/*
 	 * Constants: ShipAlertStatus
@@ -579,7 +482,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	_create_constant_table_nonconsecutive(l, "ShipAlertStatus", ENUM_ShipAlertStatus);
 
 	/*
 	 * Constants: ShipFuelStatus
@@ -598,12 +500,11 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	_create_constant_table_nonconsecutive(l, "ShipFuelStatus", ENUM_ShipFuelStatus);
 
 	/*
 	 * Constants: ShipFlightState
 	 *
-	 * Ship flight state (used by LMR)
+	 * Ship flight state
 	 *
 	 * FLYING     - open flight (includes autopilot)
 	 * DOCKING    - in docking animation
@@ -619,7 +520,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	_create_constant_table_nonconsecutive(l, "ShipFlightState", ENUM_ShipFlightState);
 
 	/*
 	 * Constants: ShipAIError
@@ -640,43 +540,6 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	_create_constant_table_nonconsecutive(l, "ShipAIError", ENUM_ShipAIError);
-
-	/*
-	 * Constants: ShipAnimation
-	 *
-	 * Animation code used by LMR. Pass one of these constants to
-	 * get_animation_stage() or get_animation_position() in a model script.
-	 *
-	 * WHEEL_STATE  - animation state unused; position gives position of undercarriage
-	 *
-	 * Availability:
-	 *
-	 *   alpha 16
-	 *
-	 * Status:
-	 *
-	 *   experimental
-	 */
-	_create_constant_table_nonconsecutive(l, "ShipAnimation", ENUM_ShipAnimation);
-
-	/*
-	 * Constants: SpaceStationAnimation
-	 *
-	 * Animation code used by LMR. Pass one of these constants to
-	 * get_animation_stage() or get_animation_position() in a model script.
-	 *
-	 * WHEEL_STATE  - animation state unused; position gives position of undercarriage
-	 *
-	 * Availability:
-	 *
-	 *   alpha 16
-	 *
-	 * Status:
-	 *
-	 *   experimental
-	 */
-	_create_constant_table_nonconsecutive(l, "SpaceStationAnimation", ENUM_SpaceStationAnimation);
 
 	/*
 	 * Constants: FileSystemRoot
@@ -695,23 +558,8 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 *   experimental
 	 */
-	_create_constant_table_nonconsecutive(l, "FileSystemRoot", ENUM_FileSystemRoot);
 
-	// XXX document these
-	_create_constant_table_nonconsecutive(l, "UIAlignDirection", ENUM_UIAlignDirection);
-	_create_constant_table_nonconsecutive(l, "UIMarginDirection", ENUM_UIMarginDirection);
-	_create_constant_table_nonconsecutive(l, "UIFont", ENUM_UIFont);
-	_create_constant_table_nonconsecutive(l, "UISizeControl", ENUM_UISizeControl);
-	_create_constant_table_nonconsecutive(l, "UIEventType", ENUM_UIEventType);
-	_create_constant_table_nonconsecutive(l, "UIGradientDirection", ENUM_UIGradientDirection);
-	_create_constant_table_nonconsecutive(l, "UIExpandDirection", ENUM_UIExpandDirection);
-	_create_constant_table_nonconsecutive(l, "UIKeyboardAction", ENUM_UIKeyboardAction);
-	_create_constant_table_nonconsecutive(l, "UIMouseButtonAction", ENUM_UIMouseButtonAction);
-	_create_constant_table_nonconsecutive(l, "UIMouseButtonType", ENUM_UIMouseButtonType);
-	_create_constant_table_nonconsecutive(l, "UIMouseWheelDirection", ENUM_UIMouseWheelDirection);
-
-	_create_constant_table_nonconsecutive(l, "GameUIFaceFlags", ENUM_GameUIFaceFlags);
-
+	// XXX document UI tables
 
 	LUA_DEBUG_END(l, 0);
 }

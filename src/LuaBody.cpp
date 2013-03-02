@@ -1,10 +1,9 @@
 // Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "LuaBody.h"
-#include "LuaSystemPath.h"
+#include "LuaObject.h"
 #include "LuaUtils.h"
-#include "LuaConstants.h"
+#include "EnumStrings.h"
 #include "Body.h"
 #include "galaxy/StarSystem.h"
 #include "Frame.h"
@@ -36,7 +35,7 @@
  */
 static int l_body_attr_label(lua_State *l)
 {
-	Body *b = LuaBody::CheckFromLua(1);
+	Body *b = LuaObject<Body>::CheckFromLua(1);
 	lua_pushstring(l, b->GetLabel().c_str());
 	return 1;
 }
@@ -59,7 +58,7 @@ static int l_body_attr_label(lua_State *l)
  */
 static int l_body_attr_seed(lua_State *l)
 {
-	Body *b = LuaBody::CheckFromLua(1);
+	Body *b = LuaObject<Body>::CheckFromLua(1);
 
 	const SystemBody *sbody = b->GetSystemBody();
 	assert(sbody);
@@ -86,7 +85,7 @@ static int l_body_attr_seed(lua_State *l)
  */
 static int l_body_attr_path(lua_State *l)
 {
-	Body *b = LuaBody::CheckFromLua(1);
+	Body *b = LuaObject<Body>::CheckFromLua(1);
 
 	const SystemBody *sbody = b->GetSystemBody();
 	if (!sbody) {
@@ -94,8 +93,8 @@ static int l_body_attr_path(lua_State *l)
 		return 1;
 	}
 
-	SystemPath path = sbody->path;
-	LuaSystemPath::PushToLua(&path);
+	const SystemPath path(sbody->path);
+	LuaObject<SystemPath>::PushToLua(path);
 
 	return 1;
 }
@@ -117,14 +116,14 @@ static int l_body_attr_path(lua_State *l)
  */
 static int l_body_attr_type(lua_State *l)
 {
-	Body *b = LuaBody::CheckFromLua(1);
+	Body *b = LuaObject<Body>::CheckFromLua(1);
 	const SystemBody *sbody = b->GetSystemBody();
 	if (!sbody) {
 		lua_pushnil(l);
 		return 1;
 	}
 
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "BodyType", sbody->type));
+	lua_pushstring(l, EnumStrings::GetString("BodyType", sbody->type));
 	return 1;
 }
 
@@ -145,14 +144,14 @@ static int l_body_attr_type(lua_State *l)
  */
 static int l_body_attr_super_type(lua_State *l)
 {
-	Body *b = LuaBody::CheckFromLua(1);
+	Body *b = LuaObject<Body>::CheckFromLua(1);
 	const SystemBody *sbody = b->GetSystemBody();
 	if (!sbody) {
 		lua_pushnil(l);
 		return 1;
 	}
 
-	lua_pushstring(l, LuaConstants::GetConstantString(l, "BodySuperType", sbody->GetSuperType()));
+	lua_pushstring(l, EnumStrings::GetString("BodySuperType", sbody->GetSuperType()));
 	return 1;
 }
 
@@ -178,14 +177,14 @@ static int l_body_attr_super_type(lua_State *l)
  */
 static int l_body_attr_frame_body(lua_State *l)
 {
-	Body *b = LuaBody::CheckFromLua(1);
+	Body *b = LuaObject<Body>::CheckFromLua(1);
 	if (!b->IsType(Object::DYNAMICBODY)) {
 		lua_pushnil(l);
 		return 1;
 	}
 
 	Frame *f = b->GetFrame();
-	LuaBody::PushToLua(f->GetBody());
+	LuaObject<Body>::PushToLua(f->GetBody());
 	return 1;
 }
 
@@ -207,7 +206,7 @@ static int l_body_attr_frame_body(lua_State *l)
  */
 static int l_body_attr_frame_rotating(lua_State *l)
 {
-	Body *b = LuaBody::CheckFromLua(1);
+	Body *b = LuaObject<Body>::CheckFromLua(1);
 	if (!b->IsType(Object::DYNAMICBODY)) {
 		lua_pushnil(l);
 		return 1;
@@ -250,7 +249,7 @@ static int l_body_attr_frame_rotating(lua_State *l)
  */
 static int l_body_is_dynamic(lua_State *l)
 {
-	Body *b = LuaBody::CheckFromLua(1);
+	Body *b = LuaObject<Body>::CheckFromLua(1);
 	lua_pushboolean(l, b->IsType(Object::DYNAMICBODY));
 	return 1;
 }
@@ -280,8 +279,8 @@ static int l_body_is_dynamic(lua_State *l)
  */
 static int l_body_distance_to(lua_State *l)
 {
-	Body *b1 = LuaBody::CheckFromLua(1);
-	Body *b2 = LuaBody::CheckFromLua(2);
+	Body *b1 = LuaObject<Body>::CheckFromLua(1);
+	Body *b2 = LuaObject<Body>::CheckFromLua(2);
 	if (!b1->IsInSpace())
 		return luaL_error(l, "Body:DistanceTo() arg #1 is not in space (probably a ship in hyperspace)");
 	if (!b2->IsInSpace())

@@ -7,15 +7,24 @@
 
 namespace SceneGraph {
 
-Node::Node()
+Node::Node(Graphics::Renderer *r)
 : m_name("")
 , m_nodeMask(NODE_SOLID)
+, m_renderer(r)
 {
 }
 
-Node::Node(unsigned int nodemask)
+Node::Node(Graphics::Renderer *r, unsigned int nodemask)
 : m_name("")
 , m_nodeMask(nodemask)
+, m_renderer(r)
+{
+}
+
+Node::Node(const Node &node, NodeCopyCache *cache)
+: m_name(node.m_name)
+, m_nodeMask(node.m_nodeMask)
+, m_renderer(node.m_renderer)
 {
 }
 
@@ -36,7 +45,7 @@ Node* Node::FindNode(const std::string &name)
 		return 0;
 }
 
-void Node::DrawAxes(Graphics::Renderer *r)
+void Node::DrawAxes()
 {
 	//Draw plain XYZ axes using the current transform
 	const vector3f vtsXYZ[] = {
@@ -56,8 +65,8 @@ void Node::DrawAxes(Graphics::Renderer *r)
 		Color::GREEN,
 	};
 
-	r->SetBlendMode(Graphics::BLEND_SOLID);
-	r->DrawLines(6, vtsXYZ, colors);
+	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
+	m_renderer->DrawLines(6, vtsXYZ, colors);
 }
 
 }

@@ -26,12 +26,15 @@ noinst_HEADERS = \
 	ModelNode.h \
 	SceneGraph.h \
 	Model.h \
+	ModelSkin.h \
 	Node.h \
+	NodeCopyCache.h \
 	NodeVisitor.h \
 	Parser.h \
 	Pattern.h \
 	StaticGeometry.h \
-	Thruster.h
+	Thruster.h \
+	Lua.h
 
 libscenegraph_a_SOURCES = \
 	Animation.cpp \
@@ -48,12 +51,15 @@ libscenegraph_a_SOURCES = \
 	MatrixTransform.cpp \
 	ModelNode.cpp \
 	Model.cpp \
+	ModelSkin.cpp \
 	Node.cpp \
 	NodeVisitor.cpp \
 	Parser.cpp \
 	Pattern.cpp \
 	StaticGeometry.cpp \
-	Thruster.cpp
+	Thruster.cpp \
+	Lua.cpp \
+	LuaModelSkin.cpp
 
 INCLUDES += -isystem @top_srcdir@/contrib
 if !HAVE_LUA

@@ -68,7 +68,7 @@ public:
 	const double         Radius()  const { return (FACTION_CURRENT_YEAR - foundingDate) * expansionRate; };
 	const bool           IsValid() const { return idx != BAD_FACTION_IDX; };
 	const Color          AdjustedColour(fixed population, bool inRange);
-	const Polit::GovType PickGovType(MTRand &rand) const;
+	const Polit::GovType PickGovType(Random &rand) const;
 
 	// set the homeworld to one near the supplied co-ordinates
 	void SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi, Sint32 axisChange);

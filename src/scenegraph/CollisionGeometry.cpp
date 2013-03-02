@@ -7,21 +7,36 @@
 
 namespace SceneGraph {
 
-CollisionGeometry::CollisionGeometry(Graphics::Surface *s, unsigned int geomflag)
-: m_triFlag(geomflag)
+CollisionGeometry::CollisionGeometry(Graphics::Renderer *r, Graphics::Surface *s, unsigned int geomflag)
+: Node(r)
+, m_triFlag(geomflag)
 {
 	CopyData(s->GetVertices()->position, s->GetIndices());
 }
 
-CollisionGeometry::CollisionGeometry(const std::vector<vector3f> &vts, const std::vector<unsigned short> &idx,
+CollisionGeometry::CollisionGeometry(Graphics::Renderer *r, const std::vector<vector3f> &vts, const std::vector<unsigned short> &idx,
 	unsigned int geomflag)
-: m_triFlag(geomflag)
+: Node(r)
+, m_triFlag(geomflag)
 {
 	CopyData(vts, idx);
 }
 
+CollisionGeometry::CollisionGeometry(const CollisionGeometry &cg, NodeCopyCache *cache)
+: Node(cg, cache)
+, m_vertices(cg.m_vertices)
+, m_indices(cg.m_indices)
+, m_triFlag(cg.m_triFlag)
+{
+}
+
 CollisionGeometry::~CollisionGeometry()
 {
+}
+
+Node* CollisionGeometry::Clone(NodeCopyCache *cache)
+{
+	return this; //collgeoms are shared
 }
 
 void CollisionGeometry::Accept(NodeVisitor &nv)

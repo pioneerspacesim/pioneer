@@ -37,7 +37,7 @@ local icarus = CustomSystemBody:new('Icarus', 'PLANET_TERRESTRIAL')
 	:life(f(0,1))
 
 local atlantica = CustomSystemBody:new('Atlantica', 'PLANET_TERRESTRIAL')
-	:seed(8)
+	:seed(-6)
 	:radius(f(245,100))
 	:mass(f(315,100))
 	:temp(328)
@@ -56,7 +56,7 @@ local atlantica = CustomSystemBody:new('Atlantica', 'PLANET_TERRESTRIAL')
 
 
 local newhope = CustomSystemBody:new('New Hope', 'PLANET_TERRESTRIAL')
-	:seed(43)
+	:seed(0)
 	:radius(f(4,3))
 	:mass(f(5,4))
 	:temp(287)
@@ -74,8 +74,8 @@ local newhope = CustomSystemBody:new('New Hope', 'PLANET_TERRESTRIAL')
 
 	local newhope_starports = {
 	CustomSystemBody:new('New Hope', 'STARPORT_SURFACE')
-		:latitude(math.deg2rad(31))
-		:longitude(math.deg2rad(-121)),
+		:latitude(math.deg2rad(-43.427))
+		:longitude(math.deg2rad(175.864)),
 	CustomSystemBody:new("Gandhi's Revenge", 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(19))
 		:longitude(math.deg2rad(99)),

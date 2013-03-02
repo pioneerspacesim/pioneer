@@ -202,11 +202,9 @@ local onEnterSystem = function (player)
 			-- if there is some risk and still no ships, flip a tricoin
 			if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
 
-			local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
-				local mass = t.hullMass
-				return mass >= 100 and mass <= 400
-			end)
-			if #shiptypes == 0 then return end
+			-- XXX hull mass is a bad way to determine suitability for role
+			local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass <= 400 end, pairs(ShipDef)))
+			if #shipdefs == 0 then return end
 
 			local ship
 
@@ -214,19 +212,19 @@ local onEnterSystem = function (player)
 				ships = ships-1
 
 				if Engine.rand:Number(1) <= risk then
-					local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-					local shiptype = ShipType.GetShipType(shipid)
-					local default_drive = shiptype.defaultHyperdrive
+					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
+					local default_drive = shipdef.defaultHyperdrive
 
-					local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
-					local lasers = EquipType.GetEquipTypes('LASER', function (e,et)
-						return et.mass <= max_laser_size and string.sub(e,0,11) == 'PULSECANNON'
-					end)
-					local laser = lasers[Engine.rand:Integer(1,#lasers)]
+					local max_laser_size = shipdef.capacity - EquipDef[default_drive].mass
+                    local laserdefs = build_array(filter(
+                        function (k,def) return def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(def.id,0,11) == 'PULSECANNON' end,
+                        pairs(EquipDef)
+                    ))
+                    local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
-					ship = Space.SpawnShipNear(shipid, Game.player, 50, 100)
+					ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
 					ship:AddEquip(default_drive)
-					ship:AddEquip(laser)
+					ship:AddEquip(laserdef.id)
 					ship:AIKill(Game.player)
 				end
 			end
@@ -295,7 +293,7 @@ end
 
 local onClick = function (mission)
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
-	local dist = Game.system:DistanceTo(mission.location)
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((delivery_flavours[mission.flavour].introtext):interp({
 														name   = mission.client.name,
@@ -305,7 +303,7 @@ local onClick = function (mission)
 														sectory = mission.location.sectorY,
 														sectorz = mission.location.sectorZ,
 														cash   = Format.Money(mission.reward),
-														dist  = string.format("%.2f", dist)})
+														dist  = dist})
 										),
 										ui:Grid(2,1)
 											:SetColumn(0, {
@@ -317,7 +315,7 @@ local onClick = function (mission)
 													ui:Label(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
 													ui:Label(Format.Date(mission.due)),
 													ui:Margin(10),
-													ui:Label(math.ceil(dist).." "..t("ly"))
+													ui:Label(dist.." "..t("ly"))
 												})
 											})
 		})})

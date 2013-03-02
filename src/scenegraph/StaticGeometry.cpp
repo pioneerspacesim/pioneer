@@ -10,8 +10,8 @@
 
 namespace SceneGraph {
 
-StaticGeometry::StaticGeometry()
-: Node(NODE_SOLID)
+StaticGeometry::StaticGeometry(Graphics::Renderer *r)
+: Node(r, NODE_SOLID)
 , m_blendMode(Graphics::BLEND_SOLID)
 {
 }
@@ -20,13 +20,27 @@ StaticGeometry::~StaticGeometry()
 {
 }
 
+StaticGeometry::StaticGeometry(const StaticGeometry &sg, NodeCopyCache *cache)
+: Node(sg, cache)
+, m_boundingBox(sg.m_boundingBox)
+, m_blendMode(sg.m_blendMode)
+, m_meshes(sg.m_meshes)
+{
+}
+
+Node* StaticGeometry::Clone(NodeCopyCache *cache)
+{
+	return this; //geometries are shared
+}
+
 void StaticGeometry::Accept(NodeVisitor &nv)
 {
 	nv.ApplyStaticGeometry(*this);
 }
 
-void StaticGeometry::Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd)
+void StaticGeometry::Render(const matrix4x4f &trans, RenderData *rd)
 {
+	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
 	if (m_blendMode != Graphics::BLEND_SOLID)
 		r->SetBlendMode(m_blendMode);
@@ -41,7 +55,7 @@ void StaticGeometry::AddMesh(RefCountedPtr<Graphics::StaticMesh> mesh)
 	m_meshes.push_back(mesh);
 }
 
-void StaticGeometry::DrawBoundingBox(Graphics::Renderer *r, const Aabb &bb)
+void StaticGeometry::DrawBoundingBox(const Aabb &bb)
 {
 	vector3f min(bb.min.x, bb.min.y, bb.min.z);
 	vector3f max(bb.max.x, bb.max.y, bb.max.z);
@@ -126,6 +140,7 @@ void StaticGeometry::DrawBoundingBox(Graphics::Renderer *r, const Aabb &bb)
 	ind.push_back(3);
 	ind.push_back(5);
 
+	Graphics::Renderer *r = GetRenderer();
 	r->SetWireFrameMode(true);
 	r->DrawSurface(&surf);
 	r->SetWireFrameMode(false);

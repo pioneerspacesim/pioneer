@@ -5,15 +5,16 @@
 #define _SHIP_H
 
 #include "libs.h"
-#include "DynamicBody.h"
-#include "ShipType.h"
-#include "EquipSet.h"
-#include "ShipFlavour.h"
-#include "galaxy/SystemPath.h"
 #include "BezierCurve.h"
-#include "Serializer.h"
 #include "Camera.h"
+#include "DynamicBody.h"
+#include "EquipSet.h"
+#include "galaxy/SystemPath.h"
+#include "NavLights.h"
+#include "Serializer.h"
+#include "ShipType.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/ModelSkin.h"
 #include <list>
 
 class SpaceStation;
@@ -21,6 +22,7 @@ class HyperspaceCloud;
 class AICommand;
 class ShipController;
 class CargoBody;
+class Missile;
 namespace Graphics { class Renderer; }
 
 struct shipstats_t {
@@ -49,10 +51,6 @@ class Ship: public DynamicBody {
 	friend class ShipController; //only controllers need access to AITimeStep
 	friend class PlayerShipController;
 public:
-	enum Animation { // <enum scope='Ship' name=ShipAnimation prefix=ANIM_>
-		ANIM_WHEEL_STATE
-	};
-
 	OBJDEF(Ship, DynamicBody, SHIP);
 	Ship(ShipType::Id shipId);
 	Ship() {} //default constructor used before Load
@@ -79,12 +77,11 @@ public:
 	void ClearThrusterState();
 
 	vector3d GetMaxThrust(const vector3d &dir) const;
-	double GetAccelFwd() const { return -GetShipType().linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); }
-	double GetAccelRev() const { return GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); }
-	double GetAccelUp() const { return GetShipType().linThrust[ShipType::THRUSTER_UP] / GetMass(); }
+	double GetAccelFwd() const { return -m_type->linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); }
+	double GetAccelRev() const { return m_type->linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); }
+	double GetAccelUp() const { return m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); }
 	double GetAccelMin() const;
 
-	const ShipType &GetShipType() const { return *m_type; }
 	void UpdateEquipStats();
 	void UpdateFuelStats();
 	void UpdateStats();
@@ -158,7 +155,7 @@ public:
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
 	void UseECM();
-	virtual bool FireMissile(int idx, Ship *target);
+	virtual Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
 
 	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_>
 		ALERT_NONE,
@@ -207,12 +204,14 @@ public:
 
 	virtual void PostLoadFixup(Space *space);
 
-	const ShipFlavour *GetFlavour() const { return &m_shipFlavour; }
-	// used to change ship label or colour. asserts if you try to change type
-	void UpdateFlavour(const ShipFlavour *f);
-	// used when buying a new ship. changes the flavour and resets cargo,
-	// equipment, etc
-	void ResetFlavour(const ShipFlavour *f);
+	const ShipType *GetShipType() const { return m_type; }
+	void SetShipType(const ShipType::Id &shipId);
+
+	const SceneGraph::ModelSkin &GetSkin() const { return m_skin; }
+	void SetSkin(const SceneGraph::ModelSkin &skin);
+
+	void SetLabel(const std::string &label);
+	static std::string MakeRandomLabel(); // XXX doesn't really belong here
 
 	float GetPercentShields() const;
 	float GetPercentHull() const;
@@ -261,7 +260,6 @@ protected:
 
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;
-	ShipFlavour m_shipFlavour;
 	Uint32 m_gunState[ShipType::GUNMOUNT_MAX];
 	float m_gunRecharge[ShipType::GUNMOUNT_MAX];
 	float m_gunTemperature[ShipType::GUNMOUNT_MAX];
@@ -282,7 +280,8 @@ private:
 	void EnterHyperspace();
 
 	shipstats_t m_stats;
-	ShipType *m_type;
+	const ShipType *m_type;
+	SceneGraph::ModelSkin m_skin;
 
 	FlightState m_flightState;
 	bool m_testLanded;
@@ -315,6 +314,7 @@ private:
 	int m_dockedWithIndex; // deserialisation
 
 	SceneGraph::Animation *m_landingGearAnimation;
+	ScopedPtr<NavLights> m_navLights;
 };
 
 

@@ -6,7 +6,7 @@
 
 #include "utils.h"
 #include "gui/Gui.h"
-#include "mtrand.h"
+#include "Random.h"
 #include "gameconsts.h"
 #include "GameConfig.h"
 #include "LuaSerializer.h"
@@ -17,26 +17,27 @@
 #include <string>
 #include <vector>
 
-class Player;
-class View;
-class SectorView;
-class SystemView;
-class WorldView;
 class DeathView;
-class SystemInfoView;
-class ShipCpanel;
-class StarSystem;
-class SpaceStationView;
-class SpaceStation;
 class GalacticView;
-class UIView;
-class Ship;
 class GameMenuView;
+class Intro;
 class LuaConsole;
 class LuaNameGen;
 class ModelCache;
-class ModelBase;
+class Player;
+class SectorView;
+class Ship;
+class ShipCpanel;
+class SpaceStation;
+class SpaceStationView;
+class StarSystem;
+class SystemInfoView;
+class SystemView;
+class UIView;
+class View;
+class WorldView;
 namespace Graphics { class Renderer; }
+namespace SceneGraph { class Model; }
 namespace Sound { class MusicPlayer; }
 namespace UI { class Context; }
 
@@ -102,7 +103,7 @@ public:
 	static float CalcHyperspaceFuelOut(int hyperclass, float dist, float hyperspace_range_max);
 	static void Message(const std::string &message, const std::string &from = "", enum MsgLevel level = MSG_NORMAL);
 	static std::string GetSaveDir();
-	static ModelBase *FindModel(const std::string&);
+	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
 
 	static const char SAVE_DIR_NAME[];
 
@@ -122,7 +123,7 @@ public:
 
 	static RefCountedPtr<UI::Context> ui;
 
-	static MTRand rng;
+	static Random rng;
 	static int statSceneTris;
 
 	static void SetView(View *v);
@@ -146,6 +147,7 @@ public:
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 	static Graphics::Renderer *renderer; // blargh
 	static ModelCache *modelCache;
+	static Intro *intro;
 
 #if WITH_OBJECTVIEWER
 	static ObjectViewerView *objectViewerView;

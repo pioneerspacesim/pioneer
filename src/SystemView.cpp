@@ -28,6 +28,8 @@ SystemView::SystemView()
 {
 	SetTransparency(true);
 
+	m_realtime = true;
+
 	Gui::Screen::PushFont("OverlayFont");
 	m_objectLabels = new Gui::LabelSet();
 	Add(m_objectLabels, 0, 0);
@@ -52,7 +54,7 @@ SystemView::SystemView()
 	m_zoomOutButton->SetRenderDimensions(30, 22);
 	Add(m_zoomOutButton, 732, 5);
 
-	const int time_controls_left = Gui::Screen::GetWidth() - 132;
+	const int time_controls_left = Gui::Screen::GetWidth() - 150;
 	const int time_controls_top = Gui::Screen::GetHeight() - 86;
 
 	Gui::ImageButton *b = new Gui::ImageButton("icons/sysview_accel_r3.png", "icons/sysview_accel_r3_on.png");
@@ -73,23 +75,28 @@ SystemView::SystemView()
 	b->SetRenderDimensions(19, 17);
 	Add(b, time_controls_left + 45, time_controls_top);
 
+	b = new Gui::ImageButton("icons/sysview_accel_rl.png", "icons/sysview_accel_rl_on.png");
+	b->onPress.connect(sigc::mem_fun(this, &SystemView::OnClickRealt));
+	b->SetRenderDimensions(19, 17);
+	Add(b, time_controls_left + 64, time_controls_top);
+
 	b = new Gui::ImageButton("icons/sysview_accel_f1.png", "icons/sysview_accel_f1_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 100000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
-	Add(b, time_controls_left + 64, time_controls_top);
+	Add(b, time_controls_left + 83, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_f2.png", "icons/sysview_accel_f2_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 1000000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
-	Add(b, time_controls_left + 83, time_controls_top);
+	Add(b, time_controls_left + 102, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_f3.png", "icons/sysview_accel_f3_on.png");
 	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 10000000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(26, 17);
-	Add(b, time_controls_left + 102, time_controls_top);
+	Add(b, time_controls_left + 121, time_controls_top);
 
 	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SystemView::MouseButtonDown));
@@ -104,7 +111,13 @@ SystemView::~SystemView()
 
 void SystemView::OnClickAccel(float step)
 {
+	m_realtime = false;
 	m_timeStep = step;
+}
+
+void SystemView::OnClickRealt()
+{
+	m_realtime = true;
 }
 
 void SystemView::ResetViewpoint()
@@ -300,7 +313,13 @@ void SystemView::Draw3D()
 			ResetViewpoint();
 		}
 	}
-	m_time += m_timeStep*Pi::GetFrameTime();
+	
+	if (m_realtime) {
+		m_time = Pi::game->GetTime();
+	}
+	else {
+		m_time += m_timeStep*Pi::GetFrameTime();
+	}
 	std::string t = Lang::TIME_POINT+format_date(m_time);
 	m_timePoint->SetText(t);
 
@@ -327,7 +346,7 @@ void SystemView::Draw3D()
 	if (m_system->GetUnexplored())
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
 	else if (m_system->rootBody) {
-		PutBody(m_system->rootBody, pos, trans);
+		PutBody(m_system->rootBody.Get(), pos, trans);
 		if (Pi::game->GetSpace()->GetStarSystem() == m_system) {
 			const Body *navTarget = Pi::player->GetNavTarget();
 			const SystemBody *navTargetSystemBody = navTarget ? navTarget->GetSystemBody() : 0;

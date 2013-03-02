@@ -65,7 +65,7 @@ local onChat = function (form, ref, option)
 
 	-- Replace those tokens into ad's intro text that can change during play
 	message = string.interp(ad.intro, {
-		drive = EquipType.GetEquipType(hyperdrive).name,
+		drive = EquipDef[hyperdrive].name,
 		price = Format.Money(price),
 	})
 
@@ -115,7 +115,7 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
-local onShipFlavourChanged = function (ship)
+local onShipTypeChanged = function (ship)
 	if ship:IsPlayer() then
 		service_history.company = nil
 		service_history.lastdate = Game.time
@@ -123,7 +123,7 @@ local onShipFlavourChanged = function (ship)
 end
 
 local onShipEquipmentChanged = function (ship, equipment)
-	if ship:IsPlayer() and (EquipType.GetEquipType(equipment).slot == 'ENGINE') then
+	if ship:IsPlayer() and (EquipDef[equipment].slot == 'ENGINE') then
 		service_history.company = nil
 		service_history.lastdate = Game.time
 		service_history.service_period = oneyear
@@ -186,17 +186,40 @@ local onGameStart = function ()
 	end
 end
 
+local savedByCrew = function(ship)
+	for crew in ship:EachCrewMember() do
+		if crew:TestRoll('engineering') then return crew end
+	end
+	return false
+end
+
 local onEnterSystem = function (ship)
-	if ship:IsPlayer() then print(('DEBUG: Jumps since warranty: %d, chance of failure (if > 0): 1/%d\nWarranty expires: %s'):format(service_history.jumpcount,max_jumps_unserviced-service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period))) end
-	if ship:IsPlayer() and (service_history.lastdate + service_history.service_period < Game.time) then
+	if ship:IsPlayer() then
+		print(('DEBUG: Jumps since warranty: %d, chance of failure (if > 0): 1/%d\nWarranty expires: %s'):format(service_history.jumpcount,max_jumps_unserviced-service_history.jumpcount,Format.Date(service_history.lastdate + service_history.service_period)))
+	else
+		return -- Don't care about NPC ships
+	end
+	local saved_by_this_guy = savedByCrew(ship)
+	if (service_history.lastdate + service_history.service_period < Game.time) and not saved_by_this_guy then
 		service_history.jumpcount = service_history.jumpcount + 1
 		if (service_history.jumpcount > max_jumps_unserviced) or (Engine.rand:Integer(max_jumps_unserviced - service_history.jumpcount) == 0) then
 			-- Destroy the engine
 			local engine = ship:GetEquip('ENGINE',1)
 			ship:RemoveEquip(engine)
-			ship:AddEquip('RUBBISH',EquipType.GetEquipType(engine).mass)
+			ship:AddEquip('RUBBISH',EquipDef[engine].mass)
 			Comms.Message(t("The ship's hyperdrive has been destroyed by a malfunction"))
 		end
+	end
+	if saved_by_this_guy then
+		-- Brag to the player
+		if saved_by_this_guy.player then
+			Comms.Message(t("You fixed the hyperdrive before it broke down."))
+		else
+			Comms.Message(t("I fixed the hyperdrive before it broke down."),saved_by_this_guy.name)
+		end
+		-- Rewind the servicing countdown by a random amount based on crew member's ability
+		local fixup = saved_by_this_guy.engineering - saved_by_this_guy.DiceRoll()
+		if fixup > 0 then service_history.jumpcount = service_history.jumpcount - fixup end
 	end
 end
 
@@ -210,7 +233,7 @@ end
 
 Event.Register("onCreateBB", onCreateBB)
 Event.Register("onGameStart", onGameStart)
-Event.Register("onShipFlavourChanged", onShipFlavourChanged)
+Event.Register("onShipTypeChanged", onShipTypeChanged)
 Event.Register("onShipEquipmentChanged", onShipEquipmentChanged)
 Event.Register("onEnterSystem", onEnterSystem)
 

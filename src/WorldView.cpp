@@ -521,15 +521,22 @@ void WorldView::RefreshButtonStateAndVisibility()
 		char buf[1024], aibuf[256];
 		vector3d pos = Pi::player->GetPosition();
 		vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
+
+		//Calculate lat/lon for ship position
+		const vector3d dir = pos.NormalizedSafe();
+		const float lat = asin(dir.y) * RAD_2_DEG;
+		const float lon = atan2(dir.x, dir.z) * -RAD_2_DEG;
+
 		const char *rel_to = (Pi::player->GetFrame() ? Pi::player->GetFrame()->GetLabel().c_str() : "System");
 		const char *rot_frame = (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no");
 		Pi::player->AIGetStatusText(aibuf); aibuf[255] = 0;
 		snprintf(buf, sizeof(buf), "Pos: %.1f,%.1f,%.1f\n"
 			"AbsPos: %.1f,%.1f,%.1f (%.3f AU)\n"
-			"Rel-to: %s (%.0f km), rotating: %s\n" "%s",
+			"Rel-to: %s (%.0f km), rotating: %s\n" "%s"
+			"\nLat / Lon : %.8f / %.8f",
 			pos.x, pos.y, pos.z,
 			abs_pos.x, abs_pos.y, abs_pos.z, abs_pos.Length()/AU,
-			rel_to, pos.Length()/1000, rot_frame, aibuf);
+			rel_to, pos.Length()/1000, rot_frame, aibuf,lat,lon);
 
 		m_debugInfo->SetText(buf);
 		m_debugInfo->Show();
@@ -653,7 +660,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 			assert(b->IsType(Object::SHIP));
 			Ship *s = static_cast<Ship*>(b);
 
-			const ShipFlavour *flavour = s->GetFlavour();
 			const shipstats_t &stats = s->GetStats();
 
 			float sHull = s->GetPercentHull();
@@ -670,9 +676,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_hudTargetShieldIntegrity->Show();
 
 			std::string text;
-			text += ShipType::types[flavour->id].name;
+			text += s->GetShipType()->name;
 			text += "\n";
-			text += flavour->regid;
+			text += s->GetLabel();
 			text += "\n";
 
 			if (s->m_equipment.Get(Equip::SLOT_ENGINE) == Equip::NONE) {
@@ -1281,7 +1287,7 @@ void WorldView::UpdateProjectedObjects()
 
 			double vel = targvel.Dot(targpos.NormalizedSafe()); // position should be towards
 			double raccel =
-				Pi::player->GetShipType().linThrust[ShipType::THRUSTER_REVERSE] / Pi::player->GetMass();
+				Pi::player->GetShipType()->linThrust[ShipType::THRUSTER_REVERSE] / Pi::player->GetMass();
 
 			double c = Clamp(vel / sqrt(2.0 * raccel * dist), -1.0, 1.0);
 			float r = float(0.2+(c+1.0)*0.4);

@@ -1,7 +1,7 @@
 local f = Faction:new('Red')
 	:description_short('Not Blue')
 	:description('The RED team are not Blue')
-	:homeworld(4,-9,-16,0,16)
+	:homeworld(4,-9,-17,0,21)
 	:foundingDate(3150.0)
 	:expansionRate(3.0)
 	:military_name('Red Fleet')

@@ -8,7 +8,6 @@
  */
 #include "libs.h"
 #include "RefCounted.h"
-#include "LmrTypes.h" //for renderdata
 
 namespace Graphics { class Renderer; }
 
@@ -16,6 +15,7 @@ namespace SceneGraph
 {
 
 class NodeVisitor;
+class NodeCopyCache;
 
 enum NodeMask {
 	NODE_SOLID = 0x1,
@@ -23,16 +23,36 @@ enum NodeMask {
 	MASK_IGNORE = 0x4
 };
 
+//Small structure used internally to pass rendering data
+struct RenderData
+{
+	float linthrust[3];		// 1.0 to -1.0
+	float angthrust[3];		// 1.0 to -1.0
+
+	float boundingRadius;	//updated by model and passed to submodels
+	unsigned int nodemask;
+
+	RenderData()
+	: linthrust()
+	, angthrust()
+	, boundingRadius(0.f)
+	, nodemask(0x1) //draw solids
+	{
+	}
+};
+
 class Node : public RefCounted
 {
 public:
-	Node();
-	Node(unsigned int nodemask);
+	Node(Graphics::Renderer *r);
+	Node(Graphics::Renderer *r, unsigned int nodemask);
+	Node(const Node&, NodeCopyCache*);
+	virtual Node *Clone(NodeCopyCache*) = 0; //implement clone to return shallow or deep copy
 	virtual const char *GetTypeName() { return "Node"; }
 	virtual void Accept(NodeVisitor &v);
 	virtual void Traverse(NodeVisitor &v);
-	virtual void Render(Graphics::Renderer *r, const matrix4x4f &trans, RenderData *rd) { }
-	void DrawAxes(Graphics::Renderer *r);
+	virtual void Render(const matrix4x4f &trans, RenderData *rd) { }
+	void DrawAxes();
 	void SetName(const std::string &name) { m_name = name; }
 	const std::string &GetName() { return m_name; }
 
@@ -41,12 +61,14 @@ public:
 	unsigned int GetNodeMask() const { return m_nodeMask; }
 	void SetNodeMask(unsigned int m) { m_nodeMask = m; }
 
+	Graphics::Renderer *GetRenderer() const { return m_renderer; }
+
 protected:
 	//can only to be deleted using DecRefCount
 	virtual ~Node() { }
-	Node *m_parent;
 	std::string m_name;
 	unsigned int m_nodeMask;
+	Graphics::Renderer *m_renderer;
 };
 
 }

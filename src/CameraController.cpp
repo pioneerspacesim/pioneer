@@ -75,7 +75,7 @@ void InternalCameraController::Load(Serializer::Reader &rd)
 
 void InternalCameraController::Update()
 {
-	SetPosition(GetShip()->GetShipType().cameraOffset);
+	SetPosition(GetShip()->GetShipType()->cameraOffset);
 
 	CameraController::Update();
 }

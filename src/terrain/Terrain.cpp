@@ -22,7 +22,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 		return choices[body->heightMapFractal](body);
 	}
 
-	MTRand rand(body->seed);
+	Random rand(body->seed);
 
 	GeneratorInstancer gi = 0;
 
@@ -572,4 +572,19 @@ void Terrain::SetFracDef(unsigned int index, double featureHeightMeters, double 
 	m_fracdef[index].octaves = std::max(1, int(ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0))));
 	m_fracdef[index].lacunarity = 2.0;
 	//printf("%d octaves\n", m_fracdef[index].octaves); //print
+}
+
+void Terrain::DebugDump() const
+{
+	fprintf(stderr, "Terrain state dump:\n");
+	fprintf(stderr, "  Height fractal: %s\n", GetHeightFractalName());
+	fprintf(stderr, "  Color fractal: %s\n", GetColorFractalName());
+	fprintf(stderr, "  Detail: fracnum %d  fracmult %f  textures %s\n", m_fracnum, m_fracmult, textures ? "true" : "false");
+	fprintf(stderr, "  Config: DetailPlanets %d   FractalMultiple %d  Textures  %d\n", Pi::config->Int("DetailPlanets"), Pi::config->Int("FractalMultiple"), Pi::config->Int("Textures"));
+	fprintf(stderr, "  Seed: %d\n", m_seed);
+	fprintf(stderr, "  Body: %s [%d,%d,%d,%u,%u]\n", m_body->name.c_str(), m_body->path.sectorX, m_body->path.sectorY, m_body->path.sectorZ, m_body->path.systemIndex, m_body->path.bodyIndex);
+	fprintf(stderr, "  Fracdefs:\n");
+	for (int i = 0; i < 10; i++) {
+		fprintf(stderr, "    %d: amp %f  freq %f  lac %f  oct %d\n", i, m_fracdef[i].amplitude, m_fracdef[i].frequency, m_fracdef[i].lacunarity, m_fracdef[i].octaves);
+	}
 }
