@@ -963,15 +963,15 @@ HIGH_POPULATION_OUTDOOR_WORLD
 MASS
     Hmotnost
 N_WHATEVER_MASSES
-    %mass{f.3} %units hmotností
+    %mass{f.3} %units
 N_WHATEVER_RADII
-    %radius{f.3} %units poloměrů
+    %radius{f.3} %units
 SOLAR
-    Slunečních
+    Sluncí
 EARTH
-    Země
+    Zemí
 SURFACE_GRAVITY
-    Povrchová gravitace
+    Gravitace na rovníku
 SURFACE_TEMPERATURE
     Povrchová teplota
 N_CELSIUS
@@ -981,15 +981,15 @@ N_YEARS
 N_DAYS
     %days{f.1} dnů
 ORBITAL_PERIOD
-    Doba oběhu
+    Perioda (oběžná doba)
 PERIAPSIS_DISTANCE
-    Vzdálenost v perigeu
+    Perihel (přísluní)
 APOAPSIS_DISTANCE
-    Vzdálenost v apogeu
+    Afel (odsluní)
 ECCENTRICITY
-    Orbitální excentricita
+    Výstřednost
 AXIAL_TILT
-    Sklon osy otáčení
+    Sklon rotační osy
 N_DEGREES
     %angle{f.1}°
 DAY_LENGTH
@@ -1053,9 +1053,9 @@ SYSTEM_NUMBER
 NAME
     Název
 ROTATIONAL_PERIOD
-     " (rotační cyklus)"
+     " (perioda rotace)"
 RADIUS
-    Poloměr
+    Rovníkový průměr
 SEMI_MAJOR_AXIS
     Velká poloosa dráhy
 TIME_POINT
