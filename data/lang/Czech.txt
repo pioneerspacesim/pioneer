@@ -649,7 +649,7 @@ NO_ESTABLISHED_ORDER
 HARD_CAPITALIST
     Naprostý kapitalismus - žádný státní sociální systém
 CAPITALIST
-    Kapitalistický
+    Kapitalismus
 MIXED_ECONOMY
     Smíšený ekonomický systém
 PLANNED_ECONOMY
@@ -1039,9 +1039,9 @@ FACTION
 POPULATION
     Populace:
 OVER_N_BILLION
-    Více než %population miliardy
+    Více než %population miliard
 OVER_N_MILLION
-    Více než %population milióny
+    Více než %population miliónů
 A_FEW_THOUSAND
     Pouze několik tisíc
 NO_REGISTERED_INHABITANTS
@@ -1059,7 +1059,7 @@ RADIUS
 SEMI_MAJOR_AXIS
     Velká poloosa dráhy
 TIME_POINT
-    Časový bod:
+    Časová značka:
 UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW
     Neprozkoumaný systém. Pohled není k dispozici.
 WHEELS_ARE_UP
