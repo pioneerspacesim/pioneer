@@ -656,7 +656,7 @@ Translate:Add({
 		['General crew'] = 'Základní posádka',
 		['Dismiss'] = 'Propustit',
 		['Qualification scores'] = 'Kvalifikační hodnocení',
-		['Engineering:'] = 'Technika',
+		['Engineering:'] = 'Údržba:',
 		['Piloting:'] = 'Pilotáž:',
 		['Navigation:'] = 'Navigace:',
 		['Sensors:'] = 'Senzory:',

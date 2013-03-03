@@ -165,7 +165,7 @@ Translate:Add({
 		['Time served crew member'] = 'Časem prověřený člen posádky',
 		['Veteran, time served crew member'] = 'Veterán, časem prověřený člen posádky',
 		-- Crew positions
-		["Ship's Engineer"] = "Strojník",
+		["Ship's Engineer"] = "Údržba lodi",
 		["Pilot"] = "Pilot",
 		["Navigator"] = "Navigátor",
 		["Sensors and defence"] = "Senzory a obrana lodi",
