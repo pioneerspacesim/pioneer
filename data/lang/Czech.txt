@@ -14,9 +14,9 @@ SHIP
 PRICE
     Cena
 BUY
-    Koupit
+    [+]
 SELL
-    Prodat
+    [-]
 STOCK
     Sklad
 CARGO
@@ -62,9 +62,9 @@ PRICE_TO_REMOVE
 WT
     Váha
 FIT
-    Ins.
+    [+]
 REMOVE
-    Ods.
+    [-]
 BUY_THIS_SHIP
     Koupit loď
 SHIP_TYPE
