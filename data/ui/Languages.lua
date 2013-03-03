@@ -567,7 +567,7 @@ Die Fluchtgeschwindigkeit funktioniert theoretisch gesehen in alle Richtungen, s
 Translate:Add({
 	Czech = {
 		-- Main menu
-		['Start at Earth']    = 'Start: Země',
+		['Start at Earth']    = 'Start: Earth',
 		['Start at New Hope'] = 'Start: New Hope',
 		['Start at Lave']     = 'Start: Lave',
 		['Load game']         = 'Načíst hru',
