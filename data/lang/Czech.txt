@@ -995,7 +995,7 @@ DAY_LENGTH
 N_EARTH_DAYS
     %days{f.1} pozemských dnů
 COUNT_STARPORTS
-    stanice
+    stanicemi
 STARPORTS
     Stanice
 MAJOR_IMPORTS
@@ -1021,9 +1021,9 @@ STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS
 COUNT_ON_SURFACE
     " (%surfacecount on surface)"
 BODY
-    tělo
+    tělesem
 BODIES
-    těla
+    tělesy
 SYSTEM_TYPE
     Druh systému:
 GOVERNMENT_TYPE
