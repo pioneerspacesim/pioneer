@@ -830,7 +830,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 			}
 			if (isShield) {
 				geom->SetNodeMask(NODE_TRANSPARENT);
-				geom->m_blendMode = Graphics::BLEND_ALPHA;
+				geom->m_blendMode = Graphics::BLEND_ADDITIVE;
 				RefCountedPtr<Graphics::Material> mat = surf->GetMaterial();
 				surf->SetMaterial(GetShieldMaterial(mat));
 			}
