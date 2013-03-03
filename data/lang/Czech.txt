@@ -629,7 +629,7 @@ HANG_UP
 TRADING_ILLEGAL_GOODS
     Obchod s nelegálním zbožím
 UNLAWFUL_WEAPONS_DISCHARGE
-    Nezákonná střelba
+    Nezákonnou střelbu
 PIRACY
     Pirátství
 MURDER
@@ -719,7 +719,7 @@ NO_FREE_SPACE_FOR_ITEM
 SHIP_IS_FULLY_LADEN
     Vaše loď je plně naložena.
 YOU_DO_NOT_HAVE_ANY_X
-    Nemáte žádné %item.
+    Nemáte %item.
 CAMERA_FRONT_VIEW
     Pohled dopředu
 CAMERA_REAR_VIEW
