@@ -542,6 +542,8 @@ TARGET_OBJECT_IN_SIGHTS
     Zaměřit objekt v zaměřovači
 FIRE_LASER
     Vystřelit laser
+FIRE_MISSILE
+    Vypustit střelu
 SHIP_ORIENTATION
     Orientace lodi (vzhledem k HUD)
 PITCH_UP
