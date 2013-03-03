@@ -542,6 +542,8 @@ TARGET_OBJECT_IN_SIGHTS
     Zaznacz widoczny obiekt
 FIRE_LASER
     Strzał lasera
+FIRE_MISSILE
+    Wystrzelenie rakiety
 SHIP_ORIENTATION
     Manewrowanie
 PITCH_UP
