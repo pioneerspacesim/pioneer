@@ -675,9 +675,9 @@ COMMUNIST
 PLUTOCRATIC_DICTATORSHIP
     Plutokratická diktatura
 VIOLENT_ANARCHY
-    Anarchie - O celkovou nadvládu bojují různé ozbrojené frakce
+    Anarchie (o celkovou nadvládu bojují různé ozbrojené frakce)
 X_CANNOT_BE_TOLERATED_HERE
-    %crime zde nemůžeme tolerovat.
+    %crime zde nemůžeme tolerovat!
 SECTOR_X_Y_Z
     Sektor: %x,%y,%z
 CURRENT_SYSTEM
