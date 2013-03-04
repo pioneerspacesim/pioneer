@@ -609,6 +609,8 @@ Translate:Add({
 		['Toggle male/female'] = 'Změnit muž/žena',
 		['Make new face'] = 'Vytvořit jiný obličej',
 
+		['Commander'] = 'Velitel',
+
 		['HARMLESS'] = 'Neškodný',
 		['MOSTLY_HARMLESS'] = 'Převážně neškodný',
 		['POOR'] = 'Ubohý',
