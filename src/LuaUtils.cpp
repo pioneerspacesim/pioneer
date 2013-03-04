@@ -305,7 +305,7 @@ static void pi_lua_dofile(lua_State *l, const FileSystem::FileData &code)
 	}
 
 	bool trusted = code.GetInfo().GetSource().IsTrusted();
-	const std::string chunkName = (trusted ? "[T] " : "") + path;
+	const std::string chunkName = (trusted ? "[T] @" : "@") + path;
 
 	if (luaL_loadbuffer(l, source.begin, source.Size(), chunkName.c_str())) {
 		pi_lua_panic(l);
