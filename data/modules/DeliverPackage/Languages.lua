@@ -890,3 +890,154 @@ Translate:Add({ Deutsch = {
 	"Du wirst für diese Fracht mit deinem Leben bezahlen.",
   },
 }, })
+
+  ---- CZECH / ČESKY ----
+
+Translate:AddFlavour('Czech','DeliverPackage', {
+  adtext = "LETÍTE DO systému {system}? Zaplatím vám za doručení malého balíku.",
+  introtext = "Ahoj, jsem {name}. Zaplatím vám {cash} když doručíte malý balík do stanice {starport} v systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly.",
+  whysomuchtext = "Kdysi mě navštívila kamarádka a zanechala tu nějaké oblečení a starobylé papírové knihy. Rád(a) bych aby je dostala zpět.",
+  successmsg = "Děkuji za doručení balíku. Dostaneš zaplaceno v plné výši.",
+  failuremsg = "Nepřijatelné! To doručení ti trvalo věčnost. Nedostaneš zaplaceno!",
+  urgency = 0,
+  risk = 0,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Czech','DeliverPackage', {
+  adtext = "HLEDÁM. Doručení balíku do systému {system}.",
+  introtext = "Zdravím. Jsem {name}. Zaplatím vám {cash}, když lodí vezmete balík do stanice {starport} v systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly.",
+  whysomuchtext = "It is nothing special.",
+  whysomuchtext = "Nejde o nic zvláštního.",
+  successmsg = "Balík byl převzat, dostaneš zaplaceno v plné výši.",
+  failuremsg = "Jsem zklamaný(á) že doručení trvalo tak dlouho. Odmítám ti zaplatit.",
+  urgency = 0.1,
+  risk = 0,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Czech','DeliverPackage', {
+  adtext = "URGENTNÍ. Hledá se rychlá loď k doručení balíku do systému {system}.",
+  introtext = "Ahoj. Jsem {name}. Zaplatím vám {cash}, když lodí vezmete balík do stanice {starport} v systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly.",
+  whysomuchtext = "Jde o výzkumný projekt a musí být rychle doručen. Je nutné dodržet lhůtu pro doručení, jinak bude ohroženo financování projektu.",
+  successmsg = "Dostal jste zaplaceno v plné výši. Děkuji.",
+  failuremsg = "Jsem velmi zklamaný(á), myslím, že jsem dodržení lhůty doručení dostatečně zdůraznil(a). Nedostaneš zaplaceno!",
+  urgency = 0.6,
+  risk = 0,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Czech','DeliverPackage', {
+  adtext = "DORUČOVÁNÍ. Dokumenty do systému {system}. {cash} zkušenému pilotovi.",
+  introtext = "Ahoj. Jsem {name}. Zaplatím vám {cash}, když lodí vezmete balík do stanice {starport} v systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly.",
+  whysomuchtext = "Dostaly se mi do rukou extrémně citlivé dokumenty a mám důvod se domnívat, že stopy vedou zpět ke mě.",
+  successmsg = "Velmi oceňuji tvůj rychlý a diskrétní přístup. Dostaneš zaplaceno v plné výši.",
+  failuremsg = "Jsi k ničemu! Už se na tebe nikdy nespolehnu! Je zbytečné dodávat, že nedostaneš zaplaceno.",
+  urgency = 0.4,
+  risk = 0.75,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Czech','DeliverPackage', {
+  adtext = "POŠTOVNÍ SLUŽBA. Hledá se loď pro rozvážku do systému {system}.",
+  introtext = "Zdravím. Toto je automatická zpráva z Bedford & {name} zásilkové služby. Zaplatíme {cash} za rozvážku do stanice {starport} v systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly.",
+  whysomuchtext = "No můžeme zaplatit i míň, to pro nás nebude problém.",
+  successmsg = "Velmi oceňujeme tvůj rychlý a diskrétní přístup. Dostaneš zaplaceno v plné výši.",
+  failuremsg = "Registrační ID tvé lodi si značíme, veškeré budoucí pokusy o spolupráci budou zamítnuty.",
+  urgency = 0.1,
+  risk = 0.1,
+  localdelivery = 0,
+})
+
+Translate:AddFlavour('Czech','DeliverPackage', {
+  adtext = "STĚHOVÁNÍ. Přeprava věcí z úschovny do stanice {starport}.",
+  introtext = "Rád(a) vás poznávám. Jsem {name} a zaplatím {cash} pokud mi někdo s lodí pomůže přepravit můj majetek do stanice {starport}. Není třeba spěchat, jde jen o pár zbytků po stěhování z domu.",
+  whysomuchtext = "Je to moc? Tak to bych si svou nabídku měl(a) ještě promyslet!",
+  successmsg = "Oh skvělé. Hned začnu vybalovat. Ještě jednou díky.",
+  failuremsg = "Co je tohle? Oh, trvalo ti to tak dlouho, že jsem na to už zapoměl(a)!",
+  urgency = 0.1,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:AddFlavour('Czech','DeliverPackage', {
+  adtext = "KURÝR na KRÁTKÉ TRASY. Doručení malého balíku do stanice {starport}.",
+  introtext = "Ahoj. Jsem {name} a zaplatím {cash} když lodí vezmete tento balík do stanice {starport}.",
+  whysomuchtext = "Nemyslím si že je to moc.",
+  successmsg = "Děkuji za doručení, dostaneš zaplaceno v plné výši.",
+  failuremsg = "To už by to rychlej doručila moje babička. Nezaplatím.",
+  urgency = 0.2,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:AddFlavour('Czech','DeliverPackage', {
+  adtext = "MEZIPLANETÁRNÍ NÁKLAD. Doprava kontejnerů do stanice {starport}.",
+  introtext = "Zdravím. Potřebujeme dopravit tyto kontejnery do stanice {starport} tak rychle, jak je to jen možné. Standardní platba za přepravu činí {cash}.",
+  whysomuchtext = "To je standardní tarif na trhu.",
+  successmsg = "Výborně, poslali jsme platbu na váš účet.",
+  failuremsg = "S takovým přístupem nebudou naši zákazníci spokojeni. Nečekej že ti zaplatíme.",
+  urgency = 0.4,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:AddFlavour('Czech','DeliverPackage', {
+  adtext = "DORUČOVÁNÍ v SOUSEDSTVÍ. Požadováno rychlé doručení předmětu do stanice {starport}.",
+  introtext = "Jmenuji se {name} a potřebuji pronto doručit tento předmět příteli do stanice {starport}. Zaplatím ti {cash}, když to zvládneš v rozumném čase.",
+  whysomuchtext = "Protože to opravdu spěchá.",
+  successmsg = "Tvůj rychlý přístup velmi oceňuji. Platba je proto již na tvém účtu.",
+  failuremsg = "Tomu říkáš rychlé doručení? Odmítám za to ještě platit!",
+  urgency = 0.6,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:AddFlavour('Czech','DeliverPackage', {
+  adtext = "SPĚŠNÝ BALÍK. Urgentní přeprava zboží podléhajícího rychlé zkáze do stanice {starport}.",
+  introtext = "Zdravím, jsme pozadu s odbavováním našich zakázek, takže je potřebujeme fofrem dopravit do stanice {starport}. Za problémy s tím spojené ti zaplatíme {cash}.",
+  whysomuchtext = "Závisí na tom naše živobytí.",
+  successmsg = "Senzační! Okamžitě začneme vybalovat. Ihned zadám příkaz k platbě na tvůj účet.",
+  failuremsg = "Všechno se zkazilo a můžeme to akorát tak vyhodit! Za to ti nemůžeme a ani nechceme zaplatit.",
+  urgency = 0.8,
+  risk = 0,
+  localdelivery = 1,
+})
+
+Translate:Add({ Czech = {
+  ["I highly doubt it."] = "O tom vážně pochybuji.",
+  ["Not any more than usual."] = "Ne víc než normálně.",
+  ["This is a valuable package, you should keep your eyes open."] = "Je to velmi cenný balík, měj oči otevřené.",
+  ["It could be dangerous, you should make sure you're adequately prepared."] = "Může to být nebezpečné. Ujisti se, že jsi na to dostatečně připraven(a).",
+  ["This is very risky, you will almost certainly run into resistance."] = "Je to velmi riskantní, zcela jistě se dostaneš do potíží.",
+  ["It must be delivered by "] = "Doručení musí proběhnout do ",
+  ["Delivery"] = "Doručení",
+  ["Excellent. I will let the recipient know you are on your way."] = "Výborně. Uvědomím příjemce že jsi na cestě.",
+  ["Why so much money?"] = "Proč tolik peněz?",
+  ["How soon must it be delivered?"] = "Dokdy musí být zásilka doručena?",
+  ["Will I be in any danger?"] = "Ocitnu se v nějakém nebezpečí?",
+  ["Could you repeat the original request?"] = "Můžete mi znovu zopakovat váš požadavek?",
+  ["Ok, agreed."] = "OK, souhlasím.",
+  ["ly"] = "ly",
+
+  -- Texts for the missions screen
+  delivermissiondetail = [[
+  Stanice:
+  Systém:
+  Termín:
+
+  Vzdálenost:]],
+
+  PIRATE_TAUNTS = {
+	"Budeš litovat, že jsis něco začal s {client}",
+	"Vypadá to, že můj výplatní šek právě dorazil!",
+	"Ty pracuješ pro {client}? To nebyl dobrý nápad.",
+	"Tvůj náklad a tvůj život, pilote!",
+	"Jsem si jistý, že s tímhle se dá na trhu vydělat pěkná škvára",
+	"Dnes není tvůj šťastný den! Připrav se na smrt.",
+	"Vyřiď mému starému příteli {client}, že se uvidíme v pekle!",
+	"Tak tenhle balík už do svého cíle dnes nedorazí.",
+	"Ty už dnes do {location} nedorazíš!",
+	"Za ten náklad zaplatíš, svým životem!",
+  },
+}, })
