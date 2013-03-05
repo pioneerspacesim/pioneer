@@ -5,6 +5,14 @@ specular 0.7 0.7 0.7
 diffuse 1.0 1.0 1.0
 shininess 15
 
+material hoopHullLit-material
+tex_diff hull.png
+tex_spec hull_spec.png
+specular 0.5 0.5 0.5
+diffuse 0.7 0.7 0.7
+shininess 15
+unlit
+
 material hoopDecal-material
 tex_diff decal.png
 tex_spec decal_spec.png
@@ -15,6 +23,7 @@ shininess 5
 mesh connections.dae
 mesh mainhoop.dae
 mesh doors.dae
+mesh dockingbay.dae
 
 collision collision.obj
 
