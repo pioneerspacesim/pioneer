@@ -542,6 +542,8 @@ TARGET_OBJECT_IN_SIGHTS
     Adquirir blanco en la mira
 FIRE_LASER
     Disparar laser
+FIRE_MISSILE
+    Lanzar misil
 SHIP_ORIENTATION
     Orientación
 PITCH_UP

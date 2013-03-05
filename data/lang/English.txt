@@ -542,6 +542,8 @@ TARGET_OBJECT_IN_SIGHTS
     Target object in cross-hairs
 FIRE_LASER
     Fire laser
+FIRE_MISSILE
+    Fire missile
 SHIP_ORIENTATION
     Ship orientation
 PITCH_UP

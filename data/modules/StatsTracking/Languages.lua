@@ -32,7 +32,7 @@ Translate:Add({
 	    ["Pioneering Pilots' Guild"] = "Pionerend Piloten Gilde",
     },
     Polski = {
-	    ["Well done commander! Your combat rating has improved!"] = "Dobra robota komandorze! Twoja ranga bojowa została podniesiona!",
+	    ["Well done commander! Your combat rating has improved!"] = "Dobra robota kapitanie! Twoja ranga bojowa została podniesiona!",
 	    ["Pioneering Pilots' Guild"] = "Gildia Pilotów Pioniera",
     },
     Romanian = {
@@ -46,5 +46,9 @@ Translate:Add({
     Spanish = {
 	    ["Well done commander! Your combat rating has improved!"] = "Buen trabajo Capitán! Su clasificación de combate ha mejorado!",
 	    ["Pioneering Pilots' Guild"] = "Confederación interestelar de pilotos PIONEER",
+    },
+    Czech = {
+	    ["Well done commander! Your combat rating has improved!"] = "Dobrá práce veliteli! Zlepšil jste své bojové hodnocení!",
+	    ["Pioneering Pilots' Guild"] = "Cech Pioneer pilotů",
     },
 })

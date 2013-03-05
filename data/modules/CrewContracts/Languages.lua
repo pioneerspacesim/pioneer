@@ -151,3 +151,52 @@ Translate:Add({
 Общая экзаменационная оценка: {overall}%]],
 	}
 })
+
+Translate:Add({
+	Czech = {
+		['Crew for hire'] = 'Najmout posádku',
+		['Potential crew members are registered as seeking employment at {station}:'] = 'Potencionální členové posádky, hledající práci, registrovaní na stanici {station}:',
+		['{potentialCrewMember} ({wage}/wk)'] = '{potentialCrewMember} ({wage}/wk)',
+		-- Experience levels
+		['No experience'] = 'Bez zkušeností',
+		['Simulator training only'] = 'Pouze trénink na simulátoru',
+		['Some experience in controlled environments'] = 'Nějaké zkušenosti v kontrolovaném prostředí',
+		['Minimal time served aboard ship'] = 'Krátký čas sloužil(a) na palubě lodi',
+		['Time served crew member'] = 'Časem prověřený člen posádky',
+		['Veteran, time served crew member'] = 'Veterán, časem prověřený člen posádky',
+		-- Crew positions
+		["Ship's Engineer"] = "Údržba lodi",
+		["Pilot"] = "Pilot",
+		["Navigator"] = "Navigátor",
+		["Sensors and defence"] = "Senzory a obrana lodi",
+		-- Details form for a single crew member
+		crewDetailSheetBB = [[Najmout posádku
+
+Jméno: {name}
+Zkušenosti: {experience}
+Požadovaný plat: {wage} za týden
+
+{response}
+]],
+		-- Buttons to click
+		['Make offer of position on ship for stated amount'] = 'Učinit nabídku pozice na lodi za uvedenou částku',
+		['Suggest new weekly wage of {newAmount}'] = 'Navrhnout novou částku týdenní výplaty ve výši {newAmount}',
+		['Ask candidate to sit a test'] = 'Zeptat se zájemnce, zda podstoupí test',
+		-- Responses
+		["Thanks, I'll get settled on board immediately."] = "Děkuji, ihned se nalodím.",
+		["There doesn't seem to be space for me on board!"] = "Vypadá to, že na lodi pro mě není místo!",
+		["I'm sorry, your offer isn't attractive to me."] = "Promiňte, ale vaše nabídka mi nepřijde zajímavá.",
+		["That's extremely generous of you!"] = "To je od vás velkorysé!",
+		["That certainly makes this offer look better!"] = "To jistě učiní vaši nabídku zajímavějsí!",
+		["OK, I suppose that's all right."] = "OK, domnívám se, že je to v pořádku.",
+		["I'm sorry, I'm not prepared to go any lower."] = "Promiňte, ale níž už nepůjdu.",
+		crewTestResultsBB = [[Výsledek testu:
+
+Rozsah působnosti: {general}%
+Strojnictví a opravy: {engineering}%
+Pilotáž: {piloting}%
+Navigace: {navigation}%
+Senzory a obrana: {sensors}%
+Celkový výsledek testu: {overall}%]],
+	}
+})

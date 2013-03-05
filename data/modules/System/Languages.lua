@@ -48,3 +48,11 @@ Translate:Add({ Deutsch = {
 	["Your fuel tank is empty."] = "Dein Treibstofftank ist leer.",
 }
 })
+
+---- CZECH / ČESKY ----
+
+Translate:Add({ Czech = {
+	["Your fuel tank is almost empty."] = "Palivová nádrž je téměř prázdná.",
+	["Your fuel tank is empty."] = "Palivová nádrž je prázdná.",
+}
+})
