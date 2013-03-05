@@ -39,9 +39,9 @@ vt 0.00806452 0.255508
 vt 0.00806452 0.154181
 vt 0.75 0.491935
 vt 0.508065 0.255508
-mtllib lannershield.mtl
+mtllib shield.mtl
 usemtl shield
-g Default
+g shield
 f 7/1/1 2/2/1 3/3/1 9/4/1
 f 4/5/2 8/6/2 10/7/2 1/8/2
 f 3/9/3 6/10/3 1/8/3
