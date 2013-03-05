@@ -60,7 +60,8 @@ void StationShipRepairForm::ShowAll()
 
 int StationShipRepairForm::GetRepairCost(float percent) const
 {
-	return int(Pi::player->GetShipType()->baseprice * percent);
+	// repairing 1% hull damage costs 0.1% of ship price
+	return int(Pi::player->GetShipType()->baseprice * (percent * 0.001));
 }
 
 void StationShipRepairForm::RepairHull(float percent)
