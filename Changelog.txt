@@ -1,3 +1,8 @@
+Alpha 33
+
+   * New features
+     * Czech language support (#2136)
+
 Alpha 32
 
    * New features

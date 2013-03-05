@@ -52,6 +52,7 @@ As of 8 March 2013 (alpha 32), the Pioneer Developers are:
 * Peter Kurucz
 * Phil Howlett
 * Piotr Gredka
+* Radek Valášek aka vaLin
 * Robert Norris
 * Robert Pallier
 * Roland Mas
