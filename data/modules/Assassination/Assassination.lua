@@ -131,7 +131,9 @@ local makeAdvert = function (station)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
 
-	local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
+	-- XXX hull mass is a bad way to determine suitability for role
+	--local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
+	local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE' and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
 	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 	local shipid = shipdef.id
 	local shipname = shipdef.name

@@ -4,7 +4,7 @@
 local onEnterSystem = function (player)
 	if not player:IsPlayer() then return end
 
-	local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= 50 and def.hullMass <= 150 end, pairs(ShipDef)))
+	local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass <= 150 end, pairs(ShipDef)))
 	if #shipdefs == 0 then return end
 
 	local lawlessness = Game.system.lawlessness

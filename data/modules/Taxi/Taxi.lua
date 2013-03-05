@@ -215,7 +215,8 @@ local onEnterSystem = function (player)
 
 			if ships < 1 and risk > 0 and Engine.rand:Integer(math.ceil(1/risk)) == 1 then ships = 1 end
 
-			local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= 80 and def.hullMass <= 200 end, pairs(ShipDef)))
+			-- XXX hull mass is a bad way to determine suitability for role
+			local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass > 10 and def.hullMass <= 200 end, pairs(ShipDef)))
 			if #shipdefs == 0 then return end
 
 			local ship

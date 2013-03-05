@@ -29,6 +29,7 @@ local CrewRoster = {}
 --
 --   missile - a <Constants.EquipType> string for the missile type. specifying an
 --          equipment that is not a missile will result in a Lua error.
+--          Specifying "any" will launch the first available missile.
 --          You can also provide a number matching the slot of the missile you wish
 --          to launch.
 --
@@ -58,10 +59,11 @@ function Ship:FireMissileAt(missile, target)
 		end
 	else
 		for i,m in ipairs(self:GetEquip("MISSILE")) do
-			if m == missile then
-				missile_object = self:SpawnMissile(missile_names[missile])
+			if m == missile or (missile == "any" and m ~= "NONE") then
+				missile_object = self:SpawnMissile(missile_names[m])
 				if missile_object ~= nil then
 					self:SetEquip("MISSILE", i, "NONE")
+					break
 				end
 			end
 		end

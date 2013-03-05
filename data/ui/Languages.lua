@@ -46,6 +46,8 @@ Translate:Add({
 		['Toggle male/female'] = 'Toggle male/female',
 		['Make new face'] = 'Make new face',
 
+		['Commander'] = 'Commander',
+
 		['HARMLESS'] = 'Harmless',
 		['MOSTLY_HARMLESS'] = 'Mostly Harmless',
 		['POOR'] = 'Poor',
@@ -171,6 +173,8 @@ Translate:Add({
 		['Toggle male/female'] = 'Mężczyzna/Kobieta',
 		['Make new face'] = 'Nowa twarz',
 
+		['Commander'] = 'Kapitan',
+
 		['HARMLESS'] = 'Nieszkodliwy',
 		['MOSTLY_HARMLESS'] = 'Przeważnie nieszkodliwy',
 		['POOR'] = 'Żółtodziób',
@@ -198,12 +202,12 @@ Translate:Add({
 		['Hull repair attempt failed. Hull suffered minor damage.'] = 'Naprawa kadłuba nieudana. Kadłub został nieznacznie uszkodzony.',
 		['Hull does not require repair.'] = 'Kadłub nie wymaga naprawy.',
 		['Destroy enemy ship'] = 'Zniszczyć wrogi statek',
-		['You must request launch clearance first, Commander.'] = 'Komandorze, najpierw musisz uzyskać zgodę na start.',
-		['You must launch first, Commander.'] = 'Komandorze, najpierw musisz wystartować.',
-		['We are in hyperspace, Commander.'] = 'Komandorze, jesteśmy w nadprzestrzeni',
-		['The ship is under station control, Commander.'] = 'Komandorze, statek jest pod kontrolą stacji.',
-		['You must first select a combat target, Commander.'] = 'Komandorze, najpierw musisz wskazać cel ataku.',
-		['You must first select a suitable navigation target, Commander.'] = 'Komandorze, najpierw musisz wskazać właściwy cel nawigacyjny.',
+		['You must request launch clearance first, Commander.'] = 'Kapitanie, najpierw musisz uzyskać zgodę na start.',
+		['You must launch first, Commander.'] = 'Kapitanie, najpierw musisz wystartować.',
+		['We are in hyperspace, Commander.'] = 'Kapitanie, jesteśmy w nadprzestrzeni',
+		['The ship is under station control, Commander.'] = 'Kapitanie, statek jest pod kontrolą stacji.',
+		['You must first select a combat target, Commander.'] = 'Kapitanie, najpierw musisz wskazać cel ataku.',
+		['You must first select a suitable navigation target, Commander.'] = 'Kapitanie, najpierw musisz wskazać właściwy cel nawigacyjny.',
 		['There is nobody else on board able to fly this ship.'] = 'Nikt więcej na pokładzie nie jest zdolny pilotować ten statek.',
 		['Pilot seat is now occupied by {name}'] = '{name} zajmuje fotel pilota.',
 		['Dock at current target'] = 'Dokować do wskazanego celu',
@@ -556,6 +560,133 @@ Die Kreisbahn-Geschwindigkeit wird für eine tangentiale Geschwindigkeit angegeb
 Die Landegeschwindigkeit ist ein absolutes Minimum und ist auch tangential. Eine geringere Geschwindigkeit und ein kleinerer Winkel wird in einem Kurs resultieren, der die Oberfläche von {name} schneidet.
 
 Die Fluchtgeschwindigkeit funktioniert theoretisch gesehen in alle Richtungen, solange das Schiff auf dem Weg mit {name} kollidiert.
+		]]
+	}
+})
+
+Translate:Add({
+	Czech = {
+		-- Main menu
+		['Start at Earth']    = 'Start: Earth',
+		['Start at New Hope'] = 'Start: New Hope',
+		['Start at Lave']     = 'Start: Lave',
+		['Load game']         = 'Načíst hru',
+		['Options']           = 'Možnosti',
+		['Quit']              = 'Ukončit',
+
+		-- Generic file dialog
+		['Select file...'] = 'Otevřít soubor...',
+		['Select']         = 'Otevřít',
+		['Cancel']         = 'Zrušit',
+
+		-- Load dialog
+		['Select game to load...'] = 'Načíst hru...',
+
+		-- Equipment
+		['Equipment'] = 'Vybavení',
+		['{quantity} Shield Generators'] = '{quantity} generátory štítů',
+		['{quantity} Occupied Passenger Cabins'] = '{quantity} obsazených pasažérských kabin',
+		['{quantity} Unoccupied Passenger Cabins'] = '{quantity} volných pasažérských kabin',
+
+		-- Ship Information
+		['Ship Information'] = 'Informace o lodi',
+		['Weight empty:'] = 'Prázdná váha:',
+		['{range} light years ({maxRange} max)'] = '{range} ly ({maxRange} max)',
+		['Minimum crew'] = 'Minimální posádka',
+		['Crew cabins'] = 'Kabin pro posádku',
+		['free'] = 'volných',
+		['max'] = 'max',
+
+		-- Personal information
+		['Personal Information'] = 'Osobní informace',
+		['Combat'] = 'Bojové',
+		['Rating:'] = 'Hodnocení:',
+		['Kills:'] = 'Zabitých:',
+		['Military'] = 'Vojenské',
+		['Rank:'] = 'Hodnost:',
+		['Male'] = 'Muž',
+		['Female'] = 'Žena',
+		['Toggle male/female'] = 'Změnit muž/žena',
+		['Make new face'] = 'Vytvořit jiný obličej',
+
+		['Commander'] = 'Velitel',
+
+		['HARMLESS'] = 'Neškodný',
+		['MOSTLY_HARMLESS'] = 'Převážně neškodný',
+		['POOR'] = 'Ubohý',
+		['AVERAGE'] = 'Průměrný',
+		['ABOVE_AVERAGE'] = 'Nadprůměrný',
+		['COMPETENT'] = 'Schopný',
+		['DANGEROUS'] = 'Nebezpečný',
+		['DEADLY'] = 'Smrtící',
+		['ELITE'] = 'ELITA',
+
+		-- Economy & Trade
+		['Economy & Trade'] = 'Ekonomika & obchod',
+		['Total: '] = 'Celkem: ',
+		['Fuel tank full.'] = 'Palivová nádrž plná.',
+
+		-- Missions
+		['Mission Details'] = 'Detaily mise',
+		['No missions.'] = 'Žádné mise.',
+		['INACTIVE'] = 'Neprobíhá', -- Complement of ACTIVE, COMPLETED and FAILED
+
+		-- Crew Tasks
+		['Attempt to repair hull'] = 'Zkus opravit trup',
+		['Not enough {alloy} to attempt a repair'] = 'Nedostatek {alloy} k pokusu o opravu',
+		['Hull repaired by {name}, now at {repairPercent}%'] = '{name} opravil trup, stav {repairPercent}%',
+		['Hull repair attempt failed. Hull suffered minor damage.'] = 'Neúspěšný pokus o opravu trupu. Trup utrpěl menší poškození.',
+		['Hull does not require repair.'] = 'Trup nepotřebuje opravu.',
+		['Destroy enemy ship'] = 'Znič nepřátelskou loď',
+		['You must request launch clearance first, Commander.'] = 'Nejdříve je nutné vyžádat povolení k odletu, veliteli.',
+		['You must launch first, Commander.'] = 'Nejdříve je nutné odstartovat, veliteli.',
+		['We are in hyperspace, Commander.'] = 'Jsme v hyperprostoru, veliteli.',
+		['The ship is under station control, Commander.'] = 'Loď je pod kontrolou stanice, veliteli.',
+		['You must first select a combat target, veliteli.'] = 'Nejdříve je nutné vybrat bojový cíl, veliteli.',
+		['You must first select a suitable navigation target, veliteli.'] = 'Nejdříve je nutné vybrat vhodný cíl navigace, veliteli.',
+		['There is nobody else on board able to fly this ship.'] = 'Na palube není nikdo jiný schopen pilotovat loď.',
+		['Pilot seat is now occupied by {name}'] = 'Nyní pilotuje {name}',
+		['Dock at current target'] = 'Přistaň na zvoleném cíli',
+
+		-- Crew Roster
+		['Name'] = 'Jméno',
+		['Position'] = 'Pozice',
+		['Wage'] = 'Mzda',
+		['Owed'] = 'Dluh',
+		['Next paid'] = 'Další platba',
+		['More info...'] = 'Další info...',
+		['General crew'] = 'Základní posádka',
+		['Dismiss'] = 'Propustit',
+		['Qualification scores'] = 'Kvalifikační hodnocení',
+		['Engineering:'] = 'Údržba:',
+		['Piloting:'] = 'Pilotáž:',
+		['Navigation:'] = 'Navigace:',
+		['Sensors:'] = 'Senzory:',
+		['Employment'] = 'Zaměstnanost',
+		['Negotiate'] = 'Vyjenávat',
+		['Crew Roster'] = 'Seznam posádky',
+		['Give orders to crew'] = 'Dát posádce rozkazy',
+
+		-- Taunts
+		["I'm tired of working for nothing. Don't you know what a contract is?"] = "Už mě unavuje pracovat pro nic za nic. Víš vůbec co to je smlouva?",
+		["It's been great working for you. If you need me again, I'll be here a while."] = "Dobře se mi s tebou pracovalo. Pokud mě budeš zase potřebovat, jsem tu v cukuletu.",
+		["You're going to regret sacking me!"] = "Toho budeš litovat, naštvat mě!",
+		["Good riddance to you, too."] = "Spánembohem i tobě.",
+
+		-- Orbital analysis
+		['Orbit'] = 'Orbita',
+		['Orbital Analysis'] = 'Orbitální analýza',
+		['Located {distance}km from the centre of {name}:'] = '{distance}km od centra {name}:',
+		['Circular orbit speed:'] = 'Kruhová orbitální rychlost',
+		['Escape speed:'] = 'Úniková rychlost:',
+		['Descent-to-ground speed:'] = 'Přistávací rychlost:',
+		['Notes:'] = 'Notes:',
+		ORBITAL_ANALYSIS_NOTES = [[
+Úhlová orbitální rychlost je vztažena k tangenciální rychlosti. Loď by se měla pohybovat kolmo k ose lodi/{name}.
+
+Descent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.
+
+Úniková rychlost může být (teoreticky) libovolná ve všech směrech, pokud se trajektorie lodi nenáchází na kolizním kurzu s {name}.
 		]]
 	}
 })

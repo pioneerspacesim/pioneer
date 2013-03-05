@@ -5,7 +5,7 @@ use warnings;
 use strict;
 use autodie;
 
-say "usage: prep-changelog <Changelog.txt> <alpha number> <output: html|bbcode>" and exit 1 if @ARGV != 3;
+say "usage: prep-changelog <Changelog.txt> <alpha number> <output: html|bbcode|markdown>" and exit 1 if @ARGV != 3;
 my ($CHANGELOG, $ALPHA, $OUTPUT) = @ARGV;
 
 my ($alpha, @sections, %log);
@@ -62,6 +62,17 @@ given ($OUTPUT) {
             say "[LIST]";
             say "[*]$_"."[/*]" for @{$log{$section}};
             say "[/LIST]";
+            say "";
+        }
+    }
+
+    when ("markdown") {
+        for my $section (@sections) {
+            say "* $section";
+            for my $line (@{$log{$section}}) {
+                $line =~ s{#(\d+)}{[#$1](https://github.com/pioneerspacesim/pioneer/issues/$1)}g;
+                say "  * $line";
+            }
             say "";
         }
     }

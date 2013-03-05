@@ -35,6 +35,7 @@ noinst_HEADERS = \
 	DeathView.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
+	Easing.h \
 	EnumStrings.h \
 	EquipSet.h \
 	EquipType.h \

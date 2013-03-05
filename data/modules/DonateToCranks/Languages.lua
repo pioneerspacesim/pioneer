@@ -205,3 +205,37 @@ Translate:Add({ Deutsch = {
   ["Thank you. All donations are welcome."] = "Danke. Alle Spenden sind wilkommen.",
   }
 })
+
+  ---- CZECH / ČESKY ----
+
+Translate:AddFlavour('Czech','DonateToCranks', {
+  title = "PŘISPĚJTE! Církev nebeských létajících špageti nestvůr potřebuje VAŠE peníze, aby mohla hlásat slovo Boží.",
+  message = "Prosím zvolte částku, kterou chcete darovat Církvi nebeských létajících špageti nestvůr.",
+})
+
+Translate:AddFlavour('Czech','DonateToCranks', {
+  title = "PŘISPĚJTE. Ochránci svobodného ducha vás pokorně žádají o příspěvek pro své kláštery.",
+  message = "Mír s tebou, bratře/sestro. Prosím zvolte částku, kterou chcete darovat Ochráncům svobodného ducha.",
+})
+
+Translate:AddFlavour('Czech','DonateToCranks', {
+  title = "CÍTÍTE se ŠTĚDŘE? Domov pro válečné sirotky potřebuje vaši pomoc, aby mohl poskytovat základní péči.",
+  message = "Prosím zvolte částku, kterou chcete darovat Domovu pro válečné sirotky a ukončit tak utrpení dětí po celé galaxii.",
+})
+
+Translate:AddFlavour('Czech','DonateToCranks', {
+  title = "DARUJTE. Přátelé Galaxie potřebují vaše peníze pro svou kampaň 'Zakažme vojenské motory'.",
+  message = "Prosím zvolte částku, kterou chcete přispět 'Zeleným' a skoncovat tak se znečištěním galaxie.",
+})
+
+Translate:AddFlavour('Czech','DonateToCranks', {
+  title = "PŘISPĚJTE! Zachraňte náš druh. Zastavte masakr na nově obydlených světech.",
+  message = "Prosím zvolte částku, kterou chcete přispět."
+})
+
+Translate:Add({ Czech = {
+  ["You do not have enough money."] = "Nemáš dostatek peněz.",
+  ["Wow! That was very generous."] = "Wow! To od vás bylo velmi štědré.",
+  ["Thank you. All donations are welcome."] = "Děkujeme. Všechny příspěvky jsou vítány.",
+  }
+})

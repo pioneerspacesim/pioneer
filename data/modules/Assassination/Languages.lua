@@ -597,3 +597,106 @@ Translate:Add({ Deutsch = {
 		"Feldwebel",
 	 },
 }, })
+
+  ---- CZECH / ČESKY ----
+
+Translate:AddFlavour('Czech','Assassination', {
+  adtext = "HLEDANÝ: Odstranit {target} ze systému {system}.",
+  introtext = "Zdravím, jsem {name}. Zaplatím ti {cash} když mě zbavíš {target}.",
+  successmsg = "Zprávy o {target}'s dlouhé \"dovolené\" už dorazily. Výborně, dostal jsi zaplaceno v plné výši.",
+  failuremsg = "Jsem velmi nespokojen(a), že {target} je stále naživu. Je zbytečné dodávat, že žádné peníze nedostaneš.",
+  failuremsg2 = "{target} nebyl odstraněn tebou. Tentokrát žádná platba nebude.",
+})
+
+Translate:AddFlavour('Czech','Assassination', {
+  adtext = "HLEDANÝ: Zabít {target} ze systému {system}.",
+  introtext = "Potřebuji aby {target} zmizel ze scény. Zaplatím ti {cash} když to zařídíš.",
+  successmsg = "Donesla se mi žalostná zpráva o úmrtí {target}. Dostal jsi zaplaceno v plné výši.",
+  failuremsg = "Slyšel(a) jsem, že {target} se těší dobrému zdraví. To mě opravdu bolí.",
+  failuremsg2 = "{target} zemřel rukou někoho jiného, tak se neptej na peníze!",
+})
+
+Translate:AddFlavour('Czech','Assassination', {
+  adtext = "ODSTRANĚNÍ: {target} již není v systému {system} vítán.",
+  introtext = "Jsem {name}, zaplatím ti {cash} když eliminuješ {target}.",
+  successmsg = "Za vyřízení této důležité dohody jsi dostal zaplaceno v plné výši.",
+  failuremsg = "Je velmi politováníhodné, že {target} je pořád naživu. Žádné peníze nedostaneš, protože jsi nesplnil naši dohodu.",
+  failuremsg2 = "Úkol byl vyřízen někým jiným. Přístě buď rychlejší!",
+})
+
+Translate:AddFlavour('Czech','Assassination', {
+  adtext = "ELIMINACE: Kdo odstraní {target}?",
+  introtext = "{target} musí být rozprášen(a) na kousíčky. Odměna bude {cash} když to uděláš.",
+  successmsg = "{target} je po smrti. Zde je tvá odměna.",
+  failuremsg = "Toho budeš litovat, {target} je naživu a ty chceš peníze!?!",
+  failuremsg2 = "Ty chceš peníze za práci, kterou vyřídil někdo jiný? Ať už tě nevidím!",
+})
+
+Translate:AddFlavour('Czech','Assassination', {
+  adtext = "VÝSLUŽBA: Kdo pošle na odpočinek {target}?",
+  introtext = "{cash} zaplatíme tomu, kdo povzbudí {target}, aby okamžitě zanechal(a) práce a šel/šla do penze.",
+  successmsg = "Obdrželi jsme báječné zprávy o {target}'s odchodu do důchodu. Zde jsou tvé peníze.",
+  failuremsg = "{target} pořád dýchá, žádné peníze nedostaneš!",
+  failuremsg2 = "{target} poslal na odpočinek někdo jiný!",
+})
+
+Translate:AddFlavour('Czech','Assassination', {
+  adtext = "ŽIVOTOPISNÝ: Někteří ctitelé si přejí smrt {target}.",
+  introtext = "Přejeme si ukončit kariéru {target} v systému {system}, jsme ochotni zaplatit {cash}.",
+  successmsg = "Zpráva o konci {target} šťastně dorazila. Zde je tvých {cash}.",
+  failuremsg = "Zjistili jsme, že je {target} víceméně stále aktivní. To nás rmoutí.",
+  failuremsg2 = "{target} byl neutralizován někým jiným!",
+})
+
+Translate:Add({ Czech = {
+  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} bude odlétat z {spaceport} v systému {system} ({sectorX}, {sectorY}, {sectorZ}), vzdálenost {dist} ly, k datu {date}. Loď se jmenuje {shipname} a ma registrační id {shipregid}.",
+  ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "Úkol musí být splněn až po té, co {target} opustí {spaceport}. Nezmeškej tuto příležitost!",
+  ["Assassination"] = "Atentát",
+  ["Excellent."] = "Výborně.",
+  ["Return here on the completion of the contract and you will be paid."] = "Po splnění úkolu se sem vrať a dostaneš zaplaceno.",
+  ["Where can I find {target}?"] = "Kde můžu {target} najít?",
+  ["Could you repeat the original request?"] = "Můžeš mi zopakovat původní dotaz?",
+  ["How soon must it be done?"] = "Do kdy musí být úkol splněn?",
+  ["How will I be paid?"] = "Jak dostanu zaplaceno?",
+  ["Ok, agreed."] = "OK, souhlasím.",
+  ["ly"] = "ly",
+
+  -- Texts for the missions screen   
+  assmissiondetail = [[
+  Jméno cíle:
+  Stanice:
+  Systém:
+  Loď:
+  ID lodě:
+  Cíl opustí stanici v:
+
+  Vzdálenost:]],
+
+  TITLE = {
+	"admirál",
+	"velvyslanec",
+	"velitel brigády",
+	"kadet",
+	"kapitán",
+	"kardinál",
+	"plukovník",
+	"velitel",
+	"komodor",
+	"desátník",
+	"podporučík",
+	"generál",
+	"soudce",
+	"právník",
+	"poručík",
+	"maršál",
+	"obchodník",
+	"důstojník",
+	"vojín",
+	"profesor",
+	"prokurátor",
+	"kancléř",
+	"námořník",
+	"senátor",
+	"seržant",
+  },
+}, })
