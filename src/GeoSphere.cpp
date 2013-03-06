@@ -13,7 +13,6 @@
 #include "graphics/VertexArray.h"
 #include "graphics/gl2/GeoSphereMaterial.h"
 #include "vcacheopt/vcacheopt.h"
-#include "GeoPatchID.h"
 #include <deque>
 #include <algorithm>
 
@@ -360,7 +359,99 @@ public:
 };
 
 
+
 class GeoPatch {
+private:
+	//********************************************************************************
+	// Overloaded PureJob class to handle generating the mesh for each patch
+	//********************************************************************************
+	class PatchJob : public PureJob
+	{
+	public:
+		PatchJob(const SSplitRequestDescription &data, JobManager::JobHandle* handle) 
+			: PureJob(), mData(data), mpHandle(handle)
+		{
+		}
+
+		virtual ~PatchJob()
+		{
+			mpHandle = NULL;
+		}
+
+		virtual void init(unsigned int *counter)
+		{
+			PureJob::init( counter );
+		}
+
+		virtual void job_process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+		{
+			//(*mpKid)->GenerateMesh();
+			GenerateMesh();
+		}
+
+		virtual void job_onFinish(void * userData, int userId)  // runs in primary thread of the context
+		{
+			PureJob::job_onFinish(userData, userId);
+			(*mpHandle) = JobManager::INVALID_JOB_HANDLE;
+		}
+
+		virtual void job_onCancel(void * userData, int userId)   // runs in primary thread of the context
+		{
+			PureJob::job_onCancel(userData, userId);
+			(*mpHandle) = JobManager::INVALID_JOB_HANDLE;
+		}
+
+	private:
+		const SSplitRequestDescription	mData;
+		JobManager::JobHandle*			mpHandle;
+
+		/* in patch surface coords, [0,1] */
+		inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3, const double x, const double y) const {
+			return (v0 + x*(1.0-y)*(v1-v0) +
+					x*y*(v2-v0) +
+					(1.0-x)*y*(v3-v0)).Normalized();
+		}
+
+		// Generates full-detail vertices, and also non-edge normals and colors 
+		void GenerateMesh() {
+			vector3d *vts = vertices;
+			vector3d *col = colors;
+			double xfrac;
+			double yfrac = 0;
+			for (int y=0; y<mData.edgeLen; y++) {
+				xfrac = 0;
+				for (int x=0; x<mData.edgeLen; x++) {
+					vector3d p = GetSpherePoint(mData.v0, mData.v1, mData.v2, mData.v3, xfrac, yfrac);
+					double height = geosphere->GetHeight(p);
+					*(vts++) = p * (height + 1.0);
+					// remember this -- we will need it later
+					(col++)->x = height;
+					xfrac += mData.fracStep;
+				}
+				yfrac += mData.fracStep;
+			}
+			assert(vts == &vertices[ctx->NUMVERTICES()]);
+			// Generate normals & colors for non-edge vertices since they never change
+			for (int y=1; y<mData.edgeLen-1; y++) {
+				for (int x=1; x<mData.edgeLen-1; x++) {
+					// normal
+					vector3d x1 = vertices[x-1 + y*mData.edgeLen];
+					vector3d x2 = vertices[x+1 + y*mData.edgeLen];
+					vector3d y1 = vertices[x + (y-1)*mData.edgeLen];
+					vector3d y2 = vertices[x + (y+1)*mData.edgeLen];
+
+					const vector3d n = ((x2-x1).Cross(y2-y1)).Normalized();
+					normals[x + y*mData.edgeLen] = n;
+					// color
+					const vector3d p = GetSpherePoint(mData.v0, mData.v1, mData.v2, mData.v3, x*mData.fracStep, y*mData.fracStep);
+					const double height = colors[x + y*mData.edgeLen].x;
+					vector3d &col_r = colors[x + y*mData.edgeLen];
+					col_r = geosphere->GetColor(p, height, n);
+				}
+			}
+
+		}
+	};
 public:
 	RefCountedPtr<GeoPatchContext> ctx;
 	const vector3d v0, v1, v2, v3;
@@ -748,7 +839,7 @@ public:
 	}
 
 	/* in patch surface coords, [0,1] */
-	vector3d GetSpherePoint(double x, double y) {
+	vector3d GetSpherePoint(const double x, const double y) const {
 		return (v0 + x*(1.0-y)*(v1-v0) +
 			    x*y*(v2-v0) +
 			    (1.0-x)*y*(v3-v0)).Normalized();
@@ -795,7 +886,6 @@ public:
 				col_r = geosphere->GetColor(p, height, norm);
 			}
 		}
-
 	}
 	void OnEdgeFriendChanged(int edge, GeoPatch *e) {
 		edgeFriend[edge] = e;
@@ -1260,6 +1350,88 @@ void GeoSphere::DestroyVBOs()
 	}
 	m_vbosToDestroy.clear();
 	SDL_mutexV(m_vbosToDestroyLock);
+}
+
+bool GeoSphere::AddSplitRequest(SSplitRequestDescription *desc)
+{
+	assert(mSplitRequestDescriptions.size()<MAX_SPLIT_REQUESTS);
+	if(mSplitRequestDescriptions.size()<MAX_SPLIT_REQUESTS) {
+		mSplitRequestDescriptions.push_back(desc);
+		return true;
+	}
+	return false;
+}
+
+void GeoSphere::ProcessSplitRequests()
+{
+	std::deque<SSplitRequestDescription*>::const_iterator iter = mSplitRequestDescriptions.begin();
+	while (iter!=mSplitRequestDescriptions.end())
+	{
+		const SSplitRequestDescription* srd = (*iter);
+
+		const vector3f v01	= (srd->v0+srd->v1).Normalized();
+		const vector3f v12	= (srd->v1+srd->v2).Normalized();
+		const vector3f v23	= (srd->v2+srd->v3).Normalized();
+		const vector3f v30	= (srd->v3+srd->v0).Normalized();
+		const vector3f cn	= (srd->centroid).Normalized();
+
+		// 
+		const vector3f vecs[4][4] = {
+			{srd->v0,	v01,		cn,			v30},
+			{v01,		srd->v1,	v12,		cn},
+			{cn,		v12,		srd->v2,	v23},
+			{v30,		cn,			v23,		srd->v3}
+		};
+
+		SSplitResult *sr = new SSplitResult(srd->patchID.GetPatchFaceIdx(), srd->depth);
+		for (int i=0; i<4; i++)
+		{
+			//Graphics::Texture *pTex = Graphics::TextureBuilder::TerrainGen("TerrainGen").CreateTexture(Pi::renderer);
+			/*Graphics::TextureDescriptor td(Graphics::TEXTURE_FLOAT, vector2f(sPatchContext->fboWidth(), sPatchContext->fboWidth()), Graphics::NEAREST_CLAMP, false, false);
+			Graphics::Texture *pTex = Pi::renderer->CreateTexture(td);
+
+			// render the heightmap to a framebuffer.
+			mPatchGenData->v0 = vecs[i][0];
+			mPatchGenData->v1 = vecs[i][1];
+			mPatchGenData->v2 = vecs[i][2];
+			mPatchGenData->v3 = vecs[i][3];
+
+			Graphics::TextureGL* pTexGL = static_cast<Graphics::TextureGL*>(pTex);
+			sPatchContext->renderHeightmap(0, mPatchGenData, pTexGL->GetTextureNum());
+
+			sr->addResult(pTex, vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], srd->patchID.NextPatchID(srd->depth+1, i));*/
+		}
+
+		// store result
+		mSplitResult.push_back( sr );
+
+		// cleanup after ourselves
+		delete srd;
+
+		// next!
+		++iter;
+	}
+	mSplitRequestDescriptions.clear();
+}
+
+void GeoSphere::ProcessSplitResults()
+{
+	std::deque<SSplitResult*>::const_iterator iter = mSplitResult.begin();
+	while(iter!=mSplitResult.end())
+	{
+		// finally pass SplitResults
+		const SSplitResult *psr = (*iter);
+
+		const int32_t faceIdx = psr->face;
+		//mGeoPatches[faceIdx]->ReceiveHeightmaps(psr);
+
+		// tidyup
+		delete psr;
+
+		// Next!
+		++iter;
+	}
+	mSplitResult.clear();
 }
 
 void GeoSphere::BuildFirstPatches()

@@ -11,11 +11,70 @@
 #include "galaxy/StarSystem.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
+#include "GeoPatchID.h"
 
 namespace Graphics { class Renderer; }
 class SystemBody;
 class GeoPatch;
 class GeoPatchContext;
+
+struct SSplitRequestDescription {
+	SSplitRequestDescription(const vector3d &v0_,
+							const vector3d &v1_,
+							const vector3d &v2_,
+							const vector3d &v3_,
+							const vector3d &cn,
+							const uint32_t depth_,
+							const SystemPath &sysPath_,
+							const GeoPatchID &patchID_,
+							const int edgeLen_,
+							const double fracStep_)
+							: v0(v0_), v1(v1_), v2(v2_), v3(v3_), centroid(cn), depth(depth_), 
+							sysPath(sysPath_), patchID(patchID_), edgeLen(edgeLen_), fracStep(fracStep_)
+	{
+	}
+
+	const vector3d v0;
+	const vector3d v1;
+	const vector3d v2;
+	const vector3d v3;
+	const vector3d centroid;
+	const uint32_t depth;
+	const SystemPath sysPath;
+	const GeoPatchID patchID;
+	const int edgeLen;
+	const double fracStep;
+};
+
+struct SSplitResult {
+	struct SSplitResultData {
+		SSplitResultData(Graphics::Texture *pTex_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
+			pTex(pTex_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), patchID(patchID_)
+		{
+		}
+		Graphics::Texture *pTex;
+		const vector3d v0;
+		const vector3d v1;
+		const vector3d v2;
+		const vector3d v3;
+		const GeoPatchID patchID;
+	};
+
+	SSplitResult(const int32_t face_, const uint32_t depth_) : face(face_), depth(depth_)
+	{
+	}
+
+	void addResult(Graphics::Texture *pTex, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
+	{
+		data.push_back(SSplitResultData(pTex, v0_, v1_, v2_, v3_, patchID_));
+		assert(data.size()<=4);
+	}
+
+	const int32_t face;
+	const uint32_t depth;
+	std::deque<SSplitResultData> data;
+};
+
 class GeoSphere {
 public:
 	GeoSphere(const SystemBody *body);
@@ -45,6 +104,10 @@ public:
 	static int GetVtxGenCount() { return s_vtxGenCount; }
 	static void ClearVtxGenCount() { s_vtxGenCount = 0; }
 
+	bool AddSplitRequest(SSplitRequestDescription *desc);
+	void ProcessSplitRequests();
+	void ProcessSplitResults();
+
 private:
 	void BuildFirstPatches();
 	GeoPatch *m_patches[6];
@@ -52,6 +115,10 @@ private:
 
 	/* all variables for GetHeight(), GetColor() */
 	Terrain *m_terrain;
+
+	static const uint32_t MAX_SPLIT_REQUESTS = 128;
+	std::deque<SSplitRequestDescription*> mSplitRequestDescriptions;
+	std::deque<SSplitResult*> mSplitResult;
 
 	///////////////////////////
 	// threading rubbbbbish
