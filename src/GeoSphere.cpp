@@ -13,6 +13,7 @@
 #include "graphics/VertexArray.h"
 #include "graphics/gl2/GeoSphereMaterial.h"
 #include "vcacheopt/vcacheopt.h"
+#include "GeoPatchID.h"
 #include <deque>
 #include <algorithm>
 
@@ -362,7 +363,7 @@ public:
 class GeoPatch {
 public:
 	RefCountedPtr<GeoPatchContext> ctx;
-	vector3d v[4];
+	const vector3d v0, v1, v2, v3;
 	vector3d *vertices;
 	vector3d *normals;
 	vector3d *colors;
@@ -379,22 +380,26 @@ public:
 	bool m_needUpdateVBOs;
 	double m_distMult;
 
-	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3, int depth) {
-		memset(this, 0, sizeof(GeoPatch));
+	const GeoPatchID mPatchID;
 
-		ctx = _ctx;
-
-		geosphere = gs;
-
-		m_kidsLock = SDL_CreateMutex();
-		v[0] = v0; v[1] = v1; v[2] = v2; v[3] = v3;
-		//depth -= Pi::detail.fracmult;
-		m_depth = depth;
-		clipCentroid = (v0+v1+v2+v3) * 0.25;
-		clipRadius = 0;
-		for (int i=0; i<4; i++) {
-			clipRadius = std::max(clipRadius, (v[i]-clipCentroid).Length());
+	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs, 
+		const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, 
+		const int depth, const GeoPatchID &ID_) 
+		: ctx(_ctx), v0(v0_), v1(v1_), v2(v2_), v3(v3_), m_vbo(0), parent(NULL), geosphere(gs), m_depth(depth), mPatchID(ID_) 
+	{
+		for (int i=0; i<4; ++i) {
+			edgeFriend[i]	= NULL;
+			kids[i]			= NULL;
 		}
+		m_kidsLock = SDL_CreateMutex();
+		
+		clipCentroid = (v0+v1+v2+v3) * 0.25;
+		centroid = clipCentroid.Normalized();
+		clipRadius = 0.0;
+		clipRadius = std::max(clipRadius, (v0-clipCentroid).Length());
+		clipRadius = std::max(clipRadius, (v1-clipCentroid).Length());
+		clipRadius = std::max(clipRadius, (v2-clipCentroid).Length());
+		clipRadius = std::max(clipRadius, (v3-clipCentroid).Length());
 		if (geosphere->m_sbody->type < SystemBody::TYPE_PLANET_ASTEROID) {
  			m_distMult = 10 / Clamp(depth, 1, 10);
  		} else {
@@ -744,9 +749,9 @@ public:
 
 	/* in patch surface coords, [0,1] */
 	vector3d GetSpherePoint(double x, double y) {
-		return (v[0] + x*(1.0-y)*(v[1]-v[0]) +
-			    x*y*(v[2]-v[0]) +
-			    (1.0-x)*y*(v[3]-v[0])).Normalized();
+		return (v0 + x*(1.0-y)*(v1-v0) +
+			    x*y*(v2-v0) +
+			    (1.0-x)*y*(v3-v0)).Normalized();
 	}
 
 	/** Generates full-detail vertices, and also non-edge normals and
@@ -982,15 +987,16 @@ public:
 			if (!kids[0]) {
 				vector3d v01, v12, v23, v30, cn;
 				cn = centroid.Normalized();
-				v01 = (v[0]+v[1]).Normalized();
-				v12 = (v[1]+v[2]).Normalized();
-				v23 = (v[2]+v[3]).Normalized();
-				v30 = (v[3]+v[0]).Normalized();
+				v01 = (v0+v1).Normalized();
+				v12 = (v1+v2).Normalized();
+				v23 = (v2+v3).Normalized();
+				v30 = (v3+v0).Normalized();
 				GeoPatch *_kids[4];
-				_kids[0] = new GeoPatch(ctx, geosphere, v[0], v01, cn, v30, m_depth+1);
-				_kids[1] = new GeoPatch(ctx, geosphere, v01, v[1], v12, cn, m_depth+1);
-				_kids[2] = new GeoPatch(ctx, geosphere, cn, v12, v[2], v23, m_depth+1);
-				_kids[3] = new GeoPatch(ctx, geosphere, v30, cn, v23, v[3], m_depth+1);
+				const int nD = m_depth+1;
+				_kids[0] = new GeoPatch(ctx, geosphere, v0, v01, cn, v30, nD, mPatchID.NextPatchID(nD,0));
+				_kids[1] = new GeoPatch(ctx, geosphere, v01, v1, v12, cn, nD, mPatchID.NextPatchID(nD,1));
+				_kids[2] = new GeoPatch(ctx, geosphere, cn, v12, v2, v23, nD, mPatchID.NextPatchID(nD,2));
+				_kids[3] = new GeoPatch(ctx, geosphere, v30, cn, v23, v3, nD, mPatchID.NextPatchID(nD,3));
 				// hm.. edges. Not right to pass this
 				// edgeFriend...
 				_kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
@@ -1276,12 +1282,14 @@ void GeoSphere::BuildFirstPatches()
 	p7 = p7.Normalized();
 	p8 = p8.Normalized();
 
-	m_patches[0] = new GeoPatch(s_patchContext, this, p1, p2, p3, p4, 0);
-	m_patches[1] = new GeoPatch(s_patchContext, this, p4, p3, p7, p8, 0);
-	m_patches[2] = new GeoPatch(s_patchContext, this, p1, p4, p8, p5, 0);
-	m_patches[3] = new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0);
-	m_patches[4] = new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0);
-	m_patches[5] = new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0);
+	const uint64_t maxShiftDepth = GeoPatchID::MAX_SHIFT_DEPTH;
+
+	m_patches[0] = new GeoPatch(s_patchContext, this, p1, p2, p3, p4, 0, maxShiftDepth);
+	m_patches[1] = new GeoPatch(s_patchContext, this, p4, p3, p7, p8, 0, maxShiftDepth);
+	m_patches[2] = new GeoPatch(s_patchContext, this, p1, p4, p8, p5, 0, maxShiftDepth);
+	m_patches[3] = new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0, maxShiftDepth);
+	m_patches[4] = new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0, maxShiftDepth);
+	m_patches[5] = new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, maxShiftDepth);
 	for (int i=0; i<6; i++) {
 		for (int j=0; j<4; j++) {
 			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];

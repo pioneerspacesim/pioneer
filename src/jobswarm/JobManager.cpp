@@ -10,10 +10,6 @@
 #include "UserMemAlloc.h"
 #include "ThreadConfig.h"
 #include "JobSwarm.h"
-//#include "../../contrib/Theron/Include/Theron/Framework.h"
-//#include "../../contrib/Theron/Include/Theron/Actor.h"
-
-
 
 #define MAX_THREADS 64
 #define MIN_THREADS 1
@@ -86,32 +82,4 @@ void JobManager::update()
 }
 
 bool JobManager::jobsRemaining() const { return (mTasksRemaining>0); }
-
-//int main(int ,const char **)
-//{
-//	const unsigned int numJobsToAdd = SPOOL_JOB_SIZE * DEF_THREADS;
-//	unsigned int taskRow = FRACTAL_SIZE/SWARM_SIZE;
-//	unsigned int taskCount = taskRow*taskRow;
-//	JobManager bub(taskCount);
-//	unsigned int x = 0;
-//	unsigned int y = 0;
-//	while( taskCount > 0 || bub.jobsRemaining() )
-//	{
-//		if( !bub.jobsRemaining() )
-//		{
-//			for( int i=0;i<numJobsToAdd;i++ ) {
-//				bub.addJob(x,y);
-//				x+=SWARM_SIZE;
-//				if(x>FRACTAL_SIZE) {
-//					x=0;
-//					++y;
-//				}
-//				--taskCount;
-//			}
-//		}
-//		bub.update();
-//	}
-//
-//    return 0;
-//}
 
