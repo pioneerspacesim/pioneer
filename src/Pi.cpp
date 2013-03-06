@@ -136,6 +136,7 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
+JobManager Pi::jobs;
 
 static void draw_progress(float progress)
 {
@@ -1056,6 +1057,7 @@ void Pi::MainLoop()
 		}
 		cpan->Update();
 		musicPlayer.Update();
+		jobs.update();
 
 #if WITH_DEVKEYS
 		if (Pi::showDebugInfo && SDL_GetTicks() - last_stats > 1000) {

@@ -13,6 +13,7 @@
 #include "LuaTimer.h"
 #include "CargoBody.h"
 #include "Space.h"
+#include "jobswarm/JobManager.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -157,6 +158,8 @@ public:
 
 	static struct DetailLevel detail;
 	static GameConfig *config;
+
+	static JobManager jobs;
 private:
 	static void HandleEvents();
 	static void InitJoysticks();
