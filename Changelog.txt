@@ -1,3 +1,8 @@
+Alpha 33
+
+   * New features
+     * Czech language support (#2136)
+
 Alpha 32
 
    * New features
@@ -6,7 +11,7 @@ Alpha 32
      * New ship "Lunar Shuttle" (#2082)
      * New ship "Deneb Transport" (#2119)
      * New fast random number generator (#1893, #2078, #2079)
-     * Upgraded hoop station (#2046)
+     * Upgraded hoop station (#2046, #2131, #2114)
      * Removed Lua model system (LMR) (#2029, #2071)
      * Removed LMR-based ships (#2061)
      * Removed Elite/Frontier content (#2093)
@@ -56,7 +61,7 @@ Alpha 32
      * Removed Renderer::DrawPoints2D (#2041)
      * LuaObject wrapper cleanup (#2026, #2049, #2073, #2075)
      * Fix SGModel NodeVisitor not applying correctly to all node types (#2076, #2074)
-     * Remove ShipFlavour structure (#2069)
+     * Remove ShipFlavour structure (#2069, #2135, #2113)
 
 Alpha 31
 

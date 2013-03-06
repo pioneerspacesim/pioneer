@@ -40,3 +40,11 @@ Translate:Add({ Deutsch = {
 	["This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."] = "Dies ist {station}. Du hast nicht genug Geld, um die Dockgebühren von {fee} zu Zahlen. Dein Treibstoff wurde einbehalten.",
 }
 })
+
+---- CZECH / ČESKY ----
+
+Translate:Add({ Czech = {
+	["Welcome aboard {station}. Your docking and fuelling fee of {fee} has been deducted."] = "Vítejte na palubě stanice {station}. Poplatek {fee} za přistání a tankování, byl odečten z tvého účtu.",
+	["This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."] = "Tady stanice {station}. Nemáš dostatek peněz na poplatek ve výši {fee}. Tvé palivo bylo zadrženo.",
+}
+})
