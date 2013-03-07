@@ -1,0 +1,20 @@
+material material1
+
+tex_diff DIFF.png
+tex_spec SPEC.png
+tex_glow GLOW.png
+diffuse 1.0 1.0 1.0
+specular 1.0 1.0 1.0
+shininess 80
+
+
+
+# docking
+mesh starport_docking_plane.obj
+
+mesh starport.lxo
+
+
+
+
+collision starport_collision.obj

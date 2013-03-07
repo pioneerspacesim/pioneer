@@ -1041,6 +1041,21 @@ void Ship::StaticUpdate(const float timeStep)
 		m_hyperspace.now = false;
 		EnterHyperspace();
 	}
+
+	//Add smoke trails based on thruster state and in atmosphere.
+	if (m_thrusters.z < 0.0 && 0.1*Pi::rng.Double() < timeStep) {
+		Body *astro = GetFrame()->GetBody();
+		if (astro && astro->IsType(Object::PLANET)) {
+			Planet *p = static_cast<Planet*>(astro);
+			double pressure, density;
+			double dist = GetPosition().Length();
+			p->GetAtmosphericState(dist, &pressure, &density);
+				if ( density > 0.0 ) {
+				    vector3d pos = GetOrient() * vector3d(0, 0 , 40);//100.0*fabs(tstate.z));
+					Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, std::min(10.0*GetVelocity().Length()*density*abs(m_thrusters.z),100.0),pos);
+				}
+		}
+	}
 }
 
 void Ship::NotifyRemoved(const Body* const removedBody)

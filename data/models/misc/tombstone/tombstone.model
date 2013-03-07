@@ -1,6 +1,16 @@
-material Default-material
-diffuse 0.8 0.8 0.8
-specular 0.3 0.3 0.3
-shininess 40
+#Tombstone
 
-mesh tombstone.dae
+material 1
+diffuse 1 1 1
+specular 1 1 1
+# shininess 0
+tex_diff diff.png
+tex_spec spec.png
+
+lod 50
+mesh tombstone.obj
+
+lod 1000
+mesh tombstone.obj
+anim gear_down 1 100
+

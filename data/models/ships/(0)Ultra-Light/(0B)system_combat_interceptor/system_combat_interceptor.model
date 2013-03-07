@@ -1,0 +1,18 @@
+material material1
+
+tex_diff diff.png
+tex_spec spec.png
+tex_glow glow.png
+diffuse 1.0 1.0 1.0
+
+specular 1.0 1.0 1.0
+
+shininess 80
+
+
+mesh system_combat_interceptor.dae
+
+collision system_combat_interceptor_collision.obj
+
+lod 10
+mesh system_combat_interceptor_lod.obj
