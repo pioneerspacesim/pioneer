@@ -341,21 +341,38 @@ local onClick = function (mission)
 														cash   = Format.Money(mission.reward),
 														dist  = dist})
 										),
+										ui:Margin(10),
 										ui:Grid(2,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd(ui:MultiLineText(t('taximissiondetail')))
-											})
-											:SetColumn(1, {
-												ui:VBox():PackEnd({
-													ui:Label(mission.start:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
-													ui:Label(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
-													ui:Label(string.interp(taxi_flavours[mission.flavour].howmany, {group = mission.group})),
-													ui:Label(taxi_flavours[mission.flavour].danger),
-													ui:Label(Format.Date(mission.due)),
-													ui:Margin(10),
-													ui:Label(dist.." "..t("ly"))
-												})
-											})
+										  :SetColumn(0, {
+										    ui:VBox():PackEnd({
+										      ui:Label(t("From:")),
+										      ui:Label(t("To:")),
+										      ui:Label(t("Group details:")),
+										      ui:Label(t("Deadline:")),
+										      ui:Label(t("Danger:"))
+										    })
+										  })
+										  :SetColumn(1, {
+										    ui:VBox():PackEnd({
+										      ui:Label(mission.start:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
+										      ui:Label(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
+										      ui:Label(string.interp(taxi_flavours[mission.flavour].howmany, {group = mission.group})),
+										      ui:Label(Format.Date(mission.due)),
+										      ui:MultiLineText(taxi_flavours[mission.flavour].danger)
+										    })
+										  }),
+										ui:Margin(5),
+										ui:Grid(2,1)
+										  :SetColumn(0, {
+										    ui:VBox():PackEnd({
+										      ui:Label(t("Distance:"))
+										    })
+										  })
+										  :SetColumn(1, {
+										    ui:VBox():PackEnd({
+										      ui:Label(dist.." "..t("ly"))
+										    })
+										  }),
 		})})
 		:SetColumn(1, {
 			ui:VBox(10):PackEnd(UI.InfoFace.New(mission.client))
