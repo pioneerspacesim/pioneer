@@ -5,7 +5,7 @@ local ui = Engine.ui
 local t = Translate:GetTranslator()
 
 local setupPlayerWave = function ()
-	Game.player:SetShipType("wave")
+	Game.player:SetShipType("passenger_shuttle")
 	Game.player:AddEquip("PULSECANNON_1MW")
 	Game.player:AddEquip("ATMOSPHERIC_SHIELDING")
 	Game.player:AddEquip("AUTOPILOT")
@@ -28,8 +28,7 @@ local doLoadDialog = function ()
 end
 
 local buttonDefs = {
-	{ t("Start at Earth"),    function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerWave() end },
-	{ t("Start at New Hope"), function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerWave() end },
+	{ t("New Game"),    function () Game.StartGame(SystemPath.New(0,0,0,0,9))   setupPlayerWave() end },
 	{ t("Load game"),         doLoadDialog },
 	{ t("Options"),           function () Engine.SettingsView() end },
 	{ t("Quit"),              function () Engine.Quit() end },
@@ -52,7 +51,7 @@ local menu =
 			ui:Grid({ 0.1, 0.8, 0.1 }, 1)
 				:SetCell(1, 0,
 					ui:Align("LEFT",
-						ui:Label("Paragon"):SetFont("HEADING_XLARGE")
+						ui:Label("Pioneer"):SetFont("HEADING_XLARGE")
 					)
 				)
 		})
