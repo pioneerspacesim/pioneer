@@ -1,0 +1,9 @@
+material material1
+tex_diff DIFF.png
+tex_spec SPEC.png
+tex_glow GLOW.png
+specular 1.0 1.0 1.0
+diffuse 1.0 1.0 1.0
+
+mesh tradestation.dae
+collision tradestation_collision.obj

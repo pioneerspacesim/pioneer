@@ -1,0 +1,16 @@
+#Tombstone
+
+material 1
+diffuse 1 1 1
+specular 1 1 1
+# shininess 0
+tex_diff diff.png
+tex_spec spec.png
+
+lod 50
+mesh tombstone.obj
+
+lod 1000
+mesh tombstone.obj
+anim gear_down 1 100
+

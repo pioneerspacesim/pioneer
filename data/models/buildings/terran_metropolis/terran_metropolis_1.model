@@ -1,0 +1,19 @@
+material newbuilding
+tex_diff diff3.png
+tex_glow glow3.png
+tex_spec spec3.png
+
+diffuse 1.0 1.0 1.0
+specular 1.0 1.0 1.0
+shininess 80
+
+lod 12
+mesh terran_metropolis_1_LQ.obj
+
+lod 40
+mesh terran_metropolis_1_MQ.obj
+
+lod 100
+mesh terran_metropolis_1_HQ.obj
+
+collision terran_metropolis_1_LQ.obj
