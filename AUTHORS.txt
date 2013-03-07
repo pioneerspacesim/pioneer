@@ -25,6 +25,7 @@ As of 8 March 2013 (alpha 32), the Pioneer Developers are:
 * Darren Salt
 * Dionisis Kontominas
 * Enric Morales
+* Florian Schmidt
 * Fran Morton
 * Frank Klippenberg
 * Gareth Allnutt
@@ -51,6 +52,7 @@ As of 8 March 2013 (alpha 32), the Pioneer Developers are:
 * Peter Kurucz
 * Phil Howlett
 * Piotr Gredka
+* Radek Valášek aka vaLin
 * Robert Norris
 * Robert Pallier
 * Roland Mas
@@ -76,9 +78,9 @@ Copyright © 2008-2013 Pioneer Developers
 Pioneer's core code and extension modules are licensed under the terms of the
 GNU General Public License version 3. See licenses/GPL-3.txt for details.
 
-Pioneer's art, music and other assets (including Lua model scripts) are
-licensed under the terms of the Creative Commons Attribution-ShareAlike 3.0
-Unported License. See licenses/CC-BY-SA-3.0.txt for details.
+Pioneer's art, music and other assets are licensed under the terms of the
+Creative Commons Attribution-ShareAlike 3.0 Unported License. See
+licenses/CC-BY-SA-3.0.txt for details.
 
 Pioneer includes the following third-party software:
 
@@ -95,10 +97,6 @@ Pioneer includes the following third-party software:
   vcacheopt.h
   Copyright (C) 2009, Michael Georgoulpoulos
   Licensed under the MIT licence (see contrib/vcacheopt/vcacheopt.h)
-
-  Cousine font
-  Copyright (C) 2010 Google, Inc
-  Licensed under the SIL Open Font Licence v1.1 (see licenses/SIL-1.1.txt)
 
   Titillium Text font
   Copyright (C) 2007-2009 Academia di Belle Arte di Urbino - Campivisivi

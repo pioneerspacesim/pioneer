@@ -1440,3 +1440,234 @@ Translate:Add({ Deutsch = {
 	 "Arment Aerodynamik"
   },
 }, })
+
+  ---- CZECH / ČESKY ----
+
+Translate:AddFlavour('Czech','Taxi', {
+  adtext = "HLEDÁM: Místo na lodi pro malou skupinu do systému {system}. Zaplatím {cash}.",
+  introtext = "Ahoj, jsem {name} a potřebuju místo na lodi pro malou skupinu do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+  whysomuch = "Letíme navštívit přítele.",
+  howmany = "Počet pasažérů je: {group}",
+  danger = "Ne.",
+  successmsg = "Děkujeme za hezký výlet. Dostaneš zaplaceno v plné výši.",
+  failuremsg = "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+  wherearewe = "Kde to jsme? Už jsme se načekali dost - Vem nás do nejbližší stanice OKAMŽITĚ!",
+  single = 0,
+  urgency = 0,
+  risk = 0.001,
+})
+
+Translate:AddFlavour('Czech','Taxi', {
+  adtext = "HLEDÁM: Místo na lodi pro malou skupinu do systému {system}. Zaplatím {cash}.",
+  introtext = "Ahoj, jsem {name} a potřebuju místo na lodi pro malou skupinu do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+  whysomuch = "Pracujeme pro firmu {corp}, platí to oni.",
+  howmany = "Počet pasažérů je: {group}",
+  danger = "Ne.",
+  successmsg = "Děkujeme za hezký výlet. Dostaneš zaplaceno v plné výši.",
+  failuremsg = "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+  wherearewe = "Kde to jsme? Už jsme se načekali dost - Vem nás do nejbližší stanice OKAMŽITĚ!",
+  single = 0,
+  urgency = 0,
+  risk = 0,
+})
+
+Translate:AddFlavour('Czech','Taxi', {
+  adtext = "HLEDÁM: Místo na lodi pro malou skupinu do systému {system}. Zaplatím {cash}.",
+  introtext = "Ahoj, jsem {name} a potřebuju místo na lodi pro malou skupinu do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+  whysomuch = "Jde o normální služební cestu.",
+  howmany = "Počet pasažérů je: {group}",
+  danger = "Ne.",
+  successmsg = "Díky že jsi nás sem vzal. Dostaneš zaplaceno v plné výši. Hodně štěstí!",
+  failuremsg = "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+  wherearewe = "Kde to jsme? Už jsme se načekali dost - Vem nás do nejbližší stanice OKAMŽITĚ!",
+  single = 0,
+  urgency = 0,
+  risk = 0,
+})
+
+Translate:AddFlavour('Czech','Taxi', {
+  adtext = "SHÁNÍM LOĎ: Odvoz do systému {system}. Zaplatím {cash}.",
+  introtext = "Ahoj, jsem {name} a potřebuju odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+  whysomuch = "Jeden starý rival se mě snaží zabít.",
+  howmany = "Jenom já.",
+  danger = "Myslím že je mi na stopě najatý vrah a tak může jít i po tobě.",
+  successmsg = "Dík za hezký výlet. Dostaneš zaplaceno v plné výši.",
+  failuremsg = "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+  wherearewe = "Kde to jsme? Už jsem se načekal dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+  single = 1,
+  urgency = 0.13,
+  risk = 0.73,
+})
+
+Translate:AddFlavour('Czech','Taxi', {
+  adtext = "SHÁNÍM LOĎ: Odvoz do systému {system}. Zaplatím {cash}.",
+  introtext = "Ahoj, jsem {name} a potřebuju odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+  whysomuch = "Jsem obchodní cestující.",
+  howmany = "Jen já.",
+  danger = "Ne.",
+  successmsg = "Díky že jsi mě sem vzal. Dostaneš zaplaceno v plné výši. Hodně štěstí!",
+  failuremsg = "Ani se neopovažuj požadovat platbu! Nahlásím tě úřadům.",
+  wherearewe = "Kde to jsme? Už jsem se načekal(a) dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+  single = 1,
+  urgency = 0.3,
+  risk = 0.02,
+})
+
+Translate:AddFlavour('Czech','Taxi', {
+  adtext = "HLEDÁM: Odvoz do systému {system}. Zaplatím {cash}.",
+  introtext = "Ahoj, jsem {name} a potřebuju odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+  whysomuch = "Ty nevíš - Jsem velmi známá celebrita.",
+  howmany = "Jenom já.",
+  danger = "Možná tě budou otravovat novináři a média. Prostě je ignoruj.",
+  successmsg = "Děkuji za hezký výlet. Dostaneš zaplaceno v plné výši.",
+  failuremsg = "Co jsi to udělal(a)?!? Moje turné je v čudu i s polovinou fanoušků!",
+  wherearewe = "Kde to jsme? Už jsem se načekal(a) dost - Vem mě do nejbližší stanice OKAMŽITĚ!",
+  single = 1,
+  urgency = 0.1,
+  risk = 0.05,
+})
+
+Translate:AddFlavour('Czech','Taxi', {
+  adtext = "HLEDÁM LOĎ: Odvoz do systému {system}. Zaplatím {cash}.",
+  introtext = "Ahoj, jsem {name} a potřebuju odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+  whysomuch = "Jsem nezávislý novinář.",
+  howmany = "It's only me.",
+  howmany = "Jen já.",
+  danger = "Ne.",
+  successmsg = "Díky za hezký výlet. Dostaneš zaplaceno v plné výši.",
+  failuremsg = "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+  wherearewe = "Kde to jsme? Už jsem se načekal(a) dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+  single = 1,
+  urgency = 0.02,
+  risk = 0.07,
+})
+
+Translate:AddFlavour('Czech','Taxi', {
+  adtext = "HLEDÁM LOĎ: Bezpečný odvoz do systému {system}. Zaplatím {cash}.",
+  introtext = "Ahoj, jmenuji se {name} a potřebuju bezpečný odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+  whysomuch = "Jde po mě mafie, chtějí mou smrt.",
+  howmany = "Já a nikdo jiný.",
+  danger = "Mafie nemá ráda lidi, kteří pomáhají jejím nepřátelům.",
+  successmsg = "Děkuju že jsi mě sem bezpečně dostal. Dostaneš zaplaceno v plné výši. Hodně štěstí!",
+  failuremsg = "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+  wherearewe = "Kde to jsme? Už jsem se načekal(a) dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+  single = 1,
+  urgency = 0.15,
+  risk = 1,
+})
+
+Translate:AddFlavour('Czech','Taxi', {
+  adtext = "HLEDÁM LOĎ: Odvoz na rychlé lodi do systému {system}. Zaplatím {cash}.",
+  introtext = "Jmenuji se {name}. Potřebuji rychlý odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+  whysomuch = "Jedu navštívit nemocného příbuzného.",
+  howmany = "Jen já.",
+  danger = "Ne.",
+  successmsg = "Díky za rychlý let. Dostaneš zaplaceno v plné výši.",
+  failuremsg = "Nepřijatelné! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+  wherearewe = "Kde to jsme? Už jsem se načekal(a) dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+  single = 1,
+  urgency = 0.5,
+  risk = 0.001,
+})
+
+Translate:AddFlavour('Czech','Taxi', {
+  adtext = "HLEDÁM LOĎ: Odvoz na rychlé lodi do systému {system}.",
+  introtext = "Jmenuji se {name}. Potřebuji rychlý odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+  whysomuch = "Shání mě policie, chtějí odpovědi na pár otázek.",
+  howmany = "Jen já.",
+  danger = "Policie se tě může pokusit zastavit.",
+  successmsg = "Díky za rychlý let. Dostaneš zaplaceno v plné výši.",
+  failuremsg = "Jsi k ničemu! Trvalo to věčnost a den. Nedostaneš zaplaceno!",
+  wherearewe = "Kde to jsme? Už jsem se načekal(a) dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+  single = 1,
+  urgency = 0.85,
+  risk = 0.20,
+})
+
+Translate:AddFlavour('Czech','Taxi', {
+  adtext = "HLEDÁM LOĎ: Odvoz na rychlé lodi do systému {system}.",
+  introtext = "Jmenuji se {name}. Potřebuji rychlý odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+  whysomuch = "Byl bych raděj, aby mě někdo nenašel.",
+  howmany = "Jen jeden.",
+  danger = "Myslím, že mě někdo sleduje.",
+  successmsg = "Díky za rychlý let. Dostaneš zaplaceno v plné výši.",
+  failuremsg = "Jsi opravdu nezkušený pilot. Za tohle nezaplatím!",
+  wherearewe = "Kde to jsme? Už jsem se čekal(a) dost dlouho - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+  single = 1,
+  urgency = 0.9,
+  risk = 0.40,
+})
+
+Translate:AddFlavour('Czech','Taxi', {
+  adtext = "RYCHLOU LOĎ: Odvoz na rychlé lodi do systému {system}.",
+  introtext = "Jmenuji se {name}. Potřebuji rychlý odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím {cash}.",
+  whysomuch = "Jsem podnikový auditor na inspekční cestě.",
+  howmany = "Jen jeden.",
+  danger = "Někdy se stává, že se lidem inspekce nelíbí.",
+  successmsg = "Díky za rychlý let. Dostaneš zaplaceno v plné výši.",
+  failuremsg = "Jsi opravdu nekompetentní a já jsem teď bez práce! Takže ty peníze potřebuju víc než ty.",
+  wherearewe = "Kde to jsme? Už jsem se čekal(a) dost dlouho - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+  single = 1,
+  urgency = 1,
+  risk = 0.31,
+})
+
+Translate:AddFlavour('Czech','Taxi', {
+  adtext = "HLEDÁM LOĎ: Odvoz do systému {system}.",
+  introtext = "Jmenuji se {name}. Potřebuju odvoz do systému {system} ({sectorx}, {sectory}, {sectorz}), vzdáleném {dist} ly. Zaplatím ti {cash}.",
+  whysomuch = "Dlužím nějaké peníze a jdou po mě.",
+  howmany = "Jen jeden.",
+  danger = "Někdo mě pronásleduje.",
+  successmsg = "Díky za odvoz, dostaneš zaplaceno v plné výši.",
+  failuremsg = "Nemám dost pěněz. Promiň.",
+  wherearewe = "Kde to jsme? Už jsem se načekal(a) dost - Vysaď mě na nejbližší stanici OKAMŽITĚ!",
+  single = 1,
+  urgency = 0,
+  risk = 0.17,
+})
+
+Translate:Add({ Czech = {
+  ["Taxi"] = "Taxi",
+  ["Why so much money?"] = "Proč tolik peněz?",
+  ["How many of you are there?"] = "Kolik vás je?",
+  ["How soon you must be there?"] = "Dokdy tam musíte dorazit?",
+  ["Will I be in any danger?"] = "Ocitnu se v nějakém nebezpečí?",
+  ["I must be there before "] = "Musím tam dorazit do ",
+  ["We want to be there before "] = "Musíme tam dorazit do ",
+  ["You do not have enough cabin space on your ship."] = "Na palubě lodi nemáš dostatek místa pro pasažéry.",
+  ["Could you repeat the original request?"] = "Můžete mi znovu zopakovat váš požadavek?",
+  ["Ok, agreed."] = "OK, souhlasím.",
+  ["Hey!?! You are going to pay for this!!!"] = "Hej!?! Za tohle zaplatíš!!!",
+  ["ly"] = "ly",
+
+  -- Texts for the missions screen
+  taximissiondetail = [[
+  Odkud:
+  Kam:
+  Detail skupiny:
+  Nebezpečí:
+  Termín:
+
+  Vzdálenost:]],
+
+ PIRATE_TAUNTS = {
+	"Budeš litovat, že jsis něco začal s {client}",
+	"Ty máš na palubě {client}? To nebyl dobrý nápad.",
+	"Dnes není tvůj šťastný den! Připrav se na smrt.",
+	"Ty už dnes do cíle nedorazíš!",
+  },
+ CORPORATIONS = {
+	 "Sirius",
+	 "ACME",
+	 "Cool Cola",
+	 "Taranis",
+	 "Aquarian Shipbuilding",
+	 "Rockforth",
+	 "Amaliel",
+	 "Marett Space",
+	 "Vega Line",
+	 "Digital",
+	 "Bulk Ships",
+	 "Arment Aerodynamics"
+  },
+}, })
