@@ -13,6 +13,8 @@
 #include "terrain/Terrain.h"
 #include "GeoPatchID.h"
 
+#include <deque>
+
 namespace Graphics { class Renderer; }
 class SystemBody;
 class GeoPatch;
@@ -28,9 +30,10 @@ struct SSplitRequestDescription {
 							const SystemPath &sysPath_,
 							const GeoPatchID &patchID_,
 							const int edgeLen_,
-							const double fracStep_)
+							const double fracStep_,
+							Terrain *pTerrain_)
 							: v0(v0_), v1(v1_), v2(v2_), v3(v3_), centroid(cn), depth(depth_), 
-							sysPath(sysPath_), patchID(patchID_), edgeLen(edgeLen_), fracStep(fracStep_)
+							sysPath(sysPath_), patchID(patchID_), edgeLen(edgeLen_), fracStep(fracStep_), pTerrain(pTerrain_)
 	{
 	}
 
@@ -44,15 +47,18 @@ struct SSplitRequestDescription {
 	const GeoPatchID patchID;
 	const int edgeLen;
 	const double fracStep;
+	Terrain *pTerrain;
 };
 
 struct SSplitResult {
 	struct SSplitResultData {
-		SSplitResultData(Graphics::Texture *pTex_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
-			pTex(pTex_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), patchID(patchID_)
+		SSplitResultData(vector3d *v_, vector3d *n_, vector3d *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
+			vertices(v_), normals(n_), colors(c_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), patchID(patchID_)
 		{
 		}
-		Graphics::Texture *pTex;
+		vector3d *vertices;
+		vector3d *normals;
+		vector3d *colors;
 		const vector3d v0;
 		const vector3d v1;
 		const vector3d v2;
@@ -64,9 +70,9 @@ struct SSplitResult {
 	{
 	}
 
-	void addResult(Graphics::Texture *pTex, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
+	void addResult(vector3d *v_, vector3d *n_, vector3d *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
 	{
-		data.push_back(SSplitResultData(pTex, v0_, v1_, v2_, v3_, patchID_));
+		data.push_back(SSplitResultData(v_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
 		assert(data.size()<=4);
 	}
 
@@ -104,8 +110,8 @@ public:
 	static int GetVtxGenCount() { return s_vtxGenCount; }
 	static void ClearVtxGenCount() { s_vtxGenCount = 0; }
 
-	bool AddSplitRequest(SSplitRequestDescription *desc);
-	void ProcessSplitRequests();
+	//bool AddSplitRequest(SSplitRequestDescription *desc);
+	//void ProcessSplitRequests();
 	void ProcessSplitResults();
 
 private:

@@ -368,14 +368,12 @@ private:
 	class PatchJob : public PureJob
 	{
 	public:
-		PatchJob(const SSplitRequestDescription &data, JobManager::JobHandle* handle) 
-			: PureJob(), mData(data), mpHandle(handle)
+		PatchJob(const SSplitRequestDescription &data) : mData(data)
 		{
 		}
 
 		virtual ~PatchJob()
 		{
-			mpHandle = NULL;
 		}
 
 		virtual void init(unsigned int *counter)
@@ -386,24 +384,48 @@ private:
 		virtual void job_process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 		{
 			//(*mpKid)->GenerateMesh();
-			GenerateMesh();
+			const SSplitRequestDescription& srd = mData;
+
+			const vector3d v01	= (srd.v0+srd.v1).Normalized();
+			const vector3d v12	= (srd.v1+srd.v2).Normalized();
+			const vector3d v23	= (srd.v2+srd.v3).Normalized();
+			const vector3d v30	= (srd.v3+srd.v0).Normalized();
+			const vector3d cn	= (srd.centroid).Normalized();
+
+			// 
+			const vector3d vecs[4][4] = {
+				{srd.v0,	v01,		cn,			v30},
+				{v01,		srd.v1,		v12,		cn},
+				{cn,		v12,		srd.v2,		v23},
+				{v30,		cn,			v23,		srd.v3}
+			};
+
+			SSplitResult *sr = new SSplitResult(srd.patchID.GetPatchFaceIdx(), srd.depth);
+			for (int i=0; i<4; i++)
+			{
+				vector3d *vertices = new vector3d[NUMVERTICES()];
+				vector3d *normals = new vector3d[NUMVERTICES()];
+				vector3d *colors = new vector3d[NUMVERTICES()];
+				GenerateMesh(vertices, normals, colors, vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], srd.edgeLen, srd.fracStep);
+				sr->addResult(vertices, normals, colors, vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], srd.patchID.NextPatchID(srd.depth+1, i));
+			}
+			//GenerateMesh();
 		}
 
 		virtual void job_onFinish(void * userData, int userId)  // runs in primary thread of the context
 		{
 			PureJob::job_onFinish(userData, userId);
-			(*mpHandle) = JobManager::INVALID_JOB_HANDLE;
 		}
 
 		virtual void job_onCancel(void * userData, int userId)   // runs in primary thread of the context
 		{
 			PureJob::job_onCancel(userData, userId);
-			(*mpHandle) = JobManager::INVALID_JOB_HANDLE;
 		}
 
 	private:
 		const SSplitRequestDescription	mData;
-		JobManager::JobHandle*			mpHandle;
+
+		inline int NUMVERTICES() const { return mData.edgeLen*mData.edgeLen; }
 
 		/* in patch surface coords, [0,1] */
 		inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3, const double x, const double y) const {
@@ -413,43 +435,50 @@ private:
 		}
 
 		// Generates full-detail vertices, and also non-edge normals and colors 
-		void GenerateMesh() {
+		void GenerateMesh(
+			vector3d *vertices, vector3d *normals, vector3d *colors, 
+			const vector3d &v0,
+			const vector3d &v1,
+			const vector3d &v2,
+			const vector3d &v3,
+			const int edgeLen,
+			const double fracStep) const
+		{
 			vector3d *vts = vertices;
 			vector3d *col = colors;
 			double xfrac;
 			double yfrac = 0;
-			for (int y=0; y<mData.edgeLen; y++) {
+			for (int y=0; y<edgeLen; y++) {
 				xfrac = 0;
-				for (int x=0; x<mData.edgeLen; x++) {
-					vector3d p = GetSpherePoint(mData.v0, mData.v1, mData.v2, mData.v3, xfrac, yfrac);
-					double height = geosphere->GetHeight(p);
+				for (int x=0; x<edgeLen; x++) {
+					vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
+					double height = mData.pTerrain->GetHeight(p);
 					*(vts++) = p * (height + 1.0);
 					// remember this -- we will need it later
 					(col++)->x = height;
-					xfrac += mData.fracStep;
+					xfrac += fracStep;
 				}
-				yfrac += mData.fracStep;
+				yfrac += fracStep;
 			}
 			assert(vts == &vertices[ctx->NUMVERTICES()]);
 			// Generate normals & colors for non-edge vertices since they never change
-			for (int y=1; y<mData.edgeLen-1; y++) {
-				for (int x=1; x<mData.edgeLen-1; x++) {
+			for (int y=1; y<edgeLen-1; y++) {
+				for (int x=1; x<edgeLen-1; x++) {
 					// normal
-					vector3d x1 = vertices[x-1 + y*mData.edgeLen];
-					vector3d x2 = vertices[x+1 + y*mData.edgeLen];
-					vector3d y1 = vertices[x + (y-1)*mData.edgeLen];
-					vector3d y2 = vertices[x + (y+1)*mData.edgeLen];
+					const vector3d x1 = vertices[x-1 + y*edgeLen];
+					const vector3d x2 = vertices[x+1 + y*edgeLen];
+					const vector3d y1 = vertices[x + (y-1)*edgeLen];
+					const vector3d y2 = vertices[x + (y+1)*edgeLen];
 
 					const vector3d n = ((x2-x1).Cross(y2-y1)).Normalized();
-					normals[x + y*mData.edgeLen] = n;
+					normals[x + y*edgeLen] = n;
 					// color
-					const vector3d p = GetSpherePoint(mData.v0, mData.v1, mData.v2, mData.v3, x*mData.fracStep, y*mData.fracStep);
-					const double height = colors[x + y*mData.edgeLen].x;
-					vector3d &col_r = colors[x + y*mData.edgeLen];
-					col_r = geosphere->GetColor(p, height, n);
+					const vector3d p = GetSpherePoint(v0, v1, v2, v3, x*fracStep, y*fracStep);
+					const double height = colors[x + y*edgeLen].x;
+					vector3d &col_r = colors[x + y*edgeLen];
+					col_r = mData.pTerrain->GetColor(p, height, n);
 				}
 			}
-
 		}
 	};
 public:
@@ -472,6 +501,7 @@ public:
 	double m_distMult;
 
 	const GeoPatchID mPatchID;
+	bool mHasSplitRequest;
 
 	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs, 
 		const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, 
@@ -1046,7 +1076,11 @@ public:
 		}
 	}
 
-	void LODUpdate(vector3d &campos) {
+	void LODUpdate(const vector3d &campos) {
+		// there should be no LODUpdate'ing when we have active split requests
+		if(mHasSplitRequest)
+			return;
+
 		// if we've been asked to abort then get out as quickly as possible
 		// this function is recursive so we might be very deep. this is about
 		// as fast as we can go
@@ -1075,7 +1109,18 @@ public:
 
 		if (canSplit) {
 			if (!kids[0]) {
-				vector3d v01, v12, v23, v30, cn;
+				// don't do anything if we can't handle anymore jobs
+				if( !Pi::jobs.canAddJob() ) {
+					return;
+				}
+
+				mHasSplitRequest = true;
+				SSplitRequestDescription ssrd(v0, v1, v2, v3, centroid.Normalized(), m_depth,
+							geosphere->m_sbody->path, mPatchID, ctx->edgeLen,
+							ctx->frac, geosphere->m_terrain);
+				Pi::jobs.addJob(new PatchJob(ssrd), NULL);
+
+				/*vector3d v01, v12, v23, v30, cn;
 				cn = centroid.Normalized();
 				v01 = (v0+v1).Normalized();
 				v12 = (v1+v2).Normalized();
@@ -1114,15 +1159,73 @@ public:
 					kids[i]->GenerateEdgeNormalsAndColors();
 					kids[i]->UpdateVBOs();
 				}
-				PiVerify(SDL_mutexV(m_kidsLock)!=-1);
+				PiVerify(SDL_mutexV(m_kidsLock)!=-1);*/
 			}
-			for (int i=0; i<4; i++) kids[i]->LODUpdate(campos);
+			for (int i=0; i<4; i++) {
+				kids[i]->LODUpdate(campos);
+			}
 		} else {
 			if (canMerge && kids[0]) {
 				PiVerify(SDL_mutexP(m_kidsLock)==0);
-				for (int i=0; i<4; i++) { delete kids[i]; kids[i] = 0; }
+				for (int i=0; i<4; i++) { 
+					delete kids[i]; 
+					kids[i] = NULL; 
+				}
 				PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 			}
+		}
+	}
+
+	void ReceiveHeightmaps(const SSplitResult *psr)
+	{
+		if (m_depth<psr->depth) {
+			// this should work because each depth should have a common history
+			const uint32_t kidIdx = psr->data[0].patchID.GetPatchIdx(m_depth+1);
+			kids[kidIdx]->ReceiveHeightmaps(psr);
+		} else {
+			const int nD = m_depth+1;
+			for (int i=0; i<4; i++)
+			{
+				kids[i] = new GeoPatch(ctx, geosphere, 
+					psr->data[i].v0, psr->data[i].v1, psr->data[i].v2, psr->data[i].v3, 
+					nD, mPatchID.NextPatchID(nD,i));
+			}
+
+			for (int i=0; i<4; i++)
+			{
+				kids[i]->vertices = psr->data[i].vertices;
+				kids[i]->normals = psr->data[i].normals;
+				kids[i]->colors = psr->data[i].colors;
+			}
+
+			// hm.. edges. Not right to pass this
+			// edgeFriend...
+			kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
+			kids[0]->edgeFriend[1] = kids[1];
+			kids[0]->edgeFriend[2] = kids[3];
+			kids[0]->edgeFriend[3] = GetEdgeFriendForKid(0, 3);
+			kids[1]->edgeFriend[0] = GetEdgeFriendForKid(1, 0);
+			kids[1]->edgeFriend[1] = GetEdgeFriendForKid(1, 1);
+			kids[1]->edgeFriend[2] = kids[2];
+			kids[1]->edgeFriend[3] = kids[0];
+			kids[2]->edgeFriend[0] = kids[1];
+			kids[2]->edgeFriend[1] = GetEdgeFriendForKid(2, 1);
+			kids[2]->edgeFriend[2] = GetEdgeFriendForKid(2, 2);
+			kids[2]->edgeFriend[3] = kids[3];
+			kids[3]->edgeFriend[0] = kids[0];
+			kids[3]->edgeFriend[1] = kids[2];
+			kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);
+			kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
+			kids[0]->parent = kids[1]->parent = kids[2]->parent = kids[3]->parent = this;
+			for (int i=0; i<4; i++) {
+				kids[i]->GenerateMesh();
+			}
+			for (int i=0; i<4; i++) {
+				if(edgeFriend[i]) {
+					edgeFriend[i]->NotifyEdgeFriendSplit(this);
+				}
+			}
+			mHasSplitRequest = false;
 		}
 	}
 };
@@ -1352,7 +1455,7 @@ void GeoSphere::DestroyVBOs()
 	SDL_mutexV(m_vbosToDestroyLock);
 }
 
-bool GeoSphere::AddSplitRequest(SSplitRequestDescription *desc)
+/*bool GeoSphere::AddSplitRequest(SSplitRequestDescription *desc)
 {
 	assert(mSplitRequestDescriptions.size()<MAX_SPLIT_REQUESTS);
 	if(mSplitRequestDescriptions.size()<MAX_SPLIT_REQUESTS) {
@@ -1387,7 +1490,7 @@ void GeoSphere::ProcessSplitRequests()
 		for (int i=0; i<4; i++)
 		{
 			//Graphics::Texture *pTex = Graphics::TextureBuilder::TerrainGen("TerrainGen").CreateTexture(Pi::renderer);
-			/*Graphics::TextureDescriptor td(Graphics::TEXTURE_FLOAT, vector2f(sPatchContext->fboWidth(), sPatchContext->fboWidth()), Graphics::NEAREST_CLAMP, false, false);
+			Graphics::TextureDescriptor td(Graphics::TEXTURE_FLOAT, vector2f(sPatchContext->fboWidth(), sPatchContext->fboWidth()), Graphics::NEAREST_CLAMP, false, false);
 			Graphics::Texture *pTex = Pi::renderer->CreateTexture(td);
 
 			// render the heightmap to a framebuffer.
@@ -1399,7 +1502,7 @@ void GeoSphere::ProcessSplitRequests()
 			Graphics::TextureGL* pTexGL = static_cast<Graphics::TextureGL*>(pTex);
 			sPatchContext->renderHeightmap(0, mPatchGenData, pTexGL->GetTextureNum());
 
-			sr->addResult(pTex, vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], srd->patchID.NextPatchID(srd->depth+1, i));*/
+			sr->addResult(pTex, vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], srd->patchID.NextPatchID(srd->depth+1, i));
 		}
 
 		// store result
@@ -1412,7 +1515,7 @@ void GeoSphere::ProcessSplitRequests()
 		++iter;
 	}
 	mSplitRequestDescriptions.clear();
-}
+}*/
 
 void GeoSphere::ProcessSplitResults()
 {
@@ -1423,7 +1526,7 @@ void GeoSphere::ProcessSplitResults()
 		const SSplitResult *psr = (*iter);
 
 		const int32_t faceIdx = psr->face;
-		//mGeoPatches[faceIdx]->ReceiveHeightmaps(psr);
+		m_patches[faceIdx]->ReceiveHeightmaps(psr);
 
 		// tidyup
 		delete psr;
@@ -1436,32 +1539,24 @@ void GeoSphere::ProcessSplitResults()
 
 void GeoSphere::BuildFirstPatches()
 {
-	// generate initial wank
-	vector3d p1(1,1,1);
-	vector3d p2(-1,1,1);
-	vector3d p3(-1,-1,1);
-	vector3d p4(1,-1,1);
-	vector3d p5(1,1,-1);
-	vector3d p6(-1,1,-1);
-	vector3d p7(-1,-1,-1);
-	vector3d p8(1,-1,-1);
-	p1 = p1.Normalized();
-	p2 = p2.Normalized();
-	p3 = p3.Normalized();
-	p4 = p4.Normalized();
-	p5 = p5.Normalized();
-	p6 = p6.Normalized();
-	p7 = p7.Normalized();
-	p8 = p8.Normalized();
+	// generate root face patches of the cube/sphere
+	static const vector3d p1 = (vector3d( 1, 1, 1)).Normalized();
+	static const vector3d p2 = (vector3d(-1, 1, 1)).Normalized();
+	static const vector3d p3 = (vector3d(-1,-1, 1)).Normalized();
+	static const vector3d p4 = (vector3d( 1,-1, 1)).Normalized();
+	static const vector3d p5 = (vector3d( 1, 1,-1)).Normalized();
+	static const vector3d p6 = (vector3d(-1, 1,-1)).Normalized();
+	static const vector3d p7 = (vector3d(-1,-1,-1)).Normalized();
+	static const vector3d p8 = (vector3d( 1,-1,-1)).Normalized();
 
 	const uint64_t maxShiftDepth = GeoPatchID::MAX_SHIFT_DEPTH;
 
-	m_patches[0] = new GeoPatch(s_patchContext, this, p1, p2, p3, p4, 0, maxShiftDepth);
-	m_patches[1] = new GeoPatch(s_patchContext, this, p4, p3, p7, p8, 0, maxShiftDepth);
-	m_patches[2] = new GeoPatch(s_patchContext, this, p1, p4, p8, p5, 0, maxShiftDepth);
-	m_patches[3] = new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0, maxShiftDepth);
-	m_patches[4] = new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0, maxShiftDepth);
-	m_patches[5] = new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, maxShiftDepth);
+	m_patches[0] = new GeoPatch(s_patchContext, this, p1, p2, p3, p4, 0, (0i64 << maxShiftDepth));
+	m_patches[1] = new GeoPatch(s_patchContext, this, p4, p3, p7, p8, 0, (1i64 << maxShiftDepth));
+	m_patches[2] = new GeoPatch(s_patchContext, this, p1, p4, p8, p5, 0, (2i64 << maxShiftDepth));
+	m_patches[3] = new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0, (3i64 << maxShiftDepth));
+	m_patches[4] = new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0, (4i64 << maxShiftDepth));
+	m_patches[5] = new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, (5i64 << maxShiftDepth));
 	for (int i=0; i<6; i++) {
 		for (int j=0; j<4; j++) {
 			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];
