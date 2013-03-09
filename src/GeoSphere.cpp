@@ -1091,7 +1091,7 @@ public:
 			return;
 
 		bool canSplit = true;
-		const bool canMerge = (kids[0]!=NULL);
+		const bool canMerge = (NULL!=kids[0]) && (NULL==kids[0]->kids[0]) && (!kids[0]->mHasSplitRequest);
 
 		// always split at first level
 		if (parent) {
