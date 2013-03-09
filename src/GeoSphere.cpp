@@ -500,6 +500,7 @@ public:
 
 	const GeoPatchID mPatchID;
 	bool mHasSplitRequest;
+	uint8_t mCanMergeChildren;
 
 	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs, 
 		const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, 
@@ -508,7 +509,7 @@ public:
 		vertices(NULL), normals(NULL), colors(NULL), 
 		m_vbo(0), parent(NULL), geosphere(gs), 
 		m_depth(depth), mPatchID(ID_), 
-		mHasSplitRequest(false)
+		mHasSplitRequest(false), mCanMergeChildren(0x0F)
 	{
 		for (int i=0; i<4; ++i) {
 			edgeFriend[i]	= NULL;
@@ -1076,6 +1077,7 @@ public:
 		}
 	}
 
+	#pragma optimize( "", off )
 	void LODUpdate(const vector3d &campos) {
 		// there should be no LODUpdate'ing when we have active split requests
 		if(mHasSplitRequest)
@@ -1091,7 +1093,7 @@ public:
 			return;
 
 		bool canSplit = true;
-		const bool canMerge = (NULL!=kids[0]) && (NULL==kids[0]->kids[0]) && (!kids[0]->mHasSplitRequest);
+		const bool canMerge = (NULL!=kids[0]) && (0==mCanMergeChildren);
 
 		// always split at first level
 		if (parent) {
@@ -1120,6 +1122,10 @@ public:
 				}
 
 				mHasSplitRequest = true;
+				if(parent) {
+					// set the bit flag preventing merging
+					parent->mCanMergeChildren |= 1<<mPatchID.GetPatchIdx(m_depth);
+				}
 				SSplitRequestDescription ssrd(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 							geosphere->m_sbody->path, mPatchID, ctx->edgeLen,
 							ctx->frac, geosphere->m_terrain, geosphere);
@@ -1138,7 +1144,7 @@ public:
 			PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 		}
 	}
-
+	#pragma optimize( "", off )
 	void ReceiveHeightmaps(const SSplitResult *psr)
 	{
 		if (m_depth<psr->depth) {
@@ -1188,6 +1194,10 @@ public:
 			}
 			PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 			mHasSplitRequest = false;
+			if(parent) {
+				// remove the bit flag
+				parent->mCanMergeChildren &= ~(1<<mPatchID.GetPatchIdx(m_depth));
+			}
 		}
 	}
 };
