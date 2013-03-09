@@ -925,6 +925,12 @@ void Pi::EndGame()
 	if (!config->Int("DisableSound")) AmbientSounds::Uninit();
 	Sound::DestroyAllEvents();
 
+	while(jobs.jobsRemaining()) {
+		jobs.update();
+		_sleep(0);
+	}
+	assert(!jobs.jobsRemaining());
+
 	assert(game);
 	delete game;
 	game = 0;

@@ -164,21 +164,7 @@ private:
 	std::deque<SSplitResult*> mSplitResult;
 	SDL_mutex *m_splitResultLock;
 
-	///////////////////////////
-	// threading rubbbbbish
-	// update thread can't do it since only 1 thread can molest opengl
-	static int UpdateLODThread(void *data);
-	std::list<GLuint> m_vbosToDestroy;
-	SDL_mutex *m_vbosToDestroyLock;
-	void AddVBOToDestroy(GLuint vbo);
-	void DestroyVBOs();
-
 	vector3d m_tempCampos;
-
-	SDL_mutex *m_updateLock;
-	SDL_mutex *m_abortLock;
-	bool m_abort;
-	//////////////////////////////
 
 	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const {
 		return m_terrain->GetColor(p, height, norm);
