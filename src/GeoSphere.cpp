@@ -19,7 +19,7 @@
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
 #define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15
-#define GEOSPHERE_USE_THREADING
+// #define GEOSPHERE_USE_THREADING
 
 static const int GEOPATCH_MAX_EDGELEN = 55;
 int GeoSphere::s_vtxGenCount = 0;
@@ -383,33 +383,33 @@ private:
 
 		virtual void job_process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 		{
-			//(*mpKid)->GenerateMesh();
-			const SSplitRequestDescription& srd = mData;
-
-			const vector3d v01	= (srd.v0+srd.v1).Normalized();
-			const vector3d v12	= (srd.v1+srd.v2).Normalized();
-			const vector3d v23	= (srd.v2+srd.v3).Normalized();
-			const vector3d v30	= (srd.v3+srd.v0).Normalized();
-			const vector3d cn	= (srd.centroid).Normalized();
+			const vector3d v01	= (mData.v0+mData.v1).Normalized();
+			const vector3d v12	= (mData.v1+mData.v2).Normalized();
+			const vector3d v23	= (mData.v2+mData.v3).Normalized();
+			const vector3d v30	= (mData.v3+mData.v0).Normalized();
+			const vector3d cn	= (mData.centroid).Normalized();
 
 			// 
 			const vector3d vecs[4][4] = {
-				{srd.v0,	v01,		cn,			v30},
-				{v01,		srd.v1,		v12,		cn},
-				{cn,		v12,		srd.v2,		v23},
-				{v30,		cn,			v23,		srd.v3}
+				{mData.v0,	v01,		cn,			v30},
+				{v01,		mData.v1,	v12,		cn},
+				{cn,		v12,		mData.v2,	v23},
+				{v30,		cn,			v23,		mData.v3}
 			};
 
-			SSplitResult *sr = new SSplitResult(srd.patchID.GetPatchFaceIdx(), srd.depth);
+			SSplitResult *sr = new SSplitResult(mData.patchID.GetPatchFaceIdx(), mData.depth);
 			for (int i=0; i<4; i++)
 			{
-				vector3d *vertices = new vector3d[NUMVERTICES()];
-				vector3d *normals = new vector3d[NUMVERTICES()];
-				vector3d *colors = new vector3d[NUMVERTICES()];
-				GenerateMesh(vertices, normals, colors, vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], srd.edgeLen, srd.fracStep);
-				sr->addResult(vertices, normals, colors, vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], srd.patchID.NextPatchID(srd.depth+1, i));
+				// fill out the data
+				GenerateMesh(mData.vertices[i], mData.normals[i], mData.colors[i], 
+					vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
+					mData.edgeLen, mData.fracStep);
+				// add this patches data
+				sr->addResult(mData.vertices[i], mData.normals[i], mData.colors[i], 
+					vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
+					mData.patchID.NextPatchID(mData.depth+1, i));
 			}
-			//GenerateMesh();
+			mData.pGeoSphere->AddSplitResult(sr);
 		}
 
 		virtual void job_onFinish(void * userData, int userId)  // runs in primary thread of the context
@@ -424,8 +424,6 @@ private:
 
 	private:
 		const SSplitRequestDescription	mData;
-
-		inline int NUMVERTICES() const { return mData.edgeLen*mData.edgeLen; }
 
 		/* in patch surface coords, [0,1] */
 		inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3, const double x, const double y) const {
@@ -460,7 +458,7 @@ private:
 				}
 				yfrac += fracStep;
 			}
-			assert(vts == &vertices[ctx->NUMVERTICES()]);
+			assert(vts == &vertices[mData.NUMVERTICES()]);
 			// Generate normals & colors for non-edge vertices since they never change
 			for (int y=1; y<edgeLen-1; y++) {
 				for (int x=1; x<edgeLen-1; x++) {
@@ -506,7 +504,11 @@ public:
 	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs, 
 		const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, 
 		const int depth, const GeoPatchID &ID_) 
-		: ctx(_ctx), v0(v0_), v1(v1_), v2(v2_), v3(v3_), m_vbo(0), parent(NULL), geosphere(gs), m_depth(depth), mPatchID(ID_) 
+		: ctx(_ctx), v0(v0_), v1(v1_), v2(v2_), v3(v3_), 
+		vertices(NULL), normals(NULL), colors(NULL), 
+		m_vbo(0), parent(NULL), geosphere(gs), 
+		m_depth(depth), mPatchID(ID_), 
+		mHasSplitRequest(false)
 	{
 		for (int i=0; i<4; ++i) {
 			edgeFriend[i]	= NULL;
@@ -528,12 +530,10 @@ public:
  		}
 		m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth) * m_distMult;
 		m_needUpdateVBOs = false;
-		normals = new vector3d[ctx->NUMVERTICES()];
-		vertices = new vector3d[ctx->NUMVERTICES()];
-		colors = new vector3d[ctx->NUMVERTICES()];
 	}
 
 	~GeoPatch() {
+		assert(!mHasSplitRequest);
 		SDL_DestroyMutex(m_kidsLock);
 		for (int i=0; i<4; i++) {
 			if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
@@ -546,7 +546,7 @@ public:
 	}
 
 	void UpdateVBOs() {
-		m_needUpdateVBOs = true;
+		m_needUpdateVBOs = (NULL!=vertices);
 	}
 
 	void _UpdateVBOs() {
@@ -875,8 +875,8 @@ public:
 			    (1.0-x)*y*(v3-v0)).Normalized();
 	}
 
-	/** Generates full-detail vertices, and also non-edge normals and
-	 * colors */
+	// Generates full-detail vertices, and also non-edge normals and colors
+	#pragma optimize( "", off )
 	void GenerateMesh() {
 		centroid = clipCentroid.Normalized();
 		centroid = (1.0 + geosphere->GetHeight(centroid)) * centroid;
@@ -1041,7 +1041,7 @@ public:
 		if (kids[0]) {
 			for (int i=0; i<4; i++) kids[i]->Render(campos, frustum);
 			SDL_mutexV(m_kidsLock);
-		} else {
+		} else if (NULL!=vertices) {
 			SDL_mutexV(m_kidsLock);
 			_UpdateVBOs();
 
@@ -1091,21 +1091,26 @@ public:
 			return;
 
 		bool canSplit = true;
-		for (int i=0; i<4; i++) {
-			if (!edgeFriend[i]) { canSplit = false; break; }
-			if (edgeFriend[i] && (edgeFriend[i]->m_depth < m_depth)) {
+		const bool canMerge = (kids[0]!=NULL);
+
+		// always split at first level
+		if (parent) {
+			for (int i=0; i<4; i++) {
+				if (!edgeFriend[i]) { 
+					canSplit = false; 
+					break; 
+				} else if (edgeFriend[i]->m_depth < m_depth) {
+					canSplit = false;
+					break;
+				}
+			}
+			const float centroidDist = (campos - centroid).Length();
+			const bool errorSplit = (centroidDist < m_roughLength);
+			if( !(canSplit && (m_depth < GEOPATCH_MAX_DEPTH) && errorSplit) ) 
+			{
 				canSplit = false;
-				break;
 			}
 		}
-		if (!(canSplit && (m_depth < GEOPATCH_MAX_DEPTH) &&
-		    ((campos - centroid).Length() < m_roughLength)))
-			canSplit = false;
-		// always split at first level
-		if (!parent) canSplit = true;
-		//printf(campos.Length());
-
-		bool canMerge = true;
 
 		if (canSplit) {
 			if (!kids[0]) {
@@ -1117,62 +1122,20 @@ public:
 				mHasSplitRequest = true;
 				SSplitRequestDescription ssrd(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 							geosphere->m_sbody->path, mPatchID, ctx->edgeLen,
-							ctx->frac, geosphere->m_terrain);
+							ctx->frac, geosphere->m_terrain, geosphere);
 				Pi::jobs.addJob(new PatchJob(ssrd), NULL);
-
-				/*vector3d v01, v12, v23, v30, cn;
-				cn = centroid.Normalized();
-				v01 = (v0+v1).Normalized();
-				v12 = (v1+v2).Normalized();
-				v23 = (v2+v3).Normalized();
-				v30 = (v3+v0).Normalized();
-				GeoPatch *_kids[4];
-				const int nD = m_depth+1;
-				_kids[0] = new GeoPatch(ctx, geosphere, v0, v01, cn, v30, nD, mPatchID.NextPatchID(nD,0));
-				_kids[1] = new GeoPatch(ctx, geosphere, v01, v1, v12, cn, nD, mPatchID.NextPatchID(nD,1));
-				_kids[2] = new GeoPatch(ctx, geosphere, cn, v12, v2, v23, nD, mPatchID.NextPatchID(nD,2));
-				_kids[3] = new GeoPatch(ctx, geosphere, v30, cn, v23, v3, nD, mPatchID.NextPatchID(nD,3));
-				// hm.. edges. Not right to pass this
-				// edgeFriend...
-				_kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
-				_kids[0]->edgeFriend[1] = _kids[1];
-				_kids[0]->edgeFriend[2] = _kids[3];
-				_kids[0]->edgeFriend[3] = GetEdgeFriendForKid(0, 3);
-				_kids[1]->edgeFriend[0] = GetEdgeFriendForKid(1, 0);
-				_kids[1]->edgeFriend[1] = GetEdgeFriendForKid(1, 1);
-				_kids[1]->edgeFriend[2] = _kids[2];
-				_kids[1]->edgeFriend[3] = _kids[0];
-				_kids[2]->edgeFriend[0] = _kids[1];
-				_kids[2]->edgeFriend[1] = GetEdgeFriendForKid(2, 1);
-				_kids[2]->edgeFriend[2] = GetEdgeFriendForKid(2, 2);
-				_kids[2]->edgeFriend[3] = _kids[3];
-				_kids[3]->edgeFriend[0] = _kids[0];
-				_kids[3]->edgeFriend[1] = _kids[2];
-				_kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);
-				_kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
-				_kids[0]->parent = _kids[1]->parent = _kids[2]->parent = _kids[3]->parent = this;
-				for (int i=0; i<4; i++) _kids[i]->GenerateMesh();
-				PiVerify(SDL_mutexP(m_kidsLock)==0);
-				for (int i=0; i<4; i++) kids[i] = _kids[i];
-				for (int i=0; i<4; i++) edgeFriend[i]->NotifyEdgeFriendSplit(this);
+			} else {
 				for (int i=0; i<4; i++) {
-					kids[i]->GenerateEdgeNormalsAndColors();
-					kids[i]->UpdateVBOs();
+					kids[i]->LODUpdate(campos);
 				}
-				PiVerify(SDL_mutexV(m_kidsLock)!=-1);*/
 			}
-			for (int i=0; i<4; i++) {
-				kids[i]->LODUpdate(campos);
+		} else if (canMerge) {
+			PiVerify(SDL_mutexP(m_kidsLock)==0);
+			for (int i=0; i<4; i++) { 
+				delete kids[i]; 
+				kids[i] = NULL; 
 			}
-		} else {
-			if (canMerge && kids[0]) {
-				PiVerify(SDL_mutexP(m_kidsLock)==0);
-				for (int i=0; i<4; i++) { 
-					delete kids[i]; 
-					kids[i] = NULL; 
-				}
-				PiVerify(SDL_mutexV(m_kidsLock)!=-1);
-			}
+			PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 		}
 	}
 
@@ -1189,13 +1152,6 @@ public:
 				kids[i] = new GeoPatch(ctx, geosphere, 
 					psr->data[i].v0, psr->data[i].v1, psr->data[i].v2, psr->data[i].v3, 
 					nD, mPatchID.NextPatchID(nD,i));
-			}
-
-			for (int i=0; i<4; i++)
-			{
-				kids[i]->vertices = psr->data[i].vertices;
-				kids[i]->normals = psr->data[i].normals;
-				kids[i]->colors = psr->data[i].colors;
 			}
 
 			// hm.. edges. Not right to pass this
@@ -1217,14 +1173,20 @@ public:
 			kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);
 			kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
 			kids[0]->parent = kids[1]->parent = kids[2]->parent = kids[3]->parent = this;
-			for (int i=0; i<4; i++) {
-				kids[i]->GenerateMesh();
+
+			for (int i=0; i<4; i++)
+			{
+				kids[i]->vertices = psr->data[i].vertices;
+				kids[i]->normals = psr->data[i].normals;
+				kids[i]->colors = psr->data[i].colors;
 			}
+			PiVerify(SDL_mutexP(m_kidsLock)==0);
+			for (int i=0; i<4; i++) { if(edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendSplit(this); }
 			for (int i=0; i<4; i++) {
-				if(edgeFriend[i]) {
-					edgeFriend[i]->NotifyEdgeFriendSplit(this);
-				}
+				kids[i]->GenerateEdgeNormalsAndColors();
+				kids[i]->UpdateVBOs();
 			}
+			PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 			mHasSplitRequest = false;
 		}
 	}
@@ -1240,17 +1202,20 @@ static const int geo_sphere_edge_friends[6][4] = {
 };
 
 static std::vector<GeoSphere*> s_allGeospheres;
+#ifdef GEOSPHERE_USE_THREADING
 static std::deque<GeoSphere*> s_geosphereUpdateQueue;
 static GeoSphere* s_currentlyUpdatingGeoSphere = 0;
 static SDL_mutex *s_geosphereUpdateQueueLock = 0;
 static SDL_cond *s_geosphereUpdateQueueCondition = 0;		///< Condition variable for s_geosphereUpdateQueue and s_exitFlag. Allows waking up the thread when useful.
 static SDL_Thread *s_updateThread = 0;
+#endif
 
 static bool s_exitFlag = false;
 
 /* Thread that updates geosphere level of detail thingies */
 int GeoSphere::UpdateLODThread(void *data)
 {
+#ifdef GEOSPHERE_USE_THREADING
 	SDL_mutexP(s_geosphereUpdateQueueLock);
 
 	while (true) {
@@ -1291,13 +1256,16 @@ int GeoSphere::UpdateLODThread(void *data)
 	}
 
 	SDL_mutexV(s_geosphereUpdateQueueLock);
+#endif
 	return 0;
 }
 
 void GeoSphere::Init()
 {
+#ifdef GEOSPHERE_USE_THREADING
 	s_geosphereUpdateQueueLock = SDL_CreateMutex();
 	s_geosphereUpdateQueueCondition = SDL_CreateCond();
+#endif
 
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
@@ -1323,8 +1291,10 @@ void GeoSphere::Uninit()
 	assert (s_patchContext.Unique());
 	s_patchContext.Reset();
 
+#ifdef GEOSPHERE_USE_THREADING
 	SDL_DestroyCond(s_geosphereUpdateQueueCondition);
 	SDL_DestroyMutex(s_geosphereUpdateQueueLock);
+#endif
 }
 
 static void print_info(const SystemBody *sbody, const Terrain *terrain)
@@ -1342,6 +1312,7 @@ void GeoSphere::OnChangeDetailLevel()
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
 
+#ifdef GEOSPHERE_USE_THREADING
 	// cancel all queued updates
 	SDL_mutexP(s_geosphereUpdateQueueLock);
 	s_geosphereUpdateQueue.clear();
@@ -1354,11 +1325,11 @@ void GeoSphere::OnChangeDetailLevel()
 		gs->m_abort = true;
 		SDL_mutexV(gs->m_abortLock);
 	}
+#endif
 
 	// reinit the geosphere terrain data
-	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin();
-			i != s_allGeospheres.end(); ++i) {
-
+	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i) 
+	{
 		// we need the update lock so we don't delete working data out from
 		// under the thread. it should finish very quickly since we told it to
 		// abort quickly
@@ -1396,6 +1367,7 @@ GeoSphere::GeoSphere(const SystemBody *body)
 	m_sbody = body;
 	memset(m_patches, 0, 6*sizeof(GeoPatch*));
 
+	m_splitResultLock = SDL_CreateMutex();
 	m_updateLock = SDL_CreateMutex();
 	m_abortLock = SDL_CreateMutex();
 	m_abort = false;
@@ -1412,12 +1384,14 @@ GeoSphere::~GeoSphere()
 	m_abort = true;
 	SDL_mutexV(m_abortLock);
 
+#ifdef GEOSPHERE_USE_THREADING
 	SDL_mutexP(s_geosphereUpdateQueueLock);
 	assert(std::count(s_allGeospheres.begin(), s_allGeospheres.end(), this) <= 1);
 	s_geosphereUpdateQueue.erase(
 		std::remove(s_geosphereUpdateQueue.begin(), s_geosphereUpdateQueue.end(), this),
 		s_geosphereUpdateQueue.end());
 	SDL_mutexV(s_geosphereUpdateQueueLock);
+#endif
 
 	// wait until it completes update
 	SDL_mutexP(m_updateLock);
@@ -1429,6 +1403,7 @@ GeoSphere::~GeoSphere()
 
 	SDL_DestroyMutex(m_abortLock);
 	SDL_DestroyMutex(m_updateLock);
+	SDL_DestroyMutex(m_splitResultLock);
 
 	for (int i=0; i<6; i++) if (m_patches[i]) delete m_patches[i];
 	DestroyVBOs();
@@ -1457,8 +1432,8 @@ void GeoSphere::DestroyVBOs()
 
 /*bool GeoSphere::AddSplitRequest(SSplitRequestDescription *desc)
 {
-	assert(mSplitRequestDescriptions.size()<MAX_SPLIT_REQUESTS);
-	if(mSplitRequestDescriptions.size()<MAX_SPLIT_REQUESTS) {
+	assert(mSplitRequestDescriptions.size()<MAX_SPLIT_OPERATIONS);
+	if(mSplitRequestDescriptions.size()<MAX_SPLIT_OPERATIONS) {
 		mSplitRequestDescriptions.push_back(desc);
 		return true;
 	}
@@ -1517,8 +1492,22 @@ void GeoSphere::ProcessSplitRequests()
 	mSplitRequestDescriptions.clear();
 }*/
 
+bool GeoSphere::AddSplitResult(SSplitResult *res)
+{
+	bool result = false;
+	SDL_mutexP(m_splitResultLock);
+	assert(mSplitResult.size()<MAX_SPLIT_OPERATIONS);
+	if(mSplitResult.size()<MAX_SPLIT_OPERATIONS) {
+		mSplitResult.push_back(res);
+		result = true;
+	}
+	SDL_mutexV(m_splitResultLock);
+	return result;
+}
+
 void GeoSphere::ProcessSplitResults()
 {
+	SDL_mutexP(m_splitResultLock);
 	std::deque<SSplitResult*>::const_iterator iter = mSplitResult.begin();
 	while(iter!=mSplitResult.end())
 	{
@@ -1535,10 +1524,13 @@ void GeoSphere::ProcessSplitResults()
 		++iter;
 	}
 	mSplitResult.clear();
+	SDL_mutexV(m_splitResultLock);
 }
 
+#pragma optimize( "", off )
 void GeoSphere::BuildFirstPatches()
 {
+	assert(NULL==m_patches[0]);
 	// generate root face patches of the cube/sphere
 	static const vector3d p1 = (vector3d( 1, 1, 1)).Normalized();
 	static const vector3d p2 = (vector3d(-1, 1, 1)).Normalized();
@@ -1561,6 +1553,11 @@ void GeoSphere::BuildFirstPatches()
 		for (int j=0; j<4; j++) {
 			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];
 		}
+	}
+	for (int i=0; i<6; i++) {
+		m_patches[i]->vertices = new vector3d[s_patchContext->NUMVERTICES()];
+		m_patches[i]->normals = new vector3d[s_patchContext->NUMVERTICES()];
+		m_patches[i]->colors = new vector3d[s_patchContext->NUMVERTICES()];
 	}
 	for (int i=0; i<6; i++) m_patches[i]->GenerateMesh();
 	for (int i=0; i<6; i++) m_patches[i]->GenerateEdgeNormalsAndColors();
@@ -1626,7 +1623,24 @@ static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	glPopMatrix();
 }
 
-void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale) {
+void GeoSphere::Update()
+{
+	if(NULL==m_patches[0] && mSplitResult.empty()) {
+		BuildFirstPatches();
+	} else if(mSplitRequestDescriptions.empty()) {
+		ProcessSplitResults();
+		for (int i=0; i<6; i++) {
+			m_patches[i]->LODUpdate(m_tempCampos);
+		}
+	}
+}
+
+void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale) 
+{
+	if(NULL==m_patches[0]) {
+		return;
+	}
+
 	glPushMatrix();
 	glTranslated(-campos.x, -campos.y, -campos.z);
 	Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
@@ -1665,8 +1679,6 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 		}
 	}
 	glPopMatrix();
-
-	if (!m_patches[0]) BuildFirstPatches();
 
 	Color ambient;
 	Color &emission = m_surfaceMaterial->emissive;
@@ -1708,13 +1720,13 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 
 	renderer->SetAmbientColor(oldAmbient);
 
+	// store this for later usage in the update method.
+	m_tempCampos = campos;
+
 	// if the update thread has deleted any geopatches, destroy the vbos
 	// associated with them
 	DestroyVBOs();
-		/*this->m_tempCampos = campos;
-		UpdateLODThread(this);
-		return;*/
-
+#ifdef GEOSPHERE_USE_THREADING
 	bool added(false);		// Tells if something has been queued.
 	SDL_mutexP(s_geosphereUpdateQueueLock);
 	bool onQueue =
@@ -1728,11 +1740,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 	}
 	SDL_mutexV(s_geosphereUpdateQueueLock);
 	if (added) SDL_CondBroadcast(s_geosphereUpdateQueueCondition);
-
-#ifndef GEOSPHERE_USE_THREADING
-	m_tempCampos = campos;
-	_UpdateLODs();
-#endif /* !GEOSPHERE_USE_THREADING */
+#endif
 }
 
 void GeoSphere::SetUpMaterials()

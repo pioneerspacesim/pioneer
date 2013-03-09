@@ -19,6 +19,7 @@ namespace Graphics { class Renderer; }
 class SystemBody;
 class GeoPatch;
 class GeoPatchContext;
+class GeoSphere;
 
 struct SSplitRequestDescription {
 	SSplitRequestDescription(const vector3d &v0_,
@@ -31,11 +32,36 @@ struct SSplitRequestDescription {
 							const GeoPatchID &patchID_,
 							const int edgeLen_,
 							const double fracStep_,
-							Terrain *pTerrain_)
+							Terrain *pTerrain_,
+							GeoSphere *pGeoSphere_)
 							: v0(v0_), v1(v1_), v2(v2_), v3(v3_), centroid(cn), depth(depth_), 
-							sysPath(sysPath_), patchID(patchID_), edgeLen(edgeLen_), fracStep(fracStep_), pTerrain(pTerrain_)
+							sysPath(sysPath_), patchID(patchID_), edgeLen(edgeLen_), fracStep(fracStep_), 
+							pTerrain(pTerrain_), 
+							pGeoSphere(pGeoSphere_)
 	{
+		for( int i=0 ; i<4 ; ++i )
+		{
+			vertices[i] = new vector3d[NUMVERTICES(edgeLen_)];
+			normals[i] = new vector3d[NUMVERTICES(edgeLen_)];
+			colors[i] = new vector3d[NUMVERTICES(edgeLen_)];
+		}
 	}
+
+	SSplitRequestDescription(const SSplitRequestDescription &r) : v0(r.v0), v1(r.v1), v2(r.v2), v3(r.v3), centroid(r.centroid), depth(r.depth), 
+							sysPath(r.sysPath), patchID(r.patchID), edgeLen(r.edgeLen), fracStep(r.fracStep), 
+							pTerrain(r.pTerrain), 
+							pGeoSphere(r.pGeoSphere)
+	{
+		for( int i=0 ; i<4 ; ++i )
+		{
+			vertices[i] = r.vertices[i];
+			normals[i] = r.normals[i];
+			colors[i] = r.colors[i];
+		}
+	}
+
+	inline int NUMVERTICES() const { return edgeLen*edgeLen; }
+	inline int NUMVERTICES(const int el) const { return el*el; }
 
 	const vector3d v0;
 	const vector3d v1;
@@ -48,6 +74,11 @@ struct SSplitRequestDescription {
 	const int edgeLen;
 	const double fracStep;
 	Terrain *pTerrain;
+	// quick hack, do not have in the final version!
+	GeoSphere *pGeoSphere;
+	vector3d *vertices[4];
+	vector3d *normals[4];
+	vector3d *colors[4];
 };
 
 struct SSplitResult {
@@ -56,6 +87,10 @@ struct SSplitResult {
 			vertices(v_), normals(n_), colors(c_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), patchID(patchID_)
 		{
 		}
+		SSplitResultData(const SSplitResultData &r) : 
+			vertices(r.vertices), normals(r.normals), colors(r.colors), v0(r.v0), v1(r.v1), v2(r.v2), v3(r.v3), patchID(r.patchID)
+		{}
+
 		vector3d *vertices;
 		vector3d *normals;
 		vector3d *colors;
@@ -85,8 +120,9 @@ class GeoSphere {
 public:
 	GeoSphere(const SystemBody *body);
 	~GeoSphere();
+	void Update();
 	void Render(Graphics::Renderer *r, vector3d campos, const float radius, const float scale);
-	inline double GetHeight(vector3d p) {
+	inline double GetHeight(vector3d p) const {
 		const double h = m_terrain->GetHeight(p);
 		s_vtxGenCount++;
 #ifdef DEBUG
@@ -112,6 +148,7 @@ public:
 
 	//bool AddSplitRequest(SSplitRequestDescription *desc);
 	//void ProcessSplitRequests();
+	bool AddSplitResult(SSplitResult *res);
 	void ProcessSplitResults();
 
 private:
@@ -122,9 +159,10 @@ private:
 	/* all variables for GetHeight(), GetColor() */
 	Terrain *m_terrain;
 
-	static const uint32_t MAX_SPLIT_REQUESTS = 128;
+	static const uint32_t MAX_SPLIT_OPERATIONS = 128;
 	std::deque<SSplitRequestDescription*> mSplitRequestDescriptions;
 	std::deque<SSplitResult*> mSplitResult;
+	SDL_mutex *m_splitResultLock;
 
 	///////////////////////////
 	// threading rubbbbbish
@@ -142,7 +180,7 @@ private:
 	bool m_abort;
 	//////////////////////////////
 
-	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) {
+	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const {
 		return m_terrain->GetColor(p, height, norm);
 	}
 
