@@ -64,7 +64,7 @@ class JobManager
 public:
 	// terrain always adds jobs in blocks of 4 so we'll actually go over this value sometimes then settle back down to it.
 	// this is not a flaw or a problem it's just a way of limiting the number of jobs which was occassionally... insane.
-	static const unsigned int MAX_NUMBER_JOBS = (2048-3); 
+	static const unsigned int MAX_NUMBER_JOBS = 1024; 
 	static const unsigned int INVALID_JOB_HANDLE = UINT_MAX;
 	typedef unsigned int JobHandle;
 
@@ -87,6 +87,7 @@ private:
     JobHandle mTasksRemaining;
 	JobHandle mCurrentTaskID;
 	JobHandle mMaxNumTasks;
+	JobHandle mNumTasksSoFar;
 
 	typedef std::pair<PureJob*, unsigned char*> TIncomingJobData;
 	std::deque<TIncomingJobData>	mIncomingJobs;

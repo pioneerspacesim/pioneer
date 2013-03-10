@@ -16,7 +16,7 @@
 #define DEF_THREADS 8
 
 JobManager::JobManager(const int iNumThreads) 
-	: mpContext(NULL), mPrevTasksRemaining(0), mTasksRemaining(0), mCurrentTaskID(0), mMaxNumTasks(0), mIncomingMutex(0)
+	: mpContext(NULL), mPrevTasksRemaining(0), mTasksRemaining(0), mCurrentTaskID(0), mMaxNumTasks(0), mNumTasksSoFar(0), mIncomingMutex(0)
 {
 	// check and limit number of threads
 	int32_t numCoresToUse = std::min( std::max( getNumCores()-2, MIN_THREADS ), MAX_THREADS );
@@ -64,11 +64,13 @@ void JobManager::update()
 {
 	if (mIncomingJobs.size() > 0) {
 		mIncomingMutex->lock();
-		std::deque<TIncomingJobData>::iterator iter = mIncomingJobs.begin();
-		while(mIncomingJobs.end() != iter) {
+		std::deque<TIncomingJobData>::const_iterator iter = mIncomingJobs.begin();
+		std::deque<TIncomingJobData>::const_iterator itEnd = mIncomingJobs.end();
+		while(itEnd != iter) {
 			addIncomingJob((*iter).first, (*iter).second);
 			++iter;
 		}
+		mNumTasksSoFar += mIncomingJobs.size();
 		mIncomingJobs.clear();
 		mIncomingMutex->unlock();
 	}
