@@ -205,7 +205,7 @@ Translate:AddFlavour('Deutsch','CrewContracts',{
 })
 
 Translate:Add({
-	English = {
+	Deutsch = {
 		['Crew for hire'] = 'Suche Anstellung',
 		['Potential crew members are registered as seeking employment at {station}:'] = 'Potenzielle Crewmitglieder sind als Arbeitssuchend registriert bei {station}:',
 		['{potentialCrewMember} ({wage}/wk)'] = '{potentialCrewMember} ({wage}/Woche)',
