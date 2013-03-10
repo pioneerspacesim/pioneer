@@ -20,7 +20,7 @@
 
 // tri edge lengths
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
-#define GEOPATCH_MAX_DEPTH  2 //15 + (2*Pi::detail.fracmult) //15
+#define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15
 
 static const int GEOPATCH_MAX_EDGELEN = 55;
 

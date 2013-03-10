@@ -392,7 +392,10 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 	}
 
 	renderer->SetAmbientColor(ambient);
+//#define USE_WIREFRAME
+#ifdef USE_WIREFRAME
 	renderer->SetWireFrameMode(true);
+#endif
 	// this is pretty much the only place where a non-renderer is allowed to call Apply()
 	// to be removed when someone rewrites terrain
 	m_surfaceMaterial->Apply();
@@ -404,7 +407,9 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 	m_surfaceMaterial->Unapply();
 
 	renderer->SetAmbientColor(oldAmbient);
+#ifdef USE_WIREFRAME
 	renderer->SetWireFrameMode(false);
+#endif
 
 	// store this for later usage in the update method.
 	m_tempCampos = campos;
