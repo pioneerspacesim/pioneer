@@ -3,6 +3,9 @@ Alpha 33
    * New features
      * Czech language support (#2136)
 
+   * Minor changes and tweaks
+     * Clean up the Taxi mission view (#2142)
+
 Alpha 32
 
    * New features
