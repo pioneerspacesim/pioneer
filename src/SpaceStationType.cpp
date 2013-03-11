@@ -329,20 +329,6 @@ static int _get_bay_ids(lua_State *L, const char *key, SpaceStationType::TBayGro
 	return 0;
 }
 
-static std::string _set_global_function(lua_State *L, const char *function_name, const char *global_prefix)
-{
-	lua_pushstring(L, function_name);
-	lua_gettable(L, -2);
-	if (lua_isfunction(L, -1)) {
-		const std::string fullName = stringf("%0_%1", global_prefix, function_name);
-		lua_setglobal(L, fullName.c_str());
-		return fullName;
-	} else {
-		lua_pop(L, 1);
-		return "";
-	}
-}
-
 static int _define_station(lua_State *L, SpaceStationType &station)
 {
 	station.id = s_currentStationFile;
