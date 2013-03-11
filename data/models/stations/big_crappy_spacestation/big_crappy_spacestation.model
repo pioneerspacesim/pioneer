@@ -16,4 +16,5 @@ tex_glow details_glow.png
 
 mesh bcstation.dae
 mesh bcdecals.dae
+mesh bcdocking.dae
 collision bccoll.dae

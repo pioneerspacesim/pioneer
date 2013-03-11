@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.0">
+  <asset>
+    <contributor>
+      <author></author>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments></comments>
+    </contributor>
+    <created>2013-02-26T10:32:09Z</created>
+    <modified>2013-02-26T10:32:09Z</modified>
+    <revision></revision>
+    <title></title>
+    <subject></subject>
+    <keywords></keywords>
+    <unit meter="0.025400"/>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_materials>
+    <material id="_dockingrefJoinedMaterial__1" name="_dockingrefJoinedMaterial__1">
+      <instance_effect url="#_dockingrefJoinedMaterial__1-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="_dockingrefJoinedMaterial__1-fx" name="_dockingrefJoinedMaterial__1">
+      <profile_COMMON>
+        <technique sid="standard">
+          <phong>
+            <emission>
+              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.588000  0.588000 0.588000 1.000000</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.588000  0.588000 0.588000 1.000000</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.000000  0.000000 0.000000 1.000000</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">1.148698</float>
+            </shininess>
+            <reflective>
+              <color sid="reflective">0.000000  0.000000 0.000000 1.000000</color>
+            </reflective>
+            <reflectivity>
+              <float sid="reflectivity">1.000000</float>
+            </reflectivity>
+            <transparent>
+              <color sid="transparent">1.000000  1.000000 1.000000 1.000000</color>
+            </transparent>
+            <transparency>
+              <float sid="transparency">0.000000</float>
+            </transparency>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="DummyToExport-lib" name="DummyToExportMesh">
+      <mesh>
+        <source id="DummyToExport-lib-Position">
+          <float_array id="DummyToExport-lib-Position-array" count="9">
+-100.000000 50.000000 -78.306198
+-100.000000 -50.000000 -78.306198
+100.000000 -50.000000 -78.306198
+</float_array>
+          <technique_common>
+            <accessor source="#DummyToExport-lib-Position-array" count="3" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DummyToExport-lib-Normal0">
+          <float_array id="DummyToExport-lib-Normal0-array" count="9">
+0.000000 -1.000000 0.000000
+0.000000 -1.000000 0.000000
+0.000000 -1.000000 0.000000
+</float_array>
+          <technique_common>
+            <accessor source="#DummyToExport-lib-Normal0-array" count="3" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DummyToExport-lib-UV0">
+          <float_array id="DummyToExport-lib-UV0-array" count="6">
+1.125380 1.687310
+1.125380 1.312690
+1.874620 1.312690
+</float_array>
+          <technique_common>
+            <accessor source="#DummyToExport-lib-UV0-array" count="3" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DummyToExport-lib-Vertex">
+          <input semantic="POSITION" source="#DummyToExport-lib-Position"/>
+        </vertices>
+        <polygons material="_dockingrefJoinedMaterial__1" count="1">
+          <input semantic="VERTEX" offset="0" source="#DummyToExport-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#DummyToExport-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#DummyToExport-lib-UV0"/>
+          <p>0 0 0 1 1 1 2 2 2</p>
+        </polygons>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="RootNode" name="RootNode">
+      <node id="docking_stage3_bay1" name="docking_stage3_bay1">
+        <matrix sid="matrix">0.000000 0.000000 1.000000 195.534485 -1.000000 0.000000 0.000000 47.896847 -0.000000 -1.000000 0.000000 46.778038 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_stage2_bay1" name="docking_stage2_bay1">
+        <matrix sid="matrix">1.000000 -0.000000 -0.000000 0.161421 0.000000 0.000000 1.000000 59.792236 -0.000000 -1.000000 0.000000 -0.000063 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_stage1_bay1" name="docking_stage1_bay1">
+        <matrix sid="matrix">1.000000 -0.000000 -0.000000 0.161296 0.000000 0.000000 1.000000 490.442200 -0.000000 -1.000000 0.000000 0.000020 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="approach_stage2_bay1" name="approach_stage2_bay1">
+        <matrix sid="matrix">1.000000 0.000000 -0.000001 0.161421 -0.000001 0.000000 -1.000000 490.442200 -0.000000 1.000000 0.000000 -0.000063 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="approach_stage1_bay1" name="approach_stage1_bay1">
+        <matrix sid="matrix">1.000000 0.000000 -0.000001 0.161568 -0.000001 0.000000 -1.000000 1465.172852 -0.000000 1.000000 0.000000 -0.000210 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_stage1_bay1" name="leaving_stage1_bay1">
+        <matrix sid="matrix">0.000000 0.000000 1.000000 195.534607 -1.000000 0.000000 0.000000 47.897091 -0.000000 -1.000000 0.000000 46.778412 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_stage2_bay1" name="leaving_stage2_bay1">
+        <matrix sid="matrix">-1.000000 0.000000 -0.000000 0.161296 0.000000 -0.000000 -1.000000 59.792236 -0.000000 -1.000000 0.000000 0.000020 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_stage3_bay1" name="leaving_stage3_bay1">
+        <matrix sid="matrix">-1.000000 0.000000 -0.000000 0.161421 0.000000 -0.000000 -1.000000 490.442200 -0.000000 -1.000000 0.000000 -0.000063 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_stage3_bay02" name="docking_stage3_bay02">
+        <matrix sid="matrix">0.000000 -0.000000 -1.000000 -193.452850 1.000000 0.000000 0.000000 47.843163 0.000000 -1.000000 0.000000 46.778008 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_stage2_bay02" name="docking_stage2_bay02">
+        <matrix sid="matrix">1.000000 -0.000000 -0.000000 0.161421 0.000000 0.000000 1.000000 59.792236 -0.000000 -1.000000 0.000000 -0.000063 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="docking_stage1_bay02" name="docking_stage1_bay02">
+        <matrix sid="matrix">1.000000 -0.000000 -0.000000 0.161296 0.000000 0.000000 1.000000 490.442200 -0.000000 -1.000000 0.000000 0.000020 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_stage1_bay02" name="leaving_stage1_bay02">
+        <matrix sid="matrix">0.000000 -0.000000 -1.000000 -193.452972 1.000000 0.000000 0.000000 47.842857 0.000000 -1.000000 0.000000 46.778381 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_stage2_bay02" name="leaving_stage2_bay02">
+        <matrix sid="matrix">-1.000000 0.000000 -0.000000 0.161296 0.000000 -0.000000 -1.000000 59.792236 -0.000000 -1.000000 0.000000 0.000020 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="leaving_stage3_bay02" name="leaving_stage3_bay02">
+        <matrix sid="matrix">-1.000000 0.000000 -0.000000 0.161421 0.000000 -0.000000 -1.000000 490.442200 -0.000000 -1.000000 0.000000 -0.000063 0.000000 0.000000 0.000000 1.000000</matrix>
+      </node>
+      <node id="DummyToExport" name="DummyToExport">
+        <matrix sid="matrix">1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000 -150.426025 0.000000 -1.000000 0.000000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+        <instance_geometry url="#DummyToExport-lib">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="_dockingrefJoinedMaterial__1" target="#_dockingrefJoinedMaterial__1"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#RootNode"/>
+  </scene>
+</COLLADA>
+

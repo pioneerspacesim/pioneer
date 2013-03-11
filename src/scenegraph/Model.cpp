@@ -164,6 +164,20 @@ MatrixTransform * const Model::FindTagByName(const std::string &name) const
 	return 0;
 }
 
+void Model::FindTagsByStartOfName(const std::string &name, TVecMT &outNameMTs) const
+{
+	for (TagContainer::const_iterator it = m_tags.begin();
+		it != m_tags.end();
+		++it)
+	{
+		assert(!(*it)->GetName().empty()); //tags must have a name
+		if (starts_with((*it)->GetName(), name)) {
+			outNameMTs.push_back((*it));
+		}
+	}
+	return;
+}
+
 void Model::AddTag(const std::string &name, MatrixTransform *node)
 {
 	if (FindTagByName(name)) return;

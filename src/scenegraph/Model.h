@@ -102,6 +102,8 @@ public:
 	int GetNumTags() const { return m_tags.size(); }
 	MatrixTransform * const GetTagByIndex(unsigned int index) const;
 	MatrixTransform * const FindTagByName(const std::string &name) const;
+	typedef std::vector<MatrixTransform *> TVecMT;
+	void FindTagsByStartOfName(const std::string &name, TVecMT &outNameMTs) const;
 	void AddTag(const std::string &name, MatrixTransform *node);
 
 	const PatternContainer &GetPatterns() const { return m_patterns; }

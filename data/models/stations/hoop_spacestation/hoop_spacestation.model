@@ -23,7 +23,7 @@ shininess 5
 mesh connections.dae
 mesh mainhoop.dae
 mesh doors.dae
-mesh dockingbay.dae
+mesh hoop_docking.dae
 
 collision collision.obj
 
