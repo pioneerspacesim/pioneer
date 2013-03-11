@@ -32,7 +32,6 @@ SpaceStationType::SpaceStationType()
 , parkingGapSize(0)
 {}
 
-#pragma optimize( "", off )
 void SpaceStationType::OnSetupComplete()
 {
 	SceneGraph::Model::TVecMT approach_mts;
@@ -104,7 +103,6 @@ SpaceStationType::SBayGroup* SpaceStationType::GetGroupByBay(const int zeroBaseB
 	return NULL;
 }
 
-#pragma optimize( "", off )
 bool SpaceStationType::GetShipApproachWaypoints(const int port, const int stage, positionOrient_t &outPosOrient) const
 {
 	bool gotOrient = false;
@@ -133,7 +131,6 @@ vector3d vlerp(const double t, const vector3d& v1, const vector3d& v2)
 	return t*v2 + (1.0-t)*v1;
 }
 
-#pragma optimize( "", off )
 static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from, 
 				  SpaceStationType::positionOrient_t &outPosOrient, const Ship *ship)
 {
@@ -165,7 +162,6 @@ static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int
  * when ship has been released (or docked) it returns false.
  * Note station animations may continue for any number of stages after
  * ship has been released and is under player control again */
-#pragma optimize( "", off )
 bool SpaceStationType::GetDockAnimPositionOrient(const int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
 {
 	if (stage < -shipLaunchStage) { stage = -shipLaunchStage; t = 1.0; }
@@ -239,7 +235,6 @@ static inline void _get_float(lua_State *l, const char *key, float &output, cons
 	lua_pop(l, 1);
 }
 
-#pragma optimize( "", off )
 static int _get_stage_durations(lua_State *L, const char *key, int &outNumStages, double **outDurationArray)
 {
 	LUA_DEBUG_START(L);
@@ -267,7 +262,6 @@ static int _get_stage_durations(lua_State *L, const char *key, int &outNumStages
 //	bay_groups = {
 //		{0, 500, {1}},
 //	},
-#pragma optimize( "", off )
 static int _get_bay_ids(lua_State *L, const char *key, SpaceStationType::TBayGroups &outBayGroups)
 {
 	LUA_DEBUG_START(L);

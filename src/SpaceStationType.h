@@ -9,6 +9,7 @@
 //Space station definition, loaded from data/stations
 
 class Ship;
+namespace SceneGraph { class Model; }
 
 struct SpaceStationType {
 	typedef std::map<uint32_t, matrix4x4f> TMapBayIDMat;
