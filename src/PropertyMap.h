@@ -6,7 +6,7 @@
 
 #include "LuaManager.h"
 #include "LuaRef.h"
-#include <string>
+#include "libs.h"
 
 struct lua_State;
 
@@ -27,8 +27,15 @@ public:
 
 	void PushLuaTable();
 
+	sigc::connection Connect(const std::string &k, const sigc::slot<void,PropertyMap &,const std::string &> &fn) {
+		return m_signals[k].connect(fn);
+	}
+
 private:
 	LuaRef m_table;
+
+	void SendSignal(const std::string &k);
+	std::map< std::string,sigc::signal<void,PropertyMap &,const std::string &> > m_signals;
 };
 
 #endif

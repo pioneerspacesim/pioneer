@@ -25,6 +25,7 @@ void PropertyMap::Set(const std::string &k, bool v)
 	lua_rawset(l, -3);
 	lua_pop(l, 1);
 	LUA_DEBUG_END(l, 0);
+	SendSignal(k);
 }
 
 void PropertyMap::Set(const std::string &k, int v)
@@ -37,6 +38,7 @@ void PropertyMap::Set(const std::string &k, int v)
 	lua_rawset(l, -3);
 	lua_pop(l, 1);
 	LUA_DEBUG_END(l, 0);
+	SendSignal(k);
 }
 
 void PropertyMap::Set(const std::string &k, double v)
@@ -49,6 +51,7 @@ void PropertyMap::Set(const std::string &k, double v)
 	lua_rawset(l, -3);
 	lua_pop(l, 1);
 	LUA_DEBUG_END(l, 0);
+	SendSignal(k);
 }
 
 void PropertyMap::Set(const std::string &k, const std::string &v)
@@ -61,6 +64,16 @@ void PropertyMap::Set(const std::string &k, const std::string &v)
 	lua_rawset(l, -3);
 	lua_pop(l, 1);
 	LUA_DEBUG_END(l, 0);
+	SendSignal(k);
+}
+
+void PropertyMap::SendSignal(const std::string &k)
+{
+	std::map< std::string,sigc::signal<void,PropertyMap &,const std::string &> >::iterator i = m_signals.find(k);
+	if (i == m_signals.end())
+		return;
+
+	(*i).second.emit(*this, k);
 }
 
 
