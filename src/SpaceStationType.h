@@ -35,7 +35,7 @@ struct SpaceStationType {
 	std::string modelName;
 	float angVel;
 	enum DOCKMETHOD { SURFACE, ORBITAL } dockMethod;
-	int numDockingPorts;
+	unsigned int numDockingPorts;
 	int numDockingStages;
 	int numUndockStages;
 	int shipLaunchStage;
@@ -63,12 +63,12 @@ struct SpaceStationType {
 	SBayGroup* GetGroupByBay(const int zeroBaseBayID);
 
 	// Call functions in the station .lua
-	bool GetShipApproachWaypoints(const int port, const int stage, positionOrient_t &outPosOrient) const;
+	bool GetShipApproachWaypoints(const unsigned int port, const int stage, positionOrient_t &outPosOrient) const;
 	/** when ship is on rails it returns true and fills outPosOrient.
 	 * when ship has been released (or docked) it returns false.
 	 * Note station animations may continue for any number of stages after
 	 * ship has been released and is under player control again */
-	bool GetDockAnimPositionOrient(const int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
+	bool GetDockAnimPositionOrient(const unsigned int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
 
 	static void Init();
 	static void Uninit();

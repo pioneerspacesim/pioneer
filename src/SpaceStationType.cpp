@@ -103,7 +103,7 @@ SpaceStationType::SBayGroup* SpaceStationType::GetGroupByBay(const int zeroBaseB
 	return NULL;
 }
 
-bool SpaceStationType::GetShipApproachWaypoints(const int port, const int stage, positionOrient_t &outPosOrient) const
+bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const int stage, positionOrient_t &outPosOrient) const
 {
 	bool gotOrient = false;
 
@@ -162,7 +162,7 @@ static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int
  * when ship has been released (or docked) it returns false.
  * Note station animations may continue for any number of stages after
  * ship has been released and is under player control again */
-bool SpaceStationType::GetDockAnimPositionOrient(const int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
+bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
 {
 	if (stage < -shipLaunchStage) { stage = -shipLaunchStage; t = 1.0; }
 	if (stage > numDockingStages || !stage) { stage = numDockingStages; t = 1.0; }
@@ -202,6 +202,15 @@ static inline void _get_int(lua_State *l, const char *key, int &output)
 	output = lua_tointeger(l, -1);
 	lua_pop(l, 1);
 }
+
+static inline void _get_uint(lua_State *l, const char *key, unsigned int &output)
+{
+	lua_pushstring(l, key);
+	lua_gettable(l, -2);
+	output = lua_tointeger(l, -1);
+	lua_pop(l, 1);
+}
+
 
 static inline void _get_bool(lua_State *l, const char *key, bool &output)
 {
@@ -335,7 +344,7 @@ static int _define_station(lua_State *L, SpaceStationType &station)
 
 	LUA_DEBUG_START(L);
 	_get_string(L, "model", station.modelName);
-	_get_int(L, "num_docking_ports", station.numDockingPorts);
+	_get_uint(L, "num_docking_ports", station.numDockingPorts);
 	_get_bay_ids(L, "bay_groups", station.bayGroups);
 	_get_float(L, "angular_velocity", station.angVel, 0.f);
 	_get_float(L, "parking_distance", station.parkingDistance, 5000.f);

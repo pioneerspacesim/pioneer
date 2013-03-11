@@ -173,7 +173,7 @@ void SpaceStation::InitStation()
 		m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
 	}
 
-	for (int i=0; i<m_type->numDockingPorts; i++) {
+	for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
 		m_shipDocking.push_back(shipDocking_t());
 	}
 
@@ -277,7 +277,7 @@ int SpaceStation::GetMyDockingPort(const Ship *s) const
 
 int SpaceStation::GetFreeDockingPort() const
 {
-	for (int i=0; i<m_type->numDockingPorts; i++) {
+	for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
 		if (m_shipDocking[i].ship == 0) {
 			return i;
 		}
@@ -552,7 +552,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 	m_oldAngDisplacement = len;
 
 	// reposition the ships that are docked or docking here
-	for (int i=0; i<m_type->numDockingPorts; i++) {
+	for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
 		const shipDocking_t &dt = m_shipDocking[i];
 		if (!dt.ship) { //free
 			m_navLights->SetColor(i+1, NavLights::NAVLIGHT_GREEN);
