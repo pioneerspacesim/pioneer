@@ -345,19 +345,55 @@ local onClick = function (mission)
 										ui:Grid(2,1)
 										  :SetColumn(0, {
 										    ui:VBox():PackEnd({
-										      ui:Label(t("From:")),
-										      ui:Label(t("To:")),
-										      ui:Label(t("Group details:")),
-										      ui:Label(t("Deadline:")),
+										      ui:Label(t("From:"))
+										    })
+										  })
+										  :SetColumn(1, {
+										    ui:VBox():PackEnd({
+										      ui:MultiLineText(mission.start:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
+										    })
+										  }),
+										ui:Grid(2,1)
+										  :SetColumn(0, {
+										    ui:VBox():PackEnd({
+										      ui:Label(t("To:"))
+										    })
+										  })
+										  :SetColumn(1, {
+										    ui:VBox():PackEnd({
+										      ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
+										    })
+										  }),
+										ui:Grid(2,1)
+										  :SetColumn(0, {
+										    ui:VBox():PackEnd({
+										      ui:Label(t("Group details:"))
+										    })
+										  })
+										  :SetColumn(1, {
+										    ui:VBox():PackEnd({
+										      ui:MultiLineText(string.interp(taxi_flavours[mission.flavour].howmany, {group = mission.group}))
+										    })
+										  }),
+										ui:Grid(2,1)
+										  :SetColumn(0, {
+										    ui:VBox():PackEnd({
+										      ui:Label(t("Deadline:"))
+										    })
+										  })
+										  :SetColumn(1, {
+										    ui:VBox():PackEnd({
+										      ui:Label(Format.Date(mission.due))
+										    })
+										  }),
+										ui:Grid(2,1)
+										  :SetColumn(0, {
+										    ui:VBox():PackEnd({
 										      ui:Label(t("Danger:"))
 										    })
 										  })
 										  :SetColumn(1, {
 										    ui:VBox():PackEnd({
-										      ui:Label(mission.start:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
-										      ui:Label(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
-										      ui:Label(string.interp(taxi_flavours[mission.flavour].howmany, {group = mission.group})),
-										      ui:Label(Format.Date(mission.due)),
 										      ui:MultiLineText(taxi_flavours[mission.flavour].danger)
 										    })
 										  }),
