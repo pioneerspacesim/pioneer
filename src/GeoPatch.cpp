@@ -110,7 +110,6 @@ void GeoPatch::PatchJob::GenerateMesh(
 	}
 }
 
-#pragma optimize( "", off )
 GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs, 
 	const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, 
 	const int depth, const GeoPatchID &ID_) 
@@ -594,7 +593,6 @@ void GeoPatch::Render(vector3d &campos, const Graphics::Frustum &frustum) {
 	}
 }
 
-#pragma optimize( "", off )
 void GeoPatch::LODUpdate(const vector3d &campos) {
 	// there should be no LODUpdate'ing when we have active split requests
 	if(mHasSplitRequest)
@@ -664,8 +662,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 		PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 	}
 }
-	
-#pragma optimize( "", off )
+
 void GeoPatch::ReceiveHeightmaps(const SSplitResult *psr)
 {
 	if (m_depth<psr->depth) {

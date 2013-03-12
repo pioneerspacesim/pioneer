@@ -207,7 +207,6 @@ void GeoSphere::ProcessSplitResults()
 	mSplitResult.clear();
 }
 
-#pragma optimize( "", off )
 void GeoSphere::BuildFirstPatches()
 {
 	assert(NULL==m_patches[0]);
@@ -306,7 +305,6 @@ static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	glPopMatrix();
 }
 
-#pragma optimize( "", off )
 void GeoSphere::Update()
 {
 	if(NULL==m_patches[0] && mSplitResult.empty()) {
