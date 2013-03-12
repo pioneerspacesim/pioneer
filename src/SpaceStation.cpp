@@ -346,6 +346,7 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 	return false;
 }
 
+#pragma optimize( "", off )
 bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 {
 	if ((flags & 0x10) && (b->IsType(Object::SHIP))) {
@@ -356,11 +357,8 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			if (m_shipDocking[i].ship == s) { port = i; break; }
 		}
 		if (port == -1) return false;					// no permission
-		//if (!m_type->dockOneAtATimePlease) {
-		//	if (port != int(flags & 0xf)) return false;		// wrong port
-		//}
-		if (!IsPortLocked(port)) {
-			if (port != int(flags & 0xf)) return false;		// wrong port
+		if (IsPortLocked(port)) {
+			return false;
 		}
 		if (m_shipDocking[port].stage != 1) return false;	// already docking?
 
