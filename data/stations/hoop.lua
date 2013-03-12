@@ -11,6 +11,6 @@ define_orbital_station {
 	bay_groups = {
 		{0, 500, {1,2}},
 	},
-	dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 10.0, 5.0, 5.0 },
-	undock_anim_stage_duration = { 5.0, 5.0, 10.0 },
+	dock_anim_stage_duration = { DOCKING_TIMEOUT_SECONDS, 2.0, 5.0, 5.0 },
+	undock_anim_stage_duration = { 5.0, 5.0, 2.0 },
 }
