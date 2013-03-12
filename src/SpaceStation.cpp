@@ -346,7 +346,6 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 	return false;
 }
 
-#pragma optimize( "", off )
 bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 {
 	if ((flags & 0x10) && (b->IsType(Object::SHIP))) {
