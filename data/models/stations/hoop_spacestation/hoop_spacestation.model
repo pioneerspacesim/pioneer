@@ -24,6 +24,7 @@ mesh connections.dae
 mesh mainhoop.dae
 mesh doors.dae
 mesh dockingbay.dae
+mesh dockingpads.dae
 
 collision collision.obj
 
