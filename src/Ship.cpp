@@ -1044,8 +1044,8 @@ void Ship::StaticUpdate(const float timeStep)
 
 	//Add smoke trails for missiles on thruster state
 	if (m_type->tag == ShipType::TAG_MISSILE && m_thrusters.z < 0.0 && 0.1*Pi::rng.Double() < timeStep) {
-				    vector3d pos = GetOrient() * vector3d(0, 0 , 5);
-					Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, std::min(10.0*GetVelocity().Length()*abs(m_thrusters.z),100.0),pos);
+		vector3d pos = GetOrient() * vector3d(0, 0 , 5);
+		Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, std::min(10.0*GetVelocity().Length()*abs(m_thrusters.z),100.0),pos);
 	}
 }
 
