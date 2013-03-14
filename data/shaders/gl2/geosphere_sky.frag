@@ -87,7 +87,7 @@ void main(void)
 					vec3 p = ap - dot(ap,dirp)*dirp;
 					float perpsq = dot(p,p);
 
-					float maxOcclusion = min(1.0, srad*srad/lrad*lrad);
+					float maxOcclusion = min(1.0, (srad/lrad)*(srad/lrad));
 
 					// We do need a gradually deepening penumbra, or we get ugly lines when the
 					// shadow is viewed side-on; a more efficient approach to this than the

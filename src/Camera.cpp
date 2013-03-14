@@ -325,27 +325,37 @@ std::list<Camera::Shadow> Camera::CalcShadows(int lightNum, const Body *b) const
 	return shadows;
 }
 
+float discCovered(float dist, float rad) {
+	// proportion of unit disc covered by a second disc of radius rad placed
+	// dist from centre of first disc.
+	//
+	// WLOG, the second disc is displaced horizontally to the right.
+	// xl = rightwards distance to intersection of the two circles.
+	// xs = leftwards distance from centre of second disc to intersection.
+	// d = vertical distance to an intersection point
+	// The clampings handle the cases where one disc contains the other.
+	const float radsq = rad*rad;
+	const float xl = Clamp((dist*dist + 1 - radsq) / (2.0*dist), -1.0, 1.0);
+	const float xs = Clamp(dist - xl, -rad, rad);
+	// XXX: having 1.001 rather that 1.0 in the following appears necessary to
+	// avoid flicker due (I'm assuming) to sqrting negative numbers
+	const float d = sqrt(1.001 - xl*xl);
+
+	const float th = Clamp(acos(xl), 0.0, M_PI);
+	const float th2 = Clamp(acos(xs/rad), 0.0, M_PI);
+
+	assert(!isnan(d) && !isnan(th) && !isnan(th2));
+
+	// covered area can be calculated as the sum of segments from the two
+	// discs plus/minus some triangles, and it works out as follows:
+	return Clamp((th + radsq*th2 - dist*d)/M_PI, 0.0, 1.0);
+}
+
 float Camera::ShadowedIntensity(int lightNum, const Body *b) const {
 	std::list<Camera::Shadow> shadows = CalcShadows(lightNum, b);
 	float product = 1.0;
-	for (std::list<Camera::Shadow>::iterator it = shadows.begin(); it != shadows.end(); it++) {
-		if (it->centre.Length() < it->srad + it->lrad) {
-			float intensity = 1.0;
-			if (it->centre.Length() < abs(it->srad - it->lrad))
-				if (it->srad > it->lrad)
-					// umbra
-					intensity = 0.0;
-				else
-					// antumbra
-					intensity = 1.0 - (it->srad*it->srad) / (it->lrad*it->lrad);
-			else
-				// penumbra - just linearly interpolate (TODO:better?)
-				intensity = 1.0 - ((it->srad+it->lrad - it->centre.Length())*(
-							(it->srad > it->lrad) ? 1 : (it->srad*it->srad) / (it->lrad*it->lrad))) /
-					(it->srad + it->lrad - abs(it->srad - it->lrad));
-			product *= intensity;
-		}
-	}
+	for (std::list<Camera::Shadow>::iterator it = shadows.begin(); it != shadows.end(); it++)
+		product *= 1.0 - discCovered(it->centre.Length() / it->lrad, it->srad / it->lrad);
 	return product;
 }
 
