@@ -294,6 +294,19 @@ end
 local onClick = function (mission)
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
+
+  if mission.risk <= 0.1 then
+    danger = (t("I highly doubt it."))
+  elseif mission.risk > 0.1 and mission.risk <= 0.3 then
+    danger = (t("Not any more than usual."))
+  elseif mission.risk > 0.3 and mission.risk <= 0.6 then
+    danger = (t("This is a valuable package, you should keep your eyes open."))
+  elseif mission.risk > 0.6 and mission.risk <= 0.8 then
+    danger = (t("It could be dangerous, you should make sure you're adequately prepared."))
+  elseif mission.risk > 0.8 and mission.risk <= 1 then
+    danger = (t("This is very risky, you will almost certainly run into resistance."))
+  end
+
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((delivery_flavours[mission.flavour].introtext):interp({
 														name   = mission.client.name,
@@ -347,7 +360,7 @@ local onClick = function (mission)
 										  })
 										  :SetColumn(1, {
 										    ui:VBox():PackEnd({
-										      ui:MultiLineText("some danger description, bla bla bla...") -- for test
+										      ui:MultiLineText(danger)
 										    })
 										  }),
 										ui:Margin(5),
