@@ -350,7 +350,7 @@ local onClick = function (mission)
 										  })
 										  :SetColumn(1, {
 										    ui:VBox():PackEnd({
-										      ui:MultiLineText(mission.start:GetStarSystem().name)
+										      ui:MultiLineText(mission.start:GetStarSystem().name.." ("..mission.start.sectorX..","..mission.start.sectorY..","..mission.start.sectorZ..")")
 										    })
 										  }),
 										ui:Grid(2,1)
