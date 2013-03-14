@@ -55,7 +55,7 @@ void GeoPatch::PatchJob::job_process(void * userData,int /* userId */)    // RUN
 			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
 			srd.edgeLen, srd.fracStep);
 		// add this patches data
-		sr->addResult(srd.vertices[i], srd.normals[i], srd.colors[i], 
+		sr->addResult(i, srd.vertices[i], srd.normals[i], srd.colors[i], 
 			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
 			srd.patchID.NextPatchID(srd.depth+1, i));
 	}
@@ -665,18 +665,21 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 
 void GeoPatch::ReceiveHeightmaps(const SSplitResult *psr)
 {
-	if (m_depth<psr->depth) {
+	if (m_depth<psr->depth()) {
 		// this should work because each depth should have a common history
-		const uint32_t kidIdx = psr->data[0].patchID.GetPatchIdx(m_depth+1);
+		const uint32_t kidIdx = psr->data(0).patchID.GetPatchIdx(m_depth+1);
 		kids[kidIdx]->ReceiveHeightmaps(psr);
 	} else {
 		const int nD = m_depth+1;
 		for (int i=0; i<NUM_KIDS; i++)
 		{
 			assert(NULL==kids[i]);
+			const SSplitResult::SSplitResultData& data = psr->data(i);
+			assert(i==data.patchID.GetPatchIdx(nD));
+			assert(0==data.patchID.GetPatchIdx(nD+1));
 			kids[i] = new GeoPatch(ctx, geosphere, 
-				psr->data[i].v0, psr->data[i].v1, psr->data[i].v2, psr->data[i].v3, 
-				nD, psr->data[i].patchID);
+				data.v0, data.v1, data.v2, data.v3, 
+				nD, data.patchID);
 		}
 
 		// hm.. edges. Not right to pass this
@@ -701,9 +704,10 @@ void GeoPatch::ReceiveHeightmaps(const SSplitResult *psr)
 
 		for (int i=0; i<NUM_KIDS; i++)
 		{
-			kids[i]->vertices = psr->data[i].vertices;
-			kids[i]->normals = psr->data[i].normals;
-			kids[i]->colors = psr->data[i].colors;
+			const SSplitResult::SSplitResultData& data = psr->data(i);
+			kids[i]->vertices = data.vertices;
+			kids[i]->normals = data.normals;
+			kids[i]->colors = data.colors;
 		}
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		for (int i=0; i<NUM_EDGES; i++) { if(edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendSplit(this); }

@@ -9,7 +9,7 @@
 class GeoPatchID
 {
 private:
-	const uint64_t mPatchID;
+	uint64_t mPatchID;
 public:
 	GeoPatchID(const uint64_t init) : mPatchID(init) {}
 	GeoPatchID(const GeoPatchID &init) : mPatchID(init.mPatchID) {}

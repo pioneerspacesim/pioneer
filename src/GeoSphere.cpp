@@ -195,7 +195,7 @@ void GeoSphere::ProcessSplitResults()
 		// finally pass SplitResults
 		const SSplitResult *psr = (*iter);
 
-		const int32_t faceIdx = psr->face;
+		const int32_t faceIdx = psr->face();
 		m_patches[faceIdx]->ReceiveHeightmaps(psr);
 
 		// tidyup

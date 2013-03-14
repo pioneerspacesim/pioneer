@@ -90,6 +90,7 @@ private:
 class SSplitResult {
 public:
 	struct SSplitResultData {
+		SSplitResultData() : patchID(0) {}
 		SSplitResultData(vector3d *v_, vector3d *n_, vector3d *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
 			vertices(v_), normals(n_), colors(c_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), patchID(patchID_)
 		{
@@ -101,30 +102,34 @@ public:
 		vector3d *vertices;
 		vector3d *normals;
 		vector3d *colors;
-		const vector3d v0;
-		const vector3d v1;
-		const vector3d v2;
-		const vector3d v3;
-		const GeoPatchID patchID;
+		vector3d v0;
+		vector3d v1;
+		vector3d v2;
+		vector3d v3;
+		GeoPatchID patchID;
 	};
 
-	SSplitResult(const int32_t face_, const int32_t depth_) : face(face_), depth(depth_)
+	SSplitResult(const int32_t face_, const int32_t depth_) : mFace(face_), mDepth(depth_)
 	{
 	}
 
-	void addResult(vector3d *v_, vector3d *n_, vector3d *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
+	void addResult(const int kidIdx, vector3d *v_, vector3d *n_, vector3d *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
 	{
-		data.push_back(SSplitResultData(v_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
-		assert(data.size()<=4);
+		assert(kidIdx>=0 && kidIdx<4);
+		mData[kidIdx] = (SSplitResultData(v_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
 	}
 
-	const int32_t face;
-	const int32_t depth;
-	std::deque<SSplitResultData> data;
+	inline int32_t face() const { return mFace; }
+	inline int32_t depth() const { return mDepth; }
+	inline const SSplitResultData& data(const int32_t idx) const { return mData[idx]; }
 
 private:
 	// deliberately prevent copy constructor access
-	SSplitResult(const SSplitResult &r) : face(0), depth(0) {}
+	SSplitResult(const SSplitResult &r) : mFace(0), mDepth(0) {}
+
+	const int32_t mFace;
+	const int32_t mDepth;
+	SSplitResultData mData[4];
 };
 
 class GeoPatch {
