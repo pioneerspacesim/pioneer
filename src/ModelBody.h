@@ -10,6 +10,7 @@
 #include "CollMesh.h"
 
 class Geom;
+class Camera;
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Model; }
 
@@ -36,7 +37,7 @@ public:
 
 	void SetModel(const char *modelName);
 
-	void RenderModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	void RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);

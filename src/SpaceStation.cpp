@@ -667,7 +667,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 
 	if (!b->IsType(Object::PLANET)) {
 		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
-		RenderModel(r, viewCoords, viewTransform);
+		RenderModel(r, camera, viewCoords, viewTransform);
 	}
 
 	else {
@@ -714,7 +714,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
 		}
 
-		RenderModel(r, viewCoords, viewTransform);
+		RenderModel(r, camera, viewCoords, viewTransform);
 
 		// restore old lights & ambient
 		r->SetLights(origLights.size(), &origLights[0]);

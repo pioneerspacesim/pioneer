@@ -1094,7 +1094,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		m_landingGearAnimation->SetProgress(m_wheelState);
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-	RenderModel(renderer, viewCoords, viewTransform);
+	RenderModel(renderer, camera, viewCoords, viewTransform);
 
 	// draw shield recharge bubble
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {

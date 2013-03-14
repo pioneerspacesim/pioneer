@@ -11,6 +11,7 @@
 #include "Serializer.h"
 #include "Space.h"
 #include "WorldView.h"
+#include "Camera.h"
 #include "collider/collider.h"
 #include "graphics/Renderer.h"
 #include "scenegraph/SceneGraph.h"
@@ -145,7 +146,7 @@ void ModelBody::SetFrame(Frame *f)
 	}
 }
 
-void ModelBody::RenderModel(Graphics::Renderer *r, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d m2 = GetInterpOrient();
 	m2.SetTranslate(GetInterpPosition());
@@ -158,6 +159,37 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const vector3d &viewCoords, c
 	trans[14] = viewCoords.z;
 	trans[15] = 1.0f;
 
+	// Set up lighting
+	std::vector<Graphics::Light> origLights, newLights;
+
+	const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
+	for(size_t i = 0; i < lightSources.size(); i++) {
+		Graphics::Light light(lightSources[i].GetLight());
+
+		origLights.push_back(light);
+
+		float intensity = camera->ShadowedIntensity(i, this);
+
+		Color c = light.GetDiffuse();
+		Color cs = light.GetSpecular();
+		c.r*=float(intensity);
+		c.g*=float(intensity);
+		c.b*=float(intensity);
+		cs.r*=float(intensity);
+		cs.g*=float(intensity);
+		cs.b*=float(intensity);
+		light.SetDiffuse(c);
+		light.SetSpecular(cs);
+
+		newLights.push_back(light);
+	}
+
+	r->SetLights(newLights.size(), &newLights[0]);
+
 	m_model->Render(trans);
+
+	// restore old lights
+	r->SetLights(origLights.size(), &origLights[0]);
+
 	glPopMatrix();
 }
