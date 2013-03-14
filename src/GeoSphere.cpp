@@ -1351,7 +1351,7 @@ static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	glPopMatrix();
 }
 
-void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale) {
+void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale, const std::list<Camera::Shadow> &shadows) {
 	glPushMatrix();
 	glTranslated(-campos.x, -campos.y, -campos.z);
 	Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
@@ -1369,22 +1369,24 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 
 		//Update material parameters
 		//XXX no need to calculate AP every frame
-		m_atmosphereParameters = m_sbody->CalcAtmosphereParams();
-		m_atmosphereParameters.center = modelMatrix * vector3d(0.0, 0.0, 0.0);
-		m_atmosphereParameters.planetRadius = radius;
-		m_atmosphereParameters.scale = scale;
+		m_materialParameters.atmosphere = m_sbody->CalcAtmosphereParams();
+		m_materialParameters.atmosphere.center = modelMatrix * vector3d(0.0, 0.0, 0.0);
+		m_materialParameters.atmosphere.planetRadius = radius;
+		m_materialParameters.atmosphere.scale = scale;
 
-		m_surfaceMaterial->specialParameter0 = &m_atmosphereParameters;
+		m_materialParameters.shadows = shadows;
 
-		if (m_atmosphereParameters.atmosDensity > 0.0) {
-			m_atmosphereMaterial->specialParameter0 = &m_atmosphereParameters;
+		m_surfaceMaterial->specialParameter0 = &m_materialParameters;
+
+		if (m_materialParameters.atmosphere.atmosDensity > 0.0) {
+			m_atmosphereMaterial->specialParameter0 = &m_materialParameters;
 
 			renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
 			renderer->SetDepthWrite(false);
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, campos, m_atmosphereParameters.atmosRadius*1.01, m_atmosphereMaterial.Get());
+			DrawAtmosphereSurface(renderer, campos, m_materialParameters.atmosphere.atmosRadius*1.01, m_atmosphereMaterial.Get());
 			renderer->SetDepthWrite(true);
 			renderer->SetBlendMode(Graphics::BLEND_SOLID);
 		}

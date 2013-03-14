@@ -29,6 +29,11 @@ void GeoSphereProgram::InitUniforms()
 	geosphereCenter.Init("geosphereCenter", m_program);
 	geosphereScale.Init("geosphereScale", m_program);
 	geosphereScaledRadius.Init("geosphereScaledRadius", m_program);
+
+	occultedLight.Init("occultedLight", m_program);
+	shadowCentre.Init("shadowCentre", m_program);
+	srad.Init("srad", m_program);
+	lrad.Init("lrad", m_program);
 }
 
 Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
@@ -56,7 +61,8 @@ void GeoSphereSurfaceMaterial::Apply()
 void GeoSphereSurfaceMaterial::SetGSUniforms()
 {
 	GeoSphereProgram *p = static_cast<GeoSphereProgram*>(m_program);
-	const SystemBody::AtmosphereParameters ap = *static_cast<SystemBody::AtmosphereParameters*>(this->specialParameter0);
+	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
+	const SystemBody::AtmosphereParameters ap = params.atmosphere;
 
 	p->Use();
 	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
@@ -69,6 +75,16 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	p->geosphereCenter.Set(ap.center);
 	p->geosphereScaledRadius.Set(ap.planetRadius / ap.scale);
 	p->geosphereScale.Set(ap.scale);
+
+	if (params.shadows.empty())
+		p->occultedLight.Set(-1);
+	else {
+		// for now at least, we only handle one shadow at a time
+		p->occultedLight.Set(params.shadows.begin()->occultedLight);
+		p->shadowCentre.Set(params.shadows.begin()->centre);
+		p->srad.Set(params.shadows.begin()->srad);
+		p->lrad.Set(params.shadows.begin()->lrad);
+	}
 }
 
 Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)

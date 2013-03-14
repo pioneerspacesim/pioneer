@@ -272,10 +272,11 @@ void Camera::DrawSpike(double rad, const vector3d &viewCoords, const matrix4x4d 
 }
 
 std::list<Camera::Shadow> Camera::CalcShadows(int lightNum, const Body *b) const {
+	std::list<Camera::Shadow> shadows;
 	// Set up data for eclipses. All bodies are assumed to be spheres.
 	const Body *lightBody = m_lightSources[lightNum].GetBody();
 	if (!lightBody)
-		return;
+		return shadows;
 
 	const double lightRadius = lightBody->GetPhysRadius();
 	const vector3d bLightPos = lightBody->GetPositionRelTo(b);
@@ -286,7 +287,6 @@ std::list<Camera::Shadow> Camera::CalcShadows(int lightNum, const Body *b) const
 	else bRadius = b->GetPhysRadius();
 
 	// Look for eclipsing third bodies:
-	std::list<Camera::Shadow> shadows;
 	for (Space::BodyIterator ib2 = Pi::game->GetSpace()->BodiesBegin(); ib2 != Pi::game->GetSpace()->BodiesEnd(); ++ib2) {
 		Body *b2 = *ib2;
 		if ( b2 == b || b2 == lightBody || !(b2->IsType(Object::PLANET) || b2->IsType(Object::STAR)))

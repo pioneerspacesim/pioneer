@@ -55,8 +55,8 @@ public:
 	struct Shadow {
 		int occultedLight;
 		vector3d centre;
-		double srad;
-		double lrad;
+		float srad;
+		float lrad;
 
 		bool operator< (const Shadow& other) { return srad/lrad < other.srad/other.lrad; }
 	};
