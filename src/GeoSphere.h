@@ -78,6 +78,7 @@ private:
 	std::deque<SSplitRequestDescription*> mSplitRequestDescriptions;
 	std::deque<SSplitResult*> mSplitResult;
 
+	bool m_hasTempCampos;
 	vector3d m_tempCampos;
 
 	uint32_t mCurrentNumPatches;

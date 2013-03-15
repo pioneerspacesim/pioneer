@@ -90,7 +90,7 @@ void GeoSphere::OnChangeDetailLevel()
 #define GEOSPHERE_TYPE	(m_sbody->type)
 
 GeoSphere::GeoSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain::InstanceTerrain(body)), 
-	mCurrentNumPatches(0), mCurrentMemAllocatedToPatches(0)
+	m_hasTempCampos(false), m_tempCampos(0.0), mCurrentNumPatches(0), mCurrentMemAllocatedToPatches(0)
 {
 	print_info(body, m_terrain);
 
@@ -309,7 +309,7 @@ void GeoSphere::Update()
 {
 	if(NULL==m_patches[0] && mSplitResult.empty()) {
 		BuildFirstPatches();
-	} else /*if(mSplitRequestDescriptions.empty())*/ {
+	} else if(m_hasTempCampos)/*if(mSplitRequestDescriptions.empty())*/ {
 		ProcessSplitResults();
 		for (int i=0; i<NUM_PATCHES; i++) {
 			m_patches[i]->LODUpdate(m_tempCampos);
@@ -411,6 +411,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 
 	// store this for later usage in the update method.
 	m_tempCampos = campos;
+	m_hasTempCampos = true;
 }
 
 void GeoSphere::SetUpMaterials()
