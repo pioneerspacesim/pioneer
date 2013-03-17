@@ -44,6 +44,8 @@ protected:
 	virtual void Load(Serializer::Reader &rd, Space *space);
 
 private:
+	void CalcLighting(double &ambient, double &direct, const Camera *camera);
+
 	bool m_isStatic;
 	bool m_colliding;
 	RefCountedPtr<CollMesh> m_collMesh;

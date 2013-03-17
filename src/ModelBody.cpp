@@ -12,6 +12,7 @@
 #include "Space.h"
 #include "WorldView.h"
 #include "Camera.h"
+#include "Planet.h"
 #include "collider/collider.h"
 #include "graphics/Renderer.h"
 #include "scenegraph/SceneGraph.h"
@@ -146,6 +147,102 @@ void ModelBody::SetFrame(Frame *f)
 	}
 }
 
+// Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location
+// 1. Calculates the amount of direct illumination available taking into account
+//    * multiple suns
+//    * sun positions relative to up direction i.e. light is dimmed as suns set
+//    * Thickness of the atmosphere overhead i.e. as atmospheres get thicker light starts dimming earlier as sun sets, without atmosphere the light switches off at point of sunset
+// 2. Calculates the split between ambient and directly lit portions taking into account
+//    * Atmosphere density (optical thickness) of the sky dome overhead
+//        as optical thickness increases the fraction of ambient light increases
+//        this takes altitude into account automatically
+//    * As suns set the split is biased towards ambient
+void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *camera)
+{
+	// position relative to the rotating frame of the planet
+	Body *astro = GetFrame()->GetBody();
+	if (astro && astro->IsType(Object::PLANET)) {
+		Planet *planet = static_cast<Planet*>(astro);
+		vector3d upDir = GetPosition();
+		const double dist = upDir.Length();
+		upDir = upDir.Normalized();
+		double pressure, density;
+		planet->GetAtmosphericState(dist, &pressure, &density);
+		double surfaceDensity;
+		Color cl;
+		planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
+
+		// approximate optical thickness fraction as fraction of density remaining relative to earths
+		double opticalThicknessFraction = density/EARTH_ATMOSPHERE_SURFACE_DENSITY;
+		// tweak optical thickness curve - lower exponent ==> higher altitude before ambient level drops
+		opticalThicknessFraction = pow(std::max(0.00001,opticalThicknessFraction),0.15); //max needed to avoid 0^power
+
+		//step through all the lights and calculate contributions taking into account sun position
+		double light = 0.0;
+		double light_clamped = 0.0;
+
+		const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
+		for(std::vector<Camera::LightSource>::const_iterator l = lightSources.begin();
+				l != lightSources.end(); ++l) {
+
+			double sunAngle;
+			// calculate the extent the sun is towards zenith
+			if (l->GetBody()){
+				// relative to the rotating frame of the planet
+				const vector3d lightDir = (l->GetBody()->GetInterpPositionRelTo(planet->GetFrame()).Normalized());
+				sunAngle = lightDir.Dot(upDir);
+			} else {
+				// light is the default light for systems without lights
+				sunAngle = 1.0;
+			}
+
+			//0 to 1 as sunangle goes from 0.0 to 1.0
+			double sunAngle2 = (Clamp(sunAngle, 0.0,1.0))/1.0;
+
+			//0 to 1 as sunAngle goes from endAngle to startAngle
+
+			// angle at which light begins to fade on Earth
+			const double startAngle = 0.3;
+			// angle at which sun set completes, which should be after sun has dipped below the horizon on Earth
+			const double endAngle = -0.18;
+
+			const double start = std::min((startAngle*opticalThicknessFraction),1.0);
+			const double end = std::max((endAngle*opticalThicknessFraction),-0.2);
+
+			sunAngle = (Clamp(sunAngle, end, start)-end)/(start-end);
+
+			light += sunAngle;
+			light_clamped += sunAngle2;
+		}
+
+
+		// brightness depends on optical depth and intensity of light from all the stars
+		direct = (Clamp((light),0.0,1.0));
+
+
+		// ambient light fraction
+		// alter ratio between directly and ambiently lit portions towards ambiently lit as sun sets
+		const double fraction = (0.1+0.8*(
+					1.0-light_clamped*(Clamp((opticalThicknessFraction),0.0,1.0))
+					)+0.1); //fraction goes from 0.6 to 1.0
+
+
+		// fraction of light left over to be lit directly
+		direct = (1.0-fraction)*direct;
+
+		// scale ambient by amount of light
+		ambient = fraction*(Clamp((light),0.0,1.0))*0.25;
+
+		const double minAmbient = std::min(1.0,density)*0.05;
+		ambient = std::max(minAmbient, ambient);
+	}
+	else {
+		// not in an atmosphere
+		ambient = 0.0;
+		direct = 1.0;
+	}
+}
+
 void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d m2 = GetInterpOrient();
@@ -162,13 +259,15 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const v
 	// Set up lighting
 	std::vector<Graphics::Light> origLights, newLights;
 
+	double ambient, direct;
+	CalcLighting(ambient, direct, camera);
 	const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
 	for(size_t i = 0; i < lightSources.size(); i++) {
 		Graphics::Light light(lightSources[i].GetLight());
 
 		origLights.push_back(light);
 
-		float intensity = camera->ShadowedIntensity(i, this);
+		float intensity = direct * camera->ShadowedIntensity(i, this);
 
 		Color c = light.GetDiffuse();
 		Color cs = light.GetSpecular();
@@ -184,12 +283,15 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const v
 		newLights.push_back(light);
 	}
 
+	const Color oldAmbient = r->GetAmbientColor();
+	r->SetAmbientColor(Color(ambient));
 	r->SetLights(newLights.size(), &newLights[0]);
 
 	m_model->Render(trans);
 
 	// restore old lights
 	r->SetLights(origLights.size(), &origLights[0]);
+	r->SetAmbientColor(oldAmbient);
 
 	glPopMatrix();
 }
