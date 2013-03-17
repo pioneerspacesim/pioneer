@@ -249,29 +249,18 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	ambient = std::max(minAmbient, ambient);
 }
 
-void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
-{
-	matrix4x4d m2 = GetInterpOrient();
-	m2.SetTranslate(GetInterpPosition());
-	matrix4x4d t = viewTransform * m2;
-	glPushMatrix();				// Otherwise newmodels leave a dirty matrix
-	matrix4x4f trans;
-	for (int i=0; i<12; i++) trans[i] = float(t[i]);
-	trans[12] = viewCoords.x;
-	trans[13] = viewCoords.y;
-	trans[14] = viewCoords.z;
-	trans[15] = 1.0f;
-
-	// Set up lighting
-	std::vector<Graphics::Light> origLights, newLights;
-
+// setLighting: set renderer lights according to current position and sun
+// positions. Original lighting is passed back in oldLights, oldAmbient, and
+// should be reset after rendering with ModelBody::ResetLighting.
+void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<Graphics::Light> oldLights, Color *oldAmbient) {
+	std::vector<Graphics::Light> newLights;
 	double ambient, direct;
 	CalcLighting(ambient, direct, camera);
 	const std::vector<Camera::LightSource> &lightSources = camera->GetLightSources();
 	for(size_t i = 0; i < lightSources.size(); i++) {
 		Graphics::Light light(lightSources[i].GetLight());
 
-		origLights.push_back(light);
+		oldLights.push_back(light);
 
 		float intensity = direct * camera->ShadowedIntensity(i, this);
 
@@ -289,15 +278,38 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const v
 		newLights.push_back(light);
 	}
 
-	const Color oldAmbient = r->GetAmbientColor();
+	*oldAmbient = r->GetAmbientColor();
 	r->SetAmbientColor(Color(ambient));
 	r->SetLights(newLights.size(), &newLights[0]);
+}
+
+void ModelBody::ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient) {
+	// restore old lights
+	r->SetLights(oldLights.size(), &oldLights[0]);
+	r->SetAmbientColor(oldAmbient);
+}
+
+void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform, bool setLighting)
+{
+	std::vector<Graphics::Light> oldLights;
+	Color oldAmbient;
+	if (setLighting)
+		SetLighting(r, camera, oldLights, &oldAmbient);
+
+	matrix4x4d m2 = GetInterpOrient();
+	m2.SetTranslate(GetInterpPosition());
+	matrix4x4d t = viewTransform * m2;
+	glPushMatrix();				// Otherwise newmodels leave a dirty matrix
+	matrix4x4f trans;
+	for (int i=0; i<12; i++) trans[i] = float(t[i]);
+	trans[12] = viewCoords.x;
+	trans[13] = viewCoords.y;
+	trans[14] = viewCoords.z;
+	trans[15] = 1.0f;
 
 	m_model->Render(trans);
-
-	// restore old lights
-	r->SetLights(origLights.size(), &origLights[0]);
-	r->SetAmbientColor(oldAmbient);
-
 	glPopMatrix();
+
+	if (setLighting)
+		ResetLighting(r, oldLights, oldAmbient);
 }
