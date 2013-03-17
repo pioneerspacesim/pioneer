@@ -38,7 +38,7 @@ JobManager::~JobManager()
 	JOB_SWARM::releaseJobSwarmContext(mpContext);
 }
 
-unsigned int JobManager::addJob(PureJob* pNewJob, unsigned char *userData)
+unsigned int JobManager::addJobFromThread(PureJob* pNewJob, unsigned char *userData)
 {
 	unsigned int handleID = mCurrentTaskID;
 	++mCurrentTaskID;
@@ -53,11 +53,23 @@ unsigned int JobManager::addJob(PureJob* pNewJob, unsigned char *userData)
 	return handleID;
 }
 
-void JobManager::addIncomingJob(PureJob* pNewJob, unsigned char *userData)
+JOB_SWARM::SwarmJob* JobManager::addJobMainThread(PureJob* pNewJob, unsigned char *userData)
+{
+	unsigned int handleID = mCurrentTaskID;
+	++mCurrentTaskID;
+	if( INVALID_JOB_HANDLE<=mCurrentTaskID ) {
+		mCurrentTaskID = 0;
+	}
+
+	// no mutex, no nothing, just do it immediately
+	return addIncomingJob(pNewJob, userData);
+}
+
+JOB_SWARM::SwarmJob* JobManager::addIncomingJob(PureJob* pNewJob, unsigned char *userData)
 {
 	++mTasksRemaining;
 	pNewJob->init(&mTasksRemaining);
-	mpContext->createSwarmJob(pNewJob,userData,0);
+	return mpContext->createSwarmJob(pNewJob,userData,0);
 }
 
 void JobManager::update()
@@ -85,3 +97,7 @@ void JobManager::update()
 
 bool JobManager::jobsRemaining() const { return (mTasksRemaining>0); }
 
+void JobManager::cancel(JOB_SWARM::SwarmJob* pJob)
+{
+	mpContext->cancel(pJob);
+}

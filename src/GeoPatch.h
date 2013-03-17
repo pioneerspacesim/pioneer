@@ -88,6 +88,7 @@ private:
 };
 
 class SSplitResult {
+	static const int NUM_RESULT_DATA = 4;
 public:
 	struct SSplitResultData {
 		SSplitResultData() : patchID(0) {}
@@ -115,7 +116,7 @@ public:
 
 	void addResult(const int kidIdx, vector3d *v_, vector3d *n_, vector3d *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
 	{
-		assert(kidIdx>=0 && kidIdx<4);
+		assert(kidIdx>=0 && kidIdx<NUM_RESULT_DATA);
 		mData[kidIdx] = (SSplitResultData(v_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
 	}
 
@@ -123,17 +124,26 @@ public:
 	inline int32_t depth() const { return mDepth; }
 	inline const SSplitResultData& data(const int32_t idx) const { return mData[idx]; }
 
+	void OnCancel()
+	{
+		for( int i=0; i<NUM_RESULT_DATA; ++i ) {
+			if( mData[i].vertices ) {delete [] mData[i].vertices;	mData[i].vertices = NULL;}
+			if( mData[i].normals ) {delete [] mData[i].normals;		mData[i].normals = NULL;}
+			if( mData[i].colors ) {delete [] mData[i].colors;		mData[i].colors = NULL;}
+		}
+	}
+
 private:
 	// deliberately prevent copy constructor access
 	SSplitResult(const SSplitResult &r) : mFace(0), mDepth(0) {}
 
 	const int32_t mFace;
 	const int32_t mDepth;
-	SSplitResultData mData[4];
+	SSplitResultData mData[NUM_RESULT_DATA];
 };
 
 class GeoPatch {
-private:
+public:
 	//********************************************************************************
 	// Overloaded PureJob class to handle generating the mesh for each patch
 	//********************************************************************************
@@ -145,11 +155,12 @@ private:
 		}
 
 		virtual ~PatchJob()
-		{
+		{	
 		}
 
 		virtual void init(unsigned int *counter)
 		{
+			++s_numActivePatchJobs;
 			PureJob::init( counter );
 		}
 
@@ -157,10 +168,9 @@ private:
 
 		virtual void job_onFinish(void * userData, int userId);  // runs in primary thread of the context
 
-		virtual void job_onCancel(void * userData, int userId)   // runs in primary thread of the context
-		{
-			PureJob::job_onCancel(userData, userId);
-		}
+		virtual void job_onCancel(void * userData, int userId);   // runs in primary thread of the context
+
+		static uint32_t GetNumActivePatchJobs() { return s_numActivePatchJobs; };
 
 	private:
 		ScopedPtr<SSplitRequestDescription> mData;
@@ -180,19 +190,22 @@ private:
 			const vector3d &v3,
 			const int edgeLen,
 			const double fracStep) const;
+
+		static uint32_t s_numActivePatchJobs;
 	};
-	ScopedPtr<PatchJob> mCurrentJob;
+	ScopedPtr<PatchJob>		mCurrentJob;
+	JOB_SWARM::SwarmJob*	mpSwarmJob;
 public:
 	static const uint32_t NUM_EDGES = 4;
 	static const uint32_t NUM_KIDS = NUM_EDGES;
 
 	RefCountedPtr<GeoPatchContext> ctx;
 	const vector3d v0, v1, v2, v3;
-	vector3d *vertices;
-	vector3d *normals;
-	vector3d *colors;
+	ScopedArray<vector3d> vertices;
+	ScopedArray<vector3d> normals;
+	ScopedArray<vector3d> colors;
 	GLuint m_vbo;
-	GeoPatch *kids[NUM_KIDS];
+	ScopedPtr<GeoPatch> kids[NUM_KIDS];
 	GeoPatch *parent;
 	GeoPatch *edgeFriend[NUM_EDGES]; // [0]=v01, [1]=v12, [2]=v20
 	GeoSphere *geosphere;
@@ -351,6 +364,8 @@ public:
 	void LODUpdate(const vector3d &campos);
 	
 	void ReceiveHeightmaps(const SSplitResult *psr);
+
+	void CancelJobs();
 };
 
 #endif /* _GEOPATCH_H */

@@ -73,14 +73,16 @@ public:
 	~JobManager();
 
 	// adds the job to the list, takes ownership of pointer
-	bool		canAddJob() const { return (mTasksRemaining<MAX_NUMBER_JOBS); }
-	JobHandle	addJob(PureJob* pNewJob, unsigned char *userData);
+	bool					canAddJob() const { return (mTasksRemaining<MAX_NUMBER_JOBS); }
+	JobHandle				addJobFromThread(PureJob* pNewJob, unsigned char *userData);
+	JOB_SWARM::SwarmJob*	addJobMainThread(PureJob* pNewJob, unsigned char *userData);
 
 	void update();
 	bool jobsRemaining() const;
+	void cancel(JOB_SWARM::SwarmJob* pJob);
 
 private:
-	void addIncomingJob(PureJob* pNewJob, unsigned char *userData);
+	JOB_SWARM::SwarmJob*		addIncomingJob(PureJob* pNewJob, unsigned char *userData);
 	JOB_SWARM::JobSwarmContext	*mpContext;
 
 	JobHandle mPrevTasksRemaining;

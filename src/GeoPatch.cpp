@@ -24,10 +24,21 @@
 
 static const int GEOPATCH_MAX_EDGELEN = 55;
 
+uint32_t GeoPatch::PatchJob::s_numActivePatchJobs = 0;
+
 void GeoPatch::PatchJob::job_onFinish(void * userData, int userId)  // runs in primary thread of the context
 {
 	mData->pGeoSphere->AddSplitResult(mpResults);
 	PureJob::job_onFinish(userData, userId);
+	--s_numActivePatchJobs;
+}
+
+void GeoPatch::PatchJob::job_onCancel(void * userData, int userId)   // runs in primary thread of the context
+{
+	mpResults->OnCancel();
+	delete mpResults;	mpResults = NULL;
+	PureJob::job_onCancel(userData, userId);
+	--s_numActivePatchJobs;
 }
 
 void GeoPatch::PatchJob::job_process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
@@ -113,7 +124,7 @@ void GeoPatch::PatchJob::GenerateMesh(
 GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs, 
 	const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, 
 	const int depth, const GeoPatchID &ID_) 
-	: ctx(ctx_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), 
+	: mpSwarmJob(NULL), ctx(ctx_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), 
 	vertices(NULL), normals(NULL), colors(NULL), 
 	m_vbo(0), parent(NULL), geosphere(gs), 
 	m_depth(depth), mPatchID(ID_), 
@@ -121,7 +132,6 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 {
 	for (int i=0; i<NUM_KIDS; ++i) {
 		edgeFriend[i]	= NULL;
-		kids[i]			= NULL;
 	}
 	m_kidsLock = SDL_CreateMutex();
 		
@@ -155,10 +165,12 @@ GeoPatch::~GeoPatch() {
 	for (int i=0; i<NUM_KIDS; i++) {
 		if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
 	}
-	for (int i=0; i<NUM_KIDS; i++) if (kids[i]) delete kids[i];
-	delete [] vertices;
-	delete [] normals;
-	delete [] colors;
+	for (int i=0; i<NUM_KIDS; i++) {
+		kids[i].Reset();
+	}
+	vertices.Reset();
+	normals.Reset();
+	colors.Reset();
 	glDeleteBuffersARB(1, &m_vbo);
 }
 
@@ -279,9 +291,9 @@ void GeoPatch::FixEdgeFromParentInterpolated(const int edge) {
 	vector3d ev2[GEOPATCH_MAX_EDGELEN];
 	vector3d en2[GEOPATCH_MAX_EDGELEN];
 	vector3d ec2[GEOPATCH_MAX_EDGELEN];
-	ctx->GetEdge(parent->vertices, edge, ev);
-	ctx->GetEdge(parent->normals, edge, en);
-	ctx->GetEdge(parent->colors, edge, ec);
+	ctx->GetEdge(parent->vertices.Get(), edge, ev);
+	ctx->GetEdge(parent->normals.Get(), edge, en);
+	ctx->GetEdge(parent->colors.Get(), edge, ec);
 
 	int kid_idx = parent->GetChildIdx(this);
 	if (edge == kid_idx) {
@@ -305,9 +317,9 @@ void GeoPatch::FixEdgeFromParentInterpolated(const int edge) {
 		en2[i] = (en2[i-1]+en2[i+1]).Normalized();
 		ec2[i] = (ec2[i-1]+ec2[i+1]) * 0.5;
 	}
-	ctx->SetEdge(this->vertices, edge, ev2);
-	ctx->SetEdge(this->normals, edge, en2);
-	ctx->SetEdge(this->colors, edge, ec2);
+	ctx->SetEdge(this->vertices.Get(), edge, ev2);
+	ctx->SetEdge(this->normals.Get(), edge, en2);
+	ctx->SetEdge(this->colors.Get(), edge, ec2);
 }
 
 void GeoPatch::FixCornerNormalsByEdge(const int edge, const vector3d *ev) {
@@ -386,7 +398,7 @@ void GeoPatch::GenerateEdgeNormalsAndColors() {
 			FixEdgeFromParentInterpolated(i);
 			// XXX needed for corners... probably not
 			// correct
-			ctx->GetEdge(vertices, i, ev[i]);
+			ctx->GetEdge(vertices.Get(), i, ev[i]);
 		}
 	}
 
@@ -402,8 +414,8 @@ void GeoPatch::GenerateEdgeNormalsAndColors() {
 void GeoPatch::GenerateMesh() {
 	centroid = clipCentroid.Normalized();
 	centroid = (1.0 + geosphere->GetHeight(centroid)) * centroid;
-	vector3d *vts = vertices;
-	vector3d *col = colors;
+	vector3d *vts = vertices.Get();
+	vector3d *col = colors.Get();
 	double xfrac;
 	double yfrac = 0;
 	for (int y=0; y<ctx->edgeLen; y++) {
@@ -524,8 +536,8 @@ void GeoPatch::NotifyEdgeFriendSplit(GeoPatch *e) {
 	const int idx = GetEdgeIdxOf(e);
 	const int we_are = e->GetEdgeIdxOf(this);
 	// match e's new kids to our own... :/
-	kids[idx]->OnEdgeFriendChanged(idx, e->kids[(we_are+1)%NUM_KIDS]);
-	kids[(idx+1)%NUM_KIDS]->OnEdgeFriendChanged(idx, e->kids[we_are]);
+	kids[idx]->OnEdgeFriendChanged(idx, e->kids[(we_are+1)%NUM_KIDS].Get());
+	kids[(idx+1)%NUM_KIDS]->OnEdgeFriendChanged(idx, e->kids[we_are].Get());
 }
 
 void GeoPatch::NotifyEdgeFriendDeleted(const GeoPatch *e) {
@@ -549,8 +561,8 @@ GeoPatch *GeoPatch::GetEdgeFriendForKid(const int kid, const int edge) const {
 	const int we_are = e->GetEdgeIdxOf(this);
 	// neighbour patch has not split yet (is at depth of this patch), so kids of this patch do
 	// not have same detail level neighbours yet
-	if (edge == kid) return e->kids[(we_are+1)%NUM_KIDS];
-	else return e->kids[we_are];
+	if (edge == kid) return e->kids[(we_are+1)%NUM_KIDS].Get();
+	else return e->kids[we_are].Get();
 }
 
 void GeoPatch::Render(vector3d &campos, const Graphics::Frustum &frustum) {
@@ -628,7 +640,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 	if (canSplit) {
 		if (!kids[0]) {
 			// don't do anything if we can't handle anymore jobs
-			if( !Pi::jobs.canAddJob() ) {
+			if( !Pi::jobs().canAddJob() ) {
 				return;
 			}
 
@@ -644,10 +656,10 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 
 			SSplitRequestDescription *ssrd = new SSplitRequestDescription(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 						geosphere->m_sbody->path, mPatchID, ctx->edgeLen,
-						ctx->frac, geosphere->m_terrain, geosphere);
+						ctx->frac, geosphere->m_terrain.Get(), geosphere);
 			assert(!mCurrentJob.Valid());
 			mCurrentJob.Reset(new PatchJob(ssrd));
-			Pi::jobs.addJob(mCurrentJob.Get(), NULL);
+			mpSwarmJob = Pi::jobs().addJobMainThread(mCurrentJob.Get(), NULL);
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
 				kids[i]->LODUpdate(campos);
@@ -656,8 +668,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 	} else if (canMerge) {
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		for (int i=0; i<NUM_KIDS; i++) { 
-			delete kids[i]; 
-			kids[i] = NULL; 
+			kids[i].Reset();
 		}
 		PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 	}
@@ -670,6 +681,7 @@ void GeoPatch::ReceiveHeightmaps(const SSplitResult *psr)
 		const uint32_t kidIdx = psr->data(0).patchID.GetPatchIdx(m_depth+1);
 		kids[kidIdx]->ReceiveHeightmaps(psr);
 	} else {
+		assert(mHasSplitRequest);
 		const int nD = m_depth+1;
 		for (int i=0; i<NUM_KIDS; i++)
 		{
@@ -677,27 +689,27 @@ void GeoPatch::ReceiveHeightmaps(const SSplitResult *psr)
 			const SSplitResult::SSplitResultData& data = psr->data(i);
 			assert(i==data.patchID.GetPatchIdx(nD));
 			assert(0==data.patchID.GetPatchIdx(nD+1));
-			kids[i] = new GeoPatch(ctx, geosphere, 
+			kids[i].Reset(new GeoPatch(ctx, geosphere, 
 				data.v0, data.v1, data.v2, data.v3, 
-				nD, data.patchID);
+				nD, data.patchID));
 		}
 
 		// hm.. edges. Not right to pass this
 		// edgeFriend...
 		kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
-		kids[0]->edgeFriend[1] = kids[1];
-		kids[0]->edgeFriend[2] = kids[3];
+		kids[0]->edgeFriend[1] = kids[1].Get();
+		kids[0]->edgeFriend[2] = kids[3].Get();
 		kids[0]->edgeFriend[3] = GetEdgeFriendForKid(0, 3);
 		kids[1]->edgeFriend[0] = GetEdgeFriendForKid(1, 0);
 		kids[1]->edgeFriend[1] = GetEdgeFriendForKid(1, 1);
-		kids[1]->edgeFriend[2] = kids[2];
-		kids[1]->edgeFriend[3] = kids[0];
-		kids[2]->edgeFriend[0] = kids[1];
+		kids[1]->edgeFriend[2] = kids[2].Get();
+		kids[1]->edgeFriend[3] = kids[0].Get();
+		kids[2]->edgeFriend[0] = kids[1].Get();
 		kids[2]->edgeFriend[1] = GetEdgeFriendForKid(2, 1);
 		kids[2]->edgeFriend[2] = GetEdgeFriendForKid(2, 2);
-		kids[2]->edgeFriend[3] = kids[3];
-		kids[3]->edgeFriend[0] = kids[0];
-		kids[3]->edgeFriend[1] = kids[2];
+		kids[2]->edgeFriend[3] = kids[3].Get();
+		kids[3]->edgeFriend[0] = kids[0].Get();
+		kids[3]->edgeFriend[1] = kids[2].Get();
 		kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);
 		kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
 		kids[0]->parent = kids[1]->parent = kids[2]->parent = kids[3]->parent = this;
@@ -705,9 +717,9 @@ void GeoPatch::ReceiveHeightmaps(const SSplitResult *psr)
 		for (int i=0; i<NUM_KIDS; i++)
 		{
 			const SSplitResult::SSplitResultData& data = psr->data(i);
-			kids[i]->vertices = data.vertices;
-			kids[i]->normals = data.normals;
-			kids[i]->colors = data.colors;
+			kids[i]->vertices.Reset(data.vertices);
+			kids[i]->normals.Reset(data.normals);
+			kids[i]->colors.Reset(data.colors);
 		}
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		for (int i=0; i<NUM_EDGES; i++) { if(edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendSplit(this); }
@@ -717,7 +729,7 @@ void GeoPatch::ReceiveHeightmaps(const SSplitResult *psr)
 		}
 		PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 		assert(mCurrentJob.Valid());
-		mCurrentJob.Reset();
+		delete mCurrentJob.Release();
 		mHasSplitRequest = false;
 		if(parent) {
 			// remove the bit flag
@@ -726,3 +738,21 @@ void GeoPatch::ReceiveHeightmaps(const SSplitResult *psr)
 	}
 }
 
+void GeoPatch::CancelJobs()
+{
+	if(kids[0])
+	{
+		assert(!mHasSplitRequest);
+		for (int i=0; i<NUM_KIDS; i++) {
+			kids[i]->CancelJobs();
+		}
+	}
+	else
+	{
+		if(mHasSplitRequest && NULL!=mpSwarmJob) {
+			Pi::jobs().cancel(mpSwarmJob);
+			mpSwarmJob = NULL;
+			mHasSplitRequest = false;
+		}
+	}
+}

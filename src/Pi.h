@@ -159,10 +159,13 @@ public:
 	static struct DetailLevel detail;
 	static GameConfig *config;
 
-	static JobManager jobs;
+	static JobManager& jobs() {assert(pJobs); return *pJobs;}
+	
 private:
 	static void HandleEvents();
 	static void InitJoysticks();
+
+	static JobManager *pJobs;
 
 	static bool menuDone;
 

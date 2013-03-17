@@ -47,6 +47,7 @@ public:
 		return h;
 	}
 	friend class GeoPatch;
+	friend class GeoPatch::PatchJob;
 	static void Init();
 	static void Uninit();
 	static void OnChangeDetailLevel();
@@ -66,16 +67,17 @@ public:
 	void AddMemAllocatedToPatches(const uint64_t amt) {mCurrentMemAllocatedToPatches+=amt;}
 	void DelMemAllocatedToPatches(const uint64_t amt) {mCurrentMemAllocatedToPatches-=amt;}
 
+	void Reset();
+
 private:
 	void BuildFirstPatches();
-	GeoPatch *m_patches[6];
+	ScopedPtr<GeoPatch> m_patches[6];
 	const SystemBody *m_sbody;
 
-	/* all variables for GetHeight(), GetColor() */
-	Terrain *m_terrain;
+	// all variables for GetHeight(), GetColor()
+	ScopedPtr<Terrain> m_terrain;
 
 	static const uint32_t MAX_SPLIT_OPERATIONS = 128;
-	std::deque<SSplitRequestDescription*> mSplitRequestDescriptions;
 	std::deque<SSplitResult*> mSplitResult;
 
 	bool m_hasTempCampos;

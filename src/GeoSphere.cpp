@@ -63,27 +63,67 @@ static void print_info(const SystemBody *sbody, const Terrain *terrain)
 		"    seed: %u\n",
 		sbody->name.c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->seed);
 }
-
+#pragma optimize( "", off )
 void GeoSphere::OnChangeDetailLevel()
 {
+	// Cancel all of the pending patch jobs
+	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i) 
+	{
+		for (int p=0; p<NUM_PATCHES; p++) {
+			if ((*i)->m_patches[p]) {
+				(*i)->m_patches[p]->CancelJobs();
+			}
+		}
+	}
+
+	// wait for all jobs to be issued - probably none
+	while(Pi::jobs().jobsRemaining()) {
+		Pi::jobs().update();
+	}
+
+	// wait for all jobs to be finished
+	while(GeoPatch::PatchJob::GetNumActivePatchJobs()>0) {
+		THREAD_CONFIG::tc_sleep(0);
+	}
+
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
 
 	// reinit the geosphere terrain data
 	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i) 
 	{
-		for (int p=0; p<NUM_PATCHES; p++) {
-			// delete patches
-			if ((*i)->m_patches[p]) {
-				delete (*i)->m_patches[p];
-				(*i)->m_patches[p] = 0;
-			}
-		}
+		// clearout anything we don't need
+		(*i)->Reset();
 
 		// reinit the terrain with the new settings
-		delete (*i)->m_terrain;
-		(*i)->m_terrain = Terrain::InstanceTerrain((*i)->m_sbody);
-		print_info((*i)->m_sbody, (*i)->m_terrain);
+		(*i)->m_terrain.Reset(Terrain::InstanceTerrain((*i)->m_sbody));
+		print_info((*i)->m_sbody, (*i)->m_terrain.Get());
+	}
+}
+
+void GeoSphere::Reset()
+{
+	std::deque<SSplitResult*>::iterator iter = mSplitResult.begin();
+	while(iter!=mSplitResult.end())
+	{
+		// finally pass SplitResults
+		SSplitResult *psr = (*iter);
+
+		psr->OnCancel();
+
+		// tidyup
+		delete psr;
+
+		// Next!
+		++iter;
+	}
+	mSplitResult.clear();
+
+	for (int p=0; p<NUM_PATCHES; p++) {
+		// delete patches
+		if (m_patches[p]) {
+			m_patches[p].Reset();
+		}
 	}
 }
 
@@ -92,11 +132,7 @@ void GeoSphere::OnChangeDetailLevel()
 GeoSphere::GeoSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain::InstanceTerrain(body)), 
 	m_hasTempCampos(false), m_tempCampos(0.0), mCurrentNumPatches(0), mCurrentMemAllocatedToPatches(0)
 {
-	print_info(body, m_terrain);
-
-	for(int i=0; i<NUM_PATCHES; ++i) {
-		m_patches[i] = NULL;
-	}
+	print_info(body, m_terrain.Get());
 
 	s_allGeospheres.push_back(this);
 
@@ -105,76 +141,17 @@ GeoSphere::GeoSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain:
 
 GeoSphere::~GeoSphere()
 {
+	// Cancel all of the pending patch jobs
+	for (int p=0; p<NUM_PATCHES; p++) {
+		if (m_patches[p]) {
+			m_patches[p]->CancelJobs();
+		}
+	}
+
 	// update thread should not be able to access us now, so we can safely continue to delete
 	assert(std::count(s_allGeospheres.begin(), s_allGeospheres.end(), this) == 1);
 	s_allGeospheres.erase(std::find(s_allGeospheres.begin(), s_allGeospheres.end(), this));
-
-	for (int i=0; i<NUM_PATCHES; i++) if (m_patches[i]) delete m_patches[i];
-
-	delete m_terrain;
 }
-
-/*bool GeoSphere::AddSplitRequest(SSplitRequestDescription *desc)
-{
-	assert(mSplitRequestDescriptions.size()<MAX_SPLIT_OPERATIONS);
-	if(mSplitRequestDescriptions.size()<MAX_SPLIT_OPERATIONS) {
-		mSplitRequestDescriptions.push_back(desc);
-		return true;
-	}
-	return false;
-}
-
-void GeoSphere::ProcessSplitRequests()
-{
-	std::deque<SSplitRequestDescription*>::const_iterator iter = mSplitRequestDescriptions.begin();
-	while (iter!=mSplitRequestDescriptions.end())
-	{
-		const SSplitRequestDescription* srd = (*iter);
-
-		const vector3f v01	= (srd->v0+srd->v1).Normalized();
-		const vector3f v12	= (srd->v1+srd->v2).Normalized();
-		const vector3f v23	= (srd->v2+srd->v3).Normalized();
-		const vector3f v30	= (srd->v3+srd->v0).Normalized();
-		const vector3f cn	= (srd->centroid).Normalized();
-
-		// 
-		const vector3f vecs[4][4] = {
-			{srd->v0,	v01,		cn,			v30},
-			{v01,		srd->v1,	v12,		cn},
-			{cn,		v12,		srd->v2,	v23},
-			{v30,		cn,			v23,		srd->v3}
-		};
-
-		SSplitResult *sr = new SSplitResult(srd->patchID.GetPatchFaceIdx(), srd->depth);
-		for (int i=0; i<4; i++)
-		{
-			//Graphics::Texture *pTex = Graphics::TextureBuilder::TerrainGen("TerrainGen").CreateTexture(Pi::renderer);
-			Graphics::TextureDescriptor td(Graphics::TEXTURE_FLOAT, vector2f(sPatchContext->fboWidth(), sPatchContext->fboWidth()), Graphics::NEAREST_CLAMP, false, false);
-			Graphics::Texture *pTex = Pi::renderer->CreateTexture(td);
-
-			// render the heightmap to a framebuffer.
-			mPatchGenData->v0 = vecs[i][0];
-			mPatchGenData->v1 = vecs[i][1];
-			mPatchGenData->v2 = vecs[i][2];
-			mPatchGenData->v3 = vecs[i][3];
-
-			Graphics::TextureGL* pTexGL = static_cast<Graphics::TextureGL*>(pTex);
-			sPatchContext->renderHeightmap(0, mPatchGenData, pTexGL->GetTextureNum());
-
-			sr->addResult(pTex, vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], srd->patchID.NextPatchID(srd->depth+1, i));
-		}
-
-		// store result
-		mSplitResult.push_back( sr );
-
-		// cleanup after ourselves
-		delete srd;
-
-		// next!
-		++iter;
-	}
-	mSplitRequestDescriptions.clear();
-}*/
 
 bool GeoSphere::AddSplitResult(SSplitResult *res)
 {
@@ -225,21 +202,21 @@ void GeoSphere::BuildFirstPatches()
 
 	const uint64_t maxShiftDepth = GeoPatchID::MAX_SHIFT_DEPTH;
 
-	m_patches[0] = new GeoPatch(s_patchContext, this, p1, p2, p3, p4, 0, (0i64 << maxShiftDepth));
-	m_patches[1] = new GeoPatch(s_patchContext, this, p4, p3, p7, p8, 0, (1i64 << maxShiftDepth));
-	m_patches[2] = new GeoPatch(s_patchContext, this, p1, p4, p8, p5, 0, (2i64 << maxShiftDepth));
-	m_patches[3] = new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0, (3i64 << maxShiftDepth));
-	m_patches[4] = new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0, (4i64 << maxShiftDepth));
-	m_patches[5] = new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, (5i64 << maxShiftDepth));
+	m_patches[0].Reset(new GeoPatch(s_patchContext, this, p1, p2, p3, p4, 0, (0i64 << maxShiftDepth)));
+	m_patches[1].Reset(new GeoPatch(s_patchContext, this, p4, p3, p7, p8, 0, (1i64 << maxShiftDepth)));
+	m_patches[2].Reset(new GeoPatch(s_patchContext, this, p1, p4, p8, p5, 0, (2i64 << maxShiftDepth)));
+	m_patches[3].Reset(new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0, (3i64 << maxShiftDepth)));
+	m_patches[4].Reset(new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0, (4i64 << maxShiftDepth)));
+	m_patches[5].Reset(new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, (5i64 << maxShiftDepth)));
 	for (int i=0; i<NUM_PATCHES; i++) {
 		for (int j=0; j<4; j++) {
-			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]];
+			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]].Get();
 		}
 	}
 	for (int i=0; i<NUM_PATCHES; i++) {
-		m_patches[i]->vertices = new vector3d[s_patchContext->NUMVERTICES()];
-		m_patches[i]->normals = new vector3d[s_patchContext->NUMVERTICES()];
-		m_patches[i]->colors = new vector3d[s_patchContext->NUMVERTICES()];
+		m_patches[i]->vertices.Reset(new vector3d[s_patchContext->NUMVERTICES()]);
+		m_patches[i]->normals.Reset(new vector3d[s_patchContext->NUMVERTICES()]);
+		m_patches[i]->colors.Reset(new vector3d[s_patchContext->NUMVERTICES()]);
 	}
 	for (int i=0; i<NUM_PATCHES; i++) m_patches[i]->GenerateMesh();
 	for (int i=0; i<NUM_PATCHES; i++) m_patches[i]->GenerateEdgeNormalsAndColors();
@@ -309,7 +286,7 @@ void GeoSphere::Update()
 {
 	if(NULL==m_patches[0] && mSplitResult.empty()) {
 		BuildFirstPatches();
-	} else if(m_hasTempCampos)/*if(mSplitRequestDescriptions.empty())*/ {
+	} else if(m_hasTempCampos) {
 		ProcessSplitResults();
 		for (int i=0; i<NUM_PATCHES; i++) {
 			m_patches[i]->LODUpdate(m_tempCampos);
