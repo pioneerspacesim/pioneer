@@ -587,6 +587,10 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 	}
 
 	else {
+		std::vector<Graphics::Light> oldLights;
+		Color oldAmbient;
+		SetLighting(r, camera, oldLights, &oldAmbient);
+
 		Planet *planet = static_cast<Planet*>(b);
 		/* don't render city if too far away */
 		if (viewCoords.Length() < 1000000.0){
@@ -596,7 +600,9 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 			m_adjacentCity->Render(r, camera, this, viewCoords, viewTransform);
 		}
 
-		RenderModel(r, camera, viewCoords, viewTransform);
+		RenderModel(r, camera, viewCoords, viewTransform, false);
+
+		ResetLighting(r, oldLights, oldAmbient);
 	}
 }
 
