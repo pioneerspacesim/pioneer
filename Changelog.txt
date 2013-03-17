@@ -3,6 +3,9 @@ Alpha 33
    * New features
      * Czech language support (#2136)
 
+   * Minor changes and tweaks
+     * Clean up the Taxi mission view (#2142)
+
 Alpha 32
 
    * New features
@@ -11,7 +14,7 @@ Alpha 32
      * New ship "Lunar Shuttle" (#2082)
      * New ship "Deneb Transport" (#2119)
      * New fast random number generator (#1893, #2078, #2079)
-     * Upgraded hoop station (#2046)
+     * Upgraded hoop station (#2046, #2131, #2114)
      * Removed Lua model system (LMR) (#2029, #2071)
      * Removed LMR-based ships (#2061)
      * Removed Elite/Frontier content (#2093)
