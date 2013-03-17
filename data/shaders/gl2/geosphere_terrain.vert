@@ -6,10 +6,11 @@ varying vec4 unshadowed;
 uniform vec3 geosphereCenter;
 uniform float geosphereScaledRadius;
 
-uniform int occultedLight;
-uniform vec3 shadowCentre;
-uniform float srad;
-uniform float lrad;
+uniform int shadows;
+uniform ivec3 occultedLight;
+uniform mat3 shadowCentre;
+uniform vec3 srad;
+uniform vec3 lrad;
 
 #ifdef TERRAIN_WITH_LAVA
 varying vec4 varyingEmission;
@@ -68,15 +69,16 @@ void main(void)
 	for (int i=0; i<NUM_LIGHTS; i++) {
 		vec3 lightDir = normalize(vec3(gl_LightSource[i].position));
 		unshadowed[i] = 1.0;
-		if (i == occultedLight) {
-			// Apply eclipse:
-			vec3 projectedPoint = v - dot(lightDir,v)*lightDir;
-			// By our assumptions, the proportion of light blocked at this point by
-			// this sphere is the proportion of the disc of radius lrad around
-			// projectedPoint covered by the disc of radius srad around shadowCentre.
-			float dist = length(projectedPoint - shadowCentre);
-			unshadowed[i] *= 1.0 - discCovered(dist/lrad, srad/lrad);
-		}
+		for (int j=0; j<shadows; j++)
+			if (i == occultedLight[j]) {
+				// Apply eclipse:
+				vec3 projectedPoint = v - dot(lightDir,v)*lightDir;
+				// By our assumptions, the proportion of light blocked at this point by
+				// this sphere is the proportion of the disc of radius lrad around
+				// projectedPoint covered by the disc of radius srad around shadowCentre.
+				float dist = length(projectedPoint - shadowCentre[j]);
+				unshadowed[i] *= 1.0 - discCovered(dist/lrad[j], srad[j]/lrad[j]);
+			}
 	}
 
 #ifdef TERRAIN_WITH_LAVA

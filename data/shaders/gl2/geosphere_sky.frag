@@ -8,10 +8,11 @@ uniform vec3 geosphereCenter;
 uniform float geosphereAtmosFogDensity;
 uniform float geosphereAtmosInvScaleHeight;
 
-uniform int occultedLight;
-uniform vec3 shadowCentre;
-uniform float srad;
-uniform float lrad;
+uniform int shadows;
+uniform ivec3 occultedLight;
+uniform mat3 shadowCentre;
+uniform vec3 srad;
+uniform vec3 lrad;
 
 varying vec4 varyingEyepos;
 
@@ -66,46 +67,55 @@ void main(void)
 			vec3 lightDir = normalize(vec3(gl_LightSource[i].position));
 
 			float uneclipsed = 1.0;
-			if (i == occultedLight)
-			{
-				// Eclipse handling:
-				// Calculate proportion of the in-atmosphere eyeline which is shadowed,
-				// weighting according to completeness of the shadow (penumbra vs umbra).
-				// This ignores variation in atmosphere density, and ignores outscatter along
-				// the eyeline, so is not very accurate. But it gives decent results.
-				vec3 dir = eyenorm;
-				// a&b scaled so length of 1.0 means planet surface.
-				vec3 a = (skyNear * dir - geosphereCenter) / geosphereScaledRadius;
-				vec3 b = (skyFar * dir - geosphereCenter) / geosphereScaledRadius;
-				vec3 ap = a - dot(a,lightDir)*lightDir - shadowCentre;
-				vec3 bp = b - dot(b,lightDir)*lightDir - shadowCentre;
+			for (int j=0; j<shadows; j++)
+				if (i == occultedLight[j])
+				{
+					// Eclipse handling:
+					// Calculate proportion of the in-atmosphere eyeline which is shadowed,
+					// weighting according to completeness of the shadow (penumbra vs umbra).
+					// This ignores variation in atmosphere density, and ignores outscatter along
+					// the eyeline, so is not very accurate. But it gives decent results.
+					vec3 dir = eyenorm;
+					// a&b scaled so length of 1.0 means planet surface.
+					vec3 a = (skyNear * dir - geosphereCenter) / geosphereScaledRadius;
+					vec3 b = (skyFar * dir - geosphereCenter) / geosphereScaledRadius;
 
-				vec3 dirp = normalize(bp-ap);
-				float ad = dot(ap,dirp);
-				float bd = dot(bp,dirp);
-				if (bd > ad) {
-					vec3 p = ap - dot(ap,dirp)*dirp;
-					float perpsq = dot(p,p);
+					// can't do shadowCentre[j] in frag shader, on some targets
+					vec3 centre;
+					if (j==0) centre = shadowCentre[0];
+					if (j==1) centre = shadowCentre[1];
+					if (j==2) centre = shadowCentre[2];
 
-					float maxOcclusion = min(1.0, (srad/lrad)*(srad/lrad));
+					vec3 ap = a - dot(a,lightDir)*lightDir - centre;
+					vec3 bp = b - dot(b,lightDir)*lightDir - centre;
 
-					// We do need a gradually deepening penumbra, or we get ugly lines when the
-					// shadow is viewed side-on; a more efficient approach to this than the
-					// following loop would be nice.
-					int pN = 12;
-					for (int pi=pN; pi>=0; pi--) {
-						float r = srad + float(pi)*lrad/float(pN);
-						float c = r*r - perpsq;
-						if (c < 0.0)
-							break;
-						float rootc = sqrt(c);
-						uneclipsed -= (maxOcclusion/float(pN+1)) *
-							(clamp(rootc,ad,bd) - clamp(-rootc,ad,bd)) / (bd-ad);
+
+					vec3 dirp = normalize(bp-ap);
+					float ad = dot(ap,dirp);
+					float bd = dot(bp,dirp);
+					if (bd > ad) {
+						vec3 p = ap - dot(ap,dirp)*dirp;
+						float perpsq = dot(p,p);
+
+						float maxOcclusion = min(1.0, (srad[j]/lrad[j])*(srad[j]/lrad[j]));
+
+						// We do need a gradually deepening penumbra, or we get ugly lines when the
+						// shadow is viewed side-on; a more efficient approach to this than the
+						// following loop would be nice.
+						int pN = 12;
+						for (int pi=pN; pi>=0; pi--) {
+							float r = srad[j] + float(pi)*lrad[j]/float(pN);
+							float c = r*r - perpsq;
+							if (c < 0.0)
+								break;
+							float rootc = sqrt(c);
+							uneclipsed -= (maxOcclusion/float(pN+1)) *
+								(clamp(rootc,ad,bd) - clamp(-rootc,ad,bd)) / (bd-ad);
+						}
 					}
+					// Note: the shadow the planet casts on its own atmosphere is dealt with adequately
+					// by the calculations involving nDotVP.
 				}
-				// Note: the shadow the planet casts on its own atmosphere is dealt with adequately
-				// by the calculations involving nDotVP.
-			}
 
 			float nDotVP =  max(0.0, dot(surfaceNorm, lightDir))	;
 			float nnDotVP = max(0.0, dot(surfaceNorm, -lightDir));  //need backlight to increase horizon

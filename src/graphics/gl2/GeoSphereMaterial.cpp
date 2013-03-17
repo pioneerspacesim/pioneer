@@ -3,6 +3,7 @@
 
 #include "GeoSphereMaterial.h"
 #include "GeoSphere.h"
+#include "Camera.h"
 #include "StringF.h"
 #include "graphics/Graphics.h"
 #include "graphics/RendererGL2.h"
@@ -30,6 +31,7 @@ void GeoSphereProgram::InitUniforms()
 	geosphereScale.Init("geosphereScale", m_program);
 	geosphereScaledRadius.Init("geosphereScaledRadius", m_program);
 
+	shadows.Init("shadows", m_program);
 	occultedLight.Init("occultedLight", m_program);
 	shadowCentre.Init("shadowCentre", m_program);
 	srad.Init("srad", m_program);
@@ -76,15 +78,27 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	p->geosphereScaledRadius.Set(ap.planetRadius / ap.scale);
 	p->geosphereScale.Set(ap.scale);
 
-	if (params.shadows.empty())
-		p->occultedLight.Set(-1);
-	else {
-		// for now at least, we only handle one shadow at a time
-		p->occultedLight.Set(params.shadows.begin()->occultedLight);
-		p->shadowCentre.Set(params.shadows.begin()->centre);
-		p->srad.Set(params.shadows.begin()->srad);
-		p->lrad.Set(params.shadows.begin()->lrad);
+	// we handle up to three shadows at a time
+	int occultedLight[3] = {-1,-1,-1};
+	float shadowCentre[9];
+	vector3f srad;
+	vector3f lrad;
+	std::list<Camera::Shadow>::const_iterator it = params.shadows.begin();
+	int j = 0;
+	while (j<3 && it != params.shadows.end()) {
+		occultedLight[j] = it->occultedLight;
+		for (int k=0; k<3; k++)
+			shadowCentre[3*j+k] = it->centre[k];
+		srad[j] = it->srad;
+		lrad[j] = it->lrad;
+		it++;
+		j++;
 	}
+	p->shadows.Set(j);
+	p->occultedLight.Set(occultedLight);
+	p->shadowCentre.Set(shadowCentre);
+	p->srad.Set(srad);
+	p->lrad.Set(lrad);
 }
 
 Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
