@@ -6,6 +6,9 @@ Alpha 33
    * Minor changes and tweaks
      * Clean up the Taxi mission view (#2142)
 
+   * Fixes
+     * Fix hoop station unreliable docking detection (#2153, #2125)
+
 Alpha 32
 
    * New features
