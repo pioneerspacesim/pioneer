@@ -335,20 +335,20 @@ float discCovered(float dist, float rad) {
 	// d = vertical distance to an intersection point
 	// The clampings handle the cases where one disc contains the other.
 	const float radsq = rad*rad;
-	const float xl = Clamp((dist*dist + 1 - radsq) / (2.0*dist), -1.f, 1.f);
+	const float xl = Clamp((dist*dist + 1 - radsq) / (2.f*dist), -1.f, 1.f);
 	const float xs = Clamp(dist - xl, -rad, rad);
 	// XXX: having 1.001 rather that 1.0 in the following appears necessary to
 	// avoid flicker due (I'm assuming) to sqrting negative numbers
 	const float d = sqrt(1.001 - xl*xl);
 
-	const float th = Clamp(acos(xl), 0.f, M_PI);
-	const float th2 = Clamp(acos(xs/rad), 0.f, M_PI);
+	const float th = Clamp(acosf(xl), 0.f, float(M_PI));
+	const float th2 = Clamp(acosf(xs/rad), 0.f, float(M_PI));
 
 	assert(!isnan(d) && !isnan(th) && !isnan(th2));
 
 	// covered area can be calculated as the sum of segments from the two
 	// discs plus/minus some triangles, and it works out as follows:
-	return Clamp((th + radsq*th2 - dist*d)/M_PI, 0.f, 1.f);
+	return Clamp((th + radsq*th2 - dist*d)/float(M_PI), 0.f, 1.f);
 }
 
 float Camera::ShadowedIntensity(int lightNum, const Body *b) const {

@@ -17,7 +17,7 @@ varying vec4 varyingEmission;
 uniform Material material;
 #endif
 
-float PI = 3.141592653589793;
+#define PI = 3.141592653589793;
 
 float discCovered(float dist, float rad) {
 	// proportion of unit disc covered by a second disc of radius rad placed
