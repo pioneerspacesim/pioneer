@@ -24,16 +24,23 @@
 
 static const int GEOPATCH_MAX_EDGELEN = 55;
 
-uint32_t GeoPatch::PatchJob::s_numActivePatchJobs = 0;
+uint32_t QuadPatchJob::s_numActivePatchJobs = 0;
+bool QuadPatchJob::s_abort = false;
 
-void GeoPatch::PatchJob::job_onFinish(void * userData, int userId)  // runs in primary thread of the context
+void QuadPatchJob::job_onFinish(void * userData, int userId)  // runs in primary thread of the context
 {
-	mData->pGeoSphere->AddSplitResult(mpResults);
+	if(s_abort) {
+		// clean up after ourselves
+		mpResults->OnCancel();
+		delete mpResults;
+	} else {
+		mData->pGeoSphere->AddSplitResult(mpResults);
+	}
 	PureJob::job_onFinish(userData, userId);
 	--s_numActivePatchJobs;
 }
 
-void GeoPatch::PatchJob::job_onCancel(void * userData, int userId)   // runs in primary thread of the context
+void QuadPatchJob::job_onCancel(void * userData, int userId)   // runs in primary thread of the context
 {
 	mpResults->OnCancel();
 	delete mpResults;	mpResults = NULL;
@@ -41,8 +48,11 @@ void GeoPatch::PatchJob::job_onCancel(void * userData, int userId)   // runs in 
 	--s_numActivePatchJobs;
 }
 
-void GeoPatch::PatchJob::job_process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+void QuadPatchJob::job_process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 {
+	if(s_abort)
+		return;
+
 	const SSplitRequestDescription &srd = (*mData.Get());
 	const vector3d v01	= (srd.v0+srd.v1).Normalized();
 	const vector3d v12	= (srd.v1+srd.v2).Normalized();
@@ -61,6 +71,11 @@ void GeoPatch::PatchJob::job_process(void * userData,int /* userId */)    // RUN
 	SSplitResult *sr = new SSplitResult(srd.patchID.GetPatchFaceIdx(), srd.depth);
 	for (int i=0; i<4; i++)
 	{
+		if(s_abort) {
+			delete sr;
+			return;
+		}
+
 		// fill out the data
 		GenerateMesh(srd.vertices[i], srd.normals[i], srd.colors[i], 
 			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
@@ -74,7 +89,7 @@ void GeoPatch::PatchJob::job_process(void * userData,int /* userId */)    // RUN
 }
 
 // Generates full-detail vertices, and also non-edge normals and colors 
-void GeoPatch::PatchJob::GenerateMesh(
+void QuadPatchJob::GenerateMesh(
 	vector3d *vertices, vector3d *normals, vector3d *colors, 
 	const vector3d &v0,
 	const vector3d &v1,
@@ -658,7 +673,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 						geosphere->m_sbody->path, mPatchID, ctx->edgeLen,
 						ctx->frac, geosphere->m_terrain.Get(), geosphere);
 			assert(!mCurrentJob.Valid());
-			mCurrentJob.Reset(new PatchJob(ssrd));
+			mCurrentJob.Reset(new QuadPatchJob(ssrd));
 			mpSwarmJob = Pi::jobs().addJobMainThread(mCurrentJob.Get(), NULL);
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {

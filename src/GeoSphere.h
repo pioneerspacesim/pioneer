@@ -47,7 +47,6 @@ public:
 		return h;
 	}
 	friend class GeoPatch;
-	friend class GeoPatch::PatchJob;
 	static void Init();
 	static void Uninit();
 	static void OnChangeDetailLevel();

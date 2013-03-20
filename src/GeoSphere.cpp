@@ -67,6 +67,7 @@ static void print_info(const SystemBody *sbody, const Terrain *terrain)
 void GeoSphere::OnChangeDetailLevel()
 {
 	// Cancel all of the pending patch jobs
+	QuadPatchJob::CancelAllPatchJobs();
 	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i) 
 	{
 		for (int p=0; p<NUM_PATCHES; p++) {
@@ -82,7 +83,7 @@ void GeoSphere::OnChangeDetailLevel()
 	}
 
 	// wait for all jobs to be finished
-	while(GeoPatch::PatchJob::GetNumActivePatchJobs()>0) {
+	while(QuadPatchJob::GetNumActivePatchJobs()>0) {
 		THREAD_CONFIG::tc_sleep(0);
 	}
 

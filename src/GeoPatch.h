@@ -142,58 +142,62 @@ private:
 	SSplitResultData mData[NUM_RESULT_DATA];
 };
 
+//********************************************************************************
+// Overloaded PureJob class to handle generating the mesh for each patch
+//********************************************************************************
+class QuadPatchJob : public PureJob
+{
+public:
+	QuadPatchJob(SSplitRequestDescription *data) : mData(data)
+	{
+	}
+
+	virtual ~QuadPatchJob()
+	{	
+	}
+
+	virtual void init(unsigned int *counter)
+	{
+		++s_numActivePatchJobs;
+		PureJob::init( counter );
+	}
+
+	virtual void job_process(void * userData,int /* userId */);    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+
+	virtual void job_onFinish(void * userData, int userId);  // runs in primary thread of the context
+
+	virtual void job_onCancel(void * userData, int userId);   // runs in primary thread of the context
+
+	static uint32_t GetNumActivePatchJobs() { return s_numActivePatchJobs; };
+	static void CancelAllPatchJobs() { s_abort = true; }
+
+private:
+	ScopedPtr<SSplitRequestDescription> mData;
+	SSplitResult *mpResults;
+
+	/* in patch surface coords, [0,1] */
+	inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3, const double x, const double y) const {
+		return (v0 + x*(1.0-y)*(v1-v0) + x*y*(v2-v0) + (1.0-x)*y*(v3-v0)).Normalized();
+	}
+
+	// Generates full-detail vertices, and also non-edge normals and colors 
+	void GenerateMesh(
+		vector3d *vertices, vector3d *normals, vector3d *colors, 
+		const vector3d &v0,
+		const vector3d &v1,
+		const vector3d &v2,
+		const vector3d &v3,
+		const int edgeLen,
+		const double fracStep) const;
+
+	static uint32_t s_numActivePatchJobs;
+	static bool s_abort;
+};
+
 class GeoPatch {
 public:
-	//********************************************************************************
-	// Overloaded PureJob class to handle generating the mesh for each patch
-	//********************************************************************************
-	class PatchJob : public PureJob
-	{
-	public:
-		PatchJob(SSplitRequestDescription *data) : mData(data)
-		{
-		}
-
-		virtual ~PatchJob()
-		{	
-		}
-
-		virtual void init(unsigned int *counter)
-		{
-			++s_numActivePatchJobs;
-			PureJob::init( counter );
-		}
-
-		virtual void job_process(void * userData,int /* userId */);    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-
-		virtual void job_onFinish(void * userData, int userId);  // runs in primary thread of the context
-
-		virtual void job_onCancel(void * userData, int userId);   // runs in primary thread of the context
-
-		static uint32_t GetNumActivePatchJobs() { return s_numActivePatchJobs; };
-
-	private:
-		ScopedPtr<SSplitRequestDescription> mData;
-		SSplitResult *mpResults;
-
-		/* in patch surface coords, [0,1] */
-		inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3, const double x, const double y) const {
-			return (v0 + x*(1.0-y)*(v1-v0) + x*y*(v2-v0) + (1.0-x)*y*(v3-v0)).Normalized();
-		}
-
-		// Generates full-detail vertices, and also non-edge normals and colors 
-		void GenerateMesh(
-			vector3d *vertices, vector3d *normals, vector3d *colors, 
-			const vector3d &v0,
-			const vector3d &v1,
-			const vector3d &v2,
-			const vector3d &v3,
-			const int edgeLen,
-			const double fracStep) const;
-
-		static uint32_t s_numActivePatchJobs;
-	};
-	ScopedPtr<PatchJob>		mCurrentJob;
+	
+	ScopedPtr<QuadPatchJob>		mCurrentJob;
 	JOB_SWARM::SwarmJob*	mpSwarmJob;
 public:
 	static const uint32_t NUM_EDGES = 4;
