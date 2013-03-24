@@ -185,7 +185,7 @@ void QuadPatchJob::job_process(void * userData,int /* userId */)    // RUNS IN A
 GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs, 
 	const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, 
 	const int depth, const GeoPatchID &ID_) 
-	: mpSwarmJob(NULL), ctx(ctx_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), 
+	: ctx(ctx_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), 
 	vertices(NULL), normals(NULL), colors(NULL), 
 	m_vbo(0), parent(NULL), geosphere(gs), 
 	m_depth(depth), mPatchID(ID_), 
@@ -709,7 +709,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 						ctx->frac, geosphere->m_terrain.Get(), geosphere);
 			assert(!mCurrentJob.Valid());
 			mCurrentJob.Reset(new QuadPatchJob(ssrd));
-			mpSwarmJob = Pi::jobs().addJobMainThread(mCurrentJob.Get(), NULL);
+			Pi::jobs().addJobMainThread(mCurrentJob.Get(), NULL);
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
 				kids[i]->LODUpdate(campos);
@@ -742,7 +742,7 @@ void GeoPatch::RequestSinglePatch()
 					geosphere->m_sbody->path, mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get(), geosphere);
 		assert(!mCurrentJob.Valid());
 		mCurrentJob.Reset(new SinglePatchJob(ssrd));
-		mpSwarmJob = Pi::jobs().addJobMainThread(mCurrentJob.Get(), NULL);
+		Pi::jobs().addJobMainThread(mCurrentJob.Get(), NULL);
 	}
 }
 

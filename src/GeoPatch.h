@@ -289,7 +289,6 @@ class GeoPatch {
 public:
 	
 	ScopedPtr<BasePatchJob>		mCurrentJob;
-	JOB_SWARM::SwarmJob*		mpSwarmJob;
 public:
 	static const uint32_t NUM_EDGES = 4;
 	static const uint32_t NUM_KIDS = NUM_EDGES;
