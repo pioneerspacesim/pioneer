@@ -136,7 +136,7 @@ ObjectViewerView *Pi::objectViewerView;
 #endif
 
 Sound::MusicPlayer Pi::musicPlayer;
-JobManager* Pi::pJobs = NULL;
+ScopedPtr<JobManager> Pi::pJobs;
 
 static void draw_progress(float progress)
 {
@@ -244,7 +244,7 @@ std::string Pi::GetSaveDir()
 
 void Pi::Init()
 {
-	pJobs = new JobManager;
+	pJobs.Reset(new JobManager);
 
 	OS::NotifyLoadBegin();
 
@@ -931,7 +931,6 @@ void Pi::EndGame()
 		THREAD_CONFIG::tc_sleep(0);
 	}
 	assert(!jobs().jobsRemaining());
-	delete pJobs;
 
 	assert(game);
 	delete game;

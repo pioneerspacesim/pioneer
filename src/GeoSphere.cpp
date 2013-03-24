@@ -67,25 +67,13 @@ static void print_info(const SystemBody *sbody, const Terrain *terrain)
 void GeoSphere::OnChangeDetailLevel()
 {
 	// Cancel all of the pending patch jobs
-	QuadPatchJob::CancelAllPatchJobs();
-	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i) 
-	{
-		for (int p=0; p<NUM_PATCHES; p++) {
-			if ((*i)->m_patches[p]) {
-				(*i)->m_patches[p]->CancelJobs();
-			}
-		}
-	}
-
-	// wait for all jobs to be issued - probably none
-	while(Pi::jobs().jobsRemaining()) {
-		Pi::jobs().update();
-	}
+	BasePatchJob::CancelAllPatchJobs();
 
 	// wait for all jobs to be finished
-	while(QuadPatchJob::GetNumActivePatchJobs()>0) {
+	while(BasePatchJob::GetNumActivePatchJobs()>0) {
 		THREAD_CONFIG::tc_sleep(0);
 	}
+	BasePatchJob::ResetPatchJobCancel();
 
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
 	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
@@ -104,34 +92,56 @@ void GeoSphere::OnChangeDetailLevel()
 
 void GeoSphere::Reset()
 {
-	std::deque<SSplitResult*>::iterator iter = mSplitResult.begin();
-	while(iter!=mSplitResult.end())
 	{
-		// finally pass SplitResults
-		SSplitResult *psr = (*iter);
+		std::deque<SSingleSplitResult*>::iterator iter = mSingleSplitResults.begin();
+		while(iter!=mSingleSplitResults.end())
+		{
+			// finally pass SplitResults
+			SSingleSplitResult *psr = (*iter);
 
-		psr->OnCancel();
+			psr->OnCancel();
 
-		// tidyup
-		delete psr;
+			// tidyup
+			delete psr;
 
-		// Next!
-		++iter;
+			// Next!
+			++iter;
+		}
+		mSingleSplitResults.clear();
 	}
-	mSplitResult.clear();
+
+	{
+		std::deque<SQuadSplitResult*>::iterator iter = mQuadSplitResults.begin();
+		while(iter!=mQuadSplitResults.end())
+		{
+			// finally pass SplitResults
+			SQuadSplitResult *psr = (*iter);
+
+			psr->OnCancel();
+
+			// tidyup
+			delete psr;
+
+			// Next!
+			++iter;
+		}
+		mQuadSplitResults.clear();
+	}
 
 	for (int p=0; p<NUM_PATCHES; p++) {
 		// delete patches
-		if (m_patches[p]) {
+		if (m_patches[p].Valid()) {
 			m_patches[p].Reset();
 		}
 	}
+
+	m_initStage = eBuildFirstPatches;
 }
 
 #define GEOSPHERE_TYPE	(m_sbody->type)
 
 GeoSphere::GeoSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain::InstanceTerrain(body)), 
-	m_hasTempCampos(false), m_tempCampos(0.0), mCurrentNumPatches(0), mCurrentMemAllocatedToPatches(0)
+	m_hasTempCampos(false), m_tempCampos(0.0), mCurrentNumPatches(0), mCurrentMemAllocatedToPatches(0), m_initStage(eBuildFirstPatches)
 {
 	print_info(body, m_terrain.Get());
 
@@ -143,23 +153,36 @@ GeoSphere::GeoSphere(const SystemBody *body) : m_sbody(body), m_terrain(Terrain:
 GeoSphere::~GeoSphere()
 {
 	// Cancel all of the pending patch jobs
-	for (int p=0; p<NUM_PATCHES; p++) {
-		if (m_patches[p]) {
-			m_patches[p]->CancelJobs();
-		}
+	BasePatchJob::CancelAllPatchJobs();
+
+	// wait for all jobs to be finished
+	while(BasePatchJob::GetNumActivePatchJobs()>0) {
+		THREAD_CONFIG::tc_sleep(0);
 	}
+	BasePatchJob::ResetPatchJobCancel();
 
 	// update thread should not be able to access us now, so we can safely continue to delete
 	assert(std::count(s_allGeospheres.begin(), s_allGeospheres.end(), this) == 1);
 	s_allGeospheres.erase(std::find(s_allGeospheres.begin(), s_allGeospheres.end(), this));
 }
 
-bool GeoSphere::AddSplitResult(SSplitResult *res)
+bool GeoSphere::AddQuadSplitResult(SQuadSplitResult *res)
 {
 	bool result = false;
-	assert(mSplitResult.size()<MAX_SPLIT_OPERATIONS);
-	if(mSplitResult.size()<MAX_SPLIT_OPERATIONS) {
-		mSplitResult.push_back(res);
+	assert(mQuadSplitResults.size()<MAX_SPLIT_OPERATIONS);
+	if(mQuadSplitResults.size()<MAX_SPLIT_OPERATIONS) {
+		mQuadSplitResults.push_back(res);
+		result = true;
+	}
+	return result;
+}
+
+bool GeoSphere::AddSingleSplitResult(SSingleSplitResult *res)
+{
+	bool result = false;
+	assert(mSingleSplitResults.size()<MAX_SPLIT_OPERATIONS);
+	if(mSingleSplitResults.size()<MAX_SPLIT_OPERATIONS) {
+		mSingleSplitResults.push_back(res);
 		result = true;
 	}
 	return result;
@@ -167,28 +190,51 @@ bool GeoSphere::AddSplitResult(SSplitResult *res)
 
 void GeoSphere::ProcessSplitResults()
 {
-	std::deque<SSplitResult*>::const_iterator iter = mSplitResult.begin();
-	while(iter!=mSplitResult.end())
+	// now handle the single split results that define the base level of the quad tree
 	{
-		// finally pass SplitResults
-		const SSplitResult *psr = (*iter);
+		std::deque<SSingleSplitResult*>::const_iterator iter = mSingleSplitResults.begin();
+		while(iter!=mSingleSplitResults.end())
+		{
+			// finally pass SplitResults
+			const SSingleSplitResult *psr = (*iter);
 
-		const int32_t faceIdx = psr->face();
-		m_patches[faceIdx]->ReceiveHeightmaps(psr);
+			const int32_t faceIdx = psr->face();
+			m_patches[faceIdx]->ReceiveHeightmap(psr);
 
-		// tidyup
-		delete psr;
+			// tidyup
+			delete psr;
 
-		// Next!
-		++iter;
+			// Next!
+			++iter;
+		}
+		mSingleSplitResults.clear();
 	}
-	mSplitResult.clear();
+
+	// now handle the quad split results
+	{
+		std::deque<SQuadSplitResult*>::const_iterator iter = mQuadSplitResults.begin();
+		while(iter!=mQuadSplitResults.end())
+		{
+			// finally pass SplitResults
+			const SQuadSplitResult *psr = (*iter);
+
+			const int32_t faceIdx = psr->face();
+			m_patches[faceIdx]->ReceiveHeightmaps(psr);
+
+			// tidyup
+			delete psr;
+
+			// Next!
+			++iter;
+		}
+		mQuadSplitResults.clear();
+	}
 }
 
 void GeoSphere::BuildFirstPatches()
 {
-	assert(NULL==m_patches[0]);
-	if(NULL!=m_patches[0])
+	assert(!m_patches[0].Valid());
+	if(m_patches[0].Valid())
 		return;
 
 	// generate root face patches of the cube/sphere
@@ -214,14 +260,12 @@ void GeoSphere::BuildFirstPatches()
 			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]].Get();
 		}
 	}
+
 	for (int i=0; i<NUM_PATCHES; i++) {
-		m_patches[i]->vertices.Reset(new vector3d[s_patchContext->NUMVERTICES()]);
-		m_patches[i]->normals.Reset(new vector3d[s_patchContext->NUMVERTICES()]);
-		m_patches[i]->colors.Reset(new vector3d[s_patchContext->NUMVERTICES()]);
+		m_patches[i]->RequestSinglePatch();
 	}
-	for (int i=0; i<NUM_PATCHES; i++) m_patches[i]->GenerateMesh();
-	for (int i=0; i<NUM_PATCHES; i++) m_patches[i]->GenerateEdgeNormalsAndColors();
-	for (int i=0; i<NUM_PATCHES; i++) m_patches[i]->UpdateVBOs();
+
+	m_initStage = eRequestedFirstPatches;
 }
 
 static const float g_ambient[4] = { 0, 0, 0, 1.0 };
@@ -285,21 +329,51 @@ static void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 
 void GeoSphere::Update()
 {
-	if(NULL==m_patches[0] && mSplitResult.empty()) {
+	switch(m_initStage)
+	{
+	case eBuildFirstPatches:
 		BuildFirstPatches();
-	} else if(m_hasTempCampos) {
-		ProcessSplitResults();
-		for (int i=0; i<NUM_PATCHES; i++) {
-			m_patches[i]->LODUpdate(m_tempCampos);
+		break;
+	case eRequestedFirstPatches: 
+		{
+			ProcessSplitResults();
+			uint8_t numValidPatches = 0;
+			for (int i=0; i<NUM_PATCHES; i++) {
+				if(m_patches[i]->vertices.Valid()) {
+					++numValidPatches;
+				}
+			}
+			m_initStage = (NUM_PATCHES==numValidPatches) ? eReceivedFirstPatches : eRequestedFirstPatches;
+		} break;
+	case eReceivedFirstPatches:
+		{
+			for (int i=0; i<NUM_PATCHES; i++) {
+				m_patches[i]->GenerateEdgeNormalsAndColors();
+			}
+			for (int i=0; i<NUM_PATCHES; i++) {
+				m_patches[i]->UpdateVBOs();
+			}
+			m_initStage = eDefaultUpdateState;
+		} break;
+	case eDefaultUpdateState:
+		if(m_hasTempCampos) {
+			ProcessSplitResults();
+			for (int i=0; i<NUM_PATCHES; i++) {
+				m_patches[i]->LODUpdate(m_tempCampos);
+			}
 		}
+		break;
 	}
 }
 
 void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale) 
 {
-	if(NULL==m_patches[0]) {
+	// store this for later usage in the update method.
+	m_tempCampos = campos;
+	m_hasTempCampos = true;
+
+	if(m_initStage<eDefaultUpdateState)
 		return;
-	}
 
 	glPushMatrix();
 	glTranslated(-campos.x, -campos.y, -campos.z);
@@ -386,10 +460,6 @@ void GeoSphere::Render(Graphics::Renderer *renderer, vector3d campos, const floa
 #ifdef USE_WIREFRAME
 	renderer->SetWireFrameMode(false);
 #endif
-
-	// store this for later usage in the update method.
-	m_tempCampos = campos;
-	m_hasTempCampos = true;
 }
 
 void GeoSphere::SetUpMaterials()

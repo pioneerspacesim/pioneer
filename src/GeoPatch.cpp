@@ -24,81 +24,23 @@
 
 static const int GEOPATCH_MAX_EDGELEN = 55;
 
-uint32_t QuadPatchJob::s_numActivePatchJobs = 0;
-bool QuadPatchJob::s_abort = false;
-
-void QuadPatchJob::job_onFinish(void * userData, int userId)  // runs in primary thread of the context
-{
-	if(s_abort) {
-		// clean up after ourselves
-		mpResults->OnCancel();
-		delete mpResults;
-	} else {
-		mData->pGeoSphere->AddSplitResult(mpResults);
-	}
-	PureJob::job_onFinish(userData, userId);
-	--s_numActivePatchJobs;
-}
-
-void QuadPatchJob::job_onCancel(void * userData, int userId)   // runs in primary thread of the context
-{
-	mpResults->OnCancel();
-	delete mpResults;	mpResults = NULL;
-	PureJob::job_onCancel(userData, userId);
-	--s_numActivePatchJobs;
-}
-
-void QuadPatchJob::job_process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-{
-	if(s_abort)
-		return;
-
-	const SSplitRequestDescription &srd = (*mData.Get());
-	const vector3d v01	= (srd.v0+srd.v1).Normalized();
-	const vector3d v12	= (srd.v1+srd.v2).Normalized();
-	const vector3d v23	= (srd.v2+srd.v3).Normalized();
-	const vector3d v30	= (srd.v3+srd.v0).Normalized();
-	const vector3d cn	= (srd.centroid).Normalized();
-
-	// 
-	const vector3d vecs[4][4] = {
-		{srd.v0,	v01,		cn,			v30},
-		{v01,		srd.v1,		v12,		cn},
-		{cn,		v12,		srd.v2,		v23},
-		{v30,		cn,			v23,		srd.v3}
-	};
-
-	SSplitResult *sr = new SSplitResult(srd.patchID.GetPatchFaceIdx(), srd.depth);
-	for (int i=0; i<4; i++)
-	{
-		if(s_abort) {
-			delete sr;
-			return;
-		}
-
-		// fill out the data
-		GenerateMesh(srd.vertices[i], srd.normals[i], srd.colors[i], 
-			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
-			srd.edgeLen, srd.fracStep);
-		// add this patches data
-		sr->addResult(i, srd.vertices[i], srd.normals[i], srd.colors[i], 
-			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
-			srd.patchID.NextPatchID(srd.depth+1, i));
-	}
-	mpResults = sr;
-}
+//********************************************************************************
+// Overloaded PureJob class to handle generating the mesh for each patch
+//********************************************************************************
+uint32_t BasePatchJob::s_numActivePatchJobs = 0;
+bool BasePatchJob::s_abort = false;
 
 // Generates full-detail vertices, and also non-edge normals and colors 
-void QuadPatchJob::GenerateMesh(
+void BasePatchJob::GenerateMesh(
 	vector3d *vertices, vector3d *normals, vector3d *colors, 
 	const vector3d &v0,
 	const vector3d &v1,
 	const vector3d &v2,
 	const vector3d &v3,
 	const int edgeLen,
-	const double fracStep) const
+	const double fracStep,
+	const Terrain *pTerrain) const
 {
-	const SSplitRequestDescription &srd = (*mData.Get());
 	vector3d *vts = vertices;
 	vector3d *col = colors;
 	double xfrac;
@@ -107,7 +49,7 @@ void QuadPatchJob::GenerateMesh(
 		xfrac = 0;
 		for (int x=0; x<edgeLen; x++) {
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
-			const double height = srd.pTerrain->GetHeight(p);
+			const double height = pTerrain->GetHeight(p);
 			*(vts++) = p * (height + 1.0);
 			// remember this -- we will need it later
 			(col++)->x = height;
@@ -115,7 +57,7 @@ void QuadPatchJob::GenerateMesh(
 		}
 		yfrac += fracStep;
 	}
-	assert(vts == &vertices[srd.NUMVERTICES()]);
+
 	// Generate normals & colors for non-edge vertices since they never change
 	for (int y=1; y<edgeLen-1; y++) {
 		for (int x=1; x<edgeLen-1; x++) {
@@ -131,9 +73,113 @@ void QuadPatchJob::GenerateMesh(
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, x*fracStep, y*fracStep);
 			const double height = colors[x + y*edgeLen].x;
 			vector3d &col_r = colors[x + y*edgeLen];
-			col_r = srd.pTerrain->GetColor(p, height, n);
+			col_r = pTerrain->GetColor(p, height, n);
 		}
 	}
+}
+
+//********************************************************************************
+// Overloaded PureJob class to handle generating the mesh for each patch
+//********************************************************************************
+void SinglePatchJob::job_onFinish(void * userData, int userId)  // runs in primary thread of the context
+{
+	if(s_abort) {
+		// clean up after ourselves
+		mpResults->OnCancel();
+		delete mpResults;
+	} else {
+		mData->pGeoSphere->AddSingleSplitResult(mpResults);
+	}
+	BasePatchJob::job_onFinish(userData, userId);
+}
+
+void SinglePatchJob::job_onCancel(void * userData, int userId)   // runs in primary thread of the context
+{
+	mpResults->OnCancel();
+	delete mpResults;	mpResults = NULL;
+	BasePatchJob::job_onCancel(userData, userId);
+}
+
+void SinglePatchJob::job_process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+{
+	if(s_abort)
+		return;
+
+	const SSingleSplitRequest &srd = (*mData.Get());
+
+	// fill out the data
+	GenerateMesh(srd.vertices, srd.normals, srd.colors, 
+		srd.v0, srd.v1, srd.v2, srd.v3, 
+		srd.edgeLen, srd.fracStep, srd.pTerrain);
+	// add this patches data
+	SSingleSplitResult *sr = new SSingleSplitResult(srd.patchID.GetPatchFaceIdx(), srd.depth);
+	sr->addResult(srd.vertices, srd.normals, srd.colors, 
+		srd.v0, srd.v1, srd.v2, srd.v3, 
+		srd.patchID.NextPatchID(srd.depth+1, 0));
+	// store the result
+	mpResults = sr;
+}
+
+//********************************************************************************
+// Overloaded PureJob class to handle generating the mesh for each patch
+//********************************************************************************
+void QuadPatchJob::job_onFinish(void * userData, int userId)  // runs in primary thread of the context
+{
+	if(s_abort) {
+		// clean up after ourselves
+		mpResults->OnCancel();
+		delete mpResults;
+	} else {
+		mData->pGeoSphere->AddQuadSplitResult(mpResults);
+	}
+	BasePatchJob::job_onFinish(userData, userId);
+}
+
+void QuadPatchJob::job_onCancel(void * userData, int userId)   // runs in primary thread of the context
+{
+	mpResults->OnCancel();
+	delete mpResults;	mpResults = NULL;
+	BasePatchJob::job_onCancel(userData, userId);
+}
+
+void QuadPatchJob::job_process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+{
+	if(s_abort)
+		return;
+
+	const SQuadSplitRequest &srd = (*mData.Get());
+	const vector3d v01	= (srd.v0+srd.v1).Normalized();
+	const vector3d v12	= (srd.v1+srd.v2).Normalized();
+	const vector3d v23	= (srd.v2+srd.v3).Normalized();
+	const vector3d v30	= (srd.v3+srd.v0).Normalized();
+	const vector3d cn	= (srd.centroid).Normalized();
+
+	// 
+	const vector3d vecs[4][4] = {
+		{srd.v0,	v01,		cn,			v30},
+		{v01,		srd.v1,		v12,		cn},
+		{cn,		v12,		srd.v2,		v23},
+		{v30,		cn,			v23,		srd.v3}
+	};
+
+	SQuadSplitResult *sr = new SQuadSplitResult(srd.patchID.GetPatchFaceIdx(), srd.depth);
+	for (int i=0; i<4; i++)
+	{
+		if(s_abort) {
+			delete sr;
+			return;
+		}
+
+		// fill out the data
+		GenerateMesh(srd.vertices[i], srd.normals[i], srd.colors[i], 
+			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
+			srd.edgeLen, srd.fracStep, srd.pTerrain);
+		// add this patches data
+		sr->addResult(i, srd.vertices[i], srd.normals[i], srd.colors[i], 
+			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
+			srd.patchID.NextPatchID(srd.depth+1, i));
+	}
+	mpResults = sr;
 }
 
 GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs, 
@@ -143,7 +189,7 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	vertices(NULL), normals(NULL), colors(NULL), 
 	m_vbo(0), parent(NULL), geosphere(gs), 
 	m_depth(depth), mPatchID(ID_), 
-	mHasSplitRequest(false), mCanMergeChildren(0x0F)
+	mHasJobRequest(false), mCanMergeChildren(0x0F)
 {
 	for (int i=0; i<NUM_KIDS; ++i) {
 		edgeFriend[i]	= NULL;
@@ -164,17 +210,10 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
  	}
 	m_roughLength = GEOPATCH_SUBDIVIDE_AT_CAMDIST / pow(2.0, depth) * m_distMult;
 	m_needUpdateVBOs = false;
-
-	geosphere->IncrementCurrentNumPatches();
 }
 
 GeoPatch::~GeoPatch() {
-	assert(!mHasSplitRequest);
-
-	geosphere->DecrementCurrentNumPatches();
-	const int numVerts = ctx->NUMVERTICES();
-	const uint64_t memAlloced = (sizeof(vector3d) * numVerts) * 3 * 4;
-	geosphere->DelMemAllocatedToPatches(memAlloced);
+	assert(!mHasJobRequest);
 
 	SDL_DestroyMutex(m_kidsLock);
 	for (int i=0; i<NUM_KIDS; i++) {
@@ -622,7 +661,7 @@ void GeoPatch::Render(vector3d &campos, const Graphics::Frustum &frustum) {
 
 void GeoPatch::LODUpdate(const vector3d &campos) {
 	// there should be no LODUpdate'ing when we have active split requests
-	if(mHasSplitRequest)
+	if(mHasJobRequest)
 		return;
 
 	bool canSplit = true;
@@ -659,17 +698,13 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 				return;
 			}
 
-			mHasSplitRequest = true;
+			mHasJobRequest = true;
 			if(parent) {
 				// set the bit flag preventing merging
 				parent->mCanMergeChildren |= 1<<mPatchID.GetPatchIdx(m_depth);
 			}
 
-			const int numVerts = ctx->NUMVERTICES();
-			const uint64_t memAlloced = (sizeof(vector3d) * numVerts) * 3 * 4;
-			geosphere->AddMemAllocatedToPatches(memAlloced);
-
-			SSplitRequestDescription *ssrd = new SSplitRequestDescription(v0, v1, v2, v3, centroid.Normalized(), m_depth,
+			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 						geosphere->m_sbody->path, mPatchID, ctx->edgeLen,
 						ctx->frac, geosphere->m_terrain.Get(), geosphere);
 			assert(!mCurrentJob.Valid());
@@ -689,19 +724,41 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 	}
 }
 
-void GeoPatch::ReceiveHeightmaps(const SSplitResult *psr)
+void GeoPatch::RequestSinglePatch()
+{
+	if( !vertices.Valid() ) {
+		// don't do anything if we can't handle anymore jobs
+		if( !Pi::jobs().canAddJob() ) {
+			return;
+		}
+
+		mHasJobRequest = true;
+		if(parent) {
+			// set the bit flag preventing merging
+			parent->mCanMergeChildren |= 1<<mPatchID.GetPatchIdx(m_depth);
+		}
+
+		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
+					geosphere->m_sbody->path, mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get(), geosphere);
+		assert(!mCurrentJob.Valid());
+		mCurrentJob.Reset(new SinglePatchJob(ssrd));
+		mpSwarmJob = Pi::jobs().addJobMainThread(mCurrentJob.Get(), NULL);
+	}
+}
+
+void GeoPatch::ReceiveHeightmaps(const SQuadSplitResult *psr)
 {
 	if (m_depth<psr->depth()) {
 		// this should work because each depth should have a common history
 		const uint32_t kidIdx = psr->data(0).patchID.GetPatchIdx(m_depth+1);
 		kids[kidIdx]->ReceiveHeightmaps(psr);
 	} else {
-		assert(mHasSplitRequest);
+		assert(mHasJobRequest);
 		const int nD = m_depth+1;
 		for (int i=0; i<NUM_KIDS; i++)
 		{
 			assert(NULL==kids[i]);
-			const SSplitResult::SSplitResultData& data = psr->data(i);
+			const SQuadSplitResult::SSplitResultData& data = psr->data(i);
 			assert(i==data.patchID.GetPatchIdx(nD));
 			assert(0==data.patchID.GetPatchIdx(nD+1));
 			kids[i].Reset(new GeoPatch(ctx, geosphere, 
@@ -731,7 +788,7 @@ void GeoPatch::ReceiveHeightmaps(const SSplitResult *psr)
 
 		for (int i=0; i<NUM_KIDS; i++)
 		{
-			const SSplitResult::SSplitResultData& data = psr->data(i);
+			const SQuadSplitResult::SSplitResultData& data = psr->data(i);
 			kids[i]->vertices.Reset(data.vertices);
 			kids[i]->normals.Reset(data.normals);
 			kids[i]->colors.Reset(data.colors);
@@ -745,7 +802,7 @@ void GeoPatch::ReceiveHeightmaps(const SSplitResult *psr)
 		PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 		assert(mCurrentJob.Valid());
 		delete mCurrentJob.Release();
-		mHasSplitRequest = false;
+		mHasJobRequest = false;
 		if(parent) {
 			// remove the bit flag
 			parent->mCanMergeChildren &= ~(1<<mPatchID.GetPatchIdx(m_depth));
@@ -753,21 +810,17 @@ void GeoPatch::ReceiveHeightmaps(const SSplitResult *psr)
 	}
 }
 
-void GeoPatch::CancelJobs()
+void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 {
-	if(kids[0])
+	assert(NULL==parent);
+	assert(mHasJobRequest);
 	{
-		assert(!mHasSplitRequest);
-		for (int i=0; i<NUM_KIDS; i++) {
-			kids[i]->CancelJobs();
-		}
+		const SSingleSplitResult::SSplitResultData& data = psr->data();
+		vertices.Reset(data.vertices);
+		normals.Reset(data.normals);
+		colors.Reset(data.colors);
 	}
-	else
-	{
-		if(mHasSplitRequest && NULL!=mpSwarmJob) {
-			Pi::jobs().cancel(mpSwarmJob);
-			mpSwarmJob = NULL;
-			mHasSplitRequest = false;
-		}
-	}
+	assert(mCurrentJob.Valid());
+	delete mCurrentJob.Release();
+	mHasJobRequest = false;
 }

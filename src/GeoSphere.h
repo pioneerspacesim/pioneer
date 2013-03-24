@@ -20,8 +20,9 @@ class SystemBody;
 class GeoPatch;
 class GeoPatchContext;
 class GeoSphere;
-class SSplitRequestDescription;
-class SSplitResult;
+class SQuadSplitRequest;
+class SQuadSplitResult;
+class SSingleSplitResult;
 
 #define NUM_PATCHES 6
 
@@ -55,16 +56,11 @@ public:
 	static int GetVtxGenCount() { return s_vtxGenCount; }
 	static void ClearVtxGenCount() { s_vtxGenCount = 0; }
 
-	//bool AddSplitRequest(SSplitRequestDescription *desc);
+	//bool AddSplitRequest(SQuadSplitRequest *desc);
 	//void ProcessSplitRequests();
-	bool AddSplitResult(SSplitResult *res);
+	bool AddQuadSplitResult(SQuadSplitResult *res);
+	bool AddSingleSplitResult(SSingleSplitResult *res);
 	void ProcessSplitResults();
-
-	void IncrementCurrentNumPatches() {++mCurrentNumPatches;}
-	void DecrementCurrentNumPatches() {--mCurrentNumPatches;}
-
-	void AddMemAllocatedToPatches(const uint64_t amt) {mCurrentMemAllocatedToPatches+=amt;}
-	void DelMemAllocatedToPatches(const uint64_t amt) {mCurrentMemAllocatedToPatches-=amt;}
 
 	void Reset();
 
@@ -77,7 +73,8 @@ private:
 	ScopedPtr<Terrain> m_terrain;
 
 	static const uint32_t MAX_SPLIT_OPERATIONS = 128;
-	std::deque<SSplitResult*> mSplitResult;
+	std::deque<SQuadSplitResult*> mQuadSplitResults;
+	std::deque<SSingleSplitResult*> mSingleSplitResults;
 
 	bool m_hasTempCampos;
 	vector3d m_tempCampos;
@@ -98,6 +95,14 @@ private:
 	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
 	//special parameters for shaders
 	SystemBody::AtmosphereParameters m_atmosphereParameters;
+
+	enum EGSInitialisationStage {
+		eBuildFirstPatches=0,
+		eRequestedFirstPatches,
+		eReceivedFirstPatches,
+		eDefaultUpdateState
+	};
+	EGSInitialisationStage m_initStage;
 };
 
 #endif /* _GEOSPHERE_H */

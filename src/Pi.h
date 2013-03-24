@@ -159,13 +159,13 @@ public:
 	static struct DetailLevel detail;
 	static GameConfig *config;
 
-	static JobManager& jobs() {assert(pJobs); return *pJobs;}
+	static JobManager& jobs() {assert(pJobs.Valid()); return *pJobs.Get();}
 	
 private:
 	static void HandleEvents();
 	static void InitJoysticks();
 
-	static JobManager *pJobs;
+	static ScopedPtr<JobManager> pJobs;
 
 	static bool menuDone;
 

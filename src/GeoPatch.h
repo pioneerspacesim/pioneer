@@ -22,24 +22,42 @@ class GeoPatch;
 class GeoPatchContext;
 class GeoSphere;
 
-class SSplitRequestDescription {
+class SBaseRequest {
 public:
-	SSplitRequestDescription(const vector3d &v0_,
-							const vector3d &v1_,
-							const vector3d &v2_,
-							const vector3d &v3_,
-							const vector3d &cn,
-							const uint32_t depth_,
-							const SystemPath &sysPath_,
-							const GeoPatchID &patchID_,
-							const int edgeLen_,
-							const double fracStep_,
-							Terrain *pTerrain_,
-							GeoSphere *pGeoSphere_)
-							: v0(v0_), v1(v1_), v2(v2_), v3(v3_), centroid(cn), depth(depth_), 
-							sysPath(sysPath_), patchID(patchID_), edgeLen(edgeLen_), fracStep(fracStep_), 
-							pTerrain(pTerrain_), 
-							pGeoSphere(pGeoSphere_)
+	SBaseRequest(const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const vector3d &cn,
+		const uint32_t depth_, const SystemPath &sysPath_, const GeoPatchID &patchID_, const int edgeLen_, const double fracStep_,
+		Terrain *pTerrain_,GeoSphere *pGeoSphere_)
+		: v0(v0_), v1(v1_), v2(v2_), v3(v3_), centroid(cn), depth(depth_), 
+		sysPath(sysPath_), patchID(patchID_), edgeLen(edgeLen_), fracStep(fracStep_), 
+		pTerrain(pTerrain_), pGeoSphere(pGeoSphere_)
+	{
+	}
+
+	inline int NUMVERTICES() const { return edgeLen*edgeLen; }
+	inline int NUMVERTICES(const int el) const { return el*el; }
+
+	const vector3d v0, v1, v2, v3;
+	const vector3d centroid;
+	const uint32_t depth;
+	const SystemPath sysPath;
+	const GeoPatchID patchID;
+	const int edgeLen;
+	const double fracStep;
+	Terrain *pTerrain;
+	GeoSphere *pGeoSphere;	// quick hack, do not have in the final version!
+
+protected:
+	// deliberately prevent copy constructor access
+	SBaseRequest(const SBaseRequest &r) : v0(0.0), v1(0.0), v2(0.0), v3(0.0), centroid(0.0), depth(0), 
+		patchID(0), edgeLen(0), fracStep(0.0), pTerrain(NULL), pGeoSphere(NULL) { assert(false); }
+};
+
+class SQuadSplitRequest : public SBaseRequest {
+public:
+	SQuadSplitRequest(const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const vector3d &cn,
+		const uint32_t depth_, const SystemPath &sysPath_, const GeoPatchID &patchID_, const int edgeLen_, const double fracStep_,
+		Terrain *pTerrain_,GeoSphere *pGeoSphere_)
+		: SBaseRequest(v0_, v1_, v2_, v3_, cn, depth_, sysPath_, patchID_, edgeLen_, fracStep_, pTerrain_, pGeoSphere_)
 	{
 		const int numVerts = NUMVERTICES(edgeLen_);
 		for( int i=0 ; i<4 ; ++i )
@@ -50,67 +68,68 @@ public:
 		}
 	}
 
-	inline int NUMVERTICES() const { return edgeLen*edgeLen; }
-	inline int NUMVERTICES(const int el) const { return el*el; }
+	vector3d *vertices[4], *normals[4], *colors[4];
 
-	const vector3d v0;
-	const vector3d v1;
-	const vector3d v2;
-	const vector3d v3;
-	const vector3d centroid;
-	const uint32_t depth;
-	const SystemPath sysPath;
-	const GeoPatchID patchID;
-	const int edgeLen;
-	const double fracStep;
-	Terrain *pTerrain;
-	// quick hack, do not have in the final version!
-	GeoSphere *pGeoSphere;
-	vector3d *vertices[4];
-	vector3d *normals[4];
-	vector3d *colors[4];
-
-private:
+protected:
 	// deliberately prevent copy constructor access
-	SSplitRequestDescription(const SSplitRequestDescription &r) : v0(r.v0), v1(r.v1), v2(r.v2), v3(r.v3), centroid(r.centroid), depth(r.depth), 
-							sysPath(r.sysPath), patchID(r.patchID), edgeLen(r.edgeLen), fracStep(r.fracStep), 
-							pTerrain(r.pTerrain), 
-							pGeoSphere(r.pGeoSphere)
-	{
-		assert(false);
-		for( int i=0 ; i<4 ; ++i )
-		{
-			vertices[i] = r.vertices[i];
-			normals[i] = r.normals[i];
-			colors[i] = r.colors[i];
-		}
-	}
+	SQuadSplitRequest(const SQuadSplitRequest &r) : SBaseRequest(r)	{ assert(false); }
 };
 
-class SSplitResult {
-	static const int NUM_RESULT_DATA = 4;
+class SSingleSplitRequest : public SBaseRequest {
+public:
+	SSingleSplitRequest(const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const vector3d &cn,
+		const uint32_t depth_, const SystemPath &sysPath_, const GeoPatchID &patchID_, const int edgeLen_, const double fracStep_,
+		Terrain *pTerrain_,GeoSphere *pGeoSphere_)
+		: SBaseRequest(v0_, v1_, v2_, v3_, cn, depth_, sysPath_, patchID_, edgeLen_, fracStep_, pTerrain_, pGeoSphere_)
+	{
+		const int numVerts = NUMVERTICES(edgeLen_);
+		vertices = new vector3d[numVerts];
+		normals = new vector3d[numVerts];
+		colors = new vector3d[numVerts];
+	}
+
+	vector3d *vertices, *normals, *colors;
+
+protected:
+	// deliberately prevent copy constructor access
+	SSingleSplitRequest(const SSingleSplitRequest &r) : SBaseRequest(r)	{ assert(false); }
+};
+
+class SBaseSplitResult {
 public:
 	struct SSplitResultData {
 		SSplitResultData() : patchID(0) {}
 		SSplitResultData(vector3d *v_, vector3d *n_, vector3d *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
 			vertices(v_), normals(n_), colors(c_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), patchID(patchID_)
-		{
-		}
+		{}
 		SSplitResultData(const SSplitResultData &r) : 
 			vertices(r.vertices), normals(r.normals), colors(r.colors), v0(r.v0), v1(r.v1), v2(r.v2), v3(r.v3), patchID(r.patchID)
 		{}
 
-		vector3d *vertices;
-		vector3d *normals;
-		vector3d *colors;
-		vector3d v0;
-		vector3d v1;
-		vector3d v2;
-		vector3d v3;
+		vector3d *vertices, *normals, *colors;
+		vector3d v0, v1, v2, v3;
 		GeoPatchID patchID;
 	};
 
-	SSplitResult(const int32_t face_, const int32_t depth_) : mFace(face_), mDepth(depth_)
+	SBaseSplitResult(const int32_t face_, const int32_t depth_) : mFace(face_), mDepth(depth_) {}
+
+	inline int32_t face() const { return mFace; }
+	inline int32_t depth() const { return mDepth; }
+
+	virtual void OnCancel() = 0;
+
+protected:
+	// deliberately prevent copy constructor access
+	SBaseSplitResult(const SBaseSplitResult &r) : mFace(0), mDepth(0) {}
+
+	const int32_t mFace;
+	const int32_t mDepth;
+};
+
+class SQuadSplitResult : public SBaseSplitResult {
+	static const int NUM_RESULT_DATA = 4;
+public:
+	SQuadSplitResult(const int32_t face_, const int32_t depth_) : SBaseSplitResult(face_, depth_)
 	{
 	}
 
@@ -120,11 +139,9 @@ public:
 		mData[kidIdx] = (SSplitResultData(v_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
 	}
 
-	inline int32_t face() const { return mFace; }
-	inline int32_t depth() const { return mDepth; }
 	inline const SSplitResultData& data(const int32_t idx) const { return mData[idx]; }
 
-	void OnCancel()
+	virtual void OnCancel()
 	{
 		for( int i=0; i<NUM_RESULT_DATA; ++i ) {
 			if( mData[i].vertices ) {delete [] mData[i].vertices;	mData[i].vertices = NULL;}
@@ -133,26 +150,53 @@ public:
 		}
 	}
 
-private:
+protected:
 	// deliberately prevent copy constructor access
-	SSplitResult(const SSplitResult &r) : mFace(0), mDepth(0) {}
+	SQuadSplitResult(const SQuadSplitResult &r) : SBaseSplitResult(r) {}
 
-	const int32_t mFace;
-	const int32_t mDepth;
 	SSplitResultData mData[NUM_RESULT_DATA];
+};
+
+class SSingleSplitResult : public SBaseSplitResult {
+public:
+	SSingleSplitResult(const int32_t face_, const int32_t depth_) : SBaseSplitResult(face_, depth_)
+	{
+	}
+
+	void addResult(vector3d *v_, vector3d *n_, vector3d *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
+	{
+		mData = (SSplitResultData(v_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
+	}
+
+	inline const SSplitResultData& data() const { return mData; }
+
+	virtual void OnCancel()
+	{
+		{
+			if( mData.vertices ) {delete [] mData.vertices;	mData.vertices = NULL;}
+			if( mData.normals ) {delete [] mData.normals;	mData.normals = NULL;}
+			if( mData.colors ) {delete [] mData.colors;		mData.colors = NULL;}
+		}
+	}
+
+protected:
+	// deliberately prevent copy constructor access
+	SSingleSplitResult(const SSingleSplitResult &r) : SBaseSplitResult(r) {}
+
+	SSplitResultData mData;
 };
 
 //********************************************************************************
 // Overloaded PureJob class to handle generating the mesh for each patch
 //********************************************************************************
-class QuadPatchJob : public PureJob
+class BasePatchJob : public PureJob
 {
 public:
-	QuadPatchJob(SSplitRequestDescription *data) : mData(data)
+	BasePatchJob()
 	{
 	}
 
-	virtual ~QuadPatchJob()
+	virtual ~BasePatchJob()
 	{	
 	}
 
@@ -162,43 +206,90 @@ public:
 		PureJob::init( counter );
 	}
 
-	virtual void job_process(void * userData,int /* userId */);    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-
-	virtual void job_onFinish(void * userData, int userId);  // runs in primary thread of the context
-
-	virtual void job_onCancel(void * userData, int userId);   // runs in primary thread of the context
+	virtual void job_process(void * userData,int /* userId */)=0;    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	virtual void job_onFinish(void * userData, int userId)  // runs in primary thread of the context
+	{
+		PureJob::job_onFinish(userData, userId);
+		--s_numActivePatchJobs;
+	}
+	virtual void job_onCancel(void * userData, int userId)   // runs in primary thread of the context
+	{
+		PureJob::job_onFinish(userData, userId);
+		--s_numActivePatchJobs;
+	}
 
 	static uint32_t GetNumActivePatchJobs() { return s_numActivePatchJobs; };
 	static void CancelAllPatchJobs() { s_abort = true; }
+	static void ResetPatchJobCancel() { s_abort = false; }
 
-private:
-	ScopedPtr<SSplitRequestDescription> mData;
-	SSplitResult *mpResults;
-
-	/* in patch surface coords, [0,1] */
+protected:
+	// in patch surface coords, [0,1]
 	inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3, const double x, const double y) const {
 		return (v0 + x*(1.0-y)*(v1-v0) + x*y*(v2-v0) + (1.0-x)*y*(v3-v0)).Normalized();
 	}
 
 	// Generates full-detail vertices, and also non-edge normals and colors 
-	void GenerateMesh(
-		vector3d *vertices, vector3d *normals, vector3d *colors, 
-		const vector3d &v0,
-		const vector3d &v1,
-		const vector3d &v2,
-		const vector3d &v3,
-		const int edgeLen,
-		const double fracStep) const;
+	void GenerateMesh(vector3d *vertices, vector3d *normals, vector3d *colors, 
+		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
+		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
 
 	static uint32_t s_numActivePatchJobs;
 	static bool s_abort;
 };
 
+//********************************************************************************
+// Overloaded PureJob class to handle generating the mesh for each patch
+//********************************************************************************
+class SinglePatchJob : public BasePatchJob
+{
+public:
+	SinglePatchJob(SSingleSplitRequest *data) : BasePatchJob(), mData(data)	{ /* empty */ }
+
+	virtual ~SinglePatchJob()	{ /* empty */ }
+
+	virtual void init(unsigned int *counter)
+	{
+		BasePatchJob::init( counter );
+	}
+
+	virtual void job_process(void * userData,int /* userId */);    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	virtual void job_onFinish(void * userData, int userId);  // runs in primary thread of the context
+	virtual void job_onCancel(void * userData, int userId);   // runs in primary thread of the context
+
+private:
+	ScopedPtr<SSingleSplitRequest> mData;
+	SSingleSplitResult *mpResults;
+};
+
+//********************************************************************************
+// Overloaded PureJob class to handle generating the mesh for each patch
+//********************************************************************************
+class QuadPatchJob : public BasePatchJob
+{
+public:
+	QuadPatchJob(SQuadSplitRequest *data) : BasePatchJob(), mData(data) { /* empty */ }
+
+	virtual ~QuadPatchJob()	{ /* empty */ }
+
+	virtual void init(unsigned int *counter)
+	{
+		BasePatchJob::init( counter );
+	}
+
+	virtual void job_process(void * userData,int /* userId */);    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	virtual void job_onFinish(void * userData, int userId);  // runs in primary thread of the context
+	virtual void job_onCancel(void * userData, int userId);   // runs in primary thread of the context
+
+private:
+	ScopedPtr<SQuadSplitRequest> mData;
+	SQuadSplitResult *mpResults;
+};
+
 class GeoPatch {
 public:
 	
-	ScopedPtr<QuadPatchJob>		mCurrentJob;
-	JOB_SWARM::SwarmJob*	mpSwarmJob;
+	ScopedPtr<BasePatchJob>		mCurrentJob;
+	JOB_SWARM::SwarmJob*		mpSwarmJob;
 public:
 	static const uint32_t NUM_EDGES = 4;
 	static const uint32_t NUM_KIDS = NUM_EDGES;
@@ -222,7 +313,7 @@ public:
 	double m_distMult;
 
 	const GeoPatchID mPatchID;
-	bool mHasSplitRequest;
+	bool mHasJobRequest;
 	uint8_t mCanMergeChildren;
 
 	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs, 
@@ -361,15 +452,15 @@ public:
 				merge &= kids[i]->canBeMerged();
 			}
 		}
-		merge &= !(mHasSplitRequest);
+		merge &= !(mHasJobRequest);
 		return merge;
 	}
 
 	void LODUpdate(const vector3d &campos);
 	
-	void ReceiveHeightmaps(const SSplitResult *psr);
-
-	void CancelJobs();
+	void RequestSinglePatch();
+	void ReceiveHeightmaps(const SQuadSplitResult *psr);
+	void ReceiveHeightmap(const SSingleSplitResult *psr);
 };
 
 #endif /* _GEOPATCH_H */
