@@ -224,4 +224,28 @@ void Widget::TriggerDeselect()
 	HandleDeselect();
 }
 
+void Widget::RegisterBindPoint(const std::string &bindName, sigc::slot<void,PropertyMap &,const std::string &> method)
+{
+	m_bindPoints[bindName] = method;
+}
+
+void Widget::Bind(const std::string &bindName, PropertiedObject *object, const std::string &propertyName)
+{
+	std::map< std::string,sigc::slot<void,PropertyMap &,const std::string &> >::const_iterator bindPointIter = m_bindPoints.find(bindName);
+	if (bindPointIter == m_bindPoints.end())
+		return;
+
+	sigc::connection conn = object->Properties().Connect(propertyName, (*bindPointIter).second);
+
+	std::map<std::string,sigc::connection>::iterator bindIter = m_binds.find(bindName);
+	if (bindIter != m_binds.end()) {
+		(*bindIter).second.disconnect();
+		(*bindIter).second = conn;
+	}
+	else
+		m_binds.insert(bindIter, std::make_pair(bindName, conn));
+
+	(*bindPointIter).second(object->Properties(), propertyName);
+}
+
 }

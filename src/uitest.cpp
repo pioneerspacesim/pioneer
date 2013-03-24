@@ -5,10 +5,23 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "Lua.h"
+#include "PropertiedObject.h"
 #include <typeinfo>
 
 static const int WIDTH  = 1024;
 static const int HEIGHT = 768;
+
+class Thing : public PropertiedObject {
+public:
+	Thing(LuaManager *lua) : PropertiedObject(lua) {
+		Update();
+	}
+
+	void Update() {
+		time_t t = time(0);
+		Properties().Set("time", asctime(localtime(&t)));
+	}
+};
 
 static bool toggle_disabled_handler(UI::Widget *w)
 {
@@ -140,6 +153,13 @@ int main(int argc, char **argv)
 	Lua::Init();
 
 	RefCountedPtr<UI::Context> c(new UI::Context(Lua::manager, r, WIDTH, HEIGHT, "English"));
+
+	Thing thing(Lua::manager);
+
+	UI::Label *l = c->Label("label");
+	c->SetInnerWidget(l);
+
+	l->Bind("text", &thing, "time");
 
 #if 0
 	c->SetInnerWidget(
@@ -359,6 +379,7 @@ int main(int argc, char **argv)
 	list->onOptionSelected.connect(sigc::ptr_fun(&option_selected));
 #endif
 
+#if 0
 	c->SetInnerWidget(
 		c->Scroller()->SetInnerWidget(
 			c->MultiLineText(
@@ -385,6 +406,7 @@ int main(int argc, char **argv)
 			)
 		)
 	);
+#endif
 
 #if 0
 	UI::Label *label;
@@ -537,6 +559,8 @@ int main(int argc, char **argv)
 		r->ClearScreen();
 		c->Draw();
 		r->SwapBuffers();
+
+		thing.Update();
 
 //		slider->SetValue(slider->GetValue() + 0.01);
 
