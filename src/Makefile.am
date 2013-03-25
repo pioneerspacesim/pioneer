@@ -224,6 +224,7 @@ pioneer_SOURCES	= \
 	LuaObject.cpp \
 	LuaPlanet.cpp \
 	LuaPlayer.cpp \
+	LuaPropertiedObject.cpp \
 	LuaRand.cpp \
 	LuaRef.cpp \
 	LuaSystemBody.cpp \
