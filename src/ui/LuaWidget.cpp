@@ -46,6 +46,16 @@ public:
 	}
 
 
+	static int l_bind(lua_State *l) {
+		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
+		const std::string bindName(luaL_checkstring(l, 2));
+		PropertiedObject *po = LuaObject<PropertiedObject>::CheckFromLua(3);
+		const std::string propertyName(luaL_checkstring(l, 4));
+		w->Bind(bindName, po, propertyName);
+		return 0;
+	}
+
+
 	static int l_attr_disabled(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
 		lua_pushboolean(l, w->IsDisabled());
@@ -131,6 +141,8 @@ template <> void LuaObject<UI::Widget>::RegisterClass()
 
 		{ "AddShortcut",    LuaWidget::l_add_shortcut    },
 		{ "RemoveShortcut", LuaWidget::l_remove_shortcut },
+
+		{ "Bind", LuaWidget::l_bind },
 
 		{ 0, 0 }
 	};
