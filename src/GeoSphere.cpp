@@ -339,7 +339,7 @@ void GeoSphere::Update()
 			ProcessSplitResults();
 			uint8_t numValidPatches = 0;
 			for (int i=0; i<NUM_PATCHES; i++) {
-				if(m_patches[i]->vertices.Valid()) {
+				if(m_patches[i]->heights.Valid()) {
 					++numValidPatches;
 				}
 			}

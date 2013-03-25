@@ -62,13 +62,15 @@ public:
 		const int numVerts = NUMVERTICES(edgeLen_);
 		for( int i=0 ; i<4 ; ++i )
 		{
-			vertices[i] = new vector3d[numVerts];
+			heights[i] = new double[numVerts];
 			normals[i] = new vector3d[numVerts];
-			colors[i] = new vector3d[numVerts];
+			colors[i] = new Color4ub[numVerts];
 		}
 	}
 
-	vector3d *vertices[4], *normals[4], *colors[4];
+	vector3d *normals[4];
+	Color4ub *colors[4];
+	double *heights[4];
 
 protected:
 	// deliberately prevent copy constructor access
@@ -83,12 +85,14 @@ public:
 		: SBaseRequest(v0_, v1_, v2_, v3_, cn, depth_, sysPath_, patchID_, edgeLen_, fracStep_, pTerrain_, pGeoSphere_)
 	{
 		const int numVerts = NUMVERTICES(edgeLen_);
-		vertices = new vector3d[numVerts];
+		heights = new double[numVerts];
 		normals = new vector3d[numVerts];
-		colors = new vector3d[numVerts];
+		colors = new Color4ub[numVerts];
 	}
 
-	vector3d *vertices, *normals, *colors;
+	vector3d *normals;
+	Color4ub *colors;
+	double *heights;
 
 protected:
 	// deliberately prevent copy constructor access
@@ -99,14 +103,16 @@ class SBaseSplitResult {
 public:
 	struct SSplitResultData {
 		SSplitResultData() : patchID(0) {}
-		SSplitResultData(vector3d *v_, vector3d *n_, vector3d *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
-			vertices(v_), normals(n_), colors(c_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), patchID(patchID_)
+		SSplitResultData(double *heights_, vector3d *n_, Color4ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
+			heights(heights_), normals(n_), colors(c_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), patchID(patchID_)
 		{}
 		SSplitResultData(const SSplitResultData &r) : 
-			vertices(r.vertices), normals(r.normals), colors(r.colors), v0(r.v0), v1(r.v1), v2(r.v2), v3(r.v3), patchID(r.patchID)
+			normals(r.normals), colors(r.colors), v0(r.v0), v1(r.v1), v2(r.v2), v3(r.v3), patchID(r.patchID)
 		{}
 
-		vector3d *vertices, *normals, *colors;
+		double *heights;
+		vector3d *normals;
+		Color4ub *colors;
 		vector3d v0, v1, v2, v3;
 		GeoPatchID patchID;
 	};
@@ -133,10 +139,10 @@ public:
 	{
 	}
 
-	void addResult(const int kidIdx, vector3d *v_, vector3d *n_, vector3d *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
+	void addResult(const int kidIdx, double *h_, vector3d *n_, Color4ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
 	{
 		assert(kidIdx>=0 && kidIdx<NUM_RESULT_DATA);
-		mData[kidIdx] = (SSplitResultData(v_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
+		mData[kidIdx] = (SSplitResultData(h_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
 	}
 
 	inline const SSplitResultData& data(const int32_t idx) const { return mData[idx]; }
@@ -144,7 +150,7 @@ public:
 	virtual void OnCancel()
 	{
 		for( int i=0; i<NUM_RESULT_DATA; ++i ) {
-			if( mData[i].vertices ) {delete [] mData[i].vertices;	mData[i].vertices = NULL;}
+			if( mData[i].heights ) {delete [] mData[i].heights;		mData[i].heights = NULL;}
 			if( mData[i].normals ) {delete [] mData[i].normals;		mData[i].normals = NULL;}
 			if( mData[i].colors ) {delete [] mData[i].colors;		mData[i].colors = NULL;}
 		}
@@ -163,9 +169,9 @@ public:
 	{
 	}
 
-	void addResult(vector3d *v_, vector3d *n_, vector3d *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
+	void addResult(double *h_, vector3d *n_, Color4ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
 	{
-		mData = (SSplitResultData(v_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
+		mData = (SSplitResultData(h_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
 	}
 
 	inline const SSplitResultData& data() const { return mData; }
@@ -173,7 +179,7 @@ public:
 	virtual void OnCancel()
 	{
 		{
-			if( mData.vertices ) {delete [] mData.vertices;	mData.vertices = NULL;}
+			if( mData.heights ) {delete [] mData.heights;	mData.heights = NULL;}
 			if( mData.normals ) {delete [] mData.normals;	mData.normals = NULL;}
 			if( mData.colors ) {delete [] mData.colors;		mData.colors = NULL;}
 		}
@@ -228,8 +234,16 @@ protected:
 		return (v0 + x*(1.0-y)*(v1-v0) + x*y*(v2-v0) + (1.0-x)*y*(v3-v0)).Normalized();
 	}
 
+	vector3d calcVertex(const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3, const double *heights, const double fracStep, const int x, const int y) const
+	{
+		const double h = heights[x + y];
+		const double xd = x;
+		const double yd = y;
+		return GetSpherePoint(v0, v1, v2, v3, xd*fracStep, yd*fracStep) * (h + 1.0);
+	}
+
 	// Generates full-detail vertices, and also non-edge normals and colors 
-	void GenerateMesh(vector3d *vertices, vector3d *normals, vector3d *colors, 
+	void GenerateMesh(double *heights, vector3d *normals, Color4ub *colors, 
 		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
 		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
 
@@ -287,17 +301,17 @@ private:
 
 class GeoPatch {
 public:
-	
 	ScopedPtr<BasePatchJob>		mCurrentJob;
+
 public:
 	static const uint32_t NUM_EDGES = 4;
 	static const uint32_t NUM_KIDS = NUM_EDGES;
 
 	RefCountedPtr<GeoPatchContext> ctx;
 	const vector3d v0, v1, v2, v3;
-	ScopedArray<vector3d> vertices;
+	ScopedArray<double> heights;
 	ScopedArray<vector3d> normals;
-	ScopedArray<vector3d> colors;
+	ScopedArray<Color4ub> colors;
 	GLuint m_vbo;
 	ScopedPtr<GeoPatch> kids[NUM_KIDS];
 	GeoPatch *parent;
@@ -322,7 +336,7 @@ public:
 	~GeoPatch();
 
 	inline void UpdateVBOs() {
-		m_needUpdateVBOs = (NULL!=vertices);
+		m_needUpdateVBOs = (NULL!=heights);
 	}
 
 	void _UpdateVBOs();
@@ -330,7 +344,7 @@ public:
 	/* not quite edge, since we share edge vertices so that would be
 	 * fucking pointless. one position inwards. used to make edge normals
 	 * for adjacent tiles */
-	void GetEdgeMinusOneVerticesFlipped(const int edge, vector3d *ev) const;
+	void GetEdgeMinusOneVerticesFlipped(const int edge, double *ev) const;
 
 	inline int GetEdgeIdxOf(const GeoPatch *e) const {
 		for (int i=0; i<NUM_KIDS; i++) {if (edgeFriend[i] == e) {return i;}}
@@ -338,7 +352,8 @@ public:
 		return -1;
 	}
 
-	void FixEdgeNormals(const int edge, const vector3d *ev);
+	vector3d calcVertex(const int x, const int y);
+	void FixEdgeNormals(const int edge, const double *ev);
 
 	int GetChildIdx(const GeoPatch *child) const {
 		for (int i=0; i<NUM_KIDS; i++) {
@@ -350,72 +365,12 @@ public:
 
 	void FixEdgeFromParentInterpolated(const int edge);
 
-	template <int corner>
-	void MakeCornerNormal(const vector3d *ev, const vector3d *ev2) {
-		switch (corner) {
-		case 0: {
-			const vector3d &x1 = ev[ctx->edgeLen-1];
-			const vector3d &x2 = vertices[1];
-			const vector3d &y1 = ev2[0];
-			const vector3d &y2 = vertices[ctx->edgeLen];
-			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
-			normals[0] = norm;
-			// make color
-			const vector3d pt = GetSpherePoint(0, 0);
-		//	const double height = colors[0].x;
-			const double height = geosphere->GetHeight(pt);
-			colors[0] = geosphere->GetColor(pt, height, norm);
-			}
-			break;
-		case 1: {
-			const int p = ctx->edgeLen-1;
-			const vector3d &x1 = vertices[p-1];
-			const vector3d &x2 = ev2[0];
-			const vector3d &y1 = ev[ctx->edgeLen-1];
-			const vector3d &y2 = vertices[p + ctx->edgeLen];
-			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
-			normals[p] = norm;
-			// make color
-			const vector3d pt = GetSpherePoint(p*ctx->frac, 0);
-		//	const double height = colors[p].x;
-			const double height = geosphere->GetHeight(pt);
-			colors[p] = geosphere->GetColor(pt, height, norm);
-			}
-			break;
-		case 2: {
-			const int p = ctx->edgeLen-1;
-			const vector3d &x1 = vertices[(p-1) + p*ctx->edgeLen];
-			const vector3d &x2 = ev[ctx->edgeLen-1];
-			const vector3d &y1 = vertices[p + (p-1)*ctx->edgeLen];
-			const vector3d &y2 = ev2[0];
-			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
-			normals[p + p*ctx->edgeLen] = norm;
-			// make color
-			const vector3d pt = GetSpherePoint(p*ctx->frac, p*ctx->frac);
-		//	const double height = colors[p + p*ctx->edgeLen].x;
-			const double height = geosphere->GetHeight(pt);
-			colors[p + p*ctx->edgeLen] = geosphere->GetColor(pt, height, norm);
-			}
-			break;
-		case 3: {
-			const int p = ctx->edgeLen-1;
-			const vector3d &x1 = ev2[0];
-			const vector3d &x2 = vertices[1 + p*ctx->edgeLen];
-			const vector3d &y1 = vertices[(p-1)*ctx->edgeLen];
-			const vector3d &y2 = ev[ctx->edgeLen-1];
-			const vector3d norm = (x2-x1).Cross(y2-y1).Normalized();
-			normals[p*ctx->edgeLen] = norm;
-			// make color
-			const vector3d pt = GetSpherePoint(0, p*ctx->frac);
-		//	const double height = colors[p*ctx->edgeLen].x;
-			const double height = geosphere->GetHeight(pt);
-			colors[p*ctx->edgeLen] = geosphere->GetColor(pt, height, norm);
-			}
-			break;
-		}
-	}
+	void MakeCornerNormal0(const double *ev, const double *ev2);
+	void MakeCornerNormal1(const double *ev, const double *ev2);
+	void MakeCornerNormal2(const double *ev, const double *ev2);
+	void MakeCornerNormal3(const double *ev, const double *ev2);
 
-	void FixCornerNormalsByEdge(const int edge, const vector3d *ev);
+	void FixCornerNormalsByEdge(const int edge, const double *ev);
 
 	void GenerateEdgeNormalsAndColors();
 
