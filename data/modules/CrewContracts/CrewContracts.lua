@@ -222,20 +222,25 @@ local onChat = function (form,ref,option)
 		candidate.estimatedWage = offer
 		form:AddOption(t('Make offer of position on ship for stated amount'),1)
 		if math.ceil(offer/2) > 20 then
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+20)}),2) else				-- button [+$20 / +5 to relationship]
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+math.ceil(offer/2))}),2) end		-- button [+(1/2) / +5 to relationship]
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+20)}),2) -- button [+$20 / +5 to relationship]
+		else
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+math.ceil(offer/2))}),2) -- button [+(1/2) / +5 to relationship]
+		end
 		if math.ceil(offer/10) > 5 then
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+5)}),3) else				-- button [+$5 / +1 to relationship]
-		if offer > 2 then -- hide button [+(1/10) / +1 to relationship], if value of wage is duplicated with button [+(1/2) / +5 to relationship]
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+math.ceil(offer/10))}),3) end end	-- button [+(1/10) / +1 to relationship]
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+5)}),3) -- button [+$5 / +1 to relationship]
+		elseif offer > 2 then -- hide button [+(1/10) / +1 to relationship], if value of wage is duplicated with button [+(1/2) / +5 to relationship]
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+math.ceil(offer/10))}),3) -- button [+(1/10) / +1 to relationship]
+		end
 		if math.ceil(offer/11) > 5 then
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-5)}),4) else				-- button [-$5 / -1 to relationship]
-		if offer > 3 then -- hide button [-(1/11) / +1 to relationship], if value of wage is duplicated with button [-(1/3) / -5 to relationship]
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-math.ceil(offer/11))}),4) end end	-- button [-(1/11) / -1 to relationship]
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-5)}),4) -- button [-$5 / -1 to relationship]
+		elseif offer > 3 then -- hide button [-(1/11) / +1 to relationship], if value of wage is duplicated with button [-(1/3) / -5 to relationship]
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-math.ceil(offer/11))}),4) -- button [-(1/11) / -1 to relationship]
+		end
 		if math.ceil(offer/3) > 20 then
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-20)}),5) else				-- button [-$20 / -5 to relationship]
-		if offer > 1 then -- hide button [-(1/3) / -5 to relationship], if suggested wage is 0$
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-math.ceil(offer/3))}),5) end end	-- button [-(1/3) / -5 to relationship]
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-20)}),5) -- button [-$20 / -5 to relationship]
+		elseif offer > 1 then -- hide button [-(1/3) / -5 to relationship], if suggested wage is 0$
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-math.ceil(offer/3))}),5) -- button [-(1/3) / -5 to relationship]
+		end
 		form:AddOption(t('Ask candidate to sit a test'),6)
 		form:AddOption(t('GO_BACK'), 0)
 		form:AddOption(t('HANG_UP'), -1)
@@ -290,8 +295,10 @@ local onChat = function (form,ref,option)
 			-- Player suggested +$20 / +(1/2)
 			candidate.playerRelationship = candidate.playerRelationship + 5
 			if math.ceil(offer/2) > 20 then
-			offer = offer + 20 else
-			offer = offer + math.ceil(offer/2) end
+				offer = offer + 20
+			else
+				offer = offer + math.ceil(offer/2)
+			end
 			candidate.estimatedWage = offer -- They'll now re-evaluate themself
 			showCandidateDetails(t("That's extremely generous of you!"))
 		end
@@ -300,8 +307,10 @@ local onChat = function (form,ref,option)
 			-- Player suggested +$5 / +(1/10)
 			candidate.playerRelationship = candidate.playerRelationship + 1
 			if math.ceil(offer/10) > 5 then
-			offer = offer + 5 else
-			offer = offer + math.ceil(offer/10) end
+				offer = offer + 5
+			else
+				offer = offer + math.ceil(offer/10)
+			end
 			candidate.estimatedWage = offer -- They'll now re-evaluate themself
 			showCandidateDetails(t("That certainly makes this offer look better!"))
 		end
@@ -311,8 +320,10 @@ local onChat = function (form,ref,option)
 			candidate.playerRelationship = candidate.playerRelationship - 1
 			if candidate:TestRoll('playerRelationship') then
 				if math.ceil(offer/11) > 5 then
-				offer = offer - 5 else
-				offer = offer - math.ceil(offer/11) end
+					offer = offer - 5
+				else
+					offer = offer - math.ceil(offer/11)
+				end
 				showCandidateDetails(t("OK, I suppose that's all right."))
 			else
 				showCandidateDetails(t("I'm sorry, I'm not prepared to go any lower."))
@@ -324,8 +335,10 @@ local onChat = function (form,ref,option)
 			candidate.playerRelationship = candidate.playerRelationship - 5
 			if candidate:TestRoll('playerRelationship') then
 				if math.ceil(offer/3) > 20 then
-				offer = offer - 20 else
-				offer = offer - math.ceil(offer/3) end
+					offer = offer - 20
+				else
+					offer = offer - math.ceil(offer/3)
+				end
 				showCandidateDetails(t("OK, I suppose that's all right."))
 			else
 				showCandidateDetails(t("I'm sorry, I'm not prepared to go any lower."))
