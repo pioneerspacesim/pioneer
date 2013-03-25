@@ -352,7 +352,7 @@ local onChat = function (form,ref,option)
 				piloting = piloting,
 				navigation = navigation,
 				sensors = sensors,
-				overall = math.ceil((general+engineering+piloting+navigation+sensors)/5),
+				overall = math.ceil((general+general+engineering+piloting+navigation+sensors)/6),
 			})
 			form:AddOption(t('GO_BACK'), 7)
 			form:AddOption(t('HANG_UP'), -1)
