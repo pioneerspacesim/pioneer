@@ -419,83 +419,83 @@ local onClick = function (mission)
 										),
 										ui:Margin(10),
 										ui:Grid(2,1)
-										  :SetColumn(0, {
-										    ui:VBox():PackEnd({
-										      ui:Label(t("Target name:"))
-										    })
-										  })
-										  :SetColumn(1, {
-										    ui:VBox():PackEnd({
-										      ui:MultiLineText(mission.target)
-										    })
-										  }),
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Target name:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.target)
+												})
+											}),
 										ui:Grid(2,1)
-										  :SetColumn(0, {
-										    ui:VBox():PackEnd({
-										      ui:Label(t("Spaceport:"))
-										    })
-										  })
-										  :SetColumn(1, {
-										    ui:VBox():PackEnd({
-										      ui:MultiLineText(mission.location:GetSystemBody().name)
-										    })
-										  }),
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Spaceport:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.location:GetSystemBody().name)
+												})
+											}),
 										ui:Grid(2,1)
-										  :SetColumn(0, {
-										    ui:VBox():PackEnd({
-										      ui:Label(t("System:"))
-										    })
-										  })
-										  :SetColumn(1, {
-										    ui:VBox():PackEnd({
-										      ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
-										    })
-										  }),
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("System:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
+												})
+											}),
 										ui:Grid(2,1)
-										  :SetColumn(0, {
-										    ui:VBox():PackEnd({
-										      ui:Label(t("Ship:"))
-										    })
-										  })
-										  :SetColumn(1, {
-										    ui:VBox():PackEnd({
-										      ui:MultiLineText(mission.shipname)
-										    })
-										  }),
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Ship:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.shipname)
+												})
+											}),
 										ui:Grid(2,1)
-										  :SetColumn(0, {
-										    ui:VBox():PackEnd({
-										      ui:Label(t("Ship ID:"))
-										    })
-										  })
-										  :SetColumn(1, {
-										    ui:VBox():PackEnd({
-										      ui:Label(mission.shipregid),
-										    })
-										  }),
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Ship ID:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(mission.shipregid),
+												})
+											}),
 										ui:Grid(2,1)
-										  :SetColumn(0, {
-										    ui:VBox():PackEnd({
-										      ui:MultiLineText(t("Target will be leaving spaceport at:"))
-										    })
-										  })
-										  :SetColumn(1, {
-										    ui:VBox():PackEnd({
-										      ui:Label(Format.Date(mission.due))
-										    })
-										  }),
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(t("Target will be leaving spaceport at:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(Format.Date(mission.due))
+												})
+											}),
 										ui:Margin(5),
 										ui:Grid(2,1)
-										  :SetColumn(0, {
-										    ui:VBox():PackEnd({
-										      ui:Label(t("Distance:"))
-										    })
-										  })
-										  :SetColumn(1, {
-										    ui:VBox():PackEnd({
-										      ui:Label(dist.." "..t("ly"))
-										    })
-										  }),
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Distance:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(dist.." "..t("ly"))
+												})
+											}),
 		})})
 		:SetColumn(1, {
 			ui:VBox(10):PackEnd(UI.InfoFace.New(mission.client))
