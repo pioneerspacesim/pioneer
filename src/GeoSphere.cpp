@@ -18,7 +18,6 @@
 #include <deque>
 #include <algorithm>
 
-static const int GEOPATCH_MAX_EDGELEN = 55;
 int GeoSphere::s_vtxGenCount = 0;
 RefCountedPtr<GeoPatchContext> GeoSphere::s_patchContext;
 

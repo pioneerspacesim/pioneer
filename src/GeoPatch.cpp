@@ -22,8 +22,6 @@
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
 #define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15
 
-static const int GEOPATCH_MAX_EDGELEN = 55;
-
 inline void setColour(Color4ub &r, const vector3d &v) { 
 	r.r=static_cast<unsigned char>(Clamp(v.x*255.0, 0.0, 255.0)); 
 	r.g=static_cast<unsigned char>(Clamp(v.y*255.0, 0.0, 255.0)); 
@@ -56,7 +54,7 @@ void BasePatchJob::GenerateMesh(double *heights,
 	double xfrac = 0.0;
 	double yfrac = 0.0;
 	for (int y=0; y<edgeLen; y++) {
-		xfrac = 0;
+		xfrac = 0.0;
 		for (int x=0; x<edgeLen; x++) {
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
 			const double height = pTerrain->GetHeight(p);
@@ -83,6 +81,40 @@ void BasePatchJob::GenerateMesh(double *heights,
 			setColour(colors[x + y*edgeLen], pTerrain->GetColor(p, height, n));
 		}
 	}
+
+	// generate heights
+	/*double *hts = heights;
+	Color4ub *col = colors;
+	double xfrac = 0.0;
+	double yfrac = 0.0;
+	for (int y=0; y<edgeLen; y++) {
+		xfrac = 0.0;
+		for (int x=0; x<edgeLen; x++) {
+			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
+			const double height = pTerrain->GetHeight(p);
+			*(hts++) = height;
+			xfrac += fracStep;
+		}
+		yfrac += fracStep;
+	}
+
+	// Generate normals & colors for non-edge vertices since they never change
+	for (int y=1; y<edgeLen-1; y++) {
+		for (int x=1; x<edgeLen-1; x++) {
+			// normal
+			const vector3d x1 = calcVertex(v0, v1, v2, v3, heights, fracStep, x-1, y*edgeLen);
+			const vector3d x2 = calcVertex(v0, v1, v2, v3, heights, fracStep, x+1, y*edgeLen);
+			const vector3d y1 = calcVertex(v0, v1, v2, v3, heights, fracStep, x, (y-1)*edgeLen);
+			const vector3d y2 = calcVertex(v0, v1, v2, v3, heights, fracStep, x, (y+1)*edgeLen);
+
+			const vector3d n = ((x2-x1).Cross(y2-y1)).Normalized();
+			normals[x + y*edgeLen] = n;
+			// color
+			const vector3d p = GetSpherePoint(v0, v1, v2, v3, x*fracStep, y*fracStep);
+			const double height = heights[x + y*edgeLen];
+			setColour(colors[x + y*edgeLen], pTerrain->GetColor(p, height, n));
+		}
+	}*/
 }
 
 //********************************************************************************
