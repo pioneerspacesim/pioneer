@@ -346,9 +346,9 @@ void GeoSphere::Update()
 		} break;
 	case eReceivedFirstPatches:
 		{
-			for (int i=0; i<NUM_PATCHES; i++) {
+			/*for (int i=0; i<NUM_PATCHES; i++) {
 				m_patches[i]->GenerateEdgeNormalsAndColors();
-			}
+			}*/
 			for (int i=0; i<NUM_PATCHES; i++) {
 				m_patches[i]->UpdateVBOs();
 			}

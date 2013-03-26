@@ -353,7 +353,6 @@ public:
 	}
 
 	vector3d calcVertex(const int x, const int y);
-	void FixEdgeNormals(const int edge, const double *ev);
 
 	int GetChildIdx(const GeoPatch *child) const {
 		for (int i=0; i<NUM_KIDS; i++) {
@@ -363,24 +362,12 @@ public:
 		return -1;
 	}
 
-	void FixEdgeFromParentInterpolated(const int edge);
-
-	void MakeCornerNormal0(const double *ev, const double *ev2);
-	void MakeCornerNormal1(const double *ev, const double *ev2);
-	void MakeCornerNormal2(const double *ev, const double *ev2);
-	void MakeCornerNormal3(const double *ev, const double *ev2);
-
-	void FixCornerNormalsByEdge(const int edge, const double *ev);
-
-	void GenerateEdgeNormalsAndColors();
-
 	// in patch surface coords, [0,1] 
 	inline vector3d GetSpherePoint(const double x, const double y) const {
 		return (v0 + x*(1.0-y)*(v1-v0) + x*y*(v2-v0) + (1.0-x)*y*(v3-v0)).Normalized();
 	}
 
 	// Generates full-detail vertices, and also non-edge normals and colors
-	void GenerateMesh();
 	void OnEdgeFriendChanged(const int edge, GeoPatch *e);
 
 	void NotifyEdgeFriendSplit(GeoPatch *e);
