@@ -28,6 +28,9 @@ protected:
 private:
 	void UpdateStyle();
 
+	void BindValue(PropertyMap &p, const std::string &k);
+	void BindValuePercent(PropertyMap &p, const std::string &k);
+
 	float m_value;
 
 	float m_warningLevel;

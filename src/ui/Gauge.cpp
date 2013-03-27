@@ -13,7 +13,10 @@ Gauge::Gauge(Context *context) : Widget(context),
 	m_criticalLevel(2.0f),
 	m_levelAscending(true),
 	m_style(NORMAL)
-{}
+{
+	RegisterBindPoint("value", sigc::mem_fun(this, &Gauge::BindValue));
+	RegisterBindPoint("valuePercent", sigc::mem_fun(this, &Gauge::BindValuePercent));
+}
 
 Point Gauge::PreferredSize()
 {
@@ -94,6 +97,20 @@ void Gauge::Draw()
 				break;
 		}
 	}
+}
+
+void Gauge::BindValue(PropertyMap &p, const std::string &k)
+{
+	double v;
+	p.Get(k, v);
+	SetValue(Clamp(v, 0.0, 1.0));
+}
+
+void Gauge::BindValuePercent(PropertyMap &p, const std::string &k)
+{
+	double v;
+	p.Get(k, v);
+	SetValue(Clamp(v, 0.0, 100.0)*0.01);
 }
 
 }

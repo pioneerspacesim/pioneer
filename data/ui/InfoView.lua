@@ -307,6 +307,7 @@ local econTrade = function ()
 		criticalLevel  = 0.05,
 		levelAscending = false,
 	})
+	fuelGauge.gauge:Bind("valuePercent", Game.player, "fuel")
 
 	-- Define the refuel button
 	local refuelButton = UI.SmallLabeledButton.New(t('REFUEL'))
