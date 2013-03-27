@@ -14,9 +14,9 @@ inline void setColour(Color3ub &r, const vector3d &v) {
 	r.b=static_cast<unsigned char>(Clamp(v.z*255.0, 0.0, 255.0));
 }
 
-//********************************************************************************
+// ********************************************************************************
 // Overloaded PureJob class to handle generating the mesh for each patch
-//********************************************************************************
+// ********************************************************************************
 uint32_t BasePatchJob::s_numActivePatchJobs = 0;
 bool BasePatchJob::s_abort = false;
 
@@ -84,9 +84,9 @@ void BasePatchJob::GenerateMesh(double *heights,
 	assert(col==&colors[edgeLen*edgeLen]);
 }
 
-//********************************************************************************
+// ********************************************************************************
 // Overloaded PureJob class to handle generating the mesh for each patch
-//********************************************************************************
+// ********************************************************************************
 void SinglePatchJob::job_onFinish(void * userData, int userId)  // runs in primary thread of the context
 {
 	if(s_abort) {
@@ -94,7 +94,7 @@ void SinglePatchJob::job_onFinish(void * userData, int userId)  // runs in prima
 		mpResults->OnCancel();
 		delete mpResults;
 	} else {
-		mData->pGeoSphere->AddSingleSplitResult(mpResults);
+		GeoSphere::OnAddSingleSplitResult( mData->sysPath, mpResults );
 	}
 	BasePatchJob::job_onFinish(userData, userId);
 }
@@ -126,9 +126,9 @@ void SinglePatchJob::job_process(void * userData,int /* userId */)    // RUNS IN
 	mpResults = sr;
 }
 
-//********************************************************************************
+// ********************************************************************************
 // Overloaded PureJob class to handle generating the mesh for each patch
-//********************************************************************************
+// ********************************************************************************
 void QuadPatchJob::job_onFinish(void * userData, int userId)  // runs in primary thread of the context
 {
 	if(s_abort) {
@@ -136,7 +136,7 @@ void QuadPatchJob::job_onFinish(void * userData, int userId)  // runs in primary
 		mpResults->OnCancel();
 		delete mpResults;
 	} else {
-		mData->pGeoSphere->AddQuadSplitResult(mpResults);
+		GeoSphere::OnAddQuadSplitResult( mData->sysPath, mpResults );
 	}
 	BasePatchJob::job_onFinish(userData, userId);
 }

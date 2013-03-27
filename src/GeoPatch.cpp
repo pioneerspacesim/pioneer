@@ -91,9 +91,9 @@ void GeoPatch::_UpdateVBOs() {
 				pData->z = float(p.z);
 				++pHts;	// next height
 
-				pData->nx =pNorm->x;
-				pData->ny =pNorm->y;
-				pData->nz =pNorm->z;
+				pData->nx = pNorm->x;
+				pData->ny = pNorm->y;
+				pData->nz = pNorm->z;
 				++pNorm; // next normal
 
 				pData->col[0] = pColr->r;
@@ -190,7 +190,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 			mHasJobRequest = true;
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 						geosphere->m_sbody->path, mPatchID, ctx->edgeLen,
-						ctx->frac, geosphere->m_terrain.Get(), geosphere);
+						ctx->frac, geosphere->m_terrain.Get());
 			assert(!mCurrentJob.Valid());
 			mCurrentJob.Reset(new QuadPatchJob(ssrd));
 			Pi::jobs().addJobMainThread(mCurrentJob.Get(), NULL);
@@ -218,7 +218,7 @@ void GeoPatch::RequestSinglePatch()
 
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-					geosphere->m_sbody->path, mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get(), geosphere);
+					geosphere->m_sbody->path, mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get());
 		assert(!mCurrentJob.Valid());
 		mCurrentJob.Reset(new SinglePatchJob(ssrd));
 		Pi::jobs().addJobMainThread(mCurrentJob.Get(), NULL);

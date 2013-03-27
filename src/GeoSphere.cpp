@@ -63,7 +63,7 @@ static void print_info(const SystemBody *sbody, const Terrain *terrain)
 		"    seed: %u\n",
 		sbody->name.c_str(), terrain->GetHeightFractalName(), terrain->GetColorFractalName(), sbody->seed);
 }
-#pragma optimize( "", off )
+
 void GeoSphere::OnChangeDetailLevel()
 {
 	// Cancel all of the pending patch jobs
@@ -88,6 +88,32 @@ void GeoSphere::OnChangeDetailLevel()
 		(*i)->m_terrain.Reset(Terrain::InstanceTerrain((*i)->m_sbody));
 		print_info((*i)->m_sbody, (*i)->m_terrain.Get());
 	}
+}
+
+//static 
+bool GeoSphere::OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *res)
+{
+	// Find the correct GeoSphere via it's system path, and give it the split result
+	for(std::vector<GeoSphere*>::iterator i=s_allGeospheres.begin(), iEnd=s_allGeospheres.end(); i!=iEnd; ++i) {
+		if( path == (*i)->m_sbody->path ) {
+			(*i)->AddQuadSplitResult(res);
+			return true;
+		}
+	}
+	return false;
+}
+
+//static 
+bool GeoSphere::OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResult *res)
+{
+	// Find the correct GeoSphere via it's system path, and give it the split result
+	for(std::vector<GeoSphere*>::iterator i=s_allGeospheres.begin(), iEnd=s_allGeospheres.end(); i!=iEnd; ++i) {
+		if( path == (*i)->m_sbody->path ) {
+			(*i)->AddSingleSplitResult(res);
+			return true;
+		}
+	}
+	return false;
 }
 
 void GeoSphere::Reset()

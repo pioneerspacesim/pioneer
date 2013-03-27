@@ -51,13 +51,13 @@ public:
 	static void Init();
 	static void Uninit();
 	static void OnChangeDetailLevel();
+	static bool OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *res);
+	static bool OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResult *res);
 	// in sbody radii
 	double GetMaxFeatureHeight() const { return m_terrain->GetMaxHeight(); }
 	static int GetVtxGenCount() { return s_vtxGenCount; }
 	static void ClearVtxGenCount() { s_vtxGenCount = 0; }
 
-	//bool AddSplitRequest(SQuadSplitRequest *desc);
-	//void ProcessSplitRequests();
 	bool AddQuadSplitResult(SQuadSplitResult *res);
 	bool AddSingleSplitResult(SSingleSplitResult *res);
 	void ProcessSplitResults();
