@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "GeoPatchContext.h"
 #include "GeoPatch.h"
+#include "GeoPatchJobs.h"
 #include "GeoSphere.h"
 #include "perlin.h"
 #include "Pi.h"
@@ -22,189 +23,6 @@
 #define GEOPATCH_SUBDIVIDE_AT_CAMDIST	5.0
 #define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15
 
-inline void setColour(Color4ub &r, const vector3d &v) { 
-	r.r=static_cast<unsigned char>(Clamp(v.x*255.0, 0.0, 255.0)); 
-	r.g=static_cast<unsigned char>(Clamp(v.y*255.0, 0.0, 255.0)); 
-	r.b=static_cast<unsigned char>(Clamp(v.z*255.0, 0.0, 255.0)); 
-	r.a=255;
-}
-
-//********************************************************************************
-// Overloaded PureJob class to handle generating the mesh for each patch
-//********************************************************************************
-uint32_t BasePatchJob::s_numActivePatchJobs = 0;
-bool BasePatchJob::s_abort = false;
-
-
-
-// Generates full-detail vertices, and also non-edge normals and colors 
-void BasePatchJob::GenerateMesh(double *heights, 
-	vector3f *normals, Color4ub *colors, 
-	const vector3d &v0,
-	const vector3d &v1,
-	const vector3d &v2,
-	const vector3d &v3,
-	const int edgeLen,
-	const double fracStep,
-	const Terrain *pTerrain) const
-{
-	const int borderedEdgeLen = edgeLen+2;
-	const int numBorderedVerts = borderedEdgeLen*borderedEdgeLen;
-	ScopedPtr<double> borderHeights(new double[numBorderedVerts]);
-	ScopedPtr<vector3d> borderVertexs(new vector3d[numBorderedVerts]);
-
-	// generate heights plus a 1 unit border
-	double *bhts = borderHeights.Get();
-	vector3d *vrts = borderVertexs.Get();
-	for (int y=-1; y<borderedEdgeLen-1; y++) {
-		const double yfrac = double(y) * fracStep;
-		for (int x=-1; x<borderedEdgeLen-1; x++) {
-			const double xfrac = double(x) * fracStep;
-			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
-			const double height = pTerrain->GetHeight(p);
-			*(bhts++) = height;
-			*(vrts++) = p * (height + 1.0);
-		}
-	}
-	assert(bhts==&borderHeights.Get()[numBorderedVerts]);
-
-	// Generate normals & colors for non-edge vertices since they never change
-	Color4ub *col = colors;
-	vector3f *nrm = normals;
-	double *hts = heights;
-	vrts = borderVertexs.Get();
-	for (int y=1; y<borderedEdgeLen-1; y++) {
-		for (int x=1; x<borderedEdgeLen-1; x++) {
-			// height
-			const double height = borderHeights.Get()[x + y*borderedEdgeLen];
-			assert(hts!=&heights[edgeLen*edgeLen]);
-			*(hts++) = height;
-
-			// normal
-			const vector3d &x1 = vrts[x-1 + y*borderedEdgeLen];
-			const vector3d &x2 = vrts[x+1 + y*borderedEdgeLen];
-			const vector3d &y1 = vrts[x + (y-1)*borderedEdgeLen];
-			const vector3d &y2 = vrts[x + (y+1)*borderedEdgeLen];
-			const vector3d n = ((x2-x1).Cross(y2-y1)).Normalized();
-			assert(nrm!=&normals[edgeLen*edgeLen]);
-			*(nrm++) = vector3f(n);
-
-			// color
-			const vector3d p = GetSpherePoint(v0, v1, v2, v3, x*fracStep, y*fracStep);
-			setColour(*col, pTerrain->GetColor(p, height, n));
-			assert(col!=&colors[edgeLen*edgeLen]);
-			++col;
-		}
-	}
-	assert(hts==&heights[edgeLen*edgeLen]);
-	assert(nrm==&normals[edgeLen*edgeLen]);
-	assert(col==&colors[edgeLen*edgeLen]);
-}
-
-//********************************************************************************
-// Overloaded PureJob class to handle generating the mesh for each patch
-//********************************************************************************
-void SinglePatchJob::job_onFinish(void * userData, int userId)  // runs in primary thread of the context
-{
-	if(s_abort) {
-		// clean up after ourselves
-		mpResults->OnCancel();
-		delete mpResults;
-	} else {
-		mData->pGeoSphere->AddSingleSplitResult(mpResults);
-	}
-	BasePatchJob::job_onFinish(userData, userId);
-}
-
-void SinglePatchJob::job_onCancel(void * userData, int userId)   // runs in primary thread of the context
-{
-	mpResults->OnCancel();
-	delete mpResults;	mpResults = NULL;
-	BasePatchJob::job_onCancel(userData, userId);
-}
-
-void SinglePatchJob::job_process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-{
-	if(s_abort)
-		return;
-
-	const SSingleSplitRequest &srd = (*mData.Get());
-
-	// fill out the data
-	GenerateMesh(srd.heights, srd.normals, srd.colors, 
-		srd.v0, srd.v1, srd.v2, srd.v3, 
-		srd.edgeLen, srd.fracStep, srd.pTerrain);
-	// add this patches data
-	SSingleSplitResult *sr = new SSingleSplitResult(srd.patchID.GetPatchFaceIdx(), srd.depth);
-	sr->addResult(srd.heights, srd.normals, srd.colors, 
-		srd.v0, srd.v1, srd.v2, srd.v3, 
-		srd.patchID.NextPatchID(srd.depth+1, 0));
-	// store the result
-	mpResults = sr;
-}
-
-//********************************************************************************
-// Overloaded PureJob class to handle generating the mesh for each patch
-//********************************************************************************
-void QuadPatchJob::job_onFinish(void * userData, int userId)  // runs in primary thread of the context
-{
-	if(s_abort) {
-		// clean up after ourselves
-		mpResults->OnCancel();
-		delete mpResults;
-	} else {
-		mData->pGeoSphere->AddQuadSplitResult(mpResults);
-	}
-	BasePatchJob::job_onFinish(userData, userId);
-}
-
-void QuadPatchJob::job_onCancel(void * userData, int userId)   // runs in primary thread of the context
-{
-	mpResults->OnCancel();
-	delete mpResults;	mpResults = NULL;
-	BasePatchJob::job_onCancel(userData, userId);
-}
-
-void QuadPatchJob::job_process(void * userData,int /* userId */)    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-{
-	if(s_abort)
-		return;
-
-	const SQuadSplitRequest &srd = (*mData.Get());
-	const vector3d v01	= (srd.v0+srd.v1).Normalized();
-	const vector3d v12	= (srd.v1+srd.v2).Normalized();
-	const vector3d v23	= (srd.v2+srd.v3).Normalized();
-	const vector3d v30	= (srd.v3+srd.v0).Normalized();
-	const vector3d cn	= (srd.centroid).Normalized();
-
-	// 
-	const vector3d vecs[4][4] = {
-		{srd.v0,	v01,		cn,			v30},
-		{v01,		srd.v1,		v12,		cn},
-		{cn,		v12,		srd.v2,		v23},
-		{v30,		cn,			v23,		srd.v3}
-	};
-
-	SQuadSplitResult *sr = new SQuadSplitResult(srd.patchID.GetPatchFaceIdx(), srd.depth);
-	for (int i=0; i<4; i++)
-	{
-		if(s_abort) {
-			delete sr;
-			return;
-		}
-
-		// fill out the data
-		GenerateMesh(srd.heights[i], srd.normals[i], srd.colors[i], 
-			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
-			srd.edgeLen, srd.fracStep, srd.pTerrain);
-		// add this patches data
-		sr->addResult(i, srd.heights[i], srd.normals[i], srd.colors[i], 
-			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
-			srd.patchID.NextPatchID(srd.depth+1, i));
-	}
-	mpResults = sr;
-}
-
 GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs, 
 	const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, 
 	const int depth, const GeoPatchID &ID_) 
@@ -212,7 +30,7 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	heights(NULL), normals(NULL), colors(NULL), 
 	m_vbo(0), parent(NULL), geosphere(gs), 
 	m_depth(depth), mPatchID(ID_), 
-	mHasJobRequest(false), mCanMergeChildren(0x0F)
+	mHasJobRequest(false)
 {
 	for (int i=0; i<NUM_KIDS; ++i) {
 		edgeFriend[i]	= NULL;
@@ -260,7 +78,7 @@ void GeoPatch::_UpdateVBOs() {
 		double xfrac=0.0, yfrac=0.0;
 		double *pHts = heights.Get();
 		const vector3f *pNorm = &normals[0];
-		const Color4ub *pColr = &colors[0];
+		const Color3ub *pColr = &colors[0];
 		GeoPatchContext::VBOVertex *pData = ctx->vbotemp;
 		for (int y=0; y<ctx->edgeLen; y++) {
 			xfrac = 0.0;
@@ -293,61 +111,6 @@ void GeoPatch::_UpdateVBOs() {
 		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(GeoPatchContext::VBOVertex)*ctx->NUMVERTICES(), ctx->vbotemp, GL_DYNAMIC_DRAW);
 		glBindBufferARB(GL_ARRAY_BUFFER, 0);
 	}
-}
-
-/* not quite edge, since we share edge vertices so that would be
-	* fucking pointless. one position inwards. used to make edge normals
-	* for adjacent tiles */
-void GeoPatch::GetEdgeMinusOneVerticesFlipped(const int edge, double *ev) const {
-	if (edge == 0) {
-		for (int x=0; x<ctx->edgeLen; x++) ev[ctx->edgeLen-1-x] = heights[x + ctx->edgeLen];
-	} else if (edge == 1) {
-		const int x = ctx->edgeLen-2;
-		for (int y=0; y<ctx->edgeLen; y++) ev[ctx->edgeLen-1-y] = heights[x + y*ctx->edgeLen];
-	} else if (edge == 2) {
-		const int y = ctx->edgeLen-2;
-		for (int x=0; x<ctx->edgeLen; x++) ev[ctx->edgeLen-1-x] = heights[(ctx->edgeLen-1)-x + y*ctx->edgeLen];
-	} else {
-		for (int y=0; y<ctx->edgeLen; y++) ev[ctx->edgeLen-1-y] = heights[1 + ((ctx->edgeLen-1)-y)*ctx->edgeLen];
-	}
-}
-
-vector3d GeoPatch::calcVertex(const int x, const int y)
-{
-	const double h = heights[x + y];
-	const double xd = x;
-	const double yd = y;
-	return GetSpherePoint(xd*ctx->frac, yd*ctx->frac) * (h + 1.0);
-}
-
-void GeoPatch::OnEdgeFriendChanged(const int edge, GeoPatch *e) {
-	edgeFriend[edge] = e;
-}
-
-void GeoPatch::NotifyEdgeFriendSplit(GeoPatch *e) {
-	if (!kids[0]) {return;}
-	const int idx = GetEdgeIdxOf(e);
-	const int we_are = e->GetEdgeIdxOf(this);
-	// match e's new kids to our own... :/
-	kids[idx]->OnEdgeFriendChanged(idx, e->kids[(we_are+1)%NUM_KIDS].Get());
-	kids[(idx+1)%NUM_KIDS]->OnEdgeFriendChanged(idx, e->kids[we_are].Get());
-}
-
-void GeoPatch::NotifyEdgeFriendDeleted(const GeoPatch *e) {
-	const int idx = GetEdgeIdxOf(e);
-	assert(idx>=0 && idx<NUM_EDGES);
-	edgeFriend[idx] = NULL;
-}
-
-GeoPatch *GeoPatch::GetEdgeFriendForKid(const int kid, const int edge) const {
-	const GeoPatch *e = edgeFriend[edge];
-	if (!e) return NULL;
-	//assert (e);// && (e->m_depth >= m_depth));
-	const int we_are = e->GetEdgeIdxOf(this);
-	// neighbour patch has not split yet (is at depth of this patch), so kids of this patch do
-	// not have same detail level neighbours yet
-	if (edge == kid) return e->kids[(we_are+1)%NUM_KIDS].Get();
-	else return e->kids[we_are].Get();
 }
 
 void GeoPatch::Render(vector3d &campos, const Graphics::Frustum &frustum) {
@@ -396,12 +159,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 		return;
 
 	bool canSplit = true;
-	bool canMerge = (NULL!=kids[0]) && (0==mCanMergeChildren);
-	if (canMerge) {
-		for (int i=0; i<NUM_KIDS; i++) { 
-			canMerge &= kids[i]->canBeMerged();		
-		}
-	}
+	bool canMerge = (kids[0]!=NULL);
 
 	// always split at first level
 	if (parent) {
@@ -430,11 +188,6 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 			}
 
 			mHasJobRequest = true;
-			if(parent) {
-				// set the bit flag preventing merging
-				parent->mCanMergeChildren |= 1<<mPatchID.GetPatchIdx(m_depth);
-			}
-
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 						geosphere->m_sbody->path, mPatchID, ctx->edgeLen,
 						ctx->frac, geosphere->m_terrain.Get(), geosphere);
@@ -464,11 +217,6 @@ void GeoPatch::RequestSinglePatch()
 		}
 
 		mHasJobRequest = true;
-		if(parent) {
-			// set the bit flag preventing merging
-			parent->mCanMergeChildren |= 1<<mPatchID.GetPatchIdx(m_depth);
-		}
-
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 					geosphere->m_sbody->path, mPatchID, ctx->edgeLen, ctx->frac, geosphere->m_terrain.Get(), geosphere);
 		assert(!mCurrentJob.Valid());
@@ -527,17 +275,12 @@ void GeoPatch::ReceiveHeightmaps(const SQuadSplitResult *psr)
 		PiVerify(SDL_mutexP(m_kidsLock)==0);
 		for (int i=0; i<NUM_EDGES; i++) { if(edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendSplit(this); }
 		for (int i=0; i<NUM_KIDS; i++) {
-			//kids[i]->GenerateEdgeNormalsAndColors();
 			kids[i]->UpdateVBOs();
 		}
 		PiVerify(SDL_mutexV(m_kidsLock)!=-1);
 		assert(mCurrentJob.Valid());
 		delete mCurrentJob.Release();
 		mHasJobRequest = false;
-		if(parent) {
-			// remove the bit flag
-			parent->mCanMergeChildren &= ~(1<<mPatchID.GetPatchIdx(m_depth));
-		}
 	}
 }
 

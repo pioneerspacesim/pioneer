@@ -5,6 +5,7 @@
 #include "GeoSphere.h"
 #include "GeoPatchContext.h"
 #include "GeoPatch.h"
+#include "GeoPatchJobs.h"
 #include "perlin.h"
 #include "Pi.h"
 #include "RefCounted.h"
@@ -346,9 +347,6 @@ void GeoSphere::Update()
 		} break;
 	case eReceivedFirstPatches:
 		{
-			/*for (int i=0; i<NUM_PATCHES; i++) {
-				m_patches[i]->GenerateEdgeNormalsAndColors();
-			}*/
 			for (int i=0; i<NUM_PATCHES; i++) {
 				m_patches[i]->UpdateVBOs();
 			}

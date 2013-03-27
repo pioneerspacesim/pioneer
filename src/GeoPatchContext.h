@@ -83,36 +83,6 @@ public:
 	int getIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags);
 
 	void Init();
-
-	template <class T>
-	void GetEdge(const T *array, const int edge, T *ev) const {
-		if (edge == 0) {
-			for (int x=0; x<edgeLen; x++) ev[x] = array[x];
-		} else if (edge == 1) {
-			const int x = edgeLen-1;
-			for (int y=0; y<edgeLen; y++) ev[y] = array[x + y*edgeLen];
-		} else if (edge == 2) {
-			const int y = edgeLen-1;
-			for (int x=0; x<edgeLen; x++) ev[x] = array[(edgeLen-1)-x + y*edgeLen];
-		} else {
-			for (int y=0; y<edgeLen; y++) ev[y] = array[0 + ((edgeLen-1)-y)*edgeLen];
-		}
-	}
-
-	template <class T>
-	void SetEdge(T *array, const int edge, const T *ev) const {
-		if (edge == 0) {
-			for (int x=0; x<edgeLen; x++) array[x] = ev[x];
-		} else if (edge == 1) {
-			const int x = edgeLen-1;
-			for (int y=0; y<edgeLen; y++) array[x + y*edgeLen] = ev[y];
-		} else if (edge == 2) {
-			const int y = edgeLen-1;
-			for (int x=0; x<edgeLen; x++) array[(edgeLen-1)-x + y*edgeLen] = ev[x];
-		} else {
-			for (int y=0; y<edgeLen; y++) array[0 + ((edgeLen-1)-y)*edgeLen] = ev[y];
-		}
-	}
 };
 
 #endif /* _GEOPATCHCONTEXT_H */
