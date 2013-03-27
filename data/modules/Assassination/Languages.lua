@@ -71,16 +71,14 @@ Translate:Add({ English = {
   ["ly"] = "ly",
 
   -- Texts for the missions screen   
-  assmissiondetail = [[
-  Target name:
-  Spaceport:
-  System:
-  Ship:
-  Ship ID:
-  Target will be leaving spaceport at:
-  
-  Distance:]],
- 
+  ["Target name:"] = "Target name:",
+  ["Spaceport:"] = "Spaceport:",
+  ["System:"] = "System:",
+  ["Ship:"] = "Ship:",
+  ["Ship ID:"] = "Ship ID:",
+  ["Target will be leaving spaceport at:"] = "Target will be leaving spaceport at:",
+  ["Distance:"] = "Distance:",
+
   TITLE = {
 		"Admiral",
 		"Ambassador",
@@ -174,16 +172,14 @@ Translate:Add({ Polski = {
   ["ly"] = "lś",
 
   -- Texts for the missions screen  
-  assmissiondetail = [[
-  Cel:
-  Port kosmiczny:
-  System:
-  Statek:
-  Identyfikator:
-  Cel będzie opuszczał port kosmiczny o:
-  
-  Dystans:]],
-  
+  ["Target name:"] = "Cel:",
+  ["Spaceport:"] = "Port kosmiczny:",
+  ["System:"] = "System:",
+  ["Ship:"] = "Statek:",
+  ["Ship ID:"] = "Identyfikator:",
+  ["Target will be leaving spaceport at:"] = "Cel będzie opuszczał port kosmiczny o:",
+  ["Distance:"] = "Dystans:",
+
   TITLE = {
 		"admirał",
 		"ambasador",
@@ -457,16 +453,14 @@ Translate:Add({ Russian = {
   ["ly"] = "св.лет",
 
   -- Texts for the missions screen   
-  assmissiondetail = [[
- Цель:
-  Станция нахождения:
-  Система нахождения:
-  Тип корабля:
-  Номер корабля:
-  Цель покинет станцию:
-  
-  Расстояние:]],
-  
+  ["Target name:"] = "Цель:",
+  ["Spaceport:"] = "Станция нахождения:",
+  ["System:"] = "Система нахождения:",
+  ["Ship:"] = "Тип корабля:",
+  ["Ship ID:"] = "Номер корабля:",
+  ["Target will be leaving spaceport at:"] = "Цель покинет станцию:",
+  ["Distance:"] = "Расстояние:",
+
   TITLE = {
 		"адмирал",
 		"посол",
@@ -559,16 +553,14 @@ Translate:Add({ Deutsch = {
   ["Ok, agreed."] = "Okay, ich mache das..",
 
   -- Texts for the missions screen   
-  assmissiondetail = [[
-  Zielname:
-  Raumhafen:
-  System:
-  Schiff:
-  Schiff-ID:
-  Ziel wird Raumhafen verlassen um:
-  
-  Distanz:]],
- 
+  ["Target name:"] = "Zielname:",
+  ["Spaceport:"] = "Raumhafen:",
+  ["System:"] = "System:",
+  ["Ship:"] = "Schiff:",
+  ["Ship ID:"] = "Schiff-ID:",
+  ["Target will be leaving spaceport at:"] = "Ziel wird Raumhafen verlassen um:",
+  ["Distance:"] = "Distanz:",
+
   TITLE = {
 		"Admiral",
 		"Botschafter",
@@ -662,15 +654,13 @@ Translate:Add({ Czech = {
   ["ly"] = "ly",
 
   -- Texts for the missions screen   
-  assmissiondetail = [[
-  Jméno cíle:
-  Stanice:
-  Systém:
-  Loď:
-  ID lodě:
-  Cíl opustí stanici v:
-
-  Vzdálenost:]],
+  ["Target name:"] = "Jméno cíle:",
+  ["Spaceport:"] = "Stanice:",
+  ["System:"] = "Systém:",
+  ["Ship:"] = "Loď:",
+  ["Ship ID:"] = "ID lodě:",
+  ["Target will be leaving spaceport at:"] = "Cíl opustí stanici v:",
+  ["Distance:"] = "Vzdálenost:",
 
   TITLE = {
 	"admirál",

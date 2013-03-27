@@ -139,12 +139,11 @@ Translate:Add({ English = {
   ["ly"] = "ly",
 
   -- Texts for the missions screen
-  delivermissiondetail = [[
-  Spaceport:
-  System:
-  Deadline:
-
-  Distance:]],
+  ["Spaceport:"] = "Spaceport:",
+  ["System:"] = "System:",
+  ["Deadline:"] = "Deadline:",
+  ["Danger:"] = "Danger:",
+  ["Distance:"] = "Distance:",
 
  PIRATE_TAUNTS = {
   "You're going to regret dealing with {client}",
@@ -289,12 +288,11 @@ Translate:Add({ Polski = {
   ["ly"] = "lś",
 
   -- Texts for the missions screen
-  delivermissiondetail = [[
-  Port kosmiczny:
-  System:
-  Termin:
-
-  Dystans:]],
+  ["Spaceport:"] = "Port kosmiczny:",
+  ["System:"] = "System:",
+  ["Deadline:"] = "Termin:",
+  ["Danger:"] = "Zagrożenie:",
+  ["Distance:"] = "Dystans:",
 
   PIRATE_TAUNTS = {
   "Pożałujesz kontaktów z {client}",
@@ -720,13 +718,12 @@ Translate:Add({ Russian = {
   ["ly"] = "св.лет›",  
 
   -- Texts for the missions screen
-  delivermissiondetail = [[
-  Станция получателя:
-  Система получателя:
-  Срок доставки:
-  
-  Расстояние:]],
-  
+  ["Spaceport:"] = "Станция получателя:",
+  ["System:"] = "Система получателя:",
+  ["Deadline:"] = "Срок доставки:",
+  ["Danger:"] = "Опасность:",
+  ["Distance:"] = "Расстояние:",
+
   PIRATE_TAUNTS = {
   "Ты ответишь за контракт с {client}!!",
 	"Похоже, что прибыл мой приз!",
@@ -870,12 +867,11 @@ Translate:Add({ Deutsch = {
   ["ly"] = "ly",
 
   -- Texts for the missions screen
-  delivermissiondetail = [[
-  Raumhafen:
-  System:
-  Deadline:
-
-  Distanz:]],
+  ["Spaceport:"] = "Raumhafen:",
+  ["System:"] = "System:",
+  ["Deadline:"] = "Deadline:",
+  ["Danger:"] = "Gefahr:",
+  ["Distance:"] = "Distanz:",
 
  PIRATE_TAUNTS = {
   "Du wirst es bedauern, dich mit {client} zusammengetan zu haben",
@@ -1021,12 +1017,11 @@ Translate:Add({ Czech = {
   ["ly"] = "ly",
 
   -- Texts for the missions screen
-  delivermissiondetail = [[
-  Stanice:
-  Systém:
-  Termín:
-
-  Vzdálenost:]],
+  ["Spaceport:"] = "Stanice:",
+  ["System:"] = "Systém:",
+  ["Deadline:"] = "Termín:",
+  ["Danger:"] = "Nebezpečí:",
+  ["Distance:"] = "Vzdálenost:",
 
   PIRATE_TAUNTS = {
 	"Budeš litovat, že jsis něco začal s {client}",

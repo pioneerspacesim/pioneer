@@ -110,8 +110,6 @@
 		4A4A86E916A992D600F81F18 /* CameraController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A86E716A992D600F81F18 /* CameraController.cpp */; };
 		4A4D25D8167335D9003BC9D5 /* Face.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D2167335D9003BC9D5 /* Face.cpp */; };
 		4A4D25D9167335D9003BC9D5 /* LuaFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */; };
-		4A4D25DA167335D9003BC9D5 /* LuaShipSpinner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D5167335D9003BC9D5 /* LuaShipSpinner.cpp */; };
-		4A4D25DB167335D9003BC9D5 /* ShipSpinner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25D6167335D9003BC9D5 /* ShipSpinner.cpp */; };
 		4A4D25DF167335F5003BC9D5 /* Icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25DC167335F5003BC9D5 /* Icon.cpp */; };
 		4A4D25E0167335F5003BC9D5 /* LuaIcon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4D25DE167335F5003BC9D5 /* LuaIcon.cpp */; };
 		4A4F25D214F524D400FD14A6 /* Drawables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A4F25B914F524D400FD14A6 /* Drawables.cpp */; };
@@ -179,7 +177,6 @@
 		4A6C4E8313532FC300FDD53F /* ShipAICmd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D5113532FC300FDD53F /* ShipAICmd.cpp */; };
 		4A6C4E8413532FC300FDD53F /* ShipCpanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D5313532FC300FDD53F /* ShipCpanel.cpp */; };
 		4A6C4E8513532FC300FDD53F /* ShipCpanelMultiFuncDisplays.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D5513532FC300FDD53F /* ShipCpanelMultiFuncDisplays.cpp */; };
-		4A6C4E8613532FC300FDD53F /* ShipFlavour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D5713532FC300FDD53F /* ShipFlavour.cpp */; };
 		4A6C4E8713532FC300FDD53F /* ShipType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D5913532FC300FDD53F /* ShipType.cpp */; };
 		4A6C4E8813532FC300FDD53F /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D5B13532FC300FDD53F /* Sound.cpp */; };
 		4A6C4E8913532FC300FDD53F /* Space.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D5D13532FC300FDD53F /* Space.cpp */; };
@@ -238,6 +235,12 @@
 		4AA4A8DB164D0EB10006C3BF /* Gradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA4A8D6164D0EB10006C3BF /* Gradient.cpp */; };
 		4AA4A8DC164D0EB10006C3BF /* LuaExpand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA4A8D8164D0EB10006C3BF /* LuaExpand.cpp */; };
 		4AA4A8DD164D0EB10006C3BF /* LuaGradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA4A8D9164D0EB10006C3BF /* LuaGradient.cpp */; };
+		4AA527FA16E9EABA0036D4CB /* NavLights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA527F816E9EABA0036D4CB /* NavLights.cpp */; };
+		4AA527FE16E9EB650036D4CB /* LuaModelSpinner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA527FB16E9EB650036D4CB /* LuaModelSpinner.cpp */; };
+		4AA527FF16E9EB650036D4CB /* ModelSpinner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA527FC16E9EB650036D4CB /* ModelSpinner.cpp */; };
+		4AA5280516E9EB980036D4CB /* Lua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA5280016E9EB980036D4CB /* Lua.cpp */; };
+		4AA5280616E9EB980036D4CB /* ModelSkin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA5280216E9EB980036D4CB /* ModelSkin.cpp */; };
+		4AA5280816E9EBD60036D4CB /* LuaModelSkin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA5280716E9EBD60036D4CB /* LuaModelSkin.cpp */; };
 		4AA84A2716D0E18700220311 /* LuaEquipDef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA84A2116D0E18700220311 /* LuaEquipDef.cpp */; };
 		4AA84A2816D0E18700220311 /* LuaShipDef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AA84A2316D0E18700220311 /* LuaShipDef.cpp */; };
 		4AAB881315F4AD3500AAF8A8 /* GeoSphereMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAB880415F4AD3500AAF8A8 /* GeoSphereMaterial.cpp */; };
@@ -686,9 +689,6 @@
 		4A4D25D2167335D9003BC9D5 /* Face.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Face.cpp; sourceTree = "<group>"; };
 		4A4D25D3167335D9003BC9D5 /* Face.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Face.h; sourceTree = "<group>"; };
 		4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaFace.cpp; sourceTree = "<group>"; };
-		4A4D25D5167335D9003BC9D5 /* LuaShipSpinner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaShipSpinner.cpp; sourceTree = "<group>"; };
-		4A4D25D6167335D9003BC9D5 /* ShipSpinner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShipSpinner.cpp; sourceTree = "<group>"; };
-		4A4D25D7167335D9003BC9D5 /* ShipSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipSpinner.h; sourceTree = "<group>"; };
 		4A4D25DC167335F5003BC9D5 /* Icon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Icon.cpp; sourceTree = "<group>"; };
 		4A4D25DD167335F5003BC9D5 /* Icon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Icon.h; sourceTree = "<group>"; };
 		4A4D25DE167335F5003BC9D5 /* LuaIcon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaIcon.cpp; sourceTree = "<group>"; };
@@ -824,8 +824,6 @@
 		4A6C4D5413532FC300FDD53F /* ShipCpanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipCpanel.h; sourceTree = "<group>"; };
 		4A6C4D5513532FC300FDD53F /* ShipCpanelMultiFuncDisplays.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShipCpanelMultiFuncDisplays.cpp; sourceTree = "<group>"; };
 		4A6C4D5613532FC300FDD53F /* ShipCpanelMultiFuncDisplays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipCpanelMultiFuncDisplays.h; sourceTree = "<group>"; };
-		4A6C4D5713532FC300FDD53F /* ShipFlavour.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShipFlavour.cpp; sourceTree = "<group>"; };
-		4A6C4D5813532FC300FDD53F /* ShipFlavour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipFlavour.h; sourceTree = "<group>"; };
 		4A6C4D5913532FC300FDD53F /* ShipType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShipType.cpp; sourceTree = "<group>"; };
 		4A6C4D5A13532FC300FDD53F /* ShipType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShipType.h; sourceTree = "<group>"; };
 		4A6C4D5B13532FC300FDD53F /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
@@ -931,6 +929,18 @@
 		4AA4A8D7164D0EB10006C3BF /* Gradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gradient.h; sourceTree = "<group>"; };
 		4AA4A8D8164D0EB10006C3BF /* LuaExpand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaExpand.cpp; sourceTree = "<group>"; };
 		4AA4A8D9164D0EB10006C3BF /* LuaGradient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaGradient.cpp; sourceTree = "<group>"; };
+		4AA527F716E9EABA0036D4CB /* Easing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Easing.h; sourceTree = "<group>"; };
+		4AA527F816E9EABA0036D4CB /* NavLights.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NavLights.cpp; sourceTree = "<group>"; };
+		4AA527F916E9EABA0036D4CB /* NavLights.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavLights.h; sourceTree = "<group>"; };
+		4AA527FB16E9EB650036D4CB /* LuaModelSpinner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaModelSpinner.cpp; sourceTree = "<group>"; };
+		4AA527FC16E9EB650036D4CB /* ModelSpinner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelSpinner.cpp; sourceTree = "<group>"; };
+		4AA527FD16E9EB650036D4CB /* ModelSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelSpinner.h; sourceTree = "<group>"; };
+		4AA5280016E9EB980036D4CB /* Lua.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lua.cpp; sourceTree = "<group>"; };
+		4AA5280116E9EB980036D4CB /* Lua.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lua.h; sourceTree = "<group>"; };
+		4AA5280216E9EB980036D4CB /* ModelSkin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModelSkin.cpp; sourceTree = "<group>"; };
+		4AA5280316E9EB980036D4CB /* ModelSkin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelSkin.h; sourceTree = "<group>"; };
+		4AA5280416E9EB980036D4CB /* NodeCopyCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeCopyCache.h; sourceTree = "<group>"; };
+		4AA5280716E9EBD60036D4CB /* LuaModelSkin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaModelSkin.cpp; sourceTree = "<group>"; };
 		4AA84A2116D0E18700220311 /* LuaEquipDef.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaEquipDef.cpp; sourceTree = "<group>"; };
 		4AA84A2216D0E18700220311 /* LuaEquipDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaEquipDef.h; sourceTree = "<group>"; };
 		4AA84A2316D0E18700220311 /* LuaShipDef.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaShipDef.cpp; sourceTree = "<group>"; };
@@ -1467,17 +1477,17 @@
 		4A24FD601650F4D100DE7B0F /* gameui */ = {
 			isa = PBXGroup;
 			children = (
+				4AA527FB16E9EB650036D4CB /* LuaModelSpinner.cpp */,
+				4AA527FC16E9EB650036D4CB /* ModelSpinner.cpp */,
+				4AA527FD16E9EB650036D4CB /* ModelSpinner.h */,
 				4A4D25D2167335D9003BC9D5 /* Face.cpp */,
 				4A4D25D3167335D9003BC9D5 /* Face.h */,
 				4A24FD611650F4D100DE7B0F /* GameUI.h */,
 				4A24FD621650F4D100DE7B0F /* Lua.cpp */,
 				4A24FD631650F4D100DE7B0F /* Lua.h */,
 				4A4D25D4167335D9003BC9D5 /* LuaFace.cpp */,
-				4A4D25D5167335D9003BC9D5 /* LuaShipSpinner.cpp */,
 				4A24FD651650F4D100DE7B0F /* Panel.cpp */,
 				4A24FD661650F4D100DE7B0F /* Panel.h */,
-				4A4D25D6167335D9003BC9D5 /* ShipSpinner.cpp */,
-				4A4D25D7167335D9003BC9D5 /* ShipSpinner.h */,
 			);
 			path = gameui;
 			sourceTree = "<group>";
@@ -1594,6 +1604,7 @@
 				4A99371A1368355400EA0EE5 /* DeleteEmitter.h */,
 				4A6C4C2113532FC300FDD53F /* DynamicBody.cpp */,
 				4A6C4C2213532FC300FDD53F /* DynamicBody.h */,
+				4AA527F716E9EABA0036D4CB /* Easing.h */,
 				4A84CB7B14595D850051C848 /* enum_table.cpp */,
 				4A84CB7C14595D850051C848 /* enum_table.h */,
 				4ACE132C16B4B19D00CAE524 /* EnumStrings.cpp */,
@@ -1734,6 +1745,8 @@
 				4ACDB6CD167878CE0069FA03 /* ModelViewer.h */,
 				4AAC9FE71545901D00116131 /* ModManager.cpp */,
 				4AAC9FE81545901D00116131 /* ModManager.h */,
+				4AA527F816E9EABA0036D4CB /* NavLights.cpp */,
+				4AA527F916E9EABA0036D4CB /* NavLights.h */,
 				4A6C4CE813532FC300FDD53F /* Object.h */,
 				4A6C4CE913532FC300FDD53F /* ObjectViewerView.cpp */,
 				4A6C4CEA13532FC300FDD53F /* ObjectViewerView.h */,
@@ -1778,8 +1791,6 @@
 				4A6C4D5413532FC300FDD53F /* ShipCpanel.h */,
 				4A6C4D5513532FC300FDD53F /* ShipCpanelMultiFuncDisplays.cpp */,
 				4A6C4D5613532FC300FDD53F /* ShipCpanelMultiFuncDisplays.h */,
-				4A6C4D5713532FC300FDD53F /* ShipFlavour.cpp */,
-				4A6C4D5813532FC300FDD53F /* ShipFlavour.h */,
 				4A24075C13F5240F002A5C12 /* ShipSpinnerWidget.cpp */,
 				4A24075D13F5240F002A5C12 /* ShipSpinnerWidget.h */,
 				4A6C4D5913532FC300FDD53F /* ShipType.cpp */,
@@ -2088,6 +2099,12 @@
 		4ACDB683167878610069FA03 /* scenegraph */ = {
 			isa = PBXGroup;
 			children = (
+				4AA5280716E9EBD60036D4CB /* LuaModelSkin.cpp */,
+				4AA5280016E9EB980036D4CB /* Lua.cpp */,
+				4AA5280116E9EB980036D4CB /* Lua.h */,
+				4AA5280216E9EB980036D4CB /* ModelSkin.cpp */,
+				4AA5280316E9EB980036D4CB /* ModelSkin.h */,
+				4AA5280416E9EB980036D4CB /* NodeCopyCache.h */,
 				4ACDB684167878610069FA03 /* Animation.cpp */,
 				4ACDB685167878610069FA03 /* Animation.h */,
 				4ACDB686167878610069FA03 /* AnimationChannel.h */,
@@ -2201,7 +2218,7 @@
 		4A20B0D01353194B0020F43E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2310,7 +2327,6 @@
 				4A6C4E8313532FC300FDD53F /* ShipAICmd.cpp in Sources */,
 				4A6C4E8413532FC300FDD53F /* ShipCpanel.cpp in Sources */,
 				4A6C4E8513532FC300FDD53F /* ShipCpanelMultiFuncDisplays.cpp in Sources */,
-				4A6C4E8613532FC300FDD53F /* ShipFlavour.cpp in Sources */,
 				4A6C4E8713532FC300FDD53F /* ShipType.cpp in Sources */,
 				4A6C4E8813532FC300FDD53F /* Sound.cpp in Sources */,
 				4A6C4E8913532FC300FDD53F /* Space.cpp in Sources */,
@@ -2598,8 +2614,6 @@
 				4A0F25CF165CF00D00208507 /* SmallButton.cpp in Sources */,
 				4A4D25D8167335D9003BC9D5 /* Face.cpp in Sources */,
 				4A4D25D9167335D9003BC9D5 /* LuaFace.cpp in Sources */,
-				4A4D25DA167335D9003BC9D5 /* LuaShipSpinner.cpp in Sources */,
-				4A4D25DB167335D9003BC9D5 /* ShipSpinner.cpp in Sources */,
 				4A4D25DF167335F5003BC9D5 /* Icon.cpp in Sources */,
 				4A4D25E0167335F5003BC9D5 /* LuaIcon.cpp in Sources */,
 				4ACDB6B1167878620069FA03 /* Animation.cpp in Sources */,
@@ -2631,6 +2645,12 @@
 				4ACED56A16BBCC7200E53808 /* LuaMissile.cpp in Sources */,
 				4AA84A2716D0E18700220311 /* LuaEquipDef.cpp in Sources */,
 				4AA84A2816D0E18700220311 /* LuaShipDef.cpp in Sources */,
+				4AA527FA16E9EABA0036D4CB /* NavLights.cpp in Sources */,
+				4AA527FE16E9EB650036D4CB /* LuaModelSpinner.cpp in Sources */,
+				4AA527FF16E9EB650036D4CB /* ModelSpinner.cpp in Sources */,
+				4AA5280516E9EB980036D4CB /* Lua.cpp in Sources */,
+				4AA5280616E9EB980036D4CB /* ModelSkin.cpp in Sources */,
+				4AA5280816E9EBD60036D4CB /* LuaModelSkin.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
