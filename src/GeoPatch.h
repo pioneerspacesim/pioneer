@@ -63,12 +63,12 @@ public:
 		for( int i=0 ; i<4 ; ++i )
 		{
 			heights[i] = new double[numVerts];
-			normals[i] = new vector3d[numVerts];
+			normals[i] = new vector3f[numVerts];
 			colors[i] = new Color4ub[numVerts];
 		}
 	}
 
-	vector3d *normals[4];
+	vector3f *normals[4];
 	Color4ub *colors[4];
 	double *heights[4];
 
@@ -86,11 +86,11 @@ public:
 	{
 		const int numVerts = NUMVERTICES(edgeLen_);
 		heights = new double[numVerts];
-		normals = new vector3d[numVerts];
+		normals = new vector3f[numVerts];
 		colors = new Color4ub[numVerts];
 	}
 
-	vector3d *normals;
+	vector3f *normals;
 	Color4ub *colors;
 	double *heights;
 
@@ -103,7 +103,7 @@ class SBaseSplitResult {
 public:
 	struct SSplitResultData {
 		SSplitResultData() : patchID(0) {}
-		SSplitResultData(double *heights_, vector3d *n_, Color4ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
+		SSplitResultData(double *heights_, vector3f *n_, Color4ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
 			heights(heights_), normals(n_), colors(c_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), patchID(patchID_)
 		{}
 		SSplitResultData(const SSplitResultData &r) : 
@@ -111,7 +111,7 @@ public:
 		{}
 
 		double *heights;
-		vector3d *normals;
+		vector3f *normals;
 		Color4ub *colors;
 		vector3d v0, v1, v2, v3;
 		GeoPatchID patchID;
@@ -139,7 +139,7 @@ public:
 	{
 	}
 
-	void addResult(const int kidIdx, double *h_, vector3d *n_, Color4ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
+	void addResult(const int kidIdx, double *h_, vector3f *n_, Color4ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
 	{
 		assert(kidIdx>=0 && kidIdx<NUM_RESULT_DATA);
 		mData[kidIdx] = (SSplitResultData(h_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
@@ -169,7 +169,7 @@ public:
 	{
 	}
 
-	void addResult(double *h_, vector3d *n_, Color4ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
+	void addResult(double *h_, vector3f *n_, Color4ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
 	{
 		mData = (SSplitResultData(h_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
 	}
@@ -243,7 +243,7 @@ protected:
 	}
 
 	// Generates full-detail vertices, and also non-edge normals and colors 
-	void GenerateMesh(double *heights, vector3d *normals, Color4ub *colors, 
+	void GenerateMesh(double *heights, vector3f *normals, Color4ub *colors, 
 		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
 		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
 
@@ -310,7 +310,7 @@ public:
 	RefCountedPtr<GeoPatchContext> ctx;
 	const vector3d v0, v1, v2, v3;
 	ScopedArray<double> heights;
-	ScopedArray<vector3d> normals;
+	ScopedArray<vector3f> normals;
 	ScopedArray<Color4ub> colors;
 	GLuint m_vbo;
 	ScopedPtr<GeoPatch> kids[NUM_KIDS];

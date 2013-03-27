@@ -39,7 +39,7 @@ bool BasePatchJob::s_abort = false;
 
 // Generates full-detail vertices, and also non-edge normals and colors 
 void BasePatchJob::GenerateMesh(double *heights, 
-	vector3d *normals, Color4ub *colors, 
+	vector3f *normals, Color4ub *colors, 
 	const vector3d &v0,
 	const vector3d &v1,
 	const vector3d &v2,
@@ -70,7 +70,7 @@ void BasePatchJob::GenerateMesh(double *heights,
 
 	// Generate normals & colors for non-edge vertices since they never change
 	Color4ub *col = colors;
-	vector3d *nrm = normals;
+	vector3f *nrm = normals;
 	double *hts = heights;
 	vrts = borderVertexs.Get();
 	for (int y=1; y<borderedEdgeLen-1; y++) {
@@ -87,7 +87,7 @@ void BasePatchJob::GenerateMesh(double *heights,
 			const vector3d &y2 = vrts[x + (y+1)*borderedEdgeLen];
 			const vector3d n = ((x2-x1).Cross(y2-y1)).Normalized();
 			assert(nrm!=&normals[edgeLen*edgeLen]);
-			*(nrm++) = n;
+			*(nrm++) = vector3f(n);
 
 			// color
 			const vector3d p = GetSpherePoint(v0, v1, v2, v3, x*fracStep, y*fracStep);
@@ -259,7 +259,7 @@ void GeoPatch::_UpdateVBOs() {
 		glBufferDataARB(GL_ARRAY_BUFFER, sizeof(GeoPatchContext::VBOVertex)*ctx->NUMVERTICES(), 0, GL_DYNAMIC_DRAW);
 		double xfrac=0.0, yfrac=0.0;
 		double *pHts = heights.Get();
-		const vector3d *pNorm = &normals[0];
+		const vector3f *pNorm = &normals[0];
 		const Color4ub *pColr = &colors[0];
 		GeoPatchContext::VBOVertex *pData = ctx->vbotemp;
 		for (int y=0; y<ctx->edgeLen; y++) {
@@ -273,9 +273,9 @@ void GeoPatch::_UpdateVBOs() {
 				pData->z = float(p.z);
 				++pHts;	// next height
 
-				pData->nx = float(pNorm->x);
-				pData->ny = float(pNorm->y);
-				pData->nz = float(pNorm->z);
+				pData->nx =pNorm->x;
+				pData->ny =pNorm->y;
+				pData->nz =pNorm->z;
 				++pNorm; // next normal
 
 				pData->col[0] = pColr->r;
