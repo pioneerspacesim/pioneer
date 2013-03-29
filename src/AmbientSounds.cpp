@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -31,7 +31,7 @@ void AmbientSounds::Uninit()
 
 void AmbientSounds::Update()
 {
-	float v_env = (Pi::worldView->GetActiveCamera()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	float v_env = (Pi::worldView->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 
 	if (Pi::player->GetFlightState() == Ship::DOCKED) {
 		if (starNoise.IsPlaying()) {
@@ -87,7 +87,7 @@ void AmbientSounds::Update()
 
 		// lets try something random for the time being
 		if (!planetSurfaceNoise.IsPlaying()) {
-			SystemBody *sbody = Pi::player->GetFrame()->GetSystemBodyFor();
+			SystemBody *sbody = Pi::player->GetFrame()->GetSystemBody();
 			assert(sbody);
 			const char *sample = NULL;
 
@@ -117,8 +117,8 @@ void AmbientSounds::Update()
 		}
     } else if (planetSurfaceNoise.IsPlaying()) {
         // planetSurfaceNoise.IsPlaying() - if we are out of the atmosphere then stop playing
-        if (Pi::player->GetFrame()->m_astroBody) {
-            Body *astro = Pi::player->GetFrame()->m_astroBody;
+        if (Pi::player->GetFrame()->IsRotFrame()) {
+            Body *astro = Pi::player->GetFrame()->GetBody();
             if (astro->IsType(Object::PLANET)) {
                 double dist = Pi::player->GetPosition().Length();
                 double pressure, density;
@@ -139,9 +139,9 @@ void AmbientSounds::Update()
 		{
 			if (Pi::game->IsNormalSpace()) {
 				StarSystem *s = Pi::game->GetSpace()->GetStarSystem().Get();
-				if (astroNoiseSeed != s->m_seed) {
+				if (astroNoiseSeed != s->GetSeed()) {
 					// change sound!
-					astroNoiseSeed = s->m_seed;
+					astroNoiseSeed = s->GetSeed();
 					float target[2] = {0.0f,0.0f};
 					float dv_dt[2] = {0.1f,0.1f};
 					starNoise.VolumeAnimate(target, dv_dt);
@@ -157,9 +157,9 @@ void AmbientSounds::Update()
 		if (!starNoise.IsPlaying()) {
 			Frame *f = Pi::player->GetFrame();
 			if (!f) return; // When player has no frame (game abort) then get outta here!!
-			const SystemBody *sbody = f->GetSystemBodyFor();
+			const SystemBody *sbody = f->GetSystemBody();
 			const char *sample = 0;
-			for (; sbody && !sample; sbody = f->GetSystemBodyFor()) {
+			for (; sbody && !sample; sbody = f->GetSystemBody()) {
 				switch (sbody->type) {
 					case SystemBody::TYPE_BROWN_DWARF: sample = "Brown_Dwarf_Substellar_Object"; break;
 					case SystemBody::TYPE_STAR_M: sample = "M_Red_Star"; break;
@@ -189,14 +189,15 @@ void AmbientSounds::Update()
 					starNoise.VolumeAnimate(.3f*v_env, .3f*v_env, .05f, .05f);
 				} else {
 					// go up orbital hierarchy tree to see if we can find a sound
-					f = f->m_parent;
+					f = f->GetParent();
 					if (f == 0) break;
 				}
 			}
 		}
 
 		Body *astro;
-		if ((astro = Pi::player->GetFrame()->m_astroBody) && (astro->IsType(Object::PLANET))) {
+		if ((astro = Pi::player->GetFrame()->GetBody())
+			&& Pi::player->GetFrame()->IsRotFrame() && (astro->IsType(Object::PLANET))) {
 			double dist = Pi::player->GetPosition().Length();
 			double pressure, density;
 			static_cast<Planet*>(astro)->GetAtmosphericState(dist, &pressure, &density);

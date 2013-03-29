@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 /*
@@ -138,17 +138,15 @@ eventid BodyMakeNoise(const Body *b, const char *sfx, float vol)
 	if (b == Pi::player) {
 		pos = vector3d(0.0);
 	} else {
-		pos = b->GetPositionRelTo(Pi::player->GetFrame()) - Pi::player->GetPosition();
-		matrix4x4d m;
-		Pi::player->GetRotMatrix(m);
-		pos = m.InverseOf() * pos;
+		pos = b->GetPositionRelTo(Pi::player);
+		pos = pos * Pi::player->GetOrient();
 	}
 
 	float len = pos.Length();
 	float v[2];
 	if (! is_zero_general(len)) {
 		vol = vol / (0.002*len);
-		double dot = pos.Normalized().Dot(vector3d(vol, 0, 0));
+		double dot = pos.Normalized().x * vol;
 
 		v[0] = vol * (2.0f - (1.0+dot));
 		v[1] = vol * (1.0 + dot);

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _RENDERER_GL2_H
@@ -17,9 +17,11 @@
 namespace Graphics {
 
 namespace GL2 {
-	class GeoSphereSurfaceMaterial;
 	class GeoSphereSkyMaterial;
+	class GeoSphereSurfaceMaterial;
+	class Material;
 	class MultiMaterial;
+	class LitMultiMaterial;
 	class Program;
 	class RingMaterial;
 }
@@ -46,9 +48,11 @@ public:
 	virtual bool ReloadShaders();
 
 private:
+	GL2::Program* GetOrCreateProgram(GL2::Material*);
 	friend class GL2::GeoSphereSurfaceMaterial;
 	friend class GL2::GeoSphereSkyMaterial;
 	friend class GL2::MultiMaterial;
+	friend class GL2::LitMultiMaterial;
 	friend class GL2::RingMaterial;
 	std::vector<std::pair<MaterialDescriptor, GL2::Program*> > m_programs;
 	float m_invLogZfarPlus1;

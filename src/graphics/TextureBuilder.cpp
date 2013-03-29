@@ -1,8 +1,9 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TextureBuilder.h"
 #include "FileSystem.h"
+#include "utils.h"
 #include <SDL_image.h>
 #include <SDL_rwops.h>
 
@@ -24,6 +25,9 @@ TextureBuilder::~TextureBuilder()
 
 // RGBA and RGBpixel format for converting textures
 // XXX little-endian. if we ever have a port to a big-endian arch, invert shift and mask
+#if SDL_BYTEORDER != SDL_LIL_ENDIAN
+#error "SDL surface pixel formats are endian-specific"
+#endif
 static SDL_PixelFormat pixelFormatRGBA = {
 	0,                                  // palette
 	32,                                 // bits per pixel
@@ -71,17 +75,6 @@ static inline bool GetTargetFormat(const SDL_PixelFormat *sourcePixelFormat, Tex
 	*targetTextureFormat = TEXTURE_RGBA;
 	*targetPixelFormat = &pixelFormatRGBA;
 	return false;
-}
-
-static inline Uint32 ceil_pow2(Uint32 v) {
-	v--;
-	v |= v >> 1;
-	v |= v >> 2;
-	v |= v >> 4;
-	v |= v >> 8;
-	v |= v >> 16;
-	v++;
-	return v;
 }
 
 void TextureBuilder::PrepareSurface()
@@ -152,6 +145,16 @@ void TextureBuilder::LoadSurface()
 void TextureBuilder::UpdateTexture(Texture *texture)
 {
 	texture->Update(m_surface->pixels, vector2f(m_surface->w,m_surface->h), m_descriptor.format == TEXTURE_RGBA ? IMAGE_RGBA : IMAGE_RGB, IMAGE_UNSIGNED_BYTE);
+}
+
+Texture *TextureBuilder::GetWhiteTexture(Renderer *r)
+{
+	return Model("textures/white.png").GetOrCreateTexture(r, "model");
+}
+
+Texture *TextureBuilder::GetTransparentTexture(Renderer *r)
+{
+	return Model("textures/transparent.png").GetOrCreateTexture(r, "model");
 }
 
 }

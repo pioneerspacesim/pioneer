@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StationPoliceForm.h"
@@ -20,7 +20,7 @@ void StationPoliceForm::OnOptionClicked(int option)
 			SetTitle(stringf(Lang::SOMEWHERE_POLICE, formatarg("station", station->GetLabel())));
 
 			SetFaceFlags(FaceVideoLink::ARMOUR);
-			SetFaceSeed(MTRand(station->GetSystemBody()->seed).Int32());
+			SetFaceSeed(Random(station->GetSystemBody()->seed).Int32());
 
 			Sint64 crime, fine;
 			Polit::GetCrime(&crime, &fine);

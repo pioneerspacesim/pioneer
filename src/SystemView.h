@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SYSTEMVIEW_H
@@ -30,6 +30,7 @@ private:
 	void GetTransformTo(SystemBody *b, vector3d &pos);
 	void OnClickObject(SystemBody *b);
 	void OnClickAccel(float step);
+	void OnClickRealt();
 	void ResetViewpoint();
 	void MouseButtonDown(int button, int x, int y);
 
@@ -38,6 +39,7 @@ private:
 	float m_rot_x, m_rot_z;
 	float m_zoom, m_zoomTo;
 	double m_time;
+	bool m_realtime;
 	double m_timeStep;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;

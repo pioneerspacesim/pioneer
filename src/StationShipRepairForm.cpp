@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StationShipRepairForm.h"
@@ -60,7 +60,8 @@ void StationShipRepairForm::ShowAll()
 
 int StationShipRepairForm::GetRepairCost(float percent) const
 {
-	return int(Pi::player->GetFlavour()->price * 0.001 * percent);
+	// repairing 1% hull damage costs 0.1% of ship price
+	return int(Pi::player->GetShipType()->baseprice * (percent * 0.001));
 }
 
 void StationShipRepairForm::RepairHull(float percent)

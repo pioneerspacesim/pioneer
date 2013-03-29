@@ -1,19 +1,20 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _REFCOUNTED_H
 #define _REFCOUNTED_H
 
 #include "SmartPtr.h"
+#include "LuaWrappable.h"
 
-class RefCounted {
+class RefCounted : public LuaWrappable {
 public:
 	RefCounted() : m_refCount(0) {}
 	virtual ~RefCounted() {}
 
 	inline void IncRefCount() { m_refCount++; }
 	inline void DecRefCount() { assert(m_refCount > 0); if (! --m_refCount) delete this; }
-	inline int GetRefCount() { return m_refCount; }
+	inline int GetRefCount() const { return m_refCount; }
 
 private:
 	int m_refCount;

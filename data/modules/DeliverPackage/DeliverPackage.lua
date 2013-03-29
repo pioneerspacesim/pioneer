@@ -1,13 +1,16 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Get the translator function
 local t = Translate:GetTranslator()
+-- Get the UI class
+local ui = Engine.ui
 
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 30
 -- typical time for travel to a system max_delivery_dist away
-local typical_travel_time = 0.9 * max_delivery_dist * 24 * 60 * 60
+--	Irigi: ~ 4 days for in-system travel, the rest is FTL travel time
+local typical_travel_time = (1.6 * max_delivery_dist + 4) * 24 * 60 * 60
 -- typical reward for delivery to a system max_delivery_dist away
 local typical_reward = 25 * max_delivery_dist
 
@@ -26,19 +29,20 @@ local onChat = function (form, ref, option)
 	end
 
 	if option == 0 then
-		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.client })
+		form:SetFace(ad.client)
 
 		local sys   = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
 
 		local introtext = string.interp(delivery_flavours[ad.flavour].introtext, {
-			name     = ad.client,
+			name     = ad.client.name,
 			cash     = Format.Money(ad.reward),
 			starport = sbody.name,
 			system   = sys.name,
 			sectorx  = ad.location.sectorX,
 			sectory  = ad.location.sectorY,
 			sectorz  = ad.location.sectorZ,
+			dist     = string.format("%.2f", ad.dist),
 		})
 
 		form:SetMessage(introtext)
@@ -68,7 +72,7 @@ local onChat = function (form, ref, option)
 		ads[ref] = nil
 
 		local mission = {
-			type	 = t("Delivery"),
+			type	 = "Delivery",
 			client	 = ad.client,
 			location = ad.location,
 			risk	 = ad.risk,
@@ -77,8 +81,7 @@ local onChat = function (form, ref, option)
 			flavour	 = ad.flavour
 		}
 
-		local mref = Game.player:AddMission(mission)
-		missions[mref] = mission
+		table.insert(missions,Mission.New(mission))
 
 		form:SetMessage(t("Excellent. I will let the recipient know you are on your way."))
 		form:AddOption(t('HANG_UP'), -1)
@@ -100,10 +103,9 @@ end
 
 local nearbysystems
 local makeAdvert = function (station)
-	local reward, due, location, nearbysystem
+	local reward, due, location, nearbysystem, dist
 	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
-	local isfemale = Engine.rand:Integer(1) == 1
-	local client = NameGen.FullName(isfemale)
+	local client = Character.New()
 	local flavour = Engine.rand:Integer(1,#delivery_flavours)
 	local urgency = delivery_flavours[flavour].urgency
 	local risk = delivery_flavours[flavour].risk
@@ -114,7 +116,7 @@ local makeAdvert = function (station)
 		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
 		if location ==  station.path then return end
 		local locdist = Space.GetBody(location.bodyIndex)
-		local dist = station:DistanceTo(locdist)
+		dist = station:DistanceTo(locdist)
 		if dist < 1000 then return end
 		reward = 25 + (math.sqrt(dist) / 15000) * (1+urgency)
 		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
@@ -124,7 +126,7 @@ local makeAdvert = function (station)
 		end
 		if #nearbysystems == 0 then return end
 		nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
-		local dist = nearbysystem:DistanceTo(Game.system)
+		dist = nearbysystem:DistanceTo(Game.system)
 		local nearbystations = nearbysystem:GetStationPaths()
 		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
 		reward = ((dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * Engine.rand:Number(0.8,1.2))
@@ -136,6 +138,7 @@ local makeAdvert = function (station)
 		flavour		= flavour,
 		client		= client,
 		location	= location,
+		dist            = dist,
 		due		= due,
 		risk		= risk,
 		urgency		= urgency,
@@ -199,11 +202,9 @@ local onEnterSystem = function (player)
 			-- if there is some risk and still no ships, flip a tricoin
 			if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
 
-			local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
-				local mass = t.hullMass
-				return mass >= 100 and mass <= 400
-			end)
-			if #shiptypes == 0 then return end
+			-- XXX hull mass is a bad way to determine suitability for role
+			local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass <= 400 end, pairs(ShipDef)))
+			if #shipdefs == 0 then return end
 
 			local ship
 
@@ -211,33 +212,32 @@ local onEnterSystem = function (player)
 				ships = ships-1
 
 				if Engine.rand:Number(1) <= risk then
-					local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-					local shiptype = ShipType.GetShipType(shipid)
-					local default_drive = shiptype.defaultHyperdrive
+					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
+					local default_drive = shipdef.defaultHyperdrive
 
-					local max_laser_size = shiptype.capacity - EquipType.GetEquipType(default_drive).mass
-					local lasers = EquipType.GetEquipTypes('LASER', function (e,et)
-						return et.mass <= max_laser_size and string.sub(e,0,11) == 'PULSECANNON'
-					end)
-					local laser = lasers[Engine.rand:Integer(1,#lasers)]
+					local max_laser_size = shipdef.capacity - EquipDef[default_drive].mass
+                    local laserdefs = build_array(filter(
+                        function (k,def) return def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(def.id,0,11) == 'PULSECANNON' end,
+                        pairs(EquipDef)
+                    ))
+                    local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
-					ship = Space.SpawnShipNear(shipid, Game.player, 50, 100)
+					ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
 					ship:AddEquip(default_drive)
-					ship:AddEquip(laser)
+					ship:AddEquip(laserdef.id)
 					ship:AIKill(Game.player)
 				end
 			end
 
 			if ship then
 				local pirate_greeting = string.interp(t('PIRATE_TAUNTS')[Engine.rand:Integer(1,#(t('PIRATE_TAUNTS')))], {
-					client = mission.client, location = mission.location,})
+					client = mission.client.name, location = mission.location,})
 				Comms.ImportantMessage(pirate_greeting, ship.label)
 			end
 		end
 
 		if not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
-			player:UpdateMission(ref, mission)
 		end
 	end
 end
@@ -257,18 +257,17 @@ local onShipDocked = function (player, station)
 		if mission.location == station.path then
 
 			if Game.time > mission.due then
-				Comms.ImportantMessage(delivery_flavours[mission.flavour].failuremsg, mission.client)
+				Comms.ImportantMessage(delivery_flavours[mission.flavour].failuremsg, mission.client.name)
 			else
-				Comms.ImportantMessage(delivery_flavours[mission.flavour].successmsg, mission.client)
+				Comms.ImportantMessage(delivery_flavours[mission.flavour].successmsg, mission.client.name)
 				player:AddMoney(mission.reward)
 			end
 
-			player:RemoveMission(ref)
+			mission:Remove()
 			missions[ref] = nil
 
 		elseif not mission.status and Game.time > mission.due then
 			mission.status = 'FAILED'
-			player:UpdateMission(ref, mission)
 		end
 
 	end
@@ -286,12 +285,100 @@ local onGameStart = function ()
 		local ref = ad.station:AddAdvert(ad.desc, onChat, onDelete)
 		ads[ref] = ad
 	end
-	for k,mission in pairs(loaded_data.missions) do
-		local mref = Game.player:AddMission(mission)
-		missions[mref] = mission
-	end
+
+	missions = loaded_data.missions
 
 	loaded_data = nil
+end
+
+local onClick = function (mission)
+	local delivery_flavours = Translate:GetFlavours('DeliverPackage')
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
+
+	if mission.risk <= 0.1 then
+		danger = (t("I highly doubt it."))
+	elseif mission.risk > 0.1 and mission.risk <= 0.3 then
+		danger = (t("Not any more than usual."))
+	elseif mission.risk > 0.3 and mission.risk <= 0.6 then
+		danger = (t("This is a valuable package, you should keep your eyes open."))
+	elseif mission.risk > 0.6 and mission.risk <= 0.8 then
+		danger = (t("It could be dangerous, you should make sure you're adequately prepared."))
+	elseif mission.risk > 0.8 and mission.risk <= 1 then
+		danger = (t("This is very risky, you will almost certainly run into resistance."))
+	end
+
+	return ui:Grid(2,1)
+		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((delivery_flavours[mission.flavour].introtext):interp({
+														name   = mission.client.name,
+														starport = mission.location:GetSystemBody().name,
+														system = mission.location:GetStarSystem().name,
+														sectorx = mission.location.sectorX,
+														sectory = mission.location.sectorY,
+														sectorz = mission.location.sectorZ,
+														cash   = Format.Money(mission.reward),
+														dist  = dist})
+										),
+										ui:Margin(10),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Spaceport:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.location:GetSystemBody().name)
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("System:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Deadline:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(Format.Date(mission.due))
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Danger:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(danger)
+												})
+											}),
+										ui:Margin(5),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Distance:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(dist.." "..t("ly"))
+												})
+											}),
+		})})
+		:SetColumn(1, {
+			ui:VBox(10):PackEnd(UI.InfoFace.New(mission.client))
+		})
 end
 
 local onGameEnd = function ()
@@ -313,5 +400,7 @@ Event.Register("onLeaveSystem", onLeaveSystem)
 Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
+
+Mission.RegisterType('Delivery','Delivery',onClick)
 
 Serializer:Register("DeliverPackage", serialize, unserialize)

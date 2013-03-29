@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CollisionSpace.h"
@@ -112,6 +112,7 @@ void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb, int minMailboxValue, vo
 					if (!g2->IsEnabled()) continue;
 					if (g2->GetMailboxIndex() < minMailboxValue) continue;
 					if (g2 == g) continue;
+					if (g->GetGroup() && g2->GetGroup() == g->GetGroup()) continue;
 					double radius2 = g2->GetGeomTree()->GetRadius();
 					vector3d pos2 = g2->GetPosition();
 					if ((pos-pos2).Length() <= (radius + radius2)) {
@@ -192,6 +193,8 @@ void BvhTree::BuildNode(BvhNode *node, const std::list<Geom*> &a_geoms, int &out
 }
 
 ///////////////////////////////////////////////////////////////////////
+
+int CollisionSpace::s_nextHandle = 1;
 
 CollisionSpace::CollisionSpace()
 {

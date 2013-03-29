@@ -1,13 +1,16 @@
+//material uniform parameters
+struct Material {
+	vec4 diffuse;
+	vec4 emission;
+	vec4 specular;
+	float shininess;
+};
+
 #ifdef FRAGMENT_SHADER
 //scene uniform parameters
 struct Scene {
 	vec4 ambient;
 };
-
-//material uniform parameters
-//struct Material {
-//	...
-//};
 
 //Currently used by: planet ring shader, geosphere shaders
 float findSphereEyeRayEntryDistance(in vec3 sphereCenter, in vec3 eyeTo, in float radius)
@@ -45,7 +48,7 @@ float AtmosLengthDensityProduct(vec3 a, vec3 b, float surfaceDensity, float len,
 			exp(-invScaleHeight*(length(a + 0.4*dir)-1.0)) +
 			exp(-invScaleHeight*(length(a + 0.6*dir)-1.0)) +
 			exp(-invScaleHeight*(length(a + 0.8*dir)-1.0)) +
-			exp(-invScaleHeight*(length(b)-1.0)));
+			exp(-invScaleHeight*max(length(b)-1.0, 0.0)));
 	ldprod *= len;
 	return ldprod;
 }

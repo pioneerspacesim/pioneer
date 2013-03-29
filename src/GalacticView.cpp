@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -120,8 +120,8 @@ void GalacticView::Draw3D()
 
 	// "you are here" dot
 	Color green(0.f, 1.f, 0.f, 1.f);
-	vector2f offs(offset_x, offset_y);
-	m_renderer->DrawPoints2D(1, &offs, &green, 3.f);
+	vector3f offs(offset_x, offset_y, 0.f);
+	m_renderer->DrawPoints(1, &offs, &green, 3.f);
 
 	// scale at the top
 	m_renderer->SetTransform(matrix4x4f::Identity());

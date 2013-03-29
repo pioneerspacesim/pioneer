@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _RENDERER_H
@@ -114,7 +114,6 @@ public:
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE) { return false; }
 	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, LineType type=LINE_SINGLE) { return false; }
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, float pointSize=1.f) { return false; }
-	virtual bool DrawPoints2D(int count, const vector2f *points, const Color *colors, float pointSize=1.f) { return false; }
 	//unindexed triangle draw
 	virtual bool DrawTriangles(const VertexArray *vertices, Material *material, PrimitiveType type=TRIANGLES)  { return false; }
 	//indexed triangle draw
@@ -131,6 +130,7 @@ public:
 	Texture *GetCachedTexture(const std::string &type, const std::string &name);
 	void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);
 	void RemoveCachedTexture(const std::string &type, const std::string &name);
+	void RemoveAllCachedTextures();
 
 	// output human-readable debug info to the given stream
 	virtual bool PrintDebugInfo(std::ostream &out) { return false; }
@@ -162,7 +162,6 @@ private:
 	typedef std::map<TextureCacheKey,RefCountedPtr<Texture>*> TextureCacheMap;
 	TextureCacheMap m_textures;
 
-	void RemoveAllCachedTextures();
 };
 
 // subclass this to store renderer specific information
@@ -174,7 +173,7 @@ struct RenderInfo {
 
 // baseclass for a renderable thing. so far it just means that the renderer
 // can store renderer-specific data in it (RenderInfo)
-struct Renderable {
+struct Renderable : public RefCounted {
 public:
 	Renderable(): m_renderInfo(0) {}
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MultiLineText.h"
@@ -10,24 +10,28 @@ namespace UI {
 MultiLineText::MultiLineText(Context *context, const std::string &text) : Widget(context), m_text(text)
 {
 	m_layout.Reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
+
+	SetSizeControlFlags(EXPAND_WIDTH);
 }
 
 Point MultiLineText::PreferredSize()
 {
 	if (m_preferredSize != Point())
 		return m_preferredSize;
-	return Point(SIZE_EXPAND);
+	return Point();
 }
 
 void MultiLineText::Layout()
 {
-	m_preferredSize = m_layout->ComputeSize(GetSize());
+	const Point newSize(m_layout->ComputeSize(GetSize()));
+	if (m_preferredSize != newSize) GetContext()->RequestLayout();
+	m_preferredSize = newSize;
 	SetActiveArea(m_preferredSize);
 }
 
 void MultiLineText::Draw()
 {
-	m_layout->Draw(GetSize());
+	m_layout->Draw(GetSize(), GetDrawOffset(), GetContext()->GetScissor());
 }
 
 Widget *MultiLineText::SetFont(Font font) {

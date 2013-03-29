@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _RENDERER_LEGACY_H
@@ -51,7 +51,6 @@ public:
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, LineType type=LINE_SINGLE);
 	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, LineType type=LINE_SINGLE);
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, float pointSize=1.f);
-	virtual bool DrawPoints2D(int count, const vector2f *points, const Color *colors, float pointSize=1.f);
 	virtual bool DrawTriangles(const VertexArray *vertices, Material *material, PrimitiveType type=TRIANGLES);
 	virtual bool DrawSurface(const Surface *surface);
 	virtual bool DrawPointSprites(int count, const vector3f *positions, Material *material, float size);
@@ -78,6 +77,9 @@ protected:
 	float m_minZNear;
 	float m_maxZFar;
 	bool m_useCompressedTextures;
+
+	matrix4x4f& GetCurrentTransform() { return m_currentTransform; }
+	matrix4x4f m_currentTransform;
 };
 
 }

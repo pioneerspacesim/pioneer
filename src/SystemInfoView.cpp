@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Pi.h"
@@ -15,6 +15,7 @@
 #include "Game.h"
 #include "graphics/Renderer.h"
 #include "graphics/Drawables.h"
+#include "Factions.h"
 
 SystemInfoView::SystemInfoView()
 {
@@ -236,7 +237,7 @@ void SystemInfoView::PutBodies(SystemBody *body, Gui::Fixed *container, int dir,
 
 void SystemInfoView::OnClickBackground(Gui::MouseButtonEvent *e)
 {
-	if (e->isdown) {
+	if (e->isdown && e->button == SDL_BUTTON_LEFT) {
 		// XXX reinit view unnecessary - we only want to show
 		// the general system info text...
 		m_refresh = true;
@@ -255,7 +256,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 
 	m_sbodyInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-100));
 
-	if (m_system->m_unexplored) {
+	if (m_system->GetUnexplored()) {
 		Add(m_sbodyInfoTab, 0, 0);
 
 		std::string _info =
@@ -285,17 +286,17 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		float pos[2] = { 0, 0 };
 		float psize = -1;
 		majorBodies = starports = onSurface = 0;
-		PutBodies(m_system->rootBody, m_econInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
+		PutBodies(m_system->rootBody.Get(), m_econInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
 
 		majorBodies = starports = onSurface = 0;
 		pos[0] = pos[1] = 0;
 		psize = -1;
-		PutBodies(m_system->rootBody, m_sbodyInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
+		PutBodies(m_system->rootBody.Get(), m_sbodyInfoTab, 1, pos, majorBodies, starports, onSurface, psize);
 
 		majorBodies = starports = onSurface = 0;
 		pos[0] = pos[1] = 0;
 		psize = -1;
-		PutBodies(m_system->rootBody, demographicsTab, 1, pos, majorBodies, starports, onSurface, psize);
+		PutBodies(m_system->rootBody.Get(), demographicsTab, 1, pos, majorBodies, starports, onSurface, psize);
 	}
 
 	std::string _info = stringf(
@@ -381,11 +382,10 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		col2->Add(new Gui::Label(m_system->GetSysPolit().GetEconomicDesc()), 0, 3*YSEP);
 
 		col1->Add((new Gui::Label(Lang::ALLEGIANCE))->Color(1,1,0), 0, 4*YSEP);
-		col2->Add(new Gui::Label(m_system->GetAllegianceDesc()), 0, 4*YSEP);
-
+		col2->Add(new Gui::Label(m_system->GetFaction()->name.c_str()), 0, 4*YSEP);
 		col1->Add((new Gui::Label(Lang::POPULATION))->Color(1,1,0), 0, 5*YSEP);
 		std::string popmsg;
-		fixed pop = m_system->m_totalPop;
+		fixed pop = m_system->GetTotalPop();
 		if (pop >= fixed(1,1)) { popmsg = stringf(Lang::OVER_N_BILLION, formatarg("population", pop.ToInt32())); }
 		else if (pop >= fixed(1,1000)) { popmsg = stringf(Lang::OVER_N_MILLION, formatarg("population", (pop*1000).ToInt32())); }
 		else if (pop != fixed(0)) { popmsg = Lang::A_FEW_THOUSAND; }

@@ -1,4 +1,4 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
   ---- ENGLISH / ENGLISH ----
@@ -50,5 +50,35 @@ Translate:Add({
 		['Cannot compensate for local gravity'] = 'Nem kompenzálható a helyi gravitáció',
 		['Starport refused docking permission'] = 'A kikötő nem adott dokkolási engedélyt',
 		['Cannot compute orbit parameters']     = 'Nem lehet kiszámítani a keringési paramétereket',
+	}
+})
+
+  ---- RUSSIAN / РУССКИЙ ----
+
+Translate:Add({
+	Russian = {
+		['Cannot compensate for local gravity'] = 'Невозможно компенсировать местную гравитацию',
+		['Starport refused docking permission'] = 'База отказала в разрешении на стыковку',
+		['Cannot compute orbit parameters']     = 'Не удается вычислить параметры орбиты',
+	}
+})
+
+  ---- GERMAN / DEUTSCH ----
+
+Translate:Add({
+	Deutsch = {
+		['Cannot compensate for local gravity'] = 'Lokale Anziehungskraft kann nicht kompensiert werden',
+		['Starport refused docking permission'] = 'Andocken an den Starport verweigert',
+		['Cannot compute orbit parameters']     = 'Bahnparameter konnten nicht berechnet werden',
+	}
+})
+
+  ---- CZECH / ČESKY ----
+
+Translate:Add({
+	Czech = {
+		['Cannot compensate for local gravity'] = 'Lokální gravitaci nelze kompenzovat',
+		['Starport refused docking permission'] = 'Stanice zamítla povolení k přistání',
+		['Cannot compute orbit parameters']     = 'Orbitální parametry nelze vypočítat',
 	}
 })

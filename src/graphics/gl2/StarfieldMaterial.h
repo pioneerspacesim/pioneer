@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GL2_STARFIELD_MATERIAL_H
@@ -11,7 +11,7 @@
 #include "libs.h"
 #include "Material.h"
 #include "Program.h"
- 
+
 namespace Graphics {
 	namespace GL2 {
 		class StarfieldMaterial : public Material {

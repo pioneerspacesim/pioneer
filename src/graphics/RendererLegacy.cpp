@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RendererLegacy.h"
@@ -66,6 +66,7 @@ RendererLegacy::RendererLegacy(const Graphics::Settings &vs)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	glAlphaFunc(GL_GREATER, 0.5f);
 
 	SetClearColor(Color(0.f));
 	SetViewport(0, 0, m_width, m_height);
@@ -168,6 +169,10 @@ bool RendererLegacy::SetViewport(int x, int y, int width, int height)
 
 bool RendererLegacy::SetTransform(const matrix4x4d &m)
 {
+	//XXX this is not pretty but there's no standard way of converting between them.
+	for (int i=0; i<16; ++i) {
+		m_currentTransform[i] = m[i];
+	}
 	//XXX you might still need the occasional push/pop
 	//GL2+ or ES2 renderers can forego the classic matrix stuff entirely and use uniforms
 	glMatrixMode(GL_MODELVIEW);
@@ -178,6 +183,7 @@ bool RendererLegacy::SetTransform(const matrix4x4d &m)
 bool RendererLegacy::SetTransform(const matrix4x4f &m)
 {
 	//same as above
+	m_currentTransform = m;
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(&m[0]);
 	return true;
@@ -185,6 +191,8 @@ bool RendererLegacy::SetTransform(const matrix4x4f &m)
 
 bool RendererLegacy::SetPerspectiveProjection(float fov, float aspect, float near, float far)
 {
+	Graphics::SetFOV(fov);
+
 	double ymax = near * tan(fov * M_PI / 360.0);
 	double ymin = -ymax;
 	double xmin = ymin * aspect;
@@ -275,7 +283,6 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 		};
 		glLightfv(GL_LIGHT0+i, GL_POSITION, pos);
 		glLightfv(GL_LIGHT0+i, GL_DIFFUSE, l.GetDiffuse());
-		glLightfv(GL_LIGHT0+i, GL_AMBIENT, l.GetAmbient());
 		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular());
 		glEnable(GL_LIGHT0+i);
 
@@ -285,9 +292,6 @@ bool RendererLegacy::SetLights(int numlights, const Light *lights)
 		assert(m_numDirLights < 5);
 	}
 	//XXX should probably disable unused lights (for legacy renderer only)
-
-	Graphics::State::SetLights(numlights, lights);
-	
 	return true;
 }
 
@@ -394,25 +398,6 @@ bool RendererLegacy::DrawPoints(int count, const vector3f *points, const Color *
 	return true;
 }
 
-bool RendererLegacy::DrawPoints2D(int count, const vector2f *points, const Color *colors, float size)
-{
-	if (count < 1 || !points || !colors) return false;
-
-	glDisable(GL_LIGHTING);
-
-	glPointSize(size);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(2, GL_FLOAT, 0, points);
-	glColorPointer(4, GL_FLOAT, 0, colors);
-	glDrawArrays(GL_POINTS, 0, count);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glPointSize(1.f); // XXX wont't be necessary
-
-	return true;
-}
-
 bool RendererLegacy::DrawTriangles(const VertexArray *v, Material *m, PrimitiveType t)
 {
 	if (!v || v->position.size() < 3) return false;
@@ -450,12 +435,10 @@ bool RendererLegacy::DrawPointSprites(int count, const vector3f *positions, Mate
 {
 	if (count < 1 || !material || !material->texture0) return false;
 
-	SetBlendMode(BLEND_ALPHA_ONE);
 	SetDepthWrite(false);
 	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0, count * 6);
 
-	matrix4x4f rot;
-	glGetFloatv(GL_MODELVIEW_MATRIX, &rot[0]);
+	matrix4x4f rot(GetCurrentTransform());
 	rot.ClearToRotOnly();
 	rot = rot.InverseOf();
 
@@ -565,10 +548,10 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 {
 	const AttributeSet set = mesh->GetAttributeSet();
 	bool background = false;
-	bool lmr = false;
+	bool model = false;
 	//XXX does this really have to support every case. I don't know.
 	if (set == (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0))
-		lmr = true;
+		model = true;
 	else if (set == (ATTRIB_POSITION | ATTRIB_DIFFUSE))
 		background = true;
 	else
@@ -580,8 +563,8 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 	const int totalVertices = mesh->GetNumVerts();
 
 	//surfaces should have a matching vertex specification!!
-	//XXX just take vertices from the first surface as a LMR hack
-	bool lmrHack = false;
+
+	int indexAdjustment = 0;
 
 	VertexBuffer *buf = 0;
 	for (StaticMesh::SurfaceIterator surface = mesh->SurfacesBegin(); surface != mesh->SurfacesEnd(); ++surface) {
@@ -589,7 +572,7 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 		const VertexArray *va = (*surface)->GetVertices();
 
 		int offset = 0;
-		if (lmr && !lmrHack) {
+		if (model) {
 			ScopedArray<ModelVertex> vts(new ModelVertex[numsverts]);
 			for(int j=0; j<numsverts; j++) {
 				vts[j].position = va->position[j];
@@ -601,7 +584,6 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 				buf = new VertexBuffer(totalVertices);
 			buf->Bind();
 			buf->BufferData<ModelVertex>(numsverts, vts.Get());
-			lmrHack = true;
 		} else if (background) {
 			ScopedArray<UnlitVertex> vts(new UnlitVertex[numsverts]);
 			for(int j=0; j<numsverts; j++) {
@@ -623,12 +605,21 @@ bool RendererLegacy::BufferStaticMesh(StaticMesh *mesh)
 		//buffer indices from each surface, if in use
 		if ((*surface)->IsIndexed()) {
 			assert(background == false);
+
+			//XXX should do this adjustment in RendererGL2Buffers
+			const unsigned short *originalIndices = (*surface)->GetIndexPointer();
+			std::vector<unsigned short> adjustedIndices((*surface)->GetNumIndices());
+			for (int i = 0; i < (*surface)->GetNumIndices(); ++i)
+				adjustedIndices[i] = originalIndices[i] + indexAdjustment;
+
 			if (!meshInfo->ibuf)
 				meshInfo->ibuf = new IndexBuffer(mesh->GetNumIndices());
 			meshInfo->ibuf->Bind();
-			const int ioffset = meshInfo->ibuf->BufferIndexData((*surface)->GetNumIndices(), (*surface)->GetIndexPointer());
+			const int ioffset = meshInfo->ibuf->BufferIndexData((*surface)->GetNumIndices(), &adjustedIndices[0]);
 			surfaceInfo->glOffset = ioffset;
 			surfaceInfo->glAmount = (*surface)->GetNumIndices();
+
+			indexAdjustment += (*surface)->GetNumVerts();
 		}
 	}
 	assert(buf);
@@ -646,6 +637,8 @@ Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 		m = new StarfieldMaterialLegacy();
 		break;
 	case EFFECT_GEOSPHERE_TERRAIN:
+	case EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA:
+	case EFFECT_GEOSPHERE_TERRAIN_WITH_WATER:
 		m = new GeoSphereSurfaceMaterialLegacy();
 		break;
 	default:
@@ -655,6 +648,7 @@ Material *RendererLegacy::CreateMaterial(const MaterialDescriptor &desc)
 	m->vertexColors = desc.vertexColors;
 	m->unlit = !desc.lighting;
 	m->twoSided = desc.twoSided;
+	m->m_descriptor = desc;
 	return m;
 }
 
@@ -662,7 +656,6 @@ Texture *RendererLegacy::CreateTexture(const TextureDescriptor &descriptor)
 {
 	return new TextureGL(descriptor, m_useCompressedTextures);
 }
-
 
 // XXX very heavy. in the future when all GL calls are made through the
 // renderer, we can probably do better by trackingn current state and
@@ -673,7 +666,7 @@ void RendererLegacy::PushState()
 	glPushMatrix();
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 }
 
 void RendererLegacy::PopState()

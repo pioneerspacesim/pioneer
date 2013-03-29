@@ -1,8 +1,10 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Get the translator function
 local t = Translate:GetTranslator()
+-- Get the UI class
+local ui = Engine.ui
 
 -- don't produce missions for further than this many light years away
 local max_ass_dist = 30
@@ -39,13 +41,14 @@ local onChat = function (form, ref, option)
 		local sys = ad.location:GetStarSystem()
 		local sbody = ad.location:GetSystemBody()
 
-		form:SetMessage(string.interp(t("{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."), {
+		form:SetMessage(string.interp(t("{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."), {
 		  target    = ad.target,
 		  spaceport = sbody.name,
 		  system    = sys.name,
 		  sectorX   = ad.location.sectorX,
 		  sectorY   = ad.location.sectorY,
 		  sectorZ   = ad.location.sectorZ,
+		  dist      = string.format("%.2f", ad.dist),
 		  date      = Format.Date(ad.due),
 		  shipname  = ad.shipname,
 		  shipregid = ad.shipregid,
@@ -69,10 +72,9 @@ local onChat = function (form, ref, option)
 		ads[ref] = nil
 
 		local mission = {
-			type		= t("Assassination"),
+			type		= "Assassination",
 			backstation	= backstation,
-			boss		= ad.client.name,
-			client		= ad.shipname .. "\n(" .. ad.shipregid .. ")",
+			client		= ad.client,
 			danger		= ad.danger,
 			due		= ad.due,
 			flavour		= ad.flavour,
@@ -85,8 +87,7 @@ local onChat = function (form, ref, option)
 			target		= ad.target,
 		}
 
-		local mref = Game.player:AddMission(mission)
-		missions[mref] = mission
+		table.insert(missions,Mission.New(mission))
 
 		form:SetMessage(t("Excellent."))
 		form:AddOption(t('HANG_UP'), -1)
@@ -124,14 +125,18 @@ local makeAdvert = function (station)
 	local nearbysystem = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
 	local nearbystations = nearbysystem:GetStationPaths()
 	local location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
+	local dist = location:DistanceTo(Game.system)
 	local time = Engine.rand:Number(0.3, 3)
 	local due = Game.time + Engine.rand:Number(7*60*60*24, time * 31*60*60*24)
 	local danger = Engine.rand:Integer(1,4)
 	local reward = Engine.rand:Number(2100, 7000) * danger
-	local shiptypes = ShipType.GetShipTypes('SHIP', function (t)
-		return (t.hullMass >= (danger * 17)) and (t:GetEquipSlotCapacity('ATMOSHIELD') > 0) end)
-	local shipid = shiptypes[Engine.rand:Integer(1,#shiptypes)]
-	local shipname = ShipType.GetShipType(shipid).name
+
+	-- XXX hull mass is a bad way to determine suitability for role
+	--local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
+	local shipdefs = build_array(filter(function (k,def) return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE' and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
+	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
+	local shipid = shipdef.id
+	local shipname = shipdef.name
 
 	local ad = {
 		client = client,
@@ -141,6 +146,7 @@ local makeAdvert = function (station)
 		flavour = flavour,
 		isfemale = isfemale,
 		location = location,
+		dist = dist,
 		reward = reward,
 		shipid = shipid,
 		shipname = shipname,
@@ -188,12 +194,10 @@ local onShipDestroyed = function (ship, body)
 				mission.notplayer = 'TRUE'
 			else -- well done, comrade
 				mission.status = 'COMPLETED'
-				mission.client = mission.boss
 				mission.location = mission.backstation
 				mission.notplayer = 'FALSE'
 			end
 			mission.ship = nil
-			Game.player:UpdateMission(ref, mission)
 			return
 		end
 	end
@@ -221,11 +225,11 @@ local onEnterSystem = function (ship)
 				if mission.due > Game.time then
 					if mission.location:IsSameSystem(syspath) then -- spawn our target ship
 						local station = Space.GetBody(mission.location.bodyIndex)
-						local shiptype = ShipType.GetShipType(mission.shipid)
+						local shiptype = ShipDef[mission.shipid]
 						local default_drive = shiptype.defaultHyperdrive
-						local lasers = EquipType.GetEquipTypes('LASER', function (e,et) return et.slot == "LASER" end)
+						local laserdefs = build_array(filter(function (k,def) return def.slot == 'LASER' end, pairs(EquipDef)))
+						local laserdef = laserdefs[mission.danger]
 						local count = tonumber(string.sub(default_drive, -1)) ^ 2
-						local laser = lasers[mission.danger]
 
 						mission.ship = Space.SpawnShipDocked(mission.shipid, station)
 						if mission.ship == nil then
@@ -234,7 +238,7 @@ local onEnterSystem = function (ship)
 						mission.ship:SetLabel(mission.shipregid)
 						mission.ship:AddEquip('ATMOSPHERIC_SHIELDING')
 						mission.ship:AddEquip(default_drive)
-						mission.ship:AddEquip(laser)
+						mission.ship:AddEquip(laserdef.id)
 						mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
 						mission.ship:AddEquip('HYDROGEN', count)
 						if mission.danger > 2 then
@@ -248,14 +252,12 @@ local onEnterSystem = function (ship)
 					end
 				else	-- too late
 					mission.status = 'FAILED'
-					ship:UpdateMission(ref, mission)
 				end
 			else
 				if not mission.ship:exists() then
 					mission.ship = nil
 					if mission.due < Game.time then
 						mission.status = 'FAILED'
-						ship:UpdateMission(ref, mission)
 					end
 				end
 			end
@@ -280,9 +282,9 @@ local onShipDocked = function (ship, station)
 					target	= mission.target,
 					cash	= Format.Money(mission.reward),
 				})
-				Comms.ImportantMessage(text, mission.boss)
+				Comms.ImportantMessage(text, mission.client.name)
 				ship:AddMoney(mission.reward)
-				ship:RemoveMission(ref)
+				mission:Remove()
 				missions[ref] = nil
 			elseif mission.status == 'FAILED' then
 				local ass_flavours = Translate:GetFlavours('Assassination')
@@ -296,14 +298,13 @@ local onShipDocked = function (ship, station)
 						target	= mission.target,
 					})
 				end
-				Comms.ImportantMessage(text, mission.boss)
-				ship:RemoveMission(ref)
+				Comms.ImportantMessage(text, mission.client.name)
+				mission:Remove()
 				missions[ref] = nil
 			end
 		else
 			if mission.ship == ship then
 				mission.status = 'FAILED'
-				Game.player:UpdateMission(ref, mission)
 			end
 		end
 		return
@@ -395,16 +396,110 @@ local onGameStart = function ()
 		local ref = ad.station:AddAdvert(ad.desc, onChat, onDelete)
 		ads[ref] = ad
 	end
-	for k,mission in pairs(loaded_data.missions) do
-		local mref = Game.player:AddMission(mission)
-		missions[mref] = mission
-	end
+
+	missions = loaded_data.missions
 
 	loaded_data = nil
 end
 
 local onGameEnd = function ()
 	nearbysystems = nil
+end
+
+local onClick = function (mission)
+	local ass_flavours = Translate:GetFlavours('Assassination')
+	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
+	return ui:Grid(2,1)
+		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((ass_flavours[mission.flavour].introtext):interp({
+														name   = mission.client.name,
+														target = mission.target,
+														system = mission.location:GetStarSystem().name,
+														cash   = Format.Money(mission.reward),
+														dist  = dist})
+										),
+										ui:Margin(10),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Target name:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.target)
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Spaceport:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.location:GetSystemBody().name)
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("System:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Ship:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.shipname)
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Ship ID:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(mission.shipregid),
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(t("Target will be leaving spaceport at:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(Format.Date(mission.due))
+												})
+											}),
+										ui:Margin(5),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Distance:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(dist.." "..t("ly"))
+												})
+											}),
+		})})
+		:SetColumn(1, {
+			ui:VBox(10):PackEnd(UI.InfoFace.New(mission.client))
+		})
 end
 
 local serialize = function ()
@@ -435,5 +530,6 @@ Event.Register("onShipHit", onShipHit)
 Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onGameEnd", onGameEnd)
 
+Mission.RegisterType('Assassination','Assassination',onClick)
 
 Serializer:Register("Assassination", serialize, unserialize)

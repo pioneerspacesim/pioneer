@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Label.h"
@@ -26,7 +26,9 @@ void Label::Layout()
 
 void Label::Draw()
 {
-	GetContext()->GetFont(GetFont())->RenderString(m_text.c_str(), 0.0f, 0.0f);
+	static const Color normalColor(Color::WHITE);
+	static const Color disabledColor(0.8f, 0.8f, 0.8f, 1.0f);
+	GetContext()->GetFont(GetFont())->RenderString(m_text.c_str(), 0.0f, 0.0f, IsDisabled() ? disabledColor : normalColor);
 }
 
 Label *Label::SetText(const std::string &text)

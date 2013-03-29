@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2F9812C7-6AE4-461C-B3D5-726566E2D7BF}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>uitest</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\..\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_USE_MATH_DEFINES</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_USE_MATH_DEFINES</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../src;../../win32/src;../../win32/include;../../contrib</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sdl.lib;sdlmain.lib;sigc-vc2010-2_2_8.lib;opengl32.lib;glew32.lib;glu32.lib;SDL_image.lib;freetype2312MT.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../win32/lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Color.cpp" />
+    <ClCompile Include="..\..\src\FileSystem.cpp" />
+    <ClCompile Include="..\..\src\graphics\Drawables.cpp" />
+    <ClCompile Include="..\..\src\graphics\Frustum.cpp" />
+    <ClCompile Include="..\..\src\graphics\Graphics.cpp" />
+    <ClCompile Include="..\..\src\graphics\Material.cpp" />
+    <ClCompile Include="..\..\src\graphics\MaterialGL2.cpp" />
+    <ClCompile Include="..\..\src\graphics\Renderer.cpp" />
+    <ClCompile Include="..\..\src\graphics\RendererGL2.cpp" />
+    <ClCompile Include="..\..\src\graphics\RendererLegacy.cpp" />
+    <ClCompile Include="..\..\src\graphics\Shader.cpp" />
+    <ClCompile Include="..\..\src\graphics\StaticMesh.cpp" />
+    <ClCompile Include="..\..\src\graphics\TextureBuilder.cpp" />
+    <ClCompile Include="..\..\src\graphics\TextureGL.cpp" />
+    <ClCompile Include="..\..\src\graphics\VertexArray.cpp" />
+    <ClCompile Include="..\..\src\gui\GuiTexturedQuad.cpp" />
+    <ClCompile Include="..\..\src\SDLWrappers.cpp" />
+    <ClCompile Include="..\..\src\text\Font.cpp" />
+    <ClCompile Include="..\..\src\text\TextSupport.cpp" />
+    <ClCompile Include="..\..\src\text\TextureFont.cpp" />
+    <ClCompile Include="..\..\src\text\VectorFont.cpp" />
+    <ClCompile Include="..\..\src\uitest.cpp" />
+    <ClCompile Include="..\..\src\ui\Background.cpp" />
+    <ClCompile Include="..\..\src\ui\Box.cpp" />
+    <ClCompile Include="..\..\src\ui\Button.cpp" />
+    <ClCompile Include="..\..\src\ui\CheckBox.cpp" />
+    <ClCompile Include="..\..\src\ui\ColorBackground.cpp" />
+    <ClCompile Include="..\..\src\ui\Container.cpp" />
+    <ClCompile Include="..\..\src\ui\Context.cpp" />
+    <ClCompile Include="..\..\src\ui\DropDown.cpp" />
+    <ClCompile Include="..\..\src\ui\EventDispatcher.cpp" />
+    <ClCompile Include="..\..\src\ui\Grid.cpp" />
+    <ClCompile Include="..\..\src\ui\Image.cpp" />
+    <ClCompile Include="..\..\src\ui\Label.cpp" />
+    <ClCompile Include="..\..\src\ui\List.cpp" />
+    <ClCompile Include="..\..\src\ui\Margin.cpp" />
+    <ClCompile Include="..\..\src\ui\MultiLineText.cpp" />
+    <ClCompile Include="..\..\src\ui\Scroller.cpp" />
+    <ClCompile Include="..\..\src\ui\Single.cpp" />
+    <ClCompile Include="..\..\src\ui\Skin.cpp" />
+    <ClCompile Include="..\..\src\ui\Slider.cpp" />
+    <ClCompile Include="..\..\src\ui\TextLayout.cpp" />
+    <ClCompile Include="..\..\src\ui\Widget.cpp" />
+    <ClCompile Include="..\src\FileSystemWin32.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\Color.h" />
+    <ClInclude Include="..\..\src\FileSystem.h" />
+    <ClInclude Include="..\..\src\graphics\Drawables.h" />
+    <ClInclude Include="..\..\src\graphics\Frustum.h" />
+    <ClInclude Include="..\..\src\graphics\Graphics.h" />
+    <ClInclude Include="..\..\src\graphics\Material.h" />
+    <ClInclude Include="..\..\src\graphics\MaterialGL2.h" />
+    <ClInclude Include="..\..\src\graphics\Renderer.h" />
+    <ClInclude Include="..\..\src\graphics\RendererGL2.h" />
+    <ClInclude Include="..\..\src\graphics\RendererGLBuffers.h" />
+    <ClInclude Include="..\..\src\graphics\RendererLegacy.h" />
+    <ClInclude Include="..\..\src\graphics\Shader.h" />
+    <ClInclude Include="..\..\src\graphics\StaticMesh.h" />
+    <ClInclude Include="..\..\src\graphics\Surface.h" />
+    <ClInclude Include="..\..\src\graphics\Texture.h" />
+    <ClInclude Include="..\..\src\graphics\TextureBuilder.h" />
+    <ClInclude Include="..\..\src\graphics\TextureGL.h" />
+    <ClInclude Include="..\..\src\graphics\VertexArray.h" />
+    <ClInclude Include="..\..\src\gui\GuiTexturedQuad.h" />
+    <ClInclude Include="..\..\src\SDLWrappers.h" />
+    <ClInclude Include="..\..\src\text\Font.h" />
+    <ClInclude Include="..\..\src\text\FontDescriptor.h" />
+    <ClInclude Include="..\..\src\text\TextSupport.h" />
+    <ClInclude Include="..\..\src\text\TextureFont.h" />
+    <ClInclude Include="..\..\src\text\VectorFont.h" />
+    <ClInclude Include="..\..\src\ui\Background.h" />
+    <ClInclude Include="..\..\src\ui\Box.h" />
+    <ClInclude Include="..\..\src\ui\Button.h" />
+    <ClInclude Include="..\..\src\ui\CellSpec.h" />
+    <ClInclude Include="..\..\src\ui\CheckBox.h" />
+    <ClInclude Include="..\..\src\ui\ColorBackground.h" />
+    <ClInclude Include="..\..\src\ui\Container.h" />
+    <ClInclude Include="..\..\src\ui\Context.h" />
+    <ClInclude Include="..\..\src\ui\DropDown.h" />
+    <ClInclude Include="..\..\src\ui\Event.h" />
+    <ClInclude Include="..\..\src\ui\EventDispatcher.h" />
+    <ClInclude Include="..\..\src\ui\Grid.h" />
+    <ClInclude Include="..\..\src\ui\Image.h" />
+    <ClInclude Include="..\..\src\ui\Label.h" />
+    <ClInclude Include="..\..\src\ui\List.h" />
+    <ClInclude Include="..\..\src\ui\Margin.h" />
+    <ClInclude Include="..\..\src\ui\MultiLineText.h" />
+    <ClInclude Include="..\..\src\ui\Scroller.h" />
+    <ClInclude Include="..\..\src\ui\Single.h" />
+    <ClInclude Include="..\..\src\ui\Skin.h" />
+    <ClInclude Include="..\..\src\ui\Slider.h" />
+    <ClInclude Include="..\..\src\ui\TextLayout.h" />
+    <ClInclude Include="..\..\src\ui\Widget.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

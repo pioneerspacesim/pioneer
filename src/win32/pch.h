@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -46,12 +46,11 @@
 #include "gui/GuiVScrollBar.h"
 #include "gui/GuiVScrollPortal.h"
 #include "gui/GuiWidget.h"
-#include "InfoView.h"
 #include "libs.h"
 #include "MarketAgent.h"
 #include "matrix4x4.h"
 #include "ModelBody.h"
-#include "mtrand.h"
+#include "Random.h"
 #include "Object.h"
 #include "ObjectViewerView.h"
 #include "perlin.h"

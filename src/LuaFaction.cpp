@@ -1,9 +1,7 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
-#include "LuaFaction.h"
-#include "LuaSystemPath.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Factions.h"
@@ -31,7 +29,7 @@
  */
 static int l_faction_attr_name(lua_State *l)
 {
-	const Faction *faction = LuaFaction::CheckFromLua(1);
+	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
 	lua_pushlstring(l, faction->name.c_str(), faction->name.size());
 	return 1;
 }
@@ -51,7 +49,7 @@ static int l_faction_attr_name(lua_State *l)
  */
 static int l_faction_attr_description_short(lua_State *l)
 {
-	const Faction *faction = LuaFaction::CheckFromLua(1);
+	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
 	lua_pushlstring(l, faction->description_short.c_str(), faction->description_short.size());
 	return 1;
 }
@@ -71,7 +69,7 @@ static int l_faction_attr_description_short(lua_State *l)
  */
 static int l_faction_attr_description(lua_State *l)
 {
-	const Faction *faction = LuaFaction::CheckFromLua(1);
+	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
 	lua_pushlstring(l, faction->description.c_str(), faction->description.size());
 	return 1;
 }
@@ -91,7 +89,7 @@ static int l_faction_attr_description(lua_State *l)
  */
 static int l_faction_attr_has_homeworld(lua_State *l)
 {
-	const Faction *faction = LuaFaction::CheckFromLua(1);
+	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
 	lua_pushboolean(l, faction->hasHomeworld);
 	return 1;
 }
@@ -111,8 +109,8 @@ static int l_faction_attr_has_homeworld(lua_State *l)
  */
 static int l_faction_attr_homeworld(lua_State *l)
 {
-	Faction *faction = LuaFaction::CheckFromLua(1);
-	LuaSystemPath::PushToLua(&faction->homeworld);
+	Faction *faction = LuaObject<Faction>::CheckFromLua(1);
+	LuaObject<SystemPath>::PushToLua(faction->homeworld);
 	return 1;
 }
 
@@ -132,7 +130,7 @@ static int l_faction_attr_homeworld(lua_State *l)
  */
 static int l_faction_attr_founding_date(lua_State *l)
 {
-	const Faction *faction = LuaFaction::CheckFromLua(1);
+	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
 	lua_pushnumber(l, faction->foundingDate);
 	return 1;
 }
@@ -143,7 +141,6 @@ static int l_faction_attr_founding_date(lua_State *l)
  * The rate at which the faction has been expanding since it's foundation.
  * Measured in light-years per-year of expansion.
  * So for a value of 1.0 the volumes _RADIUS_ will expand by 1 light-year.
- * Used in conjunction with foundingDate it can be used to calculate the volume of occupied space.
  *
  * Availability:
  *
@@ -155,8 +152,29 @@ static int l_faction_attr_founding_date(lua_State *l)
  */
 static int l_faction_attr_expansion_rate(lua_State *l)
 {
-	const Faction *faction = LuaFaction::CheckFromLua(1);
+	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
 	lua_pushnumber(l, faction->expansionRate);
+	return 1;
+}
+
+/*
+ * Attribute: radius
+ *
+ * The radius in light years of the the spherical volume the faction
+ * encompasses as at the year 3200
+ *
+ * Availability:
+ *
+ *  alpha 29
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_faction_attr_radius(lua_State *l)
+{
+	const Faction *faction = LuaObject<Faction>::GetFromLua(1);
+	lua_pushnumber(l, faction->Radius());
 	return 1;
 }
 
@@ -175,7 +193,7 @@ static int l_faction_attr_expansion_rate(lua_State *l)
  */
 static int l_faction_attr_military_name(lua_State *l)
 {
-	const Faction *faction = LuaFaction::CheckFromLua(1);
+	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
 	lua_pushlstring(l, faction->military_name.c_str(), faction->military_name.size());
 	return 1;
 }
@@ -195,7 +213,7 @@ static int l_faction_attr_military_name(lua_State *l)
  */
 static int l_faction_attr_police_name(lua_State *l)
 {
-	const Faction *faction = LuaFaction::CheckFromLua(1);
+	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
 	lua_pushlstring(l, faction->police_name.c_str(), faction->police_name.size());
 	return 1;
 }
@@ -215,7 +233,7 @@ static int l_faction_attr_police_name(lua_State *l)
  */
 static int l_faction_attr_colour(lua_State *l)
 {
-	const Faction *faction = LuaFaction::CheckFromLua(1);
+	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
 	lua_createtable(l, 0, 4);
 	lua_pushnumber(l, faction->colour.r);
 	lua_setfield(l, -2, "r");
@@ -240,6 +258,7 @@ template <> void LuaObject<Faction>::RegisterClass()
 		{ "homeworld",          l_faction_attr_homeworld          },
 		{ "foundingDate",       l_faction_attr_founding_date      },
 		{ "expansionRate",      l_faction_attr_expansion_rate     },
+		{ "radius",             l_faction_attr_radius             },
 		{ "militaryName",       l_faction_attr_military_name      },
 		{ "policeName",         l_faction_attr_police_name        },
 		{ "colour",             l_faction_attr_colour             },

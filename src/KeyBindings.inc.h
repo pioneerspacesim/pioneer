@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef KEY_BINDING
@@ -22,6 +22,7 @@ BINDING_PAGE(CONTROLS)
 BINDING_GROUP(Lang::WEAPONS)
 KEY_BINDING(targetObject, "BindTargetObject", Lang::TARGET_OBJECT_IN_SIGHTS, SDLK_t)
 KEY_BINDING(fireLaser, "BindFireLaser", Lang::FIRE_LASER, SDLK_SPACE)
+KEY_BINDING(fireMissile, "BindFireMissile", Lang::FIRE_MISSILE, SDLK_m)
 
 BINDING_GROUP(Lang::SHIP_ORIENTATION)
 KEY_BINDING(pitchUp, "BindPitchUp", Lang::PITCH_UP, SDLK_s)
@@ -52,7 +53,7 @@ KEY_BINDING(decreaseScanRange, "BindDecreaseScanRange", Lang::DECREASE_SCAN_RANG
 BINDING_GROUP(Lang::MISCELLANEOUS)
 KEY_BINDING(toggleHudMode, "BindToggleHudMode", Lang::TOGGLE_HUD_MODE, SDLK_TAB)
 KEY_BINDING(toggleLuaConsole, "BindToggleLuaConsole", Lang::TOGGLE_LUA_CONSOLE, SDLK_BACKQUOTE)
-KEY_BINDING(toggleManualRotation, "BindToggleManualRotation", Lang::TOGGLE_MANUAL_ROTATION, SDLK_r)
+KEY_BINDING(toggleRotationDamping, "BindToggleRotationDamping", Lang::TOGGLE_ROTATION_DAMPING, SDLK_r)
 
 BINDING_GROUP(Lang::JOYSTICK_INPUT)
 AXIS_BINDING(pitchAxis, "BindAxisPitch", Lang::PITCH, "-Joy0Axis1")

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -111,7 +111,7 @@ public:
 	int getIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags)
 	{
 		// calculate how many tri's there are
-		int tri_count = (VBO_COUNT_MID_IDX() / 3); 
+		int tri_count = (VBO_COUNT_MID_IDX() / 3);
 		for( int i=0; i<4; ++i ) {
 			if( edge_hi_flags & (1 << i) ) {
 				tri_count += (VBO_COUNT_HI_EDGE() / 3);
@@ -1465,7 +1465,14 @@ void GeoSphere::SetUpMaterials()
 	// Request material for this star or planet, with or without
 	// atmosphere. Separate material for surface and sky.
 	Graphics::MaterialDescriptor surfDesc;
-	surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
+	const Uint32 effect_flags = m_terrain->GetSurfaceEffects();
+	if (effect_flags & Terrain::EFFECT_LAVA)
+		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA;
+	else if (effect_flags & Terrain::EFFECT_WATER)
+		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN_WITH_WATER;
+	else
+		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_TERRAIN;
+
 	if ((m_sbody->type == SystemBody::TYPE_BROWN_DWARF) ||
 		(m_sbody->type == SystemBody::TYPE_STAR_M)) {
 		//dim star (emits and receives light)

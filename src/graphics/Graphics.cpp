@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Graphics.h"
@@ -8,49 +8,33 @@
 #include "RendererLegacy.h"
 #include "OS.h"
 
-static GLuint boundArrayBufferObject = 0;
-static GLuint boundElementArrayBufferObject = 0;
-
 namespace Graphics {
 
 static bool initted = false;
 bool shadersAvailable = false;
 bool shadersEnabled = false;
 Material *vtxColorMaterial;
+Settings settings;
+static float g_fov = 85.f;
 
-float State::invLogZfarPlus1;
-std::vector<Light> State::m_lights;
-
-void BindArrayBuffer(GLuint bo)
+int GetScreenWidth()
 {
-	if (boundArrayBufferObject != bo) {
-		glBindBufferARB(GL_ARRAY_BUFFER_ARB, bo);
-		boundArrayBufferObject = bo;
-	}
+	return settings.width;
 }
 
-bool IsArrayBufferBound(GLuint bo)
+int GetScreenHeight()
 {
-	return boundArrayBufferObject == bo;
+	return settings.height;
 }
 
-void BindElementArrayBuffer(GLuint bo)
+float GetFOV()
 {
-	if (boundElementArrayBufferObject != bo) {
-		glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, bo);
-		boundElementArrayBufferObject = bo;
-	}
+	return g_fov;
 }
 
-bool IsElementArrayBufferBound(GLuint bo)
+void SetFOV(float fov)
 {
-	return boundElementArrayBufferObject == bo;
-}
-
-void UnbindAllBuffers()
-{
-	BindElementArrayBuffer(0);
-	BindArrayBuffer(0);
+	g_fov = fov;
 }
 
 Renderer* Init(Settings vs)
@@ -163,7 +147,10 @@ Renderer* Init(Settings vs)
 	MaterialDescriptor desc;
 	desc.vertexColors = true;
 	vtxColorMaterial = renderer->CreateMaterial(desc);
-	
+	vtxColorMaterial->IncRefCount();
+
+	Graphics::settings = vs;
+
 	return renderer;
 }
 
@@ -201,14 +188,6 @@ std::vector<VideoMode> GetAvailableVideoModes()
 		}
 	}
 	return modes;
-}
-
-void Graphics::State::SetLights(int n, const Light *lights)
-{
-	m_lights.clear();
-	m_lights.reserve(n);
-	for (int i = 0;i < n;i++)
-		m_lights.push_back(lights[i]);
 }
 
 }

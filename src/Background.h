@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _BACKGROUND_H
@@ -32,11 +32,11 @@ namespace Background
 	public:
 		//does not Fill the starfield
 		Starfield(Graphics::Renderer *r);
-		Starfield(Graphics::Renderer *r, unsigned long seed);
+		Starfield(Graphics::Renderer *r, Uint32 seed);
 		~Starfield();
 		void Draw(Graphics::Renderer *r);
 		//create or recreate the starfield
-		void Fill(unsigned long seed);
+		void Fill(Uint32 seed);
 
 	private:
 		void Init(Graphics::Renderer *);
@@ -67,9 +67,9 @@ namespace Background
 	public:
 		// default constructor, needs Refresh with proper seed to show starfield
 		Container(Graphics::Renderer*);
-		Container(Graphics::Renderer*, unsigned long seed);
+		Container(Graphics::Renderer*, Uint32 seed);
 		void Draw(Graphics::Renderer *r, const matrix4x4d &transform) const;
-		void Refresh(unsigned long seed);
+		void Refresh(Uint32 seed);
 
 		void SetIntensity(float intensity);
 

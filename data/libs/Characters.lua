@@ -1,4 +1,4 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -190,6 +190,20 @@ Character = {
 	lastSavedSystemPath = nil,
 
 --
+-- Attribute: dead
+--
+-- Boolean attribute. If set to a true value, character is deceased and all test rolls will fail.
+--
+-- Availability:
+--
+--   alpha 31
+--
+-- Status:
+--
+--   experimental
+--
+
+--
 -- Attribute: playerRelationship
 --
 -- Integer attribute for roll-play style dice tests.  PlayerRelationship is
@@ -205,6 +219,7 @@ Character = {
 --
 --   experimental
 --
+	playerRelationship = 34,
 
 --
 -- Attribute: luck
@@ -223,6 +238,24 @@ Character = {
 --   experimental
 --
 	luck = 34,
+
+--
+-- Attribute: intelligence
+--
+-- Integer attribute for roll-play style dice tests.  Intelligence is intended to
+-- reflect the character's ability to learn.
+-- Tested with 4xD16; useful values are 4 (moron) to 65 (genius).
+-- Modifiers can cause numbers outside this range to become useful (see TestRoll).
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   experimental
+--
+	intelligence = 34,
 
 --
 -- Attribute: charisma
@@ -365,6 +398,39 @@ Character = {
 --   experimental
 --
 	sensors = 15,
+
+--
+-- Attribute: killcount
+--
+-- Integer value; number of objects destroyed by this character. Automatically
+-- incremented in the case of the player by one of the stock scripts.
+--
+-- Availability:
+--
+--   alpha 29
+--
+-- Status:
+--
+--   experimental
+--
+	killcount = 0,
+
+--
+-- Attribute: assistcount
+--
+-- Integer value; number of objects damaged by this character which were
+-- subsequently destroyed by something else. Automatically incremented
+-- in the case of the player by one of the stock scripts.
+--
+-- Availability:
+--
+--   alpha 29
+--
+-- Status:
+--
+--   experimental
+--
+	assistcount = 0,
 
 --
 -- Group: Methods
@@ -557,6 +623,7 @@ Character = {
 --
 	RollNew = function (self,crew)
 		self.luck = self.DiceRoll()
+		self.intelligence = self.DiceRoll()
 		self.charisma = self.DiceRoll()
 		self.notoriety = self.DiceRoll()
 		self.lawfulness = self.DiceRoll()
@@ -584,9 +651,11 @@ Character = {
 -- If the DiceRoll is from 60-64, then it was a critical success and that
 -- attribute is exercised.  It is incremented by one for future tests.
 --
+-- If the Character is dead, the test roll will always fail.
+--
 -- Return:
 --
---   success - Boolean value indicating that the test roll passed or failed
+--   success - False if failed, otherwise the dice roll value (low is good).
 --
 -- Parameters:
 --
@@ -605,6 +674,7 @@ Character = {
 	TestRoll = function (self,attribute,modifier)
 		local modifier = modifier or 0
 		if type(modifier) ~= 'number' then error('TestRoll(): modifier must be numeric') end
+		if self.dead then return false end -- dead characters fail all tests
 		if self[attribute] and (type(self[attribute])=='number') then
 			local result = self.DiceRoll()
 			if result > 59 then -- punish critical failure
@@ -614,7 +684,7 @@ Character = {
 				self[attribute] = self[attribute] + 1
 				modifier = modifier - 1 -- don't affect *this* result
 			end
-			return (result < (self[attribute] + modifier))
+			return (result < (self[attribute] + modifier) and result)
 		else
 			return false
 		end
@@ -632,9 +702,11 @@ Character = {
 --
 -- Unlike TestRoll, this function never modifies the value of the attribute.
 --
+-- If the Character is dead, the test roll will always fail.
+--
 -- Return:
 --
---   success - Boolean value indicating that the test roll passed or failed
+--   success - False if failed, otherwise the dice roll value (low is good).
 --
 -- Parameters:
 --
@@ -653,8 +725,10 @@ Character = {
 	SafeRoll = function (self,attribute,modifier)
 		local modifier = modifier or 0
 		if type(modifier) ~= 'number' then error('SafeRoll(): modifier must be numeric') end
+		if self.dead then return false end -- dead characters fail all tests
 		if self[attribute] and (type(self[attribute])=='number') then
-			return (self.DiceRoll() < (self[attribute] + modifier))
+			local result = Self.DiceRoll()
+			return (result < (self[attribute] + modifier) and result)
 		else
 			return false
 		end
@@ -771,6 +845,7 @@ Character = {
 -- Method: FindAvailable
 --
 --   Returns an iterator across all PersistentCharacters where available is true
+--   and dead is false
 --
 -- iterator = Character.FindAvailable()
 --
@@ -802,7 +877,7 @@ Character = {
 		local NPC = 0
 		return function ()
 			NPC = NPC + 1
-			while PersistentCharacters[NPC] and not (PersistentCharacters[NPC]).available do
+			while PersistentCharacters[NPC] and (not (PersistentCharacters[NPC]).available or (PersistentCharacters[NPC]).dead) do
 				NPC = NPC + 1
 			end
 			return PersistentCharacters[NPC]
@@ -852,7 +927,7 @@ Character = {
 --
 -- ch:UnSave()
 --
--- Availability
+-- Availability:
 --
 --   alpha 17
 --
@@ -866,10 +941,123 @@ Character = {
 		end
 	end,
 
+--
+-- Method: GetCombatRating
+--
+--   Returns a translatable string giving the character's combat rating
+--
+-- rating = ch:GetCombatRating()
+--
+-- Return:
+--
+--   rating - Translatable string
+--
+-- Example:
+--
+-- Show player their own combat rating as a UI message
+--
+-- > t = Translate:GetTranslator()
+-- > UI.Message(('Your combat rating is {rating}'):interp({
+-- >     rating = t(PersistentCharacters.player:GetCombatRating()),
+-- > }))
+--
+-- Availability:
+--
+--   alpha 29
+--
+-- Status:
+--
+--   experimental
+--
+	GetCombatRating = function (self)
+		if self.killcount < 8 then
+			return('HARMLESS')
+		elseif self.killcount < 16 then
+			return('MOSTLY_HARMLESS')
+		elseif self.killcount < 32 then
+			return('POOR')
+		elseif self.killcount < 64 then
+			return('AVERAGE')
+		elseif self.killcount < 128 then
+			return('ABOVE_AVERAGE')
+		elseif self.killcount < 512 then
+			return('COMPETENT')
+		elseif self.killcount < 2400 then
+			return('DANGEROUS')
+		elseif self.killcount < 6000 then
+			return('DEADLY')
+		else 
+			return('ELITE')
+		end
+	end,
+
+--
+-- Method: IsCombatRated
+--
+--   Tests whether a character has reached a specific combat rating
+--
+-- ch:IsCombatRated(rating)
+--
+-- Parameters:
+--
+--   rating - One of the following values:
+-- >         'HARMLESS','MOSTLY_HARMLESS','POOR','AVERAGE','ABOVE_AVERAGE',
+-- >         'COMPETENT','DANGEROUS','DEADLY','ELITE'
+--
+-- Return:
+--
+--   true - Character has reached the specified rating
+--
+--   false - Character has not reached the specified rating (or specified
+--          rating was not a valid value)
+--
+-- Example:
+--
+-- Check to see if the player is rated "Deadly" or higher
+--
+-- > if PersistentCharacter.player:IsCombatRated('DEADLY') then
+-- >   DoSomethingDeadly() -- Player is rated "Deadly" or higher
+-- > end
+--
+-- Availability:
+--
+--   alpha 29
+--
+-- Status:
+--
+--   experimental
+--
+	IsCombatRated = function (self,rating)
+		-- This function is completely agnostic of the values of the ratings.
+		local ratingflag = false
+		local combatrating = self:GetCombatRating()
+		for i,testrating in ipairs {'HARMLESS',
+									'MOSTLY_HARMLESS',
+									'POOR',
+									'AVERAGE',
+									'ABOVE_AVERAGE',
+									'COMPETENT',
+									'DANGEROUS',
+									'DEADLY',
+									'ELITE'} do
+			if testrating == rating then
+				-- We have reached the desired rating
+				ratingflag = true
+			end
+			if testrating == combatrating and ratingflag then
+				-- The character's rating is equal to the one we've rached, and
+				-- we have either reached or passed the desired rating
+				return true
+			end
+		end --for
+		return false
+	end,
+
 	-- Debug function
 	PrintStats = function (self)
 		print('Name: ',self.name)
 		print('Luck: ',self.luck)
+		print('Intelligence: ',self.intelligence)
 		print('Charisma: ',self.charisma)
 		print('Notoriety: ',self.notoriety)
 		print('Lawfulness: ',self.lawfulness)
@@ -911,12 +1099,17 @@ local onGameStart = function ()
 		-- Make a new character sheet for the player, with just
 		-- the average values.  We'll find some way to ask the
 		-- player for a new name in the future.
-		local PlayerCharacter = Character.New({name = 'Peter Jameson'})
+		local PlayerCharacter = Character.New()
+		PlayerCharacter.title = 'Commander'
 		PlayerCharacter.player = true
+		-- Gave the player a missions table (for Misssions.lua)
+		PlayerCharacter.missions = {}
 		-- Insert the player character into the persistent character
 		-- table.  Player won't be ennumerated with NPCs, because player
 		-- is not numerically keyed.
 		PersistentCharacters = { player = PlayerCharacter }
+		-- Enroll the player in their own crew
+		Game.player:Enroll(PlayerCharacter)
 	end
 	loaded_data = nil
 end

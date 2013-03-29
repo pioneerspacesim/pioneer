@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "EventDispatcher.h"
@@ -38,7 +38,7 @@ bool EventDispatcher::DispatchSDLEvent(const SDL_Event &event)
 			return Dispatch(MouseButtonEvent(MouseButtonEvent::BUTTON_UP, MouseButtonFromSDLButton(event.button.button), Point(event.button.x,event.button.y)));
 
 		case SDL_MOUSEMOTION:
-			return Dispatch(MouseMotionEvent(Point(event.motion.x,event.motion.y)));
+			return Dispatch(MouseMotionEvent(Point(event.motion.x,event.motion.y), Point(event.motion.xrel, event.motion.yrel)));
 	}
 
 	return false;
@@ -76,18 +76,36 @@ bool EventDispatcher::Dispatch(const Event &event)
 					if (m_keyRepeatActive && keyEvent.keysym == m_keyRepeatSym)
 						m_keyRepeatActive = false;
 
-					ShortcutMap::iterator i = m_shortcuts.find(keyEvent.keysym);
+					// any modifier coming in will be a specific key, eg left
+					// shift or right shift. shortcuts can't distinguish
+					// betwen the two, and so have both set in m_shortcuts. we
+					// can't just compare though, because the mods won't
+					// match. so we make a new keysym with a new mod that
+					// includes both of the type of key
+					Uint32 mod = Uint32(keyEvent.keysym.mod);
+					if (mod & KMOD_SHIFT) mod |= KMOD_SHIFT;
+					if (mod & KMOD_CTRL)  mod |= KMOD_CTRL;
+					if (mod & KMOD_ALT)   mod |= KMOD_ALT;
+					if (mod & KMOD_META)  mod |= KMOD_META;
+					const KeySym shortcutSym(keyEvent.keysym.sym, SDLMod(mod));
+
+					std::map<KeySym,Widget*>::iterator i = m_shortcuts.find(shortcutSym);
 					if (i != m_shortcuts.end()) {
 						(*i).second->TriggerClick();
 						DispatchSelect((*i).second);
 						return true;
 					}
+
 					return m_baseContainer->TriggerKeyUp(keyEvent);
 				}
 
 				case KeyboardEvent::KEY_PRESS: {
-					Widget *target = m_selected ? m_selected.Get() : m_baseContainer;
-					target->TriggerKeyPress(keyEvent);
+
+					// selected widgets get all the keypress events
+					if (m_selected)
+						return m_selected->TriggerKeyPress(keyEvent);
+
+					return m_baseContainer->TriggerKeyPress(keyEvent);
 				}
 			}
 			return false;
@@ -102,6 +120,9 @@ bool EventDispatcher::Dispatch(const Event &event)
 			switch (mouseButtonEvent.action) {
 
 				case MouseButtonEvent::BUTTON_DOWN: {
+					if (target->IsDisabled())
+						return false;
+
 					// activate widget and remember it
 					if (!m_mouseActiveReceiver) {
 						m_mouseActiveReceiver = target;
@@ -128,8 +149,11 @@ bool EventDispatcher::Dispatch(const Event &event)
 						m_mouseActiveReceiver.Reset();
 
 						// send the straight up event too
-						MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, m_lastMousePosition-target->GetAbsolutePosition());
-						bool ret = target->TriggerMouseUp(translatedEvent);
+						bool ret = false;
+						if (!target->IsDisabled()) {
+							MouseButtonEvent translatedEvent = MouseButtonEvent(mouseButtonEvent.action, mouseButtonEvent.button, m_lastMousePosition-target->GetAbsolutePosition());
+							ret = target->TriggerMouseUp(translatedEvent);
+						}
 
 						DispatchMouseOverOut(target.Get(), m_lastMousePosition);
 
@@ -151,15 +175,18 @@ bool EventDispatcher::Dispatch(const Event &event)
 
 			// if there's a mouse-active widget, just send motion events directly into it
 			if (m_mouseActiveReceiver) {
-				MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-m_mouseActiveReceiver->GetAbsolutePosition());
+				MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-m_mouseActiveReceiver->GetAbsolutePosition(), mouseMotionEvent.rel);
 				return m_mouseActiveReceiver->TriggerMouseMove(translatedEvent);
 			}
 
 			// widget directly under the mouse
 			RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
 
-			MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-target->GetAbsolutePosition());
-			bool ret = target->TriggerMouseMove(translatedEvent);
+			bool ret = false;
+			if (!target->IsDisabled()) {
+				MouseMotionEvent translatedEvent = MouseMotionEvent(m_lastMousePosition-target->GetAbsolutePosition(), mouseMotionEvent.rel);
+				ret = target->TriggerMouseMove(translatedEvent);
+			}
 
 			DispatchMouseOverOut(target.Get(), m_lastMousePosition);
 
@@ -184,7 +211,7 @@ bool EventDispatcher::Dispatch(const Event &event)
 void EventDispatcher::DispatchMouseOverOut(Widget *target, const Point &mousePos)
 {
 	// do over/out handling for wherever the mouse is right now
-	if (target != m_lastMouseOverTarget.Get()) {
+	if (target != m_lastMouseOverTarget.Get() || target->IsDisabled()) {
 
 		if (m_lastMouseOverTarget) {
 
@@ -207,8 +234,12 @@ void EventDispatcher::DispatchMouseOverOut(Widget *target, const Point &mousePos
 			m_lastMouseOverTarget->TriggerMouseOut(outPos);
 		}
 
-		m_lastMouseOverTarget.Reset(target);
-		m_lastMouseOverTarget->TriggerMouseOver(mousePos-m_lastMouseOverTarget->GetAbsolutePosition());
+		if (target->IsDisabled())
+			m_lastMouseOverTarget.Reset(0);
+		else {
+			m_lastMouseOverTarget.Reset(target);
+			m_lastMouseOverTarget->TriggerMouseOver(mousePos-m_lastMouseOverTarget->GetAbsolutePosition());
+		}
 	}
 }
 
@@ -246,6 +277,30 @@ void EventDispatcher::DeselectWidget(Widget *target)
 	DispatchSelect(0);
 }
 
+void EventDispatcher::DisableWidget(Widget *target)
+{
+	DeselectWidget(target);
+
+	if (m_mouseActiveReceiver && m_mouseActiveReceiver.Get() == target) {
+		m_mouseActiveReceiver->TriggerMouseDeactivate();
+		m_mouseActiveReceiver.Reset();
+	}
+
+	// if the mouse is over the target, then the mouse is also over all of the
+	// children. find the top one and deliver a MouseOut event to them all
+	if (target->IsMouseOver()) {
+		RefCountedPtr<Widget> top(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
+		top->TriggerMouseOut(top->GetAbsolutePosition(), true, target); // stop at target
+		m_lastMouseOverTarget.Reset(0);
+	}
+}
+
+void EventDispatcher::EnableWidget(Widget *target)
+{
+	RefCountedPtr<Widget> top(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
+	DispatchMouseOverOut(top.Get(), m_lastMousePosition);
+}
+
 void EventDispatcher::Update()
 {
 	if (!m_keyRepeatActive) return;
@@ -259,25 +314,11 @@ void EventDispatcher::Update()
 
 void EventDispatcher::LayoutUpdated()
 {
+	m_shortcuts.clear();
+	m_baseContainer->CollectShortcuts(m_shortcuts);
+
 	RefCountedPtr<Widget> target(m_baseContainer->GetWidgetAtAbsolute(m_lastMousePosition));
 	DispatchMouseOverOut(target.Get(), m_lastMousePosition);
-}
-
-void EventDispatcher::AddShortcut(const KeySym &keysym, Widget *target)
-{
-	m_shortcuts[keysym] = target;
-}
-
-void EventDispatcher::RemoveShortcut(const KeySym &keysym)
-{
-	ShortcutMap::iterator i = m_shortcuts.find(keysym);
-	if (i != m_shortcuts.end())
-		m_shortcuts.erase(i);
-}
-
-void EventDispatcher::ClearShortcuts()
-{
-	m_shortcuts.clear();
 }
 
 }

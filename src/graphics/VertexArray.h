@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _VERTEXARRAY_H
@@ -50,7 +50,7 @@ public:
 	virtual void Add(const vector3f &v, const Color &c, const vector3f &normal);
 	virtual void Add(const vector3f &v, const Color &c, const vector2f &uv);
 	virtual void Add(const vector3f &v, const vector2f &uv);
-	virtual void Add(const vector3f &v, const vector3f &normal, const vector2f &uv); //lmr static mesh
+	virtual void Add(const vector3f &v, const vector3f &normal, const vector2f &uv);
 	//virtual void Reserve(unsigned int howmuch)
 
 	//could make these private, but it is nice to be able to

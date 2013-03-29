@@ -542,6 +542,8 @@ TARGET_OBJECT_IN_SIGHTS
     Zaznacz widoczny obiekt
 FIRE_LASER
     Strzał lasera
+FIRE_MISSILE
+    Wystrzelenie rakiety
 SHIP_ORIENTATION
     Manewrowanie
 PITCH_UP
@@ -588,8 +590,8 @@ DECREASE_SCAN_RANGE
     Zmniejsza zasięg skanera
 TOGGLE_LUA_CONSOLE
     Aktywacja konsoli
-TOGGLE_MANUAL_ROTATION
-    Rotacja manualna
+TOGGLE_ROTATION_DAMPING
+    Tłumienie rotacji
 TOGGLE_HUD_MODE
     Zmiana trybu HUD
 JOYSTICK_INPUT
@@ -602,34 +604,12 @@ YAW
     Odchylenie
 MISSILE
     pocisk
-HARMLESS
-    Nieszkodliwy
-MOSTLY_HARMLESS
-    Przeważnie nieszkodliwy
-POOR
-    Żółtodziób
-AVERAGE
-    Przeciętny
-ABOVE_AVERAGE
-    Ponadprzeciętny
-COMPETENT
-    Fachowiec
-DANGEROUS
-    Groźny
-DEADLY
-    Zabójczy
-ELITE
-    ELITA
 SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS
     Symulacja ewolucji wszechświata: %age{f.1} miliardów lat ;-)
 TOMBSTONE_EPITAPH
     SPOCZYWAJ W POKOJU
 SCREENSHOT_FILENAME_TEMPLATE
     screenshot%index{d08}.png
-PIONEERING_PILOTS_GUILD
-    Gildia Pilotów Pioniera
-RIGHT_ON_COMMANDER
-    Dobra robota komandorze! Twoja ranga bojowa została podniesiona!
 ALERT_CANCELLED
     Alarm odwołany.
 SHIP_DETECTED_NEARBY
@@ -703,11 +683,11 @@ SECTOR_X_Y_Z
 CURRENT_SYSTEM
     Aktualny system
 SELECTED_SYSTEM
-    Wybrany system
+    Wskazany system
 HYPERSPACE_TARGET
     Cel nadprzestrzenny
 FOLLOWING_SELECTION
-    podążanie za celem
+    wybieraj wskazany
 LOCKED
     zablokowany
 EXACT_MATCH_X
@@ -727,9 +707,9 @@ TRIPLE_SYSTEM
 BINARY_SYSTEM
     System podwójny
 ENABLED_AUTOMATIC_SYSTEM_SELECTION
-    Włącz automatyczny wybór systemu.
+    Centrowanie widoku na wskazywanym systemie - włączone.
 DISABLED_AUTOMATIC_SYSTEM_SELECTION
-    Wyłącz automatyczny wybór systemu.
+    Centrowanie widoku na wskazywanym systemie - wyłączone.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Dren paliwowy włączony. Masz %quantity ton wodoru.
 CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED
@@ -782,6 +762,10 @@ STAR_SYSTEM_INFORMATION
     Informacja o systemie
 GALACTIC_VIEW
     Galaktyka
+ROTATION_DAMPING_ON
+    Tłumienie rotacji włączone
+ROTATION_DAMPING_OFF
+    Tłumienie rotacji wyłączone
 NO_ALERT
     Brak alarmu
 SHIP_NEARBY

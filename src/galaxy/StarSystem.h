@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _STARSYSTEM_H
@@ -10,7 +10,6 @@
 #include "Serializer.h"
 #include <vector>
 #include <string>
-#include "DeleteEmitter.h"
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
 
@@ -28,6 +27,7 @@ enum EconType { // <enum name=EconType prefix=ECON_>
 };
 
 class StarSystem;
+class Faction;
 
 struct Orbit {
 	Orbit(): orbitalPhaseAtStart(0.0) {};
@@ -40,7 +40,7 @@ struct Orbit {
 	double orbitalPhaseAtStart; // 0 to 2 pi radians
 	/* dup " " --------------------------------------- */
 	double period; // seconds
-	matrix4x4d rotMatrix;
+	matrix3x3d rotMatrix;
 };
 
 struct RingStyle {
@@ -51,14 +51,13 @@ struct RingStyle {
 	Color4ub baseColor;
 };
 
-class SystemBody {
+class SystemBody : public RefCounted {
 public:
 	SystemBody();
-	~SystemBody();
-	void PickPlanetType(MTRand &rand);
+	void PickPlanetType(Random &rand);
 	const SystemBody *FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax);
-	SystemBody *parent;
-	std::vector<SystemBody*> children;
+	SystemBody *parent;                // these are only valid if the StarSystem
+	std::vector<SystemBody*> children; // that create them still exists
 
 	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_>
 		TYPE_GRAVPOINT = 0,
@@ -222,7 +221,7 @@ private:
 	double m_atmosDensity;
 };
 
-class StarSystem : public DeleteEmitter, public RefCounted {
+class StarSystem : public RefCounted {
 public:
 	friend class SystemBody;
 
@@ -241,9 +240,6 @@ public:
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
 	int GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
-	const Uint32 GetFactionIndex() const { return m_factionIdx; }
-	const char *GetAllegianceDesc() const;
-	const Color GetFactionColour() const;
 
 	static float starColors[][3];
 	static float starRealColors[][3];
@@ -251,27 +247,26 @@ public:
 	static float starScale[];
 	static fixed starMetallicities[];
 
-	SystemBody *rootBody;
+	RefCountedPtr<SystemBody> rootBody;
 	std::vector<SystemBody*> m_spaceStations;
 	// index into this will be the SystemBody ID used by SystemPath
-	std::vector<SystemBody*> m_bodies;
-
-	fixed m_metallicity;
-	fixed m_industrial;
-	fixed m_agricultural;
-
-	fixed m_humanProx;
-	fixed m_totalPop;
-	// percent price alteration
-	int m_tradeLevel[Equip::TYPE_MAX];
-	int m_econType;
-	int m_seed;
-
-	bool m_unexplored;
+	std::vector< RefCountedPtr<SystemBody> > m_bodies;
 
 	int GetCommodityBasePriceModPercent(int t) {
 		return m_tradeLevel[t];
 	}
+
+	Faction* GetFaction() const  { return m_faction; }
+	bool GetUnexplored() const { return m_unexplored; }
+	fixed GetMetallicity() const { return m_metallicity; }
+	fixed GetIndustrial() const { return m_industrial; }
+	int GetEconType() const { return m_econType; }
+	int GetSeed() const { return m_seed; }
+	const int* GetTradeLevel() const { return m_tradeLevel; }
+	fixed GetAgricultural() const { return m_agricultural; }
+	fixed GetHumanProx() const { return m_humanProx; }
+	fixed GetTotalPop() const { return m_totalPop; }
+
 private:
 	StarSystem(const SystemPath &path);
 	~StarSystem();
@@ -280,17 +275,17 @@ private:
 		SystemBody *body = new SystemBody;
 		body->path = m_path;
 		body->path.bodyIndex = m_bodies.size();
-		m_bodies.push_back(body);
+		m_bodies.push_back(RefCountedPtr<SystemBody>(body));
 		return body;
 	}
-	void MakeShortDescription(MTRand &rand);
-	void MakePlanetsAround(SystemBody *primary, MTRand &rand);
-	void MakeRandomStar(SystemBody *sbody, MTRand &rand);
-	void MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, MTRand &rand);
-	void MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, MTRand &rand);
-	void MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, MTRand &rand);
-	void CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, MTRand &rand);
-	void GenerateFromCustom(const CustomSystem *, MTRand &rand);
+	void MakeShortDescription(Random &rand);
+	void MakePlanetsAround(SystemBody *primary, Random &rand);
+	void MakeRandomStar(SystemBody *sbody, Random &rand);
+	void MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, Random &rand);
+	void MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, Random &rand);
+	void MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Random &rand);
+	void CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, Random &rand);
+	void GenerateFromCustom(const CustomSystem *, Random &rand);
 	void Populate(bool addSpaceStations);
 	std::string ExportBodyToLua(FILE *f, SystemBody *body);
 	std::string GetStarTypes(SystemBody *body);
@@ -300,10 +295,23 @@ private:
 	std::string m_name;
 	std::string m_shortDesc, m_longDesc;
 	SysPolit m_polit;
-	Uint32 m_factionIdx;
 
 	bool m_isCustom;
 	bool m_hasCustomBodies;
+
+	Faction* m_faction;
+	bool m_unexplored;
+	fixed m_metallicity;
+	fixed m_industrial;
+	int m_econType;
+	int m_seed;
+
+	// percent price alteration
+	int m_tradeLevel[Equip::TYPE_MAX];
+
+	fixed m_agricultural;
+	fixed m_humanProx;
+	fixed m_totalPop;
 };
 
 #endif /* _STARSYSTEM_H */

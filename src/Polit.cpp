@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -147,11 +147,11 @@ void NotifyOfCrime(Ship *s, enum Crime crime)
 
 void AddCrime(Sint64 crimeBitset, Sint64 addFine)
 {
-	Uint32 factionIdx = Pi::game->GetSpace()->GetStarSystem()->GetFactionIndex();
+	const Faction *faction = (Pi::game->GetSpace()->GetStarSystem()->GetFaction());
 
-	if (factionIdx != Faction::BAD_FACTION_IDX) {
-		s_playerPerBlocCrimeRecord[factionIdx].record |= crimeBitset;
-		s_playerPerBlocCrimeRecord[factionIdx].fine += addFine;
+	if (faction->IsValid()) {
+		s_playerPerBlocCrimeRecord[faction->idx].record |= crimeBitset;
+		s_playerPerBlocCrimeRecord[faction->idx].fine   += addFine;
 	} else {
 		SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 		Sint64 record = s_criminalRecord.Get(path, 0);
@@ -170,11 +170,11 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 		return ;
 	}
 
-	Uint32 factionIdx = Pi::game->GetSpace()->GetStarSystem()->GetFactionIndex();
+	const Faction *faction = Pi::game->GetSpace()->GetStarSystem()->GetFaction();
 
-	if (factionIdx != Faction::BAD_FACTION_IDX) {
-		*crimeBitset = s_playerPerBlocCrimeRecord[factionIdx].record;
-		*fine = s_playerPerBlocCrimeRecord[factionIdx].fine;
+	if (faction->IsValid()) {
+		*crimeBitset = s_playerPerBlocCrimeRecord[faction->idx].record;
+		*fine        = s_playerPerBlocCrimeRecord[faction->idx].fine;
 	} else {
 		SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPath();
 		*crimeBitset = s_criminalRecord.Get(path, 0);
@@ -187,8 +187,8 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit)
 {
 	SystemPath path = s->GetPath();
-	const unsigned long _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
-	MTRand rand(_init, 5);
+	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
+	Random rand(_init, 5);
 
 	Sector sec(path.sectorX, path.sectorY, path.sectorZ);
 
@@ -204,10 +204,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 			a = Polit::GOV_EARTHDEMOC;
 		} else if (human_infestedness > 0) {
 			// attempt to get the government type from the faction
-			const Faction *fac = Faction::GetFaction( s->GetFactionIndex() );
-			if( fac ) {
-				a = fac->PickGovType(rand);
-			}
+			a = s->GetFaction()->PickGovType(rand);
 
 			// if that fails, either no faction or a faction with no gov types, then pick something at random
 			if (a == GOV_INVALID) {
@@ -227,18 +224,15 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 {
 	SystemPath path = s->GetPath();
-	const unsigned long _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SALT };
-	MTRand rand(_init, 5);
+	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SALT };
+	Random rand(_init, 5);
 
 	Polit::GovType a = s->GetSysPolit().govType;
 	if (a == GOV_NONE) return true;
 
-	const Uint32 factionIdx = s->GetFactionIndex();
-	if( factionIdx != Faction::BAD_FACTION_IDX ) {
-		const Faction *fac = Faction::GetFaction( factionIdx );
-		assert(fac);
-		Faction::EquipProbMap::const_iterator iter = fac->equip_legality.find(t);
-		if( iter != fac->equip_legality.end() ) {
+	if(s->GetFaction()->idx != Faction::BAD_FACTION_IDX ) {
+		Faction::EquipProbMap::const_iterator iter = s->GetFaction()->equip_legality.find(t);
+		if( iter != s->GetFaction()->equip_legality.end() ) {
 			const uint32_t per = (*iter).second;
 			return (rand.Int32(100) >= per);
 		}

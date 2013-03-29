@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXTUREBUILDER_H
@@ -28,6 +28,9 @@ public:
 	static TextureBuilder UI(const std::string &filename) {
 		return TextureBuilder(filename, LINEAR_CLAMP, false, true, true, false);
 	}
+	static TextureBuilder Decal(const std::string &filename) {
+		return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true);
+	}
 
 	const TextureDescriptor &GetDescriptor() { PrepareSurface(); return m_descriptor; }
 	void UpdateTexture(Texture *texture); // XXX pass src/dest rectangles
@@ -47,6 +50,10 @@ public:
 		r->AddCachedTexture(type, cacheName, t);
 		return t;
 	}
+
+	//commonly used dummy textures
+	static Texture *GetWhiteTexture(Renderer *);
+	static Texture *GetTransparentTexture(Renderer *);
 
 private:
 	SDLSurfacePtr m_surface;

@@ -1,26 +1,31 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
 #include "CityOnPlanet.h"
+#include "FileSystem.h"
 #include "Frame.h"
-#include "SpaceStation.h"
-#include "Planet.h"
-#include "Pi.h"
 #include "Game.h"
+#include "ModelCache.h"
+#include "Pi.h"
+#include "Planet.h"
+#include "SpaceStation.h"
 #include "collider/Geom.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
+#include "scenegraph/SceneGraph.h"
 
 #define START_SEG_SIZE CITY_ON_PLANET_RADIUS
 #define MIN_SEG_SIZE 50.0
+
+using SceneGraph::Model;
 
 bool s_cityBuildingsInitted = false;
 struct citybuilding_t {
 	const char *modelname;
 	double xzradius;
-	LmrModel *resolvedModel;
-	const LmrCollMesh *collMesh;
+	Model *resolvedModel;
+	RefCountedPtr<CollMesh> collMesh;
 };
 
 struct citybuildinglist_t {
@@ -43,15 +48,12 @@ struct cityflavourdef_t {
 	double size;
 } cityflavour[CITYFLAVOURS];
 
-
-LmrObjParams cityobj_params;
-
-void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
+void CityOnPlanet::PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
 {
 	double rad = (p1-p2).Length()*0.5;
-	LmrModel *model(0);
-	double modelRadXZ(0);
-	const LmrCollMesh *cmesh(0);
+	Model *model(0);
+	double modelRadXZ(0.0);
+	const CollMesh *cmesh(0);
 	vector3d cent = (p1+p2+p3+p4)*0.25;
 
 	cityflavourdef_t *flavour(0);
@@ -67,7 +69,7 @@ void CityOnPlanet::PutCityBit(MTRand &rand, const matrix4x4d &rot, vector3d p1, 
 			const citybuilding_t &bt = buildings->buildings[rand.Int32(buildings->numBuildings)];
 			model = bt.resolvedModel;
 			modelRadXZ = bt.xzradius;
-			cmesh = bt.collMesh;
+			cmesh = bt.collMesh.Get();
 			if (modelRadXZ < rad) break;
 			if (tries == 0) return;
 		}
@@ -100,15 +102,14 @@ always_divide:
 		if (height - m_planet->GetSystemBody()->GetRadius() <= 0.0) return;
 		cent = cent * height;
 
-		assert(cmesh);
-		Geom *geom = new Geom(cmesh->geomTree);
+		Geom *geom = new Geom(cmesh->GetGeomTree());
 		int rotTimes90 = rand.Int32(4);
 		matrix4x4d grot = rot * matrix4x4d::RotateYMatrix(M_PI*0.5*double(rotTimes90));
 		geom->MoveTo(grot, cent);
 		geom->SetUserData(this);
 //		f->AddStaticGeom(geom);
 
-		BuildingDef def = { model, cmesh->GetBoundingRadius(), rotTimes90, cent, geom, false };
+		BuildingDef def = { model, float(cmesh->GetRadius()), rotTimes90, cent, geom, false };
 		m_buildings.push_back(def);
 	}
 }
@@ -143,22 +144,46 @@ void CityOnPlanet::RemoveStaticGeomsFromCollisionSpace()
 	}
 }
 
+// Get all model file names under buildings/
+// This is temporary. Buildings should be defined in BuildingSet data files, or something.
+static void enumerateNewBuildings(std::vector<std::string> &filenames)
+{
+	const std::string fullpath = FileSystem::JoinPathBelow("models", "buildings");
+	for (FileSystem::FileEnumerator files(FileSystem::gameDataFiles, fullpath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
+		const std::string &name = files.Current().GetName();
+		if (ends_with(name, ".model")) {
+			filenames.push_back(name.substr(0, name.length()-6));
+		}
+	}
+}
+
 static void lookupBuildingListModels(citybuildinglist_t *list)
 {
-	//const char *modelTagName;
-	std::vector<LmrModel*> models;
-	LmrGetModelsWithTag(list->modelTagName, models);
+	std::vector<Model*> models;
+
+	//get test newmodels - to be replaced with building set definitions
+	{
+		std::vector<std::string> filenames;
+		enumerateNewBuildings(filenames);
+		for (std::vector<std::string>::const_iterator it = filenames.begin();
+			it != filenames.end(); ++it)
+		{
+			Model *model = Pi::modelCache->FindModel(*it);
+			models.push_back(model);
+		}
+	}
+	assert(!models.empty());
 	//printf("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
 	list->buildings = new citybuilding_t[models.size()];
 	list->numBuildings = models.size();
 
 	int i = 0;
-	for (std::vector<LmrModel*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
+	for (std::vector<Model*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
-		const LmrCollMesh *collMesh = new LmrCollMesh(*m, &cityobj_params);
-		list->buildings[i].collMesh = collMesh;
-		double maxx = std::max(fabs(collMesh->GetAabb().max.x), fabs(collMesh->GetAabb().min.x));
-		double maxy = std::max(fabs(collMesh->GetAabb().max.z), fabs(collMesh->GetAabb().min.z));
+		list->buildings[i].collMesh = (*m)->CreateCollisionMesh();
+		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
+		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
+		const double maxy = std::max(fabs(aabb.max.z), fabs(aabb.min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
 		//printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
 	}
@@ -178,9 +203,6 @@ void CityOnPlanet::Init()
 void CityOnPlanet::Uninit()
 {
 	for (unsigned int list=0; list<COUNTOF(s_buildingLists); list++) {
-		for (int build=0; build<s_buildingLists[list].numBuildings; build++) {
-			delete s_buildingLists[list].buildings[build].collMesh;
-		}
 		delete[] s_buildingLists[list].buildings;
 	}
 }
@@ -209,16 +231,13 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 		}
 	}
 
-	Aabb aabb;
-	station->GetAabb(aabb);
-
-	matrix4x4d m;
-	station->GetRotMatrix(m);
+	const Aabb &aabb = station->GetAabb();
+	matrix4x4d m = station->GetOrient();
 
 	vector3d mx = m*vector3d(1,0,0);
 	vector3d mz = m*vector3d(0,0,1);
 
-	MTRand rand;
+	Random rand;
 	rand.seed(seed);
 
 	vector3d p = station->GetPosition();
@@ -277,11 +296,10 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, Uint32 seed)
 	AddStaticGeomsToCollisionSpace();
 }
 
-//Note: models get some ambient colour added when dark as the camera moves closer
-void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform, double illumination, double minIllumination)
+void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	matrix4x4d rot[4];
-	station->GetRotMatrix(rot[0]);
+	rot[0] = station->GetOrient();
 
 	// change detail level if necessary
 	if (m_detailLevel != Pi::detail.cities) {
@@ -294,46 +312,25 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const Spa
 		rot[i] = rot[0] * matrix4x4d::RotateYMatrix(M_PI*0.5*double(i));
 	}
 
-	const Graphics::Frustum frustum = Graphics::Frustum::FromGLState();
+	const Graphics::Frustum frustum = camera->GetFrustum();
 	//modelview seems to be always identity
 
-	memset(&cityobj_params, 0, sizeof(LmrObjParams));
-	cityobj_params.time = Pi::game->GetTime();
-	
 	for (std::vector<BuildingDef>::const_iterator i = m_buildings.begin();
 			i != m_buildings.end(); ++i) {
 
 		if (!(*i).isEnabled) continue;
-		
+
 		vector3d pos = viewTransform * (*i).pos;
 		if (!frustum.TestPoint(pos, (*i).clipRadius))
 			continue;
-
-		const Color oldSceneAmbientColor = r->GetAmbientColor();
-
-		// fade conditions for models
-		double fadeInEnd, fadeInLength;
-		if (Graphics::AreShadersEnabled()) {
-			fadeInEnd = 10.0;
-			fadeInLength = 500.0;
-		}
-		else {
-			fadeInEnd = 2000.0;
-			fadeInLength = 6000.0;
-		}
-
-		FadeInModelIfDark(r, (*i).clipRadius, pos.Length(), fadeInEnd, fadeInLength, illumination, minIllumination);
 
 		matrix4x4f _rot;
 		for (int e=0; e<16; e++) _rot[e] = float(rot[(*i).rotation][e]);
 		_rot[12] = float(pos.x);
 		_rot[13] = float(pos.y);
 		_rot[14] = float(pos.z);
-		(*i).model->Render(_rot, &cityobj_params);
-
-		// restore old ambient colour
-		if (illumination <= minIllumination) 
-			r->SetAmbientColor(oldSceneAmbientColor);
+		glPushMatrix();
+		(*i).model->Render(_rot);
+		glPopMatrix();
 	}
 }
-

@@ -1,13 +1,11 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaGame.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
-#include "LuaPlayer.h"
-#include "LuaStarSystem.h"
-#include "LuaSystemPath.h"
 #include "FileSystem.h"
+#include "Player.h"
 #include "Pi.h"
 #include "Game.h"
 #include "Lang.h"
@@ -35,7 +33,7 @@
  *
  * Availability:
  *
- *   not yet
+ *   alpha 28
  *
  * Status:
  *
@@ -48,7 +46,7 @@ static int l_game_start_game(lua_State *l)
 		return 0;
 	}
 
-	SystemPath *path = LuaSystemPath::CheckFromLua(1);
+	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
 
 	RefCountedPtr<StarSystem> system(StarSystem::GetCached(*path));
 	SystemBody *sbody = system->GetBodyByPath(path);
@@ -75,7 +73,7 @@ static int l_game_start_game(lua_State *l)
  *
  * Availability:
  *
- *   not yet
+ *   alpha 28
  *
  * Status:
  *
@@ -88,19 +86,10 @@ static int l_game_load_game(lua_State *l)
 		return 0;
 	}
 
-	const std::string filename(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, luaL_checkstring(l, 1)));
+	const std::string filename(luaL_checkstring(l, 1));
 
-	Game *newGame = 0;
-
-	// XXX use FileSystem stuff
 	try {
-		FILE *f = FileSystem::userFiles.OpenReadStream(filename);
-		if (!f) throw CouldNotOpenFileException();
-
-		Serializer::Reader rd(f);
-		fclose(f);
-
-		newGame = new Game(rd);
+		Pi::game = Game::LoadGame(filename);
 	}
 	catch (SavedGameCorruptException) {
 		luaL_error(l, Lang::GAME_LOAD_CORRUPT);
@@ -109,12 +98,6 @@ static int l_game_load_game(lua_State *l)
 		luaL_error(l, Lang::GAME_LOAD_CANNOT_OPEN);
 	}
 
-	// XXX deal with this gracefully
-	if (!newGame)
-		abort();
-
-	Pi::game = newGame;
-
 	return 0;
 }
 
@@ -122,7 +105,7 @@ static int l_game_end_game(lua_State *l)
 {
 	if (!Pi::game)
 		return 0;
-	
+
 	// XXX stuff
 	return luaL_error(l, "Game.EndGame() is not yet implemented");
 }
@@ -145,7 +128,7 @@ static int l_game_attr_player(lua_State *l)
 	if (!Pi::game)
 		lua_pushnil(l);
 	else
-		LuaPlayer::PushToLua(Pi::player);
+		LuaObject<Player>::PushToLua(Pi::player);
 	return 1;
 }
 
@@ -167,7 +150,7 @@ static int l_game_attr_system(lua_State *l)
 	if (!Pi::game)
 		lua_pushnil(l);
 	else
-		LuaStarSystem::PushToLua(Pi::game->GetSpace()->GetStarSystem().Get());
+		LuaObject<StarSystem>::PushToLua(Pi::game->GetSpace()->GetStarSystem().Get());
 	return 1;
 }
 

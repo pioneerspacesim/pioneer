@@ -4,7 +4,7 @@ AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(WARN_CXXFLAGS)
 
-INCLUDES = -I$(srcdir)/..
+INCLUDES = -I$(srcdir)/.. -isystem $(top_srcdir)/contrib
 
 noinst_LIBRARIES = libgraphics.a
 noinst_HEADERS = \

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Program.h"
@@ -186,8 +186,13 @@ void Program::InitUniforms()
 	invLogZfarPlus1.Init("invLogZfarPlus1", m_program);
 	diffuse.Init("material.diffuse", m_program);
 	emission.Init("material.emission", m_program);
+	specular.Init("material.specular", m_program);
+	shininess.Init("material.shininess", m_program);
 	texture0.Init("texture0", m_program);
 	texture1.Init("texture1", m_program);
+	texture2.Init("texture2", m_program);
+	texture3.Init("texture3", m_program);
+	texture4.Init("texture4", m_program);
 	sceneAmbient.Init("scene.ambient", m_program);
 }
 

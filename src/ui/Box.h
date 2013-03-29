@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_BOX_H
@@ -39,7 +39,7 @@ private:
 	struct Child {
 		Child(Widget *_widget) : widget(_widget) {}
 		Widget *widget;
-		Point  preferredSize;
+		Point  contribSize;
 	};
 
 	std::list<Child> m_children;

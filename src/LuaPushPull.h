@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAPUSHPULL_H
@@ -46,6 +46,58 @@ inline void pi_lua_generic_pull(lua_State * l, int index, LuaTable & out) {
 template <class T> void pi_lua_generic_pull(lua_State * l, int index, T* & out) {
 	assert(l == Lua::manager->GetLuaState());
 	out = LuaObject<T>::GetFromLua(index);
+}
+
+inline bool pi_lua_strict_pull(lua_State * l, int index, bool & out) {
+	if (lua_type(l, index) == LUA_TBOOLEAN) {
+		out = lua_toboolean(l, index);
+		return true;
+	}
+	return false;
+}
+inline bool pi_lua_strict_pull(lua_State * l, int index, int & out) {
+	if (lua_type(l, index) == LUA_TNUMBER) {
+		out = lua_tointeger(l, index);
+		return true;
+	}
+	return false;
+}
+inline bool pi_lua_strict_pull(lua_State * l, int index, double & out) {
+	if (lua_type(l, index) == LUA_TNUMBER) {
+		out = lua_tonumber(l, index);
+		return true;
+	}
+	return false;
+}
+inline bool pi_lua_strict_pull(lua_State * l, int index, const char * & out) {
+	if (lua_type(l, index) == LUA_TSTRING) {
+		out = lua_tostring(l, index);
+		return true;
+	}
+	return false;
+}
+inline bool pi_lua_strict_pull(lua_State * l, int index, std::string & out) {
+	if (lua_type(l, index) == LUA_TSTRING) {
+		out = lua_tostring(l, index);
+		return true;
+	}
+	return false;
+}
+inline bool pi_lua_strict_pull(lua_State * l, int index, LuaTable & out) {
+	if (lua_type(l, index) == LUA_TTABLE) {
+		out = LuaTable(l, index);
+		return true;
+	}
+	return false;
+}
+
+template <class T> bool pi_lua_strict_pull(lua_State * l, int index, T* & out) {
+	assert(l == Lua::manager->GetLuaState());
+	if (lua_type(l, index) == LUA_TUSERDATA) {
+		out = LuaObject<T>::GetFromLua(index);
+		return true;
+	}
+	return false;
 }
 
 #endif

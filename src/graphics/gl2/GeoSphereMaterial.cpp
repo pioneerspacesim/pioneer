@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GeoSphereMaterial.h"
@@ -33,20 +33,23 @@ void GeoSphereProgram::InitUniforms()
 
 Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
-	assert(desc.effect == EFFECT_GEOSPHERE_TERRAIN);
+	assert((desc.effect == EFFECT_GEOSPHERE_TERRAIN) || 
+		(desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA) ||
+		(desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_WATER));
 	assert(desc.dirLights < 5);
 	std::stringstream ss;
 	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
 	if (desc.atmosphere)
 		ss << "#define ATMOSPHERE\n";
+	if (desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA)
+		ss << "#define TERRAIN_WITH_LAVA\n";
+	if (desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_WATER)
+		ss << "#define TERRAIN_WITH_WATER\n";
 	return new Graphics::GL2::GeoSphereProgram("geosphere_terrain", ss.str());
 }
 
 void GeoSphereSurfaceMaterial::Apply()
 {
-	//XXX replace with actual material parameter
-	glMaterialfv (GL_FRONT, GL_EMISSION, &emissive[0]);
-
 	SetGSUniforms();
 }
 
@@ -57,6 +60,7 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 
 	p->Use();
 	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
+	p->emission.Set(this->emissive);
 	p->sceneAmbient.Set(m_renderer->GetAmbientColor());
 	p->atmosColor.Set(ap.atmosCol);
 	p->geosphereAtmosFogDensity.Set(ap.atmosDensity);

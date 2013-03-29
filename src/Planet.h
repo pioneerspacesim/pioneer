@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PLANET_H
@@ -21,10 +21,10 @@ public:
 	Planet();
 	virtual ~Planet();
 
-	virtual double GetClipRadius() const { return m_clipRadius; }
 	virtual void SubRender(Graphics::Renderer *r, const Camera *camera, const vector3d &camPos);
 
 	void GetAtmosphericState(double dist, double *outPressure, double *outDensity) const;
+	double GetAtmosphereRadius() const { return m_atmosphereRadius; }
 
 #if WITH_OBJECTVIEWER
 	friend class ObjectViewerView;
@@ -34,11 +34,13 @@ protected:
 	virtual void Load(Serializer::Reader &rd, Space *space);
 
 private:
+	void InitParams(const SystemBody*);
 	void GenerateRings(Graphics::Renderer *renderer);
 	void DrawGasGiantRings(Graphics::Renderer *r, const Camera *camera);
 	void DrawAtmosphere(Graphics::Renderer *r, const vector3d &camPos);
 
-	double m_clipRadius;
+	double m_atmosphereRadius;
+	double m_surfaceGravity_g;
 	RefCountedPtr<Graphics::Texture> m_ringTexture;
 	Graphics::VertexArray m_ringVertices;
 	ScopedPtr<Graphics::Material> m_ringMaterial;

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Win32Setup.h"
@@ -16,8 +16,11 @@ namespace OS {
 // Notify Windows that the window may become unresponsive
 void NotifyLoadBegin()
 {
+    // XXX MinGW doesn't know this function
+#ifndef __MINGW32__
 	// XXX Remove the following call when loading is moved to a background thread
 	DisableProcessWindowsGhosting(); // Prevent Windows from whiting out the screen for "not responding"
+#endif
 }
 
 // Since there's no way to re-enable Window ghosting, do nothing
@@ -85,6 +88,33 @@ void RedirectStdio()
 	} else {
 		setvbuf(f, 0, _IOLBF, BUFSIZ);
 	}
+}
+
+void EnableFPE()
+{
+	// clear any outstanding exceptions before enabling, otherwise they'll
+	// trip immediately
+	_clearfp();
+	_controlfp(_EM_INEXACT | _EM_UNDERFLOW, _MCW_EM);
+}
+
+void DisableFPE()
+{
+	_controlfp(_MCW_EM, _MCW_EM);
+}
+
+Uint64 HFTimerFreq()
+{
+	LARGE_INTEGER i;
+	QueryPerformanceFrequency(&i);
+	return i.QuadPart;
+}
+
+Uint64 HFTimer()
+{
+	LARGE_INTEGER i;
+	QueryPerformanceCounter(&i);
+	return i.QuadPart;
 }
 
 } // namespace OS

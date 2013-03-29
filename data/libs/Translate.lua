@@ -1,4 +1,4 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -41,9 +41,10 @@ Translate = {
 	GetTranslator = function (self)
 		return function (token)
 			return
+				-- Check the native language, then English, before resorting to handing back the token.
 				(self.dictionary[self.language] and self.dictionary[self.language][token]) or
 				(self.dictionary.English and self.dictionary.English[token]) or
-				error("Translation token not found: "..token)
+				token
 		end
 	end,
 
@@ -111,6 +112,42 @@ Translate = {
 --
 	SetLanguage = function (self, language)
 		self.language = language or self.language
+	end,
+
+--
+-- Method: Translatable
+--
+-- Returns true if argument is a translatable string token, otherwise nil.
+-- Use as a safety function after loading data, to avoid attempting to
+-- translate a missing token after a mod is removed.
+--
+-- > success = Translate:Translatable(token)
+--
+-- Parameters:
+--
+--   token -  string; a translation token to be tested for validity
+--
+-- Returns:
+--
+--   success - Boolean; true if token is translatable, otherwise false
+--
+-- Example:
+--
+--   > if(Translate:Translatable('some_string') then print(t('some_string')) end
+--
+-- Availability:
+--
+--   alpha 30
+--
+-- Status:
+--
+--   Experimental
+--
+
+	Translatable = function (self,token)
+		return
+			(self.dictionary[self.language] and self.dictionary[self.language][token]) or
+			(self.dictionary.English and self.dictionary.English[token])
 	end,
 
 --

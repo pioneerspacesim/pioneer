@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Material.h"
@@ -55,20 +55,10 @@ bool RendererGL2::BeginFrame()
 
 bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, float far)
 {
-	double ymax = near * tan(fov * M_PI / 360.0);
-	double ymin = -ymax;
-	double xmin = ymin * aspect;
-	double xmax = ymax * aspect;
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glFrustum(xmin, xmax, ymin, ymax, near, far);
-
 	// update values for log-z hack
 	m_invLogZfarPlus1 = 1.0f / (log(far+1.0f)/log(2.0f));
-	//LMR reads the value from Graphics::State
-	Graphics::State::invLogZfarPlus1 = m_invLogZfarPlus1;
-	return true;
+
+	return RendererLegacy::SetPerspectiveProjection(fov, aspect, near, far);
 }
 
 bool RendererGL2::SetAmbientColor(const Color &c)
@@ -132,39 +122,33 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 		mat = new GL2::StarfieldMaterial();
 		break;
 	case EFFECT_GEOSPHERE_TERRAIN:
+	case EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA:
+	case EFFECT_GEOSPHERE_TERRAIN_WITH_WATER:
 		mat = new GL2::GeoSphereSurfaceMaterial();
 		break;
 	case EFFECT_GEOSPHERE_SKY:
 		mat = new GL2::GeoSphereSkyMaterial();
 		break;
 	default:
-		mat = new GL2::MultiMaterial();
+		if (desc.lighting)
+			mat = new GL2::LitMultiMaterial();
+		else
+			mat = new GL2::MultiMaterial();
 		mat->twoSided = desc.twoSided; //other mats don't care about this
 	}
 
 	mat->m_renderer = this;
+	mat->m_descriptor = desc;
 
-	// Find an existing program...
-	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
-		if ((*it).first == desc) {
-			p = (*it).second;
-			break;
-		}
+	try {
+		p = GetOrCreateProgram(mat);
+	} catch (GL2::ShaderException &) {
+		// in release builds, the game does not quit instantly but attempts to revert
+		// to a 'shaderless' state
+		return RendererLegacy::CreateMaterial(desc);
 	}
 
-	// ...or create a new one
-	if (!p) {
-		try {
-			p = mat->CreateProgram(desc);
-			m_programs.push_back(std::make_pair(desc, p));
-		} catch (GL2::ShaderException &) {
-			// in release builds, the game does not quit instantly but attempts to revert
-			// to a 'shaderless' state
-			return RendererLegacy::CreateMaterial(desc);
-		}
-	}
-
-	mat->m_program = p;
+	mat->SetProgram(p);
 	return mat;
 }
 
@@ -177,6 +161,28 @@ bool RendererGL2::ReloadShaders()
 	printf("Done.\n");
 
 	return true;
+}
+
+GL2::Program* RendererGL2::GetOrCreateProgram(GL2::Material *mat)
+{
+	const MaterialDescriptor &desc = mat->GetDescriptor();
+	GL2::Program *p = 0;
+
+	// Find an existing program...
+	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
+		if ((*it).first == desc) {
+			p = (*it).second;
+			break;
+		}
+	}
+
+	// ...or create a new one
+	if (!p) {
+		p = mat->CreateProgram(desc);
+		m_programs.push_back(std::make_pair(desc, p));
+	}
+
+	return p;
 }
 
 }

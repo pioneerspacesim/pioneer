@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OS_H
@@ -20,6 +20,15 @@ namespace OS {
 	void LoadWindowIcon();
 
 	void RedirectStdio();
+
+	// Enable and disable floating point exceptions. Disabled is usually default.
+	void EnableFPE();
+	void DisableFPE();
+
+	// High frequency timer. HFTimer() returns count, HFTimerFreq() returns frequency.
+	// should not be considered reliable
+	Uint64 HFTimerFreq();
+	Uint64 HFTimer();
 }
 
 #endif

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -89,8 +89,8 @@ namespace FileSystem {
 		return data_path;
 	}
 
-	FileSourceFS::FileSourceFS(const std::string &root):
-		FileSource(absolute_path(root)) {}
+	FileSourceFS::FileSourceFS(const std::string &root, bool trusted):
+		FileSource(absolute_path(root), trusted) {}
 
 	FileSourceFS::~FileSourceFS() {}
 

@@ -1,14 +1,9 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
-#include "LuaStar.h"
-#include "LuaPlanet.h"
-#include "LuaFaction.h"
-#include "LuaSpaceStation.h"
-#include "LuaStarSystem.h"
-#include "LuaSystemPath.h"
 #include "LuaConstants.h"
+#include "EnumStrings.h"
 #include "LuaUtils.h"
 #include "galaxy/StarSystem.h"
 #include "EquipType.h"
@@ -19,6 +14,7 @@
 #include "SpaceStation.h"
 #include "galaxy/Sector.h"
 #include "Factions.h"
+#include "FileSystem.h"
 
 /*
  * Class: StarSystem
@@ -59,14 +55,14 @@ static int l_starsystem_get_station_paths(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 
 	lua_newtable(l);
 
 	for (std::vector<SystemBody*>::const_iterator i = s->m_spaceStations.begin(); i != s->m_spaceStations.end(); ++i)
 	{
 		lua_pushinteger(l, lua_rawlen(l, -1)+1);
-		LuaSystemPath::PushToLua(&(*i)->path);
+		LuaObject<SystemPath>::PushToLua(&(*i)->path);
 		lua_rawset(l, -3);
 	}
 
@@ -98,14 +94,14 @@ static int l_starsystem_get_body_paths(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 
 	lua_newtable(l);
 
-	for (std::vector<SystemBody*>::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); ++i)
+	for (std::vector< RefCountedPtr<SystemBody> >::const_iterator i = s->m_bodies.begin(); i != s->m_bodies.end(); ++i)
 	{
 		lua_pushinteger(l, lua_rawlen(l, -1)+1);
-		LuaSystemPath::PushToLua(&(*i)->path);
+		LuaObject<SystemPath>::PushToLua(&(*i)->path);
 		lua_rawset(l, -3);
 	}
 
@@ -142,12 +138,12 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 
 	lua_newtable(l);
 
 	for (int e = Equip::FIRST_COMMODITY; e <= Equip::LAST_COMMODITY; e++) {
-		lua_pushstring(l, LuaConstants::GetConstantString(l, "EquipType", e));
+		lua_pushstring(l, EnumStrings::GetString("EquipType", e));
 		lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));
 		lua_rawset(l, -3);
 	}
@@ -182,8 +178,8 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
  */
 static int l_starsystem_is_commodity_legal(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", luaL_checkstring(l, 2)));
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
 	lua_pushboolean(l, Polit::IsCommodityLegal(s, e));
 	return 1;
 }
@@ -222,7 +218,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	double dist_ly = luaL_checknumber(l, 2);
 
 	bool filter = false;
@@ -258,7 +254,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 					RefCountedPtr<StarSystem> sys = StarSystem::GetCached(SystemPath(x, y, z, idx));
 					if (filter) {
 						lua_pushvalue(l, 3);
-						LuaStarSystem::PushToLua(sys.Get());
+						LuaObject<StarSystem>::PushToLua(sys.Get());
 						lua_call(l, 1, 1);
 						if (!lua_toboolean(l, -1)) {
 							lua_pop(l, 1);
@@ -268,7 +264,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 					}
 
 					lua_pushinteger(l, lua_rawlen(l, -1)+1);
-					LuaStarSystem::PushToLua(sys.Get());
+					LuaObject<StarSystem>::PushToLua(sys.Get());
 					lua_rawset(l, -3);
 				}
 			}
@@ -307,12 +303,12 @@ static int l_starsystem_distance_to(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	const SystemPath *loc1 = &(s->GetPath());
 
-	const SystemPath *loc2 = LuaSystemPath::GetFromLua(2);
+	const SystemPath *loc2 = LuaObject<SystemPath>::GetFromLua(2);
 	if (!loc2) {
-		StarSystem *s2 = LuaStarSystem::CheckFromLua(2);
+		StarSystem *s2 = LuaObject<StarSystem>::CheckFromLua(2);
 		loc2 = &(s2->GetPath());
 	}
 
@@ -322,6 +318,41 @@ static int l_starsystem_distance_to(lua_State *l)
 	double dist = Sector::DistanceBetween(&sec1, loc1->systemIndex, &sec2, loc2->systemIndex);
 
 	lua_pushnumber(l, dist);
+
+	LUA_DEBUG_END(l, 1);
+	return 1;
+}
+
+/*
+ * Method: ExportToLua
+ *
+ * Export of generated system for personal interest, customisation, etc
+ *
+ * Availability:
+ *
+ *   alpha 33
+ *
+ * Status:
+ *
+ *   experimental
+ */
+#pragma optimize( "", off )
+static int l_starsystem_export_to_lua(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+
+	static const char EXPORTED_SYSTEMS_DIR_NAME[] = {"exported_systems"};
+	if (!FileSystem::userFiles.MakeDirectory(EXPORTED_SYSTEMS_DIR_NAME)) {
+		throw CouldNotOpenFileException();
+	}
+
+	// an example export of generated system, can be removed during the merge
+	char filename[500];
+	snprintf(filename, 500, "exported_systems/%s.lua", s->GetName().c_str());
+	const std::string finalPath = FileSystem::NormalisePath(FileSystem::JoinPath(FileSystem::GetUserDir(), filename));
+	s->ExportToLua(finalPath.c_str());
 
 	LUA_DEBUG_END(l, 1);
 	return 1;
@@ -343,7 +374,7 @@ static int l_starsystem_distance_to(lua_State *l)
  */
 static int l_starsystem_attr_name(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	lua_pushstring(l, s->GetName().c_str());
 	return 1;
 }
@@ -363,9 +394,9 @@ static int l_starsystem_attr_name(lua_State *l)
  */
 static int l_starsystem_attr_path(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	SystemPath path = s->GetPath();
-	LuaSystemPath::PushToLua(&path);
+	LuaObject<SystemPath>::PushToLua(&path);
 	return 1;
 }
 
@@ -384,7 +415,7 @@ static int l_starsystem_attr_path(lua_State *l)
  */
 static int l_starsystem_attr_lawlessness(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	lua_pushnumber(l, s->GetSysPolit().lawlessness.ToDouble());
 	return 1;
 }
@@ -404,8 +435,8 @@ static int l_starsystem_attr_lawlessness(lua_State *l)
  */
 static int l_starsystem_attr_population(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
-	lua_pushnumber(l, s->m_totalPop.ToDouble());
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	lua_pushnumber(l, s->GetTotalPop().ToDouble());
 	return 1;
 }
 
@@ -424,14 +455,34 @@ static int l_starsystem_attr_population(lua_State *l)
  */
 static int l_starsystem_attr_faction(lua_State *l)
 {
-	StarSystem *s = LuaStarSystem::CheckFromLua(1);
-	const Uint32 idx = s->GetFactionIndex();
-	if (idx != Faction::BAD_FACTION_IDX) {
-		LuaFaction::PushToLua(Faction::GetFaction(idx));
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	if (s->GetFaction()->IsValid()) {
+		LuaObject<Faction>::PushToLua(s->GetFaction());
 		return 1;
 	} else {
 		return 0;
 	}
+}
+
+/*
+ * Attribute: explored
+ *
+ *   If this system has been explored then returns true
+ *
+ * Availability:
+ *
+ *   alpha 30
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+static int l_starsystem_attr_explored(lua_State *l)
+{
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	lua_pushboolean(l, !s->GetUnexplored());
+	return 1;
 }
 
 template <> const char *LuaObject<StarSystem>::s_type = "StarSystem";
@@ -449,6 +500,8 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 
 		{ "DistanceTo", l_starsystem_distance_to },
 
+		{ "ExportToLua", l_starsystem_export_to_lua },
+
 		{ 0, 0 }
 	};
 
@@ -459,6 +512,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },
 		{ "faction",     l_starsystem_attr_faction     },
+		{ "explored",    l_starsystem_attr_explored    },
 
 		{ 0, 0 }
 	};

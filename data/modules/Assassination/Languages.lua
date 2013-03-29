@@ -1,4 +1,4 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
   -- adtext - text shown in the bulletin board list
@@ -58,7 +58,7 @@ Translate:AddFlavour('English','Assassination', {
 })
 
 Translate:Add({ English = {
-  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}.",
+  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}.",
   ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "It must be done after {target} leaves {spaceport}. Do not miss this opportunity.",
   ["Assassination"] = "Assassination",
   ["Excellent."] = "Excellent.",
@@ -68,6 +68,17 @@ Translate:Add({ English = {
   ["How soon must it be done?"] = "How soon must it be done?",
   ["How will I be paid?"] = "How will I be paid?",
   ["Ok, agreed."] = "Ok, agreed.",
+  ["ly"] = "ly",
+
+  -- Texts for the missions screen   
+  ["Target name:"] = "Target name:",
+  ["Spaceport:"] = "Spaceport:",
+  ["System:"] = "System:",
+  ["Ship:"] = "Ship:",
+  ["Ship ID:"] = "Ship ID:",
+  ["Target will be leaving spaceport at:"] = "Target will be leaving spaceport at:",
+  ["Distance:"] = "Distance:",
+
   TITLE = {
 		"Admiral",
 		"Ambassador",
@@ -148,7 +159,7 @@ Translate:AddFlavour('Polski','Assassination', {
 })
 
 Translate:Add({ Polski = {
-  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} będzie opuszczał {spaceport} w systemie {system} ({sectorX}, {sectorY}, {sectorZ}) o {date}, na statku {shipname} o identyfikatorze {shipregid}.",
+  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} będzie opuszczał {spaceport} w systemie {system} ({sectorX}, {sectorY}, {sectorZ}), oddalonym o {dist} lś, punktualnie o {date}. Na statku {shipname} o identyfikatorze {shipregid}.",
   ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "Zrób to po tym jak {target} opuści {spaceport}. Nie przegap tej okazji.",
   ["Assassination"] = "Zabójstwo",
   ["Excellent."] = "Wspaniale.",
@@ -158,6 +169,17 @@ Translate:Add({ Polski = {
   ["How soon must it be done?"] = "Jak powinienem to zrobić?",
   ["How will I be paid?"] = "Jak będę miał zapłacone?",
   ["Ok, agreed."] = "Zgoda.",
+  ["ly"] = "lś",
+
+  -- Texts for the missions screen  
+  ["Target name:"] = "Cel:",
+  ["Spaceport:"] = "Port kosmiczny:",
+  ["System:"] = "System:",
+  ["Ship:"] = "Statek:",
+  ["Ship ID:"] = "Identyfikator:",
+  ["Target will be leaving spaceport at:"] = "Cel będzie opuszczał port kosmiczny o:",
+  ["Distance:"] = "Dystans:",
+
   TITLE = {
 		"admirał",
 		"ambasador",
@@ -238,7 +260,7 @@ Translate:AddFlavour('Spanish','Assassination', {
 })
 
 Translate:Add({ Spanish = {
-  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} partirá de {spaceport} en el sistema {system} ({sectorX}, {sectorY}, {sectorZ}) el {date}. La nave es una {shipname} y tiene el número de registro {shipregid}.",
+  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} partirá de {spaceport} en el sistema {system} ({sectorX}, {sectorY}, {sectorZ}) el {date}. La nave es una {shipname} y tiene el número de registro {shipregid}.",
   ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "Se debe actuar cuando {target} parta de {spaceport}. No pierda esta oportunidad.",
   ["Assassination"] = "Asesinato",
   ["Excellent."] = "Excelente.",
@@ -328,7 +350,7 @@ Translate:AddFlavour('Magyar','Assassination', {
 })
 
 Translate:Add({ Magyar = {
-  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}) at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} {date} időpontban hagyja el a(z) {spaceport} dokkját a(z) {system} rendszerben ({sectorX}, {sectorY}, {sectorZ}). \n\nA hajó típusa: {shipname}, regisztrációs száma pedig {shipregid}.",
+  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} {date} időpontban hagyja el a(z) {spaceport} dokkját a(z) {system} rendszerben ({sectorX}, {sectorY}, {sectorZ}). \n\nA hajó típusa: {shipname}, regisztrációs száma pedig {shipregid}.",
   ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "Akkor kell elintézni, miután {target} elhagyta {spaceport} kikötőjét. Ne halaszd el a lehetőséget.",
   ["Assassination"] = "Orgyilkosság",
   ["Excellent."] = "Kitünő.",
@@ -365,4 +387,306 @@ Translate:Add({ Magyar = {
 		"Szenátor",
 		"Őrmester",
 	 },
+}, })
+
+  ---- RUSSIAN / РУССКИЙ ----
+
+Translate:AddFlavour('Russian','Assassination', {
+  adtext = "РАЗЫСКИВАЮ: человека для решения проблемы в системе {system}. Моя проблема - {target}.",
+  introtext = "Привет! - меня зовут {name}. Я заплачу тебе {cash}, если {target} будет устранен.",
+  successmsg = "Похоже {target} отправился на вечные каникулы. Отлично, я перечислю деньги на ваш счёт.",
+  failuremsg = "Похоже {target} всё ещё дышит! Это не то, что могло бы меня успокоить.",
+  failuremsg2 = "Я уже знаю, что {target} мёртв. Но не от вашей руки. Контракт разорван.",
+})
+
+Translate:AddFlavour('Russian','Assassination', {
+  adtext = "ПРЕДЛОЖЕНИЕ: {target} должен навсегда исчезнуть из моей жизни в системе {system}.",
+  introtext = "Мне нужно, чтоб {target} покинул этот мир. Я заплачу {cash} наличными.",
+  successmsg = "Мне было очень грустно узнать, что {target} мёртв. Деньги уже перечислены на ваш счёт.",
+  failuremsg = "Я слышал, что {target} находится в добром здравии. Это весьма неприятно.",
+  failuremsg2 = "Я знаю, что {target} скончался без вашей помощи, так что не спрашивайте про деньги.",
+})
+
+Translate:AddFlavour('Russian','Assassination', {
+  adtext = "УСТРАНЕНИЕ: {target} был недавно замечен в системе {system}.",
+  introtext = "Я {name} заплачу вам {cash}, если {target} будет устранен.",
+  successmsg = "Завершенный контракт оплачен в полном объеме. Удачи!.",
+  failuremsg = "Весьма прискорбно, что {target} всё ещё жив и здоров. Вы не получите денег за незавершенный контракт!",
+  failuremsg2 = "Контракт выполнили без вас. В следующий раз поторапливайся!",
+})
+
+Translate:AddFlavour('Russian','Assassination', {
+  adtext = "ЗАДАНИЕ: {target} должен быть устранен.",
+  introtext = "В звездную пыль должен быть превращен {target}. За это я награжу вас {cash}.",
+  successmsg = "Всё прошло хорошо - {target} мёртв. Вот ваша награда.",
+  failuremsg = "Вам придется ответить за то, что {target} жив!",
+  failuremsg2 = "Просите деньги за чужую работу? Проваливайте!",
+})
+
+Translate:AddFlavour('Russian','Assassination', {
+  adtext = "НА СВАЛКУ истории должен отправиться {target}",
+  introtext = "Мы можем предложить {cash}, чтобы {target} прекратил свою деятельность.",
+  successmsg = "Мы узнали, что {target} сдох - это восхитительно! Вот ваши деньги.",
+  failuremsg = "Я не дам вам ни монетки - {target} ещё не в могиле!",
+  failuremsg2 = "Похоже, что {target} уже в могиле без вашей помощи. Платить вам не за что.",
+})
+
+Translate:AddFlavour('Russian','Assassination', {
+  adtext = "КОНТРАКТ: требуется человек для деликатной работы. Цель - {target}.",
+  introtext = "Предлагаем вам сделку на {cash}.\n Цель контракта - {target}.\n Есть люди, которые считают, что пора поставить точку в биографии этой личности.\n Если наше предложение заинтересовало вас, подписывайте контракт и отправляйтесь в систему {system}.",
+  successmsg = "Мы получили подтверждение ликвидации {target}. Призовая сумма в {cash} переведена на ваш счёт.",
+  failuremsg = "Мы знаем, что {target} всё ещё в живых. Мы разочарованы.",
+  failuremsg2 = "Сожалею, но {target} ликвидирован без вашего участия! Прощайте.",
+})
+
+Translate:Add({ Russian = {
+  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."] = "Ваша цель - {target} - покинет станцию {spaceport} в системе {system} ({sectorX}, {sectorY}, {sectorZ}), расстояние {dist}, ровно в {date} года.\n Корабль {shipname} имеет регистрационный номер {shipregid}.",
+  ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "Вы должны сделать это когда {target} покинет {spaceport}. Не упустите момент.",
+  ["Assassination"] = "Ликвидация",
+  ["Excellent."] = "Отлично.",
+  ["Return here on the completion of the contract and you will be paid."] = "Вы сможете получить деньги на этой станции после выполнения контракта.",
+  ["Where can I find {target}?"] = "Где находится цель?",
+  ["Could you repeat the original request?"] = "Повторите ваше задание, пожалуйста.",
+  ["How soon must it be done?"] = "Когда я должен выполнить задание?",
+  ["How will I be paid?"] = "Как я получу оплату за работу?",
+  ["Ok, agreed."] = "Согласен, подписываю контракт.",
+  ["ly"] = "св.лет",
+
+  -- Texts for the missions screen   
+  ["Target name:"] = "Цель:",
+  ["Spaceport:"] = "Станция нахождения:",
+  ["System:"] = "Система нахождения:",
+  ["Ship:"] = "Тип корабля:",
+  ["Ship ID:"] = "Номер корабля:",
+  ["Target will be leaving spaceport at:"] = "Цель покинет станцию:",
+  ["Distance:"] = "Расстояние:",
+
+  TITLE = {
+		"адмирал",
+		"посол",
+		"бригадир",
+		"кадет",
+		"капитан",
+		"кардинал",
+		"полковник",
+		"командир",
+		"командор",
+		"капрал",
+		"энсин",
+		"генерал",
+		"судья",
+		"адвокат",
+		"лейтенант",
+		"маршал",
+		"торговец",
+		"офицер",
+		"рядовой",
+		"профессор",
+		"прокурор",
+		"ректор",
+		"матрос",
+		"сенатор",
+		"сержант",
+	 },
+}, })
+
+  ---- GERMAN / DEUTSCH ----
+
+Translate:AddFlavour('Deutsch','Assassination', {
+  adtext = "GESUCHT: Entfernung von {target} aus dem {system} System.",
+  introtext = "Hi, ich bin {name}. Ich werde dich mit {cash} belohnen, wenn du {target} aus dem Weg schaffst.",
+  successmsg = "Ich habe die Neuigkeiten über {target}s langen \"Urlaub\" empfangen. Gut gemacht, du wirst deinen Lohn erhalten.",
+  failuremsg = "Ich bin sehr enttäuscht, dass {target} noch lebt. Den Lohn kannst du dir abschreiben.",
+  failuremsg2 = "{target} wurde nicht von dir erledigt. Kein Lohn, vielleicht klappt es ja nächstes mal.",
+})
+
+Translate:AddFlavour('Deutsch','Assassination', {
+  adtext = "GESUCHT: Jemand der {target} aus dem {system} System tötet.",
+  introtext = "Ich will, dass {target} von der Bildfläche verschwindet. Wenn du es schaffst, erhälst du {cash}.",
+  successmsg = "Mit Trauer hörte ich von {target}s Ableben. Du erhälst deine volle Bezahlung.",
+  failuremsg = "Ich höre, dass {target} in bester Verfassung ist. This pains me.",
+  failuremsg2 = "{target}s Ableben entstand nicht durch deine Hand, also frage nicht nach einer Bezahlung.",
+})
+
+Translate:AddFlavour('Deutsch','Assassination', {
+  adtext = "ENTFERNUNG: {target} ist im {system} system nicht mehr erwünscht.",
+  introtext = "Ich bin {name}, und ich werde dir {cash} zahlen, wenn du {target} eliminierst.",
+  successmsg = "Du wurdest für den erfolgreichen Abschluss dieses wichtigen Auftrages belohnt.",
+  failuremsg = "Es ist sehr bedauerlich, dass {target} noch gesund und munter ist. Du hast deinen Auftrag nicht erfüllt, du wirst keinen Lohn erhalten.",
+  failuremsg2 = "Die Aufgabe wurde von jemand anderem erledigt. Sei nächstes mal schneller!",
+})
+
+Translate:AddFlavour('Deutsch','Assassination', {
+  adtext = "ELIMINIERUNG: Jemanden, der {target} erledigt.",
+  introtext = "{target} muss zu Sternenstaub werden. Ich wede dich mit {cash} belohnen, wenn du es tust.",
+  successmsg = "{target} ist tot. Hier ist deine Belohnung",
+  failuremsg = "Du wirst es noch bedauern, {target} nicht eleminiert zu haben!",
+  failuremsg2 = "Du willst Geld für den Job, den jemand anderes gemacht hat? Zieh Leine.",
+})
+
+Translate:AddFlavour('Deutsch','Assassination', {
+  adtext = "RUHESTAND: Jemand soll {target} in den Ruhestand schicken.",
+  introtext = "Für {cash} soll {target} ermutigt werden, seine Arbeit einzustellen und in den Ruhestand zu gehen.",
+  successmsg = "Neuigkeiten von {target}s Rückzug. Hier ist dein Geld.",
+  failuremsg = "{target} atmet noch und ich werde dir kein Geld geben.",
+  failuremsg2 = "Jemand anderes hat {target} in den Ruhestand geschickt.",
+})
+
+Translate:AddFlavour('Deutsch','Assassination', {
+  adtext = "BIOGRAFISCH: Einige Verehrer wollen {target} tot sehen.",
+  introtext = "Wir wollen einende von {target}s Karriere im {system} System. Wir sind bereit, {cash} zu zahlen.",
+  successmsg = "Die Nachricht von {target}s Karriereende hat uns erreicht. Hier sind deine {cash}.",
+  failuremsg = "Wir haben herausgefunden, dass {target} immer noch tätig ist. Wir bedauern das.",
+  failuremsg2 = "{target} wurde von jemand Anderem neutralisiert.",
+})
+
+Translate:Add({ Deutsch = {
+  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} wird {spaceport} im {system} system ({sectorX}, {sectorY}, {sectorZ}) am Datum {date} verlassen. Das Schiff heißt {shipname} und hat die Registrations-ID {shipregid}.",
+  ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "Es muss passieren, nachdem {target}  {spaceport} verlässt. Lass dir diese Chance nicht entgehen.",
+  ["Assassination"] = "Attentat",
+  ["Excellent."] = "Wunderbar.",
+  ["Return here on the completion of the contract and you will be paid."] = "Komme hierhin zurück, um den Vertrag abzuschließen und deine Belohnung zu bekommen.",
+  ["Where can I find {target}?"] = "Wo kann ich {target} finden?",
+  ["Could you repeat the original request?"] = "Könntest du die Frage noch einmal wiederholen?",
+  ["How soon must it be done?"] = "Bis wann muss es passieren?",
+  ["How will I be paid?"] = "Wie werde ich Bezahlt?",
+  ["Ok, agreed."] = "Okay, ich mache das..",
+
+  -- Texts for the missions screen   
+  ["Target name:"] = "Zielname:",
+  ["Spaceport:"] = "Raumhafen:",
+  ["System:"] = "System:",
+  ["Ship:"] = "Schiff:",
+  ["Ship ID:"] = "Schiff-ID:",
+  ["Target will be leaving spaceport at:"] = "Ziel wird Raumhafen verlassen um:",
+  ["Distance:"] = "Distanz:",
+
+  TITLE = {
+		"Admiral",
+		"Botschafter",
+		"Brigadier",
+		"Kadett",
+		"Kapitän",
+		"Kardinal",
+		"Oberst",
+		"Kommandant",
+		"Kommodore",
+		"Unteroffizier",
+		"Leutnant",
+		"General",
+		"Richter",
+		"Anwalt",
+		"Leutnant",
+		"Marschall",
+		"Händler",
+		"Offizier",
+		"Gefreiter",
+		"Professor",
+		"Staatsanwalt",
+		"Kanzler",
+		"Seemann",
+		"Senator",
+		"Feldwebel",
+	 },
+}, })
+
+  ---- CZECH / ČESKY ----
+
+Translate:AddFlavour('Czech','Assassination', {
+  adtext = "HLEDANÝ: Odstranit {target} ze systému {system}.",
+  introtext = "Zdravím, jsem {name}. Zaplatím ti {cash} když mě zbavíš {target}.",
+  successmsg = "Zprávy o {target}'s dlouhé \"dovolené\" už dorazily. Výborně, dostal jsi zaplaceno v plné výši.",
+  failuremsg = "Jsem velmi nespokojen(a), že {target} je stále naživu. Je zbytečné dodávat, že žádné peníze nedostaneš.",
+  failuremsg2 = "{target} nebyl odstraněn tebou. Tentokrát žádná platba nebude.",
+})
+
+Translate:AddFlavour('Czech','Assassination', {
+  adtext = "HLEDANÝ: Zabít {target} ze systému {system}.",
+  introtext = "Potřebuji aby {target} zmizel ze scény. Zaplatím ti {cash} když to zařídíš.",
+  successmsg = "Donesla se mi žalostná zpráva o úmrtí {target}. Dostal jsi zaplaceno v plné výši.",
+  failuremsg = "Slyšel(a) jsem, že {target} se těší dobrému zdraví. To mě opravdu bolí.",
+  failuremsg2 = "{target} zemřel rukou někoho jiného, tak se neptej na peníze!",
+})
+
+Translate:AddFlavour('Czech','Assassination', {
+  adtext = "ODSTRANĚNÍ: {target} již není v systému {system} vítán.",
+  introtext = "Jsem {name}, zaplatím ti {cash} když eliminuješ {target}.",
+  successmsg = "Za vyřízení této důležité dohody jsi dostal zaplaceno v plné výši.",
+  failuremsg = "Je velmi politováníhodné, že {target} je pořád naživu. Žádné peníze nedostaneš, protože jsi nesplnil naši dohodu.",
+  failuremsg2 = "Úkol byl vyřízen někým jiným. Přístě buď rychlejší!",
+})
+
+Translate:AddFlavour('Czech','Assassination', {
+  adtext = "ELIMINACE: Kdo odstraní {target}?",
+  introtext = "{target} musí být rozprášen(a) na kousíčky. Odměna bude {cash} když to uděláš.",
+  successmsg = "{target} je po smrti. Zde je tvá odměna.",
+  failuremsg = "Toho budeš litovat, {target} je naživu a ty chceš peníze!?!",
+  failuremsg2 = "Ty chceš peníze za práci, kterou vyřídil někdo jiný? Ať už tě nevidím!",
+})
+
+Translate:AddFlavour('Czech','Assassination', {
+  adtext = "VÝSLUŽBA: Kdo pošle na odpočinek {target}?",
+  introtext = "{cash} zaplatíme tomu, kdo povzbudí {target}, aby okamžitě zanechal(a) práce a šel/šla do penze.",
+  successmsg = "Obdrželi jsme báječné zprávy o {target}'s odchodu do důchodu. Zde jsou tvé peníze.",
+  failuremsg = "{target} pořád dýchá, žádné peníze nedostaneš!",
+  failuremsg2 = "{target} poslal na odpočinek někdo jiný!",
+})
+
+Translate:AddFlavour('Czech','Assassination', {
+  adtext = "ŽIVOTOPISNÝ: Někteří ctitelé si přejí smrt {target}.",
+  introtext = "Přejeme si ukončit kariéru {target} v systému {system}, jsme ochotni zaplatit {cash}.",
+  successmsg = "Zpráva o konci {target} šťastně dorazila. Zde je tvých {cash}.",
+  failuremsg = "Zjistili jsme, že je {target} víceméně stále aktivní. To nás rmoutí.",
+  failuremsg2 = "{target} byl neutralizován někým jiným!",
+})
+
+Translate:Add({ Czech = {
+  ["{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."] = "{target} bude odlétat z {spaceport} v systému {system} ({sectorX}, {sectorY}, {sectorZ}), vzdálenost {dist} ly, k datu {date}. Loď se jmenuje {shipname} a ma registrační id {shipregid}.",
+  ["It must be done after {target} leaves {spaceport}. Do not miss this opportunity."] = "Úkol musí být splněn až po té, co {target} opustí {spaceport}. Nezmeškej tuto příležitost!",
+  ["Assassination"] = "Atentát",
+  ["Excellent."] = "Výborně.",
+  ["Return here on the completion of the contract and you will be paid."] = "Po splnění úkolu se sem vrať a dostaneš zaplaceno.",
+  ["Where can I find {target}?"] = "Kde můžu {target} najít?",
+  ["Could you repeat the original request?"] = "Můžeš mi zopakovat původní dotaz?",
+  ["How soon must it be done?"] = "Do kdy musí být úkol splněn?",
+  ["How will I be paid?"] = "Jak dostanu zaplaceno?",
+  ["Ok, agreed."] = "OK, souhlasím.",
+  ["ly"] = "ly",
+
+  -- Texts for the missions screen   
+  ["Target name:"] = "Jméno cíle:",
+  ["Spaceport:"] = "Stanice:",
+  ["System:"] = "Systém:",
+  ["Ship:"] = "Loď:",
+  ["Ship ID:"] = "ID lodě:",
+  ["Target will be leaving spaceport at:"] = "Cíl opustí stanici v:",
+  ["Distance:"] = "Vzdálenost:",
+
+  TITLE = {
+	"admirál",
+	"velvyslanec",
+	"velitel brigády",
+	"kadet",
+	"kapitán",
+	"kardinál",
+	"plukovník",
+	"velitel",
+	"komodor",
+	"desátník",
+	"podporučík",
+	"generál",
+	"soudce",
+	"právník",
+	"poručík",
+	"maršál",
+	"obchodník",
+	"důstojník",
+	"vojín",
+	"profesor",
+	"prokurátor",
+	"kancléř",
+	"námořník",
+	"senátor",
+	"seržant",
+  },
 }, })

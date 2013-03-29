@@ -1,36 +1,22 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Tombstone.h"
 #include "Lang.h"
+#include "Pi.h"
 #include "graphics/Renderer.h"
+#include "scenegraph/SceneGraph.h"
 
 Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
 : Cutscene(r, width, height)
 {
-	m_ambientColor = Color(0.1f, 0.1f, 0.1f, 1.f);
+	m_ambientColor = Color(0.05f, 0.05f, 0.1f, 1.f);
 
 	const Color lc(1.f, 1.f, 1.f, 0.f);
-	m_lights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 1.f, 1.f), lc, lc, lc));
+	m_lights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f, 0.8f, 1.0f), lc, lc));
 
-	m_model = LmrLookupModelByName("tombstone");
-
-	// Model parameters
-	LmrObjParams params = {
-		0, // animation namespace
-		0.0, // time
-		{}, // animation stages
-		{}, // animation positions
-		Lang::TOMBSTONE_EPITAPH, // label
-		0, // equipment
-		0, // flightState
-		{ 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f },
-		{	// pColor[3]
-		{ { 1.0f, 1.0f, 1.0f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.8f, 0.6f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 },
-		{ { 0.5f, 0.5f, 0.5f, 1.0f }, { 0, 0, 0 }, { 0, 0, 0 }, 0 } },
-	};
-	m_modelParams = params;
+	m_model = Pi::FindModel("tombstone");
+	m_model->SetLabel(Lang::TOMBSTONE_EPITAPH);
 }
 
 void Tombstone::Draw(float _time)
@@ -38,7 +24,7 @@ void Tombstone::Draw(float _time)
 	m_renderer->SetPerspectiveProjection(75, m_aspectRatio, 1.f, 10000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 
 	const Color oldSceneAmbientColor = m_renderer->GetAmbientColor();
 	m_renderer->SetAmbientColor(m_ambientColor);
@@ -46,7 +32,7 @@ void Tombstone::Draw(float _time)
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
 	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
-	m_model->Render(rot, &m_modelParams);
+	m_model->Render(rot);
 	glPopAttrib();
 	m_renderer->SetAmbientColor(oldSceneAmbientColor);
 }

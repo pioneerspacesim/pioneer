@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_TEXTLAYOUT_H
@@ -18,9 +18,9 @@ class TextLayout {
 public:
 	TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::string &text);
 
-	Point ComputeSize(const Point &hint);
+	Point ComputeSize(const Point &layoutSize);
 
-	void Draw(const Point &size);
+	void Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize);
 
 private:
 	struct Word {

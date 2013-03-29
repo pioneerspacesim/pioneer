@@ -1,4 +1,4 @@
--- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 
@@ -135,5 +135,107 @@ Translate:Add({ Magyar = {
   ["You do not have enough money."] = "Nincsen elég pénzed.",
   ["Wow! That was very generous."] = "Azta! Ez aztán nagylelkű.",
   ["Thank you. All donations are welcome."] = "Köszönjük. Minden felajánlást szívesen fogadunk.",
+  }
+})
+
+  ---- RUSSIAN / РУССКИЙ ----
+
+Translate:AddFlavour('Russian','DonateToCranks', {
+  title = "ПОМОГИТЕ! Церковь Летающего Макаронного Монстра нуждается в ВАШИХ деньгах, дабы иметь возможность нести Слово Создателя!",
+  message = "Пожалуйста, выберите сумму пожертвования, которой вы могли бы поддержать Церковь Летающего Макаронного Монстра.",
+})
+
+Translate:AddFlavour('Russian','DonateToCranks', {
+  title = "ПОМОГИТЕ. Стражи Вольного Духа покорнейше просят вас пожертвовать скромную сумму на поддержку нашего святого братства.",
+  message = "Мир тебе, брат. Выбери сумму, которую ты мог бы пожертвовать Стражам Вольного Духа.",
+})
+
+Translate:AddFlavour('Russian','DonateToCranks', {
+  title = "ВЫ ЩЕДРЫЙ? Помогите Сиротам Войны, которым требуется ваша помощь, чтобы получить шанс выжить в этом жестком мире!",
+  message = "Пожалуйста, выберете сумму, которую вы хотите отправить Сиротам Войны, чтобы помочь прекратить страдания детей по всей Галактике.",
+})
+
+Translate:AddFlavour('Russian','DonateToCranks', {
+  title = "ПОСОДЕЙСТВУЙТЕ. Кампания Галактических Друзей За Запрещение Военных Гипердвигателей рассчитывает на вашу финансовую поддержку!",
+  message = "Пожалуйста! Выберете сумму, которую вы готовы перечислить на счёт ГринВотч, посодействовав прекращению загрязнения нашей Галактики!",
+})
+
+Translate:AddFlavour('Russian','DonateToCranks', {
+  title = "ВЛОЖИТЕСЬ! Спасите экосистему нашей планеты! Остановите варварское истребление животных и растительности в новых колониях!",
+  message = "Пожалуйста, выберите размер пожертвования."
+})
+
+Translate:Add({ Russian = {
+  ["You do not have enough money."] = "У вас недостаточно денег для пожертвования.",
+  ["Wow! That was very generous."] = "О! Вы очень щедры! Спасибо..",
+  ["Thank you. All donations are welcome."] = "Спасибо, мы ценим любую помощь.",
+  }
+})
+
+  ---- GERMAN / DEUTSCH ----
+
+Translate:AddFlavour('Deutsch','DonateToCranks', {
+  title = "SPENDE! Die Kirche des Fliegenden Himmel-Spagettimonster braucht DEIN Geld, um das Wort von Gott zu verbreiten!",
+  message = "Bitte wähle eine Summe um an die Kirche des Fliegenden Himmel-Spagettimonster zu spenden.",
+})
+
+Translate:AddFlavour('Deutsch','DonateToCranks', {
+  title = "SPENDE. Die Wächter des Freien Geistes appellieren demütig an Ihre Wohltätigkeit, um unsere Klöster zu unterstützen.",
+  message = "Friede sei mit dir, Bruder. Bitte wähle die Summe, die du den Wächtern des Freien Geistes spenden möchtest.",
+})
+
+Translate:AddFlavour('Deutsch','DonateToCranks', {
+  title = "IN SPENDENLAUNE? Die Kriegswaisen-Unterstützung braucht deine Hilfe um die Lebenswichtige Arbeit weiterzuführen.",
+  message = "Bitte wähle die Summe, die du der Kriegswaisen-Unterstützung spenden willst, um damit das Leiden von Kindern aus der ganzen Galaxie zu lindern.",
+})
+
+Translate:AddFlavour('Deutsch','DonateToCranks', {
+  title = "TRAGE BEI. Die Freundde der Galaktischen 'Verbot Militärischer Antriebe' Kampagne braucht dein Geld.",
+  message = "Bitte wähle eine Summe, die du GreenWatch spenden willst, um die Verschmutzung unserer Galaxie zu beenden.",
+})
+
+Translate:AddFlavour('Deutsch','DonateToCranks', {
+  title = "SPENDE! Rette unsere Spezies. Stoppe das Massensterben auf neu besiedelten Welten.",
+  message = "Bitte wähle aus, wie viel du spenden willst."
+})
+
+Translate:Add({ Deutsch = {
+  ["You do not have enough money."] = "Du hast nicht genug Geld.",
+  ["Wow! That was very generous."] = "Wow! Das war sehr großzügig.",
+  ["Thank you. All donations are welcome."] = "Danke. Alle Spenden sind wilkommen.",
+  }
+})
+
+  ---- CZECH / ČESKY ----
+
+Translate:AddFlavour('Czech','DonateToCranks', {
+  title = "PŘISPĚJTE! Církev nebeských létajících špageti nestvůr potřebuje VAŠE peníze, aby mohla hlásat slovo Boží.",
+  message = "Prosím zvolte částku, kterou chcete darovat Církvi nebeských létajících špageti nestvůr.",
+})
+
+Translate:AddFlavour('Czech','DonateToCranks', {
+  title = "PŘISPĚJTE. Ochránci svobodného ducha vás pokorně žádají o příspěvek pro své kláštery.",
+  message = "Mír s tebou, bratře/sestro. Prosím zvolte částku, kterou chcete darovat Ochráncům svobodného ducha.",
+})
+
+Translate:AddFlavour('Czech','DonateToCranks', {
+  title = "CÍTÍTE se ŠTĚDŘE? Domov pro válečné sirotky potřebuje vaši pomoc, aby mohl poskytovat základní péči.",
+  message = "Prosím zvolte částku, kterou chcete darovat Domovu pro válečné sirotky a ukončit tak utrpení dětí po celé galaxii.",
+})
+
+Translate:AddFlavour('Czech','DonateToCranks', {
+  title = "DARUJTE. Přátelé Galaxie potřebují vaše peníze pro svou kampaň 'Zakažme vojenské motory'.",
+  message = "Prosím zvolte částku, kterou chcete přispět 'Zeleným' a skoncovat tak se znečištěním galaxie.",
+})
+
+Translate:AddFlavour('Czech','DonateToCranks', {
+  title = "PŘISPĚJTE! Zachraňte náš druh. Zastavte masakr na nově obydlených světech.",
+  message = "Prosím zvolte částku, kterou chcete přispět."
+})
+
+Translate:Add({ Czech = {
+  ["You do not have enough money."] = "Nemáš dostatek peněz.",
+  ["Wow! That was very generous."] = "Wow! To od vás bylo velmi štědré.",
+  ["Thank you. All donations are welcome."] = "Děkujeme. Všechny příspěvky jsou vítány.",
   }
 })

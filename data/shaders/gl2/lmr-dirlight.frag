@@ -12,14 +12,12 @@ uniform Scene scene;
 void main(void)
 {
 	vec3 tnorm = normalize(norm);
-	vec4 amb = vec4(0.0);
 	vec4 diff = vec4(0.0);
 	vec4 spec = vec4(0.0);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		float nDotVP = max(0.0001, dot(tnorm, normalize(vec3(gl_LightSource[i].position))));
 		float nDotHV = max(0.0001, dot(tnorm, vec3(gl_LightSource[i].halfVector)));
 		float pf = max(0.0, pow(nDotHV, gl_FrontMaterial.shininess));
-		amb += gl_LightSource[i].ambient;
 		diff += gl_LightSource[i].diffuse * nDotVP;
 		spec += gl_LightSource[i].specular * pf;
 	}
@@ -32,7 +30,6 @@ void main(void)
 
 	gl_FragColor =
 		(scene.ambient * gl_FrontMaterial.ambient) +
-		(amb * gl_FrontMaterial.ambient) +
 		(diff * gl_FrontMaterial.diffuse) +
 		(spec * gl_FrontMaterial.specular) +
 		emission;

@@ -1,4 +1,4 @@
-// Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SFX_H
@@ -22,7 +22,7 @@ public:
 
 	static void Add(const Body *, TYPE);
 	static void TimeStepAll(const float timeStep, Frame *f);
-	static void RenderAll(Graphics::Renderer *r, const Frame *f, const Frame *camFrame);
+	static void RenderAll(Graphics::Renderer *r, Frame *f, const Frame *camFrame);
 	static void Serialize(Serializer::Writer &wr, const Frame *f);
 	static void Unserialize(Serializer::Reader &rd, Frame *f);
 
