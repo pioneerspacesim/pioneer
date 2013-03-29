@@ -336,21 +336,19 @@ static int l_starsystem_distance_to(lua_State *l)
  *
  *   experimental
  */
-#pragma optimize( "", off )
 static int l_starsystem_export_to_lua(lua_State *l)
 {
 	LUA_DEBUG_START(l);
 
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 
-	static const char EXPORTED_SYSTEMS_DIR_NAME[] = {"exported_systems"};
+	static const std::string EXPORTED_SYSTEMS_DIR_NAME("exported_systems");
 	if (!FileSystem::userFiles.MakeDirectory(EXPORTED_SYSTEMS_DIR_NAME)) {
 		throw CouldNotOpenFileException();
 	}
 
-	// an example export of generated system, can be removed during the merge
-	char filename[500];
-	snprintf(filename, 500, "exported_systems/%s.lua", s->GetName().c_str());
+	// construct the filename with folder and extension
+	const std::string filename(EXPORTED_SYSTEMS_DIR_NAME + "/" + s->GetName() + ".lua");
 	const std::string finalPath = FileSystem::NormalisePath(FileSystem::JoinPath(FileSystem::GetUserDir(), filename));
 	s->ExportToLua(finalPath.c_str());
 
