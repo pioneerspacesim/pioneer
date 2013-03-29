@@ -31,9 +31,6 @@ public:
 	vector3d EvenSpacedPosTrajectory(double t) const;
 
 	double Period() const;
-	double TrueAnomaly(double MeanAnomaly) const;
-	double MeanAnomalyFromTrueAnomaly(double trueAnomaly) const;
-	double MeanAnomalyAtTime(double time) const;
 	vector3d Apogeum() const;
 	vector3d Perigeum() const;
 
@@ -44,6 +41,10 @@ public:
 	const matrix3x3d &GetPlane() const { return m_orient; }
 
 private:
+	double TrueAnomalyFromMeanAnomaly(double MeanAnomaly) const;
+	double MeanAnomalyFromTrueAnomaly(double trueAnomaly) const;
+	double MeanAnomalyAtTime(double time) const;
+
 	double m_eccentricity;
 	double m_semiMajorAxis;
 	double m_orbitalPhaseAtStart; // 0 to 2 pi radians
