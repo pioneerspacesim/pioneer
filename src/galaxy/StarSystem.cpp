@@ -2539,7 +2539,7 @@ void StarSystem::ExportToLua(const char *filename) {
 	fprintf(f,"-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt\n\n");
 
 
-	std::string stars_in_system = GetStarTypes(rootBody);
+	std::string stars_in_system = GetStarTypes(rootBody.Get());
 
 	for(j = 0; ENUM_PolitGovType[j].name != 0; j++) {
 		if(ENUM_PolitGovType[j].value == GetSysPolit().govType)
@@ -2550,7 +2550,7 @@ void StarSystem::ExportToLua(const char *filename) {
 			GetName().c_str(), stars_in_system.c_str(), ENUM_PolitGovType[j].name, GetShortDescription(), GetLongDescription());
 
 
-	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, rootBody).c_str());
+	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, rootBody.Get()).c_str());
 
 	Sector sec(GetPath().sectorX, GetPath().sectorY, GetPath().sectorZ);
 	SystemPath pa = GetPath();
