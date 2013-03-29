@@ -133,24 +133,24 @@ void SystemView::ResetViewpoint()
 
 void SystemView::PutOrbit(Orbit *orb, vector3d offset, Color color, double planetRadius)
 {
+	int num_vertices = 0;
 	vector3f vts[100];
-	bool hideAllFollowing = false; // hide all further points because we crushed to planet
 	for (int i = 0; i < int(COUNTOF(vts)); ++i) {
 		const double t = double(i) / double(COUNTOF(vts));
-		vector3d pos = orb->EvenSpacedPosTrajectory(t);
-
-		if(pos.Length() < planetRadius)
-			hideAllFollowing = true;
-
-		if(hideAllFollowing && i > 0)
-			vts[i] = vts[i-1];
-		else
-			vts[i] = vector3f(offset + pos * double(m_zoom));
+		const vector3d pos = orbit->EvenSpacedPosTrajectory(t);
+		vts[i] = vector3f(offset + pos * double(m_zoom));
+		++num_vertices;
+		if (pos.Length() < planetRadius)
+			break;
 	}
-	if(orb->eccentricity < 1 && !hideAllFollowing) // not close the loop for hyperbolas and parabolas and crashed ellipses
-		m_renderer->DrawLines(COUNTOF(vts), vts, color, LINE_LOOP);
-	else
-		m_renderer->DrawLines(COUNTOF(vts), vts, color, LINE_STRIP);
+
+	if (num_vertices > 1) {
+		// don't close the loop for hyperbolas and parabolas and crashed ellipses
+		if ((orbit->eccentricity <= 1.0) || (num_vertices < int(COUNTOF(vts))))
+			m_renderer->DrawLines(num_vertices, vts, color, LINE_LOOP);
+		else
+			m_renderer->DrawLines(num_vertices, vts, color, LINE_STRIP);
+	}
 }
 
 void SystemView::OnClickObject(SystemBody *b)
