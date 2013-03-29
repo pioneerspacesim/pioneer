@@ -1,12 +1,11 @@
-/*
- * Orbit.h
- *
- *  Created on: Feb 18, 2013
- *      Author: olsij4am
- */
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef ORBIT_H_
-#define ORBIT_H_
+#ifndef ORBIT_H
+#define ORBIT_H
+
+#include "vector3.h"
+#include "matrix3x3.h"
 
 struct Orbit {
 	Orbit(): orbitalPhaseAtStart(0.0) {};
@@ -35,5 +34,4 @@ struct Orbit {
 	matrix3x3d rotMatrix;
 };
 
-
-#endif /* ORBIT_H_ */
+#endif

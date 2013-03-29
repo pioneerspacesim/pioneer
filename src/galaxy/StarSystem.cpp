@@ -10,7 +10,6 @@
 #include "LuaNameGen.h"
 #include <map>
 #include "utils.h"
-#include "Game.h"
 #include "Orbit.h"
 #include "Lang.h"
 #include "StringF.h"

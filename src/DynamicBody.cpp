@@ -6,7 +6,6 @@
 #include "Space.h"
 #include "Frame.h"
 #include "Serializer.h"
-#include "Game.h"
 #include "Planet.h"
 #include "Pi.h"
 

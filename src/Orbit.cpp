@@ -1,12 +1,9 @@
 // Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "Serializer.h"
-#include "Pi.h"
-#include <map>
-#include "utils.h"
-#include "Game.h"
 #include "Orbit.h"
+#include "Game.h"
+#include "Pi.h"
 
 double Orbit::MeanAnomalyAtTime(double time) const {
 	const double e = eccentricity;
@@ -297,5 +294,3 @@ Orbit * Orbit::calc_orbit(Orbit * ret, vector3d pos, vector3d vel, double mass) 
 
 	return ret;
 }
-
-
