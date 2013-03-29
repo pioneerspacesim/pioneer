@@ -6,6 +6,7 @@ Alpha 33
    * Minor changes and tweaks
      * Clean up the Taxi, DeliverPackage and Assassination mission views
        (#2142, #2151)
+     * Tweak Polish translation (#2167)
 
    * Fixes
      * Fix hoop station unreliable docking detection (#2153, #2125)
