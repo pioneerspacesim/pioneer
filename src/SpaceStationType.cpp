@@ -136,10 +136,11 @@ static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int
 
 	vector3d toPos;
 
-	const bool bHasStageData = (bayMap.find( stage ) != bayMap.end());
+	const SpaceStationType::TMapBayIDMat::const_iterator stageDataIt = bayMap.find( stage );
+	const bool bHasStageData = (stageDataIt != bayMap.end());
 	assert(bHasStageData);
 	if (bHasStageData) {
-		const matrix4x4f &mt = bayMap.at(stage);
+		const matrix4x4f &mt = stageDataIt->second;
 		outPosOrient.xaxis	= vector3d(mt.GetOrient().VectorX()).Normalized();
 		outPosOrient.yaxis	= vector3d(mt.GetOrient().VectorY()).Normalized();
 		outPosOrient.zaxis	= vector3d(mt.GetOrient().VectorZ()).Normalized();
