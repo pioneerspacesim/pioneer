@@ -346,8 +346,7 @@ void ModelViewer::DrawDockingLocators()
 	using namespace Graphics::Drawables;
 
 	static std::vector<Line3D> sLines;
-	static bool sCachedLines = false;
-	if (!sCachedLines)
+	if (sLines.empty())
 	{
 		sLines.clear();
 
@@ -358,88 +357,84 @@ void ModelViewer::DrawDockingLocators()
 		m_model->FindTagsByStartOfName("docking_", docking_mts);
 		m_model->FindTagsByStartOfName("leaving_", leaving_mts);
 
-		{
-			for(SceneGraph::Model::TVecMT::const_iterator iter = docking_mts.begin(), itEnd=docking_mts.end(); iter!=itEnd; ++iter) {
-				const vector3f pos = (*iter)->GetTransform().GetTranslate();
-				const vector3f xAxis = (*iter)->GetTransform().GetOrient().VectorX() * 100.0f;
-				const vector3f yAxis = (*iter)->GetTransform().GetOrient().VectorY() * 100.0f;
-				const vector3f zAxis = (*iter)->GetTransform().GetOrient().VectorZ() * 100.0f;
-				Line3D lineX;
-				lineX.SetStart( pos );
-				lineX.SetEnd( pos + xAxis );
-				lineX.SetColor( Color::RED );
+		for(SceneGraph::Model::TVecMT::const_iterator iter = docking_mts.begin(), itEnd=docking_mts.end(); iter!=itEnd; ++iter) {
+			const vector3f pos = (*iter)->GetTransform().GetTranslate();
+			const vector3f xAxis = (*iter)->GetTransform().GetOrient().VectorX() * 100.0f;
+			const vector3f yAxis = (*iter)->GetTransform().GetOrient().VectorY() * 100.0f;
+			const vector3f zAxis = (*iter)->GetTransform().GetOrient().VectorZ() * 100.0f;
+			Line3D lineX;
+			lineX.SetStart( pos );
+			lineX.SetEnd( pos + xAxis );
+			lineX.SetColor( Color::RED );
 
-				Line3D lineY;
-				lineY.SetStart( pos );
-				lineY.SetEnd( pos + yAxis );
-				lineY.SetColor( Color::GREEN );
+			Line3D lineY;
+			lineY.SetStart( pos );
+			lineY.SetEnd( pos + yAxis );
+			lineY.SetColor( Color::GREEN );
 
-				Line3D lineZ;
-				lineZ.SetStart( pos );
-				lineZ.SetEnd( pos + zAxis );
-				lineZ.SetColor( Color::BLUE );
+			Line3D lineZ;
+			lineZ.SetStart( pos );
+			lineZ.SetEnd( pos + zAxis );
+			lineZ.SetColor( Color::BLUE );
 
-				sLines.push_back(lineX);
-				sLines.push_back(lineY);
-				sLines.push_back(lineZ);
-			}
+			sLines.push_back(lineX);
+			sLines.push_back(lineY);
+			sLines.push_back(lineZ);
+		}
 
-			for(SceneGraph::Model::TVecMT::const_iterator iter = leaving_mts.begin(), itEnd=leaving_mts.end(); iter!=itEnd; ++iter) {
-				const vector3f pos = (*iter)->GetTransform().GetTranslate();
-				const vector3f xAxis = (*iter)->GetTransform().GetOrient().VectorX() * 100.0f;
-				const vector3f yAxis = (*iter)->GetTransform().GetOrient().VectorY() * 100.0f;
-				const vector3f zAxis = (*iter)->GetTransform().GetOrient().VectorZ() * 100.0f;
-				Line3D lineX;
-				lineX.SetStart( pos );
-				lineX.SetEnd( pos + xAxis );
-				lineX.SetColor( Color::RED );
+		for(SceneGraph::Model::TVecMT::const_iterator iter = leaving_mts.begin(), itEnd=leaving_mts.end(); iter!=itEnd; ++iter) {
+			const vector3f pos = (*iter)->GetTransform().GetTranslate();
+			const vector3f xAxis = (*iter)->GetTransform().GetOrient().VectorX() * 100.0f;
+			const vector3f yAxis = (*iter)->GetTransform().GetOrient().VectorY() * 100.0f;
+			const vector3f zAxis = (*iter)->GetTransform().GetOrient().VectorZ() * 100.0f;
+			Line3D lineX;
+			lineX.SetStart( pos );
+			lineX.SetEnd( pos + xAxis );
+			lineX.SetColor( Color::RED );
 
-				Line3D lineY;
-				lineY.SetStart( pos );
-				lineY.SetEnd( pos + yAxis );
-				lineY.SetColor( Color::GREEN );
+			Line3D lineY;
+			lineY.SetStart( pos );
+			lineY.SetEnd( pos + yAxis );
+			lineY.SetColor( Color::GREEN );
 
-				Line3D lineZ;
-				lineZ.SetStart( pos );
-				lineZ.SetEnd( pos + zAxis );
-				lineZ.SetColor( Color::BLUE );
+			Line3D lineZ;
+			lineZ.SetStart( pos );
+			lineZ.SetEnd( pos + zAxis );
+			lineZ.SetColor( Color::BLUE );
 
-				sLines.push_back(lineX);
-				sLines.push_back(lineY);
-				sLines.push_back(lineZ);
-			}
+			sLines.push_back(lineX);
+			sLines.push_back(lineY);
+			sLines.push_back(lineZ);
+		}
 
-			for(SceneGraph::Model::TVecMT::const_iterator iter = approach_mts.begin(), itEnd=approach_mts.end(); iter!=itEnd; ++iter) {
-				const vector3f pos = (*iter)->GetTransform().GetTranslate();
-				const vector3f xAxis = (*iter)->GetTransform().GetOrient().VectorX() * 100.0f;
-				const vector3f yAxis = (*iter)->GetTransform().GetOrient().VectorY() * 100.0f;
-				const vector3f zAxis = (*iter)->GetTransform().GetOrient().VectorZ() * 100.0f;
-				Line3D lineX;
-				lineX.SetStart( pos );
-				lineX.SetEnd( pos + xAxis );
-				lineX.SetColor( Color::RED );
+		for(SceneGraph::Model::TVecMT::const_iterator iter = approach_mts.begin(), itEnd=approach_mts.end(); iter!=itEnd; ++iter) {
+			const vector3f pos = (*iter)->GetTransform().GetTranslate();
+			const vector3f xAxis = (*iter)->GetTransform().GetOrient().VectorX() * 100.0f;
+			const vector3f yAxis = (*iter)->GetTransform().GetOrient().VectorY() * 100.0f;
+			const vector3f zAxis = (*iter)->GetTransform().GetOrient().VectorZ() * 100.0f;
+			Line3D lineX;
+			lineX.SetStart( pos );
+			lineX.SetEnd( pos + xAxis );
+			lineX.SetColor( Color::RED );
 
-				Line3D lineY;
-				lineY.SetStart( pos );
-				lineY.SetEnd( pos + yAxis );
-				lineY.SetColor( Color::GREEN );
+			Line3D lineY;
+			lineY.SetStart( pos );
+			lineY.SetEnd( pos + yAxis );
+			lineY.SetColor( Color::GREEN );
 
-				Line3D lineZ;
-				lineZ.SetStart( pos );
-				lineZ.SetEnd( pos + zAxis );
-				lineZ.SetColor( Color::BLUE );
+			Line3D lineZ;
+			lineZ.SetStart( pos );
+			lineZ.SetEnd( pos + zAxis );
+			lineZ.SetColor( Color::BLUE );
 
-				sLines.push_back(lineX);
-				sLines.push_back(lineY);
-				sLines.push_back(lineZ);
-			}
-
-			sCachedLines = true;
+			sLines.push_back(lineX);
+			sLines.push_back(lineY);
+			sLines.push_back(lineZ);
 		}
 	}
 
-	std::vector<Line3D>::iterator lineIter = sLines.begin();
-	for( ; lineIter!=sLines.end(); ++lineIter)
+	
+	for(std::vector<Line3D>::iterator lineIter = sLines.begin(), lineEnd = sLines.end(); lineIter!=lineEnd; ++lineIter)
 	{
 		(*lineIter).Draw(m_renderer);
 	}

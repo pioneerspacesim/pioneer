@@ -82,7 +82,7 @@ private:
 		eDockGetDataEnd = 2,	// 2: get data for docking end pos
 		eDockFlyToEnd = 3,		// 3: Fly to docking end pos
 		eDockingComplete = 4,
-		eIvalidDockingStage = 5
+		eInvalidDockingStage = 5
 	};
 
 	SpaceStation *m_target;
@@ -98,8 +98,8 @@ private:
 		case eDockFlyToStart:		m_state = eDockGetDataEnd;		break;	
 		case eDockGetDataEnd:		m_state = eDockFlyToEnd;		break;	
 		case eDockFlyToEnd:			m_state = eDockingComplete;		break;		
-		case eDockingComplete:		m_state = eIvalidDockingStage;	break;	
-		case eIvalidDockingStage:	break;	
+		case eDockingComplete:		m_state = eInvalidDockingStage;	break;	
+		case eInvalidDockingStage:	break;	
 		}
 	}
 };

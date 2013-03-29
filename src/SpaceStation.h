@@ -16,7 +16,7 @@
 #include "SpaceStationType.h"
 #include "scenegraph/ModelSkin.h"
 
-#define MAX_DOCKING_PORTS		240	//256-(0x10)
+#define MAX_DOCKING_PORTS		240	//256-(0x10), 0x10 is used because the collision surfaces use it as an identifying flag
 
 
 class CityOnPlanet;
