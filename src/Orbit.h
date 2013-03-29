@@ -8,6 +8,8 @@
 #include "matrix3x3.h"
 
 struct Orbit {
+	static Orbit FromBodyState(const vector3d &position, const vector3d &velocity, double central_mass);
+
 	Orbit(): orbitalPhaseAtStart(0.0) {};
 	vector3d OrbitalPosAtTime(double t) const;
 	// 0.0 <= t <= 1.0. Not for finding orbital pos
@@ -17,8 +19,6 @@ struct Orbit {
 	static double calc_orbital_period_gravpoint(double semiMajorAxis, double totalMass, double bodyMass);
 	static double calc_velocity_area_per_sec(double semiMajorAxis, double centralMass, double eccentricity);
 	static double calc_velocity_area_per_sec_gravpoint(double semiMajorAxis, double totalMass, double bodyMass, double eccentricity);
-
-	static Orbit *calc_orbit(Orbit * ret, vector3d current_pos, vector3d current_vel, double mass);
 
 	double Period() const;
 	double TrueAnomaly(double MeanAnomaly) const;

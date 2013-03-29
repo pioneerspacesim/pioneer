@@ -260,14 +260,13 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 }
 
 // return parameters for orbit of any body, gives both elliptic and hyperbolic trajectories
-Orbit *DynamicBody::ReturnOrbit() {
-	Frame *fram = this->GetFrame();
-	if(fram->IsRotFrame()) fram = fram->GetNonRotFrame();
-	double mass = fram->GetSystemBody()->GetMass();
+Orbit DynamicBody::ComputeOrbit() const {
+	const Frame *frame = this->GetFrame()->GetNonRotFrame();
+	const double mass = frame->GetSystemBody()->GetMass();
 
 	// current velocity and position with respect to non-rotating frame
-	vector3d vel = this->GetVelocityRelTo(fram);
-	vector3d pos = this->GetPositionRelTo(fram);
+	const vector3d vel = this->GetVelocityRelTo(frame);
+	const vector3d pos = this->GetPositionRelTo(frame);
 
-	return Orbit::calc_orbit(&(this->orbit), pos, vel, mass);
+	return Orbit::FromBodyState(pos, vel, mass);
 }
