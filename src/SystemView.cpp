@@ -146,10 +146,10 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 
 	if (num_vertices > 1) {
 		// don't close the loop for hyperbolas and parabolas and crashed ellipses
-		if ((orbit->eccentricity <= 1.0) || (num_vertices < int(COUNTOF(vts))))
-			m_renderer->DrawLines(num_vertices, vts, color, LINE_LOOP);
-		else
+		if ((orbit->GetEccentricity() > 1.0) || (num_vertices < int(COUNTOF(vts))))
 			m_renderer->DrawLines(num_vertices, vts, color, LINE_STRIP);
+		else
+			m_renderer->DrawLines(num_vertices, vts, color, LINE_LOOP);
 	}
 }
 
@@ -175,7 +175,7 @@ void SystemView::OnClickObject(const SystemBody *b)
 	if (b->parent) {
 		desc += std::string(Lang::SEMI_MAJOR_AXIS);
 	desc += ":\n";
-		data += format_distance(b->orbit.semiMajorAxis)+"\n";
+		data += format_distance(b->orbit.GetSemiMajorAxis())+"\n";
 
 		desc += std::string(Lang::ORBITAL_PERIOD);
 	desc += ":\n";
@@ -247,8 +247,8 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 
 	if (b->children.size()) {
 		for(std::vector<SystemBody*>::const_iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
-			if (is_zero_general((*kid)->orbit.semiMajorAxis)) continue;
-			if ((*kid)->orbit.semiMajorAxis * m_zoom < ROUGH_SIZE_OF_TURD) {
+			if (is_zero_general((*kid)->orbit.GetSemiMajorAxis())) continue;
+			if ((*kid)->orbit.GetSemiMajorAxis() * m_zoom < ROUGH_SIZE_OF_TURD) {
 				PutOrbit(&((*kid)->orbit), offset, Color(0.f, 1.f, 0.f, 1.f));
 			}
 

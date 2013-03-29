@@ -783,8 +783,7 @@ static void position_settlement_on_planet(SystemBody *b)
 	// used for orientation on planet surface
 	double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
 	double r1 = r.Double();		// can't put two rands in the same expression
-	b->orbit.rotMatrix = matrix3x3d::RotateZ(2*M_PI*r1) *
-			matrix3x3d::RotateY(2*M_PI*r2);
+	b->orbit.SetPlane(matrix3x3d::RotateZ(2*M_PI*r1) * matrix3x3d::RotateY(2*M_PI*r2));
 }
 
 double SystemBody::GetMaxChildOrbitalDistance() const
@@ -929,26 +928,27 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->orbitalPhaseAtStart = csbody->orbitalPhaseAtStart;
 		kid->axialTilt = csbody->axialTilt;
 		kid->semiMajorAxis = csbody->semiMajorAxis;
-		kid->orbit.eccentricity = csbody->eccentricity.ToDouble();
-		kid->orbit.semiMajorAxis = csbody->semiMajorAxis.ToDouble() * AU;
-		if(parent->type == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
-			kid->orbit.velocityAreaPerSecond = Orbit::calc_velocity_area_per_sec_gravpoint(kid->orbit.semiMajorAxis, parent->GetMass(), kid->GetMass(), kid->orbit.eccentricity);
-		else
-			kid->orbit.velocityAreaPerSecond = Orbit::calc_velocity_area_per_sec(kid->orbit.semiMajorAxis, parent->GetMass(), kid->orbit.eccentricity);
-		kid->orbit.orbitalPhaseAtStart = csbody->orbitalPhaseAtStart.ToDouble();
+
 		if (csbody->heightMapFilename.length() > 0) {
 			kid->heightMapFilename = csbody->heightMapFilename.c_str();
 			kid->heightMapFractal = csbody->heightMapFractal;
 		}
+
+		if(parent->type == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
+			kid->orbit.SetShapeAroundBarycentre(csbody->semiMajorAxis.ToDouble() * AU, parent->GetMass(), kid->GetMass(), csbody->eccentricity.ToDouble());
+		else
+			kid->orbit.SetShapeAroundPrimary(csbody->semiMajorAxis.ToDouble() * AU, parent->GetMass(), csbody->eccentricity.ToDouble());
+
+		kid->orbit.SetPhase(csbody->orbitalPhaseAtStart.ToDouble());
+
 		if (kid->type == SystemBody::TYPE_STARPORT_SURFACE) {
-			kid->orbit.rotMatrix = matrix3x3d::RotateY(csbody->longitude) *
-				matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude);
+			kid->orbit.SetPlane(matrix3x3d::RotateY(csbody->longitude) * matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude));
 		} else {
-			if (kid->orbit.semiMajorAxis < 1.2 * parent->GetRadius()) {
+			if (kid->orbit.GetSemiMajorAxis() < 1.2 * parent->GetRadius()) {
 				Error("%s's orbit is too close to its parent", csbody->name.c_str());
 			}
 			double offset = csbody->want_rand_offset ? rand.Double(2*M_PI) : (csbody->orbitalOffset.ToDouble()*M_PI);
-			kid->orbit.rotMatrix = matrix3x3d::RotateY(offset) * matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude);
+			kid->orbit.SetPlane(matrix3x3d::RotateY(offset) * matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude));
 		}
 		if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
 			(*outHumanInfestedness)++;
@@ -1055,19 +1055,16 @@ void StarSystem::MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Ran
 		mul *= 2;
 	} while (a->semiMajorAxis < minDist);
 
-	a->orbit.eccentricity = a->eccentricity.ToDouble();
-	a->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a0).ToDouble();
-	a->orbit.velocityAreaPerSecond = Orbit::calc_velocity_area_per_sec_gravpoint(a->orbit.semiMajorAxis, a->GetMass() + b->GetMass(), a->GetMass(), a->orbit.eccentricity);
+	const double total_mass = a->GetMass() + b->GetMass();
+	const double e = a->eccentricity.ToDouble();
+
+	a->orbit.SetShapeAroundBarycentre(AU * (a->semiMajorAxis * a0).ToDouble(), total_mass, a->GetMass(), e);
+	b->orbit.SetShapeAroundBarycentre(AU * (a->semiMajorAxis * a1).ToDouble(), total_mass, b->GetMass(), e);
 
 	const float rotX = -0.5f*float(M_PI);//(float)(rand.Double()*M_PI/2.0);
 	const float rotY = static_cast<float>(rand.Double(M_PI));
-	a->orbit.rotMatrix = matrix3x3d::RotateY(rotY) * matrix3x3d::RotateX(rotX);
-	b->orbit.rotMatrix = matrix3x3d::RotateY(rotY-M_PI) * matrix3x3d::RotateX(rotX);
-
-	b->orbit.eccentricity = a->eccentricity.ToDouble();
-	b->orbit.semiMajorAxis = AU * (a->semiMajorAxis * a1).ToDouble();
-	b->orbit.velocityAreaPerSecond = a->orbit.velocityAreaPerSecond;
-	b->orbit.velocityAreaPerSecond = Orbit::calc_velocity_area_per_sec_gravpoint(b->orbit.semiMajorAxis, a->GetMass() + b->GetMass(), b->GetMass(), b->orbit.eccentricity);
+	a->orbit.SetPlane(matrix3x3d::RotateY(rotY) * matrix3x3d::RotateX(rotX));
+	b->orbit.SetPlane(matrix3x3d::RotateY(rotY-M_PI) * matrix3x3d::RotateX(rotX));
 
 	fixed orbMin = a->semiMajorAxis - a->eccentricity*a->semiMajorAxis;
 	fixed orbMax = 2*a->semiMajorAxis - orbMin;
@@ -1658,17 +1655,16 @@ void StarSystem::MakePlanetsAround(SystemBody *primary, Random &rand)
 		planet->mass = mass;
 		planet->rotationPeriod = fixed(rand.Int32(1,200), 24);
 
-		planet->orbit.eccentricity = ecc.ToDouble();
-		planet->orbit.semiMajorAxis = semiMajorAxis.ToDouble() * AU;
-		if(primary->type == SystemBody::TYPE_GRAVPOINT) // generalize Kepler's law to multiple stars
-			planet->orbit.velocityAreaPerSecond = Orbit::calc_velocity_area_per_sec_gravpoint(planet->orbit.semiMajorAxis, primary->GetMass(), planet->GetMass(), planet->orbit.eccentricity);
+		const double e = ecc.ToDouble();
+
+		if(primary->type == SystemBody::TYPE_GRAVPOINT)
+			planet->orbit.SetShapeAroundBarycentre(semiMajorAxis.ToDouble() * AU, primary->GetMass(), planet->GetMass(), e);
 		else
-			planet->orbit.velocityAreaPerSecond = Orbit::calc_velocity_area_per_sec(planet->orbit.semiMajorAxis, primary->GetMass(), planet->orbit.eccentricity);
+			planet->orbit.SetShapeAroundPrimary(semiMajorAxis.ToDouble() * AU, primary->GetMass(), e);
 
 		double r1 = rand.Double(2*M_PI);		// function parameter evaluation order is implementation-dependent
 		double r2 = rand.NDouble(5);			// can't put two rands in the same expression
-		planet->orbit.rotMatrix = matrix3x3d::RotateY(r1) *
-			matrix3x3d::RotateX(-0.5*M_PI + r2*M_PI/2.0);
+		planet->orbit.SetPlane(matrix3x3d::RotateY(r1) * matrix3x3d::RotateX(-0.5*M_PI + r2*M_PI/2.0));
 
 		planet->orbMin = periapsis;
 		planet->orbMax = apoapsis;
@@ -2122,10 +2118,10 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		sp->semiMajorAxis = orbMinS;
 		sp->eccentricity = fixed(0);
 		sp->axialTilt = fixed(0);
-		sp->orbit.eccentricity = 0;
-		sp->orbit.semiMajorAxis = sp->semiMajorAxis.ToDouble()*AU;
-		sp->orbit.velocityAreaPerSecond = Orbit::calc_velocity_area_per_sec(sp->orbit.semiMajorAxis, this->mass.ToDouble() * EARTH_MASS, sp->orbit.eccentricity);
-		sp->orbit.rotMatrix = matrix3x3d::Identity();
+
+		sp->orbit.SetShapeAroundPrimary(sp->semiMajorAxis.ToDouble()*AU, this->mass.ToDouble() * EARTH_MASS, 0.0);
+		sp->orbit.SetPlane(matrix3x3d::Identity());
+
 		children.insert(children.begin(), sp);
 		system->m_spaceStations.push_back(sp);
 		sp->orbMin = sp->semiMajorAxis;
@@ -2139,7 +2135,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 			SystemPath path2 = sp2->path;
 			*sp2 = *sp;
 			sp2->path = path2;
-			sp2->orbit.rotMatrix = matrix3x3d::RotateZ(M_PI);
+			sp2->orbit.SetPlane(matrix3x3d::RotateZ(M_PI));
 			sp2->name = gen_unique_station_name(sp, system, namerand);
 			children.insert(children.begin(), sp2);
 			system->m_spaceStations.push_back(sp2);
