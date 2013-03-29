@@ -3,8 +3,6 @@
 
 #include "Orbit.h"
 #include "libs.h"
-#include "Game.h"
-#include "Pi.h"
 
 static double calc_orbital_period(double semiMajorAxis, double centralMass)
 {
@@ -114,11 +112,11 @@ vector3d Orbit::EvenSpacedPosTrajectory(double angle) const
 	vector3d pos = vector3d(0.0f,0.0f,0.0f);
 
 	if(e < 1) {
-		double v = 2*M_PI*angle +TrueAnomaly(MeanAnomalyAtTime(Pi::game->GetTime()));
+		double v = 2*M_PI*angle + TrueAnomaly(m_orbitalPhaseAtStart);
 		const double r = m_semiMajorAxis * (1 - e*e) / (1 + e*cos(v));
 		pos = vector3d(-cos(v)*r, sin(v)*r, 0);
 	} else {
-		double v = 2*M_PI*angle +TrueAnomaly(MeanAnomalyAtTime(Pi::game->GetTime()));
+		double v = 2*M_PI*angle + TrueAnomaly(m_orbitalPhaseAtStart);
 		double r = m_semiMajorAxis * (e*e - 1) / (1 + e*cos(v));
 
 		// planet is in infinity
@@ -187,13 +185,11 @@ double Orbit::MeanAnomalyFromTrueAnomaly(double trueAnomaly) const {
 	if(e > 0 && e < 1) {
 		M_t0 = 2*atan(tan(trueAnomaly/2)*sqrt((1-e)/(1+e)));
 		M_t0 = M_t0 - e*sin(M_t0);
-		M_t0 -= Pi::game->GetTime() *2.0*M_PI/ Period();
 	} else {
 		// For hyperbolic trajectories, mean anomaly has opposite sign to true anomaly, therefore trajectories which go forward
 		// in time decrease their true anomaly. Yes, it is confusing.
 		M_t0 = 2*atanh(tan(trueAnomaly/2)*sqrt((e-1)/(1+e)));
 		M_t0 = M_t0 - e*sinh(M_t0);
-		M_t0 += Pi::game->GetTime()  * 2 * m_velocityAreaPerSecond / m_semiMajorAxis / m_semiMajorAxis / sqrt(e*e-1);
 	}
 
 	return M_t0;

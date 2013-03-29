@@ -240,9 +240,10 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 	Frame *frame = Pi::player->GetFrame();
 	if(frame->IsRotFrame()) frame = frame->GetNonRotFrame();
 	if(frame->GetSystemBody() == b && frame->GetSystemBody()->GetMass() > 0) {
+		const double t0 = Pi::game->GetTime();
 		Orbit playerOrbit = Pi::player->ComputeOrbit();
 		PutOrbit(&playerOrbit, offset, Color(1.0f, 0.0f, 0.0f), b->GetRadius());
-		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time)* double(m_zoom), Color(1.0f, 0.0f, 0.0f));
+		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color(1.0f, 0.0f, 0.0f));
 	}
 
 	if (b->children.size()) {
