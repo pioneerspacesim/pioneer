@@ -48,10 +48,16 @@ static double calc_velocity_area_per_sec_gravpoint(double semiMajorAxis, double 
 	return M_PI * a2 * sqrt((eccentricity < 1.0) ? (1 - e2) : (e2 - 1.0)) / calc_orbital_period_gravpoint(semiMajorAxis, totalMass, bodyMass);
 }
 
-double Orbit::TrueAnomalyFromMeanAnomaly(double MeanAnomaly) const {
-	const double e = m_eccentricity, M = MeanAnomaly;
-	double cos_v, sin_v, v;
-	if(e >= 0 && e < 1) { // elliptic orbit
+static void calc_position_from_mean_anomaly(const double M, const double e, const double a, double &cos_v, double &sin_v, double *r) {
+	// M is mean anomaly
+	// e is eccentricity
+	// a is semi-major axis
+
+	cos_v = 0.0;
+	sin_v = 0.0;
+	if (r) { *r = 0.0; }
+
+	if (e < 1.0) { // elliptic orbit
 		// eccentric anomaly
 		// NR method to solve for E: M = E-sin(E)
 		double E = M;
@@ -63,24 +69,36 @@ double Orbit::TrueAnomalyFromMeanAnomaly(double MeanAnomaly) const {
 		cos_v = (cos(E) - e) / (1.0 - e*cos(E));
 		sin_v = (sqrt(1.0-e*e)*sin(E))/ (1.0 - e*cos(E));
 
-	} else if(e > 1) { // hyperbolic orbit
+		// heliocentric distance
+		if (r) {
+			*r = a * (1.0 - e*cos(E));
+		}
+
+	} else { // parabolic or hyperbolic orbit
 		// eccentric anomaly
 		// NR method to solve for E: M = E-sinh(E)
 		// sinh E and cosh E are solved directly, because of inherent numerical instability of tanh(k arctanh x)
-		double ch, sh = 2;
+		double sh = 2.0;
 		for (int iter=5; iter > 0; --iter) {
-			sh = sh - (M + e*sh - asinh(sh))/(e - 1/sqrt(1 + pow(sh,2)));
+			sh = sh - (M + e*sh - asinh(sh))/(e - 1/sqrt(1 + (sh*sh)));
 		}
 
-		ch = sqrt(1 + sh*sh);
+		double ch = sqrt(1 + sh*sh);
 
 		// true anomaly (angle of orbit position)
 		cos_v = (ch - e) / (1.0 - e*ch);
 		sin_v = (sqrt(e*e-1.0)*sh)/ (e*ch - 1.0);
-	}
 
-	v = atan2(sin_v, cos_v);
-	return v;
+		if (r) { // heliocentric distance
+			*r = a * (e*ch - 1.0);
+		}
+	}
+}
+
+double Orbit::TrueAnomalyFromMeanAnomaly(double MeanAnomaly) const {
+	double cos_v, sin_v;
+	calc_position_from_mean_anomaly(MeanAnomaly, m_eccentricity, m_semiMajorAxis, cos_v, sin_v, 0);
+	return atan2(sin_v, cos_v);
 }
 
 double Orbit::MeanAnomalyFromTrueAnomaly(double trueAnomaly) const {
@@ -110,45 +128,9 @@ double Orbit::MeanAnomalyAtTime(double time) const {
 
 vector3d Orbit::OrbitalPosAtTime(double t) const
 {
-	const double e = m_eccentricity;
-	double r = 0, cos_v = 0, sin_v = 0;
-	const double M = MeanAnomalyAtTime(t); // mean anomaly
-
-	if (e < 1.0) { // elliptic orbit
-		// eccentric anomaly
-		// NR method to solve for E: M = E-sin(E)
-		double E = M;
-		for (int iter=5; iter > 0; --iter) {
-			E = E - (E-e*(sin(E))-M) / (1.0 - e*cos(E));
-		}
-		// heliocentric distance
-		r = m_semiMajorAxis * (1.0 - e*cos(E));
-		// true anomaly (angle of orbit position)
-		cos_v = (cos(E) - e) / (1.0 - e*cos(E));
-		sin_v = (sqrt(1.0-e*e)*sin(E))/ (1.0 - e*cos(E));
-
-	} else { // parabolic or hyperbolic orbit
-		// eccentric anomaly
-		// NR method to solve for E: M = E-sinh(E)
-		// sinh E and cosh E are solved directly, because of inherent numerical instability of tanh(k arctanh x)
-		double ch, sh = 2;
-		for (int iter=5; iter > 0; --iter) {
-			sh = sh - (M + e*sh - asinh(sh))/(e - 1/sqrt(1 + (sh*sh)));
-		}
-
-		ch = sqrt(1 + sh*sh);
-
-		// heliocentric distance
-		r = m_semiMajorAxis * (e*ch - 1.0);
-
-		// true anomaly (angle of orbit position)
-		cos_v = (ch - e) / (1.0 - e*ch);
-		sin_v = (sqrt(e*e-1.0)*sh)/ (e*ch - 1.0);
-	}
-
-	vector3d pos = vector3d(-cos_v*r, sin_v*r, 0);
-	pos = m_orient * pos;
-	return pos;
+	double cos_v, sin_v, r;
+	calc_position_from_mean_anomaly(MeanAnomalyAtTime(t), m_eccentricity, m_semiMajorAxis, cos_v, sin_v, &r);
+	return m_orient * vector3d(-cos_v*r, sin_v*r, 0);
 }
 
 // used for stepping through the orbit in small fractions
