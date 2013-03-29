@@ -25,6 +25,13 @@ namespace Graphics {
 			Uniform geosphereScale;
 			Uniform geosphereScaledRadius; // (planet radius) / scale
 
+			Uniform shadows;
+			Uniform occultedLight;
+			Uniform shadowCentre;
+			Uniform srad;
+			Uniform lrad;
+
+
 		protected:
 			virtual void InitUniforms();
 		};

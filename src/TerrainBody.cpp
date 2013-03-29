@@ -97,8 +97,12 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 		glScaled(rad, rad, rad);			// rad = real_rad / scale
 		campos = campos * (1.0/rad);		// position of camera relative to planet "model"
 
+		std::list<Camera::Shadow> shadows = camera->PrincipalShadows(this, 3);
+		for (std::list<Camera::Shadow>::iterator it = shadows.begin(); it != shadows.end(); it++)
+			it->centre = ftran * it->centre;
+
 		// translation not applied until patch render to fix jitter
-		m_geosphere->Render(renderer, -campos, m_sbody->GetRadius(), scale);
+		m_geosphere->Render(renderer, -campos, m_sbody->GetRadius(), scale, shadows);
 		glTranslated(campos.x, campos.y, campos.z);
 
 		SubRender(renderer, camera, campos);

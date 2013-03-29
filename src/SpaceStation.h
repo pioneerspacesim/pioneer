@@ -119,7 +119,6 @@ private:
 	void DockingUpdate(const double timeStep);
 	void PositionDockedShip(Ship *ship, int port) const;
 	void DoLawAndOrder(const double timeStep);
-	void CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::LightSource> &lightSources);
 
 	/* Stage 0 means docking port empty
 	 * Stage 1 means docking clearance granted to ->ship
