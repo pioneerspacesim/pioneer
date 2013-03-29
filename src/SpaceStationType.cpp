@@ -75,8 +75,7 @@ void SpaceStationType::OnSetupComplete()
 
 const SpaceStationType::SBayGroup* SpaceStationType::FindGroupByBay(const int zeroBaseBayID) const
 {
-	TBayGroups::const_iterator bayIter = bayGroups.begin();
-	for ( ; bayIter!=bayGroups.end() ; ++bayIter ) {
+	for (TBayGroups::const_iterator bayIter = bayGroups.begin(), grpEnd=bayGroups.end(); bayIter!=grpEnd ; ++bayIter ) {
 		std::vector<int>::const_iterator idIter = (*bayIter).bayIDs.begin();
 		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
 			if ((*idIter)==zeroBaseBayID) {
@@ -90,8 +89,7 @@ const SpaceStationType::SBayGroup* SpaceStationType::FindGroupByBay(const int ze
 
 SpaceStationType::SBayGroup* SpaceStationType::GetGroupByBay(const int zeroBaseBayID)
 {
-	TBayGroups::iterator bayIter = bayGroups.begin();
-	for ( ; bayIter!=bayGroups.end() ; ++bayIter ) {
+	for (TBayGroups::iterator bayIter = bayGroups.begin(), grpEnd=bayGroups.end(); bayIter!=grpEnd ; ++bayIter ) {
 		std::vector<int>::iterator idIter = (*bayIter).bayIDs.begin();
 		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
 			if ((*idIter)==zeroBaseBayID) {
@@ -109,8 +107,8 @@ bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const i
 
 	const SBayGroup* pGroup = FindGroupByBay(port);
 	if (pGroup && stage>0) {
-		const bool bHasStageData = (pGroup->m_approach.find( stage ) != pGroup->m_approach.end());
-		if (bHasStageData) {
+		TMapBayIDMat::const_iterator stageDataIt = pGroup->m_approach.find(stage);
+		if (stageDataIt != pGroup->m_approach.end()) {
 			const matrix4x4f &mt = pGroup->m_approach.at(stage);
 			outPosOrient.pos	= vector3d(mt.GetTranslate());
 			outPosOrient.xaxis	= vector3d(mt.GetOrient().VectorX());
