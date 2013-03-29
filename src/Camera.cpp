@@ -341,8 +341,8 @@ float discCovered(float dist, float rad) {
 	// avoid flicker due (I'm assuming) to sqrting negative numbers
 	const float d = sqrt(1.001 - xl*xl);
 
-	const float th = Clamp(acos(xl), 0.0, M_PI);
-	const float th2 = Clamp(acos(xs/rad), 0.0, M_PI);
+	const float th = Clamp(acos(xl), 0.0f, float(M_PI));
+	const float th2 = Clamp(acos(xs/rad), 0.0f, float(M_PI));
 
 	assert(!isnan(d) && !isnan(th) && !isnan(th2));
 

@@ -17,7 +17,7 @@ varying vec4 varyingEmission;
 uniform Material material;
 #endif
 
-float PI = 3.141592653589793;
+#define PI 3.141592653589793
 
 float discCovered(float dist, float rad) {
 	// proportion of unit disc covered by a second disc of radius rad placed
@@ -45,7 +45,7 @@ float discCovered(float dist, float rad) {
 
 	// covered area can be calculated as the sum of segments from the two
 	// discs plus/minus some triangles, and it works out as follows:
-	return clamp((th + radsq*th2 - dist*d),0.0,PI)/PI;
+	return clamp((th + radsq*th2 - dist*d)/PI, 0.0, 1.0);
 
 	/* linear interpolation version: faster but visibly less accurate
 	float maxOcclusion = min(1.0, radsq);
