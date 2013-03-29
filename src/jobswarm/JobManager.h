@@ -81,6 +81,8 @@ public:
 	bool jobsRemaining() const;
 	void cancel(JOB_SWARM::SwarmJob* pJob);
 
+	unsigned int NumOfThreadsUsed() const { return mNumThreadsUsed; }
+
 private:
 	JOB_SWARM::SwarmJob*		addIncomingJob(PureJob* pNewJob, unsigned char *userData);
 	JOB_SWARM::JobSwarmContext	*mpContext;
@@ -90,6 +92,7 @@ private:
 	JobHandle mCurrentTaskID;
 	JobHandle mMaxNumTasks;
 	JobHandle mNumTasksSoFar;
+	JobHandle mNumThreadsUsed;
 
 	typedef std::pair<PureJob*, unsigned char*> TIncomingJobData;
 	std::deque<TIncomingJobData>	mIncomingJobs;
