@@ -335,7 +335,7 @@ float discCovered(float dist, float rad) {
 	// d = vertical distance to an intersection point
 	// The clampings handle the cases where one disc contains the other.
 	const float radsq = rad*rad;
-	const float xl = Clamp((dist*dist + 1 - radsq) / (2.0*dist), -1.0, 1.0);
+	const float xl = Clamp((dist*dist + 1.0 - radsq) / (2.0*dist), -1.0, 1.0);
 	const float xs = Clamp(dist - xl, -rad, rad);
 	// XXX: having 1.001 rather that 1.0 in the following appears necessary to
 	// avoid flicker due (I'm assuming) to sqrting negative numbers

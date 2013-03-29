@@ -19,6 +19,8 @@ uniform Material material;
 
 #define PI 3.141592653589793
 
+//#define USE_GOOD_MATHS 1
+
 float discCovered(float dist, float rad) {
 	// proportion of unit disc covered by a second disc of radius rad placed
 	// dist from centre of first disc.
@@ -33,6 +35,7 @@ float discCovered(float dist, float rad) {
 	// The clamps on xl,xs handle the cases where one disc contains the other.
 
 	float radsq = rad*rad;
+#ifdef USE_GOOD_MATHS
 	float xl = clamp((dist*dist + 1.0 - radsq) / (2.0*dist), -1.0, 1.0);
 	float xs = clamp(dist - xl, -rad, rad);
 
@@ -46,14 +49,14 @@ float discCovered(float dist, float rad) {
 	// covered area can be calculated as the sum of segments from the two
 	// discs plus/minus some triangles, and it works out as follows:
 	return clamp((th + radsq*th2 - dist*d)/PI, 0.0, 1.0);
-
-	/* linear interpolation version: faster but visibly less accurate
+#else
+	// linear interpolation version: faster but visibly less accurate
 	float maxOcclusion = min(1.0, radsq);
 	return mix(0.0, maxOcclusion,
 			clamp(
 				( rad+1.0-dist ) / ( rad+1.0 - abs(rad-1.0) ),
 				0.0, 1.0));
-	*/
+#endif	
 }
 
 void main(void)
