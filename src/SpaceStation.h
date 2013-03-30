@@ -16,7 +16,8 @@
 #include "SpaceStationType.h"
 #include "scenegraph/ModelSkin.h"
 
-#define MAX_DOCKING_PORTS	4
+#define MAX_DOCKING_PORTS		240	//256-(0x10), 0x10 is used because the collision surfaces use it as an identifying flag
+
 
 class CityOnPlanet;
 class CollMeshSet;
@@ -120,6 +121,8 @@ private:
 	void PositionDockedShip(Ship *ship, int port) const;
 	void DoLawAndOrder(const double timeStep);
 	void CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::LightSource> &lightSources);
+	bool IsPortLocked(const int bay) const;
+	void LockPort(const int bay, const bool lockIt);
 
 	/* Stage 0 means docking port empty
 	 * Stage 1 means docking clearance granted to ->ship
@@ -128,6 +131,10 @@ private:
 	 * Stage -1 to -m_type->numUndockStages is undocking animation
 	 */
 	struct shipDocking_t {
+		shipDocking_t() : ship(NULL), shipIndex(0),
+			stage(0), stagePos(0)
+		{}
+
 		Ship *ship;
 		int shipIndex; // deserialisation
 		int stage;
@@ -135,8 +142,11 @@ private:
 		Quaterniond fromRot;
 		double stagePos; // 0 -> 1.0
 	};
-	shipDocking_t m_shipDocking[MAX_DOCKING_PORTS];
-	bool m_dockingLock;
+	typedef std::vector<shipDocking_t>::const_iterator	constShipDockingIter;
+	typedef std::vector<shipDocking_t>::iterator		shipDockingIter;
+	std::vector<shipDocking_t> m_shipDocking;
+
+	SpaceStationType::TBayGroups mBayGroups;
 
 	double m_oldAngDisplacement;
 

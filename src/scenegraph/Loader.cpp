@@ -140,6 +140,7 @@ Model *Loader::LoadModel(const std::string &filename)
 Model *Loader::LoadModel(const std::string &shortname, const std::string &basepath)
 {
 	m_logMessages.clear();
+
 	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
 	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
 	{
@@ -384,7 +385,7 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 
 	ConvertNodes(scene->mRootNode, static_cast<Group*>(meshRoot.Get()), surfaces, matrix4x4f::Identity());
 	ConvertAnimations(scene, animDefs, static_cast<Group*>(meshRoot.Get()));
-
+	
 	return meshRoot;
 }
 
@@ -745,6 +746,12 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 			vector3f tagpos = accum * m.GetTranslate();
 			MatrixTransform *tagMt = new MatrixTransform(m_renderer, matrix4x4f::Translation(tagpos));
 			m_model->AddTag(nodename, tagMt);
+		} else if (starts_with(nodename, "docking_")) {
+			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
+		} else if (starts_with(nodename, "leaving_")) {
+			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
+		} else if (starts_with(nodename, "approach_")) {
+			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
 		}
 		return;
 	}
@@ -885,15 +892,11 @@ void Loader::LoadCollision(const std::string &filename)
 unsigned int Loader::GetGeomFlagForNodeName(const std::string &nodename)
 {
 	if (nodename.length() >= 14) {
-		const std::string pad = nodename.substr(10, 4);
-		if (pad == "pad1")
-			return 0x10;
-		else if (pad == "pad2")
-			return 0x11;
-		else if (pad == "pad3")
-			return 0x12;
-		else if (pad == "pad4")
-			return 0x14;
+		const std::string pad = nodename.substr(13);
+		const int padID = atoi(pad.c_str())-1;
+		if(padID<240) {
+			return 0x10 + padID;
+		}
 	}
 	return 0x0;
 }
