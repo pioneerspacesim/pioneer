@@ -684,6 +684,10 @@ SELECTED_SYSTEM
     Выбранная система
 HYPERSPACE_TARGET
     Цель гиперпрыжка
+DRAW_VERTICAL_LINES
+    Вертикальные линии
+DRAW_OUT_RANGE_LABELS
+    Названия далеких звезд
 FOLLOWING_SELECTION
     выбрать
 LOCKED
