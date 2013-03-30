@@ -65,6 +65,10 @@ inline bool starts_with(const std::string &s, const char *t) {
 	return starts_with(s.c_str(), t);
 }
 
+inline bool starts_with(const std::string &s, const std::string &t) {
+	return starts_with(s.c_str(), t.c_str());
+}
+
 inline bool ends_with(const char *s, size_t ns, const char *t, size_t nt) {
 	return (ns >= nt) && (memcmp(s+(ns-nt), t, nt) == 0);
 }

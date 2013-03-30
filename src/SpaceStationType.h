@@ -12,37 +12,63 @@ class Ship;
 namespace SceneGraph { class Model; }
 
 struct SpaceStationType {
+	typedef std::map<uint32_t, matrix4x4f> TMapBayIDMat;
+	struct Port
+	{
+		TMapBayIDMat m_docking;
+		TMapBayIDMat m_leaving;
+	};
+	typedef std::map<uint32_t, Port> PortMap;
+	PortMap m_ports;
+
+	struct SBayGroup {
+		SBayGroup() : minShipSize(-1), maxShipSize(-1), inUse(false) {}
+		int minShipSize, maxShipSize;
+		bool inUse;
+		std::vector<int> bayIDs;
+		TMapBayIDMat m_approach;
+	};
+	typedef std::vector<SBayGroup> TBayGroups;
+
 	std::string id;
 	SceneGraph::Model *model;
 	std::string modelName;
 	float angVel;
 	enum DOCKMETHOD { SURFACE, ORBITAL } dockMethod;
-	int numDockingPorts;
+	unsigned int numDockingPorts;
 	int numDockingStages;
 	int numUndockStages;
 	int shipLaunchStage;
 	double *dockAnimStageDuration;
 	double *undockAnimStageDuration;
-	bool dockOneAtATimePlease;
 	float parkingDistance;
 	float parkingGapSize;
-	std::string dockAnimFunction;
-	std::string approachWaypointsFunction;
+	//std::string dockAnimFunction;
+	//std::string approachWaypointsFunction;
+	//bool bHasDockAnimFunction;
+	//bool bHasApproachWaypointsFunction;
+	TBayGroups bayGroups;
 
 	struct positionOrient_t {
 		vector3d pos;
 		vector3d xaxis;
 		vector3d yaxis;
+		vector3d zaxis;
 	};
 
 	SpaceStationType();
+
+	void OnSetupComplete();
+	const SBayGroup* FindGroupByBay(const int zeroBaseBayID) const;
+	SBayGroup* GetGroupByBay(const int zeroBaseBayID);
+
 	// Call functions in the station .lua
-	bool GetShipApproachWaypoints(int port, int stage, positionOrient_t &outPosOrient) const;
+	bool GetShipApproachWaypoints(const unsigned int port, const int stage, positionOrient_t &outPosOrient) const;
 	/** when ship is on rails it returns true and fills outPosOrient.
 	 * when ship has been released (or docked) it returns false.
 	 * Note station animations may continue for any number of stages after
 	 * ship has been released and is under player control again */
-	bool GetDockAnimPositionOrient(int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
+	bool GetDockAnimPositionOrient(const unsigned int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
 
 	static void Init();
 	static void Uninit();
