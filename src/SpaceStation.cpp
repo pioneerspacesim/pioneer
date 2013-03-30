@@ -52,14 +52,25 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 		wr.String((*i).regId);
 		(*i).skin.Save(wr);
 	}
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	wr.Int32(m_shipDocking.size());
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		wr.Int32(space->GetIndexForBody(m_shipDocking[i].ship));
 		wr.Int32(m_shipDocking[i].stage);
 		wr.Float(float(m_shipDocking[i].stagePos));
 		wr.Vector3d(m_shipDocking[i].fromPos);
 		wr.WrQuaternionf(m_shipDocking[i].fromRot);
 	}
-	wr.Bool(m_dockingLock);
+	// store each of the bay groupings
+	wr.Int32(mBayGroups.size());
+	for (uint32_t i=0; i<mBayGroups.size(); i++) {
+		wr.Int32(mBayGroups[i].minShipSize);
+		wr.Int32(mBayGroups[i].maxShipSize);
+		wr.Bool(mBayGroups[i].inUse);
+		wr.Int32(mBayGroups[i].bayIDs.size());
+		for (uint32_t j=0; j<mBayGroups[i].bayIDs.size(); j++) {
+			wr.Int32(mBayGroups[i].bayIDs[j]);
+		}
+	}
 
 	wr.Bool(m_bbCreated);
 	wr.Double(m_lastUpdatedShipyard);
@@ -91,14 +102,33 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 		ShipOnSale sos(id, regId, skin);
 		m_shipsOnSale.push_back(sos);
 	}
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_shipDocking[i].shipIndex = rd.Int32();
-		m_shipDocking[i].stage = rd.Int32();
-		m_shipDocking[i].stagePos = rd.Float();
-		m_shipDocking[i].fromPos = rd.Vector3d();
-		m_shipDocking[i].fromRot = rd.RdQuaternionf();
+	const int32_t numShipDocking = rd.Int32();
+	m_shipDocking.reserve(numShipDocking);
+	for (int i=0; i<numShipDocking; i++) {
+		m_shipDocking.push_back(shipDocking_t());
+		shipDocking_t &sd = m_shipDocking.back();
+		sd.shipIndex = rd.Int32();
+		sd.stage = rd.Int32();
+		sd.stagePos = rd.Float();
+		sd.fromPos = rd.Vector3d();
+		sd.fromRot = rd.RdQuaternionf();
 	}
-	m_dockingLock = rd.Bool();
+	// retrieve each of the bay groupings
+	const int32_t numBays = rd.Int32();
+	mBayGroups.reserve(numBays);
+	for (int32_t i=0; i<numBays; i++) {
+		mBayGroups.push_back(SpaceStationType::SBayGroup());
+		SpaceStationType::SBayGroup &bay = mBayGroups.back();
+		bay.minShipSize = rd.Int32();
+		bay.maxShipSize = rd.Int32();
+		bay.inUse = rd.Bool();
+		const int32_t numBayIds = rd.Int32();
+		bay.bayIDs.reserve(numBayIds);
+		for (int32_t j=0; j<numBayIds; j++) {
+			const int32_t ID = rd.Int32();
+			bay.bayIDs.push_back(ID);
+		}
+	}
 
 	m_bbCreated = rd.Bool();
 	m_lastUpdatedShipyard = rd.Double();
@@ -112,7 +142,7 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 void SpaceStation::PostLoadFixup(Space *space)
 {
 	ModelBody::PostLoadFixup(space);
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		m_shipDocking[i].ship = static_cast<Ship*>(space->GetBodyByIndex(m_shipDocking[i].shipIndex));
 	}
 }
@@ -125,12 +155,6 @@ SpaceStation::SpaceStation(const SystemBody *sbody): ModelBody()
 	m_bbCreated = false;
 	m_bbShuffled = false;
 
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
-		m_shipDocking[i].ship = 0;
-		m_shipDocking[i].stage = 0;
-		m_shipDocking[i].stagePos = 0;
-	}
-	m_dockingLock = false;
 	m_oldAngDisplacement = 0.0;
 
 	SetMoney(1000000000);
@@ -143,8 +167,18 @@ void SpaceStation::InitStation()
 	for(int i=0; i<NUM_STATIC_SLOTS; i++) m_staticSlot[i] = false;
 	Random rand(m_sbody->seed);
 	bool ground = m_sbody->type == SystemBody::TYPE_STARPORT_ORBITAL ? false : true;
-	if (ground) m_type = &SpaceStationType::surfaceStationTypes[ rand.Int32(SpaceStationType::surfaceStationTypes.size()) ];
-	else m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
+	if (ground) { 
+		m_type = &SpaceStationType::surfaceStationTypes[ rand.Int32(SpaceStationType::surfaceStationTypes.size()) ];
+	} else { 
+		m_type = &SpaceStationType::orbitalStationTypes[ rand.Int32(SpaceStationType::orbitalStationTypes.size()) ];
+	}
+
+	for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
+		m_shipDocking.push_back(shipDocking_t());
+	}
+
+	// This SpaceStation's bay groups is an instance of...
+	mBayGroups = m_type->bayGroups;
 
 	SetStatic(ground);			// orbital stations are dynamic now
 
@@ -226,7 +260,7 @@ void SpaceStation::UpdateShipyard()
 
 void SpaceStation::NotifyRemoved(const Body* const removedBody)
 {
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		if (m_shipDocking[i].ship == removedBody) {
 			m_shipDocking[i].ship = 0;
 		}
@@ -235,7 +269,7 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 
 int SpaceStation::GetMyDockingPort(const Ship *s) const
 {
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		if (s == m_shipDocking[i].ship) return i;
 	}
 	return -1;
@@ -243,7 +277,7 @@ int SpaceStation::GetMyDockingPort(const Ship *s) const
 
 int SpaceStation::GetFreeDockingPort() const
 {
-	for (int i=0; i<m_type->numDockingPorts; i++) {
+	for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
 		if (m_shipDocking[i].ship == 0) {
 			return i;
 		}
@@ -268,16 +302,21 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 {
 	shipDocking_t &sd = m_shipDocking[port];
 	if (sd.stage < 0) return true;			// already launching
-	if (m_dockingLock) return false;		// another ship docking
-	if (m_type->dockOneAtATimePlease) m_dockingLock = true;
+	if (IsPortLocked(port)) return false;	// another ship docking
+	LockPort(port, true);
 
 	sd.ship = ship;
 	sd.stage = -1;
-	sd.stagePos = 0;
-	sd.fromPos = (ship->GetPosition() - GetPosition()) * GetOrient();	// station space
-	sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * ship->GetOrient());
+	sd.stagePos = 0.0;
 
 	m_doorAnimationStep = 0.3; // open door
+
+	const Aabb& aabb = ship->GetAabb();
+	const matrix3x3d mt = ship->GetOrient();
+	const vector3d up = mt.VectorY().Normalized() * aabb.min.y;
+	
+	sd.fromPos = (ship->GetPosition() - GetPosition() + up) * GetOrient();	// station space
+	sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * mt);
 
 	ship->SetFlightState(Ship::DOCKING);
 
@@ -286,14 +325,14 @@ bool SpaceStation::LaunchShip(Ship *ship, int port)
 
 bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 {
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		if (i >= m_type->numDockingPorts) break;
 		if ((m_shipDocking[i].ship == s) && (m_shipDocking[i].stage > 0)) {
 			outMsg = stringf(Lang::CLEARANCE_ALREADY_GRANTED_BAY_N, formatarg("bay", i+1));
 			return true;
 		}
 	}
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		if (i >= m_type->numDockingPorts) break;
 		if (m_shipDocking[i].ship != 0) continue;
 		shipDocking_t &sd = m_shipDocking[i];
@@ -313,12 +352,12 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 		Ship *s = static_cast<Ship*>(b);
 
 		int port = -1;
-		for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+		for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 			if (m_shipDocking[i].ship == s) { port = i; break; }
 		}
 		if (port == -1) return false;					// no permission
-		if (!m_type->dockOneAtATimePlease) {
-			if (port != int(flags & 0xf)) return false;		// wrong port
+		if (IsPortLocked(port)) {
+			return false;
 		}
 		if (m_shipDocking[port].stage != 1) return false;	// already docking?
 
@@ -343,7 +382,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			sd.stagePos = 0;
 			sd.fromPos = (s->GetPosition() - GetPosition()) * GetOrient();	// station space
 			sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * s->GetOrient());
-			if (m_type->dockOneAtATimePlease) m_dockingLock = true;
+			LockPort(port, true);
 
 			s->SetFlightState(Ship::DOCKING);
 			s->SetVelocity(vector3d(0.0));
@@ -376,7 +415,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 void SpaceStation::DockingUpdate(const double timeStep)
 {
 	vector3d p1, p2, zaxis;
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		shipDocking_t &dt = m_shipDocking[i];
 		if (!dt.ship) continue;
 		// docked stage is m_type->numDockingPorts + 1 => ship docked
@@ -405,7 +444,7 @@ void SpaceStation::DockingUpdate(const double timeStep)
 			// use end position of last segment for start position of new segment
 			SpaceStationType::positionOrient_t dport;
 			PiVerify(m_type->GetDockAnimPositionOrient(i, dt.stage, 1.0f, dt.fromPos, dport, dt.ship));
-			matrix3x3d fromRot = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis);
+			matrix3x3d fromRot = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis, dport.zaxis);
 			dt.fromRot = Quaterniond::FromMatrix3x3(fromRot);
 			dt.fromPos = dport.pos;
 
@@ -430,18 +469,18 @@ void SpaceStation::DockingUpdate(const double timeStep)
 			// undock animation finished, clear port
 			dt.stage = 0;
 			dt.ship = 0;
-			if (m_type->dockOneAtATimePlease) m_dockingLock = false;
+			LockPort(i, false);
 			m_doorAnimationStep = -0.3; // close door
 		}
 		else if (dt.stage > m_type->numDockingStages) {
 			// set docked
 			dt.ship->SetDockedWith(this, i);
 			LuaEvent::Queue("onShipDocked", dt.ship, this);
-			if (m_type->dockOneAtATimePlease) m_dockingLock = false;
+			LockPort(i, false);
 			m_doorAnimationStep = -0.3; // close door
 		}
 	}
-
+	
 	m_doorAnimationState = Clamp(m_doorAnimationState + m_doorAnimationStep*timeStep, 0.0, 1.0);
 	if (m_doorAnimation)
 		m_doorAnimation->SetProgress(m_doorAnimationState);
@@ -458,7 +497,7 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port) const
 
 	// Still in docking animation process?
 	if (dt.stage <= m_type->numDockingStages) {
-		matrix3x3d wantRot = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis);
+		matrix3x3d wantRot = matrix3x3d::FromVectors(dport.xaxis, dport.yaxis, dport.zaxis);
 		// use quaternion spherical linear interpolation to do
 		// rotation smoothly
 		Quaterniond wantQuat = Quaterniond::FromMatrix3x3(wantRot);
@@ -467,7 +506,7 @@ void SpaceStation::PositionDockedShip(Ship *ship, int port) const
 		ship->SetOrient(GetOrient() * wantRot);
 	} else {
 		// Note: ship bounding box is used to generate dport.pos
-		ship->SetOrient(GetOrient() * matrix3x3d::FromVectors(dport.xaxis, dport.yaxis));
+		ship->SetOrient(GetOrient() * matrix3x3d::FromVectors(dport.xaxis, dport.yaxis, dport.zaxis));
 	}
 }
 
@@ -510,7 +549,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 	m_oldAngDisplacement = len;
 
 	// reposition the ships that are docked or docking here
-	for (int i=0; i<m_type->numDockingPorts; i++) {
+	for (unsigned int i=0; i<m_type->numDockingPorts; i++) {
 		const shipDocking_t &dt = m_shipDocking[i];
 		if (!dt.ship) { //free
 			m_navLights->SetColor(i+1, NavLights::NAVLIGHT_GREEN);
@@ -701,7 +740,7 @@ vector3d SpaceStation::GetTargetIndicatorPosition(const Frame *relTo) const
 {
 	// return the next waypoint if permission has been granted for player,
 	// and the docking point's position once the docking anim starts
-	for (int i=0; i<MAX_DOCKING_PORTS; i++) {
+	for (uint32_t i=0; i<m_shipDocking.size(); i++) {
 		if (i >= m_type->numDockingPorts) break;
 		if ((m_shipDocking[i].ship == Pi::player) && (m_shipDocking[i].stage > 0)) {
 
@@ -745,6 +784,35 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 			ship->m_equipment.Add(Equip::LASER_COOLING_BOOSTER);
 			ship->m_equipment.Add(Equip::ATMOSPHERIC_SHIELDING);
 			ship->UpdateStats();
+		}
+	}
+}
+
+bool SpaceStation::IsPortLocked(const int bay) const
+{
+	SpaceStationType::TBayGroups::const_iterator bayIter = mBayGroups.begin();
+	for ( ; bayIter!=mBayGroups.end() ; ++bayIter ) {
+		std::vector<int>::const_iterator idIter = (*bayIter).bayIDs.begin();
+		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
+			if ((*idIter)==bay) {
+				return (*bayIter).inUse;
+			}
+		}
+	}
+	// is it safer to return that the is loacked?
+	return true;
+}
+
+void SpaceStation::LockPort(const int bay, const bool lockIt)
+{
+	SpaceStationType::TBayGroups::iterator bayIter = mBayGroups.begin();
+	for ( ; bayIter!=mBayGroups.end() ; ++bayIter ) {
+		std::vector<int>::iterator idIter = (*bayIter).bayIDs.begin();
+		for ( ; idIter!=(*bayIter).bayIDs.end() ; ++idIter ) {
+			if ((*idIter)==bay) {
+				(*bayIter).inUse = lockIt;
+				return;
+			}
 		}
 	}
 }

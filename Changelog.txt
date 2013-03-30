@@ -2,6 +2,11 @@ Alpha 33
 
    * New features
      * Czech language support (#2136)
+     * Missiles now have smoke trails (#2154)
+     * Station waypoints are now defined in the mesh themselves and dealt with
+	   in C++, and their docking bays can be grouped together (#2058)
+     * The System View (F3, F6) now shows the player's current orbit
+       (#2084, #2168, #2169, #146, #985)
 
    * Minor changes and tweaks
      * Clean up the Taxi, DeliverPackage and Assassination mission views

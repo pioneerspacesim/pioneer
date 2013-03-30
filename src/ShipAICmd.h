@@ -65,7 +65,7 @@ public:
 	AICmdDock(Serializer::Reader &rd) : AICommand(rd, CMD_DOCK) {
 		m_targetIndex = rd.Int32();
 		m_dockpos = rd.Vector3d(); m_dockdir = rd.Vector3d();
-		m_dockupdir = rd.Vector3d(); m_state = rd.Int32();
+		m_dockupdir = rd.Vector3d(); m_state = EDockingStates(rd.Int32());
 	}
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
@@ -76,12 +76,32 @@ public:
 		if (static_cast<Body *>(m_target) == body) m_target = 0;
 	}
 private:
+	enum EDockingStates {
+		eDockGetDataStart = 0,	// 0: get data for docking start pos
+		eDockFlyToStart = 1,	// 1: Fly to docking start pos
+		eDockGetDataEnd = 2,	// 2: get data for docking end pos
+		eDockFlyToEnd = 3,		// 3: Fly to docking end pos
+		eDockingComplete = 4,
+		eInvalidDockingStage = 5
+	};
+
 	SpaceStation *m_target;
 	vector3d m_dockpos;	// offset in target's frame
 	vector3d m_dockdir;
 	vector3d m_dockupdir;
-	int m_state;		// see TimeStepUpdate()
+	EDockingStates m_state;		// see TimeStepUpdate()
 	int m_targetIndex;	// used during deserialisation
+
+	void IncrementState() {
+		switch(m_state) {
+		case eDockGetDataStart:		m_state = eDockFlyToStart;		break;	
+		case eDockFlyToStart:		m_state = eDockGetDataEnd;		break;	
+		case eDockGetDataEnd:		m_state = eDockFlyToEnd;		break;	
+		case eDockFlyToEnd:			m_state = eDockingComplete;		break;		
+		case eDockingComplete:		m_state = eInvalidDockingStage;	break;	
+		case eInvalidDockingStage:	break;	
+		}
+	}
 };
 
 class AICmdFlyTo : public AICommand {
