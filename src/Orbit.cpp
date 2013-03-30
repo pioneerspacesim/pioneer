@@ -4,6 +4,26 @@
 #include "Orbit.h"
 #include "libs.h"
 
+#ifdef _MSC_VER
+// http://social.msdn.microsoft.com/Forums/en-US/Vsexpressvc/thread/25c923af-a824-40f8-8fd4-e5574bc147af/
+double asinh(double value) {
+	double returned;
+
+	if(value>0)
+		returned = log(value + sqrt(value * value + 1));
+	else
+		returned = -log(-value + sqrt(value * value + 1));
+
+	return(returned);
+}
+
+// http://stackoverflow.com/questions/15539116/atanh-arc-hyperbolic-tangent-function-missing-in-ms-visual-c
+double atanh (double x) //implements: return (log(1+x) - log(1-x))/2
+{
+	return (log(1.0+x) - log(1.0-x))/2.0;
+}
+#endif
+
 static double calc_orbital_period(double semiMajorAxis, double centralMass)
 {
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
@@ -105,12 +125,12 @@ double Orbit::MeanAnomalyFromTrueAnomaly(double trueAnomaly) const {
 	double M_t0;
 	const double e = m_eccentricity;
 	if (e < 1.0) {
-		M_t0 = 2*atan(tan(trueAnomaly/2)*sqrt((1-e)/(1+e)));
+		M_t0 = 2.0*atan(tan(trueAnomaly/2.0)*sqrt((1.0-e)/(1.0+e)));
 		M_t0 = M_t0 - e*sin(M_t0);
 	} else {
 		// For hyperbolic trajectories, mean anomaly has opposite sign to true anomaly, therefore trajectories which go forward
 		// in time decrease their true anomaly. Yes, it is confusing.
-		M_t0 = 2*atanh(tan(trueAnomaly/2)*sqrt((e-1)/(1+e)));
+		M_t0 = 2.0*atanh(tan(trueAnomaly/2.0)*sqrt((e-1.0)/(1.0+e)));
 		M_t0 = M_t0 - e*sinh(M_t0);
 	}
 
