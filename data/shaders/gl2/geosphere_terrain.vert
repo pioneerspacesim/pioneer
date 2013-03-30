@@ -19,7 +19,7 @@ uniform Material material;
 
 #define PI 3.141592653589793
 
-//#define USE_GOOD_MATHS 1
+#define USE_GOOD_MATHS 1
 
 float discCovered(float dist, float rad) {
 	// proportion of unit disc covered by a second disc of radius rad placed
@@ -29,22 +29,19 @@ float discCovered(float dist, float rad) {
 	//
 	// WLOG, the second disc is displaced horizontally to the right.
 	// xl = rightwards distance to intersection of the two circles.
-	// xs = leftwards distance from centre of second disc to intersection.
+	// xs = normalised leftwards distance from centre of second disc to intersection.
 	// d = vertical distance to an intersection point
 	//
 	// The clamps on xl,xs handle the cases where one disc contains the other.
 
 	float radsq = rad*rad;
 #ifdef USE_GOOD_MATHS
-	float xl = clamp((dist*dist + 1.0 - radsq) / (2.0*dist), -1.0, 1.0);
-	float xs = clamp(dist - xl, -rad, rad);
-
-	// XXX: having 1.001 rather that 1.0 in the following appears necessary to
-	// avoid flicker due (I'm assuming) to sqrting negative numbers
-	float d = sqrt(1.001 - xl*xl);
+	float xl = clamp((dist*dist + 1.0 - radsq) / (2.0*max(0.001,dist)), -1.0, 1.0);
+	float xs = clamp((dist - xl)/max(0.001,rad), -1.0, 1.0);
+	float d = sqrt(max(0.0, 1.0 - xl*xl));
 
 	float th = clamp(acos(xl), 0.0, PI);
-	float th2 = clamp(acos(xs/rad), 0.0, PI);
+	float th2 = clamp(acos(xs), 0.0, PI);
 
 	// covered area can be calculated as the sum of segments from the two
 	// discs plus/minus some triangles, and it works out as follows:

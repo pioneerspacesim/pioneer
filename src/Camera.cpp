@@ -331,15 +331,13 @@ float discCovered(float dist, float rad) {
 	//
 	// WLOG, the second disc is displaced horizontally to the right.
 	// xl = rightwards distance to intersection of the two circles.
-	// xs = leftwards distance from centre of second disc to intersection.
+	// xs = normalised leftwards distance from centre of second disc to intersection.
 	// d = vertical distance to an intersection point
 	// The clampings handle the cases where one disc contains the other.
 	const float radsq = rad*rad;
-	const float xl = Clamp((dist*dist + 1.f - radsq) / (2.f*dist), -1.f, 1.f);
-	const float xs = Clamp(dist - xl, -rad, rad);
-	// XXX: having 1.001 rather that 1.0 in the following appears necessary to
-	// avoid flicker due (I'm assuming) to sqrting negative numbers
-	const float d = sqrt(1.001 - xl*xl);
+	const float xl = Clamp((dist*dist + 1.f - radsq) / (2.f*std::max(0.001f,dist)), -1.f, 1.f);
+	const float xs = Clamp((dist - xl)/std::max(0.001f,rad), -1.f, 1.f);
+	const float d = sqrt(std::max(0.f, 1.f - xl*xl));
 
 	const float th = Clamp(acosf(xl), 0.f, float(M_PI));
 	const float th2 = Clamp(acosf(xs/rad), 0.f, float(M_PI));
