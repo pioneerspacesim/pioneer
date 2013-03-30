@@ -431,8 +431,11 @@ local spawnInitialShips = function (game_start)
 			addShipCargo(ship, 'import')
 			-- remove fuel used to get here
 			if fuel_added and fuel_added > 0 then
-				ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added)) end
-			if trader.status == 'inbound' then ship:AIDockWith(trader.starport) end
+				ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
+			end
+			if trader.status == 'inbound' and trader.starport ~= nil then 
+				ship:AIDockWith(trader.starport) 
+			end
 		end
 	end
 
