@@ -32,6 +32,7 @@ public:
 	template <class Key> void PushValueToStack(const Key & key) const;
 	template <class Value, class Key> Value Get(const Key & key) const;
 	template <class Key> LuaTable Sub(const Key & key) const; // Does not clean up the stack.
+	template <class Value, class Key> Value Get(const Key & key, Value default_value) const;
 	template <class Value, class Key> void Set(const Key & key, const Value & value) const;
 
 	template <class Key, class Value> std::map<Key, Value> GetMap() const;
@@ -67,6 +68,14 @@ template <class Value, class Key> Value LuaTable::Get(const Key & key) const {
 	pi_lua_generic_pull(m_lua, -1, return_value);
 	lua_pop(m_lua, 1);
 	return return_value;
+}
+
+template <class Value, class Key> Value LuaTable::Get(const Key & key, Value default_value) const {
+	PushValueToStack(key);
+	if (!(lua_isnil(m_lua, -1)))
+		pi_lua_generic_pull(m_lua, -1, default_value);
+	lua_pop(m_lua, 1);
+	return default_value;
 }
 
 template <class Value, class Key> void LuaTable::Set(const Key & key, const Value & value) const {
