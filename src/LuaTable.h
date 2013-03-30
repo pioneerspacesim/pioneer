@@ -7,6 +7,7 @@
 #include <cassert>
 #include <map>
 #include <vector>
+#include <iterator>
 
 #include "lua/lua.hpp"
 #include "LuaRef.h"
@@ -37,11 +38,50 @@ public:
 
 	template <class Key, class Value> std::map<Key, Value> GetMap() const;
 	template <class Key, class Value> void LoadMap(const std::map<Key, Value> & m) const;
-	template <class Value> std::vector<Value> GetVector() const;
 	template <class Value> void LoadVector(const std::vector<Value> & m) const;
 
 	lua_State * GetLua() const { return m_lua; }
 	int GetIndex() const { return m_index; }
+	int Size() const {return lua_rawlen(m_lua, m_index);}
+
+	template <class Value> class VecIter : public std::iterator<std::input_iterator_tag, Value> {
+		public:
+			VecIter() : m_table(0), m_currentIndex(0), m_cache(0) {}
+			~VecIter() { if (m_cache) delete m_cache; }
+			VecIter(LuaTable * t, int currentIndex): m_table(t), m_currentIndex(currentIndex), m_cache(0) {}
+			VecIter(const VecIter & copy): m_table(copy.m_table), m_currentIndex(copy.m_currentIndex), m_cache(0) {}
+			void operator=(const VecIter & copy) { CleanCache(); m_table = copy.m_table; m_currentIndex = copy.m_currentIndex;}
+
+			VecIter operator++() { if (m_table) {CleanCache(); ++m_currentIndex;} return *this; }
+			VecIter operator++(int) { VecIter copy(*this); if (m_table) {CleanCache(); ++m_currentIndex;} return copy;}
+			VecIter operator--() { if (m_table) --m_currentIndex; return *this; }
+			VecIter operator--(int) { VecIter copy(*this); if (m_table) --m_currentIndex; return copy;}
+
+			bool operator==(const VecIter & other) {return (m_table == other.m_table && m_currentIndex == other.m_currentIndex);}
+			bool operator!=(const VecIter & other) {return (m_table != other.m_table || m_currentIndex != other.m_currentIndex);}
+			Value operator*() { return *GetCache();}
+			Value * operator->() { return GetCache();}
+		private:
+			void CleanCache() {
+				if (m_cache) {
+					delete m_cache;
+					m_cache = 0;
+				}
+			}
+			Value * GetCache() {
+				if (m_cache == 0) {
+					m_cache = new Value;
+					*m_cache = m_table->Get<Value>(m_currentIndex);
+				}
+				return m_cache;
+			}
+			LuaTable * m_table;
+			int m_currentIndex;
+			Value * m_cache;
+	};
+	
+	template <class Value> VecIter<Value> Begin() {return VecIter<Value>(this, 1);}
+	template <class Value> VecIter<Value> End() {return VecIter<Value>(this, Size()+1);}
 
 private:
 	LuaTable(): m_lua(0), m_index(0) {} //Protected : invalid tables shouldn't be out there.
@@ -99,22 +139,6 @@ template <class Key, class Value> std::map<Key, Value> LuaTable::GetMap() const 
 	return ret;
 }
 
-template <class Value> std::vector<Value> LuaTable::GetVector() const {
-	std::vector<Value> ret;
-	lua_len(m_lua, m_index);
-	int len = lua_tointeger(m_lua, -1);
-	lua_pop(m_lua, 1);
-	ret.reserve(len);
-	for(int i = 1; i <= len; ++i) {
-		Value val;
-		lua_rawgeti(m_lua, m_index, i);
-		if (pi_lua_strict_pull(m_lua, -1, val))
-			ret.push_back(val);
-		lua_pop(m_lua, 1);
-	}
-    return ret;
-}
-
 template <class Key, class Value> void LuaTable::LoadMap(const std::map<Key, Value> & m) const {
 	for (typename std::map<Key, Value>::const_iterator it = m.begin();
 			it != m.end() ; ++it)
@@ -129,4 +153,6 @@ template <class Value> void LuaTable::LoadVector(const std::vector<Value> & v) c
 		Set(current_length+i+1, v[i]);
 }
 
+template <> void LuaTable::VecIter<LuaTable>::CleanCache();
+template <> LuaTable * LuaTable::VecIter<LuaTable>::GetCache();
 #endif
