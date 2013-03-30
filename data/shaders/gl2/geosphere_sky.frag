@@ -35,6 +35,16 @@ void sphereEntryExitDist(out float near, out float far, in vec3 sphereCenter, in
 	}
 }
 
+// integral used in shadow calculations:
+// \Int (m - \sqrt(d^2+t^2)) dt = (t\sqrt(d^2+t^2) + d^2 log(\sqrt(d^2+t^2)+t))/2
+float shadowInt(float t1, float t2, float dsq, float m)
+{
+	float s1 = sqrt(dsq+t1*t1);
+	float s2 = sqrt(dsq+t2*t2);
+	return m*(t2-t1) - (t2*s2 - t1*s1 +
+			dsq*( log(max(0.000001, s2+t2)) - log(max(0.000001, s1+t1)) ))/2.0;
+}
+
 void main(void)
 {
 	float skyNear, skyFar;
@@ -89,33 +99,34 @@ void main(void)
 					vec3 ap = a - dot(a,lightDir)*lightDir - centre;
 					vec3 bp = b - dot(b,lightDir)*lightDir - centre;
 
-
 					vec3 dirp = normalize(bp-ap);
 					float ad = dot(ap,dirp);
 					float bd = dot(bp,dirp);
-					if (bd > ad) {
-						vec3 p = ap - dot(ap,dirp)*dirp;
-						float perpsq = dot(p,p);
+					vec3 p = ap - dot(ap,dirp)*dirp;
+					float perpsq = dot(p,p);
 
-						float maxOcclusion = min(1.0, (srad[j]/lrad[j])*(srad[j]/lrad[j]));
+					// we now want to calculate the proportion of shadow on the horizontal line
+					// segment from ad to bd, shifted vertically from centre by \sqrt(perpsq). For
+					// the partially occluded segments, to have an analytic solution to the integral
+					// we estimate the light intensity to drop off linearly with radius between
+					// maximal occlusion and none.
 
-						// We do need a gradually deepening penumbra, or we get ugly lines when the
-						// shadow is viewed side-on; a more efficient approach to this than the
-						// following loop would be nice.
-						int pN = 12;
-						for (int pi=pN; pi>=0; pi--) {
-							float r = srad[j] + float(pi)*lrad[j]/float(pN);
-							float c = r*r - perpsq;
-							if (c < 0.0)
-								break;
-							float rootc = sqrt(c);
-							uneclipsed -= (maxOcclusion/float(pN+1)) *
-								(clamp(rootc,ad,bd) - clamp(-rootc,ad,bd)) / (bd-ad);
-						}
-					}
-					// Note: the shadow the planet casts on its own atmosphere is dealt with adequately
-					// by the calculations involving nDotVP.
+					float minr = srad[j]-lrad[j];
+					float maxr = srad[j]+lrad[j];
+					float maxd = sqrt( max(0.0, maxr*maxr - perpsq) );
+					float mind = sqrt( max(0.0, minr*minr - perpsq) );
+
+					float shadow =
+						(shadowInt(clamp(ad, -maxd, -mind), clamp(bd, -maxd, -mind), perpsq, maxr)
+						 + shadowInt(clamp(ad, mind, maxd), clamp(bd, mind, maxd), perpsq, maxr))
+						/ (maxr-minr)
+						+ (clamp(bd, -mind, mind) - clamp(ad, -mind, mind));
+
+					float maxOcclusion = min(1.0, (srad[j]/lrad[j])*(srad[j]/lrad[j]));
+
+					uneclipsed -= maxOcclusion * shadow / (bd-ad);
 				}
+			uneclipsed = clamp(uneclipsed, 0.0, 1.0);
 
 			float nDotVP =  max(0.0, dot(surfaceNorm, lightDir))	;
 			float nnDotVP = max(0.0, dot(surfaceNorm, -lightDir));  //need backlight to increase horizon
