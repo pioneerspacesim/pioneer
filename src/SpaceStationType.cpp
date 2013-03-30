@@ -192,15 +192,15 @@ bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int st
 static int _get_stage_durations(lua_State *L, const char *key, int &outNumStages, double **outDurationArray)
 {
 	LUA_DEBUG_START(L);
-	LuaTable t = LuaTable(L, -1).Sub(key);
-	if (t.GetLua() == 0) {
+	LuaTable stages = LuaTable(L, -1).Sub(key);
+	if (stages.GetLua() == 0) {
 		luaL_error(L, "Not a proper table (%s)", key);
 	}
-	if (t.Size() < 1)
+	if (stages.Size() < 1)
 		return luaL_error(L, "Station must have at least 1 stage in %s", key);
-	outNumStages = t.Size();
-	*outDurationArray = new double[t.Size()];
-	std::copy(t.Begin<double>(), t.End<double>(), *outDurationArray);
+	outNumStages = stages.Size();
+	*outDurationArray = new double[stages.Size()];
+	std::copy(stages.Begin<double>(), stages.End<double>(), *outDurationArray);
 	lua_pop(L, 1); // Popping t
 	LUA_DEBUG_END(L, 0);
 	return 0;
