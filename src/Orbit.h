@@ -1,0 +1,56 @@
+// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+#ifndef ORBIT_H
+#define ORBIT_H
+
+#include "vector3.h"
+#include "matrix3x3.h"
+
+class Orbit {
+public:
+	// note: the resulting Orbit is at the given position at t=0
+	static Orbit FromBodyState(const vector3d &position, const vector3d &velocity, double central_mass);
+
+	Orbit():
+		m_eccentricity(0.0),
+		m_semiMajorAxis(0.0),
+		m_orbitalPhaseAtStart(0.0),
+		m_velocityAreaPerSecond(0.0),
+		m_orient(matrix3x3d::Identity())
+	{}
+
+	void SetShapeAroundBarycentre(double semiMajorAxis, double totalMass, double bodyMass, double eccentricity);
+	void SetShapeAroundPrimary(double semiMajorAxis, double totalMass, double eccentricity);
+	void SetPlane(const matrix3x3d &orient) { m_orient = orient; }
+	void SetPhase(double orbitalPhaseAtStart) { m_orbitalPhaseAtStart = orbitalPhaseAtStart; }
+
+	vector3d OrbitalPosAtTime(double t) const;
+
+	// 0.0 <= t <= 1.0. Not for finding orbital pos
+	vector3d EvenSpacedPosTrajectory(double t) const;
+
+	double Period() const;
+	vector3d Apogeum() const;
+	vector3d Perigeum() const;
+
+	// basic accessors
+	double GetEccentricity() const { return m_eccentricity; }
+	double GetSemiMajorAxis() const { return m_semiMajorAxis; }
+	double GetOrbitalPhaseAtStart() const { return m_orbitalPhaseAtStart; }
+	const matrix3x3d &GetPlane() const { return m_orient; }
+
+private:
+	double TrueAnomalyFromMeanAnomaly(double MeanAnomaly) const;
+	double MeanAnomalyFromTrueAnomaly(double trueAnomaly) const;
+	double MeanAnomalyAtTime(double time) const;
+
+	double m_eccentricity;
+	double m_semiMajorAxis;
+	double m_orbitalPhaseAtStart; // 0 to 2 pi radians
+	/* dup " " --------------------------------------- */
+	double m_velocityAreaPerSecond; // seconds
+	matrix3x3d m_orient;
+};
+
+#endif
