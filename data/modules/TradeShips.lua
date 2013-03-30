@@ -44,10 +44,13 @@
 	starports - in the current system; indexed array of SpaceStation objects,
 		updated by spawnInitialShips
 
+	vacuum_starports - in the current system; indexed array of SpaceStation objects that can be
+		approached without atmospheric shields,	updated by spawnInitialShips
+
 	imports, exports - in the current system, indexed array of
 		Constants.EquipType strings, updated by spawnInitialShips
 --]]
-local trade_ships, system_updated, from_paths, starports, imports, exports
+local trade_ships, system_updated, from_paths, starports, vacuum_starports, imports, exports
 
 local addFuel = function (ship)
 	local drive = ship:GetEquip('ENGINE', 1)
@@ -189,7 +192,6 @@ end
 
 local getNearestStarport = function (ship, current)
 	if #starports == 0 then return nil end
-	if #starports == 1 then return starports[1] end
 
 	local trader = trade_ships[ship]
 
@@ -283,15 +285,25 @@ end
 
 local getAcceptableShips = function ()
     -- only accept ships with enough capacity that are capable of landing in atmospheres
+	local filter_function
+	if #vacuum_starports == 0 then
+		filter_function = function(k,def)
+			-- XXX should limit to ships large enough to carry significant
+			--     cargo, but we don't have enough ships yet
+			return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE' and def.equipSlotCapacity.ATMOSHIELD > 0
+		end
+	else
+		filter_function = function(k,def)
+			-- XXX should limit to ships large enough to carry significant
+			--     cargo, but we don't have enough ships yet
+			return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE'
+		end
+	end
 	return build_array(
 		map(function (k,def)
 			return k,def.id
 		end,
-		filter(function (k,def)
-			-- XXX should limit to ships large enough to carry significant
-			--     cargo, but we don't have enough ships yet
-			return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE'
-		end,
+		filter(filter_function,
 		pairs(ShipDef)
 	)))
 end
@@ -300,6 +312,9 @@ local spawnInitialShips = function (game_start)
 	-- check if the current system can be traded in
 	starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
 	if #starports == 0 then return nil end
+	vacuum_starports = Space.GetBodies(function (body)
+		return body.superType == 'STARPORT' and (body.type == 'STARPORT_ORBITAL' or (not body.path:GetSystemBody().parent.hasAtmosphere))
+	end)
 	local population = Game.system.population
 	if population == 0 then return nil end
 	local ship_names = getAcceptableShips()
@@ -433,7 +448,7 @@ local spawnInitialShips = function (game_start)
 			if fuel_added and fuel_added > 0 then
 				ship:RemoveEquip('HYDROGEN', Engine.rand:Integer(1, fuel_added))
 			end
-			if trader.status == 'inbound' and trader.starport ~= nil then 
+			if trader.status == 'inbound' then 
 				ship:AIDockWith(trader.starport) 
 			end
 		end
@@ -831,6 +846,9 @@ local onGameStart = function ()
 		-- trade_ships was loaded by unserialize
 		-- rebuild starports, imports and exports tables
 		starports = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
+		vacuum_starports = Space.GetBodies(function (body)
+			return body.superType == 'STARPORT' and (body.type == 'STARPORT_ORBITAL' or (not body.path:GetSystemBody().parent.hasAtmosphere))
+		end)
 		if #starports == 0 then
 			-- there are no starports so don't bother looking for goods
 			return
@@ -882,7 +900,7 @@ Event.Register("onGameStart", onGameStart)
 local onGameEnd = function ()
 	-- drop the references for our data so Lua can free them
 	-- and so we can start fresh if the player starts another game
-	trade_ships, system_updated, from_paths, starports, imports, exports = nil, nil, nil, nil, nil, nil
+	trade_ships, system_updated, from_paths, starports, vacuum_starports, imports, exports = nil, nil, nil, nil, nil, nil, nil
 end
 Event.Register("onGameEnd", onGameEnd)
 
