@@ -1114,13 +1114,6 @@ SystemBody::SystemBody()
 	orbitalOffset = fixed(0);
 	inclination = fixed(0);
 	axialTilt = fixed(0);
-
-	orbit.eccentricity = 0.0;
-	orbit.orbitalPhaseAtStart = 0.0;
-	orbit.semiMajorAxis = 0.0;
-	orbit.period = 0.0;
-
-
 	isCustomBody = false;
 }
 
@@ -1819,14 +1812,14 @@ void SystemBody::PickPlanetType(Random &rand)
 	//		invTidalLockTime.ToFloat(), semiMajorAxis.ToFloat(), radius.ToFloat(), parent->mass.ToFloat(), mass.ToFloat());
 
 	if(invTidalLockTime > 10) { // 10x faster than Moon, no chance not to be tidal-locked
-		rotationPeriod = fixed(int(round(orbit.period)),3600*24);
+		rotationPeriod = fixed(int(round(orbit.Period())),3600*24);
 		axialTilt = inclination;
 	} else if(invTidalLockTime > fixed(1,100)) { // rotation speed changed in favour of tidal lock
 		// XXX: there should be some chance the satellite was captured only recenly and ignore this
 		//		I'm ommiting that now, I do not want to change the Universe by additional rand call.
 
 		fixed lambda = invTidalLockTime/(fixed(1,20)+invTidalLockTime);
-		rotationPeriod = (1-lambda)*rotationPeriod + lambda*orbit.period/3600/24;
+		rotationPeriod = (1-lambda)*rotationPeriod + lambda*orbit.Period()/3600/24;
 		axialTilt = (1-lambda)*axialTilt + lambda*inclination;
 	} // else .. nothing happens to the satellite
 
@@ -2394,8 +2387,8 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
 				"\t:orbital_phase_at_start(fixed.deg2rad(f(%d,%d)))\n"
 				"\t:orbital_offset(fixed.deg2rad(f(%d,%d)))\n",
 			body->seed, body->averageTemp,
-			int(round(body->orbit.semiMajorAxis/AU*multiplier)), multiplier,
-			int(round(body->orbit.eccentricity*multiplier)), multiplier,
+			int(round(body->orbit.GetSemiMajorAxis()/AU*multiplier)), multiplier,
+			int(round(body->orbit.GetEccentricity()*multiplier)), multiplier,
 			int(round(body->rotationPeriod.ToDouble()*multiplier)), multiplier,
 			int(round(body->axialTilt.ToDouble()*multiplier)), multiplier,
 			int(round(body->rotationalPhaseAtStart.ToDouble()*multiplier*180/M_PI)), multiplier,
