@@ -31,6 +31,7 @@ public:
 	const LuaTable & operator=(const LuaTable & ref) { m_lua = ref.m_lua; m_index = ref.m_index; return *this;}
 	template <class Key> void PushValueToStack(const Key & key) const;
 	template <class Value, class Key> Value Get(const Key & key) const;
+	template <class Key> LuaTable Sub(const Key & key) const; // Does not clean up the stack.
 	template <class Value, class Key> void Set(const Key & key, const Value & value) const;
 
 	template <class Key, class Value> std::map<Key, Value> GetMap() const;
@@ -53,6 +54,11 @@ private:
 template <class Key> void LuaTable::PushValueToStack(const Key & key) const {
 	pi_lua_generic_push(m_lua, key);
 	lua_gettable(m_lua, m_index);
+}
+
+template <class Key> LuaTable LuaTable::Sub(const Key & key) const {
+	PushValueToStack(key);
+	return (lua_istable(m_lua, -1)) ? LuaTable(m_lua, -1) : LuaTable();
 }
 
 template <class Value, class Key> Value LuaTable::Get(const Key & key) const {

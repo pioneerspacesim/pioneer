@@ -5,7 +5,6 @@
 #define _LUAPUSHPULL_H
 
 #include "lua/lua.hpp"
-#include "LuaTable.h"
 #include "LuaObject.h"
 #include "Lua.h"
 #include <string>
@@ -17,10 +16,6 @@ inline void pi_lua_generic_push(lua_State * l, double value) { lua_pushnumber(l,
 inline void pi_lua_generic_push(lua_State * l, const char * value) { lua_pushstring(l, value); }
 inline void pi_lua_generic_push(lua_State * l, const std::string & value) {
 	lua_pushlstring(l, value.c_str(), value.size());
-}
-inline void pi_lua_generic_push(lua_State * l, LuaTable value) {
-	assert(value.GetLua() == l);
-	lua_pushvalue(l, value.GetIndex());
 }
 template <class T> void pi_lua_generic_push(lua_State * l, T* value) {
 	assert(l == Lua::manager->GetLuaState());
@@ -39,9 +34,6 @@ inline void pi_lua_generic_pull(lua_State * l, int index, std::string & out) {
 	size_t len;
 	const char *buf = lua_tolstring(l, index, &len);
 	std::string(buf, len).swap(out);
-}
-inline void pi_lua_generic_pull(lua_State * l, int index, LuaTable & out) {
-	out = LuaTable(l, index);
 }
 template <class T> void pi_lua_generic_pull(lua_State * l, int index, T* & out) {
 	assert(l == Lua::manager->GetLuaState());
@@ -83,14 +75,6 @@ inline bool pi_lua_strict_pull(lua_State * l, int index, std::string & out) {
 	}
 	return false;
 }
-inline bool pi_lua_strict_pull(lua_State * l, int index, LuaTable & out) {
-	if (lua_type(l, index) == LUA_TTABLE) {
-		out = LuaTable(l, index);
-		return true;
-	}
-	return false;
-}
-
 template <class T> bool pi_lua_strict_pull(lua_State * l, int index, T* & out) {
 	assert(l == Lua::manager->GetLuaState());
 	if (lua_type(l, index) == LUA_TUSERDATA) {
