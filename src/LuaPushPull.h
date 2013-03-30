@@ -28,6 +28,7 @@ template <class T> void pi_lua_generic_push(lua_State * l, T* value) {
 inline void pi_lua_generic_pull(lua_State * l, int index, bool & out) { out = lua_toboolean(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, int & out) { out = lua_tointeger(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, unsigned int & out) { out = lua_tounsigned(l, index); }
+inline void pi_lua_generic_pull(lua_State * l, int index, float & out) { out = lua_tonumber(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, double & out) { out = lua_tonumber(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, const char * & out) { out = lua_tostring(l, index); }
 inline void pi_lua_generic_pull(lua_State * l, int index, std::string & out) {
@@ -50,6 +51,13 @@ inline bool pi_lua_strict_pull(lua_State * l, int index, bool & out) {
 inline bool pi_lua_strict_pull(lua_State * l, int index, int & out) {
 	if (lua_type(l, index) == LUA_TNUMBER) {
 		out = lua_tointeger(l, index);
+		return true;
+	}
+	return false;
+}
+inline bool pi_lua_strict_pull(lua_State * l, int index, float & out) {
+	if (lua_type(l, index) == LUA_TNUMBER) {
+		out = lua_tonumber(l, index);
 		return true;
 	}
 	return false;
