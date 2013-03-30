@@ -417,22 +417,85 @@ local onClick = function (mission)
 														cash   = Format.Money(mission.reward),
 														dist  = dist})
 										),
+										ui:Margin(10),
 										ui:Grid(2,1)
 											:SetColumn(0, {
-												ui:VBox():PackEnd(ui:MultiLineText(t('assmissiondetail')))
+												ui:VBox():PackEnd({
+													ui:Label(t("Target name:"))
+												})
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(mission.target),
-													ui:Label(mission.location:GetSystemBody().name),
-													ui:Label(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")"),
-													ui:Label(mission.shipname),
-													ui:Label(mission.shipregid),
-													ui:Label(Format.Date(mission.due)),
-													ui:Margin(10),
-													ui:Label(dist.." "..t("ly"))
+													ui:MultiLineText(mission.target)
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Spaceport:"))
 												})
 											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.location:GetSystemBody().name)
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("System:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.location:GetStarSystem().name.." ("..mission.location.sectorX..","..mission.location.sectorY..","..mission.location.sectorZ..")")
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Ship:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(mission.shipname)
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Ship ID:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(mission.shipregid),
+												})
+											}),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:MultiLineText(t("Target will be leaving spaceport at:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(Format.Date(mission.due))
+												})
+											}),
+										ui:Margin(5),
+										ui:Grid(2,1)
+											:SetColumn(0, {
+												ui:VBox():PackEnd({
+													ui:Label(t("Distance:"))
+												})
+											})
+											:SetColumn(1, {
+												ui:VBox():PackEnd({
+													ui:Label(dist.." "..t("ly"))
+												})
+											}),
 		})})
 		:SetColumn(1, {
 			ui:VBox(10):PackEnd(UI.InfoFace.New(mission.client))

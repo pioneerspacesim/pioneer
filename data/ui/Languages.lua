@@ -277,12 +277,16 @@ Translate:Add({
 		['Equipment'] = 'Equipo',
 		['{quantity} Shield Generators'] = '{quantity} Generadores de Escudo',
 		['{quantity} Occupied Passenger Cabins'] = '{quantity} Cabinas de Pasajeros Ocupadas',
-		['{quantity} Unoccupied Passenger Cabins'] = '{quantity} Cabinas de Pasajeros Libres',
+		['{quantity} Unoccupied Passenger Cabins'] = '{quantity} Cabinas de Pasajeros Vacías',
 
 		-- Ship Information
 		['Ship Information'] = 'Info de la Nave',
 		['Weight empty:'] = 'Peso en vacío:',
 		['{range} light years ({maxRange} max)'] = '{range} años luz ({maxRange} max)',
+		['Minimum crew'] = 'Tripulación mínima',
+		['Crew cabins'] = 'Cabinas de Tripulación',
+		['free'] = 'vacío',
+		['max'] = 'máx',
 
 		-- Personal information
 		['Personal Information'] = 'Info Personal',
@@ -293,6 +297,10 @@ Translate:Add({
 		['Rank:'] = 'Rango:',
 		['Male'] = 'Hombre',
 		['Female'] = 'Mujer',
+		['Toggle male/female'] = 'Hombre/Mujer',
+		['Make new face'] = 'Crear nuevo rostro',
+
+		['Commander'] = 'Capitán',
 
 		['HARMLESS'] = 'Inofensivo',
 		['MOSTLY_HARMLESS'] = 'En su mayoría inofensivo',
@@ -312,6 +320,49 @@ Translate:Add({
 		-- Missions
 		['Mission Details'] = 'Detalles de Misión',
 		['No missions.'] = 'Sin Misiones.',
+		['INACTIVE'] = 'Inactivo', -- Complement of ACTIVE, COMPLETED and FAILED
+
+		-- Crew Tasks
+		['Attempt to repair hull'] = 'Reparar casco',
+		['Not enough {alloy} to attempt a repair'] = 'No hay suficiente {alloy} para la reparación',
+		['Hull repaired by {name}, now at {repairPercent}%'] = 'Casco reparado por {name}, ahora al {repairPercent}%',
+		['Hull repair attempt failed. Hull suffered minor damage.'] = 'Intento de reparación del casco fracasado. El casco ha sufrido daños menores.',
+		['Hull does not require repair.'] = 'El casco no requiere reparación.',
+		['Destroy enemy ship'] = 'Destruir nave enemiga',
+		['You must request launch clearance first, Commander.'] = 'Primero debe solicitar autorización para el despegue, Capitán.',
+		['You must launch first, Commander.'] = 'Primero debe despegar, Capitán.',
+		['We are in hyperspace, Commander.'] = 'Estamos en el hiperespacio, Capitán.',
+		['The ship is under station control, Commander.'] = 'La nave esta bajo control de la estación, Capitán.',
+		['You must first select a combat target, Commander.'] = 'Primero debe seleccionar un objetivo de combate, Capitán.',
+		['You must first select a suitable navigation target, Commander.'] = 'Primero debe seleccionar un objetivo de navegación válido, Capitán.',
+		['There is nobody else on board able to fly this ship.'] = 'No hay nadie mas a bordo capaz de pilotar la nave.',
+		['Pilot seat is now occupied by {name}'] = 'Actualmente el puesto de piloto esta ocupado por {name}',
+		['Dock at current target'] = 'Atracar en el objetivo actual',
+
+		-- Crew Roster
+		['Name'] = 'Nombre',
+		['Position'] = 'Puesto',
+		['Wage'] = 'Sueldo',
+		['Owed'] = 'Deuda',
+		['Next paid'] = 'Próxima paga',
+		['More info...'] = 'Mas info...',
+		['General crew'] = 'Tripulación general',
+		['Dismiss'] = 'Despedir',
+		['Qualification scores'] = 'Calificación',
+		['Engineering:'] = 'Ingeniería',
+		['Piloting:'] = 'Pilotaje:',
+		['Navigation:'] = 'Navegación:',
+		['Sensors:'] = 'Sensores:',
+		['Employment'] = 'Ocupación',
+		['Negotiate'] = 'Negociar',
+		['Crew Roster'] = 'Lista',
+		['Give orders to crew'] = 'Dar órdenes',
+
+		-- Taunts
+		["I'm tired of working for nothing. Don't you know what a contract is?"] = "Estoy harto de trabajar por nada. Conoce la palabra contrato?",
+		["It's been great working for you. If you need me again, I'll be here a while."] = "Ha sido estupendo trabajar para usted. Si me necesita de nuevo, Estaré por aquí un tiempo.",
+		["You're going to regret sacking me!"] = "Va a lamentar haberme explotado!",
+		["Good riddance to you, too."] = "Buen viaje, igualmente.",
 
 		-- Orbital analysis
 		['Orbit'] = 'Orbita',
