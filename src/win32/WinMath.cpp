@@ -373,6 +373,6 @@ double asinh(double value) {
 // http://stackoverflow.com/questions/15539116/atanh-arc-hyperbolic-tangent-function-missing-in-ms-visual-c
 double atanh (double x) //implements: return (log(1+x) - log(1-x))/2
 {
-	return (LogOnePlusX(x) - log(1.0-x))/2.0;
+	return (LogOnePlusX(x) - LogOnePlusX(-x))/2.0;
 }
 #endif
