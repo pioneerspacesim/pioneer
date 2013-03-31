@@ -426,6 +426,9 @@
     <ClCompile Include="..\..\src\Orbit.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\LuaTable.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -897,6 +900,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Orbit.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaTable.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

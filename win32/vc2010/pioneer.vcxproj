@@ -178,6 +178,7 @@
     <ClCompile Include="..\..\src\LuaStarSystem.cpp" />
     <ClCompile Include="..\..\src\LuaSystemBody.cpp" />
     <ClCompile Include="..\..\src\LuaSystemPath.cpp" />
+    <ClCompile Include="..\..\src\LuaTable.cpp" />
     <ClCompile Include="..\..\src\LuaTimer.cpp" />
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
     <ClCompile Include="..\..\src\LuaVector.cpp" />
@@ -339,6 +340,7 @@
     <ClInclude Include="..\..\src\LuaStarSystem.h" />
     <ClInclude Include="..\..\src\LuaSystemBody.h" />
     <ClInclude Include="..\..\src\LuaSystemPath.h" />
+    <ClInclude Include="..\..\src\LuaTable.h" />
     <ClInclude Include="..\..\src\LuaTimer.h" />
     <ClInclude Include="..\..\src\LuaUtils.h" />
     <ClInclude Include="..\..\src\LuaVector.h" />
