@@ -339,7 +339,7 @@ static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &bu
 	return read_count;
 }
 
-Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_rand(body->seed), m_heightMap(0), m_heightMapScaled(0), m_heightScaling(0), m_minh(0) {
+Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_rand(body->seed), m_heightScaling(0), m_minh(0) {
 
 	// load the heightmap
 	if (m_body->heightMapFilename) {
@@ -351,24 +351,40 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 
 		ByteRange databuf = fdata->AsByteRange();
 
-		// read size!
-		Uint16 v;
+		int16_t minHMap = INT16_MAX, maxHMap = INT16_MIN;
+		uint16_t minHMapScld = UINT16_MAX, maxHMapScld = 0;
 
 		// XXX unify heightmap types
 		switch (m_body->heightMapFractal) {
 			case 0: {
+				Uint16 v;
 				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
 				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
+				const uint32_t heightmapPixelArea = (m_heightMapSizeX * m_heightMapSizeY);
 
-				m_heightMap = new Sint16[m_heightMapSizeX * m_heightMapSizeY];
-				bufread_or_die(m_heightMap, sizeof(Sint16), m_heightMapSizeX * m_heightMapSizeY, databuf);
+				ScopedPtr<Sint16> heightMap(new Sint16[heightmapPixelArea]);
+				bufread_or_die(heightMap.Get(), sizeof(Sint16), heightmapPixelArea, databuf);
+				m_heightMap.Reset(new double[heightmapPixelArea]);
+				double *pHeightMap = m_heightMap.Get();
+				for(uint32_t i=0; i<heightmapPixelArea; i++) {
+					const Sint16 val = heightMap.Get()[i];
+					minHMap = std::min(minHMap, val);
+					maxHMap = std::max(maxHMap, val);
+					// store then increment pointer
+					(*pHeightMap) = val;
+					++pHeightMap;
+				}
+				assert(pHeightMap==m_heightMap.Get()[heightmapPixelArea]);
+				printf("minHMap = (%hd), maxHMap = (%hd)\n", minHMap, maxHMap);
 				break;
 			}
 
 			case 1: {
+				Uint16 v;
 				// XXX x and y reversed from above *sigh*
 				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeY = v;
 				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
+				const uint32_t heightmapPixelArea = (m_heightMapSizeX * m_heightMapSizeY);
 
 				// read height scaling and min height which are doubles
 				double te;
@@ -377,15 +393,29 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 				bufread_or_die(&te, 8, 1, databuf);
 				m_minh = te;
 
-				m_heightMapScaled = new Uint16[m_heightMapSizeX * m_heightMapSizeY];
-				bufread_or_die(m_heightMapScaled, sizeof(Uint16), m_heightMapSizeX * m_heightMapSizeY, databuf);
-
+				ScopedPtr<Uint16> heightMapScaled(new Uint16[heightmapPixelArea]);
+				bufread_or_die(heightMapScaled.Get(), sizeof(Uint16), heightmapPixelArea, databuf);
+				m_heightMap.Reset(new double[heightmapPixelArea]);
+				double *pHeightMap = m_heightMap.Get();
+				for(uint32_t i=0; i<heightmapPixelArea; i++) {
+					const Uint16 val = heightMapScaled.Get()[i];
+					minHMapScld = std::min(minHMapScld, val);
+					maxHMapScld = std::max(maxHMapScld, val);
+					// store then increment pointer
+					(*pHeightMap) = val;
+					++pHeightMap;
+				}
+				assert(pHeightMap==m_heightMap.Get()[heightmapPixelArea]);
+				printf("minHMapScld = (%hu), maxHMapScld = (%hu)\n", minHMapScld, maxHMapScld);
 				break;
 			}
 
 			default:
 				assert(0);
 		}
+
+		
+
 	}
 
 	switch (Pi::detail.textures) {
@@ -553,10 +583,6 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 
 Terrain::~Terrain()
 {
-	if (m_heightMap)
-		delete [] m_heightMap;
-	if (m_heightMapScaled)
-		delete [] m_heightMapScaled;
 }
 
 

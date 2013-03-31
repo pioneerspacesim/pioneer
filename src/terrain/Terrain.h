@@ -79,10 +79,7 @@ protected:
 
 	// heightmap stuff
 	// XXX unify heightmap types
-	// for the earth heightmap
-	Sint16 *m_heightMap;
-	// For the moon and other bodies (with height scaling)
-	Uint16 *m_heightMapScaled;
+	ScopedPtr<double> m_heightMap;
 	double m_heightScaling, m_minh;
 
 	int m_heightMapSizeX;
