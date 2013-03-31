@@ -106,6 +106,8 @@ private:
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
+	Gui::ToggleButton *m_drawOutRangeLabelButton;
+	Gui::ToggleButton *m_drawSystemLegButton;
 
 	ScopedPtr<Graphics::Drawables::Disk> m_disk;
 
