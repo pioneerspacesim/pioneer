@@ -184,11 +184,7 @@ void Sfx::Add(const Body *b, TYPE t)
 			Pi::rng.Double()-0.5);
 }
 
-<<<<<<< HEAD
-void Sfx::AddThrustSmoke(const Body *b, TYPE t, float speed, vector3d adjustpos)
-=======
 void Sfx::AddThrustSmoke(const Body *b, TYPE t, const float speed, vector3d adjustpos)
->>>>>>> pioneermaster/master
 {
 	Sfx *sfx = AllocSfxInFrame(b->GetFrame());
 	if (!sfx) return;
@@ -199,13 +195,6 @@ void Sfx::AddThrustSmoke(const Body *b, TYPE t, const float speed, vector3d adju
 	vector3d npos = b->GetPosition();
 	sfx->SetPosition(npos+adjustpos);
 	sfx->m_vel = vector3d(0,0,0);
-<<<<<<< HEAD
-	/*sfx->m_vel = b->GetVelocity()+50.0*vector3d(
-			Pi::rng.Double()-0.5	,
-			Pi::rng.Double()-0.5,
-			Pi::rng.Double()-0.5);*/
-=======
->>>>>>> pioneermaster/master
 }
 
 void Sfx::TimeStepAll(const float timeStep, Frame *f)

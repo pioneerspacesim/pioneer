@@ -1,5 +1,5 @@
 define_orbital_station {
-	model = 'big_crappy_spacestation',
+	model = 'tradestation',
 	angular_velocity = 0.1,
 	num_docking_ports = 4,
 	parking_distance = 5000.0,
