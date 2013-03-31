@@ -14,6 +14,7 @@ uniform Scene scene;
 varying vec3 varyingEyepos;
 varying vec3 varyingNormal;
 varying vec4 vertexColor;
+varying vec4 unshadowed;
 
 #ifdef TERRAIN_WITH_LAVA
 varying vec4 varyingEmission;
@@ -35,7 +36,7 @@ void main(void)
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		nDotVP  = max(0.0, dot(tnorm, normalize(vec3(gl_LightSource[i].position))));
 		nnDotVP = max(0.0, dot(tnorm, normalize(-vec3(gl_LightSource[i].position)))); //need backlight to increase horizon
-		diff += gl_LightSource[i].diffuse * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0)/float(NUM_LIGHTS));
+		diff += gl_LightSource[i].diffuse * unshadowed[i] * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0)/float(NUM_LIGHTS));
 
 #ifdef TERRAIN_WITH_WATER
 		//Specular reflection
