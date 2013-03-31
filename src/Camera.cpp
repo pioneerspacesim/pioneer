@@ -342,7 +342,7 @@ float discCovered(float dist, float rad) {
 	const float th = Clamp(acosf(xl), 0.f, float(M_PI));
 	const float th2 = Clamp(acosf(xs/rad), 0.f, float(M_PI));
 
-	assert(!isnan(d) && !isnan(th) && !isnan(th2));
+	assert(!is_nan(d) && !is_nan(th) && !is_nan(th2));
 
 	// covered area can be calculated as the sum of segments from the two
 	// discs plus/minus some triangles, and it works out as follows:

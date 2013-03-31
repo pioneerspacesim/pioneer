@@ -179,7 +179,6 @@ void ModelBody::CalcLighting(double &ambient, double &direct, const Camera *came
 	Color cl;
 	planet->GetSystemBody()->GetAtmosphereFlavor(&cl, &surfaceDensity);
 
-
 	// approximate optical thickness fraction as fraction of density remaining relative to earths
 	double opticalThicknessFraction = density/EARTH_ATMOSPHERE_SURFACE_DENSITY;
 
@@ -285,7 +284,8 @@ void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::ve
 
 void ModelBody::ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient) {
 	// restore old lights
-	r->SetLights(oldLights.size(), &oldLights[0]);
+	if (!oldLights.empty())
+		r->SetLights(oldLights.size(), &oldLights[0]);
 	r->SetAmbientColor(oldAmbient);
 }
 
