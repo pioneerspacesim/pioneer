@@ -258,3 +258,15 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 	if (kineticEnergy > 1e-3) OnDamage(o, float(kineticEnergy));
 	return true;
 }
+
+// return parameters for orbit of any body, gives both elliptic and hyperbolic trajectories
+Orbit DynamicBody::ComputeOrbit() const {
+	const Frame *frame = this->GetFrame()->GetNonRotFrame();
+	const double mass = frame->GetSystemBody()->GetMass();
+
+	// current velocity and position with respect to non-rotating frame
+	const vector3d vel = this->GetVelocityRelTo(frame);
+	const vector3d pos = this->GetPositionRelTo(frame);
+
+	return Orbit::FromBodyState(pos, vel, mass);
+}

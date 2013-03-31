@@ -371,7 +371,7 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	const double radius = planet->GetSystemBody()->GetRadius();
 
 	// suggested position
-	rot = sbody->orbit.rotMatrix;
+	rot = sbody->orbit.GetPlane();
 	pos = rot * vector3d(0,1,0);
 
 	// Check if height varies too much around the starport center
@@ -567,7 +567,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		vector3d pos;
 		Planet *planet = static_cast<Planet*>(rotFrame->GetBody());
 		RelocateStarportIfUnderwaterOrBuried(sbody, rotFrame, planet, pos, rot);
-		sbody->orbit.rotMatrix = rot;
+		sbody->orbit.SetPlane(rot);
 		b->SetPosition(pos * planet->GetTerrainHeight(pos));
 		b->SetOrient(rot);
 		return rotFrame;

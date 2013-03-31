@@ -359,3 +359,20 @@ double LogOnePlusX(double x)
     return (-0.5*x + 1.0)*x;
 }
 
+#ifdef _MSC_VER
+// http://social.msdn.microsoft.com/Forums/en-US/Vsexpressvc/thread/25c923af-a824-40f8-8fd4-e5574bc147af/
+double asinh(double value) {
+	double returned;
+	if(value>0.0)
+		returned = log(value + sqrt(value * value + 1.0));
+	else
+		returned = -log(-value + sqrt(value * value + 1.0));
+	return returned;
+}
+
+// http://stackoverflow.com/questions/15539116/atanh-arc-hyperbolic-tangent-function-missing-in-ms-visual-c
+double atanh (double x) //implements: return (log(1+x) - log(1-x))/2
+{
+	return (LogOnePlusX(x) - LogOnePlusX(-x))/2.0;
+}
+#endif

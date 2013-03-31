@@ -1041,6 +1041,12 @@ void Ship::StaticUpdate(const float timeStep)
 		m_hyperspace.now = false;
 		EnterHyperspace();
 	}
+
+	//Add smoke trails for missiles on thruster state
+	if (m_type->tag == ShipType::TAG_MISSILE && m_thrusters.z < 0.0 && 0.1*Pi::rng.Double() < timeStep) {
+		vector3d pos = GetOrient() * vector3d(0, 0 , 5);
+		Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, std::min(10.0*GetVelocity().Length()*abs(m_thrusters.z),100.0),pos);
+	}
 }
 
 void Ship::NotifyRemoved(const Body* const removedBody)
@@ -1094,7 +1100,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		m_landingGearAnimation->SetProgress(m_wheelState);
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-	RenderModel(renderer, viewCoords, viewTransform);
+	RenderModel(renderer, camera, viewCoords, viewTransform);
 
 	// draw shield recharge bubble
 	if (m_stats.shield_mass_left < m_stats.shield_mass) {

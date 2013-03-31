@@ -417,6 +417,9 @@
     <ClCompile Include="..\..\src\NavLights.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Orbit.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\GeoPatchID.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -864,6 +867,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\NavLights.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Orbit.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GeoPatchID.h">

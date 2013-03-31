@@ -6,6 +6,7 @@
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/TextureBuilder.h"
+#include "graphics/Drawables.h"
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "OS.h"
@@ -17,6 +18,7 @@
 //default options
 ModelViewer::Options::Options()
 : attachGuns(false)
+, showDockingLocators(false)
 , showCollMesh(false)
 , showGrid(false)
 , showLandingPad(false)
@@ -182,6 +184,7 @@ bool ModelViewer::OnReloadModel(UI::Widget *w)
 
 bool ModelViewer::OnToggleCollMesh(UI::CheckBox *w)
 {
+	m_options.showDockingLocators = !m_options.showDockingLocators;
 	m_options.showCollMesh = !m_options.showCollMesh;
 	return m_options.showCollMesh;
 }
@@ -338,6 +341,105 @@ void ModelViewer::DrawBackground()
 	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
 }
 
+void ModelViewer::DrawDockingLocators()
+{
+	using namespace Graphics::Drawables;
+
+	static std::vector<Line3D> sLines;
+	if (sLines.empty())
+	{
+		sLines.clear();
+
+		SceneGraph::Model::TVecMT approach_mts;
+		SceneGraph::Model::TVecMT docking_mts;
+		SceneGraph::Model::TVecMT leaving_mts;
+		m_model->FindTagsByStartOfName("approach_", approach_mts);
+		m_model->FindTagsByStartOfName("docking_", docking_mts);
+		m_model->FindTagsByStartOfName("leaving_", leaving_mts);
+
+		for(SceneGraph::Model::TVecMT::const_iterator iter = docking_mts.begin(), itEnd=docking_mts.end(); iter!=itEnd; ++iter) {
+			const vector3f pos = (*iter)->GetTransform().GetTranslate();
+			const vector3f xAxis = (*iter)->GetTransform().GetOrient().VectorX() * 100.0f;
+			const vector3f yAxis = (*iter)->GetTransform().GetOrient().VectorY() * 100.0f;
+			const vector3f zAxis = (*iter)->GetTransform().GetOrient().VectorZ() * 100.0f;
+			Line3D lineX;
+			lineX.SetStart( pos );
+			lineX.SetEnd( pos + xAxis );
+			lineX.SetColor( Color::RED );
+
+			Line3D lineY;
+			lineY.SetStart( pos );
+			lineY.SetEnd( pos + yAxis );
+			lineY.SetColor( Color::GREEN );
+
+			Line3D lineZ;
+			lineZ.SetStart( pos );
+			lineZ.SetEnd( pos + zAxis );
+			lineZ.SetColor( Color::BLUE );
+
+			sLines.push_back(lineX);
+			sLines.push_back(lineY);
+			sLines.push_back(lineZ);
+		}
+
+		for(SceneGraph::Model::TVecMT::const_iterator iter = leaving_mts.begin(), itEnd=leaving_mts.end(); iter!=itEnd; ++iter) {
+			const vector3f pos = (*iter)->GetTransform().GetTranslate();
+			const vector3f xAxis = (*iter)->GetTransform().GetOrient().VectorX() * 100.0f;
+			const vector3f yAxis = (*iter)->GetTransform().GetOrient().VectorY() * 100.0f;
+			const vector3f zAxis = (*iter)->GetTransform().GetOrient().VectorZ() * 100.0f;
+			Line3D lineX;
+			lineX.SetStart( pos );
+			lineX.SetEnd( pos + xAxis );
+			lineX.SetColor( Color::RED );
+
+			Line3D lineY;
+			lineY.SetStart( pos );
+			lineY.SetEnd( pos + yAxis );
+			lineY.SetColor( Color::GREEN );
+
+			Line3D lineZ;
+			lineZ.SetStart( pos );
+			lineZ.SetEnd( pos + zAxis );
+			lineZ.SetColor( Color::BLUE );
+
+			sLines.push_back(lineX);
+			sLines.push_back(lineY);
+			sLines.push_back(lineZ);
+		}
+
+		for(SceneGraph::Model::TVecMT::const_iterator iter = approach_mts.begin(), itEnd=approach_mts.end(); iter!=itEnd; ++iter) {
+			const vector3f pos = (*iter)->GetTransform().GetTranslate();
+			const vector3f xAxis = (*iter)->GetTransform().GetOrient().VectorX() * 100.0f;
+			const vector3f yAxis = (*iter)->GetTransform().GetOrient().VectorY() * 100.0f;
+			const vector3f zAxis = (*iter)->GetTransform().GetOrient().VectorZ() * 100.0f;
+			Line3D lineX;
+			lineX.SetStart( pos );
+			lineX.SetEnd( pos + xAxis );
+			lineX.SetColor( Color::RED );
+
+			Line3D lineY;
+			lineY.SetStart( pos );
+			lineY.SetEnd( pos + yAxis );
+			lineY.SetColor( Color::GREEN );
+
+			Line3D lineZ;
+			lineZ.SetStart( pos );
+			lineZ.SetEnd( pos + zAxis );
+			lineZ.SetColor( Color::BLUE );
+
+			sLines.push_back(lineX);
+			sLines.push_back(lineY);
+			sLines.push_back(lineZ);
+		}
+	}
+
+	
+	for(std::vector<Line3D>::iterator lineIter = sLines.begin(), lineEnd = sLines.end(); lineIter!=lineEnd; ++lineIter)
+	{
+		(*lineIter).Draw(m_renderer);
+	}
+}
+
 // Draw collision mesh as a wireframe overlay
 void ModelViewer::DrawCollisionMesh()
 {
@@ -464,6 +566,11 @@ void ModelViewer::DrawModel()
 	if (m_options.showCollMesh) {
 		m_renderer->SetTransform(mv);
 		DrawCollisionMesh();
+	}
+
+	if (m_options.showDockingLocators) {
+		m_renderer->SetTransform(mv);
+		DrawDockingLocators();
 	}
 }
 
