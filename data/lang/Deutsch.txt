@@ -539,12 +539,14 @@ TARGET_OBJECT_IN_SIGHTS
     Objekt im Fadenkreuz anvisieren
 FIRE_LASER
     Feuer
+FIRE_MISSILE
+	Rakete starten
 SHIP_ORIENTATION
     Schiffsausrichtung
 PITCH_UP
-    Kippen nach oben
+    Nicken nach oben
 PITCH_DOWN
-    Kippen nach unten
+    Nicken nach unten
 YAW_LEFT
     Gieren nach links
 YAW_RIGHT

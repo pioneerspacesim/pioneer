@@ -133,19 +133,22 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 
 		case TYPE_SMOKE: 
 			
-			float var = Pi::rng.Double()*0.05f;
+			float var = Pi::rng.Double()*0.05f; //slightly variation to trail color
 			if (m_age < 0.5)
+				//start trail
 				smokeParticle->diffuse = Color(0.75f-var, 0.75f-var, 0.75f-var, m_age*0.5-(m_age/2.0f));
 			else 
+				//end trail
 				smokeParticle->diffuse = Color(0.75-var, 0.75f-var, 0.75f-var, 0.5*0.5-(m_age/16.0));
 
+			//face camera
 			glPushMatrix();
 			matrix4x4f trans = trans.Identity();
 			trans.Translate(fpos.x, fpos.y, fpos.z);
 			renderer->SetTransform(trans);
 
 			damageParticle->diffuse*=0.05;
-			renderer->SetBlendMode(Graphics::BLEND_ALPHA_ONE);
+			renderer->SetBlendMode(Graphics::BLEND_ALPHA);
 			renderer->DrawPointSprites(1, &pos, smokeParticle, (m_speed*m_age));
 			glPopMatrix();
 			break;
@@ -181,7 +184,11 @@ void Sfx::Add(const Body *b, TYPE t)
 			Pi::rng.Double()-0.5);
 }
 
+<<<<<<< HEAD
 void Sfx::AddThrustSmoke(const Body *b, TYPE t, float speed, vector3d adjustpos)
+=======
+void Sfx::AddThrustSmoke(const Body *b, TYPE t, const float speed, vector3d adjustpos)
+>>>>>>> pioneermaster/master
 {
 	Sfx *sfx = AllocSfxInFrame(b->GetFrame());
 	if (!sfx) return;
@@ -192,10 +199,13 @@ void Sfx::AddThrustSmoke(const Body *b, TYPE t, float speed, vector3d adjustpos)
 	vector3d npos = b->GetPosition();
 	sfx->SetPosition(npos+adjustpos);
 	sfx->m_vel = vector3d(0,0,0);
+<<<<<<< HEAD
 	/*sfx->m_vel = b->GetVelocity()+50.0*vector3d(
 			Pi::rng.Double()-0.5	,
 			Pi::rng.Double()-0.5,
 			Pi::rng.Double()-0.5);*/
+=======
+>>>>>>> pioneermaster/master
 }
 
 void Sfx::TimeStepAll(const float timeStep, Frame *f)

@@ -851,7 +851,7 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 AICmdDock::AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOCK)
 {
 	m_target = target;
-	m_state = 0;
+	m_state = eDockGetDataStart;
 	double grav = GetGravityAtPos(m_target->GetFrame(), m_target->GetPosition());
 	if (m_ship->GetAccelUp() < grav) {
 		m_ship->AIMessage(Ship::AIERROR_GRAV_TOO_HIGH);
@@ -869,7 +869,7 @@ bool AICmdDock::TimeStepUpdate()
 {
 	if (!ProcessChild()) return false;
 	if (!m_target) return true;
-	if (m_state == 1) m_state = 2;				// finished moving into dock start pos
+	if (m_state == eDockFlyToStart) IncrementState();				// finished moving into dock start pos
 	if (m_ship->GetFlightState() != Ship::FLYING) {		// todo: should probably launch if docked with something else
 		m_ship->ClearThrusterState();
 		return true; // docked, hopefully
@@ -891,17 +891,29 @@ bool AICmdDock::TimeStepUpdate()
 	}
 
 	// state 0,2: Get docking data
-	if (m_state == 0 || m_state == 2 || m_state == 4) {
+	if (m_state == eDockGetDataStart
+		|| m_state == eDockGetDataEnd
+		|| m_state == eDockingComplete) 
+	{
 		const SpaceStationType *type = m_target->GetStationType();
 		SpaceStationType::positionOrient_t dockpos;
 		type->GetShipApproachWaypoints(port, (m_state==0)?1:2, dockpos);
-		if (m_state != 2) m_dockpos = dockpos.pos;
-		m_dockdir = dockpos.xaxis.Cross(dockpos.yaxis).Normalized();
+		if (m_state != eDockGetDataEnd) {
+			m_dockpos = dockpos.pos;
+		}
+
+		m_dockdir = dockpos.zaxis.Normalized();
 		m_dockupdir = dockpos.yaxis.Normalized();		// don't trust these enough
-		if (type->dockMethod == SpaceStationType::ORBITAL) m_dockupdir = -m_dockupdir;
-		else if (m_state == 4) m_dockpos -= m_dockupdir * (m_ship->GetAabb().min.y + 1.0);
-		if (m_state != 2) m_dockpos = m_target->GetOrient() * m_dockpos + m_target->GetPosition();
-		m_state++;
+		if (type->dockMethod == SpaceStationType::ORBITAL) {
+			m_dockupdir = -m_dockupdir;
+		} else if (m_state == eDockingComplete) {
+			m_dockpos -= m_dockupdir * (m_ship->GetAabb().min.y + 1.0);
+		}
+
+		if (m_state != eDockGetDataEnd) {
+			m_dockpos = m_target->GetOrient() * m_dockpos + m_target->GetPosition();
+		}
+		IncrementState();
 		// should have m_dockpos in target frame, dirs relative to target orient
 	}
 
@@ -921,7 +933,9 @@ bool AICmdDock::TimeStepUpdate()
 	double ispeed = calc_ivel(relpos.Length(), 0.0, maxdecel);
 	vector3d vdiff = ispeed*reldir - relvel;
 	m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
-	if (vdiff.Dot(reldir) < 0) m_ship->SetDecelerating(true);
+	if (vdiff.Dot(reldir) < 0) {
+		m_ship->SetDecelerating(true);
+	}
 
 	// get rotation of station for next frame
 	matrix3x3d trot = m_target->GetOrientRelTo(m_ship->GetFrame());
@@ -932,11 +946,17 @@ bool AICmdDock::TimeStepUpdate()
 		trot = trot * matrix3x3d::Rotate(ang, axis);
 	}
 	double af;
-	if (m_target->GetStationType()->dockMethod == SpaceStationType::ORBITAL)
+	if (m_target->GetStationType()->dockMethod == SpaceStationType::ORBITAL) {
 		af = m_ship->AIFaceDirection(trot * m_dockdir);
-	else af = m_ship->AIFaceDirection(m_ship->GetPosition().Cross(m_ship->GetOrient().VectorX()));
-	if (af < 0.01) af = m_ship->AIFaceUpdir(trot * m_dockupdir, av) - ang;
-	if (m_state < 5 && af < 0.01 && m_ship->GetWheelState() >= 1.0f) m_state++;
+	} else {
+		af = m_ship->AIFaceDirection(m_ship->GetPosition().Cross(m_ship->GetOrient().VectorX()));
+	}
+	if (af < 0.01) {
+		af = m_ship->AIFaceUpdir(trot * m_dockupdir, av) - ang;
+	}
+	if (m_state < eInvalidDockingStage && af < 0.01 && m_ship->GetWheelState() >= 1.0f) {
+		IncrementState();
+	}
 
 #ifdef DEBUG_AUTOPILOT
 printf("AICmdDock dist = %.1f, speed = %.1f, ythrust = %.2f, state = %i\n",

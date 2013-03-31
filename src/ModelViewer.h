@@ -34,6 +34,7 @@ private:
 	void ClearModel();
 	void CreateTestResources();
 	void DrawBackground();
+	void DrawDockingLocators();
 	void DrawCollisionMesh();
 	void DrawGrid(const matrix4x4f &trans, float radius);
 	void DrawLog();
@@ -61,6 +62,7 @@ private:
 	//toggleable options
 	struct Options {
 		bool attachGuns;
+		bool showDockingLocators;
 		bool showCollMesh;
 		bool showGrid;
 		bool showLandingPad;

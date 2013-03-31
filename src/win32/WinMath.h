@@ -11,5 +11,13 @@ double LogGamma(double);
 double Gamma(double);
 double LogOnePlusX(double x);
 
+#ifdef _MSC_VER
+// http://social.msdn.microsoft.com/Forums/en-US/Vsexpressvc/thread/25c923af-a824-40f8-8fd4-e5574bc147af/
+double asinh(double value);
+
+// http://stackoverflow.com/questions/15539116/atanh-arc-hyperbolic-tangent-function-missing-in-ms-visual-c
+double atanh (double x); //implements: return (log(1+x) - log(1-x))/2
+#endif
+
 #endif
 
