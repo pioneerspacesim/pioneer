@@ -120,7 +120,6 @@ private:
 	void DockingUpdate(const double timeStep);
 	void PositionDockedShip(Ship *ship, int port) const;
 	void DoLawAndOrder(const double timeStep);
-	void CalcLighting(Planet *planet, double &ambient, double &intensity, const std::vector<Camera::LightSource> &lightSources);
 	bool IsPortLocked(const int bay) const;
 	void LockPort(const int bay, const bool lockIt);
 

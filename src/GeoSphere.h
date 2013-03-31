@@ -8,6 +8,7 @@
 
 #include "vector3.h"
 #include "Random.h"
+#include "Camera.h"
 #include "galaxy/StarSystem.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
@@ -30,8 +31,10 @@ class GeoSphere {
 public:
 	GeoSphere(const SystemBody *body);
 	~GeoSphere();
+
 	void Update();
-	void Render(Graphics::Renderer *r, vector3d campos, const float radius, const float scale);
+	void Render(Graphics::Renderer *renderer, vector3d campos, const float radius, const float scale, const std::list<Camera::Shadow> &shadows);
+
 	inline double GetHeight(vector3d p) const {
 		const double h = m_terrain->GetHeight(p);
 		s_vtxGenCount++;
@@ -57,6 +60,11 @@ public:
 	double GetMaxFeatureHeight() const { return m_terrain->GetMaxHeight(); }
 	static int GetVtxGenCount() { return s_vtxGenCount; }
 	static void ClearVtxGenCount() { s_vtxGenCount = 0; }
+
+	struct MaterialParameters {
+		SystemBody::AtmosphereParameters atmosphere;
+		std::list<Camera::Shadow> shadows;
+	};
 
 	bool AddQuadSplitResult(SQuadSplitResult *res);
 	bool AddSingleSplitResult(SSingleSplitResult *res);
@@ -94,7 +102,7 @@ private:
 	ScopedPtr<Graphics::Material> m_surfaceMaterial;
 	ScopedPtr<Graphics::Material> m_atmosphereMaterial;
 	//special parameters for shaders
-	SystemBody::AtmosphereParameters m_atmosphereParameters;
+	MaterialParameters m_materialParameters;
 
 	enum EGSInitialisationStage {
 		eBuildFirstPatches=0,
