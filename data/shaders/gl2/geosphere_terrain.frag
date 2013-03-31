@@ -25,6 +25,10 @@ varying vec4 vertexColor;
 varying vec4 varyingEmission;
 #endif
 
+#define PI 3.141592653589793
+
+#define USE_GOOD_MATHS 1
+
 float discCovered(float dist, float rad) {
 	// proportion of unit disc covered by a second disc of radius rad placed
 	// dist from centre of first disc.

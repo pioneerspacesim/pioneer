@@ -10,10 +10,6 @@ varying vec4 varyingEmission;
 uniform Material material;
 #endif
 
-#define PI 3.141592653589793
-
-#define USE_GOOD_MATHS 1
-
 void main(void)
 {
 	gl_Position = logarithmicTransform();
