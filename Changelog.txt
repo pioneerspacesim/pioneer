@@ -17,6 +17,8 @@ Alpha 33
 
    * Fixes
      * Fix hoop station unreliable docking detection (#2153, #2125)
+     * Fix redscreen from TradeShips module when entering a system with
+       only surface ports (#2172, #2171)
 
 Alpha 32
 
