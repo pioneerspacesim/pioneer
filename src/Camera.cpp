@@ -340,7 +340,7 @@ float discCovered(float dist, float rad) {
 	const float d = sqrt(std::max(0.f, 1.f - xl*xl));
 
 	const float th = Clamp(acosf(xl), 0.f, float(M_PI));
-	const float th2 = Clamp(acosf(xs/rad), 0.f, float(M_PI));
+	const float th2 = Clamp(acosf(xs), 0.f, float(M_PI));
 
 	assert(!isnan(d) && !isnan(th) && !isnan(th2));
 
