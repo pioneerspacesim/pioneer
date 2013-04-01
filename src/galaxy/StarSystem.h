@@ -107,9 +107,9 @@ public:
 	std::string GetAstroDescription() const;
 	const char *GetIcon() const;
 	BodySuperType GetSuperType() const;
-	double GetRadius() const {
+	double GetRadius() const { // polar radius
 		if (GetSuperType() <= SUPERTYPE_STAR)
-			return radius.ToDouble() * SOL_RADIUS;
+			return (radius.ToDouble() / aspectRatio.ToDouble()) * SOL_RADIUS;
 		else
 			return radius.ToDouble() * EARTH_RADIUS;
 	}

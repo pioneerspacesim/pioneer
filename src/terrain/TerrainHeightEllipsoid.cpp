@@ -6,6 +6,10 @@ const char *TerrainHeightFractal<TerrainHeightEllipsoid>::GetHeightFractalName()
 template <>
 TerrainHeightFractal<TerrainHeightEllipsoid>::TerrainHeightFractal(const SystemBody *body) : Terrain(body)
 {
+	const double rad = m_body->GetRadius();
+	m_maxHeight = m_body->aspectRatio.ToDouble() - 1.0;
+	m_maxHeightInMeters = m_maxHeight * rad;
+	m_invMaxHeight = 1.0 / m_maxHeight;
 }
 
 // This returns the height assuming the body is an ellipsoid (oblate spheroid) with an equatorial bulge
