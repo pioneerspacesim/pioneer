@@ -20,6 +20,7 @@ public:
 	std::string            name;
 	SystemBody::BodyType   type;
 	fixed                  radius; // in earth radii for planets, sol radii for stars
+	fixed                  aspectRatio; // the ratio between equatorial radius and polar radius for bodies flattened due to equatorial bulge (1.0 to infinity)
 	fixed                  mass; // earth masses or sol masses
 	int                    averageTemp; // kelvin
 	fixed                  semiMajorAxis; // in AUs

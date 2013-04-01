@@ -916,6 +916,7 @@ void StarSystem::CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSys
 		kid->parent = parent;
 		kid->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
 		kid->radius = csbody->radius;
+		kid->aspectRatio = csbody->aspectRatio;
 		kid->averageTemp = csbody->averageTemp;
 		kid->name = csbody->name;
 		kid->isCustomBody = true;
@@ -1010,6 +1011,7 @@ void StarSystem::GenerateFromCustom(const CustomSystem *customSys, Random &rand)
 	rootBody->seed = csbody->want_rand_seed ? rand.Int32() : csbody->seed;
 	rootBody->seed = rand.Int32();
 	rootBody->radius = csbody->radius;
+	rootBody->aspectRatio = csbody->aspectRatio;
 	rootBody->mass = csbody->mass;
 	rootBody->averageTemp = csbody->averageTemp;
 	rootBody->name = csbody->name;
