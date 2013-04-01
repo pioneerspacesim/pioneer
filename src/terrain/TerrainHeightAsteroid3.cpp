@@ -19,7 +19,7 @@ TerrainHeightFractal<TerrainHeightAsteroid3>::TerrainHeightFractal(const SystemB
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightAsteroid3>::GetHeight(const vector3d &p)
+double TerrainHeightFractal<TerrainHeightAsteroid3>::GetHeight(const vector3d &p) const
 {
 	double n = octavenoise(8, 0.5, 4.0, p) * ridged_octavenoise(8, 0.5, 4.0, p);
 

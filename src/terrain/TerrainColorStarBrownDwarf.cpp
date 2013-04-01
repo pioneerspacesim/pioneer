@@ -18,7 +18,7 @@ TerrainColorFractal<TerrainColorStarBrownDwarf>::TerrainColorFractal(const Syste
 }
 
 template <>
-vector3d TerrainColorFractal<TerrainColorStarBrownDwarf>::GetColor(const vector3d &p, double height, const vector3d &norm)
+vector3d TerrainColorFractal<TerrainColorStarBrownDwarf>::GetColor(const vector3d &p, double height, const vector3d &norm) const
 {
 	double n;
 	vector3d col;

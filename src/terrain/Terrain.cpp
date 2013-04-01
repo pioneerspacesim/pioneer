@@ -15,7 +15,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 	// the check in CustomSystem::l_height_map
 	if (body->heightMapFilename) {
 		const GeneratorInstancer choices[] = {
-			InstanceGenerator<TerrainHeightMapped,TerrainColorEarthLike>,
+			InstanceGenerator<TerrainHeightMapped,TerrainColorEarthLikeHeightmapped>,
 			InstanceGenerator<TerrainHeightMapped2,TerrainColorRock2>
 		};
 		assert(body->heightMapFractal < COUNTOF(choices));

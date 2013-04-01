@@ -28,7 +28,7 @@ TerrainHeightFractal<TerrainHeightMapped>::TerrainHeightFractal(const SystemBody
 }
 
 template <>
-double TerrainHeightFractal<TerrainHeightMapped>::GetHeight(const vector3d &p)
+double TerrainHeightFractal<TerrainHeightMapped>::GetHeight(const vector3d &p) const
 {
     // This is all used for Earth and Earth alone
 
