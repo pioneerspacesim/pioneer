@@ -52,17 +52,26 @@ public:
 		: SBaseRequest(v0_, v1_, v2_, v3_, cn, depth_, sysPath_, patchID_, edgeLen_, fracStep_, pTerrain_)
 	{
 		const int numVerts = NUMVERTICES(edgeLen_);
+		const int numBorderedVerts = NUMVERTICES(edgeLen_+2);
 		for( int i=0 ; i<4 ; ++i )
 		{
 			heights[i] = new double[numVerts];
 			normals[i] = new vector3f[numVerts];
 			colors[i] = new Color3ub[numVerts];
+
+			borderHeights[i].Reset(new double[numBorderedVerts]);
+			borderVertexs[i].Reset(new vector3d[numBorderedVerts]);
 		}
 	}
 
+	// these are created with the request and are given to the resulting patches
 	vector3f *normals[4];
 	Color3ub *colors[4];
 	double *heights[4];
+
+	// these are created with the request but are destroyed when the request is finished
+	ScopedPtr<double> borderHeights[4];
+	ScopedPtr<vector3d> borderVertexs[4];
 
 protected:
 	// deliberately prevent copy constructor access
@@ -80,11 +89,20 @@ public:
 		heights = new double[numVerts];
 		normals = new vector3f[numVerts];
 		colors = new Color3ub[numVerts];
+		
+		const int numBorderedVerts = NUMVERTICES(edgeLen_+2);
+		borderHeights.Reset(new double[numBorderedVerts]);
+		borderVertexs.Reset(new vector3d[numBorderedVerts]);
 	}
 
+	// these are created with the request and are given to the resulting patches
 	vector3f *normals;
 	Color3ub *colors;
 	double *heights;
+
+	// these are created with the request but are destroyed when the request is finished
+	ScopedPtr<double> borderHeights;
+	ScopedPtr<vector3d> borderVertexs;
 
 protected:
 	// deliberately prevent copy constructor access
@@ -227,7 +245,7 @@ protected:
 	}
 
 	// Generates full-detail vertices, and also non-edge normals and colors 
-	void GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, 
+	void GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
 		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
 		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
 
