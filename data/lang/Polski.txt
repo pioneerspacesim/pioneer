@@ -686,6 +686,10 @@ SELECTED_SYSTEM
     Wskazany system
 HYPERSPACE_TARGET
     Cel nadprzestrzenny
+DRAW_VERTICAL_LINES
+    Pokazuj pionowe linie
+DRAW_OUT_RANGE_LABELS
+    Nazwy nieosiągalnych systemów
 FOLLOWING_SELECTION
     wybieraj wskazany
 LOCKED
