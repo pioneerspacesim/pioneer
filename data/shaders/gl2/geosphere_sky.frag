@@ -62,7 +62,10 @@ void main(void)
 		vec3 b = (skyFar * dir - geosphereCenter) / geosphereScaledRadius;
 		ldprod = AtmosLengthDensityProduct(a, b, atmosColor.a * geosphereAtmosFogDensity, atmosDist, geosphereAtmosInvScaleHeight);
 	}
+
 	float fogFactor = 1.0 / exp(ldprod);
+	float uneclipsed = 1.0;
+
 	vec4 atmosDiffuse = vec4(0.0);
 	{
 		vec3 surfaceNorm = normalize(skyNear * eyenorm - geosphereCenter);
@@ -76,7 +79,7 @@ void main(void)
 
 			vec3 lightDir = normalize(vec3(gl_LightSource[i].position));
 
-			float uneclipsed = 1.0;
+			uneclipsed = 1.0;
 			for (int j=0; j<shadows; j++)
 				if (i == occultedLight[j])
 				{
@@ -138,7 +141,7 @@ void main(void)
 
 	//calculate sunset tone red when passing through more atmosphere, clamp everything.
 	float atmpower = (atmosDiffuse.r+atmosDiffuse.g+atmosDiffuse.b)/3.0;
-	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
+	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0)*(max(uneclipsed,0.3));
 
 	atmosDiffuse.a = 1.0;
 	gl_FragColor = (1.0-fogFactor) * (atmosDiffuse*
