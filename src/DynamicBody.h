@@ -8,6 +8,7 @@
 #include "ModelBody.h"
 #include "vector3.h"
 #include "matrix4x4.h"
+#include "Orbit.h"
 
 class DynamicBody: public ModelBody {
 public:
@@ -47,6 +48,8 @@ public:
 	virtual void UpdateInterpTransform(double alpha);
 
 	virtual void PostLoadFixup(Space *space);
+
+	Orbit ComputeOrbit() const;
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);

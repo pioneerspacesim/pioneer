@@ -2,6 +2,9 @@ Alpha 33
 
    * New features
      * Czech language support (#2136)
+     * Missiles now have smoke trails (#2154)
+     * The System View (F3, F6) now shows the player's current orbit
+       (#2084, #146, #985)
 
    * Minor changes and tweaks
      * Clean up the Taxi, DeliverPackage and Assassination mission views

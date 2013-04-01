@@ -47,7 +47,9 @@ public:
 	bool HasRotFrame() const { return m_flags & FLAG_HAS_ROT; }
 
 	Frame *GetParent() const { return m_parent; }
+	const Frame *GetNonRotFrame() const { return IsRotFrame() ? m_parent : this; }
 	Frame *GetNonRotFrame() { return IsRotFrame() ? m_parent : this; }
+	const Frame *GetRotFrame() const { return HasRotFrame() ? m_children.front() : this; }
 	Frame *GetRotFrame() { return HasRotFrame() ? m_children.front() : this; }
 
 	void SetBodies(SystemBody *s, Body *b) { m_sbody = s; m_astroBody = b; }

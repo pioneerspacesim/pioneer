@@ -12,6 +12,7 @@
 #include <string>
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
+#include "Orbit.h"
 
 class CustomSystemBody;
 class CustomSystem;
@@ -28,20 +29,6 @@ enum EconType { // <enum name=EconType prefix=ECON_>
 
 class StarSystem;
 class Faction;
-
-struct Orbit {
-	Orbit(): orbitalPhaseAtStart(0.0) {};
-	vector3d OrbitalPosAtTime(double t) const;
-	// 0.0 <= t <= 1.0. Not for finding orbital pos
-	vector3d EvenSpacedPosAtTime(double t) const;
-	/* duplicated from SystemBody... should remove probably */
-	double eccentricity;
-	double semiMajorAxis;
-	double orbitalPhaseAtStart; // 0 to 2 pi radians
-	/* dup " " --------------------------------------- */
-	double period; // seconds
-	matrix3x3d rotMatrix;
-};
 
 struct RingStyle {
 	// note: radius values are given as proportions of the planet radius
