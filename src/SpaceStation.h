@@ -18,7 +18,6 @@
 
 #define MAX_DOCKING_PORTS		240	//256-(0x10), 0x10 is used because the collision surfaces use it as an identifying flag
 
-
 class CityOnPlanet;
 class CollMeshSet;
 class FormController;
@@ -131,7 +130,7 @@ private:
 	 */
 	struct shipDocking_t {
 		shipDocking_t() : ship(NULL), shipIndex(0),
-			stage(0), stagePos(0)
+			stage(0), stagePos(0), fromPos(0.0), fromRot(1.0, 0.0, 0.0, 0.0)
 		{}
 
 		Ship *ship;

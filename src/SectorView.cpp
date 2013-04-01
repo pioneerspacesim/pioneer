@@ -144,9 +144,13 @@ void SectorView::InitObject()
 	m_infoBox = new Gui::VBox();
 	m_infoBox->SetTransparency(false);
 	m_infoBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
-	m_infoBox->SetSpacing(5.0f);
+	m_infoBox->SetSpacing(10.0f);
 	Add(m_infoBox, 5, 5);
-
+	
+	// 1. holds info about current, selected, targeted systems
+	Gui::VBox *locationsBox = new Gui::VBox();
+	locationsBox->SetSpacing(5.f);
+	// 1.1 current system
 	Gui::VBox *systemBox = new Gui::VBox();
 	Gui::HBox *hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
@@ -166,8 +170,8 @@ void SectorView::InitObject()
 	m_currentSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
 	systemBox->PackEnd(m_currentSystemLabels.starType);
 	systemBox->PackEnd(m_currentSystemLabels.shortDesc);
-	m_infoBox->PackEnd(systemBox);
-
+	locationsBox->PackEnd(systemBox);
+	// 1.2 selected system
 	systemBox = new Gui::VBox();
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
@@ -187,8 +191,8 @@ void SectorView::InitObject()
 	m_selectedSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
 	systemBox->PackEnd(m_selectedSystemLabels.starType);
 	systemBox->PackEnd(m_selectedSystemLabels.shortDesc);
-	m_infoBox->PackEnd(systemBox);
-
+	locationsBox->PackEnd(systemBox);
+	// 1.3 targeted system
 	systemBox = new Gui::VBox();
 	hbox = new Gui::HBox();
 	hbox->SetSpacing(5.0f);
@@ -210,7 +214,31 @@ void SectorView::InitObject()
 	m_targetSystemLabels.shortDesc = (new Gui::Label(""))->Color(1.0f, 0.0f, 1.0f);
 	systemBox->PackEnd(m_targetSystemLabels.starType);
 	systemBox->PackEnd(m_targetSystemLabels.shortDesc);
-	m_infoBox->PackEnd(systemBox);
+	locationsBox->PackEnd(systemBox);
+	m_infoBox->PackEnd(locationsBox);
+	
+	// 2. holds options for displaying systems
+	Gui::VBox *filterBox = new Gui::VBox();
+	// 2.1 Draw vertical lines
+	hbox = new Gui::HBox();
+	hbox->SetSpacing(5.0f);
+	m_drawSystemLegButton = (new Gui::ToggleButton());
+	m_drawSystemLegButton->SetPressed(false); // TODO: replace with var
+	hbox->PackEnd(m_drawSystemLegButton);
+	Gui::Label *label = (new Gui::Label(Lang::DRAW_VERTICAL_LINES))->Color(1.0f, 1.0f, 1.0f);
+	hbox->PackEnd(label);
+	filterBox->PackEnd(hbox);
+	// 2.2 Draw planet labels
+	hbox = new Gui::HBox();
+	hbox->SetSpacing(5.0f);
+	m_drawOutRangeLabelButton = new Gui::ToggleButton();
+	m_drawOutRangeLabelButton->SetPressed(false); // TODO: replace with var
+	hbox->PackEnd(m_drawOutRangeLabelButton);
+	label = (new Gui::Label(Lang::DRAW_OUT_RANGE_LABELS))->Color(1.0f, 1.0f, 1.0f);
+	hbox->PackEnd(label);
+	filterBox->PackEnd(hbox);
+
+	m_infoBox->PackEnd(filterBox);
 
 	m_onMouseButtonDown =
 		Pi::onMouseButtonDown.connect(sigc::mem_fun(this, &SectorView::MouseButtonDown));
@@ -463,23 +491,36 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 		// skip the system if it doesn't fall within the sphere we're viewing.
 		if ((m_pos*Sector::SIZE - (*sys).FullPosition()).Length() > drawRadius) continue;
 
-		// skip the system if it belongs to a Faction we've toggled off, and isn't any of our selections
-		if (m_hiddenFactions.find((*sys).faction) != m_hiddenFactions.end() 
-			&& !sys->IsSameSystem(m_selected) && !sys->IsSameSystem(m_hyperspaceTarget) && !sys->IsSameSystem(m_current)) continue;
+		// if the system is the current system or target we can't skip it
+		bool can_skip = !sys->IsSameSystem(m_selected) 
+						&& !sys->IsSameSystem(m_hyperspaceTarget) 
+						&& !sys->IsSameSystem(m_current); 
+		
+		// skip the system if it belongs to a Faction we've toggled off and we can skip it
+		if (m_hiddenFactions.find((*sys).faction) != m_hiddenFactions.end() && can_skip) continue;
+		
+		// determine if system in hyperjump range or not
+		Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+		float dist = Sector::DistanceBetween(sec, sysIdx, playerSec, m_current.systemIndex);
+		bool inRange = dist <= m_playerHyperspaceRange;
 
 		// place the label
 		vector3d systemPos = vector3d((*sys).FullPosition() - origin);
 		vector3d screenPos;
 		if (Gui::Screen::Project(systemPos, screenPos)) {
 			// work out the colour
-			float dist = Sector::DistanceBetween(sec, sysIdx, GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ), m_current.systemIndex);
-			Color labelColor = (*sys).faction->AdjustedColour((*sys).population, dist <= m_playerHyperspaceRange);
+			Color labelColor = (*sys).faction->AdjustedColour((*sys).population, inRange);
 
 			// get a system path to pass to the event handler when the label is licked
 			SystemPath sysPath = SystemPath((*sys).sx, (*sys).sy, (*sys).sz, sysIdx);
-
-			// setup the label
-			m_clickableLabels->Add((*sys).name, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sysPath), screenPos.x, screenPos.y, labelColor);
+			
+			// label text
+			std::string text = "";
+			if(inRange || m_drawOutRangeLabelButton->GetPressed() || !can_skip) 
+				text = (*sys).name;
+			
+			// setup the label;
+			m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sysPath), screenPos.x, screenPos.y, labelColor);
 		}
 	}
 }
@@ -719,11 +760,20 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		// ...and skip the system if it doesn't fall within the sphere we're viewing.
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
-		// if the system belongs to a faction we've chosen to temporarily hide, but isn't the current system 
-		// or target then skip it
+		// if the system is the current system or target we can't skip it
+		bool can_skip = !i->IsSameSystem(m_selected) 
+						&& !i->IsSameSystem(m_hyperspaceTarget) 
+						&& !i->IsSameSystem(m_current); 
+
+		// if the system belongs to a faction we've chosen to temporarily hide 
+		// then skip it if we can
 		m_visibleFactions.insert(i->faction);
-		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end() 
-			&& !i->IsSameSystem(m_selected) && !i->IsSameSystem(m_hyperspaceTarget) && !i->IsSameSystem(m_current)) continue;
+		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end() && can_skip) continue;
+
+		// determine if system in hyperjump range or not
+		Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
+		float dist = Sector::DistanceBetween(ps, sysIdx, playerSec, m_current.systemIndex);
+		bool inRange = dist <= m_playerHyperspaceRange;
 
 		// don't worry about looking for inhabited systems if they're
 		// unexplored (same calculation as in StarSystem.cpp) or we've
@@ -750,29 +800,32 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 
 		glDisable(GL_LIGHTING);
 
-		// draw system "leg"
-		glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-		glBegin(GL_LINE_STRIP);
-			float z = -(*i).p.z;
-			if (sz <= cz)
-				z = z+abs(cz-sz)*Sector::SIZE;
-			else
-				z = z-abs(cz-sz)*Sector::SIZE;
-
-			glVertex3f(0, 0, z);
-			glColor4f(0.2f, 0.2f, 0.2f, 0.2f);
-			glVertex3f(0, 0, z * 0.5);
+		// for out-of-range systems draw leg only if we draw label
+		if (m_drawSystemLegButton->GetPressed() 
+			&& (inRange || m_drawOutRangeLabelButton->GetPressed()) || !can_skip){
+			// draw system "leg"
 			glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-			glVertex3f(0, 0, 0);
-		glEnd();
+			glBegin(GL_LINE_STRIP);
+				float z = -(*i).p.z;
+				if (sz <= cz)
+					z = z+abs(cz-sz)*Sector::SIZE;
+				else
+					z = z-abs(cz-sz)*Sector::SIZE;
 
-		//cross at other end
-		glBegin(GL_LINES);
-			glVertex3f(-0.1f, -0.1f, z);
-			glVertex3f(0.1f, 0.1f, z);
-			glVertex3f(-0.1f, 0.1f, z);
-			glVertex3f(0.1f, -0.1f, z);
-		glEnd();
+				glVertex3f(0, 0, z);
+				glColor4f(0.2f, 0.2f, 0.2f, 0.2f);
+				glVertex3f(0, 0, z * 0.5);
+				glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
+				glVertex3f(0, 0, 0);
+			glEnd();
+			//cross at other end
+			glBegin(GL_LINES);
+				glVertex3f(-0.1f, -0.1f, z);
+				glVertex3f(0.1f, 0.1f, z);
+				glVertex3f(-0.1f, 0.1f, z);
+				glVertex3f(0.1f, -0.1f, z);
+			glEnd();
+		}
 
 		if (i->IsSameSystem(m_selected)) {
 			m_jumpLine.SetStart(vector3f(0.f, 0.f, 0.f));
