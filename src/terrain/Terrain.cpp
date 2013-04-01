@@ -603,6 +603,7 @@ void Terrain::DebugDump() const
 	fprintf(stderr, "  Config: DetailPlanets %d   FractalMultiple %d  Textures  %d\n", Pi::config->Int("DetailPlanets"), Pi::config->Int("FractalMultiple"), Pi::config->Int("Textures"));
 	fprintf(stderr, "  Seed: %d\n", m_seed);
 	fprintf(stderr, "  Body: %s [%d,%d,%d,%u,%u]\n", m_body->name.c_str(), m_body->path.sectorX, m_body->path.sectorY, m_body->path.sectorZ, m_body->path.systemIndex, m_body->path.bodyIndex);
+	fprintf(stderr, "  Aspect Ratio: %g\n", m_body->aspectRatio.ToDouble());
 	fprintf(stderr, "  Fracdefs:\n");
 	for (int i = 0; i < 10; i++) {
 		fprintf(stderr, "    %d: amp %f  freq %f  lac %f  oct %d\n", i, m_fracdef[i].amplitude, m_fracdef[i].frequency, m_fracdef[i].lacunarity, m_fracdef[i].octaves);
