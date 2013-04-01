@@ -156,6 +156,7 @@ private:
 	int m_cacheZMin;
 	int m_cacheZMax;
 
+	ScopedPtr<Graphics::VertexArray> m_lineVerts;
 };
 
 #endif /* _SECTORVIEW_H */

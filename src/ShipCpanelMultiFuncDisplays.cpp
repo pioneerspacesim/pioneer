@@ -398,15 +398,12 @@ void ScannerWidget::DrawBlobs(bool below)
 		if ((pos.y > 0) && (below)) continue;
 		if ((pos.y < 0) && (!below)) continue;
 
-		float x = m_x + m_x * float(pos.x) * m_scale;
-		float y_base = m_y + m_y * SCANNER_YSHRINK * float(pos.z) * m_scale;
-		float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
+		const float x = m_x + m_x * float(pos.x) * m_scale;
+		const float y_base = m_y + m_y * SCANNER_YSHRINK * float(pos.z) * m_scale;
+		const float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
 
-		glColor3f(color->r, color->g, color->b);
-		glBegin(GL_LINES);
-		glVertex2f(x, y_base);
-		glVertex2f(x, y_blob);
-		glEnd();
+		const vector3f verts[] = { vector3f(x, y_base, 0.f), vector3f(x, y_blob, 0.f) };
+		m_renderer->DrawLines(2, &verts[0], *color);
 
 		vector3f blob(x, y_blob, 0.f);
 		m_renderer->DrawPoints(1, &blob, color, pointSize);
@@ -492,7 +489,6 @@ void ScannerWidget::DrawRingsAndSpokes(bool blend)
 	m_renderer->DrawLines(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0]);
 }
 
-
 void ScannerWidget::TimeStepUpdate(float step)
 {
 	if (m_targetRange < m_currentRange)
@@ -510,7 +506,6 @@ void ScannerWidget::Save(Serializer::Writer &wr)
 	wr.Float(m_manualRange);
 	wr.Float(m_targetRange);
 }
-
 
 /////////////////////////////////
 
