@@ -689,7 +689,7 @@ HYPERSPACE_TARGET
 DRAW_VERTICAL_LINES
     Draw vertical lines
 DRAW_OUT_RANGE_LABELS
-    Draw labels out of range
+    Label out-of-range systems
 FOLLOWING_SELECTION
     following selection
 LOCKED
