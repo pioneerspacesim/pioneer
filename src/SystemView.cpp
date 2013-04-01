@@ -283,7 +283,6 @@ void SystemView::PutSelectionBox(const SystemBody *b, const vector3d &rootPos, c
 
 void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 {
-	// XXX EnterOrtho shouldn't be necessary after Gui uses DrawLines2D correctly
 	Gui::Screen::EnterOrtho();
 
 	vector3d screenPos;
@@ -294,17 +293,13 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 		const float y1 = float(screenPos.y - SystemView::PICK_OBJECT_RECT_SIZE * 0.5);
 		const float y2 = float(y1 + SystemView::PICK_OBJECT_RECT_SIZE);
 
-        const GLfloat vtx[8] = {
-                x1, y1,
-                x2, y1,
-                x2, y2,
-                x1, y2
+        const vector3f verts[4] = {
+                vector3f(x1, y1, 0.f),
+                vector3f(x2, y1, 0.f),
+                vector3f(x2, y2, 0.f),
+                vector3f(x1, y2, 0.f)
         };
-        glColor4f(col.r, col.g, col.b, col.a);
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(2, GL_FLOAT, 0, vtx);
-        glDrawArrays(GL_LINE_LOOP, 0, 4);
-        glDisableClientState(GL_VERTEX_ARRAY);
+		m_renderer->DrawLines(4, &verts[0], col, Graphics::LINE_LOOP);
 	}
 
 	Gui::Screen::LeaveOrtho();
@@ -333,7 +328,7 @@ void SystemView::Draw3D()
 			ResetViewpoint();
 		}
 	}
-	
+
 	if (m_realtime) {
 		m_time = Pi::game->GetTime();
 	}
