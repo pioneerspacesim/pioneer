@@ -354,7 +354,33 @@ local econTrade = function ()
 	)
 end
 
-local missions = function ()
+local missions = function (tabGroup)
+	-- comparators for missions sort
+	local cmpByType = function (a,b) return a:GetTypeDescription() < b:GetTypeDescription() end
+	local cmpByClient = function (a,b) return a.client.name < b.client.name end
+	local cmpByLocation = function (a,b)
+		if a.location:GetStarSystem().name ~= b.location:GetStarSystem().name then
+			return a.location:GetStarSystem().name < b.location:GetStarSystem().name
+		else return a.location:GetSystemBody().name < b.location:GetSystemBody().name end
+	end
+	local cmpByDue = function (a,b) return a.due < b.due end
+	local cmpByReward = function (a,b) return a.reward > b.reward end
+	local cmpByStatus = function (a,b) return a.status > b.status end
+	
+	local sortMissions = function (header)
+		local comparators = 
+		{
+			TYPE 		= cmpByType,
+			CLIENT 		= cmpByClient,
+			LOCATION 	= cmpByLocation,
+			DUE			= cmpByDue,
+			REWARD		= cmpByReward,
+			STATUS		= cmpByStatus
+		}
+		table.sort(PersistentCharacters.player.missions, comparators[header])
+		tabGroup:Refresh() --to redraw Missions screen
+	end
+	
 	-- This mission screen
 	local MissionScreen = ui:Expand()
 	local MissionList = ui:VBox(10)
@@ -368,18 +394,15 @@ local missions = function ()
 	-- One row for each mission, plus a header
 	local rowspec = {7,8,10,8,5,5,5}
 	local headergrid  = ui:Grid(rowspec,1)
-
-	headergrid:SetRow(0,
-	{
-		-- Headers
-		ui:Label(t('TYPE')),
-		ui:Label(t('CLIENT')),
-		ui:Label(t('LOCATION')),
-		ui:Label(t('DUE')),
-		ui:Label(t('REWARD')),
-		ui:Label(t('STATUS')),
-	})
-
+	
+	-- setup headers
+	local headers = {"TYPE", "CLIENT", "LOCATION", "DUE", "REWARD", "STATUS"}
+	for i,header in ipairs(headers) do
+		local label = ui:Label(t(header))
+		label.onClick:Connect(function () sortMissions(header) end)
+		headergrid:SetCell(i-1, 0, label)
+	end
+	
 	local missionbox = ui:VBox(10)
 
 	for ref,mission in pairs(PersistentCharacters.player.missions) do
