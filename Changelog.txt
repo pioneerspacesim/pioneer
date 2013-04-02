@@ -22,6 +22,9 @@ Alpha 33
      * Fix redscreen from TradeShips module when entering a system with
        only surface ports (#2172, #2171)
 
+   * Internal changes
+     * Converted some remaining GL code to use the renderer interface (#2184)
+
 Alpha 32
 
    * New features
