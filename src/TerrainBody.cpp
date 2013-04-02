@@ -80,7 +80,7 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 		fpos = 0.25*fpos;
 		len *= 0.25;
 		scale *= 4.0f;
-		shrink++;
+		++shrink;
 	}
 	//if (GetLabel() == "Earth") printf("Horizon %fkm, shrink %d\n", dist_to_horizon*0.001, shrink);
 
@@ -97,9 +97,13 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 		glScaled(rad, rad, rad);			// rad = real_rad / scale
 		campos = campos * (1.0/rad);		// position of camera relative to planet "model"
 
-		std::list<Camera::Shadow> shadows = camera->PrincipalShadows(this, 3);
-		for (std::list<Camera::Shadow>::iterator it = shadows.begin(); it != shadows.end(); it++)
-			it->centre = ftran * it->centre;
+		std::list<Camera::Shadow> shadows;
+		if( camera ) {
+			shadows = camera->PrincipalShadows(this, 3);
+			for (std::list<Camera::Shadow>::iterator it = shadows.begin(), itEnd=shadows.end(); it!=itEnd; ++it) {
+				it->centre = ftran * it->centre;
+			}
+		}
 
 		// translation not applied until patch render to fix jitter
 		m_geosphere->Render(renderer, -campos, m_sbody->GetRadius(), scale, shadows);
