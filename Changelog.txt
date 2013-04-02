@@ -2,6 +2,28 @@ Alpha 33
 
    * New features
      * Czech language support (#2136)
+     * Planets now cast shadows (ie, eclipses) on other planets (#1353)
+     * Missiles now have smoke trails (#2154)
+     * Station waypoints are now defined in the mesh themselves and dealt with
+       in C++, and their docking bays can be grouped together
+       (#2058, #2175)
+     * The System View (F3, F6) now shows the player's current orbit
+       (#2084, #2168, #2169, #146, #985)
+     * The Sector View (F2) now has options to hide vertical lines
+       and out-of-range system labels
+
+   * Minor changes and tweaks
+     * Clean up the Taxi, DeliverPackage and Assassination mission views
+       (#2142, #2151)
+     * Tweak Polish translation (#2167)
+
+   * Fixes
+     * Fix hoop station unreliable docking detection (#2153, #2125)
+     * Fix redscreen from TradeShips module when entering a system with
+       only surface ports (#2172, #2171)
+
+   * Internal changes
+     * Converted some remaining GL code to use the renderer interface (#2184)
 
 Alpha 32
 

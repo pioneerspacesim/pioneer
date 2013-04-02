@@ -200,3 +200,55 @@ Senzory a obrana: {sensors}%
 Celkový výsledek testu: {overall}%]],
 	}
 })
+
+Translate:AddFlavour('Deutsch','CrewContracts',{
+})
+
+Translate:Add({
+	Deutsch = {
+		['Crew for hire'] = 'Suche Anstellung',
+		['Potential crew members are registered as seeking employment at {station}:'] = 'Potenzielle Crewmitglieder sind als Arbeitssuchend registriert bei {station}:',
+		['{potentialCrewMember} ({wage}/wk)'] = '{potentialCrewMember} ({wage}/Woche)',
+		-- Experience levels
+		['No experience'] = 'Keine Erfahrung',
+		['Simulator training only'] = 'Nur Simulatortraining',
+		['Some experience in controlled environments'] = 'Etwas Erfahrung in kontrollierten Gebieten',
+		['Minimal time served aboard ship'] = 'Kurzzeitig angestellt auf Schiffen',
+		['Time served crew member'] = 'Langzeitiges Crewmitglied',
+		['Veteran, time served crew member'] = 'Veteran, langzeitiges Crewmitflied',
+		-- Crew positions
+		["Ship's Engineer"] = "Schiffsingenieur",
+		["Pilot"] = "Pilot",
+		["Navigator"] = "Navigator",
+		["Sensors and defence"] = "Sensoren und Abwehr",
+		-- Details form for a single crew member
+		crewDetailSheetBB = [[Crew for hire
+
+Name: {name}
+Erfahrung: {experience}
+Lohnforderung: {wage} pro Woche
+
+{response}
+]],
+		-- Buttons to click
+		['Make offer of position on ship for stated amount'] = 'Position auf dem Schiff mit dem festgelegten Lohn anbieten',
+		['Suggest new weekly wage of {newAmount}'] = 'Neuen wöchentlichen Lohn von {newAmount} vorschlagen',
+		['Ask candidate to sit a test'] = 'Kandidat einen Test absolvieren lassen',
+		-- Responses
+		["Thanks, I'll get settled on board immediately."] = "Danke, ich werde mich sofort an Bord begeben.",
+		["There doesn't seem to be space for me on board!"] = "Es scheint keinen Platz für mich an Bord zu geben!",
+		["I'm sorry, your offer isn't attractive to me."] = "Entschuldigung, das Angebot ist nicht attraktiv für mich.",
+		["That's extremely generous of you!"] = "Das ist wirklich extrem großzügig!",
+		["That certainly makes this offer look better!"] = "So sieht das Angebot schon etwas besser aus!",
+		["OK, I suppose that's all right."] = "OK, ich denke, dass das klar geht.",
+		["I'm sorry, I'm not prepared to go any lower."] = "Entschuldigung, Ich kann wirklich nicht mehr tiefer gehen.",
+		crewTestResultsBB = [[Examination results:
+
+Generelle Crew-Kompetenzen: {general}%
+Technik und Reperatur: {engineering}%
+Steuern und Raumflug: {piloting}%
+Navigation und Auswertung: {navigation}%
+Sensoren und Abwehr: {sensors}%
+Insgesamtes Testergebnis: {overall}%]],
+	}
+})

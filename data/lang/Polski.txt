@@ -683,11 +683,15 @@ SECTOR_X_Y_Z
 CURRENT_SYSTEM
     Aktualny system
 SELECTED_SYSTEM
-    Wybrany system
+    Wskazany system
 HYPERSPACE_TARGET
     Cel nadprzestrzenny
+DRAW_VERTICAL_LINES
+    Pokazuj pionowe linie
+DRAW_OUT_RANGE_LABELS
+    Nazwy nieosiągalnych systemów
 FOLLOWING_SELECTION
-    podążanie za celem
+    wybieraj wskazany
 LOCKED
     zablokowany
 EXACT_MATCH_X
@@ -707,9 +711,9 @@ TRIPLE_SYSTEM
 BINARY_SYSTEM
     System podwójny
 ENABLED_AUTOMATIC_SYSTEM_SELECTION
-    Włącz automatyczny wybór systemu.
+    Centrowanie widoku na wskazywanym systemie - włączone.
 DISABLED_AUTOMATIC_SYSTEM_SELECTION
-    Wyłącz automatyczny wybór systemu.
+    Centrowanie widoku na wskazywanym systemie - wyłączone.
 FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED
     Dren paliwowy włączony. Masz %quantity ton wodoru.
 CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED
