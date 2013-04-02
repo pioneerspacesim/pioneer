@@ -181,6 +181,7 @@ public:
 	fixed orbitalOffset;
 	fixed orbitalPhaseAtStart; // 0 to 2 pi
 	fixed axialTilt; // in radians
+	fixed inclination; // in radians, for surface bodies = latitude
 	int averageTemp;
 	BodyType type;
 	bool isCustomBody;
@@ -213,6 +214,7 @@ public:
 
 	static RefCountedPtr<StarSystem> GetCached(const SystemPath &path);
 	static void ShrinkCache();
+	void ExportToLua(const char *filename);
 
 	const std::string &GetName() const { return m_name; }
 	SystemPath GetPathOf(const SystemBody *sbody) const;
@@ -272,6 +274,8 @@ private:
 	void CustomGetKidsOf(SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, Random &rand);
 	void GenerateFromCustom(const CustomSystem *, Random &rand);
 	void Populate(bool addSpaceStations);
+	std::string ExportBodyToLua(FILE *f, SystemBody *body);
+	std::string GetStarTypes(SystemBody *body);
 
 	SystemPath m_path;
 	int m_numStars;
