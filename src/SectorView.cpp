@@ -63,8 +63,6 @@ SectorView::SectorView()
 	m_detailBoxVisible         = DETAILBOX_INFO;
 	m_toggledFaction           = false;
 
-	m_lineVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_POSITION, 500));
-
 	InitObject();
 }
 
@@ -111,6 +109,8 @@ void SectorView::InitDefaults()
 void SectorView::InitObject()
 {
 	SetTransparency(true);
+
+	m_lineVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_POSITION, 500));
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_clickableLabels = new Gui::LabelSet();
