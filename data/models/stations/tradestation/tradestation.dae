@@ -27,10 +27,10 @@
                 Save 3ds Max Profile: Yes;
                 Formatted Arrays: Yes;
             </comments>
-            <source_data>file:///C:/Users/rivalin/Desktop/Paragon%2032/data/models/stations/tradestation/tradestation.dae</source_data>
+            <source_data>file:///C:/Users/rivalin/Desktop/pioneer-04e2145-win32/pioneer-04e2145-win32/data/models/stations/tradestation/tradestation.dae</source_data>
         </contributor>
-        <created>2013-03-06T12:47:22Z</created>
-        <modified>2013-03-06T12:47:22Z</modified>
+        <created>2013-03-31T16:58:13Z</created>
+        <modified>2013-03-31T16:58:13Z</modified>
         <up_axis>Y_UP</up_axis>
     </asset>
     <library_cameras>
@@ -113,97 +113,6 @@
         </effect>
     </library_effects>
     <library_geometries>
-        <geometry id="Geometry-collision_pad1" name="collision_pad1">
-            <mesh>
-                <source id="Geometry-collision_pad1-positions" name="positions">
-                    <float_array id="Geometry-collision_pad1-positions-array" count="81">
-                        54.121 -54.121 23.9138
-                        -54.121 -54.121 23.9138
-                        54.121 54.121 23.9138
-                        -54.121 54.121 23.9138
-                        0 -54.121 23.9138
-                        0 54.121 23.9138
-                        54.121 9.36985e-008 23.9138
-                        -54.121 9.36985e-008 23.9138
-                        0 9.36985e-008 23.9138
-                        54.121 -54.121 71.7412
-                        -54.121 -54.121 71.7412
-                        54.121 54.121 71.7412
-                        -54.121 54.121 71.7412
-                        0 -54.121 71.7412
-                        0 54.121 71.7412
-                        54.121 9.36985e-008 71.7412
-                        -54.121 9.36985e-008 71.7412
-                        0 9.36985e-008 71.7412
-                        54.121 -54.121 45.6886
-                        -54.121 -54.121 45.6886
-                        54.121 54.121 45.6886
-                        -54.121 54.121 45.6886
-                        0 -54.121 45.6886
-                        0 54.121 45.6886
-                        54.121 9.36985e-008 45.6886
-                        -54.121 9.36985e-008 45.6886
-                        0 9.36985e-008 45.6886
-                    </float_array>
-                    <technique_common>
-                        <accessor count="27" source="#Geometry-collision_pad1-positions-array" stride="3">
-                            <param name="X" type="float" />
-                            <param name="Y" type="float" />
-                            <param name="Z" type="float" />
-                        </accessor>
-                    </technique_common>
-                </source>
-                <source id="Geometry-collision_pad1-normals" name="normals">
-                    <float_array id="Geometry-collision_pad1-normals-array" count="3">
-                        0 0 -1
-                    </float_array>
-                    <technique_common>
-                        <accessor count="1" source="#Geometry-collision_pad1-normals-array" stride="3">
-                            <param name="X" type="float" />
-                            <param name="Y" type="float" />
-                            <param name="Z" type="float" />
-                        </accessor>
-                    </technique_common>
-                </source>
-                <source id="Geometry-collision_pad1-Plane-mesh-map-0" name="Plane-mesh-map-0">
-                    <float_array id="Geometry-collision_pad1-Plane-mesh-map-0-array" count="18">
-                        0.5 0.5
-                        0.5 0.9999
-                        0.9999 0.9999
-                        0.9999 0.5
-                        0.000100015 0.5
-                        9.998e-005 0.9999
-                        0.00010005 0.00010005
-                        0.5 0.000100015
-                        0.9999 9.998e-005
-                    </float_array>
-                    <technique_common>
-                        <accessor count="9" source="#Geometry-collision_pad1-Plane-mesh-map-0-array" stride="2">
-                            <param name="S" type="float" />
-                            <param name="T" type="float" />
-                        </accessor>
-                    </technique_common>
-                </source>
-                <vertices id="Geometry-collision_pad1-vertices">
-                    <input semantic="POSITION" source="#Geometry-collision_pad1-positions" />
-                </vertices>
-                <polylist count="12" material="Material-Outer">
-                    <input semantic="VERTEX" source="#Geometry-collision_pad1-vertices" offset="0" />
-                    <input semantic="NORMAL" source="#Geometry-collision_pad1-normals" offset="1" />
-                    <input semantic="TEXCOORD" source="#Geometry-collision_pad1-Plane-mesh-map-0" offset="2" set="0" />
-                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4</vcount>
-                    <p>8 0 0 5 0 1 2 0 2 6 0 3 7 0 4 3 0 5 5 0 1 8 0 0 1 0 6 7 0 4 8 0 0 4 0 7 4 0 7 8 0 0 6 0 3 0 0 8 17 0 0 14 0 1 11 0 2 15 0 3 16 0 4 12 0 5 14 0 1 17 0 0 10 0 6 16 0 4 17 0 0 13 0 7 13 0 7 17 0 0 15 0 3 9 0 8 26 0 0 23 0 1 20 0 2 24 0 3 25 0 4 21 0 5 23 0 1 26 0 0 19 0 6 25 0 4 26 0 0 22 0 7 22 0 7 26 0 0 24 0 3 18 0 8</p>
-                </polylist>
-                <extra>
-                    <technique profile="modo401">
-                        <param sid="render" name="Render" type="Name">default</param>
-                        <param sid="dissolve" name="Dissolve" type="float">0</param>
-                        <param sid="curves" name="Render_Curves" type="bool">false</param>
-                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
-                    </technique>
-                </extra>
-            </mesh>
-        </geometry>
         <geometry id="Geometry-Mesh" name="Mesh">
             <mesh>
                 <source id="Geometry-Mesh-positions" name="positions">
@@ -24883,9 +24792,100 @@
                 </extra>
             </mesh>
         </geometry>
+        <geometry id="Geometry-mesh018" name="collision_pad1">
+            <mesh>
+                <source id="Geometry-mesh018-positions" name="positions">
+                    <float_array id="Geometry-mesh018-positions-array" count="81">
+                        54.121 -54.121 23.9138
+                        -54.121 -54.121 23.9138
+                        54.121 54.121 23.9138
+                        -54.121 54.121 23.9138
+                        0 -54.121 23.9138
+                        0 54.121 23.9138
+                        54.121 9.36985e-008 23.9138
+                        -54.121 9.36985e-008 23.9138
+                        0 9.36985e-008 23.9138
+                        54.121 -54.121 71.7412
+                        -54.121 -54.121 71.7412
+                        54.121 54.121 71.7412
+                        -54.121 54.121 71.7412
+                        0 -54.121 71.7412
+                        0 54.121 71.7412
+                        54.121 9.36985e-008 71.7412
+                        -54.121 9.36985e-008 71.7412
+                        0 9.36985e-008 71.7412
+                        54.121 -54.121 45.6886
+                        -54.121 -54.121 45.6886
+                        54.121 54.121 45.6886
+                        -54.121 54.121 45.6886
+                        0 -54.121 45.6886
+                        0 54.121 45.6886
+                        54.121 9.36985e-008 45.6886
+                        -54.121 9.36985e-008 45.6886
+                        0 9.36985e-008 45.6886
+                    </float_array>
+                    <technique_common>
+                        <accessor count="27" source="#Geometry-mesh018-positions-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-mesh018-normals" name="normals">
+                    <float_array id="Geometry-mesh018-normals-array" count="3">
+                        0 0 -1
+                    </float_array>
+                    <technique_common>
+                        <accessor count="1" source="#Geometry-mesh018-normals-array" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="Geometry-mesh018-Plane-mesh-map-0" name="Plane-mesh-map-0">
+                    <float_array id="Geometry-mesh018-Plane-mesh-map-0-array" count="18">
+                        0.5 0.5
+                        0.5 0.9999
+                        0.9999 0.9999
+                        0.9999 0.5
+                        0.000100015 0.5
+                        9.998e-005 0.9999
+                        0.00010005 0.00010005
+                        0.5 0.000100015
+                        0.9999 9.998e-005
+                    </float_array>
+                    <technique_common>
+                        <accessor count="9" source="#Geometry-mesh018-Plane-mesh-map-0-array" stride="2">
+                            <param name="S" type="float" />
+                            <param name="T" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="Geometry-mesh018-vertices">
+                    <input semantic="POSITION" source="#Geometry-mesh018-positions" />
+                </vertices>
+                <polylist count="12" material="Material-Outer">
+                    <input semantic="VERTEX" source="#Geometry-mesh018-vertices" offset="0" />
+                    <input semantic="NORMAL" source="#Geometry-mesh018-normals" offset="1" />
+                    <input semantic="TEXCOORD" source="#Geometry-mesh018-Plane-mesh-map-0" offset="2" set="0" />
+                    <vcount>4 4 4 4 4 4 4 4 4 4 4 4</vcount>
+                    <p>8 0 0 5 0 1 2 0 2 6 0 3 7 0 4 3 0 5 5 0 1 8 0 0 1 0 6 7 0 4 8 0 0 4 0 7 4 0 7 8 0 0 6 0 3 0 0 8 17 0 0 14 0 1 11 0 2 15 0 3 16 0 4 12 0 5 14 0 1 17 0 0 10 0 6 16 0 4 17 0 0 13 0 7 13 0 7 17 0 0 15 0 3 9 0 8 26 0 0 23 0 1 20 0 2 24 0 3 25 0 4 21 0 5 23 0 1 26 0 0 19 0 6 25 0 4 26 0 0 22 0 7 22 0 7 26 0 0 24 0 3 18 0 8</p>
+                </polylist>
+                <extra>
+                    <technique profile="modo401">
+                        <param sid="render" name="Render" type="Name">default</param>
+                        <param sid="dissolve" name="Dissolve" type="float">0</param>
+                        <param sid="curves" name="Render_Curves" type="bool">false</param>
+                        <param sid="radius" name="Curve_Radius" type="float">0.05</param>
+                    </technique>
+                </extra>
+            </mesh>
+        </geometry>
     </library_geometries>
     <library_lights>
-        <light id="Light-polyRender013" name="Render">
+        <light id="Light-polyRender010" name="Render">
             <technique_common>
                 <ambient>
                     <color sid="ambient_light_rgb">0.05 0.05 0.05</color>
@@ -25011,28 +25011,14 @@
     </library_nodes>
     <library_visual_scenes>
         <visual_scene id="DefaultScene">
-            <node id="polyRender013" name="Render" type="NODE">
-                <instance_light url="#Light-polyRender013" />
+            <node id="polyRender010" name="Render" type="NODE">
+                <instance_light url="#Light-polyRender010" />
             </node>
             <node id="Texture_GroupNode" name="Texture_Group" type="NODE">
-                <translate sid="translation249">0 1401.5 0</translate>
-            </node>
-            <node id="Geometry-collision_pad1Node" name="collision_pad1" type="NODE">
-                <translate sid="translation001">0 1281.53 0.19825</translate>
-                <rotate sid="rotation004Z">0 0 1 0</rotate>
-                <rotate sid="rotation004Y">0 1 0 0</rotate>
-                <rotate sid="rotation004X">1 0 0 -90</rotate>
-                <scale sid="scale008">1 1 1</scale>
-                <instance_geometry url="#Geometry-collision_pad1">
-                    <bind_material>
-                        <technique_common>
-                            <instance_material symbol="Material-Outer" target="#Material-Outer" />
-                        </technique_common>
-                    </bind_material>
-                </instance_geometry>
+                <translate sid="translation001">0 1401.5 0</translate>
             </node>
             <node id="Geometry-MeshNode" name="Mesh" type="NODE">
-                <translate sid="translation250">0 1401.5 0</translate>
+                <translate sid="translation002">0 1401.5 0</translate>
                 <rotate sid="rotation005Y">0 1 0 0</rotate>
                 <rotate sid="rotation005X">1 0 0 90</rotate>
                 <rotate sid="rotation005Z">0 0 1 0</rotate>
@@ -25044,15 +25030,29 @@
                     </bind_material>
                 </instance_geometry>
             </node>
+            <node id="Geometry-mesh018Node" name="collision_pad1" type="NODE">
+                <translate sid="translation023">0 1281.53 0.19825</translate>
+                <rotate sid="rotation022Z">0 0 1 0</rotate>
+                <rotate sid="rotation022Y">0 1 0 0</rotate>
+                <rotate sid="rotation022X">1 0 0 -90</rotate>
+                <scale sid="scale021">1 1 1</scale>
+                <instance_geometry url="#Geometry-mesh018">
+                    <bind_material>
+                        <technique_common>
+                            <instance_material symbol="Material-Outer" target="#Material-Outer" />
+                        </technique_common>
+                    </bind_material>
+                </instance_geometry>
+            </node>
             <node id="Camera-CameraNode" name="Camera" type="NODE">
-                <translate sid="translation002">0 0.75 4</translate>
+                <translate sid="translation003">0 0.75 4</translate>
                 <rotate sid="rotation006Y">0 1 0 0</rotate>
                 <rotate sid="rotation006X">1 0 0 -5</rotate>
                 <rotate sid="rotation006Z">0 0 1 0</rotate>
                 <instance_camera url="#Camera-Camera" />
             </node>
             <node id="Light-Directional_LightNode" name="Directional_Light" type="NODE">
-                <translate sid="translation003">-2 2 2</translate>
+                <translate sid="translation004">-2 2 2</translate>
                 <rotate sid="rotation007Y">0 1 0 -45</rotate>
                 <rotate sid="rotation007X">1 0 0 -30</rotate>
                 <rotate sid="rotation007Z">0 0 1 0</rotate>

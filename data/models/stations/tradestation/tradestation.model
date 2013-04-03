@@ -7,3 +7,4 @@ diffuse 1.0 1.0 1.0
 
 mesh tradestation.dae
 collision tradestation_collision.obj
+mesh bcdocking.dae
