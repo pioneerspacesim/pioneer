@@ -354,56 +354,58 @@ local econTrade = function ()
 	)
 end
 
+-- we keep MissionList to remember players preferences
+-- (now it is column he wants to sort by)
+local MissionList 
 local missions = function (tabGroup)
-	-- comparators for missions sort
-	local cmpByType = function (a,b) return a:GetTypeDescription() < b:GetTypeDescription() end
-	local cmpByClient = function (a,b) return a.client.name < b.client.name end
-	local cmpByLocation = function (a,b)
-		if a.location:GetStarSystem().name ~= b.location:GetStarSystem().name then
-			return a.location:GetStarSystem().name < b.location:GetStarSystem().name
-		else return a.location:GetSystemBody().name < b.location:GetSystemBody().name end
-	end
-	local cmpByDue = function (a,b) return a.due < b.due end
-	local cmpByReward = function (a,b) return a.reward > b.reward end
-	local cmpByStatus = function (a,b) return a.status > b.status end
-	
-	local sortMissions = function (header)
-		local comparators = 
-		{
-			TYPE 		= cmpByType,
-			CLIENT 		= cmpByClient,
-			LOCATION 	= cmpByLocation,
-			DUE			= cmpByDue,
-			REWARD		= cmpByReward,
-			STATUS		= cmpByStatus
-		}
-		table.sort(PersistentCharacters.player.missions, comparators[header])
-		tabGroup:Refresh() --to redraw Missions screen
-	end
-	
 	-- This mission screen
 	local MissionScreen = ui:Expand()
-	local MissionList = ui:VBox(10)
 
 	if #PersistentCharacters.player.missions == 0 then
-		MissionList:PackEnd( ui:Label(t("No missions.")) )
-
-		return MissionScreen:SetInnerWidget(MissionList)
+		return MissionScreen:SetInnerWidget( ui:Label(t("No missions.")) )
 	end
 
-	-- One row for each mission, plus a header
-	local rowspec = {7,8,10,8,5,5,5}
-	local headergrid  = ui:Grid(rowspec,1)
+	local rowspec = {7,8,10,8,5,5,5} -- 7 columns
+	if MissionList then 
+		MissionList:Clear()
+	else
+		MissionList = UI.SmartTable.New(rowspec) 
+	end
 	
 	-- setup headers
-	local headers = {"TYPE", "CLIENT", "LOCATION", "DUE", "REWARD", "STATUS"}
-	for i,header in ipairs(headers) do
-		local label = ui:Label(t(header))
-		label.onClick:Connect(function () sortMissions(header) end)
-		headergrid:SetCell(i-1, 0, label)
-	end
+	local headers = 
+	{
+		t("TYPE"),
+		t("CLIENT"),
+		t("LOCATION"),
+		t("DUE"),
+		t("REWARD"),
+		t("STATUS"),
+	}
+	MissionList:SetHeaders(headers)
 	
-	local missionbox = ui:VBox(10)
+	-- setup custom sort function
+	local sortMissions = function (misList)
+		local col = misList.sortCol
+		
+		-- custom comparators for columns that we want
+		-- handle by ourselves
+		local cmpByReward = function (a,b) 
+			return a.data[col] > b.data[col] 
+		end
+		
+		local comparators = 
+		{ 	-- by column num
+			[5]	= cmpByReward,
+		}
+		
+		if comparators[col] then 
+			table.sort(misList.table, comparators[col])
+		else 
+			misList:defaultSortFunction()
+		end
+	end
+	MissionList:SetSortFunction(sortMissions)
 
 	for ref,mission in pairs(PersistentCharacters.player.missions) do
 		-- Format the location
@@ -422,19 +424,28 @@ local missions = function (tabGroup)
 		end)
 
 		local description = mission:GetTypeDescription()
-		missionbox:PackEnd(ui:Grid(rowspec,1):SetRow(0, {
+		local rowData = 
+		{
+			description or t('NONE'),
+			mission.client.name,
+			missionLocationName,
+			mission.due,
+			mission.reward,
+			-- nil description means mission type isn't registered.
+			(description and t(mission.status)) or t('INACTIVE'),
+		}
+		local rowWidgets = 
+		{
 			ui:Label(description or t('NONE')),
 			ui:Label(mission.client.name),
 			ui:MultiLineText(missionLocationName),
 			ui:Label(Format.Date(mission.due)),
 			ui:Label(Format.Money(mission.reward)),
-			-- nil description means mission type isn't registered.
 			ui:Label((description and t(mission.status)) or t('INACTIVE')),
 			moreButton.widget,
-		}))
+		}
+		MissionList:AddRow(rowData,rowWidgets)
 	end
-
-	MissionList:PackEnd({ headergrid, ui:Scroller():SetInnerWidget(missionbox) })
 
 	MissionScreen:SetInnerWidget(MissionList)
 
