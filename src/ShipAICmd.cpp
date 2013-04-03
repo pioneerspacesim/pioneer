@@ -700,7 +700,6 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, dou
 
 bool AICmdFlyTo::TimeStepUpdate()
 {
-	//bool supa=false;
 	if (m_target && m_ship){
 		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_target->GetFrame()).Length()/1.0,99999999999.0);
 		if (
@@ -712,8 +711,6 @@ bool AICmdFlyTo::TimeStepUpdate()
 		{
 			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -setspeed));
 			m_ship->AIFaceDirection(m_target->GetPositionRelTo(m_ship->GetFrame())-m_ship->GetPositionRelTo(m_ship->GetFrame()));
-			//m_ship->AIFaceDirection(m_target->GetPosition()-m_ship->GetPosition());
-			//supa=true;
 			return false;
 		}
 		else if (
@@ -726,7 +723,6 @@ bool AICmdFlyTo::TimeStepUpdate()
 			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -5000));
 			return false;
 		}
-		//return false;
 	}
 
 	
