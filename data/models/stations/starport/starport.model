@@ -13,6 +13,7 @@ shininess 80
 mesh starport_docking_plane.obj
 
 mesh starport.lxo
+mesh placeholder_docking.dae
 
 
 

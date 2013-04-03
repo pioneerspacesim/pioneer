@@ -1,0 +1,26 @@
+material material1
+
+tex_diff DIFF.png
+tex_spec SPEC.png
+tex_glow GLOW.png
+specular 1.0 1.0 1.0
+diffuse 1.0 1.0 1.0
+
+
+material material2
+
+tex_diff hangardiff.png
+tex_glow hangarglow.png
+tex_spec hangarspec.png
+diffuse 1.0 1.0 1.0
+specular 1.0 1.0 1.0
+
+
+lod 1000
+mesh megastation.dae
+mesh bcdocking.dae
+
+collision megastation_collision.obj
+
+mesh megastation_hangar.obj
+
