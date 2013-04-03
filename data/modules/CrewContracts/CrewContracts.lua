@@ -194,7 +194,7 @@ local onChat = function (form,ref,option)
 		form:Clear()
 		form:SetMessage(t("Potential crew members are registered as seeking employment at {station}:"):interp({station=station.label}))
 		for k,c in ipairs(crewInThisStation) do
-			form:AddOption(t('{potentialCrewMember} ({wage}/wk)'):interp({potentialCrewMember = c.name,wage = c.estimatedWage}),k)
+			form:AddOption(t('{potentialCrewMember} ({wage}/wk)'):interp({potentialCrewMember = c.name,wage = Format.Money(c.estimatedWage)}),k)
 			if k > 12 then break end -- XXX They just won't all fit on screen. New UI can scroll.
 		end
 		form:AddOption(t('HANG_UP'), -1)
@@ -219,11 +219,28 @@ local onChat = function (form,ref,option)
 			wage = Format.Money(offer),
 			response = response,
 		}))
+		candidate.estimatedWage = offer
 		form:AddOption(t('Make offer of position on ship for stated amount'),1)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer*2)}),2)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+5)}),3)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-5)}),4)
-		form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(math.floor(offer/2))}),5)
+		if math.ceil(offer/2) > 20 then
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+20)}),2) -- This button will raise the offer [raise by $20]
+		else
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+math.ceil(offer/2))}),2) -- This button will raise the offer [raise by $1 to $20]
+		end
+		if math.ceil(offer/10) > 5 then
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+5)}),3) -- This button will raise the offer [raise by $5]
+		elseif offer > 2 then
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer+math.ceil(offer/10))}),3) -- This button will raise the offer [raise by 1$ to $5], so it must be proposing bigger than $3
+		end
+		if math.ceil(offer/11) > 5 then
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-5)}),4) -- This button will reduce the offer [reduce by $5]
+		elseif offer > 3 then
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-math.ceil(offer/11))}),4) -- This button will reduce the offer [reduce by 1$ to $5], so it must be proposing bigger than $2
+		end
+		if math.ceil(offer/3) > 20 then
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-20)}),5) -- This button will reduce the offer [reduce by $20]
+		elseif offer > 1 then
+			form:AddOption(t('Suggest new weekly wage of {newAmount}'):interp({newAmount=Format.Money(offer-math.ceil(offer/3))}),5) -- This button will reduce the offer [reduce by $1 to $20], so it must be proposing bigger than $0
+		end
 		form:AddOption(t('Ask candidate to sit a test'),6)
 		form:AddOption(t('GO_BACK'), 0)
 		form:AddOption(t('HANG_UP'), -1)
@@ -264,6 +281,8 @@ local onChat = function (form,ref,option)
 					form:AddOption(t('HANG_UP'), -1)
 				end
 			else
+				-- Candidates hate unattractive offer.
+				candidate.playerRelationship = candidate.playerRelationship - 1
 				form:SetMessage(t("I'm sorry, your offer isn't attractive to me."))
 				form:AddOption(t('GO_BACK'), 0)
 				form:AddOption(t('HANG_UP'), -1)
@@ -273,26 +292,38 @@ local onChat = function (form,ref,option)
 		end
 
 		if option == 2 then
-			-- Player suggested doubling the offer
+			-- Player suggested raise the offer
 			candidate.playerRelationship = candidate.playerRelationship + 5
-			offer = offer * 2
+			if math.ceil(offer/2) > 20 then
+				offer = offer + 20 -- [raise by $20]
+			else
+				offer = offer + math.ceil(offer/2) -- [raise by $1 to $20]
+			end
 			candidate.estimatedWage = offer -- They'll now re-evaluate themself
 			showCandidateDetails(t("That's extremely generous of you!"))
 		end
 
 		if option == 3 then
-			-- Player suggested an extra $5
+			-- Player suggested raise the offer
 			candidate.playerRelationship = candidate.playerRelationship + 1
-			offer = offer + 5
+			if math.ceil(offer/10) > 5 then
+				offer = offer + 5 -- [raise by $5]
+			else
+				offer = offer + math.ceil(offer/10) -- [raise by $1 to $5]
+			end
 			candidate.estimatedWage = offer -- They'll now re-evaluate themself
 			showCandidateDetails(t("That certainly makes this offer look better!"))
 		end
 
 		if option == 4 then
-			-- Player suggested $5 less
+			-- Player suggested reduce the offer
 			candidate.playerRelationship = candidate.playerRelationship - 1
 			if candidate:TestRoll('playerRelationship') then
-				offer = offer - 5
+				if math.ceil(offer/11) > 5 then
+					offer = offer - 5 -- [reduce by $5]
+				else
+					offer = offer - math.ceil(offer/11) -- [reduce by $1 to $5]
+				end
 				showCandidateDetails(t("OK, I suppose that's all right."))
 			else
 				showCandidateDetails(t("I'm sorry, I'm not prepared to go any lower."))
@@ -300,10 +331,14 @@ local onChat = function (form,ref,option)
 		end
 
 		if option == 5 then
-			-- Player suggested halving the offer
+			-- Player suggested reduce the offer
 			candidate.playerRelationship = candidate.playerRelationship - 5
 			if candidate:TestRoll('playerRelationship') then
-				offer = math.floor(offer / 2)
+				if math.ceil(offer/3) > 20 then
+					offer = offer - 20 -- [reduce by $20]
+				else
+					offer = offer - math.ceil(offer/3) -- [reduce by $1 to $20]
+				end
 				showCandidateDetails(t("OK, I suppose that's all right."))
 			else
 				showCandidateDetails(t("I'm sorry, I'm not prepared to go any lower."))
