@@ -38,7 +38,7 @@ public:
 	virtual ~Terrain();
 
 	void SetFracDef(const unsigned int index, const double featureHeightMeters, const double featureWidthMeters, const double smallestOctaveMeters = 20.0);
-	inline const fracdef_t &GetFracDef(const unsigned int index) const { return m_fracdef[index]; }
+	inline const fracdef_t &GetFracDef(const unsigned int index) const { assert(index>=0 && index<kMaxNumFracDefs); return m_fracdef[index]; }
 
 	virtual double GetHeight(const vector3d &p) const = 0;
 	virtual vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const = 0;
