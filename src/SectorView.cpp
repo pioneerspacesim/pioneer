@@ -2,23 +2,23 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
-#include "gui/Gui.h"
+#include "Factions.h"
+#include "GalacticView.h"
+#include "Game.h"
+#include "Lang.h"
 #include "Pi.h"
+#include "Player.h"
 #include "SectorView.h"
+#include "Serializer.h"
+#include "ShipCpanel.h"
+#include "StringF.h"
+#include "SystemInfoView.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
-#include "SystemInfoView.h"
-#include "Player.h"
-#include "Serializer.h"
-#include "GalacticView.h"
-#include "Lang.h"
-#include "StringF.h"
-#include "ShipCpanel.h"
-#include "Game.h"
-#include "Factions.h"
+#include "graphics/Graphics.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
-#include "graphics/Graphics.h"
+#include "gui/Gui.h"
 #include <algorithm>
 #include <sstream>
 
@@ -96,8 +96,8 @@ void SectorView::InitDefaults()
 	m_zoomDefault = Clamp(m_zoomDefault, 0.1f, 5.0f);
 	m_previousSearch = "";
 
-	m_secPosFar  = vector3f(INT_MAX, INT_MAX, INT_MAX);
-	m_radiusFar  = 0;
+	m_secPosFar = vector3f(INT_MAX, INT_MAX, INT_MAX);
+	m_radiusFar = 0;
 	m_cacheXMin = 0;
 	m_cacheXMax = 0;
 	m_cacheYMin = 0;
@@ -109,6 +109,8 @@ void SectorView::InitDefaults()
 void SectorView::InitObject()
 {
 	SetTransparency(true);
+
+	m_lineVerts.Reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_POSITION, 500));
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_clickableLabels = new Gui::LabelSet();
@@ -146,7 +148,7 @@ void SectorView::InitObject()
 	m_infoBox->SetBgColor(0.05f, 0.05f, 0.12f, 0.5f);
 	m_infoBox->SetSpacing(10.0f);
 	Add(m_infoBox, 5, 5);
-	
+
 	// 1. holds info about current, selected, targeted systems
 	Gui::VBox *locationsBox = new Gui::VBox();
 	locationsBox->SetSpacing(5.f);
@@ -216,7 +218,7 @@ void SectorView::InitObject()
 	systemBox->PackEnd(m_targetSystemLabels.shortDesc);
 	locationsBox->PackEnd(systemBox);
 	m_infoBox->PackEnd(locationsBox);
-	
+
 	// 2. holds options for displaying systems
 	Gui::VBox *filterBox = new Gui::VBox();
 	// 2.1 Draw vertical lines
@@ -363,12 +365,12 @@ void SectorView::OnSearchBoxKeyPress(const SDL_keysym *keysym)
 		Pi::cpan->MsgLog()->Message("", Lang::NOT_FOUND);
 }
 
-
 #define DRAW_RAD	  3
 #define FFRAC(_x)	((_x)-floor(_x))
 
 void SectorView::Draw3D()
 {
+	m_lineVerts->Clear();
 	m_clickableLabels->Clear();
 
 	if (m_zoomClamped <= FAR_THRESHOLD) m_renderer->SetPerspectiveProjection(40.f, Pi::GetScrAspect(), 1.f, 100.f);
@@ -401,8 +403,15 @@ void SectorView::Draw3D()
 
 	m_renderer->SetBlendMode(BLEND_ALPHA);
 
-	if (m_zoomClamped <= FAR_THRESHOLD) DrawNearSectors(modelview);
-	else                                DrawFarSectors(modelview);
+	if (m_zoomClamped <= FAR_THRESHOLD)
+		DrawNearSectors(modelview);
+	else
+		DrawFarSectors(modelview);
+
+	//draw sector legs in one go
+	m_renderer->SetTransform(matrix4x4f::Identity());
+	if (m_lineVerts->GetNumVerts() > 2)
+		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
 
 	UpdateFactionToggles();
 
@@ -492,13 +501,13 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 		if ((m_pos*Sector::SIZE - (*sys).FullPosition()).Length() > drawRadius) continue;
 
 		// if the system is the current system or target we can't skip it
-		bool can_skip = !sys->IsSameSystem(m_selected) 
-						&& !sys->IsSameSystem(m_hyperspaceTarget) 
-						&& !sys->IsSameSystem(m_current); 
-		
+		bool can_skip = !sys->IsSameSystem(m_selected)
+						&& !sys->IsSameSystem(m_hyperspaceTarget)
+						&& !sys->IsSameSystem(m_current);
+
 		// skip the system if it belongs to a Faction we've toggled off and we can skip it
 		if (m_hiddenFactions.find((*sys).faction) != m_hiddenFactions.end() && can_skip) continue;
-		
+
 		// determine if system in hyperjump range or not
 		Sector *playerSec = GetCached(m_current.sectorX, m_current.sectorY, m_current.sectorZ);
 		float dist = Sector::DistanceBetween(sec, sysIdx, playerSec, m_current.systemIndex);
@@ -513,12 +522,12 @@ void SectorView::PutSystemLabels(Sector *sec, const vector3f &origin, int drawRa
 
 			// get a system path to pass to the event handler when the label is licked
 			SystemPath sysPath = SystemPath((*sys).sx, (*sys).sy, (*sys).sz, sysIdx);
-			
+
 			// label text
 			std::string text = "";
-			if(inRange || m_drawOutRangeLabelButton->GetPressed() || !can_skip) 
+			if(inRange || m_drawOutRangeLabelButton->GetPressed() || !can_skip)
 				text = (*sys).name;
-			
+
 			// setup the label;
 			m_clickableLabels->Add(text, sigc::bind(sigc::mem_fun(this, &SectorView::OnClickSystem), sysPath), screenPos.x, screenPos.y, labelColor);
 		}
@@ -761,11 +770,11 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		if (toCentreOfView.Length() > OUTER_RADIUS) continue;
 
 		// if the system is the current system or target we can't skip it
-		bool can_skip = !i->IsSameSystem(m_selected) 
-						&& !i->IsSameSystem(m_hyperspaceTarget) 
-						&& !i->IsSameSystem(m_current); 
+		bool can_skip = !i->IsSameSystem(m_selected)
+						&& !i->IsSameSystem(m_hyperspaceTarget)
+						&& !i->IsSameSystem(m_current);
 
-		// if the system belongs to a faction we've chosen to temporarily hide 
+		// if the system belongs to a faction we've chosen to temporarily hide
 		// then skip it if we can
 		m_visibleFactions.insert(i->faction);
 		if (m_hiddenFactions.find(i->faction) != m_hiddenFactions.end() && can_skip) continue;
@@ -798,33 +807,29 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		matrix4x4f systrans = trans * matrix4x4f::Translation((*i).p.x, (*i).p.y, (*i).p.z);
 		m_renderer->SetTransform(systrans);
 
-		glDisable(GL_LIGHTING);
-
 		// for out-of-range systems draw leg only if we draw label
-		if (m_drawSystemLegButton->GetPressed() 
+		if (m_drawSystemLegButton->GetPressed()
 			&& (inRange || m_drawOutRangeLabelButton->GetPressed()) || !can_skip){
-			// draw system "leg"
-			glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-			glBegin(GL_LINE_STRIP);
-				float z = -(*i).p.z;
-				if (sz <= cz)
-					z = z+abs(cz-sz)*Sector::SIZE;
-				else
-					z = z-abs(cz-sz)*Sector::SIZE;
 
-				glVertex3f(0, 0, z);
-				glColor4f(0.2f, 0.2f, 0.2f, 0.2f);
-				glVertex3f(0, 0, z * 0.5);
-				glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
-				glVertex3f(0, 0, 0);
-			glEnd();
+			const Color light(0.5f);
+			const Color dark(0.2f);
+
+			// draw system "leg"
+			float z = -(*i).p.z;
+			if (sz <= cz)
+				z = z+abs(cz-sz)*Sector::SIZE;
+			else
+				z = z-abs(cz-sz)*Sector::SIZE;
+			m_lineVerts->Add(systrans * vector3f(0.f, 0.f, z), light);
+			m_lineVerts->Add(systrans * vector3f(0.f, 0.f, z * 0.5f), dark);
+			m_lineVerts->Add(systrans * vector3f(0.f, 0.f, z * 0.5f), dark);
+			m_lineVerts->Add(systrans * vector3f(0.f, 0.f, 0.f), light);
+
 			//cross at other end
-			glBegin(GL_LINES);
-				glVertex3f(-0.1f, -0.1f, z);
-				glVertex3f(0.1f, 0.1f, z);
-				glVertex3f(-0.1f, 0.1f, z);
-				glVertex3f(0.1f, -0.1f, z);
-			glEnd();
+			m_lineVerts->Add(systrans * vector3f(-0.1f, -0.1f, z), light);
+			m_lineVerts->Add(systrans * vector3f(0.1f, 0.1f, z), light);
+			m_lineVerts->Add(systrans * vector3f(-0.1f, 0.1f, z), light);
+			m_lineVerts->Add(systrans * vector3f(0.1f, -0.1f, z), light);
 		}
 
 		if (i->IsSameSystem(m_selected)) {
@@ -896,9 +901,8 @@ void SectorView::DrawFarSectors(matrix4x4f modelview)
 	}
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
-	if (m_farstars.size() > 0) {
+	if (m_farstars.size() > 0)
 		m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], 1.f + (Graphics::GetScreenHeight() / 720.f));
-	}
 
 	// also add labels for any faction homeworlds among the systems we've drawn
 	PutFactionLabels(Sector::SIZE * secOrigin);

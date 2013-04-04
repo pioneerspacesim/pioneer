@@ -14,6 +14,7 @@
 #include "SpaceStation.h"
 #include "galaxy/Sector.h"
 #include "Factions.h"
+#include "FileSystem.h"
 
 /*
  * Class: StarSystem
@@ -323,6 +324,39 @@ static int l_starsystem_distance_to(lua_State *l)
 }
 
 /*
+ * Method: ExportToLua
+ *
+ * Export of generated system for personal interest, customisation, etc
+ *
+ * Availability:
+ *
+ *   alpha 33
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_starsystem_export_to_lua(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+
+	static const std::string EXPORTED_SYSTEMS_DIR_NAME("exported_systems");
+	if (!FileSystem::userFiles.MakeDirectory(EXPORTED_SYSTEMS_DIR_NAME)) {
+		throw CouldNotOpenFileException();
+	}
+
+	// construct the filename with folder and extension
+	const std::string filename(EXPORTED_SYSTEMS_DIR_NAME + "/" + s->GetName() + ".lua");
+	const std::string finalPath = FileSystem::NormalisePath(FileSystem::JoinPath(FileSystem::GetUserDir(), filename));
+	s->ExportToLua(finalPath.c_str());
+
+	LUA_DEBUG_END(l, 1);
+	return 1;
+}
+
+/*
  * Attribute: name
  *
  * The name of the system. This is usually the same as the name of the primary
@@ -463,6 +497,8 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "GetNearbySystems", l_starsystem_get_nearby_systems },
 
 		{ "DistanceTo", l_starsystem_distance_to },
+
+		{ "ExportToLua", l_starsystem_export_to_lua },
 
 		{ 0, 0 }
 	};

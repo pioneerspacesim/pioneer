@@ -16,11 +16,16 @@ Alpha 33
      * Clean up the Taxi, DeliverPackage and Assassination mission views
        (#2142, #2151)
      * Tweak Polish translation (#2167)
+     * Gas giants now have a thin layer of atmosphere (#1788, #1395)
 
    * Fixes
      * Fix hoop station unreliable docking detection (#2153, #2125)
      * Fix redscreen from TradeShips module when entering a system with
        only surface ports (#2172, #2171)
+     * Fix object viewer crash (#2187)
+
+   * Internal changes
+     * Converted some remaining GL code to use the renderer interface (#2184)
 
 Alpha 32
 
