@@ -27,9 +27,7 @@ varying vec4 varyingEmission;
 
 #define PI 3.141592653589793
 
-#define USE_GOOD_MATHS 1
-
-float discCovered(float dist, float rad) {
+float discCovered(const in float dist, const in float rad) {
 	// proportion of unit disc covered by a second disc of radius rad placed
 	// dist from centre of first disc.
 	//
@@ -43,7 +41,7 @@ float discCovered(float dist, float rad) {
 	// The clamps on xl,xs handle the cases where one disc contains the other.
 
 	float radsq = rad*rad;
-#ifdef USE_GOOD_MATHS
+
 	float xl = clamp((dist*dist + 1.0 - radsq) / (2.0*max(0.001,dist)), -1.0, 1.0);
 	float xs = clamp((dist - xl)/max(0.001,rad), -1.0, 1.0);
 	float d = sqrt(max(0.0, 1.0 - xl*xl));
@@ -54,14 +52,6 @@ float discCovered(float dist, float rad) {
 	// covered area can be calculated as the sum of segments from the two
 	// discs plus/minus some triangles, and it works out as follows:
 	return clamp((th + radsq*th2 - dist*d)/PI, 0.0, 1.0);
-#else
-	// linear interpolation version: faster but visibly less accurate
-	float maxOcclusion = min(1.0, radsq);
-	return mix(0.0, maxOcclusion,
-			clamp(
-				( rad+1.0-dist ) / ( rad+1.0 - abs(rad-1.0) ),
-				0.0, 1.0));
-#endif	
 }
 
 void main(void)
@@ -83,21 +73,22 @@ void main(void)
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		vec3 lightDir = normalize(vec3(gl_LightSource[i].position));
 		float unshadowed = 1.0;
-		for (int j=0; j<shadows; j++)
-			if (i == occultedLight[j]) {
-				vec3 centre;
-				// can't do shadowCentre[j] in frag shader, on some targets
-				if (j==0) centre = shadowCentre[0];
-				if (j==1) centre = shadowCentre[1];
-				if (j==2) centre = shadowCentre[2];
-				// Apply eclipse:
-				vec3 projectedPoint = v - dot(lightDir,v)*lightDir;
-				// By our assumptions, the proportion of light blocked at this point by
-				// this sphere is the proportion of the disc of radius lrad around
-				// projectedPoint covered by the disc of radius srad around shadowCentre.
-				float dist = length(projectedPoint - centre);
-				unshadowed *= 1.0 - discCovered(dist/lrad[j], srad[j]/lrad[j]);
-			}
+		for (int j=0; j<shadows; j++) {
+			if (i != occultedLight[j])
+				continue;
+				
+			vec3 centre = shadowCentre[0];
+			// can't do shadowCentre[j] in frag shader, on some targets
+			if (j==1) centre = shadowCentre[1];
+			if (j==2) centre = shadowCentre[2];
+			// Apply eclipse:
+			vec3 projectedPoint = v - dot(lightDir,v)*lightDir;
+			// By our assumptions, the proportion of light blocked at this point by
+			// this sphere is the proportion of the disc of radius lrad around
+			// projectedPoint covered by the disc of radius srad around shadowCentre.
+			float dist = length(projectedPoint - centre);
+			unshadowed *= 1.0 - discCovered(dist/lrad[j], srad[j]/lrad[j]);
+		}
 		unshadowed = clamp(unshadowed, 0.0, 1.0);
 		nDotVP  = max(0.0, dot(tnorm, normalize(vec3(gl_LightSource[i].position))));
 		nnDotVP = max(0.0, dot(tnorm, normalize(-vec3(gl_LightSource[i].position)))); //need backlight to increase horizon
@@ -109,7 +100,7 @@ void main(void)
 		vec3 E = normalize(-eyepos);
 		vec3 R = normalize(-reflect(L,tnorm)); 
 		//water only for specular
-	    	if (vertexColor.b > 0.05 && vertexColor.r < 0.05) {
+	    if (vertexColor.b > 0.05 && vertexColor.r < 0.05) {
 			specularReflection += pow(max(dot(R,E),0.0),16.0)*0.4/float(NUM_LIGHTS);
 		}
 #endif
