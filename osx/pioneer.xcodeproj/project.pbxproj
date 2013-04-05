@@ -189,6 +189,7 @@
 		4A6C4E9313532FC300FDD53F /* WorldView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D7213532FC300FDD53F /* WorldView.cpp */; };
 		4A6C4EA2135452FF00FDD53F /* libsigc-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
 		4A6C55151354655000FDD53F /* data in Copy Data files and folders */ = {isa = PBXBuildFile; fileRef = 4A6C55141354655000FDD53F /* data */; };
+		4A712413170EC89000BB9BCC /* Orbit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A712411170EC89000BB9BCC /* Orbit.cpp */; };
 		4A76111D1611A76C00A06F79 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A76111C1611A76C00A06F79 /* OpenGL.framework */; };
 		4A7611201611A7B000A06F79 /* libpng15.15.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A76111F1611A7B000A06F79 /* libpng15.15.dylib */; };
 		4A7611221611A80C00A06F79 /* libz.1.2.7.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A7611211611A80C00A06F79 /* libz.1.2.7.dylib */; };
@@ -848,6 +849,8 @@
 		4A6C4D7313532FC300FDD53F /* WorldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldView.h; sourceTree = "<group>"; };
 		4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libsigc-2.0.0.dylib"; path = "/opt/local/lib/libsigc-2.0.0.dylib"; sourceTree = "<absolute>"; };
 		4A6C55141354655000FDD53F /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = "<group>"; };
+		4A712411170EC89000BB9BCC /* Orbit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Orbit.cpp; sourceTree = "<group>"; };
+		4A712412170EC89000BB9BCC /* Orbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Orbit.h; sourceTree = "<group>"; };
 		4A76111C1611A76C00A06F79 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		4A76111F1611A7B000A06F79 /* libpng15.15.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng15.15.dylib; path = /opt/local/lib/libpng15.15.dylib; sourceTree = "<absolute>"; };
 		4A7611211611A80C00A06F79 /* libz.1.2.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.7.dylib; path = /opt/local/lib/libz.1.2.7.dylib; sourceTree = "<absolute>"; };
@@ -1750,6 +1753,8 @@
 				4A6C4CE813532FC300FDD53F /* Object.h */,
 				4A6C4CE913532FC300FDD53F /* ObjectViewerView.cpp */,
 				4A6C4CEA13532FC300FDD53F /* ObjectViewerView.h */,
+				4A712411170EC89000BB9BCC /* Orbit.cpp */,
+				4A712412170EC89000BB9BCC /* Orbit.h */,
 				4AAB881C15F4AD7700AAF8A8 /* OS.h */,
 				4A6C4D2C13532FC300FDD53F /* perlin.cpp */,
 				4A6C4D2D13532FC300FDD53F /* perlin.h */,
@@ -2651,6 +2656,7 @@
 				4AA5280516E9EB980036D4CB /* Lua.cpp in Sources */,
 				4AA5280616E9EB980036D4CB /* ModelSkin.cpp in Sources */,
 				4AA5280816E9EBD60036D4CB /* LuaModelSkin.cpp in Sources */,
+				4A712413170EC89000BB9BCC /* Orbit.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
