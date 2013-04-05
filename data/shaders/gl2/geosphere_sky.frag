@@ -38,28 +38,26 @@ void sphereEntryExitDist(out float near, out float far, const in vec3 sphereCent
 
 // integral used in shadow calculations:
 // \Int (m - \sqrt(d^2+t^2)) dt = (t\sqrt(d^2+t^2) + d^2 log(\sqrt(d^2+t^2)+t))/2
-void shadowInt(out float res, const in float t1, const in float t2, const in float dsq, const in float m)
+float shadowInt(const in float t1, const in float t2, const in float dsq, const in float m)
 {
 	float s1 = sqrt(dsq+t1*t1);
 	float s2 = sqrt(dsq+t2*t2);
-	res = m*(t2-t1) - (t2*s2 - t1*s1 + dsq*( log(max(0.000001, s2+t2)) - log(max(0.000001, s1+t1)))) * 0.5;
+	return m*(t2-t1) - (t2*s2 - t1*s1 + dsq*( log(max(0.000001, s2+t2)) - log(max(0.000001, s1+t1)))) * 0.5;
 }
 
 void main(void)
 {
 	float skyNear, skyFar;
-	vec3 eyepos = vec3(varyingEyepos);
-	vec3 eyenorm = normalize(eyepos);
+	vec3 eyenorm = normalize(varyingEyepos.xyz);
 	float specularHighlight=0.0;
 
-	sphereEntryExitDist(skyNear, skyFar, geosphereCenter, eyepos, geosphereScaledRadius * geosphereAtmosTopRad);
+	sphereEntryExitDist(skyNear, skyFar, geosphereCenter, varyingEyepos.xyz, geosphereScaledRadius * geosphereAtmosTopRad);
 	float atmosDist = geosphereScale * (skyFar - skyNear);
 	float ldprod=0.0;
 	
-	vec3 dir = eyenorm;
 	// a&b scaled so length of 1.0 means planet surface.
-	vec3 a = (skyNear * dir - geosphereCenter) / geosphereScaledRadius;
-	vec3 b = (skyFar * dir - geosphereCenter) / geosphereScaledRadius;
+	vec3 a = (skyNear * eyenorm - geosphereCenter) / geosphereScaledRadius;
+	vec3 b = (skyFar * eyenorm - geosphereCenter) / geosphereScaledRadius;
 	ldprod = AtmosLengthDensityProduct(a, b, atmosColor.a * geosphereAtmosFogDensity, atmosDist, geosphereAtmosInvScaleHeight);
 	
 	float fogFactor = 1.0 / exp(ldprod);
@@ -69,8 +67,8 @@ void main(void)
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 
 		//Calculate Specular Highlight
-		vec3 L = normalize(gl_LightSource[i].position.xyz - eyepos); 
-		vec3 E = normalize(-eyepos);
+		vec3 L = normalize(gl_LightSource[i].position.xyz - varyingEyepos.xyz); 
+		vec3 E = normalize(-varyingEyepos.xyz);
 		vec3 R = normalize(-reflect(L,vec3(0.0))); 
 		specularHighlight += pow(max(dot(R,E),0.0),64.0)/float(NUM_LIGHTS);
 
@@ -113,11 +111,9 @@ void main(void)
 			float maxd = sqrt( max(0.0, maxr*maxr - perpsq) );
 			float mind = sqrt( max(0.0, minr*minr - perpsq) );
 
-			float term1;
-			shadowInt(term1, clamp(ad, -maxd, -mind), clamp(bd, -maxd, -mind), perpsq, maxr);
-			float term2;
-			shadowInt(term2, clamp(ad, mind, maxd), clamp(bd, mind, maxd), perpsq, maxr);
-			float shadow = term1 + term2 / (maxr-minr) + (clamp(bd, -mind, mind) - clamp(ad, -mind, mind));
+			float shadow = shadowInt(clamp(ad, -maxd, -mind), clamp(bd, -maxd, -mind), perpsq, maxr)
+				+ shadowInt(clamp(ad, mind, maxd), clamp(bd, mind, maxd), perpsq, maxr) 
+				/ (maxr-minr) + (clamp(bd, -mind, mind) - clamp(ad, -mind, mind));
 
 			float maxOcclusion = min(1.0, (srad[j]/lrad[j])*(srad[j]/lrad[j]));
 
