@@ -5,5 +5,6 @@ tex_diff ao.png
 
 mesh placeholder_ground.dae
 mesh placeholder_docking.dae
+mesh ground_collpads.obj
 
 collision placeholder_collide.dae
