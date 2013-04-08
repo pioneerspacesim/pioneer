@@ -700,12 +700,42 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, dou
 
 bool AICmdFlyTo::TimeStepUpdate()
 {
-	if (m_target && m_ship){
-		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_target->GetFrame()).Length()/1.0,99999999999.0);
+	if (m_targframe && m_ship){
+		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_targframe).Length()/1.0,99999999999.0);
+		double target_radii = m_targframe->GetParent()->GetBody()->GetPhysRadius()*2.0; //15000000.0;//std::max(m_frame->GetBody()->GetPhysRadius()*1.5,15000.0);
+		//if (m_frame->GetBody()) target_radii=std::max(m_frame->GetBody()->GetPhysRadius()*1.5,15000.0);
+
 		if (
-			m_ship->GetPositionRelTo(m_target->GetFrame()).Length()>m_target->GetPhysRadius()*1.5 &&
-			m_ship->GetVelocity().Length()>6000 && 
-			m_target->IsType(Object::PLANET) && 
+			m_ship->GetPositionRelTo(m_targframe).Length()>target_radii &&
+			m_ship->GetVelocity().Length()>50000 && 
+			m_ship->GetFlightState() == Ship::FLYING
+			)
+		{
+			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -setspeed));
+			m_ship->AIFaceDirection(m_targframe->GetPositionRelTo(m_ship->GetFrame())-m_ship->GetPositionRelTo(m_ship->GetFrame()));
+			return false;
+		}
+		else if (
+			m_ship->GetPositionRelTo(m_targframe).Length()<=target_radii &&
+			m_ship->GetFlightState() == Ship::FLYING && 
+			m_ship->GetVelocity().Length()> setspeed/2.0
+			)
+		{
+			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -49000));
+			return false;
+		}
+	}
+	else if (m_target && m_ship){
+		double setspeed = std::min((double)m_ship->GetPositionRelTo(m_target->GetFrame()).Length()/1.0,99999999999.0);
+
+		double target_radii = 500000;
+		if (m_target->IsType(Object::PLANET))			target_radii = m_target->GetPhysRadius()*2.0;
+		if (m_target->IsType(Object::SPACESTATION))		target_radii = 500000;
+		if (m_target->IsType(Object::CITYONPLANET))		target_radii = 500000;
+
+		if (
+			m_ship->GetPositionRelTo(m_target->GetFrame()).Length()>target_radii &&
+			m_ship->GetVelocity().Length()>50000 && 
 			m_ship->GetFlightState() == Ship::FLYING
 			)
 		{
@@ -714,19 +744,16 @@ bool AICmdFlyTo::TimeStepUpdate()
 			return false;
 		}
 		else if (
-			m_ship->GetPositionRelTo(m_target->GetFrame()).Length()<=m_target->GetPhysRadius()*1.5 &&
+			m_ship->GetPositionRelTo(m_target->GetFrame()).Length()<=target_radii &&
 			m_ship->GetFlightState() == Ship::FLYING && 
-			m_target->IsType(Object::PLANET) && 
-			m_ship->GetVelocity().Length()> m_ship->GetPositionRelTo(m_target->GetFrame()).Length()/2.0
+			m_ship->GetVelocity().Length()> setspeed/2.0
 			)
 		{
-			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -5000));
+			m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -49000));
 			return false;
 		}
 	}
 
-	
-	//if (supa==false) {
 		if (!m_target && !m_targframe) return true;			// deleted object
 
 		// sort out gear, launching
@@ -779,6 +806,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 			else if (coll == 1) {			// below feature height, target not below
 				double ang = m_ship->AIFaceDirection(m_ship->GetPosition());
 				m_ship->AIMatchVel(ang < 0.05 ? 1000.0 * m_ship->GetPosition().Normalized() : vector3d(0.0));
+				//if (m_ship->GetVelocity().Length()>999999999) m_ship->SetVelocity(m_ship->GetOrient()*vector3d(0, 0, -1000));  //fkl
 			}
 			else {							// same thing for 2/3/4
 				if (!m_child) m_child = new AICmdFlyAround(m_ship, m_frame->GetBody(), erad*1.05, 0.0);
@@ -828,6 +856,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 		// calculate target speed
 		double ispeed = (maxdecel < 1e-10) ? 0.0 : calc_ivel(targdist, m_endvel, maxdecel);
+		//ispeed*=180.0; //fkl
 
 		// cap target speed according to spare fuel remaining
 		double fuelspeed = m_ship->GetSpeedReachedWithFuel();
@@ -840,13 +869,15 @@ bool AICmdFlyTo::TimeStepUpdate()
 	//	if (m_frame->GetParent() && ispeed > maxframespeed) ispeed = maxframespeed;
 
 		// cap perpspeed according to what's needed now
-		perpspeed = std::min(perpspeed, 2.0*sidefactor*timestep);
+		perpspeed = std::min(perpspeed, 2.0*sidefactor*timestep);//*180.0;//fkl
 	
 		// cap sdiff by thrust...
 		double sdiff = ispeed - curspeed;
 		double linaccel = sdiff < 0 ?
 			std::max(sdiff, -m_ship->GetAccelFwd()*timestep) :
 			std::min(sdiff, m_ship->GetAccelFwd()*timestep);
+		//linaccel*=180.0;
+		//sdiff/=180.0;
 
 		// linear thrust application, decel check
 		vector3d vdiff = linaccel*reldir + perpspeed*perpdir;
@@ -873,7 +904,6 @@ bool AICmdFlyTo::TimeStepUpdate()
 		if (m_endvel > 0.0) { if (reldir.Dot(m_reldir) < 0.9) return true; }
 		else if (targdist < 0.5*m_ship->GetAccelMin()*timestep*timestep) m_state = 3;
 		return false;
-	//}
 }
 
 
@@ -1039,7 +1069,7 @@ double AICmdFlyAround::MaxVel(double targdist, double targalt)
 	double vmaxprox = m_ship->GetAccelMin()*t;			// limit by target proximity
 	double vmaxstep = std::max(m_alt*0.05, m_alt-targalt);
 	vmaxstep /= Pi::game->GetTimeStep();			// limit by distance covered per timestep
-	return std::min(m_vel, std::min(vmaxprox, vmaxstep));
+	return std::min(m_vel, std::min(vmaxprox, vmaxstep))*3.0;    //fkl
 }
 
 bool AICmdFlyAround::TimeStepUpdate()
@@ -1071,15 +1101,15 @@ bool AICmdFlyAround::TimeStepUpdate()
 		Frame *obsframe = m_obstructor->GetFrame()->GetNonRotFrame();
 		vector3d tangent = GenerateTangent(m_ship, obsframe, targpos, m_alt);
 		vector3d tpos_obs = GetPosInFrame(obsframe, m_ship->GetFrame(), targpos);
-		if (m_targmode) v = m_vel;
+		if (m_targmode) v = m_vel;//*80.0; //fkl
 		else if (relpos.LengthSqr() < obsdist + tpos_obs.LengthSqr()) v = 0.0;
-		else v = MaxVel((tpos_obs-tangent).Length(), tpos_obs.Length());
+		else v = MaxVel((tpos_obs-tangent).Length(), tpos_obs.Length()); //Fkl
 		m_child = new AICmdFlyTo(m_ship, obsframe, tangent, v, true);
 		ProcessChild(); return false;
 	}
 
 	// limit m_vel by target proximity & distance covered per frame
-	double vel = (m_targmode) ? m_vel : MaxVel(relpos.Length(), targpos.Length());
+	double vel = (m_targmode) ? m_vel : MaxVel(relpos.Length(), targpos.Length());  //fkl
 
 	// all calculations in ship's frame
 	vector3d fwddir = (obsdir.Cross(relpos).Cross(obsdir)).NormalizedSafe();
@@ -1097,7 +1127,7 @@ bool AICmdFlyAround::TimeStepUpdate()
 	double ivel = calc_ivel(alt - m_alt, 0.0, m_ship->GetAccelMin());
 
 	vector3d finalvel = tanvel + ivel * obsdir;
-	m_ship->AIMatchVel(finalvel);
+	m_ship->AIMatchVel(finalvel); //fkl
 	m_ship->AIFaceDirection(fwddir);
 	m_ship->AIFaceUpdir(-obsdir);
 

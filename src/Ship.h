@@ -77,9 +77,9 @@ public:
 	void ClearThrusterState();
 
 	vector3d GetMaxThrust(const vector3d &dir) const;
-	double GetAccelFwd() const { return -m_type->linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); }
-	double GetAccelRev() const { return m_type->linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); }
-	double GetAccelUp() const { return m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); }
+	double GetAccelFwd() const ;
+	double GetAccelRev() const ;
+	double GetAccelUp() const ;
 	double GetAccelMin() const;
 
 	void UpdateEquipStats();

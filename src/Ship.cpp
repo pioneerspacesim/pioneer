@@ -396,6 +396,8 @@ vector3d Ship::GetMaxThrust(const vector3d &dir) const
 		: -m_type->linThrust[ShipType::THRUSTER_DOWN];
 	maxThrust.z = (dir.z > 0) ? m_type->linThrust[ShipType::THRUSTER_REVERSE]
 		: -m_type->linThrust[ShipType::THRUSTER_FORWARD];
+	double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
+	if (m_curAICmd>0 && GetVelocity().Length() > 1000) return maxThrust*juice;
 	return maxThrust;
 }
 
@@ -404,7 +406,25 @@ double Ship::GetAccelMin() const
 	float val = m_type->linThrust[ShipType::THRUSTER_UP];
 	val = std::min(val, m_type->linThrust[ShipType::THRUSTER_RIGHT]);
 	val = std::min(val, -m_type->linThrust[ShipType::THRUSTER_LEFT]);
-	return val / GetMass();
+	double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
+	if (m_curAICmd>0 && GetVelocity().Length() > 1000) return (val / GetMass())*juice;
+	return (val / GetMass());
+}
+
+double Ship::GetAccelFwd() const { 
+	double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
+	if (m_curAICmd>0 && GetVelocity().Length() > 1000) return juice*-m_type->linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); 
+	return -m_type->linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); 
+}
+double Ship::GetAccelRev() const { 
+	double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
+	if (m_curAICmd>0 && GetVelocity().Length() > 1000) return juice*m_type->linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); 
+	return m_type->linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); 
+}
+double Ship::GetAccelUp() const { 
+	double juice = std::min(GetVelocity().Length()/200.0,20.0)+0.5;
+	if (m_curAICmd>0 && GetVelocity().Length() > 1000) return juice*m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); 
+	return m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); 
 }
 
 void Ship::ClearThrusterState()
