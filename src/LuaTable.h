@@ -46,9 +46,9 @@ public:
 
 	template <class Value> class VecIter : public std::iterator<std::input_iterator_tag, Value> {
 		public:
-			VecIter() : m_table(0), m_currentIndex(0), m_cache(0) {}
-			~VecIter() { if (m_cache) delete m_cache; }
-			VecIter(LuaTable * t, int currentIndex): m_table(t), m_currentIndex(currentIndex), m_cache(0) {}
+			VecIter() : m_table(0), m_currentIndex(0), m_cache(), m_dirtyCache(true) {}
+			~VecIter() {}
+			VecIter(LuaTable * t, int currentIndex): m_table(t), m_currentIndex(currentIndex), m_cache(0), m_dirtyCache(true) {}
 			VecIter(const VecIter & copy): m_table(copy.m_table), m_currentIndex(copy.m_currentIndex), m_cache(0) {}
 			void operator=(const VecIter & copy) { CleanCache(); m_table = copy.m_table; m_currentIndex = copy.m_currentIndex;}
 
@@ -59,25 +59,20 @@ public:
 
 			bool operator==(const VecIter & other) {return (m_table == other.m_table && m_currentIndex == other.m_currentIndex);}
 			bool operator!=(const VecIter & other) {return (m_table != other.m_table || m_currentIndex != other.m_currentIndex);}
-			Value operator*() { return *GetCache();}
-			Value * operator->() { return GetCache();}
+			Value operator*() { LoadCache(); return m_cache;}
+			const Value * operator->() { LoadCache(); return &m_cache;}
 		private:
-			void CleanCache() {
-				if (m_cache) {
-					delete m_cache;
-					m_cache = 0;
+			void CleanCache() { m_dirtyCache = true; }
+			void LoadCache() {
+				if (m_dirtyCache) {
+					m_cache = m_table->Get<Value>(m_currentIndex);
+					m_dirtyCache = false;
 				}
-			}
-			Value * GetCache() {
-				if (m_cache == 0) {
-					m_cache = new Value;
-					*m_cache = m_table->Get<Value>(m_currentIndex);
-				}
-				return m_cache;
 			}
 			LuaTable * m_table;
 			int m_currentIndex;
-			Value * m_cache;
+			Value m_cache;
+			bool m_dirtyCache;
 	};
 	
 	template <class Value> VecIter<Value> Begin() {return VecIter<Value>(this, 1);}
@@ -153,6 +148,6 @@ template <class Value> void LuaTable::LoadVector(const std::vector<Value> & v) c
 		Set(current_length+i+1, v[i]);
 }
 
+template <> void LuaTable::VecIter<LuaTable>::LoadCache();
 template <> void LuaTable::VecIter<LuaTable>::CleanCache();
-template <> LuaTable * LuaTable::VecIter<LuaTable>::GetCache();
 #endif

@@ -1,17 +1,15 @@
 #include "LuaTable.h"
 
-template <> void LuaTable::VecIter<LuaTable>::CleanCache() {
-	if (m_cache) {
-		lua_remove(m_table->GetLua(), m_cache->GetIndex());
-		delete m_cache;
-		m_cache = 0;
+template <> void LuaTable::VecIter<LuaTable>::LoadCache() {
+	if (m_dirtyCache) {
+		m_cache = m_table->Sub(m_currentIndex);
+		m_dirtyCache = false;
 	}
 }
-template <> LuaTable * LuaTable::VecIter<LuaTable>::GetCache() {
-	if (m_cache == 0) {
-		m_cache = new LuaTable;
-		*m_cache = m_table->Sub(m_currentIndex);
+template <> void LuaTable::VecIter<LuaTable>::CleanCache() {
+	if (!m_dirtyCache && m_cache.GetLua()) {
+		lua_remove(m_cache.GetLua(), m_cache.GetIndex());
 	}
-	return m_cache;
+	m_dirtyCache = true;
 }
 
