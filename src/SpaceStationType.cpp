@@ -221,7 +221,8 @@ static int _get_bay_ids(lua_State *L, const char *key, SpaceStationType::TBayGro
 		return luaL_error(L, "Station must have at least 1 group of bays in %s", key);
 	}
 
-	for (LuaTable::VecIter<LuaTable> it = t.Begin<LuaTable>(); it != t.End<LuaTable>(); ++it) {
+	LuaTable::VecIter<LuaTable> it_end = t.End<LuaTable>();
+	for (LuaTable::VecIter<LuaTable> it = t.Begin<LuaTable>(); it != it_end; ++it) {
 		SpaceStationType::SBayGroup newBay;
 		newBay.minShipSize = it->Get<int>(1);
 		newBay.maxShipSize = it->Get<int>(2);
@@ -236,7 +237,8 @@ static int _get_bay_ids(lua_State *L, const char *key, SpaceStationType::TBayGro
 		}
 
 		newBay.bayIDs.reserve(group.Size());
-		for (LuaTable::VecIter<int> jt = group.Begin<int>(); jt != group.End<int>(); ++jt) {
+		LuaTable::VecIter<int> jt_end = group.End<int>();
+		for (LuaTable::VecIter<int> jt = group.Begin<int>(); jt != jt_end; ++jt) {
 			if ((*jt) < 1) {
 				return luaL_error(L, "Valid bay ID ranges start from 1 %s", key);
 			}
