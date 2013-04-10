@@ -15,6 +15,7 @@ tex_diff details.png
 tex_glow details_glow.png
 
 mesh bcstation.dae
+mesh bccollpad.dae
 mesh bcdecals.dae
 mesh bcdocking.dae
 collision bccoll.dae
