@@ -66,8 +66,8 @@ public:
 			VecIter operator--() { if (m_table) --m_currentIndex; return *this; }
 			VecIter operator--(int) { VecIter copy(*this); if (m_table) --m_currentIndex; return copy;}
 
-			bool operator==(const VecIter & other) {return (m_table == other.m_table && m_currentIndex == other.m_currentIndex);}
-			bool operator!=(const VecIter & other) {return (m_table != other.m_table || m_currentIndex != other.m_currentIndex);}
+			bool operator==(const VecIter & other) const {return (m_table == other.m_table && m_currentIndex == other.m_currentIndex);}
+			bool operator!=(const VecIter & other) const {return (m_table != other.m_table || m_currentIndex != other.m_currentIndex);}
 			Value operator*() { LoadCache(); return m_cache;}
 			const Value * operator->() { LoadCache(); return &m_cache;}
 		private:
