@@ -1,4 +1,4 @@
-﻿# General
+# General
 SUGGESTED_RESPONSES
     [Используйте интерфейс терминала для ответа или завершения связи]:
 CASH
