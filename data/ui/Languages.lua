@@ -458,6 +458,8 @@ Translate:Add({
 		['Toggle male/female'] = 'Пол муж./жен.',
 		['Make new face'] = 'Новое лицо',
 		
+                ['Commander'] = 'Капитан',
+
 		['HARMLESS'] = 'Безобидный',
 		['MOSTLY_HARMLESS'] = 'Почти безобидный',
 		['POOR'] = 'Слабый',
