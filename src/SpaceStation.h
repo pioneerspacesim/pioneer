@@ -129,16 +129,17 @@ private:
 	 * Stage -1 to -m_type->numUndockStages is undocking animation
 	 */
 	struct shipDocking_t {
-		shipDocking_t() : ship(NULL), shipIndex(0),
+		shipDocking_t():
+			ship(NULL), shipIndex(0),
 			stage(0), stagePos(0), fromPos(0.0), fromRot(1.0, 0.0, 0.0, 0.0)
 		{}
 
 		Ship *ship;
 		int shipIndex; // deserialisation
 		int stage;
+		double stagePos; // 0 -> 1.0
 		vector3d fromPos; // in station model coords
 		Quaterniond fromRot;
-		double stagePos; // 0 -> 1.0
 	};
 	typedef std::vector<shipDocking_t>::const_iterator	constShipDockingIter;
 	typedef std::vector<shipDocking_t>::iterator		shipDockingIter;
