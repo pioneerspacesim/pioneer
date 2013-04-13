@@ -318,7 +318,7 @@ std::list<Camera::Shadow> Camera::CalcShadows(int lightNum, const Body *b) const
 		const vector3d projectedCentre = ( b2pos - perpDist*lightDir ) / bRadius;
 		if (projectedCentre.Length() < 1 + srad + lrad) {
 			// some part of b is (partially) eclipsed
-			Camera::Shadow shadow = {lightNum, projectedCentre, srad, lrad};
+			Camera::Shadow shadow = { lightNum, projectedCentre, static_cast<float>(srad), static_cast<float>(lrad) };
 			shadows.push_back(shadow);
 		}
 	}
