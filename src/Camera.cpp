@@ -17,6 +17,9 @@
 
 using namespace Graphics;
 
+// static 
+std::vector<Camera::Shadow> Camera::ms_shadows;
+
 Camera::Camera(float width, float height, float fovY, float znear, float zfar) :
 	m_width(width),
 	m_height(height),
@@ -317,7 +320,7 @@ void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> 
 		const vector3d projectedCentre = ( b2pos - perpDist*lightDir ) / bRadius;
 		if (projectedCentre.Length() < 1 + srad + lrad) {
 			// some part of b is (partially) eclipsed
-			Camera::Shadow shadow = {lightNum, projectedCentre, srad, lrad};
+			Camera::Shadow shadow = { lightNum, projectedCentre, static_cast<float>(srad), static_cast<float>(lrad) };
 			shadowsOut.push_back(shadow);
 		}
 	}
@@ -347,28 +350,26 @@ float discCovered(const float dist, const float rad) {
 	return Clamp((th + radsq*th2 - dist*d)/float(M_PI), 0.f, 1.f);
 }
 
-static std::vector<Camera::Shadow> shadows;
-
 float Camera::ShadowedIntensity(const int lightNum, const Body *b) const {
-	shadows.clear();
-	shadows.reserve(16);
-	CalcShadows(lightNum, b, shadows);
+	ms_shadows.clear();
+	ms_shadows.reserve(16);
+	CalcShadows(lightNum, b, ms_shadows);
 	float product = 1.0;
-	for (std::vector<Camera::Shadow>::const_iterator it = shadows.begin(), itEnd = shadows.end(); it!=itEnd; it++)
+	for (std::vector<Camera::Shadow>::const_iterator it = ms_shadows.begin(), itEnd = ms_shadows.end(); it!=itEnd; it++)
 		product *= 1.0 - discCovered(it->centre.Length() / it->lrad, it->srad / it->lrad);
 	return product;
 }
 
 // PrincipalShadows(b,n): returns the n biggest shadows on b in order of size
 void Camera::PrincipalShadows(const Body *b, const int n, std::vector<Shadow> &shadowsOut) const {
-	shadows.clear();
-	shadows.reserve(16);
+	ms_shadows.clear();
+	ms_shadows.reserve(16);
 	for (size_t i = 0; i < 4 && i < m_lightSources.size(); i++) {
-		CalcShadows(i, b, shadows);
+		CalcShadows(i, b, ms_shadows);
 	}
-	shadowsOut.reserve(shadows.size());
-	std::sort(shadows.begin(), shadows.end());
-	std::vector<Shadow>::reverse_iterator it = shadows.rbegin(), itREnd = shadows.rend();
+	shadowsOut.reserve(ms_shadows.size());
+	std::sort(ms_shadows.begin(), ms_shadows.end());
+	std::vector<Shadow>::reverse_iterator it = ms_shadows.rbegin(), itREnd = ms_shadows.rend();
 	for (int i = 0; i < n; i++) {
 		if (it == itREnd) break;
 		shadowsOut.push_back(*(it++));

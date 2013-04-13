@@ -126,6 +126,9 @@ private:
 	std::vector<LightSource> m_lightSources;
 
 	Graphics::Renderer *m_renderer;
+
+	// static cache/scratch structure for the shadow calculations
+	static std::vector<Camera::Shadow> ms_shadows;
 };
 
 #endif

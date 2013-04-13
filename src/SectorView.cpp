@@ -808,8 +808,7 @@ void SectorView::DrawNearSector(int sx, int sy, int sz, const vector3f &playerAb
 		m_renderer->SetTransform(systrans);
 
 		// for out-of-range systems draw leg only if we draw label
-		if (m_drawSystemLegButton->GetPressed()
-			&& (inRange || m_drawOutRangeLabelButton->GetPressed()) || !can_skip){
+		if ((m_drawSystemLegButton->GetPressed() && (inRange || m_drawOutRangeLabelButton->GetPressed())) || !can_skip) {
 
 			const Color light(0.5f);
 			const Color dark(0.2f);
