@@ -544,6 +544,48 @@ FIRE_LASER
     Fire laser
 FIRE_MISSILE
     Fire missile
+GALAXYMAP
+  Galaxy maps
+GAL_VIEW_FORWARD
+    View forward
+GAL_VIEW_BACKWARD
+    View backward
+GAL_ROTATE_BACKWARD
+    Rotate backward
+GAL_ROTATE_FORWARD
+    Rotate forward
+GAL_ROTATE_CLOCKWISE
+    Rotate clockwise
+GAL_ROTATE_COUNTER_CLOCKWISE
+    Rotate counter-clockwise
+GAL_MOVE_DOWN
+    Move down
+GAL_MOVE_LEFT
+    Move left
+GAL_MOVE_RIGHT
+    Move right
+GAL_MOVE_UP
+    Move up
+GAL_ZOOM_IN
+    Zoom in
+GAL_ZOOM_OUT
+    Zoom out
+GAL_LOCK_TARGET
+    Lock hyperspace target
+GAL_DETAIL_TOGGLE
+    Toggle detail box
+GAL_SELECT_TOGGLE
+    Toggle selection mode
+GAL_RESET_ZOOM
+    Reset zoom and rotation
+GAL_SEARCH
+    Activate search box
+GAL_CURRENT_TARGET
+    Move to current system
+GAL_SELECTED_TARGET
+    Move to selected system
+GAL_HYPERSPACE_TARGET
+    Move to targetted system
 SHIP_ORIENTATION
     Ship orientation
 PITCH_UP
