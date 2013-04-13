@@ -86,10 +86,7 @@ void main(void)
 			// the eyeline, so is not very accurate. But it gives decent results.
 
 			// can't do shadowCentre[j] in frag shader, on some targets
-			vec3 centre = shadowCentre[0];
-			// can't do shadowCentre[j] in frag shader, on some targets
-			if (j==1) centre = shadowCentre[1];
-			if (j==2) centre = shadowCentre[2];
+			vec3 centre = shadowCentre[j];
 
 			vec3 ap = a - dot(a,lightDir)*lightDir - centre;
 			vec3 bp = b - dot(b,lightDir)*lightDir - centre;

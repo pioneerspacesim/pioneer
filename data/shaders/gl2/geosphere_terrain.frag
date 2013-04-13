@@ -77,10 +77,8 @@ void main(void)
 			if (i != occultedLight[j])
 				continue;
 				
-			vec3 centre = shadowCentre[0];
-			// can't do shadowCentre[j] in frag shader, on some targets
-			if (j==1) centre = shadowCentre[1];
-			if (j==2) centre = shadowCentre[2];
+			vec3 centre = shadowCentre[j];
+			
 			// Apply eclipse:
 			vec3 projectedPoint = v - dot(lightDir,v)*lightDir;
 			// By our assumptions, the proportion of light blocked at this point by
