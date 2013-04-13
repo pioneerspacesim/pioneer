@@ -49,7 +49,7 @@ Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
 	if(desc.dirLights>0) {
 		const float invNumLights = 1.0f / float(desc.dirLights);
-		ss << stringf("#define INV_NUM_LIGHTS %.4{f}\n", invNumLights);
+		ss << stringf("#define INV_NUM_LIGHTS %0{f}\n", invNumLights);
 	}
 	if (desc.atmosphere)
 		ss << "#define ATMOSPHERE\n";
@@ -117,7 +117,7 @@ Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
 	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
 	if(desc.dirLights>0) {
 		const float invNumLights = 1.0f / float(desc.dirLights);
-		ss << stringf("#define INV_NUM_LIGHTS %.4{f}\n", invNumLights);
+		ss << stringf("#define INV_NUM_LIGHTS %0{f}\n", invNumLights);
 	}
 	ss << "#define ATMOSPHERE\n";
 	return new Graphics::GL2::GeoSphereProgram("geosphere_sky", ss.str());
