@@ -686,6 +686,10 @@ SELECTED_SYSTEM
     Vybraný systém
 HYPERSPACE_TARGET
     Hyperprostorový cíl
+DRAW_VERTICAL_LINES
+    Zobrazit svislé čáry
+DRAW_OUT_RANGE_LABELS
+    Zobrazit systémy mimo dosah
 FOLLOWING_SELECTION
     Následovat výběr
 LOCKED
