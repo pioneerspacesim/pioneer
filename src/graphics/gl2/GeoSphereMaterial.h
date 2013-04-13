@@ -30,7 +30,7 @@ namespace Graphics {
 			Uniform shadowCentre;
 			Uniform srad;
 			Uniform lrad;
-
+			Uniform sdivlrad;
 
 		protected:
 			virtual void InitUniforms();

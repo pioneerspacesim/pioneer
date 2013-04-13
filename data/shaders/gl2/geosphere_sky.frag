@@ -13,6 +13,7 @@ uniform ivec3 occultedLight;
 uniform mat3 shadowCentre;
 uniform vec3 srad;
 uniform vec3 lrad;
+uniform vec3 sdivlrad;
 
 varying vec4 varyingEyepos;
 
@@ -62,7 +63,8 @@ void main(void)
 	
 	float fogFactor = 1.0 / exp(ldprod);
 	vec4 atmosDiffuse = vec4(0.0);
-	
+
+#if (NUM_LIGHTS > 0)	
 	vec3 surfaceNorm = normalize(skyNear * eyenorm - geosphereCenter);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 
@@ -70,7 +72,7 @@ void main(void)
 		vec3 L = normalize(gl_LightSource[i].position.xyz - varyingEyepos.xyz); 
 		vec3 E = normalize(-varyingEyepos.xyz);
 		vec3 R = normalize(-reflect(L,vec3(0.0))); 
-		specularHighlight += pow(max(dot(R,E),0.0),64.0)/float(NUM_LIGHTS);
+		specularHighlight += pow(max(dot(R,E),0.0),64.0) * INV_NUM_LIGHTS;
 
 		vec3 lightDir = normalize(vec3(gl_LightSource[i].position));
 
@@ -112,16 +114,17 @@ void main(void)
 				+ shadowInt(clamp(ad, mind, maxd), clamp(bd, mind, maxd), perpsq, maxr) 
 				/ (maxr-minr) + (clamp(bd, -mind, mind) - clamp(ad, -mind, mind));
 
-			float maxOcclusion = min(1.0, (srad[j]/lrad[j])*(srad[j]/lrad[j]));
+			float maxOcclusion = min(1.0, (sdivlrad[j])*(sdivlrad[j]));
 
 			uneclipsed -= maxOcclusion * shadow / (bd-ad);
 		}
 		uneclipsed = clamp(uneclipsed, 0.0, 1.0);
 
-		float nDotVP =  max(0.0, dot(surfaceNorm, lightDir))	;
+		float nDotVP =  max(0.0, dot(surfaceNorm, lightDir));
 		float nnDotVP = max(0.0, dot(surfaceNorm, -lightDir));  //need backlight to increase horizon
-		atmosDiffuse +=  gl_LightSource[i].diffuse * uneclipsed * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0)/float(NUM_LIGHTS));
+		atmosDiffuse +=  gl_LightSource[i].diffuse * uneclipsed * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0) * INV_NUM_LIGHTS);
 	}
+#endif
 
 	//calculate sunset tone red when passing through more atmosphere, clamp everything.
 	float atmpower = (atmosDiffuse.r+atmosDiffuse.g+atmosDiffuse.b)/3.0;
