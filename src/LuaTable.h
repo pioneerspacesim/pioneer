@@ -44,15 +44,15 @@ public:
 	int GetIndex() const { return m_index; }
 	int Size() const {return lua_rawlen(m_lua, m_index);}
 
-    /* VecIter, as in VectorIterator (only shorter to type :-)
-     *
-     * Careful, its LuaTable specialization isn't stable WRT the stack, and using its value
-     * will push a table onto the stack, and will only clean it up when the iterator
-     * gets destroyed or inc/decremented.
-     *
-     * For all other values, occasional operations on the stack may occur but it should
-     * not leak anything.
-     */
+	/* VecIter, as in VectorIterator (only shorter to type :-)
+	 *
+	 * Careful, its LuaTable specialization isn't stable WRT the stack, and using its value
+	 * will push a table onto the stack, and will only clean it up when the iterator
+	 * gets destroyed or inc/decremented.
+	 *
+	 * For all other values, occasional operations on the stack may occur but it should
+	 * not leak anything.
+	 */
 	template <class Value> class VecIter : public std::iterator<std::input_iterator_tag, Value> {
 		public:
 			VecIter() : m_table(0), m_currentIndex(0), m_cache(), m_dirtyCache(true) {}
