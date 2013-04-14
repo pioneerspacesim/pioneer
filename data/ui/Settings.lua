@@ -7,15 +7,66 @@ local l = Lang.GetDictionary()
 local return_to_menu = ui:Button():SetInnerWidget(ui:Label(l.RETURN_TO_MENU))
 return_to_menu.onClick:Connect(function () ui:SetInnerWidget(ui.templates.MainMenu()) end)
 
-local settings =
-	ui:Background():SetInnerWidget(ui:Margin(30):SetInnerWidget(
-		ui:VBox(10):PackEnd({
-			ui:Label(
-				"Sorry, the settings page is undergoing rennovation work at the moment.\n" ..
-				"Please edit settings in ~/.pioneer/config.ini"),
-			ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Test")}),
-			return_to_menu
-		})
-	))
 
-ui.templates.Settings = function (args) return settings end
+
+ui.templates.Settings = function (args) 
+  local gameTemplate = function()
+    return ui:VBox():PackEnd({
+	    ui:HBox():PackEnd({
+	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Game Test"),
+	      })),
+	      ui:Margin(5),
+	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Game Test2"),
+	      }))
+	    })
+	  })
+  end
+  local videoTemplate = function()
+    return ui:VBox():PackEnd({
+	    ui:HBox():PackEnd({
+	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Video Test"),
+	      })),
+	      ui:Margin(5),
+	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Video Test2"),
+	      }))
+	    })
+	  })
+  end
+  local soundTemplate = function()
+    return ui:VBox():PackEnd({
+	    ui:HBox():PackEnd({
+	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Sound Test"),
+	      })),
+	      ui:Margin(5),
+	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Sound Test2"),
+	      }))
+	    })
+	  })
+  end
+  local languageTemplate = function()
+    return ui:VBox():PackEnd({
+	    ui:HBox():PackEnd({
+	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Language Test"),
+	      })),
+	      ui:Margin(5),
+	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Language Test2"),
+	      }))
+	    })
+	  })
+  end
+  local setTabs = UI.TabGroup.New()
+  setTabs:AddTab({ id = "Game",        title = l.GAME,     icon = "GameBoy", template = gameTemplate         })
+  setTabs:AddTab({ id = "Video",        title = l.VIDEO,     icon = "VideoCamera", template = videoTemplate         })
+  setTabs:AddTab({ id = "Sound",        title = l.SOUND,     icon = "Speaker", template = soundTemplate         })
+  setTabs:AddTab({ id = "Language",        title = l.LANGUAGE,     icon = "Globe1", template = languageTemplate         })
+  local settings =
+    ui:Background():SetInnerWidget(ui:Margin(30):SetInnerWidget(
+	    ui:VBox(10):PackEnd({
+		    setTabs.widget,
+		    return_to_menu
+		    
+	    })
+    ))  
+  
+  return settings
+end
