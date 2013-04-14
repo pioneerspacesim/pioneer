@@ -50,7 +50,7 @@ public:
      * will push a table onto the stack, and will only clean it up when the iterator
      * gets destroyed or inc/decremented.
      *
-     * For all other values, ponctual operations on the stack may occur but it should
+     * For all other values, occasional operations on the stack may occur but it should
      * not leak anything.
      */
 	template <class Value> class VecIter : public std::iterator<std::input_iterator_tag, Value> {
