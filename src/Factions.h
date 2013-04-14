@@ -55,9 +55,17 @@ public:
 	std::string        police_name;         // "Police", "Polizia Locale"...
 
 	//police logo
-	//goods/equipment availability (1-per-economy-type: aka agricultural, industrial, tourist, etc)
-	//static const int		SC_NUM_ECONOMY_TYPES = 3;
-	//EquipType				types[SC_NUM_ECONOMY_TYPES][Equip::TYPE_MAX];
+	
+	//goods/equipment price adjustments (1-per-economy-type: aka agricultural, industrial, tourist, etc)
+	int GetPriceModifier(const int et, const int equipIdx) const {
+		assert(equipIdx>=0 && equipIdx<Equip::TYPE_MAX);
+		switch(et) {
+		case ECON_MINING:		return priceMod[0][equipIdx]; break;
+		case ECON_AGRICULTURE:	return priceMod[1][equipIdx]; break;
+		case ECON_INDUSTRY:		return priceMod[2][equipIdx]; break;
+		}
+		return 0;
+	}
 
 	//goods/equipment legality
 	typedef std::map<Equip::Type, Uint32> EquipProbMap;
@@ -73,11 +81,19 @@ public:
 	// set the homeworld to one near the supplied co-ordinates
 	void SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi, Sint32 axisChange);
 
+	// called after being successfully added to list of valid factions
+	void Finalise();
+
 private:
 	static const double FACTION_CURRENT_YEAR;	// used to calculate faction radius
 
 	Sector* m_homesector;						// cache of home sector to use in distance calculations
 	const bool IsCloserAndContains(double& closestFactionDist, const Sector sec, Uint32 sysIndex);
+
+	//goods/equipment price adjustments (1-per-economy-type: aka agricultural, industrial, tourist, etc)
+	static const int		SC_NUM_ECONOMY_TYPES = 3;
+	/*EquipType*/
+	int priceMod[SC_NUM_ECONOMY_TYPES][Equip::TYPE_MAX];
 };
 
 /* One day it might grow up to become a full tree, on the  other hand it might be

@@ -254,6 +254,8 @@ static int l_fac_add_to_factions(lua_State *L)
 		facbld->fac->idx = s_factions.size()-1;
 		facbld->registered = true;
 
+		fac->Finalise();
+
 		return 0;
 	} else if (facbld->skip) {
 		printf("l_fac_add_to_factions: invalid homeworld, skipped (%3d,%3d,%3d) f=%4.0f e=%2.2f '%s' [%s]\n"
@@ -502,6 +504,18 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 	homeworld = SystemPath(x, y, z, si);
 }
 
+void Faction::Finalise() 
+{
+	Uint32 _init[5] = { homeworld.systemIndex, Uint32(homeworld.sectorX), Uint32(homeworld.sectorY), Uint32(homeworld.sectorZ), UNIVERSE_SEED };
+	Random rand(_init, 5);
+
+	for( int etIt=0; etIt<SC_NUM_ECONOMY_TYPES; ++etIt ) {
+		for( int eqIt=0; eqIt<Equip::TYPE_MAX; ++eqIt ) {
+			priceMod[etIt][eqIt] = rand.Int32(-20, 20);
+		}
+	}
+}
+
 Faction::Faction() :
 	idx(BAD_FACTION_IDX),
 	name(Lang::NO_CENTRAL_GOVERNANCE),
@@ -512,6 +526,8 @@ Faction::Faction() :
 	m_homesector(0)
 {
 	govtype_weights_total = 0;
+
+	memset(priceMod, 0, sizeof(int) * SC_NUM_ECONOMY_TYPES * Equip::TYPE_MAX);
 }
 
 Faction::~Faction()
