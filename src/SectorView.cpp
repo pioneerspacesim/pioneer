@@ -967,14 +967,14 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// '/' focuses the search box
-	if (keysym->sym == KeyBindings::galSearch.binding.u.keyboard.key) {
+	if (KeyBindings::galSearch.binding.Matches(keysym)) {
 		m_searchBox->SetText("");
 		m_searchBox->GrabFocus();
 		return;
 	}
 
 	// space "locks" (or unlocks) the hyperspace target to the selected system
-	if (keysym->sym == KeyBindings::galLockTarget.binding.u.keyboard.key) {
+	if (KeyBindings::galLockTarget.binding.Matches(keysym)) {
 		if ((m_matchTargetToSelection || m_hyperspaceTarget != m_selected) && !m_selected.IsSameSystem(m_current))
 			SetHyperspaceTarget(m_selected);
 		else
@@ -983,7 +983,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// cycle through the info box, the faction box, and nothing
-	if (keysym->sym == KeyBindings::galDetailToggle.binding.u.keyboard.key) {
+	if (KeyBindings::galDetailToggle.binding.Matches(keysym)) {
 		if (m_detailBoxVisible == DETAILBOX_FACTION) m_detailBoxVisible = DETAILBOX_NONE;
 		else                                         m_detailBoxVisible++;
 		RefreshDetailBoxVisibility();
@@ -991,7 +991,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// toggle selection mode
-		if (keysym->sym == KeyBindings::galSelectToggle.binding.u.keyboard.key){
+		if (KeyBindings::galSelectToggle.binding.Matches(keysym)){
 		m_selectionFollowsMovement = !m_selectionFollowsMovement;
 		if (m_selectionFollowsMovement)
 			Pi::cpan->MsgLog()->Message("", Lang::ENABLED_AUTOMATIC_SYSTEM_SELECTION);
@@ -1001,12 +1001,12 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// fast move selection to current player system or hyperspace target
-	if (keysym->sym == KeyBindings::galCurrentTarget.binding.u.keyboard.key || 
-	      keysym->sym == KeyBindings::galSelectedTarget.binding.u.keyboard.key || 
-	      keysym->sym == KeyBindings::galHyperspaceTarget.binding.u.keyboard.key) {
-		if (keysym->sym == KeyBindings::galCurrentTarget.binding.u.keyboard.key)
+	if (KeyBindings::galCurrentTarget.binding.Matches(keysym) ||
+	    KeyBindings::galSelectedTarget.binding.Matches(keysym) ||
+	    KeyBindings::galHyperspaceTarget.binding.Matches(keysym)) {
+		if (KeyBindings::galCurrentTarget.binding.Matches(keysym))
 			GotoSystem(m_current);
-		else if (keysym->sym == KeyBindings::galSelectedTarget.binding.u.keyboard.key)
+		else if (KeyBindings::galSelectedTarget.binding.Matches(keysym))
 			GotoSystem(m_selected);
 		else
 			GotoSystem(m_hyperspaceTarget);
@@ -1022,7 +1022,7 @@ void SectorView::OnKeyPressed(SDL_keysym *keysym)
 	}
 
 	// reset rotation and zoom
-	if (keysym->sym == KeyBindings::galResetZoom.binding.u.keyboard.key) {
+	if (KeyBindings::galResetZoom.binding.Matches(keysym)) {
 		while (m_rotZ < -180.0f) m_rotZ += 360.0f;
 		while (m_rotZ > 180.0f)  m_rotZ -= 360.0f;
 		m_rotXMovingTo = m_rotXDefault;
