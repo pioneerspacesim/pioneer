@@ -20,9 +20,11 @@ Alpha 33
 
    * Fixes
      * Fix hoop station unreliable docking detection (#2153, #2125)
+     * Fix ground and "big_crappy" station docking detection (#2197)
      * Fix redscreen from TradeShips module when entering a system with
        only surface ports (#2172, #2171)
      * Fix object viewer crash (#2187)
+     * Fix Lua console to allow continuation of incomplete commands (#2198)
 
    * Internal changes
      * Converted some remaining GL code to use the renderer interface (#2184)
