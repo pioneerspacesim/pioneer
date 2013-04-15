@@ -23,8 +23,11 @@ ui.templates.Settings = function (args)
   end
   local modeTable = Settings:GetVideoModes()
   local iniTable = Settings:GetGameConfig()
-  local screenModeList = ui:List()
+  local screenModeList = ui:DropDown()
 	for i = 1,#modeTable do screenModeList:AddOption(modeTable[i]) end
+  screenModeList.onOptionSelected:Connect(function() local option = screenModeList.selectedOption 
+					    print (option) end)
+  
   local videoTemplate = function()
     return ui:VBox():PackEnd({
 	    ui:HBox():PackEnd({
