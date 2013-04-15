@@ -58,7 +58,7 @@ public:
 			VecIter() : m_table(0), m_currentIndex(0), m_cache(), m_dirtyCache(true) {}
 			~VecIter() {}
 			VecIter(LuaTable * t, int currentIndex): m_table(t), m_currentIndex(currentIndex), m_cache(), m_dirtyCache(true) {}
-			VecIter(const VecIter & copy): m_table(copy.m_table), m_currentIndex(copy.m_currentIndex), m_cache(), m_dirtycache(true) {}
+			VecIter(const VecIter & copy): m_table(copy.m_table), m_currentIndex(copy.m_currentIndex), m_cache(), m_dirtyCache(true) {}
 			void operator=(const VecIter & copy) { CleanCache(); m_table = copy.m_table; m_currentIndex = copy.m_currentIndex;}
 
 			VecIter operator++() { if (m_table) {CleanCache(); ++m_currentIndex;} return *this; }
