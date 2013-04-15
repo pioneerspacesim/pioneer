@@ -41,7 +41,7 @@ inline void pi_lua_generic_pull(lua_State * l, int index, std::string & out) {
 }
 template <class T> void pi_lua_generic_pull(lua_State * l, int index, T* & out) {
 	assert(l == Lua::manager->GetLuaState());
-	out = LuaObject<T>::GetFromLua(index);
+	out = LuaObject<T>::CheckFromLua(index);
 }
 
 inline void pi_lua_generic_pull(lua_State * l, int index, vector3d& out) {
@@ -92,11 +92,8 @@ inline bool pi_lua_strict_pull(lua_State * l, int index, std::string & out) {
 }
 template <class T> bool pi_lua_strict_pull(lua_State * l, int index, T* & out) {
 	assert(l == Lua::manager->GetLuaState());
-	if (lua_type(l, index) == LUA_TUSERDATA) {
-		out = LuaObject<T>::GetFromLua(index);
-		return true;
-	}
-	return false;
+	out = LuaObject<T>::GetFromLua(index);
+	return out != 0;
 }
 inline bool pi_lua_strict_pull(lua_State * l, int index, vector3d & out) {
 	const vector3d* tmp = LuaVector::GetFromLua(l, index);
