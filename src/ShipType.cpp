@@ -4,6 +4,7 @@
 #include "ShipType.h"
 #include "LuaVector.h"
 #include "LuaUtils.h"
+#include "LuaTable.h"
 #include "LuaConstants.h"
 #include "FileSystem.h"
 #include "utils.h"
@@ -26,66 +27,6 @@ std::string ShipType::MISSILE_NAVAL			= "missile_naval";
 std::string ShipType::MISSILE_SMART			= "missile_smart";
 std::string ShipType::MISSILE_UNGUIDED		= "missile_unguided";
 
-static void _get_string_attrib(lua_State *L, const char *key, std::string &output,
-		const char *default_output)
-{
-	LUA_DEBUG_START(L);
-	lua_pushstring(L, key);
-	lua_gettable(L, -2);
-	if (lua_isnil(L, -1)) {
-		output = default_output;
-	} else {
-		output = lua_tostring(L,-1);
-	}
-	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0);
-}
-
-static void _get_float_attrib(lua_State *L, const char *key, float &output,
-		const float default_output)
-{
-	LUA_DEBUG_START(L);
-	lua_pushstring(L, key);
-	lua_gettable(L, -2);
-	if (lua_isnil(L, -1)) {
-		output = default_output;
-	} else {
-		output = lua_tonumber(L,-1);
-	}
-	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0);
-}
-
-static void _get_int_attrib(lua_State *L, const char *key, int &output,
-		const int default_output)
-{
-	LUA_DEBUG_START(L);
-	lua_pushstring(L, key);
-	lua_gettable(L, -2);
-	if (lua_isnil(L, -1)) {
-		output = default_output;
-	} else {
-		output = lua_tointeger(L,-1);
-	}
-	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0);
-}
-
-static void _get_vec_attrib(lua_State *L, const char *key, vector3d &output,
-	const vector3d default_output)
-{
-	LUA_DEBUG_START(L);
-	lua_pushstring(L, key);
-	lua_gettable(L, -2);
-	if (lua_isnil(L, -1)) {
-		output = default_output;
-	} else {
-		output = *LuaVector::CheckFromLua(L, -1);
-	}
-	lua_pop(L, 1);
-	LUA_DEBUG_END(L, 0);
-}
-
 // returns velocity of engine exhausts in m/s
 static double GetEffectiveExhaustVelocity(double fuelTankMass, double thrusterFuelUse, double forwardThrust) {
 	double denominator = fuelTankMass * thrusterFuelUse * 10;
@@ -104,15 +45,16 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	s.id = s_currentShipFile;
 
 	LUA_DEBUG_START(L);
-	_get_string_attrib(L, "name", s.name, "");
-	_get_string_attrib(L, "model", s.modelName, "");
-	_get_float_attrib(L, "reverse_thrust", s.linThrust[ShipType::THRUSTER_REVERSE], 0.0f);
-	_get_float_attrib(L, "forward_thrust", s.linThrust[ShipType::THRUSTER_FORWARD], 0.0f);
-	_get_float_attrib(L, "up_thrust", s.linThrust[ShipType::THRUSTER_UP], 0.0f);
-	_get_float_attrib(L, "down_thrust", s.linThrust[ShipType::THRUSTER_DOWN], 0.0f);
-	_get_float_attrib(L, "left_thrust", s.linThrust[ShipType::THRUSTER_LEFT], 0.0f);
-	_get_float_attrib(L, "right_thrust", s.linThrust[ShipType::THRUSTER_RIGHT], 0.0f);
-	_get_float_attrib(L, "angular_thrust", s.angThrust, 0.0f);
+	LuaTable t(L, -1);
+	s.name = t.Get("name", "");
+	s.modelName = t.Get("model", "");
+	s.linThrust[ShipType::THRUSTER_REVERSE] = t.Get("reverse_thrust", 0.0f);
+	s.linThrust[ShipType::THRUSTER_FORWARD] = t.Get("forward_thrust", 0.0f);
+	s.linThrust[ShipType::THRUSTER_UP] = t.Get("up_thrust", 0.0f);
+	s.linThrust[ShipType::THRUSTER_DOWN] = t.Get("down_thrust", 0.0f);
+	s.linThrust[ShipType::THRUSTER_LEFT] = t.Get("left_thrust", 0.0f);
+	s.linThrust[ShipType::THRUSTER_RIGHT] = t.Get("right_thrust", 0.0f);
+	s.angThrust = t.Get("angular_thrust", 0.0f);
 	// invert values where necessary
 	s.linThrust[ShipType::THRUSTER_FORWARD] *= -1.f;
 	s.linThrust[ShipType::THRUSTER_LEFT] *= -1.f;
@@ -120,36 +62,35 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	// angthrust fudge (XXX: why?)
 	s.angThrust = s.angThrust / 2;
 
-	_get_vec_attrib(L, "camera_offset", s.cameraOffset, vector3d(0.0));
-
+	s.cameraOffset = t.Get("camera_offset", vector3d(0.0));
 	for (int i=0; i<Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
-	_get_int_attrib(L, "max_cargo", s.equipSlotCapacity[Equip::SLOT_CARGO], 0);
-	_get_int_attrib(L, "max_engine", s.equipSlotCapacity[Equip::SLOT_ENGINE], 1);
-	_get_int_attrib(L, "max_laser", s.equipSlotCapacity[Equip::SLOT_LASER], 1);
-	_get_int_attrib(L, "max_missile", s.equipSlotCapacity[Equip::SLOT_MISSILE], 0);
-	_get_int_attrib(L, "max_ecm", s.equipSlotCapacity[Equip::SLOT_ECM], 1);
-	_get_int_attrib(L, "max_scanner", s.equipSlotCapacity[Equip::SLOT_SCANNER], 1);
-	_get_int_attrib(L, "max_radarmapper", s.equipSlotCapacity[Equip::SLOT_RADARMAPPER], 1);
-	_get_int_attrib(L, "max_hypercloud", s.equipSlotCapacity[Equip::SLOT_HYPERCLOUD], 1);
-	_get_int_attrib(L, "max_hullautorepair", s.equipSlotCapacity[Equip::SLOT_HULLAUTOREPAIR], 1);
-	_get_int_attrib(L, "max_energybooster", s.equipSlotCapacity[Equip::SLOT_ENERGYBOOSTER], 1);
-	_get_int_attrib(L, "max_atmoshield", s.equipSlotCapacity[Equip::SLOT_ATMOSHIELD], 1);
-	_get_int_attrib(L, "max_cabin", s.equipSlotCapacity[Equip::SLOT_CABIN], 50);
-	_get_int_attrib(L, "max_shield", s.equipSlotCapacity[Equip::SLOT_SHIELD], 9999);
-	_get_int_attrib(L, "max_fuelscoop", s.equipSlotCapacity[Equip::SLOT_FUELSCOOP], 1);
-	_get_int_attrib(L, "max_cargoscoop", s.equipSlotCapacity[Equip::SLOT_CARGOSCOOP], 1);
-	_get_int_attrib(L, "max_lasercooler", s.equipSlotCapacity[Equip::SLOT_LASERCOOLER], 1);
-	_get_int_attrib(L, "max_cargolifesupport", s.equipSlotCapacity[Equip::SLOT_CARGOLIFESUPPORT], 1);
-	_get_int_attrib(L, "max_autopilot", s.equipSlotCapacity[Equip::SLOT_AUTOPILOT], 1);
+	s.equipSlotCapacity[Equip::SLOT_CARGO] = t.Get("max_cargo", 0);
+	s.equipSlotCapacity[Equip::SLOT_ENGINE] = t.Get("max_engine", 1);
+	s.equipSlotCapacity[Equip::SLOT_LASER] = t.Get("max_laser", 1);
+	s.equipSlotCapacity[Equip::SLOT_MISSILE] = t.Get("max_missile", 0);
+	s.equipSlotCapacity[Equip::SLOT_ECM] = t.Get("max_ecm", 1);
+	s.equipSlotCapacity[Equip::SLOT_SCANNER] = t.Get("max_scanner", 1);
+	s.equipSlotCapacity[Equip::SLOT_RADARMAPPER] = t.Get("max_radarmapper", 1);
+	s.equipSlotCapacity[Equip::SLOT_HYPERCLOUD] = t.Get("max_hypercloud", 1);
+	s.equipSlotCapacity[Equip::SLOT_HULLAUTOREPAIR] = t.Get("max_hullautorepair", 1);
+	s.equipSlotCapacity[Equip::SLOT_ENERGYBOOSTER] = t.Get("max_energybooster", 1);
+	s.equipSlotCapacity[Equip::SLOT_ATMOSHIELD] = t.Get("max_atmoshield", 1);
+	s.equipSlotCapacity[Equip::SLOT_CABIN] = t.Get("max_cabin", 50);
+	s.equipSlotCapacity[Equip::SLOT_SHIELD] = t.Get("max_shield", 9999);
+	s.equipSlotCapacity[Equip::SLOT_FUELSCOOP] = t.Get("max_fuelscoop", 1);
+	s.equipSlotCapacity[Equip::SLOT_CARGOSCOOP] = t.Get("max_cargoscoop", 1);
+	s.equipSlotCapacity[Equip::SLOT_LASERCOOLER] = t.Get("max_lasercooler", 1);
+	s.equipSlotCapacity[Equip::SLOT_CARGOLIFESUPPORT] = t.Get("max_cargolifesupport", 1);
+	s.equipSlotCapacity[Equip::SLOT_AUTOPILOT] = t.Get("max_autopilot", 1);
 
-	_get_int_attrib(L, "capacity", s.capacity, 0);
-	_get_int_attrib(L, "hull_mass", s.hullMass, 100);
-	_get_int_attrib(L, "fuel_tank_mass", s.fuelTankMass, 5);
+	s.capacity = t.Get("capacity", 0);
+	s.hullMass = t.Get("hull_mass", 100);
+	s.fuelTankMass = t.Get("fuel_tank_mass", 5);
 
 	// fuel_use_rate can be given in two ways
 	float thruster_fuel_use = 0;
-	_get_float_attrib(L, "effective_exhaust_velocity", s.effectiveExhaustVelocity, -1.0f);
-	_get_float_attrib(L, "thruster_fuel_use", thruster_fuel_use, -1.0f);
+	s.effectiveExhaustVelocity = t.Get("effective_exhaust_velocity", -1.0f);
+	thruster_fuel_use = t.Get("thruster_fuel_use", -1.0f);
 	if(s.effectiveExhaustVelocity < 0 && thruster_fuel_use < 0) {
 		// default value of v_c is used
 		s.effectiveExhaustVelocity = 55000000;
@@ -161,17 +102,17 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 			printf("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", s.modelName.c_str());
 	}
 
-	_get_int_attrib(L, "price", s.baseprice, 0);
+	s.baseprice = t.Get("price", 0);
 	s.baseprice *= 100; // in hundredths of credits
 
-	_get_int_attrib(L, "min_crew", s.minCrew, 1);
-	_get_int_attrib(L, "max_crew", s.maxCrew, 1);
+	s.minCrew = t.Get("min_crew", 1);
+	s.maxCrew = t.Get("max_crew", 1);
 
 	s.equipSlotCapacity[Equip::SLOT_ENGINE] = Clamp(s.equipSlotCapacity[Equip::SLOT_ENGINE], 0, 1);
 
 	{
 		int hyperclass;
-		_get_int_attrib(L, "hyperdrive_class", hyperclass, 1);
+		hyperclass = t.Get("hyperdrive_class", 1);
 		if (!hyperclass) {
 			s.hyperdrive = Equip::NONE;
 		} else {
