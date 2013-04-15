@@ -1,3 +1,8 @@
+Alpha 34
+
+   * Internal changes
+     * SpaceStationTypes now loads data using the LuaTable wrapper (#2170)
+
 Alpha 33
 
    * New features
