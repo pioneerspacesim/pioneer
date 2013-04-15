@@ -21,10 +21,14 @@ ui.templates.Settings = function (args)
 	    })
 	  })
   end
+  local modeTable = Settings:GetVideoModes()
+  local iniTable = Settings:GetGameConfig()
+  local screenModeList = ui:List()
+	for i = 1,#modeTable do screenModeList:AddOption(modeTable[i]) end
   local videoTemplate = function()
     return ui:VBox():PackEnd({
 	    ui:HBox():PackEnd({
-	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Video Test"),
+	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({screenModeList, ui:Label("Video Test"),
 	      })),
 	      ui:Margin(5),
 	      ui:Background():SetInnerWidget(ui:HBox(5):PackEnd({ui:CheckBox(), ui:Label("Video Test2"),
@@ -68,5 +72,13 @@ ui.templates.Settings = function (args)
 	    })
     ))  
   
+  print("videotable", #modeTable)
+--   print ("iniTable", #iniTable)
+--   print("BindViewForward", iniTable["BindViewForward"])
+  local i = 0
+  for x,y in pairs(iniTable) do
+    i = i +1
+  end
+  print("counted number: ", i)
   return settings
 end

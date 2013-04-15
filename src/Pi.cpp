@@ -28,6 +28,7 @@
 #include "LuaFormat.h"
 #include "LuaGame.h"
 #include "LuaLang.h"
+#include "LuaSettings.h"
 #include "LuaManager.h"
 #include "LuaMissile.h"
 #include "LuaMusic.h"
@@ -177,6 +178,7 @@ static void LuaInit()
 	LuaConstants::Register(Lua::manager->GetLuaState());
 	LuaLang::Register();
 	LuaEngine::Register();
+	LuaSettings::Register();
 	LuaEquipDef::Register();
 	LuaFileSystem::Register();
 	LuaGame::Register();
@@ -187,6 +189,7 @@ static void LuaInit()
 	LuaMusic::Register();
 	LuaDev::Register();
 	LuaConsole::Register();
+	
 
 	// XXX sigh
 	UI::Lua::Init();

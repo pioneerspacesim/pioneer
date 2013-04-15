@@ -82,6 +82,7 @@ noinst_HEADERS = \
 	LuaPushPull.h \
 	LuaRef.h \
 	LuaSerializer.h \
+	LuaSettings.h \
 	LuaShipDef.h \
 	LuaSpace.h \
 	LuaTable.h \
@@ -227,6 +228,7 @@ pioneer_SOURCES	= \
 	LuaSystemBody.cpp \
 	LuaSystemPath.cpp \
 	LuaSerializer.cpp \
+	LuaSettings.cpp \
 	LuaShip.cpp \
 	LuaShipDef.cpp \
 	LuaSpace.cpp \

@@ -9,7 +9,7 @@
 class GameConfig : public IniConfig {
 public:
 	GameConfig();
-
+	SectionMapType GetMap() {return m_map;}
 	void Load();
 	bool Save();
 };
