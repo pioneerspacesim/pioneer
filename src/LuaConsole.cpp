@@ -226,7 +226,7 @@ void LuaConsole::ExecOrContinue() {
 	// check for an incomplete statement
 	// (follows logic from the official Lua interpreter lua.c:incomplete())
 	if (result == LUA_ERRSYNTAX) {
-		const char eofstring[] = LUA_QL("<eof>");
+		const char eofstring[] = "<eof>";
 		size_t msglen;
 		const char *msg = lua_tolstring(L, -1, &msglen);
 		if (msglen >= (sizeof(eofstring) - 1)) {
