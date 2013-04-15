@@ -197,6 +197,7 @@
     <ClCompile Include="..\..\src\LuaStarSystem.cpp" />
     <ClCompile Include="..\..\src\LuaSystemBody.cpp" />
     <ClCompile Include="..\..\src\LuaSystemPath.cpp" />
+    <ClCompile Include="..\..\src\LuaTable.cpp" />
     <ClCompile Include="..\..\src\LuaTimer.cpp" />
     <ClCompile Include="..\..\src\LuaUtils.cpp" />
     <ClCompile Include="..\..\src\LuaVector.cpp" />

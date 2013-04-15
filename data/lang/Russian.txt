@@ -542,6 +542,8 @@ TARGET_OBJECT_IN_SIGHTS
     Захват объекта маркером
 FIRE_LASER
     Огонь
+FIRE_MISSILE
+    Пуск ракеты
 SHIP_ORIENTATION
     Управление кораблем:
 PITCH_UP
