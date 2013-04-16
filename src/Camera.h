@@ -58,7 +58,7 @@ public:
 		float srad;
 		float lrad;
 
-		bool operator< (const Shadow& other) { return srad/lrad < other.srad/other.lrad; }
+		bool operator< (const Shadow& other) const { return srad/lrad < other.srad/other.lrad; }
 	};
 
 	void CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> &shadowsOut) const;
